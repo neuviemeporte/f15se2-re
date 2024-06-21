@@ -194,7 +194,11 @@ VERIFY_FLAGS := --verbose --loose --ctx 30
 
 verify: verify-start
 
-verify-start: $(MZDIFF) $(START_EXE)
+$(START_VRF_REF):
+	@echo "---> Place start.exe with md5sum cf6e997ed4582cf82db6ec37d2b1a6fd into bin/"
+	@exit 1
+
+verify-start: $(MZDIFF) $(START_EXE) $(START_VRF_REF)
 	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map map/start.map
 
 tools/ovltool: tools/ovltool.cpp

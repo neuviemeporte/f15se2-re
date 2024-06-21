@@ -1,6 +1,7 @@
 build/
 dos/
 lst/
+bin/
 *.log
 *.err
 src/LOG.TXT
