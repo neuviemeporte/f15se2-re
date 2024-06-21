@@ -1,3 +1,6 @@
 [submodule "UASM"]
 	path = UASM
 	url = https://github.com/neuviemeporte/UASM
+[submodule "mzretools"]
+	path = mzretools
+	url = https://github.com/neuviemeporte/mzretools
