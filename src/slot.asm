@@ -1,0 +1,125 @@
+DOSSEG
+.MODEL SMALL
+overlay_slot MACRO name
+    PUBLIC _&name
+    _&name DB 0EAh
+    DW 0h,0h
+ENDM
+.DATA
+; graphics (first slot 0, 84 used)
+overlay_slot gfx_slot_00_alloc
+overlay_slot gfx_slot_01
+overlay_slot gfx_slot_02
+overlay_slot gfx_slot_03
+overlay_slot gfx_slot_04
+overlay_slot gfx_slot_05
+overlay_slot gfx_slot_06
+overlay_slot gfx_slot_07
+overlay_slot gfx_slot_08
+overlay_slot gfx_slot_09
+overlay_slot gfx_slot_0a
+overlay_slot gfx_slot_0b
+overlay_slot gfx_slot_0c
+overlay_slot gfx_slot_0d
+overlay_slot gfx_slot_0e_setCurBuf
+overlay_slot gfx_slot_0f
+overlay_slot gfx_slot_10
+overlay_slot gfx_slot_11
+overlay_slot gfx_slot_12
+overlay_slot gfx_slot_13
+overlay_slot gfx_slot_14
+overlay_slot gfx_slot_15
+overlay_slot gfx_slot_16
+overlay_slot gfx_slot_17_bufsize
+overlay_slot gfx_slot_18
+overlay_slot gfx_slot_19
+overlay_slot gfx_slot_1a
+overlay_slot gfx_slot_1b
+overlay_slot gfx_slot_1c
+overlay_slot gfx_slot_1d
+overlay_slot gfx_slot_1e
+overlay_slot gfx_slot_1f
+overlay_slot gfx_slot_20
+overlay_slot gfx_slot_21
+overlay_slot gfx_slot_22
+overlay_slot gfx_slot_23
+overlay_slot gfx_slot_24
+overlay_slot gfx_slot_25
+overlay_slot gfx_slot_26
+overlay_slot gfx_slot_27
+overlay_slot gfx_slot_28
+overlay_slot gfx_slot_29
+overlay_slot gfx_slot_2a
+overlay_slot gfx_slot_2b
+overlay_slot gfx_slot_2c
+overlay_slot gfx_slot_2d
+overlay_slot gfx_slot_2e
+overlay_slot gfx_slot_2f
+overlay_slot gfx_slot_30
+overlay_slot gfx_slot_31
+overlay_slot gfx_slot_32
+overlay_slot gfx_slot_33
+overlay_slot gfx_slot_34
+overlay_slot gfx_slot_35
+overlay_slot gfx_slot_36
+overlay_slot gfx_slot_37
+overlay_slot gfx_slot_38
+overlay_slot gfx_slot_39
+overlay_slot gfx_slot_3a
+overlay_slot gfx_slot_3b
+overlay_slot gfx_slot_3c_setMode13
+overlay_slot gfx_slot_3d_null
+overlay_slot gfx_slot_3e
+overlay_slot gfx_slot_3f_modecode
+overlay_slot gfx_slot_40
+overlay_slot gfx_slot_41
+overlay_slot gfx_slot_42
+overlay_slot gfx_slot_43
+overlay_slot gfx_slot_44
+overlay_slot gfx_slot_45
+overlay_slot gfx_slot_46
+overlay_slot gfx_slot_47
+overlay_slot gfx_slot_48
+overlay_slot gfx_slot_49
+overlay_slot gfx_slot_4a
+overlay_slot gfx_slot_4b_storebufptr
+overlay_slot gfx_slot_4c
+overlay_slot gfx_slot_4d
+overlay_slot gfx_slot_4e
+overlay_slot gfx_slot_4f
+overlay_slot gfx_slot_50
+overlay_slot gfx_slot_51
+overlay_slot gfx_slot_52_null
+overlay_slot gfx_slot_53
+overlay_slot gfx_slot_54
+overlay_slot gfx_slot_55
+overlay_slot gfx_slot_56
+overlay_slot gfx_slot_57
+overlay_slot gfx_slot_58
+overlay_slot gfx_slot_59
+; misc (first slot 0x5a, 6 used)
+overlay_slot misc_slot_5a_checkkbuf
+overlay_slot misc_slot_5b_getkey
+overlay_slot misc_slot_5c
+overlay_slot misc_slot_5d
+overlay_slot misc_slot_5e_clearkeyflags
+overlay_slot misc_slot_5f
+overlay_slot misc_slot_60
+overlay_slot misc_slot_61
+overlay_slot misc_slot_62
+overlay_slot misc_slot_63
+; sound (first slot 0x64, 10 used)
+overlay_slot audio_slot_64
+overlay_slot audio_slot_65
+overlay_slot audio_slot_66
+overlay_slot audio_slot_67
+overlay_slot audio_slot_68
+overlay_slot audio_slot_69
+overlay_slot audio_slot_6a
+overlay_slot audio_slot_6b
+overlay_slot audio_slot_6c
+overlay_slot audio_slot_6d
+; 110 slots in total
+; this is not a real slot, just temporary location to force far call to a function in another code segment
+overlay_slot tmp_slot_copyJoystickData
+END

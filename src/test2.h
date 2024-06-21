@@ -1,0 +1,1 @@
+extern void far bamboo(void);

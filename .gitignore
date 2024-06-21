@@ -1,0 +1,5 @@
+build/
+dos/
+lst/
+*.log
+src/LOG.TXT
