@@ -2,4 +2,5 @@ build/
 dos/
 lst/
 *.log
+*.err
 src/LOG.TXT
