@@ -1,0 +1,3 @@
+[submodule "UASM"]
+	path = UASM
+	url = https://github.com/neuviemeporte/UASM
