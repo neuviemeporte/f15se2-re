@@ -1,5 +1,5 @@
 build/
-dos/
+dos
 lst/
 bin/
 *.log
