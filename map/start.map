@@ -8,9 +8,9 @@ main: Code1 NEAR 0010-0482 R0010-0482 complete
 sub_10483: Code1 NEAR 0483-049f U0483-049f detached
 initGraphics: Code1 NEAR 04a0-0510 R04a0-0510 complete
 cleanup: Code1 NEAR 0511-0543 R0511-0543 complete
-# 2 empty routines called from start; setenvp/setargv overrides?
-sub_10544: Code1 NEAR 0544-0546 R0544-0546 ignore
-sub_10547: Code1 NEAR 0547-0549 R0547-0549 ignore
+# 2 empty routines called from start; setenvp/setargv overrides
+setargv: Code1 NEAR 0544-0546 R0544-0546 ignore
+setenvp: Code1 NEAR 0547-0549 R0547-0549 ignore
 clearKeyBuf: Code1 NEAR 054a-0560 R054a-0560 complete
 waitJoyKey: Code1 NEAR 0561-0570 R0561-0570 complete
 joyOrKey: Code1 NEAR 0571-05d4 R0571-05d4 complete
@@ -40,17 +40,17 @@ sub_11806: Code1 NEAR 1806-1823 U1806-1823 detached
 seedRandom: Code1 NEAR 1824-1834 R1824-1834 complete
 randMul: Code1 NEAR 1835-1858 R1835-1858 complete
 # !!!
-setTimerIrqHandler: Code1 NEAR 185a-1897 R185a-1897 ignore
-restoreTimerIrqHandler: Code1 NEAR 1898-18b8 R1898-18b8 ignore
+setTimerIrqHandler: Code1 NEAR 185a-1897 R185a-1897 assembly
+restoreTimerIrqHandler: Code1 NEAR 1898-18b8 R1898-18b8 assembly
 sub_118B9: Code1 NEAR 18b9-19d3 U18b9-19d3 detached
-sub_119d4: Code1 NEAR 19d4-1a68 R19d4-1a3b U1a3c-1a3c R1a3d-1a68 ignore
-sub_11a69: Code1 NEAR 1a69-1abd R1a69-1a92 U1a93-1a93 R1a94-1abd ignore
-getTimeOfDay: Code1 NEAR 1abe-1ac4 R1abe-1ac4 ignore
+sub_119d4: Code1 NEAR 19d4-1a68 R19d4-1a3b U1a3c-1a3c R1a3d-1a68 assembly
+sub_11a69: Code1 NEAR 1a69-1abd R1a69-1a92 U1a93-1a93 R1a94-1abd assembly
+getTimeOfDay: Code1 NEAR 1abe-1ac4 R1abe-1ac4 assembly
 # called from timerIrqHandler
-increaseTimerCounters: Code1 NEAR 1ac5-1adb U1ac5-1adb ignore
+increaseTimerCounters: Code1 NEAR 1ac5-1adb U1ac5-1adb assembly
 # !!!
-sub_11ADC: Code1 NEAR 1adc-1b02 R1adc-1b02 ignore
-picBlit: Code1 NEAR 1b03-1b70 R1b03-1b70 ignore
+sub_11ADC: Code1 NEAR 1adc-1b02 R1adc-1b02 assembly
+picBlit: Code1 NEAR 1b03-1b70 R1b03-1b70 assembly
 pilotSelect: Code1 NEAR 1b72-1c06 R1b72-1c06 complete
 updateHallfame: Code1 NEAR 1c08-1d30 R1c08-1c22 U1c23-1c23 R1c24-1c86 U1c87-1c87 R1c88-1cb2 U1cb3-1cb3 R1cb4-1d30 complete
 choosePilotPrompt: Code1 NEAR 1d32-1d7f R1d32-1d7f complete
@@ -67,71 +67,74 @@ getJoyKey: Code1 NEAR 25a0-25e2 R25a0-25e2 complete
 # !!!
 sub_125E4: Code1 NEAR 25e4-2650 R25e4-261c U261d-261d R261e-2650 complete
 # a bunch of unreachable routines
-unclaimed_10: Code1 NEAR 2651-26af U2651-26af detached
+unreach_2652: Code1 NEAR 2652-26af U2652-26af detached
 # !!!
-mystrcpy: Code1 NEAR 26b0-26ca R26b0-26ca ignore
-unclaimed_9: Code1 NEAR 26cb-26fc U26cb-26fc detached
-mystrlen: Code1 NEAR 26fd-2718 R26fd-2718 ignore
-mystrcat: Code1 NEAR 2719-2740 R2719-2740 ignore
-unclaimed_10: Code1 NEAR 2741-2763 U2741-2763 ignore
-nearmemset: Code1 NEAR 2764-2779 R2764-2779 ignore
+mystrcpy: Code1 NEAR 26b0-26ca R26b0-26ca assembly
+unreach_26cb: Code1 NEAR 26cb-26fc U26cb-26fc detached
+mystrlen: Code1 NEAR 26fd-2718 R26fd-2718 assembly
+mystrcat: Code1 NEAR 2719-2740 R2719-2740 assembly
+unreach_2741: Code1 NEAR 2741-2763 U2741-2763 detached
+nearmemset: Code1 NEAR 2764-2779 R2764-2779 assembly
 farmemset: Code1 NEAR 277a-278f U277a-278f detached
-# called from fread()?
-sub_12790: Code1 NEAR 2790-27ad R2790-27ad ignore
-unclaimed_9: Code1 NEAR 27ae-27f4 U27ae-27f4 detached
-intDispatch: Code1 NEAR 27f5-2859 R27f5-2825 U2826-2826 R2827-282a U282b-282b R282c-282f U2830-2830 R2831-2834 U2835-2835 R2836-2839 U283a-283a R283b-2840 U2841-2841 R2842-2859 ignore
+# called from fread, fwrite, looks like microprose override
+memcpy: Code1 NEAR 2790-27ad R2790-27ad ignore
+unreach_27AE: Code1 NEAR 27ae-27f4 U27ae-27f4 detached
+intDispatch: Code1 NEAR 27f5-2859 R27f5-2825 U2826-2826 R2827-282a U282b-282b R282c-282f U2830-2830 R2831-2834 U2835-2835 R2836-2839 U283a-283a R283b-2840 U2841-2841 R2842-2859 assembly
 myItoa: Code1 NEAR 285a-2896 R285a-2874 U2875-2875 R2876-287a U287b-287b R287c-2880 U2881-2881 R2882-2886 U2887-2887 R2888-2896 ignore
 base10_itoa: Code1 NEAR 2897-28c1 R2897-28c1 ignore
 base16_itoa: Code1 NEAR 28c2-2909 R28c2-2909 ignore
 base2_itoa: Code1 NEAR 290a-292a R290a-291a U291b-291b R291c-292a ignore
-unclaimed_10: Code1 NEAR 292b-2976 U292b-2976 detached
-dos_printstring: Code1 NEAR 2977-2982 R2977-2982 ignore
+unreach_292c: Code1 NEAR 292c-2976 U292c-2976 detached
+dos_printstring: Code1 NEAR 2977-2982 R2977-2982 assembly
 # word data var used from loadOverlay
-unclaimed_11: Code1 NEAR 2983-2984 U2983-2984 detached
-loadOverlay: Code1 NEAR 2985-2a87 R2985-2996 U2997-299c R299d-2a03 U2a04-2a04 R2a05-2a0d U2a0e-2a0e R2a0f-2a4e U2a4f-2a4f R2a50-2a67 U2a68-2a68 R2a69-2a87 ignore
-setupOverlaySlots: Code1 NEAR 2a88-2ae0 R2a88-2a99 U2a9a-2a9f R2aa0-2ae0 ignore
-unclaimed_2ae1: Code1 NEAR 2ae1-2bb9 U2ae1-2bb9 detached
-clearRect: Code1 NEAR 2bba-2c58 R2bba-2c58 ignore
-unclaimed_2c59: Code1 NEAR 2c59-2c74 U2c59-2c74 detached
-sub_12C75: Code1 NEAR 2c75-2ca5 R2c75-2ca5 ignore
-unclaimed_2ca6: Code1 NEAR 2ca6-2de9 U2ca6-2de9 detached
+unreach_2985: Code1 NEAR 2985-2984 U2985-2984 detached
+loadOverlay: Code1 NEAR 2985-2a87 R2985-2996 U2997-299c R299d-2a03 U2a04-2a04 R2a05-2a0d U2a0e-2a0e R2a0f-2a4e U2a4f-2a4f R2a50-2a67 U2a68-2a68 R2a69-2a87 assembly
+setupOverlaySlots: Code1 NEAR 2a88-2ae0 R2a88-2a99 U2a9a-2a9f R2aa0-2ae0 assembly
+unreach_2ae1: Code1 NEAR 2ae1-2bb9 U2ae1-2bb9 detached
+clearRect: Code1 NEAR 2bba-2c58 R2bba-2c58 assembly
+unreach_2c59: Code1 NEAR 2c59-2c74 U2c59-2c74 detached
+sub_12C75: Code1 NEAR 2c75-2ca5 R2c75-2ca5 assembly
+unreach_2ca6: Code1 NEAR 2ca6-2de9 U2ca6-2de9 detached
 # !!!
-sub_12DEA: Code1 NEAR 2dea-2df5 R2dea-2df5 ignore
-sub_12DF6: Code1 NEAR 2df6-2f69 R2df6-2e0a U2e0b-2e0b R2e0c-2e51 U2e52-2e52 R2e53-2e56 U2e57-2e57 R2e58-2e64 U2e65-2e65 R2e66-2f69 ignore
-sub_12F6A: Code1 NEAR 2f6a-2f8a R2f6a-2f8a ignore
-unclaimed_2f8b: Code1 NEAR 2f8b-2fab U2f8b-2fab detached
-installCBreakHandler: Code1 NEAR 2fac-2fce R2fac-2fce ignore
-restoreCbreakHandler: Code1 NEAR 2fcf-2fdf R2fcf-2fdf ignore
-getInterruptHandler: Code1 NEAR 2fe0-2feb R2fe0-2feb ignore
-cbreakHandler: Code1 NEAR 2fec-30a1 U2fec-30a1 ignore
+sub_12DEA: Code1 NEAR 2dea-2df5 R2dea-2df5 assembly
+sub_12DF6: Code1 NEAR 2df6-2f69 R2df6-2e0a U2e0b-2e0b R2e0c-2e51 U2e52-2e52 R2e53-2e56 U2e57-2e57 R2e58-2e64 U2e65-2e65 R2e66-2f69 assembly
+sub_12F6A: Code1 NEAR 2f6a-2f8a R2f6a-2f8a assembly
+unreach_2f8b: Code1 NEAR 2f8b-2fab U2f8b-2fab detached
+installCBreakHandler: Code1 NEAR 2fac-2fce R2fac-2fce assembly
+restoreCbreakHandler: Code1 NEAR 2fcf-2fdf R2fcf-2fdf assembly
+getInterruptHandler: Code1 NEAR 2fe0-2feb R2fe0-2feb assembly
+cbreakHandler: Code1 NEAR 2fec-2ffa R2fec-2ffa assembly
 # !!! some missing routines here that IDA found
+unreach_2ffc: Code1 NEAR 2ffc-30a1 U2ffc-30a1 detached
 openFileWrapper: Code1 NEAR 30a2-30b2 R30a2-30b2 complete
-unclaimed_30b3: Code1 NEAR 30b3-30c5 U30b3-30c5 detached
+unreach_30b4: Code1 NEAR 30b4-30c5 U30b4-30c5 detached
 closeFileWrapper: Code1 NEAR 30c6-30d3 R30c6-30d3 complete
-unclaimed_30d4: Code1 NEAR 30d4-3119 U30d4-3119 detached
+unreach_30d4: Code1 NEAR 30d4-3119 U30d4-3119 detached
 # has chunk
-openFile: Code1 NEAR 311a-3170 R311a-3170 R32d6-3311 ignore
-unclaimed_3171: Code1 NEAR 3171-31c7 U3171-31c7 detached
-fileClose: Code1 NEAR 31c8-31e8 R31c8-31e8 ignore
-unclaimed_31e9: Code1 NEAR 31e9-32d5 U31e9-32d5 detached
+openFile: Code1 NEAR 311a-3170 R311a-3170 R32d6-3311 assembly
+unreach_3171: Code1 NEAR 3171-31c7 U3171-31c7 detached
+fileClose: Code1 NEAR 31c8-31e8 R31c8-31e8 assembly
+unreach_31ea: Code1 NEAR 31ea-326b U31ea-326b detached
+read512FromFileIntoBuf: Code1 NEAR 326c-328c U326c-328c assembly
+unreach_328d: Code1 NEAR 328d-32d5 U328d-32d5 detached
 openShowPic: Code1 NEAR 3312-333d R3312-333d complete
-unclaimed_333e: Code1 NEAR 333e-3367 U333e-3367 detached
+unreach_333e: Code1 NEAR 333e-3367 U333e-3367 detached
 loadPic: Code1 NEAR 3368-3390 R3368-3390 complete
-unclaimed_3391: Code1 NEAR 3391-33cf U3391-33cf detached
+loadPicAt: Code1 NEAR 3392-33ce U3392-33ce detached
 # !!!, also missing routine
-showPicFile: Code1 NEAR 33d0-3441 R33d0-3441 ignore
-unclaimed_3442: Code1 NEAR 3442-351d U3442-351d detached
-decodePic: Code1 NEAR 351e-3585 R351e-3585 ignore
-nullsub_1: Code1 NEAR 3586-3586 R3586-3586
-decodePicRow: Code1 NEAR 3588-35b1 R3588-35b1 ignore
-picReadDataAndMakeDict: Code1 NEAR 35b2-35f8 R35b2-35f8 ignore
-picMakeDict: Code1 NEAR 35f9-362e R35f9-362e ignore
-doPicDecode: Code1 NEAR 362f-36a7 R362f-3659 U365a-365a R365b-3668 U3669-3669 R366a-3691 U3692-3692 R3693-36a7 ignore
-dictionaryLookup: Code1 NEAR 36a8-3756 R36a8-3756 ignore
+showPicFile: Code1 NEAR 33d0-3441 R33d0-3441 assembly
+unreach_3442: Code1 NEAR 3442-351d U3442-351d detached
+decodePic: Code1 NEAR 351e-3585 R351e-3585 assembly
+nullsub_1: Code1 NEAR 3586-3586 R3586-3586 ignore
+decodePicRow: Code1 NEAR 3588-35b1 R3588-35b1 assembly
+picReadDataAndMakeDict: Code1 NEAR 35b2-35f8 R35b2-35f8 assembly
+picMakeDict: Code1 NEAR 35f9-362e R35f9-362e assembly
+doPicDecode: Code1 NEAR 362f-36a7 R362f-3659 U365a-365a R365b-3668 U3669-3669 R366a-3691 U3692-3692 R3693-36a7 assembly
+dictionaryLookup: Code1 NEAR 36a8-3756 R36a8-3756 assembly
 # !!!
 allocBuffer: Code1 NEAR 3758-378b R3758-378b complete
 freeBuffer: Code1 NEAR 378c-37b3 U378c-37b3 detached
-dos_alloc: Code1 NEAR 37b4-37d9 R37b4-37d9 ignore
+dos_alloc: Code1 NEAR 37b4-37d9 R37b4-37d9 assembly
 dos_freeMem: Code1 NEAR 37da-37f7 U37da-37f7 detached
 # !!!
 sub_137F8: Code1 NEAR 37f8-39e8 R37f8-39dc U39dd-39de R39df-39e8 complete
@@ -144,7 +147,7 @@ parseGrid: Code1 NEAR 3d4c-3e8b R3d4c-3de4 U3de5-3de5 R3de6-3e8b complete
 subReadKey: Code1 NEAR 3e8c-3ea7 R3e8c-3ea7 complete
 sub_13EA8: Code1 NEAR 3ea8-3ed1 R3ea8-3ed1 complete
 # a bunch of unreachable routines
-unclaimed_3ed2: Code1 NEAR 3ed2-4041 U3ed2-4041 detached
+unreach_3ed2: Code1 NEAR 3ed2-4041 U3ed2-4041 detached
 missionGenerate: Code1 NEAR 4042-4092 R4042-4092 complete
 sub_14093: Code1 NEAR 4093-4bb3 R4093-4a19 U4a1a-4a2b R4a2c-4bb3 complete
 sub_14BB4: Code1 NEAR 4bb4-4c93 R4bb4-4c93 complete
@@ -156,7 +159,7 @@ writeWorld: Code1 NEAR 4f76-50e7 R4f76-50e7 complete
 doNothing2: Code1 NEAR 50e8-50ea R50e8-50ea ignore
 sub_150EB: Code1 NEAR 50eb-5267 R50eb-5267 complete
 setMoveDstComm7A: Code1 NEAR 5268-5284 R5268-5284 complete
-unclaimed_5285: Code1 NEAR 5285-52ba U5285-52ba detached
+unreach_5285: Code1 NEAR 5285-52ba U5285-52ba detached
 memAppend: Code1 NEAR 52bb-52f0 R52bb-52f0 complete
 doNothing: Code1 NEAR 52f1-52f3 R52f1-52f3 complete
 sub_152F4: Code1 NEAR 52f4-531b R52f4-531b complete
@@ -179,10 +182,6 @@ _fwrite: Code1 NEAR 5a2c-5b67 R5a2c-5a56 U5a57-5a57 R5a58-5a9c U5a9d-5a9d R5a9e-
 _lseek: Code1 NEAR 5b68-5be1 R5b68-5be1 external
 _strcmp: Code1 NEAR 5be2-5c0c R5be2-5c0c external
 libc_5c0d: Code1 NEAR 5c0d-5c11 U5c0d-5c11 detached
-#libc_5e68: Code1 NEAR 5e68-5e6d U5e68-5e6d detached
-#libc_5ee4: Code1 NEAR 5ee4-5f09 U5ee4-5f09 detached
-#libc_6500: Code1 NEAR 6500-6541 U6500-6541 detached
-#libc_67ed: Code1 NEAR 67ed-6838 U67ed-6838 detached
 _getch: Code1 NEAR 5c12-5c28 R5c12-5c28 external
 _movedata: Code1 NEAR 5c2a-5c47 R5c2a-5c47 external
 _inp: Code1 NEAR 5c48-5c54 R5c48-5c54 external
@@ -198,6 +197,8 @@ __FF_MSGBANNER: Code1 NEAR 5e48-5e67 R5e48-5e67 external
 __nullcheck: Code1 NEAR 5e6e-5e8f R5e6e-5e8f external
 __NMSG_TEXT: Code1 NEAR 5e90-5eba R5e90-5eba external
 __NMSG_WRITE: Code1 NEAR 5ebb-5ee3 R5ebb-5ee3 external
+__dosreturn: Code1 NEAR 5eec-5ef6 U5eec-5ef6 external
+__maperror: Code1 NEAR 5f04-5f09 U5f04-5f09 external
 _unk_libc3: Code1 NEAR 5f0a-5f37 R5f0a-5f23 U5f24-5f24 R5f25-5f37 external
 __filbuf: Code1 NEAR 5f38-5ff7 R5f38-5f6a U5f6b-5f6b R5f6c-5fd8 U5fd9-5fd9 R5fda-5fe6 U5fe7-5fe7 R5fe8-5ff7 external
 __flsbuf: Code1 NEAR 5ff8-614c R5ff8-6036 U6037-6037 R6038-6096 U6097-6097 R6098-60ac U60ad-60ad R60ae-60fe U60ff-60ff R6100-6122 U6123-6123 R6124-614c external
@@ -205,66 +206,71 @@ __freebuf: Code1 NEAR 614e-617a R614e-617a external
 __openfile: Code1 NEAR 617c-6273 R617c-61a0 U61a1-61a1 R61a2-61b8 U61b9-61b9 R61ba-61be U61bf-61bf R61c0-61fc U61fd-61fd R61fe-6208 U6209-6209 R620a-6273 external
 _fflush: Code1 NEAR 6274-62e1 R6274-62e1 external
 __getstream: Code1 NEAR 62e2-631b R62e2-630a U630b-630b R630c-631b external
-_close: Code1 NEAR 631c-633b R5ee4-5eeb R5ef9-5f03 R631c-633b external
-_read: Code1 NEAR 633c-6418 R5ef7-5ef8 R633c-6418 external
+_close: Code1 NEAR 631c-633b R5ee4-5eeb R631c-633b external
+_read: Code1 NEAR 633c-6418 R633c-6418 external
 _write: Code1 NEAR 641a-64bf R641a-64bf R6500-6541 external
 _unk_libc4: Code1 NEAR 64c0-64ff R64c0-64ff external
 _remove: Code1 NEAR 6542-654e R6542-654e external
 __getbuf: Code1 NEAR 6550-65bb R6550-6590 U6591-6591 R6592-65bb external
-_open: Code1 NEAR 65bc-674e R65bc-6656 U6657-6657 R6658-669f U66a0-66a0 R66a1-674e external
+_open: Code1 NEAR 65bc-674e R5ef7-5f03 R65bc-6656 U6657-6657 R6658-669f U66a0-66a0 R66a1-674e external
 __cXENIXtoDOSmode: Code1 NEAR 674f-675f R674f-675f external
 _stackavail: Code1 NEAR 6760-6771 R6760-6771 external
 __nfree: Code1 NEAR 6772-6783 R6772-6783 external
 _malloc: Code1 NEAR 6784-67c9 R6784-67c9 external
 _isatty: Code1 NEAR 67ca-67ec R67ca-67ec external
+libc_67ee: Code1 NEAR 67ee-6835 U67ee-6835 external
 __amalloc: Code1 NEAR 6839-691b R6836-6838 R6839-691b external
 __amexpand: Code1 NEAR 691c-6955 R691c-6955 external
 __amlink: Code1 NEAR 6956-6977 R6956-6977 external
 __amallocbrk: Code1 NEAR 6978-6996 R6978-6996 external
 _brkctl: Code1 NEAR 6998-6a05 R6998-6a05 external
 _unk_libc5: Code1 NEAR 6a06-6a5b R6a06-6a5b external
-# ======= code segment 2, asm utils
-sub_16A7F: Code2 FAR 002f-0041 R002f-0041 ignore
-readJoyPort: Code2 NEAR 0042-006e R0042-006e ignore
-sub_16ABF: Code2 NEAR 006f-00ca R006f-0082 U0083-0083 R0084-0097 U0098-0098 R0099-00a4 U00a5-00a5 R00a6-00b7 U00b8-00b8 R00b9-00ca ignore
-copyJoystickData: Code2 FAR 00df-00f6 R00df-00f6 ignore
+# ======= code segment 2, utils
+unreach_000c: Code2 NEAR 000c-002e U000c-002e detached
+sub_16A7F: Code2 FAR 002f-0041 R002f-0041 assembly
+readJoyPort: Code2 NEAR 0042-006e R0042-006e assembly
+sub_16ABF: Code2 NEAR 006f-00ca R006f-0082 U0083-0083 R0084-0097 U0098-0098 R0099-00a4 U00a5-00a5 R00a6-00b7 U00b8-00b8 R00b9-00ca assembly
+unreach_00cb: Code2 NEAR 00cb-00de U00cb-00de detached
+copyJoystickData: Code2 FAR 00df-00f6 R00df-00f6 assembly
+# segment alignment?
+unreach_00f7: Code2 NEAR 00f7-00ff U00f7-00ff detached
 # ======= data segment callable trampolines into overlay drivers
-gfx_slot_0_alloc: Data1 FAR 0ab8-0abc R0ab8-0abc ignore
+gfx_jump_0_alloc: Data1 FAR 0ab8-0abc R0ab8-0abc ignore
 gfx_jump_05_drawString: Data1 FAR 0ad1-0ad5 R0ad1-0ad5 ignore
-routine_41: Data1 FAR 0af9-0afd R0af9-0afd
-gfx_slot_0e_setCurBuf: Data1 FAR 0afe-0b02 R0afe-0b02 ignore
-routine_47: Data1 FAR 0b03-0b07 R0b03-0b07
-routine_40: Data1 FAR 0b08-0b0c R0b08-0b0c
+gfx_jump_0d_setCurBuf: Data1 FAR 0af9-0afd R0af9-0afd ignore
+gfx_jump_0e_setCurBuf: Data1 FAR 0afe-0b02 R0afe-0b02 ignore
+gfx_jump_0f_getBufPtr: Data1 FAR 0b03-0b07 R0b03-0b07 ignore
+gfx_jump_10_getCurBuf: Data1 FAR 0b08-0b0c R0b08-0b0c ignore
 gfx_jump_11: Data1 FAR 0b0d-0b11 R0b0d-0b11 ignore
-gfx_slot_17: Data1 FAR 0b2b-0b2f R0b2b-0b2f ignore
-routine_129: Data1 FAR 0b53-0b57 R0b53-0b57
-routine_42: Data1 FAR 0b58-0b5c R0b58-0b5c
+gfx_jump_17: Data1 FAR 0b2b-0b2f R0b2b-0b2f ignore
+gfx_jump_1f: Data1 FAR 0b53-0b57 R0b53-0b57 ignore
+gfx_jump_20_setVal: Data1 FAR 0b58-0b5c R0b58-0b5c ignore
 gfx_jump_21: Data1 FAR 0b5d-0b61 R0b5d-0b61 ignore
-routine_45: Data1 FAR 0b62-0b66 R0b62-0b66
+gfx_jump_22: Data1 FAR 0b62-0b66 R0b62-0b66 ignore
 gfx_jump_23: Data1 FAR 0b67-0b6b R0b67-0b6b ignore
-routine_44: Data1 FAR 0b80-0b84 R0b80-0b84
+gfx_jump_28: Data1 FAR 0b80-0b84 R0b80-0b84 ignore
 gfx_jump_29_switchColor: Data1 FAR 0b85-0b89 R0b85-0b89 ignore
 gfx_jump_2a: Data1 FAR 0b8a-0b8e R0b8a-0b8e ignore
 gfx_jump_2f_charWidth_95: Data1 FAR 0ba3-0ba7 R0ba3-0ba7 ignore
 gfx_jump_30_blitToCurrent: Data1 FAR 0ba8-0bac R0ba8-0bac ignore
-routine_61: Data1 FAR 0bb7-0bbb R0bb7-0bbb
-routine_70: Data1 FAR 0bbc-0bc0 R0bbc-0bc0
-routine_62: Data1 FAR 0bc1-0bc5 R0bc1-0bc5
-routine_71: Data1 FAR 0bc6-0bca R0bc6-0bca
-routine_57: Data1 FAR 0bd0-0bd4 R0bd0-0bd4
-routine_59: Data1 FAR 0bda-0bde R0bda-0bde
-routine_58: Data1 FAR 0bdf-0be3 R0bdf-0be3
-gfx_slot_3c_setMode13: Data1 FAR 0be4-0be8 R0be4-0be8 ignore
-gfx_slot_3d_null: Data1 FAR 0be9-0bed R0be9-0bed ignore
-gfx_slot_3d_modecode: Data1 FAR 0bf3-0bf7 R0bf3-0bf7 ignore
-gfx_slot_44: Data1 FAR 0c0c-0c10 R0c0c-0c10 ignore
-gfx_slot_45: Data1 FAR 0c11-0c15 R0c11-0c15 ignore
-gfx_slot_46: Data1 FAR 0c16-0c1a R0c16-0c1a ignore
-gfx_jump_4b_storeBufPtr: Data1 FAR 0c2f-0c33 R0c2f-0c33
-gfx_jump_4e_getVal: Data1 FAR 0c3e-0c42 R0c3e-0c42
-gfx_slot_50: Data1 FAR 0c48-0c4c R0c48-0c4c ignore
-routine_46: Data1 FAR 0c4d-0c51 R0c4d-0c51
-gfx_slot_52: Data1 FAR 0c57-0c5b R0c57-0c5b ignore
+gfx_jump_33_fillRow: Data1 FAR 0bb7-0bbb R0bb7-0bbb ignore
+gfx_jump_34_fillRow: Data1 FAR 0bbc-0bc0 R0bbc-0bc0 ignore
+gfx_jump_35: Data1 FAR 0bc1-0bc5 R0bc1-0bc5 ignore
+gfx_jump_36_null: Data1 FAR 0bc6-0bca R0bc6-0bca ignore
+gfx_jump_38_getPageBuf: Data1 FAR 0bd0-0bd4 R0bd0-0bd4 ignore
+gfx_jump_3a_getRowOffset: Data1 FAR 0bda-0bde R0bda-0bde ignore
+gfx_jump_3b_clearBuf: Data1 FAR 0bdf-0be3 R0bdf-0be3 ignore
+gfx_jump_3c_setMode13: Data1 FAR 0be4-0be8 R0be4-0be8 ignore
+gfx_jump_3d_null: Data1 FAR 0be9-0bed R0be9-0bed ignore
+gfx_jump_3d_modecode: Data1 FAR 0bf3-0bf7 R0bf3-0bf7 ignore
+gfx_jump_44: Data1 FAR 0c0c-0c10 R0c0c-0c10 ignore
+gfx_jump_45: Data1 FAR 0c11-0c15 R0c11-0c15 ignore
+gfx_jump_46: Data1 FAR 0c16-0c1a R0c16-0c1a ignore
+gfx_jump_4b_storeBufPtr: Data1 FAR 0c2f-0c33 R0c2f-0c33 ignore
+gfx_jump_4e_getVal: Data1 FAR 0c3e-0c42 R0c3e-0c42 ignore
+gfx_jump_50: Data1 FAR 0c48-0c4c R0c48-0c4c ignore
+gfx_jump_51_null: Data1 FAR 0c4d-0c51 R0c4d-0c51 ignore
+gfx_jump_52: Data1 FAR 0c57-0c5b R0c57-0c5b ignore
 misc_slot_5a_checkkbuf: Data1 FAR 0c7a-0c7e R0c7a-0c7e ignore
 misc_slot_5b_getkey: Data1 FAR 0c7f-0c83 R0c7f-0c83 ignore
 misc_jump_5d_readJoy: Data1 FAR 0c89-0c8d R0c89-0c8d ignore
