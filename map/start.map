@@ -87,7 +87,7 @@ base2_itoa: Code1 NEAR 290a-292a R290a-291a U291b-291b R291c-292a ignore
 unreach_292c: Code1 NEAR 292c-2976 U292c-2976 detached
 dos_printstring: Code1 NEAR 2977-2982 R2977-2982 assembly
 # word data var used from loadOverlay
-unreach_2985: Code1 NEAR 2985-2984 U2985-2984 detached
+unreach_2983: Code1 NEAR 2983-2984 U2983-2984 detached
 loadOverlay: Code1 NEAR 2985-2a87 R2985-2996 U2997-299c R299d-2a03 U2a04-2a04 R2a05-2a0d U2a0e-2a0e R2a0f-2a4e U2a4f-2a4f R2a50-2a67 U2a68-2a68 R2a69-2a87 assembly
 setupOverlaySlots: Code1 NEAR 2a88-2ae0 R2a88-2a99 U2a9a-2a9f R2aa0-2ae0 assembly
 unreach_2ae1: Code1 NEAR 2ae1-2bb9 U2ae1-2bb9 detached
