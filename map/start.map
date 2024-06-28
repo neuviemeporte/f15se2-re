@@ -43,8 +43,8 @@ randMul: Code1 NEAR 1835-1858 R1835-1858 complete
 setTimerIrqHandler: Code1 NEAR 185a-1897 R185a-1897 assembly
 restoreTimerIrqHandler: Code1 NEAR 1898-18b8 R1898-18b8 assembly
 sub_118B9: Code1 NEAR 18b9-19d3 U18b9-19d3 detached
-sub_119d4: Code1 NEAR 19d4-1a68 R19d4-1a3b U1a3c-1a3c R1a3d-1a68 assembly
-sub_11a69: Code1 NEAR 1a69-1abd R1a69-1a92 U1a93-1a93 R1a94-1abd assembly
+sub_119D4: Code1 NEAR 19d4-1a68 R19d4-1a3b U1a3c-1a3c R1a3d-1a68 assembly
+sub_11A69: Code1 NEAR 1a69-1abd R1a69-1a92 U1a93-1a93 R1a94-1abd assembly
 getTimeOfDay: Code1 NEAR 1abe-1ac4 R1abe-1ac4 assembly
 # called from timerIrqHandler
 increaseTimerCounters: Code1 NEAR 1ac5-1adb U1ac5-1adb assembly

@@ -27,7 +27,8 @@
         { "seg": "startData", "off": "0x0", "from": "startData segment", "to": "startData segment word public 'DATA'" },
         { "seg": "startCode1", "off": "0x2ff", "to": "db 05h, 48h, 0" },
         { "seg": "startCode1", "off": "0x376a", "to": "db 3Dh, 10h, 0" }, 
-        { "seg": "startData",  "off": "0x7afc", "from": "ends", "to": "startBss ends" }
+        { "seg": "startData",  "off": "0x7afc", "from": "ends", "to": "startBss ends" },
+        { "seg": "startStack", "off": "0x0", "from": "end start", "to": "end" }
     ],
     // locations and contents of lines that should be inserted into the assembly output
     "insert": [
@@ -36,6 +37,12 @@
                 "startBss segment byte public \"BSS\""
             ]
         }
+    ],
+    "remove": [
+        // libc_bufout, bufin, buferr
+        { "seg": "startData", "off": "0x4a10" },
+        { "seg": "startData", "off": "0x6880" },
+        { "seg": "startData", "off": "0x78fa" }
     ],
     // blocks that should be eliminated from the input, usually because they have been already ported to C code
     "extract": [ 
@@ -108,12 +115,16 @@
         { "seg": "startCode1", "begin": "0x52f4", "end": "0x531b", "from": "sub_152F4",         "to": "endp" },
         { "seg": "startCode1", "begin": "0x531c", "end": "0x5471", "from": "sub_1531C",         "to": "endp" },
         { "seg": "startCode1", "begin": "0x5472", "end": "0x54a0", "from": "sub_15472",         "to": "endp" },
-        { "seg": "startCode1", "begin": "0x54a1", "end": "0x5541", "from": "sub_154A1",         "to": "endp" }
+        { "seg": "startCode1", "begin": "0x54a1", "end": "0x5541", "from": "sub_154A1",         "to": "endp" },
+        // remove iniialized libc data
+        { "seg": "startData", "begin": "0x281e", "end": "0x2b04" },
+        // remove crt0 bss stuff
+        { "seg": "startData", "begin": "0x4586", "end": "0x4590" }
     ],
     // list of procs that should be copied into the output assembly from the input, if this list is empty, then all procs will be preserved (copied).
     // Otherwise (list not empty), procs not in this list will just have a single "retn" instruction inside, so that they are marked as needing porting because the comparison tool will trip on them. Use this to mark routines which cannot or are not expected to be ported for some reason
     "preserves" : [
-        "installCBreakHandler", "setupOverlaySlots", "setTimerIrqHandler", "timerIrqHandler", "loadOverlay", "restoreTimerIrqHandler", "copyJoystickData", "restoreCbreakHandler"
+        "setTimerIrqHandler", "restoreTimerIrqHandler", "sub_119D4", "sub_11A69", "getTimeOfDay", "increaseTimerCounters", "sub_11ADC", "picBlit", "mystrcpy", "mystrlen", "mystrcat", "nearmemset", "intDispatch", "dos_printstring", "loadOverlay", "setupOverlaySlots", "clearRect", "sub_12C75", "sub_12DEA", "sub_12DF6", "sub_12F6A", "installCBreakHandler", "restoreCbreakHandler", "getInterruptHandler", "cbreakHandler", "openFile", "fileClose", "read512FromFileIntoBuf", "showPicFile", "decodePic", "decodePicRow", "picReadDataAndMakeDict", "picMakeDict", "doPicDecode", "dictionaryLookup", "dos_alloc", "sub_16A7F", "readJoyPort", "sub_16ABF", "copyJoystickData"
     ],
     // list of symbols to declare as external in the output assembly (because they were already ported to C code)
     "externs": [ "main", "waitMdaCgaStatus", "openFileWrapper", "closeFileWrapper", "cleanup", "choosePilotPrompt", "pilotToGameData", "clearBriefing", "seedRandom", "gameDataToPilot", "saveHallfame", "processStoreInput", 
@@ -121,25 +132,21 @@
     // list of symbols to declare as public in the output assembly, so that they are visible from C code
     "publics": [ 
        "byte_17412", "byte_17422", "word_173DE", "asc_174AC", "byte_1741A", "asc_174AF", "ranks", "pilotNameInputColors", "aMenterYourName", 
-        "copyJoystickData", "installCBreakHandler", "loadOverlay", "restoreCbreakHandler", "setTimerIrqHandler", "setupOverlaySlots", "getTimeOfDay", "cbreakHit", "movedata", "word_17282", "sub_16A7F", "a_3dg", "aOpenErrorOn__0", "aRb_0", "word_18188", "gridBuf1", 
+        "cbreakHit", "word_17282", "a_3dg", "aOpenErrorOn__0", "aRb_0", "word_18188", "gridBuf1", 
         "gridBuf2", "gridBuf3", "gridBuf4", "gridBuf5", "aBadGridFileFor", "gridSignature", 
-       "byte_1B0D3", "aCc00", "aEs00", "aHz00", "aJz00", "aTd00", "bufCoordStr", "aWx00", "aXv00", "byte_1B0D1", "byte_1B0D2", "word_17290", "word_17292", "word_17284", "word_17286", "word_17288", "word_1728A", "word_1728C", "byte_1729C", "word_1728E",   "restoreTimerIrqHandler", "intDispatch", "picBlit", "dos_alloc", "dos_printstring", "showPicFile", "pilotSelectFlag", "putch", "moveDst",
-        "word_1786F", "word_17873", "word_17871", "word_17875", "sub_12DEA",
-        "nearmemset", "mystrcpy", "word_18186", "_aNlmul", "_aNldiv", "_aNNaldiv", "_aNlrem",
-       "aOpenErrorOn_3d", "terrainSignature", "a_3dt", "aTooMuchTileDat", "aRb", "terrainBuf1", "terrainBuf2", "terrainBuf3", "terrainBuf4", "terrainBuf5", "terrainPtrUnk", "aTooManyTiles_", "aBadTileFileFor", "byte_1BA68", "aHiscore_pic", "aArmpiece_pic", "doNothing2",
-        "rand", "srand", "getch", "exit", "inp", "fopen", "fclose", "fread", "fwrite", "aWb", "aHallfame_0", "planes", "word_174B2", "word_174B6", "word_18026", "word_1E24A", "word_17FFE", "word_18010",
+       "byte_1B0D3", "aCc00", "aEs00", "aHz00", "aJz00", "aTd00", "bufCoordStr", "aWx00", "aXv00", "byte_1B0D1", "byte_1B0D2", "word_17290", "word_17292", "word_17284", "word_17286", "word_17288", "word_1728A", "word_1728C", "byte_1729C", "word_1728E", "pilotSelectFlag", "moveDst",
+        "word_1786F", "word_17873", "word_17871", "word_17875", "word_18186", "aOpenErrorOn_3d", "terrainSignature", "a_3dt", "aTooMuchTileDat", "aRb", "terrainBuf1", "terrainBuf2", "terrainBuf3", "terrainBuf4", "terrainBuf5", "terrainPtrUnk", "aTooManyTiles_", "aBadTileFileFor", "terrainIdxBuf", "aHiscore_pic", "aArmpiece_pic", "aWb", "aHallfame_0", "planes", "word_174B2", "word_174B6", "word_18026", "word_1E24A", "word_17FFE", "word_18010",
         "hercFlag", "timerCounter", "commData", "aF15_spr", "noJoy80", "aTitle640_pic", "bufAddr", "bufPtr", "needSplash", "aAdv_pic", "aLabs_pic", "aF15_spr_0",
        "byte_1D5E2", "byte_1D5E3", "word_1D5D4", "byte_1D5E4", "byte_1D5E5", "dword_1D5D8", "dword_1D5DC", "word_1D5E0",
-        "iacaSuFlag0Ptr", "exitCode", "joyDone", "gameData", "aEgraphic_exe", "aTitle16_pic", "page1Ptr", "intRegs", "hallfameCount", "hallfameBuf", "screenBuf", "aWall_pic", "page1NumPtr", "page2NumPtr", "aAt", "byte_1B100", "byte_1B0FF", "mystrlen", "word_1D5D6",
+        "iacaSuFlag0Ptr", "exitCode", "joyDone", "gameData", "aEgraphic_exe", "aTitle16_pic", "page1Ptr", "intRegs", "hallfameCount", "hallfameBuf", "screenBuf", "aWall_pic", "page1NumPtr", "page2NumPtr", "aAt", "byte_1B100", "byte_1B0FF", "word_1D5D6",
         "missDiffLevels", "missDiffDesc", "missTheaNames", "missTheaDesc", "missScenarioNames", "missScenarioDesc", "missTypeNames", "missTypeDesc", 
         "missHistorical1Names", "missHistorical1Desc", "missHistorical2Names", "missHistorical2Desc",
-        "missionStr", "aRb_1", "plh3d3Ptr", "enableHighlight", "word_19656", "word_182C8", "abs", "word_19294", "aPowCamp", "word_18994", "dword_1D5D0", "word_182BC",
-        "word_192EC", "stru_18FC0", "word_182BE", "byte_192FC", "target2", "word_1D00A", "word_182C0", "targets", "word_182C2", "dword_1D650", "word_192A4", "strcmp", "word_182C4", "stru_1892E", "word_192F4", "word_182C6", "word_189B6",   "word_19324", "off_19304", "off_19314", "word_1B960",
+        "missionStr", "aRb_1", "plh3d3Ptr", "enableHighlight", "word_19656", "word_182C8", "word_19294", "aPowCamp", "word_18994", "dword_1D5D0", "word_182BC",
+        "word_192EC", "stru_18FC0", "word_182BE", "byte_192FC", "target2", "word_1D00A", "word_182C0", "targets", "word_182C2", "dword_1D650", "word_192A4", "word_182C4", "stru_1892E", "word_192F4", "word_182C6", "word_189B6",   "word_19324", "off_19304", "off_19314", "word_1B960",
         "aSeeTechnicalSu", "aMissionType", "fileHandle", "scenarioCodePtr", "timerCounter3", "aTheater", "aDifficulty", "scenarioFoundArr", "aNoScenarioFile", "missionPick", "drawColor", "aRepeatLastMiss", "aDecodingMissio", "word_171B2",
         "aTemp_wld", "regnPlhPtr", "difficultySaved", "theaterSaved", "flag4Saved", "plhFiles", "worldFiles", "todayMissStrBuf", "aTakeoffFrom",
-        "fontIndex", "aTodaySMission", "aOnc_0", "aOnc_1", "aPrimaryTarget", "aOnc_2", "mystrcat", "aSecondaryTarge", "aRb_2", "aPleaseReinsert", "aF15_spr_1", "aPressSelectorW", "decodePic",
-        "word_182BA", "aWb_0", "word_1B148", "word_1DD38", "readItemSize", "clearRect", "openFile", "fileClose", "timerHandlerInstalled", "aRb_3", "aHallfame",
-        "aPressAKeyToCon", "sub_11ADC", "aOriginalDiskIn", "pageNumPtr", "aUseSelectorToC", "word_173D6", "word_19658", "word_1714A", "word_1715A", "word_1716A", "word_1717A", "word_1718A", "word_1965A", "word_1719A", "word_1965C", "word_1965E", 
+        "fontIndex", "aTodaySMission", "aOnc_0", "aOnc_1", "aPrimaryTarget", "aOnc_2", "aSecondaryTarge", "aRb_2", "aPleaseReinsert", "aF15_spr_1", "aPressSelectorW", "word_182BA", "aWb_0", "word_1B148", "word_1DD38", "readItemSize", "timerHandlerInstalled", "aRb_3", "aHallfame",
+        "aPressAKeyToCon", "aOriginalDiskIn", "pageNumPtr", "aUseSelectorToC", "word_173D6", "word_19658", "word_1714A", "word_1715A", "word_1716A", "word_1717A", "word_1718A", "word_1965A", "word_1719A", "word_1965C", "word_1965E", 
         "aRb_4", "wldReadBuf5Size", "wldReadBuf1", "wldReadBuf2", "wldReadBuf3", "wldReadBuf4", "wldReadBuf6", "wldReadBuf7", "wldReadBuf8", "wldReadBuf9", "wldReadBuf10", "wldReadBuf11", "wldOffsets", 
         "gfx_jump_0_alloc",
         "gfx_jump_05_drawString",

@@ -535,6 +535,7 @@ int sub_14BB4(int arg_0, int arg_2, int arg_4) {
 }
 
 // 4c94
+// debugcom: manhattan distance
 int sub_14C94(int arg_0, int arg_2) {
     // 4cb7
     return sub_14D96(wldReadBuf4[arg_0].field_2 - wldReadBuf4[arg_2].field_2, 
@@ -566,6 +567,7 @@ int sub_14CC5(int arg_0, int arg_2) {
 }
 
 // 4d96
+// debugcom: custom_manhattan_distance
 int sub_14D96(int arg_0, int arg_2) {
     long var_2;
     // 4d9f

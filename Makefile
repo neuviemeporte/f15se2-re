@@ -60,10 +60,11 @@ START_LST := $(LSTDIR)/start.lst
 START_INC := $(LSTDIR)/start.inc
 START_CONF := $(CONFDIR)/start_rc.json
 START_BASE := start_rc.asm
-START_SRC := start1.c start2.c start3.c start4.c
+START_ASM := $(START_BASE) start4.asm
+START_SRC := start1.c start2.c start3.c
 START_BASEHDR = $(SRCDIR)/start.h
 START_COBJ := $(call cobj,$(START_SRC))
-START_OBJ := $(START_COBJ) $(call asmobj,$(START_BASE))
+START_OBJ := $(START_COBJ) $(call asmobj,$(START_ASM))
 
 # reference and target entrypoints (offset of main()) for binary comparison
 START_VRF_REF := bin/start.exe
@@ -79,7 +80,7 @@ $(START_BASEHDR): $(START_LST) $(START_INC) $(START_CONF) $(LST2CH)
 
 # generate assembly for base object from ida listing
 $(SRCDIR)/$(START_BASE): $(START_LST) $(START_INC) $(START_CONF) $(LST2ASM)
-	$(LST2ASM) $< $@ $(START_CONF)
+	$(LST2ASM) $< $@ $(START_CONF) --noproc --nopreserve
 
 $(START_COBJ): $(START_BASEHDR)
 $(BUILDDIR)/start2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2 /NT startCode1
@@ -162,7 +163,7 @@ $(BUILDDIR):
 	mkdir $@
 
 $(LSTDIR):
-	mkdir $@
+	mkdir -p $@
 
 $(TOOLCHAIN_DIR):
 	@echo "Place a copy of the Microsoft C 5.1 compiler in $(TOOLCHAIN_DIR) to build" && exit 1
@@ -199,7 +200,7 @@ $(START_VRF_REF):
 	@exit 1
 
 verify-start: $(MZDIFF) $(START_EXE) $(START_VRF_REF)
-	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map map/start.map
+	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map map/start.map --asm
 
 tools/ovltool: tools/ovltool.cpp
 	g++ $(CXXFLAGS) -o $@ $^

@@ -556,7 +556,7 @@ int parseTerrain(char *arg_0) {
                         fread(terrainBuf5 + var_6,2,1,fileHandle);
                         fread(&var_2,2,1,fileHandle);
                         // 3cca
-                        byte_1BA68[var_6] = var_2;
+                        terrainIdxBuf[var_6] = var_2;
                         var_6 += 7;
                     }
                 }
