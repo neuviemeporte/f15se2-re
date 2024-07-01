@@ -289,6 +289,92 @@ PUBLIC _audio_jump_65
 PUBLIC _audio_jump_67
 PUBLIC _audio_jump_6b
 PUBLIC _audio_jump_6c
+PUBLIC _dictionaryIndex
+PUBLIC _byte_172B7
+PUBLIC _picDecodeDictionary
+PUBLIC _word_17BF1
+PUBLIC _picRowLength
+PUBLIC _rowOffset
+PUBLIC _picWorkData
+PUBLIC _word_17BF3
+PUBLIC _picDecodedRowBuf
+PUBLIC _byte_17BF0
+PUBLIC _aReadError
+PUBLIC _word_17BF5
+PUBLIC _word_17BF7
+PUBLIC _word_17BF9
+PUBLIC _picWorkDataPtr
+PUBLIC _picProcessFlag0_1
+PUBLIC _word_1786A
+PUBLIC _aDosLied
+PUBLIC _picTmp9BitCount
+PUBLIC _picByteUnsignedFlag
+PUBLIC _word_1782E
+PUBLIC _word_1786C
+PUBLIC _word_1783E
+PUBLIC _word_1784E
+PUBLIC _word_1737E
+PUBLIC _fileReadPos
+PUBLIC _ovlParBlock
+PUBLIC _row
+PUBLIC _readBufEndPtr
+PUBLIC _picRemainingBitCount
+PUBLIC _timerCounter2
+PUBLIC _tmpFileHandle
+PUBLIC _timerCounter4
+PUBLIC _picDecodeIncrement
+PUBLIC _aAlloc1M
+PUBLIC _unk_172CD
+PUBLIC _ovlSeg1
+PUBLIC _aNoFileBuffersAvailable
+PUBLIC _picNumberDictSlots
+PUBLIC _aOpenError
+PUBLIC _ovlSeg2
+PUBLIC _ovlParCnt
+PUBLIC _byte_17A2F
+PUBLIC _errorCodeStr
+PUBLIC _tmpPageIndex
+PUBLIC _word_17836
+PUBLIC _word_17846
+PUBLIC _word_172AA
+PUBLIC _ovlInsaneFlag
+PUBLIC _word_17856
+PUBLIC _word_172BA
+PUBLIC _word_17866
+PUBLIC _screenBufSize
+PUBLIC _word_172AC
+PUBLIC _word_17858
+PUBLIC _word_17868
+PUBLIC _aOvlFail
+PUBLIC _word_172AE
+PUBLIC _aOvlShrink
+PUBLIC _byte_17877
+PUBLIC _word_17BEB
+PUBLIC _origCBreakOfs
+PUBLIC _word_17BFB
+PUBLIC _picSlotCounter
+PUBLIC _word_172B1
+PUBLIC _origCBreakSeg
+PUBLIC _word_17BED
+PUBLIC _picFileReadBufEnd
+PUBLIC _readFromFilePtr
+PUBLIC _word_172B3
+PUBLIC _word_172A4
+PUBLIC _byte_172B0
+PUBLIC _fileReadBuf
+PUBLIC _word_172B5
+PUBLIC _byte_172A2
+PUBLIC _word_172A6
+PUBLIC _picByte
+PUBLIC _aFileNotFound
+PUBLIC _aEnoughMem
+PUBLIC _byte_19ADB
+PUBLIC _picFileWord
+PUBLIC _word_172A8
+PUBLIC _word_172B8
+PUBLIC _picLookupResult
+PUBLIC _aFileNFound
+PUBLIC _aOvlOvrrun
 ; ---------------------------------------------------------------------------
 
 GameComm	struc ;	(sizeof=0x2, mappedto_8)
@@ -914,27 +1000,27 @@ _byte_1729C db 1
     db 0
     db 1
     db 0
-byte_172A2 db 0
+_byte_172A2 db 0
 _timerHandlerInstalled db 0
-word_172A4 dw 0
-word_172A6 dw 0
-word_172A8 dw 0
-word_172AA dw 0
-word_172AC dw 0
-word_172AE dw 0
-byte_172B0 db 0
-word_172B1 dw 0
-word_172B3 dw 0
-word_172B5 dw 0
-byte_172B7 db 0
-word_172B8 dw 0
-word_172BA dw 0
+_word_172A4 dw 0
+_word_172A6 dw 0
+_word_172A8 dw 0
+_word_172AA dw 0
+_word_172AC dw 0
+_word_172AE dw 0
+_byte_172B0 db 0
+_word_172B1 dw 0
+_word_172B3 dw 0
+_word_172B5 dw 0
+_byte_172B7 db 0
+_word_172B8 dw 0
+_word_172BA dw 0
     db 0
     db 0
 _timerCounter db 0
-timerCounter2 db 0
+_timerCounter2 db 0
 _timerCounter3 db 0
-timerCounter4 db 0
+_timerCounter4 db 0
     db 2Ah
     db 2Eh
     db 2Ah
@@ -946,7 +1032,7 @@ unk_172C5 db 0
 unk_172CA db 35h
     db 41h
     db 0
-unk_172CD db 0FFh
+_unk_172CD db 0FFh
     db 0
     db 0
     db 0
@@ -1123,7 +1209,7 @@ unk_17375 db 0
     db 0
     db 0
     db 0
-word_1737E dw 0
+_word_1737E dw 0
 a2ndLt_ db '2nd Lt. ',0
 a1stLt_ db '1st Lt. ',0
 aCapt_ db 'Capt. ',0
@@ -1228,18 +1314,18 @@ _aRb_3 db 'rb',0
 _aHallfame db 'HallFame',0
 _aWb db 'wb',0
 _aHallfame_0 db 'HallFame',0
-ovlSeg1 dw 0
-ovlParCnt dw 0
-ovlParBlock dw 0
-ovlSeg2 dw 0
-ovlInsaneFlag db 0
-aAlloc1M db 'Allocated 1Mb of space????$'
-aDosLied db 'MS-DOS lied to us about how much memory was available$'
-aFileNFound db 'Filename not found$'
-aEnoughMem db 'Not enough memory to load file$'
-aOvlFail db 'Overlay load failed for some reason$'
-aOvlOvrrun db 'Overlay has overrun allocated memory$'
-aOvlShrink db 'Unable to shrink overlay memory allocation$'
+_ovlSeg1 dw 0
+_ovlParCnt dw 0
+_ovlParBlock dw 0
+_ovlSeg2 dw 0
+_ovlInsaneFlag db 0
+_aAlloc1M db 'Allocated 1Mb of space????$'
+_aDosLied db 'MS-DOS lied to us about how much memory was available$'
+_aFileNFound db 'Filename not found$'
+_aEnoughMem db 'Not enough memory to load file$'
+_aOvlFail db 'Overlay load failed for some reason$'
+_aOvlOvrrun db 'Overlay has overrun allocated memory$'
+_aOvlShrink db 'Unable to shrink overlay memory allocation$'
 aOvlRel db 'Error releasing overlay memory$'
     db 0
 ; ------------------------------startData:0xab8------------------------------
@@ -1696,108 +1782,108 @@ _audio_jump_6c endp
     db 0
     db 0
     db 0
-word_1782E dw 0
+_word_1782E dw 0
     db 0
     db 0
     db 0
     db 0
     db 0
     db 0
-word_17836 dw 0
+_word_17836 dw 0
     db 0
     db 0
     db 0
     db 0
     db 0
     db 0
-word_1783E dw 0
+_word_1783E dw 0
     db 0
     db 0
     db 0
     db 0
     db 0
     db 0
-word_17846 dw 0
+_word_17846 dw 0
     db 0
     db 0
     db 0
     db 0
     db 0
     db 0
-word_1784E dw 0
+_word_1784E dw 0
     db 0
     db 0
     db 0
     db 0
     db 0
     db 0
-word_17856 dw 0
-word_17858 dw 0
+_word_17856 dw 0
+_word_17858 dw 0
     db 0
     db 0
     db 0
     db 0
 _noJoy80 db 8 dup( 0)
-word_17866 dw 0
-word_17868 dw 0
-word_1786A dw 0
-word_1786C dw 0
+_word_17866 dw 0
+_word_17868 dw 0
+_word_1786A dw 0
+_word_1786C dw 0
     db 0
 _word_1786F dw 0
 _word_17871 dw 0
 _word_17873 dw 0
 _word_17875 dw 0
-byte_17877 db 162h dup(0FFh)
+_byte_17877 db 162h dup(0FFh)
 byte_179D9 db 56h dup(0FFh)
-byte_17A2F db 0AAh dup(0)
+_byte_17A2F db 0AAh dup(0)
 byte_17AD9 db 2Bh dup(0)
 unk_17B04 db 0
     db 0
 byte_17B06 db 0E1h dup(0)
 word_17BE7 dw 0
 word_17BE9 dw 0
-word_17BEB dw 0FFFFh
-word_17BED dw 0
+_word_17BEB dw 0FFFFh
+_word_17BED dw 0
     db 0
-byte_17BF0 db 0
-word_17BF1 dw 0
-word_17BF3 dw 0
-word_17BF5 dw 0
-word_17BF7 dw 0
-word_17BF9 dw 13Fh
-word_17BFB dw 6Fh
+_byte_17BF0 db 0
+_word_17BF1 dw 0
+_word_17BF3 dw 0
+_word_17BF5 dw 0
+_word_17BF7 dw 0
+_word_17BF9 dw 13Fh
+_word_17BFB dw 6Fh
     db 0
 _cbreakHit db 0
-origCBreakSeg dw 0
-origCBreakOfs dw 0
+_origCBreakSeg dw 0
+_origCBreakOfs dw 0
     db 0
-errorCodeStr dw 0
-fileReadBuf db 100h dup( 0)
+_errorCodeStr dw 0
+_fileReadBuf db 100h dup( 0)
 byte_17D06 db 10h dup(0)
 byte_17D16 db 1Bh dup(0)
 byte_17D31 db 20h dup(0)
 byte_17D51 db 21h dup(0)
 byte_17D72 db 94h dup(0)
-aFileNotFound db ':File not found$'
-aNoFileBuffersAvailable db ':No file buffers available$'
-aOpenError db ':Open error $'
+_aFileNotFound db ':File not found$'
+_aNoFileBuffersAvailable db ':No file buffers available$'
+_aOpenError db ':Open error $'
 aFileClosingError db 'File closing error$'
-aReadError db 'Read error$'
+_aReadError db 'Read error$'
 aWriteError db 'Write error$'
 word_17E68 dw 0
 word_17E6A dw 0
     db 0
     db 0
-fileReadPos dw 0
-tmpFileHandle dw 0
-picDecodedRowBuf db 140h dup( 0)
-screenBufSize dw 0
-tmpPageIndex dw 0
-rowOffset dw 0
+_fileReadPos dw 0
+_tmpFileHandle dw 0
+_picDecodedRowBuf db 140h dup( 0)
+_screenBufSize dw 0
+_tmpPageIndex dw 0
+_rowOffset dw 0
     db 0
     db 0
-row dw 0
-readFromFilePtr dw 0
+_row dw 0
+_readFromFilePtr dw 0
 aInsufficientSy db 'Insufficient system memory - AllocBuffer$',0
 aBufferDeallocE db 'Buffer dealloc error$',0
 _word_17FFE dw 0FFFFh, 2 dup(1), 0FFFFh, 0, 1, 0, 0FFFFh, 0
@@ -4284,20 +4370,20 @@ _word_19658 dw 0
 _word_1965A dw 0
 _word_1965C dw 0
 _word_1965E dw 0
-readBufEndPtr dw 0
-picWorkDataPtr dw 0
-picRowLength dw 0
-picProcessFlag0_1 db 0
-picLookupResult db 0
-picTmp9BitCount db 0
-picByte db 0
-picFileReadBufEnd dw 0
-picNumberDictSlots dw 0
-picFileWord dw 0
-picRemainingBitCount db 0
-picByteUnsignedFlag db 0
-picSlotCounter dw 0
-dictionaryIndex db 0
+_readBufEndPtr dw 0
+_picWorkDataPtr dw 0
+_picRowLength dw 0
+_picProcessFlag0_1 db 0
+_picLookupResult db 0
+_picTmp9BitCount db 0
+_picByte db 0
+_picFileReadBufEnd dw 0
+_picNumberDictSlots dw 0
+_picFileWord dw 0
+_picRemainingBitCount db 0
+_picByteUnsignedFlag db 0
+_picSlotCounter dw 0
+_dictionaryIndex db 0
     db 100h dup(0)
 unk_19775 db 0
     db 0
@@ -4305,14 +4391,14 @@ unk_19775 db 0
 unk_19778 db 0
     db 0
 byte_1977A db 0FBh dup(0)
-picWorkData db 0
+_picWorkData db 0
     db 0
     db 0
-picDecodeDictionary dw 0
-picDecodeIncrement db 0
+_picDecodeDictionary dw 0
+_picDecodeIncrement db 0
     db 1C1h dup(0)
 byte_19A3C db 9Fh dup(0)
-byte_19ADB db 61h dup(0)
+_byte_19ADB db 61h dup(0)
 byte_19B3C db 180h dup(0)
 byte_19CBC db 100h dup(0)
 byte_19DBC db 12BCh dup(0)

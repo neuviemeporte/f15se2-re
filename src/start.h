@@ -315,7 +315,7 @@ int read512FromFileIntoBuf();
 // ==== startCode1:0x328d ====
 int unreach_1328D();
 // ==== startCode1:0x32a5 ====
-int unreach_132A5();
+int sub_132A5();
 // ==== startCode1:0x3312 ====
 void openShowPic(char *filename, int pageNum, int garbage);
 // ==== startCode1:0x333e ====

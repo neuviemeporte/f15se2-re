@@ -88,7 +88,6 @@ $(BUILDDIR)/start4.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /NT startCode1
 
 $(START_EXE): MSC_CFLAGS += /NT startCode1
 $(START_EXE): UASMFLAGS += -nt=startCode1 -nd=startData
-$(START_EXE): LINKFLAGS += /NOD
 $(START_EXE): $(START_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)"
 
