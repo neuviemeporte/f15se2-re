@@ -446,8 +446,7 @@ int readJoyPort();
 int sub_16ABF();
 // ==== startCode2:0xdf ====
 int far copyJoystickData();
-extern uint8 crt0_start;
-extern uint8 unk_16B51;
+extern uint8 crt0_start[];
 extern int16 crt0_16B52;
 extern uint8 byte_16B54[];
 extern uint8 unk_16B56;

@@ -1,3 +1,4 @@
+DOSSEG
 .8086
 .MODEL SMALL
 
@@ -34,24 +35,24 @@ OVL_HDR_CODESEG	 = 18h
 FILE_READBUF_SIZE  = 200h
 STACK_JOYDATA	 = 0CDEh
 
-EXTRN _gfx_jump_38_getPageBuf:PROC
-EXTRN _gfx_jump_3b_clearBuf:PROC
-EXTRN _gfx_jump_33_fillRow:PROC
-EXTRN _gfx_jump_35:PROC
-EXTRN _gfx_jump_0_alloc:PROC
-EXTRN _gfx_jump_10_getCurBuf:PROC
-EXTRN _gfx_jump_0d_setCurBuf:PROC
-EXTRN _gfx_jump_20_setVal:PROC
-EXTRN _gfx_jump_28:PROC
-EXTRN _gfx_jump_22:PROC
-EXTRN _gfx_jump_51_null:PROC
-EXTRN _gfx_jump_0f_getBufPtr:PROC
-EXTRN _gfx_jump_1f:PROC
-EXTRN _audio_jump_6b:PROC
-EXTRN _gfx_jump_3a_getRowOffset:PROC
-EXTRN _gfx_jump_34_fillRow:PROC
-EXTRN _gfx_jump_36_null:PROC
-EXTRN _audio_jump_6c:PROC
+EXTRN _gfx_jump_38_getPageBuf:FAR
+EXTRN _gfx_jump_3b_clearBuf:FAR
+EXTRN _gfx_jump_33_fillRow:FAR
+EXTRN _gfx_jump_35:FAR
+EXTRN _gfx_jump_0_alloc:FAR
+EXTRN _gfx_jump_10_getCurBuf:FAR
+EXTRN _gfx_jump_0d_setCurBuf:FAR
+EXTRN _gfx_jump_20_setVal:FAR
+EXTRN _gfx_jump_28:FAR
+EXTRN _gfx_jump_22:FAR
+EXTRN _gfx_jump_51_null:FAR
+EXTRN _gfx_jump_0f_getBufPtr:FAR
+EXTRN _gfx_jump_1f:FAR
+EXTRN _audio_jump_6b:FAR
+EXTRN _gfx_jump_3a_getRowOffset:FAR
+EXTRN _gfx_jump_34_fillRow:FAR
+EXTRN _gfx_jump_36_null:FAR
+EXTRN _audio_jump_6c:FAR
 EXTRN _word_172AE:WORD
 EXTRN _word_172B8:WORD
 EXTRN _word_172A4:WORD
@@ -174,7 +175,8 @@ PUBLIC _doNothing2
 PUBLIC _sub_12DEA
 PUBLIC _fileClose
 
-startCode1 segment word public 'CODE' ;startCode1 segment byte public 'CODE'
+;startCode1 segment word public 'CODE' ;startCode1 segment byte public 'CODE'
+.CODE
 
 timerIrqAddr	dd timerIrqHandler
 word_12983	dw 0
@@ -1231,7 +1233,7 @@ _installCBreakHandler proc near
     call getInterruptHandler
     mov _origCBreakOfs, bx
     mov _origCBreakSeg, ax
-    mov ax, seg startCode1
+    mov ax, seg @code
     mov dx, offset cbreakHandler
     mov ds, ax
     mov ax, 251Bh ;1B - cbreak interrupt
@@ -1806,6 +1808,8 @@ loc_16A8E: ;sub_16ABF puts some value there
     mov ax, word ptr _noJoy80
     retf
 _sub_16A7F endp
+
+;startCode2	segment	byte public 'CODE'
 ; ------------------------------startCode2:0x41------------------------------
 ; ------------------------------startCode2:0x42------------------------------
 readJoyPort proc near
@@ -1925,7 +1929,7 @@ _copyJoystickData endp
 ; ------------------------------startCode2:0xf6------------------------------
 
 
-startCode1 ends
+;startCode1 ends
 
 
 

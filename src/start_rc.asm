@@ -1,9 +1,6 @@
 .8086
+DOSSEG
 .MODEL SMALL
-DGROUP GROUP startData,startBss
-ASSUME DS:DGROUP
-__acrtused = 9876h
-PUBLIC __acrtused
 EXTRN _main:PROC
 EXTRN _waitMdaCgaStatus:PROC
 EXTRN _openFileWrapper:PROC
@@ -658,17 +655,7 @@ FILE_READBUF_SIZE  = 200h
 
 ;  ==============================================================================
 
-startData segment word public 'DATA' ;startData segment byte public 'DATA'
-crt0_start db 0
-unk_16B51 db 0
-crt0_16B52 dw 0
-byte_16B54 db 0
-    db 0
-unk_16B56 db 0
-unk_16B57 db 0
-aMsRunTimeLibra db 'MS Run-Time Library - Copyright (c) 1988, Microsoft Corp'
-unk_16B90 db 11h
-crt0_end db 0
+.DATA ;startData segment byte public 'DATA'
 _aLabs_pic db 'labs.pic',0
 _aAdv_pic db 'adv.pic',0
 _aEgraphic_exe db 'egraphic.exe',0
@@ -696,11 +683,30 @@ unk_16BF0 db 0
     db 0
     db 0
     db 0
-_bufPtr dw offset asc_16BE2, offset crt0_start, offset crt0_start
-    ; "S Run-Time Library - Copyright (c) 1988"...
-    dw offset aMsRunTimeLibra+1, offset crt0_start, offset crt0_start 
-    dw offset crt0_start, offset unk_16B51, offset crt0_start
-    dw offset crt0_start, offset crt0_start, offset crt0_start
+_bufPtr db 92h
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 9
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 1
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
 unk_16C10 db 0AAh
     db 0
 aLibya db 'Libya',0
@@ -1568,7 +1574,6 @@ _gfx_jump_3d_null proc near
     dd 0
 _gfx_jump_3d_null endp
 ; ------------------------------startData:0xbe9------------------------------
-loc_1773E:
     db 0EAh ;jmp far ptr gfx_slot_3e
     dd 0
 ; ------------------------------startData:0xbf3------------------------------
@@ -1579,10 +1584,8 @@ _gfx_jump_3f_modecode endp
 ; ------------------------------startData:0xbf3------------------------------
     db 0EAh ;jmp far ptr gfx_slot_40
     dd 0
-loc_1774D:
     db 0EAh ;jmp far ptr gfx_slot_41
     dd 0
-loc_17752:
     db 0EAh ;jmp gfx_slot_42
     dd 0
     db 0EAh ;jmp far ptr gfx_slot_43
@@ -1609,7 +1612,6 @@ _gfx_jump_46_retrace2 endp
     dd 0
     db 0EAh ;jmp far ptr gfx_slot_14
     dd 0
-loc_17775:
     db 0EAh ;jmp gfx_slot_11
     dd 0
     db 0EAh ;jmp gfx_slot_12
@@ -4423,13 +4425,9 @@ _byte_1B0D2 db 0
 _byte_1B0D3 db 0
     db 0
     db 0
-startData ends
 ;  ==============================================================================
 
-;  ==============================================================================
-
-
-startBss segment byte public "BSS"
+.DATA?
     db ?
 _todayMissStrBuf db 1Dh dup(?)
 _byte_1B0FF db ?
@@ -4615,15 +4613,4 @@ _commData dd ?
     db ?
 _bufAddr dw ?
     db 14h dup(?)
-startBss ends ;startData ends
-;  ==============================================================================
-
-;  ==============================================================================
-
-
-startStack segment byte stack 'STACK'
-byte_1E660 db 800h dup(?)
-startStack ends
-;  ==============================================================================
-
-    end ;end start
+END

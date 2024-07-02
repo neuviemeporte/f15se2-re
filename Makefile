@@ -60,7 +60,7 @@ START_LST := $(LSTDIR)/start.lst
 START_INC := $(LSTDIR)/start.inc
 START_CONF := $(CONFDIR)/start_rc.json
 START_BASE := start_rc.asm
-START_ASM := $(START_BASE) start4.asm
+START_ASM := start4.asm $(START_BASE)
 START_SRC := start1.c start2.c start3.c
 START_BASEHDR = $(SRCDIR)/start.h
 START_COBJ := $(call cobj,$(START_SRC))
@@ -83,11 +83,11 @@ $(SRCDIR)/$(START_BASE): $(START_LST) $(START_INC) $(START_CONF) $(LST2ASM)
 	$(LST2ASM) $< $@ $(START_CONF) --noproc --nopreserve
 
 $(START_COBJ): $(START_BASEHDR)
-$(BUILDDIR)/start2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2 /NT startCode1
-$(BUILDDIR)/start4.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /NT startCode1
+$(BUILDDIR)/start2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/start4.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 
-$(START_EXE): MSC_CFLAGS += /NT startCode1
-$(START_EXE): UASMFLAGS += -nt=startCode1 -nd=startData
+#$(START_EXE): MSC_CFLAGS += /NT startCode1
+#$(START_EXE): UASMFLAGS += -nt=startCode1 -nd=startData
 $(START_EXE): $(START_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)"
 
