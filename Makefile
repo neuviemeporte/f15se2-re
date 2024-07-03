@@ -33,13 +33,14 @@ TOOLCHAIN_DIR := $(DOSDIR)/$(C_TOOLCHAIN)
 SRCTOP := src
 SRCDIR := $(SRCTOP)
 BUILDDIR := build
-HDRFILES := dosfunc.h output.h pointers.h offsets.h biosfunc.h comm.h overlay.h util.h start.h slot.h const.h struct.h
+DEBUGDIR := debug_build
+HDRFILES := dosfunc.h output.h pointers.h offsets.h biosfunc.h comm.h overlay.h util.h start.h slot.h const.h struct.h debug.h
 HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 
-asmobj = $(addprefix $(BUILDDIR)/,$(1:.asm=.obj))
-cobj = $(addprefix $(BUILDDIR)/,$(1:.c=.obj))
+asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
+cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-start test reasm start-gen-asm start hello
+.PHONY: f15-se2 clean f15-se2-test verify verify-start test reasm start-gen-asm start hello debug
 all: f15-se2
 
 #
@@ -63,8 +64,8 @@ START_BASE := start_rc.asm
 START_ASM := start4.asm $(START_BASE)
 START_SRC := start1.c start2.c start3.c
 START_BASEHDR = $(SRCDIR)/start.h
-START_COBJ := $(call cobj,$(START_SRC))
-START_OBJ := $(START_COBJ) $(call asmobj,$(START_ASM))
+START_COBJ := $(call cobj,$(BUILDDIR),$(START_SRC))
+START_OBJ := $(START_COBJ) $(call asmobj,$(BUILDDIR),$(START_ASM))
 
 # reference and target entrypoints (offset of main()) for binary comparison
 START_VRF_REF := bin/start.exe
@@ -86,9 +87,15 @@ $(START_COBJ): $(START_BASEHDR)
 $(BUILDDIR)/start2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/start4.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 
-#$(START_EXE): MSC_CFLAGS += /NT startCode1
-#$(START_EXE): UASMFLAGS += -nt=startCode1 -nd=startData
 $(START_EXE): $(START_OBJ)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)"
+
+# start.exe debug build
+START_DEBUG := $(DEBUGDIR)/start.exe
+START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM))
+$(START_DBG_OBJ): $(START_BASEHDR)
+$(DEBUGDIR)/%.obj: MSC_CFLAGS := /Gs /Zi /D DEBUG
+$(START_DEBUG): $(START_DBG_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)"
 
 #
@@ -118,7 +125,7 @@ $(STARTRE_EXE): $(STARTRE_OBJ)
 TEST_EXE := $(BUILDDIR)/test.exe
 TEST_SRCS := test.c
 #TEST_ASMS := test3.asm
-TEST_OBJS := $(call cobj,$(TEST_SRCS)) $(call asmobj,$(TEST_ASMS))
+TEST_OBJS := $(call cobj,$(BUILDDIR),$(TEST_SRCS)) $(call asmobj,$(BUILDDIR),$(TEST_ASMS))
 TEST_LIBS := slibce.lib
 
 $(TEST_EXE): MSC_CFLAGS := /Gs /w /Id:\f15-se2
@@ -141,8 +148,11 @@ f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(UASM) $(MAIN_EXE) $(START_EXE) $(TEST_EX
 
 start: $(START_EXE)
 
+debug: $(DEBUGDIR) $(START_DEBUG)
+
 clean:
 	-rm -rf $(BUILDDIR)/*
+	-rm -rf $(DEBUGDIR)/*
 	-rm $(START_BASEHDR)
 	-touch $(START_LST)
 
@@ -158,10 +168,7 @@ hello: $(HELLO_EXE)
 f15-se2-test: $(BUILDDIR) $(MAIN_EXE)
 	$(DOSTEST) $(MAIN_EXE)
 
-$(BUILDDIR):
-	mkdir $@
-
-$(LSTDIR):
+$(BUILDDIR) $(DEBUGDIR) $(LSTDIR):
 	mkdir -p $@
 
 $(TOOLCHAIN_DIR):
@@ -177,14 +184,11 @@ $(UASMDIR)/Makefile:
 $(MZDIFF):
 	cd $(MZRE) && ./build.sh
 
-$(BUILDDIR)/%.obj: $(SRCDIR)/%.c $(HDRS)
+$(DEBUGDIR)/%.obj $(BUILDDIR)/%.obj: $(SRCDIR)/%.c $(HDRS)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 
-$(BUILDDIR)/%.obj: $(SRCTOP)/%.c
-	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-
-$(BUILDDIR)/%.obj: $(SRCDIR)/%.asm
-	$(UASM) $(UASMFLAGS) -Fo$@ $^
+$(DEBUGDIR)/%.obj $(BUILDDIR)/%.obj: $(SRCDIR)/%.asm
+	$(UASM) $(UASMFLAGS) -Fo$@ $<
 #	@$(DOSBUILD) as $(ASM_TOOLCHAIN) -i $< -o $@ -f "$(ASFLAGS)"
 
 reasm: $(STARTRE_EXE)

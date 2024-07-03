@@ -6,6 +6,7 @@
 
 #include <memory.h>
 #include <dos.h>
+#include <STDARG.H>
 
 // 37f8
 int sub_137F8(int32 arg_0, int32 arg_4) {
@@ -818,3 +819,24 @@ void sub_154A1(int arg_0) {
     }
     // 5540
 }
+
+#ifdef DEBUG
+void TRACE(const char* fmt, ...) {
+    static FILE *stream = NULL;
+    va_list ap;
+    if (stream == NULL) {
+        stream = fopen("start.log", "w");
+        if (stream == NULL) {
+            printf("Unable to open debug stream");
+            exit(1);
+        }
+        setbuf(stream, NULL);
+        fprintf(stream, "Successfully opened debug log\n");
+    }
+    va_start(ap, fmt);
+    vfprintf(stream, fmt, ap);
+    fprintf(stream, "\n");
+    fflush(stream);
+    va_end(ap);
+}
+#endif // DEBUG
