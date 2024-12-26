@@ -1,10 +1,10 @@
 MZRE := mzretools
-TOOLDIR := $(MZRE)/tools
-LST2ASM := $(TOOLDIR)/lst2asm.py
-LST2CH := $(TOOLDIR)/lst2ch.py
-DOSBUILD := $(TOOLDIR)/dosbuild.sh
-DOSTEST := $(TOOLDIR)/test.sh
-DISASM := $(TOOLDIR)/disasm.sh
+MZRETOOLDIR := $(MZRE)/tools
+LST2ASM := $(MZRETOOLDIR)/lst2asm.py
+LST2CH := $(MZRETOOLDIR)/lst2ch.py
+DOSBUILD := $(MZRETOOLDIR)/dosbuild.sh
+DOSTEST := $(MZRETOOLDIR)/test.sh
+DISASM := $(MZRETOOLDIR)/disasm.sh
 UASMDIR := UASM
 UASM := $(UASMDIR)/GccUnixR/uasm
 MZDIFF := $(MZRE)/debug/mzdiff
@@ -12,7 +12,7 @@ MZHDR := $(MZRE)/debug/mzhdr
 LSTDIR := lst
 REASMDIR := reasm
 CONFDIR := conf
-TOOLS := tools/ovltool tools/vgapal
+TOOLDIR := tools
 CXXFLAGS := -Wfatal-errors
 # UASM: no copyright into, 8086 instuctions, MASM compatibility
 UASMFLAGS := -q -0 -Zm
@@ -40,7 +40,7 @@ HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
 cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-start test reasm start-gen-asm start hello debug
+.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug tools
 all: f15-se2
 
 #
@@ -72,7 +72,7 @@ START_VRF_REF := bin/start.exe
 START_VRF_REFEP := 0x10
 START_VRF_TGTEP := [558bec83ec1c56c706]
 
-$(START_LST) $(START_INC): $(TOOLDIR) $(LSTDIR)
+$(START_LST) $(START_INC): $(MZRETOOLDIR) $(LSTDIR)
 	touch $@
 
 # generate C header file from ida listing
@@ -168,7 +168,7 @@ hello: $(HELLO_EXE)
 f15-se2-test: $(BUILDDIR) $(MAIN_EXE)
 	$(DOSTEST) $(MAIN_EXE)
 
-$(BUILDDIR) $(DEBUGDIR) $(LSTDIR):
+$(BUILDDIR) $(DEBUGDIR) $(LSTDIR) $(TOOLDIR):
 	mkdir -p $@
 
 $(TOOLCHAIN_DIR):
@@ -194,9 +194,13 @@ $(DEBUGDIR)/%.obj $(BUILDDIR)/%.obj: $(SRCDIR)/%.asm
 reasm: $(STARTRE_EXE)
 
 # skip libc routines (which start with an underscore in the map), and overlay slot pseudofunctions in the comparison
-VERIFY_FLAGS := --verbose --loose --ctx 30
+VERIFY_FLAGS := --loose --ctx 30
 
+verify: VERIFY_FLAGS += --verbose
 verify: verify-start
+
+verify-debug: VERIFY_FLAGS += --debug
+verify-debug: verify-start
 
 $(START_VRF_REF):
 	@echo "---> Place start.exe with md5sum cf6e997ed4582cf82db6ec37d2b1a6fd into bin/"
@@ -205,11 +209,14 @@ $(START_VRF_REF):
 verify-start: $(MZDIFF) $(START_EXE) $(START_VRF_REF)
 	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map map/start.map --asm
 
-tools/ovltool: tools/ovltool.cpp
+TOOLS := $(TOOLDIR)/ovltool $(TOOLDIR)/vgapal $(TOOLDIR)/wldparse
+f15-tools: $(TOOLDIR) $(TOOLS)
+
+$(TOOLDIR)/ovltool: $(SRCTOP)/ovltool.cpp
 	g++ $(CXXFLAGS) -o $@ $^
 
-tools/vgapal: tools/vgapal.c
+$(TOOLDIR)/vgapal: $(SRCTOP)/vgapal.c
 	gcc -o $@ $^
 
-tools/wldparse: tools/wldparse.cpp
+$(TOOLDIR)/wldparse: $(SRCTOP)/wldparse.cpp
 	g++ -o $@ $^ -I$(SRCDIR)

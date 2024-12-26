@@ -150,7 +150,7 @@ uint16 load_segment(const uint16 envParagraphs) {
 }
 
 int main(int argc, char *argv[]) {
-    /* process cmdling args */
+    /* process cmdline args */
     int i, j;
     bool debugMenu = false, debugFlight = false, debugDebrief = false;
     for (i = 1; i < argc; ++i) {

@@ -283,7 +283,7 @@ void initGraphics()
     /* 0x4ac */
     gfx_jump_0e_setCurBuf(0);
     gfx_jump_0_alloc(0);
-    /* 0x4c4 */
+    /* 0x4c4 - see f14 gmain.c InitGraphicPages() */
     gfx_jump_4b_storeBufPtr(page1Ptr = gfx_jump_0_alloc(1), 1); // 64k framebuffer @ 2cc0:0
     /* 0x4d8 */
     if (*iacaSuFlag0Ptr == 0) {
