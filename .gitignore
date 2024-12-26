@@ -6,3 +6,6 @@ bin/
 *.log
 *.err
 src/LOG.TXT
+*.visited
+*.swp
+*.tgt
