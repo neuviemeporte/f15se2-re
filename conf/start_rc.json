@@ -132,7 +132,7 @@
         // stuff for the C code
        "byte_17412", "byte_17422", "word_173DE", "asc_174AC", "byte_1741A", "asc_174AF", "ranks", "pilotNameInputColors", "aMenterYourName", 
         "cbreakHit", "word_17282", "a_3dg", "aOpenErrorOn__0", "aRb_0", "word_18188", "gridBuf1", 
-        "gridBuf2", "gridBuf3", "gridBuf4", "gridBuf5", "aBadGridFileFor", "gridSignature", 
+        "gridBuf2", "gridBuf3", "gridBuf4", "gridBuf5", "aBadGridFileFor", "gridSignature", "aInsufficientSy",
        "byte_1B0D3", "aCc00", "aEs00", "aHz00", "aJz00", "aTd00", "bufCoordStr", "aWx00", "aXv00", "byte_1B0D1", "byte_1B0D2", "word_17290", "word_17292", "word_17284", "word_17286", "word_17288", "word_1728A", "word_1728C", "byte_1729C", "word_1728E", "pilotSelectFlag", "moveDst",
         "word_1786F", "word_17873", "word_17871", "word_17875", "word_18186", "aOpenErrorOn_3d", "terrainSignature", "a_3dt", "aTooMuchTileDat", "aRb", "terrainBuf1", "terrainBuf2", "terrainBuf3", "terrainBuf4", "terrainBuf5", "terrainPtrUnk", "aTooManyTiles_", "aBadTileFileFor", "terrainIdxBuf", "aHiscore_pic", "aArmpiece_pic", "aWb", "aHallfame_0", "planes", "word_174B2", "word_174B6", "word_18026", "word_1E24A", "word_17FFE", "word_18010",
         "hercFlag", "timerCounter", "commData", "aF15_spr", "noJoy80", "aTitle640_pic", "bufAddr", "bufPtr", "needSplash", "aAdv_pic", "aLabs_pic", "aF15_spr_0",

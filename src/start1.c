@@ -268,7 +268,7 @@ doSrand:
     clearRect((int*)bufPtr, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
     gfx_jump_52(0);
     /* 0x478 */
-    TRACE("main: exiting with code %d", exitCode[0]);
+    TRACE(("main: exiting with code %d", exitCode[0]));
     exit(exitCode[0]);
     /* 0x482 */
 }

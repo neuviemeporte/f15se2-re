@@ -504,7 +504,7 @@ char* allocBuffer(int size) {
     char *ret;
     if ((ret = dos_alloc(size)) < (uint8*)DOS_ERROR_RMDIR) {
         cleanup();
-        dos_printstring("Insufficient system memory - AllocBuffer$");
+        dos_printstring(aInsufficientSy);
         exit(0);
     }
     return ret;

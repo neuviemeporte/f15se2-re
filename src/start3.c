@@ -821,7 +821,7 @@ void sub_154A1(int arg_0) {
 }
 
 #ifdef DEBUG
-void TRACE(const char* fmt, ...) {
+void my_trace(const char* fmt, ...) {
     static FILE *stream = NULL;
     va_list ap;
     if (stream == NULL) {

@@ -2,9 +2,9 @@
 #define F15_SE2_DEBUG
 
 #ifdef DEBUG
-void TRACE(const char* fmt, ...);
+#define TRACE(x) my_trace x
 #else
-#define TRACE
+#define TRACE(x)
 #endif // DEBUG
 
 #endif // F15_SE2_DEBUG
