@@ -38,7 +38,7 @@ int main(void)
     uint16 bufSize;
     register bool isPcSpeaker;
 
-    TRACE("main: entering");
+    TRACE(("main: entering"));
     /* 0x17 */
     FP_SEG(needSplash) = SEG_LOWMEM;
     FP_OFF(needSplash) = OFF_IACA_NEEDSPLASH;
@@ -52,36 +52,36 @@ int main(void)
     FP_SEG(gameData) = *commPtr;
     FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
     /* 0x54 */
-    TRACE("main: installing cbreak handler");
+    TRACE(("main: installing cbreak handler"));
     installCBreakHandler();
-    TRACE("main: setting up overlays");
+    TRACE(("main: setting up overlays"));
     setupOverlaySlots(commData->miscOvlAddr);
     setupOverlaySlots(commData->gfxOvlAddr);
     setupOverlaySlots(commData->sndOvlAddr);
     /* 0x81 */
-    TRACE("main: slot 4b");
+    TRACE(("main: slot 4b"));
     gfx_jump_4b_storeBufPtr(commData->gfxInitResult, 2);
     hercFlag = commData->setupMono;
-    TRACE("main: init graphics");
+    TRACE(("main: init graphics"));
     initGraphics();
     /* 0xa3 */
-    TRACE("main: init audio");
+    TRACE(("main: init audio"));
     audio_jump_65();
     audio_jump_64(0, 0);
     /* 0xb4 */
     if (*needSplash == 1) {
-        TRACE("main: doing splash");
+        TRACE(("main: doing splash"));
         /* 0xc1 doSplash:  */
         gameData->flag1 = 1;
         gameData->difficulty = 0xffff;
         gameData->theater = 0xffff;
         gfx_jump_3d_null(5);
         /* 0xeb */
-        TRACE("main: showing labs");
+        TRACE(("main: showing labs"));
         openShowPic(aLabs_pic, 0);
         gfx_jump_50_null();
         /* 0xfd */
-        TRACE("main: setting timer irq handler");
+        TRACE(("main: setting timer irq handler"));
         setTimerIrqHandler();
         /* 0x100 */
         for (timerCounter = 0; timerCounter < MPS_TIMEOUT;) {
@@ -96,7 +96,7 @@ int main(void)
             gfx_jump_45_retrace();
             gfx_jump_3d_null(0xf);
             /* 0x13d */
-            TRACE("main: showing adv");
+            TRACE(("main: showing adv"));
             openShowPic(aAdv_pic, 0);
             gfx_jump_50_null();
             gfx_jump_46_retrace2();
@@ -112,10 +112,10 @@ int main(void)
         }
 
         /* 0x17c */
-        TRACE("main: checking ega");
+        TRACE(("main: checking ega"));
         checkEga:
         if (commData->gfxModeNum >= 2 && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & 0xf) == 9) {
-            TRACE("main: switching to ega for title");
+            TRACE(("main: switching to ega for title"));
             /* 0x19c */
             if (commData->gfxModeNum != 2) {
                 setupOverlaySlots(loadOverlay(aEgraphic_exe));
@@ -127,7 +127,7 @@ int main(void)
         }
         /* 0x1c5 */
         else {
-            TRACE("main: doing 16color title");
+            TRACE(("main: doing 16color title"));
             gfx_jump_3d_null(1);
             gfx_jump_45_retrace();
             openShowPic(aTitle16_pic, 0);
@@ -136,20 +136,20 @@ int main(void)
             gfx_jump_44_setDac(commData->gfxModeNum >= 3 ? 4 : 3);
         }
         /* 0x204 */
-        TRACE("main: waiting for mda/cga");
+        TRACE(("main: waiting for mda/cga"));
         waitMdaCgaStatus(4);
         /* 0x20e - 0x225 */
         isPcSpeaker = commData->sndOvlName[0] == 'I' || commData->sndOvlName[0] == 'i';
         /* 0x229 */
-        TRACE("main: check pc speaker");
+        TRACE(("main: check pc speaker"));
         if (isPcSpeaker != 0) restoreTimerIrqHandler();
         /* 0x230 */
-        TRACE("main: doing audio thing");
+        TRACE(("main: doing audio thing"));
         audio_jump_67();
         if (isPcSpeaker == 0) restoreTimerIrqHandler();
         /* 0x23c */
         if (commData->gfxModeNum >= 2 && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & 0xf) == 9) {
-            TRACE("main: restoring old overlay after title");
+            TRACE(("main: restoring old overlay after title"));
             gfx_jump_44_setDac(2);
             /* 0x264 */
             getch();
@@ -161,13 +161,13 @@ int main(void)
         }
         /* 0x28c */
         else {
-            TRACE("main: after 16 title");
+            TRACE(("main: after 16 title"));
             gfx_jump_44_setDac(0);
             getch();
         }
     }
 
-    TRACE("main: setting difficulty and theater");
+    TRACE(("main: setting difficulty and theater"));
     /* 0x29a */
     difficulty = gameData->difficulty;
     theater = gameData->theater;
@@ -183,7 +183,7 @@ int main(void)
         }
     }
 
-    TRACE("main: setting up kbd/joy");
+    TRACE(("main: setting up kbd/joy"));
     /* 0x2ed */
     clearKeybuf();
     /* 0x2f4 */
@@ -199,7 +199,7 @@ int main(void)
     else {
         noJoy80[0] = noJoy80[1] = 0x80;
     }
-    TRACE("main: init pilot/mission");
+    TRACE(("main: init pilot/mission"));
     /* 0x316 */
     joyDone[0] = 1;
     bufSize = gfx_jump_17_bufSize();
@@ -219,26 +219,26 @@ int main(void)
     gameData->rand = rand();
     /* 0x396 */
 doSrand:
-    TRACE("main: mission generation");
+    TRACE(("main: mission generation"));
     srand(gameData->rand);
     missionDecode();
     missionGenerate();
     /* 0x3aa */
     if (gameData->difficulty != DIFFICULTY_DEMO) {
-        TRACE("main: printing mission");
+        TRACE(("main: printing mission"));
         printMission();
     }
     /* 0x3b8 */
-    TRACE("main: checking disk");
+    TRACE(("main: checking disk"));
     checkDiskA();
     exitCode[0] = 0xc;
     /* 0x3c0 */
-    TRACE("main: restoring cbreak handler and clearing splash");
+    TRACE(("main: restoring cbreak handler and clearing splash"));
     restoreCbreakHandler();
     *needSplash = 0;
     gfx_jump_3d_null(8);
     /* 0x3d8 */
-    TRACE("main: loading sprites");
+    TRACE(("main: loading sprites"));
     if (gfx_jump_4e_getVal() == 0) {
         openShowPic(aF15_spr, 2);
     }
@@ -247,7 +247,7 @@ doSrand:
         loadPic(aF15_spr_0, (uint8*)commData->gfxInitResult);
     }
     // 403
-    TRACE("main: write world");
+    TRACE(("main: write world"));
     writeWorld(aTemp_wld);
     commData->setupDone = 3;
     commData->unk2 = 0;
@@ -262,7 +262,7 @@ doSrand:
         commData->gfxModeNum = 0;
     }
     /* 0x44c */
-    TRACE("main: clearing keyflags and screen");
+    TRACE(("main: clearing keyflags and screen"));
     misc_jump_5e_clearKeyFlags();
     // 461
     clearRect((int*)bufPtr, 0, 0, SCREEN_MAXX, SCREEN_MAXY);

@@ -839,4 +839,18 @@ void my_trace(const char* fmt, ...) {
     fflush(stream);
     va_end(ap);
 }
+
+void my_fartrace(const char far *msg) {
+    const char far *ptr = msg;
+    size_t size = 0;
+    char *buf = NULL;
+    while (*ptr++ != '\0') size++;
+    buf = malloc(size);
+    ptr = msg;
+    size = 0;
+    while ((buf[size++] = *ptr++) != '\0') {}
+    my_trace(buf);
+    free(buf);
+
+}
 #endif // DEBUG

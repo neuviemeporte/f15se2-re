@@ -35,6 +35,20 @@ OVL_HDR_CODESEG	 = 18h
 FILE_READBUF_SIZE  = 200h
 STACK_JOYDATA	 = 0CDEh
 
+IFDEF DEBUG
+EXTRN _my_fartrace:PROC
+trace MACRO msg
+    mov ax,offset msg
+    push cs
+    push ax
+    call _my_fartrace
+    add sp,4
+ENDM
+ELSE
+trace MACRO msg
+ENDM
+ENDIF
+
 EXTRN _gfx_jump_38_getPageBuf:FAR
 EXTRN _gfx_jump_3b_clearBuf:FAR
 EXTRN _gfx_jump_33_fillRow:FAR
@@ -1447,16 +1461,25 @@ exitToDos:
     int 21h ;DOS - 2+ - QUIT WITH EXIT CODE (EXIT)
 sub_132A5 endp ;AL = exit code
 ; ------------------------------startCode1:0x3310------------------------------
+
+msg1 db 'showPicFile(): entering',0
+msg2 db 'showPicFile(): after gfx_3b_clearbuf',0
+msg3 db 'showPicFile(): after fillrow',0
+msg4 db 'showPicFile(): exiting',0
+msg5 db 'showPicFile(): gfx_35',0
+
 ; ------------------------------startCode1:0x33d0------------------------------
 _showPicFile proc near
     handle = word ptr 4
     pageNum = word ptr 6
+    ; 28da:492a
     push bp
     mov bp, sp
     push di
     push si
     push es
     push bp
+    trace msg1
     mov ax, offset read512FromFileIntoBuf
     mov _readFromFilePtr, ax
     mov ax, [bp+handle]
@@ -1468,6 +1491,7 @@ _showPicFile proc near
     ; get either vmem addr or allocated page buffer into es
     call far ptr _gfx_jump_38_getPageBuf 
     call far ptr _gfx_jump_3b_clearBuf ;zeroes out 32000 bytes
+    trace msg2
     mov _row, 0
     mov _screenBufSize, 0FA00h
 nextRow:
@@ -1479,11 +1503,15 @@ nextRow:
     mov bp, offset _picDecodedRowBuf ;source for memcpy
     mov bx, _row
     call far ptr _gfx_jump_33_fillRow ;destination: es:di (gfx page:rowOffset)
+    trace msg3 
+    ;28da:49ae
     mov di, _rowOffset
     call far ptr _gfx_jump_35
+    trace msg5
     inc _row
     sub _screenBufSize, 320
     jnz short nextRow ;argument for gfx slot
+    trace msg4
     pop bp
     pop es
     pop si
