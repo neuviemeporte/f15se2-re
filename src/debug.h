@@ -3,7 +3,7 @@
 
 #ifdef DEBUG
 void my_trace(const char* fmt, ...);
-void my_fartrace(const char far *msg);
+void my_fartrace(const char FAR *msg);
 #define TRACE(x) my_trace x
 #else
 #define TRACE(x)

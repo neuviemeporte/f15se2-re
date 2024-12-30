@@ -37,15 +37,30 @@ STACK_JOYDATA	 = 0CDEh
 
 IFDEF DEBUG
 EXTRN _my_fartrace:PROC
-trace MACRO msg
+trace MACRO msg,v1,v2,v3
+    popsize = 4
+    push ax
+    IFNB <v3>
+    push [v3]
+    popsize = popsize + 2
+    ENDIF
+    IFNB <v2>
+    push [v2]
+    popsize = popsize + 2
+    ENDIF
+    IFNB <v1>
+    push [v1]
+    popsize = popsize + 2
+    ENDIF
     mov ax,offset msg
     push cs
     push ax
     call _my_fartrace
-    add sp,4
+    add sp,popsize
+    pop ax
 ENDM
 ELSE
-trace MACRO msg
+trace MACRO msg,v1,v2,v3
 ENDM
 ENDIF
 
@@ -1466,7 +1481,10 @@ msg1 db 'showPicFile(): entering',0
 msg2 db 'showPicFile(): after gfx_3b_clearbuf',0
 msg3 db 'showPicFile(): after fillrow',0
 msg4 db 'showPicFile(): exiting',0
-msg5 db 'showPicFile(): gfx_35',0
+msg5 db 'showPicFile(): gfx_35 returned',0
+msg6 db 'showPicFile(): row %u',0
+msg7 db 'showPicFile(): rowOffset = %x',0
+msg8 db 'showPicFile(): before loop, screenBufSize = %x',0
 
 ; ------------------------------startCode1:0x33d0------------------------------
 _showPicFile proc near
@@ -1494,10 +1512,13 @@ _showPicFile proc near
     trace msg2
     mov _row, 0
     mov _screenBufSize, 0FA00h
+    trace msg8,_screenBufSize
 nextRow:
+    trace msg6,_row
     mov di, _row ;argument for gfx slot
     call far ptr _gfx_jump_3a_getRowOffset ;returned in ax
     mov _rowOffset, ax
+    trace msg7,_rowOffset
     call decodePicRow
     mov di, _rowOffset
     mov bp, offset _picDecodedRowBuf ;source for memcpy

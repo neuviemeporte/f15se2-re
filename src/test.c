@@ -4,6 +4,7 @@
 #include "comm.h"
 #include "pointers.h"
 #include "struct.h"
+#include "debug.h"
 
 void assert(int arg, int lineno, const char *msg, ...) {
     va_list arg_ptr;
@@ -78,10 +79,20 @@ void testStruct() {
     printf("OK\n");
 }
 
+void testTrace() {
+    const char *str = "Foobar a = %d, b = %d, c = %d";
+    int a=1,b=2,c=3;
+    printf("Testing trace functions: ");
+    my_trace(str, a, b, c);
+    my_fartrace((const char FAR*)str, a, b, c);
+    printf("OK\n");
+}
+
 int main() {
     printf("Running F15 SE2 unit test application\n");
     testComm();
     testGame();
     testStruct();
+    testTrace();
     return 0;
 }

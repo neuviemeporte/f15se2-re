@@ -6,7 +6,7 @@
 
 #include <memory.h>
 #include <dos.h>
-#include <STDARG.H>
+#include <stdarg.h>
 
 // 37f8
 int sub_137F8(int32 arg_0, int32 arg_4) {
@@ -821,9 +821,8 @@ void sub_154A1(int arg_0) {
 }
 
 #ifdef DEBUG
-void my_trace(const char* fmt, ...) {
+void my_vtrace(const char* fmt, va_list ap) {
     static FILE *stream = NULL;
-    va_list ap;
     if (stream == NULL) {
         stream = fopen("start.log", "w");
         if (stream == NULL) {
@@ -833,24 +832,32 @@ void my_trace(const char* fmt, ...) {
         setbuf(stream, NULL);
         fprintf(stream, "Successfully opened debug log\n");
     }
-    va_start(ap, fmt);
     vfprintf(stream, fmt, ap);
     fprintf(stream, "\n");
     fflush(stream);
+}
+
+void my_trace(const char* fmt, ...) {
+    va_list ap;
+    va_start(ap, fmt);
+    my_vtrace(fmt, ap);
     va_end(ap);
 }
 
-void my_fartrace(const char far *msg) {
-    const char far *ptr = msg;
-    size_t size = 0;
-    char *buf = NULL;
-    while (*ptr++ != '\0') size++;
-    buf = malloc(size);
-    ptr = msg;
-    size = 0;
-    while ((buf[size++] = *ptr++) != '\0') {}
-    my_trace(buf);
-    free(buf);
+static char tracebuf[128];
 
+void my_fartrace(const char far *msg, ...) {
+    const char FAR *ptr = msg;
+    size_t size = 0, idx;
+    va_list ap;
+    while (*ptr++ != '\0') size++;
+    ptr = msg;
+    for (idx = 0; idx < size && idx < 127; ++idx) {
+      tracebuf[idx] = *ptr++;
+    }
+    tracebuf[idx] = '\0';
+    va_start(ap, msg);
+    my_vtrace(tracebuf, ap);
+    va_end(ap);
 }
 #endif // DEBUG

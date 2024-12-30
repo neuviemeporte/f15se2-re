@@ -62,7 +62,7 @@ START_INC := $(LSTDIR)/start.inc
 START_CONF := $(CONFDIR)/start_rc.json
 START_BASE := start_rc.asm
 START_ASM := start4.asm $(START_BASE)
-START_SRC := start1.c start2.c start3.c
+START_SRC := start0.c start1.c start2.c start3.c
 START_BASEHDR = $(SRCDIR)/start.h
 START_COBJ := $(call cobj,$(BUILDDIR),$(START_SRC))
 START_OBJ := $(START_COBJ) $(call asmobj,$(BUILDDIR),$(START_ASM))
@@ -123,13 +123,13 @@ $(STARTRE_EXE): $(STARTRE_OBJ)
 #
 # unit test executable
 #
-TEST_EXE := $(BUILDDIR)/test.exe
-TEST_SRCS := test.c
-#TEST_ASMS := test3.asm
-TEST_OBJS := $(call cobj,$(BUILDDIR),$(TEST_SRCS)) $(call asmobj,$(BUILDDIR),$(TEST_ASMS))
+TEST_EXE := $(DEBUGDIR)/test.exe
+TEST_SRCS := test.c start1.c start2.c start3.c
+TEST_ASMS := start4.asm start_rc.asm
+TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS))
 TEST_LIBS := slibce.lib
 
-$(TEST_EXE): MSC_CFLAGS := /Gs /w /Id:\f15-se2
+$(TEST_EXE): MSC_CFLAGS := /Gs /w /Id:\f15-se2 /DDEBUG
 $(TEST_EXE): $(TEST_OBJS) $(HDRS)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(TEST_OBJS) -o $@ -f "$(LINKFLAGS)" -l "$(TEST_LIBS)"
 
@@ -150,6 +150,8 @@ f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(UASM) $(MAIN_EXE) $(START_EXE) $(TEST_EX
 start: $(START_EXE)
 
 debug: $(DEBUGDIR) $(START_DEBUG)
+	cp $(START_DEBUG) ../bin/03_test/start.exe
+	grep showPicFile $(DEBUGDIR)/START.MAP
 
 clean:
 	-rm -rf $(BUILDDIR)/*
