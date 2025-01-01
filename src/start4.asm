@@ -2,14 +2,6 @@ DOSSEG
 .8086
 .MODEL SMALL
 
-startData segment word public 'DATA'
-startData ends
-startBss segment byte public "BSS"
-startBss ends
-
-DGROUP GROUP startData,startBss
-ASSUME DS:DGROUP
-
 DOS_PRINT_STR	 = 9
 DOS_ERROR_RMDIR	 = 10h
 DOS_SET_IRQH	 = 25h
@@ -36,32 +28,59 @@ FILE_READBUF_SIZE  = 200h
 STACK_JOYDATA	 = 0CDEh
 
 IFDEF DEBUG
-EXTRN _my_fartrace:PROC
-trace MACRO msg,v1,v2,v3
-    popsize = 4
-    push ax
-    IFNB <v3>
-    push [v3]
-    popsize = popsize + 2
-    ENDIF
-    IFNB <v2>
-    push [v2]
-    popsize = popsize + 2
-    ENDIF
-    IFNB <v1>
-    push [v1]
-    popsize = popsize + 2
-    ENDIF
-    mov ax,offset msg
-    push cs
-    push ax
-    call _my_fartrace
-    add sp,popsize
-    pop ax
-ENDM
+    EXTRN _my_fartrace:PROC
+
+    trace MACRO msg,v1,v2,v3
+        popsize = 4
+        push es
+        push ax
+        IFNB <v3>
+        push [v3]
+        popsize = popsize + 2
+        ENDIF
+        IFNB <v2>
+        push [v2]
+        popsize = popsize + 2
+        ENDIF
+        IFNB <v1>
+        push [v1]
+        popsize = popsize + 2
+        ENDIF
+        mov ax,offset msg
+        push cs
+        push ax
+        call _my_fartrace
+        add sp,popsize
+        pop ax
+        pop es
+    ENDM
+
+    regtrace MACRO
+        push es
+        push ax
+    ;   regstr db 'regs: ax=%x bx=%x cx=%x dx=%x si=%x di=%x ds=%x es=%x'    
+        push es
+        push ds
+        push di
+        push si
+        push dx
+        push cx
+        push bx
+        push ax
+        mov ax,offset regstr
+        push cs
+        push ax
+        call _my_fartrace
+        add sp,20
+        pop ax
+        pop es
+    ENDM
 ELSE
-trace MACRO msg,v1,v2,v3
-ENDM
+    trace MACRO msg,v1,v2,v3
+    ENDM
+
+    regtrace MACRO
+    ENDM
 ENDIF
 
 EXTRN _gfx_jump_38_getPageBuf:FAR
@@ -207,6 +226,8 @@ PUBLIC _fileClose
 ;startCode1 segment word public 'CODE' ;startCode1 segment byte public 'CODE'
 .CODE
 
+regstr db 'regs: ax=%04X bx=%04X cx=%04X dx=%04X si=%04X di=%04X ds=%04X es=%04X',0
+
 timerIrqAddr	dd timerIrqHandler
 word_12983	dw 0
 
@@ -271,7 +292,7 @@ timerIrqHandler proc far
     push bp
     push ds
     push es
-    mov ax, seg startData
+    mov ax, @data
     mov ds, ax
     mov ax, _word_172AA
     add _word_172A4, ax
@@ -557,7 +578,7 @@ _picBlit proc near
     push si
     push es
     push bp
-    mov ax, 326Ch
+    mov ax, offset read512FromFileIntoBuf
     mov _readFromFilePtr, ax
     mov ax, [bp+arg_0]
     mov _tmpFileHandle, ax
@@ -574,7 +595,7 @@ loc_11B36:
     shl di, 1
     call decodePicRow
     mov di, _rowOffset
-    mov bp, 1322h
+    mov bp, offset _picDecodedRowBuf
 loc_11B46:
     mov bx, _word_1737E
     call far ptr _gfx_jump_33_fillRow
@@ -785,7 +806,7 @@ loc_12986:
     nop
     mov _ovlInsaneFlag, 1
 loc_1299D:
-    mov ax, seg startData
+    mov ax, @data
     mov es, ax
     push dx
     mov ah, 48h
@@ -840,7 +861,7 @@ loc_12A05:
     nop
 loc_12A0F:
     mov sp, cs:word_12983
-    mov ax, seg startData
+    mov ax, @data
     mov ss, ax
     mov ds, ax
     mov es, ax
@@ -879,7 +900,7 @@ loc_12A50:
     jmp short loc_12A83
     nop
 loc_12A69:
-    mov ax, seg startData
+    mov ax, @data
     mov ds, ax
     mov es, ax
     mov ax, _ovlSeg1
@@ -1301,7 +1322,7 @@ getInterruptHandler endp
 cbreakHandler proc far
     push ds
     push ax
-    mov ax, seg startData
+    mov ax, @data
     mov ds, ax
     mov _cbreakHit, 0FFh
     pop ax
@@ -1388,11 +1409,15 @@ loc_131E1:
     retn
 _fileClose endp
 ; ------------------------------startCode1:0x31e8------------------------------
+msg12 db 'Reading from file handle %d',0
+msg13 db 'Read success, count %d',0
+charCount dw 0
 ; ------------------------------startCode1:0x326c------------------------------
 read512FromFileIntoBuf proc near
+    ; trace msg12,_tmpFileHandle
     push ds
     mov ah, 3Fh
-    mov bx, seg startData
+    mov bx, @data
     mov ds, bx
     mov bx, _tmpFileHandle
     mov cx, 200h ;read 512 bytes at most (int returns number of chars
@@ -1404,6 +1429,8 @@ read512FromFileIntoBuf proc near
     jmp short errorAndExit
     nop
 readSuccess:
+    ; mov charCount,ax
+    ; trace msg13,charCount
     pop ds
     retn
 read512FromFileIntoBuf endp
@@ -1477,14 +1504,13 @@ exitToDos:
 sub_132A5 endp ;AL = exit code
 ; ------------------------------startCode1:0x3310------------------------------
 
-msg1 db 'showPicFile(): entering',0
-msg2 db 'showPicFile(): after gfx_3b_clearbuf',0
+msg1 db 'showPicFile(): entering, handle %d pagenum %d',0
+msg2 db 'showPicFile(): after gfx_3b_clearbuf, handle %d pageidx %d',0
 msg3 db 'showPicFile(): after fillrow',0
 msg4 db 'showPicFile(): exiting',0
 msg5 db 'showPicFile(): gfx_35 returned',0
-msg6 db 'showPicFile(): row %u',0
-msg7 db 'showPicFile(): rowOffset = %x',0
-msg8 db 'showPicFile(): before loop, screenBufSize = %x',0
+msg6 db 'showPicFile(): ---row %u, rowOffset 0x%x',0
+msg8 db 'showPicFile(): before loop, screenBufSize = 0x%x',0
 
 ; ------------------------------startCode1:0x33d0------------------------------
 _showPicFile proc near
@@ -1497,7 +1523,7 @@ _showPicFile proc near
     push si
     push es
     push bp
-    trace msg1
+    trace msg1,bp+4,bp+6
     mov ax, offset read512FromFileIntoBuf
     mov _readFromFilePtr, ax
     mov ax, [bp+handle]
@@ -1509,16 +1535,15 @@ _showPicFile proc near
     ; get either vmem addr or allocated page buffer into es
     call far ptr _gfx_jump_38_getPageBuf 
     call far ptr _gfx_jump_3b_clearBuf ;zeroes out 32000 bytes
-    trace msg2
+    trace msg2,_tmpFileHandle,_tmpPageIndex
     mov _row, 0
     mov _screenBufSize, 0FA00h
     trace msg8,_screenBufSize
 nextRow:
-    trace msg6,_row
     mov di, _row ;argument for gfx slot
     call far ptr _gfx_jump_3a_getRowOffset ;returned in ax
     mov _rowOffset, ax
-    trace msg7,_rowOffset
+    trace msg6, _row, _rowOffset
     call decodePicRow
     mov di, _rowOffset
     mov bp, offset _picDecodedRowBuf ;source for memcpy
@@ -1585,6 +1610,11 @@ loc_1354A:
     retn
 _decodePic endp
 ; ------------------------------startCode1:0x3585------------------------------
+
+msg9 db 'decodePicRow(): finished making dict',0
+msg10 db 'decodePicRow(): after doPicDecode',0
+msg11 db 'decodePicRow(): exiting',0
+
 ; ------------------------------startCode1:0x3588------------------------------
 decodePicRow proc near
     push es
@@ -1596,15 +1626,18 @@ decodePicRow proc near
     shr di, 1 ;di: row /2?
     jnz short rowNonZero
     ; otherwise (row zero), initialize dictionary for decode?
-    call picReadDataAndMakeDict 
+    call picReadDataAndMakeDict
+    trace msg9
 rowNonZero:
     mov cx, 320
     mov _picRowLength, cx
     mov di, offset _picDecodedRowBuf
     call doPicDecode
+    trace msg10
     sub si, offset _fileReadBuf
     mov _fileReadPos, si ;reset buf ptr to beginning
     pop es
+    trace msg11
     retn
 decodePicRow endp
 ; ------------------------------startCode1:0x35b1------------------------------

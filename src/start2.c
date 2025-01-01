@@ -480,10 +480,10 @@ void openShowPic(char *name, int16 page, int16 garbage)
     // 0x3315
     int16 fileHandle;
     // 0x3324
-    TRACE(("openShowPic: opening file"));
+    TRACE(("openShowPic: opening file %s, page %d",name,page));
     fileHandle = openFileWrapper(name, 0);
     // 0x332e
-    TRACE(("openShowPic: showing pic"));
+    TRACE(("openShowPic: showing pic, handle %d",fileHandle));
     showPicFile(fileHandle, page, garbage);
     // 0x3337
     TRACE(("openShowPic: closing file"));
