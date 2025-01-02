@@ -636,9 +636,9 @@ int my_ltoa(int32 arg_0, int8* arg_4) {
     int8 *var_8;
     int8 var_6[6];
     var_8 = arg_4;
-    if ((int16)arg_0 < 0) { // 1604
+    if (arg_0 < 0) { // 1604
         arg_0 = -arg_0;
-        *var_8 = 0x2d;
+        *var_8 = '-';
         var_8++;
     } // 1620
     // 162f
@@ -663,21 +663,24 @@ int my_ltoa(int32 arg_0, int8* arg_4) {
     arg_0 /= 0xa;
     // 16ca
     var_6[5] = arg_0 % 0xa;
+    // 16cd
     var_A = 0;
+    // 16d1
+    for (var_C = 5; var_C > 0; var_C--) { // 16e0
+        if (var_6[var_C] != 0) break;
+    } // 16f0
     do {
-        for (var_C = 5; var_C > 0; var_C--) { // 16e0
-            if (var_6[var_C] != 0) break;
-        } // 16f0
         if (var_C == 2 && var_A == 1) { // 16f6
-            *var_8 = 0x2c;
+            *var_8 = ',';
             var_8++;
         } // 1705
-        *var_8 = var_6[var_C] + 0x30;
+        *var_8 = var_6[var_C] + '0';
         var_A = 1;
         var_8++;
     } while (--var_C >= 0);
     // 1724
-    *var_8 = 0;
+    *var_8 = '\0';
+    TRACE(("my_ltoa: exiting: %s", arg_4));
 }
 
 // 172c
@@ -704,10 +707,10 @@ int my_itoa(int arg_0, int8 *arg_2) {
     var_6[5] = arg_0 % 0xa;
     // 17a7
     var_A = 0;
+    for (var_C = 5; var_C > 0; var_C--) {
+        if (var_6[var_C] != 0) break;
+    } // 16f0
     do {
-        for (var_C = 5; var_C > 0; var_C--) {
-            if (var_6[var_C] != 0) break;
-        } // 16f0
         if (var_C == 2 && var_A == 1) {
             *var_8 = 0x2c;
             var_8++;

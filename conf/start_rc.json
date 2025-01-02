@@ -121,11 +121,11 @@
     // list of procs that should be copied into the output assembly from the input
     "preserves" : [
         "timerIrqHandler", "sub_1194D",
-        "setTimerIrqHandler", "restoreTimerIrqHandler", "sub_119D4", "sub_11A69", "getTimeOfDay", "increaseTimerCounters", "sub_11ADC", "picBlit", "mystrcpy", "mystrlen", "mystrcat", "nearmemset", "intDispatch", "dos_printstring", "loadOverlay", "setupOverlaySlots", "clearRect", "sub_12C75", "sub_12DEA", "sub_12DF6", "sub_12F6A", "installCBreakHandler", "restoreCbreakHandler", "getInterruptHandler", "cbreakHandler", "openFile", "fileClose", "read512FromFileIntoBuf", "showPicFile", "decodePic", "decodePicRow", "picReadDataAndMakeDict", "picMakeDict", "doPicDecode", "dictionaryLookup", "dos_alloc", "sub_16A7F", "readJoyPort", "sub_16ABF", "copyJoystickData",
+        "setTimerIrqHandler", "restoreTimerIrqHandler", "sub_119D4", "sub_11A69", "getTimeOfDay", "increaseTimerCounters", "doFcbSearch", "picBlit", "mystrcpy", "mystrlen", "mystrcat", "nearmemset", "intDispatch", "dos_printstring", "loadOverlay", "setupOverlaySlots", "clearRect", "sub_12C75", "sub_12DEA", "sub_12DF6", "sub_12F6A", "installCBreakHandler", "restoreCbreakHandler", "getInterruptHandler", "cbreakHandler", "openFile", "fileClose", "read512FromFileIntoBuf", "showPicFile", "decodePic", "decodePicRow", "picReadDataAndMakeDict", "picMakeDict", "doPicDecode", "dictionaryLookup", "dos_alloc", "sub_16A7F", "readJoyPort", "sub_16ABF", "copyJoystickData",
         "sub_132A5"
     ],
     // list of symbols to declare as external in the output assembly (because they were already ported to C code)
-    "externs": [ "main", "waitMdaCgaStatus", "openFileWrapper", "closeFileWrapper", "cleanup", "choosePilotPrompt", "pilotToGameData", "clearBriefing", "seedRandom", "gameDataToPilot", "saveHallfame", "processStoreInput", 
+    "externs": [ "main", "waitMdaCgaStatus", "openFileWrapper", "closeFileWrapper", "cleanup", "pilotToGameData", "clearBriefing", "seedRandom", "gameDataToPilot", "saveHallfame", "processStoreInput", 
     "pilotNameInput" ],
     // list of symbols to declare as public in the output assembly, so that they are visible from C code
     "publics": [ 
@@ -168,7 +168,7 @@
         "picBlit",
         "setupOverlaySlots",
         "sub_16A7F",
-        "sub_11ADC",
+        "doFcbSearch",
         "sub_12DEA",
         "fileClose",
         "gfx_jump_0_alloc",
@@ -219,6 +219,8 @@
         "audio_jump_6b",
         "audio_jump_6c",
         // stuff for the assembly code
+        "diskTransferArea",
+        "byte_172C6",
         "dictionaryIndex",
         "byte_172B7",
         "picDecodeDictionary",
@@ -254,7 +256,7 @@
         "timerCounter4",
         "picDecodeIncrement",
         "aAlloc1M",
-        "unk_172CD",
+        "searchFCB",
         "ovlSeg1",
         "aNoFileBuffersAvailable",
         "picNumberDictSlots",

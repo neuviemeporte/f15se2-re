@@ -166,7 +166,7 @@ int getTimeOfDay();
 int increaseTimerCounters();
 // bytes outside routine, potential module boundary at 0x1adb
 // ==== startCode1:0x1adc ====
-int sub_11ADC();
+int doFcbSearch();
 // ==== startCode1:0x1b03 ====
 void picBlit(int handle, int unk);
 // bytes outside routine, potential module boundary at 0x1b71
@@ -177,9 +177,9 @@ void pilotSelect(int ps_needSplash);
 int updateHallfame();
 // bytes outside routine, potential module boundary at 0x1d31
 // ==== startCode1:0x1d32 ====
-void choosePilotPrompt(void);
+void displayPilots(void);
 // ==== startCode1:0x1d80 ====
-void __cdecl sub_11D80(int);
+void __cdecl printPilot(int);
 // bytes outside routine, potential module boundary at 0x1f43
 // ==== startCode1:0x1f44 ====
 int processPilotInput();
@@ -617,13 +617,11 @@ extern uint8 timerCounter;
 extern uint8 timerCounter2;
 extern uint8 timerCounter3;
 extern uint8 timerCounter4[];
-extern uint8 unk_172C5[];
+extern uint8 unk_172C5;
+extern uint8 byte_172C6[];
 extern uint8 unk_172CA[];
-extern uint8 unk_172CD[];
-extern uint8 unk_17329[];
-extern uint8 unk_17350[];
-extern uint8 unk_1735C[];
-extern uint8 unk_17375[];
+extern uint8 searchFCB[];
+extern uint8 diskTransferArea[];
 extern int16 word_1737E;
 extern uint8 a2ndLt_[];
 extern uint8 a1stLt_[];

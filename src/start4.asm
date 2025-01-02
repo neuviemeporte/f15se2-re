@@ -120,7 +120,7 @@ EXTRN _timerCounter2: BYTE
 EXTRN _timerCounter3:BYTE
 EXTRN _timerCounter:BYTE
 EXTRN _timerCounter4:BYTE
-EXTRN _unk_172CD:BYTE
+EXTRN _searchFCB:BYTE
 EXTRN _readFromFilePtr:WORD
 EXTRN _tmpFileHandle:WORD
 EXTRN _tmpPageIndex:WORD
@@ -196,6 +196,8 @@ EXTRN _word_17846:WORD
 EXTRN _word_17836:WORD
 EXTRN _word_1784E:WORD
 EXTRN _noJoy80:BYTE
+EXTRN _diskTransferArea:BYTE
+EXTRN _byte_172C6:BYTE
 
 PUBLIC _mystrcat
 PUBLIC _showPicFile
@@ -218,7 +220,7 @@ PUBLIC _openFile
 PUBLIC _picBlit
 PUBLIC _setupOverlaySlots
 PUBLIC _sub_16A7F
-PUBLIC _sub_11ADC
+PUBLIC _doFcbSearch
 PUBLIC _doNothing2
 PUBLIC _sub_12DEA
 PUBLIC _fileClose
@@ -546,12 +548,12 @@ increaseTimerCounters proc near
 increaseTimerCounters endp
 ; ------------------------------startCode1:0x1ada------------------------------
 ; ------------------------------startCode1:0x1adc------------------------------
-_sub_11ADC proc near
+_doFcbSearch proc near
     mov ah, 1Ah
-    mov dx, 7A9h
+    mov dx, offset _diskTransferArea
     int 21h ;DOS - SET DISK TRANSFER AREA ADDRESS
     mov ah, 11h
-    mov dx, offset _unk_172CD
+    mov dx, offset _searchFCB
     int 21h ;DOS - SEARCH FIRST USING FCB
     or al, al
     jnz short locret_11B02
@@ -559,14 +561,14 @@ _sub_11ADC proc near
     mov bx, 0FFFFh
 loc_11AF3:
     inc bx
-    mov al, [bx+776h]
+    mov al, _byte_172C6[bx]
     or al, al
     jz short locret_11B02
-    sub al, [bx+7B1h]
+    sub al, (_diskTransferArea+8)[bx]
     jz short loc_11AF3
 locret_11B02:
     retn
-_sub_11ADC endp
+_doFcbSearch endp
 ; ------------------------------startCode1:0x1b02------------------------------
 ; ------------------------------startCode1:0x1b03------------------------------
 _picBlit proc near
@@ -1523,7 +1525,9 @@ _showPicFile proc near
     push si
     push es
     push bp
-    trace msg1,bp+4,bp+6
+IFDEF PICDEBUG
+    trace msg1
+ENDIF
     mov ax, offset read512FromFileIntoBuf
     mov _readFromFilePtr, ax
     mov ax, [bp+handle]
@@ -1535,29 +1539,40 @@ _showPicFile proc near
     ; get either vmem addr or allocated page buffer into es
     call far ptr _gfx_jump_38_getPageBuf 
     call far ptr _gfx_jump_3b_clearBuf ;zeroes out 32000 bytes
-    trace msg2,_tmpFileHandle,_tmpPageIndex
+IFDEF PICDEBUG    
+    trace msg2
+ENDIF
     mov _row, 0
     mov _screenBufSize, 0FA00h
+IFDEF PICDEBUG
     trace msg8,_screenBufSize
+ENDIF
 nextRow:
     mov di, _row ;argument for gfx slot
     call far ptr _gfx_jump_3a_getRowOffset ;returned in ax
     mov _rowOffset, ax
+IFDEF PICDEBUG
     trace msg6, _row, _rowOffset
+ENDIF
     call decodePicRow
     mov di, _rowOffset
     mov bp, offset _picDecodedRowBuf ;source for memcpy
     mov bx, _row
     call far ptr _gfx_jump_33_fillRow ;destination: es:di (gfx page:rowOffset)
+IFDEF PICDEBUG
     trace msg3 
-    ;28da:49ae
+ENDIF
     mov di, _rowOffset
     call far ptr _gfx_jump_35
+IFDEF PICDEBUG    
     trace msg5
+ENDIF
     inc _row
     sub _screenBufSize, 320
     jnz short nextRow ;argument for gfx slot
+IFDEF PICDEBUG
     trace msg4
+ENDIF
     pop bp
     pop es
     pop si
@@ -1627,17 +1642,23 @@ decodePicRow proc near
     jnz short rowNonZero
     ; otherwise (row zero), initialize dictionary for decode?
     call picReadDataAndMakeDict
+IFDEF PICDEBUG
     trace msg9
+ENDIF
 rowNonZero:
     mov cx, 320
     mov _picRowLength, cx
     mov di, offset _picDecodedRowBuf
     call doPicDecode
+IFDEF PICDEBUG
     trace msg10
+ENDIF
     sub si, offset _fileReadBuf
     mov _fileReadPos, si ;reset buf ptr to beginning
     pop es
+IFDEF PICDEBUG
     trace msg11
+ENDIF
     retn
 decodePicRow endp
 ; ------------------------------startCode1:0x35b1------------------------------

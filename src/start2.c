@@ -27,30 +27,40 @@ int sub_1124A(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_A, 
 void pilotSelect(int16 needSplash) 
 {
     int unused;
+    TRACE(("pilotSelect(): entering, needSplash %d", needSplash));
     gfx_jump_45_retrace();
     // 0x1b7d
     loadHallfame();
+    TRACE(("pilotSelect(): loaded hallfame"));
     if (needSplash == 0) {
         // 0x1b86
         updateHallfame();
+        TRACE(("pilotSelect(): updated hallfame"));
     }
     // 0x1b8d
     gfx_jump_3d_null(4);
     loadPic(aArmpiece_pic, bufAddr);
+    TRACE(("pilotSelect(): loaded armpiece"));
     // 0x1ba7
     gfx_jump_3d_null(7);
     // 0x1bb9
     openShowPic(aHiscore_pic, *screenBuf);
-    choosePilotPrompt();
+    TRACE(("pilotSelect(): showed hiscore pic"));
+    displayPilots();
+    TRACE(("pilotSelect(): showed prompt"));
     gfx_jump_44_setDac(1);
     gfx_jump_46_retrace2();
+    TRACE(("pilotSelect(): retrace done"));
     // 0x1bd3
     processPilotInput();
+    TRACE(("pilotSelect(): processed pilot input"));
     pilotToGameData((uint8*)&hallfameBuf[hallfameCount]);
+    TRACE(("pilotSelect(): updated pilot in game data"));
     // 0x1beb
     screenBuf[3] = 0;
     // 0x1c00    
     clearRect(screenBuf, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
+    TRACE(("pilotSelect(): returning"));
 }
 
 // 0x1c08
@@ -63,7 +73,7 @@ int updateHallfame()
         // 0x1c28
         for (; hallfameCount >= 0; hallfameCount--) {
             // 0x1c43
-            if (hallfameBuf[hallfameCount].field_16 >= gameData->totalScore) break;
+            if (hallfameBuf[hallfameCount].total_score >= gameData->totalScore) break;
         }
         // 0x1c51
         hallfameCount++;
@@ -80,7 +90,7 @@ int updateHallfame()
     // 1c9d
     gameDataToPilot(&hallfameBuf[hallfameCount]);
     // 1ca3
-    if (sub_11ADC() != 0) {
+    if (doFcbSearch() != 0) {
         saveHallfame();
         return;
     }
@@ -97,75 +107,90 @@ int updateHallfame()
 }
 
 // 1d32
-void choosePilotPrompt(void) 
+void displayPilots(void) 
 {
-    int var_2;
+    int pilotIdx;
     screenBuf[3] = 0;
-    var_2 = 0;
+    pilotIdx = 0;
     do {
         // 1d49
-        sub_11D80(var_2);
-    } while (++var_2 < 8);
+        TRACE(("displayPilots(): iteration %d", pilotIdx));
+        printPilot(pilotIdx);
+    } while (++pilotIdx < 8);
+    TRACE(("displayPilots(): loop terminating"));
     word_173D6 = 0xf;
     // 1d71
     drawString(pageNumPtr, aUseSelectorToC, 0, 0xC0, 0x140);
+    TRACE(("displayPilots(): drawn prompt"));
     gfx_jump_50_null();
+    TRACE(("displayPilots(): exiting"));
 }
 
-// 1d80 - print pilot?
-void sub_11D80(int arg_0) { // arg_0: index?
-    struct Pilot *var_2;
+// 1d80
+void printPilot(int pilotIdx) { // pilotIdx: index?
+    struct Pilot *pilot;
     int x;
     int var_8;
     int var_6;
     int var_A;
     // 1d90
-    var_2 = &hallfameBuf[arg_0];
+    pilot = &hallfameBuf[pilotIdx];
+    TRACE(("printPilot(): index %d, name %s", pilotIdx, pilot->name));
     // 1da1
-    x = (arg_0 < 4) ? 0x10 : 0xa0;
+    x = (pilotIdx < 4) ? 0x10 : 0xa0;
     // 1db2
-    var_8 = ((arg_0 & 3) * 0x2c) + 0x14;
+    var_8 = ((pilotIdx & 3) * 0x2c) + 0x14;
     // 1dcc
     clearRect(screenBuf, x, var_8 - 1, x + 0x8f, var_8 + 0x20);
+    TRACE(("printPilot(): cleared rect"));
     // 1de3
-    word_173D6 = (arg_0 == hallfameCount) ? 0xf : 7;
+    word_173D6 = (pilotIdx == hallfameCount) ? 0xf : 7;
     // 1df9
-    mystrcpy(todayMissStrBuf, ranks[var_2->field_1C & 0xf]);
+    mystrcpy(todayMissStrBuf, ranks[pilot->rank & 0xf]);
+    TRACE(("printPilot(): strcpy %s", todayMissStrBuf));
     // 1e06
-    mystrcat(todayMissStrBuf, var_2->field_0);
+    mystrcat(todayMissStrBuf, pilot->name);
+    TRACE(("printPilot(): strcat %s", todayMissStrBuf));
     // 1e1e
     drawString(screenBuf, todayMissStrBuf, x, var_8, 0x90);
+    TRACE(("printPilot(): drawn string %s", todayMissStrBuf));
     word_173D6 = 0xc;
     word_173DE = 4;
     // 1e3d
-    my_ltoa(var_2->field_16, todayMissStrBuf);
+    my_ltoa(pilot->total_score, todayMissStrBuf);
+    TRACE(("printPilot(): ltoa 1 %ld -> %s, about to cat %s", pilot->total_score, todayMissStrBuf, asc_174AC));
     // 1e4b
     mystrcat(todayMissStrBuf, asc_174AC);
+    TRACE(("printPilot(): strcat2 %s", todayMissStrBuf));
     // 1e65
-    my_itoa(var_2->field_1A, &todayMissStrBuf[mystrlen(todayMissStrBuf)]);
+    my_itoa(pilot->last_score, &todayMissStrBuf[mystrlen(todayMissStrBuf)]);
     // 1e73
     mystrcat(todayMissStrBuf, asc_174AF);
+    TRACE(("printPilot(): strcat3 %s", todayMissStrBuf));
     // 1e8f
     drawString(screenBuf, todayMissStrBuf, x, var_8 + 9, 0x90);
+    TRACE(("printPilot(): drawn string2"));
     word_173DE = 1;
     // 1e9b
     for (var_6 = 0, var_A = 0; var_6 < 7; var_6++) { // 1ea8
         // 1eb8
-        if ((var_2->field_1D & (1 << var_6)) == 0) continue;
+        if ((pilot->field_1D & (1 << var_6)) == 0) continue;
         var_A += (uint8)byte_17422[var_6] + 4; 
     } // 1ed2
+    TRACE(("printPilot(): past loop 1, var_A = %d", var_A));
     // 1edd
     x += (0x90 - var_A) / 2;
     var_8 += 0x11;
     var_6 = 0;
     // 1ee9
     do {
-        if ((var_2->field_1D & (1 << var_6)) == 0) continue;
+        if ((pilot->field_1D & (1 << var_6)) == 0) continue;
         // 1f21
         sub_1124A(screenBuf[0], x, var_8, byte_17412[var_6], byte_1741A[var_6], byte_17422[var_6], 0x10);
         // 1f27
         x += byte_17422[var_6] + 4;
     } while(++var_6 < 7);
+    TRACE(("printPilot(): returning"));
     // 1f42
 }
 
@@ -196,17 +221,17 @@ int processPilotInput() {
     // 1f56
     case KEYCODE_ESC: 
         // 1fb2
-        hallfameBuf[hallfameCount].field_1E 
-            = hallfameBuf[hallfameCount].field_1F 
-            = hallfameBuf[hallfameCount].field_16 
-            = hallfameBuf[hallfameCount].field_1A 
+        hallfameBuf[hallfameCount].theater
+            = hallfameBuf[hallfameCount].difficuly
+            = hallfameBuf[hallfameCount].total_score
+            = hallfameBuf[hallfameCount].last_score
             = hallfameBuf[hallfameCount].field_1D 
-            = hallfameBuf[hallfameCount].field_1C 
+            = hallfameBuf[hallfameCount].rank
             = 0;
         // 1fef
         pilotNameInput(screenBuf, 0x14, 8, 8, &hallfameBuf[hallfameCount]);
         // 2000
-        pilotToGameData(&hallfameBuf[hallfameCount]);
+        pilotToGameData((uint8*)&hallfameBuf[hallfameCount]);
         // 2006
         var_6 = hallfameCount;
         // 2029
@@ -218,9 +243,9 @@ int processPilotInput() {
         // 2033
         gameDataToPilot(&hallfameBuf[7]);
         hallfameCount = 7;
-        choosePilotPrompt();
+        displayPilots();
         // 2042
-        if (sub_11ADC() != 0) {
+        if (doFcbSearch() != 0) {
             saveHallfame();
         }
         // 204f
@@ -275,13 +300,13 @@ void gameDataToPilot(struct Pilot *arg_0) {
     //uint16 var_4;
     int var_2;
     // 2189
-    for (var_2 = 0; arg_0->field_0[var_2] = gameData->pilotName[var_2]; var_2++) {
+    for (var_2 = 0; arg_0->name[var_2] = gameData->pilotName[var_2]; var_2++) {
     } // 21a9
-    arg_0->field_16 = gameData->totalScore;
-    arg_0->field_1A = gameData->lastScore;
-    arg_0->field_1E = gameData->theater;
-    arg_0->field_1F = gameData->difficulty;
-    arg_0->field_1C = (gameData->flag2 * 64) + gameData->unk2;
+    arg_0->total_score = gameData->totalScore;
+    arg_0->last_score = gameData->lastScore;
+    arg_0->theater = gameData->theater;
+    arg_0->difficuly = gameData->difficulty;
+    arg_0->rank = (gameData->flag2 * 64) + gameData->unk2;
     // 2202
     arg_0->field_1D = (uint8)((gameData->flag1 == 2) ? 0x20 : 0) + (uint8)((gameData->flag1 == 1) ? 0x40 : 0) + gameData->unk3;
 }
@@ -336,10 +361,10 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
         case 0x18:
             // 23f8
             var_10 = 0;
-            pilot->field_0[0] = '\0';
+            pilot->name[0] = '\0';
             // 2403
             clearRect(page, x, y, x + var_2, y + c);
-            actualDrawString(page, pilot->field_0, x, y);
+            actualDrawString(page, pilot->name, x, y);
             var_6 = page[4];
             break;
         // 23ad
@@ -348,23 +373,23 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
             if (var_10 > 0) {
                 var_10--;
                 // 23eb
-                pilot->field_0[var_10] = '\0';
+                pilot->name[var_10] = '\0';
                 // 2403 - duplicate code block coalesced with above
                 clearRect(page, x, y, x + var_2, y + c);
-                actualDrawString(page, pilot->field_0, x, y);
+                actualDrawString(page, pilot->name, x, y);
                 var_6 = page[4];
             }
             break;
         default: 
             // 23ba
-            if (var_4 >= 0x20 && var_4 <= 0x7f && var_10 < a && stringWidth(page, pilot->field_0) <= 0x90) {
+            if (var_4 >= 0x20 && var_4 <= 0x7f && var_10 < a && stringWidth(page, pilot->name) <= 0x90) {
                 // 23e9
-                pilot->field_0[var_10++] = var_4;
+                pilot->name[var_10++] = var_4;
                 // 23eb
-                pilot->field_0[var_10] = '\0';
+                pilot->name[var_10] = '\0';
                 // 2403
                 clearRect(page, x, y, x + var_2, y + c);
-                actualDrawString(page, pilot->field_0, x, y);
+                actualDrawString(page, pilot->name, x, y);
                 var_6 = page[4];
             }
             break;
@@ -397,12 +422,19 @@ void loadHallfame(void)
 {
     int counter;
     FILE *handle;
+    TRACE(("loadHallfame(): reading from %s", aHallfame));
+    // 24f2
     handle = fopen(aHallfame, aRb_3);
+    // 2508
     fread(&hallfameCount, 2, 1, handle);
+    TRACE(("loadHallfame(): count = %d", hallfameCount));
+    // 250e
     counter = 0;
     do {
-        fread(hallfameBuf + counter * HALLFAME_RECORDSZ, HALLFAME_RECORDSZ, 1, handle);
+        // 2529
+        fread(hallfameBuf + counter, HALLFAME_RECORDSZ, 1, handle);
         counter++;
+        // 2532
     } while (counter < HALLFAME_SLOTS);
     fclose(handle);
 }
@@ -486,8 +518,8 @@ void openShowPic(char *name, int16 page, int16 garbage)
     TRACE(("openShowPic: showing pic, handle %d",fileHandle));
     showPicFile(fileHandle, page, garbage);
     // 0x3337
-    TRACE(("openShowPic: closing file"));
     closeFileWrapper(fileHandle);
+    TRACE(("openShowPic: file closed, returning"));
     // 0x333d
 }
 

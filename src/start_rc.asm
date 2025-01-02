@@ -6,7 +6,6 @@ EXTRN _waitMdaCgaStatus:PROC
 EXTRN _openFileWrapper:PROC
 EXTRN _closeFileWrapper:PROC
 EXTRN _cleanup:PROC
-EXTRN _choosePilotPrompt:PROC
 EXTRN _pilotToGameData:PROC
 EXTRN _clearBriefing:PROC
 EXTRN _seedRandom:PROC
@@ -287,6 +286,8 @@ PUBLIC _audio_jump_65
 PUBLIC _audio_jump_67
 PUBLIC _audio_jump_6b
 PUBLIC _audio_jump_6c
+PUBLIC _diskTransferArea
+PUBLIC _byte_172C6
 PUBLIC _dictionaryIndex
 PUBLIC _byte_172B7
 PUBLIC _picDecodeDictionary
@@ -322,7 +323,7 @@ PUBLIC _tmpFileHandle
 PUBLIC _timerCounter4
 PUBLIC _picDecodeIncrement
 PUBLIC _aAlloc1M
-PUBLIC _unk_172CD
+PUBLIC _searchFCB
 PUBLIC _ovlSeg1
 PUBLIC _aNoFileBuffersAvailable
 PUBLIC _picNumberDictSlots
@@ -1032,14 +1033,14 @@ _timerCounter4 db 0
     db 2Eh
     db 2Ah
 unk_172C5 db 0
-    db 49h
+_byte_172C6 db 49h
     db 3
     db 46h
     db 31h
 unk_172CA db 35h
     db 41h
     db 0
-_unk_172CD db 0FFh
+_searchFCB db 0FFh
     db 0
     db 0
     db 0
@@ -1047,6 +1048,7 @@ _unk_172CD db 0FFh
     db 0
     db 8
     db 0
+    db 3Fh ;? ; filename to search for
     db 3Fh
     db 3Fh
     db 3Fh
@@ -1057,7 +1059,6 @@ _unk_172CD db 0FFh
     db 3Fh
     db 3Fh
     db 3Fh
-    db 3Fh
     db 0
     db 0
     db 0
@@ -1083,139 +1084,7 @@ _unk_172CD db 0FFh
     db 0
     db 0
     db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-unk_17329 db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-unk_17350 db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-unk_1735C db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-unk_17375 db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+_diskTransferArea db 85h dup(0)
 _word_1737E dw 0
 a2ndLt_ db '2nd Lt. ',0
 a1stLt_ db '1st Lt. ',0
