@@ -587,6 +587,7 @@ int processStoreInput() {
         restoreCbreakHandler();
         exit(0);
     }
+    TRACE(("processStoreInput(): returning %d", var_A));
     return var_A;
 }
 

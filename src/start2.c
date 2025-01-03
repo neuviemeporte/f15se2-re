@@ -11,6 +11,7 @@
 
 // 124a
 int sub_1124A(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_A, int arg_C) {
+    TRACE(("sub_1124A(%d, %d, %d, %d, %d, %d, %d)", arg_0, arg_2, arg_4, arg_6, arg_8, arg_A, arg_C));
     word_17284 = (int16)bufAddr;
     word_17286 = arg_6;
     word_17288 = arg_8;
@@ -21,6 +22,7 @@ int sub_1124A(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_A, 
     word_17292 = arg_C;
     byte_1729C[0] = 0x10;
     gfx_jump_11(&word_17284);
+    TRACE(("sub_1124A(): returning"));
 }
 
 // 0x1b72
@@ -205,10 +207,12 @@ int processPilotInput() {
     pilotSelectFlag = 1;
     // 1f51
     setTimerIrqHandler();
+    TRACE(("processPilotInput(): set timer irq"));
     // 1f54
     while (var_2 = hallfameCount, true) switch (processStoreInput()) {
     // 1f84
     case KEYCODE_ENTER: 
+        TRACE(("processPilotInput(): enter"));
         if ((hallfameBuf[hallfameCount].field_1D & 0x60) == 0) {
             // 1f98
             restoreTimerIrqHandler();
@@ -220,6 +224,7 @@ int processPilotInput() {
         continue;
     // 1f56
     case KEYCODE_ESC: 
+        TRACE(("processPilotInput(): esc"));
         // 1fb2
         hallfameBuf[hallfameCount].theater
             = hallfameBuf[hallfameCount].difficuly
@@ -252,21 +257,25 @@ int processPilotInput() {
         continue;
     // 1f5b
     case KEYCODE_UPARROW:
+        TRACE(("processPilotInput(): up"));    
         // 2052
         hallfameCount--;
         goto handleArrow;
     // 1f73
     case KEYCODE_DNARROW:
+        TRACE(("processPilotInput(): down"));
         // 2058
         hallfameCount++;
         goto handleArrow;
     // 1f63
     case KEYCODE_LEFTARROW:
+        TRACE(("processPilotInput(): left"));
         // 205e
         hallfameCount -= 4;
         goto handleArrow;
     // 1f68
     case KEYCODE_RIGHTARROW:
+        TRACE(("processPilotInput(): right"));
         // 2066
         hallfameCount += 4;
 handleArrow:    
@@ -280,6 +289,7 @@ handleArrow:
         var_A = ((hallfameCount & 3) * 0x2c) + 0x14;
         gfx_jump_29_switchColor(screenBuf, var_4, var_A, var_4 + 0x8f, var_A + 8, 0x7, 0xf);
     }
+    TRACE(("processPilotInput(): returning"));
 }
 
 // 210a
@@ -526,8 +536,29 @@ void openShowPic(char *name, int16 page, int16 garbage)
 // 0x3368
 void loadPic(char *filename,char *buffer) {
     int handle;
+#ifdef DEBUG
+    char dumpfile[13];
+    int index;
+    char *dot;
+#endif
+
     handle = openFileWrapper(filename, 0);
+    TRACE(("loadPic(): opened %s, loading into buffer 0x%x", filename, (unsigned int)buffer));
     decodePic(handle, buffer);
+#ifdef DEBUG
+    memset(dumpfile, 0, 13);
+    strncpy(dumpfile, filename, 13);
+    dot = strchr(dumpfile, '.');
+    if (dot) {
+        strcpy(dot + 1, "dmp");
+    }
+    else {
+        dot = dumpfile + strlen(dumpfile);
+        strcpy(dot, ".dmp");
+    }
+    my_trace("dumping buffer to %s", dumpfile);
+    dumpbuf(dumpfile, buffer, 320*200);
+#endif
     closeFileWrapper(handle);
 }
 

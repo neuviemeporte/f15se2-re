@@ -286,6 +286,8 @@ PUBLIC _audio_jump_65
 PUBLIC _audio_jump_67
 PUBLIC _audio_jump_6b
 PUBLIC _audio_jump_6c
+PUBLIC _aFileClosingError
+PUBLIC _aWriteError
 PUBLIC _diskTransferArea
 PUBLIC _byte_172C6
 PUBLIC _dictionaryIndex
@@ -1739,9 +1741,9 @@ byte_17D72 db 94h dup(0)
 _aFileNotFound db ':File not found$'
 _aNoFileBuffersAvailable db ':No file buffers available$'
 _aOpenError db ':Open error $'
-aFileClosingError db 'File closing error$'
+_aFileClosingError db 'File closing error$'
 _aReadError db 'Read error$'
-aWriteError db 'Write error$'
+_aWriteError db 'Write error$'
 word_17E68 dw 0
 word_17E6A dw 0
     db 0

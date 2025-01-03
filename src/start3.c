@@ -867,4 +867,27 @@ void my_fartrace(const char far *msg, ...) {
     my_vtrace(tracebuf, ap);
     va_end(ap);
 }
+
+void dumpbuf(const char *filename, const char* buf, size_t size) {
+    FILE *file = fopen(filename, "wb");
+    size_t block = 512, written = 0, total = 0;
+    if (!file) {
+        my_trace("Unable to open file for buffer dump: %s", filename);
+        return;
+    }
+    while (size) {
+        if (size < block) block = size;
+        my_trace("Writing %u", block);
+        written = fwrite(buf + total, 1, block, file);
+        if (written > size) {
+            my_trace("dumpbuf(): written more than requested?!");
+            exit(1);
+        }
+        total += written;
+        size -= written;
+        my_trace("next, written %u, remain %u, total %u", written, size, total);
+    }
+    my_trace("Successfully written %u bytes to %s", total, filename);
+    fclose(file);
+}
 #endif // DEBUG

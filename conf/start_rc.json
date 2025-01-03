@@ -219,6 +219,8 @@
         "audio_jump_6b",
         "audio_jump_6c",
         // stuff for the assembly code
+        "aFileClosingError",
+        "aWriteError",
         "diskTransferArea",
         "byte_172C6",
         "dictionaryIndex",

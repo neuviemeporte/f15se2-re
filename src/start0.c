@@ -111,7 +111,7 @@ int main(void)
 
         /* 0x17c */
         TRACE(("main: checking ega"));
-        checkEga:
+checkEga:
         if (commData->gfxModeNum >= 2 && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & 0xf) == 9) {
             TRACE(("main: switching to ega for title"));
             /* 0x19c */

@@ -55,8 +55,8 @@ sub_11ADC: Code1 NEAR 1adc-1b02 R1adc-1b02 assembly
 picBlit: Code1 NEAR 1b03-1b70 R1b03-1b70 assembly
 pilotSelect: Code1 NEAR 1b72-1c06 R1b72-1c06 complete
 updateHallfame: Code1 NEAR 1c08-1d30 R1c08-1c22 U1c23-1c23 R1c24-1c86 U1c87-1c87 R1c88-1cb2 U1cb3-1cb3 R1cb4-1d30 complete
-choosePilotPrompt: Code1 NEAR 1d32-1d7f R1d32-1d7f complete
-sub_11D80: Code1 NEAR 1d80-1f42 R1d80-1dde U1ddf-1ddf R1de0-1ea6 U1ea7-1ea7 R1ea8-1f42 complete
+displayPilots: Code1 NEAR 1d32-1d7f R1d32-1d7f complete
+printPilot: Code1 NEAR 1d80-1f42 R1d80-1dde U1ddf-1ddf R1de0-1ea6 U1ea7-1ea7 R1ea8-1f42 complete
 # !!!
 processPilotInput: Code1 NEAR 1f44-2109 R1f44-2064 U2065-2065 R2066-207a U207b-207b R207c-20c6 U20c7-20c7 R20c8-2109 complete
 sub_1210A: Code1 NEAR 210a-2181 R210a-2181 complete

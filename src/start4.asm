@@ -198,6 +198,8 @@ EXTRN _word_1784E:WORD
 EXTRN _noJoy80:BYTE
 EXTRN _diskTransferArea:BYTE
 EXTRN _byte_172C6:BYTE
+EXTRN _aFileClosingError:BYTE
+EXTRN _aWriteError:BYTE
 
 PUBLIC _mystrcat
 PUBLIC _showPicFile
@@ -1050,13 +1052,13 @@ sub_12C75 proc near
     shl di, 1
     mov bx, cx
     mov dx, di
-    add di, 0D27h
+    add di, offset _byte_17877
     mov ax, 0FFFFh
     rep stosw
     mov _word_17BEB, ax
     mov cx, bx
     mov di, dx
-    add di, 0EDFh
+    add di, offset _byte_17A2F
     sub ax, ax
     rep stosw
     mov _word_17BED, ax
@@ -1398,7 +1400,7 @@ _fileClose proc near
     mov bx, [bp+arg_0]
     int 21h ;DOS - 2+ - CLOSE A FILE WITH HANDLE
     jnb short loc_131E1
-    mov dx, 12EEh
+    mov dx, offset _aFileClosingError
     mov cx, 0FFFFh
     jmp errorAndExit
 loc_131E1:
@@ -1461,7 +1463,7 @@ sub_132A5 proc near
     int 21h ;DOS - 2+ - WRITE TO FILE WITH HANDLE
     pop ds
     jnb short loc_132CE
-    mov dx, 130Ch
+    mov dx, offset _aWriteError
     mov cx, 0FFFFh
     jmp short errorAndExit
     nop
