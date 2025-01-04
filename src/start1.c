@@ -508,7 +508,7 @@ printMissionAgain:
 
 // 10ab
 int processStoreInput() {
-    int var_A;
+    uint16 var_A;
     char var_6;
     int var_4;
     int var_2;
@@ -592,7 +592,7 @@ int processStoreInput() {
         word_17282 = 1;
     }
     // 1200
-    if (var_A != 0) {
+    if (((uint8*)&var_A)[0]) {
         var_A = var_A & 0xff;
         TRACE(("processStoreInput(): anded to %u", var_A));
     }
