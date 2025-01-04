@@ -10,19 +10,19 @@
 #include <string.h>
 
 // 124a
-int sub_1124A(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_A, int arg_C) {
-    TRACE(("sub_1124A(%d, %d, %d, %d, %d, %d, %d)", arg_0, arg_2, arg_4, arg_6, arg_8, arg_A, arg_C));
-    word_17284 = (int16)bufAddr;
-    word_17286 = arg_6;
-    word_17288 = arg_8;
-    word_1728A = arg_0;
-    word_1728C = arg_2;
-    word_1728E = arg_4;
-    word_17290 = arg_A;
-    word_17292 = arg_C;
+int showSprite(int page, int x, int y, int src_x, int src_y, int width, int height) {
+    TRACE(("showSprite(%d, %d, %d, %d, %d, %d, %d)", page, x, y, src_x, src_y, width, height));
+    word_17284 = menuSprites;
+    word_17286 = src_x;
+    word_17288 = src_y;
+    word_1728A = page;
+    word_1728C = x;
+    word_1728E = y;
+    word_17290 = width;
+    word_17292 = height;
     byte_1729C[0] = 0x10;
-    gfx_jump_11(&word_17284);
-    TRACE(("sub_1124A(): returning"));
+    gfx_jump_11_blitSprite(&word_17284);
+    TRACE(("showSprite(): returning"));
 }
 
 // 0x1b72
@@ -41,7 +41,7 @@ void pilotSelect(int16 needSplash)
     }
     // 0x1b8d
     gfx_jump_3d_null(4);
-    loadPic(aArmpiece_pic, bufAddr);
+    loadPic(aArmpiece_pic, menuSprites);
     TRACE(("pilotSelect(): loaded armpiece"));
     // 0x1ba7
     gfx_jump_3d_null(7);
@@ -185,10 +185,11 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
     var_8 += 0x11;
     var_6 = 0;
     // 1ee9
+    // display medals
     do {
         if ((pilot->field_1D & (1 << var_6)) == 0) continue;
         // 1f21
-        sub_1124A(screenBuf[0], x, var_8, byte_17412[var_6], byte_1741A[var_6], byte_17422[var_6], 0x10);
+        showSprite(screenBuf[0], x, var_8, byte_17412[var_6], byte_1741A[var_6], byte_17422[var_6], 0x10);
         // 1f27
         x += byte_17422[var_6] + 4;
     } while(++var_6 < 7);
@@ -534,43 +535,25 @@ void openShowPic(char *name, int16 page, int16 garbage)
 }
 
 // 0x3368
-void loadPic(char *filename,char *buffer) {
+void loadPic(char *filename, uint16 segment) {
     int handle;
-#ifdef DEBUG
-    char dumpfile[13];
-    int index;
-    char *dot;
-#endif
-
     handle = openFileWrapper(filename, 0);
-    TRACE(("loadPic(): opened %s, loading into buffer 0x%x", filename, (unsigned int)buffer));
-    decodePic(handle, buffer);
-#ifdef DEBUG
-    memset(dumpfile, 0, 13);
-    strncpy(dumpfile, filename, 13);
-    dot = strchr(dumpfile, '.');
-    if (dot) {
-        strcpy(dot + 1, "dmp");
-    }
-    else {
-        dot = dumpfile + strlen(dumpfile);
-        strcpy(dot, ".dmp");
-    }
-    my_trace("dumping buffer to %s", dumpfile);
-    dumpbuf(dumpfile, buffer, 320*200);
-#endif
+    TRACE(("loadPic(): opened %s, loading into segment 0x%x", filename, segment));
+    decodePic(handle, segment);
     closeFileWrapper(handle);
 }
 
 // 3758
-char* allocBuffer(int size) {
-    char *ret;
-    if ((ret = dos_alloc(size)) < (uint8*)DOS_ERROR_RMDIR) {
+uint16 allocBuffer(int size) {
+    uint16 segment;
+    TRACE(("allocBuffer(): Allocating buffer of size %u", size));
+    if ((segment = dos_alloc(size)) < DOS_ERROR_RMDIR) {
         cleanup();
         dos_printstring(aInsufficientSy);
         exit(0);
     }
-    return ret;
+    TRACE(("allocBuffer(): Allocated @ 0x%x", segment));
+    return segment;
 }
 
 // 3b8a

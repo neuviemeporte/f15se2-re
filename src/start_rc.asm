@@ -94,7 +94,7 @@ PUBLIC _commData
 PUBLIC _aF15_spr
 PUBLIC _noJoy80
 PUBLIC _aTitle640_pic
-PUBLIC _bufAddr
+PUBLIC _menuSprites
 PUBLIC _bufPtr
 PUBLIC _needSplash
 PUBLIC _aAdv_pic
@@ -245,7 +245,7 @@ PUBLIC _gfx_jump_0d_setCurBuf
 PUBLIC _gfx_jump_0e_setCurBuf
 PUBLIC _gfx_jump_0f_getBufPtr
 PUBLIC _gfx_jump_10_getCurBuf
-PUBLIC _gfx_jump_11
+PUBLIC _gfx_jump_11_blitSprite
 PUBLIC _gfx_jump_17_bufSize
 PUBLIC _gfx_jump_1f
 PUBLIC _gfx_jump_20_setVal
@@ -1265,10 +1265,10 @@ _gfx_jump_10_getCurBuf proc far
 _gfx_jump_10_getCurBuf endp
 ; ------------------------------startData:0xb08------------------------------
 ; ------------------------------startData:0xb0d------------------------------
-_gfx_jump_11 proc near
+_gfx_jump_11_blitSprite proc near
     db 0EAh ;jmp gfx_slot_11
     dd 0
-_gfx_jump_11 endp
+_gfx_jump_11_blitSprite endp
 ; ------------------------------startData:0xb0d------------------------------
     db 0EAh ;jmp gfx_slot_12
     dd 0
@@ -4483,6 +4483,6 @@ _commData dd ?
     db ?
     db ?
     db ?
-_bufAddr dw ?
+_menuSprites dw ?
     db 14h dup(?)
 END

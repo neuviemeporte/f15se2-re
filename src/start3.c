@@ -8,9 +8,10 @@
 #include <dos.h>
 #include <stdarg.h>
 #include <time.h>
+#include <string.h>
 
 // 37f8
-int sub_137F8(int32 arg_0, int32 arg_4) {
+int* sub_137F8(int32 arg_0, int32 arg_4) {
     int16 var_2, var_4, var_6, var_8, var_A, var_C, var_E, var_10, var_12, var_16, var_18, var_1A, var_20;
     int16 var_22;
     int16 var_14;
@@ -81,7 +82,7 @@ int sub_137F8(int32 arg_0, int32 arg_4) {
 }
 
 // 39e9
-int32 sub_139E9(int arg_0, uint32 arg_2) {
+uint32 sub_139E9(int arg_0, uint32 arg_2) {
     switch (arg_0) { // 3a43
     case 4: // 39f1
         return arg_2 >> 6;
@@ -517,7 +518,7 @@ counterMore1k:
 int sub_14BB4(int arg_0, int arg_2, int arg_4) {
     int var_2;
     // 4bf2
-    if ((word_1B960 = sub_137F8((long)arg_0 << 5 , (0x8000 - (long)arg_2) << 5)) != 0) { // 4bfc
+    if ((word_1B960 = sub_137F8((long)arg_0 << 5 , (0x8000 - (long)arg_2) << 5)) != NULL) { // 4bfc
         // 4c10
         arg_0 = ((long*)word_1B960)[1] >> 5;
         arg_2 = -((((long*)word_1B960)[2] >> 5) - 0x8000);
@@ -528,7 +529,7 @@ int sub_14BB4(int arg_0, int arg_2, int arg_4) {
         } // 4c63
         wldReadBuf4[arg_4].field_2 = arg_0;
         wldReadBuf4[arg_4].field_4 = arg_2;
-        wldReadBuf4[arg_4].field_E = *((int*)word_1B960) + 0x100;
+        wldReadBuf4[arg_4].field_E = *word_1B960 + 0x100;
         return arg_4;
     }
     // 4c8a
@@ -868,26 +869,60 @@ void my_fartrace(const char far *msg, ...) {
     va_end(ap);
 }
 
-void dumpbuf(const char *filename, const char* buf, size_t size) {
+void ftoncpy(void *near_ptr, void far *far_ptr, uint32 size) {
+    uint8 far *src = (uint8 far *)far_ptr;
+    uint8 *dest = (uint8 *)near_ptr;
+    uint32 i;
+
+    for (i = 0; i < size; i++) {
+        dest[i] = src[i];
+    }
+}
+
+#define CHUNK_SIZE 512
+
+void dumpbuf(const char *filename, const uint8 far *buf, const uint32 size) {
+    char buffer[CHUNK_SIZE];
+    uint32 bytes_written = 0;
     FILE *file = fopen(filename, "wb");
-    size_t block = 512, written = 0, total = 0;
+    size_t result;
+
     if (!file) {
         my_trace("Unable to open file for buffer dump: %s", filename);
         return;
     }
-    while (size) {
-        if (size < block) block = size;
-        my_trace("Writing %u", block);
-        written = fwrite(buf + total, 1, block, file);
-        if (written > size) {
-            my_trace("dumpbuf(): written more than requested?!");
-            exit(1);
+    my_trace("Dumping %lu bytes from %p to %s", size, buf, filename);
+    while (bytes_written < size) {
+        uint32 bytes_to_copy = (size - bytes_written > CHUNK_SIZE) ? CHUNK_SIZE : (size - bytes_written);
+#ifdef DEBUGDUMP
+        my_trace("remaining = %lu", bytes_to_copy);
+#endif
+        // Copy data from far pointer to near buffer
+        ftoncpy(buffer, buf, bytes_to_copy);
+        // Write near buffer to file
+        result = fwrite(buffer, 1, bytes_to_copy, file);
+        if (result != bytes_to_copy) {
+            my_trace("Write error occurred!");
+            break;
         }
-        total += written;
-        size -= written;
-        my_trace("next, written %u, remain %u, total %u", written, size, total);
+        bytes_written += bytes_to_copy;
+#ifdef DEBUGDUMP
+        my_trace("written = %lu", bytes_written);
+#endif
+        buf += bytes_to_copy;  // Increment far pointer
     }
-    my_trace("Successfully written %u bytes to %s", total, filename);
+#ifdef DEBUGDUMP    
+    my_trace("Successfully written %lu bytes to %s", bytes_written, filename);
+#endif
     fclose(file);
+}
+
+void changeext(char *filename, const char *ext) {
+    char *dot = strchr(filename, '.');
+    if (!dot) {
+        dot = filename + strlen(filename);
+        *dot = '.';
+    }  
+    strncpy(dot + 1, ext, 3);
 }
 #endif // DEBUG

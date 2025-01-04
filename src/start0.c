@@ -202,7 +202,7 @@ checkEga:
     joyDone[0] = 1;
     bufSize = gfx_jump_17_bufSize();
     /* 0x32a */
-    bufAddr = allocBuffer(bufSize);
+    menuSprites = allocBuffer(bufSize);
     pilotSelect(*needSplash);
     missionSelect();
     /* 0x33d */
@@ -242,7 +242,7 @@ doSrand:
     }
     /* 0x3f1 */
     else {
-        loadPic(aF15_spr_0, (uint8*)commData->gfxInitResult);
+        loadPic(aF15_spr_0, commData->gfxInitResult);
     }
     // 403
     TRACE(("main: write world"));

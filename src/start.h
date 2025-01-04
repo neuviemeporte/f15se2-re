@@ -122,7 +122,7 @@ int processStoreInput();
 // ==== startCode1:0x1229 ====
 void clearBriefing(void);
 // ==== startCode1:0x124a ====
-int __cdecl sub_1124A(int, int, int, int, int, int, int);
+int __cdecl showSprite(int, int, int, int, int, int, int);
 // ==== startCode1:0x12b8 ====
 void __cdecl actualDrawString(int *arg_pageNum, const char *arg_string, int arg_x, int arg_y);
 // ==== startCode1:0x12df ====
@@ -321,7 +321,7 @@ void openShowPic(char *filename, int pageNum, int garbage);
 // ==== startCode1:0x333e ====
 int unreach_1333E(int filename, int a);
 // ==== startCode1:0x3368 ====
-void loadPic(char *filename, char *buffer);
+void __cdecl loadPic(char *, unsigned int);
 // bytes outside routine, potential module boundary at 0x3391
 // ==== startCode1:0x3392 ====
 void unreach_loadPicAt();
@@ -349,18 +349,18 @@ int doPicDecode();
 int dictionaryLookup();
 // bytes outside routine, potential module boundary at 0x3757
 // ==== startCode1:0x3758 ====
-char *allocBuffer(int sz);
+unsigned int __cdecl allocBuffer(int sz);
 // ==== startCode1:0x378c ====
 int unreach_freeBuffer(int freeSeg);
 // ==== startCode1:0x37b4 ====
-char *dos_alloc(int sz);
+unsigned int __cdecl dos_alloc(int sz);
 // ==== startCode1:0x37da ====
 int unreach_dos_freeMem(int freeSeg);
 // bytes outside routine, potential module boundary at 0x37f7
 // ==== startCode1:0x37f8 ====
-int __cdecl sub_137F8(__int32, __int32);
+int *__cdecl sub_137F8(__int32, __int32);
 // ==== startCode1:0x39e9 ====
-__int32 __cdecl sub_139E9(int, __int32);
+unsigned __int32 __cdecl sub_139E9(int, unsigned __int32);
 // ==== startCode1:0x3a61 ====
 int __cdecl sub_13A61(int, int, int);
 // bytes outside routine, potential module boundary at 0x3b89
@@ -460,7 +460,7 @@ extern uint8 aEgraphic_exe[];
 extern uint8 aTitle640_pic[];
 extern uint8 aTitle16_pic[];
 extern uint8 aF15_spr[];
-extern uint8 aF15_spr_0[];
+extern char aF15_spr_0[];
 extern uint8 aTemp_wld[];
 extern uint8 asc_16BE2[];
 extern uint8 unk_16BF0[];
@@ -630,7 +630,7 @@ extern uint8 aMajor[];
 extern uint8 aLtCol_[];
 extern uint8 aColonel[];
 extern uint8 aGen_[];
-extern uint8 aArmpiece_pic[];
+extern char aArmpiece_pic[];
 extern uint8 aHiscore_pic[];
 extern uint8 pilotSelectFlag;
 extern uint8 unk_173D2;
@@ -1138,7 +1138,7 @@ extern uint8 gridBuf4[];
 extern int16 page1Ptr;
 extern uint8 libc_bufout[];
 extern uint8 gridBuf3[];
-extern int16 word_1B960;
+extern int *word_1B960;
 extern uint8 gridBuf2[];
 extern uint8 terrainBuf3[];
 extern uint8 terrainBuf4[];
@@ -1196,5 +1196,5 @@ extern unsigned int wldReadBuf3;
 extern struct GameComm far *commData;
 extern struct Pilot hallfameBuf[];
 extern uint8 libc_buferr[];
-extern char *bufAddr;
+extern unsigned int menuSprites;
 #endif // F15_SE2_START

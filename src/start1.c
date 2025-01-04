@@ -311,7 +311,7 @@ void animateArm(int a, int b)
             gfx_jump_29_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
         }
         // b2c
-        sub_1124A(*page1NumPtr, word_1716A[var_2], word_1717A[var_2], word_1714A[var_2], word_1715A[var_2], word_1718A[var_2], word_1719A[var_2]);
+        showSprite(*page1NumPtr, word_1716A[var_2], word_1717A[var_2], word_1714A[var_2], word_1715A[var_2], word_1718A[var_2], word_1719A[var_2]);
     }
     // b55
     if (commData->gfxModeNum == 1 || commData->gfxModeNum == 2) { // mda or cga?
@@ -515,12 +515,14 @@ int processStoreInput() {
     var_2 = var_4 = 0;
     var_6 = 0;
     // 10bd
+    TRACE(("processStoreInput(): entering"));
     if (word_17282 == 1) { // 10c4
         timerCounter = 0;
         var_6 = 1;
     }
     // 10d1
     if (commData->setupUseJoy == 1) { //10d8
+        TRACE(("processStoreInput(): use joy 1"));
         var_2 = misc_jump_5d_readJoy(0);
         var_4 = misc_jump_5d_readJoy(1);
         sub_16A7F();
@@ -529,65 +531,79 @@ int processStoreInput() {
         && noJoy80[0] >= 0x4e && noJoy80[0] <= 0xb2 
         && noJoy80[1] >= 0x4e && noJoy80[1] <= 0xb2) 
         || var_6 == 1) {
+        TRACE(("processStoreInput(): in while"));
         // XXX: case study for instruction skipping in mzdiff, change above while condition to true and uncomment, run mzdiff with refskip 1 tgtskip 2 to repro
         // if ((((((misc_jump_5a_keybuf() == 0) || (var_2 != 0)) || (var_4 != 0)) ||
         //     ((noJoy80[0] < 0x4e || (noJoy80[0] > 0xb2)))) ||
         //     ((noJoy80[1] < 0x4e || (noJoy80[1] > 0xb2)))) && (var_6 != 1)) break;
         if ((word_17282 == 1) && (0xf < timerCounter)) { //113f
+            TRACE(("processStoreInput(): cond 1"));
             var_6 = 0;
             word_17282 = 0;
         }
         // 1149
         if (commData->setupUseJoy == 1) { // 1154
+            TRACE(("processStoreInput(): use joy 2"));
             var_2 = misc_jump_5d_readJoy(0);
             var_4 = misc_jump_5d_readJoy(1);
             sub_16A7F();
         } // 1176
         if (cbreakHit != 0) {
+            TRACE(("processStoreInput(): cbreak"));
             cleanup();
             restoreCbreakHandler();
             exit(0);
         }
+        // blink cursor on top of current pilot selection
         sub_1210A();
     } // 1192
+    TRACE(("processStoreInput(): out of while"));
     if (misc_jump_5a_keybuf() == 0) {
         var_A = misc_jump_5b_getkey();
+        TRACE(("processStoreInput(): got key %u", var_A));
     }
     // 11a5
     else if (var_2 == 1) {
+        TRACE(("processStoreInput(): setting enter"));
         var_A = 0xd;
     }
     // 11b2
     else if (noJoy80[1] < 0x4e) {
-        var_A = 0x4800;
+        TRACE(("processStoreInput(): joy up"));
+        var_A = KEYCODE_UPARROW;
         word_17282 = 1;
     }
     // 11c6
     else if (noJoy80[1] > 0xb2) {
-        var_A = 0x5000;
+        TRACE(("processStoreInput(): joy dn"));
+        var_A = KEYCODE_DNARROW;
         word_17282 = 1;
     }
     // 11da
     else if (noJoy80[0] < 0x4e) {
-        var_A = 0x4b00;
+        TRACE(("processStoreInput(): joy left"));
+        var_A = KEYCODE_LEFTARROW;
         word_17282 = 1;
     }
     // 11ee
     else if (noJoy80[0] > 0xb2) {
-        var_A = 0x4d00;
+        TRACE(("processStoreInput(): joy right"));
+        var_A = KEYCODE_RIGHTARROW;
         word_17282 = 1;
     }
     // 1200
     if (var_A != 0) {
         var_A = var_A & 0xff;
+        TRACE(("processStoreInput(): anded to %u", var_A));
     }
     // 120a
     if (var_A == 0x1000) {
+        TRACE(("processStoreInput(): exiting"));
         cleanup();
         restoreCbreakHandler();
         exit(0);
     }
-    TRACE(("processStoreInput(): returning %d", var_A));
+    TRACE(("processStoreInput(): returning %u", var_A));
     return var_A;
 }
 

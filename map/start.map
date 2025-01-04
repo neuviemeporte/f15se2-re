@@ -244,7 +244,7 @@ gfx_jump_0d_setCurBuf: Data1 FAR 0af9-0afd R0af9-0afd ignore
 gfx_jump_0e_setCurBuf: Data1 FAR 0afe-0b02 R0afe-0b02 ignore
 gfx_jump_0f_getBufPtr: Data1 FAR 0b03-0b07 R0b03-0b07 ignore
 gfx_jump_10_getCurBuf: Data1 FAR 0b08-0b0c R0b08-0b0c ignore
-gfx_jump_11: Data1 FAR 0b0d-0b11 R0b0d-0b11 ignore
+gfx_jump_11_blitSprite: Data1 FAR 0b0d-0b11 R0b0d-0b11 ignore
 gfx_jump_17: Data1 FAR 0b2b-0b2f R0b2b-0b2f ignore
 gfx_jump_1f: Data1 FAR 0b53-0b57 R0b53-0b57 ignore
 gfx_jump_20_setVal: Data1 FAR 0b58-0b5c R0b58-0b5c ignore
