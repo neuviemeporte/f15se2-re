@@ -151,7 +151,6 @@ start: $(START_EXE)
 
 debug: $(DEBUGDIR) $(START_DEBUG)
 	cp $(START_DEBUG) ../bin/03_test/start.exe
-	grep showPicFile $(DEBUGDIR)/START.MAP
 
 clean:
 	-rm -rf $(BUILDDIR)/*

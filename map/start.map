@@ -59,7 +59,7 @@ displayPilots: Code1 NEAR 1d32-1d7f R1d32-1d7f complete
 printPilot: Code1 NEAR 1d80-1f42 R1d80-1dde U1ddf-1ddf R1de0-1ea6 U1ea7-1ea7 R1ea8-1f42 complete
 # !!!
 processPilotInput: Code1 NEAR 1f44-2109 R1f44-2064 U2065-2065 R2066-207a U207b-207b R207c-20c6 U20c7-20c7 R20c8-2109 complete
-sub_1210A: Code1 NEAR 210a-2181 R210a-2181 complete
+blinkPilot: Code1 NEAR 210a-2181 R210a-2181 complete
 gameDataToPilot: Code1 NEAR 2182-2231 R2182-220c U220d-220d R220e-2231 complete
 pilotToGameData: Code1 NEAR 2232-22ea R2232-22ea complete
 pilotNameInput: Code1 NEAR 22ec-24e3 R22ec-23f5 U23f6-23f7 R23f8-2496 U2497-2497 R2498-24e3 complete

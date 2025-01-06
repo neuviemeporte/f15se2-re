@@ -140,18 +140,22 @@ int showPic640(char* filename)
 void missionSelect() 
 {
     int index, count;
+    TRACE(("missionSelect(): entering"));
     // 6d3
     gfx_jump_44_setDac(1);
     // 6de
     gfx_jump_3d_null(0);
     // 6f0
     openShowPic(aWall_pic, *page1NumPtr);
+    TRACE(("missionSelect(): shown wall"));
     // 6f6
     clearBriefing();
+    TRACE(("missionSelect(): cleared briefing"));
     // 704
     nearmemset(scenarioFoundArr, 0, 5);
     // 71e
     gameData->difficulty = missionMenuSelect(missDiffLevels, missDiffDesc, aDifficulty, gameData->difficulty);
+    TRACE(("missionSelect(): selected difficulty: %d", gameData->difficulty));
     // 72c
 selectTheater:
     if (gameData->theater > 4)
@@ -220,12 +224,14 @@ selectTheater:
 int missionMenuSelect(char **names, char **desc, char *title, int selection)
 {
     int var_y, var_counter, var_input;
+    TRACE(("missionMenuSelect(): entering, selection %d", selection));
     enableHighlight = 1;
     drawColor = 1;
     // 934
     drawString(page1NumPtr, title, 113, 14, 185);
     // 952
     drawLine(page1NumPtr, 173, 22, 235, 22, 1);
+    TRACE(("missionMenuSelect(): drawn title %s", title));
     var_y = 26;
     // 95d
     for (var_counter = 0; var_counter < 5; var_counter++) {
@@ -237,10 +243,12 @@ int missionMenuSelect(char **names, char **desc, char *title, int selection)
             drawColor = 7;
             // 9c2
             drawString(page1NumPtr, desc[var_counter], 113, var_y + 8, 185);
+            TRACE(("missionMenuSelect(): drawn item %s/%s", names[var_counter], desc[var_counter]));
             fontIndex = 1;
         }
         var_y += 21;
     }
+    TRACE(("missionMenuSelect(): items drawn: %d", var_counter));
     // 9d4
     setTimerIrqHandler();
     timerCounter3 = 6;
@@ -250,6 +258,7 @@ int missionMenuSelect(char **names, char **desc, char *title, int selection)
         // a04
         animateArm(var_counter + 1, var_counter);
     }
+    TRACE(("missionMenuSelect(): animated arm"));
     // a0c
     do {
 again:
@@ -331,7 +340,7 @@ void animateArm(int a, int b)
             // bdf
             if (a < 5 && enableHighlight != 0) {
                 // c10
-                gfx_jump_29_switchColor(page1NumPtr, 113, (21 * a) + 0x22, 297, (21 * a) + 0x2a, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
+                gfx_jump_29_switchColor(page1NumPtr, 113, (21 * a) + 0x22, 297, (21 * a) + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
             } // c18
         }
         word_19658 = word_1716A[var_2];
@@ -352,7 +361,7 @@ void animateArm(int a, int b)
         // c9d
         if (b < 5 && enableHighlight != 0) {
             // cce
-            gfx_jump_29_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
+            gfx_jump_29_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
         } //cd9
     }
 }
@@ -531,7 +540,6 @@ int processStoreInput() {
         && noJoy80[0] >= 0x4e && noJoy80[0] <= 0xb2 
         && noJoy80[1] >= 0x4e && noJoy80[1] <= 0xb2) 
         || var_6 == 1) {
-        TRACE(("processStoreInput(): in while"));
         // XXX: case study for instruction skipping in mzdiff, change above while condition to true and uncomment, run mzdiff with refskip 1 tgtskip 2 to repro
         // if ((((((misc_jump_5a_keybuf() == 0) || (var_2 != 0)) || (var_4 != 0)) ||
         //     ((noJoy80[0] < 0x4e || (noJoy80[0] > 0xb2)))) ||
@@ -555,12 +563,12 @@ int processStoreInput() {
             exit(0);
         }
         // blink cursor on top of current pilot selection
-        sub_1210A();
+        blinkPilot();
     } // 1192
     TRACE(("processStoreInput(): out of while"));
     if (misc_jump_5a_keybuf() == 0) {
         var_A = misc_jump_5b_getkey();
-        TRACE(("processStoreInput(): got key %u", var_A));
+        TRACE(("processStoreInput(): got key 0x%x", var_A));
     }
     // 11a5
     else if (var_2 == 1) {
@@ -603,7 +611,7 @@ int processStoreInput() {
         restoreCbreakHandler();
         exit(0);
     }
-    TRACE(("processStoreInput(): returning %u", var_A));
+    TRACE(("processStoreInput(): tail returning 0x%x", var_A));
     return var_A;
 }
 
