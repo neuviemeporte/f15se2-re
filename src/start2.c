@@ -298,8 +298,8 @@ int sub_1210A() {
     int16 var_2, var_4;
     if (pilotSelectFlag == 0) return;
     waitMdaCgaStatus(6);
-    // 2131
-    var_2 = hallfameCount < 4 ? 0x10 : 0x160;
+    // 2121
+    var_2 = hallfameCount < 4 ? 0x10 : 0xa0;
     var_4 = ((hallfameCount & 3) * 0x2c) + 0x14;
     // 2171
     gfx_jump_29_switchColor(screenBuf, var_2 , var_4, var_2 + 0x8f, var_4 + 8, word_174B2[word_174B6], word_174B2[word_174B6 ^ 1]);
