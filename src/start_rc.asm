@@ -82,8 +82,8 @@ PUBLIC _aArmpiece_pic
 PUBLIC _aWb
 PUBLIC _aHallfame_0
 PUBLIC _planes
-PUBLIC _word_174B2
-PUBLIC _word_174B6
+PUBLIC _blinkColors
+PUBLIC _blinkColorIdx
 PUBLIC _word_18026
 PUBLIC _word_1E24A
 PUBLIC _word_17FFE
@@ -116,7 +116,7 @@ PUBLIC _aEgraphic_exe
 PUBLIC _aTitle16_pic
 PUBLIC _page1Ptr
 PUBLIC _intRegs
-PUBLIC _hallfameCount
+PUBLIC _selectedPilotIdx
 PUBLIC _hallfameBuf
 PUBLIC _screenBuf
 PUBLIC _aWall_pic
@@ -1180,9 +1180,9 @@ _aUseSelectorToC db 'Use SELECTOR to choose pilot,  ESC to enter new pilot.',0
 _asc_174AC db ' (',0
 _asc_174AF db ')',0
     db 0
-_word_174B2 dw 7
+_blinkColors dw 7
     dw 0Fh
-_word_174B6 dw 0
+_blinkColorIdx dw 0
 _aMenterYourName db 'ŒENTER YOUR NAME !',0
     db 0
 _pilotNameInputColors dw 0
@@ -4445,7 +4445,7 @@ _wldReadBuf7 db 64h dup( ?)
 _word_1DD38 dw ?
     db ?
     db ?
-_hallfameCount dw ?
+_selectedPilotIdx dw ?
     db ?
     db ?
     db ?

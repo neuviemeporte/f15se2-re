@@ -184,7 +184,7 @@ void __cdecl printPilot(int);
 // ==== startCode1:0x1f44 ====
 int processPilotInput();
 // ==== startCode1:0x210a ====
-int sub_1210A();
+int blinkPilot();
 // ==== startCode1:0x2182 ====
 void __cdecl gameDataToPilot(struct Pilot *pilot);
 // ==== startCode1:0x2232 ====
@@ -650,8 +650,8 @@ extern char aPressAKeyToCon[];
 extern char aUseSelectorToC[];
 extern char asc_174AC[];
 extern char asc_174AF[];
-extern int word_174B2[];
-extern int16 word_174B6;
+extern int blinkColors[];
+extern int16 blinkColorIdx;
 extern char aMenterYourName[];
 extern int pilotNameInputColors[];
 extern uint8 aRb_3[];
@@ -1184,7 +1184,7 @@ extern uint8 intRegs[];
 extern uint8 unk_1DCD2[];
 extern uint8 wldReadBuf7[];
 extern int16 word_1DD38;
-extern int hallfameCount;
+extern int selectedPilotIdx;
 extern int wldReadBuf5Size;
 extern uint8 joyDone[];
 extern char *wldOffsets[];

@@ -204,7 +204,9 @@ checkEga:
     /* 0x32a */
     menuSprites = allocBuffer(bufSize);
     pilotSelect(*needSplash);
+    TRACE(("main: pilot selected"));
     missionSelect();
+    TRACE(("main: mission selected"));
     /* 0x33d */
     gameData->flag3 = 1;
     gameData->flag4 = 1;
