@@ -496,7 +496,7 @@ counterMore1k:
   // 4b13
   for (var_26 = 0; var_26 < 3; var_26++) { // 4b23
     // 4b49
-    commData->unk8[var_26] = word_189B6[commData->unk7[var_26] * 0x1a];
+    commData->unk8[var_26] = word_189B6[commData->unk7[var_26] * 0x34];
   } 
   // 4b4f
   var_8 = targets[0].field_8 + targets[1].field_8;

@@ -587,7 +587,7 @@ int parseTerrain(char *arg_0) {
                     return;
                 }
                 // 3c36
-                fread(&terrainBuf2[var_4 << 6],2,terrainBuf1[var_4], fileHandle);
+                fread(&terrainBuf2[var_4],2,terrainBuf1[var_4], fileHandle);
             }
             // 3c58
             var_6 = 0;
