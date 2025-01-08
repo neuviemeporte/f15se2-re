@@ -31,11 +31,31 @@ The remaining executables are ignored in this project, see the development journ
 
 As of the time of writing this, the status of the reconstruction is as follows:
 
-* `f15.com`/`su.exe` - fully reconstructed into a minimal, functionally equivalent loader executable (`f15.exe`) that works as a drop-in replacement with the original game.
-* `start.exe` - most if not all C code has been reconstructed, but the executable is not yet runnable. The assembly routines need tweaking and porting into C before it can be considered complete.
-* `egame.exe` - not touched
-* `end.exe` - not touched
-* `mgraphic.exe` - overlay header and overall layout understood, some research done into the purpose of individual routines inside, but reconstruction not started yet.
+## `f15.com`/`su.exe`
+
+* fully reconstructed into a minimal, functionally equivalent loader executable (`f15.exe`) that works as a drop-in replacement with the original game.
+
+## `start.exe` 
+
+* all C code has been reconstructed, the executable works with the original game
+* assembly routines need porting into C
+* the data segment is still generated from assembly, all variables need to be carried over to C
+* code still contains placeholder names for routines and variables, needs experimentation, refactoring and comments to document the purpose of the code
+* some bugs still remain: new pilot name input does not work on the roster screen, the flight engine's map looks messed up, missile counts are wrong, some HUD symbology has wrong colors
+
+## `egame.exe` 
+
+* not touched
+
+## `end.exe`
+
+* not touched
+
+## `mgraphic.exe` 
+
+* overlay header and overall layout understood
+* some research done into the purpose of individual routines inside
+* reconstruction not started yet
 
 The reconstruction is the first step, multiple variables and routines still have generic names because they are not fully understood, and will have to be further analyzed through instrumentation and experimentation.
 
