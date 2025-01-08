@@ -270,6 +270,9 @@ doSrand:
     gfx_jump_52(0);
     /* 0x478 */
     TRACE(("main: exiting with code %hd", exitCode[0]));
+#ifdef DEBUG
+    log_close();
+#endif
     exit(exitCode[0]);
     /* 0x482 */
 }

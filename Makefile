@@ -50,8 +50,8 @@ MAIN_EXE := $(BUILDDIR)/f15.exe
 MAIN_SRCS := f15.c dosfunc.c biosfunc.c output.c overlay.c util.c
 MAIN_OBJS := $(call cobj,$(BUILDDIR),$(MAIN_SRCS))
 
-$(MAIN_EXE): $(MAIN_OBJS)
-	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)"
+$(MAIN_EXE): $(BUILDDIR) $(MAIN_OBJS)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(MAIN_OBJS) -o $@ -f "$(LINKFLAGS)"
 
 #
 # start.exe reconstruction (rc)
@@ -90,8 +90,8 @@ $(START_COBJ): $(START_BASEHDR)
 $(BUILDDIR)/start2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/start4.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 
-$(START_EXE): $(START_OBJ)
-	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)"
+$(START_EXE): $(BUILDDIR) $(START_OBJ)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(START_OBJ) -o $@ -f "$(LINKFLAGS)"
 
 # start.exe debug build
 START_DEBUG := $(DEBUGDIR)/start.exe
@@ -99,8 +99,8 @@ START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR)
 $(START_DBG_OBJ): $(START_BASEHDR)
 $(START_DEBUG): MSC_CFLAGS += /DDEBUG
 $(START_DEBUG): UASMFLAGS += -DDEBUG
-$(START_DEBUG): $(START_DBG_OBJ)
-	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)"
+$(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(START_DBG_OBJ) -o $@ -f "$(LINKFLAGS)"
 
 #
 # start.exe reassembly (re)
@@ -133,7 +133,7 @@ TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(T
 TEST_LIBS := slibce.lib
 
 $(TEST_EXE): MSC_CFLAGS := /Gs /w /Id:\f15-se2 /DDEBUG
-$(TEST_EXE): $(TEST_OBJS) $(HDRS)
+$(TEST_EXE): $(DEBUGDIR) $(TEST_OBJS) $(HDRS)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(TEST_OBJS) -o $@ -f "$(LINKFLAGS)" -l "$(TEST_LIBS)"
 
 #

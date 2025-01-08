@@ -4,14 +4,21 @@
 #include <STDARG.H>
 #include <STRING.H>
 
+static FILE *stream = NULL;
+
+void log_close() {
+    if (!stream) return;
+    fclose(stream);
+    stream = NULL;
+}
+
 void my_vtrace(const char* fmt, va_list ap) {
-    static FILE *stream = NULL;
     static long lasttime = 0;
     const long thistime = time(NULL);
     long timedelta;
     if (stream == NULL) {
         lasttime = time(NULL);
-        stream = fopen("start.log", "w");
+        stream = fopen("f15.log", "a");
         if (stream == NULL) {
             printf("Unable to open debug stream");
             exit(1);
@@ -26,6 +33,7 @@ void my_vtrace(const char* fmt, va_list ap) {
     fprintf(stream, "\n");
     fflush(stream);
 }
+
 void my_trace(const char* fmt, ...) {
     va_list ap;
     va_start(ap, fmt);
@@ -106,3 +114,4 @@ void changeext(char *filename, const char *ext) {
     }  
     strncpy(dot + 1, ext, 3);
 }
+

@@ -7,6 +7,9 @@
 #include <DOS.H>
 #include <STDDEF.H>
 
+void log_open(bool append);
+void log_close();
+
 void INFO(const char *format, ...);
 void ERROR(const char *format, ...);
 void FATAL(const char *format, ...);

@@ -123,6 +123,7 @@ void game_init(void) {
 bool game_run(const char* filename, const int returnCode, const bool debug) {
     int err;
     /* launch game executable */
+    log_close();
     if (debug) {
         INFO("Executing %s under the debugger", filename);
         sprintf(cmdlineBuf, " %s", filename);
@@ -136,6 +137,7 @@ bool game_run(const char* filename, const int returnCode, const bool debug) {
         FATAL("Unable to run %s", filename);
     err = dos_getReturnCode();
     INFO("%s exited with code 0x%x", filename, err);
+    log_open(true);
     if (debug)
         return true;
     /* check return code if not in debug mode */
@@ -153,6 +155,9 @@ int main(int argc, char *argv[]) {
     /* process cmdline args */
     int i, j;
     bool debugMenu = false, debugFlight = false, debugDebrief = false;
+
+    log_open(false);
+
     for (i = 1; i < argc; ++i) {
         const char *arg = argv[i];
         const size_t len = strlen(arg);
