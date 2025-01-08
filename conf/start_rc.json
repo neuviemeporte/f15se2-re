@@ -96,7 +96,7 @@
         { "seg": "startCode1", "begin": "0x3e8c", "end": "0x3ea7", "from": "subReadKey",        "to": "endp" },
         { "seg": "startCode1", "begin": "0x3ea8", "end": "0x3ed1", "from": "sub_13EA8",         "to": "endp" },
         { "seg": "startCode1", "begin": "0x4042", "end": "0x4092", "from": "missionGenerate",   "to": "endp" },
-        { "seg": "startCode1", "begin": "0x4093", "end": "0x4bb3", "from": "sub_14093",         "to": "endp" },
+        { "seg": "startCode1", "begin": "0x4093", "end": "0x4bb3", "from": "runGenerator",         "to": "endp" },
         { "seg": "startCode1", "begin": "0x4bb4", "end": "0x4c93", "from": "sub_14BB4",         "to": "endp" },
         { "seg": "startCode1", "begin": "0x4c94", "end": "0x4cc4", "from": "sub_14C94",         "to": "endp" },
         { "seg": "startCode1", "begin": "0x4cc5", "end": "0x4d95", "from": "sub_14CC5",         "to": "endp" },

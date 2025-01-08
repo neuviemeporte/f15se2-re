@@ -92,7 +92,7 @@ $(START_EXE): $(START_OBJ)
 
 # start.exe debug build
 START_DEBUG := $(DEBUGDIR)/start.exe
-START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM))
+START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(DEBUGDIR)/debug.obj
 $(START_DBG_OBJ): $(START_BASEHDR)
 $(START_DEBUG): MSC_CFLAGS += /DDEBUG
 $(START_DEBUG): UASMFLAGS += -DDEBUG

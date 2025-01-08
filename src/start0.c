@@ -219,9 +219,10 @@ checkEga:
     gameData->rand = rand();
     /* 0x396 */
 doSrand:
-    TRACE(("main: mission generation"));
+    TRACE(("main: mission decoding"));
     srand(gameData->rand);
     missionDecode();
+    TRACE(("main: mission generation"));
     missionGenerate();
     /* 0x3aa */
     if (gameData->difficulty != DIFFICULTY_DEMO) {

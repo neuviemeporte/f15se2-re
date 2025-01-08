@@ -390,7 +390,7 @@ int unreach_14009();
 // ==== startCode1:0x4042 ====
 void missionGenerate(void);
 // ==== startCode1:0x4093 ====
-void sub_14093();
+void runGenerator();
 // ==== startCode1:0x4bb4 ====
 int __cdecl sub_14BB4(int, int, int);
 // ==== startCode1:0x4c94 ====

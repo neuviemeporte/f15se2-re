@@ -3,6 +3,7 @@
 #include "start.h"
 #include "pointers.h"
 #include "comm.h"
+#include "debug.h"
 
 #include <memory.h>
 #include <dos.h>
@@ -118,17 +119,22 @@ int sub_13A61(int16 arg_0, int16 arg_2, int16 arg_4) {
 
 // 0x4042
 void missionGenerate() {
+    TRACE(("missionGenerate(): entering"));
     difficultySaved = gameData->difficulty;
     theaterSaved = gameData->theater & 3;
     flag4Saved = gameData->flag4;
+    TRACE(("missionGenerate(): parsing world %s", worldFiles[gameData->theater]));
     parseWorld(worldFiles[gameData->theater]);
     mystrcpy(regnPlhPtr, plhFiles[gameData->theater]);
+    TRACE(("missionGenerate(): parsing grid/terrain"));
     parseGridTerrain();
-    sub_14093();
+    TRACE(("missionGenerate(): running generator"));
+    runGenerator();
+    TRACE(("missionGenerate(): returning"));
 }
 
 // 4093
-void sub_14093()
+void runGenerator()
 {
   int var_2;
   int var_4;
@@ -150,17 +156,21 @@ void sub_14093()
   int var_2A;
   int var_2C;
   
+  TRACE(("runGenerator(): entering"));
   // 409d
   var_2 = word_1DD38 = 0;
   var_16 = 0xfa;
   // 40a8
 restart_40a8:
   do {
+    TRACE(("runGenerator(): outer, %d", var_2));
     var_2 = var_2 + 1;
     if (999 < var_2) goto counterMore1k;
     // 40b5
     do {
+      TRACE(("runGenerator(): inner"));
       if (missionPick != -1) {
+        TRACE(("runGenerator(): inner branch 1"));
         // 40c6
         var_1A = randMul(word_19324[missionPick]);
         // 40e9
@@ -169,8 +179,11 @@ restart_40a8:
       }
       // 40f4
       else {
+        TRACE(("runGenerator(): inner branch 2"));
         do {
+          TRACE(("runGenerator(): inner branch 2 loop 1"));
           do {
+            TRACE(("runGenerator(): inner branch 2 loop 2"));
             // 40f8
             var_1A = randMul(0xe0) * 0x80 + 0x840;
             // 410c
@@ -180,6 +193,7 @@ restart_40a8:
           // 413e
         } while ((targets[0].field_2 = sub_14BB4(var_1A,var_24,1)) == 0xffff);
       }
+      TRACE(("runGenerator(): past inner check 1"));
       // 414c
       if (missionPick == 7) {
         // 4172
@@ -212,12 +226,16 @@ restart_40a8:
           target2.field_2 = sub_14BB4(var_1A, var_24, 2);
         } while ((target2.field_2 == -1) || ((missionPick == 0 && (wldReadBuf4[target2.field_2].field_6 == 0))));
       }
+      TRACE(("runGenerator(): past inner check 2"));
     // 4257
     } while ((targets[0].field_2 == target2.field_2) || (sub_14C94(targets[0].field_2, target2.field_2) >> 6) > 200);
+    TRACE(("runGenerator(): passed inner"));
   // 427a
   } while ((gameData->theater != THEATER_DS) && (wldReadBuf4[targets[0].field_2].field_E == wldReadBuf4[target2.field_2].field_E));
+  TRACE(("runGenerator(): past outer"));
   // 42a0
   for (var_2A = 0; var_2A < 2; var_2A++) {
+    TRACE(("runGenerator(): loop 2, counter %d", var_2A));
     // 42b8
     var_20[var_2A] = 0x7fff;
     // 42bd
@@ -238,6 +256,7 @@ restart_40a8:
       }
     }
   }
+  TRACE(("runGenerator(): past loop2"));
   // 4377
   if (gameData->theater != THEATER_DS) {
     // 438a
@@ -258,8 +277,10 @@ restart_40a8:
       targets[0].field_4 = targets[1].field_4;
     }
   }
+  TRACE(("runGenerator(): past DS check"));
   // 43f4
   for (var_26 = 0; var_26 < 2; var_26++) {
+    TRACE(("runGenerator(): loop3, counter %d", var_26));
     // 4407
     targets[var_26].field_0 = 0;
     // 4415
@@ -288,8 +309,12 @@ restart_40a8:
       var_10 = randMul(var_28);
     }
   }
+  TRACE(("runGenerator(): past loop3"));
   // 44ec
-  if ((targets[0].field_0 == 0) || (targets[1].field_0 == 0)) goto restart_40a8;
+  if ((targets[0].field_0 == 0) || (targets[1].field_0 == 0)) {
+    TRACE(("runGenerator(): restart 1"));
+    goto restart_40a8;
+  }
   // 44fd
   if ((var_20[0] < var_20[1]) && (missionPick == -1)) {
     // 450c
@@ -313,7 +338,11 @@ restart_40a8:
     var_20[1] = var_12;
   }
   // 4578
-  if (targets[0].field_0 == 4) goto restart_40a8;
+  if (targets[0].field_0 == 4) {
+    TRACE(("runGenerator(): restart2"));
+    goto restart_40a8;
+  }
+  TRACE(("runGenerator(): past restart checks"));
   // 4582
   word_1B148 = 0xffff;
   // 4588
@@ -326,6 +355,7 @@ restart_40a8:
   }
   // 45b2
   for (var_26 = 0; var_26 < 2; var_26++) {
+    TRACE(("runGenerator(): loop4, counter %d", var_26));
     // 45e2
     mystrcpy(targets[var_26].coord, sub_152F4(targets[var_26].field_2));
     // 45f0
@@ -345,9 +375,11 @@ restart_40a8:
       }
     }
   }
+  TRACE(("runGenerator(): past loop4"));
   // 4689
   targets[0].field_10 = word_1DD38 >> 4;
 counterMore1k:
+  TRACE(("runGenerator(): counterMore1k"));
   // 46a9
   dword_1D5D0 = (uint32)(wldReadBuf4[targets[0].field_4].field_2) << 5;
   // 46ad
@@ -386,6 +418,7 @@ counterMore1k:
   }
   // 47a0
   for (var_26 = 0; var_26 < wldReadBuf5Size - 4; var_26++) { // 47cb8
+    TRACE(("runGenerator(): loop5, counter %d", var_26));
     // 47c4
     if ((wldReadBuf6[var_26].field_18 & 0x80) != 0) {
       // 47ea
@@ -442,8 +475,10 @@ counterMore1k:
       wldReadBuf4[var_C].field_C = randMul(theaterSaved + 1) + 1;
     } // 4996
   }
+  TRACE(("runGenerator(): past loop5"));
   // 4999
   for (var_26 = 0; var_26 < wldReadBuf2; var_26++) { // 49ae
+    TRACE(("runGenerator(): loop6, counter %d", var_26));
     var_18 = wldReadBuf4[var_26].field_6;
     // 49b9
     if ((var_18 != 0) && (var_18 != 21)) { // 49cb
@@ -473,6 +508,7 @@ counterMore1k:
       }
     } // 4a6b
   }
+  TRACE(("runGenerator(): past loop6"));
   // 4a6e
   for (var_1A = 0; (int)var_1A < 0x10; var_1A++) { // 4a7e
     for (var_24 = 0; var_24 < 0x10; var_24++) { // 4a8e
@@ -481,6 +517,7 @@ counterMore1k:
       }
     }
   } // 4ac2
+  TRACE(("runGenerator(): past loop7"));
   commData->unk7[1] = 1;
   commData->unk7[2] = 5;
   commData->unk7[0] = 0; 
@@ -495,9 +532,11 @@ counterMore1k:
   var_A = 0;
   // 4b13
   for (var_26 = 0; var_26 < 3; var_26++) { // 4b23
+    TRACE(("runGenerator(): loop8, counter %d", var_26));
     // 4b49
     commData->unk8[var_26] = word_189B6[commData->unk7[var_26] * 0x1a];
   } 
+  TRACE(("runGenerator(): past loop8"));
   // 4b4f
   var_8 = targets[0].field_8 + targets[1].field_8;
   word_18994 = ((uint8)var_8 & 3) == 0;
@@ -512,6 +551,7 @@ counterMore1k:
     word_18994 = 1;
   } // 4b9d
   word_1DD38 -= (var_8 + word_1DD38) % 0x96;
+  TRACE(("runGenerator(): exiting"));
 }
 
 // 4bb4
@@ -821,108 +861,3 @@ void sub_154A1(int arg_0) {
     }
     // 5540
 }
-
-#ifdef DEBUG
-void my_vtrace(const char* fmt, va_list ap) {
-    static FILE *stream = NULL;
-    static long lasttime = 0;
-    const long thistime = time(NULL);
-    long timedelta;
-    if (stream == NULL) {
-        lasttime = time(NULL);
-        stream = fopen("start.log", "w");
-        if (stream == NULL) {
-            printf("Unable to open debug stream");
-            exit(1);
-        }
-        setbuf(stream, NULL);
-        fprintf(stream, "Successfully opened debug log\n");
-    }
-    timedelta = thistime - lasttime;
-    lasttime = thistime;
-    fprintf(stream, "[%04lds] ", timedelta);
-    vfprintf(stream, fmt, ap);
-    fprintf(stream, "\n");
-    fflush(stream);
-}
-void my_trace(const char* fmt, ...) {
-    va_list ap;
-    va_start(ap, fmt);
-    my_vtrace(fmt, ap);
-    va_end(ap);
-}
-
-static char tracebuf[128];
-
-void my_fartrace(const char far *msg, ...) {
-    const char FAR *ptr = msg;
-    size_t size = 0, idx;
-    va_list ap;
-    while (*ptr++ != '\0') size++;
-    ptr = msg;
-    for (idx = 0; idx < size && idx < 127; ++idx) {
-      tracebuf[idx] = *ptr++;
-    }
-    tracebuf[idx] = '\0';
-    va_start(ap, msg);
-    my_vtrace(tracebuf, ap);
-    va_end(ap);
-}
-
-void ftoncpy(void *near_ptr, void far *far_ptr, uint32 size) {
-    uint8 far *src = (uint8 far *)far_ptr;
-    uint8 *dest = (uint8 *)near_ptr;
-    uint32 i;
-
-    for (i = 0; i < size; i++) {
-        dest[i] = src[i];
-    }
-}
-
-#define CHUNK_SIZE 512
-
-void dumpbuf(const char *filename, const uint8 far *buf, const uint32 size) {
-    char buffer[CHUNK_SIZE];
-    uint32 bytes_written = 0;
-    FILE *file = fopen(filename, "wb");
-    size_t result;
-
-    if (!file) {
-        my_trace("Unable to open file for buffer dump: %s", filename);
-        return;
-    }
-    my_trace("Dumping %lu bytes from %p to %s", size, buf, filename);
-    while (bytes_written < size) {
-        uint32 bytes_to_copy = (size - bytes_written > CHUNK_SIZE) ? CHUNK_SIZE : (size - bytes_written);
-#ifdef DEBUGDUMP
-        my_trace("remaining = %lu", bytes_to_copy);
-#endif
-        // Copy data from far pointer to near buffer
-        ftoncpy(buffer, buf, bytes_to_copy);
-        // Write near buffer to file
-        result = fwrite(buffer, 1, bytes_to_copy, file);
-        if (result != bytes_to_copy) {
-            my_trace("Write error occurred!");
-            break;
-        }
-        bytes_written += bytes_to_copy;
-#ifdef DEBUGDUMP
-        my_trace("written = %lu", bytes_written);
-#endif
-        buf += bytes_to_copy;  // Increment far pointer
-    }
-#ifdef DEBUGDUMP    
-    my_trace("Successfully written %lu bytes to %s", bytes_written, filename);
-#endif
-    fclose(file);
-}
-
-void changeext(char *filename, const char *ext) {
-    char *dot = strchr(filename, '.');
-    if (!dot) {
-        dot = filename + strlen(filename);
-        *dot = '.';
-    }  
-    strncpy(dot + 1, ext, 3);
-}
-#endif // DEBUG
