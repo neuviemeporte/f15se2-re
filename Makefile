@@ -155,10 +155,8 @@ start: $(START_EXE)
 debug: $(DEBUGDIR) $(START_DEBUG)
 
 clean:
-	-rm -rf $(BUILDDIR)/*
-	-rm -rf $(DEBUGDIR)/*
-	-rm $(START_BASEHDR)
-	-touch $(START_LST)
+	-rm -rf $(BUILDDIR)
+	-rm -rf $(DEBUGDIR)
 
 test: $(TEST_EXE)
 	@$(DOSBUILD) test -i $<
