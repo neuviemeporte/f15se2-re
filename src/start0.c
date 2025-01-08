@@ -266,10 +266,10 @@ doSrand:
     TRACE(("main: clearing keyflags and screen"));
     misc_jump_5e_clearKeyFlags();
     // 461
-    clearRect((int*)bufPtr, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
+    clearRect(bufPtr, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
     gfx_jump_52(0);
     /* 0x478 */
-    TRACE(("main: exiting with code %d", exitCode[0]));
+    TRACE(("main: exiting with code %hd", exitCode[0]));
     exit(exitCode[0]);
     /* 0x482 */
 }

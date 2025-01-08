@@ -30,10 +30,19 @@ STACK_JOYDATA	 = 0CDEh
 IFDEF DEBUG
     EXTRN _my_fartrace:PROC
 
-    trace MACRO msg,v1,v2,v3
+    trace MACRO msg,v1,v2,v3,v4,v5
         popsize = 4
         push es
         push ax
+        push bx
+        IFNB <v5>
+        push [v5]
+        popsize = popsize + 2
+        ENDIF
+        IFNB <v4>
+        push [v4]
+        popsize = popsize + 2
+        ENDIF
         IFNB <v3>
         push [v3]
         popsize = popsize + 2
@@ -51,6 +60,7 @@ IFDEF DEBUG
         push ax
         call _my_fartrace
         add sp,popsize
+        pop bx
         pop ax
         pop es
     ENDM
@@ -76,7 +86,7 @@ IFDEF DEBUG
         pop es
     ENDM
 ELSE
-    trace MACRO msg,v1,v2,v3
+    trace MACRO msg,v1,v2,v3,v4,v5
     ENDM
 
     regtrace MACRO
@@ -973,6 +983,8 @@ sos_exit:
     retn
 _setupOverlaySlots endp
 ; ------------------------------startCode1:0x2ae0------------------------------
+msg14 db 'clearRect(): buf 0x%x %d %d %d %d',0
+msg15 db 'clearRect(): destination 0x%x',0
 ; ------------------------------startCode1:0x2bba------------------------------
 _clearRect proc near
     buf = word ptr 4
@@ -987,10 +999,12 @@ _clearRect proc near
     push bp
     push ds
     pop es
+    trace msg14,bp+buf,bp+maxy,bp+y,bp+maxx,bp+arg_8
     call _gfx_jump_10_getCurBuf
     push ax
     mov bx, [bp+buf]
     mov ax, [bx]
+    trace msg15,bx
     call _gfx_jump_0d_setCurBuf
     mov ah, [bx+6]
     call _gfx_jump_20_setVal ;saves value of ah to gfx data

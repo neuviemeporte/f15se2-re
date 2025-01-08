@@ -22,7 +22,7 @@ void output_tee(const char *format, va_list ap) {
     output_stdout(format, ap);
 }
 
-static void (*voutput)(const char* format, va_list ap) = output_tee;
+static void (*voutput)(const char* format, va_list ap) = output_log;
 
 void output(const char* format, ...) {
     va_list ap;

@@ -534,7 +534,7 @@ counterMore1k:
   for (var_26 = 0; var_26 < 3; var_26++) { // 4b23
     TRACE(("runGenerator(): loop8, counter %d", var_26));
     // 4b49
-    commData->unk8[var_26] = word_189B6[commData->unk7[var_26] * 0x1a];
+    commData->unk8[var_26] = word_189B6[commData->unk7[var_26] * 0x34];
   } 
   TRACE(("runGenerator(): past loop8"));
   // 4b4f

@@ -66,7 +66,7 @@ void waitJoyKey(void)
 // 571
 int joyOrKey() {
     // 578
-    if (commData->setupUseJoy == 0) { // 57f
+    if (commData->setupUseJoy == 1) { // 57f
         // 582
         if (misc_jump_5d_readJoy(0) != 0) { // 58e
             return 1;

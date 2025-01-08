@@ -668,7 +668,9 @@ _aTitle16_pic db 'title16.pic',0
 _aF15_spr db 'f15.spr',0
 _aF15_spr_0 db 'f15.spr',0
 _aTemp_wld db 'temp.wld',0
-asc_16BE2 db 0,0,0,0
+word_16BE2 dw 0
+    db 0
+    db 0
     db 0Fh
     db 0
     db 0
@@ -687,8 +689,7 @@ unk_16BF0 db 0
     db 0
     db 0
     db 0
-_bufPtr db 92h
-    db 0
+_bufPtr dw offset word_16BE2
     db 0
     db 0
     db 0
