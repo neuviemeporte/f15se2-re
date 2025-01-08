@@ -152,7 +152,7 @@ sub_13EA8: Code1 NEAR 3ea8-3ed1 R3ea8-3ed1 complete
 # a bunch of unreachable routines
 unreach_3ed2: Code1 NEAR 3ed2-4041 U3ed2-4041 detached
 missionGenerate: Code1 NEAR 4042-4092 R4042-4092 complete
-sub_14093: Code1 NEAR 4093-4bb3 R4093-4a19 U4a1a-4a2b R4a2c-4bb3 complete
+runGenerator: Code1 NEAR 4093-4bb3 R4093-4a19 U4a1a-4a2b R4a2c-4bb3 complete
 sub_14BB4: Code1 NEAR 4bb4-4c93 R4bb4-4c93 complete
 sub_14C94: Code1 NEAR 4c94-4cc4 R4c94-4cc4 complete
 sub_14CC5: Code1 NEAR 4cc5-4d95 R4cc5-4d95 complete

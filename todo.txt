@@ -1,3 +1,4 @@
 - try splitting start_rc.asm after ds:2818 (would need multiple output files support in lst2asm), original has libc here, try using explicit linking order with slibce in the middle to obtain identical data segment layout
 - backtrace dump analysis tool?
 - launch game exe under codeview from loader?
+- implement tool to parse linker map, take image of memory and print all var values?
