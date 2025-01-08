@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <STDARG.H>
+#include <STRING.H>
 
 void my_vtrace(const char* fmt, va_list ap) {
     static FILE *stream = NULL;
