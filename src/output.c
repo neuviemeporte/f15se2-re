@@ -1,4 +1,5 @@
 #include "output.h"
+#include "inttype.h"
 
 #include <STDIO.H>
 #include <STDARG.H>
@@ -9,20 +10,29 @@ void output_stdout(const char* format, va_list ap) {
 
 static const char* logname = "f15.log";
 static FILE* logfile = NULL;
+
+void log_open(bool append) {
+    if (logfile) return;
+    logfile = fopen(logname, append ? "a" : "w");
+}
+
+void log_close() {
+    if (!logfile) return;
+    fclose(logfile);
+    logfile = NULL;
+}
+
 void output_log(const char* format, va_list ap) {
-    if (logfile == NULL) {
-        printf("Opening log file %s\n", logname);
-        logfile = fopen(logname, "w");
-    }
     vfprintf(logfile, format, ap);
 }
+
 
 void output_tee(const char *format, va_list ap) {
     output_log(format, ap);
     output_stdout(format, ap);
 }
 
-static void (*voutput)(const char* format, va_list ap) = output_tee;
+static void (*voutput)(const char* format, va_list ap) = output_log;
 
 void output(const char* format, ...) {
     va_list ap;

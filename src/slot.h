@@ -24,7 +24,7 @@ int FAR CDECL gfx_jump_0d_setCurBuf();
 int FAR CDECL gfx_jump_0e_setCurBuf(uint16);
 int FAR CDECL gfx_jump_0f_getBufPtr();
 int FAR CDECL gfx_jump_10_getCurBuf();
-int FAR CDECL gfx_jump_11();
+int FAR CDECL gfx_jump_11_blitSprite();
 int FAR CDECL gfx_jump_12();
 int FAR CDECL gfx_jump_13();
 int FAR CDECL gfx_jump_14();

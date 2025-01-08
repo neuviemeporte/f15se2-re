@@ -6,242 +6,11 @@
 #include "slot.h"
 #include "const.h"
 
+#include "debug.h"
 #include "start.h"
 
 #include <stdio.h>
 #include <dos.h>
-
-int main(void) 
-{
-    /* TODO: fix stack frame layout
-    uint16 pad1; // 0
-    uint16 var_4; // 4
-    uint16 theater; // 6
-    uint16 pad2; // 8
-    uint16 pad3; // a
-    uint16 difficulty; // c
-    uint16 pad4; // e
-    struct FarPointer iacaPtr; //12
-    uint16 pad5; // 14
-    uint8 pad6; // 15
-    uint8 var_16; // 16
-    uint16 pad7; // 18
-    uint16 pad8; // 1a
-    register int i; 
-    */
-    uint8 unused[0xe];
-    uint8 introStage;
-    uint16 FAR *commPtr;
-    uint16 difficulty;
-    int16 theater;
-    uint16 bufSize;
-    register bool isPcSpeaker;
-
-    /* 0x17 */
-    FP_SEG(needSplash) = SEG_LOWMEM;
-    FP_OFF(needSplash) = OFF_IACA_NEEDSPLASH;
-    FP_SEG(iacaSuFlag0Ptr) = SEG_LOWMEM;
-    FP_OFF(iacaSuFlag0Ptr) = OFF_IACA_FLAG2;
-    FP_SEG(commPtr) = SEG_LOWMEM;
-    FP_OFF(commPtr) = OFF_IACA_START;
-    /* 0x39 */
-    FP_SEG(commData) = *commPtr;
-    FP_OFF(commData) = 0;
-    FP_SEG(gameData) = *commPtr;
-    FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
-    /* 0x54 */
-    installCBreakHandler();
-    setupOverlaySlots(commData->miscOvlAddr);
-    setupOverlaySlots(commData->gfxOvlAddr);
-    setupOverlaySlots(commData->sndOvlAddr);
-    /* 0x81 */
-    gfx_jump_4b_storeBufPtr(commData->gfxInitResult, 2);
-    hercFlag = commData->setupMono;
-    initGraphics();
-    /* 0xa3 */
-    audio_jump_65();
-    audio_jump_64(0, 0);
-    /* 0xb4 */
-    if (*needSplash == 1) {
-        /* 0xc1 doSplash:  */
-        gameData->flag1 = 1;
-        gameData->difficulty = 0xffff;
-        gameData->theater = 0xffff;
-        gfx_jump_3d_null(5);
-        /* 0xeb */
-        openShowPic(aLabs_pic, 0);
-        gfx_jump_50_null();
-        /* 0xfd */
-        setTimerIrqHandler();
-        /* 0x100 */
-        for (timerCounter = 0; timerCounter < MPS_TIMEOUT;) {
-            if (misc_jump_5a_keybuf() == 0) {
-                misc_jump_5b_getkey();
-                break;
-            }
-        }
-        /* 0x11e */
-        if (timerCounter >= MPS_TIMEOUT) { /* key was not pressed, show adv.pic
-            /* 0x125 */
-            gfx_jump_45_retrace();
-            gfx_jump_3d_null(0xf);
-            /* 0x13d */
-            openShowPic(aAdv_pic, 0);
-            gfx_jump_50_null();
-            gfx_jump_46_retrace2();
-            /* 0x14d */
-            for (introStage = 0; introStage < 2; introStage++) {
-                for (timerCounter = 0; timerCounter < ADV_TIMEOUT;) {
-                    if (misc_jump_5a_keybuf() == 0) {
-                        misc_jump_5b_getkey();
-                        goto checkEga;
-                    }
-                }
-            }
-        }
-
-        /* 0x17c */
-        checkEga:
-        if (commData->gfxModeNum >= 2 && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & 0xf) == 9) {
-            /* 0x19c */
-            if (commData->gfxModeNum != 2) {
-                setupOverlaySlots(loadOverlay(aEgraphic_exe));
-            }
-            /* 0x1b4 */
-            gfx_jump_45_retrace();
-            /* 0x1bd */
-            showPic640(aTitle640_pic);
-        }
-        /* 0x1c5 */
-        else {
-            gfx_jump_3d_null(1);
-            gfx_jump_45_retrace();
-            openShowPic(aTitle16_pic, 0);
-            gfx_jump_50_null();
-            /* 0x1ec */
-            gfx_jump_44_setDac(commData->gfxModeNum >= 3 ? 4 : 3);
-        }
-        /* 0x204 */
-        waitMdaCgaStatus(4);
-        /* 0x20e - 0x225 */
-        isPcSpeaker = commData->sndOvlName[0] == 'I' || commData->sndOvlName[0] == 'i';
-        /* 0x229 */
-        if (isPcSpeaker != 0) restoreTimerIrqHandler();
-        /* 0x230 */
-        audio_jump_67();
-        if (isPcSpeaker == 0) restoreTimerIrqHandler();
-        /* 0x23c */
-        if (commData->gfxModeNum >= 2 && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & 0xf) == 9) {
-            gfx_jump_44_setDac(2);
-            /* 0x264 */
-            getch();
-            /* 0x26f */
-            setupOverlaySlots(commData->gfxOvlAddr); /* restore temporarily shadowed overlay? */
-            gfx_jump_45_retrace();
-            /* 0x282 */
-            gfx_jump_3c_setMode13(commData->setupMono);
-        }
-        /* 0x28c */
-        else {
-            gfx_jump_44_setDac(0);
-            getch();
-        }
-    }
-
-    /* 0x29a */
-    difficulty = gameData->difficulty;
-    theater = gameData->theater;
-    /* 0x2ac */
-    if (commData->gfxModeNum == 0 && gameData->flag1 == 0 && gameData->theater < 4 &&
-            ++(gameData->theater) == 4) {
-        /* 0x2d8 */
-        gameData->theater = 0;
-        /* 0x2de */
-        if (gameData->difficulty < 3) {
-            /* 0x2e9 */
-            gameData->difficulty++;
-        }
-    }
-
-    /* 0x2ed */
-    clearKeybuf();
-    /* 0x2f4 */
-    if (commData->setupUseJoy == 1) {
-        /*
-            This data of length 0x14 is copied in su.exe at seg0001(683):d1 from dseg(692):eb4 to COMM:48, then later this copies it from there onto the stack (???)
-            1CC2:0CDE     6D 01 6D 01 00 00 00 00 73 01 73 01 00 00 00 00  m.m.....s.s.....
-            1CC2:0CEE     6E 01 6E 01 00 00 00 00 01 00 01 00 00 00 00 00  n.n.............
-        */
-       copyJoystickData(commData->joyData);
-    }
-    /* 0x30e */
-    else {
-        noJoy80[0] = noJoy80[1] = 0x80;
-    }
-    /* 0x316 */
-    joyDone[0] = 1;
-    bufSize = gfx_jump_17_bufSize();
-    /* 0x32a */
-    bufAddr = allocBuffer(bufSize);
-    pilotSelect(*needSplash);
-    missionSelect();
-    /* 0x33d */
-    gameData->flag3 = 1;
-    gameData->flag4 = 1;
-    gameData->flag1 = 0;
-    commData->setup1 = 1;
-    /* 0x365, check if same diff and thea picked as last time */
-    if (gameData->difficulty == difficulty && gameData->theater == theater && missionPick == 0xffff && askRepeatMission() != 0) 
-        goto doSrand;
-    /* 0x38b */
-    gameData->rand = rand();
-    /* 0x396 */
-doSrand:
-    srand(gameData->rand);
-    missionDecode();
-    missionGenerate();
-    /* 0x3aa */
-    if (gameData->difficulty != DIFFICULTY_DEMO) {
-        printMission();
-    }
-    /* 0x3b8 */
-    checkDiskA();
-    exitCode[0] = 0xc;
-    /* 0x3c0 */
-    restoreCbreakHandler();
-    *needSplash = 0;
-    gfx_jump_3d_null(8);
-    /* 0x3d8 */
-    if (gfx_jump_4e_getVal() == 0) {
-        openShowPic(aF15_spr, 2);
-    }
-    /* 0x3f1 */
-    else {
-        loadPic(aF15_spr_0, (uint8*)commData->gfxInitResult);
-    }
-    // 403
-    writeWorld(aTemp_wld);
-    commData->setupDone = 3;
-    commData->unk2 = 0;
-    commData->unk3 = 0;
-    /* 0x42f */
-    if (gameData->flag3 > 1) {
-        /* 0x43a */
-        commData->gfxModeNum = 1;
-    }
-    /* 0x446 */
-    else {
-        commData->gfxModeNum = 0;
-    }
-    /* 0x44c */
-    misc_jump_5e_clearKeyFlags();
-    // 461
-    clearRect((int*)bufPtr, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
-    gfx_jump_52(0);
-    /* 0x478 */
-    exit(exitCode[0]);
-    /* 0x482 */
-}
 
 /* 0x4a0 */
 void initGraphics() 
@@ -253,7 +22,7 @@ void initGraphics()
     /* 0x4ac */
     gfx_jump_0e_setCurBuf(0);
     gfx_jump_0_alloc(0);
-    /* 0x4c4 */
+    /* 0x4c4 - see f14 gmain.c InitGraphicPages() */
     gfx_jump_4b_storeBufPtr(page1Ptr = gfx_jump_0_alloc(1), 1); // 64k framebuffer @ 2cc0:0
     /* 0x4d8 */
     if (*iacaSuFlag0Ptr == 0) {
@@ -297,7 +66,7 @@ void waitJoyKey(void)
 // 571
 int joyOrKey() {
     // 578
-    if (commData->setupUseJoy == 0) { // 57f
+    if (commData->setupUseJoy == 1) { // 57f
         // 582
         if (misc_jump_5d_readJoy(0) != 0) { // 58e
             return 1;
@@ -371,18 +140,22 @@ int showPic640(char* filename)
 void missionSelect() 
 {
     int index, count;
+    TRACE(("missionSelect(): entering"));
     // 6d3
     gfx_jump_44_setDac(1);
     // 6de
     gfx_jump_3d_null(0);
     // 6f0
     openShowPic(aWall_pic, *page1NumPtr);
+    TRACE(("missionSelect(): shown wall"));
     // 6f6
     clearBriefing();
+    TRACE(("missionSelect(): cleared briefing"));
     // 704
     nearmemset(scenarioFoundArr, 0, 5);
     // 71e
     gameData->difficulty = missionMenuSelect(missDiffLevels, missDiffDesc, aDifficulty, gameData->difficulty);
+    TRACE(("missionSelect(): selected difficulty: %d", gameData->difficulty));
     // 72c
 selectTheater:
     if (gameData->theater > 4)
@@ -451,12 +224,14 @@ selectTheater:
 int missionMenuSelect(char **names, char **desc, char *title, int selection)
 {
     int var_y, var_counter, var_input;
+    TRACE(("missionMenuSelect(): entering, selection %d", selection));
     enableHighlight = 1;
     drawColor = 1;
     // 934
     drawString(page1NumPtr, title, 113, 14, 185);
     // 952
     drawLine(page1NumPtr, 173, 22, 235, 22, 1);
+    TRACE(("missionMenuSelect(): drawn title %s", title));
     var_y = 26;
     // 95d
     for (var_counter = 0; var_counter < 5; var_counter++) {
@@ -468,10 +243,12 @@ int missionMenuSelect(char **names, char **desc, char *title, int selection)
             drawColor = 7;
             // 9c2
             drawString(page1NumPtr, desc[var_counter], 113, var_y + 8, 185);
+            TRACE(("missionMenuSelect(): drawn item %s/%s", names[var_counter], desc[var_counter]));
             fontIndex = 1;
         }
         var_y += 21;
     }
+    TRACE(("missionMenuSelect(): items drawn: %d", var_counter));
     // 9d4
     setTimerIrqHandler();
     timerCounter3 = 6;
@@ -481,6 +258,7 @@ int missionMenuSelect(char **names, char **desc, char *title, int selection)
         // a04
         animateArm(var_counter + 1, var_counter);
     }
+    TRACE(("missionMenuSelect(): animated arm"));
     // a0c
     do {
 again:
@@ -542,7 +320,7 @@ void animateArm(int a, int b)
             gfx_jump_29_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
         }
         // b2c
-        sub_1124A(*page1NumPtr, word_1716A[var_2], word_1717A[var_2], word_1714A[var_2], word_1715A[var_2], word_1718A[var_2], word_1719A[var_2]);
+        showSprite(*page1NumPtr, word_1716A[var_2], word_1717A[var_2], word_1714A[var_2], word_1715A[var_2], word_1718A[var_2], word_1719A[var_2]);
     }
     // b55
     if (commData->gfxModeNum == 1 || commData->gfxModeNum == 2) { // mda or cga?
@@ -562,7 +340,7 @@ void animateArm(int a, int b)
             // bdf
             if (a < 5 && enableHighlight != 0) {
                 // c10
-                gfx_jump_29_switchColor(page1NumPtr, 113, (21 * a) + 0x22, 297, (21 * a) + 0x2a, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
+                gfx_jump_29_switchColor(page1NumPtr, 113, (21 * a) + 0x22, 297, (21 * a) + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
             } // c18
         }
         word_19658 = word_1716A[var_2];
@@ -583,7 +361,7 @@ void animateArm(int a, int b)
         // c9d
         if (b < 5 && enableHighlight != 0) {
             // cce
-            gfx_jump_29_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
+            gfx_jump_29_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
         } //cd9
     }
 }
@@ -739,19 +517,21 @@ printMissionAgain:
 
 // 10ab
 int processStoreInput() {
-    int var_A;
+    uint16 var_A;
     char var_6;
     int var_4;
     int var_2;
     var_2 = var_4 = 0;
     var_6 = 0;
     // 10bd
+    TRACE(("processStoreInput(): entering"));
     if (word_17282 == 1) { // 10c4
         timerCounter = 0;
         var_6 = 1;
     }
     // 10d1
     if (commData->setupUseJoy == 1) { //10d8
+        TRACE(("processStoreInput(): use joy 1"));
         var_2 = misc_jump_5d_readJoy(0);
         var_4 = misc_jump_5d_readJoy(1);
         sub_16A7F();
@@ -765,59 +545,73 @@ int processStoreInput() {
         //     ((noJoy80[0] < 0x4e || (noJoy80[0] > 0xb2)))) ||
         //     ((noJoy80[1] < 0x4e || (noJoy80[1] > 0xb2)))) && (var_6 != 1)) break;
         if ((word_17282 == 1) && (0xf < timerCounter)) { //113f
+            TRACE(("processStoreInput(): cond 1"));
             var_6 = 0;
             word_17282 = 0;
         }
         // 1149
         if (commData->setupUseJoy == 1) { // 1154
+            TRACE(("processStoreInput(): use joy 2"));
             var_2 = misc_jump_5d_readJoy(0);
             var_4 = misc_jump_5d_readJoy(1);
             sub_16A7F();
         } // 1176
         if (cbreakHit != 0) {
+            TRACE(("processStoreInput(): cbreak"));
             cleanup();
             restoreCbreakHandler();
             exit(0);
         }
-        sub_1210A();
+        // blink cursor on top of current pilot selection
+        blinkPilot();
     } // 1192
+    TRACE(("processStoreInput(): out of while"));
     if (misc_jump_5a_keybuf() == 0) {
         var_A = misc_jump_5b_getkey();
+        TRACE(("processStoreInput(): got key 0x%x", var_A));
     }
     // 11a5
     else if (var_2 == 1) {
+        TRACE(("processStoreInput(): setting enter"));
         var_A = 0xd;
     }
     // 11b2
     else if (noJoy80[1] < 0x4e) {
-        var_A = 0x4800;
+        TRACE(("processStoreInput(): joy up"));
+        var_A = KEYCODE_UPARROW;
         word_17282 = 1;
     }
     // 11c6
     else if (noJoy80[1] > 0xb2) {
-        var_A = 0x5000;
+        TRACE(("processStoreInput(): joy dn"));
+        var_A = KEYCODE_DNARROW;
         word_17282 = 1;
     }
     // 11da
     else if (noJoy80[0] < 0x4e) {
-        var_A = 0x4b00;
+        TRACE(("processStoreInput(): joy left"));
+        var_A = KEYCODE_LEFTARROW;
         word_17282 = 1;
     }
     // 11ee
     else if (noJoy80[0] > 0xb2) {
-        var_A = 0x4d00;
+        TRACE(("processStoreInput(): joy right"));
+        var_A = KEYCODE_RIGHTARROW;
         word_17282 = 1;
     }
     // 1200
-    if (var_A != 0) {
+    if (((uint8*)&var_A)[0]) {
         var_A = var_A & 0xff;
+        TRACE(("processStoreInput(): anded to %u", var_A));
     }
     // 120a
     if (var_A == 0x1000) {
+        TRACE(("processStoreInput(): exiting"));
         cleanup();
         restoreCbreakHandler();
         exit(0);
     }
+    TRACE(("processStoreInput(): tail returning 0x%x", var_A));
     return var_A;
 }
 
@@ -867,9 +661,9 @@ int my_ltoa(int32 arg_0, int8* arg_4) {
     int8 *var_8;
     int8 var_6[6];
     var_8 = arg_4;
-    if ((int16)arg_0 < 0) { // 1604
+    if (arg_0 < 0) { // 1604
         arg_0 = -arg_0;
-        *var_8 = 0x2d;
+        *var_8 = '-';
         var_8++;
     } // 1620
     // 162f
@@ -894,21 +688,24 @@ int my_ltoa(int32 arg_0, int8* arg_4) {
     arg_0 /= 0xa;
     // 16ca
     var_6[5] = arg_0 % 0xa;
+    // 16cd
     var_A = 0;
+    // 16d1
+    for (var_C = 5; var_C > 0; var_C--) { // 16e0
+        if (var_6[var_C] != 0) break;
+    } // 16f0
     do {
-        for (var_C = 5; var_C > 0; var_C--) { // 16e0
-            if (var_6[var_C] != 0) break;
-        } // 16f0
         if (var_C == 2 && var_A == 1) { // 16f6
-            *var_8 = 0x2c;
+            *var_8 = ',';
             var_8++;
         } // 1705
-        *var_8 = var_6[var_C] + 0x30;
+        *var_8 = var_6[var_C] + '0';
         var_A = 1;
         var_8++;
     } while (--var_C >= 0);
     // 1724
-    *var_8 = 0;
+    *var_8 = '\0';
+    TRACE(("my_ltoa: exiting: %s", arg_4));
 }
 
 // 172c
@@ -935,10 +732,10 @@ int my_itoa(int arg_0, int8 *arg_2) {
     var_6[5] = arg_0 % 0xa;
     // 17a7
     var_A = 0;
+    for (var_C = 5; var_C > 0; var_C--) {
+        if (var_6[var_C] != 0) break;
+    } // 16f0
     do {
-        for (var_C = 5; var_C > 0; var_C--) {
-            if (var_6[var_C] != 0) break;
-        } // 16f0
         if (var_C == 2 && var_A == 1) {
             *var_8 = 0x2c;
             var_8++;
