@@ -153,7 +153,6 @@ f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(UASM) $(MAIN_EXE) $(START_EXE) $(TEST_EX
 start: $(START_EXE)
 
 debug: $(DEBUGDIR) $(START_DEBUG)
-	cp $(START_DEBUG) ../bin/03_test/start.exe
 
 clean:
 	-rm -rf $(BUILDDIR)/*
