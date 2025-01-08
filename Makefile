@@ -72,16 +72,19 @@ START_VRF_REF := bin/start.exe
 START_VRF_REFEP := 0x10
 START_VRF_TGTEP := [558bec83ec1c56c706]
 
-$(START_LST) $(START_INC): $(MZRETOOLDIR) $(LSTDIR)
-	touch $@
+# ----- Dependencies on the IDA listing commented out with start.exe is out of life support;
+# ----- modifications should be made to the assembly files directly as everything gets
+# ----- gradually moved over to C.
+# $(START_LST) $(START_INC): $(MZRETOOLDIR) $(LSTDIR)
+# 	touch $@
 
-# generate C header file from ida listing
-$(START_BASEHDR): $(START_LST) $(START_INC) $(START_CONF) $(LST2CH)
-	$(LST2CH) $< $(SRCDIR) $(START_CONF) --noc
+# # generate C header file from ida listing
+# $(START_BASEHDR): $(START_LST) $(START_INC) $(START_CONF) $(LST2CH)
+# 	$(LST2CH) $< $(SRCDIR) $(START_CONF) --noc
 
-# generate assembly for base object from ida listing
-$(SRCDIR)/$(START_BASE): $(START_LST) $(START_INC) $(START_CONF) $(LST2ASM)
-	$(LST2ASM) $< $@ $(START_CONF) --noproc --nopreserve
+# # generate assembly for base object from ida listing
+# $(SRCDIR)/$(START_BASE): $(START_LST) $(START_INC) $(START_CONF) $(LST2ASM)
+# 	$(LST2ASM) $< $@ $(START_CONF) --noproc --nopreserve
 
 $(START_COBJ): $(START_BASEHDR)
 $(BUILDDIR)/start2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
