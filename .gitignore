@@ -1,7 +1,13 @@
 build/
+debug_build/
 dos
-lst/
+lst
 bin/
 *.log
 *.err
 src/LOG.TXT
+*.visited
+*.swp
+*.tgt
+/*.bin
+/*.xxd

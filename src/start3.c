@@ -3,12 +3,16 @@
 #include "start.h"
 #include "pointers.h"
 #include "comm.h"
+#include "debug.h"
 
 #include <memory.h>
 #include <dos.h>
+#include <stdarg.h>
+#include <time.h>
+#include <string.h>
 
 // 37f8
-int sub_137F8(int32 arg_0, int32 arg_4) {
+int* sub_137F8(int32 arg_0, int32 arg_4) {
     int16 var_2, var_4, var_6, var_8, var_A, var_C, var_E, var_10, var_12, var_16, var_18, var_1A, var_20;
     int16 var_22;
     int16 var_14;
@@ -79,7 +83,7 @@ int sub_137F8(int32 arg_0, int32 arg_4) {
 }
 
 // 39e9
-int32 sub_139E9(int arg_0, uint32 arg_2) {
+uint32 sub_139E9(int arg_0, uint32 arg_2) {
     switch (arg_0) { // 3a43
     case 4: // 39f1
         return arg_2 >> 6;
@@ -115,17 +119,22 @@ int sub_13A61(int16 arg_0, int16 arg_2, int16 arg_4) {
 
 // 0x4042
 void missionGenerate() {
+    TRACE(("missionGenerate(): entering"));
     difficultySaved = gameData->difficulty;
     theaterSaved = gameData->theater & 3;
     flag4Saved = gameData->flag4;
+    TRACE(("missionGenerate(): parsing world %s", worldFiles[gameData->theater]));
     parseWorld(worldFiles[gameData->theater]);
     mystrcpy(regnPlhPtr, plhFiles[gameData->theater]);
+    TRACE(("missionGenerate(): parsing grid/terrain"));
     parseGridTerrain();
-    sub_14093();
+    TRACE(("missionGenerate(): running generator"));
+    runGenerator();
+    TRACE(("missionGenerate(): returning"));
 }
 
 // 4093
-void sub_14093()
+void runGenerator()
 {
   int var_2;
   int var_4;
@@ -147,17 +156,21 @@ void sub_14093()
   int var_2A;
   int var_2C;
   
+  TRACE(("runGenerator(): entering"));
   // 409d
   var_2 = word_1DD38 = 0;
   var_16 = 0xfa;
   // 40a8
 restart_40a8:
   do {
+    TRACE(("runGenerator(): outer, %d", var_2));
     var_2 = var_2 + 1;
     if (999 < var_2) goto counterMore1k;
     // 40b5
     do {
+      TRACE(("runGenerator(): inner"));
       if (missionPick != -1) {
+        TRACE(("runGenerator(): inner branch 1"));
         // 40c6
         var_1A = randMul(word_19324[missionPick]);
         // 40e9
@@ -166,8 +179,11 @@ restart_40a8:
       }
       // 40f4
       else {
+        TRACE(("runGenerator(): inner branch 2"));
         do {
+          TRACE(("runGenerator(): inner branch 2 loop 1"));
           do {
+            TRACE(("runGenerator(): inner branch 2 loop 2"));
             // 40f8
             var_1A = randMul(0xe0) * 0x80 + 0x840;
             // 410c
@@ -177,6 +193,7 @@ restart_40a8:
           // 413e
         } while ((targets[0].field_2 = sub_14BB4(var_1A,var_24,1)) == 0xffff);
       }
+      TRACE(("runGenerator(): past inner check 1"));
       // 414c
       if (missionPick == 7) {
         // 4172
@@ -209,12 +226,16 @@ restart_40a8:
           target2.field_2 = sub_14BB4(var_1A, var_24, 2);
         } while ((target2.field_2 == -1) || ((missionPick == 0 && (wldReadBuf4[target2.field_2].field_6 == 0))));
       }
+      TRACE(("runGenerator(): past inner check 2"));
     // 4257
     } while ((targets[0].field_2 == target2.field_2) || (sub_14C94(targets[0].field_2, target2.field_2) >> 6) > 200);
+    TRACE(("runGenerator(): passed inner"));
   // 427a
   } while ((gameData->theater != THEATER_DS) && (wldReadBuf4[targets[0].field_2].field_E == wldReadBuf4[target2.field_2].field_E));
+  TRACE(("runGenerator(): past outer"));
   // 42a0
   for (var_2A = 0; var_2A < 2; var_2A++) {
+    TRACE(("runGenerator(): loop 2, counter %d", var_2A));
     // 42b8
     var_20[var_2A] = 0x7fff;
     // 42bd
@@ -235,6 +256,7 @@ restart_40a8:
       }
     }
   }
+  TRACE(("runGenerator(): past loop2"));
   // 4377
   if (gameData->theater != THEATER_DS) {
     // 438a
@@ -255,8 +277,10 @@ restart_40a8:
       targets[0].field_4 = targets[1].field_4;
     }
   }
+  TRACE(("runGenerator(): past DS check"));
   // 43f4
   for (var_26 = 0; var_26 < 2; var_26++) {
+    TRACE(("runGenerator(): loop3, counter %d", var_26));
     // 4407
     targets[var_26].field_0 = 0;
     // 4415
@@ -285,8 +309,12 @@ restart_40a8:
       var_10 = randMul(var_28);
     }
   }
+  TRACE(("runGenerator(): past loop3"));
   // 44ec
-  if ((targets[0].field_0 == 0) || (targets[1].field_0 == 0)) goto restart_40a8;
+  if ((targets[0].field_0 == 0) || (targets[1].field_0 == 0)) {
+    TRACE(("runGenerator(): restart 1"));
+    goto restart_40a8;
+  }
   // 44fd
   if ((var_20[0] < var_20[1]) && (missionPick == -1)) {
     // 450c
@@ -310,7 +338,11 @@ restart_40a8:
     var_20[1] = var_12;
   }
   // 4578
-  if (targets[0].field_0 == 4) goto restart_40a8;
+  if (targets[0].field_0 == 4) {
+    TRACE(("runGenerator(): restart2"));
+    goto restart_40a8;
+  }
+  TRACE(("runGenerator(): past restart checks"));
   // 4582
   word_1B148 = 0xffff;
   // 4588
@@ -323,6 +355,7 @@ restart_40a8:
   }
   // 45b2
   for (var_26 = 0; var_26 < 2; var_26++) {
+    TRACE(("runGenerator(): loop4, counter %d", var_26));
     // 45e2
     mystrcpy(targets[var_26].coord, sub_152F4(targets[var_26].field_2));
     // 45f0
@@ -342,9 +375,11 @@ restart_40a8:
       }
     }
   }
+  TRACE(("runGenerator(): past loop4"));
   // 4689
   targets[0].field_10 = word_1DD38 >> 4;
 counterMore1k:
+  TRACE(("runGenerator(): counterMore1k"));
   // 46a9
   dword_1D5D0 = (uint32)(wldReadBuf4[targets[0].field_4].field_2) << 5;
   // 46ad
@@ -383,6 +418,7 @@ counterMore1k:
   }
   // 47a0
   for (var_26 = 0; var_26 < wldReadBuf5Size - 4; var_26++) { // 47cb8
+    TRACE(("runGenerator(): loop5, counter %d", var_26));
     // 47c4
     if ((wldReadBuf6[var_26].field_18 & 0x80) != 0) {
       // 47ea
@@ -439,8 +475,10 @@ counterMore1k:
       wldReadBuf4[var_C].field_C = randMul(theaterSaved + 1) + 1;
     } // 4996
   }
+  TRACE(("runGenerator(): past loop5"));
   // 4999
   for (var_26 = 0; var_26 < wldReadBuf2; var_26++) { // 49ae
+    TRACE(("runGenerator(): loop6, counter %d", var_26));
     var_18 = wldReadBuf4[var_26].field_6;
     // 49b9
     if ((var_18 != 0) && (var_18 != 21)) { // 49cb
@@ -470,6 +508,7 @@ counterMore1k:
       }
     } // 4a6b
   }
+  TRACE(("runGenerator(): past loop6"));
   // 4a6e
   for (var_1A = 0; (int)var_1A < 0x10; var_1A++) { // 4a7e
     for (var_24 = 0; var_24 < 0x10; var_24++) { // 4a8e
@@ -478,6 +517,7 @@ counterMore1k:
       }
     }
   } // 4ac2
+  TRACE(("runGenerator(): past loop7"));
   commData->unk7[1] = 1;
   commData->unk7[2] = 5;
   commData->unk7[0] = 0; 
@@ -492,9 +532,11 @@ counterMore1k:
   var_A = 0;
   // 4b13
   for (var_26 = 0; var_26 < 3; var_26++) { // 4b23
+    TRACE(("runGenerator(): loop8, counter %d", var_26));
     // 4b49
-    commData->unk8[var_26] = word_189B6[commData->unk7[var_26] * 0x1a];
+    commData->unk8[var_26] = word_189B6[commData->unk7[var_26] * 0x34];
   } 
+  TRACE(("runGenerator(): past loop8"));
   // 4b4f
   var_8 = targets[0].field_8 + targets[1].field_8;
   word_18994 = ((uint8)var_8 & 3) == 0;
@@ -509,13 +551,14 @@ counterMore1k:
     word_18994 = 1;
   } // 4b9d
   word_1DD38 -= (var_8 + word_1DD38) % 0x96;
+  TRACE(("runGenerator(): exiting"));
 }
 
 // 4bb4
 int sub_14BB4(int arg_0, int arg_2, int arg_4) {
     int var_2;
     // 4bf2
-    if ((word_1B960 = sub_137F8((long)arg_0 << 5 , (0x8000 - (long)arg_2) << 5)) != 0) { // 4bfc
+    if ((word_1B960 = sub_137F8((long)arg_0 << 5 , (0x8000 - (long)arg_2) << 5)) != NULL) { // 4bfc
         // 4c10
         arg_0 = ((long*)word_1B960)[1] >> 5;
         arg_2 = -((((long*)word_1B960)[2] >> 5) - 0x8000);
@@ -526,7 +569,7 @@ int sub_14BB4(int arg_0, int arg_2, int arg_4) {
         } // 4c63
         wldReadBuf4[arg_4].field_2 = arg_0;
         wldReadBuf4[arg_4].field_4 = arg_2;
-        wldReadBuf4[arg_4].field_E = *((int*)word_1B960) + 0x100;
+        wldReadBuf4[arg_4].field_E = *word_1B960 + 0x100;
         return arg_4;
     }
     // 4c8a
@@ -535,6 +578,7 @@ int sub_14BB4(int arg_0, int arg_2, int arg_4) {
 }
 
 // 4c94
+// debugcom: manhattan distance
 int sub_14C94(int arg_0, int arg_2) {
     // 4cb7
     return sub_14D96(wldReadBuf4[arg_0].field_2 - wldReadBuf4[arg_2].field_2, 
@@ -566,6 +610,7 @@ int sub_14CC5(int arg_0, int arg_2) {
 }
 
 // 4d96
+// debugcom: custom_manhattan_distance
 int sub_14D96(int arg_0, int arg_2) {
     long var_2;
     // 4d9f

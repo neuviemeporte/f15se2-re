@@ -42,22 +42,24 @@ randMul: Code1 NEAR 1835-1858 R1835-1858 complete
 # !!!
 setTimerIrqHandler: Code1 NEAR 185a-1897 R185a-1897 assembly
 restoreTimerIrqHandler: Code1 NEAR 1898-18b8 R1898-18b8 assembly
-sub_118B9: Code1 NEAR 18b9-19d3 U18b9-19d3 detached
-sub_119d4: Code1 NEAR 19d4-1a68 R19d4-1a3b U1a3c-1a3c R1a3d-1a68 assembly
-sub_11a69: Code1 NEAR 1a69-1abd R1a69-1a92 U1a93-1a93 R1a94-1abd assembly
+unreach_118B9: Code1 NEAR 18b9-18e2 U18b9-18e2 detached
+timerIrqHandler: Code1 NEAR 18e7-194c R18e7-194c assembly
+sub_1194D: Code1 NEAR 194d-19d3 R194d-19d3 assembly
+sub_119D4: Code1 NEAR 19d4-1a68 R19d4-1a3b U1a3c-1a3c R1a3d-1a68 assembly
+sub_11A69: Code1 NEAR 1a69-1abd R1a69-1a92 U1a93-1a93 R1a94-1abd assembly
 getTimeOfDay: Code1 NEAR 1abe-1ac4 R1abe-1ac4 assembly
 # called from timerIrqHandler
-increaseTimerCounters: Code1 NEAR 1ac5-1adb U1ac5-1adb assembly
+increaseTimerCounters: Code1 NEAR 1ac5-1ada U1ac5-1ada assembly
 # !!!
 sub_11ADC: Code1 NEAR 1adc-1b02 R1adc-1b02 assembly
 picBlit: Code1 NEAR 1b03-1b70 R1b03-1b70 assembly
 pilotSelect: Code1 NEAR 1b72-1c06 R1b72-1c06 complete
 updateHallfame: Code1 NEAR 1c08-1d30 R1c08-1c22 U1c23-1c23 R1c24-1c86 U1c87-1c87 R1c88-1cb2 U1cb3-1cb3 R1cb4-1d30 complete
-choosePilotPrompt: Code1 NEAR 1d32-1d7f R1d32-1d7f complete
-sub_11D80: Code1 NEAR 1d80-1f42 R1d80-1dde U1ddf-1ddf R1de0-1ea6 U1ea7-1ea7 R1ea8-1f42 complete
+displayPilots: Code1 NEAR 1d32-1d7f R1d32-1d7f complete
+printPilot: Code1 NEAR 1d80-1f42 R1d80-1dde U1ddf-1ddf R1de0-1ea6 U1ea7-1ea7 R1ea8-1f42 complete
 # !!!
 processPilotInput: Code1 NEAR 1f44-2109 R1f44-2064 U2065-2065 R2066-207a U207b-207b R207c-20c6 U20c7-20c7 R20c8-2109 complete
-sub_1210A: Code1 NEAR 210a-2181 R210a-2181 complete
+blinkPilot: Code1 NEAR 210a-2181 R210a-2181 complete
 gameDataToPilot: Code1 NEAR 2182-2231 R2182-220c U220d-220d R220e-2231 complete
 pilotToGameData: Code1 NEAR 2232-22ea R2232-22ea complete
 pilotNameInput: Code1 NEAR 22ec-24e3 R22ec-23f5 U23f6-23f7 R23f8-2496 U2497-2497 R2498-24e3 complete
@@ -111,12 +113,13 @@ unreach_30b4: Code1 NEAR 30b4-30c5 U30b4-30c5 detached
 closeFileWrapper: Code1 NEAR 30c6-30d3 R30c6-30d3 complete
 unreach_30d4: Code1 NEAR 30d4-3119 U30d4-3119 detached
 # has chunk
-openFile: Code1 NEAR 311a-3170 R311a-3170 R32d6-3311 assembly
+openFile: Code1 NEAR 311a-3170 R311a-3170 assembly
 unreach_3171: Code1 NEAR 3171-31c7 U3171-31c7 detached
 fileClose: Code1 NEAR 31c8-31e8 R31c8-31e8 assembly
 unreach_31ea: Code1 NEAR 31ea-326b U31ea-326b detached
 read512FromFileIntoBuf: Code1 NEAR 326c-328c U326c-328c assembly
-unreach_328d: Code1 NEAR 328d-32d5 U328d-32d5 detached
+unreach_328d: Code1 NEAR 328d-32a4 U328d-32a4 detached
+sub_132A5: Code1 NEAR 32a5-3311 U32a5-32d5 R32d6-3311 assembly 
 openShowPic: Code1 NEAR 3312-333d R3312-333d complete
 unreach_333e: Code1 NEAR 333e-3367 U333e-3367 detached
 loadPic: Code1 NEAR 3368-3390 R3368-3390 complete
@@ -149,7 +152,7 @@ sub_13EA8: Code1 NEAR 3ea8-3ed1 R3ea8-3ed1 complete
 # a bunch of unreachable routines
 unreach_3ed2: Code1 NEAR 3ed2-4041 U3ed2-4041 detached
 missionGenerate: Code1 NEAR 4042-4092 R4042-4092 complete
-sub_14093: Code1 NEAR 4093-4bb3 R4093-4a19 U4a1a-4a2b R4a2c-4bb3 complete
+runGenerator: Code1 NEAR 4093-4bb3 R4093-4a19 U4a1a-4a2b R4a2c-4bb3 complete
 sub_14BB4: Code1 NEAR 4bb4-4c93 R4bb4-4c93 complete
 sub_14C94: Code1 NEAR 4c94-4cc4 R4c94-4cc4 complete
 sub_14CC5: Code1 NEAR 4cc5-4d95 R4cc5-4d95 complete
@@ -241,7 +244,7 @@ gfx_jump_0d_setCurBuf: Data1 FAR 0af9-0afd R0af9-0afd ignore
 gfx_jump_0e_setCurBuf: Data1 FAR 0afe-0b02 R0afe-0b02 ignore
 gfx_jump_0f_getBufPtr: Data1 FAR 0b03-0b07 R0b03-0b07 ignore
 gfx_jump_10_getCurBuf: Data1 FAR 0b08-0b0c R0b08-0b0c ignore
-gfx_jump_11: Data1 FAR 0b0d-0b11 R0b0d-0b11 ignore
+gfx_jump_11_blitSprite: Data1 FAR 0b0d-0b11 R0b0d-0b11 ignore
 gfx_jump_17: Data1 FAR 0b2b-0b2f R0b2b-0b2f ignore
 gfx_jump_1f: Data1 FAR 0b53-0b57 R0b53-0b57 ignore
 gfx_jump_20_setVal: Data1 FAR 0b58-0b5c R0b58-0b5c ignore
@@ -278,3 +281,5 @@ misc_slot_5e_clearKeyFlags: Data1 FAR 0c8e-0c92 R0c8e-0c92 ignore
 audio_slot_64: Data1 FAR 0cac-0cb0 R0cac-0cb0 ignore
 audio_slot_65: Data1 FAR 0cb1-0cb5 R0cb1-0cb5 ignore
 audio_slot_67: Data1 FAR 0cbb-0cbf R0cbb-0cbf ignore
+audio_slot_6b: Data1 FAR 0ccf-0cd3 R0ccf-0cd3 ignore
+audio_slot_6c: Data1 FAR 0cd4-0cd8 R0cd4-0cd8 ignore

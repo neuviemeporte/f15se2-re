@@ -78,13 +78,13 @@ struct struc_10 {
 
 #pragma pack(1)
 struct Pilot {
-    int8 field_0[PILOTNAMELEN];
-    int32 field_16; // total score
-    uint16 field_1A; // last score
-    int8 field_1C; // rank
+    int8 name[PILOTNAMELEN]; // 0
+    int32 total_score; // 0x16
+    uint16 last_score; // 0x1a
+    int8 rank; // 0x1c
     uint8 field_1D;
-    int8 field_1E; // theater
-    int8 field_1F; // difficulty
+    int8 theater; // 0x1e
+    int8 difficuly; // 0x1f
 };
 
 struct Plane {
