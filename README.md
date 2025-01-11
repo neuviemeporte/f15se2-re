@@ -55,5 +55,6 @@ The Makefile contains a target for automatically comparing the reconstruction wi
 
 For reference, I'm using original binaries with the following MD5 sums to compare against:
 
-* `start.exe`: packed: 320bc386921add664e4c18e86c9d6f90 unpacked: cf6e997ed4582cf82db6ec37d2b1a6fd
-
+* `start.exe`: packed: 320bc386921add664e4c18e86c9d6f90, unpacked: cf6e997ed4582cf82db6ec37d2b1a6fd
+* `egame.exe`: packed: 9466f65ef34ede3e3533db42ab5b06dc, unpacked: ffc191b1caeafc3b6f435795f8ea868e
+* `end.exe`: packed: f1401198c3a5b951dad0387ee3f73e7d, unpacked: e87480263bff1555f59709ce8eca2949
