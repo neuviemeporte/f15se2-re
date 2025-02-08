@@ -170,7 +170,7 @@ checkEga:
     difficulty = gameData->difficulty;
     theater = gameData->theater;
     /* 0x2ac */
-    if (commData->gfxModeNum == 0 && gameData->flag1 == 0 && gameData->theater < 4 &&
+    if (commData->gfxModeChar == 0 && gameData->flag1 == 0 && gameData->theater < 4 &&
             ++(gameData->theater) == 4) {
         /* 0x2d8 */
         gameData->theater = 0;
@@ -256,11 +256,11 @@ doSrand:
     /* 0x42f */
     if (gameData->flag3 > 1) {
         /* 0x43a */
-        commData->gfxModeNum = 1;
+        commData->gfxModeChar = 1;
     }
     /* 0x446 */
     else {
-        commData->gfxModeNum = 0;
+        commData->gfxModeChar = 0;
     }
     /* 0x44c */
     TRACE(("main: clearing keyflags and screen"));

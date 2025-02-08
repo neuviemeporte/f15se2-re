@@ -100,7 +100,7 @@ uint32 sub_139E9(int arg_0, uint32 arg_2) {
 
 // 3a61
 int sub_13A61(int16 arg_0, int16 arg_2, int16 arg_4) {
-    if (arg_0 < 0 || arg_4 < 0 || arg_2 >= word_18026[arg_0 + 6] || arg_4 >= word_18026[arg_0 + 6]) 
+    if (arg_2 < 0 || arg_4 < 0 || arg_2 >= word_18026[arg_0 + 6] || arg_4 >= word_18026[arg_0 + 6]) 
         return -1;
     // 3a8a
     switch (arg_0) { // 3b61
@@ -295,7 +295,7 @@ restart_40a8:
             // 4495
             targets[var_26].field_0 = stru_18FC0[var_2A].field_0;
             targets[var_26].field_8 = var_2A;
-            targets[var_26].field_6 = stru_18FC0[var_2A].field_6;
+            targets[var_26].field_6 = stru_18FC0[var_2A].field_4;
             // 44c3
             if (stru_18FC0[var_2A].field_6 > 0) {
               // 44ca

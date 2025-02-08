@@ -101,6 +101,11 @@ $(START_DEBUG): MSC_CFLAGS += /DDEBUG
 $(START_DEBUG): UASMFLAGS += -DDEBUG
 $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(START_DBG_OBJ) -o $@ -f "$(LINKFLAGS)"
+	@if [ -n "$(F15_TESTDIR)" ]; then \
+	    echo "Copying $@ to $(F15_TESTDIR)"; \
+	    cp $@ "$(F15_TESTDIR)"; \
+		ls -l $(F15_TESTDIR)/start.exe; \
+	fi
 
 #
 # start.exe reassembly (re)

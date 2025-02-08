@@ -389,10 +389,10 @@ void checkDiskA() {
         clearBriefing();
         // d69
         drawString(page1NumPtr, aPleaseReinsert, 0x71, 0x3d, 0xb9);
-        page1NumPtr[0xc] = 4; // fontIndex?
+        page1NumPtr[6] = 4; // fontIndex?
         // d8c
         drawString(page1NumPtr, aPressSelectorW, 0x71, 0x49, 0xb9);
-        page1NumPtr[0xc] = 1;
+        page1NumPtr[6] = 1;
         enableHighlight = 0;
         timerCounter3 = 6;
         // dae

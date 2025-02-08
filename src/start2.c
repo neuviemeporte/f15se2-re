@@ -96,13 +96,17 @@ int updateHallfame()
         saveHallfame();
         return;
     }
-    screenBuf[6] = 0;
+    // 1cb8
+    screenBuf[3] = 0;
+    // 1ccd
     clearRect(screenBuf, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
     gfx_jump_50_null();
-    screenBuf[4] = 0xf;
+    screenBuf[2] = 0xf;
+    // 1cf4
     drawString(screenBuf, aOriginalDiskIn, 0, 0x64, 0x140);
     drawString(screenBuf, aPressAKeyToCon, 0, 0x96, 0x140);
-    screenBuf[4] = 7;
+    screenBuf[2] = 7;
+    // 1d1c
     gfx_jump_46_retrace2();
     misc_jump_5b_getkey();
     gfx_jump_45_retrace();
@@ -351,6 +355,7 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
     uint16 var_4;
     int var_2;
     var_C = 0;
+    TRACE(("pilotNameInput(): entering with page = %d, abc = %d/%d/%d, pilot: %s", *page, a,b,c, pilot->name));
     // 2307
     x = (selectedPilotIdx < 4) ? 0x10 : 0xa0;
     y = ((selectedPilotIdx & 3) * 44) + 20;
@@ -366,11 +371,14 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
     drawString(pageNumPtr, aMenterYourName, 0xf, 0xc0, 0x121);
     misc_jump_5e_clearKeyFlags();
     var_4 = 0x18;
+    TRACE(("pilotNameInput(): before loop"));
     do {
         // 23aa
+        TRACE(("pilotNameInput(): loop iter, var_4 = 0x%x", var_4));
         switch(var_4) {
         // 23b5
-        case 0x18:
+        case 0x18: // ctrl-x?
+            TRACE(("pilotNameInput(): case 0x18"));
             // 23f8
             var_10 = 0;
             pilot->name[0] = '\0';
@@ -380,7 +388,8 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
             var_6 = page[4];
             break;
         // 23ad
-        case 8: 
+        case 8: // backspace
+            TRACE(("pilotNameInput(): case 8"));
             // 2498
             if (var_10 > 0) {
                 var_10--;
@@ -393,8 +402,10 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
             }
             break;
         default: 
+            TRACE(("pilotNameInput(): case default"));
             // 23ba
             if (var_4 >= 0x20 && var_4 <= 0x7f && var_10 < a && stringWidth(page, pilot->name) <= 0x90) {
+                TRACE(("pilotNameInput(): case default condition true, var_10 = %d", var_10));
                 // 23e9
                 pilot->name[var_10++] = var_4;
                 // 23eb
@@ -407,18 +418,21 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
             break;
         }
         // 243b
+        TRACE(("pilotNameInput(): before input loop"));
         while (getJoyKey() == 0) {
             waitMdaCgaStatus(3);
             gfx_jump_29_switchColor(page, x, y - 1, x + var_2, y + c, 
                 pilotNameInputColors[var_C], pilotNameInputColors[var_C ^ 1]);
             var_C ^= 1;
-            page[6] = pilotNameInputColors[var_C];
+            page[3] = pilotNameInputColors[var_C];
         }
+        TRACE(("pilotNameInput(): after input loop"));
         // 24a4
         var_4 = sub_125E4();
         if ((var_4 & 0xff) != 0) {
-            var_4 &= 0xff00;
+            var_4 &= 0xff;
         }
+        TRACE(("pilotNameInput(): after sub_125e4, var_4 = 0x%x", var_4));
         // 24b4
         if (var_4 == 0xd) { // 24bd
             screenBuf[3] = 0;
@@ -426,6 +440,7 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
             return;
         }
     } while( true );
+    TRACE(("pilotNameInput(): exiting"));
 }
 
 
