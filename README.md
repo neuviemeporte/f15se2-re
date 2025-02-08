@@ -39,17 +39,17 @@ As of the time of writing this, the status of the reconstruction is as follows:
 
 * all C code has been reconstructed, the executable works with the original game
 * assembly routines need porting into C
-* the data segment is still generated from assembly, all variables need to be carried over to C
-* code still contains placeholder names for routines and variables, needs experimentation, refactoring and comments to document the purpose of the code
-* some bugs still remain: new pilot name input does not work on the roster screen, the flight engine's map looks messed up, missile counts are wrong, some HUD symbology has wrong colors
+* the data segment is still generated from assembly, all variables need to be moved to C
+* code still contains placeholder names for routines and variables, needs experimentation, refactoring and comments to document the purpose of the code, especially around the mission generator
+* some bugs still remain, e.g. missile counts are wrong when in the cockpit
 
 ## `egame.exe` 
 
-* not touched
+* initial research, will start reconstruction soon
 
 ## `end.exe`
 
-* not touched
+* not started
 
 ## `mgraphic.exe` 
 
