@@ -144,14 +144,14 @@ EGAME_OBJ := $(EGAME_COBJ) $(call asmobj,$(BUILDDIR),$(EGAME_ASM))
 $(EGAME_COBJ): $(EGAME_BASEHDR)
 $(EGAME_EXE): | $(BUILDDIR)
 $(EGAME_EXE): $(EGAME_OBJ)
-	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_COBJ) -o $@ -f "$(LINKFLAGS)"
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_OBJ) -o $@ -f "$(LINKFLAGS)"
 
 # generate C header file from ida listing
 $(EGAME_BASEHDR): $(EGAME_LST) $(START_INC) $(EGAME_CONF) $(LST2CH)
 	$(LST2CH) $< $(SRCDIR) $(EGAME_CONF) --noc
 
 # generate assembly for base object from ida listing
-$(SRCDIR)/$(EGAME_BASE): $(EGAME_LST) $(START_INC) $(EGAME_CONF) $(LST2ASM)
+$(SRCDIR)/$(EGAME_BASE): $(EGAME_LST) $(EGAME_CONF) $(LST2ASM)
 	$(LST2ASM) $< $@ $(EGAME_CONF) --noproc --nopreserve
 
 $(EGAME_COBJ): $(EGAME_BASEHDR)
