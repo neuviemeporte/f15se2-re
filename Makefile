@@ -90,7 +90,8 @@ $(START_COBJ): $(START_BASEHDR)
 $(BUILDDIR)/start2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/start4.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 
-$(START_EXE): $(BUILDDIR) $(START_OBJ)
+$(START_EXE): | $(BUILDDIR)
+$(START_EXE): $(START_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(START_OBJ) -o $@ -f "$(LINKFLAGS)"
 
 # start.exe debug build
@@ -129,6 +130,38 @@ $(STARTRE_EXE): $(STARTRE_OBJ)
 	diff -q $(REASMDIR)/start.hex $(REASMDIR)/start_re.hex
 
 #
+# egame.exe reconstruction (rc)
+#
+EGAME_EXE := $(BUILDDIR)/egame.exe
+EGAME_LST := $(LSTDIR)/egame.lst
+EGAME_CONF := $(CONFDIR)/egame_rc.json
+EGAME_BASE := egame_rc.asm
+EGAME_ASM := $(EGAME_BASE)
+EGAME_SRC := egame0.c
+EGAME_BASEHDR = $(SRCDIR)/egame.h
+EGAME_COBJ := $(call cobj,$(BUILDDIR),$(EGAME_SRC))
+EGAME_OBJ := $(EGAME_COBJ) $(call asmobj,$(BUILDDIR),$(EGAME_ASM))
+$(EGAME_COBJ): $(EGAME_BASEHDR)
+$(EGAME_EXE): | $(BUILDDIR)
+$(EGAME_EXE): $(EGAME_OBJ)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_OBJ) -o $@ -f "$(LINKFLAGS)"
+
+# generate C header file from ida listing
+$(EGAME_BASEHDR): $(EGAME_LST) $(START_INC) $(EGAME_CONF) $(LST2CH)
+	$(LST2CH) $< $(SRCDIR) $(EGAME_CONF) --noc
+
+# generate assembly for base object from ida listing
+$(SRCDIR)/$(EGAME_BASE): $(EGAME_LST) $(EGAME_CONF) $(LST2ASM)
+	$(LST2ASM) $< $@ $(EGAME_CONF) --noproc --nopreserve
+
+$(EGAME_COBJ): $(EGAME_BASEHDR)
+
+# reference and target entrypoints (offset of main()) for binary comparison
+EGAME_VRF_REF := bin/egame.exe
+EGAME_VRF_REFEP := 0x10
+EGAME_VRF_TGTEP := [558bec83ec??c746]
+
+#
 # unit test executable
 #
 TEST_EXE := $(DEBUGDIR)/test.exe
@@ -153,9 +186,10 @@ $(HELLO_EXE): LINKFLAGS := /M /I /NOD /NOE
 $(HELLO_EXE): $(HELLO_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)" -l "$(HELLO_LIB)"
 
-f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(UASM) $(MAIN_EXE) $(START_EXE) $(TEST_EXE)
+f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(UASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(TEST_EXE)
 
 start: $(START_EXE)
+egame: $(EGAME_EXE)
 
 debug: $(DEBUGDIR) $(START_DEBUG)
 
@@ -201,11 +235,9 @@ $(DEBUGDIR)/%.obj $(BUILDDIR)/%.obj: $(SRCDIR)/%.asm
 reasm: $(STARTRE_EXE)
 
 # skip libc routines (which start with an underscore in the map), and overlay slot pseudofunctions in the comparison
-VERIFY_FLAGS := --loose --ctx 30
+VERIFY_FLAGS := --verbose --loose --ctx 30
 
-verify: VERIFY_FLAGS += --verbose
-verify: verify-start
-
+verify: verify-start verify-egame
 verify-debug: VERIFY_FLAGS += --debug
 verify-debug: verify-start
 
@@ -213,8 +245,15 @@ $(START_VRF_REF):
 	@echo "---> Place start.exe with md5sum cf6e997ed4582cf82db6ec37d2b1a6fd into bin/"
 	@exit 1
 
+$(EGAME_VRF_REF):
+	@echo "---> Place egame.exe with md5sum ffc191b1caeafc3b6f435795f8ea868e into bin/"
+	@exit 1
+
 verify-start: $(MZDIFF) $(START_EXE) $(START_VRF_REF)
 	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map map/start.map --asm
+
+verify-egame: $(MZDIFF) $(EGAME_EXE) $(EGAME_VRF_REF)
+	$(MZDIFF) $(EGAME_VRF_REF):$(EGAME_VRF_REFEP) $(EGAME_EXE):$(EGAME_VRF_TGTEP) $(VERIFY_FLAGS) --map map/egame.map
 
 TOOLS := $(TOOLDIR)/ovltool $(TOOLDIR)/vgapal $(TOOLDIR)/wldparse
 f15-tools: $(TOOLDIR) $(TOOLS)

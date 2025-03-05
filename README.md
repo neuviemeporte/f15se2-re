@@ -4,11 +4,11 @@ This is a work in progress project to reconstruct the source code for the MS-DOS
 
 The original game was written in a mixture of C and assembly. The C source code was compiled with the Microsoft C compiler v5.1.
 
-The reconstruction aims to be bug-for-bug faithful, and the C routines yield code that's identical to the original at the CPU instruction level (when compiled with the same compiler with appropriate flags), while allowing for layout differences in the executable.
+The reconstruction aims to be bug-for-bug faithful, and the C routines yield code that's identical to the original at the CPU instruction level (when compiled with the same compiler with appropriate flags), while allowing for layout differences in the executables.
 
 Given the fact that this game shares a lot of DNA with the game that preceeded it (F-19) and the one that came after (F-117), there is probably a lot of overlap, and this effort might lead to supporting those games in the future.
 
-This is just the reconstruction project, porting to a modern OS and potential improvements and bugfixes will be carried out under a separate project in the future.
+This is just the reconstruction project; porting to a modern OS, potential improvements and bugfixes will be targeted by a separate project in the future.
 
 This repository contains no game assets, executables or other copyrighted material, it's a clean rewrite of the game's source code based on my analysis of the game binaries obtained from the original floppy disks, for preservation and historical research purposes, and as such should fall under the interoperability exemption of the DMCA.
 
@@ -16,14 +16,14 @@ Development journal: https://neuviemeporte.github.io/category/f15-se2
 
 # Executables
 
-The game consists of multiple executables, some of which are the target of source code reconstruction:
+The game contains multiple executables, but only these are targets for source code reconstruction:
 
 * `f15.com` - the game loader, originally written in obfuscated, self-modifying assembly code which included disk-based copy protection.
 * `su.exe` - the setup executable, lets player pick the video and sound hardware they want to use and does some initialization work
 * `start.exe` - the first stage of the game, handles the intro, mission selection and briefing
 * `egame.exe` - the second stage of the game, the actual 3D flight engine
 * `end.exe` - the third stage of the game with the mission debriefing, loader goes back to `start.exe` afterwards
-* `mgraphic.exe` - the MCGA video driver overlay, dynamically loaded assembly routines for graphics handling
+* `mgraphic.exe` - the MCGA/VGA video driver overlay, dynamically loaded assembly routines for graphics handling
 
 The remaining executables are ignored in this project, see the development journal for rationale.
 
@@ -45,7 +45,7 @@ As of the time of writing this, the status of the reconstruction is as follows:
 
 ## `egame.exe` 
 
-* initial research, will start reconstruction soon
+* reconstruction in progress
 
 ## `end.exe`
 
@@ -56,8 +56,6 @@ As of the time of writing this, the status of the reconstruction is as follows:
 * overlay header and overall layout understood
 * some research done into the purpose of individual routines inside
 * reconstruction not started yet
-
-The reconstruction is the first step, multiple variables and routines still have generic names because they are not fully understood, and will have to be further analyzed through instrumentation and experimentation.
 
 # Building
 

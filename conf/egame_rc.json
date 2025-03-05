@@ -1,0 +1,57 @@
+{
+    "in_segments": [ "seg000", "seg001", "seg002", "seg003", "dseg" ],
+    "code_segments": [ "seg000", "seg001", "seg002", "seg003" ],
+    "data_segments": [ "dseg" ],
+    "bss" : [
+        { "seg": "dseg", "begin": "0x66c0", "end": "0xa016" }
+    ],
+    "data_size": "0xa020",
+    "extract": [ 
+        { "seg": "startCode1", "begin": "0x0",    "end": "0x0",   "from": "padding" },
+        { "seg": "startCode1", "begin": "0x10",   "end": "0xa5",  "from": "main",   "to": "endp" }
+    ],
+    "replace": [ 
+        { "seg": "seg001", "off": "0x0", "from": "seg001 segment", "to": ".CODE" },
+        { "seg": "dseg", "off": "0x0", "from": "dseg segment", "to": ".DATA" },
+        // segment etc. references, probably can remove these once libc is unlinked in bulk
+        { "seg": "dseg", "off": "0x6138", "from": "offset __exit", "to": "off_389E8 dw 0" },
+        { "seg": "dseg", "off": "0x613c", "from": "seg dseg", "to": "dw 0" },
+        { "seg": "dseg", "off": "0x61d0", "from": "seg dseg", "to": "dw 0" },
+        { "seg": "dseg", "off": "0x6342", "from": "seg seg004", "to": "dw 0" },
+        { "seg": "dseg", "off": "0x6344", "from": "seg seg004", "to": "dw 0" },
+        { "seg": "dseg", "off": "0x6346", "from": "seg seg004", "to": "dw 0" }
+    ],
+    "remove": [
+        { "seg": "dseg", "off": "0xa016", "from": "ends" },
+        { "seg": "dseg", "off": "0x0", "from": "assume" }
+    ],
+    "insert": [
+        { "seg": "dseg", "off": "0x66bf", "from": "db", "to": ".DATA?" }
+    ],
+    "publics": [ "commData" ],
+    "preamble": [
+        ".8086",
+        "DOSSEG",
+        ".MODEL SMALL"
+    ],
+    "coda": [ "END" ],    
+    "header_preamble": [
+        "#ifndef F15_SE2_EGAME",
+        "#define F15_SE2_EGAME",
+        "#include \"inttype.h\"",
+        "#include \"struct.h\"",
+        "#include \"comm.h\"",
+        "",
+        "#include <stdio.h>",
+        "",
+        "#if !defined(MSDOS) && !defined(__MSDOS__)",
+        "#define far",
+        "#endif",
+        "",
+        "#define __int32 long",
+        "#define __int8 char",
+        "#define __cdecl",
+        "#define __far far"
+    ],
+    "header_coda": "#endif // F15_SE2_EGAME"    
+}
