@@ -10,6 +10,8 @@ int main(void) {
     FP_SEG(commPtr) = SEG_LOWMEM;
     FP_OFF(commPtr) = OFF_IACA_START;
     FP_SEG(commData) = *commPtr;
-    FP_OFF(commData) = 0;    
+    FP_OFF(commData) = 0;
+    FP_SEG(gameData) = *commPtr;
+    FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;    
     return 0;
 }

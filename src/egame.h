@@ -1403,7 +1403,7 @@ extern int16 word_38FE8;
 extern int16 word_38FEA;
 extern int16 word_38FEC;
 extern int16 word_38FEE;
-extern uint32 dword_38FF0;
+extern struct Game far *gameData;
 extern int16 word_38FF6;
 extern int16 word_38FF8;
 extern int16 word_38FFA;

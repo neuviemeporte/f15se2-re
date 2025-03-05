@@ -22,13 +22,14 @@
         { "seg": "dseg", "off": "0x6346", "from": "seg seg004", "to": "dw 0" }
     ],
     "remove": [
-        { "seg": "dseg", "off": "0xa016", "from": "ends" },
-        { "seg": "dseg", "off": "0x0", "from": "assume" }
+        { "seg": "dseg", "off": "0x0", "from": "assume" },
+        // remove dseg segment end
+        { "seg": "dseg", "off": "0xa01f", "from": "ends" }
     ],
     "insert": [
         { "seg": "dseg", "off": "0x66bf", "from": "db", "to": ".DATA?" }
     ],
-    "publics": [ "commData" ],
+    "publics": [ "commData", "gameData" ],
     "preamble": [
         ".8086",
         "DOSSEG",

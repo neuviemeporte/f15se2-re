@@ -2,6 +2,7 @@
 DOSSEG
 .MODEL SMALL
 PUBLIC _commData
+PUBLIC _gameData
 ; ==============================================================================
 .DATA ;dseg segment para public 'DATA' use16
     db 0
@@ -24246,7 +24247,7 @@ word_38FE8 dw ?
 word_38FEA dw ?
 word_38FEC dw ?
 word_38FEE dw ?
-dword_38FF0 dd ?
+_gameData dd ?
     db ?
     db ?
 word_38FF6 dw ?
@@ -38643,7 +38644,7 @@ word_3C8BE dw ?
 word_3C8C0 dw ?
 word_3C8C2 dw ?
 word_3C8C4 dw ?
-    db ? ;align 10h
+    db ?
     db ?
     db ?
     db ?
