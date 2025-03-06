@@ -424,14 +424,14 @@ Buf6Item	ends
 ; ---------------------------------------------------------------------------
 
 Buf4Item	struc ;	(sizeof=0x10, mappedto_10) ; XREF: startData:wldReadBuf4/r
-field_0		dw ?			; XREF:	sub_154A1+28/r sub_154A1+6F/r
+field_0		dw ?			; XREF:	placeString+28/r placeString+6F/r
 field_2		dw ?			; XREF:	sub_14BB4+96/r sub_14BB4+B9/w ...
 field_4		dw ?			; XREF:	sub_14BB4+9F/r sub_14BB4+C0/w ...
 field_6		dw ?
 field_8		dw ?			; XREF:	sub_14CC5+68/r
 field_A		dw ?
 field_C		dw ?
-field_E		dw ?			; XREF:	sub_14BB4+CD/w sub_154A1+A/r ...
+field_E		dw ?			; XREF:	sub_14BB4+CD/w placeString+A/r ...
 Buf4Item	ends
 
 ; ---------------------------------------------------------------------------
@@ -1184,7 +1184,7 @@ _asc_174AF db ')',0
 _blinkColors dw 7
     dw 0Fh
 _blinkColorIdx dw 0
-_aMenterYourName db 'ŒENTER YOUR NAME !',0
+_aMenterYourName db 'ï¿½ENTER YOUR NAME !',0
     db 0
 _pilotNameInputColors dw 0
     db 8 ;grey name input box
@@ -1827,7 +1827,7 @@ aSa2 db 'SA-2',0
     db 0
     db 0
     db 0
-    db 'È',0
+    db 'ï¿½',0
     db 3
     db 0
     db 0
@@ -1862,7 +1862,7 @@ aSa10 db 'SA-10',0
 aSa11 db 'SA-11',0
     db 0
     db 0
-    db 'È',0
+    db 'ï¿½',0
     db 5
     db 0
     db 0
@@ -1886,14 +1886,14 @@ aSa13 db 'SA-13',0
     db 0
 aSaN4 db 'SA-N-4',0
     db 0
-    db 'È',0
+    db 'ï¿½',0
     db 4
     db 0
     db 1
     db 0
 aSaN5 db 'SA-N-5',0
     db 0
-aC db '–',0
+aC db 'ï¿½',0
     db 3
     db 0
     db 0
@@ -1908,7 +1908,7 @@ aSaN6 db 'SA-N-6',0
     db 0
 aSaN7 db 'SA-N-7',0
     db 0
-    db 'È',0
+    db 'ï¿½',0
     db 5
     db 0
     db 0
@@ -1940,7 +1940,7 @@ aTiger db 'Tiger',0
     db 0
 aSeacat db 'Seacat',0
     db 0
-    db 'È',0
+    db 'ï¿½',0
     db 2
     db 0
     db 0
@@ -2166,7 +2166,7 @@ aSa5_0 db 'SA-5',0
     db 0
     db 0
     db 0
-aC_0 db '–',0
+aC_0 db 'ï¿½',0
     db 8
     db 7
     db 1

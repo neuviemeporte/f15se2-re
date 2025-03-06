@@ -1,10 +1,4 @@
-#
-# Size of the executable's load module covered by the map
-#
 Size 28f70
-#
-# Discovered segments, one per line, syntax is "SegmentName Type(CODE/DATA/STACK) Address"
-#
 Code1 CODE 0000
 Data4 DATA 0040
 Data2 DATA 009d
@@ -13,22 +7,7 @@ Code2 CODE 11a7
 Code3 CODE 1274
 Data3 DATA 128d
 Data1 DATA 228b
-#
-# Discovered routines, one per line, syntax is "RoutineName: Segment Type(NEAR/FAR) Extents [R/U]Block1 [R/U]Block2... [annotation1] [annotation2]..."
-# The routine extents is the largest continuous block of instructions attributed to this routine and originating
-# at the location determined to be the routine's entrypoint.
-# Blocks are offset ranges relative to the segment that the routine belongs to, specifying address as belonging to the routine.
-# Blocks starting with R contain code that was determined reachable, U were unreachable but still likely belong to the routine.
-# The routine blocks may cover a greater area than the extents if the routine has disconected chunks it jumps into.
-# Possible annotation types:
-# ignore - ignore this routine in processing (comparison, signature extraction etc.)
-# complete - this routine was completely reconstructed into C, only influences stat display when printing map
-# external - is part of an external library (e.g. libc), ignore in comparison, don't count as uncompleted in stats
-# detached - routine has no callers, looks useless, don't count as uncompleted in stats
-# assembly - routine was written in assembly, don't include in comparisons by default
-# duplicate - routine is a duplicate of another
-#
-start: Code1 NEAR 0000-000f R0000-000f
+padding: Code1 NEAR 0000-000f R0000-000f detached
 main: Code1 NEAR 0010-0146 R0010-0146
 routine_22: Code1 NEAR 0147-0210 R0147-0210
 routine_23: Code1 NEAR 0211-0293 R0211-0293
@@ -234,68 +213,70 @@ routine_118: Code1 NEAR e28c-e2d2 Re28c-e2d2
 routine_287: Code1 NEAR e2d3-e308 Re2d3-e308
 routine_119: Code1 NEAR e309-e381 Re309-e381
 routine_199: Code1 NEAR e382-e430 Re382-e430
-routine_1: Code1 NEAR e432-e4e3 Re432-e4e3
-routine_4: Code1 NEAR e4e4-e5a7 Re4e4-e5a7 Reda6-edab
-routine_8: Code1 NEAR e5a8-e5be Re5a8-e5be
-routine_9: Code1 NEAR e5bf-e603 Re5bf-e603
-routine_28: Code1 NEAR e604-e630 Re604-e630
-routine_13: Code1 NEAR e631-e63f Re631-e63f
-routine_12: Code1 NEAR e640-e652 Re640-e652
-routine_69: Code1 NEAR e654-e669 Re654-e669
-routine_65: Code1 NEAR e66a-e723 Re66a-e723
-routine_61: Code1 NEAR e724-e74b Re724-e74b
-routine_63: Code1 NEAR e74c-e931 Re74c-e931
-routine_88: Code1 NEAR e9ac-e9ea Re9ac-e9ea
-routine_35: Code1 NEAR e9ec-ea1d Re9ec-ea1d
-routine_137: Code1 NEAR ea1e-ea38 Rea1e-ea38
-routine_89: Code1 NEAR ea3a-ea54 Rea3a-ea54 Rf20e-f260
-routine_146: Code1 NEAR ea56-ea65 Rea56-ea65
-routine_81: Code1 NEAR ea6a-ea80 Rea6a-ea7d Uea7e-ea7f Rea80-ea80
-routine_26: Code1 NEAR ea82-eaff Rea82-eaff
-routine_66: Code1 NEAR eb00-eb1d Reb00-eb1d
-routine_64: Code1 NEAR eb1e-eb32 Reb1e-eb32
-routine_193: Code1 NEAR eb42-eb63 Reb42-eb63
-routine_82: Code1 NEAR eb64-eb8f Reb64-eb8f
-routine_121: Code1 NEAR eb90-eba5 Reb90-eba5
-routine_354: Code1 NEAR eba6-ebc7 Reba6-ebc7
-routine_339: Code1 NEAR ebc8-ebd9 Rebc8-ebd9
-routine_240: Code1 NEAR ebda-ebff Rebda-ebff
-routine_147: Code1 NEAR ec00-ec13 Rec00-ec13
-routine_154: Code1 NEAR ec14-ecaf Rec14-ecaf
-routine_151: Code1 NEAR ecb0-ece3 Recb0-ece3
-routine_352: Code1 NEAR ece4-ed02 Rece4-ed02
-routine_353: Code1 NEAR ed04-ed22 Red04-ed22
-routine_322: Code1 NEAR ed24-ed84 Red24-ed84
-routine_2: Code1 NEAR ed86-eda5 Red86-eda5
-routine_27: Code1 NEAR edac-edcd Redac-edcd
-routine_11: Code1 NEAR edce-edf8 Redce-edf8
-routine_3: Code1 NEAR edf9-ee21 Redf9-ee21
-routine_55: Code1 NEAR ee42-ee47 Ree42-ee47
-routine_76: Code1 NEAR ee48-ee75 Ree48-ee75
-routine_84: Code1 NEAR ee76-ef35 Ree76-ef35
-routine_86: Code1 NEAR ef36-ef63 Ref36-ef63
-routine_78: Code1 NEAR ef64-f05b Ref64-f05b
-routine_85: Code1 NEAR f05c-f0c9 Rf05c-f0c9
-routine_77: Code1 NEAR f0ca-f103 Rf0ca-f103
-routine_87: Code1 NEAR f104-f123 Ree22-ee29 Rf104-f123
-routine_83: Code1 NEAR f124-f200 Ree35-ee41 Rf124-f200
-routine_90: Code1 NEAR f262-f26e Rf262-f26e
-routine_373: Code1 NEAR f270-f27a Rf270-f27a
-routine_374: Code1 NEAR f27c-f286 Rf27c-f286
-routine_112: Code1 NEAR f288-f2f3 Rf288-f2f3
-routine_110: Code1 NEAR f2f4-f486 Rf2f4-f486
-routine_192: Code1 NEAR f487-f497 Rf487-f497
-routine_113: Code1 NEAR f498-f53d Rf498-f53d Rf57e-f5bf
-routine_197: Code1 NEAR f53e-f57d Rf53e-f57d
-routine_114: Code1 NEAR f5c0-f5d1 Rf5c0-f5d1
-routine_195: Code1 NEAR f5d2-f617 Rf5d2-f617
-routine_196: Code1 NEAR f64a-f65b Rf64a-f65b
-routine_281: Code1 NEAR f65f-f741 Rf65c-f65e Rf65f-f741
-routine_342: Code1 NEAR f742-f77b Rf742-f77b
-routine_341: Code1 NEAR f77c-f79d Rf77c-f79d
-routine_280: Code1 NEAR f79e-f7bc Rf79e-f7bc
-routine_340: Code1 NEAR f7be-f82b Rf7be-f82b
-routine_363: Code1 NEAR f82c-f881 Rf82c-f87f Rf880-f881
+# ================ libc ===========================
+start: Code1 NEAR e432-e4e3 Re432-e4e3 external
+cinit: Code1 NEAR e4e4-e5a7 Re4e4-e5a7 Reda6-edab external
+exit: Code1 NEAR e5a8-e5be Re5a8-e5be external
+_exit: Code1 NEAR e5bf-e603 Re5bf-e603 external
+_ctermsub: Code1 NEAR e604-e630 Re604-e630 external
+routine_13: Code1 NEAR e631-e63f Re631-e63f external
+routine_12: Code1 NEAR e640-e652 Re640-e652 external
+chkstk: Code1 NEAR e654-e669 Re654-e669 external
+fclose: Code1 NEAR e66a-e723 Re66a-e723 external
+fopen: Code1 NEAR e724-e74b Re724-e74b external
+fread: Code1 NEAR e74c-e931 Re74c-e931 external
+strcat: Code1 NEAR e9ac-e9ea Re9ac-e9ea external
+strcpy: Code1 NEAR e9ec-ea1d Re9ec-ea1d external
+strlen: Code1 NEAR ea1e-ea38 Rea1e-ea38 external
+itoa: Code1 NEAR ea3a-ea54 Rea3a-ea54 Rf20e-f260 external
+kbhit: Code1 NEAR ea56-ea65 Rea56-ea65 external
+getch: Code1 NEAR ea6a-ea80 Rea6a-ea7d Uea7e-ea7f Rea80-ea80 external
+int86: Code1 NEAR ea82-eaff Rea82-eaff external
+movedata: Code1 NEAR eb00-eb1d Reb00-eb1d external
+segread: Code1 NEAR eb1e-eb32 Reb1e-eb32 external
+strupr: Code1 NEAR eb42-eb63 Reb42-eb63 external
+memcpy: Code1 NEAR eb64-eb8f Reb64-eb8f external
+abs: Code1 NEAR eb90-eba5 Reb90-eba5 external
+labs: Code1 NEAR eba6-ebc7 Reba6-ebc7 external
+srand: Code1 NEAR ebc8-ebd9 Rebc8-ebd9 external
+rand: Code1 NEAR ebda-ebff Rebda-ebff external
+bios_keybrd: Code1 NEAR ec00-ec13 Rec00-ec13 external
+__aNldiv: Code1 NEAR ec14-ecaf Rec14-ecaf external
+__aNlmul: Code1 NEAR ecb0-ece3 Recb0-ece3 external
+_unk_libc1: Code1 NEAR ece4-ed02 Rece4-ed02 external
+_unk_libc2: Code1 NEAR ed04-ed22 Red04-ed22 external
+anuldiv: Code1 NEAR ed24-ed84 Red24-ed84 external
+__FF_MSGBANNER: Code1 NEAR ed86-eda5 Red86-eda5 external
+__nullcheck: Code1 NEAR edac-edcd Redac-edcd external
+__NMSG_TEXT: Code1 NEAR edce-edf8 Redce-edf8 external
+__NMSG_WRITE: Code1 NEAR edf9-ee21 Redf9-ee21 external
+__maperror: Code1 NEAR ee42-ee47 Ree42-ee47 external
+_unk_libc3: Code1 NEAR ee48-ee75 Ree48-ee75 external
+__filbuf: Code1 NEAR ee76-ef35 Ree76-ef35 external
+__freebuf: Code1 NEAR ef36-ef63 Ref36-ef63 external
+__openfile: Code1 NEAR ef64-f05b Ref64-f05b external
+_fflush: Code1 NEAR f05c-f0c9 Rf05c-f0c9 external
+__getstream: Code1 NEAR f0ca-f103 Rf0ca-f103 external
+close: Code1 NEAR f104-f123 Ree22-ee29 Rf104-f123 external
+read: Code1 NEAR f124-f200 Ree35-ee41 Rf124-f200 external
+remove: Code1 NEAR f262-f26e Rf262-f26e external
+anlshl: Code1 NEAR f270-f27a Rf270-f27a external
+anlshr: Code1 NEAR f27c-f286 Rf27c-f286 external
+__getbuf: Code1 NEAR f288-f2f3 Rf288-f2f3 external
+open: Code1 NEAR f2f4-f486 Rf2f4-f486 external
+__cXENIXtoDOSmode: Code1 NEAR f487-f497 Rf487-f497 external
+write: Code1 NEAR f498-f53d Rf498-f53d Rf57e-f5bf external
+_unk_libc4: Code1 NEAR f53e-f57d Rf53e-f57d external
+_unk_libc5: Code1 NEAR f5c0-f5d1 Rf5c0-f5d1 external
+_unk_libc6: Code1 NEAR f5d2-f617 Rf5d2-f617 external
+_stackavail: Code1 NEAR f64a-f65b Rf64a-f65b external
+__amalloc: Code1 NEAR f65f-f741 Rf65c-f65e Rf65f-f741 external
+__amexpand: Code1 NEAR f742-f77b Rf742-f77b external
+__amlink: Code1 NEAR f77c-f79d Rf77c-f79d external
+__amallocbrk: Code1 NEAR f79e-f7bc Rf79e-f7bc external
+_brkctl: Code1 NEAR f7be-f82b Rf7be-f82b external
+_unk_libc7: Code1 NEAR f82c-f881 Rf82c-f87f Rf880-f881 external
+# ================ libc end ===========================
 routine_346: Code4 FAR 0002-0064 R0002-0064
 routine_366: Code4 NEAR 0078-00fa R0078-00fa
 routine_365: Code4 NEAR 0113-0136 R0113-0136

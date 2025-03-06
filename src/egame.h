@@ -16,6 +16,7 @@
 #define __far far
 // ==== seg000:0x147 ====
 int sub_10147();
+// bytes outside routine, potential module boundary at 0x170
 // ==== seg000:0x211 ====
 int sub_10211();
 // ==== seg000:0x294 ====
@@ -23,13 +24,13 @@ int sub_10294();
 // ==== seg000:0x297 ====
 int sub_10297();
 // ==== seg000:0x29a ====
-int sub_1029A();
+int gfxAlloc0();
 // ==== seg000:0x2e2 ====
-int sub_102E2();
+int j_gfx_jump_32();
 // ==== seg000:0x334 ====
 int sub_10334();
 // ==== seg000:0x688 ====
-int sub_10688();
+int setupOverlaySlots();
 // ==== seg000:0x720 ====
 int sub_10720();
 // ==== seg000:0x14e8 ====
@@ -65,7 +66,7 @@ int sub_11C21();
 // ==== seg000:0x1d10 ====
 int sub_11D10();
 // ==== seg000:0x1d6e ====
-int sub_11D6E();
+int placeString();
 // ==== seg000:0x1e0e ====
 int sub_11E0E();
 // ==== seg000:0x1f3e ====
@@ -159,11 +160,13 @@ int sub_13BC9();
 // ==== seg000:0x3bcd ====
 int sub_13BCD();
 // ==== seg000:0x3bec ====
-int sub_13BEC();
+int installCBreakHandler();
 // ==== seg000:0x3c0f ====
-int sub_13C0F();
+int restoreCBreakHandler();
 // ==== seg000:0x3c20 ====
-int sub_13C20();
+int getInterruptHandler();
+// ==== seg000:0x3c2c ====
+int far cbreakHandler();
 // ==== seg000:0x3c3b ====
 int sub_13C3B();
 // ==== seg000:0x3c47 ====
@@ -387,7 +390,7 @@ int sub_1D200();
 // ==== seg000:0xd21e ====
 int sub_1D21E();
 // ==== seg000:0xd260 ====
-int sub_1D260();
+int keyDispatch();
 // ==== seg000:0xd9db ====
 int sub_1D9DB();
 // ==== seg000:0xda35 ====
@@ -417,7 +420,7 @@ int sub_1DD92();
 // ==== seg000:0xddaa ====
 int sub_1DDAA();
 // ==== seg000:0xddc4 ====
-int sub_1DDC4();
+int openFile();
 // ==== seg000:0xde1b ====
 int sub_1DE1B();
 // ==== seg000:0xde72 ====
@@ -450,6 +453,7 @@ int sub_1E2D3();
 int sub_1E309();
 // ==== seg000:0xe382 ====
 int sub_1E382();
+// bytes outside routine, potential module boundary at 0xe4c5
 // ==== seg000:0xe631 ====
 int sub_1E631();
 // ==== seg000:0xe640 ====
@@ -609,9 +613,9 @@ int sub_22691();
 // ==== seg002:0xc4e ====
 int sub_226BE();
 // ==== seg002:0xcaa ====
-int far sub_2271A();
+int far restoreJoystickData();
 // ==== seg002:0xcbe ====
-int far sub_2272E();
+int far copyJoystickData();
 // ==== seg003:0x6 ====
 int far sub_22746();
 // ==== seg003:0x56 ====
@@ -628,10 +632,11 @@ extern uint8 aCe_xxx[];
 extern uint8 aJp_xxx[];
 extern uint8 aNa_xxx[];
 extern uint8 byte_32933;
-extern uint8 byte_32934[];
-extern int16 word_32936;
+extern unsigned __int8 exitCode;
+extern int16 gfxModeUnset;
 extern int16 word_32938;
 extern char *off_3293A;
+extern uint8 unk_3293C[];
 extern uint8 a256pit_pic[];
 extern uint8 aCockpit_pic[];
 extern uint8 aF15dgtl_bin[];
@@ -683,6 +688,7 @@ extern uint8 aFlanker[];
 extern uint8 aIl76_0[];
 extern uint8 aMainstay[];
 extern uint8 aF4e[];
+extern uint8 aAn72[];
 extern int16 word_33096;
 extern int16 word_33098;
 extern int16 word_3309C;
@@ -1039,9 +1045,9 @@ extern int16 word_378DF;
 extern int16 word_378E1;
 extern int16 word_378E3;
 extern int16 word_378E5;
-extern uint8 byte_378E8;
-extern int16 word_378E9;
-extern int16 word_378EB;
+extern uint8 cbreakHit;
+extern int16 origCBreakSeg;
+extern int16 origCBreakOfs;
 extern uint8 byte_378EE;
 extern uint8 timerHandlerInstalled;
 extern int16 word_378F0;
@@ -1153,9 +1159,11 @@ extern int16 word_37F5C;
 extern int16 word_37F5E;
 extern int16 word_37F60;
 extern int16 word_37F62;
+extern uint8 joyData[];
 extern int16 word_37F8C;
 extern int16 word_37F8E;
-extern int16 word_37F94;
+extern char noJoy80[];
+extern uint8 unk_37F95[];
 extern uint8 byte_37F98;
 extern uint8 byte_37F99[];
 extern int16 word_38070;
@@ -1279,9 +1287,12 @@ extern int16 word_38608;
 extern int16 word_3860A;
 extern uint8 byte_3862A;
 extern uint8 byte_3862B[];
-extern int16 word_3888E;
+extern uint8 aFileNotFound[];
+extern uint8 aNoFileBuffersAvailabl[];
+extern uint8 aOpenError[];
+extern uint8 unk_3888E[];
 extern int16 word_38890;
-extern int16 word_38894;
+extern int16 fileReadPos;
 extern int16 tmpFileHandle;
 extern uint8 picDecodedRowBuf[];
 extern int16 word_389D8;
@@ -1328,7 +1339,6 @@ extern int16 word_38BE6;
 extern uint32 dword_38BE8;
 extern uint32 dword_38BEC;
 extern uint8 byte_38BF0[];
-extern int16 seg_38BF2;
 extern int16 seg_38BF4;
 extern int16 seg_38BF6;
 extern uint8 aNmsg[];
@@ -1386,6 +1396,7 @@ extern int16 word_38D6C;
 extern uint8 byte_38D6E[];
 extern int16 word_38F70;
 extern int word_38F72;
+extern uint8 strBuf[];
 extern uint8 byte_38F8C;
 extern uint8 byte_38F8D[];
 extern int16 word_38FC4;
@@ -1457,8 +1468,8 @@ extern int16 word_3B4DA;
 extern int16 word_3B4DC;
 extern int16 word_3B4DE;
 extern int16 word_3B4E0;
-extern uint8 byte_3B4E2[];
-extern int16 word_3B4E4;
+extern char hercFlag;
+extern uint8 unk_3B4E4[];
 extern int16 word_3B5D6;
 extern int16 word_3B7DA;
 extern int16 word_3B7DC;
@@ -1499,12 +1510,13 @@ extern int16 word_3BED4;
 extern int16 word_3BED6;
 extern int16 word_3BF3C;
 extern int16 word_3BF3E;
+extern uint8 unk_3BF40[];
 extern int16 word_3BF90;
-extern uint8 byte_3BF92;
-extern uint8 byte_3BF93[];
-extern uint8 byte_3BF95;
-extern int16 word_3BF96;
-extern int16 word_3BF98;
+extern union REGS regs;
+extern uint8 unk_3BF93[];
+extern uint8 unk_3BF95;
+extern uint8 unk_3BF96[];
+extern uint8 unk_3BF98[];
 extern int16 word_3BFA0;
 extern int16 word_3BFA2;
 extern int16 word_3C008;
@@ -1558,7 +1570,7 @@ extern int16 word_3C6AC;
 extern int word_3C6AE;
 extern uint8 byte_3C8B0[];
 extern int16 word_3C8B2;
-extern int16 word_3C8B4;
+extern int16 gfxBufPtr;
 extern int16 word_3C8B6;
 extern int16 word_3C8B8;
 extern int16 word_3C8BA;

@@ -429,7 +429,7 @@ void printMission() {
     actualDrawString(page1NumPtr, aTakeoffFrom, 0x82, 0x20);
     drawColor = 8;
     // e71
-    sub_154A1(targets[0].field_4);
+    placeString(targets[0].field_4);
     // e8b
     drawString(page1NumPtr, todayMissStrBuf, 0x71, 0x2a, 0xb9);
     // e99
@@ -446,7 +446,7 @@ void printMission() {
     actualDrawString(page1NumPtr, aPrimaryTarget, 0x82, 0x40);
     drawColor = 8;
     // f06
-    sub_154A1(targets[0].field_2);
+    placeString(targets[0].field_2);
     // f20
     drawString(page1NumPtr, todayMissStrBuf, 0x71, 0x4a, 0xb9);
     fontIndex = 4;
@@ -463,7 +463,7 @@ void printMission() {
     actualDrawString(page1NumPtr, aSecondaryTarge, 0x82, 0x60);
     drawColor = 8;
     // f94
-    sub_154A1(target2.field_2);
+    placeString(target2.field_2);
     // fae
     drawString(page1NumPtr, todayMissStrBuf, 0x71, 0x6a, 0xb9);
     fontIndex = 4;

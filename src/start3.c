@@ -841,7 +841,7 @@ int sub_15472(int arg_0, int arg_2, int arg_4) {
 }
 
 // 54a1
-void sub_154A1(int arg_0) {
+void placeString(int arg_0) {
     // 54bc
     mystrcpy(todayMissStrBuf, wldOffsets[wldReadBuf4[arg_0].field_E & 0x7f]);
     // 54d3

@@ -422,7 +422,7 @@ char *__cdecl sub_1531C(int, int);
 // ==== startCode1:0x5472 ====
 int __cdecl sub_15472(int, int, int);
 // ==== startCode1:0x54a1 ====
-void __cdecl sub_154A1(int arg_0);
+void __cdecl placeString(int arg_0);
 // ==== startCode1:0x5741 ====
 int sub_15741();
 // ==== startCode1:0x5750 ====

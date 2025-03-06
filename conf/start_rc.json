@@ -110,7 +110,7 @@
         { "seg": "startCode1", "begin": "0x52f4", "end": "0x531b", "from": "sub_152F4",         "to": "endp" },
         { "seg": "startCode1", "begin": "0x531c", "end": "0x5471", "from": "sub_1531C",         "to": "endp" },
         { "seg": "startCode1", "begin": "0x5472", "end": "0x54a0", "from": "sub_15472",         "to": "endp" },
-        { "seg": "startCode1", "begin": "0x54a1", "end": "0x5541", "from": "sub_154A1",         "to": "endp" },
+        { "seg": "startCode1", "begin": "0x54a1", "end": "0x5541", "from": "placeString",         "to": "endp" },
         // remove initialzed crt0 stuff
         { "seg": "startData", "begin": "0x0", "end": "0x41", "from": "crt0_start", "to": "crt0_end" },
         // remove iniialized libc data

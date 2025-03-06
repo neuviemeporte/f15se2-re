@@ -13,23 +13,42 @@
     "replace": [ 
         { "seg": "seg001", "off": "0x0", "from": "seg001 segment", "to": ".CODE" },
         { "seg": "dseg", "off": "0x0", "from": "dseg segment", "to": ".DATA" },
+        // beginning of seg000 to simplified code segment
+        { "seg": "seg000", "off": "0x0", "from": "seg000 segment", "to": ".CODE" },
         // segment etc. references, probably can remove these once libc is unlinked in bulk
         { "seg": "dseg", "off": "0x6138", "from": "offset __exit", "to": "off_389E8 dw 0" },
         { "seg": "dseg", "off": "0x613c", "from": "seg dseg", "to": "dw 0" },
-        { "seg": "dseg", "off": "0x61d0", "from": "seg dseg", "to": "dw 0" },
+        { "seg": "dseg", "off": "0x61d0", "from": "seg dseg", "to": "dw seg @data" },
         { "seg": "dseg", "off": "0x6342", "from": "seg seg004", "to": "dw 0" },
         { "seg": "dseg", "off": "0x6344", "from": "seg seg004", "to": "dw 0" },
-        { "seg": "dseg", "off": "0x6346", "from": "seg seg004", "to": "dw 0" }
+        { "seg": "dseg", "off": "0x6346", "from": "seg seg004", "to": "dw 0" },
+        { "seg": "seg003", "off": "0x77", "from": "dw seg dseg", "to": "dw seg @data" }
     ],
     "remove": [
-        { "seg": "dseg", "off": "0x0", "from": "assume" },
-        // remove dseg segment end
-        { "seg": "dseg", "off": "0xa01f", "from": "ends" }
+        // remove segment beginnings past seg000
+        { "seg": "seg001", "off": "0x2", "from": "seg001 segment" },
+        { "seg": "seg002", "off": "0x9", "from": "seg002 segment" },
+        { "seg": "seg003", "off": "0x6", "from": "seg003 segment" },
+        { "seg": "seg004", "off": "0x0", "from": "seg004 segment" },
+        // remove segment endings
+        { "seg": "dseg", "off": "0xa01f", "from": "ends" },
+        { "seg": "seg000", "off": "0xf881", "from": "ends" },
+        { "seg": "seg001", "off": "0x21f8", "from": "ends" },
+        { "seg": "seg002", "off": "0xcd5", "from": "ends" },
+        { "seg": "seg003", "off": "0x189", "from": "ends" },
+        { "seg": "seg004", "off": "0xf618", "from": "ends" }
     ],
     "insert": [
+        // create bss section within data segment
         { "seg": "dseg", "off": "0x66bf", "from": "db", "to": ".DATA?" }
     ],
-    "publics": [ "commData", "gameData" ],
+    "publics": [ 
+        "commData", "gameData", "hercFlag", "setupOverlaySlots", "gfxModeUnset", "noJoy80", "copyJoystickData", "installCBreakHandler", "gfxAlloc0",
+        "gfxBufPtr", "restoreJoystickData", "regs", "exitCode", "restoreCBreakHandler", "sub_10211", "sub_21A7E", "sub_10147",
+        "gfx_jump_0c",
+        "gfx_jump_3d_null",
+        "gfx_jump_52"
+    ],
     "preamble": [
         ".8086",
         "DOSSEG",
