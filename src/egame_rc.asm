@@ -9,31 +9,71 @@ PUBLIC _gfxModeUnset
 PUBLIC _noJoy80
 PUBLIC _copyJoystickData
 PUBLIC _installCBreakHandler
-PUBLIC _gfxAlloc0
 PUBLIC _gfxBufPtr
 PUBLIC _restoreJoystickData
 PUBLIC _regs
 PUBLIC _exitCode
 PUBLIC _restoreCBreakHandler
 PUBLIC _sub_10211
-PUBLIC _sub_21A7E
-PUBLIC _sub_10147
+PUBLIC _sub_22411
+PUBLIC _scenarioPlh
+PUBLIC _regnStr
+PUBLIC _sub_1C8DE
+PUBLIC _word_32938
+PUBLIC _sub_11E0E
+PUBLIC _j_gfx_jump_32
+PUBLIC _sub_121C6
+PUBLIC _gfx_jump_0_alloc
 PUBLIC _gfx_jump_0c
 PUBLIC _gfx_jump_3d_null
+PUBLIC _gfx_jump_4b_storeBufPtr
 PUBLIC _gfx_jump_52
+
+; ---------------------------------------------------------------------------
+
+; enum enum_1, mappedto_2
+DOS_SET_IRQH	 = 25h
+PORT_PIT_TIME0	 = 40h
+PORT_PIT_CNTRL	 = 43h
+
+; ---------------------------------------------------------------------------
+
+; enum Pointers, mappedto_3
+COMM_GFXOVL_SEG	 = 1Ah
+COMM_SNDOVL_SEG	 = 1Ch
+COMM_MISCOVL_SEG  = 1Eh
+COMM_GFXBUF_PTR	 = 20h
+COMM_HERC_FLAG	 = 24h
+COMM_SETUP_DONE_OFFSET	= 26h
+COMM_SETUP_GFXMODE_OFFSET  = 30h
+COMM_UNK7	 = 38h
+COMM_JOYDATA_OFF  = 48h
+COMM_USEJOY_OFF	 = 72h
+COMM_GFXMODE_OFFSET  = 78h
+OFF_IACA_START	 = 4F0h
+COMM_GAMEDATA_OFFSET  =	120Eh
+
+; ---------------------------------------------------------------------------
+
+; enum Interrupt, mappedto_4
+IRQ_CBREAK	 = 1Bh
+
+; ---------------------------------------------------------------------------
+
+; enum Game, mappedto_5
+GAMEDATA_THEATER  = 38h
+
+; ---------------------------------------------------------------------------
+
+; enum Misc, mappedto_6
+IRQ_VIDEO	 = 10h
+OVL_HDR_CODESEG	 = 18h
+OVL_HDR_FIRSTIDX  = 1Ch
+OVL_HDR_SLOTCOUNT  = 22h
+OVL_HDR_FIRSTPTR  = 24h
+
 ; ==============================================================================
 .CODE ;seg000 segment byte public 'CODE' use16
-padding db 10h dup(0)
-; ------------------------------seg000:0x10------------------------------
-_main proc near
-    retn
-_main endp
-; ------------------------------seg000:0x146------------------------------
-; ------------------------------seg000:0x147------------------------------
-_sub_10147 proc near
-    retn
-_sub_10147 endp
-; ------------------------------seg000:0x168------------------------------
 ; ------------------------------seg000:0x211------------------------------
 _sub_10211 proc near
     retn
@@ -49,11 +89,11 @@ sub_10297 proc near
     retn
 sub_10297 endp
 ; ------------------------------seg000:0x299------------------------------
-; ------------------------------seg000:0x29a------------------------------
-_gfxAlloc0 proc near
+; ------------------------------seg000:0x2e2------------------------------
+_j_gfx_jump_32 proc near
     retn
-_gfxAlloc0 endp
-; ------------------------------seg000:0x2a3------------------------------
+_j_gfx_jump_32 endp
+; ------------------------------seg000:0x2e2------------------------------
 ; ------------------------------seg000:0x334------------------------------
 sub_10334 proc near
     retn
@@ -61,8 +101,51 @@ sub_10334 endp
 ; ------------------------------seg000:0x66e------------------------------
 ; ------------------------------seg000:0x688------------------------------
 _setupOverlaySlots proc near
-    retn ;sp-analysis failed
-_setupOverlaySlots endp
+    arg_0 = word ptr 4
+    push bp
+    mov bp, sp
+    push di
+    push si
+    push es
+    push ds
+    push bp
+    mov dx, [bp+arg_0]
+    mov ovlInsaneFlag, 0
+    jmp short loc_106A0
+    nop
+    mov ovlInsaneFlag, 1
+loc_106A0:
+    mov es, dx
+    mov bx, offset _gfx_jump_0_alloc
+    mov di, OVL_HDR_FIRSTIDX
+    mov ax, es:[di]
+    mov dl, 5
+    mul dl
+    add bx, ax
+    mov di, OVL_HDR_SLOTCOUNT
+    mov cx, es:[di]
+    mov si, OVL_HDR_FIRSTPTR
+    mov di, OVL_HDR_CODESEG
+    mov di, es:[di]
+writeSlots:
+    mov ax, es:[si]
+    mov [bx+1], ax
+    mov [bx+3], di
+    add si, 2
+    add bx, 5
+    loop writeSlots
+    cmp ovlInsaneFlag, 0
+    jnz short locret_106E0
+    pop bp
+    pop ds
+    pop es
+    pop si
+    pop di
+    mov sp, bp
+    pop bp
+locret_106E0:
+    retn
+_setupOverlaySlots endp ;sp-analysis failed
 ; ------------------------------seg000:0x6e0------------------------------
 ; ------------------------------seg000:0x720------------------------------
 sub_10720 proc near
@@ -155,9 +238,9 @@ placeString proc near
 placeString endp
 ; ------------------------------seg000:0x1e0d------------------------------
 ; ------------------------------seg000:0x1e0e------------------------------
-sub_11E0E proc near
+_sub_11E0E proc near
     retn
-sub_11E0E endp
+_sub_11E0E endp
 ; ------------------------------seg000:0x1f3d------------------------------
 ; ------------------------------seg000:0x1f3e------------------------------
 sub_11F3E proc near
@@ -185,9 +268,9 @@ sub_121A9 proc near
 sub_121A9 endp
 ; ------------------------------seg000:0x21c4------------------------------
 ; ------------------------------seg000:0x21c6------------------------------
-sub_121C6 proc near
+_sub_121C6 proc near
     retn
-sub_121C6 endp
+_sub_121C6 endp
 ; ------------------------------seg000:0x21c6------------------------------
 ; ------------------------------seg000:0x21ca------------------------------
 sub_121CA proc near
@@ -386,6 +469,23 @@ sub_13BCD endp
 ; ------------------------------seg000:0x3beb------------------------------
 ; ------------------------------seg000:0x3bec------------------------------
 _installCBreakHandler proc near
+    push si
+    push di
+    push dx
+    push ds
+    mov si, IRQ_CBREAK*4
+    call getInterruptHandler
+    mov origCBreakOfs, bx
+    mov origCBreakSeg, ax
+    mov ax, seg @code ;mov ax, seg seg000
+    mov dx, offset cbreakHandler
+    mov ds, ax
+    mov ax, 251Bh
+    int 21h ;DOS - SET INTERRUPT VECTOR
+    pop ds
+    pop dx
+    pop di
+    pop si
     retn
 _installCBreakHandler endp
 ; ------------------------------seg000:0x3c0e------------------------------
@@ -888,9 +988,9 @@ sub_1C8A4 proc near
 sub_1C8A4 endp
 ; ------------------------------seg000:0xc8dd------------------------------
 ; ------------------------------seg000:0xc8de------------------------------
-sub_1C8DE proc near
+_sub_1C8DE proc near
     retn
-sub_1C8DE endp
+_sub_1C8DE endp
 ; ------------------------------seg000:0xc9d0------------------------------
 ; ------------------------------seg000:0xc9d2------------------------------
 sub_1C9D2 proc near
@@ -1752,26 +1852,16 @@ sub_218A8 proc near
     retn
 sub_218A8 endp
 ; ------------------------------seg001:0x21d5------------------------------
-; ------------------------------seg002:0xa------------------------------
-sub_21A7A proc far
-    retn
-sub_21A7A endp
-; ------------------------------seg002:0xa------------------------------
-; ------------------------------seg002:0xe------------------------------
-_sub_21A7E proc far
-    retn
-_sub_21A7E endp
-; ------------------------------seg002:0xe------------------------------
 ; ------------------------------seg002:0x16------------------------------
 sub_21A86 proc near
     retn
 sub_21A86 endp
 ; ------------------------------seg002:0x99b------------------------------
 ; ------------------------------seg002:0x9a1------------------------------
-sub_22411 proc near
+_sub_22411 proc near
     retn
-sub_22411 endp
-; ------------------------------seg002:0xb4f------------------------------
+_sub_22411 endp
+; ------------------------------seg002:0xbea------------------------------
 ; ------------------------------seg002:0xbeb------------------------------
 sub_2265B proc far
     retn
@@ -1804,7 +1894,22 @@ _restoreJoystickData endp
 ; ------------------------------seg002:0xcbd------------------------------
 ; ------------------------------seg002:0xcbe------------------------------
 _copyJoystickData proc far
-    retn
+    mov bx, sp
+    push si
+    push di
+    push ds
+    push es
+    lds si, [bx+4]
+    mov di, offset joyData
+    push ss
+    pop es
+    mov cx, 14h
+    rep movsw
+    pop es
+    pop ds
+    pop di
+    pop si
+    retf
 _copyJoystickData endp
 ; ------------------------------seg002:0xcd5------------------------------
 ; ------------------------------seg003:0x6------------------------------
@@ -1817,14 +1922,13 @@ sub_22796 proc far
     retn
 sub_22796 endp
 ; ------------------------------seg003:0x6f------------------------------
-byte_227B0 db 0FBh, 9Ch, 1Eh, 6, 50h, 53h, 0B8h
-    dw seg @data ;seg_227B7 dw seg dseg
-byte_227B9 db 8Eh, 0D8h, 0B8h, 40h, 0, 8Eh, 0C0h, 8Ah, 26h, 0EFh
-word_228C5 dw 0
-word_228C7 dw 0
 ; ==============================================================================
-.DATA ;dseg segment para public 'DATA' use16
-    db 0
+.DATA ;seg004 segment byte public 'DATA' use16
+byte_228D0 db 2Fh dup(0)
+byte_228FF db 0ADA5h dup(0)
+byte_2D6A4 db 4844h dup(0)
+    db 9C8h dup(0)
+unk_328B0 db 0
     db 0
 word_328B2 dw 0
     db 0
@@ -1847,24 +1951,16 @@ byte_32933 db 0
 _exitCode db 81h
     db 0
 _gfxModeUnset dw 0
-word_32938 dw 0
-off_3293A dw offset aRegn_xxx
-unk_3293C db 4Bh
-    db 0
-    db 52h
-    db 0
-    db 59h
-    db 0
-    db 60h
-    db 0
-    db 67h
-    db 0
-    db 6Eh
-    db 0
-    db 75h
-    db 0
-    db 7Ch
-    db 0
+_word_32938 dw 0
+_regnStr dw offset aRegn_xxx
+_scenarioPlh dw offset aLb_xxx
+    dw offset aPg_xxx ;"pg.xxx"
+    dw offset aVn_xxx ;"vn.xxx"
+    dw offset aMe_xxx ;"me.xxx"
+    dw offset aNc_xxx ;"nc.xxx"
+    dw offset aCe_xxx ;"ce.xxx"
+    dw offset aJp_xxx ;"jp.xxx"
+    dw offset aNa_xxx ;"na.xxx"
 a256pit_pic db '256pit.PIC',0
 aCockpit_pic db 'cockpit.PIC',0
     db 0
@@ -4786,10 +4882,10 @@ aF15StrikeEagle db 'F15 Strike Eagle',0
 aAt db ' at ',0
     db 0
 ; ------------------------------dseg:0xebe------------------------------
-gfx_jump_0_alloc proc near
+_gfx_jump_0_alloc proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_0_alloc endp
+_gfx_jump_0_alloc endp
 ; ------------------------------dseg:0xebe------------------------------
 ; ------------------------------dseg:0xec3------------------------------
 gfx_jump_01 proc near
@@ -5185,10 +5281,10 @@ gfx_jump_45_retrace proc near
 gfx_jump_45_retrace endp
 ; ------------------------------dseg:0x1017------------------------------
 ; ------------------------------dseg:0x101c------------------------------
-gfx_jump_retrace2 proc near
+gfx_jump_46_retrace2 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_retrace2 endp
+gfx_jump_46_retrace2 endp
 ; ------------------------------dseg:0x101c------------------------------
 ; ------------------------------dseg:0x1021------------------------------
 gfx_jump_47 proc near
@@ -5213,10 +5309,10 @@ gfx_jump_49 endp
     db 0
     db 0
 ; ------------------------------dseg:0x1035------------------------------
-gfx_jump_4b_storeBufPtr proc near
+_gfx_jump_4b_storeBufPtr proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_4b_storeBufPtr endp
+_gfx_jump_4b_storeBufPtr endp
 ; ------------------------------dseg:0x1035------------------------------
 ; ------------------------------dseg:0x103a------------------------------
 gfx_jump_4c proc near
@@ -22717,11 +22813,11 @@ unk_37F95 db 0
     db 0
 byte_37F98 db 0
 byte_37F99 db 0
-    db 0
-    dw 0
-    db 0
-    db 0
-    db 0
+byte_37F9A db 0
+word_37F9B dw 0
+byte_37F9D db 0
+byte_37F9E db 0
+byte_37F9F db 0
     db 1
     db 0
     db 4
@@ -25162,7 +25258,7 @@ dword_38BE8 dd 0
 dword_38BEC dd 0
 byte_38BF0 db 18h
     db 0F6h
-    dw 0 ;dw seg seg004
+    dw 0 ;seg_38BF2 dw seg seg004
     dw 0 ;seg_38BF4 dw seg seg004
     dw 0 ;seg_38BF6 dw seg seg004
 aNmsg db '<<NMSG>>',0

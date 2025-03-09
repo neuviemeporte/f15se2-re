@@ -1,18 +1,23 @@
 {
-    "in_segments": [ "seg000", "seg001", "seg002", "seg003", "dseg" ],
+    "in_segments": [ "seg000", "seg001", "seg002", "seg003", "seg004", "dseg" ],
     "code_segments": [ "seg000", "seg001", "seg002", "seg003" ],
-    "data_segments": [ "dseg" ],
+    "data_segments": [ "dseg", "seg004" ],
     "bss" : [
         { "seg": "dseg", "begin": "0x66c0", "end": "0xa016" }
     ],
-    "data_size": "0xa020",
+    // seg004 (0xffe0) + dseg (0xa020)
+    "data_size": "0x1a000",
+    "include": "lst/egame.inc",
     "extract": [ 
-        { "seg": "startCode1", "begin": "0x0",    "end": "0x0",   "from": "padding" },
-        { "seg": "startCode1", "begin": "0x10",   "end": "0xa5",  "from": "main",   "to": "endp" }
+        { "seg": "seg000", "begin": "0x0",    "end": "0x0",   "from": "padding" },
+        { "seg": "seg000", "begin": "0x10",   "end": "0x146",  "from": "main", "to": "endp" },
+        { "seg": "seg000", "begin": "0x29a",   "end": "0x2e0",  "from": "gfxInit",   "to": "endp" },
+        { "seg": "seg002", "begin": "0xe",   "end": "0x11",  "from": "sub_21A7E",   "to": "endp" },
+        { "seg": "seg000", "begin": "0x147",   "end": "0x210",  "from": "sub_10147",   "to": "endp" }
     ],
     "replace": [ 
         { "seg": "seg001", "off": "0x0", "from": "seg001 segment", "to": ".CODE" },
-        { "seg": "dseg", "off": "0x0", "from": "dseg segment", "to": ".DATA" },
+        { "seg": "seg004", "off": "0x0", "from": "seg004 segment", "to": ".DATA" },
         // beginning of seg000 to simplified code segment
         { "seg": "seg000", "off": "0x0", "from": "seg000 segment", "to": ".CODE" },
         // segment etc. references, probably can remove these once libc is unlinked in bulk
@@ -22,31 +27,38 @@
         { "seg": "dseg", "off": "0x6342", "from": "seg seg004", "to": "dw 0" },
         { "seg": "dseg", "off": "0x6344", "from": "seg seg004", "to": "dw 0" },
         { "seg": "dseg", "off": "0x6346", "from": "seg seg004", "to": "dw 0" },
-        { "seg": "seg003", "off": "0x77", "from": "dw seg dseg", "to": "dw seg @data" }
+        // other segment references replaced with masm predefined segment equates
+        { "seg": "seg003", "off": "0x77", "from": "dw seg dseg", "to": "dw seg @data" },
+        // installCBreakHandler
+        { "seg": "seg000", "off": "0x3bfd", "from": "seg seg000", "to": "mov ax, seg @code" }
     ],
     "remove": [
         // remove segment beginnings past seg000
         { "seg": "seg001", "off": "0x2", "from": "seg001 segment" },
         { "seg": "seg002", "off": "0x9", "from": "seg002 segment" },
         { "seg": "seg003", "off": "0x6", "from": "seg003 segment" },
-        { "seg": "seg004", "off": "0x0", "from": "seg004 segment" },
+        { "seg": "dseg", "off": "0x0", "from": "dseg segment" },
         // remove segment endings
         { "seg": "dseg", "off": "0xa01f", "from": "ends" },
         { "seg": "seg000", "off": "0xf881", "from": "ends" },
         { "seg": "seg001", "off": "0x21f8", "from": "ends" },
         { "seg": "seg002", "off": "0xcd5", "from": "ends" },
-        { "seg": "seg003", "off": "0x189", "from": "ends" },
+        { "seg": "seg003", "off": "0x18f", "from": "ends" },
         { "seg": "seg004", "off": "0xf618", "from": "ends" }
     ],
     "insert": [
         // create bss section within data segment
         { "seg": "dseg", "off": "0x66bf", "from": "db", "to": ".DATA?" }
     ],
+    "preserves": [
+        "setupOverlaySlots", "installCBreakHandler", "copyJoystickData"
+    ],
     "publics": [ 
-        "commData", "gameData", "hercFlag", "setupOverlaySlots", "gfxModeUnset", "noJoy80", "copyJoystickData", "installCBreakHandler", "gfxAlloc0",
-        "gfxBufPtr", "restoreJoystickData", "regs", "exitCode", "restoreCBreakHandler", "sub_10211", "sub_21A7E", "sub_10147",
+        "commData", "gameData", "hercFlag", "setupOverlaySlots", "gfxModeUnset", "noJoy80", "copyJoystickData", "installCBreakHandler", 
+        "gfxBufPtr", "restoreJoystickData", "regs", "exitCode", "restoreCBreakHandler", "sub_10211", "sub_22411", "scenarioPlh", "regnStr", "sub_1C8DE", "word_32938", "sub_11E0E", "j_gfx_jump_32", "sub_121C6", "gfx_jump_0_alloc",
         "gfx_jump_0c",
         "gfx_jump_3d_null",
+        "gfx_jump_4b_storeBufPtr",
         "gfx_jump_52"
     ],
     "preamble": [

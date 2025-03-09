@@ -33,7 +33,7 @@ int main(void) {
         noJoy80[0] = noJoy80[1] = 0x80;
     }
     // 0xa5
-    gfxAlloc0();
+    gfxInit();
     gfx_jump_0c();
     gfx_jump_52(commData->setupMono);
     if (gameData->theater < 2) { // 0xc8
