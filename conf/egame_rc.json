@@ -12,7 +12,7 @@
         { "seg": "seg000", "begin": "0x10",   "end": "0x146",  "from": "main", "to": "endp" },
         { "seg": "seg000", "begin": "0x29a",   "end": "0x2e0",  "from": "gfxInit",   "to": "endp" },
         { "seg": "seg002", "begin": "0xe",   "end": "0x11",  "from": "sub_21A7E",   "to": "endp" },
-        { "seg": "seg000", "begin": "0x147",   "end": "0x210",  "from": "sub_10147",   "to": "endp" }
+        { "seg": "seg000", "begin": "0x147",   "end": "0x210",  "from": "drawCockpit",   "to": "endp" }
     ],
     "replace": [ 
         // beginning of seg000 to simplified code segment
@@ -52,10 +52,16 @@
     ],
     "publics": [ 
         "commData", "gameData", "hercFlag", "setupOverlaySlots", "gfxModeUnset", "noJoy80", "copyJoystickData", "installCBreakHandler", 
-        "gfxBufPtr", "restoreJoystickData", "regs", "exitCode", "restoreCBreakHandler", "sub_10211", "sub_22411", "scenarioPlh", "regnStr", "sub_1C8DE", "word_32938", "sub_11E0E", "j_gfx_jump_32", "sub_121C6", "byte_34197", "gfx_jump_0_alloc",
+        "gfxBufPtr", "restoreJoystickData", "regs", "exitCode", "restoreCBreakHandler", "sub_10211", "sub_22411", "scenarioPlh", "regnStr", "sub_1C8DE", "word_32938", "sub_11E0E", "j_gfx_jump_32", "sub_121C6", "byte_34197", "aCockpit_pic", "a256pit_pic", "byte_32933", "openBlitClosePic", "setupDac", 
+        "gfx_jump_0_alloc",
         "gfx_jump_0c",
+        "gfx_jump_2a",
         "gfx_jump_3d_null",
+        "gfx_jump_3f_modecode",
+        "gfx_jump_44_setDac",
+        "gfx_jump_45_retrace",
         "gfx_jump_4b_storeBufPtr",
+        "gfx_jump_4c",
         "gfx_jump_52"
     ],
     "preamble": [
@@ -63,7 +69,7 @@
         "DOSSEG",
         ".MODEL SMALL"
     ],
-    "coda": [ "END" ],    
+    "coda": [ "END" ],
     "header_preamble": [
         "#ifndef F15_SE2_EGAME",
         "#define F15_SE2_EGAME",

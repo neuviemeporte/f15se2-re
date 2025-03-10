@@ -41,7 +41,7 @@ extern unsigned char far byte_2D6A4[];
 #define OVL_HDR_SLOTCOUNT 0x22
 #define OVL_HDR_FIRSTPTR 0x24
 // ==== seg000:0x147 ====
-void __cdecl sub_10147();
+void __cdecl drawCockpit();
 // ==== seg000:0x211 ====
 int sub_10211();
 // ==== seg000:0x294 ====
@@ -168,7 +168,7 @@ int sub_13A6C();
 // ==== seg000:0x3a90 ====
 int sub_13A90();
 // ==== seg000:0x3aee ====
-int sub_13AEE();
+int setupDac();
 // ==== seg000:0x3b2f ====
 int sub_13B2F();
 // ==== seg000:0x3b86 ====
@@ -434,11 +434,11 @@ int sub_1DB9C();
 // ==== seg000:0xdbe0 ====
 int sub_1DBE0();
 // ==== seg000:0xdd4c ====
-int sub_1DD4C();
+int openFileWrapper();
 // ==== seg000:0xdd5e ====
 int sub_1DD5E();
 // ==== seg000:0xdd70 ====
-int sub_1DD70();
+int closeFileWrapper();
 // ==== seg000:0xdd7e ====
 int sub_1DD7E();
 // ==== seg000:0xdd92 ====
@@ -450,7 +450,7 @@ int openFile();
 // ==== seg000:0xde1b ====
 int sub_1DE1B();
 // ==== seg000:0xde72 ====
-int sub_1DE72();
+int closeFile();
 // ==== seg000:0xde94 ====
 int sub_1DE94();
 // ==== seg000:0xdebf ====
@@ -460,7 +460,7 @@ int read512FromFileIntoBuf();
 // ==== seg000:0xdf4f ====
 int sub_1DF4F();
 // ==== seg000:0xdfbc ====
-int sub_1DFBC();
+int openBlitClosePic();
 // ==== seg000:0xe0aa ====
 int picBlit();
 // ==== seg000:0xe11c ====
@@ -1049,6 +1049,10 @@ extern int16 word_36C27;
 extern uint8 byte_36C31;
 extern uint8 byte_36C32;
 extern int16 word_36C33;
+extern uint8 dacValues1[];
+extern uint8 byte_36D86[];
+extern uint8 byte_36F36[];
+extern uint8 byte_37116[];
 extern uint8 byte_3754E;
 extern int16 word_3754F;
 extern int16 word_37551;
@@ -1316,11 +1320,17 @@ extern int16 word_38604;
 extern int16 word_38606;
 extern int16 word_38608;
 extern int16 word_3860A;
+extern uint8 aNotAvailable[];
+extern uint8 aArmed[];
 extern uint8 byte_3862A;
-extern uint8 byte_3862B[];
+extern uint8 byte_3862B;
+extern uint8 picBuf[];
 extern uint8 aFileNotFound[];
 extern uint8 aNoFileBuffersAvailabl[];
 extern uint8 aOpenError[];
+extern uint8 aFileClosingError[];
+extern uint8 aReadError[];
+extern uint8 aWriteError[];
 extern uint8 unk_3888E[];
 extern int16 word_38890;
 extern int16 fileReadPos;
@@ -1501,7 +1511,7 @@ extern int16 word_3B4DC;
 extern int16 word_3B4DE;
 extern int16 word_3B4E0;
 extern char hercFlag;
-extern uint8 unk_3B4E4[];
+extern int16 word_3B4E4;
 extern int16 word_3B5D6;
 extern int16 word_3B7DA;
 extern int16 word_3B7DC;
