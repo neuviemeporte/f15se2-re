@@ -14,6 +14,9 @@
 #define __int8 char
 #define __cdecl
 #define __far far
+extern unsigned char far byte_228D0[];
+extern unsigned char far byte_228FF[];
+extern unsigned char far byte_2D6A4[];
 #define DOS_SET_IRQH 0x25
 #define PORT_PIT_TIME0 0x40
 #define PORT_PIT_CNTRL 0x43
@@ -642,9 +645,6 @@ int far sub_22746();
 // ==== seg003:0x56 ====
 int far sub_22796();
 // bytes outside routine, potential module boundary at 0x189
-extern uint8 byte_228D0[];
-extern char byte_228FF[];
-extern uint8 byte_2D6A4[];
 extern uint8 unk_328B0[];
 extern int16 word_328B2;
 extern uint8 aMsRunTimeLibraryCopyr[];

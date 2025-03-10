@@ -7,6 +7,11 @@
 
 #include <dos.h>
 
+// far arrays found in seg004 in the original executable
+unsigned char far byte_228D0[0x2f];
+unsigned char far byte_228FF[0xada5];
+unsigned char far byte_2D6A4[0x4844+0x9c8];
+
 // ==== seg000:0x29a ====
 void gfxInit() {
     int var_2;

@@ -23,6 +23,7 @@ PUBLIC _word_32938
 PUBLIC _sub_11E0E
 PUBLIC _j_gfx_jump_32
 PUBLIC _sub_121C6
+PUBLIC _byte_34197
 PUBLIC _gfx_jump_0_alloc
 PUBLIC _gfx_jump_0c
 PUBLIC _gfx_jump_3d_null
@@ -1923,11 +1924,7 @@ sub_22796 proc far
 sub_22796 endp
 ; ------------------------------seg003:0x6f------------------------------
 ; ==============================================================================
-.DATA ;seg004 segment byte public 'DATA' use16
-byte_228D0 db 2Fh dup(0)
-byte_228FF db 0ADA5h dup(0)
-byte_2D6A4 db 4844h dup(0)
-    db 9C8h dup(0)
+.DATA ;dseg segment para public 'DATA' use16
 unk_328B0 db 0
     db 0
 word_328B2 dw 0
@@ -7178,7 +7175,7 @@ word_34190 dw 0
 word_34192 dw 0
 word_34194 dw 0
 byte_34196 db 3
-byte_34197 db 6
+_byte_34197 db 6
 word_34198 dw 0
 byte_3419A db 0
     db 0
