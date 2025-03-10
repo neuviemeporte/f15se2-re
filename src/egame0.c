@@ -7,7 +7,7 @@
 
 #include <dos.h>
 
-// 0x10
+// ==== seg000:0x10 ====
 int main(void) {
     uint16 FAR *commPtr;
     FP_SEG(commPtr) = SEG_LOWMEM;
@@ -33,7 +33,7 @@ int main(void) {
         noJoy80[0] = noJoy80[1] = 0x80;
     }
     // 0xa5
-    gfxAlloc0();
+    gfxInit();
     gfx_jump_0c();
     gfx_jump_52(commData->setupMono);
     if (gameData->theater < 2) { // 0xc8
@@ -45,7 +45,7 @@ int main(void) {
     // 0xea
     gfxBufPtr = commData->gfxInitResult;
     sub_21A7E();
-    sub_10147();
+    drawCockpit();
     sub_10211();
     if (commData->setupUseJoy == 1) {
         // 10c

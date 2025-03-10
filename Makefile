@@ -134,10 +134,11 @@ $(STARTRE_EXE): $(STARTRE_OBJ)
 #
 EGAME_EXE := $(BUILDDIR)/egame.exe
 EGAME_LST := $(LSTDIR)/egame.lst
+EGAME_INC := $(LSTDIR)/egame.inc
 EGAME_CONF := $(CONFDIR)/egame_rc.json
 EGAME_BASE := egame_rc.asm
 EGAME_ASM := $(EGAME_BASE)
-EGAME_SRC := egame0.c
+EGAME_SRC := egame0.c egame1.c egame2.c
 EGAME_BASEHDR = $(SRCDIR)/egame.h
 EGAME_COBJ := $(call cobj,$(BUILDDIR),$(EGAME_SRC))
 EGAME_OBJ := $(EGAME_COBJ) $(call asmobj,$(BUILDDIR),$(EGAME_ASM))
@@ -147,14 +148,15 @@ $(EGAME_EXE): $(EGAME_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_OBJ) -o $@ -f "$(LINKFLAGS)"
 
 # generate C header file from ida listing
-$(EGAME_BASEHDR): $(EGAME_LST) $(EGAME_CONF) $(LST2CH)
+$(EGAME_BASEHDR): $(EGAME_LST) $(EGAME_INC) $(EGAME_CONF) $(LST2CH)
 	$(LST2CH) $< $(SRCDIR) $(EGAME_CONF) --noc
 
 # generate assembly for base object from ida listing
-$(SRCDIR)/$(EGAME_BASE): $(EGAME_LST) $(EGAME_CONF) $(LST2ASM)
+$(SRCDIR)/$(EGAME_BASE): $(EGAME_LST) $(EGAME_INC) $(EGAME_CONF) $(LST2ASM)
 	$(LST2ASM) $< $@ $(EGAME_CONF) --stub
 
 $(EGAME_COBJ): $(EGAME_BASEHDR)
+$(BUILDDIR)/egame1.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 
 # reference and target entrypoints (offset of main()) for binary comparison
 EGAME_VRF_REF := bin/egame.exe

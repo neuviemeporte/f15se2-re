@@ -9,31 +9,82 @@ PUBLIC _gfxModeUnset
 PUBLIC _noJoy80
 PUBLIC _copyJoystickData
 PUBLIC _installCBreakHandler
-PUBLIC _gfxAlloc0
 PUBLIC _gfxBufPtr
 PUBLIC _restoreJoystickData
 PUBLIC _regs
 PUBLIC _exitCode
 PUBLIC _restoreCBreakHandler
 PUBLIC _sub_10211
-PUBLIC _sub_21A7E
-PUBLIC _sub_10147
+PUBLIC _sub_22411
+PUBLIC _scenarioPlh
+PUBLIC _regnStr
+PUBLIC _sub_1C8DE
+PUBLIC _word_32938
+PUBLIC _sub_11E0E
+PUBLIC _j_gfx_jump_32
+PUBLIC _sub_121C6
+PUBLIC _byte_34197
+PUBLIC _aCockpit_pic
+PUBLIC _a256pit_pic
+PUBLIC _byte_32933
+PUBLIC _openBlitClosePic
+PUBLIC _setupDac
+PUBLIC _gfx_jump_0_alloc
 PUBLIC _gfx_jump_0c
+PUBLIC _gfx_jump_2a
 PUBLIC _gfx_jump_3d_null
+PUBLIC _gfx_jump_3f_modecode
+PUBLIC _gfx_jump_44_setDac
+PUBLIC _gfx_jump_45_retrace
+PUBLIC _gfx_jump_4b_storeBufPtr
+PUBLIC _gfx_jump_4c
 PUBLIC _gfx_jump_52
+
+; ---------------------------------------------------------------------------
+
+; enum enum_1, mappedto_2
+DOS_SET_IRQH	 = 25h
+PORT_PIT_TIME0	 = 40h
+PORT_PIT_CNTRL	 = 43h
+
+; ---------------------------------------------------------------------------
+
+; enum Pointers, mappedto_3
+COMM_GFXOVL_SEG	 = 1Ah
+COMM_SNDOVL_SEG	 = 1Ch
+COMM_MISCOVL_SEG  = 1Eh
+COMM_GFXBUF_PTR	 = 20h
+COMM_HERC_FLAG	 = 24h
+COMM_SETUP_DONE_OFFSET	= 26h
+COMM_SETUP_GFXMODE_OFFSET  = 30h
+COMM_UNK7	 = 38h
+COMM_JOYDATA_OFF  = 48h
+COMM_USEJOY_OFF	 = 72h
+COMM_GFXMODE_OFFSET  = 78h
+OFF_IACA_START	 = 4F0h
+COMM_GAMEDATA_OFFSET  =	120Eh
+
+; ---------------------------------------------------------------------------
+
+; enum Interrupt, mappedto_4
+IRQ_CBREAK	 = 1Bh
+
+; ---------------------------------------------------------------------------
+
+; enum Game, mappedto_5
+GAMEDATA_THEATER  = 38h
+
+; ---------------------------------------------------------------------------
+
+; enum Misc, mappedto_6
+IRQ_VIDEO	 = 10h
+OVL_HDR_CODESEG	 = 18h
+OVL_HDR_FIRSTIDX  = 1Ch
+OVL_HDR_SLOTCOUNT  = 22h
+OVL_HDR_FIRSTPTR  = 24h
+
 ; ==============================================================================
 .CODE ;seg000 segment byte public 'CODE' use16
-padding db 10h dup(0)
-; ------------------------------seg000:0x10------------------------------
-_main proc near
-    retn
-_main endp
-; ------------------------------seg000:0x146------------------------------
-; ------------------------------seg000:0x147------------------------------
-_sub_10147 proc near
-    retn
-_sub_10147 endp
-; ------------------------------seg000:0x168------------------------------
 ; ------------------------------seg000:0x211------------------------------
 _sub_10211 proc near
     retn
@@ -49,11 +100,11 @@ sub_10297 proc near
     retn
 sub_10297 endp
 ; ------------------------------seg000:0x299------------------------------
-; ------------------------------seg000:0x29a------------------------------
-_gfxAlloc0 proc near
+; ------------------------------seg000:0x2e2------------------------------
+_j_gfx_jump_32 proc near
     retn
-_gfxAlloc0 endp
-; ------------------------------seg000:0x2a3------------------------------
+_j_gfx_jump_32 endp
+; ------------------------------seg000:0x2e2------------------------------
 ; ------------------------------seg000:0x334------------------------------
 sub_10334 proc near
     retn
@@ -61,8 +112,51 @@ sub_10334 endp
 ; ------------------------------seg000:0x66e------------------------------
 ; ------------------------------seg000:0x688------------------------------
 _setupOverlaySlots proc near
-    retn ;sp-analysis failed
-_setupOverlaySlots endp
+    arg_0 = word ptr 4
+    push bp
+    mov bp, sp
+    push di
+    push si
+    push es
+    push ds
+    push bp
+    mov dx, [bp+arg_0]
+    mov ovlInsaneFlag, 0
+    jmp short loc_106A0
+    nop
+    mov ovlInsaneFlag, 1
+loc_106A0:
+    mov es, dx
+    mov bx, offset _gfx_jump_0_alloc
+    mov di, OVL_HDR_FIRSTIDX
+    mov ax, es:[di]
+    mov dl, 5
+    mul dl
+    add bx, ax
+    mov di, OVL_HDR_SLOTCOUNT
+    mov cx, es:[di]
+    mov si, OVL_HDR_FIRSTPTR
+    mov di, OVL_HDR_CODESEG
+    mov di, es:[di]
+writeSlots:
+    mov ax, es:[si]
+    mov [bx+1], ax
+    mov [bx+3], di
+    add si, 2
+    add bx, 5
+    loop writeSlots
+    cmp ovlInsaneFlag, 0
+    jnz short locret_106E0
+    pop bp
+    pop ds
+    pop es
+    pop si
+    pop di
+    mov sp, bp
+    pop bp
+locret_106E0:
+    retn
+_setupOverlaySlots endp ;sp-analysis failed
 ; ------------------------------seg000:0x6e0------------------------------
 ; ------------------------------seg000:0x720------------------------------
 sub_10720 proc near
@@ -155,9 +249,9 @@ placeString proc near
 placeString endp
 ; ------------------------------seg000:0x1e0d------------------------------
 ; ------------------------------seg000:0x1e0e------------------------------
-sub_11E0E proc near
+_sub_11E0E proc near
     retn
-sub_11E0E endp
+_sub_11E0E endp
 ; ------------------------------seg000:0x1f3d------------------------------
 ; ------------------------------seg000:0x1f3e------------------------------
 sub_11F3E proc near
@@ -185,9 +279,9 @@ sub_121A9 proc near
 sub_121A9 endp
 ; ------------------------------seg000:0x21c4------------------------------
 ; ------------------------------seg000:0x21c6------------------------------
-sub_121C6 proc near
+_sub_121C6 proc near
     retn
-sub_121C6 endp
+_sub_121C6 endp
 ; ------------------------------seg000:0x21c6------------------------------
 ; ------------------------------seg000:0x21ca------------------------------
 sub_121CA proc near
@@ -340,9 +434,9 @@ sub_13A90 proc near
 sub_13A90 endp
 ; ------------------------------seg000:0x3aa6------------------------------
 ; ------------------------------seg000:0x3aee------------------------------
-sub_13AEE proc near
+_setupDac proc near
     retn
-sub_13AEE endp
+_setupDac endp
 ; ------------------------------seg000:0x3b2e------------------------------
 ; ------------------------------seg000:0x3b2f------------------------------
 sub_13B2F proc near
@@ -386,6 +480,23 @@ sub_13BCD endp
 ; ------------------------------seg000:0x3beb------------------------------
 ; ------------------------------seg000:0x3bec------------------------------
 _installCBreakHandler proc near
+    push si
+    push di
+    push dx
+    push ds
+    mov si, IRQ_CBREAK*4
+    call getInterruptHandler
+    mov origCBreakOfs, bx
+    mov origCBreakSeg, ax
+    mov ax, seg @code ;mov ax, seg seg000
+    mov dx, offset cbreakHandler
+    mov ds, ax
+    mov ax, 251Bh
+    int 21h ;DOS - SET INTERRUPT VECTOR
+    pop ds
+    pop dx
+    pop di
+    pop si
     retn
 _installCBreakHandler endp
 ; ------------------------------seg000:0x3c0e------------------------------
@@ -888,9 +999,9 @@ sub_1C8A4 proc near
 sub_1C8A4 endp
 ; ------------------------------seg000:0xc8dd------------------------------
 ; ------------------------------seg000:0xc8de------------------------------
-sub_1C8DE proc near
+_sub_1C8DE proc near
     retn
-sub_1C8DE endp
+_sub_1C8DE endp
 ; ------------------------------seg000:0xc9d0------------------------------
 ; ------------------------------seg000:0xc9d2------------------------------
 sub_1C9D2 proc near
@@ -1003,9 +1114,9 @@ sub_1DBE0 proc near
 sub_1DBE0 endp
 ; ------------------------------seg000:0xdbff------------------------------
 ; ------------------------------seg000:0xdd4c------------------------------
-sub_1DD4C proc near
+openFileWrapper proc near
     retn
-sub_1DD4C endp
+openFileWrapper endp
 ; ------------------------------seg000:0xdd5c------------------------------
 ; ------------------------------seg000:0xdd5e------------------------------
 sub_1DD5E proc near
@@ -1013,9 +1124,9 @@ sub_1DD5E proc near
 sub_1DD5E endp
 ; ------------------------------seg000:0xdd6e------------------------------
 ; ------------------------------seg000:0xdd70------------------------------
-sub_1DD70 proc near
+closeFileWrapper proc near
     retn
-sub_1DD70 endp
+closeFileWrapper endp
 ; ------------------------------seg000:0xdd7d------------------------------
 ; ------------------------------seg000:0xdd7e------------------------------
 sub_1DD7E proc near
@@ -1043,9 +1154,9 @@ sub_1DE1B proc near
 sub_1DE1B endp
 ; ------------------------------seg000:0xde71------------------------------
 ; ------------------------------seg000:0xde72------------------------------
-sub_1DE72 proc near
+closeFile proc near
     retn
-sub_1DE72 endp
+closeFile endp
 ; ------------------------------seg000:0xde92------------------------------
 ; ------------------------------seg000:0xde94------------------------------
 sub_1DE94 proc near
@@ -1068,10 +1179,10 @@ sub_1DF4F proc near
 sub_1DF4F endp
 ; ------------------------------seg000:0xdfba------------------------------
 ; ------------------------------seg000:0xdfbc------------------------------
-sub_1DFBC proc near
+_openBlitClosePic proc near
     retn
-sub_1DFBC endp
-; ------------------------------seg000:0xdfe0------------------------------
+_openBlitClosePic endp
+; ------------------------------seg000:0xdff4------------------------------
 ; ------------------------------seg000:0xe0aa------------------------------
 picBlit proc near
     retn
@@ -1752,26 +1863,16 @@ sub_218A8 proc near
     retn
 sub_218A8 endp
 ; ------------------------------seg001:0x21d5------------------------------
-; ------------------------------seg002:0xa------------------------------
-sub_21A7A proc far
-    retn
-sub_21A7A endp
-; ------------------------------seg002:0xa------------------------------
-; ------------------------------seg002:0xe------------------------------
-_sub_21A7E proc far
-    retn
-_sub_21A7E endp
-; ------------------------------seg002:0xe------------------------------
 ; ------------------------------seg002:0x16------------------------------
 sub_21A86 proc near
     retn
 sub_21A86 endp
 ; ------------------------------seg002:0x99b------------------------------
 ; ------------------------------seg002:0x9a1------------------------------
-sub_22411 proc near
+_sub_22411 proc near
     retn
-sub_22411 endp
-; ------------------------------seg002:0xb4f------------------------------
+_sub_22411 endp
+; ------------------------------seg002:0xbea------------------------------
 ; ------------------------------seg002:0xbeb------------------------------
 sub_2265B proc far
     retn
@@ -1804,7 +1905,22 @@ _restoreJoystickData endp
 ; ------------------------------seg002:0xcbd------------------------------
 ; ------------------------------seg002:0xcbe------------------------------
 _copyJoystickData proc far
-    retn
+    mov bx, sp
+    push si
+    push di
+    push ds
+    push es
+    lds si, [bx+4]
+    mov di, offset joyData
+    push ss
+    pop es
+    mov cx, 14h
+    rep movsw
+    pop es
+    pop ds
+    pop di
+    pop si
+    retf
 _copyJoystickData endp
 ; ------------------------------seg002:0xcd5------------------------------
 ; ------------------------------seg003:0x6------------------------------
@@ -1817,14 +1933,9 @@ sub_22796 proc far
     retn
 sub_22796 endp
 ; ------------------------------seg003:0x6f------------------------------
-byte_227B0 db 0FBh, 9Ch, 1Eh, 6, 50h, 53h, 0B8h
-    dw seg @data ;seg_227B7 dw seg dseg
-byte_227B9 db 8Eh, 0D8h, 0B8h, 40h, 0, 8Eh, 0C0h, 8Ah, 26h, 0EFh
-word_228C5 dw 0
-word_228C7 dw 0
 ; ==============================================================================
 .DATA ;dseg segment para public 'DATA' use16
-    db 0
+unk_328B0 db 0
     db 0
 word_328B2 dw 0
     db 0
@@ -1843,30 +1954,22 @@ aNc_xxx db 'nc.xxx',0
 aCe_xxx db 'ce.xxx',0
 aJp_xxx db 'jp.xxx',0
 aNa_xxx db 'na.xxx',0
-byte_32933 db 0
+_byte_32933 db 0
 _exitCode db 81h
     db 0
 _gfxModeUnset dw 0
-word_32938 dw 0
-off_3293A dw offset aRegn_xxx
-unk_3293C db 4Bh
-    db 0
-    db 52h
-    db 0
-    db 59h
-    db 0
-    db 60h
-    db 0
-    db 67h
-    db 0
-    db 6Eh
-    db 0
-    db 75h
-    db 0
-    db 7Ch
-    db 0
-a256pit_pic db '256pit.PIC',0
-aCockpit_pic db 'cockpit.PIC',0
+_word_32938 dw 0
+_regnStr dw offset aRegn_xxx
+_scenarioPlh dw offset aLb_xxx
+    dw offset aPg_xxx ;"pg.xxx"
+    dw offset aVn_xxx ;"vn.xxx"
+    dw offset aMe_xxx ;"me.xxx"
+    dw offset aNc_xxx ;"nc.xxx"
+    dw offset aCe_xxx ;"ce.xxx"
+    dw offset aJp_xxx ;"jp.xxx"
+    dw offset aNa_xxx ;"na.xxx"
+_a256pit_pic db '256pit.PIC',0
+_aCockpit_pic db 'cockpit.PIC',0
     db 0
 aF15dgtl_bin db 'F15DGTL.BIN',0
     dw 0
@@ -4786,10 +4889,10 @@ aF15StrikeEagle db 'F15 Strike Eagle',0
 aAt db ' at ',0
     db 0
 ; ------------------------------dseg:0xebe------------------------------
-gfx_jump_0_alloc proc near
+_gfx_jump_0_alloc proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_0_alloc endp
+_gfx_jump_0_alloc endp
 ; ------------------------------dseg:0xebe------------------------------
 ; ------------------------------dseg:0xec3------------------------------
 gfx_jump_01 proc near
@@ -5025,10 +5128,10 @@ gfx_jump_29_switchColor proc near
 gfx_jump_29_switchColor endp
 ; ------------------------------dseg:0xf8b------------------------------
 ; ------------------------------dseg:0xf90------------------------------
-gfx_jump_2a proc near
+_gfx_jump_2a proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_2a endp
+_gfx_jump_2a endp
 ; ------------------------------dseg:0xf90------------------------------
 ; ------------------------------dseg:0xf95------------------------------
 gfx_jump_2b proc near
@@ -5146,10 +5249,10 @@ gfx_jump_3e proc near
 gfx_jump_3e endp
 ; ------------------------------dseg:0xff4------------------------------
 ; ------------------------------dseg:0xff9------------------------------
-gfx_jump_3f_modecode proc near
+_gfx_jump_3f_modecode proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_3f_modecode endp
+_gfx_jump_3f_modecode endp
 ; ------------------------------dseg:0xff9------------------------------
     db 0EAh
     db 0
@@ -5173,22 +5276,22 @@ gfx_jump_41 endp
     db 0
     db 0
 ; ------------------------------dseg:0x1012------------------------------
-gfx_jump_44_setDac proc near
+_gfx_jump_44_setDac proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_44_setDac endp
+_gfx_jump_44_setDac endp
 ; ------------------------------dseg:0x1012------------------------------
 ; ------------------------------dseg:0x1017------------------------------
-gfx_jump_45_retrace proc near
+_gfx_jump_45_retrace proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_45_retrace endp
+_gfx_jump_45_retrace endp
 ; ------------------------------dseg:0x1017------------------------------
 ; ------------------------------dseg:0x101c------------------------------
-gfx_jump_retrace2 proc near
+gfx_jump_46_retrace2 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_retrace2 endp
+gfx_jump_46_retrace2 endp
 ; ------------------------------dseg:0x101c------------------------------
 ; ------------------------------dseg:0x1021------------------------------
 gfx_jump_47 proc near
@@ -5213,16 +5316,16 @@ gfx_jump_49 endp
     db 0
     db 0
 ; ------------------------------dseg:0x1035------------------------------
-gfx_jump_4b_storeBufPtr proc near
+_gfx_jump_4b_storeBufPtr proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_4b_storeBufPtr endp
+_gfx_jump_4b_storeBufPtr endp
 ; ------------------------------dseg:0x1035------------------------------
 ; ------------------------------dseg:0x103a------------------------------
-gfx_jump_4c proc near
+_gfx_jump_4c proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_4c endp
+_gfx_jump_4c endp
 ; ------------------------------dseg:0x103a------------------------------
     db 0EAh
     db 0
@@ -7082,7 +7185,7 @@ word_34190 dw 0
 word_34192 dw 0
 word_34194 dw 0
 byte_34196 db 3
-byte_34197 db 6
+_byte_34197 db 6
 word_34198 dw 0
 byte_3419A db 0
     db 0
@@ -17936,246 +18039,26 @@ word_36C33 dw 0
     db 3Fh
     db 3Fh
     db 3Fh
-    db 0
-    db 0
-    db 0
-    db 4
-    db 4
-    db 4
-    db 8
-    db 8
-    db 8
-    db 0Ch
-    db 0Ch
-    db 0Ch
-    db 10h
-    db 10h
-    db 10h
-    db 14h
-    db 14h
-    db 14h
-    db 18h
-    db 18h
-    db 18h
-    db 1Ch
-    db 1Ch
-    db 1Ch
-    db 20h
-    db 20h
-    db 20h
-    db 24h
-    db 24h
-    db 24h
-    db 28h
-    db 28h
-    db 28h
-    db 2Ch
-    db 2Ch
-    db 2Ch
-    db 30h
-    db 30h
-    db 30h
-    db 34h
-    db 34h
-    db 34h
-    db 38h
-    db 38h
-    db 38h
-    db 3Ch
-    db 3Ch
-    db 3Ch
-    db 0
-    db 3Fh
-    db 0
-    db 0
-    db 38h
-    db 0
-    db 0
-    db 31h
-    db 0
-    db 0
-    db 2Ah
-    db 0
-    db 0
-    db 23h
-    db 0
-    db 0
-    db 1Ch
-    db 0
-    db 0
-    db 15h
-    db 0
-    db 0
-    db 0Eh
-    db 0
-    db 3Fh
-    db 31h
-    db 0
-    db 39h
-    db 2Ah
-    db 0
-    db 33h
-    db 26h
-    db 0
-    db 2Dh
-    db 20h
-    db 0
-    db 26h
-    db 1Ch
-    db 0
-    db 20h
-    db 17h
-    db 0
-    db 1Ah
-    db 12h
-    db 0
-    db 14h
-    db 0Eh
-    db 0
-    db 37h
-    db 3Ah
-    db 3Fh
-    db 35h
-    db 38h
-    db 3Eh
-    db 34h
-    db 37h
-    db 3Ch
-    db 33h
-    db 35h
-    db 3Bh
-    db 31h
-    db 33h
-    db 3Ah
-    db 30h
-    db 32h
-    db 38h
-    db 2Fh
-    db 30h
-    db 37h
-    db 2Eh
-    db 2Fh
-    db 36h
-    db 39h
-    db 1Bh
-    db 0
-    db 32h
-    db 17h
-    db 0
-    db 2Ch
-    db 14h
-    db 0
-    db 25h
-    db 11h
-    db 0
-    db 1Fh
-    db 0Fh
-    db 0
-    db 19h
-    db 0Ch
-    db 0
-    db 12h
-    db 9
-    db 0
-    db 0Ch
-    db 6
-    db 0
-    db 3Fh
-    db 0
-    db 0
-    db 38h
-    db 0
-    db 0
-    db 31h
-    db 0
-    db 0
-    db 2Bh
-    db 0
-    db 0
-    db 24h
-    db 0
-    db 0
-    db 1Dh
-    db 0
-    db 0
-    db 17h
-    db 0
-    db 0
-    db 10h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 3Fh
-    db 0
-    db 1
-    db 38h
-    db 0
-    db 1
-    db 31h
-    db 0
-    db 0
-    db 2Ah
-    db 0
-    db 0
-    db 23h
-    db 0
-    db 0
-    db 1Ch
-    db 0
-    db 0
-    db 15h
-    db 0
-    db 0
-    db 0Eh
-    db 18h
-    db 1Fh
-    db 26h
-    db 16h
-    db 1Dh
-    db 24h
-    db 15h
-    db 1Ch
-    db 22h
-    db 14h
-    db 1Ah
-    db 20h
-    db 13h
-    db 19h
-    db 1Eh
-    db 12h
-    db 17h
-    db 1Ch
-    db 10h
-    db 15h
-    db 1Ah
-    db 0Fh
-    db 14h
-    db 18h
-    db 3Fh
-    db 2Ch
-    db 24h
-    db 3Ah
-    db 28h
-    db 21h
-    db 35h
-    db 25h
-    db 1Eh
-    db 31h
-    db 21h
-    db 1Ch
-    db 2Ch
-    db 1Fh
-    db 19h
-    db 28h
-    db 1Bh
-    db 16h
-    db 23h
-    db 18h
-    db 14h
-    db 1Eh
-    db 15h
-    db 11h
+dacValues1 db 3 dup(0), 3 dup(4), 3 dup(8), 3 dup(0Ch), 3 dup(10h)
+    db 3 dup(14h), 3 dup(18h), 3 dup(1Ch), 3 dup(20h), 3 dup(24h) ;f0/240 bytes of 80 rgb triplets
+    db 3 dup(28h), 3 dup(2Ch), 3 dup(30h), 3 dup(34h), 3 dup(38h)
+    db 3 dup(3Ch), 0, 3Fh, 2 dup(0), 38h, 2 dup(0), 31h, 2 dup(0)
+    db 2Ah, 2 dup(0), 23h, 2 dup(0), 1Ch, 2 dup(0), 15h, 2 dup(0)
+    db 0Eh, 0, 3Fh, 31h, 0, 39h, 2Ah, 0, 33h, 26h, 0, 2Dh
+    db 20h, 0, 26h, 1Ch, 0, 20h, 17h, 0, 1Ah, 12h, 0, 14h
+    db 0Eh, 0, 37h, 3Ah, 3Fh, 35h, 38h, 3Eh, 34h, 37h, 3Ch
+    db 33h, 35h, 3Bh, 31h, 33h, 3Ah, 30h, 32h, 38h, 2Fh, 30h
+    db 37h, 2Eh, 2Fh, 36h, 39h, 1Bh, 0, 32h, 17h, 0, 2Ch, 14h
+    db 0, 25h, 11h, 0, 1Fh, 0Fh, 0, 19h, 0Ch, 0, 12h, 9, 0
+    db 0Ch, 6, 0, 3Fh, 2 dup(0), 38h, 2 dup(0), 31h, 2 dup(0)
+    db 2Bh, 2 dup(0), 24h, 2 dup(0), 1Dh, 2 dup(0), 17h, 2 dup(0)
+    db 10h, 4 dup(0), 3Fh, 0, 1, 38h, 0, 1, 31h, 2 dup(0)
+    db 2Ah, 2 dup(0), 23h, 2 dup(0), 1Ch, 2 dup(0), 15h, 2 dup(0)
+    db 0Eh, 18h, 1Fh, 26h, 16h, 1Dh, 24h, 15h, 1Ch, 22h, 14h
+    db 1Ah, 20h, 13h, 19h, 1Eh, 12h, 17h, 1Ch, 10h, 15h, 1Ah
+    db 0Fh, 14h, 18h, 3Fh, 2Ch, 24h, 3Ah, 28h, 21h, 35h, 25h
+    db 1Eh, 31h, 21h, 1Ch, 2Ch, 1Fh, 19h, 28h, 1Bh, 16h, 23h
+    db 18h, 14h, 1Eh, 15h, 11h
     db 34h
     db 34h
     db 34h
@@ -18224,53 +18107,10 @@ word_36C33 dw 0
     db 0
     db 27h
     db 3Fh
-    db 34h
-    db 34h
-    db 34h
-    db 2Fh
-    db 33h
-    db 2Fh
-    db 2Ch
-    db 32h
-    db 2Bh
-    db 27h
-    db 31h
-    db 27h
-    db 24h
-    db 30h
-    db 23h
-    db 20h
-    db 2Fh
-    db 20h
-    db 1Dh
-    db 2Fh
-    db 1Ch
-    db 19h
-    db 2Eh
-    db 18h
-    db 16h
-    db 2Dh
-    db 15h
-    db 12h
-    db 2Ch
-    db 11h
-    db 0Fh
-    db 2Bh
-    db 0Eh
-    db 0Ch
-    db 2Ah
-    db 0Bh
-    db 9
-    db 29h
-    db 8
-    db 6
-    db 28h
-    db 5
-    db 4
-    db 28h
-    db 3
-    db 1
-    db 27h
+byte_36D86 db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
+    db 27h, 24h, 30h, 23h, 20h, 2Fh, 20h, 1Dh, 2Fh, 1Ch, 19h
+    db 2Eh, 18h, 16h, 2Dh, 15h, 12h, 2Ch, 11h, 0Fh, 2Bh, 0Eh
+    db 0Ch, 2Ah, 0Bh, 9, 29h, 8, 6, 28h, 5, 4, 28h, 3, 1, 27h
     db 0
     db 0
     db 0
@@ -18656,534 +18496,53 @@ word_36C33 dw 0
     db 22h
     db 22h
     db 22h
-    db 1Fh
-    db 10h
-    db 1Eh
-    db 1Dh
-    db 0Fh
-    db 1Eh
-    db 1Bh
-    db 0Fh
-    db 1Dh
-    db 19h
-    db 0Eh
-    db 1Ch
-    db 17h
-    db 0Dh
-    db 1Bh
-    db 15h
-    db 0Dh
-    db 1Ah
-    db 13h
-    db 0Ch
-    db 19h
-    db 11h
-    db 0Ch
-    db 18h
-    db 0Fh
-    db 0Bh
-    db 17h
-    db 0Dh
-    db 0Bh
-    db 16h
-    db 0Ch
-    db 0Ah
-    db 15h
-    db 0Ah
-    db 0Ah
-    db 14h
-    db 9
-    db 0Ah
-    db 13h
-    db 9
-    db 0Ah
-    db 12h
-    db 8
-    db 0Ah
-    db 12h
-    db 8
-    db 0Bh
-    db 11h
-    db 6
-    db 4
-    db 1
-    db 6
-    db 4
-    db 1
-    db 7
-    db 5
-    db 2
-    db 8
-    db 6
-    db 2
-    db 9
-    db 7
-    db 3
-    db 0Ah
-    db 7
-    db 3
-    db 0Bh
-    db 8
-    db 4
-    db 0Ch
-    db 9
-    db 5
-    db 0Dh
-    db 0Ah
-    db 6
-    db 0Dh
-    db 0Bh
-    db 7
-    db 0Eh
-    db 0Ch
-    db 8
-    db 0Fh
-    db 0Dh
-    db 8
-    db 10h
-    db 0Eh
-    db 9
-    db 11h
-    db 0Fh
-    db 0Ah
-    db 12h
-    db 10h
-    db 0Ch
-    db 13h
-    db 11h
-    db 0Dh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1Eh
-    db 0
-    db 20h
-    db 0
-    db 0
-    db 20h
-    db 1Fh
-    db 1Eh
-    db 0
-    db 0
-    db 20h
-    db 0
-    db 20h
-    db 1Eh
-    db 0Fh
-    db 0
-    db 1Eh
-    db 1Eh
-    db 1Eh
-    db 13h
-    db 19h
-    db 1Eh
-    db 10h
-    db 11h
-    db 30h
-    db 0Eh
-    db 28h
-    db 0Eh
-    db 10h
-    db 30h
-    db 30h
-    db 30h
-    db 10h
-    db 10h
-    db 2Ah
-    db 0
-    db 0
-    db 30h
-    db 30h
-    db 10h
-    db 39h
-    db 39h
-    db 39h
-    db 3
-    db 3
-    db 3
-    db 4
-    db 4
-    db 1Eh
-    db 4
-    db 20h
-    db 3
-    db 4
-    db 20h
-    db 1Fh
-    db 20h
-    db 4
-    db 4
-    db 1Dh
-    db 3
-    db 1Eh
-    db 1Eh
-    db 10h
-    db 3
-    db 1Ch
-    db 1Ch
-    db 1Ch
-    db 11h
-    db 18h
-    db 1Ch
-    db 11h
-    db 12h
-    db 2Ah
-    db 11h
-    db 28h
-    db 10h
-    db 13h
-    db 2Fh
-    db 2Dh
-    db 2Fh
-    db 12h
-    db 12h
-    db 2Ah
-    db 0
-    db 0
-    db 2Fh
-    db 2Dh
-    db 12h
-    db 34h
-    db 34h
-    db 34h
-    db 6
-    db 6
-    db 6
-    db 6
-    db 8
-    db 1Ch
-    db 7
-    db 1Eh
-    db 6
-    db 6
-    db 1Eh
-    db 1Dh
-    db 1Eh
-    db 6
-    db 6
-    db 1Ah
-    db 6
-    db 1Ah
-    db 1Eh
-    db 12h
-    db 7
-    db 1Ah
-    db 1Ah
-    db 1Ah
-    db 10h
-    db 16h
-    db 1Ah
-    db 14h
-    db 15h
-    db 2Ah
-    db 13h
-    db 26h
-    db 12h
-    db 15h
-    db 2Ch
-    db 2Bh
-    db 2Ch
-    db 15h
-    db 15h
-    db 2Ah
-    db 0
-    db 0
-    db 2Ch
-    db 2Bh
-    db 15h
-    db 32h
-    db 32h
-    db 32h
-    db 9
-    db 9
-    db 9
-    db 9
-    db 0Ah
-    db 1Ch
-    db 9
-    db 1Ch
-    db 9
-    db 0Ah
-    db 1Eh
-    db 1Dh
-    db 1Eh
-    db 0Ah
-    db 0Ah
-    db 19h
-    db 9
-    db 1Ah
-    db 1Ch
-    db 13h
-    db 0Bh
-    db 1Ch
-    db 1Ch
-    db 1Ch
-    db 0Fh
-    db 14h
-    db 18h
-    db 17h
-    db 17h
-    db 2Ah
-    db 15h
-    db 26h
-    db 15h
-    db 18h
-    db 2Ch
-    db 2Bh
-    db 2Ch
-    db 17h
-    db 17h
-    db 2Ah
-    db 0
-    db 0
-    db 2Ah
-    db 2Ah
-    db 16h
-    db 2Ch
-    db 2Ch
-    db 2Ch
-    db 0Ch
-    db 0Ch
-    db 0Ch
-    db 0Ch
-    db 0Dh
-    db 1Ch
-    db 0Dh
-    db 1Ch
-    db 0Ch
-    db 0Ch
-    db 1Ch
-    db 1Ch
-    db 1Ch
-    db 0Ch
-    db 0Ch
-    db 19h
-    db 0Ch
-    db 1Ah
-    db 1Ch
-    db 15h
-    db 0Eh
-    db 1Ah
-    db 1Ah
-    db 1Ah
-    db 0Eh
-    db 12h
-    db 16h
-    db 19h
-    db 19h
-    db 28h
-    db 17h
-    db 24h
-    db 17h
-    db 1Ah
-    db 2Ah
-    db 29h
-    db 2Ah
-    db 19h
-    db 19h
-    db 2Ah
-    db 0
-    db 0
-    db 2Ah
-    db 29h
-    db 19h
-    db 26h
-    db 26h
-    db 26h
-    db 0Fh
-    db 0Fh
-    db 0Fh
-    db 0Eh
-    db 0Eh
-    db 1Ah
-    db 0Eh
-    db 1Ah
-    db 0Eh
-    db 0Eh
-    db 1Ah
-    db 19h
-    db 1Ah
-    db 0Fh
-    db 0Fh
-    db 1Ah
-    db 0Fh
-    db 1Ah
-    db 1Ah
-    db 15h
-    db 10h
-    db 1Ah
-    db 1Ah
-    db 1Ah
-    db 0Ch
-    db 11h
-    db 14h
-    db 19h
-    db 1Ah
-    db 24h
-    db 1Ah
-    db 24h
-    db 19h
-    db 1Dh
-    db 2Ah
-    db 29h
-    db 28h
-    db 1Bh
-    db 1Bh
-    db 2Ah
-    db 0
-    db 0
-    db 2Ah
-    db 29h
-    db 1Ch
-    db 26h
-    db 26h
-    db 26h
-    db 11h
-    db 11h
-    db 11h
-    db 0Fh
-    db 0Fh
-    db 16h
-    db 0Eh
-    db 16h
-    db 0Eh
-    db 0Fh
-    db 16h
-    db 16h
-    db 1Ah
-    db 11h
-    db 11h
-    db 18h
-    db 11h
-    db 18h
-    db 18h
-    db 14h
-    db 11h
-    db 18h
-    db 18h
-    db 18h
-    db 0Ch
-    db 11h
-    db 14h
-    db 1Eh
-    db 1Eh
-    db 28h
-    db 19h
-    db 20h
-    db 18h
-    db 20h
-    db 28h
-    db 28h
-    db 28h
-    db 1Eh
-    db 1Eh
-    db 2Ah
-    db 0
-    db 0
-    db 28h
-    db 28h
-    db 1Eh
-    db 22h
-    db 22h
-    db 22h
-    db 14h
-    db 14h
-    db 14h
-    db 12h
-    db 12h
-    db 18h
-    db 12h
-    db 18h
-    db 12h
-    db 11h
-    db 16h
-    db 15h
-    db 16h
-    db 11h
-    db 11h
-    db 16h
-    db 12h
-    db 16h
-    db 16h
-    db 14h
-    db 13h
-    db 16h
-    db 16h
-    db 16h
-    db 0Bh
-    db 0Fh
-    db 12h
-    db 1Fh
-    db 20h
-    db 26h
-    db 19h
-    db 1Eh
-    db 19h
-    db 20h
-    db 26h
-    db 26h
-    db 20h
-    db 1Ah
-    db 1Ah
-    db 2Ah
-    db 0
-    db 0
-    db 26h
-    db 26h
-    db 1Fh
-    db 1Eh
-    db 1Eh
-    db 1Eh
-    db 34h
-    db 34h
-    db 34h
-    db 33h
-    db 31h
-    db 2Fh
-    db 32h
-    db 2Fh
-    db 2Ch
-    db 32h
-    db 2Dh
-    db 28h
-    db 31h
-    db 2Ah
-    db 24h
-    db 30h
-    db 28h
-    db 20h
-    db 30h
-    db 26h
-    db 1Dh
-    db 2Fh
-    db 24h
-    db 19h
-    db 2Eh
-    db 22h
-    db 16h
-    db 2Eh
-    db 20h
-    db 12h
-    db 2Dh
-    db 1Eh
-    db 0Fh
-    db 2Ch
-    db 1Ch
-    db 0Ch
-    db 2Ch
-    db 1Ah
-    db 9
-    db 2Bh
-    db 18h
-    db 6
-    db 2Ah
-    db 16h
-    db 3
-    db 2Ah
-    db 15h
-    db 0
+byte_36F36 db 1Fh, 10h, 1Eh, 1Dh, 0Fh, 1Eh, 1Bh, 0Fh, 1Dh, 19h, 0Eh
+    db 1Ch, 17h, 0Dh, 1Bh, 15h, 0Dh, 1Ah, 13h, 0Ch, 19h, 11h ;1e0/480 bytes of 160 rgb triplets
+    db 0Ch, 18h, 0Fh, 0Bh, 17h, 0Dh, 0Bh, 16h, 0Ch, 0Ah, 15h
+    db 2 dup(0Ah), 14h, 9, 0Ah, 13h, 9, 0Ah, 12h, 8, 0Ah, 12h
+    db 8, 0Bh, 11h, 6, 4, 1, 6, 4, 1, 7, 5, 2, 8, 6, 2, 9
+    db 7, 3, 0Ah, 7, 3, 0Bh, 8, 4, 0Ch, 9, 5, 0Dh, 0Ah, 6
+    db 0Dh, 0Bh, 7, 0Eh, 0Ch, 8, 0Fh, 0Dh, 8, 10h, 0Eh, 9
+    db 11h, 0Fh, 0Ah, 12h, 10h, 0Ch, 13h, 11h, 0Dh, 5 dup(0)
+    db 1Eh, 0, 20h, 2 dup(0), 20h, 1Fh, 1Eh, 2 dup(0), 20h
+    db 0, 20h, 1Eh, 0Fh, 0, 3 dup(1Eh), 13h, 19h, 1Eh, 10h
+    db 11h, 30h, 0Eh, 28h, 0Eh, 10h, 3 dup(30h), 2 dup(10h)
+    db 2Ah, 2 dup(0), 2 dup(30h), 10h, 3 dup(39h), 3 dup(3)
+    db 2 dup(4), 1Eh, 4, 20h, 3, 4, 20h, 1Fh, 20h, 2 dup(4)
+    db 1Dh, 3, 2 dup(1Eh), 10h, 3, 3 dup(1Ch), 11h, 18h, 1Ch
+    db 11h, 12h, 2Ah, 11h, 28h, 10h, 13h, 2Fh, 2Dh, 2Fh, 2 dup(12h)
+    db 2Ah, 2 dup(0), 2Fh, 2Dh, 12h, 3 dup(34h), 4 dup(6)
+    db 8, 1Ch, 7, 1Eh, 2 dup(6), 1Eh, 1Dh, 1Eh, 2 dup(6), 1Ah
+    db 6, 1Ah, 1Eh, 12h, 7, 3 dup(1Ah), 10h, 16h, 1Ah, 14h
+    db 15h, 2Ah, 13h, 26h, 12h, 15h, 2Ch, 2Bh, 2Ch, 2 dup(15h)
+    db 2Ah, 2 dup(0), 2Ch, 2Bh, 15h, 3 dup(32h), 4 dup(9)
+    db 0Ah, 1Ch, 9, 1Ch, 9, 0Ah, 1Eh, 1Dh, 1Eh, 2 dup(0Ah)
+    db 19h, 9, 1Ah, 1Ch, 13h, 0Bh, 3 dup(1Ch), 0Fh, 14h, 18h
+    db 2 dup(17h), 2Ah, 15h, 26h, 15h, 18h, 2Ch, 2Bh, 2Ch
+    db 2 dup(17h), 2Ah, 2 dup(0), 2 dup(2Ah), 16h, 3 dup(2Ch)
+    db 4 dup(0Ch), 0Dh, 1Ch, 0Dh, 1Ch, 2 dup(0Ch), 3 dup(1Ch)
+    db 2 dup(0Ch), 19h, 0Ch, 1Ah, 1Ch, 15h, 0Eh, 3 dup(1Ah)
+    db 0Eh, 12h, 16h, 2 dup(19h), 28h, 17h, 24h, 17h, 1Ah
+    db 2Ah, 29h, 2Ah, 2 dup(19h), 2Ah, 2 dup(0), 2Ah, 29h
+    db 19h, 3 dup(26h), 3 dup(0Fh), 2 dup(0Eh), 1Ah, 0Eh, 1Ah
+    db 2 dup(0Eh), 1Ah, 19h, 1Ah, 2 dup(0Fh), 1Ah, 0Fh, 2 dup(1Ah)
+    db 15h, 10h, 3 dup(1Ah), 0Ch, 11h, 14h, 19h, 1Ah, 24h
+    db 1Ah, 24h, 19h, 1Dh, 2Ah, 29h, 28h, 2 dup(1Bh), 2Ah
+    db 2 dup(0), 2Ah, 29h, 1Ch, 3 dup(26h), 3 dup(11h), 2 dup(0Fh)
+    db 16h, 0Eh, 16h, 0Eh, 0Fh, 2 dup(16h), 1Ah, 2 dup(11h)
+    db 18h, 11h, 2 dup(18h), 14h, 11h, 3 dup(18h), 0Ch, 11h
+    db 14h, 2 dup(1Eh), 28h, 19h, 20h, 18h, 20h, 3 dup(28h)
+    db 2 dup(1Eh), 2Ah, 2 dup(0), 2 dup(28h), 1Eh, 3 dup(22h)
+    db 3 dup(14h), 2 dup(12h), 18h, 12h, 18h, 12h, 11h, 16h
+    db 15h, 16h, 2 dup(11h), 16h, 12h, 2 dup(16h), 14h, 13h
+    db 3 dup(16h), 0Bh, 0Fh, 12h, 1Fh, 20h, 26h, 19h, 1Eh
+    db 19h, 20h, 2 dup(26h), 20h, 2 dup(1Ah), 2Ah, 2 dup(0)
+    db 2 dup(26h), 1Fh, 3 dup(1Eh)
+byte_37116 db 3 dup(34h), 33h, 31h, 2Fh, 32h, 2Fh, 2Ch, 32h, 2Dh
+    db 28h, 31h, 2Ah, 24h, 30h, 28h, 20h, 30h, 26h, 1Dh, 2Fh
+    db 24h, 19h, 2Eh, 22h, 16h, 2Eh, 20h, 12h, 2Dh, 1Eh, 0Fh
+    db 2Ch, 1Ch, 0Ch, 2Ch, 1Ah, 9, 2Bh, 18h, 6, 2Ah, 16h, 3
+    db 2Ah, 15h, 0
     db 0
     db 0
     db 24h
@@ -22717,11 +22076,11 @@ unk_37F95 db 0
     db 0
 byte_37F98 db 0
 byte_37F99 db 0
-    db 0
-    dw 0
-    db 0
-    db 0
-    db 0
+byte_37F9A db 0
+word_37F9B dw 0
+byte_37F9D db 0
+byte_37F9E db 0
+byte_37F9F db 0
     db 1
     db 0
     db 4
@@ -23768,28 +23127,8 @@ word_38608 dw 0
 word_3860A dw 0
     db 0
     db 0
-    db 20h
-    db 6Eh
-    db 6Fh
-    db 74h
-    db 20h
-    db 61h
-    db 76h
-    db 61h
-    db 69h
-    db 6Ch
-    db 61h
-    db 62h
-    db 6Ch
-    db 65h
-    db 0
-    db 20h
-    db 61h
-    db 72h
-    db 6Dh
-    db 65h
-    db 64h
-    db 0
+aNotAvailable db ' not available',0
+aArmed db ' armed',0
     db 0F3h
     db 31h
     db 96h
@@ -23798,563 +23137,13 @@ word_3860A dw 0
     db 5Ch
 byte_3862A db 0
 byte_3862B db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+picBuf db 200h dup(0)
 aFileNotFound db ':File not found$'
 aNoFileBuffersAvailabl db ':No file buffers available$'
 aOpenError db ':Open error $'
-    db 46h
-    db 69h
-    db 6Ch
-    db 65h
-    db 20h
-    db 63h
-    db 6Ch
-    db 6Fh
-    db 73h
-    db 69h
-    db 6Eh
-    db 67h
-    db 20h
-    db 65h
-    db 72h
-    db 72h
-    db 6Fh
-    db 72h
-    db 24h
-    db 52h
-    db 65h
-    db 61h
-    db 64h
-    db 20h
-    db 65h
-    db 72h
-    db 72h
-    db 6Fh
-    db 72h
-    db 24h
-    db 57h
-    db 72h
-    db 69h
-    db 74h
-    db 65h
-    db 20h
-    db 65h
-    db 72h
-    db 72h
-    db 6Fh
-    db 72h
-    db 24h
+aFileClosingError db 'File closing error$'
+aReadError db 'Read error$'
+aWriteError db 'Write error$'
 unk_3888E db 0
     db 0
 word_38890 dw 0
@@ -25162,7 +23951,7 @@ dword_38BE8 dd 0
 dword_38BEC dd 0
 byte_38BF0 db 18h
     db 0F6h
-    dw 0 ;dw seg seg004
+    dw 0 ;seg_38BF2 dw seg seg004
     dw 0 ;seg_38BF4 dw seg seg004
     dw 0 ;seg_38BF6 dw seg seg004
 aNmsg db '<<NMSG>>',0
@@ -35322,8 +34111,7 @@ word_3B4DE dw ?
 word_3B4E0 dw ?
 _hercFlag db ?
     db ?
-unk_3B4E4 db ?
-    db ?
+word_3B4E4 dw ?
     db ?
     db ?
     db ?

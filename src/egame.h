@@ -14,9 +14,34 @@
 #define __int8 char
 #define __cdecl
 #define __far far
+extern unsigned char far byte_228D0[];
+extern unsigned char far byte_228FF[];
+extern unsigned char far byte_2D6A4[];
+#define DOS_SET_IRQH 0x25
+#define PORT_PIT_TIME0 0x40
+#define PORT_PIT_CNTRL 0x43
+#define COMM_GFXOVL_SEG 0x1a
+#define COMM_SNDOVL_SEG 0x1c
+#define COMM_MISCOVL_SEG 0x1e
+#define COMM_GFXBUF_PTR 0x20
+#define COMM_HERC_FLAG 0x24
+#define COMM_SETUP_DONE_OFFSET 0x26
+#define COMM_SETUP_GFXMODE_OFFSET 0x30
+#define COMM_UNK7 0x38
+#define COMM_JOYDATA_OFF 0x48
+#define COMM_USEJOY_OFF 0x72
+#define COMM_GFXMODE_OFFSET 0x78
+#define OFF_IACA_START 0x4f0
+#define COMM_GAMEDATA_OFFSET 0x120e
+#define IRQ_CBREAK 0x1b
+#define GAMEDATA_THEATER 0x38
+#define IRQ_VIDEO 0x10
+#define OVL_HDR_CODESEG 0x18
+#define OVL_HDR_FIRSTIDX 0x1c
+#define OVL_HDR_SLOTCOUNT 0x22
+#define OVL_HDR_FIRSTPTR 0x24
 // ==== seg000:0x147 ====
-int sub_10147();
-// bytes outside routine, potential module boundary at 0x170
+void __cdecl drawCockpit();
 // ==== seg000:0x211 ====
 int sub_10211();
 // ==== seg000:0x294 ====
@@ -24,7 +49,8 @@ int sub_10294();
 // ==== seg000:0x297 ====
 int sub_10297();
 // ==== seg000:0x29a ====
-int gfxAlloc0();
+void __cdecl gfxInit();
+// bytes outside routine, potential module boundary at 0x2e1
 // ==== seg000:0x2e2 ====
 int j_gfx_jump_32();
 // ==== seg000:0x334 ====
@@ -142,7 +168,7 @@ int sub_13A6C();
 // ==== seg000:0x3a90 ====
 int sub_13A90();
 // ==== seg000:0x3aee ====
-int sub_13AEE();
+int setupDac();
 // ==== seg000:0x3b2f ====
 int sub_13B2F();
 // ==== seg000:0x3b86 ====
@@ -408,11 +434,11 @@ int sub_1DB9C();
 // ==== seg000:0xdbe0 ====
 int sub_1DBE0();
 // ==== seg000:0xdd4c ====
-int sub_1DD4C();
+int openFileWrapper();
 // ==== seg000:0xdd5e ====
 int sub_1DD5E();
 // ==== seg000:0xdd70 ====
-int sub_1DD70();
+int closeFileWrapper();
 // ==== seg000:0xdd7e ====
 int sub_1DD7E();
 // ==== seg000:0xdd92 ====
@@ -424,7 +450,7 @@ int openFile();
 // ==== seg000:0xde1b ====
 int sub_1DE1B();
 // ==== seg000:0xde72 ====
-int sub_1DE72();
+int closeFile();
 // ==== seg000:0xde94 ====
 int sub_1DE94();
 // ==== seg000:0xdebf ====
@@ -434,7 +460,7 @@ int read512FromFileIntoBuf();
 // ==== seg000:0xdf4f ====
 int sub_1DF4F();
 // ==== seg000:0xdfbc ====
-int sub_1DFBC();
+int openBlitClosePic();
 // ==== seg000:0xe0aa ====
 int picBlit();
 // ==== seg000:0xe11c ====
@@ -594,14 +620,12 @@ int sub_217B4();
 int far sub_2189C();
 // ==== seg001:0x2028 ====
 int sub_218A8();
-// ==== seg002:0xa ====
-int far sub_21A7A();
 // ==== seg002:0xe ====
-int far sub_21A7E();
+void __cdecl __far sub_21A7E();
 // ==== seg002:0x16 ====
 int sub_21A86();
 // ==== seg002:0x9a1 ====
-int sub_22411();
+void __cdecl sub_22411();
 // ==== seg002:0xbeb ====
 int far sub_2265B();
 // ==== seg002:0xbfb ====
@@ -620,6 +644,8 @@ int far copyJoystickData();
 int far sub_22746();
 // ==== seg003:0x56 ====
 int far sub_22796();
+// bytes outside routine, potential module boundary at 0x189
+extern uint8 unk_328B0[];
 extern int16 word_328B2;
 extern uint8 aMsRunTimeLibraryCopyr[];
 extern uint8 aRegn_xxx[];
@@ -635,8 +661,8 @@ extern uint8 byte_32933;
 extern unsigned __int8 exitCode;
 extern int16 gfxModeUnset;
 extern int16 word_32938;
-extern char *off_3293A;
-extern uint8 unk_3293C[];
+extern char *regnStr;
+extern int16 scenarioPlh[];
 extern uint8 a256pit_pic[];
 extern uint8 aCockpit_pic[];
 extern uint8 aF15dgtl_bin[];
@@ -1023,6 +1049,10 @@ extern int16 word_36C27;
 extern uint8 byte_36C31;
 extern uint8 byte_36C32;
 extern int16 word_36C33;
+extern uint8 dacValues1[];
+extern uint8 byte_36D86[];
+extern uint8 byte_36F36[];
+extern uint8 byte_37116[];
 extern uint8 byte_3754E;
 extern int16 word_3754F;
 extern int16 word_37551;
@@ -1165,7 +1195,12 @@ extern int16 word_37F8E;
 extern char noJoy80[];
 extern uint8 unk_37F95[];
 extern uint8 byte_37F98;
-extern uint8 byte_37F99[];
+extern uint8 byte_37F99;
+extern uint8 byte_37F9A;
+extern int16 word_37F9B;
+extern uint8 byte_37F9D;
+extern uint8 byte_37F9E;
+extern uint8 byte_37F9F[];
 extern int16 word_38070;
 extern int word_38072;
 extern int word_38074;
@@ -1285,11 +1320,17 @@ extern int16 word_38604;
 extern int16 word_38606;
 extern int16 word_38608;
 extern int16 word_3860A;
+extern uint8 aNotAvailable[];
+extern uint8 aArmed[];
 extern uint8 byte_3862A;
-extern uint8 byte_3862B[];
+extern uint8 byte_3862B;
+extern uint8 picBuf[];
 extern uint8 aFileNotFound[];
 extern uint8 aNoFileBuffersAvailabl[];
 extern uint8 aOpenError[];
+extern uint8 aFileClosingError[];
+extern uint8 aReadError[];
+extern uint8 aWriteError[];
 extern uint8 unk_3888E[];
 extern int16 word_38890;
 extern int16 fileReadPos;
@@ -1339,6 +1380,7 @@ extern int16 word_38BE6;
 extern uint32 dword_38BE8;
 extern uint32 dword_38BEC;
 extern uint8 byte_38BF0[];
+extern int16 seg_38BF2;
 extern int16 seg_38BF4;
 extern int16 seg_38BF6;
 extern uint8 aNmsg[];
@@ -1469,7 +1511,7 @@ extern int16 word_3B4DC;
 extern int16 word_3B4DE;
 extern int16 word_3B4E0;
 extern char hercFlag;
-extern uint8 unk_3B4E4[];
+extern int16 word_3B4E4;
 extern int16 word_3B5D6;
 extern int16 word_3B7DA;
 extern int16 word_3B7DC;
