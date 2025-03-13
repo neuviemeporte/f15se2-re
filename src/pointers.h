@@ -14,7 +14,7 @@
 #endif
 
 #if !defined(__TURBOC__)
-#define MK_FP(seg,off) ((void FAR *) (((unsigned long)(seg) << 16) | (unsigned)(off)))
+#define MK_FP(a,off) ((void FAR *) (((unsigned long)(a) << 16) | (unsigned long)(off)))
 #endif
 
 #define offsetof(st, m) ((size_t)&(((st*)0)->m))

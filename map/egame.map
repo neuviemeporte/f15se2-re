@@ -33,7 +33,7 @@ routine_262: seg000 NEAR 1bfd-1c20 R1bfd-1c20
 routine_180: seg000 NEAR 1c21-1d0f R1c21-1cf3 U1cf4-1cf5 R1cf6-1d0f
 routine_178: seg000 NEAR 1d10-1d6d R1d10-1d6d
 routine_271: seg000 NEAR 1d6e-1e0d R1d6e-1e0d
-routine_33: seg000 NEAR 1e0e-1f3d R1e0e-1f3d
+sub_11E0E: seg000 NEAR 1e0e-1f3d R1e0e-1f3d
 routine_185: seg000 NEAR 1f3e-2048 R1f3e-2048
 routine_50: seg000 NEAR 2049-206c R2049-206c
 routine_59: seg000 NEAR 206d-215b R206d-215b
@@ -80,9 +80,9 @@ routine_318: seg000 FAR 3bc5-3bc8 R3bc5-3bc8
 routine_360: seg000 NEAR 3bc9-3bcc R3bc9-3bcc
 routine_320: seg000 NEAR 3bcd-3beb R3bcd-3beb
 installCBreakHandler: seg000 NEAR 3bec-3c0e R3bec-3c0e
-routine_25: seg000 NEAR 3c0f-3c1f R3c0f-3c1f
-routine_29: seg000 NEAR 3c20-3c2b R3c20-3c2b
-routine_49: seg000 NEAR 3c3b-3c46 R3c3b-3c46
+restoreCBreakHandler: seg000 NEAR 3c0f-3c1f R3c0f-3c1f assembly
+getInterruptHandler: seg000 NEAR 3c20-3c2b R3c20-3c2b assembly
+sub_13C3B: seg000 NEAR 3c3b-3c46 R3c3b-3c46 assembly
 routine_74: seg000 NEAR 3c47-3c76 R3c47-3c76
 routine_47: seg000 NEAR 3c78-3cb5 R3c78-3cb5
 routine_54: seg000 NEAR 3cb6-3cd6 R3cb6-3cd6
@@ -338,14 +338,14 @@ routine_313: seg001 NEAR 2028-21d7 R1f25-1f33 R2028-21d7
 routine_106: seg002 FAR 000a-000d R000a-000d
 sub_21A7E: seg002 FAR 000e-0011 R000e-0011
 routine_144: seg002 NEAR 0016-09a0 R0016-09a0
-routine_32: seg002 NEAR 09a1-0bea R09a1-0bea
+sub_22411: seg002 NEAR 09a1-0bea R09a1-0bea assembly
 routine_167: seg002 FAR 0beb-0bfa R0beb-0bfa
 routine_248: seg002 NEAR 0bfb-0c0d R0bfb-0c0d
 routine_166: seg002 FAR 0c0e-0c20 R0c0e-0c20
 routine_246: seg002 NEAR 0c21-0c4d R0c21-0c4d
 routine_247: seg002 NEAR 0c4e-0ca9 R0c4e-0ca9
-routine_24: seg002 FAR 0caa-0cbd R0caa-0cbd
-copyJoystickData: seg002 FAR 0cbe-0cd5 R0cbe-0cd5
+restoreJoystickData: seg002 FAR 0caa-0cbd R0caa-0cbd assembly
+copyJoystickData: seg002 FAR 0cbe-0cd5 R0cbe-0cd5 assembly
 routine_48: seg003 FAR 0006-0055 R0006-0055
 routine_51: seg003 FAR 0056-006f R0056-006f
 # ======= data segment callable trampolines into overlay drivers

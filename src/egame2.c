@@ -21,7 +21,7 @@ void drawCockpit() {
     strcpy(regnStr, scenarioPlh[gameData->theater]);
     sub_121C6();
     // 0x16e
-    word_32938 = j_gfx_jump_32();
+    gfx32_result = j_gfx_jump_32();
     // 0x179
     byte_34197 = byte_228FF[0];
     // 17c
@@ -40,6 +40,35 @@ void drawCockpit() {
      // 1df
      gfx_jump_2a(1, 0, 0x60, 0, 0, 0x60, 0x140, 0x68);
      gfx_jump_2a(1, 0, 0x60, 2, 0, 0x60, 0x140, 0x68);
+}
+
+// ==== seg000:0x211 ====
+int sub_10211() {
+    FP_OFF(dword_38FE2) = OFF_BDA_FLOPPYMOTOR; // floppy motor runtime in bda???
+    FP_SEG(dword_38FE2) = 0;
+    // 224
+    if (*dword_38FE2 > 1) {
+        *dword_38FE2 = 1;
+    }
+    audio_jump_65();
+    // 241
+    audio_jump_64(*(int16 FAR*)(OFF_IACA_UNK), gfx32_result);
+    setTimerIrqHandler();
+    // 250
+    if (commData->setupUseJoy == 0) {
+        sub_22746();
+    }
+    sub_13C3B();
+    sub_12049();
+    // 266
+    if (commData->setupUseJoy == 0) {
+        sub_22796();
+    }
+    // 276
+    gfx_jump_4f(1);
+    sub_12278(2);
+    restoreTimerIrqHandler();
+    audio_jump_65();
 }
 
 // ==== seg000:0x29a ====

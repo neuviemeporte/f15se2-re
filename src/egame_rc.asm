@@ -14,12 +14,11 @@ PUBLIC _restoreJoystickData
 PUBLIC _regs
 PUBLIC _exitCode
 PUBLIC _restoreCBreakHandler
-PUBLIC _sub_10211
 PUBLIC _sub_22411
 PUBLIC _scenarioPlh
 PUBLIC _regnStr
 PUBLIC _sub_1C8DE
-PUBLIC _word_32938
+PUBLIC _gfx32_result
 PUBLIC _sub_11E0E
 PUBLIC _j_gfx_jump_32
 PUBLIC _sub_121C6
@@ -29,6 +28,16 @@ PUBLIC _a256pit_pic
 PUBLIC _byte_32933
 PUBLIC _openBlitClosePic
 PUBLIC _setupDac
+PUBLIC _restoreTimerIrqHandler
+PUBLIC _audio_jump_64
+PUBLIC _audio_jump_65
+PUBLIC _setTimerIrqHandler
+PUBLIC _sub_13C3B
+PUBLIC _sub_22746
+PUBLIC _sub_12049
+PUBLIC _sub_12278
+PUBLIC _sub_22796
+PUBLIC _dword_38FE2
 PUBLIC _gfx_jump_0_alloc
 PUBLIC _gfx_jump_0c
 PUBLIC _gfx_jump_2a
@@ -38,6 +47,7 @@ PUBLIC _gfx_jump_44_setDac
 PUBLIC _gfx_jump_45_retrace
 PUBLIC _gfx_jump_4b_storeBufPtr
 PUBLIC _gfx_jump_4c
+PUBLIC _gfx_jump_4f
 PUBLIC _gfx_jump_52
 
 ; ---------------------------------------------------------------------------
@@ -85,11 +95,6 @@ OVL_HDR_FIRSTPTR  = 24h
 
 ; ==============================================================================
 .CODE ;seg000 segment byte public 'CODE' use16
-; ------------------------------seg000:0x211------------------------------
-_sub_10211 proc near
-    retn
-_sub_10211 endp
-; ------------------------------seg000:0x22e------------------------------
 ; ------------------------------seg000:0x294------------------------------
 sub_10294 proc near
     retn
@@ -259,9 +264,9 @@ sub_11F3E proc near
 sub_11F3E endp
 ; ------------------------------seg000:0x2048------------------------------
 ; ------------------------------seg000:0x2049------------------------------
-sub_12049 proc near
+_sub_12049 proc near
     retn
-sub_12049 endp
+_sub_12049 endp
 ; ------------------------------seg000:0x206c------------------------------
 ; ------------------------------seg000:0x206d------------------------------
 sub_1206D proc near
@@ -289,9 +294,9 @@ sub_121CA proc near
 sub_121CA endp
 ; ------------------------------seg000:0x21fe------------------------------
 ; ------------------------------seg000:0x2278------------------------------
-sub_12278 proc near
+_sub_12278 proc near
     retn
-sub_12278 endp
+_sub_12278 endp
 ; ------------------------------seg000:0x2299------------------------------
 ; ------------------------------seg000:0x229a------------------------------
 sub_1229A proc near
@@ -516,24 +521,24 @@ cbreakHandler proc far
 cbreakHandler endp
 ; ------------------------------seg000:0x3c3a------------------------------
 ; ------------------------------seg000:0x3c3b------------------------------
-sub_13C3B proc near
+_sub_13C3B proc near
     retn
-sub_13C3B endp
-; ------------------------------seg000:0x3c3f------------------------------
+_sub_13C3B endp
+; ------------------------------seg000:0x3c46------------------------------
 ; ------------------------------seg000:0x3c47------------------------------
 sub_13C47 proc near
     retn
 sub_13C47 endp
-; ------------------------------seg000:0x3c4a------------------------------
+; ------------------------------seg000:0x3c76------------------------------
 ; ------------------------------seg000:0x3c78------------------------------
-setTimerIrqHandler proc near
+_setTimerIrqHandler proc near
     retn
-setTimerIrqHandler endp
+_setTimerIrqHandler endp
 ; ------------------------------seg000:0x3cb5------------------------------
 ; ------------------------------seg000:0x3cb6------------------------------
-restoreTimerIrqHandler proc near
+_restoreTimerIrqHandler proc near
     retn
-restoreTimerIrqHandler endp
+_restoreTimerIrqHandler endp
 ; ------------------------------seg000:0x3cd6------------------------------
 timerIrqAddr dd byte_13D05
 byte_13D05 db 0FBh, 50h, 53h, 51h, 52h, 56h, 57h, 55h, 1Eh, 6, 0B8h
@@ -1924,14 +1929,14 @@ _copyJoystickData proc far
 _copyJoystickData endp
 ; ------------------------------seg002:0xcd5------------------------------
 ; ------------------------------seg003:0x6------------------------------
-sub_22746 proc far
+_sub_22746 proc far
     retn
-sub_22746 endp
+_sub_22746 endp
 ; ------------------------------seg003:0x55------------------------------
 ; ------------------------------seg003:0x56------------------------------
-sub_22796 proc far
+_sub_22796 proc far
     retn
-sub_22796 endp
+_sub_22796 endp
 ; ------------------------------seg003:0x6f------------------------------
 ; ==============================================================================
 .DATA ;dseg segment para public 'DATA' use16
@@ -1958,7 +1963,7 @@ _byte_32933 db 0
 _exitCode db 81h
     db 0
 _gfxModeUnset dw 0
-_word_32938 dw 0
+_gfx32_result dw 0
 _regnStr dw offset aRegn_xxx
 _scenarioPlh dw offset aLb_xxx
     dw offset aPg_xxx ;"pg.xxx"
@@ -5338,10 +5343,10 @@ _gfx_jump_4c endp
     db 0
     db 0
 ; ------------------------------dseg:0x1049------------------------------
-gfx_jump_4f proc near
+_gfx_jump_4f proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_4f endp
+_gfx_jump_4f endp
 ; ------------------------------dseg:0x1049------------------------------
     db 0EAh
     db 0
@@ -5395,16 +5400,16 @@ misc_jump_5d_readJoy endp
     db 5 dup(0)
     db 5 dup(0)
 ; ------------------------------dseg:0x10b2------------------------------
-audio_jump_64 proc near
+_audio_jump_64 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-audio_jump_64 endp
+_audio_jump_64 endp
 ; ------------------------------dseg:0x10b2------------------------------
 ; ------------------------------dseg:0x10b7------------------------------
-audio_jump_65 proc near
+_audio_jump_65 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-audio_jump_65 endp
+_audio_jump_65 endp
 ; ------------------------------dseg:0x10b7------------------------------
 ; ------------------------------dseg:0x10bc------------------------------
 audio_jump_66 proc near
@@ -21230,7 +21235,7 @@ word_37C1C dw 0
 word_37C1E dw 0
 word_37C20 dw 0
 word_37C22 dw 0
-byte_37C24 db 0
+magic_flag db 0
 word_37C25 dw 0
 word_37C27 dw 0
 word_37C29 dw 0
@@ -24699,7 +24704,7 @@ word_38FDA dw ?
 word_38FDC dw ?
 word_38FDE dw ?
 word_38FE0 dw ?
-dword_38FE2 dd ?
+_dword_38FE2 dd ?
 word_38FE6 dw ?
 word_38FE8 dw ?
 word_38FEA dw ?
@@ -36809,7 +36814,7 @@ unk_3BF40 db ?
     db ?
 word_3BF90 dw ?
 _regs db ?
-unk_3BF93 db ?
+byte_3BF93 db ?
     db ?
 unk_3BF95 db ?
 unk_3BF96 db ?

@@ -290,6 +290,7 @@ handleArrow:
         x = (pilot < 4) ? 0x10 : 0xa0;
         y = ((pilot & 3) * 0x2c) + 0x14;
         // 20b3
+        // looks like ChangeColor() from library.h?
         gfx_jump_29_switchColor(screenBuf, x, y, x + 0x8f, y + 8, 0xf, 0x7);
         x = (selectedPilotIdx < 4) ? 0x10 : 0xa0;
         y = ((selectedPilotIdx & 3) * 0x2c) + 0x14;
