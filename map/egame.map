@@ -176,7 +176,7 @@ routine_299: seg000 NEAR c7ea-c82c Rc7ea-c82c
 routine_308: seg000 NEAR c82d-c863 Rc82d-c863
 routine_312: seg000 NEAR c864-c8a3 Rc864-c890 Uc891-c892 Rc893-c8a3
 routine_330: seg000 NEAR c8a4-c8dd Rc8a4-c8dd
-routine_34: seg000 NEAR c8de-c9d1 Rc8de-c9d1
+sub_1C8DE: seg000 NEAR c8de-c9d1 Rc8de-c9d1
 routine_298: seg000 NEAR c9d2-cb41 Rc9d2-cb41
 routine_309: seg000 NEAR cb42-cf31 Rcb42-cf31
 routine_274: seg000 NEAR cf32-cf63 Rcf32-cf63

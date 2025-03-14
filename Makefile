@@ -29,6 +29,7 @@ LINK_TOOLCHAIN ?= msc510
 LINKFLAGS := /M /I
 DOSDIR := dos
 TOOLCHAIN_DIR := $(DOSDIR)/$(C_TOOLCHAIN)
+VERIFY_FLAGS := --verbose --loose --ctx 20 --nostat
 
 SRCTOP := src
 SRCDIR := $(SRCTOP)
@@ -235,9 +236,6 @@ $(DEBUGDIR)/%.obj $(BUILDDIR)/%.obj: $(SRCDIR)/%.asm
 #	@$(DOSBUILD) as $(ASM_TOOLCHAIN) -i $< -o $@ -f "$(ASFLAGS)"
 
 reasm: $(STARTRE_EXE)
-
-# skip libc routines (which start with an underscore in the map), and overlay slot pseudofunctions in the comparison
-VERIFY_FLAGS := --verbose --loose --ctx 30
 
 verify: verify-start verify-egame
 verify-debug: VERIFY_FLAGS += --debug

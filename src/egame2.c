@@ -98,9 +98,9 @@ int sub_11E0E() {
     } // 1e61
     if (gameData->difficulty != 0) { //1e6c
         // 1e8c
-        dword_3B7DA = ((int32)(word_3AA5E[word_3B148 << 3]) << 4) + 2;
+        dword_3B7DA = ((uint32)(word_3AA5E[word_3B148 << 3]) << 5) + 2;
         // 1eb1
-        dword_3B7F8 = (0x8000 - (int32)(word_3AA60[word_3B148 << 3])) << 5;
+        dword_3B7F8 = (0x8000 - (uint32)(word_3AA60[word_3B148 << 3])) << 5;
     }
     else { // 1eba
         // 1ed1
