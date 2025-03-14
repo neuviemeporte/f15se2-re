@@ -17,7 +17,6 @@ PUBLIC _restoreCBreakHandler
 PUBLIC _sub_22411
 PUBLIC _scenarioPlh
 PUBLIC _regnStr
-PUBLIC _sub_1C8DE
 PUBLIC _gfx32_result
 PUBLIC _j_gfx_jump_32
 PUBLIC _sub_121C6
@@ -1011,11 +1010,6 @@ sub_1C8A4 proc near
     retn
 sub_1C8A4 endp
 ; ------------------------------seg000:0xc8dd------------------------------
-; ------------------------------seg000:0xc8de------------------------------
-_sub_1C8DE proc near
-    retn
-_sub_1C8DE endp
-; ------------------------------seg000:0xc9d0------------------------------
 ; ------------------------------seg000:0xc9d2------------------------------
 sub_1C9D2 proc near
     retn
@@ -23082,34 +23076,9 @@ aAt_0 db ' at ',0
     db 6Dh
     db 0
     db 0
-    db 2Eh
-    db 33h
-    db 44h
-    db 33h
-    db 0
-    db 72h
-    db 62h
-    db 0
-    db 4Fh
-    db 70h
-    db 65h
-    db 6Eh
-    db 20h
-    db 45h
-    db 72h
-    db 72h
-    db 6Fh
-    db 72h
-    db 20h
-    db 6Fh
-    db 6Eh
-    db 20h
-    db 2Ah
-    db 2Eh
-    db 33h
-    db 44h
-    db 33h
-    db 0
+a_3d3_0 db '.3D3',0
+aRb_4 db 'rb',0
+aOpenErrorOn_3d3_0 db 'Open Error on *.3D3',0
 byte_3850E db 0
     db 0 ;align 2
 a15flt_xxx db '15FLT.xxx',0
@@ -24713,7 +24682,7 @@ word_38FDC dw ?
 word_38FDE dw ?
 word_38FE0 dw ?
 _dword_38FE2 dd ?
-word_38FE6 dw ?
+fileHandle dw ?
 word_38FE8 dw ?
 word_38FEA dw ?
 word_38FEC dw ?

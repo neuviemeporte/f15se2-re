@@ -16,7 +16,7 @@ unsigned char far byte_2D6A4[0x4844+0x9c8];
 // ==== seg000:0x147 ====
 void drawCockpit() {
     sub_11E0E();
-    sub_1C8DE();
+    load15Flt3d3();
     // 0x162
     strcpy(regnStr, scenarioPlh[gameData->theater]);
     sub_121C6();
@@ -112,4 +112,9 @@ int sub_11E0E() {
     word_3BEC0 = (dword_3B7DA + 0x10) >> 5;
     // 1f36
     word_3BED0 = 0x8000 - ((dword_3B7F8 + 0x10) >> 5);
+}
+
+// ==== seg000:0xc8de ====
+int load15Flt3d3() {
+    sub_12FAF(a15flt_xxx, a_3d3_0);
 }

@@ -388,7 +388,7 @@ int sub_1C864();
 // ==== seg000:0xc8a4 ====
 int sub_1C8A4();
 // ==== seg000:0xc8de ====
-int sub_1C8DE();
+int load15Flt3d3();
 // ==== seg000:0xc9d2 ====
 int sub_1C9D2();
 // ==== seg000:0xcb42 ====
@@ -1295,6 +1295,9 @@ extern uint8 aDestroyedByGun[];
 extern uint8 aHitByGunfire[];
 extern uint8 aDestroyedByG_0[];
 extern uint8 aAt_0[];
+extern uint8 a_3d3_0[];
+extern uint8 aRb_4[];
+extern uint8 aOpenErrorOn_3d3_0[];
 extern uint8 byte_3850E[];
 extern uint8 a15flt_xxx[];
 extern uint8 aBrg[];
@@ -1451,7 +1454,7 @@ extern int word_38FDC;
 extern int16 word_38FDE;
 extern int16 word_38FE0;
 extern unsigned __int8 far *dword_38FE2;
-extern size_t word_38FE6;
+extern FILE *fileHandle;
 extern int16 word_38FE8;
 extern int16 word_38FEA;
 extern int16 word_38FEC;
