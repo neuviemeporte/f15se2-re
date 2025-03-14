@@ -79,3 +79,37 @@ void gfxInit() {
     gfx_jump_4b_storeBufPtr(var_2, 1);
     gfx_jump_4b_storeBufPtr(commData->gfxInitResult, 2);
 }
+
+// ==== seg000:0x1e0e ====
+int sub_11E0E() {
+    int var_2, var_4;
+    sub_121A9();
+    flag_3C010 = 1;
+    // 1e1e
+    sub_1206D();
+    word_3C0A2[0] = 0x98be;
+    var_2 = 1;
+    // 1e2c
+    for (var_4 = 0; var_4 < 750; ++var_4) {
+        // 1e40
+        if (byte_3C16E[var_4] == 0 && var_2 < 100) {
+            word_3C0A2[var_2++] = var_4 + 0x98bf;
+        }
+    } // 1e61
+    if (gameData->difficulty != 0) { //1e6c
+        // 1e8c
+        dword_3B7DA = ((int32)(word_3AA5E[word_3B148 << 3]) << 4) + 2;
+        // 1eb1
+        dword_3B7F8 = (0x8000 - (int32)(word_3AA60[word_3B148 << 3])) << 5;
+    }
+    else { // 1eba
+        // 1ed1
+        dword_3B7DA = ((int32)word_32A22 << 5) + 2;
+        // 1ef5
+        dword_3B7F8 = (0x8000 - (int32)word_32A24) << 5;
+    } // 1efc
+    // 1f15
+    word_3BEC0 = (dword_3B7DA + 0x10) >> 5;
+    // 1f36
+    word_3BED0 = 0x8000 - ((dword_3B7F8 + 0x10) >> 5);
+}
