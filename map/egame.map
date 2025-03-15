@@ -12,7 +12,7 @@ sub_10211: seg000 NEAR 0211-0293 R0211-0293
 routine_6: seg000 NEAR 0294-0296 R0294-0296
 routine_5: seg000 NEAR 0297-0299 R0297-0299
 gfxInit: seg000 NEAR 029a-02e0 R029a-02e0
-routine_37: seg000 NEAR 02e2-0333 R02e2-0333
+loadF15DgtlBin: seg000 NEAR 02e2-0333 R02e2-0333 assembly
 routine_292: seg000 NEAR 0334-0685 R0334-03ff R0400-0685
 setupOverlaySlots: seg000 NEAR 0688-06e0 R0688-069a U069b-069f R06a0-06e0
 routine_109: seg000 NEAR 0720-14e7 R0720-09cf R09d0-14e7
@@ -39,7 +39,7 @@ routine_50: seg000 NEAR 2049-206c R2049-206c
 routine_59: seg000 NEAR 206d-215b R206d-215b
 routine_75: seg000 NEAR 215c-21a8 R215c-21a8
 routine_58: seg000 NEAR 21a9-21c5 R21a9-21c5
-routine_36: seg000 NEAR 21c6-21c9 R21c6-21c9
+sub_121C6: seg000 NEAR 21c6-21c9 R21c6-21c9
 routine_123: seg000 NEAR 21ca-2277 R21ca-2277
 routine_53: seg000 NEAR 2278-2299 R2278-2299
 routine_122: seg000 NEAR 229a-22b7 R229a-22b7
@@ -70,7 +70,7 @@ routine_203: seg000 NEAR 39aa-39bf R39aa-39bf
 routine_288: seg000 NEAR 39c0-3a6b R39c0-3a6b
 routine_289: seg000 NEAR 3a6c-3a8f R3a6c-3a8f
 routine_290: seg000 NEAR 3a90-3aa7 R3a90-3aa7
-routine_39: seg000 NEAR 3aee-3b2e R3aee-3b2e
+setupDac: seg000 NEAR 3aee-3b2e R3aee-3b2e assembly
 routine_161: seg000 NEAR 3b2f-3b44 R3b2f-3b44
 routine_157: seg000 NEAR 3b86-3b95 R3b86-3b95
 routine_158: seg000 NEAR 3b96-3ba1 R3b96-3ba1
@@ -203,7 +203,7 @@ routine_70: seg000 NEAR dd4c-dd5d Rdd4c-dd5d
 routine_72: seg000 NEAR dd70-dd7d Rdd70-dd7d
 routine_94: seg000 NEAR ddc4-de1a Rddc4-de1a Rdf80-dfbb
 routine_102: seg000 NEAR de72-de92 Rde72-de92
-routine_43: seg000 NEAR dfbc-dff4 Rdfbc-dff4
+openBlitClosePic: seg000 NEAR dfbc-dff4 Rdfbc-dff4
 routine_71: seg000 NEAR e0aa-e11b Re0aa-e11b
 routine_95: seg000 NEAR e260-e260 Re260-e260
 routine_99: seg000 NEAR e262-e28b Re262-e28b

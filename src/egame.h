@@ -130,7 +130,7 @@ int sub_12E54();
 // ==== seg000:0x2f8c ====
 int sub_12F8C();
 // ==== seg000:0x2faf ====
-int __cdecl sub_12FAF(char *);
+int __cdecl sub_12FAF(char *, char *);
 // ==== seg000:0x2fda ====
 int sub_12FDA();
 // ==== seg000:0x3224 ====
@@ -273,7 +273,6 @@ int sub_18DF4();
 int sub_18E38();
 // ==== seg000:0x8e50 ====
 int sub_18E50();
-// bytes outside routine, potential module boundary at 0x9422
 // ==== seg000:0x94d0 ====
 int sub_194D0();
 // ==== seg000:0x957a ====
@@ -326,7 +325,6 @@ int sub_19FCC();
 int __cdecl sub_1A030(int, char *);
 // ==== seg000:0xa0cb ====
 int __cdecl sub_1A0CB(char *, int, int);
-// bytes outside routine, potential module boundary at 0xa0f6
 // ==== seg000:0xa0fe ====
 int __cdecl sub_1A0FE(char *, int, int);
 // ==== seg000:0xa13a ====
@@ -666,6 +664,7 @@ extern int16 scenarioPlh[];
 extern uint8 a256pit_pic[];
 extern uint8 aCockpit_pic[];
 extern uint8 aF15dgtl_bin[];
+extern int16 word_32970;
 extern int word_32972;
 extern int16 word_3298A;
 extern int16 word_3298C;
@@ -1023,6 +1022,7 @@ extern int16 word_34A4C;
 extern uint8 unk_34A88[];
 extern int32 dword_34C2C;
 extern int16 word_35AF8;
+extern uint8 flt15_buf2[];
 extern int16 word_36B7E;
 extern int16 word_36B80;
 extern int16 word_36B82;
@@ -1295,11 +1295,18 @@ extern uint8 aDestroyedByGun[];
 extern uint8 aHitByGunfire[];
 extern uint8 aDestroyedByG_0[];
 extern uint8 aAt_0[];
+extern uint8 aPrimaryTarget[];
+extern uint8 aSecondaryTarget[];
+extern uint8 aNoTarget[];
+extern uint8 aNoTarget_0[];
+extern uint8 aMissileLock[];
+extern uint8 aRange[];
+extern uint8 aKm[];
 extern uint8 a_3d3_0[];
 extern uint8 aRb_4[];
 extern uint8 aOpenErrorOn_3d3_0[];
 extern uint8 byte_3850E[];
-extern uint8 a15flt_xxx[];
+extern char a15flt_xxx[];
 extern uint8 aBrg[];
 extern uint8 aLong[];
 extern uint8 aMedium[];
@@ -1417,7 +1424,9 @@ extern int16 word_38D00;
 extern int16 word_38D02;
 extern int16 word_38D04;
 extern int16 word_38D06;
-extern size_t word_38D4A;
+extern int16 flt15_word1;
+extern uint8 flt15_buf1[];
+extern size_t flt15_size;
 extern int16 word_38D4C;
 extern int16 word_38D4E;
 extern int16 word_38D50;

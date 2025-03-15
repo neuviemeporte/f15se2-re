@@ -14,6 +14,7 @@
         { "seg": "seg000", "begin": "0x211",  "end": "0x293",  "from": "sub_10211",    "to": "endp" },
         { "seg": "seg000", "begin": "0x29a",  "end": "0x2e0",  "from": "gfxInit",      "to": "endp" },
         { "seg": "seg000", "begin": "0x1e0e", "end": "0x1f3d", "from": "sub_11E0E",    "to": "endp" },
+        { "seg": "seg000", "begin": "0x21c6", "end": "0x21c9", "from": "sub_121C6",    "to": "endp" },
         { "seg": "seg000", "begin": "0xc8de", "end": "0xc9d0", "from": "load15Flt3d3", "to": "endp" },
         { "seg": "seg002", "begin": "0xe",    "end": "0x11",   "from": "sub_21A7E",    "to": "endp" }
     ],
@@ -55,7 +56,7 @@
     ],
     "publics": [ 
         "commData", "gameData", "hercFlag", "setupOverlaySlots", "gfxModeUnset", "noJoy80", "copyJoystickData", "installCBreakHandler", 
-        "gfxBufPtr", "restoreJoystickData", "regs", "exitCode", "restoreCBreakHandler", "sub_22411", "scenarioPlh", "regnStr", "gfx32_result", "j_gfx_jump_32", "sub_121C6", "byte_34197", "aCockpit_pic", "a256pit_pic", "byte_32933", "openBlitClosePic", "setupDac", "restoreTimerIrqHandler", "audio_jump_64", "audio_jump_65", "setTimerIrqHandler", "sub_13C3B", "sub_22746", "sub_12049", "sub_12278", "sub_22796", "dword_38FE2", "word_3C0A2", "sub_121A9", "sub_1206D", "flag_3C010", "byte_3C16E", "word_3AA5E", "word_3BEC0", "word_3BED0", "dword_3B7F8", "word_32A22", "word_3B148", "dword_3B7DA", "word_32A24", "word_3AA60",
+        "gfxBufPtr", "restoreJoystickData", "regs", "exitCode", "restoreCBreakHandler", "sub_22411", "scenarioPlh", "regnStr", "gfx32_result", "j_gfx_jump_32", "byte_34197", "aCockpit_pic", "a256pit_pic", "byte_32933", "openBlitClosePic", "setupDac", "restoreTimerIrqHandler", "audio_jump_64", "audio_jump_65", "setTimerIrqHandler", "sub_13C3B", "sub_22746", "sub_12049", "sub_12278", "sub_22796", "dword_38FE2", "word_3C0A2", "sub_121A9", "sub_1206D", "flag_3C010", "byte_3C16E", "word_3AA5E", "word_3BEC0", "word_3BED0", "dword_3B7F8", "word_32A22", "word_3B148", "dword_3B7DA", "word_32A24", "word_3AA60", "flt15_buf1", "flt15_word1", "flt15_buf2", "aRb_4", "a_3d3_0", "a15flt_xxx", "sub_12F8C", "fileHandle", "aOpenErrorOn_3d3_0", "sub_12FAF", "flt15_size", "sub_12874",
         "gfx_jump_0_alloc",
         "gfx_jump_0c",
         "gfx_jump_2a",
