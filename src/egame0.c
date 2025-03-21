@@ -1,3 +1,4 @@
+// egame.exe main function
 #include "debug.h"
 #include "egame.h"
 #include "offsets.h"

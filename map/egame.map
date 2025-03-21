@@ -35,13 +35,13 @@ routine_178: seg000 NEAR 1d10-1d6d R1d10-1d6d
 routine_271: seg000 NEAR 1d6e-1e0d R1d6e-1e0d
 sub_11E0E: seg000 NEAR 1e0e-1f3d R1e0e-1f3d
 routine_185: seg000 NEAR 1f3e-2048 R1f3e-2048
-routine_50: seg000 NEAR 2049-206c R2049-206c
-routine_59: seg000 NEAR 206d-215b R206d-215b
+moveDataFar: seg000 NEAR 2049-206c R2049-206c
+moveStuff: seg000 NEAR 206d-215b R206d-215b
 routine_75: seg000 NEAR 215c-21a8 R215c-21a8
-routine_58: seg000 NEAR 21a9-21c5 R21a9-21c5
+setCommWorldbufPtr: seg000 NEAR 21a9-21c4 R21a9-21c4
 sub_121C6: seg000 NEAR 21c6-21c9 R21c6-21c9
 routine_123: seg000 NEAR 21ca-2277 R21ca-2277
-routine_53: seg000 NEAR 2278-2299 R2278-2299
+sub_12278: seg000 NEAR 2278-2299 R2278-2299
 routine_122: seg000 NEAR 229a-22b7 R229a-22b7
 routine_201: seg000 NEAR 22b8-26b3 R22b8-26b3
 routine_293: seg000 NEAR 26b4-273d R26b4-271d U271e-271f R2720-273d
@@ -51,7 +51,7 @@ routine_93: seg000 NEAR 2898-2c81 R2898-2c81
 routine_92: seg000 NEAR 2c82-2e53 R2c82-2e53
 routine_91: seg000 NEAR 2e54-2f8b R2e54-2f8b
 routine_62: seg000 NEAR 2f8c-2fae R2f8c-2fae
-routine_60: seg000 NEAR 2faf-2fd9 R2faf-2fd9
+sub_12FAF: seg000 NEAR 2faf-2fd9 R2faf-2fd9
 routine_273: seg000 NEAR 2fda-3223 R2fda-3223
 routine_275: seg000 NEAR 3224-3265 R3224-3265
 routine_296: seg000 NEAR 3266-32b9 R3266-32b9
@@ -83,9 +83,9 @@ installCBreakHandler: seg000 NEAR 3bec-3c0e R3bec-3c0e
 restoreCBreakHandler: seg000 NEAR 3c0f-3c1f R3c0f-3c1f assembly
 getInterruptHandler: seg000 NEAR 3c20-3c2b R3c20-3c2b assembly
 sub_13C3B: seg000 NEAR 3c3b-3c46 R3c3b-3c46 assembly
-routine_74: seg000 NEAR 3c47-3c76 R3c47-3c76
-routine_47: seg000 NEAR 3c78-3cb5 R3c78-3cb5
-routine_54: seg000 NEAR 3cb6-3cd6 R3cb6-3cd6
+sub_13C47: seg000 NEAR 3c47-3c76 R3c47-3c76 assembly
+setTimerIrqHanlder: seg000 NEAR 3c78-3cb5 R3c78-3cb5 assembly
+restoreTimerIrqHanlder: seg000 NEAR 3cb6-3cd6 R3cb6-3cd6 assembly
 routine_73: seg000 NEAR 3df2-3e86 R3df2-3e86
 routine_103: seg000 NEAR 3e87-3edb R3e87-3edb
 routine_338: seg000 NEAR 3edc-3ee2 R3edc-3ee2
@@ -346,8 +346,8 @@ routine_246: seg002 NEAR 0c21-0c4d R0c21-0c4d
 routine_247: seg002 NEAR 0c4e-0ca9 R0c4e-0ca9
 restoreJoystickData: seg002 FAR 0caa-0cbd R0caa-0cbd assembly
 copyJoystickData: seg002 FAR 0cbe-0cd5 R0cbe-0cd5 assembly
-routine_48: seg003 FAR 0006-0055 R0006-0055
-routine_51: seg003 FAR 0056-006f R0056-006f
+sub_22746: seg003 FAR 0006-0055 R0006-0055 assembly
+sub_22796: seg003 FAR 0056-006f R0056-006f assembly
 # ======= data segment callable trampolines into overlay drivers
 gfx_jump_0_alloc: Data1 FAR 0ebe-0ec2 R0ebe-0ec2 ignore
 gfx_jump_01: Data1 FAR 0ec3-0ec7 R0ec3-0ec7 ignore

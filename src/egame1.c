@@ -21,7 +21,7 @@ void drawCockpit() {
     strcpy(regnStr, scenarioPlh[gameData->theater]);
     sub_121C6();
     // 0x16e
-    gfx32_result = j_gfx_jump_32();
+    f15DgtlResult = loadF15DgtlBin();
     // 0x179
     byte_34197 = byte_228FF[0];
     // 17c
@@ -52,14 +52,14 @@ int sub_10211() {
     }
     audio_jump_65();
     // 241
-    audio_jump_64(*(int16 FAR*)(OFF_IACA_UNK), gfx32_result);
+    audio_jump_64(*(int16 FAR*)(OFF_IACA_UNK), f15DgtlResult);
     setTimerIrqHandler();
     // 250
     if (commData->setupUseJoy == 0) {
         sub_22746();
     }
     sub_13C3B();
-    sub_12049();
+    moveDataFar();
     // 266
     if (commData->setupUseJoy == 0) {
         sub_22796();
@@ -83,10 +83,10 @@ void gfxInit() {
 // ==== seg000:0x1e0e ====
 int sub_11E0E() {
     int var_2, var_4;
-    sub_121A9();
-    flag_3C010 = 1;
+    setCommWorldbufPtr();
+    flagFarToNear = 1;
     // 1e1e
-    sub_1206D();
+    moveStuff();
     word_3C0A2[0] = 0x98be;
     var_2 = 1;
     // 1e2c
@@ -114,4 +114,43 @@ int sub_11E0E() {
     word_3BED0 = 0x8000 - ((dword_3B7F8 + 0x10) >> 5);
 }
 
+// ==== seg000:0x2049 ====
+int moveDataFar() {
+    int unused1, unused2;
+    setCommWorldbufPtr();
+    flagFarToNear = 0;
+    moveStuff();
+    // 2063
+    moveNearFar(byte_3B7FC, 0x600);
+}
 
+// ==== seg000:0x206d ====
+int moveStuff() {
+    moveNearFar(byte_3C02A, 1);
+    moveNearFar(byte_3BEC4, 1);
+    // 2094
+    moveNearFar(&word_3BED2, 2);
+    moveNearFar(&word_38FFA, 2);
+    moveNearFar(&word_3C69E, 2);
+    // 20c2
+    moveNearFar(unk_3AA5C, word_3BED2 * 16);
+    moveNearFar(&word_3C046, 2);
+    moveNearFar(unk_3B202, word_3C046 * 0x24);
+    // 20f0
+    moveNearFar(byte_3BFA4, 0x64);
+    moveNearFar(byte_3BED8, 0x64);
+    moveNearFar(byte_3C16E, 0x2ee);
+    // 211a
+    moveNearFar(byte_3AFAC, 0x100);
+    moveNearFar(&word_3C00C, 2);
+    moveNearFar(&word_336FC, 2);
+    // 2144
+    moveNearFar(&word_32A22, 0x10);
+    moveNearFar(&word_3B144, 0x24);
+}
+
+// ==== seg000:0x21a9 ====
+int setCommWorldbufPtr() {
+    farPointer = &commData->worlBuf;
+    return 0;
+}

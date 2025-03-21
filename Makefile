@@ -158,7 +158,7 @@ $(SRCDIR)/$(EGAME_BASE): $(EGAME_LST) $(EGAME_INC) $(EGAME_CONF) $(LST2ASM)
 
 $(EGAME_COBJ): $(EGAME_BASEHDR)
 $(BUILDDIR)/egame2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/egame3.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/egame3.obj: MSC_CFLAGS := /Od /Id:\f15-se2
 
 # reference and target entrypoints (offset of main()) for binary comparison
 EGAME_VRF_REF := bin/egame.exe

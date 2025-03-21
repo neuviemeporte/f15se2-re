@@ -52,7 +52,7 @@ int sub_10297();
 void __cdecl gfxInit();
 // bytes outside routine, potential module boundary at 0x2e1
 // ==== seg000:0x2e2 ====
-int j_gfx_jump_32();
+int loadF15DgtlBin();
 // ==== seg000:0x334 ====
 int sub_10334();
 // ==== seg000:0x688 ====
@@ -98,13 +98,13 @@ int sub_11E0E();
 // ==== seg000:0x1f3e ====
 int sub_11F3E();
 // ==== seg000:0x2049 ====
-int sub_12049();
+int moveDataFar();
 // ==== seg000:0x206d ====
-int sub_1206D();
+int moveStuff();
 // ==== seg000:0x215c ====
-int sub_1215C();
+int moveNearFar();
 // ==== seg000:0x21a9 ====
-int sub_121A9();
+int setCommWorldbufPtr();
 // ==== seg000:0x21c6 ====
 int sub_121C6();
 // ==== seg000:0x21ca ====
@@ -432,7 +432,7 @@ int sub_1DB9C();
 // ==== seg000:0xdbe0 ====
 int sub_1DBE0();
 // ==== seg000:0xdd4c ====
-int openFileWrapper();
+int __cdecl openFileWrapper(const char *path, int mode);
 // ==== seg000:0xdd5e ====
 int sub_1DD5E();
 // ==== seg000:0xdd70 ====
@@ -444,7 +444,7 @@ int sub_1DD92();
 // ==== seg000:0xddaa ====
 int sub_1DDAA();
 // ==== seg000:0xddc4 ====
-int openFile();
+int __cdecl openFile(int path, char mode);
 // ==== seg000:0xde1b ====
 int sub_1DE1B();
 // ==== seg000:0xde72 ====
@@ -458,7 +458,7 @@ int read512FromFileIntoBuf();
 // ==== seg000:0xdf4f ====
 int sub_1DF4F();
 // ==== seg000:0xdfbc ====
-int openBlitClosePic();
+int __cdecl openBlitClosePic(const char *path, int arg_2, int arg_4);
 // ==== seg000:0xe0aa ====
 int picBlit();
 // ==== seg000:0xe11c ====
@@ -658,14 +658,14 @@ extern uint8 aNa_xxx[];
 extern uint8 byte_32933;
 extern unsigned __int8 exitCode;
 extern int16 gfxModeUnset;
-extern int16 gfx32_result;
+extern int16 f15DgtlResult;
 extern char *regnStr;
 extern int16 scenarioPlh[];
-extern uint8 a256pit_pic[];
-extern uint8 aCockpit_pic[];
+extern char a256pit_pic[];
+extern char aCockpit_pic[];
 extern uint8 aF15dgtl_bin[];
-extern int16 word_32970;
-extern int word_32972;
+extern int16 f15dgtlAddr;
+extern int allocSize;
 extern int16 word_3298A;
 extern int16 word_3298C;
 extern int16 word_3298E;
@@ -1325,7 +1325,7 @@ extern uint8 aWaypointFriend[];
 extern uint8 aAutopilotOff[];
 extern uint8 aAutopilotOn[];
 extern int16 word_38600;
-extern int16 word_38602;
+extern uint8 unk_38602[];
 extern int16 word_38604;
 extern int16 word_38606;
 extern int16 word_38608;
@@ -1401,8 +1401,7 @@ extern uint8 aRunTimeError[];
 extern uint8 aR6002FloatingPointNot[];
 extern uint8 aR6001NullPointerAssig[];
 extern int16 word_38CD2;
-extern unsigned int word_38CD4;
-extern unsigned int word_38CD6;
+extern void far *farPointer;
 extern int16 word_38CD8;
 extern int16 word_38CDA;
 extern int16 word_38CDC;
@@ -1486,6 +1485,7 @@ extern int16 word_3A940;
 extern int word_3A944;
 extern int16 word_3A946;
 extern int16 word_3AA5A;
+extern uint8 unk_3AA5C[];
 extern unsigned int word_3AA5E[];
 extern unsigned int word_3AA60[];
 extern int16 word_3AA6A;
@@ -1494,6 +1494,7 @@ extern int16 word_3AFA4;
 extern int16 word_3AFA6;
 extern int16 word_3AFA8;
 extern int16 word_3AFAA;
+extern uint8 byte_3AFAC[];
 extern int16 word_3B0AC;
 extern int16 word_3B144;
 extern int16 word_3B146;
@@ -1504,6 +1505,7 @@ extern int16 word_3B15A;
 extern int16 word_3B15E;
 extern int16 word_3B1FE;
 extern int16 word_3B200;
+extern uint8 unk_3B202[];
 extern int16 word_3B228;
 extern int16 word_3B22A;
 extern int16 word_3B22C;
@@ -1539,6 +1541,7 @@ extern uint8 byte_3B7EF;
 extern uint8 byte_3B7F0;
 extern uint8 byte_3B7F1[];
 extern int32 dword_3B7F8;
+extern uint8 byte_3B7FC[];
 extern int16 word_3BE3C;
 extern int16 word_3BE7E;
 extern int16 word_3BE90;
@@ -1560,6 +1563,7 @@ extern int16 word_3BED0;
 extern int16 word_3BED2;
 extern int16 word_3BED4;
 extern int16 word_3BED6;
+extern uint8 byte_3BED8[];
 extern int16 word_3BF3C;
 extern int16 word_3BF3E;
 extern uint8 unk_3BF40[];
@@ -1571,10 +1575,12 @@ extern uint8 unk_3BF96[];
 extern uint8 unk_3BF98[];
 extern int16 word_3BFA0;
 extern int16 word_3BFA2;
+extern uint8 byte_3BFA4[];
 extern int16 word_3C008;
 extern int16 word_3C00A;
+extern int16 word_3C00C;
 extern int word_3C00E;
-extern int16 flag_3C010;
+extern int16 flagFarToNear;
 extern int16 word_3C012;
 extern int16 word_3C014;
 extern int16 word_3C016;

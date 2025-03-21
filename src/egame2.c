@@ -9,9 +9,23 @@
 #include <dos.h>
 #include <memory.h>
 
+// ==== seg002:0xe ====
+void far sub_21A7E() {
+    sub_22411();
+}
+
 // ==== seg000:0x21c6 ====
 int sub_121C6() {
     sub_12874();
+}
+
+// ==== seg000:0x2278 ====
+int sub_12278(int arg_0) {
+    uint8 var_2;
+    if (arg_0 > 0) { // 2284
+        var_2 = (uint8)arg_0 + byte_3790C[0];
+        while (var_2 != byte_3790C[0]) {}
+    }
 }
 
 // ==== seg000:0xc8de ====
