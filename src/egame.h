@@ -106,7 +106,7 @@ int moveNearFar();
 // ==== seg000:0x21a9 ====
 int setCommWorldbufPtr();
 // ==== seg000:0x21c6 ====
-int sub_121C6();
+int callLoad3DAll();
 // ==== seg000:0x21ca ====
 int sub_121CA();
 // ==== seg000:0x2278 ====
@@ -120,17 +120,17 @@ int sub_126B4();
 // ==== seg000:0x273e ====
 int sub_1273E();
 // ==== seg000:0x2874 ====
-int sub_12874();
+int load3DAll();
 // ==== seg000:0x2898 ====
-int sub_12898();
+int load3D3();
 // ==== seg000:0x2c82 ====
-int sub_12C82();
+int load3DT();
 // ==== seg000:0x2e54 ====
-int sub_12E54();
+int load3DG();
 // ==== seg000:0x2f8c ====
-int sub_12F8C();
+int __cdecl printError(char *);
 // ==== seg000:0x2faf ====
-int __cdecl sub_12FAF(char *, char *);
+int __cdecl strcpyFromDot(char *arg_0, char *arg_2);
 // ==== seg000:0x2fda ====
 int sub_12FDA();
 // ==== seg000:0x3224 ====
@@ -324,11 +324,11 @@ int sub_19FCC();
 // ==== seg000:0xa030 ====
 int __cdecl sub_1A030(int, char *);
 // ==== seg000:0xa0cb ====
-int __cdecl sub_1A0CB(char *, int, int);
+int __cdecl drawSomeStrings(char *, int, int, int);
 // ==== seg000:0xa0fe ====
-int __cdecl sub_1A0FE(char *, int, int);
+int sub_1A0FE();
 // ==== seg000:0xa13a ====
-int __cdecl sub_1A13A(int, char *, int, int);
+int __cdecl drawString(int, char *, int, int, int);
 // ==== seg000:0xa183 ====
 int sub_1A183();
 // ==== seg000:0xa1b1 ====
@@ -432,7 +432,7 @@ int sub_1DB9C();
 // ==== seg000:0xdbe0 ====
 int sub_1DBE0();
 // ==== seg000:0xdd4c ====
-int __cdecl openFileWrapper(const char *path, int mode);
+int __cdecl openFileWrapper(char *, int);
 // ==== seg000:0xdd5e ====
 int sub_1DD5E();
 // ==== seg000:0xdd70 ====
@@ -444,7 +444,7 @@ int sub_1DD92();
 // ==== seg000:0xddaa ====
 int sub_1DDAA();
 // ==== seg000:0xddc4 ====
-int __cdecl openFile(int path, char mode);
+int __cdecl openFile(char *, int);
 // ==== seg000:0xde1b ====
 int sub_1DE1B();
 // ==== seg000:0xde72 ====
@@ -458,7 +458,7 @@ int read512FromFileIntoBuf();
 // ==== seg000:0xdf4f ====
 int sub_1DF4F();
 // ==== seg000:0xdfbc ====
-int __cdecl openBlitClosePic(const char *path, int arg_2, int arg_4);
+int openBlitClosePic();
 // ==== seg000:0xe0aa ====
 int picBlit();
 // ==== seg000:0xe11c ====
@@ -645,6 +645,7 @@ int far sub_22796();
 // bytes outside routine, potential module boundary at 0x189
 extern uint8 unk_328B0[];
 extern int16 word_328B2;
+extern uint8 unk_328B6[];
 extern uint8 aMsRunTimeLibraryCopyr[];
 extern uint8 aRegn_xxx[];
 extern uint8 aLb_xxx[];
@@ -660,7 +661,7 @@ extern unsigned __int8 exitCode;
 extern int16 gfxModeUnset;
 extern int16 f15DgtlResult;
 extern char *regnStr;
-extern int16 scenarioPlh[];
+extern char *scenarioPlh[];
 extern char a256pit_pic[];
 extern char aCockpit_pic[];
 extern uint8 aF15dgtl_bin[];
@@ -878,32 +879,35 @@ extern int16 word_33BAC;
 extern size_t word_33BB8;
 extern int16 word_33C82;
 extern int16 word_33C84;
+extern uint8 unk_33C86[];
 extern size_t word_33E10;
 extern size_t word_33E12;
 extern size_t word_33E14;
 extern size_t word_33E16;
-extern int16 word_33E18;
+extern int16 sign3dg;
+extern uint8 unk_33E1A[];
 extern int16 word_3401A;
 extern uint8 a_3d3[];
 extern uint8 aRb[];
-extern uint8 aOpenErrorOn_3d3[];
-extern uint8 aBadObjFileFormat_[];
-extern uint8 aObjectDataTooBig_[];
+extern char aOpenErrorOn_3d3[];
+extern char aBadObjFileFormat_[];
+extern char aObjectDataTooBig_[];
 extern uint8 aRb_0[];
 extern uint8 aPhoto_3d3[];
 extern uint8 aPleaseInsertF15DiskB[];
 extern uint8 aRb_1[];
 extern uint8 aPhoto_3d3_0[];
-extern uint8 aObjdataOverflow[];
+extern char aObjdataOverflow[];
 extern uint8 a_3dt[];
 extern uint8 aRb_2[];
-extern uint8 aOpenErrorOn_3dt[];
-extern uint8 aBadTileFileFormat_[];
-extern uint8 aTooManyTiles_[];
-extern uint8 aTooMuchTileData[];
+extern char aOpenErrorOn_3dt[];
+extern char aBadTileFileFormat_[];
+extern char aTooManyTiles_[];
+extern char aTooMuchTileData[];
 extern uint8 a_3dg[];
 extern uint8 aRb_3[];
 extern uint8 aPleaseInsertScenarioD[];
+extern uint8 unk_34121[];
 extern uint8 aPressAKeyWhenReady[];
 extern uint8 aBadGridFileFormat_[];
 extern int16 word_34150;
@@ -1304,7 +1308,7 @@ extern uint8 aRange[];
 extern uint8 aKm[];
 extern uint8 a_3d3_0[];
 extern uint8 aRb_4[];
-extern uint8 aOpenErrorOn_3d3_0[];
+extern char aOpenErrorOn_3d3_0[];
 extern uint8 byte_3850E[];
 extern char a15flt_xxx[];
 extern uint8 aBrg[];
@@ -1401,7 +1405,7 @@ extern uint8 aRunTimeError[];
 extern uint8 aR6002FloatingPointNot[];
 extern uint8 aR6001NullPointerAssig[];
 extern int16 word_38CD2;
-extern void far *farPointer;
+extern unsigned __int8 far *farPointer;
 extern int16 word_38CD8;
 extern int16 word_38CDA;
 extern int16 word_38CDC;
@@ -1472,15 +1476,20 @@ extern int16 word_38FF6;
 extern int16 word_38FF8;
 extern int16 word_38FFA;
 extern int16 word_38FFC;
+extern uint8 buf4_3dg[];
 extern int16 word_391FE;
 extern int16 word_39200;
+extern uint8 buf3_3dg[];
 extern int16 word_39402;
 extern int16 word_39604;
 extern int word_39606;
+extern uint8 buf2_3dg[];
 extern int16 word_39808;
+extern uint8 buf1_3dg[];
 extern uint8 byte_3995A[];
 extern int16 word_3995C;
 extern int16 word_3A8FE;
+extern uint8 byte_3A900[];
 extern int16 word_3A940;
 extern int word_3A944;
 extern int16 word_3A946;

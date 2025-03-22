@@ -37,7 +37,7 @@ sub_11E0E: seg000 NEAR 1e0e-1f3d R1e0e-1f3d
 routine_185: seg000 NEAR 1f3e-2048 R1f3e-2048
 moveDataFar: seg000 NEAR 2049-206c R2049-206c
 moveStuff: seg000 NEAR 206d-215b R206d-215b
-routine_75: seg000 NEAR 215c-21a8 R215c-21a8
+moveNearFar: seg000 NEAR 215c-21a8 R215c-21a8
 setCommWorldbufPtr: seg000 NEAR 21a9-21c4 R21a9-21c4
 sub_121C6: seg000 NEAR 21c6-21c9 R21c6-21c9
 routine_123: seg000 NEAR 21ca-2277 R21ca-2277
@@ -46,12 +46,12 @@ routine_122: seg000 NEAR 229a-22b7 R229a-22b7
 routine_201: seg000 NEAR 22b8-26b3 R22b8-26b3
 routine_293: seg000 NEAR 26b4-273d R26b4-271d U271e-271f R2720-273d
 routine_294: seg000 NEAR 273e-2873 R273e-2848 U2849-284a R284b-2873
-routine_67: seg000 NEAR 2874-2897 R2874-2897
+load3DAll: seg000 NEAR 2874-2897 R2874-2897
 routine_93: seg000 NEAR 2898-2c81 R2898-2c81
-routine_92: seg000 NEAR 2c82-2e53 R2c82-2e53
-routine_91: seg000 NEAR 2e54-2f8b R2e54-2f8b
-routine_62: seg000 NEAR 2f8c-2fae R2f8c-2fae
-sub_12FAF: seg000 NEAR 2faf-2fd9 R2faf-2fd9
+load3DT: seg000 NEAR 2c82-2e53 R2c82-2e53
+load3DG: seg000 NEAR 2e54-2f8b R2e54-2f8b
+printError: seg000 NEAR 2f8c-2fae R2f8c-2fae
+strcpyFromDot: seg000 NEAR 2faf-2fd9 R2faf-2fd9
 routine_273: seg000 NEAR 2fda-3223 R2fda-3223
 routine_275: seg000 NEAR 3224-3265 R3224-3265
 routine_296: seg000 NEAR 3266-32b9 R3266-32b9
@@ -145,7 +145,7 @@ routine_188: seg000 NEAR 9eb6-9f46 R9eb6-9f46
 routine_212: seg000 NEAR 9fad-9fcb R9fad-9fcb
 routine_134: seg000 NEAR 9fcc-a02f R9fcc-a02f
 routine_316: seg000 NEAR a030-a0ca Ra030-a038 Ua039-a0c6 Ra0c7-a0ca
-routine_80: seg000 NEAR a0cb-a0fd Ra0cb-a0fd
+drawSomeStrings: seg000 NEAR a0cb-a0fd Ra0cb-a0fd
 routine_138: seg000 NEAR a0fe-a139 Ra0fe-a139
 routine_111: seg000 NEAR a13a-a182 Ra13a-a182
 routine_141: seg000 NEAR a183-a1b0 Ra183-a1b0
@@ -199,12 +199,12 @@ routine_182: seg000 NEAR daae-db2a Rdaae-db2a
 routine_190: seg000 NEAR db2b-db9b Rdb2b-db9b
 routine_165: seg000 NEAR db9c-dbb6 Rdb9c-dbb6
 routine_337: seg000 NEAR dbe0-dbff Rdbe0-dbff
-routine_70: seg000 NEAR dd4c-dd5d Rdd4c-dd5d
-routine_72: seg000 NEAR dd70-dd7d Rdd70-dd7d
+openFileWrapper: seg000 NEAR dd4c-dd5d Rdd4c-dd5d
+closeFileWrapper: seg000 NEAR dd70-dd7d Rdd70-dd7d
 routine_94: seg000 NEAR ddc4-de1a Rddc4-de1a Rdf80-dfbb
 routine_102: seg000 NEAR de72-de92 Rde72-de92
 openBlitClosePic: seg000 NEAR dfbc-dff4 Rdfbc-dff4
-routine_71: seg000 NEAR e0aa-e11b Re0aa-e11b
+picBlit: seg000 NEAR e0aa-e11b Re0aa-e11b assembly
 routine_95: seg000 NEAR e260-e260 Re260-e260
 routine_99: seg000 NEAR e262-e28b Re262-e28b
 routine_118: seg000 NEAR e28c-e2d2 Re28c-e2d2

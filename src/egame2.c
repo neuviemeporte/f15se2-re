@@ -16,7 +16,7 @@ void far sub_21A7E() {
 
 // ==== seg000:0x21c6 ====
 int sub_121C6() {
-    sub_12874();
+    load3DAll();
 }
 
 // ==== seg000:0x2278 ====
@@ -33,11 +33,11 @@ int load15Flt3d3() {
     int var_A, var_C;
     struct SREGS var_8;
     uint8 FAR *var_10;
-    sub_12FAF(a15flt_xxx, a_3d3_0);
+    strcpyFromDot(a15flt_xxx, a_3d3_0);
     fileHandle = fopen(a15flt_xxx, aRb_4);
     if (fileHandle == NULL) {
         // c90b
-        sub_12F8C(aOpenErrorOn_3d3_0);
+        printError(aOpenErrorOn_3d3_0);
         return;
     }
     // c922
@@ -58,4 +58,14 @@ int load15Flt3d3() {
     }
     // c9ca
     fclose(fileHandle);
+}
+
+// ==== seg000:0xdd4c ====
+int openFileWrapper(char *path, int mode) {
+    openFile(path, mode);
+}
+
+// ==== seg000:0xdd70 ====
+int closeFileWrapper(int arg_0) {
+    closeFile(arg_0);
 }

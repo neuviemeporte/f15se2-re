@@ -38,4 +38,6 @@
 #define GRID_MAGIC 0x3232
 #define TERRAIN_MAGIC 0x3131
 
+#define SIGNATURE_3DG 0x3232
+
 #endif /* F15_SE2_CONST */

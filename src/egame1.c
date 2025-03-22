@@ -7,6 +7,8 @@
 #include "const.h"
 
 #include <dos.h>
+#include <stdio.h>
+#include <string.h>
 
 // far arrays found in seg004 in the original executable
 unsigned char far byte_228D0[0x2f];
@@ -149,8 +151,87 @@ int moveStuff() {
     moveNearFar(&word_3B144, 0x24);
 }
 
+// ==== seg000:0x215c ====
+int moveNearFar(void *nearPtr, int count) {
+    void FAR *farPtr = nearPtr;
+    if (flagFarToNear != 0) { // 2172
+        movedata(FP_SEG(farPointer), FP_OFF(farPointer), FP_SEG(farPtr), FP_OFF(farPtr), count);
+    }
+    else { // 2187
+        movedata(FP_SEG(farPtr), FP_OFF(farPtr), FP_SEG(farPointer), FP_OFF(farPointer), count);
+    } // 219e
+    farPointer += count;
+}
+
 // ==== seg000:0x21a9 ====
 int setCommWorldbufPtr() {
-    farPointer = &commData->worlBuf;
+    farPointer = (uint8 FAR*)&commData->worlBuf;
     return 0;
+}
+
+// ==== seg000:0x2874 ====
+int load3DAll() {
+    load3DG();
+    load3DT(regnStr);
+    load3D3(regnStr);
+    word_3401A = 0;
+}
+
+// ==== seg000:0x2c82 ====
+int load3DT() {
+    
+}
+
+// ==== seg000:0x2e54 ====
+int load3DG() {
+    int unused_1, unused_2, unused_3;
+    strcpyFromDot(regnStr, a_3dg);
+    // 2e68
+    while ((fileHandle = fopen(regnStr, aRb_3)) == NULL) {
+        drawSomeStrings(aPleaseInsertF15DiskB, 0x68, 0x28, 0x0f);
+        drawSomeStrings(unk_34121, 0x68, 0x32, 0x0f);
+        gfx_jump_46_retrace2();
+        misc_jump_5b_getkey();
+    } 
+    // 2eb5
+    gfx_jump_45_retrace();
+    fread(&sign3dg, 2, 1, fileHandle);
+    // 2ed0
+    if (sign3dg != SIGNATURE_3DG) {
+        printError(aBadGridFileFormat_);
+        fclose(fileHandle);
+        return;
+    }
+    // 2eef
+    fread(buf1_3dg, 1, 0x10, fileHandle);
+    fread(buf1_3dg, 1, 0x100, fileHandle);
+    fread(buf2_3dg, 1, 0x200, fileHandle);
+    fread(buf3_3dg, 1, 0x200, fileHandle);
+    fread(buf4_3dg, 1, 0x200, fileHandle);
+    // 2f61
+    fclose(fileHandle);
+    memcpy(byte_3A900, unk_33E1A + ((gameData->theater & 7) * 64), 64);
+    // 2f88
+}
+
+// ==== seg000:0x2f8c ====
+int printError(char *msg) {
+    gfx_jump_46_retrace2();
+    drawSomeStrings(msg, 0, 0x60, 0xf);
+    getch();
+}
+
+// ==== seg000:0x2faf ====
+int strcpyFromDot(char *arg_0, char *arg_2) {
+    char var_2;
+    while ((var_2 = *arg_0) != '.' && var_2 != 0) {
+        arg_0++;
+    } // 2fca
+    strcpy(arg_0, arg_2);
+}
+
+// ==== seg000:0xa0cb ====
+int drawSomeStrings(char *arg_0, int arg_2, int arg_4, int arg_6) {
+    drawString(word_38334, arg_0, arg_2, arg_4, arg_6);
+    drawString(word_3834C, arg_0, arg_2, arg_4, arg_6);
 }

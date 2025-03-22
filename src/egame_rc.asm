@@ -49,18 +49,12 @@ PUBLIC _flt15_buf2
 PUBLIC _aRb_4
 PUBLIC _a_3d3_0
 PUBLIC _a15flt_xxx
-PUBLIC _sub_12F8C
 PUBLIC _fileHandle
 PUBLIC _aOpenErrorOn_3d3_0
-PUBLIC _sub_12FAF
 PUBLIC _flt15_size
-PUBLIC _sub_12874
-PUBLIC _closeFileWrapper
 PUBLIC _picBlit
-PUBLIC _openFileWrapper
 PUBLIC _loadF15DgtlBin
 PUBLIC _byte_3B7FC
-PUBLIC _moveNearFar
 PUBLIC _byte_3790C
 PUBLIC _farPointer
 PUBLIC _word_3C69E
@@ -77,6 +71,26 @@ PUBLIC _word_38FFA
 PUBLIC _unk_3AA5C
 PUBLIC _unk_3B202
 PUBLIC _byte_3AFAC
+PUBLIC _load3D3
+PUBLIC _word_3401A
+PUBLIC _openFile
+PUBLIC _closeFile
+PUBLIC _drawString
+PUBLIC _word_38334
+PUBLIC _word_3834C
+PUBLIC _a_3dg
+PUBLIC _byte_3A900
+PUBLIC _aBadGridFileFormat_
+PUBLIC _aRb_3
+PUBLIC _misc_jump_5b_getkey
+PUBLIC _unk_33E1A
+PUBLIC _unk_34121
+PUBLIC _aPleaseInsertF15DiskB
+PUBLIC _sign3dg
+PUBLIC _buf1_3dg
+PUBLIC _buf2_3dg
+PUBLIC _buf3_3dg
+PUBLIC _buf4_3dg
 PUBLIC _gfx_jump_0_alloc
 PUBLIC _gfx_jump_0c
 PUBLIC _gfx_jump_2a
@@ -84,6 +98,7 @@ PUBLIC _gfx_jump_3d_null
 PUBLIC _gfx_jump_3f_modecode
 PUBLIC _gfx_jump_44_setDac
 PUBLIC _gfx_jump_45_retrace
+PUBLIC _gfx_jump_46_retrace2
 PUBLIC _gfx_jump_4b_storeBufPtr
 PUBLIC _gfx_jump_4c
 PUBLIC _gfx_jump_4f
@@ -297,16 +312,16 @@ sub_11F3E proc near
     retn
 sub_11F3E endp
 ; ------------------------------seg000:0x2048------------------------------
-; ------------------------------seg000:0x215c------------------------------
-_moveNearFar proc near
-    retn
-_moveNearFar endp
-; ------------------------------seg000:0x21a8------------------------------
 ; ------------------------------seg000:0x21a9------------------------------
 setCommWorldbufPtr proc near
     retn
 setCommWorldbufPtr endp
 ; ------------------------------seg000:0x21c4------------------------------
+; ------------------------------seg000:0x21c6------------------------------
+callLoad3DAll proc near
+    retn
+callLoad3DAll endp
+; ------------------------------seg000:0x21c9------------------------------
 ; ------------------------------seg000:0x21ca------------------------------
 sub_121CA proc near
     retn
@@ -332,36 +347,11 @@ sub_1273E proc near
     retn
 sub_1273E endp
 ; ------------------------------seg000:0x2872------------------------------
-; ------------------------------seg000:0x2874------------------------------
-_sub_12874 proc near
-    retn
-_sub_12874 endp
-; ------------------------------seg000:0x2897------------------------------
 ; ------------------------------seg000:0x2898------------------------------
-sub_12898 proc near
+_load3D3 proc near
     retn
-sub_12898 endp
+_load3D3 endp
 ; ------------------------------seg000:0x2c81------------------------------
-; ------------------------------seg000:0x2c82------------------------------
-sub_12C82 proc near
-    retn
-sub_12C82 endp
-; ------------------------------seg000:0x2e53------------------------------
-; ------------------------------seg000:0x2e54------------------------------
-sub_12E54 proc near
-    retn
-sub_12E54 endp
-; ------------------------------seg000:0x2f8b------------------------------
-; ------------------------------seg000:0x2f8c------------------------------
-_sub_12F8C proc near
-    retn
-_sub_12F8C endp
-; ------------------------------seg000:0x2fae------------------------------
-; ------------------------------seg000:0x2faf------------------------------
-_sub_12FAF proc near
-    retn
-_sub_12FAF endp
-; ------------------------------seg000:0x2fd9------------------------------
 ; ------------------------------seg000:0x2fda------------------------------
 sub_12FDA proc near
     retn
@@ -862,20 +852,15 @@ sub_1A030 proc near
     retn
 sub_1A030 endp
 ; ------------------------------seg000:0xa0ca------------------------------
-; ------------------------------seg000:0xa0cb------------------------------
-sub_1A0CB proc near
-    retn
-sub_1A0CB endp
-; ------------------------------seg000:0xa0fd------------------------------
 ; ------------------------------seg000:0xa0fe------------------------------
 sub_1A0FE proc near
     retn ;sp-analysis failed
 sub_1A0FE endp
 ; ------------------------------seg000:0xa130------------------------------
 ; ------------------------------seg000:0xa13a------------------------------
-sub_1A13A proc near
+_drawString proc near
     retn
-sub_1A13A endp
+_drawString endp
 ; ------------------------------seg000:0xa182------------------------------
 ; ------------------------------seg000:0xa183------------------------------
 sub_1A183 proc near
@@ -1127,21 +1112,11 @@ sub_1DBE0 proc near
     retn
 sub_1DBE0 endp
 ; ------------------------------seg000:0xdbff------------------------------
-; ------------------------------seg000:0xdd4c------------------------------
-_openFileWrapper proc near
-    retn
-_openFileWrapper endp
-; ------------------------------seg000:0xdd5c------------------------------
 ; ------------------------------seg000:0xdd5e------------------------------
 sub_1DD5E proc near
     retn
 sub_1DD5E endp
 ; ------------------------------seg000:0xdd6e------------------------------
-; ------------------------------seg000:0xdd70------------------------------
-_closeFileWrapper proc near
-    retn
-_closeFileWrapper endp
-; ------------------------------seg000:0xdd7d------------------------------
 ; ------------------------------seg000:0xdd7e------------------------------
 sub_1DD7E proc near
     retn
@@ -1158,9 +1133,9 @@ sub_1DDAA proc near
 sub_1DDAA endp
 ; ------------------------------seg000:0xddc3------------------------------
 ; ------------------------------seg000:0xddc4------------------------------
-openFile proc near
+_openFile proc near
     retn
-openFile endp
+_openFile endp
 ; ------------------------------seg000:0xde1a------------------------------
 ; ------------------------------seg000:0xde1b------------------------------
 sub_1DE1B proc near
@@ -1168,9 +1143,9 @@ sub_1DE1B proc near
 sub_1DE1B endp
 ; ------------------------------seg000:0xde71------------------------------
 ; ------------------------------seg000:0xde72------------------------------
-closeFile proc near
+_closeFile proc near
     retn
-closeFile endp
+_closeFile endp
 ; ------------------------------seg000:0xde92------------------------------
 ; ------------------------------seg000:0xde94------------------------------
 sub_1DE94 proc near
@@ -1949,7 +1924,7 @@ unk_328B0 db 0
 word_328B2 dw 0
     db 0
     db 0
-    db 0
+unk_328B6 db 0
     db 0
 aMsRunTimeLibraryCopyr db 'MS Run-Time Library - Copyright (c) 1988, Microsoft Corp'
     db 11h
@@ -5297,10 +5272,10 @@ _gfx_jump_45_retrace proc near
 _gfx_jump_45_retrace endp
 ; ------------------------------dseg:0x1017------------------------------
 ; ------------------------------dseg:0x101c------------------------------
-gfx_jump_46_retrace2 proc near
+_gfx_jump_46_retrace2 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_46_retrace2 endp
+_gfx_jump_46_retrace2 endp
 ; ------------------------------dseg:0x101c------------------------------
 ; ------------------------------dseg:0x1021------------------------------
 gfx_jump_47 proc near
@@ -5381,10 +5356,10 @@ _gfx_jump_52 endp
     db 0
     db 0
 ; ------------------------------dseg:0x1085------------------------------
-misc_jump_5b_getkey proc near
+_misc_jump_5b_getkey proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-misc_jump_5b_getkey endp
+_misc_jump_5b_getkey endp
 ; ------------------------------dseg:0x1085------------------------------
     db 0EAh
     db 0
@@ -6210,7 +6185,7 @@ word_33BB8 dw 1
     db 0
 word_33C82 dw 0
 word_33C84 dw 3131h
-    db 20h
+unk_33C86 db 20h
     db 0
     db 20h
     db 0
@@ -6608,8 +6583,8 @@ word_33E10 dw 0
 word_33E12 dw 0
 word_33E14 dw 0
 word_33E16 dw 0
-word_33E18 dw 3232h
-    db 10h
+_sign3dg dw 3232h
+_unk_33E1A db 10h
     db 10h
     db 10h
     db 10h
@@ -7121,7 +7096,7 @@ word_33E18 dw 3232h
     db 11h
     db 11h
     db 10h
-word_3401A dw 0
+_word_3401A dw 0
     db 0
     db 0
 a_3d3 db '.3D3',0
@@ -7131,7 +7106,7 @@ aBadObjFileFormat_ db 'Bad Obj file format.',0
 aObjectDataTooBig_ db 'Object data too big.',0
 aRb_0 db 'rb',0
 aPhoto_3d3 db 'photo.3d3',0
-aPleaseInsertF15DiskB db 'Please insert F15 Disk B',0
+_aPleaseInsertF15DiskB db 'Please insert F15 Disk B',0
 aRb_1 db 'rb',0
 aPhoto_3d3_0 db 'photo.3d3',0
 aObjdataOverflow db 'ObjData overflow',0
@@ -7141,13 +7116,13 @@ aOpenErrorOn_3dt db 'Open Error on *.3DT',0
 aBadTileFileFormat_ db 'Bad Tile file format.',0
 aTooManyTiles_ db 'Too many tiles.',0
 aTooMuchTileData db 'Too much tile data',0
-a_3dg db '.3dG',0
-aRb_3 db 'rb',0
+_a_3dg db '.3dG',0
+_aRb_3 db 'rb',0
 aPleaseInsertScenarioD db 'Please insert scenario disk',0
-    db 20h
+_unk_34121 db 20h
     db 20h
 aPressAKeyWhenReady db 'Press a key when ready',0
-aBadGridFileFormat_ db 'Bad Grid file format.',0
+_aBadGridFileFormat_ db 'Bad Grid file format.',0
 word_34150 dw 0
 word_34152 dw 0
     db 0
@@ -18650,7 +18625,7 @@ aA db 'A',0
     db 0
     db 3Fh
     db 1
-word_38334 dw 5A6Eh
+_word_38334 dw 5A6Eh
     db 1
     db 0
     db 2
@@ -18673,7 +18648,7 @@ word_38334 dw 5A6Eh
     db 0
     db 3Fh
     db 1
-word_3834C dw 5A86h
+_word_3834C dw 5A86h
     db 2
     db 0
     db 2
@@ -20404,1032 +20379,10 @@ word_38FF6 dw ?
 word_38FF8 dw ?
 _word_38FFA dw ?
 word_38FFC dw ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_buf4_3dg db 200h dup(?)
 word_391FE dw ?
 word_39200 dw ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_buf3_3dg db 200h dup(?)
 word_39402 dw ?
     db ?
     db ?
@@ -21945,518 +20898,7 @@ word_39402 dw ?
     db ?
 word_39604 dw ?
 word_39606 dw ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_buf2_3dg db 200h dup(?)
 word_39808 dw ?
     db ?
     db ?
@@ -22538,262 +20980,7 @@ word_39808 dw ?
     db ?
     db ?
     db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_buf1_3dg db 100h dup(?)
 byte_3995A db ?
     db ? ;align 2
 word_3995C dw ?
@@ -26798,70 +24985,7 @@ word_3995C dw ?
     db ?
     db ?
 word_3A8FE dw ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_byte_3A900 db 40h dup(?)
 word_3A940 dw ?
     db ? ;align 4
     db ?
