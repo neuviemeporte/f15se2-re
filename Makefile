@@ -185,8 +185,8 @@ HELLO_EXE := $(BUILDDIR)/hello.exe
 HELLO_OBJ := $(BUILDDIR)/hello.obj
 HELLO_LIB := slibce.lib
 
-$(HELLO_OBJ): MSC_CFLAGS := /Gs /Ol
-$(HELLO_EXE): LINKFLAGS := /M /I /NOD /NOE
+$(HELLO_OBJ): MSC_CFLAGS := /Gs /Zi
+$(HELLO_EXE): LINKFLAGS := /M /I
 $(HELLO_EXE): $(HELLO_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)" -l "$(HELLO_LIB)"
 

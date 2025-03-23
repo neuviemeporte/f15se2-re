@@ -39,5 +39,7 @@
 #define TERRAIN_MAGIC 0x3131
 
 #define SIGNATURE_3DG 0x3232
+#define SIGNATURE_3DT 0x3131
+#define MAX_TILE_DATA 4000
 
 #endif /* F15_SE2_CONST */

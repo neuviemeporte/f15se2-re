@@ -178,8 +178,55 @@ int load3DAll() {
 }
 
 // ==== seg000:0x2c82 ====
-int load3DT() {
-    
+void load3DT(char *arg_0) {
+    int var_2, var_4, var_6, var_8, var_A;
+    strcpyFromDot(arg_0, a_3dt);
+    // 2ca3
+    if ((fileHandle = fopen(arg_0, aRb_2)) == NULL) {
+        printError(aOpenErrorOn_3dt);
+        return;
+    }
+    // 2cc7
+    fread(&sign3dt, 2, 1, fileHandle);
+    if (sign3dt != SIGNATURE_3DT) { // 2cd5
+        printError(aBadTileFileFormat_);
+        fclose(fileHandle);
+        return;
+    } // 2cec
+    fread(sizes3dt, 2, 5, fileHandle);
+    // 2d02
+    for (var_4 = 0; var_4 < 5; var_4++) {
+        if (sizes3dt[var_4] > 0x20) {
+            printError(aTooManyTiles_);
+            return;
+        } // 2d2b
+        // 2d47
+        fread(matrix3dt[var_4], 2, sizes3dt[var_4], fileHandle);
+    } // 2d4f
+    var_6 = 0;
+    for (var_4 = 0; var_4 < 5; var_4++) { // 2d67
+        for (var_8 = 0; sizes3dt[var_4] > var_8; var_8++) {
+            // 2d93
+            matrix3dt_2[var_4][var_8] = (int16)(buf1_3dt + var_6);
+            // 2d97
+            for (var_A = 0; matrix3dt[var_4][var_8] > var_A; var_A++) { // 2db9
+                if (var_6 > MAX_TILE_DATA) {
+                    printError(aTooMuchTileData);
+                    return;
+                } // 2dcd
+                fread(buf1_3dt + var_6, 2, 1, fileHandle);
+                fread(buf2_3dt + var_6, 2, 1, fileHandle);
+                fread(buf3_3dt + var_6, 2, 1, fileHandle);
+                fread(&var_2, 2, 1, fileHandle);
+                val_3dt[var_6] = var_2;
+                var_6 += 7;
+                // 2e3c
+            }
+            // 2e3f
+        }
+        // 2e42
+    } // 2e45
+    fclose(fileHandle);
 }
 
 // ==== seg000:0x2e54 ====
