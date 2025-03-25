@@ -147,7 +147,7 @@ routine_134: seg000 NEAR 9fcc-a02f R9fcc-a02f
 routine_316: seg000 NEAR a030-a0ca Ra030-a038 Ua039-a0c6 Ra0c7-a0ca
 drawSomeStrings: seg000 NEAR a0cb-a0fd Ra0cb-a0fd
 routine_138: seg000 NEAR a0fe-a139 Ra0fe-a139
-routine_111: seg000 NEAR a13a-a182 Ra13a-a182
+drawString: seg000 NEAR a13a-a182 Ra13a-a182
 routine_141: seg000 NEAR a183-a1b0 Ra183-a1b0
 routine_327: seg000 NEAR a1b1-a1e3 Ra1b1-a1e3
 routine_150: seg000 NEAR a1e4-a203 Ra1e4-a203
@@ -201,8 +201,8 @@ routine_165: seg000 NEAR db9c-dbb6 Rdb9c-dbb6
 routine_337: seg000 NEAR dbe0-dbff Rdbe0-dbff
 openFileWrapper: seg000 NEAR dd4c-dd5d Rdd4c-dd5d
 closeFileWrapper: seg000 NEAR dd70-dd7d Rdd70-dd7d
-routine_94: seg000 NEAR ddc4-de1a Rddc4-de1a Rdf80-dfbb
-routine_102: seg000 NEAR de72-de92 Rde72-de92
+openFile: seg000 NEAR ddc4-de1a Rddc4-de1a Rdf80-dfbb assembly
+closeFile: seg000 NEAR de72-de92 Rde72-de92 assembly
 openBlitClosePic: seg000 NEAR dfbc-dff4 Rdfbc-dff4
 picBlit: seg000 NEAR e0aa-e11b Re0aa-e11b assembly
 routine_95: seg000 NEAR e260-e260 Re260-e260

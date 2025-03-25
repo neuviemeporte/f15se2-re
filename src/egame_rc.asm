@@ -71,7 +71,6 @@ PUBLIC _word_38FFA
 PUBLIC _unk_3AA5C
 PUBLIC _unk_3B202
 PUBLIC _byte_3AFAC
-PUBLIC _load3D3
 PUBLIC _word_3401A
 PUBLIC _openFile
 PUBLIC _closeFile
@@ -105,6 +104,34 @@ PUBLIC _val_3dt
 PUBLIC _buf1_3dt
 PUBLIC _buf2_3dt
 PUBLIC _buf3_3dt
+PUBLIC _buf3d3_1
+PUBLIC _buf3d3_2
+PUBLIC _buf3d3_3
+PUBLIC _buf3d3
+PUBLIC _size3d3_2
+PUBLIC _a_3d3
+PUBLIC _aBadObjFileFormat_
+PUBLIC _size3d3_3
+PUBLIC _byte_3BE3E
+PUBLIC _size3d3_4
+PUBLIC _size3d3_5
+PUBLIC _size3d3_6
+PUBLIC _aOpenErrorOn_3d3
+PUBLIC _aRb
+PUBLIC _sign3d3
+PUBLIC _size3d3
+PUBLIC _aObjectDataTooBig_
+PUBLIC _byte_3BE80
+PUBLIC _sub_19E44
+PUBLIC _aObjdataOverflow
+PUBLIC _word_33DD0
+PUBLIC _aRb_0
+PUBLIC _aRb_1
+PUBLIC _size3d3_7
+PUBLIC _aPhoto_3d3_0
+PUBLIC _aPhoto_3d3
+PUBLIC _word_3B14A
+PUBLIC _sub_19E5D
 PUBLIC _gfx_jump_0_alloc
 PUBLIC _gfx_jump_0c
 PUBLIC _gfx_jump_2a
@@ -180,7 +207,7 @@ _loadF15DgtlBin endp
 ; ------------------------------seg000:0x333------------------------------
 ; ------------------------------seg000:0x334------------------------------
 sub_10334 proc near
-    retn
+    retn ;sp-analysis failed
 sub_10334 endp
 ; ------------------------------seg000:0x66e------------------------------
 ; ------------------------------seg000:0x688------------------------------
@@ -361,11 +388,6 @@ sub_1273E proc near
     retn
 sub_1273E endp
 ; ------------------------------seg000:0x2872------------------------------
-; ------------------------------seg000:0x2898------------------------------
-_load3D3 proc near
-    retn
-_load3D3 endp
-; ------------------------------seg000:0x2c81------------------------------
 ; ------------------------------seg000:0x2fda------------------------------
 sub_12FDA proc near
     retn
@@ -390,7 +412,7 @@ sub_132BA endp
 sub_1345E proc near
     retn
 sub_1345E endp
-; ------------------------------seg000:0x3475------------------------------
+; ------------------------------seg000:0x34aa------------------------------
 ; ------------------------------seg000:0x34ac------------------------------
 sub_134AC proc near
     retn
@@ -413,9 +435,9 @@ sub_136D2 endp
 ; ------------------------------seg000:0x3749------------------------------
 ; ------------------------------seg000:0x374a------------------------------
 sub_1374A proc near
-    retn ;sp-analysis failed
+    retn
 sub_1374A endp
-; ------------------------------seg000:0x377f------------------------------
+; ------------------------------seg000:0x378d------------------------------
 ; ------------------------------seg000:0x378e------------------------------
 sub_1378E proc near
     retn
@@ -435,17 +457,17 @@ sub_13922 endp
 sub_13932 proc near
     retn
 sub_13932 endp
-; ------------------------------seg000:0x398d------------------------------
+; ------------------------------seg000:0x39a8------------------------------
 ; ------------------------------seg000:0x39aa------------------------------
 sub_139AA proc near
-    retn ;sp-analysis failed
+    retn
 sub_139AA endp
-; ------------------------------seg000:0x39af------------------------------
+; ------------------------------seg000:0x39be------------------------------
 ; ------------------------------seg000:0x39c0------------------------------
 sub_139C0 proc near
-    retn ;sp-analysis failed
+    retn
 sub_139C0 endp
-; ------------------------------seg000:0x3a0f------------------------------
+; ------------------------------seg000:0x3a6b------------------------------
 ; ------------------------------seg000:0x3a6c------------------------------
 sub_13A6C proc near
     retn
@@ -583,9 +605,9 @@ sub_13EDC endp
 ; ------------------------------seg000:0x3ee2------------------------------
 ; ------------------------------seg000:0x3ee3------------------------------
 sub_13EE3 proc near
-    retn ;sp-analysis failed
+    retn
 sub_13EE3 endp
-; ------------------------------seg000:0x3eeb------------------------------
+; ------------------------------seg000:0x3f01------------------------------
 ; ------------------------------seg000:0x3f72------------------------------
 sub_13F72 proc near
     retn
@@ -628,9 +650,9 @@ sub_15557 endp
 ; ------------------------------seg000:0x55aa------------------------------
 ; ------------------------------seg000:0x55ab------------------------------
 sub_155AB proc near
-    retn ;sp-analysis failed
+    retn
 sub_155AB endp
-; ------------------------------seg000:0x5eeb------------------------------
+; ------------------------------seg000:0x5fda------------------------------
 ; ------------------------------seg000:0x5fdb------------------------------
 sub_15FDB proc near
     retn
@@ -650,7 +672,7 @@ sub_160D3 endp
 sub_1613B proc near
     retn
 sub_1613B endp
-; ------------------------------seg000:0x6165------------------------------
+; ------------------------------seg000:0x6171------------------------------
 ; ------------------------------seg000:0x6172------------------------------
 sub_16172 proc near
     retn
@@ -705,12 +727,12 @@ sub_185BE endp
 sub_186F8 proc near
     retn
 sub_186F8 endp
-; ------------------------------seg000:0x87c9------------------------------
+; ------------------------------seg000:0x87e8------------------------------
 ; ------------------------------seg000:0x87ea------------------------------
 sub_187EA proc near
     retn
 sub_187EA endp
-; ------------------------------seg000:0x896a------------------------------
+; ------------------------------seg000:0x89a8------------------------------
 ; ------------------------------seg000:0x89aa------------------------------
 sub_189AA proc near
     retn
@@ -738,9 +760,9 @@ sub_18E38 endp
 ; ------------------------------seg000:0x8e4f------------------------------
 ; ------------------------------seg000:0x8e50------------------------------
 sub_18E50 proc near
-    retn ;sp-analysis failed
+    retn
 sub_18E50 endp
-; ------------------------------seg000:0x92af------------------------------
+; ------------------------------seg000:0x94cf------------------------------
 ; ------------------------------seg000:0x94d0------------------------------
 sub_194D0 proc near
     retn
@@ -805,47 +827,47 @@ sub_19ADB endp
 sub_19B98 proc near
     retn
 sub_19B98 endp
-; ------------------------------seg000:0x9bd7------------------------------
+; ------------------------------seg000:0x9be0------------------------------
 ; ------------------------------seg000:0x9be1------------------------------
 sub_19BE1 proc near
     retn
 sub_19BE1 endp
-; ------------------------------seg000:0x9c02------------------------------
+; ------------------------------seg000:0x9c0b------------------------------
 ; ------------------------------seg000:0x9c0c------------------------------
 sub_19C0C proc near
-    retn ;sp-analysis failed
+    retn
 sub_19C0C endp
-; ------------------------------seg000:0x9c30------------------------------
+; ------------------------------seg000:0x9c83------------------------------
 ; ------------------------------seg000:0x9c84------------------------------
 sub_19C84 proc near
-    retn ;sp-analysis failed
+    retn
 sub_19C84 endp
-; ------------------------------seg000:0x9ca4------------------------------
+; ------------------------------seg000:0x9d85------------------------------
 ; ------------------------------seg000:0x9d86------------------------------
 sub_19D86 proc near
     retn
 sub_19D86 endp
-; ------------------------------seg000:0x9da6------------------------------
+; ------------------------------seg000:0x9daf------------------------------
 ; ------------------------------seg000:0x9db0------------------------------
 sub_19DB0 proc near
     retn
 sub_19DB0 endp
-; ------------------------------seg000:0x9e3a------------------------------
+; ------------------------------seg000:0x9e43------------------------------
 ; ------------------------------seg000:0x9e44------------------------------
-sub_19E44 proc near
+_sub_19E44 proc near
     retn
-sub_19E44 endp
+_sub_19E44 endp
 ; ------------------------------seg000:0x9e5c------------------------------
 ; ------------------------------seg000:0x9e5d------------------------------
-sub_19E5D proc near
+_sub_19E5D proc near
     retn
-sub_19E5D endp
-; ------------------------------seg000:0x9e70------------------------------
+_sub_19E5D endp
+; ------------------------------seg000:0x9e93------------------------------
 ; ------------------------------seg000:0x9e94------------------------------
 sub_19E94 proc near
     retn
 sub_19E94 endp
-; ------------------------------seg000:0x9eac------------------------------
+; ------------------------------seg000:0x9eb5------------------------------
 ; ------------------------------seg000:0x9eb6------------------------------
 sub_19EB6 proc near
     retn
@@ -910,7 +932,7 @@ sub_1A25C endp
 sub_1A740 proc near
     retn
 sub_1A740 endp
-; ------------------------------seg000:0xa764------------------------------
+; ------------------------------seg000:0xa7c3------------------------------
 ; ------------------------------seg000:0xa7c4------------------------------
 sub_1A7C4 proc near
     retn
@@ -918,29 +940,29 @@ sub_1A7C4 endp
 ; ------------------------------seg000:0xa870------------------------------
 ; ------------------------------seg000:0xa872------------------------------
 sub_1A872 proc near
-    retn ;sp-analysis failed
+    retn
 sub_1A872 endp
-; ------------------------------seg000:0xa8be------------------------------
+; ------------------------------seg000:0xa8c7------------------------------
 ; ------------------------------seg000:0xa8c8------------------------------
 sub_1A8C8 proc near
-    retn ;sp-analysis failed
+    retn
 sub_1A8C8 endp
-; ------------------------------seg000:0xa929------------------------------
+; ------------------------------seg000:0xa933------------------------------
 ; ------------------------------seg000:0xa934------------------------------
 sub_1A934 proc near
-    retn ;sp-analysis failed
+    retn
 sub_1A934 endp
-; ------------------------------seg000:0xa958------------------------------
+; ------------------------------seg000:0xa961------------------------------
 ; ------------------------------seg000:0xa962------------------------------
 sub_1A962 proc near
-    retn ;sp-analysis failed
+    retn
 sub_1A962 endp
-; ------------------------------seg000:0xa986------------------------------
+; ------------------------------seg000:0xa9bb------------------------------
 ; ------------------------------seg000:0xa9bc------------------------------
 sub_1A9BC proc near
-    retn ;sp-analysis failed
+    retn
 sub_1A9BC endp
-; ------------------------------seg000:0xa9ef------------------------------
+; ------------------------------seg000:0xa9f7------------------------------
 ; ------------------------------seg000:0xa9f8------------------------------
 sub_1A9F8 proc near
     retn
@@ -1095,7 +1117,7 @@ sub_1D9DB endp
 sub_1DA35 proc near
     retn
 sub_1DA35 endp
-; ------------------------------seg000:0xda58------------------------------
+; ------------------------------seg000:0xda5e------------------------------
 ; ------------------------------seg000:0xda5f------------------------------
 sub_1DA5F proc near
     retn
@@ -1188,14 +1210,14 @@ _picBlit endp
 ; ------------------------------seg000:0xe11b------------------------------
 ; ------------------------------seg000:0xe11c------------------------------
 sub_1E11C proc near
-    retn ;sp-analysis failed
+    retn
 sub_1E11C endp
-; ------------------------------seg000:0xe134------------------------------
+; ------------------------------seg000:0xe1f7------------------------------
 ; ------------------------------seg000:0xe1f8------------------------------
 sub_1E1F8 proc near
-    retn ;sp-analysis failed
+    retn
 sub_1E1F8 endp
-; ------------------------------seg000:0xe210------------------------------
+; ------------------------------seg000:0xe25f------------------------------
 ; ------------------------------seg000:0xe260------------------------------
 nullsub_1 proc near
     retn
@@ -1558,9 +1580,9 @@ sub_1F82C endp
 ; ------------------------------seg000:0xf881------------------------------
 ; ------------------------------seg001:0x2------------------------------
 sub_1F882 proc far
-    retn ;sp-analysis failed
+    retn
 sub_1F882 endp
-; ------------------------------seg001:0x55------------------------------
+; ------------------------------seg001:0x64------------------------------
 ; ------------------------------seg001:0x78------------------------------
 sub_1F8F8 proc near
     retn
@@ -1645,12 +1667,12 @@ sub_1FE5C endp
 sub_1FEEC proc far
     retn
 sub_1FEEC endp
-; ------------------------------seg001:0x677------------------------------
+; ------------------------------seg001:0x67d------------------------------
 ; ------------------------------seg001:0x67e------------------------------
 sub_1FEFE proc near
-    retn ;sp-analysis failed
+    retn
 sub_1FEFE endp
-; ------------------------------seg001:0x771------------------------------
+; ------------------------------seg001:0x883------------------------------
 ; ------------------------------seg001:0x884------------------------------
 sub_20104 proc far
     retn
@@ -1803,9 +1825,9 @@ sub_21422 endp
 ; ------------------------------seg001:0x1bc2------------------------------
 ; ------------------------------seg001:0x1bc4------------------------------
 sub_21444 proc far
-    retn ;sp-analysis failed
+    retn
 sub_21444 endp
-; ------------------------------seg001:0x1bcc------------------------------
+; ------------------------------seg001:0x1ca5------------------------------
 ; ------------------------------seg001:0x1ca6------------------------------
 sub_21526 proc far
     retn
@@ -1828,9 +1850,9 @@ sub_216C2 endp
 ; ------------------------------seg001:0x1e62------------------------------
 ; ------------------------------seg001:0x1e84------------------------------
 sub_21704 proc far
-    retn ;sp-analysis failed
+    retn
 sub_21704 endp
-; ------------------------------seg001:0x1e91------------------------------
+; ------------------------------seg001:0x1e99------------------------------
 ; ------------------------------seg001:0x1e9a------------------------------
 sub_2171A proc far
     retn
@@ -1863,9 +1885,9 @@ sub_218A8 endp
 ; ------------------------------seg001:0x21d5------------------------------
 ; ------------------------------seg002:0x16------------------------------
 sub_21A86 proc near
-    retn ;sp-analysis failed
+    retn
 sub_21A86 endp
-; ------------------------------seg002:0x99b------------------------------
+; ------------------------------seg002:0x9a0------------------------------
 ; ------------------------------seg002:0x9a1------------------------------
 _sub_22411 proc near
     retn
@@ -5996,218 +6018,82 @@ word_33BAC dw 0
     db 0
     db 8
     db 0
-word_33BB8 dw 1
-word_33BBA dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-word_33C82 dw 0
+_size3d3 dw 1
+_buf3d3 dw 64h dup(0)
+_size3d3_2 dw 0
 _sign3dt dw 3131h
 _sizes3dt dw 20h
     dw 20h
     dw 20h
     dw 20h
     dw 20h
-_matrix3dt dw 0C0h dup(0)
-word_33E10 dw 0
-word_33E12 dw 0
-word_33E14 dw 0
-word_33E16 dw 0
+_matrix3dt dw 0A0h dup(0)
+_word_33DD0 dw 0
+word_33DD2 dw 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+_size3d3_4 dw 0
+_size3d3_5 dw 0
+_size3d3_6 dw 0
+_size3d3_3 dw 0
 _sign3dg dw 3232h
 _unk_33E1A db 10h
     db 10h
@@ -6724,17 +6610,17 @@ _unk_33E1A db 10h
 _word_3401A dw 0
     db 0
     db 0
-a_3d3 db '.3D3',0
-aRb db 'rb',0
-aOpenErrorOn_3d3 db 'Open Error on *.3D3',0
-aBadObjFileFormat_ db 'Bad Obj file format.',0
-aObjectDataTooBig_ db 'Object data too big.',0
-aRb_0 db 'rb',0
-aPhoto_3d3 db 'photo.3d3',0
+_a_3d3 db '.3D3',0
+_aRb db 'rb',0
+_aOpenErrorOn_3d3 db 'Open Error on *.3D3',0
+_aBadObjFileFormat_ db 'Bad Obj file format.',0
+_aObjectDataTooBig_ db 'Object data too big.',0
+_aRb_0 db 'rb',0
+_aPhoto_3d3 db 'photo.3d3',0
 _aPleaseInsertF15DiskB db 'Please insert F15 Disk B',0
-aRb_1 db 'rb',0
-aPhoto_3d3_0 db 'photo.3d3',0
-aObjdataOverflow db 'ObjData overflow',0
+_aRb_1 db 'rb',0
+_aPhoto_3d3_0 db 'photo.3d3',0
+_aObjdataOverflow db 'ObjData overflow',0
 _a_3dt db '.3dT',0
 _aRb_2 db 'rb',0
 _aOpenErrorOn_3dt db 'Open Error on *.3DT',0
@@ -17521,7 +17407,7 @@ word_37F8E dw 0
     db 0
     db 0
 _noJoy80 db 0
-unk_37F95 db 0
+byte_37F95 db 0
     db 0
     db 0
 byte_37F98 db 0
@@ -18476,8 +18362,7 @@ aAutopilotOff db 'Autopilot off',0
 aAutopilotOn db 'Autopilot on',0
     db 0 ;align 2
 word_38600 dw 1
-unk_38602 db 2
-    db 0
+word_38602 dw 2
 word_38604 dw 0
 word_38606 dw 0
 word_38608 dw 0
@@ -18501,8 +18386,7 @@ aOpenError db ':Open error $'
 aFileClosingError db 'File closing error$'
 aReadError db 'Read error$'
 aWriteError db 'Write error$'
-unk_3888E db 0
-    db 0
+word_3888E dw 0
 word_38890 dw 0
     db 0 ;align 4
     db 0
@@ -26089,317 +25973,18 @@ word_3AA6A dw ?
     db ?
     db ?
 word_3AF0C dw ?
-unk_3AF0E db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_buf3d3_1 db 96h dup(?)
 word_3AFA4 dw ?
 word_3AFA6 dw ?
 word_3AFA8 dw ?
 word_3AFAA dw ?
 _byte_3AFAC db 100h dup(?)
 word_3B0AC dw ?
-unk_3B0AE db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_buf3d3_2 db 96h dup(?)
 _word_3B144 dw ?
 word_3B146 dw ?
 _word_3B148 dw ?
-    db ?
-    db ?
+_word_3B14A dw ?
 word_3B14C dw ?
     db ?
     db ?
@@ -26424,156 +26009,7 @@ word_3B15E dw ?
     db ?
     db ?
     db ?
-unk_3B168 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_buf3d3_3 db 96h dup(?)
 word_3B1FE dw ?
 word_3B200 dw ?
 _unk_3B202 db ?
@@ -28075,87 +27511,9 @@ byte_3B7F1 db ?
 _dword_3B7F8 dd ?
 _byte_3B7FC db 640h dup(?)
 word_3BE3C dw ?
-unk_3BE3E db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_byte_3BE3E db 40h dup(?)
 word_3BE7E dw ?
-unk_3BE80 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_byte_3BE80 db 10h dup(?)
 word_3BE90 dw ?
 word_3BE92 dw ?
 word_3BE94 dw ?
@@ -28203,7 +27561,7 @@ _byte_3BEC4 db ?
     db ?
     db ?
 word_3BEC8 dw ?
-word_3BECA dw ?
+_sign3d3 dw ?
 word_3BECC dw ?
 word_3BECE dw ?
 _word_3BED0 dw ?
@@ -29223,7 +28581,7 @@ word_3C8BC dw ?
 word_3C8BE dw ?
 word_3C8C0 dw ?
 word_3C8C2 dw ?
-word_3C8C4 dw ?
+_size3d3_7 dw ?
     db ?
     db ?
     db ?

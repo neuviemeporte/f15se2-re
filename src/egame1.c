@@ -11,8 +11,7 @@
 #include <string.h>
 
 // far arrays found in seg004 in the original executable
-unsigned char far byte_228D0[0x2f];
-unsigned char far byte_228FF[0xada5];
+unsigned char far byte_228D0[0xadd4];
 unsigned char far byte_2D6A4[0x4844+0x9c8];
 
 // ==== seg000:0x147 ====
@@ -25,7 +24,7 @@ void drawCockpit() {
     // 0x16e
     f15DgtlResult = loadF15DgtlBin();
     // 0x179
-    byte_34197 = byte_228FF[0];
+    byte_34197 = byte_228D0[0x2f];
     // 17c
     if ((byte_32933 = gfx_jump_4c()) != 0) {
         setupDac();
@@ -175,6 +174,109 @@ int load3DAll() {
     load3DT(regnStr);
     load3D3(regnStr);
     word_3401A = 0;
+}
+
+// ==== seg000:0x2898 ====
+void load3D3(char *arg_0) {
+    uint8 FAR *var_E;
+    uint8 FAR *var_16;
+    struct SREGS var_8;
+    int var_10, var_18, var_12;
+    int var_A;
+    strcpyFromDot(arg_0, a_3d3);
+    // 28b9
+    if ((fileHandle = fopen(arg_0, aRb)) == NULL) {
+        printError(aOpenErrorOn_3d3);
+        return;
+    }
+    // 28dd
+    fread(&sign3d3, 2, 1, fileHandle);
+    if (sign3d3 != SIGNATURE_3D3) {
+        // 28ef
+        printError(aBadObjFileFormat_);
+        fclose(fileHandle);
+        return;
+    } // 2902
+    // 2912
+    fread(&size3d3, 2, 1, fileHandle);
+    fread(buf3d3, 2, size3d3, fileHandle);
+    fread(&size3d3_2, 2, 1, fileHandle);
+    // 2944
+    if (size3d3_2 > 0xadd4) {
+        printError(aObjectDataTooBig_);
+        fclose(fileHandle);
+        return;
+    } // 2963
+    var_E = byte_228D0 + size3d3_2;
+    buf3d3[size3d3] = size3d3_2;
+    segread(&var_8);
+    // 2988
+    for (var_16 = byte_228D0; size3d3_2 != 0; size3d3_2 -= var_A, var_16+=0x800) { // 29a6
+        // 29b3
+        var_A = (size3d3_2 >= 0x800) ? 0x800 : size3d3_2;
+        fread(flt15_buf2, 1, var_A, fileHandle);
+        movedata(var_8.ds, (uint16)flt15_buf2, FP_SEG(var_16), FP_OFF(var_16), var_A);
+    } // 29e1
+    fread(&size3d3_3, 1, 1, fileHandle);
+    if (size3d3_3 != 0) { // 29fe
+        fread(buf3d3_1, 1, size3d3_3, fileHandle);
+        fread(buf3d3_2, 1, size3d3_3, fileHandle);
+        fread(buf3d3_3, 1, size3d3_3, fileHandle);
+        // 2a4d
+        fread(&size3d3_4, 1, 1, fileHandle);
+        fread(&byte_3B7FC[0x600], 2, size3d3_4, fileHandle);
+        fread(&size3d3_5, 1, 1, fileHandle);
+        fread(byte_3BE3E, 2, size3d3_5, fileHandle);
+        // 2a9f
+        fread(&size3d3_6, 1, 1, fileHandle);
+        fread(byte_3BE80, 2, size3d3_6, fileHandle);
+    } // 2abb
+    fclose(fileHandle);
+    while ((fileHandle = fopen(aPhoto_3d3, aRb_0)) == NULL) {
+        // 2add
+        sub_19E44(0);
+        sub_19E5D(0, 0x28, 0x13f, 0x2d);
+        drawSomeStrings(aPleaseInsertF15DiskB, 0x6c, 0x28, 0x0f);
+        gfx_jump_46_retrace2();
+        misc_jump_5b_getkey();
+    } // 2b1a
+    gfx_jump_45_retrace();
+    for (var_10 = 0; var_10 < 2; var_10++) { // 2b32
+        // 2b45
+        if ((var_18 = word_3B14A[var_10 * 0x9] >> 8) != 0) { // 2b4c
+            fileHandle = fopen(aPhoto_3d3_0, aRb_1);
+            fread(&sign3d3, 2, 1, fileHandle);
+            fread(&size3d3_7, 2, 1, fileHandle);
+            fread(word_33DD0, 2, size3d3_7, fileHandle);
+            // 2bac
+            fread(&size3d3_7, 2, 1, fileHandle);
+            word_33DD0[size3d3_7] = size3d3_2;
+            // 2bbf
+            for (var_12 = 0; var_12 <= var_18; var_12++) {
+                // 2bde
+                var_A = word_33DD0[var_12+1] - word_33DD0[var_12];
+                // 2be1
+                while (var_A > 0x800) {
+                    fread(flt15_buf2, 1, 0x800, fileHandle);
+                    var_A -= 0x800;
+                } // 2c05
+                segread(&var_8);
+                fread(flt15_buf2, 1, var_A, fileHandle);
+                // 2c34
+                movedata(var_8.ds, (uint16)flt15_buf2, FP_SEG(var_E), FP_OFF(var_E), var_A);
+            } // 2c3c
+            var_E += var_A;
+            if (var_10 == 0) {
+                // 2c52
+                buf3d3[size3d3+1] = buf3d3[size3d3] + var_A;
+            } // 2c56
+            fclose(fileHandle);
+        } // 2c60
+    } // 2c63
+    // 2c6e
+    if (var_E - byte_228D0 > 0xadd4) {
+        printError(aObjdataOverflow);
+    }
 }
 
 // ==== seg000:0x2c82 ====
