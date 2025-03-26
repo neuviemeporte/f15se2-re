@@ -86,8 +86,8 @@ sub_13C3B: seg000 NEAR 3c3b-3c46 R3c3b-3c46 assembly
 sub_13C47: seg000 NEAR 3c47-3c76 R3c47-3c76 assembly
 setTimerIrqHanlder: seg000 NEAR 3c78-3cb5 R3c78-3cb5 assembly
 restoreTimerIrqHanlder: seg000 NEAR 3cb6-3cd6 R3cb6-3cd6 assembly
-routine_73: seg000 NEAR 3df2-3e86 R3df2-3e86
-routine_103: seg000 NEAR 3e87-3edb R3e87-3edb
+sub_13DF2: seg000 NEAR 3df2-3e86 R3df2-3e86 assembly
+manipulateTimer: seg000 NEAR 3e87-3edb R3e87-3edb assembly
 routine_338: seg000 NEAR 3edc-3ee2 R3edc-3ee2
 routine_108: seg000 NEAR 3f72-51f8 R3f72-41e8 U41e9-41ea R41eb-51f8
 routine_159: seg000 NEAR 51f9-5236 R51f9-5236
@@ -97,7 +97,7 @@ routine_244: seg000 NEAR 543b-54b6 R543b-54b6
 routine_243: seg000 NEAR 54b7-553f R54b7-553f
 routine_245: seg000 NEAR 5540-5556 R5540-5556
 routine_155: seg000 NEAR 5557-55aa R5557-55aa
-routine_104: seg000 NEAR 55ab-5fda R55ab-56d3 U56d4-5bdf R5be0-5c22 U5c23-5c32 R5c33-5fda
+sub_155AB: seg000 NEAR 55ab-5fda R55ab-56d3 U56d4-5bdf R5be0-5c22 U5c23-5c32 R5c33-5fda
 routine_130: seg000 NEAR 5fdb-606b R5fdb-606b
 routine_153: seg000 NEAR 606c-60d2 R606c-60d2
 routine_124: seg000 NEAR 60d3-613a R60d3-613a
@@ -138,8 +138,8 @@ routine_140: seg000 NEAR 9c0c-9c83 R9c0c-9c83
 routine_222: seg000 NEAR 9c84-9d85 R9c84-9d85
 routine_221: seg000 NEAR 9d86-9daf R9d86-9daf
 routine_307: seg000 NEAR 9db0-9e43 R9db0-9e43
-routine_116: seg000 NEAR 9e44-9e5c R9e44-9e5c
-routine_117: seg000 NEAR 9e5d-9e93 R9e5d-9e93
+sub_19E44: seg000 NEAR 9e44-9e5c R9e44-9e5c
+sub_19E5D: seg000 NEAR 9e5d-9e93 R9e5d-9e93
 routine_328: seg000 NEAR 9e94-9eb5 R9e94-9eb5
 routine_188: seg000 NEAR 9eb6-9f46 R9eb6-9f46
 routine_212: seg000 NEAR 9fad-9fcb R9fad-9fcb
@@ -206,7 +206,7 @@ closeFile: seg000 NEAR de72-de92 Rde72-de92 assembly
 openBlitClosePic: seg000 NEAR dfbc-dff4 Rdfbc-dff4
 picBlit: seg000 NEAR e0aa-e11b Re0aa-e11b assembly
 routine_95: seg000 NEAR e260-e260 Re260-e260
-routine_99: seg000 NEAR e262-e28b Re262-e28b
+sub_1E262: seg000 NEAR e262-e28b Re262-e28b assembly
 routine_118: seg000 NEAR e28c-e2d2 Re28c-e2d2
 routine_287: seg000 NEAR e2d3-e308 Re2d3-e308
 routine_119: seg000 NEAR e309-e381 Re309-e381
@@ -323,7 +323,7 @@ routine_372: seg001 NEAR 176a-17f4 R176a-17f4
 routine_385: seg001 NEAR 17f5-1939 R17f5-1939
 routine_394: seg001 NEAR 193a-1989 R193a-1989
 routine_382: seg001 NEAR 1ba2-1bc2 R1ba2-1bc2
-routine_198: seg001 FAR 1bc4-1c34 R1bc4-1c34
+sub_21444: seg001 FAR 1bc4-1c34 R1bc4-1c34 assembly
 routine_237: seg001 FAR 1ca6-1ca9 R1ca6-1ca9
 routine_126: seg001 FAR 1caa-1cb5 R1caa-1cb5
 routine_208: seg001 NEAR 1cb6-1e41 R1cb6-1e41
@@ -346,8 +346,8 @@ routine_246: seg002 NEAR 0c21-0c4d R0c21-0c4d
 routine_247: seg002 NEAR 0c4e-0ca9 R0c4e-0ca9
 restoreJoystickData: seg002 FAR 0caa-0cbd R0caa-0cbd assembly
 copyJoystickData: seg002 FAR 0cbe-0cd5 R0cbe-0cd5 assembly
-sub_22746: seg003 FAR 0006-0055 R0006-0055 assembly
-sub_22796: seg003 FAR 0056-006f R0056-006f assembly
+setInt9Handler: seg003 FAR 0006-0055 R0006-0055 assembly
+restoreInt9Handler: seg003 FAR 0056-006f R0056-006f assembly
 # ======= data segment callable trampolines into overlay drivers
 gfx_jump_0_alloc: Data1 FAR 0ebe-0ec2 R0ebe-0ec2 ignore
 gfx_jump_01: Data1 FAR 0ec3-0ec7 R0ec3-0ec7 ignore

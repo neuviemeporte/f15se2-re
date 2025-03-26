@@ -28,8 +28,8 @@ PUBLIC _audio_jump_64
 PUBLIC _audio_jump_65
 PUBLIC _setTimerIrqHandler
 PUBLIC _sub_13C3B
-PUBLIC _sub_22746
-PUBLIC _sub_22796
+PUBLIC _setInt9Handler
+PUBLIC _restoreInt9Handler
 PUBLIC _dword_38FE2
 PUBLIC _word_3C0A2
 PUBLIC _flagFarToNear
@@ -74,9 +74,8 @@ PUBLIC _byte_3AFAC
 PUBLIC _word_3401A
 PUBLIC _openFile
 PUBLIC _closeFile
-PUBLIC _drawString
-PUBLIC _word_38334
-PUBLIC _word_3834C
+PUBLIC _off_38334
+PUBLIC _off_3834C
 PUBLIC _a_3dg
 PUBLIC _byte_3A900
 PUBLIC _aBadGridFileFormat_
@@ -122,7 +121,6 @@ PUBLIC _sign3d3
 PUBLIC _size3d3
 PUBLIC _aObjectDataTooBig_
 PUBLIC _byte_3BE80
-PUBLIC _sub_19E44
 PUBLIC _aObjdataOverflow
 PUBLIC _word_33DD0
 PUBLIC _aRb_0
@@ -131,8 +129,9 @@ PUBLIC _size3d3_7
 PUBLIC _aPhoto_3d3_0
 PUBLIC _aPhoto_3d3
 PUBLIC _word_3B14A
-PUBLIC _sub_19E5D
+PUBLIC _sub_21444
 PUBLIC _gfx_jump_0_alloc
+PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_0c
 PUBLIC _gfx_jump_2a
 PUBLIC _gfx_jump_3d_null
@@ -202,6 +201,41 @@ sub_10297 endp
 ; ------------------------------seg000:0x299------------------------------
 ; ------------------------------seg000:0x2e2------------------------------
 _loadF15DgtlBin proc near
+    call far ptr gfx_jump_32
+    mov bx, ax
+    sub bx, 2
+    cmp bx, 0FFFh
+    jbe short loc_102F5
+    mov bx, 0FFFh
+loc_102F5:
+    mov allocSize, bx
+    mov ah, 48h
+    int 21h ;DOS - 2+ - ALLOCATE MEMORY
+    mov f15dgtlAddr, ax
+    sub cx, cx
+    mov es, cx
+    mov es:4FEh, ax
+    mov ah, 3Dh
+    mov al, 0
+    mov dx, offset aF15dgtl_bin ;"F15DGTL.BIN"
+    int 21h ;DOS - 2+ - OPEN DISK FILE WITH HANDLE
+    mov bx, ax
+    mov cx, allocSize
+    shl cx, 1
+    shl cx, 1
+    shl cx, 1
+    shl cx, 1
+    push ds
+    mov ax, f15dgtlAddr
+    mov ds, ax
+    mov dx, 0
+    mov ah, 3Fh
+    int 21h ;DOS - 2+ - READ FROM FILE WITH HANDLE
+    pop ds
+    push ax
+    mov ah, 3Eh
+    int 21h ;DOS - 2+ - CLOSE A FILE WITH HANDLE
+    pop ax
     retn
 _loadF15DgtlBin endp
 ; ------------------------------seg000:0x333------------------------------
@@ -480,6 +514,33 @@ sub_13A90 endp
 ; ------------------------------seg000:0x3aa6------------------------------
 ; ------------------------------seg000:0x3aee------------------------------
 _setupDac proc near
+    mov ax, ds
+    mov es, ax
+    mov bx, 10h
+    mov cx, 50h
+    mov dx, offset dacValues1
+    mov ax, 1012h
+    int 10h ;- VIDEO - SET BLOCK OF DAC REGISTERS (EGA, VGA/MCGA)
+    cmp _byte_34197, 2
+    jz short loc_13B16
+    mov cx, 30h
+    push si
+    push di
+    mov si, offset byte_37116
+    mov di, offset byte_36D86
+    rep movsb
+    pop di
+    pop si
+loc_13B16:
+    mov dx, 44A6h
+    cmp word_330BC, 0
+    jz short loc_13B23
+    mov dx, offset byte_36F36
+loc_13B23:
+    mov bx, 60h
+    mov cx, 0A0h
+    mov ax, 1012h
+    int 10h ;- VIDEO - SET BLOCK OF DAC REGISTERS (EGA, VGA/MCGA)
     retn
 _setupDac endp
 ; ------------------------------seg000:0x3b2e------------------------------
@@ -547,11 +608,24 @@ _installCBreakHandler endp
 ; ------------------------------seg000:0x3c0e------------------------------
 ; ------------------------------seg000:0x3c0f------------------------------
 _restoreCBreakHandler proc near
+    push ds
+    mov ax, origCBreakSeg
+    mov dx, origCBreakOfs
+    mov ds, ax
+    mov ax, 251Bh
+    int 21h ;DOS - SET INTERRUPT VECTOR
+    pop ds
     retn
 _restoreCBreakHandler endp
 ; ------------------------------seg000:0x3c1f------------------------------
 ; ------------------------------seg000:0x3c20------------------------------
 getInterruptHandler proc near
+    push ds
+    xor ax, ax
+    mov ds, ax
+    mov bx, [si]
+    mov ax, [si+2]
+    pop ds
     retn
 getInterruptHandler endp
 ; ------------------------------seg000:0x3c2b------------------------------
@@ -562,21 +636,77 @@ cbreakHandler endp
 ; ------------------------------seg000:0x3c3a------------------------------
 ; ------------------------------seg000:0x3c3b------------------------------
 _sub_13C3B proc near
+    push bp
+    push si
+    push di
+    push es
+    call sub_13C47
+    pop es
+    pop di
+    pop si
+    pop bp
     retn
 _sub_13C3B endp
 ; ------------------------------seg000:0x3c46------------------------------
 ; ------------------------------seg000:0x3c47------------------------------
 sub_13C47 proc near
+    call sub_155AB
+    call sub_18E50
+    cmp word_3BE90, 0
+    jnz short loc_13C59
+    call far ptr sub_21A7A ;call sub_21A7A
+loc_13C59:
+    mov bx, 0
+    mov ax, word_38126
+    call far ptr gfx_jump_2c
+    mov byte_378EE, 1
+    call sub_13F72
+    call sub_10720
+    cmp byte_3C8B0, 0
+    jz short sub_13C47
     retn
 sub_13C47 endp
 ; ------------------------------seg000:0x3c76------------------------------
 ; ------------------------------seg000:0x3c78------------------------------
 _setTimerIrqHandler proc near
+    mov word_378FA, 1
+    mov word_37904, 1
+    mov word_378F0, 0
+    mov word_378F2, 0
+    call sub_13DF2
+    mov ah, 35h
+    mov al, 8
+    int 21h ;DOS - 2+ - GET INTERRUPT VECTOR
+    mov word ptr cs:timerIsrPtr, bx
+    mov word ptr cs:timerIsrPtr+2, es
+    push ds
+    mov ah, DOS_SET_IRQH
+    mov al, 8
+    lds dx, cs:timerIrqAddr
+    int 21h ;DOS - SET INTERRUPT VECTOR
+    pop ds
+    mov timerHandlerInstalled, 1
     retn
 _setTimerIrqHandler endp
 ; ------------------------------seg000:0x3cb5------------------------------
 ; ------------------------------seg000:0x3cb6------------------------------
 _restoreTimerIrqHandler proc near
+    mov al, 36h
+    out PORT_PIT_CNTRL, al ;Timer 8253-5 (AT: 8254.2).
+    jmp short $+2
+loc_13CBC:
+    xor al, al
+    out PORT_PIT_TIME0, al ;Timer 8253-5 (AT: 8254.2).
+    jmp short $+2
+loc_13CC2:
+    out PORT_PIT_TIME0, al ;Timer 8253-5 (AT: 8254.2).
+    push ds
+    mov ah, DOS_SET_IRQH
+    mov al, 8
+    lds dx, cs:timerIsrPtr
+    int 21h ;DOS - SET INTERRUPT VECTOR
+    pop ds
+    mov timerHandlerInstalled, 0
     retn
 _restoreTimerIrqHandler endp
 ; ------------------------------seg000:0x3cd6------------------------------
@@ -590,18 +720,133 @@ sub_13D6B endp
 ; ------------------------------seg000:0x3df1------------------------------
 ; ------------------------------seg000:0x3df2------------------------------
 sub_13DF2 proc near
+    pushf ;identical to sub_119d4 in start.exe
+    cli
+    mov byte_378FC, 1
+    xor ax, ax
+    mov byte_37903, 1
+    mov word_378FF, ax
+    mov word_37901, ax
+    call manipulateTimer
+    mov bx, ax
+    mov cx, 10h
+loc_13E0E:
+    push bx
+    call manipulateTimer
+    pop bx
+    sub bx, ax
+    add word_378FF, bx
+    adc word_37901, 0
+    mov bx, ax
+    loop loc_13E0E
+    mov ax, word_378FF
+    mov dx, word_37901
+    add word_378F0, ax
+    adc word_378F2, dx
+    mov cx, 10h
+    div cx
+    shr ax, 1
+    mov word_378FF, ax
+    mov bx, ax
+    shr bx, 1
+    shr bx, 1
+    shr bx, 1
+    shr bx, 1
+    add ax, bx
+    xor dx, dx
+    mov bx, 0F89h
+    div bx
+    db 3Dh ;cmp ax, 4
+    dw 4
+    jb short loc_13E5B
+    db 3Dh ;cmp ax, 6
+    dw 6
+    ja short loc_13E5B
+    jmp short loc_13E69
+    nop
+loc_13E5B:
+    mov byte_37903, 0
+    mov word_378FF, 4DAEh
+    mov ax, 5
+loc_13E69:
+    mov word_378FD, ax
+    cmp word_378FA, 1
+    jz short loc_13E76
+    mov word_378FA, ax
+loc_13E76:
+    mov ax, word_378FF
+    xor dx, dx
+    div word_378FA
+    mov word_378F6, ax
+    mov word_378F4, ax
+    popf
     retn
 sub_13DF2 endp
 ; ------------------------------seg000:0x3e86------------------------------
 ; ------------------------------seg000:0x3e87------------------------------
-sub_13E87 proc near
+manipulateTimer proc near
+    pushf
+    cli
+    xor ax, ax
+    mov es, ax
+    mov dx, es:463h ;0:463 - base port address for crtc?
+    add dx, 6
+    cmp dx, 3BAh
+    jz short loc_13EB2
+    xor bx, bx
+loc_13E9D:
+    dec bx
+    jz short loc_13ED8
+    in al, dx
+    test al, 8
+    jnz short loc_13E9D
+    xor bx, bx
+loc_13EA7:
+    dec bx
+    jz short loc_13ED8
+    in al, dx
+    test al, 8
+    jz short loc_13EA7
+    jmp short loc_13EC6
+    nop ;align 2
+loc_13EB2:
+    xor bx, bx
+loc_13EB4:
+    dec bx
+    jz short loc_13ED8
+    in al, dx
+    test al, 80h
+    jz short loc_13EB4
+    xor bx, bx
+loc_13EBE:
+    dec bx
+    jz short loc_13ED8
+    in al, dx
+    test al, 80h
+    jnz short loc_13EBE
+loc_13EC6:
+    mov al, 0
+    out 43h, al ;Timer 8253-5 (AT: 8254.2).
+    jmp short $+2
+loc_13ECC:
+    in al, 40h ;Timer 8253-5 (AT: 8254.2).
+    jmp short $+2
+loc_13ED0:
+    mov bl, al
+    in al, 40h ;Timer 8253-5 (AT: 8254.2).
+    jmp short $+2
+loc_13ED6:
+    mov bh, al
+loc_13ED8:
+    mov ax, bx
+    popf
     retn
-sub_13E87 endp
+manipulateTimer endp
 ; ------------------------------seg000:0x3edb------------------------------
 ; ------------------------------seg000:0x3edc------------------------------
-sub_13EDC proc near
+getTimeOfDay proc near
     retn
-sub_13EDC endp
+getTimeOfDay endp
 ; ------------------------------seg000:0x3ee2------------------------------
 ; ------------------------------seg000:0x3ee3------------------------------
 sub_13EE3 proc near
@@ -853,16 +1098,6 @@ sub_19DB0 proc near
     retn
 sub_19DB0 endp
 ; ------------------------------seg000:0x9e43------------------------------
-; ------------------------------seg000:0x9e44------------------------------
-_sub_19E44 proc near
-    retn
-_sub_19E44 endp
-; ------------------------------seg000:0x9e5c------------------------------
-; ------------------------------seg000:0x9e5d------------------------------
-_sub_19E5D proc near
-    retn
-_sub_19E5D endp
-; ------------------------------seg000:0x9e93------------------------------
 ; ------------------------------seg000:0x9e94------------------------------
 sub_19E94 proc near
     retn
@@ -893,11 +1128,6 @@ sub_1A0FE proc near
     retn ;sp-analysis failed
 sub_1A0FE endp
 ; ------------------------------seg000:0xa130------------------------------
-; ------------------------------seg000:0xa13a------------------------------
-_drawString proc near
-    retn
-_drawString endp
-; ------------------------------seg000:0xa182------------------------------
 ; ------------------------------seg000:0xa183------------------------------
 sub_1A183 proc near
     retn
@@ -1170,41 +1400,274 @@ sub_1DDAA endp
 ; ------------------------------seg000:0xddc3------------------------------
 ; ------------------------------seg000:0xddc4------------------------------
 _openFile proc near
+    path = word ptr 4
+    mode = byte ptr 6
+    push bp
+    mov bp, sp
+    push di
+    push si
+    push es
+    push bp
+    mov ah, 3Dh
+    mov al, [bp+mode]
+    mov bx, ss
+    mov ds, bx
+    mov dx, [bp+path]
+    int 21h ;DOS - 2+ - OPEN DISK FILE WITH HANDLE
+    jnb short loc_1DE0D
+    db 3Dh ;cmp ax, 2
+    dw 2
+    jnz short loc_1DDEC
+loc_1DDE0:
+    mov bx, [bp+path]
+    mov ax, offset aFileNotFound ;":File not found$"
+    mov cx, 0FFFFh
+    jmp loc_1DF80
+loc_1DDEC:
+    db 3Dh ;cmp ax, 3
+    dw 3
+    jz short loc_1DDE0
+    db 3Dh ;cmp ax, 4
+    dw 4
+    jnz short loc_1DE02
+    mov cx, 0FFFFh
+    mov bx, [bp+path]
+    mov ax, offset aNoFileBuffersAvailabl ;":No file buffers available$"
+    jmp loc_1DF80
+loc_1DE02:
+    mov cx, ax
+    mov ax, offset aOpenError ;":Open error $"
+    mov bx, [bp+path]
+    jmp loc_1DF80
+loc_1DE0D:
+    mov fileReadPos, 200h
+    pop bp
+    pop es
+    pop si
+    pop di
+    mov sp, bp
+    pop bp
     retn
 _openFile endp
 ; ------------------------------seg000:0xde1a------------------------------
 ; ------------------------------seg000:0xde1b------------------------------
-sub_1DE1B proc near
+createFile proc near
+    arg_0 = word ptr 4
+    arg_2 = word ptr 6
+    push bp
+    mov bp, sp
+    push di
+    push si
+    push es
+    push bp
+    mov ah, 3Ch
+    mov cx, [bp+arg_2]
+    mov bx, ss
+    mov ds, bx
+    mov dx, [bp+arg_0]
+    int 21h ;DOS - 2+ - CREATE A FILE WITH HANDLE (CREAT)
+    jnb short loc_1DE64
+    db 3Dh ;cmp ax, 2
+    dw 2
+    jnz short loc_1DE43
+loc_1DE37:
+    mov bx, [bp+arg_0]
+    mov ax, 5F7Ch
+    mov cx, 0FFFFh
+    jmp loc_1DF80
+loc_1DE43:
+    db 3Dh ;cmp ax, 3
+    dw 3
+    jz short loc_1DE37
+    db 3Dh ;cmp ax, 4
+    dw 4
+    jnz short loc_1DE59
+    mov cx, 0FFFFh
+    mov bx, [bp+arg_0]
+    mov ax, 5F8Ch
+    jmp loc_1DF80
+loc_1DE59:
+    mov cx, ax
+    mov ax, 5FA7h
+    mov bx, [bp+arg_0]
+    jmp loc_1DF80
+loc_1DE64:
+    mov fileReadPos, 200h
+    pop bp
+    pop es
+    pop si
+    pop di
+    mov sp, bp
+    pop bp
     retn
-sub_1DE1B endp
+createFile endp
 ; ------------------------------seg000:0xde71------------------------------
 ; ------------------------------seg000:0xde72------------------------------
 _closeFile proc near
+    arg_0 = word ptr 4
+    push bp
+    mov bp, sp
+    push di
+    push si
+    push es
+    push bp
+    mov ah, 3Eh
+    mov bx, [bp+arg_0]
+    int 21h ;DOS - 2+ - CLOSE A FILE WITH HANDLE
+    jnb short loc_1DE8B
+    mov dx, offset aFileClosingError ;"File closing error$"
+    mov cx, 0FFFFh
+    jmp printString_1DF9B
+loc_1DE8B:
+    pop bp
+    pop es
+    pop si
+    pop di
+    mov sp, bp
+    pop bp
     retn
 _closeFile endp
 ; ------------------------------seg000:0xde92------------------------------
 ; ------------------------------seg000:0xde94------------------------------
-sub_1DE94 proc near
+readFile1 proc near
     retn
-sub_1DE94 endp
+readFile1 endp
 ; ------------------------------seg000:0xdebe------------------------------
 ; ------------------------------seg000:0xdebf------------------------------
-sub_1DEBF proc near
+readFile2 proc near
     retn
-sub_1DEBF endp
+readFile2 endp
 ; ------------------------------seg000:0xdeec------------------------------
 ; ------------------------------seg000:0xdf16------------------------------
 read512FromFileIntoBuf proc near
+    push ds
+    mov ah, 3Fh
+    mov bx, seg @data ;mov bx, seg dseg
+    mov ds, bx
+    mov bx, tmpFileHandle
+    mov cx, 200h
+    mov dx, offset picBuf
+    int 21h ;DOS - 2+ - READ FROM FILE WITH HANDLE
+    jnb short loc_1DF35
+    mov dx, 5FC7h
+    mov cx, 0FFFFh
+    jmp short printString_1DF9B
+    nop
+loc_1DF35:
+    pop ds
     retn
 read512FromFileIntoBuf endp
 ; ------------------------------seg000:0xdf36------------------------------
 ; ------------------------------seg000:0xdf4f------------------------------
 sub_1DF4F proc near
-    retn ;AL = exit code
-sub_1DF4F endp
+    arg_0 = word ptr 4
+    arg_2 = word ptr 6
+    arg_4 = word ptr 8
+    arg_6 = word ptr 0Ah
+    arg_8 = word ptr 0Ch
+    push bp
+    mov bp, sp
+    push di
+    push si
+    push es
+    push bp
+    push ds
+    mov ah, 40h
+    mov bx, [bp+arg_6]
+    mov ds, bx
+    mov bx, [bp+arg_0]
+    mov cx, [bp+arg_2]
+    mov dx, [bp+arg_4]
+    add dx, [bp+arg_8]
+    int 21h ;DOS - 2+ - WRITE TO FILE WITH HANDLE
+    pop ds
+    jnb short loc_1DF78
+    mov dx, 5FD2h
+    mov cx, 0FFFFh
+    jmp short printString_1DF9B
+    nop ;align 2
+loc_1DF78:
+    pop bp
+    pop es
+    pop si
+    pop di
+    mov sp, bp
+    pop bp
+    retn
+loc_1DF80:
+    push ax
+    mov ax, 3
+    int 10h ;- VIDEO - SET VIDEO MODE
+    mov di, 0
+loc_1DF89:
+    cmp byte ptr [bx+di], 0
+    jz short loc_1DF91
+    inc di
+    jmp short loc_1DF89
+loc_1DF91:
+    mov byte ptr [bx+di], 24h
+    mov dx, bx
+    mov ah, 9
+    int 21h ;DOS - PRINT STRING
+    pop dx
+printString_1DF9B:
+    mov ah, 9
+    int 21h ;DOS - PRINT STRING
+    cmp cx, 0FFFFh
+    jz short loc_1DFB7
+    add cx, 30h
+    mov byte_3862A, cl
+    mov byte_3862B, 24h
+    mov dx, 5D7Ah
+    mov ah, 9
+    int 21h ;DOS - PRINT STRING
+loc_1DFB7:
+    mov ax, 4C00h
+    int 21h ;DOS - 2+ - QUIT WITH EXIT CODE (EXIT)
+sub_1DF4F endp ;AL = exit code
 ; ------------------------------seg000:0xdfba------------------------------
 ; ------------------------------seg000:0xe0aa------------------------------
 _picBlit proc near
+    arg_0 = word ptr 4
+    arg_2 = word ptr 6
+    push bp
+    mov bp, sp
+    push di
+    push si
+    push es
+    push bp
+    mov ax, offset read512FromFileIntoBuf
+    mov readFromFilePtr, ax
+    mov ax, [bp+arg_0]
+    mov tmpFileHandle, ax
+    mov ax, [bp+arg_2]
+    mov tmpPageIndex, ax
+    call nullsub_1
+    mov si, tmpPageIndex
+    call far ptr gfx_jump_38_getPageBuf
+    call far ptr gfx_jump_3b_clearBuf
+    mov word_389E0, 0
+    mov word_389D8, 0FA00h
+loc_1E0E0:
+    mov di, word_389E0
+    call far ptr gfx_jump_3a_getRowOffset
+    mov rowOffset, ax
+    call sub_1E262
+    mov di, rowOffset
+    mov bp, offset picDecodedRowBuf
+    mov bx, word_389E0
+    call far ptr gfx_jump_33_fillRow
+    mov di, rowOffset
+    call far ptr gfx_jump_35
+    inc word_389E0
+    sub word_389D8, 140h
+    jnz short loc_1E0E0
+    pop bp
+    pop es
+    pop si
+    pop di
+    mov sp, bp
+    pop bp
     retn
 _picBlit endp
 ; ------------------------------seg000:0xe11b------------------------------
@@ -1225,6 +1688,23 @@ nullsub_1 endp
 ; ------------------------------seg000:0xe260------------------------------
 ; ------------------------------seg000:0xe262------------------------------
 sub_1E262 proc near
+    push es
+    push ds
+    pop es
+    cld
+    mov si, fileReadPos
+    add si, 5D7Ch
+    shr di, 1
+    jnz short loc_1E275
+    call sub_1E28C
+loc_1E275:
+    mov cx, 140h
+    mov word_38D5E, cx
+    mov di, 5FE8h
+    call sub_1E309
+    sub si, 5D7Ch
+    mov fileReadPos, si
+    pop es
     retn
 sub_1E262 endp
 ; ------------------------------seg000:0xe28b------------------------------
@@ -1824,10 +2304,10 @@ sub_21422 proc near
 sub_21422 endp
 ; ------------------------------seg001:0x1bc2------------------------------
 ; ------------------------------seg001:0x1bc4------------------------------
-sub_21444 proc far
+_sub_21444 proc far
     retn
-sub_21444 endp
-; ------------------------------seg001:0x1ca5------------------------------
+_sub_21444 endp
+; ------------------------------seg001:0x1c34------------------------------
 ; ------------------------------seg001:0x1ca6------------------------------
 sub_21526 proc far
     retn
@@ -1883,6 +2363,16 @@ sub_218A8 proc near
     retn
 sub_218A8 endp
 ; ------------------------------seg001:0x21d5------------------------------
+; ------------------------------seg002:0xa------------------------------
+sub_21A7A proc far
+    retn
+sub_21A7A endp
+; ------------------------------seg002:0xd------------------------------
+; ------------------------------seg002:0x12------------------------------
+sub_21A82 proc far
+    retn
+sub_21A82 endp
+; ------------------------------seg002:0x15------------------------------
 ; ------------------------------seg002:0x16------------------------------
 sub_21A86 proc near
     retn
@@ -1890,6 +2380,205 @@ sub_21A86 endp
 ; ------------------------------seg002:0x9a0------------------------------
 ; ------------------------------seg002:0x9a1------------------------------
 _sub_22411 proc near
+    mov ax, _gfxBufPtr
+    mov word_37B7E, ax
+    mov word_37B9C, ax
+    mov word_37BBA, ax
+    mov word_37BD8, ax
+    mov byte_37C24, 0
+loc_22425:
+    cmp byte_37C24, 1
+    jz short loc_2242F
+    jmp loc_22545
+loc_2242F:
+    mov ax, 64h
+    mov word_37BF7, ax
+    mov al, 8
+    mov byte_37BF9, al
+    mov ax, 0Ah
+    mov word_37BFA, ax
+    mov al, 0
+    mov byte_37BFC, al
+    mov ax, 66h
+    mov word_37BFD, ax
+    mov ax, 0CCh
+    mov word_37BFF, ax
+    mov al, 88h
+    mov byte_37BF6, al
+    mov ax, 12h
+    mov word_37C01, ax
+    mov ax, 0AFh
+    mov word_37C03, ax
+    mov ax, 4
+    mov word_37C05, ax
+    mov ax, 2
+    mov word_37C07, ax
+    mov ax, 0FFE9h
+    mov word_37C09, ax
+    mov ax, 0FFF8h
+    mov word_37C0B, ax
+    mov ax, 9
+    mov word_37C0D, ax
+    mov ax, 17h
+    mov word_37C0F, ax
+    mov ax, 1Ah
+    mov word_37C11, ax
+    mov al, 34h
+    mov byte_37C13, al
+    mov ax, 1Fh
+    mov word_37C14, ax
+    mov ax, 0Dh
+    mov word_37C16, ax
+    mov ax, 50h
+    mov word_37C18, ax
+    mov ax, 9Fh
+    mov word_37C1A, ax
+    call far ptr gfx_jump_1c
+    mov word_37C1C, ax
+    mov ax, 42h
+    mov word_37C1E, ax
+    mov ax, 25h
+    mov word_37C20, ax
+    mov ax, 6Ch
+    mov word_37C22, ax
+    mov ax, 44h
+    mov word_37B34, ax
+    mov ax, 60h
+    mov word_37B36, ax
+    mov ax, 2
+    mov word_37B32, ax
+    mov word_37B48, ax
+    mov word_37B5E, ax
+    mov word_37B74, ax
+    mov ax, 3Bh
+    mov word_37B46, ax
+    mov ax, 82h
+    mov word_37B4E, ax
+    mov ax, 0BCh
+    mov word_37B50, ax
+    mov ax, 93h
+    mov word_37B9E, ax
+    mov ax, 14h
+    mov word_37BA0, ax
+    mov ax, 99h
+    mov word_37BA4, ax
+    mov ax, 4Ch
+    mov word_37BA6, ax
+    mov ax, 0Dh
+    mov word_37BA8, ax
+    mov ax, 9
+    mov word_37BAA, ax
+    mov ax, 82h
+    mov word_37B86, ax
+    mov ax, 40h
+    mov word_37B88, ax
+    mov ax, 3Bh
+    mov word_37B8A, ax
+    mov ax, 2
+    mov word_37B8C, ax
+    mov ax, 44h
+    mov word_37B60, ax
+    mov ax, 7Fh
+    mov word_37B64, ax
+    mov ax, 0C3h
+    mov word_37B66, ax
+    mov ax, 3Fh
+    mov word_37B72, ax
+    retn
+loc_22545:
+    mov ax, 5Eh
+    mov word_37BF7, ax
+    mov al, 11h
+    mov byte_37BF9, al
+    mov ax, 14h
+    mov word_37BFA, ax
+    mov al, 1
+    mov byte_37BFC, al
+    mov ax, 31h
+    mov word_37BFD, ax
+    mov ax, 0FFh
+    mov word_37BFF, ax
+    mov al, 6Dh
+    mov byte_37BF6, al
+    mov ax, 2Dh
+    mov word_37C01, ax
+    mov ax, 0F8h
+    mov word_37C03, ax
+    mov ax, 0Ah
+    mov word_37C05, ax
+    mov ax, 5
+    mov word_37C07, ax
+    mov ax, 0FFC4h
+    mov word_37C09, ax
+    mov ax, 0FFF1h
+    mov word_37C0B, ax
+    mov ax, 10h
+    mov word_37C0D, ax
+    mov ax, 3Ch
+    mov word_37C0F, ax
+    mov ax, 34h
+    mov word_37C11, ax
+    mov al, 68h
+    mov byte_37C13, al
+    mov ax, 4Fh
+    mov word_37C14, ax
+    mov ax, 24h
+    mov word_37C16, ax
+    mov ax, 38h
+    mov word_37C18, ax
+    mov ax, 9Fh
+    mov word_37C1A, ax
+    call far ptr gfx_jump_1d
+    mov word_37C1C, ax
+    mov ax, 0A0h
+    mov word_37C1E, ax
+    mov ax, 4Ch
+    mov word_37C20, ax
+    mov ax, 3Ch
+    mov word_37C22, ax
+    mov ax, 1Ah
+    mov word_37B34, ax
+    mov ax, 56h
+    mov word_37B36, ax
+    mov ax, 0
+    mov word_37B32, ax
+    mov word_37B48, ax
+    mov word_37B5E, ax
+    mov word_37B74, ax
+    mov ax, 0Ah
+    mov word_37B46, ax
+    mov ax, 5Ah
+    mov word_37B4E, ax
+    mov ax, 0E6h
+    mov word_37B50, ax
+    mov ax, 82h
+    mov word_37B9E, ax
+    mov ax, 26h
+    mov word_37BA0, ax
+    mov ax, 93h
+    mov word_37BA4, ax
+    mov ax, 30h
+    mov word_37BA6, ax
+    mov ax, 19h
+    mov word_37BA8, ax
+    mov ax, 0Fh
+    mov word_37BAA, ax
+    mov ax, 5Ah
+    mov word_37B86, ax
+    mov ax, 10h
+    mov word_37B88, ax
+    mov ax, 8Dh
+    mov word_37B8A, ax
+    mov ax, 3
+    mov word_37B8C, ax
+    mov ax, 14h
+    mov word_37B60, ax
+    mov ax, 4Eh
+    mov word_37B64, ax
+    mov ax, 0F1h
+    mov word_37B66, ax
+    mov ax, 10h
+    mov word_37B72, ax
     retn
 _sub_22411 endp
 ; ------------------------------seg002:0xbea------------------------------
@@ -1920,7 +2609,18 @@ sub_226BE endp
 ; ------------------------------seg002:0xca9------------------------------
 ; ------------------------------seg002:0xcaa------------------------------
 _restoreJoystickData proc far
-    retn
+    mov bx, sp
+    push si
+    push di
+    push es
+    mov si, offset joyData
+    les di, [bx+4]
+    mov cx, 14h
+    rep movsw
+    pop es
+    pop di
+    pop si
+    retf
 _restoreJoystickData endp
 ; ------------------------------seg002:0xcbd------------------------------
 ; ------------------------------seg002:0xcbe------------------------------
@@ -1944,15 +2644,192 @@ _copyJoystickData proc far
 _copyJoystickData endp
 ; ------------------------------seg002:0xcd5------------------------------
 ; ------------------------------seg003:0x6------------------------------
-_sub_22746 proc far
-    retn
-_sub_22746 endp
+_setInt9Handler proc far
+    push ds
+    mov ax, 40h
+    mov ds, ax
+    and byte ptr ds:17h, 0DFh ;40:17, keyboard flag byte?
+    xor ax, ax
+    mov ss:56EAh, al
+loc_22757:
+    mov ss:56EBh, ax
+loc_2275B:
+    mov ss:56EDh, al
+loc_2275F:
+    mov ss:56EEh, al
+loc_22763:
+    mov ss:56EFh, al
+    mov byte ptr ss:56E8h, 80h
+loc_2276D:
+    mov byte ptr ss:56E9h, 80h
+    xor ax, ax
+    mov ds, ax
+loc_22777: ;int 9, keyboard data ready
+    mov bx, 24h
+    mov ax, [bx]
+loc_2277C:
+    mov dx, [bx+2]
+    mov word ptr cs:loc_228C4+1, ax ;store original int9 handler address
+    mov word ptr cs:loc_228C4+3, dx
+    mov ax, offset int9Handler
+loc_2278B:
+    mov dx, cs
+    cli
+    mov [bx], ax
+loc_22790:
+    mov [bx+2], dx
+    sti
+    pop ds
+    retf
+_setInt9Handler endp
 ; ------------------------------seg003:0x55------------------------------
 ; ------------------------------seg003:0x56------------------------------
-_sub_22796 proc far
-    retn
-_sub_22796 endp
+_restoreInt9Handler proc far
+    push ds
+    xor ax, ax
+loc_22799:
+    mov ds, ax
+    mov bx, 24h
+loc_2279E:
+    mov ax, word ptr cs:loc_228C4+1
+    mov dx, word ptr cs:loc_228C4+3
+loc_227A7:
+    cli
+    mov [bx], ax
+    mov [bx+2], dx
+    sti
+loc_227AE:
+    pop ds
+    retf
+_restoreInt9Handler endp
 ; ------------------------------seg003:0x6f------------------------------
+; ------------------------------seg003:0x70------------------------------
+int9Handler proc near
+    sti
+    pushf
+loc_227B2:
+    push ds
+    push es
+    push ax
+    push bx
+    mov ax, @data ;mov ax, seg dseg
+    mov ds, ax
+    mov ax, 40h
+    mov es, ax
+    mov ah, byte_37F9F
+    or ah, ah
+    jz short loc_227D1
+loc_227C8:
+    dec ah
+    mov byte_37F9F, ah
+    jmp loc_2288D
+loc_227D1:
+    in al, 60h ;8042 keyboard controller data register
+    cmp byte_37F9D, 0E0h
+    mov byte_37F9D, al
+    jz short loc_22808
+    cmp al, 0E0h
+    mov ah, 1
+    jz short loc_227C8
+    cmp al, 0E1h
+    mov ah, 3
+    jz short loc_227C8
+    xor ah, ah
+    test byte ptr es:17h, 20h
+    jz short loc_227F6
+    xor ah, 1
+loc_227F6:
+    test byte ptr es:17h, 3
+    jz short loc_22801
+    xor ah, 1
+loc_22801:
+    or ah, ah
+    jz short loc_22808
+    jmp loc_2288D
+loc_22808:
+    mov ah, al
+    and al, 7Fh
+    cmp al, 51h
+    ja short loc_2288D
+    sub al, 29h
+    jb short loc_2288D
+    mov bx, 56F0h
+    xlat
+    or al, al
+    jz short loc_2288D
+    test ah, 80h
+    jnz short loc_22878
+    cmp byte_37F9A, 0
+    jnz short loc_2288D
+    mov byte_37F9A, al
+    cmp byte_37F9E, al
+    mov byte_37F9E, al
+    jnz short loc_22844
+    mov bx, es:6Ch
+    sub bx, word_37F9B
+    cmp bx, 5
+    mov bh, 7Fh
+    jb short loc_22846
+loc_22844:
+    mov bh, 5Ah
+loc_22846:
+    mov bl, 80h
+    sub bl, bh
+    add bh, 80h
+    test al, 1
+    jz short loc_22855
+    mov byte_37F99, bl
+loc_22855:
+    test al, 2
+    jz short loc_2285D
+    mov byte_37F99, bh
+loc_2285D:
+    test al, 4
+    jz short loc_22865
+    mov byte_37F98, bl
+loc_22865:
+    test al, 8
+    jz short loc_2286D
+    mov byte_37F98, bh
+loc_2286D:
+    mov bx, es:6Ch
+    mov word_37F9B, bx
+    jmp short loc_2288D
+loc_22878:
+    cmp byte_37F9A, al
+    jnz short loc_2288D
+    mov byte_37F9A, 0
+    mov byte_37F98, 80h
+    mov byte_37F99, 80h
+loc_2288D:
+    mov bx, es:1Ah
+    cmp bx, es:1Ch
+    jz short loc_228BE
+    mov ax, es:[bx]
+loc_2289C:
+    add bx, 2
+    cmp bx, es:82h
+    jb short loc_228AB
+    mov bx, es:80h
+loc_228AB:
+    cmp bx, es:1Ch
+    jz short loc_228BE
+    cmp ax, es:[bx]
+    jnz short loc_228BE
+    mov es:1Ah, bx
+    jmp short loc_2289C
+loc_228BE:
+    pop bx
+    pop ax
+    pop es
+    pop ds
+    popf
+    cli
+loc_228C4:
+    db 0EAh ;far jump to original handlerjmp far ptr 0:0
+    dd 0
+int9Handler endp
+; ------------------------------seg003:0x184------------------------------
 ; ==============================================================================
 .DATA ;dseg segment para public 'DATA' use16
 unk_328B0 db 0
@@ -4939,10 +5816,10 @@ gfx_jump_04 proc near
 gfx_jump_04 endp
 ; ------------------------------dseg:0xed2------------------------------
 ; ------------------------------dseg:0xed7------------------------------
-gfx_jump_05_drawString proc near
+_gfx_jump_05_drawString proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_05_drawString endp
+_gfx_jump_05_drawString endp
 ; ------------------------------dseg:0xed7------------------------------
 ; ------------------------------dseg:0xedc------------------------------
 gfx_jump_06 proc near
@@ -18114,30 +18991,7 @@ aA db 'A',0
     db 0
     db 14h
     db 0
-    db 0
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1
-    db 0
-    db 0
-    db 0
-    db 60h
-    db 0
-    db 0
-    db 0
-    db 3Fh
-    db 1
-_word_38334 dw 5A6Eh
-    db 1
+unk_3831E db 0
     db 0
     db 2
     db 0
@@ -18159,7 +19013,30 @@ _word_38334 dw 5A6Eh
     db 0
     db 3Fh
     db 1
-_word_3834C dw 5A86h
+_off_38334 dw offset unk_3831E
+unk_38336 db 1
+    db 0
+    db 2
+    db 0
+    db 2
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 0
+    db 1
+    db 0
+    db 0
+    db 0
+    db 60h
+    db 0
+    db 0
+    db 0
+    db 3Fh
+    db 1
+_off_3834C dw offset unk_38336
     db 2
     db 0
     db 2

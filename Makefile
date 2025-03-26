@@ -29,7 +29,7 @@ LINK_TOOLCHAIN ?= msc510
 LINKFLAGS := /M /I
 DOSDIR := dos
 TOOLCHAIN_DIR := $(DOSDIR)/$(C_TOOLCHAIN)
-VERIFY_FLAGS := --verbose --loose --ctx 20 --nostat
+VERIFY_FLAGS := --verbose --loose --ctx 20 --nostat --asm
 
 SRCTOP := src
 SRCDIR := $(SRCTOP)

@@ -206,9 +206,9 @@ int sub_13D6B();
 // ==== seg000:0x3df2 ====
 int sub_13DF2();
 // ==== seg000:0x3e87 ====
-int sub_13E87();
+int manipulateTimer();
 // ==== seg000:0x3edc ====
-int sub_13EDC();
+int getTimeOfDay();
 // ==== seg000:0x3ee3 ====
 int sub_13EE3();
 // ==== seg000:0x3f72 ====
@@ -310,9 +310,9 @@ int sub_19D86();
 // ==== seg000:0x9db0 ====
 int sub_19DB0();
 // ==== seg000:0x9e44 ====
-int sub_19E44();
+void __cdecl sub_19E44(int);
 // ==== seg000:0x9e5d ====
-int sub_19E5D();
+void __cdecl sub_19E5D(int, int, int, int);
 // ==== seg000:0x9e94 ====
 int sub_19E94();
 // ==== seg000:0x9eb6 ====
@@ -328,7 +328,7 @@ int __cdecl drawSomeStrings(char *, int, int, int);
 // ==== seg000:0xa0fe ====
 int sub_1A0FE();
 // ==== seg000:0xa13a ====
-int __cdecl drawString(int, char *, int, int, int);
+int __cdecl drawString(int *, char *, int, int, int);
 // ==== seg000:0xa183 ====
 int sub_1A183();
 // ==== seg000:0xa1b1 ====
@@ -446,13 +446,13 @@ int sub_1DDAA();
 // ==== seg000:0xddc4 ====
 int __cdecl openFile(char *, int);
 // ==== seg000:0xde1b ====
-int sub_1DE1B();
+int createFile();
 // ==== seg000:0xde72 ====
 int closeFile();
 // ==== seg000:0xde94 ====
-int sub_1DE94();
+int readFile1();
 // ==== seg000:0xdebf ====
-int sub_1DEBF();
+int readFile2();
 // ==== seg000:0xdf16 ====
 int read512FromFileIntoBuf();
 // ==== seg000:0xdf4f ====
@@ -617,8 +617,13 @@ int sub_217B4();
 int far sub_2189C();
 // ==== seg001:0x2028 ====
 int sub_218A8();
+// bytes outside routine, potential module boundary at 0x9
+// ==== seg002:0xa ====
+int far sub_21A7A();
 // ==== seg002:0xe ====
 void __cdecl __far sub_21A7E();
+// ==== seg002:0x12 ====
+int far sub_21A82();
 // ==== seg002:0x16 ====
 int sub_21A86();
 // ==== seg002:0x9a1 ====
@@ -638,9 +643,11 @@ int far restoreJoystickData();
 // ==== seg002:0xcbe ====
 int far copyJoystickData();
 // ==== seg003:0x6 ====
-int far sub_22746();
+int far setInt9Handler();
 // ==== seg003:0x56 ====
-int far sub_22796();
+int far restoreInt9Handler();
+// ==== seg003:0x70 ====
+int int9Handler();
 // bytes outside routine, potential module boundary at 0x189
 extern uint8 unk_328B0[];
 extern int16 word_328B2;
@@ -1256,8 +1263,10 @@ extern uint8 aHitBy[];
 extern uint8 aIneffective[];
 extern uint8 aHitBy_0[];
 extern uint8 aA[];
-extern int word_38334;
-extern int word_3834C;
+extern uint8 unk_3831E[];
+extern int *off_38334;
+extern uint8 unk_38336[];
+extern int *off_3834C;
 extern int16 word_38364;
 extern int16 word_3837C;
 extern int16 word_383AC;

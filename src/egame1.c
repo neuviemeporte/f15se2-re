@@ -57,13 +57,13 @@ int sub_10211() {
     setTimerIrqHandler();
     // 250
     if (commData->setupUseJoy == 0) {
-        sub_22746();
+        setInt9Handler();
     }
     sub_13C3B();
     moveDataFar();
     // 266
     if (commData->setupUseJoy == 0) {
-        sub_22796();
+        restoreInt9Handler();
     }
     // 276
     gfx_jump_4f(1);
@@ -379,8 +379,29 @@ int strcpyFromDot(char *arg_0, char *arg_2) {
     strcpy(arg_0, arg_2);
 }
 
+// ==== seg000:0x9e44 ====
+void sub_19E44(int arg_0) {
+    off_38334[2] = arg_0;
+    off_3834C[2] = arg_0;
+}
+
+// ==== seg000:0x9e5d ====
+void sub_19E5D(int arg_0, int arg_2, int arg_4, int arg_6) {
+    sub_21444(off_38334, arg_0, arg_2, arg_4, arg_6);
+    sub_21444(off_3834C, arg_0, arg_2, arg_4, arg_6);
+}
+
 // ==== seg000:0xa0cb ====
 int drawSomeStrings(char *arg_0, int arg_2, int arg_4, int arg_6) {
-    drawString(word_38334, arg_0, arg_2, arg_4, arg_6);
-    drawString(word_3834C, arg_0, arg_2, arg_4, arg_6);
+    drawString(off_38334, arg_0, arg_2, arg_4, arg_6);
+    drawString(off_3834C, arg_0, arg_2, arg_4, arg_6);
+}
+
+// ==== seg000:0xa13a ====
+int drawString(int* arg_0, char *arg_2, int arg_4, int arg_6, int arg_8) {
+    arg_0[6] = 0;
+    arg_0[4] = arg_4;
+    arg_0[5] = arg_6;
+    arg_0[2] = arg_8;
+    gfx_jump_05_drawString(arg_0, strupr(arg_2), strlen(arg_2));
 }
