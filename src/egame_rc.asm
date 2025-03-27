@@ -1,6 +1,7 @@
 .8086
 DOSSEG
 .MODEL SMALL
+EXTRN _sub_155AB:PROC
 PUBLIC _commData
 PUBLIC _gameData
 PUBLIC _hercFlag
@@ -130,6 +131,22 @@ PUBLIC _aPhoto_3d3_0
 PUBLIC _aPhoto_3d3
 PUBLIC _word_3B14A
 PUBLIC _sub_21444
+PUBLIC _dword_3C01C
+PUBLIC _dword_3B4D4
+PUBLIC _sub_1CF64
+PUBLIC _keyValue
+PUBLIC _word_380CE
+PUBLIC _dword_3B1FE
+PUBLIC _word_336FE
+PUBLIC _dword_3C024
+PUBLIC _word_3B4DE
+PUBLIC _word_3C02C
+PUBLIC _word_380C8
+PUBLIC _word_3B4E4
+PUBLIC _word_380CA
+PUBLIC _word_380CC
+PUBLIC _word_3C5AA
+PUBLIC _word_3BE94
 PUBLIC _gfx_jump_0_alloc
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_0c
@@ -650,9 +667,9 @@ _sub_13C3B endp
 ; ------------------------------seg000:0x3c46------------------------------
 ; ------------------------------seg000:0x3c47------------------------------
 sub_13C47 proc near
-    call sub_155AB
+    call _sub_155AB
     call sub_18E50
-    cmp word_3BE90, 0
+    cmp _keyValue, 0
     jnz short loc_13C59
     call far ptr sub_21A7A ;call sub_21A7A
 loc_13C59:
@@ -893,11 +910,6 @@ sub_15557 proc near
     retn
 sub_15557 endp
 ; ------------------------------seg000:0x55aa------------------------------
-; ------------------------------seg000:0x55ab------------------------------
-sub_155AB proc near
-    retn
-sub_155AB endp
-; ------------------------------seg000:0x5fda------------------------------
 ; ------------------------------seg000:0x5fdb------------------------------
 sub_15FDB proc near
     retn
@@ -1284,9 +1296,9 @@ sub_1CF32 proc near
 sub_1CF32 endp
 ; ------------------------------seg000:0xcf63------------------------------
 ; ------------------------------seg000:0xcf64------------------------------
-sub_1CF64 proc near
+_sub_1CF64 proc near
     retn
-sub_1CF64 endp
+_sub_1CF64 endp
 ; ------------------------------seg000:0xcf8d------------------------------
 ; ------------------------------seg000:0xcf8e------------------------------
 sub_1CF8E proc near
@@ -5759,7 +5771,7 @@ word_336F6 dw 0FFFFh
 word_336F8 dw 1
 word_336FA dw 0
 _word_336FC dw 0FFFFh
-word_336FE dw 4
+_word_336FE dw 4
 word_33700 dw 0FFFFh
 word_33702 dw 1
 word_33704 dw 1
@@ -18500,7 +18512,7 @@ byte_37F9F db 0
     db 10h
     db 8
     db 0
-    db 0FFh
+unk_3806E db 0FFh
     db 7Fh
 word_38070 dw 0
 word_38072 dw 0
@@ -18572,10 +18584,10 @@ word_380AC dw 0
     db 0
     db 0
     db 0
-word_380C8 dw 0
-word_380CA dw 0
-word_380CC dw 0
-word_380CE dw 0
+_word_380C8 dw 0
+_word_380CA dw 0
+_word_380CC dw 0
+_word_380CE dw 0
 word_380D0 dw 0
     db 0Ch
     db 0
@@ -25377,7 +25389,7 @@ word_3A940 dw ?
     db ?
 word_3A944 dw ?
 word_3A946 dw ?
-    db ?
+unk_3A948 db ?
     db ?
     db ?
     db ?
@@ -26887,8 +26899,7 @@ word_3B15E dw ?
     db ?
     db ?
 _buf3d3_3 db 96h dup(?)
-word_3B1FE dw ?
-word_3B200 dw ?
+_dword_3B1FE dd ?
 _unk_3B202 db ?
     db ?
     db ?
@@ -27601,16 +27612,15 @@ word_3B240 dw ?
     db ?
     db ?
 word_3B4D2 dw ?
-word_3B4D4 dw ?
-word_3B4D6 dw ?
+_dword_3B4D4 dd ?
 word_3B4D8 dw ?
 word_3B4DA dw ?
 word_3B4DC dw ?
-word_3B4DE dw ?
+_word_3B4DE dw ?
 word_3B4E0 dw ?
 _hercFlag db ?
     db ?
-word_3B4E4 dw ?
+_word_3B4E4 dw ?
     db ?
     db ?
     db ?
@@ -28391,9 +28401,9 @@ word_3BE3C dw ?
 _byte_3BE3E db 40h dup(?)
 word_3BE7E dw ?
 _byte_3BE80 db 10h dup(?)
-word_3BE90 dw ?
+_keyValue dw ?
 word_3BE92 dw ?
-word_3BE94 dw ?
+_word_3BE94 dw ?
 word_3BE96 dw ?
 word_3BE98 dw ?
     db ? ;align 4
@@ -28556,17 +28566,15 @@ word_3C014 dw ?
 word_3C016 dw ?
 word_3C018 dw ?
 word_3C01A dw ?
-word_3C01C dw ?
-word_3C01E dw ?
+_dword_3C01C dd ?
 word_3C020 dw ?
     db ? ;align 4
     db ?
-word_3C024 dw ?
-word_3C026 dw ?
+_dword_3C024 dd ?
 word_3C028 dw ?
 _byte_3C02A db ?
     db ? ;align 2
-word_3C02C dw ?
+_word_3C02C dw ?
 word_3C02E dw ?
     db ?
     db ?
@@ -28684,7 +28692,7 @@ word_3C5A2 dw ?
 word_3C5A4 dw ?
 word_3C5A6 dw ?
 word_3C5A8 dw ?
-word_3C5AA dw ?
+_word_3C5AA dw ?
     db ?
     db ?
     db ?
