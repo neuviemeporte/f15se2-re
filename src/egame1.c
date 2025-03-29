@@ -417,7 +417,7 @@ int sub_155AB() {
         // 5678
         break;
     case 0x84: // 567b
-        var_E = ((word_336E8 - ((word_330C4 + 1) >> 1)) - 1) & 0xf;
+        var_E = (word_336E8 - ((word_330C4  + 1) / 2) - 1) & 0xf;
         word_3C5AA = stru_3A95A[var_E].field_A;
         word_3BE94 = stru_3A95A[var_E].field_C;
         // 56a9
@@ -450,13 +450,74 @@ int sub_155AB() {
         word_3B4E4 = 0;
         // 5796
         dword_3B1FE = sub_1D178(word_380C8 + 0x8000, 0x18 << var_2) + dword_3B7DA;
-        dword_3B4D4 = sub_1D190(word_380C8 + 0x8000, 0x18 << var_2); + dword_3B7F8;
+        // 57ad
+        dword_3B4D4 = sub_1D190(word_380C8 + 0x8000, 0x18 << var_2) + dword_3B7F8;
         word_3B4DE = (4 << var_2) + word_380CE;
         // 57d2
         break;
     case 0x88:
     case 0x89:
     case 0x8b: // 57d5
+        if (keyValue != 0x89) { // 57dd
+            if (word_3C45C == 1) { // 57e4
+                if (word_336F2 & 0x8000) word_3C02E = word_336F2 + 0x20;
+            } 
+            else { // 57f6
+                if (word_336F4 & 0x8000) word_3C02E = word_336F4 + 0x40;
+            }
+            // 5806
+        }
+        else { // 5808
+            if (word_3370E == 0) word_3C02E = word_3A940;
+        } // 5815
+        var_4 = var_2;
+        if (word_3C02E & 0x4000 == 0) { // 5825
+            if (word_3C02E & 0x2000 == 0) { // 582c
+                if (word_335D2[word_3C02E * 0x18] != 0) { // 583c
+                    // 584e
+                    dword_3C01C = (uint32)(word_335C4[word_3C02E * 0x18]) << 5;
+                    // 5867
+                    dword_3C024 = (uint32)(word_335C6[word_3C02E * 0x18]) << 5;
+                    word_3C02C = word_335C8[word_3C02E * 0x18];
+                }
+                else { // 5877
+                    word_335CC[word_3C02E * 0x18] = word_380C8;
+                    word_335CE[word_3C02E * 0x18] = word_380CA;
+                    if (word_3370E != 0) keyValue = 0x87;
+                } // 589b
+                var_2 = 5;
+            }
+            else { // 58a2
+                word_3C02E & 0x1f
+                var_2 = 5;
+            } // 58d9
+        }
+        else { // 58db
+            word_3C02E & 0x3f 
+        } // 5943
+        if (word_3370E == 0) var_2 = var_4;
+        // 5967
+        var_A = (dword_3C01C >> 5) - word_3BEC0;
+        // 5981
+        var_C = (dword_3C024 >> 5) - word_3BED0;
+        var_6 = sub_1CFA6(var_A, var_C);
+        word_3C5AA = sub_1D008(var_A, -var_C);
+        // 59ba
+        word_3BE94 = -sub_1D008((word_3C02C - word_380CE) >> 5, var_6);
+        word_3B4E4 = 0;
+        // 59d6
+        var_8 = sub_1D190(word_3BE94, 0x18 << var_2);
+        if (word_3C02E & 0x6000 != 0 || word_3370E != 0) { // 59ea
+            if (keyValue == 0x88) { // 59f2
+
+            }
+            else { // 5a62
+
+            } // 5af2
+        }
+        else { // 5af5
+
+        }
         // 5b8c
         break;
     case 0x8c: // 5b8f
