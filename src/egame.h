@@ -31,10 +31,12 @@ extern unsigned char far byte_2D6A4[];
 #define COMM_JOYDATA_OFF 0x48
 #define COMM_USEJOY_OFF 0x72
 #define COMM_GFXMODE_OFFSET 0x78
+#define COMM_WORLDBUF 0x7a
 #define OFF_IACA_START 0x4f0
 #define COMM_GAMEDATA_OFFSET 0x120e
 #define IRQ_CBREAK 0x1b
 #define GAMEDATA_THEATER 0x38
+#define GAMEDATA_DIFFICULTY 0x3e
 #define IRQ_VIDEO 0x10
 #define OVL_HDR_CODESEG 0x18
 #define OVL_HDR_FIRSTIDX 0x1c
@@ -778,6 +780,12 @@ extern int16 word_333D2;
 extern int16 word_333D4;
 extern int16 word_333DA;
 extern int16 word_33442;
+extern int16 word_335C4;
+extern int16 word_335C6;
+extern int16 word_335C8;
+extern int16 word_335CC;
+extern int16 word_335CE;
+extern int16 word_335D2;
 extern int16 word_336E4;
 extern int16 word_336E6;
 extern int16 word_336E8;
@@ -1511,10 +1519,12 @@ extern int16 word_3A940;
 extern int word_3A944;
 extern int16 word_3A946;
 extern uint8 unk_3A948[];
+extern struct struc_1 stru_3A95A[];
 extern int16 word_3AA5A;
 extern uint8 unk_3AA5C[];
 extern unsigned int word_3AA5E[];
 extern unsigned int word_3AA60[];
+extern int16 word_3AA64;
 extern int16 word_3AA6A;
 extern int16 word_3AF0C;
 extern uint8 buf3d3_1[];
@@ -1536,6 +1546,11 @@ extern int16 word_3B15E;
 extern uint8 buf3d3_3[];
 extern int32 dword_3B1FE;
 extern uint8 unk_3B202[];
+extern int16 word_3B208;
+extern int16 word_3B20A;
+extern int16 word_3B20C;
+extern int16 word_3B20E;
+extern int16 word_3B210;
 extern int16 word_3B228;
 extern int16 word_3B22A;
 extern int16 word_3B22C;

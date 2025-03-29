@@ -147,6 +147,13 @@ PUBLIC _word_380CA
 PUBLIC _word_380CC
 PUBLIC _word_3C5AA
 PUBLIC _word_3BE94
+PUBLIC _stru_3A95A
+PUBLIC _word_336E8
+PUBLIC _sub_1D190
+PUBLIC _sub_1D178
+PUBLIC _word_3C028
+PUBLIC _word_3C03A
+PUBLIC _word_330C4
 PUBLIC _gfx_jump_0_alloc
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_0c
@@ -160,6 +167,27 @@ PUBLIC _gfx_jump_4b_storeBufPtr
 PUBLIC _gfx_jump_4c
 PUBLIC _gfx_jump_4f
 PUBLIC _gfx_jump_52
+; ---------------------------------------------------------------------------
+
+SREGS		struc ;	(sizeof=0x8, align=0x2,	copyof_10) ; XREF: load15Flt3d3/r
+					; load3D3/r
+_es		dw ?
+_cs		dw ?
+_ss		dw ?
+_ds		dw ?			; XREF:	load3D3+13E/r load3D3+399/r ...
+SREGS		ends
+
+; ---------------------------------------------------------------------------
+
+struc_1		struc ;	(sizeof=0x10, mappedto_11) ; XREF: dseg:stru_3A95A/r
+field_0		dd ?
+field_4		dw ?
+field_6		dw ?
+field_8		dw ?
+field_A		dw ?
+field_C		dw ?
+field_E		dw ?
+struc_1		ends
 
 ; ---------------------------------------------------------------------------
 
@@ -182,6 +210,7 @@ COMM_UNK7	 = 38h
 COMM_JOYDATA_OFF  = 48h
 COMM_USEJOY_OFF	 = 72h
 COMM_GFXMODE_OFFSET  = 78h
+COMM_WORLDBUF	 = 7Ah
 OFF_IACA_START	 = 4F0h
 COMM_GAMEDATA_OFFSET  =	120Eh
 
@@ -194,6 +223,7 @@ IRQ_CBREAK	 = 1Bh
 
 ; enum Game, mappedto_5
 GAMEDATA_THEATER  = 38h
+GAMEDATA_DIFFICULTY  = 3Eh
 
 ; ---------------------------------------------------------------------------
 
@@ -1316,14 +1346,14 @@ sub_1D008 proc near
 sub_1D008 endp
 ; ------------------------------seg000:0xd177------------------------------
 ; ------------------------------seg000:0xd178------------------------------
-sub_1D178 proc near
+_sub_1D178 proc near
     retn
-sub_1D178 endp
+_sub_1D178 endp
 ; ------------------------------seg000:0xd18f------------------------------
 ; ------------------------------seg000:0xd190------------------------------
-sub_1D190 proc near
+_sub_1D190 proc near
     retn
-sub_1D190 endp
+_sub_1D190 endp
 ; ------------------------------seg000:0xd1a4------------------------------
 ; ------------------------------seg000:0xd1c8------------------------------
 sub_1D1C8 proc near
@@ -2724,6 +2754,7 @@ loc_227B2:
     push es
     push ax
     push bx
+loc_227B6:
     mov ax, @data ;mov ax, seg dseg
     mov ds, ax
     mov ax, 40h
@@ -4463,7 +4494,7 @@ word_330BE dw 0
     db 1
     db 0
 word_330C2 dw 1
-word_330C4 dw 4
+_word_330C4 dw 4
 aAim9m db 'AIM-9M',0
     db 0
     db 0
@@ -5470,22 +5501,16 @@ word_33442 dw 0
     db 0FFh
     db 0FFh
     db 0FFh
+word_335C4 dw 0
+word_335C6 dw 0
+word_335C8 dw 0
     db 0
     db 0
+word_335CC dw 0
+word_335CE dw 0
     db 0
     db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+word_335D2 dw 0
     db 0
     db 0
     db 0
@@ -5760,7 +5785,7 @@ word_33442 dw 0
     db 0
 word_336E4 dw 4
 word_336E6 dw 0FFFFh
-word_336E8 dw 0
+_word_336E8 dw 0
 word_336EA dw 0
 word_336EC dw 1
 word_336EE dw 0
@@ -25407,262 +25432,7 @@ unk_3A948 db ?
     db ?
     db ?
     db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    _stru_3A95A struc_1 10h dup(<?>)
 word_3AA5A dw ?
 _unk_3AA5C db ?
     db ?
@@ -25670,8 +25440,7 @@ _word_3AA5E dw ?
 _word_3AA60 dw ?
     db ?
     db ?
-    db ?
-    db ?
+word_3AA64 dw ?
     db ?
     db ?
     db ?
@@ -26906,16 +26675,11 @@ _unk_3B202 db ?
     db ?
     db ?
     db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+word_3B208 dw ?
+word_3B20A dw ?
+word_3B20C dw ?
+word_3B20E dw ?
+word_3B210 dw ?
     db ?
     db ?
     db ?
@@ -28571,7 +28335,7 @@ word_3C020 dw ?
     db ? ;align 4
     db ?
 _dword_3C024 dd ?
-word_3C028 dw ?
+_word_3C028 dw ?
 _byte_3C02A db ?
     db ? ;align 2
 _word_3C02C dw ?
@@ -28586,7 +28350,7 @@ word_3C02E dw ?
     db ?
     db ?
     db ?
-word_3C03A dw ?
+_word_3C03A dw ?
     db ?
     db ?
 word_3C03E dw ?

@@ -101,4 +101,14 @@ struct TerrainUnk {
 };
 #define TERRAINUNKSIZE 64
 
+// used in egame.exe sub_155AB, 16 bytes
+struct struc_1 {
+    int32 field_0;
+    int32 field_4;
+    int16 field_8;
+    int16 field_A;
+    int16 field_C;
+    int16 field_E;
+};
+
 #endif // STRUCT_H

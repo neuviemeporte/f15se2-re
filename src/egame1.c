@@ -382,7 +382,6 @@ int strcpyFromDot(char *arg_0, char *arg_2) {
 // ==== seg000:0x55ab ====
 int sub_155AB() {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E;
-    register int i;
     dword_3B1FE = dword_3C01C = dword_3B7DA;
     dword_3B4D4 = dword_3B7F8;
     dword_3C024 = 0x100000 - dword_3B7F8;
@@ -419,13 +418,13 @@ int sub_155AB() {
         break;
     case 0x84: // 567b
         var_E = ((word_336E8 - ((word_330C4 + 1) >> 1)) - 1) & 0xf;
-        word_3C5AA = word_3A964[var_E * 2];
-        word_3BE94 = word_3A966[var_E * 2];
+        word_3C5AA = stru_3A95A[var_E].field_A;
+        word_3BE94 = stru_3A95A[var_E].field_C;
         // 56a9
-        word_3B4E4 = word_3A968[var_E * 2];
-        dword_3B1FE = dword_3A95A[var_E];
-        dword_3B4D4 = dword_3A95E[var_E];
-        word_3B4DE = word_3A962[var_E * 2];
+        word_3B4E4 = stru_3A95A[var_E].field_E;
+        dword_3B1FE = stru_3A95A[var_E].field_0;
+        dword_3B4D4 = stru_3A95A[var_E].field_4;
+        word_3B4DE = stru_3A95A[var_E].field_8;
         // 56d1
         break;
     case 0x85:
@@ -452,7 +451,7 @@ int sub_155AB() {
         // 5796
         dword_3B1FE = sub_1D178(word_380C8 + 0x8000, 0x18 << var_2) + dword_3B7DA;
         dword_3B4D4 = sub_1D190(word_380C8 + 0x8000, 0x18 << var_2); + dword_3B7F8;
-        word_3B4DE = (4 << var_2) + word_380CE
+        word_3B4DE = (4 << var_2) + word_380CE;
         // 57d2
         break;
     case 0x88:
@@ -461,14 +460,13 @@ int sub_155AB() {
         // 5b8c
         break;
     case 0x8c: // 5b8f
-        word_3be94 = 0xf400;
+        word_3BE94 = 0xf400;
         word_3B4E4 = 0;
         dword_3B1FE = (int32)word_3C028 << 5;
         dword_3B4D4 = (0x8000 - (int32)word_3C03A) << 5;
         // 5bdc
         break;
     } // 5c33
-    i = 123;
 }
 
 // ==== seg000:0x9e44 ====
