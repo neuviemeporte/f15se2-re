@@ -111,4 +111,36 @@ struct struc_1 {
     int16 field_E;
 };
 
+// used in egame.exe sub_155AB, 0x18 bytes
+struct struc_2 {
+    uint16 field_0;
+    uint16 field_2;
+    int16 field_4;
+    int16 field_6;
+    int16 field_8;
+    int16 field_A;
+    int16 field_C;
+    int16 field_E;
+    uint8 field_10[8];
+};
+
+// used in egame.exe sub_155AB, 0x24 bytes
+struct struc_3 {
+    int16 field_0;
+    int32 field_2;
+    int32 field_6;
+    uint8 field_10[26];
+};
+
+// used in egame.exe, 0x10 bytes
+struct struc_4 {
+    uint16 field_0;
+    uint16 field_2;
+    int16 field_4;
+    int16 field_6;
+    int32 field_8;
+    int16 field_C;
+    int16 field_E;
+};
+
 #endif // STRUCT_H
