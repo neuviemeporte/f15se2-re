@@ -27,6 +27,7 @@
         { "seg": "seg000", "begin": "0x2f8c", "end": "0x2fae", "from": "printError",       "to": "endp" },
         { "seg": "seg000", "begin": "0x2faf", "end": "0x2fd9", "from": "strcpyFromDot",    "to": "endp" },
         { "seg": "seg000", "begin": "0x55ab", "end": "0x5fda", "from": "sub_155AB",        "to": "endp" },
+        { "seg": "seg000", "begin": "0x8e50", "end": "0x94cf", "from": "sub_18E50",        "to": "endp" },
         { "seg": "seg000", "begin": "0x9e44", "end": "0x9e5c", "from": "sub_19E44",        "to": "endp" },
         { "seg": "seg000", "begin": "0x9e5d", "end": "0x9e93", "from": "sub_19E5D",        "to": "endp" },
         { "seg": "seg000", "begin": "0xa0cb", "end": "0xa0fd", "from": "drawSomeStrings",  "to": "endp" },
@@ -77,7 +78,7 @@
         "setupOverlaySlots", "installCBreakHandler", "copyJoystickData", "restoreJoystickData", "restoreCBreakHandler", "getInterruptHandler", "sub_22411", "loadF15DgtlBin", "setupDac", "setTimerIrqHandler", "setInt9Handler", "restoreInt9Handler", "int9Handler", "sub_13C3B", "restoreTimerIrqHandler", "picBlit", "sub_13DF2", "sub_13C47", "openFile", "createFile", "sub_1DF4F", "sub_1E262", "closeFile", "read512FromFileIntoBuf", "manipulateTimer"
     ],
     "externs": [
-        "sub_155AB"
+        "sub_155AB", "sub_18E50"
     ],
     "publics": [ 
         "commData", "gameData", "hercFlag", "setupOverlaySlots", "gfxModeUnset", "noJoy80", "copyJoystickData", "installCBreakHandler", 
@@ -85,10 +86,13 @@
         "dword_3C01C",
        "dword_3B4D4", "sub_1CF64", "keyValue", "word_380CE", "dword_3B1FE", "word_336FE", "dword_3C024", "word_3B4DE", "word_3C02C", "word_380C8", "word_3B4E4", "word_380CA", "word_380CC", "word_3C5AA", "word_3BE94", "stru_3A95A", "word_336E8", "sub_1D190", "sub_1D178", "word_3C028", "word_3C03A", "word_330C4",
       "word_336F4", "stru_335C4", "sub_1D008", "word_3A940", "word_3370E", "sub_1CFA6", "word_3C02E", "word_3C45C", "word_336F2", "word_336EA", "stru_3AA5E", "word_3370C", "stru_3B208", 
+        "unk_3A948", "sub_160D3", "sub_19FCC", "word_38152", "word_37561", "word_39604", "word_37563", "word_38126", "sub_195C9", "sub_2152A", "off_38364", "sub_1229A", "word_330BC", "unk_3806E", "sub_1A8C8", "a256left_pic", "a256right_pic", "a256rear_pic", "gfx_jump_21", "gfx_jump_23", "sub_121CA", "aRight_pic", "byte_3995A", "aLeft_pic", "word_36B86", "byte_3850E", "unk_38128", "word_3755D", "sub_11A18", "word_3755F", "aRear_pic", "word_330B2", "word_38FDC", "sub_11A88",
+        "word_3C09A", "word_330C2", "sub_20BAE", "word_3C09E", "word_3BE98", "byte_3C5A0", "sub_15FDB", "word_3C040",
         "gfx_jump_0_alloc",
         "gfx_jump_05_drawString",
         "gfx_jump_0c",
         "gfx_jump_2a",
+        "gfx_jump_2d",
         "gfx_jump_3d_null",
         "gfx_jump_3f_modecode",
         "gfx_jump_44_setDac",

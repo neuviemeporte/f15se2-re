@@ -88,7 +88,7 @@ struct Game {
     int16 flag4;
     uint16 flag3;
     int16 difficulty;
-    uint8 pad3[2];
+    int16 unk4; // checked in egame
     int16 rand;
     int16 unk1; // desk job?
     uint8 pad4[8];
@@ -106,6 +106,7 @@ struct Game {
 #define GAME_FLAG4_OFFSET 0x3a
 #define GAME_FLAG3_OFFSET 0x3c
 #define GAME_START_DIFFICULTY 0x3e
+#define GAME_UNK4_OFFSET 0x40
 #define GAME_RAND_OFFSET 0x42
 #define GAME_RAND_OFFSET 0x42
 #define GAME_UNK1_OFFSET 0x44
