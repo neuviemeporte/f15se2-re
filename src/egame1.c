@@ -702,12 +702,88 @@ int sub_18E50(int arg_0) {
                 sub_19C0C(0xa0, 0x56, 0xa0, 0x5c);
             } // 900c
             sub_19E44(word_330BC != 0 ? 4 : 0);
-            // 903b
+            // 9041
             var_10 = sub_1CF64((((word_3C5A6 - word_3AA5A) * 2) / 5) + 0x1d, 0, 0x3d);
             if (var_10) sub_19C0C(0x48, 0x55 - var_10, 0x48, 0x55);
+            // 9089
+            sub_19C0C(0xf7,  0x38, 0xf7, sub_1CF64(-((word_3C8B6 >> 4) - 0x38), 0x14, 0x55));
+            // 908f
+            if (word_391FE & 1 == 0 && word_336E8 & 1 && gameData->unk4 != 0 && word_3C8B6 < 0) { // 90af
+                var_2 = (((stru_3AA5E[word_3C16A].field_6 & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
+                sub_19E44(0xf);
+                // 90f7
+                sub_19C0C(0xf2, var_2 - 2, 0xf4, var_2);
+                sub_19C0C(0xf2, var_2 + 2, 0xf4, var_2);
+            } // 9115
+            // stall warning display
+            if (word_3AA5A < word_3C5A6 && word_3BEBE != word_380CE && word_336E8 & 1) { // 912e
+                draw2Strings(aStallWarning, 0x84, 0x1e, 0xf);
+            } // 9144
+            if (word_3C45C == 0 || word_3C45C == 2) { // 9152
+                sub_19E44(7);
+                word_3C008 = (word_38FC4 >> 6) + 0x38;
+                if (word_3C008 > 0xa && word_3C008 < 0x6f) { // 9173
+                    sub_1A8C8(0x9a, word_3C008 - 4, 0x94, 0x15, 0x0b, 7, 0xf);
+                }
+            } // 9198
+            if (word_3C45C == 1) { // 91a2
+                var_1C = byte_37C24 + 4;
+                var_14 = (word_3C6A4 >> var_1C) + 0x9f;
+                var_18 = (word_3C6AC >> var_1C) + 0x38;
+                // 91c3
+                if (var_14 > 0xa && var_14 < 0x135 && var_18 > 8 && var_18 < 0x5b) { // 91da
+                    sub_1A8C8(var_14 - 6, var_18 - 5, 0x91, 0x4, 0xd, 0xb, 0xe);
+                } // 9202
+                if (word_32DE4[0x12 * word_330DC[0x1a * word_330A2[word_330B2 * 2]]] == 7) { // 9223
+                    sub_19E44(gfxModeUnset != 0 ? 0xf : 7);
+                    // 9239
+                    for (var_A = 0; var_A <= 0x100; var_A += 0x10) { // 924b
+                        var_4 = var_A;
+                        var_8 = sub_1D178(var_4, 0x28) + 0x9f;
+                        // 9278
+                        var_C = -(sub_1D190(var_4, 0x23) - 0x38);
+                        if (var_A != 0) sub_19C0C(var_8, var_C, var_E, var_12);
+                        // 9294
+                        var_E = var_8;
+                        var_12 = var_C;
+                    }
+                }
+            } // 929f
+            sub_1A183(word_3AA5A, 0x50, 0x36, 0xf);
+            if (word_380D0 <= 0x4e20) { // 92bd
+                sub_1A183(word_380D0 < 0x64 ? word_380D0 : (word_380D0 / 5) * 4, 0xe4, 0x36, 0xf);
+            } // 92ee
+            if (word_3370A > 1) { // 92f5
+                drawSomeStrings(aAccel, 0x96, 0x4, 0xf);
+            } // 930b
+            if (word_391FE & 0x1000) { // 9313
+                drawSomeStrings(aTraining, 0xea, 0x10, 0xf);
+            } // 9329
+            if (word_330B6 != 0) { // 9330
+                drawSomeStrings(aAutopilot, 0xec, 0x5a, 0xf);
+            } // 9346
+            var_6 = sub_1CF64((((word_3BE92 - word_380C8) >> 6) / 3) + 0x9f, 0x59, 0xe5);
+            sub_19E44(0x0b);
+            sub_19C0C(var_6 - 2, 0xf, var_6, 0x11);
+            // 93a0
+            sub_19C0C(var_6, 0x11, var_6 + 2, 0xf);
+            sub_19C0C(var_6 - 2, 0xf, var_6 + 2, 0xf);
         } // 93c4
+        sub_1A25C(byte_3C5A0);
     } // 93cf
-} // 94d0
+    if (word_383F2 != 0 && ((keyValue != 0 && word_3370E != 0) || (byte_37C24 == 0 || word_3370E != 0) )) { // 93eb
+        draw2Strings(tempString, -((strlen(tempString, 0x18, 0xf) >> 1) - 0x28) * 4);
+        word_383F2--;
+        // 9417
+        if (word_336EA == 1) { // 941e
+            draw2Strings(aPressAnyKeyToP, 0x78, 1, word_330BC != 0 ? 0xe : 0);
+        }
+    } // 943f
+    if (word_383F4 != 0 && keyValue == 0 && byte_37C24 == 0) { // 9454
+        draw2Strings(string_3C04A, -((strlen(string_3C04A, 0x5a, 0xf) >> 1) - 0x28) * 4);
+        word_383F4--;
+    } // 9480
+} // 9485
 
 // ==== seg000:0x9e44 ====
 void sub_19E44(int arg_0) {

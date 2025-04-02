@@ -27,7 +27,7 @@
         { "seg": "seg000", "begin": "0x2f8c", "end": "0x2fae", "from": "printError",       "to": "endp" },
         { "seg": "seg000", "begin": "0x2faf", "end": "0x2fd9", "from": "strcpyFromDot",    "to": "endp" },
         { "seg": "seg000", "begin": "0x55ab", "end": "0x5fda", "from": "sub_155AB",        "to": "endp" },
-        { "seg": "seg000", "begin": "0x8e50", "end": "0x94cf", "from": "sub_18E50",        "to": "endp" },
+        { "seg": "seg000", "begin": "0x8e50", "end": "0x9484", "from": "sub_18E50",        "to": "endp" },
         { "seg": "seg000", "begin": "0x9e44", "end": "0x9e5c", "from": "sub_19E44",        "to": "endp" },
         { "seg": "seg000", "begin": "0x9e5d", "end": "0x9e93", "from": "sub_19E5D",        "to": "endp" },
         { "seg": "seg000", "begin": "0xa0cb", "end": "0xa0fd", "from": "drawSomeStrings",  "to": "endp" },

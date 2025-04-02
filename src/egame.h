@@ -37,6 +37,7 @@ extern unsigned char far byte_2D6A4[];
 #define IRQ_CBREAK 0x1b
 #define GAMEDATA_THEATER 0x38
 #define GAMEDATA_DIFFICULTY 0x3e
+#define GAMEDATA_UNK4 0x40
 #define IRQ_VIDEO 0x10
 #define OVL_HDR_CODESEG 0x18
 #define OVL_HDR_FIRSTIDX 0x1c
@@ -336,7 +337,7 @@ int sub_1A183();
 // ==== seg000:0xa1b1 ====
 int sub_1A1B1();
 // ==== seg000:0xa1e4 ====
-int sub_1A1E4();
+int tempStrcpy();
 // ==== seg000:0xa204 ====
 int sub_1A204();
 // ==== seg000:0xa224 ====
@@ -1306,9 +1307,9 @@ extern int16 word_383F0;
 extern int16 word_383F2;
 extern int16 word_383F4;
 extern uint8 aStallWarning[];
-extern uint8 aAccel[];
-extern uint8 aTraining[];
-extern uint8 aAutopilot[];
+extern char aAccel[];
+extern char aTraining[];
+extern char aAutopilot[];
 extern uint8 aPressAnyKeyToP[];
 extern uint8 aTac[];
 extern uint8 aTrackcam[];
@@ -1605,7 +1606,7 @@ extern int16 word_3BED6;
 extern uint8 byte_3BED8[];
 extern int16 word_3BF3C;
 extern int16 word_3BF3E;
-extern uint8 unk_3BF40[];
+extern char tempString[80];
 extern int16 word_3BF90;
 extern union REGS regs;
 extern uint8 byte_3BF93[];
@@ -1639,6 +1640,7 @@ extern int16 word_3C042;
 extern int16 word_3C044;
 extern int16 word_3C046;
 extern int16 word_3C048;
+extern char string_3C04A[80];
 extern int16 word_3C09A;
 extern int16 word_3C09C;
 extern int16 word_3C09E;
