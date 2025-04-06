@@ -88,7 +88,7 @@ struct Game {
     int16 flag4;
     uint16 flag3;
     int16 difficulty;
-    int16 unk4; // checked in egame
+    uint16 unk4; // checked in egame
     int16 rand;
     int16 unk1; // desk job?
     uint8 pad4[8];

@@ -106,9 +106,9 @@ int sub_11E0E() {
     }
     else { // 1eba
         // 1ed1
-        dword_3B7DA = ((int32)word_32A22 << 5) + 2;
+        dword_3B7DA = ((int32)waypoints[0].field_0 << 5) + 2;
         // 1ef5
-        dword_3B7F8 = (0x8000 - (int32)word_32A24) << 5;
+        dword_3B7F8 = (0x8000 - (int32)waypoints[0].field_2) << 5;
     } // 1efc
     // 1f15
     word_3BEC0 = (dword_3B7DA + 0x10) >> 5;
@@ -135,7 +135,7 @@ int moveStuff() {
     moveNearFar(&word_38FFA, 2);
     moveNearFar(&word_3C69E, 2);
     // 20c2
-    moveNearFar(unk_3AA5C, word_3BED2 * 16);
+    moveNearFar(&word_3AA5C, word_3BED2 * 16);
     moveNearFar(&word_3C046, 2);
     moveNearFar(unk_3B202, word_3C046 * 0x24);
     // 20f0
@@ -147,7 +147,7 @@ int moveStuff() {
     moveNearFar(&word_3C00C, 2);
     moveNearFar(&word_336FC, 2);
     // 2144
-    moveNearFar(&word_32A22, 0x10);
+    moveNearFar(waypoints, 0x10);
     moveNearFar(&word_3B144, 0x24);
 }
 
@@ -590,7 +590,7 @@ int sub_155AB() {
             gfx_jump_2a(*off_38364, 0, 0x61, *off_3834C, 0, 0x61, 0x140, 0x67);
             sub_15FDB();
             sub_11A18();
-            sub_11A88(word_330B2);
+            sub_11A88(missileSpecIndex);
             if (word_3C09A == 0) { // 5d42
                 sub_195C9(word_3BEC0, word_3BED0);
             } // 5d50
@@ -626,7 +626,7 @@ int sub_155AB() {
         byte_34197 = 3;
         *(uint8*)(&word_3BE98) = 0x0b;
     } // 5ea7
-    sub_1229A(word_330BC);
+    copySomeMem(word_330BC);
     *(uint8*)(&word_36B86) = 0;
     // 5eeb
     sub_121CA(-word_3C5AA, word_3BE94, word_3B4E4, dword_3B1FE, dword_3B4D4, (int32)word_3B4DE, 0, 0, 0x140, off_38334[0x10] + 1);
@@ -664,22 +664,26 @@ int sub_155AB() {
 
 // ==== seg000:0x8e50 ====
 int sub_18E50(int arg_0) {
-    int var_2, var_4, var_6, var_8, var_A, var_C, var_E, var_10, var_12, var_14, var_18, var_1A;
+    int var_2, var_4, var_6, var_8, var_A, var_C, var_E, var_10, var_12, var_14, var_16, var_18, var_1A;
     char var_1C;
     byte_3C5A0 = gfx_jump_2d();
-    var_16 = word_32A22[word_32A32 * 2] - word_3BEC0;
-    var_1A = word_32A22[word_32A32 * 2 + 1] - word_3BED0;
+    // probably x,y
+    var_16 = waypoints[waypointIndex].field_0 - word_3BEC0;
+    var_1A = waypoints[waypointIndex].field_2 - word_3BED0;
     // 8e83
     word_3BE92 = sub_1D008(var_16, -var_1A);
-    if (word_330C2 == 0) { // 8e96
-        if (word_38FEA != 0 && keyValue & 0x80 == 0) { // 8eaa
-            sub_19E44(0xd);
-            sub_19E5D(0, 0, 0x13f, 0x60);
-            gfx_jump_4f(0x3c);
+    if (word_330C2 != 0) { // 8e96
+        if (word_38FEA != 0) { // 8e9d
+            word_38FEA = 0;
+            if (!(keyValue & 0x80)) { // 8eaa
+                sub_19E44(0xd);
+                sub_19E5D(0, 0, 0x13f, 0x60);
+                gfx_jump_4f(0x3c);
+            }
         } // 8ed2
         byte_37C2F = 1;
         if (keyValue == 0 && byte_37C24 == 0) { // 8eeb
-            if (commData->setupUseJoy) { // 8ef9
+            if (!commData->setupUseJoy) { // 8ef9
                 sub_19E44(0);
                 sub_19C0C(0x115, 0x53, 0x125, 0x53);
                 sub_19C0C(0x125, 0x53, 0x125, 0x5f);
@@ -689,9 +693,9 @@ int sub_18E50(int arg_0) {
                 sub_19C0C(0x11d, 0x59, 0x11d, 0x59);
                 // 8f74
                 sub_19E44(0xf);
-                var14 = ((noJoy80 - 0x78) >> 4) + 0x11d;
+                var_14 = ((int16)(noJoy80[0] - 0x78) >> 4) + 0x11d;
                 // 8fa1
-                var_18 = (((byte_37F95 << 1 + byte_37F95) - 0x168) >> 6) + 0x59;
+                var_18 = ((int16)((noJoy80[1] * 3) - 0x168) >> 6) + 0x59;
                 sub_19C0C(var_14 - 1, var_18, var_14 + 1, var_18);
                 // 8fc8
                 sub_19C0C(var_14, var_18 + 1, var_14, var_18 - 1);
@@ -708,7 +712,7 @@ int sub_18E50(int arg_0) {
             // 9089
             sub_19C0C(0xf7,  0x38, 0xf7, sub_1CF64(-((word_3C8B6 >> 4) - 0x38), 0x14, 0x55));
             // 908f
-            if (word_391FE & 1 == 0 && word_336E8 & 1 && gameData->unk4 != 0 && word_3C8B6 < 0) { // 90af
+            if ((word_391FE & 1) == 0 && (word_336E8 & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) { // 90af
                 var_2 = (((stru_3AA5E[word_3C16A].field_6 & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
                 sub_19E44(0xf);
                 // 90f7
@@ -734,11 +738,12 @@ int sub_18E50(int arg_0) {
                 if (var_14 > 0xa && var_14 < 0x135 && var_18 > 8 && var_18 < 0x5b) { // 91da
                     sub_1A8C8(var_14 - 6, var_18 - 5, 0x91, 0x4, 0xd, 0xb, 0xe);
                 } // 9202
-                if (word_32DE4[0x12 * word_330DC[0x1a * word_330A2[word_330B2 * 2]]] == 7) { // 9223
-                    sub_19E44(gfxModeUnset != 0 ? 0xf : 7);
+                // 7 = air to air? Only Sidewinder and Amraam have it
+                if (sams[missiles[missleSpec[missileSpecIndex].field_0].field_16].field_C == 7) { // 9223
+                    sub_19E44((uint8)gfxModeUnset != 0 ? 0xf : 7);
                     // 9239
                     for (var_A = 0; var_A <= 0x100; var_A += 0x10) { // 924b
-                        var_4 = var_A;
+                        var_4 = var_A << 8;
                         var_8 = sub_1D178(var_4, 0x28) + 0x9f;
                         // 9278
                         var_C = -(sub_1D190(var_4, 0x23) - 0x38);
@@ -751,7 +756,7 @@ int sub_18E50(int arg_0) {
             } // 929f
             sub_1A183(word_3AA5A, 0x50, 0x36, 0xf);
             if (word_380D0 <= 0x4e20) { // 92bd
-                sub_1A183(word_380D0 < 0x64 ? word_380D0 : (word_380D0 / 5) * 4, 0xe4, 0x36, 0xf);
+                sub_1A183(word_380D0 < 0x64 ? word_380D0 : (5 % word_380D0) * 5, 0xe4, 0x36, 0xf);
             } // 92ee
             if (word_3370A > 1) { // 92f5
                 drawSomeStrings(aAccel, 0x96, 0x4, 0xf);
@@ -772,7 +777,7 @@ int sub_18E50(int arg_0) {
         sub_1A25C(byte_3C5A0);
     } // 93cf
     if (word_383F2 != 0 && ((keyValue != 0 && word_3370E != 0) || (byte_37C24 == 0 || word_3370E != 0) )) { // 93eb
-        draw2Strings(tempString, -((strlen(tempString, 0x18, 0xf) >> 1) - 0x28) * 4);
+        draw2Strings(tempString, -((strlen(tempString) >> 1) - 0x28) * 4, 0x18, 0xf);
         word_383F2--;
         // 9417
         if (word_336EA == 1) { // 941e
@@ -780,7 +785,7 @@ int sub_18E50(int arg_0) {
         }
     } // 943f
     if (word_383F4 != 0 && keyValue == 0 && byte_37C24 == 0) { // 9454
-        draw2Strings(string_3C04A, -((strlen(string_3C04A, 0x5a, 0xf) >> 1) - 0x28) * 4);
+        draw2Strings(string_3C04A, -((strlen(string_3C04A) >> 1) - 0x28) * 4, 0x5a, 0xf);
         word_383F4--;
     } // 9480
 } // 9485

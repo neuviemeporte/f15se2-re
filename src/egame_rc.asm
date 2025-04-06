@@ -39,10 +39,8 @@ PUBLIC _byte_3C16E
 PUBLIC _word_3BEC0
 PUBLIC _word_3BED0
 PUBLIC _dword_3B7F8
-PUBLIC _word_32A22
 PUBLIC _word_3B148
 PUBLIC _dword_3B7DA
-PUBLIC _word_32A24
 PUBLIC _flt15_buf1
 PUBLIC _flt15_word1
 PUBLIC _flt15_buf2
@@ -68,7 +66,6 @@ PUBLIC _byte_3BED8
 PUBLIC _byte_3C02A
 PUBLIC _word_3C00C
 PUBLIC _word_38FFA
-PUBLIC _unk_3AA5C
 PUBLIC _unk_3B202
 PUBLIC _byte_3AFAC
 PUBLIC _word_3401A
@@ -177,7 +174,6 @@ PUBLIC _word_38126
 PUBLIC _sub_195C9
 PUBLIC _sub_2152A
 PUBLIC _off_38364
-PUBLIC _sub_1229A
 PUBLIC _word_330BC
 PUBLIC _unk_3806E
 PUBLIC _sub_1A8C8
@@ -197,7 +193,6 @@ PUBLIC _word_3755D
 PUBLIC _sub_11A18
 PUBLIC _word_3755F
 PUBLIC _aRear_pic
-PUBLIC _word_330B2
 PUBLIC _word_38FDC
 PUBLIC _sub_11A88
 PUBLIC _word_3C09A
@@ -208,6 +203,44 @@ PUBLIC _word_3BE98
 PUBLIC _byte_3C5A0
 PUBLIC _sub_15FDB
 PUBLIC _word_3C040
+PUBLIC _word_383F4
+PUBLIC _word_3BEBE
+PUBLIC _sub_1A183
+PUBLIC _word_3C6A4
+PUBLIC _byte_37C2F
+PUBLIC _sams
+PUBLIC _word_3AA5A
+PUBLIC _word_3C5A6
+PUBLIC _missleSpec
+PUBLIC _word_3C8B6
+PUBLIC _aPressAnyKeyToP
+PUBLIC _word_3AA5C
+PUBLIC _aTraining
+PUBLIC _copySomeMem
+PUBLIC _word_38FC4
+PUBLIC _waypoints
+PUBLIC _word_3C008
+PUBLIC _word_391FE
+PUBLIC _byte_37C24
+PUBLIC _string_3C04A
+PUBLIC _draw2Strings
+PUBLIC _word_3370A
+PUBLIC _word_3C6AC
+PUBLIC _missiles
+PUBLIC _aAccel
+PUBLIC _sub_19C0C
+PUBLIC _aStallWarning
+PUBLIC _waypointIndex
+PUBLIC _aAutopilot
+PUBLIC _word_38FEA
+PUBLIC _word_3BE92
+PUBLIC _sub_1A25C
+PUBLIC _word_3C16A
+PUBLIC _word_380D0
+PUBLIC _tempString
+PUBLIC _word_383F2
+PUBLIC _word_330B6
+PUBLIC _missileSpecIndex
 PUBLIC _gfx_jump_0_alloc
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_0c
@@ -263,20 +296,55 @@ struc_3		struc ;	(sizeof=0x24, mappedto_13) ; XREF: dseg:stru_3B208/r
 field_0		dw ?
 field_2		dd ?
 field_6		dd ?
-field_A		db 26 dup(?)
+field_A		db 26 dup(?)		; XREF:	sub_10720+DA8/r	sub_10720+DB0/r	...
 struc_3		ends
 
 ; ---------------------------------------------------------------------------
 
 struc_4		struc ;	(sizeof=0x10, mappedto_14) ; XREF: dseg:stru_3AA5E/r
-field_0		dw ?
-field_2		dw ?
+field_0		dw ?			; XREF:	sub_11841+60/r sub_11F3E+60/r ...
+field_2		dw ?			; XREF:	sub_11841+68/r sub_11F3E+40/r ...
 field_4		dw ?
-field_6		dw ?
-field_8		db 4 dup(?)
-field_C		dw ?
+field_6		dw ?			; XREF:	sub_10720+D7F/r
+					; otherKeyDispatch+6C/r	...
+field_8		db 4 dup(?)		; XREF:	sub_10720+D77/r
+field_C		dw ?			; XREF:	placeString+A/r	placeString+43/r ...
 field_E		dw ?
 struc_4		ends
+
+; ---------------------------------------------------------------------------
+
+Waypoint	struc ;	(sizeof=0x4, mappedto_15) ; XREF: dseg:waypoints/r
+field_0		dw ?
+field_2		dw ?
+Waypoint	ends
+
+; ---------------------------------------------------------------------------
+
+Missile		struc ;	(sizeof=0x1A, mappedto_16) ; XREF: dseg:missiles/r
+field_0		db 10 dup(?)		; string(C)
+field_A		db 12 dup(?)		; string(C)
+field_16	dw ?
+field_18	dw ?
+Missile		ends
+
+; ---------------------------------------------------------------------------
+
+Sam		struc ;	(sizeof=0x12, mappedto_17) ; XREF: dseg:sams/r
+field_0		db 8 dup(?)		; string(C)
+field_8		dw ?
+field_A		dw ?
+field_C		dw ?
+field_E		dw ?
+field_10	dw ?
+Sam		ends
+
+; ---------------------------------------------------------------------------
+
+MissileSpec	struc ;	(sizeof=0x4, mappedto_18) ; XREF: dseg:missileSpec/r
+field_0		dw ?
+field_2		dw ?
+MissileSpec	ends
 
 ; ---------------------------------------------------------------------------
 
@@ -313,10 +381,14 @@ IRQ_CBREAK	 = 1Bh
 ; enum Game, mappedto_5
 GAMEDATA_THEATER  = 38h
 GAMEDATA_DIFFICULTY  = 3Eh
+GAMEDATA_UNK4	 = 40h
 
 ; ---------------------------------------------------------------------------
 
 ; enum Misc, mappedto_6
+WAYPT_PRIMARY	 = 1
+WAYPT_SECONDARY	 = 2
+WAYPT_BASE	 = 3
 IRQ_VIDEO	 = 10h
 OVL_HDR_CODESEG	 = 18h
 OVL_HDR_FIRSTIDX  = 1Ch
@@ -439,9 +511,9 @@ sub_114E8 proc near
 sub_114E8 endp
 ; ------------------------------seg000:0x14fb------------------------------
 ; ------------------------------seg000:0x14fc------------------------------
-sub_114FC proc near
+countermeasures proc near
     retn
-sub_114FC endp
+countermeasures endp
 ; ------------------------------seg000:0x1635------------------------------
 ; ------------------------------seg000:0x1636------------------------------
 sub_11636 proc near
@@ -539,9 +611,9 @@ _sub_121CA proc near
 _sub_121CA endp
 ; ------------------------------seg000:0x2276------------------------------
 ; ------------------------------seg000:0x229a------------------------------
-_sub_1229A proc near
+_copySomeMem proc near
     retn
-_sub_1229A endp
+_copySomeMem endp
 ; ------------------------------seg000:0x22b7------------------------------
 ; ------------------------------seg000:0x22b8------------------------------
 sub_122B8 proc near
@@ -554,9 +626,10 @@ sub_126B4 proc near
 sub_126B4 endp
 ; ------------------------------seg000:0x273d------------------------------
 ; ------------------------------seg000:0x273e------------------------------
-sub_1273E proc near
+process3dg proc near
     retn
-sub_1273E endp
+; ------------------------------seg000:0x2872------------------------------
+process3dg endp
 ; ------------------------------seg000:0x2872------------------------------
 ; ------------------------------seg000:0x2fda------------------------------
 sub_12FDA proc near
@@ -668,10 +741,10 @@ _setupDac proc near
     pop di
     pop si
 loc_13B16:
-    mov dx, 44A6h
+    mov dx, offset dacValues
     cmp _word_330BC, 0
     jz short loc_13B23
-    mov dx, offset byte_36F36
+    mov dx, offset otherDacValues
 loc_13B23:
     mov bx, 60h
     mov cx, 0A0h
@@ -796,7 +869,7 @@ loc_13C59:
     mov ax, _word_38126
     call far ptr gfx_jump_2c
     mov byte_378EE, 1
-    call sub_13F72
+    call otherKeyDispatch
     call sub_10720
     cmp byte_3C8B0, 0
     jz short sub_13C47
@@ -990,9 +1063,9 @@ sub_13EE3 proc near
 sub_13EE3 endp
 ; ------------------------------seg000:0x3f01------------------------------
 ; ------------------------------seg000:0x3f72------------------------------
-sub_13F72 proc near
+otherKeyDispatch proc near
     retn
-sub_13F72 endp
+otherKeyDispatch endp
 ; ------------------------------seg000:0x51f8------------------------------
 ; ------------------------------seg000:0x51f9------------------------------
 sub_151F9 proc near
@@ -1155,14 +1228,14 @@ _sub_195C9 proc near
 _sub_195C9 endp
 ; ------------------------------seg000:0x9874------------------------------
 ; ------------------------------seg000:0x9875------------------------------
-sub_19875 proc near
+zoomIn proc near
     retn
-sub_19875 endp
+zoomIn endp
 ; ------------------------------seg000:0x98b3------------------------------
 ; ------------------------------seg000:0x98b4------------------------------
-sub_198B4 proc near
+zoomOut proc near
     retn
-sub_198B4 endp
+zoomOut endp
 ; ------------------------------seg000:0x98f9------------------------------
 ; ------------------------------seg000:0x98fa------------------------------
 sub_198FA proc near
@@ -1205,9 +1278,9 @@ sub_19BE1 proc near
 sub_19BE1 endp
 ; ------------------------------seg000:0x9c0b------------------------------
 ; ------------------------------seg000:0x9c0c------------------------------
-sub_19C0C proc near
+_sub_19C0C proc near
     retn
-sub_19C0C endp
+_sub_19C0C endp
 ; ------------------------------seg000:0x9c83------------------------------
 ; ------------------------------seg000:0x9c84------------------------------
 sub_19C84 proc near
@@ -1250,14 +1323,14 @@ sub_1A030 proc near
 sub_1A030 endp
 ; ------------------------------seg000:0xa0ca------------------------------
 ; ------------------------------seg000:0xa0fe------------------------------
-draw2Strings proc near
+_draw2Strings proc near
     retn
-draw2Strings endp
+_draw2Strings endp
 ; ------------------------------seg000:0xa139------------------------------
 ; ------------------------------seg000:0xa183------------------------------
-sub_1A183 proc near
+_sub_1A183 proc near
     retn
-sub_1A183 endp
+_sub_1A183 endp
 ; ------------------------------seg000:0xa1b0------------------------------
 ; ------------------------------seg000:0xa1b1------------------------------
 sub_1A1B1 proc near
@@ -1265,9 +1338,9 @@ sub_1A1B1 proc near
 sub_1A1B1 endp
 ; ------------------------------seg000:0xa1e3------------------------------
 ; ------------------------------seg000:0xa1e4------------------------------
-sub_1A1E4 proc near
+tempStrcpy proc near
     retn
-sub_1A1E4 endp
+tempStrcpy endp
 ; ------------------------------seg000:0xa203------------------------------
 ; ------------------------------seg000:0xa204------------------------------
 sub_1A204 proc near
@@ -1280,9 +1353,9 @@ sub_1A224 proc near
 sub_1A224 endp
 ; ------------------------------seg000:0xa25a------------------------------
 ; ------------------------------seg000:0xa25c------------------------------
-sub_1A25C proc near
+_sub_1A25C proc near
     retn
-sub_1A25C endp
+_sub_1A25C endp
 ; ------------------------------seg000:0xa73e------------------------------
 ; ------------------------------seg000:0xa740------------------------------
 sub_1A740 proc near
@@ -1465,9 +1538,9 @@ keyDispatch proc near
 keyDispatch endp
 ; ------------------------------seg000:0xd9da------------------------------
 ; ------------------------------seg000:0xd9db------------------------------
-sub_1D9DB proc near
+selectMissile proc near
     retn
-sub_1D9DB endp
+selectMissile endp
 ; ------------------------------seg000:0xda34------------------------------
 ; ------------------------------seg000:0xda35------------------------------
 sub_1DA35 proc near
@@ -2511,9 +2584,9 @@ _sub_22411 proc near
     mov word_37B9C, ax
     mov word_37BBA, ax
     mov word_37BD8, ax
-    mov byte_37C24, 0
+    mov _byte_37C24, 0
 loc_22425:
-    cmp byte_37C24, 1
+    cmp _byte_37C24, 1
     jz short loc_2242F
     jmp loc_22545
 loc_2242F:
@@ -2638,9 +2711,13 @@ loc_22545:
     mov word_37C09, ax
     mov ax, 0FFF1h
     mov word_37C0B, ax
+loc_22590:
     mov ax, 10h
+loc_22593:
     mov word_37C0D, ax
+loc_22596:
     mov ax, 3Ch
+loc_22599:
     mov word_37C0F, ax
     mov ax, 34h
     mov word_37C11, ax
@@ -2837,6 +2914,7 @@ int9Handler proc near
 loc_227B2:
     push ds
     push es
+loc_227B4:
     push ax
     push bx
 loc_227B6:
@@ -3070,18 +3148,8 @@ aReadyForTakeof db 'Ready for takeoff',0
 aWeaponsRepleni db 'Weapons replenished',0
 aAutomaticLandi db 'Automatic Landing Engaged',0
     db 0
-_word_32A22 dw 0
-_word_32A24 dw 0
-    db 0
-    db 0
-word_32A28 dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-word_32A2E dw 0
-word_32A30 dw 0
-word_32A32 dw 0
+    _waypoints Waypoint 4 dup(<0>)
+_waypointIndex dw 0
 word_32A34 dw 0
 aNone db 'None',0
     db 0
@@ -3846,733 +3914,59 @@ aAn72 db 'An-72',0
     db 0
     db 0
     db 0
-    db 4Eh
-    db 6Fh
-    db 6Eh
-    db 65h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-word_32DE4 dw 0
-    db 1
-    db 0
-    db 13h
-    db 0
-    db 53h
-    db 41h
-    db 2Dh
-    db 32h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 7Dh
-    db 0
-    db 0D0h
-    db 7
-    db 1
-    db 0
-    db 4
-    db 0
-    db 13h
-    db 0
-    db 53h
-    db 41h
-    db 2Dh
-    db 35h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 96h
-    db 0
-    db 8
-    db 7
-    db 1
-    db 0
-    db 1
-    db 0
-    db 13h
-    db 0
-    db 53h
-    db 41h
-    db 2Dh
-    db 38h
-    db 42h
-    db 0
-    db 0
-    db 0
-    db 41h
-    db 0
-    db 0B0h
-    db 4
-    db 2
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-    db 53h
-    db 41h
-    db 2Dh
-    db 31h
-    db 30h
-    db 0
-    db 0
-    db 0
-    db 7Dh
-    db 0
-    db 8
-    db 7
-    db 3
-    db 0
-    db 2
-    db 0
-    db 13h
-    db 0
-    db 53h
-    db 41h
-    db 2Dh
-    db 31h
-    db 31h
-    db 0
-    db 0
-    db 0
-    db 64h
-    db 0
-    db 0DCh
-    db 5
-    db 2
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-    db 53h
-    db 41h
-    db 2Dh
-    db 31h
-    db 32h
-    db 0
-    db 0
-    db 0
-    db 96h
-    db 0
-    db 0D0h
-    db 7
-    db 3
-    db 0
-    db 2
-    db 0
-    db 13h
-    db 0
-    db 53h
-    db 41h
-    db 2Dh
-    db 31h
-    db 33h
-    db 0
-    db 0
-    db 0
-    db 41h
-    db 0
-    db 84h
-    db 3
-    db 0
-    db 0
-    db 4
-    db 0
-    db 13h
-    db 0
-    db 53h
-    db 41h
-    db 2Dh
-    db 4Eh
-    db 2Dh
-    db 34h
-    db 0
-    db 0
-    db 1Eh
-    db 0
-    db 0B0h
-    db 4
-    db 2
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-    db 53h
-    db 41h
-    db 2Dh
-    db 4Eh
-    db 2Dh
-    db 35h
-    db 0
-    db 0
-    db 1Eh
-    db 0
-    db 84h
-    db 3
-    db 0FFh
-    db 0FFh
-    db 4
-    db 0
-    db 13h
-    db 0
-    db 53h
-    db 41h
-    db 2Dh
-    db 4Eh
-    db 2Dh
-    db 36h
-    db 0
-    db 0
-    db 7Dh
-    db 0
-    db 8
-    db 7
-    db 3
-    db 0
-    db 2
-    db 0
-    db 13h
-    db 0
-    db 53h
-    db 41h
-    db 2Dh
-    db 4Eh
-    db 2Dh
-    db 37h
-    db 0
-    db 0
-    db 64h
-    db 0
-    db 0DCh
-    db 5
-    db 2
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-    db 48h
-    db 61h
-    db 77h
-    db 6Bh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 7Dh
-    db 0
-    db 84h
-    db 3
-    db 2
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-    db 52h
-    db 61h
-    db 70h
-    db 69h
-    db 65h
-    db 72h
-    db 0
-    db 0
-    db 41h
-    db 0
-    db 0B0h
-    db 4
-    db 2
-    db 0
-    db 4
-    db 0
-    db 13h
-    db 0
-    db 54h
-    db 69h
-    db 67h
-    db 65h
-    db 72h
-    db 0
-    db 0
-    db 0
-    db 1Eh
-    db 0
-    db 84h
-    db 3
-    db 1
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-    db 53h
-    db 65h
-    db 61h
-    db 63h
-    db 61h
-    db 74h
-    db 0
-    db 0
-    db 1Eh
-    db 0
-    db 84h
-    db 3
-    db 1
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-    db 41h
-    db 41h
-    db 2Dh
-    db 32h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0Eh
-    db 0
-    db 0DCh
-    db 5
-    db 0FFh
-    db 0FFh
-    db 4
-    db 0
-    db 13h
-    db 0
-    db 41h
-    db 41h
-    db 2Dh
-    db 38h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0Ch
-    db 0
-    db 8
-    db 7
-    db 0
-    db 0
-    db 5
-    db 0
-    db 13h
-    db 0
-    db 41h
-    db 41h
-    db 2Dh
-    db 36h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 32h
-    db 0
-    db 60h
-    db 9
-    db 2
-    db 0
-    db 2
-    db 0
-    db 13h
-    db 0
-    db 41h
-    db 41h
-    db 2Dh
-    db 37h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 22h
-    db 0
-    db 8
-    db 7
-    db 2
-    db 0
-    db 2
-    db 0
-    db 13h
-    db 0
-    db 41h
-    db 41h
-    db 2Dh
-    db 39h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 52h
-    db 0
-    db 0D0h
-    db 7
-    db 2
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-    db 41h
-    db 41h
-    db 2Dh
-    db 31h
-    db 30h
-    db 0
-    db 0
-    db 0
-    db 40h
-    db 0
-    db 0D0h
-    db 7
-    db 3
-    db 0
-    db 4
-    db 0
-    db 13h
-    db 0
-    db 41h
-    db 49h
-    db 4Dh
-    db 31h
-    db 32h
-    db 30h
-    db 0
-    db 0
-    db 20h
-    db 0
-    db 60h
-    db 9
-    db 7
-    db 0
-    db 4
-    db 0
-    db 1
-    db 0
-    db 41h
-    db 49h
-    db 4Dh
-    db 2Dh
-    db 39h
-    db 0
-    db 0
-    db 0
-    db 11h
-    db 0
-    db 0D0h
-    db 7
-    db 7
-    db 0
-    db 8
-    db 0
-    db 1
-    db 0
-    db 48h
-    db 41h
-    db 52h
-    db 4Dh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 14h
-    db 0
-    db 0B0h
-    db 4
-    db 4
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 50h
-    db 65h
-    db 6Eh
-    db 67h
-    db 75h
-    db 69h
-    db 6Eh
-    db 0
-    db 20h
-    db 0
-    db 0F4h
-    db 1
-    db 5
-    db 0
-    db 2
-    db 0
-    db 13h
-    db 0
-    db 48h
-    db 61h
-    db 72h
-    db 70h
-    db 6Fh
-    db 6Fh
-    db 6Eh
-    db 0
-    db 3Ch
-    db 0
-    db 0F4h
-    db 1
-    db 5
-    db 0
-    db 2
-    db 0
-    db 13h
-    db 0
-    db 41h
-    db 47h
-    db 4Dh
-    db 2Dh
-    db 36h
-    db 35h
-    db 0
-    db 0
-    db 20h
-    db 0
-    db 20h
-    db 3
-    db 6
-    db 0
-    db 2
-    db 0
-    db 0Dh
-    db 0
-    db 4Ch
-    db 47h
-    db 42h
-    db 4Fh
-    db 4Dh
-    db 42h
-    db 0
-    db 0
-    db 0Ah
-    db 0
-    db 0
-    db 0
-    db 1Ch
-    db 0
-    db 2
-    db 0
-    db 0Fh
-    db 0
-    db 52h
-    db 54h
-    db 42h
-    db 4Fh
-    db 4Dh
-    db 42h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1Dh
-    db 0
-    db 2
-    db 0
-    db 0Fh
-    db 0
-    db 46h
-    db 46h
-    db 42h
-    db 4Fh
-    db 4Dh
-    db 42h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1Eh
-    db 0
-    db 2
-    db 0
-    db 0Fh
-    db 0
-    db 41h
-    db 49h
-    db 4Dh
-    db 2Dh
-    db 37h
-    db 57h
-    db 0
-    db 0
-    db 2Ch
-    db 0
-    db 60h
-    db 9
-    db 2
-    db 0
-    db 4
-    db 0
-    db 1
-    db 0
-    db 41h
-    db 49h
-    db 4Dh
-    db 2Dh
-    db 39h
-    db 57h
-    db 0
-    db 0
-    db 0Ch
-    db 0
-    db 0D0h
-    db 7
-    db 0
-    db 0
-    db 5
-    db 0
-    db 1
-    db 0
-    db 53h
-    db 41h
-    db 2Dh
-    db 31h
-    db 34h
-    db 0
-    db 0
-    db 0
-    db 10h
-    db 0
-    db 84h
-    db 3
-    db 0
-    db 0
-    db 5
-    db 0
-    db 1
-    db 0
-    db 41h
-    db 41h
-    db 2Dh
-    db 36h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 32h
-    db 0
-    db 60h
-    db 9
-    db 0FFh
-    db 0FFh
-    db 2
-    db 0
-    db 13h
-    db 0
-    db 41h
-    db 41h
-    db 2Dh
-    db 37h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 22h
-    db 0
-    db 8
-    db 7
-    db 0FFh
-    db 0FFh
-    db 2
-    db 0
-    db 13h
-    db 0
-    db 41h
-    db 41h
-    db 2Dh
-    db 39h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 52h
-    db 0
-    db 0D0h
-    db 7
-    db 0FFh
-    db 0FFh
-    db 3
-    db 0
-    db 13h
-    db 0
-    db 41h
-    db 41h
-    db 2Dh
-    db 31h
-    db 30h
-    db 0
-    db 0
-    db 0
-    db 40h
-    db 0
-    db 0D0h
-    db 7
-    db 0
-    db 0
-    db 4
-    db 0
-    db 13h
-    db 0
-    db 45h
-    db 71h
-    db 75h
-    db 69h
-    db 70h
-    db 2Eh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1Dh
-    db 0
-    db 0
-    db 0
-    db 0Eh
-    db 0
+    _sams Sam <'None', 0, 0, 0, 1, 13h>
+    Sam <'SA-2', 7Dh, 7D0h, 1, 4, 13h>
+    Sam <'SA-5', 96h, 708h, 1, 1, 13h>
+    Sam <'SA-8B', 41h, 4B0h, 2, 3, 13h>
+    Sam <'SA-10', 7Dh, 708h, 3, 2, 13h>
+    Sam <'SA-11', 64h, 5DCh, 2, 3, 13h>
+    Sam <'SA-12', 96h, 7D0h, 3, 2, 13h>
+    Sam <'SA-13', 41h, 384h, 0, 4, 13h>
+    Sam <'SA-N-4', 1Eh, 4B0h, 2, 3, 13h>
+    Sam <'SA-N-5', 1Eh, 384h, 0FFFFh, 4, 13h>
+    Sam <'SA-N-6', 7Dh, 708h, 3, 2, 13h>
+    Sam <'SA-N-7', 64h, 5DCh, 2, 3, 13h>
+    Sam <'Hawk', 7Dh, 384h, 2, 3, 13h>
+    Sam <'Rapier', 41h, 4B0h, 2, 4, 13h>
+    Sam <'Tiger', 1Eh, 384h, 1, 3, 13h>
+    Sam <'Seacat', 1Eh, 384h, 1, 3, 13h>
+    Sam <'AA-2', 0Eh, 5DCh, 0FFFFh, 4, 13h>
+    Sam <'AA-8', 0Ch, 708h, 0, 5, 13h>
+    Sam <'AA-6', 32h, 960h, 2, 2, 13h>
+    Sam <'AA-7', 22h, 708h, 2, 2, 13h>
+    Sam <'AA-9', 52h, 7D0h, 2, 3, 13h>
+    Sam <'AA-10', 40h, 7D0h, 3, 4, 13h>
+    Sam <'AIM120', 20h, 960h, 7, 4, 1>
+    Sam <'AIM-9', 11h, 7D0h, 7, 8, 1>
+    Sam <'HARM', 14h, 4B0h, 4, 2, 1>
+    Sam <'Penguin', 20h, 1F4h, 5, 2, 13h>
+    Sam <'Harpoon', 3Ch, 1F4h, 5, 2, 13h>
+    Sam <'AGM-65', 20h, 320h, 6, 2, 0Dh>
+    Sam <'LGBOMB', 0Ah, 0, 1Ch, 2, 0Fh>
+    Sam <'RTBOMB', 0, 0, 1Dh, 2, 0Fh>
+    Sam <'FFBOMB', 0, 0, 1Eh, 2, 0Fh>
+    Sam <'AIM-7W', 2Ch, 960h, 2, 4, 1>
+    Sam <'AIM-9W', 0Ch, 7D0h, 0, 5, 1>
+    Sam <'SA-14', 10h, 384h, 0, 5, 1>
+    Sam <'AA-6', 32h, 960h, 0FFFFh, 2, 13h>
+    Sam <'AA-7', 22h, 708h, 0FFFFh, 2, 13h>
+    Sam <'AA-9', 52h, 7D0h, 0FFFFh, 3, 13h>
+    Sam <'AA-10', 40h, 7D0h, 0, 4, 13h>
+    Sam <'Equip.', 0, 0, 1Dh, 0, 0Eh>
 word_33096 dw 4
 word_33098 dw 1388h
-    db 0
-    db 0
+word_3309A dw 0
 word_3309C dw 0Ch
 word_3309E dw 12h
     db 3
     db 0
-word_330A2 dw 0
-    db 4
-    db 0
-    db 1
-    db 0
-    db 4
-    db 0
-    db 5
-    db 0
-    db 6
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-_word_330B2 dw 0
+    _missleSpec MissileSpec <0, 4>
+    MissileSpec <1, 4>
+    MissileSpec <5, 6>
+    MissileSpec <0>
+_missileSpecIndex dw 0
 word_330B4 dw 28Ah
-word_330B6 dw 0
+_word_330B6 dw 0
 word_330B8 dw 1
 word_330BA dw 1
 _word_330BC dw 0
@@ -4581,257 +3975,26 @@ word_330BE dw 0
     db 0
 _word_330C2 dw 1
 _word_330C4 dw 4
-aAim9m db 'AIM-9M',0
-    db 0
-    db 0
-    db 0
-aSidewinder db 'Sidewinder',0
-    db 0
-word_330DC dw 17h
-    db 4
-    db 0
-aAim120 db 'AIM-120',0
-    db 0
-    db 0
-aAmraam db 'AMRAAM ',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 16h
-    db 0
-    db 4
-    db 0
-aAgm88a db 'AGM-88A',0
-    db 0
-    db 0
-aHarm db 'HARM',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 18h
-    db 0
-    db 4
-    db 0
-aAim7m db 'AIM-7M',0
-    db 0
-    db 0
-    db 0
-aSparrow db 'Sparrow',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 16h
-    db 0
-    db 4
-    db 0
-aAgm86a db 'AGM-86A',0
-    db 0
-    db 0
-aHarpoon db 'Harpoon',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1Ah
-    db 0
-    db 1
-    db 0
-aAgm65d db 'AGM-65D',0
-    db 0
-    db 0
-aMaverick db 'Maverick',0
-    db 0
-    db 0
-    db 0
-    db 1Bh
-    db 0
-    db 6
-    db 0
-aGbu12 db 'GBU-12',0
-    db 0
-    db 0
-    db 0
-aPaveway db 'Paveway',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1Ch
-    db 0
-    db 8
-    db 0
-aMk20 db 'Mk 20',0
-    db 0
-    db 0
-    db 0
-    db 0
-aRockeye db 'Rockeye',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1Dh
-    db 0
-    db 2
-    db 0
-aDndl db 'Dndl',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-aDurandal db 'Durandal',0
-    db 0
-    db 0
-    db 0
-    db 1Dh
-    db 0
-    db 2
-    db 0
-aMk820 db 'Mk 82-0',0
-    db 0
-    db 0
-aSlick db 'Slick',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1Eh
-    db 0
-    db 3
-    db 0
-aMk821 db 'Mk 82-1',0
-    db 0
-    db 0
-aSnakeye db 'Snakeye',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1Dh
-    db 0
-    db 3
-    db 0
-aMk20_0 db 'Mk 20',0
-    db 0
-    db 0
-    db 0
-    db 0
-aRockeyeIi db 'Rockeye II',0
-    db 0
-    db 1Ch
-    db 0
-    db 4
-    db 0
-aMk122 db 'Mk 122',0
-    db 0
-    db 0
-    db 0
-aFireeye db 'Fireeye',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1Eh
-    db 0
-    db 2
-    db 0
-aCbu72 db 'CBU-72',0
-    db 0
-    db 0
-    db 0
-aFuelAir db 'Fuel-Air',0
-    db 0
-    db 0
-    db 0
-    db 1Ch
-    db 0
-    db 2
-    db 0
-aMk35 db 'Mk 35',0
-    db 0
-    db 0
-    db 0
-    db 0
-aInCluster db 'IN Cluster',0
-    db 0
-    db 1Dh
-    db 0
-    db 2
-    db 0
-aIscB1 db 'ISC B-1',0
-    db 0
-    db 0
-aMinelets db 'Minelets',0
-    db 0
-    db 0
-    db 0
-    db 1Dh
-    db 0
-    db 1
-    db 0
-a135Mm db '135 mm',0
-    db 0
-    db 0
-    db 0
-aCamera db 'Camera',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
-    db 1
-    db 0
-a1900lbs db '1900lbs',0
-    db 0
-    db 0
-aExtraFuel db 'Extra Fuel',0
-    db 0
-    db 0FEh
-    db 0FFh
-    db 1
-    db 0
-a20Mm db '20 mm',0
-    db 0
-    db 0
-    db 0
-    db 0
-aGuns db 'Guns',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 1
-    db 0
-aSpecial db 'Special',0
-    db 0
-    db 0
-aEquip db 'Equip',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 26h
-    db 0
-    db 1
-    db 0
+    _missiles Missile <'AIM-9M', 'Sidewinder', 17h, 4>
+    Missile <'AIM-120', 'AMRAAM ', 16h, 4>
+    Missile <'AGM-88A', 'HARM', 18h, 4>
+    Missile <'AIM-7M', 'Sparrow', 16h, 4>
+    Missile <'AGM-86A', 'Harpoon', 1Ah, 1>
+    Missile <'AGM-65D', 'Maverick', 1Bh, 6>
+    Missile <'GBU-12', 'Paveway', 1Ch, 8>
+    Missile <'Mk 20', 'Rockeye', 1Dh, 2>
+    Missile <'Dndl', 'Durandal', 1Dh, 2>
+    Missile <'Mk 82-0', 'Slick', 1Eh, 3>
+    Missile <'Mk 82-1', 'Snakeye', 1Dh, 3>
+    Missile <'Mk 20', 'Rockeye II', 1Ch, 4>
+    Missile <'Mk 122', 'Fireeye', 1Eh, 2>
+    Missile <'CBU-72', 'Fuel-Air', 1Ch, 2>
+    Missile <'Mk 35', 'IN Cluster', 1Dh, 2>
+    Missile <'ISC B-1', 'Minelets', 1Dh, 1>
+    Missile <'135 mm', 'Camera', 0FFFFh, 1>
+    Missile <'1900lbs', 'Extra Fuel', 0FFFEh, 1>
+    Missile <'20 mm', 'Guns', 0, 1>
+    Missile <'Special', 'Equip', 26h, 1>
     db 0
     db 0
     db 0
@@ -5096,8 +4259,7 @@ word_333D2 dw 0
 word_333D4 dw 0
     db 0
     db 0
-    db 0
-    db 0
+word_333D8 dw 0
 word_333DA dw 0
     db 0
     db 0
@@ -5137,14 +4299,11 @@ word_333DA dw 0
     db 0
     db 0
     db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+word_33402 dw 0
+word_33404 dw 0
+word_33406 dw 0
+unk_33408 db 0
+byte_33409 db 0
     db 0
     db 0
     db 0
@@ -5606,7 +4765,7 @@ word_33702 dw 1
 word_33704 dw 1
 word_33706 dw 1
 word_33708 dw 0
-word_3370A dw 1
+_word_3370A dw 1
 _word_3370C dw 0FFFFh
 _word_3370E dw 0
 word_33710 dw 1
@@ -5616,9 +4775,9 @@ aStoresExhauste db 'Stores exhausted',0
 aFlare db 'Flare',0
 aChaff db 'Chaff',0
 aReleased db ' released',0
-    db ':',0
+asc_3373D db ':',0
 aGun db 'GUN:',0
-    db 'L',0
+asc_33744 db 'L',0
     db '(',0
 aS db 's',0
 word_3374A dw 0
@@ -6221,7 +5380,7 @@ audio_jump_6d endp
 word_339B0 dw 10EAh
 byte_339B2 db 0
     db 0
-    db 0
+unk_339B4 db 0
     db 1
     db 2
     db 3
@@ -6285,8 +5444,7 @@ byte_339B2 db 0
     db 4
     db 4
     db 4
-    db 0FFh
-    db 0FFh
+word_339F4 dw 0FFFFh
     db 1
     db 0
     db 0
@@ -6669,8 +5827,7 @@ byte_339B2 db 0
     db 0
     db 0
     db 0
-    db 0FFh
-    db 0FFh
+word_33B74 dw 0FFFFh
     db 1
     db 0
     db 1
@@ -6687,8 +5844,7 @@ byte_339B2 db 0
     db 0FFh
     db 0
     db 0
-    db 1
-    db 0
+word_33B86 dw 1
     db 1
     db 0
     db 0FFh
@@ -6709,14 +5865,12 @@ byte_339B2 db 0
     db 0E0h
     db 0
     db 0F0h
-    db 0
-    db 0
+word_33B9C dw 0
     db 0
     db 10h
     db 0
     db 20h
-    db 1
-    db 0
+word_33BA2 dw 1
     db 1
     db 0
     db 1
@@ -6726,8 +5880,7 @@ byte_339B2 db 0
     db 1
     db 0
 word_33BAC dw 0
-    db 0
-    db 4
+word_33BAE dw 400h
     db 0
     db 1
     db 40h
@@ -7384,8 +6537,7 @@ word_3417F dw 0
     db 0
     db 0
     db 0
-    db 3
-    db 0
+word_34186 dw 3
     db 4
     db 0
     db 2
@@ -7402,7 +6554,7 @@ _byte_34197 db 6
 word_34198 dw 0
 byte_3419A db 0
     db 0
-    db 0
+byte_3419C db 0
     db 1
     db 2
 byte_3419F db 3
@@ -9067,8 +8219,7 @@ unk_34713 db 0
 word_34864 dw 0
 word_34866 dw 0
 word_34868 dw 0
-    db 0
-    db 0
+word_3486A dw 0
     db 0
     db 0
     db 0
@@ -9547,8 +8698,7 @@ word_34868 dw 0
     db 0
 dword_34A48 dd 0
 word_34A4C dw 0
-    db 0
-    db 0
+word_34A4E dw 0
     db 0
     db 0
     db 0
@@ -14113,7 +13263,7 @@ dacValues1 db 3 dup(0), 3 dup(4), 3 dup(8), 3 dup(0Ch), 3 dup(10h)
     db 0Fh, 14h, 18h, 3Fh, 2Ch, 24h, 3Ah, 28h, 21h, 35h, 25h
     db 1Eh, 31h, 21h, 1Ch, 2Ch, 1Fh, 19h, 28h, 1Bh, 16h, 23h
     db 18h, 14h, 1Eh, 15h, 11h
-    db 34h
+dacValues db 34h
     db 34h
     db 34h
     db 31h
@@ -14550,7 +13700,7 @@ byte_36D86 db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
     db 22h
     db 22h
     db 22h
-byte_36F36 db 1Fh, 10h, 1Eh, 1Dh, 0Fh, 1Eh, 1Bh, 0Fh, 1Dh, 19h, 0Eh
+otherDacValues db 1Fh, 10h, 1Eh, 1Dh, 0Fh, 1Eh, 1Bh, 0Fh, 1Dh, 19h, 0Eh
     db 1Ch, 17h, 0Dh, 1Bh, 15h, 0Dh, 1Ah, 13h, 0Ch, 19h, 11h ;1e0/480 bytes of 160 rgb triplets
     db 0Ch, 18h, 0Fh, 0Bh, 17h, 0Dh, 0Bh, 16h, 0Ch, 0Ah, 15h
     db 2 dup(0Ah), 14h, 9, 0Ah, 13h, 9, 0Ah, 12h, 8, 0Ah, 12h
@@ -14597,10 +13747,8 @@ byte_37116 db 3 dup(34h), 33h, 31h, 2Fh, 32h, 2Fh, 2Ch, 32h, 2Dh
     db 24h, 19h, 2Eh, 22h, 16h, 2Eh, 20h, 12h, 2Dh, 1Eh, 0Fh
     db 2Ch, 1Ch, 0Ch, 2Ch, 1Ah, 9, 2Bh, 18h, 6, 2Ah, 16h, 3
     db 2Ah, 15h, 0
-    db 0
-    db 0
-    db 24h
-    db 3
+word_37146 dw 0
+word_37148 dw 324h
     db 48h
     db 6
     db 6Bh
@@ -15111,10 +14259,8 @@ byte_37116 db 3 dup(34h), 33h, 31h, 2Fh, 32h, 2Fh, 2Ch, 32h, 2Dh
     db 0FCh
     db 0
     db 0
-    db 0
-    db 0
-    db 24h
-    db 3
+word_37348 dw 0
+word_3734A dw 324h
     db 48h
     db 6
     db 6Bh
@@ -17284,14 +16430,14 @@ word_37C1C dw 0
 word_37C1E dw 0
 word_37C20 dw 0
 word_37C22 dw 0
-byte_37C24 db 0
+_byte_37C24 db 0
 word_37C25 dw 0
 word_37C27 dw 0
 word_37C29 dw 0
 word_37C2B dw 0
 byte_37C2D db 0
 byte_37C2E db 0
-byte_37C2F db 0
+_byte_37C2F db 0
 word_37C30 dw 0
 word_37C32 dw 3030h
     db 0
@@ -18125,7 +17271,7 @@ word_37F8E dw 0
     db 0
     db 0
 _noJoy80 db 0
-byte_37F95 db 0
+noJoy80_2 db 0
     db 0
     db 0
 byte_37F98 db 0
@@ -18177,40 +17323,10 @@ byte_37F9F db 0
     db 2
     db 0Ah
     db 0
-    db 4Ch
-    db 61h
-    db 6Eh
-    db 64h
-    db 69h
-    db 6Eh
-    db 67h
-    db 20h
-    db 67h
-    db 65h
-    db 61h
-    db 72h
-    db 20h
-    db 72h
-    db 61h
-    db 69h
-    db 73h
-    db 65h
-    db 64h
-    db 0
-    db 42h
-    db 72h
-    db 61h
-    db 6Bh
-    db 65h
-    db 73h
-    db 20h
-    db 6Fh
-    db 6Eh
-    db 0
-    db 2Eh
-    db 0
-    db 47h
-    db 0
+aLandingGearRaised db 'Landing gear raised',0
+aBrakesOn db 'Brakes on',0
+a_ db '.',0
+aG db 'G',0
     db 10h
     db 10h
     db 10h
@@ -18417,7 +17533,7 @@ _word_380C8 dw 0
 _word_380CA dw 0
 _word_380CC dw 0
 _word_380CE dw 0
-word_380D0 dw 0
+_word_380D0 dw 0
     db 0Ch
     db 0
     db 0
@@ -18504,52 +17620,14 @@ aA db 'A',0
     db 0
     db 65h
     db 0
-    db 53h
-    db 65h
-    db 63h
-    db 6Fh
-    db 6Eh
-    db 64h
-    db 2Eh
-    db 20h
-    db 74h
-    db 61h
-    db 72h
-    db 67h
-    db 65h
-    db 74h
-    db 0
-    db 50h
-    db 72h
-    db 69h
-    db 6Dh
-    db 61h
-    db 72h
-    db 79h
-    db 20h
-    db 74h
-    db 61h
-    db 72h
-    db 67h
-    db 65h
-    db 74h
-    db 0
-    db 3Ah
-    db 30h
-    db 0
-    db 3Ah
-    db 0
-    db 20h
-    db 66h
-    db 69h
-    db 72h
-    db 65h
-    db 64h
+aSecond_Target db 'Second. target',0
+aPrimaryTarget_0 db 'Primary target',0
+a0 db ':0',0
+    db ':',0
+aFired db ' fired',0
     db 0
     db 0
-    db 0
-    db 41h
-    db 0
+word_38202 dw 41h
     db 1Ah
     db 0
     db 65h
@@ -19005,16 +18083,16 @@ byte_383E5 db 1
     db 1
     db 0
 word_383EA dw 8
-word_383EC dw 1
+radarRange dw 1
 word_383EE dw 0
 word_383F0 dw 0
-word_383F2 dw 0
-word_383F4 dw 0
-aStallWarning db 'stall warning',0
-aAccel db 'ACCEL',0
-aTraining db 'TRAINING',0
-aAutopilot db 'AUTOPILOT',0
-aPressAnyKeyToP db 'Press any key to play',0
+_word_383F2 dw 0
+_word_383F4 dw 0
+_aStallWarning db 'stall warning',0
+_aAccel db 'ACCEL',0
+_aTraining db 'TRAINING',0
+_aAutopilot db 'AUTOPILOT',0
+_aPressAnyKeyToP db 'Press any key to play',0
 aTac db 'Tac',0
 aTrackcam db 'TrackCam ',0
 aAhead db 'Ahead',0
@@ -19099,326 +18177,7 @@ word_38890 dw 0
     db 0
 fileReadPos dw 0
 tmpFileHandle dw 0
-picDecodedRowBuf db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+picDecodedRowBuf db 140h dup(0)
 word_389D8 dw 0
 tmpPageIndex dw 0
 rowOffset dw 0
@@ -20561,7 +19320,7 @@ byte_38F8D db ?
     db ?
     db ?
     db ?
-word_38FC4 dw ?
+_word_38FC4 dw ?
 word_38FC6 dw ?
 word_38FC8 dw ?
     db ? ;align 4
@@ -20585,7 +19344,7 @@ word_38FE0 dw ?
 _dword_38FE2 dd ?
 _fileHandle dw ?
 word_38FE8 dw ?
-word_38FEA dw ?
+_word_38FEA dw ?
 word_38FEC dw ?
 word_38FEE dw ?
 _gameData dd ?
@@ -20596,7 +19355,7 @@ word_38FF8 dw ?
 _word_38FFA dw ?
 word_38FFC dw ?
 _buf4_3dg db 200h dup(?)
-word_391FE dw ?
+_word_391FE dw ?
 word_39200 dw ?
 _buf3_3dg db 200h dup(?)
 word_39402 dw ?
@@ -25226,9 +23985,8 @@ _unk_3A948 db ?
     db ?
     db ?
     _stru_3A95A struc_1 10h dup(<?>)
-word_3AA5A dw ?
-_unk_3AA5C db ?
-    db ?
+_word_3AA5A dw ?
+_word_3AA5C dw ?
     _stru_3AA5E struc_4 4Ah dup(<?>)
     db ?
     db ?
@@ -25971,13 +24729,12 @@ word_3B4E0 dw ?
 _hercFlag db ?
     db ?
 _word_3B4E4 dw ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+byte_3B4E6 db ?
+byte_3B4E7 db ?
+byte_3B4E8 db ?
+byte_3B4E9 db ?
+word_3B4EA dw ?
+byte_3B4EC db ?
     db ?
     db ?
     db ?
@@ -26752,7 +25509,7 @@ _byte_3BE3E db 40h dup(?)
 word_3BE7E dw ?
 _byte_3BE80 db 10h dup(?)
 _keyValue dw ?
-word_3BE92 dw ?
+_word_3BE92 dw ?
 _word_3BE94 dw ?
 word_3BE96 dw ?
 _word_3BE98 dw ?
@@ -26790,7 +25547,7 @@ word_3BE9C dw ?
     db ?
     db ?
 word_3BEBC dw ?
-word_3BEBE dw ?
+_word_3BEBE dw ?
 _word_3BEC0 dw ?
 word_3BEC2 dw ?
 _byte_3BEC4 db ?
@@ -26808,86 +25565,7 @@ word_3BED6 dw ?
 _byte_3BED8 db 64h dup(?)
 word_3BF3C dw ?
 word_3BF3E dw ?
-unk_3BF40 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_tempString db 50h dup(?)
 word_3BF90 dw ?
 _regs db ?
 byte_3BF93 db ?
@@ -26906,7 +25584,7 @@ unk_3BF98 db ?
 word_3BFA0 dw ?
 word_3BFA2 dw ?
 _byte_3BFA4 db 64h dup(?)
-word_3C008 dw ?
+_word_3C008 dw ?
 word_3C00A dw ?
 _word_3C00C dw ?
 word_3C00E dw ?
@@ -26926,7 +25604,7 @@ _byte_3C02A db ?
     db ? ;align 2
 _word_3C02C dw ?
 _word_3C02E dw ?
-    db ?
+unk_3C030 db ?
     db ?
     db ?
     db ?
@@ -26945,92 +25623,13 @@ word_3C042 dw ?
 word_3C044 dw ?
 _word_3C046 dw ?
 word_3C048 dw ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_string_3C04A db 50h dup(?)
 _word_3C09A dw ?
 word_3C09C dw ?
 _word_3C09E dw ?
 word_3C0A0 dw ?
 _word_3C0A2 dw 64h dup(?)
-word_3C16A dw ?
+_word_3C16A dw ?
 word_3C16C dw ?
 _byte_3C16E db 2EEh dup(?)
 _word_3C45C dw ?
@@ -27040,21 +25639,15 @@ _byte_3C5A0 db ?
     db ?
 word_3C5A2 dw ?
 word_3C5A4 dw ?
-word_3C5A6 dw ?
+_word_3C5A6 dw ?
 word_3C5A8 dw ?
 _word_3C5AA dw ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+word_3C5AC dw ?
+word_3C5AE dw ?
+word_3C5B0 dw ?
+word_3C5B2 dw ?
+word_3C5B4 dw ?
+word_3C5B6 dw ?
     db ?
     db ?
     db ?
@@ -27288,10 +25881,10 @@ _word_3C69E dw ?
 byte_3C6A0 db ?
     db ? ;align 2
 word_3C6A2 dw ?
-word_3C6A4 dw ?
+_word_3C6A4 dw ?
 _commData dd ?
 word_3C6AA dw ?
-word_3C6AC dw ?
+_word_3C6AC dw ?
 word_3C6AE dw ?
     db ? ;align 400h
     db ?
@@ -27809,7 +26402,7 @@ byte_3C8B0 db ?
     db ? ;align 2
 word_3C8B2 dw ?
 _gfxBufPtr dw ?
-word_3C8B6 dw ?
+_word_3C8B6 dw ?
 word_3C8B8 dw ?
 word_3C8BA dw ?
 word_3C8BC dw ?

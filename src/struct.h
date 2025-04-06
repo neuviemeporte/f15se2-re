@@ -143,4 +143,34 @@ struct struc_4 {
     int16 field_E;
 };
 
+// used in egame.exe, 4 bytes
+struct Waypoint {
+    uint16 field_0;
+    uint16 field_2;
+};
+
+// 0x1a bytes
+struct Missile {
+    char field_0[10];
+    char field_A[12];
+    int field_16;
+    int field_18;
+};
+
+// 0x12 bytes
+struct Sam {
+    char field_0[8];
+    int field_8;
+    int field_A;
+    int field_C;
+    int field_E;
+    int field_10;
+};
+
+// 0x4 bytes
+struct MissileSpec {
+    int field_0;
+    int field_2;
+};
+
 #endif // STRUCT_H
