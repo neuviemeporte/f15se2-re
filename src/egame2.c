@@ -9,6 +9,11 @@
 #include <dos.h>
 #include <memory.h>
 
+// ==== seg002:0xa ====
+int far sub_21A7A() {
+    sub_21A86();
+}
+
 // ==== seg002:0xe ====
 void far sub_21A7E() {
     sub_22411();

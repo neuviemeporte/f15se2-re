@@ -3,6 +3,8 @@ DOSSEG
 .MODEL SMALL
 EXTRN _sub_155AB:PROC
 EXTRN _sub_18E50:PROC
+EXTRN _sub_21A7A:PROC
+EXTRN _otherKeyDispatch:PROC
 PUBLIC _commData
 PUBLIC _gameData
 PUBLIC _hercFlag
@@ -241,6 +243,7 @@ PUBLIC _tempString
 PUBLIC _word_383F2
 PUBLIC _word_330B6
 PUBLIC _missileSpecIndex
+PUBLIC _sub_21A86
 PUBLIC _gfx_jump_0_alloc
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_0c
@@ -863,13 +866,13 @@ sub_13C47 proc near
     call _sub_18E50
     cmp _keyValue, 0
     jnz short loc_13C59
-    call far ptr sub_21A7A ;call sub_21A7A
+    call far ptr _sub_21A7A ;call sub_21A7A
 loc_13C59:
     mov bx, 0
     mov ax, _word_38126
     call far ptr gfx_jump_2c
     mov byte_378EE, 1
-    call otherKeyDispatch
+    call _otherKeyDispatch
     call sub_10720
     cmp byte_3C8B0, 0
     jz short sub_13C47
@@ -1062,11 +1065,6 @@ sub_13EE3 proc near
     retn
 sub_13EE3 endp
 ; ------------------------------seg000:0x3f01------------------------------
-; ------------------------------seg000:0x3f72------------------------------
-otherKeyDispatch proc near
-    retn
-otherKeyDispatch endp
-; ------------------------------seg000:0x51f8------------------------------
 ; ------------------------------seg000:0x51f9------------------------------
 sub_151F9 proc near
     retn
@@ -2562,20 +2560,15 @@ sub_218A8 proc near
     retn
 sub_218A8 endp
 ; ------------------------------seg001:0x21d5------------------------------
-; ------------------------------seg002:0xa------------------------------
-sub_21A7A proc far
-    retn
-sub_21A7A endp
-; ------------------------------seg002:0xd------------------------------
 ; ------------------------------seg002:0x12------------------------------
 sub_21A82 proc far
     retn
 sub_21A82 endp
 ; ------------------------------seg002:0x15------------------------------
 ; ------------------------------seg002:0x16------------------------------
-sub_21A86 proc near
+_sub_21A86 proc near
     retn
-sub_21A86 endp
+_sub_21A86 endp
 ; ------------------------------seg002:0x9a0------------------------------
 ; ------------------------------seg002:0x9a1------------------------------
 _sub_22411 proc near

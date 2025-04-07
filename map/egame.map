@@ -89,7 +89,7 @@ restoreTimerIrqHanlder: seg000 NEAR 3cb6-3cd6 R3cb6-3cd6 assembly
 sub_13DF2: seg000 NEAR 3df2-3e86 R3df2-3e86 assembly
 manipulateTimer: seg000 NEAR 3e87-3edb R3e87-3edb assembly
 routine_338: seg000 NEAR 3edc-3ee2 R3edc-3ee2
-routine_108: seg000 NEAR 3f72-51f8 R3f72-41e8 U41e9-41ea R41eb-51f8
+otherKeyDispatch: seg000 NEAR 3f72-51f8 R3f72-41e8 U41e9-41ea R41eb-51f8
 routine_159: seg000 NEAR 51f9-5236 R51f9-5236
 routine_160: seg000 NEAR 5237-5410 R5237-5410
 routine_145: seg000 NEAR 5411-543a R5411-543a
@@ -335,7 +335,7 @@ routine_357: seg001 NEAR 1ed6-1f24 R1ed6-1f24
 routine_397: seg001 NEAR 1f34-201a R1f34-201a
 routine_206: seg001 FAR 201c-2027 R201c-2027
 routine_313: seg001 NEAR 2028-21d7 R1f25-1f33 R2028-21d7
-routine_106: seg002 FAR 000a-000d R000a-000d
+sub_21A7A: seg002 FAR 000a-000d R000a-000d
 sub_21A7E: seg002 FAR 000e-0011 R000e-0011
 routine_144: seg002 NEAR 0016-09a0 R0016-09a0
 sub_22411: seg002 NEAR 09a1-0bea R09a1-0bea assembly

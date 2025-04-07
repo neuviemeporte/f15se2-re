@@ -380,6 +380,11 @@ int strcpyFromDot(char *arg_0, char *arg_2) {
     strcpy(arg_0, arg_2);
 }
 
+// ==== seg000:0x3f72 ====
+int otherKeyDispatch() {
+
+} // 51f9
+
 // ==== seg000:0x55ab ====
 // something to do with view switching?
 int sub_155AB() {
@@ -756,7 +761,7 @@ int sub_18E50(int arg_0) {
             } // 929f
             sub_1A183(word_3AA5A, 0x50, 0x36, 0xf);
             if (word_380D0 <= 0x4e20) { // 92bd
-                sub_1A183(word_380D0 < 0x64 ? word_380D0 : (5 % word_380D0) * 5, 0xe4, 0x36, 0xf);
+                sub_1A183(word_380D0 < 0x64 ? word_380D0 : (word_380D0 / 5) * 5, 0xe4, 0x36, 0xf);
             } // 92ee
             if (word_3370A > 1) { // 92f5
                 drawSomeStrings(aAccel, 0x96, 0x4, 0xf);
@@ -773,11 +778,13 @@ int sub_18E50(int arg_0) {
             // 93a0
             sub_19C0C(var_6, 0x11, var_6 + 2, 0xf);
             sub_19C0C(var_6 - 2, 0xf, var_6 + 2, 0xf);
+            goto somewhere;
         } // 93c4
+somewhere:        
         sub_1A25C(byte_3C5A0);
     } // 93cf
-    if (word_383F2 != 0 && ((keyValue != 0 && word_3370E != 0) || (byte_37C24 == 0 || word_3370E != 0) )) { // 93eb
-        draw2Strings(tempString, -((strlen(tempString) >> 1) - 0x28) * 4, 0x18, 0xf);
+    if (word_383F2 != 0 && ((keyValue == 0 && byte_37C24 == 0) || (word_3370E != 0))) { // 93eb
+        draw2Strings(tempString, -(((int16)strlen(tempString) >> 1) - 0x28) * 4, 0x18, 0xf);
         word_383F2--;
         // 9417
         if (word_336EA == 1) { // 941e
@@ -785,7 +792,7 @@ int sub_18E50(int arg_0) {
         }
     } // 943f
     if (word_383F4 != 0 && keyValue == 0 && byte_37C24 == 0) { // 9454
-        draw2Strings(string_3C04A, -((strlen(string_3C04A) >> 1) - 0x28) * 4, 0x5a, 0xf);
+        draw2Strings(string_3C04A, -(((int16)strlen(string_3C04A) >> 1) - 0x28) * 4, 0x5a, 0xf);
         word_383F4--;
     } // 9480
 } // 9485
@@ -815,4 +822,4 @@ int drawString(int* arg_0, char *arg_2, int arg_4, int arg_6, int arg_8) {
     arg_0[5] = arg_6;
     arg_0[2] = arg_8;
     gfx_jump_05_drawString(arg_0, strupr(arg_2), strlen(arg_2));
-}
+}   
