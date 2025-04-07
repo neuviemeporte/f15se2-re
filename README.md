@@ -45,7 +45,7 @@ As of the time of writing this, the status of the reconstruction is as follows:
 
 ## `egame.exe` 
 
-* reconstruction in progress
+* reconstruction of C code in progress, about 14% done as of 7.04.2025
 
 ## `end.exe`
 
