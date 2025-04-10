@@ -542,13 +542,50 @@ loc_140C5:
                 var_2A = -var_2A;
                 var_34 = -var_34;
                 var_2C = abs(word_380C8 - 0x8000);
-                // 451a
-                var_14 = sub_1CF64( (abs(var_34) + abs(var_2A)) * 2
             } // 44dc
-
+            // 451a
+            var_14 = sub_1CF64( (abs(var_34) + abs(var_2A)) * 2 + var_2C / 32, 0x32, 0x1000);
+            if (var_14 < 0x1000) sub_1DB9C();
+            if (stru_3AA5E[var_10].field_6 & 0x200) var_14 += 0x64;
+            // 4538
+            if (word_33702 != 0 && abs(var_2C) < 0x200) var_14 = 0xffec;
+            // 4570
+            var_34 = (stru_3AA5E[var_10].field_6 & 0x200 ? 0x1c : 0x38) * var_3E + stru_3AA5E[var_10].field_2;
+            var_34 += sub_1CF64((abs(var_A) * 4) + (var_2C / 16), 0, 0xc00) * var_3E;
+            planeFlags &= 0xf7;
+            // 45b0
+            if (var_2C > 0x4000) { // 45b7 
+                var_2A = stru_3AA5E[var_10].field_0;
+                var_14 = 0x1000;
+            } 
+            else { // 45cc
+                var_2A = (var_3E * var_2A * 2) + stru_3AA5E[var_10].field_0;
+                if (0x50 * word_380E0 < word_3AA5A) planeFlags |= 8;
+            } // 45f4
+            var_E = sub_1D008(var_2A - word_3BEC0, word_3BED0 - var_34);
+            var_3C = word_3AA5A / 16;
+            var_2C = forceRange(var_E - word_380C8, -var_3C << 8, var_3C & 0xff) * 2;
+            // 4643
+            if (word_33702 != 0) var_2C = 0;
+            word_3C00E = -sub_1CF64((var_2C - word_380CC) << 6, 0xffe0, 0x20);
+            word_380E0 = sub_1CF64(var_14 / 64, abs(var_2C) / 256, 0x23, 0x50);
+            // 46ae
+            sub_15FDB();
+            var_14 = forceRange((var_14 - word_380CE) << 3 + word_38FC4 << 7, 0xffe8, 0x18);
+            word_3C5A4 = sub_1CF64(var_14 - word_380CA >> 7, 0xfff0, 0x10)
+            // 46f7
+            if (word_3AA5A < 0x15e) planeFlags &= 0xfe;
+            if (word_3BEBE == word_380CE) { // 470d 
+                word_380E0 = 0;
+                word_3C00E = 0;
+                planeFlags |= 8;
+                word_3C5A4 = 0;
+            } // 4724
         } // 4724
     } // 4724
-
+    if (gameData->unk4 != 0) { // 472f 
+        word_3AA5A
+    } // 4753
 } // 51f9
 
 // ==== seg000:0x55ab ====
