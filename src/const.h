@@ -18,6 +18,8 @@
 
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 200
+#define SCREEN_MAXX SCREEN_WIDTH - 1
+#define SCREEN_MAXY SCREEN_HEIGHT - 1
 
 // briefing screen description text color, normal and highlighted
 #define COLOR_BRIEF_DESC_NORMAL 7

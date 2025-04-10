@@ -10,6 +10,7 @@
 #include <dos.h>
 #include <stdio.h>
 #include <string.h>
+#include <bios.h>
 
 // far arrays found in seg004 in the original executable
 unsigned char far byte_228D0[0xadd4];
@@ -382,6 +383,171 @@ int strcpyFromDot(char *arg_0, char *arg_2) {
 
 // ==== seg000:0x3f72 ====
 int otherKeyDispatch() {
+    int var_C, var_E, var_10, var_14, var_16, var_18, var_1A, var_20, var_22, var_24, var_28, var_2A;
+    int var_2C, var_32, var_34, var_38, var_3C, var_3E;
+    if (word_3BECC == 0) { // 3f81
+        word_3AFA6 = word_380E0 = word_3A944 = word_380D0 = word_380CC = word_380CA = 0;
+        if (gameData->difficulty == 0) { // 3fa2
+            word_380C8 = word_3BED0 - waypoints[1].field_2 < 0x8000 ? 0 : 0x8000;
+        } 
+        else { // 3fba
+            word_380C8 = gameData->theater == THEATER_DS ? 0 : gameData->theater & 1 ? 0 : 0x8000;
+        } // 3fd6
+        if (stru_3AA5E[word_3B148].field_6 & 0x200) { // 3fe6
+            word_380C8 += 0x4000;
+        } // 3feb
+        sub_15411();
+        sub_15FDB();
+        word_3BECC = 1;
+    } // 3ff7
+    keyScancode = 0;
+    // 3ffd
+    if (kbhit()) { // 4004
+        if ((keyScancode = _bios_keybrd(_KEYBRD_READ)) == 1) { // 4017
+            word_3370E = word_336EA = keyValue = 0;
+        }
+    } // 4022
+    while (kbhit()) { // 4029 
+        _bios_keybrd(_KEYBRD_READ);
+    } // 4034
+    switch (keyScancode) {
+    KEYCODE_MINUS: // 403a
+        // decrease power
+        word_380E0 = sub_1CF64(word_380E0 - 0xa, 0, 0x64);
+        sub_15FDB();
+        break;
+    KEYCODE_EQUAL: // 4057
+        // increase power
+        word_380E0 = sub_1CF64((word_380E0 < 0xa ? 5 : 0xa) + word_380E0, 0, 0x64);
+        sub_15FDB();
+        planeFlags &= 0xf7;
+        break;
+    KEYCODE_A: // 4086
+        // afterburner
+        word_380E0 = 0x90;
+        sub_15FDB();
+        planeFlags &= 0xf7;
+        break;
+    KEYCODE_SHIFTEQUAL: // 4097
+        // full power
+        word_380E0 = 0x64;
+        sub_15FDB();
+        planeFlags &= 0xf7;
+        goto loc_140C5;
+    KEYCODE_SHIFTMINUS: // 40a7
+        // idle power
+        word_380E0 = 0;
+        makeSound(0x10, 0);
+        sub_15FDB();
+        break;
+    KEYCODE_B: // 40c0
+        // brakes
+        planeFlags ^= 8;
+loc_140C5:
+        if (planeFlags & 8 == 0 && word_3BEBE != 0 && word_380E0 == 0x64) { // 40da
+            makeSound(0x1c, 2);
+        }
+        break;
+    KEYCODE_ALTJ: // 40f1
+        // recenter joystick
+        if (word_380E2 == 0) { // 40f8
+            sub_2265B();
+            word_380E2 = 0x28;
+        }
+        break;
+    KEYCODE_ALTQ: // 4106
+        // quit
+        sub_11B37(1);
+        exitCode = 0;
+        break;
+    KEYCODE_ALTB: // 4118
+        // boss key
+        if (word_330C2 != 0) { // 411f 
+            gfx_jump_2a(*off_38334, 0, 0x51, *off_38364, 0, 0x51, SCREEN_WIDTH, 0x67);
+        } // 4149
+        sub_19E44(0);
+        sub_19E5D(0, 0, SCREEN_MAXX, SCREEN_MAXY);
+        // 417b
+        sub_1A8C8(0, 0, 0x71, 0x37, 0x0c, 7, 0);
+        sub_1613B();
+        if (word_330C2 != 0) { // 418b 
+            gfx_jump_2a(*off_38364, 0, 0x61, *off_38334, 0, 0x61, SCREEN_WIDTH, 0x67);
+            gfx_jump_2a(*off_38364, 0, 0x61, *off_3834C, 0, 0x61, SCREEN_WIDTH, 0x67);
+            // 41df
+            sub_15FDB();
+        } // 41e2
+        break;
+    KEYCODE_ALTP: // 41e4
+        // pause
+        sub_1613B();
+        break;
+    } // 423e
+    if (word_380E2 != 0) word_380E2--;
+    if (word_380E0 != 0 && word_3AFA6 == 0) { // 4257 
+        makeSound(0xe, 2);
+    } // 4265
+    if (word_330BE != 0) { // 426c 
+        noJoy80[0] = 0;
+        noJoy80_2[0] = 0;
+    } // 4278
+    else if (commData->setupUseJoy != 0) { // 4283 
+        sub_2267E();
+    } // 428a
+    else {
+        noJoy80[0] = ((word_38602 * (byte_37F98 - 0x80)) / 3) - 0x80;
+        noJoy80[1] = ((word_38602 * (byte_37F99 - 0x80)) / 3) - 0x80;
+    } // 42b6
+    if ((word_3C00E = (noJoy80[0] >> 4) - 8) < 0) word_3C00E++;
+    if ((word_3C5A4 = (noJoy80[1] >> 4) - 8) < 0) word_3C5A4++;
+    word_3C00E = -((abs(word_3C00E) + 2) * word_3C00E) << 1;
+    if ((word_3C5A4 *= 6) < 0) { // 430a 
+        word_3C5A4 /= 2;
+    } // 4313
+    if (word_380CE == word_3BEBE && word_3C5A4 < 0 && word_380CA <= 0)  word_3C5A4 = 0;
+    // 4330
+    if (word_3AA5A > 0x15e && (planeFlags & 1) == 0 && word_336EC != 0) { // 4346 
+        word_336EC = 0;
+        planeFlags |= 1;
+        tempStrcpy(aLandingGearRaised);
+        makeSound(0x20, 2);
+    } // 4369
+    if (word_3BEBE == word_380CE && word_380E0 == 0 && planeFlags & 8 == 0) { // 4380 
+        planeFlags |= 8;
+        tempStrcpy(aBrakesOn);
+    } // 438f
+    if (word_3C00E != 0 || word_3C5A4 != 0) word_330B6 = 0;
+    // 43a3
+    if (word_330B6 != 0) { // 43ad 
+        // maps word_38FE0 to range -2048 to +1792, in steps of 256.
+        var_2C = word_336EA != 0 ? ((word_38FE0 & 0xf) << 8) - 0x800 : 0;
+        // 43e6
+        var_2C = forceRange(var_2C - word_380C8 + word_3BE92, 0xec00, 0x1400) * 2;
+        word_3C00E = -sub_1CF64((var_2C - word_380CC) >> 6, 0xffe8, 0x18);
+        // 4426
+        var_14 = forceRange(((word_330B6 - word_380CE) << 4) - word_38FC4);
+        word_3C5A4 = sub_1CF64((var_14 - word_380CA) >> 7, 0xfff8, 8);
+        // flying to base?
+        if (waypointIndex == WAYPT_BASE) { // 4450
+            var_3E = word_3AFA8;
+            var_10 = word_3B15A;
+            var_2A = stru_3AA5E[var_10].field_0 - word_3BEC0;
+            // 4475
+            var_34 = stru_3AA5E[var_10].field_2 - word_3BED0;
+            if (stru_3AA5E[var_10].field_6 & 0x200) { // 4480 
+                var_3E = -sub_1D1C8(var_34);
+            } // 448c
+            var_34 += (stru_3AA5E[var_10].field_6 & 0x200 ? 0x1e : 0x40) * var_3E;
+            var_2C = abs(word_380C8);
+            if (var_3E == 0xffff) { // 44bc 
+                var_2A = -var_2A;
+                var_34 = -var_34;
+                var_2C = abs(word_380C8 - 0x8000);
+                // 451a
+                var_14 = sub_1CF64( (abs(var_34) + abs(var_2A)) * 2
+            } // 44dc
+
+        } // 4724
+    } // 4724
 
 } // 51f9
 
@@ -705,7 +871,7 @@ int sub_18E50(int arg_0) {
                 // 8fc8
                 sub_19C0C(var_14, var_18 + 1, var_14, var_18 - 1);
             } // 8fce
-            if (word_391FE & 0x200) { // 8fd6
+            if (planeFlags & 0x200) { // 8fd6
                 sub_19E44(0xf);
                 sub_19C0C(0x9c, 0x59, 0xa4, 0x59);
                 sub_19C0C(0xa0, 0x56, 0xa0, 0x5c);
@@ -717,7 +883,7 @@ int sub_18E50(int arg_0) {
             // 9089
             sub_19C0C(0xf7,  0x38, 0xf7, sub_1CF64(-((word_3C8B6 >> 4) - 0x38), 0x14, 0x55));
             // 908f
-            if ((word_391FE & 1) == 0 && (word_336E8 & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) { // 90af
+            if ((planeFlags & 1) == 0 && (word_336E8 & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) { // 90af
                 var_2 = (((stru_3AA5E[word_3C16A].field_6 & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
                 sub_19E44(0xf);
                 // 90f7
@@ -766,7 +932,7 @@ int sub_18E50(int arg_0) {
             if (word_3370A > 1) { // 92f5
                 drawSomeStrings(aAccel, 0x96, 0x4, 0xf);
             } // 930b
-            if (word_391FE & 0x1000) { // 9313
+            if (planeFlags & 0x1000) { // 9313
                 drawSomeStrings(aTraining, 0xea, 0x10, 0xf);
             } // 9329
             if (word_330B6 != 0) { // 9330
