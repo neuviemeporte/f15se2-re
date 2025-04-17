@@ -1,9 +1,6 @@
-int a[64][64];
+int word_3C5A4, word_38FDA;
 
 int main() {
-    int x = 5, y = 6;
-    for (x = 0; x < 63; x++)
-        for (y = 0; y < 63; y++)
-            a[x][y] = 123;
+    word_38FDA += word_3C5A4 / 2;
     return 0;
 }

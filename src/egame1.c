@@ -383,7 +383,7 @@ int strcpyFromDot(char *arg_0, char *arg_2) {
 
 // ==== seg000:0x3f72 ====
 int otherKeyDispatch() {
-    int var_C, var_E, var_10, var_14, var_16, var_18, var_1A, var_20, var_22, var_24, var_28, var_2A;
+    int var_A, var_C, var_E, var_10, var_14, var_16, var_18, var_1A, var_20, var_22, var_24, var_28, var_2A;
     int var_2C, var_32, var_34, var_38, var_3C, var_3E;
     if (word_3BECC == 0) { // 3f81
         word_3AFA6 = word_380E0 = word_3A944 = word_380D0 = word_380CC = word_380CA = 0;
@@ -572,7 +572,7 @@ loc_140C5:
             // 46ae
             sub_15FDB();
             var_14 = forceRange((var_14 - word_380CE) << 3 + word_38FC4 << 7, 0xffe8, 0x18);
-            word_3C5A4 = sub_1CF64(var_14 - word_380CA >> 7, 0xfff0, 0x10)
+            word_3C5A4 = sub_1CF64(var_14 - word_380CA >> 7, 0xfff0, 0x10);
             // 46f7
             if (word_3AA5A < 0x15e) planeFlags &= 0xfe;
             if (word_3BEBE == word_380CE) { // 470d 
@@ -584,8 +584,123 @@ loc_140C5:
         } // 4724
     } // 4724
     if (gameData->unk4 != 0) { // 472f 
-        word_3AA5A
-    } // 4753
+        var_24 = ((int32)word_3AA5A * (int32)(1000 - word_380CE)) << 0xf;
+    } 
+    else { // 4753
+        var_24 = 0;
+    } // 4758
+    if (planeFlags & 1 == 0) { // 475f 
+        var_24 += sub_1CF64((word_3AA5A - 0x200) >> 5,0, 0x20);
+    } // 477a
+    if (var_24 > 0 && word_380CE >= word_3BEBE) { // 4789 
+        word_3C00E += randlmul(var_24) - (var_24 >> 1);
+        word_3C5A4 += randlmul(var_24) - (var_24 >> 1);
+    } // 47b3
+    if (planeFlags & 1 && word_3C5A4 < 0 && word_3A8FE < word_3A944 && gameData->unk4 < 2 && abs(word_380CC) < 0x3000 && word_38FE8 == 0 && (var_14 = ((word_38FC4 - word_380CA) >> 2 - word_380CE + 0x300) >> 2) > 0) { // 4808
+        word_3C5A4 = sub_1CF64(var_14, 0, 0x20);
+    } // 481b
+    if (word_3BE3C != 0) { // 4825 
+        word_3C00E = 0x40;
+        word_3C5A4 = abs(word_380CC) > 0x4000 ? 0x10 : 0xfff8;
+        // 486a
+        word_3C040 += sub_1CF64(-(++word_3BE3C - 0x20), 0xff00 / word_330C4, 0x80 / word_330C4);
+        if (word_3C040 > 0x8000) { // 4870
+            word_3C040 = 0;
+            if (word_38FE0 & 7 == 0) sub_11B37(0);
+        } // 4886
+        if (word_380CE == 0 && word_336F6 == 0xffff) { // 4894 
+            word_336F6 = 0;
+            stru_3AA5E[0].field_0 = word_3BEC0;
+            stru_3AA5E[0].field_2 = word_3BED0;
+            // 48a9
+            word_3BEBC = word_3BEC0;
+            word_3BEC8 = word_3BED0;
+            word_3BECE = 0;
+            word_39606 = 0xfff8;
+            makeSound(2, 2);
+            word_380E0 = 0;
+            word_3A944 = 0;
+        } // 48d1
+        if (word_3BE3C & 0xf == 0x10 && word_336E8 & 3 == 1) { // 48e4
+            word_336F6 = 0xffff;
+            var_38 = (word_336E8 >> 1) & 7;
+            stru_33402[var_38].field_0 = word_3BEC0;
+            stru_33402[var_38].field_2 = word_3BED0;
+            stru_33402[var_38].field_4 = word_380CE;
+            // 491e
+            stru_33402[var_38].field_6 = randlmul(0x20) << 0x0b;
+            word_33442 = var_38;
+            word_3BEBC = word_3BEC0;
+            word_3BEC8 = word_3BED0;
+            word_3BECE = word_380CE;
+            word_39606 = 0xfff8;
+            makeSound(0, 2);
+            word_380CA = 0xc000;
+            byte_380DD[0] = 1;
+        } // 4958
+    } // 4958
+    if (word_3BF90 != 0 && word_380E0 > -((word_3BF90 << 2) - 0x90)) { // 4973
+        if (word_380E0 < 0) word_380E0 = 0;
+        sub_15FDB();
+    } // 4984
+    word_3AFA6 += ((word_380E0 - word_3AFA6) / 4) / word_330C4;
+    if (word_380E0 > word_3AFA6) word_3AFA6++;
+    if (word_380E0 < word_3AFA6) word_3AFA6 = word_380E0;
+    if (word_336E8 % (word_330C4 << 1) == 0 && word_380E0 != 0 && word_336EA == 0) { // 49df 
+        word_33098 -= ((word_380E0 * word_380E0) / 750) + 2;
+        sub_1606C();
+    } // 49f4
+    if (word_33098 <= 0) { // 49fb
+        word_3AFA6 = 0;
+        word_33098 = 0;
+    } // 4a07
+    word_38FDA = byte_37FEC[(abs(word_380CC) >> 8) & 0x7f];
+    if (word_3BEBE < word_380CE) { // 4a2c 
+        word_38FDA += word_3C5A4 / 2;
+    } // 4a38
+    if (word_38FDA > 0x80) { // 4a40 
+        word_38FDA = 0x80;
+        word_3C5A4 = sub_1CF64(-(byte_37FEC[(abs(word_380CC) >> 8) & 0x7f] - 0x80), 0, word_3C5A4);
+    } // 4a75
+    strcpy(unk_38FD0, itoa(word_38FDA / 16, strBuf, 0xa));
+    strcat(unk_38FD0, a_);
+    // 4ad3
+    stract(unk_38FD0, itoa((abs(word_38FDA) & 0xf) >> 1, strBuf, 0xa));
+    strcat(unk_38FD0, aG);
+    // 4b13
+    var_32 = ((word_3AFA6 - sub_1D178(word_380CA, 0x50)) * (int32)0x320) / (int32)0x64;
+    word_3C5A6 = 0x64;
+    var_32 = ((int32)((word_380CE >> 7) + 0x400) * var_32) >> 0xa;
+    // 4b65
+    word_3C5A6 = ((int32)((word_380D0 >> 6) + 0x400) * 0x64) >> 0xa;
+    var_32 = ((int32)(-((word_33098 >> 9) - 0x64)) * (int32)var_32) / (int32)word_3C5A6;
+    // 4bad
+    var_32 = ((int32)var_32 * (int32)(0x80 - word_38FDA)) >> 7;
+    word_3C5A6 = ((int32)sub_15557(word_38FDA << 2) * (int32)word_3C5A6) >> 3;
+    word_3C5A6 = abs(word_3C5A6);
+    if (planeFlags & 1 == 0) var_32 -= var_32 >> 3;
+    // 4bfb
+    word_3A8FE = 0x1b * word_3C5A6;
+    var_1A = sub_1CF64(var_32, 0, 0x383) * 0x1b;
+    // 4c3c
+    word_3A944 += ((int32)var_1A - (int32)word_3A944 / (int32)0x10) / (int32)word_330C4;
+    word_3B4DA = (int32)word_3A8FE * (int32)0xc00 / (int32)(abs(word_3A944) + 1);
+    if (word_3B4DA > 0x2000) word_3B4DA = 0x2000;
+    word_38FC4 = sub_1D190(word_380CC, word_3B4DA - 0x300);
+    if (planeFlags & 8) { // 4c8b 
+        if (word_3BEBE == word_380CE) { // 4c94 
+            word_3A944 -= (-(gameData->unk4 << 3 - 0x20) * 0x1b) / word_330C4;
+            if (word_3BEBE != 0 && word_3A944 < 0x1b0) word_3A944 = 0;
+        }
+        else { // 4ccf
+            word_3A944 -= (word_3A944 >> 4) / word_330C4;
+        } // 4ce0
+    } // 4ce0
+    if (word_3A944 > 0xafc8) word_3A944 = 0;
+    var_22 = sub_1D190(word_380CA, word_3A944);
+    word_3AA5A = word_3A944 / 0x1b;
+    // 4d11
+    audio_jump_6a(word_3AA5A, word_3AFA6);
 } // 51f9
 
 // ==== seg000:0x55ab ====

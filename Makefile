@@ -208,7 +208,7 @@ hello: $(HELLO_EXE)
 	ls -l $^
 	md5sum $^
 	touch src/hello.c
-	tools/disasm.sh $^ | less
+	$(DISASM) $^ | less
 
 f15-se2-test: $(BUILDDIR) $(MAIN_EXE)
 	$(DOSTEST) $(MAIN_EXE)

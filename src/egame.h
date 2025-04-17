@@ -402,7 +402,7 @@ int sub_1CF32();
 // ==== seg000:0xcf64 ====
 int sub_1CF64();
 // ==== seg000:0xcf8e ====
-int sub_1CF8E();
+int forceRange();
 // ==== seg000:0xcfa6 ====
 int sub_1CFA6();
 // ==== seg000:0xd008 ====
@@ -416,7 +416,7 @@ int sub_1D1C8();
 // ==== seg000:0xd1e8 ====
 int sub_1D1E8();
 // ==== seg000:0xd200 ====
-int sub_1D200();
+int randlmul();
 // ==== seg000:0xd21e ====
 int sub_1D21E();
 // ==== seg000:0xd260 ====
@@ -424,7 +424,7 @@ int keyDispatch();
 // ==== seg000:0xd9db ====
 int selectMissile();
 // ==== seg000:0xda35 ====
-int sub_1DA35();
+int makeSound();
 // ==== seg000:0xda5f ====
 int sub_1DA5F();
 // ==== seg000:0xda8d ====
@@ -746,11 +746,7 @@ extern int16 word_333D2;
 extern int16 word_333D4;
 extern int16 word_333D8;
 extern int16 word_333DA;
-extern int16 word_33402;
-extern int16 word_33404;
-extern int16 word_33406;
-extern uint8 unk_33408;
-extern uint8 byte_33409[];
+extern struct struc_9 stru_33402[];
 extern int16 word_33442;
 extern struct struc_2 stru_335C4[];
 extern int16 word_336E4;
@@ -1212,6 +1208,7 @@ extern uint8 aLandingGearRaised[];
 extern uint8 aBrakesOn[];
 extern uint8 a_[];
 extern uint8 aG[];
+extern uint8 byte_37FEC[];
 extern uint8 unk_3806E[];
 extern int16 word_38070;
 extern int word_38072;
@@ -1223,6 +1220,7 @@ extern int16 word_38080;
 extern int16 word_38084;
 extern int16 word_3808C;
 extern int16 word_38090;
+extern uint8 unk_38092[];
 extern int16 word_3809A;
 extern int16 word_3809C;
 extern int16 word_380A0;
@@ -1231,6 +1229,7 @@ extern int16 word_380A4;
 extern int16 word_380A6;
 extern int16 word_380AA;
 extern int16 word_380AC;
+extern uint8 unk_380B6[];
 extern int word_380C8;
 extern int word_380CA;
 extern int word_380CC;
@@ -1478,6 +1477,7 @@ extern int16 word_38FC6;
 extern int16 word_38FC8;
 extern int16 word_38FCC;
 extern int16 word_38FCE;
+extern uint8 unk_38FD0[];
 extern int word_38FDA;
 extern int word_38FDC;
 extern int16 word_38FDE;
@@ -1494,7 +1494,7 @@ extern int16 word_38FF8;
 extern int16 word_38FFA;
 extern int16 word_38FFC;
 extern uint8 buf4_3dg[];
-extern int16 word_391FE;
+extern int16 planeFlags;
 extern int16 word_39200;
 extern uint8 buf3_3dg[];
 extern int16 word_39402;
@@ -1539,6 +1539,8 @@ extern int16 word_3B15E;
 extern uint8 buf3d3_3[];
 extern int32 dword_3B1FE;
 extern uint8 unk_3B202[];
+extern int16 word_3B204;
+extern int16 word_3B206;
 extern struct struc_3 stru_3B208[];
 extern int16 word_3B22C;
 extern int16 word_3B22E;
@@ -1620,7 +1622,7 @@ extern int16 word_3C00A;
 extern int16 word_3C00C;
 extern int word_3C00E;
 extern int16 flagFarToNear;
-extern int16 word_3C012;
+extern int16 keyScancode;
 extern int16 word_3C014;
 extern int16 word_3C016;
 extern int16 word_3C018;
