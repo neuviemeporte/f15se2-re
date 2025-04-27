@@ -36,17 +36,13 @@ PUBLIC _gridBuf5
 PUBLIC _aBadGridFileFor
 PUBLIC _gridSignature
 PUBLIC _aInsufficientSy
-PUBLIC _byte_1B0D3
 PUBLIC _aCc00
 PUBLIC _aEs00
 PUBLIC _aHz00
 PUBLIC _aJz00
 PUBLIC _aTd00
-PUBLIC _bufCoordStr
 PUBLIC _aWx00
 PUBLIC _aXv00
-PUBLIC _byte_1B0D1
-PUBLIC _byte_1B0D2
 PUBLIC _word_17290
 PUBLIC _word_17292
 PUBLIC _word_17284
@@ -57,7 +53,6 @@ PUBLIC _word_1728C
 PUBLIC _byte_1729C
 PUBLIC _word_1728E
 PUBLIC _pilotSelectFlag
-PUBLIC _moveDst
 PUBLIC _word_1786F
 PUBLIC _word_17873
 PUBLIC _word_17871
@@ -142,7 +137,6 @@ PUBLIC _missionStr
 PUBLIC _aRb_1
 PUBLIC _plh3d3Ptr
 PUBLIC _enableHighlight
-PUBLIC _word_19656
 PUBLIC _word_182C8
 PUBLIC _word_19294
 PUBLIC _aPowCamp
@@ -186,8 +180,6 @@ PUBLIC _word_171B2
 PUBLIC _aTemp_wld
 PUBLIC _regnPlhPtr
 PUBLIC _difficultySaved
-PUBLIC _theaterSaved
-PUBLIC _flag4Saved
 PUBLIC _plhFiles
 PUBLIC _worldFiles
 PUBLIC _todayMissStrBuf
@@ -216,16 +208,12 @@ PUBLIC _aOriginalDiskIn
 PUBLIC _pageNumPtr
 PUBLIC _aUseSelectorToC
 PUBLIC _word_173D6
-PUBLIC _word_19658
 PUBLIC _word_1714A
 PUBLIC _word_1715A
 PUBLIC _word_1716A
 PUBLIC _word_1717A
 PUBLIC _word_1718A
-PUBLIC _word_1965A
 PUBLIC _word_1719A
-PUBLIC _word_1965C
-PUBLIC _word_1965E
 PUBLIC _aRb_4
 PUBLIC _wldReadBuf5Size
 PUBLIC _wldReadBuf1
@@ -290,13 +278,9 @@ PUBLIC _aFileClosingError
 PUBLIC _aWriteError
 PUBLIC _diskTransferArea
 PUBLIC _byte_172C6
-PUBLIC _dictionaryIndex
 PUBLIC _byte_172B7
-PUBLIC _picDecodeDictionary
 PUBLIC _word_17BF1
-PUBLIC _picRowLength
 PUBLIC _rowOffset
-PUBLIC _picWorkData
 PUBLIC _word_17BF3
 PUBLIC _picDecodedRowBuf
 PUBLIC _byte_17BF0
@@ -304,12 +288,8 @@ PUBLIC _aReadError
 PUBLIC _word_17BF5
 PUBLIC _word_17BF7
 PUBLIC _word_17BF9
-PUBLIC _picWorkDataPtr
-PUBLIC _picProcessFlag0_1
 PUBLIC _word_1786A
 PUBLIC _aDosLied
-PUBLIC _picTmp9BitCount
-PUBLIC _picByteUnsignedFlag
 PUBLIC _word_1782E
 PUBLIC _word_1786C
 PUBLIC _word_1783E
@@ -318,17 +298,13 @@ PUBLIC _word_1737E
 PUBLIC _fileReadPos
 PUBLIC _ovlParBlock
 PUBLIC _row
-PUBLIC _readBufEndPtr
-PUBLIC _picRemainingBitCount
 PUBLIC _timerCounter2
 PUBLIC _tmpFileHandle
 PUBLIC _timerCounter4
-PUBLIC _picDecodeIncrement
 PUBLIC _aAlloc1M
 PUBLIC _searchFCB
 PUBLIC _ovlSeg1
 PUBLIC _aNoFileBuffersAvailable
-PUBLIC _picNumberDictSlots
 PUBLIC _aOpenError
 PUBLIC _ovlSeg2
 PUBLIC _ovlParCnt
@@ -353,11 +329,9 @@ PUBLIC _byte_17877
 PUBLIC _word_17BEB
 PUBLIC _origCBreakOfs
 PUBLIC _word_17BFB
-PUBLIC _picSlotCounter
 PUBLIC _word_172B1
 PUBLIC _origCBreakSeg
 PUBLIC _word_17BED
-PUBLIC _picFileReadBufEnd
 PUBLIC _readFromFilePtr
 PUBLIC _word_172B3
 PUBLIC _word_172A4
@@ -366,14 +340,10 @@ PUBLIC _fileReadBuf
 PUBLIC _word_172B5
 PUBLIC _byte_172A2
 PUBLIC _word_172A6
-PUBLIC _picByte
 PUBLIC _aFileNotFound
 PUBLIC _aEnoughMem
-PUBLIC _byte_19ADB
-PUBLIC _picFileWord
 PUBLIC _word_172A8
 PUBLIC _word_172B8
-PUBLIC _picLookupResult
 PUBLIC _aFileNFound
 PUBLIC _aOvlOvrrun
 ; ---------------------------------------------------------------------------
@@ -659,7 +629,7 @@ FILE_READBUF_SIZE  = 200h
 
 ;  ==============================================================================
 
-.DATA ;startData segment byte public 'DATA'
+.DATA
 _aLabs_pic db 'labs.pic',0
 _aAdv_pic db 'adv.pic',0
 _aEgraphic_exe db 'egraphic.exe',0
@@ -4245,64 +4215,6 @@ _aWx00 db 'WX00',0
 _aCc00 db 'CC00',0
 _aHz00 db 'HZ00',0
 _aAt db ' at ',0
-    db 0
-    db 0
-_word_19656 dw 0
-_word_19658 dw 0
-_word_1965A dw 0
-_word_1965C dw 0
-_word_1965E dw 0
-_readBufEndPtr dw 0
-_picWorkDataPtr dw 0
-_picRowLength dw 0
-_picProcessFlag0_1 db 0
-_picLookupResult db 0
-_picTmp9BitCount db 0
-_picByte db 0
-_picFileReadBufEnd dw 0
-_picNumberDictSlots dw 0
-_picFileWord dw 0
-_picRemainingBitCount db 0
-_picByteUnsignedFlag db 0
-_picSlotCounter dw 0
-_dictionaryIndex db 0
-    db 100h dup(0)
-unk_19775 db 0
-    db 0
-    db 0
-unk_19778 db 0
-    db 0
-byte_1977A db 0FBh dup(0)
-_picWorkData db 0
-    db 0
-    db 0
-_picDecodeDictionary dw 0
-_picDecodeIncrement db 0
-    db 1C1h dup(0)
-byte_19A3C db 9Fh dup(0)
-_byte_19ADB db 61h dup(0)
-byte_19B3C db 180h dup(0)
-byte_19CBC db 100h dup(0)
-byte_19DBC db 12BCh dup(0)
-byte_1B078 db 0
-byte_1B079 db 0
-word_1B07A dw 0
-word_1B07C dw 0
-byte_1B07E db 0
-byte_1B07F db 0
-    db 40h dup(0)
-word_1B0C0 dw 0
-word_1B0C2 dw 0
-word_1B0C4 dw 0
-byte_1B0C6 db 0
-    db 0
-_flag4Saved dw 0
-_theaterSaved dw 0
-_moveDst dd 0
-_bufCoordStr db 0
-_byte_1B0D1 db 0
-_byte_1B0D2 db 0
-_byte_1B0D3 db 0
     db 0
     db 0
 ;  ==============================================================================

@@ -61,8 +61,7 @@ START_EXE := $(BUILDDIR)/start.exe
 START_LST := $(LSTDIR)/start.lst
 START_INC := $(LSTDIR)/start.inc
 START_CONF := $(CONFDIR)/start_rc.json
-START_BASE := start_rc.asm
-START_ASM := start4.asm $(START_BASE)
+START_ASM := start4.asm start5.asm start6.asm
 START_SRC := start0.c start1.c start2.c start3.c
 START_BASEHDR = $(SRCDIR)/start.h
 START_COBJ := $(call cobj,$(BUILDDIR),$(START_SRC))
@@ -252,7 +251,7 @@ $(EGAME_VRF_REF):
 
 verify-start: $(MZDIFF) $(START_EXE) $(START_VRF_REF)
 	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map map/start.map --asm
-	$(MZDIFF) --map map/start.map --data Data1 --dctx 10 --debug $(START_VRF_REF) $(START_EXE)
+	$(MZDIFF) --map map/start.map --data Data1 --debug $(START_VRF_REF) $(START_EXE)
 
 verify-egame: $(MZDIFF) $(EGAME_EXE) $(EGAME_VRF_REF)
 	$(MZDIFF) $(EGAME_VRF_REF):$(EGAME_VRF_REFEP) $(EGAME_EXE):$(EGAME_VRF_TGTEP) $(VERIFY_FLAGS) --map map/egame.map
