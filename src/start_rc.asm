@@ -1184,7 +1184,7 @@ _asc_174AF db ')',0
 _blinkColors dw 7
     dw 0Fh
 _blinkColorIdx dw 0
-_aMenterYourName db '�ENTER YOUR NAME !',0
+_aMenterYourName db 8Ch,'ENTER YOUR NAME !',0
     db 0
 _pilotNameInputColors dw 0
     db 8 ;grey name input box
@@ -1827,7 +1827,8 @@ aSa2 db 'SA-2',0
     db 0
     db 0
     db 0
-    db '�',0
+    db 0C8h
+    db 0
     db 3
     db 0
     db 0
@@ -1862,7 +1863,8 @@ aSa10 db 'SA-10',0
 aSa11 db 'SA-11',0
     db 0
     db 0
-    db '�',0
+    db 0C8h
+    db 0
     db 5
     db 0
     db 0
@@ -1886,14 +1888,16 @@ aSa13 db 'SA-13',0
     db 0
 aSaN4 db 'SA-N-4',0
     db 0
-    db '�',0
+    db 0C8h
+    db 0
     db 4
     db 0
     db 1
     db 0
 aSaN5 db 'SA-N-5',0
     db 0
-aC db '�',0
+aC db 96h
+    db 0
     db 3
     db 0
     db 0
@@ -1908,7 +1912,8 @@ aSaN6 db 'SA-N-6',0
     db 0
 aSaN7 db 'SA-N-7',0
     db 0
-    db '�',0
+    db 0C8h
+    db 0
     db 5
     db 0
     db 0
@@ -1940,7 +1945,8 @@ aTiger db 'Tiger',0
     db 0
 aSeacat db 'Seacat',0
     db 0
-    db '�',0
+    db 0C8h
+    db 0
     db 2
     db 0
     db 0
@@ -2166,7 +2172,8 @@ aSa5_0 db 'SA-5',0
     db 0
     db 0
     db 0
-aC_0 db '�',0
+aC_0 db 96h
+    db 0
     db 8
     db 7
     db 1

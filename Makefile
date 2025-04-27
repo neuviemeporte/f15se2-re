@@ -252,6 +252,7 @@ $(EGAME_VRF_REF):
 
 verify-start: $(MZDIFF) $(START_EXE) $(START_VRF_REF)
 	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map map/start.map --asm
+	$(MZDIFF) --map map/start.map --data Data1 --dctx 10 --debug $(START_VRF_REF) $(START_EXE)
 
 verify-egame: $(MZDIFF) $(EGAME_EXE) $(EGAME_VRF_REF)
 	$(MZDIFF) $(EGAME_VRF_REF):$(EGAME_VRF_REFEP) $(EGAME_EXE):$(EGAME_VRF_TGTEP) $(VERIFY_FLAGS) --map map/egame.map

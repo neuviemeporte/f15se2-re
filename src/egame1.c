@@ -411,7 +411,7 @@ int otherKeyDispatch() {
         _bios_keybrd(_KEYBRD_READ);
     } // 4034
     switch (keyScancode) {
-    KEYCODE_MINUS: // 403a
+    KEYCODE_MINUS: // 403aN
         // decrease power
         word_380E0 = sub_1CF64(word_380E0 - 0xa, 0, 0x64);
         sub_15FDB();
@@ -701,6 +701,42 @@ loc_140C5:
     word_3AA5A = word_3A944 / 0x1b;
     // 4d11
     audio_jump_6a(word_3AA5A, word_3AFA6);
+    var_18 = ((int32)(sub_1D178(word_380CC, word_38FDA << 4)) << 7 / (int32)(word_3A944 >> 9 + 0x20));
+    var_18 = sub_1D190(word_380CA, var_18);
+    if (word_3BEBE == word_380CE) { // 4d64 
+        var_18 = -word_3C00E << 6;
+        word_3C00E = 0;
+        if (word_3AA5A < word_3C5A6) word_3C5A4 = 0;
+    } // 4d85
+    if (word_38FDE != 0) { // 4d8c 
+        word_3C5A4 = 0xfc00 - word_380CA;
+        word_3A944 = word_380E0 = 0;
+    } // 4d9e
+    var_28 = (int32)word_3C00E << 7 / (int32)word_330C4;
+    if (var_28 != 0) { // 4dc0 
+        word_380AC = word_380A4 = sub_13B86(var_28);
+        word_380AA = -word_380A6 = sub_13B96(var_28);
+        sub_151F9(unk_3806E, &word_380A4);
+    } // 4dec
+    var_20 = (word_3C5A4 << 7) / word_330C4;
+    if (var_20 != 0) { // 4e01 
+        word_380A2 = word_3809A = sub_13B86(var_20);
+        word_3809C = -word_380A0 = sub_13B96(var_20);
+        sub_151F9(unk_3806E, unk_38092);
+    } // 4e2d
+    var_16 = var_18 / word_330C4;
+    if (var_16 != 0) { // 4e3e 
+        word_38090 = word_38080 = sub_13B86(var_16);
+        word_3808C = -word_38084 = sub_13B96(var_16);
+        sub_151F9(&word_38080, unk_3806E);
+    } // 4e6a
+    sub_15237();
+    if (word_3A8FE > word_3A944 && word_3BEBE < word_380CE) { // 4e7f
+        if (gameData->unk4 != 2)
+
+    } // 4ec6
+
+
 } // 51f9
 
 // ==== seg000:0x55ab ====
