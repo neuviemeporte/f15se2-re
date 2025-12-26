@@ -1237,7 +1237,7 @@ extern int16 word_380CE;
 extern unsigned int word_380D0;
 extern int16 word_380D8;
 extern uint8 byte_380DA[];
-extern uint8 byte_380DD[];
+extern char byte_380DD;
 extern int16 word_380E0;
 extern int16 word_380E2;
 extern uint8 a256left_pic[];

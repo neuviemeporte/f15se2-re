@@ -222,7 +222,6 @@ PUBLIC _copySomeMem
 PUBLIC _word_38FC4
 PUBLIC _waypoints
 PUBLIC _word_3C008
-PUBLIC _word_391FE
 PUBLIC _byte_37C24
 PUBLIC _string_3C04A
 PUBLIC _draw2Strings
@@ -244,6 +243,79 @@ PUBLIC _word_383F2
 PUBLIC _word_330B6
 PUBLIC _missileSpecIndex
 PUBLIC _sub_21A86
+PUBLIC _word_3BECE
+PUBLIC _word_336F6
+PUBLIC _audio_jump_6a
+PUBLIC _noJoy80_2
+PUBLIC _word_33702
+PUBLIC _word_3C5A4
+PUBLIC _makeSound
+PUBLIC _word_38602
+PUBLIC _sub_1DB9C
+PUBLIC _aLandingGearRaised
+PUBLIC _word_38080
+PUBLIC _word_33442
+PUBLIC _word_38090
+PUBLIC _sub_151F9
+PUBLIC _unk_38FD0
+PUBLIC _word_3BE3C
+PUBLIC _word_39606
+PUBLIC _word_38FE0
+PUBLIC _word_38084
+PUBLIC _keyScancode
+PUBLIC _word_380AA
+PUBLIC _stru_33402
+PUBLIC _sub_2265B
+PUBLIC _word_380AC
+PUBLIC _word_33098
+PUBLIC _sub_2267E
+PUBLIC _word_3A944
+PUBLIC _word_330BE
+PUBLIC _sub_1613B
+PUBLIC _randlmul
+PUBLIC _byte_380DD
+PUBLIC _forceRange
+PUBLIC _word_336EC
+PUBLIC _sub_1606C
+PUBLIC _tempStrcpy
+PUBLIC _a_
+PUBLIC _word_38FE8
+PUBLIC _planeFlags
+PUBLIC _word_3AFA6
+PUBLIC _word_3B4DA
+PUBLIC _sub_1D1C8
+PUBLIC _word_3AFA8
+PUBLIC _sub_15411
+PUBLIC _word_3BEC8
+PUBLIC _unk_38092
+PUBLIC _strBuf
+PUBLIC _aBrakesOn
+PUBLIC _word_3809A
+PUBLIC _word_3808C
+PUBLIC _sub_15237
+PUBLIC _word_3A8FE
+PUBLIC _word_3BF90
+PUBLIC _aG
+PUBLIC _word_3809C
+PUBLIC _sub_15557
+PUBLIC _word_380A0
+PUBLIC _word_38FDA
+PUBLIC _word_3B15A
+PUBLIC _sub_11B37
+PUBLIC _byte_37F98
+PUBLIC _word_3C00E
+PUBLIC _word_380E0
+PUBLIC _word_380A2
+PUBLIC _byte_37FEC
+PUBLIC _byte_37F99
+PUBLIC _sub_13B86
+PUBLIC _sub_13B96
+PUBLIC _word_380E2
+PUBLIC _word_380A4
+PUBLIC _word_38FDE
+PUBLIC _word_380A6
+PUBLIC _word_3BEBC
+PUBLIC _word_3BECC
 PUBLIC _gfx_jump_0_alloc
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_0c
@@ -271,12 +343,16 @@ SREGS		ends
 ; ---------------------------------------------------------------------------
 
 struc_1		struc ;	(sizeof=0x10, mappedto_11) ; XREF: dseg:stru_3A95A/r
-field_0		dd ?
-field_4		dd ?
-field_8		dw ?
-field_A		dw ?
-field_C		dw ?
-field_E		dw ?
+field_0		dd ?			; XREF:	otherKeyDispatch+1198/w
+					; otherKeyDispatch+119C/w
+field_4		dd ?			; XREF:	otherKeyDispatch+11A7/w
+					; otherKeyDispatch+11AB/w
+field_8		dw ?			; XREF:	otherKeyDispatch+11B2/w
+field_A		dw ?			; XREF:	otherKeyDispatch+117F/w
+					; otherKeyDispatch+121D/r
+field_C		dw ?			; XREF:	otherKeyDispatch+1186/w
+					; otherKeyDispatch+1227/r
+field_E		dw ?			; XREF:	otherKeyDispatch+118D/w
 struc_1		ends
 
 ; ---------------------------------------------------------------------------
@@ -344,10 +420,19 @@ Sam		ends
 
 ; ---------------------------------------------------------------------------
 
-MissileSpec	struc ;	(sizeof=0x4, mappedto_18) ; XREF: dseg:missileSpec/r
+MissileSpec	struc ;	(sizeof=0x4, mappedto_18) ; XREF: dseg:missleSpec/r
 field_0		dw ?
 field_2		dw ?
 MissileSpec	ends
+
+; ---------------------------------------------------------------------------
+
+struc_9		struc ;	(sizeof=0x8, mappedto_19) ; XREF: dseg:stru_33402/r
+field_0		dw ?
+field_2		dw ?
+field_4		dw ?
+field_6		dw ?
+struc_9		ends
 
 ; ---------------------------------------------------------------------------
 
@@ -564,9 +649,9 @@ _sub_11A88 proc near
 _sub_11A88 endp
 ; ------------------------------seg000:0x1b36------------------------------
 ; ------------------------------seg000:0x1b37------------------------------
-sub_11B37 proc near
+_sub_11B37 proc near
     retn
-sub_11B37 endp
+_sub_11B37 endp
 ; ------------------------------seg000:0x1bc2------------------------------
 ; ------------------------------seg000:0x1bc3------------------------------
 sub_11BC3 proc near
@@ -762,14 +847,14 @@ sub_13B2F proc near
 sub_13B2F endp
 ; ------------------------------seg000:0x3b44------------------------------
 ; ------------------------------seg000:0x3b86------------------------------
-sub_13B86 proc near
+_sub_13B86 proc near
     retn
-sub_13B86 endp
+_sub_13B86 endp
 ; ------------------------------seg000:0x3b95------------------------------
 ; ------------------------------seg000:0x3b96------------------------------
-sub_13B96 proc near
+_sub_13B96 proc near
     retn
-sub_13B96 endp
+_sub_13B96 endp
 ; ------------------------------seg000:0x3ba1------------------------------
 ; ------------------------------seg000:0x3ba2------------------------------
 sub_13BA2 proc near
@@ -1066,19 +1151,19 @@ sub_13EE3 proc near
 sub_13EE3 endp
 ; ------------------------------seg000:0x3f01------------------------------
 ; ------------------------------seg000:0x51f9------------------------------
-sub_151F9 proc near
+_sub_151F9 proc near
     retn
-sub_151F9 endp
+_sub_151F9 endp
 ; ------------------------------seg000:0x5236------------------------------
 ; ------------------------------seg000:0x5237------------------------------
-sub_15237 proc near
+_sub_15237 proc near
     retn
-sub_15237 endp
+_sub_15237 endp
 ; ------------------------------seg000:0x5410------------------------------
 ; ------------------------------seg000:0x5411------------------------------
-sub_15411 proc near
+_sub_15411 proc near
     retn
-sub_15411 endp
+_sub_15411 endp
 ; ------------------------------seg000:0x543a------------------------------
 ; ------------------------------seg000:0x543b------------------------------
 sub_1543B proc near
@@ -1096,9 +1181,9 @@ sub_15540 proc near
 sub_15540 endp
 ; ------------------------------seg000:0x5556------------------------------
 ; ------------------------------seg000:0x5557------------------------------
-sub_15557 proc near
+_sub_15557 proc near
     retn
-sub_15557 endp
+_sub_15557 endp
 ; ------------------------------seg000:0x55aa------------------------------
 ; ------------------------------seg000:0x5fdb------------------------------
 _sub_15FDB proc near
@@ -1106,9 +1191,9 @@ _sub_15FDB proc near
 _sub_15FDB endp
 ; ------------------------------seg000:0x606b------------------------------
 ; ------------------------------seg000:0x606c------------------------------
-sub_1606C proc near
+_sub_1606C proc near
     retn
-sub_1606C endp
+_sub_1606C endp
 ; ------------------------------seg000:0x60d2------------------------------
 ; ------------------------------seg000:0x60d3------------------------------
 _sub_160D3 proc near
@@ -1116,9 +1201,9 @@ _sub_160D3 proc near
 _sub_160D3 endp
 ; ------------------------------seg000:0x613a------------------------------
 ; ------------------------------seg000:0x613b------------------------------
-sub_1613B proc near
+_sub_1613B proc near
     retn
-sub_1613B endp
+_sub_1613B endp
 ; ------------------------------seg000:0x6171------------------------------
 ; ------------------------------seg000:0x6172------------------------------
 sub_16172 proc near
@@ -1336,9 +1421,9 @@ sub_1A1B1 proc near
 sub_1A1B1 endp
 ; ------------------------------seg000:0xa1e3------------------------------
 ; ------------------------------seg000:0xa1e4------------------------------
-tempStrcpy proc near
+_tempStrcpy proc near
     retn
-tempStrcpy endp
+_tempStrcpy endp
 ; ------------------------------seg000:0xa203------------------------------
 ; ------------------------------seg000:0xa204------------------------------
 sub_1A204 proc near
@@ -1486,9 +1571,9 @@ _sub_1CF64 proc near
 _sub_1CF64 endp
 ; ------------------------------seg000:0xcf8d------------------------------
 ; ------------------------------seg000:0xcf8e------------------------------
-sub_1CF8E proc near
+_forceRange proc near
     retn
-sub_1CF8E endp
+_forceRange endp
 ; ------------------------------seg000:0xcfa5------------------------------
 ; ------------------------------seg000:0xcfa6------------------------------
 _sub_1CFA6 proc near
@@ -1511,9 +1596,9 @@ _sub_1D190 proc near
 _sub_1D190 endp
 ; ------------------------------seg000:0xd1a4------------------------------
 ; ------------------------------seg000:0xd1c8------------------------------
-sub_1D1C8 proc near
+_sub_1D1C8 proc near
     retn
-sub_1D1C8 endp
+_sub_1D1C8 endp
 ; ------------------------------seg000:0xd1e6------------------------------
 ; ------------------------------seg000:0xd1e8------------------------------
 sub_1D1E8 proc near
@@ -1521,9 +1606,9 @@ sub_1D1E8 proc near
 sub_1D1E8 endp
 ; ------------------------------seg000:0xd1ff------------------------------
 ; ------------------------------seg000:0xd200------------------------------
-sub_1D200 proc near
+_randlmul proc near
     retn
-sub_1D200 endp
+_randlmul endp
 ; ------------------------------seg000:0xd21d------------------------------
 ; ------------------------------seg000:0xd21e------------------------------
 sub_1D21E proc near
@@ -1541,9 +1626,9 @@ selectMissile proc near
 selectMissile endp
 ; ------------------------------seg000:0xda34------------------------------
 ; ------------------------------seg000:0xda35------------------------------
-sub_1DA35 proc near
+_makeSound proc near
     retn
-sub_1DA35 endp
+_makeSound endp
 ; ------------------------------seg000:0xda5e------------------------------
 ; ------------------------------seg000:0xda5f------------------------------
 sub_1DA5F proc near
@@ -1566,9 +1651,9 @@ sub_1DB2B proc near
 sub_1DB2B endp
 ; ------------------------------seg000:0xdb9b------------------------------
 ; ------------------------------seg000:0xdb9c------------------------------
-sub_1DB9C proc near
+_sub_1DB9C proc near
     retn
-sub_1DB9C endp
+_sub_1DB9C endp
 ; ------------------------------seg000:0xdbb6------------------------------
 ; ------------------------------seg000:0xdbe0------------------------------
 sub_1DBE0 proc near
@@ -2724,8 +2809,11 @@ loc_22599:
     mov word_37C18, ax
     mov ax, 9Fh
     mov word_37C1A, ax
+loc_225BF:
     call far ptr gfx_jump_1d
+loc_225C4:
     mov word_37C1C, ax
+loc_225C7:
     mov ax, 0A0h
     mov word_37C1E, ax
     mov ax, 4Ch
@@ -2779,9 +2867,9 @@ loc_22599:
 _sub_22411 endp
 ; ------------------------------seg002:0xbea------------------------------
 ; ------------------------------seg002:0xbeb------------------------------
-sub_2265B proc far
+_sub_2265B proc far
     retn
-sub_2265B endp
+_sub_2265B endp
 ; ------------------------------seg002:0xbfa------------------------------
 ; ------------------------------seg002:0xbfb------------------------------
 sub_2266B proc near
@@ -2789,9 +2877,9 @@ sub_2266B proc near
 sub_2266B endp
 ; ------------------------------seg002:0xc0d------------------------------
 ; ------------------------------seg002:0xc0e------------------------------
-sub_2267E proc far
+_sub_2267E proc far
     retn
-sub_2267E endp
+_sub_2267E endp
 ; ------------------------------seg002:0xc20------------------------------
 ; ------------------------------seg002:0xc21------------------------------
 sub_22691 proc near
@@ -2978,19 +3066,19 @@ loc_22846:
     add bh, 80h
     test al, 1
     jz short loc_22855
-    mov byte_37F99, bl
+    mov _byte_37F99, bl
 loc_22855:
     test al, 2
     jz short loc_2285D
-    mov byte_37F99, bh
+    mov _byte_37F99, bh
 loc_2285D:
     test al, 4
     jz short loc_22865
-    mov byte_37F98, bl
+    mov _byte_37F98, bl
 loc_22865:
     test al, 8
     jz short loc_2286D
-    mov byte_37F98, bh
+    mov _byte_37F98, bh
 loc_2286D:
     mov bx, es:6Ch
     mov word_37F9B, bx
@@ -3000,8 +3088,8 @@ loc_22878:
     jnz short loc_2288D
 loc_2287E:
     mov byte_37F9A, 0
-    mov byte_37F98, 80h
-    mov byte_37F99, 80h
+    mov _byte_37F98, 80h
+    mov _byte_37F99, 80h
 loc_2288D:
     mov bx, es:1Ah
     cmp bx, es:1Ch
@@ -3947,7 +4035,7 @@ aAn72 db 'An-72',0
     Sam <'AA-10', 40h, 7D0h, 0, 4, 13h>
     Sam <'Equip.', 0, 0, 1Dh, 0, 0Eh>
 word_33096 dw 4
-word_33098 dw 1388h
+_word_33098 dw 1388h
 word_3309A dw 0
 word_3309C dw 0Ch
 word_3309E dw 12h
@@ -3963,7 +4051,7 @@ _word_330B6 dw 0
 word_330B8 dw 1
 word_330BA dw 1
 _word_330BC dw 0
-word_330BE dw 0
+_word_330BE dw 0
     db 1
     db 0
 _word_330C2 dw 1
@@ -4292,68 +4380,8 @@ word_333DA dw 0
     db 0
     db 0
     db 0
-word_33402 dw 0
-word_33404 dw 0
-word_33406 dw 0
-unk_33408 db 0
-byte_33409 db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-word_33442 dw 0
+    _stru_33402 struc_9 8 dup(<0>)
+_word_33442 dw 0
     db 3
     db 0
     db 3
@@ -4743,18 +4771,18 @@ word_336E4 dw 4
 word_336E6 dw 0FFFFh
 _word_336E8 dw 0
 _word_336EA dw 0
-word_336EC dw 1
+_word_336EC dw 1
 word_336EE dw 0
 word_336F0 dw 0
 _word_336F2 dw 0FFFFh
 _word_336F4 dw 0FFFFh
-word_336F6 dw 0FFFFh
+_word_336F6 dw 0FFFFh
 word_336F8 dw 1
 word_336FA dw 0
 _word_336FC dw 0FFFFh
 _word_336FE dw 4
 word_33700 dw 0FFFFh
-word_33702 dw 1
+_word_33702 dw 1
 word_33704 dw 1
 word_33706 dw 1
 word_33708 dw 0
@@ -5320,10 +5348,10 @@ audio_jump_69 proc near
 audio_jump_69 endp
 ; ------------------------------dseg:0x10cb------------------------------
 ; ------------------------------dseg:0x10d0------------------------------
-audio_jump_6a proc near
+_audio_jump_6a proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-audio_jump_6a endp
+_audio_jump_6a endp
 ; ------------------------------dseg:0x10d0------------------------------
 ; ------------------------------dseg:0x10d5------------------------------
 audio_jump_6b proc near
@@ -17264,11 +17292,11 @@ word_37F8E dw 0
     db 0
     db 0
 _noJoy80 db 0
-noJoy80_2 db 0
+_noJoy80_2 db 0
     db 0
     db 0
-byte_37F98 db 0
-byte_37F99 db 0
+_byte_37F98 db 0
+_byte_37F99 db 0
 byte_37F9A db 0
 word_37F9B dw 0
 byte_37F9D db 0
@@ -17316,11 +17344,11 @@ byte_37F9F db 0
     db 2
     db 0Ah
     db 0
-aLandingGearRaised db 'Landing gear raised',0
-aBrakesOn db 'Brakes on',0
-a_ db '.',0
-aG db 'G',0
-    db 10h
+_aLandingGearRaised db 'Landing gear raised',0
+_aBrakesOn db 'Brakes on',0
+_a_ db '.',0
+_aG db 'G',0
+_byte_37FEC db 10h
     db 10h
     db 10h
     db 10h
@@ -17462,21 +17490,21 @@ word_38078 dw 0
     db 0
     db 0
 word_3807E dw 7FFFh
-word_38080 dw 0
+_word_38080 dw 0
     db 0 ;align 4
     db 0
-word_38084 dw 0
+_word_38084 dw 0
     db 0 ;align 4
     db 0
     db 0FFh
     db 7Fh
     db 0
     db 0
-word_3808C dw 0
+_word_3808C dw 0
     db 0 ;align 4
     db 0
-word_38090 dw 0
-    db 0FFh
+_word_38090 dw 0
+_unk_38092 db 0FFh
     db 7Fh
     db 0
     db 0
@@ -17484,18 +17512,18 @@ word_38090 dw 0
     db 0
     db 0
     db 0
-word_3809A dw 0
-word_3809C dw 0
+_word_3809A dw 0
+_word_3809C dw 0
     db 0 ;align 4
     db 0
-word_380A0 dw 0
-word_380A2 dw 0
-word_380A4 dw 0
-word_380A6 dw 0
+_word_380A0 dw 0
+_word_380A2 dw 0
+_word_380A4 dw 0
+_word_380A6 dw 0
     db 0
     db 0
-word_380AA dw 0
-word_380AC dw 0
+_word_380AA dw 0
+_word_380AC dw 0
     db 0
     db 0
     db 0
@@ -17504,7 +17532,7 @@ word_380AC dw 0
     db 0
     db 0FFh
     db 7Fh
-    db 0
+unk_380B6 db 0
     db 0
     db 0
     db 0
@@ -17535,20 +17563,20 @@ _word_380D0 dw 0
     db 0
 word_380D8 dw 0
 byte_380DA db 0
-    db 0 ;align 2
-    db 1
-byte_380DD db 0
-    db 0 ;align 4
     db 0
-word_380E0 dw 0
-word_380E2 dw 0
+    db 1
+_byte_380DD db 0
+    db 0
+    db 0
+_word_380E0 dw 0
+_word_380E2 dw 0
 _a256left_pic db '256Left.Pic',0
 _a256right_pic db '256Right.Pic',0
 _a256rear_pic db '256Rear.Pic',0
 _aLeft_pic db 'Left.Pic',0
 _aRight_pic db 'Right.Pic',0
 _aRear_pic db 'Rear.Pic',0
-    db 0 ;align 2
+    db 0
 _word_38126 dw 6Ch
 _unk_38128 db 7
     db 0
@@ -18140,7 +18168,7 @@ aAutopilotOff db 'Autopilot off',0
 aAutopilotOn db 'Autopilot on',0
     db 0 ;align 2
 word_38600 dw 1
-word_38602 dw 2
+_word_38602 dw 2
 word_38604 dw 0
 word_38606 dw 0
 word_38608 dw 0
@@ -19256,7 +19284,7 @@ byte_38D6E db 0
 .DATA?
 word_38F70 dw ?
 word_38F72 dw ?
-strBuf db 18h dup(?)
+_strBuf db 18h dup(?)
 byte_38F8C db ?
 byte_38F8D db ?
     db ?
@@ -19320,6 +19348,7 @@ word_38FC8 dw ?
     db ?
 word_38FCC dw ?
 word_38FCE dw ?
+_unk_38FD0 db ?
     db ?
     db ?
     db ?
@@ -19329,14 +19358,13 @@ word_38FCE dw ?
     db ?
     db ?
     db ?
-    db ?
-word_38FDA dw ?
+_word_38FDA dw ?
 _word_38FDC dw ?
-word_38FDE dw ?
-word_38FE0 dw ?
+_word_38FDE dw ?
+_word_38FE0 dw ?
 _dword_38FE2 dd ?
 _fileHandle dw ?
-word_38FE8 dw ?
+_word_38FE8 dw ?
 _word_38FEA dw ?
 word_38FEC dw ?
 word_38FEE dw ?
@@ -19348,7 +19376,7 @@ word_38FF8 dw ?
 _word_38FFA dw ?
 word_38FFC dw ?
 _buf4_3dg db 200h dup(?)
-_word_391FE dw ?
+_planeFlags dw ?
 word_39200 dw ?
 _buf3_3dg db 200h dup(?)
 word_39402 dw ?
@@ -19865,7 +19893,7 @@ word_39402 dw ?
     db ?
     db ?
 _word_39604 dw ?
-word_39606 dw ?
+_word_39606 dw ?
 _buf2_3dg db 200h dup(?)
 word_39808 dw ?
     db ?
@@ -23952,12 +23980,12 @@ _val_3dt db ?
     db ?
     db ?
     db ?
-word_3A8FE dw ?
+_word_3A8FE dw ?
 _byte_3A900 db 40h dup(?)
 _word_3A940 dw ?
     db ? ;align 4
     db ?
-word_3A944 dw ?
+_word_3A944 dw ?
 word_3A946 dw ?
 _unk_3A948 db ?
     db ?
@@ -23998,8 +24026,8 @@ _word_3AA5C dw ?
 word_3AF0C dw ?
 _buf3d3_1 db 96h dup(?)
 word_3AFA4 dw ?
-word_3AFA6 dw ?
-word_3AFA8 dw ?
+_word_3AFA6 dw ?
+_word_3AFA8 dw ?
 word_3AFAA dw ?
 _byte_3AFAC db 100h dup(?)
 word_3B0AC dw ?
@@ -24020,7 +24048,7 @@ word_3B14C dw ?
     db ?
     db ?
 word_3B158 dw ?
-word_3B15A dw ?
+_word_3B15A dw ?
     db ?
     db ?
 word_3B15E dw ?
@@ -24036,10 +24064,8 @@ _buf3d3_3 db 96h dup(?)
 _dword_3B1FE dd ?
 _unk_3B202 db ?
     db ?
-    db ?
-    db ?
-    db ?
-    db ?
+word_3B204 dw ?
+word_3B206 dw ?
     _stru_3B208 struc_3 <?>
 word_3B22C dw ?
 word_3B22E dw ?
@@ -24715,7 +24741,7 @@ word_3B240 dw ?
 word_3B4D2 dw ?
 _dword_3B4D4 dd ?
 word_3B4D8 dw ?
-word_3B4DA dw ?
+_word_3B4DA dw ?
 word_3B4DC dw ?
 _word_3B4DE dw ?
 word_3B4E0 dw ?
@@ -25497,7 +25523,7 @@ byte_3B7F1 db ?
     db ?
 _dword_3B7F8 dd ?
 _byte_3B7FC db 640h dup(?)
-word_3BE3C dw ?
+_word_3BE3C dw ?
 _byte_3BE3E db 40h dup(?)
 word_3BE7E dw ?
 _byte_3BE80 db 10h dup(?)
@@ -25539,7 +25565,7 @@ word_3BE9C dw ?
     db ?
     db ?
     db ?
-word_3BEBC dw ?
+_word_3BEBC dw ?
 _word_3BEBE dw ?
 _word_3BEC0 dw ?
 word_3BEC2 dw ?
@@ -25547,10 +25573,10 @@ _byte_3BEC4 db ?
     db ? ;align 4
     db ?
     db ?
-word_3BEC8 dw ?
+_word_3BEC8 dw ?
 _sign3d3 dw ?
-word_3BECC dw ?
-word_3BECE dw ?
+_word_3BECC dw ?
+_word_3BECE dw ?
 _word_3BED0 dw ?
 _word_3BED2 dw ?
 word_3BED4 dw ?
@@ -25559,7 +25585,7 @@ _byte_3BED8 db 64h dup(?)
 word_3BF3C dw ?
 word_3BF3E dw ?
 _tempString db 50h dup(?)
-word_3BF90 dw ?
+_word_3BF90 dw ?
 _regs db ?
 byte_3BF93 db ?
     db ?
@@ -25580,9 +25606,9 @@ _byte_3BFA4 db 64h dup(?)
 _word_3C008 dw ?
 word_3C00A dw ?
 _word_3C00C dw ?
-word_3C00E dw ?
+_word_3C00E dw ?
 _flagFarToNear dw ?
-word_3C012 dw ?
+_keyScancode dw ?
 word_3C014 dw ?
 word_3C016 dw ?
 word_3C018 dw ?
@@ -25631,7 +25657,7 @@ _matrix3dt_2 dw 0A0h dup(?)
 _byte_3C5A0 db ?
     db ?
 word_3C5A2 dw ?
-word_3C5A4 dw ?
+_word_3C5A4 dw ?
 _word_3C5A6 dw ?
 word_3C5A8 dw ?
 _word_3C5AA dw ?
