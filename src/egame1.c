@@ -749,8 +749,58 @@ loc_140C5:
             byte_380DD = 1;
         } // 4f05
     } // 4f05
+    word_38FDE = 0;
+    // 4f33
+    byte_3C6A0 = abs(word_380CA) - (abs(word_380CC) / 2) > 0x1000 ? 1 : 0;
+    if (byte_380DD) sub_15411();
+    var_C = word_380D0;
+    // 4f66
+    word_3C8B6 = sub_13B2F(word_3A944 / 0xa, sub_13B96(word_380CA - word_38FC4));
+    if (word_33712 == 0) { // 4f70
+        word_380D0 += word_33712 / word_330C4;
+        // 4f9d
+        dword_3B7DA += (sub_13B2F(var_22, sub_13B96(word_380C8)) / 0xa) / word_330C4;
+        dword_3B7F8 += (sub_13B2F(var_22, sub_13B86(word_380C8)) / 0xa) / word_330C4;
+    } // 4fcf
+    if (word_380D0 < 62000 || word_3BEBE > word_380D0) word_380D0 = word_3BEBE;
+    // 4fe6
+    if (word_380D0 > 60000) word_380D0 = 60000;
+    // 4ff4
+    if (word_380D0 < 0x2000) word_380CE = word_380D0;
+    else if (word_380D0 < 0x4000) word_380CE = ((word_380D0 - 0x2000) / 2) + 0x2000;
+    else word_380CE = ((word_380D0 - 0x4000) / 4) + 0x3000;
+    // 502c
+    if (word_3BEBE == word_380CE) { // 5038
+        if (var_C > word_3BEBE && word_33702 != 0) { // 504d
+            makeSound(0xc, 2);
+            // 505b
+            if (stru_3AA5E[word_3C16A].field_6 & 0x200 ? 0x100 : 0x80 < (-word_3C8B6 * word_330B8) / 2 
+                || (gameData->unk4 != 0 && planeFlags & 1)
+                || abs(word_380CC) > 0x30 / (word_330B8 + 1)) { // 50b8
+                makeSound(0, 2);
+                sub_12278(0x3c);
+                sub_11B37(5);
+            }
+        } // 50d9
+        word_3C8B6 = 0;
+    } // 50df
+    var_38 = word_336E8 & 0xf;
+    stru_3A95A[var_38].field_A = word_380C8;
+    stru_3A95A[var_38].field_C = word_380CA;
+    stru_3A95A[var_38].field_E = word_380CC;
+    stru_3A95A[var_38].field_0 = dword_3B7DA;
+    stru_3A95A[var_38].field_4 = dword_3B7F8;
+    stru_3A95A[var_38].field_8 = word_380CE;
+    // 5128
+    if (word_3C45C == 1) { // 5132
+        if (word_336F2 >= 0) { // 5139
+            0x24 * word_336F2
+        }
+        else { // 5173 
+            var_38 = word_330C4 - 1;
+        } // 517a
 
-
+    } // 51f3
 } // 51f9
 
 // ==== seg000:0x55ab ====
