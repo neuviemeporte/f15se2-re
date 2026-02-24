@@ -12,22 +12,6 @@
 
 int main(void) 
 {
-    /* TODO: fix stack frame layout
-    uint16 pad1; // 0
-    uint16 var_4; // 4
-    uint16 theater; // 6
-    uint16 pad2; // 8
-    uint16 pad3; // a
-    uint16 difficulty; // c
-    uint16 pad4; // e
-    struct FarPointer iacaPtr; //12
-    uint16 pad5; // 14
-    uint8 pad6; // 15
-    uint8 var_16; // 16
-    uint16 pad7; // 18
-    uint16 pad8; // 1a
-    register int i; 
-    */
     uint8 unused[0xe];
     uint8 introStage;
     uint16 FAR *commPtr;

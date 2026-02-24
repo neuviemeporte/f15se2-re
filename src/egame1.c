@@ -22,12 +22,12 @@ void drawCockpit() {
     load15Flt3d3();
     // 0x162
     strcpy(regnStr, scenarioPlh[gameData->theater]);
-    sub_121C6();
+    callLoad3DAll();
     // 0x16e
     f15DgtlResult = loadF15DgtlBin();
     // 0x179
     byte_34197 = byte_228D0[0x2f];
-    // 17c
+    // 186
     if ((byte_32933 = gfx_jump_4c()) != 0) {
         setupDac();
     }
@@ -108,7 +108,7 @@ int sub_11E0E() {
     else { // 1eba
         // 1ed1
         dword_3B7DA = ((int32)waypoints[0].field_0 << 5) + 2;
-        // 1ef5
+        // 1ef8
         dword_3B7F8 = (0x8000 - (int32)waypoints[0].field_2) << 5;
     } // 1efc
     // 1f15
@@ -791,6 +791,43 @@ loc_140C5:
     stru_3A95A[var_38].field_0 = dword_3B7DA;
     stru_3A95A[var_38].field_4 = dword_3B7F8;
     stru_3A95A[var_38].field_8 = word_380CE;
+
+    if (word_3C45C == 1) { // 5128
+        if (word_336F2 >= 0) { // 5137
+            var_38 = word_336F2 * 0x24; // 5139, 513C
+            sub_1CFA6(word_3BEC0 - word_3B204[var_38],
+                      word_3BED0 - word_3B206[var_38],
+                      0,
+                      0x0c); // 5142, 5149, 5154, 5159
+            var_38 = sub_1CF64(0, (int32)((sub_1CFA6() * word_330C4) >> 8)); // 515F, 5163, 5167, 5168
+        } else {
+            var_38 = word_330C4 - 1; // 5173, 5176
+        }
+    } else {
+        goto loc_151F3;
+    }
+
+loc_1517A:
+    var_38 = (word_336E8 - var_38) & 0x0f; // 517A, 517D, 5180
+    var_2C = word_380C8 - stru_3A95A[var_38 * 4].field_A; // 5186, 5188, 518F
+    var_14 = (word_380CA - stru_3A95A[var_38 * 4].field_C) >> 2; // 5190, 5199, 519D, 51A0, 51A2
+    sub_1D178(word_380CC, var_14); // 51A4, 51A5, 51A9
+
+    var_2C >>= 2; // 51B2, 51B4, 51B6
+    sub_1D190(word_380CC, -var_2C); // 51B8, 51B9, 51BD
+
+    var_2C = (sub_1D178() + sub_1D190()) >> 1; // 51BF, 51C2, 51C5
+    word_3C6A4 = var_2C; // 51CA
+
+    sub_1D190(word_380CC, var_14); // 51CD, 51CF, 51D4
+    var_14 >>= 1; // 51D7
+
+    sub_1D178(word_380CC, -var_2C); // 51E1, 51E2, 51E6
+    var_2C = (sub_1D190() + sub_1D178()) >> 1; // 51E8, 51EB, 51EE
+
+    word_3C6AC = var_2C; // 51F0
+loc_151F3:
+
     // 5128
     if (word_3C45C == 1) { // 5132
         if (word_336F2 >= 0) { // 5139
@@ -799,8 +836,10 @@ loc_140C5:
         else { // 5173 
             var_38 = word_330C4 - 1;
         } // 517a
-
+        
     } // 51f3
+    
+
 } // 51f9
 
 // ==== seg000:0x55ab ====

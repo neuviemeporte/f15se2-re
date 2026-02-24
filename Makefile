@@ -2,6 +2,7 @@ MZRE := mzretools
 MZRETOOLDIR := $(MZRE)/tools
 LST2ASM := $(MZRETOOLDIR)/lst2asm.py
 LST2CH := $(MZRETOOLDIR)/lst2ch.py
+LSTMERGE := $(MZRETOOLDIR)/lstmerge.py
 DOSBUILD := $(MZRETOOLDIR)/dosbuild.sh
 DOSTEST := $(MZRETOOLDIR)/test.sh
 DISASM := $(MZRETOOLDIR)/disasm.sh
@@ -35,13 +36,14 @@ SRCTOP := src
 SRCDIR := $(SRCTOP)
 BUILDDIR := build
 DEBUGDIR := debug_build
+MERGEDIR := $(SRCTOP)/merged
 HDRFILES := dosfunc.h output.h pointers.h offsets.h biosfunc.h comm.h overlay.h util.h start.h slot.h const.h struct.h debug.h
 HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
 cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug tools
+.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug tools merge merge-start merge-egame
 all: f15-se2
 
 #
@@ -258,6 +260,19 @@ verify-egame: $(MZDIFF) $(EGAME_EXE) $(EGAME_VRF_REF)
 
 TOOLS := $(TOOLDIR)/ovltool $(TOOLDIR)/vgapal $(TOOLDIR)/wldparse
 f15-tools: $(TOOLDIR) $(TOOLS)
+
+merge: $(MERGEDIR) merge-start merge-egame
+$(MERGEDIR):
+	mkdir -p $@
+MERGE_START_SRC := $(addprefix $(MERGEDIR)/,$(START_SRC))
+MERGE_EGAME_SRC := $(addprefix $(MERGEDIR)/,$(EGAME_SRC))
+merge-start: $(MERGE_START_SRC)
+merge-egame: $(MERGE_EGAME_SRC)
+$(MERGEDIR)/start%.c: $(SRCDIR)/start%.c $(START_LST)
+	$(LSTMERGE) $^ $@
+
+$(MERGEDIR)/egame%.c: $(SRCDIR)/egame%.c $(EGAME_LST)
+	$(LSTMERGE) $^ $@
 
 $(TOOLDIR)/ovltool: $(SRCTOP)/ovltool.cpp
 	g++ $(CXXFLAGS) -o $@ $^

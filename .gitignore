@@ -3,6 +3,7 @@ debug_build/
 dos
 lst
 bin/
+src/merged
 *.log
 *.err
 src/LOG.TXT

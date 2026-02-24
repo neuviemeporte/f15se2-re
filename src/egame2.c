@@ -20,7 +20,7 @@ void far sub_21A7E() {
 }
 
 // ==== seg000:0x21c6 ====
-int sub_121C6() {
+int callLoad3DAll() {
     load3DAll();
 }
 

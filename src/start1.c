@@ -120,7 +120,6 @@ void drawLine(int *pageNum, int x1, int y1, int x2, int y2, int color) {
     word_17875 = y2;
     sub_12DEA();
     gfx_jump_23();
-    // 673
 }
 
 /* 0x674 */

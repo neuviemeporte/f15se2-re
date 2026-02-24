@@ -417,7 +417,7 @@ counterMore1k:
     word_182C0 = ((word_182C0 >> 0xa) << 0xa) + 0x200;
   }
   // 47a0
-  for (var_26 = 0; var_26 < wldReadBuf5Size - 4; var_26++) { // 47cb8
+  for (var_26 = 0; var_26 < wldReadBuf5Size - 4; var_26++) { // 47b8
     TRACE(("runGenerator(): loop5, counter %d", var_26));
     // 47c4
     if ((wldReadBuf6[var_26].field_18 & 0x80) != 0) {

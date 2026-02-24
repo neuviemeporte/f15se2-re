@@ -18,7 +18,7 @@
         { "seg": "seg000", "begin": "0x206d", "end": "0x215b", "from": "moveStuff",        "to": "endp" },
         { "seg": "seg000", "begin": "0x215c", "end": "0x21a8", "from": "moveNearFar",      "to": "endp" },
         { "seg": "seg000", "begin": "0x21a9", "end": "0x21c4", "from": "sub_121A9",        "to": "endp" },
-        { "seg": "seg000", "begin": "0x21c6", "end": "0x21c9", "from": "sub_121C6",        "to": "endp" },
+        { "seg": "seg000", "begin": "0x21c6", "end": "0x21c9", "from": "callLoad3DAll",        "to": "endp" },
         { "seg": "seg000", "begin": "0x2278", "end": "0x2299", "from": "sub_12278",        "to": "endp" },
         { "seg": "seg000", "begin": "0x2874", "end": "0x2897", "from": "load3DAll",        "to": "endp" },
         { "seg": "seg000", "begin": "0x2898", "end": "0x2c81", "from": "load3D3",          "to": "endp" },
