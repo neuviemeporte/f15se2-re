@@ -31,18 +31,18 @@ void drawCockpit() {
     if ((byte_32933 = gfx_jump_4c()) != 0) {
         setupDac();
     }
-     gfx_jump_44_setDac(1);
-     gfx_jump_45_retrace();
-     // 1a1
-     if (gfx_jump_3f_modecode() == 3) {
-        openBlitClosePic(a256pit_pic, 1);
-     }
-     else {
-        openBlitClosePic(aCockpit_pic, 1);
-     }
-     // 1df
-     gfx_jump_2a(1, 0, 0x60, 0, 0, 0x60, 0x140, 0x68);
-     gfx_jump_2a(1, 0, 0x60, 2, 0, 0x60, 0x140, 0x68);
+    gfx_jump_44_setDac(1);
+    gfx_jump_45_retrace();
+    // 1a1
+    if (gfx_jump_3f_modecode() == 3) {
+       openBlitClosePic(a256pit_pic, 1);
+    }
+    else {
+       openBlitClosePic(aCockpit_pic, 1);
+    }
+    // 1df
+    gfx_jump_2a(1, 0, 0x60, 0, 0, 0x60, 0x140, 0x68);
+    gfx_jump_2a(1, 0, 0x60, 2, 0, 0x60, 0x140, 0x68);
 }
 
 // ==== seg000:0x211 ====

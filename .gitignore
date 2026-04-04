@@ -12,3 +12,4 @@ src/LOG.TXT
 *.tgt
 /*.bin
 /*.xxd
+/*.grc

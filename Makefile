@@ -1,25 +1,26 @@
 MZRE := mzretools
 MZRETOOLDIR := $(MZRE)/tools
-LST2ASM := $(MZRETOOLDIR)/lst2asm.py
-LST2CH := $(MZRETOOLDIR)/lst2ch.py
-LSTMERGE := $(MZRETOOLDIR)/lstmerge.py
-DOSBUILD := $(MZRETOOLDIR)/dosbuild.sh
-DOSTEST := $(MZRETOOLDIR)/test.sh
-DISASM := $(MZRETOOLDIR)/disasm.sh
-UASMDIR := UASM
-UASM := $(UASMDIR)/GccUnixR/uasm
-MZDIFF := $(MZRE)/debug/mzdiff
-MZHDR := $(MZRE)/debug/mzhdr
-LSTDIR := lst
-REASMDIR := reasm
-CONFDIR := conf
-TOOLDIR := tools
-CXXFLAGS := -Wfatal-errors
+LST2ASM     := $(MZRETOOLDIR)/lst2asm.py
+LST2CH      := $(MZRETOOLDIR)/lst2ch.py
+LSTMERGE    := $(MZRETOOLDIR)/lstmerge.py
+RAGIDX      := $(MZRETOOLDIR)/rag_index.py
+DOSBUILD    := $(MZRETOOLDIR)/dosbuild.sh
+DOSTEST     := $(MZRETOOLDIR)/test.sh
+DISASM      := $(MZRETOOLDIR)/disasm.sh
+UASMDIR     := UASM
+UASM        := $(UASMDIR)/GccUnixR/uasm
+MZDIFF      := $(MZRE)/debug/mzdiff
+MZHDR       := $(MZRE)/debug/mzhdr
+LSTDIR      := lst
+REASMDIR    := reasm
+CONFDIR     := conf
+TOOLDIR     := tools
+CXXFLAGS    := -Wfatal-errors
 # UASM: no copyright into, 8086 instuctions, MASM compatibility
-UASMFLAGS := -q -0 -Zm
+UASMFLAGS   := -q -0 -Zm
 # DOS C compiler: no stack probes, debug mode
 C_TOOLCHAIN ?= msc510
-MSC_CFLAGS ?= /Gs /Zi /Id:\f15-se2
+MSC_CFLAGS  ?= /Gs /Zi /Id:\f15-se2
 # DOS assembler
 ASM_TOOLCHAIN ?= masm510
 # masm: suppress output in case of successful assembly
@@ -32,8 +33,8 @@ DOSDIR := dos
 TOOLCHAIN_DIR := $(DOSDIR)/$(C_TOOLCHAIN)
 VERIFY_FLAGS := --verbose --loose --ctx 20 --asm
 
-SRCTOP := src
-SRCDIR := $(SRCTOP)
+SRCTOP   := src
+SRCDIR   := $(SRCTOP)
 BUILDDIR := build
 DEBUGDIR := debug_build
 MERGEDIR := $(SRCTOP)/merged
@@ -43,7 +44,7 @@ HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
 cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug tools merge merge-start merge-egame
+.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug tools merge merge-start merge-egame ragdb-clean
 all: f15-se2
 
 #
@@ -261,6 +262,7 @@ verify-egame: $(MZDIFF) $(EGAME_EXE) $(EGAME_VRF_REF)
 TOOLS := $(TOOLDIR)/ovltool $(TOOLDIR)/vgapal $(TOOLDIR)/wldparse
 f15-tools: $(TOOLDIR) $(TOOLS)
 
+# merge C files with the equivalent disassembly from the listing file using offset comments left in the C code as a guide
 merge: $(MERGEDIR) merge-start merge-egame
 $(MERGEDIR):
 	mkdir -p $@
@@ -282,3 +284,10 @@ $(TOOLDIR)/vgapal: $(SRCTOP)/vgapal.c
 
 $(TOOLDIR)/wldparse: $(SRCTOP)/wldparse.cpp
 	g++ -o $@ $^ -I$(SRCDIR)
+
+# generate RAG database for LLM from the merged source files
+ragdb: $(MERGE_START_SRC) $(MERGE_EGAME_SRC)
+	$(RAGIDX) $^
+
+ragdb-clean:
+	-rm -rf ragdb
