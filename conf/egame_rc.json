@@ -34,6 +34,7 @@
         { "seg": "seg000", "begin": "0xa0cb", "end": "0xa0fd", "from": "drawSomeStrings",  "to": "endp" },
         { "seg": "seg000", "begin": "0xa13a", "end": "0xa182", "from": "drawString",       "to": "endp" },
         { "seg": "seg000", "begin": "0xc8de", "end": "0xc9d0", "from": "load15Flt3d3",     "to": "endp" },
+        { "seg": "seg000", "begin": "0xd1c8", "end": "0xd1e7", "from": "sub_1D1C8",        "to": "endp" },
         { "seg": "seg000", "begin": "0xdd4c", "end": "0xdd5c", "from": "openFileWrapper",  "to": "endp" },
         { "seg": "seg000", "begin": "0xdd70", "end": "0xdd7d", "from": "closeFileWrapper", "to": "endp" },
         { "seg": "seg000", "begin": "0xdfbc", "end": "0xdff4", "from": "openBlitClosePic", "to": "endp" },
@@ -83,7 +84,7 @@
         "openFile", "createFile", "sub_1DF4F", "sub_1E262", "closeFile", "read512FromFileIntoBuf", "manipulateTimer"
     ],
     "externs": [
-        "sub_155AB", "sub_18E50", "sub_21A7A", "otherKeyDispatch"
+        "sub_155AB", "sub_18E50", "sub_1D1C8", "sub_21A7A", "otherKeyDispatch"
     ],
     "publics": [ 
         "commData", "gameData", "hercFlag", "setupOverlaySlots", "gfxModeUnset", "noJoy80", "copyJoystickData", "installCBreakHandler", 

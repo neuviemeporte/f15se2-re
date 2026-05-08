@@ -65,6 +65,17 @@ int load15Flt3d3() {
     fclose(fileHandle);
 }
 
+// ==== seg000:0xd1c8 ====
+int sub_1D1C8(int arg_0) {
+    if (arg_0 == 0) {
+        return 0;
+    }
+    if (arg_0 > 0) {
+        return 1;
+    }
+    return -1;
+}
+
 // ==== seg000:0xdd4c ====
 int openFileWrapper(char *path, int mode) {
     openFile(path, mode);
