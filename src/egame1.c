@@ -100,9 +100,9 @@ int sub_11E0E() {
     } // 1e61
     if (gameData->difficulty != 0) { //1e6c
         // 1e8c
-        dword_3B7DA = ((int32)(stru_3AA5E[word_3B148].field_0) << 5) + 2;
+        dword_3B7DA = ((int32)(stru_3AA5E[word_3B148].worldX) << 5) + 2;
         // 1eb1
-        dword_3B7F8 = (0x8000 - (int32)(stru_3AA5E[word_3B148].field_2)) << 5;
+        dword_3B7F8 = (0x8000 - (int32)(stru_3AA5E[word_3B148].worldY)) << 5;
     }
     else { // 1eba
         // 1ed1
@@ -482,16 +482,16 @@ int sub_155AB() {
         // 581b
         if (!(word_3C02E & 0x40)) { // 5825
             if (!(word_3C02E & 0x20)) { // 582c
-                if (stru_335C4[word_3C02E].field_E != 0) { // 583c
+                if (stru_335C4[word_3C02E].timeToLive != 0) { // 583c
                     // 584e
-                    dword_3C01C = (uint32)(stru_335C4[word_3C02E].field_0) << 5;
+                    dword_3C01C = (uint32)(stru_335C4[word_3C02E].posX) << 5;
                     // 5867
-                    dword_3C024 = (uint32)(stru_335C4[word_3C02E].field_2) << 5;
-                    word_3C02C = stru_335C4[word_3C02E].field_4;
+                    dword_3C024 = (uint32)(stru_335C4[word_3C02E].posY) << 5;
+                    word_3C02C = stru_335C4[word_3C02E].altitude;
                 }
                 else { // 5877
-                    stru_335C4[word_3C02E].field_8 = word_380C8;
-                    stru_335C4[word_3C02E].field_A = word_380CA;
+                    stru_335C4[word_3C02E].bearing = word_380C8;
+                    stru_335C4[word_3C02E].speed = word_380CA;
                     if (word_3370E != 0) keyValue = 0x87;
                 } // 589b
                 var_2 = 5;
@@ -505,10 +505,10 @@ int sub_155AB() {
             } // 58d9
         }
         else { // 58db
-            dword_3C01C = (uint32)stru_3AA5E[word_3C02E & 0x3f].field_0 << 5;
-            dword_3C024 = (uint32)stru_3AA5E[word_3C02E & 0x3f].field_2 << 5;
+            dword_3C01C = (uint32)stru_3AA5E[word_3C02E & 0x3f].worldX << 5;
+            dword_3C024 = (uint32)stru_3AA5E[word_3C02E & 0x3f].worldY << 5;
             // 5928
-            word_3C02C = stru_3AA5E[word_3C02E & 0x3f].field_6 & 0x200 ? 0xc8 : 0x32;
+            word_3C02C = stru_3AA5E[word_3C02E & 0x3f].statusFlags & 0x200 ? 0xc8 : 0x32;
             var_2 = 7;
             if (word_336EA != 0 && word_3370C == -1) var_2 = 6;
         } // 5943
@@ -538,15 +538,15 @@ int sub_155AB() {
                 dword_3B4D4 = sub_1D190(word_3C5AA, var_8) - dword_3C024 + 0x100000;
                 // 5ac3
                 word_3B4DE = (4 << var_2) - sub_1D178(word_3BE94, 0x18 << var_2) + word_3C02C;
-                if (word_3C02E & 0x40 && stru_3AA5E[word_3C02E & 0x3f].field_6 & 0x200 && word_3B4DE < 0x84) { 
+                if (word_3C02E & 0x40 && stru_3AA5E[word_3C02E & 0x3f].statusFlags & 0x200 && word_3B4DE < 0x84) { 
                     word_3B4DE = 0x84;
                 } // 5aed
                 word_3C5AA += 0x8000;
             } // 5af2
         }
         else { // 5af5
-            word_3C5AA = stru_335C4[word_3C02E].field_8;
-            word_3BE94 = stru_335C4[word_3C02E].field_A - 0x400;
+            word_3C5AA = stru_335C4[word_3C02E].bearing;
+            word_3BE94 = stru_335C4[word_3C02E].speed - 0x400;
             // 5b22
             var_8 = sub_1D190(word_3BE94, 0x10 << var_2);
             dword_3B1FE = dword_3C01C - sub_1D178(word_3C5AA, var_8);
@@ -718,7 +718,7 @@ int sub_18E50(int arg_0) {
             sub_19C0C(0xf7,  0x38, 0xf7, sub_1CF64(-((word_3C8B6 >> 4) - 0x38), 0x14, 0x55));
             // 908f
             if ((word_391FE & 1) == 0 && (word_336E8 & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) { // 90af
-                var_2 = (((stru_3AA5E[word_3C16A].field_6 & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
+                var_2 = (((stru_3AA5E[word_3C16A].statusFlags & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
                 sub_19E44(0xf);
                 // 90f7
                 sub_19C0C(0xf2, var_2 - 2, 0xf4, var_2);

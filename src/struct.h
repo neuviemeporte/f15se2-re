@@ -113,15 +113,18 @@ struct struc_1 {
 
 // used in egame.exe sub_155AB, 0x18 bytes
 struct struc_2 {
-    uint16 field_0;
-    uint16 field_2;
-    int16 field_4;
-    int16 field_6;
-    int16 field_8;
-    int16 field_A;
+    uint16 posX;         // field_0 - missile world X
+    uint16 posY;         // field_2 - missile world Y
+    int16 altitude;      // field_4 - missile altitude (0 = ground)
+    int16 activeFlag;    // field_6 - 1 = active
+    int16 bearing;       // field_8 - bearing to target
+    int16 speed;         // field_A - missile speed (0x4000 typical)
     int16 field_C;
-    int16 field_E;
-    uint8 field_10[8];
+    int16 timeToLive;    // field_E - computed TTL, 0 = slot free
+    int16 samTypeIdx;    // field_10 - index into SamTypeInfo
+    int16 field_12;
+    int16 field_14;
+    int16 sourceTarget;  // field_16 - index of firing SAM site
 };
 
 // used in egame.exe sub_155AB, 0x24 bytes
@@ -134,11 +137,11 @@ struct struc_3 {
 
 // used in egame.exe, 0x10 bytes
 struct struc_4 {
-    uint16 field_0;
-    uint16 field_2;
-    int16 field_4;
-    int16 field_6;
-    int32 field_8;
+    uint16 worldX;       // field_0 - world X position
+    uint16 worldY;       // field_2 - world Y position
+    int16 samTypeIdx;    // field_4 - index into Sam/SamTypeInfo tables
+    int16 statusFlags;   // field_6 - bit flags (bit2=tracking, bit4=firing, bit8=jamImmune)
+    int32 trackingStr;   // field_8 - tracking strength (low word used as int16, 0-255)
     int16 field_C;
     int16 field_E;
 };
@@ -159,13 +162,27 @@ struct Missile {
 
 // 0x12 bytes
 struct Sam {
-    char field_0[8];
-    int field_8;
-    int field_A;
+    char name[8];        // field_0 - SAM system name (e.g. "SA-2")
+    int maxRange;        // field_8 - maximum engagement range
+    int missileSpeed;    // field_A - missile speed parameter
     int field_C;
     int field_E;
     int field_10;
 };
+
+// SAM type info table, 14 bytes per entry, at Data1:0x018E (samTable)
+// Accessed as samTypeInfo[samTypeIdx]
+#pragma pack(1)
+struct SamTypeInfo {
+    int16 field_0;
+    int16 field_2;
+    int16 guidanceFlags;  // bit 0: 1 = radar-guided, 0 = IR-guided
+    int16 field_6;
+    int16 field_8;
+    int16 field_A;
+    int16 field_C;
+};
+#define SAMTYPEINFOSIZE 0x0E
 
 // 0x4 bytes
 struct MissileSpec {
