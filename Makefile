@@ -26,7 +26,7 @@ ASFLAGS := /t
 # DOS linker
 LINK_TOOLCHAIN ?= msc510
 # ms link: verbose, create mapfile, no default libs
-LINKFLAGS := /M /I
+LINKFLAGS := /M /INF
 DOSDIR := dos
 TOOLCHAIN_DIR := $(DOSDIR)/$(C_TOOLCHAIN)
 VERIFY_FLAGS := --verbose --loose --ctx 20 --asm
@@ -186,7 +186,7 @@ HELLO_OBJ := $(BUILDDIR)/hello.obj
 HELLO_LIB := slibce.lib
 
 $(HELLO_OBJ): MSC_CFLAGS := /Gs /Zi
-$(HELLO_EXE): LINKFLAGS := /M /I
+$(HELLO_EXE): LINKFLAGS := /M /INF
 $(HELLO_EXE): $(HELLO_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)" -l "$(HELLO_LIB)"
 
