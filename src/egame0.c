@@ -45,9 +45,9 @@ int main(void) {
     }
     // 0xea
     gfxBufPtr = commData->gfxInitResult;
-    sub_21A7E();
+    initCockpitFar();
     drawCockpit();
-    sub_10211();
+    renderFrame();
     if (commData->setupUseJoy == 1) {
         // 10c
         restoreJoystickData(commData->joyData);

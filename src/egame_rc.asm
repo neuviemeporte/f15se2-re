@@ -2,8 +2,9 @@
 DOSSEG
 .MODEL SMALL
 EXTRN _sub_155AB:PROC
-EXTRN _sub_18E50:PROC
-EXTRN _sub_21A7A:PROC
+EXTRN _drawHud:PROC
+EXTRN _sub_1D1C8:PROC
+EXTRN _renderCockpitFar:PROC
 EXTRN _otherKeyDispatch:PROC
 PUBLIC _commData
 PUBLIC _gameData
@@ -18,7 +19,7 @@ PUBLIC _restoreJoystickData
 PUBLIC _regs
 PUBLIC _exitCode
 PUBLIC _restoreCBreakHandler
-PUBLIC _sub_22411
+PUBLIC _initCockpitParams
 PUBLIC _scenarioPlh
 PUBLIC _regnStr
 PUBLIC _f15DgtlResult
@@ -31,7 +32,7 @@ PUBLIC _restoreTimerIrqHandler
 PUBLIC _audio_jump_64
 PUBLIC _audio_jump_65
 PUBLIC _setTimerIrqHandler
-PUBLIC _sub_13C3B
+PUBLIC _waitForVsync
 PUBLIC _setInt9Handler
 PUBLIC _restoreInt9Handler
 PUBLIC _dword_38FE2
@@ -128,7 +129,7 @@ PUBLIC _size3d3_7
 PUBLIC _aPhoto_3d3_0
 PUBLIC _aPhoto_3d3
 PUBLIC _word_3B14A
-PUBLIC _sub_21444
+PUBLIC _fillScanlineRange
 PUBLIC _dword_3C01C
 PUBLIC _dword_3B4D4
 PUBLIC _sub_1CF64
@@ -847,26 +848,26 @@ cbreakHandler proc far
 cbreakHandler endp
 ; ------------------------------seg000:0x3c3a------------------------------
 ; ------------------------------seg000:0x3c3b------------------------------
-_sub_13C3B proc near
+_waitForVsync proc near
     push bp
     push si
     push di
     push es
-    call sub_13C47
+    call processFrameLoop
     pop es
     pop di
     pop si
     pop bp
     retn
-_sub_13C3B endp
+_waitForVsync endp
 ; ------------------------------seg000:0x3c46------------------------------
 ; ------------------------------seg000:0x3c47------------------------------
-sub_13C47 proc near
+processFrameLoop proc near
     call _sub_155AB
-    call _sub_18E50
+    call _drawHud
     cmp _keyValue, 0
     jnz short loc_13C59
-    call far ptr _sub_21A7A ;call sub_21A7A
+    call far ptr _renderCockpitFar ;call renderCockpitFar
 loc_13C59:
     mov bx, 0
     mov ax, _word_38126
@@ -875,9 +876,9 @@ loc_13C59:
     call _otherKeyDispatch
     call sub_10720
     cmp byte_3C8B0, 0
-    jz short sub_13C47
+    jz short processFrameLoop
     retn
-sub_13C47 endp
+processFrameLoop endp
 ; ------------------------------seg000:0x3c76------------------------------
 ; ------------------------------seg000:0x3c78------------------------------
 _setTimerIrqHandler proc near
@@ -885,7 +886,7 @@ _setTimerIrqHandler proc near
     mov word_37904, 1
     mov word_378F0, 0
     mov word_378F2, 0
-    call sub_13DF2
+    call calibrateTimer
     mov ah, 35h
     mov al, 8
     int 21h ;DOS - 2+ - GET INTERRUPT VECTOR
@@ -931,7 +932,7 @@ sub_13D6B proc near
 sub_13D6B endp
 ; ------------------------------seg000:0x3df1------------------------------
 ; ------------------------------seg000:0x3df2------------------------------
-sub_13DF2 proc near
+calibrateTimer proc near
     pushf ;identical to sub_119d4 in start.exe
     cli
     mov byte_378FC, 1
@@ -993,7 +994,7 @@ loc_13E76:
     mov word_378F4, ax
     popf
     retn
-sub_13DF2 endp
+calibrateTimer endp
 ; ------------------------------seg000:0x3e86------------------------------
 ; ------------------------------seg000:0x3e87------------------------------
 manipulateTimer proc near
@@ -1849,7 +1850,7 @@ loc_1E0E0:
     mov di, word_389E0
     call far ptr gfx_jump_3a_getRowOffset
     mov rowOffset, ax
-    call sub_1E262
+    call timerBusyWait
     mov di, rowOffset
     mov bp, offset picDecodedRowBuf
     mov bx, word_389E0
@@ -1884,7 +1885,7 @@ nullsub_1 proc near
 nullsub_1 endp
 ; ------------------------------seg000:0xe260------------------------------
 ; ------------------------------seg000:0xe262------------------------------
-sub_1E262 proc near
+timerBusyWait proc near
     push es
     push ds
     pop es
@@ -1903,7 +1904,7 @@ loc_1E275:
     mov fileReadPos, si
     pop es
     retn
-sub_1E262 endp
+timerBusyWait endp
 ; ------------------------------seg000:0xe28b------------------------------
 ; ------------------------------seg000:0xe28c------------------------------
 sub_1E28C proc near
@@ -2501,9 +2502,9 @@ sub_21422 proc near
 sub_21422 endp
 ; ------------------------------seg001:0x1bc2------------------------------
 ; ------------------------------seg001:0x1bc4------------------------------
-_sub_21444 proc far
+_fillScanlineRange proc far
     retn
-_sub_21444 endp
+_fillScanlineRange endp
 ; ------------------------------seg001:0x1c34------------------------------
 ; ------------------------------seg001:0x1ca6------------------------------
 sub_21526 proc far
@@ -2571,7 +2572,7 @@ _sub_21A86 proc near
 _sub_21A86 endp
 ; ------------------------------seg002:0x9a0------------------------------
 ; ------------------------------seg002:0x9a1------------------------------
-_sub_22411 proc near
+_initCockpitParams proc near
     mov ax, _gfxBufPtr
     mov word_37B7E, ax
     mov word_37B9C, ax
@@ -2776,7 +2777,7 @@ loc_22599:
     mov ax, 10h
     mov word_37B72, ax
     retn
-_sub_22411 endp
+_initCockpitParams endp
 ; ------------------------------seg002:0xbea------------------------------
 ; ------------------------------seg002:0xbeb------------------------------
 sub_2265B proc far

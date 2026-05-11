@@ -17,11 +17,11 @@ unsigned char far byte_2D6A4[0x4844+0x9c8];
 
 // ==== seg000:0x147 ====
 void drawCockpit() {
-    sub_11E0E();
+    initWorldPosition();
     load15Flt3d3();
     // 0x162
     strcpy(regnStr, scenarioPlh[gameData->theater]);
-    sub_121C6();
+    loadTerrainWrapper();
     // 0x16e
     f15DgtlResult = loadF15DgtlBin();
     // 0x179
@@ -44,8 +44,8 @@ void drawCockpit() {
      gfx_jump_2a(1, 0, 0x60, 2, 0, 0x60, 0x140, 0x68);
 }
 
-// ==== seg000:0x211 ====
-int sub_10211() {
+// ==== seg000:0x211 renderFrame ====
+int renderFrame() {
     FP_OFF(dword_38FE2) = OFF_BDA_FLOPPYMOTOR; // floppy motor runtime in bda???
     FP_SEG(dword_38FE2) = 0;
     // 224
@@ -60,7 +60,7 @@ int sub_10211() {
     if (commData->setupUseJoy == 0) {
         setInt9Handler();
     }
-    sub_13C3B();
+    waitForVsync();
     moveDataFar();
     // 266
     if (commData->setupUseJoy == 0) {
@@ -68,7 +68,7 @@ int sub_10211() {
     }
     // 276
     gfx_jump_4f(1);
-    sub_12278(2);
+    delayBusyLoop(2);
     restoreTimerIrqHandler();
     audio_jump_65();
 }
@@ -82,8 +82,8 @@ void gfxInit() {
     gfx_jump_4b_storeBufPtr(commData->gfxInitResult, 2);
 }
 
-// ==== seg000:0x1e0e ====
-int sub_11E0E() {
+// ==== seg000:0x1e0e initWorldPosition ====
+int initWorldPosition() {
     int var_2, var_4;
     setCommWorldbufPtr();
     flagFarToNear = 1;
@@ -235,8 +235,8 @@ void load3D3(char *arg_0) {
     fclose(fileHandle);
     while ((fileHandle = fopen(aPhoto_3d3, aRb_0)) == NULL) {
         // 2add
-        sub_19E44(0);
-        sub_19E5D(0, 0x28, 0x13f, 0x2d);
+        setDrawColor(0);
+        setClipRect(0, 0x28, 0x13f, 0x2d);
         drawSomeStrings(aPleaseInsertF15DiskB, 0x6c, 0x28, 0x0f);
         gfx_jump_46_retrace2();
         misc_jump_5b_getkey();
@@ -667,8 +667,8 @@ int sub_155AB() {
     word_38126 = (word_3C09E == 0x13 || word_3C09A == 1 || word_330C2 == 0) ? 0xc8 : 0x61;
 } // 5fda
 
-// ==== seg000:0x8e50 ====
-int sub_18E50(int arg_0) {
+// ==== seg000:0x8e50 drawHud ====
+int drawHud(int arg_0) {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E, var_10, var_12, var_14, var_16, var_18, var_1A;
     char var_1C;
     byte_3C5A0 = gfx_jump_2d();
@@ -681,15 +681,15 @@ int sub_18E50(int arg_0) {
         if (word_38FEA != 0) { // 8e9d
             word_38FEA = 0;
             if (!(keyValue & 0x80)) { // 8eaa
-                sub_19E44(0xd);
-                sub_19E5D(0, 0, 0x13f, 0x60);
+                setDrawColor(0xd);
+                setClipRect(0, 0, 0x13f, 0x60);
                 gfx_jump_4f(0x3c);
             }
         } // 8ed2
         byte_37C2F = 1;
         if (keyValue == 0 && byte_37C24 == 0) { // 8eeb
             if (!commData->setupUseJoy) { // 8ef9
-                sub_19E44(0);
+                setDrawColor(0);
                 sub_19C0C(0x115, 0x53, 0x125, 0x53);
                 sub_19C0C(0x125, 0x53, 0x125, 0x5f);
                 // 8f3e
@@ -697,7 +697,7 @@ int sub_18E50(int arg_0) {
                 sub_19C0C(0x115, 0x5f, 0x115, 0x53);
                 sub_19C0C(0x11d, 0x59, 0x11d, 0x59);
                 // 8f74
-                sub_19E44(0xf);
+                setDrawColor(0xf);
                 var_14 = ((int16)(noJoy80[0] - 0x78) >> 4) + 0x11d;
                 // 8fa1
                 var_18 = ((int16)((noJoy80[1] * 3) - 0x168) >> 6) + 0x59;
@@ -706,11 +706,11 @@ int sub_18E50(int arg_0) {
                 sub_19C0C(var_14, var_18 + 1, var_14, var_18 - 1);
             } // 8fce
             if (word_391FE & 0x200) { // 8fd6
-                sub_19E44(0xf);
+                setDrawColor(0xf);
                 sub_19C0C(0x9c, 0x59, 0xa4, 0x59);
                 sub_19C0C(0xa0, 0x56, 0xa0, 0x5c);
             } // 900c
-            sub_19E44(word_330BC != 0 ? 4 : 0);
+            setDrawColor(word_330BC != 0 ? 4 : 0);
             // 9041
             var_10 = sub_1CF64((((word_3C5A6 - word_3AA5A) * 2) / 5) + 0x1d, 0, 0x3d);
             if (var_10) sub_19C0C(0x48, 0x55 - var_10, 0x48, 0x55);
@@ -719,7 +719,7 @@ int sub_18E50(int arg_0) {
             // 908f
             if ((word_391FE & 1) == 0 && (word_336E8 & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) { // 90af
                 var_2 = (((stru_3AA5E[word_3C16A].field_6 & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
-                sub_19E44(0xf);
+                setDrawColor(0xf);
                 // 90f7
                 sub_19C0C(0xf2, var_2 - 2, 0xf4, var_2);
                 sub_19C0C(0xf2, var_2 + 2, 0xf4, var_2);
@@ -729,7 +729,7 @@ int sub_18E50(int arg_0) {
                 draw2Strings(aStallWarning, 0x84, 0x1e, 0xf);
             } // 9144
             if (word_3C45C == 0 || word_3C45C == 2) { // 9152
-                sub_19E44(7);
+                setDrawColor(7);
                 word_3C008 = (word_38FC4 >> 6) + 0x38;
                 if (word_3C008 > 0xa && word_3C008 < 0x6f) { // 9173
                     sub_1A8C8(0x9a, word_3C008 - 4, 0x94, 0x15, 0x0b, 7, 0xf);
@@ -745,7 +745,7 @@ int sub_18E50(int arg_0) {
                 } // 9202
                 // 7 = air to air? Only Sidewinder and Amraam have it
                 if (sams[missiles[missleSpec[missileSpecIndex].field_0].field_16].field_C == 7) { // 9223
-                    sub_19E44((uint8)gfxModeUnset != 0 ? 0xf : 7);
+                    setDrawColor((uint8)gfxModeUnset != 0 ? 0xf : 7);
                     // 9239
                     for (var_A = 0; var_A <= 0x100; var_A += 0x10) { // 924b
                         var_4 = var_A << 8;
@@ -773,7 +773,7 @@ int sub_18E50(int arg_0) {
                 drawSomeStrings(aAutopilot, 0xec, 0x5a, 0xf);
             } // 9346
             var_6 = sub_1CF64((((word_3BE92 - word_380C8) >> 6) / 3) + 0x9f, 0x59, 0xe5);
-            sub_19E44(0x0b);
+            setDrawColor(0x0b);
             sub_19C0C(var_6 - 2, 0xf, var_6, 0x11);
             // 93a0
             sub_19C0C(var_6, 0x11, var_6 + 2, 0xf);
@@ -797,16 +797,16 @@ somewhere:
     } // 9480
 } // 9485
 
-// ==== seg000:0x9e44 ====
-void sub_19E44(int arg_0) {
+// ==== seg000:0x9e44 setDrawColor ====
+void setDrawColor(int arg_0) {
     off_38334[2] = arg_0;
     off_3834C[2] = arg_0;
 }
 
-// ==== seg000:0x9e5d ====
-void sub_19E5D(int arg_0, int arg_2, int arg_4, int arg_6) {
-    sub_21444(off_38334, arg_0, arg_2, arg_4, arg_6);
-    sub_21444(off_3834C, arg_0, arg_2, arg_4, arg_6);
+// ==== seg000:0x9e5d setClipRect ====
+void setClipRect(int arg_0, int arg_2, int arg_4, int arg_6) {
+    fillScanlineRange(off_38334, arg_0, arg_2, arg_4, arg_6);
+    fillScanlineRange(off_3834C, arg_0, arg_2, arg_4, arg_6);
 }
 
 // ==== seg000:0xa0cb ====

@@ -49,7 +49,7 @@ extern unsigned char far byte_2D6A4[];
 // ==== seg000:0x147 ====
 void __cdecl drawCockpit();
 // ==== seg000:0x211 ====
-int sub_10211();
+int renderFrame();
 // ==== seg000:0x294 ====
 int sub_10294();
 // ==== seg000:0x297 ====
@@ -100,7 +100,7 @@ int sub_11D10();
 // ==== seg000:0x1d6e ====
 int placeString();
 // ==== seg000:0x1e0e ====
-int sub_11E0E();
+int initWorldPosition();
 // ==== seg000:0x1f3e ====
 int sub_11F3E();
 // ==== seg000:0x2049 ====
@@ -116,7 +116,7 @@ int callLoad3DAll();
 // ==== seg000:0x21ca ====
 int sub_121CA();
 // ==== seg000:0x2278 ====
-int sub_12278();
+int delayBusyLoop();
 // ==== seg000:0x229a ====
 int copySomeMem();
 // ==== seg000:0x22b8 ====
@@ -200,9 +200,9 @@ int getInterruptHandler();
 // ==== seg000:0x3c2c ====
 int far cbreakHandler();
 // ==== seg000:0x3c3b ====
-int sub_13C3B();
+int waitForVsync();
 // ==== seg000:0x3c47 ====
-int sub_13C47();
+int processFrameLoop();
 // ==== seg000:0x3c78 ====
 int setTimerIrqHandler();
 // ==== seg000:0x3cb6 ====
@@ -210,7 +210,7 @@ int restoreTimerIrqHandler();
 // ==== seg000:0x3d6b ====
 int sub_13D6B();
 // ==== seg000:0x3df2 ====
-int sub_13DF2();
+int calibrateTimer();
 // ==== seg000:0x3e87 ====
 int manipulateTimer();
 // ==== seg000:0x3edc ====
@@ -278,7 +278,7 @@ int sub_18DF4();
 // ==== seg000:0x8e38 ====
 int sub_18E38();
 // ==== seg000:0x8e50 ====
-int sub_18E50();
+int drawHud();
 // ==== seg000:0x94d0 ====
 int sub_194D0();
 // ==== seg000:0x957a ====
@@ -316,9 +316,9 @@ int sub_19D86();
 // ==== seg000:0x9db0 ====
 int sub_19DB0();
 // ==== seg000:0x9e44 ====
-void __cdecl sub_19E44(int);
+void __cdecl setDrawColor(int);
 // ==== seg000:0x9e5d ====
-void __cdecl sub_19E5D(int, int, int, int);
+void __cdecl setClipRect(int, int, int, int);
 // ==== seg000:0x9e94 ====
 int sub_19E94();
 // ==== seg000:0x9eb6 ====
@@ -474,7 +474,7 @@ int sub_1E1F8();
 // ==== seg000:0xe260 ====
 int nullsub_1();
 // ==== seg000:0xe262 ====
-int sub_1E262();
+int timerBusyWait();
 // ==== seg000:0xe28c ====
 int sub_1E28C();
 // ==== seg000:0xe2d3 ====
@@ -600,7 +600,7 @@ int nullsub_2();
 // ==== seg001:0x1ba2 ====
 int sub_21422();
 // ==== seg001:0x1bc4 ====
-int far sub_21444();
+int far fillScanlineRange();
 // ==== seg001:0x1ca6 ====
 int far sub_21526();
 // ==== seg001:0x1caa ====
@@ -625,15 +625,15 @@ int far sub_2189C();
 int sub_218A8();
 // bytes outside routine, potential module boundary at 0x9
 // ==== seg002:0xa ====
-int far sub_21A7A();
+int far renderCockpitFar();
 // ==== seg002:0xe ====
-void __cdecl __far sub_21A7E();
+void __cdecl __far initCockpitFar();
 // ==== seg002:0x12 ====
 int far sub_21A82();
 // ==== seg002:0x16 ====
 int sub_21A86();
 // ==== seg002:0x9a1 ====
-void __cdecl sub_22411();
+void __cdecl initCockpitParams();
 // ==== seg002:0xbeb ====
 int far sub_2265B();
 // ==== seg002:0xbfb ====

@@ -9,23 +9,23 @@
 #include <dos.h>
 #include <memory.h>
 
-// ==== seg002:0xa ====
-int far sub_21A7A() {
+// ==== seg002:0xa renderCockpitFar ====
+int far renderCockpitFar() {
     sub_21A86();
 }
 
-// ==== seg002:0xe ====
-void far sub_21A7E() {
-    sub_22411();
+// ==== seg002:0xe initCockpitFar ====
+void far initCockpitFar() {
+    initCockpitParams();
 }
 
-// ==== seg000:0x21c6 ====
-int sub_121C6() {
+// ==== seg000:0x21c6 loadTerrainWrapper ====
+int loadTerrainWrapper() {
     load3DAll();
 }
 
-// ==== seg000:0x2278 ====
-int sub_12278(int arg_0) {
+// ==== seg000:0x2278 delayBusyLoop ====
+int delayBusyLoop(int arg_0) {
     uint8 var_2;
     if (arg_0 > 0) { // 2284
         var_2 = (uint8)arg_0 + byte_3790C[0];
