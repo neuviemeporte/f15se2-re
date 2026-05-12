@@ -822,4 +822,20 @@ int drawString(int* arg_0, char *arg_2, int arg_4, int arg_6, int arg_8) {
     arg_0[5] = arg_6;
     arg_0[2] = arg_8;
     gfx_jump_05_drawString(arg_0, strupr(arg_2), strlen(arg_2));
+}
+
+// ==== seg000:0x5540 ====
+int sub_15540(int arg_0) {
+    return -(sub_154B7(arg_0) - 0x4000);
+}
+
+// ==== seg000:0x9be1 ====
+int sub_19BE1(int arg_0, int arg_2, int arg_4, int arg_6) {
+    sub_19C84(arg_0, arg_2, arg_4, arg_6, 0, 0x13f, 0, 199, 1);
+}
+
+// ==== seg000:0x9e94 ====
+int sub_19E94(int arg_0, int arg_2, int arg_4) {
+    setDrawColor(arg_4);
+    sub_19BE1(arg_0, arg_2, arg_0, arg_2);
 }   
