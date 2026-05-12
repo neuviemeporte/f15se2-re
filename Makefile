@@ -149,12 +149,17 @@ $(EGAME_EXE): $(EGAME_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_OBJ) -o $@ -f "$(LINKFLAGS)"
 
 # generate C header file from ida listing
+ifneq ($(shell test -s $(EGAME_LST) && echo yes),yes)
+$(EGAME_BASEHDR): ; @true
+$(SRCDIR)/$(EGAME_BASE): ; @true
+else
 $(EGAME_BASEHDR): $(EGAME_LST) $(EGAME_INC) $(EGAME_CONF) $(LST2CH)
 	$(LST2CH) $< $(SRCDIR) $(EGAME_CONF) --noc
 
 # generate assembly for base object from ida listing
 $(SRCDIR)/$(EGAME_BASE): $(EGAME_LST) $(EGAME_INC) $(EGAME_CONF) $(LST2ASM)
 	$(LST2ASM) $< $@ $(EGAME_CONF) --stub
+endif
 
 $(EGAME_COBJ): $(EGAME_BASEHDR)
 $(BUILDDIR)/egame2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
