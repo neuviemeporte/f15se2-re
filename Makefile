@@ -166,6 +166,31 @@ EGAME_VRF_REFEP := 0x10
 EGAME_VRF_TGTEP := [558bec83ec??c746]
 
 #
+# end.exe reconstruction (rc)
+#
+END_EXE := $(BUILDDIR)/end.exe
+END_CONF := $(CONFDIR)/end_rc.json
+END_BASE := end_rc.asm
+END_ASM := $(END_BASE)
+END_SRC := end0.c end1.c end2.c
+END_BASEHDR = $(SRCDIR)/end.h
+END_COBJ := $(call cobj,$(BUILDDIR),$(END_SRC))
+END_OBJ := $(END_COBJ) $(call asmobj,$(BUILDDIR),$(END_ASM))
+$(END_COBJ): $(END_BASEHDR)
+$(END_EXE): | $(BUILDDIR)
+$(END_EXE): $(END_OBJ)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(END_OBJ) -o $@ -f "$(LINKFLAGS)"
+
+$(END_COBJ): $(END_BASEHDR)
+$(BUILDDIR)/end1.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/end2.obj: MSC_CFLAGS := /Od /Id:\f15-se2
+
+# reference and target entrypoints for binary comparison
+END_VRF_REF := bin/end.exe
+END_VRF_REFEP := 0x491c
+END_VRF_TGTEP := [558bec]
+
+#
 # unit test executable
 #
 TEST_EXE := $(DEBUGDIR)/test.exe
@@ -190,10 +215,11 @@ $(HELLO_EXE): LINKFLAGS := /M /I
 $(HELLO_EXE): $(HELLO_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)" -l "$(HELLO_LIB)"
 
-f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(UASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(TEST_EXE)
+f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(UASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE) $(TEST_EXE)
 
 start: $(START_EXE)
 egame: $(EGAME_EXE)
+end: $(END_EXE)
 
 debug: $(DEBUGDIR) $(START_DEBUG)
 
@@ -238,7 +264,7 @@ $(DEBUGDIR)/%.obj $(BUILDDIR)/%.obj: $(SRCDIR)/%.asm
 
 reasm: $(STARTRE_EXE)
 
-verify: verify-start verify-egame
+verify: verify-start verify-egame verify-end
 verify-debug: VERIFY_FLAGS += --debug
 verify-debug: verify-start
 
@@ -255,6 +281,13 @@ verify-start: $(MZDIFF) $(START_EXE) $(START_VRF_REF)
 
 verify-egame: $(MZDIFF) $(EGAME_EXE) $(EGAME_VRF_REF)
 	$(MZDIFF) $(EGAME_VRF_REF):$(EGAME_VRF_REFEP) $(EGAME_EXE):$(EGAME_VRF_TGTEP) $(VERIFY_FLAGS) --map map/egame.map
+
+$(END_VRF_REF):
+	@echo "---> Place end.exe (unpacked with tools/unlzexe) with md5sum 3b7aac9c52ca3fedefff3a8db54b5799 into bin/"
+	@exit 1
+
+verify-end: $(MZDIFF) $(END_EXE) $(END_VRF_REF)
+	$(MZDIFF) $(END_VRF_REF):$(END_VRF_REFEP) $(END_EXE):$(END_VRF_TGTEP) $(VERIFY_FLAGS) --map map/end.map
 
 TOOLS := $(TOOLDIR)/ovltool $(TOOLDIR)/vgapal $(TOOLDIR)/wldparse
 f15-tools: $(TOOLDIR) $(TOOLS)
