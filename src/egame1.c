@@ -15,6 +15,14 @@
 unsigned char far byte_228D0[0xadd4];
 unsigned char far byte_2D6A4[0x4844+0x9c8];
 
+// ==== seg000:0x1bfd scheduleTimedEvent ====
+void sub_11BFD(int arg_0, int arg_2) {
+    if (word_3370E != 0) {
+        keyValue = arg_0;
+        word_3370C = arg_2 * word_330C4 + word_336E8;
+    }
+}
+
 // ==== seg000:0x147 ====
 void drawCockpit() {
     sub_11E0E();
@@ -822,11 +830,6 @@ int drawStringCentered(int* arg_0, char *arg_2, int arg_4, int arg_6, int arg_8)
     arg_0[5] = arg_6;
     arg_0[2] = arg_8;
     gfx_jump_05_drawString(arg_0, strupr(arg_2), strlen(arg_2));
-}
-
-// ==== seg000:0x5540 ====
-int sub_15540(int arg_0) {
-    return -(sub_154B7(arg_0) - 0x4000);
 }
 
 // ==== seg000:0x9be1 ====
