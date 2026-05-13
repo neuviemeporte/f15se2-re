@@ -22,6 +22,9 @@ EXTRN _loadPic:PROC
 EXTRN _openShowPic:PROC
 EXTRN _allocBuffer:PROC
 EXTRN _routine_64:PROC
+EXTRN _routine_70:PROC
+EXTRN _routine_136:PROC
+EXTRN _routine_137:PROC
 IFDEF DEBUG
 EXTRN _my_trace:PROC
 ENDIF
@@ -30,6 +33,8 @@ PUBLIC _gfx_jump_2f_charWidth
 PUBLIC _var_69
 PUBLIC _str_allocError
 PUBLIC _str_deallocError
+PUBLIC _var_138
+PUBLIC _var_139
 
 ; --- Code segment ---
 
@@ -7288,39 +7293,9 @@ LAB_1000_3cfc:
     ret
 routine_106 endp
 
-routine_137 proc near
-    push BP
-    mov BP,SP
-    mov AL,byte ptr [BP + 4h]
-    sub AH,AH
-    mov CL,7h
-    shl AX,CL
-    sub DX,DX
-    mov CX,92h
-    div CX
-    jmp LAB_1000_3d15
-LAB_1000_3d15:
-    mov SP,BP
-    pop BP
-    ret
-routine_137 endp
+routine_137 equ _routine_137
 
-routine_136 proc near
-    push BP
-    mov BP,SP
-    mov AL,byte ptr [BP + 4h]
-    sub AH,AH
-    mov CL,7h
-    shl AX,CL
-    sub DX,DX
-    mov CX,0c3h
-    div CX
-    jmp LAB_1000_3d2e
-LAB_1000_3d2e:
-    mov SP,BP
-    pop BP
-    ret
-routine_136 endp
+routine_136 equ _routine_136
 
 routine_147 proc near
     push BP
@@ -8997,18 +8972,7 @@ routine_140 proc near
     ret
 routine_140 endp
 
-PUBLIC _routine_70
-_routine_70:
-routine_70 proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [_var_138],AX
-    mov word ptr [_var_139],0h
-    pop BP
-    ret
-    db 90h
-routine_70 endp
+routine_70 equ _routine_70
 
 FUN_1000_4cca proc near
     mov AX,43fdh
@@ -10046,6 +10010,7 @@ LAB_1000_544a:
     mov SP,BP
     pop BP
     ret
+FUN_1000_544c:
     push BP
     mov BP,SP
     push SI

@@ -78,3 +78,13 @@ void routine_34(void) {
     routine_70(routine_69());
 }
 
+int routine_137(unsigned char param_1) {
+    TRACE(("routine_137"));
+    return ((unsigned int)param_1 << 7) / 0x92;
+}
+
+int routine_136(unsigned char param_1) {
+    TRACE(("routine_136"));
+    return ((unsigned int)param_1 << 7) / 0xC3;
+}
+

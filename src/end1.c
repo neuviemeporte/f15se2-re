@@ -53,4 +53,10 @@ void routine_64(int segment) {
     }
 }
 
+void routine_70(int param_1) {
+    TRACE(("routine_70"));
+    var_138 = param_1;
+    var_139 = 0;
+}
+
 

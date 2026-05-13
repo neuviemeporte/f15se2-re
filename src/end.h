@@ -43,6 +43,8 @@ int routine_102(int segment);
 extern char var_69;       /* timerHandlerInstalled */
 extern char str_allocError[];
 extern char str_deallocError[];
+extern int var_138;
+extern int var_139;
 
 /* Reconstructed C functions */
 void cleanup(void);
@@ -51,5 +53,8 @@ void loadPic(char *filename, int segment);
 void openShowPic(char *name, int page, int garbage);
 int allocBuffer(int size);
 void routine_64(int segment);
+void routine_70(int param_1);
+int routine_136(unsigned char param_1);
+int routine_137(unsigned char param_1);
 
 #endif // F15_SE2_END
