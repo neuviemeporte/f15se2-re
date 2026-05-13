@@ -122,10 +122,10 @@ void FUN_1000_0990(unsigned int ticks) {
     restoreTimerIrqHandler();
 }
 
-void FUN_1000_041a(int *s, char *str, int len, int x, int y) {
+void FUN_1000_041a(int *s, char far *str, int x, int y) {
     TRACE(("FUN_1000_041a"));
     s[4] = x;
     s[5] = y;
-    FUN_1000_0469(s, str, len);
+    FUN_1000_0469(s, str);
 }
 
