@@ -16,11 +16,14 @@ EXTRN _actualDrawString:PROC
 EXTRN _stringWidth:PROC
 EXTRN _drawString:PROC
 EXTRN _mystrcpy:PROC
+EXTRN _cleanup:PROC
+EXTRN _routine_34:PROC
 IFDEF DEBUG
 EXTRN _my_trace:PROC
 ENDIF
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
+PUBLIC _var_69
 
 ; --- Code segment ---
 
@@ -242,29 +245,7 @@ routine_18 proc near
     ret
 routine_18 endp
 
-cleanup proc near
-    push BP
-    mov BP,SP
-    sub SP,0eh
-    cmp byte ptr [_var_69],1h
-    jnz LAB_1000_0195
-    call restoreTimerIrqHandler
-LAB_1000_0195:
-    mov byte ptr [BP + -0dh],0h
-    mov byte ptr [BP + -0eh],3h
-    lea AX,[BP + -0eh]
-    push AX
-    lea AX,[BP + -0eh]
-    push AX
-    mov AX,10h
-    push AX
-    call intDispatch
-    add SP,6h
-    call far ptr misc_jump_5e_clearKeyFlags
-    mov SP,BP
-    pop BP
-    ret
-cleanup endp
+cleanup equ _cleanup
 
 routine_6 proc near
     ret
@@ -1118,17 +1099,7 @@ LAB_1000_09a7:
     ret
 FUN_1000_0990 endp
 
-routine_34 proc near
-    push BP
-    mov BP,SP
-    call routine_69
-    push AX
-    call routine_70
-    add SP,2h
-    mov SP,BP
-    pop BP
-    ret
-routine_34 endp
+routine_34 equ _routine_34
 
 FUN_1000_09bf proc near
     push BP
@@ -1433,6 +1404,8 @@ LAB_1000_0b82:
     ret
 FUN_1000_0b5c endp
 
+PUBLIC _intDispatch
+_intDispatch:
 intDispatch proc near
     push BP
     mov BP,SP
@@ -3767,6 +3740,8 @@ setTimerIrqHandler proc near
     ret
 setTimerIrqHandler endp
 
+PUBLIC _restoreTimerIrqHandler
+_restoreTimerIrqHandler:
 restoreTimerIrqHandler proc near
     mov AL,36h
     out 43h,AL
@@ -4189,6 +4164,8 @@ LAB_1000_1e5c:
     ret
 manipulateTimer endp
 
+PUBLIC _routine_69
+_routine_69:
 routine_69 proc near
     xor AH,AH
     int 1Ah
@@ -9084,6 +9061,8 @@ routine_140 proc near
     ret
 routine_140 endp
 
+PUBLIC _routine_70
+_routine_70:
 routine_70 proc near
     push BP
     mov BP,SP
@@ -11209,6 +11188,8 @@ misc_jump_5e_clearKeyFlags proc far               ; 0x11DE
     db 0EAh
     dd 0
 misc_jump_5e_clearKeyFlags endp
+PUBLIC _misc_jump_5e_clearKeyFlags
+_misc_jump_5e_clearKeyFlags equ misc_jump_5e_clearKeyFlags
     db 0EAh, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h
     db 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h

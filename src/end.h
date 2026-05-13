@@ -5,6 +5,7 @@
 #include "comm.h"
 
 #include <stdio.h>
+#include <dos.h>
 
 #if !defined(MSDOS) && !defined(__MSDOS__)
 #define far
@@ -22,5 +23,20 @@ int stringWidth(int *page, const char *str);
 void drawString(int *page, const char *str, int startx, int y, int endx);
 extern void far gfx_jump_05_drawString(int *pageNum, const char *string);
 extern int far gfx_jump_2f_charWidth(int ch, int font);
+
+/* ASM functions called from C */
+void restoreTimerIrqHandler(void);
+void intDispatch(int intNum, char *inRegs, char *outRegs);
+extern void far misc_jump_5e_clearKeyFlags(void);
+void routine_140(int src_seg, int src_off, int dst_seg, int dst_off, int count);
+int routine_69(void);
+void routine_70(int param_1);
+
+/* Extern variables from ASM */
+extern char var_69;       /* timerHandlerInstalled */
+
+/* Reconstructed C functions */
+void cleanup(void);
+void routine_34(void);
 
 #endif // F15_SE2_END

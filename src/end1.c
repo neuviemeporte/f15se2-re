@@ -15,3 +15,5 @@ void mystrcpy(char *dst, char *src)
     while ((*dst++ = *src++) != 0)
         ;
 }
+
+

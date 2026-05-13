@@ -60,3 +60,21 @@ void drawString(int *page, const char *str, int startx, int y, int endx) {
     width = stringWidth(page, str);
     actualDrawString(page, str, (endx - width) / 2 + startx, y);
 }
+
+void cleanup(void) {
+    char regs[0xe];
+    TRACE(("cleanup"));
+    if (var_69 == 1) {
+        restoreTimerIrqHandler();
+    }
+    regs[1] = 0;
+    regs[0] = 3;
+    intDispatch(0x10, regs, regs);
+    misc_jump_5e_clearKeyFlags();
+}
+
+void routine_34(void) {
+    TRACE(("routine_34"));
+    routine_70(routine_69());
+}
+
