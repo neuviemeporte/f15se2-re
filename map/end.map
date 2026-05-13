@@ -25,124 +25,124 @@ Data1 DATA 0580
 # duplicate - routine is a duplicate of another
 #
 routine_10: Code1 NEAR 0000-000f R0000-000f external
-main: Code1 NEAR 0010-0112 R0010-0112
+main: Code1 NEAR 0010-0112 R0010-0112 assembly
 routine_26: Code1 NEAR 0113-0129 R0113-0129 assembly
-routine_18: Code1 NEAR 012a-0184 R012a-0184
-cleanup: Code1 NEAR 0185-01b7 R0185-01b7
+routine_18: Code1 NEAR 012a-0184 R012a-0184 assembly
+cleanup: Code1 NEAR 0185-01b7 R0185-01b7 complete
 routine_6: Code1 NEAR 01b8-01b8 R01b8-01b8 external
 routine_5: Code1 NEAR 01b9-01b9 R01b9-01b9 external
 routine_20: Code1 NEAR 01ba-020b R01ba-020b
-routine_42: Code1 NEAR 020c-02f4 R020c-02f4
+routine_42: Code1 NEAR 020c-02f4 R020c-02f4 assembly
 routine_71: Code1 NEAR 02f5-0327 R02f5-0327
-routine_41: Code1 NEAR 0328-033c R0328-033c
-routine_108: Code1 NEAR 033d-0370 R033d-0370
-routine_109: Code1 NEAR 0371-03a4 R0371-03a4
+routine_41: Code1 NEAR 0328-033c R0328-033c assembly
+routine_108: Code1 NEAR 033d-0370 R033d-0370 assembly
+routine_109: Code1 NEAR 0371-03a4 R0371-03a4 assembly
 routine_16: Code1 NEAR 03a6-03b6 R03a6-03b6 assembly
-routine_66: Code1 NEAR 03b7-0418 R03b7-0418
+routine_66: Code1 NEAR 03b7-0418 R03b7-0418 assembly
 actualDrawString: Code1 NEAR 0442-0468 R0442-0468 complete
 routine_130: Code1 NEAR 05e2-0700 R05e2-0700
 drawString: Code1 NEAR 0701-0737 R0701-0737 complete
 stringWidth: Code1 NEAR 0738-077a R0738-077a complete
 my_ltoa: Code1 NEAR 077b-08b5 R077b-08b5
 my_itoa: Code1 NEAR 08b6-098f R08b6-098f
-routine_34: Code1 NEAR 09ae-09be R09ae-09be
-mystrcpy: Code1 NEAR 0a42-0a5c R0a42-0a5c
+routine_34: Code1 NEAR 09ae-09be R09ae-09be complete
+mystrcpy: Code1 NEAR 0a42-0a5c R0a42-0a5c complete
 mystrcat: Code1 NEAR 0aab-0ad2 R0aab-0ad2 assembly
-routine_146: Code1 NEAR 0b22-0b3f R0b22-0b3f
+routine_146: Code1 NEAR 0b22-0b3f R0b22-0b3f assembly
 intDispatch: Code1 NEAR 0b87-0beb R0b87-0bbf U0bc0-0bc2 R0bc3-0beb assembly
 routine_87: Code1 NEAR 0bec-0c28 R0bec-0c28
-routine_117: Code1 NEAR 0c29-0c53 R0c29-0c53
-routine_115: Code1 NEAR 0c54-0c9b R0c54-0c9b
-routine_116: Code1 NEAR 0c9c-0cbc R0c9c-0cbc
+routine_117: Code1 NEAR 0c29-0c53 R0c29-0c53 assembly
+routine_115: Code1 NEAR 0c54-0c9b R0c54-0c9b assembly
+routine_116: Code1 NEAR 0c9c-0cbc R0c9c-0cbc assembly
 dos_printstring: Code1 NEAR 0d09-0d14 R0d09-0d14 assembly
 routine_14: Code1 NEAR 0d17-0d6f R0d17-0d29 U0d2a-0d2e R0d2f-0d6f assembly
 clearRect: Code1 NEAR 0e4e-0eec R0e4e-0eec assembly
 sub_12C75: Code1 NEAR 0f09-0f39 R0f09-0f39 assembly
 routine_154: Code1 NEAR 107e-1089 R107e-1089 assembly
-routine_158: Code1 NEAR 108a-11fd R108a-11fd
+routine_158: Code1 NEAR 108a-11fd R108a-11fd assembly
 sub_12F6A: Code1 NEAR 11fe-121e R11fe-121e assembly
 installCBreakHandler: Code1 NEAR 1240-1262 R1240-1262 assembly
 routine_28: Code1 NEAR 1263-1273 R1263-1273 assembly
-routine_33: Code1 NEAR 1274-127f R1274-127f
-openFileWrapper: Code1 NEAR 1336-1346 R1336-1346 assembly
+routine_33: Code1 NEAR 1274-127f R1274-127f assembly
+openFileWrapper: Code1 NEAR 1336-1346 R1336-1346 complete
 routine_91: Code1 NEAR 135a-1367 R135a-1367 complete
 openFile: Code1 NEAR 13ae-1404 R13ae-1404 R156a-15a5 assembly
 fileClose: Code1 NEAR 145c-147c R145c-147c assembly
-openShowPic: Code1 NEAR 15a6-15d1 R15a6-15d1
-loadPic: Code1 NEAR 15fc-1624 R15fc-1624
+openShowPic: Code1 NEAR 15a6-15d1 R15a6-15d1 complete
+loadPic: Code1 NEAR 15fc-1624 R15fc-1624 complete
 showPicFile: Code1 NEAR 1664-16d5 R1664-16d5 assembly
 decodePic: Code1 NEAR 17b2-1819 R17b2-1819 assembly
-routine_120: Code1 NEAR 181a-181a R181a-181a
+routine_120: Code1 NEAR 181a-181a R181a-181a assembly
 decodePicRow: Code1 NEAR 181c-1845 R181c-1845 assembly
 picReadDataAndMakeDict: Code1 NEAR 1846-188c R1846-188c assembly
 picMakeDict: Code1 NEAR 188d-18c2 R188d-18c2 assembly
-routine_145: Code1 NEAR 18c3-193b R18c3-193b
+routine_145: Code1 NEAR 18c3-193b R18c3-193b assembly
 dictionaryLookup: Code1 NEAR 193c-19ea R193c-19ea assembly
-allocBuffer: Code1 NEAR 19ec-1a1f R19ec-1a1f
-routine_64: Code1 NEAR 1a20-1a47 R1a20-1a47
+allocBuffer: Code1 NEAR 19ec-1a1f R19ec-1a1f complete
+routine_64: Code1 NEAR 1a20-1a47 R1a20-1a47 complete
 dos_alloc: Code1 NEAR 1a48-1a6d R1a48-1a6d assembly
-routine_102: Code1 NEAR 1a6e-1a8a R1a6e-1a8a
+routine_102: Code1 NEAR 1a6e-1a8a R1a6e-1a8a assembly
 setTimerIrqHandler: Code1 NEAR 1bfc-1c39 R1bfc-1c39 assembly
 restoreTimerIrqHandler: Code1 NEAR 1c3a-1c5a R1c3a-1c5a assembly
 sub_13DF2: Code1 NEAR 1d76-1e0a R1d76-1e0a assembly
 manipulateTimer: Code1 NEAR 1e0b-1e5f R1e0b-1e5f assembly
-routine_69: Code1 NEAR 1e60-1e66 R1e60-1e66
-routine_27: Code1 NEAR 1e78-216d R1e78-216d
-routine_24: Code1 NEAR 216e-21a4 R216e-21a4
+routine_69: Code1 NEAR 1e60-1e66 R1e60-1e66 assembly
+routine_27: Code1 NEAR 1e78-216d R1e78-216d assembly
+routine_24: Code1 NEAR 216e-21a4 R216e-21a4 assembly
 routine_59: Code1 NEAR 21a6-2249 R21a6-2249
 routine_60: Code1 NEAR 224a-2582 R224a-23be U23bf-23c1 R23c2-2582
 routine_95: Code1 NEAR 2583-2617 R2583-2617
 routine_97: Code1 NEAR 2618-2645 R2618-263b U263c-263d R263e-2645
-routine_98: Code1 NEAR 2646-2bd0 R2646-27f6 U27f7-2a3e R2a3f-2a4e U2a4f-2a66 R2a67-2bd0
-routine_96: Code1 NEAR 2bd1-35e0 R2bd1-317c U317d-3431 R3432-3441 U3442-3459 R345a-35e0
+routine_98: Code1 NEAR 2646-2bd0 R2646-27f6 U27f7-2a3e R2a3f-2a4e U2a4f-2a66 R2a67-2bd0 assembly
+routine_96: Code1 NEAR 2bd1-35e0 R2bd1-317c U317d-3431 R3432-3441 U3442-3459 R345a-35e0 assembly
 routine_135: Code1 NEAR 35e1-3860 R35e1-35f8 U35f9-3834 R3835-3844 U3845-385c R385d-3860
 routine_65: Code1 NEAR 3861-3b2f R3861-3b2f
 routine_132: Code1 NEAR 3b30-3c18 R3b30-3c18
 routine_106: Code1 NEAR 3c19-3cff R3c19-3cff
-routine_137: Code1 NEAR 3d00-3d18 R3d00-3d18
-routine_136: Code1 NEAR 3d19-3d31 R3d19-3d31
-routine_147: Code1 NEAR 3d32-3d88 R3d32-3d88
+routine_137: Code1 NEAR 3d00-3d18 R3d00-3d18 complete
+routine_136: Code1 NEAR 3d19-3d31 R3d19-3d31 complete
+routine_147: Code1 NEAR 3d32-3d88 R3d32-3d88 complete
 routine_105: Code1 NEAR 3d89-3dd1 R3d89-3dd1
-routine_160: Code1 NEAR 3dd2-3dfe R3dd2-3dfe
-routine_138: Code1 NEAR 3dff-3ea3 R3dff-3ea3
-routine_157: Code1 NEAR 3ea4-3ebc R3ea4-3ebc
-routine_63: Code1 NEAR 3ebd-41d2 R3ebd-409c U409d-409e R409f-41b6 U41b7-41b8 R41b9-41d2
-routine_131: Code1 NEAR 41d3-4533 R41d3-4224 U4225-42d1 R42d2-42e1 U42e2-42f9 R42fa-4533
-routine_25: Code1 NEAR 4534-4919 R4534-4919
+routine_160: Code1 NEAR 3dd2-3dfe R3dd2-3dfe complete
+routine_138: Code1 NEAR 3dff-3ea3 R3dff-3ea3 complete
+routine_157: Code1 NEAR 3ea4-3ebc R3ea4-3ebc complete
+routine_63: Code1 NEAR 3ebd-41d2 R3ebd-409c U409d-409e R409f-41b6 U41b7-41b8 R41b9-41d2 assembly
+routine_131: Code1 NEAR 41d3-4533 R41d3-4224 U4225-42d1 R42d2-42e1 U42e2-42f9 R42fa-4533 assembly
+routine_25: Code1 NEAR 4534-4919 R4534-4919 assembly
 start: Code1 NEAR 491c-49cd R491c-49cd external
 routine_4: Code1 NEAR 49ce-4a91 R49ce-4a91 R4ea4-4ea9 external
-routine_8: Code1 NEAR 4a92-4aa8 R4a92-4aa8
+routine_8: Code1 NEAR 4a92-4aa8 R4a92-4aa8 assembly
 routine_9: Code1 NEAR 4aa9-4aed R4aa9-4aed external
-routine_30: Code1 NEAR 4aee-4b1a R4aee-4b1a
-routine_13: Code1 NEAR 4b1b-4b29 R4b1b-4b29
-routine_12: Code1 NEAR 4b2a-4b3c R4b2a-4b3c
+routine_30: Code1 NEAR 4aee-4b1a R4aee-4b1a assembly
+routine_13: Code1 NEAR 4b1b-4b29 R4b1b-4b29 assembly
+routine_12: Code1 NEAR 4b2a-4b3c R4b2a-4b3c assembly
 routine_51: Code1 NEAR 4b3e-4bf7 R4b3e-4bf7
-routine_46: Code1 NEAR 4bf8-4c1e R4bf8-4c1e
-routine_140: Code1 NEAR 4c9a-4cb7 R4c9a-4cb7
-routine_70: Code1 NEAR 4cb8-4cc8 R4cb8-4cc8
-routine_100: Code1 NEAR 4cf0-4d8b R4cf0-4d8b
-routine_139: Code1 NEAR 4dc0-4e61 R4dc0-4e61
-routine_101: Code1 NEAR 4e62-4e83 R4e62-4e83
+routine_46: Code1 NEAR 4bf8-4c1e R4bf8-4c1e assembly
+routine_140: Code1 NEAR 4c9a-4cb7 R4c9a-4cb7 assembly
+routine_70: Code1 NEAR 4cb8-4cc8 R4cb8-4cc8 complete
+routine_100: Code1 NEAR 4cf0-4d8b R4cf0-4d8b assembly
+routine_139: Code1 NEAR 4dc0-4e61 R4dc0-4e61 assembly
+routine_101: Code1 NEAR 4e62-4e83 R4e62-4e83 assembly
 routine_2: Code1 NEAR 4e84-4ea3 R4e84-4ea3
-routine_29: Code1 NEAR 4eaa-4ecb R4eaa-4ecb
-routine_11: Code1 NEAR 4ecc-4ef6 R4ecc-4ef6
-routine_3: Code1 NEAR 4ef7-4f1f R4ef7-4f1f
-routine_114: Code1 NEAR 4f46-4f73 R4f46-4f73
-routine_85: Code1 NEAR 4f74-4fa0 R4f74-4fa0
+routine_29: Code1 NEAR 4eaa-4ecb R4eaa-4ecb assembly
+routine_11: Code1 NEAR 4ecc-4ef6 R4ecc-4ef6 assembly
+routine_3: Code1 NEAR 4ef7-4f1f R4ef7-4f1f assembly
+routine_114: Code1 NEAR 4f46-4f73 R4f46-4f73 assembly
+routine_85: Code1 NEAR 4f74-4fa0 R4f74-4fa0 complete
 routine_74: Code1 NEAR 4fa2-5099 R4fa2-4fff R5000-5099
 routine_84: Code1 NEAR 509a-5107 R509a-5107
 routine_73: Code1 NEAR 5108-5141 R5108-5141
-routine_86: Code1 NEAR 5142-5161 R4f20-4f27 R5142-5161
-routine_88: Code1 NEAR 5162-516e R5162-516e
-routine_110: Code1 NEAR 5170-5302 R4f33-4f3f R5170-5302
-routine_141: Code1 NEAR 5303-5313 R5303-5313
-routine_112: Code1 NEAR 5314-53b9 R5314-53b9 R53fa-543b
-routine_143: Code1 NEAR 53ba-53f9 R53ba-53f9
-routine_113: Code1 NEAR 543c-544d R543c-544d
-routine_142: Code1 NEAR 54c6-54d7 R54c6-54d7
-routine_134: Code2 FAR 0027-0039 R0027-0039
+routine_86: Code1 NEAR 5142-5161 R4f20-4f27 R5142-5161 assembly
+routine_88: Code1 NEAR 5162-516e R5162-516e assembly
+routine_110: Code1 NEAR 5170-5302 R4f33-4f3f R5170-5302 assembly
+routine_141: Code1 NEAR 5303-5313 R5303-5313 assembly
+routine_112: Code1 NEAR 5314-53b9 R5314-53b9 R53fa-543b assembly
+routine_143: Code1 NEAR 53ba-53f9 R53ba-53f9 assembly
+routine_113: Code1 NEAR 543c-544d R543c-544d assembly
+routine_142: Code1 NEAR 54c6-54d7 R54c6-54d7 assembly
+routine_134: Code2 FAR 0027-0039 R0027-0039 assembly
 readJoyPort: Code2 NEAR 003a-0066 R003a-0066 assembly
-routine_149: Code2 NEAR 0067-00c2 R0067-00c2
+routine_149: Code2 NEAR 0067-00c2 R0067-00c2 assembly
 copyJoystickData: Code2 FAR 00d7-00ee R00d7-00ee assembly
 gfx_jump_0_alloc: Data1 FAR 1008-100c R1008-100c assembly
 gfx_jump_05_drawString: Data1 FAR 1021-1025 R1021-1025 assembly
