@@ -2,18 +2,12 @@
 """
 Verify a reconstructed function is byte-exact by name.
 
-Usage: python3 tools/verify_function.py <function_name>
+Usage:
+    python3 tools/verify_function.py <function_name>
+    python3 tools/verify_function.py --exe end routine_91
 
-Example: python3 tools/verify_function.py sub_1D1C8
-
-Looks up the original offset/size from map/egame.map and the built
-offset from build/EGAME.MAP (the MS LINK-generated public symbol table),
-then compares bytes from bin/egame.exe and build/egame.exe.
-
-The mzdiff invocation uses the linker map offset directly as the target
-entrypoint (exe:0xoffset form), so it works correctly for any function
-regardless of whether it has been reached by the BFS trace -- no hex
-pattern search heuristic required.
+The --exe flag selects which executable to verify against (default: egame).
+Valid values: egame, end, start.
 """
 import sys
 import re
@@ -135,17 +129,30 @@ def annotate_diff(ref_bytes, built_bytes):
 
 
 def main():
-    if len(sys.argv) < 2:
-        print(f"Usage: {sys.argv[0]} <function_name>")
+    # Parse --exe flag
+    args = sys.argv[1:]
+    exe_name = 'egame'  # default
+    if '--exe' in args:
+        idx = args.index('--exe')
+        if idx + 1 < len(args):
+            exe_name = args[idx + 1]
+            args = args[:idx] + args[idx+2:]
+        else:
+            print("Error: --exe requires a value (e.g. --exe end)")
+            sys.exit(1)
+
+    if len(args) < 1:
+        print(f"Usage: {sys.argv[0]} [--exe end|egame|start] <function_name>")
         print(f"Example: {sys.argv[0]} sub_1D1C8")
+        print(f"Example: {sys.argv[0]} --exe end routine_91")
         sys.exit(1)
 
-    name = sys.argv[1]
+    name = args[0]
 
-    routine_map = 'map/egame.map'
-    linker_map  = 'build/EGAME.MAP'
-    ref_exe     = 'bin/egame.exe'
-    built_exe   = 'build/egame.exe'
+    routine_map = f'map/{exe_name}.map'
+    linker_map  = f'build/{exe_name.upper()}.MAP'
+    ref_exe     = f'bin/{exe_name}.exe'
+    built_exe   = f'build/{exe_name}.exe'
     mzdiff_bin  = 'mzretools/debug/mzdiff'
 
     for path in [routine_map, linker_map, ref_exe, built_exe]:
