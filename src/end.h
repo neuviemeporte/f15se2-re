@@ -45,6 +45,10 @@ extern char str_allocError[];
 extern char str_deallocError[];
 extern int var_138;
 extern int var_139;
+extern int var_93;
+extern int var_94;
+extern int var_95;
+extern int var_96;
 
 /* Reconstructed C functions */
 void cleanup(void);
@@ -56,5 +60,8 @@ void routine_64(int segment);
 void routine_70(int param_1);
 int routine_136(unsigned char param_1);
 int routine_137(unsigned char param_1);
+void routine_138(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2, int cy2, int flag);
+void routine_160(int x1, int y1, int x2, int y2);
+void routine_157(int x, int y);
 
 #endif // F15_SE2_END

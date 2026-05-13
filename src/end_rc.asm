@@ -25,6 +25,8 @@ EXTRN _routine_64:PROC
 EXTRN _routine_70:PROC
 EXTRN _routine_136:PROC
 EXTRN _routine_137:PROC
+EXTRN _routine_157:PROC
+EXTRN _routine_160:PROC
 IFDEF DEBUG
 EXTRN _my_trace:PROC
 ENDIF
@@ -35,6 +37,10 @@ PUBLIC _str_allocError
 PUBLIC _str_deallocError
 PUBLIC _var_138
 PUBLIC _var_139
+PUBLIC _var_93
+PUBLIC _var_94
+PUBLIC _var_95
+PUBLIC _var_96
 
 ; --- Code segment ---
 
@@ -7366,26 +7372,10 @@ routine_105 proc near
     ret
 routine_105 endp
 
-routine_160 proc near
-    push BP
-    mov BP,SP
-    mov AX,1h
-    push AX
-    push word ptr [_var_96]
-    push word ptr [_var_94]
-    push word ptr [_var_95]
-    push word ptr [_var_93]
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_138
-    add SP,12h
-    mov SP,BP
-    pop BP
-    ret
-routine_160 endp
+routine_160 equ _routine_160
 
+PUBLIC _routine_138
+_routine_138:
 routine_138 proc near
     push BP
     mov BP,SP
@@ -7443,19 +7433,7 @@ routine_138 proc near
     ret
 routine_138 endp
 
-routine_157 proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_160
-    add SP,8h
-    mov SP,BP
-    pop BP
-    ret
-routine_157 endp
+routine_157 equ _routine_157
 
 routine_63 proc near
     push BP

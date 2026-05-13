@@ -88,3 +88,13 @@ int routine_136(unsigned char param_1) {
     return ((unsigned int)param_1 << 7) / 0xC3;
 }
 
+void routine_160(int x1, int y1, int x2, int y2) {
+    TRACE(("routine_160"));
+    routine_138(x1, y1, x2, y2, var_93, var_95, var_94, var_96, 1);
+}
+
+void routine_157(int x, int y) {
+    TRACE(("routine_157"));
+    routine_160(x, y, x, y);
+}
+
