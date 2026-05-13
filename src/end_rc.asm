@@ -2,9 +2,19 @@
 DOSSEG
 .MODEL SMALL
 
+Stack equ 0
+local_res0 equ 0
+param_1 equ 4h
+param_2 equ 6h
+param_3 equ 8h
+a equ 2h
+b equ 6h
+
 .CODE
 ; --- Code segment ---
 
+PUBLIC _main
+_main:
 routine_10 proc near
     db 00h
     db 00h
@@ -2921,7 +2931,7 @@ FUN_1000_1500 proc near
     mov AH,3fh
     mov BX,1580h
     mov DS,BX
-    mov BX,word ptr [CODE_2:var_63]
+    mov BX,word ptr [1870h]
     mov CX,200h
     mov DX,1606h
     dw 21h
@@ -5410,6 +5420,7 @@ caseD_6_2a4a:
 caseD_7_5402:
 caseD_9_5403:
 caseD_b_5404:
+caseD_4_2a4a:
 caseD_4_5405:
     cmp byte ptr [3fc3h],1h
     sbb AX,AX
@@ -6455,6 +6466,7 @@ caseD_6_3206:
 caseD_7_3332:
 caseD_9_6448:
 caseD_b_6449:
+caseD_4_343d:
 caseD_4_6450:
     mov AX,8h
     push AX
@@ -6878,6 +6890,7 @@ caseD_5_3681:
 caseD_6_37df:
 caseD_8_6871:
 caseD_a_6872:
+caseD_3_3840:
 caseD_3_6873:
     mov SP,BP
     pop BP
@@ -8050,6 +8063,7 @@ caseD_6_424f:
 caseD_7_426f:
 caseD_9_42dd:
 caseD_b_8044:
+caseD_4_42dd:
 caseD_4_8045:
     mov BX,word ptr [4a28h]
     mov AX,BX
@@ -8665,21 +8679,21 @@ LAB_1000_4938:
     dw 21h
 LAB_1000_4952:
     and SP,0fffeh
-    mov word ptr SS:[CODE_2:var_122],SP
-    mov word ptr SS:[CODE_2:var_120],SP
+    mov word ptr SS:[2270h],SP
+    mov word ptr SS:[226ch],SP
     mov AX,SI
     mov CL,4h
     shl AX,CL
     dec AX
-    mov SS:[CODE_2:var_119],AX
+    mov SS:[226ah],AX
     add SI,DI
-    mov word ptr [CODE_2:var_9],SI
+    mov word ptr [0002h],SI
     mov BX,ES
     sub BX,SI
     neg BX
     mov AH,4ah
     dw 21h
-    mov word ptr SS:[CODE_2:var_127],DS
+    mov word ptr SS:[22e1h],DS
     push SS
     pop ES
     cld
@@ -8696,9 +8710,9 @@ LAB_1000_4952:
     call routine_5
     call routine_6
     xor BP,BP
-    push word ptr [CODE_2:var_134]
-    push word ptr [CODE_2:var_133]
-    push word ptr [CODE_2:var_132]
+    push word ptr [2302h]
+    push word ptr [2300h]
+    push word ptr [22feh]
     call routine_7
     push AX
     call routine_8
@@ -10222,6 +10236,7 @@ LAB_1000_54d4:
     jmp LAB_1000_54d2
 LAB_1000_54d8:
     jmp LAB_1000_55a9
+FUN_1000_54db:
     inc CX
     jz LAB_1000_54d8
     and CL,0feh
@@ -10524,11 +10539,11 @@ LAB_1000_56c3:
     cmp SI,22c0h
     jnz LAB_1000_56c3
     stc
-    jmp CODE_1:LAB_1571_0003
+    jmp LAB_1571_0003
 LAB_1000_56d4:
     mov BX,DX
     add BX,word ptr [SI]
-    jc CODE_1:LAB_1571_0003
+    jc LAB_1571_0003
     mov DX,BX
     mov ES,CX
     cmp SI,DI
@@ -10550,7 +10565,7 @@ LAB_1000_56e8:
 LAB_1000_5700:
     mov AH,4ah
     dw 21h
-    jc CODE_1:LAB_1571_0003
+    jc LAB_1571_0003
     cmp SI,DI
     jnz LAB_1000_570e
     mov word ptr [226ah],DX
@@ -11055,30 +11070,72 @@ _var_25 db 00h
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah  ; align align(1)
     db 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h
-    db 00h, 00h, 00h
+    db 00h
+routine_36 proc far
+routine_36 endp
+    db 00h, 00h
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah  ; align align(1)
     db 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h
-    db 00h, 00h, 00h
+    db 00h
+routine_93 proc far
+routine_93 endp
+    db 00h, 00h
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
     db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
+    db 00h, 00h
+routine_76 proc far
+routine_76 endp
+    db 00h, 00h, 00h, 00h, 00h
+routine_35 proc far
+routine_35 endp
+    db 00h, 00h, 00h, 00h, 00h
+routine_82 proc far
+routine_82 endp
+    db 00h, 00h
+    db 0eah, 00h, 00h
+routine_75 proc far
+routine_75 endp
+    db 00h, 00h  ; JMPF LAB_0000_0000
+    db 0eah, 00h, 00h
+routine_55 proc far
+routine_55 endp
+    db 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah  ; align align(1)
     db 00h, 00h, 00h, 00h
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah  ; align align(1)
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h
+    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
+routine_22 proc far
+routine_22 endp
+    db 00h, 00h, 00h, 00h
+    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h
+routine_151 proc far
+routine_151 endp
+    db 00h, 00h, 0EAh, 00h, 00h
     db 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h
-    db 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h
+    db 00h, 0EAh, 00h, 00h
+routine_162 proc far
+routine_162 endp
+    db 00h, 00h, 0EAh, 00h, 00h
+routine_77 proc far
+routine_77 endp
+    db 00h, 00h
 _var_26 db 0EAh
-    db 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 00h, 00h
+    db 00h, 00h
+routine_104 proc far
+routine_104 endp
+    db 00h, 00h, 0EAh, 00h, 00h
+routine_80 proc far
+routine_80 endp
+    db 00h, 00h, 0EAh, 00h, 00h
+routine_155 proc far
+routine_155 endp
+    db 00h, 00h, 00h, 00h
     db 00h, 00h
 _var_27 db 00h
     db 00h
@@ -11097,23 +11154,106 @@ _var_33 db 00h
 _var_34 db 00h
     db 00h
 _var_35 db 0FFh
+    db 0FFh
+routine_79 proc far
+routine_79 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_99 proc far
+routine_99 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_103 proc far
+routine_103 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh
+routine_111 proc far
+routine_111 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_21 proc far
+routine_21 endp
+    db 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_127 proc far
+routine_127 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_123 proc far
+routine_123 endp
+    db 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh
+routine_128 proc far
+routine_128 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_124 proc far
+routine_124 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+thunk_EXT_FUN_0000 proc far
+thunk_EXT_FUN_0000 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_126 proc far
+routine_126 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_121 proc far
+routine_121 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_119 proc far
+routine_119 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_52 proc far
+routine_52 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_150 proc far
+routine_150 endp
+    db 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_152 proc far
+routine_152 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_153 proc far
+routine_153 endp
+    db 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_39 proc far
+routine_39 endp
+    db 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh
+routine_50 proc far
+routine_50 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_49 proc far
+routine_49 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_40 proc far
+routine_40 endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_57 proc far
+routine_57 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_81 proc far
+routine_81 endp
+    db 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh
+routine_38 proc far
+routine_38 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_37 proc far
+routine_37 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_31 proc far
+routine_31 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_32 proc far
+routine_32 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_61 proc far
+routine_61 endp
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+routine_15 proc far
+routine_15 endp
+    db 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh

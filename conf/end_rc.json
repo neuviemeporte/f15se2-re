@@ -8,6 +8,7 @@
     "in_segments": [ "Code1", "Code2", "Data1" ],
     "code_segments": [ "Code1", "Code2" ],
     "data_segments": [ "Data1" ],
+    "data_size": "0x381f",
     "extract": [],
     "replace": [],
     "remove": [],
