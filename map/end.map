@@ -24,13 +24,13 @@ Data1 DATA 0580
 # assembly - routine was written in assembly, don't include in comparisons by default
 # duplicate - routine is a duplicate of another
 #
-routine_10: Code1 NEAR 0000-000f R0000-000f
-routine_7: Code1 NEAR 0010-0112 R0010-0112
+routine_10: Code1 NEAR 0000-000f R0000-000f external
+main: Code1 NEAR 0010-0112 R0010-0112
 routine_26: Code1 NEAR 0113-0129 R0113-0129 assembly
 routine_18: Code1 NEAR 012a-0184 R012a-0184
 cleanup: Code1 NEAR 0185-01b7 R0185-01b7
-routine_6: Code1 NEAR 01b8-01b8 R01b8-01b8
-routine_5: Code1 NEAR 01b9-01b9 R01b9-01b9
+routine_6: Code1 NEAR 01b8-01b8 R01b8-01b8 external
+routine_5: Code1 NEAR 01b9-01b9 R01b9-01b9 external
 routine_20: Code1 NEAR 01ba-020b R01ba-020b
 routine_42: Code1 NEAR 020c-02f4 R020c-02f4
 routine_71: Code1 NEAR 02f5-0327 R02f5-0327
@@ -109,10 +109,10 @@ routine_157: Code1 NEAR 3ea4-3ebc R3ea4-3ebc
 routine_63: Code1 NEAR 3ebd-41d2 R3ebd-409c U409d-409e R409f-41b6 U41b7-41b8 R41b9-41d2
 routine_131: Code1 NEAR 41d3-4533 R41d3-4224 U4225-42d1 R42d2-42e1 U42e2-42f9 R42fa-4533
 routine_25: Code1 NEAR 4534-4919 R4534-4919
-start: Code1 NEAR 491c-49cd R491c-49cd
-routine_4: Code1 NEAR 49ce-4a91 R49ce-4a91 R4ea4-4ea9
+start: Code1 NEAR 491c-49cd R491c-49cd external
+routine_4: Code1 NEAR 49ce-4a91 R49ce-4a91 R4ea4-4ea9 external
 routine_8: Code1 NEAR 4a92-4aa8 R4a92-4aa8
-routine_9: Code1 NEAR 4aa9-4aed R4aa9-4aed
+routine_9: Code1 NEAR 4aa9-4aed R4aa9-4aed external
 routine_30: Code1 NEAR 4aee-4b1a R4aee-4b1a
 routine_13: Code1 NEAR 4b1b-4b29 R4b1b-4b29
 routine_12: Code1 NEAR 4b2a-4b3c R4b2a-4b3c

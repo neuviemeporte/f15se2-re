@@ -187,8 +187,8 @@ $(BUILDDIR)/end2.obj: MSC_CFLAGS := /Od /Id:\f15-se2
 
 # reference and target entrypoints for binary comparison
 END_VRF_REF := bin/end.exe
-END_VRF_REFEP := 0x491c
-END_VRF_TGTEP := [b430cd213c027302]
+END_VRF_REFEP := 0x10
+END_VRF_TGTEP := [558bec83ec0e56c746]
 
 #
 # unit test executable
