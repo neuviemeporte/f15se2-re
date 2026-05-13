@@ -37,10 +37,12 @@ void showPicFile(int handle, int page, int garbage);
 int dos_alloc(int size);
 void dos_printstring(char *str);
 void routine_8(int code);
+int routine_102(int segment);
 
 /* Extern variables from ASM */
 extern char var_69;       /* timerHandlerInstalled */
 extern char str_allocError[];
+extern char str_deallocError[];
 
 /* Reconstructed C functions */
 void cleanup(void);
@@ -48,5 +50,6 @@ void routine_34(void);
 void loadPic(char *filename, int segment);
 void openShowPic(char *name, int page, int garbage);
 int allocBuffer(int size);
+void routine_64(int segment);
 
 #endif // F15_SE2_END

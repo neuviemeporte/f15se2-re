@@ -44,4 +44,13 @@ int allocBuffer(int size) {
     return segment;
 }
 
+void routine_64(int segment) {
+    TRACE(("routine_64"));
+    if (routine_102(segment) != 0) {
+        cleanup();
+        dos_printstring(str_deallocError);
+        routine_8(0);
+    }
+}
+
 

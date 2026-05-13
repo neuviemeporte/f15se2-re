@@ -21,6 +21,7 @@ EXTRN _routine_34:PROC
 EXTRN _loadPic:PROC
 EXTRN _openShowPic:PROC
 EXTRN _allocBuffer:PROC
+EXTRN _routine_64:PROC
 IFDEF DEBUG
 EXTRN _my_trace:PROC
 ENDIF
@@ -28,6 +29,7 @@ PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
 PUBLIC _var_69
 PUBLIC _str_allocError
+PUBLIC _str_deallocError
 
 ; --- Code segment ---
 
@@ -3429,27 +3431,7 @@ dictionaryLookup endp
 
 allocBuffer equ _allocBuffer
 
-routine_64 proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + Stack[2h]+2h]
-    call routine_102
-    add SP,2h
-    or AX,AX
-    jz LAB_1000_1a46
-    call cleanup
-    mov AX,offset str_deallocError
-    push AX
-    call dos_printstring
-    add SP,2h
-    sub AX,AX
-    push AX
-    call routine_8
-    add SP,2h
-LAB_1000_1a46:
-    pop BP
-    ret
-routine_64 endp
+routine_64 equ _routine_64
 
 PUBLIC _dos_alloc
 _dos_alloc:
@@ -3480,6 +3462,8 @@ LAB_1000_1a64:
     ret
 dos_alloc endp
 
+PUBLIC _routine_102
+_routine_102:
 routine_102 proc near
     push BP
     mov BP,SP
@@ -11358,6 +11342,7 @@ str_allocError db 049h
     db 06Eh, 073h, 075h, 066h, 066h, 069h, 063h, 069h, 065h, 06Eh, 074h, 020h, 073h, 079h, 073h, 074h
     db 065h, 06Dh, 020h, 06Dh, 065h, 06Dh, 06Fh, 072h, 079h, 020h, 02Dh, 020h, 041h, 06Ch, 06Ch, 06Fh
     db 063h, 042h, 075h, 066h, 066h, 065h, 072h, 024h, 000h
+_str_deallocError label byte
 str_deallocError db 042h
     db 075h, 066h, 066h, 065h, 072h, 020h, 064h, 065h, 061h, 06Ch, 06Ch, 06Fh, 063h, 020h, 065h, 072h
     db 072h, 06Fh, 072h, 024h, 000h, 000h
