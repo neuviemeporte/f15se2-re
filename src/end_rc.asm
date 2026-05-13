@@ -37,6 +37,7 @@ EXTRN _FUN_1000_12fe:PROC
 EXTRN _routine_147:PROC
 EXTRN _routine_85:PROC
 EXTRN _FUN_1000_0990:PROC
+EXTRN _FUN_1000_041a:PROC
 IFDEF DEBUG
 EXTRN _my_trace:PROC
 ENDIF
@@ -53,6 +54,7 @@ PUBLIC _var_95
 PUBLIC _var_96
 PUBLIC _var_81
 PUBLIC _setTimerIrqHandler
+PUBLIC _FUN_1000_0469
 
 ; --- Code segment ---
 
@@ -563,27 +565,11 @@ LAB_1000_0415:
     db 90h
 routine_66 endp
 
-FUN_1000_041a proc near
-    push BP
-    mov BP,SP
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BP + 0ah]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BP + 0ch]
-    mov word ptr [BX + 0ah],AX
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call FUN_1000_0469
-    add SP,6h
-    mov SP,BP
-    pop BP
-    ret
-FUN_1000_041a endp
+FUN_1000_041a equ _FUN_1000_041a
 
 actualDrawString equ _actualDrawString
 
+_FUN_1000_0469:
 FUN_1000_0469 proc near
     push BP
     mov BP,SP
