@@ -51,26 +51,26 @@ main proc near
     mov word ptr [BP + -0ah],4f0h
     les BX,dword ptr [BP + -0ah]
     mov SI,word ptr ES:[BX]
-    mov word ptr [5ab8h],SI
-    mov word ptr [5ab6h],0h
-    mov word ptr [403ch],SI
-    mov word ptr [403ah],120eh
-    les BX,dword ptr [5ab6h]
+    mov word ptr [_var_223],SI
+    mov word ptr [_var_222],0h
+    mov word ptr [_var_179],SI
+    mov word ptr [_var_178],120eh
+    les BX,dword ptr [_var_222]
     push word ptr ES:[BX + 1ah]
     call routine_14
     add SP,2h
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     push word ptr ES:[BX + 1eh]
     call routine_14
     add SP,2h
     call far ptr misc_jump_5e_clearKeyFlags
     call routine_16
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     mov AL,byte ptr ES:[BX + 24h]
-    mov [4cfah],AL
+    mov byte ptr [_var_191],AL
     call installCBreakHandler
     call routine_18
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 72h],1h
     jnz LAB_1000_008e
     mov AX,BX
@@ -83,8 +83,8 @@ main proc near
     jmp LAB_1000_0096
 LAB_1000_008e:
     mov AL,80h
-    mov [15fbh],AL
-    mov [15fah],AL
+    mov byte ptr [_var_56],AL
+    mov byte ptr [_var_55],AL
 LAB_1000_0096:
     call routine_20
     call far ptr gfx_jump_31
@@ -94,23 +94,23 @@ LAB_1000_0096:
     push word ptr [BP + -6h]
     call allocBuffer
     add SP,2h
-    mov [5ac0h],AX
-    cmp word ptr [4a24h],1h
+    mov word ptr [_var_226],AX
+    cmp word ptr [_var_189],1h
     jnz LAB_1000_00d2
     mov AX,3c8ch
     push AX
     call allocBuffer
     add SP,2h
-    mov [5cc8h],AX
-    mov [5ccch],AX
-    mov word ptr [5ccah],0h
+    mov word ptr [_var_230],AX
+    mov word ptr [_var_232],AX
+    mov word ptr [_var_231],0h
 LAB_1000_00d2:
     push word ptr [BP + -2h]
     call allocBuffer
     add SP,2h
-    mov [5cc6h],AX
-    mov word ptr [550ch],3h
-    les BX,dword ptr [5ab6h]
+    mov word ptr [_var_229],AX
+    mov word ptr [_var_201],3h
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 26h],2h
     jnz LAB_1000_00f2
     call routine_24
@@ -132,7 +132,7 @@ LAB_1000_00f2:
 main endp
 
 routine_26 proc near
-    cmp byte ptr [15feh],0h
+    cmp byte ptr [_var_57],0h
     jz LAB_1000_0129
     call cleanup
     call routine_28
@@ -161,7 +161,7 @@ routine_18 proc near
     push AX
     call far ptr gfx_jump_53
     add SP,2h
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     push word ptr ES:[BX + 24h]
     call far ptr gfx_jump_52
     add SP,2h
@@ -171,7 +171,7 @@ routine_18 proc near
     add SP,2h
     mov AX,1h
     push AX
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     push word ptr ES:[BX + 20h]
     call far ptr gfx_jump_4b_storeBufPtr
     mov SP,BP
@@ -183,7 +183,7 @@ cleanup proc near
     push BP
     mov BP,SP
     sub SP,0eh
-    cmp byte ptr [19ffh],1h
+    cmp byte ptr [_var_69],1h
     jnz LAB_1000_0195
     call restoreTimerIrqHandler
 LAB_1000_0195:
@@ -216,9 +216,9 @@ routine_20 proc near
     mov BP,SP
     sub SP,4h
     call routine_41
-    mov word ptr [55e0h],1h
+    mov word ptr [_var_206],1h
     call routine_42
-    mov word ptr [5608h],56d0h
+    mov word ptr [_var_217],offset _var_218
     mov word ptr [BP + -2h],1h
     mov word ptr [BP + -4h],0h
 LAB_1000_01dc:
@@ -245,100 +245,100 @@ routine_20 endp
 routine_42 proc near
     mov AX,2h
     push AX
-    mov AX,4246h
+    mov AX,offset dat_4246
     push AX
     call routine_71
     add SP,4h
     mov AX,2h
     push AX
-    mov AX,5510h
+    mov AX,offset _var_203
     push AX
     call routine_71
     add SP,4h
     mov AX,2h
     push AX
-    mov AX,4040h
+    mov AX,offset dat_4040
     push AX
     call routine_71
     add SP,4h
     mov AX,2h
     push AX
-    mov AX,5ab4h
+    mov AX,offset dat_5ab4
     push AX
     call routine_71
     add SP,4h
-    mov AX,[5510h]
+    mov AX,word ptr [_var_203]
     mov CL,4h
     shl AX,CL
     push AX
-    mov AX,424eh
+    mov AX,offset dat_424e
     push AX
     call routine_71
     add SP,4h
     mov AX,2h
     push AX
-    mov AX,5602h
+    mov AX,offset _var_216
     push AX
     call routine_71
     add SP,4h
     mov AX,24h
-    imul word ptr [5602h]
+    imul word ptr [_var_216]
     push AX
-    mov AX,4a2ah
-    push AX
-    call routine_71
-    add SP,4h
-    mov AX,64h
-    push AX
-    mov AX,5578h
+    mov AX,offset dat_4a2a
     push AX
     call routine_71
     add SP,4h
     mov AX,64h
     push AX
-    mov AX,5512h
+    mov AX,offset _var_204
+    push AX
+    call routine_71
+    add SP,4h
+    mov AX,64h
+    push AX
+    mov AX,offset dat_5512
     push AX
     call routine_71
     add SP,4h
     mov AX,2eeh
     push AX
-    mov AX,56d0h
+    mov AX,offset _var_218
     push AX
     call routine_71
     add SP,4h
     mov AX,100h
     push AX
-    mov AX,4700h
+    mov AX,offset _var_184
     push AX
     call routine_71
     add SP,4h
     mov AX,2h
     push AX
-    mov AX,55deh
+    mov AX,offset dat_55de
     push AX
     call routine_71
     add SP,4h
     mov AX,2h
     push AX
-    mov AX,4034h
+    mov AX,offset dat_4034
     push AX
     call routine_71
     add SP,4h
     mov AX,10h
     push AX
-    mov AX,42h
+    mov AX,offset dat_0042
     push AX
     call routine_71
     add SP,4h
     mov AX,24h
     push AX
-    mov AX,4800h
+    mov AX,offset _var_185
     push AX
     call routine_71
     add SP,4h
     mov AX,600h
     push AX
-    mov AX,4f02h
+    mov AX,offset _var_193
     push AX
     call routine_71
     add SP,4h
@@ -348,9 +348,9 @@ routine_42 endp
 routine_71 proc near
     push BP
     mov BP,SP
-    cmp word ptr [55e0h],0h
+    cmp word ptr [_var_206],0h
     jz LAB_1000_0312
-    push word ptr [4038h]
+    push word ptr [_var_177]
     mov AX,1h
     push AX
     push word ptr [BP + 6h]
@@ -358,7 +358,7 @@ routine_71 proc near
     call routine_108
     jmp LAB_1000_0323
 LAB_1000_0312:
-    push word ptr [4038h]
+    push word ptr [_var_177]
     mov AX,1h
     push AX
     push word ptr [BP + 6h]
@@ -371,11 +371,11 @@ LAB_1000_0323:
 routine_71 endp
 
 routine_41 proc near
-    mov AX,[5ab6h]
-    mov DX,word ptr [5ab8h]
+    mov AX,word ptr [_var_222]
+    mov DX,word ptr [_var_223]
     db 05h, 7Ah, 00h  ; add AX,7Ah (force word-immediate)
-    mov [2550h],AX
-    mov word ptr [2552h],DX
+    mov word ptr [_var_151],AX
+    mov word ptr [_var_152],DX
     mov AX,1h
     ret
 routine_41 endp
@@ -394,11 +394,11 @@ routine_108 proc near
     push SI
     push word ptr [BP + -4h]
     push DS
-    push word ptr [2550h]
-    push word ptr [2552h]
+    push word ptr [_var_151]
+    push word ptr [_var_152]
     call routine_140
     add SP,0ah
-    add word ptr [2550h],SI
+    add word ptr [_var_151],SI
     pop SI
     mov SP,BP
     pop BP
@@ -417,13 +417,13 @@ routine_109 proc near
     imul word ptr [BP + 8h]
     mov SI,AX
     push SI
-    push word ptr [2550h]
-    push word ptr [2552h]
+    push word ptr [_var_151]
+    push word ptr [_var_152]
     push word ptr [BP + -4h]
     push DS
     call routine_140
     add SP,0ah
-    add word ptr [2550h],SI
+    add word ptr [_var_151],SI
     pop SI
     mov SP,BP
     pop BP
@@ -448,7 +448,7 @@ routine_66 proc near
     push BP
     mov BP,SP
     sub SP,2h
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 72h],1h
     jnz LAB_1000_03e9
 LAB_1000_03c8:
@@ -471,11 +471,11 @@ LAB_1000_03e9:
 LAB_1000_03f1:
     cmp word ptr [BP + -2h],1000h
     jz LAB_1000_03ff
-    cmp byte ptr [15feh],0h
+    cmp byte ptr [_var_57],0h
     jz LAB_1000_0415
 LAB_1000_03ff:
     call cleanup
-    cmp byte ptr [15feh],0h
+    cmp byte ptr [_var_57],0h
     jz LAB_1000_040c
     call routine_28
 LAB_1000_040c:
@@ -1040,10 +1040,10 @@ my_itoa endp
 FUN_1000_0990 proc near
     push BP
     mov BP,SP
-    mov byte ptr [1a1ah],0h
+    mov byte ptr [_var_81],0h
     call setTimerIrqHandler
 LAB_1000_099b:
-    mov AL,[1a1ah]
+    mov AL,byte ptr [_var_81]
     sub AH,AH
     cmp word ptr [BP + 4h],AX
     jc LAB_1000_09a7
@@ -1617,7 +1617,7 @@ routine_14 proc near
     push DS
     push BP
     mov DX,word ptr [BP + 4h]
-    mov byte ptr [0fe8h],0h
+    mov byte ptr [_var_25],0h
     jmp LAB_1000_0d2f
     db 90h
     db 0C6h
@@ -1627,7 +1627,7 @@ routine_14 proc near
     db 01h
 LAB_1000_0d2f:
     mov ES,DX
-    mov BX,1008h
+    mov BX,offset gfx_jump_0_alloc
     mov DI,1ch
     mov AX,word ptr ES:[DI]
     mov DL,5h
@@ -1645,7 +1645,7 @@ LAB_1000_0d4f:
     add SI,2h
     add BX,5h
     loop LAB_1000_0d4f
-    cmp byte ptr [0fe8h],0h
+    cmp byte ptr [_var_25],0h
     jnz LAB_1000_0d6f
     pop BP
     pop DS
@@ -1667,7 +1667,7 @@ FUN_1000_0d70 proc near
     push DS
     push BP
     mov AX,word ptr [BP + 4h]
-    mov byte ptr [0fe8h],0h
+    mov byte ptr [_var_25],0h
     jmp LAB_1000_0d88
     db 90h
     db 0C6h
@@ -1680,13 +1680,13 @@ LAB_1000_0d88:
     mov AH,49h
     int 21h
     jnc LAB_1000_0d9a
-    mov DX,0fe9h
+    mov DX,offset str_overlayRelError
     mov AH,9h
     int 21h
     jmp LAB_1000_0daa
     db 90h
 LAB_1000_0d9a:
-    cmp byte ptr [0fe8h],0h
+    cmp byte ptr [_var_25],0h
     jnz LAB_1000_0da9
     pop BP
     pop DS
@@ -1717,39 +1717,39 @@ LAB_1000_0daa:
     call sub_12C75
     mov AX,word ptr [BP + 0ah]
     sub AX,word ptr [BP + 6h]
-    mov [1236h],AX
+    mov word ptr [_var_29],AX
     mov AX,word ptr [BP + 0ch]
     sub AX,word ptr [BP + 8h]
     inc AX
-    mov [1238h],AX
+    mov word ptr [_var_30],AX
     mov CX,word ptr [BP + 0ch]
     mov SI,word ptr [BP + 8h]
-    mov word ptr [1234h],SI
-    mov word ptr [15b9h],CX
-    mov word ptr [15b7h],SI
+    mov word ptr [_var_28],SI
+    mov word ptr [_var_38],CX
+    mov word ptr [_var_37],SI
     sub CX,SI
     inc CX
-    lea DI,[1243h]
+    lea DI,word ptr [_var_35]
     shl SI,1h
     add DI,SI
     mov AX,word ptr [BP + 6h]
-    mov [1232h],AX
+    mov word ptr [_var_27],AX
     mov DX,CX
     rep stosw
     mov CX,DX
-    lea DI,[13fbh]
+    lea DI,word ptr [_var_36]
     add DI,SI
     mov AX,word ptr [BP + 0ah]
     rep stosw
-    mov BX,1243h
-    mov AX,[15b7h]
-    mov CX,word ptr [15b9h]
+    mov BX,offset _var_35
+    mov AX,word ptr [_var_37]
+    mov CX,word ptr [_var_38]
     call far ptr gfx_jump_28
     call far ptr gfx_jump_22
-    mov AX,[1232h]
-    mov BX,word ptr [1234h]
-    mov CX,word ptr [1236h]
-    mov DX,word ptr [1238h]
+    mov AX,word ptr [_var_27]
+    mov BX,word ptr [_var_28]
+    mov CX,word ptr [_var_29]
+    mov DX,word ptr [_var_30]
     call far ptr gfx_jump_51_null
     pop AX
     call far ptr gfx_jump_0f_getBufPtr
@@ -1779,39 +1779,39 @@ clearRect proc near
     call sub_12C75
     mov AX,word ptr [BP + 0ah]
     sub AX,word ptr [BP + 6h]
-    mov [1236h],AX
+    mov word ptr [_var_29],AX
     mov AX,word ptr [BP + 0ch]
     sub AX,word ptr [BP + 8h]
     inc AX
-    mov [1238h],AX
+    mov word ptr [_var_30],AX
     mov CX,word ptr [BP + 0ch]
     mov SI,word ptr [BP + 8h]
-    mov word ptr [1234h],SI
-    mov word ptr [15b9h],CX
-    mov word ptr [15b7h],SI
+    mov word ptr [_var_28],SI
+    mov word ptr [_var_38],CX
+    mov word ptr [_var_37],SI
     sub CX,SI
     inc CX
-    lea DI,[1243h]
+    lea DI,word ptr [_var_35]
     shl SI,1h
     add DI,SI
     mov AX,word ptr [BP + 6h]
-    mov [1232h],AX
+    mov word ptr [_var_27],AX
     mov DX,CX
     rep stosw
     mov CX,DX
-    lea DI,[13fbh]
+    lea DI,word ptr [_var_36]
     add DI,SI
     mov AX,word ptr [BP + 0ah]
     rep stosw
-    mov BX,1243h
-    mov AX,[15b7h]
-    mov CX,word ptr [15b9h]
+    mov BX,offset _var_35
+    mov AX,word ptr [_var_37]
+    mov CX,word ptr [_var_38]
     call far ptr gfx_jump_28
     call far ptr gfx_jump_22
-    mov AX,[1232h]
-    mov BX,word ptr [1234h]
-    mov CX,word ptr [1236h]
-    mov DX,word ptr [1238h]
+    mov AX,word ptr [_var_27]
+    mov BX,word ptr [_var_28]
+    mov CX,word ptr [_var_29]
+    mov DX,word ptr [_var_30]
     call far ptr gfx_jump_51_null
     pop AX
     call far ptr gfx_jump_0f_getBufPtr
@@ -1852,25 +1852,25 @@ clearRect proc near
 clearRect endp
 
 sub_12C75 proc near
-    mov DI,word ptr [15b7h]
+    mov DI,word ptr [_var_37]
     or DI,DI
     js LAB_1000_0f39
-    mov CX,word ptr [15b9h]
+    mov CX,word ptr [_var_38]
     inc CX
     sub CX,DI
     shl DI,1h
     mov BX,CX
     mov DX,DI
-    add DI,1243h
+    add DI,offset _var_35
     mov AX,0ffffh
     rep stosw
-    mov [15b7h],AX
+    mov word ptr [_var_37],AX
     mov CX,BX
     mov DI,DX
-    add DI,13fbh
+    add DI,offset _var_36
     sub AX,AX
     rep stosw
-    mov [15b9h],AX
+    mov word ptr [_var_38],AX
 LAB_1000_0f39:
     ret
     db 8Bh
@@ -2216,7 +2216,7 @@ routine_158 proc near
     sub AX,AX
     mov ES,AX
     push word ptr ES:[0h]
-    lea AX,[121fh]
+    lea AX,word ptr [_var_26]
     mov ES:[0h],AX
     push DS
     pop ES
@@ -2228,10 +2228,10 @@ LAB_1000_10a0:
     pop word ptr ES:[0h]
     push DS
     pop ES
-    mov AX,[123bh]
-    mov BX,word ptr [123fh]
-    mov CX,word ptr [123dh]
-    mov DX,word ptr [1241h]
+    mov AX,word ptr [_var_31]
+    mov BX,word ptr [_var_33]
+    mov CX,word ptr [_var_32]
+    mov DX,word ptr [_var_34]
     call far ptr gfx_jump_1f
     clc
     ret
@@ -2246,9 +2246,9 @@ LAB_1000_10c1:
 LAB_1000_10ce:
     cmc
     rcr DX,1h
-    mov word ptr [15bdh],DX
+    mov word ptr [_var_40],DX
     sar DX,1h
-    mov word ptr [15c1h],DX
+    mov word ptr [_var_44],DX
     mov DX,DI
     sub DX,BP
     jno LAB_1000_10e7
@@ -2263,70 +2263,70 @@ LAB_1000_10e7:
 LAB_1000_10ec:
     cmc
     rcr DX,1h
-    sar word ptr [15bdh],1h
-    sar word ptr [15c1h],1h
+    sar word ptr [_var_40],1h
+    sar word ptr [_var_44],1h
     jmp LAB_1000_1155
     db 90h
 LAB_1000_10fa:
-    mov CX,word ptr [123bh]
-    mov DX,word ptr [123fh]
-    mov SI,word ptr [123dh]
-    mov DI,word ptr [1241h]
+    mov CX,word ptr [_var_31]
+    mov DX,word ptr [_var_33]
+    mov SI,word ptr [_var_32]
+    mov DI,word ptr [_var_34]
     mov BX,CX
     mov BP,DX
     call sub_12F6A
-    mov [15bch],AL
+    mov byte ptr [_var_39],AL
     mov BX,SI
     mov BP,DI
     call sub_12F6A
     jnz LAB_1000_1137
-    cmp byte ptr [15bch],0h
+    cmp byte ptr [_var_39],0h
     jnz LAB_1000_1127
     jmp LAB_1000_10a0
 LAB_1000_1127:
     db 87h, 0CEh  ; xchg CX,SI
     db 87h, 0D7h  ; xchg DX,DI
-    xchg byte ptr [15bch],AL
-    mov word ptr [123bh],CX
-    mov word ptr [123fh],DX
+    xchg byte ptr [_var_39],AL
+    mov word ptr [_var_31],CX
+    mov word ptr [_var_33],DX
 LAB_1000_1137:
-    test byte ptr [15bch],AL
+    test byte ptr [_var_39],AL
     jnz LAB_1000_10c1
     mov BP,DX
     mov DX,SI
     sub DX,CX
     jo LAB_1000_10ce
-    mov word ptr [15bdh],DX
+    mov word ptr [_var_40],DX
     sar DX,1h
-    mov word ptr [15c1h],DX
+    mov word ptr [_var_44],DX
     mov DX,DI
     sub DX,BP
     jo LAB_1000_10ec
 LAB_1000_1155:
-    mov word ptr [15bfh],DX
+    mov word ptr [_var_42],DX
     sar DX,1h
-    mov word ptr [15c3h],DX
+    mov word ptr [_var_45],DX
 LAB_1000_115f:
     test AL,9h
     jz LAB_1000_119b
     sub BX,BX
     or SI,SI
     js LAB_1000_116d
-    mov BX,word ptr [15c5h]
+    mov BX,word ptr [_var_46]
 LAB_1000_116d:
     mov AX,BX
     sub AX,CX
-    imul word ptr [15bfh]
+    imul word ptr [_var_42]
     push BX
     mov BX,DX
-    idiv word ptr [15bdh]
+    idiv word ptr [_var_40]
     mov BL,BH
-    xor BL,byte ptr [15beh]
+    xor BL,byte ptr [_var_41]
     jns LAB_1000_1187
     neg DX
     dec AX
 LAB_1000_1187:
-    sub DX,word ptr [15c1h]
+    sub DX,word ptr [_var_44]
     xor DH,BH
     js LAB_1000_1190
     inc AX
@@ -2334,10 +2334,10 @@ LAB_1000_1190:
     pop BX
     add AX,BP
     js LAB_1000_11a3
-    cmp AX,word ptr [15c7h]
+    cmp AX,word ptr [_var_47]
     jle LAB_1000_11d4
 LAB_1000_119b:
-    mov BX,word ptr [15c7h]
+    mov BX,word ptr [_var_47]
     cmp DI,BX
     jg LAB_1000_11a5
 LAB_1000_11a3:
@@ -2345,17 +2345,17 @@ LAB_1000_11a3:
 LAB_1000_11a5:
     mov AX,BX
     sub AX,BP
-    imul word ptr [15bdh]
+    imul word ptr [_var_40]
     push BX
     mov BX,DX
-    idiv word ptr [15bfh]
+    idiv word ptr [_var_42]
     mov BL,BH
-    xor BL,byte ptr [15c0h]
+    xor BL,byte ptr [_var_43]
     jns LAB_1000_11bf
     neg DX
     dec AX
 LAB_1000_11bf:
-    sub DX,word ptr [15c3h]
+    sub DX,word ptr [_var_45]
     xor DH,BH
     js LAB_1000_11c8
     inc AX
@@ -2363,24 +2363,24 @@ LAB_1000_11c8:
     pop BX
     add AX,CX
     js LAB_1000_11e5
-    cmp AX,word ptr [15c5h]
+    cmp AX,word ptr [_var_46]
     jg LAB_1000_11e5
     xchg AX,BX
 LAB_1000_11d4:
-    cmp byte ptr [15bch],0h
+    cmp byte ptr [_var_39],0h
     jnz LAB_1000_11e8
-    mov [1241h],AX
-    mov word ptr [123dh],BX
+    mov word ptr [_var_34],AX
+    mov word ptr [_var_32],BX
     jmp LAB_1000_10a0
 LAB_1000_11e5:
     jmp LAB_1000_10c1
 LAB_1000_11e8:
-    mov [123fh],AX
-    mov word ptr [123bh],BX
+    mov word ptr [_var_33],AX
+    mov word ptr [_var_31],BX
     db 87h, 0CEh  ; xchg CX,SI
     db 87h, 0EFh  ; xchg BP,DI
-    mov AL,[15bch]
-    mov byte ptr [15bch],0h
+    mov AL,byte ptr [_var_39]
+    mov byte ptr [_var_39],0h
     jmp LAB_1000_115f
 routine_158 endp
 
@@ -2390,7 +2390,7 @@ sub_12F6A proc near
     js LAB_1000_1206
     and AL,0f7h
 LAB_1000_1206:
-    cmp BX,word ptr [15c5h]
+    cmp BX,word ptr [_var_46]
     jg LAB_1000_120e
     and AL,0feh
 LAB_1000_120e:
@@ -2398,7 +2398,7 @@ LAB_1000_120e:
     js LAB_1000_1214
     and AL,0fbh
 LAB_1000_1214:
-    cmp BP,word ptr [15c7h]
+    cmp BP,word ptr [_var_47]
     jg LAB_1000_121c
     and AL,0fdh
 LAB_1000_121c:
@@ -2410,9 +2410,9 @@ FUN_1000_121f proc near
     push BP
     mov BP,SP
     cmp word ptr [BP + local_res0+2h],11b0h
-    mov AX,[15bfh]
+    mov AX,word ptr [_var_42]
     jz LAB_1000_122f
-    mov AX,[15bdh]
+    mov AX,word ptr [_var_40]
 LAB_1000_122f:
     xor DX,AX
     mov AX,7f00h
@@ -2432,8 +2432,8 @@ installCBreakHandler proc near
     push DS
     mov SI,6ch
     call routine_33
-    mov word ptr [1601h],BX
-    mov [15ffh],AX
+    mov word ptr [_var_59],BX
+    mov word ptr [_var_58],AX
     mov AX,seg @code
     mov DX,offset cbreakHandler
     mov DS,AX
@@ -2448,8 +2448,8 @@ installCBreakHandler endp
 
 routine_28 proc near
     push DS
-    mov AX,[15ffh]
-    mov DX,word ptr [1601h]
+    mov AX,word ptr [_var_58]
+    mov DX,word ptr [_var_59]
     mov DS,AX
     mov AX,251bh
     int 21h
@@ -2470,7 +2470,7 @@ cbreakHandler:
     push AX
     mov AX,seg @data
     mov DS,AX
-    mov byte ptr [15feh],0FFh
+    mov byte ptr [_var_57],0FFh
     pop AX
     pop DS
     iret
@@ -2636,7 +2636,7 @@ openFile proc near
     jnz LAB_1000_13d6
 LAB_1000_13ca:
     mov BX,word ptr [BP + Stack[2h]+2h]
-    mov AX,1806h
+    mov AX,offset str_fileNotFound
     mov CX,0ffffh
     jmp FUN_1000_156a
 LAB_1000_13d6:
@@ -2646,15 +2646,15 @@ LAB_1000_13d6:
     jnz LAB_1000_13ec
     mov CX,0ffffh
     mov BX,word ptr [BP + Stack[2h]+2h]
-    mov AX,1816h
+    mov AX,offset str_noFileBufs
     jmp FUN_1000_156a
 LAB_1000_13ec:
     mov CX,AX
-    mov AX,1831h
+    mov AX,offset str_openError
     mov BX,word ptr [BP + Stack[2h]+2h]
     jmp FUN_1000_156a
 LAB_1000_13f7:
-    mov word ptr [186eh],200h
+    mov word ptr [_var_62],200h
     pop BP
     pop ES
     pop SI
@@ -2682,7 +2682,7 @@ FUN_1000_1405 proc near
     jnz LAB_1000_142d
 LAB_1000_1421:
     mov BX,word ptr [BP + Stack[2h]+2h]
-    mov AX,1806h
+    mov AX,offset str_fileNotFound
     mov CX,0ffffh
     jmp FUN_1000_156a
 LAB_1000_142d:
@@ -2692,15 +2692,15 @@ LAB_1000_142d:
     jnz LAB_1000_1443
     mov CX,0ffffh
     mov BX,word ptr [BP + Stack[2h]+2h]
-    mov AX,1816h
+    mov AX,offset str_noFileBufs
     jmp FUN_1000_156a
 LAB_1000_1443:
     mov CX,AX
-    mov AX,1831h
+    mov AX,offset str_openError
     mov BX,word ptr [BP + Stack[2h]+2h]
     jmp FUN_1000_156a
 LAB_1000_144e:
-    mov word ptr [186eh],200h
+    mov word ptr [_var_62],200h
     pop BP
     pop ES
     pop SI
@@ -2723,7 +2723,7 @@ fileClose proc near
     mov BX,word ptr [BP + 4h]
     int 21h
     jnc LAB_1000_1475
-    mov DX,183eh
+    mov DX,offset str_fileCloseError
     mov CX,0ffffh
     jmp LAB_1000_1585
 LAB_1000_1475:
@@ -2752,7 +2752,7 @@ FUN_1000_147e proc near
     mov DX,word ptr [BP + 8h]
     int 21h
     jnc LAB_1000_14a1
-    mov DX,1851h
+    mov DX,offset str_readError
     mov CX,0ffffh
     jmp LAB_1000_1585
 LAB_1000_14a1:
@@ -2782,7 +2782,7 @@ FUN_1000_14a9 proc near
     int 21h
     pop DS
     jnc LAB_1000_14cf
-    mov DX,1851h
+    mov DX,offset str_readError
     mov CX,0ffffh
     jmp LAB_1000_1585
 LAB_1000_14cf:
@@ -2841,12 +2841,12 @@ FUN_1000_1500 proc near
     mov AH,3fh
     mov BX,1580h
     mov DS,BX
-    mov BX,word ptr [1870h]
+    mov BX,word ptr [_var_63]
     mov CX,200h
-    mov DX,1606h
+    mov DX,offset dat_1606
     int 21h
     jnc LAB_1000_151f
-    mov DX,1851h
+    mov DX,offset str_readError
     mov CX,0ffffh
     jmp LAB_1000_1585
     db 90h
@@ -2863,7 +2863,7 @@ FUN_1000_1521 proc near
     push ES
     push BP
     mov AX,word ptr [BP + 4h]
-    mov [1870h],AX
+    mov word ptr [_var_63],AX
     call FUN_1000_1500
     pop BP
     pop ES
@@ -2892,7 +2892,7 @@ FUN_1000_1539 proc near
     int 21h
     pop DS
     jnc LAB_1000_1562
-    mov DX,185ch
+    mov DX,offset str_writeError
     mov CX,0ffffh
     jmp LAB_1000_1585
     db 90h
@@ -2928,9 +2928,9 @@ LAB_1000_1585:
     cmp CX,-1h
     jz LAB_1000_15a1
     add CX,30h
-    mov byte ptr [1604h],CL
-    mov byte ptr [1605h],24h
-    mov DX,1604h
+    mov byte ptr [_var_60],CL
+    mov byte ptr [_var_61],24h
+    mov DX,offset _var_60
     mov AH,9h
     int 21h
 LAB_1000_15a1:
@@ -3040,31 +3040,31 @@ showPicFile proc near
     push SI
     push ES
     push BP
-    mov AX,1500h
-    mov [19bch],AX
+    mov AX,offset dat_1500
+    mov word ptr [_var_68],AX
     mov AX,word ptr [BP + 4h]
-    mov [1870h],AX
+    mov word ptr [_var_63],AX
     mov AX,word ptr [BP + 6h]
-    mov [19b4h],AX
+    mov word ptr [_var_65],AX
     call routine_120
-    mov SI,word ptr [19b4h]
+    mov SI,word ptr [_var_65]
     call far ptr gfx_jump_38_getPageBuf
     call far ptr gfx_jump_3b_clearBuf
-    mov word ptr [19bah],0h
-    mov word ptr [19b2h],0fa00h
+    mov word ptr [_var_67],0h
+    mov word ptr [_var_64],0fa00h
 LAB_1000_169a:
-    mov DI,word ptr [19bah]
+    mov DI,word ptr [_var_67]
     call far ptr gfx_jump_3a_getRowOffset
-    mov [19b6h],AX
+    mov word ptr [_var_66],AX
     call decodePicRow
-    mov DI,word ptr [19b6h]
-    mov BP,1872h
-    mov BX,word ptr [19bah]
+    mov DI,word ptr [_var_66]
+    mov BP,offset dat_1872
+    mov BX,word ptr [_var_67]
     call far ptr gfx_jump_33_fillRow
-    mov DI,word ptr [19b6h]
+    mov DI,word ptr [_var_66]
     call far ptr gfx_jump_35
-    inc word ptr [19bah]
-    sub word ptr [19b2h],140h
+    inc word ptr [_var_67]
+    sub word ptr [_var_64],140h
     jnz LAB_1000_169a
     pop BP
     pop ES
@@ -3082,29 +3082,29 @@ FUN_1000_16d6 proc near
     push SI
     push ES
     push BP
-    mov AX,1500h
-    mov [19bch],AX
+    mov AX,offset dat_1500
+    mov word ptr [_var_68],AX
     mov AX,word ptr [BP + 4h]
-    mov [1870h],AX
+    mov word ptr [_var_63],AX
     mov AX,word ptr [BP + Stack[4h]+2h]
     mov ES,AX
     call far ptr gfx_jump_3b_clearBuf
     call routine_120
-    mov word ptr [19bah],0h
-    mov word ptr [19b2h],0fa00h
+    mov word ptr [_var_67],0h
+    mov word ptr [_var_64],0fa00h
 LAB_1000_1702:
-    mov DI,word ptr [19bah]
+    mov DI,word ptr [_var_67]
     call far ptr gfx_jump_3a_getRowOffset
-    mov [19b6h],AX
+    mov word ptr [_var_66],AX
     call decodePicRow
-    mov DI,word ptr [19b6h]
-    mov BP,1872h
-    mov BX,word ptr [19bah]
+    mov DI,word ptr [_var_66]
+    mov BP,offset dat_1872
+    mov BX,word ptr [_var_67]
     call far ptr gfx_jump_33_fillRow
-    mov DI,word ptr [19b6h]
+    mov DI,word ptr [_var_66]
     call far ptr thunk_EXT_FUN_0000
-    inc word ptr [19bah]
-    sub word ptr [19b2h],140h
+    inc word ptr [_var_67]
+    sub word ptr [_var_64],140h
     jnz LAB_1000_1702
     pop BP
     pop ES
@@ -3122,31 +3122,31 @@ FUN_1000_173e proc near
     push SI
     push ES
     push BP
-    mov AX,14d7h
-    mov [19bch],AX
-    mov word ptr [186eh],200h
-    mov word ptr [186ah],0h
+    mov AX,offset dat_14d7
+    mov word ptr [_var_68],AX
+    mov word ptr [_var_62],200h
+    mov word ptr [dat_186A],0h
     mov AX,word ptr [BP + 4h]
-    mov [1868h],AX
+    mov word ptr [dat_1868],AX
     mov AX,word ptr [BP + Stack[4h]+2h]
     mov ES,AX
     call far ptr gfx_jump_3b_clearBuf
     call routine_120
-    mov word ptr [19bah],0h
-    mov word ptr [19b2h],0fa00h
+    mov word ptr [_var_67],0h
+    mov word ptr [_var_64],0fa00h
 LAB_1000_1776:
-    mov DI,word ptr [19bah]
+    mov DI,word ptr [_var_67]
     call far ptr gfx_jump_3a_getRowOffset
-    mov [19b6h],AX
+    mov word ptr [_var_66],AX
     call decodePicRow
-    mov DI,word ptr [19b6h]
-    mov BP,1872h
-    mov BX,word ptr [19bah]
+    mov DI,word ptr [_var_66]
+    mov BP,offset dat_1872
+    mov BX,word ptr [_var_67]
     call far ptr gfx_jump_33_fillRow
-    mov DI,word ptr [19b6h]
+    mov DI,word ptr [_var_66]
     call far ptr thunk_EXT_FUN_0000
-    inc word ptr [19bah]
-    sub word ptr [19b2h],140h
+    inc word ptr [_var_67]
+    sub word ptr [_var_64],140h
     jnz LAB_1000_1776
     pop BP
     pop ES
@@ -3164,29 +3164,29 @@ decodePic proc near
     push SI
     push ES
     push BP
-    mov AX,1500h
-    mov [19bch],AX
+    mov AX,offset dat_1500
+    mov word ptr [_var_68],AX
     mov AX,word ptr [BP + 4h]
-    mov [1870h],AX
+    mov word ptr [_var_63],AX
     mov AX,word ptr [BP + Stack[4h]+2h]
     mov ES,AX
     call far ptr gfx_jump_3b_clearBuf
     call routine_120
-    mov word ptr [19bah],0h
-    mov word ptr [19b2h],0fa00h
+    mov word ptr [_var_67],0h
+    mov word ptr [_var_64],0fa00h
 LAB_1000_17de:
-    mov DI,word ptr [19bah]
+    mov DI,word ptr [_var_67]
     call far ptr gfx_jump_3a_getRowOffset
-    mov [19b6h],AX
+    mov word ptr [_var_66],AX
     call decodePicRow
-    mov DI,word ptr [19b6h]
-    mov BP,1872h
-    mov BX,word ptr [19bah]
+    mov DI,word ptr [_var_66]
+    mov BP,offset dat_1872
+    mov BX,word ptr [_var_67]
     call far ptr gfx_jump_34_fillRow
-    mov DI,word ptr [19b6h]
+    mov DI,word ptr [_var_66]
     call far ptr gfx_jump_36_null
-    inc word ptr [19bah]
-    sub word ptr [19b2h],140h
+    inc word ptr [_var_67]
+    sub word ptr [_var_64],140h
     jnz LAB_1000_17de
     pop BP
     pop ES
@@ -3207,58 +3207,58 @@ decodePicRow proc near
     push DS
     pop ES
     cld
-    mov SI,word ptr [186eh]
-    add SI,1606h
+    mov SI,word ptr [_var_62]
+    add SI,offset dat_1606
     shr DI,1h
     jnz LAB_1000_182f
     call picReadDataAndMakeDict
 LAB_1000_182f:
     mov CX,140h
-    mov word ptr [2558h],CX
-    mov DI,1872h
+    mov word ptr [_var_155],CX
+    mov DI,offset dat_1872
     call routine_145
-    sub SI,1606h
-    mov word ptr [186eh],SI
+    sub SI,offset dat_1606
+    mov word ptr [_var_62],SI
     pop ES
     ret
 decodePicRow endp
 
 picReadDataAndMakeDict proc near
-    mov AX,1606h
+    mov AX,offset dat_1606
     add AX,200h
-    mov [2554h],AX
-    mov AX,2769h
-    mov [2556h],AX
-    mov byte ptr [255ah],0h
-    mov byte ptr [255bh],0h
-    cmp SI,word ptr [2554h]
+    mov word ptr [_var_153],AX
+    mov AX,offset dat_2769
+    mov word ptr [_var_154],AX
+    mov byte ptr [_var_156],0h
+    mov byte ptr [_var_157],0h
+    cmp SI,word ptr [_var_153]
     jc LAB_1000_1872
     push BX
     push CX
     push DX
-    call word ptr [19bch]
+    call word ptr [_var_68]
     pop DX
     pop CX
     pop BX
-    mov SI,1606h
+    mov SI,offset dat_1606
 LAB_1000_1872:
     lodsw
-    mov [2562h],AX
-    mov byte ptr [2564h],8h
-    mov byte ptr [2565h],1h
+    mov word ptr [_var_162],AX
+    mov byte ptr [_var_163],8h
+    mov byte ptr [_var_164],1h
     or AL,AL
     jns LAB_1000_188a
-    dec byte ptr [2565h]
+    dec byte ptr [_var_164]
     neg AL
 LAB_1000_188a:
-    mov [255dh],AL
+    mov byte ptr [_var_159],AL
 picReadDataAndMakeDict endp
 
 picMakeDict proc near
-    mov byte ptr [255ch],9h
-    mov word ptr [255eh],1ffh
+    mov byte ptr [_var_158],9h
+    mov word ptr [_var_160],1ffh
     mov DX,100h
-    mov word ptr [2560h],DX
+    mov word ptr [_var_161],DX
     mov AX,0ffffh
     xor BX,BX
     mov CX,800h
@@ -3278,21 +3278,21 @@ LAB_1000_18b7:
 picMakeDict endp
 
 routine_145 proc near
-    cmp byte ptr [2565h],0h
+    cmp byte ptr [_var_164],0h
     jz LAB_1000_18ce
-    shr word ptr [2558h],1h
+    shr word ptr [_var_155],1h
 LAB_1000_18ce:
-    mov AX,[2556h]
-    mov word ptr [2556h],SP
+    mov AX,word ptr [_var_154]
+    mov word ptr [_var_154],SP
     mov SP,AX
-    mov DX,word ptr [2560h]
+    mov DX,word ptr [_var_161]
 LAB_1000_18db:
-    cmp byte ptr [255ah],0h
+    cmp byte ptr [_var_156],0h
     jnz LAB_1000_1903
     call dictionaryLookup
     cmp AL,90h
     jz LAB_1000_18ef
-    mov [255bh],AL
+    mov byte ptr [_var_157],AL
     jmp LAB_1000_190a
     db 90h
 LAB_1000_18ef:
@@ -3300,17 +3300,17 @@ LAB_1000_18ef:
     or AL,AL
     jnz LAB_1000_18fe
     mov AL,90h
-    mov [255bh],AL
+    mov byte ptr [_var_157],AL
     jmp LAB_1000_190a
     db 90h
 LAB_1000_18fe:
     dec AL
-    mov [255ah],AL
+    mov byte ptr [_var_156],AL
 LAB_1000_1903:
-    mov AL,[255bh]
-    dec byte ptr [255ah]
+    mov AL,byte ptr [_var_157]
+    dec byte ptr [_var_156]
 LAB_1000_190a:
-    cmp byte ptr [2565h],0h
+    cmp byte ptr [_var_164],0h
     jz LAB_1000_1927
     mov AH,AL
     and AL,0fh
@@ -3319,18 +3319,18 @@ LAB_1000_190a:
     shr AH,1h
     shr AH,1h
     stosw
-    dec word ptr [2558h]
+    dec word ptr [_var_155]
     jnz LAB_1000_18db
     jmp LAB_1000_192e
     db 90h
 LAB_1000_1927:
     stosb
-    dec word ptr [2558h]
+    dec word ptr [_var_155]
     jnz LAB_1000_18db
 LAB_1000_192e:
-    mov word ptr [2560h],DX
-    mov AX,[2556h]
-    mov word ptr [2556h],SP
+    mov word ptr [_var_161],DX
+    mov AX,word ptr [_var_154]
+    mov word ptr [_var_154],SP
     mov SP,AX
     ret
 routine_145 endp
@@ -3343,43 +3343,43 @@ LAB_1000_1943:
     pop AX
     jmp BP
 LAB_1000_1946:
-    mov BX,word ptr [2562h]
+    mov BX,word ptr [_var_162]
     mov CL,10h
-    mov CH,byte ptr [2564h]
+    mov CH,byte ptr [_var_163]
     sub CL,CH
     shr BX,CL
     mov CL,CH
 LAB_1000_1956:
-    cmp CL,byte ptr [255ch]
+    cmp CL,byte ptr [_var_158]
     jge LAB_1000_197c
-    cmp SI,word ptr [2554h]
+    cmp SI,word ptr [_var_153]
     jc LAB_1000_196f
     push BX
     push CX
     push DX
-    call word ptr [19bch]
+    call word ptr [_var_68]
     pop DX
     pop CX
     pop BX
-    mov SI,1606h
+    mov SI,offset dat_1606
 LAB_1000_196f:
     lodsw
-    mov [2562h],AX
+    mov word ptr [_var_162],AX
     shl AX,CL
     or BX,AX
     add CL,10h
     jmp LAB_1000_1956
 LAB_1000_197c:
-    sub CL,byte ptr [255ch]
-    mov byte ptr [2564h],CL
+    sub CL,byte ptr [_var_158]
+    mov byte ptr [_var_163],CL
     mov AX,BX
-    and AX,word ptr [255eh]
+    and AX,word ptr [_var_160]
     mov CX,AX
     cmp AX,DX
     jl LAB_1000_199a
     mov CX,DX
-    mov AX,[2566h]
-    mov BL,byte ptr [2568h]
+    mov AX,word ptr [_var_165]
+    mov BL,byte ptr [_var_166]
     push BX
 LAB_1000_199a:
     mov BX,AX
@@ -3394,27 +3394,27 @@ LAB_1000_199a:
     jmp LAB_1000_199a
 LAB_1000_19af:
     mov AL,byte ptr [BX + 276ch]
-    mov [2568h],AL
+    mov byte ptr [_var_166],AL
     push AX
     mov BX,DX
     add BX,DX
     add BX,DX
     mov byte ptr [BX + 276ch],AL
-    mov AX,[2566h]
+    mov AX,word ptr [_var_165]
     mov word ptr [BX + 276ah],AX
     inc DX
-    cmp DX,word ptr [255eh]
+    cmp DX,word ptr [_var_160]
     jle LAB_1000_19d8
-    inc byte ptr [255ch]
+    inc byte ptr [_var_158]
     stc
-    rcl word ptr [255eh],1h
+    rcl word ptr [_var_160],1h
 LAB_1000_19d8:
-    mov AL,[255ch]
-    cmp AL,byte ptr [255dh]
+    mov AL,byte ptr [_var_158]
+    cmp AL,byte ptr [_var_159]
     jle LAB_1000_19e4
     call picMakeDict
 LAB_1000_19e4:
-    mov word ptr [2566h],CX
+    mov word ptr [_var_165],CX
     jmp LAB_1000_1943
     db 00h
 dictionaryLookup endp
@@ -3430,7 +3430,7 @@ allocBuffer proc near
     db 3Dh, 10h, 00h  ; cmp AX,10h (force word-immediate encoding)
     jnc LAB_1000_1a19
     call cleanup
-    mov AX,19beh
+    mov AX,offset str_allocError
     push AX
     call dos_printstring
     add SP,2h
@@ -3454,7 +3454,7 @@ routine_64 proc near
     or AX,AX
     jz LAB_1000_1a46
     call cleanup
-    mov AX,19e8h
+    mov AX,offset str_deallocError
     push AX
     call dos_printstring
     add SP,2h
@@ -3550,26 +3550,26 @@ routine_102 endp
 
 FUN_1000_1ac2 proc near
     call FUN_1000_1ad8
-    mov word ptr [3fb2h],0h
-    mov byte ptr [3f71h],0h
+    mov word ptr [dat_3FB2],0h
+    mov byte ptr [dat_3F71],0h
     mov AL,byte ptr ES:[DI]
     inc DI
-    mov [3f6bh],AL
+    mov byte ptr [dat_3F6B],AL
     ret
 FUN_1000_1ac2 endp
 
 FUN_1000_1ad8 proc near
-    mov byte ptr [3f6ah],9h
-    mov word ptr [3f6ch],1ffh
-    mov word ptr [3f6eh],100h
-    mov BX,276ah
+    mov byte ptr [dat_3F6A],9h
+    mov word ptr [dat_3F6C],1ffh
+    mov word ptr [dat_3F6E],100h
+    mov BX,offset _var_167
     mov AX,0ffffh
     mov CX,800h
 LAB_1000_1af2:
     mov word ptr [BX],AX
     add BX,3h
     loop LAB_1000_1af2
-    mov BX,276ah
+    mov BX,offset _var_167
     mov AL,0h
     mov CX,100h
 LAB_1000_1b01:
@@ -3581,13 +3581,13 @@ LAB_1000_1b01:
 FUN_1000_1ad8 endp
 
 FUN_1000_1b0c proc near
-    mov BX,word ptr [3fb2h]
+    mov BX,word ptr [dat_3FB2]
     or BX,BX
     jnz LAB_1000_1b17
     call FUN_1000_1b24
 LAB_1000_1b17:
-    dec word ptr [3fb2h]
-    mov BX,word ptr [3fb2h]
+    dec word ptr [dat_3FB2]
+    mov BX,word ptr [dat_3FB2]
     mov AL,byte ptr [BX + 3f72h]
     ret
 FUN_1000_1b0c endp
@@ -3595,18 +3595,18 @@ FUN_1000_1b0c endp
 FUN_1000_1b24 proc near
     push CX
     call FUN_1000_1bc3
-    mov word ptr [3fb6h],CX
-    cmp CX,word ptr [3f6eh]
+    mov word ptr [dat_3FB6],CX
+    cmp CX,word ptr [dat_3F6E]
     jl LAB_1000_1b4b
-    mov AL,[3fb8h]
-    mov BX,word ptr [3fb2h]
+    mov AL,byte ptr [dat_3FB8]
+    mov BX,word ptr [dat_3FB2]
     mov byte ptr [BX + 3f72h],AL
-    inc word ptr [3fb2h]
-    mov CX,word ptr [3fb4h]
-    mov AX,[3f6eh]
-    mov [3fb6h],AX
+    inc word ptr [dat_3FB2]
+    mov CX,word ptr [dat_3FB4]
+    mov AX,word ptr [dat_3F6E]
+    mov word ptr [dat_3FB6],AX
 LAB_1000_1b4b:
-    mov BX,276ah
+    mov BX,offset _var_167
     add BX,CX
     add BX,CX
     add BX,CX
@@ -3616,59 +3616,59 @@ LAB_1000_1b4b:
     dec AX
     mov CX,AX
     mov AL,byte ptr [BX + 2h]
-    mov BX,word ptr [3fb2h]
+    mov BX,word ptr [dat_3FB2]
     cmp BX,40h
     jnc LAB_1000_1b6c
     mov byte ptr [BX + 3f72h],AL
 LAB_1000_1b6c:
-    inc word ptr [3fb2h]
+    inc word ptr [dat_3FB2]
     jmp LAB_1000_1b4b
 LAB_1000_1b72:
     mov AL,byte ptr [BX + 2h]
-    mov [3fb8h],AL
-    mov BX,word ptr [3fb2h]
+    mov byte ptr [dat_3FB8],AL
+    mov BX,word ptr [dat_3FB2]
     mov byte ptr [BX + 3f72h],AL
-    inc word ptr [3fb2h]
-    mov CX,word ptr [3f6eh]
-    mov BX,276ah
+    inc word ptr [dat_3FB2]
+    mov CX,word ptr [dat_3F6E]
+    mov BX,offset _var_167
     add BX,CX
     add BX,CX
     add BX,CX
     mov byte ptr [BX + 2h],AL
-    mov AX,[3fb4h]
+    mov AX,word ptr [dat_3FB4]
     mov word ptr [BX],AX
-    inc word ptr [3f6eh]
-    mov AX,[3f6eh]
-    cmp AX,word ptr [3f6ch]
+    inc word ptr [dat_3F6E]
+    mov AX,word ptr [dat_3F6E]
+    cmp AX,word ptr [dat_3F6C]
     jle LAB_1000_1baf
-    inc byte ptr [3f6ah]
+    inc byte ptr [dat_3F6A]
     stc
-    rcl word ptr [3f6ch],1h
+    rcl word ptr [dat_3F6C],1h
 LAB_1000_1baf:
-    mov AL,[3f6ah]
-    cmp AL,byte ptr [3f6bh]
+    mov AL,byte ptr [dat_3F6A]
+    cmp AL,byte ptr [dat_3F6B]
     jle LAB_1000_1bbb
     call FUN_1000_1ad8
 LAB_1000_1bbb:
-    mov AX,[3fb6h]
-    mov [3fb4h],AX
+    mov AX,word ptr [dat_3FB6]
+    mov word ptr [dat_3FB4],AX
     pop CX
     ret
 FUN_1000_1b24 endp
 
 FUN_1000_1bc3 proc near
     xor DH,DH
-    mov DL,byte ptr [3f70h]
-    mov BL,byte ptr [3f71h]
+    mov DL,byte ptr [dat_3F70]
+    mov BL,byte ptr [dat_3F71]
     mov CL,8h
     sub CL,BL
     shr DX,CL
 LAB_1000_1bd3:
-    cmp BL,byte ptr [3f6ah]
+    cmp BL,byte ptr [dat_3F6A]
     jge LAB_1000_1bed
     mov AL,byte ptr ES:[DI]
     inc DI
-    mov [3f70h],AL
+    mov byte ptr [dat_3F70],AL
     mov CL,BL
     xor AH,AH
     shl AX,CL
@@ -3676,18 +3676,18 @@ LAB_1000_1bd3:
     add BL,8h
     jmp LAB_1000_1bd3
 LAB_1000_1bed:
-    sub BL,byte ptr [3f6ah]
-    mov byte ptr [3f71h],BL
+    sub BL,byte ptr [dat_3F6A]
+    mov byte ptr [dat_3F71],BL
     mov CX,DX
-    and CX,word ptr [3f6ch]
+    and CX,word ptr [dat_3F6C]
     ret
 FUN_1000_1bc3 endp
 
 setTimerIrqHandler proc near
-    mov word ptr [1a0ah],1h
-    mov word ptr [1a14h],1h
-    mov word ptr [1a00h],0h
-    mov word ptr [1a02h],0h
+    mov word ptr [_var_74],1h
+    mov word ptr [_var_80],1h
+    mov word ptr [_var_70],0h
+    mov word ptr [_var_71],0h
     call sub_13DF2
     mov AH,35h
     mov AL,8h
@@ -3700,7 +3700,7 @@ setTimerIrqHandler proc near
     lds DX,CS:dword ptr [var_1]
     int 21h
     pop DS
-    mov byte ptr [19ffh],1h
+    mov byte ptr [_var_69],1h
     ret
 setTimerIrqHandler endp
 
@@ -3720,7 +3720,7 @@ LAB_1000_1c46:
     lds DX,CS:dword ptr [var_2]
     int 21h
     pop DS
-    mov byte ptr [19ffh],0h
+    mov byte ptr [_var_69],0h
     ret
     db 8Bh
     db 1Eh
@@ -4008,11 +4008,11 @@ restoreTimerIrqHandler endp
 sub_13DF2 proc near
     pushf
     cli
-    mov byte ptr [1a0ch],1h
+    mov byte ptr [_var_75],1h
     xor AX,AX
-    mov byte ptr [1a13h],1h
-    mov [1a0fh],AX
-    mov [1a11h],AX
+    mov byte ptr [_var_79],1h
+    mov word ptr [_var_77],AX
+    mov word ptr [_var_78],AX
     call manipulateTimer
     mov BX,AX
     mov CX,10h
@@ -4021,18 +4021,18 @@ LAB_1000_1d92:
     call manipulateTimer
     pop BX
     sub BX,AX
-    add word ptr [1a0fh],BX
-    adc word ptr [1a11h],0h
+    add word ptr [_var_77],BX
+    adc word ptr [_var_78],0h
     mov BX,AX
     loop LAB_1000_1d92
-    mov AX,[1a0fh]
-    mov DX,word ptr [1a11h]
-    add word ptr [1a00h],AX
-    adc word ptr [1a02h],DX
+    mov AX,word ptr [_var_77]
+    mov DX,word ptr [_var_78]
+    add word ptr [_var_70],AX
+    adc word ptr [_var_71],DX
     mov CX,10h
     div CX
     shr AX,1h
-    mov [1a0fh],AX
+    mov word ptr [_var_77],AX
     mov BX,AX
     shr BX,1h
     shr BX,1h
@@ -4040,7 +4040,7 @@ LAB_1000_1d92:
     shr BX,1h
     add AX,BX
     xor DX,DX
-    mov BX,0f89h
+    mov BX,offset dat_0f89
     div BX
     db 3Dh, 04h, 00h  ; cmp AX,04h (force word-immediate)
     jc LAB_1000_1ddf
@@ -4049,20 +4049,20 @@ LAB_1000_1d92:
     jmp LAB_1000_1ded
     db 90h
 LAB_1000_1ddf:
-    mov byte ptr [1a13h],0h
-    mov word ptr [1a0fh],4daeh
+    mov byte ptr [_var_79],0h
+    mov word ptr [_var_77],4daeh
     mov AX,5h
 LAB_1000_1ded:
-    mov [1a0dh],AX
-    cmp word ptr [1a0ah],1h
+    mov word ptr [_var_76],AX
+    cmp word ptr [_var_74],1h
     jz LAB_1000_1dfa
-    mov [1a0ah],AX
+    mov word ptr [_var_74],AX
 LAB_1000_1dfa:
-    mov AX,[1a0fh]
+    mov AX,word ptr [_var_77]
     xor DX,DX
-    div word ptr [1a0ah]
-    mov [1a06h],AX
-    mov [1a04h],AX
+    div word ptr [_var_74]
+    mov word ptr [_var_73],AX
+    mov word ptr [_var_72],AX
     popf
     ret
 sub_13DF2 endp
@@ -4155,14 +4155,14 @@ routine_27 proc near
     mov BP,SP
     sub SP,2h
     push SI
-    mov BX,word ptr [1c20h]
+    mov BX,word ptr [_var_86]
     mov word ptr [BX + 6h],0h
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 30h],0h
     jz LAB_1000_1e96
     jmp LAB_1000_214e
 LAB_1000_1e96:
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     cmp word ptr ES:[BX + 4eh],1h
     jz LAB_1000_1ea4
     jmp LAB_1000_1f4a
@@ -4171,9 +4171,9 @@ LAB_1000_1ea4:
     push AX
     call far ptr gfx_jump_3d_null
     add SP,2h
-    mov BX,word ptr [1c20h]
+    mov BX,word ptr [_var_86]
     push word ptr [BX]
-    mov AX,1ad3h
+    mov AX,offset str_deskPic
     push AX
     call openShowPic
     add SP,4h
@@ -4183,9 +4183,9 @@ LAB_1000_1ea4:
     push AX
     mov AX,24h
     push AX
-    mov AX,1adch
+    mov AX,offset str_deskMsg1
     push AX
-    push word ptr [1c20h]
+    push word ptr [_var_86]
     call drawString
     add SP,0ah
     mov AX,0fah
@@ -4194,13 +4194,13 @@ LAB_1000_1ea4:
     push AX
     mov AX,24h
     push AX
-    mov AX,1b0ah
+    mov AX,offset str_deskMsg2
     push AX
-    push word ptr [1c20h]
+    push word ptr [_var_86]
     call drawString
     add SP,0ah
-    mov word ptr [1c16h],4h
-    mov word ptr [1c0eh],0h
+    mov word ptr [_var_85],4h
+    mov word ptr [_var_84],0h
     mov word ptr [BP + -2h],0h
     jmp LAB_1000_1f0b
     db 90h
@@ -4208,7 +4208,7 @@ LAB_1000_1f08:
     inc word ptr [BP + -2h]
 LAB_1000_1f0b:
     mov SI,word ptr [BP + -2h]
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     mov AL,byte ptr ES:[BX + SI + 2h]
     mov BX,SI
     mov byte ptr [BX + 3fd0h],AL
@@ -4220,26 +4220,26 @@ LAB_1000_1f0b:
     push AX
     mov AX,0c1h
     push AX
-    mov AX,3fd0h
+    mov AX,offset _var_176
     push AX
-    push word ptr [1c20h]
+    push word ptr [_var_86]
     call drawString
     add SP,0ah
-    mov word ptr [1c0eh],7h
-    mov word ptr [1c16h],1h
+    mov word ptr [_var_84],7h
+    mov word ptr [_var_85],1h
     jmp LAB_1000_2141
     db 90h
 LAB_1000_1f4a:
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     cmp word ptr ES:[BX + 4eh],2h
     jnz LAB_1000_1fa8
     mov AX,2h
     push AX
     call far ptr gfx_jump_3d_null
     add SP,2h
-    mov BX,word ptr [1c20h]
+    mov BX,word ptr [_var_86]
     push word ptr [BX]
-    mov AX,1b27h
+    mov AX,offset str_deathPic
     push AX
     call openShowPic
     add SP,4h
@@ -4249,9 +4249,9 @@ LAB_1000_1f4a:
     push AX
     mov AX,24h
     push AX
-    mov AX,1b31h
+    mov AX,offset str_deathMsg1
     push AX
-    push word ptr [1c20h]
+    push word ptr [_var_86]
     call drawString
     add SP,0ah
     mov AX,0fah
@@ -4260,14 +4260,14 @@ LAB_1000_1f4a:
     push AX
     mov AX,24h
     push AX
-    mov AX,1b54h
+    mov AX,offset str_deathMsg2
     push AX
-    push word ptr [1c20h]
+    push word ptr [_var_86]
     call drawString
     add SP,0ah
     jmp LAB_1000_2141
 LAB_1000_1fa8:
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     cmp word ptr ES:[BX + 20h],6h
     jc LAB_1000_1fb6
     jmp LAB_1000_206b
@@ -4275,7 +4275,7 @@ LAB_1000_1fb6:
     mov BX,word ptr ES:[BX + 20h]
     shl BX,1h
     shl BX,1h
-    mov SI,word ptr [403ah]
+    mov SI,word ptr [_var_178]
     mov AX,word ptr ES:[SI + 32h]
     mov DX,word ptr ES:[SI + 34h]
     cmp word ptr [BX + 1c4ah],DX
@@ -4291,36 +4291,36 @@ LAB_1000_1fde:
     push AX
     call far ptr gfx_jump_3d_null
     add SP,2h
-    mov BX,word ptr [1c20h]
+    mov BX,word ptr [_var_86]
     push word ptr [BX]
-    mov AX,1b7dh
+    mov AX,offset str_promoPic
     push AX
     call openShowPic
     add SP,4h
-    mov word ptr [1c0eh],1h
+    mov word ptr [_var_84],1h
     mov AX,0fah
     push AX
     mov AX,0aeh
     push AX
     mov AX,24h
     push AX
-    mov AX,1b87h
+    mov AX,offset str_promoMsg1
     push AX
-    push word ptr [1c20h]
+    push word ptr [_var_86]
     call drawString
     add SP,0ah
-    mov AX,1bb2h
+    mov AX,offset str_promoMsg2
     push AX
-    mov AX,3fd0h
+    mov AX,offset _var_176
     push AX
     call mystrcpy
     add SP,4h
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     inc word ptr ES:[BX + 20h]
     mov SI,word ptr ES:[BX + 20h]
     shl SI,1h
     push word ptr [SI + 1c3ah]
-    mov AX,3fd0h
+    mov AX,offset _var_176
     push AX
     call mystrcat
     add SP,4h
@@ -4330,9 +4330,9 @@ LAB_1000_1fde:
     push AX
     mov AX,24h
     push AX
-    mov AX,3fd0h
+    mov AX,offset _var_176
     push AX
-    push word ptr [1c20h]
+    push word ptr [_var_86]
     call drawString
     add SP,0ah
     call far ptr gfx_jump_50
@@ -4349,8 +4349,8 @@ LAB_1000_2075:
     mov BX,word ptr [BP + -2h]
     shl BX,1h
     shl BX,1h
-    mov AX,[59beh]
-    mov DX,word ptr [59c0h]
+    mov AX,word ptr [_var_219]
+    mov DX,word ptr [_var_220]
     cmp word ptr [BX + 1c6ch],DX
     jg LAB_1000_2072
     jl LAB_1000_2097
@@ -4364,7 +4364,7 @@ LAB_1000_20a0:
     mov AX,1h
     mov CL,byte ptr [BP + -2h]
     shl AX,CL
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     test word ptr ES:[BX + 22h],AX
     jz LAB_1000_20b5
     jmp LAB_1000_214e
@@ -4374,34 +4374,34 @@ LAB_1000_20b5:
     push AX
     call far ptr gfx_jump_3d_null
     add SP,2h
-    mov BX,word ptr [1c20h]
+    mov BX,word ptr [_var_86]
     push word ptr [BX]
-    mov AX,1bcdh
+    mov AX,offset str_medalPic
     push AX
     call openShowPic
     add SP,4h
-    mov word ptr [1c0eh],0fh
+    mov word ptr [_var_84],0fh
     mov AX,0fah
     push AX
     mov AX,0aeh
     push AX
     mov AX,24h
     push AX
-    mov AX,1bd7h
+    mov AX,offset str_medalMsg1
     push AX
-    push word ptr [1c20h]
+    push word ptr [_var_86]
     call drawString
     add SP,0ah
-    mov AX,1c05h
+    mov AX,offset str_medalMsg2
     push AX
-    mov AX,3fd0h
+    mov AX,offset _var_176
     push AX
     call mystrcpy
     add SP,4h
     mov BX,word ptr [BP + -2h]
     shl BX,1h
     push word ptr [BX + 1c60h]
-    mov AX,3fd0h
+    mov AX,offset _var_176
     push AX
     call mystrcat
     add SP,4h
@@ -4411,12 +4411,12 @@ LAB_1000_20b5:
     push AX
     mov AX,24h
     push AX
-    mov AX,3fd0h
+    mov AX,offset _var_176
     push AX
-    push word ptr [1c20h]
+    push word ptr [_var_86]
     call drawString
     add SP,0ah
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     mov AX,1h
     mov CL,byte ptr [BP + -2h]
     shl AX,CL
@@ -4433,7 +4433,7 @@ LAB_1000_214e:
     sub AX,AX
     push AX
     push AX
-    push word ptr [1c20h]
+    push word ptr [_var_86]
     call clearRect
     add SP,0ah
     call far ptr gfx_jump_46_retrace2
@@ -4448,7 +4448,7 @@ routine_24 proc near
     mov BP,SP
     sub SP,4h
     push SI
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     mov AX,word ptr ES:[BX + 74h]
     mov CL,0bh
     shr AX,CL
@@ -4462,7 +4462,7 @@ routine_24 proc near
     mov BX,word ptr [BP + -2h]
     mov AL,byte ptr [BX + SI + 4700h]
     db 25h, 03h, 00h  ; and AX,3h (force word-immediate)
-    mov [550ch],AX
+    mov word ptr [_var_201],AX
     pop SI
     mov SP,BP
     pop BP
@@ -4499,7 +4499,7 @@ LAB_1000_21d7:
     cmp word ptr [SI],2h
     jnz LAB_1000_2220
     mov AX,word ptr [BP + -0ah]
-    mov [5502h],AX
+    mov word ptr [_var_198],AX
     mov word ptr [SI],0h
     push word ptr [BP + 0eh]
     mov AX,32h
@@ -4527,9 +4527,9 @@ LAB_1000_2237:
     jmp LAB_1000_21d4
 LAB_1000_2239:
     mov AX,word ptr [BP + 0ah]
-    mov [55f4h],AX
+    mov word ptr [_var_210],AX
     mov AX,word ptr [BP + 0ch]
-    mov [55fah],AX
+    mov word ptr [_var_212],AX
     pop SI
     mov SP,BP
     pop BP
@@ -4551,7 +4551,7 @@ routine_60 proc near
     mov byte ptr [BP + -12h],80h
     mov byte ptr [BP + -11h],0h
     call far ptr gfx_jump_50
-    mov word ptr [3fc0h],0h
+    mov word ptr [_var_172],0h
     mov word ptr [BP + -14h],0h
 LAB_1000_2282:
     mov AX,32h
@@ -4568,7 +4568,7 @@ LAB_1000_2282:
     inc word ptr [BP + -14h]
     jmp LAB_1000_2282
 LAB_1000_22a3:
-    mov byte ptr [3fc2h],0h
+    mov byte ptr [_var_173],0h
 LAB_1000_22a8:
     call far ptr gfx_jump_50
     mov AX,32h
@@ -4577,7 +4577,7 @@ LAB_1000_22a8:
     mov BX,word ptr [BP + 4h]
     test word ptr [BX + SI + 30h],100h
     jnz LAB_1000_22c5
-    mov word ptr [3fc0h],1h
+    mov word ptr [_var_172],1h
 LAB_1000_22c5:
     push word ptr [BP + 0ch]
     mov AX,32h
@@ -4587,16 +4587,16 @@ LAB_1000_22c5:
     push word ptr [BP + 0ah]
     call routine_98
     add SP,6h
-    cmp byte ptr [3fbch],0h
+    cmp byte ptr [_var_170],0h
     jnz LAB_1000_22e8
-    cmp byte ptr [550fh],0h
+    cmp byte ptr [_var_202],0h
     jz LAB_1000_22a8
 LAB_1000_22e8:
-    cmp byte ptr [550fh],0h
+    cmp byte ptr [_var_202],0h
     jnz LAB_1000_22f2
     jmp LAB_1000_23c2
 LAB_1000_22f2:
-    mov AX,[5502h]
+    mov AX,word ptr [_var_198]
     cmp word ptr [BP + -14h],AX
     jz LAB_1000_2320
     mov word ptr [BP + -14h],0h
@@ -4616,7 +4616,7 @@ LAB_1000_22ff:
     jmp LAB_1000_22ff
 LAB_1000_2320:
     mov AX,32h
-    imul word ptr [5502h]
+    imul word ptr [_var_198]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     cmp word ptr [SI + 10h],0h
@@ -4638,7 +4638,7 @@ LAB_1000_2335:
     add SP,0eh
     mov word ptr [BP + -6h],3h
     mov AX,32h
-    imul word ptr [5502h]
+    imul word ptr [_var_198]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     push word ptr [BP + -4h]
@@ -4653,7 +4653,7 @@ LAB_1000_2335:
     add SP,0eh
     mov word ptr [BP + -6h],0dh
     mov AX,32h
-    imul word ptr [5502h]
+    imul word ptr [_var_198]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     push word ptr [BP + -4h]
@@ -4688,7 +4688,7 @@ LAB_1000_23c7:
     inc word ptr [BP + -14h]
     jmp LAB_1000_23c7
 LAB_1000_23e8:
-    mov AX,[5502h]
+    mov AX,word ptr [_var_198]
     cmp word ptr [BP + -14h],AX
     jnz LAB_1000_23f3
     jmp LAB_1000_2575
@@ -4730,7 +4730,7 @@ LAB_1000_2447:
     jmp LAB_1000_240e
 LAB_1000_2449:
     mov AX,32h
-    imul word ptr [5502h]
+    imul word ptr [_var_198]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     cmp word ptr [SI + 10h],0h
@@ -4752,7 +4752,7 @@ LAB_1000_245e:
     add SP,0eh
     mov word ptr [BP + -6h],3h
     mov AX,32h
-    imul word ptr [5502h]
+    imul word ptr [_var_198]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     push word ptr [BP + -4h]
@@ -4767,7 +4767,7 @@ LAB_1000_245e:
     add SP,0eh
     mov word ptr [BP + -6h],0dh
     mov AX,32h
-    imul word ptr [5502h]
+    imul word ptr [_var_198]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     push word ptr [BP + -4h]
@@ -4782,7 +4782,7 @@ LAB_1000_245e:
     add SP,0eh
     mov word ptr [BP + -6h],0bh
     mov AX,32h
-    imul word ptr [5502h]
+    imul word ptr [_var_198]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     push word ptr [BP + -4h]
@@ -4797,7 +4797,7 @@ LAB_1000_245e:
     add SP,0eh
 LAB_1000_2514:
     mov AX,32h
-    imul word ptr [5502h]
+    imul word ptr [_var_198]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     cmp word ptr [SI + 10h],1h
@@ -4825,7 +4825,7 @@ LAB_1000_254f:
     add SP,4h
 LAB_1000_2562:
     mov AX,word ptr [BP + -14h]
-    mov [5502h],AX
+    mov word ptr [_var_198],AX
     push word ptr [BP + 0ch]
     push AX
     push word ptr [BP + 4h]
@@ -4907,12 +4907,12 @@ routine_97 proc near
     push BP
     mov BP,SP
     mov BX,word ptr [BP + 4h]
-    mov AX,[55f4h]
+    mov AX,word ptr [_var_210]
     cmp word ptr [BX],AX
     ja LAB_1000_263e
     cmp word ptr [BX + 4h],AX
     jc LAB_1000_263e
-    mov AX,[55fah]
+    mov AX,word ptr [_var_212]
     cmp word ptr [BX + 2h],AX
     ja LAB_1000_263e
     cmp word ptr [BX + 6h],AX
@@ -4944,22 +4944,22 @@ routine_98 proc near
     add AX,CX
     shl AX,1h
     add AX,1c8eh
-    mov [3fbah],AX
-    mov byte ptr [1a1ch],0h
+    mov word ptr [_var_169],AX
+    mov byte ptr [_var_82],0h
     sub AX,AX
     mov word ptr [BP + -0ah],AX
     mov word ptr [BP + -8h],AX
     sub AL,AL
     mov byte ptr [BP + -0ch],AL
-    mov [3fc4h],AL
-    mov [550fh],AL
-    mov [3fbch],AL
-    cmp byte ptr [3fc2h],1h
+    mov byte ptr [_var_175],AL
+    mov byte ptr [_var_202],AL
+    mov byte ptr [_var_170],AL
+    cmp byte ptr [_var_173],1h
     jnz LAB_1000_268e
-    mov [1a1ah],AL
+    mov byte ptr [_var_81],AL
     mov byte ptr [BP + -0ch],1h
 LAB_1000_268e:
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 72h],1h
     jnz LAB_1000_26bb
     sub AX,AX
@@ -4981,27 +4981,27 @@ LAB_1000_26bb:
     jnz LAB_1000_26ec
     cmp word ptr [BP + -0ah],0h
     jnz LAB_1000_26ec
-    cmp byte ptr [15fah],4eh
+    cmp byte ptr [_var_55],4eh
     jc LAB_1000_26ec
-    cmp byte ptr [15fah],0b2h
+    cmp byte ptr [_var_55],0b2h
     ja LAB_1000_26ec
-    cmp byte ptr [15fbh],4eh
+    cmp byte ptr [_var_56],4eh
     jc LAB_1000_26ec
-    cmp byte ptr [15fbh],0b2h
+    cmp byte ptr [_var_56],0b2h
     jbe LAB_1000_26f5
 LAB_1000_26ec:
     cmp byte ptr [BP + -0ch],1h
     jz LAB_1000_26f5
     jmp LAB_1000_2a82
 LAB_1000_26f5:
-    cmp byte ptr [3fc2h],1h
+    cmp byte ptr [_var_173],1h
     jnz LAB_1000_270c
-    cmp byte ptr [1a1ah],0fh
+    cmp byte ptr [_var_81],0fh
     jbe LAB_1000_270c
     mov byte ptr [BP + -0ch],0h
-    mov byte ptr [3fc2h],0h
+    mov byte ptr [_var_173],0h
 LAB_1000_270c:
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 72h],1h
     jnz LAB_1000_2739
     sub AX,AX
@@ -5016,7 +5016,7 @@ LAB_1000_270c:
     mov word ptr [BP + -0ah],AX
     call far ptr routine_134
 LAB_1000_2739:
-    cmp byte ptr [15feh],0h
+    cmp byte ptr [_var_57],0h
     jz LAB_1000_274f
     call cleanup
     call routine_28
@@ -5025,14 +5025,14 @@ LAB_1000_2739:
     call routine_8
     add SP,2h
 LAB_1000_274f:
-    cmp word ptr [3fc0h],1h
+    cmp word ptr [_var_172],1h
     jnz LAB_1000_27b1
-    cmp byte ptr [1a1ch],6h
+    cmp byte ptr [_var_82],6h
     jbe LAB_1000_27b1
-    mov byte ptr [1a1ch],0h
-    mov SI,word ptr [3fbeh]
+    mov byte ptr [_var_82],0h
+    mov SI,word ptr [_var_171]
     shl SI,1h
-    add SI,word ptr [3fbah]
+    add SI,word ptr [_var_169]
     add SI,2h
     mov AX,word ptr [SI]
     mov CL,4h
@@ -5051,12 +5051,12 @@ LAB_1000_274f:
     push word ptr [BP + 8h]
     call far ptr gfx_jump_29_switchColor
     add SP,0eh
-    inc word ptr [3fbeh]
-    mov AX,[3fbeh]
+    inc word ptr [_var_171]
+    mov AX,word ptr [_var_171]
     sub DX,DX
-    mov BX,word ptr [3fbah]
+    mov BX,word ptr [_var_169]
     div word ptr [BX]
-    mov word ptr [3fbeh],DX
+    mov word ptr [_var_171],DX
 LAB_1000_27b1:
     mov BX,word ptr [BP + 6h]
     test word ptr [BX + 30h],800h
@@ -5067,16 +5067,16 @@ LAB_1000_27be:
     jnz LAB_1000_27c8
     jmp LAB_1000_2a7f
 LAB_1000_27c8:
-    cmp byte ptr [1a1dh],12h
+    cmp byte ptr [_var_83],12h
     ja LAB_1000_27d2
     jmp LAB_1000_2a7f
 LAB_1000_27d2:
-    mov byte ptr [1a1dh],0h
-    cmp byte ptr [3fc3h],0h
+    mov byte ptr [_var_83],0h
+    cmp byte ptr [_var_174],0h
     jnz LAB_1000_27e1
     jmp LAB_1000_2a69
 LAB_1000_27e1:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5086,7 +5086,7 @@ LAB_1000_27e1:
     jmp LAB_1000_2a3f
 caseD_c_2a4a:
 caseD_1_5160:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5096,11 +5096,11 @@ caseD_1_5160:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [20e2h]
+    mov BX,word ptr [dat_20E2]
     mov word ptr [BX + 8h],AX
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5110,11 +5110,11 @@ caseD_1_5160:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [20e2h]
+    mov BX,word ptr [dat_20E2]
     mov word ptr [BX + 0ah],AX
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5125,19 +5125,19 @@ caseD_1_5160:
     shl BX,CL
     test byte ptr [BX + 4256h],8h
     jz LAB_1000_286c
-    mov BX,word ptr [20e2h]
+    mov BX,word ptr [dat_20E2]
     mov word ptr [BX + 2h],11eh
     jmp LAB_1000_2875
 LAB_1000_286c:
-    mov BX,word ptr [20e2h]
+    mov BX,word ptr [dat_20E2]
     mov word ptr [BX + 2h],12dh
 LAB_1000_2875:
-    push word ptr [20e2h]
+    push word ptr [dat_20E2]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp LAB_1000_2a67
 caseD_3_2a4a:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5147,11 +5147,11 @@ caseD_3_2a4a:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [2122h]
+    mov BX,word ptr [dat_2122]
     mov word ptr [BX + 8h],AX
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5161,16 +5161,16 @@ caseD_3_2a4a:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [2122h]
+    mov BX,word ptr [dat_2122]
     mov word ptr [BX + 0ah],AX
-    push word ptr [2122h]
+    push word ptr [dat_2122]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp LAB_1000_2a67
 caseD_2_2a4a:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5180,11 +5180,11 @@ caseD_2_2a4a:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [2162h]
+    mov BX,word ptr [dat_2162]
     mov word ptr [BX + 8h],AX
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5194,16 +5194,16 @@ caseD_2_2a4a:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [2162h]
+    mov BX,word ptr [dat_2162]
     mov word ptr [BX + 0ah],AX
-    push word ptr [2162h]
+    push word ptr [dat_2162]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp LAB_1000_2a67
 caseD_5_2a4a:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5213,10 +5213,10 @@ caseD_5_2a4a:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
-    mov BX,word ptr [21e2h]
+    add AX,word ptr [_var_93]
+    mov BX,word ptr [dat_21E2]
     mov word ptr [BX + 8h],AX
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5226,15 +5226,15 @@ caseD_5_2a4a:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
-    mov BX,word ptr [21e2h]
+    add AX,word ptr [_var_94]
+    mov BX,word ptr [dat_21E2]
     mov word ptr [BX + 0ah],AX
-    push word ptr [21e2h]
+    push word ptr [dat_21E2]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp LAB_1000_2a67
 caseD_8_2a4a:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5244,11 +5244,11 @@ caseD_8_2a4a:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [2122h]
+    mov BX,word ptr [dat_2122]
     mov word ptr [BX + 8h],AX
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5258,16 +5258,16 @@ caseD_8_2a4a:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [2122h]
+    mov BX,word ptr [dat_2122]
     mov word ptr [BX + 0ah],AX
-    push word ptr [2122h]
+    push word ptr [dat_2122]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp LAB_1000_2a67
 caseD_a_2a4a:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5277,10 +5277,10 @@ caseD_a_2a4a:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
-    mov BX,word ptr [21e2h]
+    add AX,word ptr [_var_93]
+    mov BX,word ptr [dat_21E2]
     mov word ptr [BX + 8h],AX
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5290,10 +5290,10 @@ caseD_a_2a4a:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
-    mov BX,word ptr [21e2h]
+    add AX,word ptr [_var_94]
+    mov BX,word ptr [dat_21E2]
     mov word ptr [BX + 0ah],AX
-    push word ptr [21e2h]
+    push word ptr [dat_21E2]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp LAB_1000_2a67
@@ -5323,7 +5323,7 @@ var_4:
 LAB_1000_2a67:
     jmp caseD_4_2a4a
 LAB_1000_2a69:
-    push word ptr [4a28h]
+    push word ptr [_var_190]
     call routine_135
     add SP,2h
 caseD_6_2a4a:
@@ -5332,10 +5332,10 @@ caseD_9_5403:
 caseD_b_5404:
 caseD_4_2a4a:
 caseD_4_5405:
-    cmp byte ptr [3fc3h],1h
+    cmp byte ptr [_var_174],1h
     sbb AX,AX
     neg AX
-    mov [3fc3h],AL
+    mov byte ptr [_var_174],AL
 LAB_1000_2a7f:
     jmp LAB_1000_26bb
 LAB_1000_2a82:
@@ -5356,102 +5356,102 @@ LAB_1000_2aa2:
     mov word ptr [BP + -10h],1bh
     jmp LAB_1000_2af9
 LAB_1000_2aaf:
-    cmp byte ptr [15fah],4eh
+    cmp byte ptr [_var_55],4eh
     jnc LAB_1000_2ac2
     mov word ptr [BP + -10h],4b00h
-    mov byte ptr [3fc2h],1h
+    mov byte ptr [_var_173],1h
     jmp LAB_1000_2af9
 LAB_1000_2ac2:
-    cmp byte ptr [15fah],0b2h
+    cmp byte ptr [_var_55],0b2h
     jbe LAB_1000_2ad5
     mov word ptr [BP + -10h],4d00h
-    mov byte ptr [3fc2h],1h
+    mov byte ptr [_var_173],1h
     jmp LAB_1000_2af9
 LAB_1000_2ad5:
-    cmp byte ptr [15fbh],4eh
+    cmp byte ptr [_var_56],4eh
     jnc LAB_1000_2ae8
-    mov word ptr [BP + -10h],4800h
-    mov byte ptr [3fc2h],1h
+    mov word ptr [BP + -10h],offset _var_185
+    mov byte ptr [_var_173],1h
     jmp LAB_1000_2af9
 LAB_1000_2ae8:
-    cmp byte ptr [15fbh],0b2h
+    cmp byte ptr [_var_56],0b2h
     jbe LAB_1000_2af9
     mov word ptr [BP + -10h],5000h
-    mov byte ptr [3fc2h],1h
+    mov byte ptr [_var_173],1h
 LAB_1000_2af9:
     cmp byte ptr [BP + -10h],0dh
     jnz LAB_1000_2b04
-    mov byte ptr [550fh],1h
+    mov byte ptr [_var_202],1h
 LAB_1000_2b04:
     cmp word ptr [BP + -10h],1000h
     jnz LAB_1000_2b15
-    mov byte ptr [15feh],1h
-    mov byte ptr [550fh],1h
+    mov byte ptr [_var_57],1h
+    mov byte ptr [_var_202],1h
 LAB_1000_2b15:
     cmp word ptr [BP + -10h],4800h
     jnz LAB_1000_2b39
     mov BX,word ptr [BP + 4h]
     mov AX,word ptr [BX + 2h]
-    sub word ptr [55fah],AX
-    mov AX,[55fah]
+    sub word ptr [_var_212],AX
+    mov AX,word ptr [_var_212]
     cmp word ptr [BX + 8h],AX
     jle LAB_1000_2b34
     mov AX,word ptr [BX + 8h]
-    mov [55fah],AX
+    mov word ptr [_var_212],AX
 LAB_1000_2b34:
-    mov byte ptr [3fbch],1h
+    mov byte ptr [_var_170],1h
 LAB_1000_2b39:
     cmp word ptr [BP + -10h],5000h
     jnz LAB_1000_2b5d
     mov BX,word ptr [BP + 4h]
     mov AX,word ptr [BX + 2h]
-    add word ptr [55fah],AX
-    mov AX,[55fah]
+    add word ptr [_var_212],AX
+    mov AX,word ptr [_var_212]
     cmp word ptr [BX + 0ah],AX
     jnc LAB_1000_2b58
     mov AX,word ptr [BX + 0ah]
-    mov [55fah],AX
+    mov word ptr [_var_212],AX
 LAB_1000_2b58:
-    mov byte ptr [3fbch],1h
+    mov byte ptr [_var_170],1h
 LAB_1000_2b5d:
     cmp word ptr [BP + -10h],4d00h
     jnz LAB_1000_2b80
     mov BX,word ptr [BP + 4h]
     mov AX,word ptr [BX]
-    add word ptr [55f4h],AX
-    mov AX,[55f4h]
+    add word ptr [_var_210],AX
+    mov AX,word ptr [_var_210]
     cmp word ptr [BX + 6h],AX
     jnc LAB_1000_2b7b
     mov AX,word ptr [BX + 6h]
-    mov [55f4h],AX
+    mov word ptr [_var_210],AX
 LAB_1000_2b7b:
-    mov byte ptr [3fbch],1h
+    mov byte ptr [_var_170],1h
 LAB_1000_2b80:
     cmp word ptr [BP + -10h],4b00h
     jnz LAB_1000_2bb1
     mov BX,word ptr [BP + 4h]
     mov AX,word ptr [BX]
-    sub word ptr [55f4h],AX
-    mov AX,[55f4h]
+    sub word ptr [_var_210],AX
+    mov AX,word ptr [_var_210]
     cmp word ptr [BX + 4h],AX
     jle LAB_1000_2b9e
     mov AX,word ptr [BX + 4h]
-    mov [55f4h],AX
+    mov word ptr [_var_210],AX
 LAB_1000_2b9e:
-    mov AX,[55fah]
+    mov AX,word ptr [_var_212]
     cmp word ptr [BX + 8h],AX
     jle LAB_1000_2bac
     mov AX,word ptr [BX]
-    add word ptr [55f4h],AX
+    add word ptr [_var_210],AX
 LAB_1000_2bac:
-    mov byte ptr [3fbch],1h
+    mov byte ptr [_var_170],1h
 LAB_1000_2bb1:
     mov BX,word ptr [BP + 6h]
     test word ptr [BX + 30h],800h
     jz LAB_1000_2bcc
     test word ptr [BX + 30h],1000h
     jz LAB_1000_2bcc
-    push word ptr [4a28h]
+    push word ptr [_var_190]
     call routine_135
     add SP,2h
 LAB_1000_2bcc:
@@ -5505,13 +5505,13 @@ LAB_1000_2c1d:
     mov word ptr [BX + 4h],0h
     lea AX,[BP + -6h]
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    mov AX,1cb6h
+    mov AX,offset str_pressExit
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -5523,7 +5523,7 @@ LAB_1000_2c1d:
     push AX
     mov AX,50h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call routine_130
@@ -5539,14 +5539,14 @@ LAB_1000_2c1d:
     push word ptr [BP + 8h]
     call clearRect
     add SP,0ah
-    cmp byte ptr [55feh],1h
+    cmp byte ptr [_var_214],1h
     jnz LAB_1000_2cc2
     mov AX,28h
     push AX
     mov AX,30h
     push AX
-    push word ptr [5cc4h]
-    push word ptr [5cc2h]
+    push word ptr [_var_228]
+    push word ptr [_var_227]
     sub AX,AX
     push AX
     mov AX,96h
@@ -5557,29 +5557,29 @@ LAB_1000_2c1d:
     push AX
     call far ptr gfx_jump_2a
     add SP,10h
-    mov byte ptr [55feh],0h
+    mov byte ptr [_var_214],0h
 LAB_1000_2cc2:
-    mov word ptr [4a28h],0h
-    mov AX,270fh
+    mov word ptr [_var_190],0h
+    mov AX,offset dat_270f
     push AX
     push word ptr [BP + 8h]
     call routine_132
     add SP,4h
-    mov [4f00h],AX
+    mov word ptr [_var_192],AX
     push AX
     call routine_63
     add SP,2h
-    mov [59beh],AX
-    mov word ptr [59c0h],DX
-    mov AX,1cd8h
+    mov word ptr [_var_219],AX
+    mov word ptr [_var_220],DX
+    mov AX,offset str_dot1
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    mov AX,1cdah
+    mov AX,offset str_overall1
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -5589,14 +5589,14 @@ LAB_1000_2cc2:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call drawString
     add SP,0ah
-    mov AX,1ce2h
+    mov AX,offset str_missionRating1
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
@@ -5606,26 +5606,26 @@ LAB_1000_2cc2:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call drawString
     add SP,0ah
-    mov AX,1cf1h
+    mov AX,offset str_dot2
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
-    push word ptr [59c0h]
-    push word ptr [59beh]
+    push word ptr [_var_220]
+    push word ptr [_var_219]
     call my_ltoa
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -5635,12 +5635,12 @@ LAB_1000_2cc2:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call drawString
     add SP,0ah
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 30h],0h
     jz LAB_1000_2dc9
     mov AX,57h
@@ -5649,7 +5649,7 @@ LAB_1000_2cc2:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,1cf3h
+    mov AX,offset str_trainingScore
     push AX
     push word ptr [BP + 8h]
     call drawString
@@ -5660,22 +5660,22 @@ LAB_1000_2cc2:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,1d03h
+    mov AX,offset str_notRecorded
     push AX
     push word ptr [BP + 8h]
     call drawString
     add SP,0ah
     jmp LAB_1000_2e53
 LAB_1000_2dc9:
-    mov AX,1d12h
+    mov AX,offset str_dot3
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    mov AX,1d14h
+    mov AX,offset str_careerTotal
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -5685,31 +5685,31 @@ LAB_1000_2dc9:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call drawString
     add SP,0ah
-    mov AX,1d21h
+    mov AX,offset str_dot4
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     mov AX,word ptr ES:[BX + 32h]
     mov DX,word ptr ES:[BX + 34h]
-    add AX,word ptr [59beh]
-    adc DX,word ptr [59c0h]
+    add AX,word ptr [_var_219]
+    adc DX,word ptr [_var_220]
     push DX
     push AX
     call my_ltoa
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -5719,7 +5719,7 @@ LAB_1000_2dc9:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call drawString
@@ -5727,9 +5727,9 @@ LAB_1000_2dc9:
 LAB_1000_2e53:
     mov BX,word ptr [BP + 8h]
     mov word ptr [BX + 4h],0dh
-    mov AX,1d23h
+    mov AX,offset str_missionSummary
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
@@ -5739,16 +5739,16 @@ LAB_1000_2e53:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call drawString
     add SP,0ah
     mov BX,word ptr [BP + 8h]
     mov word ptr [BX + 4h],0h
-    mov AX,1d33h
+    mov AX,offset str_priSecTargets
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
@@ -5756,15 +5756,15 @@ LAB_1000_2e53:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call actualDrawString
     add SP,8h
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
-    mov AX,[5600h]
-    add AX,word ptr [59c2h]
+    mov AX,word ptr [_var_215]
+    add AX,word ptr [_var_221]
     push AX
     call my_itoa
     add SP,4h
@@ -5772,14 +5772,14 @@ LAB_1000_2e53:
     push AX
     mov AX,131h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call actualDrawString
     add SP,8h
-    mov AX,1d43h
+    mov AX,offset str_otherTargets
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
@@ -5787,17 +5787,17 @@ LAB_1000_2e53:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call actualDrawString
     add SP,8h
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
-    mov AX,[5508h]
-    add AX,word ptr [5abah]
-    sub AX,word ptr [5600h]
-    sub AX,word ptr [59c2h]
+    mov AX,word ptr [_var_199]
+    add AX,word ptr [_var_224]
+    sub AX,word ptr [_var_215]
+    sub AX,word ptr [_var_221]
     push AX
     call my_itoa
     add SP,4h
@@ -5805,14 +5805,14 @@ LAB_1000_2e53:
     push AX
     mov AX,131h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call actualDrawString
     add SP,8h
-    mov AX,1d51h
+    mov AX,offset str_enemyPlanes
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
@@ -5820,28 +5820,28 @@ LAB_1000_2e53:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call actualDrawString
     add SP,8h
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
-    push word ptr [4248h]
+    push word ptr [_var_181]
     call my_itoa
     add SP,4h
     mov AX,2eh
     push AX
     mov AX,131h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call actualDrawString
     add SP,8h
-    mov AX,1d5eh
+    mov AX,offset str_friendlyTargets
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
@@ -5849,16 +5849,16 @@ LAB_1000_2e53:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call actualDrawString
     add SP,8h
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
-    mov AX,[550ah]
-    add AX,word ptr [5abeh]
-    add AX,word ptr [424ah]
+    mov AX,word ptr [_var_200]
+    add AX,word ptr [_var_225]
+    add AX,word ptr [_var_182]
     push AX
     call my_itoa
     add SP,4h
@@ -5866,12 +5866,12 @@ LAB_1000_2e53:
     push AX
     mov AX,131h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call actualDrawString
     add SP,8h
-    mov byte ptr [55eeh],1h
+    mov byte ptr [_var_207],1h
 LAB_1000_2fbf:
     mov AX,32h
     mul word ptr [BP + 6h]
@@ -5881,19 +5881,19 @@ LAB_1000_2fbf:
     jnz LAB_1000_2fd4
     jmp LAB_1000_35db
 LAB_1000_2fd4:
-    cmp byte ptr [55eeh],1h
+    cmp byte ptr [_var_207],1h
     jz LAB_1000_2fde
     jmp LAB_1000_30cc
 LAB_1000_2fde:
-    mov byte ptr [55eeh],0h
-    mov byte ptr [55feh],0h
-    push word ptr [2082h]
+    mov byte ptr [_var_207],0h
+    mov byte ptr [_var_214],0h
+    push word ptr [_var_102]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     sub AX,AX
-    mov [55fch],AX
-    mov [55f2h],AX
-    mov [4a28h],AX
+    mov word ptr [_var_213],AX
+    mov word ptr [_var_209],AX
+    mov word ptr [_var_190],AX
     mov AX,95h
     push AX
     mov AX,13fh
@@ -5909,17 +5909,17 @@ LAB_1000_2fde:
     push AX
     call routine_63
     add SP,2h
-    mov [59beh],AX
-    mov word ptr [59c0h],DX
-    mov AX,1d6fh
+    mov word ptr [_var_219],AX
+    mov word ptr [_var_220],DX
+    mov AX,offset str_dot5
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    mov AX,1d71h
+    mov AX,offset str_overall2
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -5929,14 +5929,14 @@ LAB_1000_2fde:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call drawString
     add SP,0ah
-    mov AX,1d79h
+    mov AX,offset str_missionRating2
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
@@ -5946,26 +5946,26 @@ LAB_1000_2fde:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call drawString
     add SP,0ah
-    mov AX,1d88h
+    mov AX,offset str_dot6
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
-    push word ptr [59c0h]
-    push word ptr [59beh]
+    push word ptr [_var_220]
+    push word ptr [_var_219]
     call my_ltoa
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -5975,7 +5975,7 @@ LAB_1000_2fde:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call drawString
@@ -5994,9 +5994,9 @@ LAB_1000_30cc:
     add SP,0ah
     mov BX,word ptr [BP + 8h]
     mov word ptr [BX + 4h],0dh
-    mov AX,1d8ah
+    mov AX,offset str_missionEvent
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
@@ -6006,20 +6006,20 @@ LAB_1000_30cc:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call drawString
     add SP,0ah
-    mov AX,1d98h
+    mov AX,offset str_time
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -6028,7 +6028,7 @@ LAB_1000_30cc:
     call routine_106
     add SP,4h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6036,12 +6036,12 @@ LAB_1000_30cc:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call actualDrawString
     add SP,8h
-    mov AX,[4a28h]
+    mov AX,word ptr [_var_190]
     mov CX,AX
     shl AX,1h
     add AX,CX
@@ -6064,13 +6064,13 @@ caseD_1_6128:
     mov BX,SI
     shl BX,1h
     push word ptr [BX + 5608h]
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    mov AX,1da0h
+    mov AX,offset str_destroyed4
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6081,13 +6081,13 @@ caseD_1_6128:
     and BX,7fh
     shl BX,1h
     push word ptr [BX + 5608h]
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
-    mov AX,1da2h
+    mov AX,offset str_destroyed1
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6100,13 +6100,13 @@ LAB_1000_31da:
     and BX,7fh
     shl BX,1h
     push word ptr [BX + 5608h]
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    mov AX,1dadh
+    mov AX,offset str_destroyed2
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6118,13 +6118,13 @@ caseD_3_343d:
     shl AX,CL
     add AX,198h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    mov AX,1db8h
+    mov AX,offset str_shotDown2
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6133,13 +6133,13 @@ caseD_3_343d:
     shl AX,CL
     add AX,19fh
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
-    mov AX,1dbah
+    mov AX,offset str_shotDown
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6148,13 +6148,13 @@ caseD_2_343d:
     mov BX,word ptr [BP + -20h]
     shl BX,1h
     push word ptr [BX + 5608h]
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    mov AX,1dc5h
+    mov AX,offset str_destroyed3
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6169,13 +6169,13 @@ caseD_a_343d:
     mov BX,SI
     shl BX,1h
     push word ptr [BX + 5608h]
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    mov AX,1dd0h
+    mov AX,offset str_rearmed3
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6186,13 +6186,13 @@ caseD_a_343d:
     and BX,7fh
     shl BX,1h
     push word ptr [BX + 5608h]
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
-    mov AX,1dd2h
+    mov AX,offset str_rearmed1
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6205,22 +6205,22 @@ LAB_1000_32d3:
     and BX,7fh
     shl BX,1h
     push word ptr [BX + 5608h]
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    mov AX,1de6h
+    mov AX,offset str_rearmed2
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
 LAB_1000_32ff:
     jmp caseD_4_343d
 caseD_5_343d:
-    mov AX,1dfah
+    mov AX,offset str_hitBy
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
@@ -6228,27 +6228,27 @@ caseD_5_343d:
     mul word ptr [BP + -20h]
     add AX,3f8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
-    mov AX,1e02h
+    mov AX,offset str_missile
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
     jmp caseD_4_343d
 caseD_8_343d:
-    cmp word ptr [4a28h],0h
+    cmp word ptr [_var_190],0h
     jnz LAB_1000_338f
-    mov AX,1e0bh
+    mov AX,offset str_takeoffPoint
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    mov BX,word ptr [4804h]
+    mov BX,word ptr [dat_4804]
     mov CL,4h
     shl BX,CL
     mov SI,word ptr [BX + 424eh]
@@ -6257,82 +6257,82 @@ caseD_8_343d:
     mov BX,SI
     shl BX,1h
     push word ptr [BX + 5608h]
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
     jmp LAB_1000_338c
 LAB_1000_336e:
-    mov BX,word ptr [4804h]
+    mov BX,word ptr [dat_4804]
     mov CL,4h
     shl BX,CL
     mov BL,byte ptr [BX + 425ch]
     sub BH,BH
     shl BX,1h
     push word ptr [BX + 5608h]
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
 LAB_1000_338c:
     jmp LAB_1000_342e
 LAB_1000_338f:
-    mov AX,1e1ah
+    mov AX,offset str_missionEnd
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     mov AX,word ptr ES:[BX + 26h]
     jmp LAB_1000_341d
 LAB_1000_33a7:
-    mov AX,1e28h
+    mov AX,offset str_crashed
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
     jmp LAB_1000_342e
 LAB_1000_33b7:
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 28h],0h
     jnz LAB_1000_33d9
-    cmp word ptr [550ch],0h
+    cmp word ptr [_var_201],0h
     jz LAB_1000_33d9
-    mov AX,1e30h
+    mov AX,offset str_goodBailout
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
     jmp LAB_1000_3409
 LAB_1000_33d9:
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 28h],0h
     jnz LAB_1000_33fb
-    cmp word ptr [550ch],0h
+    cmp word ptr [_var_201],0h
     jnz LAB_1000_33fb
-    mov AX,1e3dh
+    mov AX,offset str_captured
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
     jmp LAB_1000_3409
 LAB_1000_33fb:
-    mov AX,1e46h
+    mov AX,offset str_bailedDied
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
 LAB_1000_3409:
     jmp LAB_1000_342e
 LAB_1000_340b:
-    mov AX,1e54h
+    mov AX,offset str_goodLanding
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6386,21 +6386,21 @@ caseD_4_6450:
     push AX
     mov AX,50h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call routine_130
     add SP,0ch
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
     shl BX,1h
     test byte ptr [BX + 4f06h],80h
     jz LAB_1000_34b1
-    mov AX,1e61h
+    mov AX,offset str_primaryObj
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
@@ -6410,22 +6410,22 @@ caseD_4_6450:
     push word ptr [BX + 0ah]
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push BX
     call drawString
     add SP,0ah
 LAB_1000_34b1:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
     shl BX,1h
     test byte ptr [BX + 4f06h],40h
     jz LAB_1000_34eb
-    mov AX,1e74h
+    mov AX,offset str_secndryObj
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
@@ -6435,26 +6435,26 @@ LAB_1000_34b1:
     push word ptr [BX + 0ah]
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push BX
     call drawString
     add SP,0ah
 LAB_1000_34eb:
-    push word ptr [4a28h]
+    push word ptr [_var_190]
     call routine_63
     add SP,2h
-    mov [59beh],AX
-    mov word ptr [59c0h],DX
-    mov AX,1e87h
+    mov word ptr [_var_219],AX
+    mov word ptr [_var_220],DX
+    mov AX,offset str_cumulative2
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    mov AX,1e89h
+    mov AX,offset str_cumulative
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6464,14 +6464,14 @@ LAB_1000_34eb:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call drawString
     add SP,0ah
-    mov AX,1e94h
+    mov AX,offset str_missionRating3
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
@@ -6481,26 +6481,26 @@ LAB_1000_34eb:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call drawString
     add SP,0ah
-    mov AX,1ea3h
+    mov AX,offset str_pressSelect
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
-    push word ptr [59c0h]
-    push word ptr [59beh]
+    push word ptr [_var_220]
+    push word ptr [_var_219]
     call my_ltoa
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6510,7 +6510,7 @@ LAB_1000_34eb:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call drawString
@@ -6518,13 +6518,13 @@ LAB_1000_34eb:
     call routine_131
     lea AX,[BP + -6h]
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
-    mov AX,1ea5h
+    mov AX,offset str_pressNext
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6536,7 +6536,7 @@ LAB_1000_34eb:
     push AX
     mov AX,50h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
     call routine_130
@@ -6572,9 +6572,9 @@ caseD_0_6634:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [20c2h]
+    mov BX,word ptr [dat_20C2]
     mov word ptr [BX + 8h],AX
     mov BX,word ptr [BP + 4h]
     mov AX,BX
@@ -6586,11 +6586,11 @@ caseD_0_6634:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [20c2h]
+    mov BX,word ptr [dat_20C2]
     mov word ptr [BX + 0ah],AX
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -6601,14 +6601,14 @@ caseD_0_6634:
     shl BX,CL
     test byte ptr [BX + 4256h],8h
     jz LAB_1000_366c
-    mov BX,word ptr [20c2h]
+    mov BX,word ptr [dat_20C2]
     mov word ptr [BX + 2h],11eh
     jmp LAB_1000_3675
 LAB_1000_366c:
-    mov BX,word ptr [20c2h]
+    mov BX,word ptr [dat_20C2]
     mov word ptr [BX + 2h],12dh
 LAB_1000_3675:
-    push word ptr [20c2h]
+    push word ptr [dat_20C2]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp caseD_3_3840
@@ -6623,9 +6623,9 @@ caseD_2_3840:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [2102h]
+    mov BX,word ptr [dat_2102]
     mov word ptr [BX + 8h],AX
     mov BX,word ptr [BP + 4h]
     mov AX,BX
@@ -6637,11 +6637,11 @@ caseD_2_3840:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [2102h]
+    mov BX,word ptr [dat_2102]
     mov word ptr [BX + 0ah],AX
-    push word ptr [2102h]
+    push word ptr [dat_2102]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp caseD_3_3840
@@ -6656,9 +6656,9 @@ caseD_1_3840:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [2142h]
+    mov BX,word ptr [dat_2142]
     mov word ptr [BX + 8h],AX
     mov BX,word ptr [BP + 4h]
     mov AX,BX
@@ -6670,11 +6670,11 @@ caseD_1_3840:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [2142h]
+    mov BX,word ptr [dat_2142]
     mov word ptr [BX + 0ah],AX
-    push word ptr [2142h]
+    push word ptr [dat_2142]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp caseD_3_3840
@@ -6689,8 +6689,8 @@ caseD_4_3840:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
-    mov BX,word ptr [21c2h]
+    add AX,word ptr [_var_93]
+    mov BX,word ptr [dat_21C2]
     mov word ptr [BX + 8h],AX
     mov BX,word ptr [BP + 4h]
     mov AX,BX
@@ -6702,10 +6702,10 @@ caseD_4_3840:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
-    mov BX,word ptr [21c2h]
+    add AX,word ptr [_var_94]
+    mov BX,word ptr [dat_21C2]
     mov word ptr [BX + 0ah],AX
-    push word ptr [21c2h]
+    push word ptr [dat_21C2]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp caseD_3_3840
@@ -6720,9 +6720,9 @@ caseD_7_3840:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [2102h]
+    mov BX,word ptr [dat_2102]
     mov word ptr [BX + 8h],AX
     mov BX,word ptr [BP + 4h]
     mov AX,BX
@@ -6734,11 +6734,11 @@ caseD_7_3840:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [2102h]
+    mov BX,word ptr [dat_2102]
     mov word ptr [BX + 0ah],AX
-    push word ptr [2102h]
+    push word ptr [dat_2102]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp caseD_3_3840
@@ -6753,8 +6753,8 @@ caseD_9_3840:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
-    mov BX,word ptr [21c2h]
+    add AX,word ptr [_var_93]
+    mov BX,word ptr [dat_21C2]
     mov word ptr [BX + 8h],AX
     mov BX,word ptr [BP + 4h]
     mov AX,BX
@@ -6766,10 +6766,10 @@ caseD_9_3840:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
-    mov BX,word ptr [21c2h]
+    add AX,word ptr [_var_94]
+    mov BX,word ptr [dat_21C2]
     mov word ptr [BX + 0ah],AX
-    push word ptr [21c2h]
+    push word ptr [dat_21C2]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp caseD_3_3840
@@ -6812,14 +6812,14 @@ routine_65 proc near
     mov BP,SP
     sub SP,18h
     push SI
-    cmp byte ptr [55feh],1h
+    cmp byte ptr [_var_214],1h
     jnz LAB_1000_389a
     mov AX,28h
     push AX
     mov AX,30h
     push AX
-    push word ptr [5cc4h]
-    push word ptr [5cc2h]
+    push word ptr [_var_228]
+    push word ptr [_var_227]
     sub AX,AX
     push AX
     mov AX,96h
@@ -6830,7 +6830,7 @@ routine_65 proc near
     push AX
     call far ptr gfx_jump_2a
     add SP,10h
-    mov byte ptr [55feh],0h
+    mov byte ptr [_var_214],0h
 LAB_1000_389a:
     mov AX,45h
     push AX
@@ -6847,14 +6847,14 @@ LAB_1000_389a:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,1ecbh
+    mov AX,offset str_inFlight
     push AX
     push word ptr [BP + 4h]
     call actualDrawString
     add SP,8h
 LAB_1000_38c8:
-    inc word ptr [4a28h]
-    mov BX,word ptr [4a28h]
+    inc word ptr [_var_190]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -6884,15 +6884,15 @@ LAB_1000_38f7:
     push word ptr [BP + 4h]
     call clearRect
     add SP,0ah
-    mov AX,1ed6h
+    mov AX,offset str_timeLabel
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
     lea AX,[BP + -16h]
     push AX
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -6901,7 +6901,7 @@ LAB_1000_38f7:
     call routine_106
     add SP,4h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -6909,7 +6909,7 @@ LAB_1000_38f7:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 4h]
     call actualDrawString
@@ -6918,11 +6918,11 @@ LAB_1000_38f7:
     push AX
     call far ptr gfx_jump_21
     add SP,2h
-    cmp word ptr [55f2h],0h
+    cmp word ptr [_var_209],0h
     jnz LAB_1000_39b9
-    cmp word ptr [55fch],0h
+    cmp word ptr [_var_213],0h
     jnz LAB_1000_39b9
-    mov AX,[4a28h]
+    mov AX,word ptr [_var_190]
     mov CX,AX
     shl AX,1h
     add AX,CX
@@ -6934,15 +6934,15 @@ LAB_1000_38f7:
     mov AL,byte ptr [SI + 4f04h]
     cbw
     push AX
-    mov AL,[4f05h]
+    mov AL,byte ptr [_var_195]
     cbw
     push AX
-    mov AL,[4f04h]
+    mov AL,byte ptr [_var_194]
     cbw
     push AX
     call routine_105
     add SP,8h
-    mov AX,[4a28h]
+    mov AX,word ptr [_var_190]
     mov CX,AX
     shl AX,1h
     add AX,CX
@@ -6950,13 +6950,13 @@ LAB_1000_38f7:
     mov SI,AX
     mov AL,byte ptr [SI + 4f04h]
     cbw
-    mov [55f2h],AX
+    mov word ptr [_var_209],AX
     mov AL,byte ptr [SI + 4f05h]
     cbw
-    mov [55fch],AX
+    mov word ptr [_var_213],AX
     jmp LAB_1000_39f5
 LAB_1000_39b9:
-    mov AX,[4a28h]
+    mov AX,word ptr [_var_190]
     mov CX,AX
     shl AX,1h
     add AX,CX
@@ -6964,41 +6964,41 @@ LAB_1000_39b9:
     mov SI,AX
     mov AL,byte ptr [SI + 4f04h]
     cbw
-    mov [55f0h],AX
+    mov word ptr [_var_208],AX
     mov AL,byte ptr [SI + 4f05h]
     cbw
-    mov [55f8h],AX
-    push word ptr [55fch]
-    push word ptr [55f2h]
+    mov word ptr [_var_211],AX
+    push word ptr [_var_213]
+    push word ptr [_var_209]
     push AX
-    push word ptr [55f0h]
+    push word ptr [_var_208]
     call routine_105
     add SP,8h
-    mov AX,[55f0h]
-    mov [55f2h],AX
-    mov AX,[55f8h]
-    mov [55fch],AX
+    mov AX,word ptr [_var_208]
+    mov word ptr [_var_209],AX
+    mov AX,word ptr [_var_211]
+    mov word ptr [_var_213],AX
 LAB_1000_39f5:
-    push word ptr [4a28h]
+    push word ptr [_var_190]
     call routine_63
     add SP,2h
-    mov [59beh],AX
-    mov word ptr [59c0h],DX
-    mov AX,1edfh
+    mov word ptr [_var_219],AX
+    mov word ptr [_var_220],DX
+    mov AX,offset str_timeZeros
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcpy
     add SP,4h
     lea AX,[BP + -16h]
     push AX
-    push word ptr [59c0h]
-    push word ptr [59beh]
+    push word ptr [_var_220]
+    push word ptr [_var_219]
     call my_ltoa
     add SP,6h
     lea AX,[BP + -16h]
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     call mystrcat
     add SP,4h
@@ -7019,37 +7019,37 @@ LAB_1000_39f5:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,4824h
+    mov AX,offset dat_4824
     push AX
     push word ptr [BP + 4h]
     call drawString
     add SP,0ah
-    mov byte ptr [1a1ah],0h
+    mov byte ptr [_var_81],0h
 LAB_1000_3a6b:
-    cmp byte ptr [1a1ah],5h
+    cmp byte ptr [_var_81],5h
     ja LAB_1000_3a74
     jmp LAB_1000_3a6b
 LAB_1000_3a74:
     jmp LAB_1000_38c8
 LAB_1000_3a77:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
     shl BX,1h
     test byte ptr [BX + 4f06h],3fh
     jnz LAB_1000_3a8e
-    dec word ptr [4a28h]
+    dec word ptr [_var_190]
 LAB_1000_3a8e:
     sub AX,AX
     push AX
     call far ptr gfx_jump_21
     add SP,2h
-    cmp word ptr [55f2h],0h
+    cmp word ptr [_var_209],0h
     jnz LAB_1000_3aef
-    cmp word ptr [55fch],0h
+    cmp word ptr [_var_213],0h
     jnz LAB_1000_3aef
-    mov AX,[4a28h]
+    mov AX,word ptr [_var_190]
     mov CX,AX
     shl AX,1h
     add AX,CX
@@ -7061,15 +7061,15 @@ LAB_1000_3a8e:
     mov AL,byte ptr [SI + 4f04h]
     cbw
     push AX
-    mov AL,[4f05h]
+    mov AL,byte ptr [_var_195]
     cbw
     push AX
-    mov AL,[4f04h]
+    mov AL,byte ptr [_var_194]
     cbw
     push AX
     call routine_105
     add SP,8h
-    mov AX,[4a28h]
+    mov AX,word ptr [_var_190]
     mov CX,AX
     shl AX,1h
     add AX,CX
@@ -7077,13 +7077,13 @@ LAB_1000_3a8e:
     mov SI,AX
     mov AL,byte ptr [SI + 4f04h]
     cbw
-    mov [55f2h],AX
+    mov word ptr [_var_209],AX
     mov AL,byte ptr [SI + 4f05h]
     cbw
-    mov [55fch],AX
+    mov word ptr [_var_213],AX
     jmp LAB_1000_3b2b
 LAB_1000_3aef:
-    mov AX,[4a28h]
+    mov AX,word ptr [_var_190]
     mov CX,AX
     shl AX,1h
     add AX,CX
@@ -7091,20 +7091,20 @@ LAB_1000_3aef:
     mov SI,AX
     mov AL,byte ptr [SI + 4f04h]
     cbw
-    mov [55f0h],AX
+    mov word ptr [_var_208],AX
     mov AL,byte ptr [SI + 4f05h]
     cbw
-    mov [55f8h],AX
-    push word ptr [55fch]
-    push word ptr [55f2h]
+    mov word ptr [_var_211],AX
+    push word ptr [_var_213]
+    push word ptr [_var_209]
     push AX
-    push word ptr [55f0h]
+    push word ptr [_var_208]
     call routine_105
     add SP,8h
-    mov AX,[55f0h]
-    mov [55f2h],AX
-    mov AX,[55f8h]
-    mov [55fch],AX
+    mov AX,word ptr [_var_208]
+    mov word ptr [_var_209],AX
+    mov AX,word ptr [_var_211]
+    mov word ptr [_var_213],AX
 LAB_1000_3b2b:
     pop SI
     mov SP,BP
@@ -7139,18 +7139,18 @@ LAB_1000_3b3c:
     sub AX,AX
     push AX
     push AX
-    mov AL,[4f05h]
+    mov AL,byte ptr [_var_195]
     cbw
     push AX
-    mov AL,[4f04h]
+    mov AL,byte ptr [_var_194]
     cbw
     push AX
     call routine_147
     add SP,8h
-    mov AL,[4f04h]
+    mov AL,byte ptr [_var_194]
     cbw
     mov word ptr [BP + -6h],AX
-    mov AL,[4f05h]
+    mov AL,byte ptr [_var_195]
     cbw
     mov word ptr [BP + -0ah],AX
     jmp LAB_1000_3bc7
@@ -7222,35 +7222,35 @@ routine_106 proc near
     push BP
     mov BP,SP
     sub SP,8h
-    mov AX,[4808h]
-    add AX,word ptr [481ah]
+    mov AX,word ptr [_var_186]
+    add AX,word ptr [_var_188]
     mov word ptr [BP + -4h],AX
     mov AL,byte ptr [BP + -4h]
     and AL,3h
     cmp AL,1h
     sbb CX,CX
     neg CX
-    mov word ptr [71ch],CX
-    cmp word ptr [4800h],1h
+    mov word ptr [_var_24],CX
+    cmp word ptr [_var_185],1h
     jz LAB_1000_3c46
-    cmp word ptr [4812h],1h
+    cmp word ptr [_var_187],1h
     jnz LAB_1000_3c4c
 LAB_1000_3c46:
-    mov word ptr [71ch],0h
+    mov word ptr [_var_24],0h
 LAB_1000_3c4c:
-    cmp word ptr [4800h],4h
+    cmp word ptr [_var_185],4h
     jz LAB_1000_3c5a
-    cmp word ptr [4812h],4h
+    cmp word ptr [_var_187],4h
     jnz LAB_1000_3c60
 LAB_1000_3c5a:
-    mov word ptr [71ch],1h
+    mov word ptr [_var_24],1h
 LAB_1000_3c60:
     mov AX,word ptr [BP + -4h]
     db 25h, 0Fh, 00h  ; and AX,0Fh (force word-immediate)
     mov CH,AL
     sub CL,CL
     add word ptr [BP + param_1],CX
-    mov AX,1ee1h
+    mov AX,offset str_timeFormat
     push AX
     push word ptr [BP + 6h]
     call mystrcpy
@@ -7261,7 +7261,7 @@ LAB_1000_3c60:
     div CX
     mov word ptr [BP + -2h],AX
     mov BX,word ptr [BP + 6h]
-    mov AL,[71ch]
+    mov AL,byte ptr [_var_24]
     inc AL
     add byte ptr [BX],AL
     mov AX,word ptr [BP + -2h]
@@ -7362,16 +7362,16 @@ routine_147 proc near
     mov word ptr [BP + -4h],AX
     cmp word ptr [BP + 8h],-1h
     jz LAB_1000_3d85
-    mov AX,[1caeh]
+    mov AX,word ptr [_var_93]
     cmp word ptr [BP + -2h],AX
     jc LAB_1000_3d85
-    mov AX,[1cb2h]
+    mov AX,word ptr [_var_95]
     cmp word ptr [BP + -2h],AX
     jnc LAB_1000_3d85
-    mov AX,[1cb0h]
+    mov AX,word ptr [_var_94]
     cmp word ptr [BP + -4h],AX
     jc LAB_1000_3d85
-    mov AX,[1cb4h]
+    mov AX,word ptr [_var_96]
     cmp word ptr [BP + -4h],AX
     jnc LAB_1000_3d85
     push word ptr [BP + 8h]
@@ -7390,10 +7390,10 @@ routine_105 proc near
     mov BP,SP
     mov AX,1h
     push AX
-    push word ptr [1cb4h]
-    push word ptr [1cb0h]
-    push word ptr [1cb2h]
-    push word ptr [1caeh]
+    push word ptr [_var_96]
+    push word ptr [_var_94]
+    push word ptr [_var_95]
+    push word ptr [_var_93]
     push word ptr [BP + 0ah]
     call routine_136
     add SP,2h
@@ -7422,10 +7422,10 @@ routine_160 proc near
     mov BP,SP
     mov AX,1h
     push AX
-    push word ptr [1cb4h]
-    push word ptr [1cb0h]
-    push word ptr [1cb2h]
-    push word ptr [1caeh]
+    push word ptr [_var_96]
+    push word ptr [_var_94]
+    push word ptr [_var_95]
+    push word ptr [_var_93]
     push word ptr [BP + 0ah]
     push word ptr [BP + 8h]
     push word ptr [BP + 6h]
@@ -7456,33 +7456,33 @@ routine_138 proc near
     add SP,2h
     mov AX,word ptr [BP + -4h]
     dec AX
-    mov [15c5h],AX
+    mov word ptr [_var_46],AX
     mov AX,word ptr [BP + -2h]
     dec AX
-    mov [15c7h],AX
+    mov word ptr [_var_47],AX
     push AX
     call far ptr gfx_jump_40
     add SP,2h
-    push word ptr [15c5h]
+    push word ptr [_var_46]
     call far ptr gfx_jump_41
     add SP,2h
     mov AX,word ptr [BP + 4h]
-    mov [123bh],AX
+    mov word ptr [_var_31],AX
     mov AX,word ptr [BP + 6h]
-    mov [123fh],AX
+    mov word ptr [_var_33],AX
     mov AX,word ptr [BP + 8h]
-    mov [123dh],AX
+    mov word ptr [_var_32],AX
     mov AX,word ptr [BP + 0ah]
-    mov [1241h],AX
+    mov word ptr [_var_34],AX
     call routine_154
     call far ptr gfx_jump_23
-    mov word ptr [15c5h],13fh
-    mov word ptr [15c7h],0c7h
+    mov word ptr [_var_46],13fh
+    mov word ptr [_var_47],0c7h
     mov AX,0c7h
     push AX
     call far ptr gfx_jump_40
     add SP,2h
-    push word ptr [15c5h]
+    push word ptr [_var_46]
     call far ptr gfx_jump_41
     add SP,2h
     sub AX,AX
@@ -7516,18 +7516,18 @@ routine_63 proc near
     push SI
     sub AX,AX
     mov word ptr [BP + -8h],AX
-    mov [59c2h],AX
-    mov [5600h],AX
-    mov [5abeh],AX
-    mov [5abah],AX
-    mov [550ah],AX
-    mov [424ah],AX
-    mov [5508h],AX
-    mov [4248h],AX
+    mov word ptr [_var_221],AX
+    mov word ptr [_var_215],AX
+    mov word ptr [_var_225],AX
+    mov word ptr [_var_224],AX
+    mov word ptr [_var_200],AX
+    mov word ptr [_var_182],AX
+    mov word ptr [_var_199],AX
+    mov word ptr [_var_181],AX
     mov word ptr [BP + -10h],1h
     mov word ptr [BP + -0ah],AX
     mov word ptr [BP + -0ch],AX
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     mov AX,word ptr ES:[BX + 40h]
     mov word ptr [BP + -2h],AX
     db 3Dh, 0Fh, 00h  ; cmp AX,0Fh (force word-immediate)
@@ -7574,8 +7574,8 @@ LAB_1000_3f4e:
     shl BX,1h
     test byte ptr [BX + 4f06h],80h
     jz LAB_1000_3f6c
-    mov word ptr [5600h],1h
-    inc word ptr [5abah]
+    mov word ptr [_var_215],1h
+    inc word ptr [_var_224]
     jmp LAB_1000_3fb6
 LAB_1000_3f6c:
     mov BX,word ptr [BP + -6h]
@@ -7585,15 +7585,15 @@ LAB_1000_3f6c:
     shl BX,1h
     test byte ptr [BX + 4f06h],40h
     jz LAB_1000_3f8a
-    mov word ptr [59c2h],1h
-    inc word ptr [5abah]
+    mov word ptr [_var_221],1h
+    inc word ptr [_var_224]
     jmp LAB_1000_3fb6
 LAB_1000_3f8a:
     mov BX,word ptr [BP + -0eh]
     and BX,7fh
     test byte ptr [BX + 5578h],40h
     jz LAB_1000_3f9d
-    inc word ptr [5abeh]
+    inc word ptr [_var_225]
     jmp LAB_1000_3fb6
 LAB_1000_3f9d:
     mov BX,word ptr [BP + -0eh]
@@ -7601,10 +7601,10 @@ LAB_1000_3f9d:
     shl BX,CL
     test word ptr [BX + 4256h],500h
     jnz LAB_1000_3fb2
-    inc word ptr [5abah]
+    inc word ptr [_var_224]
     jmp LAB_1000_3fb6
 LAB_1000_3fb2:
-    inc word ptr [5abeh]
+    inc word ptr [_var_225]
 LAB_1000_3fb6:
     jmp LAB_1000_40ce
 LAB_1000_3fb9:
@@ -7615,8 +7615,8 @@ LAB_1000_3fb9:
     shl BX,1h
     test byte ptr [BX + 4f06h],80h
     jz LAB_1000_3fd7
-    mov word ptr [5600h],1h
-    inc word ptr [4248h]
+    mov word ptr [_var_215],1h
+    inc word ptr [_var_181]
     jmp LAB_1000_4010
 LAB_1000_3fd7:
     mov BX,word ptr [BP + -6h]
@@ -7626,8 +7626,8 @@ LAB_1000_3fd7:
     shl BX,1h
     test byte ptr [BX + 4f06h],40h
     jz LAB_1000_3ff5
-    mov word ptr [59c2h],1h
-    inc word ptr [4248h]
+    mov word ptr [_var_221],1h
+    inc word ptr [_var_181]
     jmp LAB_1000_4010
 LAB_1000_3ff5:
     mov BX,word ptr [BP + -0eh]
@@ -7636,10 +7636,10 @@ LAB_1000_3ff5:
     shl BX,CL
     cmp word ptr [BX + 1b0h],-1h
     jnz LAB_1000_400c
-    inc word ptr [424ah]
+    inc word ptr [_var_182]
     jmp LAB_1000_4010
 LAB_1000_400c:
-    inc word ptr [4248h]
+    inc word ptr [_var_181]
 LAB_1000_4010:
     jmp LAB_1000_40ce
 LAB_1000_4013:
@@ -7650,8 +7650,8 @@ LAB_1000_4013:
     shl BX,1h
     test byte ptr [BX + 4f06h],80h
     jz LAB_1000_4031
-    mov word ptr [5600h],1h
-    inc word ptr [5508h]
+    mov word ptr [_var_215],1h
+    inc word ptr [_var_199]
     jmp LAB_1000_4096
 LAB_1000_4031:
     mov BX,word ptr [BP + -6h]
@@ -7661,15 +7661,15 @@ LAB_1000_4031:
     shl BX,1h
     test byte ptr [BX + 4f06h],40h
     jz LAB_1000_404f
-    mov word ptr [59c2h],1h
-    inc word ptr [5508h]
+    mov word ptr [_var_221],1h
+    inc word ptr [_var_199]
     jmp LAB_1000_4096
 LAB_1000_404f:
     mov BX,word ptr [BP + -0eh]
     and BX,7fh
     test byte ptr [BX + 5578h],40h
     jz LAB_1000_4062
-    inc word ptr [550ah]
+    inc word ptr [_var_200]
     jmp LAB_1000_4096
 LAB_1000_4062:
     mov AX,word ptr [BP + -6h]
@@ -7688,10 +7688,10 @@ LAB_1000_4062:
     shr BX,CL
     test byte ptr [BX + DI + 4700h],3h
     jnz LAB_1000_4092
-    inc word ptr [5508h]
+    inc word ptr [_var_199]
     jmp LAB_1000_4096
 LAB_1000_4092:
-    inc word ptr [550ah]
+    inc word ptr [_var_200]
 LAB_1000_4096:
     jmp LAB_1000_40ce
 LAB_1000_4098:
@@ -7727,20 +7727,20 @@ LAB_1000_40ce:
     jmp LAB_1000_3f09
 LAB_1000_40d1:
     mov CX,19h
-    mov AX,[5abah]
-    mov DX,word ptr [5abeh]
+    mov AX,word ptr [_var_224]
+    mov DX,word ptr [_var_225]
     shl DX,1h
     sub AX,DX
     imul word ptr [BP + -2h]
     imul CX
     cwd
     mov CX,32h
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     mov BX,word ptr ES:[BX + 3eh]
     inc BX
     mov SI,AX
-    mov AX,[4248h]
-    mov DI,word ptr [424ah]
+    mov AX,word ptr [_var_181]
+    mov DI,word ptr [_var_182]
     shl DI,1h
     sub AX,DI
     mov DI,DX
@@ -7751,8 +7751,8 @@ LAB_1000_40d1:
     adc DX,DI
     mov CX,14h
     mov BX,AX
-    mov AX,[5508h]
-    mov SI,word ptr [550ah]
+    mov AX,word ptr [_var_199]
+    mov SI,word ptr [_var_200]
     shl SI,1h
     sub AX,SI
     mov SI,DX
@@ -7763,14 +7763,14 @@ LAB_1000_40d1:
     adc SI,DX
     mov CX,0c8h
     mov AX,word ptr [BP + -2h]
-    imul word ptr [5600h]
+    imul word ptr [_var_215]
     imul CX
     cwd
     add BX,AX
     adc SI,DX
     mov CX,64h
     mov AX,word ptr [BP + -2h]
-    imul word ptr [59c2h]
+    imul word ptr [_var_221]
     imul CX
     cwd
     add BX,AX
@@ -7799,7 +7799,7 @@ LAB_1000_40d1:
     mov word ptr [BP + -0ah],AX
     mov word ptr [BP + -0ch],AX
 LAB_1000_4179:
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     mov AX,word ptr ES:[BX + 26h]
     jmp LAB_1000_41b9
 LAB_1000_4183:
@@ -7855,14 +7855,14 @@ routine_131 proc near
     mov BP,SP
     sub SP,4h
     push SI
-    cmp byte ptr [55feh],1h
+    cmp byte ptr [_var_214],1h
     jnz LAB_1000_420c
     mov AX,28h
     push AX
     mov AX,30h
     push AX
-    push word ptr [5cc4h]
-    push word ptr [5cc2h]
+    push word ptr [_var_228]
+    push word ptr [_var_227]
     sub AX,AX
     push AX
     mov AX,96h
@@ -7873,9 +7873,9 @@ routine_131 proc near
     push AX
     call far ptr gfx_jump_2a
     add SP,10h
-    mov byte ptr [55feh],0h
+    mov byte ptr [_var_214],0h
 LAB_1000_420c:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -7885,7 +7885,7 @@ LAB_1000_420c:
     mov word ptr [BP + -4h],AX
     jmp LAB_1000_42d2
 caseD_1_42dd:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -7915,31 +7915,31 @@ caseD_5_42dd:
     mov word ptr [BP + -4h],3h
     jmp caseD_4_42dd
 caseD_8_42dd:
-    cmp word ptr [4a28h],0h
+    cmp word ptr [_var_190],0h
     jnz LAB_1000_4280
     mov word ptr [BP + -4h],8h
     jmp LAB_1000_42c7
 LAB_1000_4280:
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 26h],3h
     jnz LAB_1000_4297
-    mov byte ptr [55eeh],1h
+    mov byte ptr [_var_207],1h
     mov word ptr [BP + -4h],7h
     jmp LAB_1000_42c7
 LAB_1000_4297:
     cmp word ptr ES:[BX + 26h],1h
     jnz LAB_1000_42aa
-    mov byte ptr [55eeh],1h
+    mov byte ptr [_var_207],1h
     mov word ptr [BP + -4h],0eh
     jmp LAB_1000_42c7
 LAB_1000_42aa:
-    cmp word ptr [550ch],0h
+    cmp word ptr [_var_201],0h
     jnz LAB_1000_42bd
-    mov byte ptr [55eeh],1h
+    mov byte ptr [_var_207],1h
     mov word ptr [BP + -4h],0bh
     jmp LAB_1000_42c7
 LAB_1000_42bd:
-    mov byte ptr [55eeh],1h
+    mov byte ptr [_var_207],1h
     mov word ptr [BP + -4h],0dh
 LAB_1000_42c7:
     jmp caseD_4_42dd
@@ -7975,7 +7975,7 @@ caseD_9_42dd:
 caseD_b_8044:
 caseD_4_42dd:
 caseD_4_8045:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -7985,10 +7985,10 @@ caseD_4_8045:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 3Dh, 73h, 00h  ; cmp AX,73h (force word-immediate)
     jnc LAB_1000_4383
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -7998,10 +7998,10 @@ caseD_4_8045:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 3Dh, 59h, 00h  ; cmp AX,59h (force word-immediate)
     jnc LAB_1000_4383
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -8011,10 +8011,10 @@ caseD_4_8045:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 05h, 0Ah, 00h  ; add AX,0Ah (force word-immediate)
-    mov [5cc2h],AX
-    mov BX,word ptr [4a28h]
+    mov word ptr [_var_227],AX
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -8024,12 +8024,12 @@ caseD_4_8045:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 05h, 0Ah, 00h  ; add AX,0Ah (force word-immediate)
-    mov [5cc4h],AX
+    mov word ptr [_var_228],AX
     jmp LAB_1000_44d8
 LAB_1000_4383:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -8039,10 +8039,10 @@ LAB_1000_4383:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 3Dh, 73h, 00h  ; cmp AX,73h (force word-immediate)
     jc LAB_1000_440c
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -8052,10 +8052,10 @@ LAB_1000_4383:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 3Dh, 59h, 00h  ; cmp AX,59h (force word-immediate)
     jnc LAB_1000_440c
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -8065,10 +8065,10 @@ LAB_1000_4383:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 2Dh, 3Ah, 00h  ; sub AX,3Ah (force word-immediate)
-    mov [5cc2h],AX
-    mov BX,word ptr [4a28h]
+    mov word ptr [_var_227],AX
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -8078,12 +8078,12 @@ LAB_1000_4383:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 05h, 0Ah, 00h  ; add AX,0Ah (force word-immediate)
-    mov [5cc4h],AX
+    mov word ptr [_var_228],AX
     jmp LAB_1000_44d8
 LAB_1000_440c:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -8093,10 +8093,10 @@ LAB_1000_440c:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 3Dh, 73h, 00h  ; cmp AX,73h (force word-immediate)
     jc LAB_1000_4494
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -8106,10 +8106,10 @@ LAB_1000_440c:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 3Dh, 59h, 00h  ; cmp AX,59h (force word-immediate)
     jc LAB_1000_4494
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -8119,10 +8119,10 @@ LAB_1000_440c:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 2Dh, 3Ah, 00h  ; sub AX,3Ah (force word-immediate)
-    mov [5cc2h],AX
-    mov BX,word ptr [4a28h]
+    mov word ptr [_var_227],AX
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -8132,12 +8132,12 @@ LAB_1000_440c:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 2Dh, 28h, 00h  ; sub AX,28h (force word-immediate)
-    mov [5cc4h],AX
+    mov word ptr [_var_228],AX
     jmp LAB_1000_44d8
 LAB_1000_4494:
-    mov BX,word ptr [4a28h]
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -8147,10 +8147,10 @@ LAB_1000_4494:
     push AX
     call routine_137
     add SP,2h
-    add AX,word ptr [1caeh]
+    add AX,word ptr [_var_93]
     db 05h, 0Ah, 00h  ; add AX,0Ah (force word-immediate)
-    mov [5cc2h],AX
-    mov BX,word ptr [4a28h]
+    mov word ptr [_var_227],AX
+    mov BX,word ptr [_var_190]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -8160,9 +8160,9 @@ LAB_1000_4494:
     push AX
     call routine_136
     add SP,2h
-    add AX,word ptr [1cb0h]
+    add AX,word ptr [_var_94]
     db 2Dh, 28h, 00h  ; sub AX,28h (force word-immediate)
-    mov [5cc4h],AX
+    mov word ptr [_var_228],AX
 LAB_1000_44d8:
     mov AX,28h
     push AX
@@ -8174,8 +8174,8 @@ LAB_1000_44d8:
     push AX
     mov AX,1h
     push AX
-    push word ptr [5cc4h]
-    push word ptr [5cc2h]
+    push word ptr [_var_228]
+    push word ptr [_var_227]
     sub AX,AX
     push AX
     call far ptr gfx_jump_2a
@@ -8186,8 +8186,8 @@ LAB_1000_44d8:
     push AX
     mov AX,30h
     push AX
-    push word ptr [5cc4h]
-    push word ptr [5cc2h]
+    push word ptr [_var_228]
+    push word ptr [_var_227]
     sub AX,AX
     push AX
     push word ptr [SI + 1eeah]
@@ -8196,7 +8196,7 @@ LAB_1000_44d8:
     push AX
     call far ptr gfx_jump_2a
     add SP,10h
-    mov byte ptr [55feh],1h
+    mov byte ptr [_var_214],1h
     pop SI
     mov SP,BP
     pop BP
@@ -8225,7 +8225,7 @@ LAB_1000_4560:
     sub AX,AX
     push AX
     push AX
-    push word ptr [204ah]
+    push word ptr [_var_99]
     call clearRect
     add SP,0ah
     mov AX,13fh
@@ -8234,12 +8234,12 @@ LAB_1000_4560:
     push AX
     sub AX,AX
     push AX
-    mov AX,1f9ch
+    mov AX,offset str_insertScenario
     push AX
-    push word ptr [204ah]
+    push word ptr [_var_99]
     call drawString
     add SP,0ah
-    mov BX,word ptr [204ah]
+    mov BX,word ptr [_var_99]
     mov word ptr [BX + 0ch],4h
     mov AX,13fh
     push AX
@@ -8247,31 +8247,31 @@ LAB_1000_4560:
     push AX
     sub AX,AX
     push AX
-    mov AX,1fb8h
+    mov AX,offset str_pressKey1
     push AX
-    push word ptr [204ah]
+    push word ptr [_var_99]
     call drawString
     add SP,0ah
-    mov BX,word ptr [204ah]
+    mov BX,word ptr [_var_99]
     mov word ptr [BX + 0ch],1h
     call far ptr gfx_jump_46_retrace2
     call far ptr misc_jump_5b_getkey
 LAB_1000_45c4:
-    mov AX,1f99h
+    mov AX,offset str_modeRb1
     push AX
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     mov BX,word ptr ES:[BX + 38h]
     shl BX,1h
     push word ptr [BX + 2256h]
     call routine_46
     add SP,4h
-    mov [4038h],AX
+    mov word ptr [_var_177],AX
     or AX,AX
     jnz LAB_1000_45e6
     jmp LAB_1000_4560
 LAB_1000_45e6:
     call far ptr gfx_jump_45_retrace
-    push word ptr [4038h]
+    push word ptr [_var_177]
     call routine_51
     add SP,2h
     mov AX,9h
@@ -8282,15 +8282,15 @@ LAB_1000_45e6:
     push AX
     call allocBuffer
     add SP,2h
-    mov [5cc6h],AX
+    mov word ptr [_var_229],AX
     push AX
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     mov BX,word ptr ES:[BX + 38h]
     shl BX,1h
     push word ptr [BX + 2256h]
     call loadPic
     add SP,4h
-    mov AX,[5cc6h]
+    mov AX,word ptr [_var_229]
     mov word ptr [BP + -4h],AX
     jmp LAB_1000_4692
     db 90h
@@ -8302,7 +8302,7 @@ LAB_1000_462e:
     sub AX,AX
     push AX
     push AX
-    push word ptr [204ah]
+    push word ptr [_var_99]
     call clearRect
     add SP,0ah
     mov AX,13fh
@@ -8311,12 +8311,12 @@ LAB_1000_462e:
     push AX
     sub AX,AX
     push AX
-    mov AX,1fe0h
+    mov AX,offset str_insertDiskA
     push AX
-    push word ptr [204ah]
+    push word ptr [_var_99]
     call drawString
     add SP,0ah
-    mov BX,word ptr [204ah]
+    mov BX,word ptr [_var_99]
     mov word ptr [BX + 0ch],4h
     mov AX,13fh
     push AX
@@ -8324,27 +8324,27 @@ LAB_1000_462e:
     push AX
     sub AX,AX
     push AX
-    mov AX,1ff9h
+    mov AX,offset str_pressKey2
     push AX
-    push word ptr [204ah]
+    push word ptr [_var_99]
     call drawString
     add SP,0ah
-    mov BX,word ptr [204ah]
+    mov BX,word ptr [_var_99]
     mov word ptr [BX + 0ch],1h
     call far ptr gfx_jump_46_retrace2
     call far ptr misc_jump_5b_getkey
 LAB_1000_4692:
-    mov AX,1fd1h
+    mov AX,offset str_modeRb2
     push AX
-    mov AX,1fd4h
+    mov AX,offset str_dbicons1
     push AX
     call routine_46
     add SP,4h
-    mov [4038h],AX
+    mov word ptr [_var_177],AX
     or AX,AX
     jz LAB_1000_462e
     call far ptr gfx_jump_45_retrace
-    push word ptr [4038h]
+    push word ptr [_var_177]
     call routine_51
     add SP,2h
     mov AX,8h
@@ -8353,23 +8353,23 @@ LAB_1000_4692:
     add SP,2h
     mov AX,1h
     push AX
-    mov AX,2012h
+    mov AX,offset str_dbicons2
     push AX
     call openShowPic
     add SP,4h
     mov AX,word ptr [BP + -4h]
-    mov [2064h],AX
-    mov [2084h],AX
-    mov [20a4h],AX
-    mov [20c4h],AX
-    mov [20e4h],AX
-    mov [2104h],AX
-    mov [2124h],AX
-    mov [2144h],AX
-    mov [2164h],AX
-    mov [2184h],AX
-    mov [21a4h],AX
-    mov [21c4h],AX
+    mov word ptr [_var_101],AX
+    mov word ptr [_var_103],AX
+    mov word ptr [_var_105],AX
+    mov word ptr [_var_106],AX
+    mov word ptr [_var_107],AX
+    mov word ptr [_var_108],AX
+    mov word ptr [_var_109],AX
+    mov word ptr [_var_110],AX
+    mov word ptr [_var_111],AX
+    mov word ptr [_var_112],AX
+    mov word ptr [_var_113],AX
+    mov word ptr [_var_114],AX
     call far ptr gfx_jump_45_retrace
     mov AX,0c7h
     push AX
@@ -8378,27 +8378,27 @@ LAB_1000_4692:
     sub AX,AX
     push AX
     push AX
-    push word ptr [204ah]
+    push word ptr [_var_99]
     call clearRect
     add SP,0ah
-    push word ptr [2082h]
+    push word ptr [_var_102]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
-    push word ptr [20a2h]
+    push word ptr [_var_104]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
-    mov BX,word ptr [204ah]
+    mov BX,word ptr [_var_99]
     mov word ptr [BX + 4h],0h
     mov AX,1h
     push AX
     mov AX,6ah
     push AX
-    mov AX,201eh
+    mov AX,offset str_missionDebrief
     push AX
-    push word ptr [204ah]
+    push word ptr [_var_99]
     call actualDrawString
     add SP,8h
-    mov BX,word ptr [204ah]
+    mov BX,word ptr [_var_99]
     mov word ptr [BX + 4h],6h
     mov word ptr [BP + -0eh],96h
     mov word ptr [BP + -8h],0h
@@ -8409,7 +8409,7 @@ LAB_1000_475c:
     mov BX,word ptr [BP + -8h]
     shl BX,1h
     push word ptr [BX + 2266h]
-    push word ptr [204ah]
+    push word ptr [_var_99]
     call actualDrawString
     add SP,8h
     add word ptr [BP + -0eh],0ah
@@ -8417,8 +8417,8 @@ LAB_1000_475c:
     cmp word ptr [BP + -8h],2h
     jl LAB_1000_475c
     mov word ptr [BP + -12h],0h
-    mov byte ptr [55eeh],1h
-    mov word ptr [4a28h],0h
+    mov byte ptr [_var_207],1h
+    mov word ptr [_var_190],0h
     call far ptr gfx_jump_50
     call far ptr gfx_jump_46_retrace2
     call setTimerIrqHandler
@@ -8428,7 +8428,7 @@ LAB_1000_47a5:
     imul word ptr [BP + -12h]
     mov BX,AX
     mov word ptr [BX + 2212h],2h
-    push word ptr [2062h]
+    push word ptr [_var_100]
     mov AX,word ptr [BP + -12h]
     mov CX,AX
     shl AX,1h
@@ -8441,17 +8441,17 @@ LAB_1000_47a5:
     push AX
     mov AX,2h
     push AX
-    push word ptr [55dch]
-    mov AX,21e4h
+    push word ptr [_var_205]
+    mov AX,offset dat_21e4
     push AX
     call routine_59
     add SP,0ch
-    push word ptr [2062h]
-    push word ptr [2254h]
+    push word ptr [_var_100]
+    push word ptr [_var_116]
     mov AX,2h
     push AX
-    push word ptr [55dch]
-    mov AX,21e4h
+    push word ptr [_var_205]
+    mov AX,offset dat_21e4
     push AX
     call routine_60
     add SP,0ah
@@ -8462,14 +8462,14 @@ LAB_1000_47a5:
     jz LAB_1000_4838
     jmp LAB_1000_481c
 LAB_1000_4806:
-    push word ptr [2062h]
+    push word ptr [_var_100]
     call routine_65
     add SP,2h
-    cmp byte ptr [4244h],1h
+    cmp byte ptr [_var_180],1h
     jnz LAB_1000_481c
     mov word ptr [BP + -12h],1h
 LAB_1000_481c:
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 72h],1h
     jnz LAB_1000_485b
 LAB_1000_4827:
@@ -8485,9 +8485,9 @@ LAB_1000_4838:
     jmp LAB_1000_481c
     db 90h
 LAB_1000_4840:
-    mov byte ptr [1a1ah],0h
+    mov byte ptr [_var_81],0h
 LAB_1000_4845:
-    cmp byte ptr [1a1ah],5h
+    cmp byte ptr [_var_81],5h
     jbe LAB_1000_4845
 LAB_1000_484c:
     sub AX,AX
@@ -8503,55 +8503,55 @@ LAB_1000_485b:
 LAB_1000_4864:
     call restoreTimerIrqHandler
     call far ptr gfx_jump_45_retrace
-    push word ptr [4f00h]
+    push word ptr [_var_192]
     call routine_63
     add SP,2h
-    mov [59beh],AX
-    mov word ptr [59c0h],DX
-    les BX,dword ptr [403ah]
+    mov word ptr [_var_219],AX
+    mov word ptr [_var_220],DX
+    les BX,dword ptr [_var_178]
     mov word ptr ES:[BX + 44h],0h
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 30h],0h
     jnz LAB_1000_490f
-    les BX,dword ptr [403ah]
-    mov AX,[59beh]
+    les BX,dword ptr [_var_178]
+    mov AX,word ptr [_var_219]
     mov word ptr ES:[BX + 44h],AX
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     mov AX,word ptr ES:[BX + 2eh]
     sub DX,DX
-    cmp DX,word ptr [59c0h]
+    cmp DX,word ptr [_var_220]
     ja LAB_1000_48bc
     jc LAB_1000_48b5
-    cmp AX,word ptr [59beh]
+    cmp AX,word ptr [_var_219]
     jnc LAB_1000_48bc
 LAB_1000_48b5:
-    mov AX,[59beh]
+    mov AX,word ptr [_var_219]
     mov word ptr ES:[BX + 2eh],AX
 LAB_1000_48bc:
-    les BX,dword ptr [403ah]
-    mov AX,[59beh]
-    mov DX,word ptr [59c0h]
+    les BX,dword ptr [_var_178]
+    mov AX,word ptr [_var_219]
+    mov DX,word ptr [_var_220]
     add word ptr ES:[BX + 32h],AX
     adc word ptr ES:[BX + 34h],DX
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 26h],1h
     jnz LAB_1000_48e4
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     mov word ptr ES:[BX + 4eh],2h
 LAB_1000_48e4:
-    les BX,dword ptr [5ab6h]
+    les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 26h],2h
     jnz LAB_1000_490f
     cmp word ptr ES:[BX + 28h],0h
     jnz LAB_1000_490f
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     inc word ptr ES:[BX + 30h]
     cmp word ptr ES:[BX + 30h],3h
     jc LAB_1000_490f
-    les BX,dword ptr [403ah]
+    les BX,dword ptr [_var_178]
     mov word ptr ES:[BX + 4eh],1h
 LAB_1000_490f:
-    push word ptr [5cc6h]
+    push word ptr [_var_229]
     call routine_64
     mov SP,BP
     pop BP
@@ -8567,7 +8567,7 @@ start proc near
     jnc LAB_1000_4926
     int 20h
 LAB_1000_4926:
-    mov DI,1580h
+    mov DI,seg @data
     mov SI,word ptr [2h]
     sub SI,DI
     cmp SI,1000h
@@ -8597,7 +8597,7 @@ LAB_1000_4952:
     dec AX
     mov SS:[226ah],AX
     add SI,DI
-    mov word ptr [0002h],SI
+    mov word ptr [_var_9],SI
     mov BX,ES
     sub BX,SI
     neg BX
@@ -8607,7 +8607,7 @@ LAB_1000_4952:
     push SS
     pop ES
     cld
-    mov DI,2550h
+    mov DI,offset _var_151
     mov CX,5cd0h
     sub CX,DI
     xor AX,AX
@@ -8620,9 +8620,9 @@ LAB_1000_4952:
     call routine_5
     call routine_6
     xor BP,BP
-    push word ptr [2302h]
-    push word ptr [2300h]
-    push word ptr [22feh]
+    push word ptr [_var_134]
+    push word ptr [_var_133]
+    push word ptr [_var_132]
     call main
     push AX
     call routine_8
@@ -8635,17 +8635,17 @@ LAB_1000_49bf:
     call routine_3
     mov AX,0ffh
     push AX
-    call word ptr [226eh]
+    call word ptr [_var_121]
 start endp
 
 routine_4 proc near
     mov AH,30h
     int 21h
-    mov [22e3h],AX
+    mov word ptr [_var_128],AX
     mov AX,3500h
     int 21h
-    mov word ptr [22cfh],BX
-    mov word ptr [22d1h],ES
+    mov word ptr [_var_123],BX
+    mov word ptr [_var_124],ES
     push CS
     pop DS
     mov AX,2500h
@@ -8653,27 +8653,27 @@ routine_4 proc near
     int 21h
     push SS
     pop DS
-    mov CX,word ptr [246ah]
+    mov CX,word ptr [_var_148]
     jcxz LAB_1000_4a22
-    mov ES,word ptr [22e1h]
+    mov ES,word ptr [_var_127]
     mov SI,word ptr ES:[2ch]
-    lds AX,dword ptr [246ch]
+    lds AX,dword ptr [_var_149]
     mov DX,DS
     xor BX,BX
-    call far ptr [2468h]
+    call far ptr [_var_147]
     jnc LAB_1000_4a11
     push SS
     pop DS
     jmp FUN_1000_4ea4
 LAB_1000_4a11:
-    lds AX,SS:dword ptr [2470h]
+    lds AX,SS:dword ptr [_var_150]
     mov DX,DS
     mov BX,3h
-    call far ptr [2468h]
+    call far ptr [_var_147]
     push SS
     pop DS
 LAB_1000_4a22:
-    mov ES,word ptr [22e1h]
+    mov ES,word ptr [_var_127]
     mov CX,word ptr ES:[2ch]
     jcxz LAB_1000_4a63
     mov ES,CX
@@ -8696,7 +8696,7 @@ LAB_1000_4a4c:
     pop ES
     pop DS
     mov SI,DI
-    mov DI,22eah
+    mov DI,offset _var_131
     lodsb
     cbw
     xchg AX,CX
@@ -8739,7 +8739,7 @@ routine_8 proc near
     mov DI,3fc6h
     call routine_13
     mov SI,2474h
-    mov DI,2476h
+    mov DI,offset str_nmsg
     call routine_13
     jmp LAB_1000_4aac
 routine_8 endp
@@ -8748,11 +8748,11 @@ routine_9 proc near
     push BP
     mov BP,SP
 LAB_1000_4aac:
-    mov SI,2476h
-    mov DI,2476h
+    mov SI,offset str_nmsg
+    mov DI,offset str_nmsg
     call routine_13
-    mov SI,2476h
-    mov DI,2476h
+    mov SI,offset str_nmsg
+    mov DI,offset str_nmsg
     call routine_12
     call routine_29
     or AX,AX
@@ -8778,21 +8778,21 @@ LAB_1000_4ae1:
 routine_9 endp
 
 routine_30 proc near
-    mov CX,word ptr [246ah]
+    mov CX,word ptr [_var_148]
     jcxz LAB_1000_4afb
     mov BX,2h
-    call far ptr [2468h]
+    call far ptr [_var_147]
 LAB_1000_4afb:
     push DS
-    lds DX,dword ptr [22cfh]
+    lds DX,dword ptr [_var_123]
     mov AX,2500h
     int 21h
     pop DS
-    cmp byte ptr [230ch],0h
+    cmp byte ptr [_var_135],0h
     jz LAB_1000_4b1a
     push DS
-    mov AL,[230dh]
-    lds DX,dword ptr [230eh]
+    mov AL,byte ptr [_var_136]
+    lds DX,dword ptr [_var_137]
     mov AH,25h
     int 21h
     pop DS
@@ -8945,7 +8945,7 @@ FUN_1000_4c20 proc near
     mov BP,SP
     sub SP,4h
     mov BX,word ptr [BP + 4h]
-    cmp BX,word ptr [22e8h]
+    cmp BX,word ptr [_var_130]
     jc LAB_1000_4c34
     mov AX,900h
     jmp LAB_1000_4c5e
@@ -9019,8 +9019,8 @@ routine_70 proc near
     push BP
     mov BP,SP
     mov AX,word ptr [BP + 4h]
-    mov [2316h],AX
-    mov word ptr [2318h],0h
+    mov word ptr [_var_138],AX
+    mov word ptr [_var_139],0h
     pop BP
     ret
     db 90h
@@ -9031,13 +9031,13 @@ FUN_1000_4cca proc near
     mov DX,3h
     push DX
     push AX
-    push word ptr [2318h]
-    push word ptr [2316h]
+    push word ptr [_var_139]
+    push word ptr [_var_138]
     call __aNlmul
     add AX,9ec3h
     adc DX,26h
-    mov [2316h],AX
-    mov word ptr [2318h],DX
+    mov word ptr [_var_138],AX
+    mov word ptr [_var_139],DX
     mov AX,DX
     and AH,7fh
     ret
@@ -9262,9 +9262,9 @@ routine_2 proc near
     mov AX,0fch
     push AX
     call routine_3
-    cmp word ptr [231ah],0h
+    cmp word ptr [_var_140],0h
     jz LAB_1000_4e99
-    call word ptr [231ah]
+    call word ptr [_var_140]
 LAB_1000_4e99:
     mov AX,0ffh
     push AX
@@ -9395,10 +9395,10 @@ LAB_1000_4f3c:
 FUN_1000_4f33 endp
 
 routine_114 proc near
-    mov [22e6h],AL
+    mov byte ptr [_var_129],AL
     or AH,AH
     jnz LAB_1000_4f70
-    cmp byte ptr [22e3h],3h
+    cmp byte ptr [_var_128],3h
     jc LAB_1000_4f61
     cmp AL,22h
     jnc LAB_1000_4f65
@@ -9417,7 +9417,7 @@ LAB_1000_4f67:
     xlat
 LAB_1000_4f6b:
     cbw
-    mov [22dbh],AX
+    mov word ptr [_var_125],AX
     ret
 LAB_1000_4f70:
     mov AL,AH
@@ -9539,7 +9539,7 @@ LAB_1000_5036:
 LAB_1000_5054:
     mov AL,byte ptr [BP + -4h]
     mov byte ptr [SI + 6h],AL
-    inc word ptr [244ah]
+    inc word ptr [_var_144]
     mov AX,SI
     sub AX,2330h
     mov CL,3h
@@ -9629,7 +9629,7 @@ routine_73 proc near
     sub SP,2h
     push SI
     mov SI,2330h
-    mov CX,word ptr [2448h]
+    mov CX,word ptr [_var_143]
 LAB_1000_5116:
     test byte ptr [SI + 6h],83h
     jnz LAB_1000_5132
@@ -9659,7 +9659,7 @@ routine_86 proc near
     push BP
     mov BP,SP
     mov BX,word ptr [BP + 4h]
-    cmp BX,word ptr [22e8h]
+    cmp BX,word ptr [_var_130]
     jc LAB_1000_5154
     mov AX,900h
     stc
@@ -9696,7 +9696,7 @@ routine_110 proc near
     jnz LAB_1000_5199
     test AX,4000h
     jnz LAB_1000_5195
-    test byte ptr [2457h],80h
+    test byte ptr [_var_145],80h
     jnz LAB_1000_5199
 LAB_1000_5195:
     mov byte ptr [BP + -4h],80h
@@ -9849,7 +9849,7 @@ LAB_1000_52d5:
     jz LAB_1000_52df
     or CL,20h
 LAB_1000_52df:
-    cmp BX,word ptr [22e8h]
+    cmp BX,word ptr [_var_130]
     jc LAB_1000_52ef
     mov AH,3eh
     int 21h
@@ -9869,7 +9869,7 @@ LAB_1000_52ff:
 routine_110 endp
 
 routine_141 proc near
-    mov AX,[22ddh]
+    mov AX,word ptr [_var_126]
     not AX
     and AX,CX
     xor CX,CX
@@ -9885,7 +9885,7 @@ routine_112 proc near
     mov BP,SP
     sub SP,8h
     mov BX,word ptr [BP + 4h]
-    cmp BX,word ptr [22e8h]
+    cmp BX,word ptr [_var_130]
     jc LAB_1000_532a
     mov AX,900h
     stc
@@ -10066,7 +10066,7 @@ LAB_1000_544a:
     mov BP,SP
     push SI
     push DI
-    mov BX,244ch
+    mov BX,offset dat_244C
     cmp word ptr [BX],0h
     jnz LAB_1000_5484
     push DS
@@ -10080,13 +10080,13 @@ LAB_1000_544a:
 LAB_1000_546a:
     inc AX
     and AL,0feh
-    mov [244ch],AX
-    mov [244eh],AX
+    mov word ptr [dat_244C],AX
+    mov word ptr [dat_244E],AX
     xchg AX,SI
     mov word ptr [SI],1h
     add SI,4h
     mov word ptr [SI + -2h],0fffeh
-    mov word ptr [2452h],SI
+    mov word ptr [dat_2452],SI
 LAB_1000_5484:
     mov CX,word ptr [BP + Stack[2h]+2h]
     mov AX,DS
@@ -10122,7 +10122,7 @@ LAB_1000_54a4:
 LAB_1000_54b5:
     add SI,8h
 LAB_1000_54b8:
-    cmp word ptr [2448h],SI
+    cmp word ptr [_var_143],SI
     jnc LAB_1000_54a4
     mov AX,DI
     pop SI
@@ -10134,7 +10134,7 @@ FUN_1000_5494 endp
 
 routine_142 proc near
     pop CX
-    mov AX,[2464h]
+    mov AX,word ptr [_var_146]
     cmp AX,SP
     jnc LAB_1000_54d4
     sub AX,SP
@@ -10386,7 +10386,7 @@ FUN_1000_5650 proc near
     push ES
     cmp word ptr [BP + 8h],0h
     jnz LAB_1000_5694
-    mov DI,2270h
+    mov DI,offset _var_122
     mov DX,word ptr [BP + 6h]
     mov AX,word ptr [BP + 4h]
     dec AX
@@ -10395,7 +10395,7 @@ FUN_1000_5650 proc near
     jc LAB_1000_5694
     jmp LAB_1000_56b7
 LAB_1000_566f:
-    mov SI,word ptr [22c0h]
+    mov SI,word ptr [dat_22C0]
     dec AX
     jz LAB_1000_5687
     cmp SI,DI
@@ -10428,7 +10428,7 @@ LAB_1000_569a:
     xchg AX,DX
     mov word ptr [SI],AX
     mov word ptr [SI + 2h],DX
-    mov word ptr [22c0h],SI
+    mov word ptr [dat_22C0],SI
     xor AX,AX
 LAB_1000_56b7:
     pop ES
@@ -10458,7 +10458,7 @@ LAB_1000_56d4:
     mov ES,CX
     cmp SI,DI
     jnz LAB_1000_56e8
-    cmp word ptr [226ah],BX
+    cmp word ptr [_var_119],BX
     jnc LAB_1000_570e
 LAB_1000_56e8:
     add BX,0fh
@@ -10469,7 +10469,7 @@ LAB_1000_56e8:
     cmp SI,DI
     jnz LAB_1000_5700
     add BX,CX
-    mov AX,[22e1h]
+    mov AX,word ptr [_var_127]
     sub BX,AX
     mov ES,AX
 LAB_1000_5700:
@@ -10478,7 +10478,7 @@ LAB_1000_5700:
     jc LAB_1571_0003
     cmp SI,DI
     jnz LAB_1000_570e
-    mov word ptr [226ah],DX
+    mov word ptr [_var_119],DX
 LAB_1000_570e:
     xchg AX,DX
     xchg word ptr [SI],AX
@@ -10528,7 +10528,7 @@ routine_134 proc far
     call routine_149
     mov BX,1h
     call routine_149
-    mov AX,[15fah]
+    mov AX,word ptr [_var_55]
     retf
 routine_134 endp
 
@@ -10554,8 +10554,8 @@ LAB_1571_004b:
     loop LAB_1571_004b
 LAB_1571_005c:
     sti
-    mov word ptr [15f2h],BX
-    mov word ptr [15f4h],BP
+    mov word ptr [_var_53],BX
+    mov word ptr [_var_54],BP
     pop BP
     ret
 readJoyPort endp
@@ -10632,7 +10632,7 @@ copyJoystickData proc far
     push DS
     push ES
     lds SI,dword ptr [BX + 4h]
-    mov DI,15cah
+    mov DI,offset _var_48
     push SS
     pop ES
     mov CX,14h
@@ -10646,10850 +10646,1703 @@ copyJoystickData proc far
 copyJoystickData endp
 
 
+
+
 .DATA
 ; --- Data segment ---
 
-    db 00h
-_var_8 db 00h
-_var_9 db 00h, 00h  ; undefined2 0000h
-_var_11 db 00h
-    db 00h
-_var_12 db 00h
-_var_13 db 00h
-_var_14 db 4Dh
-    db 53h
-_var_15 db 20h
-    db 52h
-_var_16 db 75h
-    db 6Eh
-_var_17 db 2Dh
-    db 54h
-_var_18 db 69h
-    db 6Dh
-_var_19 db 65h
-    db 20h, 4Ch, 69h, 62h, 72h, 61h, 72h, 79h, 20h, 2Dh, 20h, 43h, 6Fh, 70h, 79h, 72h
-    db 69h, 67h, 68h, 74h, 20h, 28h, 63h, 29h, 20h
-_var_20 db 31h
-    db 39h
-_var_21 db 38h
-    db 38h
-_var_22 db 2Ch
-    db 20h, 4Dh, 69h, 63h, 72h, 6Fh, 73h, 6Fh, 66h, 74h, 20h, 43h, 6Fh, 72h, 70h, 11h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 4Eh, 6Fh, 6Eh, 65h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 53h, 41h, 2Dh, 32h, 00h, 00h, 00h, 00h, 0C8h, 00h, 03h, 00h, 00h
-    db 00h, 53h, 41h, 2Dh, 35h, 00h, 00h, 00h, 00h, 5Eh, 01h, 02h, 00h, 00h, 00h, 53h
-    db 41h, 2Dh, 38h, 42h, 00h, 00h, 00h, 7Dh, 00h, 05h, 00h, 00h, 00h, 53h, 41h, 2Dh
-    db 31h, 30h, 00h, 00h, 00h, 40h, 01h, 07h, 00h, 01h, 00h, 53h, 41h, 2Dh, 31h, 31h
-    db 00h, 00h, 00h, 0C8h, 00h, 05h, 00h, 00h, 00h, 53h, 41h, 2Dh, 31h, 32h, 00h, 00h
-    db 00h, 22h, 01h, 06h, 00h, 01h, 00h, 53h, 41h, 2Dh, 31h, 33h, 00h, 00h, 00h, 7Dh
-    db 00h, 03h, 00h, 00h, 00h, 53h, 41h, 2Dh, 4Eh, 2Dh, 34h, 00h, 00h, 0C8h, 00h, 04h
-    db 00h, 01h, 00h, 53h, 41h, 2Dh, 4Eh, 2Dh, 35h, 00h, 00h, 96h, 00h, 03h, 00h, 00h
-    db 00h, 53h, 41h, 2Dh, 4Eh, 2Dh, 36h, 00h, 00h, 40h, 01h, 06h, 00h, 01h, 00h, 53h
-    db 41h, 2Dh, 4Eh, 2Dh, 37h, 00h, 00h, 0C8h, 00h, 05h, 00h, 00h, 00h, 48h, 61h, 77h
-    db 6Bh, 00h, 00h, 00h, 00h, 0AFh, 00h, 06h, 00h, 01h, 00h, 4Bh, 00h, 08h, 00h, 00h
-    db 00h
-    db 'Tiger', 0
-    db 00h, 00h, 41h, 00h, 04h, 00h, 00h, 00h, 0C8h, 00h, 02h, 00h, 00h, 00h, 49h, 4Ch
-    db 37h, 36h, 00h, 00h, 00h, 00h, 0C8h, 00h, 08h, 00h, 03h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 32h, 00h, 05h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 46h, 00h, 06h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 50h, 00h, 07h, 00h, 01h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 64h, 00h
-    db 08h, 00h, 01h, 00h, 4Fh, 54h, 48h, 00h, 00h, 00h, 00h, 00h, 0F4h, 01h, 05h, 00h
-    db 01h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 28h, 00h, 03h, 00h, 00h, 00h
-    db 4Dh, 49h, 47h, 2Dh, 32h, 33h, 00h, 00h, 00h, 0E4h, 02h, 30h, 02h, 03h, 00h
-_var_23 db 11h
-    db 00h, 0Ah, 00h, 02h, 00h, 00h, 00h, 4Dh, 49h, 47h, 2Dh, 32h, 35h, 00h, 20h, 46h
-    db 6Fh, 78h, 62h, 61h, 74h, 00h, 00h, 00h, 00h, 3Ah, 02h, 0BCh, 02h, 02h, 00h, 12h
-    db 00h, 00h, 00h, 02h, 00h, 00h, 00h, 4Dh, 49h, 47h, 2Dh, 32h, 39h, 00h, 00h, 00h
-    db 0BCh, 02h, 90h, 01h, 05h, 00h, 13h, 00h, 14h, 00h, 02h, 00h, 00h, 00h, 46h, 2Dh
-    db 31h, 00h, 00h, 00h, 00h, 00h, 00h, 16h, 03h, 0A2h, 03h, 03h, 00h, 14h, 00h, 00h
-    db 00h, 02h, 00h, 00h, 00h, 53h, 75h, 2Dh, 32h, 37h, 00h, 00h, 00h, 00h, 0D5h, 02h
-    db 0CBh, 02h, 04h, 00h, 13h, 00h, 14h, 00h, 02h, 00h, 00h, 00h, 49h, 4Ch, 2Dh, 37h
-    db 36h, 00h, 00h, 00h, 90h, 01h, 0A0h, 0Fh, 01h, 00h, 10h, 00h, 0Ch, 00h, 02h, 00h
-    db 00h, 00h, 46h, 2Dh, 34h, 45h, 00h, 00h, 00h, 00h, 00h, 20h, 03h, 08h, 02h, 04h
-    db 00h, 12h, 00h, 0Bh, 00h, 02h, 00h, 00h, 00h, 46h, 2Dh, 31h, 34h, 00h, 00h, 00h
-    db 00h, 00h, 20h, 03h, 20h, 03h, 04h, 00h, 13h, 00h, 08h, 00h, 02h, 00h, 00h, 00h
-    db 46h, 2Dh, 31h, 38h, 00h, 00h, 00h, 00h, 00h, 94h, 02h, 0CDh, 01h, 05h, 00h, 0FFh
-    db 0FFh, 00h, 00h, 02h, 00h, 00h, 00h, 41h, 6Eh, 2Dh, 37h, 32h, 00h, 00h, 00h, 00h
-    db 5Eh, 01h, 6Ch, 02h, 02h, 00h, 00h, 00h, 09h, 00h, 02h, 00h, 00h, 00h, 46h, 2Dh
-    db 31h, 38h, 00h, 00h, 00h, 00h, 00h, 94h, 02h, 0CDh, 01h, 05h, 00h, 0FFh, 0FFh, 04h
-    db 00h, 02h, 00h, 00h, 00h, 4Dh, 49h, 47h, 2Dh, 32h, 33h, 00h, 00h, 00h, 0E4h, 02h
-    db 30h, 02h, 03h, 00h, 00h, 00h, 04h, 00h, 02h, 00h, 00h, 00h, 46h, 2Dh, 31h, 34h
-    db 00h, 00h, 00h, 00h, 00h, 20h, 03h, 20h, 03h, 04h, 00h, 0FFh, 0FFh, 08h, 00h, 02h
-    db 00h, 00h, 00h, 46h, 2Dh, 34h, 45h, 00h, 00h, 00h, 00h, 00h, 20h, 03h, 08h, 02h
-    db 04h, 00h, 0FFh, 0FFh, 0Bh, 00h, 02h, 00h, 00h, 00h, 4Dh, 49h, 47h, 2Dh, 31h, 37h
-    db 00h, 00h, 00h, 26h, 02h, 2Ch, 01h, 03h, 00h, 11h, 00h, 10h, 00h, 02h, 00h, 00h
-    db 00h, 54h, 75h, 2Dh, 39h, 35h, 00h, 00h, 00h, 00h, 9Ah, 01h, 0ECh, 13h, 01h, 00h
-    db 00h, 00h, 12h, 00h, 02h, 00h, 00h, 00h, 4Dh, 69h, 2Dh, 32h, 34h, 00h, 00h, 00h
-    db 00h, 0C8h, 00h, 2Ch, 01h, 01h, 00h, 11h, 00h, 13h, 00h, 02h, 00h, 00h, 00h, 46h
-    db 2Dh, 35h, 00h, 00h, 00h, 00h, 00h, 00h, 0F4h, 01h, 0FAh, 00h, 03h, 00h, 16h, 00h
-    db 16h, 00h, 02h, 00h, 00h, 00h, 37h, 36h, 37h, 00h, 00h, 00h, 00h, 00h, 00h, 90h
-    db 01h, 0E8h, 03h, 01h, 00h, 0FFh, 0FFh, 12h, 00h, 02h, 00h, 00h, 00h, 4Eh, 6Fh, 6Eh
-    db 65h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 01h, 00h, 13h, 00h, 53h
-    db 41h, 2Dh, 32h, 00h, 00h, 00h, 00h, 7Dh, 00h, 0D0h, 07h, 01h, 00h, 04h, 00h, 13h
-    db 00h, 53h, 41h, 2Dh, 35h, 00h, 00h, 00h, 00h, 96h, 00h, 08h, 07h, 01h, 00h, 01h
-    db 00h, 13h, 00h, 53h, 41h, 2Dh, 38h, 42h, 00h, 00h, 00h, 41h, 00h, 0B0h, 04h, 02h
-    db 00h, 03h, 00h, 13h, 00h, 53h, 41h, 2Dh, 31h, 30h, 00h, 00h, 00h, 7Dh, 00h, 08h
-    db 07h, 03h, 00h, 02h, 00h, 13h, 00h, 53h, 41h, 2Dh, 31h, 31h, 00h, 00h, 00h, 64h
-    db 00h, 0DCh, 05h, 02h, 00h, 03h, 00h, 13h, 00h, 53h, 41h, 2Dh, 31h, 32h, 00h, 00h
-    db 00h, 96h, 00h, 0D0h, 07h, 03h, 00h, 02h, 00h, 13h, 00h, 53h, 41h, 2Dh, 31h, 33h
-    db 00h, 00h, 00h, 41h, 00h, 84h, 03h, 00h, 00h, 04h, 00h, 13h, 00h, 53h, 41h, 2Dh
-    db 4Eh, 2Dh, 34h, 00h, 00h, 1Eh, 00h, 0B0h, 04h, 02h, 00h, 03h, 00h, 13h, 00h, 53h
-    db 41h, 2Dh, 4Eh, 2Dh, 35h, 00h, 00h, 1Eh, 00h, 84h, 03h, 0FFh, 0FFh, 04h, 00h, 13h
-    db 00h, 53h, 41h, 2Dh, 4Eh, 2Dh, 36h, 00h, 00h, 7Dh, 00h, 08h, 07h, 03h, 00h, 02h
-    db 00h, 13h, 00h, 53h, 41h, 2Dh, 4Eh, 2Dh, 37h, 00h, 00h, 64h, 00h, 0DCh, 05h, 02h
-    db 00h, 03h, 00h, 13h, 00h, 48h, 61h, 77h, 6Bh, 00h, 00h, 00h, 00h, 7Dh, 00h, 84h
-    db 03h, 02h, 00h, 03h, 00h, 13h, 00h, 00h, 41h, 00h, 0B0h, 04h, 02h, 00h, 04h, 00h
-    db 13h, 00h, 1Eh, 00h, 84h, 03h, 01h, 00h, 03h, 00h, 13h, 00h, 00h, 1Eh, 00h, 84h
-    db 03h, 01h, 00h, 03h, 00h, 13h, 00h, 41h, 41h, 2Dh, 32h, 00h, 00h, 00h, 00h, 0Eh
-    db 00h, 0DCh, 05h, 0FFh, 0FFh, 04h, 00h, 13h, 00h, 41h, 41h, 2Dh, 38h, 00h, 00h, 00h
-    db 00h, 0Ch, 00h, 08h, 07h, 00h, 00h, 05h, 00h, 13h, 00h, 41h, 41h, 2Dh, 36h, 00h
-    db 00h, 00h, 00h, 32h, 00h, 60h, 09h, 02h, 00h, 02h, 00h, 13h, 00h, 41h, 41h, 2Dh
-    db 37h, 00h, 00h, 00h, 00h, 22h, 00h, 08h, 07h, 02h, 00h, 02h, 00h, 13h, 00h, 41h
-    db 41h, 2Dh, 39h, 00h, 00h, 00h, 00h, 52h, 00h, 0D0h, 07h, 02h, 00h, 03h, 00h, 13h
-    db 00h, 41h, 41h, 2Dh, 31h, 30h, 00h, 00h, 00h, 40h, 00h, 0D0h, 07h, 03h, 00h, 04h
-    db 00h, 13h, 00h, 41h, 49h, 4Dh, 31h, 32h, 30h, 00h, 00h, 20h, 00h, 60h, 09h, 07h
-    db 00h, 04h, 00h, 01h, 00h, 41h, 49h, 4Dh, 2Dh, 39h, 00h, 00h, 00h, 11h, 00h, 0D0h
-    db 07h, 07h, 00h, 08h, 00h, 01h, 00h, 48h, 41h, 52h, 4Dh, 00h, 00h, 00h, 00h, 14h
-    db 00h, 0B0h, 04h, 04h, 00h, 02h, 00h, 01h, 00h, 20h, 00h, 0F4h, 01h, 05h, 00h, 02h
-    db 00h, 13h, 00h, 3Ch, 00h, 0F4h, 01h, 05h, 00h, 02h, 00h, 13h, 00h, 41h, 47h, 4Dh
-    db 2Dh, 36h, 35h, 00h, 00h, 20h, 00h, 20h, 03h, 06h, 00h, 02h, 00h, 0Dh, 00h, 4Ch
-    db 47h, 42h, 4Fh, 4Dh, 42h, 00h, 00h, 0Ah, 00h, 00h, 00h, 1Ch, 00h, 02h, 00h, 0Fh
-    db 00h, 52h, 54h, 42h, 4Fh, 4Dh, 42h, 00h, 00h, 00h, 00h, 00h, 00h, 1Dh, 00h, 02h
-    db 00h, 0Fh, 00h, 46h, 46h, 42h, 4Fh, 4Dh, 42h, 00h, 00h, 00h, 00h, 00h, 00h, 1Eh
-    db 00h, 02h, 00h, 0Fh, 00h, 41h, 49h, 4Dh, 2Dh, 37h, 57h, 00h, 00h, 2Ch, 00h, 60h
-    db 09h, 02h, 00h, 04h, 00h, 01h, 00h, 41h, 49h, 4Dh, 2Dh, 39h, 57h, 00h, 00h, 0Ch
-    db 00h, 0D0h, 07h, 00h, 00h, 05h, 00h, 01h, 00h, 53h, 41h, 2Dh, 31h, 34h, 00h, 00h
-    db 00h, 10h, 00h, 84h, 03h, 00h, 00h, 05h, 00h, 01h, 00h, 41h, 41h, 2Dh, 36h, 00h
-    db 00h, 00h, 00h, 32h, 00h, 60h, 09h, 0FFh, 0FFh, 02h, 00h, 13h, 00h, 41h, 41h, 2Dh
-    db 37h, 00h, 00h, 00h, 00h, 22h, 00h, 08h, 07h, 0FFh, 0FFh, 02h, 00h, 13h, 00h, 41h
-    db 41h, 2Dh, 39h, 00h, 00h, 00h, 00h, 52h, 00h, 0D0h, 07h, 0FFh, 0FFh, 03h, 00h, 13h
-    db 00h, 41h, 41h, 2Dh, 31h, 30h, 00h, 00h, 00h, 40h, 00h, 0D0h, 07h, 00h, 00h, 04h
-    db 00h, 13h, 00h, 45h, 71h, 75h, 69h, 70h, 2Eh, 00h, 00h, 00h, 00h, 00h, 00h, 1Dh
-    db 00h, 00h, 00h, 0Eh, 00h, 00h, 00h, 00h, 00h, 02h, 00h, 00h, 00h, 06h, 00h, 01h
-    db 00h, 07h, 00h, 03h, 00h, 06h, 00h, 02h, 00h, 05h, 00h, 07h, 00h, 04h, 00h, 02h
-    db 00h, 05h, 00h, 03h, 00h, 08h, 00h, 00h, 00h, 08h, 00h, 00h, 00h, 0Ah, 00h, 0Bh
-    db 00h, 0Bh, 00h, 09h, 00h, 0Ch, 00h, 0Dh, 00h, 0Ch, 00h, 0Eh, 00h, 0Dh, 00h, 0Eh
-    db 00h, 0Fh, 00h, 00h, 00h, 04h, 00h, 88h, 13h, 00h, 00h, 0Ch, 00h, 12h, 00h, 03h
-    db 00h, 01h, 00h, 03h, 00h, 10h, 00h, 01h, 00h, 05h, 00h, 03h, 00h, 09h, 00h, 03h
-    db 00h, 00h, 00h, 8Ah, 02h, 00h, 00h, 01h, 00h, 01h, 00h
-_var_24 db 01h
-    db 00h, 00h, 00h, 01h, 00h, 01h, 00h, 04h, 00h, 41h, 49h, 4Dh, 2Dh, 39h, 4Dh, 00h
-    db 00h, 00h, 00h, 17h, 00h, 04h, 00h, 41h, 49h, 4Dh, 2Dh, 31h, 32h, 30h, 00h, 00h
-    db 00h, 41h, 4Dh, 52h, 41h, 41h, 4Dh, 00h, 00h, 00h, 00h, 00h, 00h, 16h, 00h, 03h
-    db 00h, 41h, 47h, 4Dh, 2Dh, 38h, 38h, 41h, 00h, 00h, 00h, 48h, 41h, 52h, 4Dh, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 18h, 00h, 01h, 00h, 50h, 33h, 20h, 41h, 53h
-    db 4Dh, 00h, 00h, 00h, 00h, 00h, 00h, 19h, 00h, 02h, 00h, 41h, 47h, 4Dh, 2Dh, 38h
-    db 36h, 41h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 1Ah, 00h, 01h, 00h, 41h, 47h, 4Dh
-    db 2Dh, 36h, 35h, 44h, 00h, 00h, 00h, 00h, 00h, 1Bh, 00h, 02h, 00h, 47h, 42h, 55h
-    db 2Dh, 31h, 32h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 1Ch, 00h, 02h, 00h, 4Dh
-    db 6Bh, 20h, 32h, 30h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 1Dh, 00h, 02h, 00h, 44h
-    db 6Eh, 64h, 6Ch, 00h, 00h, 00h, 00h, 00h, 00h, 1Dh, 00h, 02h, 00h, 4Dh, 6Bh, 20h
-    db 38h, 32h, 2Dh, 30h, 00h, 00h, 00h
-    db 'Slick', 0
-    db 00h, 00h, 00h, 00h, 00h, 00h, 1Eh, 00h, 03h, 00h, 4Dh, 6Bh, 20h, 38h, 32h, 2Dh
-    db 31h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 1Dh, 00h, 03h, 00h, 4Dh, 6Bh, 20h, 32h
-    db 30h, 00h, 00h, 00h, 00h, 00h, 00h, 1Ch, 00h, 02h, 00h, 4Dh, 6Bh, 20h, 31h, 32h
-    db 32h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 1Eh, 00h, 02h, 00h, 43h, 42h, 55h
-    db 2Dh, 37h, 32h, 00h, 00h, 00h, 00h, 00h, 00h, 1Ch, 00h, 02h, 00h, 4Dh, 6Bh, 20h
-    db 33h, 35h, 00h, 00h, 00h, 00h, 00h, 1Dh, 00h, 02h, 00h, 49h, 53h, 43h, 20h, 42h
-    db 2Dh, 31h, 00h, 00h, 00h, 00h, 00h, 1Dh, 00h, 01h, 00h, 31h, 33h, 35h, 20h, 6Dh
-    db 6Dh, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 0FFh, 0FFh, 01h, 00h, 31h, 39h, 30h
-    db 30h, 6Ch, 62h, 73h, 00h, 00h, 00h, 00h, 0FEh, 0FFh, 01h, 00h, 32h, 30h, 20h, 6Dh
-    db 6Dh, 00h, 00h, 00h, 00h, 00h, 47h, 75h, 6Eh, 73h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 01h, 00h, 00h, 00h, 45h, 71h, 75h, 69h, 70h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 26h, 00h, 01h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 06h, 00h, 00h, 00h, 05h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 04h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 06h, 02h, 01h, 02h, 02h, 03h, 04h, 03h
-    db 03h, 04h, 04h, 04h, 01h, 02h, 04h, 01h, 02h, 04h, 05h, 05h, 04h, 04h, 05h, 04h
-    db 04h, 00h, 03h, 00h, 00h, 04h, 04h, 00h, 00h, 05h, 05h, 04h, 04h, 05h, 00h, 04h
-    db 00h, 08h, 00h, 00h, 02h, 01h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 03h, 01h, 03h
-    db 04h, 01h, 01h, 04h, 02h, 03h, 03h, 04h, 00h, 03h, 00h, 01h, 04h, 04h, 00h, 00h
-    db 04h, 00h, 02h, 00h, 04h, 00h, 00h, 00h, 00h, 04h, 04h, 00h, 00h, 04h, 04h, 04h
-    db 04h, 04h, 00h, 03h, 02h, 00h, 04h, 04h, 00h, 02h, 05h, 03h, 03h, 02h, 05h, 01h
-    db 03h, 04h, 00h, 00h, 06h, 00h, 05h, 00h, 00h, 00h, 04h, 00h, 05h, 02h, 01h, 00h
-    db 06h, 04h, 00h, 00h, 06h, 06h, 03h, 06h, 06h, 00h, 03h, 00h, 06h, 00h, 03h, 00h
-    db 00h, 02h, 03h, 00h, 00h, 03h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 03h, 00h, 04h, 04h, 00h, 02h, 04h, 04h, 03h, 04h, 05h, 00h, 03h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 03h, 00h
-    db 03h, 00h, 02h, 00h, 01h, 00h, 00h, 00h, 0FFh, 0FFh, 0FEh, 0FFh, 0FFh, 0FFh, 03h, 00h
-    db 02h, 00h, 02h, 00h, 02h, 00h, 01h, 00h, 01h, 00h, 01h, 00h, 02h, 00h, 03h, 00h
-    db 03h, 00h, 03h, 00h, 02h, 00h, 02h, 00h, 02h, 00h, 03h, 00h, 03h, 00h, 03h, 00h
-    db 03h, 00h, 03h, 00h, 03h, 00h, 03h, 00h, 0FDh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 03h, 00h
-    db 03h, 00h, 03h, 00h, 0FDh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh
-    db 0FDh, 0FFh, 0FEh, 0FFh, 0FEh, 0FFh, 0FEh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 0FEh, 0FFh
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FEh, 0FFh, 0FEh, 0FFh, 0FEh, 0FFh, 0FDh, 0FFh, 01h, 00h
-    db 02h, 00h, 01h, 00h, 00h, 00h, 0FFh, 0FFh, 0FEh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 02h, 00h
-    db 03h, 00h, 02h, 00h, 02h, 00h, 01h, 00h, 01h, 00h, 01h, 00h, 0FEh, 0FFh, 04h, 00h
-    db 04h, 00h, 03h, 00h, 02h, 00h, 01h, 00h, 04h, 00h, 04h, 00h, 04h, 00h, 04h, 00h
-    db 04h, 00h, 04h, 00h, 04h, 00h, 0FEh, 0FFh, 04h, 00h, 04h, 00h, 04h, 00h, 04h, 00h
-    db 04h, 00h, 0FCh, 0FFh, 0FCh, 0FFh, 04h, 00h, 04h, 00h, 04h, 00h, 04h, 00h, 0FCh, 0FFh
-    db 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 04h, 00h, 04h, 00h, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh
-    db 0FCh, 0FFh, 0FCh, 0FFh, 02h, 00h, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh
-    db 0FCh, 0FFh, 0FCh, 0FFh, 0FFh, 0FFh, 0FDh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 02h, 00h
-    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FEh, 0FFh, 0FEh, 0FFh, 0FDh, 0FFh, 0FFh, 0FFh, 02h, 00h
-    db 03h, 00h, 02h, 00h, 02h, 00h, 01h, 00h, 01h, 00h, 0FFh, 0FFh, 0FEh, 0FFh, 04h, 00h
-    db 04h, 00h, 03h, 00h, 02h, 00h, 01h, 00h, 04h, 00h, 0FCh, 0FFh, 04h, 00h, 04h, 00h
-    db 04h, 00h, 04h, 00h, 04h, 00h, 00h, 01h, 04h, 00h, 00h, 01h, 00h, 01h, 00h, 01h
-    db 04h, 00h, 0FCh, 0FFh, 0FCh, 0FFh, 00h, 02h, 04h, 00h, 00h, 01h, 00h, 01h, 00h, 01h
-    db 00h, 01h, 0FCh, 0FFh, 00h, 02h, 04h, 00h, 04h, 00h, 0FCh, 0FFh, 00h, 01h, 00h, 01h
-    db 00h, 01h, 0FCh, 0FFh, 04h, 00h, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh
-    db 04h, 00h, 00h, 01h, 0FFh, 0FFh, 0FDh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 02h, 00h
-    db 01h, 00h, 0FFh, 0FFh, 0FFh, 0FFh, 0FEh, 0FFh, 0FEh, 0FFh, 0FDh, 0FFh, 0FFh, 0FFh, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 0Fh, 00h
-    db 07h, 00h, 04h, 00h, 01h, 00h, 2Fh, 00h, 00h, 00h, 0Fh, 00h, 07h, 00h, 04h, 00h
-    db 01h, 00h, 2Fh, 00h, 00h, 00h, 0Fh, 00h, 01h, 00h, 03h, 00h, 01h, 00h, 3Ah, 00h
-    db 00h, 00h, 0Fh, 00h, 06h, 00h, 03h, 00h, 01h, 00h, 3Ah, 00h, 00h, 00h, 0Fh, 00h
-    db 03h, 00h, 01h, 00h, 02h, 00h, 00h, 00h, 00h, 00h, 0Fh, 00h, 06h, 00h, 02h, 00h
-    db 02h, 00h, 00h, 00h, 00h, 00h, 0Fh, 00h, 06h, 00h, 02h, 00h, 03h, 00h, 00h, 00h
-    db 01h, 00h, 0Fh, 00h, 07h, 00h, 01h, 00h, 04h, 00h, 00h, 00h, 00h, 00h, 0Fh, 00h
-    db 06h, 00h, 02h, 00h, 04h, 00h, 00h, 00h, 00h, 00h, 0Fh, 00h, 01h, 00h, 01h, 00h
-    db 05h, 00h, 00h, 00h, 00h, 00h, 0Fh, 00h, 07h, 00h, 02h, 00h, 05h, 00h, 00h, 00h
-    db 00h, 00h, 0Fh, 00h, 07h, 00h, 01h, 00h, 06h, 00h, 00h, 00h, 09h, 00h, 0Fh, 00h
-    db 04h, 00h, 02h, 00h, 06h, 00h, 00h, 00h, 09h, 00h, 0Fh, 00h, 03h, 00h, 01h, 00h
-    db 07h, 00h, 00h, 00h, 04h, 00h, 0Fh, 00h, 07h, 00h, 02h, 00h, 07h, 00h, 00h, 00h
-    db 04h, 00h, 0Fh, 00h, 07h, 00h, 01h, 00h, 16h, 00h, 00h, 00h, 05h, 00h, 0Fh, 00h
-    db 07h, 00h, 02h, 00h, 16h, 00h, 00h, 00h, 05h, 00h, 0Fh, 00h, 07h, 00h, 01h, 00h
-    db 16h, 00h, 00h, 00h, 06h, 00h, 0Fh, 00h, 07h, 00h, 02h, 00h, 16h, 00h, 00h, 00h
-    db 06h, 00h, 0Fh, 00h, 03h, 00h, 01h, 00h, 16h, 00h, 22h, 00h, 06h, 00h, 0Fh, 00h
-    db 07h, 00h, 02h, 00h, 16h, 00h, 22h, 00h, 06h, 00h, 03h, 00h, 03h, 00h, 01h, 00h
-    db 17h, 00h, 00h, 00h, 0Bh, 00h, 03h, 00h, 07h, 00h, 02h, 00h, 17h, 00h, 02h, 00h
-    db 0Bh, 00h, 0Fh, 00h, 01h, 00h, 01h, 00h, 0Ah, 00h, 00h, 00h, 03h, 00h, 0Fh, 00h
-    db 06h, 00h, 02h, 00h, 0Ah, 00h, 00h, 00h, 03h, 00h, 0Fh, 00h, 07h, 00h, 01h, 00h
-    db 0Ch, 00h, 00h, 00h, 07h, 00h, 03h, 00h, 07h, 00h, 02h, 00h, 0Ch, 00h, 02h, 00h
-    db 07h, 00h, 03h, 00h, 07h, 00h, 02h, 00h, 0Ch, 00h, 00h, 00h, 07h, 00h, 03h, 00h
-    db 07h, 00h, 01h, 00h, 0Dh, 00h, 00h, 00h, 01h, 00h, 03h, 00h, 07h, 00h, 02h, 00h
-    db 0Dh, 00h, 00h, 00h, 01h, 00h, 02h, 00h, 03h, 00h, 01h, 00h, 0Eh, 00h, 00h, 00h
-    db 08h, 00h, 02h, 00h, 07h, 00h, 02h, 00h, 0Eh, 00h, 00h, 00h, 08h, 00h, 03h, 00h
-    db 03h, 00h, 01h, 00h, 0Fh, 00h, 00h, 00h, 02h, 00h, 03h, 00h, 07h, 00h, 02h, 00h
-    db 0Fh, 00h, 00h, 00h, 02h, 00h, 0Fh, 00h, 03h, 00h, 01h, 00h, 10h, 00h, 00h, 00h
-    db 00h, 00h, 0Fh, 00h, 06h, 00h, 02h, 00h, 10h, 00h, 00h, 00h, 00h, 00h, 0Fh, 00h
-    db 03h, 00h, 01h, 00h, 11h, 00h, 22h, 00h, 00h, 00h, 03h, 00h, 07h, 00h, 02h, 00h
-    db 11h, 00h, 22h, 00h, 00h, 00h, 0Fh, 00h, 03h, 00h, 01h, 00h, 12h, 00h, 00h, 00h
-    db 00h, 00h, 0Fh, 00h, 06h, 00h, 02h, 00h, 12h, 00h, 00h, 00h, 00h, 00h, 0Fh, 00h
-    db 01h, 00h, 01h, 00h, 13h, 00h, 00h, 00h, 00h, 00h, 0Fh, 00h, 07h, 00h, 02h, 00h
-    db 13h, 00h, 00h, 00h, 00h, 00h, 0Bh, 00h, 07h, 00h, 01h, 00h, 09h, 00h, 00h, 00h
-    db 00h, 00h, 0Bh, 00h, 07h, 00h, 02h, 00h, 09h, 00h, 00h, 00h, 00h, 00h, 0Ch, 00h
-    db 06h, 00h, 02h, 00h, 09h, 00h, 02h, 00h, 00h, 00h, 0Fh, 00h, 06h, 00h, 01h, 00h
-    db 14h, 00h, 00h, 00h, 00h, 00h, 0Fh, 00h, 06h, 00h, 02h, 00h, 14h, 00h, 00h, 00h
-    db 00h, 00h, 0Ch, 00h, 06h, 00h, 05h, 00h, 15h, 00h, 00h, 00h, 00h, 00h, 03h, 00h
-    db 07h, 00h, 05h, 00h, 15h, 00h, 00h, 00h, 00h, 00h, 0Ch, 00h, 06h, 00h, 07h, 00h
-    db 15h, 00h, 00h, 00h, 00h, 00h, 03h, 00h, 03h, 00h, 07h, 00h, 15h, 00h, 00h, 00h
-    db 00h, 00h, 0Bh, 00h, 01h, 00h, 07h, 00h, 15h, 00h, 00h, 00h, 00h, 00h, 0Fh, 00h
-    db 03h, 00h, 06h, 00h, 15h, 00h, 00h, 00h, 0F1h, 0FFh, 0Ch, 00h, 06h, 00h, 08h, 00h
-    db 15h, 00h, 00h, 00h, 0F1h, 0FFh, 0Dh, 00h, 06h, 00h, 08h, 00h, 15h, 00h, 00h, 00h
-    db 0FBh, 0FFh, 0Fh, 00h, 07h, 00h, 08h, 00h, 15h, 00h, 00h, 00h, 0FEh, 0FFh, 00h, 00h
-    db 00h, 00h
-_var_25 db 00h
-    db 45h, 72h, 72h, 6Fh, 72h, 20h, 72h, 65h, 6Ch, 65h, 61h, 73h, 69h, 6Eh, 67h, 20h
-    db 6Fh, 76h, 65h, 72h, 6Ch, 61h, 79h, 20h, 6Dh, 65h, 6Dh, 6Fh, 72h, 79h, 24h
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah  ; align align(1)
-    db 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h
-    db 00h, 00h, 00h
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah  ; align align(1)
-    db 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h
-    db 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h
-    db 00h, 00h
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah  ; align align(1)
-    db 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h
-    db 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah  ; align align(1)
-    db 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah  ; align align(1)
-    db 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h
-    db 00h, 00h, 00h
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah  ; align align(1)
-    db 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h
-    db 00h, 00h, 00h
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-    db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
-; --- Overlay jump table (Data1:0x1008) ---
-; 84 entries x 5 bytes = 420 bytes (0x1008-0x11AB)
+    db 000h
+_var_8 db 000h
+_var_9 db 000h
+_var_10 db 000h
+_var_11 db 000h
+    db 000h
+_var_12 db 000h
+_var_13 db 000h
+_var_14 db 04Dh
+    db 053h
+_var_15 db 020h
+    db 052h
+_var_16 db 075h
+    db 06Eh
+_var_17 db 02Dh
+    db 054h
+_var_18 db 069h
+    db 06Dh
+_var_19 db 065h
+    db 020h, 04Ch, 069h, 062h, 072h, 061h, 072h, 079h, 020h, 02Dh, 020h, 043h, 06Fh, 070h, 079h, 072h
+    db 069h, 067h, 068h, 074h, 020h, 028h, 063h, 029h, 020h
+_var_20 db 031h
+    db 039h
+_var_21 db 038h
+    db 038h
+_var_22 db 02Ch
+    db 020h, 04Dh, 069h, 063h, 072h, 06Fh, 073h, 06Fh, 066h, 074h, 020h, 043h, 06Fh, 072h, 070h, 011h
+    db 000h
+dat_0042 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 04Eh, 06Fh, 06Eh, 065h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 053h, 041h, 02Dh, 032h, 000h, 000h, 000h, 000h, 0C8h, 000h, 003h, 000h, 000h, 000h, 053h
+    db 041h, 02Dh, 035h, 000h, 000h, 000h, 000h, 05Eh, 001h, 002h, 000h, 000h, 000h, 053h, 041h, 02Dh
+    db 038h, 042h, 000h, 000h, 000h, 07Dh, 000h, 005h, 000h, 000h, 000h, 053h, 041h, 02Dh, 031h, 030h
+    db 000h, 000h, 000h, 040h, 001h, 007h, 000h, 001h, 000h, 053h, 041h, 02Dh, 031h, 031h, 000h, 000h
+    db 000h, 0C8h, 000h, 005h, 000h, 000h, 000h, 053h, 041h, 02Dh, 031h, 032h, 000h, 000h, 000h, 022h
+    db 001h, 006h, 000h, 001h, 000h, 053h, 041h, 02Dh, 031h, 033h, 000h, 000h, 000h, 07Dh, 000h, 003h
+    db 000h, 000h, 000h, 053h, 041h, 02Dh, 04Eh, 02Dh, 034h, 000h, 000h, 0C8h, 000h, 004h, 000h, 001h
+    db 000h, 053h, 041h, 02Dh, 04Eh, 02Dh, 035h, 000h, 000h, 096h, 000h, 003h, 000h, 000h, 000h, 053h
+    db 041h, 02Dh, 04Eh, 02Dh, 036h, 000h, 000h, 040h, 001h, 006h, 000h, 001h, 000h, 053h, 041h, 02Dh
+    db 04Eh, 02Dh, 037h, 000h, 000h, 0C8h, 000h, 005h, 000h, 000h, 000h, 048h, 061h, 077h, 06Bh, 000h
+    db 000h, 000h, 000h, 0AFh, 000h, 006h, 000h, 001h, 000h, 052h, 061h, 070h, 069h, 065h, 072h, 000h
+    db 000h, 04Bh, 000h, 008h, 000h, 000h, 000h, 054h, 069h, 067h, 065h, 072h, 000h, 000h, 000h, 041h
+    db 000h, 004h, 000h, 000h, 000h, 053h, 065h, 061h, 063h, 061h, 074h, 000h, 000h, 0C8h, 000h, 002h
+    db 000h, 000h, 000h, 049h, 04Ch, 037h, 036h, 000h, 000h, 000h, 000h, 0C8h, 000h, 008h, 000h, 003h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 032h, 000h, 005h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 046h, 000h, 006h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 050h, 000h, 007h, 000h, 001h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 064h, 000h, 008h, 000h, 001h, 000h, 04Fh, 054h, 048h, 000h, 000h, 000h, 000h
+    db 000h, 0F4h, 001h, 005h, 000h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 028h
+    db 000h, 003h, 000h, 000h, 000h, 04Dh, 049h, 047h, 02Dh, 032h, 033h, 000h, 020h, 046h, 06Ch, 06Fh
+    db 067h, 067h, 065h, 072h, 000h, 000h, 000h, 0E4h, 002h, 030h, 002h, 003h, 000h
+_var_23 db 011h
+    db 000h, 00Ah, 000h, 002h, 000h, 000h, 000h, 04Dh, 049h, 047h, 02Dh, 032h, 035h, 000h, 020h, 046h
+    db 06Fh, 078h, 062h, 061h, 074h, 000h, 000h, 000h, 000h, 03Ah, 002h, 0BCh, 002h, 002h, 000h, 012h
+    db 000h, 000h, 000h, 002h, 000h, 000h, 000h, 04Dh, 049h, 047h, 02Dh, 032h, 039h, 000h, 020h, 046h
+    db 075h, 06Ch, 063h, 072h, 075h, 06Dh, 000h, 000h, 000h, 0BCh, 002h, 090h, 001h, 005h, 000h, 013h
+    db 000h, 014h, 000h, 002h, 000h, 000h, 000h, 046h, 02Dh, 031h, 000h, 000h, 000h, 000h, 020h, 04Dh
+    db 069h, 072h, 061h, 067h, 065h, 000h, 000h, 000h, 000h, 016h, 003h, 0A2h, 003h, 003h, 000h, 014h
+    db 000h, 000h, 000h, 002h, 000h, 000h, 000h, 053h, 075h, 02Dh, 032h, 037h, 000h, 000h, 020h, 046h
+    db 06Ch, 061h, 06Eh, 06Bh, 065h, 072h, 000h, 000h, 000h, 0D5h, 002h, 0CBh, 002h, 004h, 000h, 013h
+    db 000h, 014h, 000h, 002h, 000h, 000h, 000h, 049h, 04Ch, 02Dh, 037h, 036h, 000h, 000h, 020h, 04Dh
+    db 061h, 069h, 06Eh, 073h, 074h, 061h, 079h, 000h, 000h, 090h, 001h, 0A0h, 00Fh, 001h, 000h, 010h
+    db 000h, 00Ch, 000h, 002h, 000h, 000h, 000h, 046h, 02Dh, 034h, 045h, 000h, 000h, 000h, 020h, 050h
+    db 068h, 061h, 06Eh, 074h, 06Fh, 06Dh, 000h, 000h, 000h, 020h, 003h, 008h, 002h, 004h, 000h, 012h
+    db 000h, 00Bh, 000h, 002h, 000h, 000h, 000h, 046h, 02Dh, 031h, 034h, 000h, 000h, 000h, 020h, 054h
+    db 06Fh, 06Dh, 063h, 061h, 074h, 000h, 000h, 000h, 000h, 020h, 003h, 020h, 003h, 004h, 000h, 013h
+    db 000h, 008h, 000h, 002h, 000h, 000h, 000h, 046h, 02Dh, 031h, 038h, 000h, 000h, 000h, 020h, 048h
+    db 06Fh, 072h, 06Eh, 065h, 074h, 000h, 000h, 000h, 000h, 094h, 002h, 0CDh, 001h, 005h, 000h, 0FFh
+    db 0FFh, 000h, 000h, 002h, 000h, 000h, 000h, 041h, 06Eh, 02Dh, 037h, 032h, 000h, 000h, 020h, 043h
+    db 06Fh, 061h, 06Ch, 065h, 072h, 000h, 000h, 000h, 000h, 05Eh, 001h, 06Ch, 002h, 002h, 000h, 000h
+    db 000h, 009h, 000h, 002h, 000h, 000h, 000h, 046h, 02Dh, 031h, 038h, 000h, 000h, 000h, 020h, 048h
+    db 06Fh, 072h, 06Eh, 065h, 074h, 000h, 000h, 000h, 000h, 094h, 002h, 0CDh, 001h, 005h, 000h, 0FFh
+    db 0FFh, 004h, 000h, 002h, 000h, 000h, 000h, 04Dh, 049h, 047h, 02Dh, 032h, 033h, 000h, 020h, 046h
+    db 06Ch, 06Fh, 067h, 067h, 065h, 072h, 000h, 000h, 000h, 0E4h, 002h, 030h, 002h, 003h, 000h, 000h
+    db 000h, 004h, 000h, 002h, 000h, 000h, 000h, 046h, 02Dh, 031h, 034h, 000h, 000h, 000h, 020h, 054h
+    db 06Fh, 06Dh, 063h, 061h, 074h, 000h, 000h, 000h, 000h, 020h, 003h, 020h, 003h, 004h, 000h, 0FFh
+    db 0FFh, 008h, 000h, 002h, 000h, 000h, 000h, 046h, 02Dh, 034h, 045h, 000h, 000h, 000h, 020h, 050h
+    db 068h, 061h, 06Eh, 074h, 06Fh, 06Dh, 000h, 000h, 000h, 020h, 003h, 008h, 002h, 004h, 000h, 0FFh
+    db 0FFh, 00Bh, 000h, 002h, 000h, 000h, 000h, 04Dh, 049h, 047h, 02Dh, 031h, 037h, 000h, 020h, 046h
+    db 072h, 065h, 073h, 063h, 06Fh, 000h, 000h, 000h, 000h, 026h, 002h, 02Ch, 001h, 003h, 000h, 011h
+    db 000h, 010h, 000h, 002h, 000h, 000h, 000h, 054h, 075h, 02Dh, 039h, 035h, 000h, 000h, 020h, 042h
+    db 065h, 061h, 072h, 000h, 000h, 000h, 000h, 000h, 000h, 09Ah, 001h, 0ECh, 013h, 001h, 000h, 000h
+    db 000h, 012h, 000h, 002h, 000h, 000h, 000h, 04Dh, 069h, 02Dh, 032h, 034h, 000h, 000h, 020h, 048h
+    db 069h, 06Eh, 064h, 000h, 000h, 000h, 000h, 000h, 000h, 0C8h, 000h, 02Ch, 001h, 001h, 000h, 011h
+    db 000h, 013h, 000h, 002h, 000h, 000h, 000h, 046h, 02Dh, 035h, 000h, 000h, 000h, 000h, 020h, 054h
+    db 069h, 067h, 065h, 072h, 000h, 000h, 000h, 000h, 000h, 0F4h, 001h, 0FAh, 000h, 003h, 000h, 016h
+    db 000h, 016h, 000h, 002h, 000h, 000h, 000h, 037h, 036h, 037h, 000h, 000h, 000h, 000h, 020h, 042h
+    db 06Fh, 065h, 069h, 06Eh, 067h, 000h, 000h, 000h, 000h, 090h, 001h, 0E8h, 003h, 001h, 000h, 0FFh
+    db 0FFh, 012h, 000h, 002h, 000h, 000h, 000h, 04Eh, 06Fh, 06Eh, 065h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 001h, 000h, 013h, 000h, 053h, 041h, 02Dh, 032h, 000h, 000h, 000h
+    db 000h, 07Dh, 000h, 0D0h, 007h, 001h, 000h, 004h, 000h, 013h, 000h, 053h, 041h, 02Dh, 035h, 000h
+    db 000h, 000h, 000h, 096h, 000h, 008h, 007h, 001h, 000h, 001h, 000h, 013h, 000h, 053h, 041h, 02Dh
+    db 038h, 042h, 000h, 000h, 000h, 041h, 000h, 0B0h, 004h, 002h, 000h, 003h, 000h, 013h, 000h, 053h
+    db 041h, 02Dh, 031h, 030h, 000h, 000h, 000h, 07Dh, 000h, 008h, 007h, 003h, 000h, 002h, 000h, 013h
+    db 000h, 053h, 041h, 02Dh, 031h, 031h, 000h, 000h, 000h, 064h, 000h, 0DCh, 005h, 002h, 000h, 003h
+    db 000h, 013h, 000h, 053h, 041h, 02Dh, 031h, 032h, 000h, 000h, 000h, 096h, 000h, 0D0h, 007h, 003h
+    db 000h, 002h, 000h, 013h, 000h, 053h, 041h, 02Dh, 031h, 033h, 000h, 000h, 000h, 041h, 000h, 084h
+    db 003h, 000h, 000h, 004h, 000h, 013h, 000h, 053h, 041h, 02Dh, 04Eh, 02Dh, 034h, 000h, 000h, 01Eh
+    db 000h, 0B0h, 004h, 002h, 000h, 003h, 000h, 013h, 000h, 053h, 041h, 02Dh, 04Eh, 02Dh, 035h, 000h
+    db 000h, 01Eh, 000h, 084h, 003h, 0FFh, 0FFh, 004h, 000h, 013h, 000h, 053h, 041h, 02Dh, 04Eh, 02Dh
+    db 036h, 000h, 000h, 07Dh, 000h, 008h, 007h, 003h, 000h, 002h, 000h, 013h, 000h, 053h, 041h, 02Dh
+    db 04Eh, 02Dh, 037h, 000h, 000h, 064h, 000h, 0DCh, 005h, 002h, 000h, 003h, 000h, 013h, 000h, 048h
+    db 061h, 077h, 06Bh, 000h, 000h, 000h, 000h, 07Dh, 000h, 084h, 003h, 002h, 000h, 003h, 000h, 013h
+    db 000h, 052h, 061h, 070h, 069h, 065h, 072h, 000h, 000h, 041h, 000h, 0B0h, 004h, 002h, 000h, 004h
+    db 000h, 013h, 000h, 054h, 069h, 067h, 065h, 072h, 000h, 000h, 000h, 01Eh, 000h, 084h, 003h, 001h
+    db 000h, 003h, 000h, 013h, 000h, 053h, 065h, 061h, 063h, 061h, 074h, 000h, 000h, 01Eh, 000h, 084h
+    db 003h, 001h, 000h, 003h, 000h, 013h, 000h, 041h, 041h, 02Dh, 032h, 000h, 000h, 000h, 000h, 00Eh
+    db 000h, 0DCh, 005h, 0FFh, 0FFh, 004h, 000h, 013h, 000h, 041h, 041h, 02Dh, 038h, 000h, 000h, 000h
+    db 000h, 00Ch, 000h, 008h, 007h, 000h, 000h, 005h, 000h, 013h, 000h, 041h, 041h, 02Dh, 036h, 000h
+    db 000h, 000h, 000h, 032h, 000h, 060h, 009h, 002h, 000h, 002h, 000h, 013h, 000h, 041h, 041h, 02Dh
+    db 037h, 000h, 000h, 000h, 000h, 022h, 000h, 008h, 007h, 002h, 000h, 002h, 000h, 013h, 000h, 041h
+    db 041h, 02Dh, 039h, 000h, 000h, 000h, 000h, 052h, 000h, 0D0h, 007h, 002h, 000h, 003h, 000h, 013h
+    db 000h, 041h, 041h, 02Dh, 031h, 030h, 000h, 000h, 000h, 040h, 000h, 0D0h, 007h, 003h, 000h, 004h
+    db 000h, 013h, 000h, 041h, 049h, 04Dh, 031h, 032h, 030h, 000h, 000h, 020h, 000h, 060h, 009h, 007h
+    db 000h, 004h, 000h, 001h, 000h, 041h, 049h, 04Dh, 02Dh, 039h, 000h, 000h, 000h, 011h, 000h, 0D0h
+    db 007h, 007h, 000h, 008h, 000h, 001h, 000h, 048h, 041h, 052h, 04Dh, 000h, 000h, 000h, 000h, 014h
+    db 000h, 0B0h, 004h, 004h, 000h, 002h, 000h, 001h, 000h, 050h, 065h, 06Eh, 067h, 075h, 069h, 06Eh
+    db 000h, 020h, 000h, 0F4h, 001h, 005h, 000h, 002h, 000h, 013h, 000h, 048h, 061h, 072h, 070h, 06Fh
+    db 06Fh, 06Eh, 000h, 03Ch, 000h, 0F4h, 001h, 005h, 000h, 002h, 000h, 013h, 000h, 041h, 047h, 04Dh
+    db 02Dh, 036h, 035h, 000h, 000h, 020h, 000h, 020h, 003h, 006h, 000h, 002h, 000h, 00Dh, 000h, 04Ch
+    db 047h, 042h, 04Fh, 04Dh, 042h, 000h, 000h, 00Ah, 000h, 000h, 000h, 01Ch, 000h, 002h, 000h, 00Fh
+    db 000h, 052h, 054h, 042h, 04Fh, 04Dh, 042h, 000h, 000h, 000h, 000h, 000h, 000h, 01Dh, 000h, 002h
+    db 000h, 00Fh, 000h, 046h, 046h, 042h, 04Fh, 04Dh, 042h, 000h, 000h, 000h, 000h, 000h, 000h, 01Eh
+    db 000h, 002h, 000h, 00Fh, 000h, 041h, 049h, 04Dh, 02Dh, 037h, 057h, 000h, 000h, 02Ch, 000h, 060h
+    db 009h, 002h, 000h, 004h, 000h, 001h, 000h, 041h, 049h, 04Dh, 02Dh, 039h, 057h, 000h, 000h, 00Ch
+    db 000h, 0D0h, 007h, 000h, 000h, 005h, 000h, 001h, 000h, 053h, 041h, 02Dh, 031h, 034h, 000h, 000h
+    db 000h, 010h, 000h, 084h, 003h, 000h, 000h, 005h, 000h, 001h, 000h, 041h, 041h, 02Dh, 036h, 000h
+    db 000h, 000h, 000h, 032h, 000h, 060h, 009h, 0FFh, 0FFh, 002h, 000h, 013h, 000h, 041h, 041h, 02Dh
+    db 037h, 000h, 000h, 000h, 000h, 022h, 000h, 008h, 007h, 0FFh, 0FFh, 002h, 000h, 013h, 000h, 041h
+    db 041h, 02Dh, 039h, 000h, 000h, 000h, 000h, 052h, 000h, 0D0h, 007h, 0FFh, 0FFh, 003h, 000h, 013h
+    db 000h, 041h, 041h, 02Dh, 031h, 030h, 000h, 000h, 000h, 040h, 000h, 0D0h, 007h, 000h, 000h, 004h
+    db 000h, 013h, 000h, 045h, 071h, 075h, 069h, 070h, 02Eh, 000h, 000h, 000h, 000h, 000h, 000h, 01Dh
+    db 000h, 000h, 000h, 00Eh, 000h, 000h, 000h, 000h, 000h, 002h, 000h, 000h, 000h, 006h, 000h, 001h
+    db 000h, 007h, 000h, 003h, 000h, 006h, 000h, 002h, 000h, 005h, 000h, 007h, 000h, 004h, 000h, 002h
+    db 000h, 005h, 000h, 003h, 000h, 008h, 000h, 000h, 000h, 008h, 000h, 000h, 000h, 00Ah, 000h, 00Bh
+    db 000h, 00Bh, 000h, 009h, 000h, 00Ch, 000h, 00Dh, 000h, 00Ch, 000h, 00Eh, 000h, 00Dh, 000h, 00Eh
+    db 000h, 00Fh, 000h, 000h, 000h, 004h, 000h, 088h, 013h, 000h, 000h, 00Ch, 000h, 012h, 000h, 003h
+    db 000h, 001h, 000h, 003h, 000h, 010h, 000h, 001h, 000h, 005h, 000h, 003h, 000h, 009h, 000h, 003h
+    db 000h, 000h, 000h, 08Ah, 002h, 000h, 000h, 001h, 000h, 001h, 000h
+_var_24 db 001h
+    db 000h, 000h, 000h, 001h, 000h, 001h, 000h, 004h, 000h, 041h, 049h, 04Dh, 02Dh, 039h, 04Dh, 000h
+    db 000h, 000h, 000h, 053h, 069h, 064h, 065h, 077h, 069h, 06Eh, 064h, 065h, 072h, 000h, 000h, 017h
+    db 000h, 004h, 000h, 041h, 049h, 04Dh, 02Dh, 031h, 032h, 030h, 000h, 000h, 000h, 041h, 04Dh, 052h
+    db 041h, 041h, 04Dh, 000h, 000h, 000h, 000h, 000h, 000h, 016h, 000h, 003h, 000h, 041h, 047h, 04Dh
+    db 02Dh, 038h, 038h, 041h, 000h, 000h, 000h, 048h, 041h, 052h, 04Dh, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 018h, 000h, 001h, 000h, 050h, 033h, 020h, 041h, 053h, 04Dh, 000h, 000h, 000h
+    db 000h, 050h, 065h, 06Eh, 067h, 075h, 069h, 06Eh, 000h, 000h, 000h, 000h, 000h, 019h, 000h, 002h
+    db 000h, 041h, 047h, 04Dh, 02Dh, 038h, 036h, 041h, 000h, 000h, 000h, 048h, 061h, 072h, 070h, 06Fh
+    db 06Fh, 06Eh, 000h, 000h, 000h, 000h, 000h, 01Ah, 000h, 001h, 000h, 041h, 047h, 04Dh, 02Dh, 036h
+    db 035h, 044h, 000h, 000h, 000h, 04Dh, 061h, 076h, 065h, 072h, 069h, 063h, 06Bh, 000h, 000h, 000h
+    db 000h, 01Bh, 000h, 002h, 000h, 047h, 042h, 055h, 02Dh, 031h, 032h, 000h, 000h, 000h, 000h, 050h
+    db 061h, 076h, 065h, 077h, 061h, 079h, 000h, 000h, 000h, 000h, 000h, 01Ch, 000h, 002h, 000h, 04Dh
+    db 06Bh, 020h, 032h, 030h, 000h, 000h, 000h, 000h, 000h, 052h, 06Fh, 063h, 06Bh, 065h, 079h, 065h
+    db 000h, 000h, 000h, 000h, 000h, 01Dh, 000h, 002h, 000h, 044h, 06Eh, 064h, 06Ch, 000h, 000h, 000h
+    db 000h, 000h, 000h, 044h, 075h, 072h, 061h, 06Eh, 064h, 061h, 06Ch, 000h, 000h, 000h, 000h, 01Dh
+    db 000h, 002h, 000h, 04Dh, 06Bh, 020h, 038h, 032h, 02Dh, 030h, 000h, 000h, 000h, 053h, 06Ch, 069h
+    db 063h, 06Bh, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 01Eh, 000h, 003h, 000h, 04Dh, 06Bh, 020h
+    db 038h, 032h, 02Dh, 031h, 000h, 000h, 000h, 053h, 06Eh, 061h, 06Bh, 065h, 079h, 065h, 000h, 000h
+    db 000h, 000h, 000h, 01Dh, 000h, 003h, 000h, 04Dh, 06Bh, 020h, 032h, 030h, 000h, 000h, 000h, 000h
+    db 000h, 052h, 06Fh, 063h, 06Bh, 065h, 079h, 065h, 020h, 049h, 049h, 000h, 000h, 01Ch, 000h, 002h
+    db 000h, 04Dh, 06Bh, 020h, 031h, 032h, 032h, 000h, 000h, 000h, 000h, 046h, 069h, 072h, 065h, 065h
+    db 079h, 065h, 000h, 000h, 000h, 000h, 000h, 01Eh, 000h, 002h, 000h, 043h, 042h, 055h, 02Dh, 037h
+    db 032h, 000h, 000h, 000h, 000h, 046h, 075h, 065h, 06Ch, 02Dh, 041h, 069h, 072h, 000h, 000h, 000h
+    db 000h, 01Ch, 000h, 002h, 000h, 04Dh, 06Bh, 020h, 033h, 035h, 000h, 000h, 000h, 000h, 000h, 049h
+    db 04Eh, 020h, 043h, 06Ch, 075h, 073h, 074h, 065h, 072h, 000h, 000h, 01Dh, 000h, 002h, 000h, 049h
+    db 053h, 043h, 020h, 042h, 02Dh, 031h, 000h, 000h, 000h, 04Dh, 069h, 06Eh, 065h, 06Ch, 065h, 074h
+    db 073h, 000h, 000h, 000h, 000h, 01Dh, 000h, 001h, 000h, 031h, 033h, 035h, 020h, 06Dh, 06Dh, 000h
+    db 000h, 000h, 000h, 043h, 061h, 06Dh, 065h, 072h, 061h, 000h, 000h, 000h, 000h, 000h, 000h, 0FFh
+    db 0FFh, 001h, 000h, 031h, 039h, 030h, 030h, 06Ch, 062h, 073h, 000h, 000h, 000h, 045h, 078h, 074h
+    db 072h, 061h, 020h, 046h, 075h, 065h, 06Ch, 000h, 000h, 0FEh, 0FFh, 001h, 000h, 032h, 030h, 020h
+    db 06Dh, 06Dh, 000h, 000h, 000h, 000h, 000h, 047h, 075h, 06Eh, 073h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 001h, 000h, 053h, 070h, 065h, 063h, 069h, 061h, 06Ch, 000h, 000h
+    db 000h, 045h, 071h, 075h, 069h, 070h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 026h, 000h, 001h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 006h, 000h, 000h, 000h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 004h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 006h, 002h, 001h, 002h, 002h, 003h, 004h, 003h, 003h, 004h, 004h, 004h, 001h, 002h, 004h
+    db 001h, 002h, 004h, 005h, 005h, 004h, 004h, 005h, 004h, 004h, 000h, 003h, 000h, 000h, 004h, 004h
+    db 000h, 000h, 005h, 005h, 004h, 004h, 005h, 000h, 004h, 000h, 008h, 000h, 000h, 002h, 001h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 003h, 001h, 003h, 004h, 001h, 001h, 004h, 002h, 003h, 003h
+    db 004h, 000h, 003h, 000h, 001h, 004h, 004h, 000h, 000h, 004h, 000h, 002h, 000h, 004h, 000h, 000h
+    db 000h, 000h, 004h, 004h, 000h, 000h, 004h, 004h, 004h, 004h, 004h, 000h, 003h, 002h, 000h, 004h
+    db 004h, 000h, 002h, 005h, 003h, 003h, 002h, 005h, 001h, 003h, 004h, 000h, 000h, 006h, 000h, 005h
+    db 000h, 000h, 000h, 004h, 000h, 005h, 002h, 001h, 000h, 006h, 004h, 000h, 000h, 006h, 006h, 003h
+    db 006h, 006h, 000h, 003h, 000h, 006h, 000h, 003h, 000h, 000h, 002h, 003h, 000h, 000h, 003h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 004h, 004h, 000h
+    db 002h, 004h, 004h, 003h, 004h, 005h, 000h, 003h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 003h, 000h, 002h, 000h, 001h, 000h, 000h
+    db 000h, 0FFh, 0FFh, 0FEh, 0FFh, 0FFh, 0FFh, 003h, 000h, 002h, 000h, 002h, 000h, 002h, 000h, 001h
+    db 000h, 001h, 000h, 001h, 000h, 002h, 000h, 003h, 000h, 003h, 000h, 003h, 000h, 002h, 000h, 002h
+    db 000h, 002h, 000h, 003h, 000h, 003h, 000h, 003h, 000h, 003h, 000h, 003h, 000h, 003h, 000h, 003h
+    db 000h, 0FDh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 003h, 000h, 003h, 000h, 003h, 000h, 0FDh, 0FFh, 0FDh
+    db 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 0FEh, 0FFh, 0FEh, 0FFh, 0FEh
+    db 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 0FEh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FEh
+    db 0FFh, 0FEh, 0FFh, 0FEh, 0FFh, 0FDh, 0FFh, 001h, 000h, 002h, 000h, 001h, 000h, 000h, 000h, 0FFh
+    db 0FFh, 0FEh, 0FFh, 0FDh, 0FFh, 0FDh, 0FFh, 002h, 000h, 003h, 000h, 002h, 000h, 002h, 000h, 001h
+    db 000h, 001h, 000h, 001h, 000h, 0FEh, 0FFh, 004h, 000h, 004h, 000h, 003h, 000h, 002h, 000h, 001h
+    db 000h, 004h, 000h, 004h, 000h, 004h, 000h, 004h, 000h, 004h, 000h, 004h, 000h, 004h, 000h, 0FEh
+    db 0FFh, 004h, 000h, 004h, 000h, 004h, 000h, 004h, 000h, 004h, 000h, 0FCh, 0FFh, 0FCh, 0FFh, 004h
+    db 000h, 004h, 000h, 004h, 000h, 004h, 000h, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 004h
+    db 000h, 004h, 000h, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 002h, 000h, 0FCh
+    db 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FFh, 0FFh, 0FDh
+    db 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 002h, 000h, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FEh
+    db 0FFh, 0FEh, 0FFh, 0FDh, 0FFh, 0FFh, 0FFh, 002h, 000h, 003h, 000h, 002h, 000h, 002h, 000h, 001h
+    db 000h, 001h, 000h, 0FFh, 0FFh, 0FEh, 0FFh, 004h, 000h, 004h, 000h, 003h, 000h, 002h, 000h, 001h
+    db 000h, 004h, 000h, 0FCh, 0FFh, 004h, 000h, 004h, 000h, 004h, 000h, 004h, 000h, 004h, 000h, 000h
+    db 001h, 004h, 000h, 000h, 001h, 000h, 001h, 000h, 001h, 004h, 000h, 0FCh, 0FFh, 0FCh, 0FFh, 000h
+    db 002h, 004h, 000h, 000h, 001h, 000h, 001h, 000h, 001h, 000h, 001h, 0FCh, 0FFh, 000h, 002h, 004h
+    db 000h, 004h, 000h, 0FCh, 0FFh, 000h, 001h, 000h, 001h, 000h, 001h, 0FCh, 0FFh, 004h, 000h, 0FCh
+    db 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 004h, 000h, 000h, 001h, 0FFh, 0FFh, 0FDh
+    db 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 0FCh, 0FFh, 002h, 000h, 001h, 000h, 0FFh, 0FFh, 0FFh, 0FFh, 0FEh
+    db 0FFh, 0FEh, 0FFh, 0FDh, 0FFh, 0FFh, 0FFh, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 00Fh, 000h, 007h, 000h, 004h, 000h, 001h, 000h, 02Fh
+    db 000h, 000h, 000h, 00Fh, 000h, 007h, 000h, 004h, 000h, 001h, 000h, 02Fh, 000h, 000h, 000h, 00Fh
+    db 000h, 001h, 000h, 003h, 000h, 001h, 000h, 03Ah, 000h, 000h, 000h, 00Fh, 000h, 006h, 000h, 003h
+    db 000h, 001h, 000h, 03Ah, 000h, 000h, 000h, 00Fh, 000h, 003h, 000h, 001h, 000h, 002h, 000h, 000h
+    db 000h, 000h, 000h, 00Fh, 000h, 006h, 000h, 002h, 000h, 002h, 000h, 000h, 000h, 000h, 000h, 00Fh
+    db 000h, 006h, 000h, 002h, 000h, 003h, 000h, 000h, 000h, 001h, 000h, 00Fh, 000h, 007h, 000h, 001h
+    db 000h, 004h, 000h, 000h, 000h, 000h, 000h, 00Fh, 000h, 006h, 000h, 002h, 000h, 004h, 000h, 000h
+    db 000h, 000h, 000h, 00Fh, 000h, 001h, 000h, 001h, 000h, 005h, 000h, 000h, 000h, 000h, 000h, 00Fh
+    db 000h, 007h, 000h, 002h, 000h, 005h, 000h, 000h, 000h, 000h, 000h, 00Fh, 000h, 007h, 000h, 001h
+    db 000h, 006h, 000h, 000h, 000h, 009h, 000h, 00Fh, 000h, 004h, 000h, 002h, 000h, 006h, 000h, 000h
+    db 000h, 009h, 000h, 00Fh, 000h, 003h, 000h, 001h, 000h, 007h, 000h, 000h, 000h, 004h, 000h, 00Fh
+    db 000h, 007h, 000h, 002h, 000h, 007h, 000h, 000h, 000h, 004h, 000h, 00Fh, 000h, 007h, 000h, 001h
+    db 000h, 016h, 000h, 000h, 000h, 005h, 000h, 00Fh, 000h, 007h, 000h, 002h, 000h, 016h, 000h, 000h
+    db 000h, 005h, 000h, 00Fh, 000h, 007h, 000h, 001h, 000h, 016h, 000h, 000h, 000h, 006h, 000h, 00Fh
+    db 000h, 007h, 000h, 002h, 000h, 016h, 000h, 000h, 000h, 006h, 000h, 00Fh, 000h, 003h, 000h, 001h
+    db 000h, 016h, 000h, 022h, 000h, 006h, 000h, 00Fh, 000h, 007h, 000h, 002h, 000h, 016h, 000h, 022h
+    db 000h, 006h, 000h, 003h, 000h, 003h, 000h, 001h, 000h, 017h, 000h, 000h, 000h, 00Bh, 000h, 003h
+    db 000h, 007h, 000h, 002h, 000h, 017h, 000h, 002h, 000h, 00Bh, 000h, 00Fh, 000h, 001h, 000h, 001h
+    db 000h, 00Ah, 000h, 000h, 000h, 003h, 000h, 00Fh, 000h, 006h, 000h, 002h, 000h, 00Ah, 000h, 000h
+    db 000h, 003h, 000h, 00Fh, 000h, 007h, 000h, 001h, 000h, 00Ch, 000h, 000h, 000h, 007h, 000h, 003h
+    db 000h, 007h, 000h, 002h, 000h, 00Ch, 000h, 002h, 000h, 007h, 000h, 003h, 000h, 007h, 000h, 002h
+    db 000h, 00Ch, 000h, 000h, 000h, 007h, 000h, 003h, 000h, 007h, 000h, 001h, 000h, 00Dh, 000h, 000h
+    db 000h, 001h, 000h, 003h, 000h, 007h, 000h, 002h, 000h, 00Dh, 000h, 000h, 000h, 001h, 000h, 002h
+    db 000h, 003h, 000h, 001h, 000h, 00Eh, 000h, 000h, 000h, 008h, 000h, 002h, 000h, 007h, 000h, 002h
+    db 000h, 00Eh, 000h, 000h, 000h, 008h, 000h, 003h, 000h, 003h, 000h, 001h, 000h, 00Fh, 000h, 000h
+    db 000h, 002h, 000h, 003h, 000h, 007h, 000h, 002h, 000h, 00Fh, 000h, 000h, 000h, 002h, 000h, 00Fh
+    db 000h, 003h, 000h, 001h, 000h, 010h, 000h, 000h, 000h, 000h, 000h, 00Fh, 000h, 006h, 000h, 002h
+    db 000h, 010h, 000h, 000h, 000h, 000h, 000h, 00Fh, 000h, 003h, 000h, 001h, 000h, 011h, 000h, 022h
+    db 000h, 000h, 000h, 003h, 000h, 007h, 000h, 002h, 000h, 011h, 000h, 022h, 000h, 000h, 000h, 00Fh
+    db 000h, 003h, 000h, 001h, 000h, 012h, 000h, 000h, 000h, 000h, 000h, 00Fh, 000h, 006h, 000h, 002h
+    db 000h, 012h, 000h, 000h, 000h, 000h, 000h, 00Fh, 000h, 001h, 000h, 001h, 000h, 013h, 000h, 000h
+    db 000h, 000h, 000h, 00Fh, 000h, 007h, 000h, 002h, 000h, 013h, 000h, 000h, 000h, 000h, 000h, 00Bh
+    db 000h, 007h, 000h, 001h, 000h, 009h, 000h, 000h, 000h, 000h, 000h, 00Bh, 000h, 007h, 000h, 002h
+    db 000h, 009h, 000h, 000h, 000h, 000h, 000h, 00Ch, 000h, 006h, 000h, 002h, 000h, 009h, 000h, 002h
+    db 000h, 000h, 000h, 00Fh, 000h, 006h, 000h, 001h, 000h, 014h, 000h, 000h, 000h, 000h, 000h, 00Fh
+    db 000h, 006h, 000h, 002h, 000h, 014h, 000h, 000h, 000h, 000h, 000h, 00Ch, 000h, 006h, 000h, 005h
+    db 000h, 015h, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 007h, 000h, 005h
+dat_0f89 db 000h
+    db 015h, 000h, 000h, 000h, 000h, 000h, 00Ch, 000h, 006h, 000h, 007h, 000h, 015h, 000h, 000h, 000h
+    db 000h, 000h, 003h, 000h, 003h, 000h, 007h, 000h, 015h, 000h, 000h, 000h, 000h, 000h, 00Bh, 000h
+    db 001h, 000h, 007h, 000h, 015h, 000h, 000h, 000h, 000h, 000h, 00Fh, 000h, 003h, 000h, 006h, 000h
+    db 015h, 000h, 000h, 000h, 0F1h, 0FFh, 00Ch, 000h, 006h, 000h, 008h, 000h, 015h, 000h, 000h, 000h
+    db 0F1h, 0FFh, 00Dh, 000h, 006h, 000h, 008h, 000h, 015h, 000h, 000h, 000h, 0FBh, 0FFh, 00Fh, 000h
+    db 007h, 000h, 008h, 000h, 015h, 000h, 000h, 000h, 0FEh, 0FFh, 000h, 000h, 000h, 000h
+_var_25 db 000h
+str_overlayRelError db 045h
+    db 072h, 072h, 06Fh, 072h, 020h, 072h, 065h, 06Ch, 065h, 061h, 073h, 069h, 06Eh, 067h, 020h, 06Fh
+    db 076h, 065h, 072h, 06Ch, 061h, 079h, 020h, 06Dh, 065h, 06Dh, 06Fh, 072h, 079h, 024h
 gfx_jump_0_alloc proc far               ; 0x1008
     db 0EAh
     dd 0
 gfx_jump_0_alloc endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x100D - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1012 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1017 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x101C - unnamed thunk
-gfx_jump_05_drawString proc far          ; 0x1021
+    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
+    db 000h, 000h, 000h, 000h
+gfx_jump_05_drawString proc far               ; 0x1021
     db 0EAh
     dd 0
 gfx_jump_05_drawString endp
 _gfx_jump_05_drawString equ gfx_jump_05_drawString
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1026 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x102B - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1030 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1035 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x103A - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x103F - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1044 - unnamed thunk
-gfx_jump_0d_setCurBuf proc far           ; 0x1049
+    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
+    db 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h
+    db 000h, 000h, 000h
+gfx_jump_0d_setCurBuf proc far               ; 0x1049
     db 0EAh
     dd 0
 gfx_jump_0d_setCurBuf endp
-gfx_jump_0e_setCurBuf proc far           ; 0x104E
+gfx_jump_0e_setCurBuf proc far               ; 0x104E
     db 0EAh
     dd 0
 gfx_jump_0e_setCurBuf endp
-gfx_jump_0f_getBufPtr proc far           ; 0x1053
+gfx_jump_0f_getBufPtr proc far               ; 0x1053
     db 0EAh
     dd 0
 gfx_jump_0f_getBufPtr endp
-gfx_jump_10_getCurBuf proc far           ; 0x1058
+gfx_jump_10_getCurBuf proc far               ; 0x1058
     db 0EAh
     dd 0
 gfx_jump_10_getCurBuf endp
-gfx_jump_11_blitSprite proc far          ; 0x105D
+gfx_jump_11_blitSprite proc far               ; 0x105D
     db 0EAh
     dd 0
 gfx_jump_11_blitSprite endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1062 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1067 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x106C - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1071 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1076 - unnamed thunk
-gfx_jump_17_bufSize proc far             ; 0x107B
+    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
+    db 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h
+gfx_jump_17_bufSize proc far               ; 0x107B
     db 0EAh
     dd 0
 gfx_jump_17_bufSize endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1080 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1085 - unnamed thunk
-gfx_jump_1a proc far                     ; 0x108A
+    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h
+gfx_jump_1a proc far               ; 0x108A
     db 0EAh
     dd 0
 gfx_jump_1a endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x108F - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1094 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1099 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x109E - unnamed thunk
-gfx_jump_1f proc far                     ; 0x10A3
+    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
+    db 000h, 000h, 000h, 000h
+gfx_jump_1f proc far               ; 0x10A3
     db 0EAh
     dd 0
 gfx_jump_1f endp
-gfx_jump_20_setVal proc far              ; 0x10A8
+gfx_jump_20_setVal proc far               ; 0x10A8
     db 0EAh
     dd 0
 gfx_jump_20_setVal endp
-gfx_jump_21 proc far                     ; 0x10AD
+gfx_jump_21 proc far               ; 0x10AD
     db 0EAh
     dd 0
 gfx_jump_21 endp
-gfx_jump_22 proc far                     ; 0x10B2
+gfx_jump_22 proc far               ; 0x10B2
     db 0EAh
     dd 0
 gfx_jump_22 endp
-gfx_jump_23 proc far                     ; 0x10B7
+gfx_jump_23 proc far               ; 0x10B7
     db 0EAh
     dd 0
 gfx_jump_23 endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x10BC - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x10C1 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x10C6 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x10CB - unnamed thunk
-gfx_jump_28 proc far                     ; 0x10D0
+    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
+    db 000h, 000h, 000h, 000h
+gfx_jump_28 proc far               ; 0x10D0
     db 0EAh
     dd 0
 gfx_jump_28 endp
-gfx_jump_29_switchColor proc far         ; 0x10D5
+gfx_jump_29_switchColor proc far               ; 0x10D5
     db 0EAh
     dd 0
 gfx_jump_29_switchColor endp
-gfx_jump_2a proc far                     ; 0x10DA
+gfx_jump_2a proc far               ; 0x10DA
     db 0EAh
     dd 0
 gfx_jump_2a endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x10DF - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x10E4 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x10E9 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x10EE - unnamed thunk
-gfx_jump_2f_charWidth proc far           ; 0x10F3
+    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
+    db 000h, 000h, 000h, 000h
+gfx_jump_2f_charWidth proc far               ; 0x10F3
     db 0EAh
     dd 0
 gfx_jump_2f_charWidth endp
 _gfx_jump_2f_charWidth equ gfx_jump_2f_charWidth
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x10F8 - unnamed thunk
-gfx_jump_31 proc far                     ; 0x10FD
+    db 0EAh, 000h, 000h, 000h, 000h
+gfx_jump_31 proc far               ; 0x10FD
     db 0EAh
     dd 0
 gfx_jump_31 endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1102 - unnamed thunk
-gfx_jump_33_fillRow proc far             ; 0x1107
+    db 0EAh, 000h, 000h, 000h, 000h
+gfx_jump_33_fillRow proc far               ; 0x1107
     db 0EAh
     dd 0
 gfx_jump_33_fillRow endp
-gfx_jump_34_fillRow proc far             ; 0x110C
+gfx_jump_34_fillRow proc far               ; 0x110C
     db 0EAh
     dd 0
 gfx_jump_34_fillRow endp
-gfx_jump_35 proc far                     ; 0x1111
+gfx_jump_35 proc far               ; 0x1111
     db 0EAh
     dd 0
 gfx_jump_35 endp
-gfx_jump_36_null proc far                ; 0x1116
+gfx_jump_36_null proc far               ; 0x1116
     db 0EAh
     dd 0
 gfx_jump_36_null endp
-thunk_EXT_FUN_0000 proc far              ; 0x111B
+thunk_EXT_FUN_0000 proc far               ; 0x111B
     db 0EAh
     dd 0
 thunk_EXT_FUN_0000 endp
-gfx_jump_38_getPageBuf proc far          ; 0x1120
+gfx_jump_38_getPageBuf proc far               ; 0x1120
     db 0EAh
     dd 0
 gfx_jump_38_getPageBuf endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1125 - unnamed thunk
-gfx_jump_3a_getRowOffset proc far        ; 0x112A
+    db 0EAh, 000h, 000h, 000h, 000h
+gfx_jump_3a_getRowOffset proc far               ; 0x112A
     db 0EAh
     dd 0
 gfx_jump_3a_getRowOffset endp
-gfx_jump_3b_clearBuf proc far            ; 0x112F
+gfx_jump_3b_clearBuf proc far               ; 0x112F
     db 0EAh
     dd 0
 gfx_jump_3b_clearBuf endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1134 - unnamed thunk
-gfx_jump_3d_null proc far                ; 0x1139
+    db 0EAh, 000h, 000h, 000h, 000h
+gfx_jump_3d_null proc far               ; 0x1139
     db 0EAh
     dd 0
 gfx_jump_3d_null endp
-gfx_jump_3e proc far                     ; 0x113E
+gfx_jump_3e proc far               ; 0x113E
     db 0EAh
     dd 0
 gfx_jump_3e endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1143 - unnamed thunk
-gfx_jump_40 proc far                     ; 0x1148
+    db 0EAh, 000h, 000h, 000h, 000h
+gfx_jump_40 proc far               ; 0x1148
     db 0EAh
     dd 0
 gfx_jump_40 endp
-gfx_jump_41 proc far                     ; 0x114D
+gfx_jump_41 proc far               ; 0x114D
     db 0EAh
     dd 0
 gfx_jump_41 endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1152 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1157 - unnamed thunk
-gfx_jump_44_setDac proc far              ; 0x115C
+    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h
+gfx_jump_44_setDac proc far               ; 0x115C
     db 0EAh
     dd 0
 gfx_jump_44_setDac endp
-gfx_jump_45_retrace proc far             ; 0x1161
+gfx_jump_45_retrace proc far               ; 0x1161
     db 0EAh
     dd 0
 gfx_jump_45_retrace endp
-gfx_jump_46_retrace2 proc far            ; 0x1166
+gfx_jump_46_retrace2 proc far               ; 0x1166
     db 0EAh
     dd 0
 gfx_jump_46_retrace2 endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x116B - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1170 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1175 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x117A - unnamed thunk
-gfx_jump_4b_storeBufPtr proc far         ; 0x117F
+    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
+    db 000h, 000h, 000h, 000h
+gfx_jump_4b_storeBufPtr proc far               ; 0x117F
     db 0EAh
     dd 0
 gfx_jump_4b_storeBufPtr endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1184 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1189 - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x118E - unnamed thunk
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x1193 - unnamed thunk
-gfx_jump_50 proc far                     ; 0x1198
+    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
+    db 000h, 000h, 000h, 000h
+gfx_jump_50 proc far               ; 0x1198
     db 0EAh
     dd 0
 gfx_jump_50 endp
-gfx_jump_51_null proc far                ; 0x119D
+gfx_jump_51_null proc far               ; 0x119D
     db 0EAh
     dd 0
 gfx_jump_51_null endp
-gfx_jump_52 proc far                     ; 0x11A2
+gfx_jump_52 proc far               ; 0x11A2
     db 0EAh
     dd 0
 gfx_jump_52 endp
-gfx_jump_53 proc far                     ; 0x11A7
+gfx_jump_53 proc far               ; 0x11A7
     db 0EAh
     dd 0
 gfx_jump_53 endp
-; --- Zero padding (Data1:0x11AC-0x11C9) --- 30 bytes
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-; --- Misc jump thunks (Data1:0x11CA-0x11E7) ---
-misc_jump_5a_keybuf proc far             ; 0x11CA
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+misc_jump_5a_keybuf proc far               ; 0x11CA
     db 0EAh
     dd 0
 misc_jump_5a_keybuf endp
-misc_jump_5b_getkey proc far             ; 0x11CF
+misc_jump_5b_getkey proc far               ; 0x11CF
     db 0EAh
     dd 0
 misc_jump_5b_getkey endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x11D4 - unnamed thunk
-misc_jump_5d_readJoy proc far            ; 0x11D9
+    db 0EAh, 000h, 000h, 000h, 000h
+misc_jump_5d_readJoy proc far               ; 0x11D9
     db 0EAh
     dd 0
 misc_jump_5d_readJoy endp
-misc_jump_5e_clearKeyFlags proc far      ; 0x11DE
+misc_jump_5e_clearKeyFlags proc far               ; 0x11DE
     db 0EAh
     dd 0
 misc_jump_5e_clearKeyFlags endp
-    db 0EAh, 00h, 00h, 00h, 00h         ; 0x11E3 - unnamed thunk
-; --- Data1:0x11E8-0x11FB: 20 bytes zero padding ---
-    db 20 dup(00h)
-; --- Data1:0x11FC-0x122D: 10 unnamed EA thunks ---
-    db 0EAh, 00h, 00h, 00h, 00h  ; 0x11FC
-    db 0EAh, 00h, 00h, 00h, 00h  ; 0x1201
-    db 0EAh, 00h, 00h, 00h, 00h  ; 0x1206
-    db 0EAh, 00h, 00h, 00h, 00h  ; 0x120B
-    db 0EAh, 00h, 00h, 00h, 00h  ; 0x1210
-    db 0EAh, 00h, 00h, 00h, 00h  ; 0x1215
-    db 0EAh, 00h, 00h, 00h, 00h  ; 0x121A
-    db 0EAh, 00h, 00h, 00h, 00h  ; 0x121F
-    db 0EAh, 00h, 00h, 00h, 00h  ; 0x1224
-    db 0EAh, 00h, 00h, 00h, 00h  ; 0x1229
-; --- Data1:0x122E-0x1242: 21 bytes zero padding ---
-    db 21 dup(00h)
-; --- Data1:0x1243-0x13FA: 440 bytes of 0xFF ---
-    db 440 dup(0FFh)
-_var_36 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
+    db 0EAh, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h
+    db 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h
+    db 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h
+_var_26 db 0EAh
+    db 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h
+_var_27 db 000h
+    db 000h
+_var_28 db 000h
+    db 000h
+_var_29 db 000h
+    db 000h
+_var_30 db 000h
+    db 000h, 000h
+_var_31 db 000h
+    db 000h
+_var_32 db 000h
+    db 000h
+_var_33 db 000h
+    db 000h
+_var_34 db 000h
+    db 000h
+_var_35 db 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+    db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
+_var_36 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+dat_14d7 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+dat_1500 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h
 _var_37 db 0FFh
     db 0FFh
-_var_38 db 00h
-    db 00h, 00h
-_var_39 db 00h
-_var_40 db 00h
-_var_41 db 00h
-_var_42 db 00h
-_var_43 db 00h
-_var_44 db 00h
-    db 00h
-_var_45 db 00h
-    db 00h
-_var_46 db 3Fh
-    db 01h
-_var_47 db 6Fh
-    db 00h, 00h
-_var_48 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h
-_var_49 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h
-_var_50 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h
-_var_51 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h
-_var_52 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h
-_var_53 db 00h
-    db 00h
-_var_54 db 00h
-    db 00h, 00h, 00h, 00h, 00h
-_var_55 db 00h
-_var_56 db 00h
-    db 00h, 00h
-_var_57 db 00h
-_var_58 db 00h
-    db 00h
-_var_59 db 00h
-    db 00h, 00h
-_var_60 db 00h
-_var_61 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h
-_var_62 db 00h
-    db 00h
-_var_63 db 00h, 00h  ; undefined2 0000h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-_var_64 db 00h
-    db 00h
-_var_65 db 00h
-    db 00h
-_var_66 db 00h
-    db 00h, 00h, 00h
-_var_67 db 00h
-    db 00h
-_var_68 db 00h
-    db 00h
-_var_70 db 00h
-    db 00h
-_var_71 db 00h
-    db 00h
-_var_72 db 00h
-    db 00h
-_var_73 db 00h
-    db 00h, 00h, 00h
-_var_74 db 00h
-    db 00h
-_var_75 db 00h
-_var_76 db 00h
-    db 00h
-_var_77 db 00h
-    db 00h
-_var_78 db 00h
-    db 00h
-_var_79 db 00h
-_var_80 db 00h
-    db 00h, 00h, 00h, 00h, 00h
-_var_81 db 00h
-    db 00h
-_var_82 db 00h
-_var_83 db 00h
-    db 00h, 4Dh, 61h, 6Ah, 6Fh, 72h, 2Eh, 00h, 74h, 68h, 65h, 20h, 00h, 00h, 00h, 00h
-    db 00h
-_var_84 db 07h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h
-_var_85 db 01h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-_var_86 db 0Ah
-    db 1Ch, 00h, 00h, 00h, 00h, 09h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 03h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 22h, 1Ch
-_var_87 db 1Eh
-    db 1Ah, 1Fh, 1Ah, 2Fh, 1Ah, 38h, 1Ah, 3Fh, 1Ah, 4Bh, 1Ah, 54h, 1Ah
+_var_38 db 000h
+    db 000h, 000h
+_var_39 db 000h
+_var_40 db 000h
+_var_41 db 000h
+_var_42 db 000h
+_var_43 db 000h
+_var_44 db 000h
+    db 000h
+_var_45 db 000h
+    db 000h
+_var_46 db 03Fh
+    db 001h
+_var_47 db 06Fh
+    db 000h, 000h
+_var_48 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+_var_49 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+_var_50 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+_var_51 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+_var_52 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+_var_53 db 000h
+    db 000h
+_var_54 db 000h
+    db 000h, 000h, 000h, 000h, 000h
+_var_55 db 000h
+_var_56 db 000h
+    db 000h, 000h
+_var_57 db 000h
+_var_58 db 000h
+    db 000h
+_var_59 db 000h
+    db 000h, 000h
+_var_60 db 000h
+_var_61 db 000h
+dat_1606 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+str_fileNotFound db 03Ah
+    db 046h, 069h, 06Ch, 065h, 020h, 06Eh, 06Fh, 074h, 020h, 066h, 06Fh, 075h, 06Eh, 064h, 024h
+str_noFileBufs db 03Ah
+    db 04Eh, 06Fh, 020h, 066h, 069h, 06Ch, 065h, 020h, 062h, 075h, 066h, 066h, 065h, 072h, 073h, 020h
+    db 061h, 076h, 061h, 069h, 06Ch, 061h, 062h, 06Ch, 065h, 024h
+str_openError db 03Ah
+    db 04Fh, 070h, 065h, 06Eh, 020h, 065h, 072h, 072h, 06Fh, 072h, 020h, 024h
+str_fileCloseError db 046h
+    db 069h, 06Ch, 065h, 020h, 063h, 06Ch, 06Fh, 073h, 069h, 06Eh, 067h, 020h, 065h, 072h, 072h, 06Fh
+    db 072h, 024h
+str_readError db 052h
+    db 065h, 061h, 064h, 020h, 065h, 072h, 072h, 06Fh, 072h, 024h
+str_writeError db 057h
+    db 072h, 069h, 074h, 065h, 020h, 065h, 072h, 072h, 06Fh, 072h, 024h
+dat_1868 db 000h
+    db 000h
+dat_186A db 000h
+    db 000h, 000h, 000h
+_var_62 db 000h
+    db 000h
+_var_63 db 000h
+    db 000h
+dat_1872 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+_var_64 db 000h
+    db 000h
+_var_65 db 000h
+    db 000h
+_var_66 db 000h
+    db 000h, 000h, 000h
+_var_67 db 000h
+    db 000h
+_var_68 db 000h
+    db 000h
+str_allocError db 049h
+    db 06Eh, 073h, 075h, 066h, 066h, 069h, 063h, 069h, 065h, 06Eh, 074h, 020h, 073h, 079h, 073h, 074h
+    db 065h, 06Dh, 020h, 06Dh, 065h, 06Dh, 06Fh, 072h, 079h, 020h, 02Dh, 020h, 041h, 06Ch, 06Ch, 06Fh
+    db 063h, 042h, 075h, 066h, 066h, 065h, 072h, 024h, 000h
+str_deallocError db 042h
+    db 075h, 066h, 066h, 065h, 072h, 020h, 064h, 065h, 061h, 06Ch, 06Ch, 06Fh, 063h, 020h, 065h, 072h
+    db 072h, 06Fh, 072h, 024h, 000h, 000h
+_var_69 db 000h
+_var_70 db 000h
+    db 000h
+_var_71 db 000h
+    db 000h
+_var_72 db 000h
+    db 000h
+_var_73 db 000h
+    db 000h, 000h, 000h
+_var_74 db 000h
+    db 000h
+_var_75 db 000h
+_var_76 db 000h
+    db 000h
+_var_77 db 000h
+    db 000h
+_var_78 db 000h
+    db 000h
+_var_79 db 000h
+_var_80 db 000h
+    db 000h, 000h, 000h, 000h, 000h
+_var_81 db 000h
+    db 000h
+_var_82 db 000h
+_var_83 db 000h
+    db 000h, 031h, 073h, 074h, 020h, 04Ch, 069h, 065h, 075h, 074h, 065h, 06Eh, 061h, 06Eh, 074h, 02Eh
+    db 000h, 043h, 061h, 070h, 074h, 061h, 069h, 06Eh, 02Eh, 000h, 04Dh, 061h, 06Ah, 06Fh, 072h, 02Eh
+    db 000h, 04Ch, 074h, 020h, 043h, 06Fh, 06Ch, 06Fh, 06Eh, 065h, 06Ch, 02Eh, 000h, 043h, 06Fh, 06Ch
+    db 06Fh, 06Eh, 065h, 06Ch, 02Eh, 000h, 047h, 065h, 06Eh, 065h, 072h, 061h, 06Ch, 02Eh, 000h, 041h
+    db 069h, 072h, 020h, 046h, 06Fh, 072h, 063h, 065h, 020h, 043h, 06Fh, 06Dh, 06Dh, 065h, 06Eh, 064h
+    db 061h, 074h, 069h, 06Fh, 06Eh, 020h, 04Dh, 065h, 064h, 061h, 06Ch, 02Eh, 000h, 044h, 069h, 073h
+    db 074h, 069h, 06Eh, 067h, 075h, 069h, 073h, 068h, 065h, 064h, 020h, 046h, 06Ch, 079h, 069h, 06Eh
+    db 067h, 020h, 043h, 072h, 06Fh, 073h, 073h, 02Eh, 000h, 053h, 069h, 06Ch, 076h, 065h, 072h, 020h
+    db 053h, 074h, 061h, 072h, 02Eh, 000h, 041h, 069h, 072h, 020h, 046h, 06Fh, 072h, 063h, 065h, 020h
+    db 043h, 072h, 06Fh, 073h, 073h, 02Eh, 000h, 043h, 06Fh, 06Eh, 067h, 072h, 065h, 073h, 073h, 069h
+    db 06Fh, 06Eh, 061h, 06Ch, 020h, 04Dh, 065h, 064h, 061h, 06Ch, 020h, 06Fh, 066h, 020h, 048h, 06Fh
+    db 06Eh, 06Fh, 072h, 02Eh, 000h
+str_deskPic db 064h
+    db 065h, 073h, 06Bh, 02Eh, 070h, 069h, 063h, 000h
+str_deskMsg1 db 041h
+    db 066h, 074h, 065h, 072h, 020h, 064h, 069h, 074h, 063h, 068h, 069h, 06Eh, 067h, 020h, 074h, 068h
+    db 072h, 065h, 065h, 020h, 076h, 065h, 072h, 079h, 020h, 065h, 078h, 070h, 065h, 06Eh, 073h, 069h
+    db 076h, 065h, 020h, 061h, 069h, 072h, 063h, 072h, 061h, 066h, 074h, 02Ch, 000h
+str_deskMsg2 db 079h
+    db 06Fh, 075h, 020h, 061h, 072h, 065h, 020h, 061h, 073h, 073h, 069h, 067h, 06Eh, 065h, 064h, 020h
+    db 061h, 020h, 064h, 065h, 073h, 06Bh, 020h, 06Ah, 06Fh, 062h, 02Eh, 000h
+str_deathPic db 064h
+    db 065h, 061h, 074h, 068h, 02Eh, 070h, 069h, 063h, 000h
+str_deathMsg1 db 049h
+    db 06Eh, 020h, 074h, 068h, 065h, 020h, 077h, 061h, 06Bh, 065h, 020h, 06Fh, 066h, 020h, 074h, 068h
+    db 065h, 020h, 068h, 06Fh, 072h, 072h, 069h, 062h, 06Ch, 065h, 020h, 063h, 072h, 061h, 073h, 068h
+    db 02Ch, 000h
+str_deathMsg2 db 079h
+    db 06Fh, 075h, 072h, 020h, 066h, 061h, 06Dh, 069h, 06Ch, 079h, 020h, 061h, 06Eh, 064h, 020h, 066h
+    db 072h, 069h, 065h, 06Eh, 064h, 073h, 020h, 06Dh, 06Fh, 075h, 072h, 06Eh, 020h, 079h, 06Fh, 075h
+    db 072h, 020h, 06Ch, 06Fh, 073h, 073h, 02Eh, 000h
+str_promoPic db 070h
+    db 072h, 06Fh, 06Dh, 06Fh, 02Eh, 070h, 069h, 063h, 000h
+str_promoMsg1 db 046h
+    db 06Fh, 072h, 020h, 079h, 06Fh, 075h, 072h, 020h, 063h, 06Fh, 06Eh, 073h, 069h, 073h, 074h, 065h
+    db 06Eh, 074h, 06Ch, 079h, 020h, 073h, 075h, 063h, 063h, 065h, 073h, 073h, 066h, 075h, 06Ch, 020h
+    db 06Dh, 069h, 073h, 073h, 069h, 06Fh, 06Eh, 073h, 02Ch, 000h
+str_promoMsg2 db 079h
+    db 06Fh, 075h, 020h, 068h, 061h, 076h, 065h, 020h, 062h, 065h, 065h, 06Eh, 020h, 070h, 072h, 06Fh
+    db 06Dh, 06Fh, 074h, 065h, 064h, 020h, 074h, 06Fh, 020h, 000h
+str_medalPic db 06Dh
+    db 065h, 064h, 061h, 06Ch, 02Eh, 070h, 069h, 063h, 000h
+str_medalMsg1 db 046h
+    db 06Fh, 072h, 020h, 079h, 06Fh, 075h, 072h, 020h, 06Fh, 075h, 074h, 073h, 074h, 061h, 06Eh, 064h
+    db 069h, 06Eh, 067h, 020h, 070h, 065h, 072h, 066h, 06Fh, 072h, 06Dh, 061h, 06Eh, 063h, 065h, 02Ch
+    db 020h, 079h, 06Fh, 075h, 020h, 072h, 065h, 063h, 065h, 069h, 076h, 065h, 000h
+str_medalMsg2 db 074h
+    db 068h, 065h, 020h, 000h, 000h, 000h, 000h, 000h
+_var_84 db 007h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+_var_85 db 001h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+_var_86 db 00Ah
+    db 01Ch, 000h, 000h, 000h, 000h, 009h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 022h, 01Ch
+_var_87 db 01Eh
+    db 01Ah, 01Fh, 01Ah, 02Fh, 01Ah, 038h, 01Ah, 03Fh, 01Ah, 04Bh, 01Ah, 054h, 01Ah
 _var_88 db 0DCh
-    db 05h
-_var_89 db 00h
-    db 00h, 70h, 17h, 00h, 00h, 0E0h, 2Eh, 00h, 00h, 0A8h, 61h, 00h, 00h, 50h, 0C3h, 00h
-    db 00h, 0A0h, 86h, 01h, 00h
-_var_90 db 5Dh
-    db 1Ah, 7Bh, 1Ah, 97h, 1Ah, 0A4h, 1Ah, 0B5h, 1Ah
+    db 005h
+_var_89 db 000h
+    db 000h, 070h, 017h, 000h, 000h, 0E0h, 02Eh, 000h, 000h, 0A8h, 061h, 000h, 000h, 050h, 0C3h, 000h
+    db 000h, 0A0h, 086h, 001h, 000h
+_var_90 db 05Dh
+    db 01Ah, 07Bh, 01Ah, 097h, 01Ah, 0A4h, 01Ah, 0B5h, 01Ah
 _var_91 db 0E8h
-    db 03h
-_var_92 db 00h
-    db 00h, 0C4h, 09h, 00h, 00h, 0A0h, 0Fh, 00h, 00h, 00h, 19h, 00h, 00h, 78h, 1Eh, 00h
-    db 00h, 04h, 03h, 03h, 02h, 07h, 05h, 03h, 02h, 08h, 07h, 04h, 02h, 08h, 06h, 05h
-    db 03h, 06h, 00h, 9Dh, 00h, 0DBh, 00h, 0BDh, 00h, 0D9h, 00h, 93h, 00h, 39h, 00h, 02h
-    db 00h, 78h, 00h, 87h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 8Dh, 00h, 00h
-    db 00h
-_var_93 db 08h
-    db 00h
-_var_94 db 0Ah
-    db 00h
+    db 003h
+_var_92 db 000h
+    db 000h, 0C4h, 009h, 000h, 000h, 0A0h, 00Fh, 000h, 000h, 000h, 019h, 000h, 000h, 078h, 01Eh, 000h
+    db 000h, 004h, 003h, 003h, 002h, 007h, 005h, 003h, 002h, 008h, 007h, 004h, 002h, 008h, 006h, 005h
+    db 003h, 006h, 000h, 09Dh, 000h, 0DBh, 000h, 0BDh, 000h, 0D9h, 000h, 093h, 000h, 039h, 000h, 002h
+    db 000h, 078h, 000h, 087h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 08Dh, 000h, 000h
+    db 000h
+_var_93 db 008h
+    db 000h
+_var_94 db 00Ah
+    db 000h
 _var_95 db 0E8h
-    db 00h
+    db 000h
 _var_96 db 0B2h
-    db 00h, 8Dh, 00h, 80h, 00h, 84h, 8Dh, 00h, 80h, 00h, 8Dh, 00h, 80h, 00h, 54h, 49h
-    db 4Dh, 45h, 3Ah, 20h, 80h, 00h, 20h, 00h, 20h, 00h, 20h, 00h, 8Ch, 8Ch, 8Dh, 00h
-    db 80h, 00h, 80h, 8Dh, 54h, 49h, 4Dh, 45h, 3Ah, 20h, 80h, 00h, 80h, 00h, 30h, 30h
-    db 3Ah, 30h, 30h, 3Ah, 30h, 30h, 00h
-_var_97 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 28h, 00h, 28h, 00h, 28h
-    db 00h, 28h, 00h, 28h, 00h, 28h, 00h, 50h, 00h, 50h, 00h, 50h, 00h, 50h, 00h, 50h
-    db 00h, 50h, 00h
-_var_98 db 00h
-    db 00h, 30h, 00h, 60h, 00h, 90h, 00h, 0C0h, 00h, 0F0h, 00h, 00h, 00h, 30h, 00h, 60h
-    db 00h, 90h, 00h, 0C0h, 00h, 0F0h, 00h, 00h, 00h, 30h, 00h, 60h, 00h, 90h, 00h, 0C0h
-    db 00h, 0F0h, 00h, 76h, 6Eh, 2Eh, 73h, 70h, 72h, 00h, 6Dh, 65h, 2Eh, 73h, 70h, 72h
-    db 00h, 6Ah, 70h, 2Eh, 73h, 70h, 72h, 00h, 6Eh, 61h, 2Eh, 73h, 70h, 72h, 00h, 72h
-    db 62h, 00h, 72h, 62h, 00h, 00h, 00h, 00h, 00h, 02h, 00h, 0Fh, 00h, 00h, 00h, 00h
-    db 00h, 01h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-_var_99 db 34h
-    db 20h, 00h, 00h, 00h, 00h, 00h, 00h, 0Fh, 00h, 00h, 00h, 00h, 00h, 03h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h
-_var_100 db 4Ch
-    db 20h
-_var_101 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 08h, 00h, 0Ah, 00h, 0E0h, 00h, 0A8h, 00h, 00h
-    db 00h, 0C7h, 00h, 00h, 00h, 36h, 01h, 09h, 00h, 00h, 00h, 00h, 00h
-_var_102 db 64h
-    db 20h
-_var_103 db 00h
-    db 00h, 00h, 00h, 0B2h, 00h, 00h, 00h, 00h, 00h, 0B2h, 00h, 40h, 01h, 15h, 00h, 00h
-    db 00h, 0C7h, 00h, 00h, 00h, 36h, 01h, 09h, 00h, 00h, 00h, 00h, 00h
-_var_104 db 84h
-    db 20h
-_var_105 db 00h
-    db 00h, 2Dh, 01h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 05h, 00h, 05h, 00h, 00h
-    db 00h, 0C7h, 00h, 00h, 00h, 36h, 01h, 09h, 00h, 00h, 00h, 00h, 00h, 0A4h, 20h
-_var_106 db 00h
-    db 00h, 2Dh, 01h, 05h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 05h, 00h, 05h, 00h, 00h
-    db 00h, 0C7h, 00h, 00h, 00h, 36h, 01h, 09h, 00h, 00h, 00h, 00h, 00h, 0C4h, 20h
-_var_107 db 00h
-    db 00h, 23h, 01h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 05h, 00h, 05h, 00h, 00h
-    db 00h, 0C7h, 00h, 00h, 00h, 36h, 01h, 09h, 00h, 00h, 00h, 00h, 00h, 0E4h, 20h
-_var_108 db 00h
-    db 00h, 23h, 01h, 05h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 05h, 00h, 05h, 00h, 00h
-    db 00h, 0C7h, 00h, 00h, 00h, 36h, 01h, 09h, 00h, 00h, 00h, 00h, 00h, 04h, 21h
-_var_109 db 00h
-    db 00h, 17h, 01h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 05h, 00h, 05h, 00h, 00h
-    db 00h, 0C7h, 00h, 00h, 00h, 36h, 01h, 09h, 00h, 00h, 00h, 00h, 00h, 24h, 21h
-_var_110 db 00h
-    db 00h, 17h, 01h, 05h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 05h, 00h, 05h, 00h, 00h
-    db 00h, 0C7h, 00h, 00h, 00h, 36h, 01h, 09h, 00h, 00h, 00h, 00h, 00h, 44h, 21h
-_var_111 db 00h
-    db 00h, 1Eh, 01h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 05h, 00h, 05h, 00h, 00h
-    db 00h, 0C7h, 00h, 00h, 00h, 36h, 01h, 09h, 00h, 00h, 00h, 00h, 00h, 64h, 21h
-_var_112 db 00h
-    db 00h, 1Eh, 01h, 05h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 05h, 00h, 05h, 00h, 00h
-    db 00h, 0C7h, 00h, 00h, 00h, 36h, 01h, 09h, 00h, 00h, 00h, 00h, 00h, 84h, 21h
-_var_113 db 00h
-    db 00h, 2Ah, 01h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 01h, 00h, 01h, 00h, 00h
-    db 00h, 0C7h, 00h, 00h, 00h, 36h, 01h, 09h, 00h, 00h, 00h, 00h, 00h, 0A4h, 21h
-_var_114 db 00h
-    db 00h, 2Ah, 01h, 05h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 01h, 00h, 01h, 00h, 00h
-    db 00h, 0C7h, 00h, 00h, 00h, 36h, 01h, 09h, 00h, 00h, 00h, 00h, 00h, 0C4h, 21h, 0ECh
-    db 00h, 96h, 00h, 3Ch, 01h, 9Fh, 00h, 0ECh, 00h, 96h, 00h, 3Ch, 01h, 9Fh, 00h, 00h
-    db 00h, 69h, 00h, 98h, 00h, 08h, 00h, 11h, 01h, 39h, 00h, 07h, 00h, 4Ch, 20h, 1Ah
-    db 00h, 07h, 00h, 0FAh, 00h, 3Ch, 00h, 0A4h, 20h, 0C4h, 20h, 00h, 00h
-_var_115 db 00h
-    db 00h, 08h, 18h, 0ECh, 00h, 0A0h, 00h, 3Ch, 01h, 0A9h, 00h, 0ECh, 00h, 0A0h, 00h, 3Ch
-    db 01h, 0A9h, 00h, 00h, 00h, 69h, 00h, 98h, 00h, 08h, 00h, 11h, 01h, 39h, 00h, 07h
-    db 00h, 4Ch, 20h, 1Ah, 00h, 07h, 00h, 0FAh, 00h, 3Ch, 00h, 0A4h, 20h, 0C4h, 20h, 00h
-    db 00h, 00h, 00h, 0Fh, 08h, 00h, 00h, 0Ah, 00h, 0FAh, 00h, 0FAh, 00h, 97h, 00h, 0A1h
-    db 00h
-_var_116 db 48h
-    db 22h
-_var_117 db 32h
-    db 1Fh, 3Ch, 1Fh, 48h, 1Fh, 4Fh, 1Fh, 56h, 1Fh, 60h, 1Fh, 6Ch, 1Fh, 73h, 1Fh
-_var_118 db 7Ah
-    db 1Fh, 89h, 1Fh
-_var_119 db 00h, 00h  ; undefined2 0000h
-_var_120 db 00h, 00h  ; undefined2 0000h
-_var_121 db 0a9h, 4ah  ; undefined2 4AA9h
-_var_122 db 00h, 00h  ; undefined2 0000h
-    db 80h, 15h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-OFF_1580_22c0 db 00h
-_var_124 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-_var_125 db 00h
-    db 00h
-_var_126 db 00h
-    db 00h, 00h, 00h
-_var_127 db 00h, 00h  ; undefined2 0000h
-_var_128 db 00h
-    db 00h, 00h
-_var_129 db 00h
-    db 00h
-_var_130 db 14h
-    db 00h
-_var_131 db 81h
-    db 81h, 81h, 01h, 01h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h
-_var_132 db 00h, 00h  ; undefined2 0000h
-_var_133 db 00h, 00h  ; undefined2 0000h
-_var_134 db 00h, 00h  ; undefined2 0000h
-    db 08h, 23h, 80h, 15h, 43h, 00h, 00h, 00h
-_var_135 db 00h
-_var_136 db 00h
-_var_137 db 00h
-    db 00h, 00h, 00h, 5Ch, 00h, 5Ch, 00h
-_var_138 db 01h
-    db 00h
-_var_139 db 00h
-    db 00h
-_var_140 db 00h
-    db 00h, 00h, 16h, 02h, 02h, 18h, 0Dh, 09h, 0Ch, 0Ch, 0Ch, 07h, 08h, 16h, 16h, 0FFh
-    db 12h, 0Dh, 12h, 02h, 0FFh, 0FEh, 4Ch, 00h, 00h, 0FEh, 4Ch, 01h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 02h, 01h, 00h, 00h, 00h, 00h, 00h, 00h, 02h, 02h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 84h, 03h, 00h, 00h, 00h, 00h, 00h, 00h, 02h, 04h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h
-_var_141 db 01h
-    db 00h, 00h, 02h
-_var_142 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h
+    db 000h
+str_pressExit db 050h
+    db 072h, 065h, 073h, 073h, 020h, 053h, 065h, 06Ch, 065h, 063h, 074h, 06Fh, 072h, 020h, 074h, 06Fh
+    db 020h, 065h, 078h, 069h, 074h, 020h, 044h, 065h, 062h, 072h, 069h, 065h, 066h, 069h, 06Eh, 067h
+    db 000h
+str_dot1 db 08Dh
+    db 000h
+str_overall1 db 04Fh
+    db 056h, 045h, 052h, 041h, 04Ch, 04Ch, 000h
+str_missionRating1 db 04Dh
+    db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 052h, 041h, 054h, 049h, 04Eh, 047h, 000h
+str_dot2 db 080h
+    db 000h
+str_trainingScore db 084h
+    db 054h, 072h, 061h, 069h, 06Eh, 069h, 06Eh, 067h, 020h, 053h, 063h, 06Fh, 072h, 065h, 000h
+str_notRecorded db 04Eh
+    db 04Fh, 054h, 020h, 052h, 065h, 063h, 06Fh, 072h, 064h, 065h, 064h, 020h, 021h, 000h
+str_dot3 db 08Dh
+    db 000h
+str_careerTotal db 043h
+    db 041h, 052h, 045h, 045h, 052h, 020h, 054h, 04Fh, 054h, 041h, 04Ch, 000h
+str_dot4 db 080h
+    db 000h
+str_missionSummary db 04Dh
+    db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 053h, 055h, 04Dh, 04Dh, 041h, 052h, 059h, 000h
+str_priSecTargets db 050h
+    db 072h, 069h, 02Fh, 053h, 065h, 063h, 020h, 054h, 061h, 072h, 067h, 065h, 074h, 073h, 000h
+str_otherTargets db 04Fh
+    db 074h, 068h, 065h, 072h, 020h, 054h, 061h, 072h, 067h, 065h, 074h, 073h, 000h
+str_enemyPlanes db 045h
+    db 06Eh, 065h, 06Dh, 079h, 020h, 050h, 06Ch, 061h, 06Eh, 065h, 073h, 000h
+str_friendlyTargets db 046h
+    db 072h, 069h, 065h, 06Eh, 064h, 06Ch, 079h, 020h, 054h, 061h, 072h, 067h, 065h, 074h, 073h, 000h
+str_dot5 db 08Dh
+    db 000h
+str_overall2 db 04Fh
+    db 056h, 045h, 052h, 041h, 04Ch, 04Ch, 000h
+str_missionRating2 db 04Dh
+    db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 052h, 041h, 054h, 049h, 04Eh, 047h, 000h
+str_dot6 db 080h
+    db 000h
+str_missionEvent db 04Dh
+    db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 045h, 056h, 045h, 04Eh, 054h, 000h
+str_time db 054h
+    db 049h, 04Dh, 045h, 03Ah, 020h, 080h, 000h
+str_destroyed4 db 020h
+    db 000h
+str_destroyed1 db 020h
+    db 064h, 065h, 073h, 074h, 072h, 06Fh, 079h, 065h, 064h, 000h
+str_destroyed2 db 020h
+    db 064h, 065h, 073h, 074h, 072h, 06Fh, 079h, 065h, 064h, 000h
+str_shotDown2 db 020h
+    db 000h
+str_shotDown db 020h
+    db 073h, 068h, 06Fh, 074h, 020h, 064h, 06Fh, 077h, 06Eh, 000h
+str_destroyed3 db 020h
+    db 064h, 065h, 073h, 074h, 072h, 06Fh, 079h, 065h, 064h, 000h
+str_rearmed3 db 020h
+    db 000h
+str_rearmed1 db 020h
+    db 02Dh, 020h, 052h, 065h, 061h, 072h, 06Dh, 065h, 064h, 02Fh, 052h, 065h, 066h, 075h, 065h, 06Ch
+    db 065h, 064h, 000h
+str_rearmed2 db 020h
+    db 02Dh, 020h, 052h, 065h, 061h, 072h, 06Dh, 065h, 064h, 02Fh, 052h, 065h, 066h, 075h, 065h, 06Ch
+    db 065h, 064h, 000h
+str_hitBy db 048h
+    db 069h, 074h, 020h, 062h, 079h, 020h, 000h
+str_missile db 020h
+    db 06Dh, 069h, 073h, 073h, 069h, 06Ch, 065h, 000h
+str_takeoffPoint db 054h
+    db 061h, 06Bh, 065h, 06Fh, 066h, 066h, 020h, 070h, 06Fh, 069h, 06Eh, 074h, 03Ah, 000h
+str_missionEnd db 04Dh
+    db 069h, 073h, 073h, 069h, 06Fh, 06Eh, 020h, 065h, 06Eh, 064h, 03Ah, 00Ah, 000h
+str_crashed db 043h
+    db 072h, 061h, 073h, 068h, 065h, 064h, 000h
+str_goodBailout db 047h
+    db 06Fh, 06Fh, 064h, 020h, 042h, 061h, 069h, 06Ch, 06Fh, 075h, 074h, 000h
+str_captured db 043h
+    db 061h, 070h, 074h, 075h, 072h, 065h, 064h, 000h
+str_bailedDied db 042h
+    db 061h, 069h, 06Ch, 065h, 064h, 020h, 026h, 020h, 044h, 069h, 065h, 064h, 000h
+str_goodLanding db 047h
+    db 06Fh, 06Fh, 064h, 020h, 04Ch, 061h, 06Eh, 064h, 069h, 06Eh, 067h, 000h
+str_primaryObj db 08Ch
+    db 050h, 052h, 049h, 04Dh, 041h, 052h, 059h, 020h, 04Fh, 042h, 04Ah, 045h, 043h, 054h, 049h, 056h
+    db 045h, 000h
+str_secndryObj db 08Ch
+    db 053h, 045h, 043h, 04Eh, 044h, 052h, 059h, 020h, 04Fh, 042h, 04Ah, 045h, 043h, 054h, 049h, 056h
+    db 045h, 000h
+str_cumulative2 db 08Dh
+    db 000h
+str_cumulative db 043h
+    db 055h, 04Dh, 055h, 04Ch, 041h, 054h, 049h, 056h, 045h, 000h
+str_missionRating3 db 04Dh
+    db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 052h, 041h, 054h, 049h, 04Eh, 047h, 000h
+str_pressSelect db 080h
+    db 000h
+str_pressNext db 050h
+    db 072h, 065h, 073h, 073h, 020h, 053h, 065h, 06Ch, 065h, 063h, 074h, 06Fh, 072h, 020h, 066h, 06Fh
+    db 072h, 020h, 06Eh, 065h, 078h, 074h, 020h, 06Dh, 069h, 073h, 073h, 069h, 06Fh, 06Eh, 020h, 065h
+    db 076h, 065h, 06Eh, 074h, 000h
+str_inFlight db 080h
+    db 049h, 06Eh, 02Dh, 046h, 06Ch, 069h, 067h, 068h, 074h, 000h
+str_timeLabel db 08Dh
+    db 054h, 049h, 04Dh, 045h, 03Ah, 020h, 080h, 000h
+str_timeZeros db 080h
+    db 000h
+str_timeFormat db 030h
+    db 030h, 03Ah, 030h, 030h, 03Ah, 030h, 030h, 000h
+_var_97 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 028h, 000h, 028h, 000h, 028h
+    db 000h, 028h, 000h, 028h, 000h, 028h, 000h, 050h, 000h, 050h, 000h, 050h, 000h, 050h, 000h, 050h
+    db 000h, 050h, 000h
+_var_98 db 000h
+    db 000h, 030h, 000h, 060h, 000h, 090h, 000h, 0C0h, 000h, 0F0h, 000h, 000h, 000h, 030h, 000h, 060h
+    db 000h, 090h, 000h, 0C0h, 000h, 0F0h, 000h, 000h, 000h, 030h, 000h, 060h, 000h, 090h, 000h, 0C0h
+    db 000h, 0F0h, 000h, 06Ch, 069h, 062h, 079h, 061h, 02Eh, 073h, 070h, 072h, 000h, 070h, 065h, 072h
+    db 073h, 069h, 061h, 06Eh, 02Eh, 073h, 070h, 072h, 000h, 076h, 06Eh, 02Eh, 073h, 070h, 072h, 000h
+    db 06Dh, 065h, 02Eh, 073h, 070h, 072h, 000h, 06Eh, 063h, 061h, 070h, 065h, 02Eh, 073h, 070h, 072h
+    db 000h, 063h, 065h, 075h, 072h, 06Fh, 070h, 065h, 02Eh, 073h, 070h, 072h, 000h, 06Ah, 070h, 02Eh
+    db 073h, 070h, 072h, 000h, 06Eh, 061h, 02Eh, 073h, 070h, 072h, 000h, 052h, 065h, 076h, 069h, 065h
+    db 077h, 020h, 04Dh, 069h, 073h, 073h, 069h, 06Fh, 06Eh, 000h, 045h, 078h, 069h, 074h, 020h, 044h
+    db 065h, 062h, 072h, 069h, 065h, 066h, 069h, 06Eh, 067h, 000h
+str_modeRb1 db 072h
+    db 062h, 000h
+str_insertScenario db 050h
+    db 06Ch, 065h, 061h, 073h, 065h, 020h, 069h, 06Eh, 073h, 065h, 072h, 074h, 020h, 073h, 063h, 065h
+    db 06Eh, 061h, 072h, 069h, 06Fh, 020h, 064h, 069h, 073h, 06Bh, 000h
+str_pressKey1 db 03Ch
+    db 050h, 072h, 065h, 073h, 073h, 020h, 061h, 020h, 06Bh, 065h, 079h, 020h, 077h, 068h, 065h, 06Eh
+    db 020h, 072h, 065h, 061h, 064h, 079h, 03Eh, 000h
+str_modeRb2 db 072h
+    db 062h, 000h
+str_dbicons1 db 064h
+    db 062h, 069h, 063h, 06Fh, 06Eh, 073h, 02Eh, 073h, 070h, 072h, 000h
+str_insertDiskA db 050h
+    db 06Ch, 065h, 061h, 073h, 065h, 020h, 069h, 06Eh, 073h, 065h, 072h, 074h, 020h, 046h, 031h, 035h
+    db 020h, 044h, 069h, 073h, 06Bh, 020h, 041h, 000h
+str_pressKey2 db 03Ch
+    db 050h, 072h, 065h, 073h, 073h, 020h, 061h, 020h, 06Bh, 065h, 079h, 020h, 077h, 068h, 065h, 06Eh
+    db 020h, 072h, 065h, 061h, 064h, 079h, 03Eh, 000h
+str_dbicons2 db 064h
+    db 062h, 069h, 063h, 06Fh, 06Eh, 073h, 02Eh, 073h, 070h, 072h, 000h
+str_missionDebrief db 020h
+    db 020h, 04Dh, 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 044h, 045h, 042h, 052h, 049h, 045h, 046h
+    db 049h, 04Eh, 047h, 000h, 000h, 000h, 000h, 000h, 000h, 002h, 000h, 00Fh, 000h, 000h, 000h, 000h
+    db 000h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+_var_99 db 034h
+    db 020h, 000h, 000h, 000h, 000h, 000h, 000h, 00Fh, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+_var_100 db 04Ch
+    db 020h
+_var_101 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 008h, 000h, 00Ah, 000h, 0E0h, 000h, 0A8h, 000h, 000h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+_var_102 db 064h
+    db 020h
+_var_103 db 000h
+    db 000h, 000h, 000h, 0B2h, 000h, 000h, 000h, 000h, 000h, 0B2h, 000h, 040h, 001h, 015h, 000h, 000h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+_var_104 db 084h
+    db 020h
+_var_105 db 000h
+    db 000h, 02Dh, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+dat_20C2 db 0A4h
+    db 020h
+_var_106 db 000h
+    db 000h, 02Dh, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+dat_20E2 db 0C4h
+    db 020h
+_var_107 db 000h
+    db 000h, 023h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+dat_2102 db 0E4h
+    db 020h
+_var_108 db 000h
+    db 000h, 023h, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+dat_2122 db 004h
+    db 021h
+_var_109 db 000h
+    db 000h, 017h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+dat_2142 db 024h
+    db 021h
+_var_110 db 000h
+    db 000h, 017h, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+dat_2162 db 044h
+    db 021h
+_var_111 db 000h
+    db 000h, 01Eh, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h, 064h, 021h
+_var_112 db 000h
+    db 000h, 01Eh, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h, 084h, 021h
+_var_113 db 000h
+    db 000h, 02Ah, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 001h, 000h, 001h, 000h, 000h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+dat_21C2 db 0A4h
+    db 021h
+_var_114 db 000h
+    db 000h, 02Ah, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 001h, 000h, 001h, 000h, 000h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+dat_21E2 db 0C4h
+    db 021h
+dat_21e4 db 0ECh
+    db 000h, 096h, 000h, 03Ch, 001h, 09Fh, 000h, 0ECh, 000h, 096h, 000h, 03Ch, 001h, 09Fh, 000h, 000h
+    db 000h, 069h, 000h, 098h, 000h, 008h, 000h, 011h, 001h, 039h, 000h, 007h, 000h, 04Ch, 020h, 01Ah
+    db 000h, 007h, 000h, 0FAh, 000h, 03Ch, 000h, 0A4h, 020h, 0C4h, 020h, 000h, 000h
+_var_115 db 000h
+    db 000h, 008h, 018h, 0ECh, 000h, 0A0h, 000h, 03Ch, 001h, 0A9h, 000h, 0ECh, 000h, 0A0h, 000h, 03Ch
+    db 001h, 0A9h, 000h, 000h, 000h, 069h, 000h, 098h, 000h, 008h, 000h, 011h, 001h, 039h, 000h, 007h
+    db 000h, 04Ch, 020h, 01Ah, 000h, 007h, 000h, 0FAh, 000h, 03Ch, 000h, 0A4h, 020h, 0C4h, 020h, 000h
+    db 000h, 000h, 000h, 00Fh, 008h, 000h, 000h, 00Ah, 000h, 0FAh, 000h, 0FAh, 000h, 097h, 000h, 0A1h
+    db 000h
+_var_116 db 048h
+    db 022h
+_var_117 db 032h
+    db 01Fh, 03Ch, 01Fh, 048h, 01Fh, 04Fh, 01Fh, 056h, 01Fh, 060h, 01Fh, 06Ch, 01Fh, 073h, 01Fh
+_var_118 db 07Ah
+    db 01Fh, 089h, 01Fh
+_var_119 db 000h
+    db 000h
+_var_120 db 000h
+    db 000h
+_var_121 db 0A9h
+    db 04Ah
+_var_122 db 000h
+    db 000h, 080h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+dat_22C0 db 070h
+    db 022h, 03Bh, 043h, 05Fh, 046h, 049h, 04Ch, 045h, 05Fh, 049h, 04Eh, 046h, 04Fh, 000h
+_var_123 db 000h
+    db 000h
+_var_124 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+_var_125 db 000h
+    db 000h
+_var_126 db 000h
+    db 000h, 000h, 000h
+_var_127 db 000h
+    db 000h
+_var_128 db 000h
+    db 000h, 000h
+_var_129 db 000h
+    db 000h
+_var_130 db 014h
+    db 000h
+_var_131 db 081h
+    db 081h, 081h, 001h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h
+_var_132 db 000h
+    db 000h
+_var_133 db 000h
+    db 000h
+_var_134 db 000h
+    db 000h, 008h, 023h, 080h, 005h, 043h, 000h, 000h, 000h
+_var_135 db 000h
+_var_136 db 000h
+_var_137 db 000h
+    db 000h, 000h, 000h, 05Ch, 000h, 05Ch, 000h
+_var_138 db 001h
+    db 000h
+_var_139 db 000h
+    db 000h
+_var_140 db 000h
+    db 000h, 000h, 016h, 002h, 002h, 018h, 00Dh, 009h, 00Ch, 00Ch, 00Ch, 007h, 008h, 016h, 016h, 0FFh
+    db 012h, 00Dh, 012h, 002h, 0FFh, 0FEh, 04Ch, 000h, 000h, 0FEh, 04Ch, 001h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 002h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 002h, 002h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 084h, 003h, 000h, 000h, 000h, 000h, 000h, 000h, 002h, 004h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h
+_var_141 db 001h
+    db 000h, 000h, 002h
+_var_142 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h
 _var_143 db 0C8h
-    db 23h
-_var_144 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-_var_145 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 20h, 00h, 00h, 00h, 00h
+    db 023h
+_var_144 db 000h
+    db 000h
+dat_244C db 000h
+    db 000h
+dat_244E db 000h
+    db 000h, 000h, 000h
+dat_2452 db 000h
+    db 000h, 000h, 000h, 000h
+_var_145 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 020h, 000h, 000h, 000h, 000h
 _var_146 db 0D0h
-    db 5Dh, 00h, 00h
-_var_147 db 00h
-    db 00h
-_var_148 db 00h
-    db 00h
-_var_149 db 00h
-    db 00h, 00h, 00h
-_var_150 db 00h
-    db 00h, 00h, 00h, 94h, 54h, 3Ch, 3Ch, 4Eh, 4Dh, 53h, 47h, 3Eh, 3Eh, 00h, 00h, 03h
-    db 00h, 09h, 00h, 0FCh, 00h, 0Dh, 0Ah, 00h, 0FFh, 00h, 02h, 00h, 01h, 00h, 0FFh, 0FFh
-    db 0FFh, 00h
-_var_151 db 00h  ; undefined1 00h
-_DAT_1580_2551 db 00h  ; undefined1 00h
-_var_152 db 00h
-    db 00h
-_var_153 db 00h
-    db 00h
-_var_154 db 00h
-    db 00h
-_var_155 db 00h
-    db 00h
-_var_156 db 00h
-_var_157 db 00h
-_var_158 db 00h
-_var_159 db 00h
-_var_160 db 00h
-    db 00h
-_var_161 db 00h
-    db 00h
-_var_162 db 00h
-    db 00h
-_var_163 db 00h
-_var_164 db 00h
-_var_165 db 00h
-    db 00h
-_var_166 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h
-_var_167 db 00h
-    db 00h
-_var_168 db 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-    db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-_var_169 db 00h
-    db 00h
-_var_170 db 00h
-    db 00h
-_var_171 db 00h
-    db 00h
-_var_172 db 00h
-    db 00h
-_var_173 db 00h
-_var_174 db 00h
-_var_175 db 00h
-    db 00h
+    db 05Dh, 000h, 000h
+_var_147 db 000h
+    db 000h
+_var_148 db 000h
+    db 000h
+_var_149 db 000h
+    db 000h, 000h, 000h
+_var_150 db 000h
+    db 000h, 000h, 000h, 094h, 054h
+str_nmsg db 03Ch
+    db 03Ch, 04Eh, 04Dh, 053h, 047h, 03Eh, 03Eh, 000h, 000h, 052h, 036h, 030h, 030h, 030h, 00Dh, 00Ah
+    db 02Dh, 020h, 073h, 074h, 061h, 063h, 06Bh, 020h, 06Fh, 076h, 065h, 072h, 066h, 06Ch, 06Fh, 077h
+    db 00Dh, 00Ah, 000h, 003h, 000h, 052h, 036h, 030h, 030h, 033h, 00Dh, 00Ah, 02Dh, 020h, 069h, 06Eh
+    db 074h, 065h, 067h, 065h, 072h, 020h, 064h, 069h, 076h, 069h, 064h, 065h, 020h, 062h, 079h, 020h
+    db 030h, 00Dh, 00Ah, 000h, 009h, 000h, 052h, 036h, 030h, 030h, 039h, 00Dh, 00Ah, 02Dh, 020h, 06Eh
+    db 06Fh, 074h, 020h, 065h, 06Eh, 06Fh, 075h, 067h, 068h, 020h, 073h, 070h, 061h, 063h, 065h, 020h
+    db 066h, 06Fh, 072h, 020h, 065h, 06Eh, 076h, 069h, 072h, 06Fh, 06Eh, 06Dh, 065h, 06Eh, 074h, 00Dh
+    db 00Ah, 000h, 0FCh, 000h, 00Dh, 00Ah, 000h, 0FFh, 000h, 072h, 075h, 06Eh, 02Dh, 074h, 069h, 06Dh
+    db 065h, 020h, 065h, 072h, 072h, 06Fh, 072h, 020h, 000h, 002h, 000h, 052h, 036h, 030h, 030h, 032h
+    db 00Dh, 00Ah, 02Dh, 020h, 066h, 06Ch, 06Fh, 061h, 074h, 069h, 06Eh, 067h, 020h, 070h, 06Fh, 069h
+    db 06Eh, 074h, 020h, 06Eh, 06Fh, 074h, 020h, 06Ch, 06Fh, 061h, 064h, 065h, 064h, 00Dh, 00Ah, 000h
+    db 001h, 000h, 052h, 036h, 030h, 030h, 031h, 00Dh, 00Ah, 02Dh, 020h, 06Eh, 075h, 06Ch, 06Ch, 020h
+    db 070h, 06Fh, 069h, 06Eh, 074h, 065h, 072h, 020h, 061h, 073h, 073h, 069h, 067h, 06Eh, 06Dh, 065h
+    db 06Eh, 074h, 00Dh, 00Ah, 000h, 0FFh, 0FFh, 0FFh, 000h
+_var_151 db 000h
+    db 000h
+_var_152 db 000h
+    db 000h
+_var_153 db 000h
+    db 000h
+_var_154 db 000h
+    db 000h
+_var_155 db 000h
+    db 000h
+_var_156 db 000h
+_var_157 db 000h
+_var_158 db 000h
+_var_159 db 000h
+_var_160 db 000h
+    db 000h
+_var_161 db 000h
+    db 000h
+_var_162 db 000h
+    db 000h
+_var_163 db 000h
+_var_164 db 000h
+_var_165 db 000h
+    db 000h
+_var_166 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h
+dat_270f db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+dat_2769 db 000h
+_var_167 db 000h
+    db 000h
+_var_168 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+dat_3F6A db 000h
+dat_3F6B db 000h
+dat_3F6C db 000h
+    db 000h
+dat_3F6E db 000h
+    db 000h
+dat_3F70 db 000h
+dat_3F71 db 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+dat_3FB2 db 000h
+    db 000h
+dat_3FB4 db 000h
+    db 000h
+dat_3FB6 db 000h
+    db 000h
+dat_3FB8 db 000h
+    db 000h
+_var_169 db 000h
+    db 000h
+_var_170 db 000h
+    db 000h
+_var_171 db 000h
+    db 000h
+_var_172 db 000h
+    db 000h
+_var_173 db 000h
+_var_174 db 000h
+_var_175 db 000h
+    db 000h
 
 .DATA?
 ; --- BSS ---
 
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_176 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_177 db ?
-    db ?
-_var_178 db ?
-    db ?
-_var_179 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_180 db ?
-    db ?
-    db ?
-    db ?
-_var_181 db ?
-    db ?
-_var_182 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_183 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_184 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_185 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_186 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_187 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_188 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_189 db ?
-    db ?
-    db ?
-    db ?
-_var_190 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_191 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_192 db ?
-    db ?
-_var_193 db ?
-    db ?
+    db 10 dup(?)
+_var_176 db 100 dup(?)
+dat_4034 db 4 dup(?)
+_var_177 db 2 dup(?)
+_var_178 db 2 dup(?)
+_var_179 db 4 dup(?)
+dat_4040 db 516 dup(?)
+_var_180 db 2 dup(?)
+dat_4246 db 2 dup(?)
+_var_181 db 2 dup(?)
+_var_182 db 4 dup(?)
+dat_424e db 8 dup(?)
+_var_183 db 1194 dup(?)
+_var_184 db 256 dup(?)
+_var_185 db 4 dup(?)
+dat_4804 db 4 dup(?)
+_var_186 db 10 dup(?)
+_var_187 db 8 dup(?)
+_var_188 db 10 dup(?)
+dat_4824 db 512 dup(?)
+_var_189 db 4 dup(?)
+_var_190 db 2 dup(?)
+dat_4a2a db 720 dup(?)
+_var_191 db 518 dup(?)
+_var_192 db 2 dup(?)
+_var_193 db 2 dup(?)
 _var_194 db ?
 _var_195 db ?
 _var_196 db ?
-_var_197 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_198 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_199 db ?
-    db ?
-_var_200 db ?
-    db ?
-_var_201 db ?
-    db ?
-    db ?
+_var_197 db 1531 dup(?)
+_var_198 db 6 dup(?)
+_var_199 db 2 dup(?)
+_var_200 db 2 dup(?)
+_var_201 db 3 dup(?)
 _var_202 db ?
-_var_203 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_204 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_205 db ?
-    db ?
-    db ?
-    db ?
-_var_206 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_207 db ?
-    db ?
-_var_208 db ?
-    db ?
-_var_209 db ?
-    db ?
-_var_210 db ?
-    db ?
-    db ?
-    db ?
-_var_211 db ?
-    db ?
-_var_212 db ?
-    db ?
-_var_213 db ?
-    db ?
-_var_214 db ?
-    db ?
-_var_215 db ?
-    db ?
-_var_216 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_217 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_218 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_219 db ?
-    db ?
-_var_220 db ?
-    db ?
-_var_221 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_222 db ?
-    db ?
-_var_223 db ?
-    db ?
-_var_224 db ?
-    db ?
-    db ?
-    db ?
-_var_225 db ?
-    db ?
-_var_226 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-_var_227 db ?
-    db ?
-_var_228 db ?
-    db ?
-_var_229 db ?
-    db ?
-_var_230 db ?
-    db ?
-_var_231 db ?
-    db ?
+_var_203 db 2 dup(?)
+dat_5512 db 102 dup(?)
+_var_204 db 100 dup(?)
+_var_205 db 2 dup(?)
+dat_55de db 2 dup(?)
+_var_206 db 14 dup(?)
+_var_207 db 2 dup(?)
+_var_208 db 2 dup(?)
+_var_209 db 2 dup(?)
+_var_210 db 4 dup(?)
+_var_211 db 2 dup(?)
+_var_212 db 2 dup(?)
+_var_213 db 2 dup(?)
+_var_214 db 2 dup(?)
+_var_215 db 2 dup(?)
+_var_216 db 6 dup(?)
+_var_217 db 200 dup(?)
+_var_218 db 750 dup(?)
+_var_219 db 2 dup(?)
+_var_220 db 2 dup(?)
+_var_221 db 242 dup(?)
+dat_5ab4 db 2 dup(?)
+_var_222 db 2 dup(?)
+_var_223 db 2 dup(?)
+_var_224 db 4 dup(?)
+_var_225 db 2 dup(?)
+_var_226 db 514 dup(?)
+_var_227 db 2 dup(?)
+_var_228 db 2 dup(?)
+_var_229 db 2 dup(?)
+_var_230 db 2 dup(?)
+_var_231 db 2 dup(?)
 _var_232 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
 
 END
