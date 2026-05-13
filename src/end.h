@@ -76,6 +76,7 @@ void routine_147(int x, int y, int color);
 void FUN_1000_0990(unsigned int ticks);
 void FUN_1000_041a(int *s, char far *str, int x, int y);
 void FUN_1000_0469(int *s, char far *str);
+void FUN_1000_0a74(char *dst, char far *src);
 int FUN_1000_1348(char *name, int mode);
 int FUN_1000_1368(int handle, int buf, int size);
 int FUN_1000_137c(int handle, int a, int b, int c);

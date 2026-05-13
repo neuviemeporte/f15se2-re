@@ -129,3 +129,10 @@ void FUN_1000_041a(int *s, char far *str, int x, int y) {
     FUN_1000_0469(s, str);
 }
 
+void FUN_1000_0469(int *s, char far *str) {
+    char buf[200];
+    TRACE(("FUN_1000_0469"));
+    FUN_1000_0a74(buf, str);
+    gfx_jump_05_drawString(s, buf);
+}
+
