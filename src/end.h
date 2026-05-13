@@ -34,14 +34,19 @@ void routine_70(int param_1);
 int openFileWrapper(char *name, int mode);
 void decodePic(int handle, int segment);
 void showPicFile(int handle, int page, int garbage);
+int dos_alloc(int size);
+void dos_printstring(char *str);
+void routine_8(int code);
 
 /* Extern variables from ASM */
 extern char var_69;       /* timerHandlerInstalled */
+extern char str_allocError[];
 
 /* Reconstructed C functions */
 void cleanup(void);
 void routine_34(void);
 void loadPic(char *filename, int segment);
 void openShowPic(char *name, int page, int garbage);
+int allocBuffer(int size);
 
 #endif // F15_SE2_END

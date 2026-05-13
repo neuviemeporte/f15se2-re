@@ -20,12 +20,14 @@ EXTRN _cleanup:PROC
 EXTRN _routine_34:PROC
 EXTRN _loadPic:PROC
 EXTRN _openShowPic:PROC
+EXTRN _allocBuffer:PROC
 IFDEF DEBUG
 EXTRN _my_trace:PROC
 ENDIF
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
 PUBLIC _var_69
+PUBLIC _str_allocError
 
 ; --- Code segment ---
 
@@ -1634,6 +1636,8 @@ LAB_1000_0d06:
     ret
 routine_116 endp
 
+PUBLIC _dos_printstring
+_dos_printstring:
 dos_printstring proc near
     push BP
     mov BP,SP
@@ -3423,31 +3427,7 @@ LAB_1000_19e4:
     db 00h
 dictionaryLookup endp
 
-allocBuffer proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    push word ptr [BP + Stack[2h]+2h]
-    call dos_alloc
-    add SP,2h
-    mov word ptr [BP + -2h],AX
-    db 3Dh, 10h, 00h  ; cmp AX,10h (force word-immediate encoding)
-    jnc LAB_1000_1a19
-    call cleanup
-    mov AX,offset str_allocError
-    push AX
-    call dos_printstring
-    add SP,2h
-    sub AX,AX
-    push AX
-    call routine_8
-    add SP,2h
-LAB_1000_1a19:
-    mov AX,word ptr [BP + -2h]
-    mov SP,BP
-    pop BP
-    ret
-allocBuffer endp
+allocBuffer equ _allocBuffer
 
 routine_64 proc near
     push BP
@@ -3471,6 +3451,8 @@ LAB_1000_1a46:
     ret
 routine_64 endp
 
+PUBLIC _dos_alloc
+_dos_alloc:
 dos_alloc proc near
     push BP
     mov BP,SP
@@ -8746,6 +8728,8 @@ LAB_1000_4a7c:
     ret
 routine_4 endp
 
+PUBLIC _routine_8
+_routine_8:
 routine_8 proc near
     push BP
     mov BP,SP
@@ -11369,6 +11353,7 @@ _var_67 db 000h
     db 000h
 _var_68 db 000h
     db 000h
+_str_allocError label byte
 str_allocError db 049h
     db 06Eh, 073h, 075h, 066h, 066h, 069h, 063h, 069h, 065h, 06Eh, 074h, 020h, 073h, 079h, 073h, 074h
     db 065h, 06Dh, 020h, 06Dh, 065h, 06Dh, 06Fh, 072h, 079h, 020h, 02Dh, 020h, 041h, 06Ch, 06Ch, 06Fh

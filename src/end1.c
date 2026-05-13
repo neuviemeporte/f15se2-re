@@ -32,4 +32,16 @@ void openShowPic(char *name, int page, int garbage) {
     routine_91(handle);
 }
 
+int allocBuffer(int size) {
+    int segment;
+    TRACE(("allocBuffer"));
+    segment = dos_alloc(size);
+    if ((unsigned)segment < 0x10) {
+        cleanup();
+        dos_printstring(str_allocError);
+        routine_8(0);
+    }
+    return segment;
+}
+
 
