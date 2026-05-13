@@ -15,4 +15,7 @@
 #define __cdecl
 #define __far far
 
+void routine_91(int param_1);
+int routine_125();
+
 #endif // F15_SE2_END

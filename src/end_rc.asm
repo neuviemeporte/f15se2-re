@@ -11,6 +11,7 @@ a equ 2h
 b equ 6h
 
 .CODE
+EXTRN _routine_91:PROC
 ; --- Code segment ---
 
 PUBLIC _main
@@ -2660,15 +2661,7 @@ FUN_1000_1348 proc near
     db 90h
 FUN_1000_1348 endp
 
-routine_91 proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 4h]
-    call routine_125
-    add SP,2h
-    pop BP
-    ret
-routine_91 endp
+routine_91 equ _routine_91
 
 FUN_1000_1368 proc near
     push BP
@@ -2802,6 +2795,8 @@ LAB_1000_144e:
     ret
 FUN_1000_1405 endp
 
+PUBLIC _routine_125
+_routine_125:
 routine_125 proc near
     push BP
     mov BP,SP
