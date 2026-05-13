@@ -58,7 +58,7 @@ dos_printstring: Code1 NEAR 0d09-0d14 R0d09-0d14 assembly
 routine_14: Code1 NEAR 0d17-0d6f R0d17-0d29 U0d2a-0d2e R0d2f-0d6f assembly
 clearRect: Code1 NEAR 0e4e-0eec R0e4e-0eec assembly
 sub_12C75: Code1 NEAR 0f09-0f39 R0f09-0f39 assembly
-routine_154: Code1 NEAR 107e-1089 R107e-1089
+routine_154: Code1 NEAR 107e-1089 R107e-1089 assembly
 routine_158: Code1 NEAR 108a-11fd R108a-11fd
 sub_12F6A: Code1 NEAR 11fe-121e R11fe-121e assembly
 installCBreakHandler: Code1 NEAR 1240-1262 R1240-1262 assembly
