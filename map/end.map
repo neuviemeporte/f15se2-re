@@ -28,7 +28,7 @@ routine_10: Code1 NEAR 0000-000f R0000-000f
 routine_7: Code1 NEAR 0010-0112 R0010-0112
 routine_26: Code1 NEAR 0113-0129 R0113-0129
 routine_18: Code1 NEAR 012a-0184 R012a-0184
-routine_44: Code1 NEAR 0185-01b7 R0185-01b7
+cleanup: Code1 NEAR 0185-01b7 R0185-01b7
 routine_6: Code1 NEAR 01b8-01b8 R01b8-01b8
 routine_5: Code1 NEAR 01b9-01b9 R01b9-01b9
 routine_20: Code1 NEAR 01ba-020b R01ba-020b
@@ -39,15 +39,15 @@ routine_108: Code1 NEAR 033d-0370 R033d-0370
 routine_109: Code1 NEAR 0371-03a4 R0371-03a4
 routine_16: Code1 NEAR 03a6-03b6 R03a6-03b6
 routine_66: Code1 NEAR 03b7-0418 R03b7-0418
-routine_56: Code1 NEAR 0442-0468 R0442-0468
+actualDrawString: Code1 NEAR 0442-0468 R0442-0468
 routine_130: Code1 NEAR 05e2-0700 R05e2-0700
-routine_48: Code1 NEAR 0701-0737 R0701-0737
-routine_83: Code1 NEAR 0738-077a R0738-077a
-routine_107: Code1 NEAR 077b-08b5 R077b-08b5
-routine_133: Code1 NEAR 08b6-098f R08b6-098f
+drawString: Code1 NEAR 0701-0737 R0701-0737
+stringWidth: Code1 NEAR 0738-077a R0738-077a
+my_ltoa: Code1 NEAR 077b-08b5 R077b-08b5
+my_itoa: Code1 NEAR 08b6-098f R08b6-098f
 routine_34: Code1 NEAR 09ae-09be R09ae-09be
 routine_67: Code1 NEAR 0a42-0a5c R0a42-0a5c
-routine_68: Code1 NEAR 0aab-0ad2 R0aab-0ad2
+mystrcat: Code1 NEAR 0aab-0ad2 R0aab-0ad2 assembly
 routine_146: Code1 NEAR 0b22-0b3f R0b22-0b3f
 routine_72: Code1 NEAR 0b87-0beb R0b87-0bbf U0bc0-0bc2 R0bc3-0beb
 routine_87: Code1 NEAR 0bec-0c28 R0bec-0c28
@@ -56,36 +56,36 @@ routine_115: Code1 NEAR 0c54-0c9b R0c54-0c9b
 routine_116: Code1 NEAR 0c9c-0cbc R0c9c-0cbc
 routine_45: Code1 NEAR 0d09-0d14 R0d09-0d14
 routine_14: Code1 NEAR 0d17-0d6f R0d17-0d29 U0d2a-0d2e R0d2f-0d6f
-routine_47: Code1 NEAR 0e4e-0eec R0e4e-0eec
-routine_78: Code1 NEAR 0f09-0f39 R0f09-0f39
+clearRect: Code1 NEAR 0e4e-0eec R0e4e-0eec assembly
+sub_12C75: Code1 NEAR 0f09-0f39 R0f09-0f39 assembly
 routine_154: Code1 NEAR 107e-1089 R107e-1089
 routine_158: Code1 NEAR 108a-11fd R108a-11fd
-routine_161: Code1 NEAR 11fe-121e R11fe-121e
-routine_17: Code1 NEAR 1240-1262 R1240-1262
+sub_12F6A: Code1 NEAR 11fe-121e R11fe-121e assembly
+installCBreakHandler: Code1 NEAR 1240-1262 R1240-1262 assembly
 routine_28: Code1 NEAR 1263-1273 R1263-1273
 routine_33: Code1 NEAR 1274-127f R1274-127f
 routine_89: Code1 NEAR 1336-1346 R1336-1346
 routine_91: Code1 NEAR 135a-1367 R135a-1367
-routine_118: Code1 NEAR 13ae-1404 R13ae-1404 R156a-15a5
-routine_125: Code1 NEAR 145c-147c R145c-147c
-routine_54: Code1 NEAR 15a6-15d1 R15a6-15d1
-routine_53: Code1 NEAR 15fc-1624 R15fc-1624
-routine_92: Code1 NEAR 1664-16d5 R1664-16d5
-routine_90: Code1 NEAR 17b2-1819 R17b2-1819
+openFile: Code1 NEAR 13ae-1404 R13ae-1404 R156a-15a5 assembly
+fileClose: Code1 NEAR 145c-147c R145c-147c assembly
+openShowPic: Code1 NEAR 15a6-15d1 R15a6-15d1
+loadPic: Code1 NEAR 15fc-1624 R15fc-1624
+showPicFile: Code1 NEAR 1664-16d5 R1664-16d5 assembly
+decodePic: Code1 NEAR 17b2-1819 R17b2-1819 assembly
 routine_120: Code1 NEAR 181a-181a R181a-181a
-routine_122: Code1 NEAR 181c-1845 R181c-1845
-routine_144: Code1 NEAR 1846-188c R1846-188c
-routine_159: Code1 NEAR 188d-18c2 R188d-18c2
+decodePicRow: Code1 NEAR 181c-1845 R181c-1845 assembly
+picReadDataAndMakeDict: Code1 NEAR 1846-188c R1846-188c assembly
+picMakeDict: Code1 NEAR 188d-18c2 R188d-18c2 assembly
 routine_145: Code1 NEAR 18c3-193b R18c3-193b
-routine_156: Code1 NEAR 193c-19ea R193c-19ea
-routine_23: Code1 NEAR 19ec-1a1f R19ec-1a1f
+dictionaryLookup: Code1 NEAR 193c-19ea R193c-19ea assembly
+allocBuffer: Code1 NEAR 19ec-1a1f R19ec-1a1f
 routine_64: Code1 NEAR 1a20-1a47 R1a20-1a47
-routine_43: Code1 NEAR 1a48-1a6d R1a48-1a6d
+dos_alloc: Code1 NEAR 1a48-1a6d R1a48-1a6d assembly
 routine_102: Code1 NEAR 1a6e-1a8a R1a6e-1a8a
-routine_58: Code1 NEAR 1bfc-1c39 R1bfc-1c39
-routine_62: Code1 NEAR 1c3a-1c5a R1c3a-1c5a
-routine_94: Code1 NEAR 1d76-1e0a R1d76-1e0a
-routine_129: Code1 NEAR 1e0b-1e5f R1e0b-1e5f
+setTimerIrqHandler: Code1 NEAR 1bfc-1c39 R1bfc-1c39 assembly
+restoreTimerIrqHandler: Code1 NEAR 1c3a-1c5a R1c3a-1c5a assembly
+sub_13DF2: Code1 NEAR 1d76-1e0a R1d76-1e0a assembly
+manipulateTimer: Code1 NEAR 1e0b-1e5f R1e0b-1e5f assembly
 routine_69: Code1 NEAR 1e60-1e66 R1e60-1e66
 routine_27: Code1 NEAR 1e78-216d R1e78-216d
 routine_24: Code1 NEAR 216e-21a4 R216e-21a4
@@ -141,9 +141,9 @@ routine_143: Code1 NEAR 53ba-53f9 R53ba-53f9
 routine_113: Code1 NEAR 543c-544d R543c-544d
 routine_142: Code1 NEAR 54c6-54d7 R54c6-54d7
 routine_134: Code2 FAR 0027-0039 R0027-0039
-routine_148: Code2 NEAR 003a-0066 R003a-0066
+readJoyPort: Code2 NEAR 003a-0066 R003a-0066 assembly
 routine_149: Code2 NEAR 0067-00c2 R0067-00c2
-routine_19: Code2 FAR 00d7-00ee R00d7-00ee
+copyJoystickData: Code2 FAR 00d7-00ee R00d7-00ee assembly
 routine_36: Data1 FAR 1008-100c R1008-100c
 routine_93: Data1 FAR 1021-1025 R1021-1025
 routine_76: Data1 FAR 1049-104d R1049-104d

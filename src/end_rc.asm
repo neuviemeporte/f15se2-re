@@ -12,6 +12,12 @@ b equ 6h
 
 .CODE
 EXTRN _routine_91:PROC
+EXTRN _actualDrawString:PROC
+EXTRN _stringWidth:PROC
+EXTRN _drawString:PROC
+PUBLIC _routine_93
+PUBLIC _routine_111
+
 ; --- Code segment ---
 
 PUBLIC _main
@@ -61,7 +67,7 @@ routine_7 proc near
     les BX,dword ptr [5ab6h]
     mov AL,byte ptr ES:[BX + 24h]
     mov [4cfah],AL
-    call routine_17
+    call installCBreakHandler
     call routine_18
     les BX,dword ptr [5ab6h]
     cmp word ptr ES:[BX + 72h],1h
@@ -71,7 +77,7 @@ routine_7 proc near
     add AX,48h
     push DX
     push AX
-    call far ptr routine_19
+    call far ptr copyJoystickData
     add SP,4h
     jmp LAB_1000_0096
 LAB_1000_008e:
@@ -85,21 +91,21 @@ LAB_1000_0096:
     call far ptr routine_22
     mov word ptr [BP + -2h],AX
     push word ptr [BP + -6h]
-    call routine_23
+    call allocBuffer
     add SP,2h
     mov [5ac0h],AX
     cmp word ptr [4a24h],1h
     jnz LAB_1000_00d2
     mov AX,3c8ch
     push AX
-    call routine_23
+    call allocBuffer
     add SP,2h
     mov [5cc8h],AX
     mov [5ccch],AX
     mov word ptr [5ccah],0h
 LAB_1000_00d2:
     push word ptr [BP + -2h]
-    call routine_23
+    call allocBuffer
     add SP,2h
     mov [5cc6h],AX
     mov word ptr [550ch],3h
@@ -127,7 +133,7 @@ routine_7 endp
 routine_26 proc near
     cmp byte ptr [15feh],0h
     jz LAB_1000_0129
-    call routine_44
+    call cleanup
     call routine_28
     sub AX,AX
     push AX
@@ -172,13 +178,13 @@ routine_18 proc near
     ret
 routine_18 endp
 
-routine_44 proc near
+cleanup proc near
     push BP
     mov BP,SP
     sub SP,0eh
     cmp byte ptr [19ffh],1h
     jnz LAB_1000_0195
-    call routine_62
+    call restoreTimerIrqHandler
 LAB_1000_0195:
     mov byte ptr [BP + -0dh],0h
     mov byte ptr [BP + -0eh],3h
@@ -194,7 +200,7 @@ LAB_1000_0195:
     mov SP,BP
     pop BP
     ret
-routine_44 endp
+cleanup endp
 
 routine_6 proc near
     ret
@@ -467,7 +473,7 @@ LAB_1000_03f1:
     cmp byte ptr [15feh],0h
     jz LAB_1000_0415
 LAB_1000_03ff:
-    call routine_44
+    call cleanup
     cmp byte ptr [15feh],0h
     jz LAB_1000_040c
     call routine_28
@@ -502,23 +508,7 @@ FUN_1000_041a proc near
     ret
 FUN_1000_041a endp
 
-routine_56 proc near
-    push BP
-    mov BP,SP
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BP + 8h]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BP + 0ah]
-    mov word ptr [BX + 0ah],AX
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call far ptr routine_93
-    add SP,4h
-    mov SP,BP
-    pop BP
-    ret
-routine_56 endp
+actualDrawString equ _actualDrawString
 
 FUN_1000_0469 proc near
     push BP
@@ -795,65 +785,11 @@ LAB_1000_06fc:
     ret
 routine_130 endp
 
-routine_48 proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_83
-    add SP,4h
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + 0ah]
-    mov AX,word ptr [BP + 0ch]
-    sub AX,word ptr [BP + -2h]
-    cwd
-    sub AX,DX
-    sar AX,1h
-    add AX,word ptr [BP + 8h]
-    push AX
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_56
-    add SP,8h
-    mov SP,BP
-    pop BP
-    ret
-routine_48 endp
+drawString equ _drawString
 
-routine_83 proc near
-    push BP
-    mov BP,SP
-    sub SP,6h
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [BP + -4h],AX
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BX + 0ch]
-    mov word ptr [BP + -2h],AX
-    mov word ptr [BP + -6h],0h
-LAB_1000_0752:
-    mov BX,word ptr [BP + -4h]
-    cmp byte ptr [BX],0h
-    jz LAB_1000_0772
-    push word ptr [BP + -2h]
-    inc word ptr [BP + -4h]
-    mov AL,byte ptr [BX]
-    sub AH,AH
-    push AX
-    call far ptr routine_111
-    add SP,4h
-    add word ptr [BP + -6h],AX
-    jmp LAB_1000_0752
-LAB_1000_0772:
-    mov AX,word ptr [BP + -6h]
-    jmp LAB_1000_0777
-LAB_1000_0777:
-    mov SP,BP
-    pop BP
-    ret
-routine_83 endp
+stringWidth equ _stringWidth
 
-routine_107 proc near
+my_ltoa proc near
     push BP
     mov BP,SP
     sub SP,0ch
@@ -998,9 +934,9 @@ LAB_1000_088f:
     mov SP,BP
     pop BP
     ret
-routine_107 endp
+my_ltoa endp
 
-routine_133 proc near
+my_itoa proc near
     push BP
     mov BP,SP
     sub SP,0ch
@@ -1098,13 +1034,13 @@ LAB_1000_0969:
     mov SP,BP
     pop BP
     ret
-routine_133 endp
+my_itoa endp
 
 FUN_1000_0990 proc near
     push BP
     mov BP,SP
     mov byte ptr [1a1ah],0h
-    call routine_58
+    call setTimerIrqHandler
 LAB_1000_099b:
     mov AL,[1a1ah]
     sub AH,AH
@@ -1112,7 +1048,7 @@ LAB_1000_099b:
     jc LAB_1000_09a7
     jmp LAB_1000_099b
 LAB_1000_09a7:
-    call routine_62
+    call restoreTimerIrqHandler
     mov SP,BP
     pop BP
     ret
@@ -1303,7 +1239,7 @@ LAB_1000_0a95:
     ret
 FUN_1000_0a8f endp
 
-routine_68 proc near
+mystrcat proc near
     push BP
     mov BP,SP
     push SI
@@ -1348,7 +1284,7 @@ LAB_1000_0af3:
     pop SI
     pop BP
     ret
-routine_68 endp
+mystrcat endp
 
 FUN_1000_0af6 proc near
     push BP
@@ -1793,7 +1729,7 @@ LAB_1000_0daa:
     call far ptr routine_76
     mov AH,byte ptr [BX + 4h]
     call far ptr routine_77
-    call routine_78
+    call sub_12C75
     mov AX,word ptr [BP + 0ah]
     sub AX,word ptr [BP + 6h]
     mov [1236h],AX
@@ -1840,7 +1776,7 @@ LAB_1000_0daa:
     ret
 FUN_1000_0d70 endp
 
-routine_47 proc near
+clearRect proc near
     push BP
     mov BP,SP
     push DI
@@ -1855,7 +1791,7 @@ routine_47 proc near
     call far ptr routine_76
     mov AH,byte ptr [BX + 6h]
     call far ptr routine_77
-    call routine_78
+    call sub_12C75
     mov AX,word ptr [BP + 0ah]
     sub AX,word ptr [BP + 6h]
     mov [1236h],AX
@@ -1928,9 +1864,9 @@ routine_47 proc near
     db 00h
     db 5Fh
     db 0C3h
-routine_47 endp
+clearRect endp
 
-routine_78 proc near
+sub_12C75 proc near
     mov DI,word ptr [15b7h]
     or DI,DI
     js LAB_1000_0f39
@@ -2276,7 +2212,7 @@ LAB_1000_0f39:
     db 0Dh
     db 00h
     db 0CBh
-routine_78 endp
+sub_12C75 endp
 
 routine_154 proc near
     push BP
@@ -2353,11 +2289,11 @@ LAB_1000_10fa:
     mov DI,word ptr [1241h]
     mov BX,CX
     mov BP,DX
-    call routine_161
+    call sub_12F6A
     mov [15bch],AL
     mov BX,SI
     mov BP,DI
-    call routine_161
+    call sub_12F6A
     jnz LAB_1000_1137
     cmp byte ptr [15bch],0h
     jnz LAB_1000_1127
@@ -2463,7 +2399,7 @@ LAB_1000_11e8:
     jmp LAB_1000_115f
 routine_158 endp
 
-routine_161 proc near
+sub_12F6A proc near
     mov AL,0fh
     or BX,BX
     js LAB_1000_1206
@@ -2483,7 +2419,7 @@ LAB_1000_1214:
 LAB_1000_121c:
     or AL,AL
     ret
-routine_161 endp
+sub_12F6A endp
 
 FUN_1000_121f proc near
     push BP
@@ -2504,7 +2440,7 @@ LAB_1000_1238:
     iret
 FUN_1000_121f endp
 
-routine_17 proc near
+installCBreakHandler proc near
     push SI
     push DI
     push DX
@@ -2523,7 +2459,7 @@ routine_17 proc near
     pop DI
     pop SI
     ret
-routine_17 endp
+installCBreakHandler endp
 
 routine_28 proc near
     push DS
@@ -2642,7 +2578,7 @@ routine_89 proc near
     mov BP,SP
     push word ptr [BP + Stack[4h]+2h]
     push word ptr [BP + Stack[2h]+2h]
-    call routine_118
+    call openFile
     add SP,4h
     pop BP
     ret
@@ -2703,7 +2639,7 @@ FUN_1000_1394 proc near
     ret
 FUN_1000_1394 endp
 
-routine_118 proc near
+openFile proc near
     push BP
     mov BP,SP
     push DI
@@ -2747,7 +2683,7 @@ LAB_1000_13f7:
     mov SP,BP
     pop BP
     ret
-routine_118 endp
+openFile endp
 
 FUN_1000_1405 proc near
     push BP
@@ -2797,7 +2733,7 @@ FUN_1000_1405 endp
 
 PUBLIC _routine_125
 _routine_125:
-routine_125 proc near
+fileClose proc near
     push BP
     mov BP,SP
     push DI
@@ -2820,7 +2756,7 @@ LAB_1000_1475:
     pop BP
     ret
     db 0C3h
-routine_125 endp
+fileClose endp
 
 FUN_1000_147e proc near
     push BP
@@ -3023,7 +2959,7 @@ LAB_1000_15a1:
     dw 21h
 FUN_1000_156a endp
 
-routine_54 proc near
+openShowPic proc near
     push BP
     mov BP,SP
     sub SP,2h
@@ -3036,14 +2972,14 @@ routine_54 proc near
     push word ptr [BP + Stack[6h]+2h]
     push word ptr [BP + 6h]
     push AX
-    call routine_92
+    call showPicFile
     add SP,6h
     push word ptr [BP + -2h]
     call routine_91
     mov SP,BP
     pop BP
     ret
-routine_54 endp
+openShowPic endp
 
 FUN_1000_15d2 proc near
     push BP
@@ -3067,7 +3003,7 @@ FUN_1000_15d2 proc near
     db 90h
 FUN_1000_15d2 endp
 
-routine_53 proc near
+loadPic proc near
     push BP
     mov BP,SP
     sub SP,2h
@@ -3079,7 +3015,7 @@ routine_53 proc near
     mov word ptr [BP + -2h],AX
     push word ptr [BP + Stack[4h]+2h]
     push AX
-    call routine_90
+    call decodePic
     add SP,4h
     push word ptr [BP + -2h]
     call routine_91
@@ -3087,7 +3023,7 @@ routine_53 proc near
     pop BP
     ret
     db 90h
-routine_53 endp
+loadPic endp
 
 FUN_1000_1626 proc near
     push BP
@@ -3108,7 +3044,7 @@ FUN_1000_1626 proc near
     add SP,8h
     push word ptr [BP + 6h]
     push word ptr [BP + -2h]
-    call routine_90
+    call decodePic
     add SP,4h
     push word ptr [BP + -2h]
     call routine_91
@@ -3118,7 +3054,7 @@ FUN_1000_1626 proc near
     db 90h
 FUN_1000_1626 endp
 
-routine_92 proc near
+showPicFile proc near
     push BP
     mov BP,SP
     push DI
@@ -3141,7 +3077,7 @@ LAB_1000_169a:
     mov DI,word ptr [19bah]
     call far ptr routine_121
     mov [19b6h],AX
-    call routine_122
+    call decodePicRow
     mov DI,word ptr [19b6h]
     mov BP,1872h
     mov BX,word ptr [19bah]
@@ -3158,7 +3094,7 @@ LAB_1000_169a:
     mov SP,BP
     pop BP
     ret
-routine_92 endp
+showPicFile endp
 
 FUN_1000_16d6 proc near
     push BP
@@ -3181,7 +3117,7 @@ LAB_1000_1702:
     mov DI,word ptr [19bah]
     call far ptr routine_121
     mov [19b6h],AX
-    call routine_122
+    call decodePicRow
     mov DI,word ptr [19b6h]
     mov BP,1872h
     mov BX,word ptr [19bah]
@@ -3223,7 +3159,7 @@ LAB_1000_1776:
     mov DI,word ptr [19bah]
     call far ptr routine_121
     mov [19b6h],AX
-    call routine_122
+    call decodePicRow
     mov DI,word ptr [19b6h]
     mov BP,1872h
     mov BX,word ptr [19bah]
@@ -3242,7 +3178,7 @@ LAB_1000_1776:
     ret
 FUN_1000_173e endp
 
-routine_90 proc near
+decodePic proc near
     push BP
     mov BP,SP
     push DI
@@ -3263,7 +3199,7 @@ LAB_1000_17de:
     mov DI,word ptr [19bah]
     call far ptr routine_121
     mov [19b6h],AX
-    call routine_122
+    call decodePicRow
     mov DI,word ptr [19b6h]
     mov BP,1872h
     mov BX,word ptr [19bah]
@@ -3280,14 +3216,14 @@ LAB_1000_17de:
     mov SP,BP
     pop BP
     ret
-routine_90 endp
+decodePic endp
 
 routine_120 proc near
     ret
     db 00h
 routine_120 endp
 
-routine_122 proc near
+decodePicRow proc near
     push ES
     push DS
     pop ES
@@ -3296,7 +3232,7 @@ routine_122 proc near
     add SI,1606h
     shr DI,1h
     jnz LAB_1000_182f
-    call routine_144
+    call picReadDataAndMakeDict
 LAB_1000_182f:
     mov CX,140h
     mov word ptr [2558h],CX
@@ -3306,9 +3242,9 @@ LAB_1000_182f:
     mov word ptr [186eh],SI
     pop ES
     ret
-routine_122 endp
+decodePicRow endp
 
-routine_144 proc near
+picReadDataAndMakeDict proc near
     mov AX,1606h
     add AX,200h
     mov [2554h],AX
@@ -3337,9 +3273,9 @@ LAB_1000_1872:
     neg AL
 LAB_1000_188a:
     mov [255dh],AL
-routine_144 endp
+picReadDataAndMakeDict endp
 
-routine_159 proc near
+picMakeDict proc near
     mov byte ptr [255ch],9h
     mov word ptr [255eh],1ffh
     mov DX,100h
@@ -3360,7 +3296,7 @@ LAB_1000_18b7:
     add BX,3h
     loop LAB_1000_18b7
     ret
-routine_159 endp
+picMakeDict endp
 
 routine_145 proc near
     cmp byte ptr [2565h],0h
@@ -3374,14 +3310,14 @@ LAB_1000_18ce:
 LAB_1000_18db:
     cmp byte ptr [255ah],0h
     jnz LAB_1000_1903
-    call routine_156
+    call dictionaryLookup
     cmp AL,90h
     jz LAB_1000_18ef
     mov [255bh],AL
     jmp LAB_1000_190a
     db 90h
 LAB_1000_18ef:
-    call routine_156
+    call dictionaryLookup
     or AL,AL
     jnz LAB_1000_18fe
     mov AL,90h
@@ -3420,7 +3356,7 @@ LAB_1000_192e:
     ret
 routine_145 endp
 
-routine_156 proc near
+dictionaryLookup proc near
     pop BP
     cmp SP,2769h
     jz LAB_1000_1946
@@ -3497,24 +3433,24 @@ LAB_1000_19d8:
     mov AL,[255ch]
     cmp AL,byte ptr [255dh]
     jle LAB_1000_19e4
-    call routine_159
+    call picMakeDict
 LAB_1000_19e4:
     mov word ptr [2566h],CX
     jmp LAB_1000_1943
     db 00h
-routine_156 endp
+dictionaryLookup endp
 
-routine_23 proc near
+allocBuffer proc near
     push BP
     mov BP,SP
     sub SP,2h
     push word ptr [BP + Stack[2h]+2h]
-    call routine_43
+    call dos_alloc
     add SP,2h
     mov word ptr [BP + -2h],AX
     cmp AX,10h
     jnc LAB_1000_1a19
-    call routine_44
+    call cleanup
     mov AX,19beh
     push AX
     call routine_45
@@ -3528,7 +3464,7 @@ LAB_1000_1a19:
     mov SP,BP
     pop BP
     ret
-routine_23 endp
+allocBuffer endp
 
 routine_64 proc near
     push BP
@@ -3538,7 +3474,7 @@ routine_64 proc near
     add SP,2h
     or AX,AX
     jz LAB_1000_1a46
-    call routine_44
+    call cleanup
     mov AX,19e8h
     push AX
     call routine_45
@@ -3552,7 +3488,7 @@ LAB_1000_1a46:
     ret
 routine_64 endp
 
-routine_43 proc near
+dos_alloc proc near
     push BP
     mov BP,SP
     push DI
@@ -3577,7 +3513,7 @@ LAB_1000_1a64:
     mov SP,BP
     pop BP
     ret
-routine_43 endp
+dos_alloc endp
 
 routine_102 proc near
     push BP
@@ -3768,12 +3704,12 @@ LAB_1000_1bed:
     ret
 FUN_1000_1bc3 endp
 
-routine_58 proc near
+setTimerIrqHandler proc near
     mov word ptr [1a0ah],1h
     mov word ptr [1a14h],1h
     mov word ptr [1a00h],0h
     mov word ptr [1a02h],0h
-    call routine_94
+    call sub_13DF2
     mov AH,35h
     mov AL,8h
     dw 21h
@@ -3787,9 +3723,9 @@ routine_58 proc near
     pop DS
     mov byte ptr [19ffh],1h
     ret
-routine_58 endp
+setTimerIrqHandler endp
 
-routine_62 proc near
+restoreTimerIrqHandler proc near
     mov AL,36h
     out 43h,AL
     jmp LAB_1000_1c40
@@ -4088,9 +4024,9 @@ var_3:
     db 1Ah
     db 0FBh
     db 0C3h
-routine_62 endp
+restoreTimerIrqHandler endp
 
-routine_94 proc near
+sub_13DF2 proc near
     pushf
     cli
     mov byte ptr [1a0ch],1h
@@ -4098,12 +4034,12 @@ routine_94 proc near
     mov byte ptr [1a13h],1h
     mov [1a0fh],AX
     mov [1a11h],AX
-    call routine_129
+    call manipulateTimer
     mov BX,AX
     mov CX,10h
 LAB_1000_1d92:
     push BX
-    call routine_129
+    call manipulateTimer
     pop BX
     sub BX,AX
     add word ptr [1a0fh],BX
@@ -4150,9 +4086,9 @@ LAB_1000_1dfa:
     mov [1a04h],AX
     popf
     ret
-routine_94 endp
+sub_13DF2 endp
 
-routine_129 proc near
+manipulateTimer proc near
     pushf
     cli
     xor AX,AX
@@ -4209,7 +4145,7 @@ LAB_1000_1e5c:
     mov AX,BX
     popf
     ret
-routine_129 endp
+manipulateTimer endp
 
 routine_69 proc near
     xor AH,AH
@@ -4260,7 +4196,7 @@ LAB_1000_1ea4:
     push word ptr [BX]
     mov AX,1ad3h
     push AX
-    call routine_54
+    call openShowPic
     add SP,4h
     mov AX,0fah
     push AX
@@ -4271,7 +4207,7 @@ LAB_1000_1ea4:
     mov AX,1adch
     push AX
     push word ptr [1c20h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov AX,0fah
     push AX
@@ -4282,7 +4218,7 @@ LAB_1000_1ea4:
     mov AX,1b0ah
     push AX
     push word ptr [1c20h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov word ptr [1c16h],4h
     mov word ptr [1c0eh],0h
@@ -4308,7 +4244,7 @@ LAB_1000_1f0b:
     mov AX,3fd0h
     push AX
     push word ptr [1c20h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov word ptr [1c0eh],7h
     mov word ptr [1c16h],1h
@@ -4326,7 +4262,7 @@ LAB_1000_1f4a:
     push word ptr [BX]
     mov AX,1b27h
     push AX
-    call routine_54
+    call openShowPic
     add SP,4h
     mov AX,0fah
     push AX
@@ -4337,7 +4273,7 @@ LAB_1000_1f4a:
     mov AX,1b31h
     push AX
     push word ptr [1c20h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov AX,0fah
     push AX
@@ -4348,7 +4284,7 @@ LAB_1000_1f4a:
     mov AX,1b54h
     push AX
     push word ptr [1c20h]
-    call routine_48
+    call drawString
     add SP,0ah
     jmp LAB_1000_2141
 LAB_1000_1fa8:
@@ -4380,7 +4316,7 @@ LAB_1000_1fde:
     push word ptr [BX]
     mov AX,1b7dh
     push AX
-    call routine_54
+    call openShowPic
     add SP,4h
     mov word ptr [1c0eh],1h
     mov AX,0fah
@@ -4392,7 +4328,7 @@ LAB_1000_1fde:
     mov AX,1b87h
     push AX
     push word ptr [1c20h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov AX,1bb2h
     push AX
@@ -4407,7 +4343,7 @@ LAB_1000_1fde:
     push word ptr [SI + 1c3ah]
     mov AX,3fd0h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,0fah
     push AX
@@ -4418,7 +4354,7 @@ LAB_1000_1fde:
     mov AX,3fd0h
     push AX
     push word ptr [1c20h]
-    call routine_48
+    call drawString
     add SP,0ah
     call far ptr routine_57
     call far ptr routine_49
@@ -4463,7 +4399,7 @@ LAB_1000_20b5:
     push word ptr [BX]
     mov AX,1bcdh
     push AX
-    call routine_54
+    call openShowPic
     add SP,4h
     mov word ptr [1c0eh],0fh
     mov AX,0fah
@@ -4475,7 +4411,7 @@ LAB_1000_20b5:
     mov AX,1bd7h
     push AX
     push word ptr [1c20h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov AX,1c05h
     push AX
@@ -4488,7 +4424,7 @@ LAB_1000_20b5:
     push word ptr [BX + 1c60h]
     mov AX,3fd0h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,0fah
     push AX
@@ -4499,7 +4435,7 @@ LAB_1000_20b5:
     mov AX,3fd0h
     push AX
     push word ptr [1c20h]
-    call routine_48
+    call drawString
     add SP,0ah
     les BX,dword ptr [403ah]
     mov AX,1h
@@ -4519,7 +4455,7 @@ LAB_1000_214e:
     push AX
     push AX
     push word ptr [1c20h]
-    call routine_47
+    call clearRect
     add SP,0ah
     call far ptr routine_49
     pop SI
@@ -5103,7 +5039,7 @@ LAB_1000_270c:
 LAB_1000_2739:
     cmp byte ptr [15feh],0h
     jz LAB_1000_274f
-    call routine_44
+    call cleanup
     call routine_28
     sub AX,AX
     push AX
@@ -5584,7 +5520,7 @@ LAB_1000_2c1d:
     mov AX,0ebh
     push AX
     push word ptr [BP + 8h]
-    call routine_47
+    call clearRect
     add SP,0ah
     mov BX,word ptr [BP + 8h]
     mov word ptr [BX + 4h],0h
@@ -5598,7 +5534,7 @@ LAB_1000_2c1d:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,8h
     push AX
@@ -5622,7 +5558,7 @@ LAB_1000_2c1d:
     mov AX,0f0h
     push AX
     push word ptr [BP + 8h]
-    call routine_47
+    call clearRect
     add SP,0ah
     cmp byte ptr [55feh],1h
     jnz LAB_1000_2cc2
@@ -5666,7 +5602,7 @@ LAB_1000_2cc2:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,57h
     push AX
@@ -5677,7 +5613,7 @@ LAB_1000_2cc2:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov AX,1ce2h
     push AX
@@ -5694,7 +5630,7 @@ LAB_1000_2cc2:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov AX,1cf1h
     push AX
@@ -5706,13 +5642,13 @@ LAB_1000_2cc2:
     push AX
     push word ptr [59c0h]
     push word ptr [59beh]
-    call routine_107
+    call my_ltoa
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,57h
     push AX
@@ -5723,7 +5659,7 @@ LAB_1000_2cc2:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
     les BX,dword ptr [5ab6h]
     cmp word ptr ES:[BX + 30h],0h
@@ -5737,7 +5673,7 @@ LAB_1000_2cc2:
     mov AX,1cf3h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov AX,57h
     push AX
@@ -5748,7 +5684,7 @@ LAB_1000_2cc2:
     mov AX,1d03h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
     jmp LAB_1000_2e53
 LAB_1000_2dc9:
@@ -5762,7 +5698,7 @@ LAB_1000_2dc9:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,57h
     push AX
@@ -5773,7 +5709,7 @@ LAB_1000_2dc9:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov AX,1d21h
     push AX
@@ -5790,13 +5726,13 @@ LAB_1000_2dc9:
     adc DX,word ptr [59c0h]
     push DX
     push AX
-    call routine_107
+    call my_ltoa
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,57h
     push AX
@@ -5807,7 +5743,7 @@ LAB_1000_2dc9:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
 LAB_1000_2e53:
     mov BX,word ptr [BP + 8h]
@@ -5827,7 +5763,7 @@ LAB_1000_2e53:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov BX,word ptr [BP + 8h]
     mov word ptr [BX + 4h],0h
@@ -5844,14 +5780,14 @@ LAB_1000_2e53:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_56
+    call actualDrawString
     add SP,8h
     mov AX,4824h
     push AX
     mov AX,[5600h]
     add AX,word ptr [59c2h]
     push AX
-    call routine_133
+    call my_itoa
     add SP,4h
     mov AX,1eh
     push AX
@@ -5860,7 +5796,7 @@ LAB_1000_2e53:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_56
+    call actualDrawString
     add SP,8h
     mov AX,1d43h
     push AX
@@ -5875,7 +5811,7 @@ LAB_1000_2e53:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_56
+    call actualDrawString
     add SP,8h
     mov AX,4824h
     push AX
@@ -5884,7 +5820,7 @@ LAB_1000_2e53:
     sub AX,word ptr [5600h]
     sub AX,word ptr [59c2h]
     push AX
-    call routine_133
+    call my_itoa
     add SP,4h
     mov AX,26h
     push AX
@@ -5893,7 +5829,7 @@ LAB_1000_2e53:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_56
+    call actualDrawString
     add SP,8h
     mov AX,1d51h
     push AX
@@ -5908,12 +5844,12 @@ LAB_1000_2e53:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_56
+    call actualDrawString
     add SP,8h
     mov AX,4824h
     push AX
     push word ptr [4248h]
-    call routine_133
+    call my_itoa
     add SP,4h
     mov AX,2eh
     push AX
@@ -5922,7 +5858,7 @@ LAB_1000_2e53:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_56
+    call actualDrawString
     add SP,8h
     mov AX,1d5eh
     push AX
@@ -5937,7 +5873,7 @@ LAB_1000_2e53:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_56
+    call actualDrawString
     add SP,8h
     mov AX,4824h
     push AX
@@ -5945,7 +5881,7 @@ LAB_1000_2e53:
     add AX,word ptr [5abeh]
     add AX,word ptr [424ah]
     push AX
-    call routine_133
+    call my_itoa
     add SP,4h
     mov AX,36h
     push AX
@@ -5954,7 +5890,7 @@ LAB_1000_2e53:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_56
+    call actualDrawString
     add SP,8h
     mov byte ptr [55eeh],1h
 LAB_1000_2fbf:
@@ -5988,7 +5924,7 @@ LAB_1000_2fde:
     mov AX,0ebh
     push AX
     push word ptr [BP + 8h]
-    call routine_47
+    call clearRect
     add SP,0ah
     mov AX,100h
     push AX
@@ -6006,7 +5942,7 @@ LAB_1000_2fde:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,57h
     push AX
@@ -6017,7 +5953,7 @@ LAB_1000_2fde:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov AX,1d79h
     push AX
@@ -6034,7 +5970,7 @@ LAB_1000_2fde:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov AX,1d88h
     push AX
@@ -6046,13 +5982,13 @@ LAB_1000_2fde:
     push AX
     push word ptr [59c0h]
     push word ptr [59beh]
-    call routine_107
+    call my_ltoa
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,57h
     push AX
@@ -6063,7 +5999,7 @@ LAB_1000_2fde:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
 LAB_1000_30cc:
     mov AX,63h
@@ -6075,7 +6011,7 @@ LAB_1000_30cc:
     mov AX,0ebh
     push AX
     push word ptr [BP + 8h]
-    call routine_47
+    call clearRect
     add SP,0ah
     mov BX,word ptr [BP + 8h]
     mov word ptr [BX + 4h],0dh
@@ -6094,7 +6030,7 @@ LAB_1000_30cc:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov AX,1d98h
     push AX
@@ -6115,7 +6051,7 @@ LAB_1000_30cc:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,1eh
     push AX
@@ -6124,7 +6060,7 @@ LAB_1000_30cc:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_56
+    call actualDrawString
     add SP,8h
     mov AX,[4a28h]
     mov CX,AX
@@ -6157,7 +6093,7 @@ caseD_1_6128:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov BX,word ptr [BP + -20h]
     mov CL,4h
@@ -6168,13 +6104,13 @@ caseD_1_6128:
     push word ptr [BX + 5608h]
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,1da2h
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     jmp LAB_1000_3206
 LAB_1000_31da:
@@ -6193,7 +6129,7 @@ LAB_1000_31da:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
 LAB_1000_3206:
     jmp caseD_4_343d
@@ -6211,7 +6147,7 @@ caseD_3_343d:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,word ptr [BP + -20h]
     mov CL,5h
@@ -6220,13 +6156,13 @@ caseD_3_343d:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,1dbah
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     jmp caseD_4_343d
 caseD_2_343d:
@@ -6241,7 +6177,7 @@ caseD_2_343d:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     jmp caseD_4_343d
 caseD_a_343d:
@@ -6262,7 +6198,7 @@ caseD_a_343d:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov BX,word ptr [BP + -20h]
     mov CL,4h
@@ -6273,13 +6209,13 @@ caseD_a_343d:
     push word ptr [BX + 5608h]
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,1dd2h
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     jmp LAB_1000_32ff
 LAB_1000_32d3:
@@ -6298,7 +6234,7 @@ LAB_1000_32d3:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
 LAB_1000_32ff:
     jmp caseD_4_343d
@@ -6315,13 +6251,13 @@ caseD_5_343d:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,1e02h
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     jmp caseD_4_343d
 caseD_8_343d:
@@ -6344,7 +6280,7 @@ caseD_8_343d:
     push word ptr [BX + 5608h]
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     jmp LAB_1000_338c
 LAB_1000_336e:
@@ -6357,7 +6293,7 @@ LAB_1000_336e:
     push word ptr [BX + 5608h]
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
 LAB_1000_338c:
     jmp LAB_1000_342e
@@ -6376,7 +6312,7 @@ LAB_1000_33a7:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     jmp LAB_1000_342e
 LAB_1000_33b7:
@@ -6389,7 +6325,7 @@ LAB_1000_33b7:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     jmp LAB_1000_3409
 LAB_1000_33d9:
@@ -6402,7 +6338,7 @@ LAB_1000_33d9:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     jmp LAB_1000_3409
 LAB_1000_33fb:
@@ -6410,7 +6346,7 @@ LAB_1000_33fb:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
 LAB_1000_3409:
     jmp LAB_1000_342e
@@ -6419,7 +6355,7 @@ LAB_1000_340b:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     jmp LAB_1000_342e
     db 0EBh
@@ -6498,7 +6434,7 @@ caseD_4_6450:
     mov AX,4824h
     push AX
     push BX
-    call routine_48
+    call drawString
     add SP,0ah
 LAB_1000_34b1:
     mov BX,word ptr [4a28h]
@@ -6523,7 +6459,7 @@ LAB_1000_34b1:
     mov AX,4824h
     push AX
     push BX
-    call routine_48
+    call drawString
     add SP,0ah
 LAB_1000_34eb:
     push word ptr [4a28h]
@@ -6541,7 +6477,7 @@ LAB_1000_34eb:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,57h
     push AX
@@ -6552,7 +6488,7 @@ LAB_1000_34eb:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov AX,1e94h
     push AX
@@ -6569,7 +6505,7 @@ LAB_1000_34eb:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov AX,1ea3h
     push AX
@@ -6581,13 +6517,13 @@ LAB_1000_34eb:
     push AX
     push word ptr [59c0h]
     push word ptr [59beh]
-    call routine_107
+    call my_ltoa
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,57h
     push AX
@@ -6598,7 +6534,7 @@ LAB_1000_34eb:
     mov AX,4824h
     push AX
     push word ptr [BP + 8h]
-    call routine_48
+    call drawString
     add SP,0ah
     call routine_131
     lea AX,[BP + -6h]
@@ -6611,7 +6547,7 @@ LAB_1000_34eb:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,8h
     push AX
@@ -6926,7 +6862,7 @@ LAB_1000_389a:
     mov AX,0e9h
     push AX
     push word ptr [BP + 4h]
-    call routine_47
+    call clearRect
     add SP,0ah
     mov AX,26h
     push AX
@@ -6935,7 +6871,7 @@ LAB_1000_389a:
     mov AX,1ecbh
     push AX
     push word ptr [BP + 4h]
-    call routine_56
+    call actualDrawString
     add SP,8h
 LAB_1000_38c8:
     inc word ptr [4a28h]
@@ -6967,7 +6903,7 @@ LAB_1000_38f7:
     mov AX,0f0h
     push AX
     push word ptr [BP + 4h]
-    call routine_47
+    call clearRect
     add SP,0ah
     mov AX,1ed6h
     push AX
@@ -6988,7 +6924,7 @@ LAB_1000_38f7:
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,1eh
     push AX
@@ -6997,7 +6933,7 @@ LAB_1000_38f7:
     mov AX,4824h
     push AX
     push word ptr [BP + 4h]
-    call routine_56
+    call actualDrawString
     add SP,8h
     sub AX,AX
     push AX
@@ -7079,13 +7015,13 @@ LAB_1000_39f5:
     push AX
     push word ptr [59c0h]
     push word ptr [59beh]
-    call routine_107
+    call my_ltoa
     add SP,6h
     lea AX,[BP + -16h]
     push AX
     mov AX,4824h
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     mov AX,5eh
     push AX
@@ -7096,7 +7032,7 @@ LAB_1000_39f5:
     mov AX,0e8h
     push AX
     push word ptr [BP + 4h]
-    call routine_47
+    call clearRect
     add SP,0ah
     mov AX,57h
     push AX
@@ -7107,7 +7043,7 @@ LAB_1000_39f5:
     mov AX,4824h
     push AX
     push word ptr [BP + 4h]
-    call routine_48
+    call drawString
     add SP,0ah
     mov byte ptr [1a1ah],0h
 LAB_1000_3a6b:
@@ -8311,7 +8247,7 @@ LAB_1000_4560:
     push AX
     push AX
     push word ptr [204ah]
-    call routine_47
+    call clearRect
     add SP,0ah
     mov AX,13fh
     push AX
@@ -8322,7 +8258,7 @@ LAB_1000_4560:
     mov AX,1f9ch
     push AX
     push word ptr [204ah]
-    call routine_48
+    call drawString
     add SP,0ah
     mov BX,word ptr [204ah]
     mov word ptr [BX + 0ch],4h
@@ -8335,7 +8271,7 @@ LAB_1000_4560:
     mov AX,1fb8h
     push AX
     push word ptr [204ah]
-    call routine_48
+    call drawString
     add SP,0ah
     mov BX,word ptr [204ah]
     mov word ptr [BX + 0ch],1h
@@ -8365,7 +8301,7 @@ LAB_1000_45e6:
     add SP,2h
     call far ptr routine_22
     push AX
-    call routine_23
+    call allocBuffer
     add SP,2h
     mov [5cc6h],AX
     push AX
@@ -8373,7 +8309,7 @@ LAB_1000_45e6:
     mov BX,word ptr ES:[BX + 38h]
     shl BX,1h
     push word ptr [BX + 2256h]
-    call routine_53
+    call loadPic
     add SP,4h
     mov AX,[5cc6h]
     mov word ptr [BP + -4h],AX
@@ -8388,7 +8324,7 @@ LAB_1000_462e:
     push AX
     push AX
     push word ptr [204ah]
-    call routine_47
+    call clearRect
     add SP,0ah
     mov AX,13fh
     push AX
@@ -8399,7 +8335,7 @@ LAB_1000_462e:
     mov AX,1fe0h
     push AX
     push word ptr [204ah]
-    call routine_48
+    call drawString
     add SP,0ah
     mov BX,word ptr [204ah]
     mov word ptr [BX + 0ch],4h
@@ -8412,7 +8348,7 @@ LAB_1000_462e:
     mov AX,1ff9h
     push AX
     push word ptr [204ah]
-    call routine_48
+    call drawString
     add SP,0ah
     mov BX,word ptr [204ah]
     mov word ptr [BX + 0ch],1h
@@ -8440,7 +8376,7 @@ LAB_1000_4692:
     push AX
     mov AX,2012h
     push AX
-    call routine_54
+    call openShowPic
     add SP,4h
     mov AX,word ptr [BP + -4h]
     mov [2064h],AX
@@ -8464,7 +8400,7 @@ LAB_1000_4692:
     push AX
     push AX
     push word ptr [204ah]
-    call routine_47
+    call clearRect
     add SP,0ah
     push word ptr [2082h]
     call far ptr routine_55
@@ -8481,7 +8417,7 @@ LAB_1000_4692:
     mov AX,201eh
     push AX
     push word ptr [204ah]
-    call routine_56
+    call actualDrawString
     add SP,8h
     mov BX,word ptr [204ah]
     mov word ptr [BX + 4h],6h
@@ -8495,7 +8431,7 @@ LAB_1000_475c:
     shl BX,1h
     push word ptr [BX + 2266h]
     push word ptr [204ah]
-    call routine_56
+    call actualDrawString
     add SP,8h
     add word ptr [BP + -0eh],0ah
     inc word ptr [BP + -8h]
@@ -8506,7 +8442,7 @@ LAB_1000_475c:
     mov word ptr [4a28h],0h
     call far ptr routine_57
     call far ptr routine_49
-    call routine_58
+    call setTimerIrqHandler
     mov word ptr [BP + -6h],1h
 LAB_1000_47a5:
     mov AX,32h
@@ -8586,7 +8522,7 @@ LAB_1000_485b:
     jz LAB_1000_4864
     jmp LAB_1000_47a5
 LAB_1000_4864:
-    call routine_62
+    call restoreTimerIrqHandler
     call far ptr routine_50
     push word ptr [4f00h]
     call routine_63
@@ -8969,7 +8905,7 @@ LAB_1000_4b5e:
     push AX
     lea AX,[BP + -0eh]
     push AX
-    call routine_68
+    call mystrcat
     add SP,4h
     jmp LAB_1000_4bcb
 LAB_1000_4bc8:
@@ -10608,7 +10544,7 @@ LAB_1571_0003:
 FUN_1000_56be endp
 
 routine_134 proc far
-    call routine_148
+    call readJoyPort
     mov BX,0h
     call routine_149
     mov BX,1h
@@ -10617,7 +10553,7 @@ routine_134 proc far
     retf
 routine_134 endp
 
-routine_148 proc near
+readJoyPort proc near
     push BP
     xor BX,BX
     xor BP,BP
@@ -10643,7 +10579,7 @@ LAB_1571_005c:
     mov word ptr [15f4h],BP
     pop BP
     ret
-routine_148 endp
+readJoyPort endp
 
 routine_149 proc near
     shl BX,1h
@@ -10710,7 +10646,7 @@ LAB_1571_00bc:
     db 0CBh
 routine_149 endp
 
-routine_19 proc far
+copyJoystickData proc far
     mov BX,SP
     push SI
     push DI
@@ -10728,7 +10664,7 @@ routine_19 proc far
     pop SI
     retf
     db 00h
-routine_19 endp
+copyJoystickData endp
 
 
 .DATA
@@ -11075,6 +11011,7 @@ routine_36 endp
     db 00h
 routine_93 proc far
 routine_93 endp
+_routine_93 equ routine_93
     db 00h, 00h
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
@@ -11163,6 +11100,7 @@ routine_103 endp
     db 0FFh, 0FFh, 0FFh, 0FFh
 routine_111 proc far
 routine_111 endp
+_routine_111 equ routine_111
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
 routine_21 proc far
 routine_21 endp

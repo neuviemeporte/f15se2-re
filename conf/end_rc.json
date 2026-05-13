@@ -13,7 +13,15 @@
     "replace": [],
     "remove": [],
     "insert": [],
-    "preserves": [],
+    "preserves": [
+            "mystrcat", "clearRect", "sub_12C75", "sub_12F6A",
+            "installCBreakHandler", "openFile", "fileClose",
+            "showPicFile", "decodePic", "decodePicRow",
+            "picReadDataAndMakeDict", "picMakeDict", "dictionaryLookup",
+            "dos_alloc", "setTimerIrqHandler", "restoreTimerIrqHandler",
+            "readJoyPort", "copyJoystickData",
+            "sub_13DF2", "manipulateTimer"
+        ],
     "externs": [],
     "publics": [],
     "header_preamble": [

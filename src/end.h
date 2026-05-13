@@ -16,6 +16,10 @@
 #define __far far
 
 void routine_91(int param_1);
-int routine_125();
+void actualDrawString(int *pageNum, const char *string, int x, int y);
+int stringWidth(int *page, const char *str);
+void drawString(int *page, const char *str, int startx, int y, int endx);
+extern void far routine_93(int *pageNum, const char *string);
+extern int far routine_111(int ch, int font);
 
 #endif // F15_SE2_END
