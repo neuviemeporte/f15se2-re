@@ -115,4 +115,9 @@ int FUN_1000_12fe(char *name, int b, int c, int d, int e) {
     return result;
 }
 
+void FUN_1000_09e4(int port, int value) {
+    TRACE(("FUN_1000_09e4"));
+    outp(port, value);
+}
+
 

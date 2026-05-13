@@ -83,5 +83,6 @@ int FUN_1000_137c(int handle, int a, int b, int c);
 int FUN_1000_1394(int handle, int a, int b, int c, int d);
 int FUN_1000_12c6(char *name, int b, int c);
 int FUN_1000_12fe(char *name, int b, int c, int d, int e);
+void FUN_1000_09e4(int port, int value);
 
 #endif // F15_SE2_END

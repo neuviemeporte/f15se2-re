@@ -36,6 +36,7 @@ EXTRN _FUN_1000_12c6:PROC
 EXTRN _FUN_1000_12fe:PROC
 EXTRN _routine_147:PROC
 EXTRN _routine_85:PROC
+EXTRN _FUN_1000_09e4:PROC
 EXTRN _FUN_1000_0990:PROC
 EXTRN _FUN_1000_041a:PROC
 EXTRN _FUN_1000_0469:PROC
@@ -1109,16 +1110,7 @@ LAB_1000_09df:
     db 90h
 FUN_1000_09bf endp
 
-FUN_1000_09e4 proc near
-    push BP
-    mov BP,SP
-    mov DX,word ptr [BP + 4h]
-    sub AX,AX
-    mov AL,byte ptr [BP + 6h]
-    out DX,AL
-    pop BP
-    ret
-FUN_1000_09e4 endp
+FUN_1000_09e4 equ _FUN_1000_09e4
 
 FUN_1000_09f2 proc near
     push BP
