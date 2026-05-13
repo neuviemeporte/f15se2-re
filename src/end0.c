@@ -93,8 +93,23 @@ void routine_160(int x1, int y1, int x2, int y2) {
     routine_138(x1, y1, x2, y2, var_93, var_95, var_94, var_96, 1);
 }
 
-void routine_157(int x, int y) {
+void routine_157(int x, int y, int color) {
     TRACE(("routine_157"));
     routine_160(x, y, x, y);
+}
+
+void routine_147(int x, int y, int color) {
+    int sx;
+    int sy;
+    TRACE(("routine_147"));
+    sx = routine_137(x);
+    sy = routine_136(y);
+    if (color != -1 &&
+        (unsigned)sx >= (unsigned)var_93 &&
+        (unsigned)sx < (unsigned)var_95 &&
+        (unsigned)sy >= (unsigned)var_94 &&
+        (unsigned)sy < (unsigned)var_96) {
+        routine_157(sx, sy, color);
+    }
 }
 

@@ -67,10 +67,15 @@ int routine_136(unsigned char param_1);
 int routine_137(unsigned char param_1);
 void routine_138(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2, int cy2, int flag);
 void routine_160(int x1, int y1, int x2, int y2);
-void routine_157(int x, int y);
+void routine_157(int x, int y, int color);
+void routine_113(int handle);
+void routine_85(int *p);
+void routine_147(int x, int y, int color);
 int FUN_1000_1348(char *name, int mode);
 int FUN_1000_1368(int handle, int buf, int size);
 int FUN_1000_137c(int handle, int a, int b, int c);
 int FUN_1000_1394(int handle, int a, int b, int c, int d);
+int FUN_1000_12c6(char *name, int b, int c);
+int FUN_1000_12fe(char *name, int b, int c, int d, int e);
 
 #endif // F15_SE2_END

@@ -32,6 +32,10 @@ EXTRN _FUN_1000_1348:PROC
 EXTRN _FUN_1000_1368:PROC
 EXTRN _FUN_1000_137c:PROC
 EXTRN _FUN_1000_1394:PROC
+EXTRN _FUN_1000_12c6:PROC
+EXTRN _FUN_1000_12fe:PROC
+EXTRN _routine_147:PROC
+EXTRN _routine_85:PROC
 IFDEF DEBUG
 EXTRN _my_trace:PROC
 ENDIF
@@ -2560,57 +2564,9 @@ cbreakHandler:
     db 90h
 routine_33 endp
 
-FUN_1000_12c6 proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    sub AX,AX
-    push AX
-    push word ptr [BP + 4h]
-    call openFileWrapper
-    add SP,4h
-    mov word ptr [BP + -4h],AX
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    mov AX,0ffffh
-    push AX
-    push word ptr [BP + -4h]
-    call FUN_1000_137c
-    add SP,8h
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + -4h]
-    call routine_91
-    mov AX,word ptr [BP + -2h]
-    mov SP,BP
-    pop BP
-    ret
-FUN_1000_12c6 endp
+FUN_1000_12c6 equ _FUN_1000_12c6
 
-FUN_1000_12fe proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    sub AX,AX
-    push AX
-    push word ptr [BP + 4h]
-    call FUN_1000_1348
-    add SP,4h
-    mov word ptr [BP + -4h],AX
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 0ch]
-    push AX
-    call FUN_1000_1394
-    add SP,0ah
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + -4h]
-    call routine_91
-    mov AX,word ptr [BP + -2h]
-    mov SP,BP
-    pop BP
-    ret
-FUN_1000_12fe endp
+FUN_1000_12fe equ _FUN_1000_12fe
 
 
 openFileWrapper equ _openFileWrapper
@@ -7263,42 +7219,7 @@ routine_137 equ _routine_137
 
 routine_136 equ _routine_136
 
-routine_147 proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    push word ptr [BP + 4h]
-    call routine_137
-    add SP,2h
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + 6h]
-    call routine_136
-    add SP,2h
-    mov word ptr [BP + -4h],AX
-    cmp word ptr [BP + 8h],-1h
-    jz LAB_1000_3d85
-    mov AX,word ptr [_var_93]
-    cmp word ptr [BP + -2h],AX
-    jc LAB_1000_3d85
-    mov AX,word ptr [_var_95]
-    cmp word ptr [BP + -2h],AX
-    jnc LAB_1000_3d85
-    mov AX,word ptr [_var_94]
-    cmp word ptr [BP + -4h],AX
-    jc LAB_1000_3d85
-    mov AX,word ptr [_var_96]
-    cmp word ptr [BP + -4h],AX
-    jnc LAB_1000_3d85
-    push word ptr [BP + 8h]
-    push word ptr [BP + -4h]
-    push word ptr [BP + -2h]
-    call routine_157
-    add SP,6h
-LAB_1000_3d85:
-    mov SP,BP
-    pop BP
-    ret
-routine_147 endp
+routine_147 equ _routine_147
 
 routine_105 proc near
     push BP
@@ -9310,29 +9231,7 @@ LAB_1000_4f70:
     jmp LAB_1000_4f6b
 routine_114 endp
 
-routine_85 proc near
-    push BP
-    mov BP,SP
-    push SI
-    mov SI,word ptr [BP + 4h]
-    test byte ptr [SI + 6h],83h
-    jz LAB_1000_4f9e
-    test byte ptr [SI + 6h],8h
-    jz LAB_1000_4f9e
-    push word ptr [SI + 4h]
-    call routine_113
-    add SP,2h
-    and byte ptr [SI + 6h],0f7h
-    sub AX,AX
-    mov word ptr [SI],AX
-    mov word ptr [SI + 4h],AX
-    mov word ptr [SI + 2h],AX
-LAB_1000_4f9e:
-    pop SI
-    pop BP
-    ret
-    db 90h
-routine_85 endp
+routine_85 equ _routine_85
 
 routine_74 proc near
     push BP
@@ -9937,6 +9836,8 @@ LAB_1000_5436:
     jmp LAB_1000_5405
 FUN_1000_5408 endp
 
+PUBLIC _routine_113
+_routine_113:
 routine_113 proc near
     push BP
     mov BP,SP

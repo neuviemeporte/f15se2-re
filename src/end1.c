@@ -84,4 +84,35 @@ int FUN_1000_1394(int handle, int a, int b, int c, int d) {
     return FUN_1000_1539(handle, a, b, c, d);
 }
 
+void routine_85(p)
+register int *p;
+{
+    TRACE(("routine_85"));
+    if ((((char *)p)[6] & 0x83) && (((char *)p)[6] & 0x08)) {
+        routine_113(p[2]);
+        ((char *)p)[6] &= 0xf7;
+        p[1] = p[2] = p[0] = 0;
+    }
+}
+
+int FUN_1000_12c6(char *name, int b, int c) {
+    int handle;
+    int result;
+    TRACE(("FUN_1000_12c6"));
+    handle = openFileWrapper(name, 0);
+    result = FUN_1000_137c(handle, -1, b, c);
+    routine_91(handle);
+    return result;
+}
+
+int FUN_1000_12fe(char *name, int b, int c, int d, int e) {
+    int handle;
+    int result;
+    TRACE(("FUN_1000_12fe"));
+    handle = FUN_1000_1348(name, 0);
+    result = FUN_1000_1394(handle, e, b, c, d);
+    routine_91(handle);
+    return result;
+}
+
 
