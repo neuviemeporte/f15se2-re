@@ -1,4 +1,6 @@
 /* end0.c — compiled with /Gs /Zi (stack probes disabled, debug info) */
+#include "pointers.h"
+#include "debug.h"
 #include "end.h"
 
 /* ===== Duplicate functions from START.EXE =====
@@ -32,6 +34,7 @@
  */
 
 void actualDrawString(int *pageNum, const char *string, int x, int y) {
+    TRACE(("actualDrawString"));
     pageNum[4] = x;
     pageNum[5] = y;
     gfx_jump_05_drawString(pageNum, string);
@@ -41,6 +44,7 @@ int stringWidth(int *page, const char *str) {
     int var_6;
     const uint8* var_4;
     int var_2;
+    TRACE(("stringWidth"));
     var_4 = str;
     var_2 = page[6];
     var_6 = 0;
@@ -52,6 +56,7 @@ int stringWidth(int *page, const char *str) {
 
 void drawString(int *page, const char *str, int startx, int y, int endx) {
     int width;
+    TRACE(("drawString"));
     width = stringWidth(page, str);
     actualDrawString(page, str, (endx - width) / 2 + startx, y);
 }

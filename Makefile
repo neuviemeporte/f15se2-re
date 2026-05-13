@@ -41,7 +41,7 @@ HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
 cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug tools
+.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-end tools
 all: f15-se2
 
 #
@@ -189,6 +189,20 @@ END_VRF_REF := bin/end.exe
 END_VRF_REFEP := 0x10
 END_VRF_TGTEP := [558bec83ec0e56c746]
 
+# end.exe debug build
+END_DEBUG := $(DEBUGDIR)/end.exe
+END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(DEBUGDIR)/debug.obj
+$(END_DBG_OBJ): $(END_BASEHDR)
+$(END_DEBUG): MSC_CFLAGS += /DDEBUG
+$(END_DEBUG): UASMFLAGS += -DDEBUG
+$(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(END_DBG_OBJ) -o $@ -f "$(LINKFLAGS)"
+	@if [ -n "$(F15_TESTDIR)" ]; then \
+	    echo "Copying $@ to $(F15_TESTDIR)"; \
+	    cp $@ "$(F15_TESTDIR)"; \
+		ls -l $(F15_TESTDIR)/end.exe; \
+	fi
+
 #
 # unit test executable
 #
@@ -220,7 +234,8 @@ start: $(START_EXE)
 egame: $(EGAME_EXE)
 end: $(END_EXE)
 
-debug: $(DEBUGDIR) $(START_DEBUG)
+debug: $(DEBUGDIR) $(START_DEBUG) $(END_DEBUG)
+debug-end: $(DEBUGDIR) $(END_DEBUG)
 
 clean:
 	-rm -rf $(BUILDDIR)
