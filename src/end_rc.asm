@@ -15,6 +15,7 @@ EXTRN _routine_91:PROC
 EXTRN _actualDrawString:PROC
 EXTRN _stringWidth:PROC
 EXTRN _drawString:PROC
+EXTRN _mystrcpy:PROC
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
 
@@ -1160,23 +1161,7 @@ LAB_1000_0a40:
     ret
 FUN_1000_0a12 endp
 
-routine_67 proc near
-    push BP
-    mov BP,SP
-    push SI
-LAB_1000_0a46:
-    mov BX,word ptr [BP + 4h]
-    inc word ptr [BP + 4h]
-    mov SI,word ptr [BP + 6h]
-    inc word ptr [BP + 6h]
-    mov AL,byte ptr [SI]
-    mov byte ptr [BX],AL
-    or AL,AL
-    jnz LAB_1000_0a46
-    pop SI
-    pop BP
-    ret
-routine_67 endp
+mystrcpy equ _mystrcpy
 
 FUN_1000_0a5d proc near
     push BP
@@ -4334,7 +4319,7 @@ LAB_1000_1fde:
     push AX
     mov AX,3fd0h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     les BX,dword ptr [403ah]
     inc word ptr ES:[BX + 20h]
@@ -4417,7 +4402,7 @@ LAB_1000_20b5:
     push AX
     mov AX,3fd0h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov BX,word ptr [BP + -2h]
     shl BX,1h
@@ -5528,7 +5513,7 @@ LAB_1000_2c1d:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,1cb6h
     push AX
@@ -5596,7 +5581,7 @@ LAB_1000_2cc2:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,1cdah
     push AX
@@ -5619,7 +5604,7 @@ LAB_1000_2cc2:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,57h
     push AX
@@ -5636,7 +5621,7 @@ LAB_1000_2cc2:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
@@ -5692,7 +5677,7 @@ LAB_1000_2dc9:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,1d14h
     push AX
@@ -5715,7 +5700,7 @@ LAB_1000_2dc9:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
@@ -5752,7 +5737,7 @@ LAB_1000_2e53:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,57h
     push AX
@@ -5771,7 +5756,7 @@ LAB_1000_2e53:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,1eh
     push AX
@@ -5802,7 +5787,7 @@ LAB_1000_2e53:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,26h
     push AX
@@ -5835,7 +5820,7 @@ LAB_1000_2e53:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,2eh
     push AX
@@ -5864,7 +5849,7 @@ LAB_1000_2e53:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,36h
     push AX
@@ -5936,7 +5921,7 @@ LAB_1000_2fde:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,1d71h
     push AX
@@ -5959,7 +5944,7 @@ LAB_1000_2fde:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,57h
     push AX
@@ -5976,7 +5961,7 @@ LAB_1000_2fde:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
@@ -6019,7 +6004,7 @@ LAB_1000_30cc:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,57h
     push AX
@@ -6036,7 +6021,7 @@ LAB_1000_30cc:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
@@ -6087,7 +6072,7 @@ caseD_1_6128:
     push word ptr [BX + 5608h]
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,1da0h
     push AX
@@ -6123,7 +6108,7 @@ LAB_1000_31da:
     push word ptr [BX + 5608h]
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,1dadh
     push AX
@@ -6141,7 +6126,7 @@ caseD_3_343d:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,1db8h
     push AX
@@ -6171,7 +6156,7 @@ caseD_2_343d:
     push word ptr [BX + 5608h]
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,1dc5h
     push AX
@@ -6192,7 +6177,7 @@ caseD_a_343d:
     push word ptr [BX + 5608h]
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,1dd0h
     push AX
@@ -6228,7 +6213,7 @@ LAB_1000_32d3:
     push word ptr [BX + 5608h]
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,1de6h
     push AX
@@ -6243,7 +6228,7 @@ caseD_5_343d:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,12h
     mul word ptr [BP + -20h]
@@ -6267,7 +6252,7 @@ caseD_8_343d:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov BX,word ptr [4804h]
     mov CL,4h
@@ -6302,7 +6287,7 @@ LAB_1000_338f:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     les BX,dword ptr [5ab6h]
     mov AX,word ptr ES:[BX + 26h]
@@ -6423,7 +6408,7 @@ caseD_4_6450:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,57h
     push AX
@@ -6448,7 +6433,7 @@ LAB_1000_34b1:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,57h
     push AX
@@ -6471,7 +6456,7 @@ LAB_1000_34eb:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,1e89h
     push AX
@@ -6494,7 +6479,7 @@ LAB_1000_34eb:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,57h
     push AX
@@ -6511,7 +6496,7 @@ LAB_1000_34eb:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
@@ -6541,7 +6526,7 @@ LAB_1000_34eb:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,1ea5h
     push AX
@@ -6909,7 +6894,7 @@ LAB_1000_38f7:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     lea AX,[BP + -16h]
     push AX
@@ -7009,7 +6994,7 @@ LAB_1000_39f5:
     push AX
     mov AX,4824h
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     lea AX,[BP + -16h]
     push AX
@@ -7274,7 +7259,7 @@ LAB_1000_3c60:
     mov AX,1ee1h
     push AX
     push word ptr [BP + 6h]
-    call routine_67
+    call mystrcpy
     add SP,4h
     mov AX,word ptr [BP + param_1+2h]
     sub DX,DX
@@ -8894,7 +8879,7 @@ LAB_1000_4b5e:
     push AX
     lea AX,[BP + -0eh]
     push AX
-    call routine_67
+    call mystrcpy
     add SP,4h
     lea AX,[BP + -0ch]
     mov word ptr [BP + -2h],AX

@@ -26,7 +26,7 @@ Data1 DATA 0580
 #
 routine_10: Code1 NEAR 0000-000f R0000-000f
 routine_7: Code1 NEAR 0010-0112 R0010-0112
-routine_26: Code1 NEAR 0113-0129 R0113-0129
+routine_26: Code1 NEAR 0113-0129 R0113-0129 assembly
 routine_18: Code1 NEAR 012a-0184 R012a-0184
 cleanup: Code1 NEAR 0185-01b7 R0185-01b7
 routine_6: Code1 NEAR 01b8-01b8 R01b8-01b8
@@ -37,16 +37,16 @@ routine_71: Code1 NEAR 02f5-0327 R02f5-0327
 routine_41: Code1 NEAR 0328-033c R0328-033c
 routine_108: Code1 NEAR 033d-0370 R033d-0370
 routine_109: Code1 NEAR 0371-03a4 R0371-03a4
-routine_16: Code1 NEAR 03a6-03b6 R03a6-03b6
+routine_16: Code1 NEAR 03a6-03b6 R03a6-03b6 assembly
 routine_66: Code1 NEAR 03b7-0418 R03b7-0418
-actualDrawString: Code1 NEAR 0442-0468 R0442-0468
+actualDrawString: Code1 NEAR 0442-0468 R0442-0468 complete
 routine_130: Code1 NEAR 05e2-0700 R05e2-0700
-drawString: Code1 NEAR 0701-0737 R0701-0737
-stringWidth: Code1 NEAR 0738-077a R0738-077a
+drawString: Code1 NEAR 0701-0737 R0701-0737 complete
+stringWidth: Code1 NEAR 0738-077a R0738-077a complete
 my_ltoa: Code1 NEAR 077b-08b5 R077b-08b5
 my_itoa: Code1 NEAR 08b6-098f R08b6-098f
 routine_34: Code1 NEAR 09ae-09be R09ae-09be
-routine_67: Code1 NEAR 0a42-0a5c R0a42-0a5c
+mystrcpy: Code1 NEAR 0a42-0a5c R0a42-0a5c
 mystrcat: Code1 NEAR 0aab-0ad2 R0aab-0ad2 assembly
 routine_146: Code1 NEAR 0b22-0b3f R0b22-0b3f
 intDispatch: Code1 NEAR 0b87-0beb R0b87-0bbf U0bc0-0bc2 R0bc3-0beb assembly
@@ -55,17 +55,17 @@ routine_117: Code1 NEAR 0c29-0c53 R0c29-0c53
 routine_115: Code1 NEAR 0c54-0c9b R0c54-0c9b
 routine_116: Code1 NEAR 0c9c-0cbc R0c9c-0cbc
 dos_printstring: Code1 NEAR 0d09-0d14 R0d09-0d14 assembly
-routine_14: Code1 NEAR 0d17-0d6f R0d17-0d29 U0d2a-0d2e R0d2f-0d6f
+routine_14: Code1 NEAR 0d17-0d6f R0d17-0d29 U0d2a-0d2e R0d2f-0d6f assembly
 clearRect: Code1 NEAR 0e4e-0eec R0e4e-0eec assembly
 sub_12C75: Code1 NEAR 0f09-0f39 R0f09-0f39 assembly
 routine_154: Code1 NEAR 107e-1089 R107e-1089
 routine_158: Code1 NEAR 108a-11fd R108a-11fd
 sub_12F6A: Code1 NEAR 11fe-121e R11fe-121e assembly
 installCBreakHandler: Code1 NEAR 1240-1262 R1240-1262 assembly
-routine_28: Code1 NEAR 1263-1273 R1263-1273
+routine_28: Code1 NEAR 1263-1273 R1263-1273 assembly
 routine_33: Code1 NEAR 1274-127f R1274-127f
 openFileWrapper: Code1 NEAR 1336-1346 R1336-1346 assembly
-routine_91: Code1 NEAR 135a-1367 R135a-1367
+routine_91: Code1 NEAR 135a-1367 R135a-1367 complete
 openFile: Code1 NEAR 13ae-1404 R13ae-1404 R156a-15a5 assembly
 fileClose: Code1 NEAR 145c-147c R145c-147c assembly
 openShowPic: Code1 NEAR 15a6-15d1 R15a6-15d1

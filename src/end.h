@@ -16,6 +16,7 @@
 #define __far far
 
 void routine_91(int param_1);
+void mystrcpy(char *dst, char *src);
 void actualDrawString(int *pageNum, const char *string, int x, int y);
 int stringWidth(int *page, const char *str);
 void drawString(int *page, const char *str, int startx, int y, int endx);

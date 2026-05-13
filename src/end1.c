@@ -5,3 +5,9 @@ void routine_91(int param_1)
 {
     routine_125(param_1);
 }
+
+void mystrcpy(char *dst, char *src)
+{
+    while ((*dst++ = *src++) != 0)
+        ;
+}
