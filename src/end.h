@@ -26,6 +26,7 @@ extern int far gfx_jump_2f_charWidth(int ch, int font);
 
 /* ASM functions called from C */
 void restoreTimerIrqHandler(void);
+void setTimerIrqHandler(void);
 void intDispatch(int intNum, char *inRegs, char *outRegs);
 extern void far misc_jump_5e_clearKeyFlags(void);
 void routine_140(int src_seg, int src_off, int dst_seg, int dst_off, int count);
@@ -46,6 +47,7 @@ int FUN_1000_1539(int handle, int a, int b, int c, int d);
 
 /* Extern variables from ASM */
 extern char var_69;       /* timerHandlerInstalled */
+extern char var_81;
 extern char str_allocError[];
 extern char str_deallocError[];
 extern int var_138;
@@ -71,6 +73,7 @@ void routine_157(int x, int y, int color);
 void routine_113(int handle);
 void routine_85(int *p);
 void routine_147(int x, int y, int color);
+void FUN_1000_0990(unsigned int ticks);
 int FUN_1000_1348(char *name, int mode);
 int FUN_1000_1368(int handle, int buf, int size);
 int FUN_1000_137c(int handle, int a, int b, int c);

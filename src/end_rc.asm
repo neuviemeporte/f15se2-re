@@ -36,6 +36,7 @@ EXTRN _FUN_1000_12c6:PROC
 EXTRN _FUN_1000_12fe:PROC
 EXTRN _routine_147:PROC
 EXTRN _routine_85:PROC
+EXTRN _FUN_1000_0990:PROC
 IFDEF DEBUG
 EXTRN _my_trace:PROC
 ENDIF
@@ -50,6 +51,8 @@ PUBLIC _var_93
 PUBLIC _var_94
 PUBLIC _var_95
 PUBLIC _var_96
+PUBLIC _var_81
+PUBLIC _setTimerIrqHandler
 
 ; --- Code segment ---
 
@@ -1107,23 +1110,7 @@ LAB_1000_0969:
     ret
 my_itoa endp
 
-FUN_1000_0990 proc near
-    push BP
-    mov BP,SP
-    mov byte ptr [_var_81],0h
-    call setTimerIrqHandler
-LAB_1000_099b:
-    mov AL,byte ptr [_var_81]
-    sub AH,AH
-    cmp word ptr [BP + 4h],AX
-    jc LAB_1000_09a7
-    jmp LAB_1000_099b
-LAB_1000_09a7:
-    call restoreTimerIrqHandler
-    mov SP,BP
-    pop BP
-    ret
-FUN_1000_0990 endp
+FUN_1000_0990 equ _FUN_1000_0990
 
 routine_34 equ _routine_34
 
@@ -3580,6 +3567,7 @@ LAB_1000_1bed:
     ret
 FUN_1000_1bc3 endp
 
+_setTimerIrqHandler:
 setTimerIrqHandler proc near
     mov word ptr [_var_74],1h
     mov word ptr [_var_80],1h

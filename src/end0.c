@@ -113,3 +113,12 @@ void routine_147(int x, int y, int color) {
     }
 }
 
+void FUN_1000_0990(unsigned int ticks) {
+    TRACE(("FUN_1000_0990"));
+    var_81 = 0;
+    setTimerIrqHandler();
+    while (ticks >= (unsigned char)var_81)
+        ;
+    restoreTimerIrqHandler();
+}
+
