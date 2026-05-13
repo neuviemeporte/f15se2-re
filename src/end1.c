@@ -59,4 +59,29 @@ void routine_70(int param_1) {
     var_139 = 0;
 }
 
+int openFileWrapper(char *name, int mode) {
+    TRACE(("openFileWrapper"));
+    return openFile(name, mode);
+}
+
+int FUN_1000_1348(char *name, int mode) {
+    TRACE(("FUN_1000_1348"));
+    return FUN_1000_1405(name, mode);
+}
+
+int FUN_1000_1368(int handle, int buf, int size) {
+    TRACE(("FUN_1000_1368"));
+    return FUN_1000_147e(handle, buf, size);
+}
+
+int FUN_1000_137c(int handle, int a, int b, int c) {
+    TRACE(("FUN_1000_137c"));
+    return FUN_1000_14a9(handle, a, b, c);
+}
+
+int FUN_1000_1394(int handle, int a, int b, int c, int d) {
+    TRACE(("FUN_1000_1394"));
+    return FUN_1000_1539(handle, a, b, c, d);
+}
+
 

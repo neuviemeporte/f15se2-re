@@ -27,6 +27,11 @@ EXTRN _routine_136:PROC
 EXTRN _routine_137:PROC
 EXTRN _routine_157:PROC
 EXTRN _routine_160:PROC
+EXTRN _openFileWrapper:PROC
+EXTRN _FUN_1000_1348:PROC
+EXTRN _FUN_1000_1368:PROC
+EXTRN _FUN_1000_137c:PROC
+EXTRN _FUN_1000_1394:PROC
 IFDEF DEBUG
 EXTRN _my_trace:PROC
 ENDIF
@@ -2607,74 +2612,21 @@ FUN_1000_12fe proc near
     ret
 FUN_1000_12fe endp
 
-PUBLIC _openFileWrapper
-_openFileWrapper:
-openFileWrapper proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + Stack[4h]+2h]
-    push word ptr [BP + Stack[2h]+2h]
-    call openFile
-    add SP,4h
-    pop BP
-    ret
-    db 90h
-openFileWrapper endp
 
-FUN_1000_1348 proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + Stack[4h]+2h]
-    push word ptr [BP + Stack[2h]+2h]
-    call FUN_1000_1405
-    add SP,4h
-    pop BP
-    ret
-    db 90h
-FUN_1000_1348 endp
+openFileWrapper equ _openFileWrapper
+
+FUN_1000_1348 equ _FUN_1000_1348
 
 routine_91 equ _routine_91
 
-FUN_1000_1368 proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call FUN_1000_147e
-    add SP,6h
-    pop BP
-    ret
-FUN_1000_1368 endp
+FUN_1000_1368 equ _FUN_1000_1368
 
-FUN_1000_137c proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call FUN_1000_14a9
-    add SP,8h
-    pop BP
-    ret
-    db 90h
-FUN_1000_137c endp
+FUN_1000_137c equ _FUN_1000_137c
 
-FUN_1000_1394 proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 0ch]
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call FUN_1000_1539
-    add SP,0ah
-    pop BP
-    ret
-FUN_1000_1394 endp
+FUN_1000_1394 equ _FUN_1000_1394
 
+PUBLIC _openFile
+_openFile:
 openFile proc near
     push BP
     mov BP,SP
@@ -2721,6 +2673,8 @@ LAB_1000_13f7:
     ret
 openFile endp
 
+PUBLIC _FUN_1000_1405
+_FUN_1000_1405:
 FUN_1000_1405 proc near
     push BP
     mov BP,SP
@@ -2794,6 +2748,8 @@ LAB_1000_1475:
     db 0C3h
 fileClose endp
 
+PUBLIC _FUN_1000_147e
+_FUN_1000_147e:
 FUN_1000_147e proc near
     push BP
     mov BP,SP
@@ -2822,6 +2778,8 @@ LAB_1000_14a1:
     ret
 FUN_1000_147e endp
 
+PUBLIC _FUN_1000_14a9
+_FUN_1000_14a9:
 FUN_1000_14a9 proc near
     push BP
     mov BP,SP
@@ -2931,6 +2889,8 @@ FUN_1000_1521 proc near
     ret
 FUN_1000_1521 endp
 
+PUBLIC _FUN_1000_1539
+_FUN_1000_1539:
 FUN_1000_1539 proc near
     push BP
     mov BP,SP

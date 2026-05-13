@@ -38,6 +38,11 @@ int dos_alloc(int size);
 void dos_printstring(char *str);
 void routine_8(int code);
 int routine_102(int segment);
+int openFile(char *name, int mode);
+int FUN_1000_1405(char *name, int mode);
+int FUN_1000_147e(int handle, int buf, int size);
+int FUN_1000_14a9(int handle, int a, int b, int c);
+int FUN_1000_1539(int handle, int a, int b, int c, int d);
 
 /* Extern variables from ASM */
 extern char var_69;       /* timerHandlerInstalled */
@@ -63,5 +68,9 @@ int routine_137(unsigned char param_1);
 void routine_138(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2, int cy2, int flag);
 void routine_160(int x1, int y1, int x2, int y2);
 void routine_157(int x, int y);
+int FUN_1000_1348(char *name, int mode);
+int FUN_1000_1368(int handle, int buf, int size);
+int FUN_1000_137c(int handle, int a, int b, int c);
+int FUN_1000_1394(int handle, int a, int b, int c, int d);
 
 #endif // F15_SE2_END
