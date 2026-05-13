@@ -15,8 +15,8 @@ EXTRN _routine_91:PROC
 EXTRN _actualDrawString:PROC
 EXTRN _stringWidth:PROC
 EXTRN _drawString:PROC
-PUBLIC _routine_93
-PUBLIC _routine_111
+PUBLIC _gfx_jump_05_drawString
+PUBLIC _gfx_jump_2f_charWidth
 
 ; --- Code segment ---
 
@@ -62,7 +62,7 @@ routine_7 proc near
     push word ptr ES:[BX + 1eh]
     call routine_14
     add SP,2h
-    call far ptr routine_15
+    call far ptr misc_jump_5e_clearKeyFlags
     call routine_16
     les BX,dword ptr [5ab6h]
     mov AL,byte ptr ES:[BX + 24h]
@@ -86,9 +86,9 @@ LAB_1000_008e:
     mov [15fah],AL
 LAB_1000_0096:
     call routine_20
-    call far ptr routine_21
+    call far ptr gfx_jump_31
     mov word ptr [BP + -6h],AX
-    call far ptr routine_22
+    call far ptr gfx_jump_17_bufSize
     mov word ptr [BP + -2h],AX
     push word ptr [BP + -6h]
     call allocBuffer
@@ -150,29 +150,29 @@ routine_18 proc near
     call routine_34
     sub AX,AX
     push AX
-    call far ptr routine_35
+    call far ptr gfx_jump_0e_setCurBuf
     add SP,2h
     sub AX,AX
     push AX
-    call far ptr routine_36
+    call far ptr gfx_jump_0_alloc
     add SP,2h
     sub AX,AX
     push AX
-    call far ptr routine_37
+    call far ptr gfx_jump_53
     add SP,2h
     les BX,dword ptr [5ab6h]
     push word ptr ES:[BX + 24h]
-    call far ptr routine_38
+    call far ptr gfx_jump_52
     add SP,2h
     mov AX,1h
     push AX
-    call far ptr routine_39
+    call far ptr gfx_jump_44_setDac
     add SP,2h
     mov AX,1h
     push AX
     les BX,dword ptr [5ab6h]
     push word ptr ES:[BX + 20h]
-    call far ptr routine_40
+    call far ptr gfx_jump_4b_storeBufPtr
     mov SP,BP
     pop BP
     ret
@@ -194,9 +194,9 @@ LAB_1000_0195:
     push AX
     mov AX,10h
     push AX
-    call routine_72
+    call intDispatch
     add SP,6h
-    call far ptr routine_15
+    call far ptr misc_jump_5e_clearKeyFlags
     mov SP,BP
     pop BP
     ret
@@ -433,11 +433,11 @@ routine_109 endp
 routine_16 proc near
     jmp FUN_1000_03ad
 LAB_1000_03a8:
-    call far ptr routine_32
+    call far ptr misc_jump_5b_getkey
 routine_16 endp
 
 FUN_1000_03ad proc near
-    call far ptr routine_31
+    call far ptr misc_jump_5a_keybuf
     or AX,AX
     jz LAB_1000_03a8
     ret
@@ -451,21 +451,21 @@ routine_66 proc near
     cmp word ptr ES:[BX + 72h],1h
     jnz LAB_1000_03e9
 LAB_1000_03c8:
-    call far ptr routine_31
+    call far ptr misc_jump_5a_keybuf
     or AX,AX
     jz LAB_1000_03e0
     sub AX,AX
     push AX
-    call far ptr routine_61
+    call far ptr misc_jump_5d_readJoy
     add SP,2h
     or AX,AX
     jz LAB_1000_03c8
 LAB_1000_03e0:
-    call far ptr routine_31
+    call far ptr misc_jump_5a_keybuf
     or AX,AX
     jnz LAB_1000_03f1
 LAB_1000_03e9:
-    call far ptr routine_32
+    call far ptr misc_jump_5b_getkey
     mov word ptr [BP + -2h],AX
 LAB_1000_03f1:
     cmp word ptr [BP + -2h],1000h
@@ -523,7 +523,7 @@ FUN_1000_0469 proc near
     lea AX,[BP + 0ff38h]
     push AX
     push word ptr [BP + 4h]
-    call far ptr routine_93
+    call far ptr gfx_jump_05_drawString
     add SP,4h
     mov SP,BP
     pop BP
@@ -575,7 +575,7 @@ LAB_1000_04d9:
     mov AL,byte ptr ES:[BX]
     cbw
     push AX
-    call far ptr routine_111
+    call far ptr gfx_jump_2f_charWidth
     add SP,4h
     add word ptr [BP + -18h],AX
     inc word ptr [BP + -0ch]
@@ -641,7 +641,7 @@ LAB_1000_0577:
     lea AX,[BP + 0fdf4h]
     push AX
     push word ptr [BP + 4h]
-    call far ptr routine_93
+    call far ptr gfx_jump_05_drawString
     add SP,4h
     mov BX,word ptr [BP + 4h]
     mov AX,word ptr [BP + 10h]
@@ -706,7 +706,7 @@ LAB_1000_061a:
     mov AL,byte ptr [BX]
     sub AH,AH
     push AX
-    call far ptr routine_111
+    call far ptr gfx_jump_2f_charWidth
     add SP,4h
     add word ptr [BP + -10h],AX
     inc word ptr [BP + -8h]
@@ -763,7 +763,7 @@ LAB_1000_06a0:
     lea AX,[BP + 0fc08h]
     push AX
     push word ptr [BP + 4h]
-    call far ptr routine_93
+    call far ptr gfx_jump_05_drawString
     add SP,4h
     mov BX,word ptr [BP + 4h]
     mov AX,word ptr [BP + 0eh]
@@ -1385,7 +1385,7 @@ LAB_1000_0b82:
     ret
 FUN_1000_0b5c endp
 
-routine_72 proc near
+intDispatch proc near
     push BP
     mov BP,SP
     push SI
@@ -1446,7 +1446,7 @@ LAB_1000_0be2:
     mov SP,BP
     pop BP
     ret
-routine_72 endp
+intDispatch endp
 
 routine_87 proc near
     push BP
@@ -1611,7 +1611,7 @@ LAB_1000_0d06:
     ret
 routine_116 endp
 
-routine_45 proc near
+dos_printstring proc near
     push BP
     mov BP,SP
     mov AH,9h
@@ -1621,7 +1621,7 @@ routine_45 proc near
     ret
     db 00h
     db 00h
-routine_45 endp
+dos_printstring endp
 
 routine_14 proc near
     push BP
@@ -1722,13 +1722,13 @@ LAB_1000_0daa:
     push BP
     push DS
     pop ES
-    call far ptr routine_75
+    call far ptr gfx_jump_10_getCurBuf
     push AX
     mov BX,word ptr [BP + 4h]
     mov AX,word ptr [BX]
-    call far ptr routine_76
+    call far ptr gfx_jump_0d_setCurBuf
     mov AH,byte ptr [BX + 4h]
-    call far ptr routine_77
+    call far ptr gfx_jump_20_setVal
     call sub_12C75
     mov AX,word ptr [BP + 0ah]
     sub AX,word ptr [BP + 6h]
@@ -1759,15 +1759,15 @@ LAB_1000_0daa:
     mov BX,1243h
     mov AX,[15b7h]
     mov CX,word ptr [15b9h]
-    call far ptr routine_79
-    call far ptr routine_80
+    call far ptr gfx_jump_28
+    call far ptr gfx_jump_22
     mov AX,[1232h]
     mov BX,word ptr [1234h]
     mov CX,word ptr [1236h]
     mov DX,word ptr [1238h]
-    call far ptr routine_81
+    call far ptr gfx_jump_51_null
     pop AX
-    call far ptr routine_82
+    call far ptr gfx_jump_0f_getBufPtr
     pop BP
     pop SI
     pop DI
@@ -1784,13 +1784,13 @@ clearRect proc near
     push BP
     push DS
     pop ES
-    call far ptr routine_75
+    call far ptr gfx_jump_10_getCurBuf
     push AX
     mov BX,word ptr [BP + 4h]
     mov AX,word ptr [BX]
-    call far ptr routine_76
+    call far ptr gfx_jump_0d_setCurBuf
     mov AH,byte ptr [BX + 6h]
-    call far ptr routine_77
+    call far ptr gfx_jump_20_setVal
     call sub_12C75
     mov AX,word ptr [BP + 0ah]
     sub AX,word ptr [BP + 6h]
@@ -1821,15 +1821,15 @@ clearRect proc near
     mov BX,1243h
     mov AX,[15b7h]
     mov CX,word ptr [15b9h]
-    call far ptr routine_79
-    call far ptr routine_80
+    call far ptr gfx_jump_28
+    call far ptr gfx_jump_22
     mov AX,[1232h]
     mov BX,word ptr [1234h]
     mov CX,word ptr [1236h]
     mov DX,word ptr [1238h]
-    call far ptr routine_81
+    call far ptr gfx_jump_51_null
     pop AX
-    call far ptr routine_82
+    call far ptr gfx_jump_0f_getBufPtr
     pop BP
     pop SI
     pop DI
@@ -2247,7 +2247,7 @@ LAB_1000_10a0:
     mov BX,word ptr [123fh]
     mov CX,word ptr [123dh]
     mov DX,word ptr [1241h]
-    call far ptr routine_162
+    call far ptr gfx_jump_1f
     clc
     ret
 LAB_1000_10c1:
@@ -2502,7 +2502,7 @@ routine_33 proc near
     sub AX,AX
     push AX
     push word ptr [BP + 4h]
-    call routine_89
+    call openFileWrapper
     add SP,4h
     mov word ptr [BP + -4h],AX
     push word ptr [BP + 6h]
@@ -2528,7 +2528,7 @@ FUN_1000_12c6 proc near
     sub AX,AX
     push AX
     push word ptr [BP + 4h]
-    call routine_89
+    call openFileWrapper
     add SP,4h
     mov word ptr [BP + -4h],AX
     push word ptr [BP + 8h]
@@ -2573,7 +2573,7 @@ FUN_1000_12fe proc near
     ret
 FUN_1000_12fe endp
 
-routine_89 proc near
+openFileWrapper proc near
     push BP
     mov BP,SP
     push word ptr [BP + Stack[4h]+2h]
@@ -2583,7 +2583,7 @@ routine_89 proc near
     pop BP
     ret
     db 90h
-routine_89 endp
+openFileWrapper endp
 
 FUN_1000_1348 proc near
     push BP
@@ -2966,7 +2966,7 @@ openShowPic proc near
     sub AX,AX
     push AX
     push word ptr [BP + 4h]
-    call routine_89
+    call openFileWrapper
     add SP,4h
     mov word ptr [BP + -2h],AX
     push word ptr [BP + Stack[6h]+2h]
@@ -2988,7 +2988,7 @@ FUN_1000_15d2 proc near
     sub AX,AX
     push AX
     push word ptr [BP + Stack[2h]+2h]
-    call routine_89
+    call openFileWrapper
     add SP,4h
     mov word ptr [BP + -2h],AX
     push word ptr [BP + Stack[4h]+2h]
@@ -3010,7 +3010,7 @@ loadPic proc near
     sub AX,AX
     push AX
     push word ptr [BP + Stack[2h]+2h]
-    call routine_89
+    call openFileWrapper
     add SP,4h
     mov word ptr [BP + -2h],AX
     push word ptr [BP + Stack[4h]+2h]
@@ -3032,7 +3032,7 @@ FUN_1000_1626 proc near
     sub AX,AX
     push AX
     push word ptr [BP + 4h]
-    call routine_89
+    call openFileWrapper
     add SP,4h
     mov word ptr [BP + -2h],AX
     sub AX,AX
@@ -3069,21 +3069,21 @@ showPicFile proc near
     mov [19b4h],AX
     call routine_120
     mov SI,word ptr [19b4h]
-    call far ptr routine_126
-    call far ptr routine_119
+    call far ptr gfx_jump_38_getPageBuf
+    call far ptr gfx_jump_3b_clearBuf
     mov word ptr [19bah],0h
     mov word ptr [19b2h],0fa00h
 LAB_1000_169a:
     mov DI,word ptr [19bah]
-    call far ptr routine_121
+    call far ptr gfx_jump_3a_getRowOffset
     mov [19b6h],AX
     call decodePicRow
     mov DI,word ptr [19b6h]
     mov BP,1872h
     mov BX,word ptr [19bah]
-    call far ptr routine_127
+    call far ptr gfx_jump_33_fillRow
     mov DI,word ptr [19b6h]
-    call far ptr routine_128
+    call far ptr gfx_jump_35
     inc word ptr [19bah]
     sub word ptr [19b2h],140h
     jnz LAB_1000_169a
@@ -3109,19 +3109,19 @@ FUN_1000_16d6 proc near
     mov [1870h],AX
     mov AX,word ptr [BP + Stack[4h]+2h]
     mov ES,AX
-    call far ptr routine_119
+    call far ptr gfx_jump_3b_clearBuf
     call routine_120
     mov word ptr [19bah],0h
     mov word ptr [19b2h],0fa00h
 LAB_1000_1702:
     mov DI,word ptr [19bah]
-    call far ptr routine_121
+    call far ptr gfx_jump_3a_getRowOffset
     mov [19b6h],AX
     call decodePicRow
     mov DI,word ptr [19b6h]
     mov BP,1872h
     mov BX,word ptr [19bah]
-    call far ptr routine_127
+    call far ptr gfx_jump_33_fillRow
     mov DI,word ptr [19b6h]
     call far ptr thunk_EXT_FUN_0000
     inc word ptr [19bah]
@@ -3151,19 +3151,19 @@ FUN_1000_173e proc near
     mov [1868h],AX
     mov AX,word ptr [BP + Stack[4h]+2h]
     mov ES,AX
-    call far ptr routine_119
+    call far ptr gfx_jump_3b_clearBuf
     call routine_120
     mov word ptr [19bah],0h
     mov word ptr [19b2h],0fa00h
 LAB_1000_1776:
     mov DI,word ptr [19bah]
-    call far ptr routine_121
+    call far ptr gfx_jump_3a_getRowOffset
     mov [19b6h],AX
     call decodePicRow
     mov DI,word ptr [19b6h]
     mov BP,1872h
     mov BX,word ptr [19bah]
-    call far ptr routine_127
+    call far ptr gfx_jump_33_fillRow
     mov DI,word ptr [19b6h]
     call far ptr thunk_EXT_FUN_0000
     inc word ptr [19bah]
@@ -3191,21 +3191,21 @@ decodePic proc near
     mov [1870h],AX
     mov AX,word ptr [BP + Stack[4h]+2h]
     mov ES,AX
-    call far ptr routine_119
+    call far ptr gfx_jump_3b_clearBuf
     call routine_120
     mov word ptr [19bah],0h
     mov word ptr [19b2h],0fa00h
 LAB_1000_17de:
     mov DI,word ptr [19bah]
-    call far ptr routine_121
+    call far ptr gfx_jump_3a_getRowOffset
     mov [19b6h],AX
     call decodePicRow
     mov DI,word ptr [19b6h]
     mov BP,1872h
     mov BX,word ptr [19bah]
-    call far ptr routine_123
+    call far ptr gfx_jump_34_fillRow
     mov DI,word ptr [19b6h]
-    call far ptr routine_124
+    call far ptr gfx_jump_36_null
     inc word ptr [19bah]
     sub word ptr [19b2h],140h
     jnz LAB_1000_17de
@@ -3453,7 +3453,7 @@ allocBuffer proc near
     call cleanup
     mov AX,19beh
     push AX
-    call routine_45
+    call dos_printstring
     add SP,2h
     sub AX,AX
     push AX
@@ -3477,7 +3477,7 @@ routine_64 proc near
     call cleanup
     mov AX,19e8h
     push AX
-    call routine_45
+    call dos_printstring
     add SP,2h
     sub AX,AX
     push AX
@@ -4190,7 +4190,7 @@ LAB_1000_1e96:
 LAB_1000_1ea4:
     mov AX,3h
     push AX
-    call far ptr routine_52
+    call far ptr gfx_jump_3d_null
     add SP,2h
     mov BX,word ptr [1c20h]
     push word ptr [BX]
@@ -4256,7 +4256,7 @@ LAB_1000_1f4a:
     jnz LAB_1000_1fa8
     mov AX,2h
     push AX
-    call far ptr routine_52
+    call far ptr gfx_jump_3d_null
     add SP,2h
     mov BX,word ptr [1c20h]
     push word ptr [BX]
@@ -4310,7 +4310,7 @@ LAB_1000_1fd3:
 LAB_1000_1fde:
     mov AX,6h
     push AX
-    call far ptr routine_52
+    call far ptr gfx_jump_3d_null
     add SP,2h
     mov BX,word ptr [1c20h]
     push word ptr [BX]
@@ -4356,8 +4356,8 @@ LAB_1000_1fde:
     push word ptr [1c20h]
     call drawString
     add SP,0ah
-    call far ptr routine_57
-    call far ptr routine_49
+    call far ptr gfx_jump_50
+    call far ptr gfx_jump_46_retrace2
     call routine_66
 LAB_1000_206b:
     mov word ptr [BP + -2h],4h
@@ -4390,10 +4390,10 @@ LAB_1000_20a0:
     jz LAB_1000_20b5
     jmp LAB_1000_214e
 LAB_1000_20b5:
-    call far ptr routine_50
+    call far ptr gfx_jump_45_retrace
     mov AX,0ah
     push AX
-    call far ptr routine_52
+    call far ptr gfx_jump_3d_null
     add SP,2h
     mov BX,word ptr [1c20h]
     push word ptr [BX]
@@ -4443,8 +4443,8 @@ LAB_1000_20b5:
     shl AX,CL
     or word ptr ES:[BX + 22h],AX
 LAB_1000_2141:
-    call far ptr routine_57
-    call far ptr routine_49
+    call far ptr gfx_jump_50
+    call far ptr gfx_jump_46_retrace2
     call routine_66
 LAB_1000_214e:
     mov AX,0c7h
@@ -4457,7 +4457,7 @@ LAB_1000_214e:
     push word ptr [1c20h]
     call clearRect
     add SP,0ah
-    call far ptr routine_49
+    call far ptr gfx_jump_46_retrace2
     pop SI
     mov SP,BP
     pop BP
@@ -4571,7 +4571,7 @@ routine_60 proc near
     mov byte ptr [BP + -7h],0h
     mov byte ptr [BP + -12h],80h
     mov byte ptr [BP + -11h],0h
-    call far ptr routine_57
+    call far ptr gfx_jump_50
     mov word ptr [3fc0h],0h
     mov word ptr [BP + -14h],0h
 LAB_1000_2282:
@@ -4591,7 +4591,7 @@ LAB_1000_2282:
 LAB_1000_22a3:
     mov byte ptr [3fc2h],0h
 LAB_1000_22a8:
-    call far ptr routine_57
+    call far ptr gfx_jump_50
     mov AX,32h
     imul word ptr [BP + -14h]
     mov SI,AX
@@ -4655,7 +4655,7 @@ LAB_1000_2335:
     push word ptr [SI + 0ah]
     push word ptr [SI + 8h]
     push word ptr [BP + 0ch]
-    call far ptr routine_99
+    call far ptr gfx_jump_29_switchColor
     add SP,0eh
     mov word ptr [BP + -6h],3h
     mov AX,32h
@@ -4670,7 +4670,7 @@ LAB_1000_2335:
     push word ptr [SI + 0ah]
     push word ptr [SI + 8h]
     push word ptr [BP + 0ch]
-    call far ptr routine_99
+    call far ptr gfx_jump_29_switchColor
     add SP,0eh
     mov word ptr [BP + -6h],0dh
     mov AX,32h
@@ -4685,7 +4685,7 @@ LAB_1000_2335:
     push word ptr [SI + 0ah]
     push word ptr [SI + 8h]
     push word ptr [BP + 0ch]
-    call far ptr routine_99
+    call far ptr gfx_jump_29_switchColor
     add SP,0eh
 LAB_1000_23bc:
     jmp LAB_1000_2578
@@ -4769,7 +4769,7 @@ LAB_1000_245e:
     push word ptr [SI + 0ah]
     push word ptr [SI + 8h]
     push word ptr [BP + 0ch]
-    call far ptr routine_99
+    call far ptr gfx_jump_29_switchColor
     add SP,0eh
     mov word ptr [BP + -6h],3h
     mov AX,32h
@@ -4784,7 +4784,7 @@ LAB_1000_245e:
     push word ptr [SI + 0ah]
     push word ptr [SI + 8h]
     push word ptr [BP + 0ch]
-    call far ptr routine_99
+    call far ptr gfx_jump_29_switchColor
     add SP,0eh
     mov word ptr [BP + -6h],0dh
     mov AX,32h
@@ -4799,7 +4799,7 @@ LAB_1000_245e:
     push word ptr [SI + 0ah]
     push word ptr [SI + 8h]
     push word ptr [BP + 0ch]
-    call far ptr routine_99
+    call far ptr gfx_jump_29_switchColor
     add SP,0eh
     mov word ptr [BP + -6h],0bh
     mov AX,32h
@@ -4814,7 +4814,7 @@ LAB_1000_245e:
     push word ptr [SI + 0ah]
     push word ptr [SI + 8h]
     push word ptr [BP + 0ch]
-    call far ptr routine_99
+    call far ptr gfx_jump_29_switchColor
     add SP,0eh
 LAB_1000_2514:
     mov AX,32h
@@ -4834,7 +4834,7 @@ LAB_1000_2514:
     push word ptr [SI + 0ah]
     push word ptr [SI + 8h]
     push word ptr [BP + 0ch]
-    call far ptr routine_99
+    call far ptr gfx_jump_29_switchColor
     add SP,0eh
 LAB_1000_254f:
     push word ptr [BP + 0ch]
@@ -4890,7 +4890,7 @@ routine_95 proc near
     push word ptr [BX + 0ah]
     push word ptr [BX + 8h]
     push word ptr [BP + 6h]
-    call far ptr routine_99
+    call far ptr gfx_jump_29_switchColor
     add SP,0eh
 LAB_1000_25ce:
     jmp LAB_1000_25ee
@@ -4916,7 +4916,7 @@ LAB_1000_25ee:
     push word ptr [BX + 0ah]
     push word ptr [BX + 8h]
     push word ptr [BP + 6h]
-    call far ptr routine_99
+    call far ptr gfx_jump_29_switchColor
     add SP,0eh
 LAB_1000_2614:
     mov SP,BP
@@ -4985,17 +4985,17 @@ LAB_1000_268e:
     jnz LAB_1000_26bb
     sub AX,AX
     push AX
-    call far ptr routine_61
+    call far ptr misc_jump_5d_readJoy
     add SP,2h
     mov word ptr [BP + -8h],AX
     mov AX,1h
     push AX
-    call far ptr routine_61
+    call far ptr misc_jump_5d_readJoy
     add SP,2h
     mov word ptr [BP + -0ah],AX
     call far ptr routine_134
 LAB_1000_26bb:
-    call far ptr routine_31
+    call far ptr misc_jump_5a_keybuf
     or AL,AL
     jz LAB_1000_26ec
     cmp word ptr [BP + -8h],0h
@@ -5027,12 +5027,12 @@ LAB_1000_270c:
     jnz LAB_1000_2739
     sub AX,AX
     push AX
-    call far ptr routine_61
+    call far ptr misc_jump_5d_readJoy
     add SP,2h
     mov word ptr [BP + -8h],AX
     mov AX,1h
     push AX
-    call far ptr routine_61
+    call far ptr misc_jump_5d_readJoy
     add SP,2h
     mov word ptr [BP + -0ah],AX
     call far ptr routine_134
@@ -5070,7 +5070,7 @@ LAB_1000_274f:
     push word ptr [BX + 0ah]
     push word ptr [BX + 8h]
     push word ptr [BP + 8h]
-    call far ptr routine_99
+    call far ptr gfx_jump_29_switchColor
     add SP,0eh
     inc word ptr [3fbeh]
     mov AX,[3fbeh]
@@ -5154,7 +5154,7 @@ LAB_1000_286c:
     mov word ptr [BX + 2h],12dh
 LAB_1000_2875:
     push word ptr [20e2h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp LAB_1000_2a67
 caseD_3_2a4a:
@@ -5187,7 +5187,7 @@ caseD_3_2a4a:
     mov BX,word ptr [2122h]
     mov word ptr [BX + 0ah],AX
     push word ptr [2122h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp LAB_1000_2a67
 caseD_2_2a4a:
@@ -5220,7 +5220,7 @@ caseD_2_2a4a:
     mov BX,word ptr [2162h]
     mov word ptr [BX + 0ah],AX
     push word ptr [2162h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp LAB_1000_2a67
 caseD_5_2a4a:
@@ -5251,7 +5251,7 @@ caseD_5_2a4a:
     mov BX,word ptr [21e2h]
     mov word ptr [BX + 0ah],AX
     push word ptr [21e2h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp LAB_1000_2a67
 caseD_8_2a4a:
@@ -5284,7 +5284,7 @@ caseD_8_2a4a:
     mov BX,word ptr [2122h]
     mov word ptr [BX + 0ah],AX
     push word ptr [2122h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp LAB_1000_2a67
 caseD_a_2a4a:
@@ -5315,7 +5315,7 @@ caseD_a_2a4a:
     mov BX,word ptr [21e2h]
     mov word ptr [BX + 0ah],AX
     push word ptr [21e2h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp LAB_1000_2a67
     db 0EBh
@@ -5360,10 +5360,10 @@ caseD_4_5405:
 LAB_1000_2a7f:
     jmp LAB_1000_26bb
 LAB_1000_2a82:
-    call far ptr routine_31
+    call far ptr misc_jump_5a_keybuf
     or AL,AL
     jnz LAB_1000_2a95
-    call far ptr routine_32
+    call far ptr misc_jump_5b_getkey
     mov word ptr [BP + -10h],AX
     jmp LAB_1000_2af9
 LAB_1000_2a95:
@@ -5576,7 +5576,7 @@ LAB_1000_2c1d:
     push AX
     mov AX,1h
     push AX
-    call far ptr routine_103
+    call far ptr gfx_jump_2a
     add SP,10h
     mov byte ptr [55feh],0h
 LAB_1000_2cc2:
@@ -5909,7 +5909,7 @@ LAB_1000_2fde:
     mov byte ptr [55eeh],0h
     mov byte ptr [55feh],0h
     push word ptr [2082h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     sub AX,AX
     mov [55fch],AX
@@ -6630,7 +6630,7 @@ LAB_1000_366c:
     mov word ptr [BX + 2h],12dh
 LAB_1000_3675:
     push word ptr [20c2h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp caseD_3_3840
 caseD_2_3840:
@@ -6663,7 +6663,7 @@ caseD_2_3840:
     mov BX,word ptr [2102h]
     mov word ptr [BX + 0ah],AX
     push word ptr [2102h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp caseD_3_3840
 caseD_1_3840:
@@ -6696,7 +6696,7 @@ caseD_1_3840:
     mov BX,word ptr [2142h]
     mov word ptr [BX + 0ah],AX
     push word ptr [2142h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp caseD_3_3840
 caseD_4_3840:
@@ -6727,7 +6727,7 @@ caseD_4_3840:
     mov BX,word ptr [21c2h]
     mov word ptr [BX + 0ah],AX
     push word ptr [21c2h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp caseD_3_3840
 caseD_7_3840:
@@ -6760,7 +6760,7 @@ caseD_7_3840:
     mov BX,word ptr [2102h]
     mov word ptr [BX + 0ah],AX
     push word ptr [2102h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp caseD_3_3840
 caseD_9_3840:
@@ -6791,7 +6791,7 @@ caseD_9_3840:
     mov BX,word ptr [21c2h]
     mov word ptr [BX + 0ah],AX
     push word ptr [21c2h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     jmp caseD_3_3840
     db 0EBh
@@ -6849,7 +6849,7 @@ routine_65 proc near
     push AX
     mov AX,1h
     push AX
-    call far ptr routine_103
+    call far ptr gfx_jump_2a
     add SP,10h
     mov byte ptr [55feh],0h
 LAB_1000_389a:
@@ -6937,7 +6937,7 @@ LAB_1000_38f7:
     add SP,8h
     sub AX,AX
     push AX
-    call far ptr routine_104
+    call far ptr gfx_jump_21
     add SP,2h
     cmp word ptr [55f2h],0h
     jnz LAB_1000_39b9
@@ -7064,7 +7064,7 @@ LAB_1000_3a77:
 LAB_1000_3a8e:
     sub AX,AX
     push AX
-    call far ptr routine_104
+    call far ptr gfx_jump_21
     add SP,2h
     cmp word ptr [55f2h],0h
     jnz LAB_1000_3aef
@@ -7153,7 +7153,7 @@ LAB_1000_3b3c:
     ja LAB_1000_3bca
     sub AX,AX
     push AX
-    call far ptr routine_104
+    call far ptr gfx_jump_21
     add SP,2h
     cmp word ptr [BP + -4h],0h
     jnz LAB_1000_3b8e
@@ -7470,10 +7470,10 @@ routine_138 proc near
     mov word ptr [BP + -2h],AX
     push word ptr [BP + 10h]
     push word ptr [BP + 0ch]
-    call far ptr routine_150
+    call far ptr gfx_jump_3e
     add SP,4h
     push AX
-    call far ptr routine_151
+    call far ptr gfx_jump_1a
     add SP,2h
     mov AX,word ptr [BP + -4h]
     dec AX
@@ -7482,10 +7482,10 @@ routine_138 proc near
     dec AX
     mov [15c7h],AX
     push AX
-    call far ptr routine_152
+    call far ptr gfx_jump_40
     add SP,2h
     push word ptr [15c5h]
-    call far ptr routine_153
+    call far ptr gfx_jump_41
     add SP,2h
     mov AX,word ptr [BP + 4h]
     mov [123bh],AX
@@ -7496,19 +7496,19 @@ routine_138 proc near
     mov AX,word ptr [BP + 0ah]
     mov [1241h],AX
     call routine_154
-    call far ptr routine_155
+    call far ptr gfx_jump_23
     mov word ptr [15c5h],13fh
     mov word ptr [15c7h],0c7h
     mov AX,0c7h
     push AX
-    call far ptr routine_152
+    call far ptr gfx_jump_40
     add SP,2h
     push word ptr [15c5h]
-    call far ptr routine_153
+    call far ptr gfx_jump_41
     add SP,2h
     sub AX,AX
     push AX
-    call far ptr routine_151
+    call far ptr gfx_jump_1a
     add SP,2h
     mov SP,BP
     pop BP
@@ -7892,7 +7892,7 @@ routine_131 proc near
     push AX
     mov AX,1h
     push AX
-    call far ptr routine_103
+    call far ptr gfx_jump_2a
     add SP,10h
     mov byte ptr [55feh],0h
 LAB_1000_420c:
@@ -8199,7 +8199,7 @@ LAB_1000_44d8:
     push word ptr [5cc2h]
     sub AX,AX
     push AX
-    call far ptr routine_103
+    call far ptr gfx_jump_2a
     add SP,10h
     mov SI,word ptr [BP + -4h]
     shl SI,1h
@@ -8215,7 +8215,7 @@ LAB_1000_44d8:
     push word ptr [SI + 1f0eh]
     mov AX,1h
     push AX
-    call far ptr routine_103
+    call far ptr gfx_jump_2a
     add SP,10h
     mov byte ptr [55feh],1h
     pop SI
@@ -8275,8 +8275,8 @@ LAB_1000_4560:
     add SP,0ah
     mov BX,word ptr [204ah]
     mov word ptr [BX + 0ch],1h
-    call far ptr routine_49
-    call far ptr routine_32
+    call far ptr gfx_jump_46_retrace2
+    call far ptr misc_jump_5b_getkey
 LAB_1000_45c4:
     mov AX,1f99h
     push AX
@@ -8291,15 +8291,15 @@ LAB_1000_45c4:
     jnz LAB_1000_45e6
     jmp LAB_1000_4560
 LAB_1000_45e6:
-    call far ptr routine_50
+    call far ptr gfx_jump_45_retrace
     push word ptr [4038h]
     call routine_51
     add SP,2h
     mov AX,9h
     push AX
-    call far ptr routine_52
+    call far ptr gfx_jump_3d_null
     add SP,2h
-    call far ptr routine_22
+    call far ptr gfx_jump_17_bufSize
     push AX
     call allocBuffer
     add SP,2h
@@ -8352,8 +8352,8 @@ LAB_1000_462e:
     add SP,0ah
     mov BX,word ptr [204ah]
     mov word ptr [BX + 0ch],1h
-    call far ptr routine_49
-    call far ptr routine_32
+    call far ptr gfx_jump_46_retrace2
+    call far ptr misc_jump_5b_getkey
 LAB_1000_4692:
     mov AX,1fd1h
     push AX
@@ -8364,13 +8364,13 @@ LAB_1000_4692:
     mov [4038h],AX
     or AX,AX
     jz LAB_1000_462e
-    call far ptr routine_50
+    call far ptr gfx_jump_45_retrace
     push word ptr [4038h]
     call routine_51
     add SP,2h
     mov AX,8h
     push AX
-    call far ptr routine_52
+    call far ptr gfx_jump_3d_null
     add SP,2h
     mov AX,1h
     push AX
@@ -8391,7 +8391,7 @@ LAB_1000_4692:
     mov [2184h],AX
     mov [21a4h],AX
     mov [21c4h],AX
-    call far ptr routine_50
+    call far ptr gfx_jump_45_retrace
     mov AX,0c7h
     push AX
     mov AX,13fh
@@ -8403,10 +8403,10 @@ LAB_1000_4692:
     call clearRect
     add SP,0ah
     push word ptr [2082h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     push word ptr [20a2h]
-    call far ptr routine_55
+    call far ptr gfx_jump_11_blitSprite
     add SP,2h
     mov BX,word ptr [204ah]
     mov word ptr [BX + 4h],0h
@@ -8440,8 +8440,8 @@ LAB_1000_475c:
     mov word ptr [BP + -12h],0h
     mov byte ptr [55eeh],1h
     mov word ptr [4a28h],0h
-    call far ptr routine_57
-    call far ptr routine_49
+    call far ptr gfx_jump_50
+    call far ptr gfx_jump_46_retrace2
     call setTimerIrqHandler
     mov word ptr [BP + -6h],1h
 LAB_1000_47a5:
@@ -8496,7 +8496,7 @@ LAB_1000_481c:
 LAB_1000_4827:
     sub AX,AX
     push AX
-    call far ptr routine_61
+    call far ptr misc_jump_5d_readJoy
     add SP,2h
     or AX,AX
     jz LAB_1000_4840
@@ -8513,7 +8513,7 @@ LAB_1000_4845:
 LAB_1000_484c:
     sub AX,AX
     push AX
-    call far ptr routine_61
+    call far ptr misc_jump_5d_readJoy
     add SP,2h
     or AX,AX
     jnz LAB_1000_484c
@@ -8523,7 +8523,7 @@ LAB_1000_485b:
     jmp LAB_1000_47a5
 LAB_1000_4864:
     call restoreTimerIrqHandler
-    call far ptr routine_50
+    call far ptr gfx_jump_45_retrace
     push word ptr [4f00h]
     call routine_63
     add SP,2h
@@ -11002,16 +11002,16 @@ _var_25 db 00h
     db 0eah  ; align align(1)
     db 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h
     db 00h
-routine_36 proc far
-routine_36 endp
+gfx_jump_0_alloc proc far
+gfx_jump_0_alloc endp
     db 00h, 00h
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah  ; align align(1)
     db 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h
     db 00h
-routine_93 proc far
-routine_93 endp
-_routine_93 equ routine_93
+gfx_jump_05_drawString proc far
+gfx_jump_05_drawString endp
+_gfx_jump_05_drawString equ gfx_jump_05_drawString
     db 00h, 00h
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
@@ -11019,22 +11019,22 @@ _routine_93 equ routine_93
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
     db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
     db 00h, 00h
-routine_76 proc far
-routine_76 endp
+gfx_jump_0d_setCurBuf proc far
+gfx_jump_0d_setCurBuf endp
     db 00h, 00h, 00h, 00h, 00h
-routine_35 proc far
-routine_35 endp
+gfx_jump_0e_setCurBuf proc far
+gfx_jump_0e_setCurBuf endp
     db 00h, 00h, 00h, 00h, 00h
-routine_82 proc far
-routine_82 endp
+gfx_jump_0f_getBufPtr proc far
+gfx_jump_0f_getBufPtr endp
     db 00h, 00h
     db 0eah, 00h, 00h
-routine_75 proc far
-routine_75 endp
+gfx_jump_10_getCurBuf proc far
+gfx_jump_10_getCurBuf endp
     db 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah, 00h, 00h
-routine_55 proc far
-routine_55 endp
+gfx_jump_11_blitSprite proc far
+gfx_jump_11_blitSprite endp
     db 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah  ; align align(1)
     db 00h, 00h, 00h, 00h
@@ -11042,31 +11042,31 @@ routine_55 endp
     db 0eah, 00h, 00h, 00h, 00h  ; JMPF LAB_0000_0000
     db 0eah  ; align align(1)
     db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h
-routine_22 proc far
-routine_22 endp
+gfx_jump_17_bufSize proc far
+gfx_jump_17_bufSize endp
     db 00h, 00h, 00h, 00h
     db 00h, 00h, 00h, 00h, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h
-routine_151 proc far
-routine_151 endp
+gfx_jump_1a proc far
+gfx_jump_1a endp
     db 00h, 00h, 0EAh, 00h, 00h
     db 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h, 00h, 0EAh, 00h, 00h, 00h
     db 00h, 0EAh, 00h, 00h
-routine_162 proc far
-routine_162 endp
+gfx_jump_1f proc far
+gfx_jump_1f endp
     db 00h, 00h, 0EAh, 00h, 00h
-routine_77 proc far
-routine_77 endp
+gfx_jump_20_setVal proc far
+gfx_jump_20_setVal endp
     db 00h, 00h
 _var_26 db 0EAh
     db 00h, 00h
-routine_104 proc far
-routine_104 endp
+gfx_jump_21 proc far
+gfx_jump_21 endp
     db 00h, 00h, 0EAh, 00h, 00h
-routine_80 proc far
-routine_80 endp
+gfx_jump_22 proc far
+gfx_jump_22 endp
     db 00h, 00h, 0EAh, 00h, 00h
-routine_155 proc far
-routine_155 endp
+gfx_jump_23 proc far
+gfx_jump_23 endp
     db 00h, 00h, 00h, 00h
     db 00h, 00h
 _var_27 db 00h
@@ -11087,105 +11087,105 @@ _var_34 db 00h
     db 00h
 _var_35 db 0FFh
     db 0FFh
-routine_79 proc far
-routine_79 endp
+gfx_jump_28 proc far
+gfx_jump_28 endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_99 proc far
-routine_99 endp
+gfx_jump_29_switchColor proc far
+gfx_jump_29_switchColor endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_103 proc far
-routine_103 endp
+gfx_jump_2a proc far
+gfx_jump_2a endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh
-routine_111 proc far
-routine_111 endp
-_routine_111 equ routine_111
+gfx_jump_2f_charWidth proc far
+gfx_jump_2f_charWidth endp
+_gfx_jump_2f_charWidth equ gfx_jump_2f_charWidth
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_21 proc far
-routine_21 endp
+gfx_jump_31 proc far
+gfx_jump_31 endp
     db 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_127 proc far
-routine_127 endp
+gfx_jump_33_fillRow proc far
+gfx_jump_33_fillRow endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_123 proc far
-routine_123 endp
+gfx_jump_34_fillRow proc far
+gfx_jump_34_fillRow endp
     db 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh
-routine_128 proc far
-routine_128 endp
+gfx_jump_35 proc far
+gfx_jump_35 endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_124 proc far
-routine_124 endp
+gfx_jump_36_null proc far
+gfx_jump_36_null endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
 thunk_EXT_FUN_0000 proc far
 thunk_EXT_FUN_0000 endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_126 proc far
-routine_126 endp
+gfx_jump_38_getPageBuf proc far
+gfx_jump_38_getPageBuf endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_121 proc far
-routine_121 endp
+gfx_jump_3a_getRowOffset proc far
+gfx_jump_3a_getRowOffset endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_119 proc far
-routine_119 endp
+gfx_jump_3b_clearBuf proc far
+gfx_jump_3b_clearBuf endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_52 proc far
-routine_52 endp
+gfx_jump_3d_null proc far
+gfx_jump_3d_null endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_150 proc far
-routine_150 endp
+gfx_jump_3e proc far
+gfx_jump_3e endp
     db 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_152 proc far
-routine_152 endp
+gfx_jump_40 proc far
+gfx_jump_40 endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_153 proc far
-routine_153 endp
+gfx_jump_41 proc far
+gfx_jump_41 endp
     db 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_39 proc far
-routine_39 endp
+gfx_jump_44_setDac proc far
+gfx_jump_44_setDac endp
     db 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh
-routine_50 proc far
-routine_50 endp
+gfx_jump_45_retrace proc far
+gfx_jump_45_retrace endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_49 proc far
-routine_49 endp
+gfx_jump_46_retrace2 proc far
+gfx_jump_46_retrace2 endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_40 proc far
-routine_40 endp
+gfx_jump_4b_storeBufPtr proc far
+gfx_jump_4b_storeBufPtr endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_57 proc far
-routine_57 endp
+gfx_jump_50 proc far
+gfx_jump_50 endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_81 proc far
-routine_81 endp
+gfx_jump_51_null proc far
+gfx_jump_51_null endp
     db 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh
-routine_38 proc far
-routine_38 endp
+gfx_jump_52 proc far
+gfx_jump_52 endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_37 proc far
-routine_37 endp
+gfx_jump_53 proc far
+gfx_jump_53 endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_31 proc far
-routine_31 endp
+misc_jump_5a_keybuf proc far
+misc_jump_5a_keybuf endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_32 proc far
-routine_32 endp
+misc_jump_5b_getkey proc far
+misc_jump_5b_getkey endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_61 proc far
-routine_61 endp
+misc_jump_5d_readJoy proc far
+misc_jump_5d_readJoy endp
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
-routine_15 proc far
-routine_15 endp
+misc_jump_5e_clearKeyFlags proc far
+misc_jump_5e_clearKeyFlags endp
     db 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh
     db 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh, 0FFh

@@ -49,12 +49,12 @@ routine_34: Code1 NEAR 09ae-09be R09ae-09be
 routine_67: Code1 NEAR 0a42-0a5c R0a42-0a5c
 mystrcat: Code1 NEAR 0aab-0ad2 R0aab-0ad2 assembly
 routine_146: Code1 NEAR 0b22-0b3f R0b22-0b3f
-routine_72: Code1 NEAR 0b87-0beb R0b87-0bbf U0bc0-0bc2 R0bc3-0beb
+intDispatch: Code1 NEAR 0b87-0beb R0b87-0bbf U0bc0-0bc2 R0bc3-0beb assembly
 routine_87: Code1 NEAR 0bec-0c28 R0bec-0c28
 routine_117: Code1 NEAR 0c29-0c53 R0c29-0c53
 routine_115: Code1 NEAR 0c54-0c9b R0c54-0c9b
 routine_116: Code1 NEAR 0c9c-0cbc R0c9c-0cbc
-routine_45: Code1 NEAR 0d09-0d14 R0d09-0d14
+dos_printstring: Code1 NEAR 0d09-0d14 R0d09-0d14 assembly
 routine_14: Code1 NEAR 0d17-0d6f R0d17-0d29 U0d2a-0d2e R0d2f-0d6f
 clearRect: Code1 NEAR 0e4e-0eec R0e4e-0eec assembly
 sub_12C75: Code1 NEAR 0f09-0f39 R0f09-0f39 assembly
@@ -64,7 +64,7 @@ sub_12F6A: Code1 NEAR 11fe-121e R11fe-121e assembly
 installCBreakHandler: Code1 NEAR 1240-1262 R1240-1262 assembly
 routine_28: Code1 NEAR 1263-1273 R1263-1273
 routine_33: Code1 NEAR 1274-127f R1274-127f
-routine_89: Code1 NEAR 1336-1346 R1336-1346
+openFileWrapper: Code1 NEAR 1336-1346 R1336-1346 assembly
 routine_91: Code1 NEAR 135a-1367 R135a-1367
 openFile: Code1 NEAR 13ae-1404 R13ae-1404 R156a-15a5 assembly
 fileClose: Code1 NEAR 145c-147c R145c-147c assembly
@@ -144,48 +144,48 @@ routine_134: Code2 FAR 0027-0039 R0027-0039
 readJoyPort: Code2 NEAR 003a-0066 R003a-0066 assembly
 routine_149: Code2 NEAR 0067-00c2 R0067-00c2
 copyJoystickData: Code2 FAR 00d7-00ee R00d7-00ee assembly
-routine_36: Data1 FAR 1008-100c R1008-100c
-routine_93: Data1 FAR 1021-1025 R1021-1025
-routine_76: Data1 FAR 1049-104d R1049-104d
-routine_35: Data1 FAR 104e-1052 R104e-1052
-routine_82: Data1 FAR 1053-1057 R1053-1057
-routine_75: Data1 FAR 1058-105c R1058-105c
-routine_55: Data1 FAR 105d-1061 R105d-1061
-routine_22: Data1 FAR 107b-107f R107b-107f
-routine_151: Data1 FAR 108a-108e R108a-108e
-routine_162: Data1 FAR 10a3-10a7 R10a3-10a7
-routine_77: Data1 FAR 10a8-10ac R10a8-10ac
-routine_104: Data1 FAR 10ad-10b1 R10ad-10b1
-routine_80: Data1 FAR 10b2-10b6 R10b2-10b6
-routine_155: Data1 FAR 10b7-10bb R10b7-10bb
-routine_79: Data1 FAR 10d0-10d4 R10d0-10d4
-routine_99: Data1 FAR 10d5-10d9 R10d5-10d9
-routine_103: Data1 FAR 10da-10de R10da-10de
-routine_111: Data1 FAR 10f3-10f7 R10f3-10f7
-routine_21: Data1 FAR 10fd-1101 R10fd-1101
-routine_127: Data1 FAR 1107-110b R1107-110b
-routine_123: Data1 FAR 110c-1110 R110c-1110
-routine_128: Data1 FAR 1111-1115 R1111-1115
-routine_124: Data1 FAR 1116-111a R1116-111a
-routine_126: Data1 FAR 1120-1124 R1120-1124
-routine_121: Data1 FAR 112a-112e R112a-112e
-routine_119: Data1 FAR 112f-1133 R112f-1133
-routine_52: Data1 FAR 1139-113d R1139-113d
-routine_150: Data1 FAR 113e-1142 R113e-1142
-routine_152: Data1 FAR 1148-114c R1148-114c
-routine_153: Data1 FAR 114d-1151 R114d-1151
-routine_39: Data1 FAR 115c-1160 R115c-1160
-routine_50: Data1 FAR 1161-1165 R1161-1165
-routine_49: Data1 FAR 1166-116a R1166-116a
-routine_40: Data1 FAR 117f-1183 R117f-1183
-routine_57: Data1 FAR 1198-119c R1198-119c
-routine_81: Data1 FAR 119d-11a1 R119d-11a1
-routine_38: Data1 FAR 11a2-11a6 R11a2-11a6
-routine_37: Data1 FAR 11a7-11ab R11a7-11ab
-routine_31: Data1 FAR 11ca-11ce R11ca-11ce
-routine_32: Data1 FAR 11cf-11d3 R11cf-11d3
-routine_61: Data1 FAR 11d9-11dd R11d9-11dd
-routine_15: Data1 FAR 11de-11e2 R11de-11e2
+gfx_jump_0_alloc: Data1 FAR 1008-100c R1008-100c assembly
+gfx_jump_05_drawString: Data1 FAR 1021-1025 R1021-1025 assembly
+gfx_jump_0d_setCurBuf: Data1 FAR 1049-104d R1049-104d assembly
+gfx_jump_0e_setCurBuf: Data1 FAR 104e-1052 R104e-1052 assembly
+gfx_jump_0f_getBufPtr: Data1 FAR 1053-1057 R1053-1057 assembly
+gfx_jump_10_getCurBuf: Data1 FAR 1058-105c R1058-105c assembly
+gfx_jump_11_blitSprite: Data1 FAR 105d-1061 R105d-1061 assembly
+gfx_jump_17_bufSize: Data1 FAR 107b-107f R107b-107f assembly
+gfx_jump_1a: Data1 FAR 108a-108e R108a-108e assembly
+gfx_jump_1f: Data1 FAR 10a3-10a7 R10a3-10a7 assembly
+gfx_jump_20_setVal: Data1 FAR 10a8-10ac R10a8-10ac assembly
+gfx_jump_21: Data1 FAR 10ad-10b1 R10ad-10b1 assembly
+gfx_jump_22: Data1 FAR 10b2-10b6 R10b2-10b6 assembly
+gfx_jump_23: Data1 FAR 10b7-10bb R10b7-10bb assembly
+gfx_jump_28: Data1 FAR 10d0-10d4 R10d0-10d4 assembly
+gfx_jump_29_switchColor: Data1 FAR 10d5-10d9 R10d5-10d9 assembly
+gfx_jump_2a: Data1 FAR 10da-10de R10da-10de assembly
+gfx_jump_2f_charWidth: Data1 FAR 10f3-10f7 R10f3-10f7 assembly
+gfx_jump_31: Data1 FAR 10fd-1101 R10fd-1101 assembly
+gfx_jump_33_fillRow: Data1 FAR 1107-110b R1107-110b assembly
+gfx_jump_34_fillRow: Data1 FAR 110c-1110 R110c-1110 assembly
+gfx_jump_35: Data1 FAR 1111-1115 R1111-1115 assembly
+gfx_jump_36_null: Data1 FAR 1116-111a R1116-111a assembly
+gfx_jump_38_getPageBuf: Data1 FAR 1120-1124 R1120-1124 assembly
+gfx_jump_3a_getRowOffset: Data1 FAR 112a-112e R112a-112e assembly
+gfx_jump_3b_clearBuf: Data1 FAR 112f-1133 R112f-1133 assembly
+gfx_jump_3d_null: Data1 FAR 1139-113d R1139-113d assembly
+gfx_jump_3e: Data1 FAR 113e-1142 R113e-1142 assembly
+gfx_jump_40: Data1 FAR 1148-114c R1148-114c assembly
+gfx_jump_41: Data1 FAR 114d-1151 R114d-1151 assembly
+gfx_jump_44_setDac: Data1 FAR 115c-1160 R115c-1160 assembly
+gfx_jump_45_retrace: Data1 FAR 1161-1165 R1161-1165 assembly
+gfx_jump_46_retrace2: Data1 FAR 1166-116a R1166-116a assembly
+gfx_jump_4b_storeBufPtr: Data1 FAR 117f-1183 R117f-1183 assembly
+gfx_jump_50: Data1 FAR 1198-119c R1198-119c assembly
+gfx_jump_51_null: Data1 FAR 119d-11a1 R119d-11a1 assembly
+gfx_jump_52: Data1 FAR 11a2-11a6 R11a2-11a6 assembly
+gfx_jump_53: Data1 FAR 11a7-11ab R11a7-11ab assembly
+misc_jump_5a_keybuf: Data1 FAR 11ca-11ce R11ca-11ce assembly
+misc_jump_5b_getkey: Data1 FAR 11cf-11d3 R11cf-11d3 assembly
+misc_jump_5d_readJoy: Data1 FAR 11d9-11dd R11d9-11dd assembly
+misc_jump_5e_clearKeyFlags: Data1 FAR 11de-11e2 R11de-11e2 assembly
 #
 # Discovered variables, one per line, syntax is "VariableName: Segment VAR OffsetWithinSegment"
 #

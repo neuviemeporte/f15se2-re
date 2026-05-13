@@ -34,7 +34,7 @@
 void actualDrawString(int *pageNum, const char *string, int x, int y) {
     pageNum[4] = x;
     pageNum[5] = y;
-    routine_93(pageNum, string);
+    gfx_jump_05_drawString(pageNum, string);
 }
 
 int stringWidth(int *page, const char *str) {
@@ -45,7 +45,7 @@ int stringWidth(int *page, const char *str) {
     var_2 = page[6];
     var_6 = 0;
     while (*var_4 != '\0') {
-        var_6 += routine_111(*(var_4++), var_2);
+        var_6 += gfx_jump_2f_charWidth(*(var_4++), var_2);
     }
     return var_6;
 }
