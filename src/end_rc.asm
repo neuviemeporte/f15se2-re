@@ -18,6 +18,8 @@ EXTRN _drawString:PROC
 EXTRN _mystrcpy:PROC
 EXTRN _cleanup:PROC
 EXTRN _routine_34:PROC
+EXTRN _loadPic:PROC
+EXTRN _openShowPic:PROC
 IFDEF DEBUG
 EXTRN _my_trace:PROC
 ENDIF
@@ -2588,6 +2590,8 @@ FUN_1000_12fe proc near
     ret
 FUN_1000_12fe endp
 
+PUBLIC _openFileWrapper
+_openFileWrapper:
 openFileWrapper proc near
     push BP
     mov BP,SP
@@ -2974,27 +2978,7 @@ LAB_1000_15a1:
     int 21h
 FUN_1000_156a endp
 
-openShowPic proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    sub AX,AX
-    push AX
-    push word ptr [BP + 4h]
-    call openFileWrapper
-    add SP,4h
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + Stack[6h]+2h]
-    push word ptr [BP + 6h]
-    push AX
-    call showPicFile
-    add SP,6h
-    push word ptr [BP + -2h]
-    call routine_91
-    mov SP,BP
-    pop BP
-    ret
-openShowPic endp
+openShowPic equ _openShowPic
 
 FUN_1000_15d2 proc near
     push BP
@@ -3018,27 +3002,7 @@ FUN_1000_15d2 proc near
     db 90h
 FUN_1000_15d2 endp
 
-loadPic proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    sub AX,AX
-    push AX
-    push word ptr [BP + Stack[2h]+2h]
-    call openFileWrapper
-    add SP,4h
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + Stack[4h]+2h]
-    push AX
-    call decodePic
-    add SP,4h
-    push word ptr [BP + -2h]
-    call routine_91
-    mov SP,BP
-    pop BP
-    ret
-    db 90h
-loadPic endp
+loadPic equ _loadPic
 
 FUN_1000_1626 proc near
     push BP
@@ -3069,6 +3033,8 @@ FUN_1000_1626 proc near
     db 90h
 FUN_1000_1626 endp
 
+PUBLIC _showPicFile
+_showPicFile:
 showPicFile proc near
     push BP
     mov BP,SP
@@ -3193,6 +3159,8 @@ LAB_1000_1776:
     ret
 FUN_1000_173e endp
 
+PUBLIC _decodePic
+_decodePic:
 decodePic proc near
     push BP
     mov BP,SP

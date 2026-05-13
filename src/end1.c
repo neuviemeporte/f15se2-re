@@ -16,4 +16,20 @@ void mystrcpy(char *dst, char *src)
         ;
 }
 
+void loadPic(char *filename, int segment) {
+    int handle;
+    TRACE(("loadPic"));
+    handle = openFileWrapper(filename, 0);
+    decodePic(handle, segment);
+    routine_91(handle);
+}
+
+void openShowPic(char *name, int page, int garbage) {
+    int handle;
+    TRACE(("openShowPic"));
+    handle = openFileWrapper(name, 0);
+    showPicFile(handle, page, garbage);
+    routine_91(handle);
+}
+
 

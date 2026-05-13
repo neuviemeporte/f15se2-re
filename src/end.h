@@ -31,6 +31,9 @@ extern void far misc_jump_5e_clearKeyFlags(void);
 void routine_140(int src_seg, int src_off, int dst_seg, int dst_off, int count);
 int routine_69(void);
 void routine_70(int param_1);
+int openFileWrapper(char *name, int mode);
+void decodePic(int handle, int segment);
+void showPicFile(int handle, int page, int garbage);
 
 /* Extern variables from ASM */
 extern char var_69;       /* timerHandlerInstalled */
@@ -38,5 +41,7 @@ extern char var_69;       /* timerHandlerInstalled */
 /* Reconstructed C functions */
 void cleanup(void);
 void routine_34(void);
+void loadPic(char *filename, int segment);
+void openShowPic(char *name, int page, int garbage);
 
 #endif // F15_SE2_END
