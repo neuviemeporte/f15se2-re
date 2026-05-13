@@ -169,7 +169,6 @@ EGAME_VRF_TGTEP := [558bec83ec??c746]
 # end.exe reconstruction (rc)
 #
 END_EXE := $(BUILDDIR)/end.exe
-END_CONF := $(CONFDIR)/end_rc.json
 END_BASE := end_rc.asm
 END_ASM := $(END_BASE)
 END_SRC := end0.c end1.c end2.c
