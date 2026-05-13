@@ -84,5 +84,9 @@ int FUN_1000_1394(int handle, int a, int b, int c, int d);
 int FUN_1000_12c6(char *name, int b, int c);
 int FUN_1000_12fe(char *name, int b, int c, int d, int e);
 void FUN_1000_09e4(int port, int value);
+void FUN_1000_16d6(int handle, int segment);
+int FUN_1000_4c20(int handle, int off, int whence, int mode);
+void FUN_1000_15d2(char *name, int segment);
+void FUN_1000_1626(char *name, int segment, int off, int whence);
 
 #endif // F15_SE2_END

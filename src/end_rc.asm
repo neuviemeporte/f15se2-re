@@ -37,6 +37,8 @@ EXTRN _FUN_1000_12fe:PROC
 EXTRN _routine_147:PROC
 EXTRN _routine_85:PROC
 EXTRN _FUN_1000_09e4:PROC
+EXTRN _FUN_1000_15d2:PROC
+EXTRN _FUN_1000_1626:PROC
 EXTRN _FUN_1000_0990:PROC
 EXTRN _FUN_1000_041a:PROC
 EXTRN _FUN_1000_0469:PROC
@@ -57,6 +59,8 @@ PUBLIC _var_96
 PUBLIC _var_81
 PUBLIC _setTimerIrqHandler
 PUBLIC _FUN_1000_0a74
+PUBLIC _FUN_1000_16d6
+PUBLIC _FUN_1000_4c20
 
 ; --- Code segment ---
 
@@ -2861,58 +2865,11 @@ FUN_1000_156a endp
 
 openShowPic equ _openShowPic
 
-FUN_1000_15d2 proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    sub AX,AX
-    push AX
-    push word ptr [BP + Stack[2h]+2h]
-    call openFileWrapper
-    add SP,4h
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + Stack[4h]+2h]
-    push AX
-    call FUN_1000_16d6
-    add SP,4h
-    push word ptr [BP + -2h]
-    call routine_91
-    mov SP,BP
-    pop BP
-    ret
-    db 90h
-FUN_1000_15d2 endp
+FUN_1000_15d2 equ _FUN_1000_15d2
 
 loadPic equ _loadPic
 
-FUN_1000_1626 proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    sub AX,AX
-    push AX
-    push word ptr [BP + 4h]
-    call openFileWrapper
-    add SP,4h
-    mov word ptr [BP + -2h],AX
-    sub AX,AX
-    push AX
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + -2h]
-    call FUN_1000_4c20
-    add SP,8h
-    push word ptr [BP + 6h]
-    push word ptr [BP + -2h]
-    call decodePic
-    add SP,4h
-    push word ptr [BP + -2h]
-    call routine_91
-    mov SP,BP
-    pop BP
-    ret
-    db 90h
-FUN_1000_1626 endp
+FUN_1000_1626 equ _FUN_1000_1626
 
 PUBLIC _showPicFile
 _showPicFile:
@@ -2958,6 +2915,7 @@ LAB_1000_169a:
     ret
 showPicFile endp
 
+_FUN_1000_16d6:
 FUN_1000_16d6 proc near
     push BP
     mov BP,SP
@@ -8705,6 +8663,7 @@ LAB_1000_4c1a:
     db 90h
 routine_46 endp
 
+_FUN_1000_4c20:
 FUN_1000_4c20 proc near
     push BP
     mov BP,SP

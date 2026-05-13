@@ -120,4 +120,21 @@ void FUN_1000_09e4(int port, int value) {
     outp(port, value);
 }
 
+void FUN_1000_15d2(char *name, int segment) {
+    int handle;
+    TRACE(("FUN_1000_15d2"));
+    handle = openFileWrapper(name, 0);
+    FUN_1000_16d6(handle, segment);
+    routine_91(handle);
+}
+
+void FUN_1000_1626(char *name, int segment, int off, int whence) {
+    int handle;
+    TRACE(("FUN_1000_1626"));
+    handle = openFileWrapper(name, 0);
+    FUN_1000_4c20(handle, off, whence, 0);
+    decodePic(handle, segment);
+    routine_91(handle);
+}
+
 
