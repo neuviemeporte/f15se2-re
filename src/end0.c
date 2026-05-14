@@ -73,6 +73,69 @@ void cleanup(void) {
     misc_jump_5e_clearKeyFlags();
 }
 
+void routine_66(void);
+
+void routine_65(int param_1)
+{
+    char local_18[22];
+    int pad;
+
+    if (var_214 == 1) {
+        gfx_jump_2a(1, 0, 0x96, 0, var_227, var_228, 0x30, 0x28);
+        var_214 = 0;
+    }
+    clearRect((int *)param_1, 0xe9, 0x1e, 0x13f, 0x45);
+    actualDrawString((int *)param_1, str_inFlight, 0xf0, 0x26);
+loop_top:
+        var_190++;
+        if (flightRecords[var_190].status & 0x3f) {
+            if ((flightRecords[var_190].status & 0x3f) == 9) {
+        clearRect((int *)param_1, 0xf0, 0x1e, 0x13f, 0x25);
+        mystrcpy(dat_4824, str_timeLabel);
+        mystrcat(dat_4824, routine_106(*((int *)&flightRecords[var_190] - 1), local_18));
+        actualDrawString((int *)param_1, dat_4824, 0xf0, 0x1e);
+        gfx_jump_21(0);
+        if (var_209 == 0 && var_213 == 0) {
+            routine_105((int)var_194, (int)var_195, (int)flightRecords[var_190].cx, (int)flightRecords[var_190].cy);
+            var_209 = (int)flightRecords[var_190].cx;
+            var_213 = (int)flightRecords[var_190].cy;
+        } else {
+            var_208 = (int)flightRecords[var_190].cx;
+            var_211 = (int)flightRecords[var_190].cy;
+            routine_105(var_208, var_211, var_209, var_213);
+            var_209 = var_208;
+            var_213 = var_211;
+        }
+        *(long *)&var_219 = routine_63(var_190);
+        mystrcpy(dat_4824, str_timeZeros);
+        my_ltoa(*(long *)&var_219, local_18);
+        mystrcat(dat_4824, local_18);
+        clearRect((int *)param_1, 0xe8, 0x56, 0x13f, 0x5e);
+        drawString((int *)param_1, dat_4824, 0xe8, 0x56, 0x57);
+        var_81 = 0;
+wait_loop:
+        if ((unsigned char)var_81 <= 5) goto wait_loop;
+                goto loop_top;
+            }
+        }
+done:
+    if (!(flightRecords[var_190].status & 0x3f)) {
+        var_190--;
+    }
+    gfx_jump_21(0);
+    if (var_209 == 0 && var_213 == 0) {
+        routine_105((int)var_194, (int)var_195, (int)flightRecords[var_190].cx, (int)flightRecords[var_190].cy);
+        var_209 = (int)flightRecords[var_190].cx;
+        var_213 = (int)flightRecords[var_190].cy;
+    } else {
+        var_208 = (int)flightRecords[var_190].cx;
+        var_211 = (int)flightRecords[var_190].cy;
+        routine_105(var_208, var_211, var_209, var_213);
+        var_209 = var_208;
+        var_213 = var_211;
+    }
+}
+
 void routine_34(void) {
     TRACE(("routine_34"));
     routine_70(routine_69());

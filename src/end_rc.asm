@@ -45,6 +45,7 @@ EXTRN _routine_105:PROC
 EXTRN _FUN_1000_0990:PROC
 EXTRN _FUN_1000_041a:PROC
 EXTRN _FUN_1000_0469:PROC
+EXTRN _routine_65:PROC
 EXTRN _routine_66:PROC
 EXTRN _routine_26:PROC
 EXTRN _routine_5:PROC
@@ -76,6 +77,28 @@ PUBLIC _dat_2142
 PUBLIC _dat_21C2
 PUBLIC _flightRecords
 PUBLIC _gfx_jump_11_blitSprite
+PUBLIC _gfx_jump_21
+PUBLIC _gfx_jump_2a
+PUBLIC _clearRect
+PUBLIC _mystrcat
+PUBLIC _my_ltoa
+PUBLIC _routine_106
+PUBLIC _routine_63
+PUBLIC _var_194
+PUBLIC _var_195
+PUBLIC _var_208
+PUBLIC _var_209
+PUBLIC _var_211
+PUBLIC _var_213
+PUBLIC _var_214
+PUBLIC _var_219
+PUBLIC _var_220
+PUBLIC _var_227
+PUBLIC _var_228
+PUBLIC _dat_4824
+PUBLIC _str_inFlight
+PUBLIC _str_timeLabel
+PUBLIC _str_timeZeros
 PUBLIC _misc_jump_5a_keybuf
 PUBLIC _misc_jump_5b_getkey
 PUBLIC _misc_jump_5d_readJoy
@@ -946,6 +969,7 @@ LAB_1000_088f:
     pop BP
     ret
 my_ltoa endp
+_my_ltoa equ my_ltoa
 
 my_itoa proc near
     push BP
@@ -1246,6 +1270,7 @@ LAB_1000_0af3:
     pop BP
     ret
 mystrcat endp
+_mystrcat equ mystrcat
 
 FUN_1000_0af6 proc near
     push BP
@@ -1830,6 +1855,7 @@ clearRect proc near
     db 5Fh
     db 0C3h
 clearRect endp
+_clearRect equ clearRect
 
 sub_12C75 proc near
     mov DI,word ptr [_var_37]
@@ -6300,310 +6326,7 @@ routine_96 endp
 
 routine_135 equ _routine_135
 
-routine_65 proc near
-    push BP
-    mov BP,SP
-    sub SP,18h
-    push SI
-    cmp byte ptr [_var_214],1h
-    jnz LAB_1000_389a
-    mov AX,28h
-    push AX
-    mov AX,30h
-    push AX
-    push word ptr [_var_228]
-    push word ptr [_var_227]
-    sub AX,AX
-    push AX
-    mov AX,96h
-    push AX
-    sub AX,AX
-    push AX
-    mov AX,1h
-    push AX
-    call far ptr gfx_jump_2a
-    add SP,10h
-    mov byte ptr [_var_214],0h
-LAB_1000_389a:
-    mov AX,45h
-    push AX
-    mov AX,13fh
-    push AX
-    mov AX,1eh
-    push AX
-    mov AX,0e9h
-    push AX
-    push word ptr [BP + 4h]
-    call clearRect
-    add SP,0ah
-    mov AX,26h
-    push AX
-    mov AX,0f0h
-    push AX
-    mov AX,offset str_inFlight
-    push AX
-    push word ptr [BP + 4h]
-    call actualDrawString
-    add SP,8h
-LAB_1000_38c8:
-    inc word ptr [_var_190]
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    test byte ptr [BX + 4f06h],3fh
-    jnz LAB_1000_38e2
-    jmp LAB_1000_3a77
-LAB_1000_38e2:
-    mov BX,AX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f06h]
-    and AL,3fh
-    cmp AL,9h
-    jz LAB_1000_38f7
-    jmp LAB_1000_3a77
-LAB_1000_38f7:
-    mov AX,25h
-    push AX
-    mov AX,13fh
-    push AX
-    mov AX,1eh
-    push AX
-    mov AX,0f0h
-    push AX
-    push word ptr [BP + 4h]
-    call clearRect
-    add SP,0ah
-    mov AX,offset str_timeLabel
-    push AX
-    mov AX,offset dat_4824
-    push AX
-    call mystrcpy
-    add SP,4h
-    lea AX,[BP + -16h]
-    push AX
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    push word ptr [BX + 4f02h]
-    call routine_106
-    add SP,4h
-    push AX
-    mov AX,offset dat_4824
-    push AX
-    call mystrcat
-    add SP,4h
-    mov AX,1eh
-    push AX
-    mov AX,0f0h
-    push AX
-    mov AX,offset dat_4824
-    push AX
-    push word ptr [BP + 4h]
-    call actualDrawString
-    add SP,8h
-    sub AX,AX
-    push AX
-    call far ptr gfx_jump_21
-    add SP,2h
-    cmp word ptr [_var_209],0h
-    jnz LAB_1000_39b9
-    cmp word ptr [_var_213],0h
-    jnz LAB_1000_39b9
-    mov AX,word ptr [_var_190]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    mov AL,byte ptr [SI + 4f05h]
-    cbw
-    push AX
-    mov AL,byte ptr [SI + 4f04h]
-    cbw
-    push AX
-    mov AL,byte ptr [_var_195]
-    cbw
-    push AX
-    mov AL,byte ptr [_var_194]
-    cbw
-    push AX
-    call routine_105
-    add SP,8h
-    mov AX,word ptr [_var_190]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    mov AL,byte ptr [SI + 4f04h]
-    cbw
-    mov word ptr [_var_209],AX
-    mov AL,byte ptr [SI + 4f05h]
-    cbw
-    mov word ptr [_var_213],AX
-    jmp LAB_1000_39f5
-LAB_1000_39b9:
-    mov AX,word ptr [_var_190]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    mov AL,byte ptr [SI + 4f04h]
-    cbw
-    mov word ptr [_var_208],AX
-    mov AL,byte ptr [SI + 4f05h]
-    cbw
-    mov word ptr [_var_211],AX
-    push word ptr [_var_213]
-    push word ptr [_var_209]
-    push AX
-    push word ptr [_var_208]
-    call routine_105
-    add SP,8h
-    mov AX,word ptr [_var_208]
-    mov word ptr [_var_209],AX
-    mov AX,word ptr [_var_211]
-    mov word ptr [_var_213],AX
-LAB_1000_39f5:
-    push word ptr [_var_190]
-    call routine_63
-    add SP,2h
-    mov word ptr [_var_219],AX
-    mov word ptr [_var_220],DX
-    mov AX,offset str_timeZeros
-    push AX
-    mov AX,offset dat_4824
-    push AX
-    call mystrcpy
-    add SP,4h
-    lea AX,[BP + -16h]
-    push AX
-    push word ptr [_var_220]
-    push word ptr [_var_219]
-    call my_ltoa
-    add SP,6h
-    lea AX,[BP + -16h]
-    push AX
-    mov AX,offset dat_4824
-    push AX
-    call mystrcat
-    add SP,4h
-    mov AX,5eh
-    push AX
-    mov AX,13fh
-    push AX
-    mov AX,56h
-    push AX
-    mov AX,0e8h
-    push AX
-    push word ptr [BP + 4h]
-    call clearRect
-    add SP,0ah
-    mov AX,57h
-    push AX
-    mov AX,56h
-    push AX
-    mov AX,0e8h
-    push AX
-    mov AX,offset dat_4824
-    push AX
-    push word ptr [BP + 4h]
-    call drawString
-    add SP,0ah
-    mov byte ptr [_var_81],0h
-LAB_1000_3a6b:
-    cmp byte ptr [_var_81],5h
-    ja LAB_1000_3a74
-    jmp LAB_1000_3a6b
-LAB_1000_3a74:
-    jmp LAB_1000_38c8
-LAB_1000_3a77:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    test byte ptr [BX + 4f06h],3fh
-    jnz LAB_1000_3a8e
-    dec word ptr [_var_190]
-LAB_1000_3a8e:
-    sub AX,AX
-    push AX
-    call far ptr gfx_jump_21
-    add SP,2h
-    cmp word ptr [_var_209],0h
-    jnz LAB_1000_3aef
-    cmp word ptr [_var_213],0h
-    jnz LAB_1000_3aef
-    mov AX,word ptr [_var_190]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    mov AL,byte ptr [SI + 4f05h]
-    cbw
-    push AX
-    mov AL,byte ptr [SI + 4f04h]
-    cbw
-    push AX
-    mov AL,byte ptr [_var_195]
-    cbw
-    push AX
-    mov AL,byte ptr [_var_194]
-    cbw
-    push AX
-    call routine_105
-    add SP,8h
-    mov AX,word ptr [_var_190]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    mov AL,byte ptr [SI + 4f04h]
-    cbw
-    mov word ptr [_var_209],AX
-    mov AL,byte ptr [SI + 4f05h]
-    cbw
-    mov word ptr [_var_213],AX
-    jmp LAB_1000_3b2b
-LAB_1000_3aef:
-    mov AX,word ptr [_var_190]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    mov AL,byte ptr [SI + 4f04h]
-    cbw
-    mov word ptr [_var_208],AX
-    mov AL,byte ptr [SI + 4f05h]
-    cbw
-    mov word ptr [_var_211],AX
-    push word ptr [_var_213]
-    push word ptr [_var_209]
-    push AX
-    push word ptr [_var_208]
-    call routine_105
-    add SP,8h
-    mov AX,word ptr [_var_208]
-    mov word ptr [_var_209],AX
-    mov AX,word ptr [_var_211]
-    mov word ptr [_var_213],AX
-LAB_1000_3b2b:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-routine_65 endp
+routine_65 equ _routine_65
 
 routine_132 proc near
     push BP
@@ -6806,6 +6529,7 @@ LAB_1000_3cfc:
     pop BP
     ret
 routine_106 endp
+_routine_106 equ routine_106
 
 routine_137 equ _routine_137
 
@@ -7219,6 +6943,7 @@ LAB_1000_41cd:
     pop BP
     ret
 routine_63 endp
+_routine_63 equ routine_63
 
 routine_131 proc near
     push BP
@@ -10350,6 +10075,7 @@ gfx_jump_21 proc far               ; 0x10AD
     db 0EAh
     dd 0
 gfx_jump_21 endp
+_gfx_jump_21 equ gfx_jump_21
 gfx_jump_22 proc far               ; 0x10B2
     db 0EAh
     dd 0
@@ -10372,6 +10098,7 @@ gfx_jump_2a proc far               ; 0x10DA
     db 0EAh
     dd 0
 gfx_jump_2a endp
+_gfx_jump_2a equ gfx_jump_2a
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
     db 000h, 000h, 000h, 000h
 gfx_jump_2f_charWidth proc far               ; 0x10F3
@@ -10924,10 +10651,13 @@ str_pressNext db 050h
     db 076h, 065h, 06Eh, 074h, 000h
 str_inFlight db 080h
     db 049h, 06Eh, 02Dh, 046h, 06Ch, 069h, 067h, 068h, 074h, 000h
+_str_inFlight equ str_inFlight
 str_timeLabel db 08Dh
     db 054h, 049h, 04Dh, 045h, 03Ah, 020h, 080h, 000h
+_str_timeLabel equ str_timeLabel
 str_timeZeros db 080h
     db 000h
+_str_timeZeros equ str_timeZeros
 str_timeFormat db 030h
     db 030h, 03Ah, 030h, 030h, 03Ah, 030h, 030h, 000h
 _var_97 db 000h
@@ -11235,6 +10965,7 @@ _var_186 db 10 dup(?)
 _var_187 db 8 dup(?)
 _var_188 db 10 dup(?)
 dat_4824 db 512 dup(?)
+_dat_4824 equ dat_4824
 _var_189 db 4 dup(?)
 _var_190 label word
 _var_190x db 2 dup(?)
