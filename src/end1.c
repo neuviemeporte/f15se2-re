@@ -148,6 +148,12 @@ void routine_26(void) {
     }
 }
 
+void routine_5(void) {
+}
+
+void routine_6(void) {
+}
+
 void FUN_1000_09e4(int port, int value) {
     TRACE(("FUN_1000_09e4"));
     outp(port, value);

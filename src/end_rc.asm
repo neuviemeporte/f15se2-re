@@ -46,6 +46,8 @@ EXTRN _FUN_1000_041a:PROC
 EXTRN _FUN_1000_0469:PROC
 EXTRN _routine_66:PROC
 EXTRN _routine_26:PROC
+EXTRN _routine_5:PROC
+EXTRN _routine_6:PROC
 IFDEF DEBUG
 EXTRN _my_trace:PROC
 ENDIF
@@ -284,13 +286,9 @@ routine_18 endp
 
 cleanup equ _cleanup
 
-routine_6 proc near
-    ret
-routine_6 endp
+routine_6 equ _routine_6
 
-routine_5 proc near
-    ret
-routine_5 endp
+routine_5 equ _routine_5
 
 routine_20 proc near
     push BP
