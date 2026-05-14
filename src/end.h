@@ -29,6 +29,10 @@ void restoreTimerIrqHandler(void);
 void setTimerIrqHandler(void);
 void intDispatch(int intNum, char *inRegs, char *outRegs);
 extern void far misc_jump_5e_clearKeyFlags(void);
+extern int far misc_jump_5a_keybuf(void);
+extern int far misc_jump_5b_getkey(void);
+extern int far misc_jump_5d_readJoy(int param);
+void routine_28(void);
 void routine_140(int src_seg, int src_off, int dst_seg, int dst_off, int count);
 int routine_69(void);
 void routine_70(int param_1);
@@ -58,6 +62,8 @@ extern int var_95;
 extern int var_96;
 extern unsigned int var_210;
 extern unsigned int var_212;
+extern int far *var_222;
+extern char var_57;
 
 /* Reconstructed C functions */
 void cleanup(void);
@@ -75,6 +81,7 @@ void routine_157(int x, int y, int color);
 void routine_113(int handle);
 int routine_97(unsigned int *p);
 void routine_105(int p1, int p2, int p3, int p4);
+void routine_66(void);
 void routine_85(int *p);
 void routine_147(int x, int y, int color);
 void FUN_1000_0990(unsigned int ticks);

@@ -115,6 +115,30 @@ int FUN_1000_12fe(char *name, int b, int c, int d, int e) {
     return result;
 }
 
+void routine_66(void) {
+    int key;
+    TRACE(("routine_66"));
+    if (var_222[0x39] == 1) {
+        do {
+            if (misc_jump_5a_keybuf() == 0) {
+                break;
+            }
+        } while (misc_jump_5d_readJoy(0) == 0);
+        if (misc_jump_5a_keybuf() != 0) {
+            goto done;
+        }
+    }
+    key = misc_jump_5b_getkey();
+done:
+    if (key == 0x1000 || var_57 != 0) {
+        cleanup();
+        if (var_57 != 0) {
+            routine_28();
+        }
+        routine_8(0);
+    }
+}
+
 void FUN_1000_09e4(int port, int value) {
     TRACE(("FUN_1000_09e4"));
     outp(port, value);

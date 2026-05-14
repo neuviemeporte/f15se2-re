@@ -44,6 +44,7 @@ EXTRN _routine_105:PROC
 EXTRN _FUN_1000_0990:PROC
 EXTRN _FUN_1000_041a:PROC
 EXTRN _FUN_1000_0469:PROC
+EXTRN _routine_66:PROC
 IFDEF DEBUG
 EXTRN _my_trace:PROC
 ENDIF
@@ -61,6 +62,11 @@ PUBLIC _var_96
 PUBLIC _var_81
 PUBLIC _var_210
 PUBLIC _var_212
+PUBLIC _var_222
+PUBLIC _var_57
+PUBLIC _misc_jump_5a_keybuf
+PUBLIC _misc_jump_5b_getkey
+PUBLIC _misc_jump_5d_readJoy
 PUBLIC _setTimerIrqHandler
 PUBLIC _FUN_1000_0a74
 PUBLIC _FUN_1000_16d6
@@ -529,51 +535,8 @@ FUN_1000_03ad proc near
     ret
 FUN_1000_03ad endp
 
-routine_66 proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    les BX,dword ptr [_var_222]
-    cmp word ptr ES:[BX + 72h],1h
-    jnz LAB_1000_03e9
-LAB_1000_03c8:
-    call far ptr misc_jump_5a_keybuf
-    or AX,AX
-    jz LAB_1000_03e0
-    sub AX,AX
-    push AX
-    call far ptr misc_jump_5d_readJoy
-    add SP,2h
-    or AX,AX
-    jz LAB_1000_03c8
-LAB_1000_03e0:
-    call far ptr misc_jump_5a_keybuf
-    or AX,AX
-    jnz LAB_1000_03f1
-LAB_1000_03e9:
-    call far ptr misc_jump_5b_getkey
-    mov word ptr [BP + -2h],AX
-LAB_1000_03f1:
-    cmp word ptr [BP + -2h],1000h
-    jz LAB_1000_03ff
-    cmp byte ptr [_var_57],0h
-    jz LAB_1000_0415
-LAB_1000_03ff:
-    call cleanup
-    cmp byte ptr [_var_57],0h
-    jz LAB_1000_040c
-    call routine_28
-LAB_1000_040c:
-    sub AX,AX
-    push AX
-    call routine_8
-    add SP,2h
-LAB_1000_0415:
-    mov SP,BP
-    pop BP
-    ret
-    db 90h
-routine_66 endp
+routine_66 equ _routine_66
+
 
 FUN_1000_041a equ _FUN_1000_041a
 
@@ -2467,6 +2430,8 @@ installCBreakHandler proc near
 installCBreakHandler endp
 
 routine_28 proc near
+PUBLIC _routine_28
+_routine_28:
     push DS
     mov AX,word ptr [_var_58]
     mov DX,word ptr [_var_59]
@@ -10769,15 +10734,18 @@ gfx_jump_53 endp
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
 misc_jump_5a_keybuf proc far               ; 0x11CA
+_misc_jump_5a_keybuf equ misc_jump_5a_keybuf
     db 0EAh
     dd 0
 misc_jump_5a_keybuf endp
 misc_jump_5b_getkey proc far               ; 0x11CF
+_misc_jump_5b_getkey equ misc_jump_5b_getkey
     db 0EAh
     dd 0
 misc_jump_5b_getkey endp
     db 0EAh, 000h, 000h, 000h, 000h
 misc_jump_5d_readJoy proc far               ; 0x11D9
+_misc_jump_5d_readJoy equ misc_jump_5d_readJoy
     db 0EAh
     dd 0
 misc_jump_5d_readJoy endp
