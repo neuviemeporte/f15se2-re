@@ -65,6 +65,28 @@ extern unsigned int var_212;
 extern int far *var_222;
 extern char var_57;
 
+/* FlightRecord: 6 bytes per record */
+typedef struct {
+    char cx;
+    char cy;
+    char status;
+    char pad;
+    char unk4;
+    char unk5;
+} FlightRecord;
+
+extern FlightRecord flightRecords[];
+extern int var_190;
+extern char var_183[];  /* slot info table, 16 bytes per slot */
+
+/* Sprite struct pointers (first word of each sprite descriptor) */
+extern int *dat_20C2;
+extern int *dat_2102;
+extern int *dat_2142;
+extern int *dat_21C2;
+
+extern int far gfx_jump_11_blitSprite(int spritePtr);
+
 /* Reconstructed C functions */
 void cleanup(void);
 void routine_34(void);
@@ -77,6 +99,7 @@ int routine_136(unsigned char param_1);
 int routine_137(unsigned char param_1);
 void routine_138(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2, int cy2, int flag);
 void routine_160(int x1, int y1, int x2, int y2);
+int routine_135(int param_1);
 void routine_157(int x, int y, int color);
 void routine_113(int handle);
 int routine_97(unsigned int *p);

@@ -151,3 +151,40 @@ void routine_105(int p1, int p2, int p3, int p4)
     routine_138(routine_137(p1), routine_136(p2), routine_137(p3), routine_136(p4), var_93, var_95, var_94, var_96, 1);
 }
 
+int routine_135(int param_1)
+{
+    TRACE(("routine_135"));
+    switch (flightRecords[param_1].status & 0x3f) {
+    case 1:
+    case 12:
+        dat_20C2[4] = routine_137(flightRecords[param_1].cx) + var_93 - 2;
+        dat_20C2[5] = routine_136(flightRecords[param_1].cy) + var_94 - 2;
+        if (var_183[(flightRecords[var_190].pad & 0x7f) * 16] & 8) {
+            dat_20C2[1] = 0x11e;
+        } else {
+            dat_20C2[1] = 0x12d;
+        }
+        return gfx_jump_11_blitSprite((int)dat_20C2);
+    case 2:
+        dat_2142[4] = routine_137(flightRecords[param_1].cx) + var_93 - 2;
+        dat_2142[5] = routine_136(flightRecords[param_1].cy) + var_94 - 2;
+        return gfx_jump_11_blitSprite((int)dat_2142);
+    case 3:
+        dat_2102[4] = routine_137(flightRecords[param_1].cx) + var_93 - 2;
+        dat_2102[5] = routine_136(flightRecords[param_1].cy) + var_94 - 2;
+        return gfx_jump_11_blitSprite((int)dat_2102);
+    case 5:
+        dat_21C2[4] = routine_137(flightRecords[param_1].cx) + var_93;
+        dat_21C2[5] = routine_136(flightRecords[param_1].cy) + var_94;
+        return gfx_jump_11_blitSprite((int)dat_21C2);
+    case 8:
+        dat_2102[4] = routine_137(flightRecords[param_1].cx) + var_93 - 2;
+        dat_2102[5] = routine_136(flightRecords[param_1].cy) + var_94 - 2;
+        return gfx_jump_11_blitSprite((int)dat_2102);
+    case 10:
+        dat_21C2[4] = routine_137(flightRecords[param_1].cx) + var_93;
+        dat_21C2[5] = routine_136(flightRecords[param_1].cy) + var_94;
+        return gfx_jump_11_blitSprite((int)dat_21C2);
+    }
+}
+

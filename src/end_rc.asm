@@ -23,6 +23,7 @@ EXTRN _openShowPic:PROC
 EXTRN _allocBuffer:PROC
 EXTRN _routine_64:PROC
 EXTRN _routine_70:PROC
+EXTRN _routine_135:PROC
 EXTRN _routine_136:PROC
 EXTRN _routine_137:PROC
 EXTRN _routine_157:PROC
@@ -67,6 +68,14 @@ PUBLIC _var_210
 PUBLIC _var_212
 PUBLIC _var_222
 PUBLIC _var_57
+PUBLIC _var_183
+PUBLIC _var_190
+PUBLIC _dat_20C2
+PUBLIC _dat_2102
+PUBLIC _dat_2142
+PUBLIC _dat_21C2
+PUBLIC _flightRecords
+PUBLIC _gfx_jump_11_blitSprite
 PUBLIC _misc_jump_5a_keybuf
 PUBLIC _misc_jump_5b_getkey
 PUBLIC _misc_jump_5d_readJoy
@@ -6289,263 +6298,7 @@ LAB_1000_35db:
     ret
 routine_96 endp
 
-routine_135 proc near
-    push BP
-    mov BP,SP
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f06h]
-    db 25h, 3Fh, 00h  ; and AX,3Fh (force word-immediate)
-    jmp LAB_1000_3835
-caseD_b_3840:
-caseD_0_6634:
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_20C2]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_20C2]
-    mov word ptr [BX + 0ah],AX
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov BL,byte ptr [BX + 4f07h]
-    and BX,7fh
-    mov CL,4h
-    shl BX,CL
-    test byte ptr [BX + 4256h],8h
-    jz LAB_1000_366c
-    mov BX,word ptr [dat_20C2]
-    mov word ptr [BX + 2h],11eh
-    jmp LAB_1000_3675
-LAB_1000_366c:
-    mov BX,word ptr [dat_20C2]
-    mov word ptr [BX + 2h],12dh
-LAB_1000_3675:
-    push word ptr [dat_20C2]
-    call far ptr gfx_jump_11_blitSprite
-    add SP,2h
-    jmp caseD_3_3840
-caseD_2_3840:
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_2102]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_2102]
-    mov word ptr [BX + 0ah],AX
-    push word ptr [dat_2102]
-    call far ptr gfx_jump_11_blitSprite
-    add SP,2h
-    jmp caseD_3_3840
-caseD_1_3840:
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_2142]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_2142]
-    mov word ptr [BX + 0ah],AX
-    push word ptr [dat_2142]
-    call far ptr gfx_jump_11_blitSprite
-    add SP,2h
-    jmp caseD_3_3840
-caseD_4_3840:
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    mov BX,word ptr [dat_21C2]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    mov BX,word ptr [dat_21C2]
-    mov word ptr [BX + 0ah],AX
-    push word ptr [dat_21C2]
-    call far ptr gfx_jump_11_blitSprite
-    add SP,2h
-    jmp caseD_3_3840
-caseD_7_3840:
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_2102]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_2102]
-    mov word ptr [BX + 0ah],AX
-    push word ptr [dat_2102]
-    call far ptr gfx_jump_11_blitSprite
-    add SP,2h
-    jmp caseD_3_3840
-caseD_9_3840:
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    mov BX,word ptr [dat_21C2]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    mov BX,word ptr [dat_21C2]
-    mov word ptr [BX + 0ah],AX
-    push word ptr [dat_21C2]
-    call far ptr gfx_jump_11_blitSprite
-    add SP,2h
-    jmp caseD_3_3840
-    db 0EBh
-    db 28h
-LAB_1000_3835:
-    db 2Dh, 01h, 00h  ; sub AX,1h (force word-immediate)
-    db 3Dh, 0Bh, 00h  ; cmp AX,0Bh (force word-immediate)
-    ja caseD_3_3840
-    add AX,AX
-    xchg AX,BX
-switchD_35f9:
-    jmp word ptr CS:[BX + 3845h]
-var_6:
-    dw 35F9h
-    dw 36DDh
-    dw 3684h
-    dw 385Dh
-    dw 3736h
-    dw 385Dh
-    dw 385Dh
-    dw 3789h
-    dw 385Dh
-    dw 37E1h
-    dw 385Dh
-    dw 35F9h
-caseD_5_3681:
-caseD_6_37df:
-caseD_8_6871:
-caseD_a_6872:
-caseD_3_3840:
-caseD_3_6873:
-    mov SP,BP
-    pop BP
-    ret
-routine_135 endp
+routine_135 equ _routine_135
 
 routine_65 proc near
     push BP
@@ -10571,6 +10324,7 @@ gfx_jump_11_blitSprite proc far               ; 0x105D
     db 0EAh
     dd 0
 gfx_jump_11_blitSprite endp
+_gfx_jump_11_blitSprite equ gfx_jump_11_blitSprite
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
     db 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h
 gfx_jump_17_bufSize proc far               ; 0x107B
@@ -11232,6 +10986,7 @@ _var_104 db 084h
 _var_105 db 000h
     db 000h, 02Dh, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+_dat_20C2 label word
 dat_20C2 db 0A4h
     db 020h
 _var_106 db 000h
@@ -11242,6 +10997,7 @@ dat_20E2 db 0C4h
 _var_107 db 000h
     db 000h, 023h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+_dat_2102 label word
 dat_2102 db 0E4h
     db 020h
 _var_108 db 000h
@@ -11252,6 +11008,7 @@ dat_2122 db 004h
 _var_109 db 000h
     db 000h, 017h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+_dat_2142 label word
 dat_2142 db 024h
     db 021h
 _var_110 db 000h
@@ -11268,6 +11025,7 @@ _var_112 db 000h
 _var_113 db 000h
     db 000h, 02Ah, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 001h, 000h, 001h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+_dat_21C2 label word
 dat_21C2 db 0A4h
     db 021h
 _var_114 db 000h
@@ -11468,7 +11226,8 @@ dat_4246 db 2 dup(?)
 _var_181 db 2 dup(?)
 _var_182 db 4 dup(?)
 dat_424e db 8 dup(?)
-_var_183 db 1194 dup(?)
+_var_183 label byte
+_var_183x db 1194 dup(?)
 _var_184 db 256 dup(?)
 _var_185 db 4 dup(?)
 dat_4804 db 4 dup(?)
@@ -11477,11 +11236,14 @@ _var_187 db 8 dup(?)
 _var_188 db 10 dup(?)
 dat_4824 db 512 dup(?)
 _var_189 db 4 dup(?)
-_var_190 db 2 dup(?)
+_var_190 label word
+_var_190x db 2 dup(?)
 dat_4a2a db 720 dup(?)
 _var_191 db 518 dup(?)
 _var_192 db 2 dup(?)
 _var_193 db 2 dup(?)
+PUBLIC _flightRecords
+_flightRecords label byte
 _var_194 db ?
 _var_195 db ?
 _var_196 db ?
