@@ -38,7 +38,7 @@ routine_41: Code1 NEAR 0328-033c R0328-033c assembly
 routine_108: Code1 NEAR 033d-0370 R033d-0370 assembly
 routine_109: Code1 NEAR 0371-03a4 R0371-03a4 assembly
 routine_16: Code1 NEAR 03a6-03b6 R03a6-03b6 assembly
-routine_66: Code1 NEAR 03b7-0418 R03b7-0418 assembly
+routine_66: Code1 NEAR 03b7-0418 R03b7-0418
 actualDrawString: Code1 NEAR 0442-0468 R0442-0468 complete
 routine_130: Code1 NEAR 05e2-0700 R05e2-0700
 drawString: Code1 NEAR 0701-0737 R0701-0737 complete
@@ -93,8 +93,8 @@ routine_59: Code1 NEAR 21a6-2249 R21a6-2249
 routine_60: Code1 NEAR 224a-2582 R224a-23be U23bf-23c1 R23c2-2582
 routine_95: Code1 NEAR 2583-2617 R2583-2617
 routine_97: Code1 NEAR 2618-2645 R2618-263b U263c-263d R263e-2645
-routine_98: Code1 NEAR 2646-2bd0 R2646-27f6 U27f7-2a3e R2a3f-2a4e U2a4f-2a66 R2a67-2bd0 assembly
-routine_96: Code1 NEAR 2bd1-35e0 R2bd1-317c U317d-3431 R3432-3441 U3442-3459 R345a-35e0 assembly
+routine_98: Code1 NEAR 2646-2bd0 R2646-27f6 U27f7-2a3e R2a3f-2a4e U2a4f-2a66 R2a67-2bd0
+routine_96: Code1 NEAR 2bd1-35e0 R2bd1-317c U317d-3431 R3432-3441 U3442-3459 R345a-35e0
 routine_135: Code1 NEAR 35e1-3860 R35e1-35f8 U35f9-3834 R3835-3844 U3845-385c R385d-3860
 routine_65: Code1 NEAR 3861-3b2f R3861-3b2f
 routine_132: Code1 NEAR 3b30-3c18 R3b30-3c18
@@ -106,8 +106,8 @@ routine_105: Code1 NEAR 3d89-3dd1 R3d89-3dd1
 routine_160: Code1 NEAR 3dd2-3dfe R3dd2-3dfe complete
 routine_138: Code1 NEAR 3dff-3ea3 R3dff-3ea3 complete
 routine_157: Code1 NEAR 3ea4-3ebc R3ea4-3ebc complete
-routine_63: Code1 NEAR 3ebd-41d2 R3ebd-409c U409d-409e R409f-41b6 U41b7-41b8 R41b9-41d2 assembly
-routine_131: Code1 NEAR 41d3-4533 R41d3-4224 U4225-42d1 R42d2-42e1 U42e2-42f9 R42fa-4533 assembly
+routine_63: Code1 NEAR 3ebd-41d2 R3ebd-409c U409d-409e R409f-41b6 U41b7-41b8 R41b9-41d2
+routine_131: Code1 NEAR 41d3-4533 R41d3-4224 U4225-42d1 R42d2-42e1 U42e2-42f9 R42fa-4533
 routine_25: Code1 NEAR 4534-4919 R4534-4919 assembly
 start: Code1 NEAR 491c-49cd R491c-49cd external
 routine_4: Code1 NEAR 49ce-4a91 R49ce-4a91 R4ea4-4ea9 external
@@ -138,7 +138,7 @@ routine_110: Code1 NEAR 5170-5302 R4f33-4f3f R5170-5302 assembly
 routine_141: Code1 NEAR 5303-5313 R5303-5313 assembly
 routine_112: Code1 NEAR 5314-53b9 R5314-53b9 R53fa-543b assembly
 routine_143: Code1 NEAR 53ba-53f9 R53ba-53f9 assembly
-routine_113: Code1 NEAR 543c-544d R543c-544d assembly
+routine_113: Code1 NEAR 543c-544d R543c-544d
 routine_142: Code1 NEAR 54c6-54d7 R54c6-54d7 assembly
 routine_134: Code2 FAR 0027-0039 R0027-0039 assembly
 readJoyPort: Code2 NEAR 003a-0066 R003a-0066 assembly
