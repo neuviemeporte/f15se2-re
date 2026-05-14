@@ -139,6 +139,15 @@ done:
     }
 }
 
+void routine_26(void) {
+    TRACE(("routine_26"));
+    if (var_57 != 0) {
+        cleanup();
+        routine_28();
+        routine_8(0);
+    }
+}
+
 void FUN_1000_09e4(int port, int value) {
     TRACE(("FUN_1000_09e4"));
     outp(port, value);

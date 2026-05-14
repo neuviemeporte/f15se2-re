@@ -45,6 +45,7 @@ EXTRN _FUN_1000_0990:PROC
 EXTRN _FUN_1000_041a:PROC
 EXTRN _FUN_1000_0469:PROC
 EXTRN _routine_66:PROC
+EXTRN _routine_26:PROC
 IFDEF DEBUG
 EXTRN _my_trace:PROC
 ENDIF
@@ -244,18 +245,7 @@ ENDIF
     ret
 main endp
 
-routine_26 proc near
-    cmp byte ptr [_var_57],0h
-    jz LAB_1000_0129
-    call cleanup
-    call routine_28
-    sub AX,AX
-    push AX
-    call routine_8
-    add SP,2h
-LAB_1000_0129:
-    ret
-routine_26 endp
+routine_26 equ _routine_26
 
 routine_18 proc near
     push BP

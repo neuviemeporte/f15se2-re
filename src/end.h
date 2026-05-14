@@ -82,6 +82,7 @@ void routine_113(int handle);
 int routine_97(unsigned int *p);
 void routine_105(int p1, int p2, int p3, int p4);
 void routine_66(void);
+void routine_26(void);
 void routine_85(int *p);
 void routine_147(int x, int y, int color);
 void FUN_1000_0990(unsigned int ticks);
