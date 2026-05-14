@@ -136,3 +136,18 @@ void FUN_1000_0469(int *s, char far *str) {
     gfx_jump_05_drawString(s, buf);
 }
 
+int routine_97(unsigned int *p)
+{
+    TRACE(("routine_97"));
+    if (p[0] <= var_210 && p[2] >= var_210 && p[1] <= var_212 && p[3] >= var_212)
+        return 1;
+    else
+        return 0;
+}
+
+void routine_105(int p1, int p2, int p3, int p4)
+{
+    TRACE(("routine_105"));
+    routine_138(routine_137(p1), routine_136(p2), routine_137(p3), routine_136(p4), var_93, var_95, var_94, var_96, 1);
+}
+

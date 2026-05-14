@@ -39,6 +39,8 @@ EXTRN _routine_85:PROC
 EXTRN _FUN_1000_09e4:PROC
 EXTRN _FUN_1000_15d2:PROC
 EXTRN _FUN_1000_1626:PROC
+EXTRN _routine_97:PROC
+EXTRN _routine_105:PROC
 EXTRN _FUN_1000_0990:PROC
 EXTRN _FUN_1000_041a:PROC
 EXTRN _FUN_1000_0469:PROC
@@ -57,6 +59,8 @@ PUBLIC _var_94
 PUBLIC _var_95
 PUBLIC _var_96
 PUBLIC _var_81
+PUBLIC _var_210
+PUBLIC _var_212
 PUBLIC _setTimerIrqHandler
 PUBLIC _FUN_1000_0a74
 PUBLIC _FUN_1000_16d6
@@ -4711,32 +4715,7 @@ LAB_1000_2614:
     ret
 routine_95 endp
 
-routine_97 proc near
-    push BP
-    mov BP,SP
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [_var_210]
-    cmp word ptr [BX],AX
-    ja LAB_1000_263e
-    cmp word ptr [BX + 4h],AX
-    jc LAB_1000_263e
-    mov AX,word ptr [_var_212]
-    cmp word ptr [BX + 2h],AX
-    ja LAB_1000_263e
-    cmp word ptr [BX + 6h],AX
-    jc LAB_1000_263e
-    mov AX,1h
-    jmp LAB_1000_2642
-    db 0EBh
-    db 04h
-LAB_1000_263e:
-    sub AX,AX
-    jmp LAB_1000_2642
-LAB_1000_2642:
-    mov SP,BP
-    pop BP
-    ret
-routine_97 endp
+routine_97 equ _routine_97
 
 routine_98 proc near
     push BP
@@ -7128,37 +7107,7 @@ routine_136 equ _routine_136
 
 routine_147 equ _routine_147
 
-routine_105 proc near
-    push BP
-    mov BP,SP
-    mov AX,1h
-    push AX
-    push word ptr [_var_96]
-    push word ptr [_var_94]
-    push word ptr [_var_95]
-    push word ptr [_var_93]
-    push word ptr [BP + 0ah]
-    call routine_136
-    add SP,2h
-    push AX
-    push word ptr [BP + 8h]
-    call routine_137
-    add SP,2h
-    push AX
-    push word ptr [BP + 6h]
-    call routine_136
-    add SP,2h
-    push AX
-    push word ptr [BP + 4h]
-    call routine_137
-    add SP,2h
-    push AX
-    call routine_138
-    add SP,12h
-    mov SP,BP
-    pop BP
-    ret
-routine_105 endp
+routine_105 equ _routine_105
 
 routine_160 equ _routine_160
 
@@ -11595,9 +11544,11 @@ _var_206 db 14 dup(?)
 _var_207 db 2 dup(?)
 _var_208 db 2 dup(?)
 _var_209 db 2 dup(?)
-_var_210 db 4 dup(?)
+_var_210 label byte
+_var_210x db 4 dup(?)
 _var_211 db 2 dup(?)
-_var_212 db 2 dup(?)
+_var_212 label byte
+_var_212x db 2 dup(?)
 _var_213 db 2 dup(?)
 _var_214 db 2 dup(?)
 _var_215 db 2 dup(?)

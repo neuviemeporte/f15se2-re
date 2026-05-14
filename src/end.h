@@ -56,6 +56,8 @@ extern int var_93;
 extern int var_94;
 extern int var_95;
 extern int var_96;
+extern unsigned int var_210;
+extern unsigned int var_212;
 
 /* Reconstructed C functions */
 void cleanup(void);
@@ -71,6 +73,8 @@ void routine_138(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2, int 
 void routine_160(int x1, int y1, int x2, int y2);
 void routine_157(int x, int y, int color);
 void routine_113(int handle);
+int routine_97(unsigned int *p);
+void routine_105(int p1, int p2, int p3, int p4);
 void routine_85(int *p);
 void routine_147(int x, int y, int color);
 void FUN_1000_0990(unsigned int ticks);
