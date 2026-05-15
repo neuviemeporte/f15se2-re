@@ -50,9 +50,6 @@ EXTRN _routine_66:PROC
 EXTRN _routine_26:PROC
 EXTRN _routine_5:PROC
 EXTRN _routine_6:PROC
-IFDEF DEBUG
-EXTRN _my_trace:PROC
-ENDIF
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
 PUBLIC _var_69
@@ -135,12 +132,6 @@ main proc near
     mov BP,SP
     sub SP,0eh
     push SI
-IFDEF DEBUG
-    mov AX,offset _trace_main_enter
-    push AX
-    call _my_trace
-    add SP,2
-ENDIF
     mov word ptr [BP + -8h],0h
     mov word ptr [BP + -0ah],4f0h
     les BX,dword ptr [BP + -0ah]
@@ -149,12 +140,6 @@ ENDIF
     mov word ptr [_var_222],0h
     mov word ptr [_var_179],SI
     mov word ptr [_var_178],120eh
-IFDEF DEBUG
-    mov AX,offset _trace_main_r14
-    push AX
-    call _my_trace
-    add SP,2
-ENDIF
     les BX,dword ptr [_var_222]
     push word ptr ES:[BX + 1ah]
     call routine_14
@@ -163,36 +148,12 @@ ENDIF
     push word ptr ES:[BX + 1eh]
     call routine_14
     add SP,2h
-IFDEF DEBUG
-    mov AX,offset _trace_main_misc5e
-    push AX
-    call _my_trace
-    add SP,2
-ENDIF
     call far ptr misc_jump_5e_clearKeyFlags
-IFDEF DEBUG
-    mov AX,offset _trace_main_r16
-    push AX
-    call _my_trace
-    add SP,2
-ENDIF
     call routine_16
     les BX,dword ptr [_var_222]
     mov AL,byte ptr ES:[BX + 24h]
     mov byte ptr [_var_191],AL
-IFDEF DEBUG
-    mov AX,offset _trace_main_cbreak
-    push AX
-    call _my_trace
-    add SP,2
-ENDIF
     call installCBreakHandler
-IFDEF DEBUG
-    mov AX,offset _trace_main_r18
-    push AX
-    call _my_trace
-    add SP,2
-ENDIF
     call routine_18
     les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 72h],1h
@@ -210,12 +171,6 @@ LAB_1000_008e:
     mov byte ptr [_var_56],AL
     mov byte ptr [_var_55],AL
 LAB_1000_0096:
-IFDEF DEBUG
-    mov AX,offset _trace_main_r20
-    push AX
-    call _my_trace
-    add SP,2
-ENDIF
     call routine_20
     call far ptr gfx_jump_31
     mov word ptr [BP + -6h],AX
@@ -246,29 +201,11 @@ LAB_1000_00d2:
     call routine_24
 LAB_1000_00f2:
     call routine_16
-IFDEF DEBUG
-    mov AX,offset _trace_main_r25
-    push AX
-    call _my_trace
-    add SP,2
-ENDIF
     call routine_25
     call routine_26
     call routine_16
-IFDEF DEBUG
-    mov AX,offset _trace_main_r27
-    push AX
-    call _my_trace
-    add SP,2
-ENDIF
     call routine_27
     call routine_28
-IFDEF DEBUG
-    mov AX,offset _trace_main_r8
-    push AX
-    call _my_trace
-    add SP,2
-ENDIF
     mov AX,23h
     push AX
     call routine_8
@@ -334,7 +271,7 @@ routine_20 proc near
     mov word ptr [BP + -4h],0h
 LAB_1000_01dc:
     mov BX,word ptr [BP + -4h]
-    cmp byte ptr [BX + 56d0h],0h
+    cmp byte ptr [BX + offset _var_218],0h
     jnz LAB_1000_01fe
     cmp word ptr [BP + -2h],64h
     jge LAB_1000_01fe
@@ -342,8 +279,8 @@ LAB_1000_01dc:
     inc word ptr [BP + -2h]
     shl BX,1h
     mov AX,word ptr [BP + -4h]
-    add AX,56d1h
-    mov word ptr [BX + 5608h],AX
+    add AX,offset _var_218 + 1
+    mov word ptr [BX + offset _var_217],AX
 LAB_1000_01fe:
     inc word ptr [BP + -4h]
     cmp word ptr [BP + -4h],2eeh
@@ -2708,53 +2645,32 @@ LAB_1000_14cf:
     mov SP,BP
     pop BP
     ret
-    db 1Eh
-    db 06h
-    db 56h
-    db 57h
-    db 8Ch
-    db 0D8h
-    db 8Eh
-    db 0C0h
-    db 36h
-    db 8Eh
-    db 1Eh
-    db 68h
-    db 18h
-    db 0B9h
-    db 00h
-    db 01h
-    db 36h
-    db 8Bh
-    db 36h
-    db 6Ah
-    db 18h
-    db 0BFh
-    db 06h
-    db 16h
-    db 0F3h
-    db 0A5h
-    db 36h
-    db 81h
-    db 06h
-    db 6Ah
-    db 18h
-    db 00h
-    db 02h
-    db 0B8h
-    db 00h
-    db 02h
-    db 5Fh
-    db 5Eh
-    db 07h
-    db 1Fh
-    db 0C3h
+FUN_1000_14d7 proc near
+    push DS
+    push ES
+    push SI
+    push DI
+    mov AX,DS
+    mov ES,AX
+    mov DS,word ptr [dat_1868]
+    mov CX,100h
+    mov SI,word ptr [dat_186A]
+    mov DI,offset dat_1606
+    rep movsw
+    add word ptr [dat_186A],200h
+    mov AX,200h
+    pop DI
+    pop SI
+    pop ES
+    pop DS
+    ret
+FUN_1000_14d7 endp
 FUN_1000_14a9 endp
 
 FUN_1000_1500 proc near
     push DS
     mov AH,3fh
-    mov BX,1580h
+    mov BX,seg @data
     mov DS,BX
     mov BX,word ptr [_var_63]
     mov CX,200h
@@ -2872,7 +2788,7 @@ showPicFile proc near
     push SI
     push ES
     push BP
-    mov AX,offset dat_1500
+    mov AX,offset FUN_1000_1500
     mov word ptr [_var_68],AX
     mov AX,word ptr [BP + 4h]
     mov word ptr [_var_63],AX
@@ -2915,7 +2831,7 @@ FUN_1000_16d6 proc near
     push SI
     push ES
     push BP
-    mov AX,offset dat_1500
+    mov AX,offset FUN_1000_1500
     mov word ptr [_var_68],AX
     mov AX,word ptr [BP + 4h]
     mov word ptr [_var_63],AX
@@ -2955,7 +2871,7 @@ FUN_1000_173e proc near
     push SI
     push ES
     push BP
-    mov AX,offset dat_14d7
+    mov AX,offset FUN_1000_14d7
     mov word ptr [_var_68],AX
     mov word ptr [_var_62],200h
     mov word ptr [dat_186A],0h
@@ -2999,7 +2915,7 @@ decodePic proc near
     push SI
     push ES
     push BP
-    mov AX,offset dat_1500
+    mov AX,offset FUN_1000_1500
     mov word ptr [_var_68],AX
     mov AX,word ptr [BP + 4h]
     mov word ptr [_var_63],AX
@@ -3098,14 +3014,14 @@ picMakeDict proc near
     xor BX,BX
     mov CX,800h
 LAB_1000_18a7:
-    mov word ptr [BX + 276ah],AX
+    mov word ptr [BX + offset _var_167],AX
     add BX,3h
     loop LAB_1000_18a7
     mov AL,0h
     xor BX,BX
     mov CX,100h
 LAB_1000_18b7:
-    mov byte ptr [BX + 276ch],AL
+    mov byte ptr [BX + offset _var_168],AL
     inc AL
     add BX,3h
     loop LAB_1000_18b7
@@ -3172,7 +3088,7 @@ routine_145 endp
 
 dictionaryLookup proc near
     pop BP
-    cmp SP,2769h
+    cmp SP,offset dat_2769
     jz LAB_1000_1946
 LAB_1000_1943:
     pop AX
@@ -3220,23 +3136,23 @@ LAB_1000_199a:
     mov BX,AX
     add BX,AX
     add BX,AX
-    mov AX,word ptr [BX + 276ah]
+    mov AX,word ptr [BX + offset _var_167]
     inc AX
     jz LAB_1000_19af
     dec AX
-    mov BL,byte ptr [BX + 276ch]
+    mov BL,byte ptr [BX + offset _var_168]
     push BX
     jmp LAB_1000_199a
 LAB_1000_19af:
-    mov AL,byte ptr [BX + 276ch]
+    mov AL,byte ptr [BX + offset _var_168]
     mov byte ptr [_var_166],AL
     push AX
     mov BX,DX
     add BX,DX
     add BX,DX
-    mov byte ptr [BX + 276ch],AL
+    mov byte ptr [BX + offset _var_168],AL
     mov AX,word ptr [_var_165]
-    mov word ptr [BX + 276ah],AX
+    mov word ptr [BX + offset _var_167],AX
     inc DX
     cmp DX,word ptr [_var_160]
     jle LAB_1000_19d8
@@ -3383,7 +3299,7 @@ FUN_1000_1b0c proc near
 LAB_1000_1b17:
     dec word ptr [dat_3FB2]
     mov BX,word ptr [dat_3FB2]
-    mov AL,byte ptr [BX + 3f72h]
+    mov AL,byte ptr [BX + offset _var_3f72]
     ret
 FUN_1000_1b0c endp
 
@@ -3395,7 +3311,7 @@ FUN_1000_1b24 proc near
     jl LAB_1000_1b4b
     mov AL,byte ptr [dat_3FB8]
     mov BX,word ptr [dat_3FB2]
-    mov byte ptr [BX + 3f72h],AL
+    mov byte ptr [BX + offset _var_3f72],AL
     inc word ptr [dat_3FB2]
     mov CX,word ptr [dat_3FB4]
     mov AX,word ptr [dat_3F6E]
@@ -3414,7 +3330,7 @@ LAB_1000_1b4b:
     mov BX,word ptr [dat_3FB2]
     cmp BX,40h
     jnc LAB_1000_1b6c
-    mov byte ptr [BX + 3f72h],AL
+    mov byte ptr [BX + offset _var_3f72],AL
 LAB_1000_1b6c:
     inc word ptr [dat_3FB2]
     jmp LAB_1000_1b4b
@@ -3422,7 +3338,7 @@ LAB_1000_1b72:
     mov AL,byte ptr [BX + 2h]
     mov byte ptr [dat_3FB8],AL
     mov BX,word ptr [dat_3FB2]
-    mov byte ptr [BX + 3f72h],AL
+    mov byte ptr [BX + offset _var_3f72],AL
     inc word ptr [dat_3FB2]
     mov CX,word ptr [dat_3F6E]
     mov BX,offset _var_167
@@ -3520,287 +3436,149 @@ LAB_1000_1c46:
     pop DS
     mov byte ptr [_var_69],0h
     ret
-    db 8Bh
-    db 1Eh
-    db 0Dh
-    db 1Ah
-    db 89h
-    db 1Eh
-    db 0Ah
-    db 1Ah
-    db 0A1h
-    db 0Fh
-    db 1Ah
-    db 33h
-    db 0D2h
-    db 0F7h
-    db 0F3h
-    db 0A3h
-    db 04h
-    db 1Ah
-    db 0C6h
-    db 06h
-    db 0Ch
-    db 1Ah
-    db 01h
-    db 0C3h
-    db 0C7h
-    db 06h
-    db 0Ah
-    db 1Ah
-    db 01h
-    db 00h
-    db 0A1h
-    db 0Fh
-    db 1Ah
-    db 0A3h
-    db 04h
-    db 1Ah
-    db 0C6h
-    db 06h
-    db 0Ch
-    db 1Ah
-    db 01h
-    db 0C3h
+setTimerMode1 proc near
+    mov BX,word ptr [_var_76]
+    mov word ptr [_var_74],BX
+    mov AX,word ptr [_var_77]
+    xor DX,DX
+    div BX
+    mov word ptr [_var_72],AX
+    mov byte ptr [_var_75],1h
+    ret
+setTimerMode1 endp
+setTimerMode2 proc near
+    mov word ptr [_var_74],1h
+    mov AX,word ptr [_var_77]
+    mov word ptr [_var_72],AX
+    mov byte ptr [_var_75],1h
+    ret
+setTimerMode2 endp
 var_1:
-    dd 10001C89h
-    db 0FBh
-    db 50h
-    db 53h
-    db 51h
-    db 52h
-    db 56h
-    db 57h
-    db 55h
-    db 1Eh
-    db 06h
-    db 0B8h
-    db 80h
-    db 15h
-    db 8Eh
-    db 0D8h
-    db 0A1h
-    db 06h
-    db 1Ah
-    db 01h
-    db 06h
-    db 00h
-    db 1Ah
-    db 83h
-    db 16h
-    db 02h
-    db 1Ah
-    db 00h
-    db 0FFh
-    db 0Eh
-    db 14h
-    db 1Ah
-    db 75h
-    db 11h
-    db 0A1h
-    db 0Ah
-    db 1Ah
-    db 0A3h
-    db 14h
-    db 1Ah
-    db 0E8h
-    db 3Ch
-    db 00h
-    db 0C6h
-    db 06h
-    db 0FEh
-    db 19h
-    db 00h
-    db 0E8h
-    db 0ACh
-    db 01h
-    db 83h
-    db 3Eh
-    db 0Ah
-    db 1Ah
-    db 01h
-    db 74h
-    db 05h
-    db 9Ah
-    db 24h
-    db 12h
-    db 80h
-    db 15h
-    db 83h
-    db 3Eh
-    db 02h
-    db 1Ah
-    db 00h
-    db 75h
-    db 0Eh
-    db 0B0h
-    db 20h
-    db 0E6h
-    db 20h
-    db 07h
-    db 1Fh
-    db 5Dh
-    db 5Fh
-    db 5Eh
-    db 5Ah
-    db 59h
-    db 5Bh
-    db 58h
-    db 0CFh
-    db 0FFh
-    db 0Eh
-    db 02h
-    db 1Ah
-    db 07h
-    db 1Fh
-    db 5Dh
-    db 5Fh
-    db 5Eh
-    db 5Ah
-    db 59h
-    db 5Bh
-    db 58h
-    db 0FAh
-    db 0EAh
+    dw offset _timerIrqHandler
+    dw seg _timerIrqHandler
+_timerIrqHandler:
+    sti
+    push AX
+    push BX
+    push CX
+    push DX
+    push SI
+    push DI
+    push BP
+    push DS
+    push ES
+    mov AX,seg _var_70
+    mov DS,AX
+    mov AX,word ptr [_var_73]
+    add word ptr [_var_70],AX
+    adc word ptr [_var_71],0h
+    dec word ptr [_var_80]
+    jnz LAB_timer_skipReload
+    mov AX,word ptr [_var_74]
+    mov word ptr [_var_80],AX
+    call _timerSubroutine
+    mov byte ptr [_var_timerFlag],0h
+    call _incTimerCounters
+LAB_timer_skipReload:
+    cmp word ptr [_var_74],1h
+    jz LAB_timer_skipFarCall
+    db 09Ah, 024h, 012h, 080h, 015h  ; CALL FAR (patched at runtime)
+LAB_timer_skipFarCall:
+    cmp word ptr [_var_71],0h
+    jnz LAB_timer_chainOld
+    mov AL,20h
+    out 20h,AL
+    pop ES
+    pop DS
+    pop BP
+    pop DI
+    pop SI
+    pop DX
+    pop CX
+    pop BX
+    pop AX
+    iret
+LAB_timer_chainOld:
+    dec word ptr [_var_71]
+    pop ES
+    pop DS
+    pop BP
+    pop DI
+    pop SI
+    pop DX
+    pop CX
+    pop BX
+    pop AX
+    cli
+    db 0EAh  ; JMP FAR (patched with old INT8 handler address)
 var_2:
     dw 0000h
 var_3:
     dw 0000h
-    db 0FEh
-    db 0Eh
-    db 0Ch
-    db 1Ah
-    db 75h
-    db 7Fh
-    db 0C6h
-    db 06h
-    db 0Ch
-    db 1Ah
-    db 14h
-    db 80h
-    db 3Eh
-    db 13h
-    db 1Ah
-    db 00h
-    db 74h
-    db 41h
-    db 32h
-    db 0DBh
-    db 33h
-    db 0C9h
-    db 8Eh
-    db 0C1h
-    db 26h
-    db 8Bh
-    db 16h
-    db 63h
-    db 04h
-    db 83h
-    db 0C2h
-    db 06h
-    db 81h
-    db 0FAh
-    db 0BAh
-    db 03h
-    db 74h
-    db 14h
-    db 0FAh
-    db 0ECh
-    db 0A8h
-    db 08h
-    db 75h
-    db 27h
-    db 0FBh
-    db 24h
-    db 01h
-    db 3Ah
-    db 0C3h
-    db 74h
-    db 0F3h
-    db 80h
-    db 0F3h
-    db 01h
-    db 0E2h
-    db 0EEh
-    db 0EBh
-    db 12h
-    db 0FAh
-    db 0ECh
-    db 0A8h
-    db 80h
-    db 74h
-    db 13h
-    db 0FBh
-    db 24h
-    db 01h
-    db 3Ah
-    db 0C3h
-    db 74h
-    db 0DFh
-    db 80h
-    db 0F3h
-    db 01h
-    db 0E2h
-    db 0EEh
-    db 0C6h
-    db 06h
-    db 13h
-    db 1Ah
-    db 00h
-    db 0EBh
-    db 32h
-    db 8Bh
-    db 16h
-    db 06h
-    db 1Ah
-    db 3Bh
-    db 16h
-    db 04h
-    db 1Ah
-    db 74h
-    db 08h
-    db 8Bh
-    db 16h
-    db 04h
-    db 1Ah
-    db 89h
-    db 16h
-    db 06h
-    db 1Ah
-    db 0B0h
-    db 36h
-    db 0E6h
-    db 43h
-    db 0EBh
-    db 00h
-    db 8Ah
-    db 0C2h
-    db 0E6h
-    db 40h
-    db 0EBh
-    db 00h
-    db 8Ah
-    db 0C6h
-    db 0E6h
-    db 40h
-    db 0FFh
-    db 06h
-    db 08h
-    db 1Ah
-    db 0F7h
-    db 0D9h
-    db 89h
-    db 0Eh
-    db 16h
-    db 1Ah
-    db 74h
-    db 04h
-    db 0FFh
-    db 06h
-    db 14h
-    db 1Ah
-    db 0FBh
-    db 0C3h
+_timerSubroutine proc near
+    dec byte ptr [_var_75]
+    jnz LAB_timer_sub_end
+    mov byte ptr [_var_75],14h
+    cmp byte ptr [_var_79],0h
+    jz LAB_timer_reprogram
+    xor BL,BL
+    xor CX,CX
+    mov ES,CX
+    mov DX,word ptr ES:[463h]
+    add DX,6h
+    cmp DX,3BAh
+    jz LAB_timer_mono
+; color path
+LAB_timer_color_loop:
+    cli
+    in AL,DX
+    test AL,08h
+    jnz LAB_timer_sub_end
+    sti
+    and AL,01h
+    cmp AL,BL
+    jz LAB_timer_color_loop
+    xor BL,01h
+    loop LAB_timer_color_loop
+    jmp LAB_timer_reprogram
+; monochrome path
+LAB_timer_mono:
+    cli
+    in AL,DX
+    test AL,80h
+    jz LAB_timer_sub_end
+    sti
+    and AL,01h
+    cmp AL,BL
+    jz LAB_timer_mono
+    xor BL,01h
+    loop LAB_timer_mono
+    mov byte ptr [_var_79],0h
+    jmp LAB_timer_doReprogram
+LAB_timer_reprogram:
+    mov DX,word ptr [_var_73]
+    cmp DX,word ptr [_var_72]
+    jz LAB_timer_doReprogram
+    mov DX,word ptr [_var_72]
+    mov word ptr [_var_73],DX
+LAB_timer_doReprogram:
+    mov AL,36h
+    out 43h,AL
+    jmp short $+2
+    mov AL,DL
+    out 40h,AL
+    jmp short $+2
+    mov AL,DH
+    out 40h,AL
+    inc word ptr [_var_73 + 2]
+    neg CX
+    mov word ptr [_var_80 + 2],CX
+    jz LAB_timer_sub_end
+    inc word ptr [_var_80]
+LAB_timer_sub_end:
+    sti
+    ret
+_timerSubroutine endp
 restoreTimerIrqHandler endp
 
 sub_13DF2 proc near
@@ -3931,23 +3709,13 @@ routine_69 proc near
     int 1Ah
     mov AX,DX
     ret
-    db 0FEh
-    db 06h
-    db 1Bh
-    db 1Ah
-    db 0FEh
-    db 06h
-    db 1Ch
-    db 1Ah
-    db 0FEh
-    db 06h
-    db 1Ah
-    db 1Ah
-    db 0FEh
-    db 06h
-    db 1Dh
-    db 1Ah
-    db 0C3h
+_incTimerCounters proc near
+    inc byte ptr [_var_81 + 1]
+    inc byte ptr [_var_82]
+    inc byte ptr [_var_81]
+    inc byte ptr [_var_83]
+    ret
+_incTimerCounters endp
 routine_69 endp
 
 routine_27 proc near
@@ -4011,7 +3779,7 @@ LAB_1000_1f0b:
     les BX,dword ptr [_var_178]
     mov AL,byte ptr ES:[BX + SI + 2h]
     mov BX,SI
-    mov byte ptr [BX + 3fd0h],AL
+    mov byte ptr [BX + offset _var_176],AL
     or AL,AL
     jnz LAB_1000_1f08
     mov AX,5fh
@@ -4078,12 +3846,12 @@ LAB_1000_1fb6:
     mov SI,word ptr [_var_178]
     mov AX,word ptr ES:[SI + 32h]
     mov DX,word ptr ES:[SI + 34h]
-    cmp word ptr [BX + 1c4ah],DX
+    cmp word ptr [BX + offset _var_89],DX
     jle LAB_1000_1fd3
     jmp LAB_1000_206b
 LAB_1000_1fd3:
     jl LAB_1000_1fde
-    cmp word ptr [BX + 1c48h],AX
+    cmp word ptr [BX + offset _var_88],AX
     jc LAB_1000_1fde
     jmp LAB_1000_206b
 LAB_1000_1fde:
@@ -4119,7 +3887,7 @@ LAB_1000_1fde:
     inc word ptr ES:[BX + 20h]
     mov SI,word ptr ES:[BX + 20h]
     shl SI,1h
-    push word ptr [SI + 1c3ah]
+    push word ptr [SI + offset _var_87]
     mov AX,offset _var_176
     push AX
     call mystrcat
@@ -4151,10 +3919,10 @@ LAB_1000_2075:
     shl BX,1h
     mov AX,word ptr [_var_219]
     mov DX,word ptr [_var_220]
-    cmp word ptr [BX + 1c6ch],DX
+    cmp word ptr [BX + offset _var_92],DX
     jg LAB_1000_2072
     jl LAB_1000_2097
-    cmp word ptr [BX + 1c6ah],AX
+    cmp word ptr [BX + offset _var_91],AX
     jnc LAB_1000_2072
 LAB_1000_2097:
     cmp word ptr [BP + -2h],0h
@@ -4200,7 +3968,7 @@ LAB_1000_20b5:
     add SP,4h
     mov BX,word ptr [BP + -2h]
     shl BX,1h
-    push word ptr [BX + 1c60h]
+    push word ptr [BX + offset _var_90]
     mov AX,offset _var_176
     push AX
     call mystrcat
@@ -4260,7 +4028,7 @@ routine_24 proc near
     mov CL,4h
     shl SI,CL
     mov BX,word ptr [BP + -2h]
-    mov AL,byte ptr [BX + SI + 4700h]
+    mov AL,byte ptr [BX + SI + offset _var_184]
     db 25h, 03h, 00h  ; and AX,3h (force word-immediate)
     mov word ptr [_var_201],AX
     pop SI
@@ -4718,7 +4486,7 @@ routine_98 proc near
     shl AX,1h
     add AX,CX
     shl AX,1h
-    add AX,1c8eh
+    add AX,offset _dat_1c8e
     mov word ptr [_var_169],AX
     mov byte ptr [_var_82],0h
     sub AX,AX
@@ -4856,7 +4624,7 @@ LAB_1000_27e1:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f06h]
+    mov AL,byte ptr [BX + offset _var_196]
     db 25h, 3Fh, 00h  ; and AX,3Fh (force word-immediate)
     jmp LAB_1000_2a3f
 caseD_c_2a4a:
@@ -4866,7 +4634,7 @@ caseD_1_5160:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
+    mov AL,byte ptr [BX + offset _var_194]
     cbw
     push AX
     call routine_137
@@ -4880,7 +4648,7 @@ caseD_1_5160:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
+    mov AL,byte ptr [BX + offset _var_195]
     cbw
     push AX
     call routine_136
@@ -4894,11 +4662,11 @@ caseD_1_5160:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov BL,byte ptr [BX + 4f07h]
+    mov BL,byte ptr [BX + offset _var_197]
     and BX,7fh
     mov CL,4h
     shl BX,CL
-    test byte ptr [BX + 4256h],8h
+    test byte ptr [BX + offset _var_183],8h
     jz LAB_1000_286c
     mov BX,word ptr [dat_20E2]
     mov word ptr [BX + 2h],11eh
@@ -4917,7 +4685,7 @@ caseD_3_2a4a:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
+    mov AL,byte ptr [BX + offset _var_194]
     cbw
     push AX
     call routine_137
@@ -4931,7 +4699,7 @@ caseD_3_2a4a:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
+    mov AL,byte ptr [BX + offset _var_195]
     cbw
     push AX
     call routine_136
@@ -4950,7 +4718,7 @@ caseD_2_2a4a:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
+    mov AL,byte ptr [BX + offset _var_194]
     cbw
     push AX
     call routine_137
@@ -4964,7 +4732,7 @@ caseD_2_2a4a:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
+    mov AL,byte ptr [BX + offset _var_195]
     cbw
     push AX
     call routine_136
@@ -4983,7 +4751,7 @@ caseD_5_2a4a:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
+    mov AL,byte ptr [BX + offset _var_194]
     cbw
     push AX
     call routine_137
@@ -4996,7 +4764,7 @@ caseD_5_2a4a:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
+    mov AL,byte ptr [BX + offset _var_195]
     cbw
     push AX
     call routine_136
@@ -5014,7 +4782,7 @@ caseD_8_2a4a:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
+    mov AL,byte ptr [BX + offset _var_194]
     cbw
     push AX
     call routine_137
@@ -5028,7 +4796,7 @@ caseD_8_2a4a:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
+    mov AL,byte ptr [BX + offset _var_195]
     cbw
     push AX
     call routine_136
@@ -5047,7 +4815,7 @@ caseD_a_2a4a:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
+    mov AL,byte ptr [BX + offset _var_194]
     cbw
     push AX
     call routine_137
@@ -5060,7 +4828,7 @@ caseD_a_2a4a:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
+    mov AL,byte ptr [BX + offset _var_195]
     cbw
     push AX
     call routine_136
@@ -5145,7 +4913,7 @@ LAB_1000_2ac2:
 LAB_1000_2ad5:
     cmp byte ptr [_var_56],4eh
     jnc LAB_1000_2ae8
-    mov word ptr [BP + -10h],offset _var_185
+    mov word ptr [BP + -10h],4800h
     mov byte ptr [_var_173],1h
     jmp LAB_1000_2af9
 LAB_1000_2ae8:
@@ -5799,7 +5567,7 @@ LAB_1000_30cc:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    push word ptr [BX + 4f02h]
+    push word ptr [BX + offset _var_193]
     call routine_106
     add SP,4h
     push AX
@@ -5822,10 +5590,10 @@ LAB_1000_30cc:
     add AX,CX
     shl AX,1h
     mov SI,AX
-    mov AL,byte ptr [SI + 4f07h]
+    mov AL,byte ptr [SI + offset _var_197]
     db 25h, 7Fh, 00h  ; and AX,7Fh (force word-immediate)
     mov word ptr [BP + -20h],AX
-    mov AL,byte ptr [SI + 4f06h]
+    mov AL,byte ptr [SI + offset _var_196]
     db 25h, 3Fh, 00h  ; and AX,3Fh (force word-immediate)
     jmp LAB_1000_3432
 caseD_c_343d:
@@ -5833,12 +5601,12 @@ caseD_1_6128:
     mov BX,word ptr [BP + -20h]
     mov CL,4h
     shl BX,CL
-    mov SI,word ptr [BX + 424eh]
+    mov SI,word ptr [BX + offset dat_424e]
     or SI,SI
     jz LAB_1000_31da
     mov BX,SI
     shl BX,1h
-    push word ptr [BX + 5608h]
+    push word ptr [BX + offset _var_217]
     mov AX,offset dat_4824
     push AX
     call mystrcpy
@@ -5852,10 +5620,10 @@ caseD_1_6128:
     mov BX,word ptr [BP + -20h]
     mov CL,4h
     shl BX,CL
-    mov BX,word ptr [BX + 425ch]
+    mov BX,word ptr [BX + offset _var_425c]
     and BX,7fh
     shl BX,1h
-    push word ptr [BX + 5608h]
+    push word ptr [BX + offset _var_217]
     mov AX,offset dat_4824
     push AX
     call mystrcat
@@ -5871,10 +5639,10 @@ LAB_1000_31da:
     mov BX,word ptr [BP + -20h]
     mov CL,4h
     shl BX,CL
-    mov BX,word ptr [BX + 425ch]
+    mov BX,word ptr [BX + offset _var_425c]
     and BX,7fh
     shl BX,1h
-    push word ptr [BX + 5608h]
+    push word ptr [BX + offset _var_217]
     mov AX,offset dat_4824
     push AX
     call mystrcpy
@@ -5922,7 +5690,7 @@ caseD_3_343d:
 caseD_2_343d:
     mov BX,word ptr [BP + -20h]
     shl BX,1h
-    push word ptr [BX + 5608h]
+    push word ptr [BX + offset _var_217]
     mov AX,offset dat_4824
     push AX
     call mystrcpy
@@ -5938,12 +5706,12 @@ caseD_a_343d:
     mov BX,word ptr [BP + -20h]
     mov CL,4h
     shl BX,CL
-    mov SI,word ptr [BX + 424eh]
+    mov SI,word ptr [BX + offset dat_424e]
     or SI,SI
     jz LAB_1000_32d3
     mov BX,SI
     shl BX,1h
-    push word ptr [BX + 5608h]
+    push word ptr [BX + offset _var_217]
     mov AX,offset dat_4824
     push AX
     call mystrcpy
@@ -5957,10 +5725,10 @@ caseD_a_343d:
     mov BX,word ptr [BP + -20h]
     mov CL,4h
     shl BX,CL
-    mov BX,word ptr [BX + 425ch]
+    mov BX,word ptr [BX + offset _var_425c]
     and BX,7fh
     shl BX,1h
-    push word ptr [BX + 5608h]
+    push word ptr [BX + offset _var_217]
     mov AX,offset dat_4824
     push AX
     call mystrcat
@@ -5976,10 +5744,10 @@ LAB_1000_32d3:
     mov BX,word ptr [BP + -20h]
     mov CL,4h
     shl BX,CL
-    mov BX,word ptr [BX + 425ch]
+    mov BX,word ptr [BX + offset _var_425c]
     and BX,7fh
     shl BX,1h
-    push word ptr [BX + 5608h]
+    push word ptr [BX + offset _var_217]
     mov AX,offset dat_4824
     push AX
     call mystrcpy
@@ -6026,12 +5794,12 @@ caseD_8_343d:
     mov BX,word ptr [dat_4804]
     mov CL,4h
     shl BX,CL
-    mov SI,word ptr [BX + 424eh]
+    mov SI,word ptr [BX + offset dat_424e]
     or SI,SI
     jz LAB_1000_336e
     mov BX,SI
     shl BX,1h
-    push word ptr [BX + 5608h]
+    push word ptr [BX + offset _var_217]
     mov AX,offset dat_4824
     push AX
     call mystrcat
@@ -6041,10 +5809,10 @@ LAB_1000_336e:
     mov BX,word ptr [dat_4804]
     mov CL,4h
     shl BX,CL
-    mov BL,byte ptr [BX + 425ch]
+    mov BL,byte ptr [BX + offset _var_425c]
     sub BH,BH
     shl BX,1h
-    push word ptr [BX + 5608h]
+    push word ptr [BX + offset _var_217]
     mov AX,offset dat_4824
     push AX
     call mystrcat
@@ -6171,7 +5939,7 @@ caseD_4_6450:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    test byte ptr [BX + 4f06h],80h
+    test byte ptr [BX + offset _var_196],80h
     jz LAB_1000_34b1
     mov AX,offset str_primaryObj
     push AX
@@ -6196,7 +5964,7 @@ LAB_1000_34b1:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    test byte ptr [BX + 4f06h],40h
+    test byte ptr [BX + offset _var_196],40h
     jz LAB_1000_34eb
     mov AX,offset str_secndryObj
     push AX
@@ -6341,7 +6109,7 @@ LAB_1000_3b3c:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    test byte ptr [BX + 4f06h],3fh
+    test byte ptr [BX + offset _var_196],3fh
     jz LAB_1000_3bca
     mov AX,word ptr [BP + 6h]
     cmp word ptr [BP + -4h],AX
@@ -6377,10 +6145,10 @@ LAB_1000_3b8e:
     add AX,CX
     shl AX,1h
     mov SI,AX
-    mov AL,byte ptr [SI + 4f04h]
+    mov AL,byte ptr [SI + offset _var_194]
     cbw
     mov word ptr [BP + -2h],AX
-    mov AL,byte ptr [SI + 4f05h]
+    mov AL,byte ptr [SI + offset _var_195]
     cbw
     mov word ptr [BP + -8h],AX
     push word ptr [BP + -0ah]
@@ -6404,7 +6172,7 @@ LAB_1000_3bcf:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    test byte ptr [BX + 4f06h],3fh
+    test byte ptr [BX + offset _var_196],3fh
     jz LAB_1000_3c0c
     mov AX,word ptr [BP + 6h]
     cmp word ptr [BP + -4h],AX
@@ -6414,7 +6182,7 @@ LAB_1000_3bcf:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f06h]
+    mov AL,byte ptr [BX + offset _var_196]
     and AL,3fh
     cmp AL,9h
     jz LAB_1000_3c0a
@@ -6644,14 +6412,14 @@ LAB_1000_3f17:
     add AX,CX
     shl AX,1h
     mov SI,AX
-    cmp byte ptr [SI + 4f06h],0h
+    cmp byte ptr [SI + offset _var_196],0h
     jnz LAB_1000_3f2e
     jmp LAB_1000_40d1
 LAB_1000_3f2e:
-    mov AL,byte ptr [SI + 4f07h]
+    mov AL,byte ptr [SI + offset _var_197]
     cbw
     mov word ptr [BP + -0eh],AX
-    mov AL,byte ptr [SI + 4f06h]
+    mov AL,byte ptr [SI + offset _var_196]
     db 25h, 3Fh, 00h  ; and AX,3Fh (force word-immediate)
     jmp LAB_1000_409f
 LAB_1000_3f40:
@@ -6666,7 +6434,7 @@ LAB_1000_3f4e:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    test byte ptr [BX + 4f06h],80h
+    test byte ptr [BX + offset _var_196],80h
     jz LAB_1000_3f6c
     mov word ptr [_var_215],1h
     inc word ptr [_var_224]
@@ -6677,7 +6445,7 @@ LAB_1000_3f6c:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    test byte ptr [BX + 4f06h],40h
+    test byte ptr [BX + offset _var_196],40h
     jz LAB_1000_3f8a
     mov word ptr [_var_221],1h
     inc word ptr [_var_224]
@@ -6685,7 +6453,7 @@ LAB_1000_3f6c:
 LAB_1000_3f8a:
     mov BX,word ptr [BP + -0eh]
     and BX,7fh
-    test byte ptr [BX + 5578h],40h
+    test byte ptr [BX + offset _var_204],40h
     jz LAB_1000_3f9d
     inc word ptr [_var_225]
     jmp LAB_1000_3fb6
@@ -6693,7 +6461,7 @@ LAB_1000_3f9d:
     mov BX,word ptr [BP + -0eh]
     mov CL,4h
     shl BX,CL
-    test word ptr [BX + 4256h],500h
+    test word ptr [BX + offset _var_183],500h
     jnz LAB_1000_3fb2
     inc word ptr [_var_224]
     jmp LAB_1000_3fb6
@@ -6707,7 +6475,7 @@ LAB_1000_3fb9:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    test byte ptr [BX + 4f06h],80h
+    test byte ptr [BX + offset _var_196],80h
     jz LAB_1000_3fd7
     mov word ptr [_var_215],1h
     inc word ptr [_var_181]
@@ -6718,7 +6486,7 @@ LAB_1000_3fd7:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    test byte ptr [BX + 4f06h],40h
+    test byte ptr [BX + offset _var_196],40h
     jz LAB_1000_3ff5
     mov word ptr [_var_221],1h
     inc word ptr [_var_181]
@@ -6742,7 +6510,7 @@ LAB_1000_4013:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    test byte ptr [BX + 4f06h],80h
+    test byte ptr [BX + offset _var_196],80h
     jz LAB_1000_4031
     mov word ptr [_var_215],1h
     inc word ptr [_var_199]
@@ -6753,7 +6521,7 @@ LAB_1000_4031:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    test byte ptr [BX + 4f06h],40h
+    test byte ptr [BX + offset _var_196],40h
     jz LAB_1000_404f
     mov word ptr [_var_221],1h
     inc word ptr [_var_199]
@@ -6761,7 +6529,7 @@ LAB_1000_4031:
 LAB_1000_404f:
     mov BX,word ptr [BP + -0eh]
     and BX,7fh
-    test byte ptr [BX + 5578h],40h
+    test byte ptr [BX + offset _var_204],40h
     jz LAB_1000_4062
     inc word ptr [_var_200]
     jmp LAB_1000_4096
@@ -6772,15 +6540,15 @@ LAB_1000_4062:
     add AX,CX
     shl AX,1h
     mov SI,AX
-    mov DI,word ptr [SI + 4f05h]
+    mov DI,word ptr [SI + offset _var_195]
     and DI,0ffh
     mov CL,4h
     shr DI,CL
     shl DI,CL
-    mov BL,byte ptr [SI + 4f04h]
+    mov BL,byte ptr [SI + offset _var_194]
     sub BH,BH
     shr BX,CL
-    test byte ptr [BX + DI + 4700h],3h
+    test byte ptr [BX + DI + offset _var_184],3h
     jnz LAB_1000_4092
     inc word ptr [_var_199]
     jmp LAB_1000_4096
@@ -6975,7 +6743,7 @@ LAB_1000_420c:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f06h]
+    mov AL,byte ptr [BX + offset _var_196]
     db 25h, 3Fh, 00h  ; and AX,3Fh (force word-immediate)
     mov word ptr [BP + -4h],AX
     jmp LAB_1000_42d2
@@ -6985,11 +6753,11 @@ caseD_1_42dd:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov BL,byte ptr [BX + 4f07h]
+    mov BL,byte ptr [BX + offset _var_197]
     and BX,7fh
     mov CL,4h
     shl BX,CL
-    test byte ptr [BX + 4256h],8h
+    test byte ptr [BX + offset _var_183],8h
     jz LAB_1000_424a
     mov word ptr [BP + -4h],0fh
     jmp LAB_1000_424f
@@ -7075,7 +6843,7 @@ caseD_4_8045:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
+    mov AL,byte ptr [BX + offset _var_194]
     cbw
     push AX
     call routine_137
@@ -7088,7 +6856,7 @@ caseD_4_8045:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
+    mov AL,byte ptr [BX + offset _var_195]
     cbw
     push AX
     call routine_136
@@ -7101,7 +6869,7 @@ caseD_4_8045:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
+    mov AL,byte ptr [BX + offset _var_194]
     cbw
     push AX
     call routine_137
@@ -7114,7 +6882,7 @@ caseD_4_8045:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
+    mov AL,byte ptr [BX + offset _var_195]
     cbw
     push AX
     call routine_136
@@ -7129,7 +6897,7 @@ LAB_1000_4383:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
+    mov AL,byte ptr [BX + offset _var_194]
     cbw
     push AX
     call routine_137
@@ -7142,7 +6910,7 @@ LAB_1000_4383:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
+    mov AL,byte ptr [BX + offset _var_195]
     cbw
     push AX
     call routine_136
@@ -7155,7 +6923,7 @@ LAB_1000_4383:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
+    mov AL,byte ptr [BX + offset _var_194]
     cbw
     push AX
     call routine_137
@@ -7168,7 +6936,7 @@ LAB_1000_4383:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
+    mov AL,byte ptr [BX + offset _var_195]
     cbw
     push AX
     call routine_136
@@ -7183,7 +6951,7 @@ LAB_1000_440c:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
+    mov AL,byte ptr [BX + offset _var_194]
     cbw
     push AX
     call routine_137
@@ -7196,7 +6964,7 @@ LAB_1000_440c:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
+    mov AL,byte ptr [BX + offset _var_195]
     cbw
     push AX
     call routine_136
@@ -7209,7 +6977,7 @@ LAB_1000_440c:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
+    mov AL,byte ptr [BX + offset _var_194]
     cbw
     push AX
     call routine_137
@@ -7222,7 +6990,7 @@ LAB_1000_440c:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
+    mov AL,byte ptr [BX + offset _var_195]
     cbw
     push AX
     call routine_136
@@ -7237,7 +7005,7 @@ LAB_1000_4494:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f04h]
+    mov AL,byte ptr [BX + offset _var_194]
     cbw
     push AX
     call routine_137
@@ -7250,7 +7018,7 @@ LAB_1000_4494:
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AL,byte ptr [BX + 4f05h]
+    mov AL,byte ptr [BX + offset _var_195]
     cbw
     push AX
     call routine_136
@@ -7285,8 +7053,8 @@ LAB_1000_44d8:
     push word ptr [_var_227]
     sub AX,AX
     push AX
-    push word ptr [SI + 1eeah]
-    push word ptr [SI + 1f0eh]
+    push word ptr [SI + offset _var_97]
+    push word ptr [SI + offset _var_98]
     mov AX,1h
     push AX
     call far ptr gfx_jump_2a
@@ -7357,7 +7125,7 @@ LAB_1000_45c4:
     les BX,dword ptr [_var_178]
     mov BX,word ptr ES:[BX + 38h]
     shl BX,1h
-    push word ptr [BX + 2256h]
+    push word ptr [BX + offset _var_117]
     call routine_46
     add SP,4h
     mov word ptr [_var_177],AX
@@ -7382,7 +7150,7 @@ LAB_1000_45e6:
     les BX,dword ptr [_var_178]
     mov BX,word ptr ES:[BX + 38h]
     shl BX,1h
-    push word ptr [BX + 2256h]
+    push word ptr [BX + offset _var_117]
     call loadPic
     add SP,4h
     mov AX,word ptr [_var_229]
@@ -7503,7 +7271,7 @@ LAB_1000_475c:
     push AX
     mov BX,word ptr [BP + -8h]
     shl BX,1h
-    push word ptr [BX + 2266h]
+    push word ptr [BX + offset _var_118]
     push word ptr [_var_99]
     call actualDrawString
     add SP,8h
@@ -7514,12 +7282,6 @@ LAB_1000_475c:
     mov word ptr [BP + -12h],0h
     mov byte ptr [_var_207],1h
     mov word ptr [_var_190],0h
-IFDEF DEBUG
-    mov AX,offset _trace_before_gfx50
-    push AX
-    call _my_trace
-    add SP,2
-ENDIF
     call far ptr gfx_jump_50
     call far ptr gfx_jump_46_retrace2
     call setTimerIrqHandler
@@ -7528,7 +7290,7 @@ LAB_1000_47a5:
     mov AX,32h
     imul word ptr [BP + -12h]
     mov BX,AX
-    mov word ptr [BX + 2212h],2h
+    mov word ptr [BX + offset _var_115],2h
     push word ptr [_var_100]
     mov AX,word ptr [BP + -12h]
     mov CX,AX
@@ -7783,7 +7545,7 @@ LAB_1000_4a31:
     cmp byte ptr ES:[DI],0h
     jz LAB_1000_4a63
     mov CX,0ch
-    mov SI,22c2h
+    mov SI,offset _str_cFileInfo
     repe cmpsb
     jz LAB_1000_4a4c
     mov CX,7fffh
@@ -7814,21 +7576,21 @@ LAB_1000_4a5e:
 LAB_1000_4a63:
     mov BX,4h
 LAB_1000_4a66:
-    and byte ptr [BX + 22eah],0bfh
+    and byte ptr [BX + offset _var_131],0bfh
     mov AX,4400h
     int 21h
     jc LAB_1000_4a7c
     test DL,80h
     jz LAB_1000_4a7c
-    or byte ptr [BX + 22eah],40h
+    or byte ptr [BX + offset _var_131],40h
 LAB_1000_4a7c:
     dec BX
     jns LAB_1000_4a66
-    mov SI,2474h
-    mov DI,2474h
+    mov SI,offset _nmsgTable
+    mov DI,offset _nmsgTable
     call routine_12
-    mov SI,2474h
-    mov DI,2474h
+    mov SI,offset _nmsgTable
+    mov DI,offset _nmsgTable
     call routine_13
     ret
 routine_4 endp
@@ -7838,10 +7600,10 @@ _routine_8:
 routine_8 proc near
     push BP
     mov BP,SP
-    mov SI,3fc6h
-    mov DI,3fc6h
+    mov SI,offset _var_3fc6
+    mov DI,offset _var_3fc6
     call routine_13
-    mov SI,2474h
+    mov SI,offset _nmsgTable
     mov DI,offset str_nmsg
     call routine_13
     jmp LAB_1000_4aac
@@ -7867,7 +7629,7 @@ LAB_1000_4ad0:
     mov CX,0fh
     mov BX,5h
 LAB_1000_4ad6:
-    test byte ptr [BX + 22eah],1h
+    test byte ptr [BX + offset _var_131],1h
     jz LAB_1000_4ae1
     mov AH,3eh
     int 21h
@@ -7951,14 +7713,14 @@ LAB_1000_4b5e:
     add SP,2h
     mov DI,AX
     mov BX,SI
-    sub BX,2330h
+    sub BX,offset _fileHandleTable
     mov CL,3h
     sar BX,CL
     mov AX,BX
     shl BX,1h
     add BX,AX
     shl BX,1h
-    mov AX,word ptr [BX + 23d4h]
+    mov AX,word ptr [BX + offset _var_142]
     mov word ptr [BP + -4h],AX
     push SI
     call routine_85
@@ -7972,7 +7734,7 @@ LAB_1000_4b5e:
     jl LAB_1000_4be9
     cmp word ptr [BP + -4h],0h
     jz LAB_1000_4bec
-    mov AX,2312h
+    mov AX,offset _dat_2312
     push AX
     lea AX,[BP + -0eh]
     push AX
@@ -7983,7 +7745,7 @@ LAB_1000_4b5e:
     mov BX,AX
     cmp byte ptr [BX + -2h],5ch
     jz LAB_1000_4bc8
-    mov AX,2314h
+    mov AX,offset _dat_2314
     push AX
     lea AX,[BP + -0eh]
     push AX
@@ -8027,7 +7789,7 @@ routine_46 proc near
     or SI,SI
     jz LAB_1000_4c18
     push SI
-    push word ptr [BP + param_2+2h]
+    push word ptr [BP + 6h]
     push word ptr [BP + 4h]
     call routine_74
     add SP,6h
@@ -8094,7 +7856,7 @@ LAB_1000_4c83:
     mov AH,42h
     int 21h
     jc LAB_1000_4c97
-    and byte ptr [BX + 22eah],0fdh
+    and byte ptr [BX + offset _var_131],0fdh
 LAB_1000_4c97:
     jmp FUN_1000_4f33
 FUN_1000_4c20 endp
@@ -8404,7 +8166,7 @@ routine_11 proc near
     push DS
     pop ES
     mov DX,word ptr [BP + param_1+2h]
-    mov SI,247eh
+    mov SI,offset _nmsgEntries
 LAB_1000_4ed9:
     lodsw
     cmp AX,DX
@@ -8508,7 +8270,7 @@ LAB_1000_4f61:
 LAB_1000_4f65:
     mov AL,13h
 LAB_1000_4f67:
-    mov BX,231ch
+    mov BX,offset _dat_231c
     xlat
 LAB_1000_4f6b:
     cbw
@@ -8527,8 +8289,8 @@ routine_74 proc near
     sub SP,0ah
     push DI
     push SI
-    mov SI,word ptr [BP + param_3+2h]
-    mov BX,word ptr [BP + param_2+2h]
+    mov SI,word ptr [BP + 8h]
+    mov BX,word ptr [BP + 6h]
     mov AL,byte ptr [BX]
     cbw
     db 3Dh, 61h, 00h  ; cmp AX,61h (force word-immediate)
@@ -8565,8 +8327,8 @@ LAB_1000_4fe6:
     and DI,0fffeh
     mov DL,80h
 LAB_1000_4ff5:
-    inc word ptr [BP + param_2+2h]
-    mov BX,word ptr [BP + param_2+2h]
+    inc word ptr [BP + 6h]
+    mov BX,word ptr [BP + 6h]
     cmp byte ptr [BX],0h
     jz LAB_1000_5036
     or CX,CX
@@ -8614,14 +8376,14 @@ LAB_1000_5054:
     mov byte ptr [SI + 6h],AL
     inc word ptr [_var_144]
     mov AX,SI
-    sub AX,2330h
+    sub AX,offset _fileHandleTable
     mov CL,3h
     sar AX,CL
     mov CX,AX
     shl AX,1h
     add AX,CX
     shl AX,1h
-    add AX,23d0h
+    add AX,offset _var_141
     mov word ptr [BP + -8h],AX
     sub AL,AL
     mov BX,word ptr [BP + -8h]
@@ -8658,14 +8420,14 @@ routine_84 proc near
     test byte ptr [SI + 6h],8h
     jnz LAB_1000_50cf
     mov BX,SI
-    sub BX,2330h
+    sub BX,offset _fileHandleTable
     mov CL,3h
     sar BX,CL
     mov AX,BX
     shl BX,1h
     add BX,AX
     shl BX,1h
-    test byte ptr [BX + 23d0h],1h
+    test byte ptr [BX + offset _var_141],1h
     jz LAB_1000_50f6
 LAB_1000_50cf:
     mov AX,word ptr [SI]
@@ -8701,7 +8463,7 @@ routine_73 proc near
     mov BP,SP
     sub SP,2h
     push SI
-    mov SI,2330h
+    mov SI,offset _fileHandleTable
     mov CX,word ptr [_var_143]
 LAB_1000_5116:
     test byte ptr [SI + 6h],83h
@@ -8741,7 +8503,7 @@ LAB_1000_5154:
     mov AH,3eh
     int 21h
     jc LAB_1000_515f
-    mov byte ptr [BX + 22eah],0h
+    mov byte ptr [BX + offset _var_131],0h
 LAB_1000_515f:
     jmp FUN_1000_4f20
 routine_86 endp
@@ -8931,7 +8693,7 @@ LAB_1000_52df:
 LAB_1000_52ef:
     or CL,byte ptr [BP + -4h]
     or CL,1h
-    mov byte ptr [BX + 22eah],CL
+    mov byte ptr [BX + offset _var_131],CL
     mov AX,BX
     mov SP,BP
     pop BP
@@ -8965,7 +8727,7 @@ routine_112 proc near
 LAB_1000_5327:
     jmp FUN_1000_4f33
 LAB_1000_532a:
-    test byte ptr [BX + 22eah],20h
+    test byte ptr [BX + offset _var_131],20h
     jz LAB_1000_533c
     mov AX,4202h
     xor CX,CX
@@ -8973,7 +8735,7 @@ LAB_1000_532a:
     int 21h
     jc LAB_1000_5327
 LAB_1000_533c:
-    test byte ptr [BX + 22eah],80h
+    test byte ptr [BX + offset _var_131],80h
     jz LAB_1000_53b1
     mov DX,word ptr [BP + 6h]
     push DS
@@ -9071,7 +8833,7 @@ LAB_1000_53d9:
     mov AH,9h
     jmp LAB_1000_5400
 LAB_1000_53e2:
-    test byte ptr [BX + 22eah],40h
+    test byte ptr [BX + offset _var_131],40h
     jz LAB_1000_53f4
     mov BX,word ptr [BP + 6h]
     cmp byte ptr [BX],1ah
@@ -9111,7 +8873,7 @@ LAB_1000_5414:
 LAB_1000_5421:
     or AX,AX
     jnz LAB_1000_5405
-    test byte ptr [BX + 22eah],40h
+    test byte ptr [BX + offset _var_131],40h
     jz LAB_1000_5436
     mov BX,DX
     cmp byte ptr [BX],1ah
@@ -9182,7 +8944,7 @@ FUN_1000_5494 proc near
     sub SP,4h
     push DI
     push SI
-    mov SI,2330h
+    mov SI,offset _fileHandleTable
     sub DI,DI
     jmp LAB_1000_54b8
     db 90h
@@ -9266,12 +9028,12 @@ LAB_1000_5520:
     mov CX,SS
     cmp DX,CX
     jz LAB_1000_552f
-    mov word ptr ES:[245ch],DS
+    mov word ptr ES:[_var_145_heapSeg],DS
 LAB_1000_552f:
     mov word ptr [BX + 2h],DI
     ret
 LAB_1000_5533:
-    mov byte ptr ES:[2462h],2h
+    mov byte ptr ES:[_var_145_heapCount],2h
 LAB_1000_5539:
     cmp AX,0fffeh
     jz LAB_1000_5563
@@ -9303,13 +9065,13 @@ LAB_1000_5563:
     mov DS,AX
     jmp LAB_1000_5582
 LAB_1000_556e:
-    dec byte ptr ES:[2462h]
+    dec byte ptr ES:[_var_145_heapCount]
     jz LAB_1000_5586
     mov AX,DS
     mov DI,SS
     cmp AX,DI
     jz LAB_1000_5582
-    mov DS,word ptr ES:[2458h]
+    mov DS,word ptr ES:[_var_145_heapDS]
 LAB_1000_5582:
     mov SI,word ptr [BX]
     jmp LAB_1000_5542
@@ -9338,7 +9100,7 @@ LAB_1000_55a9:
     mov CX,SS
     cmp AX,CX
     jz LAB_1000_55b5
-    mov ES:[245ch],AX
+    mov word ptr ES:[_var_145_heapSeg],AX
 LAB_1000_55b5:
     mov AX,word ptr [BX]
     mov word ptr [BX + 2h],AX
@@ -9638,9 +9400,9 @@ readJoyPort endp
 
 routine_149 proc near
     shl BX,1h
-    mov AX,word ptr [BX + 15f2h]
+    mov AX,word ptr [BX + offset _var_53]
     mov DX,AX
-    sub DX,word ptr [BX + 15dah]
+    sub DX,word ptr [BX + offset _var_50]
     jc LAB_1571_007c
     ja LAB_1571_009e
     mov AH,80h
@@ -9648,36 +9410,36 @@ routine_149 proc near
     db 90h
 LAB_1571_007c:
     neg DX
-    cmp AX,word ptr [BX + 15cah]
+    cmp AX,word ptr [BX + offset _var_48]
     ja LAB_1571_0091
-    mov word ptr [BX + 15cah],AX
-    mov word ptr [BX + 15e2h],DX
+    mov word ptr [BX + offset _var_48],AX
+    mov word ptr [BX + offset _var_51],DX
     mov AH,0h
     jmp LAB_1571_00bc
     db 90h
 LAB_1571_0091:
     xor AX,AX
-    div word ptr [BX + 15e2h]
+    div word ptr [BX + offset _var_51]
     not AX
     shr AX,1h
     jmp LAB_1571_00bc
     db 90h
 LAB_1571_009e:
-    cmp AX,word ptr [BX + 15d2h]
+    cmp AX,word ptr [BX + offset _var_49]
     jc LAB_1571_00b1
-    mov word ptr [BX + 15d2h],AX
-    mov word ptr [BX + 15eah],DX
+    mov word ptr [BX + offset _var_49],AX
+    mov word ptr [BX + offset _var_52],DX
     mov AH,0ffh
     jmp LAB_1571_00bc
     db 90h
 LAB_1571_00b1:
     xor AX,AX
-    div word ptr [BX + 15eah]
+    div word ptr [BX + offset _var_52]
     shr AX,1h
     add AH,80h
 LAB_1571_00bc:
     shr BX,1h
-    mov byte ptr [BX + 15fah],AH
+    mov byte ptr [BX + offset _var_55],AH
     ret
     db 8Bh
     db 0DCh
@@ -10303,7 +10065,8 @@ dat_1500 db 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+_dat_1580 db 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
@@ -10443,7 +10206,8 @@ str_allocError db 049h
 _str_deallocError label byte
 str_deallocError db 042h
     db 075h, 066h, 066h, 065h, 072h, 020h, 064h, 065h, 061h, 06Ch, 06Ch, 06Fh, 063h, 020h, 065h, 072h
-    db 072h, 06Fh, 072h, 024h, 000h, 000h
+    db 072h, 06Fh, 072h, 024h, 000h
+_var_timerFlag db 000h
 _var_69 db 000h
 _var_70 db 000h
     db 000h
@@ -10469,18 +10233,18 @@ _var_81 db 000h
     db 000h
 _var_82 db 000h
 _var_83 db 000h
-    db 000h, 031h, 073h, 074h, 020h, 04Ch, 069h, 065h, 075h, 074h, 065h, 06Eh, 061h, 06Eh, 074h, 02Eh
-    db 000h, 043h, 061h, 070h, 074h, 061h, 069h, 06Eh, 02Eh, 000h, 04Dh, 061h, 06Ah, 06Fh, 072h, 02Eh
-    db 000h, 04Ch, 074h, 020h, 043h, 06Fh, 06Ch, 06Fh, 06Eh, 065h, 06Ch, 02Eh, 000h, 043h, 06Fh, 06Ch
-    db 06Fh, 06Eh, 065h, 06Ch, 02Eh, 000h, 047h, 065h, 06Eh, 065h, 072h, 061h, 06Ch, 02Eh, 000h, 041h
-    db 069h, 072h, 020h, 046h, 06Fh, 072h, 063h, 065h, 020h, 043h, 06Fh, 06Dh, 06Dh, 065h, 06Eh, 064h
-    db 061h, 074h, 069h, 06Fh, 06Eh, 020h, 04Dh, 065h, 064h, 061h, 06Ch, 02Eh, 000h, 044h, 069h, 073h
-    db 074h, 069h, 06Eh, 067h, 075h, 069h, 073h, 068h, 065h, 064h, 020h, 046h, 06Ch, 079h, 069h, 06Eh
-    db 067h, 020h, 043h, 072h, 06Fh, 073h, 073h, 02Eh, 000h, 053h, 069h, 06Ch, 076h, 065h, 072h, 020h
-    db 053h, 074h, 061h, 072h, 02Eh, 000h, 041h, 069h, 072h, 020h, 046h, 06Fh, 072h, 063h, 065h, 020h
-    db 043h, 072h, 06Fh, 073h, 073h, 02Eh, 000h, 043h, 06Fh, 06Eh, 067h, 072h, 065h, 073h, 073h, 069h
-    db 06Fh, 06Eh, 061h, 06Ch, 020h, 04Dh, 065h, 064h, 061h, 06Ch, 020h, 06Fh, 066h, 020h, 048h, 06Fh
-    db 06Eh, 06Fh, 072h, 02Eh, 000h
+_str_emptyRank db 000h
+_str_1stLt db '1st Lieutenant.', 0
+_str_captain db 'Captain.', 0
+_str_major db 'Major.', 0
+_str_ltColonel db 'Lt Colonel.', 0
+_str_colonel db 'Colonel.', 0
+_str_general db 'General.', 0
+_str_afcm db 'Air Force Commendation Medal.', 0
+_str_dfc db 'Distinguished Flying Cross.', 0
+_str_silverStar db 'Silver Star.', 0
+_str_afc db 'Air Force Cross.', 0
+_str_cmoh db 'Congressional Medal of Honor.', 0
 str_deskPic db 064h
     db 065h, 073h, 06Bh, 02Eh, 070h, 069h, 063h, 000h
 str_deskMsg1 db 041h
@@ -10516,29 +10280,37 @@ str_medalMsg1 db 046h
     db 069h, 06Eh, 067h, 020h, 070h, 065h, 072h, 066h, 06Fh, 072h, 06Dh, 061h, 06Eh, 063h, 065h, 02Ch
     db 020h, 079h, 06Fh, 075h, 020h, 072h, 065h, 063h, 065h, 069h, 076h, 065h, 000h
 str_medalMsg2 db 074h
-    db 068h, 065h, 020h, 000h, 000h, 000h, 000h, 000h
+    db 068h, 065h, 020h, 000h
+_ps_var86_target db 000h, 000h, 000h, 000h
 _var_84 db 007h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h
 _var_85 db 001h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-_var_86 db 00Ah
-    db 01Ch, 000h, 000h, 000h, 000h, 009h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 022h, 01Ch
-_var_87 db 01Eh
-    db 01Ah, 01Fh, 01Ah, 02Fh, 01Ah, 038h, 01Ah, 03Fh, 01Ah, 04Bh, 01Ah, 054h, 01Ah
-_var_88 db 0DCh
-    db 005h
-_var_89 db 000h
-    db 000h, 070h, 017h, 000h, 000h, 0E0h, 02Eh, 000h, 000h, 0A8h, 061h, 000h, 000h, 050h, 0C3h, 000h
-    db 000h, 0A0h, 086h, 001h, 000h
-_var_90 db 05Dh
-    db 01Ah, 07Bh, 01Ah, 097h, 01Ah, 0A4h, 01Ah, 0B5h, 01Ah
-_var_91 db 0E8h
+_var_86 dw offset _ps_var86_target
+_ps_var86_2 db 000h, 000h, 000h, 000h, 009h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    dw offset _ps_var86_2
+_var_87 dw offset _str_emptyRank
+    dw offset _str_1stLt
+    dw offset _str_captain
+    dw offset _str_major
+    dw offset _str_ltColonel
+    dw offset _str_colonel
+    dw offset _str_general
+_var_88 dw 05DCh  ; 1500 - first rank score threshold
+_var_89 dw 0000h
+    dd 6000, 12000, 25000, 50000, 100000
+_var_90 dw offset _str_afcm
+    dw offset _str_dfc
+    dw offset _str_silverStar
+    dw offset _str_afc
+    dw offset _str_cmoh
+_var_91 dw 03E8h  ; 1000 - first medal score threshold
+_var_92 dw 0000h
+    dd 2500, 4000, 6400, 7800
+    db 004h, 003h, 003h, 002h, 007h, 005h, 003h, 002h, 008h, 007h, 004h, 002h, 008h, 006h, 005h
     db 003h
-_var_92 db 000h
-    db 000h, 0C4h, 009h, 000h, 000h, 0A0h, 00Fh, 000h, 000h, 000h, 019h, 000h, 000h, 078h, 01Eh, 000h
-    db 000h, 004h, 003h, 003h, 002h, 007h, 005h, 003h, 002h, 008h, 007h, 004h, 002h, 008h, 006h, 005h
-    db 003h, 006h, 000h, 09Dh, 000h, 0DBh, 000h, 0BDh, 000h, 0D9h, 000h, 093h, 000h, 039h, 000h, 002h
+_dat_1c8e db 006h, 000h, 09Dh, 000h, 0DBh, 000h, 0BDh, 000h, 0D9h, 000h, 093h, 000h, 039h, 000h, 002h
     db 000h, 078h, 000h, 087h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 08Dh, 000h, 000h
     db 000h
 _var_93 db 008h
@@ -10667,13 +10439,17 @@ _var_97 db 000h
 _var_98 db 000h
     db 000h, 030h, 000h, 060h, 000h, 090h, 000h, 0C0h, 000h, 0F0h, 000h, 000h, 000h, 030h, 000h, 060h
     db 000h, 090h, 000h, 0C0h, 000h, 0F0h, 000h, 000h, 000h, 030h, 000h, 060h, 000h, 090h, 000h, 0C0h
-    db 000h, 0F0h, 000h, 06Ch, 069h, 062h, 079h, 061h, 02Eh, 073h, 070h, 072h, 000h, 070h, 065h, 072h
-    db 073h, 069h, 061h, 06Eh, 02Eh, 073h, 070h, 072h, 000h, 076h, 06Eh, 02Eh, 073h, 070h, 072h, 000h
-    db 06Dh, 065h, 02Eh, 073h, 070h, 072h, 000h, 06Eh, 063h, 061h, 070h, 065h, 02Eh, 073h, 070h, 072h
-    db 000h, 063h, 065h, 075h, 072h, 06Fh, 070h, 065h, 02Eh, 073h, 070h, 072h, 000h, 06Ah, 070h, 02Eh
-    db 073h, 070h, 072h, 000h, 06Eh, 061h, 02Eh, 073h, 070h, 072h, 000h, 052h, 065h, 076h, 069h, 065h
-    db 077h, 020h, 04Dh, 069h, 073h, 073h, 069h, 06Fh, 06Eh, 000h, 045h, 078h, 069h, 074h, 020h, 044h
-    db 065h, 062h, 072h, 069h, 065h, 066h, 069h, 06Eh, 067h, 000h
+    db 000h, 0F0h, 000h
+str_libya_spr db 'libya.spr', 0
+str_persian_spr db 'persian.spr', 0
+str_vn_spr db 'vn.spr', 0
+str_me_spr db 'me.spr', 0
+str_ncape_spr db 'ncape.spr', 0
+str_ceurope_spr db 'ceurope.spr', 0
+str_jp_spr db 'jp.spr', 0
+str_na_spr db 'na.spr', 0
+str_reviewMission db 'Review Mission', 0
+str_exitDebriefing db 'Exit Debriefing', 0
 str_modeRb1 db 072h
     db 062h, 000h
 str_insertScenario db 050h
@@ -10696,89 +10472,107 @@ str_dbicons2 db 064h
     db 062h, 069h, 063h, 06Fh, 06Eh, 073h, 02Eh, 073h, 070h, 072h, 000h
 str_missionDebrief db 020h
     db 020h, 04Dh, 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 044h, 045h, 042h, 052h, 049h, 045h, 046h
-    db 049h, 04Eh, 047h, 000h, 000h, 000h, 000h, 000h, 000h, 002h, 000h, 00Fh, 000h, 000h, 000h, 000h
-    db 000h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-_var_99 db 034h
-    db 020h, 000h, 000h, 000h, 000h, 000h, 000h, 00Fh, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
-_var_100 db 04Ch
-    db 020h
+    db 049h, 04Eh, 047h, 000h, 000h
+_pageStruct dw 0000h, 0000h, 0002h, 000Fh, 0000h, 0000h, 0001h, 0000h, 0000h, 0000h, 0000h
+_var_99 dw offset _pageStruct
+_pageStruct2 db 000h, 000h, 000h, 000h, 000h, 000h, 00Fh, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 000h, 000h
+    db 000h, 000h, 000h, 000h, 000h, 000h
+_var_100 dw offset _pageStruct2
+_ps_101 label byte
 _var_101 db 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 008h, 000h, 00Ah, 000h, 0E0h, 000h, 0A8h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-_var_102 db 064h
-    db 020h
+_var_102 dw offset _ps_101
+_ps_103 label byte
 _var_103 db 000h
     db 000h, 000h, 000h, 0B2h, 000h, 000h, 000h, 000h, 000h, 0B2h, 000h, 040h, 001h, 015h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-_var_104 db 084h
-    db 020h
+_var_104 dw offset _ps_103
+_ps_105 label byte
 _var_105 db 000h
     db 000h, 02Dh, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
 _dat_20C2 label word
-dat_20C2 db 0A4h
-    db 020h
+dat_20C2 dw offset _ps_105
+_ps_106 label byte
 _var_106 db 000h
     db 000h, 02Dh, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-dat_20E2 db 0C4h
-    db 020h
+dat_20E2 dw offset _ps_106
+_ps_107 label byte
 _var_107 db 000h
     db 000h, 023h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
 _dat_2102 label word
-dat_2102 db 0E4h
-    db 020h
+dat_2102 dw offset _ps_107
+_ps_108 label byte
 _var_108 db 000h
     db 000h, 023h, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-dat_2122 db 004h
-    db 021h
+dat_2122 dw offset _ps_108
+_ps_109 label byte
 _var_109 db 000h
     db 000h, 017h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
 _dat_2142 label word
-dat_2142 db 024h
-    db 021h
+dat_2142 dw offset _ps_109
+_ps_110 label byte
 _var_110 db 000h
     db 000h, 017h, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-dat_2162 db 044h
-    db 021h
+dat_2162 dw offset _ps_110
+_ps_111 label byte
 _var_111 db 000h
     db 000h, 01Eh, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h, 064h, 021h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+    dw offset _ps_111
+_ps_112 label byte
 _var_112 db 000h
     db 000h, 01Eh, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h, 084h, 021h
+    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
+    dw offset _ps_112
+_ps_113 label byte
 _var_113 db 000h
     db 000h, 02Ah, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 001h, 000h, 001h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
 _dat_21C2 label word
-dat_21C2 db 0A4h
-    db 021h
+dat_21C2 dw offset _ps_113
 _var_114 db 000h
     db 000h, 02Ah, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 001h, 000h, 001h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-dat_21E2 db 0C4h
-    db 021h
+dat_21E2 dw offset _var_114
 dat_21e4 db 0ECh
     db 000h, 096h, 000h, 03Ch, 001h, 09Fh, 000h, 0ECh, 000h, 096h, 000h, 03Ch, 001h, 09Fh, 000h, 000h
-    db 000h, 069h, 000h, 098h, 000h, 008h, 000h, 011h, 001h, 039h, 000h, 007h, 000h, 04Ch, 020h, 01Ah
-    db 000h, 007h, 000h, 0FAh, 000h, 03Ch, 000h, 0A4h, 020h, 0C4h, 020h, 000h, 000h
+    db 000h, 069h, 000h, 098h, 000h, 008h, 000h, 011h, 001h, 039h, 000h, 007h, 000h
+    dw offset _pageStruct2
+    db 01Ah
+    db 000h, 007h, 000h, 0FAh, 000h, 03Ch, 000h
+    dw offset _ps_105
+    dw offset _ps_106
+    db 000h, 000h
 _var_115 db 000h
     db 000h, 008h, 018h, 0ECh, 000h, 0A0h, 000h, 03Ch, 001h, 0A9h, 000h, 0ECh, 000h, 0A0h, 000h, 03Ch
     db 001h, 0A9h, 000h, 000h, 000h, 069h, 000h, 098h, 000h, 008h, 000h, 011h, 001h, 039h, 000h, 007h
-    db 000h, 04Ch, 020h, 01Ah, 000h, 007h, 000h, 0FAh, 000h, 03Ch, 000h, 0A4h, 020h, 0C4h, 020h, 000h
-    db 000h, 000h, 000h, 00Fh, 008h, 000h, 000h, 00Ah, 000h, 0FAh, 000h, 0FAh, 000h, 097h, 000h, 0A1h
     db 000h
-_var_116 db 048h
-    db 022h
-_var_117 db 032h
-    db 01Fh, 03Ch, 01Fh, 048h, 01Fh, 04Fh, 01Fh, 056h, 01Fh, 060h, 01Fh, 06Ch, 01Fh, 073h, 01Fh
-_var_118 db 07Ah
-    db 01Fh, 089h, 01Fh
+    dw offset _pageStruct2
+    db 01Ah, 000h, 007h, 000h, 0FAh, 000h, 03Ch, 000h
+    dw offset _ps_105
+    dw offset _ps_106
+    db 000h
+    db 000h, 000h, 000h, 00Fh, 008h
+_pageStruct3 db 000h, 000h, 00Ah, 000h, 0FAh, 000h, 0FAh, 000h, 097h, 000h, 0A1h
+    db 000h
+_var_116 dw offset _pageStruct3
+_var_117 dw offset str_libya_spr
+    dw offset str_persian_spr
+    dw offset str_vn_spr
+    dw offset str_me_spr
+    dw offset str_ncape_spr
+    dw offset str_ceurope_spr
+    dw offset str_jp_spr
+    dw offset str_na_spr
+_var_118 dw offset str_reviewMission
+    dw offset str_exitDebriefing
 _var_119 db 000h
     db 000h
 _var_120 db 000h
@@ -10792,7 +10586,8 @@ _var_122 db 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
 dat_22C0 db 070h
-    db 022h, 03Bh, 043h, 05Fh, 046h, 049h, 04Ch, 045h, 05Fh, 049h, 04Eh, 046h, 04Fh, 000h
+    db 022h
+_str_cFileInfo db ';C_FILE_INFO', 0
 _var_123 db 000h
     db 000h
 _var_124 db 000h
@@ -10821,24 +10616,19 @@ _var_134 db 000h
 _var_135 db 000h
 _var_136 db 000h
 _var_137 db 000h
-    db 000h, 000h, 000h, 05Ch, 000h, 05Ch, 000h
+    db 000h, 000h, 000h
+_dat_2312 db 05Ch, 000h
+_dat_2314 db 05Ch, 000h
 _var_138 db 001h
     db 000h
 _var_139 db 000h
     db 000h
 _var_140 db 000h
-    db 000h, 000h, 016h, 002h, 002h, 018h, 00Dh, 009h, 00Ch, 00Ch, 00Ch, 007h, 008h, 016h, 016h, 0FFh
-    db 012h, 00Dh, 012h, 002h, 0FFh, 0FEh, 04Ch, 000h, 000h, 0FEh, 04Ch, 001h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 002h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 002h, 002h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 084h, 003h, 000h, 000h, 000h, 000h, 000h, 000h, 002h, 004h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h
+    db 000h
+_dat_231c db 000h, 016h, 002h, 002h, 018h, 00Dh, 009h, 00Ch, 00Ch, 00Ch, 007h, 008h, 016h, 016h, 0FFh
+    db 012h, 00Dh, 012h, 002h, 0FFh
+_fileHandleTable label byte
+    db 20*8 dup(0)
 _var_141 db 001h
     db 000h, 000h, 002h
 _var_142 db 000h
@@ -10850,8 +10640,7 @@ _var_142 db 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
     db 000h, 000h, 000h
-_var_143 db 0C8h
-    db 023h
+_var_143 dw offset _fileHandleTable + 098h
 _var_144 db 000h
     db 000h
 dat_244C db 000h
@@ -10861,7 +10650,10 @@ dat_244E db 000h
 dat_2452 db 000h
     db 000h, 000h, 000h, 000h
 _var_145 db 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 020h, 000h, 000h, 000h, 000h
+_var_145_heapDS db 000h, 000h, 000h
+_var_145_heapSeg db 000h, 000h, 000h, 000h
+    db 020h, 000h
+_var_145_heapCount db 000h, 000h, 000h
 _var_146 db 0D0h
     db 05Dh, 000h, 000h
 _var_147 db 000h
@@ -10871,9 +10663,11 @@ _var_148 db 000h
 _var_149 db 000h
     db 000h, 000h, 000h
 _var_150 db 000h
-    db 000h, 000h, 000h, 094h, 054h
+    db 000h, 000h, 000h
+_nmsgTable dw offset FUN_1000_5494
 str_nmsg db 03Ch
-    db 03Ch, 04Eh, 04Dh, 053h, 047h, 03Eh, 03Eh, 000h, 000h, 052h, 036h, 030h, 030h, 030h, 00Dh, 00Ah
+    db 03Ch, 04Eh, 04Dh, 053h, 047h, 03Eh, 03Eh
+_nmsgEntries db 000h, 000h, 052h, 036h, 030h, 030h, 030h, 00Dh, 00Ah
     db 02Dh, 020h, 073h, 074h, 061h, 063h, 06Bh, 020h, 06Fh, 076h, 065h, 072h, 066h, 06Ch, 06Fh, 077h
     db 00Dh, 00Ah, 000h, 003h, 000h, 052h, 036h, 030h, 030h, 033h, 00Dh, 00Ah, 02Dh, 020h, 069h, 06Eh
     db 074h, 065h, 067h, 065h, 072h, 020h, 064h, 069h, 076h, 069h, 064h, 065h, 020h, 062h, 079h, 020h
@@ -10883,26 +10677,11 @@ str_nmsg db 03Ch
     db 00Ah, 000h, 0FCh, 000h, 00Dh, 00Ah, 000h, 0FFh, 000h, 072h, 075h, 06Eh, 02Dh, 074h, 069h, 06Dh
     db 065h, 020h, 065h, 072h, 072h, 06Fh, 072h, 020h, 000h, 002h, 000h, 052h, 036h, 030h, 030h, 032h
     db 00Dh, 00Ah, 02Dh, 020h, 066h, 06Ch, 06Fh, 061h, 074h, 069h, 06Eh, 067h, 020h, 070h, 06Fh, 069h
-    db 06Eh, 074h, 020h, 06Eh, 06Fh, 074h, 020h, 06Ch, 06Fh, 061h, 064h, 065h, 064h, 00Dh, 00Ah, 000h
+    db 06Eh, 074h, 020h, 06Eh
+_nmsgNotLoaded db 06Fh, 074h, 020h, 06Ch, 06Fh, 061h, 064h, 065h, 064h, 00Dh, 00Ah, 000h
     db 001h, 000h, 052h, 036h, 030h, 030h, 031h, 00Dh, 00Ah, 02Dh, 020h, 06Eh, 075h, 06Ch, 06Ch, 020h
     db 070h, 06Fh, 069h, 06Eh, 074h, 065h, 072h, 020h, 061h, 073h, 073h, 069h, 067h, 06Eh, 06Dh, 065h
     db 06Eh, 074h, 00Dh, 00Ah, 000h, 0FFh, 0FFh, 0FFh
-
-IFDEF DEBUG
-_trace_main_enter db 'main: enter', 0
-_trace_main_r14 db 'main: routine_14', 0
-_trace_main_misc5e db 'main: misc_jump_5e_clearKeyFlags', 0
-_trace_main_r16 db 'main: routine_16', 0
-_trace_main_cbreak db 'main: installCBreakHandler', 0
-_trace_main_r18 db 'main: routine_18', 0
-_trace_main_r20 db 'main: routine_20', 0
-_trace_main_r25 db 'main: routine_25', 0
-_trace_main_r27 db 'main: routine_27', 0
-_trace_main_r8 db 'main: routine_8', 0
-_trace_crt0_bss_done db 'crt0: bss cleared, calling routine_4', 0
-_trace_crt0_calling_main db 'crt0: calling main', 0
-_trace_before_gfx50 db 'routine_25: before gfx_jump_50', 0
-ENDIF
 
 .DATA?
 ; --- BSS ---
@@ -10933,7 +10712,8 @@ dat_3F6B db ?
 dat_3F6C db 2 dup(?)
 dat_3F6E db 2 dup(?)
 dat_3F70 db ?
-dat_3F71 db 65 dup(?)
+dat_3F71 db ?
+_var_3f72 db 64 dup(?)
 dat_3FB2 db 2 dup(?)
 dat_3FB4 db 2 dup(?)
 dat_3FB6 db 2 dup(?)
@@ -10944,7 +10724,8 @@ _var_171 db 2 dup(?)
 _var_172 db 2 dup(?)
 _var_173 db ?
 _var_174 db ?
-_var_175 db 12 dup(?)
+_var_175 db 2 dup(?)
+_var_3fc6 db 10 dup(?)
 _var_176 db 100 dup(?)
 dat_4034 db 4 dup(?)
 _var_177 db 2 dup(?)
@@ -10957,7 +10738,8 @@ _var_181 db 2 dup(?)
 _var_182 db 4 dup(?)
 dat_424e db 8 dup(?)
 _var_183 label byte
-_var_183x db 1194 dup(?)
+_var_183x db 6 dup(?)
+_var_425c db 1188 dup(?)
 _var_184 db 256 dup(?)
 _var_185 db 4 dup(?)
 dat_4804 db 4 dup(?)
