@@ -51,7 +51,8 @@ MAIN_EXE := $(BUILDDIR)/f15.exe
 MAIN_SRCS := f15.c dosfunc.c biosfunc.c output.c overlay.c util.c
 MAIN_OBJS := $(call cobj,$(BUILDDIR),$(MAIN_SRCS))
 
-$(MAIN_EXE): $(BUILDDIR) $(MAIN_OBJS)
+$(MAIN_EXE): | $(BUILDDIR)
+$(MAIN_EXE): $(MAIN_OBJS)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(MAIN_OBJS) -o $@ -f "$(LINKFLAGS)"
 
 #
@@ -274,10 +275,13 @@ $(UASMDIR)/Makefile:
 $(MZDIFF):
 	cd $(MZRE) && ./build.sh
 
-$(DEBUGDIR)/%.obj $(BUILDDIR)/%.obj: $(SRCDIR)/%.c $(HDRS)
+$(BUILDDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(BUILDDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 
-$(DEBUGDIR)/%.obj $(BUILDDIR)/%.obj: $(SRCDIR)/%.asm
+$(DEBUGDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(DEBUGDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
+
+$(DEBUGDIR)/%.obj $(BUILDDIR)/%.obj: $(SRCDIR)/%.asm | $(DEBUGDIR)
 	$(UASM) $(UASMFLAGS) -Fo$@ $<
 #	@$(DOSBUILD) as $(ASM_TOOLCHAIN) -i $< -o $@ -f "$(ASFLAGS)"
 
@@ -288,15 +292,15 @@ verify-debug: VERIFY_FLAGS += --debug
 verify-debug: verify-start
 
 $(START_VRF_REF):
-	@echo "---> Place start.exe with md5sum cf6e997ed4582cf82db6ec37d2b1a6fd into bin/"
-	@exit 1
-
-$(EGAME_VRF_REF):
-	@echo "---> Place egame.exe with md5sum ffc191b1caeafc3b6f435795f8ea868e into bin/"
+	@echo "---> Place start.exe (unpacked with tools/unp) with md5sum cf6e997ed4582cf82db6ec37d2b1a6fd into bin/"
 	@exit 1
 
 verify-start: $(MZDIFF) $(START_EXE) $(START_VRF_REF)
 	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map map/start.map --asm
+
+$(EGAME_VRF_REF):
+	@echo "---> Place egame.exe (unpacked with tools/unp) with md5sum ffc191b1caeafc3b6f435795f8ea868e into bin/"
+	@exit 1
 
 verify-egame: $(MZDIFF) $(EGAME_EXE) $(EGAME_VRF_REF)
 	$(MZDIFF) $(EGAME_VRF_REF):$(EGAME_VRF_REFEP) $(EGAME_EXE):$(EGAME_VRF_TGTEP) $(VERIFY_FLAGS) --map map/egame.map
