@@ -836,6 +836,6 @@ int sub_19BE1(int arg_0, int arg_2, int arg_4, int arg_6) {
 
 // ==== seg000:0x9e94 ====
 int sub_19E94(int arg_0, int arg_2, int arg_4) {
-    setDrawColor(arg_4);
+    sub_19E44(arg_4);
     sub_19BE1(arg_0, arg_2, arg_0, arg_2);
-}   
+}

@@ -92,7 +92,7 @@ int sub_13922(int arg_0) {
 }
 
 // ==== seg000:0xcf8e ====
-int sub_1CF8E(int arg_0, int arg_2, int arg_4) {
+int forceRange(int arg_0, int arg_2, int arg_4) {
     if (arg_0 > arg_4) {
         return arg_4;
     }
