@@ -3,7 +3,6 @@ DOSSEG
 .MODEL SMALL
 EXTRN _sub_155AB:PROC
 EXTRN _sub_18E50:PROC
-EXTRN _sub_1D1C8:PROC
 EXTRN _sub_21A7A:PROC
 EXTRN _otherKeyDispatch:PROC
 PUBLIC _commData
@@ -1512,7 +1511,9 @@ _sub_1D190 proc near
 _sub_1D190 endp
 ; ------------------------------seg000:0xd1a4------------------------------
 ; ------------------------------seg000:0xd1c8------------------------------
-sub_1D1C8 equ _sub_1D1C8
+sub_1D1C8 proc near
+    retn
+sub_1D1C8 endp
 ; ------------------------------seg000:0xd1e6------------------------------
 ; ------------------------------seg000:0xd1e8------------------------------
 sub_1D1E8 proc near
