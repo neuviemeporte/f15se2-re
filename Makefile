@@ -41,7 +41,7 @@ HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
 cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug tools
+.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-end tools
 all: f15-se2
 
 #
@@ -51,7 +51,8 @@ MAIN_EXE := $(BUILDDIR)/f15.exe
 MAIN_SRCS := f15.c dosfunc.c biosfunc.c output.c overlay.c util.c
 MAIN_OBJS := $(call cobj,$(BUILDDIR),$(MAIN_SRCS))
 
-$(MAIN_EXE): $(BUILDDIR) $(MAIN_OBJS)
+$(MAIN_EXE): | $(BUILDDIR)
+$(MAIN_EXE): $(MAIN_OBJS)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(MAIN_OBJS) -o $@ -f "$(LINKFLAGS)"
 
 #
@@ -149,12 +150,17 @@ $(EGAME_EXE): $(EGAME_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_OBJ) -o $@ -f "$(LINKFLAGS)"
 
 # generate C header file from ida listing
+ifneq ($(shell test -s $(EGAME_LST) && echo yes),yes)
+$(EGAME_BASEHDR): ; @true
+$(SRCDIR)/$(EGAME_BASE): ; @true
+else
 $(EGAME_BASEHDR): $(EGAME_LST) $(EGAME_INC) $(EGAME_CONF) $(LST2CH)
 	$(LST2CH) $< $(SRCDIR) $(EGAME_CONF) --noc
 
 # generate assembly for base object from ida listing
 $(SRCDIR)/$(EGAME_BASE): $(EGAME_LST) $(EGAME_INC) $(EGAME_CONF) $(LST2ASM)
 	$(LST2ASM) $< $@ $(EGAME_CONF) --stub
+endif
 
 $(EGAME_COBJ): $(EGAME_BASEHDR)
 $(BUILDDIR)/egame2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
@@ -164,6 +170,44 @@ $(BUILDDIR)/egame3.obj: MSC_CFLAGS := /Od /Id:\f15-se2
 EGAME_VRF_REF := bin/egame.exe
 EGAME_VRF_REFEP := 0x10
 EGAME_VRF_TGTEP := [558bec83ec??c746]
+
+#
+# end.exe reconstruction (rc)
+#
+END_EXE := $(BUILDDIR)/end.exe
+END_BASE := end_rc.asm
+END_ASM := $(END_BASE)
+END_SRC := end0.c end1.c end2.c
+END_BASEHDR = $(SRCDIR)/end.h
+END_COBJ := $(call cobj,$(BUILDDIR),$(END_SRC))
+END_OBJ := $(END_COBJ) $(call asmobj,$(BUILDDIR),$(END_ASM))
+$(END_COBJ): $(END_BASEHDR)
+$(END_EXE): | $(BUILDDIR)
+$(END_EXE): $(END_OBJ)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(END_OBJ) -o $@ -f "$(LINKFLAGS)"
+
+$(END_COBJ): $(END_BASEHDR)
+$(BUILDDIR)/end1.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/end2.obj: MSC_CFLAGS := /Od /Id:\f15-se2
+
+# reference and target entrypoints for binary comparison
+END_VRF_REF := bin/end.exe
+END_VRF_REFEP := 0x10
+END_VRF_TGTEP := [558bec83ec0e56c746]
+
+# end.exe debug build
+END_DEBUG := $(DEBUGDIR)/end.exe
+END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(DEBUGDIR)/debug.obj
+$(END_DBG_OBJ): $(END_BASEHDR)
+$(END_DEBUG): MSC_CFLAGS += /DDEBUG
+$(END_DEBUG): UASMFLAGS += -DDEBUG
+$(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(END_DBG_OBJ) -o $@ -f "$(LINKFLAGS)"
+	@if [ -n "$(F15_TESTDIR)" ]; then \
+	    echo "Copying $@ to $(F15_TESTDIR)"; \
+	    cp $@ "$(F15_TESTDIR)"; \
+		ls -l $(F15_TESTDIR)/end.exe; \
+	fi
 
 #
 # unit test executable
@@ -190,12 +234,14 @@ $(HELLO_EXE): LINKFLAGS := /M /I
 $(HELLO_EXE): $(HELLO_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)" -l "$(HELLO_LIB)"
 
-f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(UASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(TEST_EXE)
+f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(UASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE) $(TEST_EXE)
 
 start: $(START_EXE)
 egame: $(EGAME_EXE)
+end: $(END_EXE)
 
-debug: $(DEBUGDIR) $(START_DEBUG)
+debug: $(DEBUGDIR) $(START_DEBUG) $(END_DEBUG)
+debug-end: $(DEBUGDIR) $(END_DEBUG)
 
 clean:
 	-rm -rf $(BUILDDIR)
@@ -229,32 +275,42 @@ $(UASMDIR)/Makefile:
 $(MZDIFF):
 	cd $(MZRE) && ./build.sh
 
-$(DEBUGDIR)/%.obj $(BUILDDIR)/%.obj: $(SRCDIR)/%.c $(HDRS)
+$(BUILDDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(BUILDDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 
-$(DEBUGDIR)/%.obj $(BUILDDIR)/%.obj: $(SRCDIR)/%.asm
+$(DEBUGDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(DEBUGDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
+
+$(DEBUGDIR)/%.obj $(BUILDDIR)/%.obj: $(SRCDIR)/%.asm | $(DEBUGDIR)
 	$(UASM) $(UASMFLAGS) -Fo$@ $<
 #	@$(DOSBUILD) as $(ASM_TOOLCHAIN) -i $< -o $@ -f "$(ASFLAGS)"
 
 reasm: $(STARTRE_EXE)
 
-verify: verify-start verify-egame
+verify: verify-start verify-egame verify-end
 verify-debug: VERIFY_FLAGS += --debug
 verify-debug: verify-start
 
 $(START_VRF_REF):
-	@echo "---> Place start.exe with md5sum cf6e997ed4582cf82db6ec37d2b1a6fd into bin/"
-	@exit 1
-
-$(EGAME_VRF_REF):
-	@echo "---> Place egame.exe with md5sum ffc191b1caeafc3b6f435795f8ea868e into bin/"
+	@echo "---> Place start.exe (unpacked with tools/unp) with md5sum cf6e997ed4582cf82db6ec37d2b1a6fd into bin/"
 	@exit 1
 
 verify-start: $(MZDIFF) $(START_EXE) $(START_VRF_REF)
 	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map map/start.map --asm
 
+$(EGAME_VRF_REF):
+	@echo "---> Place egame.exe (unpacked with tools/unp) with md5sum ffc191b1caeafc3b6f435795f8ea868e into bin/"
+	@exit 1
+
 verify-egame: $(MZDIFF) $(EGAME_EXE) $(EGAME_VRF_REF)
 	$(MZDIFF) $(EGAME_VRF_REF):$(EGAME_VRF_REFEP) $(EGAME_EXE):$(EGAME_VRF_TGTEP) $(VERIFY_FLAGS) --map map/egame.map
+
+$(END_VRF_REF):
+	@echo "---> Place end.exe (unpacked with tools/unlzexe) with md5sum 3b7aac9c52ca3fedefff3a8db54b5799 into bin/"
+	@exit 1
+
+verify-end: $(MZDIFF) $(END_EXE) $(END_VRF_REF)
+	$(MZDIFF) $(END_VRF_REF):$(END_VRF_REFEP) $(END_EXE):$(END_VRF_TGTEP) $(VERIFY_FLAGS) --map map/end.map
 
 TOOLS := $(TOOLDIR)/ovltool $(TOOLDIR)/vgapal $(TOOLDIR)/wldparse
 f15-tools: $(TOOLDIR) $(TOOLS)

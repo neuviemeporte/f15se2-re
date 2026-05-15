@@ -705,7 +705,7 @@ int sub_18E50(int arg_0) {
                 // 8fc8
                 sub_19C0C(var_14, var_18 + 1, var_14, var_18 - 1);
             } // 8fce
-            if (word_391FE & 0x200) { // 8fd6
+            if (planeFlags & 0x200) { // 8fd6
                 sub_19E44(0xf);
                 sub_19C0C(0x9c, 0x59, 0xa4, 0x59);
                 sub_19C0C(0xa0, 0x56, 0xa0, 0x5c);
@@ -717,7 +717,7 @@ int sub_18E50(int arg_0) {
             // 9089
             sub_19C0C(0xf7,  0x38, 0xf7, sub_1CF64(-((word_3C8B6 >> 4) - 0x38), 0x14, 0x55));
             // 908f
-            if ((word_391FE & 1) == 0 && (word_336E8 & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) { // 90af
+            if ((planeFlags & 1) == 0 && (word_336E8 & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) { // 90af
                 var_2 = (((stru_3AA5E[word_3C16A].field_6 & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
                 sub_19E44(0xf);
                 // 90f7
@@ -766,7 +766,7 @@ int sub_18E50(int arg_0) {
             if (word_3370A > 1) { // 92f5
                 drawSomeStrings(aAccel, 0x96, 0x4, 0xf);
             } // 930b
-            if (word_391FE & 0x1000) { // 9313
+            if (planeFlags & 0x1000) { // 9313
                 drawSomeStrings(aTraining, 0xea, 0x10, 0xf);
             } // 9329
             if (word_330B6 != 0) { // 9330

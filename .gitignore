@@ -3,6 +3,8 @@ debug_build/
 dos
 lst
 bin/
+ragdb/
+src/merged/
 *.log
 *.err
 src/LOG.TXT
@@ -11,3 +13,5 @@ src/LOG.TXT
 *.tgt
 /*.bin
 /*.xxd
+/*.c
+/*.grc
