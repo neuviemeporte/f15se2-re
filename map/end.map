@@ -68,6 +68,8 @@ openFileWrapper: Code1 NEAR 1336-1346 R1336-1346 complete
 routine_91: Code1 NEAR 135a-1367 R135a-1367 complete
 openFile: Code1 NEAR 13ae-1404 R13ae-1404 R156a-15a5 assembly
 fileClose: Code1 NEAR 145c-147c R145c-147c assembly
+FUN_1000_14a9: Code1 NEAR 14a9-14ff R14a9-14ff assembly ignore
+FUN_1000_1500: Code1 NEAR 1500-1520 R1500-1520 assembly ignore
 openShowPic: Code1 NEAR 15a6-15d1 R15a6-15d1 complete
 loadPic: Code1 NEAR 15fc-1624 R15fc-1624 complete
 showPicFile: Code1 NEAR 1664-16d5 R1664-16d5 assembly
@@ -84,6 +86,8 @@ dos_alloc: Code1 NEAR 1a48-1a6d R1a48-1a6d assembly
 routine_102: Code1 NEAR 1a6e-1a8a R1a6e-1a8a assembly
 setTimerIrqHandler: Code1 NEAR 1bfc-1c39 R1bfc-1c39 assembly
 restoreTimerIrqHandler: Code1 NEAR 1c3a-1c5a R1c3a-1c5a assembly
+setTimerMode1: Code1 NEAR 1c5b-1c72 R1c5b-1c72 assembly
+setTimerMode2: Code1 NEAR 1c73-1c83 R1c73-1c83 assembly
 sub_13DF2: Code1 NEAR 1d76-1e0a R1d76-1e0a assembly
 manipulateTimer: Code1 NEAR 1e0b-1e5f R1e0b-1e5f assembly
 routine_69: Code1 NEAR 1e60-1e66 R1e60-1e66 assembly
