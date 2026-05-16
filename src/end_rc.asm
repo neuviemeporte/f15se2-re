@@ -50,6 +50,7 @@ EXTRN _routine_66:PROC
 EXTRN _routine_26:PROC
 EXTRN _routine_5:PROC
 EXTRN _routine_6:PROC
+EXTRN _my_itoa:PROC
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
 PUBLIC _var_69
@@ -908,105 +909,7 @@ LAB_1000_088f:
 my_ltoa endp
 _my_ltoa equ my_ltoa
 
-my_itoa proc near
-    push BP
-    mov BP,SP
-    sub SP,0ch
-    push SI
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [BP + -8h],AX
-    cmp word ptr [BP + 4h],0h
-    jge LAB_1000_08da
-    mov AX,word ptr [BP + 4h]
-    neg AX
-    mov word ptr [BP + 4h],AX
-    mov BX,word ptr [BP + -8h]
-    mov byte ptr [BX],2dh
-    inc word ptr [BP + -8h]
-LAB_1000_08da:
-    mov AX,word ptr [BP + 4h]
-    cwd
-    mov CX,0ah
-    idiv CX
-    mov byte ptr [BP + -6h],DL
-    mov AX,word ptr [BP + 4h]
-    cwd
-    idiv CX
-    mov word ptr [BP + 4h],AX
-    cwd
-    idiv CX
-    mov byte ptr [BP + -5h],DL
-    mov AX,word ptr [BP + 4h]
-    cwd
-    idiv CX
-    mov word ptr [BP + 4h],AX
-    cwd
-    idiv CX
-    mov byte ptr [BP + -4h],DL
-    mov AX,word ptr [BP + 4h]
-    cwd
-    idiv CX
-    mov word ptr [BP + 4h],AX
-    cwd
-    idiv CX
-    mov byte ptr [BP + -3h],DL
-    mov AX,word ptr [BP + 4h]
-    cwd
-    idiv CX
-    mov word ptr [BP + 4h],AX
-    cwd
-    idiv CX
-    mov byte ptr [BP + -2h],DL
-    mov AX,word ptr [BP + 4h]
-    cwd
-    idiv CX
-    mov word ptr [BP + 4h],AX
-    cwd
-    idiv CX
-    mov byte ptr [BP + -1h],DL
-    mov byte ptr [BP + -0ah],0h
-    mov byte ptr [BP + -0ch],5h
-    jmp LAB_1000_093e
-LAB_1000_093b:
-    dec byte ptr [BP + -0ch]
-LAB_1000_093e:
-    cmp byte ptr [BP + -0ch],0h
-    jle LAB_1000_0954
-    mov AL,byte ptr [BP + -0ch]
-    cbw
-    mov SI,AX
-    cmp byte ptr [BP + SI + -6h],0h
-    jz LAB_1000_0952
-    jmp LAB_1000_0954
-LAB_1000_0952:
-    jmp LAB_1000_093b
-LAB_1000_0954:
-    cmp byte ptr [BP + -0ch],2h
-    jnz LAB_1000_0969
-    cmp byte ptr [BP + -0ah],1h
-    jnz LAB_1000_0969
-    mov BX,word ptr [BP + -8h]
-    mov byte ptr [BX],2ch
-    inc word ptr [BP + -8h]
-LAB_1000_0969:
-    mov AL,byte ptr [BP + -0ch]
-    cbw
-    mov SI,AX
-    mov AL,byte ptr [BP + SI + -6h]
-    add AL,30h
-    mov BX,word ptr [BP + -8h]
-    mov byte ptr [BX],AL
-    mov byte ptr [BP + -0ah],1h
-    inc word ptr [BP + -8h]
-    dec byte ptr [BP + -0ch]
-    jns LAB_1000_0954
-    mov BX,word ptr [BP + -8h]
-    mov byte ptr [BX],0h
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-my_itoa endp
+my_itoa equ _my_itoa
 
 FUN_1000_0990 equ _FUN_1000_0990
 
