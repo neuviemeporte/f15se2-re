@@ -12,9 +12,9 @@ b equ 6h
 
 .CODE
 EXTRN _routine_91:PROC
-EXTRN _actualDrawString:PROC
+EXTRN _drawStringAt:PROC
 EXTRN _stringWidth:PROC
-EXTRN _drawString:PROC
+EXTRN _drawStringCentered:PROC
 EXTRN _mystrcpy:PROC
 EXTRN _cleanup:PROC
 EXTRN _routine_34:PROC
@@ -502,7 +502,7 @@ routine_66 equ _routine_66
 
 FUN_1000_041a equ _FUN_1000_041a
 
-actualDrawString equ _actualDrawString
+drawStringAt equ _drawStringAt
 
 FUN_1000_0469 equ _FUN_1000_0469
 
@@ -761,7 +761,7 @@ LAB_1000_06fc:
     ret
 routine_130 endp
 
-drawString equ _drawString
+drawStringCentered equ _drawStringCentered
 
 stringWidth equ _stringWidth
 
@@ -3515,7 +3515,7 @@ LAB_1000_1ea4:
     mov AX,offset str_deskMsg1
     push AX
     push word ptr [_var_86]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov AX,0fah
     push AX
@@ -3526,7 +3526,7 @@ LAB_1000_1ea4:
     mov AX,offset str_deskMsg2
     push AX
     push word ptr [_var_86]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov word ptr [_var_85],4h
     mov word ptr [_var_84],0h
@@ -3552,7 +3552,7 @@ LAB_1000_1f0b:
     mov AX,offset _var_176
     push AX
     push word ptr [_var_86]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov word ptr [_var_84],7h
     mov word ptr [_var_85],1h
@@ -3581,7 +3581,7 @@ LAB_1000_1f4a:
     mov AX,offset str_deathMsg1
     push AX
     push word ptr [_var_86]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov AX,0fah
     push AX
@@ -3592,7 +3592,7 @@ LAB_1000_1f4a:
     mov AX,offset str_deathMsg2
     push AX
     push word ptr [_var_86]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     jmp LAB_1000_2141
 LAB_1000_1fa8:
@@ -3636,7 +3636,7 @@ LAB_1000_1fde:
     mov AX,offset str_promoMsg1
     push AX
     push word ptr [_var_86]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov AX,offset str_promoMsg2
     push AX
@@ -3662,7 +3662,7 @@ LAB_1000_1fde:
     mov AX,offset _var_176
     push AX
     push word ptr [_var_86]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     call far ptr gfx_jump_50
     call far ptr gfx_jump_46_retrace2
@@ -3719,7 +3719,7 @@ LAB_1000_20b5:
     mov AX,offset str_medalMsg1
     push AX
     push word ptr [_var_86]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov AX,offset str_medalMsg2
     push AX
@@ -3743,7 +3743,7 @@ LAB_1000_20b5:
     mov AX,offset _var_176
     push AX
     push word ptr [_var_86]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     les BX,dword ptr [_var_178]
     mov AX,1h
@@ -4896,7 +4896,7 @@ LAB_1000_2cc2:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov AX,offset str_missionRating1
     push AX
@@ -4913,7 +4913,7 @@ LAB_1000_2cc2:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov AX,offset str_dot2
     push AX
@@ -4942,7 +4942,7 @@ LAB_1000_2cc2:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     les BX,dword ptr [_var_222]
     cmp word ptr ES:[BX + 30h],0h
@@ -4956,7 +4956,7 @@ LAB_1000_2cc2:
     mov AX,offset str_trainingScore
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov AX,57h
     push AX
@@ -4967,7 +4967,7 @@ LAB_1000_2cc2:
     mov AX,offset str_notRecorded
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     jmp LAB_1000_2e53
 LAB_1000_2dc9:
@@ -4992,7 +4992,7 @@ LAB_1000_2dc9:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov AX,offset str_dot4
     push AX
@@ -5026,7 +5026,7 @@ LAB_1000_2dc9:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
 LAB_1000_2e53:
     mov BX,word ptr [BP + 8h]
@@ -5046,7 +5046,7 @@ LAB_1000_2e53:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov BX,word ptr [BP + 8h]
     mov word ptr [BX + 4h],0h
@@ -5063,7 +5063,7 @@ LAB_1000_2e53:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call actualDrawString
+    call drawStringAt
     add SP,8h
     mov AX,offset dat_4824
     push AX
@@ -5079,7 +5079,7 @@ LAB_1000_2e53:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call actualDrawString
+    call drawStringAt
     add SP,8h
     mov AX,offset str_otherTargets
     push AX
@@ -5094,7 +5094,7 @@ LAB_1000_2e53:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call actualDrawString
+    call drawStringAt
     add SP,8h
     mov AX,offset dat_4824
     push AX
@@ -5112,7 +5112,7 @@ LAB_1000_2e53:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call actualDrawString
+    call drawStringAt
     add SP,8h
     mov AX,offset str_enemyPlanes
     push AX
@@ -5127,7 +5127,7 @@ LAB_1000_2e53:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call actualDrawString
+    call drawStringAt
     add SP,8h
     mov AX,offset dat_4824
     push AX
@@ -5141,7 +5141,7 @@ LAB_1000_2e53:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call actualDrawString
+    call drawStringAt
     add SP,8h
     mov AX,offset str_friendlyTargets
     push AX
@@ -5156,7 +5156,7 @@ LAB_1000_2e53:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call actualDrawString
+    call drawStringAt
     add SP,8h
     mov AX,offset dat_4824
     push AX
@@ -5173,7 +5173,7 @@ LAB_1000_2e53:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call actualDrawString
+    call drawStringAt
     add SP,8h
     mov byte ptr [_var_207],1h
 LAB_1000_2fbf:
@@ -5236,7 +5236,7 @@ LAB_1000_2fde:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov AX,offset str_missionRating2
     push AX
@@ -5253,7 +5253,7 @@ LAB_1000_2fde:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov AX,offset str_dot6
     push AX
@@ -5282,7 +5282,7 @@ LAB_1000_2fde:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
 LAB_1000_30cc:
     mov AX,63h
@@ -5313,7 +5313,7 @@ LAB_1000_30cc:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov AX,offset str_time
     push AX
@@ -5343,7 +5343,7 @@ LAB_1000_30cc:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call actualDrawString
+    call drawStringAt
     add SP,8h
     mov AX,word ptr [_var_190]
     mov CX,AX
@@ -5717,7 +5717,7 @@ caseD_4_6450:
     mov AX,offset dat_4824
     push AX
     push BX
-    call drawString
+    call drawStringCentered
     add SP,0ah
 LAB_1000_34b1:
     mov BX,word ptr [_var_190]
@@ -5742,7 +5742,7 @@ LAB_1000_34b1:
     mov AX,offset dat_4824
     push AX
     push BX
-    call drawString
+    call drawStringCentered
     add SP,0ah
 LAB_1000_34eb:
     push word ptr [_var_190]
@@ -5771,7 +5771,7 @@ LAB_1000_34eb:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov AX,offset str_missionRating3
     push AX
@@ -5788,7 +5788,7 @@ LAB_1000_34eb:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov AX,offset str_pressSelect
     push AX
@@ -5817,7 +5817,7 @@ LAB_1000_34eb:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     call routine_131
     lea AX,[BP + -6h]
@@ -6861,7 +6861,7 @@ LAB_1000_4560:
     mov AX,offset str_insertScenario
     push AX
     push word ptr [_var_99]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov BX,word ptr [_var_99]
     mov word ptr [BX + 0ch],4h
@@ -6874,7 +6874,7 @@ LAB_1000_4560:
     mov AX,offset str_pressKey1
     push AX
     push word ptr [_var_99]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov BX,word ptr [_var_99]
     mov word ptr [BX + 0ch],1h
@@ -6938,7 +6938,7 @@ LAB_1000_462e:
     mov AX,offset str_insertDiskA
     push AX
     push word ptr [_var_99]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov BX,word ptr [_var_99]
     mov word ptr [BX + 0ch],4h
@@ -6951,7 +6951,7 @@ LAB_1000_462e:
     mov AX,offset str_pressKey2
     push AX
     push word ptr [_var_99]
-    call drawString
+    call drawStringCentered
     add SP,0ah
     mov BX,word ptr [_var_99]
     mov word ptr [BX + 0ch],1h
@@ -7020,7 +7020,7 @@ LAB_1000_4692:
     mov AX,offset str_missionDebrief
     push AX
     push word ptr [_var_99]
-    call actualDrawString
+    call drawStringAt
     add SP,8h
     mov BX,word ptr [_var_99]
     mov word ptr [BX + 4h],6h
@@ -7034,7 +7034,7 @@ LAB_1000_475c:
     shl BX,1h
     push word ptr [BX + offset _var_118]
     push word ptr [_var_99]
-    call actualDrawString
+    call drawStringAt
     add SP,8h
     add word ptr [BP + -0eh],0ah
     inc word ptr [BP + -8h]

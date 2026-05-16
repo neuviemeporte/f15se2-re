@@ -181,8 +181,8 @@ selectTheater:
         // 7ec
         if (count == 0) { // no scenarios found, print message and go back to previous screen
             clearBriefing();
-            drawString(page1NumPtr, aNoScenarioFile, 0x71, 0x3c, 0xb9);
-            drawString(page1NumPtr, aSeeTechnicalSu, 0x71, 0x48, 0xb9);
+            drawStringCentered(page1NumPtr, aNoScenarioFile, 0x71, 0x3c, 0xb9);
+            drawStringCentered(page1NumPtr, aSeeTechnicalSu, 0x71, 0x48, 0xb9);
             enableHighlight = 0;
             timerCounter3 = 6;
             animateArm(word_19656, word_19656);
@@ -228,7 +228,7 @@ int missionMenuSelect(char **names, char **desc, char *title, int selection)
     enableHighlight = 1;
     drawColor = 1;
     // 934
-    drawString(page1NumPtr, title, 113, 14, 185);
+    drawStringCentered(page1NumPtr, title, 113, 14, 185);
     // 952
     drawLine(page1NumPtr, 173, 22, 235, 22, 1);
     TRACE(("missionMenuSelect(): drawn title %s", title));
@@ -238,11 +238,11 @@ int missionMenuSelect(char **names, char **desc, char *title, int selection)
         if (scenarioFoundArr[var_counter] == 0) {
             drawColor = 1;
             // 993
-            drawString(page1NumPtr, names[var_counter], 113, var_y, 185);
+            drawStringCentered(page1NumPtr, names[var_counter], 113, var_y, 185);
             fontIndex = 4;
             drawColor = 7;
             // 9c2
-            drawString(page1NumPtr, desc[var_counter], 113, var_y + 8, 185);
+            drawStringCentered(page1NumPtr, desc[var_counter], 113, var_y + 8, 185);
             TRACE(("missionMenuSelect(): drawn item %s/%s", names[var_counter], desc[var_counter]));
             fontIndex = 1;
         }
@@ -370,7 +370,7 @@ void animateArm(int a, int b)
 int askRepeatMission() {
     char keycode;
     drawColor = 8;
-    drawString(page1NumPtr, aRepeatLastMiss, 0x71, 0x42, 0xb9);
+    drawStringCentered(page1NumPtr, aRepeatLastMiss, 0x71, 0x42, 0xb9);
     enableHighlight = 0;
     timerCounter3 = 6;
     animateArm(word_19656, word_19656);
@@ -388,10 +388,10 @@ void checkDiskA() {
         // d52
         clearBriefing();
         // d69
-        drawString(page1NumPtr, aPleaseReinsert, 0x71, 0x3d, 0xb9);
+        drawStringCentered(page1NumPtr, aPleaseReinsert, 0x71, 0x3d, 0xb9);
         page1NumPtr[6] = 4; // fontIndex?
         // d8c
-        drawString(page1NumPtr, aPressSelectorW, 0x71, 0x49, 0xb9);
+        drawStringCentered(page1NumPtr, aPressSelectorW, 0x71, 0x49, 0xb9);
         page1NumPtr[6] = 1;
         enableHighlight = 0;
         timerCounter3 = 6;
@@ -409,7 +409,7 @@ void checkDiskA() {
 // dca
 void missionDecode() {
     drawColor = 7;
-    drawString(page1NumPtr, aDecodingMissio, 0x71, 0x42, 0xb9);
+    drawStringCentered(page1NumPtr, aDecodingMissio, 0x71, 0x42, 0xb9);
     enableHighlight = 0;
     timerCounter3 = 6;
     animateArm(word_19656, word_19656);
@@ -422,16 +422,16 @@ void printMission() {
     clearBriefing();
     drawColor = 1;
     // e2d
-    drawString(page1NumPtr, aTodaySMission, 0x71, 0x0e, 0xb9);
+    drawStringCentered(page1NumPtr, aTodaySMission, 0x71, 0x0e, 0xb9);
     // e4b
     drawLine(page1NumPtr, 0xa0, 0x16, 0xf9, 0x16, 1);
     // e61
-    actualDrawString(page1NumPtr, aTakeoffFrom, 0x82, 0x20);
+    drawStringAt(page1NumPtr, aTakeoffFrom, 0x82, 0x20);
     drawColor = 8;
     // e71
     placeString(targets[0].field_4);
     // e8b
-    drawString(page1NumPtr, todayMissStrBuf, 0x71, 0x2a, 0xb9);
+    drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x2a, 0xb9);
     // e99
     mystrcpy(todayMissStrBuf, aOnc_2);
     // eae
@@ -439,16 +439,16 @@ void printMission() {
     fontIndex = 4;
     drawColor = 3;
     // ed4
-    drawString(page1NumPtr, todayMissStrBuf, 0x71, 0x34, 0xb9);
+    drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x34, 0xb9);
     fontIndex = 1;
     drawColor = 1;
     // ef6
-    actualDrawString(page1NumPtr, aPrimaryTarget, 0x82, 0x40);
+    drawStringAt(page1NumPtr, aPrimaryTarget, 0x82, 0x40);
     drawColor = 8;
     // f06
     placeString(targets[0].field_2);
     // f20
-    drawString(page1NumPtr, todayMissStrBuf, 0x71, 0x4a, 0xb9);
+    drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x4a, 0xb9);
     fontIndex = 4;
     drawColor = 3;
     // f3a
@@ -456,16 +456,16 @@ void printMission() {
     // f48
     mystrcat(todayMissStrBuf, targets[0].coord);
     // f62
-    drawString(page1NumPtr, todayMissStrBuf, 0x71, 0x54, 0xb9);
+    drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x54, 0xb9);
     fontIndex = 1;
     drawColor = 1;
     // f84
-    actualDrawString(page1NumPtr, aSecondaryTarge, 0x82, 0x60);
+    drawStringAt(page1NumPtr, aSecondaryTarge, 0x82, 0x60);
     drawColor = 8;
     // f94
     placeString(target2.field_2);
     // fae
-    drawString(page1NumPtr, todayMissStrBuf, 0x71, 0x6a, 0xb9);
+    drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x6a, 0xb9);
     fontIndex = 4;
     drawColor = 3;
     // fc8
@@ -473,7 +473,7 @@ void printMission() {
     // fd6
     mystrcat(todayMissStrBuf, target2.coord);
     // ff0
-    drawString(page1NumPtr, todayMissStrBuf, 0x71, 0x74, 0xb9);
+    drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x74, 0xb9);
     fontIndex = 1;
     enableHighlight = 0;
     // 1002
@@ -623,19 +623,19 @@ void clearBriefing(void)
 }
 
 // 12b8
-void actualDrawString(int *pageNum, const char *string, int x, int y) {
+void drawStringAt(int *pageNum, const char *string, int x, int y) {
     pageNum[4] = x;
     pageNum[5] = y;
     gfx_jump_05_drawString(pageNum, string);
 }
 
 // 1577
-void drawString(int *page, const char *str, int startx, int y, int endx) {
+void drawStringCentered(int *page, const char *str, int startx, int y, int endx) {
     int width;
     // 1538
     width = stringWidth(page, str);
     // 15a4
-    actualDrawString(page, str, (endx - width) / 2 + startx, y);
+    drawStringAt(page, str, (endx - width) / 2 + startx, y);
 }
 
 // 15ae

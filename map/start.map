@@ -29,10 +29,10 @@ processStoreInput: Code1 NEAR 10ab-1228 R10ab-1228 complete
 clearBriefing: Code1 NEAR 1229-1249 R1229-1249 complete
 sub_1124A: Code1 NEAR 124a-128f R124a-128f complete
 sub_11290: Code1 NEAR 1290-12b7 U1290-12b7 detached
-actualDrawString: Code1 NEAR 12b8-12de R12b8-12de complete
+drawStringAt: Code1 NEAR 12b8-12de R12b8-12de complete
 # only called from sub_11290
 sub_112DF: Code1 NEAR 12df-1576 U12df-1576 detached
-drawString: Code1 NEAR 1577-15ad R1577-15ad complete
+drawStringCentered: Code1 NEAR 1577-15ad R1577-15ad complete
 stringWidth: Code1 NEAR 15ae-15f0 R15ae-15f0 complete
 my_ltoa: Code1 NEAR 15f1-172b R15f1-172b complete
 my_itoa: Code1 NEAR 172c-1805 R172c-1805 complete

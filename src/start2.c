@@ -103,8 +103,8 @@ int updateHallfame()
     gfx_jump_50_null();
     screenBuf[2] = 0xf;
     // 1cf4
-    drawString(screenBuf, aOriginalDiskIn, 0, 0x64, 0x140);
-    drawString(screenBuf, aPressAKeyToCon, 0, 0x96, 0x140);
+    drawStringCentered(screenBuf, aOriginalDiskIn, 0, 0x64, 0x140);
+    drawStringCentered(screenBuf, aPressAKeyToCon, 0, 0x96, 0x140);
     screenBuf[2] = 7;
     // 1d1c
     gfx_jump_46_retrace2();
@@ -126,7 +126,7 @@ void displayPilots(void)
     TRACE(("displayPilots(): loop terminating"));
     word_173D6 = 0xf;
     // 1d71
-    drawString(pageNumPtr, aUseSelectorToC, 0, 0xC0, 0x140);
+    drawStringCentered(pageNumPtr, aUseSelectorToC, 0, 0xC0, 0x140);
     TRACE(("displayPilots(): drawn prompt"));
     gfx_jump_50_null();
     TRACE(("displayPilots(): exiting"));
@@ -158,7 +158,7 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
     mystrcat(todayMissStrBuf, pilot->name);
     TRACE(("printPilot(): strcat %s", todayMissStrBuf));
     // 1e1e
-    drawString(screenBuf, todayMissStrBuf, x, var_8, 0x90);
+    drawStringCentered(screenBuf, todayMissStrBuf, x, var_8, 0x90);
     TRACE(("printPilot(): drawn string %s", todayMissStrBuf));
     word_173D6 = 0xc;
     word_173DE = 4;
@@ -174,7 +174,7 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
     mystrcat(todayMissStrBuf, asc_174AF);
     TRACE(("printPilot(): strcat3 %s", todayMissStrBuf));
     // 1e8f
-    drawString(screenBuf, todayMissStrBuf, x, var_8 + 9, 0x90);
+    drawStringCentered(screenBuf, todayMissStrBuf, x, var_8 + 9, 0x90);
     TRACE(("printPilot(): drawn string2"));
     word_173DE = 1;
     // 1e9b
@@ -362,14 +362,14 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
     y = ((selectedPilotIdx & 3) * 44) + 20;
     // 232f
     clearRect(page, x, y, x + 143, y + 35);
-    actualDrawString(page, ranks[0], x, y);
+    drawStringAt(page, ranks[0], x, y);
     x += (var_2 = stringWidth(page, ranks[0]));
     var_2 = 0x8f - var_2;
     screenBuf[3] = 0;
     // 2380
     clearRect(page, 15, 192, 303, 197);
     // 239a
-    drawString(pageNumPtr, aMenterYourName, 0xf, 0xc0, 0x121);
+    drawStringCentered(pageNumPtr, aMenterYourName, 0xf, 0xc0, 0x121);
     misc_jump_5e_clearKeyFlags();
     var_4 = 0x18;
     TRACE(("pilotNameInput(): before loop"));
@@ -385,7 +385,7 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
             pilot->name[0] = '\0';
             // 2403
             clearRect(page, x, y, x + var_2, y + c);
-            actualDrawString(page, pilot->name, x, y);
+            drawStringAt(page, pilot->name, x, y);
             var_6 = page[4];
             break;
         // 23ad
@@ -398,7 +398,7 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
                 pilot->name[var_10] = '\0';
                 // 2403 - duplicate code block coalesced with above
                 clearRect(page, x, y, x + var_2, y + c);
-                actualDrawString(page, pilot->name, x, y);
+                drawStringAt(page, pilot->name, x, y);
                 var_6 = page[4];
             }
             break;
@@ -413,7 +413,7 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
                 pilot->name[var_10] = '\0';
                 // 2403
                 clearRect(page, x, y, x + var_2, y + c);
-                actualDrawString(page, pilot->name, x, y);
+                drawStringAt(page, pilot->name, x, y);
                 var_6 = page[4];
             }
             break;

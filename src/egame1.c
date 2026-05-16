@@ -811,12 +811,12 @@ void sub_19E5D(int arg_0, int arg_2, int arg_4, int arg_6) {
 
 // ==== seg000:0xa0cb ====
 int drawSomeStrings(char *arg_0, int arg_2, int arg_4, int arg_6) {
-    drawString(off_38334, arg_0, arg_2, arg_4, arg_6);
-    drawString(off_3834C, arg_0, arg_2, arg_4, arg_6);
+    drawStringCentered(off_38334, arg_0, arg_2, arg_4, arg_6);
+    drawStringCentered(off_3834C, arg_0, arg_2, arg_4, arg_6);
 }
 
 // ==== seg000:0xa13a ====
-int drawString(int* arg_0, char *arg_2, int arg_4, int arg_6, int arg_8) {
+int drawStringCentered(int* arg_0, char *arg_2, int arg_4, int arg_6, int arg_8) {
     arg_0[6] = 0;
     arg_0[4] = arg_4;
     arg_0[5] = arg_6;

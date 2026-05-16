@@ -3,8 +3,8 @@
 #include "debug.h"
 #include "end.h"
 
-void actualDrawString(int *pageNum, const char *string, int x, int y) {
-    TRACE(("actualDrawString"));
+void drawStringAt(int *pageNum, const char *string, int x, int y) {
+    TRACE(("drawStringAt"));
     pageNum[4] = x;
     pageNum[5] = y;
     gfx_jump_05_drawString(pageNum, string);
@@ -24,11 +24,11 @@ int stringWidth(int *page, const char *str) {
     return var_6;
 }
 
-void drawString(int *page, const char *str, int startx, int y, int endx) {
+void drawStringCentered(int *page, const char *str, int startx, int y, int endx) {
     int width;
-    TRACE(("drawString"));
+    TRACE(("drawStringCentered"));
     width = stringWidth(page, str);
-    actualDrawString(page, str, (endx - width) / 2 + startx, y);
+    drawStringAt(page, str, (endx - width) / 2 + startx, y);
 }
 
 int my_ltoa(int32 arg_0, int8* arg_4) {
@@ -129,7 +129,7 @@ void routine_65(int param_1)
         var_214 = 0;
     }
     clearRect((int *)param_1, 0xe9, 0x1e, 0x13f, 0x45);
-    actualDrawString((int *)param_1, str_inFlight, 0xf0, 0x26);
+    drawStringAt((int *)param_1, str_inFlight, 0xf0, 0x26);
 loop_top:
         var_190++;
         if (flightRecords[var_190].status & 0x3f) {
@@ -137,7 +137,7 @@ loop_top:
         clearRect((int *)param_1, 0xf0, 0x1e, 0x13f, 0x25);
         mystrcpy(dat_4824, str_timeLabel);
         mystrcat(dat_4824, routine_106(*((int *)&flightRecords[var_190] - 1), local_18));
-        actualDrawString((int *)param_1, dat_4824, 0xf0, 0x1e);
+        drawStringAt((int *)param_1, dat_4824, 0xf0, 0x1e);
         gfx_jump_21(0);
         if (var_209 == 0 && var_213 == 0) {
             routine_105((int)var_194, (int)var_195, (int)flightRecords[var_190].cx, (int)flightRecords[var_190].cy);
@@ -155,7 +155,7 @@ loop_top:
         my_ltoa(*(long *)&var_219, local_18);
         mystrcat(dat_4824, local_18);
         clearRect((int *)param_1, 0xe8, 0x56, 0x13f, 0x5e);
-        drawString((int *)param_1, dat_4824, 0xe8, 0x56, 0x57);
+        drawStringCentered((int *)param_1, dat_4824, 0xe8, 0x56, 0x57);
         var_81 = 0;
 wait_loop:
         if ((unsigned char)var_81 <= 5) goto wait_loop;

@@ -124,7 +124,7 @@ void clearBriefing(void);
 // ==== startCode1:0x124a ====
 int __cdecl showSprite(int, int, int, int, int, int, int);
 // ==== startCode1:0x12b8 ====
-void __cdecl actualDrawString(int *arg_pageNum, const char *arg_string, int arg_x, int arg_y);
+void __cdecl drawStringAt(int *arg_pageNum, const char *arg_string, int arg_x, int arg_y);
 // ==== startCode1:0x12df ====
 int sub_112DF();
 // ==== startCode1:0x130b ====
@@ -132,7 +132,7 @@ int unreach_1130B();
 // ==== startCode1:0x1458 ====
 int sub_11458();
 // ==== startCode1:0x1577 ====
-void __cdecl drawString(int *, const char *, int, int, int);
+void __cdecl drawStringCentered(int *, const char *, int, int, int);
 // ==== startCode1:0x15ae ====
 int __cdecl stringWidth(int *, const char *);
 // ==== startCode1:0x15f1 ====
