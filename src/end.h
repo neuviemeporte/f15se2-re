@@ -18,9 +18,9 @@
 
 void routine_91(int param_1);
 void mystrcpy(char *dst, char *src);
-void actualDrawString(int *pageNum, const char *string, int x, int y);
+void drawStringAt(int *pageNum, const char *string, int x, int y);
 int stringWidth(int *page, const char *str);
-void drawString(int *page, const char *str, int startx, int y, int endx);
+void drawStringCentered(int *page, const char *str, int startx, int y, int endx);
 extern void far gfx_jump_05_drawString(int *pageNum, const char *string);
 extern int far gfx_jump_2f_charWidth(int ch, int font);
 
@@ -126,7 +126,8 @@ char *routine_106(int timeValue, char *buffer);
 extern void far gfx_jump_21(int param);
 extern void far gfx_jump_2a(int p1, int p2, int p3, int p4, int p5, int p6, int p7, int p8);
 long routine_63(int param);
-void my_ltoa(long value, char *buffer);
+int my_ltoa(long value, char *buffer);
+int my_itoa(int arg_0, char *arg_2);
 void routine_66(void);
 void routine_26(void);
 void routine_5(void);

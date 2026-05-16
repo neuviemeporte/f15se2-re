@@ -334,7 +334,7 @@ int __cdecl drawSomeStrings(char *, int, int, int);
 // ==== seg000:0xa0fe ====
 int draw2Strings();
 // ==== seg000:0xa13a ====
-int __cdecl drawString(int *, char *, int, int, int);
+int __cdecl drawStringCentered(int *, char *, int, int, int);
 // ==== seg000:0xa183 ====
 int sub_1A183();
 // ==== seg000:0xa1b1 ====
