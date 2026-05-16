@@ -43,8 +43,8 @@ actualDrawString: Code1 NEAR 0442-0468 R0442-0468 complete
 routine_130: Code1 NEAR 05e2-0700 R05e2-0700
 drawString: Code1 NEAR 0701-0737 R0701-0737 complete
 stringWidth: Code1 NEAR 0738-077a R0738-077a complete
-my_ltoa: Code1 NEAR 077b-08b5 R077b-08b5
-my_itoa: Code1 NEAR 08b6-098f R08b6-098f
+my_ltoa: Code1 NEAR 077b-08b5 R077b-08b5 complete
+my_itoa: Code1 NEAR 08b6-098f R08b6-098f complete
 routine_34: Code1 NEAR 09ae-09be R09ae-09be complete
 mystrcpy: Code1 NEAR 0a42-0a5c R0a42-0a5c complete
 mystrcat: Code1 NEAR 0aab-0ad2 R0aab-0ad2 assembly
@@ -124,9 +124,9 @@ routine_51: Code1 NEAR 4b3e-4bf7 R4b3e-4bf7
 routine_46: Code1 NEAR 4bf8-4c1e R4bf8-4c1e assembly
 routine_140: Code1 NEAR 4c9a-4cb7 R4c9a-4cb7 assembly
 routine_70: Code1 NEAR 4cb8-4cc8 R4cb8-4cc8 complete
-routine_100: Code1 NEAR 4cf0-4d8b R4cf0-4d8b assembly
-routine_139: Code1 NEAR 4dc0-4e61 R4dc0-4e61 assembly
-routine_101: Code1 NEAR 4e62-4e83 R4e62-4e83 assembly
+__aNldiv: Code1 NEAR 4cf0-4d8b R4cf0-4d8b assembly
+__aNlrem: Code1 NEAR 4dc0-4e61 R4dc0-4e61 assembly
+__aNNaldiv: Code1 NEAR 4e62-4e83 R4e62-4e83 assembly
 routine_2: Code1 NEAR 4e84-4ea3 R4e84-4ea3
 routine_29: Code1 NEAR 4eaa-4ecb R4eaa-4ecb assembly
 routine_11: Code1 NEAR 4ecc-4ef6 R4ecc-4ef6 assembly

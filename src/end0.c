@@ -3,36 +3,6 @@
 #include "debug.h"
 #include "end.h"
 
-/* ===== Duplicate functions from START.EXE =====
- *
- * The functions below are byte-identical to START versions (mzdup distance 0).
- * When reconstructing sequentially and you reach one of these, grab the C
- * code START's source file and adapt the calls.
- *
- * my_ltoa (0x077b)            see start1.c
- * my_itoa (0x08b6)            see start1.c
- *
- * cleanup (0x0185)            see start1.c. Calls restoreTimerIrqHandler,
- *                             routine_72 (intDispatch), routine_15 (misc_jump_5e).
- *                             Needs global label at data offset 0x19ff (timerHandlerInstalled).
- *
- * actualDrawString (0x0442)   see start1.c. Calls routine_93 (gfx_jump_05_drawString).
- *
- * drawString (0x0701)         see start1.c:633. Calls stringWidth, actualDrawString.
- *
- * stringWidth (0x0738)        see start1.c:642. Calls routine_111 (gfx_jump_2f_charWidth).
- *
- * openShowPic (0x15a6)        see start2.c:538. Calls routine_89 (openFileWrapper),
- *                             showPicFile, routine_91 (fileClose).
- *
- * loadPic (0x15fc)            see start2.c:555. Calls routine_89 (openFileWrapper),
- *                             decodePic, routine_91 (fileClose).
- *
- * allocBuffer (0x19ec)        see start2.c:564. Calls dos_alloc, cleanup,
- *                             routine_45 (dos_printstring), routine_8 (exit).
- *                             Also needs aInsufficientSy string.
- */
-
 void actualDrawString(int *pageNum, const char *string, int x, int y) {
     TRACE(("actualDrawString"));
     pageNum[4] = x;
@@ -59,6 +29,43 @@ void drawString(int *page, const char *str, int startx, int y, int endx) {
     TRACE(("drawString"));
     width = stringWidth(page, str);
     actualDrawString(page, str, (endx - width) / 2 + startx, y);
+}
+
+int my_ltoa(int32 arg_0, int8* arg_4) {
+    int8 var_A, var_C;
+    int8 *var_8;
+    int8 var_6[6];
+    var_8 = arg_4;
+    if (arg_0 < 0) {
+        arg_0 = -arg_0;
+        *var_8 = '-';
+        var_8++;
+    }
+    var_6[0] = arg_0 % 0xa;
+    arg_0 /= 0xa;
+    var_6[1] = arg_0 % 0xa;
+    arg_0 /= 0xa;
+    var_6[2] = arg_0 % 0xa;
+    arg_0 /= 0xa;
+    var_6[3] = arg_0 % 0xa;
+    arg_0 /= 0xa;
+    var_6[4] = arg_0 % 0xa;
+    arg_0 /= 0xa;
+    var_6[5] = arg_0 % 0xa;
+    var_A = 0;
+    for (var_C = 5; var_C > 0; var_C--) {
+        if (var_6[var_C] != 0) break;
+    }
+    do {
+        if (var_C == 2 && var_A == 1) {
+            *var_8 = ',';
+            var_8++;
+        }
+        *var_8 = var_6[var_C] + '0';
+        var_A = 1;
+        var_8++;
+    } while (--var_C >= 0);
+    *var_8 = '\0';
 }
 
 int my_itoa(int arg_0, int8 *arg_2) {
@@ -287,4 +294,3 @@ int routine_135(int param_1)
         return gfx_jump_11_blitSprite((int)dat_21C2);
     }
 }
-

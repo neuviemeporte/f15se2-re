@@ -51,6 +51,7 @@ EXTRN _routine_26:PROC
 EXTRN _routine_5:PROC
 EXTRN _routine_6:PROC
 EXTRN _my_itoa:PROC
+EXTRN _my_ltoa:PROC
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
 PUBLIC _var_69
@@ -79,7 +80,10 @@ PUBLIC _gfx_jump_21
 PUBLIC _gfx_jump_2a
 PUBLIC _clearRect
 PUBLIC _mystrcat
-PUBLIC _my_ltoa
+PUBLIC __aNlrem
+PUBLIC __aNNaldiv
+PUBLIC __aNldiv
+
 PUBLIC _routine_106
 PUBLIC _routine_63
 PUBLIC _var_194
@@ -761,153 +765,7 @@ drawString equ _drawString
 
 stringWidth equ _stringWidth
 
-my_ltoa proc near
-    push BP
-    mov BP,SP
-    sub SP,0ch
-    push SI
-    mov AX,word ptr [BP + 8h]
-    mov word ptr [BP + -8h],AX
-    cmp word ptr [BP + 6h],0h
-    jge LAB_1000_07aa
-    mov AX,word ptr [BP + 4h]
-    mov DX,word ptr [BP + 6h]
-    neg AX
-    adc DX,0h
-    neg DX
-    mov word ptr [BP + 4h],AX
-    mov word ptr [BP + 6h],DX
-    mov BX,word ptr [BP + -8h]
-    mov byte ptr [BX],2dh
-    inc word ptr [BP + -8h]
-LAB_1000_07aa:
-    mov AX,0ah
-    cwd
-    push DX
-    push AX
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_139
-    mov byte ptr [BP + -6h],AL
-    mov AX,0ah
-    cwd
-    push DX
-    push AX
-    lea AX,[BP + 4h]
-    push AX
-    call routine_101
-    mov AX,0ah
-    cwd
-    push DX
-    push AX
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_139
-    mov byte ptr [BP + -5h],AL
-    mov AX,0ah
-    cwd
-    push DX
-    push AX
-    lea AX,[BP + 4h]
-    push AX
-    call routine_101
-    mov AX,0ah
-    cwd
-    push DX
-    push AX
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_139
-    mov byte ptr [BP + -4h],AL
-    mov AX,0ah
-    cwd
-    push DX
-    push AX
-    lea AX,[BP + 4h]
-    push AX
-    call routine_101
-    mov AX,0ah
-    cwd
-    push DX
-    push AX
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_139
-    mov byte ptr [BP + -3h],AL
-    mov AX,0ah
-    cwd
-    push DX
-    push AX
-    lea AX,[BP + 4h]
-    push AX
-    call routine_101
-    mov AX,0ah
-    cwd
-    push DX
-    push AX
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_139
-    mov byte ptr [BP + -2h],AL
-    mov AX,0ah
-    cwd
-    push DX
-    push AX
-    lea AX,[BP + 4h]
-    push AX
-    call routine_101
-    mov AX,0ah
-    cwd
-    push DX
-    push AX
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_139
-    mov byte ptr [BP + -1h],AL
-    mov byte ptr [BP + -0ah],0h
-    mov byte ptr [BP + -0ch],5h
-    jmp LAB_1000_0864
-LAB_1000_0861:
-    dec byte ptr [BP + -0ch]
-LAB_1000_0864:
-    cmp byte ptr [BP + -0ch],0h
-    jle LAB_1000_087a
-    mov AL,byte ptr [BP + -0ch]
-    cbw
-    mov SI,AX
-    cmp byte ptr [BP + SI + -6h],0h
-    jz LAB_1000_0878
-    jmp LAB_1000_087a
-LAB_1000_0878:
-    jmp LAB_1000_0861
-LAB_1000_087a:
-    cmp byte ptr [BP + -0ch],2h
-    jnz LAB_1000_088f
-    cmp byte ptr [BP + -0ah],1h
-    jnz LAB_1000_088f
-    mov BX,word ptr [BP + -8h]
-    mov byte ptr [BX],2ch
-    inc word ptr [BP + -8h]
-LAB_1000_088f:
-    mov AL,byte ptr [BP + -0ch]
-    cbw
-    mov SI,AX
-    mov AL,byte ptr [BP + SI + -6h]
-    add AL,30h
-    mov BX,word ptr [BP + -8h]
-    mov byte ptr [BX],AL
-    mov byte ptr [BP + -0ah],1h
-    inc word ptr [BP + -8h]
-    dec byte ptr [BP + -0ch]
-    jns LAB_1000_087a
-    mov BX,word ptr [BP + -8h]
-    mov byte ptr [BX],0h
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-my_ltoa endp
-_my_ltoa equ my_ltoa
+my_ltoa equ _my_ltoa
 
 my_itoa equ _my_itoa
 
@@ -7803,7 +7661,7 @@ FUN_1000_4cca proc near
     ret
 FUN_1000_4cca endp
 
-routine_100 proc near
+__aNldiv proc near
     push BP
     mov BP,SP
     push DI
@@ -7886,7 +7744,8 @@ LAB_1000_4d83:
     mov SP,BP
     pop BP
     ret 8h
-routine_100 endp
+__aNldiv endp
+routine_100 equ __aNldiv
 
 __aNlmul proc near
     push BP
@@ -7915,7 +7774,7 @@ LAB_1000_4da7:
     ret 8h
 __aNlmul endp
 
-routine_139 proc near
+__aNlrem proc near
     push BP
     mov BP,SP
     push BX
@@ -7997,9 +7856,10 @@ LAB_1000_4e5a:
     mov SP,BP
     pop BP
     ret 8h
-routine_139 endp
+__aNlrem endp
+routine_139 equ __aNlrem
 
-routine_101 proc near
+__aNNaldiv proc near
     push BP
     mov BP,SP
     mov BX,word ptr [BP + 4h]
@@ -8014,7 +7874,8 @@ routine_101 proc near
     mov SP,BP
     pop BP
     ret 6h
-routine_101 endp
+__aNNaldiv endp
+routine_101 equ __aNNaldiv
 
 routine_2 proc near
     push BP

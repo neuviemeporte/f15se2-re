@@ -126,7 +126,7 @@ char *routine_106(int timeValue, char *buffer);
 extern void far gfx_jump_21(int param);
 extern void far gfx_jump_2a(int p1, int p2, int p3, int p4, int p5, int p6, int p7, int p8);
 long routine_63(int param);
-void my_ltoa(long value, char *buffer);
+int my_ltoa(long value, char *buffer);
 int my_itoa(int arg_0, char *arg_2);
 void routine_66(void);
 void routine_26(void);
