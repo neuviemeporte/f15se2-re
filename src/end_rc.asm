@@ -4849,20 +4849,20 @@ LAB_1000_2a3f:
     add AX,AX
     xchg AX,BX
 switchD_27f7:
-    jmp word ptr CS:[BX + 2a4fh]
+    jmp word ptr CS:[BX + offset var_4]
 var_4:
-    dw 27F7h
-    dw 28DFh
-    dw 2884h
-    dw 2A73h
-    dw 293Ah
-    dw 2A73h
-    dw 2A73h
-    dw 298Fh
-    dw 2A73h
-    dw 29E9h
-    dw 2A73h
-    dw 27F7h
+    dw offset caseD_c_2a4a
+    dw offset caseD_2_2a4a
+    dw offset caseD_3_2a4a
+    dw offset caseD_4_2a4a
+    dw offset caseD_5_2a4a
+    dw offset caseD_4_2a4a
+    dw offset caseD_4_2a4a
+    dw offset caseD_8_2a4a
+    dw offset caseD_4_2a4a
+    dw offset caseD_a_2a4a
+    dw offset caseD_4_2a4a
+    dw offset caseD_c_2a4a
 LAB_1000_2a67:
     jmp caseD_4_2a4a
 LAB_1000_2a69:
@@ -5901,20 +5901,20 @@ LAB_1000_3432:
     add AX,AX
     xchg AX,BX
 switchD_317d:
-    jmp word ptr CS:[BX + 3442h]
+    jmp word ptr CS:[BX + offset var_5]
 var_5:
-    dw 317Dh
-    dw 3252h
-    dw 3209h
-    dw 345Ah
-    dw 3302h
-    dw 345Ah
-    dw 345Ah
-    dw 3335h
-    dw 345Ah
-    dw 3276h
-    dw 345Ah
-    dw 317Dh
+    dw offset caseD_c_343d
+    dw offset caseD_2_343d
+    dw offset caseD_3_343d
+    dw offset caseD_4_343d
+    dw offset caseD_5_343d
+    dw offset caseD_4_343d
+    dw offset caseD_4_343d
+    dw offset caseD_8_343d
+    dw offset caseD_4_343d
+    dw offset caseD_a_343d
+    dw offset caseD_4_343d
+    dw offset caseD_c_343d
 caseD_6_3206:
 caseD_7_3332:
 caseD_9_6448:
@@ -6818,20 +6818,20 @@ LAB_1000_42d2:
     add AX,AX
     xchg AX,BX
 switchD_4225:
-    jmp word ptr CS:[BX + 42e2h]
+    jmp word ptr CS:[BX + offset var_7]
 var_7:
-    dw 4225h
-    dw 4262h
-    dw 425Ah
-    dw 42FAh
-    dw 426Ah
-    dw 42FAh
-    dw 42FAh
-    dw 4272h
-    dw 42FAh
-    dw 42C9h
-    dw 42FAh
-    dw 4252h
+    dw offset caseD_1_42dd
+    dw offset caseD_c_42dd
+    dw offset caseD_2_42dd
+    dw offset caseD_4_42dd
+    dw offset caseD_5_42dd
+    dw offset caseD_4_42dd
+    dw offset caseD_4_42dd
+    dw offset caseD_8_42dd
+    dw offset caseD_4_42dd
+    dw offset caseD_a_42dd
+    dw offset caseD_4_42dd
+    dw offset caseD_3_42dd
 caseD_6_424f:
 caseD_7_426f:
 caseD_9_42dd:
