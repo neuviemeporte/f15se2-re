@@ -221,7 +221,7 @@ def main():
         # Point mzdiff directly at the built function using its known offset.
         # This is exact: no hex-pattern search, no BFS precondition.
         tgt_spec = f"{built_exe}:{built_off:#x}"
-        cmd = [mzdiff_bin, ref_spec, tgt_spec, '--verbose', '--nocall']
+        cmd = [mzdiff_bin, ref_spec, tgt_spec, '--verbose', '--loose', '--ctx', '20', '--asm']
         print(f"Running: {' '.join(cmd)}")
         subprocess.run(cmd)
 
