@@ -116,10 +116,26 @@ PUBLIC _setTimerIrqHandler
 PUBLIC _FUN_1000_0a74
 PUBLIC _FUN_1000_16d6
 PUBLIC _FUN_1000_4c20
+PUBLIC _copyJoystickData
+PUBLIC _gfx_jump_31
+PUBLIC _gfx_jump_17_bufSize
 
 ; --- Code segment ---
 
-PUBLIC _main
+EXTRN _main:PROC
+
+PUBLIC _var_178
+PUBLIC _var_191
+PUBLIC _var_56
+PUBLIC _var_55
+PUBLIC _var_189
+PUBLIC _var_226
+PUBLIC _var_230
+PUBLIC _var_232
+PUBLIC _var_231
+PUBLIC _var_229
+PUBLIC _var_201
+
 routine_10 proc near
     db 00h
     db 00h
@@ -139,98 +155,12 @@ routine_10 proc near
     db 00h
 routine_10 endp
 
-_main:
-main proc near
-    push BP
-    mov BP,SP
-    sub SP,0eh
-    push SI
-    mov word ptr [BP + -8h],0h
-    mov word ptr [BP + -0ah],4f0h
-    les BX,dword ptr [BP + -0ah]
-    mov SI,word ptr ES:[BX]
-    mov word ptr [_var_223],SI
-    mov word ptr [_var_222],0h
-    mov word ptr [_var_179],SI
-    mov word ptr [_var_178],120eh
-    les BX,dword ptr [_var_222]
-    push word ptr ES:[BX + 1ah]
-    call routine_14
-    add SP,2h
-    les BX,dword ptr [_var_222]
-    push word ptr ES:[BX + 1eh]
-    call routine_14
-    add SP,2h
-    call far ptr misc_jump_5e_clearKeyFlags
-    call routine_16
-    les BX,dword ptr [_var_222]
-    mov AL,byte ptr ES:[BX + 24h]
-    mov byte ptr [_var_191],AL
-    call installCBreakHandler
-    call routine_18
-    les BX,dword ptr [_var_222]
-    cmp word ptr ES:[BX + 72h],1h
-    jnz LAB_1000_008e
-    mov AX,BX
-    mov DX,ES
-    db 05h, 48h, 00h  ; add AX,48h (force word-immediate encoding)
-    push DX
-    push AX
-    call far ptr copyJoystickData
-    add SP,4h
-    jmp LAB_1000_0096
-LAB_1000_008e:
-    mov AL,80h
-    mov byte ptr [_var_56],AL
-    mov byte ptr [_var_55],AL
-LAB_1000_0096:
-    call routine_20
-    call far ptr gfx_jump_31
-    mov word ptr [BP + -6h],AX
-    call far ptr gfx_jump_17_bufSize
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + -6h]
-    call allocBuffer
-    add SP,2h
-    mov word ptr [_var_226],AX
-    cmp word ptr [_var_189],1h
-    jnz LAB_1000_00d2
-    mov AX,3c8ch
-    push AX
-    call allocBuffer
-    add SP,2h
-    mov word ptr [_var_230],AX
-    mov word ptr [_var_232],AX
-    mov word ptr [_var_231],0h
-LAB_1000_00d2:
-    push word ptr [BP + -2h]
-    call allocBuffer
-    add SP,2h
-    mov word ptr [_var_229],AX
-    mov word ptr [_var_201],3h
-    les BX,dword ptr [_var_222]
-    cmp word ptr ES:[BX + 26h],2h
-    jnz LAB_1000_00f2
-    call routine_24
-LAB_1000_00f2:
-    call routine_16
-    call routine_25
-    call routine_26
-    call routine_16
-    call routine_27
-    call routine_28
-    mov AX,23h
-    push AX
-    call routine_8
-    add SP,2h
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-main endp
+main equ _main
 
 routine_26 equ _routine_26
 
+PUBLIC _routine_18
+_routine_18:
 routine_18 proc near
     push BP
     mov BP,SP
@@ -272,6 +202,8 @@ routine_6 equ _routine_6
 
 routine_5 equ _routine_5
 
+PUBLIC _routine_20
+_routine_20:
 routine_20 proc near
     push BP
     mov BP,SP
@@ -494,6 +426,8 @@ routine_109 proc near
     db 0C3h
 routine_109 endp
 
+PUBLIC _routine_16
+_routine_16:
 routine_16 proc near
     jmp FUN_1000_03ad
 LAB_1000_03a8:
@@ -1205,6 +1139,8 @@ dos_printstring proc near
     db 00h
 dos_printstring endp
 
+PUBLIC _routine_14
+_routine_14:
 routine_14 proc near
     push BP
     mov BP,SP
@@ -2023,6 +1959,8 @@ LAB_1000_1238:
     iret
 FUN_1000_121f endp
 
+PUBLIC _installCBreakHandler
+_installCBreakHandler:
 installCBreakHandler proc near
     push SI
     push DI
@@ -3373,6 +3311,8 @@ _incTimerCounters proc near
 _incTimerCounters endp
 routine_69 endp
 
+PUBLIC _routine_27
+_routine_27:
 routine_27 proc near
     push BP
     mov BP,SP
@@ -3666,6 +3606,8 @@ LAB_1000_214e:
     ret
 routine_27 endp
 
+PUBLIC _routine_24
+_routine_24:
 routine_24 proc near
     push BP
     mov BP,SP
@@ -6560,6 +6502,8 @@ LAB_1000_44d8:
     ret
 routine_131 endp
 
+PUBLIC _routine_25
+_routine_25:
 routine_25 proc near
     push BP
     mov BP,SP
@@ -8979,6 +8923,7 @@ copyJoystickData proc far
     retf
     db 00h
 copyJoystickData endp
+_copyJoystickData equ copyJoystickData
 
 
 
@@ -9315,6 +9260,7 @@ gfx_jump_17_bufSize proc far               ; 0x107B
     db 0EAh
     dd 0
 gfx_jump_17_bufSize endp
+_gfx_jump_17_bufSize equ gfx_jump_17_bufSize
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h
 gfx_jump_1a proc far               ; 0x108A
     db 0EAh
@@ -9371,6 +9317,7 @@ gfx_jump_31 proc far               ; 0x10FD
     db 0EAh
     dd 0
 gfx_jump_31 endp
+_gfx_jump_31 equ gfx_jump_31
     db 0EAh, 000h, 000h, 000h, 000h
 gfx_jump_33_fillRow proc far               ; 0x1107
     db 0EAh

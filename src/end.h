@@ -160,4 +160,30 @@ int FUN_1000_4c20(int handle, int off, int whence, int mode);
 void FUN_1000_15d2(char *name, int segment);
 void FUN_1000_1626(char *name, int segment, int off, int whence);
 
+/* Variables used by main */
+extern int far *var_178;
+extern char var_191;
+extern char var_56;
+extern char var_55;
+extern int var_189;
+extern int var_226;
+extern int var_230;
+extern int var_232;
+extern int var_231;
+extern int var_229;
+extern int var_201;
+
+/* ASM functions called by main */
+void routine_14(int param);
+void routine_16(void);
+void routine_18(void);
+void routine_20(void);
+void routine_24(void);
+void routine_25(void);
+void routine_27(void);
+void installCBreakHandler(void);
+extern void far copyJoystickData(char far *data);
+extern int far gfx_jump_31(void);
+extern int far gfx_jump_17_bufSize(void);
+
 #endif // F15_SE2_END

@@ -1,7 +1,60 @@
 /* end0.c — compiled with /Gs /Zi (stack probes disabled, debug info) */
+#include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
 #include "end.h"
+
+void main(void) {
+    int p;
+    int a;
+    int b;
+    uint16 far *d;
+    int e;
+    register int seg;
+
+    (void)a; (void)e;
+
+    FP_SEG(d) = SEG_LOWMEM;
+    FP_OFF(d) = OFF_IACA_START;
+    seg = *d;
+    FP_SEG(var_222) = seg;
+    FP_OFF(var_222) = 0;
+    FP_SEG(var_178) = seg;
+    FP_OFF(var_178) = COMM_GAMEDATA_OFFSET;
+    routine_14(((int far *)var_222)[0x1a / 2]);
+    routine_14(((int far *)var_222)[0x1e / 2]);
+    misc_jump_5e_clearKeyFlags();
+    routine_16();
+    var_191 = ((char far *)var_222)[0x24];
+    installCBreakHandler();
+    routine_18();
+    if (((int far *)var_222)[0x72 / 2] == 1) {
+        copyJoystickData((char far *)var_222 + 0x48);
+    } else {
+        var_55 = var_56 = 0x80;
+    }
+    routine_20();
+    b = gfx_jump_31();
+    p = gfx_jump_17_bufSize();
+    var_226 = allocBuffer(b);
+    if (var_189 == 1) {
+        var_230 = allocBuffer(0x3c8c);
+        var_232 = var_230;
+        var_231 = 0;
+    }
+    var_229 = allocBuffer(p);
+    var_201 = 3;
+    if (((int far *)var_222)[0x26 / 2] == 2) {
+        routine_24();
+    }
+    routine_16();
+    routine_25();
+    routine_26();
+    routine_16();
+    routine_27();
+    routine_28();
+    routine_8(0x23);
+}
 
 void drawStringAt(int *pageNum, const char *string, int x, int y) {
     TRACE(("drawStringAt"));
