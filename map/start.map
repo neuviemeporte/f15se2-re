@@ -71,7 +71,7 @@ sub_125E4: Code1 NEAR 25e4-2650 R25e4-261c U261d-261d R261e-2650 complete
 # a bunch of unreachable routines
 unreach_2652: Code1 NEAR 2652-26af U2652-26af detached
 # !!!
-mystrcpy: Code1 NEAR 26b0-26ca R26b0-26ca assembly
+mystrcpy: Code1 NEAR 26b0-26ca R26b0-26ca complete
 unreach_26cb: Code1 NEAR 26cb-26fc U26cb-26fc detached
 mystrlen: Code1 NEAR 26fd-2718 R26fd-2718 assembly
 mystrcat: Code1 NEAR 2719-2740 R2719-2740 assembly
