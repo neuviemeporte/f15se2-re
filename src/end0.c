@@ -351,3 +351,28 @@ int routine_135(int param_1)
         return gfx_jump_11_blitSprite((int)dat_21C2);
     }
 }
+
+void routine_95(int *param_1, int param_2) {
+    int p;
+    int a;
+    int b;
+    int c;
+    TRACE(("routine_95"));
+    (void)a;
+    (void)c;
+    if (param_1[0x17] == 0) {
+        param_1[0x17] = 1;
+        b = (unsigned)param_1[9] >> 4;
+        p = param_1[9] & 0xF;
+        if (param_1[9] != 0) {
+            gfx_jump_29_switchColor(param_2, param_1[4], param_1[5], param_1[6], param_1[7], b, p);
+        }
+    } else {
+        param_1[0x17] = 0;
+        b = param_1[9] & 0xF;
+        p = (unsigned)param_1[9] >> 4;
+    }
+    if (param_1[9] != 0) {
+        gfx_jump_29_switchColor(param_2, param_1[4], param_1[5], param_1[6], param_1[7], b, p);
+    }
+}

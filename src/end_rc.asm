@@ -53,8 +53,13 @@ EXTRN _routine_5:PROC
 EXTRN _routine_6:PROC
 EXTRN _my_itoa:PROC
 EXTRN _my_ltoa:PROC
+EXTRN _routine_95:PROC
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
+PUBLIC _routine_108
+PUBLIC _routine_109
+PUBLIC _var_177
+PUBLIC _var_206
 PUBLIC _var_69
 PUBLIC _str_allocError
 PUBLIC _str_deallocError
@@ -78,6 +83,7 @@ PUBLIC _dat_21C2
 PUBLIC _flightRecords
 PUBLIC _gfx_jump_11_blitSprite
 PUBLIC _gfx_jump_21
+PUBLIC _gfx_jump_29_switchColor
 PUBLIC _gfx_jump_2a
 PUBLIC _clearRect
 PUBLIC _mystrcat
@@ -434,6 +440,7 @@ routine_41 proc near
     ret
 routine_41 endp
 
+_routine_108:
 routine_108 proc near
     push BP
     mov BP,SP
@@ -459,6 +466,7 @@ routine_108 proc near
     ret
 routine_108 endp
 
+_routine_109:
 routine_109 proc near
     push BP
     mov BP,SP
@@ -4058,64 +4066,7 @@ LAB_1000_257d:
     ret
 routine_60 endp
 
-routine_95 proc near
-    push BP
-    mov BP,SP
-    sub SP,8h
-    mov BX,word ptr [BP + 4h]
-    cmp word ptr [BX + 2eh],0h
-    jnz LAB_1000_25d0
-    mov word ptr [BX + 2eh],1h
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BX + 12h]
-    mov CL,4h
-    shr AX,CL
-    mov word ptr [BP + -6h],AX
-    mov AX,word ptr [BX + 12h]
-    db 25h, 0Fh, 00h  ; and AX,0Fh (force word-immediate)
-    mov word ptr [BP + -2h],AX
-    cmp word ptr [BX + 12h],0h
-    jz LAB_1000_25ce
-    push AX
-    push word ptr [BP + -6h]
-    push word ptr [BX + 0eh]
-    push word ptr [BX + 0ch]
-    push word ptr [BX + 0ah]
-    push word ptr [BX + 8h]
-    push word ptr [BP + 6h]
-    call far ptr gfx_jump_29_switchColor
-    add SP,0eh
-LAB_1000_25ce:
-    jmp LAB_1000_25ee
-LAB_1000_25d0:
-    mov BX,word ptr [BP + 4h]
-    mov word ptr [BX + 2eh],0h
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BX + 12h]
-    db 25h, 0Fh, 00h  ; and AX,0Fh (force word-immediate)
-    mov word ptr [BP + -6h],AX
-    mov AX,word ptr [BX + 12h]
-    mov CL,4h
-    shr AX,CL
-    mov word ptr [BP + -2h],AX
-LAB_1000_25ee:
-    mov BX,word ptr [BP + 4h]
-    cmp word ptr [BX + 12h],0h
-    jz LAB_1000_2614
-    push word ptr [BP + -2h]
-    push word ptr [BP + -6h]
-    push word ptr [BX + 0eh]
-    push word ptr [BX + 0ch]
-    push word ptr [BX + 0ah]
-    push word ptr [BX + 8h]
-    push word ptr [BP + 6h]
-    call far ptr gfx_jump_29_switchColor
-    add SP,0eh
-LAB_1000_2614:
-    mov SP,BP
-    pop BP
-    ret
-routine_95 endp
+routine_95 equ _routine_95
 
 routine_97 equ _routine_97
 
@@ -9501,10 +9452,11 @@ gfx_jump_28 proc far               ; 0x10D0
     db 0EAh
     dd 0
 gfx_jump_28 endp
-gfx_jump_29_switchColor proc far               ; 0x10D5
+gfx_jump_29_switchColor proc far
     db 0EAh
     dd 0
 gfx_jump_29_switchColor endp
+_gfx_jump_29_switchColor equ gfx_jump_29_switchColor
 gfx_jump_2a proc far               ; 0x10DA
     db 0EAh
     dd 0
