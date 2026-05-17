@@ -54,6 +54,7 @@ EXTRN _routine_6:PROC
 EXTRN _my_itoa:PROC
 EXTRN _my_ltoa:PROC
 EXTRN _routine_95:PROC
+EXTRN _routine_132:PROC
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
 PUBLIC _routine_108
@@ -5693,111 +5694,7 @@ routine_135 equ _routine_135
 
 routine_65 equ _routine_65
 
-routine_132 proc near
-    push BP
-    mov BP,SP
-    sub SP,1eh
-    push SI
-    mov word ptr [BP + -4h],0ffffh
-LAB_1000_3b3c:
-    inc word ptr [BP + -4h]
-    mov BX,word ptr [BP + -4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    test byte ptr [BX + offset _var_196],3fh
-    jz LAB_1000_3bca
-    mov AX,word ptr [BP + 6h]
-    cmp word ptr [BP + -4h],AX
-    ja LAB_1000_3bca
-    sub AX,AX
-    push AX
-    call far ptr gfx_jump_21
-    add SP,2h
-    cmp word ptr [BP + -4h],0h
-    jnz LAB_1000_3b8e
-    sub AX,AX
-    push AX
-    push AX
-    mov AL,byte ptr [_var_195]
-    cbw
-    push AX
-    mov AL,byte ptr [_var_194]
-    cbw
-    push AX
-    call routine_147
-    add SP,8h
-    mov AL,byte ptr [_var_194]
-    cbw
-    mov word ptr [BP + -6h],AX
-    mov AL,byte ptr [_var_195]
-    cbw
-    mov word ptr [BP + -0ah],AX
-    jmp LAB_1000_3bc7
-LAB_1000_3b8e:
-    mov AX,word ptr [BP + -4h]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    mov AL,byte ptr [SI + offset _var_194]
-    cbw
-    mov word ptr [BP + -2h],AX
-    mov AL,byte ptr [SI + offset _var_195]
-    cbw
-    mov word ptr [BP + -8h],AX
-    push word ptr [BP + -0ah]
-    push word ptr [BP + -6h]
-    push AX
-    push word ptr [BP + -2h]
-    call routine_105
-    add SP,8h
-    mov AX,word ptr [BP + -2h]
-    mov word ptr [BP + -6h],AX
-    mov AX,word ptr [BP + -8h]
-    mov word ptr [BP + -0ah],AX
-LAB_1000_3bc7:
-    jmp LAB_1000_3b3c
-LAB_1000_3bca:
-    mov word ptr [BP + -4h],0ffffh
-LAB_1000_3bcf:
-    inc word ptr [BP + -4h]
-    mov BX,word ptr [BP + -4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    test byte ptr [BX + offset _var_196],3fh
-    jz LAB_1000_3c0c
-    mov AX,word ptr [BP + 6h]
-    cmp word ptr [BP + -4h],AX
-    ja LAB_1000_3c0c
-    mov BX,word ptr [BP + -4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_196]
-    and AL,3fh
-    cmp AL,9h
-    jz LAB_1000_3c0a
-    push word ptr [BP + -4h]
-    call routine_135
-    add SP,2h
-LAB_1000_3c0a:
-    jmp LAB_1000_3bcf
-LAB_1000_3c0c:
-    dec word ptr [BP + -4h]
-    mov AX,word ptr [BP + -4h]
-    jmp LAB_1000_3c14
-LAB_1000_3c14:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-routine_132 endp
+routine_132 equ _routine_132
 
 routine_106 proc near
     push BP

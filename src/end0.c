@@ -352,6 +352,49 @@ int routine_135(int param_1)
     }
 }
 
+unsigned int routine_132(int param_1, unsigned int param_2) {
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+    int g;
+    int h;
+    int i;
+    int j;
+    int k;
+    int l;
+    int m;
+    int n;
+    (void)e; (void)f; (void)g; (void)h; (void)i;
+    (void)j; (void)k; (void)l; (void)m; (void)n; (void)p;
+    a = -1;
+    while (++a, (flightRecords[a].status & 0x3f) != 0 && (unsigned)a <= param_2) {
+        gfx_jump_21(0);
+        if (a == 0) {
+            routine_147((int)flightRecords[0].cx, (int)flightRecords[0].cy, 0, 0);
+            b = (int)flightRecords[0].cx;
+            d = (int)flightRecords[0].cy;
+        } else {
+            p = (int)flightRecords[a].cx;
+            c = (int)flightRecords[a].cy;
+            routine_105(p, c, b, d);
+            b = p;
+            d = c;
+        }
+    }
+    a = -1;
+    while (++a, (flightRecords[a].status & 0x3f) != 0 && (unsigned)a <= param_2) {
+        if ((flightRecords[a].status & 0x3f) != 9) {
+            routine_135(a);
+        }
+    }
+    a--;
+    return a;
+}
+
 void routine_95(int *param_1, int param_2) {
     int p;
     int a;
