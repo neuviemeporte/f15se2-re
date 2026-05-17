@@ -11,92 +11,92 @@ a equ 2h
 b equ 6h
 
 .CODE
-EXTRN _routine_20:PROC
-EXTRN _routine_91:PROC
+EXTRN _loadWorldStrings:PROC
+EXTRN _closeFileWrapper:PROC
 EXTRN _drawStringAt:PROC
 EXTRN _stringWidth:PROC
 EXTRN _drawStringCentered:PROC
 EXTRN _mystrcpy:PROC
 EXTRN _cleanup:PROC
-EXTRN _routine_34:PROC
+EXTRN _seedRandom:PROC
 EXTRN _loadPic:PROC
 EXTRN _openShowPic:PROC
 EXTRN _allocBuffer:PROC
-EXTRN _routine_64:PROC
-EXTRN _routine_70:PROC
-EXTRN _routine_135:PROC
-EXTRN _routine_136:PROC
-EXTRN _routine_137:PROC
-EXTRN _routine_157:PROC
-EXTRN _routine_160:PROC
+EXTRN _freeBuffer:PROC
+EXTRN _srandInit:PROC
+EXTRN _drawEventSprite:PROC
+EXTRN _mapToScreenY:PROC
+EXTRN _mapToScreenX:PROC
+EXTRN _drawMapPixel:PROC
+EXTRN _drawClippedLine:PROC
 EXTRN _openFileWrapper:PROC
-EXTRN _FUN_1000_1348:PROC
-EXTRN _FUN_1000_1368:PROC
-EXTRN _FUN_1000_137c:PROC
-EXTRN _FUN_1000_1394:PROC
-EXTRN _FUN_1000_12c6:PROC
-EXTRN _FUN_1000_12fe:PROC
-EXTRN _routine_147:PROC
-EXTRN _routine_85:PROC
-EXTRN _routine_113:PROC
-EXTRN _FUN_1000_09e4:PROC
-EXTRN _FUN_1000_15d2:PROC
-EXTRN _FUN_1000_1626:PROC
-EXTRN _routine_97:PROC
-EXTRN _routine_105:PROC
-EXTRN _FUN_1000_0990:PROC
-EXTRN _FUN_1000_041a:PROC
-EXTRN _FUN_1000_0469:PROC
-EXTRN _routine_65:PROC
-EXTRN _routine_130:PROC
-EXTRN _routine_66:PROC
+EXTRN _openFileRead:PROC
+EXTRN _readFileBlock:PROC
+EXTRN _readFileAt:PROC
+EXTRN _readFileAtEx:PROC
+EXTRN _loadFileSection:PROC
+EXTRN _loadFileSectionEx:PROC
+EXTRN _plotMapPoint:PROC
+EXTRN _closeAndResetFile:PROC
+EXTRN _markHandleClosed:PROC
+EXTRN _outportByte:PROC
+EXTRN _loadPicFromFile:PROC
+EXTRN _loadPicFromFileAt:PROC
+EXTRN _isPointInRect:PROC
+EXTRN _drawFlightLine:PROC
+EXTRN _timerWait:PROC
+EXTRN _drawStringAtPos:PROC
+EXTRN _drawFarString:PROC
+EXTRN _animateFlightPath:PROC
+EXTRN _drawWrappedText:PROC
+EXTRN _waitForKeyOrJoy:PROC
 EXTRN _routine_26:PROC
 EXTRN _routine_5:PROC
 EXTRN _routine_6:PROC
 EXTRN _my_itoa:PROC
 EXTRN _my_ltoa:PROC
-EXTRN _routine_95:PROC
-EXTRN _routine_98:PROC
-EXTRN _routine_63:PROC
-EXTRN _routine_132:PROC
-EXTRN _routine_131:PROC
-EXTRN _routine_106:PROC
+EXTRN _blinkWidget:PROC
+EXTRN _processDebriefInput:PROC
+EXTRN _calcMissionScore:PROC
+EXTRN _drawFlightPath:PROC
+EXTRN _showEventPopup:PROC
+EXTRN _formatFlightTime:PROC
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
 PUBLIC _routine_108
 PUBLIC _routine_109
-PUBLIC _var_177
-PUBLIC _var_206
-PUBLIC _var_207
-PUBLIC _var_97
-PUBLIC _var_98
+PUBLIC _worldBufHandle
+PUBLIC _worldDataReady
+PUBLIC _ejectedFlag
+PUBLIC _popupSpriteY
+PUBLIC _popupSpriteX
 PUBLIC _timerHandlerInstalled
 PUBLIC _str_allocError
 PUBLIC _str_deallocError
-PUBLIC _var_138
-PUBLIC _var_139
-PUBLIC _var_93
-PUBLIC _var_94
-PUBLIC _var_95
-PUBLIC _var_96
-PUBLIC _var_81
-PUBLIC _var_210
-PUBLIC _var_212
-PUBLIC _var_222
-PUBLIC _var_57
-PUBLIC _var_183
-PUBLIC _var_190
-PUBLIC _dat_20C2
-PUBLIC _dat_2102
-PUBLIC _dat_2142
-PUBLIC _dat_21C2
+PUBLIC _randSeed
+PUBLIC _randState
+PUBLIC _mapViewX1
+PUBLIC _mapViewY1
+PUBLIC _mapViewX2
+PUBLIC _mapViewY2
+PUBLIC _timerCounter
+PUBLIC _cursorX
+PUBLIC _cursorY
+PUBLIC _commData
+PUBLIC _quitFlag
+PUBLIC _slotInfoTable
+PUBLIC _curRecordIdx
+PUBLIC _spriteAir
+PUBLIC _spriteSam
+PUBLIC _spriteGround
+PUBLIC _spriteWaypoint
 PUBLIC _flightRecords
-PUBLIC _var_185
-PUBLIC _var_186
-PUBLIC _var_187
-PUBLIC _var_188
+PUBLIC _target1Type
+PUBLIC _target1MiscBits
+PUBLIC _target2Type
+PUBLIC _target2MiscBits
 PUBLIC _str_timeFormat
-PUBLIC _var_24
+PUBLIC _nightMission
 PUBLIC _gfx_jump_11_blitSprite
 PUBLIC _gfx_jump_21
 PUBLIC _gfx_jump_29_switchColor
@@ -108,30 +108,30 @@ PUBLIC __aNNaldiv
 PUBLIC __aNldiv
 
 
-PUBLIC _var_181
-PUBLIC _var_182
-PUBLIC _var_184
-PUBLIC _var_199
-PUBLIC _var_200
-PUBLIC _var_204
-PUBLIC _var_215
-PUBLIC _var_221
-PUBLIC _var_224
-PUBLIC _var_225
-PUBLIC _var_23
+PUBLIC _samKilled
+PUBLIC _samMissed
+PUBLIC _gridFlags
+PUBLIC _groundKilled
+PUBLIC _groundMissed
+PUBLIC _unitTypeTable
+PUBLIC _primaryHit
+PUBLIC _secondaryHit
+PUBLIC _airKilled
+PUBLIC _airMissed
+PUBLIC _samDataTable
 PUBLIC _var_194
 PUBLIC _var_195
 PUBLIC _var_196
 PUBLIC _var_197
-PUBLIC _var_208
-PUBLIC _var_209
-PUBLIC _var_211
-PUBLIC _var_213
-PUBLIC _var_214
-PUBLIC _var_219
-PUBLIC _var_220
-PUBLIC _var_227
-PUBLIC _var_228
+PUBLIC _lastDrawX
+PUBLIC _prevDrawX
+PUBLIC _lastDrawY
+PUBLIC _prevDrawY
+PUBLIC _popupVisible
+PUBLIC _missionScore
+PUBLIC _missionScoreHi
+PUBLIC _popupX
+PUBLIC _popupY
 PUBLIC _dat_4824
 PUBLIC _str_inFlight
 PUBLIC _str_timeLabel
@@ -140,9 +140,9 @@ PUBLIC _misc_jump_5a_keybuf
 PUBLIC _misc_jump_5b_getkey
 PUBLIC _misc_jump_5d_readJoy
 PUBLIC _setTimerIrqHandler
-PUBLIC _FUN_1000_0a74
-PUBLIC _FUN_1000_16d6
-PUBLIC _FUN_1000_4c20
+PUBLIC _farStrcpy
+PUBLIC _decodePicRaw
+PUBLIC _fileSeek
 PUBLIC _copyJoystickData
 PUBLIC _gfx_jump_31
 PUBLIC _gfx_jump_17_bufSize
@@ -151,33 +151,33 @@ PUBLIC _gfx_jump_17_bufSize
 
 EXTRN _main:PROC
 
-PUBLIC _var_169
-PUBLIC _var_170
-PUBLIC _var_171
-PUBLIC _var_172
-PUBLIC _var_173
-PUBLIC _var_174
-PUBLIC _var_175
-PUBLIC _var_202
-PUBLIC _var_82
-PUBLIC _var_83
+PUBLIC _colorTablePtr
+PUBLIC _inputChanged
+PUBLIC _colorAnimIdx
+PUBLIC _colorAnimEnabled
+PUBLIC _joyRepeatFlag
+PUBLIC _spriteToggle
+PUBLIC _animDone
+PUBLIC _enterPressed
+PUBLIC _timerCounter2
+PUBLIC _timerCounter3
 PUBLIC _dat_1c8e
-PUBLIC _dat_20E2
-PUBLIC _dat_2122
-PUBLIC _dat_2162
-PUBLIC _dat_21E2
+PUBLIC _spriteAirBlink
+PUBLIC _spriteSamBlink
+PUBLIC _spriteGroundBlink
+PUBLIC _spriteWaypointBlink
 PUBLIC _routine_134
-PUBLIC _var_178
-PUBLIC _var_191
-PUBLIC _var_56
-PUBLIC _var_55
-PUBLIC _var_189
-PUBLIC _var_226
-PUBLIC _var_230
-PUBLIC _var_232
-PUBLIC _var_231
-PUBLIC _var_229
-PUBLIC _var_201
+PUBLIC _gameData
+PUBLIC _hercFlag
+PUBLIC _joyAxisY
+PUBLIC _joyAxisX
+PUBLIC _hasVgaMode
+PUBLIC _gfxBufSeg
+PUBLIC _vgaBufSeg
+PUBLIC _vgaBufSeg2
+PUBLIC _vgaBufOffset
+PUBLIC _spriteBufSeg
+PUBLIC _missionResult
 
 routine_10 proc near
     db 00h
@@ -202,13 +202,13 @@ main equ _main
 
 routine_26 equ _routine_26
 
-PUBLIC _routine_18
-_routine_18:
-routine_18 proc near
+PUBLIC _initGraphics
+_initGraphics:
+initGraphics proc near
     push BP
     mov BP,SP
     sub SP,10h
-    call routine_34
+    call seedRandom
     sub AX,AX
     push AX
     call far ptr gfx_jump_0e_setCurBuf
@@ -221,7 +221,7 @@ routine_18 proc near
     push AX
     call far ptr gfx_jump_53
     add SP,2h
-    les BX,dword ptr [_var_222]
+    les BX,dword ptr [_commData]
     push word ptr ES:[BX + 24h]
     call far ptr gfx_jump_52
     add SP,2h
@@ -231,13 +231,13 @@ routine_18 proc near
     add SP,2h
     mov AX,1h
     push AX
-    les BX,dword ptr [_var_222]
+    les BX,dword ptr [_commData]
     push word ptr ES:[BX + 20h]
     call far ptr gfx_jump_4b_storeBufPtr
     mov SP,BP
     pop BP
     ret
-routine_18 endp
+initGraphics endp
 
 cleanup equ _cleanup
 
@@ -245,11 +245,11 @@ routine_6 equ _routine_6
 
 routine_5 equ _routine_5
 
-routine_20 equ _routine_20
+loadWorldStrings equ _loadWorldStrings
 
-PUBLIC _routine_42
-_routine_42:
-routine_42 proc near
+PUBLIC _readWorldData
+_readWorldData:
+readWorldData proc near
     mov AX,2h
     push AX
     mov AX,offset dat_4246
@@ -297,7 +297,7 @@ routine_42 proc near
     add SP,4h
     mov AX,64h
     push AX
-    mov AX,offset _var_204
+    mov AX,offset _unitTypeTable
     push AX
     call routine_71
     add SP,4h
@@ -309,13 +309,13 @@ routine_42 proc near
     add SP,4h
     mov AX,2eeh
     push AX
-    mov AX,offset _var_218
+    mov AX,offset _worldStringBuf
     push AX
     call routine_71
     add SP,4h
     mov AX,100h
     push AX
-    mov AX,offset _var_184
+    mov AX,offset _gridFlags
     push AX
     call routine_71
     add SP,4h
@@ -339,7 +339,7 @@ routine_42 proc near
     add SP,4h
     mov AX,24h
     push AX
-    mov AX,offset _var_185
+    mov AX,offset _target1Type
     push AX
     call routine_71
     add SP,4h
@@ -350,14 +350,14 @@ routine_42 proc near
     call routine_71
     add SP,4h
     ret
-routine_42 endp
+readWorldData endp
 
 routine_71 proc near
     push BP
     mov BP,SP
-    cmp word ptr [_var_206],0h
+    cmp word ptr [_worldDataReady],0h
     jz LAB_1000_0312
-    push word ptr [_var_177]
+    push word ptr [_worldBufHandle]
     mov AX,1h
     push AX
     push word ptr [BP + 6h]
@@ -365,7 +365,7 @@ routine_71 proc near
     call routine_108
     jmp LAB_1000_0323
 LAB_1000_0312:
-    push word ptr [_var_177]
+    push word ptr [_worldBufHandle]
     mov AX,1h
     push AX
     push word ptr [BP + 6h]
@@ -377,17 +377,17 @@ LAB_1000_0323:
     ret
 routine_71 endp
 
-PUBLIC _routine_41
-_routine_41:
-routine_41 proc near
-    mov AX,word ptr [_var_222]
-    mov DX,word ptr [_var_223]
+PUBLIC _setupWorldBufPtr
+_setupWorldBufPtr:
+setupWorldBufPtr proc near
+    mov AX,word ptr [_commData]
+    mov DX,word ptr [_commData_seg]
     db 05h, 7Ah, 00h  ; add AX,7Ah (force word-immediate)
     mov word ptr [_var_151],AX
     mov word ptr [_var_152],DX
     mov AX,1h
     ret
-routine_41 endp
+setupWorldBufPtr endp
 
 _routine_108:
 routine_108 proc near
@@ -442,13 +442,13 @@ routine_109 proc near
     db 0C3h
 routine_109 endp
 
-PUBLIC _routine_16
-_routine_16:
-routine_16 proc near
+PUBLIC _clearKeybuf
+_clearKeybuf:
+clearKeybuf proc near
     jmp FUN_1000_03ad
 LAB_1000_03a8:
     call far ptr misc_jump_5b_getkey
-routine_16 endp
+clearKeybuf endp
 
 FUN_1000_03ad proc near
     call far ptr misc_jump_5a_keybuf
@@ -457,14 +457,14 @@ FUN_1000_03ad proc near
     ret
 FUN_1000_03ad endp
 
-routine_66 equ _routine_66
+waitForKeyOrJoy equ _waitForKeyOrJoy
 
 
-FUN_1000_041a equ _FUN_1000_041a
+drawStringAtPos equ _drawStringAtPos
 
 drawStringAt equ _drawStringAt
 
-FUN_1000_0469 equ _FUN_1000_0469
+drawFarString equ _drawFarString
 
 FUN_1000_0495 proc near
     push BP
@@ -601,7 +601,7 @@ LAB_1000_05dd:
     ret
 FUN_1000_0495 endp
 
-routine_130 equ _routine_130
+drawWrappedText equ _drawWrappedText
 
 drawStringCentered equ _drawStringCentered
 
@@ -611,9 +611,9 @@ my_ltoa equ _my_ltoa
 
 my_itoa equ _my_itoa
 
-FUN_1000_0990 equ _FUN_1000_0990
+timerWait equ _timerWait
 
-routine_34 equ _routine_34
+seedRandom equ _seedRandom
 
 FUN_1000_09bf proc near
     push BP
@@ -642,7 +642,7 @@ LAB_1000_09df:
     db 90h
 FUN_1000_09bf endp
 
-FUN_1000_09e4 equ _FUN_1000_09e4
+outportByte equ _outportByte
 
 FUN_1000_09f2 proc near
     push BP
@@ -722,8 +722,8 @@ LAB_1000_0a69:
     ret
 FUN_1000_0a5d endp
 
-_FUN_1000_0a74:
-FUN_1000_0a74 proc near
+_farStrcpy:
+farStrcpy proc near
     push BP
     mov BP,SP
     push SI
@@ -745,7 +745,7 @@ LAB_1000_0a83:
     pop SI
     pop BP
     ret
-FUN_1000_0a74 endp
+farStrcpy endp
 
 FUN_1000_0a8f proc near
     push BP
@@ -843,9 +843,9 @@ FUN_1000_0b0c proc near
     ret
 FUN_1000_0b0c endp
 
-PUBLIC _routine_146
-_routine_146:
-routine_146 proc near
+PUBLIC _memcopy
+_memcopy:
+memcopy proc near
     push BP
     mov BP,SP
     push SI
@@ -862,7 +862,7 @@ LAB_1000_0b29:
     mov SP,BP
     pop BP
     ret
-routine_146 endp
+memcopy endp
 
 FUN_1000_0b40 proc near
     push BP
@@ -1155,9 +1155,9 @@ dos_printstring proc near
     db 00h
 dos_printstring endp
 
-PUBLIC _routine_14
-_routine_14:
-routine_14 proc near
+PUBLIC _setupOverlaySlots
+_setupOverlaySlots:
+setupOverlaySlots proc near
     push BP
     mov BP,SP
     push DI
@@ -1205,7 +1205,7 @@ LAB_1000_0d4f:
     pop BP
 LAB_1000_0d6f:
     ret
-routine_14 endp
+setupOverlaySlots endp
 
 FUN_1000_0d70 proc near
     push BP
@@ -1998,9 +1998,9 @@ installCBreakHandler proc near
     ret
 installCBreakHandler endp
 
-routine_28 proc near
-PUBLIC _routine_28
-_routine_28:
+restoreCbreakHandler proc near
+PUBLIC _restoreCbreakHandler
+_restoreCbreakHandler:
     push DS
     mov AX,word ptr [_var_58]
     mov DX,word ptr [_var_59]
@@ -2009,7 +2009,7 @@ _routine_28:
     int 21h
     pop DS
     ret
-routine_28 endp
+restoreCbreakHandler endp
 
 routine_33 proc near
     push DS
@@ -2024,7 +2024,7 @@ cbreakHandler:
     push AX
     mov AX,seg @data
     mov DS,AX
-    mov byte ptr [_var_57],0FFh
+    mov byte ptr [_quitFlag],0FFh
     pop AX
     pop DS
     iret
@@ -2042,11 +2042,11 @@ cbreakHandler:
     mov AX,0ffffh
     push AX
     push word ptr [BP + -4h]
-    call FUN_1000_1368
+    call readFileBlock
     add SP,6h
     mov word ptr [BP + -2h],AX
     push word ptr [BP + -4h]
-    call routine_91
+    call closeFileWrapper
     mov AX,word ptr [BP + -2h]
     mov SP,BP
     pop BP
@@ -2054,22 +2054,22 @@ cbreakHandler:
     db 90h
 routine_33 endp
 
-FUN_1000_12c6 equ _FUN_1000_12c6
+loadFileSection equ _loadFileSection
 
-FUN_1000_12fe equ _FUN_1000_12fe
+loadFileSectionEx equ _loadFileSectionEx
 
 
 openFileWrapper equ _openFileWrapper
 
-FUN_1000_1348 equ _FUN_1000_1348
+openFileRead equ _openFileRead
 
-routine_91 equ _routine_91
+closeFileWrapper equ _closeFileWrapper
 
-FUN_1000_1368 equ _FUN_1000_1368
+readFileBlock equ _readFileBlock
 
-FUN_1000_137c equ _FUN_1000_137c
+readFileAt equ _readFileAt
 
-FUN_1000_1394 equ _FUN_1000_1394
+readFileAtEx equ _readFileAtEx
 
 PUBLIC _openFile
 _openFile:
@@ -2119,9 +2119,9 @@ LAB_1000_13f7:
     ret
 openFile endp
 
-PUBLIC _FUN_1000_1405
-_FUN_1000_1405:
-FUN_1000_1405 proc near
+PUBLIC _openFileRaw
+_openFileRaw:
+openFileRaw proc near
     push BP
     mov BP,SP
     push DI
@@ -2165,7 +2165,7 @@ LAB_1000_144e:
     mov SP,BP
     pop BP
     ret
-FUN_1000_1405 endp
+openFileRaw endp
 
 PUBLIC _routine_125
 _routine_125:
@@ -2194,9 +2194,9 @@ LAB_1000_1475:
     db 0C3h
 fileClose endp
 
-PUBLIC _FUN_1000_147e
-_FUN_1000_147e:
-FUN_1000_147e proc near
+PUBLIC _readFileRaw
+_readFileRaw:
+readFileRaw proc near
     push BP
     mov BP,SP
     push DI
@@ -2222,11 +2222,11 @@ LAB_1000_14a1:
     mov SP,BP
     pop BP
     ret
-FUN_1000_147e endp
+readFileRaw endp
 
-PUBLIC _FUN_1000_14a9
-_FUN_1000_14a9:
-FUN_1000_14a9 proc near
+PUBLIC _readFileAtRaw
+_readFileAtRaw:
+readFileAtRaw proc near
     push BP
     mov BP,SP
     push DI
@@ -2274,7 +2274,7 @@ FUN_1000_14d7 proc near
     pop DS
     ret
 FUN_1000_14d7 endp
-FUN_1000_14a9 endp
+readFileAtRaw endp
 
 FUN_1000_1500 proc near
     push DS
@@ -2314,9 +2314,9 @@ FUN_1000_1521 proc near
     ret
 FUN_1000_1521 endp
 
-PUBLIC _FUN_1000_1539
-_FUN_1000_1539:
-FUN_1000_1539 proc near
+PUBLIC _readFileAtExRaw
+_readFileAtExRaw:
+readFileAtExRaw proc near
     push BP
     mov BP,SP
     push DI
@@ -2346,7 +2346,7 @@ LAB_1000_1562:
     mov SP,BP
     pop BP
     ret
-FUN_1000_1539 endp
+readFileAtExRaw endp
 
 FUN_1000_156a proc near
     push AX
@@ -2382,11 +2382,11 @@ FUN_1000_156a endp
 
 openShowPic equ _openShowPic
 
-FUN_1000_15d2 equ _FUN_1000_15d2
+loadPicFromFile equ _loadPicFromFile
 
 loadPic equ _loadPic
 
-FUN_1000_1626 equ _FUN_1000_1626
+loadPicFromFileAt equ _loadPicFromFileAt
 
 PUBLIC _showPicFile
 _showPicFile:
@@ -2432,8 +2432,8 @@ LAB_1000_169a:
     ret
 showPicFile endp
 
-_FUN_1000_16d6:
-FUN_1000_16d6 proc near
+_decodePicRaw:
+decodePicRaw proc near
     push BP
     mov BP,SP
     push DI
@@ -2471,7 +2471,7 @@ LAB_1000_1702:
     mov SP,BP
     pop BP
     ret
-FUN_1000_16d6 endp
+decodePicRaw endp
 
 FUN_1000_173e proc near
     push BP
@@ -2781,7 +2781,7 @@ dictionaryLookup endp
 
 allocBuffer equ _allocBuffer
 
-routine_64 equ _routine_64
+freeBuffer equ _freeBuffer
 
 PUBLIC _dos_alloc
 _dos_alloc:
@@ -2812,9 +2812,9 @@ LAB_1000_1a64:
     ret
 dos_alloc endp
 
-PUBLIC _routine_102
-_routine_102:
-routine_102 proc near
+PUBLIC _dos_free
+_dos_free:
+dos_free proc near
     push BP
     mov BP,SP
     push DI
@@ -2866,7 +2866,7 @@ LAB_1000_1ab0:
     pop DI
     pop BP
     ret
-routine_102 endp
+dos_free endp
 
 FUN_1000_1ac2 proc near
     call FUN_1000_1ad8
@@ -3311,21 +3311,21 @@ LAB_1000_1e5c:
     ret
 manipulateTimer endp
 
-PUBLIC _routine_69
-_routine_69:
-routine_69 proc near
+PUBLIC _getTimeOfDay
+_getTimeOfDay:
+getTimeOfDay proc near
     xor AH,AH
     int 1Ah
     mov AX,DX
     ret
 _incTimerCounters proc near
-    inc byte ptr [_var_81 + 1]
-    inc byte ptr [_var_82]
-    inc byte ptr [_var_81]
-    inc byte ptr [_var_83]
+    inc byte ptr [_timerCounter + 1]
+    inc byte ptr [_timerCounter2]
+    inc byte ptr [_timerCounter]
+    inc byte ptr [_timerCounter3]
     ret
 _incTimerCounters endp
-routine_69 endp
+getTimeOfDay endp
 
 PUBLIC _routine_27
 _routine_27:
@@ -3336,12 +3336,12 @@ routine_27 proc near
     push SI
     mov BX,word ptr [_var_86]
     mov word ptr [BX + 6h],0h
-    les BX,dword ptr [_var_222]
+    les BX,dword ptr [_commData]
     cmp word ptr ES:[BX + 30h],0h
     jz LAB_1000_1e96
     jmp LAB_1000_214e
 LAB_1000_1e96:
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     cmp word ptr ES:[BX + 4eh],1h
     jz LAB_1000_1ea4
     jmp LAB_1000_1f4a
@@ -3387,7 +3387,7 @@ LAB_1000_1f08:
     inc word ptr [BP + -2h]
 LAB_1000_1f0b:
     mov SI,word ptr [BP + -2h]
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     mov AL,byte ptr ES:[BX + SI + 2h]
     mov BX,SI
     mov byte ptr [BX + offset _var_176],AL
@@ -3409,7 +3409,7 @@ LAB_1000_1f0b:
     jmp LAB_1000_2141
     db 90h
 LAB_1000_1f4a:
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     cmp word ptr ES:[BX + 4eh],2h
     jnz LAB_1000_1fa8
     mov AX,2h
@@ -3446,7 +3446,7 @@ LAB_1000_1f4a:
     add SP,0ah
     jmp LAB_1000_2141
 LAB_1000_1fa8:
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     cmp word ptr ES:[BX + 20h],6h
     jc LAB_1000_1fb6
     jmp LAB_1000_206b
@@ -3454,7 +3454,7 @@ LAB_1000_1fb6:
     mov BX,word ptr ES:[BX + 20h]
     shl BX,1h
     shl BX,1h
-    mov SI,word ptr [_var_178]
+    mov SI,word ptr [_gameData]
     mov AX,word ptr ES:[SI + 32h]
     mov DX,word ptr ES:[SI + 34h]
     cmp word ptr [BX + offset _var_89],DX
@@ -3494,7 +3494,7 @@ LAB_1000_1fde:
     push AX
     call mystrcpy
     add SP,4h
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     inc word ptr ES:[BX + 20h]
     mov SI,word ptr ES:[BX + 20h]
     shl SI,1h
@@ -3516,7 +3516,7 @@ LAB_1000_1fde:
     add SP,0ah
     call far ptr gfx_jump_50
     call far ptr gfx_jump_46_retrace2
-    call routine_66
+    call waitForKeyOrJoy
 LAB_1000_206b:
     mov word ptr [BP + -2h],4h
     jmp LAB_1000_2075
@@ -3528,8 +3528,8 @@ LAB_1000_2075:
     mov BX,word ptr [BP + -2h]
     shl BX,1h
     shl BX,1h
-    mov AX,word ptr [_var_219]
-    mov DX,word ptr [_var_220]
+    mov AX,word ptr [_missionScore]
+    mov DX,word ptr [_missionScoreHi]
     cmp word ptr [BX + offset _var_92],DX
     jg LAB_1000_2072
     jl LAB_1000_2097
@@ -3543,7 +3543,7 @@ LAB_1000_20a0:
     mov AX,1h
     mov CL,byte ptr [BP + -2h]
     shl AX,CL
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     test word ptr ES:[BX + 22h],AX
     jz LAB_1000_20b5
     jmp LAB_1000_214e
@@ -3595,7 +3595,7 @@ LAB_1000_20b5:
     push word ptr [_var_86]
     call drawStringCentered
     add SP,0ah
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     mov AX,1h
     mov CL,byte ptr [BP + -2h]
     shl AX,CL
@@ -3603,7 +3603,7 @@ LAB_1000_20b5:
 LAB_1000_2141:
     call far ptr gfx_jump_50
     call far ptr gfx_jump_46_retrace2
-    call routine_66
+    call waitForKeyOrJoy
 LAB_1000_214e:
     mov AX,0c7h
     push AX
@@ -3629,7 +3629,7 @@ routine_24 proc near
     mov BP,SP
     sub SP,4h
     push SI
-    les BX,dword ptr [_var_222]
+    les BX,dword ptr [_commData]
     mov AX,word ptr ES:[BX + 74h]
     mov CL,0bh
     shr AX,CL
@@ -3641,9 +3641,9 @@ routine_24 proc near
     mov CL,4h
     shl SI,CL
     mov BX,word ptr [BP + -2h]
-    mov AL,byte ptr [BX + SI + offset _var_184]
+    mov AL,byte ptr [BX + SI + offset _gridFlags]
     db 25h, 03h, 00h  ; and AX,3h (force word-immediate)
-    mov word ptr [_var_201],AX
+    mov word ptr [_missionResult],AX
     pop SI
     mov SP,BP
     pop BP
@@ -3687,7 +3687,7 @@ LAB_1000_21d7:
     imul word ptr [BP + -0ah]
     add AX,word ptr [BP + 4h]
     push AX
-    call routine_95
+    call blinkWidget
     add SP,4h
     push word ptr [BP + 0eh]
     push word ptr [BP + -0ah]
@@ -3708,9 +3708,9 @@ LAB_1000_2237:
     jmp LAB_1000_21d4
 LAB_1000_2239:
     mov AX,word ptr [BP + 0ah]
-    mov word ptr [_var_210],AX
+    mov word ptr [_cursorX],AX
     mov AX,word ptr [BP + 0ch]
-    mov word ptr [_var_212],AX
+    mov word ptr [_cursorY],AX
     pop SI
     mov SP,BP
     pop BP
@@ -3732,14 +3732,14 @@ routine_60 proc near
     mov byte ptr [BP + -12h],80h
     mov byte ptr [BP + -11h],0h
     call far ptr gfx_jump_50
-    mov word ptr [_var_172],0h
+    mov word ptr [_colorAnimEnabled],0h
     mov word ptr [BP + -14h],0h
 LAB_1000_2282:
     mov AX,32h
     imul word ptr [BP + -14h]
     add AX,word ptr [BP + 4h]
     push AX
-    call routine_97
+    call isPointInRect
     add SP,2h
     or AX,AX
     jnz LAB_1000_22a3
@@ -3749,7 +3749,7 @@ LAB_1000_2282:
     inc word ptr [BP + -14h]
     jmp LAB_1000_2282
 LAB_1000_22a3:
-    mov byte ptr [_var_173],0h
+    mov byte ptr [_joyRepeatFlag],0h
 LAB_1000_22a8:
     call far ptr gfx_jump_50
     mov AX,32h
@@ -3758,7 +3758,7 @@ LAB_1000_22a8:
     mov BX,word ptr [BP + 4h]
     test word ptr [BX + SI + 30h],100h
     jnz LAB_1000_22c5
-    mov word ptr [_var_172],1h
+    mov word ptr [_colorAnimEnabled],1h
 LAB_1000_22c5:
     push word ptr [BP + 0ch]
     mov AX,32h
@@ -3766,14 +3766,14 @@ LAB_1000_22c5:
     add AX,BX
     push AX
     push word ptr [BP + 0ah]
-    call routine_98
+    call processDebriefInput
     add SP,6h
-    cmp byte ptr [_var_170],0h
+    cmp byte ptr [_inputChanged],0h
     jnz LAB_1000_22e8
-    cmp byte ptr [_var_202],0h
+    cmp byte ptr [_enterPressed],0h
     jz LAB_1000_22a8
 LAB_1000_22e8:
-    cmp byte ptr [_var_202],0h
+    cmp byte ptr [_enterPressed],0h
     jnz LAB_1000_22f2
     jmp LAB_1000_23c2
 LAB_1000_22f2:
@@ -3786,7 +3786,7 @@ LAB_1000_22ff:
     imul word ptr [BP + -14h]
     add AX,word ptr [BP + 4h]
     push AX
-    call routine_97
+    call isPointInRect
     add SP,2h
     or AX,AX
     jnz LAB_1000_2320
@@ -3859,7 +3859,7 @@ LAB_1000_23c7:
     imul word ptr [BP + -14h]
     add AX,word ptr [BP + 4h]
     push AX
-    call routine_97
+    call isPointInRect
     add SP,2h
     or AX,AX
     jnz LAB_1000_23e8
@@ -3905,7 +3905,7 @@ LAB_1000_2411:
     jnz LAB_1000_2447
     push word ptr [BP + 0ch]
     push SI
-    call routine_95
+    call blinkWidget
     add SP,4h
 LAB_1000_2447:
     jmp LAB_1000_240e
@@ -4002,7 +4002,7 @@ LAB_1000_254f:
     imul word ptr [BP + -14h]
     add AX,word ptr [BP + 4h]
     push AX
-    call routine_95
+    call blinkWidget
     add SP,4h
 LAB_1000_2562:
     mov AX,word ptr [BP + -14h]
@@ -4025,11 +4025,11 @@ LAB_1000_257d:
     ret
 routine_60 endp
 
-routine_95 equ _routine_95
+blinkWidget equ _blinkWidget
 
-routine_97 equ _routine_97
+isPointInRect equ _isPointInRect
 
-routine_98 equ _routine_98
+processDebriefInput equ _processDebriefInput
 
 routine_96 proc near
     push BP
@@ -4096,7 +4096,7 @@ LAB_1000_2c1d:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call routine_130
+    call drawWrappedText
     add SP,0ch
     mov AX,7eh
     push AX
@@ -4109,14 +4109,14 @@ LAB_1000_2c1d:
     push word ptr [BP + 8h]
     call clearRect
     add SP,0ah
-    cmp byte ptr [_var_214],1h
+    cmp byte ptr [_popupVisible],1h
     jnz LAB_1000_2cc2
     mov AX,28h
     push AX
     mov AX,30h
     push AX
-    push word ptr [_var_228]
-    push word ptr [_var_227]
+    push word ptr [_popupY]
+    push word ptr [_popupX]
     sub AX,AX
     push AX
     mov AX,96h
@@ -4127,20 +4127,20 @@ LAB_1000_2c1d:
     push AX
     call far ptr gfx_jump_2a
     add SP,10h
-    mov byte ptr [_var_214],0h
+    mov byte ptr [_popupVisible],0h
 LAB_1000_2cc2:
-    mov word ptr [_var_190],0h
+    mov word ptr [_curRecordIdx],0h
     mov AX,offset dat_270f
     push AX
     push word ptr [BP + 8h]
-    call routine_132
+    call drawFlightPath
     add SP,4h
     mov word ptr [_var_192],AX
     push AX
-    call routine_63
+    call calcMissionScore
     add SP,2h
-    mov word ptr [_var_219],AX
-    mov word ptr [_var_220],DX
+    mov word ptr [_missionScore],AX
+    mov word ptr [_missionScoreHi],DX
     mov AX,offset str_dot1
     push AX
     mov AX,offset dat_4824
@@ -4189,8 +4189,8 @@ LAB_1000_2cc2:
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
-    push word ptr [_var_220]
-    push word ptr [_var_219]
+    push word ptr [_missionScoreHi]
+    push word ptr [_missionScore]
     call my_ltoa
     add SP,6h
     lea AX,[BP + -1eh]
@@ -4210,7 +4210,7 @@ LAB_1000_2cc2:
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
-    les BX,dword ptr [_var_222]
+    les BX,dword ptr [_commData]
     cmp word ptr ES:[BX + 30h],0h
     jz LAB_1000_2dc9
     mov AX,57h
@@ -4268,11 +4268,11 @@ LAB_1000_2dc9:
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     mov AX,word ptr ES:[BX + 32h]
     mov DX,word ptr ES:[BX + 34h]
-    add AX,word ptr [_var_219]
-    adc DX,word ptr [_var_220]
+    add AX,word ptr [_missionScore]
+    adc DX,word ptr [_missionScoreHi]
     push DX
     push AX
     call my_ltoa
@@ -4333,8 +4333,8 @@ LAB_1000_2e53:
     add SP,8h
     mov AX,offset dat_4824
     push AX
-    mov AX,word ptr [_var_215]
-    add AX,word ptr [_var_221]
+    mov AX,word ptr [_primaryHit]
+    add AX,word ptr [_secondaryHit]
     push AX
     call my_itoa
     add SP,4h
@@ -4364,10 +4364,10 @@ LAB_1000_2e53:
     add SP,8h
     mov AX,offset dat_4824
     push AX
-    mov AX,word ptr [_var_199]
-    add AX,word ptr [_var_224]
-    sub AX,word ptr [_var_215]
-    sub AX,word ptr [_var_221]
+    mov AX,word ptr [_groundKilled]
+    add AX,word ptr [_airKilled]
+    sub AX,word ptr [_primaryHit]
+    sub AX,word ptr [_secondaryHit]
     push AX
     call my_itoa
     add SP,4h
@@ -4397,7 +4397,7 @@ LAB_1000_2e53:
     add SP,8h
     mov AX,offset dat_4824
     push AX
-    push word ptr [_var_181]
+    push word ptr [_samKilled]
     call my_itoa
     add SP,4h
     mov AX,2eh
@@ -4426,9 +4426,9 @@ LAB_1000_2e53:
     add SP,8h
     mov AX,offset dat_4824
     push AX
-    mov AX,word ptr [_var_200]
-    add AX,word ptr [_var_225]
-    add AX,word ptr [_var_182]
+    mov AX,word ptr [_groundMissed]
+    add AX,word ptr [_airMissed]
+    add AX,word ptr [_samMissed]
     push AX
     call my_itoa
     add SP,4h
@@ -4441,7 +4441,7 @@ LAB_1000_2e53:
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
-    mov byte ptr [_var_207],1h
+    mov byte ptr [_ejectedFlag],1h
 LAB_1000_2fbf:
     mov AX,32h
     mul word ptr [BP + 6h]
@@ -4451,19 +4451,19 @@ LAB_1000_2fbf:
     jnz LAB_1000_2fd4
     jmp LAB_1000_35db
 LAB_1000_2fd4:
-    cmp byte ptr [_var_207],1h
+    cmp byte ptr [_ejectedFlag],1h
     jz LAB_1000_2fde
     jmp LAB_1000_30cc
 LAB_1000_2fde:
-    mov byte ptr [_var_207],0h
-    mov byte ptr [_var_214],0h
+    mov byte ptr [_ejectedFlag],0h
+    mov byte ptr [_popupVisible],0h
     push word ptr [_var_102]
     call far ptr gfx_jump_11_blitSprite
     add SP,2h
     sub AX,AX
-    mov word ptr [_var_213],AX
-    mov word ptr [_var_209],AX
-    mov word ptr [_var_190],AX
+    mov word ptr [_prevDrawY],AX
+    mov word ptr [_prevDrawX],AX
+    mov word ptr [_curRecordIdx],AX
     mov AX,95h
     push AX
     mov AX,13fh
@@ -4477,10 +4477,10 @@ LAB_1000_2fde:
     add SP,0ah
     mov AX,100h
     push AX
-    call routine_63
+    call calcMissionScore
     add SP,2h
-    mov word ptr [_var_219],AX
-    mov word ptr [_var_220],DX
+    mov word ptr [_missionScore],AX
+    mov word ptr [_missionScoreHi],DX
     mov AX,offset str_dot5
     push AX
     mov AX,offset dat_4824
@@ -4529,8 +4529,8 @@ LAB_1000_2fde:
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
-    push word ptr [_var_220]
-    push word ptr [_var_219]
+    push word ptr [_missionScoreHi]
+    push word ptr [_missionScore]
     call my_ltoa
     add SP,6h
     lea AX,[BP + -1eh]
@@ -4589,13 +4589,13 @@ LAB_1000_30cc:
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
-    mov BX,word ptr [_var_190]
+    mov BX,word ptr [_curRecordIdx]
     mov AX,BX
     shl BX,1h
     add BX,AX
     shl BX,1h
     push word ptr [BX + offset _var_193]
-    call routine_106
+    call formatFlightTime
     add SP,4h
     push AX
     mov AX,offset dat_4824
@@ -4611,7 +4611,7 @@ LAB_1000_30cc:
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
-    mov AX,word ptr [_var_190]
+    mov AX,word ptr [_curRecordIdx]
     mov CX,AX
     shl AX,1h
     add AX,CX
@@ -4633,7 +4633,7 @@ caseD_1_6128:
     jz LAB_1000_31da
     mov BX,SI
     shl BX,1h
-    push word ptr [BX + offset _var_217]
+    push word ptr [BX + offset _worldStrings]
     mov AX,offset dat_4824
     push AX
     call mystrcpy
@@ -4650,7 +4650,7 @@ caseD_1_6128:
     mov BX,word ptr [BX + offset _var_425c]
     and BX,7fh
     shl BX,1h
-    push word ptr [BX + offset _var_217]
+    push word ptr [BX + offset _worldStrings]
     mov AX,offset dat_4824
     push AX
     call mystrcat
@@ -4669,7 +4669,7 @@ LAB_1000_31da:
     mov BX,word ptr [BX + offset _var_425c]
     and BX,7fh
     shl BX,1h
-    push word ptr [BX + offset _var_217]
+    push word ptr [BX + offset _worldStrings]
     mov AX,offset dat_4824
     push AX
     call mystrcpy
@@ -4717,7 +4717,7 @@ caseD_3_343d:
 caseD_2_343d:
     mov BX,word ptr [BP + -20h]
     shl BX,1h
-    push word ptr [BX + offset _var_217]
+    push word ptr [BX + offset _worldStrings]
     mov AX,offset dat_4824
     push AX
     call mystrcpy
@@ -4738,7 +4738,7 @@ caseD_a_343d:
     jz LAB_1000_32d3
     mov BX,SI
     shl BX,1h
-    push word ptr [BX + offset _var_217]
+    push word ptr [BX + offset _worldStrings]
     mov AX,offset dat_4824
     push AX
     call mystrcpy
@@ -4755,7 +4755,7 @@ caseD_a_343d:
     mov BX,word ptr [BX + offset _var_425c]
     and BX,7fh
     shl BX,1h
-    push word ptr [BX + offset _var_217]
+    push word ptr [BX + offset _worldStrings]
     mov AX,offset dat_4824
     push AX
     call mystrcat
@@ -4774,7 +4774,7 @@ LAB_1000_32d3:
     mov BX,word ptr [BX + offset _var_425c]
     and BX,7fh
     shl BX,1h
-    push word ptr [BX + offset _var_217]
+    push word ptr [BX + offset _worldStrings]
     mov AX,offset dat_4824
     push AX
     call mystrcpy
@@ -4810,7 +4810,7 @@ caseD_5_343d:
     add SP,4h
     jmp caseD_4_343d
 caseD_8_343d:
-    cmp word ptr [_var_190],0h
+    cmp word ptr [_curRecordIdx],0h
     jnz LAB_1000_338f
     mov AX,offset str_takeoffPoint
     push AX
@@ -4826,7 +4826,7 @@ caseD_8_343d:
     jz LAB_1000_336e
     mov BX,SI
     shl BX,1h
-    push word ptr [BX + offset _var_217]
+    push word ptr [BX + offset _worldStrings]
     mov AX,offset dat_4824
     push AX
     call mystrcat
@@ -4839,7 +4839,7 @@ LAB_1000_336e:
     mov BL,byte ptr [BX + offset _var_425c]
     sub BH,BH
     shl BX,1h
-    push word ptr [BX + offset _var_217]
+    push word ptr [BX + offset _worldStrings]
     mov AX,offset dat_4824
     push AX
     call mystrcat
@@ -4853,7 +4853,7 @@ LAB_1000_338f:
     push AX
     call mystrcpy
     add SP,4h
-    les BX,dword ptr [_var_222]
+    les BX,dword ptr [_commData]
     mov AX,word ptr ES:[BX + 26h]
     jmp LAB_1000_341d
 LAB_1000_33a7:
@@ -4865,10 +4865,10 @@ LAB_1000_33a7:
     add SP,4h
     jmp LAB_1000_342e
 LAB_1000_33b7:
-    les BX,dword ptr [_var_222]
+    les BX,dword ptr [_commData]
     cmp word ptr ES:[BX + 28h],0h
     jnz LAB_1000_33d9
-    cmp word ptr [_var_201],0h
+    cmp word ptr [_missionResult],0h
     jz LAB_1000_33d9
     mov AX,offset str_goodBailout
     push AX
@@ -4878,10 +4878,10 @@ LAB_1000_33b7:
     add SP,4h
     jmp LAB_1000_3409
 LAB_1000_33d9:
-    les BX,dword ptr [_var_222]
+    les BX,dword ptr [_commData]
     cmp word ptr ES:[BX + 28h],0h
     jnz LAB_1000_33fb
-    cmp word ptr [_var_201],0h
+    cmp word ptr [_missionResult],0h
     jnz LAB_1000_33fb
     mov AX,offset str_captured
     push AX
@@ -4959,9 +4959,9 @@ caseD_4_6450:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call routine_130
+    call drawWrappedText
     add SP,0ch
-    mov BX,word ptr [_var_190]
+    mov BX,word ptr [_curRecordIdx]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -4986,7 +4986,7 @@ caseD_4_6450:
     call drawStringCentered
     add SP,0ah
 LAB_1000_34b1:
-    mov BX,word ptr [_var_190]
+    mov BX,word ptr [_curRecordIdx]
     mov AX,BX
     shl BX,1h
     add BX,AX
@@ -5011,11 +5011,11 @@ LAB_1000_34b1:
     call drawStringCentered
     add SP,0ah
 LAB_1000_34eb:
-    push word ptr [_var_190]
-    call routine_63
+    push word ptr [_curRecordIdx]
+    call calcMissionScore
     add SP,2h
-    mov word ptr [_var_219],AX
-    mov word ptr [_var_220],DX
+    mov word ptr [_missionScore],AX
+    mov word ptr [_missionScoreHi],DX
     mov AX,offset str_cumulative2
     push AX
     mov AX,offset dat_4824
@@ -5064,8 +5064,8 @@ LAB_1000_34eb:
     add SP,4h
     lea AX,[BP + -1eh]
     push AX
-    push word ptr [_var_220]
-    push word ptr [_var_219]
+    push word ptr [_missionScoreHi]
+    push word ptr [_missionScore]
     call my_ltoa
     add SP,6h
     lea AX,[BP + -1eh]
@@ -5085,7 +5085,7 @@ LAB_1000_34eb:
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
-    call routine_131
+    call showEventPopup
     lea AX,[BP + -6h]
     push AX
     mov AX,offset dat_4824
@@ -5109,7 +5109,7 @@ LAB_1000_34eb:
     mov AX,offset dat_4824
     push AX
     push word ptr [BP + 8h]
-    call routine_130
+    call drawWrappedText
     add SP,0ch
 LAB_1000_35db:
     pop SI
@@ -5119,27 +5119,27 @@ LAB_1000_35db:
     ret
 routine_96 endp
 
-routine_135 equ _routine_135
+drawEventSprite equ _drawEventSprite
 
-routine_65 equ _routine_65
+animateFlightPath equ _animateFlightPath
 
-routine_132 equ _routine_132
+drawFlightPath equ _drawFlightPath
 
-routine_106 equ _routine_106
+formatFlightTime equ _formatFlightTime
 
-routine_137 equ _routine_137
+mapToScreenX equ _mapToScreenX
 
-routine_136 equ _routine_136
+mapToScreenY equ _mapToScreenY
 
-routine_147 equ _routine_147
+plotMapPoint equ _plotMapPoint
 
-routine_105 equ _routine_105
+drawFlightLine equ _drawFlightLine
 
-routine_160 equ _routine_160
+drawClippedLine equ _drawClippedLine
 
-PUBLIC _routine_138
-_routine_138:
-routine_138 proc near
+PUBLIC _drawClippedLineEx
+_drawClippedLineEx:
+drawClippedLineEx proc near
     push BP
     mov BP,SP
     sub SP,4h
@@ -5194,13 +5194,13 @@ routine_138 proc near
     mov SP,BP
     pop BP
     ret
-routine_138 endp
+drawClippedLineEx endp
 
-routine_157 equ _routine_157
+drawMapPixel equ _drawMapPixel
 
-routine_63 equ _routine_63
+calcMissionScore equ _calcMissionScore
 
-routine_131 equ _routine_131
+showEventPopup equ _showEventPopup
 
 PUBLIC _routine_25
 _routine_25:
@@ -5260,19 +5260,19 @@ LAB_1000_4560:
 LAB_1000_45c4:
     mov AX,offset str_modeRb1
     push AX
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     mov BX,word ptr ES:[BX + 38h]
     shl BX,1h
     push word ptr [BX + offset _var_117]
     call routine_46
     add SP,4h
-    mov word ptr [_var_177],AX
+    mov word ptr [_worldBufHandle],AX
     or AX,AX
     jnz LAB_1000_45e6
     jmp LAB_1000_4560
 LAB_1000_45e6:
     call far ptr gfx_jump_45_retrace
-    push word ptr [_var_177]
+    push word ptr [_worldBufHandle]
     call _fclose
     add SP,2h
     mov AX,9h
@@ -5283,15 +5283,15 @@ LAB_1000_45e6:
     push AX
     call allocBuffer
     add SP,2h
-    mov word ptr [_var_229],AX
+    mov word ptr [_spriteBufSeg],AX
     push AX
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     mov BX,word ptr ES:[BX + 38h]
     shl BX,1h
     push word ptr [BX + offset _var_117]
     call loadPic
     add SP,4h
-    mov AX,word ptr [_var_229]
+    mov AX,word ptr [_spriteBufSeg]
     mov word ptr [BP + -4h],AX
     jmp LAB_1000_4692
     db 90h
@@ -5341,11 +5341,11 @@ LAB_1000_4692:
     push AX
     call routine_46
     add SP,4h
-    mov word ptr [_var_177],AX
+    mov word ptr [_worldBufHandle],AX
     or AX,AX
     jz LAB_1000_462e
     call far ptr gfx_jump_45_retrace
-    push word ptr [_var_177]
+    push word ptr [_worldBufHandle]
     call _fclose
     add SP,2h
     mov AX,8h
@@ -5418,8 +5418,8 @@ LAB_1000_475c:
     cmp word ptr [BP + -8h],2h
     jl LAB_1000_475c
     mov word ptr [BP + -12h],0h
-    mov byte ptr [_var_207],1h
-    mov word ptr [_var_190],0h
+    mov byte ptr [_ejectedFlag],1h
+    mov word ptr [_curRecordIdx],0h
     call far ptr gfx_jump_50
     call far ptr gfx_jump_46_retrace2
     call setTimerIrqHandler
@@ -5464,13 +5464,13 @@ LAB_1000_47a5:
     jmp LAB_1000_481c
 LAB_1000_4806:
     push word ptr [_var_100]
-    call routine_65
+    call animateFlightPath
     add SP,2h
     cmp byte ptr [_var_180],1h
     jnz LAB_1000_481c
     mov word ptr [BP + -12h],1h
 LAB_1000_481c:
-    les BX,dword ptr [_var_222]
+    les BX,dword ptr [_commData]
     cmp word ptr ES:[BX + 72h],1h
     jnz LAB_1000_485b
 LAB_1000_4827:
@@ -5486,9 +5486,9 @@ LAB_1000_4838:
     jmp LAB_1000_481c
     db 90h
 LAB_1000_4840:
-    mov byte ptr [_var_81],0h
+    mov byte ptr [_timerCounter],0h
 LAB_1000_4845:
-    cmp byte ptr [_var_81],5h
+    cmp byte ptr [_timerCounter],5h
     jbe LAB_1000_4845
 LAB_1000_484c:
     sub AX,AX
@@ -5505,55 +5505,55 @@ LAB_1000_4864:
     call restoreTimerIrqHandler
     call far ptr gfx_jump_45_retrace
     push word ptr [_var_192]
-    call routine_63
+    call calcMissionScore
     add SP,2h
-    mov word ptr [_var_219],AX
-    mov word ptr [_var_220],DX
-    les BX,dword ptr [_var_178]
+    mov word ptr [_missionScore],AX
+    mov word ptr [_missionScoreHi],DX
+    les BX,dword ptr [_gameData]
     mov word ptr ES:[BX + 44h],0h
-    les BX,dword ptr [_var_222]
+    les BX,dword ptr [_commData]
     cmp word ptr ES:[BX + 30h],0h
     jnz LAB_1000_490f
-    les BX,dword ptr [_var_178]
-    mov AX,word ptr [_var_219]
+    les BX,dword ptr [_gameData]
+    mov AX,word ptr [_missionScore]
     mov word ptr ES:[BX + 44h],AX
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     mov AX,word ptr ES:[BX + 2eh]
     sub DX,DX
-    cmp DX,word ptr [_var_220]
+    cmp DX,word ptr [_missionScoreHi]
     ja LAB_1000_48bc
     jc LAB_1000_48b5
-    cmp AX,word ptr [_var_219]
+    cmp AX,word ptr [_missionScore]
     jnc LAB_1000_48bc
 LAB_1000_48b5:
-    mov AX,word ptr [_var_219]
+    mov AX,word ptr [_missionScore]
     mov word ptr ES:[BX + 2eh],AX
 LAB_1000_48bc:
-    les BX,dword ptr [_var_178]
-    mov AX,word ptr [_var_219]
-    mov DX,word ptr [_var_220]
+    les BX,dword ptr [_gameData]
+    mov AX,word ptr [_missionScore]
+    mov DX,word ptr [_missionScoreHi]
     add word ptr ES:[BX + 32h],AX
     adc word ptr ES:[BX + 34h],DX
-    les BX,dword ptr [_var_222]
+    les BX,dword ptr [_commData]
     cmp word ptr ES:[BX + 26h],1h
     jnz LAB_1000_48e4
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     mov word ptr ES:[BX + 4eh],2h
 LAB_1000_48e4:
-    les BX,dword ptr [_var_222]
+    les BX,dword ptr [_commData]
     cmp word ptr ES:[BX + 26h],2h
     jnz LAB_1000_490f
     cmp word ptr ES:[BX + 28h],0h
     jnz LAB_1000_490f
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     inc word ptr ES:[BX + 30h]
     cmp word ptr ES:[BX + 30h],3h
     jc LAB_1000_490f
-    les BX,dword ptr [_var_178]
+    les BX,dword ptr [_gameData]
     mov word ptr ES:[BX + 4eh],1h
 LAB_1000_490f:
-    push word ptr [_var_229]
-    call routine_64
+    push word ptr [_spriteBufSeg]
+    call freeBuffer
     mov SP,BP
     pop BP
     ret
@@ -5626,7 +5626,7 @@ LAB_1000_4952:
     push word ptr [_var_132]
     call main
     push AX
-    call routine_8
+    call dosExit
     mov AX,seg @data
     mov DS,AX
     mov AX,3h
@@ -5733,9 +5733,9 @@ LAB_1000_4a7c:
     ret
 routine_4 endp
 
-PUBLIC _routine_8
-_routine_8:
-routine_8 proc near
+PUBLIC _dosExit
+_dosExit:
+dosExit proc near
     push BP
     mov BP,SP
     mov SI,offset _var_3fc6
@@ -5745,7 +5745,7 @@ routine_8 proc near
     mov DI,offset str_nmsg
     call _unk_libc1
     jmp LAB_1000_4aac
-routine_8 endp
+dosExit endp
 
 routine_9 proc near
     push BP
@@ -5861,7 +5861,7 @@ LAB_1000_4b5e:
     mov AX,word ptr [BX + offset _var_142]
     mov word ptr [BP + -4h],AX
     push SI
-    call routine_85
+    call closeAndResetFile
     add SP,2h
     mov AL,byte ptr [SI + 7h]
     cbw
@@ -5943,8 +5943,8 @@ LAB_1000_4c1a:
     db 90h
 routine_46 endp
 
-_FUN_1000_4c20:
-FUN_1000_4c20 proc near
+_fileSeek:
+fileSeek proc near
     push BP
     mov BP,SP
     sub SP,4h
@@ -5997,7 +5997,7 @@ LAB_1000_4c83:
     and byte ptr [BX + offset _var_131],0fdh
 LAB_1000_4c97:
     jmp FUN_1000_4f33
-FUN_1000_4c20 endp
+fileSeek endp
 
 routine_140 proc near
     push BP
@@ -6019,20 +6019,20 @@ routine_140 proc near
     ret
 routine_140 endp
 
-routine_70 equ _routine_70
+srandInit equ _srandInit
 
 FUN_1000_4cca proc near
     mov AX,43fdh
     mov DX,3h
     push DX
     push AX
-    push word ptr [_var_139]
-    push word ptr [_var_138]
+    push word ptr [_randState]
+    push word ptr [_randSeed]
     call __aNlmul
     add AX,9ec3h
     adc DX,26h
-    mov word ptr [_var_138],AX
-    mov word ptr [_var_139],DX
+    mov word ptr [_randSeed],AX
+    mov word ptr [_randState],DX
     mov AX,DX
     and AH,7fh
     ret
@@ -6422,7 +6422,7 @@ LAB_1000_4f70:
     jmp LAB_1000_4f6b
 routine_114 endp
 
-routine_85 equ _routine_85
+closeAndResetFile equ _closeAndResetFile
 
 __openfile proc near
     push BP
@@ -7495,7 +7495,7 @@ _routine_134 equ routine_134
     call routine_149
     mov BX,1h
     call routine_149
-    mov AX,word ptr [_var_55]
+    mov AX,word ptr [_joyAxisX]
     retf
 routine_134 endp
 
@@ -7568,7 +7568,7 @@ LAB_1571_00b1:
     add AH,80h
 LAB_1571_00bc:
     shr BX,1h
-    mov byte ptr [BX + offset _var_55],AH
+    mov byte ptr [BX + offset _joyAxisX],AH
     ret
     db 8Bh
     db 0DCh
@@ -7672,7 +7672,7 @@ dat_0042 db 000h
     db 000h, 0F4h, 001h, 005h, 000h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 028h
     db 000h, 003h, 000h, 000h, 000h, 04Dh, 049h, 047h, 02Dh, 032h, 033h, 000h, 020h, 046h, 06Ch, 06Fh
     db 067h, 067h, 065h, 072h, 000h, 000h, 000h, 0E4h, 002h, 030h, 002h, 003h, 000h
-_var_23 db 011h
+_samDataTable db 011h
     db 000h, 00Ah, 000h, 002h, 000h, 000h, 000h, 04Dh, 049h, 047h, 02Dh, 032h, 035h, 000h, 020h, 046h
     db 06Fh, 078h, 062h, 061h, 074h, 000h, 000h, 000h, 000h, 03Ah, 002h, 0BCh, 002h, 002h, 000h, 012h
     db 000h, 000h, 000h, 002h, 000h, 000h, 000h, 04Dh, 049h, 047h, 02Dh, 032h, 039h, 000h, 020h, 046h
@@ -7760,7 +7760,7 @@ _var_23 db 011h
     db 000h, 00Fh, 000h, 000h, 000h, 004h, 000h, 088h, 013h, 000h, 000h, 00Ch, 000h, 012h, 000h, 003h
     db 000h, 001h, 000h, 003h, 000h, 010h, 000h, 001h, 000h, 005h, 000h, 003h, 000h, 009h, 000h, 003h
     db 000h, 000h, 000h, 08Ah, 002h, 000h, 000h, 001h, 000h, 001h, 000h
-_var_24 db 001h
+_nightMission db 001h
     db 000h, 000h, 000h, 001h, 000h, 001h, 000h, 004h, 000h, 041h, 049h, 04Dh, 02Dh, 039h, 04Dh, 000h
     db 000h, 000h, 000h, 053h, 069h, 064h, 065h, 077h, 069h, 06Eh, 064h, 065h, 072h, 000h, 000h, 017h
     db 000h, 004h, 000h, 041h, 049h, 04Dh, 02Dh, 031h, 032h, 030h, 000h, 000h, 000h, 041h, 04Dh, 052h
@@ -8235,10 +8235,10 @@ _var_53 db 000h
     db 000h
 _var_54 db 000h
     db 000h, 000h, 000h, 000h, 000h
-_var_55 db 000h
-_var_56 db 000h
+_joyAxisX db 000h
+_joyAxisY db 000h
     db 000h, 000h
-_var_57 db 000h
+_quitFlag db 000h
 _var_58 db 000h
     db 000h
 _var_59 db 000h
@@ -8362,10 +8362,10 @@ _var_78 db 000h
 _var_79 db 000h
 _var_80 db 000h
     db 000h, 000h, 000h, 000h, 000h
-_var_81 db 000h
+_timerCounter db 000h
     db 000h
-_var_82 db 000h
-_var_83 db 000h
+_timerCounter2 db 000h
+_timerCounter3 db 000h
 _str_emptyRank db 000h
 _str_1stLt db '1st Lieutenant.', 0
 _str_captain db 'Captain.', 0
@@ -8446,13 +8446,13 @@ _var_92 dw 0000h
 _dat_1c8e db 006h, 000h, 09Dh, 000h, 0DBh, 000h, 0BDh, 000h, 0D9h, 000h, 093h, 000h, 039h, 000h, 002h
     db 000h, 078h, 000h, 087h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 08Dh, 000h, 000h
     db 000h
-_var_93 db 008h
+_mapViewX1 db 008h
     db 000h
-_var_94 db 00Ah
+_mapViewY1 db 00Ah
     db 000h
-_var_95 db 0E8h
+_mapViewX2 db 0E8h
     db 000h
-_var_96 db 0B2h
+_mapViewY2 db 0B2h
     db 000h
 str_pressExit db 050h
     db 072h, 065h, 073h, 073h, 020h, 053h, 065h, 06Ch, 065h, 063h, 074h, 06Fh, 072h, 020h, 074h, 06Fh
@@ -8566,11 +8566,11 @@ _str_timeZeros equ str_timeZeros
 str_timeFormat db 030h
     db 030h, 03Ah, 030h, 030h, 03Ah, 030h, 030h, 000h
 _str_timeFormat equ str_timeFormat
-_var_97 db 000h
+_popupSpriteY db 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 028h, 000h, 028h, 000h, 028h
     db 000h, 028h, 000h, 028h, 000h, 028h, 000h, 050h, 000h, 050h, 000h, 050h, 000h, 050h, 000h, 050h
     db 000h, 050h, 000h
-_var_98 db 000h
+_popupSpriteX db 000h
     db 000h, 030h, 000h, 060h, 000h, 090h, 000h, 0C0h, 000h, 0F0h, 000h, 000h, 000h, 030h, 000h, 060h
     db 000h, 090h, 000h, 0C0h, 000h, 0F0h, 000h, 000h, 000h, 030h, 000h, 060h, 000h, 090h, 000h, 0C0h
     db 000h, 0F0h, 000h
@@ -8626,38 +8626,38 @@ _ps_105 label byte
 _var_105 db 000h
     db 000h, 02Dh, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-_dat_20C2 label word
-dat_20C2 dw offset _ps_105
+_spriteAir label word
+spriteAir dw offset _ps_105
 _ps_106 label byte
 _var_106 db 000h
     db 000h, 02Dh, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-dat_20E2 dw offset _ps_106
-_dat_20E2 equ dat_20E2
+spriteAirBlink dw offset _ps_106
+_spriteAirBlink equ spriteAirBlink
 _ps_107 label byte
 _var_107 db 000h
     db 000h, 023h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-_dat_2102 label word
-dat_2102 dw offset _ps_107
+_spriteSam label word
+spriteSam dw offset _ps_107
 _ps_108 label byte
 _var_108 db 000h
     db 000h, 023h, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-dat_2122 dw offset _ps_108
-_dat_2122 equ dat_2122
+spriteSamBlink dw offset _ps_108
+_spriteSamBlink equ spriteSamBlink
 _ps_109 label byte
 _var_109 db 000h
     db 000h, 017h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-_dat_2142 label word
-dat_2142 dw offset _ps_109
+_spriteGround label word
+spriteGround dw offset _ps_109
 _ps_110 label byte
 _var_110 db 000h
     db 000h, 017h, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-dat_2162 dw offset _ps_110
-_dat_2162 equ dat_2162
+spriteGroundBlink dw offset _ps_110
+_spriteGroundBlink equ spriteGroundBlink
 _ps_111 label byte
 _var_111 db 000h
     db 000h, 01Eh, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
@@ -8672,13 +8672,13 @@ _ps_113 label byte
 _var_113 db 000h
     db 000h, 02Ah, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 001h, 000h, 001h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-_dat_21C2 label word
-dat_21C2 dw offset _ps_113
+_spriteWaypoint label word
+spriteWaypoint dw offset _ps_113
 _var_114 db 000h
     db 000h, 02Ah, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 001h, 000h, 001h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-dat_21E2 dw offset _var_114
-_dat_21E2 equ dat_21E2
+spriteWaypointBlink dw offset _var_114
+_spriteWaypointBlink equ spriteWaypointBlink
 dat_21e4 db 0ECh
     db 000h, 096h, 000h, 03Ch, 001h, 09Fh, 000h, 0ECh, 000h, 096h, 000h, 03Ch, 001h, 09Fh, 000h, 000h
     db 000h, 069h, 000h, 098h, 000h, 008h, 000h, 011h, 001h, 039h, 000h, 007h, 000h
@@ -8757,9 +8757,9 @@ _var_137 db 000h
     db 000h, 000h, 000h
 _dat_2312 db 05Ch, 000h
 _dat_2314 db 05Ch, 000h
-_var_138 db 001h
+_randSeed db 001h
     db 000h
-_var_139 db 000h
+_randState db 000h
     db 000h
 _var_140 db 000h
     db 000h
@@ -8856,42 +8856,42 @@ dat_3FB2 db 2 dup(?)
 dat_3FB4 db 2 dup(?)
 dat_3FB6 db 2 dup(?)
 dat_3FB8 db 2 dup(?)
-_var_169 db 2 dup(?)
-_var_170 db 2 dup(?)
-_var_171 db 2 dup(?)
-_var_172 db 2 dup(?)
-_var_173 db ?
-_var_174 db ?
-_var_175 db 2 dup(?)
+_colorTablePtr db 2 dup(?)
+_inputChanged db 2 dup(?)
+_colorAnimIdx db 2 dup(?)
+_colorAnimEnabled db 2 dup(?)
+_joyRepeatFlag db ?
+_spriteToggle db ?
+_animDone db 2 dup(?)
 _var_3fc6 db 10 dup(?)
 _var_176 db 100 dup(?)
 dat_4034 db 4 dup(?)
-_var_177 db 2 dup(?)
-_var_178 db 2 dup(?)
+_worldBufHandle db 2 dup(?)
+_gameData db 2 dup(?)
 _var_179 db 4 dup(?)
 dat_4040 db 516 dup(?)
 _var_180 db 2 dup(?)
 dat_4246 db 2 dup(?)
-_var_181 db 2 dup(?)
-_var_182 db 4 dup(?)
+_samKilled db 2 dup(?)
+_samMissed db 4 dup(?)
 dat_424e db 8 dup(?)
-_var_183 label byte
+_slotInfoTable label byte
 _var_183x db 6 dup(?)
 _var_425c db 1188 dup(?)
-_var_184 db 256 dup(?)
-_var_185 db 4 dup(?)
+_gridFlags db 256 dup(?)
+_target1Type db 4 dup(?)
 dat_4804 db 4 dup(?)
-_var_186 db 10 dup(?)
-_var_187 db 8 dup(?)
-_var_188 db 10 dup(?)
+_target1MiscBits db 10 dup(?)
+_target2Type db 8 dup(?)
+_target2MiscBits db 10 dup(?)
 dat_4824 db 512 dup(?)
 _dat_4824 equ dat_4824
-_var_189 db 4 dup(?)
-_var_190 label word
+_hasVgaMode db 4 dup(?)
+_curRecordIdx label word
 _var_190x db 2 dup(?)
 _flightRecords db 720 dup(?)
 dat_4a2a equ _flightRecords
-_var_191 db 518 dup(?)
+_hercFlag db 518 dup(?)
 _var_192 db 2 dup(?)
 _var_193 db 2 dup(?)
 _var_194 db ?
@@ -8899,47 +8899,47 @@ _var_195 db ?
 _var_196 db ?
 _var_197 db 1531 dup(?)
 _var_198 db 6 dup(?)
-_var_199 db 2 dup(?)
-_var_200 db 2 dup(?)
-_var_201 db 3 dup(?)
-_var_202 db ?
+_groundKilled db 2 dup(?)
+_groundMissed db 2 dup(?)
+_missionResult db 3 dup(?)
+_enterPressed db ?
 _var_203 db 2 dup(?)
 dat_5512 db 102 dup(?)
-_var_204 db 100 dup(?)
+_unitTypeTable db 100 dup(?)
 _var_205 db 2 dup(?)
 dat_55de db 2 dup(?)
-_var_206 db 14 dup(?)
-_var_207 db 2 dup(?)
-_var_208 db 2 dup(?)
-_var_209 db 2 dup(?)
-_var_210 label byte
+_worldDataReady db 14 dup(?)
+_ejectedFlag db 2 dup(?)
+_lastDrawX db 2 dup(?)
+_prevDrawX db 2 dup(?)
+_cursorX label byte
 _var_210x db 4 dup(?)
-_var_211 db 2 dup(?)
-_var_212 label byte
+_lastDrawY db 2 dup(?)
+_cursorY label byte
 _var_212x db 2 dup(?)
-_var_213 db 2 dup(?)
-_var_214 db 2 dup(?)
-_var_215 db 2 dup(?)
+_prevDrawY db 2 dup(?)
+_popupVisible db 2 dup(?)
+_primaryHit db 2 dup(?)
 _var_216 db 6 dup(?)
-PUBLIC _var_217
-_var_217 db 200 dup(?)
-PUBLIC _var_218
-_var_218 db 750 dup(?)
-_var_219 db 2 dup(?)
-_var_220 db 2 dup(?)
-_var_221 db 242 dup(?)
+PUBLIC _worldStrings
+_worldStrings db 200 dup(?)
+PUBLIC _worldStringBuf
+_worldStringBuf db 750 dup(?)
+_missionScore db 2 dup(?)
+_missionScoreHi db 2 dup(?)
+_secondaryHit db 242 dup(?)
 dat_5ab4 db 2 dup(?)
-_var_222 db 2 dup(?)
-_var_223 db 2 dup(?)
-_var_224 db 4 dup(?)
-_var_225 db 2 dup(?)
-_var_226 db 514 dup(?)
-_var_227 db 2 dup(?)
-_var_228 db 2 dup(?)
-_var_229 db 2 dup(?)
-_var_230 db 2 dup(?)
-_var_231 db 2 dup(?)
-_var_232 db ?
+_commData db 2 dup(?)
+_commData_seg db 2 dup(?)
+_airKilled db 4 dup(?)
+_airMissed db 2 dup(?)
+_gfxBufSeg db 514 dup(?)
+_popupX db 2 dup(?)
+_popupY db 2 dup(?)
+_spriteBufSeg db 2 dup(?)
+_vgaBufSeg db 2 dup(?)
+_vgaBufOffset db 2 dup(?)
+_vgaBufSeg2 db ?
 
 __bss_end label byte
 

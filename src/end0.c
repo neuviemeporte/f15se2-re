@@ -18,63 +18,63 @@ void main(void) {
     FP_SEG(d) = SEG_LOWMEM;
     FP_OFF(d) = OFF_IACA_START;
     seg = *d;
-    FP_SEG(var_222) = seg;
-    FP_OFF(var_222) = 0;
-    FP_SEG(var_178) = seg;
-    FP_OFF(var_178) = COMM_GAMEDATA_OFFSET;
-    routine_14(((int far *)var_222)[0x1a / 2]);
-    routine_14(((int far *)var_222)[0x1e / 2]);
+    FP_SEG(commData) = seg;
+    FP_OFF(commData) = 0;
+    FP_SEG(gameData) = seg;
+    FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
+    setupOverlaySlots(((int far *)commData)[COMM_GFXOVL_ADDR_OFFSET / 2]);
+    setupOverlaySlots(((int far *)commData)[COMM_MISCOVL_ADDR_OFFSET / 2]);
     misc_jump_5e_clearKeyFlags();
-    routine_16();
-    var_191 = ((char far *)var_222)[0x24];
+    clearKeybuf();
+    hercFlag = ((char far *)commData)[COMM_SETUP_MONOCHROME_OFFSET];
     installCBreakHandler();
-    routine_18();
-    if (((int far *)var_222)[0x72 / 2] == 1) {
-        copyJoystickData((char far *)var_222 + 0x48);
+    initGraphics();
+    if (((int far *)commData)[COMM_SETUP_USEJOY_OFFSET / 2] == 1) {
+        copyJoystickData((char far *)commData + COMM_SETUP_JOYDATA_OFFSET);
     } else {
-        var_55 = var_56 = 0x80;
+        joyAxisX = joyAxisY = JOY_CENTER;
     }
-    routine_20();
+    loadWorldStrings();
     b = gfx_jump_31();
     p = gfx_jump_17_bufSize();
-    var_226 = allocBuffer(b);
-    if (var_189 == 1) {
-        var_230 = allocBuffer(0x3c8c);
-        var_232 = var_230;
-        var_231 = 0;
+    gfxBufSeg = allocBuffer(b);
+    if (hasVgaMode == 1) {
+        vgaBufSeg = allocBuffer(VGA_BUF_SIZE);
+        vgaBufSeg2 = vgaBufSeg;
+        vgaBufOffset = 0;
     }
-    var_229 = allocBuffer(p);
-    var_201 = 3;
-    if (((int far *)var_222)[0x26 / 2] == 2) {
+    spriteBufSeg = allocBuffer(p);
+    missionResult = 3;
+    if (((int far *)commData)[COMM_SETUP_DONE_OFFSET / 2] == 2) {
         routine_24();
     }
-    routine_16();
+    clearKeybuf();
     routine_25();
     routine_26();
-    routine_16();
+    clearKeybuf();
     routine_27();
-    routine_28();
-    routine_8(0x23);
+    restoreCbreakHandler();
+    dosExit(EXIT_DEBRIEF);
 }
 
-char *routine_106(int timeValue, char *buffer) {
+char *formatFlightTime(int timeValue, char *buffer) {
     int p;
     int a;
     int b;
     int c;
 
-    a = var_186[0] + var_188[0];
-    var_24 = ((char)a & 3) == 0;
-    if (var_185[0] == 1 || var_187[0] == 1) {
-        var_24 = 0;
+    a = target1MiscBits[0] + target2MiscBits[0];
+    nightMission = ((char)a & 3) == 0;
+    if (target1Type[0] == 1 || target2Type[0] == 1) {
+        nightMission = 0;
     }
-    if (var_185[0] == 4 || var_187[0] == 4) {
-        var_24 = 1;
+    if (target1Type[0] == 4 || target2Type[0] == 4) {
+        nightMission = 1;
     }
     timeValue += (a & 0xF) << 8;
     mystrcpy(buffer, str_timeFormat);
     p = (unsigned)timeValue / 0x708;
-    buffer[0] += var_24 + 1;
+    buffer[0] += nightMission + 1;
     buffer[1] += p % 10;
     b = ((unsigned)timeValue / 30) % 60;
     buffer[3] += b / 10;
@@ -86,148 +86,148 @@ char *routine_106(int timeValue, char *buffer) {
 }
 
 
-void routine_66(void);
+void waitForKeyOrJoy(void);
 
-void routine_65(int param_1)
+void animateFlightPath(int param_1)
 {
     char local_18[22];
     int pad;
 
-    if (var_214 == 1) {
-        gfx_jump_2a(1, 0, 0x96, 0, var_227, var_228, 0x30, 0x28);
-        var_214 = 0;
+    if (popupVisible == 1) {
+        gfx_jump_2a(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
+        popupVisible = 0;
     }
     clearRect((int *)param_1, 0xe9, 0x1e, 0x13f, 0x45);
     drawStringAt((int *)param_1, str_inFlight, 0xf0, 0x26);
 loop_top:
-        var_190++;
-        if (flightRecords[var_190].status & 0x3f) {
-            if ((flightRecords[var_190].status & 0x3f) == 9) {
+        curRecordIdx++;
+        if (flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) {
+            if ((flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) == EVENT_TIMESTAMP) {
         clearRect((int *)param_1, 0xf0, 0x1e, 0x13f, 0x25);
         mystrcpy(dat_4824, str_timeLabel);
-        mystrcat(dat_4824, routine_106(*((int *)&flightRecords[var_190] - 1), local_18));
+        mystrcat(dat_4824, formatFlightTime(*((int *)&flightRecords[curRecordIdx] - 1), local_18));
         drawStringAt((int *)param_1, dat_4824, 0xf0, 0x1e);
         gfx_jump_21(0);
-        if (var_209 == 0 && var_213 == 0) {
-            routine_105((int)var_194, (int)var_195, (int)flightRecords[var_190].cx, (int)flightRecords[var_190].cy);
-            var_209 = (int)flightRecords[var_190].cx;
-            var_213 = (int)flightRecords[var_190].cy;
+        if (prevDrawX == 0 && prevDrawY == 0) {
+            drawFlightLine((int)var_194, (int)var_195, (int)flightRecords[curRecordIdx].mapX, (int)flightRecords[curRecordIdx].mapY);
+            prevDrawX = (int)flightRecords[curRecordIdx].mapX;
+            prevDrawY = (int)flightRecords[curRecordIdx].mapY;
         } else {
-            var_208 = (int)flightRecords[var_190].cx;
-            var_211 = (int)flightRecords[var_190].cy;
-            routine_105(var_208, var_211, var_209, var_213);
-            var_209 = var_208;
-            var_213 = var_211;
+            lastDrawX = (int)flightRecords[curRecordIdx].mapX;
+            lastDrawY = (int)flightRecords[curRecordIdx].mapY;
+            drawFlightLine(lastDrawX, lastDrawY, prevDrawX, prevDrawY);
+            prevDrawX = lastDrawX;
+            prevDrawY = lastDrawY;
         }
-        *(long *)&var_219 = routine_63(var_190);
+        *(long *)&missionScore = calcMissionScore(curRecordIdx);
         mystrcpy(dat_4824, str_timeZeros);
-        my_ltoa(*(long *)&var_219, local_18);
+        my_ltoa(*(long *)&missionScore, local_18);
         mystrcat(dat_4824, local_18);
         clearRect((int *)param_1, 0xe8, 0x56, 0x13f, 0x5e);
         drawStringCentered((int *)param_1, dat_4824, 0xe8, 0x56, 0x57);
-        var_81 = 0;
+        timerCounter = 0;
 wait_loop:
-        if ((unsigned char)var_81 <= 5) goto wait_loop;
+        if ((unsigned char)timerCounter <= 5) goto wait_loop;
                 goto loop_top;
             }
         }
 done:
-    if (!(flightRecords[var_190].status & 0x3f)) {
-        var_190--;
+    if (!(flightRecords[curRecordIdx].status & STATUS_TYPE_MASK)) {
+        curRecordIdx--;
     }
     gfx_jump_21(0);
-    if (var_209 == 0 && var_213 == 0) {
-        routine_105((int)var_194, (int)var_195, (int)flightRecords[var_190].cx, (int)flightRecords[var_190].cy);
-        var_209 = (int)flightRecords[var_190].cx;
-        var_213 = (int)flightRecords[var_190].cy;
+    if (prevDrawX == 0 && prevDrawY == 0) {
+        drawFlightLine((int)var_194, (int)var_195, (int)flightRecords[curRecordIdx].mapX, (int)flightRecords[curRecordIdx].mapY);
+        prevDrawX = (int)flightRecords[curRecordIdx].mapX;
+        prevDrawY = (int)flightRecords[curRecordIdx].mapY;
     } else {
-        var_208 = (int)flightRecords[var_190].cx;
-        var_211 = (int)flightRecords[var_190].cy;
-        routine_105(var_208, var_211, var_209, var_213);
-        var_209 = var_208;
-        var_213 = var_211;
+        lastDrawX = (int)flightRecords[curRecordIdx].mapX;
+        lastDrawY = (int)flightRecords[curRecordIdx].mapY;
+        drawFlightLine(lastDrawX, lastDrawY, prevDrawX, prevDrawY);
+        prevDrawX = lastDrawX;
+        prevDrawY = lastDrawY;
     }
 }
 
-void routine_34(void) {
-    TRACE(("routine_34"));
-    routine_70(routine_69());
+void seedRandom(void) {
+    TRACE(("seedRandom"));
+    srandInit(getTimeOfDay());
 }
 
-int routine_137(unsigned char param_1) {
-    TRACE(("routine_137"));
-    return ((unsigned int)param_1 << 7) / 0x92;
+int mapToScreenX(unsigned char param_1) {
+    TRACE(("mapToScreenX"));
+    return ((unsigned int)param_1 << 7) / MAP_SCALE_X;
 }
 
-int routine_136(unsigned char param_1) {
-    TRACE(("routine_136"));
-    return ((unsigned int)param_1 << 7) / 0xC3;
+int mapToScreenY(unsigned char param_1) {
+    TRACE(("mapToScreenY"));
+    return ((unsigned int)param_1 << 7) / MAP_SCALE_Y;
 }
 
-void routine_160(int x1, int y1, int x2, int y2) {
-    TRACE(("routine_160"));
-    routine_138(x1, y1, x2, y2, var_93, var_95, var_94, var_96, 1);
+void drawClippedLine(int x1, int y1, int x2, int y2) {
+    TRACE(("drawClippedLine"));
+    drawClippedLineEx(x1, y1, x2, y2, mapViewX1, mapViewX2, mapViewY1, mapViewY2, 1);
 }
 
-void routine_157(int x, int y, int color) {
-    TRACE(("routine_157"));
-    routine_160(x, y, x, y);
+void drawMapPixel(int x, int y, int color) {
+    TRACE(("drawMapPixel"));
+    drawClippedLine(x, y, x, y);
 }
 
-void routine_147(int x, int y, int color) {
+void plotMapPoint(int x, int y, int color) {
     int sx;
     int sy;
-    TRACE(("routine_147"));
-    sx = routine_137(x);
-    sy = routine_136(y);
+    TRACE(("plotMapPoint"));
+    sx = mapToScreenX(x);
+    sy = mapToScreenY(y);
     if (color != -1 &&
-        (unsigned)sx >= (unsigned)var_93 &&
-        (unsigned)sx < (unsigned)var_95 &&
-        (unsigned)sy >= (unsigned)var_94 &&
-        (unsigned)sy < (unsigned)var_96) {
-        routine_157(sx, sy, color);
+        (unsigned)sx >= (unsigned)mapViewX1 &&
+        (unsigned)sx < (unsigned)mapViewX2 &&
+        (unsigned)sy >= (unsigned)mapViewY1 &&
+        (unsigned)sy < (unsigned)mapViewY2) {
+        drawMapPixel(sx, sy, color);
     }
 }
 
-void FUN_1000_0990(unsigned int ticks) {
-    TRACE(("FUN_1000_0990"));
-    var_81 = 0;
+void timerWait(unsigned int ticks) {
+    TRACE(("timerWait"));
+    timerCounter = 0;
     setTimerIrqHandler();
-    while (ticks >= (unsigned char)var_81)
+    while (ticks >= (unsigned char)timerCounter)
         ;
     restoreTimerIrqHandler();
 }
 
-void FUN_1000_041a(int *s, char far *str, int x, int y) {
-    TRACE(("FUN_1000_041a"));
+void drawStringAtPos(int *s, char far *str, int x, int y) {
+    TRACE(("drawStringAtPos"));
     s[4] = x;
     s[5] = y;
-    FUN_1000_0469(s, str);
+    drawFarString(s, str);
 }
 
-void FUN_1000_0469(int *s, char far *str) {
+void drawFarString(int *s, char far *str) {
     char buf[200];
-    TRACE(("FUN_1000_0469"));
-    FUN_1000_0a74(buf, str);
+    TRACE(("drawFarString"));
+    farStrcpy(buf, str);
     gfx_jump_05_drawString(s, buf);
 }
 
-int routine_97(unsigned int *p)
+int isPointInRect(unsigned int *p)
 {
-    TRACE(("routine_97"));
-    if (p[0] <= var_210 && p[2] >= var_210 && p[1] <= var_212 && p[3] >= var_212)
+    TRACE(("isPointInRect"));
+    if (p[0] <= cursorX && p[2] >= cursorX && p[1] <= cursorY && p[3] >= cursorY)
         return 1;
     else
         return 0;
 }
 
-void routine_105(int p1, int p2, int p3, int p4)
+void drawFlightLine(int p1, int p2, int p3, int p4)
 {
-    TRACE(("routine_105"));
-    routine_138(routine_137(p1), routine_136(p2), routine_137(p3), routine_136(p4), var_93, var_95, var_94, var_96, 1);
+    TRACE(("drawFlightLine"));
+    drawClippedLineEx(mapToScreenX(p1), mapToScreenY(p2), mapToScreenX(p3), mapToScreenY(p4), mapViewX1, mapViewX2, mapViewY1, mapViewY2, 1);
 }
 
-void routine_130(int *page, char *str, unsigned int maxWidth, int x, int y, int lineHeight) {
+void drawWrappedText(int *page, char *str, unsigned int maxWidth, int x, int y, int lineHeight) {
     int p;
     char *a;
     uint8 *b;
@@ -270,7 +270,7 @@ void routine_130(int *page, char *str, unsigned int maxWidth, int x, int y, int 
             f = 0;
         }
         if (c != 0) {
-            routine_146(buf, a, c);
+            memcopy(buf, a, c);
             buf[c] = 0;
             page[4] = x;
             gfx_jump_05_drawString(page, buf);
@@ -284,44 +284,44 @@ void routine_130(int *page, char *str, unsigned int maxWidth, int x, int y, int 
     } while (1);
 }
 
-int routine_135(int param_1)
+int drawEventSprite(int param_1)
 {
-    TRACE(("routine_135"));
-    switch (flightRecords[param_1].status & 0x3f) {
-    case 1:
-    case 12:
-        dat_20C2[4] = routine_137(flightRecords[param_1].cx) + var_93 - 2;
-        dat_20C2[5] = routine_136(flightRecords[param_1].cy) + var_94 - 2;
-        if (var_183[(flightRecords[var_190].pad & 0x7f) * 16] & 8) {
-            dat_20C2[1] = 0x11e;
+    TRACE(("drawEventSprite"));
+    switch (flightRecords[param_1].status & STATUS_TYPE_MASK) {
+        case EVENT_AIR_KILL:
+        case EVENT_AIR_KILL2:
+        spriteAir[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1 - 2;
+        spriteAir[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1 - 2;
+        if (slotInfoTable[(flightRecords[curRecordIdx].pad & UNIT_ID_MASK) * 16] & 8) {
+            spriteAir[1] = 0x11e;
         } else {
-            dat_20C2[1] = 0x12d;
+            spriteAir[1] = 0x12d;
         }
-        return gfx_jump_11_blitSprite((int)dat_20C2);
-    case 2:
-        dat_2142[4] = routine_137(flightRecords[param_1].cx) + var_93 - 2;
-        dat_2142[5] = routine_136(flightRecords[param_1].cy) + var_94 - 2;
-        return gfx_jump_11_blitSprite((int)dat_2142);
-    case 3:
-        dat_2102[4] = routine_137(flightRecords[param_1].cx) + var_93 - 2;
-        dat_2102[5] = routine_136(flightRecords[param_1].cy) + var_94 - 2;
-        return gfx_jump_11_blitSprite((int)dat_2102);
-    case 5:
-        dat_21C2[4] = routine_137(flightRecords[param_1].cx) + var_93;
-        dat_21C2[5] = routine_136(flightRecords[param_1].cy) + var_94;
-        return gfx_jump_11_blitSprite((int)dat_21C2);
-    case 8:
-        dat_2102[4] = routine_137(flightRecords[param_1].cx) + var_93 - 2;
-        dat_2102[5] = routine_136(flightRecords[param_1].cy) + var_94 - 2;
-        return gfx_jump_11_blitSprite((int)dat_2102);
-    case 10:
-        dat_21C2[4] = routine_137(flightRecords[param_1].cx) + var_93;
-        dat_21C2[5] = routine_136(flightRecords[param_1].cy) + var_94;
-        return gfx_jump_11_blitSprite((int)dat_21C2);
+        return gfx_jump_11_blitSprite((int)spriteAir);
+    case EVENT_GROUND_KILL:
+        spriteGround[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1 - 2;
+        spriteGround[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1 - 2;
+        return gfx_jump_11_blitSprite((int)spriteGround);
+    case EVENT_SAM_KILL:
+        spriteSam[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1 - 2;
+        spriteSam[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1 - 2;
+        return gfx_jump_11_blitSprite((int)spriteSam);
+    case EVENT_BOMB_HIT:
+        spriteWaypoint[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1;
+        spriteWaypoint[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1;
+        return gfx_jump_11_blitSprite((int)spriteWaypoint);
+    case EVENT_EJECTED:
+        spriteSam[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1 - 2;
+        spriteSam[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1 - 2;
+        return gfx_jump_11_blitSprite((int)spriteSam);
+    case EVENT_WAYPOINT:
+        spriteWaypoint[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1;
+        spriteWaypoint[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1;
+        return gfx_jump_11_blitSprite((int)spriteWaypoint);
     }
 }
 
-long routine_63(int param) {
+long calcMissionScore(int param) {
     int p;
     int a;
     int b;
@@ -330,80 +330,80 @@ long routine_63(int param) {
     int f;
     int g;
 
-    var_181 = var_199 = var_182 = var_200 = var_224 = var_225 = var_215 = var_221 = c = 0;
+    samKilled = groundKilled = samMissed = groundMissed = airKilled = airMissed = primaryHit = secondaryHit = c = 0;
     g = 1;
     e = 0;
 
-    p = ((int far *)var_222)[0x40 / 2];
+    p = ((int far *)commData)[COMM_UNK8_OFFSET / 2];
     if (p > 15) {
         p = 15;
     }
 
-    for (b = 0; (unsigned)b <= (unsigned)param && flightRecords[207 + b].status; b++) {
-        f = flightRecords[207 + b].pad;
-        switch (flightRecords[207 + b].status & 0x3f) {
-        case 8:
+    for (b = 0; (unsigned)b <= (unsigned)param && flightRecords[KILL_RECORD_OFFSET + b].status; b++) {
+        f = flightRecords[KILL_RECORD_OFFSET + b].pad;
+        switch (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_TYPE_MASK) {
+        case EVENT_EJECTED:
             if (b != 0) {
                 c = 1;
             }
             break;
-        case 1:
-        case 12:
-            if (flightRecords[207 + b].status & 0x80) {
-                var_215 = 1;
-                var_224++;
-            } else if (flightRecords[207 + b].status & 0x40) {
-                var_221 = 1;
-                var_224++;
-            } else if (var_204[f & 0x7f] & 0x40) {
-                var_225++;
-            } else if (!(*(int *)&var_183[f * 16] & 0x500)) {
-                var_224++;
+        case EVENT_AIR_KILL:
+        case EVENT_AIR_KILL2:
+            if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_PRIMARY_HIT) {
+                primaryHit = 1;
+                airKilled++;
+            } else if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_SECONDARY_HIT) {
+                secondaryHit = 1;
+                airKilled++;
+            } else if (unitTypeTable[f & UNIT_ID_MASK] & 0x40) {
+                airMissed++;
+            } else if (!(*(int *)&slotInfoTable[f * 16] & 0x500)) {
+                airKilled++;
             } else {
-                var_225++;
+                airMissed++;
             }
             break;
-        case 3:
-            if (flightRecords[207 + b].status & 0x80) {
-                var_215 = 1;
-                var_181++;
-            } else if (flightRecords[207 + b].status & 0x40) {
-                var_221 = 1;
-                var_181++;
-            } else if (*(int *)&var_23[(f & 0x7f) * 0x20] == -1) {
-                var_182++;
+        case EVENT_SAM_KILL:
+            if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_PRIMARY_HIT) {
+                primaryHit = 1;
+                samKilled++;
+            } else if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_SECONDARY_HIT) {
+                secondaryHit = 1;
+                samKilled++;
+            } else if (*(int *)&samDataTable[(f & UNIT_ID_MASK) * 0x20] == -1) {
+                samMissed++;
             } else {
-                var_181++;
+                samKilled++;
             }
             break;
-        case 2:
-            if (flightRecords[207 + b].status & 0x80) {
-                var_215 = 1;
-                var_199++;
-            } else if (flightRecords[207 + b].status & 0x40) {
-                var_221 = 1;
-                var_199++;
-            } else if (var_204[f & 0x7f] & 0x40) {
-                var_200++;
+        case EVENT_GROUND_KILL:
+            if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_PRIMARY_HIT) {
+                primaryHit = 1;
+                groundKilled++;
+            } else if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_SECONDARY_HIT) {
+                secondaryHit = 1;
+                groundKilled++;
+            } else if (unitTypeTable[f & UNIT_ID_MASK] & 0x40) {
+                groundMissed++;
             } else {
-                if (!((var_184[(((flightRecords[207 + b].cy & 0xff) >> 4) << 4) + ((unsigned char)flightRecords[207 + b].cx >> 4)]) & 3)) {
-                    var_199++;
+                if (!((gridFlags[(((flightRecords[KILL_RECORD_OFFSET + b].mapY & 0xff) >> 4) << 4) + ((unsigned char)flightRecords[KILL_RECORD_OFFSET + b].mapX >> 4)]) & 3)) {
+                    groundKilled++;
                 } else {
-                    var_200++;
+                    groundMissed++;
                 }
             }
             break;
-        case 10:
+        case EVENT_WAYPOINT:
             g++;
             break;
         }
     }
 
-    e = (long)((var_224 - var_225 * 2) * p * 25)
-      + (long)((var_181 - var_182 * 2) * (((int far *)var_178)[0x3e / 2] + 1) * 50)
-      + (long)((var_199 - var_200 * 2) * p * 20)
-      + (long)(p * var_215 * 200)
-      + (long)(p * var_221 * 100);
+    e = (long)((airKilled - airMissed * 2) * p * 25)
+      + (long)((samKilled - samMissed * 2) * (((int far *)gameData)[GAME_START_DIFFICULTY / 2] + 1) * 50)
+      + (long)((groundKilled - groundMissed * 2) * p * 20)
+      + (long)(p * primaryHit * 200)
+      + (long)(p * secondaryHit * 100);
 
     e = e * 2 / (g + 1);
 
@@ -411,7 +411,7 @@ long routine_63(int param) {
         if (e < 0) {
             e = 0;
         }
-        switch (((int far *)var_222)[0x26 / 2]) {
+        switch (((int far *)commData)[COMM_SETUP_DONE_OFFSET / 2]) {
         case 1:
             e /= 2;
             break;
@@ -424,7 +424,7 @@ long routine_63(int param) {
     return e;
 }
 
-unsigned int routine_132(int param_1, unsigned int param_2) {
+unsigned int drawFlightPath(int param_1, unsigned int param_2) {
     int p;
     int a;
     int b;
@@ -443,111 +443,111 @@ unsigned int routine_132(int param_1, unsigned int param_2) {
     (void)e; (void)f; (void)g; (void)h; (void)i;
     (void)j; (void)k; (void)l; (void)m; (void)n; (void)p;
     a = -1;
-    while (++a, (flightRecords[a].status & 0x3f) != 0 && (unsigned)a <= param_2) {
+    while (++a, (flightRecords[a].status & STATUS_TYPE_MASK) != 0 && (unsigned)a <= param_2) {
         gfx_jump_21(0);
         if (a == 0) {
-            routine_147((int)flightRecords[0].cx, (int)flightRecords[0].cy, 0, 0);
-            b = (int)flightRecords[0].cx;
-            d = (int)flightRecords[0].cy;
+            plotMapPoint((int)flightRecords[0].mapX, (int)flightRecords[0].mapY, 0, 0);
+            b = (int)flightRecords[0].mapX;
+            d = (int)flightRecords[0].mapY;
         } else {
-            p = (int)flightRecords[a].cx;
-            c = (int)flightRecords[a].cy;
-            routine_105(p, c, b, d);
+            p = (int)flightRecords[a].mapX;
+            c = (int)flightRecords[a].mapY;
+            drawFlightLine(p, c, b, d);
             b = p;
             d = c;
         }
     }
     a = -1;
-    while (++a, (flightRecords[a].status & 0x3f) != 0 && (unsigned)a <= param_2) {
-        if ((flightRecords[a].status & 0x3f) != 9) {
-            routine_135(a);
+    while (++a, (flightRecords[a].status & STATUS_TYPE_MASK) != 0 && (unsigned)a <= param_2) {
+        if ((flightRecords[a].status & STATUS_TYPE_MASK) != EVENT_TIMESTAMP) {
+            drawEventSprite(a);
         }
     }
     a--;
     return a;
 }
 
-void routine_131(void) {
+void showEventPopup(void) {
     int p;
     int a;
 
     (void)p;
 
-    if (var_214 == 1) {
-        gfx_jump_2a(1, 0, 0x96, 0, var_227, var_228, 0x30, 0x28);
-        var_214 = 0;
+    if (popupVisible == 1) {
+        gfx_jump_2a(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
+        popupVisible = 0;
     }
-    a = flightRecords[var_190].status & 0x3f;
+    a = flightRecords[curRecordIdx].status & STATUS_TYPE_MASK;
     switch (a) {
-    case 1:
-        if (var_183[(flightRecords[var_190].pad & 0x7f) * 16] & 8) {
+    case EVENT_AIR_KILL:
+        if (slotInfoTable[(flightRecords[curRecordIdx].pad & UNIT_ID_MASK) * 16] & 8) {
             a = 0xf;
         } else {
             a = 0;
         }
         break;
-    case 2:
+    case EVENT_GROUND_KILL:
         a = 2;
         break;
-    case 12:
+    case EVENT_AIR_KILL2:
         a = 1;
         break;
-    case 3:
+    case EVENT_SAM_KILL:
         a = 2;
         break;
-    case 5:
+    case EVENT_BOMB_HIT:
         a = 3;
         break;
-    case 8:
-        if (var_190 == 0) {
+    case EVENT_EJECTED:
+        if (curRecordIdx == 0) {
             a = 8;
         } else {
-            if (((int far *)var_222)[0x26 / 2] == 3) {
-                var_207 = 1;
+            if (((int far *)commData)[COMM_SETUP_DONE_OFFSET / 2] == 3) {
+                ejectedFlag = 1;
                 a = 7;
-            } else if (((int far *)var_222)[0x26 / 2] == 1) {
-                var_207 = 1;
+            } else if (((int far *)commData)[COMM_SETUP_DONE_OFFSET / 2] == 1) {
+                ejectedFlag = 1;
                 a = 0xe;
-            } else if (var_201 == 0) {
-                var_207 = 1;
+            } else if (missionResult == 0) {
+                ejectedFlag = 1;
                 a = 0xb;
             } else {
-                var_207 = 1;
+                ejectedFlag = 1;
                 a = 0xd;
             }
         }
         break;
-    case 10:
+    case EVENT_WAYPOINT:
         a = 0xa;
         break;
     }
-    if ((unsigned)(routine_137(flightRecords[var_190].cx) + var_93) < 0x73 &&
-        (unsigned)(routine_136(flightRecords[var_190].cy) + var_94) < 0x59) {
-        var_227 = routine_137(flightRecords[var_190].cx) + var_93 + 10;
-        var_228 = routine_136(flightRecords[var_190].cy) + var_94 + 10;
-    } else if ((unsigned)(routine_137(flightRecords[var_190].cx) + var_93) >= 0x73 &&
-               (unsigned)(routine_136(flightRecords[var_190].cy) + var_94) < 0x59) {
-        var_227 = routine_137(flightRecords[var_190].cx) + var_93 - 0x3a;
-        var_228 = routine_136(flightRecords[var_190].cy) + var_94 + 10;
-    } else if ((unsigned)(routine_137(flightRecords[var_190].cx) + var_93) >= 0x73 &&
-               (unsigned)(routine_136(flightRecords[var_190].cy) + var_94) >= 0x59) {
-        var_227 = routine_137(flightRecords[var_190].cx) + var_93 - 0x3a;
-        var_228 = routine_136(flightRecords[var_190].cy) + var_94 - 0x28;
+    if ((unsigned)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) < 0x73 &&
+        (unsigned)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) < 0x59) {
+        popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 + 10;
+        popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 + 10;
+    } else if ((unsigned)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) >= 0x73 &&
+               (unsigned)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) < 0x59) {
+        popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 - 0x3a;
+        popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 + 10;
+    } else if ((unsigned)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) >= 0x73 &&
+               (unsigned)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) >= 0x59) {
+        popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 - 0x3a;
+        popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 - 0x28;
     } else {
-        var_227 = routine_137(flightRecords[var_190].cx) + var_93 + 10;
-        var_228 = routine_136(flightRecords[var_190].cy) + var_94 - 0x28;
+        popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 + 10;
+        popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 - 0x28;
     }
-    gfx_jump_2a(0, var_227, var_228, 1, 0, 0x96, 0x30, 0x28);
-    gfx_jump_2a(1, var_98[a], var_97[a], 0, var_227, var_228, 0x30, 0x28);
-    var_214 = 1;
+    gfx_jump_2a(0, popupX, popupY, 1, 0, POPUP_SAVE_Y, POPUP_WIDTH, POPUP_HEIGHT);
+    gfx_jump_2a(1, popupSpriteX[a], popupSpriteY[a], 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
+    popupVisible = 1;
 }
 
-void routine_95(int *param_1, int param_2) {
+void blinkWidget(int *param_1, int param_2) {
     int p;
     int a;
     int b;
     int c;
-    TRACE(("routine_95"));
+    TRACE(("blinkWidget"));
     (void)a;
     (void)c;
     if (param_1[0x17] == 0) {
@@ -567,7 +567,7 @@ void routine_95(int *param_1, int param_2) {
     }
 }
 
-void routine_98(int *param_1, int *param_2, int param_3) {
+void processDebriefInput(int *param_1, int *param_2, int param_3) {
     int a;
     int b;
     int c;
@@ -577,22 +577,22 @@ void routine_98(int *param_1, int *param_2, int param_3) {
     int g;
     int h;
     int i;
-    TRACE(("routine_98"));
+    TRACE(("processDebriefInput"));
     (void)a;
     (void)g;
     (void)i;
 
-    var_169 = param_2[8] * 14 + (int)dat_1c8e;
-    var_82 = 0;
+    colorTablePtr = param_2[8] * 14 + (int)dat_1c8e;
+    timerCounter2 = 0;
     d = e = 0;
-    var_170 = var_202 = var_175 = f = 0;
-    if (var_173 == 1) {
-        var_81 = 0;
+    inputChanged = enterPressed = animDone = f = 0;
+    if (joyRepeatFlag == 1) {
+        timerCounter = 0;
         f = 1;
     }
 
     /* pre-loop joystick read */
-    if (var_222[0x39] == 1) {
+    if (commData[COMM_SETUP_USEJOY_OFFSET / 2] == 1) {
         d = misc_jump_5d_readJoy(0);
         e = misc_jump_5d_readJoy(1);
         routine_134();
@@ -603,95 +603,95 @@ void routine_98(int *param_1, int *param_2, int param_3) {
         if ((char)misc_jump_5a_keybuf() == 0
             || d != 0
             || e != 0
-            || (unsigned char)var_55 < 0x4E
-            || (unsigned char)var_55 > 0xB2
-            || (unsigned char)var_56 < 0x4E
-            || (unsigned char)var_56 > 0xB2) {
+            || (unsigned char)joyAxisX < JOY_DEADZONE_LO
+            || (unsigned char)joyAxisX > JOY_DEADZONE_HI
+            || (unsigned char)joyAxisY < JOY_DEADZONE_LO
+            || (unsigned char)joyAxisY > JOY_DEADZONE_HI) {
             if (f != 1)
                 break;
         }
         /* joystick repeat handling */
-        if (var_173 == 1) {
-            if ((unsigned char)var_81 > 0x0F) {
+        if (joyRepeatFlag == 1) {
+            if ((unsigned char)timerCounter > 0x0F) {
                 f = 0;
-                var_173 = 0;
+                joyRepeatFlag = 0;
             }
         }
 
         /* re-read joystick */
-        if (var_222[0x39] == 1) {
+        if (commData[COMM_SETUP_USEJOY_OFFSET / 2] == 1) {
             d = misc_jump_5d_readJoy(0);
             e = misc_jump_5d_readJoy(1);
             routine_134();
         }
 
         /* quit check */
-        if (var_57 != 0) {
+        if (quitFlag != 0) {
             cleanup();
-            routine_28();
-            routine_8(0);
+            restoreCbreakHandler();
+            dosExit(0);
         }
 
         /* animation */
-        if (var_172 == 1) {
-            if ((unsigned char)var_82 > 6) {
-                var_82 = 0;
-                c = ((unsigned int *)var_169)[var_171 + 1] >> 4;
-                b = ((unsigned int *)var_169)[var_171 + 1] & 0xF;
+        if (colorAnimEnabled == 1) {
+            if ((unsigned char)timerCounter2 > 6) {
+                timerCounter2 = 0;
+                c = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] >> 4;
+                b = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] & 0xF;
                 gfx_jump_29_switchColor(param_3, param_2[4], param_2[5], param_2[6], param_2[7], c, b);
-                var_171++;
-                var_171 = (unsigned)var_171 % *(unsigned int *)var_169;
+                colorAnimIdx++;
+                colorAnimIdx = (unsigned)colorAnimIdx % *(unsigned int *)colorTablePtr;
             }
         }
 
         /* sprite section */
         if (!(param_2[0x18] & 0x800)) goto skip_sprite;
         if (!(param_2[0x18] & 0x1000)) goto skip_sprite;
-        if ((unsigned char)var_83 <= 0x12) goto skip_sprite;
-        var_83 = 0;
-        if (var_174 != 0) {
-            switch (flightRecords[var_190].status & 0x3F) {
-            case 1:
-            case 12:
-                dat_20E2[4] = routine_137((char)flightRecords[var_190].cx) + var_93 - 2;
-                dat_20E2[5] = routine_136((char)flightRecords[var_190].cy) + var_94 - 2;
-                if (var_183[(flightRecords[var_190].unk4 & 0x7F) << 4] & 8) {
-                    dat_20E2[1] = 0x11E;
+        if ((unsigned char)timerCounter3 <= 0x12) goto skip_sprite;
+        timerCounter3 = 0;
+        if (spriteToggle != 0) {
+            switch (flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) {
+            case EVENT_AIR_KILL:
+            case EVENT_AIR_KILL2:
+                spriteAirBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
+                spriteAirBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
+                if (slotInfoTable[(flightRecords[curRecordIdx].unitId & UNIT_ID_MASK) << 4] & 8) {
+                    spriteAirBlink[1] = 0x11E;
                 } else {
-                    dat_20E2[1] = 0x12D;
+                    spriteAirBlink[1] = 0x12D;
                 }
-                gfx_jump_11_blitSprite((int)dat_20E2);
+                gfx_jump_11_blitSprite((int)spriteAirBlink);
                 break;
-            case 3:
-                dat_2122[4] = routine_137((char)flightRecords[var_190].cx) + var_93 - 2;
-                dat_2122[5] = routine_136((char)flightRecords[var_190].cy) + var_94 - 2;
-                gfx_jump_11_blitSprite((int)dat_2122);
+            case EVENT_SAM_KILL:
+                spriteSamBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
+                spriteSamBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
+                gfx_jump_11_blitSprite((int)spriteSamBlink);
                 break;
-            case 2:
-                dat_2162[4] = routine_137((char)flightRecords[var_190].cx) + var_93 - 2;
-                dat_2162[5] = routine_136((char)flightRecords[var_190].cy) + var_94 - 2;
-                gfx_jump_11_blitSprite((int)dat_2162);
+            case EVENT_GROUND_KILL:
+                spriteGroundBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
+                spriteGroundBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
+                gfx_jump_11_blitSprite((int)spriteGroundBlink);
                 break;
-            case 5:
-                dat_21E2[4] = routine_137((char)flightRecords[var_190].cx) + var_93;
-                dat_21E2[5] = routine_136((char)flightRecords[var_190].cy) + var_94;
-                gfx_jump_11_blitSprite((int)dat_21E2);
+            case EVENT_BOMB_HIT:
+                spriteWaypointBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1;
+                spriteWaypointBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1;
+                gfx_jump_11_blitSprite((int)spriteWaypointBlink);
                 break;
-            case 8:
-                dat_2122[4] = routine_137((char)flightRecords[var_190].cx) + var_93 - 2;
-                dat_2122[5] = routine_136((char)flightRecords[var_190].cy) + var_94 - 2;
-                gfx_jump_11_blitSprite((int)dat_2122);
+            case EVENT_EJECTED:
+                spriteSamBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
+                spriteSamBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
+                gfx_jump_11_blitSprite((int)spriteSamBlink);
                 break;
-            case 10:
-                dat_21E2[4] = routine_137((char)flightRecords[var_190].cx) + var_93;
-                dat_21E2[5] = routine_136((char)flightRecords[var_190].cy) + var_94;
-                gfx_jump_11_blitSprite((int)dat_21E2);
+            case EVENT_WAYPOINT:
+                spriteWaypointBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1;
+                spriteWaypointBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1;
+                gfx_jump_11_blitSprite((int)spriteWaypointBlink);
                 break;
             }
         } else {
-            routine_135(var_190);
+            drawEventSprite(curRecordIdx);
         }
-        var_174 = (var_174 == 0);
+        spriteToggle = (spriteToggle == 0);
 skip_sprite:
         ;
     }
@@ -701,68 +701,68 @@ skip_sprite:
         h = misc_jump_5b_getkey();
     } else {
         if (d == 1) {
-            h = 0x0D;
+            h = KEYCODE_ENTER;
         } else if (e == 1) {
-            h = 0x1B;
-        } else if ((unsigned char)var_55 < 0x4E) {
-            h = 0x4B00;
-            var_173 = 1;
-        } else if ((unsigned char)var_55 > 0xB2) {
-            h = 0x4D00;
-            var_173 = 1;
-        } else if ((unsigned char)var_56 < 0x4E) {
-            h = 0x4800;
-            var_173 = 1;
-        } else if ((unsigned char)var_56 > 0xB2) {
-            h = 0x5000;
-            var_173 = 1;
+            h = KEYCODE_ESC;
+        } else if ((unsigned char)joyAxisX < JOY_DEADZONE_LO) {
+            h = KEYCODE_LEFTARROW;
+            joyRepeatFlag = 1;
+        } else if ((unsigned char)joyAxisX > JOY_DEADZONE_HI) {
+            h = KEYCODE_RIGHTARROW;
+            joyRepeatFlag = 1;
+        } else if ((unsigned char)joyAxisY < JOY_DEADZONE_LO) {
+            h = KEYCODE_UPARROW;
+            joyRepeatFlag = 1;
+        } else if ((unsigned char)joyAxisY > JOY_DEADZONE_HI) {
+            h = KEYCODE_DNARROW;
+            joyRepeatFlag = 1;
         }
     }
 
     /* process key */
-    if ((char)h == 0x0D) {
-        var_202 = 1;
+    if ((char)h == KEYCODE_ENTER) {
+        enterPressed = 1;
     }
-    if (h == 0x1000) {
-        var_57 = 1;
-        var_202 = 1;
+    if (h == KEYCODE_ALTQ) {
+        quitFlag = 1;
+        enterPressed = 1;
     }
-    if (h == 0x4800) {
-        var_212 -= param_1[1];
-        if ((int)param_1[4] > (int)var_212) {
-            var_212 = param_1[4];
+    if (h == KEYCODE_UPARROW) {
+        cursorY -= param_1[1];
+        if ((int)param_1[4] > (int)cursorY) {
+            cursorY = param_1[4];
         }
-        var_170 = 1;
+        inputChanged = 1;
     }
-    if (h == 0x5000) {
-        var_212 += param_1[1];
-        if (var_212 > (unsigned)param_1[5]) {
-            var_212 = param_1[5];
+    if (h == KEYCODE_DNARROW) {
+        cursorY += param_1[1];
+        if (cursorY > (unsigned)param_1[5]) {
+            cursorY = param_1[5];
         }
-        var_170 = 1;
+        inputChanged = 1;
     }
-    if (h == 0x4D00) {
-        var_210 += param_1[0];
-        if (var_210 > (unsigned)param_1[3]) {
-            var_210 = param_1[3];
+    if (h == KEYCODE_RIGHTARROW) {
+        cursorX += param_1[0];
+        if (cursorX > (unsigned)param_1[3]) {
+            cursorX = param_1[3];
         }
-        var_170 = 1;
+        inputChanged = 1;
     }
-    if (h == 0x4B00) {
-        var_210 -= param_1[0];
-        if ((int)param_1[2] > (int)var_210) {
-            var_210 = param_1[2];
+    if (h == KEYCODE_LEFTARROW) {
+        cursorX -= param_1[0];
+        if ((int)param_1[2] > (int)cursorX) {
+            cursorX = param_1[2];
         }
-        if ((int)param_1[4] > (int)var_212) {
-            var_210 += param_1[0];
+        if ((int)param_1[4] > (int)cursorY) {
+            cursorX += param_1[0];
         }
-        var_170 = 1;
+        inputChanged = 1;
     }
 
     /* final cleanup */
     if (param_2[0x18] & 0x800) {
         if (param_2[0x18] & 0x1000) {
-            routine_135(var_190);
+            drawEventSprite(curRecordIdx);
         }
     }
 }
