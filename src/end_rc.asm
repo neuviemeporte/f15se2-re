@@ -5582,7 +5582,7 @@ LAB_1000_4938:
     jnc LAB_1000_4952
     push SS
     pop DS
-    call routine_2
+    call __ctermsub
     xor AX,AX
     push AX
     call __NMSG_WRITE
@@ -5632,7 +5632,7 @@ LAB_1000_4952:
     mov AX,3h
 LAB_1000_49bf:
     push AX
-    call routine_2
+    call __ctermsub
     call __NMSG_WRITE
     mov AX,0ffh
     push AX
@@ -6254,7 +6254,7 @@ __aNNaldiv proc near
 __aNNaldiv endp
 routine_101 equ __aNNaldiv
 
-routine_2 proc near
+__ctermsub proc near
     push BP
     mov BP,SP
     mov AX,0fch
@@ -6270,7 +6270,7 @@ LAB_1000_4e99:
     mov SP,BP
     pop BP
     ret
-routine_2 endp
+__ctermsub endp
 
 FUN_1000_4ea4 proc near
     mov AX,2h
@@ -6289,7 +6289,7 @@ LAB_1000_4eb3:
     loop LAB_1000_4eb3
     xor AH,55h
     jz LAB_1000_4eca
-    call routine_2
+    call __ctermsub
     mov AX,1h
     push AX
     call __NMSG_WRITE
