@@ -16,6 +16,42 @@
 #define __cdecl
 #define __far far
 
+/* Flight record status field bitmasks */
+#define STATUS_TYPE_MASK    0x3F  /* lower 6 bits: event type */
+#define STATUS_PRIMARY_HIT  0x80  /* primary target was hit */
+#define STATUS_SECONDARY_HIT 0x40 /* secondary target was hit */
+
+/* Flight record event types (status & STATUS_TYPE_MASK) */
+#define EVENT_AIR_KILL      1
+#define EVENT_GROUND_KILL   2
+#define EVENT_SAM_KILL      3
+#define EVENT_BOMB_HIT      5
+#define EVENT_EJECTED       8
+#define EVENT_TIMESTAMP     9
+#define EVENT_WAYPOINT      10
+#define EVENT_AIR_KILL2     12
+
+/* Map coordinate conversion divisors */
+#define MAP_SCALE_X         0x92  /* horizontal: (coord << 7) / 0x92 */
+#define MAP_SCALE_Y         0xC3  /* vertical:   (coord << 7) / 0xC3 */
+
+/* Kill record offset in flight record array */
+#define KILL_RECORD_OFFSET  207
+
+/* Unit ID / slot index mask */
+#define UNIT_ID_MASK        0x7F
+
+/* Popup overlay dimensions (pixels) */
+#define POPUP_WIDTH         0x30
+#define POPUP_HEIGHT        0x28
+#define POPUP_SAVE_Y        0x96  /* Y offset for popup save area */
+
+/* VGA double-buffer size in paragraphs */
+#define VGA_BUF_SIZE        0x3c8c
+
+/* Normal debrief exit code */
+#define EXIT_DEBRIEF        0x23
+
 void closeFileWrapper(int param_1);
 extern void far gfx_jump_05_drawString(int *pageNum, const char *string);
 extern int far gfx_jump_2f_charWidth(int ch, int font);
