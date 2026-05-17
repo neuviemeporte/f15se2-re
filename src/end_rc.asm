@@ -11,6 +11,7 @@ a equ 2h
 b equ 6h
 
 .CODE
+EXTRN _routine_20:PROC
 EXTRN _routine_91:PROC
 EXTRN _drawStringAt:PROC
 EXTRN _stringWidth:PROC
@@ -37,6 +38,7 @@ EXTRN _FUN_1000_12c6:PROC
 EXTRN _FUN_1000_12fe:PROC
 EXTRN _routine_147:PROC
 EXTRN _routine_85:PROC
+EXTRN _routine_113:PROC
 EXTRN _FUN_1000_09e4:PROC
 EXTRN _FUN_1000_15d2:PROC
 EXTRN _FUN_1000_1626:PROC
@@ -243,39 +245,10 @@ routine_6 equ _routine_6
 
 routine_5 equ _routine_5
 
-PUBLIC _routine_20
-_routine_20:
-routine_20 proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    call routine_41
-    mov word ptr [_var_206],1h
-    call routine_42
-    mov word ptr [_var_217],offset _var_218
-    mov word ptr [BP + -2h],1h
-    mov word ptr [BP + -4h],0h
-LAB_1000_01dc:
-    mov BX,word ptr [BP + -4h]
-    cmp byte ptr [BX + offset _var_218],0h
-    jnz LAB_1000_01fe
-    cmp word ptr [BP + -2h],64h
-    jge LAB_1000_01fe
-    mov BX,word ptr [BP + -2h]
-    inc word ptr [BP + -2h]
-    shl BX,1h
-    mov AX,word ptr [BP + -4h]
-    add AX,offset _var_218 + 1
-    mov word ptr [BX + offset _var_217],AX
-LAB_1000_01fe:
-    inc word ptr [BP + -4h]
-    cmp word ptr [BP + -4h],2eeh
-    jl LAB_1000_01dc
-    mov SP,BP
-    pop BP
-    ret
-routine_20 endp
+routine_20 equ _routine_20
 
+PUBLIC _routine_42
+_routine_42:
 routine_42 proc near
     mov AX,2h
     push AX
@@ -404,6 +377,8 @@ LAB_1000_0323:
     ret
 routine_71 endp
 
+PUBLIC _routine_41
+_routine_41:
 routine_41 proc near
     mov AX,word ptr [_var_222]
     mov DX,word ptr [_var_223]
@@ -7052,20 +7027,7 @@ LAB_1000_5436:
     jmp LAB_1000_5405
 FUN_1000_5408 endp
 
-PUBLIC _routine_113
-_routine_113:
-routine_113 proc near
-    push BP
-    mov BP,SP
-    mov BX,word ptr [BP + 4h]
-    or BX,BX
-    jz LAB_1000_544a
-    or byte ptr [BX + -2h],1h
-LAB_1000_544a:
-    mov SP,BP
-    pop BP
-    ret
-FUN_1000_544c:
+FUN_1000_544c proc near
     push BP
     mov BP,SP
     push SI
@@ -7102,7 +7064,7 @@ LAB_1000_548e:
     mov SP,BP
     pop BP
     ret
-routine_113 endp
+FUN_1000_544c endp
 
 FUN_1000_5494 proc near
     push BP
@@ -8959,7 +8921,9 @@ _var_213 db 2 dup(?)
 _var_214 db 2 dup(?)
 _var_215 db 2 dup(?)
 _var_216 db 6 dup(?)
+PUBLIC _var_217
 _var_217 db 200 dup(?)
+PUBLIC _var_218
 _var_218 db 750 dup(?)
 _var_219 db 2 dup(?)
 _var_220 db 2 dup(?)
