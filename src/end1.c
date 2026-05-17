@@ -4,9 +4,9 @@
 #include "end.h"
 #include "util.h"
 
-void routine_91(int param_1)
+void closeFileWrapper(int param_1)
 {
-    TRACE(("routine_91"));
+    TRACE(("closeFileWrapper"));
     routine_125(param_1);
 }
 
@@ -15,7 +15,7 @@ void loadPic(char *filename, int segment) {
     TRACE(("loadPic"));
     handle = openFileWrapper(filename, 0);
     decodePic(handle, segment);
-    routine_91(handle);
+    closeFileWrapper(handle);
 }
 
 void openShowPic(char *name, int page, int garbage) {
@@ -23,7 +23,7 @@ void openShowPic(char *name, int page, int garbage) {
     TRACE(("openShowPic"));
     handle = openFileWrapper(name, 0);
     showPicFile(handle, page, garbage);
-    routine_91(handle);
+    closeFileWrapper(handle);
 }
 
 int allocBuffer(int size) {
@@ -33,90 +33,90 @@ int allocBuffer(int size) {
     if ((unsigned)segment < 0x10) {
         cleanup();
         dos_printstring(str_allocError);
-        routine_8(0);
+        dosExit(0);
     }
     return segment;
 }
 
-void routine_64(int segment) {
-    TRACE(("routine_64"));
-    if (routine_102(segment) != 0) {
+void freeBuffer(int segment) {
+    TRACE(("freeBuffer"));
+    if (dos_free(segment) != 0) {
         cleanup();
         dos_printstring(str_deallocError);
-        routine_8(0);
+        dosExit(0);
     }
 }
 
-void routine_70(int param_1) {
-    TRACE(("routine_70"));
-    var_138 = param_1;
-    var_139 = 0;
+void srandInit(int param_1) {
+    TRACE(("srandInit"));
+    randSeed = param_1;
+    randState = 0;
 }
 
-int FUN_1000_1348(char *name, int mode) {
-    TRACE(("FUN_1000_1348"));
-    return FUN_1000_1405(name, mode);
+int openFileRead(char *name, int mode) {
+    TRACE(("openFileRead"));
+    return openFileRaw(name, mode);
 }
 
-int FUN_1000_1368(int handle, int buf, int size) {
-    TRACE(("FUN_1000_1368"));
-    return FUN_1000_147e(handle, buf, size);
+int readFileBlock(int handle, int buf, int size) {
+    TRACE(("readFileBlock"));
+    return readFileRaw(handle, buf, size);
 }
 
-int FUN_1000_137c(int handle, int a, int b, int c) {
-    TRACE(("FUN_1000_137c"));
-    return FUN_1000_14a9(handle, a, b, c);
+int readFileAt(int handle, int a, int b, int c) {
+    TRACE(("readFileAt"));
+    return readFileAtRaw(handle, a, b, c);
 }
 
-int FUN_1000_1394(int handle, int a, int b, int c, int d) {
-    TRACE(("FUN_1000_1394"));
-    return FUN_1000_1539(handle, a, b, c, d);
+int readFileAtEx(int handle, int a, int b, int c, int d) {
+    TRACE(("readFileAtEx"));
+    return readFileAtExRaw(handle, a, b, c, d);
 }
 
-void routine_85(p)
+void closeAndResetFile(p)
 register int *p;
 {
-    TRACE(("routine_85"));
+    TRACE(("closeAndResetFile"));
     if ((((char *)p)[6] & 0x83) && (((char *)p)[6] & 0x08)) {
-        routine_113(p[2]);
+        markHandleClosed(p[2]);
         ((char *)p)[6] &= 0xf7;
         p[1] = p[2] = p[0] = 0;
     }
 }
 
-void routine_113(handle)
+void markHandleClosed(handle)
 int handle;
 {
-    TRACE(("routine_113"));
+    TRACE(("markHandleClosed"));
     if (handle != 0) {
         ((char *)handle)[-2] |= 0x01;
     }
 }
 
-int FUN_1000_12c6(char *name, int b, int c) {
+int loadFileSection(char *name, int b, int c) {
     int handle;
     int result;
-    TRACE(("FUN_1000_12c6"));
+    TRACE(("loadFileSection"));
     handle = openFileWrapper(name, 0);
-    result = FUN_1000_137c(handle, -1, b, c);
-    routine_91(handle);
+    result = readFileAt(handle, -1, b, c);
+    closeFileWrapper(handle);
     return result;
 }
 
-int FUN_1000_12fe(char *name, int b, int c, int d, int e) {
+int loadFileSectionEx(char *name, int b, int c, int d, int e) {
     int handle;
     int result;
-    TRACE(("FUN_1000_12fe"));
-    handle = FUN_1000_1348(name, 0);
-    result = FUN_1000_1394(handle, e, b, c, d);
-    routine_91(handle);
+    TRACE(("loadFileSectionEx"));
+    handle = openFileRead(name, 0);
+    result = readFileAtEx(handle, e, b, c, d);
+    closeFileWrapper(handle);
     return result;
 }
 
-void routine_66(void) {
+void waitForKeyOrJoy(void) {
     int key;
-    TRACE(("routine_66"));
-    if (var_222[0x39] == 1) {
+    TRACE(("waitForKeyOrJoy"));
+    if (commData[COMM_SETUP_USEJOY_OFFSET / 2] == 1) {
         do {
             if (misc_jump_5a_keybuf() == 0) {
                 break;
@@ -128,21 +128,21 @@ void routine_66(void) {
     }
     key = misc_jump_5b_getkey();
 done:
-    if (key == 0x1000 || var_57 != 0) {
+    if (key == KEYCODE_ALTQ || quitFlag != 0) {
         cleanup();
-        if (var_57 != 0) {
-            routine_28();
+        if (quitFlag != 0) {
+            restoreCbreakHandler();
         }
-        routine_8(0);
+        dosExit(0);
     }
 }
 
 void routine_26(void) {
     TRACE(("routine_26"));
-    if (var_57 != 0) {
+    if (quitFlag != 0) {
         cleanup();
-        routine_28();
-        routine_8(0);
+        restoreCbreakHandler();
+        dosExit(0);
     }
 }
 
@@ -152,41 +152,41 @@ void routine_5(void) {
 void routine_6(void) {
 }
 
-void FUN_1000_09e4(int port, int value) {
-    TRACE(("FUN_1000_09e4"));
+void outportByte(int port, int value) {
+    TRACE(("outportByte"));
     outp(port, value);
 }
 
-void FUN_1000_15d2(char *name, int segment) {
+void loadPicFromFile(char *name, int segment) {
     int handle;
-    TRACE(("FUN_1000_15d2"));
+    TRACE(("loadPicFromFile"));
     handle = openFileWrapper(name, 0);
-    FUN_1000_16d6(handle, segment);
-    routine_91(handle);
+    decodePicRaw(handle, segment);
+    closeFileWrapper(handle);
 }
 
-void FUN_1000_1626(char *name, int segment, int off, int whence) {
+void loadPicFromFileAt(char *name, int segment, int off, int whence) {
     int handle;
-    TRACE(("FUN_1000_1626"));
+    TRACE(("loadPicFromFileAt"));
     handle = openFileWrapper(name, 0);
-    FUN_1000_4c20(handle, off, whence, 0);
+    fileSeek(handle, off, whence, 0);
     decodePic(handle, segment);
-    routine_91(handle);
+    closeFileWrapper(handle);
 }
 
-void routine_20(void) {
+void loadWorldStrings(void) {
     int p;
     int a;
-    TRACE(("routine_20"));
-    routine_41();
-    var_206 = 1;
-    routine_42();
-    var_217[0] = var_218;
+    TRACE(("loadWorldStrings"));
+    setupWorldBufPtr();
+    worldDataReady = 1;
+    readWorldData();
+    worldStrings[0] = worldStringBuf;
     p = 1;
     a = 0;
     while (a < 0x2ee) {
-        if (var_218[a] == '\0' && p < 100) {
-            var_217[p++] = &var_218[a + 1];
+        if (worldStringBuf[a] == '\0' && p < 100) {
+            worldStrings[p++] = &worldStringBuf[a + 1];
         }
         a++;
     }
