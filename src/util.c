@@ -1,65 +1,128 @@
+/*
+ * util.c - Utility functions shared between start.exe and end.exe
+ *
+ * These functions appear identically in both executables and are
+ * extracted here to avoid duplication.
+ */
+
 #include "util.h"
-#include "pointers.h"
-#include "output.h"
 
-#include <STDIO.H>
+/* extern declarations needed by these functions */
+extern void far gfx_jump_05_drawString(int *pageNum, const char *string);
+extern int far gfx_jump_2f_charWidth(int ch, int font);
+extern void far misc_jump_5e_clearKeyFlags(void);
+extern char timerHandlerInstalled;
+void restoreTimerIrqHandler(void);
+void intDispatch(int intNum, char *inRegs, char *outRegs);
 
-void strcpyFar(const char* src, const uint16 destSegment, const uint16 destOffset, size_t size) {
-    char FAR *dest = MK_FP(destSegment, destOffset);
-    while (size > 0 && *src != '\0') {
-        *dest = *src;
-        dest++;
-        src++;
-        size--;
+int cleanup() 
+{
+    char regs[0xe];
+    if (timerHandlerInstalled == 1) {
+        restoreTimerIrqHandler();
     }
+    regs[1] = 0; // func 0
+    regs[0] = 3; // mode 3 (80x25)
+    intDispatch(IRQ_VIDEO, regs, regs);
+    misc_jump_5e_clearKeyFlags();
 }
 
-void memcpyFar(const char* src, const uint16 destSegment, const uint16 destOffset, size_t size) {
-    uint8 FAR *dest = MK_FP(destSegment, destOffset);
-    while (size > 0) {
-        *dest = *src;
-        dest++;
-        src++;
-        size--;
-    }
+void drawStringAt(int *pageNum, const char *string, int x, int y) {
+    pageNum[4] = x;
+    pageNum[5] = y;
+    gfx_jump_05_drawString(pageNum, string);
 }
 
-void writeWordFar(const uint16 segment, const uint16 offset, const uint16 value) {
-    uint16 FAR *wordPtr  = MK_FP(segment, offset);
-    *wordPtr = value;
+void drawStringCentered(int *page, const char *str, int startx, int y, int endx) {
+    int width;
+    width = stringWidth(page, str);
+    drawStringAt(page, str, (endx - width) / 2 + startx, y);
 }
 
-enum { BUFSIZE = 256 };
-int blitFileFar(const char* filename, const uint16 segment, const uint16 offset) {
-    uint8 FAR *dest = MK_FP(segment, offset);
-    uint8 buffer[BUFSIZE];
-    FILE *infile = NULL;
-    size_t readsize = 0, i;
-    int err;
-    infile = fopen(filename, "rb");
-    if (infile == NULL) {
-        ERROR("Unable to open %s for reading");
-        return 1;
+int stringWidth(int *page, const char *str) {
+    int n;
+    const uint8* l;
+    int j;
+    l = str;
+    j = page[6];
+    n = 0;
+    while (*l != '\0') {
+        n += gfx_jump_2f_charWidth(*(l++), j);
     }
-    while (!feof(infile)) {
-        readsize = fread(buffer, 1, BUFSIZE, infile);
-        if ((err = ferror(infile)) != 0) {
-            ERROR("Error reading from %s: %d", filename, err);
-            return 2;
+    return n;
+}
+
+int my_ltoa(int32 value, int8* buf) {
+    int8 i, k;
+    int8 *p;
+    int8 n[6];
+    p = buf;
+    if (value < 0) {
+        value = -value;
+        *p = '-';
+        p++;
+    }
+    n[0] = value % 0xa;
+    value /= 0xa;
+    n[1] = value % 0xa;
+    value /= 0xa;
+    n[2] = value % 0xa;
+    value /= 0xa;
+    n[3] = value % 0xa;
+    value /= 0xa;
+    n[4] = value % 0xa;
+    value /= 0xa;
+    n[5] = value % 0xa;
+    i = 0;
+    for (k = 5; k > 0; k--) {
+        if (n[k] != 0) break;
+    }
+    do {
+        if (k == 2 && i == 1) {
+            *p = ',';
+            p++;
         }
-        DEBUG("read %u bytes, writing at %p", readsize, dest);
-        i = 0;
-        while (i < readsize) {
-            *dest = buffer[i++];
-            dest++;
-        }
-    }
-    return 0;
+        *p = n[k] + '0';
+        i = 1;
+        p++;
+    } while (--k >= 0);
+    *p = '\0';
 }
 
-const char* sizeString(const size_t paragraphs) {
-    static char buffer[128];
-    const uint32 bytes = ((uint32)paragraphs) * 16;
-    sprintf(buffer, "%lu (0x%x/%up)", bytes, paragraphs, paragraphs);
-    return buffer;
+int my_itoa(int value, int8 *buf) {
+    int8 n[6];
+    int8 i, k;
+    int8 *p;
+    p = buf;
+    if (value < 0) {
+        value = -value;
+        *p = 0x2d;
+        p++;
+    }
+    n[0] = value % 0xa;
+    value /= 0xa;
+    n[1] = value % 0xa;
+    value /= 0xa;
+    n[2] = value % 0xa;
+    value /= 0xa;
+    n[3] = value % 0xa;
+    value /= 0xa;
+    n[4] = value % 0xa;
+    value /= 0xa;
+    n[5] = value % 0xa;
+    i = 0;
+    for (k = 5; k > 0; k--) {
+        if (n[k] != 0) break;
+    }
+    do {
+        if (k == 2 && i == 1) {
+            *p = 0x2c;
+            p++;
+        }
+        *p = n[k] + 0x30;
+        i = 1;
+        p++;
+    } while (--k >= 0);
+    *p = 0;
 }
+

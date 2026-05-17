@@ -84,8 +84,6 @@
 int sub_10483();
 // ==== startCode1:0x4a0 ====
 void initGraphics(void);
-// ==== startCode1:0x511 ====
-int cleanup();
 // ==== startCode1:0x544 ====
 int setargv();
 // ==== startCode1:0x547 ====
@@ -123,22 +121,12 @@ int processStoreInput();
 void clearBriefing(void);
 // ==== startCode1:0x124a ====
 int __cdecl showSprite(int, int, int, int, int, int, int);
-// ==== startCode1:0x12b8 ====
-void __cdecl drawStringAt(int *arg_pageNum, const char *arg_string, int arg_x, int arg_y);
 // ==== startCode1:0x12df ====
 int sub_112DF();
 // ==== startCode1:0x130b ====
 int unreach_1130B();
 // ==== startCode1:0x1458 ====
 int sub_11458();
-// ==== startCode1:0x1577 ====
-void __cdecl drawStringCentered(int *, const char *, int, int, int);
-// ==== startCode1:0x15ae ====
-int __cdecl stringWidth(int *, const char *);
-// ==== startCode1:0x15f1 ====
-int __cdecl my_ltoa(__int32, char *);
-// ==== startCode1:0x172c ====
-int __cdecl my_itoa(int, char *);
 // ==== startCode1:0x1824 ====
 int seedRandom();
 // ==== startCode1:0x1835 ====
@@ -207,8 +195,6 @@ int sub_12652();
 int sub_12660();
 // ==== startCode1:0x2680 ====
 int sub_12680();
-// ==== startCode1:0x26b0 ====
-void mystrcpy(char *dest, const char *source);
 // ==== startCode1:0x26cb ====
 int sub_126CB();
 // ==== startCode1:0x26e2 ====
@@ -284,8 +270,6 @@ int unreach_12FFC(int filename, int a);
 int unreach_13032(int filename, int a, int b);
 // ==== startCode1:0x306a ====
 int unreach_1306A();
-// ==== startCode1:0x30a2 ====
-int openFileWrapper(char *filename, int mode);
 // bytes outside routine, potential module boundary at 0x30b3
 // ==== startCode1:0x30b4 ====
 int unreach_130B4();

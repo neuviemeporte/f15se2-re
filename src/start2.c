@@ -5,6 +5,7 @@
 #include "slot.h"
 #include "comm.h"
 #include "offsets.h"
+#include "util.h"
 #include "debug.h"
 
 #include <string.h>
@@ -522,12 +523,6 @@ checkKey:
     return j;
 }
 
-// 0x30a2
-int openFileWrapper(char *filename,int mode)
-{
-    return openFile(filename, mode);
-}
-
 // 0x30c6
 int closeFileWrapper(int handle)
 {
@@ -688,9 +683,4 @@ int replaceExtension(char *path, char *source) {
         path++;
     }
     mystrcpy(path, source);
-}
-
-void mystrcpy(char *dest, const char *source) {
-    do {
-    } while ((*dest++ = *source++) != '\0');
 }

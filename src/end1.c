@@ -2,18 +2,12 @@
 #include "pointers.h"
 #include "debug.h"
 #include "end.h"
+#include "util.h"
 
 void routine_91(int param_1)
 {
     TRACE(("routine_91"));
     routine_125(param_1);
-}
-
-void mystrcpy(char *dst, char *src)
-{
-    TRACE(("mystrcpy"));
-    while ((*dst++ = *src++) != 0)
-        ;
 }
 
 void loadPic(char *filename, int segment) {
@@ -57,11 +51,6 @@ void routine_70(int param_1) {
     TRACE(("routine_70"));
     var_138 = param_1;
     var_139 = 0;
-}
-
-int openFileWrapper(char *name, int mode) {
-    TRACE(("openFileWrapper"));
-    return openFile(name, mode);
 }
 
 int FUN_1000_1348(char *name, int mode) {
@@ -202,7 +191,4 @@ void routine_20(void) {
         a++;
     }
 }
-
-
-
 

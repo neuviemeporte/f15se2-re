@@ -22,7 +22,7 @@
 #include "memory.h"
 #include "comm.h"
 #include "overlay.h"
-#include "util.h"
+#include "f15util.h"
 #include "offsets.h"
 
 #include <STDIO.H>
@@ -91,7 +91,7 @@ void game_init(void) {
     writeWordFar(SEG_LOWMEM, OFF_IACA_NEEDSPLASH, 1);
     writeWordFar(SEG_LOWMEM, OFF_IACA_FLAG2, 0);
     /* values written into COMM by SU.EXE */
-    writeWordFar(commSegment, COMM_SETUP1_OFFSET, 0);
+    writeWordFar(commSegment, COMM_STARTDONE_OFFSET, 0);
     writeWordFar(commSegment, COMM_SETUP_MONOCHROME_OFFSET, 0);
     writeWordFar(commSegment, COMM_SETUP_SWITCHT_OFFSET, 0);
     writeWordFar(commSegment, COMM_SETUP2_OFFSET, 0);

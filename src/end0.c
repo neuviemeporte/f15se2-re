@@ -2,6 +2,7 @@
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
+#include "util.h"
 #include "end.h"
 
 void main(void) {
@@ -56,108 +57,6 @@ void main(void) {
     routine_8(0x23);
 }
 
-void drawStringAt(int *pageNum, const char *string, int x, int y) {
-    TRACE(("drawStringAt"));
-    pageNum[4] = x;
-    pageNum[5] = y;
-    gfx_jump_05_drawString(pageNum, string);
-}
-
-int stringWidth(int *page, const char *str) {
-    int var_6;
-    const uint8* var_4;
-    int var_2;
-    TRACE(("stringWidth"));
-    var_4 = str;
-    var_2 = page[6];
-    var_6 = 0;
-    while (*var_4 != '\0') {
-        var_6 += gfx_jump_2f_charWidth(*(var_4++), var_2);
-    }
-    return var_6;
-}
-
-void drawStringCentered(int *page, const char *str, int startx, int y, int endx) {
-    int width;
-    TRACE(("drawStringCentered"));
-    width = stringWidth(page, str);
-    drawStringAt(page, str, (endx - width) / 2 + startx, y);
-}
-
-int my_ltoa(int32 arg_0, int8* arg_4) {
-    int8 var_A, var_C;
-    int8 *var_8;
-    int8 var_6[6];
-    var_8 = arg_4;
-    if (arg_0 < 0) {
-        arg_0 = -arg_0;
-        *var_8 = '-';
-        var_8++;
-    }
-    var_6[0] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[1] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[2] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[3] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[4] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[5] = arg_0 % 0xa;
-    var_A = 0;
-    for (var_C = 5; var_C > 0; var_C--) {
-        if (var_6[var_C] != 0) break;
-    }
-    do {
-        if (var_C == 2 && var_A == 1) {
-            *var_8 = ',';
-            var_8++;
-        }
-        *var_8 = var_6[var_C] + '0';
-        var_A = 1;
-        var_8++;
-    } while (--var_C >= 0);
-    *var_8 = '\0';
-}
-
-int my_itoa(int arg_0, int8 *arg_2) {
-    int8 var_6[6];
-    int8 var_A, var_C;
-    int8 *var_8;
-    var_8 = arg_2;
-    if (arg_0 < 0) {
-        arg_0 = -arg_0;
-        *var_8 = 0x2d;
-        var_8++;
-    }
-    var_6[0] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[1] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[2] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[3] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[4] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[5] = arg_0 % 0xa;
-    var_A = 0;
-    for (var_C = 5; var_C > 0; var_C--) {
-        if (var_6[var_C] != 0) break;
-    }
-    do {
-        if (var_C == 2 && var_A == 1) {
-            *var_8 = 0x2c;
-            var_8++;
-        }
-        *var_8 = var_6[var_C] + 0x30;
-        var_A = 1;
-        var_8++;
-    } while (--var_C >= 0);
-    *var_8 = 0;
-}
-
 char *routine_106(int timeValue, char *buffer) {
     int p;
     int a;
@@ -186,17 +85,6 @@ char *routine_106(int timeValue, char *buffer) {
     return buffer;
 }
 
-void cleanup(void) {
-    char regs[0xe];
-    TRACE(("cleanup"));
-    if (var_69 == 1) {
-        restoreTimerIrqHandler();
-    }
-    regs[1] = 0;
-    regs[0] = 3;
-    intDispatch(0x10, regs, regs);
-    misc_jump_5e_clearKeyFlags();
-}
 
 void routine_66(void);
 

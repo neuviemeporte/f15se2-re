@@ -2,6 +2,7 @@
 #include "offsets.h"
 #include "pointers.h"
 #include "comm.h"
+#include "util.h"
 #include "gfx.h"
 #include "slot.h"
 #include "const.h"
@@ -13,7 +14,7 @@
 #include <dos.h>
 
 /* 0x4a0 */
-void initGraphics() 
+void initGraphics()
 {
     /* unused stack data eliminated by compiler, but original binary has sub sp,0xe in preamble - ??? */
     uint8 unused[0xe];
@@ -36,21 +37,9 @@ void initGraphics()
     misc_jump_5e_clearKeyFlags();
 }
 
-// 511
-int cleanup() 
-{
-    char regs[0xe];
-    if (timerHandlerInstalled == 1) {
-        restoreTimerIrqHandler();
-    }
-    regs[1] = 0; // func 0
-    regs[0] = 3; // mode 3 (80x25)
-    intDispatch(IRQ_VIDEO, regs, regs);
-    misc_jump_5e_clearKeyFlags();
-}
 
 // 54a
-void clearKeyBuf() 
+void clearKeyBuf()
 {
     while (misc_jump_5a_keybuf() == 0) {
         misc_jump_5b_getkey();
@@ -70,7 +59,7 @@ int joyOrKey() {
         // 582
         if (misc_jump_5d_readJoy(0) != 0) { // 58e
             return 1;
-        } 
+        }
     }
     // 593
     if (cbreakHit != 0) { // 59a
@@ -82,7 +71,7 @@ int joyOrKey() {
         return 0;
     } // 5b6
     // 5b6, alt-q hit check
-    if (misc_jump_5b_getkey() == KEYCODE_ALTQ) { // 5c0 
+    if (misc_jump_5b_getkey() == KEYCODE_ALTQ) { // 5c0
         cleanup();
         exit(0);
     }
@@ -91,7 +80,7 @@ int joyOrKey() {
 }
 
 /* 0x5d5 */
-void waitMdaCgaStatus(int16 iter) 
+void waitMdaCgaStatus(int16 iter)
 {
     /* 0x5e0 */
     while (iter-- != 0) {
@@ -124,7 +113,7 @@ void drawLine(int *pageNum, int x1, int y1, int x2, int y2, int color) {
 }
 
 /* 0x674 */
-int showPic640(char* filename) 
+int showPic640(char* filename)
 {
     int fileHandle;
     intRegs[1] = INT_VID_MODESET;
@@ -137,7 +126,7 @@ int showPic640(char* filename)
 }
 
 // 6c8
-void missionSelect() 
+void missionSelect()
 {
     int index, count;
     TRACE(("missionSelect(): entering"));
@@ -170,7 +159,7 @@ selectTheater:
     if (gameData->theater == THEATER_OTHER) { // other scenario selected
         // 781
         for (count = 4, index = 0; index < 4; index++) { // find extra scenarios
-            plh3d3Ptr[0] = *scenarioCodePtr[index]; 
+            plh3d3Ptr[0] = *scenarioCodePtr[index];
             plh3d3Ptr[1] = *(scenarioCodePtr[index] + 1);
             // 7c2
 
@@ -536,9 +525,9 @@ int processStoreInput() {
         l = misc_jump_5d_readJoy(1);
         sub_16A7F();
     } // 10fa
-    while ((misc_jump_5a_keybuf() != 0 && j == 0 && l == 0 
-        && joyAxes[0] >= JOY_DEADZONE_LO && joyAxes[0] <= JOY_DEADZONE_HI 
-        && joyAxes[1] >= JOY_DEADZONE_LO && joyAxes[1] <= JOY_DEADZONE_HI) 
+    while ((misc_jump_5a_keybuf() != 0 && j == 0 && l == 0
+        && joyAxes[0] >= JOY_DEADZONE_LO && joyAxes[0] <= JOY_DEADZONE_HI
+        && joyAxes[1] >= JOY_DEADZONE_LO && joyAxes[1] <= JOY_DEADZONE_HI)
         || n == 1) {
         // XXX: case study for instruction skipping in mzdiff, change above while condition to true and uncomment, run mzdiff with refskip 1 tgtskip 2 to repro
         // if ((((((misc_jump_5a_keybuf() == 0) || (var_2 != 0)) || (var_4 != 0)) ||
@@ -622,131 +611,6 @@ void clearBriefing(void)
     clearRect(page1NumPtr, 113, 13, 297, 126);
 }
 
-// 12b8
-void drawStringAt(int *pageNum, const char *string, int x, int y) {
-    pageNum[4] = x;
-    pageNum[5] = y;
-    gfx_jump_05_drawString(pageNum, string);
-}
-
-// 1577
-void drawStringCentered(int *page, const char *str, int startx, int y, int endx) {
-    int width;
-    // 1538
-    width = stringWidth(page, str);
-    // 15a4
-    drawStringAt(page, str, (endx - width) / 2 + startx, y);
-}
-
-// 15ae
-int stringWidth(int *page, const char *str) {
-    int n;
-    const uint8* l;
-    int j;
-    l = str;
-    j = page[6];
-    n = 0;
-    // 15cb
-    while (*l != '\0') {
-        // 15db
-        n += gfx_jump_2f_charWidth(*(l++), j);
-        // 15e6
-    } // 15e8
-    return n;
-}
-
-// 15f1
-int my_ltoa(int32 value, int8* buf) {
-    int8 i, k;
-    int8 *p;
-    int8 n[6];
-    p = buf;
-    if (value < 0) { // 1604
-        value = -value;
-        *p = '-';
-        p++;
-    } // 1620
-    // 162f
-    n[0] = value % 0xa;
-    // 163c
-    value /= 0xa;
-    // 164e
-    n[1] = value % 0xa;
-    // 165b
-    value /= 0xa;
-    // 166d
-    n[2] = value % 0xa;
-    // 167a
-    value /= 0xa;
-    // 168c
-    n[3] = value % 0xa;
-    // 1699
-    value /= 0xa;
-    // 16ab
-    n[4] = value % 0xa;
-    // 16b8
-    value /= 0xa;
-    // 16ca
-    n[5] = value % 0xa;
-    // 16cd
-    i = 0;
-    // 16d1
-    for (k = 5; k > 0; k--) { // 16e0
-        if (n[k] != 0) break;
-    } // 16f0
-    do {
-        if (k == 2 && i == 1) { // 16f6
-            *p = ',';
-            p++;
-        } // 1705
-        *p = n[k] + '0';
-        i = 1;
-        p++;
-    } while (--k >= 0);
-    // 1724
-    *p = '\0';
-    TRACE(("my_ltoa: exiting: %s", buf));
-}
-
-// 172c
-int my_itoa(int value, int8 *buf) {
-    int8 n[6];
-    int8 i, k;
-    int8 *p;
-    p = buf;
-    if (value < 0) { // 173f
-        value = -value;
-        *p = 0x2d; // minus sign
-        p++;
-    } // 1750
-    n[0] = value % 0xa;
-    value /= 0xa;
-    n[1] = value % 0xa;
-    value /= 0xa;
-    n[2] = value % 0xa;
-    value /= 0xa;
-    n[3] = value % 0xa;
-    value /= 0xa;
-    n[4] = value % 0xa;
-    value /= 0xa;
-    n[5] = value % 0xa;
-    // 17a7
-    i = 0;
-    for (k = 5; k > 0; k--) {
-        if (n[k] != 0) break;
-    } // 16f0
-    do {
-        if (k == 2 && i == 1) {
-            *p = 0x2c;
-            p++;
-        }
-        *p = n[k] + 0x30;
-        i = 1;
-        p++;
-    } while (--k >= 0);
-    // 17fe
-    *p = 0;
-}
 
 // 1824
 int seedRandom() {
