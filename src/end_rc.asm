@@ -55,6 +55,7 @@ EXTRN _my_itoa:PROC
 EXTRN _my_ltoa:PROC
 EXTRN _routine_95:PROC
 EXTRN _routine_132:PROC
+EXTRN _routine_106:PROC
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
 PUBLIC _routine_108
@@ -82,6 +83,12 @@ PUBLIC _dat_2102
 PUBLIC _dat_2142
 PUBLIC _dat_21C2
 PUBLIC _flightRecords
+PUBLIC _var_185
+PUBLIC _var_186
+PUBLIC _var_187
+PUBLIC _var_188
+PUBLIC _str_timeFormat
+PUBLIC _var_24
 PUBLIC _gfx_jump_11_blitSprite
 PUBLIC _gfx_jump_21
 PUBLIC _gfx_jump_29_switchColor
@@ -92,7 +99,6 @@ PUBLIC __aNlrem
 PUBLIC __aNNaldiv
 PUBLIC __aNldiv
 
-PUBLIC _routine_106
 PUBLIC _routine_63
 PUBLIC _var_194
 PUBLIC _var_195
@@ -5638,102 +5644,7 @@ routine_65 equ _routine_65
 
 routine_132 equ _routine_132
 
-routine_106 proc near
-    push BP
-    mov BP,SP
-    sub SP,8h
-    mov AX,word ptr [_var_186]
-    add AX,word ptr [_var_188]
-    mov word ptr [BP + -4h],AX
-    mov AL,byte ptr [BP + -4h]
-    and AL,3h
-    cmp AL,1h
-    sbb CX,CX
-    neg CX
-    mov word ptr [_var_24],CX
-    cmp word ptr [_var_185],1h
-    jz LAB_1000_3c46
-    cmp word ptr [_var_187],1h
-    jnz LAB_1000_3c4c
-LAB_1000_3c46:
-    mov word ptr [_var_24],0h
-LAB_1000_3c4c:
-    cmp word ptr [_var_185],4h
-    jz LAB_1000_3c5a
-    cmp word ptr [_var_187],4h
-    jnz LAB_1000_3c60
-LAB_1000_3c5a:
-    mov word ptr [_var_24],1h
-LAB_1000_3c60:
-    mov AX,word ptr [BP + -4h]
-    db 25h, 0Fh, 00h  ; and AX,0Fh (force word-immediate)
-    mov CH,AL
-    sub CL,CL
-    add word ptr [BP + param_1],CX
-    mov AX,offset str_timeFormat
-    push AX
-    push word ptr [BP + 6h]
-    call mystrcpy
-    add SP,4h
-    mov AX,word ptr [BP + param_1]
-    sub DX,DX
-    mov CX,708h
-    div CX
-    mov word ptr [BP + -2h],AX
-    mov BX,word ptr [BP + 6h]
-    mov AL,byte ptr [_var_24]
-    inc AL
-    add byte ptr [BX],AL
-    mov AX,word ptr [BP + -2h]
-    cwd
-    mov CX,0ah
-    idiv CX
-    mov BX,word ptr [BP + 6h]
-    add byte ptr [BX + 1h],DL
-    mov AX,word ptr [BP + param_1]
-    sub DX,DX
-    mov CX,1eh
-    div CX
-    sub DX,DX
-    mov CX,3ch
-    div CX
-    mov word ptr [BP + -6h],DX
-    mov AX,DX
-    cwd
-    mov CX,0ah
-    idiv CX
-    mov BX,word ptr [BP + 6h]
-    add byte ptr [BX + 3h],AL
-    mov AX,word ptr [BP + -6h]
-    cwd
-    idiv CX
-    mov BX,word ptr [BP + 6h]
-    add byte ptr [BX + 4h],DL
-    mov AX,word ptr [BP + param_1]
-    shl AX,1h
-    sub DX,DX
-    mov CX,3ch
-    div CX
-    mov word ptr [BP + -8h],DX
-    mov AX,DX
-    cwd
-    mov CX,0ah
-    idiv CX
-    mov BX,word ptr [BP + 6h]
-    add byte ptr [BX + 6h],AL
-    mov AX,word ptr [BP + -8h]
-    cwd
-    idiv CX
-    mov BX,word ptr [BP + 6h]
-    add byte ptr [BX + 7h],DL
-    mov AX,word ptr [BP + 6h]
-    jmp LAB_1000_3cfc
-LAB_1000_3cfc:
-    mov SP,BP
-    pop BP
-    ret
-routine_106 endp
-_routine_106 equ routine_106
+routine_106 equ _routine_106
 
 routine_137 equ _routine_137
 
@@ -9877,6 +9788,7 @@ str_timeZeros db 080h
 _str_timeZeros equ str_timeZeros
 str_timeFormat db 030h
     db 030h, 03Ah, 030h, 030h, 03Ah, 030h, 030h, 000h
+_str_timeFormat equ str_timeFormat
 _var_97 db 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 028h, 000h, 028h, 000h, 028h
     db 000h, 028h, 000h, 028h, 000h, 028h, 000h, 050h, 000h, 050h, 000h, 050h, 000h, 050h, 000h, 050h

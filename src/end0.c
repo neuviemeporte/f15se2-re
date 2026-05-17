@@ -158,6 +158,34 @@ int my_itoa(int arg_0, int8 *arg_2) {
     *var_8 = 0;
 }
 
+char *routine_106(int timeValue, char *buffer) {
+    int p;
+    int a;
+    int b;
+    int c;
+
+    a = var_186[0] + var_188[0];
+    var_24 = ((char)a & 3) == 0;
+    if (var_185[0] == 1 || var_187[0] == 1) {
+        var_24 = 0;
+    }
+    if (var_185[0] == 4 || var_187[0] == 4) {
+        var_24 = 1;
+    }
+    timeValue += (a & 0xF) << 8;
+    mystrcpy(buffer, str_timeFormat);
+    p = (unsigned)timeValue / 0x708;
+    buffer[0] += var_24 + 1;
+    buffer[1] += p % 10;
+    b = ((unsigned)timeValue / 30) % 60;
+    buffer[3] += b / 10;
+    buffer[4] += b % 10;
+    c = ((unsigned)timeValue * 2) % 60;
+    buffer[6] += c / 10;
+    buffer[7] += c % 10;
+    return buffer;
+}
+
 void cleanup(void) {
     char regs[0xe];
     TRACE(("cleanup"));
