@@ -678,3 +678,203 @@ void routine_95(int *param_1, int param_2) {
         gfx_jump_29_switchColor(param_2, param_1[4], param_1[5], param_1[6], param_1[7], b, p);
     }
 }
+
+void routine_98(int *param_1, int *param_2, int param_3) {
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    char f;
+    int g;
+    int h;
+    int i;
+    TRACE(("routine_98"));
+    (void)a;
+    (void)g;
+    (void)i;
+
+    var_169 = param_2[8] * 14 + (int)dat_1c8e;
+    var_82 = 0;
+    d = e = 0;
+    var_170 = var_202 = var_175 = f = 0;
+    if (var_173 == 1) {
+        var_81 = 0;
+        f = 1;
+    }
+
+    /* pre-loop joystick read */
+    if (var_222[0x39] == 1) {
+        d = misc_jump_5d_readJoy(0);
+        e = misc_jump_5d_readJoy(1);
+        routine_134();
+    }
+
+    /* main loop */
+    for (;;) {
+        if ((char)misc_jump_5a_keybuf() == 0
+            || d != 0
+            || e != 0
+            || (unsigned char)var_55 < 0x4E
+            || (unsigned char)var_55 > 0xB2
+            || (unsigned char)var_56 < 0x4E
+            || (unsigned char)var_56 > 0xB2) {
+            if (f != 1)
+                break;
+        }
+        /* joystick repeat handling */
+        if (var_173 == 1) {
+            if ((unsigned char)var_81 > 0x0F) {
+                f = 0;
+                var_173 = 0;
+            }
+        }
+
+        /* re-read joystick */
+        if (var_222[0x39] == 1) {
+            d = misc_jump_5d_readJoy(0);
+            e = misc_jump_5d_readJoy(1);
+            routine_134();
+        }
+
+        /* quit check */
+        if (var_57 != 0) {
+            cleanup();
+            routine_28();
+            routine_8(0);
+        }
+
+        /* animation */
+        if (var_172 == 1) {
+            if ((unsigned char)var_82 > 6) {
+                var_82 = 0;
+                c = ((unsigned int *)var_169)[var_171 + 1] >> 4;
+                b = ((unsigned int *)var_169)[var_171 + 1] & 0xF;
+                gfx_jump_29_switchColor(param_3, param_2[4], param_2[5], param_2[6], param_2[7], c, b);
+                var_171++;
+                var_171 = (unsigned)var_171 % *(unsigned int *)var_169;
+            }
+        }
+
+        /* sprite section */
+        if (!(param_2[0x18] & 0x800)) goto skip_sprite;
+        if (!(param_2[0x18] & 0x1000)) goto skip_sprite;
+        if ((unsigned char)var_83 <= 0x12) goto skip_sprite;
+        var_83 = 0;
+        if (var_174 != 0) {
+            switch (flightRecords[var_190].status & 0x3F) {
+            case 1:
+            case 12:
+                dat_20E2[4] = routine_137((char)flightRecords[var_190].cx) + var_93 - 2;
+                dat_20E2[5] = routine_136((char)flightRecords[var_190].cy) + var_94 - 2;
+                if (var_183[(flightRecords[var_190].unk4 & 0x7F) << 4] & 8) {
+                    dat_20E2[1] = 0x11E;
+                } else {
+                    dat_20E2[1] = 0x12D;
+                }
+                gfx_jump_11_blitSprite((int)dat_20E2);
+                break;
+            case 3:
+                dat_2122[4] = routine_137((char)flightRecords[var_190].cx) + var_93 - 2;
+                dat_2122[5] = routine_136((char)flightRecords[var_190].cy) + var_94 - 2;
+                gfx_jump_11_blitSprite((int)dat_2122);
+                break;
+            case 2:
+                dat_2162[4] = routine_137((char)flightRecords[var_190].cx) + var_93 - 2;
+                dat_2162[5] = routine_136((char)flightRecords[var_190].cy) + var_94 - 2;
+                gfx_jump_11_blitSprite((int)dat_2162);
+                break;
+            case 5:
+                dat_21E2[4] = routine_137((char)flightRecords[var_190].cx) + var_93;
+                dat_21E2[5] = routine_136((char)flightRecords[var_190].cy) + var_94;
+                gfx_jump_11_blitSprite((int)dat_21E2);
+                break;
+            case 8:
+                dat_2122[4] = routine_137((char)flightRecords[var_190].cx) + var_93 - 2;
+                dat_2122[5] = routine_136((char)flightRecords[var_190].cy) + var_94 - 2;
+                gfx_jump_11_blitSprite((int)dat_2122);
+                break;
+            case 10:
+                dat_21E2[4] = routine_137((char)flightRecords[var_190].cx) + var_93;
+                dat_21E2[5] = routine_136((char)flightRecords[var_190].cy) + var_94;
+                gfx_jump_11_blitSprite((int)dat_21E2);
+                break;
+            }
+        } else {
+            routine_135(var_190);
+        }
+        var_174 = (var_174 == 0);
+skip_sprite:
+        ;
+    }
+
+    /* post-loop input handling */
+    if ((char)misc_jump_5a_keybuf() == 0) {
+        h = misc_jump_5b_getkey();
+    } else {
+        if (d == 1) {
+            h = 0x0D;
+        } else if (e == 1) {
+            h = 0x1B;
+        } else if ((unsigned char)var_55 < 0x4E) {
+            h = 0x4B00;
+            var_173 = 1;
+        } else if ((unsigned char)var_55 > 0xB2) {
+            h = 0x4D00;
+            var_173 = 1;
+        } else if ((unsigned char)var_56 < 0x4E) {
+            h = 0x4800;
+            var_173 = 1;
+        } else if ((unsigned char)var_56 > 0xB2) {
+            h = 0x5000;
+            var_173 = 1;
+        }
+    }
+
+    /* process key */
+    if ((char)h == 0x0D) {
+        var_202 = 1;
+    }
+    if (h == 0x1000) {
+        var_57 = 1;
+        var_202 = 1;
+    }
+    if (h == 0x4800) {
+        var_212 -= param_1[1];
+        if ((int)param_1[4] > (int)var_212) {
+            var_212 = param_1[4];
+        }
+        var_170 = 1;
+    }
+    if (h == 0x5000) {
+        var_212 += param_1[1];
+        if (var_212 > (unsigned)param_1[5]) {
+            var_212 = param_1[5];
+        }
+        var_170 = 1;
+    }
+    if (h == 0x4D00) {
+        var_210 += param_1[0];
+        if (var_210 > (unsigned)param_1[3]) {
+            var_210 = param_1[3];
+        }
+        var_170 = 1;
+    }
+    if (h == 0x4B00) {
+        var_210 -= param_1[0];
+        if ((int)param_1[2] > (int)var_210) {
+            var_210 = param_1[2];
+        }
+        if ((int)param_1[4] > (int)var_212) {
+            var_210 += param_1[0];
+        }
+        var_170 = 1;
+    }
+
+    /* final cleanup */
+    if (param_2[0x18] & 0x800) {
+        if (param_2[0x18] & 0x1000) {
+            routine_135(var_190);
+        }
+    }
+}

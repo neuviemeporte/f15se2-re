@@ -88,6 +88,23 @@ extern unsigned int var_210;
 extern unsigned int var_212;
 extern int far *var_222;
 extern char var_57;
+extern int var_169;
+extern char var_170;
+extern int var_171;
+extern int var_172;
+extern char var_173;
+extern char var_174;
+extern char var_175;
+extern char var_82;
+extern char var_83;
+extern char var_202;
+extern int dat_1c8e[];
+extern int *dat_20E2;
+extern int *dat_2122;
+extern int *dat_2162;
+extern int *dat_21E2;
+extern void far routine_134(void);
+void routine_98(int *param_1, int *param_2, int param_3);
 
 /* FlightRecord: 6 bytes per record */
 typedef struct {
