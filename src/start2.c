@@ -689,3 +689,9 @@ int sub_13EA8(char *arg_0, char *source) {
     } 
     mystrcpy(arg_0, source);
 }
+
+void mystrcpy(char *dest, const char *source) {
+    do {
+    } while ((*dest++ = *source++) != '\0');
+}
+

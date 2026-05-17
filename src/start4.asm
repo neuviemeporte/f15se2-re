@@ -68,7 +68,7 @@ IFDEF DEBUG
     regtrace MACRO
         push es
         push ax
-    ;   regstr db 'regs: ax=%x bx=%x cx=%x dx=%x si=%x di=%x ds=%x es=%x'    
+    ;   regstr db 'regs: ax=%x bx=%x cx=%x dx=%x si=%x di=%x ds=%x es=%x'
         push es
         push ds
         push di
@@ -147,7 +147,7 @@ EXTRN _aFileNFound:BYTE
 EXTRN _aEnoughMem:BYTE
 EXTRN _aOvlFail:BYTE
 EXTRN _aOvlOvrrun:BYTE
-EXTRN _aOvlShrink:BYTE 
+EXTRN _aOvlShrink:BYTE
 EXTRN _word_1786A:WORD
 EXTRN _word_1786C:WORD
 EXTRN _word_17868:WORD
@@ -208,19 +208,19 @@ EXTRN _word_1784E:WORD
 EXTRN _noJoy80:BYTE
 EXTRN _diskTransferArea:BYTE
 EXTRN _byte_172C6:BYTE
+EXTRN _mystrcpy:PROC
 EXTRN _aFileClosingError:BYTE
 EXTRN _aWriteError:BYTE
 
+PUBLIC _mystrlen
 PUBLIC _mystrcat
 PUBLIC _showPicFile
 PUBLIC _copyJoystickData
 PUBLIC _restoreTimerIrqHandler
 PUBLIC _intDispatch
-PUBLIC _mystrcpy
 PUBLIC _installCBreakHandler
 PUBLIC _dos_alloc
 PUBLIC _loadOverlay
-PUBLIC _mystrlen
 PUBLIC _dos_printstring
 PUBLIC _clearRect
 PUBLIC _restoreCbreakHandler
@@ -629,27 +629,6 @@ locret_11B70:
     retn
 _picBlit endp
 ; ------------------------------startCode1:0x1b70------------------------------
-; ------------------------------startCode1:0x26b0------------------------------
-_mystrcpy proc near
-    arg_0 = word ptr 4
-    source = word ptr 6
-    push bp
-    mov bp, sp
-    push si
-loc_126B4:
-    mov bx, [bp+arg_0]
-    inc [bp+arg_0]
-    mov si, [bp+source]
-    inc [bp+source]
-    mov al, [si]
-    mov [bx], al
-    or al, al
-    jnz short loc_126B4
-    pop si
-    pop bp
-    retn
-_mystrcpy endp
-; ------------------------------startCode1:0x26ca------------------------------
 ; ------------------------------startCode1:0x26fd------------------------------
 _mystrlen proc near
     arg_0 = word ptr 4
@@ -1553,9 +1532,9 @@ ENDIF
     call nullsub_1
     mov si, _tmpPageIndex
     ; get either vmem addr or allocated page buffer into es
-    call far ptr _gfx_jump_38_getPageBuf 
+    call far ptr _gfx_jump_38_getPageBuf
     call far ptr _gfx_jump_3b_clearBuf ;zeroes out 32000 bytes
-IFDEF PICDEBUG    
+IFDEF PICDEBUG
     trace msg2
 ENDIF
     mov _row, 0
@@ -1576,11 +1555,11 @@ ENDIF
     mov bx, _row
     call far ptr _gfx_jump_33_fillRow ;destination: es:di (gfx page:rowOffset)
 IFDEF PICDEBUG
-    trace msg3 
+    trace msg3
 ENDIF
     mov di, _rowOffset
     call far ptr _gfx_jump_35
-IFDEF PICDEBUG    
+IFDEF PICDEBUG
     trace msg5
 ENDIF
     inc _row
@@ -1688,7 +1667,7 @@ picReadDataAndMakeDict proc near
     mov _picProcessFlag0_1, 0
     mov _picLookupResult, 0
     ; si: index to unprocessed data? if not at end then don't read more?
-    cmp si, _readBufEndPtr 
+    cmp si, _readBufEndPtr
     jb short siBelowBufEnd ;otherwise (at end) read more data into buffer
     push bx
     push cx
@@ -1705,7 +1684,7 @@ siBelowBufEnd:
     mov _picByteUnsignedFlag, 1
     or al, al ;update flags based on al contents
     ; check if symbol has sign bit set: literal or LZW sequence?
-    jns short picByteUnsigned 
+    jns short picByteUnsigned
     dec _picByteUnsignedFlag ;byte has sign set, clear flag
     neg al
 picByteUnsigned:
