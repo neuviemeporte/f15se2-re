@@ -7,7 +7,7 @@
     ],
     "data_size": "0xa020",
     "include": "lst/egame.inc",
-    "extract": [ 
+    "extract": [
         { "seg": "seg000", "begin": "0x0",    "end": "0x0",    "from": "padding" },
         { "seg": "seg000", "begin": "0x10",   "end": "0x146",  "from": "main",             "to": "endp" },
         { "seg": "seg000", "begin": "0x147",  "end": "0x210",  "from": "drawCockpit",      "to": "endp" },
@@ -37,16 +37,22 @@
         { "seg": "seg000", "begin": "0xd1c8", "end": "0xd1e6", "from": "sub_1D1C8",        "to": "endp" },
         { "seg": "seg000", "begin": "0xdd4c", "end": "0xdd5c", "from": "openFileWrapper",  "to": "endp" },
         { "seg": "seg000", "begin": "0xdd70", "end": "0xdd7d", "from": "closeFileWrapper", "to": "endp" },
-        { "seg": "seg000", "begin": "0x3922", "end": "0x3931", "from": "sub_13922",        "to": "endp" },
-        { "seg": "seg000", "begin": "0x5540", "end": "0x5556", "from": "sub_15540",        "to": "endp" },
-        { "seg": "seg000", "begin": "0x9be1", "end": "0x9c0b", "from": "sub_19BE1",        "to": "endp" },
-        { "seg": "seg000", "begin": "0x9e94", "end": "0x9eb5", "from": "sub_19E94",        "to": "endp" },
-        { "seg": "seg000", "begin": "0xcf8e", "end": "0xcfa5", "from": "forceRange",       "to": "endp" },
+        { "seg": "seg000", "begin": "0x3922", "end": "0x3931", "from": "sub_13922",       "to": "endp" },
+        { "seg": "seg000", "begin": "0x5540", "end": "0x5556", "from": "sub_15540",       "to": "endp" },
+        { "seg": "seg000", "begin": "0x9be1", "end": "0x9c0b", "from": "sub_19BE1",       "to": "endp" },
+        { "seg": "seg000", "begin": "0x9e94", "end": "0x9eb5", "from": "sub_19E94",       "to": "endp" },
+        { "seg": "seg000", "begin": "0x1bfd", "end": "0x1c20", "from": "sub_11BFD",       "to": "endp" },
+        { "seg": "seg000", "begin": "0x229a", "end": "0x22b7", "from": "_copySomeMem",    "to": "endp" },
+        { "seg": "seg000", "begin": "0xcf64", "end": "0xcf8d", "from": "_sub_1CF64",     "to": "endp" },
+        { "seg": "seg000", "begin": "0xcf8e", "end": "0xcfa5", "from": "sub_1CF8E",       "to": "endp" },
+        { "seg": "seg000", "begin": "0xd178", "end": "0xd18f", "from": "_sub_1D178",    "to": "endp" },
+        { "seg": "seg000", "begin": "0xd190", "end": "0xd1a5", "from": "_sub_1D190",    "to": "endp" },
+        { "seg": "seg000", "begin": "0xd200", "end": "0xd21d", "from": "sub_1D200",      "to": "endp" },
         { "seg": "seg000", "begin": "0xdfbc", "end": "0xdff4", "from": "openBlitClosePic", "to": "endp" },
         { "seg": "seg002", "begin": "0xa",    "end": "0xd",    "from": "sub_21A7A",        "to": "endp" },
         { "seg": "seg002", "begin": "0xe",    "end": "0x11",   "from": "sub_21A7E",        "to": "endp" }
     ],
-    "replace": [ 
+    "replace": [
         // beginning of seg000 to simplified code segment
         { "seg": "seg000", "off": "0x0", "from": "seg000 segment", "to": ".CODE" },
         // beginning of dseg to simplified code segment
@@ -83,23 +89,23 @@
         { "seg": "dseg", "off": "0x66bf", "from": "db", "to": ".DATA?" }
     ],
     "preserves": [
-        "setupOverlaySlots", "installCBreakHandler", "copyJoystickData", "restoreJoystickData", "restoreCBreakHandler", "getInterruptHandler", "sub_22411", "loadF15DgtlBin", "setupDac", "setTimerIrqHandler", "setInt9Handler", "restoreInt9Handler", "int9Handler", "sub_13C3B", "restoreTimerIrqHandler", "picBlit", "sub_13DF2", 
+        "setupOverlaySlots", "installCBreakHandler", "copyJoystickData", "restoreJoystickData", "restoreCBreakHandler", "getInterruptHandler", "sub_22411", "loadF15DgtlBin", "setupDac", "setTimerIrqHandler", "setInt9Handler", "restoreInt9Handler", "int9Handler", "sub_13C3B", "restoreTimerIrqHandler", "picBlit", "sub_13DF2",
         // could be C?
-        "sub_13C47", 
+        "sub_13C47",
         "openFile", "createFile", "sub_1DF4F", "sub_1E262", "closeFile", "read512FromFileIntoBuf", "manipulateTimer"
     ],
     "externs": [
         "sub_155AB", "sub_18E50", "sub_1D1C8", "sub_21A7A", "otherKeyDispatch",
-        "sub_13922", "forceRange", "sub_15540", "sub_19BE1", "sub_19E94"
+        "sub_13922", "sub_1CF8E", "sub_15540", "sub_19BE1", "sub_19E94",
+        "sub_11BFD", "copySomeMem", "sub_1CF64", "sub_1D178", "sub_1D190", "sub_1D200"
     ],
-    "publics": [ 
-        "commData", "gameData", "hercFlag", "setupOverlaySlots", "gfxModeUnset", "noJoy80", "copyJoystickData", "installCBreakHandler", 
+    "publics": [
+        "commData", "gameData", "hercFlag", "setupOverlaySlots", "gfxModeUnset", "noJoy80", "copyJoystickData", "installCBreakHandler",
         "gfxBufPtr", "restoreJoystickData", "regs", "exitCode", "restoreCBreakHandler", "sub_22411", "scenarioPlh", "regnStr", "f15DgtlResult", "byte_34197", "aCockpit_pic", "a256pit_pic", "byte_32933",  "setupDac", "restoreTimerIrqHandler", "audio_jump_64", "audio_jump_65", "setTimerIrqHandler", "sub_13C3B", "setInt9Handler", "restoreInt9Handler", "dword_38FE2", "word_3C0A2", "flagFarToNear", "byte_3C16E", "word_3BEC0", "word_3BED0", "dword_3B7F8", "word_3B148", "dword_3B7DA", "flt15_buf1", "flt15_word1", "flt15_buf2", "aRb_4", "a_3d3_0", "a15flt_xxx", "fileHandle", "aOpenErrorOn_3d3_0", "flt15_size", "picBlit", "loadF15DgtlBin", "byte_3B7FC", "byte_3790C", "farPointer", "word_3C69E", "word_3B144", "word_3C046", "word_3BED2", "word_336FC", "byte_3BFA4", "byte_3BEC4", "byte_3BED8", "byte_3C02A", "word_3C00C", "word_38FFA", "unk_3B202", "byte_3AFAC", "word_3401A", "openFile", "closeFile", "off_38334", "off_3834C", "a_3dg", "byte_3A900", "aBadGridFileFormat_", "aRb_3", "misc_jump_5b_getkey", "unk_33E1A", "unk_34121", "aPleaseInsertF15DiskB", "sign3dg", "buf1_3dg", "buf2_3dg", "buf3_3dg", "buf4_3dg", "aTooMuchTileData", "aBadTileFileFormat_", "aRb_2", "a_3dt", "aTooManyTiles_", "sign3dt", "aOpenErrorOn_3dt", "sizes3dt", "matrix3dt", "matrix3dt_2", "val_3dt", "buf1_3dt", "buf2_3dt", "buf3_3dt", "buf3d3_1", "buf3d3_2", "buf3d3_3", "buf3d3", "size3d3_2", "a_3d3", "aBadObjFileFormat_", "size3d3_3", "byte_3BE3E", "size3d3_4", "size3d3_5", "size3d3_6", "aOpenErrorOn_3d3", "aRb", "sign3d3", "size3d3", "aObjectDataTooBig_", "byte_3BE80", "aObjdataOverflow", "word_33DD0", "aRb_0", "aRb_1", "size3d3_7", "aPhoto_3d3_0", "aPhoto_3d3", "word_3B14A", "sub_21444",
         "dword_3C01C",
-       "dword_3B4D4", "sub_1CF64", "keyValue", "word_380CE", "dword_3B1FE", "word_336FE", "dword_3C024", "word_3B4DE", "word_3C02C", "word_380C8", "word_3B4E4", "word_380CA", "word_380CC", "word_3C5AA", "word_3BE94", "stru_3A95A", "word_336E8", "sub_1D190", "sub_1D178", "word_3C028", "word_3C03A", "word_330C4",
-      "word_336F4", "stru_335C4", "sub_1D008", "word_3A940", "word_3370E", "sub_1CFA6", "word_3C02E", "word_3C45C", "word_336F2", "word_336EA", "stru_3AA5E", "word_3370C", "stru_3B208", 
+       "dword_3B4D4", "keyValue", "word_380CE", "dword_3B1FE", "word_336FE", "dword_3C024", "word_3B4DE", "word_3C02C", "word_380C8", "word_3B4E4", "word_380CA", "word_380CC", "word_3C5AA", "word_3BE94", "stru_3A95A", "word_336E8", "sub_1D008", "word_3A940", "word_3370E", "sub_1CFA6", "word_3C02E", "word_336F4", "stru_335C4", "word_3C028", "word_3C03A", "word_330C4", "sub_13B2F", "sub_13B96", "word_3419C", "word_339B4", "word_3C45C", "word_336F2", "word_336EA", "stru_3AA5E", "word_3370C", "stru_3B208",
         "unk_3A948", "sub_160D3", "sub_19FCC", "word_38152", "word_37561", "word_39604", "word_37563", "word_38126", "sub_195C9", "sub_2152A", "off_38364", "word_330BC", "unk_3806E", "sub_1A8C8", "a256left_pic", "a256right_pic", "a256rear_pic", "gfx_jump_21", "gfx_jump_23", "sub_121CA", "aRight_pic", "byte_3995A", "aLeft_pic", "word_36B86", "byte_3850E", "unk_38128", "word_3755D", "sub_11A18", "word_3755F", "aRear_pic", "word_38FDC", "sub_11A88", "word_3C09A", "word_330C2", "sub_20BAE", "word_3C09E", "word_3BE98", "byte_3C5A0", "sub_15FDB", "word_3C040",
-       "word_383F4", "word_3BEBE", "sub_1A183", "word_3C6A4", "byte_37C2F", "sams", "word_3AA5A", "word_3C5A6", "missleSpec", "word_3C8B6", "aPressAnyKeyToP", "word_3AA5C", "aTraining", "copySomeMem", "word_38FC4", "waypoints", "word_3C008", "planeFlags", "byte_37C24", "string_3C04A", "draw2Strings", "word_3370A", "word_3C6AC", "missiles",
+       "word_383F4", "word_3BEBE", "sub_1A183", "word_3C6A4", "byte_37C2F", "sams", "word_3AA5A", "word_3C5A6", "missleSpec", "word_3C8B6", "aPressAnyKeyToP", "word_3AA5C", "aTraining", "word_38FC4", "waypoints", "word_3C008", "word_391FE", "byte_37C24", "string_3C04A", "draw2Strings", "word_3370A", "word_3C6AC", "missiles",
        "aAccel", "sub_19C0C", "sub_154B7", "sub_19C84", "aStallWarning", "waypointIndex", "aAutopilot", "word_38FEA", "word_3BE92", "sub_1A25C", "word_3C16A", "word_380D0", "tempString", "word_383F2", "word_330B6", "missileSpecIndex", "sub_21A86",
         "gfx_jump_0_alloc",
         "gfx_jump_05_drawString",
@@ -143,5 +149,5 @@
         "extern unsigned char far byte_228FF[];",
         "extern unsigned char far byte_2D6A4[];"
     ],
-    "header_coda": "#endif // F15_SE2_EGAME"    
+    "header_coda": "#endif // F15_SE2_EGAME"
 }

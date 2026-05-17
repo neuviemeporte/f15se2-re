@@ -92,7 +92,7 @@ int sub_11B37();
 // ==== seg000:0x1bc3 ====
 int sub_11BC3();
 // ==== seg000:0x1bfd ====
-int sub_11BFD();
+void sub_11BFD(int arg_0, int arg_2);
 // ==== seg000:0x1c21 ====
 int sub_11C21();
 // ==== seg000:0x1d10 ====
@@ -118,7 +118,7 @@ int sub_121CA();
 // ==== seg000:0x2278 ====
 int sub_12278();
 // ==== seg000:0x229a ====
-int copySomeMem();
+void copySomeMem(int arg_0);
 // ==== seg000:0x22b8 ====
 int sub_122B8();
 // ==== seg000:0x26b4 ====
@@ -1686,4 +1686,10 @@ extern int16 word_3C8BE;
 extern int16 word_3C8C0;
 extern int16 word_3C8C2;
 extern size_t size3d3_7;
+extern int16 word_339B4[];
+extern int16 word_3419C[];
+
+extern int rand();
+extern long _aNlmul(long, long);
+
 #endif // F15_SE2_EGAME
