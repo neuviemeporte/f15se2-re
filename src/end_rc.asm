@@ -46,6 +46,7 @@ EXTRN _FUN_1000_0990:PROC
 EXTRN _FUN_1000_041a:PROC
 EXTRN _FUN_1000_0469:PROC
 EXTRN _routine_65:PROC
+EXTRN _routine_130:PROC
 EXTRN _routine_66:PROC
 EXTRN _routine_26:PROC
 EXTRN _routine_5:PROC
@@ -641,125 +642,7 @@ LAB_1000_05dd:
     ret
 FUN_1000_0495 endp
 
-routine_130 proc near
-    push BP
-    mov BP,SP
-    sub SP,3fah
-    push SI
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [BP + -0ch],AX
-    mov word ptr [BP + -4h],AX
-    mov word ptr [BP + -6h],AX
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BX + 0ch]
-    mov word ptr [BP + -2h],AX
-    mov AX,word ptr [BP + 0ch]
-    mov word ptr [BX + 0ah],AX
-    mov byte ptr [BP + -0eh],1h
-LAB_1000_0609:
-    cmp byte ptr [BP + -0eh],0h
-    jnz LAB_1000_0612
-    jmp LAB_1000_06fc
-LAB_1000_0612:
-    sub AX,AX
-    mov word ptr [BP + -8h],AX
-    mov word ptr [BP + -10h],AX
-LAB_1000_061a:
-    mov AX,word ptr [BP + 8h]
-    cmp word ptr [BP + -10h],AX
-    jnc LAB_1000_0652
-    mov BX,word ptr [BP + -6h]
-    mov AL,byte ptr [BX]
-    mov byte ptr [BP + -3fah],AL
-    or AL,AL
-    jz LAB_1000_0652
-    cmp AL,0dh
-    jz LAB_1000_0652
-    cmp AL,0ah
-    jz LAB_1000_0652
-    push word ptr [BP + -2h]
-    inc word ptr [BP + -6h]
-    mov AL,byte ptr [BX]
-    sub AH,AH
-    push AX
-    call far ptr gfx_jump_2f_charWidth
-    add SP,4h
-    add word ptr [BP + -10h],AX
-    inc word ptr [BP + -8h]
-    jmp LAB_1000_061a
-LAB_1000_0652:
-    mov AX,word ptr [BP + 8h]
-    cmp word ptr [BP + -10h],AX
-    jc LAB_1000_0660
-    dec word ptr [BP + -6h]
-    dec word ptr [BP + -8h]
-LAB_1000_0660:
-    mov BX,word ptr [BP + -6h]
-    mov AL,byte ptr [BX]
-    mov byte ptr [BP + -3fah],AL
-    cmp AL,20h
-    jz LAB_1000_068c
-    or AL,AL
-    jz LAB_1000_068c
-    cmp AL,0dh
-    jz LAB_1000_068c
-    cmp AL,0ah
-    jz LAB_1000_068c
-    cmp AL,2dh
-    jz LAB_1000_068c
-    mov AX,word ptr [BP + -0ch]
-    cmp BX,AX
-    jbe LAB_1000_068c
-    dec word ptr [BP + -6h]
-    dec word ptr [BP + -8h]
-    jmp LAB_1000_0660
-LAB_1000_068c:
-    mov BX,word ptr [BP + -6h]
-    cmp byte ptr [BX],2dh
-    jnz LAB_1000_0697
-    inc word ptr [BP + -8h]
-LAB_1000_0697:
-    cmp byte ptr [BX],0h
-    jnz LAB_1000_06a0
-    mov byte ptr [BP + -0eh],0h
-LAB_1000_06a0:
-    cmp word ptr [BP + -8h],0h
-    jz LAB_1000_06f0
-    push word ptr [BP + -8h]
-    push word ptr [BP + -4h]
-    lea AX,[BP + 0fc08h]
-    push AX
-    call routine_146
-    add SP,6h
-    mov SI,word ptr [BP + -8h]
-    mov byte ptr [BP + SI + 0fc08h],0h
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BP + 0ah]
-    mov word ptr [BX + 8h],AX
-    lea AX,[BP + 0fc08h]
-    push AX
-    push word ptr [BP + 4h]
-    call far ptr gfx_jump_05_drawString
-    add SP,4h
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BP + 0eh]
-    add word ptr [BX + 0ah],AX
-    mov BX,word ptr [BP + -6h]
-    cmp byte ptr [BX],0dh
-    jnz LAB_1000_06f0
-    mov BX,word ptr [BP + 4h]
-    add word ptr [BX + 0ah],2h
-LAB_1000_06f0:
-    inc word ptr [BP + -6h]
-    mov AX,word ptr [BP + -6h]
-    mov word ptr [BP + -4h],AX
-    jmp LAB_1000_0609
-LAB_1000_06fc:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-routine_130 endp
+routine_130 equ _routine_130
 
 drawStringCentered equ _drawStringCentered
 
@@ -1001,6 +884,8 @@ FUN_1000_0b0c proc near
     ret
 FUN_1000_0b0c endp
 
+PUBLIC _routine_146
+_routine_146:
 routine_146 proc near
     push BP
     mov BP,SP
@@ -10515,12 +10400,11 @@ _dat_4824 equ dat_4824
 _var_189 db 4 dup(?)
 _var_190 label word
 _var_190x db 2 dup(?)
-dat_4a2a db 720 dup(?)
+_flightRecords db 720 dup(?)
+dat_4a2a equ _flightRecords
 _var_191 db 518 dup(?)
 _var_192 db 2 dup(?)
 _var_193 db 2 dup(?)
-PUBLIC _flightRecords
-_flightRecords label byte
 _var_194 db ?
 _var_195 db ?
 _var_196 db ?

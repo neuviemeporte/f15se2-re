@@ -40,7 +40,7 @@ routine_109: Code1 NEAR 0371-03a4 R0371-03a4 assembly
 routine_16: Code1 NEAR 03a6-03b6 R03a6-03b6 assembly
 routine_66: Code1 NEAR 03b7-0418 R03b7-0418
 drawStringAt: Code1 NEAR 0442-0468 R0442-0468 complete
-routine_130: Code1 NEAR 05e2-0700 R05e2-0700
+routine_130: Code1 NEAR 05e2-0700 R05e2-0700 complete
 drawStringCentered: Code1 NEAR 0701-0737 R0701-0737 complete
 stringWidth: Code1 NEAR 0738-077a R0738-077a complete
 my_ltoa: Code1 NEAR 077b-08b5 R077b-08b5 complete
@@ -504,7 +504,7 @@ var_188: Data1 VAR 481a
 dat_4824: Data1 VAR 4824
 var_189: Data1 VAR 4a24
 var_190: Data1 VAR 4a28
-dat_4a2a: Data1 VAR 4a2a
+flightRecords: Data1 VAR 4a2a
 var_191: Data1 VAR 4cfa
 var_192: Data1 VAR 4f00
 var_193: Data1 VAR 4f02

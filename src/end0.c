@@ -258,6 +258,63 @@ void routine_105(int p1, int p2, int p3, int p4)
     routine_138(routine_137(p1), routine_136(p2), routine_137(p3), routine_136(p4), var_93, var_95, var_94, var_96, 1);
 }
 
+void routine_130(int *page, char *str, unsigned int maxWidth, int x, int y, int lineHeight) {
+    int p;
+    char *a;
+    uint8 *b;
+    int c;
+    int d;
+    char *e;
+    int8 f;
+    unsigned int g;
+    char buf[1000];
+
+    e = str;
+    a = str;
+    b = str;
+    p = page[6];
+    page[5] = y;
+    f = 1;
+    do {
+        if (f == 0) {
+            return;
+        }
+        g = c = 0;
+        while (g < maxWidth && *b != '\0' && *b != '\r' && *b != '\n') {
+            g += gfx_jump_2f_charWidth(*b++, p);
+            c++;
+        }
+        if (g >= maxWidth) {
+            b--;
+            c--;
+        }
+        while (*b != ' ' && *b != '\0' &&
+               *b != '\r' && *b != '\n' && *b != '-' &&
+               b > e) {
+            b--;
+            c--;
+        }
+        if (*b == '-') {
+            c++;
+        }
+        if (*b == '\0') {
+            f = 0;
+        }
+        if (c != 0) {
+            routine_146(buf, a, c);
+            buf[c] = 0;
+            page[4] = x;
+            gfx_jump_05_drawString(page, buf);
+            page[5] += lineHeight;
+            if (*b == '\r') {
+                page[5] += 2;
+            }
+        }
+        b++;
+        a = b;
+    } while (1);
+}
+
 int routine_135(int param_1)
 {
     TRACE(("routine_135"));
