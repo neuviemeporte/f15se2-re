@@ -95,6 +95,15 @@ register int *p;
     }
 }
 
+void routine_113(handle)
+int handle;
+{
+    TRACE(("routine_113"));
+    if (handle != 0) {
+        ((char *)handle)[-2] |= 0x01;
+    }
+}
+
 int FUN_1000_12c6(char *name, int b, int c) {
     int handle;
     int result;
@@ -175,6 +184,25 @@ void FUN_1000_1626(char *name, int segment, int off, int whence) {
     decodePic(handle, segment);
     routine_91(handle);
 }
+
+void routine_20(void) {
+    int p;
+    int a;
+    TRACE(("routine_20"));
+    routine_41();
+    var_206 = 1;
+    routine_42();
+    var_217[0] = var_218;
+    p = 1;
+    a = 0;
+    while (a < 0x2ee) {
+        if (var_218[a] == '\0' && p < 100) {
+            var_217[p++] = &var_218[a + 1];
+        }
+        a++;
+    }
+}
+
 
 
 

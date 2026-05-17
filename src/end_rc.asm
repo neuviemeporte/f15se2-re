@@ -11,6 +11,7 @@ a equ 2h
 b equ 6h
 
 .CODE
+EXTRN _routine_20:PROC
 EXTRN _routine_91:PROC
 EXTRN _drawStringAt:PROC
 EXTRN _stringWidth:PROC
@@ -37,6 +38,7 @@ EXTRN _FUN_1000_12c6:PROC
 EXTRN _FUN_1000_12fe:PROC
 EXTRN _routine_147:PROC
 EXTRN _routine_85:PROC
+EXTRN _routine_113:PROC
 EXTRN _FUN_1000_09e4:PROC
 EXTRN _FUN_1000_15d2:PROC
 EXTRN _FUN_1000_1626:PROC
@@ -46,14 +48,28 @@ EXTRN _FUN_1000_0990:PROC
 EXTRN _FUN_1000_041a:PROC
 EXTRN _FUN_1000_0469:PROC
 EXTRN _routine_65:PROC
+EXTRN _routine_130:PROC
 EXTRN _routine_66:PROC
 EXTRN _routine_26:PROC
 EXTRN _routine_5:PROC
 EXTRN _routine_6:PROC
 EXTRN _my_itoa:PROC
 EXTRN _my_ltoa:PROC
+EXTRN _routine_95:PROC
+EXTRN _routine_98:PROC
+EXTRN _routine_63:PROC
+EXTRN _routine_132:PROC
+EXTRN _routine_131:PROC
+EXTRN _routine_106:PROC
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
+PUBLIC _routine_108
+PUBLIC _routine_109
+PUBLIC _var_177
+PUBLIC _var_206
+PUBLIC _var_207
+PUBLIC _var_97
+PUBLIC _var_98
 PUBLIC _var_69
 PUBLIC _str_allocError
 PUBLIC _str_deallocError
@@ -75,8 +91,15 @@ PUBLIC _dat_2102
 PUBLIC _dat_2142
 PUBLIC _dat_21C2
 PUBLIC _flightRecords
+PUBLIC _var_185
+PUBLIC _var_186
+PUBLIC _var_187
+PUBLIC _var_188
+PUBLIC _str_timeFormat
+PUBLIC _var_24
 PUBLIC _gfx_jump_11_blitSprite
 PUBLIC _gfx_jump_21
+PUBLIC _gfx_jump_29_switchColor
 PUBLIC _gfx_jump_2a
 PUBLIC _clearRect
 PUBLIC _mystrcat
@@ -84,10 +107,22 @@ PUBLIC __aNlrem
 PUBLIC __aNNaldiv
 PUBLIC __aNldiv
 
-PUBLIC _routine_106
-PUBLIC _routine_63
+
+PUBLIC _var_181
+PUBLIC _var_182
+PUBLIC _var_184
+PUBLIC _var_199
+PUBLIC _var_200
+PUBLIC _var_204
+PUBLIC _var_215
+PUBLIC _var_221
+PUBLIC _var_224
+PUBLIC _var_225
+PUBLIC _var_23
 PUBLIC _var_194
 PUBLIC _var_195
+PUBLIC _var_196
+PUBLIC _var_197
 PUBLIC _var_208
 PUBLIC _var_209
 PUBLIC _var_211
@@ -108,10 +143,42 @@ PUBLIC _setTimerIrqHandler
 PUBLIC _FUN_1000_0a74
 PUBLIC _FUN_1000_16d6
 PUBLIC _FUN_1000_4c20
+PUBLIC _copyJoystickData
+PUBLIC _gfx_jump_31
+PUBLIC _gfx_jump_17_bufSize
 
 ; --- Code segment ---
 
-PUBLIC _main
+EXTRN _main:PROC
+
+PUBLIC _var_169
+PUBLIC _var_170
+PUBLIC _var_171
+PUBLIC _var_172
+PUBLIC _var_173
+PUBLIC _var_174
+PUBLIC _var_175
+PUBLIC _var_202
+PUBLIC _var_82
+PUBLIC _var_83
+PUBLIC _dat_1c8e
+PUBLIC _dat_20E2
+PUBLIC _dat_2122
+PUBLIC _dat_2162
+PUBLIC _dat_21E2
+PUBLIC _routine_134
+PUBLIC _var_178
+PUBLIC _var_191
+PUBLIC _var_56
+PUBLIC _var_55
+PUBLIC _var_189
+PUBLIC _var_226
+PUBLIC _var_230
+PUBLIC _var_232
+PUBLIC _var_231
+PUBLIC _var_229
+PUBLIC _var_201
+
 routine_10 proc near
     db 00h
     db 00h
@@ -131,98 +198,12 @@ routine_10 proc near
     db 00h
 routine_10 endp
 
-_main:
-main proc near
-    push BP
-    mov BP,SP
-    sub SP,0eh
-    push SI
-    mov word ptr [BP + -8h],0h
-    mov word ptr [BP + -0ah],4f0h
-    les BX,dword ptr [BP + -0ah]
-    mov SI,word ptr ES:[BX]
-    mov word ptr [_var_223],SI
-    mov word ptr [_var_222],0h
-    mov word ptr [_var_179],SI
-    mov word ptr [_var_178],120eh
-    les BX,dword ptr [_var_222]
-    push word ptr ES:[BX + 1ah]
-    call routine_14
-    add SP,2h
-    les BX,dword ptr [_var_222]
-    push word ptr ES:[BX + 1eh]
-    call routine_14
-    add SP,2h
-    call far ptr misc_jump_5e_clearKeyFlags
-    call routine_16
-    les BX,dword ptr [_var_222]
-    mov AL,byte ptr ES:[BX + 24h]
-    mov byte ptr [_var_191],AL
-    call installCBreakHandler
-    call routine_18
-    les BX,dword ptr [_var_222]
-    cmp word ptr ES:[BX + 72h],1h
-    jnz LAB_1000_008e
-    mov AX,BX
-    mov DX,ES
-    db 05h, 48h, 00h  ; add AX,48h (force word-immediate encoding)
-    push DX
-    push AX
-    call far ptr copyJoystickData
-    add SP,4h
-    jmp LAB_1000_0096
-LAB_1000_008e:
-    mov AL,80h
-    mov byte ptr [_var_56],AL
-    mov byte ptr [_var_55],AL
-LAB_1000_0096:
-    call routine_20
-    call far ptr gfx_jump_31
-    mov word ptr [BP + -6h],AX
-    call far ptr gfx_jump_17_bufSize
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + -6h]
-    call allocBuffer
-    add SP,2h
-    mov word ptr [_var_226],AX
-    cmp word ptr [_var_189],1h
-    jnz LAB_1000_00d2
-    mov AX,3c8ch
-    push AX
-    call allocBuffer
-    add SP,2h
-    mov word ptr [_var_230],AX
-    mov word ptr [_var_232],AX
-    mov word ptr [_var_231],0h
-LAB_1000_00d2:
-    push word ptr [BP + -2h]
-    call allocBuffer
-    add SP,2h
-    mov word ptr [_var_229],AX
-    mov word ptr [_var_201],3h
-    les BX,dword ptr [_var_222]
-    cmp word ptr ES:[BX + 26h],2h
-    jnz LAB_1000_00f2
-    call routine_24
-LAB_1000_00f2:
-    call routine_16
-    call routine_25
-    call routine_26
-    call routine_16
-    call routine_27
-    call routine_28
-    mov AX,23h
-    push AX
-    call routine_8
-    add SP,2h
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-main endp
+main equ _main
 
 routine_26 equ _routine_26
 
+PUBLIC _routine_18
+_routine_18:
 routine_18 proc near
     push BP
     mov BP,SP
@@ -264,37 +245,10 @@ routine_6 equ _routine_6
 
 routine_5 equ _routine_5
 
-routine_20 proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    call routine_41
-    mov word ptr [_var_206],1h
-    call routine_42
-    mov word ptr [_var_217],offset _var_218
-    mov word ptr [BP + -2h],1h
-    mov word ptr [BP + -4h],0h
-LAB_1000_01dc:
-    mov BX,word ptr [BP + -4h]
-    cmp byte ptr [BX + offset _var_218],0h
-    jnz LAB_1000_01fe
-    cmp word ptr [BP + -2h],64h
-    jge LAB_1000_01fe
-    mov BX,word ptr [BP + -2h]
-    inc word ptr [BP + -2h]
-    shl BX,1h
-    mov AX,word ptr [BP + -4h]
-    add AX,offset _var_218 + 1
-    mov word ptr [BX + offset _var_217],AX
-LAB_1000_01fe:
-    inc word ptr [BP + -4h]
-    cmp word ptr [BP + -4h],2eeh
-    jl LAB_1000_01dc
-    mov SP,BP
-    pop BP
-    ret
-routine_20 endp
+routine_20 equ _routine_20
 
+PUBLIC _routine_42
+_routine_42:
 routine_42 proc near
     mov AX,2h
     push AX
@@ -423,6 +377,8 @@ LAB_1000_0323:
     ret
 routine_71 endp
 
+PUBLIC _routine_41
+_routine_41:
 routine_41 proc near
     mov AX,word ptr [_var_222]
     mov DX,word ptr [_var_223]
@@ -433,6 +389,7 @@ routine_41 proc near
     ret
 routine_41 endp
 
+_routine_108:
 routine_108 proc near
     push BP
     mov BP,SP
@@ -458,6 +415,7 @@ routine_108 proc near
     ret
 routine_108 endp
 
+_routine_109:
 routine_109 proc near
     push BP
     mov BP,SP
@@ -484,6 +442,8 @@ routine_109 proc near
     db 0C3h
 routine_109 endp
 
+PUBLIC _routine_16
+_routine_16:
 routine_16 proc near
     jmp FUN_1000_03ad
 LAB_1000_03a8:
@@ -641,125 +601,7 @@ LAB_1000_05dd:
     ret
 FUN_1000_0495 endp
 
-routine_130 proc near
-    push BP
-    mov BP,SP
-    sub SP,3fah
-    push SI
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [BP + -0ch],AX
-    mov word ptr [BP + -4h],AX
-    mov word ptr [BP + -6h],AX
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BX + 0ch]
-    mov word ptr [BP + -2h],AX
-    mov AX,word ptr [BP + 0ch]
-    mov word ptr [BX + 0ah],AX
-    mov byte ptr [BP + -0eh],1h
-LAB_1000_0609:
-    cmp byte ptr [BP + -0eh],0h
-    jnz LAB_1000_0612
-    jmp LAB_1000_06fc
-LAB_1000_0612:
-    sub AX,AX
-    mov word ptr [BP + -8h],AX
-    mov word ptr [BP + -10h],AX
-LAB_1000_061a:
-    mov AX,word ptr [BP + 8h]
-    cmp word ptr [BP + -10h],AX
-    jnc LAB_1000_0652
-    mov BX,word ptr [BP + -6h]
-    mov AL,byte ptr [BX]
-    mov byte ptr [BP + -3fah],AL
-    or AL,AL
-    jz LAB_1000_0652
-    cmp AL,0dh
-    jz LAB_1000_0652
-    cmp AL,0ah
-    jz LAB_1000_0652
-    push word ptr [BP + -2h]
-    inc word ptr [BP + -6h]
-    mov AL,byte ptr [BX]
-    sub AH,AH
-    push AX
-    call far ptr gfx_jump_2f_charWidth
-    add SP,4h
-    add word ptr [BP + -10h],AX
-    inc word ptr [BP + -8h]
-    jmp LAB_1000_061a
-LAB_1000_0652:
-    mov AX,word ptr [BP + 8h]
-    cmp word ptr [BP + -10h],AX
-    jc LAB_1000_0660
-    dec word ptr [BP + -6h]
-    dec word ptr [BP + -8h]
-LAB_1000_0660:
-    mov BX,word ptr [BP + -6h]
-    mov AL,byte ptr [BX]
-    mov byte ptr [BP + -3fah],AL
-    cmp AL,20h
-    jz LAB_1000_068c
-    or AL,AL
-    jz LAB_1000_068c
-    cmp AL,0dh
-    jz LAB_1000_068c
-    cmp AL,0ah
-    jz LAB_1000_068c
-    cmp AL,2dh
-    jz LAB_1000_068c
-    mov AX,word ptr [BP + -0ch]
-    cmp BX,AX
-    jbe LAB_1000_068c
-    dec word ptr [BP + -6h]
-    dec word ptr [BP + -8h]
-    jmp LAB_1000_0660
-LAB_1000_068c:
-    mov BX,word ptr [BP + -6h]
-    cmp byte ptr [BX],2dh
-    jnz LAB_1000_0697
-    inc word ptr [BP + -8h]
-LAB_1000_0697:
-    cmp byte ptr [BX],0h
-    jnz LAB_1000_06a0
-    mov byte ptr [BP + -0eh],0h
-LAB_1000_06a0:
-    cmp word ptr [BP + -8h],0h
-    jz LAB_1000_06f0
-    push word ptr [BP + -8h]
-    push word ptr [BP + -4h]
-    lea AX,[BP + 0fc08h]
-    push AX
-    call routine_146
-    add SP,6h
-    mov SI,word ptr [BP + -8h]
-    mov byte ptr [BP + SI + 0fc08h],0h
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BP + 0ah]
-    mov word ptr [BX + 8h],AX
-    lea AX,[BP + 0fc08h]
-    push AX
-    push word ptr [BP + 4h]
-    call far ptr gfx_jump_05_drawString
-    add SP,4h
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BP + 0eh]
-    add word ptr [BX + 0ah],AX
-    mov BX,word ptr [BP + -6h]
-    cmp byte ptr [BX],0dh
-    jnz LAB_1000_06f0
-    mov BX,word ptr [BP + 4h]
-    add word ptr [BX + 0ah],2h
-LAB_1000_06f0:
-    inc word ptr [BP + -6h]
-    mov AX,word ptr [BP + -6h]
-    mov word ptr [BP + -4h],AX
-    jmp LAB_1000_0609
-LAB_1000_06fc:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-routine_130 endp
+routine_130 equ _routine_130
 
 drawStringCentered equ _drawStringCentered
 
@@ -1001,6 +843,8 @@ FUN_1000_0b0c proc near
     ret
 FUN_1000_0b0c endp
 
+PUBLIC _routine_146
+_routine_146:
 routine_146 proc near
     push BP
     mov BP,SP
@@ -1311,6 +1155,8 @@ dos_printstring proc near
     db 00h
 dos_printstring endp
 
+PUBLIC _routine_14
+_routine_14:
 routine_14 proc near
     push BP
     mov BP,SP
@@ -2129,6 +1975,8 @@ LAB_1000_1238:
     iret
 FUN_1000_121f endp
 
+PUBLIC _installCBreakHandler
+_installCBreakHandler:
 installCBreakHandler proc near
     push SI
     push DI
@@ -3479,6 +3327,8 @@ _incTimerCounters proc near
 _incTimerCounters endp
 routine_69 endp
 
+PUBLIC _routine_27
+_routine_27:
 routine_27 proc near
     push BP
     mov BP,SP
@@ -3772,6 +3622,8 @@ LAB_1000_214e:
     ret
 routine_27 endp
 
+PUBLIC _routine_24
+_routine_24:
 routine_24 proc near
     push BP
     mov BP,SP
@@ -4173,597 +4025,11 @@ LAB_1000_257d:
     ret
 routine_60 endp
 
-routine_95 proc near
-    push BP
-    mov BP,SP
-    sub SP,8h
-    mov BX,word ptr [BP + 4h]
-    cmp word ptr [BX + 2eh],0h
-    jnz LAB_1000_25d0
-    mov word ptr [BX + 2eh],1h
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BX + 12h]
-    mov CL,4h
-    shr AX,CL
-    mov word ptr [BP + -6h],AX
-    mov AX,word ptr [BX + 12h]
-    db 25h, 0Fh, 00h  ; and AX,0Fh (force word-immediate)
-    mov word ptr [BP + -2h],AX
-    cmp word ptr [BX + 12h],0h
-    jz LAB_1000_25ce
-    push AX
-    push word ptr [BP + -6h]
-    push word ptr [BX + 0eh]
-    push word ptr [BX + 0ch]
-    push word ptr [BX + 0ah]
-    push word ptr [BX + 8h]
-    push word ptr [BP + 6h]
-    call far ptr gfx_jump_29_switchColor
-    add SP,0eh
-LAB_1000_25ce:
-    jmp LAB_1000_25ee
-LAB_1000_25d0:
-    mov BX,word ptr [BP + 4h]
-    mov word ptr [BX + 2eh],0h
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BX + 12h]
-    db 25h, 0Fh, 00h  ; and AX,0Fh (force word-immediate)
-    mov word ptr [BP + -6h],AX
-    mov AX,word ptr [BX + 12h]
-    mov CL,4h
-    shr AX,CL
-    mov word ptr [BP + -2h],AX
-LAB_1000_25ee:
-    mov BX,word ptr [BP + 4h]
-    cmp word ptr [BX + 12h],0h
-    jz LAB_1000_2614
-    push word ptr [BP + -2h]
-    push word ptr [BP + -6h]
-    push word ptr [BX + 0eh]
-    push word ptr [BX + 0ch]
-    push word ptr [BX + 0ah]
-    push word ptr [BX + 8h]
-    push word ptr [BP + 6h]
-    call far ptr gfx_jump_29_switchColor
-    add SP,0eh
-LAB_1000_2614:
-    mov SP,BP
-    pop BP
-    ret
-routine_95 endp
+routine_95 equ _routine_95
 
 routine_97 equ _routine_97
 
-routine_98 proc near
-    push BP
-    mov BP,SP
-    sub SP,12h
-    push SI
-    mov BX,word ptr [BP + 6h]
-    mov AX,word ptr [BX + 10h]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    add AX,offset _dat_1c8e
-    mov word ptr [_var_169],AX
-    mov byte ptr [_var_82],0h
-    sub AX,AX
-    mov word ptr [BP + -0ah],AX
-    mov word ptr [BP + -8h],AX
-    sub AL,AL
-    mov byte ptr [BP + -0ch],AL
-    mov byte ptr [_var_175],AL
-    mov byte ptr [_var_202],AL
-    mov byte ptr [_var_170],AL
-    cmp byte ptr [_var_173],1h
-    jnz LAB_1000_268e
-    mov byte ptr [_var_81],AL
-    mov byte ptr [BP + -0ch],1h
-LAB_1000_268e:
-    les BX,dword ptr [_var_222]
-    cmp word ptr ES:[BX + 72h],1h
-    jnz LAB_1000_26bb
-    sub AX,AX
-    push AX
-    call far ptr misc_jump_5d_readJoy
-    add SP,2h
-    mov word ptr [BP + -8h],AX
-    mov AX,1h
-    push AX
-    call far ptr misc_jump_5d_readJoy
-    add SP,2h
-    mov word ptr [BP + -0ah],AX
-    call far ptr routine_134
-LAB_1000_26bb:
-    call far ptr misc_jump_5a_keybuf
-    or AL,AL
-    jz LAB_1000_26ec
-    cmp word ptr [BP + -8h],0h
-    jnz LAB_1000_26ec
-    cmp word ptr [BP + -0ah],0h
-    jnz LAB_1000_26ec
-    cmp byte ptr [_var_55],4eh
-    jc LAB_1000_26ec
-    cmp byte ptr [_var_55],0b2h
-    ja LAB_1000_26ec
-    cmp byte ptr [_var_56],4eh
-    jc LAB_1000_26ec
-    cmp byte ptr [_var_56],0b2h
-    jbe LAB_1000_26f5
-LAB_1000_26ec:
-    cmp byte ptr [BP + -0ch],1h
-    jz LAB_1000_26f5
-    jmp LAB_1000_2a82
-LAB_1000_26f5:
-    cmp byte ptr [_var_173],1h
-    jnz LAB_1000_270c
-    cmp byte ptr [_var_81],0fh
-    jbe LAB_1000_270c
-    mov byte ptr [BP + -0ch],0h
-    mov byte ptr [_var_173],0h
-LAB_1000_270c:
-    les BX,dword ptr [_var_222]
-    cmp word ptr ES:[BX + 72h],1h
-    jnz LAB_1000_2739
-    sub AX,AX
-    push AX
-    call far ptr misc_jump_5d_readJoy
-    add SP,2h
-    mov word ptr [BP + -8h],AX
-    mov AX,1h
-    push AX
-    call far ptr misc_jump_5d_readJoy
-    add SP,2h
-    mov word ptr [BP + -0ah],AX
-    call far ptr routine_134
-LAB_1000_2739:
-    cmp byte ptr [_var_57],0h
-    jz LAB_1000_274f
-    call cleanup
-    call routine_28
-    sub AX,AX
-    push AX
-    call routine_8
-    add SP,2h
-LAB_1000_274f:
-    cmp word ptr [_var_172],1h
-    jnz LAB_1000_27b1
-    cmp byte ptr [_var_82],6h
-    jbe LAB_1000_27b1
-    mov byte ptr [_var_82],0h
-    mov SI,word ptr [_var_171]
-    shl SI,1h
-    add SI,word ptr [_var_169]
-    add SI,2h
-    mov AX,word ptr [SI]
-    mov CL,4h
-    shr AX,CL
-    mov word ptr [BP + -6h],AX
-    mov AX,word ptr [SI]
-    db 25h, 0Fh, 00h  ; and AX,0Fh (force word-immediate)
-    mov word ptr [BP + -4h],AX
-    push AX
-    push word ptr [BP + -6h]
-    mov BX,word ptr [BP + 6h]
-    push word ptr [BX + 0eh]
-    push word ptr [BX + 0ch]
-    push word ptr [BX + 0ah]
-    push word ptr [BX + 8h]
-    push word ptr [BP + 8h]
-    call far ptr gfx_jump_29_switchColor
-    add SP,0eh
-    inc word ptr [_var_171]
-    mov AX,word ptr [_var_171]
-    sub DX,DX
-    mov BX,word ptr [_var_169]
-    div word ptr [BX]
-    mov word ptr [_var_171],DX
-LAB_1000_27b1:
-    mov BX,word ptr [BP + 6h]
-    test word ptr [BX + 30h],800h
-    jnz LAB_1000_27be
-    jmp LAB_1000_2a7f
-LAB_1000_27be:
-    test word ptr [BX + 30h],1000h
-    jnz LAB_1000_27c8
-    jmp LAB_1000_2a7f
-LAB_1000_27c8:
-    cmp byte ptr [_var_83],12h
-    ja LAB_1000_27d2
-    jmp LAB_1000_2a7f
-LAB_1000_27d2:
-    mov byte ptr [_var_83],0h
-    cmp byte ptr [_var_174],0h
-    jnz LAB_1000_27e1
-    jmp LAB_1000_2a69
-LAB_1000_27e1:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_196]
-    db 25h, 3Fh, 00h  ; and AX,3Fh (force word-immediate)
-    jmp LAB_1000_2a3f
-caseD_c_2a4a:
-caseD_1_5160:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_194]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_20E2]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_195]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_20E2]
-    mov word ptr [BX + 0ah],AX
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov BL,byte ptr [BX + offset _var_197]
-    and BX,7fh
-    mov CL,4h
-    shl BX,CL
-    test byte ptr [BX + offset _var_183],8h
-    jz LAB_1000_286c
-    mov BX,word ptr [dat_20E2]
-    mov word ptr [BX + 2h],11eh
-    jmp LAB_1000_2875
-LAB_1000_286c:
-    mov BX,word ptr [dat_20E2]
-    mov word ptr [BX + 2h],12dh
-LAB_1000_2875:
-    push word ptr [dat_20E2]
-    call far ptr gfx_jump_11_blitSprite
-    add SP,2h
-    jmp LAB_1000_2a67
-caseD_3_2a4a:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_194]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_2122]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_195]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_2122]
-    mov word ptr [BX + 0ah],AX
-    push word ptr [dat_2122]
-    call far ptr gfx_jump_11_blitSprite
-    add SP,2h
-    jmp LAB_1000_2a67
-caseD_2_2a4a:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_194]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_2162]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_195]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_2162]
-    mov word ptr [BX + 0ah],AX
-    push word ptr [dat_2162]
-    call far ptr gfx_jump_11_blitSprite
-    add SP,2h
-    jmp LAB_1000_2a67
-caseD_5_2a4a:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_194]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    mov BX,word ptr [dat_21E2]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_195]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    mov BX,word ptr [dat_21E2]
-    mov word ptr [BX + 0ah],AX
-    push word ptr [dat_21E2]
-    call far ptr gfx_jump_11_blitSprite
-    add SP,2h
-    jmp LAB_1000_2a67
-caseD_8_2a4a:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_194]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_2122]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_195]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 2Dh, 02h, 00h  ; sub AX,02h (force word-immediate)
-    mov BX,word ptr [dat_2122]
-    mov word ptr [BX + 0ah],AX
-    push word ptr [dat_2122]
-    call far ptr gfx_jump_11_blitSprite
-    add SP,2h
-    jmp LAB_1000_2a67
-caseD_a_2a4a:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_194]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    mov BX,word ptr [dat_21E2]
-    mov word ptr [BX + 8h],AX
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_195]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    mov BX,word ptr [dat_21E2]
-    mov word ptr [BX + 0ah],AX
-    push word ptr [dat_21E2]
-    call far ptr gfx_jump_11_blitSprite
-    add SP,2h
-    jmp LAB_1000_2a67
-    db 0EBh
-    db 28h
-LAB_1000_2a3f:
-    db 2Dh, 01h, 00h  ; sub AX,1h (force word-immediate)
-    db 3Dh, 0Bh, 00h  ; cmp AX,0Bh (force word-immediate)
-    ja LAB_1000_2a67
-    add AX,AX
-    xchg AX,BX
-switchD_27f7:
-    jmp word ptr CS:[BX + offset var_4]
-var_4:
-    dw offset caseD_c_2a4a
-    dw offset caseD_2_2a4a
-    dw offset caseD_3_2a4a
-    dw offset caseD_4_2a4a
-    dw offset caseD_5_2a4a
-    dw offset caseD_4_2a4a
-    dw offset caseD_4_2a4a
-    dw offset caseD_8_2a4a
-    dw offset caseD_4_2a4a
-    dw offset caseD_a_2a4a
-    dw offset caseD_4_2a4a
-    dw offset caseD_c_2a4a
-LAB_1000_2a67:
-    jmp caseD_4_2a4a
-LAB_1000_2a69:
-    push word ptr [_var_190]
-    call routine_135
-    add SP,2h
-caseD_6_2a4a:
-caseD_7_5402:
-caseD_9_5403:
-caseD_b_5404:
-caseD_4_2a4a:
-caseD_4_5405:
-    cmp byte ptr [_var_174],1h
-    sbb AX,AX
-    neg AX
-    mov byte ptr [_var_174],AL
-LAB_1000_2a7f:
-    jmp LAB_1000_26bb
-LAB_1000_2a82:
-    call far ptr misc_jump_5a_keybuf
-    or AL,AL
-    jnz LAB_1000_2a95
-    call far ptr misc_jump_5b_getkey
-    mov word ptr [BP + -10h],AX
-    jmp LAB_1000_2af9
-LAB_1000_2a95:
-    cmp word ptr [BP + -8h],1h
-    jnz LAB_1000_2aa2
-    mov word ptr [BP + -10h],0dh
-    jmp LAB_1000_2af9
-LAB_1000_2aa2:
-    cmp word ptr [BP + -0ah],1h
-    jnz LAB_1000_2aaf
-    mov word ptr [BP + -10h],1bh
-    jmp LAB_1000_2af9
-LAB_1000_2aaf:
-    cmp byte ptr [_var_55],4eh
-    jnc LAB_1000_2ac2
-    mov word ptr [BP + -10h],4b00h
-    mov byte ptr [_var_173],1h
-    jmp LAB_1000_2af9
-LAB_1000_2ac2:
-    cmp byte ptr [_var_55],0b2h
-    jbe LAB_1000_2ad5
-    mov word ptr [BP + -10h],4d00h
-    mov byte ptr [_var_173],1h
-    jmp LAB_1000_2af9
-LAB_1000_2ad5:
-    cmp byte ptr [_var_56],4eh
-    jnc LAB_1000_2ae8
-    mov word ptr [BP + -10h],4800h
-    mov byte ptr [_var_173],1h
-    jmp LAB_1000_2af9
-LAB_1000_2ae8:
-    cmp byte ptr [_var_56],0b2h
-    jbe LAB_1000_2af9
-    mov word ptr [BP + -10h],5000h
-    mov byte ptr [_var_173],1h
-LAB_1000_2af9:
-    cmp byte ptr [BP + -10h],0dh
-    jnz LAB_1000_2b04
-    mov byte ptr [_var_202],1h
-LAB_1000_2b04:
-    cmp word ptr [BP + -10h],1000h
-    jnz LAB_1000_2b15
-    mov byte ptr [_var_57],1h
-    mov byte ptr [_var_202],1h
-LAB_1000_2b15:
-    cmp word ptr [BP + -10h],4800h
-    jnz LAB_1000_2b39
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BX + 2h]
-    sub word ptr [_var_212],AX
-    mov AX,word ptr [_var_212]
-    cmp word ptr [BX + 8h],AX
-    jle LAB_1000_2b34
-    mov AX,word ptr [BX + 8h]
-    mov word ptr [_var_212],AX
-LAB_1000_2b34:
-    mov byte ptr [_var_170],1h
-LAB_1000_2b39:
-    cmp word ptr [BP + -10h],5000h
-    jnz LAB_1000_2b5d
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BX + 2h]
-    add word ptr [_var_212],AX
-    mov AX,word ptr [_var_212]
-    cmp word ptr [BX + 0ah],AX
-    jnc LAB_1000_2b58
-    mov AX,word ptr [BX + 0ah]
-    mov word ptr [_var_212],AX
-LAB_1000_2b58:
-    mov byte ptr [_var_170],1h
-LAB_1000_2b5d:
-    cmp word ptr [BP + -10h],4d00h
-    jnz LAB_1000_2b80
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BX]
-    add word ptr [_var_210],AX
-    mov AX,word ptr [_var_210]
-    cmp word ptr [BX + 6h],AX
-    jnc LAB_1000_2b7b
-    mov AX,word ptr [BX + 6h]
-    mov word ptr [_var_210],AX
-LAB_1000_2b7b:
-    mov byte ptr [_var_170],1h
-LAB_1000_2b80:
-    cmp word ptr [BP + -10h],4b00h
-    jnz LAB_1000_2bb1
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BX]
-    sub word ptr [_var_210],AX
-    mov AX,word ptr [_var_210]
-    cmp word ptr [BX + 4h],AX
-    jle LAB_1000_2b9e
-    mov AX,word ptr [BX + 4h]
-    mov word ptr [_var_210],AX
-LAB_1000_2b9e:
-    mov AX,word ptr [_var_212]
-    cmp word ptr [BX + 8h],AX
-    jle LAB_1000_2bac
-    mov AX,word ptr [BX]
-    add word ptr [_var_210],AX
-LAB_1000_2bac:
-    mov byte ptr [_var_170],1h
-LAB_1000_2bb1:
-    mov BX,word ptr [BP + 6h]
-    test word ptr [BX + 30h],800h
-    jz LAB_1000_2bcc
-    test word ptr [BX + 30h],1000h
-    jz LAB_1000_2bcc
-    push word ptr [_var_190]
-    call routine_135
-    add SP,2h
-LAB_1000_2bcc:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-routine_98 endp
+routine_98 equ _routine_98
 
 routine_96 proc near
     push BP
@@ -5857,208 +5123,9 @@ routine_135 equ _routine_135
 
 routine_65 equ _routine_65
 
-routine_132 proc near
-    push BP
-    mov BP,SP
-    sub SP,1eh
-    push SI
-    mov word ptr [BP + -4h],0ffffh
-LAB_1000_3b3c:
-    inc word ptr [BP + -4h]
-    mov BX,word ptr [BP + -4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    test byte ptr [BX + offset _var_196],3fh
-    jz LAB_1000_3bca
-    mov AX,word ptr [BP + 6h]
-    cmp word ptr [BP + -4h],AX
-    ja LAB_1000_3bca
-    sub AX,AX
-    push AX
-    call far ptr gfx_jump_21
-    add SP,2h
-    cmp word ptr [BP + -4h],0h
-    jnz LAB_1000_3b8e
-    sub AX,AX
-    push AX
-    push AX
-    mov AL,byte ptr [_var_195]
-    cbw
-    push AX
-    mov AL,byte ptr [_var_194]
-    cbw
-    push AX
-    call routine_147
-    add SP,8h
-    mov AL,byte ptr [_var_194]
-    cbw
-    mov word ptr [BP + -6h],AX
-    mov AL,byte ptr [_var_195]
-    cbw
-    mov word ptr [BP + -0ah],AX
-    jmp LAB_1000_3bc7
-LAB_1000_3b8e:
-    mov AX,word ptr [BP + -4h]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    mov AL,byte ptr [SI + offset _var_194]
-    cbw
-    mov word ptr [BP + -2h],AX
-    mov AL,byte ptr [SI + offset _var_195]
-    cbw
-    mov word ptr [BP + -8h],AX
-    push word ptr [BP + -0ah]
-    push word ptr [BP + -6h]
-    push AX
-    push word ptr [BP + -2h]
-    call routine_105
-    add SP,8h
-    mov AX,word ptr [BP + -2h]
-    mov word ptr [BP + -6h],AX
-    mov AX,word ptr [BP + -8h]
-    mov word ptr [BP + -0ah],AX
-LAB_1000_3bc7:
-    jmp LAB_1000_3b3c
-LAB_1000_3bca:
-    mov word ptr [BP + -4h],0ffffh
-LAB_1000_3bcf:
-    inc word ptr [BP + -4h]
-    mov BX,word ptr [BP + -4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    test byte ptr [BX + offset _var_196],3fh
-    jz LAB_1000_3c0c
-    mov AX,word ptr [BP + 6h]
-    cmp word ptr [BP + -4h],AX
-    ja LAB_1000_3c0c
-    mov BX,word ptr [BP + -4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_196]
-    and AL,3fh
-    cmp AL,9h
-    jz LAB_1000_3c0a
-    push word ptr [BP + -4h]
-    call routine_135
-    add SP,2h
-LAB_1000_3c0a:
-    jmp LAB_1000_3bcf
-LAB_1000_3c0c:
-    dec word ptr [BP + -4h]
-    mov AX,word ptr [BP + -4h]
-    jmp LAB_1000_3c14
-LAB_1000_3c14:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-routine_132 endp
+routine_132 equ _routine_132
 
-routine_106 proc near
-    push BP
-    mov BP,SP
-    sub SP,8h
-    mov AX,word ptr [_var_186]
-    add AX,word ptr [_var_188]
-    mov word ptr [BP + -4h],AX
-    mov AL,byte ptr [BP + -4h]
-    and AL,3h
-    cmp AL,1h
-    sbb CX,CX
-    neg CX
-    mov word ptr [_var_24],CX
-    cmp word ptr [_var_185],1h
-    jz LAB_1000_3c46
-    cmp word ptr [_var_187],1h
-    jnz LAB_1000_3c4c
-LAB_1000_3c46:
-    mov word ptr [_var_24],0h
-LAB_1000_3c4c:
-    cmp word ptr [_var_185],4h
-    jz LAB_1000_3c5a
-    cmp word ptr [_var_187],4h
-    jnz LAB_1000_3c60
-LAB_1000_3c5a:
-    mov word ptr [_var_24],1h
-LAB_1000_3c60:
-    mov AX,word ptr [BP + -4h]
-    db 25h, 0Fh, 00h  ; and AX,0Fh (force word-immediate)
-    mov CH,AL
-    sub CL,CL
-    add word ptr [BP + param_1],CX
-    mov AX,offset str_timeFormat
-    push AX
-    push word ptr [BP + 6h]
-    call mystrcpy
-    add SP,4h
-    mov AX,word ptr [BP + param_1]
-    sub DX,DX
-    mov CX,708h
-    div CX
-    mov word ptr [BP + -2h],AX
-    mov BX,word ptr [BP + 6h]
-    mov AL,byte ptr [_var_24]
-    inc AL
-    add byte ptr [BX],AL
-    mov AX,word ptr [BP + -2h]
-    cwd
-    mov CX,0ah
-    idiv CX
-    mov BX,word ptr [BP + 6h]
-    add byte ptr [BX + 1h],DL
-    mov AX,word ptr [BP + param_1]
-    sub DX,DX
-    mov CX,1eh
-    div CX
-    sub DX,DX
-    mov CX,3ch
-    div CX
-    mov word ptr [BP + -6h],DX
-    mov AX,DX
-    cwd
-    mov CX,0ah
-    idiv CX
-    mov BX,word ptr [BP + 6h]
-    add byte ptr [BX + 3h],AL
-    mov AX,word ptr [BP + -6h]
-    cwd
-    idiv CX
-    mov BX,word ptr [BP + 6h]
-    add byte ptr [BX + 4h],DL
-    mov AX,word ptr [BP + param_1]
-    shl AX,1h
-    sub DX,DX
-    mov CX,3ch
-    div CX
-    mov word ptr [BP + -8h],DX
-    mov AX,DX
-    cwd
-    mov CX,0ah
-    idiv CX
-    mov BX,word ptr [BP + 6h]
-    add byte ptr [BX + 6h],AL
-    mov AX,word ptr [BP + -8h]
-    cwd
-    idiv CX
-    mov BX,word ptr [BP + 6h]
-    add byte ptr [BX + 7h],DL
-    mov AX,word ptr [BP + 6h]
-    jmp LAB_1000_3cfc
-LAB_1000_3cfc:
-    mov SP,BP
-    pop BP
-    ret
-routine_106 endp
-_routine_106 equ routine_106
+routine_106 equ _routine_106
 
 routine_137 equ _routine_137
 
@@ -6131,702 +5198,12 @@ routine_138 endp
 
 routine_157 equ _routine_157
 
-routine_63 proc near
-    push BP
-    mov BP,SP
-    sub SP,10h
-    push DI
-    push SI
-    sub AX,AX
-    mov word ptr [BP + -8h],AX
-    mov word ptr [_var_221],AX
-    mov word ptr [_var_215],AX
-    mov word ptr [_var_225],AX
-    mov word ptr [_var_224],AX
-    mov word ptr [_var_200],AX
-    mov word ptr [_var_182],AX
-    mov word ptr [_var_199],AX
-    mov word ptr [_var_181],AX
-    mov word ptr [BP + -10h],1h
-    mov word ptr [BP + -0ah],AX
-    mov word ptr [BP + -0ch],AX
-    les BX,dword ptr [_var_222]
-    mov AX,word ptr ES:[BX + 40h]
-    mov word ptr [BP + -2h],AX
-    db 3Dh, 0Fh, 00h  ; cmp AX,0Fh (force word-immediate)
-    jle LAB_1000_3f02
-    mov word ptr [BP + -2h],0fh
-LAB_1000_3f02:
-    mov word ptr [BP + -6h],0h
-    jmp LAB_1000_3f0c
-LAB_1000_3f09:
-    inc word ptr [BP + -6h]
-LAB_1000_3f0c:
-    mov AX,word ptr [BP + 4h]
-    cmp word ptr [BP + -6h],AX
-    jbe LAB_1000_3f17
-    jmp LAB_1000_40d1
-LAB_1000_3f17:
-    mov AX,word ptr [BP + -6h]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    cmp byte ptr [SI + offset _var_196],0h
-    jnz LAB_1000_3f2e
-    jmp LAB_1000_40d1
-LAB_1000_3f2e:
-    mov AL,byte ptr [SI + offset _var_197]
-    cbw
-    mov word ptr [BP + -0eh],AX
-    mov AL,byte ptr [SI + offset _var_196]
-    db 25h, 3Fh, 00h  ; and AX,3Fh (force word-immediate)
-    jmp LAB_1000_409f
-LAB_1000_3f40:
-    cmp word ptr [BP + -6h],0h
-    jz LAB_1000_3f4b
-    mov word ptr [BP + -8h],1h
-LAB_1000_3f4b:
-    jmp LAB_1000_40ce
-LAB_1000_3f4e:
-    mov BX,word ptr [BP + -6h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    test byte ptr [BX + offset _var_196],80h
-    jz LAB_1000_3f6c
-    mov word ptr [_var_215],1h
-    inc word ptr [_var_224]
-    jmp LAB_1000_3fb6
-LAB_1000_3f6c:
-    mov BX,word ptr [BP + -6h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    test byte ptr [BX + offset _var_196],40h
-    jz LAB_1000_3f8a
-    mov word ptr [_var_221],1h
-    inc word ptr [_var_224]
-    jmp LAB_1000_3fb6
-LAB_1000_3f8a:
-    mov BX,word ptr [BP + -0eh]
-    and BX,7fh
-    test byte ptr [BX + offset _var_204],40h
-    jz LAB_1000_3f9d
-    inc word ptr [_var_225]
-    jmp LAB_1000_3fb6
-LAB_1000_3f9d:
-    mov BX,word ptr [BP + -0eh]
-    mov CL,4h
-    shl BX,CL
-    test word ptr [BX + offset _var_183],500h
-    jnz LAB_1000_3fb2
-    inc word ptr [_var_224]
-    jmp LAB_1000_3fb6
-LAB_1000_3fb2:
-    inc word ptr [_var_225]
-LAB_1000_3fb6:
-    jmp LAB_1000_40ce
-LAB_1000_3fb9:
-    mov BX,word ptr [BP + -6h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    test byte ptr [BX + offset _var_196],80h
-    jz LAB_1000_3fd7
-    mov word ptr [_var_215],1h
-    inc word ptr [_var_181]
-    jmp LAB_1000_4010
-LAB_1000_3fd7:
-    mov BX,word ptr [BP + -6h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    test byte ptr [BX + offset _var_196],40h
-    jz LAB_1000_3ff5
-    mov word ptr [_var_221],1h
-    inc word ptr [_var_181]
-    jmp LAB_1000_4010
-LAB_1000_3ff5:
-    mov BX,word ptr [BP + -0eh]
-    and BX,7fh
-    mov CL,5h
-    shl BX,CL
-    cmp word ptr [BX + 1b0h],-1h
-    jnz LAB_1000_400c
-    inc word ptr [_var_182]
-    jmp LAB_1000_4010
-LAB_1000_400c:
-    inc word ptr [_var_181]
-LAB_1000_4010:
-    jmp LAB_1000_40ce
-LAB_1000_4013:
-    mov BX,word ptr [BP + -6h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    test byte ptr [BX + offset _var_196],80h
-    jz LAB_1000_4031
-    mov word ptr [_var_215],1h
-    inc word ptr [_var_199]
-    jmp LAB_1000_4096
-LAB_1000_4031:
-    mov BX,word ptr [BP + -6h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    test byte ptr [BX + offset _var_196],40h
-    jz LAB_1000_404f
-    mov word ptr [_var_221],1h
-    inc word ptr [_var_199]
-    jmp LAB_1000_4096
-LAB_1000_404f:
-    mov BX,word ptr [BP + -0eh]
-    and BX,7fh
-    test byte ptr [BX + offset _var_204],40h
-    jz LAB_1000_4062
-    inc word ptr [_var_200]
-    jmp LAB_1000_4096
-LAB_1000_4062:
-    mov AX,word ptr [BP + -6h]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    mov DI,word ptr [SI + offset _var_195]
-    and DI,0ffh
-    mov CL,4h
-    shr DI,CL
-    shl DI,CL
-    mov BL,byte ptr [SI + offset _var_194]
-    sub BH,BH
-    shr BX,CL
-    test byte ptr [BX + DI + offset _var_184],3h
-    jnz LAB_1000_4092
-    inc word ptr [_var_199]
-    jmp LAB_1000_4096
-LAB_1000_4092:
-    inc word ptr [_var_200]
-LAB_1000_4096:
-    jmp LAB_1000_40ce
-LAB_1000_4098:
-    inc word ptr [BP + -10h]
-    jmp LAB_1000_40ce
-    db 0EBh
-    db 2Fh
-LAB_1000_409f:
-    db 3Dh, 01h, 00h  ; cmp AX,1h (force word-immediate)
-    jnz LAB_1000_40a7
-    jmp LAB_1000_3f4e
-LAB_1000_40a7:
-    db 3Dh, 02h, 00h  ; cmp AX,2h (force word-immediate)
-    jnz LAB_1000_40af
-    jmp LAB_1000_4013
-LAB_1000_40af:
-    db 3Dh, 03h, 00h  ; cmp AX,3h (force word-immediate)
-    jnz LAB_1000_40b7
-    jmp LAB_1000_3fb9
-LAB_1000_40b7:
-    db 3Dh, 08h, 00h  ; cmp AX,8h (force word-immediate)
-    jnz LAB_1000_40bf
-    jmp LAB_1000_3f40
-LAB_1000_40bf:
-    db 3Dh, 0Ah, 00h  ; cmp AX,0Ah (force word-immediate)
-    jz LAB_1000_4098
-    db 3Dh, 0Ch, 00h  ; cmp AX,0Ch (force word-immediate)
-    jnz LAB_1000_40cc
-    jmp LAB_1000_3f4e
-LAB_1000_40cc:
-    jmp LAB_1000_40ce
-LAB_1000_40ce:
-    jmp LAB_1000_3f09
-LAB_1000_40d1:
-    mov CX,19h
-    mov AX,word ptr [_var_224]
-    mov DX,word ptr [_var_225]
-    shl DX,1h
-    sub AX,DX
-    imul word ptr [BP + -2h]
-    imul CX
-    cwd
-    mov CX,32h
-    les BX,dword ptr [_var_178]
-    mov BX,word ptr ES:[BX + 3eh]
-    inc BX
-    mov SI,AX
-    mov AX,word ptr [_var_181]
-    mov DI,word ptr [_var_182]
-    shl DI,1h
-    sub AX,DI
-    mov DI,DX
-    imul BX
-    imul CX
-    cwd
-    add AX,SI
-    adc DX,DI
-    mov CX,14h
-    mov BX,AX
-    mov AX,word ptr [_var_199]
-    mov SI,word ptr [_var_200]
-    shl SI,1h
-    sub AX,SI
-    mov SI,DX
-    imul word ptr [BP + -2h]
-    imul CX
-    cwd
-    add BX,AX
-    adc SI,DX
-    mov CX,0c8h
-    mov AX,word ptr [BP + -2h]
-    imul word ptr [_var_215]
-    imul CX
-    cwd
-    add BX,AX
-    adc SI,DX
-    mov CX,64h
-    mov AX,word ptr [BP + -2h]
-    imul word ptr [_var_221]
-    imul CX
-    cwd
-    add BX,AX
-    adc SI,DX
-    mov word ptr [BP + -0ch],BX
-    mov word ptr [BP + -0ah],SI
-    mov AX,word ptr [BP + -10h]
-    inc AX
-    cwd
-    push DX
-    push AX
-    mov AX,BX
-    mov DX,SI
-    shl AX,1h
-    rcl DX,1h
-    push DX
-    push AX
-    call routine_100
-    mov word ptr [BP + -0ch],AX
-    mov word ptr [BP + -0ah],DX
-    cmp word ptr [BP + -8h],0h
-    jz LAB_1000_41c5
-    or DX,DX
-    jge LAB_1000_4179
-    sub AX,AX
-    mov word ptr [BP + -0ah],AX
-    mov word ptr [BP + -0ch],AX
-LAB_1000_4179:
-    les BX,dword ptr [_var_222]
-    mov AX,word ptr ES:[BX + 26h]
-    jmp LAB_1000_41b9
-LAB_1000_4183:
-    mov AX,2h
-    cwd
-    push DX
-    push AX
-    lea AX,[BP + -0ch]
-    push AX
-    call routine_101
-    jmp LAB_1000_41c5
-LAB_1000_4192:
-    mov AX,4h
-    cwd
-    push DX
-    push AX
-    mov AX,word ptr [BP + -0ch]
-    mov DX,word ptr [BP + -0ah]
-    mov CX,AX
-    mov BX,DX
-    shl AX,1h
-    rcl DX,1h
-    add AX,CX
-    adc DX,BX
-    push DX
-    push AX
-    call routine_100
-    mov word ptr [BP + -0ch],AX
-    mov word ptr [BP + -0ah],DX
-    jmp LAB_1000_41c5
-    db 0EBh
-    db 0Ch
-LAB_1000_41b9:
-    db 3Dh, 01h, 00h  ; cmp AX,1h (force word-immediate)
-    jz LAB_1000_4183
-    db 3Dh, 02h, 00h  ; cmp AX,2h (force word-immediate)
-    jz LAB_1000_4192
-    jmp LAB_1000_41c5
-LAB_1000_41c5:
-    mov AX,word ptr [BP + -0ch]
-    mov DX,word ptr [BP + -0ah]
-    jmp LAB_1000_41cd
-LAB_1000_41cd:
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-routine_63 endp
-_routine_63 equ routine_63
+routine_63 equ _routine_63
 
-routine_131 proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    push SI
-    cmp byte ptr [_var_214],1h
-    jnz LAB_1000_420c
-    mov AX,28h
-    push AX
-    mov AX,30h
-    push AX
-    push word ptr [_var_228]
-    push word ptr [_var_227]
-    sub AX,AX
-    push AX
-    mov AX,96h
-    push AX
-    sub AX,AX
-    push AX
-    mov AX,1h
-    push AX
-    call far ptr gfx_jump_2a
-    add SP,10h
-    mov byte ptr [_var_214],0h
-LAB_1000_420c:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_196]
-    db 25h, 3Fh, 00h  ; and AX,3Fh (force word-immediate)
-    mov word ptr [BP + -4h],AX
-    jmp LAB_1000_42d2
-caseD_1_42dd:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov BL,byte ptr [BX + offset _var_197]
-    and BX,7fh
-    mov CL,4h
-    shl BX,CL
-    test byte ptr [BX + offset _var_183],8h
-    jz LAB_1000_424a
-    mov word ptr [BP + -4h],0fh
-    jmp LAB_1000_424f
-LAB_1000_424a:
-    mov word ptr [BP + -4h],0h
-LAB_1000_424f:
-    jmp caseD_4_42dd
-caseD_c_42dd:
-    mov word ptr [BP + -4h],2h
-    jmp caseD_4_42dd
-caseD_3_42dd:
-    mov word ptr [BP + -4h],1h
-    jmp caseD_4_42dd
-caseD_2_42dd:
-    mov word ptr [BP + -4h],2h
-    jmp caseD_4_42dd
-caseD_5_42dd:
-    mov word ptr [BP + -4h],3h
-    jmp caseD_4_42dd
-caseD_8_42dd:
-    cmp word ptr [_var_190],0h
-    jnz LAB_1000_4280
-    mov word ptr [BP + -4h],8h
-    jmp LAB_1000_42c7
-LAB_1000_4280:
-    les BX,dword ptr [_var_222]
-    cmp word ptr ES:[BX + 26h],3h
-    jnz LAB_1000_4297
-    mov byte ptr [_var_207],1h
-    mov word ptr [BP + -4h],7h
-    jmp LAB_1000_42c7
-LAB_1000_4297:
-    cmp word ptr ES:[BX + 26h],1h
-    jnz LAB_1000_42aa
-    mov byte ptr [_var_207],1h
-    mov word ptr [BP + -4h],0eh
-    jmp LAB_1000_42c7
-LAB_1000_42aa:
-    cmp word ptr [_var_201],0h
-    jnz LAB_1000_42bd
-    mov byte ptr [_var_207],1h
-    mov word ptr [BP + -4h],0bh
-    jmp LAB_1000_42c7
-LAB_1000_42bd:
-    mov byte ptr [_var_207],1h
-    mov word ptr [BP + -4h],0dh
-LAB_1000_42c7:
-    jmp caseD_4_42dd
-caseD_a_42dd:
-    mov word ptr [BP + -4h],0ah
-    jmp caseD_4_42dd
-    db 0EBh
-    db 28h
-LAB_1000_42d2:
-    db 2Dh, 01h, 00h  ; sub AX,1h (force word-immediate)
-    db 3Dh, 0Bh, 00h  ; cmp AX,0Bh (force word-immediate)
-    ja caseD_4_42dd
-    add AX,AX
-    xchg AX,BX
-switchD_4225:
-    jmp word ptr CS:[BX + offset var_7]
-var_7:
-    dw offset caseD_1_42dd
-    dw offset caseD_c_42dd
-    dw offset caseD_2_42dd
-    dw offset caseD_4_42dd
-    dw offset caseD_5_42dd
-    dw offset caseD_4_42dd
-    dw offset caseD_4_42dd
-    dw offset caseD_8_42dd
-    dw offset caseD_4_42dd
-    dw offset caseD_a_42dd
-    dw offset caseD_4_42dd
-    dw offset caseD_3_42dd
-caseD_6_424f:
-caseD_7_426f:
-caseD_9_42dd:
-caseD_b_8044:
-caseD_4_42dd:
-caseD_4_8045:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_194]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 3Dh, 73h, 00h  ; cmp AX,73h (force word-immediate)
-    jnc LAB_1000_4383
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_195]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 3Dh, 59h, 00h  ; cmp AX,59h (force word-immediate)
-    jnc LAB_1000_4383
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_194]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 05h, 0Ah, 00h  ; add AX,0Ah (force word-immediate)
-    mov word ptr [_var_227],AX
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_195]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 05h, 0Ah, 00h  ; add AX,0Ah (force word-immediate)
-    mov word ptr [_var_228],AX
-    jmp LAB_1000_44d8
-LAB_1000_4383:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_194]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 3Dh, 73h, 00h  ; cmp AX,73h (force word-immediate)
-    jc LAB_1000_440c
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_195]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 3Dh, 59h, 00h  ; cmp AX,59h (force word-immediate)
-    jnc LAB_1000_440c
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_194]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 2Dh, 3Ah, 00h  ; sub AX,3Ah (force word-immediate)
-    mov word ptr [_var_227],AX
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_195]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 05h, 0Ah, 00h  ; add AX,0Ah (force word-immediate)
-    mov word ptr [_var_228],AX
-    jmp LAB_1000_44d8
-LAB_1000_440c:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_194]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 3Dh, 73h, 00h  ; cmp AX,73h (force word-immediate)
-    jc LAB_1000_4494
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_195]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 3Dh, 59h, 00h  ; cmp AX,59h (force word-immediate)
-    jc LAB_1000_4494
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_194]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 2Dh, 3Ah, 00h  ; sub AX,3Ah (force word-immediate)
-    mov word ptr [_var_227],AX
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_195]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 2Dh, 28h, 00h  ; sub AX,28h (force word-immediate)
-    mov word ptr [_var_228],AX
-    jmp LAB_1000_44d8
-LAB_1000_4494:
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_194]
-    cbw
-    push AX
-    call routine_137
-    add SP,2h
-    add AX,word ptr [_var_93]
-    db 05h, 0Ah, 00h  ; add AX,0Ah (force word-immediate)
-    mov word ptr [_var_227],AX
-    mov BX,word ptr [_var_190]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AL,byte ptr [BX + offset _var_195]
-    cbw
-    push AX
-    call routine_136
-    add SP,2h
-    add AX,word ptr [_var_94]
-    db 2Dh, 28h, 00h  ; sub AX,28h (force word-immediate)
-    mov word ptr [_var_228],AX
-LAB_1000_44d8:
-    mov AX,28h
-    push AX
-    mov AX,30h
-    push AX
-    mov AX,96h
-    push AX
-    sub AX,AX
-    push AX
-    mov AX,1h
-    push AX
-    push word ptr [_var_228]
-    push word ptr [_var_227]
-    sub AX,AX
-    push AX
-    call far ptr gfx_jump_2a
-    add SP,10h
-    mov SI,word ptr [BP + -4h]
-    shl SI,1h
-    mov AX,28h
-    push AX
-    mov AX,30h
-    push AX
-    push word ptr [_var_228]
-    push word ptr [_var_227]
-    sub AX,AX
-    push AX
-    push word ptr [SI + offset _var_97]
-    push word ptr [SI + offset _var_98]
-    mov AX,1h
-    push AX
-    call far ptr gfx_jump_2a
-    add SP,10h
-    mov byte ptr [_var_214],1h
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-routine_131 endp
+routine_131 equ _routine_131
 
+PUBLIC _routine_25
+_routine_25:
 routine_25 proc near
     push BP
     mov BP,SP
@@ -6896,7 +5273,7 @@ LAB_1000_45c4:
 LAB_1000_45e6:
     call far ptr gfx_jump_45_retrace
     push word ptr [_var_177]
-    call routine_51
+    call _fclose
     add SP,2h
     mov AX,9h
     push AX
@@ -6969,7 +5346,7 @@ LAB_1000_4692:
     jz LAB_1000_462e
     call far ptr gfx_jump_45_retrace
     push word ptr [_var_177]
-    call routine_51
+    call _fclose
     add SP,2h
     mov AX,8h
     push AX
@@ -7205,10 +5582,10 @@ LAB_1000_4938:
     jnc LAB_1000_4952
     push SS
     pop DS
-    call routine_2
+    call __ctermsub
     xor AX,AX
     push AX
-    call routine_3
+    call __NMSG_WRITE
     mov AX,4cffh
     int 21h
 LAB_1000_4952:
@@ -7255,8 +5632,8 @@ LAB_1000_4952:
     mov AX,3h
 LAB_1000_49bf:
     push AX
-    call routine_2
-    call routine_3
+    call __ctermsub
+    call __NMSG_WRITE
     mov AX,0ffh
     push AX
     call word ptr [_var_121]
@@ -7349,10 +5726,10 @@ LAB_1000_4a7c:
     jns LAB_1000_4a66
     mov SI,offset _nmsgTable
     mov DI,offset _nmsgTable
-    call routine_12
+    call _unk_libc2
     mov SI,offset _nmsgTable
     mov DI,offset _nmsgTable
-    call routine_13
+    call _unk_libc1
     ret
 routine_4 endp
 
@@ -7363,10 +5740,10 @@ routine_8 proc near
     mov BP,SP
     mov SI,offset _var_3fc6
     mov DI,offset _var_3fc6
-    call routine_13
+    call _unk_libc1
     mov SI,offset _nmsgTable
     mov DI,offset str_nmsg
-    call routine_13
+    call _unk_libc1
     jmp LAB_1000_4aac
 routine_8 endp
 
@@ -7376,10 +5753,10 @@ routine_9 proc near
 LAB_1000_4aac:
     mov SI,offset str_nmsg
     mov DI,offset str_nmsg
-    call routine_13
+    call _unk_libc1
     mov SI,offset str_nmsg
     mov DI,offset str_nmsg
-    call routine_12
+    call _unk_libc2
     call routine_29
     or AX,AX
     jz LAB_1000_4ad0
@@ -7426,34 +5803,34 @@ LAB_1000_4b1a:
     ret
 routine_30 endp
 
-routine_13 proc near
+_unk_libc1 proc near
     cmp SI,DI
     jnc LAB_1000_4b29
     dec DI
     dec DI
     mov CX,word ptr [DI]
-    jcxz routine_13
+    jcxz _unk_libc1
     call CX
-    jmp routine_13
+    jmp _unk_libc1
 LAB_1000_4b29:
     ret
-routine_13 endp
+_unk_libc1 endp
 
-routine_12 proc near
+_unk_libc2 proc near
     cmp SI,DI
     jnc LAB_1000_4b3c
     sub DI,4h
     mov AX,word ptr [DI]
     or AX,word ptr [DI + 2h]
-    jz routine_12
+    jz _unk_libc2
     call far ptr [DI]
-    jmp routine_12
+    jmp _unk_libc2
 LAB_1000_4b3c:
     ret
     db 00h
-routine_12 endp
+_unk_libc2 endp
 
-routine_51 proc near
+_fclose proc near
     push BP
     mov BP,SP
     sub SP,10h
@@ -7470,7 +5847,7 @@ LAB_1000_4b55:
     jmp LAB_1000_4bec
 LAB_1000_4b5e:
     push SI
-    call routine_84
+    call _fflush
     add SP,2h
     mov DI,AX
     mov BX,SI
@@ -7489,7 +5866,7 @@ LAB_1000_4b5e:
     mov AL,byte ptr [SI + 7h]
     cbw
     push AX
-    call routine_86
+    call _close
     add SP,2h
     or AX,AX
     jl LAB_1000_4be9
@@ -7524,7 +5901,7 @@ LAB_1000_4bcb:
     add SP,6h
     lea AX,[BP + -0eh]
     push AX
-    call routine_88
+    call _unlink
     add SP,2h
     or AX,AX
     jz LAB_1000_4bec
@@ -7538,21 +5915,21 @@ LAB_1000_4bec:
     mov SP,BP
     pop BP
     ret
-routine_51 endp
+_fclose endp
 
 routine_46 proc near
     push BP
     mov BP,SP
     sub SP,2h
     push SI
-    call routine_73
+    call __getstream
     mov SI,AX
     or SI,SI
     jz LAB_1000_4c18
     push SI
     push word ptr [BP + 6h]
     push word ptr [BP + 4h]
-    call routine_74
+    call __openfile
     add SP,6h
     jmp LAB_1000_4c1a
     db 90h
@@ -7877,23 +6254,23 @@ __aNNaldiv proc near
 __aNNaldiv endp
 routine_101 equ __aNNaldiv
 
-routine_2 proc near
+__ctermsub proc near
     push BP
     mov BP,SP
     mov AX,0fch
     push AX
-    call routine_3
+    call __NMSG_WRITE
     cmp word ptr [_var_140],0h
     jz LAB_1000_4e99
     call word ptr [_var_140]
 LAB_1000_4e99:
     mov AX,0ffh
     push AX
-    call routine_3
+    call __NMSG_WRITE
     mov SP,BP
     pop BP
     ret
-routine_2 endp
+__ctermsub endp
 
 FUN_1000_4ea4 proc near
     mov AX,2h
@@ -7912,17 +6289,17 @@ LAB_1000_4eb3:
     loop LAB_1000_4eb3
     xor AH,55h
     jz LAB_1000_4eca
-    call routine_2
+    call __ctermsub
     mov AX,1h
     push AX
-    call routine_3
+    call __NMSG_WRITE
     mov AX,1h
 LAB_1000_4eca:
     pop SI
     ret
 routine_29 endp
 
-routine_11 proc near
+__NMSG_TEXT proc near
     push BP
     mov BP,SP
     push SI
@@ -7951,14 +6328,14 @@ LAB_1000_4eee:
     mov SP,BP
     pop BP
     ret 2h
-routine_11 endp
+__NMSG_TEXT endp
 
-routine_3 proc near
+__NMSG_WRITE proc near
     push BP
     mov BP,SP
     push DI
     push word ptr [BP + 4h]
-    call routine_11
+    call __NMSG_TEXT
     or AX,AX
     jz LAB_1000_4f19
     xchg AX,DX
@@ -7976,7 +6353,7 @@ LAB_1000_4f19:
     mov SP,BP
     pop BP
     ret 2h
-routine_3 endp
+__NMSG_WRITE endp
 
 FUN_1000_4f20 proc near
     jc LAB_1000_4f35
@@ -8047,7 +6424,7 @@ routine_114 endp
 
 routine_85 equ _routine_85
 
-routine_74 proc near
+__openfile proc near
     push BP
     mov BP,SP
     sub SP,0ah
@@ -8129,7 +6506,7 @@ LAB_1000_5036:
     push AX
     push DI
     push word ptr [BP + 4h]
-    call routine_110
+    call _open
     add SP,6h
     mov word ptr [BP + -6h],AX
     or AX,AX
@@ -8167,9 +6544,9 @@ LAB_1000_5094:
     mov SP,BP
     pop BP
     ret
-routine_74 endp
+__openfile endp
 
-routine_84 proc near
+_fflush proc near
     push BP
     mov BP,SP
     sub SP,4h
@@ -8204,7 +6581,7 @@ LAB_1000_50cf:
     mov AL,byte ptr [SI + 7h]
     cbw
     push AX
-    call routine_112
+    call _write
     add SP,6h
     cmp AX,word ptr [BP + -4h]
     jz LAB_1000_50f6
@@ -8220,9 +6597,9 @@ LAB_1000_50f6:
     mov SP,BP
     pop BP
     ret
-routine_84 endp
+_fflush endp
 
-routine_73 proc near
+__getstream proc near
     push BP
     mov BP,SP
     sub SP,2h
@@ -8252,9 +6629,9 @@ LAB_1000_513d:
     mov SP,BP
     pop BP
     ret
-routine_73 endp
+__getstream endp
 
-routine_86 proc near
+_close proc near
     push BP
     mov BP,SP
     mov BX,word ptr [BP + 4h]
@@ -8270,9 +6647,9 @@ LAB_1000_5154:
     mov byte ptr [BX + offset _var_131],0h
 LAB_1000_515f:
     jmp FUN_1000_4f20
-routine_86 endp
+_close endp
 
-routine_88 proc near
+_unlink proc near
     push BP
     mov BP,SP
     mov DX,word ptr [BP + Stack[2h]+2h]
@@ -8280,9 +6657,9 @@ routine_88 proc near
     int 21h
     jmp FUN_1000_4f20
     db 00h
-routine_88 endp
+_unlink endp
 
-routine_110 proc near
+_open proc near
     push BP
     mov BP,SP
     sub SP,4h
@@ -8465,7 +6842,7 @@ LAB_1000_52ef:
 LAB_1000_52ff:
     xor CL,CL
     jmp LAB_1000_52df
-routine_110 endp
+_open endp
 
 routine_141 proc near
     mov AX,word ptr [_var_126]
@@ -8479,7 +6856,7 @@ LAB_1000_5313:
     ret
 routine_141 endp
 
-routine_112 proc near
+_write proc near
     push BP
     mov BP,SP
     sub SP,8h
@@ -8569,7 +6946,7 @@ LAB_1000_53b3:
 LAB_1000_53b5:
     xor AX,AX
     jmp LAB_1000_49bf
-routine_112 endp
+_write endp
 
 routine_143 proc near
     push AX
@@ -8650,20 +7027,7 @@ LAB_1000_5436:
     jmp LAB_1000_5405
 FUN_1000_5408 endp
 
-PUBLIC _routine_113
-_routine_113:
-routine_113 proc near
-    push BP
-    mov BP,SP
-    mov BX,word ptr [BP + 4h]
-    or BX,BX
-    jz LAB_1000_544a
-    or byte ptr [BX + -2h],1h
-LAB_1000_544a:
-    mov SP,BP
-    pop BP
-    ret
-FUN_1000_544c:
+FUN_1000_544c proc near
     push BP
     mov BP,SP
     push SI
@@ -8700,7 +7064,7 @@ LAB_1000_548e:
     mov SP,BP
     pop BP
     ret
-routine_113 endp
+FUN_1000_544c endp
 
 FUN_1000_5494 proc near
     push BP
@@ -8716,7 +7080,7 @@ LAB_1000_54a4:
     test byte ptr [SI + 6h],83h
     jz LAB_1000_54b5
     push SI
-    call routine_84
+    call _fflush
     add SP,2h
     inc AX
     jz LAB_1000_54b5
@@ -9125,6 +7489,7 @@ LAB_1571_0003:
 FUN_1000_56be endp
 
 routine_134 proc far
+_routine_134 equ routine_134
     call readJoyPort
     mov BX,0h
     call routine_149
@@ -9246,6 +7611,7 @@ copyJoystickData proc far
     retf
     db 00h
 copyJoystickData endp
+_copyJoystickData equ copyJoystickData
 
 
 
@@ -9582,6 +7948,7 @@ gfx_jump_17_bufSize proc far               ; 0x107B
     db 0EAh
     dd 0
 gfx_jump_17_bufSize endp
+_gfx_jump_17_bufSize equ gfx_jump_17_bufSize
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h
 gfx_jump_1a proc far               ; 0x108A
     db 0EAh
@@ -9616,10 +7983,11 @@ gfx_jump_28 proc far               ; 0x10D0
     db 0EAh
     dd 0
 gfx_jump_28 endp
-gfx_jump_29_switchColor proc far               ; 0x10D5
+gfx_jump_29_switchColor proc far
     db 0EAh
     dd 0
 gfx_jump_29_switchColor endp
+_gfx_jump_29_switchColor equ gfx_jump_29_switchColor
 gfx_jump_2a proc far               ; 0x10DA
     db 0EAh
     dd 0
@@ -9637,6 +8005,7 @@ gfx_jump_31 proc far               ; 0x10FD
     db 0EAh
     dd 0
 gfx_jump_31 endp
+_gfx_jump_31 equ gfx_jump_31
     db 0EAh, 000h, 000h, 000h, 000h
 gfx_jump_33_fillRow proc far               ; 0x1107
     db 0EAh
@@ -10196,6 +8565,7 @@ str_timeZeros db 080h
 _str_timeZeros equ str_timeZeros
 str_timeFormat db 030h
     db 030h, 03Ah, 030h, 030h, 03Ah, 030h, 030h, 000h
+_str_timeFormat equ str_timeFormat
 _var_97 db 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 028h, 000h, 028h, 000h, 028h
     db 000h, 028h, 000h, 028h, 000h, 028h, 000h, 050h, 000h, 050h, 000h, 050h, 000h, 050h, 000h, 050h
@@ -10263,6 +8633,7 @@ _var_106 db 000h
     db 000h, 02Dh, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
 dat_20E2 dw offset _ps_106
+_dat_20E2 equ dat_20E2
 _ps_107 label byte
 _var_107 db 000h
     db 000h, 023h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
@@ -10274,6 +8645,7 @@ _var_108 db 000h
     db 000h, 023h, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
 dat_2122 dw offset _ps_108
+_dat_2122 equ dat_2122
 _ps_109 label byte
 _var_109 db 000h
     db 000h, 017h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
@@ -10285,6 +8657,7 @@ _var_110 db 000h
     db 000h, 017h, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
 dat_2162 dw offset _ps_110
+_dat_2162 equ dat_2162
 _ps_111 label byte
 _var_111 db 000h
     db 000h, 01Eh, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
@@ -10305,6 +8678,7 @@ _var_114 db 000h
     db 000h, 02Ah, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 001h, 000h, 001h, 000h, 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
 dat_21E2 dw offset _var_114
+_dat_21E2 equ dat_21E2
 dat_21e4 db 0ECh
     db 000h, 096h, 000h, 03Ch, 001h, 09Fh, 000h, 0ECh, 000h, 096h, 000h, 03Ch, 001h, 09Fh, 000h, 000h
     db 000h, 069h, 000h, 098h, 000h, 008h, 000h, 011h, 001h, 039h, 000h, 007h, 000h
@@ -10515,12 +8889,11 @@ _dat_4824 equ dat_4824
 _var_189 db 4 dup(?)
 _var_190 label word
 _var_190x db 2 dup(?)
-dat_4a2a db 720 dup(?)
+_flightRecords db 720 dup(?)
+dat_4a2a equ _flightRecords
 _var_191 db 518 dup(?)
 _var_192 db 2 dup(?)
 _var_193 db 2 dup(?)
-PUBLIC _flightRecords
-_flightRecords label byte
 _var_194 db ?
 _var_195 db ?
 _var_196 db ?
@@ -10548,7 +8921,9 @@ _var_213 db 2 dup(?)
 _var_214 db 2 dup(?)
 _var_215 db 2 dup(?)
 _var_216 db 6 dup(?)
+PUBLIC _var_217
 _var_217 db 200 dup(?)
+PUBLIC _var_218
 _var_218 db 750 dup(?)
 _var_219 db 2 dup(?)
 _var_220 db 2 dup(?)
