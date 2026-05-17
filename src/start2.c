@@ -137,18 +137,18 @@ void displayPilots(void)
 void printPilot(int pilotIdx) { // pilotIdx: index?
     struct Pilot *pilot;
     int x;
-    int p;
-    int n;
-    int i;
+    int yPos;
+    int medalIdx;
+    int medalWidth;
     // 1d90
     pilot = &hallfameBuf[pilotIdx];
     TRACE(("printPilot(): index %d, name %s", pilotIdx, pilot->name));
     // 1da1
     x = (pilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
     // 1db2
-    p = ((pilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
+    yPos = ((pilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
     // 1dcc
-    clearRect(screenBuf, x, p - 1, x + PILOT_ENTRY_WIDTH, p + 0x20);
+    clearRect(screenBuf, x, yPos - 1, x + PILOT_ENTRY_WIDTH, yPos + 0x20);
     TRACE(("printPilot(): cleared rect"));
     // 1de3
     textColor = (pilotIdx == selectedPilotIdx) ? COLOR_WHITE : COLOR_GRAY;
@@ -159,7 +159,7 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
     mystrcat(todayMissStrBuf, pilot->name);
     TRACE(("printPilot(): strcat %s", todayMissStrBuf));
     // 1e1e
-    drawStringCentered(screenBuf, todayMissStrBuf, x, p, 0x90);
+    drawStringCentered(screenBuf, todayMissStrBuf, x, yPos, 0x90);
     TRACE(("printPilot(): drawn string %s", todayMissStrBuf));
     textColor = COLOR_RED;
     word_173DE = 4;
@@ -175,29 +175,29 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
     mystrcat(todayMissStrBuf, asc_174AF);
     TRACE(("printPilot(): strcat3 %s", todayMissStrBuf));
     // 1e8f
-    drawStringCentered(screenBuf, todayMissStrBuf, x, p + 9, 0x90);
+    drawStringCentered(screenBuf, todayMissStrBuf, x, yPos + 9, 0x90);
     TRACE(("printPilot(): drawn string2"));
     word_173DE = 1;
     // 1e9b
-    for (n = 0, i = 0; n < 7; n++) { // 1ea8
+    for (medalIdx = 0, medalWidth = 0; medalIdx < 7; medalIdx++) { // 1ea8
         // 1eb8
-        if ((pilot->field_1D & (1 << n)) == 0) continue;
-        i += (uint8)byte_17422[n] + 4;
+        if ((pilot->field_1D & (1 << medalIdx)) == 0) continue;
+        medalWidth += (uint8)byte_17422[medalIdx] + 4;
     } // 1ed2
-    TRACE(("printPilot(): past loop 1, i = %d", i));
+    TRACE(("printPilot(): past loop 1, medalWidth = %d", medalWidth));
     // 1edd
-    x += (0x90 - i) / 2;
-    p += 0x11;
-    n = 0;
+    x += (0x90 - medalWidth) / 2;
+    yPos += 0x11;
+    medalIdx = 0;
     // 1ee9
     // display medals
     do {
-        if ((pilot->field_1D & (1 << n)) == 0) continue;
+        if ((pilot->field_1D & (1 << medalIdx)) == 0) continue;
         // 1f21
-        showSprite(screenBuf[0], x, p, byte_17412[n], byte_1741A[n], byte_17422[n], 0x10);
+        showSprite(screenBuf[0], x, yPos, byte_17412[medalIdx], byte_1741A[medalIdx], byte_17422[medalIdx], 0x10);
         // 1f27
-        x += byte_17422[n] + 4;
-    } while(++n < 7);
+        x += byte_17422[medalIdx] + 4;
+    } while(++medalIdx < 7);
     TRACE(("printPilot(): returning"));
     // 1f42
 }
@@ -350,13 +350,13 @@ void pilotToGameData(uint8 *pilotData)
 
 // 22ec
 int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
-    int k;
+    int blinkToggle;
     int x, y;
-    int h;
-    int n;
-    uint16 l;
-    int j;
-    k = 0;
+    int nameLen;
+    int cursorX;
+    uint16 keyCode;
+    int rankWidth;
+    blinkToggle = 0;
     TRACE(("pilotNameInput(): entering with page = %d, abc = %d/%d/%d, pilot: %s", *page, a,b,c, pilot->name));
     // 2307
     x = (selectedPilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
@@ -364,58 +364,58 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
     // 232f
     clearRect(page, x, y, x + PILOT_ENTRY_WIDTH, y + 35);
     drawStringAt(page, ranks[0], x, y);
-    x += (j = stringWidth(page, ranks[0]));
-    j = PILOT_ENTRY_WIDTH - j;
+    x += (rankWidth = stringWidth(page, ranks[0]));
+    rankWidth = PILOT_ENTRY_WIDTH - rankWidth;
     screenBuf[3] = 0;
     // 2380
     clearRect(page, 15, 192, 303, 197);
     // 239a
     drawStringCentered(pageNumPtr, aMenterYourName, 0xf, 0xc0, 0x121);
     misc_jump_5e_clearKeyFlags();
-    l = KEYCODE_CTRLX;
+    keyCode = KEYCODE_CTRLX;
     TRACE(("pilotNameInput(): before loop"));
     do {
         // 23aa
-        TRACE(("pilotNameInput(): loop iter, l = 0x%x", l));
-        switch(l) {
+        TRACE(("pilotNameInput(): loop iter, keyCode = 0x%x", keyCode));
+        switch(keyCode) {
         // 23b5
         case KEYCODE_CTRLX:
             TRACE(("pilotNameInput(): case 0x18"));
             // 23f8
-            h = 0;
+            nameLen = 0;
             pilot->name[0] = '\0';
             // 2403
-            clearRect(page, x, y, x + j, y + c);
+            clearRect(page, x, y, x + rankWidth, y + c);
             drawStringAt(page, pilot->name, x, y);
-            n = page[4];
+            cursorX = page[4];
             break;
         // 23ad
         case 8: // backspace
             TRACE(("pilotNameInput(): case 8"));
             // 2498
-            if (h > 0) {
-                h--;
+            if (nameLen > 0) {
+                nameLen--;
                 // 23eb
-                pilot->name[h] = '\0';
+                pilot->name[nameLen] = '\0';
                 // 2403 - duplicate code block coalesced with above
-                clearRect(page, x, y, x + j, y + c);
+                clearRect(page, x, y, x + rankWidth, y + c);
                 drawStringAt(page, pilot->name, x, y);
-                n = page[4];
+                cursorX = page[4];
             }
             break;
         default:
             TRACE(("pilotNameInput(): case default"));
             // 23ba
-            if (l >= 0x20 && l <= 0x7f && h < a && stringWidth(page, pilot->name) <= 0x90) {
-                TRACE(("pilotNameInput(): case default condition true, h = %d", h));
+            if (keyCode >= 0x20 && keyCode <= 0x7f && nameLen < a && stringWidth(page, pilot->name) <= 0x90) {
+                TRACE(("pilotNameInput(): case default condition true, nameLen = %d", nameLen));
                 // 23e9
-                pilot->name[h++] = l;
+                pilot->name[nameLen++] = keyCode;
                 // 23eb
-                pilot->name[h] = '\0';
+                pilot->name[nameLen] = '\0';
                 // 2403
-                clearRect(page, x, y, x + j, y + c);
+                clearRect(page, x, y, x + rankWidth, y + c);
                 drawStringAt(page, pilot->name, x, y);
-                n = page[4];
+                cursorX = page[4];
             }
             break;
         }
@@ -423,20 +423,20 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
         TRACE(("pilotNameInput(): before input loop"));
         while (getJoyKey() == 0) {
             waitMdaCgaStatus(3);
-            gfx_jump_29_switchColor(page, x, y - 1, x + j, y + c,
-                pilotNameInputColors[k], pilotNameInputColors[k ^ 1]);
-            k ^= 1;
-            page[3] = pilotNameInputColors[k];
+            gfx_jump_29_switchColor(page, x, y - 1, x + rankWidth, y + c,
+                pilotNameInputColors[blinkToggle], pilotNameInputColors[blinkToggle ^ 1]);
+            blinkToggle ^= 1;
+            page[3] = pilotNameInputColors[blinkToggle];
         }
         TRACE(("pilotNameInput(): after input loop"));
         // 24a4
-        l = readInputKey();
-        if ((l & 0xff) != 0) {
-            l &= 0xff;
+        keyCode = readInputKey();
+        if ((keyCode & 0xff) != 0) {
+            keyCode &= 0xff;
         }
-        TRACE(("pilotNameInput(): after sub_125e4, l = 0x%x", l));
+        TRACE(("pilotNameInput(): after sub_125e4, keyCode = 0x%x", keyCode));
         // 24b4
-        if (l == KEYCODE_ENTER) { // 24bd
+        if (keyCode == KEYCODE_ENTER) { // 24bd
             screenBuf[3] = 0;
             clearRect(page, 0xf, 0xc0, 0x12f, 0xc5);
             return;
@@ -470,17 +470,17 @@ void loadHallfame(void)
 
 // 2542
 int saveHallfame() {
-    FILE *j;
-    int l;
+    FILE *fp;
+    int idx;
     // 2550
-    j = fopen(aHallfame_0, aWb);
+    fp = fopen(aHallfame_0, aWb);
     // 2566
-    fwrite(&selectedPilotIdx, 2, 1, j);
-    l = 0;
+    fwrite(&selectedPilotIdx, 2, 1, fp);
+    idx = 0;
     do {
-        fwrite(&hallfameBuf[l], HALLFAME_RECORDSZ, 1, j);
-    } while (++l < HALLFAME_SLOTS);
-    fclose(j);
+        fwrite(&hallfameBuf[idx], HALLFAME_RECORDSZ, 1, fp);
+    } while (++idx < HALLFAME_SLOTS);
+    fclose(fp);
 }
 
 // 25a0
@@ -498,29 +498,29 @@ int getJoyKey() {
 
 // 25e4
 int readInputKey() {
-    int j;
+    int key;
     if (commData->setupUseJoy == 1) { // 25f5
         do {
             if (misc_jump_5a_keybuf() == 0) break;
         } while (misc_jump_5d_readJoy(0) == 0);
         // 260d
         if (misc_jump_5a_keybuf() != 0) { // 2616
-            j = KEYCODE_ENTER;
+            key = KEYCODE_ENTER;
             goto checkKey;
         }
     }
     // 261e
-    j = misc_jump_5b_getkey();
+    key = misc_jump_5b_getkey();
     // 2626
 checkKey:
-    if (j == KEYCODE_ALTQ || cbreakHit != 0) { // 262d
+    if (key == KEYCODE_ALTQ || cbreakHit != 0) { // 262d
         cleanup();
         if (cbreakHit != 0) restoreCbreakHandler();
         // 2644
         exit(0);
     }
     // 264a
-    return j;
+    return key;
 }
 
 // 0x30c6
@@ -577,7 +577,7 @@ void parseGridTerrain(void) {
 
 // 3b9e
 int parseTerrain(char *filename) {
-    int16 j, l, n, p;
+    int16 tmp, level, tileOffset, entry;
     uint16 i;
     replaceExtension(filename, a_3dt);
     if ((fileHandle = fopen(filename, aRb)) == 0) {
@@ -591,35 +591,35 @@ int parseTerrain(char *filename) {
         }
         else { // 3bfc
             fread(terrainBuf1,2,5,fileHandle);
-                for (l = 0; l < 5; l++) {
+                for (level = 0; level < 5; level++) {
                     // 3c4a
-                    if (terrainBuf1[l] > 0x20) { // 3c51
+                    if (terrainBuf1[level] > 0x20) { // 3c51
                     showMsgWaitKey(aTooManyTiles_);
                     return;
                 }
                 // 3c36
-                fread(&terrainBuf2[l],2,terrainBuf1[l], fileHandle);
+                fread(&terrainBuf2[level],2,terrainBuf1[level], fileHandle);
             }
             // 3c58
-            n = 0;
-            for (l = 0; l < 5; l = l + 1) {
-                for (p = 0; terrainBuf1[l] > p; p++) {
+            tileOffset = 0;
+            for (level = 0; level < 5; level = level + 1) {
+                for (entry = 0; terrainBuf1[level] > entry; entry++) {
                 // 3d20
-                    terrainPtrUnk[l].field_0[p] = terrainBuf3 + n;
+                    terrainPtrUnk[level].field_0[entry] = terrainBuf3 + tileOffset;
                     // 3ce7
-                    for (i = 0; i < (uint16)terrainBuf2[l].field_0[p]; i++) {
+                    for (i = 0; i < (uint16)terrainBuf2[level].field_0[entry]; i++) {
                         // 3ced
-                        if (n > 0xdac) { // 3cf7
+                        if (tileOffset > 0xdac) { // 3cf7
                             showMsgWaitKey(aTooMuchTileDat);
                             return;
                         } // 3c66
-                        fread(terrainBuf3 + n,2,1,fileHandle);
-                        fread(terrainBuf4 + n,2,1,fileHandle);
-                        fread(terrainBuf5 + n,2,1,fileHandle);
-                        fread(&j,2,1,fileHandle);
+                        fread(terrainBuf3 + tileOffset,2,1,fileHandle);
+                        fread(terrainBuf4 + tileOffset,2,1,fileHandle);
+                        fread(terrainBuf5 + tileOffset,2,1,fileHandle);
+                        fread(&tmp,2,1,fileHandle);
                         // 3cca
-                        terrainIdxBuf[n] = j;
-                        n += 7;
+                        terrainIdxBuf[tileOffset] = tmp;
+                        tileOffset += 7;
                     }
                 }
             }
@@ -677,9 +677,9 @@ int showMsgWaitKey(char *msg) {
 
 // 3ea8
 int replaceExtension(char *path, char *source) {
-    int8 j;
-    for(; (j = *path) != '.';) {
-        if (j == 0) break;
+    int8 ch;
+    for(; (ch = *path) != '.';) {
+        if (ch == 0) break;
         path++;
     }
     mystrcpy(path, source);
