@@ -70,7 +70,7 @@ PUBLIC _var_206
 PUBLIC _var_207
 PUBLIC _var_97
 PUBLIC _var_98
-PUBLIC _var_69
+PUBLIC _timerHandlerInstalled
 PUBLIC _str_allocError
 PUBLIC _str_deallocError
 PUBLIC _var_138
@@ -3021,7 +3021,7 @@ setTimerIrqHandler proc near
     lds DX,CS:dword ptr [var_1]
     int 21h
     pop DS
-    mov byte ptr [_var_69],1h
+    mov byte ptr [_timerHandlerInstalled],1h
     ret
 setTimerIrqHandler endp
 
@@ -3043,7 +3043,7 @@ LAB_1000_1c46:
     lds DX,CS:dword ptr [var_2]
     int 21h
     pop DS
-    mov byte ptr [_var_69],0h
+    mov byte ptr [_timerHandlerInstalled],0h
     ret
 setTimerMode1 proc near
     mov BX,word ptr [_var_76]
@@ -8341,7 +8341,7 @@ str_deallocError db 042h
     db 075h, 066h, 066h, 065h, 072h, 020h, 064h, 065h, 061h, 06Ch, 06Ch, 06Fh, 063h, 020h, 065h, 072h
     db 072h, 06Fh, 072h, 024h, 000h
 _var_timerFlag db 000h
-_var_69 db 000h
+_timerHandlerInstalled db 000h
 _var_70 db 000h
     db 000h
 _var_71 db 000h

@@ -1,13 +1,22 @@
+/*
+ * util.h - Declarations for functions shared between start.exe and end.exe
+ */
 #ifndef UTIL_H
 #define UTIL_H
 
 #include "inttype.h"
-#include <STDDEF.H>
+#include "const.h"
 
-void strcpyFar(const char* src, const uint16 destSegment, const uint16 destOffset, size_t size);
-void memcpyFar(const char* src, const uint16 destSegment, const uint16 destOffset, size_t size);
-void writeWordFar(const uint16 segment, const uint16 offset, const uint16 value);
-int blitFileFar(const char* filename, const uint16 segment, const uint16 offset);
-const char* sizeString(const size_t size);
+/* functions provided by util.c */
+int cleanup(void);
+void drawStringAt(int *pageNum, const char *string, int x, int y);
+void drawStringCentered(int *page, const char *str, int startx, int y, int endx);
+int stringWidth(int *page, const char *str);
+int my_ltoa(int32 value, int8 *buf);
+int my_itoa(int value, int8 *buf);
 
-#endif // UTIL_H
+/* functions provided by util2.c */
+int openFileWrapper(char *filename, int mode);
+void mystrcpy(char *dest, const char *source);
+
+#endif /* UTIL_H */

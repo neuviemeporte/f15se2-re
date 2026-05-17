@@ -17,10 +17,6 @@
 #define __far far
 
 void routine_91(int param_1);
-void mystrcpy(char *dst, char *src);
-void drawStringAt(int *pageNum, const char *string, int x, int y);
-int stringWidth(int *page, const char *str);
-void drawStringCentered(int *page, const char *str, int startx, int y, int endx);
 extern void far gfx_jump_05_drawString(int *pageNum, const char *string);
 extern int far gfx_jump_2f_charWidth(int ch, int font);
 
@@ -37,7 +33,6 @@ void routine_146(char *dst, char *src, int count);
 void routine_140(int src_seg, int src_off, int dst_seg, int dst_off, int count);
 int routine_69(void);
 void routine_70(int param_1);
-int openFileWrapper(char *name, int mode);
 void decodePic(int handle, int segment);
 void showPicFile(int handle, int page, int garbage);
 int dos_alloc(int size);
@@ -51,7 +46,7 @@ int FUN_1000_14a9(int handle, int a, int b, int c);
 int FUN_1000_1539(int handle, int a, int b, int c, int d);
 
 /* Extern variables from ASM */
-extern char var_69;       /* timerHandlerInstalled */
+extern char timerHandlerInstalled;
 extern char var_81;
 extern char var_194;
 extern char var_195;
@@ -132,7 +127,6 @@ extern int *dat_21C2;
 extern int far gfx_jump_11_blitSprite(int spritePtr);
 
 /* Reconstructed C functions */
-void cleanup(void);
 void routine_34(void);
 void loadPic(char *filename, int segment);
 void openShowPic(char *name, int page, int garbage);
@@ -160,8 +154,6 @@ extern void far gfx_jump_21(int param);
 extern void far gfx_jump_29_switchColor(int page, int x1, int y1, int x2, int y2, int fromColor, int toColor);
 extern void far gfx_jump_2a(int p1, int p2, int p3, int p4, int p5, int p6, int p7, int p8);
 long routine_63(int param);
-int my_ltoa(long value, char *buffer);
-int my_itoa(int arg_0, char *arg_2);
 void routine_66(void);
 void routine_26(void);
 void routine_5(void);

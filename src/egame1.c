@@ -165,7 +165,7 @@ int moveNearFar(void *nearPtr, int count) {
 
 // ==== seg000:0x21a9 ====
 int setCommWorldbufPtr() {
-    farPointer = (uint8 FAR*)&commData->worlBuf;
+    farPointer = (uint8 FAR*)&commData->worldBuf;
     return 0;
 }
 
@@ -342,7 +342,7 @@ int load3DG() {
         drawSomeStrings(unk_34121, 0x68, 0x32, 0x0f);
         gfx_jump_46_retrace2();
         misc_jump_5b_getkey();
-    } 
+    }
     // 2eb5
     gfx_jump_45_retrace();
     fread(&sign3dg, 2, 1, fileHandle);
@@ -469,7 +469,7 @@ int sub_155AB() {
             if (word_3C45C == 1) { // 57e4
                 // XXX: test byte ptr word_336F2, 80h -> check which byte is tested, other byte ptr instructions in this routine
                 if (!(word_336F2 & 0x80)) word_3C02E = word_336F2 + 0x20;
-            } 
+            }
             else { // 57f6
                 if (!(word_336F4 & 0x80)) word_3C02E = word_336F4 + 0x40;
             }
@@ -530,7 +530,7 @@ int sub_155AB() {
                 dword_3B1FE = sub_1D178(word_3C5AA + 0x8000, var_8) + dword_3B7DA;
                 dword_3B4D4 = sub_1D190(word_3C5AA + 0x8000, var_8) + dword_3B7F8;
                 // 5a53
-                word_3B4DE = sub_1D178(word_3BE94, 0x18 << var_2) + (4 << var_2) + word_380CE; 
+                word_3B4DE = sub_1D178(word_3BE94, 0x18 << var_2) + (4 << var_2) + word_380CE;
                 word_3BE94 = -word_3BE94;
             }
             else { // 5a62
@@ -538,7 +538,7 @@ int sub_155AB() {
                 dword_3B4D4 = sub_1D190(word_3C5AA, var_8) - dword_3C024 + 0x100000;
                 // 5ac3
                 word_3B4DE = (4 << var_2) - sub_1D178(word_3BE94, 0x18 << var_2) + word_3C02C;
-                if (word_3C02E & 0x40 && stru_3AA5E[word_3C02E & 0x3f].field_6 & 0x200 && word_3B4DE < 0x84) { 
+                if (word_3C02E & 0x40 && stru_3AA5E[word_3C02E & 0x3f].field_6 & 0x200 && word_3B4DE < 0x84) {
                     word_3B4DE = 0x84;
                 } // 5aed
                 word_3C5AA += 0x8000;
@@ -577,7 +577,7 @@ int sub_155AB() {
     } // 5c63
     if (keyValue == 0) { // 5c6a
         memcpy(unk_3A948, unk_3806E, 0x12);
-    } 
+    }
     else {// 5c7e
         sub_20BAE(unk_3A948, word_3C5AA, word_3BE94, word_3B4E4);
     } // 5c96
@@ -602,7 +602,7 @@ int sub_155AB() {
             word_336F4 = word_336F2 = 0xffff;
             sub_19FCC(3, 3);
             word_39604 = 0;
-        } 
+        }
         else { // 5d6c
             gfx_jump_2a(*off_38334, 0, 0x61, *off_38364, 0, 0x61, 0x140, 0x67);
         }
@@ -612,14 +612,14 @@ int sub_155AB() {
             gfx_jump_45_retrace();
             if (gfx_jump_3f_modecode() == 3) { // 5dc9
                 openBlitClosePic(keyValue == 0x42 ? a256left_pic : keyValue == 0x43 ? a256right_pic : a256rear_pic, *off_38334);
-            } 
+            }
             else { // 5df3
                 openBlitClosePic(keyValue == 0x42 ? aLeft_pic : keyValue == 0x43 ? aRight_pic : aRear_pic, *off_38334);
             } // 5e1b
             gfx_jump_2a(*off_38334, 0, 0x61, *off_3834C, 0, 0x61, 0x140, 0x67);
             // 5e50
             off_38334[0x10] = off_3834C[0x10] = 0x60;
-        } 
+        }
         else { // 5e58
             off_38334[0x10] = off_3834C[0x10] = word_330C2 != 0 ? 0x60 : 0xc7;
         } // 5e75
@@ -698,9 +698,9 @@ int sub_18E50(int arg_0) {
                 sub_19C0C(0x11d, 0x59, 0x11d, 0x59);
                 // 8f74
                 sub_19E44(0xf);
-                var_14 = ((int16)(noJoy80[0] - 0x78) >> 4) + 0x11d;
+                var_14 = ((int16)(joyAxes[0] - 0x78) >> 4) + 0x11d;
                 // 8fa1
-                var_18 = ((int16)((noJoy80[1] * 3) - 0x168) >> 6) + 0x59;
+                var_18 = ((int16)((joyAxes[1] * 3) - 0x168) >> 6) + 0x59;
                 sub_19C0C(var_14 - 1, var_18, var_14 + 1, var_18);
                 // 8fc8
                 sub_19C0C(var_14, var_18 + 1, var_14, var_18 - 1);
@@ -780,7 +780,7 @@ int sub_18E50(int arg_0) {
             sub_19C0C(var_6 - 2, 0xf, var_6 + 2, 0xf);
             goto somewhere;
         } // 93c4
-somewhere:        
+somewhere:
         sub_1A25C(byte_3C5A0);
     } // 93cf
     if (word_383F2 != 0 && ((keyValue == 0 && byte_37C24 == 0) || (word_3370E != 0))) { // 93eb

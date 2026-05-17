@@ -35,7 +35,7 @@ SRCTOP := src
 SRCDIR := $(SRCTOP)
 BUILDDIR := build
 DEBUGDIR := debug_build
-HDRFILES := dosfunc.h output.h pointers.h offsets.h biosfunc.h comm.h overlay.h util.h start.h slot.h const.h struct.h debug.h
+HDRFILES := dosfunc.h output.h pointers.h offsets.h biosfunc.h comm.h overlay.h f15util.h start.h slot.h const.h struct.h debug.h
 HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
@@ -48,7 +48,7 @@ all: f15-se2
 # main executable, aka loader, replacement for f15.com and su.exe combined
 #
 MAIN_EXE := $(BUILDDIR)/f15.exe
-MAIN_SRCS := f15.c dosfunc.c biosfunc.c output.c overlay.c util.c
+MAIN_SRCS := f15.c dosfunc.c biosfunc.c output.c overlay.c f15util.c
 MAIN_OBJS := $(call cobj,$(BUILDDIR),$(MAIN_SRCS))
 
 $(MAIN_EXE): | $(BUILDDIR)
@@ -64,10 +64,14 @@ START_INC := $(LSTDIR)/start.inc
 START_CONF := $(CONFDIR)/start_rc.json
 START_BASE := start_rc.asm
 START_ASM := start4.asm $(START_BASE)
+COMMON_SRC := util.c
+COMMON_SRC2 := util2.c
+COMMON_OBJ := $(call cobj,$(BUILDDIR),$(COMMON_SRC))
+COMMON_OBJ2 := $(call cobj,$(BUILDDIR),$(COMMON_SRC2))
 START_SRC := start0.c start1.c start2.c start3.c
 START_BASEHDR = $(SRCDIR)/start.h
 START_COBJ := $(call cobj,$(BUILDDIR),$(START_SRC))
-START_OBJ := $(START_COBJ) $(call asmobj,$(BUILDDIR),$(START_ASM))
+START_OBJ := $(START_COBJ) $(COMMON_OBJ) $(COMMON_OBJ2) $(call asmobj,$(BUILDDIR),$(START_ASM))
 
 # reference and target entrypoints (offset of main()) for binary comparison
 START_VRF_REF := bin/start.exe
@@ -89,6 +93,9 @@ START_VRF_TGTEP := [558bec83ec1c56c706]
 # 	$(LST2ASM) $< $@ $(START_CONF) --noproc --nopreserve
 
 $(START_COBJ): $(START_BASEHDR)
+$(COMMON_OBJ) $(COMMON_OBJ2): $(SRCDIR)/util.h
+$(BUILDDIR)/util2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(DEBUGDIR)/util2.obj: MSC_CFLAGS := /Gs /w /Id:\f15-se2 /DDEBUG
 $(BUILDDIR)/start2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/start4.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 
@@ -98,7 +105,7 @@ $(START_EXE): $(START_OBJ)
 
 # start.exe debug build
 START_DEBUG := $(DEBUGDIR)/start.exe
-START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(DEBUGDIR)/debug.obj
+START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC2)) $(DEBUGDIR)/debug.obj
 $(START_DBG_OBJ): $(START_BASEHDR)
 $(START_DBG_OBJ): MSC_CFLAGS += /DDEBUG
 $(START_DBG_OBJ): UASMFLAGS += -DDEBUG
@@ -180,7 +187,7 @@ END_ASM := $(END_BASE)
 END_SRC := end0.c end1.c end2.c
 END_BASEHDR = $(SRCDIR)/end.h
 END_COBJ := $(call cobj,$(BUILDDIR),$(END_SRC))
-END_OBJ := $(END_COBJ) $(call asmobj,$(BUILDDIR),$(END_ASM))
+END_OBJ := $(END_COBJ) $(COMMON_OBJ) $(COMMON_OBJ2) $(call asmobj,$(BUILDDIR),$(END_ASM))
 $(END_COBJ): $(END_BASEHDR)
 $(END_EXE): | $(BUILDDIR)
 $(END_EXE): $(END_OBJ)
@@ -197,7 +204,7 @@ END_VRF_TGTEP := [558bec83ec0e56c746]
 
 # end.exe debug build
 END_DEBUG := $(DEBUGDIR)/end.exe
-END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(DEBUGDIR)/debug.obj
+END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC2)) $(DEBUGDIR)/debug.obj
 $(END_DBG_OBJ): $(END_BASEHDR)
 $(END_DBG_OBJ): MSC_CFLAGS += /DDEBUG
 $(END_DBG_OBJ): UASMFLAGS += -DDEBUG
@@ -215,7 +222,7 @@ $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
 TEST_EXE := $(DEBUGDIR)/test.exe
 TEST_SRCS := test.c start1.c start2.c start3.c
 TEST_ASMS := start4.asm start_rc.asm
-TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(DEBUGDIR)/debug.obj
+TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC2)) $(DEBUGDIR)/debug.obj
 TEST_LIBS := slibce.lib libh.lib
 
 $(TEST_EXE): MSC_CFLAGS := /Gs /w /Id:\f15-se2 /DDEBUG

@@ -23,11 +23,11 @@ PUBLIC _ranks
 PUBLIC _pilotNameInputColors
 PUBLIC _aMenterYourName
 PUBLIC _cbreakHit
-PUBLIC _word_17282
+PUBLIC _joyRepeatFlag
 PUBLIC _a_3dg
 PUBLIC _aOpenErrorOn__0
 PUBLIC _aRb_0
-PUBLIC _word_18188
+PUBLIC _gridValidFlag
 PUBLIC _gridBuf1
 PUBLIC _gridBuf2
 PUBLIC _gridBuf3
@@ -58,11 +58,11 @@ PUBLIC _byte_1729C
 PUBLIC _word_1728E
 PUBLIC _pilotSelectFlag
 PUBLIC _moveDst
-PUBLIC _word_1786F
-PUBLIC _word_17873
-PUBLIC _word_17871
-PUBLIC _word_17875
-PUBLIC _word_18186
+PUBLIC _lineX1
+PUBLIC _lineY1
+PUBLIC _lineX2
+PUBLIC _lineY2
+PUBLIC _terrainDirtyFlag
 PUBLIC _aOpenErrorOn_3d
 PUBLIC _terrainSignature
 PUBLIC _a_3dt
@@ -92,7 +92,7 @@ PUBLIC _hercFlag
 PUBLIC _timerCounter
 PUBLIC _commData
 PUBLIC _aF15_spr
-PUBLIC _noJoy80
+PUBLIC _joyAxes
 PUBLIC _aTitle640_pic
 PUBLIC _menuSprites
 PUBLIC _bufPtr
@@ -108,9 +108,9 @@ PUBLIC _byte_1D5E5
 PUBLIC _dword_1D5D8
 PUBLIC _dword_1D5DC
 PUBLIC _word_1D5E0
-PUBLIC _iacaSuFlag0Ptr
+PUBLIC _gfxModeSetPtr
 PUBLIC _exitCode
-PUBLIC _joyDone
+PUBLIC _joyReady
 PUBLIC _gameData
 PUBLIC _aEgraphic_exe
 PUBLIC _aTitle16_pic
@@ -142,7 +142,7 @@ PUBLIC _missionStr
 PUBLIC _aRb_1
 PUBLIC _plh3d3Ptr
 PUBLIC _enableHighlight
-PUBLIC _word_19656
+PUBLIC _armPosition
 PUBLIC _word_182C8
 PUBLIC _word_19294
 PUBLIC _aPowCamp
@@ -215,17 +215,17 @@ PUBLIC _aPressAKeyToCon
 PUBLIC _aOriginalDiskIn
 PUBLIC _pageNumPtr
 PUBLIC _aUseSelectorToC
-PUBLIC _word_173D6
-PUBLIC _word_19658
+PUBLIC _textColor
+PUBLIC _spriteBlitX
 PUBLIC _word_1714A
 PUBLIC _word_1715A
 PUBLIC _word_1716A
 PUBLIC _word_1717A
 PUBLIC _word_1718A
-PUBLIC _word_1965A
+PUBLIC _spriteBlitY
 PUBLIC _word_1719A
-PUBLIC _word_1965C
-PUBLIC _word_1965E
+PUBLIC _spriteBlitW
+PUBLIC _spriteBlitH
 PUBLIC _aRb_4
 PUBLIC _wldReadBuf5Size
 PUBLIC _wldReadBuf1
@@ -390,9 +390,9 @@ Game		ends
 
 ; ---------------------------------------------------------------------------
 
-NoJoy80		struc ;	(sizeof=0x2, mappedto_6)
+JoyAxes		struc ;	(sizeof=0x2, mappedto_6)
 field_0		dw ?
-NoJoy80		ends
+JoyAxes		ends
 
 ; ---------------------------------------------------------------------------
 
@@ -988,7 +988,7 @@ _aOnc_0 db 'ONC ',0
 _aSecondaryTarge db 'Secondary Target:',0
 _aOnc_1 db 'ONC ',0
     db 0
-_word_17282 dw 0
+_joyRepeatFlag dw 0
 _word_17284 dw 0
 _word_17286 dw 0
 _word_17288 dw 0
@@ -1103,7 +1103,7 @@ unk_173D2 db 0
 unk_173D3 db 0
     db 0
     db 0
-_word_173D6 dw 7
+_textColor dw 7
     db 0
     db 0
     db 0
@@ -1698,16 +1698,16 @@ _word_17858 dw 0
     db 0
     db 0
     db 0
-_noJoy80 db 8 dup( 0)
+_joyAxes db 8 dup( 0)
 _word_17866 dw 0
 _word_17868 dw 0
 _word_1786A dw 0
 _word_1786C dw 0
     db 0
-_word_1786F dw 0
-_word_17871 dw 0
-_word_17873 dw 0
-_word_17875 dw 0
+_lineX1 dw 0
+_lineX2 dw 0
+_lineY1 dw 0
+_lineY2 dw 0
 _byte_17877 db 162h dup(0FFh)
 byte_179D9 db 56h dup(0FFh)
 _byte_17A2F db 0AAh dup(0)
@@ -1771,8 +1771,8 @@ _terrainBuf1 dw 5 dup(20h)
 _gridSignature dw 3232h
     db 0FFh
     db 0FFh
-_word_18186 dw 0
-_word_18188 dw 0
+_terrainDirtyFlag dw 0
+_gridValidFlag dw 0
 _a_3dt db '.3dT',0
 _aRb db 'rb',0
 _aOpenErrorOn_3d db 'Open Error on *.3DT, assuming new file !',0
@@ -4240,11 +4240,11 @@ _aHz00 db 'HZ00',0
 _aAt db ' at ',0
     db 0
     db 0
-_word_19656 dw 0
-_word_19658 dw 0
-_word_1965A dw 0
-_word_1965C dw 0
-_word_1965E dw 0
+_armPosition dw 0
+_spriteBlitX dw 0
+_spriteBlitY dw 0
+_spriteBlitW dw 0
+_spriteBlitH dw 0
 _readBufEndPtr dw 0
 _picWorkDataPtr dw 0
 _picRowLength dw 0
@@ -4307,7 +4307,7 @@ _byte_1B0FF db ?
 _byte_1B100 db ?
     db 47h dup(?)
 _word_1B148 dw ?
-_iacaSuFlag0Ptr dd ?
+_gfxModeSetPtr dd ?
     db ?
     db ?
 _fileHandle dw ?
@@ -4462,7 +4462,7 @@ _selectedPilotIdx dw ?
 _wldReadBuf5Size dw ?
     db ?
     db ?
-_joyDone db ?
+_joyReady db ?
     db ?
     db ?
     db ?

@@ -34,6 +34,61 @@
 
 #define CHAR_BELL 0x7
 
+#define KEYCODE_ALTQ 0x1000
+#define KEYCODE_BACKSPACE 0x8
+#define KEYCODE_CTRLX 0x18
+
+/* joystick axis values */
+#define JOY_CENTER 0x80
+#define JOY_DEADZONE_LO 0x4e
+#define JOY_DEADZONE_HI 0xb2
+
+/* graphics mode numbers from driver function 3f */
+#define GFX_MODE_MDA 1
+#define GFX_MODE_EGA 2
+#define GFX_MODE_VGA 3
+
+/* EGA DIP switch detection */
+#define EGA_SWITCH_MASK 0xf
+#define EGA_SWITCH_VALUE 9
+
+/* font indices */
+#define FONT_NORMAL 1
+#define FONT_SMALL 4
+
+/* number of theaters */
+#define NUM_THEATERS 4
+/* max difficulty level (0-based) */
+#define MAX_DIFFICULTY 3
+
+/* pilot roster layout */
+#define PILOTS_PER_COLUMN 4
+#define PILOT_COL_LEFT 0x10
+#define PILOT_COL_RIGHT 0xa0
+#define PILOT_ROW_HEIGHT 0x2c
+#define PILOT_TOP_MARGIN 0x14
+#define PILOT_ENTRY_WIDTH 0x8f
+#define PILOT_NAME_HEIGHT 8
+#define MAX_PILOT_NAME_LEN 0x14
+
+/* mission/world generation */
+#define FIRST_REAL_ITEM 3
+#define WORLD_COORD_SHIFT 5
+#define DEFAULT_FUEL 19999
+
+/* bearing constants (binary angle measurement) */
+#define BEARING_NORTH 0x0000
+#define BEARING_EAST  0x4000
+#define BEARING_SOUTH 0x8000
+#define BEARING_WEST  0xC000
+
+/* color indices */
+#define COLOR_WHITE 0xf
+#define COLOR_GRAY 7
+#define COLOR_RED 0xc
+#define COLOR_TITLE 1
+#define COLOR_COORDS 3
+
 #define WORLD_BUFSZ 0x2ee // 750
 #define GRID_MAGIC 0x3232
 #define TERRAIN_MAGIC 0x3131

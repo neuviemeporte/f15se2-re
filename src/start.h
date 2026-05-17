@@ -84,8 +84,6 @@
 int sub_10483();
 // ==== startCode1:0x4a0 ====
 void initGraphics(void);
-// ==== startCode1:0x511 ====
-int cleanup();
 // ==== startCode1:0x544 ====
 int setargv();
 // ==== startCode1:0x547 ====
@@ -123,22 +121,12 @@ int processStoreInput();
 void clearBriefing(void);
 // ==== startCode1:0x124a ====
 int __cdecl showSprite(int, int, int, int, int, int, int);
-// ==== startCode1:0x12b8 ====
-void __cdecl drawStringAt(int *arg_pageNum, const char *arg_string, int arg_x, int arg_y);
 // ==== startCode1:0x12df ====
 int sub_112DF();
 // ==== startCode1:0x130b ====
 int unreach_1130B();
 // ==== startCode1:0x1458 ====
 int sub_11458();
-// ==== startCode1:0x1577 ====
-void __cdecl drawStringCentered(int *, const char *, int, int, int);
-// ==== startCode1:0x15ae ====
-int __cdecl stringWidth(int *, const char *);
-// ==== startCode1:0x15f1 ====
-int __cdecl my_ltoa(__int32, char *);
-// ==== startCode1:0x172c ====
-int __cdecl my_itoa(int, char *);
 // ==== startCode1:0x1824 ====
 int seedRandom();
 // ==== startCode1:0x1835 ====
@@ -199,7 +187,7 @@ int saveHallfame();
 int getJoyKey();
 // bytes outside routine, potential module boundary at 0x25e3
 // ==== startCode1:0x25e4 ====
-int sub_125E4();
+int readInputKey();
 // bytes outside routine, potential module boundary at 0x2651
 // ==== startCode1:0x2652 ====
 int sub_12652();
@@ -207,8 +195,6 @@ int sub_12652();
 int sub_12660();
 // ==== startCode1:0x2680 ====
 int sub_12680();
-// ==== startCode1:0x26b0 ====
-void mystrcpy(char *dest, const char *source);
 // ==== startCode1:0x26cb ====
 int sub_126CB();
 // ==== startCode1:0x26e2 ====
@@ -284,8 +270,6 @@ int unreach_12FFC(int filename, int a);
 int unreach_13032(int filename, int a, int b);
 // ==== startCode1:0x306a ====
 int unreach_1306A();
-// ==== startCode1:0x30a2 ====
-int openFileWrapper(char *filename, int mode);
 // bytes outside routine, potential module boundary at 0x30b3
 // ==== startCode1:0x30b4 ====
 int unreach_130B4();
@@ -358,11 +342,11 @@ unsigned int __cdecl dos_alloc(int sz);
 int unreach_dos_freeMem(int freeSeg);
 // bytes outside routine, potential module boundary at 0x37f7
 // ==== startCode1:0x37f8 ====
-int *__cdecl sub_137F8(__int32, __int32);
+int *__cdecl findNearestTerrain(__int32, __int32);
 // ==== startCode1:0x39e9 ====
-unsigned __int32 __cdecl sub_139E9(int, unsigned __int32);
+unsigned __int32 __cdecl scaleCoordByLevel(int, unsigned __int32);
 // ==== startCode1:0x3a61 ====
-int __cdecl sub_13A61(int, int, int);
+int __cdecl lookupGridCell(int, int, int);
 // bytes outside routine, potential module boundary at 0x3b89
 // ==== startCode1:0x3b8a ====
 void parseGridTerrain(void);
@@ -372,9 +356,9 @@ int parseTerrain(char *dest);
 // ==== startCode1:0x3d4c ====
 int parseGrid();
 // ==== startCode1:0x3e8c ====
-int __cdecl subReadKey(char *);
+int __cdecl showMsgWaitKey(char *);
 // ==== startCode1:0x3ea8 ====
-int sub_13EA8(char *dest, char *source);
+int replaceExtension(char *dest, char *source);
 // ==== startCode1:0x3ed2 ====
 int unreach_13ED2();
 // ==== startCode1:0x3f08 ====
@@ -392,13 +376,13 @@ void missionGenerate(void);
 // ==== startCode1:0x4093 ====
 void runGenerator();
 // ==== startCode1:0x4bb4 ====
-int __cdecl sub_14BB4(int, int, int);
+int __cdecl findOrPlaceItem(int, int, int);
 // ==== startCode1:0x4c94 ====
-int __cdecl sub_14C94(int, int);
+int __cdecl itemDistance(int, int);
 // ==== startCode1:0x4cc5 ====
-int __cdecl sub_14CC5(int, int);
+int __cdecl positionUnit(int, int);
 // ==== startCode1:0x4d96 ====
-int __cdecl sub_14D96(int, int);
+int __cdecl approxDistance(int, int);
 // ==== startCode1:0x4e03 ====
 void __cdecl parseWorld(const char *);
 // ==== startCode1:0x4f76 ====
@@ -406,7 +390,7 @@ void writeWorld(const char *filename);
 // ==== startCode1:0x50e8 ====
 int doNothing2();
 // ==== startCode1:0x50eb ====
-int __cdecl sub_150EB(int, int);
+int __cdecl calcBearing(int, int);
 // ==== startCode1:0x5268 ====
 int setMoveDstComm7A();
 // ==== startCode1:0x5285 ====
@@ -416,11 +400,11 @@ int memAppend();
 // ==== startCode1:0x52f1 ====
 int doNothing();
 // ==== startCode1:0x52f4 ====
-char *__cdecl sub_152F4(int);
+char *__cdecl getItemCoordStr(int);
 // ==== startCode1:0x531c ====
-char *__cdecl sub_1531C(int, int);
+char *__cdecl formatGridRef(int, int);
 // ==== startCode1:0x5472 ====
-int __cdecl sub_15472(int, int, int);
+int __cdecl clampValue(int, int, int);
 // ==== startCode1:0x54a1 ====
 void __cdecl placeString(int arg_0);
 // ==== startCode1:0x5741 ====
@@ -588,7 +572,7 @@ extern char aPrimaryTarget[];
 extern char aOnc_0[];
 extern char aSecondaryTarge[];
 extern char aOnc_1[];
-extern int16 word_17282;
+extern int16 joyRepeatFlag;
 extern int16 word_17284;
 extern int16 word_17286;
 extern int16 word_17288;
@@ -635,7 +619,7 @@ extern uint8 aHiscore_pic[];
 extern uint8 pilotSelectFlag;
 extern uint8 unk_173D2;
 extern uint8 unk_173D3[];
-extern int16 word_173D6;
+extern int16 textColor;
 extern uint8 unk_173DC[];
 extern int16 word_173DE;
 extern int *screenBuf;
@@ -782,15 +766,15 @@ extern int16 word_17846;
 extern int16 word_1784E;
 extern int16 word_17856;
 extern int16 word_17858;
-extern unsigned __int8 noJoy80[];
+extern uint8 joyAxes[];
 extern int16 word_17866;
 extern int16 word_17868;
 extern int16 word_1786A;
 extern int16 word_1786C;
-extern int16 word_1786F;
-extern int16 word_17871;
-extern int16 word_17873;
-extern int16 word_17875;
+extern int16 lineX1;
+extern int16 lineX2;
+extern int16 lineY1;
+extern int16 lineY2;
 extern uint8 byte_17877[];
 extern uint8 byte_179D9[];
 extern uint8 byte_17A2F[];
@@ -843,8 +827,8 @@ extern int16 terrainSignature;
 extern unsigned int terrainBuf1[];
 extern struct TerrainUnk terrainBuf2[];
 extern int16 gridSignature;
-extern int16 word_18186;
-extern int16 word_18188;
+extern int16 terrainDirtyFlag;
+extern int16 gridValidFlag;
 extern char a_3dt[];
 extern uint8 aRb[];
 extern char aOpenErrorOn_3d[];
@@ -1075,11 +1059,11 @@ extern uint8 aRunTimeError[];
 extern uint8 aR6002FloatingPointNotLoa[];
 extern uint8 aR6001NullPointerAssignme[];
 extern uint8 LIBC_DATA_END[];
-extern int word_19656;
-extern int word_19658;
-extern int word_1965A;
-extern int word_1965C;
-extern int word_1965E;
+extern int armPosition;
+extern int spriteBlitX;
+extern int spriteBlitY;
+extern int spriteBlitW;
+extern int spriteBlitH;
 extern int16 readBufEndPtr;
 extern int16 picWorkDataPtr;
 extern int16 picRowLength;
@@ -1128,7 +1112,7 @@ extern char todayMissStrBuf[];
 extern uint8 byte_1B0FF;
 extern uint8 byte_1B100[];
 extern int16 word_1B148;
-extern int far *iacaSuFlag0Ptr;
+extern int far *gfxModeSetPtr;
 extern FILE *fileHandle;
 extern struct Game far *gameData;
 extern int16 wldReadBuf2;
@@ -1186,7 +1170,7 @@ extern uint8 wldReadBuf7[];
 extern int16 word_1DD38;
 extern int selectedPilotIdx;
 extern int wldReadBuf5Size;
-extern uint8 joyDone[];
+extern uint8 joyReady[];
 extern char *wldOffsets[];
 extern uint8 wldReadBuf11[];
 extern struct TerrainUnk terrainPtrUnk[];

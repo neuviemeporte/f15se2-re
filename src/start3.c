@@ -4,6 +4,7 @@
 #include "pointers.h"
 #include "comm.h"
 #include "debug.h"
+#include "const.h"
 
 #include <memory.h>
 #include <dos.h>
@@ -12,108 +13,108 @@
 #include <string.h>
 
 // 37f8
-int* sub_137F8(int32 arg_0, int32 arg_4) {
-    int16 var_2, var_4, var_6, var_8, var_A, var_C, var_E, var_10, var_12, var_16, var_18, var_1A, var_20;
-    int16 var_22;
-    int16 var_14;
-    uint32 var_1E;
+int* findNearestTerrain(int32 worldX, int32 worldY) {
+    int16 tmp, dx, dist, rowOff, x1, level, dy, i, cellIdx, gridX, offsetY, y1, cell;
+    int16 sy;
+    int16 ty;
+    uint32 fx;
     word_1D5D6 = 0x7fff;
-    for (var_C = 1; var_C <= 2; var_C++) { // 3819
-        for (var_10 = 0; var_10 < 9; var_10++) { // 382c
+    for (level = 1; level <= 2; level++) { // 3819
+        for (i = 0; i < 9; i++) { // 382c
             // 383b
-            var_1E = sub_139E9(var_C, arg_0);
+            fx = scaleCoordByLevel(level, worldX);
             // 384d
-            var_16 = var_1E >> 0xc;
+            gridX = fx >> 0xc;
             // 3856
-            var_A = (int16)var_1E & 0xfff;
+            x1 = (int16)fx & 0xfff;
             // 3868
-            var_1E = sub_139E9(var_C, arg_4);
+            fx = scaleCoordByLevel(level, worldY);
             // 387a
-            var_1A = var_1E >> 0xc;
-            var_E = (int16)var_1E & 0xfff;
-            var_4 = word_17FFE[var_10];
-            var_8 = word_18010[var_10];
-            var_22 = word_18026[var_4] - var_A + 0x800;
-            var_2 = word_18026[var_8] - var_E + 0x800;
-            var_1A += var_8;
+            y1 = fx >> 0xc;
+            dy = (int16)fx & 0xfff;
+            dx = word_17FFE[i];
+            rowOff = word_18010[i];
+            sy = word_18026[dx] - x1 + 0x800;
+            tmp = word_18026[rowOff] - dy + 0x800;
+            y1 += rowOff;
             // 38d2
-            var_20 = sub_13A61(var_C, var_16 += var_4, var_1A);
+            cell = lookupGridCell(level, gridX += dx, y1);
             // 38db
-            if (var_20 != 0xffff) {
+            if (cell != 0xffff) {
                 // 38f2
-                word_1E24A = (int16)terrainPtrUnk[var_C].field_0[var_20];
+                word_1E24A = (int16)terrainPtrUnk[level].field_0[cell];
                 // 38f5
-                for (var_12 = 0; (uint16)terrainBuf2[var_C].field_0[var_20] > var_12; var_12++) { // 3917
+                for (cellIdx = 0; (uint16)terrainBuf2[level].field_0[cell] > cellIdx; cellIdx++) { // 3917
                     // 3920
                     if (wldReadBuf9[((uint8*)(word_1E24A))[6]] != 0) { // 3929
-                        var_14 = *((uint16*)word_1E24A) + var_22;
+                        ty = *((uint16*)word_1E24A) + sy;
                         // 393b
-                        var_18 = *((uint16*)word_1E24A + 1) + var_2;
-                        var_6 = abs(var_14) + abs(var_18);
-                        if (var_C == 1) { // 395b
-                            var_6 >>= 2;
+                        offsetY = *((uint16*)word_1E24A + 1) + tmp;
+                        dist = abs(ty) + abs(offsetY);
+                        if (level == 1) { // 395b
+                            dist >>= 2;
                         }
                         else { // 3962
-                            var_14 <<= 2;
-                            var_18 <<= 2;
+                            ty <<= 2;
+                            offsetY <<= 2;
                         } // 396a
-                        if (var_6 < word_1D5D6) { // 3972
-                            byte_1D5E2 = (int8)var_C;
-                            byte_1D5E3 = (int8)var_12;
-                            byte_1D5E4 = (int8)var_16;
-                            byte_1D5E5[0] = (int8)var_1A;
+                        if (dist < word_1D5D6) { // 3972
+                            byte_1D5E2 = (int8)level;
+                            byte_1D5E3 = (int8)cellIdx;
+                            byte_1D5E4 = (int8)gridX;
+                            byte_1D5E5[0] = (int8)y1;
                             // 398d
                             word_1D5E0 = word_1E24A;
                             word_1D5D4 = ((uint8*)word_1D5E0)[6];
-                            word_1D5D6 = var_6;
-                            dword_1D5D8 = var_14 + arg_0;
-                            dword_1D5DC = var_18 + arg_4;
+                            word_1D5D6 = dist;
+                            dword_1D5D8 = ty + worldX;
+                            dword_1D5DC = offsetY + worldY;
                         }
                     }
                     // 39c2
-                    word_1E24A += 7; 
+                    word_1E24A += 7;
                 } // 39ca
             } // 39ca
         } // 39cd
     } // 39d0
     if (word_1D5D6 != 0x7fff) {
         return &word_1D5D4;
-    } 
+    }
     else return NULL;
 }
 
 // 39e9
-uint32 sub_139E9(int arg_0, uint32 arg_2) {
-    switch (arg_0) { // 3a43
+uint32 scaleCoordByLevel(int level, uint32 coord) {
+    switch (level) { // 3a43
     case 4: // 39f1
-        return arg_2 >> 6;
+        return coord >> 6;
     case 3:
-        return arg_2 >> 4;
+        return coord >> 4;
     case 2:
-        return arg_2 >> 2;
+        return coord >> 2;
     case 1:
-        return arg_2;
+        return coord;
     case 0:
-        return arg_2 << 1;
+        return coord << 1;
     }
 }
 
 // 3a61
-int sub_13A61(int16 arg_0, int16 arg_2, int16 arg_4) {
-    if (arg_2 < 0 || arg_4 < 0 || arg_2 >= word_18026[arg_0 + 6] || arg_4 >= word_18026[arg_0 + 6]) 
+int lookupGridCell(int16 level, int16 col, int16 row) {
+    if (col < 0 || row < 0 || col >= word_18026[level + 6] || row >= word_18026[level + 6])
         return -1;
     // 3a8a
-    switch (arg_0) { // 3b61
+    switch (level) { // 3b61
     case 4: // 3a90
-        return gridBuf1[arg_2 + (arg_4 << 2)];
+        return gridBuf1[col + (row << 2)];
     case 3: // 3aa3
-        return gridBuf2[arg_2 + (arg_4 << 4)];
+        return gridBuf2[col + (row << 4)];
     case 2: // 3ab6
-        return gridBuf3[(arg_2 & 3) + (((arg_4 & 3) << 2) + (sub_13A61(3, arg_2 >> 2, arg_4 >> 2) << 4))];
+        return gridBuf3[(col & 3) + (((row & 3) << 2) + (lookupGridCell(3, col >> 2, row >> 2) << 4))];
     case 1: // 3aef
-        return gridBuf4[(arg_2 & 3) + (((arg_4 & 3) << 2) + (sub_13A61(2, arg_2 >> 2, arg_4 >> 2) << 4))];
+        return gridBuf4[(col & 3) + (((row & 3) << 2) + (lookupGridCell(2, col >> 2, row >> 2) << 4))];
     case 0: // 3b27
-        return gridBuf5[(arg_2 & 3) + (((arg_4 & 3) << 2) + (sub_13A61(1, arg_2 >> 2, arg_4 >> 2) << 4))];
+        return gridBuf5[(col & 3) + (((row & 3) << 2) + (lookupGridCell(1, col >> 2, row >> 2) << 4))];
     }
 }
 
@@ -122,7 +123,7 @@ void missionGenerate() {
     TRACE(("missionGenerate(): entering"));
     difficultySaved = gameData->difficulty;
     theaterSaved = gameData->theater & 3;
-    flag4Saved = gameData->flag4;
+    flag4Saved = gameData->isCampaignMission;
     TRACE(("missionGenerate(): parsing world %s", worldFiles[gameData->theater]));
     parseWorld(worldFiles[gameData->theater]);
     mystrcpy(regnPlhPtr, plhFiles[gameData->theater]);
@@ -136,46 +137,46 @@ void missionGenerate() {
 // 4093
 void runGenerator()
 {
-  int var_2;
-  int var_4;
-  int var_6;
-  int var_8;
-  int var_A;
-  int var_C;
-  int var_E;
-  int var_10;
-  int16 var_12;
-  int16 var_14;
-  int var_16;
-  int var_18;
-  int16 var_1A;
-  int16 var_20[4];
-  int16 var_24;
-  int var_26; 
-  int var_28;
-  int var_2A;
-  int var_2C;
-  
+  int attempt;
+  int totalDist;
+  int bearing;
+  int missionBits;
+  int i;
+  int waypointIdx;
+  int baseBearing;
+  int randChoice;
+  int16 swapTmp;
+  int16 maxRange;
+  int minDist;
+  int unitType;
+  int16 randIdx;
+  int16 baseDist[4];
+  int16 randY;
+  int idx;
+  int matchCount;
+  int slot;
+  int retryCount;
+
   TRACE(("runGenerator(): entering"));
   // 409d
-  var_2 = word_1DD38 = 0;
-  var_16 = 0xfa;
+  attempt = word_1DD38 = 0;
+  minDist = 0xfa;
   // 40a8
 restart_40a8:
   do {
-    TRACE(("runGenerator(): outer, %d", var_2));
-    var_2 = var_2 + 1;
-    if (999 < var_2) goto counterMore1k;
+    TRACE(("runGenerator(): outer, %d", attempt));
+    attempt = attempt + 1;
+    if (999 < attempt) goto counterMore1k;
     // 40b5
     do {
       TRACE(("runGenerator(): inner"));
       if (missionPick != -1) {
         TRACE(("runGenerator(): inner branch 1"));
         // 40c6
-        var_1A = randMul(word_19324[missionPick]);
+        randIdx = randMul(word_19324[missionPick]);
         // 40e9
-        targets[0].field_2 = sub_14BB4(off_19304[missionPick][var_1A], 
-          off_19314[missionPick][var_1A], 1);
+        targets[0].field_2 = findOrPlaceItem(off_19304[missionPick][randIdx],
+          off_19314[missionPick][randIdx], 1);
       }
       // 40f4
       else {
@@ -185,73 +186,73 @@ restart_40a8:
           do {
             TRACE(("runGenerator(): inner branch 2 loop 2"));
             // 40f8
-            var_1A = randMul(0xe0) * 0x80 + 0x840;
+            randIdx = randMul(0xe0) * 0x80 + 0x840;
             // 410c
-            var_24 = randMul(0xe0) * 0x80 + 0x840;
+            randY = randMul(0xe0) * 0x80 + 0x840;
           // 412d
-          } while ((wldReadBuf10[(var_1A >> 0xb) + ((var_24 >> 0xb) * 0x10)] & 3) != 0);
+          } while ((wldReadBuf10[(randIdx >> 0xb) + ((randY >> 0xb) * 0x10)] & 3) != 0);
           // 413e
-        } while ((targets[0].field_2 = sub_14BB4(var_1A,var_24,1)) == 0xffff);
+        } while ((targets[0].field_2 = findOrPlaceItem(randIdx,randY,1)) == 0xffff);
       }
       TRACE(("runGenerator(): past inner check 1"));
       // 414c
       if (missionPick == 7) {
         // 4172
-        target2.field_2 = sub_14BB4(off_19304[missionPick][var_1A], 
-          off_19314[missionPick][var_1A] + 0x28, 2);
+        target2.field_2 = findOrPlaceItem(off_19304[missionPick][randIdx],
+          off_19314[missionPick][randIdx] + 0x28, 2);
       }
       // 417e
       else if (missionPick == 2) {
-        var_1A = var_1A * 2 + randMul(2);
+        randIdx = randIdx * 2 + randMul(2);
         // 41a9
-        target2.field_2 = sub_14BB4(word_192EC[var_1A], word_192F4[var_1A], 2);
+        target2.field_2 = findOrPlaceItem(word_192EC[randIdx], word_192F4[randIdx], 2);
       }
       // 41b5
       else if (missionPick == 6) {
-        var_1A = randMul(6) + var_1A + 1 & 7;
+        randIdx = randMul(6) + randIdx + 1 & 7;
         // 41e0
-        target2.field_2 = sub_14BB4(word_19294[var_1A], word_192A4[var_1A], 2);
+        target2.field_2 = findOrPlaceItem(word_19294[randIdx], word_192A4[randIdx], 2);
       }
       // 41eb
       else {
         do {
           do {
             // 41ef
-            var_1A = randMul(0xe0) * 0x80 + 0x840;
+            randIdx = randMul(0xe0) * 0x80 + 0x840;
             // 4203
-            var_24 = randMul(0xe0) * 0x80 + 0x840;
+            randY = randMul(0xe0) * 0x80 + 0x840;
           // 4224
-          } while ((wldReadBuf10[(var_1A >> 0xb) + (var_24 >> 0xb) * 0x10] & 3) != 0);
+          } while ((wldReadBuf10[(randIdx >> 0xb) + (randY >> 0xb) * 0x10] & 3) != 0);
           // 4235
-          target2.field_2 = sub_14BB4(var_1A, var_24, 2);
+          target2.field_2 = findOrPlaceItem(randIdx, randY, 2);
         } while ((target2.field_2 == -1) || ((missionPick == 0 && (wldReadBuf4[target2.field_2].field_6 == 0))));
       }
       TRACE(("runGenerator(): past inner check 2"));
     // 4257
-    } while ((targets[0].field_2 == target2.field_2) || (sub_14C94(targets[0].field_2, target2.field_2) >> 6) > 200);
+    } while ((targets[0].field_2 == target2.field_2) || (itemDistance(targets[0].field_2, target2.field_2) >> 6) > 200);
     TRACE(("runGenerator(): passed inner"));
   // 427a
   } while ((gameData->theater != THEATER_DS) && (wldReadBuf4[targets[0].field_2].field_E == wldReadBuf4[target2.field_2].field_E));
   TRACE(("runGenerator(): past outer"));
   // 42a0
-  for (var_2A = 0; var_2A < 2; var_2A++) {
-    TRACE(("runGenerator(): loop 2, counter %d", var_2A));
+  for (slot = 0; slot < 2; slot++) {
+    TRACE(("runGenerator(): loop 2, counter %d", slot));
     // 42b8
-    var_20[var_2A] = 0x7fff;
+    baseDist[slot] = 0x7fff;
     // 42bd
-    for (var_26 = wldReadBuf3; var_26 < readItemSize; var_26++) {
+    for (idx = wldReadBuf3; idx < readItemSize; idx++) {
       // 42d3
-      if (((wldReadBuf4[var_26].field_8 & 0x500) != 0)
-        && ((wldReadBuf4[var_26].field_8 & 0x201) != 0)
-        && ((wldReadBuf4[var_26].field_8 & 0x800) == 0)) {
+      if (((wldReadBuf4[idx].field_8 & 0x500) != 0)
+        && ((wldReadBuf4[idx].field_8 & 0x201) != 0)
+        && ((wldReadBuf4[idx].field_8 & 0x800) == 0)) {
         // placed in var_1C in IDA, but this looks like an array, sort out stack layout later
         // 4332
-        var_20[2] = sub_15472(sub_14C94(targets[var_2A].field_2, var_26) + ((wldReadBuf4[var_26].field_8 & 0x100) != 0 ? randMul(100) * 0x40 + 0xc80 : 0), 0, 0x7fff);
+        baseDist[2] = clampValue(itemDistance(targets[slot].field_2, idx) + ((wldReadBuf4[idx].field_8 & 0x100) != 0 ? randMul(100) * 0x40 + 0xc80 : 0), 0, 0x7fff);
         // 433b
-        if ((var_20[2] < 0x7000) && (randMul(0x500) + var_20[2] < var_20[var_2A])) {
-          // 4357 
-          targets[var_2A].field_4 = var_26;
-          var_20[var_2A] = var_20[2];
+        if ((baseDist[2] < 0x7000) && (randMul(0x500) + baseDist[2] < baseDist[slot])) {
+          // 4357
+          targets[slot].field_4 = idx;
+          baseDist[slot] = baseDist[2];
         }
       }
     }
@@ -260,53 +261,53 @@ restart_40a8:
   // 4377
   if (gameData->theater != THEATER_DS) {
     // 438a
-    var_4 = (sub_14C94(targets[0].field_2, targets[1].field_2) >> 6) + (var_20[0] >> 6) + (var_20[1] >> 6);
+    totalDist = (itemDistance(targets[0].field_2, targets[1].field_2) >> 6) + (baseDist[0] >> 6) + (baseDist[1] >> 6);
     // 43a5
-    if (((var_2 + 0x2e4 < var_4) || (var_4 < var_16)) && ((wldReadBuf4[targets[0].field_4].field_8 & 0x200) == 0)) {
+    if (((attempt + 0x2e4 < totalDist) || (totalDist < minDist)) && ((wldReadBuf4[targets[0].field_4].field_8 & 0x200) == 0)) {
       // 43c8
-      var_16 -= 5 - difficultySaved;
+      minDist -= 5 - difficultySaved;
       goto restart_40a8;
     }
   }
   // 43d7
   else {
-    if (var_20[0] == 0x7fff) {
-      if (var_20[1] == 0x7fff) goto restart_40a8;
-      var_20[0] = var_20[1];
+    if (baseDist[0] == 0x7fff) {
+      if (baseDist[1] == 0x7fff) goto restart_40a8;
+      baseDist[0] = baseDist[1];
       // 43ee
       targets[0].field_4 = targets[1].field_4;
     }
   }
   TRACE(("runGenerator(): past DS check"));
   // 43f4
-  for (var_26 = 0; var_26 < 2; var_26++) {
-    TRACE(("runGenerator(): loop3, counter %d", var_26));
+  for (idx = 0; idx < 2; idx++) {
+    TRACE(("runGenerator(): loop3, counter %d", idx));
     // 4407
-    targets[var_26].field_0 = 0;
+    targets[idx].field_0 = 0;
     // 4415
-    for (var_2C = 0; var_2C < 2; var_2C++) {
-      var_28 = 0;
+    for (retryCount = 0; retryCount < 2; retryCount++) {
+      matchCount = 0;
       // 442d
-      for (var_2A = 0; var_2A < 0x38; var_2A++) { // 4440
-        if (wldReadBuf9[wldReadBuf4[targets[var_26].field_2].field_E & 0x7f] == stru_18FC0[var_2A].field_2 
-            && strcmp(wldOffsets[targets[var_26].field_2], aPowCamp) != 0) {
+      for (slot = 0; slot < 0x38; slot++) { // 4440
+        if (wldReadBuf9[wldReadBuf4[targets[idx].field_2].field_E & 0x7f] == stru_18FC0[slot].field_2
+            && strcmp(wldOffsets[targets[idx].field_2], aPowCamp) != 0) {
           // 4487
-          if ((var_2C != 0) && (var_28 == var_10)) {
+          if ((retryCount != 0) && (matchCount == randChoice)) {
             // 4495
-            targets[var_26].field_0 = stru_18FC0[var_2A].field_0;
-            targets[var_26].field_8 = var_2A;
-            targets[var_26].field_6 = stru_18FC0[var_2A].field_4;
+            targets[idx].field_0 = stru_18FC0[slot].field_0;
+            targets[idx].field_8 = slot;
+            targets[idx].field_6 = stru_18FC0[slot].field_4;
             // 44c3
-            if (stru_18FC0[var_2A].field_6 > 0) {
+            if (stru_18FC0[slot].field_6 > 0) {
               // 44ca
-              targets[var_26].field_6 += (stru_18FC0[var_2A].field_6 << 8) ;
+              targets[idx].field_6 += (stru_18FC0[slot].field_6 << 8) ;
             }
           }
-          var_28++;
+          matchCount++;
         }
       }
       // 44dd
-      var_10 = randMul(var_28);
+      randChoice = randMul(matchCount);
     }
   }
   TRACE(("runGenerator(): past loop3"));
@@ -316,26 +317,26 @@ restart_40a8:
     goto restart_40a8;
   }
   // 44fd
-  if ((var_20[0] < var_20[1]) && (missionPick == -1)) {
+  if ((baseDist[0] < baseDist[1]) && (missionPick == -1)) {
     // 450c
-    var_12 = targets[0].field_2;
+    swapTmp = targets[0].field_2;
     targets[0].field_2 = targets[1].field_2;
-    targets[1].field_2 = var_12;
-    var_12 = targets[0].field_0;
+    targets[1].field_2 = swapTmp;
+    swapTmp = targets[0].field_0;
     targets[0].field_0 = targets[1].field_0;
-    targets[1].field_0 = var_12;
-    var_12 = targets[0].field_4;
+    targets[1].field_0 = swapTmp;
+    swapTmp = targets[0].field_4;
     targets[0].field_4 = targets[1].field_4;
-    targets[1].field_4 = var_12;
-    var_12 = targets[0].field_8;
+    targets[1].field_4 = swapTmp;
+    swapTmp = targets[0].field_8;
     targets[0].field_8 = targets[1].field_8;
-    targets[1].field_8 = var_12;
-    var_12 = targets[0].field_6;
+    targets[1].field_8 = swapTmp;
+    swapTmp = targets[0].field_6;
     targets[0].field_6 = targets[1].field_6;
-    targets[1].field_6 = var_12;
-    var_12 = var_20[0];
-    var_20[0] = var_20[1];
-    var_20[1] = var_12;
+    targets[1].field_6 = swapTmp;
+    swapTmp = baseDist[0];
+    baseDist[0] = baseDist[1];
+    baseDist[1] = swapTmp;
   }
   // 4578
   if (targets[0].field_0 == 4) {
@@ -351,26 +352,26 @@ restart_40a8:
   }
   // 45a5
   if (word_1B148 == 0) {
-    wldReadBuf6[0].field_1C = 19999;
+    wldReadBuf6[0].field_1C = DEFAULT_FUEL;
   }
   // 45b2
-  for (var_26 = 0; var_26 < 2; var_26++) {
-    TRACE(("runGenerator(): loop4, counter %d", var_26));
+  for (idx = 0; idx < 2; idx++) {
+    TRACE(("runGenerator(): loop4, counter %d", idx));
     // 45e2
-    mystrcpy(targets[var_26].coord, sub_152F4(targets[var_26].field_2));
+    mystrcpy(targets[idx].coord, getItemCoordStr(targets[idx].field_2));
     // 45f0
-    if (targets[var_26].field_2 < 3) {
-      var_12 = 0x7fff;
+    if (targets[idx].field_2 < FIRST_REAL_ITEM) {
+      swapTmp = 0x7fff;
       // 45ff
-      for (var_2A = 3; var_2A < readItemSize; var_2A++) {
+      for (slot = FIRST_REAL_ITEM; slot < readItemSize; slot++) {
         // 4611
-        if ((wldReadBuf4[var_2A].field_8 & 0x500) == 0
-            && sub_14C94(var_2A, targets[var_26].field_2) < var_12
-            && wldReadBuf4[var_2A].field_0 != 0) {
+        if ((wldReadBuf4[slot].field_8 & 0x500) == 0
+            && itemDistance(slot, targets[idx].field_2) < swapTmp
+            && wldReadBuf4[slot].field_0 != 0) {
           // 4648
-          var_12 = sub_14C94(var_2A, targets[var_26].field_2);
+          swapTmp = itemDistance(slot, targets[idx].field_2);
           // 4679
-          wldReadBuf4[targets[var_26].field_2].field_0 = wldReadBuf4[var_2A].field_0;
+          wldReadBuf4[targets[idx].field_2].field_0 = wldReadBuf4[slot].field_0;
         }
       }
     }
@@ -381,9 +382,9 @@ restart_40a8:
 counterMore1k:
   TRACE(("runGenerator(): counterMore1k"));
   // 46a9
-  dword_1D5D0 = (uint32)(wldReadBuf4[targets[0].field_4].field_2) << 5;
+  dword_1D5D0 = (uint32)(wldReadBuf4[targets[0].field_4].field_2) << WORLD_COORD_SHIFT;
   // 46ad
-  /* 
+  /*
   Assigns the following values to made-up stack variables:
   var_34 = (long)((word_1C830 & 0x200) ? 0 : 0x708);
   var_30 = 0x8000 - (long)word_1C82C;
@@ -392,9 +393,9 @@ counterMore1k:
      BX:CX = 0:42c0 (17088)
   2) BX:CX = 0:3d40 (15680 = 32768 - 17088)
   6) DX:AX = 7:a800 (501760 = 15680 << 5)
-  7) DX:AX = 7:a0f8 (499960 = 501760 - 1800)  
+  7) DX:AX = 7:a0f8 (499960 = 501760 - 1800)
   */
-  dword_1D650 = ((0x8000 - (int32)(wldReadBuf4[targets[0].field_4].field_4)) << 5) - (int32)((wldReadBuf4[targets[0].field_4].field_8 & 0x200) ? 0 : 0x708);
+  dword_1D650 = ((0x8000 - (int32)(wldReadBuf4[targets[0].field_4].field_4)) << WORLD_COORD_SHIFT) - (int32)((wldReadBuf4[targets[0].field_4].field_8 & 0x200) ? 0 : 0x708);
   // 46fa
   word_182BE = wldReadBuf4[targets[0].field_2].field_2;
   word_182C0 = wldReadBuf4[targets[0].field_2].field_4;
@@ -412,83 +413,83 @@ counterMore1k:
     word_182C4 += (rand() & 0x1000) - 0x800;
   }
   // 477d
-  if ((uint8)targets[0].field_6 & 0x10 != 0) {  
+  if ((uint8)targets[0].field_6 & 0x10 != 0) {
     word_182BE = ((word_182BE >> 0xa) << 0xa) + 0x200;
     word_182C0 = ((word_182C0 >> 0xa) << 0xa) + 0x200;
   }
   // 47a0
-  for (var_26 = 0; var_26 < wldReadBuf5Size - 4; var_26++) { // 47cb8
-    TRACE(("runGenerator(): loop5, counter %d", var_26));
+  for (idx = 0; idx < wldReadBuf5Size - 4; idx++) { // 47cb8
+    TRACE(("runGenerator(): loop5, counter %d", idx));
     // 47c4
-    if ((wldReadBuf6[var_26].field_18 & 0x80) != 0) {
+    if ((wldReadBuf6[idx].field_18 & 0x80) != 0) {
       // 47ea
-      var_14 = (var_20[0] / 4) * (4 - difficultySaved);
+      maxRange = (baseDist[0] / 4) * (4 - difficultySaved);
       // 47ed
-      if ((wldReadBuf6[var_26].field_18 & 0x40) != 0) {
-        var_14 = var_20[0] << 1;
+      if ((wldReadBuf6[idx].field_18 & 0x40) != 0) {
+        maxRange = baseDist[0] << 1;
       }
       // 47fb
       do {
         // 480b
-        var_20[2] = randMul(wldReadBuf3 - 3) + 3;
+        baseDist[2] = randMul(wldReadBuf3 - FIRST_REAL_ITEM) + FIRST_REAL_ITEM;
       // 4814
-      } while ((wldReadBuf4[var_20[2]].field_8 & 0x100) || sub_14D96(word_182BA - wldReadBuf4[var_20[2]].field_2, word_182BC - wldReadBuf4[var_20[2]].field_4) > (var_14 += 0x10));
+      } while ((wldReadBuf4[baseDist[2]].field_8 & 0x100) || approxDistance(word_182BA - wldReadBuf4[baseDist[2]].field_2, word_182BC - wldReadBuf4[baseDist[2]].field_4) > (maxRange += 0x10));
       // 4841
-      sub_14CC5(var_26, var_20[2]);
-      var_14 = 0x3000;
+      positionUnit(idx, baseDist[2]);
+      maxRange = 0x3000;
       // 484c
-      var_E = sub_150EB(wldReadBuf4[targets[0].field_4].field_2 - wldReadBuf6[var_26].field_2, wldReadBuf6[var_26].field_4 - wldReadBuf4[targets[0].field_4].field_4);
+      baseBearing = calcBearing(wldReadBuf4[targets[0].field_4].field_2 - wldReadBuf6[idx].field_2, wldReadBuf6[idx].field_4 - wldReadBuf4[targets[0].field_4].field_4);
       // 4877
-      for (var_2A = 0; var_2A < 8; var_2A++) {
+      for (slot = 0; slot < 8; slot++) {
         // 488b
-        var_C = randMul(wldReadBuf3) + 1;
-        if ((wldReadBuf4[var_C].field_8 & 0x400) == 0) {
+        waypointIdx = randMul(wldReadBuf3) + 1;
+        if ((wldReadBuf4[waypointIdx].field_8 & 0x400) == 0) {
           // 48bd
-          var_6 = sub_150EB(wldReadBuf4[var_C].field_2 - wldReadBuf6[var_26].field_2, wldReadBuf6[var_26].field_4 - wldReadBuf4[var_C].field_4);
+          bearing = calcBearing(wldReadBuf4[waypointIdx].field_2 - wldReadBuf6[idx].field_2, wldReadBuf6[idx].field_4 - wldReadBuf4[waypointIdx].field_4);
           // 48d3
-          if (abs(var_E - var_6) < var_14) {
+          if (abs(baseBearing - bearing) < maxRange) {
             // 48e5
-            var_14 = abs(var_E - var_6);
+            maxRange = abs(baseBearing - bearing);
             // 48f3
-            wldReadBuf6[var_26].field_0 = var_C;
+            wldReadBuf6[idx].field_0 = waypointIdx;
             break;
           }
         }
       }
     }
     // 48fb
-    if (((wldReadBuf6[var_26].field_18 & 0x100) != 0) && (word_1B148 != -1)) {
+    if (((wldReadBuf6[idx].field_18 & 0x100) != 0) && (word_1B148 != -1)) {
       // 4919
-      sub_14CC5(var_26, word_1D00A);
-      wldReadBuf6[var_26].field_1C = 19999;
-    } 
+      positionUnit(idx, word_1D00A);
+      wldReadBuf6[idx].field_1C = DEFAULT_FUEL;
+    }
     // 492d
-    if (var_26 != 0) {
-      var_20[2] = 0;
+    if (idx != 0) {
+      baseDist[2] = 0;
       do {
         // 4948
-        var_C = randMul(wldReadBuf3 - 3) + 3;
+        waypointIdx = randMul(wldReadBuf3 - FIRST_REAL_ITEM) + FIRST_REAL_ITEM;
       // 4964
-      } while ((((wldReadBuf4[var_C].field_8 & 0x801) != 1) || (wldReadBuf4[var_C].field_C != 0)) && var_20[2]++ < 20);
+      } while ((((wldReadBuf4[waypointIdx].field_8 & 0x801) != 1) || (wldReadBuf4[waypointIdx].field_C != 0)) && baseDist[2]++ < 20);
       // 496f
-      wldReadBuf4[var_C].field_A = wldReadBuf6[var_26].field_16;
-      wldReadBuf4[var_C].field_C = randMul(theaterSaved + 1) + 1;
+      wldReadBuf4[waypointIdx].field_A = wldReadBuf6[idx].field_16;
+      wldReadBuf4[waypointIdx].field_C = randMul(theaterSaved + 1) + 1;
     } // 4996
   }
   TRACE(("runGenerator(): past loop5"));
   // 4999
-  for (var_26 = 0; var_26 < wldReadBuf2; var_26++) { // 49ae
-    TRACE(("runGenerator(): loop6, counter %d", var_26));
-    var_18 = wldReadBuf4[var_26].field_6;
+  for (idx = 0; idx < wldReadBuf2; idx++) { // 49ae
+    TRACE(("runGenerator(): loop6, counter %d", idx));
+    unitType = wldReadBuf4[idx].field_6;
     // 49b9
-    if ((var_18 != 0) && (var_18 != 21)) { // 49cb
+    if ((unitType != 0) && (unitType != 21)) { // 49cb
       // 4a0d
-      switch((gameData->flag4 != 0) + randMul(5) + difficultySaved) {
+      switch((gameData->isCampaignMission != 0) + randMul(5) + difficultySaved) {
       case 0:
       case 1:
       case 3:
         // 49eb
-        var_18 = stru_1892E[var_18].field_2;
+        unitType = stru_1892E[unitType].field_2;
       case 2:
       case 4:
       case 6:
@@ -497,30 +498,30 @@ counterMore1k:
       case 7:
       case 8:
         // 49fb
-        var_18 = stru_1892E[var_18].field_0;
+        unitType = stru_1892E[unitType].field_0;
         break;
       } // 4a2c
       // 4a36
-      wldReadBuf4[var_26].field_6 = var_18;
-      if (((wldReadBuf4[var_26].field_8 & 8) != 0) && gameData->flag4 + difficultySaved + 2 < randMul(10)) { // 4a5e
+      wldReadBuf4[idx].field_6 = unitType;
+      if (((wldReadBuf4[idx].field_8 & 8) != 0) && gameData->isCampaignMission + difficultySaved + 2 < randMul(10)) { // 4a5e
         // 4a65
-        wldReadBuf4[var_26].field_6 = 0;
+        wldReadBuf4[idx].field_6 = 0;
       }
     } // 4a6b
   }
   TRACE(("runGenerator(): past loop6"));
   // 4a6e
-  for (var_1A = 0; (int)var_1A < 0x10; var_1A++) { // 4a7e
-    for (var_24 = 0; var_24 < 0x10; var_24++) { // 4a8e
-      if (((wldReadBuf10[var_24 + var_1A * 0x10] & 0x10) != 0) && randMul(5) >= difficultySaved) { // 4aaf
-        wldReadBuf10[var_24 + var_1A * 0x10] &= 0xef;
+  for (randIdx = 0; (int)randIdx < 0x10; randIdx++) { // 4a7e
+    for (randY = 0; randY < 0x10; randY++) { // 4a8e
+      if (((wldReadBuf10[randY + randIdx * 0x10] & 0x10) != 0) && randMul(5) >= difficultySaved) { // 4aaf
+        wldReadBuf10[randY + randIdx * 0x10] &= 0xef;
       }
     }
   } // 4ac2
   TRACE(("runGenerator(): past loop7"));
   commData->unk7[1] = 1;
   commData->unk7[2] = 5;
-  commData->unk7[0] = 0; 
+  commData->unk7[0] = 0;
   // 4ae4
   if (gameData->theater == THEATER_DS) { // 4ae8
     commData->unk7[1] = 3;
@@ -529,19 +530,19 @@ counterMore1k:
       commData->unk7[2] = byte_192FC[missionPick];
     }
   } // 4b0e
-  var_A = 0;
+  i = 0;
   // 4b13
-  for (var_26 = 0; var_26 < 3; var_26++) { // 4b23
-    TRACE(("runGenerator(): loop8, counter %d", var_26));
+  for (idx = 0; idx < 3; idx++) { // 4b23
+    TRACE(("runGenerator(): loop8, counter %d", idx));
     // 4b49
-    commData->unk8[var_26] = word_189B6[commData->unk7[var_26] * 0x34];
-  } 
+    commData->unk8[idx] = word_189B6[commData->unk7[idx] * 0x34];
+  }
   TRACE(("runGenerator(): past loop8"));
   // 4b4f
-  var_8 = targets[0].field_8 + targets[1].field_8;
-  word_18994 = ((uint8)var_8 & 3) == 0;
+  missionBits = targets[0].field_8 + targets[1].field_8;
+  word_18994 = ((uint8)missionBits & 3) == 0;
   // 4b68
-  var_8 = (var_8 & 0xf) << 8;
+  missionBits = (missionBits & 0xf) << 8;
   // 4b75
   if ((targets[0].field_0 == 1) || (targets[1].field_0 == 1)) { // 4b83
     word_18994 = 0;
@@ -550,27 +551,27 @@ counterMore1k:
   if ((targets[0].field_0 == 4) || (targets[1].field_0 == 4)) { // 4b97
     word_18994 = 1;
   } // 4b9d
-  word_1DD38 -= (var_8 + word_1DD38) % 0x96;
+  word_1DD38 -= (missionBits + word_1DD38) % 0x96;
   TRACE(("runGenerator(): exiting"));
 }
 
 // 4bb4
-int sub_14BB4(int arg_0, int arg_2, int arg_4) {
-    int var_2;
+int findOrPlaceItem(int wx, int wy, int slot) {
+    int j;
     // 4bf2
-    if ((word_1B960 = sub_137F8((long)arg_0 << 5 , (0x8000 - (long)arg_2) << 5)) != NULL) { // 4bfc
+    if ((word_1B960 = findNearestTerrain((long)wx << WORLD_COORD_SHIFT , (0x8000 - (long)wy) << WORLD_COORD_SHIFT)) != NULL) { // 4bfc
         // 4c10
-        arg_0 = ((long*)word_1B960)[1] >> 5;
-        arg_2 = -((((long*)word_1B960)[2] >> 5) - 0x8000);
+        wx = ((long*)word_1B960)[1] >> WORLD_COORD_SHIFT;
+        wy = -((((long*)word_1B960)[2] >> WORLD_COORD_SHIFT) - 0x8000);
         // 4c31
-        for (var_2 = 3; var_2 < readItemSize; var_2++) { // 4c43
+        for (j = FIRST_REAL_ITEM; j < readItemSize; j++) { // 4c43
             // 4c4e
-            if (arg_0 == wldReadBuf4[var_2].field_2 && arg_2 == wldReadBuf4[var_2].field_4) return var_2;
+            if (wx == wldReadBuf4[j].field_2 && wy == wldReadBuf4[j].field_4) return j;
         } // 4c63
-        wldReadBuf4[arg_4].field_2 = arg_0;
-        wldReadBuf4[arg_4].field_4 = arg_2;
-        wldReadBuf4[arg_4].field_E = *word_1B960 + 0x100;
-        return arg_4;
+        wldReadBuf4[slot].field_2 = wx;
+        wldReadBuf4[slot].field_4 = wy;
+        wldReadBuf4[slot].field_E = *word_1B960 + 0x100;
+        return slot;
     }
     // 4c8a
     return -1;
@@ -579,56 +580,56 @@ int sub_14BB4(int arg_0, int arg_2, int arg_4) {
 
 // 4c94
 // debugcom: manhattan distance
-int sub_14C94(int arg_0, int arg_2) {
+int itemDistance(int idx1, int idx2) {
     // 4cb7
-    return sub_14D96(wldReadBuf4[arg_0].field_2 - wldReadBuf4[arg_2].field_2, 
-        wldReadBuf4[arg_0].field_4 - wldReadBuf4[arg_2].field_4);
+    return approxDistance(wldReadBuf4[idx1].field_2 - wldReadBuf4[idx2].field_2,
+        wldReadBuf4[idx1].field_4 - wldReadBuf4[idx2].field_4);
 }
 
 // 4cc5
-int sub_14CC5(int arg_0, int arg_2) {
-    int var_2;
+int positionUnit(int unit, int loc) {
+    int j;
     // 4cd9
-    var_2 = wldReadBuf6[arg_0].field_16;
+    j = wldReadBuf6[unit].field_16;
     // 4cea
-    wldReadBuf6[arg_0].field_2 = wldReadBuf4[arg_2].field_2 + 9;
-    wldReadBuf6[arg_0].field_4 = wldReadBuf4[arg_2].field_4 - 0xc;
+    wldReadBuf6[unit].field_2 = wldReadBuf4[loc].field_2 + 9;
+    wldReadBuf6[unit].field_4 = wldReadBuf4[loc].field_4 - 0xc;
     // 4d0b
-    wldReadBuf6[arg_0].field_8 = (long)wldReadBuf6[arg_0].field_2 << 5;
-    wldReadBuf6[arg_0].field_C = (long)wldReadBuf6[arg_0].field_4 << 5;
+    wldReadBuf6[unit].field_8 = (long)wldReadBuf6[unit].field_2 << WORLD_COORD_SHIFT;
+    wldReadBuf6[unit].field_C = (long)wldReadBuf6[unit].field_4 << WORLD_COORD_SHIFT;
     // 4d2d
-    wldReadBuf6[arg_0].field_6 = wldReadBuf4[arg_2].field_8 & 0x200 ? 0x8c : 0xc;
-    wldReadBuf6[arg_0].field_1A = planes[var_2].field_12;
-    wldReadBuf6[arg_0].field_10 = 0xfc00;
-    wldReadBuf6[arg_0].field_12 = 0;
-    wldReadBuf6[arg_0].field_14 = 0;
-    wldReadBuf6[arg_0].field_18 |= 0x403;
+    wldReadBuf6[unit].field_6 = wldReadBuf4[loc].field_8 & 0x200 ? 0x8c : 0xc;
+    wldReadBuf6[unit].field_1A = planes[j].field_12;
+    wldReadBuf6[unit].field_10 = 0xfc00;
+    wldReadBuf6[unit].field_12 = 0;
+    wldReadBuf6[unit].field_14 = 0;
+    wldReadBuf6[unit].field_18 |= 0x403;
     // 4d6b
-    wldReadBuf6[arg_0].field_0 = arg_2;
+    wldReadBuf6[unit].field_0 = loc;
     // 4d8c
-    wldReadBuf6[arg_0].field_1C = ((long)planes[var_2].field_14 << 0xd) / wldReadBuf6[arg_0].field_1A;
+    wldReadBuf6[unit].field_1C = ((long)planes[j].field_14 << 0xd) / wldReadBuf6[unit].field_1A;
 }
 
 // 4d96
 // debugcom: custom_manhattan_distance
-int sub_14D96(int arg_0, int arg_2) {
-    long var_2;
+int approxDistance(int dx, int dy) {
+    long j;
     // 4d9f
-    arg_0 = abs(arg_0);
-    arg_2 = abs(arg_2);
+    dx = abs(dx);
+    dy = abs(dy);
     // 4ddf
-    var_2 = (arg_0 > arg_2) ? (long)(arg_2 >> 1) + (long)arg_0 : (long)(arg_0 >> 1) + (long)arg_2;
+    j = (dx > dy) ? (long)(dy >> 1) + (long)dx : (long)(dx >> 1) + (long)dy;
     // 4ddf
-    if (var_2 > 0x7fff) {
-        var_2 = 0x7fff;
+    if (j > 0x7fff) {
+        j = 0x7fff;
     }
     // 4dfa
-    return var_2;
+    return j;
 }
 
 // 4e03
 void parseWorld(const char *filename) {
-    int var_2, var_4;
+    int j, l;
     // 4e10
     if ((fileHandle = fopen(filename, aRb_4)) == NULL) return;
     // 4e30
@@ -648,12 +649,12 @@ void parseWorld(const char *filename) {
     // 4f2c
     fclose(fileHandle);
     wldOffsets[0] = wldReadBuf11;
-    var_2 = 1;
+    j = 1;
     // 4f3d
     // iterate over the place name strings in the world data, find null bytes, build char pointer table
-    for (var_4 = 0; var_4 < WORLD_BUFSZ; var_4++) {
-        if (wldReadBuf11[var_4] == 0 && var_2 < 100) {
-            wldOffsets[var_2++] = wldReadBuf11 + var_4 + 1;
+    for (l = 0; l < WORLD_BUFSZ; l++) {
+        if (wldReadBuf11[l] == 0 && j < 100) {
+            wldOffsets[j++] = wldReadBuf11 + l + 1;
         }
     }
 }
@@ -697,55 +698,55 @@ void writeWorld(const char *filename) {
 }
 
 // 50eb
-int sub_150EB(int arg_0, int arg_2) {
-    int16 var_2, var_4;
-    int32 var_6;
-    int16 var_A, var_C, var_E;
-    if (arg_0 == 0) { // 50f8
-        return (arg_2 > 0) ? 0 : 0x8000;
+int calcBearing(int dx, int dy) {
+    int16 angle, result;
+    int32 ratio;
+    int16 divisor, swapped, quotient;
+    if (dx == 0) { // 50f8
+        return (dy > 0) ? 0 : BEARING_SOUTH;
     } // 5108
-    if (arg_2 == 0) { // 510e
-        return (arg_0 > 0) ? 0x4000 : 0xc000;
+    if (dy == 0) { // 510e
+        return (dx > 0) ? BEARING_EAST : BEARING_WEST;
     } // 511f
-    if (abs(arg_0) > abs(arg_2)) { // 5137
+    if (abs(dx) > abs(dy)) { // 5137
         // 514d
-        var_6 = (int32)abs(arg_2) << 0xe;
-        var_A = abs(arg_0);
-        var_C = 1;
+        ratio = (int32)abs(dy) << 0xe;
+        divisor = abs(dx);
+        swapped = 1;
     }
     else { // 5166
         // 517c
-        var_6 = (int32)abs(arg_0) << 0xe;
-        var_A = abs(arg_2);
-        var_C = 0;
+        ratio = (int32)abs(dx) << 0xe;
+        divisor = abs(dy);
+        swapped = 0;
     } // 5193
-    var_E = var_6 / (int32)var_A;
+    quotient = ratio / (int32)divisor;
     // 51eb
-    var_2 = ((0x2800 - (((int32)abs((0x1333 - var_E)) * (int32)0xb00) >> 0xe)) * (int32)var_E) >> 0xe;
+    angle = ((0x2800 - (((int32)abs((0x1333 - quotient)) * (int32)0xb00) >> 0xe)) * (int32)quotient) >> 0xe;
     // 51ee
-    if (arg_0 > 0) { // 51f4
-        if (arg_2 > 0) { // 51fa
-            var_4 = var_C != 0 ? 0x4000 - var_2 : var_2;
-        } 
+    if (dx > 0) { // 51f4
+        if (dy > 0) { // 51fa
+            result = swapped != 0 ? BEARING_EAST - angle : angle;
+        }
         else { // 5210
-            var_4 = (var_C != 0) ? var_2 + 0x4000 : 0x8000 - var_2;
+            result = (swapped != 0) ? angle + BEARING_EAST : BEARING_SOUTH - angle;
         } // 5227
     }
     else { // 5229
-        if (arg_2 > 0) { // 522f
-            var_4 = (var_C != 0) ? var_2 + 0xc000 : -var_2;
+        if (dy > 0) { // 522f
+            result = (swapped != 0) ? angle + BEARING_WEST : -angle;
         }
         else { // 5247
-            var_4 = (var_C != 0) ? 0xc000 - var_2 : var_2 + 0x8000;
+            result = (swapped != 0) ? BEARING_WEST - angle : angle + BEARING_SOUTH;
 
         } // 525e
     } // 525e
-    return var_4;
+    return result;
 }
 
 // 5268
 int setMoveDstComm7A() {
-    moveDst = (uint8 FAR*)(&commData->worlBuf);
+    moveDst = (uint8 FAR*)(&commData->worldBuf);
     return 1;
 }
 
@@ -763,96 +764,96 @@ int doNothing() {
 }
 
 // 52f4
-char* sub_152F4(int arg_0) {
+char* getItemCoordStr(int idx) {
     // 530f
-    return sub_1531C(wldReadBuf4[arg_0].field_2, wldReadBuf4[arg_0].field_4, gameData->theater);
+    return formatGridRef(wldReadBuf4[idx].field_2, wldReadBuf4[idx].field_4, gameData->theater);
 }
 
 // 531c
-char* sub_1531C(int arg_0, int arg_2) {
-    int var_2, var_4;
+char* formatGridRef(int wx, int wy) {
+    int gridOffX, gridOffY;
     switch (gameData->theater) { // 53f2
     case 0:
         mystrcpy(&bufCoordStr, aTd00);
-        var_2 = 6;
-        var_4 = 4;
+        gridOffX = 6;
+        gridOffY = 4;
         break;
     case 1:
         mystrcpy(&bufCoordStr, aJz00);
-        var_2 = 0;
-        var_4 = 0;
+        gridOffX = 0;
+        gridOffY = 0;
         break;
     case 2:
         mystrcpy(&bufCoordStr, aXv00);
-        var_2 = 0;
-        var_4 = 0;
+        gridOffX = 0;
+        gridOffY = 0;
         break;
     case 3:
         mystrcpy(&bufCoordStr, aEs00);
-        var_2 = 0;
-        var_4 = 0;
+        gridOffX = 0;
+        gridOffY = 0;
         break;
     case 4:
         mystrcpy(&bufCoordStr, aWx00);
-        var_2 = 0;
-        var_4 = 0;
+        gridOffX = 0;
+        gridOffY = 0;
         break;
     case 5:
         mystrcpy(&bufCoordStr, aCc00);
-        var_2 = 3;
-        var_4 = 5;
+        gridOffX = 3;
+        gridOffY = 5;
         break;
     case 6:
         mystrcpy(&bufCoordStr, aHz00);
-        var_2 = 0;
-        var_4 = 0;
+        gridOffX = 0;
+        gridOffY = 0;
         break;
     default: // 53e6
         bufCoordStr = 0;
         return &bufCoordStr;
     } // 540d
     // 5420
-    arg_0 = (((arg_0 >> 5) * 0x14) >> 0xa) + var_2;
-    while (arg_0 > 9) { // 5427
-        arg_0 -= 0xa;
+    wx = (((wx >> WORLD_COORD_SHIFT) * 0x14) >> 0xa) + gridOffX;
+    while (wx > 9) { // 5427
+        wx -= 0xa;
         bufCoordStr++;
     } // 5433
-    byte_1B0D2 += (int8)arg_0;
-    arg_2 = (((arg_2 >> 5) * 0x14) >> 0xa) + var_4;
+    byte_1B0D2 += (int8)wx;
+    wy = (((wy >> WORLD_COORD_SHIFT) * 0x14) >> 0xa) + gridOffY;
     // 5450
-    while (arg_2 > 9) {
-        arg_2 -= 0xa;
+    while (wy > 9) {
+        wy -= 0xa;
         byte_1B0D1--;
     }
-    byte_1B0D3[0] += 9 - (int8)arg_2;
+    byte_1B0D3[0] += 9 - (int8)wy;
     return &bufCoordStr;
 }
 
 // 5472
-int sub_15472(int arg_0, int arg_2, int arg_4) {
+int clampValue(int val, int lo, int hi) {
     // 5478
-    if (arg_0 > arg_4) return arg_4;
+    if (val > hi) return hi;
     // 5482
-    if (arg_0 >= arg_2) return arg_0;
+    if (val >= lo) return val;
     // 548c
-    if (arg_0 > -16384) return arg_2;
+    if (val > -16384) return lo;
     // 5498
-    return arg_4;
+    return hi;
 }
 
 // 54a1
-void placeString(int arg_0) {
+void placeString(int idx) {
     // 54bc
-    mystrcpy(todayMissStrBuf, wldOffsets[wldReadBuf4[arg_0].field_E & 0x7f]);
+    mystrcpy(todayMissStrBuf, wldOffsets[wldReadBuf4[idx].field_E & 0x7f]);
     // 54d3
-    if (mystrlen(wldOffsets[wldReadBuf4[arg_0].field_0]) != 0) { // 54dd
+    if (mystrlen(wldOffsets[wldReadBuf4[idx].field_0]) != 0) { // 54dd
         // 54f1
-        if (mystrlen(wldOffsets[wldReadBuf4[arg_0].field_E & 0x7f]) != 0) { // 54fb
+        if (mystrlen(wldOffsets[wldReadBuf4[idx].field_E & 0x7f]) != 0) { // 54fb
             // 5503
             mystrcat(todayMissStrBuf, aAt);
         } // 5509
         // 551e
-        mystrcat(todayMissStrBuf, wldOffsets[wldReadBuf4[arg_0].field_0]);
+        mystrcat(todayMissStrBuf, wldOffsets[wldReadBuf4[idx].field_0]);
     } // 5524
     // 5528
     if (mystrlen(todayMissStrBuf) > 0x1e) { // 5533
