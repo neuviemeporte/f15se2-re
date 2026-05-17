@@ -476,6 +476,81 @@ unsigned int routine_132(int param_1, unsigned int param_2) {
     return a;
 }
 
+void routine_131(void) {
+    int p;
+    int a;
+
+    (void)p;
+
+    if (var_214 == 1) {
+        gfx_jump_2a(1, 0, 0x96, 0, var_227, var_228, 0x30, 0x28);
+        var_214 = 0;
+    }
+    a = flightRecords[var_190].status & 0x3f;
+    switch (a) {
+    case 1:
+        if (var_183[(flightRecords[var_190].pad & 0x7f) * 16] & 8) {
+            a = 0xf;
+        } else {
+            a = 0;
+        }
+        break;
+    case 2:
+        a = 2;
+        break;
+    case 12:
+        a = 1;
+        break;
+    case 3:
+        a = 2;
+        break;
+    case 5:
+        a = 3;
+        break;
+    case 8:
+        if (var_190 == 0) {
+            a = 8;
+        } else {
+            if (((int far *)var_222)[0x26 / 2] == 3) {
+                var_207 = 1;
+                a = 7;
+            } else if (((int far *)var_222)[0x26 / 2] == 1) {
+                var_207 = 1;
+                a = 0xe;
+            } else if (var_201 == 0) {
+                var_207 = 1;
+                a = 0xb;
+            } else {
+                var_207 = 1;
+                a = 0xd;
+            }
+        }
+        break;
+    case 10:
+        a = 0xa;
+        break;
+    }
+    if ((unsigned)(routine_137(flightRecords[var_190].cx) + var_93) < 0x73 &&
+        (unsigned)(routine_136(flightRecords[var_190].cy) + var_94) < 0x59) {
+        var_227 = routine_137(flightRecords[var_190].cx) + var_93 + 10;
+        var_228 = routine_136(flightRecords[var_190].cy) + var_94 + 10;
+    } else if ((unsigned)(routine_137(flightRecords[var_190].cx) + var_93) >= 0x73 &&
+               (unsigned)(routine_136(flightRecords[var_190].cy) + var_94) < 0x59) {
+        var_227 = routine_137(flightRecords[var_190].cx) + var_93 - 0x3a;
+        var_228 = routine_136(flightRecords[var_190].cy) + var_94 + 10;
+    } else if ((unsigned)(routine_137(flightRecords[var_190].cx) + var_93) >= 0x73 &&
+               (unsigned)(routine_136(flightRecords[var_190].cy) + var_94) >= 0x59) {
+        var_227 = routine_137(flightRecords[var_190].cx) + var_93 - 0x3a;
+        var_228 = routine_136(flightRecords[var_190].cy) + var_94 - 0x28;
+    } else {
+        var_227 = routine_137(flightRecords[var_190].cx) + var_93 + 10;
+        var_228 = routine_136(flightRecords[var_190].cy) + var_94 - 0x28;
+    }
+    gfx_jump_2a(0, var_227, var_228, 1, 0, 0x96, 0x30, 0x28);
+    gfx_jump_2a(1, var_98[a], var_97[a], 0, var_227, var_228, 0x30, 0x28);
+    var_214 = 1;
+}
+
 void routine_95(int *param_1, int param_2) {
     int p;
     int a;

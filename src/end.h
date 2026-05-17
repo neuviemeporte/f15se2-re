@@ -100,6 +100,9 @@ typedef struct {
 extern FlightRecord flightRecords[];
 extern int var_190;
 extern char var_183[];  /* slot info table, 16 bytes per slot */
+extern char var_207;
+extern int var_97[];
+extern int var_98[];
 
 /* Sprite struct pointers (first word of each sprite descriptor) */
 extern int *dat_20C2;
@@ -127,6 +130,7 @@ void routine_113(int handle);
 int routine_97(unsigned int *p);
 void routine_95(int *param_1, int param_2);
 unsigned int routine_132(int param_1, unsigned int param_2);
+void routine_131(void);
 void routine_105(int p1, int p2, int p3, int p4);
 void routine_65(int param_1);
 void routine_130(int *page, char *str, unsigned int maxWidth, int x, int y, int lineHeight);
