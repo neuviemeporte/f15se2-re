@@ -157,10 +157,10 @@ EXTRN _byte_17877:BYTE
 EXTRN _word_17BEB:WORD
 EXTRN _word_17BED:WORD
 EXTRN _byte_19ADB:BYTE
-EXTRN _word_1786F:WORD
-EXTRN _word_17873:WORD
-EXTRN _word_17871:WORD
-EXTRN _word_17875:WORD
+EXTRN _lineX1:WORD
+EXTRN _lineY1:WORD
+EXTRN _lineX2:WORD
+EXTRN _lineY2:WORD
 EXTRN _word_17BF1:WORD
 EXTRN _word_17BF5:WORD
 EXTRN _byte_17BF0:BYTE
@@ -205,7 +205,7 @@ EXTRN _word_1782E:WORD
 EXTRN _word_17846:WORD
 EXTRN _word_17836:WORD
 EXTRN _word_1784E:WORD
-EXTRN _noJoy80:BYTE
+EXTRN _joyAxes:BYTE
 EXTRN _diskTransferArea:BYTE
 EXTRN _byte_172C6:BYTE
 EXTRN _mystrcpy:PROC
@@ -1091,10 +1091,10 @@ loc_12E0C:
     pop word ptr es:0
     push ds
     pop es
-    mov ax, _word_1786F
-    mov bx, _word_17873
-    mov cx, _word_17871
-    mov dx, _word_17875
+    mov ax, _lineX1
+    mov bx, _lineY1
+    mov cx, _lineX2
+    mov dx, _lineY2
     call _gfx_jump_1f
     clc
     retn
@@ -1131,10 +1131,10 @@ loc_12E58:
     jmp short loc_12EC1
     nop
 loc_12E66:
-    mov cx, _word_1786F
-    mov dx, _word_17873
-    mov si, _word_17871
-    mov di, _word_17875
+    mov cx, _lineX1
+    mov dx, _lineY1
+    mov si, _lineX2
+    mov di, _lineY2
     mov bx, cx
     mov bp, dx
     call sub_12F6A
@@ -1150,8 +1150,8 @@ loc_12E93:
     xchg cx, si
     xchg dx, di
     xchg al, _byte_17BF0
-    mov _word_1786F, cx
-    mov _word_17873, dx
+    mov _lineX1, cx
+    mov _lineY1, dx
 loc_12EA3:
     test _byte_17BF0, al
     jnz short loc_12E2D
@@ -1232,14 +1232,14 @@ loc_12F34:
 loc_12F40:
     cmp _byte_17BF0, 0
     jnz short loc_12F54
-    mov _word_17875, ax
-    mov _word_17871, bx
+    mov _lineY2, ax
+    mov _lineX2, bx
     jmp loc_12E0C
 loc_12F51:
     jmp loc_12E2D
 loc_12F54:
-    mov _word_17873, ax
-    mov _word_1786F, bx
+    mov _lineY1, ax
+    mov _lineX1, bx
     xchg cx, si
     xchg bp, di
     mov al, _byte_17BF0
@@ -1903,7 +1903,7 @@ loc_16A88:
 loc_16A8B:
     call sub_16ABF
 loc_16A8E: ;sub_16ABF puts some value there
-    mov ax, word ptr _noJoy80
+    mov ax, word ptr _joyAxes
     retf
 _sub_16A7F endp
 
@@ -1999,7 +1999,7 @@ loc_16B0F:
 done_16B14:
     shr bx, 1
 loc_16B16:
-    mov _noJoy80[bx], ah
+    mov _joyAxes[bx], ah
     retn
 sub_16ABF endp
 ; ------------------------------startCode2:0xca------------------------------

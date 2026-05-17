@@ -25,11 +25,11 @@ void initGraphics()
     /* 0x4c4 - see f14 gmain.c InitGraphicPages() */
     gfx_jump_4b_storeBufPtr(page1Ptr = gfx_jump_0_alloc(1), 1); // 64k framebuffer @ 2cc0:0
     /* 0x4d8 */
-    if (*iacaSuFlag0Ptr == 0) {
+    if (*gfxModeSetPtr == 0) {
         /* looks like arg is unused inside driver function, maybe it was in an older version of the overlay? */
         gfx_jump_3c_setMode13(commData->setupMono);
         /* 0x4f2, looks like a gfx mode set flag? */
-        *iacaSuFlag0Ptr = 1;
+        *gfxModeSetPtr = 1;
     }
     /* 0x4fb */
     commData->gfxModeNum = gfx_jump_3f_modecode();
@@ -82,7 +82,7 @@ int joyOrKey() {
         return 0;
     } // 5b6
     // 5b6, alt-q hit check
-    if (misc_jump_5b_getkey() == 0x1000) { // 5c0 
+    if (misc_jump_5b_getkey() == KEYCODE_ALTQ) { // 5c0 
         cleanup();
         exit(0);
     }
@@ -114,10 +114,10 @@ void waitMdaCgaStatus(int16 iter)
 void drawLine(int *pageNum, int x1, int y1, int x2, int y2, int color) {
     gfx_jump_0e_setCurBuf(*pageNum);
     gfx_jump_21(color);
-    word_1786F = x1;
-    word_17873 = y1;
-    word_17871 = x2;
-    word_17875 = y2;
+    lineX1 = x1;
+    lineY1 = y1;
+    lineX2 = x2;
+    lineY2 = y2;
     sub_12DEA();
     gfx_jump_23();
     // 673
@@ -185,7 +185,7 @@ selectTheater:
             drawStringCentered(page1NumPtr, aSeeTechnicalSu, 0x71, 0x48, 0xb9);
             enableHighlight = 0;
             timerCounter3 = 6;
-            animateArm(word_19656, word_19656);
+            animateArm(armPosition, armPosition);
             waitJoyKey();
             // 845
             goto selectTheater;
@@ -223,49 +223,49 @@ selectTheater:
 // 90e
 int missionMenuSelect(char **names, char **desc, char *title, int selection)
 {
-    int var_y, var_counter, var_input;
+    int a, row, act;
     TRACE(("missionMenuSelect(): entering, selection %d", selection));
     enableHighlight = 1;
-    drawColor = 1;
+    drawColor = COLOR_TITLE;
     // 934
     drawStringCentered(page1NumPtr, title, 113, 14, 185);
     // 952
     drawLine(page1NumPtr, 173, 22, 235, 22, 1);
     TRACE(("missionMenuSelect(): drawn title %s", title));
-    var_y = 26;
+    a = 26;
     // 95d
-    for (var_counter = 0; var_counter < 5; var_counter++) {
-        if (scenarioFoundArr[var_counter] == 0) {
-            drawColor = 1;
+    for (row = 0; row < 5; row++) {
+        if (scenarioFoundArr[row] == 0) {
+            drawColor = COLOR_TITLE;
             // 993
-            drawStringCentered(page1NumPtr, names[var_counter], 113, var_y, 185);
-            fontIndex = 4;
-            drawColor = 7;
+            drawStringCentered(page1NumPtr, names[row], 113, a, 185);
+            fontIndex = FONT_SMALL;
+            drawColor = COLOR_BRIEF_DESC_NORMAL;
             // 9c2
-            drawStringCentered(page1NumPtr, desc[var_counter], 113, var_y + 8, 185);
-            TRACE(("missionMenuSelect(): drawn item %s/%s", names[var_counter], desc[var_counter]));
-            fontIndex = 1;
+            drawStringCentered(page1NumPtr, desc[row], 113, a + 8, 185);
+            TRACE(("missionMenuSelect(): drawn item %s/%s", names[row], desc[row]));
+            fontIndex = FONT_NORMAL;
         }
-        var_y += 21;
+        a += 21;
     }
-    TRACE(("missionMenuSelect(): items drawn: %d", var_counter));
+    TRACE(("missionMenuSelect(): items drawn: %d", row));
     // 9d4
     setTimerIrqHandler();
     timerCounter3 = 6;
     // 9e4
     animateArm(-1, 6);
-    for (var_counter = 5; var_counter >= selection; var_counter--) {
+    for (row = 5; row >= selection; row--) {
         // a04
-        animateArm(var_counter + 1, var_counter);
+        animateArm(row + 1, row);
     }
     TRACE(("missionMenuSelect(): animated arm"));
     // a0c
     do {
 again:
         // a12
-        if ((var_input = processStoreInput()) != KEYCODE_ENTER) {
+        if ((act = processStoreInput()) != KEYCODE_ENTER) {
             // a17
-            if (var_input == KEYCODE_UPARROW) {
+            if (act == KEYCODE_UPARROW) {
                 // a1c
                 if (selection > 0) {
                     timerCounter3 = 6;
@@ -276,7 +276,7 @@ again:
                 // a38
             }
             // a3a
-            else if (var_input == KEYCODE_DNARROW && selection < 4) {
+            else if (act == KEYCODE_DNARROW && selection < 4) {
                 timerCounter3 = 6;
                 // a54
                 animateArm(selection, selection + 1);
@@ -290,9 +290,9 @@ again:
     timerCounter3 = 6;
     // a71
     // animation to lower the arm after accepting?
-    for (var_counter = selection + 1; var_counter <= 6; var_counter++) {
+    for (row = selection + 1; row <= 6; row++) {
         // a87
-        animateArm(var_counter - 1, var_counter);
+        animateArm(row - 1, row);
     }
     restoreTimerIrqHandler();
     clearBriefing();
@@ -302,11 +302,11 @@ again:
 // 0xa9f
 void animateArm(int a, int b)
 {
-    int var_2;
+    int j;
     while (timerCounter3 < 6) {}
     timerCounter3 = 0;
-    word_19656 = b;
-    var_2 = word_171B2[b];
+    armPosition = b;
+    j = word_171B2[b];
     // ac2
     if (a == -1) {
         // ae5
@@ -320,10 +320,10 @@ void animateArm(int a, int b)
             gfx_jump_29_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
         }
         // b2c
-        showSprite(*page1NumPtr, word_1716A[var_2], word_1717A[var_2], word_1714A[var_2], word_1715A[var_2], word_1718A[var_2], word_1719A[var_2]);
+        showSprite(*page1NumPtr, word_1716A[j], word_1717A[j], word_1714A[j], word_1715A[j], word_1718A[j], word_1719A[j]);
     }
     // b55
-    if (commData->gfxModeNum == 1 || commData->gfxModeNum == 2) { // mda or cga?
+    if (commData->gfxModeNum == GFX_MODE_MDA || commData->gfxModeNum == GFX_MODE_EGA) { // mda or cga?
         // b70
         gfx_jump_52(*page1NumPtr);
         // b7c
@@ -336,28 +336,28 @@ void animateArm(int a, int b)
             gfx_jump_2a(*page2NumPtr, 0, 0, *page1NumPtr, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         } else {// bb3
             // bd7
-            gfx_jump_2a(*page2NumPtr, word_19658, word_1965A, *page1NumPtr, word_19658, word_1965A, word_1965C, word_1965E);
+            gfx_jump_2a(*page2NumPtr, spriteBlitX, spriteBlitY, *page1NumPtr, spriteBlitX, spriteBlitY, spriteBlitW, spriteBlitH);
             // bdf
             if (a < 5 && enableHighlight != 0) {
                 // c10
                 gfx_jump_29_switchColor(page1NumPtr, 113, (21 * a) + 0x22, 297, (21 * a) + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
             } // c18
         }
-        word_19658 = word_1716A[var_2];
-        word_1965A = word_1717A[var_2];
-        word_1965C = word_1718A[var_2];
-        word_1965E = word_1719A[var_2];
+        spriteBlitX = word_1716A[j];
+        spriteBlitY = word_1717A[j];
+        spriteBlitW = word_1718A[j];
+        spriteBlitH = word_1719A[j];
     }
     else { // c3c
         gfx_jump_0e_setCurBuf(0);
         // c4b
         gfx_jump_30_blitToCurrent(page1Ptr);
-        word_19658 = word_1716A[var_2];
-        word_1965A = word_1717A[var_2];
-        word_1965C = word_1718A[var_2];
-        word_1965E = word_1719A[var_2];
+        spriteBlitX = word_1716A[j];
+        spriteBlitY = word_1717A[j];
+        spriteBlitW = word_1718A[j];
+        spriteBlitH = word_1719A[j];
         // c95
-        gfx_jump_2a(*page2NumPtr, word_19658, word_1965A, *page1NumPtr, word_19658, word_1965A, word_1965C, word_1965E);
+        gfx_jump_2a(*page2NumPtr, spriteBlitX, spriteBlitY, *page1NumPtr, spriteBlitX, spriteBlitY, spriteBlitW, spriteBlitH);
         // c9d
         if (b < 5 && enableHighlight != 0) {
             // cce
@@ -369,11 +369,11 @@ void animateArm(int a, int b)
 // cdb
 int askRepeatMission() {
     char keycode;
-    drawColor = 8;
+    drawColor = COLOR_BRIEF_DESC_HL;
     drawStringCentered(page1NumPtr, aRepeatLastMiss, 0x71, 0x42, 0xb9);
     enableHighlight = 0;
     timerCounter3 = 6;
-    animateArm(word_19656, word_19656);
+    animateArm(armPosition, armPosition);
     clearBriefing();
     keycode = misc_jump_5b_getkey();
     if (keycode == 'Y' || keycode == 'y') {
@@ -389,14 +389,14 @@ void checkDiskA() {
         clearBriefing();
         // d69
         drawStringCentered(page1NumPtr, aPleaseReinsert, 0x71, 0x3d, 0xb9);
-        page1NumPtr[6] = 4; // fontIndex?
+        page1NumPtr[6] = FONT_SMALL; // fontIndex?
         // d8c
         drawStringCentered(page1NumPtr, aPressSelectorW, 0x71, 0x49, 0xb9);
-        page1NumPtr[6] = 1;
+        page1NumPtr[6] = FONT_NORMAL;
         enableHighlight = 0;
         timerCounter3 = 6;
         // dae
-        animateArm(word_19656, word_19656);
+        animateArm(armPosition, armPosition);
         // db4
         waitJoyKey();
     }
@@ -408,26 +408,26 @@ void checkDiskA() {
 
 // dca
 void missionDecode() {
-    drawColor = 7;
+    drawColor = COLOR_BRIEF_DESC_NORMAL;
     drawStringCentered(page1NumPtr, aDecodingMissio, 0x71, 0x42, 0xb9);
     enableHighlight = 0;
     timerCounter3 = 6;
-    animateArm(word_19656, word_19656);
+    animateArm(armPosition, armPosition);
 }
 
 // e0a
 void printMission() {
-    int var_2;
+    int j;
     // e10
     clearBriefing();
-    drawColor = 1;
+    drawColor = COLOR_TITLE;
     // e2d
     drawStringCentered(page1NumPtr, aTodaySMission, 0x71, 0x0e, 0xb9);
     // e4b
     drawLine(page1NumPtr, 0xa0, 0x16, 0xf9, 0x16, 1);
     // e61
     drawStringAt(page1NumPtr, aTakeoffFrom, 0x82, 0x20);
-    drawColor = 8;
+    drawColor = COLOR_BRIEF_DESC_HL;
     // e71
     placeString(targets[0].field_4);
     // e8b
@@ -435,46 +435,46 @@ void printMission() {
     // e99
     mystrcpy(todayMissStrBuf, aOnc_2);
     // eae
-    mystrcat(todayMissStrBuf, sub_152F4(targets[0].field_4));
-    fontIndex = 4;
-    drawColor = 3;
+    mystrcat(todayMissStrBuf, getItemCoordStr(targets[0].field_4));
+    fontIndex = FONT_SMALL;
+    drawColor = COLOR_COORDS;
     // ed4
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x34, 0xb9);
-    fontIndex = 1;
-    drawColor = 1;
+    fontIndex = FONT_NORMAL;
+    drawColor = COLOR_TITLE;
     // ef6
     drawStringAt(page1NumPtr, aPrimaryTarget, 0x82, 0x40);
-    drawColor = 8;
+    drawColor = COLOR_BRIEF_DESC_HL;
     // f06
     placeString(targets[0].field_2);
     // f20
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x4a, 0xb9);
-    fontIndex = 4;
-    drawColor = 3;
+    fontIndex = FONT_SMALL;
+    drawColor = COLOR_COORDS;
     // f3a
     mystrcpy(todayMissStrBuf, aOnc_0);
     // f48
     mystrcat(todayMissStrBuf, targets[0].coord);
     // f62
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x54, 0xb9);
-    fontIndex = 1;
-    drawColor = 1;
+    fontIndex = FONT_NORMAL;
+    drawColor = COLOR_TITLE;
     // f84
     drawStringAt(page1NumPtr, aSecondaryTarge, 0x82, 0x60);
-    drawColor = 8;
+    drawColor = COLOR_BRIEF_DESC_HL;
     // f94
     placeString(target2.field_2);
     // fae
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x6a, 0xb9);
-    fontIndex = 4;
-    drawColor = 3;
+    fontIndex = FONT_SMALL;
+    drawColor = COLOR_COORDS;
     // fc8
     mystrcpy(todayMissStrBuf, aOnc_1);
     // fd6
     mystrcat(todayMissStrBuf, target2.coord);
     // ff0
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x74, 0xb9);
-    fontIndex = 1;
+    fontIndex = FONT_NORMAL;
     enableHighlight = 0;
     // 1002
     setTimerIrqHandler();
@@ -482,32 +482,32 @@ void printMission() {
     // 1012
     animateArm(-1, 6);
     // 1018
-    for (var_2 = 5; var_2 >= 0; var_2--) {
-        animateArm(var_2 + 1, var_2);
+    for (j = 5; j >= 0; j--) {
+        animateArm(j + 1, j);
     }
     timerCounter = 0;
-    var_2++;
+    j++;
     // 1040
 printMissionAgain:
     if (joyOrKey() == 0) {
         if (timerCounter >= PRINTMISS_TIMESTEP) {
             timerCounter = 0;
-            if (var_2 < 5) {
+            if (j < 5) {
                 // 1061
-                animateArm(var_2, var_2 + 1);
-                if (++var_2 != 3) {
+                animateArm(j, j + 1);
+                if (++j != 3) {
                     // 1078
-                    animateArm(var_2, var_2 + 1);
+                    animateArm(j, j + 1);
                 }
-                var_2++;
+                j++;
             }
         }
         goto printMissionAgain;
     }
     // 1088
-    for (;var_2 <= 5; var_2++) {
+    for (;j <= 5; j++) {
         // 1096
-        animateArm(var_2, var_2 + 1);
+        animateArm(j, j + 1);
     }
 
     // 109e
@@ -517,43 +517,43 @@ printMissionAgain:
 
 // 10ab
 int processStoreInput() {
-    uint16 var_A;
-    char var_6;
-    int var_4;
-    int var_2;
-    var_2 = var_4 = 0;
-    var_6 = 0;
+    uint16 key;
+    char n;
+    int l;
+    int j;
+    j = l = 0;
+    n = 0;
     // 10bd
     TRACE(("processStoreInput(): entering"));
-    if (word_17282 == 1) { // 10c4
+    if (joyRepeatFlag == 1) { // 10c4
         timerCounter = 0;
-        var_6 = 1;
+        n = 1;
     }
     // 10d1
     if (commData->setupUseJoy == 1) { //10d8
         TRACE(("processStoreInput(): use joy 1"));
-        var_2 = misc_jump_5d_readJoy(0);
-        var_4 = misc_jump_5d_readJoy(1);
+        j = misc_jump_5d_readJoy(0);
+        l = misc_jump_5d_readJoy(1);
         sub_16A7F();
     } // 10fa
-    while ((misc_jump_5a_keybuf() != 0 && var_2 == 0 && var_4 == 0 
-        && noJoy80[0] >= 0x4e && noJoy80[0] <= 0xb2 
-        && noJoy80[1] >= 0x4e && noJoy80[1] <= 0xb2) 
-        || var_6 == 1) {
+    while ((misc_jump_5a_keybuf() != 0 && j == 0 && l == 0 
+        && joyAxes[0] >= JOY_DEADZONE_LO && joyAxes[0] <= JOY_DEADZONE_HI 
+        && joyAxes[1] >= JOY_DEADZONE_LO && joyAxes[1] <= JOY_DEADZONE_HI) 
+        || n == 1) {
         // XXX: case study for instruction skipping in mzdiff, change above while condition to true and uncomment, run mzdiff with refskip 1 tgtskip 2 to repro
         // if ((((((misc_jump_5a_keybuf() == 0) || (var_2 != 0)) || (var_4 != 0)) ||
-        //     ((noJoy80[0] < 0x4e || (noJoy80[0] > 0xb2)))) ||
-        //     ((noJoy80[1] < 0x4e || (noJoy80[1] > 0xb2)))) && (var_6 != 1)) break;
-        if ((word_17282 == 1) && (0xf < timerCounter)) { //113f
+        //     ((joyAxes[0] < 0x4e || (joyAxes[0] > 0xb2)))) ||
+        //     ((joyAxes[1] < 0x4e || (joyAxes[1] > 0xb2)))) && (var_6 != 1)) break;
+        if ((joyRepeatFlag == 1) && (0xf < timerCounter)) { //113f
             TRACE(("processStoreInput(): cond 1"));
-            var_6 = 0;
-            word_17282 = 0;
+            n = 0;
+            joyRepeatFlag = 0;
         }
         // 1149
         if (commData->setupUseJoy == 1) { // 1154
             TRACE(("processStoreInput(): use joy 2"));
-            var_2 = misc_jump_5d_readJoy(0);
-            var_4 = misc_jump_5d_readJoy(1);
+            j = misc_jump_5d_readJoy(0);
+            l = misc_jump_5d_readJoy(1);
             sub_16A7F();
         } // 1176
         if (cbreakHit != 0) {
@@ -567,52 +567,52 @@ int processStoreInput() {
     } // 1192
     TRACE(("processStoreInput(): out of while"));
     if (misc_jump_5a_keybuf() == 0) {
-        var_A = misc_jump_5b_getkey();
-        TRACE(("processStoreInput(): got key 0x%x", var_A));
+        key = misc_jump_5b_getkey();
+        TRACE(("processStoreInput(): got key 0x%x", key));
     }
     // 11a5
-    else if (var_2 == 1) {
+    else if (j == 1) {
         TRACE(("processStoreInput(): setting enter"));
-        var_A = 0xd;
+        key = KEYCODE_ENTER;
     }
     // 11b2
-    else if (noJoy80[1] < 0x4e) {
+    else if (joyAxes[1] < JOY_DEADZONE_LO) {
         TRACE(("processStoreInput(): joy up"));
-        var_A = KEYCODE_UPARROW;
-        word_17282 = 1;
+        key = KEYCODE_UPARROW;
+        joyRepeatFlag = 1;
     }
     // 11c6
-    else if (noJoy80[1] > 0xb2) {
+    else if (joyAxes[1] > JOY_DEADZONE_HI) {
         TRACE(("processStoreInput(): joy dn"));
-        var_A = KEYCODE_DNARROW;
-        word_17282 = 1;
+        key = KEYCODE_DNARROW;
+        joyRepeatFlag = 1;
     }
     // 11da
-    else if (noJoy80[0] < 0x4e) {
+    else if (joyAxes[0] < JOY_DEADZONE_LO) {
         TRACE(("processStoreInput(): joy left"));
-        var_A = KEYCODE_LEFTARROW;
-        word_17282 = 1;
+        key = KEYCODE_LEFTARROW;
+        joyRepeatFlag = 1;
     }
     // 11ee
-    else if (noJoy80[0] > 0xb2) {
+    else if (joyAxes[0] > JOY_DEADZONE_HI) {
         TRACE(("processStoreInput(): joy right"));
-        var_A = KEYCODE_RIGHTARROW;
-        word_17282 = 1;
+        key = KEYCODE_RIGHTARROW;
+        joyRepeatFlag = 1;
     }
     // 1200
-    if (((uint8*)&var_A)[0]) {
-        var_A = var_A & 0xff;
-        TRACE(("processStoreInput(): anded to %u", var_A));
+    if (((uint8*)&key)[0]) {
+        key = key & 0xff;
+        TRACE(("processStoreInput(): anded to %u", key));
     }
     // 120a
-    if (var_A == 0x1000) {
+    if (key == KEYCODE_ALTQ) {
         TRACE(("processStoreInput(): exiting"));
         cleanup();
         restoreCbreakHandler();
         exit(0);
     }
-    TRACE(("processStoreInput(): tail returning 0x%x", var_A));
-    return var_A;
+    TRACE(("processStoreInput(): tail returning 0x%x", key));
+    return key;
 }
 
 // 1229
@@ -640,112 +640,112 @@ void drawStringCentered(int *page, const char *str, int startx, int y, int endx)
 
 // 15ae
 int stringWidth(int *page, const char *str) {
-    int var_6;
-    const uint8* var_4;
-    int var_2;
-    var_4 = str;
-    var_2 = page[6];
-    var_6 = 0;
+    int n;
+    const uint8* l;
+    int j;
+    l = str;
+    j = page[6];
+    n = 0;
     // 15cb
-    while (*var_4 != '\0') {
+    while (*l != '\0') {
         // 15db
-        var_6 += gfx_jump_2f_charWidth(*(var_4++), var_2);
+        n += gfx_jump_2f_charWidth(*(l++), j);
         // 15e6
     } // 15e8
-    return var_6;
+    return n;
 }
 
 // 15f1
-int my_ltoa(int32 arg_0, int8* arg_4) {
-    int8 var_A, var_C;
-    int8 *var_8;
-    int8 var_6[6];
-    var_8 = arg_4;
-    if (arg_0 < 0) { // 1604
-        arg_0 = -arg_0;
-        *var_8 = '-';
-        var_8++;
+int my_ltoa(int32 value, int8* buf) {
+    int8 i, k;
+    int8 *p;
+    int8 n[6];
+    p = buf;
+    if (value < 0) { // 1604
+        value = -value;
+        *p = '-';
+        p++;
     } // 1620
     // 162f
-    var_6[0] = arg_0 % 0xa;
+    n[0] = value % 0xa;
     // 163c
-    arg_0 /= 0xa;
+    value /= 0xa;
     // 164e
-    var_6[1] = arg_0 % 0xa;
+    n[1] = value % 0xa;
     // 165b
-    arg_0 /= 0xa;
+    value /= 0xa;
     // 166d
-    var_6[2] = arg_0 % 0xa;
+    n[2] = value % 0xa;
     // 167a
-    arg_0 /= 0xa;
+    value /= 0xa;
     // 168c
-    var_6[3] = arg_0 % 0xa;
+    n[3] = value % 0xa;
     // 1699
-    arg_0 /= 0xa;
+    value /= 0xa;
     // 16ab
-    var_6[4] = arg_0 % 0xa;
+    n[4] = value % 0xa;
     // 16b8
-    arg_0 /= 0xa;
+    value /= 0xa;
     // 16ca
-    var_6[5] = arg_0 % 0xa;
+    n[5] = value % 0xa;
     // 16cd
-    var_A = 0;
+    i = 0;
     // 16d1
-    for (var_C = 5; var_C > 0; var_C--) { // 16e0
-        if (var_6[var_C] != 0) break;
+    for (k = 5; k > 0; k--) { // 16e0
+        if (n[k] != 0) break;
     } // 16f0
     do {
-        if (var_C == 2 && var_A == 1) { // 16f6
-            *var_8 = ',';
-            var_8++;
+        if (k == 2 && i == 1) { // 16f6
+            *p = ',';
+            p++;
         } // 1705
-        *var_8 = var_6[var_C] + '0';
-        var_A = 1;
-        var_8++;
-    } while (--var_C >= 0);
+        *p = n[k] + '0';
+        i = 1;
+        p++;
+    } while (--k >= 0);
     // 1724
-    *var_8 = '\0';
-    TRACE(("my_ltoa: exiting: %s", arg_4));
+    *p = '\0';
+    TRACE(("my_ltoa: exiting: %s", buf));
 }
 
 // 172c
-int my_itoa(int arg_0, int8 *arg_2) {
-    int8 var_6[6];
-    int8 var_A, var_C;
-    int8 *var_8;
-    var_8 = arg_2;
-    if (arg_0 < 0) { // 173f
-        arg_0 = -arg_0;
-        *var_8 = 0x2d; // minus sign
-        var_8++;
+int my_itoa(int value, int8 *buf) {
+    int8 n[6];
+    int8 i, k;
+    int8 *p;
+    p = buf;
+    if (value < 0) { // 173f
+        value = -value;
+        *p = 0x2d; // minus sign
+        p++;
     } // 1750
-    var_6[0] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[1] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[2] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[3] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[4] = arg_0 % 0xa;
-    arg_0 /= 0xa;
-    var_6[5] = arg_0 % 0xa;
+    n[0] = value % 0xa;
+    value /= 0xa;
+    n[1] = value % 0xa;
+    value /= 0xa;
+    n[2] = value % 0xa;
+    value /= 0xa;
+    n[3] = value % 0xa;
+    value /= 0xa;
+    n[4] = value % 0xa;
+    value /= 0xa;
+    n[5] = value % 0xa;
     // 17a7
-    var_A = 0;
-    for (var_C = 5; var_C > 0; var_C--) {
-        if (var_6[var_C] != 0) break;
+    i = 0;
+    for (k = 5; k > 0; k--) {
+        if (n[k] != 0) break;
     } // 16f0
     do {
-        if (var_C == 2 && var_A == 1) {
-            *var_8 = 0x2c;
-            var_8++;
+        if (k == 2 && i == 1) {
+            *p = 0x2c;
+            p++;
         }
-        *var_8 = var_6[var_C] + 0x30;
-        var_A = 1;
-        var_8++;
-    } while (--var_C >= 0);
+        *p = n[k] + 0x30;
+        i = 1;
+        p++;
+    } while (--k >= 0);
     // 17fe
-    *var_8 = 0;
+    *p = 0;
 }
 
 // 1824

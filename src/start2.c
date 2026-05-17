@@ -26,7 +26,7 @@ int showSprite(int page, int x, int y, int src_x, int src_y, int width, int heig
 }
 
 // 0x1b72
-void pilotSelect(int16 needSplash) 
+void pilotSelect(int16 needSplash)
 {
     int unused;
     TRACE(("pilotSelect(): entering, needSplash %d", needSplash));
@@ -60,7 +60,7 @@ void pilotSelect(int16 needSplash)
     TRACE(("pilotSelect(): updated pilot in game data"));
     // 0x1beb
     screenBuf[3] = 0;
-    // 0x1c00    
+    // 0x1c00
     clearRect(screenBuf, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
     TRACE(("pilotSelect(): returning"));
 }
@@ -68,10 +68,10 @@ void pilotSelect(int16 needSplash)
 // 0x1c08
 int updateHallfame()
 {
-    int var_2;
+    int j;
     // 0x1c14
-    if (gameData->unk1 != 0) {
-        selectedPilotIdx = 6;
+    if (gameData->hallOfFameEligible != 0) {
+        selectedPilotIdx = HALLFAME_SLOTS - 2;
         // 0x1c28
         for (; selectedPilotIdx >= 0; selectedPilotIdx--) {
             // 0x1c43
@@ -80,10 +80,10 @@ int updateHallfame()
         // 0x1c51
         selectedPilotIdx++;
         // 1c55
-        for (var_2 = gameData->pilotIdx - 1; var_2 >= selectedPilotIdx; var_2--) {
-            // 1c82
-            hallfameBuf[var_2 + 1] = hallfameBuf[var_2];
-        }
+        for (j = gameData->pilotIdx - 1; j >= selectedPilotIdx; j--) {
+                // 1c82
+                hallfameBuf[j + 1] = hallfameBuf[j];
+            }
     }
     else {
     // 1c88
@@ -101,11 +101,11 @@ int updateHallfame()
     // 1ccd
     clearRect(screenBuf, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
     gfx_jump_50_null();
-    screenBuf[2] = 0xf;
+    screenBuf[2] = COLOR_WHITE;
     // 1cf4
     drawStringCentered(screenBuf, aOriginalDiskIn, 0, 0x64, 0x140);
     drawStringCentered(screenBuf, aPressAKeyToCon, 0, 0x96, 0x140);
-    screenBuf[2] = 7;
+    screenBuf[2] = COLOR_GRAY;
     // 1d1c
     gfx_jump_46_retrace2();
     misc_jump_5b_getkey();
@@ -113,7 +113,7 @@ int updateHallfame()
 }
 
 // 1d32
-void displayPilots(void) 
+void displayPilots(void)
 {
     int pilotIdx;
     screenBuf[3] = 0;
@@ -122,9 +122,9 @@ void displayPilots(void)
         // 1d49
         TRACE(("displayPilots(): iteration %d", pilotIdx));
         printPilot(pilotIdx);
-    } while (++pilotIdx < 8);
+    } while (++pilotIdx < HALLFAME_SLOTS);
     TRACE(("displayPilots(): loop terminating"));
-    word_173D6 = 0xf;
+    textColor = COLOR_WHITE;
     // 1d71
     drawStringCentered(pageNumPtr, aUseSelectorToC, 0, 0xC0, 0x140);
     TRACE(("displayPilots(): drawn prompt"));
@@ -136,21 +136,21 @@ void displayPilots(void)
 void printPilot(int pilotIdx) { // pilotIdx: index?
     struct Pilot *pilot;
     int x;
-    int var_8;
-    int var_6;
-    int var_A;
+    int p;
+    int n;
+    int i;
     // 1d90
     pilot = &hallfameBuf[pilotIdx];
     TRACE(("printPilot(): index %d, name %s", pilotIdx, pilot->name));
     // 1da1
-    x = (pilotIdx < 4) ? 0x10 : 0xa0;
+    x = (pilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
     // 1db2
-    var_8 = ((pilotIdx & 3) * 0x2c) + 0x14;
+    p = ((pilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
     // 1dcc
-    clearRect(screenBuf, x, var_8 - 1, x + 0x8f, var_8 + 0x20);
+    clearRect(screenBuf, x, p - 1, x + PILOT_ENTRY_WIDTH, p + 0x20);
     TRACE(("printPilot(): cleared rect"));
     // 1de3
-    word_173D6 = (pilotIdx == selectedPilotIdx) ? 0xf : 7;
+    textColor = (pilotIdx == selectedPilotIdx) ? COLOR_WHITE : COLOR_GRAY;
     // 1df9
     mystrcpy(todayMissStrBuf, ranks[pilot->rank & 0xf]);
     TRACE(("printPilot(): strcpy %s", todayMissStrBuf));
@@ -158,9 +158,9 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
     mystrcat(todayMissStrBuf, pilot->name);
     TRACE(("printPilot(): strcat %s", todayMissStrBuf));
     // 1e1e
-    drawStringCentered(screenBuf, todayMissStrBuf, x, var_8, 0x90);
+    drawStringCentered(screenBuf, todayMissStrBuf, x, p, 0x90);
     TRACE(("printPilot(): drawn string %s", todayMissStrBuf));
-    word_173D6 = 0xc;
+    textColor = COLOR_RED;
     word_173DE = 4;
     // 1e3d
     my_ltoa(pilot->total_score, todayMissStrBuf);
@@ -174,29 +174,29 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
     mystrcat(todayMissStrBuf, asc_174AF);
     TRACE(("printPilot(): strcat3 %s", todayMissStrBuf));
     // 1e8f
-    drawStringCentered(screenBuf, todayMissStrBuf, x, var_8 + 9, 0x90);
+    drawStringCentered(screenBuf, todayMissStrBuf, x, p + 9, 0x90);
     TRACE(("printPilot(): drawn string2"));
     word_173DE = 1;
     // 1e9b
-    for (var_6 = 0, var_A = 0; var_6 < 7; var_6++) { // 1ea8
+    for (n = 0, i = 0; n < 7; n++) { // 1ea8
         // 1eb8
-        if ((pilot->field_1D & (1 << var_6)) == 0) continue;
-        var_A += (uint8)byte_17422[var_6] + 4; 
+        if ((pilot->field_1D & (1 << n)) == 0) continue;
+        i += (uint8)byte_17422[n] + 4;
     } // 1ed2
-    TRACE(("printPilot(): past loop 1, var_A = %d", var_A));
+    TRACE(("printPilot(): past loop 1, i = %d", i));
     // 1edd
-    x += (0x90 - var_A) / 2;
-    var_8 += 0x11;
-    var_6 = 0;
+    x += (0x90 - i) / 2;
+    p += 0x11;
+    n = 0;
     // 1ee9
     // display medals
     do {
-        if ((pilot->field_1D & (1 << var_6)) == 0) continue;
+        if ((pilot->field_1D & (1 << n)) == 0) continue;
         // 1f21
-        showSprite(screenBuf[0], x, var_8, byte_17412[var_6], byte_1741A[var_6], byte_17422[var_6], 0x10);
+        showSprite(screenBuf[0], x, p, byte_17412[n], byte_1741A[n], byte_17422[n], 0x10);
         // 1f27
-        x += byte_17422[var_6] + 4;
-    } while(++var_6 < 7);
+        x += byte_17422[n] + 4;
+    } while(++n < 7);
     TRACE(("printPilot(): returning"));
     // 1f42
 }
@@ -216,7 +216,7 @@ int processPilotInput() {
     // 1f54
     while (pilot = selectedPilotIdx, true) switch (processStoreInput()) {
     // 1f84
-    case KEYCODE_ENTER: 
+    case KEYCODE_ENTER:
         TRACE(("processPilotInput(): enter"));
         if ((hallfameBuf[selectedPilotIdx].field_1D & 0x60) == 0) {
             // 1f98
@@ -225,35 +225,35 @@ int processPilotInput() {
             TRACE(("processPilotInput(): accepted %d", selectedPilotIdx));
             return;
         }
-        // 1fa6 
-        putch(7);
+        // 1fa6
+        putch(CHAR_BELL);
         continue;
     // 1f56
-    case KEYCODE_ESC: 
+    case KEYCODE_ESC:
         TRACE(("processPilotInput(): esc"));
         // 1fb2
         hallfameBuf[selectedPilotIdx].theater
-            = hallfameBuf[selectedPilotIdx].difficuly
+            = hallfameBuf[selectedPilotIdx].difficulty
             = hallfameBuf[selectedPilotIdx].total_score
             = hallfameBuf[selectedPilotIdx].last_score
-            = hallfameBuf[selectedPilotIdx].field_1D 
+            = hallfameBuf[selectedPilotIdx].field_1D
             = hallfameBuf[selectedPilotIdx].rank
             = 0;
         // 1fef
-        pilotNameInput(screenBuf, 0x14, 8, 8, &hallfameBuf[selectedPilotIdx]);
+        pilotNameInput(screenBuf, MAX_PILOT_NAME_LEN, PILOT_NAME_HEIGHT, PILOT_NAME_HEIGHT, &hallfameBuf[selectedPilotIdx]);
         // 2000
         pilotToGameData((uint8*)&hallfameBuf[selectedPilotIdx]);
         // 2006
         counter = selectedPilotIdx;
         // 2029
-        while (counter < 7) { // 200e
+        while (counter < HALLFAME_SLOTS - 1) { // 200e
             hallfameBuf[counter] = hallfameBuf[counter + 1];
             // 2026
             counter++;
         }
         // 2033
-        gameDataToPilot(&hallfameBuf[7]);
-        selectedPilotIdx = 7;
+        gameDataToPilot(&hallfameBuf[HALLFAME_SLOTS - 1]);
+        selectedPilotIdx = HALLFAME_SLOTS - 1;
         displayPilots();
         // 2042
         if (doFcbSearch() != 0) {
@@ -277,24 +277,24 @@ int processPilotInput() {
     case KEYCODE_LEFTARROW:
         TRACE(("processPilotInput(): left"));
         // 205e
-        selectedPilotIdx -= 4;
+        selectedPilotIdx -= PILOTS_PER_COLUMN;
         goto handleArrow;
     // 1f68
     case KEYCODE_RIGHTARROW:
         TRACE(("processPilotInput(): right"));
         // 2066
-        selectedPilotIdx += 4;
+        selectedPilotIdx += PILOTS_PER_COLUMN;
 handleArrow:
         // 206b
-        selectedPilotIdx &= 7;
-        x = (pilot < 4) ? 0x10 : 0xa0;
-        y = ((pilot & 3) * 0x2c) + 0x14;
+        selectedPilotIdx &= HALLFAME_SLOTS - 1;
+        x = (pilot < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
+        y = ((pilot & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
         // 20b3
         // looks like ChangeColor() from library.h?
-        gfx_jump_29_switchColor(screenBuf, x, y, x + 0x8f, y + 8, 0xf, 0x7);
-        x = (selectedPilotIdx < 4) ? 0x10 : 0xa0;
-        y = ((selectedPilotIdx & 3) * 0x2c) + 0x14;
-        gfx_jump_29_switchColor(screenBuf, x, y, x + 0x8f, y + 8, 0x7, 0xf);
+        gfx_jump_29_switchColor(screenBuf, x, y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, COLOR_WHITE, COLOR_GRAY);
+        x = (selectedPilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
+        y = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
+        gfx_jump_29_switchColor(screenBuf, x, y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, COLOR_GRAY, COLOR_WHITE);
     }
     TRACE(("processPilotInput(): returning, selected %d", selectedPilotIdx));
 }
@@ -305,32 +305,32 @@ int blinkPilot() {
     if (pilotSelectFlag == 0) return;
     waitMdaCgaStatus(6);
     // 2121
-    x = selectedPilotIdx < 4 ? 0x10 : 0xa0;
-    y = ((selectedPilotIdx & 3) * 0x2c) + 0x14;
+    x = selectedPilotIdx < PILOTS_PER_COLUMN ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
+    y = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
     // 2171
-    gfx_jump_29_switchColor(screenBuf, x , y, x + 0x8f, y + 8, blinkColors[blinkColorIdx], blinkColors[blinkColorIdx ^ 1]);
+    gfx_jump_29_switchColor(screenBuf, x , y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, blinkColors[blinkColorIdx], blinkColors[blinkColorIdx ^ 1]);
     blinkColorIdx ^= 1;
 }
 
 // 2182
-void gameDataToPilot(struct Pilot *arg_0) {
+void gameDataToPilot(struct Pilot *pilot) {
     //uint16 var_4;
-    int var_2;
+    int j;
     // 2189
-    for (var_2 = 0; arg_0->name[var_2] = gameData->pilotName[var_2]; var_2++) {
+    for (j = 0; pilot->name[j] = gameData->pilotName[j]; j++) {
     } // 21a9
-    arg_0->total_score = gameData->totalScore;
-    arg_0->last_score = gameData->lastScore;
-    arg_0->theater = gameData->theater;
-    arg_0->difficuly = gameData->difficulty;
-    arg_0->rank = (gameData->flag2 * 64) + gameData->unk2;
+    pilot->total_score = gameData->totalScore;
+    pilot->last_score = gameData->lastScore;
+    pilot->theater = gameData->theater;
+    pilot->difficulty = gameData->difficulty;
+    pilot->rank = (gameData->rankHigh * 64) + gameData->unk2;
     // 2202
-    arg_0->field_1D = (uint8)((gameData->flag1 == 2) ? 0x20 : 0) + (uint8)((gameData->flag1 == 1) ? 0x40 : 0) + gameData->unk3;
+    pilot->field_1D = (uint8)((gameData->campaignProgress == 2) ? 0x20 : 0) + (uint8)((gameData->campaignProgress == 1) ? 0x40 : 0) + gameData->unk3;
 }
 
 // 2232
 // TODO: change argument to struct Pilot
-void pilotToGameData(uint8 *pilotData) 
+void pilotToGameData(uint8 *pilotData)
 {
     int counter;
     for (counter = 0; 1; counter++) {
@@ -342,79 +342,79 @@ void pilotToGameData(uint8 *pilotData)
     gameData->difficulty = *(uint8*)(pilotData + ROSTER_DIFFICULTY);
     gameData->unk2 = *(uint8*)(pilotData + ROSTER_UNK1) & 0xf;
     gameData->unk3 = *(uint8*)(pilotData + ROSTER_UNK2) & 0x1f;
-    gameData->flag2 = *(uint8*)(pilotData + ROSTER_UNK1) >> 6;
-    gameData->flag1 = 0;
+    gameData->rankHigh = *(uint8*)(pilotData + ROSTER_UNK1) >> 6;
+    gameData->campaignProgress = 0;
     gameData->pilotIdx = selectedPilotIdx;
 }
 
 // 22ec
 int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
-    int var_C;
+    int k;
     int x, y;
-    int var_10;
-    int var_6;
-    uint16 var_4;
-    int var_2;
-    var_C = 0;
+    int h;
+    int n;
+    uint16 l;
+    int j;
+    k = 0;
     TRACE(("pilotNameInput(): entering with page = %d, abc = %d/%d/%d, pilot: %s", *page, a,b,c, pilot->name));
     // 2307
-    x = (selectedPilotIdx < 4) ? 0x10 : 0xa0;
-    y = ((selectedPilotIdx & 3) * 44) + 20;
+    x = (selectedPilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
+    y = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
     // 232f
-    clearRect(page, x, y, x + 143, y + 35);
+    clearRect(page, x, y, x + PILOT_ENTRY_WIDTH, y + 35);
     drawStringAt(page, ranks[0], x, y);
-    x += (var_2 = stringWidth(page, ranks[0]));
-    var_2 = 0x8f - var_2;
+    x += (j = stringWidth(page, ranks[0]));
+    j = PILOT_ENTRY_WIDTH - j;
     screenBuf[3] = 0;
     // 2380
     clearRect(page, 15, 192, 303, 197);
     // 239a
     drawStringCentered(pageNumPtr, aMenterYourName, 0xf, 0xc0, 0x121);
     misc_jump_5e_clearKeyFlags();
-    var_4 = 0x18;
+    l = KEYCODE_CTRLX;
     TRACE(("pilotNameInput(): before loop"));
     do {
         // 23aa
-        TRACE(("pilotNameInput(): loop iter, var_4 = 0x%x", var_4));
-        switch(var_4) {
+        TRACE(("pilotNameInput(): loop iter, l = 0x%x", l));
+        switch(l) {
         // 23b5
-        case 0x18: // ctrl-x?
+        case KEYCODE_CTRLX:
             TRACE(("pilotNameInput(): case 0x18"));
             // 23f8
-            var_10 = 0;
+            h = 0;
             pilot->name[0] = '\0';
             // 2403
-            clearRect(page, x, y, x + var_2, y + c);
+            clearRect(page, x, y, x + j, y + c);
             drawStringAt(page, pilot->name, x, y);
-            var_6 = page[4];
+            n = page[4];
             break;
         // 23ad
         case 8: // backspace
             TRACE(("pilotNameInput(): case 8"));
             // 2498
-            if (var_10 > 0) {
-                var_10--;
+            if (h > 0) {
+                h--;
                 // 23eb
-                pilot->name[var_10] = '\0';
+                pilot->name[h] = '\0';
                 // 2403 - duplicate code block coalesced with above
-                clearRect(page, x, y, x + var_2, y + c);
+                clearRect(page, x, y, x + j, y + c);
                 drawStringAt(page, pilot->name, x, y);
-                var_6 = page[4];
+                n = page[4];
             }
             break;
-        default: 
+        default:
             TRACE(("pilotNameInput(): case default"));
             // 23ba
-            if (var_4 >= 0x20 && var_4 <= 0x7f && var_10 < a && stringWidth(page, pilot->name) <= 0x90) {
-                TRACE(("pilotNameInput(): case default condition true, var_10 = %d", var_10));
+            if (l >= 0x20 && l <= 0x7f && h < a && stringWidth(page, pilot->name) <= 0x90) {
+                TRACE(("pilotNameInput(): case default condition true, h = %d", h));
                 // 23e9
-                pilot->name[var_10++] = var_4;
+                pilot->name[h++] = l;
                 // 23eb
-                pilot->name[var_10] = '\0';
+                pilot->name[h] = '\0';
                 // 2403
-                clearRect(page, x, y, x + var_2, y + c);
+                clearRect(page, x, y, x + j, y + c);
                 drawStringAt(page, pilot->name, x, y);
-                var_6 = page[4];
+                n = page[4];
             }
             break;
         }
@@ -422,20 +422,20 @@ int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
         TRACE(("pilotNameInput(): before input loop"));
         while (getJoyKey() == 0) {
             waitMdaCgaStatus(3);
-            gfx_jump_29_switchColor(page, x, y - 1, x + var_2, y + c, 
-                pilotNameInputColors[var_C], pilotNameInputColors[var_C ^ 1]);
-            var_C ^= 1;
-            page[3] = pilotNameInputColors[var_C];
+            gfx_jump_29_switchColor(page, x, y - 1, x + j, y + c,
+                pilotNameInputColors[k], pilotNameInputColors[k ^ 1]);
+            k ^= 1;
+            page[3] = pilotNameInputColors[k];
         }
         TRACE(("pilotNameInput(): after input loop"));
         // 24a4
-        var_4 = sub_125E4();
-        if ((var_4 & 0xff) != 0) {
-            var_4 &= 0xff;
+        l = readInputKey();
+        if ((l & 0xff) != 0) {
+            l &= 0xff;
         }
-        TRACE(("pilotNameInput(): after sub_125e4, var_4 = 0x%x", var_4));
+        TRACE(("pilotNameInput(): after sub_125e4, l = 0x%x", l));
         // 24b4
-        if (var_4 == 0xd) { // 24bd
+        if (l == KEYCODE_ENTER) { // 24bd
             screenBuf[3] = 0;
             clearRect(page, 0xf, 0xc0, 0x12f, 0xc5);
             return;
@@ -469,17 +469,17 @@ void loadHallfame(void)
 
 // 2542
 int saveHallfame() {
-    FILE *var_2;
-    int var_4;
+    FILE *j;
+    int l;
     // 2550
-    var_2 = fopen(aHallfame_0, aWb);
+    j = fopen(aHallfame_0, aWb);
     // 2566
-    fwrite(&selectedPilotIdx, 2, 1, var_2);
-    var_4 = 0;
+    fwrite(&selectedPilotIdx, 2, 1, j);
+    l = 0;
     do {
-        fwrite(&hallfameBuf[var_4], HALLFAME_RECORDSZ, 1, var_2);
-    } while (++var_4 < 8);
-    fclose(var_2);
+        fwrite(&hallfameBuf[l], HALLFAME_RECORDSZ, 1, j);
+    } while (++l < HALLFAME_SLOTS);
+    fclose(j);
 }
 
 // 25a0
@@ -496,30 +496,30 @@ int getJoyKey() {
 }
 
 // 25e4
-int sub_125E4() {
-    int var_2;
+int readInputKey() {
+    int j;
     if (commData->setupUseJoy == 1) { // 25f5
         do {
             if (misc_jump_5a_keybuf() == 0) break;
         } while (misc_jump_5d_readJoy(0) == 0);
         // 260d
         if (misc_jump_5a_keybuf() != 0) { // 2616
-            var_2 = 0xd;
+            j = KEYCODE_ENTER;
             goto checkKey;
         }
     }
     // 261e
-    var_2 = misc_jump_5b_getkey();
+    j = misc_jump_5b_getkey();
     // 2626
 checkKey:
-    if (var_2 == 0x1000 || cbreakHit != 0) { // 262d
+    if (j == KEYCODE_ALTQ || cbreakHit != 0) { // 262d
         cleanup();
         if (cbreakHit != 0) restoreCbreakHandler();
         // 2644
         exit(0);
     }
     // 264a
-    return var_2;
+    return j;
 }
 
 // 0x30a2
@@ -529,7 +529,7 @@ int openFileWrapper(char *filename,int mode)
 }
 
 // 0x30c6
-int closeFileWrapper(int handle) 
+int closeFileWrapper(int handle)
 {
     fileClose(handle);
 }
@@ -577,54 +577,54 @@ uint16 allocBuffer(int size) {
 void parseGridTerrain(void) {
     parseGrid();
     parseTerrain(regnPlhPtr);
-    word_18186 = 0;
+    terrainDirtyFlag = 0;
 }
 
 // 3b9e
-int parseTerrain(char *arg_0) {
-    int16 var_2, var_4, var_6, var_8;
-    uint16 var_A;
-    sub_13EA8(arg_0, a_3dt);
-    if ((fileHandle = fopen(arg_0, aRb)) == 0) {
-        subReadKey(aOpenErrorOn_3d);
+int parseTerrain(char *filename) {
+    int16 j, l, n, p;
+    uint16 i;
+    replaceExtension(filename, a_3dt);
+    if ((fileHandle = fopen(filename, aRb)) == 0) {
+        showMsgWaitKey(aOpenErrorOn_3d);
     }
     else {
         fread(&terrainSignature,2,1,fileHandle);
         // 3be6
         if (terrainSignature != TERRAIN_MAGIC) { // 3bee
-            subReadKey(aBadTileFileFor);
+            showMsgWaitKey(aBadTileFileFor);
         }
         else { // 3bfc
             fread(terrainBuf1,2,5,fileHandle);
-            for (var_4 = 0; var_4 < 5; var_4++) {
-                // 3c4a
-                if (terrainBuf1[var_4] > 0x20) { // 3c51
-                    subReadKey(aTooManyTiles_);
+                for (l = 0; l < 5; l++) {
+                    // 3c4a
+                    if (terrainBuf1[l] > 0x20) { // 3c51
+                    showMsgWaitKey(aTooManyTiles_);
                     return;
                 }
                 // 3c36
-                fread(&terrainBuf2[var_4],2,terrainBuf1[var_4], fileHandle);
+                fread(&terrainBuf2[l],2,terrainBuf1[l], fileHandle);
             }
             // 3c58
-            var_6 = 0;
-            for (var_4 = 0; var_4 < 5; var_4 = var_4 + 1) {
-                for (var_8 = 0; terrainBuf1[var_4] > var_8; var_8++) {
+            n = 0;
+            for (l = 0; l < 5; l = l + 1) {
+                for (p = 0; terrainBuf1[l] > p; p++) {
                 // 3d20
-                    terrainPtrUnk[var_4].field_0[var_8] = terrainBuf3 + var_6;
+                    terrainPtrUnk[l].field_0[p] = terrainBuf3 + n;
                     // 3ce7
-                    for (var_A = 0; var_A < (uint16)terrainBuf2[var_4].field_0[var_8]; var_A++) {
+                    for (i = 0; i < (uint16)terrainBuf2[l].field_0[p]; i++) {
                         // 3ced
-                        if (var_6 > 0xdac) { // 3cf7
-                            subReadKey(aTooMuchTileDat);
+                        if (n > 0xdac) { // 3cf7
+                            showMsgWaitKey(aTooMuchTileDat);
                             return;
                         } // 3c66
-                        fread(terrainBuf3 + var_6,2,1,fileHandle);
-                        fread(terrainBuf4 + var_6,2,1,fileHandle);
-                        fread(terrainBuf5 + var_6,2,1,fileHandle);
-                        fread(&var_2,2,1,fileHandle);
+                        fread(terrainBuf3 + n,2,1,fileHandle);
+                        fread(terrainBuf4 + n,2,1,fileHandle);
+                        fread(terrainBuf5 + n,2,1,fileHandle);
+                        fread(&j,2,1,fileHandle);
                         // 3cca
-                        terrainIdxBuf[var_6] = var_2;
-                        var_6 += 7;
+                        terrainIdxBuf[n] = j;
+                        n += 7;
                     }
                 }
             }
@@ -636,24 +636,24 @@ int parseTerrain(char *arg_0) {
 
 // 3d4c
 int parseGrid() {
-    int var_2;
-    sub_13EA8(regnPlhPtr, a_3dg);
+    int j;
+    replaceExtension(regnPlhPtr, a_3dg);
     // 3d71
     if ((fileHandle = fopen(regnPlhPtr, aRb_0)) == 0) { // 3d75
-        subReadKey(aOpenErrorOn__0);
-        var_2 = 0;
+        showMsgWaitKey(aOpenErrorOn__0);
+        j = 0;
         // 3d84
         do {
-            gridBuf1[var_2] = var_2;
-            var_2++;
-        } while (var_2 < 0x10);
+            gridBuf1[j] = j;
+            j++;
+        } while (j < 0x10);
         // 3d97
         nearmemset(gridBuf2, 0, 0x100);
         nearmemset(gridBuf3, 0, 0x200);
         nearmemset(gridBuf4, 0, 0x200);
         nearmemset(gridBuf5, 0, 0x200);
         // 3ddb
-        word_18188 = 0;
+        gridValidFlag = 0;
         return;
     }
     // 3de6
@@ -661,7 +661,7 @@ int parseGrid() {
     // 3dfc
     if (gridSignature != GRID_MAGIC) {
         // 3e08
-        subReadKey(aBadGridFileFor);
+        showMsgWaitKey(aBadGridFileFor);
     }
     else { // 3e10
         fread(gridBuf1, 1, 0x10, fileHandle);
@@ -675,23 +675,22 @@ int parseGrid() {
 }
 
 // 3e8c
-int subReadKey(char *arg_0) {
-    doNothing2(arg_0, 0, 0x60, 0x0f);
+int showMsgWaitKey(char *msg) {
+    doNothing2(msg, 0, 0x60, 0x0f);
     return getch();
 }
 
 // 3ea8
-int sub_13EA8(char *arg_0, char *source) {
-    int8 var_2;
-    for(; (var_2 = *arg_0) != '.';) {
-        if (var_2 == 0) break;
-        arg_0++;
-    } 
-    mystrcpy(arg_0, source);
+int replaceExtension(char *path, char *source) {
+    int8 j;
+    for(; (j = *path) != '.';) {
+        if (j == 0) break;
+        path++;
+    }
+    mystrcpy(path, source);
 }
 
 void mystrcpy(char *dest, const char *source) {
     do {
     } while ((*dest++ = *source++) != '\0');
 }
-

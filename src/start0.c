@@ -10,24 +10,8 @@
 
 #include <dos.h>
 
-int main(void) 
+int main(void)
 {
-    /* TODO: fix stack frame layout
-    uint16 pad1; // 0
-    uint16 var_4; // 4
-    uint16 theater; // 6
-    uint16 pad2; // 8
-    uint16 pad3; // a
-    uint16 difficulty; // c
-    uint16 pad4; // e
-    struct FarPointer iacaPtr; //12
-    uint16 pad5; // 14
-    uint8 pad6; // 15
-    uint8 var_16; // 16
-    uint16 pad7; // 18
-    uint16 pad8; // 1a
-    register int i; 
-    */
     uint8 unused[0xe];
     uint8 introStage;
     uint16 FAR *commPtr;
@@ -40,8 +24,8 @@ int main(void)
     /* 0x17 */
     FP_SEG(needSplash) = SEG_LOWMEM;
     FP_OFF(needSplash) = OFF_IACA_NEEDSPLASH;
-    FP_SEG(iacaSuFlag0Ptr) = SEG_LOWMEM;
-    FP_OFF(iacaSuFlag0Ptr) = OFF_IACA_FLAG2;
+    FP_SEG(gfxModeSetPtr) = SEG_LOWMEM;
+    FP_OFF(gfxModeSetPtr) = OFF_IACA_FLAG2;
     FP_SEG(commPtr) = SEG_LOWMEM;
     FP_OFF(commPtr) = OFF_IACA_START;
     /* 0x39 */
@@ -70,7 +54,7 @@ int main(void)
     if (*needSplash == 1) {
         TRACE(("main: doing splash"));
         /* 0xc1 doSplash:  */
-        gameData->flag1 = 1;
+        gameData->campaignProgress = 1;
         gameData->difficulty = 0xffff;
         gameData->theater = 0xffff;
         gfx_jump_3d_null(5);
@@ -112,10 +96,10 @@ int main(void)
         /* 0x17c */
         TRACE(("main: checking ega"));
 checkEga:
-        if (commData->gfxModeNum >= 2 && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & 0xf) == 9) {
+        if (commData->gfxModeNum >= GFX_MODE_EGA && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & EGA_SWITCH_MASK) == EGA_SWITCH_VALUE) {
             TRACE(("main: switching to ega for title"));
             /* 0x19c */
-            if (commData->gfxModeNum != 2) {
+            if (commData->gfxModeNum != GFX_MODE_EGA) {
                 setupOverlaySlots(loadOverlay(aEgraphic_exe));
             }
             /* 0x1b4 */
@@ -131,7 +115,7 @@ checkEga:
             openShowPic(aTitle16_pic, 0);
             gfx_jump_50_null();
             /* 0x1ec */
-            gfx_jump_44_setDac(commData->gfxModeNum >= 3 ? 4 : 3);
+            gfx_jump_44_setDac(commData->gfxModeNum >= GFX_MODE_VGA ? 4 : 3);
         }
         /* 0x204 */
         TRACE(("main: waiting for mda/cga"));
@@ -146,7 +130,7 @@ checkEga:
         audio_jump_67();
         if (isPcSpeaker == 0) restoreTimerIrqHandler();
         /* 0x23c */
-        if (commData->gfxModeNum >= 2 && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & 0xf) == 9) {
+        if (commData->gfxModeNum >= GFX_MODE_EGA && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & EGA_SWITCH_MASK) == EGA_SWITCH_VALUE) {
             TRACE(("main: restoring old overlay after title"));
             gfx_jump_44_setDac(2);
             /* 0x264 */
@@ -170,12 +154,12 @@ checkEga:
     difficulty = gameData->difficulty;
     theater = gameData->theater;
     /* 0x2ac */
-    if (commData->gfxModeChar == 0 && gameData->flag1 == 0 && gameData->theater < 4 &&
-            ++(gameData->theater) == 4) {
+    if (commData->gfxModeChar == 0 && gameData->campaignProgress == 0 && gameData->theater < NUM_THEATERS &&
+            ++(gameData->theater) == NUM_THEATERS) {
         /* 0x2d8 */
         gameData->theater = 0;
         /* 0x2de */
-        if (gameData->difficulty < 3) {
+        if (gameData->difficulty < MAX_DIFFICULTY) {
             /* 0x2e9 */
             gameData->difficulty++;
         }
@@ -195,11 +179,11 @@ checkEga:
     }
     /* 0x30e */
     else {
-        noJoy80[0] = noJoy80[1] = 0x80;
+        joyAxes[0] = joyAxes[1] = JOY_CENTER;
     }
     TRACE(("main: init pilot/mission"));
     /* 0x316 */
-    joyDone[0] = 1;
+    joyReady[0] = 1;
     bufSize = gfx_jump_17_bufSize();
     /* 0x32a */
     menuSprites = allocBuffer(bufSize);
@@ -208,12 +192,12 @@ checkEga:
     missionSelect();
     TRACE(("main: mission selected"));
     /* 0x33d */
-    gameData->flag3 = 1;
-    gameData->flag4 = 1;
-    gameData->flag1 = 0;
-    commData->setup1 = 1;
+    gameData->missionReady = 1;
+    gameData->isCampaignMission = 1;
+    gameData->campaignProgress = 0;
+    commData->startDone = 1;
     /* 0x365, check if same diff and thea picked as last time */
-    if (gameData->difficulty == difficulty && gameData->theater == theater && missionPick == 0xffff && askRepeatMission() != 0) 
+    if (gameData->difficulty == difficulty && gameData->theater == theater && missionPick == 0xffff && askRepeatMission() != 0)
         goto doSrand;
     /* 0x38b */
     gameData->rand = rand();
@@ -251,10 +235,10 @@ doSrand:
     TRACE(("main: write world"));
     writeWorld(aTemp_wld);
     commData->setupDone = 3;
-    commData->unk2 = 0;
-    commData->unk3 = 0;
+    commData->continueFlag = 0;
+    commData->restartFlag = 0;
     /* 0x42f */
-    if (gameData->flag3 > 1) {
+    if (gameData->missionReady > 1) {
         /* 0x43a */
         commData->gfxModeChar = 1;
     }

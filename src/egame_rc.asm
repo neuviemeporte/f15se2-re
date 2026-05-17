@@ -16,7 +16,7 @@ PUBLIC _gameData
 PUBLIC _hercFlag
 PUBLIC _setupOverlaySlots
 PUBLIC _gfxModeUnset
-PUBLIC _noJoy80
+PUBLIC _joyAxes
 PUBLIC _copyJoystickData
 PUBLIC _installCBreakHandler
 PUBLIC _gfxBufPtr
@@ -17197,8 +17197,8 @@ word_37F8E dw 0
     db 0
     db 0
     db 0
-_noJoy80 db 0
-noJoy80_2 db 0
+_joyAxes db 0
+joyAxes_2 db 0
     db 0
     db 0
 byte_37F98 db 0

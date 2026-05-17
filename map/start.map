@@ -67,7 +67,7 @@ loadHallfame: Code1 NEAR 24e4-2541 R24e4-2541 complete
 saveHallfame: Code1 NEAR 2542-259f R2542-259f complete
 getJoyKey: Code1 NEAR 25a0-25e2 R25a0-25e2 complete
 # !!!
-sub_125E4: Code1 NEAR 25e4-2650 R25e4-261c U261d-261d R261e-2650 complete
+readInputKey: Code1 NEAR 25e4-2650 R25e4-261c U261d-261d R261e-2650 complete
 # a bunch of unreachable routines
 unreach_2652: Code1 NEAR 2652-26af U2652-26af detached
 # !!!
@@ -140,35 +140,35 @@ freeBuffer: Code1 NEAR 378c-37b3 U378c-37b3 detached
 dos_alloc: Code1 NEAR 37b4-37d9 R37b4-37d9 assembly
 dos_freeMem: Code1 NEAR 37da-37f7 U37da-37f7 detached
 # !!!
-sub_137F8: Code1 NEAR 37f8-39e8 R37f8-39dc U39dd-39de R39df-39e8 complete
-sub_139E9: Code1 NEAR 39e9-3a60 R39e9-3a60 complete
-sub_13A61: Code1 NEAR 3a61-3b88 R3a61-3b88 complete
+findNearestTerrain: Code1 NEAR 37f8-39e8 R37f8-39dc U39dd-39de R39df-39e8 complete
+scaleCoordByLevel: Code1 NEAR 39e9-3a60 R39e9-3a60 complete
+lookupGridCell: Code1 NEAR 3a61-3b88 R3a61-3b88 complete
 parseGridTerrain: Code1 NEAR 3b8a-3b9d R3b8a-3b9d complete
 parseTerrain: Code1 NEAR 3b9e-3d4a R3b9e-3bfa U3bfb-3bfb R3bfc-3c18 U3c19-3c19 R3c1a-3c56 U3c57-3c57 R3c58-3c64 U3c65-3c65 R3c66-3cfc U3cfd-3cfd R3cfe-3d2a U3d2b-3d2b R3d2c-3d4a complete
 # !!!
 parseGrid: Code1 NEAR 3d4c-3e8b R3d4c-3de4 U3de5-3de5 R3de6-3e8b complete
-subReadKey: Code1 NEAR 3e8c-3ea7 R3e8c-3ea7 complete
-sub_13EA8: Code1 NEAR 3ea8-3ed1 R3ea8-3ed1 complete
+showMsgWaitKey: Code1 NEAR 3e8c-3ea7 R3e8c-3ea7 complete
+replaceExtension: Code1 NEAR 3ea8-3ed1 R3ea8-3ed1 complete
 # a bunch of unreachable routines
 unreach_3ed2: Code1 NEAR 3ed2-4041 U3ed2-4041 detached
 missionGenerate: Code1 NEAR 4042-4092 R4042-4092 complete
 runGenerator: Code1 NEAR 4093-4bb3 R4093-4a19 U4a1a-4a2b R4a2c-4bb3 complete
-sub_14BB4: Code1 NEAR 4bb4-4c93 R4bb4-4c93 complete
-sub_14C94: Code1 NEAR 4c94-4cc4 R4c94-4cc4 complete
-sub_14CC5: Code1 NEAR 4cc5-4d95 R4cc5-4d95 complete
-sub_14D96: Code1 NEAR 4d96-4e02 R4d96-4e02 complete
+findOrPlaceItem: Code1 NEAR 4bb4-4c93 R4bb4-4c93 complete
+itemDistance: Code1 NEAR 4c94-4cc4 R4c94-4cc4 complete
+positionUnit: Code1 NEAR 4cc5-4d95 R4cc5-4d95 complete
+approxDistance: Code1 NEAR 4d96-4e02 R4d96-4e02 complete
 parseWorld: Code1 NEAR 4e03-4f75 R4e03-4f75 complete
 writeWorld: Code1 NEAR 4f76-50e7 R4f76-50e7 complete
 doNothing2: Code1 NEAR 50e8-50ea R50e8-50ea ignore
-sub_150EB: Code1 NEAR 50eb-5267 R50eb-5267 complete
+calcBearing: Code1 NEAR 50eb-5267 R50eb-5267 complete
 setMoveDstComm7A: Code1 NEAR 5268-5284 R5268-5284 complete
 unreach_5285: Code1 NEAR 5285-52ba U5285-52ba detached
 memAppend: Code1 NEAR 52bb-52f0 R52bb-52f0 complete
 doNothing: Code1 NEAR 52f1-52f3 R52f1-52f3 complete
-sub_152F4: Code1 NEAR 52f4-531b R52f4-531b complete
-sub_1531C: Code1 NEAR 531c-5471 R531c-53fe U53ff-540c R540d-5471 complete
-sub_15472: Code1 NEAR 5472-54a0 R5472-54a0 complete
-sub_154A1: Code1 NEAR 54a1-5540 R54a1-5540 complete
+getItemCoordStr: Code1 NEAR 52f4-531b R52f4-531b complete
+formatGridRef: Code1 NEAR 531c-5471 R531c-53fe U53ff-540c R540d-5471 complete
+clampValue: Code1 NEAR 5472-54a0 R5472-54a0 complete
+placeString: Code1 NEAR 54a1-5540 R54a1-5540 complete
 # ========= libc follows
 start: Code1 NEAR 5542-55f3 R5542-55f3 external
 __cinit: Code1 NEAR 55f4-56b7 R55f4-56b7 R5e68-5e6d external

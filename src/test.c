@@ -28,12 +28,12 @@ void testComm() {
     ASSERT_EQ(offsetof(struct GameComm, sndOvlAddr), COMM_SNDOVL_ADDR_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, miscOvlAddr), COMM_MISCOVL_ADDR_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, gfxInitResult), COMM_GFXINIT_RESULT_OFFSET);
-    ASSERT_EQ(offsetof(struct GameComm, setup1), COMM_SETUP1_OFFSET);
+    ASSERT_EQ(offsetof(struct GameComm, startDone), COMM_STARTDONE_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, setupMono), COMM_SETUP_MONOCHROME_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, setupDone), COMM_SETUP_DONE_OFFSET);
-    ASSERT_EQ(offsetof(struct GameComm, unk2), COMM_UNK2_OFFSET);
+    ASSERT_EQ(offsetof(struct GameComm, continueFlag), COMM_CONTINUEFLAG_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, setup2), COMM_SETUP2_OFFSET);
-    ASSERT_EQ(offsetof(struct GameComm, unk3), COMM_UNK3_OFFSET);
+    ASSERT_EQ(offsetof(struct GameComm, restartFlag), COMM_RESTARTFLAG_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, gfxModeChar), COMM_SETUP_GFXMODE_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, setupDetail), COMM_SETUP_DETAIL_OFFSET);
 
@@ -54,15 +54,15 @@ void testGame() {
     ASSERT_EQ(offsetof(struct Game, unk2), GAME_UNK2_OFFSET);
     ASSERT_EQ(offsetof(struct Game, unk3), GAME_UNK3_OFFSET);
     ASSERT_EQ(offsetof(struct Game, lastScore), GAME_LASTSCORE_OFFSET);
-    ASSERT_EQ(offsetof(struct Game, flag2), GAME_START_FLAG2_OFFSET);
+    ASSERT_EQ(offsetof(struct Game, rankHigh), GAME_RANK_HIGH_OFFSET);
     ASSERT_EQ(offsetof(struct Game, totalScore), GAME_TOTALSCORE_OFFSET);
     ASSERT_EQ(offsetof(struct Game, theater), GAME_START_THEATER);
-    ASSERT_EQ(offsetof(struct Game, flag4), GAME_FLAG4_OFFSET);
-    ASSERT_EQ(offsetof(struct Game, flag3), GAME_FLAG3_OFFSET);
+    ASSERT_EQ(offsetof(struct Game, isCampaignMission), GAME_IS_CAMPAIGN_MISSION_OFFSET);
+    ASSERT_EQ(offsetof(struct Game, missionReady), GAME_MISSION_READY_OFFSET);
     ASSERT_EQ(offsetof(struct Game, difficulty), GAME_START_DIFFICULTY);
     ASSERT_EQ(offsetof(struct Game, rand), GAME_RAND_OFFSET);
-    ASSERT_EQ(offsetof(struct Game, unk1), GAME_UNK1_OFFSET);
-    ASSERT_EQ(offsetof(struct Game, flag1), GAME_START_FLAG1_OFFSET);
+    ASSERT_EQ(offsetof(struct Game, hallOfFameEligible), GAME_HOF_ELIGIBLE_OFFSET);
+    ASSERT_EQ(offsetof(struct Game, campaignProgress), GAME_CAMPAIGN_PROGRESS_OFFSET);
     printf("OK\n");
 }
 

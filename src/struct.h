@@ -3,8 +3,8 @@
 
 #include "inttype.h"
 
-struct NoJoy80 {
-    uint8 a,b;
+struct JoyAxes {
+    uint8 x,y;
 };
 
 #pragma pack(1)
@@ -84,7 +84,7 @@ struct Pilot {
     int8 rank; // 0x1c
     uint8 field_1D;
     int8 theater; // 0x1e
-    int8 difficuly; // 0x1f
+    int8 difficulty; // 0x1f
 };
 
 struct Plane {
