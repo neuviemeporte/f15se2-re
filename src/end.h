@@ -55,6 +55,8 @@ extern char var_69;       /* timerHandlerInstalled */
 extern char var_81;
 extern char var_194;
 extern char var_195;
+extern char var_196;
+extern char var_197;
 extern int var_208;
 extern int var_209;
 extern int var_211;
@@ -169,6 +171,19 @@ extern int var_177;
 int FUN_1000_4c20(int handle, int off, int whence, int mode);
 void FUN_1000_15d2(char *name, int segment);
 void FUN_1000_1626(char *name, int segment, int off, int whence);
+
+/* Variables used by routine_63 */
+extern int var_221;
+extern int var_215;
+extern int var_225;
+extern int var_224;
+extern int var_200;
+extern int var_182;
+extern int var_199;
+extern int var_181;
+extern char var_204[];
+extern char var_184[];
+extern char var_23[];
 
 /* Variables used by main */
 extern int far *var_178;

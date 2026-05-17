@@ -433,6 +433,109 @@ int routine_135(int param_1)
     }
 }
 
+long routine_63(int param) {
+    int p;
+    int a;
+    int b;
+    int c;
+    long e;
+    int f;
+    int g;
+
+    var_181 = var_199 = var_182 = var_200 = var_224 = var_225 = var_215 = var_221 = c = 0;
+    g = 1;
+    e = 0;
+
+    p = ((int far *)var_222)[0x40 / 2];
+    if (p > 15) {
+        p = 15;
+    }
+
+    for (b = 0; (unsigned)b <= (unsigned)param && flightRecords[207 + b].status; b++) {
+        f = flightRecords[207 + b].pad;
+        switch (flightRecords[207 + b].status & 0x3f) {
+        case 8:
+            if (b != 0) {
+                c = 1;
+            }
+            break;
+        case 1:
+        case 12:
+            if (flightRecords[207 + b].status & 0x80) {
+                var_215 = 1;
+                var_224++;
+            } else if (flightRecords[207 + b].status & 0x40) {
+                var_221 = 1;
+                var_224++;
+            } else if (var_204[f & 0x7f] & 0x40) {
+                var_225++;
+            } else if (!(*(int *)&var_183[f * 16] & 0x500)) {
+                var_224++;
+            } else {
+                var_225++;
+            }
+            break;
+        case 3:
+            if (flightRecords[207 + b].status & 0x80) {
+                var_215 = 1;
+                var_181++;
+            } else if (flightRecords[207 + b].status & 0x40) {
+                var_221 = 1;
+                var_181++;
+            } else if (*(int *)&var_23[(f & 0x7f) * 0x20] == -1) {
+                var_182++;
+            } else {
+                var_181++;
+            }
+            break;
+        case 2:
+            if (flightRecords[207 + b].status & 0x80) {
+                var_215 = 1;
+                var_199++;
+            } else if (flightRecords[207 + b].status & 0x40) {
+                var_221 = 1;
+                var_199++;
+            } else if (var_204[f & 0x7f] & 0x40) {
+                var_200++;
+            } else {
+                if (!((var_184[(((flightRecords[207 + b].cy & 0xff) >> 4) << 4) + ((unsigned char)flightRecords[207 + b].cx >> 4)]) & 3)) {
+                    var_199++;
+                } else {
+                    var_200++;
+                }
+            }
+            break;
+        case 10:
+            g++;
+            break;
+        }
+    }
+
+    e = (long)((var_224 - var_225 * 2) * p * 25)
+      + (long)((var_181 - var_182 * 2) * (((int far *)var_178)[0x3e / 2] + 1) * 50)
+      + (long)((var_199 - var_200 * 2) * p * 20)
+      + (long)(p * var_215 * 200)
+      + (long)(p * var_221 * 100);
+
+    e = e * 2 / (g + 1);
+
+    if (c != 0) {
+        if (e < 0) {
+            e = 0;
+        }
+        switch (((int far *)var_222)[0x26 / 2]) {
+        case 1:
+            e /= 2;
+            break;
+        case 2:
+            e = e * 3 / 4;
+            break;
+        }
+    }
+
+    return e;
+}
+
 unsigned int routine_132(int param_1, unsigned int param_2) {
     int p;
     int a;
