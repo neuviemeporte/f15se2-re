@@ -208,7 +208,9 @@ int loadFileSection(char *name, int b, int c);
 int loadFileSectionEx(char *name, int b, int c, int d, int e);
 void outportByte(int port, int value);
 void decodePicRaw(int handle, int segment);
+void processMenuItems(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6);
 void routine_71(int param_1, int param_2);
+void drawMenuItem(int param_1, int param_2, int param_3);
 void routine_108(int param_1, int param_2, int param_3, int param_4);
 void routine_109(int param_1, int param_2, int param_3, int param_4);
 extern int worldDataReady;
@@ -244,6 +246,7 @@ extern int vgaBufSeg2;
 extern int vgaBufOffset;
 extern int spriteBufSeg;
 extern int missionResult;
+extern int selectedMenuItem;
 
 /* ASM functions called by main */
 void setupOverlaySlots(int param);

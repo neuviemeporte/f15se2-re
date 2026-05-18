@@ -766,3 +766,30 @@ skip_sprite:
         }
     }
 }
+
+void processMenuItems(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6) {
+    char p[2]; char a[2]; int b; char c[2]; int d; int e; char f[2];
+    int g; int h; int i; int j; int k; int l; int m; int n; int o;
+    (void)param_2;
+    (void)b; (void)e; (void)g; (void)h; (void)i; (void)j;
+    (void)k; (void)l; (void)m; (void)n; (void)o;
+    p[0] = 0x0d; p[1] = 0;
+    c[0] = 0x89; c[1] = 0;
+    a[0] = 0x8d; a[1] = 0;
+    f[0] = 0x80; f[1] = 0;
+    d = 0;
+    for (; d < param_3; d++) {
+        if (*(int *)((char *)param_1 + d * 0x32 + 0x2e) == 2) {
+            selectedMenuItem = d;
+            *(int *)((char *)param_1 + d * 0x32 + 0x2e) = 0;
+            blinkWidget((int *)((char *)param_1 + d * 0x32), param_6);
+            drawMenuItem(param_1, d, param_6);
+        } else {
+            if (*(int *)((char *)param_1 + d * 0x32 + 0x2e) != 3) {
+                *(int *)((char *)param_1 + d * 0x32 + 0x2e) = 0;
+            }
+        }
+    }
+    cursorX = param_4;
+    cursorY = param_5;
+}

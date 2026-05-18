@@ -56,6 +56,7 @@ EXTRN _routine_6:PROC
 EXTRN _my_itoa:PROC
 EXTRN _my_ltoa:PROC
 EXTRN _blinkWidget:PROC
+EXTRN _processMenuItems:PROC
 EXTRN _processDebriefInput:PROC
 EXTRN _calcMissionScore:PROC
 EXTRN _drawFlightPath:PROC
@@ -120,6 +121,7 @@ PUBLIC _airKilled
 PUBLIC _airMissed
 PUBLIC _samDataTable
 PUBLIC _var_194
+PUBLIC _selectedMenuItem
 PUBLIC _var_195
 PUBLIC _var_196
 PUBLIC _var_197
@@ -3651,71 +3653,7 @@ routine_24 proc near
     db 90h
 routine_24 endp
 
-routine_59 proc near
-    push BP
-    mov BP,SP
-    sub SP,24h
-    push SI
-    mov byte ptr [BP + -2h],0dh
-    mov byte ptr [BP + -1h],0h
-    mov byte ptr [BP + -8h],89h
-    mov byte ptr [BP + -7h],0h
-    mov byte ptr [BP + -4h],8dh
-    mov byte ptr [BP + -3h],0h
-    mov byte ptr [BP + -0eh],80h
-    mov byte ptr [BP + -0dh],0h
-    mov word ptr [BP + -0ah],0h
-    jmp LAB_1000_21d7
-LAB_1000_21d4:
-    inc word ptr [BP + -0ah]
-LAB_1000_21d7:
-    mov AX,word ptr [BP + 8h]
-    cmp word ptr [BP + -0ah],AX
-    jge LAB_1000_2239
-    mov AX,32h
-    imul word ptr [BP + -0ah]
-    mov SI,AX
-    add SI,word ptr [BP + 4h]
-    add SI,2eh
-    cmp word ptr [SI],2h
-    jnz LAB_1000_2220
-    mov AX,word ptr [BP + -0ah]
-    mov word ptr [_var_198],AX
-    mov word ptr [SI],0h
-    push word ptr [BP + 0eh]
-    mov AX,32h
-    imul word ptr [BP + -0ah]
-    add AX,word ptr [BP + 4h]
-    push AX
-    call blinkWidget
-    add SP,4h
-    push word ptr [BP + 0eh]
-    push word ptr [BP + -0ah]
-    push word ptr [BP + 4h]
-    call routine_96
-    add SP,6h
-    jmp LAB_1000_2237
-LAB_1000_2220:
-    mov AX,32h
-    imul word ptr [BP + -0ah]
-    mov SI,AX
-    add SI,word ptr [BP + 4h]
-    add SI,2eh
-    cmp word ptr [SI],3h
-    jz LAB_1000_2237
-    mov word ptr [SI],0h
-LAB_1000_2237:
-    jmp LAB_1000_21d4
-LAB_1000_2239:
-    mov AX,word ptr [BP + 0ah]
-    mov word ptr [_cursorX],AX
-    mov AX,word ptr [BP + 0ch]
-    mov word ptr [_cursorY],AX
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-routine_59 endp
+processMenuItems equ _processMenuItems
 
 routine_60 proc near
     push BP
@@ -3777,7 +3715,7 @@ LAB_1000_22e8:
     jnz LAB_1000_22f2
     jmp LAB_1000_23c2
 LAB_1000_22f2:
-    mov AX,word ptr [_var_198]
+    mov AX,word ptr [_selectedMenuItem]
     cmp word ptr [BP + -14h],AX
     jz LAB_1000_2320
     mov word ptr [BP + -14h],0h
@@ -3797,7 +3735,7 @@ LAB_1000_22ff:
     jmp LAB_1000_22ff
 LAB_1000_2320:
     mov AX,32h
-    imul word ptr [_var_198]
+    imul word ptr [_selectedMenuItem]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     cmp word ptr [SI + 10h],0h
@@ -3819,7 +3757,7 @@ LAB_1000_2335:
     add SP,0eh
     mov word ptr [BP + -6h],3h
     mov AX,32h
-    imul word ptr [_var_198]
+    imul word ptr [_selectedMenuItem]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     push word ptr [BP + -4h]
@@ -3834,7 +3772,7 @@ LAB_1000_2335:
     add SP,0eh
     mov word ptr [BP + -6h],0dh
     mov AX,32h
-    imul word ptr [_var_198]
+    imul word ptr [_selectedMenuItem]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     push word ptr [BP + -4h]
@@ -3869,7 +3807,7 @@ LAB_1000_23c7:
     inc word ptr [BP + -14h]
     jmp LAB_1000_23c7
 LAB_1000_23e8:
-    mov AX,word ptr [_var_198]
+    mov AX,word ptr [_selectedMenuItem]
     cmp word ptr [BP + -14h],AX
     jnz LAB_1000_23f3
     jmp LAB_1000_2575
@@ -3911,7 +3849,7 @@ LAB_1000_2447:
     jmp LAB_1000_240e
 LAB_1000_2449:
     mov AX,32h
-    imul word ptr [_var_198]
+    imul word ptr [_selectedMenuItem]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     cmp word ptr [SI + 10h],0h
@@ -3933,7 +3871,7 @@ LAB_1000_245e:
     add SP,0eh
     mov word ptr [BP + -6h],3h
     mov AX,32h
-    imul word ptr [_var_198]
+    imul word ptr [_selectedMenuItem]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     push word ptr [BP + -4h]
@@ -3948,7 +3886,7 @@ LAB_1000_245e:
     add SP,0eh
     mov word ptr [BP + -6h],0dh
     mov AX,32h
-    imul word ptr [_var_198]
+    imul word ptr [_selectedMenuItem]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     push word ptr [BP + -4h]
@@ -3963,7 +3901,7 @@ LAB_1000_245e:
     add SP,0eh
     mov word ptr [BP + -6h],0bh
     mov AX,32h
-    imul word ptr [_var_198]
+    imul word ptr [_selectedMenuItem]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     push word ptr [BP + -4h]
@@ -3978,7 +3916,7 @@ LAB_1000_245e:
     add SP,0eh
 LAB_1000_2514:
     mov AX,32h
-    imul word ptr [_var_198]
+    imul word ptr [_selectedMenuItem]
     mov SI,AX
     add SI,word ptr [BP + 4h]
     cmp word ptr [SI + 10h],1h
@@ -4006,11 +3944,11 @@ LAB_1000_254f:
     add SP,4h
 LAB_1000_2562:
     mov AX,word ptr [BP + -14h]
-    mov word ptr [_var_198],AX
+    mov word ptr [_selectedMenuItem],AX
     push word ptr [BP + 0ch]
     push AX
     push word ptr [BP + 4h]
-    call routine_96
+    call drawMenuItem
     add SP,6h
 LAB_1000_2575:
     jmp LAB_1000_22a8
@@ -4031,7 +3969,9 @@ isPointInRect equ _isPointInRect
 
 processDebriefInput equ _processDebriefInput
 
-routine_96 proc near
+PUBLIC _drawMenuItem
+_drawMenuItem:
+drawMenuItem proc near
     push BP
     mov BP,SP
     sub SP,22h
@@ -5117,7 +5057,7 @@ LAB_1000_35db:
     mov SP,BP
     pop BP
     ret
-routine_96 endp
+drawMenuItem endp
 
 drawEventSprite equ _drawEventSprite
 
@@ -5445,7 +5385,7 @@ LAB_1000_47a5:
     push word ptr [_var_205]
     mov AX,offset dat_21e4
     push AX
-    call routine_59
+    call processMenuItems
     add SP,0ch
     push word ptr [_var_100]
     push word ptr [_var_116]
@@ -8898,7 +8838,7 @@ _var_194 db ?
 _var_195 db ?
 _var_196 db ?
 _var_197 db 1531 dup(?)
-_var_198 db 6 dup(?)
+_selectedMenuItem db 6 dup(?)
 _groundKilled db 2 dup(?)
 _groundMissed db 2 dup(?)
 _missionResult db 3 dup(?)
