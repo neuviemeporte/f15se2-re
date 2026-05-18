@@ -277,6 +277,34 @@ extern int var_193[];
 extern int var_192;
 extern int var_102;
 
+/* Data symbols used by routine_27 */
+extern int *var_86;
+extern int var_85;
+extern int var_84;
+extern char var_176[];
+extern char *var_87[];
+extern long var_88[];
+extern long var_89[];
+extern char *var_90[];
+extern long var_91[];
+extern long var_92[];
+extern char str_deskPic[];
+extern char str_deskMsg1[];
+extern char str_deskMsg2[];
+extern char str_deathPic[];
+extern char str_deathMsg1[];
+extern char str_deathMsg2[];
+extern char str_promoPic[];
+extern char str_promoMsg1[];
+extern char str_promoMsg2[];
+extern char str_medalPic[];
+extern char str_medalMsg1[];
+extern char str_medalMsg2[];
+extern void far gfx_jump_3d_null(int param);
+extern void far gfx_jump_50(void);
+extern void far gfx_jump_45_retrace(void);
+extern void far gfx_jump_46_retrace2(void);
+
 /* Variables used by calcMissionScore */
 extern int secondaryHit;
 extern int primaryHit;

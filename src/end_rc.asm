@@ -60,6 +60,7 @@ EXTRN _processMenuItems:PROC
 EXTRN _processDebriefInput:PROC
 EXTRN _routine_96:PROC
 EXTRN _calcMissionScore:PROC
+EXTRN _routine_27:PROC
 EXTRN _drawFlightPath:PROC
 EXTRN _showEventPopup:PROC
 EXTRN _formatFlightTime:PROC
@@ -201,6 +202,32 @@ PUBLIC _fileSeek
 PUBLIC _copyJoystickData
 PUBLIC _gfx_jump_31
 PUBLIC _gfx_jump_17_bufSize
+PUBLIC _var_84
+PUBLIC _var_85
+PUBLIC _var_86
+PUBLIC _var_87
+PUBLIC _var_88
+PUBLIC _var_89
+PUBLIC _var_90
+PUBLIC _var_91
+PUBLIC _var_92
+PUBLIC _var_176
+PUBLIC _str_deskPic
+PUBLIC _str_deskMsg1
+PUBLIC _str_deskMsg2
+PUBLIC _str_deathPic
+PUBLIC _str_deathMsg1
+PUBLIC _str_deathMsg2
+PUBLIC _str_promoPic
+PUBLIC _str_promoMsg1
+PUBLIC _str_promoMsg2
+PUBLIC _str_medalPic
+PUBLIC _str_medalMsg1
+PUBLIC _str_medalMsg2
+PUBLIC _gfx_jump_3d_null
+PUBLIC _gfx_jump_50
+PUBLIC _gfx_jump_45_retrace
+PUBLIC _gfx_jump_46_retrace2
 
 ; --- Code segment ---
 
@@ -3382,300 +3409,7 @@ _incTimerCounters proc near
 _incTimerCounters endp
 getTimeOfDay endp
 
-PUBLIC _routine_27
-_routine_27:
-routine_27 proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    push SI
-    mov BX,word ptr [_var_86]
-    mov word ptr [BX + 6h],0h
-    les BX,dword ptr [_commData]
-    cmp word ptr ES:[BX + 30h],0h
-    jz LAB_1000_1e96
-    jmp LAB_1000_214e
-LAB_1000_1e96:
-    les BX,dword ptr [_gameData]
-    cmp word ptr ES:[BX + 4eh],1h
-    jz LAB_1000_1ea4
-    jmp LAB_1000_1f4a
-LAB_1000_1ea4:
-    mov AX,3h
-    push AX
-    call far ptr gfx_jump_3d_null
-    add SP,2h
-    mov BX,word ptr [_var_86]
-    push word ptr [BX]
-    mov AX,offset str_deskPic
-    push AX
-    call openShowPic
-    add SP,4h
-    mov AX,0fah
-    push AX
-    mov AX,0b3h
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset str_deskMsg1
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    mov AX,0fah
-    push AX
-    mov AX,0bch
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset str_deskMsg2
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    mov word ptr [_var_85],4h
-    mov word ptr [_var_84],0h
-    mov word ptr [BP + -2h],0h
-    jmp LAB_1000_1f0b
-    db 90h
-LAB_1000_1f08:
-    inc word ptr [BP + -2h]
-LAB_1000_1f0b:
-    mov SI,word ptr [BP + -2h]
-    les BX,dword ptr [_gameData]
-    mov AL,byte ptr ES:[BX + SI + 2h]
-    mov BX,SI
-    mov byte ptr [BX + offset _var_176],AL
-    or AL,AL
-    jnz LAB_1000_1f08
-    mov AX,5fh
-    push AX
-    mov AX,99h
-    push AX
-    mov AX,0c1h
-    push AX
-    mov AX,offset _var_176
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    mov word ptr [_var_84],7h
-    mov word ptr [_var_85],1h
-    jmp LAB_1000_2141
-    db 90h
-LAB_1000_1f4a:
-    les BX,dword ptr [_gameData]
-    cmp word ptr ES:[BX + 4eh],2h
-    jnz LAB_1000_1fa8
-    mov AX,2h
-    push AX
-    call far ptr gfx_jump_3d_null
-    add SP,2h
-    mov BX,word ptr [_var_86]
-    push word ptr [BX]
-    mov AX,offset str_deathPic
-    push AX
-    call openShowPic
-    add SP,4h
-    mov AX,0fah
-    push AX
-    mov AX,0adh
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset str_deathMsg1
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    mov AX,0fah
-    push AX
-    mov AX,0b6h
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset str_deathMsg2
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    jmp LAB_1000_2141
-LAB_1000_1fa8:
-    les BX,dword ptr [_gameData]
-    cmp word ptr ES:[BX + 20h],6h
-    jc LAB_1000_1fb6
-    jmp LAB_1000_206b
-LAB_1000_1fb6:
-    mov BX,word ptr ES:[BX + 20h]
-    shl BX,1h
-    shl BX,1h
-    mov SI,word ptr [_gameData]
-    mov AX,word ptr ES:[SI + 32h]
-    mov DX,word ptr ES:[SI + 34h]
-    cmp word ptr [BX + offset _var_89],DX
-    jle LAB_1000_1fd3
-    jmp LAB_1000_206b
-LAB_1000_1fd3:
-    jl LAB_1000_1fde
-    cmp word ptr [BX + offset _var_88],AX
-    jc LAB_1000_1fde
-    jmp LAB_1000_206b
-LAB_1000_1fde:
-    mov AX,6h
-    push AX
-    call far ptr gfx_jump_3d_null
-    add SP,2h
-    mov BX,word ptr [_var_86]
-    push word ptr [BX]
-    mov AX,offset str_promoPic
-    push AX
-    call openShowPic
-    add SP,4h
-    mov word ptr [_var_84],1h
-    mov AX,0fah
-    push AX
-    mov AX,0aeh
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset str_promoMsg1
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    mov AX,offset str_promoMsg2
-    push AX
-    mov AX,offset _var_176
-    push AX
-    call mystrcpy
-    add SP,4h
-    les BX,dword ptr [_gameData]
-    inc word ptr ES:[BX + 20h]
-    mov SI,word ptr ES:[BX + 20h]
-    shl SI,1h
-    push word ptr [SI + offset _var_87]
-    mov AX,offset _var_176
-    push AX
-    call mystrcat
-    add SP,4h
-    mov AX,0fah
-    push AX
-    mov AX,0b7h
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset _var_176
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    call far ptr gfx_jump_50
-    call far ptr gfx_jump_46_retrace2
-    call waitForKeyOrJoy
-LAB_1000_206b:
-    mov word ptr [BP + -2h],4h
-    jmp LAB_1000_2075
-LAB_1000_2072:
-    dec word ptr [BP + -2h]
-LAB_1000_2075:
-    cmp word ptr [BP + -2h],0h
-    jl LAB_1000_2097
-    mov BX,word ptr [BP + -2h]
-    shl BX,1h
-    shl BX,1h
-    mov AX,word ptr [_missionScore]
-    mov DX,word ptr [_missionScoreHi]
-    cmp word ptr [BX + offset _var_92],DX
-    jg LAB_1000_2072
-    jl LAB_1000_2097
-    cmp word ptr [BX + offset _var_91],AX
-    jnc LAB_1000_2072
-LAB_1000_2097:
-    cmp word ptr [BP + -2h],0h
-    jge LAB_1000_20a0
-    jmp LAB_1000_214e
-LAB_1000_20a0:
-    mov AX,1h
-    mov CL,byte ptr [BP + -2h]
-    shl AX,CL
-    les BX,dword ptr [_gameData]
-    test word ptr ES:[BX + 22h],AX
-    jz LAB_1000_20b5
-    jmp LAB_1000_214e
-LAB_1000_20b5:
-    call far ptr gfx_jump_45_retrace
-    mov AX,0ah
-    push AX
-    call far ptr gfx_jump_3d_null
-    add SP,2h
-    mov BX,word ptr [_var_86]
-    push word ptr [BX]
-    mov AX,offset str_medalPic
-    push AX
-    call openShowPic
-    add SP,4h
-    mov word ptr [_var_84],0fh
-    mov AX,0fah
-    push AX
-    mov AX,0aeh
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset str_medalMsg1
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    mov AX,offset str_medalMsg2
-    push AX
-    mov AX,offset _var_176
-    push AX
-    call mystrcpy
-    add SP,4h
-    mov BX,word ptr [BP + -2h]
-    shl BX,1h
-    push word ptr [BX + offset _var_90]
-    mov AX,offset _var_176
-    push AX
-    call mystrcat
-    add SP,4h
-    mov AX,0fah
-    push AX
-    mov AX,0b7h
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset _var_176
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    les BX,dword ptr [_gameData]
-    mov AX,1h
-    mov CL,byte ptr [BP + -2h]
-    shl AX,CL
-    or word ptr ES:[BX + 22h],AX
-LAB_1000_2141:
-    call far ptr gfx_jump_50
-    call far ptr gfx_jump_46_retrace2
-    call waitForKeyOrJoy
-LAB_1000_214e:
-    mov AX,0c7h
-    push AX
-    mov AX,13fh
-    push AX
-    sub AX,AX
-    push AX
-    push AX
-    push word ptr [_var_86]
-    call clearRect
-    add SP,0ah
-    call far ptr gfx_jump_46_retrace2
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-routine_27 endp
+routine_27 equ _routine_27
 
 PUBLIC _routine_24
 _routine_24:
@@ -8039,6 +7773,7 @@ gfx_jump_3d_null proc far               ; 0x1139
     db 0EAh
     dd 0
 gfx_jump_3d_null endp
+_gfx_jump_3d_null equ gfx_jump_3d_null
 gfx_jump_3e proc far               ; 0x113E
     db 0EAh
     dd 0
@@ -8061,10 +7796,12 @@ gfx_jump_45_retrace proc far               ; 0x1161
     db 0EAh
     dd 0
 gfx_jump_45_retrace endp
+_gfx_jump_45_retrace equ gfx_jump_45_retrace
 gfx_jump_46_retrace2 proc far               ; 0x1166
     db 0EAh
     dd 0
 gfx_jump_46_retrace2 endp
+_gfx_jump_46_retrace2 equ gfx_jump_46_retrace2
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
     db 000h, 000h, 000h, 000h
 gfx_jump_4b_storeBufPtr proc far               ; 0x117F
@@ -8077,6 +7814,7 @@ gfx_jump_50 proc far               ; 0x1198
     db 0EAh
     dd 0
 gfx_jump_50 endp
+_gfx_jump_50 equ gfx_jump_50
 gfx_jump_51_null proc far               ; 0x119D
     db 0EAh
     dd 0
@@ -8372,40 +8110,52 @@ _str_dfc db 'Distinguished Flying Cross.', 0
 _str_silverStar db 'Silver Star.', 0
 _str_afc db 'Air Force Cross.', 0
 _str_cmoh db 'Congressional Medal of Honor.', 0
+_str_deskPic equ str_deskPic
 str_deskPic db 064h
     db 065h, 073h, 06Bh, 02Eh, 070h, 069h, 063h, 000h
+_str_deskMsg1 equ str_deskMsg1
 str_deskMsg1 db 041h
     db 066h, 074h, 065h, 072h, 020h, 064h, 069h, 074h, 063h, 068h, 069h, 06Eh, 067h, 020h, 074h, 068h
     db 072h, 065h, 065h, 020h, 076h, 065h, 072h, 079h, 020h, 065h, 078h, 070h, 065h, 06Eh, 073h, 069h
     db 076h, 065h, 020h, 061h, 069h, 072h, 063h, 072h, 061h, 066h, 074h, 02Ch, 000h
+_str_deskMsg2 equ str_deskMsg2
 str_deskMsg2 db 079h
     db 06Fh, 075h, 020h, 061h, 072h, 065h, 020h, 061h, 073h, 073h, 069h, 067h, 06Eh, 065h, 064h, 020h
     db 061h, 020h, 064h, 065h, 073h, 06Bh, 020h, 06Ah, 06Fh, 062h, 02Eh, 000h
+_str_deathPic equ str_deathPic
 str_deathPic db 064h
     db 065h, 061h, 074h, 068h, 02Eh, 070h, 069h, 063h, 000h
+_str_deathMsg1 equ str_deathMsg1
 str_deathMsg1 db 049h
     db 06Eh, 020h, 074h, 068h, 065h, 020h, 077h, 061h, 06Bh, 065h, 020h, 06Fh, 066h, 020h, 074h, 068h
     db 065h, 020h, 068h, 06Fh, 072h, 072h, 069h, 062h, 06Ch, 065h, 020h, 063h, 072h, 061h, 073h, 068h
     db 02Ch, 000h
+_str_deathMsg2 equ str_deathMsg2
 str_deathMsg2 db 079h
     db 06Fh, 075h, 072h, 020h, 066h, 061h, 06Dh, 069h, 06Ch, 079h, 020h, 061h, 06Eh, 064h, 020h, 066h
     db 072h, 069h, 065h, 06Eh, 064h, 073h, 020h, 06Dh, 06Fh, 075h, 072h, 06Eh, 020h, 079h, 06Fh, 075h
     db 072h, 020h, 06Ch, 06Fh, 073h, 073h, 02Eh, 000h
+_str_promoPic equ str_promoPic
 str_promoPic db 070h
     db 072h, 06Fh, 06Dh, 06Fh, 02Eh, 070h, 069h, 063h, 000h
+_str_promoMsg1 equ str_promoMsg1
 str_promoMsg1 db 046h
     db 06Fh, 072h, 020h, 079h, 06Fh, 075h, 072h, 020h, 063h, 06Fh, 06Eh, 073h, 069h, 073h, 074h, 065h
     db 06Eh, 074h, 06Ch, 079h, 020h, 073h, 075h, 063h, 063h, 065h, 073h, 073h, 066h, 075h, 06Ch, 020h
     db 06Dh, 069h, 073h, 073h, 069h, 06Fh, 06Eh, 073h, 02Ch, 000h
+_str_promoMsg2 equ str_promoMsg2
 str_promoMsg2 db 079h
     db 06Fh, 075h, 020h, 068h, 061h, 076h, 065h, 020h, 062h, 065h, 065h, 06Eh, 020h, 070h, 072h, 06Fh
     db 06Dh, 06Fh, 074h, 065h, 064h, 020h, 074h, 06Fh, 020h, 000h
+_str_medalPic equ str_medalPic
 str_medalPic db 06Dh
     db 065h, 064h, 061h, 06Ch, 02Eh, 070h, 069h, 063h, 000h
+_str_medalMsg1 equ str_medalMsg1
 str_medalMsg1 db 046h
     db 06Fh, 072h, 020h, 079h, 06Fh, 075h, 072h, 020h, 06Fh, 075h, 074h, 073h, 074h, 061h, 06Eh, 064h
     db 069h, 06Eh, 067h, 020h, 070h, 065h, 072h, 066h, 06Fh, 072h, 06Dh, 061h, 06Eh, 063h, 065h, 02Ch
     db 020h, 079h, 06Fh, 075h, 020h, 072h, 065h, 063h, 065h, 069h, 076h, 065h, 000h
+_str_medalMsg2 equ str_medalMsg2
 str_medalMsg2 db 074h
     db 068h, 065h, 020h, 000h
 _ps_var86_target db 000h, 000h, 000h, 000h
