@@ -1068,8 +1068,8 @@ done:
 
 int routine_60(int param_1, int param_2, int param_3, int param_4, int param_5) {
     char p[2]; int a; int b; char c[2]; int d; char e[2]; int f;
-    int g; char h[2]; int i; int j; int k; int l; int m; int n; int o;
-    register int rg;
+    int g; char h[2]; int i; char j[10]; int k; int l; int m; int n; int o;
+    register int si;
     (void)param_2;
     (void)d; (void)g; (void)j; (void)k; (void)l; (void)m; (void)n; (void)o;
     p[0] = 0x0d; p[1] = 0;
@@ -1079,25 +1079,22 @@ int routine_60(int param_1, int param_2, int param_3, int param_4, int param_5) 
     gfx_jump_50();
     colorAnimEnabled = 0;
     i = 0;
-    while (!isPointInRect((unsigned int *)((char *)param_1 + i * 0x32)) && i < param_3)
+    while (isPointInRect((unsigned int *)((char *)param_1 + i * 0x32)) == 0 && i < param_3)
         i++;
     joyRepeatFlag = 0;
     for (;;) {
-        gfx_jump_50();
-        rg = i * 0x32;
-        if (!(*(int *)((char *)param_1 + rg + 0x30) & 0x100)) {
-            colorAnimEnabled = 1;
-        }
-        processDebriefInput((int *)param_4, (int *)((char *)param_1 + i * 0x32), param_5);
-        if (inputChanged == 0) {
-            if (enterPressed == 0)
-                continue;
-        }
+        do {
+            gfx_jump_50();
+            si = i * 0x32;
+            if ((*(int *)((char *)param_1 + si + 0x30) & 0x100) == 0) {
+                colorAnimEnabled = 1;
+            }
+            processDebriefInput((int *)param_4, (int *)((char *)param_1 + i * 0x32), param_5);
+        } while (inputChanged == 0 && enterPressed == 0);
         if (enterPressed != 0) {
-            /* ENTER pressed */
             if (i != selectedMenuItem) {
                 i = 0;
-                while (!isPointInRect((unsigned int *)((char *)param_1 + i * 0x32)) && i < param_3)
+                while (isPointInRect((unsigned int *)((char *)param_1 + i * 0x32)) == 0 && i < param_3)
                     i++;
             }
             if (((int *)((char *)param_1 + selectedMenuItem * 0x32))[8] != 0)
@@ -1111,46 +1108,39 @@ int routine_60(int param_1, int param_2, int param_3, int param_4, int param_5) 
             gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 0x0d, a);
             goto done;
         }
-        /* Input changed, not enter */
         i = 0;
-        while (!isPointInRect((unsigned int *)((char *)param_1 + i * 0x32)) && i < param_3)
+        while (isPointInRect((unsigned int *)((char *)param_1 + i * 0x32)) == 0 && i < param_3)
             i++;
-        if (i == selectedMenuItem)
-            continue;
-        rg = i * 0x32;
-        if (!(*(char *)((char *)param_1 + rg + 0x30) & 0x08))
-            goto update;
-        f = 0;
-        for (; f < param_3; f++) {
-            if (((int *)((char *)param_1 + f * 0x32))[0x17] == 0)
-                continue;
-            rg = i * 0x32;
-            if (((int *)((char *)param_1 + f * 0x32))[0x16] != ((int *)(param_1 + rg))[0x16])
-                continue;
-            blinkWidget((int *)((char *)param_1 + f * 0x32), param_5);
+        if (i != selectedMenuItem) {
+            if ((*(char *)((char *)param_1 + i * 0x32 + 0x30) & 0x08) != 0) {
+                for (f = 0; f < param_3; f++) {
+                    if (((int *)((char *)param_1 + f * 0x32))[0x17] != 0 &&
+                        ((int *)((char *)param_1 + i * 0x32))[0x16] == ((int *)((char *)param_1 + f * 0x32))[0x16]) {
+                        blinkWidget((int *)((char *)param_1 + f * 0x32), param_5);
+                    }
+                }
+                if (((int *)((char *)param_1 + selectedMenuItem * 0x32))[8] == 0) {
+                    b = 9;
+                    a = 6;
+                    gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 9, 6);
+                    b = 3;
+                    gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 3, a);
+                    b = 0x0d;
+                    gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 0x0d, a);
+                    b = 0x0b;
+                    gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 0x0b, a);
+                }
+                if (((int *)((char *)param_1 + selectedMenuItem * 0x32))[8] == 1) {
+                    b = 8;
+                    a = 7;
+                    gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 8, 7);
+                }
+                blinkWidget((int *)((char *)param_1 + i * 0x32), param_5);
+            }
+            selectedMenuItem = i;
+            routine_96(param_1, i, param_5);
         }
-        if (((int *)((char *)param_1 + selectedMenuItem * 0x32))[8] != 0)
-            goto special_check;
-        b = 9;
-        a = 6;
-        gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 9, 6);
-        b = 3;
-        gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 3, a);
-        b = 0x0d;
-        gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 0x0d, a);
-        b = 0x0b;
-        gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 0x0b, a);
-    special_check:
-        if (((int *)((char *)param_1 + selectedMenuItem * 0x32))[8] == 1) {
-            b = 8;
-            a = 7;
-            gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 8, 7);
-        }
-        blinkWidget((int *)((char *)param_1 + i * 0x32), param_5);
-    update:
-        selectedMenuItem = i;
-        routine_96(param_1, i, param_5);
     }
- done:
+done:
     return i;
 }
