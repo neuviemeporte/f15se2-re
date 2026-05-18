@@ -413,7 +413,7 @@ counterMore1k:
     word_182C4 += (rand() & 0x1000) - 0x800;
   }
   // 477d
-  if ((uint8)targets[0].missionCode & 0x10 != 0) {
+  if (targets[0].missionCode & 0x10) {
     word_182BE = ((word_182BE >> 0xa) << 0xa) + 0x200;
     word_182C0 = ((word_182C0 >> 0xa) << 0xa) + 0x200;
   }
@@ -535,7 +535,7 @@ counterMore1k:
   for (idx = 0; idx < 3; idx++) { // 4b23
     TRACE(("runGenerator(): loop8, counter %d", idx));
     // 4b49
-    commData->unk8[idx] = word_189B6[commData->unk7[idx] * 0x34];
+    commData->unk8[idx] = word_189B6[commData->unk7[idx] * 0xD];
   }
   TRACE(("runGenerator(): past loop8"));
   // 4b4f
