@@ -109,7 +109,7 @@ loop_top:
         drawStringAt((int *)param_1, dat_4824, 0xf0, 0x1e);
         gfx_jump_21(0);
         if (prevDrawX == 0 && prevDrawY == 0) {
-            drawFlightLine((int)var_194, (int)var_195, (int)flightRecords[curRecordIdx].mapX, (int)flightRecords[curRecordIdx].mapY);
+            drawFlightLine((int)flightRecords[0].mapX, (int)flightRecords[0].mapY, (int)flightRecords[curRecordIdx].mapX, (int)flightRecords[curRecordIdx].mapY);
             prevDrawX = (int)flightRecords[curRecordIdx].mapX;
             prevDrawY = (int)flightRecords[curRecordIdx].mapY;
         } else {
@@ -137,7 +137,7 @@ done:
     }
     gfx_jump_21(0);
     if (prevDrawX == 0 && prevDrawY == 0) {
-        drawFlightLine((int)var_194, (int)var_195, (int)flightRecords[curRecordIdx].mapX, (int)flightRecords[curRecordIdx].mapY);
+        drawFlightLine((int)flightRecords[0].mapX, (int)flightRecords[0].mapY, (int)flightRecords[curRecordIdx].mapX, (int)flightRecords[curRecordIdx].mapY);
         prevDrawX = (int)flightRecords[curRecordIdx].mapX;
         prevDrawY = (int)flightRecords[curRecordIdx].mapY;
     } else {
@@ -292,7 +292,7 @@ int drawEventSprite(int param_1)
         case EVENT_AIR_KILL2:
         spriteAir[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1 - 2;
         spriteAir[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1 - 2;
-        if (slotInfoTable[(flightRecords[curRecordIdx].pad & UNIT_ID_MASK) * 16] & 8) {
+        if (slotInfoTable[(flightRecords[curRecordIdx].unitId & UNIT_ID_MASK) * 16] & 8) {
             spriteAir[1] = 0x11e;
         } else {
             spriteAir[1] = 0x12d;
@@ -340,7 +340,7 @@ long calcMissionScore(int param) {
     }
 
     for (b = 0; (unsigned)b <= (unsigned)param && flightRecords[KILL_RECORD_OFFSET + b].status; b++) {
-        f = flightRecords[KILL_RECORD_OFFSET + b].pad;
+        f = flightRecords[KILL_RECORD_OFFSET + b].unitId;
         switch (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_TYPE_MASK) {
         case EVENT_EJECTED:
             if (b != 0) {
@@ -480,7 +480,7 @@ void showEventPopup(void) {
     a = flightRecords[curRecordIdx].status & STATUS_TYPE_MASK;
     switch (a) {
     case EVENT_AIR_KILL:
-        if (slotInfoTable[(flightRecords[curRecordIdx].pad & UNIT_ID_MASK) * 16] & 8) {
+        if (slotInfoTable[(flightRecords[curRecordIdx].unitId & UNIT_ID_MASK) * 16] & 8) {
             a = 0xf;
         } else {
             a = 0;
