@@ -867,14 +867,15 @@ void routine_96(int param_1, int param_2, int param_3) {
     drawStringAt((int *)param_3, dat_4824, 0x131, 0x36);
     ejectedFlag = 1;
 section2:
-    if (!(*(int *)((char *)param_1 + (unsigned)param_2 * 0x32 + 0x30) & 0x1000))
+    si = (unsigned)param_2 * 0x32;
+    if (!(*(int *)((char *)param_1 + si + 0x30) & 0x1000))
         return;
     if (ejectedFlag != 1)
         goto eventDisplay;
     ejectedFlag = 0;
     popupVisible = 0;
     gfx_jump_11_blitSprite(var_102);
-    prevDrawY = prevDrawX = curRecordIdx = 0;
+    curRecordIdx = prevDrawX = prevDrawY = 0;
     clearRect((int *)param_3, 0xeb, 0x0a, 0x13f, 0x95);
     *(long *)&missionScore = calcMissionScore(0x100);
     mystrcpy(dat_4824, str_dot5);
@@ -892,11 +893,10 @@ eventDisplay:
     mystrcpy(dat_4824, str_missionEvent);
     drawStringCentered((int *)param_3, dat_4824, 0xe8, 0x14, 0x57);
     mystrcpy(dat_4824, str_time);
-    formatFlightTime(var_193[curRecordIdx * 3], (char *)n);
-    mystrcat(dat_4824, (char *)n);
+    mystrcat(dat_4824, formatFlightTime(var_193[curRecordIdx * 3], (char *)n));
     drawStringAt((int *)param_3, dat_4824, 0xf0, 0x1e);
-    o = (unsigned char)flightRecords[curRecordIdx].unitId & 0x7f;
-    switch ((unsigned char)flightRecords[curRecordIdx].status & 0x3f) {
+    o = flightRecords[curRecordIdx].unitId & 0x7f;
+    switch (flightRecords[curRecordIdx].status & 0x3f) {
     case 1:
     case 12:
         e = dat_424e[o * 8];
