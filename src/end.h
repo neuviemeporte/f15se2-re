@@ -221,6 +221,62 @@ int fileSeek(int handle, int off, int whence, int mode);
 void loadPicFromFile(char *name, int segment);
 void loadPicFromFileAt(char *name, int segment, int off, int whence);
 
+/* String constants from ASM */
+extern char str_pressExit[];
+extern char str_dot1[];
+extern char str_overall1[];
+extern char str_missionRating1[];
+extern char str_dot2[];
+extern char str_trainingScore[];
+extern char str_notRecorded[];
+extern char str_dot3[];
+extern char str_careerTotal[];
+extern char str_dot4[];
+extern char str_missionSummary[];
+extern char str_priSecTargets[];
+extern char str_otherTargets[];
+extern char str_enemyPlanes[];
+extern char str_friendlyTargets[];
+extern char str_dot5[];
+extern char str_overall2[];
+extern char str_missionRating2[];
+extern char str_dot6[];
+extern char str_missionEvent[];
+extern char str_time[];
+extern char str_destroyed4[];
+extern char str_destroyed1[];
+extern char str_destroyed2[];
+extern char str_shotDown2[];
+extern char str_shotDown[];
+extern char str_destroyed3[];
+extern char str_rearmed3[];
+extern char str_rearmed1[];
+extern char str_rearmed2[];
+extern char str_hitBy[];
+extern char str_missile[];
+extern char str_takeoffPoint[];
+extern char str_missionEnd[];
+extern char str_crashed[];
+extern char str_goodBailout[];
+extern char str_captured[];
+extern char str_bailedDied[];
+extern char str_goodLanding[];
+extern char str_primaryObj[];
+extern char str_secndryObj[];
+extern char str_cumulative2[];
+extern char str_cumulative[];
+extern char str_missionRating3[];
+extern char str_pressSelect[];
+extern char str_pressNext[];
+
+/* Data symbols used by routine_96 */
+extern int dat_424e[];
+extern char var_425c[];
+extern int dat_4804;
+extern int var_193[];
+extern int var_192;
+extern int var_102;
+
 /* Variables used by calcMissionScore */
 extern int secondaryHit;
 extern int primaryHit;
