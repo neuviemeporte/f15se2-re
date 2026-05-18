@@ -283,7 +283,7 @@ extern int var_102;
 extern int *var_86;
 extern int var_85;
 extern int var_84;
-extern char var_176[];
+extern unsigned char var_176[];
 extern char *var_87[];
 extern long var_88[];
 extern long var_89[];

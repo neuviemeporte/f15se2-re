@@ -199,3 +199,74 @@ void routine_71(int param_1, int param_2) {
         routine_109(param_1, param_2, 1, worldBufHandle);
     }
 }
+
+// 1e78
+void routine_27(void) {
+    int p;
+    var_86[3] = 0;
+    if (commData[0x30 / 2] != 0)
+        goto done;
+    if (gameData[0x4e / 2] == 1) {
+        gfx_jump_3d_null(3);
+        openShowPic(str_deskPic, *var_86);
+        drawStringCentered((int *)var_86, str_deskMsg1, 0x24, 0xb3, 0xfa);
+        drawStringCentered((int *)var_86, str_deskMsg2, 0x24, 0xbc, 0xfa);
+        // 1ef4
+        var_85 = 4;
+        var_84 = 0;
+        p = 0;
+        // 1f05
+        for (; (var_176[p] = ((char far *)gameData)[p + 2]) != 0 ; p++) {}
+        drawStringCentered((int *)var_86, var_176, 0xc1, 0x99, 0x5f);
+        var_84 = 7;
+        var_85 = 1;
+        goto show;
+    }
+    if (gameData[0x4e / 2] == 2) {
+        gfx_jump_3d_null(2);
+        openShowPic(str_deathPic, *var_86);
+        drawStringCentered((int *)var_86, str_deathMsg1, 0x24, 0xad, 0xfa);
+        drawStringCentered((int *)var_86, str_deathMsg2, 0x24, 0xb6, 0xfa);
+        goto show;
+    }
+    // 1fa8
+    if (((unsigned)gameData[0x20 / 2] < 6) && (*(long *)&var_89[gameData[0x20 / 2]] < *(long far *)&gameData[0x32 / 2])) {
+        gfx_jump_3d_null(6);
+        openShowPic(str_promoPic, *var_86);
+        var_84 = 1;
+        drawStringCentered((int *)var_86, str_promoMsg1, 0x24, 0xae, 0xfa);
+        mystrcpy(var_176, str_promoMsg2);
+        gameData[0x20 / 2]++;
+        mystrcat(var_176, var_87[gameData[0x20 / 2]]);
+        drawStringCentered((int *)var_86, var_176, 0x24, 0xb7, 0xfa);
+        gfx_jump_50();
+        gfx_jump_46_retrace2();
+        waitForKeyOrJoy();
+    }
+medals:
+    p = 4;
+    for (; p >= 0; p--) {
+        if (*(long *)&missionScore > *(long *)&var_92[p * 2])
+            break;
+    }
+    if (p < 0)
+        goto done;
+    if (gameData[0x22 / 2] & (1 << (char)p))
+        goto done;
+    gfx_jump_45_retrace();
+    gfx_jump_3d_null(0x0a);
+    openShowPic(str_medalPic, *var_86);
+    var_84 = 0x0f;
+    drawStringCentered((int *)var_86, str_medalMsg1, 0x24, 0xae, 0xfa);
+    mystrcpy(var_176, str_medalMsg2);
+    mystrcat(var_176, var_90[p]);
+    drawStringCentered((int *)var_86, var_176, 0x24, 0xb7, 0xfa);
+    gameData[0x22 / 2] |= (1 << (char)p);
+show:
+    gfx_jump_50();
+    gfx_jump_46_retrace2();
+    waitForKeyOrJoy();
+done:
+    clearRect((int *)var_86, 0, 0, 0x13f, 0xc7);
+    gfx_jump_46_retrace2();
+}
