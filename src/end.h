@@ -142,8 +142,8 @@ typedef struct {
     char mapX;
     char mapY;
     char status;
-    char pad;
     char unitId;
+    char unk4;
     char unk5;
 } FlightRecord;
 

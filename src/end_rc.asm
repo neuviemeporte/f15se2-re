@@ -8829,11 +8829,11 @@ _dat_4824 equ dat_4824
 _hasVgaMode db 4 dup(?)
 _curRecordIdx label word
 _var_190x db 2 dup(?)
-_flightRecords db 720 dup(?)
-dat_4a2a equ _flightRecords
+dat_4a2a db 720 dup(?)
 _hercFlag db 518 dup(?)
 _var_192 db 2 dup(?)
 _var_193 db 2 dup(?)
+_flightRecords label byte
 _var_194 db ?
 _var_195 db ?
 _var_196 db ?
