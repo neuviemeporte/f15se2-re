@@ -53,6 +53,7 @@ EXTRN _waitForKeyOrJoy:PROC
 EXTRN _routine_26:PROC
 EXTRN _routine_5:PROC
 EXTRN _routine_6:PROC
+EXTRN _routine_71:PROC
 EXTRN _my_itoa:PROC
 EXTRN _my_ltoa:PROC
 EXTRN _blinkWidget:PROC
@@ -434,30 +435,7 @@ readWorldData proc near
     ret
 readWorldData endp
 
-routine_71 proc near
-    push BP
-    mov BP,SP
-    cmp word ptr [_worldDataReady],0h
-    jz LAB_1000_0312
-    push word ptr [_worldBufHandle]
-    mov AX,1h
-    push AX
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_108
-    jmp LAB_1000_0323
-LAB_1000_0312:
-    push word ptr [_worldBufHandle]
-    mov AX,1h
-    push AX
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_109
-LAB_1000_0323:
-    add SP,8h
-    pop BP
-    ret
-routine_71 endp
+routine_71 equ _routine_71
 
 PUBLIC _setupWorldBufPtr
 _setupWorldBufPtr:

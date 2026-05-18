@@ -192,3 +192,12 @@ void loadWorldStrings(void) {
     }
 }
 
+void routine_71(int param_1, int param_2) {
+    if (worldDataReady == 0)
+        goto alt;
+    routine_108(param_1, param_2, 1, worldBufHandle);
+    goto done;
+alt:
+    routine_109(param_1, param_2, 1, worldBufHandle);
+done:;
+}
