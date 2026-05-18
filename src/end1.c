@@ -236,8 +236,7 @@ void routine_27(void) {
         var_84 = 1;
         drawStringCentered((int *)var_86, str_promoMsg1, 0x24, 0xae, 0xfa);
         mystrcpy(var_176, str_promoMsg2);
-        gameData[0x20 / 2]++;
-        mystrcat(var_176, var_87[gameData[0x20 / 2]]);
+        mystrcat(var_176, var_87[++gameData[0x20 / 2]]);
         drawStringCentered((int *)var_86, var_176, 0x24, 0xb7, 0xfa);
         gfx_jump_50();
         gfx_jump_46_retrace2();
@@ -246,7 +245,7 @@ void routine_27(void) {
 medals:
     p = 4;
     for (; p >= 0; p--) {
-        if (*(long *)&missionScore > *(long *)&var_92[p * 2])
+        if (*(long *)&missionScore > *(long *)&var_92[p])
             break;
     }
     if (p < 0)
