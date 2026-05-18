@@ -413,7 +413,7 @@ counterMore1k:
     word_182C4 += (rand() & 0x1000) - 0x800;
   }
   // 477d
-  if ((uint8)targets[0].field_6 & 0x10 != 0) {
+  if (targets[0].field_6 & 0x10) {
     word_182BE = ((word_182BE >> 0xa) << 0xa) + 0x200;
     word_182C0 = ((word_182C0 >> 0xa) << 0xa) + 0x200;
   }
