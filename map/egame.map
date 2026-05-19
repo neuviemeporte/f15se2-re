@@ -76,9 +76,9 @@ routine_157: seg000 NEAR 3b86-3b95 R3b86-3b95
 routine_158: seg000 NEAR 3b96-3ba1 R3b96-3ba1
 routine_241: seg000 NEAR 3ba2-3bc0 R3ba2-3bc0
 routine_234: seg000 FAR 3bc1-3bc4 R3bc1-3bc4
-routine_318: seg000 FAR 3bc5-3bc8 R3bc5-3bc8
-routine_360: seg000 NEAR 3bc9-3bcc R3bc9-3bcc
-routine_320: seg000 NEAR 3bcd-3beb R3bcd-3beb
+routine_318: seg000 FAR 3bc5-3bc8 R3bc5-3bc8 external
+routine_360: seg000 NEAR 3bc9-3bcc R3bc9-3bcc external
+routine_320: seg000 NEAR 3bcd-3beb R3bcd-3beb external
 installCBreakHandler: seg000 NEAR 3bec-3c0e R3bec-3c0e
 restoreCBreakHandler: seg000 NEAR 3c0f-3c1f R3c0f-3c1f assembly
 getInterruptHandler: seg000 NEAR 3c20-3c2b R3c20-3c2b assembly
@@ -110,7 +110,7 @@ routine_191: seg000 NEAR 6742-67b3 R6742-67b3
 routine_170: seg000 NEAR 67b4-7593 R67b4-7593
 routine_256: seg000 NEAR 7594-7839 R7594-7839
 routine_184: seg000 NEAR 783a-79ed R783a-79ed
-routine_171: seg000 NEAR 79ee-85bd R79ee-85bd
+routine_171: seg000 NEAR 79ee-85bd R79ee-85bd external
 routine_264: seg000 NEAR 85be-86f7 R85be-86f7
 routine_259: seg000 NEAR 86f8-87e9 R86f8-87e9
 routine_261: seg000 NEAR 87ea-89a9 R87ea-89a9

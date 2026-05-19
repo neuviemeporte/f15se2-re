@@ -4052,6 +4052,7 @@ LAB_1000_286e:
     mov SP,BP
     pop BP
     ret
+    nop
 process3dg endp
 ; ------------------------------seg000:0x2872------------------------------
 ; ------------------------------seg000:0x2fda------------------------------
@@ -5170,6 +5171,7 @@ sub_13A90 proc near
     mov [19b8h],AX
     pop BP
     ret
+    nop
     db 80h
     db 3Eh
     db 04h
@@ -19259,6 +19261,7 @@ _sub_1D190 proc near
     add SP,4h
     pop BP
     ret
+    nop
 _sub_1D190 endp
 ; ------------------------------seg000:0xd1a4------------------------------
     nop
