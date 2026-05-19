@@ -11,6 +11,10 @@ EXTRN _forceRange:PROC
 EXTRN _sub_15540:PROC
 EXTRN _sub_19BE1:PROC
 EXTRN _sub_19E94:PROC
+EXTRN _sub_19E44:PROC
+EXTRN _sub_19E5D:PROC
+EXTRN _setCommWorldbufPtr:PROC
+EXTRN _sub_12278:PROC
 PUBLIC _commData
 PUBLIC __acrtused
 __acrtused equ 9876h
@@ -451,6 +455,7 @@ sub_10297 proc near
     ret
 sub_10297 endp
 ; ------------------------------seg000:0x299------------------------------
+    nop
 ; ------------------------------seg000:0x2e2------------------------------
 _loadF15DgtlBin proc near
     call far ptr gfx_jump_32
@@ -654,7 +659,7 @@ LAB_1000_0491:
     mov AX,word ptr [SI + -46h]
     mov word ptr [BP + -8eh],AX
     mov AX,word ptr [BP + -4h]
-    add AX,60h
+    db 05h, 60h, 00h ; add AX,60h (force imm16 encoding)
     push AX
     lea AX,[BP + 0ff64h]
     push AX
@@ -796,7 +801,7 @@ LAB_1000_0619:
     mov AX,word ptr [SI + -46h]
     mov word ptr [BP + -8eh],AX
     mov AX,word ptr [BP + -4h]
-    add AX,70h
+    db 05h, 70h, 00h ; add AX,70h (force imm16 encoding)
     push AX
     lea AX,[BP + 0ff64h]
     push AX
@@ -813,9 +818,9 @@ LAB_1000_0619:
     mov SP,BP
     pop BP
     ret
-    align 2
     db 00h
     db 00h
+    nop
 sub_10334 endp
 ; ------------------------------seg000:0x66e------------------------------
 ; ------------------------------seg000:0x688------------------------------
@@ -866,6 +871,8 @@ locret_106E0:
     retn
 _setupOverlaySlots endp ;sp-analysis failed
 ; ------------------------------seg000:0x6e0------------------------------
+    nop
+    nop
 ; ------------------------------seg000:0x720------------------------------
 sub_10720 proc near
     push BP
@@ -875,7 +882,7 @@ sub_10720 proc near
     push SI
     mov AX,[8f2ah]
     mov DX,word ptr [8f2ch]
-    add AX,10h
+    db 05h, 10h, 00h ; add AX,10h (force imm16 encoding)
     adc DX,0h
     mov CL,5h
 LAB_1000_0737:
@@ -888,7 +895,7 @@ LAB_1000_0741:
     mov [9610h],AX
     mov AX,[8f48h]
     mov DX,word ptr [8f4ah]
-    add AX,10h
+    db 05h, 10h, 00h ; add AX,10h (force imm16 encoding)
     adc DX,0h
     mov CL,5h
 LAB_1000_0753:
@@ -919,9 +926,9 @@ LAB_1000_079a:
     mov AL,byte ptr ES:[BX + 0dh]
     sub AH,AH
     mov word ptr [BP + -0ah],AX
-    cmp AX,69h
+    db 3Dh, 69h, 00h ; cmp AX,69h (force imm16 encoding)
     jz LAB_1000_07b1
-    cmp AX,49h
+    db 3Dh, 49h, 00h ; cmp AX,49h (force imm16 encoding)
     jnz LAB_1000_07b7
 LAB_1000_07b1:
     mov word ptr [5d5ah],1h
@@ -1071,7 +1078,7 @@ LAB_1000_0970:
     inc word ptr [BP + -0ah]
 LAB_1000_0973:
     mov AX,[9796h]
-    sub AX,4h
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     cmp word ptr [BP + -0ah],AX
     jl LAB_1000_0981
     jmp LAB_1000_0a14
@@ -1093,12 +1100,12 @@ LAB_1000_098a:
     shl AX,1h
     shl AX,1h
     add AX,word ptr [9610h]
-    sub AX,24h
+    db 2Dh, 24h, 00h ; sub AX,24h (force imm16 encoding)
     mov word ptr [SI + 8954h],AX
     mov AX,word ptr [BP + -0ah]
     mov CL,5h
     shl AX,CL
-    add AX,96h
+    db 05h, 96h, 00h ; add AX,96h (force imm16 encoding)
     imul word ptr [86f8h]
     mov CX,word ptr [9620h]
     sub CX,AX
@@ -1287,10 +1294,10 @@ LAB_1000_0b48:
     add AH,10h
     mov CL,0dh
     sar AX,CL
-    and AX,7h
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     shl AX,1h
     shl AX,1h
-    add AX,0a4h
+    db 05h, 0a4h, 00h ; add AX,0a4h (force imm16 encoding)
     push AX
     mov AX,word ptr [BP + -8h]
     dec AX
@@ -1516,7 +1523,7 @@ LAB_1000_0db1:
     add AX,CX
     add word ptr [SI + 8954h],AX
     mov AX,word ptr [BP + -0ah]
-    and AX,1h
+    db 25h, 01h, 00h ; and AX,1h (force imm16 encoding)
     imul word ptr [86f8h]
     mov CL,4h
     shl AX,CL
@@ -1530,7 +1537,7 @@ LAB_1000_0e10:
     add word ptr [SI + 8954h],0ah
     mov AX,word ptr [BP + -0ah]
     add AX,word ptr [98bah]
-    and AX,3h
+    db 25h, 03h, 00h ; and AX,3h (force imm16 encoding)
     mov CL,4h
     shl AX,CL
     add word ptr [SI + 8956h],AX
@@ -1605,7 +1612,7 @@ LAB_1000_0eb6:
     jmp LAB_1000_0ee0
 LAB_1000_0eda:
     mov AX,[9796h]
-    sub AX,2h
+    db 2Dh, 02h, 00h ; sub AX,2h (force imm16 encoding)
 LAB_1000_0ee0:
     mov word ptr [BP + -0ch],AX
     mov AX,24h
@@ -1757,7 +1764,7 @@ LAB_1000_1099:
     mov word ptr [0e56h],1h
     mov AX,[0e64h]
     inc word ptr [0e64h]
-    cmp AX,1h
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
     jnz LAB_1000_10d1
     mov AX,124h
     push AX
@@ -1830,7 +1837,7 @@ LAB_1000_1151:
     push AX
     call _abs
     add SP,2h
-    cmp AX,10h
+    db 3Dh, 10h, 00h ; cmp AX,10h (force imm16 encoding)
     jge LAB_1000_11d2
     mov AX,[9620h]
     mov BX,word ptr [98bah]
@@ -1840,7 +1847,7 @@ LAB_1000_1151:
     push AX
     call _abs
     add SP,2h
-    cmp AX,10h
+    db 3Dh, 10h, 00h ; cmp AX,10h (force imm16 encoding)
     jge LAB_1000_11d2
     sub AX,AX
     mov [5820h],AX
@@ -1884,7 +1891,7 @@ LAB_1000_11d2:
     mov AX,[814h]
     shl AX,1h
     mov word ptr [BP + -0ah],AX
-    cmp AX,0eh
+    db 3Dh, 0Eh, 00h ; cmp AX,0eh (force imm16 encoding)
     jle LAB_1000_11f4
     mov word ptr [BP + -0ah],0eh
 LAB_1000_11f4:
@@ -1895,7 +1902,7 @@ LAB_1000_11f4:
     div word ptr [BP + -0ah]
     sub word ptr [5820h],AX
     mov AX,[960eh]
-    add AX,5h
+    db 05h, 05h, 00h ; add AX,5h (force imm16 encoding)
     mov SI,AX
     cmp word ptr [5820h],SI
     jnc LAB_1000_121c
@@ -1983,7 +1990,7 @@ LAB_1000_12c0:
     add SP,4h
     sub AX,AX
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,0c7h
     push AX
@@ -1992,11 +1999,11 @@ LAB_1000_12c0:
     sub AX,AX
     push AX
     push AX
-    call sub_19E5D
+    call _sub_19E5D
     add SP,8h
     mov AX,78h
     push AX
-    call sub_12278
+    call _sub_12278
     add SP,2h
     mov AX,1h
     push AX
@@ -2025,7 +2032,7 @@ LAB_1000_1312:
     call far ptr _gfx_jump_45_retrace
     mov AX,78h
     push AX
-    call sub_12278
+    call _sub_12278
     add SP,2h
     mov AX,2h
     push AX
@@ -2133,10 +2140,10 @@ LAB_1000_1424:
     push AX
     call _abs
     add SP,2h
-    cmp AX,3h
+    db 3Dh, 03h, 00h ; cmp AX,3h (force imm16 encoding)
     jle LAB_1000_1478
     mov AX,word ptr [BP + -6h]
-    add AX,2h
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
     sar AX,1h
     sar AX,1h
     mov [814h],AX
@@ -2265,7 +2272,7 @@ LAB_1000_155c:
     mov CX,AX
     shl AX,1h
     add AX,CX
-    sub AX,0fh
+    db 2Dh, 0Fh, 00h ; sub AX,0fh (force imm16 encoding)
     neg AX
     imul word ptr [814h]
     db 89h, 84h, 2ah, 0bh  ; MOV word ptr [SI + 0...,AX                  ;= ??
@@ -2280,9 +2287,9 @@ LAB_1000_15a2:
     db 0EBh
     db 0Ch
 LAB_1000_15ab:
-    cmp AX,1h
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
     jz LAB_1000_159b
-    cmp AX,2h
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
     jz LAB_1000_15a2
     jmp LAB_1000_15b7
 LAB_1000_15b7:
@@ -2390,7 +2397,7 @@ LAB_1000_1684:
     inc word ptr [BP + -8h]
 LAB_1000_1687:
     mov AX,[86f4h]
-    add AX,4h
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
     cmp word ptr [BP + -8h],AX
     jge LAB_1000_16c2
     mov AX,word ptr [BP + -8h]
@@ -2520,7 +2527,7 @@ FUN_1000_1720:
     mov word ptr [SI + 9cfeh],AX
     mov AX,word ptr [SI + 9d06h]
     add AX,word ptr [581eh]
-    sub AX,2h
+    db 2Dh, 02h, 00h ; sub AX,2h (force imm16 encoding)
     mov word ptr [SI + 9d00h],AX
     mov word ptr [6738h],1h
     jmp LAB_1000_1801
@@ -2597,7 +2604,7 @@ LAB_1000_187f:
     mov AX,[0e38h]
     mov CL,4h
     sar AX,CL
-    and AX,7h
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov word ptr [BP + -4h],AX
     mov SI,AX
     mov CL,3h
@@ -2691,7 +2698,7 @@ LAB_1000_1947:
     call _setupDac
 LAB_1000_1958:
     mov AX,word ptr [BP + -2h]
-    and AX,0fh
+    db 25h, 0Fh, 00h ; and AX,0fh (force imm16 encoding)
     mov CH,AL
     sub CL,CL
     mov word ptr [66c0h],CX
@@ -2791,7 +2798,7 @@ LAB_1000_1a31:
     jge LAB_1000_1a84
     sub AX,AX
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov BX,word ptr [BP + -4h]
     shl BX,1h
@@ -2800,14 +2807,14 @@ LAB_1000_1a31:
     mov AX,0c2h
     push AX
     mov AX,word ptr [BP + -2h]
-    add AX,2h
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
     push AX
     mov AX,0beh
     push AX
     mov AX,word ptr [BP + -2h]
     dec AX
     push AX
-    call sub_19E5D
+    call _sub_19E5D
     add SP,8h
     mov AX,0ch
     push AX
@@ -3023,13 +3030,13 @@ LAB_1000_1c31:
     jmp LAB_1000_1cf6
 LAB_1000_1c4a:
     mov AX,[9622h]
-    sub AX,3h
+    db 2Dh, 03h, 00h ; sub AX,3h (force imm16 encoding)
     push AX
     call randlmul
     add SP,2h
-    add AX,3h
+    db 05h, 03h, 00h ; add AX,3h (force imm16 encoding)
     mov word ptr [BP + -2h],AX
-    add AX,40h
+    db 05h, 40h, 00h ; add AX,40h (force imm16 encoding)
     mov [977eh],AX
     mov word ptr [95e0h],89h
     push word ptr [BP + -2h]
@@ -3051,7 +3058,7 @@ LAB_1000_1c7f:
     cmp word ptr [BX + 896ch],0h
     jz LAB_1000_1c7f
     mov AX,word ptr [BP + -2h]
-    add AX,20h
+    db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
     mov [977eh],AX
     mov word ptr [95e0h],89h
     mov AX,24h
@@ -3091,11 +3098,11 @@ LAB_1000_1cf6:
     jnz LAB_1000_1cfd
     jmp LAB_1000_1c4a
 LAB_1000_1cfd:
-    cmp AX,1h
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
     jnz LAB_1000_1d05
     jmp LAB_1000_1c7f
 LAB_1000_1d05:
-    cmp AX,2h
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
     jz LAB_1000_1ce2
     jmp LAB_1000_1d0c
 LAB_1000_1d0c:
@@ -3204,7 +3211,7 @@ LAB_1000_1df1:
     push AX
     call _strlen
     add SP,2h
-    cmp AX,19h
+    db 3Dh, 19h, 00h ; cmp AX,19h (force imm16 encoding)
     jle LAB_1000_1e0a
     mov byte ptr [66dch],2eh
     mov byte ptr [66ddh],0h
@@ -3335,23 +3342,8 @@ LAB_1000_203d:
 sub_11F3E endp
 ; ------------------------------seg000:0x2048------------------------------
 ; ------------------------------seg000:0x21a9------------------------------
-setCommWorldbufPtr proc near
-    push BP
-    mov BP,SP
-    mov AX,[9df6h]
-    mov DX,word ptr [9df8h]
-    add AX,7ah
-    mov [6424h],AX
-    mov word ptr [6426h],DX
-    sub AX,AX
-    jmp LAB_1000_21c1
-LAB_1000_21c1:
-    mov SP,BP
-    pop BP
-    ret
-    align 2
-setCommWorldbufPtr endp
 ; ------------------------------seg000:0x21c4------------------------------
+    nop
 ; ------------------------------seg000:0x21c6------------------------------
 callLoad3DAll proc near
     call callLoad3DAll
@@ -3384,7 +3376,7 @@ _sub_121CA proc near
     mov BX,word ptr [1100h]
     mov word ptr [BX],AX
     push word ptr [5d50h]
-    call sub_12278
+    call _sub_12278
     add SP,2h
     mov BX,word ptr [1100h]
     mov SI,word ptr [95e8h]
@@ -3421,28 +3413,8 @@ _sub_121CA proc near
     pop SI
     pop BP
     ret
-    align 2
+    nop
 _sub_121CA endp
-; ------------------------------seg000:0x2276------------------------------
-sub_12278 proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    cmp word ptr [BP + 4h],0h
-    jle LAB_1000_2296
-    mov AL,byte ptr [BP + 4h]
-    add AL,byte ptr [505ch]
-    mov byte ptr [BP + -2h],AL
-LAB_1000_228e:
-    mov AL,[505ch]
-    cmp byte ptr [BP + -2h],AL
-    jnz LAB_1000_228e
-LAB_1000_2296:
-    mov SP,BP
-    pop BP
-    ret
-sub_12278 endp
-; ------------------------------seg000:0x229a------------------------------
 _copySomeMem proc near
     push BP
     mov BP,SP
@@ -3578,7 +3550,7 @@ LAB_1000_23d1:
     or DX,DX
     jnz LAB_1000_23e7
     jc LAB_1000_23e2
-    cmp AX,2h
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
     jnc LAB_1000_23e7
 LAB_1000_23e2:
     sub DX,DX
@@ -3611,8 +3583,8 @@ LAB_1000_2411:
     mov AX,word ptr [BX + SI + 1144h]
     mov word ptr [BP + -2h],AX
     mov AX,word ptr [BP + -6h]
-    add AX,2h
-    and AX,7h
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov CX,12h
     mul CX
     mov BX,AX
@@ -3680,8 +3652,8 @@ LAB_1000_24c6:
     mov AX,word ptr [BX + SI + 1144h]
     mov word ptr [BP + -2h],AX
     mov AX,word ptr [BP + -6h]
-    add AX,2h
-    and AX,7h
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov CX,12h
     mul CX
     mov BX,AX
@@ -3717,7 +3689,7 @@ LAB_1000_2515:
     call process3dg
     add SP,6h
     mov word ptr [BP + -1ah],AX
-    cmp AX,0ffffh
+    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
     jnz LAB_1000_254a
     jmp LAB_1000_26a9
 LAB_1000_254a:
@@ -3771,7 +3743,7 @@ LAB_1000_25a5:
     push word ptr [98bch]
     call sub_13266
     add SP,8h
-    add AX,0h
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
     mov [198ch],AX
     mov word ptr [198eh],228dh
     mov AX,0h
@@ -3785,7 +3757,7 @@ LAB_1000_25a5:
     and BX,7fh
     shl BX,1h
     mov AX,word ptr [BX + 130ah]
-    add AX,0h
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
     mov [198ch],AX
     mov word ptr [198eh],DX
 LAB_1000_2602:
@@ -3796,7 +3768,7 @@ LAB_1000_2604:
     sub BH,BH
     shl BX,1h
     mov AX,word ptr [BX + 130ah]
-    add AX,0h
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
     mov [198ch],AX
     mov word ptr [198eh],228dh
 LAB_1000_261f:
@@ -3832,7 +3804,7 @@ LAB_1000_264e:
     sub BH,BH
     shl BX,1h
     mov AX,word ptr [BX + 130ah]
-    add AX,0h
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
     mov [198ch],AX
     mov word ptr [198eh],228dh
     mov word ptr [12fch],400h
@@ -3868,7 +3840,7 @@ sub_126B4 proc near
 LAB_1000_26bc:
     mov AX,word ptr [BP + 6h]
     mov DX,word ptr [BP + 8h]
-    add AX,20h
+    db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
     adc DX,0h
     mov CL,6h
 LAB_1000_26ca:
@@ -3882,7 +3854,7 @@ LAB_1000_26d4:
 LAB_1000_26d6:
     mov AX,word ptr [BP + 6h]
     mov DX,word ptr [BP + 8h]
-    add AX,8h
+    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
     adc DX,0h
     mov CL,4h
 LAB_1000_26e4:
@@ -3896,7 +3868,7 @@ LAB_1000_26ee:
 LAB_1000_26f0:
     mov AX,word ptr [BP + 6h]
     mov DX,word ptr [BP + 8h]
-    add AX,2h
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
     adc DX,0h
     mov CL,2h
 LAB_1000_26fe:
@@ -3922,13 +3894,13 @@ LAB_1000_2712:
 LAB_1000_2720:
     or AX,AX
     jz LAB_1000_2712
-    cmp AX,1h
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
     jz LAB_1000_270a
-    cmp AX,2h
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
     jz LAB_1000_26f0
-    cmp AX,3h
+    db 3Dh, 03h, 00h ; cmp AX,3h (force imm16 encoding)
     jz LAB_1000_26d6
-    cmp AX,4h
+    db 3Dh, 04h, 00h ; cmp AX,4h (force imm16 encoding)
     jz LAB_1000_26bc
     jmp LAB_1000_273a
 LAB_1000_273a:
@@ -4060,17 +4032,17 @@ LAB_1000_2811:
 LAB_1000_284b:
     or AX,AX
     jz LAB_1000_2811
-    cmp AX,1h
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
     jz LAB_1000_27d9
-    cmp AX,2h
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
     jnz LAB_1000_285c
     jmp LAB_1000_27a0
 LAB_1000_285c:
-    cmp AX,3h
+    db 3Dh, 03h, 00h ; cmp AX,3h (force imm16 encoding)
     jnz LAB_1000_2864
     jmp LAB_1000_278d
 LAB_1000_2864:
-    cmp AX,4h
+    db 3Dh, 04h, 00h ; cmp AX,4h (force imm16 encoding)
     jnz LAB_1000_286c
     jmp LAB_1000_277a
 LAB_1000_286c:
@@ -4080,7 +4052,6 @@ LAB_1000_286e:
     mov SP,BP
     pop BP
     ret
-    align 2
 process3dg endp
 ; ------------------------------seg000:0x2872------------------------------
 ; ------------------------------seg000:0x2fda------------------------------
@@ -4125,7 +4096,7 @@ LAB_1000_3031:
     mov BX,word ptr [BP + -14h]
     shl BX,1h
     mov AX,word ptr [BX + 130ah]
-    add AX,0h
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
     mov [198ch],AX
     mov word ptr [198eh],228dh
     les BX,dword ptr [198ch]
@@ -4272,7 +4243,7 @@ LAB_1000_316c:
     call process3dg
     add SP,6h
     mov word ptr [BP + -22h],AX
-    cmp AX,0ffffh
+    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
     jnz LAB_1000_31dd
     jmp LAB_1000_311e
 LAB_1000_31dd:
@@ -4326,7 +4297,7 @@ sub_13224 proc near
     mov AX,8h
     push AX
     mov AX,word ptr [BP + 4h]
-    add AX,0eh
+    db 05h, 0Eh, 00h ; add AX,0eh (force imm16 encoding)
     push AX
     mov AX,[6748h]
     inc word ptr [6748h]
@@ -4341,7 +4312,7 @@ sub_13224 proc near
     or byte ptr [BX + 6h],80h
     pop BP
     ret
-    align 2
+    nop
 sub_13224 endp
 ; ------------------------------seg000:0x3264------------------------------
 ; ------------------------------seg000:0x3266------------------------------
@@ -4384,7 +4355,7 @@ LAB_1000_32b4:
     pop SI
     pop BP
     ret
-    align 2
+    nop
 sub_13266 endp
 ; ------------------------------seg000:0x32b8------------------------------
 ; ------------------------------seg000:0x32ba------------------------------
@@ -4455,7 +4426,7 @@ LAB_1000_3314:
     call process3dg
     add SP,6h
     mov word ptr [BP + -1ah],AX
-    cmp AX,0ffffh
+    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
     jz LAB_1000_33e9
     mov SI,word ptr [BP + -6h]
     mov CL,6h
@@ -4511,7 +4482,7 @@ LAB_1000_33e9:
     sub BH,BH
     shl BX,1h
     mov AX,word ptr [BX + 130ah]
-    add AX,0h
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
     mov [198ch],AX
     mov word ptr [198eh],228dh
     mov BX,word ptr [9cf8h]
@@ -4574,7 +4545,7 @@ sub_1345E proc near
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 sub_1345E endp
 ; ------------------------------seg000:0x34aa------------------------------
 ; ------------------------------seg000:0x34ac------------------------------
@@ -4601,13 +4572,13 @@ LAB_1000_34d2:
     mov CX,word ptr [98bch]
     shl CX,1h
     sub AX,CX
-    add AX,8h
+    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
     mov [9792h],AX
     mov AX,1000h
     mov CL,byte ptr [9792h]
     sar AX,CL
     mov [6430h],AX
-    cmp AX,10h
+    db 3Dh, 10h, 00h ; cmp AX,10h (force imm16 encoding)
     jg LAB_1000_34fa
     jmp LAB_1000_360a
 LAB_1000_34fa:
@@ -4639,7 +4610,7 @@ LAB_1000_352c:
     sub BH,BH
     shl BX,1h
     mov AX,word ptr [BX + 130ah]
-    add AX,0h
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
     mov [198ch],AX
     mov word ptr [198eh],228dh
     mov BX,word ptr [9cf8h]
@@ -4692,7 +4663,7 @@ LAB_1000_3595:
     call process3dg
     add SP,6h
     mov word ptr [BP + -10h],AX
-    cmp AX,0ffffh
+    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
     jz LAB_1000_3592
     mov DI,AX
     shl DI,1h
@@ -4780,7 +4751,7 @@ LAB_1000_3684:
 LAB_1000_3691:
     pop BP
     ret
-    align 2
+    nop
 sub_13638 endp
 ; ------------------------------seg000:0x3692------------------------------
 ; ------------------------------seg000:0x3694------------------------------
@@ -4810,7 +4781,7 @@ sub_13694 proc near
     mov word ptr [BX],AX
     pop BP
     ret
-    align 2
+    nop
 sub_13694 endp
 ; ------------------------------seg000:0x36d0------------------------------
 ; ------------------------------seg000:0x36d2------------------------------
@@ -4829,17 +4800,17 @@ sub_136D2 proc near
     les BX,dword ptr [198ch]
     mov AL,byte ptr ES:[BX]
     sub AH,AH
-    and AX,40h
+    db 25h, 40h, 00h ; and AX,40h (force imm16 encoding)
     cmp AX,word ptr [6438h]
     jnz LAB_1000_3748
 LAB_1000_370a:
     les BX,dword ptr [198ch]
     mov AL,byte ptr ES:[BX]
     sub AH,AH
-    and AX,3fh
-    cmp AX,3eh
+    db 25h, 3Fh, 00h ; and AX,3fh (force imm16 encoding)
+    db 3Dh, 3Eh, 00h ; cmp AX,3eh (force imm16 encoding)
     jz LAB_1000_3748
-    cmp AX,3fh
+    db 3Dh, 3Fh, 00h ; cmp AX,3fh (force imm16 encoding)
     jnz LAB_1000_3726
     call sub_1374A
     pop BP
@@ -4900,11 +4871,11 @@ sub_1378E proc near
     mov ES,word ptr [198eh]
     mov AL,byte ptr ES:[BX]
     sub AH,AH
-    and AX,1fh
+    db 25h, 1Fh, 00h ; and AX,1fh (force imm16 encoding)
     mov [1a00h],AX
     mov word ptr [1a06h],0ffffh
     mov word ptr [1a08h],0ffffh
-    cmp AX,10h
+    db 3Dh, 10h, 00h ; cmp AX,10h (force imm16 encoding)
     jle LAB_1000_37ca
     mov AL,1h
     jmp LAB_1000_37cc
@@ -4948,12 +4919,12 @@ sub_13816 proc near
     les BX,dword ptr [198ch]
     mov AL,byte ptr ES:[BX]
     sub AH,AH
-    and AX,80h
+    db 25h, 80h, 00h ; and AX,80h (force imm16 encoding)
     mov word ptr [BP + -6h],AX
     inc word ptr [198ch]
     mov AL,byte ptr ES:[BX]
     sub AH,AH
-    and AX,7fh
+    db 25h, 7Fh, 00h ; and AX,7fh (force imm16 encoding)
     mov [19feh],AX
     mov word ptr [BP + -2h],0h
     jmp LAB_1000_38b5
@@ -5000,7 +4971,7 @@ LAB_1000_38b5:
     mov AL,[1a04h]
     sub AH,AH
     shl AX,1h
-    add AX,2h
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
     add word ptr [198ch],AX
     cmp word ptr [BP + -6h],0h
     jnz LAB_1000_38d4
@@ -5035,7 +5006,7 @@ LAB_1000_391c:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 sub_13816 endp
 ; ------------------------------seg000:0x3920------------------------------
 ; ------------------------------seg000:0x3932------------------------------
@@ -5081,7 +5052,7 @@ LAB_1000_3993:
     sub word ptr [1a0ah],AX
     pop BP
     ret
-    align 2
+    nop
 sub_13932 endp
 ; ------------------------------seg000:0x39a8------------------------------
 ; ------------------------------seg000:0x39aa------------------------------
@@ -5091,7 +5062,7 @@ sub_139AA proc near
     call far ptr _gfx_jump_23
     mov byte ptr [42d8h],0h
     ret
-    align 2
+    nop
 sub_139AA endp
 ; ------------------------------seg000:0x39be------------------------------
 ; ------------------------------seg000:0x39c0------------------------------
@@ -5184,7 +5155,7 @@ sub_13A6C proc near
     add SP,8h
     pop BP
     ret
-    align 2
+    nop
 sub_13A6C endp
 ; ------------------------------seg000:0x3a8e------------------------------
 ; ------------------------------seg000:0x3a90------------------------------
@@ -5199,7 +5170,6 @@ sub_13A90 proc near
     mov [19b8h],AX
     pop BP
     ret
-    align 2
     db 80h
     db 3Eh
     db 04h
@@ -5272,6 +5242,9 @@ sub_13A90 proc near
     db 90h
 sub_13A90 endp
 ; ------------------------------seg000:0x3aa6------------------------------
+    nop
+    nop
+    nop
 ; ------------------------------seg000:0x3aee------------------------------
 _setupDac proc near
     mov ax, ds
@@ -5716,7 +5689,7 @@ manipulateTimer endp
 ; ------------------------------seg000:0x3edc------------------------------
 getTimeOfDay proc near
     xor AH,AH
-    dw 1ah
+    int 1Ah
     mov AX,DX
     ret
     db 0FFh
@@ -5769,6 +5742,7 @@ sub_13EE3 proc near
     retn
 sub_13EE3 endp
 ; ------------------------------seg000:0x3f01------------------------------
+    nop
 ; ------------------------------seg000:0x3f72------------------------------
 _otherKeyDispatch proc near
     push BP
@@ -5962,7 +5936,7 @@ loc_14118:
 loc_14149:
     sub AX,AX
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,02h
     mov AX,0C7h
     push AX
@@ -5971,7 +5945,7 @@ loc_14149:
     sub AX,AX
     push AX
     push AX
-    call sub_19E5D
+    call _sub_19E5D
     add SP,08h
     sub AX,AX
     push AX
@@ -6110,7 +6084,7 @@ loc_1428A:
     inc SI
     mov AL,[056E8h]
     sub AH,AH
-    sub AX,080h
+    db 2Dh, 80h, 00h ; sub AX,080h (force imm16 encoding)
     imul SI
     cwd
     mov CX,03h
@@ -6119,7 +6093,7 @@ loc_1428A:
     mov [056E4h],AL
     mov AL,[056E9h]
     sub AH,AH
-    sub AX,080h
+    db 2Dh, 80h, 00h ; sub AX,080h (force imm16 encoding)
     imul SI
     cwd
     idiv CX
@@ -6130,7 +6104,7 @@ loc_142B6:
     sub AH,AH
     mov CL,04h
     shr AX,CL
-    sub AX,08h
+    db 02Dh, 08h, 00h ; sub AX,08h (force imm16 encoding)
     mov [0975Eh],AX
     or AX,AX
     jge loc_142CD
@@ -6140,7 +6114,7 @@ loc_142CD:
     sub AH,AH
     mov CL,04h
     shr AX,CL
-    sub AX,08h
+    db 02Dh, 08h, 00h ; sub AX,08h (force imm16 encoding)
     mov [09CF4h],AX
     or AX,AX
     jge loc_142E4
@@ -6149,7 +6123,7 @@ loc_142E4:
     push word ptr [0975Eh]
     call _abs
     add SP,02h
-    add AX,02h
+    db 05h, 02h, 00h ; add AX,02h (force imm16 encoding)
     imul word ptr [0975Eh]
     neg AX
     shl AX,01h
@@ -6219,7 +6193,7 @@ loc_143AD:
     cmp word ptr [0E3Ah],00h
     jz loc_143C5
     mov AX,[06730h]
-    and AX,0Fh
+    db 25h, 0Fh, 00h ; and AX,0Fh (force imm16 encoding)
     mov CX,AX
     mov AH,CL
     sub AL,AL
@@ -6600,7 +6574,7 @@ loc_14758:
     sub AX,AX
     push AX
     mov AX,[081AAh]
-    sub AX,0C8h
+    db 2Dh, 0C8h, 00h ; sub AX,0C8h (force imm16 encoding)
     mov CL,05h
     sar AX,CL
     push AX
@@ -6693,7 +6667,7 @@ loc_14842:
     push AX
     inc word ptr [0958Ch]
     mov AX,[0958Ch]
-    sub AX,020h
+    db 2Dh, 20h, 00h ; sub AX,020h (force imm16 encoding)
     neg AX
     push AX
     call _sub_1CF64
@@ -6734,7 +6708,7 @@ loc_14886:
 loc_148D1:
     mov AX,[0958Ch]
     and AL,0FCh
-    cmp AX,010h
+    db 3Dh, 10h, 00h ; cmp AX,010h (force imm16 encoding)
     jnz loc_14958
     mov AL,[0E38h]
     and AL,03h
@@ -6743,7 +6717,7 @@ loc_148D1:
     mov word ptr [0E46h],0FFFFh
     mov AX,[0E38h]
     shr AX,01h
-    and AX,07h
+    db 25h, 07h, 00h ; and AX,07h (force imm16 encoding)
     mov word ptr [BP-38h],AX
     mov SI,AX
     mov CL,03h
@@ -6784,7 +6758,7 @@ loc_14958:
     mov AX,[096E0h]
     shl AX,01h
     shl AX,01h
-    sub AX,090h
+    db 2Dh, 90h, 00h ; sub AX,090h (force imm16 encoding)
     neg AX
     mov SI,AX
     cmp word ptr [05830h],SI
@@ -6836,7 +6810,7 @@ loc_149C0:
     cwd
     mov CX,02EEh
     idiv CX
-    add AX,02h
+    db 05h, 02h, 00h ; add AX,02h (force imm16 encoding)
     sub word ptr [07E8h],AX
     call sub_1606C
 loc_149F4:
@@ -6879,7 +6853,7 @@ loc_14A38:
     and BX,07Fh
     mov AL,byte ptr [BX+0573Ch]
     sub AH,AH
-    sub AX,080h
+    db 2Dh, 80h, 00h ; sub AX,080h (force imm16 encoding)
     neg AX
     push AX
     call _sub_1CF64
@@ -6920,7 +6894,7 @@ loc_14A75:
     call _abs
     add SP,02h
     sub AH,AH
-    and AX,0Fh
+    db 25h, 0Fh, 00h ; and AX,0Fh (force imm16 encoding)
     shr AX,01h
     push AX
     call _itoa
@@ -7014,7 +6988,7 @@ loc_14B65:
     mov AX,[07E8h]
     mov CL,09h
     sar AX,CL
-    sub AX,064h
+    db 2Dh, 64h, 00h ; sub AX,064h (force imm16 encoding)
     neg AX
     cwd
     push DX
@@ -7155,7 +7129,7 @@ loc_14C70:
     mov DX,CX
     mov CL,03h
     shl AX,CL
-    sub AX,020h
+    db 2Dh, 20h, 00h ; sub AX,020h (force imm16 encoding)
     neg AX
     mov CX,DX
     mul CX
@@ -7198,7 +7172,7 @@ loc_14CEE:
     mov AX,[08094h]
     mov CL,09h
     shr AX,CL
-    add AX,020h
+    db 05h, 20h, 00h ; add AX,020h (force imm16 encoding)
     cwd
     push DX
     push AX
@@ -7576,7 +7550,7 @@ loc_150B8:
     add SP,04h
     mov AX,03Ch
     push AX
-    call sub_12278
+    call _sub_12278
     add SP,02h
     mov AX,05h
     push AX
@@ -7586,7 +7560,7 @@ loc_150D9:
     mov word ptr [0A006h],00h
 loc_150DF:
     mov AX,[0E38h]
-    and AX,0Fh
+    db 25h, 0Fh, 00h ; and AX,0Fh (force imm16 encoding)
     mov word ptr [BP-38h],AX
     mov SI,AX
     mov CL,04h
@@ -7643,7 +7617,7 @@ loc_15173:
 loc_1517A:
     mov AX,[0E38h]
     sub AX,word ptr [BP-38h]
-    and AX,0Fh
+    db 25h, 0Fh, 00h ; and AX,0Fh (force imm16 encoding)
     mov word ptr [BP-38h],AX
     mov SI,AX
     mov CL,04h
@@ -8060,7 +8034,7 @@ sub_15557 proc near
     call _abs
     add SP,2h
     mov word ptr [BP + 4h],AX
-    cmp AX,4h
+    db 3Dh, 04h, 00h ; cmp AX,4h (force imm16 encoding)
     jge LAB_1000_5573
     mov AX,1h
     jmp LAB_1000_55a7
@@ -8083,7 +8057,7 @@ LAB_1000_557d:
     push AX
     call _abs
     add SP,2h
-    cmp AX,1h
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
     jg LAB_1000_557d
     mov AX,word ptr [BP + -4h]
     jmp LAB_1000_55a7
@@ -8103,7 +8077,7 @@ _sub_15FDB proc near
 LAB_1000_5fe8:
     sub AX,AX
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,0c4h
     push AX
@@ -8115,11 +8089,11 @@ LAB_1000_5fe8:
     push AX
     mov AX,0d4h
     push AX
-    call sub_19E5D
+    call _sub_19E5D
     add SP,0ah
     mov AX,0ch
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,0afh
     push AX
@@ -8129,18 +8103,18 @@ LAB_1000_5fe8:
     cwd
     mov CX,3h
     idiv CX
-    sub AX,0afh
+    db 2Dh, 0AFh, 00h ; sub AX,0afh (force imm16 encoding)
     neg AX
     push AX
     mov AX,0d4h
     push AX
-    call sub_19E5D
+    call _sub_19E5D
     add SP,8h
     cmp word ptr [5830h],64h
     jle LAB_1000_6068
     mov AX,0eh
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,8eh
     push AX
@@ -8150,12 +8124,12 @@ LAB_1000_5fe8:
     cwd
     mov CX,3h
     idiv CX
-    sub AX,0afh
+    db 2Dh, 0AFh, 00h ; sub AX,0afh (force imm16 encoding)
     neg AX
     push AX
     mov AX,0d4h
     push AX
-    call sub_19E5D
+    call _sub_19E5D
     add SP,8h
 LAB_1000_6068:
     mov SP,BP
@@ -8173,7 +8147,7 @@ sub_1606C proc near
 LAB_1000_6078:
     sub AX,AX
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,98h
     push AX
@@ -8183,7 +8157,7 @@ LAB_1000_6078:
     push AX
     mov AX,5h
     push AX
-    call sub_19E5D
+    call _sub_19E5D
     add SP,8h
     cmp word ptr [7e8h],7d0h
     jle LAB_1000_60a4
@@ -8193,7 +8167,7 @@ LAB_1000_60a4:
     mov AX,0eh
 LAB_1000_60a7:
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,98h
     push AX
@@ -8203,12 +8177,12 @@ LAB_1000_60a7:
     cwd
     mov CX,0fah
     idiv CX
-    sub AX,98h
+    db 2Dh, 98h, 00h ; sub AX,98h (force imm16 encoding)
     neg AX
     push AX
     mov AX,5h
     push AX
-    call sub_19E5D
+    call _sub_19E5D
     add SP,8h
 LAB_1000_60cf:
     mov SP,BP
@@ -8510,20 +8484,20 @@ sub_16346 proc near
     jmp LAB_1000_6423
 LAB_1000_6388:
     mov word ptr [BP + -20h],AX
-    cmp AX,63h
+    db 3Dh, 63h, 00h ; cmp AX,63h (force imm16 encoding)
     jle LAB_1000_6395
     mov word ptr [BP + -20h],63h
 LAB_1000_6395:
     mov word ptr [0e4ah],4h
     mov AX,word ptr [BP + -2ah]
     add AX,word ptr [0e34h]
-    cmp AX,32h
+    db 3Dh, 32h, 00h ; cmp AX,32h (force imm16 encoding)
     jle LAB_1000_63ad
     mov word ptr [0e4ah],0ch
 LAB_1000_63ad:
     mov AX,word ptr [BP + -2ah]
     add AX,word ptr [0e34h]
-    cmp AX,64h
+    db 3Dh, 64h, 00h ; cmp AX,64h (force imm16 encoding)
     jle LAB_1000_63bf
     mov word ptr [0e4ah],0eh
 LAB_1000_63bf:
@@ -8541,7 +8515,7 @@ LAB_1000_63bf:
     add BX,AX
     shl BX,1h
     mov AX,word ptr [BX + 192h]
-    and AX,1h
+    db 25h, 01h, 00h ; and AX,1h (force imm16 encoding)
     mov [9dfah],AX
     mov BX,word ptr [BP + 4h]
     mov CL,4h
@@ -8579,7 +8553,7 @@ LAB_1000_642e:
     add AX,word ptr [808h]
     mov CL,5h
     shl AX,CL
-    add AX,20h
+    db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
     add word ptr [SI],AX
     cmp word ptr [SI],0ffh
     jle LAB_1000_6453
@@ -8619,7 +8593,7 @@ LAB_1000_64a5:
     mov CX,AX
     shl AX,1h
     add AX,CX
-    sub AX,14h
+    db 2Dh, 14h, 00h ; sub AX,14h (force imm16 encoding)
     neg AX
     cmp AX,word ptr [BP + -1eh]
     jc LAB_1000_64b8
@@ -8658,7 +8632,7 @@ LAB_1000_64ed:
     jmp LAB_1000_65dc
 LAB_1000_6501:
     mov AX,word ptr [SI + 81aeh]
-    add AX,8h
+    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
     mov word ptr [DI + 0d14h],AX
     mov AX,18h
     imul word ptr [BP + -24h]
@@ -8735,7 +8709,7 @@ LAB_1000_655c:
     mov AX,2h
     push AX
     mov AX,word ptr [BP + 4h]
-    add AX,40h
+    db 05h, 40h, 00h ; add AX,40h (force imm16 encoding)
     push AX
     call sub_11BC3
     add SP,4h
@@ -8765,7 +8739,7 @@ LAB_1000_6607:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 sub_16346 endp
 ; ------------------------------seg000:0x660c------------------------------
 ; ------------------------------seg000:0x660e------------------------------
@@ -8817,7 +8791,7 @@ LAB_1000_6628:
     mov CX,word ptr [808h]
     shl CX,1h
     add AX,CX
-    add AX,3h
+    db 05h, 03h, 00h ; add AX,3h (force imm16 encoding)
     imul word ptr [SI + 18eh]
     cwd
     xor AX,DX
@@ -8888,7 +8862,7 @@ LAB_1000_6704:
     mov AX,[808h]
     add AX,word ptr [80ah]
     shl AX,CL
-    sub AX,10h
+    db 2Dh, 10h, 00h ; sub AX,10h (force imm16 encoding)
     push AX
     push word ptr [SI + 81b6h]
     call _sub_1CF64
@@ -8904,7 +8878,7 @@ LAB_1000_6734:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 sub_166BE endp
 ; ------------------------------seg000:0x6740------------------------------
 ; ------------------------------seg000:0x6742------------------------------
@@ -9010,7 +8984,7 @@ LAB_1000_6810:
     mov SI,AX
     push word ptr [SI + 896ch]
     mov AX,word ptr [BP + -22h]
-    and AX,7h
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov CL,0bh
     shl AX,CL
     add AX,word ptr [SI + 8962h]
@@ -9025,7 +8999,7 @@ LAB_1000_6810:
     mov SI,AX
     push word ptr [SI + 896ch]
     mov AX,word ptr [BP + -22h]
-    and AX,7h
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov CL,0bh
     shl AX,CL
     add AX,word ptr [SI + 8962h]
@@ -9336,7 +9310,7 @@ LAB_1000_6b91:
     mov AX,[0e38h]
     sar AX,1h
     sar AX,1h
-    and AX,3h
+    db 25h, 03h, 00h ; and AX,3h (force imm16 encoding)
     add AX,word ptr [86f4h]
     mov word ptr [BP + -2ah],AX
     mov AX,138h
@@ -9421,7 +9395,7 @@ LAB_1000_6c6d:
     sub AX,AX
     push AX
     mov AX,word ptr [BP + -22h]
-    and AX,3h
+    db 25h, 03h, 00h ; and AX,3h (force imm16 encoding)
     add AX,word ptr [808h]
     push AX
     call _sub_1CF64
@@ -9453,7 +9427,7 @@ LAB_1000_6cc4:
     sub AX,word ptr [BP + -14h]
     mov CL,0dh
     sar AX,CL
-    and AX,7h
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov word ptr [BP + -0ah],AX
     mov AX,[5818h]
     mov word ptr [BP + -14h],AX
@@ -9473,8 +9447,8 @@ LAB_1000_6cf1:
     sub AX,word ptr [BP + -14h]
     mov CL,0dh
     sar AX,CL
-    add AX,4h
-    and AX,7h
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov word ptr [BP + -12h],AX
     mov DI,word ptr [BP + -6h]
     mov CL,7h
@@ -9487,7 +9461,7 @@ LAB_1000_6cf1:
     shl BX,1h
     mov SI,word ptr [BX + DI + 0b94h]
     mov AX,SI
-    and AX,0fh
+    db 25h, 0Fh, 00h ; and AX,0fh (force imm16 encoding)
     mov CL,0ch
     shl AX,CL
     mov word ptr [BP + -32h],AX
@@ -9497,7 +9471,7 @@ LAB_1000_6cf1:
     mov AX,[0e38h]
     mov CL,8h
     sar AX,CL
-    and AX,8h
+    db 25h, 08h, 00h ; and AX,8h (force imm16 encoding)
     mov CL,0ch
     shl AX,CL
     sub AX,4000h
@@ -9518,8 +9492,8 @@ LAB_1000_6d51:
     mov AX,[0e38h]
     mov CL,8h
     sar AX,CL
-    and AX,8h
-    sub AX,4h
+    db 25h, 08h, 00h ; and AX,8h (force imm16 encoding)
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     neg AX
     mov CL,0ch
     shl AX,CL
@@ -9740,7 +9714,7 @@ LAB_1000_6f80:
     jnz LAB_1000_701d
     mov AX,[0e38h]
     sar AX,1h
-    and AX,7h
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov word ptr [BP + -3ch],AX
     mov BX,AX
     mov CL,3h
@@ -9776,7 +9750,7 @@ LAB_1000_701d:
     push word ptr [SI + 8964h]
     call _sub_1D178
     add SP,4h
-    sub AX,0c8h
+    db 2Dh, 0C8h, 00h ; sub AX,0c8h (force imm16 encoding)
     neg AX
     cmp AX,word ptr [SI + 8958h]
     jle LAB_1000_705a
@@ -10019,7 +9993,7 @@ LAB_1000_72a8:
     mov word ptr [SI],0h
 LAB_1000_72c9:
     mov AX,[9796h]
-    sub AX,4h
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     cmp word ptr [BP + -22h],AX
     jl LAB_1000_72ef
     mov AX,24h
@@ -10045,7 +10019,7 @@ LAB_1000_730e:
     shl SI,CL
     mov AX,word ptr [SI + 81b4h]
     and AX,101h
-    cmp AX,1h
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
     jnz LAB_1000_7361
     mov AX,24h
     imul word ptr [BP + -22h]
@@ -10095,7 +10069,7 @@ LAB_1000_736c:
 LAB_1000_739e:
     mov AL,byte ptr [BP + -22h]
     sub AH,AH
-    and AX,8h
+    db 25h, 08h, 00h ; and AX,8h (force imm16 encoding)
     mov CL,3h
     shr AX,CL
     mov CX,word ptr [BP + -22h]
@@ -10136,7 +10110,7 @@ LAB_1000_73ea:
     jmp LAB_1000_74eb
 LAB_1000_7401:
     mov AX,[9796h]
-    sub AX,4h
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     cmp word ptr [BP + -22h],AX
     jl LAB_1000_740f
     jmp LAB_1000_74eb
@@ -10174,7 +10148,7 @@ LAB_1000_745a:
     shl SI,CL
     mov AX,word ptr [SI + 81b4h]
     and AX,181h
-    cmp AX,1h
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
     jnz LAB_1000_74eb
     mov AX,24h
     imul word ptr [BP + -22h]
@@ -10218,7 +10192,7 @@ LAB_1000_745a:
     mov AX,2h
     push AX
     mov AX,word ptr [BP + -22h]
-    add AX,20h
+    db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
     push AX
     call sub_11BC3
     add SP,4h
@@ -10331,7 +10305,7 @@ LAB_1000_75e4:
     add AX,word ptr [808h]
     mov CL,4h
     shl AX,CL
-    add AX,20h
+    db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
     mov CL,byte ptr [694eh]
     and CL,10h
     mov DX,CX
@@ -10400,7 +10374,7 @@ LAB_1000_769f:
     mov CX,AX
     shl AX,1h
     add AX,CX
-    sub AX,10h
+    db 2Dh, 10h, 00h ; sub AX,10h (force imm16 encoding)
     neg AX
     cmp AX,word ptr [BP + -10h]
     jc LAB_1000_76b5
@@ -10428,7 +10402,7 @@ LAB_1000_76c8:
     imul word ptr [BP + 4h]
     mov DI,AX
     mov AX,word ptr [DI + 8958h]
-    sub AX,19h
+    db 2Dh, 19h, 00h ; sub AX,19h (force imm16 encoding)
     mov word ptr [SI + 0d18h],AX
     mov AX,12h
     imul word ptr [BP + -14h]
@@ -10515,7 +10489,7 @@ LAB_1000_7744:
     mov AX,2h
     push AX
     mov AX,word ptr [BP + 4h]
-    add AX,20h
+    db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
     push AX
     call sub_11BC3
     add SP,4h
@@ -10559,7 +10533,7 @@ LAB_1000_7816:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 sub_17594 endp
 ; ------------------------------seg000:0x7838------------------------------
 ; ------------------------------seg000:0x783a------------------------------
@@ -10719,7 +10693,7 @@ LAB_1000_798f:
     call _strcat
     add SP,4h
     mov AX,[9796h]
-    sub AX,4h
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     cmp word ptr [BP + 4h],AX
     jge LAB_1000_79e7
     mov AX,66c4h
@@ -10732,7 +10706,7 @@ LAB_1000_79e7:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 sub_1783A endp
 ; ------------------------------seg000:0x79ec------------------------------
 ; ------------------------------seg000:0x79ee------------------------------
@@ -10816,7 +10790,7 @@ LAB_1000_7a4e:
     mov AX,1h
     push AX
     mov AX,word ptr [BP + -20h]
-    add AX,20h
+    db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
     push AX
     call sub_11BC3
     add SP,4h
@@ -10958,7 +10932,7 @@ LAB_1000_7be0:
     mov AX,1h
     push AX
     mov AX,word ptr [BP + -20h]
-    add AX,40h
+    db 05h, 40h, 00h ; add AX,40h (force imm16 encoding)
     push AX
     call sub_11BC3
     add SP,4h
@@ -11403,7 +11377,7 @@ LAB_1000_80aa:
     call sub_1C6BE
     add SP,4h
     mov word ptr [BP + -36h],AX
-    cmp AX,0ffffh
+    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
     jnz LAB_1000_80c3
     jmp LAB_1000_8199
 LAB_1000_80c3:
@@ -11576,7 +11550,7 @@ LAB_1000_823c:
     call sub_18A44
     mov AX,[0e38h]
     sar AX,1h
-    and AX,7h
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov word ptr [BP + -34h],AX
     mov SI,AX
     mov CL,3h
@@ -11605,7 +11579,7 @@ LAB_1000_82ac:
     add SP,2h
     mov AX,[0e38h]
     sar AX,1h
-    and AX,7h
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov word ptr [BP + -34h],AX
     mov AX,24h
     imul word ptr [BP + -14h]
@@ -11802,7 +11776,7 @@ LAB_1000_8499:
     push AX
     call _abs
     add SP,2h
-    sub AX,40h
+    db 2Dh, 40h, 00h ; sub AX,40h (force imm16 encoding)
     push AX
     call _abs
     add SP,2h
@@ -12124,7 +12098,7 @@ LAB_1000_87e4:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 sub_186F8 endp
 ; ------------------------------seg000:0x87e8------------------------------
 ; ------------------------------seg000:0x87ea------------------------------
@@ -12314,7 +12288,7 @@ LAB_1000_89a4:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 sub_187EA endp
 ; ------------------------------seg000:0x89a8------------------------------
 ; ------------------------------seg000:0x89aa------------------------------
@@ -12352,7 +12326,7 @@ LAB_1000_89d8:
 LAB_1000_89e6:
     mov AX,80h
 LAB_1000_89e9:
-    add AX,0bh
+    db 05h, 0Bh, 00h ; add AX,0bh (force imm16 encoding)
     push AX
     call sub_11D10
     add SP,4h
@@ -12431,7 +12405,7 @@ LAB_1000_8aa1:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 sub_18A44 endp
 ; ------------------------------seg000:0x8aa4------------------------------
 ; ------------------------------seg000:0x8aa6------------------------------
@@ -12505,7 +12479,7 @@ LAB_1000_8b34:
 LAB_1000_8b4a:
     sub AX,AX
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov BX,word ptr [802h]
     shl BX,1h
@@ -12514,14 +12488,14 @@ LAB_1000_8b4a:
     mov AX,0c2h
     push AX
     mov AX,word ptr [BP + -4h]
-    add AX,2h
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
     push AX
     mov AX,0beh
     push AX
     mov AX,word ptr [BP + -4h]
     dec AX
     push AX
-    call sub_19E5D
+    call _sub_19E5D
     add SP,8h
     mov AX,0ch
     push AX
@@ -12594,7 +12568,7 @@ LAB_1000_8c19:
     mov AX,[9620h]
     db 89h, 84h, 16h, 0dh  ; MOV word ptr [SI + 0...,AX                  ;= ??
     mov AX,[581eh]
-    sub AX,14h
+    db 2Dh, 14h, 00h ; sub AX,14h (force imm16 encoding)
     db 89h, 84h, 18h, 0dh  ; MOV word ptr [SI + 0...,AX                  ;= ??
     mov AX,[8094h]
     mov CL,0bh
@@ -12648,7 +12622,7 @@ LAB_1000_8c9e:
     push DX
     push AX
     call __aNldiv
-    add AX,6h
+    db 05h, 06h, 00h ; add AX,6h (force imm16 encoding)
     db 89h, 84h, 22h, 0dh  ; MOV word ptr [SI + 0...,AX                  ;= ??
     mov AX,18h
     imul word ptr [BP + -8h]
@@ -12815,7 +12789,7 @@ LAB_1000_8e25:
     add SP,0ch
     pop BP
     ret
-    align 2
+    nop
 sub_18DF4 endp
 ; ------------------------------seg000:0x8e36------------------------------
 ; ------------------------------seg000:0x8e38------------------------------
@@ -12912,7 +12886,7 @@ LAB_1000_9550:
     db 0EBh
     db 0Ah
 LAB_1000_9566:
-    cmp AX,13h
+    db 3Dh, 13h, 00h ; cmp AX,13h (force imm16 encoding)
     jnz LAB_1000_956e
     jmp LAB_1000_94e6
 LAB_1000_956e:
@@ -13328,7 +13302,7 @@ sub_198FA proc near
     mov CL,0ah
     sub CL,byte ptr [5b3ah]
     sar AX,CL
-    add AX,3ch
+    db 05h, 3Ch, 00h ; add AX,3ch (force imm16 encoding)
     jmp LAB_1000_9911
 LAB_1000_9911:
     mov SP,BP
@@ -13350,7 +13324,7 @@ sub_19915 proc near
     add AX,CX
     sar AX,1h
     sar AX,1h
-    add AX,8ch
+    db 05h, 8Ch, 00h ; add AX,8ch (force imm16 encoding)
     jmp LAB_1000_9936
 LAB_1000_9936:
     mov SP,BP
@@ -13557,7 +13531,7 @@ sub_19ADB proc near
     add byte ptr [BP + 0fh],1h
 LAB_1000_9aed:
     push word ptr [BP + 0ah]
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,word ptr [BP + 0eh]
     mov word ptr [BP + -6h],AX
@@ -13887,47 +13861,15 @@ LAB_1000_9e40:
     pop BP
     ret
 sub_19DB0 endp
-; ------------------------------seg000:0x9e43------------------------------
-sub_19E44 proc near
-    push BP
-    mov BP,SP
-    mov BX,word ptr [5a84h]
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [BX + 4h],AX
-    mov BX,word ptr [5a9ch]
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [BX + 4h],AX
-    pop BP
-    ret
-sub_19E44 endp
+; sub_19E44 moved to egame1.c
 
-sub_19E5D proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    push word ptr [5a84h]
-    call far ptr _sub_21444
-    add SP,0ah
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    push word ptr [5a9ch]
-    call far ptr _sub_21444
-    add SP,0ah
-    mov SP,BP
-    pop BP
-    ret
-sub_19E5D endp
+; sub_19E5D moved to C
 
 routine_328 proc near
     push BP
     mov BP,SP
     push word ptr [BP + 8h]
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     push word ptr [BP + 6h]
     push word ptr [BP + 4h]
@@ -14021,7 +13963,7 @@ _sub_19FCC proc near
     push BP
     mov BP,SP
     push word ptr [BP + 6h]
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     cmp word ptr [BP + 4h],1h
     jnz LAB_1000_9ff4
@@ -14033,7 +13975,7 @@ _sub_19FCC proc near
     push AX
     mov AX,18h
     push AX
-    call sub_19E5D
+    call _sub_19E5D
     add SP,8h
 LAB_1000_9ff4:
     cmp word ptr [BP + 4h],2h
@@ -14046,7 +13988,7 @@ LAB_1000_9ff4:
     push AX
     mov AX,78h
     push AX
-    call sub_19E5D
+    call _sub_19E5D
     add SP,8h
 LAB_1000_a010:
     cmp word ptr [BP + 4h],3h
@@ -14059,7 +14001,7 @@ LAB_1000_a010:
     push AX
     mov AX,0e8h
     push AX
-    call sub_19E5D
+    call _sub_19E5D
     add SP,8h
 LAB_1000_a02c:
     mov SP,BP
@@ -14416,7 +14358,7 @@ LAB_1000_a256:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 sub_1A224 endp
 ; ------------------------------seg000:0xa25a------------------------------
 ; ------------------------------seg000:0xa25c------------------------------
@@ -14430,7 +14372,7 @@ _sub_1A25C proc near
     mov word ptr [BP + -12h],AX
     sub AX,AX
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,0afh
     push AX
@@ -14452,7 +14394,7 @@ LAB_1000_a291:
     add SP,0ah
     mov AX,8h
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov word ptr [BP + -16h],1h
     cmp word ptr [5b3ch],2h
@@ -14651,7 +14593,7 @@ LAB_1000_a498:
     mov AX,word ptr [BP + -4h]
     mov CL,0ch
     sar AX,CL
-    and AX,0fh
+    db 25h, 0Fh, 00h ; and AX,0fh (force imm16 encoding)
     push AX
     call sub_1A872
     add SP,8h
@@ -14669,7 +14611,7 @@ LAB_1000_a4ca:
     mov AX,0eh
 LAB_1000_a4cd:
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,18h
     imul word ptr [BP + -0eh]
@@ -14687,7 +14629,7 @@ LAB_1000_a4f8:
     mov AX,0dh
 LAB_1000_a4fb:
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
 LAB_1000_a502:
     mov AX,18h
@@ -14697,14 +14639,14 @@ LAB_1000_a502:
     jnz LAB_1000_a51b
     mov AX,7h
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
 LAB_1000_a51b:
     cmp word ptr [BP + -0eh],8h
     jl LAB_1000_a52b
     mov AX,0fh
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
 LAB_1000_a52b:
     mov AX,18h
@@ -14800,8 +14742,8 @@ LAB_1000_a60e:
     add AH,10h
     mov CL,0dh
     sar AX,CL
-    and AX,3h
-    add AX,8h
+    db 25h, 03h, 00h ; and AX,3h (force imm16 encoding)
+    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
     mov word ptr [BP + -4h],AX
 LAB_1000_a637:
     mov BX,word ptr [BP + -0eh]
@@ -14896,9 +14838,9 @@ LAB_1000_a6df:
     shl BX,1h
     shl BX,1h
     mov AX,word ptr [BX + 0b28h]
-    cmp AX,1h
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
     jz LAB_1000_a6c6
-    cmp AX,2h
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
     jnz LAB_1000_a6dc
     push word ptr [219ch]
     push word ptr [1fb8h]
@@ -14911,7 +14853,7 @@ LAB_1000_a73a:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 _sub_1A25C endp
 ; ------------------------------seg000:0xa73e------------------------------
 ; ------------------------------seg000:0xa740------------------------------
@@ -14920,28 +14862,28 @@ sub_1A740 proc near
     mov BP,SP
     push SI
     push word ptr [BP + 8h]
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov SI,word ptr [219ch]
     sub SI,3h
     push SI
     mov AX,[1fb8h]
-    add AX,4h
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
     push AX
     push SI
     mov AX,[1fb8h]
-    sub AX,4h
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     push AX
     call sub_19D86
     add SP,8h
     mov SI,word ptr [1fb8h]
     add SI,4h
     mov AX,[219ch]
-    add AX,3h
+    db 05h, 03h, 00h ; add AX,3h (force imm16 encoding)
     push AX
     push SI
     mov AX,[219ch]
-    sub AX,3h
+    db 2Dh, 03h, 00h ; sub AX,3h (force imm16 encoding)
     push AX
     push SI
     call sub_19D86
@@ -14950,22 +14892,22 @@ sub_1A740 proc near
     add SI,3h
     push SI
     mov AX,[1fb8h]
-    sub AX,4h
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     push AX
     push SI
     mov AX,[1fb8h]
-    add AX,4h
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
     push AX
     call sub_19D86
     add SP,8h
     mov SI,word ptr [1fb8h]
     sub SI,4h
     mov AX,[219ch]
-    sub AX,3h
+    db 2Dh, 03h, 00h ; sub AX,3h (force imm16 encoding)
     push AX
     push SI
     mov AX,[219ch]
-    add AX,3h
+    db 05h, 03h, 00h ; add AX,3h (force imm16 encoding)
     push AX
     push SI
     call sub_19D86
@@ -15018,7 +14960,7 @@ sub_1A7C4 proc near
     mov [219ch],AX
     add word ptr [1fb8h],0a0h
     neg AX
-    add AX,98h
+    db 05h, 98h, 00h ; add AX,98h (force imm16 encoding)
     mov [219ch],AX
     cmp word ptr [1fb8h],7ch
     jl LAB_1000_a851
@@ -15038,7 +14980,7 @@ LAB_1000_a86c:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 sub_1A7C4 endp
 ; ------------------------------seg000:0xa870------------------------------
 ; ------------------------------seg000:0xa872------------------------------
@@ -15054,17 +14996,17 @@ sub_1A872 proc near
     mov [5b00h],AX
     mov AX,word ptr [BP + 6h]
     shl AX,CL
-    add AX,1fh
+    db 05h, 1Fh, 00h ; add AX,1fh (force imm16 encoding)
     mov [5b02h],AX
     cmp byte ptr [9cf0h],1h
     sbb AX,AX
     inc AX
     mov [5b04h],AX
     mov AX,word ptr [BP + 8h]
-    sub AX,3h
+    db 2Dh, 03h, 00h ; sub AX,3h (force imm16 encoding)
     mov [5b06h],AX
     mov AX,word ptr [BP + 0ah]
-    sub AX,3h
+    db 2Dh, 03h, 00h ; sub AX,3h (force imm16 encoding)
     mov [5b08h],AX
     mov word ptr [5b0ah],7h
     mov word ptr [5b0ch],7h
@@ -15118,7 +15060,7 @@ LAB_1000_a920:
     add SP,2h
     pop BP
     ret
-    align 2
+    nop
 _sub_1A8C8 endp
 ; ------------------------------seg000:0xa933------------------------------
 ; ------------------------------seg000:0xa934------------------------------
@@ -15142,7 +15084,7 @@ sub_1A934 proc near
     call far ptr _gfx_jump_2a
     add SP,10h
     ret
-    align 2
+    nop
 sub_1A934 endp
 ; ------------------------------seg000:0xa961------------------------------
 ; ------------------------------seg000:0xa962------------------------------
@@ -15184,7 +15126,7 @@ sub_1A962 proc near
     call far ptr _gfx_jump_2a
     add SP,10h
     ret
-    align 2
+    nop
 sub_1A962 endp
 ; ------------------------------seg000:0xa9bb------------------------------
 ; ------------------------------seg000:0xa9bc------------------------------
@@ -15234,7 +15176,7 @@ sub_1A9F8 proc near
     push word ptr [581ah]
     push word ptr [5818h]
     mov AX,[581eh]
-    add AX,10h
+    db 05h, 10h, 00h ; add AX,10h (force imm16 encoding)
     push AX
     sub AX,AX
     mov DX,100h
@@ -15293,7 +15235,7 @@ LAB_1000_aaa3:
     cmp word ptr [0e44h],-1h
     jz LAB_1000_ab10
     mov AX,[0e44h]
-    sub AX,80h
+    db 2Dh, 80h, 00h ; sub AX,80h (force imm16 encoding)
     mov word ptr [BP + -20h],AX
     push AX
     call sub_1C7A2
@@ -15350,7 +15292,7 @@ LAB_1000_ab2a:
     cmp AX,1800h
     jge LAB_1000_aba8
     mov AX,word ptr [BP + -20h]
-    add AX,80h
+    db 05h, 80h, 00h ; add AX,80h (force imm16 encoding)
     cmp AX,word ptr [0e44h]
     jz LAB_1000_aba8
     mov SI,word ptr [BP + -20h]
@@ -15500,7 +15442,7 @@ LAB_1000_acb3:
     cmp word ptr [0e42h],-1h
     jz LAB_1000_ad05
     mov AX,[0e42h]
-    sub AX,80h
+    db 2Dh, 80h, 00h ; sub AX,80h (force imm16 encoding)
     mov word ptr [BP + -20h],AX
     mov AX,24h
     imul word ptr [BP + -20h]
@@ -15660,7 +15602,7 @@ LAB_1000_ae6e:
     push word ptr [BP + -24h]
     call _sub_1D1C8
     add SP,2h
-    sub AX,2h
+    db 2Dh, 02h, 00h ; sub AX,2h (force imm16 encoding)
     neg AX
     push AX
     sub AX,AX
@@ -15709,7 +15651,7 @@ LAB_1000_aee7:
 LAB_1000_aefd:
     mov AX,0fh
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     push word ptr [219ch]
     push word ptr [1fb8h]
@@ -15816,7 +15758,7 @@ LAB_1000_b003:
     mov AX,0dh
 LAB_1000_b006:
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     push word ptr [219ch]
     push word ptr [1fb8h]
@@ -15901,7 +15843,7 @@ LAB_1000_b0bd:
     push word ptr [581ah]
     push word ptr [5818h]
     mov AX,[581eh]
-    add AX,10h
+    db 05h, 10h, 00h ; add AX,10h (force imm16 encoding)
     push AX
     sub AX,AX
     mov DX,100h
@@ -15987,7 +15929,7 @@ LAB_1000_b19e:
     mov AX,0ah
 LAB_1000_b1a1:
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     sub AX,AX
     push AX
@@ -16003,7 +15945,7 @@ LAB_1000_b1bf:
     mov AX,[814h]
     shl AX,1h
     shl AX,1h
-    add AX,8h
+    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
     push AX
     call sub_15557
     add SP,2h
@@ -16018,7 +15960,7 @@ LAB_1000_b1e2:
     inc word ptr [BP + -1eh]
 LAB_1000_b1e5:
     mov AX,[86f4h]
-    add AX,4h
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
     cmp word ptr [BP + -1eh],AX
     jl LAB_1000_b1f3
     jmp LAB_1000_b5be
@@ -16077,7 +16019,7 @@ LAB_1000_b279:
     mov AX,[0e38h]
     sar AX,1h
     sub AX,word ptr [BP + -1eh]
-    and AX,7h
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov word ptr [BP + -2ah],AX
     mov AX,[86f4h]
     cmp word ptr [BP + -1eh],AX
@@ -16088,7 +16030,7 @@ LAB_1000_b294:
     mov AX,0ch
 LAB_1000_b297:
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     push word ptr [BP + -32h]
     push word ptr [BP + -2ch]
@@ -16260,7 +16202,7 @@ LAB_1000_b3e0:
     call _abs
     add SP,2h
     mov word ptr [BP + -2ah],AX
-    cmp AX,20h
+    db 3Dh, 20h, 00h ; cmp AX,20h (force imm16 encoding)
     jge LAB_1000_b476
     mov word ptr [BP + -0eh],1h
     mov AX,5bc8h
@@ -16326,7 +16268,7 @@ LAB_1000_b4e1:
     call sub_1C6BE
     add SP,4h
     mov word ptr [BP + -8h],AX
-    cmp AX,0ffffh
+    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
     jnz LAB_1000_b50d
     jmp LAB_1000_b5bb
 LAB_1000_b50d:
@@ -16438,9 +16380,9 @@ LAB_1000_b60b:
     push AX
     call randlmul
     add SP,2h
-    add AX,0ch
+    db 05h, 0Ch, 00h ; add AX,0ch (force imm16 encoding)
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     cmp word ptr [961eh],0h
     jle LAB_1000_b65e
@@ -16531,7 +16473,7 @@ LAB_1000_b6fe:
     add SP,2h
     mov AX,0fh
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,0c7h
     push AX
@@ -16573,7 +16515,7 @@ LAB_1000_b749:
     mov BX,AX
     mov AX,word ptr [BX + 82ch]
     mov word ptr [BP + -1ah],AX
-    cmp AX,1ch
+    db 3Dh, 1Ch, 00h ; cmp AX,1ch (force imm16 encoding)
     jnz LAB_1000_b7aa
     push word ptr [0e44h]
     call sub_1C7A2
@@ -16603,7 +16545,7 @@ LAB_1000_b7c0:
     sub AX,AX
 LAB_1000_b7c2:
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov word ptr [BP + -6h],0h
     push word ptr [0e44h]
@@ -16643,17 +16585,17 @@ LAB_1000_b811:
 LAB_1000_b823:
     mov AX,0fh
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,[219ch]
-    sub AX,38h
+    db 2Dh, 38h, 00h ; sub AX,38h (force imm16 encoding)
     push AX
     mov AX,[1fb8h]
-    sub AX,0a0h
+    db 2Dh, 0A0h, 00h ; sub AX,0a0h (force imm16 encoding)
     push AX
     call _sub_1CFA6
     add SP,4h
-    cmp AX,30h
+    db 3Dh, 30h, 00h ; cmp AX,30h (force imm16 encoding)
     jl LAB_1000_b84d
     cmp word ptr [644ah],0h
     jz LAB_1000_b8b3
@@ -16694,7 +16636,7 @@ LAB_1000_b8a7:
     mov AX,0ch
 LAB_1000_b8aa:
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
 LAB_1000_b8b1:
     jmp LAB_1000_b8b9
@@ -16713,7 +16655,7 @@ LAB_1000_b8cd:
     sub AX,AX
 LAB_1000_b8cf:
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
 LAB_1000_b8d6:
     mov word ptr [644ah],0h
@@ -16722,7 +16664,7 @@ LAB_1000_b8dc:
     cmp word ptr [BP + -30h],0h
     jz LAB_1000_b8ed
     mov AX,word ptr [BP + -30h]
-    add AX,5h
+    db 05h, 05h, 00h ; add AX,5h (force imm16 encoding)
     jmp LAB_1000_b8f0
 LAB_1000_b8ed:
     mov AX,9h
@@ -16779,7 +16721,7 @@ LAB_1000_b97c:
     jmp LAB_1000_bbb6
 LAB_1000_b986:
     mov AX,[0e44h]
-    and AX,7fh
+    db 25h, 7Fh, 00h ; and AX,7fh (force imm16 encoding)
     mov word ptr [BP + -28h],AX
     mov SI,AX
     mov CL,4h
@@ -16916,7 +16858,7 @@ LAB_1000_bab1:
     add SP,6h
     mov AX,0fh
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     sub AX,AX
     push AX
@@ -17044,7 +16986,7 @@ LAB_1000_bc12:
     sub AX,AX
 LAB_1000_bc14:
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov word ptr [BP + -6h],0h
     mov SI,word ptr [802h]
@@ -17064,17 +17006,17 @@ LAB_1000_bc14:
     jnz LAB_1000_bcb8
     mov AX,0fh
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,[219ch]
-    sub AX,38h
+    db 2Dh, 38h, 00h ; sub AX,38h (force imm16 encoding)
     push AX
     mov AX,[1fb8h]
-    sub AX,0a0h
+    db 2Dh, 0A0h, 00h ; sub AX,0a0h (force imm16 encoding)
     push AX
     call _sub_1CFA6
     add SP,4h
-    cmp AX,30h
+    db 3Dh, 30h, 00h ; cmp AX,30h (force imm16 encoding)
     jge LAB_1000_bcb8
     mov AX,[9766h]
     neg AX
@@ -17103,7 +17045,7 @@ LAB_1000_bcae:
     mov AX,0ch
 LAB_1000_bcb1:
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
 LAB_1000_bcb8:
     push word ptr [BP + -6h]
@@ -17127,7 +17069,7 @@ LAB_1000_bce1:
     jmp LAB_1000_be32
 LAB_1000_bceb:
     mov AX,[0e42h]
-    and AX,7fh
+    db 25h, 7Fh, 00h ; and AX,7fh (force imm16 encoding)
     mov word ptr [BP + -28h],AX
     mov AX,24h
     imul word ptr [BP + -28h]
@@ -17308,7 +17250,7 @@ LAB_1000_beb0:
     mov BX,AX
     mov AX,word ptr [BX + 82ch]
     mov word ptr [BP + -10h],AX
-    cmp AX,1eh
+    db 3Dh, 1Eh, 00h ; cmp AX,1eh (force imm16 encoding)
     jz LAB_1000_bed0
     jmp LAB_1000_bfb6
 LAB_1000_bed0:
@@ -17370,14 +17312,14 @@ LAB_1000_bee2:
     cwd
     mov CX,3h
     idiv CX
-    add AX,0a0h
+    db 05h, 0A0h, 00h ; add AX,0a0h (force imm16 encoding)
     mov [1fb8h],AX
     mov word ptr [219ch],60h
     jmp LAB_1000_bf96
 LAB_1000_bf76:
     mov AX,0ch
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,1h
     push AX
@@ -17390,7 +17332,7 @@ LAB_1000_bf76:
 LAB_1000_bf96:
     mov AX,0fh
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     push word ptr [219ch]
     push word ptr [1fb8h]
@@ -17480,7 +17422,7 @@ LAB_1000_c058:
 LAB_1000_c077:
     mov AX,0ch
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,9fh
     sub AX,word ptr [9766h]
@@ -17506,7 +17448,7 @@ LAB_1000_c077:
     mov AX,1eh
     push AX
     mov AX,[9766h]
-    add AX,0a0h
+    db 05h, 0A0h, 00h ; add AX,0a0h (force imm16 encoding)
     push AX
     mov AX,1eh
     push AX
@@ -17517,44 +17459,44 @@ LAB_1000_c077:
     add SP,8h
     mov AX,0fh
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,[219ch]
-    sub AX,4h
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     push AX
     push word ptr [1fb8h]
     push word ptr [219ch]
     mov AX,[1fb8h]
-    sub AX,4h
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     push AX
     call sub_19DB0
     add SP,8h
     push word ptr [219ch]
     mov AX,[1fb8h]
-    add AX,4h
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
     push AX
     mov AX,[219ch]
-    sub AX,4h
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     push AX
     push word ptr [1fb8h]
     call sub_19DB0
     add SP,8h
     mov AX,[219ch]
-    add AX,4h
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
     push AX
     push word ptr [1fb8h]
     push word ptr [219ch]
     mov AX,[1fb8h]
-    add AX,4h
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
     push AX
     call sub_19DB0
     add SP,8h
     push word ptr [219ch]
     mov AX,[1fb8h]
-    sub AX,4h
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     push AX
     mov AX,[219ch]
-    add AX,4h
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
     push AX
     push word ptr [1fb8h]
     call sub_19DB0
@@ -17578,7 +17520,7 @@ LAB_1000_c149:
     push word ptr [6d56h]
     call _abs
     add SP,2h
-    sub AX,8h
+    db 2Dh, 08h, 00h ; sub AX,8h (force imm16 encoding)
     neg AX
     mov CL,5h
     shl AX,CL
@@ -17762,7 +17704,7 @@ sub_1C2F8 proc near
 LAB_1000_c329:
     mov AX,0eh
     push AX
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov word ptr [BP + -2h],10ch
     mov word ptr [BP + -4h],9ch
@@ -17777,11 +17719,11 @@ LAB_1000_c329:
     call _sub_19BE1
     add SP,8h
     mov AX,word ptr [BP + -4h]
-    add AX,8h
+    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
     push AX
     push word ptr [BP + -2h]
     mov AX,word ptr [BP + -4h]
-    sub AX,8h
+    db 2Dh, 08h, 00h ; sub AX,8h (force imm16 encoding)
     push AX
     push word ptr [BP + -2h]
     call _sub_19BE1
@@ -17801,7 +17743,7 @@ sub_1C371 proc near
     jmp LAB_1000_c407
 LAB_1000_c37e:
     push word ptr [BP + 6h]
-    call sub_19E44
+    call _sub_19E44
     add SP,2h
     mov AX,[1fb8h]
     cmp word ptr [BP + 8h],AX
@@ -17835,7 +17777,7 @@ LAB_1000_c3c4:
     jge LAB_1000_c407
     push word ptr [66c2h]
     mov AX,[219ch]
-    add AX,5h
+    db 05h, 05h, 00h ; add AX,5h (force imm16 encoding)
     push AX
     push word ptr [BP + 4h]
     call _strlen
@@ -17890,7 +17832,7 @@ sub_1C40B proc near
     mov AX,9780h
     push AX
     mov AX,word ptr [BP + 4h]
-    and AX,3fh
+    db 25h, 3Fh, 00h ; and AX,3fh (force imm16 encoding)
     shl AX,1h
     cwd
     mov CX,0dh
@@ -18049,7 +17991,7 @@ LAB_1000_c5b4:
     push DX
     push AX
     call __aNldiv
-    add AX,0a0h
+    db 05h, 0A0h, 00h ; add AX,0a0h (force imm16 encoding)
     mov [1fb8h],AX
     push word ptr [BP + -10h]
     push word ptr [BP + -12h]
@@ -18427,13 +18369,13 @@ sub_1C8A4 proc near
     mov BX,word ptr [BX + 81bah]
     and BX,7fh
     mov AL,byte ptr [BX + 96f4h]
-    and AX,0fh
+    db 25h, 0Fh, 00h ; and AX,0fh (force imm16 encoding)
     mov word ptr [BP + -2h],AX
-    cmp AX,0ch
+    db 3Dh, 0Ch, 00h ; cmp AX,0ch (force imm16 encoding)
     jz LAB_1000_c8d1
-    cmp AX,9h
+    db 3Dh, 09h, 00h ; cmp AX,9h (force imm16 encoding)
     jz LAB_1000_c8d1
-    cmp AX,0bh
+    db 3Dh, 0Bh, 00h ; cmp AX,0bh (force imm16 encoding)
     jnz LAB_1000_c8d6
 LAB_1000_c8d1:
     mov AX,1h
@@ -18446,6 +18388,7 @@ LAB_1000_c8da:
     mov SP,BP
     pop BP
     ret
+    nop
 sub_1C8A4 endp
 ; ------------------------------seg000:0xc8dd------------------------------
 ; ------------------------------seg000:0xc9d2------------------------------
@@ -18475,7 +18418,7 @@ LAB_1000_c9f3:
     mov DX,word ptr [BP + 0ch]
     add AX,word ptr [8f48h]
     adc DX,word ptr [8f4ah]
-    sub AX,0h
+    db 2Dh, 00h, 00h ; sub AX,0h (force imm16 encoding)
     sbb DX,100h
     mov word ptr [BP + -0ch],AX
     mov word ptr [BP + -0ah],DX
@@ -18503,12 +18446,12 @@ LAB_1000_ca6a:
     cmp byte ptr [5374h],0h
     jz LAB_1000_ca7a
     mov AX,word ptr [BP + 16h]
-    sub AX,2h
+    db 2Dh, 02h, 00h ; sub AX,2h (force imm16 encoding)
     jmp LAB_1000_ca80
     db 90h
 LAB_1000_ca7a:
     mov AX,word ptr [BP + 16h]
-    sub AX,3h
+    db 2Dh, 03h, 00h ; sub AX,3h (force imm16 encoding)
 LAB_1000_ca80:
     mov word ptr [BP + 16h],AX
     or AX,AX
@@ -18585,8 +18528,8 @@ LAB_1000_caf7:
     neg AX
     push AX
     mov BX,word ptr [BP + -4h]
-    lea AX,[BX + 0h]
-    mov DX,228dh
+        db 8Dh, 87h, 00h, 00h ; lea AX,[BX + 0h] (force disp16 encoding)
+        mov DX,228dh
     push DX
     push AX
     call far ptr sub_20104
@@ -18837,9 +18780,9 @@ LAB_1000_cdaf:
     rcr AX,1h
     dec CL
     jnz LAB_1000_cdaf
-    add AX,9ch
+    db 05h, 9Ch, 00h ; add AX,9ch (force imm16 encoding)
     mov word ptr [BP + -4h],AX
-    cmp AX,80h
+    db 3Dh, 80h, 00h ; cmp AX,80h (force imm16 encoding)
     jl LAB_1000_cdca
     cmp word ptr [64a4h],0e800h
     jge LAB_1000_cdcf
@@ -18938,7 +18881,7 @@ LAB_1000_ce82:
     neg AX
     push AX
     mov BX,word ptr [BP + -10h]
-    lea AX,[BX + 0h]
+    db 8Dh, 87h, 00h, 00h ; lea AX,[BX + 0h] (force disp16 encoding)
     mov DX,228dh
     push DX
     push AX
@@ -18987,7 +18930,7 @@ LAB_1000_cf2c:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 sub_1CB42 endp
 ; ------------------------------seg000:0xcf30------------------------------
 ; ------------------------------seg000:0xcf32------------------------------
@@ -19316,9 +19259,10 @@ _sub_1D190 proc near
     add SP,4h
     pop BP
     ret
-    align 2
 _sub_1D190 endp
 ; ------------------------------seg000:0xd1a4------------------------------
+    nop
+    nop
 ; ------------------------------seg000:0xd1e8------------------------------
 sub_1D1E8 proc near
     cmp word ptr [80eh],0h
@@ -19384,7 +19328,7 @@ LAB_1000_d258:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 sub_1D21E endp
 ; ------------------------------seg000:0xd25e------------------------------
 ; ------------------------------seg000:0xd260------------------------------
@@ -19443,9 +19387,9 @@ LAB_1000_d2ba:
 LAB_1000_d2cc:
     or AX,AX
     jz LAB_1000_d29a
-    cmp AX,1h
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
     jz LAB_1000_d2aa
-    cmp AX,2h
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
     jz LAB_1000_d2ba
     jmp LAB_1000_d2dc
 LAB_1000_d2dc:
@@ -19500,7 +19444,7 @@ LAB_1000_d34c:
     dec word ptr [672ch]
     jns LAB_1000_d367
     call far ptr _gfx_jump_3f_modecode
-    cmp AX,3h
+    db 3Dh, 03h, 00h ; cmp AX,3h (force imm16 encoding)
     jnz LAB_1000_d361
     mov AX,3h
     jmp LAB_1000_d364
@@ -19630,7 +19574,7 @@ LAB_1000_d47d:
 LAB_1000_d480:
     inc word ptr [5d5ah]
     mov AX,[5d5ah]
-    and AX,3h
+    db 25h, 03h, 00h ; and AX,3h (force imm16 encoding)
     mov [5d5ah],AX
     mov AX,5ccfh
     push AX
@@ -19775,11 +19719,11 @@ LAB_1000_d5dd:
     db 0EBh
     db 11h
 LAB_1000_d5f1:
-    cmp AX,1h
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
     jz LAB_1000_d5c5
-    cmp AX,2h
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
     jz LAB_1000_d5d1
-    cmp AX,3h
+    db 3Dh, 03h, 00h ; cmp AX,3h (force imm16 encoding)
     jz LAB_1000_d5dd
     jmp LAB_1000_d602
 LAB_1000_d602:
@@ -19900,7 +19844,7 @@ LAB_1000_d726:
     mov AX,[9620h]
     mov [978ah],AX
     mov AX,[581eh]
-    add AX,8h
+    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
     mov [9790h],AX
 LAB_1000_d741:
     jmp LAB_1000_d88c
@@ -20351,7 +20295,7 @@ sub_1DAAE proc near
     cwd
     mov CX,word ptr [814h]
     idiv CX
-    sub AX,9h
+    db 2Dh, 09h, 00h ; sub AX,9h (force imm16 encoding)
     neg AX
     sar AX,1h
     push AX
@@ -20432,7 +20376,7 @@ LAB_1000_db62:
     add SP,6h
     mov [190ah],AX
     mov AX,[672ch]
-    cmp AX,2h
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
     jle LAB_1000_db8e
     mov AX,2h
 LAB_1000_db8e:
@@ -20478,6 +20422,7 @@ sub_1DBE0 proc near
     ret
 sub_1DBE0 endp
 ; ------------------------------seg000:0xdbff------------------------------
+    nop
 ; ------------------------------seg000:0xdd5e------------------------------
 sub_1DD5E proc near
     push BP
@@ -20488,9 +20433,9 @@ sub_1DD5E proc near
     add SP,4h
     pop BP
     ret
-    align 2
 sub_1DD5E endp
 ; ------------------------------seg000:0xdd6e------------------------------
+    nop
 ; ------------------------------seg000:0xdd7e------------------------------
 sub_1DD7E proc near
     push BP
@@ -20516,9 +20461,9 @@ sub_1DD92 proc near
     add SP,8h
     pop BP
     ret
-    align 2
 sub_1DD92 endp
 ; ------------------------------seg000:0xdda8------------------------------
+    nop
 ; ------------------------------seg000:0xddaa------------------------------
 sub_1DDAA proc near
     push BP
@@ -20533,6 +20478,7 @@ sub_1DDAA proc near
     pop BP
     ret
 sub_1DDAA endp
+    nop
 ; ------------------------------seg000:0xddc3------------------------------
 ; ------------------------------seg000:0xddc4------------------------------
 _openFile proc near
@@ -20678,7 +20624,7 @@ readFile1 proc near
     mov BX,word ptr [BP + 4h]
     mov CX,word ptr [BP + 6h]
     mov DX,word ptr [BP + 8h]
-    dw 21h
+    int 21h
     jnc LAB_1000_deb7
     mov DX,5fc7h
     mov CX,0ffffh
@@ -20708,7 +20654,7 @@ readFile2 proc near
     mov BX,word ptr [BP + 4h]
     mov CX,word ptr [BP + 6h]
     mov DX,word ptr [BP + 8h]
-    dw 21h
+    int 21h
     pop DS
     jnc LAB_1000_dee5
     mov DX,5fc7h
@@ -20779,11 +20725,11 @@ read512FromFileIntoBuf proc near
     mov dx, 5FC7h
     mov cx, 0FFFFh
     jmp short printString_1DF9B
-    nop
 loc_1DF35:
     pop ds
     retn
 read512FromFileIntoBuf endp
+    nop
 ; ------------------------------seg000:0xdf36------------------------------
 ; ------------------------------seg000:0xdf4f------------------------------
 sub_1DF4F proc near
@@ -20852,6 +20798,7 @@ loc_1DFB7:
     mov ax, 4C00h
     int 21h ;DOS - 2+ - QUIT WITH EXIT CODE (EXIT)
 sub_1DF4F endp ;AL = exit code
+    nop
 ; ------------------------------seg000:0xdfba------------------------------
 ; ------------------------------seg000:0xe0aa------------------------------
 _picBlit proc near
@@ -20983,7 +20930,6 @@ sub_1E1F8 endp
 ; ------------------------------seg000:0xe260------------------------------
 nullsub_1 proc near
     ret
-    align 2
 nullsub_1 endp
 ; ------------------------------seg000:0xe260------------------------------
 ; ------------------------------seg000:0xe262------------------------------
@@ -21205,16 +21151,15 @@ LAB_1000_e41e:
 LAB_1000_e42a:
     mov word ptr [64bch],CX
     jmp LAB_1000_e389
-    align 2
 sub_1E382 endp
 ; ------------------------------seg000:0xe42e------------------------------
 ; ------------------------------seg000:0xe432------------------------------
 start proc near
     mov AH,30h
-    dw 21h
+    int 21h
     cmp AL,2h
     jnc LAB_1000_e43c
-    dw 20h
+    int 20h
 LAB_1000_e43c:
     mov DI,328bh
     mov SI,word ptr [2h]
@@ -21235,7 +21180,7 @@ LAB_1000_e44e:
     push AX
     call __NMSG_WRITE
     mov AX,4cffh
-    dw 21h
+    int 21h
 LAB_1000_e468:
     and SP,0fffeh
     mov word ptr SS:[613ah],SP
@@ -21251,7 +21196,7 @@ LAB_1000_e468:
     sub BX,SI
     neg BX
     mov AH,4ah
-    dw 21h
+    int 21h
     mov word ptr SS:[61abh],DS
     push SS
     pop ES
@@ -21290,17 +21235,17 @@ start endp
 ; ------------------------------seg000:0xe4e4------------------------------
 __cinit proc near
     mov AH,30h
-    dw 21h
+    int 21h
     mov [61adh],AX
     mov AX,3500h
-    dw 21h
+    int 21h
     mov word ptr [6199h],BX
     mov word ptr [619bh],ES
     push CS
     pop DS
     mov AX,2500h
     mov DX,0e4c6h
-    dw 21h
+    int 21h
     push SS
     pop DS
     mov CX,word ptr [6336h]
@@ -21367,7 +21312,7 @@ LAB_1000_e579:
 LAB_1000_e57c:
     and byte ptr [BX + 61b4h],0bfh
     mov AX,4400h
-    dw 21h
+    int 21h
     jc LAB_1000_e592
     test DL,80h
     jz LAB_1000_e592
@@ -21421,14 +21366,14 @@ LAB_1000_e5ec:
     db 0f6h, 87h, 0b4h, 61h, 01h  ; TEST byte ptr [BX + 0...,0x1                 ;= ??
     jz LAB_1000_e5f7
     mov AH,3eh
-    dw 21h
+    int 21h
 LAB_1000_e5f7:
     inc BX
     loop LAB_1000_e5ec
     call __ctermsub
     mov AX,word ptr [BP + 4h]
     mov AH,4ch
-    dw 21h
+    int 21h
 __exit endp
 ; ------------------------------seg000:0xe602------------------------------
 ; ------------------------------seg000:0xe604------------------------------
@@ -21441,7 +21386,7 @@ LAB_1000_e611:
     push DS
     lds DX,dword ptr [6199h]
     mov AX,2500h
-    dw 21h
+    int 21h
     pop DS
     cmp byte ptr [61d6h],0h
     jz LAB_1000_e630
@@ -21449,7 +21394,7 @@ LAB_1000_e611:
     mov AL,[61d7h]
     lds DX,dword ptr [61d8h]
     mov AH,25h
-    dw 21h
+    int 21h
     pop DS
 LAB_1000_e630:
     ret
@@ -21481,7 +21426,6 @@ sub_1E640 proc near
     jmp sub_1E640
 LAB_1000_e652:
     ret
-    align 2
 sub_1E640 endp
 ; ------------------------------seg000:0xe652------------------------------
 ; ------------------------------seg000:0xe654------------------------------
@@ -21611,7 +21555,7 @@ LAB_1000_e746:
     mov SP,BP
     pop BP
     ret
-    align 2
+    nop
 _fopen endp
 ; ------------------------------seg000:0xe74a------------------------------
 ; ------------------------------seg000:0xe74c------------------------------
@@ -21863,7 +21807,7 @@ LAB_1000_e946:
     xor CX,CX
     mov DX,CX
     mov AX,4201h
-    dw 21h
+    int 21h
     jc LAB_1000_e9a9
     test word ptr [BP + 0ah],2h
     jnz LAB_1000_e973
@@ -21880,21 +21824,21 @@ LAB_1000_e973:
     mov word ptr [BP + -4h],AX
     mov DX,CX
     mov AX,4202h
-    dw 21h
+    int 21h
     add AX,word ptr [BP + 6h]
     adc DX,word ptr [BP + 8h]
     jns LAB_1000_e995
     mov CX,word ptr [BP + -2h]
     mov DX,word ptr [BP + -4h]
     mov AX,4200h
-    dw 21h
+    int 21h
     jmp LAB_1000_e96d
 LAB_1000_e995:
     mov DX,word ptr [BP + 6h]
     mov CX,word ptr [BP + 8h]
     mov AL,byte ptr [BP + 0ah]
     mov AH,42h
-    dw 21h
+    int 21h
     jc LAB_1000_e9a9
     and byte ptr [BX + 61b4h],0fdh
 LAB_1000_e9a9:
@@ -21934,7 +21878,6 @@ LAB_1000_e9dd:
     mov DI,DX
     pop BP
     ret
-    align 2
 _strcat endp
 ; ------------------------------seg000:0xe9ea------------------------------
 ; ------------------------------seg000:0xe9ec------------------------------
@@ -21985,7 +21928,6 @@ _strlen proc near
     mov DI,DX
     pop BP
     ret
-    align 2
 _strlen endp
 ; ------------------------------seg000:0xea38------------------------------
 ; ------------------------------seg000:0xea3a------------------------------
@@ -22004,7 +21946,6 @@ _itoa proc near
 LAB_1000_ea4f:
     mov DI,word ptr [BP + 6h]
     jmp FUN_1000_f20e
-    align 2
 _itoa endp
 ; ------------------------------seg000:0xea52------------------------------
 ; ------------------------------seg000:0xea56------------------------------
@@ -22014,7 +21955,7 @@ _kbhit proc near
     mov AL,0ffh
     jz LAB_1000_ea65
     mov AH,0bh
-    dw 21h
+    int 21h
     mov AH,0h
 LAB_1000_ea65:
     ret
@@ -22039,11 +21980,10 @@ _getch proc near
     jmp LAB_1000_ea80
 LAB_1000_ea7b:
     xchg AX,DX
-    dw 21h
+    int 21h
     mov AH,0h
 LAB_1000_ea80:
     ret
-    align 2
 _getch endp
 ; ------------------------------seg000:0xea80------------------------------
 ; ------------------------------seg000:0xea82------------------------------
@@ -22139,7 +22079,6 @@ _segread proc near
     mov SP,BP
     pop BP
     ret
-    align 2
 _segread endp
 ; ------------------------------seg000:0xeb32------------------------------
 ; ------------------------------seg000:0xeb34------------------------------
@@ -22223,7 +22162,7 @@ LAB_1000_eb9e:
 LAB_1000_eba3:
     pop BP
     ret
-    align 2
+    nop
 _abs endp
 ; ------------------------------seg000:0xeba4------------------------------
 ; ------------------------------seg000:0xeba6------------------------------
@@ -22245,7 +22184,7 @@ LAB_1000_ebb8:
 LAB_1000_ebc5:
     pop BP
     ret
-    align 2
+    nop
 _labs endp
 ; ------------------------------seg000:0xebc6------------------------------
 ; ------------------------------seg000:0xebc8------------------------------
@@ -22257,7 +22196,7 @@ _srand proc near
     mov word ptr [61e6h],0h
     pop BP
     ret
-    align 2
+    nop
 _srand endp
 ; ------------------------------seg000:0xebd8------------------------------
 ; ------------------------------seg000:0xebda------------------------------
@@ -22283,7 +22222,7 @@ __bios_keybrd proc near
     push BP
     mov BP,SP
     mov AH,byte ptr [BP + 4h]
-    dw 16h
+    int 16h
     jnz LAB_1000_ec12
     cmp byte ptr [BP + 4h],1h
     jnz LAB_1000_ec12
@@ -22308,7 +22247,7 @@ __aNldiv proc near
     mov DX,word ptr [BP + 4h]
     neg AX
     neg DX
-    sbb AX,0h
+    db 1Dh, 00h, 00h ; sbb AX,0h (force imm16 encoding)
     mov word ptr [BP + 6h],AX
     mov word ptr [BP + 4h],DX
 LAB_1000_ec34:
@@ -22319,7 +22258,7 @@ LAB_1000_ec34:
     mov DX,word ptr [BP + 8h]
     neg AX
     neg DX
-    sbb AX,0h
+    db 1Dh, 00h, 00h ; sbb AX,0h (force imm16 encoding)
     mov word ptr [BP + 0ah],AX
     mov word ptr [BP + 8h],DX
 LAB_1000_ec4c:
@@ -22422,7 +22361,6 @@ unknown_libname_1 proc near
     mov SP,BP
     pop BP
     ret 4h
-    align 2
 unknown_libname_1 endp
 ; ------------------------------seg000:0xed00------------------------------
 ; ------------------------------seg000:0xed04------------------------------
@@ -22440,7 +22378,6 @@ unknown_libname_2 proc near
     mov SP,BP
     pop BP
     ret 4h
-    align 2
 unknown_libname_2 endp
 ; ------------------------------seg000:0xed20------------------------------
 ; ------------------------------seg000:0xed24------------------------------
@@ -22497,7 +22434,6 @@ LAB_1000_ed7d:
     mov SP,BP
     pop BP
     ret 8h
-    align 2
 __aNuldiv endp
 ; ------------------------------seg000:0xed82------------------------------
 ; ------------------------------seg000:0xed86------------------------------
@@ -22595,7 +22531,7 @@ __NMSG_WRITE proc near
     dec CX
     mov BX,2h
     mov AH,40h
-    dw 21h
+    int 21h
 LAB_1000_ee1b:
     pop DI
     mov SP,BP
@@ -22726,7 +22662,7 @@ LAB_1000_eeed:
     mov word ptr [SI + 2h],AX
     or AX,AX
     jz LAB_1000_ef0d
-    cmp AX,0ffffh
+    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
     jnz LAB_1000_ef26
 LAB_1000_ef0d:
     cmp word ptr [SI + 2h],0h
@@ -22776,7 +22712,7 @@ LAB_1000_ef60:
     pop SI
     pop BP
     ret
-    align 2
+    nop
 __freebuf endp
 ; ------------------------------seg000:0xef62------------------------------
 ; ------------------------------seg000:0xef64------------------------------
@@ -22790,11 +22726,11 @@ __openfile proc near
     mov BX,word ptr [BP + 8h]
     mov AL,byte ptr [BX]
     cbw
-    cmp AX,61h
+    db 3Dh, 61h, 00h ; cmp AX,61h (force imm16 encoding)
     jz LAB_1000_efa2
-    cmp AX,72h
+    db 3Dh, 72h, 00h ; cmp AX,72h (force imm16 encoding)
     jz LAB_1000_ef8a
-    cmp AX,77h
+    db 3Dh, 77h, 00h ; cmp AX,77h (force imm16 encoding)
     jz LAB_1000_ef98
 LAB_1000_ef84:
     sub AX,AX
@@ -22832,11 +22768,11 @@ LAB_1000_efb7:
     jz LAB_1000_eff8
     mov AL,byte ptr [BX]
     cbw
-    cmp AX,2bh
+    db 3Dh, 2Bh, 00h ; cmp AX,2bh (force imm16 encoding)
     jz LAB_1000_efa8
-    cmp AX,62h
+    db 3Dh, 62h, 00h ; cmp AX,62h (force imm16 encoding)
     jz LAB_1000_efe6
-    cmp AX,74h
+    db 3Dh, 74h, 00h ; cmp AX,74h (force imm16 encoding)
     jnz LAB_1000_efed
     mov AX,DI
     test AX,0c000h
@@ -23001,7 +22937,7 @@ _close proc near
     jmp LAB_1000_f121
 LAB_1000_f116:
     mov AH,3eh
-    dw 21h
+    int 21h
     jc LAB_1000_f121
     mov byte ptr [BX + 61b4h],0h
 LAB_1000_f121:
@@ -23028,7 +22964,7 @@ LAB_1000_f139:
     mov CX,word ptr [BP + 8h]
     mov DX,word ptr [BP + 6h]
     mov AH,3fh
-    dw 21h
+    int 21h
     jnc LAB_1000_f157
     mov AH,9h
     jmp LAB_1000_f195
@@ -23078,12 +23014,12 @@ LAB_1000_f1a4:
     test byte ptr [BX + 61b4h],40h
     jz LAB_1000_f1c3
     mov AX,4400h
-    dw 21h
+    int 21h
     test DX,20h
     jnz LAB_1000_f1bf
     lea DX,[BP + -1h]
     mov AH,3fh
-    dw 21h
+    int 21h
     jc LAB_1000_f193
 LAB_1000_f1bf:
     mov AL,0ah
@@ -23092,7 +23028,7 @@ LAB_1000_f1c3:
     mov byte ptr [BP + -1h],0h
     lea DX,[BP + -1h]
     mov AH,3fh
-    dw 21h
+    int 21h
     jc LAB_1000_f193
     or AX,AX
     jz LAB_1000_f1ed
@@ -23102,7 +23038,7 @@ LAB_1000_f1da:
     mov CX,0ffffh
     mov DX,CX
     mov AX,4201h
-    dw 21h
+    int 21h
     mov CX,1h
     cmp byte ptr [BP + -1h],0ah
     jz LAB_1000_f1f4
@@ -23118,7 +23054,7 @@ LAB_1000_f1f9:
     cmp byte ptr [BP + -1h],0ah
     jnz LAB_1000_f1da
     jmp LAB_1000_f1bf
-    align 2
+    nop
     db 8Bh
     db 4Eh
     db 0Ah
@@ -23185,7 +23121,6 @@ LAB_1000_f24c:
     mov SP,BP
     pop BP
     ret
-    align 2
 _read endp
 ; ------------------------------seg000:0xf1ff------------------------------
 ; ------------------------------seg000:0xf262------------------------------
@@ -23194,9 +23129,8 @@ _remove proc near
     mov BP,SP
     mov DX,word ptr [BP + 4h]
     mov AH,41h
-    dw 21h
+    int 21h
     jmp FUN_1000_ee22
-    align 2
 _remove endp
 ; ------------------------------seg000:0xf26c------------------------------
 ; ------------------------------seg000:0xf270------------------------------
@@ -23209,7 +23143,6 @@ LAB_1000_f274:
     loop LAB_1000_f274
 LAB_1000_f27a:
     ret
-    align 2
 __aNlshl endp
 ; ------------------------------seg000:0xf27a------------------------------
 ; ------------------------------seg000:0xf27c------------------------------
@@ -23222,7 +23155,6 @@ LAB_1000_f280:
     loop LAB_1000_f280
 LAB_1000_f286:
     ret
-    align 2
 __aNlshr endp
 ; ------------------------------seg000:0xf286------------------------------
 ; ------------------------------seg000:0xf288------------------------------
@@ -23297,9 +23229,9 @@ LAB_1000_f31d:
     and AL,3h
     or AL,BH
     mov AH,3dh
-    dw 21h
+    int 21h
     jnc LAB_1000_f33c
-    cmp AX,2h
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
     jnz LAB_1000_f338
     test CX,100h
     jz LAB_1000_f338
@@ -23314,13 +23246,13 @@ LAB_1000_f33c:
     cmp AX,500h
     jnz LAB_1000_f350
     mov AH,3eh
-    dw 21h
+    int 21h
     mov AX,1100h
     jmp LAB_1000_f338
 LAB_1000_f350:
     mov byte ptr [BP + -3h],1h
     mov AX,4400h
-    dw 21h
+    int 21h
     test DL,80h
     jz LAB_1000_f362
     or byte ptr [BP + -4h],40h
@@ -23336,14 +23268,14 @@ LAB_1000_f36b:
     jz LAB_1000_f381
     xor CX,CX
     mov AH,40h
-    dw 21h
+    int 21h
     jmp LAB_1000_f440
 LAB_1000_f381:
     mov AH,3eh
-    dw 21h
+    int 21h
     mov DX,word ptr [BP + 4h]
     mov AX,4300h
-    dw 21h
+    int 21h
     jmp LAB_1000_f3f6
     db 90h
 LAB_1000_f390:
@@ -23358,11 +23290,11 @@ LAB_1000_f3a1:
     mov CX,0ffffh
     mov DX,CX
     mov AX,4202h
-    dw 21h
+    int 21h
     neg CX
     lea DX,[BP + -1h]
     mov AH,3fh
-    dw 21h
+    int 21h
     or AX,AX
     jz LAB_1000_f3cd
     cmp byte ptr [BP + -1h],1ah
@@ -23370,15 +23302,15 @@ LAB_1000_f3a1:
     neg CX
     mov DX,CX
     mov AX,4202h
-    dw 21h
+    int 21h
     xor CX,CX
     mov AH,40h
-    dw 21h
+    int 21h
 LAB_1000_f3cd:
     xor CX,CX
     mov DX,CX
     mov AX,4200h
-    dw 21h
+    int 21h
     jmp LAB_1000_f440
     db 90h
 LAB_1000_f3d9:
@@ -23395,7 +23327,7 @@ LAB_1000_f3f3:
 LAB_1000_f3f6:
     mov DX,word ptr [BP + 4h]
     mov AH,3ch
-    dw 21h
+    int 21h
     jnc LAB_1000_f402
 LAB_1000_f3ff:
     jmp FUN_1000_ee35
@@ -23407,13 +23339,13 @@ LAB_1000_f402:
     jnz LAB_1000_f440
 LAB_1000_f410:
     mov AH,3eh
-    dw 21h
+    int 21h
     mov AL,byte ptr [BP + 6h]
     and AL,3h
     or AL,byte ptr [BP + -2h]
     mov DX,word ptr [BP + 4h]
     mov AH,3dh
-    dw 21h
+    int 21h
     jc LAB_1000_f3ff
     xchg AX,BX
     test byte ptr [BP + -3h],1h
@@ -23423,17 +23355,17 @@ LAB_1000_f410:
     or CL,1h
     mov DX,word ptr [BP + 4h]
     mov AX,4301h
-    dw 21h
+    int 21h
     jc LAB_1000_f3ff
 LAB_1000_f440:
     test byte ptr [BP + -4h],40h
     jnz LAB_1000_f483
     mov DX,word ptr [BP + 4h]
     mov AX,4300h
-    dw 21h
+    int 21h
     mov AX,CX
     xor CL,CL
-    and AX,1h
+    db 25h, 01h, 00h ; and AX,1h (force imm16 encoding)
     jz LAB_1000_f459
     mov CL,10h
 LAB_1000_f459:
@@ -23444,7 +23376,7 @@ LAB_1000_f463:
     cmp BX,word ptr [61b2h]
     jc LAB_1000_f473
     mov AH,3eh
-    dw 21h
+    int 21h
     mov AX,1800h
     jmp LAB_1000_f338
 LAB_1000_f473:
@@ -23491,7 +23423,7 @@ LAB_1000_f4ae:
     mov AX,4202h
     xor CX,CX
     mov DX,CX
-    dw 21h
+    int 21h
     jc LAB_1000_f4ab
 LAB_1000_f4c0:
     test byte ptr [BX + 61b4h],80h
@@ -23515,7 +23447,7 @@ LAB_1000_f4c0:
     repne scasb
     jnz LAB_1000_f533
     call _stackavail
-    cmp AX,0a8h
+    db 3Dh, 0A8h, 00h ; cmp AX,0a8h (force imm16 encoding)
     jbe LAB_1000_f539
     sub SP,2h
     mov BX,SP
@@ -23577,7 +23509,7 @@ sub_1F53E proc near
     jcxz LAB_1000_f557
     mov BX,word ptr [BP + 4h]
     mov AH,40h
-    dw 21h
+    int 21h
     jc LAB_1000_f55d
     add word ptr [BP + -2h],AX
     or AX,AX
@@ -23624,7 +23556,7 @@ LAB_1000_f598:
     mov DX,word ptr [BP + 6h]
     mov AH,40h
     mov BX,word ptr [BP + 4h]
-    dw 21h
+    int 21h
     jmp FUN_1000_ee22
 FUN_1000_f58c endp
 ; ------------------------------seg000:0xf589------------------------------
@@ -23714,6 +23646,7 @@ LAB_1000_f63c:
     pop BP
     ret
 _flushall endp
+    nop
 ; ------------------------------seg000:0xf649------------------------------
 ; ------------------------------seg000:0xf64a------------------------------
 _stackavail proc near
@@ -23755,7 +23688,7 @@ LAB_1000_f675:
     test AL,1h
     jz LAB_1000_f6b7
     add AX,DX
-    add AX,2h
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
     mov SI,DI
     mov word ptr [SI + -2h],AX
     jmp LAB_1000_f675
@@ -23784,7 +23717,7 @@ LAB_1000_f6b3:
 LAB_1000_f6b7:
     mov byte ptr ES:[6330h],2h
 LAB_1000_f6bd:
-    cmp AX,0fffeh
+    db 3Dh, 0FEh, 0FFh ; cmp AX,0fffeh (force imm16 encoding)
     jz LAB_1000_f6e7
     mov DI,SI
     add SI,AX
@@ -23803,7 +23736,7 @@ LAB_1000_f6cd:
     test AL,1h
     jz LAB_1000_f6bd
     add AX,DX
-    add AX,2h
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
     mov SI,DI
     mov word ptr [SI + -2h],AX
     jmp LAB_1000_f6cd
@@ -23943,7 +23876,6 @@ __amallocbrk proc near
     or DX,DX
 LAB_1000_f7bc:
     ret
-    align 2
 __amallocbrk endp
 ; ------------------------------seg000:0xf7bc------------------------------
 ; ------------------------------seg000:0xf7be------------------------------
@@ -23992,7 +23924,7 @@ LAB_1000_f808:
     mov CL,3h
     shr BX,CL
     mov AH,48h
-    dw 21h
+    int 21h
     jc LAB_1000_f802
     xchg AX,DX
     mov word ptr [SI],AX
@@ -24044,7 +23976,7 @@ LAB_1000_f856:
     mov ES,AX
 LAB_1000_f86e:
     mov AH,4ah
-    dw 21h
+    int 21h
     jc LAB_1f88_0001
     cmp SI,DI
     jnz LAB_1000_f87c
