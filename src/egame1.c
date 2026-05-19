@@ -380,10 +380,7 @@ int strcpyFromDot(char *arg_0, char *arg_2) {
     strcpy(arg_0, arg_2);
 }
 
-// ==== seg000:0x3f72 ====
-int otherKeyDispatch() {
 
-} // 51f9
 
 // ==== seg000:0x55ab ====
 // something to do with view switching?

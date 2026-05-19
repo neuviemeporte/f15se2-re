@@ -154,7 +154,7 @@ EGAME_OBJ := $(EGAME_COBJ) $(call asmobj,$(BUILDDIR),$(EGAME_ASM))
 $(EGAME_COBJ): $(EGAME_BASEHDR)
 $(EGAME_EXE): | $(BUILDDIR)
 $(EGAME_EXE): $(EGAME_OBJ)
-	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_OBJ) -o $@ -f "$(LINKFLAGS)"
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_OBJ) -o $@ -f "$(LINKFLAGS) /NOD"
 
 # generate C header file from ida listing
 ifneq ($(shell test -s $(EGAME_LST) && echo yes),yes)
