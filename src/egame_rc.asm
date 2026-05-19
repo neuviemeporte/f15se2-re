@@ -881,7 +881,7 @@ sub_10720 proc near
     push DI
     push SI
     mov AX,word ptr [_dword_3B7DA]
-    mov DX,word ptr [_var_838]
+    mov DX,word ptr [_dword_3B7DA+2]
     db 05h, 10h, 00h ; add AX,10h (force imm16 encoding)
     adc DX,0h
     mov CL,5h
@@ -894,7 +894,7 @@ LAB_1000_0737:
 LAB_1000_0741:
     mov word ptr [_word_3BEC0],AX
     mov AX,word ptr [_dword_3B7F8]
-    mov DX,word ptr [_var_852]
+    mov DX,word ptr [_dword_3B7F8+2]
     db 05h, 10h, 00h ; add AX,10h (force imm16 encoding)
     adc DX,0h
     mov CL,5h
@@ -997,7 +997,7 @@ LAB_1000_0864:
     shl AX,CL
     cwd
     sub word ptr [_dword_3B7DA],AX
-    sbb word ptr [_var_838],DX
+    sbb word ptr [_dword_3B7DA+2],DX
     or byte ptr [_planeFlags],8h
     jmp LAB_1000_089e
 LAB_1000_088e:
@@ -1005,7 +1005,7 @@ LAB_1000_088e:
     imul word ptr [word_3AFA8]
     cwd
     sub word ptr [_dword_3B7F8],AX
-    sbb word ptr [_var_852],DX
+    sbb word ptr [_dword_3B7F8+2],DX
 LAB_1000_089e:
     call sub_118F6
     sub AX,AX
@@ -1210,7 +1210,7 @@ LAB_1000_0abb:
     jmp LAB_1000_0abb
 LAB_1000_0ac5:
     mov word ptr [_dword_3B7DA],AX
-    mov word ptr [_var_838],DX
+    mov word ptr [_dword_3B7DA+2],DX
 LAB_1000_0acc:
     mov AX,7d00h
     push AX
@@ -1237,7 +1237,7 @@ LAB_1000_0afa:
     jmp LAB_1000_0afa
 LAB_1000_0b04:
     mov word ptr [_dword_3B7F8],AX
-    mov word ptr [_var_852],DX
+    mov word ptr [_dword_3B7F8+2],DX
 LAB_1000_0b0b:
     sub BX,BX
     mov ES,BX
@@ -1427,7 +1427,7 @@ LAB_1000_0cdc:
     adc DX,0h
     mov CX,0ch
     shl DX,CL
-    add DX,word ptr [_var_950]
+    add DX,word ptr [_commData+2]
     mov ES,DX
     mov BX,AX
     cmp word ptr ES:[BX],0ca01h
@@ -1867,7 +1867,7 @@ LAB_1000_11a2:
     jmp LAB_1000_11a2
 LAB_1000_11ac:
     mov word ptr [_dword_3B7DA],AX
-    mov word ptr [_var_838],DX
+    mov word ptr [_dword_3B7DA+2],DX
     mov AX,8000h
     sub AX,word ptr [SI + 81b0h]
     sub DX,DX
@@ -1880,7 +1880,7 @@ LAB_1000_11be:
     jmp LAB_1000_11be
 LAB_1000_11c8:
     mov word ptr [_dword_3B7F8],AX
-    mov word ptr [_var_852],DX
+    mov word ptr [_dword_3B7F8+2],DX
     jmp LAB_1000_128b
 LAB_1000_11d2:
     mov AX,157h
@@ -1916,7 +1916,7 @@ LAB_1000_121c:
     push DX
     push AX
     mov AX,word ptr [_dword_3B7DA]
-    mov DX,word ptr [_var_838]
+    mov DX,word ptr [_dword_3B7DA+2]
     mov CX,word ptr [SI + 81aeh]
     sub BX,BX
     mov DI,CX
@@ -1934,13 +1934,13 @@ LAB_1000_1245:
     push AX
     call __aNldiv
     sub word ptr [_dword_3B7DA],AX
-    sbb word ptr [_var_838],DX
+    sbb word ptr [_dword_3B7DA+2],DX
     mov AX,word ptr [BP + -0ah]
     cwd
     push DX
     push AX
     mov AX,word ptr [_dword_3B7F8]
-    mov DX,word ptr [_var_852]
+    mov DX,word ptr [_dword_3B7F8+2]
     mov CX,8000h
     sub CX,word ptr [SI + 81b0h]
     sub BX,BX
@@ -1959,7 +1959,7 @@ LAB_1000_127a:
     push AX
     call __aNldiv
     sub word ptr [_dword_3B7F8],AX
-    sbb word ptr [_var_852],DX
+    sbb word ptr [_dword_3B7F8+2],DX
 LAB_1000_128b:
     jmp LAB_1000_1299
 LAB_1000_128d:
@@ -2753,7 +2753,7 @@ LAB_1000_19ba:
     mov AX,word ptr [BP + -2h]
     shl AX,1h
     add AX,word ptr [_commData]
-    mov DX,word ptr [_var_950]
+    mov DX,word ptr [_commData+2]
     mov word ptr [BP + -6h],AX
     mov word ptr [BP + -4h],DX
     mov SI,word ptr [BP + -2h]
@@ -15183,10 +15183,10 @@ sub_1A9F8 proc near
     sub AX,AX
     mov DX,100h
     sub AX,word ptr [_dword_3B7F8]
-    sbb DX,word ptr [_var_852]
+    sbb DX,word ptr [_dword_3B7F8+2]
     push DX
     push AX
-    push word ptr [_var_838]
+    push word ptr [_dword_3B7DA+2]
     push word ptr [_dword_3B7DA]
     mov AX,6h
     push AX
@@ -15850,10 +15850,10 @@ LAB_1000_b0bd:
     sub AX,AX
     mov DX,100h
     sub AX,word ptr [_dword_3B7F8]
-    sbb DX,word ptr [_var_852]
+    sbb DX,word ptr [_dword_3B7F8+2]
     push DX
     push AX
-    push word ptr [_var_838]
+    push word ptr [_dword_3B7DA+2]
     push word ptr [_dword_3B7DA]
     mov AL,byte ptr [_planeFlags]
     and AL,1h
@@ -15877,10 +15877,10 @@ LAB_1000_b0bd:
     push word ptr [_word_3BEBE]
     mov DX,100h
     sub AX,word ptr [_dword_3B7F8]
-    sbb DX,word ptr [_var_852]
+    sbb DX,word ptr [_dword_3B7F8+2]
     push DX
     push AX
-    push word ptr [_var_838]
+    push word ptr [_dword_3B7DA+2]
     push word ptr [_dword_3B7DA]
     mov AX,15h
     push AX
@@ -17877,9 +17877,9 @@ sub_1C488 proc near
     test byte ptr [_keyValue],80h
     jz LAB_1000_c516
     mov AX,word ptr [_dword_3B7DA]
-    mov DX,word ptr [_var_838]
+    mov DX,word ptr [_dword_3B7DA+2]
     sub AX,word ptr [_dword_3B1FE]
-    sbb DX,word ptr [_var_787]
+    sbb DX,word ptr [_dword_3B1FE+2]
 LAB_1000_c4c5:
     sar DX,1h
     rcr AX,1h
@@ -17889,9 +17889,9 @@ LAB_1000_c4c5:
 LAB_1000_c4cf:
     sub word ptr [BP + -2h],AX
     mov AX,word ptr [_dword_3B7F8]
-    mov DX,word ptr [_var_852]
+    mov DX,word ptr [_dword_3B7F8+2]
     sub AX,word ptr [_dword_3B4D4]
-    sbb DX,word ptr [_var_822]
+    sbb DX,word ptr [_dword_3B4D4+2]
     mov CL,5h
 LAB_1000_c4e3:
     sar DX,1h
@@ -18413,13 +18413,13 @@ LAB_1000_c9f3:
     mov AX,word ptr [BP + 6h]
     mov DX,word ptr [BP + 8h]
     sub AX,word ptr [_dword_3B7DA]
-    sbb DX,word ptr [_var_838]
+    sbb DX,word ptr [_dword_3B7DA+2]
     mov word ptr [BP + -8h],AX
     mov word ptr [BP + -6h],DX
     mov AX,word ptr [BP + 0ah]
     mov DX,word ptr [BP + 0ch]
     add AX,word ptr [_dword_3B7F8]
-    adc DX,word ptr [_var_852]
+    adc DX,word ptr [_dword_3B7F8+2]
     db 2Dh, 00h, 00h ; sub AX,0h (force imm16 encoding)
     sbb DX,100h
     mov word ptr [BP + -0ch],AX
@@ -18430,15 +18430,15 @@ LAB_1000_c9f3:
     test byte ptr [_keyValue],80h
     jz LAB_1000_ca6a
     mov AX,word ptr [_dword_3B7DA]
-    mov DX,word ptr [_var_838]
+    mov DX,word ptr [_dword_3B7DA+2]
     sub AX,word ptr [_dword_3B1FE]
-    sbb DX,word ptr [_var_787]
+    sbb DX,word ptr [_dword_3B1FE+2]
     add word ptr [BP + -8h],AX
     adc word ptr [BP + -6h],DX
     mov AX,word ptr [_dword_3B4D4]
-    mov DX,word ptr [_var_822]
+    mov DX,word ptr [_dword_3B4D4+2]
     sub AX,word ptr [_dword_3B7F8]
-    sbb DX,word ptr [_var_852]
+    sbb DX,word ptr [_dword_3B7F8+2]
     add word ptr [BP + -0ch],AX
     adc word ptr [BP + -0ah],DX
     mov AX,word ptr [_var_547]
@@ -20047,7 +20047,7 @@ LAB_1000_d8b0:
     jmp LAB_1000_d8b0
 LAB_1000_d8ba:
     add word ptr [_dword_3B7F8],AX
-    adc word ptr [_var_852],DX
+    adc word ptr [_dword_3B7F8+2],DX
     jmp LAB_1000_d94b
 LAB_1000_d8c5:
     sub AX,AX
@@ -20063,7 +20063,7 @@ LAB_1000_d8d2:
     jmp LAB_1000_d8d2
 LAB_1000_d8dc:
     sub word ptr [_dword_3B7F8],AX
-    sbb word ptr [_var_852],DX
+    sbb word ptr [_dword_3B7F8+2],DX
     jmp LAB_1000_d94b
 LAB_1000_d8e6:
     sub AX,AX
@@ -20079,7 +20079,7 @@ LAB_1000_d8f3:
     jmp LAB_1000_d8f3
 LAB_1000_d8fd:
     sub word ptr [_dword_3B7DA],AX
-    sbb word ptr [_var_838],DX
+    sbb word ptr [_dword_3B7DA+2],DX
     jmp LAB_1000_d94b
 LAB_1000_d907:
     sub AX,AX
@@ -20095,7 +20095,7 @@ LAB_1000_d914:
     jmp LAB_1000_d914
 LAB_1000_d91e:
     add word ptr [_dword_3B7DA],AX
-    adc word ptr [_var_838],DX
+    adc word ptr [_dword_3B7DA+2],DX
     jmp LAB_1000_d94b
     db 0EBh
     db 21h
@@ -41291,20 +41291,11 @@ ORG 081B0h
 _var_762 label byte
 ORG 081BAh
 _var_767 label byte
-ORG 08950h
-_var_787 label byte
 ORG 08978h
 _var_810 label byte
 ORG 0897Ah
 _var_811 label byte
-ORG 08C26h
-_var_822 label byte
-ORG 08F2Ch
-_var_838 label byte
-ORG 08F4Ah
-_var_852 label byte
-ORG 09DF8h
-_var_950 label byte
+
 ORG 066C0h
 .DATA?
 word_38F70 dw ?
