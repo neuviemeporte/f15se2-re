@@ -40932,11 +40932,6 @@ byte_38D6E db 0
     db 0
     db 0
     db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
 ; ==============================================================================
 ; --- Symbolic labels for code references ---
 ORG 00178h
@@ -41281,23 +41276,24 @@ ORG 064BCh
 _var_699 label byte
 ORG 064BEh
 _var_700 label byte
-ORG 0674Dh
-_var_727 label byte
-ORG 0694Fh
-_var_730 label byte
-ORG 06951h
-_var_732 label byte
-ORG 081B0h
-_var_762 label byte
-ORG 081BAh
-_var_767 label byte
-ORG 08978h
-_var_810 label byte
-ORG 0897Ah
-_var_811 label byte
 
-ORG 066C0h
 .DATA?
+; --- BSS-region symbolic labels (offsets relative to _BSS start) ---
+ORG 0008Dh
+_var_727 label byte
+ORG 0028Fh
+_var_730 label byte
+ORG 00291h
+_var_732 label byte
+ORG 01AF0h
+_var_762 label byte
+ORG 01AFAh
+_var_767 label byte
+ORG 022B8h
+_var_810 label byte
+ORG 022BAh
+_var_811 label byte
+ORG 00000h
 word_38F70 dw ?
 word_38F72 dw ?
 strBuf db 18h dup(?)
