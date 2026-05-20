@@ -63,9 +63,7 @@ EXTRN _my_itoa:PROC
 EXTRN _my_ltoa:PROC
 EXTRN _blinkWidget:PROC
 EXTRN _processMenuItems:PROC
-EXTRN _routine_60:PROC
 EXTRN _processDebriefInput:PROC
-EXTRN _routine_96:PROC
 EXTRN _calcMissionScore:PROC
 EXTRN _routine_27:PROC
 EXTRN _drawFlightPath:PROC
@@ -3426,7 +3424,313 @@ routine_24 endp
 
 processMenuItems equ _processMenuItems
 
-routine_60 equ _routine_60
+routine_60 proc near
+    push BP
+    mov BP,SP
+    sub SP,2ah
+    push DI
+    push SI
+    mov byte ptr [BP + -2h],0dh
+    mov byte ptr [BP + -1h],0h
+    mov byte ptr [BP + -0ch],89h
+    mov byte ptr [BP + -0bh],0h
+    mov byte ptr [BP + -8h],8dh
+    mov byte ptr [BP + -7h],0h
+    mov byte ptr [BP + -12h],80h
+    mov byte ptr [BP + -11h],0h
+    call far ptr gfx_jump_50
+    mov word ptr [_colorAnimEnabled],0h
+    mov word ptr [BP + -14h],0h
+LAB_1000_2282:
+    mov AX,32h
+    imul word ptr [BP + -14h]
+    add AX,word ptr [BP + 4h]
+    push AX
+    call isPointInRect
+    add SP,2h
+    or AX,AX
+    jnz LAB_1000_22a3
+    mov AX,word ptr [BP + 8h]
+    cmp word ptr [BP + -14h],AX
+    jge LAB_1000_22a3
+    inc word ptr [BP + -14h]
+    jmp LAB_1000_2282
+LAB_1000_22a3:
+    mov byte ptr [_joyRepeatFlag],0h
+LAB_1000_22a8:
+    call far ptr gfx_jump_50
+    mov AX,32h
+    imul word ptr [BP + -14h]
+    mov SI,AX
+    mov BX,word ptr [BP + 4h]
+    test word ptr [BX + SI + 30h],100h
+    jnz LAB_1000_22c5
+    mov word ptr [_colorAnimEnabled],1h
+LAB_1000_22c5:
+    push word ptr [BP + 0ch]
+    mov AX,32h
+    imul word ptr [BP + -14h]
+    add AX,BX
+    push AX
+    push word ptr [BP + 0ah]
+    call processDebriefInput
+    add SP,6h
+    cmp byte ptr [_inputChanged],0h
+    jnz LAB_1000_22e8
+    cmp byte ptr [_enterPressed],0h
+    jz LAB_1000_22a8
+LAB_1000_22e8:
+    cmp byte ptr [_enterPressed],0h
+    jnz LAB_1000_22f2
+    jmp LAB_1000_23c2
+LAB_1000_22f2:
+    mov AX,word ptr [_selectedMenuItem]
+    cmp word ptr [BP + -14h],AX
+    jz LAB_1000_2320
+    mov word ptr [BP + -14h],0h
+LAB_1000_22ff:
+    mov AX,32h
+    imul word ptr [BP + -14h]
+    add AX,word ptr [BP + 4h]
+    push AX
+    call isPointInRect
+    add SP,2h
+    or AX,AX
+    jnz LAB_1000_2320
+    mov AX,word ptr [BP + 8h]
+    cmp word ptr [BP + -14h],AX
+    jge LAB_1000_2320
+    inc word ptr [BP + -14h]
+    jmp LAB_1000_22ff
+LAB_1000_2320:
+    mov AX,32h
+    imul word ptr [_selectedMenuItem]
+    mov SI,AX
+    add SI,word ptr [BP + 4h]
+    cmp word ptr [SI + 10h],0h
+    jz LAB_1000_2335
+    jmp LAB_1000_23bc
+LAB_1000_2335:
+    mov word ptr [BP + -6h],0bh
+    mov word ptr [BP + -4h],9h
+    mov AX,9h
+    push AX
+    mov AX,0bh
+    push AX
+    push word ptr [SI + 0eh]
+    push word ptr [SI + 0ch]
+    push word ptr [SI + 0ah]
+    push word ptr [SI + 8h]
+    push word ptr [BP + 0ch]
+    call far ptr gfx_jump_29_switchColor
+    add SP,0eh
+    mov word ptr [BP + -6h],3h
+    mov AX,32h
+    imul word ptr [_selectedMenuItem]
+    mov SI,AX
+    add SI,word ptr [BP + 4h]
+    push word ptr [BP + -4h]
+    mov AX,3h
+    push AX
+    push word ptr [SI + 0eh]
+    push word ptr [SI + 0ch]
+    push word ptr [SI + 0ah]
+    push word ptr [SI + 8h]
+    push word ptr [BP + 0ch]
+    call far ptr gfx_jump_29_switchColor
+    add SP,0eh
+    mov word ptr [BP + -6h],0dh
+    mov AX,32h
+    imul word ptr [_selectedMenuItem]
+    mov SI,AX
+    add SI,word ptr [BP + 4h]
+    push word ptr [BP + -4h]
+    mov AX,0dh
+    push AX
+    push word ptr [SI + 0eh]
+    push word ptr [SI + 0ch]
+    push word ptr [SI + 0ah]
+    push word ptr [SI + 8h]
+    push word ptr [BP + 0ch]
+    call far ptr gfx_jump_29_switchColor
+    add SP,0eh
+LAB_1000_23bc:
+    jmp LAB_1000_2578
+    db 0E9h
+    db 0B3h
+    db 01h
+LAB_1000_23c2:
+    mov word ptr [BP + -14h],0h
+LAB_1000_23c7:
+    mov AX,32h
+    imul word ptr [BP + -14h]
+    add AX,word ptr [BP + 4h]
+    push AX
+    call isPointInRect
+    add SP,2h
+    or AX,AX
+    jnz LAB_1000_23e8
+    mov AX,word ptr [BP + 8h]
+    cmp word ptr [BP + -14h],AX
+    jge LAB_1000_23e8
+    inc word ptr [BP + -14h]
+    jmp LAB_1000_23c7
+LAB_1000_23e8:
+    mov AX,word ptr [_selectedMenuItem]
+    cmp word ptr [BP + -14h],AX
+    jnz LAB_1000_23f3
+    jmp LAB_1000_2575
+LAB_1000_23f3:
+    mov AX,32h
+    imul word ptr [BP + -14h]
+    mov SI,AX
+    mov BX,word ptr [BP + 4h]
+    test byte ptr [BX + SI + 30h],8h
+    jnz LAB_1000_2407
+    jmp LAB_1000_2562
+LAB_1000_2407:
+    mov word ptr [BP + -0eh],0h
+    jmp LAB_1000_2411
+LAB_1000_240e:
+    inc word ptr [BP + -0eh]
+LAB_1000_2411:
+    mov AX,word ptr [BP + 8h]
+    cmp word ptr [BP + -0eh],AX
+    jge LAB_1000_2449
+    mov AX,32h
+    imul word ptr [BP + -0eh]
+    mov SI,AX
+    add SI,word ptr [BP + 4h]
+    cmp word ptr [SI + 2eh],0h
+    jz LAB_1000_2447
+    mov AX,32h
+    imul word ptr [BP + -14h]
+    mov DI,AX
+    mov BX,word ptr [BP + 4h]
+    mov AX,word ptr [SI + 2ch]
+    cmp word ptr [BX + DI + 2ch],AX
+    jnz LAB_1000_2447
+    push word ptr [BP + 0ch]
+    push SI
+    call blinkWidget
+    add SP,4h
+LAB_1000_2447:
+    jmp LAB_1000_240e
+LAB_1000_2449:
+    mov AX,32h
+    imul word ptr [_selectedMenuItem]
+    mov SI,AX
+    add SI,word ptr [BP + 4h]
+    cmp word ptr [SI + 10h],0h
+    jz LAB_1000_245e
+    jmp LAB_1000_2514
+LAB_1000_245e:
+    mov word ptr [BP + -6h],9h
+    mov word ptr [BP + -4h],6h
+    mov AX,6h
+    push AX
+    mov AX,9h
+    push AX
+    push word ptr [SI + 0eh]
+    push word ptr [SI + 0ch]
+    push word ptr [SI + 0ah]
+    push word ptr [SI + 8h]
+    push word ptr [BP + 0ch]
+    call far ptr gfx_jump_29_switchColor
+    add SP,0eh
+    mov word ptr [BP + -6h],3h
+    mov AX,32h
+    imul word ptr [_selectedMenuItem]
+    mov SI,AX
+    add SI,word ptr [BP + 4h]
+    push word ptr [BP + -4h]
+    mov AX,3h
+    push AX
+    push word ptr [SI + 0eh]
+    push word ptr [SI + 0ch]
+    push word ptr [SI + 0ah]
+    push word ptr [SI + 8h]
+    push word ptr [BP + 0ch]
+    call far ptr gfx_jump_29_switchColor
+    add SP,0eh
+    mov word ptr [BP + -6h],0dh
+    mov AX,32h
+    imul word ptr [_selectedMenuItem]
+    mov SI,AX
+    add SI,word ptr [BP + 4h]
+    push word ptr [BP + -4h]
+    mov AX,0dh
+    push AX
+    push word ptr [SI + 0eh]
+    push word ptr [SI + 0ch]
+    push word ptr [SI + 0ah]
+    push word ptr [SI + 8h]
+    push word ptr [BP + 0ch]
+    call far ptr gfx_jump_29_switchColor
+    add SP,0eh
+    mov word ptr [BP + -6h],0bh
+    mov AX,32h
+    imul word ptr [_selectedMenuItem]
+    mov SI,AX
+    add SI,word ptr [BP + 4h]
+    push word ptr [BP + -4h]
+    mov AX,0bh
+    push AX
+    push word ptr [SI + 0eh]
+    push word ptr [SI + 0ch]
+    push word ptr [SI + 0ah]
+    push word ptr [SI + 8h]
+    push word ptr [BP + 0ch]
+    call far ptr gfx_jump_29_switchColor
+    add SP,0eh
+LAB_1000_2514:
+    mov AX,32h
+    imul word ptr [_selectedMenuItem]
+    mov SI,AX
+    add SI,word ptr [BP + 4h]
+    cmp word ptr [SI + 10h],1h
+    jnz LAB_1000_254f
+    mov word ptr [BP + -6h],8h
+    mov word ptr [BP + -4h],7h
+    mov AX,7h
+    push AX
+    mov AX,8h
+    push AX
+    push word ptr [SI + 0eh]
+    push word ptr [SI + 0ch]
+    push word ptr [SI + 0ah]
+    push word ptr [SI + 8h]
+    push word ptr [BP + 0ch]
+    call far ptr gfx_jump_29_switchColor
+    add SP,0eh
+LAB_1000_254f:
+    push word ptr [BP + 0ch]
+    mov AX,32h
+    imul word ptr [BP + -14h]
+    add AX,word ptr [BP + 4h]
+    push AX
+    call blinkWidget
+    add SP,4h
+LAB_1000_2562:
+    mov AX,word ptr [BP + -14h]
+    mov word ptr [_selectedMenuItem],AX
+    push word ptr [BP + 0ch]
+    push AX
+    push word ptr [BP + 4h]
+    call drawMenuItem
+    add SP,6h
+LAB_1000_2575:
+    jmp LAB_1000_22a8
+LAB_1000_2578:
+    mov AX,word ptr [BP + -14h]
+    jmp LAB_1000_257d
+LAB_1000_257d:
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
+routine_60 endp
 
 blinkWidget equ _blinkWidget
 
@@ -4523,7 +4827,6 @@ LAB_1000_35db:
     pop BP
     ret
 drawMenuItem endp
-routine_96 equ _routine_96
 
 drawEventSprite equ _drawEventSprite
 

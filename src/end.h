@@ -210,7 +210,6 @@ int loadFileSectionEx(char *name, int b, int c, int d, int e);
 void outportByte(int port, int value);
 void decodePicRaw(int handle, int segment);
 void processMenuItems(void *param_1, int param_2, int param_3, int param_4, int param_5, int param_6);
-int routine_60(int param_1, int param_2, int param_3, int param_4, int param_5);
 void routine_71(int param_1, int param_2);
 void drawMenuItem(void *param_1, int param_2, int param_3);
 void routine_108(int param_1, int param_2, int param_3, int param_4);
@@ -270,14 +269,6 @@ extern char str_cumulative[];
 extern char str_missionRating3[];
 extern char str_pressSelect[];
 extern char str_pressNext[];
-
-/* Data symbols used by routine_96 */
-extern int dat_424e[];
-extern char var_425c[];
-extern int dat_4804;
-extern int var_193[];
-extern int var_192;
-extern int var_102;
 
 /* Data symbols used by routine_27 */
 extern int *var_86;
