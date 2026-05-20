@@ -712,7 +712,7 @@ LAB_1000_0510:
     sub AX,word ptr [word_3BE9C]
     mov BX,word ptr [BP + -4h]
     shl BX,1h
-    db 89h, 87h, 0ech, 95h  ; MOV word ptr [BX + 0...,AX                  ;= ??
+    mov word ptr [BX + offset word_3BE9C], AX
     inc word ptr [BP + -4h]
     cmp word ptr [BP + -4h],10h
     jl LAB_1000_0510
@@ -1786,7 +1786,7 @@ LAB_1000_1099:
     inc word ptr [word_33714]
     db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
     jnz LAB_1000_10d1
-    mov AX,124h
+    mov AX,offset aSafeLanding
     push AX
     call tempStrcpy
     add SP,2h
@@ -1826,13 +1826,13 @@ LAB_1000_1109:
     call sub_119A3
     test byte ptr [_word_336E8],8h
     jz LAB_1000_1128
-    mov AX,131h
+    mov AX,offset aReadyForTakeof
     push AX
     call tempStrcpy
     add SP,2h
     jmp LAB_1000_1132
 LAB_1000_1128:
-    mov AX,143h
+    mov AX,offset aWeaponsRepleni
     push AX
     call tempStrcpy
     add SP,2h
@@ -1903,7 +1903,7 @@ LAB_1000_11c8:
     mov word ptr [_dword_3B7F8+2],DX
     jmp LAB_1000_128b
 LAB_1000_11d2:
-    mov AX,157h
+    mov AX,offset aAutomaticLandi
     push AX
     call tempStrcpy
     add SP,2h
@@ -2246,7 +2246,7 @@ countermeasures proc near
     or AX,AX
     jg LAB_1000_152a
     mov word ptr [SI],0h
-    mov AX,0e66h
+    mov AX,offset aStoresExhauste
     push AX
     call tempStrcpy
     add SP,2h
@@ -2283,11 +2283,11 @@ LAB_1000_155c:
     shl AX,1h
     mov SI,AX
     mov AX,word ptr [_word_3BEC0]
-    db 89h, 84h, 22h, 0bh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset word_333D2], AX
     mov AX,word ptr [_word_3BED0]
-    db 89h, 84h, 24h, 0bh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset word_333D4], AX
     mov AX,word ptr [BP + 4h]
-    db 89h, 84h, 28h, 0bh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset word_333D8], AX
     mov AX,word ptr [word_330B8]
     mov CX,AX
     shl AX,1h
@@ -2295,7 +2295,7 @@ LAB_1000_155c:
     db 2Dh, 0Fh, 00h ; sub AX,0fh (force imm16 encoding)
     neg AX
     imul word ptr [_word_330C4]
-    db 89h, 84h, 2ah, 0bh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset word_333DA], AX
     mov AX,word ptr [BP + 4h]
     jmp LAB_1000_15ab
 LAB_1000_159b:
@@ -2314,34 +2314,34 @@ LAB_1000_15ab:
     jmp LAB_1000_15b7
 LAB_1000_15b7:
     push word ptr [BP + -2h]
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
-    mov AX,0e83h
+    mov AX,offset aReleased
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
     push word ptr [BP + -2h]
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
-    mov AX,0e8dh
+    mov AX,offset asc_3373D
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
     mov AX,0ah
     push AX
-    mov AX,9780h
+    mov AX,offset unk_3C030
     push AX
     mov BX,word ptr [BP + 4h]
     shl BX,1h
@@ -2349,11 +2349,11 @@ LAB_1000_15b7:
     call _itoa
     add SP,6h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call sub_1A204
     add SP,2h
@@ -2563,25 +2563,25 @@ FUN_1000_17e8:
 LAB_1000_1801:
     cmp word ptr [BP + -4h],0h
     jz LAB_1000_183c
-    mov AX,0e8fh
+    mov AX,offset aGun
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
     mov AX,0ah
     push AX
-    mov AX,9780h
+    mov AX,offset unk_3C030
     push AX
     push word ptr [word_330B4]
     call _itoa
     add SP,6h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call sub_1A204
     add SP,2h
@@ -2824,7 +2824,7 @@ LAB_1000_1a31:
     shl BX,1h
     mov AX,word ptr [BX + offset word_38202]
     mov word ptr [BP + -2h],AX
-    mov AX,0c2h
+    mov AX,offset allocSize
     push AX
     mov AX,word ptr [BP + -2h]
     db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
@@ -3062,7 +3062,7 @@ LAB_1000_1c4a:
     push word ptr [BP + -2h]
     call placeString
     add SP,2h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -3089,24 +3089,24 @@ LAB_1000_1c7f:
     shl AX,CL
     add AX,2c8h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
-    mov AX,0e9ch
+    mov AX,offset aOnPatrol
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
     jmp LAB_1000_1d0c
 LAB_1000_1ce2:
     mov word ptr [_keyValue],87h
-    mov AX,0ea7h
+    mov AX,offset aF15StrikeEagle
     push AX
     call tempStrcpy
     add SP,2h
@@ -3184,7 +3184,7 @@ placeString proc near
     and BX,7fh
     shl BX,1h
     push word ptr [BX + offset _word_3C0A2]
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -3209,9 +3209,9 @@ placeString proc near
     add SP,2h
     or AX,AX
     jz LAB_1000_1dd6
-    mov AX,0eb8h
+    mov AX,offset aAt
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -3222,12 +3222,12 @@ LAB_1000_1dd6:
     mov BX,word ptr [BX + offset _word_3AA5C]
     shl BX,1h
     push word ptr [BX + offset _word_3C0A2]
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
 LAB_1000_1df1:
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strlen
     add SP,2h
@@ -4289,7 +4289,7 @@ LAB_1000_31fb:
 LAB_1000_320a:
     cmp word ptr [word_3B7E2],7fffh
     jz LAB_1000_321c
-    mov AX,8f30h
+    mov AX,offset word_3B7E0
     pop SI
     pop DI
     mov SP,BP
@@ -5937,7 +5937,7 @@ loc_14106:
 loc_14118:
     cmp word ptr [_word_330C2],00h
     jz loc_14149
-    mov AX,067h
+    mov AX,offset aNc_xxx
     push AX
     mov AX,0140h
     push AX
@@ -5987,7 +5987,7 @@ loc_14149:
     call sub_1613B
     cmp word ptr [_word_330C2],00h
     jz loc_141E2
-    mov AX,067h
+    mov AX,offset aNc_xxx
     push AX
     mov AX,0140h
     push AX
@@ -6005,7 +6005,7 @@ loc_14149:
     push word ptr [BX]
     call far ptr _gfx_jump_2a
     add SP,010h
-    mov AX,067h
+    mov AX,offset aNc_xxx
     push AX
     mov AX,0140h
     push AX
@@ -6177,7 +6177,7 @@ loc_14330:
     jz loc_14369
     mov word ptr [word_336EC],00h
     or byte ptr [_planeFlags],01h
-    mov AX,0571Ah
+    mov AX,offset aLandingGearRaised
     push AX
     call tempStrcpy
     add SP,02h
@@ -6196,7 +6196,7 @@ loc_14369:
     test byte ptr [_planeFlags],08h
     jnz loc_1438F
     or byte ptr [_planeFlags],08h
-    mov AX,0572Eh
+    mov AX,offset aBrakesOn
     push AX
     call tempStrcpy
     add SP,02h
@@ -6884,7 +6884,7 @@ loc_14A38:
 loc_14A75:
     mov AX,0Ah
     push AX
-    mov AX,066C4h
+    mov AX,offset strBuf
     push AX
     mov AX,[_word_38FC4+16h]
     cwd
@@ -6898,19 +6898,19 @@ loc_14A75:
     call _itoa
     add SP,06h
     push AX
-    mov AX,06720h
+    mov AX,offset unk_38FD0
     push AX
     call _strcpy
     add SP,04h
-    mov AX,05738h
+    mov AX,offset a_
     push AX
-    mov AX,06720h
+    mov AX,offset unk_38FD0
     push AX
     call _strcat
     add SP,04h
     mov AX,0Ah
     push AX
-    mov AX,066C4h
+    mov AX,offset strBuf
     push AX
     push word ptr [_word_38FC4+16h]
     call _abs
@@ -6922,13 +6922,13 @@ loc_14A75:
     call _itoa
     add SP,06h
     push AX
-    mov AX,06720h
+    mov AX,offset unk_38FD0
     push AX
     call _strcat
     add SP,04h
-    mov AX,0573Ah
+    mov AX,offset aG
     push AX
-    mov AX,06720h
+    mov AX,offset unk_38FD0
     push AX
     call _strcat
     add SP,04h
@@ -7277,9 +7277,9 @@ loc_14DB4:
     mov word ptr [_unk_3806E+33h],AX
     neg AX
     mov word ptr [_unk_3806E+37h],AX
-    mov AX,057F4h
+    mov AX,offset word_380A4
     push AX
-    mov AX,057BEh
+    mov AX,offset _unk_3806E
     push AX
     call sub_151F9
     add SP,04h
@@ -7304,9 +7304,9 @@ loc_14DEC:
     mov word ptr [_unk_3806E+2Dh],AX
     neg AX
     mov word ptr [_unk_3806E+29h],AX
-    mov AX,057E2h
+    mov AX,offset unk_38092
     push AX
-    mov AX,057BEh
+    mov AX,offset _unk_3806E
     push AX
     call sub_151F9
     add SP,04h
@@ -7329,9 +7329,9 @@ loc_14E2D:
     mov word ptr [_unk_3806E+11h],AX
     neg AX
     mov word ptr [_unk_3806E+19h],AX
-    mov AX,057BEh
+    mov AX,offset _unk_3806E
     push AX
-    mov AX,057D0h
+    mov AX,offset word_38080
     push AX
     call sub_151F9
     add SP,04h
@@ -7701,7 +7701,7 @@ sub_151F9 proc near
     jnz LAB_1000_520f
     mov byte ptr [word_380D8],1h
 LAB_1000_520f:
-    mov AX,5806h
+    mov AX,offset unk_380B6
     push AX
     push word ptr [BP + 6h]
     push word ptr [BP + 4h]
@@ -7709,9 +7709,9 @@ LAB_1000_520f:
     add SP,6h
     mov AX,12h
     push AX
-    mov AX,5806h
+    mov AX,offset unk_380B6
     push AX
-    mov AX,57beh
+    mov AX,offset _unk_3806E
     push AX
     call _memcpy
     add SP,6h
@@ -7902,7 +7902,7 @@ sub_15411 proc near
     push word ptr [_var_545]
     push word ptr [_var_544]
     push word ptr [_var_542]
-    mov AX,57beh
+    mov AX,offset _unk_3806E
     push AX
     call far ptr _sub_20BAE
     add SP,8h
@@ -8704,9 +8704,9 @@ LAB_1000_655c:
     push word ptr [BP + 4h]
     call placeString
     add SP,2h
-    mov AX,58a4h
+    mov AX,offset aFiring
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -8714,11 +8714,11 @@ LAB_1000_655c:
     imul word ptr [BP + -22h]
     add AX,528h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -10477,13 +10477,13 @@ LAB_1000_7744:
     imul word ptr [BP + -14h]
     add AX,528h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
-    mov AX,58b0h
+    mov AX,offset aFiredBy
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -10492,11 +10492,11 @@ LAB_1000_7744:
     shl AX,CL
     add AX,2c8h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -10692,7 +10692,7 @@ LAB_1000_798f:
     add SP,2h
     mov AX,58bbh
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -10704,13 +10704,13 @@ LAB_1000_798f:
     shl AX,CL
     add AX,2c8h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,58bfh
+    mov AX,offset aTakingOff
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -10718,7 +10718,7 @@ LAB_1000_798f:
     db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     cmp word ptr [BP + 4h],AX
     jge LAB_1000_79e7
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -11340,7 +11340,7 @@ LAB_1000_7fe1:
     imul word ptr [BX + offset _stru_335C4 + 18]
     add AX,820h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -11363,9 +11363,9 @@ LAB_1000_8043:
     push AX
     call makeSound
     add SP,4h
-    mov AX,58cch
+    mov AX,offset aMisses
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -11391,7 +11391,7 @@ LAB_1000_8043:
     push word ptr [word_3C020]
     call sub_187EA
     add SP,2h
-    mov AX,58d5h
+    mov AX,offset aDestroyedBy
     jmp LAB_1000_813b
 LAB_1000_80aa:
     push word ptr [word_3BEC8]
@@ -11451,10 +11451,10 @@ LAB_1000_80f6:
     push word ptr [BP + -36h]
     call sub_187EA
     add SP,2h
-    mov AX,58e4h
+    mov AX,offset aDestroyedBy_0
 LAB_1000_813b:
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -11465,7 +11465,7 @@ LAB_1000_813b:
     imul word ptr [BX + offset _stru_335C4 + 18]
     add AX,820h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -11483,14 +11483,14 @@ LAB_1000_8172:
     shl AX,1h
     cmp word ptr [BX + offset _stru_335C4 + 14],AX
     jle LAB_1000_81a3
-    mov AX,58f3h
+    mov AX,offset aGroundImpact
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
 LAB_1000_8199:
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -11551,9 +11551,9 @@ LAB_1000_821e:
     jz LAB_1000_823c
     jmp LAB_1000_83ac
 LAB_1000_823c:
-    mov AX,5902h
+    mov AX,offset aHitBy
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -11561,11 +11561,11 @@ LAB_1000_823c:
     imul word ptr [BP + -12h]
     add AX,528h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -11656,9 +11656,9 @@ LAB_1000_8340:
     jmp LAB_1000_835a
     db 90h
 LAB_1000_834c:
-    mov AX,590ah
+    mov AX,offset aIneffective
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -11675,9 +11675,9 @@ LAB_1000_835a:
     mov word ptr [word_3B4E0],AX
     mov word ptr [word_3B5D6],0bb8h
 LAB_1000_8380:
-    mov AX,5916h
+    mov AX,offset aHitBy_0
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -11685,11 +11685,11 @@ LAB_1000_8380:
     imul word ptr [BP + -12h]
     add AX,528h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -12100,7 +12100,7 @@ LAB_1000_87a6:
     shl AX,CL
     add AX,2c8h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -12355,9 +12355,9 @@ LAB_1000_89e9:
 LAB_1000_89f3:
     cmp word ptr [BP + 4h],0h
     jz LAB_1000_8a14
-    mov AX,5926h
+    mov AX,offset aSecond_Target
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -12365,9 +12365,9 @@ LAB_1000_89f3:
     or byte ptr [_var_730],20h
     jmp LAB_1000_8a2d
 LAB_1000_8a14:
-    mov AX,5935h
+    mov AX,offset aPrimaryTarget_0
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -12467,17 +12467,17 @@ LAB_1000_8ad4:
     mov AX,DI
     add AX,820h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
-    mov AX,5944h
+    mov AX,offset a0
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call sub_1A204
     jmp LAB_1000_8deb
@@ -12507,7 +12507,7 @@ LAB_1000_8b4a:
     shl BX,1h
     mov AX,word ptr [BX + offset aA]
     mov word ptr [BP + -4h],AX
-    mov AX,0c2h
+    mov AX,offset allocSize
     push AX
     mov AX,word ptr [BP + -4h]
     db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
@@ -12534,19 +12534,19 @@ LAB_1000_8b4a:
     imul word ptr [BP + -6h]
     add AX,820h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
     mov AX,5947h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
     mov AX,0ah
     push AX
-    mov AX,9780h
+    mov AX,offset unk_3C030
     push AX
     mov BX,word ptr [_missileSpecIndex]
     shl BX,1h
@@ -12555,11 +12555,11 @@ LAB_1000_8b4a:
     call _itoa
     add SP,6h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call sub_1A204
     add SP,2h
@@ -12586,25 +12586,25 @@ LAB_1000_8c19:
     imul word ptr [BP + -8h]
     mov SI,AX
     mov AX,word ptr [_word_3BEC0]
-    db 89h, 84h, 14h, 0dh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset _stru_335C4], AX
     mov AX,word ptr [_word_3BED0]
-    db 89h, 84h, 16h, 0dh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset _stru_335C4 + 2], AX
     mov AX,word ptr [_var_547]
     db 2Dh, 14h, 00h ; sub AX,14h (force imm16 encoding)
-    db 89h, 84h, 18h, 0dh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset _stru_335C4 + 4], AX
     mov AX,word ptr [word_3A944]
     mov CL,0bh
     shr AX,CL
-    db 89h, 84h, 1ah, 0dh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset _stru_335C4 + 6], AX
     mov AX,18h
     imul word ptr [BP + -8h]
     mov SI,AX
     mov AX,word ptr [_var_542]
-    db 89h, 84h, 1ch, 0dh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset _stru_335C4 + 8], AX
     mov AX,word ptr [_var_544]
-    db 89h, 84h, 1eh, 0dh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset _stru_335C4 + 10], AX
     mov AX,word ptr [_var_545]
-    db 89h, 84h, 20h, 0dh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset _stru_335C4 + 12], AX
     mov AX,12h
     imul word ptr [BP + -2h]
     mov DI,AX
@@ -12645,7 +12645,7 @@ LAB_1000_8c9e:
     push AX
     call __aNldiv
     db 05h, 06h, 00h ; add AX,6h (force imm16 encoding)
-    db 89h, 84h, 22h, 0dh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset _stru_335C4 + 14], AX
     mov AX,18h
     imul word ptr [BP + -8h]
     mov SI,AX
@@ -12658,9 +12658,9 @@ LAB_1000_8cc4:
     imul word ptr [BP + -8h]
     mov SI,AX
     mov AX,word ptr [BP + -2h]
-    db 89h, 84h, 24h, 0dh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset _stru_335C4 + 16], AX
     mov AX,word ptr [BP + -6h]
-    db 89h, 84h, 26h, 0dh  ; MOV word ptr [SI + 0...,AX                  ;= ??
+    mov word ptr [SI + offset _stru_335C4 + 18], AX
     db 0c7h, 84h, 28h, 0dh, 0ffh, 0ffh  ; MOV word ptr [SI + 0...,0xffff              ;= ??
     cmp word ptr [BP + -2h],1eh
     jz LAB_1000_8cee
@@ -12673,7 +12673,7 @@ LAB_1000_8cee:
     mov AX,18h
     imul word ptr [BP + -8h]
     mov BX,AX
-    db 89h, 8fh, 2ah, 0dh  ; MOV word ptr [BX + 0...,CX                  ;= ??
+    mov word ptr [BX + offset _stru_335C4 + 22], CX
     mov AX,word ptr [_word_336F4]
     mov word ptr [word_3C020],AX
 LAB_1000_8d08:
@@ -12688,7 +12688,7 @@ LAB_1000_8d08:
     imul word ptr [BP + -8h]
     mov BX,AX
     mov AX,word ptr [_word_336F4]
-    db 89h, 87h, 28h, 0dh  ; MOV word ptr [BX + 0...,AX                  ;= ??
+    mov word ptr [BX + offset _stru_335C4 + 20], AX
 LAB_1000_8d2d:
     cmp word ptr [_word_336F4],0h
     jl LAB_1000_8d61
@@ -12706,7 +12706,7 @@ LAB_1000_8d2d:
     imul word ptr [BP + -8h]
     mov BX,AX
     mov AX,word ptr [_word_336F4]
-    db 89h, 87h, 28h, 0dh  ; MOV word ptr [BX + 0...,AX                  ;= ??
+    mov word ptr [BX + offset _stru_335C4 + 20], AX
 LAB_1000_8d61:
     cmp word ptr [BP + -2h],1dh
     jnz LAB_1000_8d7b
@@ -12722,17 +12722,17 @@ LAB_1000_8d7b:
     imul word ptr [BP + -6h]
     add AX,820h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
-    mov AX,5949h
+    mov AX,offset aFired
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -12843,42 +12843,42 @@ LAB_1000_94e0:
     mov AX,word ptr [BP + 4h]
     jmp LAB_1000_9566
 LAB_1000_94e6:
-    mov AX,5b87h
+    mov AX,offset aTrackcam
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
     mov AX,[_word_3C6AC+206h]
     jmp LAB_1000_953b
 LAB_1000_94f9:
-    mov AX,5b91h
+    mov AX,offset aAhead
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
     jmp LAB_1000_9550
 LAB_1000_9509:
-    mov AX,5b97h
+    mov AX,offset aRear
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
     jmp LAB_1000_9550
 LAB_1000_9519:
-    mov AX,5b9ch
+    mov AX,offset aRight
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
     jmp LAB_1000_9550
 LAB_1000_9529:
-    mov AX,5ba2h
+    mov AX,offset aLeft
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -12898,7 +12898,7 @@ LAB_1000_953b:
 LAB_1000_9550:
     mov AX,3h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     mov AX,2h
     push AX
@@ -12969,7 +12969,7 @@ _sub_195C9 proc near
 LAB_1000_95e0:
     sub AX,AX
     push AX
-    mov AX,5ba7h
+    mov AX,offset aMap
     push AX
     mov AX,1h
     push AX
@@ -13204,7 +13204,7 @@ LAB_1000_97c8:
     push AX
     cmp byte ptr [_gfxModeUnset],0h
     jz LAB_1000_9814
-    mov AX,0b4h
+    mov AX,offset aF15dgtl_bin
     jmp LAB_1000_9817
 LAB_1000_9814:
     mov AX,0a8h
@@ -14297,7 +14297,7 @@ sub_1A1B1 proc near
     mov AX,word ptr [BP + 6h]
     mov word ptr [unk_3BF98],AX
     mov byte ptr [unk_3BF95],0h
-    mov AX,96e2h
+    mov AX,offset _regs
     push AX
     push AX
     mov AX,10h
@@ -14318,7 +14318,7 @@ tempStrcpy proc near
     push BP
     mov BP,SP
     push word ptr [BP + 4h]
-    mov AX,9690h
+    mov AX,offset _tempString
     push AX
     call _strcpy
     add SP,4h
@@ -14337,7 +14337,7 @@ sub_1A204 proc near
     push BP
     mov BP,SP
     push word ptr [BP + 4h]
-    mov AX,979ah
+    mov AX,offset _string_3C04A
     push AX
     call _strcpy
     add SP,4h
@@ -15032,7 +15032,7 @@ sub_1A872 proc near
     mov word ptr [_var_574],AX
     mov word ptr [_var_575],7h
     mov word ptr [_var_576],7h
-    mov AX,5afeh
+    mov AX,offset word_383AE
     push AX
     call far ptr gfx_jump_47
     add SP,2h
@@ -15067,7 +15067,7 @@ _sub_1A8C8 proc near
     cmp word ptr [BP + 10h],0h
     jz LAB_1000_a920
     mov byte ptr [_var_585],1h
-    mov AX,5b1ch
+    mov AX,offset word_383CC
     push AX
     call far ptr gfx_jump_47
     add SP,2h
@@ -15076,7 +15076,7 @@ _sub_1A8C8 proc near
     db 90h
 LAB_1000_a920:
     mov byte ptr [_var_585],10h
-    mov AX,5b1ch
+    mov AX,offset word_383CC
     push AX
     call far ptr gfx_jump_49
     add SP,2h
@@ -16157,13 +16157,13 @@ LAB_1000_b2ec:
     push word ptr [BP + -20h]
     call sub_186F8
     add SP,2h
-    mov AX,5bb2h
+    mov AX,offset aDestroyedByGun
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -16227,7 +16227,7 @@ LAB_1000_b3e0:
     db 3Dh, 20h, 00h ; cmp AX,20h (force imm16 encoding)
     jge LAB_1000_b476
     mov word ptr [BP + -0eh],1h
-    mov AX,5bc8h
+    mov AX,offset aHitByGunfire
     push AX
     call tempStrcpy
     add SP,2h
@@ -16353,13 +16353,13 @@ LAB_1000_b54c:
     push word ptr [BP + -8h]
     call sub_187EA
     add SP,2h
-    mov AX,5bd7h
+    mov AX,offset aDestroyedByG_0
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -16778,7 +16778,7 @@ LAB_1000_b986:
     push AX
     mov AX,0f4h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _draw2Strings
     add SP,8h
@@ -16789,7 +16789,7 @@ LAB_1000_b986:
     and BX,7fh
     shl BX,1h
     push word ptr [BX + offset _word_3C0A2]
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -16797,7 +16797,7 @@ LAB_1000_b986:
     push AX
     mov AX,82h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strlen
     add SP,2h
@@ -16805,7 +16805,7 @@ LAB_1000_b986:
     sub AX,10ch
     neg AX
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _draw2Strings
     add SP,8h
@@ -16830,13 +16830,13 @@ LAB_1000_b986:
     add SP,2h
     or AX,AX
     jz LAB_1000_ba64
-    mov AX,5bedh
+    mov AX,offset aAt_0
     jmp LAB_1000_ba67
 LAB_1000_ba64:
     mov AX,5bf2h
 LAB_1000_ba67:
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -16846,7 +16846,7 @@ LAB_1000_ba67:
     mov BX,word ptr [BX + offset _word_3AA5C]
     shl BX,1h
     push word ptr [BX + offset _word_3C0A2]
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -16854,7 +16854,7 @@ LAB_1000_ba67:
     push AX
     mov AX,88h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strlen
     add SP,2h
@@ -16862,7 +16862,7 @@ LAB_1000_ba67:
     sub AX,10ch
     neg AX
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _draw2Strings
     add SP,8h
@@ -16901,7 +16901,7 @@ LAB_1000_baf3:
     push AX
     mov AX,0ech
     push AX
-    mov AX,5bf3h
+    mov AX,offset aPrimaryTarget
     push AX
     call _draw2Strings
     add SP,8h
@@ -16916,7 +16916,7 @@ LAB_1000_bb15:
     push AX
     mov AX,0ech
     push AX
-    mov AX,5c02h
+    mov AX,offset aSecondaryTarget
     push AX
     call _draw2Strings
     add SP,8h
@@ -16956,7 +16956,7 @@ LAB_1000_bb83:
     push AX
     mov AX,0fch
     push AX
-    mov AX,5c13h
+    mov AX,offset aNoTarget
     push AX
     call _draw2Strings
     add SP,8h
@@ -17132,7 +17132,7 @@ LAB_1000_bceb:
     push AX
     mov AX,0f4h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _draw2Strings
     add SP,8h
@@ -17145,7 +17145,7 @@ LAB_1000_bceb:
     shl AX,CL
     add AX,2c8h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -17154,7 +17154,7 @@ LAB_1000_bceb:
     shl AX,CL
     add AX,2cfh
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -17164,7 +17164,7 @@ LAB_1000_bceb:
     push AX
     mov AX,0f8h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _draw2Strings
     add SP,8h
@@ -17181,7 +17181,7 @@ LAB_1000_bceb:
     push AX
     mov AX,0fch
     push AX
-    mov AX,5c1dh
+    mov AX,offset aNoTarget_0
     push AX
     call _draw2Strings
     add SP,8h
@@ -17719,7 +17719,7 @@ sub_1C2F8 proc near
     push AX
     mov AX,0f4h
     push AX
-    mov AX,5c27h
+    mov AX,offset aMissileLock
     push AX
     call _draw2Strings
     add SP,8h
@@ -17822,15 +17822,15 @@ sub_1C40B proc near
     push BP
     mov BP,SP
     sub SP,0ah
-    mov AX,5c34h
+    mov AX,offset aRange
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
     mov AX,0ah
     push AX
-    mov AX,9780h
+    mov AX,offset unk_3C030
     push AX
     mov AX,word ptr [BP + 4h]
     mov CL,6h
@@ -17839,19 +17839,19 @@ sub_1C40B proc near
     call _itoa
     add SP,6h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
     mov AX,5c3bh
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
     mov AX,0ah
     push AX
-    mov AX,9780h
+    mov AX,offset unk_3C030
     push AX
     mov AX,word ptr [BP + 4h]
     db 25h, 3Fh, 00h ; and AX,3fh (force imm16 encoding)
@@ -17863,13 +17863,13 @@ sub_1C40B proc near
     call _itoa
     add SP,6h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,5c3dh
+    mov AX,offset aKm
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -18913,15 +18913,15 @@ LAB_1000_ce82:
     mov byte ptr [_var_316],0h
     cmp word ptr [BP + 12h],1h
     jnz LAB_1000_cf27
-    mov AX,5c6ah
+    mov AX,offset aBrg
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
     mov AX,0ah
     push AX
-    mov AX,9780h
+    mov AX,offset unk_3C030
     push AX
     mov AX,word ptr [_var_681]
     sub DX,DX
@@ -18931,7 +18931,7 @@ LAB_1000_ce82:
     call _itoa
     add SP,6h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
@@ -18941,7 +18941,7 @@ LAB_1000_ce82:
     push AX
     mov AX,0f8h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _draw2Strings
     add SP,8h
@@ -19382,25 +19382,25 @@ LAB_1000_d295:
     mov AX,word ptr [_var_588]
     jmp LAB_1000_d2cc
 LAB_1000_d29a:
-    mov AX,5c70h
+    mov AX,offset aLong
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
     jmp LAB_1000_d2dc
 LAB_1000_d2aa:
-    mov AX,5c75h
+    mov AX,offset aMedium
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
     jmp LAB_1000_d2dc
 LAB_1000_d2ba:
-    mov AX,5c7ch
+    mov AX,offset aShort
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -19416,13 +19416,13 @@ LAB_1000_d2cc:
     jz LAB_1000_d2ba
     jmp LAB_1000_d2dc
 LAB_1000_d2dc:
-    mov AX,5c82h
+    mov AX,offset aRangeRadar
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -19476,25 +19476,25 @@ LAB_1000_d361:
 LAB_1000_d364:
     mov word ptr [_word_38FDC],AX
 LAB_1000_d367:
-    mov AX,5c8fh
+    mov AX,offset aDetailLevel
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
     mov AX,0ah
     push AX
-    mov AX,9780h
+    mov AX,offset unk_3C030
     push AX
     push word ptr [_word_38FDC]
     call _itoa
     add SP,6h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -19506,15 +19506,15 @@ LAB_1000_d3a2:
     jle LAB_1000_d3b3
     mov word ptr [_var_596],0h
 LAB_1000_d3b3:
-    mov AX,5c9dh
+    mov AX,offset aKybdSensitivit
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
     mov AX,0ah
     push AX
-    mov AX,9780h
+    mov AX,offset unk_3C030
     push AX
     mov AX,word ptr [_var_596]
     inc AX
@@ -19522,19 +19522,19 @@ LAB_1000_d3b3:
     call _itoa
     add SP,6h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
     jmp LAB_1000_d88c
 LAB_1000_d3ec:
-    mov AX,5caeh
+    mov AX,offset aMemoryAvailabl
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -19546,35 +19546,35 @@ LAB_1000_d3ec:
     call _itoa
     add SP,6h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
     jmp LAB_1000_d88c
 LAB_1000_d424:
-    mov AX,5cc0h
+    mov AX,offset aJiffiesFrame
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
     mov AX,0ah
     push AX
-    mov AX,9780h
+    mov AX,offset unk_3C030
     push AX
     push word ptr [word_3C6AE]
     call _itoa
     add SP,6h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -19599,15 +19599,15 @@ LAB_1000_d480:
     mov AX,word ptr [_var_600]
     db 25h, 03h, 00h ; and AX,3h (force imm16 encoding)
     mov word ptr [_var_600],AX
-    mov AX,5ccfh
+    mov AX,offset aSounds
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
     mov AX,0ah
     push AX
-    mov AX,9780h
+    mov AX,offset unk_3C030
     push AX
     mov AX,3h
     sub AX,word ptr [_var_600]
@@ -19615,11 +19615,11 @@ LAB_1000_d480:
     call _itoa
     add SP,6h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -19677,9 +19677,9 @@ LAB_1000_d54f:
     jle LAB_1000_d560
     mov word ptr [_word_3370E],0h
 LAB_1000_d560:
-    mov AX,5cd7h
+    mov AX,offset aDirector
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -19687,26 +19687,26 @@ LAB_1000_d560:
     jz LAB_1000_d594
     mov AX,0ah
     push AX
-    mov AX,9780h
+    mov AX,offset unk_3C030
     push AX
     push word ptr [_word_3370E]
     call _itoa
     add SP,6h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
     jmp LAB_1000_d5a2
 LAB_1000_d594:
-    mov AX,5ce1h
+    mov AX,offset aOff
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
 LAB_1000_d5a2:
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -19720,19 +19720,19 @@ LAB_1000_d5c0:
     mov AX,word ptr [_waypointIndex]
     jmp LAB_1000_d5f1
 LAB_1000_d5c5:
-    mov AX,5ce5h
+    mov AX,offset aWaypointPrimar
     push AX
     call tempStrcpy
     add SP,2h
     jmp LAB_1000_d602
 LAB_1000_d5d1:
-    mov AX,5cfeh
+    mov AX,offset aWaypointSecond
     push AX
     call tempStrcpy
     add SP,2h
     jmp LAB_1000_d602
 LAB_1000_d5dd:
-    mov AX,5d19h
+    mov AX,offset aWaypointFriend
     push AX
     call tempStrcpy
     add SP,2h
@@ -19755,7 +19755,7 @@ LAB_1000_d605:
     cmp word ptr [_word_330B6],0h
     jz LAB_1000_d61e
     mov word ptr [_word_330B6],0h
-    mov AX,5d34h
+    mov AX,offset aAutopilotOff
     push AX
     call tempStrcpy
     add SP,2h
@@ -19767,7 +19767,7 @@ LAB_1000_d61e:
     mov AX,3e8h
 LAB_1000_d629:
     mov word ptr [_word_330B6],AX
-    mov AX,5d42h
+    mov AX,offset aAutopilotOn
     push AX
     call tempStrcpy
     add SP,2h
@@ -20210,7 +20210,7 @@ selectMissile proc near
     imul word ptr [BX + offset _missileSpecIndex]
     add AX,820h
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcpy
     add SP,4h
@@ -20219,20 +20219,20 @@ selectMissile proc near
     shl BX,1h
     cmp word ptr [BX + offset _missileSpecIndex + 2],0h
     jnz LAB_1000_da0f
-    mov AX,5d5eh
+    mov AX,offset aNotAvailable
     jmp LAB_1000_da12
 LAB_1000_da0f:
-    mov AX,5d6dh
+    mov AX,offset aArmed
 LAB_1000_da12:
     push AX
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call _strcat
     add SP,4h
     push word ptr [_missileSpecIndex]
     call _sub_11A88
     add SP,2h
-    mov AX,66c4h
+    mov AX,offset strBuf
     push AX
     call tempStrcpy
     add SP,2h
@@ -20433,7 +20433,7 @@ sub_1DBE0 proc near
     mov BP,SP
     mov byte ptr [byte_3BF93],0h
     mov byte ptr [_regs],8dh
-    mov AX,96e2h
+    mov AX,offset _regs
     push AX
     push AX
     mov AX,10h
@@ -20814,7 +20814,7 @@ printString_1DF9B:
     add cx, 30h
     mov byte_3862A, cl
     mov byte_3862B, 24h
-    mov dx, 5D7Ah
+    mov dx, offset byte_3862A
     mov ah, 9
     int 21h ;DOS - PRINT STRING
 loc_1DFB7:
@@ -20876,7 +20876,7 @@ sub_1E11C proc near
     push SI
     push ES
     push BP
-    mov AX,0df16h
+    mov AX,offset read512FromFileIntoBuf
     mov word ptr [_var_610],AX
     mov AX,word ptr [BP + 4h]
     mov word ptr [_var_605],AX
@@ -20892,7 +20892,7 @@ LAB_1000_e148:
     mov word ptr [_var_608],AX
     call sub_1E262
     mov DI,word ptr [_var_608]
-    mov BP,5fe8h
+    mov BP,offset picDecodedRowBuf
     mov BX,word ptr [_var_609]
     call far ptr gfx_jump_33_fillRow
     mov DI,word ptr [_var_608]
@@ -20917,7 +20917,7 @@ sub_1E1F8 proc near
     push SI
     push ES
     push BP
-    mov AX,0df16h
+    mov AX,offset read512FromFileIntoBuf
     mov word ptr [_var_610],AX
     mov AX,word ptr [BP + 4h]
     mov word ptr [_var_605],AX
@@ -20933,7 +20933,7 @@ LAB_1000_e224:
     mov word ptr [_var_608],AX
     call sub_1E262
     mov DI,word ptr [_var_608]
-    mov BP,5fe8h
+    mov BP,offset picDecodedRowBuf
     mov BX,word ptr [_var_609]
     call far ptr gfx_jump_38_getPageBuf
     mov DI,word ptr [_var_608]
@@ -20962,16 +20962,16 @@ sub_1E262 proc near
     pop es
     cld
     mov si, fileReadPos
-    add si, 5D7Ch
+    add si, offset picBuf
     shr di, 1
     jnz short loc_1E275
     call sub_1E28C
 loc_1E275:
     mov cx, 140h
-    mov word_38D5E, cx
-    mov di, 5FE8h
+    mov word ptr [_var_689], cx
+    mov di, offset picDecodedRowBuf
     call sub_1E309
-    sub si, 5D7Ch
+    sub si, offset picBuf
     mov fileReadPos, si
     pop es
     retn
@@ -20979,10 +20979,10 @@ sub_1E262 endp
 ; ------------------------------seg000:0xe28b------------------------------
 ; ------------------------------seg000:0xe28c------------------------------
 sub_1E28C proc near
-    mov AX,5d7ch
+    mov AX,offset picBuf
     add AX,200h
     mov word ptr [_var_687],AX
-    mov AX,66bfh
+    mov AX,offset word_38F70 - 1
     mov word ptr [_var_688],AX
     mov byte ptr [_var_690],0h
     mov byte ptr [word_38D5C],0h
@@ -20995,7 +20995,7 @@ sub_1E28C proc near
     pop DX
     pop CX
     pop BX
-    mov SI,5d7ch
+    mov SI,offset picBuf
 LAB_1000_e2b8:
     lodsw
     mov word ptr [byte_38D63],AX
@@ -21019,14 +21019,14 @@ sub_1E2D3 proc near
     xor BX,BX
     mov CX,800h
 LAB_1000_e2ed:
-    db 89h, 87h, 9ch, 19h  ; MOV word ptr [BX + 0...,AX                  ;= ??
+    mov word ptr [BX + offset word_3424C], AX
     add BX,3h
     loop LAB_1000_e2ed
     mov AL,0h
     xor BX,BX
     mov CX,100h
 LAB_1000_e2fd:
-    db 88h, 87h, 9eh, 19h  ; MOV byte ptr [BX + 0...,AL                  ;= ??
+    mov byte ptr [BX + offset word_3424E], AL
     inc AL
     add BX,3h
     loop LAB_1000_e2fd
@@ -21095,7 +21095,7 @@ sub_1E309 endp
 ; ------------------------------seg000:0xe382------------------------------
 sub_1E382 proc near
     pop BP
-    cmp SP,66bfh
+    cmp SP,offset word_38F70 - 1
     jz LAB_1000_e38c
 LAB_1000_e389:
     pop AX
@@ -21119,7 +21119,7 @@ LAB_1000_e39c:
     pop DX
     pop CX
     pop BX
-    mov SI,5d7ch
+    mov SI,offset picBuf
 LAB_1000_e3b5:
     lodsw
     mov word ptr [byte_38D63],AX

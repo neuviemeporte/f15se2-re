@@ -64,7 +64,7 @@ int load15Flt3d3() {
         fread(flt15_buf2, 1, var_C, fileHandle);
         movedata(var_8.ds, (uint16)flt15_buf2, FP_SEG(var_10), FP_OFF(var_10), var_C);
         var_A -= 0x800;
-        FP_SEG(var_10) += 0x800;
+        FP_OFF(var_10) += 0x800;
     }
     TRACE(("load15Flt3d3: loop done"));
     // c9ca
@@ -86,7 +86,7 @@ int sub_1D1C8(int arg_0) {
 // ==== seg000:0xdd4c ====
 int openFileWrapper(char *path, int mode) {
     TRACE(("openFileWrapper: path=%s mode=%d", path, mode));
-    openFile(path, mode);
+    return openFile(path, mode);
 }
 
 // ==== seg000:0xdd70 ====

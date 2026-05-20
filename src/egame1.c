@@ -16,7 +16,7 @@ void drawCockpit() {
     TRACE(("drawCockpit: enter, theater=%d", gameData->theater));
     sub_11E0E();
     load15Flt3d3();
-    TRACE(("drawCockpit: after load15Flt3d3, scenPlh0=%s", scenarioPlh[0]));
+    TRACE(("drawCockpit: after load15Flt3d3, scenPlh0=%04x, scenarioPlh@%04x", (unsigned)scenarioPlh[0], (unsigned)&scenarioPlh[0]));
     strcpy(regnStr, scenarioPlh[gameData->theater]);
     TRACE(("drawCockpit: regnStr=%s", regnStr));
     TRACE(("drawCockpit: calling sub_121C6"));
