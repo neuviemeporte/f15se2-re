@@ -1,8 +1,8 @@
 // seg000 debug code (/Zi)
-#include "debug.h"
 #include "egame.h"
 #include "offsets.h"
 #include "pointers.h"
+#include "debug.h"
 #include "slot.h"
 #include "const.h"
 #include "comm.h"
@@ -17,10 +17,15 @@ unsigned char far byte_2D6A4[0x4844+0x9c8];
 
 // ==== seg000:0x147 ====
 void drawCockpit() {
+    TRACE(("drawCockpit: enter, theater=%d", gameData->theater));
+    TRACE(("drawCockpit: scenarioPlh[0]=%s", scenarioPlh[0]));
     sub_11E0E();
+    TRACE(("drawCockpit: after sub_11E0E"));
     load15Flt3d3();
+    TRACE(("drawCockpit: after load15Flt3d3"));
     // 0x162
     strcpy(regnStr, scenarioPlh[gameData->theater]);
+    TRACE(("drawCockpit: regnStr=%s", regnStr));
     sub_121C6();
     // 0x16e
     f15DgtlResult = loadF15DgtlBin();

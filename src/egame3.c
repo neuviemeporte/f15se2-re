@@ -1,8 +1,8 @@
 // seg000 optimization disabled (/Od) code
-#include "debug.h"
 #include "egame.h"
 #include "offsets.h"
 #include "pointers.h"
+#include "debug.h"
 #include "slot.h"
 #include "const.h"
 
