@@ -1022,10 +1022,11 @@ eventDisplay:
     drawWrappedText((int *)param_3, dat_4824, 0x50, 0xf0, 0x82, 8);
 }
 
+// 224a
 int routine_60(MenuItem *param_1, int param_2, int param_3, int param_4, int param_5) {
     char p[2]; int a; int b; char c[2]; int d; char e[2]; int f;
     int g; char h[2]; int i; char j[10]; int k; int l; int m; int n; int o;
-    register int si;
+    register int si; 
     (void)param_2;
     (void)d; (void)g; (void)j; (void)k; (void)l; (void)m; (void)n; (void)o;
     p[0] = 0x0d; p[1] = 0;
@@ -1040,19 +1041,23 @@ int routine_60(MenuItem *param_1, int param_2, int param_3, int param_4, int par
     joyRepeatFlag = 0;
     for (;;) {
         do {
+            // 22a8
             gfx_jump_50();
             si = i * 0x32;
             if ((param_1[i].flags & MENUITEM_ENABLED) == 0) {
                 colorAnimEnabled = 1;
             }
+            // 22d4
             processDebriefInput((int *)param_4, &param_1[i], param_5);
         } while (inputChanged == 0 && enterPressed == 0);
-        if (enterPressed != 0) {
-            if (i != selectedMenuItem) {
+        // 22e8
+        if (enterPressed != 0) { // 22f2
+            if (i != selectedMenuItem) { // 22fa
                 i = 0;
                 while (isPointInRect(&param_1[i]) == 0 && i < param_3)
                     i++;
-            }
+            } // 2320
+            // 232c
             if (param_1[selectedMenuItem].colorTableIdx != 0)
                 goto done;
             b = 0x0b;
@@ -1063,7 +1068,7 @@ int routine_60(MenuItem *param_1, int param_2, int param_3, int param_4, int par
             b = 0x0d;
             gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem].colorX1, param_1[selectedMenuItem].colorY1, param_1[selectedMenuItem].colorX2, param_1[selectedMenuItem].colorY2, 0x0d, a);
             goto done;
-        }
+        } // 23c2
         i = 0;
         while (isPointInRect(&param_1[i]) == 0 && i < param_3)
             i++;
