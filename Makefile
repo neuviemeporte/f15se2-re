@@ -184,7 +184,7 @@ EGAME_VRF_TGTEP := [558bec83ec??c746]
 END_EXE := $(BUILDDIR)/end.exe
 END_BASE := end_rc.asm
 END_ASM := $(END_BASE)
-END_SRC := end0.c end1.c end2.c
+END_SRC := end0.c end1.c end2.c end3.c
 END_BASEHDR = $(SRCDIR)/end.h
 END_COBJ := $(call cobj,$(BUILDDIR),$(END_SRC))
 END_OBJ := $(END_COBJ) $(COMMON_OBJ) $(COMMON_OBJ2) $(call asmobj,$(BUILDDIR),$(END_ASM))
@@ -196,6 +196,7 @@ $(END_EXE): $(END_OBJ)
 $(END_COBJ): $(END_BASEHDR)
 $(BUILDDIR)/end1.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/end2.obj: MSC_CFLAGS := /Od /Id:\f15-se2
+$(BUILDDIR)/end3.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2
 
 # reference and target entrypoints for binary comparison
 END_VRF_REF := bin/end.exe
