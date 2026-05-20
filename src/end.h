@@ -210,6 +210,7 @@ int loadFileSectionEx(char *name, int b, int c, int d, int e);
 void outportByte(int port, int value);
 void decodePicRaw(int handle, int segment);
 void processMenuItems(void *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int gfxPage);
+int routine_60(int param_1, int param_2, int param_3, int param_4, int param_5);
 void loadWorldData(int destOffset, int size);
 void drawMenuItem(void *items, int index, int gfxPage);
 void routine_108(int destOffset, int size, int flag, int bufHandle);
@@ -269,6 +270,15 @@ extern char str_cumulative[];
 extern char str_missionRating3[];
 extern char str_pressSelect[];
 extern char str_pressNext[];
+
+/* Data symbols used by routine_96 */
+extern char dat_4824[];
+extern int dat_424e[];
+extern char var_425c[];
+extern int dat_4804;
+extern int var_193[];
+extern int var_192;
+extern int var_102;
 
 /* Data symbols used by showPostMissionAwards */
 extern int *awardPage;
