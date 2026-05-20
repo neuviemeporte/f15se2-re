@@ -55,10 +55,10 @@ EXTRN _drawFarString:PROC
 EXTRN _animateFlightPath:PROC
 EXTRN _drawWrappedText:PROC
 EXTRN _waitForKeyOrJoy:PROC
-EXTRN _routine_26:PROC
+EXTRN _checkQuitFlag:PROC
 EXTRN _routine_5:PROC
 EXTRN _routine_6:PROC
-EXTRN _routine_71:PROC
+EXTRN _loadWorldData:PROC
 EXTRN _my_itoa:PROC
 EXTRN _my_ltoa:PROC
 EXTRN _blinkWidget:PROC
@@ -67,9 +67,10 @@ EXTRN _routine_60:PROC
 EXTRN _processDebriefInput:PROC
 EXTRN _routine_96:PROC
 EXTRN _calcMissionScore:PROC
-EXTRN _routine_27:PROC
+EXTRN _showPostMissionAwards:PROC
 EXTRN _drawFlightPath:PROC
 EXTRN _showEventPopup:PROC
+EXTRN __aNlmul:PROC
 EXTRN _formatFlightTime:PROC
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
@@ -113,9 +114,7 @@ PUBLIC _gfx_jump_29_switchColor
 PUBLIC _gfx_jump_2a
 PUBLIC _clearRect
 PUBLIC _mystrcat
-PUBLIC __aNlrem
-PUBLIC __aNNaldiv
-PUBLIC __aNldiv
+
 PUBLIC _str_pressExit
 PUBLIC _str_dot1
 PUBLIC _str_overall1
@@ -195,6 +194,7 @@ PUBLIC _missionScore
 PUBLIC _missionScoreHi
 PUBLIC _popupX
 PUBLIC _popupY
+PUBLIC _scoreString
 PUBLIC _dat_4824
 PUBLIC _str_inFlight
 PUBLIC _str_timeLabel
@@ -209,16 +209,16 @@ PUBLIC _fileSeek
 PUBLIC _copyJoystickData
 PUBLIC _gfx_jump_31
 PUBLIC _gfx_jump_17_bufSize
-PUBLIC _var_84
-PUBLIC _var_85
-PUBLIC _var_86
-PUBLIC _var_87
-PUBLIC _var_88
-PUBLIC _var_89
-PUBLIC _var_90
-PUBLIC _var_91
-PUBLIC _var_92
-PUBLIC _var_176
+PUBLIC _awardColor
+PUBLIC _awardFont
+PUBLIC _awardPage
+PUBLIC _rankNames
+PUBLIC _promoScores
+PUBLIC _promoThresholds
+PUBLIC _medalNames
+PUBLIC _medalScores
+PUBLIC _medalThresholds
+PUBLIC _textBuf
 PUBLIC _str_deskPic
 PUBLIC _str_deskMsg1
 PUBLIC _str_deskMsg2
@@ -289,7 +289,7 @@ routine_10 endp
 
 main equ _main
 
-routine_26 equ _routine_26
+checkQuitFlag equ _checkQuitFlag
 
 PUBLIC _initGraphics
 _initGraphics:
@@ -343,25 +343,25 @@ readWorldData proc near
     push AX
     mov AX,offset dat_4246
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2h
     push AX
     mov AX,offset _var_203
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2h
     push AX
     mov AX,offset dat_4040
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2h
     push AX
     mov AX,offset dat_5ab4
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,word ptr [_var_203]
     mov CL,4h
@@ -369,79 +369,79 @@ readWorldData proc near
     push AX
     mov AX,offset dat_424e
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2h
     push AX
     mov AX,offset _var_216
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,24h
     imul word ptr [_var_216]
     push AX
     mov AX,offset dat_4a2a
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,64h
     push AX
     mov AX,offset _unitTypeTable
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,64h
     push AX
     mov AX,offset dat_5512
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2eeh
     push AX
     mov AX,offset _worldStringBuf
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,100h
     push AX
     mov AX,offset _gridFlags
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2h
     push AX
     mov AX,offset dat_55de
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2h
     push AX
     mov AX,offset dat_4034
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,10h
     push AX
     mov AX,offset dat_0042
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,24h
     push AX
     mov AX,offset _target1Type
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,600h
     push AX
     mov AX,offset _var_193
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     ret
 readWorldData endp
 
-routine_71 equ _routine_71
+routine_71 equ _loadWorldData
 
 PUBLIC _setupWorldBufPtr
 _setupWorldBufPtr:
@@ -3393,7 +3393,7 @@ _incTimerCounters proc near
 _incTimerCounters endp
 getTimeOfDay endp
 
-routine_27 equ _routine_27
+routine_27 equ _showPostMissionAwards
 
 PUBLIC _routine_24
 _routine_24:
@@ -3480,13 +3480,13 @@ LAB_1000_2c1d:
     mov word ptr [BX + 4h],0h
     lea AX,[BP + -6h]
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_pressExit
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -3498,7 +3498,7 @@ LAB_1000_2c1d:
     push AX
     mov AX,50h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawWrappedText
@@ -3548,13 +3548,13 @@ LAB_1000_2cc2:
     mov word ptr [_missionScoreHi],DX
     mov AX,offset str_dot1
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_overall1
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -3564,14 +3564,14 @@ LAB_1000_2cc2:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_missionRating1
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -3581,14 +3581,14 @@ LAB_1000_2cc2:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_dot2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -3600,7 +3600,7 @@ LAB_1000_2cc2:
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -3610,7 +3610,7 @@ LAB_1000_2cc2:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
@@ -3644,13 +3644,13 @@ LAB_1000_2cc2:
 LAB_1000_2dc9:
     mov AX,offset str_dot3
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_careerTotal
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -3660,14 +3660,14 @@ LAB_1000_2dc9:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_dot4
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -3684,7 +3684,7 @@ LAB_1000_2dc9:
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -3694,7 +3694,7 @@ LAB_1000_2dc9:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
@@ -3704,7 +3704,7 @@ LAB_1000_2e53:
     mov word ptr [BX + 4h],0dh
     mov AX,offset str_missionSummary
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -3714,7 +3714,7 @@ LAB_1000_2e53:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
@@ -3723,7 +3723,7 @@ LAB_1000_2e53:
     mov word ptr [BX + 4h],0h
     mov AX,offset str_priSecTargets
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -3731,12 +3731,12 @@ LAB_1000_2e53:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     mov AX,word ptr [_primaryHit]
     add AX,word ptr [_secondaryHit]
@@ -3747,14 +3747,14 @@ LAB_1000_2e53:
     push AX
     mov AX,131h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
     mov AX,offset str_otherTargets
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -3762,12 +3762,12 @@ LAB_1000_2e53:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     mov AX,word ptr [_groundKilled]
     add AX,word ptr [_airKilled]
@@ -3780,14 +3780,14 @@ LAB_1000_2e53:
     push AX
     mov AX,131h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
     mov AX,offset str_enemyPlanes
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -3795,12 +3795,12 @@ LAB_1000_2e53:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [_samKilled]
     call my_itoa
@@ -3809,14 +3809,14 @@ LAB_1000_2e53:
     push AX
     mov AX,131h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
     mov AX,offset str_friendlyTargets
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -3824,12 +3824,12 @@ LAB_1000_2e53:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     mov AX,word ptr [_groundMissed]
     add AX,word ptr [_airMissed]
@@ -3841,7 +3841,7 @@ LAB_1000_2e53:
     push AX
     mov AX,131h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
@@ -3888,13 +3888,13 @@ LAB_1000_2fde:
     mov word ptr [_missionScoreHi],DX
     mov AX,offset str_dot5
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_overall2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -3904,14 +3904,14 @@ LAB_1000_2fde:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_missionRating2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -3921,14 +3921,14 @@ LAB_1000_2fde:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_dot6
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -3940,7 +3940,7 @@ LAB_1000_2fde:
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -3950,7 +3950,7 @@ LAB_1000_2fde:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
@@ -3971,7 +3971,7 @@ LAB_1000_30cc:
     mov word ptr [BX + 4h],0dh
     mov AX,offset str_missionEvent
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -3981,14 +3981,14 @@ LAB_1000_30cc:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_time
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4003,7 +4003,7 @@ LAB_1000_30cc:
     call formatFlightTime
     add SP,4h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4011,7 +4011,7 @@ LAB_1000_30cc:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
@@ -4039,13 +4039,13 @@ caseD_1_6128:
     mov BX,SI
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_destroyed4
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4056,13 +4056,13 @@ caseD_1_6128:
     and BX,7fh
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
     mov AX,offset str_destroyed1
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4075,13 +4075,13 @@ LAB_1000_31da:
     and BX,7fh
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_destroyed2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4093,13 +4093,13 @@ caseD_3_343d:
     shl AX,CL
     add AX,198h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_shotDown2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4108,13 +4108,13 @@ caseD_3_343d:
     shl AX,CL
     add AX,19fh
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
     mov AX,offset str_shotDown
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4123,13 +4123,13 @@ caseD_2_343d:
     mov BX,word ptr [BP + -20h]
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_destroyed3
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4144,13 +4144,13 @@ caseD_a_343d:
     mov BX,SI
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_rearmed3
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4161,13 +4161,13 @@ caseD_a_343d:
     and BX,7fh
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
     mov AX,offset str_rearmed1
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4180,13 +4180,13 @@ LAB_1000_32d3:
     and BX,7fh
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_rearmed2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4195,7 +4195,7 @@ LAB_1000_32ff:
 caseD_5_343d:
     mov AX,offset str_hitBy
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4203,13 +4203,13 @@ caseD_5_343d:
     mul word ptr [BP + -20h]
     add AX,3f8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
     mov AX,offset str_missile
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4219,7 +4219,7 @@ caseD_8_343d:
     jnz LAB_1000_338f
     mov AX,offset str_takeoffPoint
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4232,7 +4232,7 @@ caseD_8_343d:
     mov BX,SI
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4245,7 +4245,7 @@ LAB_1000_336e:
     sub BH,BH
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4254,7 +4254,7 @@ LAB_1000_338c:
 LAB_1000_338f:
     mov AX,offset str_missionEnd
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4264,7 +4264,7 @@ LAB_1000_338f:
 LAB_1000_33a7:
     mov AX,offset str_crashed
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4277,7 +4277,7 @@ LAB_1000_33b7:
     jz LAB_1000_33d9
     mov AX,offset str_goodBailout
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4290,7 +4290,7 @@ LAB_1000_33d9:
     jnz LAB_1000_33fb
     mov AX,offset str_captured
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4298,7 +4298,7 @@ LAB_1000_33d9:
 LAB_1000_33fb:
     mov AX,offset str_bailedDied
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4307,7 +4307,7 @@ LAB_1000_3409:
 LAB_1000_340b:
     mov AX,offset str_goodLanding
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4361,7 +4361,7 @@ caseD_4_6450:
     push AX
     mov AX,50h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawWrappedText
@@ -4375,7 +4375,7 @@ caseD_4_6450:
     jz LAB_1000_34b1
     mov AX,offset str_primaryObj
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4385,7 +4385,7 @@ caseD_4_6450:
     push word ptr [BX + 0ah]
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push BX
     call drawStringCentered
@@ -4400,7 +4400,7 @@ LAB_1000_34b1:
     jz LAB_1000_34eb
     mov AX,offset str_secndryObj
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4410,7 +4410,7 @@ LAB_1000_34b1:
     push word ptr [BX + 0ah]
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push BX
     call drawStringCentered
@@ -4423,13 +4423,13 @@ LAB_1000_34eb:
     mov word ptr [_missionScoreHi],DX
     mov AX,offset str_cumulative2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_cumulative
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4439,14 +4439,14 @@ LAB_1000_34eb:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_missionRating3
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4456,14 +4456,14 @@ LAB_1000_34eb:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_pressSelect
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4475,7 +4475,7 @@ LAB_1000_34eb:
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4485,7 +4485,7 @@ LAB_1000_34eb:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
@@ -4493,13 +4493,13 @@ LAB_1000_34eb:
     call showEventPopup
     lea AX,[BP + -6h]
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_pressNext
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4511,7 +4511,7 @@ LAB_1000_34eb:
     push AX
     mov AX,50h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawWrappedText
@@ -5096,221 +5096,6 @@ FUN_1000_4cca proc near
     and AH,7fh
     ret
 FUN_1000_4cca endp
-__aNldiv proc near
-    push BP
-    mov BP,SP
-    push DI
-    push SI
-    push BX
-    xor DI,DI
-    mov AX,word ptr [BP + 6h]
-    or AX,AX
-    jge LAB_1000_4d10
-    inc DI
-    mov DX,word ptr [BP + 4h]
-    neg AX
-    neg DX
-    db 1Dh, 00h, 00h  ; sbb AX,0h (force word-immediate)
-    mov word ptr [BP + 6h],AX
-    mov word ptr [BP + 4h],DX
-LAB_1000_4d10:
-    mov AX,word ptr [BP + 0ah]
-    or AX,AX
-    jge LAB_1000_4d28
-    inc DI
-    mov DX,word ptr [BP + 8h]
-    neg AX
-    neg DX
-    db 1Dh, 00h, 00h  ; sbb AX,0h (force word-immediate)
-    mov word ptr [BP + 0ah],AX
-    mov word ptr [BP + 8h],DX
-LAB_1000_4d28:
-    or AX,AX
-    jnz LAB_1000_4d41
-    mov CX,word ptr [BP + 8h]
-    mov AX,word ptr [BP + 6h]
-    xor DX,DX
-    div CX
-    mov BX,AX
-    mov AX,word ptr [BP + 4h]
-    div CX
-    mov DX,BX
-    jmp LAB_1000_4d79
-LAB_1000_4d41:
-    mov BX,AX
-    mov CX,word ptr [BP + 8h]
-    mov DX,word ptr [BP + 6h]
-    mov AX,word ptr [BP + 4h]
-LAB_1000_4d4c:
-    shr BX,1h
-    rcr CX,1h
-    shr DX,1h
-    rcr AX,1h
-    or BX,BX
-    jnz LAB_1000_4d4c
-    div CX
-    mov SI,AX
-    mul word ptr [BP + 0ah]
-    xchg AX,CX
-    mov AX,word ptr [BP + 8h]
-    mul SI
-    add DX,CX
-    jc LAB_1000_4d75
-    cmp DX,word ptr [BP + 6h]
-    ja LAB_1000_4d75
-    jc LAB_1000_4d76
-    cmp AX,word ptr [BP + 4h]
-    jbe LAB_1000_4d76
-LAB_1000_4d75:
-    dec SI
-LAB_1000_4d76:
-    xor DX,DX
-    xchg AX,SI
-LAB_1000_4d79:
-    dec DI
-    jnz LAB_1000_4d83
-    neg DX
-    neg AX
-    sbb DX,0h
-LAB_1000_4d83:
-    pop BX
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret 8h
-__aNldiv endp
-routine_100 equ __aNldiv
-
-__aNlmul proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [BP + a+4h]
-    mov BX,word ptr [BP + b+4h]
-    or BX,AX
-    mov BX,word ptr [BP + b+2h]
-    jnz LAB_1000_4da7
-    mov AX,word ptr [BP + a+2h]
-    mul BX
-    mov SP,BP
-    pop BP
-    ret 8h
-LAB_1000_4da7:
-    mul BX
-    mov CX,AX
-    mov AX,word ptr [BP + a+2h]
-    mul word ptr [BP + b+4h]
-    add CX,AX
-    mov AX,word ptr [BP + a+2h]
-    mul BX
-    add DX,CX
-    mov SP,BP
-    pop BP
-    ret 8h
-__aNlmul endp
-
-__aNlrem proc near
-    push BP
-    mov BP,SP
-    push BX
-    push DI
-    xor DI,DI
-    mov AX,word ptr [BP + 6h]
-    or AX,AX
-    jge LAB_1000_4ddf
-    inc DI
-    mov DX,word ptr [BP + 4h]
-    neg AX
-    neg DX
-    db 1Dh, 00h, 00h  ; sbb AX,0h (force word-immediate)
-    mov word ptr [BP + 6h],AX
-    mov word ptr [BP + 4h],DX
-LAB_1000_4ddf:
-    mov AX,word ptr [BP + 0ah]
-    or AX,AX
-    jge LAB_1000_4df6
-    mov DX,word ptr [BP + 8h]
-    neg AX
-    neg DX
-    db 1Dh, 00h, 00h  ; sbb AX,0h (force word-immediate)
-    mov word ptr [BP + 0ah],AX
-    mov word ptr [BP + 8h],DX
-LAB_1000_4df6:
-    or AX,AX
-    jnz LAB_1000_4e12
-    mov CX,word ptr [BP + 8h]
-    mov AX,word ptr [BP + 6h]
-    xor DX,DX
-    div CX
-    mov AX,word ptr [BP + 4h]
-    div CX
-    mov AX,DX
-    xor DX,DX
-    dec DI
-    jns LAB_1000_4e53
-    jmp LAB_1000_4e5a
-LAB_1000_4e12:
-    mov BX,AX
-    mov CX,word ptr [BP + 8h]
-    mov DX,word ptr [BP + 6h]
-    mov AX,word ptr [BP + 4h]
-LAB_1000_4e1d:
-    shr BX,1h
-    rcr CX,1h
-    shr DX,1h
-    rcr AX,1h
-    or BX,BX
-    jnz LAB_1000_4e1d
-    div CX
-    mov CX,AX
-    mul word ptr [BP + 0ah]
-    xchg AX,CX
-    mul word ptr [BP + 8h]
-    add DX,CX
-    jc LAB_1000_4e44
-    cmp DX,word ptr [BP + 6h]
-    ja LAB_1000_4e44
-    jc LAB_1000_4e4a
-    cmp AX,word ptr [BP + 4h]
-    jbe LAB_1000_4e4a
-LAB_1000_4e44:
-    sub AX,word ptr [BP + 8h]
-    sbb DX,word ptr [BP + 0ah]
-LAB_1000_4e4a:
-    sub AX,word ptr [BP + 4h]
-    sbb DX,word ptr [BP + 6h]
-    dec DI
-    jns LAB_1000_4e5a
-LAB_1000_4e53:
-    neg DX
-    neg AX
-    sbb DX,0h
-LAB_1000_4e5a:
-    pop DI
-    pop BX
-    mov SP,BP
-    pop BP
-    ret 8h
-__aNlrem endp
-routine_139 equ __aNlrem
-
-__aNNaldiv proc near
-    push BP
-    mov BP,SP
-    mov BX,word ptr [BP + 4h]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BX + 2h]
-    push word ptr [BX]
-    call routine_100
-    mov BX,word ptr [BP + 4h]
-    mov word ptr [BX + 2h],DX
-    mov word ptr [BX],AX
-    mov SP,BP
-    pop BP
-    ret 6h
-__aNNaldiv endp
-routine_101 equ __aNNaldiv
 
 
 FUN_1000_4f33 proc near
@@ -6306,31 +6091,31 @@ _str_medalMsg2 equ str_medalMsg2
 str_medalMsg2 db 074h
     db 068h, 065h, 020h, 000h
 _ps_var86_target db 000h, 000h, 000h, 000h
-_var_84 db 007h
+_awardColor db 007h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h
-_var_85 db 001h
+_awardFont db 001h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-_var_86 dw offset _ps_var86_target
+_awardPage dw offset _ps_var86_target
 _ps_var86_2 db 000h, 000h, 000h, 000h, 009h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h
     dw offset _ps_var86_2
-_var_87 dw offset _str_emptyRank
+_rankNames dw offset _str_emptyRank
     dw offset _str_1stLt
     dw offset _str_captain
     dw offset _str_major
     dw offset _str_ltColonel
     dw offset _str_colonel
     dw offset _str_general
-_var_88 dw 05DCh  ; 1500 - first rank score threshold
-_var_89 dw 0000h
+_promoScores dw 05DCh  ; 1500 - first rank score threshold
+_promoThresholds dw 0000h
     dd 6000, 12000, 25000, 50000, 100000
-_var_90 dw offset _str_afcm
+_medalNames dw offset _str_afcm
     dw offset _str_dfc
     dw offset _str_silverStar
     dw offset _str_afc
     dw offset _str_cmoh
-_var_91 dw 03E8h  ; 1000 - first medal score threshold
-_var_92 dw 0000h
+_medalScores dw 03E8h  ; 1000 - first medal score threshold
+_medalThresholds dw 0000h
     dd 2500, 4000, 6400, 7800
     db 004h, 003h, 003h, 002h, 007h, 005h, 003h, 002h, 008h, 007h, 004h, 002h, 008h, 006h, 005h
     db 003h
@@ -6801,7 +6586,7 @@ _joyRepeatFlag db ?
 _spriteToggle db ?
 _animDone db 2 dup(?)
 _var_3fc6 db 10 dup(?)
-_var_176 db 100 dup(?)
+_textBuf db 100 dup(?)
 dat_4034 db 4 dup(?)
 _worldBufHandle db 2 dup(?)
 _gameData db 2 dup(?)
@@ -6823,8 +6608,9 @@ dat_4804 db 4 dup(?)
 _target1MiscBits db 10 dup(?)
 _target2Type db 8 dup(?)
 _target2MiscBits db 10 dup(?)
-dat_4824 db 512 dup(?)
-_dat_4824 equ dat_4824
+_scoreString db 512 dup(?)
+scoreString equ _scoreString
+_dat_4824 equ _scoreString
 _hasVgaMode db 4 dup(?)
 _curRecordIdx label word
 _var_190x db 2 dup(?)

@@ -78,9 +78,9 @@ void main(void) {
     }
     clearKeybuf();
     routine_25();
-    routine_26();
+    checkQuitFlag();
     clearKeybuf();
-    routine_27();
+    showPostMissionAwards();
     restoreCbreakHandler();
     dosExit(EXIT_DEBRIEF);
 }
@@ -116,7 +116,7 @@ char *formatFlightTime(int timeValue, char *buffer) {
 
 void waitForKeyOrJoy(void);
 
-void animateFlightPath(int param_1)
+void animateFlightPath(int gfxPage)
 {
     char local_18[22];
     int pad;
@@ -125,16 +125,16 @@ void animateFlightPath(int param_1)
         gfx_jump_2a(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
         popupVisible = 0;
     }
-    clearRect((int *)param_1, 0xe9, 0x1e, 0x13f, 0x45);
-    drawStringAt((int *)param_1, str_inFlight, 0xf0, 0x26);
+    clearRect((int *)gfxPage, 0xe9, 0x1e, 0x13f, 0x45);
+    drawStringAt((int *)gfxPage, str_inFlight, 0xf0, 0x26);
 loop_top:
         curRecordIdx++;
         if (flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) {
             if ((flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) == EVENT_TIMESTAMP) {
-        clearRect((int *)param_1, 0xf0, 0x1e, 0x13f, 0x25);
-        mystrcpy(dat_4824, str_timeLabel);
-        mystrcat(dat_4824, formatFlightTime(*((int *)&flightRecords[curRecordIdx] - 1), local_18));
-        drawStringAt((int *)param_1, dat_4824, 0xf0, 0x1e);
+        clearRect((int *)gfxPage, 0xf0, 0x1e, 0x13f, 0x25);
+        mystrcpy(scoreString, str_timeLabel);
+        mystrcat(scoreString, formatFlightTime(*((int *)&flightRecords[curRecordIdx] - 1), local_18));
+        drawStringAt((int *)gfxPage, scoreString, 0xf0, 0x1e);
         gfx_jump_21(0);
         if (prevDrawX == 0 && prevDrawY == 0) {
             drawFlightLine((int)var_194, (int)var_195, (int)flightRecords[curRecordIdx].mapX, (int)flightRecords[curRecordIdx].mapY);
@@ -148,11 +148,11 @@ loop_top:
             prevDrawY = lastDrawY;
         }
         *(long *)&missionScore = calcMissionScore(curRecordIdx);
-        mystrcpy(dat_4824, str_timeZeros);
+        mystrcpy(scoreString, str_timeZeros);
         my_ltoa(*(long *)&missionScore, local_18);
-        mystrcat(dat_4824, local_18);
-        clearRect((int *)param_1, 0xe8, 0x56, 0x13f, 0x5e);
-        drawStringCentered((int *)param_1, dat_4824, 0xe8, 0x56, 0x57);
+        mystrcat(scoreString, local_18);
+        clearRect((int *)gfxPage, 0xe8, 0x56, 0x13f, 0x5e);
+        drawStringCentered((int *)gfxPage, scoreString, 0xe8, 0x56, 0x57);
         timerCounter = 0;
 wait_loop:
         if ((unsigned char)timerCounter <= 5) goto wait_loop;
@@ -182,14 +182,14 @@ void seedRandom(void) {
     srandInit(getTimeOfDay());
 }
 
-int mapToScreenX(unsigned char param_1) {
+int mapToScreenX(unsigned char mapCoord) {
     TRACE(("mapToScreenX"));
-    return ((unsigned int)param_1 << 7) / MAP_SCALE_X;
+    return ((unsigned int)mapCoord << 7) / MAP_SCALE_X;
 }
 
-int mapToScreenY(unsigned char param_1) {
+int mapToScreenY(unsigned char mapCoord) {
     TRACE(("mapToScreenY"));
-    return ((unsigned int)param_1 << 7) / MAP_SCALE_Y;
+    return ((unsigned int)mapCoord << 7) / MAP_SCALE_Y;
 }
 
 void drawClippedLine(int x1, int y1, int x2, int y2) {
@@ -312,14 +312,14 @@ void drawWrappedText(int *page, char *str, unsigned int maxWidth, int x, int y, 
     } while (1);
 }
 
-int drawEventSprite(int param_1)
+int drawEventSprite(int recordIdx)
 {
     TRACE(("drawEventSprite"));
-    switch (flightRecords[param_1].status & STATUS_TYPE_MASK) {
+    switch (flightRecords[recordIdx].status & STATUS_TYPE_MASK) {
         case EVENT_AIR_KILL:
         case EVENT_AIR_KILL2:
-        spriteAir[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1 - 2;
-        spriteAir[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1 - 2;
+        spriteAir[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
+        spriteAir[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
         if (slotInfoTable[(flightRecords[curRecordIdx].unitId & UNIT_ID_MASK) * 16] & 8) {
                     spriteAir[1] = 0x11e;
         } else {
@@ -327,24 +327,24 @@ int drawEventSprite(int param_1)
         }
         return gfx_jump_11_blitSprite((int)spriteAir);
     case EVENT_GROUND_KILL:
-        spriteGround[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1 - 2;
-        spriteGround[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1 - 2;
+        spriteGround[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
+        spriteGround[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
         return gfx_jump_11_blitSprite((int)spriteGround);
     case EVENT_SAM_KILL:
-        spriteSam[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1 - 2;
-        spriteSam[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1 - 2;
+        spriteSam[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
+        spriteSam[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
         return gfx_jump_11_blitSprite((int)spriteSam);
     case EVENT_BOMB_HIT:
-        spriteWaypoint[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1;
-        spriteWaypoint[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1;
+        spriteWaypoint[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1;
+        spriteWaypoint[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1;
         return gfx_jump_11_blitSprite((int)spriteWaypoint);
     case EVENT_EJECTED:
-        spriteSam[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1 - 2;
-        spriteSam[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1 - 2;
+        spriteSam[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
+        spriteSam[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
         return gfx_jump_11_blitSprite((int)spriteSam);
     case EVENT_WAYPOINT:
-        spriteWaypoint[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1;
-        spriteWaypoint[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1;
+        spriteWaypoint[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1;
+        spriteWaypoint[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1;
         return gfx_jump_11_blitSprite((int)spriteWaypoint);
     }
 }
@@ -452,7 +452,7 @@ long calcMissionScore(int param) {
     return e;
 }
 
-unsigned int drawFlightPath(int param_1, unsigned int param_2) {
+unsigned int drawFlightPath(int gfxPage, unsigned int maxRecord) {
     int p;
     int a;
     int b;
@@ -471,7 +471,7 @@ unsigned int drawFlightPath(int param_1, unsigned int param_2) {
     (void)e; (void)f; (void)g; (void)h; (void)i;
     (void)j; (void)k; (void)l; (void)m; (void)n; (void)p;
     a = -1;
-    while (++a, (flightRecords[a].status & STATUS_TYPE_MASK) != 0 && (unsigned)a <= param_2) {
+    while (++a, (flightRecords[a].status & STATUS_TYPE_MASK) != 0 && (unsigned)a <= maxRecord) {
         gfx_jump_21(0);
         if (a == 0) {
             plotMapPoint((int)flightRecords[0].mapX, (int)flightRecords[0].mapY, 0, 0);
@@ -486,7 +486,7 @@ unsigned int drawFlightPath(int param_1, unsigned int param_2) {
         }
     }
     a = -1;
-    while (++a, (flightRecords[a].status & STATUS_TYPE_MASK) != 0 && (unsigned)a <= param_2) {
+    while (++a, (flightRecords[a].status & STATUS_TYPE_MASK) != 0 && (unsigned)a <= maxRecord) {
         if ((flightRecords[a].status & STATUS_TYPE_MASK) != EVENT_TIMESTAMP) {
             drawEventSprite(a);
         }
@@ -570,7 +570,7 @@ void showEventPopup(void) {
     popupVisible = 1;
 }
 
-void blinkWidget(MenuItem *param_1, int param_2) {
+void blinkWidget(MenuItem *item, int gfxPage) {
     int p;
     int a;
     int b;
@@ -578,24 +578,24 @@ void blinkWidget(MenuItem *param_1, int param_2) {
     TRACE(("blinkWidget"));
     (void)a;
     (void)c;
-    if (param_1->state == 0) {
-        param_1->state = 1;
-        b = (unsigned)param_1->colorPair >> 4;
-        p = param_1->colorPair & 0xF;
-        if (param_1->colorPair != 0) {
-            gfx_jump_29_switchColor(param_2, param_1->colorX1, param_1->colorY1, param_1->colorX2, param_1->colorY2, b, p);
+    if (item->state == 0) {
+        item->state = 1;
+        b = (unsigned)item->colorPair >> 4;
+        p = item->colorPair & 0xF;
+        if (item->colorPair != 0) {
+            gfx_jump_29_switchColor(gfxPage, item->colorX1, item->colorY1, item->colorX2, item->colorY2, b, p);
         }
     } else {
-        param_1->state = 0;
-        b = param_1->colorPair & 0xF;
-        p = (unsigned)param_1->colorPair >> 4;
+        item->state = 0;
+        b = item->colorPair & 0xF;
+        p = (unsigned)item->colorPair >> 4;
     }
-    if (param_1->colorPair != 0) {
-        gfx_jump_29_switchColor(param_2, param_1->colorX1, param_1->colorY1, param_1->colorX2, param_1->colorY2, b, p);
+    if (item->colorPair != 0) {
+        gfx_jump_29_switchColor(gfxPage, item->colorX1, item->colorY1, item->colorX2, item->colorY2, b, p);
     }
 }
 
-void processDebriefInput(int *param_1, MenuItem *param_2, int param_3) {
+void processDebriefInput(int *cursorBounds, MenuItem *menuItem, int gfxPage) {
     int a;
     int b;
     int c;
@@ -610,7 +610,7 @@ void processDebriefInput(int *param_1, MenuItem *param_2, int param_3) {
     (void)g;
     (void)i;
 
-    colorTablePtr = param_2->colorTableIdx * 14 + (int)dat_1c8e;
+    colorTablePtr = menuItem->colorTableIdx * 14 + (int)dat_1c8e;
     timerCounter2 = 0;
     d = e = 0;
     inputChanged = enterPressed = animDone = f = 0;
@@ -666,15 +666,15 @@ void processDebriefInput(int *param_1, MenuItem *param_2, int param_3) {
                 timerCounter2 = 0;
                 c = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] >> 4;
                 b = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] & 0xF;
-                gfx_jump_29_switchColor(param_3, param_2->colorX1, param_2->colorY1, param_2->colorX2, param_2->colorY2, c, b);
+                gfx_jump_29_switchColor(gfxPage, menuItem->colorX1, menuItem->colorY1, menuItem->colorX2, menuItem->colorY2, c, b);
                 colorAnimIdx++;
                 colorAnimIdx = (unsigned)colorAnimIdx % *(unsigned int *)colorTablePtr;
             }
         }
 
         /* sprite section */
-        if (!(param_2->flags & MENUITEM_HAS_SPRITE)) goto skip_sprite;
-        if (!(param_2->flags & MENUITEM_SPRITE_BLINK)) goto skip_sprite;
+        if (!(menuItem->flags & MENUITEM_HAS_SPRITE)) goto skip_sprite;
+        if (!(menuItem->flags & MENUITEM_SPRITE_BLINK)) goto skip_sprite;
         if ((unsigned char)timerCounter3 <= 0x12) goto skip_sprite;
         timerCounter3 = 0;
         if (spriteToggle != 0) {
@@ -756,49 +756,49 @@ skip_sprite:
         enterPressed = 1;
     }
     if (h == KEYCODE_UPARROW) {
-        cursorY -= param_1[1];
-        if ((int)param_1[4] > (int)cursorY) {
-            cursorY = param_1[4];
+        cursorY -= cursorBounds[1];
+        if ((int)cursorBounds[4] > (int)cursorY) {
+            cursorY = cursorBounds[4];
         }
         inputChanged = 1;
     }
     if (h == KEYCODE_DNARROW) {
-        cursorY += param_1[1];
-        if (cursorY > (unsigned)param_1[5]) {
-            cursorY = param_1[5];
+        cursorY += cursorBounds[1];
+        if (cursorY > (unsigned)cursorBounds[5]) {
+            cursorY = cursorBounds[5];
         }
         inputChanged = 1;
     }
     if (h == KEYCODE_RIGHTARROW) {
-        cursorX += param_1[0];
-        if (cursorX > (unsigned)param_1[3]) {
-            cursorX = param_1[3];
+        cursorX += cursorBounds[0];
+        if (cursorX > (unsigned)cursorBounds[3]) {
+            cursorX = cursorBounds[3];
         }
         inputChanged = 1;
     }
     if (h == KEYCODE_LEFTARROW) {
-        cursorX -= param_1[0];
-        if ((int)param_1[2] > (int)cursorX) {
-            cursorX = param_1[2];
+        cursorX -= cursorBounds[0];
+        if ((int)cursorBounds[2] > (int)cursorX) {
+            cursorX = cursorBounds[2];
         }
-        if ((int)param_1[4] > (int)cursorY) {
-            cursorX += param_1[0];
+        if ((int)cursorBounds[4] > (int)cursorY) {
+            cursorX += cursorBounds[0];
         }
         inputChanged = 1;
     }
 
     /* final cleanup */
-    if (param_2->flags & MENUITEM_HAS_SPRITE) {
-        if (param_2->flags & MENUITEM_SPRITE_BLINK) {
+    if (menuItem->flags & MENUITEM_HAS_SPRITE) {
+        if (menuItem->flags & MENUITEM_SPRITE_BLINK) {
             drawEventSprite(curRecordIdx);
         }
     }
 }
 
-void processMenuItems(MenuItem *param_1, int param_2, int param_3, int param_4, int param_5, int param_6) {
+void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int gfxPage) {
     char p[2]; char a[2]; int b; char c[2]; int d; int e; char f[2];
     int g; int h; int i; int j; int k; int l; int m; int n; int o;
-    (void)param_2;
+    (void)unused;
     (void)b; (void)e; (void)g; (void)h; (void)i; (void)j;
     (void)k; (void)l; (void)m; (void)n; (void)o;
     p[0] = 0x0d; p[1] = 0;
@@ -806,20 +806,20 @@ void processMenuItems(MenuItem *param_1, int param_2, int param_3, int param_4, 
     a[0] = 0x8d; a[1] = 0;
     f[0] = 0x80; f[1] = 0;
     d = 0;
-    for (; d < param_3; d++) {
-        if (param_1[d].state == 2) {
+    for (; d < itemCount; d++) {
+        if (items[d].state == 2) {
             selectedMenuItem = d;
-            param_1[d].state = 0;
-            blinkWidget(&param_1[d], param_6);
-            drawMenuItem(param_1, d, param_6);
+            items[d].state = 0;
+            blinkWidget(&items[d], gfxPage);
+            drawMenuItem(items, d, gfxPage);
         } else {
-            if (param_1[d].state != 3) {
-                param_1[d].state = 0;
+            if (items[d].state != 3) {
+                items[d].state = 0;
             }
         }
     }
-    cursorX = param_4;
-    cursorY = param_5;
+    cursorX = cursorStartX;
+    cursorY = cursorStartY;
 }
 
 void routine_96(int param_1, int param_2, int param_3) {
