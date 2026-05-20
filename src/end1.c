@@ -4,10 +4,10 @@
 #include "end.h"
 #include "util.h"
 
-void closeFileWrapper(int param_1)
+void closeFileWrapper(int handle)
 {
     TRACE(("closeFileWrapper"));
-    routine_125(param_1);
+    routine_125(handle);
 }
 
 void loadPic(char *filename, int segment) {
@@ -47,9 +47,9 @@ void freeBuffer(int segment) {
     }
 }
 
-void srandInit(int param_1) {
+void srandInit(int seed) {
     TRACE(("srandInit"));
-    randSeed = param_1;
+    randSeed = seed;
     randState = 0;
 }
 
@@ -137,8 +137,8 @@ done:
     }
 }
 
-void routine_26(void) {
-    TRACE(("routine_26"));
+void checkQuitFlag(void) {
+    TRACE(("checkQuitFlag"));
     if (quitFlag != 0) {
         cleanup();
         restoreCbreakHandler();
@@ -192,3 +192,72 @@ void loadWorldStrings(void) {
     }
 }
 
+// 1e78
+void showPostMissionAwards(void) {
+    int p;
+    awardPage[3] = 0;
+    if (commData[COMM_SETUP_GFXMODE_OFFSET / 2] != 0)
+        goto done;
+    if (gameData[GAME_CAMPAIGN_PROGRESS_OFFSET / 2] == 1) {
+        gfx_jump_3d_null(3);
+        openShowPic(str_deskPic, *awardPage);
+        drawStringCentered((int *)awardPage, str_deskMsg1, 0x24, 0xb3, 0xfa);
+        drawStringCentered((int *)awardPage, str_deskMsg2, 0x24, 0xbc, 0xfa);
+        // 1ef4
+        awardFont = 4;
+        awardColor = 0;
+        p = 0;
+        // 1f05
+        for (; (textBuf[p] = ((char far *)gameData)[p + 2]) != 0 ; p++) {}
+        drawStringCentered((int *)awardPage, textBuf, 0xc1, 0x99, 0x5f);
+        awardColor = 7;
+        awardFont = 1;
+        goto show;
+    }
+    if (gameData[GAME_CAMPAIGN_PROGRESS_OFFSET / 2] == 2) {
+        gfx_jump_3d_null(2);
+        openShowPic(str_deathPic, *awardPage);
+        drawStringCentered((int *)awardPage, str_deathMsg1, 0x24, 0xad, 0xfa);
+        drawStringCentered((int *)awardPage, str_deathMsg2, 0x24, 0xb6, 0xfa);
+        goto show;
+    }
+    // 1fa8
+    if (((unsigned)gameData[GAME_RANK_OFFSET / 2] < 6) && (*(long *)&promoThresholds[gameData[GAME_RANK_OFFSET / 2]] < *(long far *)&gameData[GAME_TOTALSCORE_OFFSET / 2])) {
+        gfx_jump_3d_null(6);
+        openShowPic(str_promoPic, *awardPage);
+        awardColor = 1;
+        drawStringCentered((int *)awardPage, str_promoMsg1, 0x24, 0xae, 0xfa);
+        mystrcpy(textBuf, str_promoMsg2);
+        mystrcat(textBuf, rankNames[++gameData[GAME_RANK_OFFSET / 2]]);
+        drawStringCentered((int *)awardPage, textBuf, 0x24, 0xb7, 0xfa);
+        gfx_jump_50();
+        gfx_jump_46_retrace2();
+        waitForKeyOrJoy();
+    }
+medals:
+    p = 4;
+    for (; p >= 0; p--) {
+        if (*(long *)&missionScore > *(long *)&medalThresholds[p])
+            break;
+    }
+    if (p < 0)
+        goto done;
+    if (gameData[GAME_MEDALS_OFFSET / 2] & (1 << (char)p))
+        goto done;
+    gfx_jump_45_retrace();
+    gfx_jump_3d_null(0x0a);
+    openShowPic(str_medalPic, *awardPage);
+    awardColor = 0x0f;
+    drawStringCentered((int *)awardPage, str_medalMsg1, 0x24, 0xae, 0xfa);
+    mystrcpy(textBuf, str_medalMsg2);
+    mystrcat(textBuf, medalNames[p]);
+    drawStringCentered((int *)awardPage, textBuf, 0x24, 0xb7, 0xfa);
+    gameData[GAME_MEDALS_OFFSET / 2] |= (1 << (char)p);
+show:
+    gfx_jump_50();
+    gfx_jump_46_retrace2();
+    waitForKeyOrJoy();
+done:
+    clearRect((int *)awardPage, 0, 0, 0x13f, 0xc7);
+    gfx_jump_46_retrace2();
+}

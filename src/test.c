@@ -51,8 +51,8 @@ void testGame() {
     printf("Testing Game structure layout: ");
     ASSERT_EQ(offsetof(struct Game, pilotIdx), GAME_PILOTIDX_OFFSET);
     ASSERT_EQ(offsetof(struct Game, pilotName), GAME_PILOTNAME_OFFSET);
-    ASSERT_EQ(offsetof(struct Game, unk2), GAME_UNK2_OFFSET);
-    ASSERT_EQ(offsetof(struct Game, unk3), GAME_UNK3_OFFSET);
+    ASSERT_EQ(offsetof(struct Game, rank), GAME_RANK_OFFSET);
+    ASSERT_EQ(offsetof(struct Game, medals), GAME_MEDALS_OFFSET);
     ASSERT_EQ(offsetof(struct Game, lastScore), GAME_LASTSCORE_OFFSET);
     ASSERT_EQ(offsetof(struct Game, rankHigh), GAME_RANK_HIGH_OFFSET);
     ASSERT_EQ(offsetof(struct Game, totalScore), GAME_TOTALSCORE_OFFSET);

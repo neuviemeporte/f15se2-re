@@ -56,15 +56,17 @@ EXTRN _drawFarString:PROC
 EXTRN _animateFlightPath:PROC
 EXTRN _drawWrappedText:PROC
 EXTRN _waitForKeyOrJoy:PROC
-EXTRN _routine_26:PROC
+EXTRN _checkQuitFlag:PROC
 EXTRN _routine_5:PROC
 EXTRN _routine_6:PROC
+EXTRN _loadWorldData:PROC
 EXTRN _my_itoa:PROC
 EXTRN _my_ltoa:PROC
 EXTRN _blinkWidget:PROC
 EXTRN _processMenuItems:PROC
 EXTRN _processDebriefInput:PROC
 EXTRN _calcMissionScore:PROC
+EXTRN _showPostMissionAwards:PROC
 EXTRN _drawFlightPath:PROC
 EXTRN _showEventPopup:PROC
 EXTRN _formatFlightTime:PROC
@@ -110,7 +112,58 @@ PUBLIC _gfx_jump_29_switchColor
 PUBLIC _gfx_jump_2a
 PUBLIC _clearRect
 PUBLIC _mystrcat
-
+PUBLIC _str_pressExit
+PUBLIC _str_dot1
+PUBLIC _str_overall1
+PUBLIC _str_missionRating1
+PUBLIC _str_dot2
+PUBLIC _str_trainingScore
+PUBLIC _str_notRecorded
+PUBLIC _str_dot3
+PUBLIC _str_careerTotal
+PUBLIC _str_dot4
+PUBLIC _str_missionSummary
+PUBLIC _str_priSecTargets
+PUBLIC _str_otherTargets
+PUBLIC _str_enemyPlanes
+PUBLIC _str_friendlyTargets
+PUBLIC _str_dot5
+PUBLIC _str_overall2
+PUBLIC _str_missionRating2
+PUBLIC _str_dot6
+PUBLIC _str_missionEvent
+PUBLIC _str_time
+PUBLIC _str_destroyed4
+PUBLIC _str_destroyed1
+PUBLIC _str_destroyed2
+PUBLIC _str_shotDown2
+PUBLIC _str_shotDown
+PUBLIC _str_destroyed3
+PUBLIC _str_rearmed3
+PUBLIC _str_rearmed1
+PUBLIC _str_rearmed2
+PUBLIC _str_hitBy
+PUBLIC _str_missile
+PUBLIC _str_takeoffPoint
+PUBLIC _str_missionEnd
+PUBLIC _str_crashed
+PUBLIC _str_goodBailout
+PUBLIC _str_captured
+PUBLIC _str_bailedDied
+PUBLIC _str_goodLanding
+PUBLIC _str_primaryObj
+PUBLIC _str_secndryObj
+PUBLIC _str_cumulative2
+PUBLIC _str_cumulative
+PUBLIC _str_missionRating3
+PUBLIC _str_pressSelect
+PUBLIC _str_pressNext
+PUBLIC _dat_424e
+PUBLIC _var_425c
+PUBLIC _dat_4804
+PUBLIC _var_193
+PUBLIC _var_192
+PUBLIC _var_102
 
 
 PUBLIC _samKilled
@@ -138,7 +191,7 @@ PUBLIC _missionScore
 PUBLIC _missionScoreHi
 PUBLIC _popupX
 PUBLIC _popupY
-PUBLIC _dat_4824
+PUBLIC _scoreString
 PUBLIC _str_inFlight
 PUBLIC _str_timeLabel
 PUBLIC _str_timeZeros
@@ -152,6 +205,32 @@ PUBLIC _fileSeek
 PUBLIC _copyJoystickData
 PUBLIC _gfx_jump_31
 PUBLIC _gfx_jump_17_bufSize
+PUBLIC _awardColor
+PUBLIC _awardFont
+PUBLIC _awardPage
+PUBLIC _rankNames
+PUBLIC _promoScores
+PUBLIC _promoThresholds
+PUBLIC _medalNames
+PUBLIC _medalScores
+PUBLIC _medalThresholds
+PUBLIC _textBuf
+PUBLIC _str_deskPic
+PUBLIC _str_deskMsg1
+PUBLIC _str_deskMsg2
+PUBLIC _str_deathPic
+PUBLIC _str_deathMsg1
+PUBLIC _str_deathMsg2
+PUBLIC _str_promoPic
+PUBLIC _str_promoMsg1
+PUBLIC _str_promoMsg2
+PUBLIC _str_medalPic
+PUBLIC _str_medalMsg1
+PUBLIC _str_medalMsg2
+PUBLIC _gfx_jump_3d_null
+PUBLIC _gfx_jump_50
+PUBLIC _gfx_jump_45_retrace
+PUBLIC _gfx_jump_46_retrace2
 
 ; --- Code segment ---
 
@@ -206,7 +285,7 @@ routine_10 endp
 
 main equ _main
 
-routine_26 equ _routine_26
+checkQuitFlag equ _checkQuitFlag
 
 PUBLIC _initGraphics
 _initGraphics:
@@ -260,25 +339,25 @@ readWorldData proc near
     push AX
     mov AX,offset dat_4246
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2h
     push AX
     mov AX,offset _var_203
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2h
     push AX
     mov AX,offset dat_4040
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2h
     push AX
     mov AX,offset dat_5ab4
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,word ptr [_var_203]
     mov CL,4h
@@ -286,102 +365,79 @@ readWorldData proc near
     push AX
     mov AX,offset dat_424e
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2h
     push AX
     mov AX,offset _var_216
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,24h
     imul word ptr [_var_216]
     push AX
     mov AX,offset dat_4a2a
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,64h
     push AX
     mov AX,offset _unitTypeTable
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,64h
     push AX
     mov AX,offset dat_5512
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2eeh
     push AX
     mov AX,offset _worldStringBuf
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,100h
     push AX
     mov AX,offset _gridFlags
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2h
     push AX
     mov AX,offset dat_55de
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,2h
     push AX
     mov AX,offset dat_4034
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,10h
     push AX
     mov AX,offset dat_0042
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,24h
     push AX
     mov AX,offset _target1Type
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     mov AX,600h
     push AX
     mov AX,offset _var_193
     push AX
-    call routine_71
+    call _loadWorldData
     add SP,4h
     ret
 readWorldData endp
 
-routine_71 proc near
-    push BP
-    mov BP,SP
-    cmp word ptr [_worldDataReady],0h
-    jz LAB_1000_0312
-    push word ptr [_worldBufHandle]
-    mov AX,1h
-    push AX
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_108
-    jmp LAB_1000_0323
-LAB_1000_0312:
-    push word ptr [_worldBufHandle]
-    mov AX,1h
-    push AX
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call routine_109
-LAB_1000_0323:
-    add SP,8h
-    pop BP
-    ret
-routine_71 endp
+routine_71 equ _loadWorldData
 
 PUBLIC _setupWorldBufPtr
 _setupWorldBufPtr:
@@ -3333,300 +3389,7 @@ _incTimerCounters proc near
 _incTimerCounters endp
 getTimeOfDay endp
 
-PUBLIC _routine_27
-_routine_27:
-routine_27 proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    push SI
-    mov BX,word ptr [_var_86]
-    mov word ptr [BX + 6h],0h
-    les BX,dword ptr [_commData]
-    cmp word ptr ES:[BX + 30h],0h
-    jz LAB_1000_1e96
-    jmp LAB_1000_214e
-LAB_1000_1e96:
-    les BX,dword ptr [_gameData]
-    cmp word ptr ES:[BX + 4eh],1h
-    jz LAB_1000_1ea4
-    jmp LAB_1000_1f4a
-LAB_1000_1ea4:
-    mov AX,3h
-    push AX
-    call far ptr gfx_jump_3d_null
-    add SP,2h
-    mov BX,word ptr [_var_86]
-    push word ptr [BX]
-    mov AX,offset str_deskPic
-    push AX
-    call openShowPic
-    add SP,4h
-    mov AX,0fah
-    push AX
-    mov AX,0b3h
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset str_deskMsg1
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    mov AX,0fah
-    push AX
-    mov AX,0bch
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset str_deskMsg2
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    mov word ptr [_var_85],4h
-    mov word ptr [_var_84],0h
-    mov word ptr [BP + -2h],0h
-    jmp LAB_1000_1f0b
-    db 90h
-LAB_1000_1f08:
-    inc word ptr [BP + -2h]
-LAB_1000_1f0b:
-    mov SI,word ptr [BP + -2h]
-    les BX,dword ptr [_gameData]
-    mov AL,byte ptr ES:[BX + SI + 2h]
-    mov BX,SI
-    mov byte ptr [BX + offset _var_176],AL
-    or AL,AL
-    jnz LAB_1000_1f08
-    mov AX,5fh
-    push AX
-    mov AX,99h
-    push AX
-    mov AX,0c1h
-    push AX
-    mov AX,offset _var_176
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    mov word ptr [_var_84],7h
-    mov word ptr [_var_85],1h
-    jmp LAB_1000_2141
-    db 90h
-LAB_1000_1f4a:
-    les BX,dword ptr [_gameData]
-    cmp word ptr ES:[BX + 4eh],2h
-    jnz LAB_1000_1fa8
-    mov AX,2h
-    push AX
-    call far ptr gfx_jump_3d_null
-    add SP,2h
-    mov BX,word ptr [_var_86]
-    push word ptr [BX]
-    mov AX,offset str_deathPic
-    push AX
-    call openShowPic
-    add SP,4h
-    mov AX,0fah
-    push AX
-    mov AX,0adh
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset str_deathMsg1
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    mov AX,0fah
-    push AX
-    mov AX,0b6h
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset str_deathMsg2
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    jmp LAB_1000_2141
-LAB_1000_1fa8:
-    les BX,dword ptr [_gameData]
-    cmp word ptr ES:[BX + 20h],6h
-    jc LAB_1000_1fb6
-    jmp LAB_1000_206b
-LAB_1000_1fb6:
-    mov BX,word ptr ES:[BX + 20h]
-    shl BX,1h
-    shl BX,1h
-    mov SI,word ptr [_gameData]
-    mov AX,word ptr ES:[SI + 32h]
-    mov DX,word ptr ES:[SI + 34h]
-    cmp word ptr [BX + offset _var_89],DX
-    jle LAB_1000_1fd3
-    jmp LAB_1000_206b
-LAB_1000_1fd3:
-    jl LAB_1000_1fde
-    cmp word ptr [BX + offset _var_88],AX
-    jc LAB_1000_1fde
-    jmp LAB_1000_206b
-LAB_1000_1fde:
-    mov AX,6h
-    push AX
-    call far ptr gfx_jump_3d_null
-    add SP,2h
-    mov BX,word ptr [_var_86]
-    push word ptr [BX]
-    mov AX,offset str_promoPic
-    push AX
-    call openShowPic
-    add SP,4h
-    mov word ptr [_var_84],1h
-    mov AX,0fah
-    push AX
-    mov AX,0aeh
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset str_promoMsg1
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    mov AX,offset str_promoMsg2
-    push AX
-    mov AX,offset _var_176
-    push AX
-    call mystrcpy
-    add SP,4h
-    les BX,dword ptr [_gameData]
-    inc word ptr ES:[BX + 20h]
-    mov SI,word ptr ES:[BX + 20h]
-    shl SI,1h
-    push word ptr [SI + offset _var_87]
-    mov AX,offset _var_176
-    push AX
-    call mystrcat
-    add SP,4h
-    mov AX,0fah
-    push AX
-    mov AX,0b7h
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset _var_176
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    call far ptr gfx_jump_50
-    call far ptr gfx_jump_46_retrace2
-    call waitForKeyOrJoy
-LAB_1000_206b:
-    mov word ptr [BP + -2h],4h
-    jmp LAB_1000_2075
-LAB_1000_2072:
-    dec word ptr [BP + -2h]
-LAB_1000_2075:
-    cmp word ptr [BP + -2h],0h
-    jl LAB_1000_2097
-    mov BX,word ptr [BP + -2h]
-    shl BX,1h
-    shl BX,1h
-    mov AX,word ptr [_missionScore]
-    mov DX,word ptr [_missionScoreHi]
-    cmp word ptr [BX + offset _var_92],DX
-    jg LAB_1000_2072
-    jl LAB_1000_2097
-    cmp word ptr [BX + offset _var_91],AX
-    jnc LAB_1000_2072
-LAB_1000_2097:
-    cmp word ptr [BP + -2h],0h
-    jge LAB_1000_20a0
-    jmp LAB_1000_214e
-LAB_1000_20a0:
-    mov AX,1h
-    mov CL,byte ptr [BP + -2h]
-    shl AX,CL
-    les BX,dword ptr [_gameData]
-    test word ptr ES:[BX + 22h],AX
-    jz LAB_1000_20b5
-    jmp LAB_1000_214e
-LAB_1000_20b5:
-    call far ptr gfx_jump_45_retrace
-    mov AX,0ah
-    push AX
-    call far ptr gfx_jump_3d_null
-    add SP,2h
-    mov BX,word ptr [_var_86]
-    push word ptr [BX]
-    mov AX,offset str_medalPic
-    push AX
-    call openShowPic
-    add SP,4h
-    mov word ptr [_var_84],0fh
-    mov AX,0fah
-    push AX
-    mov AX,0aeh
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset str_medalMsg1
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    mov AX,offset str_medalMsg2
-    push AX
-    mov AX,offset _var_176
-    push AX
-    call mystrcpy
-    add SP,4h
-    mov BX,word ptr [BP + -2h]
-    shl BX,1h
-    push word ptr [BX + offset _var_90]
-    mov AX,offset _var_176
-    push AX
-    call mystrcat
-    add SP,4h
-    mov AX,0fah
-    push AX
-    mov AX,0b7h
-    push AX
-    mov AX,24h
-    push AX
-    mov AX,offset _var_176
-    push AX
-    push word ptr [_var_86]
-    call drawStringCentered
-    add SP,0ah
-    les BX,dword ptr [_gameData]
-    mov AX,1h
-    mov CL,byte ptr [BP + -2h]
-    shl AX,CL
-    or word ptr ES:[BX + 22h],AX
-LAB_1000_2141:
-    call far ptr gfx_jump_50
-    call far ptr gfx_jump_46_retrace2
-    call waitForKeyOrJoy
-LAB_1000_214e:
-    mov AX,0c7h
-    push AX
-    mov AX,13fh
-    push AX
-    sub AX,AX
-    push AX
-    push AX
-    push word ptr [_var_86]
-    call clearRect
-    add SP,0ah
-    call far ptr gfx_jump_46_retrace2
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-routine_27 endp
+routine_27 equ _showPostMissionAwards
 
 PUBLIC _routine_24
 _routine_24:
@@ -4019,13 +3782,13 @@ LAB_1000_2c1d:
     mov word ptr [BX + 4h],0h
     lea AX,[BP + -6h]
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_pressExit
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4037,7 +3800,7 @@ LAB_1000_2c1d:
     push AX
     mov AX,50h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawWrappedText
@@ -4087,13 +3850,13 @@ LAB_1000_2cc2:
     mov word ptr [_missionScoreHi],DX
     mov AX,offset str_dot1
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_overall1
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4103,14 +3866,14 @@ LAB_1000_2cc2:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_missionRating1
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4120,14 +3883,14 @@ LAB_1000_2cc2:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_dot2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4139,7 +3902,7 @@ LAB_1000_2cc2:
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4149,7 +3912,7 @@ LAB_1000_2cc2:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
@@ -4183,13 +3946,13 @@ LAB_1000_2cc2:
 LAB_1000_2dc9:
     mov AX,offset str_dot3
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_careerTotal
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4199,14 +3962,14 @@ LAB_1000_2dc9:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_dot4
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4223,7 +3986,7 @@ LAB_1000_2dc9:
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4233,7 +3996,7 @@ LAB_1000_2dc9:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
@@ -4243,7 +4006,7 @@ LAB_1000_2e53:
     mov word ptr [BX + 4h],0dh
     mov AX,offset str_missionSummary
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4253,7 +4016,7 @@ LAB_1000_2e53:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
@@ -4262,7 +4025,7 @@ LAB_1000_2e53:
     mov word ptr [BX + 4h],0h
     mov AX,offset str_priSecTargets
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4270,12 +4033,12 @@ LAB_1000_2e53:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     mov AX,word ptr [_primaryHit]
     add AX,word ptr [_secondaryHit]
@@ -4286,14 +4049,14 @@ LAB_1000_2e53:
     push AX
     mov AX,131h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
     mov AX,offset str_otherTargets
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4301,12 +4064,12 @@ LAB_1000_2e53:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     mov AX,word ptr [_groundKilled]
     add AX,word ptr [_airKilled]
@@ -4319,14 +4082,14 @@ LAB_1000_2e53:
     push AX
     mov AX,131h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
     mov AX,offset str_enemyPlanes
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4334,12 +4097,12 @@ LAB_1000_2e53:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [_samKilled]
     call my_itoa
@@ -4348,14 +4111,14 @@ LAB_1000_2e53:
     push AX
     mov AX,131h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
     mov AX,offset str_friendlyTargets
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4363,12 +4126,12 @@ LAB_1000_2e53:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
     add SP,8h
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     mov AX,word ptr [_groundMissed]
     add AX,word ptr [_airMissed]
@@ -4380,7 +4143,7 @@ LAB_1000_2e53:
     push AX
     mov AX,131h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
@@ -4427,13 +4190,13 @@ LAB_1000_2fde:
     mov word ptr [_missionScoreHi],DX
     mov AX,offset str_dot5
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_overall2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4443,14 +4206,14 @@ LAB_1000_2fde:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_missionRating2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4460,14 +4223,14 @@ LAB_1000_2fde:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_dot6
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4479,7 +4242,7 @@ LAB_1000_2fde:
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4489,7 +4252,7 @@ LAB_1000_2fde:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
@@ -4510,7 +4273,7 @@ LAB_1000_30cc:
     mov word ptr [BX + 4h],0dh
     mov AX,offset str_missionEvent
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4520,14 +4283,14 @@ LAB_1000_30cc:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_time
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4542,7 +4305,7 @@ LAB_1000_30cc:
     call formatFlightTime
     add SP,4h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4550,7 +4313,7 @@ LAB_1000_30cc:
     push AX
     mov AX,0f0h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringAt
@@ -4578,13 +4341,13 @@ caseD_1_6128:
     mov BX,SI
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_destroyed4
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4595,13 +4358,13 @@ caseD_1_6128:
     and BX,7fh
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
     mov AX,offset str_destroyed1
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4614,13 +4377,13 @@ LAB_1000_31da:
     and BX,7fh
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_destroyed2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4632,13 +4395,13 @@ caseD_3_343d:
     shl AX,CL
     add AX,198h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_shotDown2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4647,13 +4410,13 @@ caseD_3_343d:
     shl AX,CL
     add AX,19fh
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
     mov AX,offset str_shotDown
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4662,13 +4425,13 @@ caseD_2_343d:
     mov BX,word ptr [BP + -20h]
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_destroyed3
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4683,13 +4446,13 @@ caseD_a_343d:
     mov BX,SI
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_rearmed3
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4700,13 +4463,13 @@ caseD_a_343d:
     and BX,7fh
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
     mov AX,offset str_rearmed1
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4719,13 +4482,13 @@ LAB_1000_32d3:
     and BX,7fh
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_rearmed2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4734,7 +4497,7 @@ LAB_1000_32ff:
 caseD_5_343d:
     mov AX,offset str_hitBy
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4742,13 +4505,13 @@ caseD_5_343d:
     mul word ptr [BP + -20h]
     add AX,3f8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
     mov AX,offset str_missile
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4758,7 +4521,7 @@ caseD_8_343d:
     jnz LAB_1000_338f
     mov AX,offset str_takeoffPoint
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4771,7 +4534,7 @@ caseD_8_343d:
     mov BX,SI
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4784,7 +4547,7 @@ LAB_1000_336e:
     sub BH,BH
     shl BX,1h
     push word ptr [BX + offset _worldStrings]
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4793,7 +4556,7 @@ LAB_1000_338c:
 LAB_1000_338f:
     mov AX,offset str_missionEnd
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4803,7 +4566,7 @@ LAB_1000_338f:
 LAB_1000_33a7:
     mov AX,offset str_crashed
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4816,7 +4579,7 @@ LAB_1000_33b7:
     jz LAB_1000_33d9
     mov AX,offset str_goodBailout
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4829,7 +4592,7 @@ LAB_1000_33d9:
     jnz LAB_1000_33fb
     mov AX,offset str_captured
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4837,7 +4600,7 @@ LAB_1000_33d9:
 LAB_1000_33fb:
     mov AX,offset str_bailedDied
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4846,7 +4609,7 @@ LAB_1000_3409:
 LAB_1000_340b:
     mov AX,offset str_goodLanding
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4900,7 +4663,7 @@ caseD_4_6450:
     push AX
     mov AX,50h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawWrappedText
@@ -4914,7 +4677,7 @@ caseD_4_6450:
     jz LAB_1000_34b1
     mov AX,offset str_primaryObj
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4924,7 +4687,7 @@ caseD_4_6450:
     push word ptr [BX + 0ah]
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push BX
     call drawStringCentered
@@ -4939,7 +4702,7 @@ LAB_1000_34b1:
     jz LAB_1000_34eb
     mov AX,offset str_secndryObj
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4949,7 +4712,7 @@ LAB_1000_34b1:
     push word ptr [BX + 0ah]
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push BX
     call drawStringCentered
@@ -4962,13 +4725,13 @@ LAB_1000_34eb:
     mov word ptr [_missionScoreHi],DX
     mov AX,offset str_cumulative2
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_cumulative
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -4978,14 +4741,14 @@ LAB_1000_34eb:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_missionRating3
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -4995,14 +4758,14 @@ LAB_1000_34eb:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
     add SP,0ah
     mov AX,offset str_pressSelect
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
@@ -5014,7 +4777,7 @@ LAB_1000_34eb:
     add SP,6h
     lea AX,[BP + -1eh]
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -5024,7 +4787,7 @@ LAB_1000_34eb:
     push AX
     mov AX,0e8h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawStringCentered
@@ -5032,13 +4795,13 @@ LAB_1000_34eb:
     call showEventPopup
     lea AX,[BP + -6h]
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcpy
     add SP,4h
     mov AX,offset str_pressNext
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     call mystrcat
     add SP,4h
@@ -5050,7 +4813,7 @@ LAB_1000_34eb:
     push AX
     mov AX,50h
     push AX
-    mov AX,offset dat_4824
+    mov AX,offset scoreString
     push AX
     push word ptr [BP + 8h]
     call drawWrappedText
@@ -5634,6 +5397,7 @@ FUN_1000_4cca proc near
     and AH,7fh
     ret
 FUN_1000_4cca endp
+
 
 
 FUN_1000_4f33 proc near
@@ -6242,6 +6006,7 @@ gfx_jump_3d_null proc far               ; 0x1139
     db 0EAh
     dd 0
 gfx_jump_3d_null endp
+_gfx_jump_3d_null equ gfx_jump_3d_null
 gfx_jump_3e proc far               ; 0x113E
     db 0EAh
     dd 0
@@ -6264,10 +6029,12 @@ gfx_jump_45_retrace proc far               ; 0x1161
     db 0EAh
     dd 0
 gfx_jump_45_retrace endp
+_gfx_jump_45_retrace equ gfx_jump_45_retrace
 gfx_jump_46_retrace2 proc far               ; 0x1166
     db 0EAh
     dd 0
 gfx_jump_46_retrace2 endp
+_gfx_jump_46_retrace2 equ gfx_jump_46_retrace2
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
     db 000h, 000h, 000h, 000h
 gfx_jump_4b_storeBufPtr proc far               ; 0x117F
@@ -6276,10 +6043,12 @@ gfx_jump_4b_storeBufPtr proc far               ; 0x117F
 gfx_jump_4b_storeBufPtr endp
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
     db 000h, 000h, 000h, 000h
+PUBLIC _gfx_jump_50
 gfx_jump_50 proc far               ; 0x1198
     db 0EAh
     dd 0
 gfx_jump_50 endp
+_gfx_jump_50 equ gfx_jump_50
 gfx_jump_51_null proc far               ; 0x119D
     db 0EAh
     dd 0
@@ -6575,68 +6344,80 @@ _str_dfc db 'Distinguished Flying Cross.', 0
 _str_silverStar db 'Silver Star.', 0
 _str_afc db 'Air Force Cross.', 0
 _str_cmoh db 'Congressional Medal of Honor.', 0
+_str_deskPic equ str_deskPic
 str_deskPic db 064h
     db 065h, 073h, 06Bh, 02Eh, 070h, 069h, 063h, 000h
+_str_deskMsg1 equ str_deskMsg1
 str_deskMsg1 db 041h
     db 066h, 074h, 065h, 072h, 020h, 064h, 069h, 074h, 063h, 068h, 069h, 06Eh, 067h, 020h, 074h, 068h
     db 072h, 065h, 065h, 020h, 076h, 065h, 072h, 079h, 020h, 065h, 078h, 070h, 065h, 06Eh, 073h, 069h
     db 076h, 065h, 020h, 061h, 069h, 072h, 063h, 072h, 061h, 066h, 074h, 02Ch, 000h
+_str_deskMsg2 equ str_deskMsg2
 str_deskMsg2 db 079h
     db 06Fh, 075h, 020h, 061h, 072h, 065h, 020h, 061h, 073h, 073h, 069h, 067h, 06Eh, 065h, 064h, 020h
     db 061h, 020h, 064h, 065h, 073h, 06Bh, 020h, 06Ah, 06Fh, 062h, 02Eh, 000h
+_str_deathPic equ str_deathPic
 str_deathPic db 064h
     db 065h, 061h, 074h, 068h, 02Eh, 070h, 069h, 063h, 000h
+_str_deathMsg1 equ str_deathMsg1
 str_deathMsg1 db 049h
     db 06Eh, 020h, 074h, 068h, 065h, 020h, 077h, 061h, 06Bh, 065h, 020h, 06Fh, 066h, 020h, 074h, 068h
     db 065h, 020h, 068h, 06Fh, 072h, 072h, 069h, 062h, 06Ch, 065h, 020h, 063h, 072h, 061h, 073h, 068h
     db 02Ch, 000h
+_str_deathMsg2 equ str_deathMsg2
 str_deathMsg2 db 079h
     db 06Fh, 075h, 072h, 020h, 066h, 061h, 06Dh, 069h, 06Ch, 079h, 020h, 061h, 06Eh, 064h, 020h, 066h
     db 072h, 069h, 065h, 06Eh, 064h, 073h, 020h, 06Dh, 06Fh, 075h, 072h, 06Eh, 020h, 079h, 06Fh, 075h
     db 072h, 020h, 06Ch, 06Fh, 073h, 073h, 02Eh, 000h
+_str_promoPic equ str_promoPic
 str_promoPic db 070h
     db 072h, 06Fh, 06Dh, 06Fh, 02Eh, 070h, 069h, 063h, 000h
+_str_promoMsg1 equ str_promoMsg1
 str_promoMsg1 db 046h
     db 06Fh, 072h, 020h, 079h, 06Fh, 075h, 072h, 020h, 063h, 06Fh, 06Eh, 073h, 069h, 073h, 074h, 065h
     db 06Eh, 074h, 06Ch, 079h, 020h, 073h, 075h, 063h, 063h, 065h, 073h, 073h, 066h, 075h, 06Ch, 020h
     db 06Dh, 069h, 073h, 073h, 069h, 06Fh, 06Eh, 073h, 02Ch, 000h
+_str_promoMsg2 equ str_promoMsg2
 str_promoMsg2 db 079h
     db 06Fh, 075h, 020h, 068h, 061h, 076h, 065h, 020h, 062h, 065h, 065h, 06Eh, 020h, 070h, 072h, 06Fh
     db 06Dh, 06Fh, 074h, 065h, 064h, 020h, 074h, 06Fh, 020h, 000h
+_str_medalPic equ str_medalPic
 str_medalPic db 06Dh
     db 065h, 064h, 061h, 06Ch, 02Eh, 070h, 069h, 063h, 000h
+_str_medalMsg1 equ str_medalMsg1
 str_medalMsg1 db 046h
     db 06Fh, 072h, 020h, 079h, 06Fh, 075h, 072h, 020h, 06Fh, 075h, 074h, 073h, 074h, 061h, 06Eh, 064h
     db 069h, 06Eh, 067h, 020h, 070h, 065h, 072h, 066h, 06Fh, 072h, 06Dh, 061h, 06Eh, 063h, 065h, 02Ch
     db 020h, 079h, 06Fh, 075h, 020h, 072h, 065h, 063h, 065h, 069h, 076h, 065h, 000h
+_str_medalMsg2 equ str_medalMsg2
 str_medalMsg2 db 074h
     db 068h, 065h, 020h, 000h
 _ps_var86_target db 000h, 000h, 000h, 000h
-_var_84 db 007h
+_awardColor db 007h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h
-_var_85 db 001h
+_awardFont db 001h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-_var_86 dw offset _ps_var86_target
+_awardPage dw offset _ps_var86_target
 _ps_var86_2 db 000h, 000h, 000h, 000h, 009h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h
     dw offset _ps_var86_2
-_var_87 dw offset _str_emptyRank
+_rankNames dw offset _str_emptyRank
     dw offset _str_1stLt
     dw offset _str_captain
     dw offset _str_major
     dw offset _str_ltColonel
     dw offset _str_colonel
     dw offset _str_general
-_var_88 dw 05DCh  ; 1500 - first rank score threshold
-_var_89 dw 0000h
+_promoScores dw 05DCh  ; 1500 - first rank score threshold
+_promoThresholds dw 0000h
     dd 6000, 12000, 25000, 50000, 100000
-_var_90 dw offset _str_afcm
+_medalNames dw offset _str_afcm
     dw offset _str_dfc
     dw offset _str_silverStar
     dw offset _str_afc
     dw offset _str_cmoh
-_var_91 dw 03E8h  ; 1000 - first medal score threshold
-_var_92 dw 0000h
+_medalScores dw 03E8h  ; 1000 - first medal score threshold
+_medalThresholds dw 0000h
     dd 2500, 4000, 6400, 7800
     db 004h, 003h, 003h, 002h, 007h, 005h, 003h, 002h, 008h, 007h, 004h, 002h, 008h, 006h, 005h
     db 003h
@@ -6651,102 +6432,148 @@ _mapViewX2 db 0E8h
     db 000h
 _mapViewY2 db 0B2h
     db 000h
+_str_pressExit equ str_pressExit
 str_pressExit db 050h
     db 072h, 065h, 073h, 073h, 020h, 053h, 065h, 06Ch, 065h, 063h, 074h, 06Fh, 072h, 020h, 074h, 06Fh
     db 020h, 065h, 078h, 069h, 074h, 020h, 044h, 065h, 062h, 072h, 069h, 065h, 066h, 069h, 06Eh, 067h
     db 000h
+_str_dot1 equ str_dot1
 str_dot1 db 08Dh
     db 000h
+_str_overall1 equ str_overall1
 str_overall1 db 04Fh
     db 056h, 045h, 052h, 041h, 04Ch, 04Ch, 000h
+_str_missionRating1 equ str_missionRating1
 str_missionRating1 db 04Dh
     db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 052h, 041h, 054h, 049h, 04Eh, 047h, 000h
+_str_dot2 equ str_dot2
 str_dot2 db 080h
     db 000h
+_str_trainingScore equ str_trainingScore
 str_trainingScore db 084h
     db 054h, 072h, 061h, 069h, 06Eh, 069h, 06Eh, 067h, 020h, 053h, 063h, 06Fh, 072h, 065h, 000h
+_str_notRecorded equ str_notRecorded
 str_notRecorded db 04Eh
     db 04Fh, 054h, 020h, 052h, 065h, 063h, 06Fh, 072h, 064h, 065h, 064h, 020h, 021h, 000h
+_str_dot3 equ str_dot3
 str_dot3 db 08Dh
     db 000h
+_str_careerTotal equ str_careerTotal
 str_careerTotal db 043h
     db 041h, 052h, 045h, 045h, 052h, 020h, 054h, 04Fh, 054h, 041h, 04Ch, 000h
+_str_dot4 equ str_dot4
 str_dot4 db 080h
     db 000h
+_str_missionSummary equ str_missionSummary
 str_missionSummary db 04Dh
     db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 053h, 055h, 04Dh, 04Dh, 041h, 052h, 059h, 000h
+_str_priSecTargets equ str_priSecTargets
 str_priSecTargets db 050h
     db 072h, 069h, 02Fh, 053h, 065h, 063h, 020h, 054h, 061h, 072h, 067h, 065h, 074h, 073h, 000h
+_str_otherTargets equ str_otherTargets
 str_otherTargets db 04Fh
     db 074h, 068h, 065h, 072h, 020h, 054h, 061h, 072h, 067h, 065h, 074h, 073h, 000h
+_str_enemyPlanes equ str_enemyPlanes
 str_enemyPlanes db 045h
     db 06Eh, 065h, 06Dh, 079h, 020h, 050h, 06Ch, 061h, 06Eh, 065h, 073h, 000h
+_str_friendlyTargets equ str_friendlyTargets
 str_friendlyTargets db 046h
     db 072h, 069h, 065h, 06Eh, 064h, 06Ch, 079h, 020h, 054h, 061h, 072h, 067h, 065h, 074h, 073h, 000h
+_str_dot5 equ str_dot5
 str_dot5 db 08Dh
     db 000h
+_str_overall2 equ str_overall2
 str_overall2 db 04Fh
     db 056h, 045h, 052h, 041h, 04Ch, 04Ch, 000h
+_str_missionRating2 equ str_missionRating2
 str_missionRating2 db 04Dh
     db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 052h, 041h, 054h, 049h, 04Eh, 047h, 000h
+_str_dot6 equ str_dot6
 str_dot6 db 080h
     db 000h
+_str_missionEvent equ str_missionEvent
 str_missionEvent db 04Dh
     db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 045h, 056h, 045h, 04Eh, 054h, 000h
+_str_time equ str_time
 str_time db 054h
     db 049h, 04Dh, 045h, 03Ah, 020h, 080h, 000h
+_str_destroyed4 equ str_destroyed4
 str_destroyed4 db 020h
     db 000h
+_str_destroyed1 equ str_destroyed1
 str_destroyed1 db 020h
     db 064h, 065h, 073h, 074h, 072h, 06Fh, 079h, 065h, 064h, 000h
+_str_destroyed2 equ str_destroyed2
 str_destroyed2 db 020h
     db 064h, 065h, 073h, 074h, 072h, 06Fh, 079h, 065h, 064h, 000h
+_str_shotDown2 equ str_shotDown2
 str_shotDown2 db 020h
     db 000h
+_str_shotDown equ str_shotDown
 str_shotDown db 020h
     db 073h, 068h, 06Fh, 074h, 020h, 064h, 06Fh, 077h, 06Eh, 000h
+_str_destroyed3 equ str_destroyed3
 str_destroyed3 db 020h
     db 064h, 065h, 073h, 074h, 072h, 06Fh, 079h, 065h, 064h, 000h
+_str_rearmed3 equ str_rearmed3
 str_rearmed3 db 020h
     db 000h
+_str_rearmed1 equ str_rearmed1
 str_rearmed1 db 020h
     db 02Dh, 020h, 052h, 065h, 061h, 072h, 06Dh, 065h, 064h, 02Fh, 052h, 065h, 066h, 075h, 065h, 06Ch
     db 065h, 064h, 000h
+_str_rearmed2 equ str_rearmed2
 str_rearmed2 db 020h
     db 02Dh, 020h, 052h, 065h, 061h, 072h, 06Dh, 065h, 064h, 02Fh, 052h, 065h, 066h, 075h, 065h, 06Ch
     db 065h, 064h, 000h
+_str_hitBy equ str_hitBy
 str_hitBy db 048h
     db 069h, 074h, 020h, 062h, 079h, 020h, 000h
+_str_missile equ str_missile
 str_missile db 020h
     db 06Dh, 069h, 073h, 073h, 069h, 06Ch, 065h, 000h
+_str_takeoffPoint equ str_takeoffPoint
 str_takeoffPoint db 054h
     db 061h, 06Bh, 065h, 06Fh, 066h, 066h, 020h, 070h, 06Fh, 069h, 06Eh, 074h, 03Ah, 000h
+_str_missionEnd equ str_missionEnd
 str_missionEnd db 04Dh
     db 069h, 073h, 073h, 069h, 06Fh, 06Eh, 020h, 065h, 06Eh, 064h, 03Ah, 00Ah, 000h
+_str_crashed equ str_crashed
 str_crashed db 043h
     db 072h, 061h, 073h, 068h, 065h, 064h, 000h
+_str_goodBailout equ str_goodBailout
 str_goodBailout db 047h
     db 06Fh, 06Fh, 064h, 020h, 042h, 061h, 069h, 06Ch, 06Fh, 075h, 074h, 000h
+_str_captured equ str_captured
 str_captured db 043h
     db 061h, 070h, 074h, 075h, 072h, 065h, 064h, 000h
+_str_bailedDied equ str_bailedDied
 str_bailedDied db 042h
     db 061h, 069h, 06Ch, 065h, 064h, 020h, 026h, 020h, 044h, 069h, 065h, 064h, 000h
+_str_goodLanding equ str_goodLanding
 str_goodLanding db 047h
     db 06Fh, 06Fh, 064h, 020h, 04Ch, 061h, 06Eh, 064h, 069h, 06Eh, 067h, 000h
+_str_primaryObj equ str_primaryObj
 str_primaryObj db 08Ch
     db 050h, 052h, 049h, 04Dh, 041h, 052h, 059h, 020h, 04Fh, 042h, 04Ah, 045h, 043h, 054h, 049h, 056h
     db 045h, 000h
+_str_secndryObj equ str_secndryObj
 str_secndryObj db 08Ch
     db 053h, 045h, 043h, 04Eh, 044h, 052h, 059h, 020h, 04Fh, 042h, 04Ah, 045h, 043h, 054h, 049h, 056h
     db 045h, 000h
+_str_cumulative2 equ str_cumulative2
 str_cumulative2 db 08Dh
     db 000h
+_str_cumulative equ str_cumulative
 str_cumulative db 043h
     db 055h, 04Dh, 055h, 04Ch, 041h, 054h, 049h, 056h, 045h, 000h
+_str_missionRating3 equ str_missionRating3
 str_missionRating3 db 04Dh
     db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 052h, 041h, 054h, 049h, 04Eh, 047h, 000h
+_str_pressSelect equ str_pressSelect
 str_pressSelect db 080h
     db 000h
+_str_pressNext equ str_pressNext
 str_pressNext db 050h
     db 072h, 065h, 073h, 073h, 020h, 053h, 065h, 06Ch, 065h, 063h, 074h, 06Fh, 072h, 020h, 066h, 06Fh
     db 072h, 020h, 06Eh, 065h, 078h, 074h, 020h, 06Dh, 069h, 073h, 073h, 069h, 06Fh, 06Eh, 020h, 065h
@@ -7061,7 +6888,7 @@ _joyRepeatFlag db ?
 _spriteToggle db ?
 _animDone db 2 dup(?)
 _var_3fc6 db 10 dup(?)
-_var_176 db 100 dup(?)
+_textBuf db 100 dup(?)
 dat_4034 db 4 dup(?)
 _worldBufHandle db 2 dup(?)
 _gameData db 2 dup(?)
@@ -7071,18 +6898,21 @@ _var_180 db 2 dup(?)
 dat_4246 db 2 dup(?)
 _samKilled db 2 dup(?)
 _samMissed db 4 dup(?)
+_dat_424e equ dat_424e
 dat_424e db 8 dup(?)
 _slotInfoTable label byte
 _var_183x db 6 dup(?)
 _var_425c db 1188 dup(?)
 _gridFlags db 256 dup(?)
 _target1Type db 4 dup(?)
+_dat_4804 equ dat_4804
 dat_4804 db 4 dup(?)
 _target1MiscBits db 10 dup(?)
 _target2Type db 8 dup(?)
 _target2MiscBits db 10 dup(?)
-dat_4824 db 512 dup(?)
-_dat_4824 equ dat_4824
+_scoreString db 512 dup(?)
+scoreString equ _scoreString
+_dat_4824 equ _scoreString
 _hasVgaMode db 4 dup(?)
 _curRecordIdx label word
 _var_190x db 2 dup(?)
