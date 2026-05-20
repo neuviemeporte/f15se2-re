@@ -5,34 +5,6 @@
 #include "util.h"
 #include "end.h"
 
-typedef unsigned int MenuItemFlags;
-
-#define MENUITEM_TYPE_MASK    0x0007 // 0b0000000000000111
-#define MENUITEM_SELECTABLE   0x0008 // 0b0000000000001000
-#define MENUITEM_ENABLED      0x0100 // 0b0000000100000000
-#define MENUITEM_HAS_SPRITE   0x0800 // 0b0000100000000000
-#define MENUITEM_SPRITE_BLINK 0x1000 // 0b0001000000000000
-
-typedef struct MenuItem {
-    int  hitX1;          /* 0x00 */
-    int  hitY1;          /* 0x02 */
-    int  hitX2;          /* 0x04 */
-    int  hitY2;          /* 0x06 */
-
-    int  colorX1;        /* 0x08 */
-    int  colorY1;        /* 0x0a */
-    int  colorX2;        /* 0x0c */
-    int  colorY2;        /* 0x0e */
-    int  colorTableIdx;  /* 0x10 */
-    int  colorPair;      /* 0x12 */
-
-    char label[0x18];    /* 0x14 .. 0x2b */
-
-    int  unk_2c;         /* 0x2c */
-    int  state;          /* 0x2e */
-    MenuItemFlags flags; /* 0x30 */
-} MenuItem;
-
 void main(void) {
     int p;
     int a;
@@ -820,4 +792,90 @@ void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStar
     }
     cursorX = cursorStartX;
     cursorY = cursorStartY;
+}
+
+// 224a
+int routine_60(MenuItem *param_1, int param_2, int param_3, int param_4, int param_5) {
+    // TODO: stack frame too small
+    char p[2]; int a; int b; char c[2]; int d; char e[2]; int f;
+    int g; char h[2]; int i; char j[10]; int k; int l; int m; int n; int o;
+    (void)param_2;
+    (void)d; (void)g; (void)j; (void)k; (void)l; (void)m; (void)n; (void)o;
+    p[0] = 0x0d; p[1] = 0;
+    e[0] = 0x89; e[1] = 0;
+    c[0] = 0x8d; c[1] = 0;
+    h[0] = 0x80; h[1] = 0;
+    gfx_jump_50();
+    colorAnimEnabled = 0;
+    i = 0;
+    while (isPointInRect(&param_1[i]) == 0 && i < param_3)
+        i++;
+    joyRepeatFlag = 0;
+    for (;;) {
+        // 22a8
+        do {
+            gfx_jump_50();
+            if ((param_1[i].flags & MENUITEM_ENABLED) == 0) {
+                colorAnimEnabled = 1;
+            }
+            // 22d4
+            processDebriefInput((int *)param_4, &param_1[i], param_5);
+        } while (inputChanged == 0 && enterPressed == 0);
+        // 22e8
+        if (enterPressed != 0) { // 22f2
+            if (i != selectedMenuItem) { // 22fa
+                i = 0;
+                while (isPointInRect(&param_1[i]) == 0 && i < param_3)
+                    i++;
+            } // 2320
+            // 232c
+            if (param_1[selectedMenuItem].colorTableIdx == 0) {
+                b = 0x0b;
+                a = 9;
+                gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem].colorX1, param_1[selectedMenuItem].colorY1, param_1[selectedMenuItem].colorX2, param_1[selectedMenuItem].colorY2, 0x0b, 9);
+                b = 3;
+                gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem].colorX1, param_1[selectedMenuItem].colorY1, param_1[selectedMenuItem].colorX2, param_1[selectedMenuItem].colorY2, 3, a);
+                b = 0x0d;
+                gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem].colorX1, param_1[selectedMenuItem].colorY1, param_1[selectedMenuItem].colorX2, param_1[selectedMenuItem].colorY2, 0x0d, a);
+            }
+            // 23bc
+            goto done;
+            continue;
+        } // 23c2
+        i = 0;
+        while (isPointInRect(&param_1[i]) == 0 && i < param_3)
+            i++;
+        if (i != selectedMenuItem) {
+            if ((param_1[i].flags & MENUITEM_SELECTABLE) != 0) {
+                for (f = 0; f < param_3; f++) {
+                    if (param_1[f].state != 0 &&
+                        param_1[i].unk_2c == param_1[f].unk_2c) {
+                        blinkWidget(&param_1[f], param_5);
+                    }
+                }
+                if (param_1[selectedMenuItem].colorTableIdx == 0) {
+                    b = 9;
+                    a = 6;
+                    gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem].colorX1, param_1[selectedMenuItem].colorY1, param_1[selectedMenuItem].colorX2, param_1[selectedMenuItem].colorY2, 9, 6);
+                    b = 3;
+                    gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem].colorX1, param_1[selectedMenuItem].colorY1, param_1[selectedMenuItem].colorX2, param_1[selectedMenuItem].colorY2, 3, a);
+                    b = 0x0d;
+                    gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem].colorX1, param_1[selectedMenuItem].colorY1, param_1[selectedMenuItem].colorX2, param_1[selectedMenuItem].colorY2, 0x0d, a);
+                    b = 0x0b;
+                    gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem].colorX1, param_1[selectedMenuItem].colorY1, param_1[selectedMenuItem].colorX2, param_1[selectedMenuItem].colorY2, 0x0b, a);
+                }
+                if (param_1[selectedMenuItem].colorTableIdx == 1) {
+                    b = 8;
+                    a = 7;
+                    gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem].colorX1, param_1[selectedMenuItem].colorY1, param_1[selectedMenuItem].colorX2, param_1[selectedMenuItem].colorY2, 8, 7);
+                }
+                blinkWidget(&param_1[i], param_5);
+            }
+            selectedMenuItem = i;
+            // 256f
+            drawMenuItem(param_1, i, param_5);
+        } // 2575
+    }
+done:
+    return i;
 }

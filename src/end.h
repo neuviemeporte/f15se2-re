@@ -137,6 +137,34 @@ extern int *spriteWaypointBlink;
 extern void far routine_134(void);
 void processDebriefInput(int *cursorBounds, void *menuItem, int gfxPage);
 
+typedef unsigned int MenuItemFlags;
+
+#define MENUITEM_TYPE_MASK    0x0007 // 0b0000000000000111
+#define MENUITEM_SELECTABLE   0x0008 // 0b0000000000001000
+#define MENUITEM_ENABLED      0x0100 // 0b0000000100000000
+#define MENUITEM_HAS_SPRITE   0x0800 // 0b0000100000000000
+#define MENUITEM_SPRITE_BLINK 0x1000 // 0b0001000000000000
+
+typedef struct MenuItem {
+    int  hitX1;          /* 0x00 */
+    int  hitY1;          /* 0x02 */
+    int  hitX2;          /* 0x04 */
+    int  hitY2;          /* 0x06 */
+
+    int  colorX1;        /* 0x08 */
+    int  colorY1;        /* 0x0a */
+    int  colorX2;        /* 0x0c */
+    int  colorY2;        /* 0x0e */
+    int  colorTableIdx;  /* 0x10 */
+    int  colorPair;      /* 0x12 */
+
+    char label[0x18];    /* 0x14 .. 0x2b */
+
+    int  unk_2c;         /* 0x2c */
+    int  state;          /* 0x2e */
+    MenuItemFlags flags; /* 0x30 */
+} MenuItem;
+
 /* FlightRecord: 6 bytes per record */
 typedef struct {
     char mapX;
@@ -210,6 +238,7 @@ int loadFileSectionEx(char *name, int b, int c, int d, int e);
 void outportByte(int port, int value);
 void decodePicRaw(int handle, int segment);
 void processMenuItems(void *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int gfxPage);
+int routine_60(int param_1, int param_2, int param_3, int param_4, int param_5);
 void loadWorldData(int destOffset, int size);
 void drawMenuItem(void *items, int index, int gfxPage);
 void routine_108(int destOffset, int size, int flag, int bufHandle);
