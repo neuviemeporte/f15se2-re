@@ -11,24 +11,20 @@
 #include <stdio.h>
 #include <string.h>
 
-// far arrays found in seg004 in the original executable
-unsigned char far byte_228D0[0xadd4];
-unsigned char far byte_2D6A4[0x4844+0x9c8];
-
 // ==== seg000:0x147 ====
 void drawCockpit() {
     TRACE(("drawCockpit: enter, theater=%d", gameData->theater));
-    TRACE(("drawCockpit: scenarioPlh[0]=%s", scenarioPlh[0]));
     sub_11E0E();
-    TRACE(("drawCockpit: after sub_11E0E"));
     load15Flt3d3();
-    TRACE(("drawCockpit: after load15Flt3d3"));
-    // 0x162
+    TRACE(("drawCockpit: after load15Flt3d3, scenPlh0=%s", scenarioPlh[0]));
     strcpy(regnStr, scenarioPlh[gameData->theater]);
     TRACE(("drawCockpit: regnStr=%s", regnStr));
+    TRACE(("drawCockpit: calling sub_121C6"));
     sub_121C6();
+    TRACE(("drawCockpit: after sub_121C6"));
     // 0x16e
     f15DgtlResult = loadF15DgtlBin();
+    TRACE(("drawCockpit: f15DgtlResult=%d", f15DgtlResult));
     // 0x179
     byte_34197 = byte_228D0[0x2f];
     // 17c
@@ -37,6 +33,7 @@ void drawCockpit() {
     }
      gfx_jump_44_setDac(1);
      gfx_jump_45_retrace();
+     TRACE(("drawCockpit: opening pic"));
      // 1a1
      if (gfx_jump_3f_modecode() == 3) {
         openBlitClosePic(a256pit_pic, 1);
@@ -44,9 +41,11 @@ void drawCockpit() {
      else {
         openBlitClosePic(aCockpit_pic, 1);
      }
+     TRACE(("drawCockpit: pic done"));
      // 1df
      gfx_jump_2a(1, 0, 0x60, 0, 0, 0x60, 0x140, 0x68);
      gfx_jump_2a(1, 0, 0x60, 2, 0, 0x60, 0x140, 0x68);
+     TRACE(("drawCockpit: done"));
 }
 
 // ==== seg000:0x211 ====

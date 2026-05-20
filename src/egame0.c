@@ -24,7 +24,7 @@ int main(void) {
     TRACE(("egame main: setup overlays"));
     setupOverlaySlots(commData->gfxOvlAddr);
     setupOverlaySlots(commData->miscOvlAddr);
-    setupOverlaySlots(commData->sndOvlAddr); 
+    setupOverlaySlots(commData->sndOvlAddr);
     // 0x6d
     hercFlag = commData->setupMono;
     gfxModeUnset = commData->gfxModeNum == 0;

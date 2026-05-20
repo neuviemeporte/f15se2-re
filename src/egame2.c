@@ -53,8 +53,10 @@ int load15Flt3d3() {
     fread(&flt15_size, 2, 1, fileHandle);
     fread(flt15_buf1, 2, flt15_size, fileHandle);
     fread(&var_A, 2, 1, fileHandle);
+    TRACE(("load15Flt3d3: var_A=%d", var_A));
     segread(&var_8);
     var_10 = byte_2D6A4;
+    TRACE(("load15Flt3d3: DS=%04x var_10=%04x:%04x", var_8.ds, FP_SEG(var_10), FP_OFF(var_10)));
     while(var_A > 0) {
         // c98b
         var_C = var_A <= 0x800 ? var_A : 0x800;
@@ -64,8 +66,10 @@ int load15Flt3d3() {
         var_A -= 0x800;
         FP_SEG(var_10) += 0x800;
     }
+    TRACE(("load15Flt3d3: loop done"));
     // c9ca
     fclose(fileHandle);
+    TRACE(("load15Flt3d3: done"));
 }
 
 // ==== seg000:0xd1c8 ====
@@ -81,6 +85,7 @@ int sub_1D1C8(int arg_0) {
 
 // ==== seg000:0xdd4c ====
 int openFileWrapper(char *path, int mode) {
+    TRACE(("openFileWrapper: path=%s mode=%d", path, mode));
     openFile(path, mode);
 }
 
