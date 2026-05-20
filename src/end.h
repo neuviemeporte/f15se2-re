@@ -135,7 +135,7 @@ extern int *spriteSamBlink;
 extern int *spriteGroundBlink;
 extern int *spriteWaypointBlink;
 extern void far routine_134(void);
-void processDebriefInput(int *param_1, int *param_2, int param_3);
+void processDebriefInput(int *param_1, void *param_2, int param_3);
 
 /* FlightRecord: 6 bytes per record */
 typedef struct {
@@ -176,8 +176,8 @@ void drawClippedLine(int x1, int y1, int x2, int y2);
 int drawEventSprite(int param_1);
 void drawMapPixel(int x, int y, int color);
 void markHandleClosed(int handle);
-int isPointInRect(unsigned int *p);
-void blinkWidget(int *param_1, int param_2);
+int isPointInRect(void *p);
+void blinkWidget(void *param_1, int param_2);
 unsigned int drawFlightPath(int param_1, unsigned int param_2);
 void showEventPopup(void);
 void drawFlightLine(int p1, int p2, int p3, int p4);
@@ -208,9 +208,9 @@ int loadFileSection(char *name, int b, int c);
 int loadFileSectionEx(char *name, int b, int c, int d, int e);
 void outportByte(int port, int value);
 void decodePicRaw(int handle, int segment);
-void processMenuItems(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6);
+void processMenuItems(void *param_1, int param_2, int param_3, int param_4, int param_5, int param_6);
 void routine_71(int param_1, int param_2);
-void drawMenuItem(int param_1, int param_2, int param_3);
+void drawMenuItem(void *param_1, int param_2, int param_3);
 void routine_108(int param_1, int param_2, int param_3, int param_4);
 void routine_109(int param_1, int param_2, int param_3, int param_4);
 extern int worldDataReady;
