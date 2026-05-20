@@ -26,43 +26,53 @@ struct Buf6Item {
 };
 #define BUF6ITEMSIZE 0x24
 
+/* Buf4Item: 16-byte world target/object entry from .wld files.
+ * Each entry describes a placeable object in the game world.
+ * Used by wldReadBuf4[] array loaded from theater .wld data.
+ * Fields derived from F-117A reverse engineering (same engine). */
 #pragma pack(1)
 struct Buf4Item {
-    uint16 field_0;
-    uint16 field_2;
-    uint16 field_4;
-    int16 field_6;
-    int16 field_8;
-    int16 field_A;
-    int16 field_C;
-    int16 field_E;
+    uint16 unitRef;      /* object/unit type reference (index into wldOffsets name table) */
+    uint16 x_coord;      /* world X coordinate */
+    uint16 y_coord;      /* world Y coordinate */
+    int16 unitType;      /* unit type: 0=empty, 21=special */
+    int16 targetFlags;   /* target flags bitfield (0x100=airbase, 0x200=large, 0x400=waypoint, 0x500=base, 0x800=disabled) */
+    int16 field_A;       /* unknown */
+    int16 field_C;       /* unknown */
+    int16 objectIdx;     /* index into wld_obj_table, masked with 0x7f */
 };
 #define BUF4ITEMSIZE 0x10
 
 #define BUF7SIZE 0x64
 #define BUF10SIZE 0x100
 
+/* Target: 0x12-byte mission target/parameters structure.
+ * Two targets per mission: targets[0] = primary, targets[1] = secondary.
+ * Populated by runGenerator() during mission generation. */
 #pragma pack(1)
 struct Target {
-    int16 field_0;
-    int16 field_2;
-    int16 field_4;
-    int16 field_6;
-    int16 field_8;
-    uint8 coord[6];
-    int16 field_10;
+    int16 missionType;   /* 1=photograph, 2=destroy, 3=supply_drop, 4=landing */
+    int16 targetIdx;     /* target index into wldReadBuf4[] world data */
+    int16 baseIdx;       /* takeoff base (primary) or landing base (secondary) index */
+    int16 missionCode;   /* bit flags for mission completion detection */
+    int16 missionNum;    /* index into mission lookup table (stru_18FC0/stru_33402) */
+    uint8 coord[6];      /* grid reference string (e.g. "A3B2") */
+    int16 distance;      /* distance metric */
 };
 
 #define TARGETSIZE 0x12
 
+/* MissionTableEntry: 0x0C-byte mission lookup table entry.
+ * Array of ~56 entries defining possible mission types per theater/tension.
+ * Used by stru_18FC0[] (start.exe) and stru_33402[] (egame.exe). */
 #pragma pack(1)
-struct struc_9 {
-    int16 field_0;
-    int16 field_2;
-    int16 field_4;
-    int16 field_6;
-    int16 field_8;
-    int16 field_A;
+struct MissionTableEntry {
+    int16 theaterMask;   /* bitmask of which theaters support this mission */
+    int16 tensionMask;   /* bitmask of which tension/campaign levels support it */
+    int16 missionType;   /* 1=photograph, 2=destroy, 3=supply_drop, 4=landing */
+    int16 objectFlag;    /* must match wld_obj_table[target.objectIdx] */
+    int16 missionCode;   /* completion detection flags */
+    int16 special;       /* special parameter, can be negative */
 };
 
 #define STRUC9SIZE 0xc

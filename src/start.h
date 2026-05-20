@@ -974,7 +974,7 @@ extern uint8 a20Mm[];
 extern uint8 aGuns[];
 extern uint8 aSpecial[];
 extern uint8 aEquip[];
-extern struct struc_9 stru_18FC0[];
+extern struct MissionTableEntry stru_18FC0[];
 extern char *regnPlhPtr;
 extern char *plhFiles[];
 extern int16 off_19262[];

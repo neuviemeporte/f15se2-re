@@ -418,13 +418,13 @@ void printMission() {
     drawStringAt(page1NumPtr, aTakeoffFrom, 0x82, 0x20);
     drawColor = COLOR_BRIEF_DESC_HL;
     // e71
-    placeString(targets[0].field_4);
+    placeString(targets[0].baseIdx);
     // e8b
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x2a, 0xb9);
     // e99
     mystrcpy(todayMissStrBuf, aOnc_2);
     // eae
-    mystrcat(todayMissStrBuf, getItemCoordStr(targets[0].field_4));
+    mystrcat(todayMissStrBuf, getItemCoordStr(targets[0].baseIdx));
     fontIndex = FONT_SMALL;
     drawColor = COLOR_COORDS;
     // ed4
@@ -435,7 +435,7 @@ void printMission() {
     drawStringAt(page1NumPtr, aPrimaryTarget, 0x82, 0x40);
     drawColor = COLOR_BRIEF_DESC_HL;
     // f06
-    placeString(targets[0].field_2);
+    placeString(targets[0].targetIdx);
     // f20
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x4a, 0xb9);
     fontIndex = FONT_SMALL;
@@ -452,7 +452,7 @@ void printMission() {
     drawStringAt(page1NumPtr, aSecondaryTarge, 0x82, 0x60);
     drawColor = COLOR_BRIEF_DESC_HL;
     // f94
-    placeString(target2.field_2);
+    placeString(target2.targetIdx);
     // fae
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x6a, 0xb9);
     fontIndex = FONT_SMALL;

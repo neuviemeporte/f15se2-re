@@ -71,7 +71,7 @@ void testStruct() {
     ASSERT_EQ(sizeof(struct Buf4Item), BUF4ITEMSIZE);
     ASSERT_EQ(sizeof(struct Buf6Item), BUF6ITEMSIZE);
     ASSERT_EQ(sizeof(struct Target), TARGETSIZE);
-    ASSERT_EQ(sizeof(struct struc_9), STRUC9SIZE);
+    ASSERT_EQ(sizeof(struct MissionTableEntry), STRUC9SIZE);
     ASSERT_EQ(sizeof(struct struc_10), STRUC10SIZE);
     ASSERT_EQ(sizeof(struct Pilot), HALLFAME_RECORDSZ);
     ASSERT_EQ(sizeof(struct Plane), PLANESIZE);

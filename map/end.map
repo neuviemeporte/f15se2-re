@@ -117,7 +117,7 @@ start: Code1 NEAR 491c-49cd R491c-49cd external
 routine_4: Code1 NEAR 49ce-4a91 R49ce-4a91 R4ea4-4ea9 external
 dosExit: Code1 NEAR 4a92-4aa8 R4a92-4aa8 external
 routine_9: Code1 NEAR 4aa9-4aed R4aa9-4aed external
-routine_30: Code1 NEAR 4aee-4b1a R4aee-4b1a assembly
+routine_30: Code1 NEAR 4aee-4b1a R4aee-4b1a external
 _unk_libc1: Code1 NEAR 4b1b-4b29 R4b1b-4b29 external
 _unk_libc2: Code1 NEAR 4b2a-4b3c R4b2a-4b3c external
 _fclose: Code1 NEAR 4b3e-4bf7 R4b3e-4bf7 external
@@ -128,7 +128,7 @@ __aNldiv: Code1 NEAR 4cf0-4d8b R4cf0-4d8b external
 __aNlrem: Code1 NEAR 4dc0-4e61 R4dc0-4e61 external
 __aNNaldiv: Code1 NEAR 4e62-4e83 R4e62-4e83 external
 __ctermsub: Code1 NEAR 4e84-4ea3 R4e84-4ea3 external
-routine_29: Code1 NEAR 4eaa-4ecb R4eaa-4ecb assembly
+routine_29: Code1 NEAR 4eaa-4ecb R4eaa-4ecb external
 __NMSG_TEXT: Code1 NEAR 4ecc-4ef6 R4ecc-4ef6 external
 __NMSG_WRITE: Code1 NEAR 4ef7-4f1f R4ef7-4f1f external
 routine_114: Code1 NEAR 4f46-4f73 R4f46-4f73 assembly

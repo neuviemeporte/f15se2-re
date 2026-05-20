@@ -7,31 +7,31 @@
 
 typedef unsigned int MenuItemFlags;
 
-#define MENUITEM_FLAG_0x0007  0x0007 // 0b0000000000000111
-#define MENUITEM_FLAG_0x0008  0x0008 // 0b0000000000001000
-#define MENUITEM_FLAG_0x0100  0x0100 // 0b0000000100000000
-#define MENUITEM_FLAG_0x0800  0x0800 // 0b0000100000000000
-#define MENUITEM_FLAG_0x1000  0x1000 // 0b0001000000000000
+#define MENUITEM_TYPE_MASK    0x0007 // 0b0000000000000111
+#define MENUITEM_SELECTABLE   0x0008 // 0b0000000000001000
+#define MENUITEM_ENABLED      0x0100 // 0b0000000100000000
+#define MENUITEM_HAS_SPRITE   0x0800 // 0b0000100000000000
+#define MENUITEM_SPRITE_BLINK 0x1000 // 0b0001000000000000
 
-typedef struct SomeStruct {
-    int  _MinX;          /* 0x00 */
-    int  _MinY;          /* 0x02 */
-    int  _MaxX;          /* 0x04 */
-    int  _MaxY;          /* 0x06 */
+typedef struct MenuItem {
+    int  hitX1;          /* 0x00 */
+    int  hitY1;          /* 0x02 */
+    int  hitX2;          /* 0x04 */
+    int  hitY2;          /* 0x06 */
 
-    int  _0x08;          /* 0x08 */
-    int  _0x0a;          /* 0x0a */
-    int  _0x0c;          /* 0x0c */
-    int  _0x0e;          /* 0x0e */
-    int  _0x10;          /* 0x10 */
-    int  _0x12;          /* 0x12 */
+    int  colorX1;        /* 0x08 */
+    int  colorY1;        /* 0x0a */
+    int  colorX2;        /* 0x0c */
+    int  colorY2;        /* 0x0e */
+    int  colorTableIdx;  /* 0x10 */
+    int  colorPair;      /* 0x12 */
 
-    char _0x14[0x18];    /* 0x14 .. 0x2b */
+    char label[0x18];    /* 0x14 .. 0x2b */
 
-    int  _0x2c;          /* 0x2c */
-    int  _0x2e;          /* 0x2e */
+    int  unk_2c;         /* 0x2c */
+    int  state;          /* 0x2e */
     MenuItemFlags flags; /* 0x30 */
-} SomeStruct;
+} MenuItem;
 
 void main(void) {
     int p;
@@ -240,10 +240,10 @@ void drawFarString(int *s, char far *str) {
     gfx_jump_05_drawString(s, buf);
 }
 
-int isPointInRect(SomeStruct *p)
+int isPointInRect(MenuItem *p)
 {
     TRACE(("isPointInRect"));
-    if (p->_MinX <= cursorX && p->_MaxX >= cursorX && p->_MinY <= cursorY && p->_MaxY >= cursorY)
+    if (p->hitX1 <= cursorX && p->hitX2 >= cursorX && p->hitY1 <= cursorY && p->hitY2 >= cursorY)
         return 1;
     else
         return 0;
@@ -320,8 +320,8 @@ int drawEventSprite(int param_1)
         case EVENT_AIR_KILL2:
         spriteAir[4] = mapToScreenX(flightRecords[param_1].mapX) + mapViewX1 - 2;
         spriteAir[5] = mapToScreenY(flightRecords[param_1].mapY) + mapViewY1 - 2;
-        if (slotInfoTable[(flightRecords[curRecordIdx].pad & UNIT_ID_MASK) * 16] & 8) {
-            spriteAir[1] = 0x11e;
+        if (slotInfoTable[(flightRecords[curRecordIdx].unitId & UNIT_ID_MASK) * 16] & 8) {
+                    spriteAir[1] = 0x11e;
         } else {
             spriteAir[1] = 0x12d;
         }
@@ -368,7 +368,7 @@ long calcMissionScore(int param) {
     }
 
     for (b = 0; (unsigned)b <= (unsigned)param && flightRecords[KILL_RECORD_OFFSET + b].status; b++) {
-        f = flightRecords[KILL_RECORD_OFFSET + b].pad;
+        f = flightRecords[KILL_RECORD_OFFSET + b].unitId;
         switch (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_TYPE_MASK) {
         case EVENT_EJECTED:
             if (b != 0) {
@@ -508,8 +508,8 @@ void showEventPopup(void) {
     a = flightRecords[curRecordIdx].status & STATUS_TYPE_MASK;
     switch (a) {
     case EVENT_AIR_KILL:
-        if (slotInfoTable[(flightRecords[curRecordIdx].pad & UNIT_ID_MASK) * 16] & 8) {
-            a = 0xf;
+        if (slotInfoTable[(flightRecords[curRecordIdx].unitId & UNIT_ID_MASK) * 16] & 8) {
+                    a = 0xf;
         } else {
             a = 0;
         }
@@ -570,7 +570,7 @@ void showEventPopup(void) {
     popupVisible = 1;
 }
 
-void blinkWidget(SomeStruct *param_1, int param_2) {
+void blinkWidget(MenuItem *param_1, int param_2) {
     int p;
     int a;
     int b;
@@ -578,24 +578,24 @@ void blinkWidget(SomeStruct *param_1, int param_2) {
     TRACE(("blinkWidget"));
     (void)a;
     (void)c;
-    if (param_1->_0x2e == 0) {
-        param_1->_0x2e = 1;
-        b = (unsigned)param_1->_0x12 >> 4;
-        p = param_1->_0x12 & 0xF;
-        if (param_1->_0x12 != 0) {
-            gfx_jump_29_switchColor(param_2, param_1->_0x08, param_1->_0x0a, param_1->_0x0c, param_1->_0x0e, b, p);
+    if (param_1->state == 0) {
+        param_1->state = 1;
+        b = (unsigned)param_1->colorPair >> 4;
+        p = param_1->colorPair & 0xF;
+        if (param_1->colorPair != 0) {
+            gfx_jump_29_switchColor(param_2, param_1->colorX1, param_1->colorY1, param_1->colorX2, param_1->colorY2, b, p);
         }
     } else {
-        param_1->_0x2e = 0;
-        b = param_1->_0x12 & 0xF;
-        p = (unsigned)param_1->_0x12 >> 4;
+        param_1->state = 0;
+        b = param_1->colorPair & 0xF;
+        p = (unsigned)param_1->colorPair >> 4;
     }
-    if (param_1->_0x12 != 0) {
-        gfx_jump_29_switchColor(param_2, param_1->_0x08, param_1->_0x0a, param_1->_0x0c, param_1->_0x0e, b, p);
+    if (param_1->colorPair != 0) {
+        gfx_jump_29_switchColor(param_2, param_1->colorX1, param_1->colorY1, param_1->colorX2, param_1->colorY2, b, p);
     }
 }
 
-void processDebriefInput(int *param_1, SomeStruct *param_2, int param_3) {
+void processDebriefInput(int *param_1, MenuItem *param_2, int param_3) {
     int a;
     int b;
     int c;
@@ -610,7 +610,7 @@ void processDebriefInput(int *param_1, SomeStruct *param_2, int param_3) {
     (void)g;
     (void)i;
 
-    colorTablePtr = param_2->_0x10 * 14 + (int)dat_1c8e;
+    colorTablePtr = param_2->colorTableIdx * 14 + (int)dat_1c8e;
     timerCounter2 = 0;
     d = e = 0;
     inputChanged = enterPressed = animDone = f = 0;
@@ -666,15 +666,15 @@ void processDebriefInput(int *param_1, SomeStruct *param_2, int param_3) {
                 timerCounter2 = 0;
                 c = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] >> 4;
                 b = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] & 0xF;
-                gfx_jump_29_switchColor(param_3, param_2->_0x08, param_2->_0x0a, param_2->_0x0c, param_2->_0x0e, c, b);
+                gfx_jump_29_switchColor(param_3, param_2->colorX1, param_2->colorY1, param_2->colorX2, param_2->colorY2, c, b);
                 colorAnimIdx++;
                 colorAnimIdx = (unsigned)colorAnimIdx % *(unsigned int *)colorTablePtr;
             }
         }
 
         /* sprite section */
-        if (!(param_2->flags & MENUITEM_FLAG_0x0800)) goto skip_sprite;
-        if (!(param_2->flags & MENUITEM_FLAG_0x1000)) goto skip_sprite;
+        if (!(param_2->flags & MENUITEM_HAS_SPRITE)) goto skip_sprite;
+        if (!(param_2->flags & MENUITEM_SPRITE_BLINK)) goto skip_sprite;
         if ((unsigned char)timerCounter3 <= 0x12) goto skip_sprite;
         timerCounter3 = 0;
         if (spriteToggle != 0) {
@@ -788,14 +788,14 @@ skip_sprite:
     }
 
     /* final cleanup */
-    if (param_2->flags & MENUITEM_FLAG_0x0800) {
-        if (param_2->flags & MENUITEM_FLAG_0x1000) {
+    if (param_2->flags & MENUITEM_HAS_SPRITE) {
+        if (param_2->flags & MENUITEM_SPRITE_BLINK) {
             drawEventSprite(curRecordIdx);
         }
     }
 }
 
-void processMenuItems(SomeStruct *param_1, int param_2, int param_3, int param_4, int param_5, int param_6) {
+void processMenuItems(MenuItem *param_1, int param_2, int param_3, int param_4, int param_5, int param_6) {
     char p[2]; char a[2]; int b; char c[2]; int d; int e; char f[2];
     int g; int h; int i; int j; int k; int l; int m; int n; int o;
     (void)param_2;
@@ -807,14 +807,14 @@ void processMenuItems(SomeStruct *param_1, int param_2, int param_3, int param_4
     f[0] = 0x80; f[1] = 0;
     d = 0;
     for (; d < param_3; d++) {
-        if (param_1[d]._0x2e == 2) {
+        if (param_1[d].state == 2) {
             selectedMenuItem = d;
-            param_1[d]._0x2e = 0;
+            param_1[d].state = 0;
             blinkWidget(&param_1[d], param_6);
             drawMenuItem(param_1, d, param_6);
         } else {
-            if (param_1[d]._0x2e != 3) {
-                param_1[d]._0x2e = 0;
+            if (param_1[d].state != 3) {
+                param_1[d].state = 0;
             }
         }
     }
@@ -822,7 +822,7 @@ void processMenuItems(SomeStruct *param_1, int param_2, int param_3, int param_4
     cursorY = param_5;
 }
 
-void routine_96(SomeStruct *param_1, int param_2, int param_3) {
+void routine_96(int param_1, int param_2, int param_3) {
     char p[2]; char a[2]; char b[2]; int c; char d[2]; int e; int f;
     int g; int h; int i; int j; int k; int l; int m;
     char n[2]; int o;
@@ -833,10 +833,10 @@ void routine_96(SomeStruct *param_1, int param_2, int param_3) {
     b[0] = 0x89; b[1] = 0;
     a[0] = 0x8d; a[1] = 0;
     d[0] = 0x80; d[1] = 0;
-    si = param_1[param_2].flags;
-    if (!(si & MENUITEM_FLAG_0x0800))
+    si = *(int *)((char *)param_1 + (unsigned)param_2 * 0x32 + 0x30);
+    if (!(si & 0x800))
         return;
-    if ((si & MENUITEM_FLAG_0x0007) != 7)
+    if ((si & 7) != 7)
         goto section2;
     /* Section 1: mission complete display */
     clearRect((int *)param_3, 0xeb, 0x0a, 0x13f, 0x95);
@@ -895,14 +895,9 @@ void routine_96(SomeStruct *param_1, int param_2, int param_3) {
     drawStringAt((int *)param_3, dat_4824, 0x131, 0x36);
     ejectedFlag = 1;
 section2:
-#if 1
-    si = (unsigned)param_2 * sizeof(SomeStruct);
-    if (!((*(SomeStruct *)((char *)param_1 + si)).flags & MENUITEM_FLAG_0x1000))
+    si = (unsigned)param_2 * 0x32;
+    if (!(*(int *)((char *)param_1 + si + 0x30) & 0x1000))
         return;
-#else	
-    if (!(param_1[param_2].flags & MENUITEM_FLAG_0x1000))
-        return;
-#endif
     if (ejectedFlag != 1)
         goto eventDisplay;
     ejectedFlag = 0;
@@ -1028,7 +1023,7 @@ eventDisplay:
     drawWrappedText((int *)param_3, dat_4824, 0x50, 0xf0, 0x82, 8);
 }
 
-int routine_60(SomeStruct *param_1, int param_2, int param_3, int param_4, int param_5) {
+int routine_60(int param_1, int param_2, int param_3, int param_4, int param_5) {
     char p[2]; int a; int b; char c[2]; int d; char e[2]; int f;
     int g; char h[2]; int i; char j[10]; int k; int l; int m; int n; int o;
     register int si;
@@ -1041,63 +1036,63 @@ int routine_60(SomeStruct *param_1, int param_2, int param_3, int param_4, int p
     gfx_jump_50();
     colorAnimEnabled = 0;
     i = 0;
-    while (isPointInRect(&param_1[i]) == 0 && i < param_3)
+    while (isPointInRect((unsigned int *)((char *)param_1 + i * 0x32)) == 0 && i < param_3)
         i++;
     joyRepeatFlag = 0;
     for (;;) {
         do {
             gfx_jump_50();
             si = i * 0x32;
-            if ((param_1[i].flags & MENUITEM_FLAG_0x0100) == 0) {
+            if ((*(int *)((char *)param_1 + si + 0x30) & 0x100) == 0) {
                 colorAnimEnabled = 1;
             }
-            processDebriefInput((int *)param_4, &param_1[i], param_5);
+            processDebriefInput((int *)param_4, (int *)((char *)param_1 + i * 0x32), param_5);
         } while (inputChanged == 0 && enterPressed == 0);
         if (enterPressed != 0) {
             if (i != selectedMenuItem) {
                 i = 0;
-                while (isPointInRect(&param_1[i]) == 0 && i < param_3)
+                while (isPointInRect((unsigned int *)((char *)param_1 + i * 0x32)) == 0 && i < param_3)
                     i++;
             }
-            if (param_1[selectedMenuItem]._0x10 != 0)
+            if (((int *)((char *)param_1 + selectedMenuItem * 0x32))[8] != 0)
                 goto done;
             b = 0x0b;
             a = 9;
-            gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem]._0x08, param_1[selectedMenuItem]._0x0a, param_1[selectedMenuItem]._0x0c, param_1[selectedMenuItem]._0x0e, 0x0b, 9);
+            gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 0x0b, 9);
             b = 3;
-            gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem]._0x08, param_1[selectedMenuItem]._0x0a, param_1[selectedMenuItem]._0x0c, param_1[selectedMenuItem]._0x0e, 3, a);
+            gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 3, a);
             b = 0x0d;
-            gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem]._0x08, param_1[selectedMenuItem]._0x0a, param_1[selectedMenuItem]._0x0c, param_1[selectedMenuItem]._0x0e, 0x0d, a);
+            gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 0x0d, a);
             goto done;
         }
         i = 0;
-        while (isPointInRect(&param_1[i]) == 0 && i < param_3)
+        while (isPointInRect((unsigned int *)((char *)param_1 + i * 0x32)) == 0 && i < param_3)
             i++;
         if (i != selectedMenuItem) {
-            if ((param_1[i].flags & MENUITEM_FLAG_0x0008) != 0) {
+            if ((*(char *)((char *)param_1 + i * 0x32 + 0x30) & 0x08) != 0) {
                 for (f = 0; f < param_3; f++) {
-                    if (param_1[f]._0x2e != 0 &&
-                        param_1[i]._0x2c == param_1[f]._0x2c) {
-                        blinkWidget(&param_1[f], param_5);
+                    if (((int *)((char *)param_1 + f * 0x32))[0x17] != 0 &&
+                        ((int *)((char *)param_1 + i * 0x32))[0x16] == ((int *)((char *)param_1 + f * 0x32))[0x16]) {
+                        blinkWidget((int *)((char *)param_1 + f * 0x32), param_5);
                     }
                 }
-                if (param_1[selectedMenuItem]._0x10 == 0) {
+                if (((int *)((char *)param_1 + selectedMenuItem * 0x32))[8] == 0) {
                     b = 9;
                     a = 6;
-                    gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem]._0x08, param_1[selectedMenuItem]._0x0a, param_1[selectedMenuItem]._0x0c, param_1[selectedMenuItem]._0x0e, 9, 6);
+                    gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 9, 6);
                     b = 3;
-                    gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem]._0x08, param_1[selectedMenuItem]._0x0a, param_1[selectedMenuItem]._0x0c, param_1[selectedMenuItem]._0x0e, 3, a);
+                    gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 3, a);
                     b = 0x0d;
-                    gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem]._0x08, param_1[selectedMenuItem]._0x0a, param_1[selectedMenuItem]._0x0c, param_1[selectedMenuItem]._0x0e, 0x0d, a);
+                    gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 0x0d, a);
                     b = 0x0b;
-                    gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem]._0x08, param_1[selectedMenuItem]._0x0a, param_1[selectedMenuItem]._0x0c, param_1[selectedMenuItem]._0x0e, 0x0b, a);
+                    gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 0x0b, a);
                 }
-                if (param_1[selectedMenuItem]._0x10 == 1) {
+                if (((int *)((char *)param_1 + selectedMenuItem * 0x32))[8] == 1) {
                     b = 8;
                     a = 7;
-                    gfx_jump_29_switchColor(param_5, param_1[selectedMenuItem]._0x08, param_1[selectedMenuItem]._0x0a, param_1[selectedMenuItem]._0x0c, param_1[selectedMenuItem]._0x0e, 8, 7);
+                    gfx_jump_29_switchColor(param_5, ((int *)((char *)param_1 + selectedMenuItem * 0x32))[4], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[5], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[6], ((int *)((char *)param_1 + selectedMenuItem * 0x32))[7], 8, 7);
                 }
-                blinkWidget(&param_1[i], param_5);
+                blinkWidget((int *)((char *)param_1 + i * 0x32), param_5);
             }
             selectedMenuItem = i;
             routine_96(param_1, i, param_5);
