@@ -4,10 +4,10 @@
 #include "end.h"
 #include "util.h"
 
-void closeFileWrapper(int param_1)
+void closeFileWrapper(int handle)
 {
     TRACE(("closeFileWrapper"));
-    routine_125(param_1);
+    routine_125(handle);
 }
 
 void loadPic(char *filename, int segment) {
@@ -47,9 +47,9 @@ void freeBuffer(int segment) {
     }
 }
 
-void srandInit(int param_1) {
+void srandInit(int seed) {
     TRACE(("srandInit"));
-    randSeed = param_1;
+    randSeed = seed;
     randState = 0;
 }
 
@@ -137,8 +137,8 @@ done:
     }
 }
 
-void routine_26(void) {
-    TRACE(("routine_26"));
+void checkQuitFlag(void) {
+    TRACE(("checkQuitFlag"));
     if (quitFlag != 0) {
         cleanup();
         restoreCbreakHandler();
@@ -193,43 +193,43 @@ void loadWorldStrings(void) {
 }
 
 // 1e78
-void routine_27(void) {
+void showPostMissionAwards(void) {
     int p;
-    var_86[3] = 0;
-    if (commData[0x30 / 2] != 0)
+    awardPage[3] = 0;
+    if (commData[COMM_SETUP_GFXMODE_OFFSET / 2] != 0)
         goto done;
-    if (gameData[0x4e / 2] == 1) {
+    if (gameData[GAME_CAMPAIGN_PROGRESS_OFFSET / 2] == 1) {
         gfx_jump_3d_null(3);
-        openShowPic(str_deskPic, *var_86);
-        drawStringCentered((int *)var_86, str_deskMsg1, 0x24, 0xb3, 0xfa);
-        drawStringCentered((int *)var_86, str_deskMsg2, 0x24, 0xbc, 0xfa);
+        openShowPic(str_deskPic, *awardPage);
+        drawStringCentered((int *)awardPage, str_deskMsg1, 0x24, 0xb3, 0xfa);
+        drawStringCentered((int *)awardPage, str_deskMsg2, 0x24, 0xbc, 0xfa);
         // 1ef4
-        var_85 = 4;
-        var_84 = 0;
+        awardFont = 4;
+        awardColor = 0;
         p = 0;
         // 1f05
-        for (; (var_176[p] = ((char far *)gameData)[p + 2]) != 0 ; p++) {}
-        drawStringCentered((int *)var_86, var_176, 0xc1, 0x99, 0x5f);
-        var_84 = 7;
-        var_85 = 1;
+        for (; (textBuf[p] = ((char far *)gameData)[p + 2]) != 0 ; p++) {}
+        drawStringCentered((int *)awardPage, textBuf, 0xc1, 0x99, 0x5f);
+        awardColor = 7;
+        awardFont = 1;
         goto show;
     }
-    if (gameData[0x4e / 2] == 2) {
+    if (gameData[GAME_CAMPAIGN_PROGRESS_OFFSET / 2] == 2) {
         gfx_jump_3d_null(2);
-        openShowPic(str_deathPic, *var_86);
-        drawStringCentered((int *)var_86, str_deathMsg1, 0x24, 0xad, 0xfa);
-        drawStringCentered((int *)var_86, str_deathMsg2, 0x24, 0xb6, 0xfa);
+        openShowPic(str_deathPic, *awardPage);
+        drawStringCentered((int *)awardPage, str_deathMsg1, 0x24, 0xad, 0xfa);
+        drawStringCentered((int *)awardPage, str_deathMsg2, 0x24, 0xb6, 0xfa);
         goto show;
     }
     // 1fa8
-    if (((unsigned)gameData[0x20 / 2] < 6) && (*(long *)&var_89[gameData[0x20 / 2]] < *(long far *)&gameData[0x32 / 2])) {
+    if (((unsigned)gameData[GAME_RANK_OFFSET / 2] < 6) && (*(long *)&promoThresholds[gameData[GAME_RANK_OFFSET / 2]] < *(long far *)&gameData[GAME_TOTALSCORE_OFFSET / 2])) {
         gfx_jump_3d_null(6);
-        openShowPic(str_promoPic, *var_86);
-        var_84 = 1;
-        drawStringCentered((int *)var_86, str_promoMsg1, 0x24, 0xae, 0xfa);
-        mystrcpy(var_176, str_promoMsg2);
-        mystrcat(var_176, var_87[++gameData[0x20 / 2]]);
-        drawStringCentered((int *)var_86, var_176, 0x24, 0xb7, 0xfa);
+        openShowPic(str_promoPic, *awardPage);
+        awardColor = 1;
+        drawStringCentered((int *)awardPage, str_promoMsg1, 0x24, 0xae, 0xfa);
+        mystrcpy(textBuf, str_promoMsg2);
+        mystrcat(textBuf, rankNames[++gameData[GAME_RANK_OFFSET / 2]]);
+        drawStringCentered((int *)awardPage, textBuf, 0x24, 0xb7, 0xfa);
         gfx_jump_50();
         gfx_jump_46_retrace2();
         waitForKeyOrJoy();
@@ -237,27 +237,27 @@ void routine_27(void) {
 medals:
     p = 4;
     for (; p >= 0; p--) {
-        if (*(long *)&missionScore > *(long *)&var_92[p])
+        if (*(long *)&missionScore > *(long *)&medalThresholds[p])
             break;
     }
     if (p < 0)
         goto done;
-    if (gameData[0x22 / 2] & (1 << (char)p))
+    if (gameData[GAME_MEDALS_OFFSET / 2] & (1 << (char)p))
         goto done;
     gfx_jump_45_retrace();
     gfx_jump_3d_null(0x0a);
-    openShowPic(str_medalPic, *var_86);
-    var_84 = 0x0f;
-    drawStringCentered((int *)var_86, str_medalMsg1, 0x24, 0xae, 0xfa);
-    mystrcpy(var_176, str_medalMsg2);
-    mystrcat(var_176, var_90[p]);
-    drawStringCentered((int *)var_86, var_176, 0x24, 0xb7, 0xfa);
-    gameData[0x22 / 2] |= (1 << (char)p);
+    openShowPic(str_medalPic, *awardPage);
+    awardColor = 0x0f;
+    drawStringCentered((int *)awardPage, str_medalMsg1, 0x24, 0xae, 0xfa);
+    mystrcpy(textBuf, str_medalMsg2);
+    mystrcat(textBuf, medalNames[p]);
+    drawStringCentered((int *)awardPage, textBuf, 0x24, 0xb7, 0xfa);
+    gameData[GAME_MEDALS_OFFSET / 2] |= (1 << (char)p);
 show:
     gfx_jump_50();
     gfx_jump_46_retrace2();
     waitForKeyOrJoy();
 done:
-    clearRect((int *)var_86, 0, 0, 0x13f, 0xc7);
+    clearRect((int *)awardPage, 0, 0, 0x13f, 0xc7);
     gfx_jump_46_retrace2();
 }

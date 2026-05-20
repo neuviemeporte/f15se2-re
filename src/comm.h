@@ -77,8 +77,8 @@ struct Game {
     uint16 pilotIdx;
     char pilotName[0x16];
     uint8 pad1[0x8];
-    uint16 unk2; // score? (dword)
-    uint16 unk3;
+    uint16 rank;
+    uint16 medals;
     uint8 pad5[0xa];
     uint16 lastScore;
     int16 rankHigh;
@@ -97,8 +97,8 @@ struct Game {
 
 #define GAME_PILOTIDX_OFFSET 0x0
 #define GAME_PILOTNAME_OFFSET 0x2
-#define GAME_UNK2_OFFSET 0x20 // probably something to do with rank or medals
-#define GAME_UNK3_OFFSET 0x22 // ditto
+#define GAME_RANK_OFFSET 0x20
+#define GAME_MEDALS_OFFSET 0x22
 #define GAME_LASTSCORE_OFFSET 0x2e
 #define GAME_RANK_HIGH_OFFSET 0x30
 #define GAME_TOTALSCORE_OFFSET 0x32

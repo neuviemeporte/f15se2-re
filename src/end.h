@@ -52,7 +52,7 @@
 /* Normal debrief exit code */
 #define EXIT_DEBRIEF        0x23
 
-void closeFileWrapper(int param_1);
+void closeFileWrapper(int handle);
 extern void far gfx_jump_05_drawString(int *pageNum, const char *string);
 extern int far gfx_jump_2f_charWidth(int ch, int font);
 
@@ -68,7 +68,7 @@ void restoreCbreakHandler(void);
 void memcopy(char *dst, char *src, int count);
 void farMemcopy(int src_seg, int src_off, int dst_seg, int dst_off, int count);
 int getTimeOfDay(void);
-void srandInit(int param_1);
+void srandInit(int seed);
 void decodePic(int handle, int segment);
 void showPicFile(int handle, int page, int garbage);
 int dos_alloc(int size);
@@ -97,7 +97,7 @@ extern int missionScore;
 extern int missionScoreHi;
 extern int popupX;
 extern int popupY;
-extern char dat_4824[];
+extern char scoreString[];
 extern int target1Type[];
 extern int target1MiscBits[];
 extern int target2Type[];
@@ -135,7 +135,7 @@ extern int *spriteSamBlink;
 extern int *spriteGroundBlink;
 extern int *spriteWaypointBlink;
 extern void far routine_134(void);
-void processDebriefInput(int *param_1, void *param_2, int param_3);
+void processDebriefInput(int *cursorBounds, void *menuItem, int gfxPage);
 
 /* FlightRecord: 6 bytes per record */
 typedef struct {
@@ -168,20 +168,20 @@ void loadPic(char *filename, int segment);
 void openShowPic(char *name, int page, int garbage);
 int allocBuffer(int size);
 void freeBuffer(int segment);
-void srandInit(int param_1);
-int mapToScreenY(unsigned char param_1);
-int mapToScreenX(unsigned char param_1);
+void srandInit(int seed);
+int mapToScreenY(unsigned char mapCoord);
+int mapToScreenX(unsigned char mapCoord);
 void drawClippedLineEx(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2, int cy2, int flag);
 void drawClippedLine(int x1, int y1, int x2, int y2);
-int drawEventSprite(int param_1);
+int drawEventSprite(int recordIdx);
 void drawMapPixel(int x, int y, int color);
 void markHandleClosed(int handle);
 int isPointInRect(void *p);
-void blinkWidget(void *param_1, int param_2);
-unsigned int drawFlightPath(int param_1, unsigned int param_2);
+void blinkWidget(void *item, int gfxPage);
+unsigned int drawFlightPath(int gfxPage, unsigned int maxRecord);
 void showEventPopup(void);
 void drawFlightLine(int p1, int p2, int p3, int p4);
-void animateFlightPath(int param_1);
+void animateFlightPath(int gfxPage);
 void drawWrappedText(int *page, char *str, unsigned int maxWidth, int x, int y, int lineHeight);
 void clearRect(int *page, int y1, int x1, int x2, int y2);
 void mystrcat(char *dst, char *src);
@@ -192,7 +192,7 @@ extern void far gfx_jump_29_switchColor(int page, int x1, int y1, int x2, int y2
 extern void far gfx_jump_2a(int p1, int p2, int p3, int p4, int p5, int p6, int p7, int p8);
 long calcMissionScore(int param);
 void waitForKeyOrJoy(void);
-void routine_26(void);
+void checkQuitFlag(void);
 void routine_5(void);
 void routine_6(void);
 void closeAndResetFile(int *p);
@@ -209,11 +209,11 @@ int loadFileSection(char *name, int b, int c);
 int loadFileSectionEx(char *name, int b, int c, int d, int e);
 void outportByte(int port, int value);
 void decodePicRaw(int handle, int segment);
-void processMenuItems(void *param_1, int param_2, int param_3, int param_4, int param_5, int param_6);
-void routine_71(int param_1, int param_2);
-void drawMenuItem(void *param_1, int param_2, int param_3);
-void routine_108(int param_1, int param_2, int param_3, int param_4);
-void routine_109(int param_1, int param_2, int param_3, int param_4);
+void processMenuItems(void *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int gfxPage);
+void loadWorldData(int destOffset, int size);
+void drawMenuItem(void *items, int index, int gfxPage);
+void routine_108(int destOffset, int size, int flag, int bufHandle);
+void routine_109(int destOffset, int size, int flag, int bufHandle);
 extern int worldDataReady;
 extern char *worldStrings[];
 extern char worldStringBuf[];
@@ -270,17 +270,17 @@ extern char str_missionRating3[];
 extern char str_pressSelect[];
 extern char str_pressNext[];
 
-/* Data symbols used by routine_27 */
-extern int *var_86;
-extern int var_85;
-extern int var_84;
-extern unsigned char var_176[];
-extern char *var_87[];
-extern long var_88[];
-extern long var_89[];
-extern char *var_90[];
-extern long var_91[];
-extern long var_92[];
+/* Data symbols used by showPostMissionAwards */
+extern int *awardPage;
+extern int awardFont;
+extern int awardColor;
+extern unsigned char textBuf[];
+extern char *rankNames[];
+extern long promoScores[];
+extern long promoThresholds[];
+extern char *medalNames[];
+extern long medalScores[];
+extern long medalThresholds[];
 extern char str_deskPic[];
 extern char str_deskMsg1[];
 extern char str_deskMsg2[];
@@ -334,7 +334,7 @@ void setupWorldBufPtr(void);
 void readWorldData(void);
 void routine_24(void);
 void routine_25(void);
-void routine_27(void);
+void showPostMissionAwards(void);
 void installCBreakHandler(void);
 extern void far copyJoystickData(char far *data);
 extern int far gfx_jump_31(void);
