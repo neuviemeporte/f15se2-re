@@ -76,7 +76,11 @@ EXTRN _sub_1DD7E:PROC
 EXTRN _sub_1DD92:PROC
 EXTRN _sub_1DDAA:PROC
 EXTRN _sub_13694:PROC
+EXTRN _sub_13638:PROC
 EXTRN _tempStrcpy:PROC
+PUBLIC _var_349
+PUBLIC _var_350
+PUBLIC _var_662
 PUBLIC _createFile
 PUBLIC _readFile1
 PUBLIC _readFile2
@@ -4699,50 +4703,7 @@ LAB_1000_3632:
 sub_134AC endp
 ; ------------------------------seg000:0x3637------------------------------
 ; ------------------------------seg000:0x3638------------------------------
-sub_13638 proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 8h]
-    push word ptr [BP + 4h]
-    sub AX,AX
-    push AX
-    push AX
-    call sub_13694
-    add SP,8h
-    mov BX,word ptr [BP + 4h]
-    cmp word ptr [BX],0h
-    jge LAB_1000_3657
-    mov word ptr [BX],0h
-LAB_1000_3657:
-    mov BX,word ptr [BP + 8h]
-    cmp word ptr [BX],0h
-    jge LAB_1000_3663
-    mov word ptr [BX],0h
-LAB_1000_3663:
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 6h]
-    push word ptr [_var_350]
-    push word ptr [_var_349]
-    call sub_13694
-    add SP,8h
-    mov BX,word ptr [BP + 6h]
-    mov AX,word ptr [_var_662]
-    cmp word ptr [BX],AX
-    jl LAB_1000_3684
-    dec AX
-    mov word ptr [BX],AX
-LAB_1000_3684:
-    mov BX,word ptr [BP + 0ah]
-    mov AX,word ptr [_var_662]
-    cmp word ptr [BX],AX
-    jl LAB_1000_3691
-    dec AX
-    mov word ptr [BX],AX
-LAB_1000_3691:
-    pop BP
-    ret
-    nop
-sub_13638 endp
+sub_13638 equ _sub_13638
 ; ------------------------------seg000:0x3692------------------------------
 ; ------------------------------seg000:0x3694------------------------------
 sub_13694 equ _sub_13694

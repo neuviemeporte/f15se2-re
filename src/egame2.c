@@ -171,6 +171,24 @@ int sub_1DDAA(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) {
     return sub_1DF4F(arg_0, arg_1, arg_2, arg_3, arg_4);
 }
 
+// ==== seg000:0x3638 ====
+void sub_13638(int *arg_0, int *arg_1, int *arg_2, int *arg_3) {
+    sub_13694(0, 0, arg_0, arg_2);
+    if (*arg_0 < 0) {
+        *arg_0 = 0;
+    }
+    if (*arg_2 < 0) {
+        *arg_2 = 0;
+    }
+    sub_13694(var_349, var_350, arg_1, arg_3);
+    if (*arg_1 >= var_662) {
+        *arg_1 = var_662 - 1;
+    }
+    if (*arg_3 >= var_662) {
+        *arg_3 = var_662 - 1;
+    }
+}
+
 // ==== seg000:0x3694 ====
 void sub_13694(int arg_0, int arg_1, int *arg_2, int *arg_3) {
     *arg_2 = (arg_0 - word_3298C + var_663) / var_661;
