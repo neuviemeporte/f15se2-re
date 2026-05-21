@@ -1019,3 +1019,8 @@ int sub_19A4D(int arg_0, int arg_1) {
     }
     return b;
 }
+
+// ==== seg000:0x9b98 ====
+void sub_19B98(int arg_0, int arg_1, int arg_2, int arg_3) {
+    sub_19C84(sub_198FA(arg_0), sub_19915(arg_1), sub_198FA(arg_2), sub_19915(arg_3), word_3C018, word_3C45E, word_3C01A, word_3C5A2, 1);
+}

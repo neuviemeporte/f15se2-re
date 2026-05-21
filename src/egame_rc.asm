@@ -35,6 +35,7 @@ EXTRN _sub_19E44:PROC
 EXTRN _sub_19E5D:PROC
 EXTRN _sub_1A1B1:PROC
 EXTRN _sub_19A4D:PROC
+EXTRN _sub_19B98:PROC
 EXTRN _sub_1A204:PROC
 EXTRN _sub_1A183:PROC
 EXTRN _setCommWorldbufPtr:PROC
@@ -13431,37 +13432,7 @@ LAB_1000_9b94:
 sub_19ADB endp
 ; ------------------------------seg000:0x9b97------------------------------
 ; ------------------------------seg000:0x9b98------------------------------
-sub_19B98 proc near
-    push BP
-    mov BP,SP
-    mov AX,1h
-    push AX
-    push word ptr [word_3C5A2]
-    push word ptr [word_3C01A]
-    push word ptr [word_3C45E]
-    push word ptr [word_3C018]
-    push word ptr [BP + 0ah]
-    call sub_19915
-    add SP,2h
-    push AX
-    push word ptr [BP + 8h]
-    call sub_198FA
-    add SP,2h
-    push AX
-    push word ptr [BP + 6h]
-    call sub_19915
-    add SP,2h
-    push AX
-    push word ptr [BP + 4h]
-    call sub_198FA
-    add SP,2h
-    push AX
-    call _sub_19C84
-    add SP,12h
-    mov SP,BP
-    pop BP
-    ret
-sub_19B98 endp
+sub_19B98 equ _sub_19B98
 ; ------------------------------seg000:0x9be0------------------------------
 ; ------------------------------seg000:0x9c0c------------------------------
 _sub_19C0C proc near

@@ -304,7 +304,7 @@ int sub_19A4D();
 // ==== seg000:0x9adb ====
 int sub_19ADB();
 // ==== seg000:0x9b98 ====
-int sub_19B98();
+void sub_19B98();
 // ==== seg000:0x9be1 ====
 int sub_19BE1();
 // ==== seg000:0x9c0c ====
