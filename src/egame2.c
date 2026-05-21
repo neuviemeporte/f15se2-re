@@ -211,3 +211,24 @@ void sub_13694(int arg_0, int arg_1, int *arg_2, int *arg_3) {
     *arg_3 = ((arg_1 - word_3298E) * 4 / 3 + var_664) / var_661;
 }
 
+// ==== seg000:0x66be ====
+void sub_166BE(void) {
+    int p;
+    word_336F0 = word_3B0AC;
+    if (word_333DA != 0) {
+        word_3B4D8 = word_333D2;
+        word_3B4E0 = word_333D4;
+    } else {
+        word_3B4D8 = word_3BEC0;
+        word_3B4E0 = word_3BED0;
+    }
+    word_3B5D6 = var_547;
+    word_38FEC = var_542;
+    word_3BED4 = 0xFF;
+    for (p = 0; p < word_3C69E; p++) {
+        if (stru_3AA5E[p].field_4 != 0) {
+            *(int *)&stru_3AA5E[p].field_8 = sub_1CF64(*(int *)&stru_3AA5E[p].field_8, ((word_330B8 + word_330BA) << 4) - 16, 0xFF);
+        }
+    }
+}
+

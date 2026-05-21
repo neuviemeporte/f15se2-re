@@ -250,7 +250,7 @@ int sub_16346();
 // ==== seg000:0x660e ====
 int sub_1660E();
 // ==== seg000:0x66be ====
-int sub_166BE();
+void sub_166BE();
 // ==== seg000:0x6742 ====
 int sub_16742();
 // ==== seg000:0x67b4 ====
@@ -1295,6 +1295,7 @@ extern int16 word_383DA;
 extern uint8 byte_383E4;
 extern int16 byte_383E5;
 extern int16 var_542;
+extern int16 var_547;
 extern int16 var_588;
 extern int16 var_589;
 extern int16 var_590;

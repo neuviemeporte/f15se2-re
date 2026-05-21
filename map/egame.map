@@ -18,7 +18,7 @@ setupOverlaySlots: seg000 NEAR 0688-06e0 R0688-069a U069b-069f R06a0-06e0
 routine_109: seg000 NEAR 0720-14e7 R0720-09cf R09d0-14e7
 routine_181: seg000 NEAR 14e8-14fb R14e8-14fb complete
 routine_335: seg000 NEAR 14fc-1635 R14fc-15a8 U15a9-15aa R15ab-1635
-routine_172: seg000 NEAR 1636-1675 R1636-1675
+routine_172: seg000 NEAR 1636-1675 R1636-1675 complete
 routine_173: seg000 NEAR 1676-1840 R1676-1840
 routine_174: seg000 NEAR 1841-18d4 R1841-18d4
 routine_175: seg000 NEAR 18d5-18f5 R18d5-18f5 complete
@@ -155,7 +155,7 @@ routine_266: seg000 NEAR a204-a223 Ra204-a223 complete
 routine_260: seg000 NEAR a224-a25b Ra224-a25b
 routine_139: seg000 NEAR a25c-a73f Ra25c-a73f
 routine_219: seg000 NEAR a740-a7c3 Ra740-a7c3 complete
-routine_218: seg000 NEAR a7c4-a871 Ra7c4-a871
+routine_218: seg000 NEAR a7c4-a871 Ra7c4-a871 complete
 routine_220: seg000 NEAR a872-a8c7 Ra872-a8c7
 routine_129: seg000 NEAR a8c8-a933 Ra8c8-a933
 routine_214: seg000 NEAR a934-a961 Ra934-a961

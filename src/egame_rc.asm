@@ -1,6 +1,7 @@
 .8086
 DOSSEG
 .MODEL SMALL
+EXTRN _sub_166BE:PROC
 EXTRN _sub_11D10:PROC
 EXTRN _sub_11971:PROC
 EXTRN _zoomIn:PROC
@@ -416,6 +417,16 @@ PUBLIC _gfx_jump_4f
 PUBLIC _gfx_jump_52
 PUBLIC _byte_383E5
 PUBLIC _var_542
+PUBLIC _var_547
+PUBLIC _word_336F0
+PUBLIC _word_333D2
+PUBLIC _word_333D4
+PUBLIC _word_3B4D8
+PUBLIC _word_3B4E0
+PUBLIC _word_3B5D6
+PUBLIC _word_38FEC
+PUBLIC _word_3BED4
+PUBLIC _word_330BA
 PUBLIC _word_3C016
 PUBLIC _var_588
 
@@ -8621,63 +8632,7 @@ LAB_1000_6628:
 sub_1660E endp
 ; ------------------------------seg000:0x66bd------------------------------
 ; ------------------------------seg000:0x66be------------------------------
-sub_166BE proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    push SI
-    mov AX,word ptr [word_3B0AC]
-    mov word ptr [word_336F0],AX
-    cmp word ptr [word_333DA],0h
-    jz LAB_1000_66de
-    mov AX,word ptr [word_333D2]
-    mov word ptr [word_3B4D8],AX
-    mov AX,word ptr [word_333D4]
-    jmp LAB_1000_66e7
-    db 90h
-LAB_1000_66de:
-    mov AX,word ptr [_word_3BEC0]
-    mov word ptr [word_3B4D8],AX
-    mov AX,word ptr [_word_3BED0]
-LAB_1000_66e7:
-    mov word ptr [word_3B4E0],AX
-    mov AX,word ptr [_var_547]
-    mov word ptr [word_3B5D6],AX
-    mov AX,word ptr [_var_542]
-    mov word ptr [word_38FEC],AX
-    mov word ptr [word_3BED4],0ffh
-    mov word ptr [BP + -2h],0h
-    jmp LAB_1000_6734
-    db 90h
-LAB_1000_6704:
-    mov SI,word ptr [BP + -2h]
-    mov CL,4h
-    shl SI,CL
-    cmp word ptr [SI + offset _stru_3AA5E + 4],0h
-    jz LAB_1000_6731
-    mov AX,0ffh
-    push AX
-    mov AX,word ptr [word_330B8]
-    add AX,word ptr [word_330BA]
-    shl AX,CL
-    db 2Dh, 10h, 00h ; sub AX,10h (force imm16 encoding)
-    push AX
-    push word ptr [SI + offset _stru_3AA5E + 8]
-    call _sub_1CF64
-    add SP,6h
-    mov word ptr [SI + offset _stru_3AA5E + 8],AX
-LAB_1000_6731:
-    inc word ptr [BP + -2h]
-LAB_1000_6734:
-    mov AX,word ptr [_word_3C69E]
-    cmp word ptr [BP + -2h],AX
-    jl LAB_1000_6704
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-    nop
-sub_166BE endp
+sub_166BE equ _sub_166BE
 ; ------------------------------seg000:0x6740------------------------------
 ; ------------------------------seg000:0x6742------------------------------
 sub_16742 proc near
@@ -21380,6 +21335,7 @@ _word_330B6 dw 0
 word_330B8 dw 1
 _word_330B8 equ word_330B8
 word_330BA dw 1
+_word_330BA equ word_330BA
 _word_330BC dw 0
 word_330BE dw 0
 _word_330BE equ word_330BE
@@ -21668,7 +21624,9 @@ _word_330C4 dw 4
     db 0
     db 0
 word_333D2 dw 0
+_word_333D2 equ word_333D2
 word_333D4 dw 0
+_word_333D4 equ word_333D4
     db 0
     db 0
 word_333D8 dw 0
@@ -22107,6 +22065,7 @@ _word_336EA dw 0
 word_336EC dw 1
 word_336EE dw 0
 word_336F0 dw 0
+_word_336F0 equ word_336F0
 _word_336F2 dw 0FFFFh
 _word_336F4 dw 0FFFFh
 word_336F6 dw 0FFFFh
@@ -37071,6 +37030,7 @@ _fileHandle dw ?
 word_38FE8 dw ?
 _word_38FEA dw ?
 word_38FEC dw ?
+_word_38FEC equ word_38FEC
 word_38FEE dw ?
 _gameData dd ?
     db ?
@@ -42448,11 +42408,13 @@ word_3B240 dw ?
 word_3B4D2 dw ?
 _dword_3B4D4 dd ?
 word_3B4D8 dw ?
+_word_3B4D8 equ word_3B4D8
 word_3B4DA dw ?
 word_3B4DC dw ?
 _word_3B4DC equ word_3B4DC
 _word_3B4DE dw ?
 word_3B4E0 dw ?
+_word_3B4E0 equ word_3B4E0
 _hercFlag db ?
     db ?
 _word_3B4E4 dw ?
@@ -42696,6 +42658,7 @@ byte_3B4EC db ?
     db ?
     db ?
 word_3B5D6 dw ?
+_word_3B5D6 equ word_3B5D6
     db ?
     db ?
     db ?
@@ -43288,6 +43251,7 @@ word_3BECE dw ?
 _word_3BED0 dw ?
 _word_3BED2 dw ?
 word_3BED4 dw ?
+_word_3BED4 equ word_3BED4
 word_3BED6 dw ?
 _byte_3BED8 db 64h dup(?)
 word_3BF3C dw ?
