@@ -2,6 +2,7 @@
 DOSSEG
 .MODEL SMALL
 EXTRN _zoomIn:PROC
+EXTRN _zoomOut:PROC
 EXTRN _sub_1DBE0:PROC
 EXTRN _sub_1DB9C:PROC
 EXTRN _sub_155AB:PROC
@@ -13123,35 +13124,7 @@ _sub_195C9 endp
 ; ------------------------------seg000:0x9875------------------------------
 zoomIn equ _zoomIn
 ; ------------------------------seg000:0x98b3------------------------------
-; ------------------------------seg000:0x98b4------------------------------
-zoomOut proc near
-    push BP
-    mov BP,SP
-    test byte ptr [_keyValue],80h
-    jz LAB_1000_98c4
-    inc word ptr [_word_336FE]
-    jmp LAB_1000_98f6
-LAB_1000_98c4:
-    cmp word ptr [_word_3C09A],0h
-    jnz LAB_1000_98e4
-    cmp word ptr [byte_383E5],2h
-    jle LAB_1000_98e4
-    dec word ptr [byte_383E5]
-    push word ptr [_word_3BED0]
-    push word ptr [_word_3BEC0]
-    call _sub_195C9
-    add SP,4h
-LAB_1000_98e4:
-    cmp word ptr [_word_3C09A],1h
-    jnz LAB_1000_98f6
-    cmp word ptr [_var_588],0h
-    jz LAB_1000_98f6
-    dec word ptr [_var_588]
-LAB_1000_98f6:
-    mov SP,BP
-    pop BP
-    ret
-zoomOut endp
+zoomOut equ _zoomOut
 ; ------------------------------seg000:0x98f9------------------------------
 ; ------------------------------seg000:0x98fa------------------------------
 sub_198FA proc near

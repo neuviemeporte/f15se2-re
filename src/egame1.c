@@ -1039,3 +1039,18 @@ void zoomIn(void) {
         }
     }
 }
+
+// ==== seg000:0x98b1 ====
+void zoomOut(void) {
+    if (keyValue & 0x80) {
+        word_336FE++;
+    } else {
+        if (word_3C09A == 0 && byte_383E5 > 2) {
+            byte_383E5--;
+            sub_195C9(word_3BEC0, word_3BED0);
+        }
+        if (word_3C09A == 1 && var_588 != 0) {
+            var_588--;
+        }
+    }
+}

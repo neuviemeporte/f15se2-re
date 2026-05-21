@@ -290,7 +290,7 @@ int sub_195C9();
 // ==== seg000:0x9875 ====
 void zoomIn(void);
 // ==== seg000:0x98b4 ====
-int zoomOut();
+void zoomOut(void);
 // ==== seg000:0x98fa ====
 int sub_198FA();
 // ==== seg000:0x9915 ====
