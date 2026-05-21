@@ -23,7 +23,7 @@ routine_173: seg000 NEAR 1676-1840 R1676-1840
 routine_174: seg000 NEAR 1841-18d4 R1841-18d4
 routine_175: seg000 NEAR 18d5-18f5 R18d5-18f5 complete
 routine_186: seg000 NEAR 18f6-1970 R18f6-1970
-routine_216: seg000 NEAR 1971-19a2 R1971-19a2
+routine_216: seg000 NEAR 1971-19a2 R1971-19a2 complete
 routine_183: seg000 NEAR 19a3-1a17 R19a3-1a17
 routine_131: seg000 NEAR 1a18-1a87 R1a18-1a87
 routine_132: seg000 NEAR 1a88-1b36 R1a88-1b36
@@ -196,7 +196,7 @@ routine_149: seg000 NEAR da35-da5e Rda35-da5e
 routine_177: seg000 NEAR da5f-da8c Rda5f-da8c
 routine_179: seg000 NEAR da8d-daad Rda8d-daad
 routine_182: seg000 NEAR daae-db2a Rdaae-db2a complete
-routine_190: seg000 NEAR db2b-db9b Rdb2b-db9b
+routine_190: seg000 NEAR db2b-db9b Rdb2b-db9b complete
 routine_165: seg000 NEAR db9c-dbb6 Rdb9c-dbb6 complete
 routine_337: seg000 NEAR dbe0-dbff Rdbe0-dbff complete
 openFileWrapper: seg000 NEAR dd4c-dd5d Rdd4c-dd5d complete

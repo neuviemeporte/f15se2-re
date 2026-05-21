@@ -1272,3 +1272,12 @@ int sub_199EC(int arg_0, int arg_2, int *arg_4, int *arg_6) {
     }
 }
 
+// ==== seg000:0x1971 ====
+int sub_11971() {
+    int p;
+    for (p = 0; p < word_3C046; p++) {
+        *(int *)((char *)&stru_3B208[p] + 26) = -1;
+    }
+    word_336E6 = -1;
+}
+

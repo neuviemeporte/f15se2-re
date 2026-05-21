@@ -2,6 +2,7 @@
 DOSSEG
 .MODEL SMALL
 EXTRN _sub_11D10:PROC
+EXTRN _sub_11971:PROC
 EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC
 EXTRN _sub_1DBE0:PROC
@@ -263,6 +264,7 @@ PUBLIC _word_380CC
 PUBLIC _word_3C5AA
 PUBLIC _word_3BE94
 PUBLIC _stru_3A95A
+PUBLIC _word_336E6
 PUBLIC _word_336E8
 PUBLIC _word_3C028
 PUBLIC _word_3C03A
@@ -2819,29 +2821,7 @@ LAB_1000_1958:
 sub_118F6 endp
 ; ------------------------------seg000:0x1970------------------------------
 ; ------------------------------seg000:0x1971------------------------------
-sub_11971 proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    mov word ptr [BP + -2h],0h
-    jmp LAB_1000_1981
-LAB_1000_197e:
-    inc word ptr [BP + -2h]
-LAB_1000_1981:
-    mov AX,word ptr [_word_3C046]
-    cmp word ptr [BP + -2h],AX
-    jge LAB_1000_1999
-    mov AX,24h
-    imul word ptr [BP + -2h]
-    mov BX,AX
-    mov word ptr [BX + offset _stru_3B208 + 26],0ffffh
-    jmp LAB_1000_197e
-LAB_1000_1999:
-    mov word ptr [word_336E6],0ffffh
-    mov SP,BP
-    pop BP
-    ret
-sub_11971 endp
+sub_11971 equ _sub_11971
 ; ------------------------------seg000:0x19a2------------------------------
 ; ------------------------------seg000:0x19a3------------------------------
 sub_119A3 proc near
@@ -22207,7 +22187,7 @@ word_33442 dw 0
     db 0FFh
     _stru_335C4 struc_2 0Ch dup(<0>)
 word_336E4 dw 4
-word_336E6 dw 0FFFFh
+_word_336E6 dw 0FFFFh
 _word_336E8 dw 0
 _word_336EA dw 0
 word_336EC dw 1
