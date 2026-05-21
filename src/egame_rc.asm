@@ -94,6 +94,7 @@ EXTRN _sub_18A44:PROC
 EXTRN _sub_19DB0:PROC
 EXTRN _routine_328:PROC
 EXTRN _sub_1993A:PROC
+EXTRN _sub_199EC:PROC
 PUBLIC _var_456
 PUBLIC _var_654
 PUBLIC _word_38FE0
@@ -12996,54 +12997,7 @@ sub_19915 equ _sub_19915
 sub_1993A equ _sub_1993A
 ; ------------------------------seg000:0x99eb------------------------------
 ; ------------------------------seg000:0x99ec------------------------------
-sub_199EC proc near
-    push BP
-    mov BP,SP
-    push SI
-    cmp word ptr [_word_330C2],0h
-    jnz LAB_1000_99fb
-    sub AX,AX
-    jmp LAB_1000_9a48
-LAB_1000_99fb:
-    push word ptr [BP + 4h]
-    call sub_198FA
-    add SP,2h
-    mov BX,word ptr [BP + 8h]
-    mov word ptr [BX],AX
-    push word ptr [BP + 6h]
-    call sub_19915
-    add SP,2h
-    mov BX,word ptr [BP + 0ah]
-    mov word ptr [BX],AX
-    mov BX,word ptr [BP + 8h]
-    mov SI,word ptr [BX]
-    cmp word ptr [word_3C018],SI
-    jge LAB_1000_9a44
-    mov AX,word ptr [word_3C45E]
-    dec AX
-    cmp AX,SI
-    jle LAB_1000_9a44
-    mov BX,word ptr [BP + 0ah]
-    mov SI,word ptr [BX]
-    cmp word ptr [word_3C01A],SI
-    jge LAB_1000_9a44
-    mov AX,word ptr [word_3C5A2]
-    dec AX
-    cmp AX,SI
-    jle LAB_1000_9a44
-    mov AX,1h
-    jmp LAB_1000_9a48
-    db 0EBh
-    db 04h
-LAB_1000_9a44:
-    sub AX,AX
-    jmp LAB_1000_9a48
-LAB_1000_9a48:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_199EC endp
+sub_199EC equ _sub_199EC
 ; ------------------------------seg000:0x9a4c------------------------------
 ; ------------------------------seg000:0x9a4d------------------------------
 sub_19A4D equ _sub_19A4D

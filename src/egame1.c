@@ -1179,3 +1179,19 @@ int sub_1993A(int arg_0, int arg_2, int arg_4, int arg_6) {
         return 1;
     }
 }
+
+// ==== seg000:0x99ec ====
+int sub_199EC(int arg_0, int arg_2, int *arg_4, int *arg_6) {
+    if (word_330C2 == 0) {
+        return 0;
+    }
+    *arg_4 = sub_198FA(arg_0);
+    *arg_6 = sub_19915(arg_2);
+    if (word_3C018 < *arg_4 && word_3C45E - 1 > *arg_4 &&
+        word_3C01A < *arg_6 && word_3C5A2 - 1 > *arg_6) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
