@@ -985,3 +985,17 @@ void sub_19595(void) {
     word_38FCC = 0x38;
     zoomIn();
 }
+
+// ==== seg000:0x9fcc ====
+void sub_19FCC(int arg_0, int arg_1) {
+    sub_19E44(arg_1);
+    if (arg_0 == 1) {
+        sub_19E5D(0x18, 0x70, 0x60, 0xa8);
+    }
+    if (arg_0 == 2) {
+        sub_19E5D(0x78, 0x68, 0xc7, 0xaf);
+    }
+    if (arg_0 == 3) {
+        sub_19E5D(0xe8, 0x80, 0x130, 0xb8);
+    }
+}

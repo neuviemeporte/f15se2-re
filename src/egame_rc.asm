@@ -29,6 +29,7 @@ EXTRN _sub_15540:PROC
 EXTRN _sub_19BE1:PROC
 EXTRN _sub_19D86:PROC
 EXTRN _sub_19FAD:PROC
+EXTRN _sub_19FCC:PROC
 EXTRN _sub_19E94:PROC
 EXTRN _sub_19E44:PROC
 EXTRN _sub_19E5D:PROC
@@ -254,7 +255,7 @@ PUBLIC _word_3370C
 PUBLIC _stru_3B208
 PUBLIC _unk_3A948
 PUBLIC _sub_160D3
-PUBLIC _sub_19FCC
+
 PUBLIC _word_38152
 PUBLIC _word_37561
 PUBLIC _word_39604
@@ -13801,55 +13802,7 @@ sub_19EB6 endp
 sub_19FAD equ _sub_19FAD
 ; ------------------------------seg000:0x9fcb------------------------------
 ; ------------------------------seg000:0x9fcc------------------------------
-_sub_19FCC proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 6h]
-    call _sub_19E44
-    add SP,2h
-    cmp word ptr [BP + 4h],1h
-    jnz LAB_1000_9ff4
-    mov AX,0a8h
-    push AX
-    mov AX,60h
-    push AX
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    call _sub_19E5D
-    add SP,8h
-LAB_1000_9ff4:
-    cmp word ptr [BP + 4h],2h
-    jnz LAB_1000_a010
-    mov AX,0afh
-    push AX
-    mov AX,0c7h
-    push AX
-    mov AX,68h
-    push AX
-    mov AX,78h
-    push AX
-    call _sub_19E5D
-    add SP,8h
-LAB_1000_a010:
-    cmp word ptr [BP + 4h],3h
-    jnz LAB_1000_a02c
-    mov AX,0b8h
-    push AX
-    mov AX,130h
-    push AX
-    mov AX,80h
-    push AX
-    mov AX,0e8h
-    push AX
-    call _sub_19E5D
-    add SP,8h
-LAB_1000_a02c:
-    mov SP,BP
-    pop BP
-    ret
-_sub_19FCC endp
+; _sub_19FCC - now in C (egame1.c)
 ; ------------------------------seg000:0xa02f------------------------------
 ; ------------------------------seg000:0xa030------------------------------
 sub_1A030 proc near
