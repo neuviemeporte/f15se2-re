@@ -906,3 +906,13 @@ void sub_1DBE0(void) {
     regs.h.al = 0x8D;
     int86(0x10, &regs, &regs);
 }
+
+// ==== seg000:0x18d5 ====
+int sub_118D5() {
+    if (word_3BFA2 > 0) {
+        if (word_3B4DC > -16) {
+            word_3B4DC -= 12;
+        }
+        word_3BFA2 += word_3B4DC;
+    }
+}

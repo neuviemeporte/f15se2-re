@@ -13,6 +13,7 @@ EXTRN _sub_1CF8E:PROC
 EXTRN _sub_11BFD:PROC
 EXTRN _sub_11BC3:PROC
 EXTRN _sub_114E8:PROC
+EXTRN _sub_118D5:PROC
 EXTRN _sub_18E38:PROC
 EXTRN _sub_1957A:PROC
 EXTRN _sub_13A90:PROC
@@ -97,6 +98,8 @@ PUBLIC _restoreInt9Handler
 PUBLIC _dword_38FE2
 PUBLIC _word_3C0A2
 PUBLIC _flagFarToNear
+PUBLIC _word_3BFA2
+PUBLIC _word_3B4DC
 PUBLIC _byte_3C16E
 PUBLIC _word_3BEC0
 PUBLIC _word_3BED0
@@ -2667,22 +2670,7 @@ LAB_1000_18cf:
 sub_11841 endp
 ; ------------------------------seg000:0x18d4------------------------------
 ; ------------------------------seg000:0x18d5------------------------------
-sub_118D5 proc near
-    push BP
-    mov BP,SP
-    cmp word ptr [word_3BFA2],0h
-    jle LAB_1000_18f2
-    cmp word ptr [word_3B4DC],-10h
-    jle LAB_1000_18eb
-    sub word ptr [word_3B4DC],0ch
-LAB_1000_18eb:
-    mov AX,word ptr [word_3B4DC]
-    add word ptr [word_3BFA2],AX
-LAB_1000_18f2:
-    mov SP,BP
-    pop BP
-    ret
-sub_118D5 endp
+sub_118D5 equ _sub_118D5
 ; ------------------------------seg000:0x18f5------------------------------
 ; ------------------------------seg000:0x18f6------------------------------
 sub_118F6 proc near
@@ -43757,6 +43745,7 @@ _dword_3B4D4 dd ?
 word_3B4D8 dw ?
 word_3B4DA dw ?
 word_3B4DC dw ?
+_word_3B4DC equ word_3B4DC
 _word_3B4DE dw ?
 word_3B4E0 dw ?
 _hercFlag db ?
@@ -44618,6 +44607,7 @@ unk_3BF98 db ?
     db ?
 word_3BFA0 dw ?
 word_3BFA2 dw ?
+_word_3BFA2 equ word_3BFA2
 _byte_3BFA4 db 64h dup(?)
 _word_3C008 dw ?
 word_3C00A dw ?
