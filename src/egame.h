@@ -384,7 +384,7 @@ int sub_1C7A2(int arg_0);
 // ==== seg000:0xc7c6 ====
 int sub_1C7C6();
 // ==== seg000:0xc7ea ====
-int sub_1C7EA();
+void sub_1C7EA();
 // ==== seg000:0xc82d ====
 int sub_1C82D();
 // ==== seg000:0xc864 ====
@@ -1692,6 +1692,8 @@ extern int16 var_218;
 extern int16 var_219;
 extern int16 var_220;
 extern int16 var_592;
+extern int16 var_672;
+extern int16 var_674;
 
 extern int rand();
 extern long _aNlmul(long, long);

@@ -934,3 +934,17 @@ void sub_1A183(int arg_0, int arg_1, int arg_2, int arg_3) {
     itoa(arg_0, buf, 10);
     drawSomeStrings(buf, arg_1, arg_2, arg_3);
 }
+
+// ==== seg000:0xc7ea ====
+void sub_1C7EA(int arg_0, int arg_1, int arg_2) {
+    int p;
+    int a;
+    p = word_3BEC0 - arg_0;
+    a = word_3BED0 - arg_1;
+    if (arg_2 != 0) {
+        var_674 = sub_1D008(-p, a);
+    }
+    var_672 = sub_1CFA6(p, a);
+    goto done;
+done:;
+}

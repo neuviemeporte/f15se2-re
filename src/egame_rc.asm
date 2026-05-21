@@ -8,6 +8,7 @@ EXTRN _main:PROC
 EXTRN _sub_18E50:PROC
 EXTRN _sub_1D1C8:PROC
 EXTRN _sub_1C7A2:PROC
+EXTRN _sub_1C7EA:PROC
 EXTRN _sub_21A7A:PROC
 EXTRN _sub_13922:PROC
 EXTRN _sub_1CF8E:PROC
@@ -223,7 +224,8 @@ PUBLIC _word_339B4
 PUBLIC _word_336F4
 PUBLIC _stru_335C4
 PUBLIC _sub_1D008
-PUBLIC _sub_1C7EA
+PUBLIC _var_672
+PUBLIC _var_674
 PUBLIC _word_3A940
 PUBLIC _word_3370E
 PUBLIC _sub_1CFA6
@@ -18091,38 +18093,7 @@ LAB_1000_c7e5:
 sub_1C7C6 endp
 ; ------------------------------seg000:0xc7e9------------------------------
 ; ------------------------------seg000:0xc7ea------------------------------
-sub_1C7EA proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    mov AX,word ptr [_word_3BEC0]
-    sub AX,word ptr [BP + 4h]
-    mov word ptr [BP + -2h],AX
-    mov AX,word ptr [_word_3BED0]
-    sub AX,word ptr [BP + 6h]
-    mov word ptr [BP + -4h],AX
-    cmp word ptr [BP + 8h],0h
-    jz LAB_1000_c818
-    push AX
-    mov AX,word ptr [BP + -2h]
-    neg AX
-    push AX
-    call _sub_1D008
-    add SP,4h
-    mov word ptr [_var_674],AX
-LAB_1000_c818:
-    push word ptr [BP + -4h]
-    push word ptr [BP + -2h]
-    call _sub_1CFA6
-    add SP,4h
-    mov word ptr [_var_672],AX
-    jmp LAB_1000_c829
-LAB_1000_c829:
-    mov SP,BP
-    pop BP
-    ret
-sub_1C7EA endp
-_sub_1C7EA equ sub_1C7EA
+sub_1C7EA equ _sub_1C7EA
 ; ------------------------------seg000:0xc82c------------------------------
 ; ------------------------------seg000:0xc82d------------------------------
 sub_1C82D proc near
