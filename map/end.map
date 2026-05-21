@@ -98,7 +98,7 @@ routine_60: Code1 NEAR 224a-2582 R224a-23be U23bf-23c1 R23c2-2582 complete
 blinkWidget: Code1 NEAR 2583-2617 R2583-2617 complete
 isPointInRect: Code1 NEAR 2618-2645 R2618-263b U263c-263d R263e-2645 complete
 processDebriefInput: Code1 NEAR 2646-2bd0 R2646-27f6 U27f7-2a3e R2a3f-2a4e U2a4f-2a66 R2a67-2bd0 complete
-routine_96: Code1 NEAR 2bd1-35e0 R2bd1-317c U317d-3431 R3432-3441 U3442-3459 R345a-35e0
+drawMenuItem: Code1 NEAR 2bd1-35e0 R2bd1-317c U317d-3431 R3432-3441 U3442-3459 R345a-35e0
 drawEventSprite: Code1 NEAR 35e1-3860 R35e1-35f8 U35f9-3834 R3835-3844 U3845-385c R385d-3860 complete
 animateFlightPath: Code1 NEAR 3861-3b2f R3861-3b2f complete
 drawFlightPath: Code1 NEAR 3b30-3c18 R3b30-3c18 complete

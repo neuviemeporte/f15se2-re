@@ -783,7 +783,7 @@ void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStar
             selectedMenuItem = d;
             items[d].state = 0;
             blinkWidget(&items[d], gfxPage);
-            routine_96(items, d, gfxPage);
+            drawMenuItem(items, d, gfxPage);
         } else {
             if (items[d].state != 3) {
                 items[d].state = 0;
@@ -794,7 +794,7 @@ void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStar
     cursorY = cursorStartY;
 }
 
-void routine_96(MenuItem *param_1, int param_2, int param_3) {
+void drawMenuItem(MenuItem *param_1, int param_2, int param_3) {
     char p[2]; char a[2]; char b[2]; int c; char d[2]; int e; int f;
     int g; int h; int i; int j; int k; int l; int m;
     char n[2]; int o;
@@ -1073,7 +1073,7 @@ int routine_60(MenuItem *param_1, int param_2, int param_3, int param_4, int par
             }
             selectedMenuItem = i;
             // 256f
-            routine_96(param_1, i, param_5);
+            drawMenuItem(param_1, i, param_5);
         } // 2575
     }
 done:

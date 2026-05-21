@@ -250,7 +250,7 @@ extern int worldBufHandle;
 int fileSeek(int handle, int off, int whence, int mode);
 void loadPicFromFile(char *name, int segment);
 void loadPicFromFileAt(char *name, int segment, int off, int whence);
-void routine_96(MenuItem *param_1, int param_2, int param_3);
+void drawMenuItem(MenuItem *param_1, int param_2, int param_3);
 
 /* String constants from ASM */
 extern char str_pressExit[];
@@ -300,7 +300,7 @@ extern char str_missionRating3[];
 extern char str_pressSelect[];
 extern char str_pressNext[];
 
-/* Data symbols used by routine_96 */
+/* Data symbols used by drawMenuItem */
 extern char dat_4824[];
 extern int dat_424e[];
 extern char var_425c[];
