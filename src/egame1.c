@@ -11,6 +11,20 @@
 #include <stdio.h>
 #include <string.h>
 
+// ==== seg000:0x1bfd scheduleTimedEvent ====
+void sub_11BFD(int arg_0, int arg_2) {
+    if (word_3370E == 0) {
+        return;
+    }
+    keyValue = arg_0;
+    word_3370C = arg_2 * word_330C4 + word_336E8;
+}
+
+// ==== seg000:0x5540 ====
+int sub_15540(int arg_0) {
+    return 0x4000 - sub_154B7(arg_0);
+}
+
 // ==== seg000:0x147 ====
 void drawCockpit() {
     TRACE(("drawCockpit: enter, theater=%d", gameData->theater));
@@ -825,10 +839,7 @@ int drawStringCentered(int* arg_0, char *arg_2, int arg_4, int arg_6, int arg_8)
     gfx_jump_05_drawString(arg_0, strupr(arg_2), strlen(arg_2));
 }
 
-// ==== seg000:0x5540 ====
-int sub_15540(int arg_0) {
-    return -(sub_154B7(arg_0) - 0x4000);
-}
+
 
 // ==== seg000:0x9be1 ====
 int sub_19BE1(int arg_0, int arg_2, int arg_4, int arg_6) {

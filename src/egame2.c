@@ -94,13 +94,32 @@ int closeFileWrapper(int arg_0) {
     closeFile(arg_0);
 }
 
+// ==== seg000:0x229a loadColorPalette ====
+void copySomeMem(int arg_0) {
+    memcpy(word_3419C, (char *)word_339B4 + arg_0 * 0x10, 0x10);
+}
+
 // ==== seg000:0x3922 ====
 int sub_13922(int arg_0) {
     return arg_0 - (arg_0 >> 2);
 }
 
+// ==== seg000:0xcf64 clamp ====
+int sub_1CF64(int arg_0, int arg_2, int arg_4) {
+    if (arg_0 > arg_4) {
+        return arg_4;
+    }
+    if (arg_0 >= arg_2) {
+        return arg_0;
+    }
+    if (arg_0 <= -0x4000) {
+        return arg_4;
+    }
+    return arg_2;
+}
+
 // ==== seg000:0xcf8e ====
-int forceRange(int arg_0, int arg_2, int arg_4) {
+int sub_1CF8E(int arg_0, int arg_2, int arg_4) {
     if (arg_0 > arg_4) {
         return arg_4;
     }
@@ -108,5 +127,20 @@ int forceRange(int arg_0, int arg_2, int arg_4) {
         return arg_2;
     }
     return arg_0;
+}
+
+// ==== seg000:0xd178 sinMul ====
+int sub_1D178(int arg_0, int arg_2) {
+    return sub_13B2F(sub_13B96(arg_0), arg_2);
+}
+
+// ==== seg000:0xd190 cosMul ====
+int sub_1D190(int arg_0, int arg_2) {
+    return sub_1D178(arg_0 + 0x4000, arg_2);
+}
+
+// ==== seg000:0xd200 randomRange ====
+int sub_1D200(int arg_0) {
+    return (int)(((long)rand() * (long)arg_0) >> 15);
 }
 

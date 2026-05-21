@@ -7,7 +7,13 @@ EXTRN _sub_18E50:PROC
 EXTRN _sub_1D1C8:PROC
 EXTRN _sub_21A7A:PROC
 EXTRN _sub_13922:PROC
-EXTRN _forceRange:PROC
+EXTRN _sub_1CF8E:PROC
+EXTRN _sub_11BFD:PROC
+EXTRN _copySomeMem:PROC
+EXTRN _sub_1CF64:PROC
+EXTRN _sub_1D178:PROC
+EXTRN _sub_1D190:PROC
+EXTRN _sub_1D200:PROC
 EXTRN _sub_15540:PROC
 EXTRN _sub_19BE1:PROC
 EXTRN _sub_19E94:PROC
@@ -177,7 +183,6 @@ PUBLIC _word_3B14A
 PUBLIC _sub_21444
 PUBLIC _dword_3C01C
 PUBLIC _dword_3B4D4
-PUBLIC _sub_1CF64
 PUBLIC _keyValue
 PUBLIC _word_380CE
 PUBLIC _dword_3B1FE
@@ -193,11 +198,13 @@ PUBLIC _word_3C5AA
 PUBLIC _word_3BE94
 PUBLIC _stru_3A95A
 PUBLIC _word_336E8
-PUBLIC _sub_1D190
-PUBLIC _sub_1D178
 PUBLIC _word_3C028
 PUBLIC _word_3C03A
 PUBLIC _word_330C4
+PUBLIC _sub_13B2F
+PUBLIC _sub_13B96
+PUBLIC _word_3419C
+PUBLIC _word_339B4
 PUBLIC _word_336F4
 PUBLIC _stru_335C4
 PUBLIC _sub_1D008
@@ -264,7 +271,6 @@ PUBLIC _word_3C8B6
 PUBLIC _aPressAnyKeyToP
 PUBLIC _word_3AA5C
 PUBLIC _aTraining
-PUBLIC _copySomeMem
 PUBLIC _word_38FC4
 PUBLIC _waypoints
 PUBLIC _word_3C008
@@ -3013,24 +3019,7 @@ LAB_1000_1bf9:
 sub_11BC3 endp
 ; ------------------------------seg000:0x1bfc------------------------------
 ; ------------------------------seg000:0x1bfd------------------------------
-sub_11BFD proc near
-    push BP
-    mov BP,SP
-    cmp word ptr [_word_3370E],0h
-    jnz LAB_1000_1c09
-    jmp LAB_1000_1c1d
-LAB_1000_1c09:
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [_keyValue],AX
-    mov AX,word ptr [BP + 6h]
-    imul word ptr [_word_330C4]
-    add AX,word ptr [_word_336E8]
-    mov word ptr [_word_3370C],AX
-LAB_1000_1c1d:
-    mov SP,BP
-    pop BP
-    ret
-sub_11BFD endp
+sub_11BFD equ _sub_11BFD
 ; ------------------------------seg000:0x1c20------------------------------
 ; ------------------------------seg000:0x1c21------------------------------
 sub_11C21 proc near
@@ -3435,23 +3424,7 @@ _sub_121CA proc near
     ret
     nop
 _sub_121CA endp
-_copySomeMem proc near
-    push BP
-    mov BP,SP
-    mov AX,10h
-    push AX
-    mov AX,word ptr [BP + 4h]
-    mov CL,4h
-    shl AX,CL
-    add AX,1104h
-    push AX
-    mov AX,18ech
-    push AX
-    call _memcpy
-    add SP,6h
-    pop BP
-    ret
-_copySomeMem endp
+; _copySomeMem - now in C (egame2.c)
 ; ------------------------------seg000:0x22b7------------------------------
 ; ------------------------------seg000:0x22b8------------------------------
 sub_122B8 proc near
@@ -5301,6 +5274,7 @@ _setupDac endp
 ; ------------------------------seg000:0x3b2e------------------------------
 ; ------------------------------seg000:0x3b2f------------------------------
 sub_13B2F proc near
+_sub_13B2F:
     mov BX,SP
     mov AX,word ptr SS:[BX + 2h]
     imul word ptr SS:[BX + 4h]
@@ -5389,6 +5363,7 @@ sub_13B86 endp
 ; ------------------------------seg000:0x3b95------------------------------
 ; ------------------------------seg000:0x3b96------------------------------
 sub_13B96 proc near
+_sub_13B96:
     mov BX,SP
     mov BX,word ptr SS:[BX + 2h]
     call sub_13BA2
@@ -18981,47 +18956,10 @@ LAB_1000_cf4a:
 sub_1CF32 endp
 ; ------------------------------seg000:0xcf63------------------------------
 ; ------------------------------seg000:0xcf64------------------------------
-_sub_1CF64 proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [BP + 8h]
-    cmp word ptr [BP + 4h],AX
-    jle LAB_1000_cf74
-LAB_1000_cf6f:
-    mov AX,word ptr [BP + 8h]
-    pop BP
-    ret
-LAB_1000_cf74:
-    mov AX,word ptr [BP + 6h]
-    cmp word ptr [BP + 4h],AX
-    jl LAB_1000_cf82
-    mov AX,word ptr [BP + 4h]
-    pop BP
-    ret
-    db 90h
-LAB_1000_cf82:
-    cmp word ptr [BP + 4h],0c000h
-    jle LAB_1000_cf6f
-    mov AX,word ptr [BP + 6h]
-    pop BP
-    ret
-_sub_1CF64 endp
+; _sub_1CF64 - now in C (egame2.c)
 ; ------------------------------seg000:0xcf8d------------------------------
 ; ------------------------------seg000:0xcf8e------------------------------
-routine_163 proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [BP+08h]
-    cmp word ptr [BP+04h],AX
-    jg loc_1CFA4
-    mov AX,word ptr [BP+06h]
-    cmp word ptr [BP+04h],AX
-    jl loc_1CFA4
-    mov AX,word ptr [BP+04h]
-loc_1CFA4:
-    pop BP
-    ret
-routine_163 endp
+routine_163 equ _sub_1CF8E
 ; ------------------------------seg000:0xcfa6------------------------------
 _sub_1CFA6 proc near
     push BP
@@ -19255,34 +19193,10 @@ LAB_1000_d170:
 _sub_1D008 endp
 ; ------------------------------seg000:0xd177------------------------------
 ; ------------------------------seg000:0xd178------------------------------
-_sub_1D178 proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call sub_13B96
-    add SP,2h
-    push AX
-    call sub_13B2F
-    add SP,4h
-    pop BP
-    ret
-_sub_1D178 endp
+; _sub_1D178 - now in C (egame2.c)
 ; ------------------------------seg000:0xd18f------------------------------
 ; ------------------------------seg000:0xd190------------------------------
-_sub_1D190 proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 6h]
-    mov AX,word ptr [BP + 4h]
-    add AH,40h
-    push AX
-    call _sub_1D178
-    add SP,4h
-    pop BP
-    ret
-    nop
-_sub_1D190 endp
+; _sub_1D190 - now in C (egame2.c)
 ; ------------------------------seg000:0xd1a4------------------------------
     nop
     nop
@@ -19300,27 +19214,7 @@ LAB_1000_d1f5:
 sub_1D1E8 endp
 ; ------------------------------seg000:0xd1ff------------------------------
 ; ------------------------------seg000:0xd200------------------------------
-randlmul proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [BP + 4h]
-    cwd
-    push DX
-    push AX
-    call _rand
-    cwd
-    push DX
-    push AX
-    call __aNlmul
-    mov CL,0fh
-LAB_1000_d214:
-    sar DX,1h
-    rcr AX,1h
-    dec CL
-    jnz LAB_1000_d214
-    pop BP
-    ret
-randlmul endp
+randlmul equ _sub_1D200
 ; ------------------------------seg000:0xd21d------------------------------
 ; ------------------------------seg000:0xd21e------------------------------
 sub_1D21E proc near
@@ -24276,6 +24170,7 @@ word_339B0 dw 10EAh
 byte_339B2 db 0
     db 0
 unk_339B4 db 0
+_word_339B4 equ unk_339B4
     db 1
     db 2
     db 3
@@ -25450,6 +25345,7 @@ word_34198 dw 0
 byte_3419A db 0
     db 0
 byte_3419C db 0
+_word_3419C equ byte_3419C
     db 1
     db 2
 byte_3419F db 3
