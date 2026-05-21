@@ -75,6 +75,7 @@ EXTRN _sub_1DD5E:PROC
 EXTRN _sub_1DD7E:PROC
 EXTRN _sub_1DD92:PROC
 EXTRN _sub_1DDAA:PROC
+EXTRN _sub_13694:PROC
 EXTRN _tempStrcpy:PROC
 PUBLIC _createFile
 PUBLIC _readFile1
@@ -317,6 +318,11 @@ PUBLIC _var_564
 PUBLIC _var_565
 PUBLIC _word_3370A
 PUBLIC _word_3C6AC
+PUBLIC _var_661
+PUBLIC _var_663
+PUBLIC _var_664
+PUBLIC _word_3298C
+PUBLIC _word_3298E
 PUBLIC _missiles
 PUBLIC _aAccel
 PUBLIC _sub_19C0C
@@ -4739,34 +4745,7 @@ LAB_1000_3691:
 sub_13638 endp
 ; ------------------------------seg000:0x3692------------------------------
 ; ------------------------------seg000:0x3694------------------------------
-sub_13694 proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [BP + 4h]
-    sub AX,word ptr [word_3298C]
-    add AX,word ptr [_var_663]
-    cwd
-    mov CX,word ptr [_var_661]
-    idiv CX
-    mov BX,word ptr [BP + 8h]
-    mov word ptr [BX],AX
-    mov AX,word ptr [BP + 6h]
-    sub AX,word ptr [word_3298E]
-    shl AX,1h
-    shl AX,1h
-    cwd
-    mov CX,3h
-    idiv CX
-    add AX,word ptr [_var_664]
-    cwd
-    mov CX,word ptr [_var_661]
-    idiv CX
-    mov BX,word ptr [BP + 0ah]
-    mov word ptr [BX],AX
-    pop BP
-    ret
-    nop
-sub_13694 endp
+sub_13694 equ _sub_13694
 ; ------------------------------seg000:0x36d0------------------------------
 ; ------------------------------seg000:0x36d2------------------------------
 sub_136D2 proc near
@@ -21641,7 +21620,9 @@ unk_32977 db 0
     db 0
     db 0
 word_3298A dw 0C4h
+_word_3298C label byte
 word_3298C dw 0A0h
+_word_3298E label byte
 word_3298E dw 64h
     db 0
     db 0

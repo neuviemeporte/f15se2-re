@@ -152,7 +152,7 @@ int sub_134AC();
 // ==== seg000:0x3638 ====
 int sub_13638();
 // ==== seg000:0x3694 ====
-int sub_13694();
+void sub_13694(int, int, int *, int *);
 // ==== seg000:0x36d2 ====
 int sub_136D2();
 // ==== seg000:0x374a ====
@@ -1695,6 +1695,9 @@ extern int *var_564;
 extern int *var_565;
 extern int16 var_591;
 extern int16 var_592;
+extern int16 var_661;
+extern int16 var_663;
+extern int16 var_664;
 extern int16 var_672;
 extern int16 var_674;
 
