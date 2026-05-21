@@ -895,6 +895,12 @@ int sub_19E94(int arg_0, int arg_2, int arg_4) {
     sub_19BE1(arg_0, arg_2, arg_0, arg_2);
 }
 
+// ==== seg000:0x9ea0 ====
+void routine_328(int arg_0, int arg_2, int arg_4) {
+    sub_19E44(arg_4);
+    sub_19BE1(arg_0, arg_2, arg_0, arg_2);
+}
+
 // ==== seg000:0xdaae ====
 void sub_1DAAE(void) {
     if (word_330C4 > 15) {
@@ -1136,4 +1142,26 @@ int sub_198FA(int arg_0) {
 // ==== seg000:0x9915 ====
 int sub_19915(int arg_0) {
     return (((arg_0 - var_590) >> (10 - (int)byte_383E5)) * 3 >> 1 >> 1) + 0x8C;
+}
+
+// ==== seg000:0x993a ====
+int sub_1993A(int arg_0, int arg_2, int arg_4, int arg_6) {
+    int p;
+    int a;
+    if (word_3C09A != 0 || word_330C2 == 0) {
+        return 0;
+    }
+    p = sub_198FA(arg_0);
+    a = sub_19915(arg_2);
+    if (arg_4 != -1 && p >= word_3C018 && p < word_3C45E - 1 && a >= word_3C01A && a < word_3C5A2 - 1) {
+        routine_328(p, a, arg_4);
+        if (arg_6 != 0) {
+            routine_328(p + 1, a, arg_4);
+            routine_328(p, a + 1, arg_4);
+            routine_328(p + 1, a + 1, arg_4);
+        }
+        return 0;
+    } else {
+        return 1;
+    }
 }

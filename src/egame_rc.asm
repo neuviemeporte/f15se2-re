@@ -91,6 +91,8 @@ EXTRN _sub_13638:PROC
 EXTRN _tempStrcpy:PROC
 EXTRN _sub_18A44:PROC
 EXTRN _sub_19DB0:PROC
+EXTRN _routine_328:PROC
+EXTRN _sub_1993A:PROC
 PUBLIC _var_456
 PUBLIC _var_349
 PUBLIC _var_350
@@ -13026,85 +13028,7 @@ sub_198FA equ _sub_198FA
 sub_19915 equ _sub_19915
 ; ------------------------------seg000:0x9939------------------------------
 ; ------------------------------seg000:0x993a------------------------------
-sub_1993A proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    cmp word ptr [_word_3C09A],0h
-    jnz LAB_1000_994e
-    cmp word ptr [_word_330C2],0h
-    jnz LAB_1000_9953
-LAB_1000_994e:
-    sub AX,AX
-    jmp LAB_1000_99e8
-LAB_1000_9953:
-    push word ptr [BP + 4h]
-    call sub_198FA
-    add SP,2h
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + 6h]
-    call sub_19915
-    add SP,2h
-    mov word ptr [BP + -4h],AX
-    cmp word ptr [BP + 8h],-1h
-    jz LAB_1000_99e3
-    mov AX,word ptr [word_3C018]
-    cmp word ptr [BP + -2h],AX
-    jl LAB_1000_99e3
-    mov AX,word ptr [word_3C45E]
-    dec AX
-    cmp word ptr [BP + -2h],AX
-    jge LAB_1000_99e3
-    mov AX,word ptr [word_3C01A]
-    cmp word ptr [BP + -4h],AX
-    jl LAB_1000_99e3
-    mov AX,word ptr [word_3C5A2]
-    dec AX
-    cmp word ptr [BP + -4h],AX
-    jge LAB_1000_99e3
-    push word ptr [BP + 8h]
-    push word ptr [BP + -4h]
-    push word ptr [BP + -2h]
-    call routine_328
-    add SP,6h
-    cmp word ptr [BP + 0ah],0h
-    jz LAB_1000_99dd
-    push word ptr [BP + 8h]
-    push word ptr [BP + -4h]
-    mov AX,word ptr [BP + -2h]
-    inc AX
-    push AX
-    call routine_328
-    add SP,6h
-    push word ptr [BP + 8h]
-    mov AX,word ptr [BP + -4h]
-    inc AX
-    push AX
-    push word ptr [BP + -2h]
-    call routine_328
-    add SP,6h
-    push word ptr [BP + 8h]
-    mov AX,word ptr [BP + -4h]
-    inc AX
-    push AX
-    mov AX,word ptr [BP + -2h]
-    inc AX
-    push AX
-    call routine_328
-    add SP,6h
-LAB_1000_99dd:
-    sub AX,AX
-    jmp LAB_1000_99e8
-    db 0EBh
-    db 05h
-LAB_1000_99e3:
-    mov AX,1h
-    jmp LAB_1000_99e8
-LAB_1000_99e8:
-    mov SP,BP
-    pop BP
-    ret
-sub_1993A endp
+sub_1993A equ _sub_1993A
 ; ------------------------------seg000:0x99eb------------------------------
 ; ------------------------------seg000:0x99ec------------------------------
 sub_199EC proc near
@@ -13387,22 +13311,7 @@ sub_19DB0 equ _sub_19DB0
 
 ; sub_19E5D moved to C
 
-routine_328 proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 8h]
-    call _sub_19E44
-    add SP,2h
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call _sub_19BE1
-    add SP,8h
-    mov SP,BP
-    pop BP
-    ret
-routine_328 endp
+routine_328 equ _routine_328
 
 ; ------------------------------seg000:0x9eb6------------------------------
 sub_19EB6 proc near

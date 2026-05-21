@@ -321,6 +321,8 @@ void __cdecl sub_19E44(int);
 void __cdecl sub_19E5D(int, int, int, int);
 // ==== seg000:0x9e94 ====
 int sub_19E94();
+// ==== seg000:0x9ea0 ====
+void routine_328(int, int, int);
 // ==== seg000:0x9eb6 ====
 int sub_19EB6();
 // ==== seg000:0x9fad ====
