@@ -93,6 +93,7 @@ EXTRN _tempStrcpy:PROC
 EXTRN _sub_18A44:PROC
 EXTRN _sub_19DB0:PROC
 EXTRN _sub_1C1B9:PROC
+EXTRN _sub_1C2F8:PROC
 EXTRN _routine_328:PROC
 EXTRN _sub_1993A:PROC
 EXTRN _sub_199EC:PROC
@@ -262,6 +263,8 @@ PUBLIC _word_336F4
 PUBLIC _stru_335C4
 PUBLIC _sub_1D008
 PUBLIC _var_672
+PUBLIC _var_671
+PUBLIC _aMissileLock
 PUBLIC _var_674
 PUBLIC _word_3A940
 PUBLIC _word_3370E
@@ -16723,58 +16726,7 @@ sub_1B147 endp
 sub_1C1B9 equ _sub_1C1B9
 ; ------------------------------seg000:0xc2f7------------------------------
 ; ------------------------------seg000:0xc2f8------------------------------
-sub_1C2F8 proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    cmp word ptr [_var_671],0h
-    jz LAB_1000_c36d
-    cmp word ptr [_word_330C2],0h
-    jz LAB_1000_c36d
-    cmp byte ptr [_byte_3C5A0],0h
-    jz LAB_1000_c329
-    mov AX,0eh
-    push AX
-    mov AX,96h
-    push AX
-    mov AX,0f4h
-    push AX
-    mov AX,offset aMissileLock
-    push AX
-    call _draw2Strings
-    add SP,8h
-LAB_1000_c329:
-    mov AX,0eh
-    push AX
-    call _sub_19E44
-    add SP,2h
-    mov word ptr [BP + -2h],10ch
-    mov word ptr [BP + -4h],9ch
-    mov AX,9ch
-    push AX
-    mov AX,116h
-    push AX
-    mov AX,9ch
-    push AX
-    mov AX,102h
-    push AX
-    call _sub_19BE1
-    add SP,8h
-    mov AX,word ptr [BP + -4h]
-    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
-    push AX
-    push word ptr [BP + -2h]
-    mov AX,word ptr [BP + -4h]
-    db 2Dh, 08h, 00h ; sub AX,8h (force imm16 encoding)
-    push AX
-    push word ptr [BP + -2h]
-    call _sub_19BE1
-    add SP,8h
-LAB_1000_c36d:
-    mov SP,BP
-    pop BP
-    ret
-sub_1C2F8 endp
+sub_1C2F8 equ _sub_1C2F8
 ; ------------------------------seg000:0xc370------------------------------
 ; ------------------------------seg000:0xc371------------------------------
 sub_1C371 proc near
@@ -35785,6 +35737,7 @@ aPrimaryTarget db 'Primary Target',0
 aSecondaryTarget db 'Secondary Target',0
 aNoTarget db 'No Target',0
 aNoTarget_0 db 'No Target',0
+_aMissileLock label byte
 aMissileLock db 'Missile Lock',0
 aRange db 'Range ',0
     db 2Eh

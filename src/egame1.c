@@ -1214,6 +1214,22 @@ int sub_1993A(int arg_0, int arg_2, int arg_4, int arg_6) {
     }
 }
 
+// ==== seg000:0xC2F8 ====
+void sub_1C2F8(void) {
+    int p;
+    int a;
+    if (var_671 != 0 && word_330C2 != 0) {
+        if (byte_3C5A0 != 0) {
+            draw2Strings((char *)aMissileLock, 0xf4, 0x96, 14);
+        }
+        sub_19E44(14);
+        p = 0x10c;
+        a = 0x9c;
+        sub_19BE1(0x102, 0x9c, 0x116, 0x9c);
+        sub_19BE1(p, a - 8, p, a + 8);
+    }
+}
+
 // ==== seg000:0x99ec ====
 int sub_199EC(int arg_0, int arg_2, int *arg_4, int *arg_6) {
     if (word_330C2 == 0) {
