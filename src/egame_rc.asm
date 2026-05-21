@@ -18,6 +18,7 @@ EXTRN _sub_11BFD:PROC
 EXTRN _sub_11BC3:PROC
 EXTRN _sub_114E8:PROC
 EXTRN _sub_198FA:PROC
+EXTRN _sub_19915:PROC
 EXTRN _sub_118D5:PROC
 EXTRN _sub_18E38:PROC
 EXTRN _sub_1957A:PROC
@@ -269,7 +270,7 @@ PUBLIC _word_37563
 PUBLIC _word_38126
 PUBLIC _sub_195C9
 PUBLIC _var_589
-PUBLIC _sub_19915
+PUBLIC _var_590
 PUBLIC _sub_2152A
 PUBLIC _off_38364
 PUBLIC _word_330BC
@@ -13096,27 +13097,7 @@ zoomOut equ _zoomOut
 sub_198FA equ _sub_198FA
 ; ------------------------------seg000:0x9914------------------------------
 ; ------------------------------seg000:0x9915------------------------------
-sub_19915 proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [BP + 4h]
-    sub AX,word ptr [_var_590]
-    mov CL,0ah
-    sub CL,byte ptr [byte_383E5]
-    sar AX,CL
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    sar AX,1h
-    sar AX,1h
-    db 05h, 8Ch, 00h ; add AX,8ch (force imm16 encoding)
-    jmp LAB_1000_9936
-LAB_1000_9936:
-    mov SP,BP
-    pop BP
-    ret
-sub_19915 endp
-_sub_19915 equ sub_19915
+sub_19915 equ _sub_19915
 ; ------------------------------seg000:0x9939------------------------------
 ; ------------------------------seg000:0x993a------------------------------
 sub_1993A proc near

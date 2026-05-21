@@ -1078,3 +1078,8 @@ void sub_18A44(void) {
 int sub_198FA(int arg_0) {
     return ((arg_0 - var_589) >> (10 - (int)byte_383E5)) + 0x3C;
 }
+
+// ==== seg000:0x9915 ====
+int sub_19915(int arg_0) {
+    return (((arg_0 - var_590) >> (10 - (int)byte_383E5)) * 3 >> 1 >> 1) + 0x8C;
+}
