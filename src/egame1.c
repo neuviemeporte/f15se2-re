@@ -959,6 +959,12 @@ int sub_1A1B1(int arg_0, int arg_1) {
     return regs.h.al;
 }
 
+// ==== seg000:0xa1e4 ====
+void tempStrcpy(char *arg_0) {
+    strcpy(tempString, arg_0);
+    var_591 = word_330C4 * 3;
+}
+
 // ==== seg000:0x9595 ====
 void sub_19595(void) {
     word_3C09A = 0;

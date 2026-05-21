@@ -75,6 +75,7 @@ EXTRN _sub_1DD5E:PROC
 EXTRN _sub_1DD7E:PROC
 EXTRN _sub_1DD92:PROC
 EXTRN _sub_1DDAA:PROC
+EXTRN _tempStrcpy:PROC
 PUBLIC _createFile
 PUBLIC _readFile1
 PUBLIC _readFile2
@@ -286,6 +287,7 @@ PUBLIC _keyScancode
 PUBLIC _var_218
 PUBLIC _var_219
 PUBLIC _var_220
+PUBLIC _var_591
 PUBLIC _var_592
 PUBLIC _word_3BE98
 PUBLIC _byte_3C5A0
@@ -14146,23 +14148,7 @@ _drawStringCentered endp
 sub_1A1B1 equ _sub_1A1B1
 ; ------------------------------seg000:0xa1e3------------------------------
 ; ------------------------------seg000:0xa1e4------------------------------
-tempStrcpy proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 4h]
-    mov AX,offset _tempString
-    push AX
-    call _strcpy
-    add SP,4h
-    mov AX,word ptr [_word_330C4]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    mov word ptr [_var_591],AX
-    mov SP,BP
-    pop BP
-    ret
-tempStrcpy endp
+tempStrcpy equ _tempStrcpy
 ; ------------------------------seg000:0xa203------------------------------
 ; ------------------------------seg000:0xa204------------------------------
 sub_1A204 equ _sub_1A204
