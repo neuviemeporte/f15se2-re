@@ -105,6 +105,8 @@ EXTRN _sub_199EC:PROC
 EXTRN _sub_1DB2B:PROC
 EXTRN _sub_11636:PROC
 EXTRN _sub_11B37:PROC
+EXTRN _sub_10294:PROC
+EXTRN _sub_10297:PROC
 PUBLIC _var_456
 PUBLIC _var_194
 PUBLIC _var_195
@@ -599,18 +601,10 @@ OVL_HDR_FIRSTPTR  = 24h
 ; ==============================================================================
 .CODE ;seg000 segment byte public 'CODE' use16
 ; ------------------------------seg000:0x294------------------------------
-sub_10294 proc near
-    push BP
-    pop BP
-    ret
-sub_10294 endp
+sub_10294 equ _sub_10294
 ; ------------------------------seg000:0x296------------------------------
 ; ------------------------------seg000:0x297------------------------------
-sub_10297 proc near
-    push BP
-    pop BP
-    ret
-sub_10297 endp
+sub_10297 equ _sub_10297
 ; ------------------------------seg000:0x299------------------------------
     nop
 ; ------------------------------seg000:0x2e2------------------------------

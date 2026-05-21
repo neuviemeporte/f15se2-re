@@ -1306,6 +1306,14 @@ void sub_11636(void) {
     }
 }
 
+// ==== seg000:0x0294 routine_6 ====
+int sub_10294() {
+}
+
+// ==== seg000:0x0297 routine_5 ====
+int sub_10297() {
+}
+
 // ==== seg000:0x1b37 routine_148 ====
 int sub_11B37(int arg_0) {
     if (word_3BE3C != 0 && arg_0 != 0) {
