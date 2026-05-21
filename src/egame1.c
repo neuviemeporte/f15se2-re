@@ -948,3 +948,13 @@ void sub_1C7EA(int arg_0, int arg_1, int arg_2) {
     goto done;
 done:;
 }
+
+// ==== seg000:0xa1b1 ====
+int sub_1A1B1(int arg_0, int arg_1) {
+    byte_3BF93[0] = 0x0D;
+    *(int *)unk_3BF96 = arg_0;
+    *(int *)unk_3BF98 = arg_1;
+    unk_3BF95 = 0;
+    int86(0x10, &regs, &regs);
+    return regs.h.al;
+}

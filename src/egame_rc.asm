@@ -31,6 +31,7 @@ EXTRN _sub_19FAD:PROC
 EXTRN _sub_19E94:PROC
 EXTRN _sub_19E44:PROC
 EXTRN _sub_19E5D:PROC
+EXTRN _sub_1A1B1:PROC
 EXTRN _sub_1A204:PROC
 EXTRN _sub_1A183:PROC
 EXTRN _setCommWorldbufPtr:PROC
@@ -14139,30 +14140,7 @@ _drawStringCentered endp
 ; _sub_1A183 - now in C (egame1.c)
 ; ------------------------------seg000:0xa1b0------------------------------
 ; ------------------------------seg000:0xa1b1------------------------------
-sub_1A1B1 proc near
-    push BP
-    mov BP,SP
-    mov byte ptr [byte_3BF93],0dh
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [unk_3BF96],AX
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [unk_3BF98],AX
-    mov byte ptr [unk_3BF95],0h
-    mov AX,offset _regs
-    push AX
-    push AX
-    mov AX,10h
-    push AX
-    call _int86
-    add SP,6h
-    mov AL,byte ptr [_regs]
-    sub AH,AH
-    jmp LAB_1000_a1e0
-LAB_1000_a1e0:
-    mov SP,BP
-    pop BP
-    ret
-sub_1A1B1 endp
+sub_1A1B1 equ _sub_1A1B1
 ; ------------------------------seg000:0xa1e3------------------------------
 ; ------------------------------seg000:0xa1e4------------------------------
 tempStrcpy proc near
@@ -44507,14 +44485,16 @@ PUBLIC _byte_3BF93
 _byte_3BF93 label byte
 byte_3BF93 db ?
     db ?
+PUBLIC _unk_3BF95
+_unk_3BF95 label byte
 unk_3BF95 db ?
+PUBLIC _unk_3BF96
+_unk_3BF96 label byte
 unk_3BF96 db ?
     db ?
+PUBLIC _unk_3BF98
+_unk_3BF98 label byte
 unk_3BF98 db ?
-    db ?
-    db ?
-    db ?
-    db ?
     db ?
     db ?
     db ?
