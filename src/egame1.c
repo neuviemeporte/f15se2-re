@@ -1306,6 +1306,25 @@ void sub_11636(void) {
     }
 }
 
+// ==== seg000:0x1b37 routine_148 ====
+int sub_11B37(int arg_0) {
+    if (word_3BE3C != 0 && arg_0 != 0) {
+        return;
+    }
+    *((uint8 *)&word_3C6AC + 0x204) = 1;
+    commData->continueFlag = arg_0;
+    if (arg_0 == 0 && word_3BE3C == 0) {
+        commData->setupDone = 3;
+    }
+    *(int16 far *)((char far *)commData + 0x74) = word_3BEC0;
+    *(int16 far *)((char far *)commData + 0x76) = word_3BED0;
+    *(int16 far *)((char far *)commData + 0x34) = word_33096;
+    *(int16 far *)((char far *)commData + 0x36) = word_3BF90;
+    commData->unk8[0] = word_38FF6;
+    commData->unk8[1] = word_33710;
+    sub_11D10(8, 0);
+}
+
 // ==== seg000:0x1971 ====
 int sub_11971() {
     int p;

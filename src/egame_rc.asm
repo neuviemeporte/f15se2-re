@@ -104,6 +104,7 @@ EXTRN _sub_1993A:PROC
 EXTRN _sub_199EC:PROC
 EXTRN _sub_1DB2B:PROC
 EXTRN _sub_11636:PROC
+EXTRN _sub_11B37:PROC
 PUBLIC _var_456
 PUBLIC _var_194
 PUBLIC _var_195
@@ -266,6 +267,9 @@ PUBLIC _word_380CA
 PUBLIC _word_380CC
 PUBLIC _word_3C5AA
 PUBLIC _word_3BE94
+PUBLIC _word_3BE3C
+PUBLIC _word_38FF6
+PUBLIC _word_33710
 PUBLIC _stru_3A95A
 PUBLIC _word_336E6
 PUBLIC _word_336E8
@@ -2984,55 +2988,7 @@ LAB_1000_1b32:
 _sub_11A88 endp
 ; ------------------------------seg000:0x1b36------------------------------
 ; ------------------------------seg000:0x1b37------------------------------
-sub_11B37 proc near
-    push BP
-    mov BP,SP
-    cmp word ptr [word_3BE3C],0h
-    jz LAB_1000_1b49
-    cmp word ptr [BP + 4h],0h
-    jz LAB_1000_1b49
-    jmp LAB_1000_1bbf
-LAB_1000_1b49:
-    mov byte ptr [_word_3C6AC+204h],1h
-    les BX,dword ptr [_commData]
-    mov AX,word ptr [BP + 4h]
-    mov word ptr ES:[BX + 28h],AX
-    cmp word ptr [BP + 4h],0h
-    jnz LAB_1000_1b70
-    cmp word ptr [word_3BE3C],0h
-    jnz LAB_1000_1b70
-    les BX,dword ptr [_commData]
-    mov word ptr ES:[BX + 26h],3h
-LAB_1000_1b70:
-    les BX,dword ptr [_commData]
-    mov AX,word ptr [_word_3BEC0]
-    mov word ptr ES:[BX + 74h],AX
-    les BX,dword ptr [_commData]
-    mov AX,word ptr [_word_3BED0]
-    mov word ptr ES:[BX + 76h],AX
-    les BX,dword ptr [_commData]
-    mov AX,word ptr [word_33096]
-    mov word ptr ES:[BX + 34h],AX
-    les BX,dword ptr [_commData]
-    mov AX,word ptr [word_3BF90]
-    mov word ptr ES:[BX + 36h],AX
-    les BX,dword ptr [_commData]
-    mov AX,word ptr [word_38FF6]
-    mov word ptr ES:[BX + 40h],AX
-    les BX,dword ptr [_commData]
-    mov AX,word ptr [word_33710]
-    mov word ptr ES:[BX + 42h],AX
-    sub AX,AX
-    push AX
-    mov AX,8h
-    push AX
-    call sub_11D10
-    add SP,4h
-LAB_1000_1bbf:
-    mov SP,BP
-    pop BP
-    ret
-sub_11B37 endp
+sub_11B37 equ _sub_11B37
 ; ------------------------------seg000:0x1bc2------------------------------
 ; ------------------------------seg000:0x1bc3------------------------------
 sub_11BC3 equ _sub_11BC3
@@ -22082,6 +22038,7 @@ _word_3370A dw 1
 _word_3370C dw 0FFFFh
 _word_3370E dw 0
 word_33710 dw 1
+_word_33710 equ word_33710
 word_33712 dw 0
 word_33714 dw 0
 aStoresExhauste db 'Stores exhausted',0
@@ -37036,6 +36993,7 @@ _gameData dd ?
     db ?
     db ?
 word_38FF6 dw ?
+_word_38FF6 equ word_38FF6
 word_38FF8 dw ?
 _word_38FFA dw ?
 word_38FFC dw ?
@@ -43195,6 +43153,7 @@ byte_3B7F1 db ?
 _dword_3B7F8 dd ?
 _byte_3B7FC db 640h dup(?)
 word_3BE3C dw ?
+_word_3BE3C equ word_3BE3C
 _byte_3BE3E db 40h dup(?)
 word_3BE7E dw ?
 _byte_3BE80 db 10h dup(?)
