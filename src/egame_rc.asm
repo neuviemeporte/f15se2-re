@@ -9,6 +9,9 @@ EXTRN _sub_21A7A:PROC
 EXTRN _sub_13922:PROC
 EXTRN _sub_1CF8E:PROC
 EXTRN _sub_11BFD:PROC
+EXTRN _sub_11BC3:PROC
+EXTRN _sub_1957A:PROC
+EXTRN _sub_13A90:PROC
 EXTRN _copySomeMem:PROC
 EXTRN _sub_1CF64:PROC
 EXTRN _sub_1D178:PROC
@@ -254,6 +257,9 @@ PUBLIC _word_3C09A
 PUBLIC _word_330C2
 PUBLIC _sub_20BAE
 PUBLIC _word_3C09E
+PUBLIC _var_218
+PUBLIC _var_219
+PUBLIC _var_220
 PUBLIC _word_3BE98
 PUBLIC _byte_3C5A0
 PUBLIC _sub_15FDB
@@ -2986,37 +2992,7 @@ LAB_1000_1bbf:
 sub_11B37 endp
 ; ------------------------------seg000:0x1bc2------------------------------
 ; ------------------------------seg000:0x1bc3------------------------------
-sub_11BC3 proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [_word_3370E]
-    cmp word ptr [BP + 6h],AX
-    jbe LAB_1000_1bd0
-    jmp LAB_1000_1bf9
-LAB_1000_1bd0:
-    cmp word ptr [_word_3370C],-1h
-    jz LAB_1000_1bd9
-    jmp LAB_1000_1bf9
-LAB_1000_1bd9:
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [_word_3C02E],AX
-    cmp word ptr [_word_3370E],1h
-    jnz LAB_1000_1beb
-    mov AX,3h
-    jmp LAB_1000_1bee
-LAB_1000_1beb:
-    mov AX,4h
-LAB_1000_1bee:
-    push AX
-    mov AX,89h
-    push AX
-    call sub_11BFD
-    add SP,4h
-LAB_1000_1bf9:
-    mov SP,BP
-    pop BP
-    ret
-sub_11BC3 endp
+sub_11BC3 equ _sub_11BC3
 ; ------------------------------seg000:0x1bfc------------------------------
 ; ------------------------------seg000:0x1bfd------------------------------
 sub_11BFD equ _sub_11BFD
@@ -5153,18 +5129,8 @@ sub_13A6C proc near
 sub_13A6C endp
 ; ------------------------------seg000:0x3a8e------------------------------
 ; ------------------------------seg000:0x3a90------------------------------
-sub_13A90 proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [_var_218],AX
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [_var_219],AX
-    mov AX,word ptr [BP + 8h]
-    mov word ptr [_var_220],AX
-    pop BP
-    ret
-    nop
+sub_13A90 equ _sub_13A90
+; raw bytes for unlabeled code between 0x3aa1 and 0x3aee
     db 80h
     db 3Eh
     db 04h
@@ -5235,7 +5201,7 @@ sub_13A90 proc near
     db 1Ah
     db 0C3h
     db 90h
-sub_13A90 endp
+
 ; ------------------------------seg000:0x3aa6------------------------------
     nop
     nop
@@ -12807,7 +12773,9 @@ sub_18E38 proc near
 sub_18E38 endp
 ; ------------------------------seg000:0x8e4f------------------------------
 ; ------------------------------seg000:0x94d0------------------------------
+PUBLIC _sub_194D0
 sub_194D0 proc near
+_sub_194D0 equ sub_194D0
     push BP
     mov BP,SP
     sub SP,14h
@@ -12898,21 +12866,7 @@ LAB_1000_9576:
 sub_194D0 endp
 ; ------------------------------seg000:0x9579------------------------------
 ; ------------------------------seg000:0x957a------------------------------
-sub_1957A proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    mov AX,word ptr [_word_3C09E]
-    cmp word ptr [BP + 4h],AX
-    jnz LAB_1000_9591
-    push word ptr [BP + 4h]
-    call sub_194D0
-    add SP,2h
-LAB_1000_9591:
-    mov SP,BP
-    pop BP
-    ret
-sub_1957A endp
+sub_1957A equ _sub_1957A
 ; ------------------------------seg000:0x9594------------------------------
 ; ------------------------------seg000:0x9595------------------------------
 sub_19595 proc near

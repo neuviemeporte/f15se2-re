@@ -20,6 +20,14 @@ void sub_11BFD(int arg_0, int arg_2) {
     word_3370C = arg_2 * word_330C4 + word_336E8;
 }
 
+// ==== seg000:0x1bc3 ====
+void sub_11BC3(int arg_0, unsigned int arg_2) {
+    if (arg_2 > (unsigned int)word_3370E) return;
+    if (word_3370C != -1) return;
+    word_3C02E = arg_0;
+    sub_11BFD(0x89, word_3370E == 1 ? 3 : 4);
+}
+
 // ==== seg000:0x5540 ====
 int sub_15540(int arg_0) {
     return 0x4000 - sub_154B7(arg_0);
@@ -844,6 +852,14 @@ int drawStringCentered(int* arg_0, char *arg_2, int arg_4, int arg_6, int arg_8)
 // ==== seg000:0x9be1 ====
 int sub_19BE1(int arg_0, int arg_2, int arg_4, int arg_6) {
     sub_19C84(arg_0, arg_2, arg_4, arg_6, 0, 0x13f, 0, 199, 1);
+}
+
+// ==== seg000:0x957a ====
+void sub_1957A(int arg_0) {
+    int p;
+    if (arg_0 == word_3C09E) {
+        sub_194D0(arg_0);
+    }
 }
 
 // ==== seg000:0x9e94 ====

@@ -90,7 +90,7 @@ int sub_11A88();
 // ==== seg000:0x1b37 ====
 int sub_11B37();
 // ==== seg000:0x1bc3 ====
-int sub_11BC3();
+void sub_11BC3(int arg_0, int arg_2);
 // ==== seg000:0x1bfd ====
 void sub_11BFD(int arg_0, int arg_2);
 // ==== seg000:0x1c21 ====
@@ -172,7 +172,7 @@ int sub_139C0();
 // ==== seg000:0x3a6c ====
 int sub_13A6C();
 // ==== seg000:0x3a90 ====
-int sub_13A90();
+void sub_13A90(int arg_0, int arg_2, int arg_4);
 // ==== seg000:0x3aee ====
 int setupDac();
 // ==== seg000:0x3b2f ====
@@ -282,7 +282,7 @@ int sub_18E50();
 // ==== seg000:0x94d0 ====
 int sub_194D0();
 // ==== seg000:0x957a ====
-int sub_1957A();
+void sub_1957A(int arg_0);
 // ==== seg000:0x9595 ====
 int sub_19595();
 // ==== seg000:0x95c9 ====
@@ -1688,6 +1688,9 @@ extern int16 word_3C8C2;
 extern size_t size3d3_7;
 extern int16 word_339B4[];
 extern int16 word_3419C[];
+extern int16 var_218;
+extern int16 var_219;
+extern int16 var_220;
 
 extern int rand();
 extern long _aNlmul(long, long);

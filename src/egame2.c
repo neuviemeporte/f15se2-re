@@ -144,3 +144,10 @@ int sub_1D200(int arg_0) {
     return (int)(((long)rand() * (long)arg_0) >> 15);
 }
 
+// ==== seg000:0x3a90 ====
+void sub_13A90(int arg_0, int arg_2, int arg_4) {
+    var_218 = arg_0;
+    var_219 = arg_2;
+    var_220 = arg_4;
+}
+
