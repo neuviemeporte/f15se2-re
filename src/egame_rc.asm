@@ -25,6 +25,7 @@ EXTRN _sub_1D190:PROC
 EXTRN _sub_1D200:PROC
 EXTRN _sub_15540:PROC
 EXTRN _sub_19BE1:PROC
+EXTRN _sub_19D86:PROC
 EXTRN _sub_19FAD:PROC
 EXTRN _sub_19E94:PROC
 EXTRN _sub_19E44:PROC
@@ -13696,29 +13697,7 @@ LAB_1000_9d6b:
 _sub_19C84 endp
 ; ------------------------------seg000:0x9d85------------------------------
 ; ------------------------------seg000:0x9d86------------------------------
-sub_19D86 proc near
-    push BP
-    mov BP,SP
-    sub AX,AX
-    push AX
-    mov AX,0c7h
-    push AX
-    sub AX,AX
-    push AX
-    mov AX,13fh
-    push AX
-    sub AX,AX
-    push AX
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call _sub_19C84
-    add SP,12h
-    mov SP,BP
-    pop BP
-    ret
-sub_19D86 endp
+sub_19D86 equ _sub_19D86
 ; ------------------------------seg000:0x9daf------------------------------
 ; ------------------------------seg000:0x9db0------------------------------
 sub_19DB0 proc near

@@ -921,3 +921,8 @@ int sub_118D5() {
 int sub_1C7A2(int arg_0) {
     return sub_1C7EA(stru_3AA5E[arg_0].field_0, stru_3AA5E[arg_0].field_2, 1);
 }
+
+// ==== seg000:0x9d86 ====
+int sub_19D86(int arg_0, int arg_1, int arg_2, int arg_3) {
+    sub_19C84(arg_0, arg_1, arg_2, arg_3, 0, 0x13f, 0, 0xc7, 0);
+}
