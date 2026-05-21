@@ -956,6 +956,21 @@ int sub_19D86(int arg_0, int arg_1, int arg_2, int arg_3) {
     sub_19C84(arg_0, arg_1, arg_2, arg_3, 0, 0x13f, 0, 0xc7, 0);
 }
 
+// ==== seg000:0x9db0 ====
+void sub_19DB0(int arg_0, int arg_2, int arg_4, int arg_6) {
+    if (var_456 != 0) {
+        if (gameData->unk4 < 2) {
+            sub_19C0C(arg_0, arg_2, arg_4, arg_6);
+        } else {
+            sub_19C84(arg_0, arg_2, arg_4, arg_6, 0x68, 0xd8, 0x3e, 0x60, 0);
+        }
+    } else if (word_330B8 != 0) {
+        sub_19C84(arg_0, arg_2, arg_4, arg_6, 0x30, 0x10f, 0x0f, 0x60, 0);
+    } else {
+        sub_19C0C(arg_0, arg_2, arg_4, arg_6);
+    }
+}
+
 // ==== seg000:0xa183 ====
 void sub_1A183(int arg_0, int arg_1, int arg_2, int arg_3) {
     char buf[20];

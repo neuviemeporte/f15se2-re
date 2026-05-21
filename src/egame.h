@@ -314,7 +314,7 @@ int sub_19C84();
 // ==== seg000:0x9d86 ====
 int sub_19D86();
 // ==== seg000:0x9db0 ====
-int sub_19DB0();
+void __cdecl sub_19DB0(int, int, int, int);
 // ==== seg000:0x9e44 ====
 void __cdecl sub_19E44(int);
 // ==== seg000:0x9e5d ====
@@ -1697,6 +1697,7 @@ extern int16 var_220;
 extern int *var_564;
 extern int *var_565;
 extern int16 var_591;
+extern uint8 var_456;
 extern int16 var_592;
 extern int16 var_595;
 extern int16 var_349;

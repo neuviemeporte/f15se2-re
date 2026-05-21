@@ -90,6 +90,8 @@ EXTRN _sub_13694:PROC
 EXTRN _sub_13638:PROC
 EXTRN _tempStrcpy:PROC
 EXTRN _sub_18A44:PROC
+EXTRN _sub_19DB0:PROC
+PUBLIC _var_456
 PUBLIC _var_349
 PUBLIC _var_350
 PUBLIC _var_662
@@ -13380,72 +13382,7 @@ _sub_19C84 endp
 sub_19D86 equ _sub_19D86
 ; ------------------------------seg000:0x9daf------------------------------
 ; ------------------------------seg000:0x9db0------------------------------
-sub_19DB0 proc near
-    push BP
-    mov BP,SP
-    cmp byte ptr [_var_456],0h
-    jz LAB_1000_9e00
-    les BX,dword ptr [_gameData]
-    cmp word ptr ES:[BX + 40h],2h
-    jnc LAB_1000_9dd9
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call _sub_19C0C
-    add SP,8h
-    jmp LAB_1000_9dfe
-LAB_1000_9dd9:
-    sub AX,AX
-    push AX
-    mov AX,60h
-    push AX
-    mov AX,3eh
-    push AX
-    mov AX,0d8h
-    push AX
-    mov AX,68h
-    push AX
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call _sub_19C84
-    add SP,12h
-LAB_1000_9dfe:
-    jmp LAB_1000_9e40
-LAB_1000_9e00:
-    cmp word ptr [word_330B8],0h
-    jz LAB_1000_9e2e
-    sub AX,AX
-    push AX
-    mov AX,60h
-    push AX
-    mov AX,0fh
-    push AX
-    mov AX,10fh
-    push AX
-    mov AX,30h
-    push AX
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call _sub_19C84
-    add SP,12h
-    jmp LAB_1000_9e40
-LAB_1000_9e2e:
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call _sub_19C0C
-    add SP,8h
-LAB_1000_9e40:
-    mov SP,BP
-    pop BP
-    ret
-sub_19DB0 endp
+sub_19DB0 equ _sub_19DB0
 ; sub_19E44 moved to egame1.c
 
 ; sub_19E5D moved to C
