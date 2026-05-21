@@ -887,3 +887,9 @@ int sub_1DB9C() {
         sub_1DAAE();
     }
 }
+
+// ==== seg000:0x9fad ====
+int sub_19FAD(int arg_0, int arg_1, int arg_2) {
+    sub_19FCC(arg_0, arg_2);
+    sub_1A030(arg_0, (char *)arg_1);
+}

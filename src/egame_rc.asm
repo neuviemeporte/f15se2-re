@@ -22,6 +22,7 @@ EXTRN _sub_1D190:PROC
 EXTRN _sub_1D200:PROC
 EXTRN _sub_15540:PROC
 EXTRN _sub_19BE1:PROC
+EXTRN _sub_19FAD:PROC
 EXTRN _sub_19E94:PROC
 EXTRN _sub_19E44:PROC
 EXTRN _sub_19E5D:PROC
@@ -295,6 +296,7 @@ PUBLIC _aAccel
 PUBLIC _sub_19C0C
 PUBLIC _sub_154B7
 PUBLIC _sub_19C84
+PUBLIC _sub_1A030
 PUBLIC _aStallWarning
 PUBLIC _waypointIndex
 PUBLIC _aAutopilot
@@ -13873,23 +13875,7 @@ LAB_1000_9f42:
 sub_19EB6 endp
 ; ------------------------------seg000:0x9f46------------------------------
 ; ------------------------------seg000:0x9fad------------------------------
-PUBLIC _sub_19FAD
-sub_19FAD proc near
-_sub_19FAD equ sub_19FAD
-    push BP
-    mov BP,SP
-    push word ptr [BP + 8h]
-    push word ptr [BP + 4h]
-    call _sub_19FCC
-    add SP,4h
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call sub_1A030
-    add SP,4h
-    mov SP,BP
-    pop BP
-    ret
-sub_19FAD endp
+sub_19FAD equ _sub_19FAD
 ; ------------------------------seg000:0x9fcb------------------------------
 ; ------------------------------seg000:0x9fcc------------------------------
 _sub_19FCC proc near
@@ -14095,6 +14081,7 @@ LAB_1000_a0c7:
     pop BP
     ret
 sub_1A030 endp
+_sub_1A030 equ sub_1A030
 ; ------------------------------seg000:0xa0ca------------------------------
 _drawSomeStrings proc near
     push BP
