@@ -238,7 +238,7 @@ int sub_155AB();
 // ==== seg000:0x5fdb ====
 int sub_15FDB();
 // ==== seg000:0x606c ====
-int sub_1606C();
+void sub_1606C(void);
 // ==== seg000:0x60d3 ====
 int sub_160D3();
 // ==== seg000:0x613b ====

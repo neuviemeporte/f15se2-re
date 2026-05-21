@@ -1102,6 +1102,17 @@ void sub_18A44(void) {
     }
 }
 
+// ==== seg000:0x606c ====
+void sub_1606C(void) {
+    if (word_330C2 == 0) {
+        return;
+    }
+    sub_19E44(0);
+    sub_19E5D(5, 0x6d, 0x0a, 0x98);
+    sub_19E44(word_33098 > 2000 ? 2 : 14);
+    sub_19E5D(5, -(word_33098 / 250 - 0x98), 0x0a, 0x98);
+}
+
 // ==== seg000:0x98fa ====
 int sub_198FA(int arg_0) {
     return ((arg_0 - var_589) >> (10 - (int)byte_383E5)) + 0x3C;

@@ -39,6 +39,7 @@ EXTRN _sub_19FAD:PROC
 EXTRN _sub_19FCC:PROC
 EXTRN _sub_19E94:PROC
 EXTRN _sub_19E44:PROC
+EXTRN _sub_1606C:PROC
 EXTRN _sub_19E5D:PROC
 EXTRN _sub_1A1B1:PROC
 EXTRN _sub_19A4D:PROC
@@ -299,6 +300,7 @@ PUBLIC _word_38FDC
 PUBLIC _sub_11A88
 PUBLIC _word_3C09A
 PUBLIC _word_330C2
+PUBLIC _word_33098
 PUBLIC _sub_20BAE
 PUBLIC _word_3C09E
 PUBLIC _keyScancode
@@ -8043,57 +8045,7 @@ LAB_1000_6068:
 _sub_15FDB endp
 ; ------------------------------seg000:0x606b------------------------------
 ; ------------------------------seg000:0x606c------------------------------
-sub_1606C proc near
-    push BP
-    mov BP,SP
-    cmp word ptr [_word_330C2],0h
-    jnz LAB_1000_6078
-    jmp LAB_1000_60cf
-LAB_1000_6078:
-    sub AX,AX
-    push AX
-    call _sub_19E44
-    add SP,2h
-    mov AX,98h
-    push AX
-    mov AX,0ah
-    push AX
-    mov AX,6dh
-    push AX
-    mov AX,5h
-    push AX
-    call _sub_19E5D
-    add SP,8h
-    cmp word ptr [word_33098],7d0h
-    jle LAB_1000_60a4
-    mov AX,2h
-    jmp LAB_1000_60a7
-LAB_1000_60a4:
-    mov AX,0eh
-LAB_1000_60a7:
-    push AX
-    call _sub_19E44
-    add SP,2h
-    mov AX,98h
-    push AX
-    mov AX,0ah
-    push AX
-    mov AX,word ptr [word_33098]
-    cwd
-    mov CX,0fah
-    idiv CX
-    db 2Dh, 98h, 00h ; sub AX,98h (force imm16 encoding)
-    neg AX
-    push AX
-    mov AX,5h
-    push AX
-    call _sub_19E5D
-    add SP,8h
-LAB_1000_60cf:
-    mov SP,BP
-    pop BP
-    ret
-sub_1606C endp
+sub_1606C equ _sub_1606C
 ; ------------------------------seg000:0x60d2------------------------------
 ; ------------------------------seg000:0x60d3------------------------------
 _sub_160D3 proc near
@@ -22102,6 +22054,7 @@ aAn72 db 'An-72',0
 word_33096 dw 4
 _word_33096 equ word_33096
 word_33098 dw 1388h
+_word_33098 equ word_33098
 word_3309A dw 0
 word_3309C dw 0Ch
 word_3309E dw 12h
