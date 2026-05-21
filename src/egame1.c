@@ -1272,6 +1272,19 @@ int sub_199EC(int arg_0, int arg_2, int *arg_4, int *arg_6) {
     }
 }
 
+// ==== seg000:0x1636 ====
+void sub_11636(void) {
+    int p;
+    for (p = 0; p < 4; p++) {
+        if (*((int16 *)((char *)&word_333DA + p * 12)) != 0) {
+            (*((int16 *)((char *)&word_333DA + p * 12)))--;
+            if (*((int16 *)((char *)&word_333DA + p * 12)) == 0) {
+                *((int16 *)((char *)&word_333D8 + p * 12)) = 0;
+            }
+        }
+    }
+}
+
 // ==== seg000:0x1971 ====
 int sub_11971() {
     int p;

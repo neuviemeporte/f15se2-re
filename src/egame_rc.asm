@@ -101,6 +101,7 @@ EXTRN _routine_328:PROC
 EXTRN _sub_1993A:PROC
 EXTRN _sub_199EC:PROC
 EXTRN _sub_1DB2B:PROC
+EXTRN _sub_11636:PROC
 PUBLIC _var_456
 PUBLIC _var_194
 PUBLIC _var_195
@@ -368,6 +369,8 @@ PUBLIC _var_564
 PUBLIC _var_565
 PUBLIC _word_3370A
 PUBLIC _word_3C6AC
+PUBLIC _word_333D8
+PUBLIC _word_333DA
 PUBLIC _var_661
 PUBLIC _var_663
 PUBLIC _var_664
@@ -2478,38 +2481,7 @@ LAB_1000_1631:
 countermeasures endp
 ; ------------------------------seg000:0x1635------------------------------
 ; ------------------------------seg000:0x1636------------------------------
-sub_11636 proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    push SI
-    mov word ptr [BP + -2h],0h
-    jmp LAB_1000_1647
-LAB_1000_1644:
-    inc word ptr [BP + -2h]
-LAB_1000_1647:
-    cmp word ptr [BP + -2h],4h
-    jge LAB_1000_1671
-    mov AX,word ptr [BP + -2h]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    shl AX,1h
-    mov SI,AX
-    cmp word ptr [SI + offset word_333DA],0h
-    jz LAB_1000_166f
-    dec word ptr [SI + offset word_333DA]
-    jnz LAB_1000_166f
-    mov word ptr [SI + offset word_333D8],0h
-LAB_1000_166f:
-    jmp LAB_1000_1644
-LAB_1000_1671:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_11636 endp
+sub_11636 equ _sub_11636
 ; ------------------------------seg000:0x1675------------------------------
 ; ------------------------------seg000:0x1676------------------------------
 sub_11676 proc near
@@ -21760,7 +21732,9 @@ word_333D4 dw 0
     db 0
     db 0
 word_333D8 dw 0
+_word_333D8 equ word_333D8
 word_333DA dw 0
+_word_333DA equ word_333DA
     db 0
     db 0
     db 0
