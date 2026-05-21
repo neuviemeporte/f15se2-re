@@ -40,6 +40,21 @@ int sub_15540(int arg_0) {
     return 0x4000 - sub_154B7(arg_0);
 }
 
+int sub_15557(int arg_0) {
+    int p;
+    int a;
+    arg_0 = abs(arg_0);
+    if (arg_0 < 4) {
+        return 1;
+    }
+    a = arg_0 >> 2;
+    do {
+        p = arg_0 / a;
+        a = (a + p) >> 1;
+    } while (abs(a - p) > 1);
+    return a;
+}
+
 // ==== seg000:0x147 ====
 void drawCockpit() {
     TRACE(("drawCockpit: enter, theater=%d", gameData->theater));

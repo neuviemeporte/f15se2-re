@@ -31,6 +31,7 @@ EXTRN _sub_1D178:PROC
 EXTRN _sub_1D190:PROC
 EXTRN _sub_1D200:PROC
 EXTRN _sub_15540:PROC
+EXTRN _sub_15557:PROC
 EXTRN _sub_19BE1:PROC
 EXTRN _sub_19D86:PROC
 EXTRN _sub_19FAD:PROC
@@ -7964,46 +7965,7 @@ LAB_1000_553b:
 _sub_154B7 endp
 ; ------------------------------seg000:0x553f------------------------------
 ; ------------------------------seg000:0x5557------------------------------
-sub_15557 proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    push word ptr [BP + 4h]
-    call _abs
-    add SP,2h
-    mov word ptr [BP + 4h],AX
-    db 3Dh, 04h, 00h ; cmp AX,4h (force imm16 encoding)
-    jge LAB_1000_5573
-    mov AX,1h
-    jmp LAB_1000_55a7
-LAB_1000_5573:
-    mov AX,word ptr [BP + 4h]
-    sar AX,1h
-    sar AX,1h
-    mov word ptr [BP + -4h],AX
-LAB_1000_557d:
-    mov AX,word ptr [BP + 4h]
-    cwd
-    mov CX,word ptr [BP + -4h]
-    idiv CX
-    mov word ptr [BP + -2h],AX
-    mov AX,CX
-    add AX,word ptr [BP + -2h]
-    sar AX,1h
-    mov word ptr [BP + -4h],AX
-    sub AX,word ptr [BP + -2h]
-    push AX
-    call _abs
-    add SP,2h
-    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
-    jg LAB_1000_557d
-    mov AX,word ptr [BP + -4h]
-    jmp LAB_1000_55a7
-LAB_1000_55a7:
-    mov SP,BP
-    pop BP
-    ret
-sub_15557 endp
+sub_15557 equ _sub_15557
 ; ------------------------------seg000:0x55aa------------------------------
 ; ------------------------------seg000:0x5fdb------------------------------
 _sub_15FDB proc near
