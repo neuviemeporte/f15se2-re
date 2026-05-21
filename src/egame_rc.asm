@@ -1,6 +1,7 @@
 .8086
 DOSSEG
 .MODEL SMALL
+EXTRN _sub_1DBE0:PROC
 EXTRN _sub_1DB9C:PROC
 EXTRN _sub_155AB:PROC
 EXTRN _main:PROC
@@ -20223,22 +20224,7 @@ sub_1DB2B endp
 sub_1DB9C equ _sub_1DB9C
 ; ------------------------------seg000:0xdbb6------------------------------
 ; ------------------------------seg000:0xdbe0------------------------------
-sub_1DBE0 proc near
-    push BP
-    mov BP,SP
-    mov byte ptr [byte_3BF93],0h
-    mov byte ptr [_regs],8dh
-    mov AX,offset _regs
-    push AX
-    push AX
-    mov AX,10h
-    push AX
-    call _int86
-    add SP,6h
-    mov SP,BP
-    pop BP
-    ret
-sub_1DBE0 endp
+sub_1DBE0 equ _sub_1DBE0
 ; ------------------------------seg000:0xdbff------------------------------
     nop
 ; ------------------------------seg000:0xdd5e------------------------------
@@ -44615,6 +44601,8 @@ word_3BF3E dw ?
 _tempString db 50h dup(?)
 word_3BF90 dw ?
 _regs db ?
+PUBLIC _byte_3BF93
+_byte_3BF93 label byte
 byte_3BF93 db ?
     db ?
 unk_3BF95 db ?

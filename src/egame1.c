@@ -899,3 +899,10 @@ void sub_1A204(char *arg_0) {
     strcpy(string_3C04A, arg_0);
     var_592 = word_330C4 * 3;
 }
+
+// ==== seg000:0xdbe0 ====
+void sub_1DBE0(void) {
+    byte_3BF93[0] = 0;
+    regs.h.al = 0x8D;
+    int86(0x10, &regs, &regs);
+}

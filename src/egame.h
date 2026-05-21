@@ -436,7 +436,7 @@ int sub_1DB2B();
 // ==== seg000:0xdb9c ====
 int sub_1DB9C();
 // ==== seg000:0xdbe0 ====
-int sub_1DBE0();
+void sub_1DBE0(void);
 // ==== seg000:0xdd4c ====
 int __cdecl openFileWrapper(char *, int);
 // ==== seg000:0xdd5e ====
