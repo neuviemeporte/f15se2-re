@@ -31,7 +31,7 @@ routine_148: seg000 NEAR 1b37-1bc2 R1b37-1bc2
 routine_253: seg000 NEAR 1bc3-1bfc R1bc3-1bfc
 routine_262: seg000 NEAR 1bfd-1c20 R1bfd-1c20
 routine_180: seg000 NEAR 1c21-1d0f R1c21-1cf3 U1cf4-1cf5 R1cf6-1d0f
-routine_178: seg000 NEAR 1d10-1d6d R1d10-1d6d
+routine_178: seg000 NEAR 1d10-1d6d R1d10-1d6d complete
 routine_271: seg000 NEAR 1d6e-1e0d R1d6e-1e0d
 sub_11E0E: seg000 NEAR 1e0e-1f3d R1e0e-1f3d
 routine_185: seg000 NEAR 1f3e-2048 R1f3e-2048
@@ -96,10 +96,10 @@ routine_145: seg000 NEAR 5411-543a R5411-543a
 routine_244: seg000 NEAR 543b-54b6 R543b-54b6
 routine_243: seg000 NEAR 54b7-553f R54b7-553f
 routine_245: seg000 NEAR 5540-5556 R5540-5556
-routine_155: seg000 NEAR 5557-55aa R5557-55aa
+routine_155: seg000 NEAR 5557-55aa R5557-55aa complete
 sub_155AB: seg000 NEAR 55ab-5fda R55ab-5c22 U5c23-5c32 R5c33-5fda
 routine_130: seg000 NEAR 5fdb-606b R5fdb-606b
-routine_153: seg000 NEAR 606c-60d2 R606c-60d2
+routine_153: seg000 NEAR 606c-60d2 R606c-60d2 complete
 routine_124: seg000 NEAR 60d3-613a R60d3-613a
 routine_168: seg000 NEAR 613b-6171 R613b-6171
 routine_169: seg000 NEAR 6172-6345 R6172-6345
@@ -128,8 +128,8 @@ zoomIn: seg000 NEAR 9875-98b3 R9875-98b3
 zoomOut: seg000 NEAR 98b4-98f9 R98b4-98f9
 routine_267: seg000 NEAR 98fa-9914 R98fa-9914
 routine_268: seg000 NEAR 9915-9939 R9915-9939
-routine_257: seg000 NEAR 993a-99eb R993a-99e0 U99e1-99e2 R99e3-99eb
-routine_176: seg000 NEAR 99ec-9a4c R99ec-9a41 U9a42-9a43 R9a44-9a4c
+routine_257: seg000 NEAR 993a-99eb R993a-99e0 U99e1-99e2 R99e3-99eb complete
+routine_176: seg000 NEAR 99ec-9a4c R99ec-9a41 U9a42-9a43 R9a44-9a4c complete
 routine_255: seg000 NEAR 9a4d-9ada R9a4d-9ada
 routine_251: seg000 NEAR 9adb-9b97 R9adb-9b97
 routine_323: seg000 NEAR 9b98-9be0 R9b98-9be0
@@ -137,15 +137,15 @@ routine_211: seg000 NEAR 9be1-9c0b R9be1-9c0b
 routine_140: seg000 NEAR 9c0c-9c83 R9c0c-9c83
 routine_222: seg000 NEAR 9c84-9d85 R9c84-9d85
 routine_221: seg000 NEAR 9d86-9daf R9d86-9daf
-routine_307: seg000 NEAR 9db0-9e43 R9db0-9e43
+routine_307: seg000 NEAR 9db0-9e43 R9db0-9e43 complete
 sub_19E44: seg000 NEAR 9e44-9e5c R9e44-9e5c
 sub_19E5D: seg000 NEAR 9e5d-9e93 R9e5d-9e93
-routine_328: seg000 NEAR 9e94-9eb5 R9e94-9eb5
+routine_328: seg000 NEAR 9e94-9eb5 R9e94-9eb5 complete
 routine_188: seg000 NEAR 9eb6-9f46 R9eb6-9f46
 routine_212: seg000 NEAR 9fad-9fcb R9fad-9fcb
 routine_134: seg000 NEAR 9fcc-a02f R9fcc-a02f
 routine_316: seg000 NEAR a030-a0ca Ra030-a038 Ua039-a0c6 Ra0c7-a0ca
-drawSomeStrings: seg000 NEAR a0cb-a0fd Ra0cb-a0fd
+drawSomeStrings: seg000 NEAR a0cb-a0fd Ra0cb-a0fd complete
 routine_138: seg000 NEAR a0fe-a139 Ra0fe-a139
 drawStringCentered: seg000 NEAR a13a-a182 Ra13a-a182
 routine_141: seg000 NEAR a183-a1b0 Ra183-a1b0
@@ -187,7 +187,7 @@ routine_136: seg000 NEAR d008-d177 Rd008-d177
 routine_142: seg000 NEAR d178-d18f Rd178-d18f
 routine_143: seg000 NEAR d190-d1a5 Rd190-d1a5
 sub_1D1C8: seg000 NEAR d1c8-d1e7 Rd1c8-d1e7 complete
-routine_276: seg000 NEAR d1e8-d1ff Rd1e8-d1ff
+routine_276: seg000 NEAR d1e8-d1ff Rd1e8-d1ff complete
 routine_152: seg000 NEAR d200-d21d Rd200-d21d
 routine_265: seg000 NEAR d21e-d25f Rd21e-d25f
 routine_272: seg000 NEAR d260-d9da Rd260-d2c9 Ud2ca-d2cb Rd2cc-d523 Ud524-d529 Rd52a-d5ee Ud5ef-d5f0 Rd5f1-d743 Ud744-d746 Rd747-d927 Ud928-d929 Rd92a-d9da
@@ -195,7 +195,7 @@ routine_336: seg000 NEAR d9db-da34 Rd9db-da34
 routine_149: seg000 NEAR da35-da5e Rda35-da5e
 routine_177: seg000 NEAR da5f-da8c Rda5f-da8c
 routine_179: seg000 NEAR da8d-daad Rda8d-daad
-routine_182: seg000 NEAR daae-db2a Rdaae-db2a
+routine_182: seg000 NEAR daae-db2a Rdaae-db2a complete
 routine_190: seg000 NEAR db2b-db9b Rdb2b-db9b
 routine_165: seg000 NEAR db9c-dbb6 Rdb9c-dbb6
 routine_337: seg000 NEAR dbe0-dbff Rdbe0-dbff
