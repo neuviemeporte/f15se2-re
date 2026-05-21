@@ -18,6 +18,7 @@ EXTRN _sub_114E8:PROC
 EXTRN _sub_118D5:PROC
 EXTRN _sub_18E38:PROC
 EXTRN _sub_1957A:PROC
+EXTRN _sub_19595:PROC
 EXTRN _sub_13A90:PROC
 EXTRN _copySomeMem:PROC
 EXTRN _sub_1CF64:PROC
@@ -337,6 +338,13 @@ PUBLIC _gfx_jump_4b_storeBufPtr
 PUBLIC _gfx_jump_4c
 PUBLIC _gfx_jump_4f
 PUBLIC _gfx_jump_52
+PUBLIC _zoomIn
+PUBLIC _word_3C018
+PUBLIC _word_3C01A
+PUBLIC _word_3C45E
+PUBLIC _word_3C5A2
+PUBLIC _word_38FC8
+PUBLIC _word_38FCC
 ; ---------------------------------------------------------------------------
 
 SREGS		struc ;	(sizeof=0x8, align=0x2,	copyof_10) ; XREF: load15Flt3d3/r
@@ -12849,21 +12857,7 @@ sub_194D0 endp
 sub_1957A equ _sub_1957A
 ; ------------------------------seg000:0x9594------------------------------
 ; ------------------------------seg000:0x9595------------------------------
-sub_19595 proc near
-    push BP
-    mov BP,SP
-    mov word ptr [_word_3C09A],0h
-    mov word ptr [word_3C018],18h
-    mov word ptr [word_3C45E],60h
-    mov word ptr [word_3C01A],70h
-    mov word ptr [word_3C5A2],0a8h
-    mov word ptr [word_38FC8],48h
-    mov word ptr [word_38FCC],38h
-    call zoomIn
-    mov SP,BP
-    pop BP
-    ret
-sub_19595 endp
+sub_19595 equ _sub_19595
 ; ------------------------------seg000:0x95c8------------------------------
 ; ------------------------------seg000:0x95c9------------------------------
 _sub_195C9 proc near
@@ -13193,6 +13187,7 @@ LAB_1000_98b0:
     pop BP
     ret
 zoomIn endp
+_zoomIn equ zoomIn
 ; ------------------------------seg000:0x98b3------------------------------
 ; ------------------------------seg000:0x98b4------------------------------
 zoomOut proc near
@@ -38237,9 +38232,11 @@ byte_38F8D db ?
 _word_38FC4 dw ?
 word_38FC6 dw ?
 word_38FC8 dw ?
+_word_38FC8 equ word_38FC8
     db ? ;align 4
     db ?
 word_38FCC dw ?
+_word_38FCC equ word_38FCC
 word_38FCE dw ?
 unk_38FD0 db ?
     db ?
@@ -44512,7 +44509,9 @@ _keyScancode equ keyScancode
 word_3C014 dw ?
 word_3C016 dw ?
 word_3C018 dw ?
+_word_3C018 equ word_3C018
 word_3C01A dw ?
+_word_3C01A equ word_3C01A
 _dword_3C01C dd ?
 word_3C020 dw ?
     db ? ;align 4
@@ -44553,10 +44552,12 @@ word_3C16C dw ?
 _byte_3C16E db 2EEh dup(?)
 _word_3C45C dw ?
 word_3C45E dw ?
+_word_3C45E equ word_3C45E
 _matrix3dt_2 dw 0A0h dup(?)
 _byte_3C5A0 db ?
     db ?
 word_3C5A2 dw ?
+_word_3C5A2 equ word_3C5A2
 word_3C5A4 dw ?
 _word_3C5A6 dw ?
 word_3C5A8 dw ?

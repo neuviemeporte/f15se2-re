@@ -284,7 +284,7 @@ int sub_194D0();
 // ==== seg000:0x957a ====
 void sub_1957A(int arg_0);
 // ==== seg000:0x9595 ====
-int sub_19595();
+void sub_19595(void);
 // ==== seg000:0x95c9 ====
 int sub_195C9();
 // ==== seg000:0x9875 ====

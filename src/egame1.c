@@ -958,3 +958,15 @@ int sub_1A1B1(int arg_0, int arg_1) {
     int86(0x10, &regs, &regs);
     return regs.h.al;
 }
+
+// ==== seg000:0x9595 ====
+void sub_19595(void) {
+    word_3C09A = 0;
+    word_3C018 = 0x18;
+    word_3C45E = 0x60;
+    word_3C01A = 0x70;
+    word_3C5A2 = 0xa8;
+    word_38FC8 = 0x48;
+    word_38FCC = 0x38;
+    zoomIn();
+}
