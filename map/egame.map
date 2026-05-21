@@ -201,8 +201,16 @@ routine_165: seg000 NEAR db9c-dbb6 Rdb9c-dbb6
 routine_337: seg000 NEAR dbe0-dbff Rdbe0-dbff
 openFileWrapper: seg000 NEAR dd4c-dd5d Rdd4c-dd5d
 closeFileWrapper: seg000 NEAR dd70-dd7d Rdd70-dd7d
+sub_1DD5E: seg000 NEAR dd5e-dd6d Rdd5e-dd6d
+sub_1DD7E: seg000 NEAR dd7e-dd90 Rdd7e-dd90
+sub_1DD92: seg000 NEAR dd92-dda7 Rdd92-dda7
+sub_1DDAA: seg000 NEAR ddaa-ddc2 Rddaa-ddc2
 openFile: seg000 NEAR ddc4-de1a Rddc4-de1a Rdf80-dfbb assembly
+createFile: seg000 NEAR de1b-de71 Rde1b-de71 assembly
+sub_1DF4F: seg000 NEAR df4f-df7f Rdf4f-df7f assembly
 closeFile: seg000 NEAR de72-de92 Rde72-de92 assembly
+readFile1: seg000 NEAR de94-debd Rde94-debd assembly
+readFile2: seg000 NEAR debf-deeb Rdebf-deeb assembly
 openBlitClosePic: seg000 NEAR dfbc-dff4 Rdfbc-dff4
 picBlit: seg000 NEAR e0aa-e11b Re0aa-e11b assembly
 routine_95: seg000 NEAR e260-e260 Re260-e260

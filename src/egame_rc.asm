@@ -71,6 +71,14 @@ EXTRN __aNlshr:PROC
 EXTRN _flushall:PROC
 EXTRN _stackavail:PROC
 EXTRN _remove:PROC
+EXTRN _sub_1DD5E:PROC
+EXTRN _sub_1DD7E:PROC
+EXTRN _sub_1DD92:PROC
+EXTRN _sub_1DDAA:PROC
+PUBLIC _createFile
+PUBLIC _readFile1
+PUBLIC _readFile2
+PUBLIC _sub_1DF4F
 PUBLIC _commData
 
 PUBLIC _gameData
@@ -20102,60 +20110,18 @@ sub_1DBE0 equ _sub_1DBE0
 ; ------------------------------seg000:0xdbff------------------------------
     nop
 ; ------------------------------seg000:0xdd5e------------------------------
-sub_1DD5E proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call createFile
-    add SP,4h
-    pop BP
-    ret
-sub_1DD5E endp
+sub_1DD5E equ _sub_1DD5E
 ; ------------------------------seg000:0xdd6e------------------------------
     nop
 ; ------------------------------seg000:0xdd7e------------------------------
-sub_1DD7E proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call readFile1
-    add SP,6h
-    pop BP
-    ret
-sub_1DD7E endp
+sub_1DD7E equ _sub_1DD7E
 ; ------------------------------seg000:0xdd91------------------------------
 ; ------------------------------seg000:0xdd92------------------------------
-sub_1DD92 proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call readFile2
-    add SP,8h
-    pop BP
-    ret
-sub_1DD92 endp
+sub_1DD92 equ _sub_1DD92
 ; ------------------------------seg000:0xdda8------------------------------
     nop
 ; ------------------------------seg000:0xddaa------------------------------
-sub_1DDAA proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 0ch]
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call sub_1DF4F
-    add SP,0ah
-    pop BP
-    ret
-sub_1DDAA endp
+sub_1DDAA equ _sub_1DDAA
     nop
 ; ------------------------------seg000:0xddc3------------------------------
 ; ------------------------------seg000:0xddc4------------------------------
@@ -20261,6 +20227,7 @@ loc_1DE64:
     pop bp
     retn
 createFile endp
+_createFile equ createFile
 ; ------------------------------seg000:0xde71------------------------------
 ; ------------------------------seg000:0xde72------------------------------
 _closeFile proc near
@@ -20316,6 +20283,7 @@ LAB_1000_deb7:
     pop BP
     ret
 readFile1 endp
+_readFile1 equ readFile1
 ; ------------------------------seg000:0xdebe------------------------------
 ; ------------------------------seg000:0xdebf------------------------------
 readFile2 proc near
@@ -20388,6 +20356,7 @@ LAB_1000_dee5:
     db 1Fh
     db 0C3h
 readFile2 endp
+_readFile2 equ readFile2
 ; ------------------------------seg000:0xdeec------------------------------
 ; ------------------------------seg000:0xdf16------------------------------
 read512FromFileIntoBuf proc near
@@ -20476,6 +20445,7 @@ loc_1DFB7:
     mov ax, 4C00h
     int 21h ;DOS - 2+ - QUIT WITH EXIT CODE (EXIT)
 sub_1DF4F endp ;AL = exit code
+_sub_1DF4F equ sub_1DF4F
     nop
 ; ------------------------------seg000:0xdfba------------------------------
 ; ------------------------------seg000:0xe0aa------------------------------
