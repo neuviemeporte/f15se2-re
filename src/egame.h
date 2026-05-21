@@ -270,7 +270,7 @@ int sub_187EA();
 // ==== seg000:0x89aa ====
 int sub_189AA();
 // ==== seg000:0x8a44 ====
-int sub_18A44();
+void sub_18A44(void);
 // ==== seg000:0x8aa6 ====
 int sub_18AA6();
 // ==== seg000:0x8df4 ====

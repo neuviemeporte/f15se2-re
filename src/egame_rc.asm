@@ -83,6 +83,7 @@ EXTRN _sub_1DDAA:PROC
 EXTRN _sub_13694:PROC
 EXTRN _sub_13638:PROC
 EXTRN _tempStrcpy:PROC
+EXTRN _sub_18A44:PROC
 PUBLIC _var_349
 PUBLIC _var_350
 PUBLIC _var_662
@@ -351,6 +352,10 @@ PUBLIC _word_380D0
 PUBLIC _tempString
 PUBLIC _word_383F2
 PUBLIC _word_330B6
+PUBLIC _word_33096
+PUBLIC _word_330B8
+PUBLIC _word_3BF90
+PUBLIC _makeSound
 PUBLIC _missileSpecIndex
 PUBLIC _sub_21A86
 PUBLIC _gfx_jump_0_alloc
@@ -12291,49 +12296,9 @@ LAB_1000_8a3e:
 sub_189AA endp
 ; ------------------------------seg000:0x8a43------------------------------
 ; ------------------------------seg000:0x8a44------------------------------
-sub_18A44 proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    test word ptr [_planeFlags],1000h
-    jnz LAB_1000_8aa1
-    cmp word ptr [_word_336EA],-1h
-    jz LAB_1000_8aa1
-    mov word ptr [BP + -2h],0h
-    jmp LAB_1000_8a7c
-LAB_1000_8a60:
-    mov AX,8h
-    push AX
-    call randlmul
-    add SP,2h
-    mov CX,AX
-    mov AX,1h
-    shl AX,CL
-    or word ptr [word_33096],AX
-    inc word ptr [word_3BF90]
-    inc word ptr [BP + -2h]
-LAB_1000_8a7c:
-    mov AX,word ptr [word_330B8]
-    cmp word ptr [BP + -2h],AX
-    jle LAB_1000_8a60
-    mov AX,16h
-    push AX
-    call sub_1957A
-    add SP,2h
-    mov word ptr [_word_38FEA],1h
-    mov AX,2h
-    push AX
-    sub AX,AX
-    push AX
-    call makeSound
-    add SP,4h
-LAB_1000_8aa1:
-    mov SP,BP
-    pop BP
-    ret
-    nop
-sub_18A44 endp
+sub_18A44 equ _sub_18A44
 ; ------------------------------seg000:0x8aa4------------------------------
+    nop
 ; ------------------------------seg000:0x8aa6------------------------------
 sub_18AA6 proc near
     push BP
@@ -19678,6 +19643,7 @@ LAB_1000_da58:
     pop BP
     ret
 makeSound endp
+_makeSound equ makeSound
 ; ------------------------------seg000:0xda5e------------------------------
 ; ------------------------------seg000:0xda5f------------------------------
 sub_1DA5F proc near
@@ -22259,6 +22225,7 @@ aAn72 db 'An-72',0
     Sam <'AA-10', 40h, 7D0h, 0, 4, 13h>
     Sam <'Equip.', 0, 0, 1Dh, 0, 0Eh>
 word_33096 dw 4
+_word_33096 equ word_33096
 word_33098 dw 1388h
 word_3309A dw 0
 word_3309C dw 0Ch
@@ -22273,6 +22240,7 @@ _missileSpecIndex dw 0
 word_330B4 dw 28Ah
 _word_330B6 dw 0
 word_330B8 dw 1
+_word_330B8 equ word_330B8
 word_330BA dw 1
 _word_330BC dw 0
 word_330BE dw 0
@@ -44178,6 +44146,7 @@ word_3BF3C dw ?
 word_3BF3E dw ?
 _tempString db 50h dup(?)
 word_3BF90 dw ?
+_word_3BF90 equ word_3BF90
 _regs db ?
 PUBLIC _byte_3BF93
 _byte_3BF93 label byte

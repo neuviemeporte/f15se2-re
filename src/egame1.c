@@ -1054,3 +1054,22 @@ void zoomOut(void) {
         }
     }
 }
+
+// ==== seg000:0x8a44 ====
+extern int sub_1D200(int);
+void sub_18A44(void) {
+    int p;
+    if (!(planeFlags & 0x1000) && word_336EA != -1) {
+        p = 0;
+        goto check;
+        do {
+            word_33096 |= (1 << sub_1D200(8));
+            word_3BF90++;
+            p++;
+    check:;
+        } while (p <= word_330B8);
+        sub_1957A(0x16);
+        word_38FEA = 1;
+        makeSound(0, 2);
+    }
+}
