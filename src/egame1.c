@@ -1073,3 +1073,8 @@ void sub_18A44(void) {
         makeSound(0, 2);
     }
 }
+
+// ==== seg000:0x98fa ====
+int sub_198FA(int arg_0) {
+    return ((arg_0 - var_589) >> (10 - (int)byte_383E5)) + 0x3C;
+}

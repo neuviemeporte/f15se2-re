@@ -1293,6 +1293,7 @@ extern int16 word_383DA;
 extern uint8 byte_383E4;
 extern int16 byte_383E5;
 extern int16 var_588;
+extern int16 var_589;
 extern int16 word_383EA;
 extern int16 radarRange;
 extern int16 word_383EE;
