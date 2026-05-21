@@ -965,6 +965,15 @@ void tempStrcpy(char *arg_0) {
     var_591 = word_330C4 * 3;
 }
 
+// ==== seg000:0xa0fe ====
+void draw2Strings(char *arg_0, int arg_1, int arg_2, int arg_3) {
+    if (byte_3C5A0 == 0) {
+        drawStringCentered(var_564, arg_0, arg_1, arg_2, arg_3);
+    } else {
+        drawStringCentered(var_565, arg_0, arg_1, arg_2, arg_3);
+    }
+}
+
 // ==== seg000:0x9595 ====
 void sub_19595(void) {
     word_3C09A = 0;

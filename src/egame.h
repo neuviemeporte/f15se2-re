@@ -332,7 +332,7 @@ int __cdecl sub_1A030(int, char *);
 // ==== seg000:0xa0cb ====
 int __cdecl drawSomeStrings(char *, int, int, int);
 // ==== seg000:0xa0fe ====
-int draw2Strings();
+void draw2Strings(char *, int, int, int);
 // ==== seg000:0xa13a ====
 int __cdecl drawStringCentered(int *, char *, int, int, int);
 // ==== seg000:0xa183 ====
@@ -1691,6 +1691,8 @@ extern int16 word_3419C[];
 extern int16 var_218;
 extern int16 var_219;
 extern int16 var_220;
+extern int *var_564;
+extern int *var_565;
 extern int16 var_591;
 extern int16 var_592;
 extern int16 var_672;

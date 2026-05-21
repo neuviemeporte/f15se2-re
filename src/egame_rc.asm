@@ -312,7 +312,9 @@ PUBLIC _word_3C008
 PUBLIC _planeFlags
 PUBLIC _byte_37C24
 PUBLIC _string_3C04A
-PUBLIC _draw2Strings
+EXTRN _draw2Strings:PROC
+PUBLIC _var_564
+PUBLIC _var_565
 PUBLIC _word_3370A
 PUBLIC _word_3C6AC
 PUBLIC _missiles
@@ -14086,32 +14088,7 @@ _drawSomeStrings proc near
     ret
 _drawSomeStrings endp
 ; ------------------------------seg000:0xa0fe------------------------------
-_draw2Strings proc near
-    push BP
-    mov BP,SP
-    cmp byte ptr [_byte_3C5A0],0h
-    jnz LAB_1000_a120
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    push word ptr [_var_564]
-    call _drawStringCentered
-    add SP,0ah
-    jmp LAB_1000_a136
-LAB_1000_a120:
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    push word ptr [_var_565]
-    call _drawStringCentered
-    add SP,0ah
-LAB_1000_a136:
-    mov SP,BP
-    pop BP
-    ret
-_draw2Strings endp
+; _draw2Strings - now in C (egame1.c)
 ; ------------------------------seg000:0xa139------------------------------
 _drawStringCentered proc near
     push BP
