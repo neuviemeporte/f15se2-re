@@ -1,6 +1,7 @@
 .8086
 DOSSEG
 .MODEL SMALL
+EXTRN _sub_11D10:PROC
 EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC
 EXTRN _sub_1DBE0:PROC
@@ -94,6 +95,8 @@ EXTRN _sub_19DB0:PROC
 EXTRN _routine_328:PROC
 EXTRN _sub_1993A:PROC
 PUBLIC _var_456
+PUBLIC _var_654
+PUBLIC _word_38FE0
 PUBLIC _var_349
 PUBLIC _var_350
 PUBLIC _var_662
@@ -3154,46 +3157,7 @@ LAB_1000_1d0c:
 sub_11C21 endp
 ; ------------------------------seg000:0x1d0f------------------------------
 ; ------------------------------seg000:0x1d10------------------------------
-sub_11D10 proc near
-    push BP
-    mov BP,SP
-    push SI
-    cmp word ptr [_var_654],0ffh
-    jl LAB_1000_1d1e
-    jmp LAB_1000_1d69
-LAB_1000_1d1e:
-    mov AX,word ptr [_var_654]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    mov AX,word ptr [word_38FE0]
-    mov word ptr [SI + offset _byte_3B7FC],AX
-    mov AX,word ptr [_word_3BEC0]
-    mov CL,7h
-    shr AX,CL
-    mov byte ptr [SI + offset _byte_3B7FC + 2],AL
-    mov AX,word ptr [_word_3BED0]
-    shr AX,CL
-    mov byte ptr [SI + offset _byte_3B7FC + 3],AL
-    mov AL,byte ptr [BP + 4h]
-    mov byte ptr [SI + offset _byte_3B7FC + 4],AL
-    mov AL,byte ptr [BP + 6h]
-    mov byte ptr [SI + offset _byte_3B7FC + 5],AL
-    inc word ptr [_var_654]
-    mov BX,word ptr [_var_654]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov byte ptr [BX + offset _byte_3B7FC + 4],0h
-LAB_1000_1d69:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_11D10 endp
+sub_11D10 equ _sub_11D10
 ; ------------------------------seg000:0x1d6d------------------------------
 ; ------------------------------seg000:0x1d6e------------------------------
 placeString proc near
@@ -37577,6 +37541,7 @@ word_38FDA dw ?
 _word_38FDC dw ?
 word_38FDE dw ?
 word_38FE0 dw ?
+_word_38FE0 equ word_38FE0
 _dword_38FE2 dd ?
 _fileHandle dw ?
 word_38FE8 dw ?

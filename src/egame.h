@@ -96,7 +96,7 @@ void sub_11BFD(int arg_0, int arg_2);
 // ==== seg000:0x1c21 ====
 int sub_11C21();
 // ==== seg000:0x1d10 ====
-int sub_11D10();
+void sub_11D10();
 // ==== seg000:0x1d6e ====
 int placeString();
 // ==== seg000:0x1e0e ====
@@ -1704,6 +1704,7 @@ extern int16 var_592;
 extern int16 var_595;
 extern int16 var_349;
 extern int16 var_350;
+extern int16 var_654;
 extern int16 var_661;
 extern int16 var_662;
 extern int16 var_663;

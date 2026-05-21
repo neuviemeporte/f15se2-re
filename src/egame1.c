@@ -12,6 +12,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+// ==== seg000:0x1d10 ====
+void sub_11D10(int arg_0, int arg_2) {
+    if (var_654 >= 255) {
+        return;
+    }
+    *(int *)&byte_3B7FC[var_654 * 6] = word_38FE0;
+    byte_3B7FC[var_654 * 6 + 2] = (unsigned)word_3BEC0 >> 7;
+    byte_3B7FC[var_654 * 6 + 3] = (unsigned)word_3BED0 >> 7;
+    byte_3B7FC[var_654 * 6 + 4] = arg_0;
+    byte_3B7FC[var_654 * 6 + 5] = arg_2;
+    var_654++;
+    byte_3B7FC[var_654 * 6 + 4] = 0;
+}
+
 // ==== seg000:0x14e8 ====
 int sub_114E8(void) {
     int p, a, b, c, d, e, f, g;
