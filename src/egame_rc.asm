@@ -341,6 +341,7 @@ PUBLIC _planeFlags
 PUBLIC _byte_37C24
 PUBLIC _string_3C04A
 EXTRN _draw2Strings:PROC
+EXTRN _drawSomeStrings:PROC
 PUBLIC _var_564
 PUBLIC _var_565
 PUBLIC _word_3370A
@@ -13533,27 +13534,7 @@ LAB_1000_a0c7:
 sub_1A030 endp
 _sub_1A030 equ sub_1A030
 ; ------------------------------seg000:0xa0ca------------------------------
-_drawSomeStrings proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    push word ptr [_var_564]
-    call _drawStringCentered
-    add SP,0ah
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    push word ptr [_var_565]
-    call _drawStringCentered
-    add SP,0ah
-    mov SP,BP
-    pop BP
-    ret
-_drawSomeStrings endp
+; _drawSomeStrings - now in C (egame1.c)
 ; ------------------------------seg000:0xa0fe------------------------------
 ; _draw2Strings - now in C (egame1.c)
 ; ------------------------------seg000:0xa139------------------------------
