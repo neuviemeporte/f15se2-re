@@ -99,7 +99,14 @@ EXTRN _sub_1C2F8:PROC
 EXTRN _routine_328:PROC
 EXTRN _sub_1993A:PROC
 EXTRN _sub_199EC:PROC
+EXTRN _sub_1DB2B:PROC
 PUBLIC _var_456
+PUBLIC _var_194
+PUBLIC _var_195
+PUBLIC _var_196
+PUBLIC _var_197
+PUBLIC _var_198
+PUBLIC _byte_3419F
 PUBLIC _var_654
 PUBLIC _var_279
 PUBLIC _var_282
@@ -19032,57 +19039,7 @@ sub_1DA8D endp
 sub_1DAAE equ _sub_1DAAE
 ; ------------------------------seg000:0xdb2a------------------------------
 ; ------------------------------seg000:0xdb2b------------------------------
-sub_1DB2B proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    mov word ptr [BP + -2h],0h
-    jmp LAB_1000_db3b
-LAB_1000_db38:
-    inc word ptr [BP + -2h]
-LAB_1000_db3b:
-    cmp word ptr [BP + -2h],6h
-    jge LAB_1000_db62
-    mov BX,word ptr [BP + -2h]
-    shl BX,1h
-    mov AX,20h
-    mov CL,byte ptr [BP + -2h]
-    mov DX,word ptr [_word_38FDC]
-    cmp DX,2h
-    jle LAB_1000_db58
-    mov DX,2h
-LAB_1000_db58:
-    add CL,DL
-    shl AX,CL
-    mov word ptr [BX + offset byte_3419F + 13],AX
-    jmp LAB_1000_db38
-LAB_1000_db62:
-    mov AX,word ptr [_var_195]
-    add AX,word ptr [_var_194]
-    mov word ptr [_var_196],AX
-    mov AX,270fh
-    push AX
-    mov AX,1000h
-    push AX
-    mov AX,word ptr [_var_195]
-    shl AX,1h
-    push AX
-    call _sub_1CF64
-    add SP,6h
-    mov word ptr [_var_197],AX
-    mov AX,word ptr [_word_38FDC]
-    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
-    jle LAB_1000_db8e
-    mov AX,2h
-LAB_1000_db8e:
-    mov CX,0d05h
-    imul CX
-    add AX,CX
-    mov word ptr [_var_198],AX
-    mov SP,BP
-    pop BP
-    ret
-sub_1DB2B endp
+sub_1DB2B equ _sub_1DB2B
 ; ------------------------------seg000:0xdb9b------------------------------
 ; ------------------------------seg000:0xdb9c------------------------------
 sub_1DB9C equ _sub_1DB9C
@@ -24068,6 +24025,7 @@ _word_3419C equ byte_3419C
     db 1
     db 2
 byte_3419F db 3
+_byte_3419F equ byte_3419F
     db 4
     db 5
     db 6

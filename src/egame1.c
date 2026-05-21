@@ -1246,6 +1246,17 @@ void sub_1C371(char *arg_0, int arg_2, int arg_4) {
     }
 }
 
+// ==== seg000:0xdb2b ====
+void sub_1DB2B(void) {
+    int p;
+    for (p = 0; p < 6; p++) {
+        ((int *)(byte_3419F + 13))[p] = 0x20 << ((char)p + (char)(word_38FDC > 2 ? 2 : word_38FDC));
+    }
+    var_196 = var_195 + var_194;
+    var_197 = sub_1CF64(var_195 << 1, 0x1000, 9999);
+    var_198 = (word_38FDC > 2 ? 2 : word_38FDC) * 0xD05 + 0xD05;
+}
+
 // ==== seg000:0x99ec ====
 int sub_199EC(int arg_0, int arg_2, int *arg_4, int *arg_6) {
     if (word_330C2 == 0) {

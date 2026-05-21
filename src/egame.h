@@ -434,7 +434,7 @@ int sub_1DA8D();
 // ==== seg000:0xdaae ====
 void sub_1DAAE(void);
 // ==== seg000:0xdb2b ====
-int sub_1DB2B();
+void sub_1DB2B(void);
 // ==== seg000:0xdb9c ====
 int sub_1DB9C();
 // ==== seg000:0xdbe0 ====
@@ -1715,6 +1715,12 @@ extern int16 var_671;
 extern int16 var_672;
 extern int16 var_674;
 extern int16 var_686;
+
+extern int16 var_194;
+extern int16 var_195;
+extern int16 var_196;
+extern int16 var_197;
+extern int16 var_198;
 
 extern int rand();
 extern long _aNlmul(long, long);
