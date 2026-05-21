@@ -998,6 +998,40 @@ void sub_1A183(int arg_0, int arg_1, int arg_2, int arg_3) {
     drawSomeStrings(buf, arg_1, arg_2, arg_3);
 }
 
+// ==== seg000:0xc1b9 ====
+void sub_1C1B9(int arg_0, int arg_2, int arg_4, int arg_6) {
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+
+    if (word_330C2 == 0) {
+        return;
+    }
+    if (var_456 != 0) {
+        arg_4 >>= 1;
+    }
+    p = arg_4 - (arg_4 >> 2);
+    c = arg_0 + arg_4;
+    a = arg_0 - arg_4;
+    d = arg_2 + p;
+    b = arg_2 - p;
+    if (arg_6 == 0) {
+        sub_19DB0(a, b, a, d);
+        sub_19DB0(a, d, c, d);
+        sub_19DB0(c, d, c, b);
+        sub_19DB0(c, b, a, b);
+    } else {
+        sub_19DB0(arg_0, b, c, arg_2 - (p >> 1));
+        sub_19DB0(c, arg_2 - (p >> 1), c, arg_2 + (p >> 1));
+        sub_19DB0(c, (p >> 1) + arg_2, arg_0, d);
+        sub_19DB0(arg_0, d, a, (p >> 1) + arg_2);
+        sub_19DB0(a, arg_2 + (p >> 1), a, arg_2 - (p >> 1));
+        sub_19DB0(a, arg_2 - (p >> 1), arg_0, b);
+    }
+}
+
 // ==== seg000:0xc7ea ====
 void sub_1C7EA(int arg_0, int arg_1, int arg_2) {
     int p;

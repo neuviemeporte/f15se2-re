@@ -368,7 +368,7 @@ int sub_1A9F8();
 // ==== seg000:0xb147 ====
 int sub_1B147();
 // ==== seg000:0xc1b9 ====
-int sub_1C1B9();
+void sub_1C1B9(int, int, int, int);
 // ==== seg000:0xc2f8 ====
 int sub_1C2F8();
 // ==== seg000:0xc371 ====

@@ -92,6 +92,7 @@ EXTRN _sub_13638:PROC
 EXTRN _tempStrcpy:PROC
 EXTRN _sub_18A44:PROC
 EXTRN _sub_19DB0:PROC
+EXTRN _sub_1C1B9:PROC
 EXTRN _routine_328:PROC
 EXTRN _sub_1993A:PROC
 EXTRN _sub_199EC:PROC
@@ -16719,133 +16720,7 @@ LAB_1000_c1b3:
 sub_1B147 endp
 ; ------------------------------seg000:0xc1b8------------------------------
 ; ------------------------------seg000:0xc1b9------------------------------
-sub_1C1B9 proc near
-    push BP
-    mov BP,SP
-    sub SP,0ah
-    push SI
-    cmp word ptr [_word_330C2],0h
-    jnz LAB_1000_c1ca
-    jmp LAB_1000_c2f3
-LAB_1000_c1ca:
-    cmp byte ptr [_var_456],0h
-    jz LAB_1000_c1d4
-    sar word ptr [BP + 8h],1h
-LAB_1000_c1d4:
-    mov AX,word ptr [BP + 8h]
-    mov CX,AX
-    sar CX,1h
-    sar CX,1h
-    sub AX,CX
-    mov word ptr [BP + -2h],AX
-    mov AX,word ptr [BP + 4h]
-    add AX,word ptr [BP + 8h]
-    mov word ptr [BP + -8h],AX
-    mov AX,word ptr [BP + 4h]
-    sub AX,word ptr [BP + 8h]
-    mov word ptr [BP + -4h],AX
-    mov AX,word ptr [BP + 6h]
-    add AX,word ptr [BP + -2h]
-    mov word ptr [BP + -0ah],AX
-    mov AX,word ptr [BP + 6h]
-    sub AX,word ptr [BP + -2h]
-    mov word ptr [BP + -6h],AX
-    cmp word ptr [BP + 0ah],0h
-    jnz LAB_1000_c255
-    push word ptr [BP + -0ah]
-    push word ptr [BP + -4h]
-    push AX
-    push word ptr [BP + -4h]
-    call sub_19DB0
-    add SP,8h
-    push word ptr [BP + -0ah]
-    push word ptr [BP + -8h]
-    push word ptr [BP + -0ah]
-    push word ptr [BP + -4h]
-    call sub_19DB0
-    add SP,8h
-    push word ptr [BP + -6h]
-    push word ptr [BP + -8h]
-    push word ptr [BP + -0ah]
-    push word ptr [BP + -8h]
-    call sub_19DB0
-    add SP,8h
-    push word ptr [BP + -6h]
-    push word ptr [BP + -4h]
-    push word ptr [BP + -6h]
-    push word ptr [BP + -8h]
-    call sub_19DB0
-    add SP,8h
-    jmp LAB_1000_c2f3
-LAB_1000_c255:
-    mov AX,word ptr [BP + 6h]
-    mov CX,word ptr [BP + -2h]
-    sar CX,1h
-    sub AX,CX
-    push AX
-    push word ptr [BP + -8h]
-    push word ptr [BP + -6h]
-    push word ptr [BP + 4h]
-    call sub_19DB0
-    add SP,8h
-    mov SI,word ptr [BP + -2h]
-    sar SI,1h
-    mov AX,word ptr [BP + 6h]
-    add AX,SI
-    push AX
-    push word ptr [BP + -8h]
-    mov AX,word ptr [BP + 6h]
-    sub AX,SI
-    push AX
-    push word ptr [BP + -8h]
-    call sub_19DB0
-    add SP,8h
-    push word ptr [BP + -0ah]
-    push word ptr [BP + 4h]
-    mov AX,word ptr [BP + -2h]
-    sar AX,1h
-    add AX,word ptr [BP + 6h]
-    push AX
-    push word ptr [BP + -8h]
-    call sub_19DB0
-    add SP,8h
-    mov AX,word ptr [BP + -2h]
-    sar AX,1h
-    add AX,word ptr [BP + 6h]
-    push AX
-    push word ptr [BP + -4h]
-    push word ptr [BP + -0ah]
-    push word ptr [BP + 4h]
-    call sub_19DB0
-    add SP,8h
-    mov SI,word ptr [BP + -2h]
-    sar SI,1h
-    mov AX,word ptr [BP + 6h]
-    sub AX,SI
-    push AX
-    push word ptr [BP + -4h]
-    mov AX,word ptr [BP + 6h]
-    add AX,SI
-    push AX
-    push word ptr [BP + -4h]
-    call sub_19DB0
-    add SP,8h
-    push word ptr [BP + -6h]
-    push word ptr [BP + 4h]
-    mov AX,word ptr [BP + 6h]
-    mov CX,word ptr [BP + -2h]
-    sar CX,1h
-    sub AX,CX
-    push AX
-    push word ptr [BP + -4h]
-    call sub_19DB0
-    add SP,8h
-LAB_1000_c2f3:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_1C1B9 endp
+sub_1C1B9 equ _sub_1C1B9
 ; ------------------------------seg000:0xc2f7------------------------------
 ; ------------------------------seg000:0xc2f8------------------------------
 sub_1C2F8 proc near
