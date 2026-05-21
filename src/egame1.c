@@ -878,3 +878,12 @@ int sub_19E94(int arg_0, int arg_2, int arg_4) {
     sub_19E44(arg_4);
     sub_19BE1(arg_0, arg_2, arg_0, arg_2);
 }
+
+// ==== seg000:0xdb9c ====
+int sub_1DB9C() {
+    if (word_3370A == 2) {
+        word_3370A = 1;
+        word_330C4 <<= 1;
+        sub_1DAAE();
+    }
+}

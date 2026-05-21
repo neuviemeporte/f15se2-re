@@ -1,6 +1,7 @@
 .8086
 DOSSEG
 .MODEL SMALL
+EXTRN _sub_1DB9C:PROC
 EXTRN _sub_155AB:PROC
 EXTRN _main:PROC
 EXTRN _sub_18E50:PROC
@@ -20136,7 +20137,9 @@ LAB_1000_daaa:
 sub_1DA8D endp
 ; ------------------------------seg000:0xdaad------------------------------
 ; ------------------------------seg000:0xdaae------------------------------
+PUBLIC _sub_1DAAE
 sub_1DAAE proc near
+_sub_1DAAE equ sub_1DAAE
     push BP
     mov BP,SP
     cmp word ptr [_word_330C4],0fh
@@ -20244,19 +20247,7 @@ LAB_1000_db8e:
 sub_1DB2B endp
 ; ------------------------------seg000:0xdb9b------------------------------
 ; ------------------------------seg000:0xdb9c------------------------------
-sub_1DB9C proc near
-    push BP
-    mov BP,SP
-    cmp word ptr [_word_3370A],2h
-    jnz LAB_1000_dbb3
-    mov word ptr [_word_3370A],1h
-    shl word ptr [_word_330C4],1h
-    call sub_1DAAE
-LAB_1000_dbb3:
-    mov SP,BP
-    pop BP
-    ret
-sub_1DB9C endp
+sub_1DB9C equ _sub_1DB9C
 ; ------------------------------seg000:0xdbb6------------------------------
 ; ------------------------------seg000:0xdbe0------------------------------
 sub_1DBE0 proc near
