@@ -15,6 +15,7 @@ EXTRN _sub_18E50:PROC
 EXTRN _sub_1D1C8:PROC
 EXTRN _sub_1D1E8:PROC
 EXTRN _sub_1C7A2:PROC
+EXTRN _sub_1C7C6:PROC
 EXTRN _sub_1C7EA:PROC
 EXTRN _sub_21A7A:PROC
 EXTRN _sub_13922:PROC
@@ -16901,26 +16902,7 @@ sub_1C6BE endp
 sub_1C7A2 equ _sub_1C7A2
 ; ------------------------------seg000:0xc7c5------------------------------
 ; ------------------------------seg000:0xc7c6------------------------------
-sub_1C7C6 proc near
-    push BP
-    mov BP,SP
-    push SI
-    mov AX,24h
-    imul word ptr [BP + 4h]
-    mov SI,AX
-    sub AX,AX
-    push AX
-    push word ptr [SI + offset word_3B206]
-    push word ptr [SI + offset word_3B204]
-    call sub_1C7EA
-    add SP,6h
-    jmp LAB_1000_c7e5
-LAB_1000_c7e5:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_1C7C6 endp
+sub_1C7C6 equ _sub_1C7C6
 ; ------------------------------seg000:0xc7e9------------------------------
 ; ------------------------------seg000:0xc7ea------------------------------
 sub_1C7EA equ _sub_1C7EA
