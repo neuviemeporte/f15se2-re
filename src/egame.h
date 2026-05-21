@@ -430,7 +430,7 @@ int sub_1DA5F();
 // ==== seg000:0xda8d ====
 int sub_1DA8D();
 // ==== seg000:0xdaae ====
-int sub_1DAAE();
+void sub_1DAAE(void);
 // ==== seg000:0xdb2b ====
 int sub_1DB2B();
 // ==== seg000:0xdb9c ====
@@ -1698,6 +1698,7 @@ extern int *var_564;
 extern int *var_565;
 extern int16 var_591;
 extern int16 var_592;
+extern int16 var_595;
 extern int16 var_349;
 extern int16 var_350;
 extern int16 var_661;

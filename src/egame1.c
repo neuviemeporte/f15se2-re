@@ -895,6 +895,19 @@ int sub_19E94(int arg_0, int arg_2, int arg_4) {
     sub_19BE1(arg_0, arg_2, arg_0, arg_2);
 }
 
+// ==== seg000:0xdaae ====
+void sub_1DAAE(void) {
+    if (word_330C4 > 15) {
+        var_595 = sub_1CF64((-(120 / word_330C4 - 9)) >> 1, 1, 4);
+    } else {
+        var_595 = 0;
+    }
+    word_330C4 = sub_1CF64(word_330C4, 4 - word_3370A, 15);
+    word_3AFA4 = sub_1CF64(word_330C4 << 1, 3, 16);
+    word_3B0AC = 250 * word_330C4;
+    word_3995C = 200 * word_330C4;
+}
+
 // ==== seg000:0xdb9c ====
 int sub_1DB9C() {
     if (word_3370A == 2) {

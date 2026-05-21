@@ -5,6 +5,7 @@ EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC
 EXTRN _sub_1DBE0:PROC
 EXTRN _sub_1DB9C:PROC
+EXTRN _sub_1DAAE:PROC
 EXTRN _sub_155AB:PROC
 EXTRN _main:PROC
 EXTRN _sub_18E50:PROC
@@ -306,6 +307,10 @@ PUBLIC _var_219
 PUBLIC _var_220
 PUBLIC _var_591
 PUBLIC _var_592
+PUBLIC _var_595
+PUBLIC _word_3AFA4
+PUBLIC _word_3B0AC
+PUBLIC _word_3995C
 PUBLIC _word_3BE98
 PUBLIC _byte_3C5A0
 PUBLIC _sub_15FDB
@@ -19611,61 +19616,7 @@ LAB_1000_daaa:
 sub_1DA8D endp
 ; ------------------------------seg000:0xdaad------------------------------
 ; ------------------------------seg000:0xdaae------------------------------
-PUBLIC _sub_1DAAE
-sub_1DAAE proc near
-_sub_1DAAE equ sub_1DAAE
-    push BP
-    mov BP,SP
-    cmp word ptr [_word_330C4],0fh
-    jle LAB_1000_dadd
-    mov AX,4h
-    push AX
-    mov AX,1h
-    push AX
-    mov AX,78h
-    cwd
-    mov CX,word ptr [_word_330C4]
-    idiv CX
-    db 2Dh, 09h, 00h ; sub AX,9h (force imm16 encoding)
-    neg AX
-    sar AX,1h
-    push AX
-    call _sub_1CF64
-    add SP,6h
-    mov word ptr [_var_595],AX
-    jmp LAB_1000_dae3
-LAB_1000_dadd:
-    mov word ptr [_var_595],0h
-LAB_1000_dae3:
-    mov AX,0fh
-    push AX
-    mov AX,4h
-    sub AX,word ptr [_word_3370A]
-    push AX
-    push word ptr [_word_330C4]
-    call _sub_1CF64
-    add SP,6h
-    mov word ptr [_word_330C4],AX
-    mov AX,10h
-    push AX
-    mov AX,3h
-    push AX
-    mov AX,word ptr [_word_330C4]
-    shl AX,1h
-    push AX
-    call _sub_1CF64
-    add SP,6h
-    mov word ptr [word_3AFA4],AX
-    mov AX,0fah
-    imul word ptr [_word_330C4]
-    mov word ptr [word_3B0AC],AX
-    mov AX,0c8h
-    imul word ptr [_word_330C4]
-    mov word ptr [word_3995C],AX
-    mov SP,BP
-    pop BP
-    ret
-sub_1DAAE endp
+sub_1DAAE equ _sub_1DAAE
 ; ------------------------------seg000:0xdb2a------------------------------
 ; ------------------------------seg000:0xdb2b------------------------------
 sub_1DB2B proc near
@@ -38464,6 +38415,7 @@ _buf1_3dg db 100h dup(?)
 _byte_3995A db ?
     db ?
 word_3995C dw ?
+_word_3995C equ word_3995C
 _buf1_3dt db ?
     db ?
 _buf2_3dt db ?
@@ -42510,11 +42462,13 @@ _word_3AA5C dw ?
 word_3AF0C dw ?
 _buf3d3_1 db 96h dup(?)
 word_3AFA4 dw ?
+_word_3AFA4 equ word_3AFA4
 word_3AFA6 dw ?
 word_3AFA8 dw ?
 word_3AFAA dw ?
 _byte_3AFAC db 100h dup(?)
 word_3B0AC dw ?
+_word_3B0AC equ word_3B0AC
 _buf3d3_2 db 96h dup(?)
 _word_3B144 dw ?
 word_3B146 dw ?
