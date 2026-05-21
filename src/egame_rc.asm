@@ -41,6 +41,7 @@ EXTRN _sub_19FAD:PROC
 EXTRN _sub_19FCC:PROC
 EXTRN _sub_19E94:PROC
 EXTRN _sub_19E44:PROC
+EXTRN _sub_1A740:PROC
 EXTRN _sub_1606C:PROC
 EXTRN _sub_19E5D:PROC
 EXTRN _sub_1A1B1:PROC
@@ -14032,65 +14033,7 @@ LAB_1000_a73a:
 _sub_1A25C endp
 ; ------------------------------seg000:0xa73e------------------------------
 ; ------------------------------seg000:0xa740------------------------------
-sub_1A740 proc near
-    push BP
-    mov BP,SP
-    push SI
-    push word ptr [BP + 8h]
-    call _sub_19E44
-    add SP,2h
-    mov SI,word ptr [_var_282]
-    sub SI,3h
-    push SI
-    mov AX,word ptr [_var_279]
-    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
-    push AX
-    push SI
-    mov AX,word ptr [_var_279]
-    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
-    push AX
-    call sub_19D86
-    add SP,8h
-    mov SI,word ptr [_var_279]
-    add SI,4h
-    mov AX,word ptr [_var_282]
-    db 05h, 03h, 00h ; add AX,3h (force imm16 encoding)
-    push AX
-    push SI
-    mov AX,word ptr [_var_282]
-    db 2Dh, 03h, 00h ; sub AX,3h (force imm16 encoding)
-    push AX
-    push SI
-    call sub_19D86
-    add SP,8h
-    mov SI,word ptr [_var_282]
-    add SI,3h
-    push SI
-    mov AX,word ptr [_var_279]
-    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
-    push AX
-    push SI
-    mov AX,word ptr [_var_279]
-    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
-    push AX
-    call sub_19D86
-    add SP,8h
-    mov SI,word ptr [_var_279]
-    sub SI,4h
-    mov AX,word ptr [_var_282]
-    db 2Dh, 03h, 00h ; sub AX,3h (force imm16 encoding)
-    push AX
-    push SI
-    mov AX,word ptr [_var_282]
-    db 05h, 03h, 00h ; add AX,3h (force imm16 encoding)
-    push AX
-    push SI
-    call sub_19D86
-    add SP,8h
-    pop SI
-    pop BP
-    ret
-sub_1A740 endp
+sub_1A740 equ _sub_1A740
 ; ------------------------------seg000:0xa7c3------------------------------
 ; ------------------------------seg000:0xa7c4------------------------------
 sub_1A7C4 proc near

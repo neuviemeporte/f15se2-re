@@ -196,6 +196,15 @@ void sub_13638(int *arg_0, int *arg_1, int *arg_2, int *arg_3) {
     }
 }
 
+// ==== seg000:0xa740 ====
+int sub_1A740(int arg_0, int arg_2, int arg_4) {
+    sub_19E44(arg_4);
+    sub_19D86(var_279 - 4, var_282 - 3, var_279 + 4, var_282 - 3);
+    sub_19D86(var_279 + 4, var_282 - 3, var_279 + 4, var_282 + 3);
+    sub_19D86(var_279 + 4, var_282 + 3, var_279 - 4, var_282 + 3);
+    sub_19D86(var_279 - 4, var_282 + 3, var_279 - 4, var_282 - 3);
+}
+
 // ==== seg000:0x3694 ====
 void sub_13694(int arg_0, int arg_1, int *arg_2, int *arg_3) {
     *arg_2 = (arg_0 - word_3298C + var_663) / var_661;
