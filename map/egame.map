@@ -155,7 +155,7 @@ routine_266: seg000 NEAR a204-a223 Ra204-a223 complete
 routine_260: seg000 NEAR a224-a25b Ra224-a25b
 routine_139: seg000 NEAR a25c-a73f Ra25c-a73f
 routine_219: seg000 NEAR a740-a7c3 Ra740-a7c3 complete
-routine_218: seg000 NEAR a7c4-a871 Ra7c4-a871 complete
+routine_218: seg000 NEAR a7c4-a871 Ra7c4-a870 complete
 routine_220: seg000 NEAR a872-a8c7 Ra872-a8c7
 routine_129: seg000 NEAR a8c8-a933 Ra8c8-a933
 routine_214: seg000 NEAR a934-a961 Ra934-a961
