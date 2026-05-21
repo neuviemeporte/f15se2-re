@@ -43,6 +43,7 @@ EXTRN _sub_19FCC:PROC
 EXTRN _sub_19E94:PROC
 EXTRN _sub_19E44:PROC
 EXTRN _sub_1A740:PROC
+EXTRN _sub_1A7C4:PROC
 EXTRN _sub_1606C:PROC
 EXTRN _sub_19E5D:PROC
 EXTRN _sub_1A1B1:PROC
@@ -414,6 +415,8 @@ PUBLIC _gfx_jump_4c
 PUBLIC _gfx_jump_4f
 PUBLIC _gfx_jump_52
 PUBLIC _byte_383E5
+PUBLIC _var_542
+PUBLIC _word_3C016
 PUBLIC _var_588
 
 PUBLIC _word_3C018
@@ -13995,70 +13998,7 @@ _sub_1A25C endp
 sub_1A740 equ _sub_1A740
 ; ------------------------------seg000:0xa7c3------------------------------
 ; ------------------------------seg000:0xa7c4------------------------------
-sub_1A7C4 proc near
-    push BP
-    mov BP,SP
-    sub SP,6h
-    push SI
-    mov word ptr [word_3C016],0h
-    mov AL,7h
-    sub AL,byte ptr [_var_588]
-    mov byte ptr [BP + -6h],AL
-    mov AX,word ptr [BP + 4h]
-    sub AX,word ptr [_word_3BEC0]
-    mov CL,byte ptr [BP + -6h]
-    sar AX,CL
-    mov word ptr [BP + -2h],AX
-    mov AX,word ptr [_word_3BED0]
-    sub AX,word ptr [BP + 6h]
-    sar AX,CL
-    mov word ptr [BP + -4h],AX
-    push AX
-    push word ptr [_var_542]
-    call _sub_1D178
-    add SP,4h
-    push word ptr [BP + -2h]
-    push word ptr [_var_542]
-    mov SI,AX
-    call _sub_1D190
-    add SP,4h
-    sub AX,SI
-    mov word ptr [_var_279],AX
-    push word ptr [BP + -2h]
-    push word ptr [_var_542]
-    call _sub_1D178
-    add SP,4h
-    push word ptr [BP + -4h]
-    push word ptr [_var_542]
-    mov SI,AX
-    call _sub_1D190
-    add SP,4h
-    add AX,SI
-    mov word ptr [_var_282],AX
-    add word ptr [_var_279],0a0h
-    neg AX
-    db 05h, 98h, 00h ; add AX,98h (force imm16 encoding)
-    mov word ptr [_var_282],AX
-    cmp word ptr [_var_279],7ch
-    jl LAB_1000_a851
-    cmp word ptr [_var_279],0c3h
-    jle LAB_1000_a857
-LAB_1000_a851:
-    mov word ptr [word_3C016],0ffffh
-LAB_1000_a857:
-    cmp word ptr [_var_282],6bh
-    jl LAB_1000_a866
-    cmp word ptr [_var_282],0ach
-    jle LAB_1000_a86c
-LAB_1000_a866:
-    mov word ptr [word_3C016],0ffffh
-LAB_1000_a86c:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-    nop
-sub_1A7C4 endp
+sub_1A7C4 equ _sub_1A7C4
 ; ------------------------------seg000:0xa870------------------------------
 ; ------------------------------seg000:0xa872------------------------------
 sub_1A872 proc near
@@ -43386,6 +43326,7 @@ keyScancode dw ?
 _keyScancode equ keyScancode
 word_3C014 dw ?
 word_3C016 dw ?
+_word_3C016 equ word_3C016
 word_3C018 dw ?
 _word_3C018 equ word_3C018
 word_3C01A dw ?

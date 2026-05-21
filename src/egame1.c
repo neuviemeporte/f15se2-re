@@ -943,6 +943,27 @@ int sub_19FAD(int arg_0, int arg_1, int arg_2) {
     sub_1A030(arg_0, (char *)arg_1);
 }
 
+// ==== seg000:0xa7c4 ====
+void sub_1A7C4(int arg_0, int arg_2) {
+    int p;
+    int a;
+    char b;
+    word_3C016 = 0;
+    b = 7 - (char)var_588;
+    p = (arg_0 - word_3BEC0) >> b;
+    a = (word_3BED0 - arg_2) >> b;
+    var_279 = sub_1D190(var_542, p) - sub_1D178(var_542, a);
+    var_282 = sub_1D190(var_542, a) + sub_1D178(var_542, p);
+    var_279 += 0xa0;
+    var_282 = -var_282 + 0x98;
+    if (var_279 < 0x7c || var_279 > 0xc3) {
+        word_3C016 = -1;
+    }
+    if (var_282 < 0x6b || var_282 > 0xac) {
+        word_3C016 = -1;
+    }
+}
+
 // ==== seg000:0xa204 ====
 void sub_1A204(char *arg_0) {
     strcpy(string_3C04A, arg_0);
