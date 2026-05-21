@@ -154,7 +154,7 @@ tempStrcpy: seg000 NEAR a1e4-a203 Ra1e4-a203 complete
 routine_266: seg000 NEAR a204-a223 Ra204-a223 complete
 routine_260: seg000 NEAR a224-a25b Ra224-a25b
 routine_139: seg000 NEAR a25c-a73f Ra25c-a73f
-routine_219: seg000 NEAR a740-a7c3 Ra740-a7c3
+routine_219: seg000 NEAR a740-a7c3 Ra740-a7c3 complete
 routine_218: seg000 NEAR a7c4-a871 Ra7c4-a871
 routine_220: seg000 NEAR a872-a8c7 Ra872-a8c7
 routine_129: seg000 NEAR a8c8-a933 Ra8c8-a933
@@ -163,9 +163,9 @@ routine_215: seg000 NEAR a962-a9bb Ra962-a9bb
 routine_250: seg000 NEAR a9bc-a9f7 Ra9bc-a9f7
 routine_202: seg000 NEAR a9f8-b146 Ra9f8-b146
 routine_204: seg000 NEAR b147-c1b8 Rb147-c1b8
-routine_305: seg000 NEAR c1b9-c2f7 Rc1b9-c2f7
-routine_310: seg000 NEAR c2f8-c370 Rc2f8-c370
-routine_306: seg000 NEAR c371-c40a Rc371-c40a
+routine_305: seg000 NEAR c1b9-c2f7 Rc1b9-c2f7 complete
+routine_310: seg000 NEAR c2f8-c370 Rc2f8-c370 complete
+routine_306: seg000 NEAR c371-c40a Rc371-c40a complete
 routine_311: seg000 NEAR c40b-c487 Rc40b-c487
 routine_300: seg000 NEAR c488-c660 Rc488-c660
 routine_355: seg000 NEAR c661-c6bd Rc661-c6bd
