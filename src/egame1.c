@@ -893,3 +893,9 @@ int sub_19FAD(int arg_0, int arg_1, int arg_2) {
     sub_19FCC(arg_0, arg_2);
     sub_1A030(arg_0, (char *)arg_1);
 }
+
+// ==== seg000:0xa204 ====
+void sub_1A204(char *arg_0) {
+    strcpy(string_3C04A, arg_0);
+    var_592 = word_330C4 * 3;
+}

@@ -26,6 +26,7 @@ EXTRN _sub_19FAD:PROC
 EXTRN _sub_19E94:PROC
 EXTRN _sub_19E44:PROC
 EXTRN _sub_19E5D:PROC
+EXTRN _sub_1A204:PROC
 EXTRN _setCommWorldbufPtr:PROC
 EXTRN _sub_12278:PROC
 EXTRN _fopen:PROC
@@ -265,6 +266,7 @@ PUBLIC _keyScancode
 PUBLIC _var_218
 PUBLIC _var_219
 PUBLIC _var_220
+PUBLIC _var_592
 PUBLIC _word_3BE98
 PUBLIC _byte_3C5A0
 PUBLIC _sub_15FDB
@@ -14231,23 +14233,7 @@ tempStrcpy proc near
 tempStrcpy endp
 ; ------------------------------seg000:0xa203------------------------------
 ; ------------------------------seg000:0xa204------------------------------
-sub_1A204 proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 4h]
-    mov AX,offset _string_3C04A
-    push AX
-    call _strcpy
-    add SP,4h
-    mov AX,word ptr [_word_330C4]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    mov word ptr [_var_592],AX
-    mov SP,BP
-    pop BP
-    ret
-sub_1A204 endp
+sub_1A204 equ _sub_1A204
 ; ------------------------------seg000:0xa223------------------------------
 ; ------------------------------seg000:0xa224------------------------------
 sub_1A224 proc near

@@ -342,7 +342,7 @@ int sub_1A1B1();
 // ==== seg000:0xa1e4 ====
 int tempStrcpy();
 // ==== seg000:0xa204 ====
-int sub_1A204();
+void sub_1A204(char *arg_0);
 // ==== seg000:0xa224 ====
 int sub_1A224();
 // ==== seg000:0xa25c ====
@@ -1691,6 +1691,7 @@ extern int16 word_3419C[];
 extern int16 var_218;
 extern int16 var_219;
 extern int16 var_220;
+extern int16 var_592;
 
 extern int rand();
 extern long _aNlmul(long, long);
