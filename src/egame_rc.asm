@@ -31,6 +31,7 @@ EXTRN _sub_19E94:PROC
 EXTRN _sub_19E44:PROC
 EXTRN _sub_19E5D:PROC
 EXTRN _sub_1A204:PROC
+EXTRN _sub_1A183:PROC
 EXTRN _setCommWorldbufPtr:PROC
 EXTRN _sub_12278:PROC
 EXTRN _fopen:PROC
@@ -280,7 +281,7 @@ PUBLIC _sub_15FDB
 PUBLIC _word_3C040
 PUBLIC _word_383F4
 PUBLIC _word_3BEBE
-PUBLIC _sub_1A183
+
 PUBLIC _word_3C6A4
 PUBLIC _byte_37C2F
 PUBLIC _sams
@@ -14133,29 +14134,7 @@ _drawStringCentered proc near
     pop BP
     ret
 _drawStringCentered endp
-; ------------------------------seg000:0xa183------------------------------
-_sub_1A183 proc near
-    push BP
-    mov BP,SP
-    sub SP,14h
-    mov AX,0ah
-    push AX
-    lea AX,[BP + -14h]
-    push AX
-    push word ptr [BP + 4h]
-    call _itoa
-    add SP,6h
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    lea AX,[BP + -14h]
-    push AX
-    call _drawSomeStrings
-    add SP,8h
-    mov SP,BP
-    pop BP
-    ret
-_sub_1A183 endp
+; _sub_1A183 - now in C (egame1.c)
 ; ------------------------------seg000:0xa1b0------------------------------
 ; ------------------------------seg000:0xa1b1------------------------------
 sub_1A1B1 proc near

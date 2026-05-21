@@ -336,7 +336,7 @@ int draw2Strings();
 // ==== seg000:0xa13a ====
 int __cdecl drawStringCentered(int *, char *, int, int, int);
 // ==== seg000:0xa183 ====
-int sub_1A183();
+void sub_1A183(int, int, int, int);
 // ==== seg000:0xa1b1 ====
 int sub_1A1B1();
 // ==== seg000:0xa1e4 ====
