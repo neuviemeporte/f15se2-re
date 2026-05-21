@@ -16,20 +16,20 @@ loadF15DgtlBin: seg000 NEAR 02e2-0333 R02e2-0333 assembly
 routine_292: seg000 NEAR 0334-0685 R0334-03ff R0400-0685
 setupOverlaySlots: seg000 NEAR 0688-06e0 R0688-069a U069b-069f R06a0-06e0
 routine_109: seg000 NEAR 0720-14e7 R0720-09cf R09d0-14e7
-routine_181: seg000 NEAR 14e8-14fb R14e8-14fb
+routine_181: seg000 NEAR 14e8-14fb R14e8-14fb complete
 routine_335: seg000 NEAR 14fc-1635 R14fc-15a8 U15a9-15aa R15ab-1635
 routine_172: seg000 NEAR 1636-1675 R1636-1675
 routine_173: seg000 NEAR 1676-1840 R1676-1840
 routine_174: seg000 NEAR 1841-18d4 R1841-18d4
-routine_175: seg000 NEAR 18d5-18f5 R18d5-18f5
+routine_175: seg000 NEAR 18d5-18f5 R18d5-18f5 complete
 routine_186: seg000 NEAR 18f6-1970 R18f6-1970
 routine_216: seg000 NEAR 1971-19a2 R1971-19a2
 routine_183: seg000 NEAR 19a3-1a17 R19a3-1a17
 routine_131: seg000 NEAR 1a18-1a87 R1a18-1a87
 routine_132: seg000 NEAR 1a88-1b36 R1a88-1b36
 routine_148: seg000 NEAR 1b37-1bc2 R1b37-1bc2
-routine_253: seg000 NEAR 1bc3-1bfc R1bc3-1bfc
-routine_262: seg000 NEAR 1bfd-1c20 R1bfd-1c20
+routine_253: seg000 NEAR 1bc3-1bfc R1bc3-1bfc complete
+routine_262: seg000 NEAR 1bfd-1c20 R1bfd-1c20 complete
 routine_180: seg000 NEAR 1c21-1d0f R1c21-1cf3 U1cf4-1cf5 R1cf6-1d0f
 routine_178: seg000 NEAR 1d10-1d6d R1d10-1d6d complete
 routine_271: seg000 NEAR 1d6e-1e0d R1d6e-1e0d
@@ -42,7 +42,7 @@ setCommWorldbufPtr: seg000 NEAR 21a9-21c4 R21a9-21c4
 sub_121C6: seg000 NEAR 21c6-21c9 R21c6-21c9
 routine_123: seg000 NEAR 21ca-2277 R21ca-2277
 sub_12278: seg000 NEAR 2278-2299 R2278-2299
-copySomeMem: seg000 NEAR 229a-22b7 R229a-22b7
+copySomeMem: seg000 NEAR 229a-22b7 R229a-22b7 complete
 routine_201: seg000 NEAR 22b8-26b3 R22b8-26b3
 routine_293: seg000 NEAR 26b4-273d R26b4-271d U271e-271f R2720-273d
 routine_294: seg000 NEAR 273e-2873 R273e-2848 U2849-284a R284b-2873
@@ -58,18 +58,18 @@ routine_296: seg000 NEAR 3266-32b9 R3266-32b9
 routine_326: seg000 NEAR 32ba-345d R32ba-345d
 routine_213: seg000 NEAR 345e-34ab R345e-34ab
 routine_317: seg000 NEAR 34ac-3637 R34ac-3637
-routine_358: seg000 NEAR 3638-3693 R3638-3693
-routine_375: seg000 NEAR 3694-36d1 R3694-36d1
+routine_358: seg000 NEAR 3638-3693 R3638-3693 complete
+routine_375: seg000 NEAR 3694-36d1 R3694-36d1 complete
 routine_359: seg000 NEAR 36d2-3749 R36d2-3749
 routine_376: seg000 NEAR 374a-378d R374a-378d
 routine_377: seg000 NEAR 378e-3815 R378e-3815
 routine_378: seg000 NEAR 3816-3921 R3816-3921
-routine_387: seg000 NEAR 3922-3931 R3922-3931
+routine_387: seg000 NEAR 3922-3931 R3922-3931 complete
 routine_200: seg000 NEAR 3932-39a9 R3932-39a9
 routine_203: seg000 NEAR 39aa-39bf R39aa-39bf
 routine_288: seg000 NEAR 39c0-3a6b R39c0-3a6b
 routine_289: seg000 NEAR 3a6c-3a8f R3a6c-3a8f
-routine_290: seg000 NEAR 3a90-3aa7 R3a90-3aa7
+routine_290: seg000 NEAR 3a90-3aa7 R3a90-3aa7 complete
 setupDac: seg000 NEAR 3aee-3b2e R3aee-3b2e assembly
 routine_161: seg000 NEAR 3b2f-3b44 R3b2f-3b44
 routine_157: seg000 NEAR 3b86-3b95 R3b86-3b95
@@ -95,7 +95,7 @@ routine_160: seg000 NEAR 5237-5410 R5237-5410
 routine_145: seg000 NEAR 5411-543a R5411-543a
 routine_244: seg000 NEAR 543b-54b6 R543b-54b6
 routine_243: seg000 NEAR 54b7-553f R54b7-553f
-routine_245: seg000 NEAR 5540-5556 R5540-5556
+routine_245: seg000 NEAR 5540-5556 R5540-5556 complete
 routine_155: seg000 NEAR 5557-55aa R5557-55aa complete
 sub_155AB: seg000 NEAR 55ab-5fda R55ab-5c22 U5c23-5c32 R5c33-5fda
 routine_130: seg000 NEAR 5fdb-606b R5fdb-606b
@@ -115,43 +115,43 @@ routine_264: seg000 NEAR 85be-86f7 R85be-86f7
 routine_259: seg000 NEAR 86f8-87e9 R86f8-87e9
 routine_261: seg000 NEAR 87ea-89a9 R87ea-89a9
 routine_331: seg000 NEAR 89aa-8a43 R89aa-8a43
-routine_258: seg000 NEAR 8a44-8aa4 R8a44-8aa4
+routine_258: seg000 NEAR 8a44-8aa4 R8a44-8aa4 complete
 routine_333: seg000 NEAR 8aa6-8df3 R8aa6-8df3
 routine_254: seg000 NEAR 8df4-8e37 R8df4-8e37
-routine_277: seg000 NEAR 8e38-8e4f R8e38-8e4f
+routine_277: seg000 NEAR 8e38-8e4f R8e38-8e4f complete
 sub_18E50: seg000 NEAR 8e50-9484 R8e50-9484
 routine_189: seg000 NEAR 94d0-9579 R94d0-9538 U9539-953a R953b-9563 U9564-9565 R9566-9579
-routine_329: seg000 NEAR 957a-9594 R957a-9594
-routine_187: seg000 NEAR 9595-95c8 R9595-95c8
+routine_329: seg000 NEAR 957a-9594 R957a-9594 complete
+routine_187: seg000 NEAR 9595-95c8 R9595-95c8 complete
 routine_133: seg000 NEAR 95c9-9874 R95c9-9874
-zoomIn: seg000 NEAR 9875-98b3 R9875-98b3
-zoomOut: seg000 NEAR 98b4-98f9 R98b4-98f9
-routine_267: seg000 NEAR 98fa-9914 R98fa-9914
-routine_268: seg000 NEAR 9915-9939 R9915-9939
+zoomIn: seg000 NEAR 9875-98b3 R9875-98b3 complete
+zoomOut: seg000 NEAR 98b4-98f9 R98b4-98f9 complete
+routine_267: seg000 NEAR 98fa-9914 R98fa-9914 complete
+routine_268: seg000 NEAR 9915-9939 R9915-9939 complete
 routine_257: seg000 NEAR 993a-99eb R993a-99e0 U99e1-99e2 R99e3-99eb complete
 routine_176: seg000 NEAR 99ec-9a4c R99ec-9a41 U9a42-9a43 R9a44-9a4c complete
-routine_255: seg000 NEAR 9a4d-9ada R9a4d-9ada
+routine_255: seg000 NEAR 9a4d-9ada R9a4d-9ada complete
 routine_251: seg000 NEAR 9adb-9b97 R9adb-9b97
-routine_323: seg000 NEAR 9b98-9be0 R9b98-9be0
-routine_211: seg000 NEAR 9be1-9c0b R9be1-9c0b
+routine_323: seg000 NEAR 9b98-9be0 R9b98-9be0 complete
+routine_211: seg000 NEAR 9be1-9c0b R9be1-9c0b complete
 routine_140: seg000 NEAR 9c0c-9c83 R9c0c-9c83
 routine_222: seg000 NEAR 9c84-9d85 R9c84-9d85
-routine_221: seg000 NEAR 9d86-9daf R9d86-9daf
+routine_221: seg000 NEAR 9d86-9daf R9d86-9daf complete
 routine_307: seg000 NEAR 9db0-9e43 R9db0-9e43 complete
 sub_19E44: seg000 NEAR 9e44-9e5c R9e44-9e5c
 sub_19E5D: seg000 NEAR 9e5d-9e93 R9e5d-9e93
 routine_328: seg000 NEAR 9e94-9eb5 R9e94-9eb5 complete
 routine_188: seg000 NEAR 9eb6-9f46 R9eb6-9f46
-routine_212: seg000 NEAR 9fad-9fcb R9fad-9fcb
-routine_134: seg000 NEAR 9fcc-a02f R9fcc-a02f
+routine_212: seg000 NEAR 9fad-9fcb R9fad-9fcb complete
+routine_134: seg000 NEAR 9fcc-a02f R9fcc-a02f complete
 routine_316: seg000 NEAR a030-a0ca Ra030-a038 Ua039-a0c6 Ra0c7-a0ca
 drawSomeStrings: seg000 NEAR a0cb-a0fd Ra0cb-a0fd complete
-routine_138: seg000 NEAR a0fe-a139 Ra0fe-a139
+routine_138: seg000 NEAR a0fe-a139 Ra0fe-a139 complete
 drawStringCentered: seg000 NEAR a13a-a182 Ra13a-a182
-routine_141: seg000 NEAR a183-a1b0 Ra183-a1b0
-routine_327: seg000 NEAR a1b1-a1e3 Ra1b1-a1e3
-tempStrcpy: seg000 NEAR a1e4-a203 Ra1e4-a203
-routine_266: seg000 NEAR a204-a223 Ra204-a223
+routine_141: seg000 NEAR a183-a1b0 Ra183-a1b0 complete
+routine_327: seg000 NEAR a1b1-a1e3 Ra1b1-a1e3 complete
+tempStrcpy: seg000 NEAR a1e4-a203 Ra1e4-a203 complete
+routine_266: seg000 NEAR a204-a223 Ra204-a223 complete
 routine_260: seg000 NEAR a224-a25b Ra224-a25b
 routine_139: seg000 NEAR a25c-a73f Ra25c-a73f
 routine_219: seg000 NEAR a740-a7c3 Ra740-a7c3
@@ -170,9 +170,9 @@ routine_311: seg000 NEAR c40b-c487 Rc40b-c487
 routine_300: seg000 NEAR c488-c660 Rc488-c660
 routine_355: seg000 NEAR c661-c6bd Rc661-c6bd
 routine_263: seg000 NEAR c6be-c7a1 Rc6be-c795 Uc796-c797 Rc798-c7a1
-routine_302: seg000 NEAR c7a2-c7c5 Rc7a2-c7c5
+routine_302: seg000 NEAR c7a2-c7c5 Rc7a2-c7c5 complete
 routine_301: seg000 NEAR c7c6-c7e9 Rc7c6-c7e9
-routine_299: seg000 NEAR c7ea-c82c Rc7ea-c82c
+routine_299: seg000 NEAR c7ea-c82c Rc7ea-c82c complete
 routine_308: seg000 NEAR c82d-c863 Rc82d-c863
 routine_312: seg000 NEAR c864-c8a3 Rc864-c890 Uc891-c892 Rc893-c8a3
 routine_330: seg000 NEAR c8a4-c8dd Rc8a4-c8dd
@@ -180,15 +180,15 @@ load15Flt3d3: seg000 NEAR c8de-c9d1 Rc8de-c9d1
 routine_298: seg000 NEAR c9d2-cb41 Rc9d2-cb41
 routine_309: seg000 NEAR cb42-cf31 Rcb42-cf31
 routine_274: seg000 NEAR cf32-cf63 Rcf32-cf63
-routine_120: seg000 NEAR cf64-cf8d Rcf64-cf8d
-routine_163: seg000 NEAR cf8e-cfa5 Rcf8e-cfa5
+routine_120: seg000 NEAR cf64-cf8d Rcf64-cf8d complete
+routine_163: seg000 NEAR cf8e-cfa5 Rcf8e-cfa5 complete
 routine_162: seg000 NEAR cfa6-d007 Rcfa6-d007
 routine_136: seg000 NEAR d008-d177 Rd008-d177
-routine_142: seg000 NEAR d178-d18f Rd178-d18f
-routine_143: seg000 NEAR d190-d1a5 Rd190-d1a5
+routine_142: seg000 NEAR d178-d18f Rd178-d18f complete
+routine_143: seg000 NEAR d190-d1a5 Rd190-d1a5 complete
 sub_1D1C8: seg000 NEAR d1c8-d1e7 Rd1c8-d1e7 complete
 routine_276: seg000 NEAR d1e8-d1ff Rd1e8-d1ff complete
-routine_152: seg000 NEAR d200-d21d Rd200-d21d
+routine_152: seg000 NEAR d200-d21d Rd200-d21d complete
 routine_265: seg000 NEAR d21e-d25f Rd21e-d25f
 routine_272: seg000 NEAR d260-d9da Rd260-d2c9 Ud2ca-d2cb Rd2cc-d523 Ud524-d529 Rd52a-d5ee Ud5ef-d5f0 Rd5f1-d743 Ud744-d746 Rd747-d927 Ud928-d929 Rd92a-d9da
 routine_336: seg000 NEAR d9db-da34 Rd9db-da34
@@ -197,14 +197,14 @@ routine_177: seg000 NEAR da5f-da8c Rda5f-da8c
 routine_179: seg000 NEAR da8d-daad Rda8d-daad
 routine_182: seg000 NEAR daae-db2a Rdaae-db2a complete
 routine_190: seg000 NEAR db2b-db9b Rdb2b-db9b
-routine_165: seg000 NEAR db9c-dbb6 Rdb9c-dbb6
-routine_337: seg000 NEAR dbe0-dbff Rdbe0-dbff
+routine_165: seg000 NEAR db9c-dbb6 Rdb9c-dbb6 complete
+routine_337: seg000 NEAR dbe0-dbff Rdbe0-dbff complete
 openFileWrapper: seg000 NEAR dd4c-dd5d Rdd4c-dd5d
 closeFileWrapper: seg000 NEAR dd70-dd7d Rdd70-dd7d
-sub_1DD5E: seg000 NEAR dd5e-dd6d Rdd5e-dd6d
-sub_1DD7E: seg000 NEAR dd7e-dd90 Rdd7e-dd90
-sub_1DD92: seg000 NEAR dd92-dda7 Rdd92-dda7
-sub_1DDAA: seg000 NEAR ddaa-ddc2 Rddaa-ddc2
+sub_1DD5E: seg000 NEAR dd5e-dd6d Rdd5e-dd6d complete
+sub_1DD7E: seg000 NEAR dd7e-dd90 Rdd7e-dd90 complete
+sub_1DD92: seg000 NEAR dd92-dda7 Rdd92-dda7 complete
+sub_1DDAA: seg000 NEAR ddaa-ddc2 Rddaa-ddc2 complete
 openFile: seg000 NEAR ddc4-de1a Rddc4-de1a Rdf80-dfbb assembly
 createFile: seg000 NEAR de1b-de71 Rde1b-de71 assembly
 sub_1DF4F: seg000 NEAR df4f-df7f Rdf4f-df7f assembly
