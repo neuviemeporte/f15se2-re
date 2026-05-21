@@ -9,6 +9,7 @@ EXTRN _sub_155AB:PROC
 EXTRN _main:PROC
 EXTRN _sub_18E50:PROC
 EXTRN _sub_1D1C8:PROC
+EXTRN _sub_1D1E8:PROC
 EXTRN _sub_1C7A2:PROC
 EXTRN _sub_1C7EA:PROC
 EXTRN _sub_21A7A:PROC
@@ -379,6 +380,9 @@ PUBLIC _var_588
 
 PUBLIC _word_3C018
 PUBLIC _word_3C01A
+PUBLIC _word_330BE
+PUBLIC _var_686
+PUBLIC _getTimeOfDay
 PUBLIC _word_3C45E
 PUBLIC _word_3C5A2
 PUBLIC _word_38FC8
@@ -5621,6 +5625,7 @@ manipulateTimer endp
 ; ------------------------------seg000:0x3edb------------------------------
 ; ------------------------------seg000:0x3edc------------------------------
 getTimeOfDay proc near
+_getTimeOfDay equ getTimeOfDay
     xor AH,AH
     int 1Ah
     mov AX,DX
@@ -18653,17 +18658,7 @@ _sub_1D008 endp
     nop
     nop
 ; ------------------------------seg000:0xd1e8------------------------------
-sub_1D1E8 proc near
-    cmp word ptr [word_330BE],0h
-    jnz LAB_1000_d1f5
-    call getTimeOfDay
-    mov word ptr [_var_686],AX
-LAB_1000_d1f5:
-    push word ptr [_var_686]
-    call _srand
-    add SP,2h
-    ret
-sub_1D1E8 endp
+sub_1D1E8 equ _sub_1D1E8
 ; ------------------------------seg000:0xd1ff------------------------------
 ; ------------------------------seg000:0xd200------------------------------
 randlmul equ _sub_1D200
@@ -22211,6 +22206,7 @@ _word_330B8 equ word_330B8
 word_330BA dw 1
 _word_330BC dw 0
 word_330BE dw 0
+_word_330BE equ word_330BE
     db 1
     db 0
 _word_330C2 dw 1

@@ -83,6 +83,13 @@ int sub_1D1C8(int arg_0) {
     return -1;
 }
 
+void sub_1D1E8(void) {
+    if (word_330BE == 0) {
+        var_686 = getTimeOfDay();
+    }
+    srand(var_686);
+}
+
 // ==== seg000:0xdd4c ====
 int openFileWrapper(char *path, int mode) {
     TRACE(("openFileWrapper: path=%s mode=%d", path, mode));
