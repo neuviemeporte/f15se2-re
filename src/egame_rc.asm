@@ -11,6 +11,7 @@ EXTRN _sub_1CF8E:PROC
 EXTRN _sub_11BFD:PROC
 EXTRN _sub_11BC3:PROC
 EXTRN _sub_114E8:PROC
+EXTRN _sub_18E38:PROC
 EXTRN _sub_1957A:PROC
 EXTRN _sub_13A90:PROC
 EXTRN _copySomeMem:PROC
@@ -12748,21 +12749,7 @@ LAB_1000_8e25:
 sub_18DF4 endp
 ; ------------------------------seg000:0x8e36------------------------------
 ; ------------------------------seg000:0x8e38------------------------------
-sub_18E38 proc near
-    push BP
-    mov BP,SP
-    sub AX,AX
-    push AX
-    mov AX,5950h
-    push AX
-    mov AX,2h
-    push AX
-    call sub_19FAD
-    add SP,6h
-    mov SP,BP
-    pop BP
-    ret
-sub_18E38 endp
+sub_18E38 equ _sub_18E38
 ; ------------------------------seg000:0x8e4f------------------------------
 ; ------------------------------seg000:0x94d0------------------------------
 PUBLIC _sub_194D0
@@ -13885,7 +13872,9 @@ LAB_1000_9f42:
 sub_19EB6 endp
 ; ------------------------------seg000:0x9f46------------------------------
 ; ------------------------------seg000:0x9fad------------------------------
+PUBLIC _sub_19FAD
 sub_19FAD proc near
+_sub_19FAD equ sub_19FAD
     push BP
     mov BP,SP
     push word ptr [BP + 8h]

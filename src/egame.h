@@ -324,7 +324,7 @@ int sub_19E94();
 // ==== seg000:0x9eb6 ====
 int sub_19EB6();
 // ==== seg000:0x9fad ====
-int __cdecl sub_19FAD(int, char *);
+int __cdecl sub_19FAD(int, int, int);
 // ==== seg000:0x9fcc ====
 int sub_19FCC();
 // ==== seg000:0xa030 ====

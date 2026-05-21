@@ -855,6 +855,11 @@ int drawStringCentered(int* arg_0, char *arg_2, int arg_4, int arg_6, int arg_8)
 
 
 
+// ==== seg000:0x8e38 ====
+int sub_18E38(void) {
+    sub_19FAD(2, 0x5950, 0);
+}
+
 // ==== seg000:0x9be1 ====
 int sub_19BE1(int arg_0, int arg_2, int arg_4, int arg_6) {
     sub_19C84(arg_0, arg_2, arg_4, arg_6, 0, 0x13f, 0, 199, 1);
