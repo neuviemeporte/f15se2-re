@@ -999,3 +999,23 @@ void sub_19FCC(int arg_0, int arg_1) {
         sub_19E5D(0xe8, 0x80, 0x130, 0xb8);
     }
 }
+
+// ==== seg000:0x9a4d ====
+extern int sub_198FA(int);
+extern int sub_19915(int);
+
+int sub_19A4D(int arg_0, int arg_1) {
+    int p;
+    int a;
+    int b;
+    if (word_3C09A != 0) return 0;
+    p = sub_198FA(arg_0);
+    a = sub_19915(arg_1);
+    p = sub_1CF64(p, word_3C018, word_3C45E);
+    a = sub_1CF64(a, word_3C01A, word_3C5A2);
+    b = -1;
+    if (p > word_3C018 && p < word_3C45E && a > word_3C01A && a < word_3C5A2) {
+        b = sub_1A1B1(p, a);
+    }
+    return b;
+}

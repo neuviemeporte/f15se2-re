@@ -34,6 +34,7 @@ EXTRN _sub_19E94:PROC
 EXTRN _sub_19E44:PROC
 EXTRN _sub_19E5D:PROC
 EXTRN _sub_1A1B1:PROC
+EXTRN _sub_19A4D:PROC
 EXTRN _sub_1A204:PROC
 EXTRN _sub_1A183:PROC
 EXTRN _setCommWorldbufPtr:PROC
@@ -262,6 +263,8 @@ PUBLIC _word_39604
 PUBLIC _word_37563
 PUBLIC _word_38126
 PUBLIC _sub_195C9
+PUBLIC _sub_198FA
+PUBLIC _sub_19915
 PUBLIC _sub_2152A
 PUBLIC _off_38364
 PUBLIC _word_330BC
@@ -13188,6 +13191,7 @@ LAB_1000_9911:
     pop BP
     ret
 sub_198FA endp
+_sub_198FA equ sub_198FA
 ; ------------------------------seg000:0x9914------------------------------
 ; ------------------------------seg000:0x9915------------------------------
 sub_19915 proc near
@@ -13210,6 +13214,7 @@ LAB_1000_9936:
     pop BP
     ret
 sub_19915 endp
+_sub_19915 equ sub_19915
 ; ------------------------------seg000:0x9939------------------------------
 ; ------------------------------seg000:0x993a------------------------------
 sub_1993A proc near
@@ -13343,61 +13348,7 @@ LAB_1000_9a48:
 sub_199EC endp
 ; ------------------------------seg000:0x9a4c------------------------------
 ; ------------------------------seg000:0x9a4d------------------------------
-sub_19A4D proc near
-    push BP
-    mov BP,SP
-    sub SP,6h
-    cmp word ptr [_word_3C09A],0h
-    jz LAB_1000_9a5e
-    sub AX,AX
-    jmp LAB_1000_9ad7
-LAB_1000_9a5e:
-    push word ptr [BP + 4h]
-    call sub_198FA
-    add SP,2h
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + 6h]
-    call sub_19915
-    add SP,2h
-    mov word ptr [BP + -4h],AX
-    push word ptr [word_3C45E]
-    push word ptr [word_3C018]
-    push word ptr [BP + -2h]
-    call _sub_1CF64
-    add SP,6h
-    mov word ptr [BP + -2h],AX
-    push word ptr [word_3C5A2]
-    push word ptr [word_3C01A]
-    push word ptr [BP + -4h]
-    call _sub_1CF64
-    add SP,6h
-    mov word ptr [BP + -4h],AX
-    mov word ptr [BP + -6h],0ffffh
-    mov AX,word ptr [word_3C018]
-    cmp word ptr [BP + -2h],AX
-    jle LAB_1000_9ad2
-    mov AX,word ptr [word_3C45E]
-    cmp word ptr [BP + -2h],AX
-    jge LAB_1000_9ad2
-    mov AX,word ptr [word_3C01A]
-    cmp word ptr [BP + -4h],AX
-    jle LAB_1000_9ad2
-    mov AX,word ptr [word_3C5A2]
-    cmp word ptr [BP + -4h],AX
-    jge LAB_1000_9ad2
-    push word ptr [BP + -4h]
-    push word ptr [BP + -2h]
-    call sub_1A1B1
-    add SP,4h
-    mov word ptr [BP + -6h],AX
-LAB_1000_9ad2:
-    mov AX,word ptr [BP + -6h]
-    jmp LAB_1000_9ad7
-LAB_1000_9ad7:
-    mov SP,BP
-    pop BP
-    ret
-sub_19A4D endp
+sub_19A4D equ _sub_19A4D
 ; ------------------------------seg000:0x9ada------------------------------
 ; ------------------------------seg000:0x9adb------------------------------
 sub_19ADB proc near
