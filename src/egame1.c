@@ -11,6 +11,12 @@
 #include <stdio.h>
 #include <string.h>
 
+// ==== seg000:0x14e8 ====
+int sub_114E8(void) {
+    int p, a, b, c, d, e, f, g;
+    keyDispatch(keyScancode);
+}
+
 // ==== seg000:0x1bfd scheduleTimedEvent ====
 void sub_11BFD(int arg_0, int arg_2) {
     if (word_3370E == 0) {

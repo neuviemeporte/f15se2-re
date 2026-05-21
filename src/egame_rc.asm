@@ -10,6 +10,7 @@ EXTRN _sub_13922:PROC
 EXTRN _sub_1CF8E:PROC
 EXTRN _sub_11BFD:PROC
 EXTRN _sub_11BC3:PROC
+EXTRN _sub_114E8:PROC
 EXTRN _sub_1957A:PROC
 EXTRN _sub_13A90:PROC
 EXTRN _copySomeMem:PROC
@@ -257,6 +258,7 @@ PUBLIC _word_3C09A
 PUBLIC _word_330C2
 PUBLIC _sub_20BAE
 PUBLIC _word_3C09E
+PUBLIC _keyScancode
 PUBLIC _var_218
 PUBLIC _var_219
 PUBLIC _var_220
@@ -2231,17 +2233,7 @@ LAB_1000_14df:
 sub_10720 endp
 ; ------------------------------seg000:0x14e7------------------------------
 ; ------------------------------seg000:0x14e8------------------------------
-sub_114E8 proc near
-    push BP
-    mov BP,SP
-    sub SP,10h
-    push word ptr [keyScancode]
-    call keyDispatch
-    add SP,2h
-    mov SP,BP
-    pop BP
-    ret
-sub_114E8 endp
+sub_114E8 equ _sub_114E8
 ; ------------------------------seg000:0x14fb------------------------------
 ; ------------------------------seg000:0x14fc------------------------------
 countermeasures proc near
@@ -19203,7 +19195,9 @@ LAB_1000_d258:
 sub_1D21E endp
 ; ------------------------------seg000:0xd25e------------------------------
 ; ------------------------------seg000:0xd260------------------------------
+PUBLIC _keyDispatch
 keyDispatch proc near
+_keyDispatch equ keyDispatch
     push BP
     mov BP,SP
     sub SP,0eh
@@ -44690,6 +44684,7 @@ _word_3C00C dw ?
 word_3C00E dw ?
 _flagFarToNear dw ?
 keyScancode dw ?
+_keyScancode equ keyScancode
 word_3C014 dw ?
 word_3C016 dw ?
 word_3C018 dw ?
