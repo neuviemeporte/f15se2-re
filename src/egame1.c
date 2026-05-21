@@ -1230,6 +1230,22 @@ void sub_1C2F8(void) {
     }
 }
 
+// ==== seg000:0xc371 ====
+void sub_1C371(char *arg_0, int arg_2, int arg_4) {
+    if (var_279 == -1) {
+        return;
+    }
+    sub_19E44(arg_2);
+    if (arg_4 < var_279 && 0x13f - arg_4 > var_279 &&
+        arg_4 < var_282 && 0x58 - arg_4 > var_282) {
+        sub_1C1B9(var_279, var_282, arg_4, 1);
+    }
+    if (var_279 > 0x14 && var_279 < 0x118 &&
+        var_282 > 0 && var_282 < 0x52) {
+        draw2Strings(arg_0, var_279 - (int)strlen(arg_0) * 2, var_282 + 5, word_38F72);
+    }
+}
+
 // ==== seg000:0x99ec ====
 int sub_199EC(int arg_0, int arg_2, int *arg_4, int *arg_6) {
     if (word_330C2 == 0) {

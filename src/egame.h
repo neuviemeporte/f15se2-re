@@ -372,7 +372,7 @@ void sub_1C1B9(int, int, int, int);
 // ==== seg000:0xc2f8 ====
 void sub_1C2F8(void);
 // ==== seg000:0xc371 ====
-int __cdecl sub_1C371(char *, int);
+void __cdecl sub_1C371(char *, int, int);
 // ==== seg000:0xc40b ====
 int sub_1C40B();
 // ==== seg000:0xc488 ====
@@ -1695,6 +1695,8 @@ extern int16 word_339B4[];
 extern int16 word_3419C[];
 extern int16 var_218;
 extern int16 var_219;
+extern int16 var_279;
+extern int16 var_282;
 extern int16 var_220;
 extern int *var_564;
 extern int *var_565;

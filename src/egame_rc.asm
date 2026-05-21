@@ -20,6 +20,7 @@ EXTRN _sub_1CF8E:PROC
 EXTRN _sub_11BFD:PROC
 EXTRN _sub_11BC3:PROC
 EXTRN _sub_114E8:PROC
+EXTRN _sub_1C371:PROC
 EXTRN _sub_198FA:PROC
 EXTRN _sub_19915:PROC
 EXTRN _sub_118D5:PROC
@@ -99,6 +100,9 @@ EXTRN _sub_1993A:PROC
 EXTRN _sub_199EC:PROC
 PUBLIC _var_456
 PUBLIC _var_654
+PUBLIC _var_279
+PUBLIC _var_282
+PUBLIC _word_38F72
 PUBLIC _word_38FE0
 PUBLIC _var_349
 PUBLIC _var_350
@@ -16729,65 +16733,7 @@ sub_1C1B9 equ _sub_1C1B9
 sub_1C2F8 equ _sub_1C2F8
 ; ------------------------------seg000:0xc370------------------------------
 ; ------------------------------seg000:0xc371------------------------------
-sub_1C371 proc near
-    push BP
-    mov BP,SP
-    cmp word ptr [_var_279],-1h
-    jnz LAB_1000_c37e
-    jmp LAB_1000_c407
-LAB_1000_c37e:
-    push word ptr [BP + 6h]
-    call _sub_19E44
-    add SP,2h
-    mov AX,word ptr [_var_279]
-    cmp word ptr [BP + 8h],AX
-    jge LAB_1000_c3c4
-    mov AX,13fh
-    sub AX,word ptr [BP + 8h]
-    cmp AX,word ptr [_var_279]
-    jle LAB_1000_c3c4
-    mov AX,word ptr [_var_282]
-    cmp word ptr [BP + 8h],AX
-    jge LAB_1000_c3c4
-    mov AX,58h
-    sub AX,word ptr [BP + 8h]
-    cmp AX,word ptr [_var_282]
-    jle LAB_1000_c3c4
-    mov AX,1h
-    push AX
-    push word ptr [BP + 8h]
-    push word ptr [_var_282]
-    push word ptr [_var_279]
-    call sub_1C1B9
-    add SP,8h
-LAB_1000_c3c4:
-    cmp word ptr [_var_279],14h
-    jle LAB_1000_c407
-    cmp word ptr [_var_279],118h
-    jge LAB_1000_c407
-    cmp word ptr [_var_282],0h
-    jle LAB_1000_c407
-    cmp word ptr [_var_282],52h
-    jge LAB_1000_c407
-    push word ptr [word_38F72]
-    mov AX,word ptr [_var_282]
-    db 05h, 05h, 00h ; add AX,5h (force imm16 encoding)
-    push AX
-    push word ptr [BP + 4h]
-    call _strlen
-    add SP,2h
-    shl AX,1h
-    mov CX,word ptr [_var_279]
-    sub CX,AX
-    push CX
-    push word ptr [BP + 4h]
-    call _draw2Strings
-    add SP,8h
-LAB_1000_c407:
-    mov SP,BP
-    pop BP
-    ret
-sub_1C371 endp
+sub_1C371 equ _sub_1C371
 ; ------------------------------seg000:0xc40a------------------------------
 ; ------------------------------seg000:0xc40b------------------------------
 sub_1C40B proc near
@@ -37243,6 +37189,7 @@ _var_811 label byte
 ORG 00000h
 word_38F70 dw ?
 word_38F72 dw ?
+_word_38F72 equ word_38F72
 strBuf db 18h dup(?)
 byte_38F8C db ?
 byte_38F8D db ?
