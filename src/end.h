@@ -240,7 +240,7 @@ void decodePicRaw(int handle, int segment);
 void processMenuItems(void *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int gfxPage);
 int routine_60(int param_1, int param_2, int param_3, int param_4, int param_5);
 void loadWorldData(int destOffset, int size);
-void drawMenuItem(void *items, int index, int gfxPage);
+void drawMenuItem(void *items, unsigned int index, int gfxPage);
 void routine_108(int destOffset, int size, int flag, int bufHandle);
 void routine_109(int destOffset, int size, int flag, int bufHandle);
 extern int worldDataReady;
@@ -250,7 +250,7 @@ extern int worldBufHandle;
 int fileSeek(int handle, int off, int whence, int mode);
 void loadPicFromFile(char *name, int segment);
 void loadPicFromFileAt(char *name, int segment, int off, int whence);
-void drawMenuItem(MenuItem *param_1, int param_2, int param_3);
+void drawMenuItem(MenuItem *param_1, unsigned int param_2, int param_3);
 
 /* String constants from ASM */
 extern char str_pressExit[];
@@ -303,7 +303,7 @@ extern char str_pressNext[];
 /* Data symbols used by drawMenuItem */
 extern char dat_4824[];
 extern int dat_424e[];
-extern char var_425c[];
+extern int var_425c[];
 extern int dat_4804;
 extern int var_193[];
 extern int var_192;

@@ -794,21 +794,21 @@ void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStar
     cursorY = cursorStartY;
 }
 
-void drawMenuItem(MenuItem *param_1, int param_2, int param_3) {
+void drawMenuItem(MenuItem *param_1, unsigned int param_2, int param_3) {
     char p[2]; char a[2]; char b[2]; int c; char d[2]; int e; int f;
     int g; int h; int i; int j; int k; int l; int m;
-    char n[2]; int o;
-    register int si;
+    char n[2]; unsigned int o;
+    int fi;
     (void)c; (void)e; (void)f; (void)g; (void)h; (void)i;
-    (void)j; (void)k; (void)l; (void)m;
+    (void)j; (void)k; (void)l;
     p[0] = 0x0a; p[1] = 0;
     b[0] = 0x89; b[1] = 0;
     a[0] = 0x8d; a[1] = 0;
     d[0] = 0x80; d[1] = 0;
-    si = param_1[param_2].flags;
-    if (!(si & MENUITEM_HAS_SPRITE))
+    fi = param_1[param_2].flags;
+    if (!(fi & MENUITEM_HAS_SPRITE))
         return;
-    if ((si & MENUITEM_TYPE_MASK) != 7)
+    if ((fi & MENUITEM_TYPE_MASK) != 7)
         goto section2;
     /* Section 1: mission complete display */
     clearRect((int *)param_3, 0xeb, 0x0a, 0x13f, 0x95);
@@ -867,7 +867,8 @@ void drawMenuItem(MenuItem *param_1, int param_2, int param_3) {
     drawStringAt((int *)param_3, dat_4824, 0x131, 0x36);
     ejectedFlag = 1;
 section2:
-    if (!(param_1[param_2].flags & MENUITEM_SPRITE_BLINK))
+    fi = param_1[param_2].flags;
+    if (!(fi & MENUITEM_SPRITE_BLINK))
         return;
     if (ejectedFlag != 1)
         goto eventDisplay;
@@ -898,14 +899,13 @@ eventDisplay:
     switch (flightRecords[curRecordIdx].status & 0x3f) {
     case 1:
     case 12:
-        e = dat_424e[o * 8];
-        if (e != 0) {
-            mystrcpy(dat_4824, worldStrings[e]);
+        if (dat_424e[o * 8] != 0) {
+            mystrcpy(dat_4824, worldStrings[dat_424e[o * 8]]);
             mystrcat(dat_4824, str_destroyed4);
-            mystrcat(dat_4824, worldStrings[var_425c[o * 16] & 0x7f]);
+            mystrcat(dat_4824, worldStrings[var_425c[o * 8] & 0x7f]);
             mystrcat(dat_4824, str_destroyed1);
         } else {
-            mystrcpy(dat_4824, worldStrings[var_425c[o * 16] & 0x7f]);
+            mystrcpy(dat_4824, worldStrings[var_425c[o * 8] & 0x7f]);
             mystrcat(dat_4824, str_destroyed2);
         }
         break;
@@ -920,14 +920,13 @@ eventDisplay:
         mystrcat(dat_4824, str_destroyed3);
         break;
     case 10:
-        e = dat_424e[o * 8];
-        if (e != 0) {
-            mystrcpy(dat_4824, worldStrings[e]);
+        if (dat_424e[o * 8] != 0) {
+            mystrcpy(dat_4824, worldStrings[dat_424e[o * 8]]);
             mystrcat(dat_4824, str_rearmed3);
-            mystrcat(dat_4824, worldStrings[var_425c[o * 16] & 0x7f]);
+            mystrcat(dat_4824, worldStrings[var_425c[o * 8] & 0x7f]);
             mystrcat(dat_4824, str_rearmed1);
         } else {
-            mystrcpy(dat_4824, worldStrings[var_425c[o * 16] & 0x7f]);
+            mystrcpy(dat_4824, worldStrings[var_425c[o * 8] & 0x7f]);
             mystrcat(dat_4824, str_rearmed2);
         }
         break;
@@ -939,11 +938,10 @@ eventDisplay:
     case 8:
         if (curRecordIdx == 0) {
             mystrcpy(dat_4824, str_takeoffPoint);
-            e = dat_424e[dat_4804 * 8];
-            if (e != 0) {
-                mystrcat(dat_4824, worldStrings[e]);
+            if (dat_424e[dat_4804 * 8] != 0) {
+                mystrcat(dat_4824, worldStrings[dat_424e[dat_4804 * 8]]);
             } else {
-                mystrcat(dat_4824, worldStrings[(unsigned char)var_425c[dat_4804 * 16]]);
+                mystrcat(dat_4824, worldStrings[(unsigned char)var_425c[dat_4804 * 8]]);
             }
         } else {
             mystrcpy(dat_4824, str_missionEnd);
@@ -965,8 +963,6 @@ eventDisplay:
                 break;
             }
         }
-        break;
-    default:
         break;
     }
     drawWrappedText((int *)param_3, dat_4824, 0x50, 0xf0, 0x26, 8);
