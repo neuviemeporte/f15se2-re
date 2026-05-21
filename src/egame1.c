@@ -1024,3 +1024,18 @@ int sub_19A4D(int arg_0, int arg_1) {
 void sub_19B98(int arg_0, int arg_1, int arg_2, int arg_3) {
     sub_19C84(sub_198FA(arg_0), sub_19915(arg_1), sub_198FA(arg_2), sub_19915(arg_3), word_3C018, word_3C45E, word_3C01A, word_3C5A2, 1);
 }
+
+// ==== seg000:0x9875 ====
+void zoomIn(void) {
+    if (keyValue & 0x80) {
+        word_336FE--;
+    } else {
+        if (word_3C09A == 0 && byte_383E5 < 9) {
+            byte_383E5++;
+            sub_195C9(word_3BEC0, word_3BED0);
+        }
+        if (word_3C09A == 1) {
+            var_588++;
+        }
+    }
+}

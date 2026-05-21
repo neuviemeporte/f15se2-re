@@ -288,7 +288,7 @@ void sub_19595(void);
 // ==== seg000:0x95c9 ====
 int sub_195C9();
 // ==== seg000:0x9875 ====
-int zoomIn();
+void zoomIn(void);
 // ==== seg000:0x98b4 ====
 int zoomOut();
 // ==== seg000:0x98fa ====
@@ -1291,7 +1291,8 @@ extern int16 word_383D6;
 extern int16 word_383D8;
 extern int16 word_383DA;
 extern uint8 byte_383E4;
-extern uint8 byte_383E5[];
+extern int16 byte_383E5;
+extern int16 var_588;
 extern int16 word_383EA;
 extern int16 radarRange;
 extern int16 word_383EE;
