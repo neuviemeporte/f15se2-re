@@ -7,6 +7,7 @@ EXTRN _sub_155AB:PROC
 EXTRN _main:PROC
 EXTRN _sub_18E50:PROC
 EXTRN _sub_1D1C8:PROC
+EXTRN _sub_1C7A2:PROC
 EXTRN _sub_21A7A:PROC
 EXTRN _sub_13922:PROC
 EXTRN _sub_1CF8E:PROC
@@ -220,6 +221,7 @@ PUBLIC _word_339B4
 PUBLIC _word_336F4
 PUBLIC _stru_335C4
 PUBLIC _sub_1D008
+PUBLIC _sub_1C7EA
 PUBLIC _word_3A940
 PUBLIC _word_3370E
 PUBLIC _sub_1CFA6
@@ -18106,26 +18108,7 @@ LAB_1000_c79d:
 sub_1C6BE endp
 ; ------------------------------seg000:0xc7a1------------------------------
 ; ------------------------------seg000:0xc7a2------------------------------
-sub_1C7A2 proc near
-    push BP
-    mov BP,SP
-    push SI
-    mov SI,word ptr [BP + 4h]
-    mov CL,4h
-    shl SI,CL
-    mov AX,1h
-    push AX
-    push word ptr [SI + offset _stru_3AA5E + 2]
-    push word ptr [SI + offset _stru_3AA5E]
-    call sub_1C7EA
-    add SP,6h
-    jmp LAB_1000_c7c1
-LAB_1000_c7c1:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_1C7A2 endp
+sub_1C7A2 equ _sub_1C7A2
 ; ------------------------------seg000:0xc7c5------------------------------
 ; ------------------------------seg000:0xc7c6------------------------------
 sub_1C7C6 proc near
@@ -18181,6 +18164,7 @@ LAB_1000_c829:
     pop BP
     ret
 sub_1C7EA endp
+_sub_1C7EA equ sub_1C7EA
 ; ------------------------------seg000:0xc82c------------------------------
 ; ------------------------------seg000:0xc82d------------------------------
 sub_1C82D proc near

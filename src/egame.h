@@ -380,7 +380,7 @@ int sub_1C661();
 // ==== seg000:0xc6be ====
 int sub_1C6BE();
 // ==== seg000:0xc7a2 ====
-int sub_1C7A2();
+int sub_1C7A2(int arg_0);
 // ==== seg000:0xc7c6 ====
 int sub_1C7C6();
 // ==== seg000:0xc7ea ====

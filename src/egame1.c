@@ -916,3 +916,8 @@ int sub_118D5() {
         word_3BFA2 += word_3B4DC;
     }
 }
+
+// ==== seg000:0xc7a2 ====
+int sub_1C7A2(int arg_0) {
+    return sub_1C7EA(stru_3AA5E[arg_0].field_0, stru_3AA5E[arg_0].field_2, 1);
+}
