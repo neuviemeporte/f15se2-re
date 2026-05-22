@@ -3,7 +3,9 @@ DOSSEG
 .MODEL SMALL
 EXTRN _placeString:PROC
 EXTRN _sub_13224:PROC
+EXTRN _sub_13266:PROC
 PUBLIC _byte_3B4E6
+PUBLIC _var_660
 PUBLIC _word_38FF8
 PUBLIC _strBuf
 PUBLIC _aAt
@@ -3959,47 +3961,7 @@ sub_12FDA endp
 sub_13224 equ _sub_13224
 ; ------------------------------seg000:0x3264------------------------------
 ; ------------------------------seg000:0x3266------------------------------
-sub_13266 proc near
-    push BP
-    mov BP,SP
-    push SI
-    mov AX,word ptr [word_38FF8]
-    dec AX
-    mov word ptr [_var_660],AX
-    jmp LAB_1000_3278
-    db 90h
-LAB_1000_3274:
-    dec word ptr [_var_660]
-LAB_1000_3278:
-    cmp word ptr [_var_660],0h
-    jl LAB_1000_32b4
-    mov SI,word ptr [_var_660]
-    mov CL,3h
-    shl SI,CL
-    mov AL,byte ptr [SI + offset byte_3B4E6]
-    sub AH,AH
-    cmp AX,word ptr [BP + 4h]
-    jnz LAB_1000_3274
-    mov AL,byte ptr [SI + offset byte_3B4E7]
-    cmp AX,word ptr [BP + 6h]
-    jnz LAB_1000_3274
-    mov AL,byte ptr [SI + offset byte_3B4E8]
-    cmp AX,word ptr [BP + 8h]
-    jnz LAB_1000_3274
-    mov AL,byte ptr [SI + offset byte_3B4E9]
-    cmp AX,word ptr [BP + 0ah]
-    jnz LAB_1000_3274
-    mov AX,word ptr [SI + offset word_3B4EA]
-    pop SI
-    pop BP
-    ret
-LAB_1000_32b4:
-    sub AX,AX
-    pop SI
-    pop BP
-    ret
-    nop
-sub_13266 endp
+sub_13266 equ _sub_13266
 ; ------------------------------seg000:0x32b8------------------------------
 ; ------------------------------seg000:0x32ba------------------------------
 sub_132BA proc near

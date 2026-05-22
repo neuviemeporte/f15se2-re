@@ -232,6 +232,19 @@ void sub_166BE(void) {
     }
 }
 
+// ==== seg000:0x3266 ====
+int sub_13266(int p1, int p2, int p3, int p4) {
+    for (var_660 = word_38FF8 - 1; var_660 >= 0; var_660--) {
+        if (*(&byte_3B4E6 + var_660 * 8) == p1 &&
+            *(&byte_3B4E6 + var_660 * 8 + 1) == p2 &&
+            *(&byte_3B4E6 + var_660 * 8 + 2) == p3 &&
+            *(&byte_3B4E6 + var_660 * 8 + 3) == p4) {
+            return *(int *)(&byte_3B4E6 + var_660 * 8 + 4);
+        }
+    }
+    return 0;
+}
+
 // ==== seg000:0x4224 ====
 void sub_13224(char *a, int b, char c) {
     *(int *)(a + 0x12) = b;
