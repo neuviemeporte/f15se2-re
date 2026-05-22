@@ -1632,3 +1632,8 @@ long sub_1C661(int param_1, int param_2, int param_3, int param_4) {
 
 
 
+
+// ==== seg000:0xc82d ====
+int sub_1C82D() {
+    return (int)((unsigned long)((long)(0x4000 - abs(var_544)) << 12) / (unsigned long)(unsigned int)(var_547 + 0x1000)) - 0x4000;
+}

@@ -173,7 +173,7 @@ sub_1C6BE: seg000 NEAR c6be-c7a1 Rc6be-c795 Uc796-c797 Rc798-c7a1
 sub_1C7A2: seg000 NEAR c7a2-c7c5 Rc7a2-c7c5 complete
 sub_1C7C6: seg000 NEAR c7c6-c7e9 Rc7c6-c7e9
 sub_1C7EA: seg000 NEAR c7ea-c82c Rc7ea-c82c complete
-sub_1C82D: seg000 NEAR c82d-c863 Rc82d-c863
+sub_1C82D: seg000 NEAR c82d-c863 Rc82d-c863 complete
 sub_1C864: seg000 NEAR c864-c8a3 Rc864-c890 Uc891-c892 Rc893-c8a3 complete
 sub_1C8A4: seg000 NEAR c8a4-c8dd Rc8a4-c8dd complete
 load15Flt3d3: seg000 NEAR c8de-c9d1 Rc8de-c9d1

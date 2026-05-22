@@ -50,6 +50,7 @@ EXTRN _sub_1C371:PROC
 EXTRN _sub_1C40B:PROC
 EXTRN _sub_1C8A4:PROC
 EXTRN _sub_1C864:PROC
+EXTRN _sub_1C82D:PROC
 EXTRN _sub_198FA:PROC
 EXTRN _sub_19915:PROC
 EXTRN _sub_118D5:PROC
@@ -15792,38 +15793,7 @@ sub_1C7C6 equ _sub_1C7C6
 sub_1C7EA equ _sub_1C7EA
 ; ------------------------------seg000:0xc82c------------------------------
 ; ------------------------------seg000:0xc82d------------------------------
-sub_1C82D proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [_var_547]
-    add AH,10h
-    sub CX,CX
-    push CX
-    push AX
-    push word ptr [_var_544]
-    call _abs
-    add SP,2h
-    sub AX,4000h
-    neg AX
-    cwd
-    mov CL,0ch
-LAB_1000_c84c:
-    shl AX,1h
-    rcl DX,1h
-    dec CL
-    jz LAB_1000_c856
-    jmp LAB_1000_c84c
-LAB_1000_c856:
-    push DX
-    push AX
-    call __aNuldiv
-    sub AX,4000h
-    jmp LAB_1000_c860
-LAB_1000_c860:
-    mov SP,BP
-    pop BP
-    ret
-sub_1C82D endp
+sub_1C82D equ _sub_1C82D
 ; ------------------------------seg000:0xc863------------------------------
 ; ------------------------------seg000:0xc864------------------------------
 sub_1C864 equ _sub_1C864
