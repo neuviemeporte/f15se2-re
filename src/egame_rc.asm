@@ -120,6 +120,7 @@ EXTRN _sub_13638:PROC
 EXTRN _tempStrcpy:PROC
 EXTRN _selectMissile:PROC
 EXTRN _sub_18A44:PROC
+EXTRN _sub_189AA:PROC
 EXTRN _sub_19DB0:PROC
 EXTRN _sub_1C1B9:PROC
 EXTRN _sub_1C2F8:PROC
@@ -427,6 +428,11 @@ PUBLIC _sub_154B7
 PUBLIC _sub_19C84
 PUBLIC _sub_1A030
 PUBLIC _aStallWarning
+PUBLIC _aSecond_Target
+_aSecond_Target equ aSecond_Target
+PUBLIC _aPrimaryTarget_0
+_aPrimaryTarget_0 equ aPrimaryTarget_0
+PUBLIC _var_730
 PUBLIC _waypointIndex
 PUBLIC _aAutopilot
 PUBLIC _word_38FEA
@@ -11614,77 +11620,7 @@ LAB_1000_89a4:
 sub_187EA endp
 ; ------------------------------seg000:0x89a8------------------------------
 ; ------------------------------seg000:0x89aa------------------------------
-sub_189AA proc near
-    push BP
-    mov BP,SP
-    push SI
-    mov AX,4000h
-    mov CL,byte ptr [BP + 4h]
-    sar AX,CL
-    test word ptr [_planeFlags],AX
-    jz LAB_1000_89c2
-    sub AX,AX
-    pop SI
-    pop BP
-    ret
-    db 90h
-LAB_1000_89c2:
-    mov AX,12h
-    imul word ptr [BP + 4h]
-    mov BX,AX
-    mov SI,word ptr [BX + offset _word_3B144]
-    cmp SI,4h
-    jz LAB_1000_89d8
-    cmp SI,3h
-    jnz LAB_1000_89f3
-LAB_1000_89d8:
-    sub AX,AX
-    push AX
-    cmp word ptr [BP + 4h],AX
-    jz LAB_1000_89e6
-    mov AX,40h
-    jmp LAB_1000_89e9
-    db 90h
-LAB_1000_89e6:
-    mov AX,80h
-LAB_1000_89e9:
-    db 05h, 0Bh, 00h ; add AX,0bh (force imm16 encoding)
-    push AX
-    call sub_11D10
-    add SP,4h
-LAB_1000_89f3:
-    cmp word ptr [BP + 4h],0h
-    jz LAB_1000_8a14
-    mov AX,offset aSecond_Target
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcpy
-    add SP,4h
-    mov word ptr [_waypointIndex],1h
-    or byte ptr [_var_730],20h
-    jmp LAB_1000_8a2d
-LAB_1000_8a14:
-    mov AX,offset aPrimaryTarget_0
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcpy
-    add SP,4h
-    mov word ptr [_waypointIndex],2h
-    or byte ptr [_var_730],40h
-LAB_1000_8a2d:
-    mov AX,word ptr [_planeFlags]
-    and AX,6000h
-    cmp AX,6000h
-    jnz LAB_1000_8a3e
-    mov word ptr [_waypointIndex],3h
-LAB_1000_8a3e:
-    mov AX,1h
-    pop SI
-    pop BP
-    ret
-sub_189AA endp
+sub_189AA equ _sub_189AA
 ; ------------------------------seg000:0x8a43------------------------------
 ; ------------------------------seg000:0x8a44------------------------------
 sub_18A44 equ _sub_18A44

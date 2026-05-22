@@ -276,3 +276,26 @@ int sub_1660E(int arg_0, int arg_2, int arg_4, int arg_6, int *arg_8, int *arg_a
     return f;
 }
 
+// ==== seg000:0x89aa ====
+int sub_189AA(int arg_0) {
+    if (planeFlags & (0x4000 >> arg_0)) {
+        return 0;
+    }
+    if (*(&word_3B144 + 9 * arg_0) == 4 || *(&word_3B144 + 9 * arg_0) == 3) {
+        sub_11D10((arg_0 != 0 ? 0x40 : 0x80) + 0x0b, 0);
+    }
+    if (arg_0 != 0) {
+        strcpy(strBuf, aSecond_Target);
+        waypointIndex = 1;
+        var_730 |= 0x20;
+    } else {
+        strcpy(strBuf, aPrimaryTarget_0);
+        waypointIndex = 2;
+        var_730 |= 0x40;
+    }
+    if ((planeFlags & 0x6000) == 0x6000) {
+        waypointIndex = 3;
+    }
+    return 1;
+}
+
