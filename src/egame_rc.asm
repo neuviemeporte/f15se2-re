@@ -13,7 +13,10 @@ PUBLIC _byte_38F8C
 PUBLIC _byte_38F8D
 PUBLIC _aOnPatrol
 PUBLIC _aF15StrikeEagle
+PUBLIC _aNone
+_aNone equ aNone
 EXTRN _sub_166BE:PROC
+EXTRN _sub_1660E:PROC
 EXTRN _sub_11C21:PROC
 EXTRN _sub_11D10:PROC
 EXTRN _sub_11A18:PROC
@@ -8183,84 +8186,7 @@ LAB_1000_6607:
 sub_16346 endp
 ; ------------------------------seg000:0x660c------------------------------
 ; ------------------------------seg000:0x660e------------------------------
-sub_1660E proc near
-    push BP
-    mov BP,SP
-    sub SP,0eh
-    push SI
-    cmp word ptr [BP + 0ah],0h
-    jz LAB_1000_6621
-    cmp word ptr [BP + 0ah],-1h
-    jnz LAB_1000_6628
-LAB_1000_6621:
-    sub AX,AX
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-LAB_1000_6628:
-    mov AX,word ptr [_word_3BEC0]
-    sub AX,word ptr [BP + 4h]
-    mov word ptr [BP + -0ah],AX
-    mov AX,word ptr [_word_3BED0]
-    sub AX,word ptr [BP + 6h]
-    mov word ptr [BP + -0ch],AX
-    push AX
-    push word ptr [BP + -0ah]
-    call _sub_1CFA6
-    add SP,4h
-    mov CL,6h
-    shr AX,CL
-    mov word ptr [BP + -8h],AX
-    mov AX,word ptr [BP + -0ch]
-    neg AX
-    push AX
-    push word ptr [BP + -0ah]
-    call _sub_1D008
-    add SP,4h
-    mov word ptr [BP + -6h],AX
-    mov AX,word ptr [BP + 0ah]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    mov AX,word ptr [SI + offset aNone + 10]
-    mov CX,word ptr [word_330B8]
-    shl CX,1h
-    add AX,CX
-    db 05h, 03h, 00h ; add AX,3h (force imm16 encoding)
-    imul word ptr [SI + offset aNone + 8]
-    cwd
-    xor AX,DX
-    sub AX,DX
-    mov CX,4h
-    sar AX,CL
-    xor AX,DX
-    sub AX,DX
-    mov word ptr [BP + -0eh],AX
-    mov BX,word ptr [_var_547]
-    mov CL,6h
-    shr BX,CL
-    add BX,40h
-    mul BX
-    mov CL,7h
-    shr AX,CL
-    mov word ptr [BP + -0eh],AX
-    mov BX,word ptr [BP + 0ch]
-    mov AX,word ptr [BP + -6h]
-    mov word ptr [BX],AX
-    mov BX,word ptr [BP + 0eh]
-    mov AX,word ptr [BP + -8h]
-    mov word ptr [BX],AX
-    mov AX,word ptr [BP + -0eh]
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_1660E endp
+sub_1660E equ _sub_1660E
 ; ------------------------------seg000:0x66bd------------------------------
 ; ------------------------------seg000:0x66be------------------------------
 sub_166BE equ _sub_166BE

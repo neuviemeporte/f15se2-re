@@ -253,3 +253,26 @@ void sub_13224(char *a, int b, char c) {
     *(*(char **)(a + 0x0c) + 6) |= 0x80;
 }
 
+// ==== seg000:0x660e routine_324 ====
+int sub_1660E(int arg_0, int arg_2, int arg_4, int arg_6, int *arg_8, int *arg_a) {
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    unsigned f;
+
+    if (arg_6 == 0 || arg_6 == -1) {
+        return 0;
+    }
+    d = word_3BEC0 - arg_0;
+    e = word_3BED0 - arg_2;
+    c = (unsigned)sub_1CFA6(d, e) >> 6;
+    b = sub_1D008(d, -e);
+    f = (f = (*(int16 *)&aNone[arg_6 * 14 + 10] + word_330B8 * 2 + 3) * *(int16 *)&aNone[arg_6 * 14 + 8] / 16) * (((unsigned)var_547 >> 6) + 0x40) >> 7;
+    *arg_8 = b;
+    *arg_a = c;
+    return f;
+}
+
