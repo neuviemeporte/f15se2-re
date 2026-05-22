@@ -3,6 +3,7 @@ DOSSEG
 .MODEL SMALL
 EXTRN _placeString:PROC
 EXTRN _sub_15411:PROC
+EXTRN _sub_1543B:PROC
 EXTRN _sub_13224:PROC
 EXTRN _sub_13266:PROC
 PUBLIC _byte_3B4E6
@@ -7154,69 +7155,7 @@ sub_15237 endp
 sub_15411 equ _sub_15411
 ; ------------------------------seg000:0x543a------------------------------
 ; ------------------------------seg000:0x543b------------------------------
-sub_1543B proc near
-    push BP
-    mov BP,SP
-    sub SP,0ch
-    push SI
-    mov byte ptr [BP + -2h],1h
-    mov byte ptr [BP + -4h],1h
-    cmp word ptr [BP + 4h],0h
-    jge LAB_1000_5454
-    mov byte ptr [BP + -2h],0ffh
-LAB_1000_5454:
-    cmp word ptr [BP + 6h],0h
-    jge LAB_1000_545e
-    mov byte ptr [BP + -4h],0ffh
-LAB_1000_545e:
-    cmp word ptr [BP + 4h],0h
-    jge LAB_1000_546b
-    mov AX,word ptr [BP + 4h]
-    neg AX
-    jmp LAB_1000_546e
-LAB_1000_546b:
-    mov AX,word ptr [BP + 4h]
-LAB_1000_546e:
-    cwd
-    mov word ptr [BP + -8h],AX
-    mov word ptr [BP + -6h],DX
-    cmp word ptr [BP + 6h],0h
-    jge LAB_1000_5482
-    mov AX,word ptr [BP + 6h]
-    neg AX
-    jmp LAB_1000_5485
-LAB_1000_5482:
-    mov AX,word ptr [BP + 6h]
-LAB_1000_5485:
-    cwd
-    mov word ptr [BP + -0ch],AX
-    mov word ptr [BP + -0ah],DX
-    push DX
-    push AX
-    mov DX,word ptr [BP + -8h]
-    sub AX,AX
-    push DX
-    push AX
-    call __aNuldiv
-    shr DX,1h
-    rcr AX,1h
-    mov CX,AX
-    mov AL,byte ptr [BP + -4h]
-    cbw
-    mov BX,AX
-    mov AL,byte ptr [BP + -2h]
-    cbw
-    mov SI,AX
-    mov AX,CX
-    mul SI
-    mul BX
-    jmp LAB_1000_54b2
-LAB_1000_54b2:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_1543B endp
+sub_1543B equ _sub_1543B
 ; ------------------------------seg000:0x54b6------------------------------
 ; ------------------------------seg000:0x54b7------------------------------
 ; sub_154B7 moved to egame1.c

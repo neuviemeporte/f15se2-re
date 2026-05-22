@@ -226,7 +226,7 @@ int sub_15237();
 // ==== seg000:0x5411 ====
 void sub_15411();
 // ==== seg000:0x543b ====
-int sub_1543B();
+unsigned sub_1543B(int, int);
 // ==== seg000:0x54b7 ====
 int sub_154B7();
 // ==== seg000:0x5540 ====

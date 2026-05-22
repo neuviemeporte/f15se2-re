@@ -93,7 +93,7 @@ otherKeyDispatch: seg000 NEAR 3f72-51f8 R3f72-41e8 U41e9-41ea R41eb-51f8 assembl
 sub_151F9: seg000 NEAR 51f9-5236 R51f9-5236 complete
 sub_15237: seg000 NEAR 5237-5410 R5237-5410
 sub_15411: seg000 NEAR 5411-543a R5411-543a complete
-sub_1543B: seg000 NEAR 543b-54b6 R543b-54b6
+sub_1543B: seg000 NEAR 543b-54b6 R543b-54b6 complete
 sub_154B7: seg000 NEAR 54b7-553f R54b7-553f complete
 sub_15540: seg000 NEAR 5540-5556 R5540-5556 complete
 sub_15557: seg000 NEAR 5557-55aa R5557-55aa complete

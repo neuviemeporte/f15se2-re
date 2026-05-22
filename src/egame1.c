@@ -78,6 +78,22 @@ void sub_11BC3(int arg_0, unsigned int arg_2) {
     sub_11BFD(0x89, word_3370E == 1 ? 3 : 4);
 }
 
+// ==== seg000:0x543b ====
+unsigned sub_1543B(int param_1, int param_2) {
+    char p = 1;
+    char a = 1;
+    long b;
+    long d;
+
+    if (param_1 < 0) p = -1;
+    if (param_2 < 0) a = -1;
+    b = (long)(param_1 < 0 ? -param_1 : param_1);
+    d = (long)(param_2 < 0 ? -param_2 : param_2);
+    return (unsigned)((unsigned int)((((unsigned long)(unsigned int)b) << 16) / d >> 1)) * (unsigned)(int)p * (unsigned)(int)a;
+done:
+    ;
+}
+
 // ==== seg000:0x54b7 ====
 int sub_154B7(int param_1) {
     int p;
