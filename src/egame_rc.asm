@@ -2,6 +2,7 @@
 DOSSEG
 .MODEL SMALL
 EXTRN _placeString:PROC
+EXTRN _sub_11F3E:PROC
 EXTRN _sub_15411:PROC
 EXTRN _sub_1543B:PROC
 EXTRN _sub_13224:PROC
@@ -164,6 +165,12 @@ PUBLIC _sub_20FDC
 PUBLIC _var_194
 PUBLIC _var_195
 PUBLIC _var_196
+PUBLIC _var_143
+PUBLIC _word_3B146
+PUBLIC _word_33704
+PUBLIC _word_39808
+PUBLIC _sub_12FDA
+PUBLIC _sub_1CF32
 PUBLIC _var_197
 PUBLIC _var_198
 PUBLIC _byte_3419F
@@ -2856,124 +2863,7 @@ sub_11D10 equ _sub_11D10
 
 ; ------------------------------seg000:0x1e0d------------------------------
 ; ------------------------------seg000:0x1f3e------------------------------
-sub_11F3E proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    push DI
-    push SI
-    mov AX,word ptr [_var_143]
-    mov word ptr [BP + -4h],AX
-    mov word ptr [BP + -2h],0h
-    jmp LAB_1000_1f56
-LAB_1000_1f53:
-    inc word ptr [BP + -2h]
-LAB_1000_1f56:
-    cmp word ptr [BP + -2h],2h
-    jl LAB_1000_1f5f
-    jmp LAB_1000_203d
-LAB_1000_1f5f:
-    mov AX,12h
-    imul word ptr [BP + -2h]
-    mov SI,AX
-    mov AX,word ptr [SI + offset _word_3B14A]
-    mov CL,8h
-    sar AX,CL
-    or AX,AX
-    jnz LAB_1000_1f76
-    jmp LAB_1000_203a
-LAB_1000_1f76:
-    mov DI,word ptr [SI + offset word_3B146]
-    mov CL,4h
-    shl DI,CL
-    mov AX,word ptr [DI + offset _stru_3AA5E + 2]
-    sub DX,DX
-    sub AX,8000h
-    sbb DX,DX
-    neg AX
-    adc DX,0h
-    neg DX
-    mov CL,5h
-LAB_1000_1f92:
-    shl AX,1h
-    rcl DX,1h
-    dec CL
-    jz LAB_1000_1f9c
-    jmp LAB_1000_1f92
-LAB_1000_1f9c:
-    push DX
-    push AX
-    mov AX,word ptr [DI + offset _stru_3AA5E]
-    sub DX,DX
-    mov CL,5h
-LAB_1000_1fa6:
-    shl AX,1h
-    rcl DX,1h
-    dec CL
-    jz LAB_1000_1fb0
-    jmp LAB_1000_1fa6
-LAB_1000_1fb0:
-    push DX
-    push AX
-    call sub_12FDA
-    add SP,8h
-    mov word ptr [word_39808],AX
-    or AX,AX
-    jz LAB_1000_201d
-    mov BX,AX
-    mov BX,word ptr [BX]
-    mov AL,byte ptr [BX + offset _byte_3BFA4]
-    mov BX,word ptr [BP + -4h]
-    mov byte ptr [BX + offset _byte_3BFA4],AL
-    mov BX,word ptr [word_39808]
-    mov BX,word ptr [BX]
-    shl BX,1h
-    push word ptr [BX + offset _word_3C0A2]
-    mov BX,word ptr [BP + -4h]
-    shl BX,1h
-    push word ptr [BX + offset _word_3C0A2]
-    call _strcpy
-    add SP,4h
-    mov SI,word ptr [BP + -4h]
-    shl SI,1h
-    push word ptr [SI + offset _word_3C0A2]
-    call _strlen
-    add SP,2h
-    mov CX,word ptr [SI + offset _word_3C0A2]
-    add CX,AX
-    inc CX
-    mov word ptr [SI + offset _word_3C0A2 + 2],CX
-    mov SI,word ptr [BP + -4h]
-    add SI,100h
-    push SI
-    push SI
-    call sub_1CF32
-    add SP,2h
-    push AX
-    push word ptr [word_39808]
-    call sub_13224
-    add SP,6h
-LAB_1000_201d:
-    mov AX,12h
-    imul word ptr [BP + -2h]
-    mov BX,AX
-    mov BX,word ptr [BX + offset word_3B146]
-    mov CL,4h
-    shl BX,CL
-    mov AX,word ptr [BP + -4h]
-    add AH,1h
-    mov word ptr [BX + offset _stru_3AA5E + 12],AX
-    inc word ptr [BP + -4h]
-LAB_1000_203a:
-    jmp LAB_1000_1f53
-LAB_1000_203d:
-    mov word ptr [word_33704],0h
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-sub_11F3E endp
+sub_11F3E equ _sub_11F3E
 ; ------------------------------seg000:0x2048------------------------------
 ; ------------------------------seg000:0x21a9------------------------------
 ; ------------------------------seg000:0x21c4------------------------------
@@ -3597,6 +3487,7 @@ process3dg endp
 ; ------------------------------seg000:0x2872------------------------------
 ; ------------------------------seg000:0x2fda------------------------------
 sub_12FDA proc near
+_sub_12FDA equ sub_12FDA
     push BP
     mov BP,SP
     sub SP,24h
@@ -16132,6 +16023,7 @@ sub_1CB42 endp
 ; ------------------------------seg000:0xcf30------------------------------
 ; ------------------------------seg000:0xcf32------------------------------
 sub_1CF32 proc near
+_sub_1CF32 equ sub_1CF32
     push BP
     mov BP,SP
     test word ptr [BP + 4h],100h
@@ -20556,6 +20448,7 @@ _word_336FE dw 4
 word_33700 dw 0FFFFh
 word_33702 dw 1
 word_33704 dw 1
+_word_33704 equ word_33704
 word_33706 dw 1
 word_33708 dw 0
 _word_3370A dw 1
@@ -36072,6 +35965,7 @@ _word_39604 dw ?
 word_39606 dw ?
 _buf2_3dg db 200h dup(?)
 word_39808 dw ?
+_word_39808 equ word_39808
     db ?
     db ?
     db ?
@@ -40213,6 +40107,7 @@ _word_3B0AC equ word_3B0AC
 _buf3d3_2 db 96h dup(?)
 _word_3B144 dw ?
 word_3B146 dw ?
+_word_3B146 equ word_3B146
 _word_3B148 dw ?
 _word_3B14A dw ?
 word_3B14C dw ?

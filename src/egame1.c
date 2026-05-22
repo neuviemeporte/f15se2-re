@@ -246,6 +246,30 @@ int sub_11E0E() {
     word_3BED0 = 0x8000 - ((dword_3B7F8 + 0x10) >> 5);
 }
 
+// ==== seg000:0x1f3e ====
+void sub_11F3E() {
+    int a;
+    int p;
+
+    a = var_143;
+    for (p = 0; p < 2; p++) {
+        if (word_3B14A[p * 9] >> 8 != 0) {
+            word_39808 = sub_12FDA(
+                (unsigned long)(unsigned)stru_3AA5E[(&word_3B146)[p * 9]].field_0 << 5,
+                (0x8000L - (unsigned long)(unsigned)stru_3AA5E[(&word_3B146)[p * 9]].field_2) << 5);
+            if (word_39808 != 0) {
+                byte_3BFA4[a] = byte_3BFA4[*(int *)word_39808];
+                strcpy((char *)word_3C0A2[a], (char *)word_3C0A2[*(int *)word_39808]);
+                word_3C0A2[a + 1] = word_3C0A2[a] + strlen((char *)word_3C0A2[a]) + 1;
+                sub_13224((char *)word_39808, sub_1CF32(a + 0x100), a + 0x100);
+            }
+            stru_3AA5E[(&word_3B146)[p * 9]].field_C = a + 0x100;
+            a++;
+        }
+    }
+    word_33704 = 0;
+}
+
 // ==== seg000:0x2049 ====
 int moveDataFar() {
     int unused1, unused2;

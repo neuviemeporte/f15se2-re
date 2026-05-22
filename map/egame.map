@@ -34,7 +34,7 @@ sub_11C21: seg000 NEAR 1c21-1d0f R1c21-1cf3 U1cf4-1cf5 R1cf6-1d0f complete
 sub_11D10: seg000 NEAR 1d10-1d6d R1d10-1d6d complete
 placeString: seg000 NEAR 1d6e-1e0d R1d6e-1e0d complete
 sub_11E0E: seg000 NEAR 1e0e-1f3d R1e0e-1f3d complete
-sub_11F3E: seg000 NEAR 1f3e-2048 R1f3e-2048
+sub_11F3E: seg000 NEAR 1f3e-2048 R1f3e-2048 complete
 moveDataFar: seg000 NEAR 2049-206c R2049-206c complete
 moveStuff: seg000 NEAR 206d-215b R206d-215b complete
 moveNearFar: seg000 NEAR 215c-21a8 R215c-21a8 complete

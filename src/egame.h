@@ -102,7 +102,7 @@ void placeString();
 // ==== seg000:0x1e0e ====
 int sub_11E0E();
 // ==== seg000:0x1f3e ====
-int sub_11F3E();
+void sub_11F3E();
 // ==== seg000:0x2049 ====
 int moveDataFar();
 // ==== seg000:0x206d ====
@@ -140,7 +140,7 @@ int __cdecl strcpyFromDot(char *arg_0, char *arg_2);
 // ==== seg000:0x2fda ====
 int sub_12FDA();
 // ==== seg000:0x3224 ====
-void sub_13224(char *a, int b, char c);
+void sub_13224(char *a, int b, int c);
 // ==== seg000:0x3266 ====
 int sub_13266();
 // ==== seg000:0x32ba ====
@@ -1729,6 +1729,7 @@ extern int16 var_686;
 
 extern uint8 var_730;
 
+extern int16 var_143;
 extern int16 var_194;
 extern int16 var_195;
 extern int16 var_196;
