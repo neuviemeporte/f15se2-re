@@ -1637,3 +1637,19 @@ long sub_1C661(int param_1, int param_2, int param_3, int param_4) {
 int sub_1C82D() {
     return (int)((unsigned long)((long)(0x4000 - abs(var_544)) << 12) / (unsigned long)(unsigned int)(var_547 + 0x1000)) - 0x4000;
 }
+
+// ==== seg000:0x26b4 ====
+uint32 sub_126B4(int level, uint32 coord) {
+    switch (level) {
+    case 4:
+        return (coord + 0x20) >> 6;
+    case 3:
+        return (coord + 8) >> 4;
+    case 2:
+        return (coord + 2) >> 2;
+    case 1:
+        return coord;
+    case 0:
+        return coord << 1;
+    }
+}

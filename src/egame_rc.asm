@@ -25,6 +25,7 @@ EXTRN _sub_11C21:PROC
 EXTRN _sub_11D10:PROC
 EXTRN _sub_11A18:PROC
 EXTRN _sub_11A88:PROC
+EXTRN _sub_126B4:PROC
 EXTRN _sub_11971:PROC
 EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC
@@ -3429,82 +3430,7 @@ LAB_1000_26af:
 sub_122B8 endp
 ; ------------------------------seg000:0x26b3------------------------------
 ; ------------------------------seg000:0x26b4------------------------------
-sub_126B4 proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [BP + 4h]
-    jmp LAB_1000_2720
-LAB_1000_26bc:
-    mov AX,word ptr [BP + 6h]
-    mov DX,word ptr [BP + 8h]
-    db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
-    adc DX,0h
-    mov CL,6h
-LAB_1000_26ca:
-    shr DX,1h
-    rcr AX,1h
-    dec CL
-    jz LAB_1000_26d4
-    jmp LAB_1000_26ca
-LAB_1000_26d4:
-    jmp LAB_1000_273a
-LAB_1000_26d6:
-    mov AX,word ptr [BP + 6h]
-    mov DX,word ptr [BP + 8h]
-    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
-    adc DX,0h
-    mov CL,4h
-LAB_1000_26e4:
-    shr DX,1h
-    rcr AX,1h
-    dec CL
-    jz LAB_1000_26ee
-    jmp LAB_1000_26e4
-LAB_1000_26ee:
-    jmp LAB_1000_273a
-LAB_1000_26f0:
-    mov AX,word ptr [BP + 6h]
-    mov DX,word ptr [BP + 8h]
-    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
-    adc DX,0h
-    mov CL,2h
-LAB_1000_26fe:
-    shr DX,1h
-    rcr AX,1h
-    dec CL
-    jz LAB_1000_2708
-    jmp LAB_1000_26fe
-LAB_1000_2708:
-    jmp LAB_1000_273a
-LAB_1000_270a:
-    mov AX,word ptr [BP + 6h]
-    mov DX,word ptr [BP + 8h]
-    jmp LAB_1000_273a
-LAB_1000_2712:
-    mov AX,word ptr [BP + 6h]
-    mov DX,word ptr [BP + 8h]
-    shl AX,1h
-    rcl DX,1h
-    jmp LAB_1000_273a
-    db 0EBh
-    db 1Ah
-LAB_1000_2720:
-    or AX,AX
-    jz LAB_1000_2712
-    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
-    jz LAB_1000_270a
-    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
-    jz LAB_1000_26f0
-    db 3Dh, 03h, 00h ; cmp AX,3h (force imm16 encoding)
-    jz LAB_1000_26d6
-    db 3Dh, 04h, 00h ; cmp AX,4h (force imm16 encoding)
-    jz LAB_1000_26bc
-    jmp LAB_1000_273a
-LAB_1000_273a:
-    mov SP,BP
-    pop BP
-    ret
-sub_126B4 endp
+sub_126B4 equ _sub_126B4
 ; ------------------------------seg000:0x273d------------------------------
 ; ------------------------------seg000:0x273e------------------------------
 process3dg proc near
