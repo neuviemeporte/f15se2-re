@@ -105,6 +105,7 @@ EXTRN _sub_1993A:PROC
 EXTRN _sub_199EC:PROC
 EXTRN _sub_1DB2B:PROC
 EXTRN _sub_11636:PROC
+EXTRN _sub_11841:PROC
 EXTRN _sub_11B37:PROC
 EXTRN _sub_10294:PROC
 EXTRN _sub_10297:PROC
@@ -284,6 +285,9 @@ PUBLIC _sub_13B96
 PUBLIC _word_3419C
 PUBLIC _word_339B4
 PUBLIC _word_336F4
+PUBLIC _word_336F6
+PUBLIC _stru_33402
+PUBLIC _word_33442
 PUBLIC _stru_335C4
 PUBLIC _sub_1D008
 PUBLIC _var_672
@@ -2684,67 +2688,7 @@ LAB_1000_183c:
 sub_11676 endp
 ; ------------------------------seg000:0x1840------------------------------
 ; ------------------------------seg000:0x1841------------------------------
-sub_11841 proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    push DI
-    push SI
-    cmp word ptr [word_336F6],-1h
-    jz LAB_1000_18cf
-    mov word ptr [BP + -2h],0h
-    jmp LAB_1000_185a
-LAB_1000_1857:
-    inc word ptr [BP + -2h]
-LAB_1000_185a:
-    cmp word ptr [BP + -2h],8h
-    jge LAB_1000_187f
-    mov SI,word ptr [BP + -2h]
-    mov CL,3h
-    shl SI,CL
-    add word ptr [SI + offset stru_33402 + 4],0ah
-    mov AX,word ptr [SI + offset stru_33402 + 4]
-    mov CL,9h
-    sar AX,CL
-    add word ptr [SI + offset stru_33402 + 2],AX
-    add byte ptr [SI + offset stru_33402 + 7],6h
-    jmp LAB_1000_1857
-LAB_1000_187f:
-    test byte ptr [_word_336E8],0fh
-    jnz LAB_1000_18cf
-    mov AX,word ptr [_word_336E8]
-    mov CL,4h
-    sar AX,CL
-    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
-    mov word ptr [BP + -4h],AX
-    mov SI,AX
-    mov CL,3h
-    shl SI,CL
-    mov DI,word ptr [word_336F6]
-    mov CL,4h
-    shl DI,CL
-    mov AX,word ptr [DI + offset _stru_3AA5E]
-LAB_1000_18a5:
-    mov word ptr [SI + offset stru_33402],AX
-    mov AX,word ptr [DI + offset _stru_3AA5E + 2]
-    mov word ptr [SI + offset stru_33402 + 2],AX
-    mov word ptr [SI + offset stru_33402 + 4],80h
-    mov AX,100h
-    push AX
-    call randlmul
-    add SP,2h
-    mov CH,AL
-    sub CL,CL
-    mov word ptr [SI + offset stru_33402 + 6],CX
-    mov AX,word ptr [BP + -4h]
-    mov word ptr [word_33442],AX
-LAB_1000_18cf:
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-sub_11841 endp
+sub_11841 equ _sub_11841
 ; ------------------------------seg000:0x18d4------------------------------
 ; ------------------------------seg000:0x18d5------------------------------
 sub_118D5 equ _sub_118D5
@@ -21604,7 +21548,9 @@ _word_333DA equ word_333DA
     db 0
     db 0
     stru_33402 struc_9 8 dup(<0>)
+_stru_33402 equ stru_33402
 word_33442 dw 0
+_word_33442 equ word_33442
     db 3
     db 0
     db 3
@@ -22001,6 +21947,7 @@ _word_336F0 equ word_336F0
 _word_336F2 dw 0FFFFh
 _word_336F4 dw 0FFFFh
 word_336F6 dw 0FFFFh
+_word_336F6 equ word_336F6
 word_336F8 dw 1
 word_336FA dw 0
 _word_336FC dw 0FFFFh

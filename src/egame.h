@@ -419,6 +419,7 @@ int sub_1D1C8();
 void sub_1D1E8(void);
 // ==== seg000:0xd200 ====
 int randlmul();
+int sub_1D200();
 // ==== seg000:0xd21e ====
 int sub_1D21E();
 // ==== seg000:0xd260 ====

@@ -153,6 +153,14 @@ struct struc_4 {
     int16 field_E;
 };
 
+// 8-byte struct used for stru_33402
+struct struc_9 {
+    int16 field_0;
+    int16 field_2;
+    int16 field_4;
+    int16 field_6;
+};
+
 // used in egame.exe, 4 bytes
 struct Waypoint {
     uint16 field_0;

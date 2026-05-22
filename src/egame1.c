@@ -1338,6 +1338,28 @@ int sub_11B37(int arg_0) {
     sub_11D10(8, 0);
 }
 
+// ==== seg000:0x1841 ====
+int sub_11841() {
+    int p;
+    int a;
+
+    if (word_336F6 != -1) {
+        for (p = 0; p < 8; p++) {
+            ((struct struc_9 *)stru_33402)[p].field_4 += 0x0a;
+            ((struct struc_9 *)stru_33402)[p].field_2 += ((struct struc_9 *)stru_33402)[p].field_4 >> 9;
+            *(((char *)&((struct struc_9 *)stru_33402)[p].field_6) + 1) += 6;
+        }
+        if (!((char)word_336E8 & 0x0f)) {
+            a = (word_336E8 >> 4) & 7;
+            ((struct struc_9 *)stru_33402)[a].field_0 = *(int16 *)((char *)stru_3AA5E + word_336F6 * 16);
+            ((struct struc_9 *)stru_33402)[a].field_2 = *(int16 *)((char *)stru_3AA5E + word_336F6 * 16 + 2);
+            ((struct struc_9 *)stru_33402)[a].field_4 = 0x80;
+            ((struct struc_9 *)stru_33402)[a].field_6 = sub_1D200(0x100) << 8;
+            word_33442 = a;
+        }
+    }
+}
+
 // ==== seg000:0x1971 ====
 int sub_11971() {
     int p;
