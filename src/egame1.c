@@ -1369,6 +1369,40 @@ int sub_11971() {
     word_336E6 = -1;
 }
 
+// ==== seg000:0x1c21 routine_180 ====
+int sub_11C21(void) {
+    int p;
+
+    if (word_3370C != -1) {
+        return;
+    }
+    word_330B6 = 500;
+    word_3370E = 2;
+    switch (sub_1D200(3)) {
+    case 0:
+        p = sub_1D200(word_3BED2 - 3) + 3;
+        word_3C02E = p + 0x40;
+        keyValue = 0x89;
+        placeString(p);
+        tempStrcpy((char *)strBuf);
+        break;
+    case 1:
+        do {
+            p = sub_1D200(word_3C046);
+        } while (*(int16 *)&stru_3B208[p].field_10[10] == 0);
+        word_3C02E = p + 0x20;
+        keyValue = 0x89;
+        strcpy((char *)strBuf, (char *)(*(int16 *)&stru_3B208[p].field_10[6] * 32 + 0x2c8));
+        strcat((char *)strBuf, (char *)aOnPatrol);
+        tempStrcpy((char *)strBuf);
+        break;
+    case 2:
+        keyValue = 0x87;
+        tempStrcpy((char *)aF15StrikeEagle);
+        break;
+    }
+}
+
 // ==== seg000:0x1a18 routine_131 ====
 int sub_11A18() {
     int p;
