@@ -374,7 +374,7 @@ void sub_1C2F8(void);
 // ==== seg000:0xc371 ====
 void __cdecl sub_1C371(char *, int, int);
 // ==== seg000:0xc40b ====
-int sub_1C40B();
+void sub_1C40B(int param_1);
 // ==== seg000:0xc488 ====
 int sub_1C488();
 // ==== seg000:0xc661 ====
@@ -1329,6 +1329,7 @@ extern uint8 aNoTarget[];
 extern uint8 aNoTarget_0[];
 extern uint8 aMissileLock[];
 extern uint8 aRange[];
+extern uint8 aDot[];
 extern uint8 aKm[];
 extern uint8 a_3d3_0[];
 extern uint8 aRb_4[];

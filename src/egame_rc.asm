@@ -41,6 +41,7 @@ EXTRN _sub_11BFD:PROC
 EXTRN _sub_11BC3:PROC
 EXTRN _sub_114E8:PROC
 EXTRN _sub_1C371:PROC
+EXTRN _sub_1C40B:PROC
 EXTRN _sub_198FA:PROC
 EXTRN _sub_19915:PROC
 EXTRN _sub_118D5:PROC
@@ -312,6 +313,10 @@ PUBLIC _sub_1D008
 PUBLIC _var_672
 PUBLIC _var_671
 PUBLIC _aMissileLock
+PUBLIC _aDot
+PUBLIC _aRange
+PUBLIC _aKm
+PUBLIC _unk_3C030
 PUBLIC _var_674
 PUBLIC _word_3A940
 PUBLIC _word_3370E
@@ -15901,65 +15906,7 @@ sub_1C2F8 equ _sub_1C2F8
 sub_1C371 equ _sub_1C371
 ; ------------------------------seg000:0xc40a------------------------------
 ; ------------------------------seg000:0xc40b------------------------------
-sub_1C40B proc near
-    push BP
-    mov BP,SP
-    sub SP,0ah
-    mov AX,offset aRange
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcpy
-    add SP,4h
-    mov AX,0ah
-    push AX
-    mov AX,offset unk_3C030
-    push AX
-    mov AX,word ptr [BP + 4h]
-    mov CL,6h
-    sar AX,CL
-    push AX
-    call _itoa
-    add SP,6h
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-    mov AX,5c3bh
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-    mov AX,0ah
-    push AX
-    mov AX,offset unk_3C030
-    push AX
-    mov AX,word ptr [BP + 4h]
-    db 25h, 3Fh, 00h ; and AX,3fh (force imm16 encoding)
-    shl AX,1h
-    cwd
-    mov CX,0dh
-    idiv CX
-    push AX
-    call _itoa
-    add SP,6h
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-    mov AX,offset aKm
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-    mov SP,BP
-    pop BP
-    ret
-sub_1C40B endp
+sub_1C40B equ _sub_1C40B
 ; ------------------------------seg000:0xc487------------------------------
 ; ------------------------------seg000:0xc488------------------------------
 sub_1C488 proc near
@@ -34804,9 +34751,11 @@ aNoTarget db 'No Target',0
 aNoTarget_0 db 'No Target',0
 _aMissileLock label byte
 aMissileLock db 'Missile Lock',0
+_aRange label byte
 aRange db 'Range ',0
-    db 2Eh
-    db 0
+_aDot label byte
+aDot db 2Eh,0
+_aKm label byte
 aKm db ' km',0
     db 0
 _a_3d3_0 db '.3D3',0
@@ -42679,6 +42628,7 @@ _byte_3C02A db ?
     db ? ;align 2
 _word_3C02C dw ?
 _word_3C02E dw ?
+_unk_3C030 label byte
 unk_3C030 db ?
     db ?
     db ?

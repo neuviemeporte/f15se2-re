@@ -1503,3 +1503,18 @@ int routine_260(int param_1, int param_2) {
     return (int)(char)var_83[param_1 * 13 + ((int)(char)byte_3BFA4[stru_3AA5E[param_2].field_C & 0x7f] & 0xf)];
 }
 
+// ==== seg000:0xc40b ====
+void sub_1C40B(int param_1) {
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+
+    strcpy(strBuf, aRange);
+    strcat(strBuf, itoa(param_1 >> 6, unk_3C030, 10));
+    strcat(strBuf, aDot);
+    strcat(strBuf, itoa((param_1 & 0x3f) * 2 / 13, unk_3C030, 10));
+    strcat(strBuf, aKm);
+}
+
