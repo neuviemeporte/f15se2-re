@@ -52,6 +52,23 @@
 /* Normal debrief exit code */
 #define EXIT_DEBRIEF        0x23
 
+/* CommData word-index accessors for end.exe debrief */
+#define COMM_LANDING_TYPE   (COMM_LANDING_TYPE_OFFSET / 2)
+#define COMM_BAILOUT_SURVIVED (COMM_BAILOUT_SURVIVED_OFFSET / 2)
+#define COMM_TRAINING_FLAG  (COMM_TRAINING_FLAG_OFFSET / 2)
+
+/* GameData word-index for career total score */
+#define GAME_TOTALSCORE_WORD (GAME_TOTALSCORE_OFFSET / 2)
+
+/* Font/color index for title text */
+#define FONT_TITLE          0x0d
+
+/* Max record count sentinel for drawFlightPath */
+#define ALL_RECORDS         0x270f
+
+/* calcMissionScore: compute score for all events */
+#define SCORE_ALL_EVENTS    0x100
+
 void closeFileWrapper(int handle);
 extern void far gfx_jump_05_drawString(int *pageNum, const char *string);
 extern int far gfx_jump_2f_charWidth(int ch, int font);
@@ -238,7 +255,7 @@ int loadFileSectionEx(char *name, int b, int c, int d, int e);
 void outportByte(int port, int value);
 void decodePicRaw(int handle, int segment);
 void processMenuItems(void *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int gfxPage);
-int routine_60(int param_1, int param_2, int param_3, int param_4, int param_5);
+int selectMenuItem(int items, int unused, int itemCount, int inputState, int gfxPage);
 void loadWorldData(int destOffset, int size);
 void drawMenuItem(void *items, unsigned int index, int gfxPage);
 void routine_108(int destOffset, int size, int flag, int bufHandle);
@@ -250,7 +267,7 @@ extern int worldBufHandle;
 int fileSeek(int handle, int off, int whence, int mode);
 void loadPicFromFile(char *name, int segment);
 void loadPicFromFileAt(char *name, int segment, int off, int whence);
-void drawMenuItem(MenuItem *param_1, unsigned int param_2, int param_3);
+void drawMenuItem(MenuItem *items, unsigned int index, int gfxPage);
 
 /* String constants from ASM */
 extern char str_pressExit[];

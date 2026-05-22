@@ -94,7 +94,7 @@ getTimeOfDay: Code1 NEAR 1e60-1e66 R1e60-1e66 assembly
 routine_27: Code1 NEAR 1e78-216d R1e78-216d complete
 routine_24: Code1 NEAR 216e-21a4 R216e-21a4 assembly
 processMenuItems: Code1 NEAR 21a6-2249 R21a6-2249 complete
-routine_60: Code1 NEAR 224a-2582 R224a-23be U23bf-23c1 R23c2-2582 complete
+selectMenuItem: Code1 NEAR 224a-2582 R224a-23be U23bf-23c1 R23c2-2582 complete
 blinkWidget: Code1 NEAR 2583-2617 R2583-2617 complete
 isPointInRect: Code1 NEAR 2618-2645 R2618-263b U263c-263d R263e-2645 complete
 processDebriefInput: Code1 NEAR 2646-2bd0 R2646-27f6 U27f7-2a3e R2a3f-2a4e U2a4f-2a66 R2a67-2bd0 complete

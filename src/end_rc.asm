@@ -63,7 +63,7 @@ EXTRN _my_itoa:PROC
 EXTRN _my_ltoa:PROC
 EXTRN _blinkWidget:PROC
 EXTRN _processMenuItems:PROC
-EXTRN _routine_60:PROC
+EXTRN _selectMenuItem:PROC
 EXTRN _processDebriefInput:PROC
 EXTRN _drawMenuItem:PROC
 EXTRN _calcMissionScore:PROC
@@ -3426,7 +3426,7 @@ routine_24 endp
 
 processMenuItems equ _processMenuItems
 
-routine_60 equ _routine_60
+selectMenuItem equ _selectMenuItem
 
 blinkWidget equ _blinkWidget
 
@@ -3771,7 +3771,7 @@ LAB_1000_47a5:
     push word ptr [_var_205]
     mov AX,offset dat_21e4
     push AX
-    call routine_60
+    call selectMenuItem
     add SP,0ah
     mov word ptr [BP + -12h],AX
     or AX,AX

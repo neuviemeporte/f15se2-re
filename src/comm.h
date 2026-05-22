@@ -52,11 +52,14 @@ struct GameComm {
 #define COMM_GFXINIT_RESULT_OFFSET 0x20
 #define COMM_STARTDONE_OFFSET 0x22 /* set to 1 when start module finishes pilot/mission selection */
 #define COMM_SETUP_MONOCHROME_OFFSET 0x24 /* set to 1 when hercules? */
-#define COMM_SETUP_DONE_OFFSET 0x26 /* set to 1 before SU exits */
-#define COMM_CONTINUEFLAG_OFFSET 0x28 /* set to 0 in start after f15.spr */
+#define COMM_SETUP_DONE_OFFSET 0x26 /* set to 1 before SU exits; in end.exe: landing type (1=crashed, 2=ejected, 3=landed) */
+#define COMM_LANDING_TYPE_OFFSET 0x26
+#define COMM_CONTINUEFLAG_OFFSET 0x28 /* set to 0 in start after f15.spr; in end.exe: bailout survival (0=survived) */
+#define COMM_BAILOUT_SURVIVED_OFFSET 0x28
 #define COMM_SETUP2_OFFSET 0x2a /* unknown purpose */
 #define COMM_RESTARTFLAG_OFFSET 0x2c /* set to 0 in start after f15.spr */
-#define COMM_SETUP_GFXMODE_OFFSET 0x30 /* letter of the gfx driver, e.g. 'M' for Mgraphic.exe */
+#define COMM_SETUP_GFXMODE_OFFSET 0x30 /* letter of the gfx driver, e.g. 'M' for Mgraphic.exe; in end.exe: training mission flag */
+#define COMM_TRAINING_FLAG_OFFSET 0x30
 #define COMM_SETUP_DETAIL_OFFSET 0x32 /* 3 == max, default 0xffff */
 #define COMM_UNK7_OFFSET 0x38 /* set to 0 in mission generator */
 #define COMM_UNK5_OFFSET 0x3a /* set to 1 in mission generator */
