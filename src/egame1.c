@@ -78,6 +78,29 @@ void sub_11BC3(int arg_0, unsigned int arg_2) {
     sub_11BFD(0x89, word_3370E == 1 ? 3 : 4);
 }
 
+// ==== seg000:0x54b7 ====
+int sub_154B7(int param_1) {
+    int p;
+    int a;
+    int b;
+    int c;
+
+    if (param_1 == (int)0x8000) return (int)0xc000;
+    a = abs(param_1);
+    b = (a >> 9) + 1;
+    for (; b >= 0; b--) {
+        if ((&word_37348)[b] <= a) {
+            c = (&word_3734A)[b] - (&word_37348)[b];
+            p = (int)((long)(a - (&word_37348)[b]) * 256L / (long)c) + b * 256;
+            break;
+        }
+    }
+    if (param_1 < 0) {
+        p = -p;
+    }
+    return p;
+}
+
 // ==== seg000:0x5540 ====
 int sub_15540(int arg_0) {
     return 0x4000 - sub_154B7(arg_0);

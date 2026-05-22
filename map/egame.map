@@ -94,7 +94,7 @@ routine_159: seg000 NEAR 51f9-5236 R51f9-5236
 routine_160: seg000 NEAR 5237-5410 R5237-5410
 routine_145: seg000 NEAR 5411-543a R5411-543a
 routine_244: seg000 NEAR 543b-54b6 R543b-54b6
-routine_243: seg000 NEAR 54b7-553f R54b7-553f
+routine_243: seg000 NEAR 54b7-553f R54b7-553f complete
 routine_245: seg000 NEAR 5540-5556 R5540-5556 complete
 routine_155: seg000 NEAR 5557-55aa R5557-55aa complete
 sub_155AB: seg000 NEAR 55ab-5fda R55ab-5c22 U5c23-5c32 R5c33-5fda

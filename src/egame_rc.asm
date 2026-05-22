@@ -60,6 +60,7 @@ EXTRN _sub_1CF64:PROC
 EXTRN _sub_1D178:PROC
 EXTRN _sub_1D190:PROC
 EXTRN _sub_1D200:PROC
+EXTRN _sub_154B7:PROC
 EXTRN _sub_15540:PROC
 EXTRN _sub_15557:PROC
 EXTRN _sub_19BE1:PROC
@@ -426,7 +427,7 @@ PUBLIC _word_3298E
 PUBLIC _missiles
 PUBLIC _aAccel
 PUBLIC _sub_19C0C
-PUBLIC _sub_154B7
+
 PUBLIC _sub_19C84
 PUBLIC _sub_1A030
 PUBLIC _aStallWarning
@@ -7440,73 +7441,7 @@ LAB_1000_54b2:
 sub_1543B endp
 ; ------------------------------seg000:0x54b6------------------------------
 ; ------------------------------seg000:0x54b7------------------------------
-_sub_154B7 proc near
-    push BP
-    mov BP,SP
-    sub SP,8h
-    push SI
-    cmp word ptr [BP + 4h],8000h
-    jnz LAB_1000_54ca
-    mov AX,0c000h
-    jmp LAB_1000_553b
-LAB_1000_54ca:
-    push word ptr [BP + 4h]
-    call _abs
-    add SP,2h
-    mov word ptr [BP + -4h],AX
-    mov CL,9h
-    sar AX,CL
-    inc AX
-    mov word ptr [BP + -6h],AX
-    jmp LAB_1000_54e3
-LAB_1000_54e0:
-    dec word ptr [BP + -6h]
-LAB_1000_54e3:
-    cmp word ptr [BP + -6h],0h
-    jl LAB_1000_5528
-    mov SI,word ptr [BP + -6h]
-    shl SI,1h
-    mov AX,word ptr [BP + -4h]
-    cmp word ptr [SI + offset word_37348],AX
-    jg LAB_1000_5526
-    mov AX,word ptr [SI + offset word_3734A]
-    sub AX,word ptr [SI + offset word_37348]
-    mov word ptr [BP + -8h],AX
-    cwd
-    push DX
-    push AX
-    mov AX,word ptr [BP + -4h]
-    sub AX,word ptr [SI + offset word_37348]
-    cwd
-    mov DH,DL
-    mov DL,AH
-    mov AH,AL
-    sub AL,AL
-    push DX
-    push AX
-    call __aNldiv
-    mov CH,byte ptr [BP + -6h]
-    sub CL,CL
-    add AX,CX
-    mov word ptr [BP + -2h],AX
-    jmp LAB_1000_5528
-LAB_1000_5526:
-    jmp LAB_1000_54e0
-LAB_1000_5528:
-    cmp word ptr [BP + 4h],0h
-    jge LAB_1000_5536
-    mov AX,word ptr [BP + -2h]
-    neg AX
-    mov word ptr [BP + -2h],AX
-LAB_1000_5536:
-    mov AX,word ptr [BP + -2h]
-    jmp LAB_1000_553b
-LAB_1000_553b:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-_sub_154B7 endp
+; sub_154B7 moved to egame1.c
 ; ------------------------------seg000:0x553f------------------------------
 ; ------------------------------seg000:0x5557------------------------------
 sub_15557 equ _sub_15557
@@ -30478,7 +30413,11 @@ word_37148 dw 324h
     db 0
     db 0
 word_37348 dw 0
+_word_37348 equ word_37348
+PUBLIC _word_37348
 word_3734A dw 324h
+_word_3734A equ word_3734A
+PUBLIC _word_3734A
     db 48h
     db 6
     db 6Bh
