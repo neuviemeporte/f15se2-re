@@ -280,7 +280,7 @@ int sub_18E38();
 // ==== seg000:0x8e50 ====
 int sub_18E50();
 // ==== seg000:0x94d0 ====
-int sub_194D0();
+void __cdecl sub_194D0(int);
 // ==== seg000:0x957a ====
 void sub_1957A(int arg_0);
 // ==== seg000:0x9595 ====

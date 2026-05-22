@@ -1418,6 +1418,35 @@ int sub_11C21(void) {
     }
 }
 
+// ==== seg000:0x94d0 routine_189 ====
+void sub_194D0(int arg_0) {
+    int p, a, b, c, d, e, f, g, h, i;
+    if (word_330C2 == 0) {
+        return;
+    }
+    switch (arg_0) {
+    case 0x13:
+        strcpy(strBuf, aTrackcam);
+        switch (*(int16 *)((char *)&word_3C6AC + 0x206)) {
+        case 0:
+            strcat(strBuf, aAhead);
+            break;
+        case (int16)0x8000:
+            strcat(strBuf, aRear);
+            break;
+        case 0x4000:
+            strcat(strBuf, aRight);
+            break;
+        case (int16)0xC000:
+            strcat(strBuf, aLeft);
+            break;
+        }
+        sub_19FAD(2, (int)strBuf, 3);
+        break;
+    }
+    word_3C09E = arg_0;
+}
+
 // ==== seg000:0x1a18 routine_131 ====
 int sub_11A18() {
     int p;

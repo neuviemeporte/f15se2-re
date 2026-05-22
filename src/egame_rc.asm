@@ -12066,97 +12066,8 @@ sub_18DF4 endp
 sub_18E38 equ _sub_18E38
 ; ------------------------------seg000:0x8e4f------------------------------
 ; ------------------------------seg000:0x94d0------------------------------
-PUBLIC _sub_194D0
-sub_194D0 proc near
-_sub_194D0 equ sub_194D0
-    push BP
-    mov BP,SP
-    sub SP,14h
-    cmp word ptr [_word_330C2],0h
-    jnz LAB_1000_94e0
-    jmp LAB_1000_9576
-LAB_1000_94e0:
-    mov AX,word ptr [BP + 4h]
-    jmp LAB_1000_9566
-LAB_1000_94e6:
-    mov AX,offset aTrackcam
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcpy
-    add SP,4h
-    mov AX,[_word_3C6AC+206h]
-    jmp LAB_1000_953b
-LAB_1000_94f9:
-    mov AX,offset aAhead
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-    jmp LAB_1000_9550
-LAB_1000_9509:
-    mov AX,offset aRear
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-    jmp LAB_1000_9550
-LAB_1000_9519:
-    mov AX,offset aRight
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-    jmp LAB_1000_9550
-LAB_1000_9529:
-    mov AX,offset aLeft
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-    jmp LAB_1000_9550
-    db 0EBh
-    db 15h
-LAB_1000_953b:
-    cmp AX,8000h
-    jz LAB_1000_9509
-    cmp AX,0c000h
-    jz LAB_1000_9529
-    or AX,AX
-    jz LAB_1000_94f9
-    cmp AX,4000h
-    jz LAB_1000_9519
-    jmp LAB_1000_9550
-LAB_1000_9550:
-    mov AX,3h
-    push AX
-    mov AX,offset strBuf
-    push AX
-    mov AX,2h
-    push AX
-    call sub_19FAD
-    add SP,6h
-    jmp LAB_1000_9570
-    db 0EBh
-    db 0Ah
-LAB_1000_9566:
-    db 3Dh, 13h, 00h ; cmp AX,13h (force imm16 encoding)
-    jnz LAB_1000_956e
-    jmp LAB_1000_94e6
-LAB_1000_956e:
-    jmp LAB_1000_9570
-LAB_1000_9570:
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [_word_3C09E],AX
-LAB_1000_9576:
-    mov SP,BP
-    pop BP
-    ret
-sub_194D0 endp
+EXTRN _sub_194D0:near
+sub_194D0 equ _sub_194D0
 ; ------------------------------seg000:0x9579------------------------------
 ; ------------------------------seg000:0x957a------------------------------
 sub_1957A equ _sub_1957A
@@ -34960,10 +34871,20 @@ _aTraining db 'TRAINING',0
 _aAutopilot db 'AUTOPILOT',0
 _aPressAnyKeyToP db 'Press any key to play',0
 aTac db 'Tac',0
+PUBLIC _aTrackcam
+_aTrackcam equ aTrackcam
 aTrackcam db 'TrackCam ',0
+PUBLIC _aAhead
+_aAhead equ aAhead
 aAhead db 'Ahead',0
+PUBLIC _aRear
+_aRear equ aRear
 aRear db 'Rear',0
+PUBLIC _aRight
+_aRight equ aRight
 aRight db 'Right',0
+PUBLIC _aLeft
+_aLeft equ aLeft
 aLeft db 'Left',0
 aMap db 'Map',0
     db 0
