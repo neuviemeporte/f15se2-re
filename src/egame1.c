@@ -1579,3 +1579,23 @@ int sub_1C8A4(int param_1) {
     return (p == 0x0c || p == 9 || p == 0x0b) ? 1 : 0;
 }
 
+// ==== seg000:0x19a3 ====
+void sub_119A3() {
+    int p;
+    char far *b;
+
+    p = word_3BF90 = word_33096 = 0;
+    for (; p < 3; p++) {
+        b = (char far *)commData + p * 2;
+        ((int16 *)&missileSpecIndex)[p * 2] = *(int16 far *)(b + 0x38);
+        ((int16 *)&missileSpecIndex)[p * 2 + 1] = *(int16 far *)(b + 0x40);
+    }
+    word_330B4 = 0x3e8;
+    word_33098 = 0x2710;
+    word_3309E = 0x12;
+    word_3309C = 0x0c;
+    sub_11A18();
+    sub_1606C();
+    sub_15FDB();
+}
+

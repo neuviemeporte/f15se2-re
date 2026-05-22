@@ -82,7 +82,7 @@ int sub_118F6();
 // ==== seg000:0x1971 ====
 int sub_11971();
 // ==== seg000:0x19a3 ====
-int sub_119A3();
+void sub_119A3(void);
 // ==== seg000:0x1a18 ====
 int sub_11A18();
 // ==== seg000:0x1a88 ====

@@ -376,6 +376,9 @@ PUBLIC _word_38FDC
 PUBLIC _word_3C09A
 PUBLIC _word_330C2
 PUBLIC _word_33098
+PUBLIC _word_330B4
+PUBLIC _word_3309C
+PUBLIC _word_3309E
 PUBLIC _sub_20BAE
 PUBLIC _word_3C09E
 PUBLIC _keyScancode
@@ -2795,50 +2798,8 @@ sub_118F6 endp
 sub_11971 equ _sub_11971
 ; ------------------------------seg000:0x19a2------------------------------
 ; ------------------------------seg000:0x19a3------------------------------
-sub_119A3 proc near
-    push BP
-    mov BP,SP
-    sub SP,6h
-    push SI
-    sub AX,AX
-    mov word ptr [word_33096],AX
-    mov word ptr [word_3BF90],AX
-    mov word ptr [BP + -2h],AX
-    jmp LAB_1000_19ba
-LAB_1000_19b7:
-    inc word ptr [BP + -2h]
-LAB_1000_19ba:
-    cmp word ptr [BP + -2h],3h
-    jge LAB_1000_19f2
-    mov AX,word ptr [BP + -2h]
-    shl AX,1h
-    add AX,word ptr [_commData]
-    mov DX,word ptr [_commData+2]
-    mov word ptr [BP + -6h],AX
-    mov word ptr [BP + -4h],DX
-    mov SI,word ptr [BP + -2h]
-    mov CL,2h
-    shl SI,CL
-    les BX,dword ptr [BP + -6h]
-    mov AX,word ptr ES:[BX + 38h]
-    mov word ptr [SI + offset _missileSpecIndex],AX
-    les BX,dword ptr [BP + -6h]
-    mov AX,word ptr ES:[BX + 40h]
-    mov word ptr [SI + offset _missileSpecIndex + 2],AX
-    jmp LAB_1000_19b7
-LAB_1000_19f2:
-    mov word ptr [word_330B4],3e8h
-    mov word ptr [word_33098],2710h
-    mov word ptr [word_3309E],12h
-    mov word ptr [word_3309C],0ch
-    call _sub_11A18
-    call sub_1606C
-    call _sub_15FDB
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_119A3 endp
+EXTRN _sub_119A3:NEAR
+sub_119A3 equ _sub_119A3
 ; ------------------------------seg000:0x1a17------------------------------
 ; ------------------------------seg000:0x1a18------------------------------
 ; sub_11A18 moved to egame1.c
@@ -20144,7 +20105,9 @@ word_33098 dw 1388h
 _word_33098 equ word_33098
 word_3309A dw 0
 word_3309C dw 0Ch
+_word_3309C equ word_3309C
 word_3309E dw 12h
+_word_3309E equ word_3309E
     db 3
     db 0
     _missleSpec MissileSpec <0, 4>
@@ -20153,6 +20116,7 @@ word_3309E dw 12h
     MissileSpec <0>
 _missileSpecIndex dw 0
 word_330B4 dw 28Ah
+_word_330B4 equ word_330B4
 _word_330B6 dw 0
 word_330B8 dw 1
 _word_330B8 equ word_330B8

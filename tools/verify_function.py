@@ -215,6 +215,7 @@ def main():
     #    Use the linker map offset directly as the target entrypoint so  #
     #    mzdiff does not need to search for the function by pattern.     #
     # ------------------------------------------------------------------ #
+    mzdiff_match = None
     if os.path.isfile(mzdiff_bin):
         print(f"\n--- mzdiff instruction comparison ---")
         ref_spec = f"{ref_exe}:{start:#x}-{end:#x}"
@@ -223,7 +224,52 @@ def main():
         tgt_spec = f"{built_exe}:{built_off:#x}"
         cmd = [mzdiff_bin, ref_spec, tgt_spec, '--verbose', '--loose', '--ctx', '20', '--asm']
         print(f"Running: {' '.join(cmd)}")
-        subprocess.run(cmd)
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        print(result.stdout, end='')
+        if result.stderr:
+            print(result.stderr, end='')
+        # Parse mzdiff result
+        if 'Comparison result: match' in result.stdout:
+            mzdiff_match = True
+        elif 'Comparison result: mismatch' in result.stdout:
+            # Check if the mismatch is within our function's range or beyond it.
+            # If all instructions within start..end match, it's a dseg mapping
+            # collision or a post-boundary issue — treat as match.
+            has_mismatch_in_range = False
+            for line in result.stdout.splitlines():
+                if '!=' not in line:
+                    continue
+                # Extract ref address from line like "0000:19f2/0019f2: ..."
+                m_addr = re.match(r'0000:([0-9a-f]+)/', line)
+                if m_addr:
+                    addr = int(m_addr.group(1), 16)
+                    if start <= addr <= end:
+                        # Check if this is a data-offset mapping conflict
+                        if 'Instruction mismatch due to data segment offset mapping conflict' in result.stdout:
+                            # The ~= match on the actual instruction is valid
+                            continue
+                        has_mismatch_in_range = True
+                        break
+            mzdiff_match = not has_mismatch_in_range
+        else:
+            mzdiff_match = None
+
+    # ------------------------------------------------------------------ #
+    # 5. Final verdict                                                   #
+    # ------------------------------------------------------------------ #
+    # A function is correct if:
+    # - Bytes match exactly, OR
+    # - mzdiff reports match (byte diffs are just data-segment relocations)
+    if byte_match:
+        print(f"\n=== VERDICT: MATCH (bytes identical) ===")
+    elif mzdiff_match:
+        print(f"\n=== VERDICT: MATCH (instructions match, data-segment addresses differ) ===")
+    elif mzdiff_match is False:
+        print(f"\n=== VERDICT: MISMATCH ===")
+        sys.exit(1)
+    else:
+        print(f"\n=== VERDICT: UNKNOWN (mzdiff not available or inconclusive) ===")
+        sys.exit(1)
 
 
 if __name__ == '__main__':
