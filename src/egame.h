@@ -98,7 +98,7 @@ int sub_11C21();
 // ==== seg000:0x1d10 ====
 void sub_11D10();
 // ==== seg000:0x1d6e ====
-int placeString();
+void placeString();
 // ==== seg000:0x1e0e ====
 int sub_11E0E();
 // ==== seg000:0x1f3e ====

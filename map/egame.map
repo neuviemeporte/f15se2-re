@@ -32,7 +32,7 @@ routine_253: seg000 NEAR 1bc3-1bfc R1bc3-1bfc complete
 routine_262: seg000 NEAR 1bfd-1c20 R1bfd-1c20 complete
 routine_180: seg000 NEAR 1c21-1d0f R1c21-1cf3 U1cf4-1cf5 R1cf6-1d0f
 routine_178: seg000 NEAR 1d10-1d6d R1d10-1d6d complete
-routine_271: seg000 NEAR 1d6e-1e0d R1d6e-1e0d
+placeString: seg000 NEAR 1d6e-1e0d R1d6e-1e0d complete
 sub_11E0E: seg000 NEAR 1e0e-1f3d R1e0e-1f3d complete
 routine_185: seg000 NEAR 1f3e-2048 R1f3e-2048
 moveDataFar: seg000 NEAR 2049-206c R2049-206c complete

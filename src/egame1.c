@@ -26,6 +26,21 @@ void sub_11D10(int arg_0, int arg_2) {
     byte_3B7FC[var_654 * 6 + 4] = 0;
 }
 
+// ==== seg000:0x1d6e placeString ====
+void placeString(int param_1) {
+    strcpy((char *)strBuf, (char *)word_3C0A2[(stru_3AA5E[param_1].field_C) & 0x7f]);
+    if (strlen((char *)word_3C0A2[(&word_3AA5C)[param_1 * 8]])) {
+        if (strlen((char *)word_3C0A2[(stru_3AA5E[param_1].field_C) & 0x7f])) {
+            strcat((char *)strBuf, (char *)aAt);
+        }
+        strcat((char *)strBuf, (char *)word_3C0A2[(&word_3AA5C)[param_1 * 8]]);
+    }
+    if ((int)strlen((char *)strBuf) > 25) {
+        byte_38F8C = '.';
+        byte_38F8D[0] = 0;
+    }
+}
+
 // ==== seg000:0x14e8 ====
 int sub_114E8(void) {
     int p, a, b, c, d, e, f, g;

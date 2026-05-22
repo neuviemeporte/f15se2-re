@@ -1,8 +1,11 @@
 .8086
 DOSSEG
 .MODEL SMALL
-PUBLIC _placeString
+EXTRN _placeString:PROC
 PUBLIC _strBuf
+PUBLIC _aAt
+PUBLIC _byte_38F8C
+PUBLIC _byte_38F8D
 PUBLIC _aOnPatrol
 PUBLIC _aF15StrikeEagle
 EXTRN _sub_166BE:PROC
@@ -2899,73 +2902,7 @@ sub_11C21 equ _sub_11C21
 sub_11D10 equ _sub_11D10
 ; ------------------------------seg000:0x1d6d------------------------------
 ; ------------------------------seg000:0x1d6e------------------------------
-placeString proc near
-_placeString equ placeString
-    push BP
-    mov BP,SP
-    mov BX,word ptr [BP + 4h]
-    mov CL,4h
-    shl BX,CL
-    mov BX,word ptr [BX + offset _stru_3AA5E + 12]
-    and BX,7fh
-    shl BX,1h
-    push word ptr [BX + offset _word_3C0A2]
-    mov AX,offset strBuf
-    push AX
-    call _strcpy
-    add SP,4h
-    mov BX,word ptr [BP + 4h]
-    mov CL,4h
-    shl BX,CL
-    mov BX,word ptr [BX + offset _word_3AA5C]
-    shl BX,1h
-    push word ptr [BX + offset _word_3C0A2]
-    call _strlen
-    add SP,2h
-    or AX,AX
-    jz LAB_1000_1df1
-    mov BX,word ptr [BP + 4h]
-    mov CL,4h
-    shl BX,CL
-    mov BX,word ptr [BX + offset _stru_3AA5E + 12]
-    and BX,7fh
-    shl BX,1h
-    push word ptr [BX + offset _word_3C0A2]
-    call _strlen
-    add SP,2h
-    or AX,AX
-    jz LAB_1000_1dd6
-    mov AX,offset aAt
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-LAB_1000_1dd6:
-    mov BX,word ptr [BP + 4h]
-    mov CL,4h
-    shl BX,CL
-    mov BX,word ptr [BX + offset _word_3AA5C]
-    shl BX,1h
-    push word ptr [BX + offset _word_3C0A2]
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-LAB_1000_1df1:
-    mov AX,offset strBuf
-    push AX
-    call _strlen
-    add SP,2h
-    db 3Dh, 19h, 00h ; cmp AX,19h (force imm16 encoding)
-    jle LAB_1000_1e0a
-    mov byte ptr [byte_38F8C],2eh
-    mov byte ptr [byte_38F8D],0h
-LAB_1000_1e0a:
-    mov SP,BP
-    pop BP
-    ret
-placeString endp
+
 ; ------------------------------seg000:0x1e0d------------------------------
 ; ------------------------------seg000:0x1f3e------------------------------
 sub_11F3E proc near
@@ -8246,7 +8183,7 @@ LAB_1000_655c:
     mov AX,word ptr [BP + 4h]
     mov word ptr [SI + offset _stru_335C4 + 22],AX
     push word ptr [BP + 4h]
-    call placeString
+    call _placeString
     add SP,2h
     mov AX,offset aFiring
     push AX
@@ -10176,7 +10113,7 @@ LAB_1000_794c:
     and byte ptr [BX + offset _stru_3B208 + 19],0feh
 LAB_1000_798f:
     push word ptr [BP + 6h]
-    call placeString
+    call _placeString
     add SP,2h
     mov AX,58bbh
     push AX
@@ -11618,7 +11555,7 @@ sub_187EA proc near
     sub SP,6h
     push SI
     push word ptr [BP + 4h]
-    call placeString
+    call _placeString
     add SP,2h
     mov word ptr [BP + -2h],1h
     mov BX,word ptr [BP + 4h]
@@ -21841,8 +21778,8 @@ _aOnPatrol equ aOnPatrol
 aF15StrikeEagle db 'F15 Strike Eagle',0
 _aF15StrikeEagle equ aF15StrikeEagle
 aAt db ' at ',0
+_aAt equ aAt
     db 0
-; ------------------------------dseg:0xebe------------------------------
 _gfx_jump_0_alloc proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -36691,7 +36628,9 @@ _word_38F72 equ word_38F72
 strBuf db 18h dup(?)
 _strBuf equ strBuf
 byte_38F8C db ?
+_byte_38F8C equ byte_38F8C
 byte_38F8D db ?
+_byte_38F8D equ byte_38F8D
     db ?
     db ?
     db ?
