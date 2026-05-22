@@ -1463,3 +1463,38 @@ int sub_11A18() {
     }
 }
 
+// ==== seg000:0x9adb ====
+void sub_19ADB(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7)
+{
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+
+    if (param_7 < param_6) {
+        param_6 += 0x100;
+    }
+    sub_19E44(param_4);
+    for (b = param_6; b <= param_7; b += 0x10) {
+        p = *(unsigned char *)&b << 8;
+        a = sub_1D178(p, param_3) + param_1;
+        d = param_2 - sub_1D190(p, param_3);
+        if ((unsigned)a > 0xC000u) {
+            a = 0;
+        }
+        if ((unsigned)d > 0xC000u) {
+            d = 0;
+        }
+        if (b != param_6 && param_5 != 0) {
+            sub_19B98(a, d, c, f);
+        } else {
+            sub_1993A(a, d, param_4, 0);
+        }
+        c = a;
+        f = d;
+    }
+}
+

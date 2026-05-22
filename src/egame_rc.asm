@@ -12397,84 +12397,8 @@ sub_199EC equ _sub_199EC
 sub_19A4D equ _sub_19A4D
 ; ------------------------------seg000:0x9ada------------------------------
 ; ------------------------------seg000:0x9adb------------------------------
-sub_19ADB proc near
-    push BP
-    mov BP,SP
-    sub SP,0eh
-    mov AX,word ptr [BP + 0eh]
-    cmp word ptr [BP + 10h],AX
-    jge LAB_1000_9aed
-    add byte ptr [BP + 0fh],1h
-LAB_1000_9aed:
-    push word ptr [BP + 0ah]
-    call _sub_19E44
-    add SP,2h
-    mov AX,word ptr [BP + 0eh]
-    mov word ptr [BP + -6h],AX
-    jmp LAB_1000_9b02
-LAB_1000_9afe:
-    add word ptr [BP + -6h],10h
-LAB_1000_9b02:
-    mov AX,word ptr [BP + 10h]
-    cmp word ptr [BP + -6h],AX
-    jle LAB_1000_9b0d
-    jmp LAB_1000_9b94
-LAB_1000_9b0d:
-    mov AH,byte ptr [BP + -6h]
-    sub AL,AL
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + 8h]
-    push AX
-    call _sub_1D178
-    add SP,4h
-    add AX,word ptr [BP + 4h]
-    mov word ptr [BP + -4h],AX
-    push word ptr [BP + 8h]
-    push word ptr [BP + -2h]
-    call _sub_1D190
-    add SP,4h
-    mov CX,word ptr [BP + 6h]
-    sub CX,AX
-    mov word ptr [BP + -0ah],CX
-    cmp word ptr [BP + -4h],0c000h
-    jbe LAB_1000_9b45
-    mov word ptr [BP + -4h],0h
-LAB_1000_9b45:
-    cmp word ptr [BP + -0ah],0c000h
-    jbe LAB_1000_9b51
-    mov word ptr [BP + -0ah],0h
-LAB_1000_9b51:
-    mov AX,word ptr [BP + 0eh]
-    cmp word ptr [BP + -6h],AX
-    jz LAB_1000_9b73
-    cmp word ptr [BP + 0ch],0h
-    jz LAB_1000_9b73
-    push word ptr [BP + -0eh]
-    push word ptr [BP + -8h]
-    push word ptr [BP + -0ah]
-    push word ptr [BP + -4h]
-    call sub_19B98
-    add SP,8h
-    jmp LAB_1000_9b85
-LAB_1000_9b73:
-    sub AX,AX
-    push AX
-    push word ptr [BP + 0ah]
-    push word ptr [BP + -0ah]
-    push word ptr [BP + -4h]
-    call sub_1993A
-    add SP,8h
-LAB_1000_9b85:
-    mov AX,word ptr [BP + -4h]
-    mov word ptr [BP + -8h],AX
-    mov AX,word ptr [BP + -0ah]
-    mov word ptr [BP + -0eh],AX
-    jmp LAB_1000_9afe
-LAB_1000_9b94:
-    mov SP,BP
-    pop BP
-    ret
-sub_19ADB endp
+EXTRN _sub_19ADB:near
+sub_19ADB equ _sub_19ADB
 ; ------------------------------seg000:0x9b97------------------------------
 ; ------------------------------seg000:0x9b98------------------------------
 sub_19B98 equ _sub_19B98

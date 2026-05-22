@@ -302,7 +302,7 @@ int sub_199EC();
 // ==== seg000:0x9a4d ====
 int sub_19A4D();
 // ==== seg000:0x9adb ====
-int sub_19ADB();
+void __cdecl sub_19ADB(int, int, int, int, int, int, int);
 // ==== seg000:0x9b98 ====
 void sub_19B98();
 // ==== seg000:0x9be1 ====
