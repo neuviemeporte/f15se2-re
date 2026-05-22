@@ -1717,6 +1717,8 @@ extern int16 var_661;
 extern int16 var_662;
 extern int16 var_663;
 extern int16 var_664;
+extern int16 var_669;
+extern int16 var_670;
 extern int16 var_671;
 extern int16 var_672;
 extern int16 var_674;

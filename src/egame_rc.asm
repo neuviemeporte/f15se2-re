@@ -445,6 +445,8 @@ PUBLIC _word_383F2
 PUBLIC _word_330B6
 PUBLIC _word_33096
 PUBLIC _word_330B8
+PUBLIC _var_669
+PUBLIC _var_670
 PUBLIC _word_3BF90
 PUBLIC _makeSound
 PUBLIC _missileSpecIndex
@@ -11204,136 +11206,8 @@ LAB_1000_85b8:
 sub_179EE endp
 ; ------------------------------seg000:0x85bd------------------------------
 ; ------------------------------seg000:0x85be------------------------------
-sub_185BE proc near
-    push BP
-    mov BP,SP
-    sub SP,8h
-    push SI
-    mov AX,18h
-    imul word ptr [BP + 4h]
-    mov SI,AX
-    mov AX,word ptr [BP + 6h]
-    sub AX,word ptr [SI + offset _stru_335C4]
-    mov word ptr [BP + -6h],AX
-    mov AX,word ptr [BP + 8h]
-    sub AX,word ptr [SI + offset _stru_335C4 + 2]
-    mov word ptr [BP + -8h],AX
-    push AX
-    push word ptr [BP + -6h]
-    call _sub_1CFA6
-    add SP,4h
-    mov word ptr [BP + -4h],AX
-    mov AX,word ptr [BP + -8h]
-    neg AX
-    push AX
-    push word ptr [BP + -6h]
-    call _sub_1D008
-    add SP,4h
-    mov word ptr [_var_670],AX
-    mov AX,18h
-    imul word ptr [BP + 4h]
-    mov BX,AX
-    mov AX,18h
-    imul word ptr [BX + offset _stru_335C4 + 6]
-    cwd
-    mov CX,word ptr [_word_330C4]
-    idiv CX
-    cmp AX,word ptr [BP + -4h]
-    jle LAB_1000_862a
-LAB_1000_861b:
-    mov AX,word ptr [BP + -4h]
-    mov word ptr [_var_669],AX
-    mov AX,1h
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-    db 90h
-LAB_1000_862a:
-    mov AX,18h
-    imul word ptr [BP + 4h]
-    mov BX,AX
-    mov AX,word ptr [_var_670]
-    sub AX,word ptr [BX + offset _stru_335C4 + 8]
-    push AX
-    call _abs
-    add SP,2h
-    mov word ptr [BP + -2h],AX
-    cmp AX,1000h
-    jle LAB_1000_8694
-    cmp word ptr [BP + 0ch],3h
-    jz LAB_1000_8694
-    cmp AX,6000h
-    jle LAB_1000_868d
-    cmp word ptr [BP + 4h],8h
-    jge LAB_1000_868d
-    mov AX,18h
-    imul word ptr [BP + 4h]
-    mov SI,AX
-    mov AX,word ptr [SI + offset _stru_335C4 + 6]
-    mov CL,4h
-    shl AX,CL
-    cwd
-    mov CX,word ptr [_word_330C4]
-    idiv CX
-    cmp AX,word ptr [BP + -4h]
-    jge LAB_1000_868d
-    mov AX,CX
-    mov CL,4h
-    shl AX,CL
-    push AX
-    sub AX,AX
-    push AX
-    push word ptr [SI + offset _stru_335C4 + 14]
-    call _sub_1CF64
-    add SP,6h
-    mov word ptr [SI + offset _stru_335C4 + 14],AX
-LAB_1000_868d:
-    sub AX,AX
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-LAB_1000_8694:
-    cmp word ptr [BP + 0ch],0h
-    jnz LAB_1000_86b6
-    mov AX,18h
-    imul word ptr [BP + 4h]
-    mov BX,AX
-    mov AX,word ptr [BX + offset _stru_335C4 + 8]
-    sub AX,word ptr [_var_542]
-    push AX
-    call _abs
-    add SP,2h
-    cmp AX,2000h
-    jg LAB_1000_868d
-LAB_1000_86b6:
-    cmp word ptr [BP + 0ch],0h
-    jnz LAB_1000_86bf
-    jmp LAB_1000_861b
-LAB_1000_86bf:
-    mov AX,18h
-    imul word ptr [BP + 4h]
-    mov BX,AX
-    mov AX,word ptr [BX + offset _stru_335C4 + 8]
-    sub AX,word ptr [_var_542]
-    push AX
-    call _abs
-    add SP,2h
-    mov word ptr [BP + -2h],AX
-    sub AX,4000h
-    push AX
-    call _abs
-    add SP,2h
-    mov DX,word ptr [word_330B8]
-    mov CL,0bh
-    shl DX,CL
-    sub DX,2000h
-    neg DX
-    cmp AX,DX
-    jl LAB_1000_868d
-    jmp LAB_1000_861b
-sub_185BE endp
+EXTRN _sub_185BE:NEAR
+sub_185BE equ _sub_185BE
 ; ------------------------------seg000:0x86f5------------------------------
 ; ------------------------------seg000:0x86f8------------------------------
 sub_186F8 proc near

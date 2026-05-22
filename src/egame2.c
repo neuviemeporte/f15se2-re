@@ -111,6 +111,8 @@ int sub_13922(int arg_0) {
     return arg_0 - (arg_0 >> 2);
 }
 
+
+
 // ==== seg000:0xcf64 clamp ====
 int sub_1CF64(int arg_0, int arg_2, int arg_4) {
     if (arg_0 > arg_4) {
@@ -297,5 +299,46 @@ int sub_189AA(int arg_0) {
         waypointIndex = 3;
     }
     return 1;
+}
+
+// ==== seg000:0x85be ====
+int sub_185BE(int param_1, int param_2, int param_3, int param_4, int param_5) {
+    int p;
+    int a;
+    int b;
+    int c;
+
+    b = param_2 - stru_335C4[param_1].field_0;
+    c = param_3 - stru_335C4[param_1].field_2;
+    a = sub_1CFA6(b, c);
+    var_670 = sub_1D008(b, -c);
+    if (stru_335C4[param_1].field_6 * 24 / word_330C4 > a) {
+        var_669 = a;
+        return 1;
+    }
+    p = abs(var_670 - stru_335C4[param_1].field_8);
+    if (p > 0x1000 && param_5 != 3) {
+        if (p > 0x6000 && param_1 < 8) {
+            if ((stru_335C4[param_1].field_6 << 4) / word_330C4 < a) {
+                stru_335C4[param_1].field_E = sub_1CF64(stru_335C4[param_1].field_E, 0, word_330C4 << 4);
+            }
+        }
+        return 0;
+    }
+    if (param_5 == 0) {
+        if (abs(stru_335C4[param_1].field_8 - var_542) > 0x2000) {
+            return 0;
+        }
+    }
+    if (param_5 == 0) {
+        var_669 = a;
+        return 1;
+    }
+    p = abs(stru_335C4[param_1].field_8 - var_542);
+    if (abs(p - 0x4000) >= 0x2000 - word_330B8 * 2048) {
+        var_669 = a;
+        return 1;
+    }
+    return 0;
 }
 
