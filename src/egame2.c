@@ -342,3 +342,20 @@ int sub_185BE(int param_1, int param_2, int param_3, int param_4, int param_5) {
     return 0;
 }
 
+// ==== seg000:0x6742 ====
+int sub_16742(void) {
+    int p;
+    int a;
+    int b;
+
+    b = 0;
+    for (a = 0; a < word_38FFA; a++) {
+        p = stru_3AA5E[a].field_4;
+        if (p != 0) {
+            b += *(int *)((char *)aNone + p * 14 + 8) * *(int *)((char *)aNone + p * 14 + 10) * (word_330B8 + 2) / 64;
+        }
+    }
+    b = b / 100;
+    return b;
+}
+

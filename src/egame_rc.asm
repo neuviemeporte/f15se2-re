@@ -18,6 +18,7 @@ PUBLIC _aF15StrikeEagle
 PUBLIC _aNone
 _aNone equ aNone
 EXTRN _sub_166BE:PROC
+EXTRN _sub_16742:PROC
 EXTRN _sub_1660E:PROC
 EXTRN _sub_11C21:PROC
 EXTRN _sub_11D10:PROC
@@ -8212,59 +8213,7 @@ sub_1660E equ _sub_1660E
 sub_166BE equ _sub_166BE
 ; ------------------------------seg000:0x6740------------------------------
 ; ------------------------------seg000:0x6742------------------------------
-sub_16742 proc near
-    push BP
-    mov BP,SP
-    sub SP,6h
-    push SI
-    mov word ptr [BP + -6h],0h
-    mov word ptr [BP + -4h],0h
-    jmp LAB_1000_679b
-    db 90h
-LAB_1000_6756:
-    mov BX,word ptr [BP + -4h]
-    mov CL,4h
-    shl BX,CL
-    mov AX,word ptr [BX + offset _stru_3AA5E + 4]
-    mov word ptr [BP + -2h],AX
-    or AX,AX
-    jz LAB_1000_6798
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    mov CX,word ptr [word_330B8]
-    add CX,2h
-    mov AX,word ptr [SI + offset aNone + 8]
-    imul word ptr [SI + offset aNone + 10]
-    imul CX
-    cwd
-    xor AX,DX
-    sub AX,DX
-    mov CX,6h
-    sar AX,CL
-    xor AX,DX
-    sub AX,DX
-    add word ptr [BP + -6h],AX
-LAB_1000_6798:
-    inc word ptr [BP + -4h]
-LAB_1000_679b:
-    mov AX,word ptr [_word_38FFA]
-    cmp word ptr [BP + -4h],AX
-    jl LAB_1000_6756
-    mov CX,64h
-    mov AX,word ptr [BP + -6h]
-    cwd
-    idiv CX
-    mov word ptr [BP + -6h],AX
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_16742 endp
+sub_16742 equ _sub_16742
 ; ------------------------------seg000:0x67b3------------------------------
 ; ------------------------------seg000:0x67b4------------------------------
 sub_167B4 proc near

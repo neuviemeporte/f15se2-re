@@ -106,7 +106,7 @@ routine_169: seg000 NEAR 6172-6345 R6172-6345
 routine_252: seg000 NEAR 6346-660d R6346-660d
 routine_324: seg000 NEAR 660e-66bd R660e-66bd complete
 routine_325: seg000 NEAR 66be-6741 R66be-6741
-routine_191: seg000 NEAR 6742-67b3 R6742-67b3
+routine_191: seg000 NEAR 6742-67b3 R6742-67b3 complete
 routine_170: seg000 NEAR 67b4-7593 R67b4-7593
 routine_256: seg000 NEAR 7594-7839 R7594-7839
 routine_184: seg000 NEAR 783a-79ed R783a-79ed
