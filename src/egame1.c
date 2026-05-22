@@ -12,6 +12,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+// ==== seg000:0x1a88 ====
+void sub_11A88(int param_1) {
+    if (word_330C2 == 0) return;
+    var_564[2] = 0;
+    sub_19BE1(((int *)asc_33744)[word_3374A], 0xc4, ((int *)asc_33744)[word_3374A] + 6, 0xc4);
+    var_564[2] = 7;
+    sub_19BE1(((int *)asc_33744)[word_3374A], 0xc5, ((int *)asc_33744)[word_3374A] + 6, 0xc5);
+    var_564[2] = 0x0c;
+    sub_19BE1(((int *)asc_33744)[param_1], 0xc4, ((int *)asc_33744)[param_1] + 6, 0xc4);
+    var_564[2] = 4;
+    sub_19BE1(((int *)asc_33744)[param_1], 0xc5, ((int *)asc_33744)[param_1] + 6, 0xc5);
+    word_3374A = param_1;
+}
+
 // ==== seg000:0x1d10 ====
 void sub_11D10(int arg_0, int arg_2) {
     if (var_654 >= 255) {

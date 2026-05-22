@@ -86,7 +86,7 @@ int sub_119A3();
 // ==== seg000:0x1a18 ====
 int sub_11A18();
 // ==== seg000:0x1a88 ====
-int sub_11A88();
+void sub_11A88(int param_1);
 // ==== seg000:0x1b37 ====
 int sub_11B37();
 // ==== seg000:0x1bc3 ====

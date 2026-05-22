@@ -26,7 +26,7 @@ routine_186: seg000 NEAR 18f6-1970 R18f6-1970
 routine_216: seg000 NEAR 1971-19a2 R1971-19a2 complete
 routine_183: seg000 NEAR 19a3-1a17 R19a3-1a17
 routine_131: seg000 NEAR 1a18-1a87 R1a18-1a87 complete
-routine_132: seg000 NEAR 1a88-1b36 R1a88-1b36
+routine_132: seg000 NEAR 1a88-1b36 R1a88-1b36 complete
 routine_148: seg000 NEAR 1b37-1bc2 R1b37-1bc2
 routine_253: seg000 NEAR 1bc3-1bfc R1bc3-1bfc complete
 routine_262: seg000 NEAR 1bfd-1c20 R1bfd-1c20 complete

@@ -23,6 +23,7 @@ EXTRN _sub_1660E:PROC
 EXTRN _sub_11C21:PROC
 EXTRN _sub_11D10:PROC
 EXTRN _sub_11A18:PROC
+EXTRN _sub_11A88:PROC
 EXTRN _sub_11971:PROC
 EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC
@@ -370,7 +371,7 @@ PUBLIC _allocSize
 PUBLIC _word_38202
 PUBLIC _aRear_pic
 PUBLIC _word_38FDC
-PUBLIC _sub_11A88
+
 PUBLIC _word_3C09A
 PUBLIC _word_330C2
 PUBLIC _word_33098
@@ -2842,78 +2843,7 @@ sub_119A3 endp
 ; sub_11A18 moved to egame1.c
 ; ------------------------------seg000:0x1a87------------------------------
 ; ------------------------------seg000:0x1a88------------------------------
-_sub_11A88 proc near
-    push BP
-    mov BP,SP
-    push SI
-    cmp word ptr [_word_330C2],0h
-    jnz LAB_1000_1a96
-    jmp LAB_1000_1b32
-LAB_1000_1a96:
-    mov BX,word ptr [_var_564]
-    mov word ptr [BX + 4h],0h
-    mov BX,word ptr [word_3374A]
-    shl BX,1h
-    mov SI,word ptr [BX + offset asc_33744]
-    mov AX,0c4h
-    push AX
-    lea AX,[SI + 6h]
-    push AX
-    mov AX,0c4h
-    push AX
-    push SI
-    call _sub_19BE1
-    add SP,8h
-    mov BX,word ptr [_var_564]
-    mov word ptr [BX + 4h],7h
-    mov BX,word ptr [word_3374A]
-    shl BX,1h
-    mov SI,word ptr [BX + offset asc_33744]
-    mov AX,0c5h
-    push AX
-    lea AX,[SI + 6h]
-    push AX
-    mov AX,0c5h
-    push AX
-    push SI
-    call _sub_19BE1
-    add SP,8h
-    mov BX,word ptr [_var_564]
-    mov word ptr [BX + 4h],0ch
-    mov BX,word ptr [BP + 4h]
-    shl BX,1h
-    mov SI,word ptr [BX + offset asc_33744]
-    mov AX,0c4h
-    push AX
-    lea AX,[SI + 6h]
-    push AX
-    mov AX,0c4h
-    push AX
-    push SI
-    call _sub_19BE1
-    add SP,8h
-    mov BX,word ptr [_var_564]
-    mov word ptr [BX + 4h],4h
-    mov BX,word ptr [BP + 4h]
-    shl BX,1h
-    mov SI,word ptr [BX + offset asc_33744]
-    mov AX,0c5h
-    push AX
-    lea AX,[SI + 6h]
-    push AX
-    mov AX,0c5h
-    push AX
-    push SI
-    call _sub_19BE1
-    add SP,8h
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [word_3374A],AX
-LAB_1000_1b32:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-_sub_11A88 endp
+sub_11A88 equ _sub_11A88
 ; ------------------------------seg000:0x1b36------------------------------
 ; ------------------------------seg000:0x1b37------------------------------
 sub_11B37 equ _sub_11B37
@@ -21055,6 +20985,10 @@ asc_33744 db 'L',0
     db '(',0
 aS db 's',0
 word_3374A dw 0
+PUBLIC _word_3374A
+_word_3374A equ word_3374A
+PUBLIC _asc_33744
+_asc_33744 equ asc_33744
 aOnPatrol db ' on patrol',0
 _aOnPatrol equ aOnPatrol
 aF15StrikeEagle db 'F15 Strike Eagle',0
