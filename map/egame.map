@@ -152,7 +152,7 @@ routine_141: seg000 NEAR a183-a1b0 Ra183-a1b0 complete
 routine_327: seg000 NEAR a1b1-a1e3 Ra1b1-a1e3 complete
 tempStrcpy: seg000 NEAR a1e4-a203 Ra1e4-a203 complete
 routine_266: seg000 NEAR a204-a223 Ra204-a223 complete
-routine_260: seg000 NEAR a224-a25b Ra224-a25b
+routine_260: seg000 NEAR a224-a25a Ra224-a25a
 routine_139: seg000 NEAR a25c-a73f Ra25c-a73f
 routine_219: seg000 NEAR a740-a7c3 Ra740-a7c3 complete
 routine_218: seg000 NEAR a7c4-a871 Ra7c4-a870 complete

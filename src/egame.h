@@ -346,7 +346,7 @@ void tempStrcpy(char *arg_0);
 // ==== seg000:0xa204 ====
 void sub_1A204(char *arg_0);
 // ==== seg000:0xa224 ====
-int sub_1A224();
+int routine_260(int param_1, int param_2);
 // ==== seg000:0xa25c ====
 int sub_1A25C();
 // ==== seg000:0xa740 ====
@@ -1699,6 +1699,7 @@ extern int16 word_3419C[];
 extern int16 var_218;
 extern int16 var_219;
 extern int16 var_279;
+extern int8 var_83[];
 extern int16 var_282;
 extern int16 var_220;
 extern int *var_564;

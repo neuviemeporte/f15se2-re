@@ -1498,3 +1498,8 @@ void sub_19ADB(int param_1, int param_2, int param_3, int param_4, int param_5, 
     }
 }
 
+// ==== seg000:0xa224 ====
+int routine_260(int param_1, int param_2) {
+    return (int)(char)var_83[param_1 * 13 + ((int)(char)byte_3BFA4[stru_3AA5E[param_2].field_C & 0x7f] & 0xf)];
+}
+

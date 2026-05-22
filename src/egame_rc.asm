@@ -118,6 +118,7 @@ EXTRN _sub_19DB0:PROC
 EXTRN _sub_1C1B9:PROC
 EXTRN _sub_1C2F8:PROC
 EXTRN _routine_328:PROC
+EXTRN _routine_260:PROC
 EXTRN _sub_1993A:PROC
 EXTRN _sub_199EC:PROC
 EXTRN _sub_1DB2B:PROC
@@ -134,6 +135,7 @@ PUBLIC _var_197
 PUBLIC _var_198
 PUBLIC _byte_3419F
 PUBLIC _var_654
+PUBLIC _var_83
 PUBLIC _var_279
 PUBLIC _var_282
 PUBLIC _word_38F72
@@ -12815,36 +12817,10 @@ tempStrcpy equ _tempStrcpy
 sub_1A204 equ _sub_1A204
 ; ------------------------------seg000:0xa223------------------------------
 ; ------------------------------seg000:0xa224------------------------------
-sub_1A224 proc near
-    push BP
-    mov BP,SP
-    push SI
-    mov BX,word ptr [BP + 6h]
-    mov CL,4h
-    shl BX,CL
-    mov BX,word ptr [BX + offset _stru_3AA5E + 12]
-    and BX,7fh
-    mov AL,byte ptr [BX + offset _byte_3BFA4]
-    cbw
-    mov SI,AX
-    and SI,0fh
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    shl BX,1h
-    add BX,AX
-    mov AL,byte ptr [BX + SI + 0a1eh]
-    cbw
-    jmp LAB_1000_a256
-LAB_1000_a256:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-    nop
-sub_1A224 endp
+; sub_1A224 moved to C
+
+sub_1A224 equ _routine_260
+
 ; ------------------------------seg000:0xa25a------------------------------
 ; ------------------------------seg000:0xa25c------------------------------
 _sub_1A25C proc near
@@ -35972,6 +35948,8 @@ ORG 0017Eh
 _var_48 label byte
 ORG 00180h
 _var_49 label byte
+ORG 00A1Eh
+_var_83 label byte
 ORG 01100h
 _var_134 label byte
 ORG 01102h
