@@ -1369,3 +1369,19 @@ int sub_11971() {
     word_336E6 = -1;
 }
 
+// ==== seg000:0x1a18 routine_131 ====
+int sub_11A18() {
+    int p;
+    int a;
+
+    if (word_330C2 == 0) {
+        return;
+    }
+    for (a = 0; a < 3; a++) {
+        sub_19E44(0);
+        p = (&word_38202)[a];
+        sub_19E5D(p - 1, 0xbe, p + 2, (int)&allocSize);
+        sub_1A183((&missileSpecIndex)[a * 2 + 1], p, 0xbe, 0x0c);
+    }
+}
+

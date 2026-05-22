@@ -3,6 +3,7 @@ DOSSEG
 .MODEL SMALL
 EXTRN _sub_166BE:PROC
 EXTRN _sub_11D10:PROC
+EXTRN _sub_11A18:PROC
 EXTRN _sub_11971:PROC
 EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC
@@ -333,8 +334,10 @@ PUBLIC _word_36B86
 PUBLIC _byte_3850E
 PUBLIC _unk_38128
 PUBLIC _word_3755D
-PUBLIC _sub_11A18
+
 PUBLIC _word_3755F
+PUBLIC _allocSize
+PUBLIC _word_38202
 PUBLIC _aRear_pic
 PUBLIC _word_38FDC
 PUBLIC _sub_11A88
@@ -621,7 +624,7 @@ _loadF15DgtlBin proc near
     jbe short loc_102F5
     mov bx, 0FFFh
 loc_102F5:
-    mov allocSize, bx
+    mov _allocSize, bx
     mov ah, 48h
     int 21h ;DOS - 2+ - ALLOCATE MEMORY
     mov f15dgtlAddr, ax
@@ -633,7 +636,7 @@ loc_102F5:
     mov dx, offset aF15dgtl_bin ;"F15DGTL.BIN"
     int 21h ;DOS - 2+ - OPEN DISK FILE WITH HANDLE
     mov bx, ax
-    mov cx, allocSize
+    mov cx, _allocSize
     shl cx, 1
     shl cx, 1
     shl cx, 1
@@ -2799,58 +2802,7 @@ LAB_1000_19f2:
 sub_119A3 endp
 ; ------------------------------seg000:0x1a17------------------------------
 ; ------------------------------seg000:0x1a18------------------------------
-_sub_11A18 proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    cmp word ptr [_word_330C2],0h
-    jnz LAB_1000_1a27
-    jmp LAB_1000_1a84
-LAB_1000_1a27:
-    mov word ptr [BP + -4h],0h
-    jmp LAB_1000_1a31
-LAB_1000_1a2e:
-    inc word ptr [BP + -4h]
-LAB_1000_1a31:
-    cmp word ptr [BP + -4h],3h
-    jge LAB_1000_1a84
-    sub AX,AX
-    push AX
-    call _sub_19E44
-    add SP,2h
-    mov BX,word ptr [BP + -4h]
-    shl BX,1h
-    mov AX,word ptr [BX + offset word_38202]
-    mov word ptr [BP + -2h],AX
-    mov AX,offset allocSize
-    push AX
-    mov AX,word ptr [BP + -2h]
-    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
-    push AX
-    mov AX,0beh
-    push AX
-    mov AX,word ptr [BP + -2h]
-    dec AX
-    push AX
-    call _sub_19E5D
-    add SP,8h
-    mov AX,0ch
-    push AX
-    mov AX,0beh
-    push AX
-    push word ptr [BP + -2h]
-    mov BX,word ptr [BP + -4h]
-    shl BX,1h
-    shl BX,1h
-    push word ptr [BX + offset _missileSpecIndex + 2]
-    call _sub_1A183
-    add SP,8h
-    jmp LAB_1000_1a2e
-LAB_1000_1a84:
-    mov SP,BP
-    pop BP
-    ret
-_sub_11A18 endp
+; sub_11A18 moved to egame1.c
 ; ------------------------------seg000:0x1a87------------------------------
 ; ------------------------------seg000:0x1a88------------------------------
 _sub_11A88 proc near
@@ -12093,7 +12045,7 @@ LAB_1000_8b4a:
     shl BX,1h
     mov AX,word ptr [BX + offset aA]
     mov word ptr [BP + -4h],AX
-    mov AX,offset allocSize
+    mov AX,offset _allocSize
     push AX
     mov AX,word ptr [BP + -4h]
     db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
@@ -13070,14 +13022,14 @@ LAB_1000_9ec3:
     shl AX,1h
     mov SI,AX
     mov AX,word ptr [BP + 6h]
-    cmp word ptr [SI + offset word_38202 + 14],AX
+    cmp word ptr [SI + offset _word_38202 + 14],AX
     jz LAB_1000_9f42
     push AX
-    push word ptr [SI + offset word_38202 + 14]
-    push word ptr [SI + offset word_38202 + 12]
-    push word ptr [SI + offset word_38202 + 10]
-    push word ptr [SI + offset word_38202 + 8]
-    push word ptr [SI + offset word_38202 + 6]
+    push word ptr [SI + offset _word_38202 + 14]
+    push word ptr [SI + offset _word_38202 + 12]
+    push word ptr [SI + offset _word_38202 + 10]
+    push word ptr [SI + offset _word_38202 + 8]
+    push word ptr [SI + offset _word_38202 + 6]
     push word ptr [_var_564]
     call far ptr gfx_jump_29_switchColor
     add SP,0eh
@@ -13089,11 +13041,11 @@ LAB_1000_9ec3:
     shl AX,1h
     mov SI,AX
     push word ptr [BP + 6h]
-    push word ptr [SI + offset word_38202 + 14]
-    push word ptr [SI + offset word_38202 + 12]
-    push word ptr [SI + offset word_38202 + 10]
-    push word ptr [SI + offset word_38202 + 8]
-    push word ptr [SI + offset word_38202 + 6]
+    push word ptr [SI + offset _word_38202 + 14]
+    push word ptr [SI + offset _word_38202 + 12]
+    push word ptr [SI + offset _word_38202 + 10]
+    push word ptr [SI + offset _word_38202 + 8]
+    push word ptr [SI + offset _word_38202 + 6]
     push word ptr [_var_565]
     call far ptr gfx_jump_29_switchColor
     add SP,0eh
@@ -13104,7 +13056,7 @@ LAB_1000_9ec3:
     add BX,AX
     shl BX,1h
     mov AX,word ptr [BP + 6h]
-    mov word ptr [BX + offset word_38202 + 14],AX
+    mov word ptr [BX + offset _word_38202 + 14],AX
 LAB_1000_9f42:
     pop SI
     mov SP,BP
@@ -17995,7 +17947,7 @@ LAB_1000_d3ec:
     push AX
     lea AX,[BP + -0eh]
     push AX
-    push word ptr [allocSize]
+    push word ptr [_allocSize]
     call _itoa
     add SP,6h
     push AX
@@ -20316,7 +20268,7 @@ _aCockpit_pic db 'cockpit.PIC',0
     db 0
 aF15dgtl_bin db 'F15DGTL.BIN',0
 f15dgtlAddr dw 0
-allocSize dw 0
+_allocSize dw 0
     db 1
     db 0
     db 0
@@ -34828,7 +34780,7 @@ a0 db ':0',0
 aFired db ' fired',0
     db 0
     db 0
-word_38202 dw 41h
+_word_38202 dw 41h
     db 1Ah
     db 0
     db 65h
