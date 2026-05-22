@@ -324,9 +324,9 @@ void gameDataToPilot(struct Pilot *pilot) {
     pilot->last_score = gameData->lastScore;
     pilot->theater = gameData->theater;
     pilot->difficulty = gameData->difficulty;
-    pilot->rank = (gameData->rankHigh * 64) + gameData->unk2;
+    pilot->rank = (gameData->rankHigh * 64) + gameData->rank;
     // 2202
-    pilot->field_1D = (uint8)((gameData->campaignProgress == 2) ? 0x20 : 0) + (uint8)((gameData->campaignProgress == 1) ? 0x40 : 0) + gameData->unk3;
+    pilot->field_1D = (uint8)((gameData->campaignProgress == 2) ? 0x20 : 0) + (uint8)((gameData->campaignProgress == 1) ? 0x40 : 0) + gameData->medals;
 }
 
 // 2232
@@ -341,8 +341,8 @@ void pilotToGameData(uint8 *pilotData)
     gameData->lastScore = *(uint16*)(pilotData + ROSTER_LASTSCORE);
     gameData->theater = *(uint8*)(pilotData + ROSTER_THEATER);
     gameData->difficulty = *(uint8*)(pilotData + ROSTER_DIFFICULTY);
-    gameData->unk2 = *(uint8*)(pilotData + ROSTER_UNK1) & 0xf;
-    gameData->unk3 = *(uint8*)(pilotData + ROSTER_UNK2) & 0x1f;
+    gameData->rank = *(uint8*)(pilotData + ROSTER_UNK1) & 0xf;
+    gameData->medals = *(uint8*)(pilotData + ROSTER_UNK2) & 0x1f;
     gameData->rankHigh = *(uint8*)(pilotData + ROSTER_UNK1) >> 6;
     gameData->campaignProgress = 0;
     gameData->pilotIdx = selectedPilotIdx;

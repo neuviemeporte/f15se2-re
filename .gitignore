@@ -1,3 +1,4 @@
+.vscode/
 build/
 debug_build/
 dos
@@ -8,6 +9,7 @@ src/merged/
 *.log
 *.err
 src/LOG.TXT
+src/log.txt
 *.visited
 *.swp
 *.tgt

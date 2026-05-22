@@ -110,7 +110,7 @@ $(START_DBG_OBJ): $(START_BASEHDR)
 $(START_DBG_OBJ): MSC_CFLAGS += /DDEBUG
 $(START_DBG_OBJ): UASMFLAGS += -DDEBUG
 $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
-	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(START_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib libh.lib"
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(START_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 	@if [ -n "$(F15_TESTDIR)" ]; then \
 	    echo "Copying $@ to $(F15_TESTDIR)"; \
 	    cp $@ "$(F15_TESTDIR)"; \
@@ -210,7 +210,7 @@ $(END_DBG_OBJ): $(END_BASEHDR)
 $(END_DBG_OBJ): MSC_CFLAGS += /DDEBUG
 $(END_DBG_OBJ): UASMFLAGS += -DDEBUG
 $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
-	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(END_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib libh.lib"
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(END_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 	@if [ -n "$(F15_TESTDIR)" ]; then \
 	    echo "Copying $@ to $(F15_TESTDIR)"; \
 	    cp $@ "$(F15_TESTDIR)"; \
@@ -224,7 +224,7 @@ TEST_EXE := $(DEBUGDIR)/test.exe
 TEST_SRCS := test.c start1.c start2.c start3.c
 TEST_ASMS := start4.asm start_rc.asm
 TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC2)) $(DEBUGDIR)/debug.obj
-TEST_LIBS := slibce.lib libh.lib
+TEST_LIBS := slibce.lib
 
 $(TEST_EXE): MSC_CFLAGS := /Gs /w /Id:\f15-se2 /DDEBUG
 $(TEST_EXE): $(DEBUGDIR) $(TEST_OBJS) $(HDRS)
