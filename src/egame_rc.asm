@@ -9,6 +9,8 @@ PUBLIC _var_660
 PUBLIC _word_38FF8
 PUBLIC _strBuf
 PUBLIC _aAt
+PUBLIC _aNotAvailable
+PUBLIC _aArmed
 PUBLIC _byte_38F8C
 PUBLIC _byte_38F8D
 PUBLIC _aOnPatrol
@@ -116,6 +118,7 @@ EXTRN _sub_1DDAA:PROC
 EXTRN _sub_13694:PROC
 EXTRN _sub_13638:PROC
 EXTRN _tempStrcpy:PROC
+EXTRN _selectMissile:PROC
 EXTRN _sub_18A44:PROC
 EXTRN _sub_19DB0:PROC
 EXTRN _sub_1C1B9:PROC
@@ -18011,46 +18014,7 @@ LAB_1000_d9ca:
 keyDispatch endp
 ; ------------------------------seg000:0xd9da------------------------------
 ; ------------------------------seg000:0xd9db------------------------------
-selectMissile proc near
-    push BP
-    mov BP,SP
-    mov BX,word ptr [_missileSpecIndex]
-    shl BX,1h
-    shl BX,1h
-    mov AX,1ah
-    imul word ptr [BX + offset _missileSpecIndex]
-    add AX,820h
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcpy
-    add SP,4h
-    mov BX,word ptr [_missileSpecIndex]
-    shl BX,1h
-    shl BX,1h
-    cmp word ptr [BX + offset _missileSpecIndex + 2],0h
-    jnz LAB_1000_da0f
-    mov AX,offset aNotAvailable
-    jmp LAB_1000_da12
-LAB_1000_da0f:
-    mov AX,offset aArmed
-LAB_1000_da12:
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-    push word ptr [_missileSpecIndex]
-    call _sub_11A88
-    add SP,2h
-    mov AX,offset strBuf
-    push AX
-    call tempStrcpy
-    add SP,2h
-    mov SP,BP
-    pop BP
-    ret
-selectMissile endp
+selectMissile equ _selectMissile
 ; ------------------------------seg000:0xda34------------------------------
 ; ------------------------------seg000:0xda35------------------------------
 makeSound proc near
@@ -34730,7 +34694,9 @@ word_3860A dw 0
     db 0
     db 0
 aNotAvailable db ' not available',0
+_aNotAvailable equ aNotAvailable
 aArmed db ' armed',0
+_aArmed equ aArmed
     db 0F3h
     db 31h
     db 96h

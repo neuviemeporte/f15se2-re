@@ -425,7 +425,7 @@ int sub_1D21E();
 // ==== seg000:0xd260 ====
 int keyDispatch();
 // ==== seg000:0xd9db ====
-int selectMissile();
+void selectMissile();
 // ==== seg000:0xda35 ====
 int makeSound();
 // ==== seg000:0xda5f ====

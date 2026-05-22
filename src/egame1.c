@@ -1518,6 +1518,14 @@ void sub_1C40B(int param_1) {
     strcat(strBuf, aKm);
 }
 
+// ==== seg000:0xd9db ====
+void selectMissile() {
+    strcpy((char *)strBuf, (char *)(missleSpec[missileSpecIndex].field_0 * 0x1a + 0x820));
+    strcat((char *)strBuf, (char *)(missleSpec[missileSpecIndex].field_2 == 0 ? aNotAvailable : aArmed));
+    sub_11A88(missileSpecIndex);
+    tempStrcpy((char *)strBuf);
+}
+
 // ==== seg000:0xc864 ====
 int sub_1C864(int param_1) {
     if (stru_3AA5E[param_1].field_6 & 0x80) {
