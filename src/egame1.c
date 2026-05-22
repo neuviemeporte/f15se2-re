@@ -1526,3 +1526,11 @@ int sub_1C864(int param_1) {
     return stru_3AA5E[param_1].field_C;
 }
 
+// ==== seg000:0xc8a4 ====
+int sub_1C8A4(int param_1) {
+    int p;
+
+    p = ((char *)byte_3BFA4)[stru_3AA5E[param_1].field_C & 0x7f] & 0x0f;
+    return (p == 0x0c || p == 9 || p == 0x0b) ? 1 : 0;
+}
+

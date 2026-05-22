@@ -42,7 +42,7 @@ EXTRN _sub_11BC3:PROC
 EXTRN _sub_114E8:PROC
 EXTRN _sub_1C371:PROC
 EXTRN _sub_1C40B:PROC
-PUBLIC _sub_1C8A4
+EXTRN _sub_1C8A4:PROC
 EXTRN _sub_1C864:PROC
 EXTRN _sub_198FA:PROC
 EXTRN _sub_19915:PROC
@@ -16311,38 +16311,7 @@ sub_1C82D endp
 sub_1C864 equ _sub_1C864
 ; ------------------------------seg000:0xc8a3------------------------------
 ; ------------------------------seg000:0xc8a4------------------------------
-_sub_1C8A4 proc near
 sub_1C8A4 equ _sub_1C8A4
-    push BP
-    mov BP,SP
-    sub SP,2h
-    mov BX,word ptr [BP + 4h]
-    mov CL,4h
-    shl BX,CL
-    mov BX,word ptr [BX + offset _stru_3AA5E + 12]
-    and BX,7fh
-    mov AL,byte ptr [BX + offset _byte_3BFA4]
-    db 25h, 0Fh, 00h ; and AX,0fh (force imm16 encoding)
-    mov word ptr [BP + -2h],AX
-    db 3Dh, 0Ch, 00h ; cmp AX,0ch (force imm16 encoding)
-    jz LAB_1000_c8d1
-    db 3Dh, 09h, 00h ; cmp AX,9h (force imm16 encoding)
-    jz LAB_1000_c8d1
-    db 3Dh, 0Bh, 00h ; cmp AX,0bh (force imm16 encoding)
-    jnz LAB_1000_c8d6
-LAB_1000_c8d1:
-    mov AX,1h
-    jmp LAB_1000_c8d8
-LAB_1000_c8d6:
-    sub AX,AX
-LAB_1000_c8d8:
-    jmp LAB_1000_c8da
-LAB_1000_c8da:
-    mov SP,BP
-    pop BP
-    ret
-    nop
-_sub_1C8A4 endp
 ; ------------------------------seg000:0xc8dd------------------------------
 ; ------------------------------seg000:0xc9d2------------------------------
 sub_1C9D2 proc near
