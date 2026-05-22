@@ -220,11 +220,11 @@ int sub_13EE3();
 // ==== seg000:0x3f72 ====
 int otherKeyDispatch();
 // ==== seg000:0x51f9 ====
-int sub_151F9();
+void sub_151F9(int param_1, int param_2);
 // ==== seg000:0x5237 ====
 int sub_15237();
 // ==== seg000:0x5411 ====
-int sub_15411();
+void sub_15411();
 // ==== seg000:0x543b ====
 int sub_1543B();
 // ==== seg000:0x54b7 ====
@@ -378,7 +378,7 @@ void sub_1C40B(int param_1);
 // ==== seg000:0xc488 ====
 int sub_1C488();
 // ==== seg000:0xc661 ====
-int sub_1C661();
+long sub_1C661();
 // ==== seg000:0xc6be ====
 int sub_1C6BE();
 // ==== seg000:0xc7a2 ====
@@ -1296,7 +1296,10 @@ extern int16 word_383DA;
 extern uint8 byte_383E4;
 extern int16 byte_383E5;
 extern int16 var_542;
+extern int16 var_544;
+extern int16 var_545;
 extern int16 var_547;
+extern int16 var_549;
 extern int16 var_588;
 extern int16 var_589;
 extern int16 var_590;

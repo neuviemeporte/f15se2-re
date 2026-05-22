@@ -2,6 +2,7 @@
 DOSSEG
 .MODEL SMALL
 EXTRN _placeString:PROC
+EXTRN _sub_15411:PROC
 EXTRN _sub_13224:PROC
 EXTRN _sub_13266:PROC
 PUBLIC _byte_3B4E6
@@ -41,6 +42,7 @@ EXTRN _sub_1C7EA:PROC
 EXTRN _sub_21A7A:PROC
 EXTRN _sub_13922:PROC
 EXTRN _sub_1CF8E:PROC
+
 EXTRN _sub_11BFD:PROC
 EXTRN _sub_11BC3:PROC
 EXTRN _sub_114E8:PROC
@@ -128,6 +130,7 @@ EXTRN _sub_189AA:PROC
 EXTRN _sub_19DB0:PROC
 EXTRN _sub_1C1B9:PROC
 EXTRN _sub_1C2F8:PROC
+EXTRN _sub_1C661:PROC
 EXTRN _routine_328:PROC
 EXTRN _routine_260:PROC
 EXTRN _sub_1993A:PROC
@@ -319,6 +322,7 @@ PUBLIC _word_336F6
 PUBLIC _stru_33402
 PUBLIC _word_33442
 PUBLIC _stru_335C4
+PUBLIC _sub_1CFA6
 PUBLIC _sub_1D008
 PUBLIC _var_672
 PUBLIC _var_671
@@ -330,7 +334,7 @@ PUBLIC _unk_3C030
 PUBLIC _var_674
 PUBLIC _word_3A940
 PUBLIC _word_3370E
-PUBLIC _sub_1CFA6
+
 PUBLIC _word_3C02E
 PUBLIC _word_3C45C
 PUBLIC _word_336F2
@@ -353,6 +357,8 @@ PUBLIC _sub_2152A
 PUBLIC _off_38364
 PUBLIC _word_330BC
 PUBLIC _unk_3806E
+PUBLIC _unk_380B6
+PUBLIC _sub_20E38
 PUBLIC _sub_1A8C8
 PUBLIC _a256left_pic
 PUBLIC _a256right_pic
@@ -447,6 +453,7 @@ PUBLIC _word_3BE92
 PUBLIC _sub_1A25C
 PUBLIC _word_3C16A
 PUBLIC _word_380D0
+PUBLIC _word_380D8
 PUBLIC _tempString
 PUBLIC _word_383F2
 PUBLIC _word_330B6
@@ -474,7 +481,10 @@ PUBLIC _gfx_jump_4f
 PUBLIC _gfx_jump_52
 PUBLIC _byte_383E5
 PUBLIC _var_542
+PUBLIC _var_544
+PUBLIC _var_545
 PUBLIC _var_547
+PUBLIC _var_549
 PUBLIC _word_336F0
 PUBLIC _word_333D2
 PUBLIC _word_333D4
@@ -7113,33 +7123,8 @@ loc_151F3:
 
 _otherKeyDispatch endp
 ; ------------------------------seg000:0x51f9------------------------------
-sub_151F9 proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    inc word ptr [_var_549]
-    test byte ptr [_var_549],7h
-    jnz LAB_1000_520f
-    mov byte ptr [word_380D8],1h
-LAB_1000_520f:
-    mov AX,offset unk_380B6
-    push AX
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call far ptr sub_20E38
-    add SP,6h
-    mov AX,12h
-    push AX
-    mov AX,offset unk_380B6
-    push AX
-    mov AX,offset _unk_3806E
-    push AX
-    call _memcpy
-    add SP,6h
-    mov SP,BP
-    pop BP
-    ret
-sub_151F9 endp
+EXTRN _sub_151F9:NEAR
+sub_151F9 equ _sub_151F9
 ; ------------------------------seg000:0x5236------------------------------
 ; ------------------------------seg000:0x5237------------------------------
 sub_15237 proc near
@@ -7297,19 +7282,19 @@ LAB_1000_53d0:
     jle LAB_1000_53e5
     cmp word ptr [_var_544],4001h
     jge LAB_1000_53e5
-    mov byte ptr [word_380D8],1h
+    mov byte ptr [_word_380D8],1h
 LAB_1000_53e5:
     cmp word ptr [_var_544],0c71dh
     jge LAB_1000_53fa
     cmp word ptr [_var_544],0bfffh
     jle LAB_1000_53fa
-    mov byte ptr [word_380D8],1h
+    mov byte ptr [_word_380D8],1h
 LAB_1000_53fa:
     cmp byte ptr [_var_550],0h
     jz LAB_1000_540d
     cmp word ptr [_var_545],0h
     jnz LAB_1000_540d
-    mov byte ptr [word_380D8],1h
+    mov byte ptr [_word_380D8],1h
 LAB_1000_540d:
     mov SP,BP
     pop BP
@@ -7317,22 +7302,7 @@ LAB_1000_540d:
 sub_15237 endp
 ; ------------------------------seg000:0x5410------------------------------
 ; ------------------------------seg000:0x5411------------------------------
-sub_15411 proc near
-    push BP
-    mov BP,SP
-    push word ptr [_var_545]
-    push word ptr [_var_544]
-    push word ptr [_var_542]
-    mov AX,offset _unk_3806E
-    push AX
-    call far ptr _sub_20BAE
-    add SP,8h
-    mov byte ptr [word_380D8],0h
-    mov word ptr [_var_549],0h
-    mov SP,BP
-    pop BP
-    ret
-sub_15411 endp
+sub_15411 equ _sub_15411
 ; ------------------------------seg000:0x543a------------------------------
 ; ------------------------------seg000:0x543b------------------------------
 sub_1543B proc near
@@ -15694,45 +15664,7 @@ LAB_1000_c65d:
 sub_1C488 endp
 ; ------------------------------seg000:0xc660------------------------------
 ; ------------------------------seg000:0xc661------------------------------
-sub_1C661 proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    push word ptr [BP + 6h]
-    mov BX,word ptr [BP + 4h]
-    shl BX,1h
-    push word ptr [BX + offset _unk_3A948]
-    call sub_13B2F
-    add SP,4h
-    cwd
-    mov word ptr [BP + -4h],AX
-    mov word ptr [BP + -2h],DX
-    push word ptr [BP + 0ah]
-    mov BX,word ptr [BP + 4h]
-    shl BX,1h
-    push word ptr [BX + offset _unk_3A948 + 6]
-    call sub_13B2F
-    add SP,4h
-    cwd
-    add word ptr [BP + -4h],AX
-    adc word ptr [BP + -2h],DX
-    push word ptr [BP + 8h]
-    mov BX,word ptr [BP + 4h]
-    shl BX,1h
-    push word ptr [BX + offset _unk_3A948 + 12]
-    call sub_13B2F
-    add SP,4h
-    cwd
-    add word ptr [BP + -4h],AX
-    adc word ptr [BP + -2h],DX
-    mov AX,word ptr [BP + -4h]
-    mov DX,word ptr [BP + -2h]
-    jmp LAB_1000_c6ba
-LAB_1000_c6ba:
-    mov SP,BP
-    pop BP
-    ret
-sub_1C661 endp
+sub_1C661 equ _sub_1C661
 ; ------------------------------seg000:0xc6bd------------------------------
 ; ------------------------------seg000:0xc6be------------------------------
 sub_1C6BE proc near
@@ -18606,9 +18538,10 @@ sub_20E19 proc near
 sub_20E19 endp
 ; ------------------------------seg001:0x15b7------------------------------
 ; ------------------------------seg001:0x15b8------------------------------
-sub_20E38 proc far
+_sub_20E38 proc far
     retn
-sub_20E38 endp
+_sub_20E38 endp
+sub_20E38 equ _sub_20E38
 ; ------------------------------seg001:0x15cc------------------------------
 ; ------------------------------seg001:0x15cd------------------------------
 sub_20E4D proc near
@@ -33630,7 +33563,7 @@ word_380AC dw 0
     db 0
     db 0FFh
     db 7Fh
-unk_380B6 db 0
+_unk_380B6 db 0
     db 0
     db 0
     db 0
@@ -33659,7 +33592,7 @@ _word_380D0 dw 0
     db 0
     db 0
     db 0
-word_380D8 dw 0
+_word_380D8 dw 0
 byte_380DA db 0
     db 0
     db 1

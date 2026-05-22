@@ -1599,3 +1599,36 @@ void sub_119A3() {
     sub_15FDB();
 }
 
+// ==== seg000:0x51f9 ====
+void sub_151F9(int param_1, int param_2) {
+    int p;
+    int a;
+
+    var_549++;
+    if (!(*(char *)&var_549 & 7)) {
+        *(char *)&word_380D8 = 1;
+    }
+    sub_20E38(param_1, param_2, unk_380B6);
+    memcpy(unk_3806E, unk_380B6, 0x12);
+}
+
+// ==== seg000:0x5411 ====
+void sub_15411() {
+    sub_20BAE(unk_3806E, var_542, var_544, var_545);
+    *(char *)&word_380D8 = 0;
+    var_549 = 0;
+}
+
+// ==== seg000:0xc661 ====
+long sub_1C661(int param_1, int param_2, int param_3, int param_4) {
+    long p;
+
+    p = (long)sub_13B2F(((int *)unk_3A948)[param_1], param_2);
+    p += (long)sub_13B2F(((int *)(unk_3A948 + 6))[param_1], param_4);
+    p += (long)sub_13B2F(((int *)(unk_3A948 + 12))[param_1], param_3);
+    return p;
+}
+
+
+
+
