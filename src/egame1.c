@@ -1403,6 +1403,54 @@ void sub_11636(void) {
     }
 }
 
+void sub_11676(void) {
+    register int p;
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+
+    for (c = 0; c < word_3AFA4 + 4; c++) {
+        p = c * 12;
+        if (*((int16 *)((char *)&word_3C5AC + p)) != 0) {
+            *((int16 *)((char *)&word_3C5AC + p)) += *((int16 *)((char *)&word_3C5B2 + p));
+            *((int16 *)((char *)&word_3C5AE + p)) += *((int16 *)((char *)&word_3C5B4 + p));
+            *((int16 *)((char *)&word_3C5B0 + p)) += *((int16 *)((char *)&word_3C5B6 + p));
+        }
+    }
+    if (!(word_336E8 & 1)) {
+        return;
+    }
+    e = (word_336E8 >> 1) % word_3AFA4;
+    a = sub_1D21E(0);
+    if (!a) goto no_fire;
+    if (word_330B4 <= 0) goto no_fire;
+    if (word_3BE3C != 0) goto no_fire;
+    word_330B4 = sub_1CF64(word_330B4 - 40 / word_330C4, 0, 1000);
+    makeSound(4, 2);
+    d = 186 / word_330C4;
+    *((int16 *)((char *)&word_3C5B6 + e * 12)) = sub_1D178(var_544, d) << 5;
+    d = sub_1D190(var_544, d);
+    *((int16 *)((char *)&word_3C5B2 + e * 12)) = sub_1D178(var_542, d);
+    *((int16 *)((char *)&word_3C5B4 + e * 12)) = -sub_1D190(var_542, d);
+    p = e * 12;
+    *((int16 *)((char *)&word_3C5AC + p)) = *((int16 *)((char *)&word_3C5B2 + p)) + word_3BEC0;
+    *((int16 *)((char *)&word_3C5AE + p)) = *((int16 *)((char *)&word_3C5B4 + p)) + word_3BED0;
+    *((int16 *)((char *)&word_3C5B0 + p)) = *((int16 *)((char *)&word_3C5B6 + p)) + var_547 - 2;
+    word_38FE8 = 1;
+    goto done_fire;
+no_fire:
+    *((int16 *)((char *)&word_3C5AC + e * 12)) = 0;
+    word_38FE8 = 0;
+done_fire:
+    if (a) {
+        strcpy(strBuf, aGun);
+        strcat(strBuf, itoa(word_330B4, unk_3C030, 10));
+        sub_1A204(strBuf);
+    }
+}
+
 // ==== seg000:0x0294 routine_6 ====
 int sub_10294() {
 }

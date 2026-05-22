@@ -142,6 +142,7 @@ EXTRN _sub_1993A:PROC
 EXTRN _sub_199EC:PROC
 EXTRN _sub_1DB2B:PROC
 EXTRN _sub_11636:PROC
+EXTRN _sub_11676:PROC
 EXTRN _sub_11841:PROC
 EXTRN _sub_11B37:PROC
 EXTRN _sub_10294:PROC
@@ -427,6 +428,14 @@ PUBLIC _word_3AFA4
 PUBLIC _word_3B0AC
 PUBLIC _word_3995C
 PUBLIC _word_3BE98
+PUBLIC _word_3C5AC
+PUBLIC _word_3C5AE
+PUBLIC _word_3C5B0
+PUBLIC _word_3C5B2
+PUBLIC _word_3C5B4
+PUBLIC _word_3C5B6
+PUBLIC _word_38FE8
+PUBLIC _aGun
 PUBLIC _byte_3C5A0
 PUBLIC _sub_15FDB
 PUBLIC _word_3C040
@@ -2585,191 +2594,7 @@ countermeasures endp
 sub_11636 equ _sub_11636
 ; ------------------------------seg000:0x1675------------------------------
 ; ------------------------------seg000:0x1676------------------------------
-sub_11676 proc near
-    push BP
-    mov BP,SP
-    sub SP,0ch
-    push SI
-    mov word ptr [BP + -8h],0h
-    jmp LAB_1000_1687
-LAB_1000_1684:
-    inc word ptr [BP + -8h]
-LAB_1000_1687:
-    mov AX,word ptr [word_3AFA4]
-    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
-    cmp word ptr [BP + -8h],AX
-    jge LAB_1000_16c2
-    mov AX,word ptr [BP + -8h]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    shl AX,1h
-    mov SI,AX
-    cmp word ptr [SI + offset word_3C5AC],0h
-    jz LAB_1000_16c0
-    mov AX,word ptr [SI + offset word_3C5B2]
-    add word ptr [SI + offset word_3C5AC],AX
-    mov AX,word ptr [SI + offset word_3C5B4]
-    add word ptr [SI + offset word_3C5AE],AX
-    mov AX,word ptr [SI + offset word_3C5B6]
-    add word ptr [SI + offset word_3C5B0],AX
-LAB_1000_16c0:
-    jmp LAB_1000_1684
-LAB_1000_16c2:
-    test byte ptr [_word_336E8],1h
-    jnz LAB_1000_16cc
-    jmp LAB_1000_183c
-LAB_1000_16cc:
-    mov AX,word ptr [_word_336E8]
-    sar AX,1h
-    cwd
-    mov CX,word ptr [word_3AFA4]
-    idiv CX
-    mov word ptr [BP + -0ch],DX
-    sub AX,AX
-    push AX
-    call sub_1D21E
-    add SP,2h
-    mov word ptr [BP + -4h],AX
-    or AX,AX
-    jnz LAB_1000_16ee
-    jmp FUN_1000_17e8
-LAB_1000_16ee:
-    cmp word ptr [word_330B4],0h
-    jg LAB_1000_16f8
-    jmp FUN_1000_17e8
-LAB_1000_16f8:
-    cmp word ptr [word_3BE3C],0h
-    jz LAB_1000_1702
-    jmp FUN_1000_17e8
-LAB_1000_1702:
-    mov AX,3e8h
-    push AX
-    sub AX,AX
-    push AX
-    mov AX,28h
-    cwd
-    mov CX,word ptr [_word_330C4]
-    idiv CX
-    mov CX,word ptr [word_330B4]
-    sub CX,AX
-    push CX
-    call _sub_1CF64
-    add SP,6h
-FUN_1000_1720:
-    mov word ptr [word_330B4],AX
-    mov AX,2h
-    push AX
-    mov AX,4h
-    push AX
-    call makeSound
-    add SP,4h
-    mov AX,0bah
-    cwd
-    mov CX,word ptr [_word_330C4]
-    idiv CX
-    mov word ptr [BP + -0ah],AX
-    push AX
-    push word ptr [_var_544]
-    call _sub_1D178
-    add SP,4h
-    mov CL,5h
-    shl AX,CL
-    mov BX,word ptr [BP + -0ch]
-    mov CX,BX
-    shl BX,1h
-    add BX,CX
-    shl BX,1h
-    shl BX,1h
-    mov word ptr [BX + offset word_3C5B6],AX
-    push word ptr [BP + -0ah]
-    push word ptr [_var_544]
-    call _sub_1D190
-    add SP,4h
-    mov word ptr [BP + -0ah],AX
-    push AX
-    push word ptr [_var_542]
-    call _sub_1D178
-    add SP,4h
-    mov BX,word ptr [BP + -0ch]
-    mov CX,BX
-    shl BX,1h
-    add BX,CX
-    shl BX,1h
-    shl BX,1h
-    mov word ptr [BX + offset word_3C5B2],AX
-    push word ptr [BP + -0ah]
-    push word ptr [_var_542]
-    call _sub_1D190
-    add SP,4h
-    neg AX
-    mov BX,word ptr [BP + -0ch]
-    mov CX,BX
-    shl BX,1h
-    add BX,CX
-    shl BX,1h
-    shl BX,1h
-    mov word ptr [BX + offset word_3C5B4],AX
-    mov AX,word ptr [BP + -0ch]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    shl AX,1h
-    mov SI,AX
-    mov AX,word ptr [SI + offset word_3C5B2]
-    add AX,word ptr [_word_3BEC0]
-    mov word ptr [SI + offset word_3C5AC],AX
-    mov AX,word ptr [SI + offset word_3C5B4]
-    add AX,word ptr [_word_3BED0]
-    mov word ptr [SI + offset word_3C5AE],AX
-    mov AX,word ptr [SI + offset word_3C5B6]
-    add AX,word ptr [_var_547]
-    db 2Dh, 02h, 00h ; sub AX,2h (force imm16 encoding)
-    mov word ptr [SI + offset word_3C5B0],AX
-    mov word ptr [word_38FE8],1h
-    jmp LAB_1000_1801
-FUN_1000_17e8:
-    mov BX,word ptr [BP + -0ch]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    shl BX,1h
-    mov word ptr [BX + offset word_3C5AC],0h
-    mov word ptr [word_38FE8],0h
-LAB_1000_1801:
-    cmp word ptr [BP + -4h],0h
-    jz LAB_1000_183c
-    mov AX,offset aGun
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcpy
-    add SP,4h
-    mov AX,0ah
-    push AX
-    mov AX,offset unk_3C030
-    push AX
-    push word ptr [word_330B4]
-    call _itoa
-    add SP,6h
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-    mov AX,offset strBuf
-    push AX
-    call sub_1A204
-    add SP,2h
-LAB_1000_183c:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_11676 endp
+sub_11676 equ _sub_11676
 ; ------------------------------seg000:0x1840------------------------------
 ; ------------------------------seg000:0x1841------------------------------
 sub_11841 equ _sub_11841
@@ -16107,6 +15932,7 @@ sub_1D1E8 equ _sub_1D1E8
 randlmul equ _sub_1D200
 ; ------------------------------seg000:0xd21d------------------------------
 ; ------------------------------seg000:0xd21e------------------------------
+PUBLIC _sub_1D21E
 sub_1D21E proc near
     push BP
     mov BP,SP
@@ -16137,6 +15963,7 @@ LAB_1000_d258:
     ret
     nop
 sub_1D21E endp
+_sub_1D21E equ sub_1D21E
 ; ------------------------------seg000:0xd25e------------------------------
 ; ------------------------------seg000:0xd260------------------------------
 PUBLIC _keyDispatch
@@ -20272,6 +20099,7 @@ aChaff db 'Chaff',0
 aReleased db ' released',0
 asc_3373D db ':',0
 aGun db 'GUN:',0
+_aGun equ aGun
 asc_33744 db 'L',0
     db '(',0
 aS db 's',0
@@ -35239,6 +35067,7 @@ _word_38FE0 equ word_38FE0
 _dword_38FE2 dd ?
 _fileHandle dw ?
 word_38FE8 dw ?
+_word_38FE8 equ word_38FE8
 _word_38FEA dw ?
 word_38FEC dw ?
 _word_38FEC equ word_38FEC
@@ -41565,11 +41394,17 @@ _word_3C5A6 dw ?
 word_3C5A8 dw ?
 _word_3C5AA dw ?
 word_3C5AC dw ?
+_word_3C5AC equ word_3C5AC
 word_3C5AE dw ?
+_word_3C5AE equ word_3C5AE
 word_3C5B0 dw ?
+_word_3C5B0 equ word_3C5B0
 word_3C5B2 dw ?
+_word_3C5B2 equ word_3C5B2
 word_3C5B4 dw ?
+_word_3C5B4 equ word_3C5B4
 word_3C5B6 dw ?
+_word_3C5B6 equ word_3C5B6
     db ?
     db ?
     db ?

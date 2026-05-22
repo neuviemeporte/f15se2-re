@@ -19,7 +19,7 @@ sub_10720: seg000 NEAR 0720-14e7 R0720-09cf R09d0-14e7 assembly
 sub_114E8: seg000 NEAR 14e8-14fb R14e8-14fb complete
 countermeasures: seg000 NEAR 14fc-1635 R14fc-15a8 U15a9-15aa R15ab-1635 assembly
 sub_11636: seg000 NEAR 1636-1675 R1636-1675 complete
-sub_11676: seg000 NEAR 1676-1840 R1676-1840
+sub_11676: seg000 NEAR 1676-1840 R1676-1840 complete
 sub_11841: seg000 NEAR 1841-18d4 R1841-18d4 complete
 sub_118D5: seg000 NEAR 18d5-18f5 R18d5-18f5 complete
 sub_118F6: seg000 NEAR 18f6-1970 R18f6-1970

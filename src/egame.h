@@ -72,7 +72,7 @@ int countermeasures();
 // ==== seg000:0x1636 ====
 void sub_11636();
 // ==== seg000:0x1676 ====
-int sub_11676();
+void sub_11676();
 // ==== seg000:0x1841 ====
 int sub_11841();
 // ==== seg000:0x18d5 ====
