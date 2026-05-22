@@ -102,6 +102,7 @@ drawLineWrapper: Code1 NEAR 2dea-2df5 R2dea-2df5 assembly
 clipAndDrawLine: Code1 NEAR 2df6-2f69 R2df6-2e0a U2e0b-2e0b R2e0c-2e51 U2e52-2e52 R2e53-2e56 U2e57-2e57 R2e58-2e64 U2e65-2e65 R2e66-2f69 assembly
 computeOutcode: Code1 NEAR 2f6a-2f8a R2f6a-2f8a assembly
 unreach_2f8b: Code1 NEAR 2f8b-2fab U2f8b-2fab detached
+installCBreakHandler: Code1 NEAR 2fac-2fce R2fac-2fce assembly
 restoreCbreakHandler: Code1 NEAR 2fcf-2fdf R2fcf-2fdf assembly
 getInterruptHandler: Code1 NEAR 2fe0-2feb R2fe0-2feb assembly
 cbreakHandler: Code1 NEAR 2fec-2ffa R2fec-2ffa assembly

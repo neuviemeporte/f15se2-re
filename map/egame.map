@@ -13,9 +13,9 @@ sub_10294: seg000 NEAR 0294-0296 R0294-0296 assembly
 sub_10297: seg000 NEAR 0297-0299 R0297-0299 assembly
 gfxInit: seg000 NEAR 029a-02e0 R029a-02e0 complete
 loadF15DgtlBin: seg000 NEAR 02e2-0333 R02e2-0333 assembly
-sub_10334: seg000 NEAR 0334-0685 R0334-03ff R0400-0685 assembly
+sub_10334: seg000 NEAR 0334-0685 R0334-03ff R0400-0685
 setupOverlaySlots: seg000 NEAR 0688-06e0 R0688-069a U069b-069f R06a0-06e0 assembly
-sub_10720: seg000 NEAR 0720-14e7 R0720-09cf R09d0-14e7 assembly
+sub_10720: seg000 NEAR 0720-14e7 R0720-09cf R09d0-14e7
 sub_114E8: seg000 NEAR 14e8-14fb R14e8-14fb complete
 countermeasures: seg000 NEAR 14fc-1635 R14fc-15a8 U15a9-15aa R15ab-1635 assembly
 sub_11636: seg000 NEAR 1636-1675 R1636-1675 complete
@@ -40,7 +40,7 @@ moveStuff: seg000 NEAR 206d-215b R206d-215b complete
 moveNearFar: seg000 NEAR 215c-21a8 R215c-21a8 complete
 setCommWorldbufPtr: seg000 NEAR 21a9-21c4 R21a9-21c4 complete
 callLoad3DAll: seg000 NEAR 21c6-21c9 R21c6-21c9 complete
-sub_121CA: seg000 NEAR 21ca-2277 R21ca-2277 assembly
+sub_121CA: seg000 NEAR 21ca-2277 R21ca-2277
 sub_12278: seg000 NEAR 2278-2299 R2278-2299 complete
 copySomeMem: seg000 NEAR 229a-22b7 R229a-22b7 complete
 sub_122B8: seg000 NEAR 22b8-26b3 R22b8-26b3
@@ -56,19 +56,19 @@ sub_12FDA: seg000 NEAR 2fda-3223 R2fda-3223
 sub_13224: seg000 NEAR 3224-3265 R3224-3265 complete
 sub_13266: seg000 NEAR 3266-32b9 R3266-32b9 complete
 sub_132BA: seg000 NEAR 32ba-345d R32ba-345d
-sub_1345E: seg000 NEAR 345e-34ab R345e-34ab assembly
+sub_1345E: seg000 NEAR 345e-34ab R345e-34ab
 sub_134AC: seg000 NEAR 34ac-3637 R34ac-3637
 sub_13638: seg000 NEAR 3638-3693 R3638-3693 complete
 sub_13694: seg000 NEAR 3694-36d1 R3694-36d1 complete
 sub_136D2: seg000 NEAR 36d2-3749 R36d2-3749 complete
 sub_1374A: seg000 NEAR 374a-378d R374a-378d assembly
 sub_1378E: seg000 NEAR 378e-3815 R378e-3815 complete
-sub_13816: seg000 NEAR 3816-3921 R3816-3921 assembly
+sub_13816: seg000 NEAR 3816-3921 R3816-3921
 sub_13922: seg000 NEAR 3922-3931 R3922-3931 complete
-sub_13932: seg000 NEAR 3932-39a9 R3932-39a9 assembly
+sub_13932: seg000 NEAR 3932-39a9 R3932-39a9
 sub_139AA: seg000 NEAR 39aa-39bf R39aa-39bf assembly
-sub_139C0: seg000 NEAR 39c0-3a6b R39c0-3a6b assembly
-sub_13A6C: seg000 NEAR 3a6c-3a8f R3a6c-3a8f assembly
+sub_139C0: seg000 NEAR 39c0-3a6b R39c0-3a6b
+sub_13A6C: seg000 NEAR 3a6c-3a8f R3a6c-3a8f
 sub_13A90: seg000 NEAR 3a90-3aa7 R3a90-3aa7 complete
 setupDac: seg000 NEAR 3aee-3b2e R3aee-3b2e assembly
 sub_13B2F: seg000 NEAR 3b2f-3b44 R3b2f-3b44 assembly
@@ -89,7 +89,7 @@ restoreTimerIrqHandler: seg000 NEAR 3cb6-3cd6 R3cb6-3cd6 assembly
 sub_13DF2: seg000 NEAR 3df2-3e86 R3df2-3e86 assembly
 manipulateTimer: seg000 NEAR 3e87-3edb R3e87-3edb assembly
 getTimeOfDay: seg000 NEAR 3edc-3ee2 R3edc-3ee2 assembly
-otherKeyDispatch: seg000 NEAR 3f72-51f8 R3f72-41e8 U41e9-41ea R41eb-51f8 assembly
+otherKeyDispatch: seg000 NEAR 3f72-51f8 R3f72-41e8 U41e9-41ea R41eb-51f8
 sub_151F9: seg000 NEAR 51f9-5236 R51f9-5236 complete
 sub_15237: seg000 NEAR 5237-5410 R5237-5410
 sub_15411: seg000 NEAR 5411-543a R5411-543a complete
@@ -100,8 +100,8 @@ sub_15557: seg000 NEAR 5557-55aa R5557-55aa complete
 sub_155AB: seg000 NEAR 55ab-5fda R55ab-5c22 U5c23-5c32 R5c33-5fda
 sub_15FDB: seg000 NEAR 5fdb-606b R5fdb-606b
 sub_1606C: seg000 NEAR 606c-60d2 R606c-60d2 complete
-sub_160D3: seg000 NEAR 60d3-613a R60d3-613a assembly
-sub_1613B: seg000 NEAR 613b-6171 R613b-6171 assembly
+sub_160D3: seg000 NEAR 60d3-613a R60d3-613a
+sub_1613B: seg000 NEAR 613b-6171 R613b-6171
 sub_16172: seg000 NEAR 6172-6345 R6172-6345
 sub_16346: seg000 NEAR 6346-660d R6346-660d
 sub_1660E: seg000 NEAR 660e-66bd R660e-66bd complete
@@ -117,13 +117,13 @@ sub_187EA: seg000 NEAR 87ea-89a9 R87ea-89a9
 sub_189AA: seg000 NEAR 89aa-8a43 R89aa-8a43 complete
 sub_18A44: seg000 NEAR 8a44-8aa4 R8a44-8aa4 complete
 sub_18AA6: seg000 NEAR 8aa6-8df3 R8aa6-8df3
-sub_18DF4: seg000 NEAR 8df4-8e37 R8df4-8e37 assembly
+sub_18DF4: seg000 NEAR 8df4-8e37 R8df4-8e37
 sub_18E38: seg000 NEAR 8e38-8e4f R8e38-8e4f complete
 sub_18E50: seg000 NEAR 8e50-9484 R8e50-9484 complete
 sub_194D0: seg000 NEAR 94d0-9579 R94d0-9538 U9539-953a R953b-9563 U9564-9565 R9566-9579 complete
 sub_1957A: seg000 NEAR 957a-9594 R957a-9594 complete
 sub_19595: seg000 NEAR 9595-95c8 R9595-95c8 complete
-sub_195C9: seg000 NEAR 95c9-9874 R95c9-9874 assembly
+sub_195C9: seg000 NEAR 95c9-9874 R95c9-9874
 zoomIn: seg000 NEAR 9875-98b3 R9875-98b3 complete
 zoomOut: seg000 NEAR 98b4-98f9 R98b4-98f9 complete
 sub_198FA: seg000 NEAR 98fa-9914 R98fa-9914 complete
@@ -134,14 +134,14 @@ sub_19A4D: seg000 NEAR 9a4d-9ada R9a4d-9ada complete
 sub_19ADB: seg000 NEAR 9adb-9b97 R9adb-9b97 complete
 sub_19B98: seg000 NEAR 9b98-9be0 R9b98-9be0 complete
 sub_19BE1: seg000 NEAR 9be1-9c0b R9be1-9c0b complete
-sub_19C0C: seg000 NEAR 9c0c-9c83 R9c0c-9c83 assembly
-sub_19C84: seg000 NEAR 9c84-9d85 R9c84-9d85 assembly
+sub_19C0C: seg000 NEAR 9c0c-9c83 R9c0c-9c83
+sub_19C84: seg000 NEAR 9c84-9d85 R9c84-9d85
 sub_19D86: seg000 NEAR 9d86-9daf R9d86-9daf complete
 sub_19DB0: seg000 NEAR 9db0-9e43 R9db0-9e43 complete
 sub_19E44: seg000 NEAR 9e44-9e5c R9e44-9e5c complete
 sub_19E5D: seg000 NEAR 9e5d-9e93 R9e5d-9e93 complete
 sub_19E94: seg000 NEAR 9e94-9eb5 R9e94-9eb5 complete
-sub_19EB6: seg000 NEAR 9eb6-9f46 R9eb6-9f46 assembly
+sub_19EB6: seg000 NEAR 9eb6-9f46 R9eb6-9f46
 sub_19FAD: seg000 NEAR 9fad-9fcb R9fad-9fcb complete
 sub_19FCC: seg000 NEAR 9fcc-a02f R9fcc-a02f complete
 sub_1A030: seg000 NEAR a030-a0ca Ra030-a038 Ua039-a0c6 Ra0c7-a0ca assembly
@@ -156,8 +156,8 @@ sub_1A224: seg000 NEAR a224-a25a Ra224-a25a complete
 sub_1A25C: seg000 NEAR a25c-a73f Ra25c-a73f
 sub_1A740: seg000 NEAR a740-a7c3 Ra740-a7c3 complete
 sub_1A7C4: seg000 NEAR a7c4-a871 Ra7c4-a870 complete
-sub_1A872: seg000 NEAR a872-a8c7 Ra872-a8c7 assembly
-sub_1A8C8: seg000 NEAR a8c8-a933 Ra8c8-a933 assembly
+sub_1A872: seg000 NEAR a872-a8c7 Ra872-a8c7
+sub_1A8C8: seg000 NEAR a8c8-a933 Ra8c8-a933
 sub_1A934: seg000 NEAR a934-a961 Ra934-a961 assembly
 sub_1A962: seg000 NEAR a962-a9bb Ra962-a9bb assembly
 sub_1A9BC: seg000 NEAR a9bc-a9f7 Ra9bc-a9f7 assembly
@@ -189,12 +189,12 @@ sub_1D190: seg000 NEAR d190-d1a5 Rd190-d1a5 complete
 sub_1D1C8: seg000 NEAR d1c8-d1e7 Rd1c8-d1e7 complete
 sub_1D1E8: seg000 NEAR d1e8-d1ff Rd1e8-d1ff complete
 randlmul: seg000 NEAR d200-d21d Rd200-d21d complete
-sub_1D21E: seg000 NEAR d21e-d25f Rd21e-d25f assembly
+sub_1D21E: seg000 NEAR d21e-d25f Rd21e-d25f
 keyDispatch: seg000 NEAR d260-d9da Rd260-d2c9 Ud2ca-d2cb Rd2cc-d523 Ud524-d529 Rd52a-d5ee Ud5ef-d5f0 Rd5f1-d743 Ud744-d746 Rd747-d927 Ud928-d929 Rd92a-d9da
 selectMissile: seg000 NEAR d9db-da34 Rd9db-da34 complete
-makeSound: seg000 NEAR da35-da5e Rda35-da5e assembly
-sub_1DA5F: seg000 NEAR da5f-da8c Rda5f-da8c assembly
-sub_1DA8D: seg000 NEAR da8d-daad Rda8d-daad assembly
+makeSound: seg000 NEAR da35-da5e Rda35-da5e
+sub_1DA5F: seg000 NEAR da5f-da8c Rda5f-da8c
+sub_1DA8D: seg000 NEAR da8d-daad Rda8d-daad
 sub_1DAAE: seg000 NEAR daae-db2a Rdaae-db2a complete
 sub_1DB2B: seg000 NEAR db2b-db9b Rdb2b-db9b complete
 sub_1DB9C: seg000 NEAR db9c-dbb6 Rdb9c-dbb6 complete
