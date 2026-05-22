@@ -232,3 +232,11 @@ void sub_166BE(void) {
     }
 }
 
+// ==== seg000:0x4224 ====
+void sub_13224(char *a, int b, char c) {
+    *(int *)(a + 0x12) = b;
+    *(a + 0x14) = c;
+    memcpy((char *)&byte_3B4E6 + word_38FF8++ * 8, a + 0x0e, 8);
+    *(*(char **)(a + 0x0c) + 6) |= 0x80;
+}
+

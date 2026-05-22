@@ -2,6 +2,9 @@
 DOSSEG
 .MODEL SMALL
 EXTRN _placeString:PROC
+EXTRN _sub_13224:PROC
+PUBLIC _byte_3B4E6
+PUBLIC _word_38FF8
 PUBLIC _strBuf
 PUBLIC _aAt
 PUBLIC _byte_38F8C
@@ -3953,35 +3956,7 @@ LAB_1000_321c:
 sub_12FDA endp
 ; ------------------------------seg000:0x3223------------------------------
 ; ------------------------------seg000:0x3224------------------------------
-sub_13224 proc near
-    push BP
-    mov BP,SP
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [BX + 12h],AX
-    mov BX,word ptr [BP + 4h]
-    mov AL,byte ptr [BP + 8h]
-    mov byte ptr [BX + 14h],AL
-    mov AX,8h
-    push AX
-    mov AX,word ptr [BP + 4h]
-    db 05h, 0Eh, 00h ; add AX,0eh (force imm16 encoding)
-    push AX
-    mov AX,word ptr [word_38FF8]
-    inc word ptr [word_38FF8]
-    mov CL,3h
-    shl AX,CL
-    add AX,8c36h
-    push AX
-    call _memcpy
-    add SP,6h
-    mov BX,word ptr [BP + 4h]
-    mov BX,word ptr [BX + 0ch]
-    or byte ptr [BX + 6h],80h
-    pop BP
-    ret
-    nop
-sub_13224 endp
+sub_13224 equ _sub_13224
 ; ------------------------------seg000:0x3264------------------------------
 ; ------------------------------seg000:0x3266------------------------------
 sub_13266 proc near
@@ -36722,6 +36697,7 @@ _gameData dd ?
 word_38FF6 dw ?
 _word_38FF6 equ word_38FF6
 word_38FF8 dw ?
+_word_38FF8 equ word_38FF8
 _word_38FFA dw ?
 word_38FFC dw ?
 _buf4_3dg db 200h dup(?)
@@ -42104,6 +42080,7 @@ _hercFlag db ?
     db ?
 _word_3B4E4 dw ?
 byte_3B4E6 db ?
+_byte_3B4E6 equ byte_3B4E6
 byte_3B4E7 db ?
 byte_3B4E8 db ?
 byte_3B4E9 db ?
