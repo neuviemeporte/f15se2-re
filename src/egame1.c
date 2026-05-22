@@ -1659,6 +1659,61 @@ void sub_15411() {
     var_549 = 0;
 }
 
+// ==== seg000:0xc488 ====
+void sub_1C488(int param_1, int param_2, int param_3) {
+    int p;
+    long a;
+    int c;
+    long d;
+    int f;
+    long g;
+
+    p = word_3BEC0 - param_1;
+    c = param_2 - word_3BED0;
+    f = (param_3 - var_547) >> 5;
+
+    if (keyValue & 0x80) {
+        p -= (int)((dword_3B7DA - dword_3B1FE) >> 5);
+        c -= (int)((dword_3B7F8 - dword_3B4D4) >> 5);
+        f -= (int)((-((long)(unsigned)var_547 - (long)word_3B4DE)) >> 5);
+    }
+
+    a = sub_1C661(0, p, c, f);
+    d = sub_1C661(1, p, c, f);
+    g = sub_1C661(2, p, c, f);
+
+    if (g >= 0) {
+        var_279 = -1;
+        return;
+    }
+
+    if (var_456) {
+        a >>= 1;
+        d >>= 1;
+    }
+
+    if (-g < a || a < g) {
+        var_279 = -1;
+        return;
+    }
+
+    var_279 = (int)((a << 8) / g) + 0xa0;
+    var_282 = (int)((d << 8) / g);
+    var_282 -= var_282 >> 1 >> 1;
+    var_282 += (var_564[8] == 0xc7) ? 0x64 : 0x38;
+
+    word_3C016 = (int)(g >> 3);
+
+    if (var_279 < 0 || var_279 > 0x13f) {
+        var_673 = var_279;
+        var_279 = -1;
+    }
+    if (var_282 < 0 || var_564[8] < var_282) {
+        var_673 = var_279;
+        var_279 = -1;
+    }
+}
+
 // ==== seg000:0xc661 ====
 long sub_1C661(int param_1, int param_2, int param_3, int param_4) {
     long p;

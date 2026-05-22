@@ -134,6 +134,7 @@ EXTRN _sub_189AA:PROC
 EXTRN _sub_19DB0:PROC
 EXTRN _sub_1C1B9:PROC
 EXTRN _sub_1C2F8:PROC
+EXTRN _sub_1C488:PROC
 EXTRN _sub_1C661:PROC
 EXTRN _routine_328:PROC
 EXTRN _routine_260:PROC
@@ -152,6 +153,7 @@ PUBLIC _var_200
 PUBLIC _var_201
 PUBLIC _var_216
 PUBLIC _var_665
+PUBLIC _var_673
 PUBLIC _word_3C16C
 PUBLIC _sub_1374A
 PUBLIC _var_257
@@ -15146,201 +15148,7 @@ sub_1C371 equ _sub_1C371
 sub_1C40B equ _sub_1C40B
 ; ------------------------------seg000:0xc487------------------------------
 ; ------------------------------seg000:0xc488------------------------------
-sub_1C488 proc near
-    push BP
-    mov BP,SP
-    sub SP,12h
-    mov AX,word ptr [_word_3BEC0]
-    sub AX,word ptr [BP + 4h]
-    mov word ptr [BP + -2h],AX
-    mov AX,word ptr [BP + 6h]
-    sub AX,word ptr [_word_3BED0]
-    mov word ptr [BP + -8h],AX
-    mov AX,word ptr [BP + 8h]
-    sub AX,word ptr [_var_547]
-    mov CL,5h
-    sar AX,CL
-    mov word ptr [BP + -0eh],AX
-    test byte ptr [_keyValue],80h
-    jz LAB_1000_c516
-    mov AX,word ptr [_dword_3B7DA]
-    mov DX,word ptr [_dword_3B7DA+2]
-    sub AX,word ptr [_dword_3B1FE]
-    sbb DX,word ptr [_dword_3B1FE+2]
-LAB_1000_c4c5:
-    sar DX,1h
-    rcr AX,1h
-    dec CL
-    jz LAB_1000_c4cf
-    jmp LAB_1000_c4c5
-LAB_1000_c4cf:
-    sub word ptr [BP + -2h],AX
-    mov AX,word ptr [_dword_3B7F8]
-    mov DX,word ptr [_dword_3B7F8+2]
-    sub AX,word ptr [_dword_3B4D4]
-    sbb DX,word ptr [_dword_3B4D4+2]
-    mov CL,5h
-LAB_1000_c4e3:
-    sar DX,1h
-    rcr AX,1h
-    dec CL
-    jz LAB_1000_c4ed
-    jmp LAB_1000_c4e3
-LAB_1000_c4ed:
-    sub word ptr [BP + -8h],AX
-    mov AX,word ptr [_word_3B4DE]
-    cwd
-    mov CX,word ptr [_var_547]
-    sub BX,BX
-    sub CX,AX
-    sbb BX,DX
-    neg CX
-    adc BX,0h
-    neg BX
-    mov AX,CX
-    mov CL,5h
-LAB_1000_c509:
-    sar BX,1h
-    rcr AX,1h
-    dec CL
-    jz LAB_1000_c513
-    jmp LAB_1000_c509
-LAB_1000_c513:
-    sub word ptr [BP + -0eh],AX
-LAB_1000_c516:
-    push word ptr [BP + -0eh]
-    push word ptr [BP + -8h]
-    push word ptr [BP + -2h]
-    sub AX,AX
-    push AX
-    call sub_1C661
-    add SP,8h
-    mov word ptr [BP + -6h],AX
-    mov word ptr [BP + -4h],DX
-    push word ptr [BP + -0eh]
-    push word ptr [BP + -8h]
-    push word ptr [BP + -2h]
-    mov AX,1h
-    push AX
-    call sub_1C661
-    add SP,8h
-    mov word ptr [BP + -0ch],AX
-    mov word ptr [BP + -0ah],DX
-    push word ptr [BP + -0eh]
-    push word ptr [BP + -8h]
-    push word ptr [BP + -2h]
-    mov AX,2h
-    push AX
-    call sub_1C661
-    add SP,8h
-    mov word ptr [BP + -12h],AX
-    mov word ptr [BP + -10h],DX
-    or DX,DX
-    jl LAB_1000_c56d
-    mov word ptr [_var_279],0ffffh
-    jmp LAB_1000_c65d
-LAB_1000_c56d:
-    cmp byte ptr [_var_456],0h
-    jz LAB_1000_c580
-    sar word ptr [BP + -4h],1h
-    rcr word ptr [BP + -6h],1h
-    sar word ptr [BP + -0ah],1h
-    rcr word ptr [BP + -0ch],1h
-LAB_1000_c580:
-    mov AX,word ptr [BP + -12h]
-    mov DX,word ptr [BP + -10h]
-    neg AX
-    adc DX,0h
-    neg DX
-    cmp DX,word ptr [BP + -4h]
-    jl LAB_1000_c5ab
-    jg LAB_1000_c599
-    cmp AX,word ptr [BP + -6h]
-    jc LAB_1000_c5ab
-LAB_1000_c599:
-    mov AX,word ptr [BP + -12h]
-    mov DX,word ptr [BP + -10h]
-    cmp word ptr [BP + -4h],DX
-    jg LAB_1000_c5b4
-    jl LAB_1000_c5ab
-    cmp word ptr [BP + -6h],AX
-    jnc LAB_1000_c5b4
-LAB_1000_c5ab:
-    mov word ptr [_var_279],0ffffh
-    jmp LAB_1000_c65d
-LAB_1000_c5b4:
-    push word ptr [BP + -10h]
-    push word ptr [BP + -12h]
-    mov AX,word ptr [BP + -6h]
-    mov DX,word ptr [BP + -4h]
-    mov DH,DL
-    mov DL,AH
-    mov AH,AL
-    sub AL,AL
-    push DX
-    push AX
-    call __aNldiv
-    db 05h, 0A0h, 00h ; add AX,0a0h (force imm16 encoding)
-    mov word ptr [_var_279],AX
-    push word ptr [BP + -10h]
-    push word ptr [BP + -12h]
-    mov AX,word ptr [BP + -0ch]
-    mov DX,word ptr [BP + -0ah]
-    mov DH,DL
-    mov DL,AH
-    mov AH,AL
-    sub AL,AL
-    push DX
-    push AX
-    call __aNldiv
-    mov word ptr [_var_282],AX
-    sar AX,1h
-    sar AX,1h
-    sub word ptr [_var_282],AX
-    mov BX,word ptr [_var_564]
-    cmp word ptr [BX + 10h],0c7h
-    jnz LAB_1000_c607
-    mov AX,64h
-    jmp LAB_1000_c60a
-LAB_1000_c607:
-    mov AX,38h
-LAB_1000_c60a:
-    add word ptr [_var_282],AX
-    mov AX,word ptr [BP + -12h]
-    mov DX,word ptr [BP + -10h]
-    mov CL,3h
-LAB_1000_c616:
-    sar DX,1h
-    rcr AX,1h
-    dec CL
-    jz LAB_1000_c620
-    jmp LAB_1000_c616
-LAB_1000_c620:
-    mov word ptr [word_3C016],AX
-    cmp word ptr [_var_279],0h
-    jl LAB_1000_c632
-    cmp word ptr [_var_279],13fh
-    jle LAB_1000_c63e
-LAB_1000_c632:
-    mov AX,word ptr [_var_279]
-    mov word ptr [_var_673],AX
-    mov word ptr [_var_279],0ffffh
-LAB_1000_c63e:
-    cmp word ptr [_var_282],0h
-    jl LAB_1000_c651
-    mov BX,word ptr [_var_564]
-    mov AX,word ptr [_var_282]
-    cmp word ptr [BX + 10h],AX
-    jge LAB_1000_c65d
-LAB_1000_c651:
-    mov AX,word ptr [_var_279]
-    mov word ptr [_var_673],AX
-    mov word ptr [_var_279],0ffffh
-LAB_1000_c65d:
-    mov SP,BP
-    pop BP
-    ret
-sub_1C488 endp
+sub_1C488 equ _sub_1C488
 ; ------------------------------seg000:0xc660------------------------------
 ; ------------------------------seg000:0xc661------------------------------
 sub_1C661 equ _sub_1C661

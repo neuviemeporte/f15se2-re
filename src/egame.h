@@ -376,7 +376,7 @@ void __cdecl sub_1C371(char *, int, int);
 // ==== seg000:0xc40b ====
 void sub_1C40B(int param_1);
 // ==== seg000:0xc488 ====
-int sub_1C488();
+void sub_1C488(int param_1, int param_2, int param_3);
 // ==== seg000:0xc661 ====
 long sub_1C661();
 // ==== seg000:0xc6be ====
@@ -1710,6 +1710,7 @@ extern int *var_564;
 extern int *var_565;
 extern int16 var_591;
 extern uint8 var_456;
+extern int16 var_673;
 extern int16 var_592;
 extern int16 var_595;
 extern int16 var_349;

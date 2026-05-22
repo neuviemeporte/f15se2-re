@@ -167,7 +167,7 @@ sub_1C1B9: seg000 NEAR c1b9-c2f7 Rc1b9-c2f7 complete
 sub_1C2F8: seg000 NEAR c2f8-c370 Rc2f8-c370 complete
 sub_1C371: seg000 NEAR c371-c40a Rc371-c40a complete
 sub_1C40B: seg000 NEAR c40b-c487 Rc40b-c487 complete
-sub_1C488: seg000 NEAR c488-c660 Rc488-c660
+sub_1C488: seg000 NEAR c488-c660 Rc488-c660 complete
 sub_1C661: seg000 NEAR c661-c6bd Rc661-c6bd complete
 sub_1C6BE: seg000 NEAR c6be-c7a1 Rc6be-c795 Uc796-c797 Rc798-c7a1
 sub_1C7A2: seg000 NEAR c7a2-c7c5 Rc7a2-c7c5 complete
