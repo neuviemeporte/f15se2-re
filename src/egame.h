@@ -158,7 +158,7 @@ void sub_136D2(char far *, int, int);
 // ==== seg000:0x374a ====
 int sub_1374A();
 // ==== seg000:0x378e ====
-int sub_1378E();
+void sub_1378E(int, int);
 // ==== seg000:0x3816 ====
 int sub_13816();
 // ==== seg000:0x3922 ====
@@ -1737,6 +1737,10 @@ extern int16 var_198;
 extern int16 var_200;
 extern int16 var_201;
 extern int16 var_216;
+extern int16 var_257;
+extern int16 var_258;
+extern int16 var_259;
+extern int16 var_260;
 extern int16 var_665;
 
 extern int rand();

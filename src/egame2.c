@@ -134,6 +134,28 @@ void sub_136D2(char far *param_1, int param_3, int param_4) {
     sub_20FDC();
 }
 
+// ==== seg000:0x378e ====
+void sub_1378E(int param_1, int param_2) {
+    long p;
+    int b;
+
+    p = 1L;
+    var_257 = (int)(unsigned char)(*((*(char far **)&var_200)++)) & 0x1f;
+    var_259 = -1;
+    var_260 = -1;
+    *(char *)&var_258 = (var_257 > 0x10) ? 1 : 0;
+    b = 0;
+    while (b < var_257) {
+        var_200 += 4;
+        if (*(*(int far **)&var_200)++ < 0) {
+            *(long *)&var_259 ^= p;
+        }
+        var_200 += 2;
+        p <<= 1;
+        b++;
+    }
+}
+
 
 
 // ==== seg000:0xcf64 clamp ====

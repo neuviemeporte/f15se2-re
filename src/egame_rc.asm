@@ -144,6 +144,7 @@ EXTRN _sub_11B37:PROC
 EXTRN _sub_10294:PROC
 EXTRN _sub_10297:PROC
 EXTRN _sub_136D2:PROC
+EXTRN _sub_1378E:PROC
 PUBLIC _var_456
 PUBLIC _var_200
 PUBLIC _var_201
@@ -151,7 +152,10 @@ PUBLIC _var_216
 PUBLIC _var_665
 PUBLIC _word_3C16C
 PUBLIC _sub_1374A
-PUBLIC _sub_1378E
+PUBLIC _var_257
+PUBLIC _var_258
+PUBLIC _var_259
+PUBLIC _var_260
 PUBLIC _sub_13816
 PUBLIC _sub_202DA
 PUBLIC _sub_20A46
@@ -4212,58 +4216,6 @@ sub_1374A proc near
     ret
 sub_1374A endp
 _sub_1374A equ sub_1374A
-; ------------------------------seg000:0x378d------------------------------
-; ------------------------------seg000:0x378e------------------------------
-sub_1378E proc near
-    push BP
-    mov BP,SP
-    sub SP,6h
-    mov word ptr [BP + -4h],1h
-    mov word ptr [BP + -2h],0h
-    mov BX,word ptr [_var_200]
-    inc word ptr [_var_200]
-    mov ES,word ptr [_var_201]
-    mov AL,byte ptr ES:[BX]
-    sub AH,AH
-    db 25h, 1Fh, 00h ; and AX,1fh (force imm16 encoding)
-    mov word ptr [_var_257],AX
-    mov word ptr [_var_259],0ffffh
-    mov word ptr [_var_260],0ffffh
-    db 3Dh, 10h, 00h ; cmp AX,10h (force imm16 encoding)
-    jle LAB_1000_37ca
-    mov AL,1h
-    jmp LAB_1000_37cc
-LAB_1000_37ca:
-    sub AL,AL
-LAB_1000_37cc:
-    mov byte ptr [_var_258],AL
-    mov word ptr [BP + -6h],0h
-    jmp LAB_1000_380a
-LAB_1000_37d6:
-    add word ptr [_var_200],4h
-    mov BX,word ptr [_var_200]
-    add word ptr [_var_200],2h
-    mov ES,word ptr [_var_201]
-    cmp word ptr ES:[BX],0h
-    jge LAB_1000_37fc
-    mov AX,word ptr [BP + -4h]
-    mov DX,word ptr [BP + -2h]
-    xor word ptr [_var_259],AX
-    xor word ptr [_var_260],DX
-LAB_1000_37fc:
-    add word ptr [_var_200],2h
-    shl word ptr [BP + -4h],1h
-    rcl word ptr [BP + -2h],1h
-    inc word ptr [BP + -6h]
-LAB_1000_380a:
-    mov AX,word ptr [_var_257]
-    cmp word ptr [BP + -6h],AX
-    jl LAB_1000_37d6
-    mov SP,BP
-    pop BP
-    ret
-sub_1378E endp
-_sub_1378E equ sub_1378E
 ; ------------------------------seg000:0x3815------------------------------
 ; ------------------------------seg000:0x3816------------------------------
 sub_13816 proc near
