@@ -111,6 +111,29 @@ int sub_13922(int arg_0) {
     return arg_0 - (arg_0 >> 2);
 }
 
+// ==== seg000:0x36d2 ====
+void sub_136D2(char far *param_1, int param_3, int param_4) {
+    *(char far **)&var_200 = param_1;
+    var_200++;
+    var_216 = 0;
+    sub_202DA();
+    if (word_3C16C >= 3) {
+        if ((**(char far **)&var_200 & 0x40) != var_665)
+            return;
+    }
+    switch ((unsigned)(unsigned char)**(char far **)&var_200 & 0x3f) {
+    case 0x3e:
+        return;
+    case 0x3f:
+        sub_1374A();
+        return;
+    }
+    sub_1378E(param_3, param_4);
+    sub_13816(param_3, param_4);
+    sub_20A46();
+    sub_20FDC();
+}
+
 
 
 // ==== seg000:0xcf64 clamp ====

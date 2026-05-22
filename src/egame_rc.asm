@@ -143,7 +143,19 @@ EXTRN _sub_11841:PROC
 EXTRN _sub_11B37:PROC
 EXTRN _sub_10294:PROC
 EXTRN _sub_10297:PROC
+EXTRN _sub_136D2:PROC
 PUBLIC _var_456
+PUBLIC _var_200
+PUBLIC _var_201
+PUBLIC _var_216
+PUBLIC _var_665
+PUBLIC _word_3C16C
+PUBLIC _sub_1374A
+PUBLIC _sub_1378E
+PUBLIC _sub_13816
+PUBLIC _sub_202DA
+PUBLIC _sub_20A46
+PUBLIC _sub_20FDC
 PUBLIC _var_194
 PUBLIC _var_195
 PUBLIC _var_196
@@ -4171,52 +4183,7 @@ sub_13638 equ _sub_13638
 sub_13694 equ _sub_13694
 ; ------------------------------seg000:0x36d0------------------------------
 ; ------------------------------seg000:0x36d2------------------------------
-sub_136D2 proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [BP + 4h]
-    mov DX,word ptr [BP + 6h]
-    mov word ptr [_var_200],AX
-    mov word ptr [_var_201],DX
-    inc word ptr [_var_200]
-    mov word ptr [_var_216],0h
-    call far ptr sub_202DA
-    cmp word ptr [word_3C16C],3h
-    jl LAB_1000_370a
-    les BX,dword ptr [_var_200]
-    mov AL,byte ptr ES:[BX]
-    sub AH,AH
-    db 25h, 40h, 00h ; and AX,40h (force imm16 encoding)
-    cmp AX,word ptr [_var_665]
-    jnz LAB_1000_3748
-LAB_1000_370a:
-    les BX,dword ptr [_var_200]
-    mov AL,byte ptr ES:[BX]
-    sub AH,AH
-    db 25h, 3Fh, 00h ; and AX,3fh (force imm16 encoding)
-    db 3Dh, 3Eh, 00h ; cmp AX,3eh (force imm16 encoding)
-    jz LAB_1000_3748
-    db 3Dh, 3Fh, 00h ; cmp AX,3fh (force imm16 encoding)
-    jnz LAB_1000_3726
-    call sub_1374A
-    pop BP
-    ret
-    db 90h
-LAB_1000_3726:
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    call sub_1378E
-    add SP,4h
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    call sub_13816
-    add SP,4h
-    call far ptr sub_20A46
-    call far ptr sub_20FDC
-LAB_1000_3748:
-    pop BP
-    ret
-sub_136D2 endp
+sub_136D2 equ _sub_136D2
 ; ------------------------------seg000:0x3749------------------------------
 ; ------------------------------seg000:0x374a------------------------------
 sub_1374A proc near
@@ -4244,6 +4211,7 @@ sub_1374A proc near
     pop BP
     ret
 sub_1374A endp
+_sub_1374A equ sub_1374A
 ; ------------------------------seg000:0x378d------------------------------
 ; ------------------------------seg000:0x378e------------------------------
 sub_1378E proc near
@@ -4295,6 +4263,7 @@ LAB_1000_380a:
     pop BP
     ret
 sub_1378E endp
+_sub_1378E equ sub_1378E
 ; ------------------------------seg000:0x3815------------------------------
 ; ------------------------------seg000:0x3816------------------------------
 sub_13816 proc near
@@ -4394,6 +4363,7 @@ LAB_1000_391c:
     ret
     nop
 sub_13816 endp
+_sub_13816 equ sub_13816
 ; ------------------------------seg000:0x3920------------------------------
 ; ------------------------------seg000:0x3932------------------------------
 sub_13932 proc near
@@ -18352,6 +18322,7 @@ sub_202C7 endp
 sub_202DA proc far
     retn
 sub_202DA endp
+_sub_202DA equ sub_202DA
 ; ------------------------------seg001:0xa67------------------------------
 ; ------------------------------seg001:0xa76------------------------------
 sub_202F6 proc far
@@ -18402,6 +18373,7 @@ sub_20970 endp
 sub_20A46 proc far
     retn
 sub_20A46 endp
+_sub_20A46 equ sub_20A46
 ; ------------------------------seg001:0x11d7------------------------------
 ; ------------------------------seg001:0x11d8------------------------------
 sub_20A58 proc near
@@ -18448,6 +18420,7 @@ sub_20E4D endp
 sub_20FDC proc far
     retn
 sub_20FDC endp
+_sub_20FDC equ sub_20FDC
 ; ------------------------------seg001:0x1769------------------------------
 ; ------------------------------seg001:0x176a------------------------------
 sub_20FEA proc near
@@ -41983,6 +41956,7 @@ word_3C0A0 dw ?
 _word_3C0A2 dw 64h dup(?)
 _word_3C16A dw ?
 word_3C16C dw ?
+_word_3C16C equ word_3C16C
 _byte_3C16E db 2EEh dup(?)
 _word_3C45C dw ?
 word_3C45E dw ?

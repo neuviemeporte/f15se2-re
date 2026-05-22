@@ -122,7 +122,7 @@ void copySomeMem(int arg_0);
 // ==== seg000:0x22b8 ====
 int sub_122B8();
 // ==== seg000:0x26b4 ====
-int sub_126B4();
+uint32 sub_126B4(int level, uint32 coord);
 // ==== seg000:0x273e ====
 int process3dg();
 // ==== seg000:0x2874 ====
@@ -154,7 +154,7 @@ void sub_13638(int *, int *, int *, int *);
 // ==== seg000:0x3694 ====
 void sub_13694(int, int, int *, int *);
 // ==== seg000:0x36d2 ====
-int sub_136D2();
+void sub_136D2(char far *, int, int);
 // ==== seg000:0x374a ====
 int sub_1374A();
 // ==== seg000:0x378e ====
@@ -1734,6 +1734,10 @@ extern int16 var_195;
 extern int16 var_196;
 extern int16 var_197;
 extern int16 var_198;
+extern int16 var_200;
+extern int16 var_201;
+extern int16 var_216;
+extern int16 var_665;
 
 extern int rand();
 extern long _aNlmul(long, long);
