@@ -343,7 +343,7 @@ int sub_185BE(int param_1, int param_2, int param_3, int param_4, int param_5) {
 }
 
 // ==== seg000:0x6742 ====
-int sub_16742(void) {
+int routine_191(void) {
     int p;
     int a;
     int b;
@@ -355,7 +355,7 @@ int sub_16742(void) {
             b += *(int *)((char *)aNone + p * 14 + 8) * *(int *)((char *)aNone + p * 14 + 10) * (word_330B8 + 2) / 64;
         }
     }
-    b = b / 100;
+    b /= 100;
     return b;
 }
 

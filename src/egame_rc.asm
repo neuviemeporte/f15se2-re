@@ -18,7 +18,7 @@ PUBLIC _aF15StrikeEagle
 PUBLIC _aNone
 _aNone equ aNone
 EXTRN _sub_166BE:PROC
-EXTRN _sub_16742:PROC
+EXTRN _routine_191:PROC
 EXTRN _sub_1660E:PROC
 EXTRN _sub_11C21:PROC
 EXTRN _sub_11D10:PROC
@@ -60,6 +60,7 @@ EXTRN _sub_1CF64:PROC
 EXTRN _sub_1D178:PROC
 EXTRN _sub_1D190:PROC
 EXTRN _sub_1D200:PROC
+EXTRN _sub_121C6:PROC
 EXTRN _sub_154B7:PROC
 EXTRN _sub_15540:PROC
 EXTRN _sub_15557:PROC
@@ -1385,7 +1386,7 @@ LAB_1000_0a7a:
     call sub_119A3
     mov word ptr [word_3BECC],2h
     call far ptr _gfx_jump_46_retrace2
-    call sub_16742
+    call routine_191
     mov word ptr [word_38FF6],AX
 LAB_1000_0a94:
     mov AX,7e00h
@@ -2949,10 +2950,7 @@ sub_11F3E endp
 ; ------------------------------seg000:0x21c4------------------------------
     nop
 ; ------------------------------seg000:0x21c6------------------------------
-callLoad3DAll proc near
-    call callLoad3DAll
-    ret
-callLoad3DAll endp
+callLoad3DAll equ _sub_121C6
 ; ------------------------------seg000:0x21c9------------------------------
 ; ------------------------------seg000:0x21ca------------------------------
 _sub_121CA proc near
@@ -5656,7 +5654,7 @@ loc_143C7:
     sub AX,word ptr [_unk_3806E+55h]
     add AX,word ptr [_word_3BE92]
     push AX
-    call routine_163
+    call forceRange
     add SP,06h
     shl AX,01h
     mov word ptr [BP-2Ch],AX
@@ -5683,7 +5681,7 @@ loc_143C7:
     shl AX,CL
     sub AX,word ptr [_word_38FC4]
     push AX
-    call routine_163
+    call forceRange
     add SP,06h
     mov word ptr [BP-14h],AX
     mov AX,08h
@@ -5894,7 +5892,7 @@ loc_145F4:
     mov AX,word ptr [BP-0Eh]
     sub AX,word ptr [_unk_3806E+55h]
     push AX
-    call routine_163
+    call forceRange
     add SP,06h
     shl AX,01h
     mov word ptr [BP-2Ch],AX
@@ -5958,7 +5956,7 @@ loc_1464F:
     sar DX,CL
     add AX,DX
     push AX
-    call routine_163
+    call forceRange
     add SP,06h
     mov word ptr [BP-14h],AX
     mov AX,010h
@@ -8039,7 +8037,7 @@ sub_1660E equ _sub_1660E
 sub_166BE equ _sub_166BE
 ; ------------------------------seg000:0x6740------------------------------
 ; ------------------------------seg000:0x6742------------------------------
-sub_16742 equ _sub_16742
+routine_191 equ _routine_191
 ; ------------------------------seg000:0x67b3------------------------------
 ; ------------------------------seg000:0x67b4------------------------------
 sub_167B4 proc near
@@ -16472,7 +16470,7 @@ sub_1CF32 endp
 ; _sub_1CF64 - now in C (egame2.c)
 ; ------------------------------seg000:0xcf8d------------------------------
 ; ------------------------------seg000:0xcf8e------------------------------
-routine_163 equ _sub_1CF8E
+forceRange equ _sub_1CF8E
 ; ------------------------------seg000:0xcfa6------------------------------
 _sub_1CFA6 proc near
     push BP

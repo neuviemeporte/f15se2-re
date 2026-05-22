@@ -11,7 +11,7 @@ cleanup: Code1 NEAR 0511-0543 R0511-0543 complete
 # 2 empty routines called from start; setenvp/setargv overrides
 setargv: Code1 NEAR 0544-0546 R0544-0546 ignore
 setenvp: Code1 NEAR 0547-0549 R0547-0549 ignore
-clearKeyBuf: Code1 NEAR 054a-0560 R054a-0560 complete
+clearKeybuf: Code1 NEAR 054a-0560 R054a-0560 complete
 waitJoyKey: Code1 NEAR 0561-0570 R0561-0570 complete
 joyOrKey: Code1 NEAR 0571-05d4 R0571-05d4 complete
 waitMdaCgaStatus: Code1 NEAR 05d5-0634 R05d5-0634 complete
@@ -42,7 +42,7 @@ randMul: Code1 NEAR 1835-1858 R1835-1858 complete
 # !!!
 setTimerIrqHandler: Code1 NEAR 185a-1897 R185a-1897 assembly
 restoreTimerIrqHandler: Code1 NEAR 1898-18b8 R1898-18b8 assembly
-unreach_118B9: Code1 NEAR 18b9-18e2 U18b9-18e2 detached
+sub_118B9: Code1 NEAR 18b9-18e2 U18b9-18e2 detached
 timerIrqHandler: Code1 NEAR 18e7-194c R18e7-194c assembly
 timerIrqCallback: Code1 NEAR 194d-19d3 R194d-19d3 assembly
 calibrateTimerSpeed: Code1 NEAR 19d4-1a68 R19d4-1a3b U1a3c-1a3c R1a3d-1a68 assembly
@@ -69,13 +69,13 @@ getJoyKey: Code1 NEAR 25a0-25e2 R25a0-25e2 complete
 # !!!
 readInputKey: Code1 NEAR 25e4-2650 R25e4-261c U261d-261d R261e-2650 complete
 # a bunch of unreachable routines
-unreach_2652: Code1 NEAR 2652-26af U2652-26af detached
+sub_12652: Code1 NEAR 2652-26af U2652-26af detached
 # !!!
 mystrcpy: Code1 NEAR 26b0-26ca R26b0-26ca complete
-unreach_26cb: Code1 NEAR 26cb-26fc U26cb-26fc detached
+sub_126CB: Code1 NEAR 26cb-26fc U26cb-26fc detached
 mystrlen: Code1 NEAR 26fd-2718 R26fd-2718 assembly
 mystrcat: Code1 NEAR 2719-2740 R2719-2740 assembly
-unreach_2741: Code1 NEAR 2741-2763 U2741-2763 detached
+sub_12741: Code1 NEAR 2741-2763 U2741-2763 detached
 nearmemset: Code1 NEAR 2764-2779 R2764-2779 assembly
 farmemset: Code1 NEAR 277a-278f U277a-278f detached
 # called from fread, fwrite, looks like microprose override
@@ -102,7 +102,6 @@ drawLineWrapper: Code1 NEAR 2dea-2df5 R2dea-2df5 assembly
 clipAndDrawLine: Code1 NEAR 2df6-2f69 R2df6-2e0a U2e0b-2e0b R2e0c-2e51 U2e52-2e52 R2e53-2e56 U2e57-2e57 R2e58-2e64 U2e65-2e65 R2e66-2f69 assembly
 computeOutcode: Code1 NEAR 2f6a-2f8a R2f6a-2f8a assembly
 unreach_2f8b: Code1 NEAR 2f8b-2fab U2f8b-2fab detached
-installCBreakHandler: Code1 NEAR 2fac-2fce R2fac-2fce assembly
 restoreCbreakHandler: Code1 NEAR 2fcf-2fdf R2fcf-2fdf assembly
 getInterruptHandler: Code1 NEAR 2fe0-2feb R2fe0-2feb assembly
 cbreakHandler: Code1 NEAR 2fec-2ffa R2fec-2ffa assembly
