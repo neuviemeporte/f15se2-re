@@ -42,6 +42,8 @@ EXTRN _sub_11BC3:PROC
 EXTRN _sub_114E8:PROC
 EXTRN _sub_1C371:PROC
 EXTRN _sub_1C40B:PROC
+PUBLIC _sub_1C8A4
+EXTRN _sub_1C864:PROC
 EXTRN _sub_198FA:PROC
 EXTRN _sub_19915:PROC
 EXTRN _sub_118D5:PROC
@@ -16306,44 +16308,11 @@ LAB_1000_c860:
 sub_1C82D endp
 ; ------------------------------seg000:0xc863------------------------------
 ; ------------------------------seg000:0xc864------------------------------
-sub_1C864 proc near
-    push BP
-    mov BP,SP
-    mov BX,word ptr [BP + 4h]
-    mov CL,4h
-    shl BX,CL
-    test byte ptr [BX + offset _stru_3AA5E + 6],80h
-    jz LAB_1000_c893
-    push word ptr [BP + 4h]
-    call sub_1C8A4
-    add SP,2h
-    or AX,AX
-    jz LAB_1000_c888
-    mov AL,byte ptr [_byte_3BEC4]
-    cbw
-    jmp LAB_1000_c88c
-LAB_1000_c888:
-    mov AL,byte ptr [_byte_3C02A]
-    cbw
-LAB_1000_c88c:
-    add AH,1h
-    jmp LAB_1000_c8a0
-    db 0EBh
-    db 0Dh
-LAB_1000_c893:
-    mov BX,word ptr [BP + 4h]
-    mov CL,4h
-    shl BX,CL
-    mov AX,word ptr [BX + offset _stru_3AA5E + 12]
-    jmp LAB_1000_c8a0
-LAB_1000_c8a0:
-    mov SP,BP
-    pop BP
-    ret
-sub_1C864 endp
+sub_1C864 equ _sub_1C864
 ; ------------------------------seg000:0xc8a3------------------------------
 ; ------------------------------seg000:0xc8a4------------------------------
-sub_1C8A4 proc near
+_sub_1C8A4 proc near
+sub_1C8A4 equ _sub_1C8A4
     push BP
     mov BP,SP
     sub SP,2h
@@ -16373,7 +16342,7 @@ LAB_1000_c8da:
     pop BP
     ret
     nop
-sub_1C8A4 endp
+_sub_1C8A4 endp
 ; ------------------------------seg000:0xc8dd------------------------------
 ; ------------------------------seg000:0xc9d2------------------------------
 sub_1C9D2 proc near

@@ -1518,3 +1518,11 @@ void sub_1C40B(int param_1) {
     strcat(strBuf, aKm);
 }
 
+// ==== seg000:0xc864 ====
+int sub_1C864(int param_1) {
+    if (stru_3AA5E[param_1].field_6 & 0x80) {
+        return (sub_1C8A4(param_1) ? (int)(char)byte_3BEC4[0] : (int)(char)byte_3C02A[0]) + 0x100;
+    }
+    return stru_3AA5E[param_1].field_C;
+}
+
