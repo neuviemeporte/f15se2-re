@@ -429,7 +429,7 @@ void selectMissile();
 // ==== seg000:0xda35 ====
 void makeSound(int arg_0, int arg_2);
 // ==== seg000:0xda5f ====
-int sub_1DA5F();
+void sub_1DA5F(int arg_0);
 // ==== seg000:0xda8d ====
 void sub_1DA8D(void);
 // ==== seg000:0xdaae ====

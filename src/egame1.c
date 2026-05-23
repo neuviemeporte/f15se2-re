@@ -1833,6 +1833,14 @@ void makeSound(int arg_0, int arg_2) {
     sub_1DA8D();
 }
 
+// ==== seg000:0xda5f ====
+void sub_1DA5F(int arg_0) {
+    if (var_600 < 2 && word_3BE3C == 0 &&
+        (unsigned)((int16 *)(aArmed + 7))[arg_0] < (unsigned)f15DgtlResult) {
+        audio_jump_6d(arg_0);
+    }
+}
+
 // ==== seg000:0xda8d ====
 void sub_1DA8D(void) {
     if (var_600 != 0 || word_3BE3C != 0) {

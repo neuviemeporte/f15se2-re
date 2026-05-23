@@ -192,9 +192,9 @@ randlmul: seg000 NEAR d200-d21d Rd200-d21d complete
 sub_1D21E: seg000 NEAR d21e-d25f Rd21e-d25f
 keyDispatch: seg000 NEAR d260-d9da Rd260-d2c9 Ud2ca-d2cb Rd2cc-d523 Ud524-d529 Rd52a-d5ee Ud5ef-d5f0 Rd5f1-d743 Ud744-d746 Rd747-d927 Ud928-d929 Rd92a-d9da
 selectMissile: seg000 NEAR d9db-da34 Rd9db-da34 complete
-makeSound: seg000 NEAR da35-da5e Rda35-da5e
-sub_1DA5F: seg000 NEAR da5f-da8c Rda5f-da8c
-sub_1DA8D: seg000 NEAR da8d-daad Rda8d-daad
+makeSound: seg000 NEAR da35-da5e Rda35-da5e complete
+sub_1DA5F: seg000 NEAR da5f-da8c Rda5f-da8c complete
+sub_1DA8D: seg000 NEAR da8d-daad Rda8d-daad complete
 sub_1DAAE: seg000 NEAR daae-db2a Rdaae-db2a complete
 sub_1DB2B: seg000 NEAR db2b-db9b Rdb2b-db9b complete
 sub_1DB9C: seg000 NEAR db9c-dbb6 Rdb9c-dbb6 complete
