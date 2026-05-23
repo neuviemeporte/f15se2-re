@@ -33,6 +33,7 @@ EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC
 EXTRN _sub_1DBE0:PROC
 EXTRN _sub_1DB9C:PROC
+EXTRN _makeSound:PROC
 EXTRN _sub_1DA8D:PROC
 EXTRN _sub_1DAAE:PROC
 EXTRN _sub_155AB:PROC
@@ -224,6 +225,7 @@ PUBLIC _setupDac
 PUBLIC _restoreTimerIrqHandler
 PUBLIC _audio_jump_64
 PUBLIC _audio_jump_65
+PUBLIC _audio_jump_66
 PUBLIC _audio_jump_68
 PUBLIC _audio_jump_69
 PUBLIC _setTimerIrqHandler
@@ -520,7 +522,7 @@ PUBLIC _word_330B8
 PUBLIC _var_669
 PUBLIC _var_670
 PUBLIC _word_3BF90
-PUBLIC _makeSound
+
 PUBLIC _missileSpecIndex
 PUBLIC _sub_21A86
 PUBLIC _gfx_jump_0_alloc
@@ -16707,27 +16709,7 @@ keyDispatch endp
 selectMissile equ _selectMissile
 ; ------------------------------seg000:0xda34------------------------------
 ; ------------------------------seg000:0xda35------------------------------
-makeSound proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [_var_600]
-    cmp word ptr [BP + 6h],AX
-    jl LAB_1000_da58
-    cmp word ptr [word_3BE3C],0h
-    jz LAB_1000_da4d
-    cmp word ptr [BP + 6h],1h
-    jle LAB_1000_da58
-LAB_1000_da4d:
-    push word ptr [BP + 4h]
-    call far ptr audio_jump_66
-    add SP,2h
-LAB_1000_da58:
-    call sub_1DA8D
-    mov SP,BP
-    pop BP
-    ret
-makeSound endp
-_makeSound equ makeSound
+makeSound equ _makeSound
 ; ------------------------------seg000:0xda5e------------------------------
 ; ------------------------------seg000:0xda5f------------------------------
 sub_1DA5F proc near
@@ -20519,10 +20501,11 @@ _audio_jump_65 proc near
 _audio_jump_65 endp
 ; ------------------------------dseg:0x10b7------------------------------
 ; ------------------------------dseg:0x10bc------------------------------
-audio_jump_66 proc near
+_audio_jump_66 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-audio_jump_66 endp
+_audio_jump_66 endp
+audio_jump_66 equ _audio_jump_66
 ; ------------------------------dseg:0x10bc------------------------------
     db 0EAh
     db 0

@@ -427,7 +427,7 @@ int keyDispatch();
 // ==== seg000:0xd9db ====
 void selectMissile();
 // ==== seg000:0xda35 ====
-int makeSound();
+void makeSound(int arg_0, int arg_2);
 // ==== seg000:0xda5f ====
 int sub_1DA5F();
 // ==== seg000:0xda8d ====

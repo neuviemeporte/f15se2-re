@@ -1823,6 +1823,16 @@ uint32 sub_126B4(int level, uint32 coord) {
     }
 }
 
+// ==== seg000:0xda35 ====
+void makeSound(int arg_0, int arg_2) {
+    if (arg_2 >= var_600) {
+        if (word_3BE3C == 0 || arg_2 > 1) {
+            audio_jump_66(arg_0);
+        }
+    }
+    sub_1DA8D();
+}
+
 // ==== seg000:0xda8d ====
 void sub_1DA8D(void) {
     if (var_600 != 0 || word_3BE3C != 0) {
