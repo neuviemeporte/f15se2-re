@@ -77,6 +77,7 @@ EXTRN _sub_154B7:PROC
 EXTRN _sub_15540:PROC
 EXTRN _sub_15557:PROC
 EXTRN _sub_19BE1:PROC
+EXTRN _sub_19C84:PROC
 EXTRN _sub_19D86:PROC
 EXTRN _sub_19FAD:PROC
 EXTRN _sub_19FCC:PROC
@@ -523,7 +524,6 @@ PUBLIC _missiles
 PUBLIC _aAccel
 PUBLIC _sub_19C0C
 
-PUBLIC _sub_19C84
 PUBLIC _sub_1A030
 PUBLIC _aStallWarning
 PUBLIC _aSecond_Target
@@ -11400,94 +11400,8 @@ _sub_19C0C proc near
 _sub_19C0C endp
 ; ------------------------------seg000:0x9c83------------------------------
 ; ------------------------------seg000:0x9c84------------------------------
-_sub_19C84 proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    mov AX,word ptr [BP + 0eh]
-    sub AX,word ptr [BP + 0ch]
-    inc AX
-    mov word ptr [BP + -4h],AX
-    mov AX,word ptr [BP + 12h]
-    sub AX,word ptr [BP + 10h]
-    inc AX
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + 10h]
-    push word ptr [BP + 0ch]
-    call far ptr gfx_jump_3e
-    add SP,4h
-    push AX
-    call far ptr gfx_jump_1a
-    add SP,2h
-    mov AX,word ptr [BP + -4h]
-    dec AX
-    mov word ptr [_var_349],AX
-    mov AX,word ptr [BP + -2h]
-    dec AX
-    mov word ptr [_var_350],AX
-    mov BX,word ptr [_var_564]
-    push word ptr [BX + 4h]
-    call far ptr _gfx_jump_21
-    add SP,2h
-    mov AX,word ptr [BP + 4h]
-    sub AX,word ptr [BP + 0ch]
-    mov word ptr [_var_351],AX
-    mov AX,word ptr [BP + 6h]
-    sub AX,word ptr [BP + 10h]
-    mov word ptr [_var_353],AX
-    mov AX,word ptr [BP + 8h]
-    sub AX,word ptr [BP + 0ch]
-    mov word ptr [_var_352],AX
-    mov AX,word ptr [BP + 0ah]
-    sub AX,word ptr [BP + 10h]
-    mov word ptr [_var_354],AX
-    call far ptr _sub_2152A
-    call far ptr _gfx_jump_23
-    cmp word ptr [BP + 14h],0h
-    jz LAB_1000_9d6b
-    call far ptr _gfx_jump_2d
-    mov byte ptr [_byte_3C5A0],AL
-    cmp AL,1h
-    sbb AX,AX
-    neg AX
-    push AX
-    call far ptr gfx_jump_0e_setCurBuf
-    add SP,2h
-    mov BX,word ptr [_var_564]
-    push word ptr [BX + 4h]
-    call far ptr _gfx_jump_21
-    add SP,2h
-    mov AX,word ptr [BP + 4h]
-    sub AX,word ptr [BP + 0ch]
-    mov word ptr [_var_351],AX
-    mov AX,word ptr [BP + 6h]
-    sub AX,word ptr [BP + 10h]
-    mov word ptr [_var_353],AX
-    mov AX,word ptr [BP + 8h]
-    sub AX,word ptr [BP + 0ch]
-    mov word ptr [_var_352],AX
-    mov AX,word ptr [BP + 0ah]
-    sub AX,word ptr [BP + 10h]
-    mov word ptr [_var_354],AX
-    call far ptr _sub_2152A
-    cmp byte ptr [_byte_3C5A0],1h
-    sbb AX,AX
-    inc AX
-    push AX
-    call far ptr gfx_jump_0e_setCurBuf
-    add SP,2h
-    call far ptr _gfx_jump_23
-LAB_1000_9d6b:
-    mov word ptr [_var_349],13fh
-    mov word ptr [_var_350],0c7h
-    sub AX,AX
-    push AX
-    call far ptr gfx_jump_1a
-    add SP,2h
-    mov SP,BP
-    pop BP
-    ret
-_sub_19C84 endp
+EXTRN _sub_19C84:near
+sub_19C84 equ _sub_19C84
 ; ------------------------------seg000:0x9d85------------------------------
 ; ------------------------------seg000:0x9d86------------------------------
 sub_19D86 equ _sub_19D86
@@ -19952,6 +19866,8 @@ gfx_jump_0e_setCurBuf proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_jump_0e_setCurBuf endp
+    PUBLIC _gfx_jump_0e_setCurBuf
+_gfx_jump_0e_setCurBuf equ gfx_jump_0e_setCurBuf
 ; ------------------------------dseg:0xf04------------------------------
 ; ------------------------------dseg:0xf09------------------------------
 gfx_jump_0f_getBufPtr proc near

@@ -135,7 +135,7 @@ sub_19ADB: seg000 NEAR 9adb-9b97 R9adb-9b97 complete
 sub_19B98: seg000 NEAR 9b98-9be0 R9b98-9be0 complete
 sub_19BE1: seg000 NEAR 9be1-9c0b R9be1-9c0b complete
 sub_19C0C: seg000 NEAR 9c0c-9c83 R9c0c-9c83
-sub_19C84: seg000 NEAR 9c84-9d85 R9c84-9d85
+sub_19C84: seg000 NEAR 9c84-9d85 R9c84-9d85 complete
 sub_19D86: seg000 NEAR 9d86-9daf R9d86-9daf complete
 sub_19DB0: seg000 NEAR 9db0-9e43 R9db0-9e43 complete
 sub_19E44: seg000 NEAR 9e44-9e5c R9e44-9e5c complete

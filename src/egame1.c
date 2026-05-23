@@ -1107,6 +1107,39 @@ int sub_1C7C6(int arg_0) {
     return sub_1C7EA(*(int *)&unk_3B202[2 + arg_0 * 36], *(int *)&unk_3B202[4 + arg_0 * 36], 0);
 }
 
+// ==== seg000:0x9c84 ====
+void sub_19C84(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c, int arg_e, int arg_10) {
+    int p, a;
+
+    a = arg_a - arg_8 + 1;
+    p = arg_e - arg_c + 1;
+    gfx_jump_1a(gfx_jump_3e(arg_8, arg_c));
+    var_349 = a - 1;
+    var_350 = p - 1;
+    gfx_jump_21(var_564[2]);
+    var_351 = arg_0 - arg_8;
+    var_353 = arg_2 - arg_c;
+    var_352 = arg_4 - arg_8;
+    var_354 = arg_6 - arg_c;
+    sub_2152A();
+    gfx_jump_23();
+    if (arg_10 != 0) {
+        byte_3C5A0 = gfx_jump_2d();
+        gfx_jump_0e_setCurBuf(byte_3C5A0 == 0);
+        gfx_jump_21(var_564[2]);
+        var_351 = arg_0 - arg_8;
+        var_353 = arg_2 - arg_c;
+        var_352 = arg_4 - arg_8;
+        var_354 = arg_6 - arg_c;
+        sub_2152A();
+        gfx_jump_0e_setCurBuf(byte_3C5A0 != 0);
+        gfx_jump_23();
+    }
+    var_349 = 0x13f;
+    var_350 = 0xc7;
+    gfx_jump_1a(0);
+}
+
 // ==== seg000:0x9d86 ====
 int sub_19D86(int arg_0, int arg_1, int arg_2, int arg_3) {
     sub_19C84(arg_0, arg_1, arg_2, arg_3, 0, 0x13f, 0, 0xc7, 0);

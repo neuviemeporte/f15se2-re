@@ -310,7 +310,7 @@ int sub_19BE1();
 // ==== seg000:0x9c0c ====
 int sub_19C0C();
 // ==== seg000:0x9c84 ====
-int sub_19C84();
+void sub_19C84();
 // ==== seg000:0x9d86 ====
 int sub_19D86();
 // ==== seg000:0x9db0 ====
@@ -1735,6 +1735,10 @@ extern int16 var_595;
 extern int16 var_600;
 extern int16 var_349;
 extern int16 var_350;
+#define var_351 (*(int16 *)((char *)&var_349 + 6))
+#define var_352 (*(int16 *)((char *)&var_349 + 8))
+#define var_353 (*(int16 *)((char *)&var_349 + 10))
+#define var_354 (*(int16 *)((char *)&var_349 + 12))
 extern int16 var_654;
 extern int16 var_660;
 extern int16 var_661;
