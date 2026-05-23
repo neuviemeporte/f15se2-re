@@ -523,45 +523,13 @@ checkKey:
     return key;
 }
 
-// 0x30c6
-int closeFileWrapper(int handle)
-{
-    fileClose(handle);
-}
-
-// 0x3312
-void openShowPic(char *name, int16 page, int16 garbage)
-{
-    // 0x3315
-    int16 fileHandle;
-    // 0x3324
-    TRACE(("openShowPic: opening file %s, page %d",name,page));
-    fileHandle = openFileWrapper(name, 0);
-    // 0x332e
-    TRACE(("openShowPic: showing pic, handle %d",fileHandle));
-    showPicFile(fileHandle, page, garbage);
-    // 0x3337
-    closeFileWrapper(fileHandle);
-    TRACE(("openShowPic: file closed, returning"));
-    // 0x333d
-}
-
-// 0x3368
-void loadPic(char *filename, uint16 segment) {
-    int handle;
-    handle = openFileWrapper(filename, 0);
-    TRACE(("loadPic(): opened %s, loading into segment 0x%x", filename, segment));
-    decodePic(handle, segment);
-    closeFileWrapper(handle);
-}
-
 // 3758
 uint16 allocBuffer(int size) {
     uint16 segment;
     TRACE(("allocBuffer(): Allocating buffer of size %u", size));
     if ((segment = dos_alloc(size)) < DOS_ERROR_RMDIR) {
         cleanup();
-        dos_printstring(aInsufficientSy);
+        dos_printstring(str_allocError);
         exit(0);
     }
     TRACE(("allocBuffer(): Allocated @ 0x%x", segment));

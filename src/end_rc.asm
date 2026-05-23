@@ -268,25 +268,6 @@ PUBLIC _vgaBufOffset
 PUBLIC _spriteBufSeg
 PUBLIC _missionResult
 
-routine_10 proc near
-    db 00h
-    db 00h
-    db 00h
-    db 00h
-    db 00h
-    db 00h
-    db 00h
-    db 00h
-    db 00h
-    db 00h
-    db 00h
-    db 00h
-    db 00h
-    db 00h
-    db 00h
-    db 00h
-routine_10 endp
-
 main equ _main
 
 checkQuitFlag equ _checkQuitFlag
@@ -297,7 +278,7 @@ initGraphics proc near
     push BP
     mov BP,SP
     sub SP,10h
-    call seedRandom
+    call _seedRandom
     sub AX,AX
     push AX
     call far ptr gfx_jump_0e_setCurBuf
@@ -367,7 +348,7 @@ readWorldData proc near
     mov CL,4h
     shl AX,CL
     push AX
-    mov AX,offset dat_424e
+    mov AX,offset _dat_424e
     push AX
     call _loadWorldData
     add SP,4h
@@ -678,8 +659,6 @@ my_ltoa equ _my_ltoa
 my_itoa equ _my_itoa
 
 timerWait equ _timerWait
-
-seedRandom equ _seedRandom
 
 FUN_1000_09bf proc near
     push BP
@@ -1856,18 +1835,18 @@ dead_routine_33 proc near
     sub AX,AX
     push AX
     push word ptr [BP + 4h]
-    call openFileWrapper
+    call _openFileWrapper
     add SP,4h
     mov word ptr [BP + -4h],AX
     push word ptr [BP + 6h]
     mov AX,0ffffh
     push AX
     push word ptr [BP + -4h]
-    call readFileBlock
+    call _readFileBlock
     add SP,6h
     mov word ptr [BP + -2h],AX
     push word ptr [BP + -4h]
-    call closeFileWrapper
+    call _closeFileWrapper
     mov AX,word ptr [BP + -2h]
     mov SP,BP
     pop BP
@@ -1879,14 +1858,7 @@ loadFileSection equ _loadFileSection
 
 loadFileSectionEx equ _loadFileSectionEx
 
-
-openFileWrapper equ _openFileWrapper
-
 openFileRead equ _openFileRead
-
-closeFileWrapper equ _closeFileWrapper
-
-readFileBlock equ _readFileBlock
 
 readFileAt equ _readFileAt
 
@@ -1988,8 +1960,8 @@ LAB_1000_144e:
     ret
 openFileRaw endp
 
-PUBLIC _routine_125
-_routine_125:
+PUBLIC _fileClose
+_fileClose:
 fileClose proc near
     push BP
     mov BP,SP
@@ -4708,53 +4680,41 @@ _str_dfc db 'Distinguished Flying Cross.', 0
 _str_silverStar db 'Silver Star.', 0
 _str_afc db 'Air Force Cross.', 0
 _str_cmoh db 'Congressional Medal of Honor.', 0
-_str_deskPic equ str_deskPic
-str_deskPic db 064h
+_str_deskPic db 064h
     db 065h, 073h, 06Bh, 02Eh, 070h, 069h, 063h, 000h
-_str_deskMsg1 equ str_deskMsg1
-str_deskMsg1 db 041h
+_str_deskMsg1 db 041h
     db 066h, 074h, 065h, 072h, 020h, 064h, 069h, 074h, 063h, 068h, 069h, 06Eh, 067h, 020h, 074h, 068h
     db 072h, 065h, 065h, 020h, 076h, 065h, 072h, 079h, 020h, 065h, 078h, 070h, 065h, 06Eh, 073h, 069h
     db 076h, 065h, 020h, 061h, 069h, 072h, 063h, 072h, 061h, 066h, 074h, 02Ch, 000h
-_str_deskMsg2 equ str_deskMsg2
-str_deskMsg2 db 079h
+_str_deskMsg2 db 079h
     db 06Fh, 075h, 020h, 061h, 072h, 065h, 020h, 061h, 073h, 073h, 069h, 067h, 06Eh, 065h, 064h, 020h
     db 061h, 020h, 064h, 065h, 073h, 06Bh, 020h, 06Ah, 06Fh, 062h, 02Eh, 000h
-_str_deathPic equ str_deathPic
-str_deathPic db 064h
+_str_deathPic db 064h
     db 065h, 061h, 074h, 068h, 02Eh, 070h, 069h, 063h, 000h
-_str_deathMsg1 equ str_deathMsg1
-str_deathMsg1 db 049h
+_str_deathMsg1 db 049h
     db 06Eh, 020h, 074h, 068h, 065h, 020h, 077h, 061h, 06Bh, 065h, 020h, 06Fh, 066h, 020h, 074h, 068h
     db 065h, 020h, 068h, 06Fh, 072h, 072h, 069h, 062h, 06Ch, 065h, 020h, 063h, 072h, 061h, 073h, 068h
     db 02Ch, 000h
-_str_deathMsg2 equ str_deathMsg2
-str_deathMsg2 db 079h
+_str_deathMsg2 db 079h
     db 06Fh, 075h, 072h, 020h, 066h, 061h, 06Dh, 069h, 06Ch, 079h, 020h, 061h, 06Eh, 064h, 020h, 066h
     db 072h, 069h, 065h, 06Eh, 064h, 073h, 020h, 06Dh, 06Fh, 075h, 072h, 06Eh, 020h, 079h, 06Fh, 075h
     db 072h, 020h, 06Ch, 06Fh, 073h, 073h, 02Eh, 000h
-_str_promoPic equ str_promoPic
-str_promoPic db 070h
+_str_promoPic db 070h
     db 072h, 06Fh, 06Dh, 06Fh, 02Eh, 070h, 069h, 063h, 000h
-_str_promoMsg1 equ str_promoMsg1
-str_promoMsg1 db 046h
+_str_promoMsg1 db 046h
     db 06Fh, 072h, 020h, 079h, 06Fh, 075h, 072h, 020h, 063h, 06Fh, 06Eh, 073h, 069h, 073h, 074h, 065h
     db 06Eh, 074h, 06Ch, 079h, 020h, 073h, 075h, 063h, 063h, 065h, 073h, 073h, 066h, 075h, 06Ch, 020h
     db 06Dh, 069h, 073h, 073h, 069h, 06Fh, 06Eh, 073h, 02Ch, 000h
-_str_promoMsg2 equ str_promoMsg2
-str_promoMsg2 db 079h
+_str_promoMsg2 db 079h
     db 06Fh, 075h, 020h, 068h, 061h, 076h, 065h, 020h, 062h, 065h, 065h, 06Eh, 020h, 070h, 072h, 06Fh
     db 06Dh, 06Fh, 074h, 065h, 064h, 020h, 074h, 06Fh, 020h, 000h
-_str_medalPic equ str_medalPic
-str_medalPic db 06Dh
+_str_medalPic db 06Dh
     db 065h, 064h, 061h, 06Ch, 02Eh, 070h, 069h, 063h, 000h
-_str_medalMsg1 equ str_medalMsg1
-str_medalMsg1 db 046h
+_str_medalMsg1 db 046h
     db 06Fh, 072h, 020h, 079h, 06Fh, 075h, 072h, 020h, 06Fh, 075h, 074h, 073h, 074h, 061h, 06Eh, 064h
     db 069h, 06Eh, 067h, 020h, 070h, 065h, 072h, 066h, 06Fh, 072h, 06Dh, 061h, 06Eh, 063h, 065h, 02Ch
     db 020h, 079h, 06Fh, 075h, 020h, 072h, 065h, 063h, 065h, 069h, 076h, 065h, 000h
-_str_medalMsg2 equ str_medalMsg2
-str_medalMsg2 db 074h
+_str_medalMsg2 db 074h
     db 068h, 065h, 020h, 000h
 _ps_var86_target db 000h, 000h, 000h, 000h
 _awardColor db 007h
@@ -4796,164 +4756,114 @@ _mapViewX2 db 0E8h
     db 000h
 _mapViewY2 db 0B2h
     db 000h
-_str_pressExit equ str_pressExit
-str_pressExit db 050h
+_str_pressExit db 050h
     db 072h, 065h, 073h, 073h, 020h, 053h, 065h, 06Ch, 065h, 063h, 074h, 06Fh, 072h, 020h, 074h, 06Fh
     db 020h, 065h, 078h, 069h, 074h, 020h, 044h, 065h, 062h, 072h, 069h, 065h, 066h, 069h, 06Eh, 067h
     db 000h
-_str_dot1 equ str_dot1
-str_dot1 db 08Dh
+_str_dot1 db 08Dh
     db 000h
-_str_overall1 equ str_overall1
-str_overall1 db 04Fh
+_str_overall1 db 04Fh
     db 056h, 045h, 052h, 041h, 04Ch, 04Ch, 000h
-_str_missionRating1 equ str_missionRating1
-str_missionRating1 db 04Dh
+_str_missionRating1 db 04Dh
     db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 052h, 041h, 054h, 049h, 04Eh, 047h, 000h
-_str_dot2 equ str_dot2
-str_dot2 db 080h
+_str_dot2 db 080h
     db 000h
-_str_trainingScore equ str_trainingScore
-str_trainingScore db 084h
+_str_trainingScore db 084h
     db 054h, 072h, 061h, 069h, 06Eh, 069h, 06Eh, 067h, 020h, 053h, 063h, 06Fh, 072h, 065h, 000h
-_str_notRecorded equ str_notRecorded
-str_notRecorded db 04Eh
+_str_notRecorded db 04Eh
     db 04Fh, 054h, 020h, 052h, 065h, 063h, 06Fh, 072h, 064h, 065h, 064h, 020h, 021h, 000h
-_str_dot3 equ str_dot3
-str_dot3 db 08Dh
+_str_dot3 db 08Dh
     db 000h
-_str_careerTotal equ str_careerTotal
-str_careerTotal db 043h
+_str_careerTotal db 043h
     db 041h, 052h, 045h, 045h, 052h, 020h, 054h, 04Fh, 054h, 041h, 04Ch, 000h
-_str_dot4 equ str_dot4
-str_dot4 db 080h
+_str_dot4 db 080h
     db 000h
-_str_missionSummary equ str_missionSummary
-str_missionSummary db 04Dh
+_str_missionSummary db 04Dh
     db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 053h, 055h, 04Dh, 04Dh, 041h, 052h, 059h, 000h
-_str_priSecTargets equ str_priSecTargets
-str_priSecTargets db 050h
+_str_priSecTargets db 050h
     db 072h, 069h, 02Fh, 053h, 065h, 063h, 020h, 054h, 061h, 072h, 067h, 065h, 074h, 073h, 000h
-_str_otherTargets equ str_otherTargets
-str_otherTargets db 04Fh
+_str_otherTargets db 04Fh
     db 074h, 068h, 065h, 072h, 020h, 054h, 061h, 072h, 067h, 065h, 074h, 073h, 000h
-_str_enemyPlanes equ str_enemyPlanes
-str_enemyPlanes db 045h
+_str_enemyPlanes db 045h
     db 06Eh, 065h, 06Dh, 079h, 020h, 050h, 06Ch, 061h, 06Eh, 065h, 073h, 000h
-_str_friendlyTargets equ str_friendlyTargets
-str_friendlyTargets db 046h
+_str_friendlyTargets db 046h
     db 072h, 069h, 065h, 06Eh, 064h, 06Ch, 079h, 020h, 054h, 061h, 072h, 067h, 065h, 074h, 073h, 000h
-_str_dot5 equ str_dot5
-str_dot5 db 08Dh
+_str_dot5 db 08Dh
     db 000h
-_str_overall2 equ str_overall2
-str_overall2 db 04Fh
+_str_overall2 db 04Fh
     db 056h, 045h, 052h, 041h, 04Ch, 04Ch, 000h
-_str_missionRating2 equ str_missionRating2
-str_missionRating2 db 04Dh
+_str_missionRating2 db 04Dh
     db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 052h, 041h, 054h, 049h, 04Eh, 047h, 000h
-_str_dot6 equ str_dot6
-str_dot6 db 080h
+_str_dot6 db 080h
     db 000h
-_str_missionEvent equ str_missionEvent
-str_missionEvent db 04Dh
+_str_missionEvent db 04Dh
     db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 045h, 056h, 045h, 04Eh, 054h, 000h
-_str_time equ str_time
-str_time db 054h
+_str_time db 054h
     db 049h, 04Dh, 045h, 03Ah, 020h, 080h, 000h
-_str_destroyed4 equ str_destroyed4
-str_destroyed4 db 020h
+_str_destroyed4 db 020h
     db 000h
-_str_destroyed1 equ str_destroyed1
-str_destroyed1 db 020h
+_str_destroyed1 db 020h
     db 064h, 065h, 073h, 074h, 072h, 06Fh, 079h, 065h, 064h, 000h
-_str_destroyed2 equ str_destroyed2
-str_destroyed2 db 020h
+_str_destroyed2 db 020h
     db 064h, 065h, 073h, 074h, 072h, 06Fh, 079h, 065h, 064h, 000h
-_str_shotDown2 equ str_shotDown2
-str_shotDown2 db 020h
+_str_shotDown2 db 020h
     db 000h
-_str_shotDown equ str_shotDown
-str_shotDown db 020h
+_str_shotDown db 020h
     db 073h, 068h, 06Fh, 074h, 020h, 064h, 06Fh, 077h, 06Eh, 000h
-_str_destroyed3 equ str_destroyed3
-str_destroyed3 db 020h
+_str_destroyed3 db 020h
     db 064h, 065h, 073h, 074h, 072h, 06Fh, 079h, 065h, 064h, 000h
-_str_rearmed3 equ str_rearmed3
-str_rearmed3 db 020h
+_str_rearmed3 db 020h
     db 000h
-_str_rearmed1 equ str_rearmed1
-str_rearmed1 db 020h
+_str_rearmed1 db 020h
     db 02Dh, 020h, 052h, 065h, 061h, 072h, 06Dh, 065h, 064h, 02Fh, 052h, 065h, 066h, 075h, 065h, 06Ch
     db 065h, 064h, 000h
-_str_rearmed2 equ str_rearmed2
-str_rearmed2 db 020h
+_str_rearmed2 db 020h
     db 02Dh, 020h, 052h, 065h, 061h, 072h, 06Dh, 065h, 064h, 02Fh, 052h, 065h, 066h, 075h, 065h, 06Ch
     db 065h, 064h, 000h
-_str_hitBy equ str_hitBy
-str_hitBy db 048h
+_str_hitBy db 048h
     db 069h, 074h, 020h, 062h, 079h, 020h, 000h
-_str_missile equ str_missile
-str_missile db 020h
+_str_missile db 020h
     db 06Dh, 069h, 073h, 073h, 069h, 06Ch, 065h, 000h
-_str_takeoffPoint equ str_takeoffPoint
-str_takeoffPoint db 054h
+_str_takeoffPoint db 054h
     db 061h, 06Bh, 065h, 06Fh, 066h, 066h, 020h, 070h, 06Fh, 069h, 06Eh, 074h, 03Ah, 000h
-_str_missionEnd equ str_missionEnd
-str_missionEnd db 04Dh
+_str_missionEnd db 04Dh
     db 069h, 073h, 073h, 069h, 06Fh, 06Eh, 020h, 065h, 06Eh, 064h, 03Ah, 00Ah, 000h
-_str_crashed equ str_crashed
-str_crashed db 043h
+_str_crashed db 043h
     db 072h, 061h, 073h, 068h, 065h, 064h, 000h
-_str_goodBailout equ str_goodBailout
-str_goodBailout db 047h
+_str_goodBailout db 047h
     db 06Fh, 06Fh, 064h, 020h, 042h, 061h, 069h, 06Ch, 06Fh, 075h, 074h, 000h
-_str_captured equ str_captured
-str_captured db 043h
+_str_captured db 043h
     db 061h, 070h, 074h, 075h, 072h, 065h, 064h, 000h
-_str_bailedDied equ str_bailedDied
-str_bailedDied db 042h
+_str_bailedDied db 042h
     db 061h, 069h, 06Ch, 065h, 064h, 020h, 026h, 020h, 044h, 069h, 065h, 064h, 000h
-_str_goodLanding equ str_goodLanding
-str_goodLanding db 047h
+_str_goodLanding db 047h
     db 06Fh, 06Fh, 064h, 020h, 04Ch, 061h, 06Eh, 064h, 069h, 06Eh, 067h, 000h
-_str_primaryObj equ str_primaryObj
-str_primaryObj db 08Ch
+_str_primaryObj db 08Ch
     db 050h, 052h, 049h, 04Dh, 041h, 052h, 059h, 020h, 04Fh, 042h, 04Ah, 045h, 043h, 054h, 049h, 056h
     db 045h, 000h
-_str_secndryObj equ str_secndryObj
-str_secndryObj db 08Ch
+_str_secndryObj db 08Ch
     db 053h, 045h, 043h, 04Eh, 044h, 052h, 059h, 020h, 04Fh, 042h, 04Ah, 045h, 043h, 054h, 049h, 056h
     db 045h, 000h
-_str_cumulative2 equ str_cumulative2
-str_cumulative2 db 08Dh
+_str_cumulative2 db 08Dh
     db 000h
-_str_cumulative equ str_cumulative
-str_cumulative db 043h
+_str_cumulative db 043h
     db 055h, 04Dh, 055h, 04Ch, 041h, 054h, 049h, 056h, 045h, 000h
-_str_missionRating3 equ str_missionRating3
-str_missionRating3 db 04Dh
+_str_missionRating3 db 04Dh
     db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 052h, 041h, 054h, 049h, 04Eh, 047h, 000h
-_str_pressSelect equ str_pressSelect
-str_pressSelect db 080h
+_str_pressSelect db 080h
     db 000h
-_str_pressNext equ str_pressNext
-str_pressNext db 050h
+_str_pressNext db 050h
     db 072h, 065h, 073h, 073h, 020h, 053h, 065h, 06Ch, 065h, 063h, 074h, 06Fh, 072h, 020h, 066h, 06Fh
     db 072h, 020h, 06Eh, 065h, 078h, 074h, 020h, 06Dh, 069h, 073h, 073h, 069h, 06Fh, 06Eh, 020h, 065h
     db 076h, 065h, 06Eh, 074h, 000h
-str_inFlight db 080h
+_str_inFlight db 080h
     db 049h, 06Eh, 02Dh, 046h, 06Ch, 069h, 067h, 068h, 074h, 000h
-_str_inFlight equ str_inFlight
-str_timeLabel db 08Dh
+_str_timeLabel db 08Dh
     db 054h, 049h, 04Dh, 045h, 03Ah, 020h, 080h, 000h
-_str_timeLabel equ str_timeLabel
-str_timeZeros db 080h
+_str_timeZeros db 080h
     db 000h
-_str_timeZeros equ str_timeZeros
-str_timeFormat db 030h
+_str_timeFormat db 030h
     db 030h, 03Ah, 030h, 030h, 03Ah, 030h, 030h, 000h
-_str_timeFormat equ str_timeFormat
 _popupSpriteY db 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 028h, 000h, 028h, 000h, 028h
     db 000h, 028h, 000h, 028h, 000h, 028h, 000h, 050h, 000h, 050h, 000h, 050h, 000h, 050h, 000h, 050h
@@ -5262,15 +5172,13 @@ _var_180 db 2 dup(?)
 dat_4246 db 2 dup(?)
 _samKilled db 2 dup(?)
 _samMissed db 4 dup(?)
-_dat_424e equ dat_424e
-dat_424e db 8 dup(?)
+_dat_424e db 8 dup(?)
 _slotInfoTable label byte
 _var_183x db 6 dup(?)
 _var_425c db 1188 dup(?)
 _gridFlags db 256 dup(?)
 _target1Type db 4 dup(?)
-_dat_4804 equ dat_4804
-dat_4804 db 4 dup(?)
+_dat_4804 db 4 dup(?)
 _target1MiscBits db 10 dup(?)
 _target2Type db 8 dup(?)
 _target2MiscBits db 10 dup(?)

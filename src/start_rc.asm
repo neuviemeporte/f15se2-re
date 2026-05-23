@@ -35,7 +35,7 @@ PUBLIC _gridBuf4
 PUBLIC _gridBuf5
 PUBLIC _aBadGridFileFor
 PUBLIC _gridSignature
-PUBLIC _aInsufficientSy
+PUBLIC _str_allocError
 PUBLIC _byte_1B0D3
 PUBLIC _aCc00
 PUBLIC _aEs00
@@ -1759,7 +1759,7 @@ _rowOffset dw 0
     db 0
 _row dw 0
 _readFromFilePtr dw 0
-_aInsufficientSy db 'Insufficient system memory - AllocBuffer$',0
+_str_allocError db 'Insufficient system memory - AllocBuffer$',0
 aBufferDeallocE db 'Buffer dealloc error$',0
 _word_17FFE dw 0FFFFh, 2 dup(1), 0FFFFh, 0, 1, 0, 0FFFFh, 0
 _word_18010 dw 2 dup(1), 2 dup(0FFFFh), 1, 0, 0FFFFh, 2 dup(0), 0E000h
