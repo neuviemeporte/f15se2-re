@@ -154,7 +154,7 @@ int getTimeOfDay();
 int increaseTimerCounters();
 // bytes outside routine, potential module boundary at 0x1adb
 // ==== startCode1:0x1adc ====
-int doFcbSearch
+int doFcbSearch();
 // ==== startCode1:0x1b03 ====
 void picBlit(int handle, int unk);
 // bytes outside routine, potential module boundary at 0x1b71

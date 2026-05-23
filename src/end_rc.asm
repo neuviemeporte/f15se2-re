@@ -1467,28 +1467,29 @@ clearRect proc near
 clearRect endp
 _clearRect equ clearRect
 
-clearDirtyRects proc near
-    mov DI,word ptr [_var_37]
-    or DI,DI
-    js LAB_1000_0f39
-    mov CX,word ptr [_var_38]
-    inc CX
-    sub CX,DI
-    shl DI,1h
-    mov BX,CX
-    mov DX,DI
-    add DI,offset _var_35
-    mov AX,0ffffh
-    rep stosw
-    mov word ptr [_var_37],AX
-    mov CX,BX
-    mov DI,DX
-    add DI,offset _var_36
-    sub AX,AX
-    rep stosw
-    mov word ptr [_var_38],AX
-LAB_1000_0f39:
-    ret
+; --- shared graphics routines
+dirtyRectMin     EQU _var_37
+dirtyRectMax     EQU _var_38
+dirtyMinBuf      EQU _var_35
+dirtyMaxBuf      EQU _var_36
+lineX1           EQU _var_31
+lineY1           EQU _var_33
+lineX2           EQU _var_32
+lineY2           EQU _var_34
+clipDx           EQU _var_40
+clipDy           EQU _var_42
+clipDxHalf       EQU _var_44
+clipDyHalf       EQU _var_45
+clipOutcode      EQU _var_39
+clipMaxX         EQU _var_46
+clipMaxY         EQU _var_47
+clipDivZeroHandler EQU _var_26
+CALL_GFX_1F MACRO
+    call far ptr gfx_jump_1f
+ENDM
+INCLUDE shared_gfx.inc
+; dead code (unreconstructed routines between clearDirtyRects and drawLineWrapper)
+dead_0f3a proc near
     db 8Bh
     db 0CFh
     db 0Bh
@@ -1813,214 +1814,12 @@ LAB_1000_0f39:
     db 0Dh
     db 00h
     db 0CBh
-clearDirtyRects endp
+dead_0f3a endp
 
-routine_154 proc near
-    push BP
-    push SI
-    push DI
-    push ES
-    call routine_158
-    pop ES
-    pop DI
-    pop SI
-    pop BP
-    ret
-routine_154 endp
-
-routine_158 proc near
-    sub AX,AX
-    mov ES,AX
-    push word ptr ES:[0h]
-    lea AX,word ptr [_var_26]
-    mov ES:[0h],AX
-    push DS
-    pop ES
-    jmp LAB_1000_10fa
-    db 90h
-LAB_1000_10a0:
-    sub AX,AX
-    mov ES,AX
-    pop word ptr ES:[0h]
-    push DS
-    pop ES
-    mov AX,word ptr [_var_31]
-    mov BX,word ptr [_var_33]
-    mov CX,word ptr [_var_32]
-    mov DX,word ptr [_var_34]
-    call far ptr gfx_jump_1f
-    clc
-    ret
-LAB_1000_10c1:
-    sub AX,AX
-    mov ES,AX
-    pop word ptr ES:[0h]
-    push DS
-    pop ES
-    stc
-    ret
-LAB_1000_10ce:
-    cmc
-    rcr DX,1h
-    mov word ptr [_var_40],DX
-    sar DX,1h
-    mov word ptr [_var_44],DX
-    mov DX,DI
-    sub DX,BP
-    jno LAB_1000_10e7
-    cmc
-    rcr DX,1h
-    jmp LAB_1000_1155
-    db 90h
-LAB_1000_10e7:
-    sar DX,1h
-    jmp LAB_1000_1155
-    db 90h
-LAB_1000_10ec:
-    cmc
-    rcr DX,1h
-    sar word ptr [_var_40],1h
-    sar word ptr [_var_44],1h
-    jmp LAB_1000_1155
-    db 90h
-LAB_1000_10fa:
-    mov CX,word ptr [_var_31]
-    mov DX,word ptr [_var_33]
-    mov SI,word ptr [_var_32]
-    mov DI,word ptr [_var_34]
-    mov BX,CX
-    mov BP,DX
-    call computeOutcode
-    mov byte ptr [_var_39],AL
-    mov BX,SI
-    mov BP,DI
-    call computeOutcode
-    jnz LAB_1000_1137
-    cmp byte ptr [_var_39],0h
-    jnz LAB_1000_1127
-    jmp LAB_1000_10a0
-LAB_1000_1127:
-    db 87h, 0CEh  ; xchg CX,SI
-    db 87h, 0D7h  ; xchg DX,DI
-    xchg byte ptr [_var_39],AL
-    mov word ptr [_var_31],CX
-    mov word ptr [_var_33],DX
-LAB_1000_1137:
-    test byte ptr [_var_39],AL
-    jnz LAB_1000_10c1
-    mov BP,DX
-    mov DX,SI
-    sub DX,CX
-    jo LAB_1000_10ce
-    mov word ptr [_var_40],DX
-    sar DX,1h
-    mov word ptr [_var_44],DX
-    mov DX,DI
-    sub DX,BP
-    jo LAB_1000_10ec
-LAB_1000_1155:
-    mov word ptr [_var_42],DX
-    sar DX,1h
-    mov word ptr [_var_45],DX
-LAB_1000_115f:
-    test AL,9h
-    jz LAB_1000_119b
-    sub BX,BX
-    or SI,SI
-    js LAB_1000_116d
-    mov BX,word ptr [_var_46]
-LAB_1000_116d:
-    mov AX,BX
-    sub AX,CX
-    imul word ptr [_var_42]
-    push BX
-    mov BX,DX
-    idiv word ptr [_var_40]
-    mov BL,BH
-    xor BL,byte ptr [_var_41]
-    jns LAB_1000_1187
-    neg DX
-    dec AX
-LAB_1000_1187:
-    sub DX,word ptr [_var_44]
-    xor DH,BH
-    js LAB_1000_1190
-    inc AX
-LAB_1000_1190:
-    pop BX
-    add AX,BP
-    js LAB_1000_11a3
-    cmp AX,word ptr [_var_47]
-    jle LAB_1000_11d4
-LAB_1000_119b:
-    mov BX,word ptr [_var_47]
-    cmp DI,BX
-    jg LAB_1000_11a5
-LAB_1000_11a3:
-    sub BX,BX
-LAB_1000_11a5:
-    mov AX,BX
-    sub AX,BP
-    imul word ptr [_var_40]
-    push BX
-    mov BX,DX
-    idiv word ptr [_var_42]
-    mov BL,BH
-    xor BL,byte ptr [_var_43]
-    jns LAB_1000_11bf
-    neg DX
-    dec AX
-LAB_1000_11bf:
-    sub DX,word ptr [_var_45]
-    xor DH,BH
-    js LAB_1000_11c8
-    inc AX
-LAB_1000_11c8:
-    pop BX
-    add AX,CX
-    js LAB_1000_11e5
-    cmp AX,word ptr [_var_46]
-    jg LAB_1000_11e5
-    xchg AX,BX
-LAB_1000_11d4:
-    cmp byte ptr [_var_39],0h
-    jnz LAB_1000_11e8
-    mov word ptr [_var_34],AX
-    mov word ptr [_var_32],BX
-    jmp LAB_1000_10a0
-LAB_1000_11e5:
-    jmp LAB_1000_10c1
-LAB_1000_11e8:
-    mov word ptr [_var_33],AX
-    mov word ptr [_var_31],BX
-    db 87h, 0CEh  ; xchg CX,SI
-    db 87h, 0EFh  ; xchg BP,DI
-    mov AL,byte ptr [_var_39]
-    mov byte ptr [_var_39],0h
-    jmp LAB_1000_115f
-routine_158 endp
-
-computeOutcode proc near
-    mov AL,0fh
-    or BX,BX
-    js LAB_1000_1206
-    and AL,0f7h
-LAB_1000_1206:
-    cmp BX,word ptr [_var_46]
-    jg LAB_1000_120e
-    and AL,0feh
-LAB_1000_120e:
-    or BP,BP
-    js LAB_1000_1214
-    and AL,0fbh
-LAB_1000_1214:
-    cmp BP,word ptr [_var_47]
-    jg LAB_1000_121c
-    and AL,0fdh
-LAB_1000_121c:
-    or AL,AL
-    ret
-computeOutcode endp
+; routine_154 (drawLineWrapper), routine_158 (clipAndDrawLine), and computeOutcode
+; are now provided by shared_gfx.inc above
+; Alias for callers that used the old name
+routine_154 EQU _drawLineWrapper
 
 FUN_1000_121f proc near
     push BP
@@ -2041,59 +1840,15 @@ LAB_1000_1238:
     iret
 FUN_1000_121f endp
 
+; --- shared Ctrl+Break handler
 PUBLIC _installCBreakHandler
-_installCBreakHandler:
-installCBreakHandler proc near
-    push SI
-    push DI
-    push DX
-    push DS
-    mov SI,6ch
-    call routine_33
-    mov word ptr [_var_59],BX
-    mov word ptr [_var_58],AX
-    mov AX,seg @code
-    mov DX,offset cbreakHandler
-    mov DS,AX
-    mov AX,251bh
-    int 21h
-    pop DS
-    pop DX
-    pop DI
-    pop SI
-    ret
-installCBreakHandler endp
-
-restoreCbreakHandler proc near
 PUBLIC _restoreCbreakHandler
-_restoreCbreakHandler:
-    push DS
-    mov AX,word ptr [_var_58]
-    mov DX,word ptr [_var_59]
-    mov DS,AX
-    mov AX,251bh
-    int 21h
-    pop DS
-    ret
-restoreCbreakHandler endp
-
-routine_33 proc near
-    push DS
-    xor AX,AX
-    mov DS,AX
-    mov BX,word ptr [SI]
-    mov AX,word ptr [SI + 2h]
-    pop DS
-    ret
-cbreakHandler:
-    push DS
-    push AX
-    mov AX,seg @data
-    mov DS,AX
-    mov byte ptr [_quitFlag],0FFh
-    pop AX
-    pop DS
-    iret
+cbreakSavedSeg   EQU _var_58
+cbreakSavedOfs   EQU _var_59
+cbreakFlag       EQU _quitFlag
+INCLUDE shared_cbreak.inc
+; remaining code that was inside the original routine_33 scope
+dead_routine_33 proc near
     db 00h
     push BP
     mov BP,SP
@@ -2118,7 +1873,7 @@ cbreakHandler:
     pop BP
     ret
     db 90h
-routine_33 endp
+dead_routine_33 endp
 
 loadFileSection equ _loadFileSection
 

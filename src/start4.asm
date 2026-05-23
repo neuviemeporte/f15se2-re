@@ -1042,297 +1042,35 @@ _clearRect proc near
 _clearRect endp
 ; ------------------------------startCode1:0x2c58------------------------------
 ; ------------------------------startCode1:0x2c75------------------------------
-clearDirtyRects proc near
-    mov di, _word_17BEB
-    or di, di
-    js short locret_12CA5
-    mov cx, _word_17BED
-    inc cx
-    sub cx, di
-    shl di, 1
-    mov bx, cx
-    mov dx, di
-    add di, offset _byte_17877
-    mov ax, 0FFFFh
-    rep stosw
-    mov _word_17BEB, ax
-    mov cx, bx
-    mov di, dx
-    add di, offset _byte_17A2F
-    sub ax, ax
-    rep stosw
-    mov _word_17BED, ax
-locret_12CA5:
-    retn
-clearDirtyRects endp
-; ------------------------------startCode1:0x2ca5------------------------------
-; ------------------------------startCode1:0x2dea------------------------------
-_drawLineWrapper proc near
-    push bp
-    push si
-    push di
-    push es
-    call clipAndDrawLine
-    pop es
-    pop di
-    pop si
-    pop bp
-    retn
-_drawLineWrapper endp
-; ------------------------------startCode1:0x2df5------------------------------
-; ------------------------------startCode1:0x2df6------------------------------
-clipAndDrawLine proc near
-    arg_109F = word ptr 10A1h
-    sub ax, ax
-    mov es, ax
-    push word ptr es:0
-    lea ax, _byte_19ADB
-    mov es:0, ax
-    push ds
-    pop es
-    jmp short loc_12E66
-    nop
-loc_12E0C:
-    sub ax, ax
-    mov es, ax
-    pop word ptr es:0
-    push ds
-    pop es
-    mov ax, _lineX1
-    mov bx, _lineY1
-    mov cx, _lineX2
-    mov dx, _lineY2
+; --- shared graphics routines (clearDirtyRects, drawLineWrapper, clipAndDrawLine, computeOutcode)
+dirtyRectMin     EQU _word_17BEB
+dirtyRectMax     EQU _word_17BED
+dirtyMinBuf      EQU _byte_17877
+dirtyMaxBuf      EQU _byte_17A2F
+lineX1           EQU _lineX1
+lineY1           EQU _lineY1
+lineX2           EQU _lineX2
+lineY2           EQU _lineY2
+clipDx           EQU _word_17BF1
+clipDy           EQU _word_17BF3
+clipDxHalf       EQU _word_17BF5
+clipDyHalf       EQU _word_17BF7
+clipOutcode      EQU _byte_17BF0
+clipMaxX         EQU _word_17BF9
+clipMaxY         EQU _word_17BFB
+clipDivZeroHandler EQU _byte_19ADB
+CALL_GFX_1F MACRO
     call _gfx_jump_1f
-    clc
-    retn
-loc_12E2D:
-    sub ax, ax
-    mov es, ax
-    pop word ptr es:0
-    push ds
-    pop es
-    stc
-    retn
-loc_12E3A:
-    cmc
-    rcr dx, 1
-    mov _word_17BF1, dx
-    sar dx, 1
-    mov _word_17BF5, dx
-    mov dx, di
-    sub dx, bp
-    jno short loc_12E53
-    cmc
-    rcr dx, 1
-    jmp short loc_12EC1
-    nop
-loc_12E53:
-    sar dx, 1
-    jmp short loc_12EC1
-    nop
-loc_12E58:
-    cmc
-    rcr dx, 1
-    sar _word_17BF1, 1
-    sar _word_17BF5, 1
-    jmp short loc_12EC1
-    nop
-loc_12E66:
-    mov cx, _lineX1
-    mov dx, _lineY1
-    mov si, _lineX2
-    mov di, _lineY2
-    mov bx, cx
-    mov bp, dx
-    call computeOutcode
-    mov _byte_17BF0, al
-    mov bx, si
-    mov bp, di
-    call computeOutcode
-    jnz short loc_12EA3
-    cmp _byte_17BF0, 0
-    jnz short loc_12E93
-    jmp loc_12E0C
-loc_12E93:
-    xchg cx, si
-    xchg dx, di
-    xchg al, _byte_17BF0
-    mov _lineX1, cx
-    mov _lineY1, dx
-loc_12EA3:
-    test _byte_17BF0, al
-    jnz short loc_12E2D
-    mov bp, dx
-    mov dx, si
-    sub dx, cx
-    jo short loc_12E3A
-    mov _word_17BF1, dx
-    sar dx, 1
-    mov _word_17BF5, dx
-    mov dx, di
-    sub dx, bp
-    jo short loc_12E58
-loc_12EC1:
-    mov _word_17BF3, dx
-    sar dx, 1
-    mov _word_17BF7, dx
-loc_12ECB:
-    test al, 9
-    jz short loc_12F07
-    sub bx, bx
-    or si, si
-    js short loc_12ED9
-    mov bx, _word_17BF9
-loc_12ED9:
-    mov ax, bx
-    sub ax, cx
-    imul _word_17BF3
-    push bx
-    mov bx, dx
-    idiv _word_17BF1
-    mov bl, bh
-    xor bl, byte ptr _word_17BF1+1
-    jns short loc_12EF3
-    neg dx
-    dec ax
-loc_12EF3:
-    sub dx, _word_17BF5
-    xor dh, bh
-    js short loc_12EFC
-    inc ax
-loc_12EFC:
-    pop bx
-    add ax, bp
-    js short loc_12F0F
-    cmp ax, _word_17BFB
-    jle short loc_12F40
-loc_12F07:
-    mov bx, _word_17BFB
-    cmp di, bx
-    jg short loc_12F11
-loc_12F0F:
-    sub bx, bx
-loc_12F11:
-    mov ax, bx
-    sub ax, bp
-    imul _word_17BF1
-    push bx
-    mov bx, dx
-    idiv _word_17BF3
-    mov bl, bh
-    xor bl, byte ptr _word_17BF3+1
-    jns short loc_12F2B
-    neg dx
-    dec ax
-loc_12F2B:
-    sub dx, _word_17BF7
-    xor dh, bh
-    js short loc_12F34
-    inc ax
-loc_12F34:
-    pop bx
-    add ax, cx
-    js short loc_12F51
-    cmp ax, _word_17BF9
-    jg short loc_12F51
-    xchg ax, bx
-loc_12F40:
-    cmp _byte_17BF0, 0
-    jnz short loc_12F54
-    mov _lineY2, ax
-    mov _lineX2, bx
-    jmp loc_12E0C
-loc_12F51:
-    jmp loc_12E2D
-loc_12F54:
-    mov _lineY1, ax
-    mov _lineX1, bx
-    xchg cx, si
-    xchg bp, di
-    mov al, _byte_17BF0
-    mov _byte_17BF0, 0
-    jmp loc_12ECB
-clipAndDrawLine endp
-; ------------------------------startCode1:0x2f67------------------------------
-; ------------------------------startCode1:0x2f6a------------------------------
-computeOutcode proc near
-    mov al, 0Fh
-    or bx, bx
-    js short loc_12F72
-    and al, 0F7h
-loc_12F72:
-    cmp bx, _word_17BF9
-    jg short loc_12F7A
-    and al, 0FEh
-loc_12F7A:
-    or bp, bp
-    js short loc_12F80
-    and al, 0FBh
-loc_12F80:
-    cmp bp, _word_17BFB
-    jg short loc_12F88
-    and al, 0FDh
-loc_12F88:
-    or al, al
-    retn
-computeOutcode endp
+ENDM
+INCLUDE shared_gfx.inc
+; ------------------------------startCode1:0x2f8a------------------------------
 ; ------------------------------startCode1:0x2f8a------------------------------
 ; ------------------------------startCode1:0x2fac------------------------------
-_installCBreakHandler proc near
-    push si
-    push di
-    push dx
-    push ds
-    mov si, IRQ_CBREAK*4
-    call getInterruptHandler
-    mov _origCBreakOfs, bx
-    mov _origCBreakSeg, ax
-    mov ax, seg @code
-    mov dx, offset cbreakHandler
-    mov ds, ax
-    mov ax, 251Bh ;1B - cbreak interrupt
-    int 21h ;DOS - SET INTERRUPT VECTOR
-    pop ds
-    pop dx
-    pop di
-    pop si
-    retn
-_installCBreakHandler endp
-; ------------------------------startCode1:0x2fce------------------------------
-; ------------------------------startCode1:0x2fcf------------------------------
-_restoreCbreakHandler proc near
-    push ds
-    mov ax, _origCBreakSeg
-    mov dx, _origCBreakOfs
-    mov ds, ax
-    mov ax, 251Bh
-    int 21h ;DOS - SET INTERRUPT VECTOR
-    pop ds
-    retn
-_restoreCbreakHandler endp
-; ------------------------------startCode1:0x2fdf------------------------------
-; ------------------------------startCode1:0x2fe0------------------------------
-getInterruptHandler proc near
-    push ds
-    xor ax, ax
-    mov ds, ax
-    mov bx, [si]
-    mov ax, [si+2]
-    pop ds
-    retn
-getInterruptHandler endp
-; ------------------------------startCode1:0x2feb------------------------------
-; ------------------------------startCode1:0x2fec------------------------------
-cbreakHandler proc far
-    push ds
-    push ax
-    mov ax, @data
-    mov ds, ax
-    mov _cbreakHit, 0FFh
-    pop ax
-    pop ds
-    iret
-cbreakHandler endp
+; --- shared Ctrl+Break handler (installCBreakHandler, restoreCbreakHandler, getInterruptHandler, cbreakHandler)
+cbreakSavedSeg   EQU _origCBreakSeg
+cbreakSavedOfs   EQU _origCBreakOfs
+cbreakFlag       EQU _cbreakHit
+INCLUDE shared_cbreak.inc
 ; ------------------------------startCode1:0x2ffa------------------------------
 ; ------------------------------startCode1:0x311a------------------------------
 _openFile proc near
