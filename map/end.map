@@ -35,8 +35,8 @@ loadWorldStrings: Code1 NEAR 01ba-020b R01ba-020b complete
 readWorldData: Code1 NEAR 020c-02f4 R020c-02f4 assembly
 loadWorldData: Code1 NEAR 02f5-0327 R02f5-0327 complete
 setupWorldBufPtr: Code1 NEAR 0328-033c R0328-033c assembly
-routine_108: Code1 NEAR 033d-0370 R033d-0370 assembly
-routine_109: Code1 NEAR 0371-03a4 R0371-03a4 assembly
+readFromWorldBuf: Code1 NEAR 033d-0370 R033d-0370 assembly
+readFromWorldFile: Code1 NEAR 0371-03a4 R0371-03a4 assembly
 clearKeybuf: Code1 NEAR 03a6-03b6 R03a6-03b6 assembly
 waitForKeyOrJoy: Code1 NEAR 03b7-0418 R03b7-0418 complete
 drawStringAt: Code1 NEAR 0442-0468 R0442-0468 complete
@@ -74,7 +74,7 @@ openShowPic: Code1 NEAR 15a6-15d1 R15a6-15d1 complete
 loadPic: Code1 NEAR 15fc-1624 R15fc-1624 complete
 showPicFile: Code1 NEAR 1664-16d5 R1664-16d5 assembly
 decodePic: Code1 NEAR 17b2-1819 R17b2-1819 assembly
-routine_120: Code1 NEAR 181a-181a R181a-181a ignore
+deadStub: Code1 NEAR 181a-181a R181a-181a ignore
 decodePicRow: Code1 NEAR 181c-1845 R181c-1845 assembly
 picReadDataAndMakeDict: Code1 NEAR 1846-188c R1846-188c assembly
 picMakeDict: Code1 NEAR 188d-18c2 R188d-18c2 assembly

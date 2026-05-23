@@ -74,8 +74,8 @@ EXTRN __aNlmul:PROC
 EXTRN _formatFlightTime:PROC
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
-PUBLIC _routine_108
-PUBLIC _routine_109
+PUBLIC _readFromWorldBuf
+PUBLIC _readFromWorldFile
 PUBLIC _worldBufHandle
 PUBLIC _worldDataReady
 PUBLIC _ejectedFlag
@@ -455,8 +455,8 @@ setupWorldBufPtr proc near
     ret
 setupWorldBufPtr endp
 
-_routine_108:
-routine_108 proc near
+_readFromWorldBuf:
+readFromWorldBuf proc near
     push BP
     mov BP,SP
     sub SP,4h
@@ -479,10 +479,10 @@ routine_108 proc near
     mov SP,BP
     pop BP
     ret
-routine_108 endp
+readFromWorldBuf endp
 
-_routine_109:
-routine_109 proc near
+_readFromWorldFile:
+readFromWorldFile proc near
     push BP
     mov BP,SP
     sub SP,4h
@@ -506,7 +506,7 @@ routine_109 proc near
     pop BP
     ret
     db 0C3h
-routine_109 endp
+readFromWorldFile endp
 
 PUBLIC _clearKeybuf
 _clearKeybuf:

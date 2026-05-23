@@ -255,8 +255,8 @@ void processMenuItems(void *items, int unused, int itemCount, int cursorStartX, 
 int selectMenuItem(int items, int unused, int itemCount, int inputState, int gfxPage);
 void loadWorldData(int destOffset, int size);
 void drawMenuItem(void *items, unsigned int index, int gfxPage);
-void routine_108(int destOffset, int size, int flag, int bufHandle);
-void routine_109(int destOffset, int size, int flag, int bufHandle);
+void readFromWorldBuf(int destOffset, int size, int flag, int bufHandle);
+void readFromWorldFile(int destOffset, int size, int flag, int bufHandle);
 extern int worldDataReady;
 extern char *worldStrings[];
 extern char worldStringBuf[];
