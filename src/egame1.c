@@ -12,6 +12,22 @@
 #include <stdlib.h>
 #include <string.h>
 
+// ==== seg000:0x18f6 ====
+int sub_118F6(void) {
+    int p, a, b, c;
+
+    sub_1D1E8();
+    sub_18E38();
+    word_336E8 = sub_1D200(0x1000) & 0x7ff8;
+    p = word_3B14C + word_3B15E;
+    word_330BC = (gameData->theater == 6 ? 5 : 9) < sub_1D200(0x10);
+    if (word_330BC && byte_32933) {
+        setupDac();
+    }
+    word_38F70 = (p & 0xF) << 8;
+    word_38FE0 = 0;
+}
+
 // ==== seg000:0x1a88 ====
 void sub_11A88(int param_1) {
     if (word_330C2 == 0) return;

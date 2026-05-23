@@ -57,6 +57,7 @@ EXTRN _sub_1C82D:PROC
 EXTRN _sub_198FA:PROC
 EXTRN _sub_19915:PROC
 EXTRN _sub_118D5:PROC
+EXTRN _sub_118F6:PROC
 EXTRN _sub_18E38:PROC
 EXTRN _sub_1957A:PROC
 EXTRN _sub_19595:PROC
@@ -182,6 +183,9 @@ PUBLIC _var_83
 PUBLIC _var_279
 PUBLIC _var_282
 PUBLIC _word_38F72
+PUBLIC _word_38F70
+PUBLIC _word_3B14C
+PUBLIC _word_3B15E
 PUBLIC _word_38FE0
 PUBLIC _var_349
 PUBLIC _var_350
@@ -2603,60 +2607,7 @@ sub_11841 equ _sub_11841
 sub_118D5 equ _sub_118D5
 ; ------------------------------seg000:0x18f5------------------------------
 ; ------------------------------seg000:0x18f6------------------------------
-sub_118F6 proc near
-    push BP
-    mov BP,SP
-    sub SP,8h
-    push SI
-    call sub_1D1E8
-    call sub_18E38
-    mov AX,1000h
-    push AX
-    call randlmul
-    add SP,2h
-    and AX,7ff8h
-    mov word ptr [_word_336E8],AX
-    mov AX,word ptr [word_3B14C]
-    add AX,word ptr [word_3B15E]
-    mov word ptr [BP + -2h],AX
-    mov AX,10h
-    push AX
-    call randlmul
-    add SP,2h
-    les BX,dword ptr [_gameData]
-    mov SI,AX
-    cmp word ptr ES:[BX + 38h],6h
-    jnz LAB_1000_1939
-    mov AX,5h
-    jmp LAB_1000_193c
-LAB_1000_1939:
-    mov AX,9h
-LAB_1000_193c:
-    cmp AX,SI
-    jge LAB_1000_1945
-    mov AX,1h
-    jmp LAB_1000_1947
-LAB_1000_1945:
-    sub AX,AX
-LAB_1000_1947:
-    mov word ptr [_word_330BC],AX
-    or AX,AX
-    jz LAB_1000_1958
-    cmp byte ptr [_byte_32933],0h
-    jz LAB_1000_1958
-    call _setupDac
-LAB_1000_1958:
-    mov AX,word ptr [BP + -2h]
-    db 25h, 0Fh, 00h ; and AX,0fh (force imm16 encoding)
-    mov CH,AL
-    sub CL,CL
-    mov word ptr [word_38F70],CX
-    mov word ptr [word_38FE0],0h
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_118F6 endp
+sub_118F6 equ _sub_118F6
 ; ------------------------------seg000:0x1970------------------------------
 ; ------------------------------seg000:0x1971------------------------------
 sub_11971 equ _sub_11971
@@ -34978,6 +34929,7 @@ ORG 022BAh
 _var_811 label byte
 ORG 00000h
 word_38F70 dw ?
+_word_38F70 equ word_38F70
 word_38F72 dw ?
 _word_38F72 equ word_38F72
 strBuf db 18h dup(?)
@@ -39748,6 +39700,7 @@ _word_3B146 equ word_3B146
 _word_3B148 dw ?
 _word_3B14A dw ?
 word_3B14C dw ?
+_word_3B14C equ word_3B14C
     db ?
     db ?
     db ?
@@ -39763,6 +39716,7 @@ word_3B15A dw ?
     db ?
     db ?
 word_3B15E dw ?
+_word_3B15E equ word_3B15E
     db ?
     db ?
     db ?
