@@ -398,7 +398,6 @@ PUBLIC _stru_3AA5E
 PUBLIC _word_3370C
 PUBLIC _stru_3B208
 PUBLIC _unk_3A948
-PUBLIC _sub_160D3
 
 PUBLIC _word_38152
 PUBLIC _word_37561
@@ -409,6 +408,9 @@ PUBLIC _sub_195C9
 PUBLIC _var_589
 PUBLIC _var_590
 PUBLIC _sub_2152A
+PUBLIC _sub_21704
+PUBLIC _sub_2171A
+PUBLIC _sub_2189C
 PUBLIC _off_38364
 PUBLIC _word_330BC
 PUBLIC _unk_3806E
@@ -6861,48 +6863,8 @@ _sub_15FDB endp
 sub_1606C equ _sub_1606C
 ; ------------------------------seg000:0x60d2------------------------------
 ; ------------------------------seg000:0x60d3------------------------------
-_sub_160D3 proc near
-    push BP
-    mov BP,SP
-LAB_1000_60d6:
-    mov BX,word ptr [BP + 4h]
-    cmp word ptr [BX],-1h
-    jz LAB_1000_6137
-    add word ptr [BP + 4h],2h
-    mov BX,word ptr [BX]
-    mov AL,byte ptr [BX + offset byte_3419C]
-    sub AH,AH
-    push AX
-    call far ptr _gfx_jump_21
-    add SP,2h
-    call far ptr sub_2171A
-    add word ptr [BP + 4h],4h
-LAB_1000_60fc:
-    mov BX,word ptr [BP + 4h]
-    cmp word ptr [BX],-1h
-    jz LAB_1000_612c
-    mov AX,word ptr [BX + -4h]
-    mov word ptr [_var_351],AX
-    mov AX,word ptr [BX + -2h]
-    mov word ptr [_var_353],AX
-    add word ptr [BP + 4h],2h
-    mov AX,word ptr [BX]
-    mov word ptr [_var_352],AX
-    mov BX,word ptr [BP + 4h]
-    add word ptr [BP + 4h],2h
-    mov AX,word ptr [BX]
-    mov word ptr [_var_354],AX
-    call far ptr sub_2189C
-    jmp LAB_1000_60fc
-LAB_1000_612c:
-    call far ptr sub_21704
-    add word ptr [BP + 4h],2h
-    jmp LAB_1000_60d6
-LAB_1000_6137:
-    mov SP,BP
-    pop BP
-    ret
-_sub_160D3 endp
+EXTRN _sub_160D3:NEAR
+sub_160D3 equ _sub_160D3
 ; ------------------------------seg000:0x613a------------------------------
 ; ------------------------------seg000:0x613b------------------------------
 sub_1613B equ _sub_1613B
@@ -17558,14 +17520,14 @@ sub_216C2 proc near
 sub_216C2 endp
 ; ------------------------------seg001:0x1e62------------------------------
 ; ------------------------------seg001:0x1e84------------------------------
-sub_21704 proc far
+_sub_21704 proc far
     retn
-sub_21704 endp
+_sub_21704 endp
 ; ------------------------------seg001:0x1e99------------------------------
 ; ------------------------------seg001:0x1e9a------------------------------
-sub_2171A proc far
+_sub_2171A proc far
     retn
-sub_2171A endp
+_sub_2171A endp
 ; ------------------------------seg001:0x1e9f------------------------------
 ; ------------------------------seg001:0x1ea0------------------------------
 sub_21720 proc near
@@ -17583,9 +17545,9 @@ sub_217B4 proc near
 sub_217B4 endp
 ; ------------------------------seg001:0x201a------------------------------
 ; ------------------------------seg001:0x201c------------------------------
-sub_2189C proc far
+_sub_2189C proc far
     retn
-sub_2189C endp
+_sub_2189C endp
 ; ------------------------------seg001:0x2027------------------------------
 ; ------------------------------seg001:0x2028------------------------------
 sub_218A8 proc near
