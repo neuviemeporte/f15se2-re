@@ -3,6 +3,7 @@
 #include "inttype.h"
 #include "struct.h"
 #include "comm.h"
+#include "pointers.h"
 
 #include <stdio.h>
 
@@ -86,7 +87,7 @@ int sub_119A3();
 // ==== seg000:0x1a18 ====
 int sub_11A18();
 // ==== seg000:0x1a88 ====
-int sub_11A88();
+int sub_11A88(int16);
 // ==== seg000:0x1b37 ====
 int sub_11B37();
 // ==== seg000:0x1bc3 ====
@@ -118,7 +119,7 @@ int sub_121CA();
 // ==== seg000:0x2278 ====
 int sub_12278();
 // ==== seg000:0x229a ====
-int copySomeMem();
+int copySomeMem(int16);
 // ==== seg000:0x22b8 ====
 int sub_122B8();
 // ==== seg000:0x26b4 ====
@@ -134,7 +135,7 @@ void __cdecl load3DT(char *);
 // ==== seg000:0x2e54 ====
 int load3DG();
 // ==== seg000:0x2f8c ====
-int __cdecl printError(char *);
+int __cdecl printError(const char *);
 // ==== seg000:0x2faf ====
 int __cdecl strcpyFromDot(char *arg_0, char *arg_2);
 // ==== seg000:0x2fda ====
@@ -330,11 +331,11 @@ int sub_19FCC();
 // ==== seg000:0xa030 ====
 int __cdecl sub_1A030(int, char *);
 // ==== seg000:0xa0cb ====
-int __cdecl drawSomeStrings(char *, int, int, int);
+int __cdecl drawSomeStrings(const char *, int, int, int);
 // ==== seg000:0xa0fe ====
-int draw2Strings();
+int draw2Strings(const char*, int, int, int);
 // ==== seg000:0xa13a ====
-int __cdecl drawStringCentered(int *, char *, int, int, int);
+int __cdecl drawStringCentered(int *, const char *, int, int, int);
 // ==== seg000:0xa183 ====
 int sub_1A183();
 // ==== seg000:0xa1b1 ====
@@ -442,7 +443,7 @@ int __cdecl openFileWrapper(char *, int);
 // ==== seg000:0xdd5e ====
 int sub_1DD5E();
 // ==== seg000:0xdd70 ====
-int closeFileWrapper();
+int closeFileWrapper(int handle);
 // ==== seg000:0xdd7e ====
 int sub_1DD7E();
 // ==== seg000:0xdd92 ====
@@ -647,7 +648,7 @@ int sub_226BE();
 // ==== seg002:0xcaa ====
 int far restoreJoystickData();
 // ==== seg002:0xcbe ====
-int far copyJoystickData();
+int far copyJoystickData(uint8 FAR *ptr);
 // ==== seg003:0x6 ====
 int far setInt9Handler();
 // ==== seg003:0x56 ====
@@ -878,28 +879,28 @@ extern int16 sign3dg;
 extern uint8 unk_33E1A[];
 extern int16 word_3401A;
 extern uint8 a_3d3[];
-extern uint8 aRb[];
+extern char aRb[];
 extern char aOpenErrorOn_3d3[];
 extern char aBadObjFileFormat_[];
 extern char aObjectDataTooBig_[];
-extern uint8 aRb_0[];
+extern char aRb_0[];
 extern char aPhoto_3d3[];
 extern char aPleaseInsertF15DiskB[];
-extern uint8 aRb_1[];
+extern char aRb_1[];
 extern char aPhoto_3d3_0[];
 extern char aObjdataOverflow[];
 extern uint8 a_3dt[];
-extern uint8 aRb_2[];
+extern char aRb_2[];
 extern char aOpenErrorOn_3dt[];
 extern char aBadTileFileFormat_[];
 extern char aTooManyTiles_[];
 extern char aTooMuchTileData[];
 extern uint8 a_3dg[];
-extern uint8 aRb_3[];
+extern char aRb_3[];
 extern uint8 aPleaseInsertScenarioD[];
-extern uint8 unk_34121[];
+extern char unk_34121[];
 extern uint8 aPressAKeyWhenReady[];
-extern uint8 aBadGridFileFormat_[];
+extern char aBadGridFileFormat_[];
 extern int16 word_34150;
 extern int16 word_34152;
 extern int16 word_34156;
@@ -1298,11 +1299,11 @@ extern int16 word_383EE;
 extern int16 word_383F0;
 extern int16 word_383F2;
 extern int16 word_383F4;
-extern uint8 aStallWarning[];
+extern char aStallWarning[];
 extern char aAccel[];
 extern char aTraining[];
 extern char aAutopilot[];
-extern uint8 aPressAnyKeyToP[];
+extern char aPressAnyKeyToP[];
 extern uint8 aTac[];
 extern uint8 aTrackcam[];
 extern uint8 aAhead[];
@@ -1323,7 +1324,7 @@ extern uint8 aMissileLock[];
 extern uint8 aRange[];
 extern uint8 aKm[];
 extern uint8 a_3d3_0[];
-extern uint8 aRb_4[];
+extern char aRb_4[];
 extern char aOpenErrorOn_3d3_0[];
 extern char byte_3850E;
 extern char a15flt_xxx[];

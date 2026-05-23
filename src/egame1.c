@@ -365,7 +365,7 @@ int load3DG() {
 }
 
 // ==== seg000:0x2f8c ====
-int printError(char *msg) {
+int printError(const char *msg) {
     gfx_jump_46_retrace2();
     drawSomeStrings(msg, 0, 0x60, 0xf);
     getch();
@@ -810,7 +810,7 @@ void sub_19E5D(int arg_0, int arg_2, int arg_4, int arg_6) {
 }
 
 // ==== seg000:0xa0cb ====
-int drawSomeStrings(char *arg_0, int arg_2, int arg_4, int arg_6) {
+int drawSomeStrings(const char *arg_0, int arg_2, int arg_4, int arg_6) {
     drawStringCentered(off_38334, arg_0, arg_2, arg_4, arg_6);
     drawStringCentered(off_3834C, arg_0, arg_2, arg_4, arg_6);
 }

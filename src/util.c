@@ -13,11 +13,11 @@ extern int far gfx_jump_2f_charWidth(int ch, int font);
 extern void far misc_jump_5e_clearKeyFlags(void);
 extern char timerHandlerInstalled;
 void restoreTimerIrqHandler(void);
-void intDispatch(int intNum, char *inRegs, char *outRegs);
+void intDispatch(int intNum, uint8 *inRegs, uint8 *outRegs);
 
 int cleanup() 
 {
-    char regs[0xe];
+    uint8 regs[0xe];
     if (timerHandlerInstalled == 1) {
         restoreTimerIrqHandler();
     }

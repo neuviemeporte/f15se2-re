@@ -14,11 +14,13 @@
 #define CDECL
 #endif
 
-#if !defined(__TURBOC__)
+#if !defined(__TURBOC__) && !defined(MK_FP)
 #define MK_FP(a,off) ((void FAR *) (((unsigned long)(a) << 16) | (unsigned long)(off)))
 #endif
 
+#if !defined(offsetof)
 #define offsetof(st, m) ((size_t)&(((st*)0)->m))
+#endif
 
 #ifdef HAVE_PRAGMA
 #pragma pack(1)
