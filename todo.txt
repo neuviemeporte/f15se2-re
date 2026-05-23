@@ -3,5 +3,4 @@
 - implement tool to parse linker map, take image of memory and print all var values?
 - go over end.exe verify output and check bright red locations
 - go over end.exe assembly functions in map and check that they really are
-- create docker and configure cicd
 - parallel build capability in dosbuild.sh
