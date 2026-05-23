@@ -21,20 +21,16 @@ struct GameComm {
     int16 gfxInitResult;
     int16 startDone;
     int16 setupMono;
-    int16 setupDone;
-    int16 continueFlag;
+    int16 setupDone;      /* in end.exe: landingType (1=crashed, 2=ejected, 3=landed) */
+    int16 continueFlag;   /* in end.exe: bailoutSurvived (0=survived) */
     int16 setup2;
     int16 restartFlag;
     int16 unk4;
-    int16 gfxModeChar;
+    int16 gfxModeChar;    /* in end.exe: trainingFlag (nonzero if training mission) */
     int16 setupDetail;
     uint8 pad0[4];
     uint16 unk7[4];
-    // int16 unk5;
-    // int16 unk6;
-    // uint8 pad4[2];
     int16 unk8[4];
-//    uint8 pad1[6];
     uint8 joyData[0x14];
     uint8 pad2[0x14];
     int16 setupT;
@@ -43,6 +39,11 @@ struct GameComm {
     uint16 gfxModeNum;
     uint16 worldBuf;
 };
+
+/* end.exe debrief aliases: same struct fields, different semantics after egame writes results */
+#define landingType      setupDone
+#define bailoutSurvived  continueFlag
+#define trainingFlag     gfxModeChar
 
 #define COMM_GFXOVL_NAME_OFFSET 0x0
 #define COMM_SNDOVL_NAME_OFFSET 0xd
@@ -53,13 +54,10 @@ struct GameComm {
 #define COMM_STARTDONE_OFFSET 0x22 /* set to 1 when start module finishes pilot/mission selection */
 #define COMM_SETUP_MONOCHROME_OFFSET 0x24 /* set to 1 when hercules? */
 #define COMM_SETUP_DONE_OFFSET 0x26 /* set to 1 before SU exits; in end.exe: landing type (1=crashed, 2=ejected, 3=landed) */
-#define COMM_LANDING_TYPE_OFFSET 0x26
 #define COMM_CONTINUEFLAG_OFFSET 0x28 /* set to 0 in start after f15.spr; in end.exe: bailout survival (0=survived) */
-#define COMM_BAILOUT_SURVIVED_OFFSET 0x28
 #define COMM_SETUP2_OFFSET 0x2a /* unknown purpose */
 #define COMM_RESTARTFLAG_OFFSET 0x2c /* set to 0 in start after f15.spr */
 #define COMM_SETUP_GFXMODE_OFFSET 0x30 /* letter of the gfx driver, e.g. 'M' for Mgraphic.exe; in end.exe: training mission flag */
-#define COMM_TRAINING_FLAG_OFFSET 0x30
 #define COMM_SETUP_DETAIL_OFFSET 0x32 /* 3 == max, default 0xffff */
 #define COMM_UNK7_OFFSET 0x38 /* set to 0 in mission generator */
 #define COMM_UNK5_OFFSET 0x3a /* set to 1 in mission generator */

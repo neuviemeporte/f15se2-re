@@ -24,16 +24,16 @@ Data1 DATA 0580
 # assembly - routine was written in assembly, don't include in comparisons by default
 # duplicate - routine is a duplicate of another
 #
-routine_10: Code1 NEAR 0000-000f R0000-000f external
+padding: Code1 NEAR 0000-000f R0000-000f external
 main: Code1 NEAR 0010-0112 R0010-0112 complete
-routine_26: Code1 NEAR 0113-0129 R0113-0129 complete
+checkQuitFlag: Code1 NEAR 0113-0129 R0113-0129 complete
 initGraphics: Code1 NEAR 012a-0184 R012a-0184 assembly
 cleanup: Code1 NEAR 0185-01b7 R0185-01b7 complete
-routine_6: Code1 NEAR 01b8-01b8 R01b8-01b8 external
-routine_5: Code1 NEAR 01b9-01b9 R01b9-01b9 external
-loadWorldStrings: Code1 NEAR 01ba-020b R01ba-020b
+setargv: Code1 NEAR 01b8-01b8 R01b8-01b8 external
+setenvp: Code1 NEAR 01b9-01b9 R01b9-01b9 external
+loadWorldStrings: Code1 NEAR 01ba-020b R01ba-020b complete
 readWorldData: Code1 NEAR 020c-02f4 R020c-02f4 assembly
-routine_71: Code1 NEAR 02f5-0327 R02f5-0327
+loadWorldData: Code1 NEAR 02f5-0327 R02f5-0327 complete
 setupWorldBufPtr: Code1 NEAR 0328-033c R0328-033c assembly
 routine_108: Code1 NEAR 033d-0370 R033d-0370 assembly
 routine_109: Code1 NEAR 0371-03a4 R0371-03a4 assembly
@@ -48,28 +48,28 @@ my_itoa: Code1 NEAR 08b6-098f R08b6-098f complete
 seedRandom: Code1 NEAR 09ae-09be R09ae-09be complete
 mystrcpy: Code1 NEAR 0a42-0a5c R0a42-0a5c complete
 mystrcat: Code1 NEAR 0aab-0ad2 R0aab-0ad2 assembly
-memcopy: Code1 NEAR 0b22-0b3f R0b22-0b3f
+memcopy: Code1 NEAR 0b22-0b3f R0b22-0b3f assembly
 intDispatch: Code1 NEAR 0b87-0beb R0b87-0bbf U0bc0-0bc2 R0bc3-0beb assembly
-routine_87: Code1 NEAR 0bec-0c28 R0bec-0c28 assembly
-routine_117: Code1 NEAR 0c29-0c53 R0c29-0c53 assembly
-routine_115: Code1 NEAR 0c54-0c9b R0c54-0c9b assembly
-routine_116: Code1 NEAR 0c9c-0cbc R0c9c-0cbc assembly
+myItoa: Code1 NEAR 0bec-0c28 R0bec-0c28 assembly
+base10_itoa: Code1 NEAR 0c29-0c53 R0c29-0c53 assembly
+base16_itoa: Code1 NEAR 0c54-0c9b R0c54-0c9b assembly
+base2_itoa: Code1 NEAR 0c9c-0cbc R0c9c-0cbc assembly
 dos_printstring: Code1 NEAR 0d09-0d14 R0d09-0d14 assembly
 setupOverlaySlots: Code1 NEAR 0d17-0d6f R0d17-0d29 U0d2a-0d2e R0d2f-0d6f assembly
 clearRect: Code1 NEAR 0e4e-0eec R0e4e-0eec assembly
-sub_12C75: Code1 NEAR 0f09-0f39 R0f09-0f39 assembly
-routine_154: Code1 NEAR 107e-1089 R107e-1089 assembly
-routine_158: Code1 NEAR 108a-11fd R108a-11fd assembly
-sub_12F6A: Code1 NEAR 11fe-121e R11fe-121e assembly
+clearDirtyRects: Code1 NEAR 0f09-0f39 R0f09-0f39 assembly
+drawLineWrapper: Code1 NEAR 107e-1089 R107e-1089 assembly
+clipAndDrawLine: Code1 NEAR 108a-11fd R108a-11fd assembly
+computeOutcode: Code1 NEAR 11fe-121e R11fe-121e assembly
 installCBreakHandler: Code1 NEAR 1240-1262 R1240-1262 assembly
 restoreCbreakHandler: Code1 NEAR 1263-1273 R1263-1273 assembly
-routine_33: Code1 NEAR 1274-127f R1274-127f assembly
+getIntVector: Code1 NEAR 1274-127f R1274-127f assembly
 openFileWrapper: Code1 NEAR 1336-1346 R1336-1346 complete
 closeFileWrapper: Code1 NEAR 135a-1367 R135a-1367 complete
 openFile: Code1 NEAR 13ae-1404 R13ae-1404 R156a-15a5 assembly
 fileClose: Code1 NEAR 145c-147c R145c-147c assembly
 readFileAtRaw: Code1 NEAR 14a9-14ff R14a9-14ff assembly ignore
-FUN_1000_1500: Code1 NEAR 1500-1520 R1500-1520 assembly ignore
+readFileSector: Code1 NEAR 1500-1520 R1500-1520 assembly ignore
 openShowPic: Code1 NEAR 15a6-15d1 R15a6-15d1 complete
 loadPic: Code1 NEAR 15fc-1624 R15fc-1624 complete
 showPicFile: Code1 NEAR 1664-16d5 R1664-16d5 assembly
@@ -78,7 +78,7 @@ routine_120: Code1 NEAR 181a-181a R181a-181a ignore
 decodePicRow: Code1 NEAR 181c-1845 R181c-1845 assembly
 picReadDataAndMakeDict: Code1 NEAR 1846-188c R1846-188c assembly
 picMakeDict: Code1 NEAR 188d-18c2 R188d-18c2 assembly
-routine_145: Code1 NEAR 18c3-193b R18c3-193b assembly
+doPicDecode: Code1 NEAR 18c3-193b R18c3-193b assembly
 dictionaryLookup: Code1 NEAR 193c-19ea R193c-19ea assembly
 allocBuffer: Code1 NEAR 19ec-1a1f R19ec-1a1f complete
 freeBuffer: Code1 NEAR 1a20-1a47 R1a20-1a47 complete
@@ -88,11 +88,11 @@ setTimerIrqHandler: Code1 NEAR 1bfc-1c39 R1bfc-1c39 assembly
 restoreTimerIrqHandler: Code1 NEAR 1c3a-1c5a R1c3a-1c5a assembly
 setTimerMode1: Code1 NEAR 1c5b-1c72 R1c5b-1c72 assembly
 setTimerMode2: Code1 NEAR 1c73-1c83 R1c73-1c83 assembly
-sub_13DF2: Code1 NEAR 1d76-1e0a R1d76-1e0a assembly
+calibrateTimerSpeed: Code1 NEAR 1d76-1e0a R1d76-1e0a assembly
 manipulateTimer: Code1 NEAR 1e0b-1e5f R1e0b-1e5f assembly
 getTimeOfDay: Code1 NEAR 1e60-1e66 R1e60-1e66 assembly
-routine_27: Code1 NEAR 1e78-216d R1e78-216d complete
-routine_24: Code1 NEAR 216e-21a4 R216e-21a4 assembly
+showPostMissionAwards: Code1 NEAR 1e78-216d R1e78-216d complete
+loadTheaterIndex: Code1 NEAR 216e-21a4 R216e-21a4 assembly
 processMenuItems: Code1 NEAR 21a6-2249 R21a6-2249 complete
 selectMenuItem: Code1 NEAR 224a-2582 R224a-23be U23bf-23c1 R23c2-2582 complete
 blinkWidget: Code1 NEAR 2583-2617 R2583-2617 complete
@@ -112,26 +112,27 @@ drawClippedLineEx: Code1 NEAR 3dff-3ea3 R3dff-3ea3 complete
 drawMapPixel: Code1 NEAR 3ea4-3ebc R3ea4-3ebc complete
 calcMissionScore: Code1 NEAR 3ebd-41d2 R3ebd-409c U409d-409e R409f-41b6 U41b7-41b8 R41b9-41d2 complete
 showEventPopup: Code1 NEAR 41d3-4533 R41d3-4224 U4225-42d1 R42d2-42e1 U42e2-42f9 R42fa-4533 complete
-routine_25: Code1 NEAR 4534-4919 R4534-4919 assembly
+debriefMainLoop: Code1 NEAR 4534-4919 R4534-4919 assembly
+# ================ libc ===========================
 start: Code1 NEAR 491c-49cd R491c-49cd external
-routine_4: Code1 NEAR 49ce-4a91 R49ce-4a91 R4ea4-4ea9 external
-dosExit: Code1 NEAR 4a92-4aa8 R4a92-4aa8 external
-routine_9: Code1 NEAR 4aa9-4aed R4aa9-4aed external
-routine_30: Code1 NEAR 4aee-4b1a R4aee-4b1a external
+__cinit: Code1 NEAR 49ce-4a91 R49ce-4a91 R4ea4-4ea9 external
+_exit: Code1 NEAR 4a92-4aa8 R4a92-4aa8 external
+__exit: Code1 NEAR 4aa9-4aed R4aa9-4aed external
+__ctermsub: Code1 NEAR 4aee-4b1a R4aee-4b1a external
 _unk_libc1: Code1 NEAR 4b1b-4b29 R4b1b-4b29 external
 _unk_libc2: Code1 NEAR 4b2a-4b3c R4b2a-4b3c external
 _fclose: Code1 NEAR 4b3e-4bf7 R4b3e-4bf7 external
-routine_46: Code1 NEAR 4bf8-4c1e R4bf8-4c1e assembly
-routine_140: Code1 NEAR 4c9a-4cb7 R4c9a-4cb7 assembly
+_fopen: Code1 NEAR 4bf8-4c1e R4bf8-4c1e external
+_movedata: Code1 NEAR 4c9a-4cb7 R4c9a-4cb7 external
 srandInit: Code1 NEAR 4cb8-4cc8 R4cb8-4cc8 complete
 __aNldiv: Code1 NEAR 4cf0-4d8b R4cf0-4d8b external
 __aNlrem: Code1 NEAR 4dc0-4e61 R4dc0-4e61 external
 __aNNaldiv: Code1 NEAR 4e62-4e83 R4e62-4e83 external
-__ctermsub: Code1 NEAR 4e84-4ea3 R4e84-4ea3 external
-routine_29: Code1 NEAR 4eaa-4ecb R4eaa-4ecb external
+__amsg_exit: Code1 NEAR 4e84-4ea3 R4e84-4ea3 external
+__nullcheck: Code1 NEAR 4eaa-4ecb R4eaa-4ecb external
 __NMSG_TEXT: Code1 NEAR 4ecc-4ef6 R4ecc-4ef6 external
 __NMSG_WRITE: Code1 NEAR 4ef7-4f1f R4ef7-4f1f external
-routine_114: Code1 NEAR 4f46-4f73 R4f46-4f73 assembly
+_unk_libc3: Code1 NEAR 4f46-4f73 R4f46-4f73 external
 closeAndResetFile: Code1 NEAR 4f74-4fa0 R4f74-4fa0 complete
 __openfile: Code1 NEAR 4fa2-5099 R4fa2-4fff R5000-5099 external
 _fflush: Code1 NEAR 509a-5107 R509a-5107 external
@@ -139,15 +140,18 @@ __getstream: Code1 NEAR 5108-5141 R5108-5141 external
 _close: Code1 NEAR 5142-5161 R4f20-4f27 R5142-5161 external
 _unlink: Code1 NEAR 5162-516e R5162-516e external
 _open: Code1 NEAR 5170-5302 R4f33-4f3f R5170-5302 external
-routine_141: Code1 NEAR 5303-5313 R5303-5313 assembly
+_unk_libc5: Code1 NEAR 5303-5313 R5303-5313 external
 _write: Code1 NEAR 5314-53b9 R5314-53b9 R53fa-543b external
-routine_143: Code1 NEAR 53ba-53f9 R53ba-53f9 assembly
+_unk_libc4: Code1 NEAR 53ba-53f9 R53ba-53f9 external
 __nfree: Code1 NEAR 543c-544d R543c-544d external
-routine_142: Code1 NEAR 54c6-54d7 R54c6-54d7 assembly
-routine_134: Code2 FAR 0027-0039 R0027-0039 assembly
+_stackavail: Code1 NEAR 54c6-54d7 R54c6-54d7 external
+# ================ libc end ===========================
+# ======= code segment 2, utils
+pollJoystick: Code2 FAR 0027-0039 R0027-0039 assembly
 readJoyPort: Code2 NEAR 003a-0066 R003a-0066 assembly
-routine_149: Code2 NEAR 0067-00c2 R0067-00c2 assembly
+normalizeJoyAxis: Code2 NEAR 0067-00c2 R0067-00c2 assembly
 copyJoystickData: Code2 FAR 00d7-00ee R00d7-00ee assembly
+# ======= data segment callable trampolines into overlay drivers
 gfx_jump_0_alloc: Data1 FAR 1008-100c R1008-100c assembly
 gfx_jump_05_drawString: Data1 FAR 1021-1025 R1021-1025 assembly
 gfx_jump_0d_setCurBuf: Data1 FAR 1049-104d R1049-104d assembly
@@ -171,7 +175,7 @@ gfx_jump_33_fillRow: Data1 FAR 1107-110b R1107-110b assembly
 gfx_jump_34_fillRow: Data1 FAR 110c-1110 R110c-1110 assembly
 gfx_jump_35: Data1 FAR 1111-1115 R1111-1115 assembly
 gfx_jump_36_null: Data1 FAR 1116-111a R1116-111a assembly
-thunk_EXT_FUN_0000: Data1 FAR 111b-111f R111b-111f assembly ignore
+thunk_gfx_jump_37: Data1 FAR 111b-111f R111b-111f assembly ignore
 gfx_jump_38_getPageBuf: Data1 FAR 1120-1124 R1120-1124 assembly
 gfx_jump_3a_getRowOffset: Data1 FAR 112a-112e R112a-112e assembly
 gfx_jump_3b_clearBuf: Data1 FAR 112f-1133 R112f-1133 assembly

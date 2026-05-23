@@ -255,7 +255,7 @@ PUBLIC _spriteAirBlink
 PUBLIC _spriteSamBlink
 PUBLIC _spriteGroundBlink
 PUBLIC _spriteWaypointBlink
-PUBLIC _routine_134
+PUBLIC _pollJoystick
 PUBLIC _gameData
 PUBLIC _hercFlag
 PUBLIC _joyAxisY
@@ -3395,9 +3395,9 @@ getTimeOfDay endp
 
 routine_27 equ _showPostMissionAwards
 
-PUBLIC _routine_24
-_routine_24:
-routine_24 proc near
+PUBLIC _loadTheaterIndex
+_loadTheaterIndex:
+loadTheaterIndex proc near
     push BP
     mov BP,SP
     sub SP,4h
@@ -3422,7 +3422,7 @@ routine_24 proc near
     pop BP
     ret
     db 90h
-routine_24 endp
+loadTheaterIndex endp
 
 processMenuItems equ _processMenuItems
 
@@ -3519,9 +3519,9 @@ calcMissionScore equ _calcMissionScore
 
 showEventPopup equ _showEventPopup
 
-PUBLIC _routine_25
-_routine_25:
-routine_25 proc near
+PUBLIC _debriefMainLoop
+_debriefMainLoop:
+debriefMainLoop proc near
     push BP
     mov BP,SP
     sub SP,14h
@@ -3876,7 +3876,7 @@ LAB_1000_490f:
     ret
     db 90h
     db 90h
-routine_25 endp
+debriefMainLoop endp
 
 PUBLIC _dosExit
 _dosExit:
@@ -4058,16 +4058,16 @@ LAB_1000_4f70:
 routine_114 endp
 
 
-routine_134 proc far
-_routine_134 equ routine_134
+pollJoystick proc far
+_pollJoystick equ pollJoystick
     call readJoyPort
     mov BX,0h
-    call routine_149
+    call normalizeJoyAxis
     mov BX,1h
-    call routine_149
+    call normalizeJoyAxis
     mov AX,word ptr [_joyAxisX]
     retf
-routine_134 endp
+pollJoystick endp
 
 readJoyPort proc near
     push BP
@@ -4097,7 +4097,7 @@ LAB_1571_005c:
     ret
 readJoyPort endp
 
-routine_149 proc near
+normalizeJoyAxis proc near
     shl BX,1h
     mov AX,word ptr [BX + offset _var_53]
     mov DX,AX
@@ -4160,7 +4160,7 @@ LAB_1571_00bc:
     db 5Fh
     db 5Eh
     db 0CBh
-routine_149 endp
+normalizeJoyAxis endp
 
 copyJoystickData proc far
     mov BX,SP

@@ -22,15 +22,15 @@ void main(void) {
     FP_OFF(commData) = 0;
     FP_SEG(gameData) = seg;
     FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
-    setupOverlaySlots(((int far *)commData)[COMM_GFXOVL_ADDR_OFFSET / 2]);
-    setupOverlaySlots(((int far *)commData)[COMM_MISCOVL_ADDR_OFFSET / 2]);
+    setupOverlaySlots(commData->gfxOvlAddr);
+    setupOverlaySlots(commData->miscOvlAddr);
     misc_jump_5e_clearKeyFlags();
     clearKeybuf();
-    hercFlag = ((char far *)commData)[COMM_SETUP_MONOCHROME_OFFSET];
+    hercFlag = (char)commData->setupMono;
     installCBreakHandler();
     initGraphics();
-    if (((int far *)commData)[COMM_SETUP_USEJOY_OFFSET / 2] == 1) {
-        copyJoystickData((char far *)commData + COMM_SETUP_JOYDATA_OFFSET);
+    if (commData->setupUseJoy == 1) {
+        copyJoystickData(commData->joyData);
     } else {
         joyAxisX = joyAxisY = JOY_CENTER;
     }
@@ -45,11 +45,11 @@ void main(void) {
     }
     spriteBufSeg = allocBuffer(p);
     missionResult = 3;
-    if (((int far *)commData)[COMM_SETUP_DONE_OFFSET / 2] == 2) {
-        routine_24();
+    if (commData->setupDone == 2) {
+        loadTheaterIndex();
     }
     clearKeybuf();
-    routine_25();
+    debriefMainLoop();
     checkQuitFlag();
     clearKeybuf();
     showPostMissionAwards();
@@ -334,7 +334,7 @@ long calcMissionScore(int param) {
     g = 1;
     e = 0;
 
-    p = ((int far *)commData)[COMM_UNK8_OFFSET / 2];
+    p = commData->unk8[0];
     if (p > 15) {
         p = 15;
     }
@@ -400,7 +400,7 @@ long calcMissionScore(int param) {
     }
 
     e = (long)((airKilled - airMissed * 2) * p * 25)
-      + (long)((samKilled - samMissed * 2) * (((int far *)gameData)[GAME_START_DIFFICULTY / 2] + 1) * 50)
+      + (long)((samKilled - samMissed * 2) * (gameData->difficulty + 1) * 50)
       + (long)((groundKilled - groundMissed * 2) * p * 20)
       + (long)(p * primaryHit * 200)
       + (long)(p * secondaryHit * 100);
@@ -411,11 +411,11 @@ long calcMissionScore(int param) {
         if (e < 0) {
             e = 0;
         }
-        switch (((int far *)commData)[COMM_SETUP_DONE_OFFSET / 2]) {
-        case 1:
+        switch (commData->landingType) {
+        case LANDING_CRASHED:
             e /= 2;
             break;
-        case 2:
+        case LANDING_EJECTED:
             e = e * 3 / 4;
             break;
         }
@@ -502,10 +502,10 @@ void showEventPopup(void) {
         if (curRecordIdx == 0) {
             a = 8;
         } else {
-            if (((int far *)commData)[COMM_SETUP_DONE_OFFSET / 2] == 3) {
+            if (commData->landingType == LANDING_SAFE) {
                 ejectedFlag = 1;
                 a = 7;
-            } else if (((int far *)commData)[COMM_SETUP_DONE_OFFSET / 2] == 1) {
+            } else if (commData->landingType == LANDING_CRASHED) {
                 ejectedFlag = 1;
                 a = 0xe;
             } else if (missionResult == 0) {
@@ -592,10 +592,10 @@ void processDebriefInput(int *cursorBounds, MenuItem *menuItem, int gfxPage) {
     }
 
     /* pre-loop joystick read */
-    if (commData[COMM_SETUP_USEJOY_OFFSET / 2] == 1) {
+    if (commData->setupUseJoy == 1) {
         d = misc_jump_5d_readJoy(0);
         e = misc_jump_5d_readJoy(1);
-        routine_134();
+        pollJoystick();
     }
 
     /* main loop */
@@ -619,10 +619,10 @@ void processDebriefInput(int *cursorBounds, MenuItem *menuItem, int gfxPage) {
         }
 
         /* re-read joystick */
-        if (commData[COMM_SETUP_USEJOY_OFFSET / 2] == 1) {
+        if (commData->setupUseJoy == 1) {
             d = misc_jump_5d_readJoy(0);
             e = misc_jump_5d_readJoy(1);
-            routine_134();
+            pollJoystick();
         }
 
         /* quit check */
@@ -832,7 +832,7 @@ void drawMenuItem(MenuItem *items, unsigned int index, int gfxPage) {
         my_ltoa(*(long *)&missionScore, (char *)n);
         mystrcat(dat_4824, (char *)n);
         drawStringCentered((int *)gfxPage, dat_4824, 0xe8, 0x56, 0x57);
-        if (commData[COMM_TRAINING_FLAG] != 0) {
+        if (commData->trainingFlag != 0) {
             drawStringCentered((int *)gfxPage, str_trainingScore, 0xe8, 0x60, 0x57);
             drawStringCentered((int *)gfxPage, str_notRecorded, 0xe8, 0x68, 0x57);
         } else {
@@ -840,7 +840,7 @@ void drawMenuItem(MenuItem *items, unsigned int index, int gfxPage) {
             mystrcat(dat_4824, str_careerTotal);
             drawStringCentered((int *)gfxPage, dat_4824, 0xe8, 0x6c, 0x57);
             mystrcpy(dat_4824, str_dot4);
-            my_ltoa(*(long far *)&gameData[GAME_TOTALSCORE_WORD] + *(long *)&missionScore, (char *)n);
+            my_ltoa(gameData->totalScore + *(long *)&missionScore, (char *)n);
             mystrcat(dat_4824, (char *)n);
             drawStringCentered((int *)gfxPage, dat_4824, 0xe8, 0x74, 0x57);
         }
@@ -943,20 +943,20 @@ void drawMenuItem(MenuItem *items, unsigned int index, int gfxPage) {
                 }
             } else {
                 mystrcpy(dat_4824, str_missionEnd);
-                switch (commData[COMM_LANDING_TYPE]) {
-                case 1:
+                switch (commData->landingType) {
+                case LANDING_CRASHED:
                     mystrcat(dat_4824, str_crashed);
                     break;
-                case 2:
-                    if (commData[COMM_BAILOUT_SURVIVED] == 0 && missionResult != 0) {
+                case LANDING_EJECTED:
+                    if (commData->bailoutSurvived == 0 && missionResult != 0) {
                         mystrcat(dat_4824, str_goodBailout);
-                    } else if (commData[COMM_BAILOUT_SURVIVED] == 0 && missionResult == 0) {
+                    } else if (commData->bailoutSurvived == 0 && missionResult == 0) {
                         mystrcat(dat_4824, str_captured);
                     } else {
                         mystrcat(dat_4824, str_bailedDied);
                     }
                     break;
-                case 3:
+                case LANDING_SAFE:
                     mystrcat(dat_4824, str_goodLanding);
                     break;
                 }

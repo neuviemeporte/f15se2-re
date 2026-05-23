@@ -52,16 +52,13 @@
 /* Normal debrief exit code */
 #define EXIT_DEBRIEF        0x23
 
-/* CommData word-index accessors for end.exe debrief */
-#define COMM_LANDING_TYPE   (COMM_LANDING_TYPE_OFFSET / 2)
-#define COMM_BAILOUT_SURVIVED (COMM_BAILOUT_SURVIVED_OFFSET / 2)
-#define COMM_TRAINING_FLAG  (COMM_TRAINING_FLAG_OFFSET / 2)
-
-/* GameData word-index for career total score */
-#define GAME_TOTALSCORE_WORD (GAME_TOTALSCORE_OFFSET / 2)
-
 /* Font/color index for title text */
 #define FONT_TITLE          0x0d
+
+/* Landing type values (commData->landingType) */
+#define LANDING_CRASHED     1
+#define LANDING_EJECTED     2
+#define LANDING_SAFE        3
 
 /* Max record count sentinel for drawFlightPath */
 #define ALL_RECORDS         0x270f
@@ -134,7 +131,7 @@ extern int mapViewX2;
 extern int mapViewY2;
 extern unsigned int cursorX;
 extern unsigned int cursorY;
-extern int far *commData;
+extern struct GameComm far *commData;
 extern char quitFlag;
 extern int colorTablePtr;
 extern char inputChanged;
@@ -151,7 +148,7 @@ extern int *spriteAirBlink;
 extern int *spriteSamBlink;
 extern int *spriteGroundBlink;
 extern int *spriteWaypointBlink;
-extern void far routine_134(void);
+extern void far pollJoystick(void);
 void processDebriefInput(int *cursorBounds, void *menuItem, int gfxPage);
 
 typedef unsigned int MenuItemFlags;
@@ -368,7 +365,7 @@ extern char gridFlags[];
 extern char samDataTable[];
 
 /* Variables used by main */
-extern int far *gameData;
+extern struct Game far *gameData;
 extern char hercFlag;
 extern char joyAxisY;
 extern char joyAxisX;
@@ -388,8 +385,8 @@ void initGraphics(void);
 void loadWorldStrings(void);
 void setupWorldBufPtr(void);
 void readWorldData(void);
-void routine_24(void);
-void routine_25(void);
+void loadTheaterIndex(void);
+void debriefMainLoop(void);
 void showPostMissionAwards(void);
 void installCBreakHandler(void);
 extern void far copyJoystickData(char far *data);
