@@ -156,7 +156,7 @@ sub_1A224: seg000 NEAR a224-a25a Ra224-a25a complete
 sub_1A25C: seg000 NEAR a25c-a73f Ra25c-a73f
 sub_1A740: seg000 NEAR a740-a7c3 Ra740-a7c3 complete
 sub_1A7C4: seg000 NEAR a7c4-a871 Ra7c4-a870 complete
-sub_1A872: seg000 NEAR a872-a8c7 Ra872-a8c7
+sub_1A872: seg000 NEAR a872-a8c7 Ra872-a8c7 complete
 sub_1A8C8: seg000 NEAR a8c8-a933 Ra8c8-a933
 sub_1A934: seg000 NEAR a934-a961 Ra934-a961 assembly
 sub_1A962: seg000 NEAR a962-a9bb Ra962-a9bb assembly

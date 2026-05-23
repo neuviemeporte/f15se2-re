@@ -392,6 +392,19 @@ int sub_185BE(int param_1, int param_2, int param_3, int param_4, int param_5) {
     return 0;
 }
 
+// ==== seg000:0xa872 ====
+void sub_1A872(int arg_0, int arg_2, int arg_4, int arg_6) {
+    var_569 = gfxBufPtr;
+    var_570 = arg_0 * 8 + 1;
+    var_571 = arg_2 * 8 + 0x1f;
+    var_572 = (byte_3C5A0 != 0);
+    var_573 = arg_4 - 3;
+    var_574 = arg_6 - 3;
+    var_575 = 7;
+    var_576 = 7;
+    gfx_jump_47(&word_383AE);
+}
+
 // ==== seg000:0x6742 ====
 int routine_191(void) {
     int p;

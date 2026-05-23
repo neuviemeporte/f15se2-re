@@ -469,6 +469,16 @@ EXTRN _draw2Strings:PROC
 EXTRN _drawSomeStrings:PROC
 PUBLIC _var_564
 PUBLIC _var_565
+PUBLIC _var_569
+PUBLIC _var_570
+PUBLIC _var_571
+PUBLIC _var_572
+PUBLIC _var_573
+PUBLIC _var_574
+PUBLIC _var_575
+PUBLIC _var_576
+PUBLIC _word_383AE
+_word_383AE equ word_383AE
 PUBLIC _word_3370A
 PUBLIC _word_3C6AC
 PUBLIC _word_333D8
@@ -12301,39 +12311,8 @@ sub_1A740 equ _sub_1A740
 sub_1A7C4 equ _sub_1A7C4
 ; ------------------------------seg000:0xa870------------------------------
 ; ------------------------------seg000:0xa872------------------------------
-sub_1A872 proc near
-    push BP
-    mov BP,SP
-    mov AX,[_gfxBufPtr]
-    mov word ptr [_var_569],AX
-    mov AX,word ptr [BP + 4h]
-    mov CL,3h
-    shl AX,CL
-    inc AX
-    mov word ptr [_var_570],AX
-    mov AX,word ptr [BP + 6h]
-    shl AX,CL
-    db 05h, 1Fh, 00h ; add AX,1fh (force imm16 encoding)
-    mov word ptr [_var_571],AX
-    cmp byte ptr [_byte_3C5A0],1h
-    sbb AX,AX
-    inc AX
-    mov word ptr [_var_572],AX
-    mov AX,word ptr [BP + 8h]
-    db 2Dh, 03h, 00h ; sub AX,3h (force imm16 encoding)
-    mov word ptr [_var_573],AX
-    mov AX,word ptr [BP + 0ah]
-    db 2Dh, 03h, 00h ; sub AX,3h (force imm16 encoding)
-    mov word ptr [_var_574],AX
-    mov word ptr [_var_575],7h
-    mov word ptr [_var_576],7h
-    mov AX,offset word_383AE
-    push AX
-    call far ptr gfx_jump_47
-    add SP,2h
-    pop BP
-    ret
-sub_1A872 endp
+    EXTRN _sub_1A872:PROC
+sub_1A872 equ _sub_1A872
 ; ------------------------------seg000:0xa8c7------------------------------
 ; ------------------------------seg000:0xa8c8------------------------------
 _sub_1A8C8 proc near
@@ -20441,6 +20420,8 @@ gfx_jump_47 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_jump_47 endp
+    PUBLIC _gfx_jump_47
+_gfx_jump_47 equ gfx_jump_47
 ; ------------------------------dseg:0x1021------------------------------
     db 0EAh
     db 0
