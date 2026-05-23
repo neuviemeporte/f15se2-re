@@ -1751,9 +1751,7 @@ extern int16 var_671;
 extern int16 var_672;
 extern int16 var_674;
 extern int16 var_686;
-
 extern uint8 var_730;
-
 extern int16 var_143;
 extern uint8 var_190;
 extern int16 var_194;

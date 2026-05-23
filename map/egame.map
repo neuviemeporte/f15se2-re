@@ -6,7 +6,7 @@ seg003 CODE 1274
 Data3 DATA 128d
 Data1 DATA 228b
 padding: seg000 NEAR 0000-000f R0000-000f detached
-main: seg000 NEAR 0010-0146 R0010-0146 assembly
+main: seg000 NEAR 0010-0146 R0010-0146
 drawCockpit: seg000 NEAR 0147-0210 R0147-0210 complete
 sub_10211: seg000 NEAR 0211-0293 R0211-0293 complete
 sub_10294: seg000 NEAR 0294-0296 R0294-0296 assembly
