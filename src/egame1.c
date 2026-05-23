@@ -994,6 +994,7 @@ int drawStringCentered(int* arg_0, const char *arg_2, int arg_4, int arg_6, int 
     gfx_jump_05_drawString(arg_0, strupr((char*)arg_2), strlen(arg_2));
 }
 
+
 // ==== seg000:0x8e38 ====
 int sub_18E38(void) {
     sub_19FAD(2, (char*)0x5950, 0);

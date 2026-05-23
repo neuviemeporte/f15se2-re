@@ -390,6 +390,12 @@ int sub_189AA(int arg_0) {
     return 1;
 }
 
+// ==== seg000:0x8df4 ====
+void sub_18DF4(int param_1, int param_2, int param_3) {
+    *(char *)&var_315 = 0;
+    sub_132BA((long)param_1 << 5, -((long)param_2 - 0x8000L) << 5, (long)param_3);
+}
+
 // ==== seg000:0x85be ====
 int sub_185BE(int param_1, int param_2, int param_3, int param_4, int param_5) {
     int p;

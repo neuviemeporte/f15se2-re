@@ -62,6 +62,7 @@ EXTRN _sub_198FA:PROC
 EXTRN _sub_19915:PROC
 EXTRN _sub_118D5:PROC
 EXTRN _sub_118F6:PROC
+EXTRN _sub_18DF4:PROC
 EXTRN _sub_18E38:PROC
 EXTRN _sub_1957A:PROC
 EXTRN _sub_19595:PROC
@@ -3544,6 +3545,8 @@ sub_13224 equ _sub_13224
 ; ------------------------------seg000:0x3266------------------------------
 ; ------------------------------seg000:0x32b8------------------------------
 ; ------------------------------seg000:0x32ba------------------------------
+PUBLIC _sub_132BA
+_sub_132BA equ sub_132BA
 sub_132BA proc near
     push BP
     mov BP,SP
@@ -10880,45 +10883,7 @@ LAB_1000_8dee:
 sub_18AA6 endp
 ; ------------------------------seg000:0x8df3------------------------------
 ; ------------------------------seg000:0x8df4------------------------------
-sub_18DF4 proc near
-    push BP
-    mov BP,SP
-    mov byte ptr [_var_315],0h
-    mov AX,word ptr [BP + 8h]
-    cwd
-    push DX
-    push AX
-    mov AX,word ptr [BP + 6h]
-    cwd
-    sub AX,8000h
-    sbb DX,0h
-    neg AX
-    adc DX,0h
-    neg DX
-    mov CL,5h
-LAB_1000_8e15:
-    shl AX,1h
-    rcl DX,1h
-    dec CL
-    jnz LAB_1000_8e15
-    push DX
-    push AX
-    mov AX,word ptr [BP + 4h]
-    cwd
-    mov CL,5h
-LAB_1000_8e25:
-    shl AX,1h
-    rcl DX,1h
-    dec CL
-    jnz LAB_1000_8e25
-    push DX
-    push AX
-    call sub_132BA
-    add SP,0ch
-    pop BP
-    ret
-    nop
-sub_18DF4 endp
+sub_18DF4 equ _sub_18DF4
 ; ------------------------------seg000:0x8e36------------------------------
 ; ------------------------------seg000:0x8e38------------------------------
 sub_18E38 equ _sub_18E38

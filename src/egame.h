@@ -275,7 +275,7 @@ void sub_18A44(void);
 // ==== seg000:0x8aa6 ====
 int sub_18AA6();
 // ==== seg000:0x8df4 ====
-int sub_18DF4();
+void sub_18DF4();
 // ==== seg000:0x8e38 ====
 int sub_18E38();
 // ==== seg000:0x8e50 ====
