@@ -1797,6 +1797,16 @@ int sub_1C82D() {
     return (int)((unsigned long)((long)(0x4000 - abs(var_544)) << 12) / (unsigned long)(unsigned int)(var_547 + 0x1000)) - 0x4000;
 }
 
+// ==== seg000:0x345e ====
+void sub_1345E(char *arg_0, int arg_2, int arg_4, int arg_6) {
+    int p, a;
+    var_190 = 0;
+    sub_13932(arg_0, 0, 0, 0, 0, 0, 0, 0);
+    gfx_jump_1a(gfx_jump_3e(*(int *)(arg_0 + 0x12), *(int *)(arg_0 + 0x0e)));
+    sub_134AC(arg_2, arg_4, arg_6);
+    sub_139AA();
+}
+
 // ==== seg000:0x26b4 ====
 uint32 sub_126B4(int level, uint32 coord) {
     switch (level) {

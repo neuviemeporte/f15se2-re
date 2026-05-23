@@ -149,9 +149,11 @@ EXTRN _sub_11B37:PROC
 EXTRN _sub_10294:PROC
 EXTRN _sub_10297:PROC
 EXTRN _sub_13A6C:PROC
+EXTRN _sub_1345E:PROC
 EXTRN _sub_136D2:PROC
 EXTRN _sub_1378E:PROC
 PUBLIC _var_456
+PUBLIC _var_190
 PUBLIC _var_200
 PUBLIC _var_201
 PUBLIC _var_216
@@ -3655,41 +3657,8 @@ LAB_1000_3459:
 sub_132BA endp
 ; ------------------------------seg000:0x345d------------------------------
 ; ------------------------------seg000:0x345e------------------------------
-sub_1345E proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    mov byte ptr [_var_190],0h
-    sub AX,AX
-    push AX
-    push AX
-    push AX
-    push AX
-    push AX
-    push AX
-    push AX
-    push word ptr [BP + 4h]
-    call sub_13932
-    add SP,10h
-    mov BX,word ptr [BP + 4h]
-    push word ptr [BX + 0eh]
-    push word ptr [BX + 12h]
-    call far ptr gfx_jump_3e
-    add SP,4h
-    push AX
-    call far ptr gfx_jump_1a
-    add SP,2h
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    call sub_134AC
-    add SP,6h
-    call sub_139AA
-    mov SP,BP
-    pop BP
-    ret
+sub_1345E equ _sub_1345E
     nop
-sub_1345E endp
 ; ------------------------------seg000:0x34aa------------------------------
 ; ------------------------------seg000:0x34ac------------------------------
 sub_134AC proc near
@@ -3850,6 +3819,8 @@ LAB_1000_3632:
     pop BP
     ret
 sub_134AC endp
+    PUBLIC _sub_134AC
+_sub_134AC equ sub_134AC
 ; ------------------------------seg000:0x3637------------------------------
 ; ------------------------------seg000:0x3638------------------------------
 sub_13638 equ _sub_13638
@@ -4033,6 +4004,8 @@ LAB_1000_3993:
     ret
     nop
 sub_13932 endp
+    PUBLIC _sub_13932
+_sub_13932 equ sub_13932
 ; ------------------------------seg000:0x39a8------------------------------
 ; ------------------------------seg000:0x39aa------------------------------
 sub_139AA proc near
@@ -4043,6 +4016,8 @@ sub_139AA proc near
     ret
     nop
 sub_139AA endp
+    PUBLIC _sub_139AA
+_sub_139AA equ sub_139AA
 ; ------------------------------seg000:0x39be------------------------------
 ; ------------------------------seg000:0x39c0------------------------------
 sub_139C0 proc near
@@ -20198,6 +20173,8 @@ gfx_jump_1a proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_jump_1a endp
+    PUBLIC _gfx_jump_1a
+_gfx_jump_1a equ gfx_jump_1a
 ; ------------------------------dseg:0xf40------------------------------
 ; ------------------------------dseg:0xf45------------------------------
 gfx_jump_1b proc near
@@ -20406,6 +20383,8 @@ gfx_jump_3e proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_jump_3e endp
+    PUBLIC _gfx_jump_3e
+_gfx_jump_3e equ gfx_jump_3e
 ; ------------------------------dseg:0xff4------------------------------
 ; ------------------------------dseg:0xff9------------------------------
 _gfx_jump_3f_modecode proc near
