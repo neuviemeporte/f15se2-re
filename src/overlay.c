@@ -3,6 +3,7 @@
 #include "output.h"
 #include "memory.h"
 #include "offsets.h"
+#include "sassert.h"
 
 #include <STDDEF.H>
 
@@ -20,6 +21,8 @@ struct OvlHeader {
     uint16 slot;
     // Extra description or padding data follows
 };
+#pragma pack()
+STATIC_ASSERT(sizeof(struct OvlHeader)==38);
 
 uint16 overlay_load(const char* filename) {
     const size_t RESERVE_PARA = 0x400;

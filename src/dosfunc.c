@@ -126,12 +126,16 @@ struct {
     uint16 ip;
     uint16 cs;
 } exeLoadParams;
+#pragma pack()
+STATIC_ASSERT(sizeof(exeLoadParams)==22);
 
 #pragma pack(1)
 struct {
     uint16 segment;
     uint16 reloc;
 } ovlLoadParams;
+#pragma pack()
+STATIC_ASSERT(sizeof(ovlLoadParams)==4);
 
 #define DOS_LOAD_EXEC 0
 #define DOS_LOAD_NOEXEC 1
@@ -226,6 +230,8 @@ struct MCB {
     uint8 reserved[3];
     char desc[8];
 };
+#pragma pack()
+STATIC_ASSERT(sizeof(struct MCB)==0x10);
 
 static uint8 FAR* dos_sysvars(void) {
     rin.h.ah = DOSF_SYSVARS; 

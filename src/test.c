@@ -6,7 +6,7 @@
 #include "struct.h"
 #include "debug.h"
 
-void assert(int arg, int lineno, const char *msg, ...) {
+void my_assert(int arg, int lineno, const char *msg, ...) {
     va_list arg_ptr;
 
     if (!arg) {
@@ -18,7 +18,7 @@ void assert(int arg, int lineno, const char *msg, ...) {
     }
 }
 
-#define ASSERT_EQ(a, b) assert(a == b, __LINE__, #a " == " #b " (%d != %d)\n", a, b)
+#define ASSERT_EQ(a, b) my_assert(a == b, __LINE__, #a " == " #b " (%d != %d)\n", a, b)
 
 void testComm() {
     printf("Testing Comm structure layout: ");
