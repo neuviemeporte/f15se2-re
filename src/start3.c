@@ -760,7 +760,7 @@ int memAppend(void *ptr, int itemsz, int count, int unused) {
 }
 
 // 52f1
-int doNothing() {
+int doNothing(FILE* handle) {
 }
 
 // 52f4

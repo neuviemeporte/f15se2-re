@@ -100,7 +100,7 @@ STATIC_ASSERT(sizeof(struct struc_10)==4);
 
 #pragma pack(1)
 struct Pilot {
-    int8 name[PILOTNAMELEN]; // 0
+    char name[PILOTNAMELEN]; // 0
     int32 total_score; // 0x16
     uint16 last_score; // 0x1a
     int8 rank; // 0x1c

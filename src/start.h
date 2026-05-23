@@ -216,7 +216,7 @@ int unreach_127AE();
 // ==== startCode1:0x27ca ====
 int sub_127CA();
 // ==== startCode1:0x27f5 ====
-void intDispatch(int intNum, char *inregs, char *outregs);
+void intDispatch(int intNum, uint8 *inregs, uint8 *outregs);
 // ==== startCode1:0x285a ====
 int myItoa();
 // ==== startCode1:0x2897 ====
@@ -228,7 +228,7 @@ int base2_itoa();
 // ==== startCode1:0x292c ====
 int unreach_1292C();
 // ==== startCode1:0x2977 ====
-int dos_printstring();
+int dos_printstring(const char *str);
 // ==== startCode1:0x2985 ====
 int loadOverlay(const char *filename);
 // ==== startCode1:0x2a88 ====
@@ -317,7 +317,7 @@ int unreach_13442();
 // ==== startCode1:0x34aa ====
 int unreach_134AA();
 // ==== startCode1:0x351e ====
-int decodePic();
+int decodePic(int handle, int segment);
 // ==== startCode1:0x3586 ====
 int nullsub_1();
 // bytes outside routine, potential module boundary at 0x3587
@@ -388,7 +388,7 @@ void __cdecl parseWorld(const char *);
 // ==== startCode1:0x4f76 ====
 void writeWorld(const char *filename);
 // ==== startCode1:0x50e8 ====
-int doNothing2();
+int doNothing2(char *msg, int a, int b, int c);
 // ==== startCode1:0x50eb ====
 int __cdecl calcBearing(int, int);
 // ==== startCode1:0x5268 ====
@@ -398,7 +398,7 @@ int unreach_15285();
 // ==== startCode1:0x52bb ====
 int memAppend();
 // ==== startCode1:0x52f1 ====
-int doNothing();
+int doNothing(FILE*);
 // ==== startCode1:0x52f4 ====
 char *__cdecl getItemCoordStr(int);
 // ==== startCode1:0x531c ====
@@ -440,7 +440,7 @@ extern uint8 unk_16B90;
 extern uint8 crt0_end;
 extern uint8 aLabs_pic[];
 extern uint8 aAdv_pic[];
-extern uint8 aEgraphic_exe[];
+extern char aEgraphic_exe[];
 extern uint8 aTitle640_pic[];
 extern uint8 aTitle16_pic[];
 extern uint8 aF15_spr[];
@@ -818,7 +818,7 @@ extern int16 tmpPageIndex;
 extern int16 rowOffset;
 extern int16 row;
 extern int16 readFromFilePtr;
-extern uint8 aInsufficientSy[];
+extern char aInsufficientSy[];
 extern uint8 aBufferDeallocE[];
 extern int word_17FFE[];
 extern int word_18010[];

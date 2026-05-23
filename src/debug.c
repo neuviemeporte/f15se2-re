@@ -58,8 +58,8 @@ void my_fartrace(const char far *msg, ...) {
     va_end(ap);
 }
 
-void ftoncpy(void *near_ptr, void far *far_ptr, uint32 size) {
-    uint8 far *src = (uint8 far *)far_ptr;
+void ftoncpy(void *near_ptr, const void far *far_ptr, uint32 size) {
+    const uint8 far *src = (uint8 far *)far_ptr;
     uint8 *dest = (uint8 *)near_ptr;
     uint32 i;
 
