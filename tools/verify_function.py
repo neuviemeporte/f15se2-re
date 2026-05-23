@@ -229,14 +229,18 @@ def main():
         if result.stderr:
             print(result.stderr, end='')
         # Parse mzdiff result
-        if 'Comparison result: match' in result.stdout:
+        # Strip ANSI escape codes from output for reliable parsing
+        ansi_re = re.compile(r'\x1b\[[0-9;]*m')
+        clean_stdout = ansi_re.sub('', result.stdout)
+
+        if 'Comparison result: match' in clean_stdout:
             mzdiff_match = True
-        elif 'Comparison result: mismatch' in result.stdout:
+        elif 'Comparison result: mismatch' in clean_stdout:
             # Check if the mismatch is within our function's range or beyond it.
             # If all instructions within start..end match, it's a dseg mapping
             # collision or a post-boundary issue — treat as match.
             has_mismatch_in_range = False
-            for line in result.stdout.splitlines():
+            for line in clean_stdout.splitlines():
                 if '!=' not in line:
                     continue
                 # Extract ref address from line like "0000:19f2/0019f2: ..."
@@ -245,7 +249,7 @@ def main():
                     addr = int(m_addr.group(1), 16)
                     if start <= addr <= end:
                         # Check if this is a data-offset mapping conflict
-                        if 'Instruction mismatch due to data segment offset mapping conflict' in result.stdout:
+                        if 'Instruction mismatch due to data segment offset mapping conflict' in clean_stdout:
                             # The ~= match on the actual instruction is valid
                             continue
                         has_mismatch_in_range = True
