@@ -2,6 +2,7 @@
 #define POINTERS_H
 
 #include "inttype.h"
+#include "sassert.h"
 
 #if defined(MSDOS) || defined(__MSDOS__) || defined(MSC_VER)
 #define NEAR near
@@ -26,6 +27,14 @@ union FarAddress {
     struct { uint16 off, seg; } data;
     uint8 FAR *ptr;
 };
+#ifdef HAVE_PRAGMA
+#pragma pack()
+#endif
+#if defined(__clang__) || defined(_MSC_VER) && (_MSC_VER > 510) 
+STATIC_ASSERT(sizeof(union FarAddress)==8);
+#else
+STATIC_ASSERT(sizeof(union FarAddress)==4);
+#endif
 
 #define FARPTR_CAST(type, addr) ((type FAR*)addr.ptr)
 #define FARPTR_CAST_OFFSET(type, addr, offset) (type FAR*)(addr.ptr + offset)

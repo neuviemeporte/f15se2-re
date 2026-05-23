@@ -3,6 +3,7 @@
 
 #include "const.h"
 #include "inttype.h"
+#include "sassert.h"
 
 /* the communication structure used for exchanging data between the parts of the game has 320 paragraphs, 5120 bytes, 0x1400 */
 #define COMM_SIZE_PARA 0x140
@@ -39,6 +40,8 @@ struct GameComm {
     uint16 gfxModeNum;
     uint16 worldBuf;
 };
+#pragma pack()
+STATIC_ASSERT(sizeof(struct GameComm)==124);
 
 /* end.exe debrief aliases: same struct fields, different semantics after egame writes results */
 #define landingType      setupDone
@@ -95,6 +98,8 @@ struct Game {
     uint8 pad4[8];
     int16 campaignProgress;
 };
+#pragma pack()
+STATIC_ASSERT(sizeof(struct Game)==80);
 
 #define GAME_PILOTIDX_OFFSET 0x0
 #define GAME_PILOTNAME_OFFSET 0x2

@@ -151,7 +151,7 @@ extern int *spriteWaypointBlink;
 extern void far pollJoystick(void);
 void processDebriefInput(int *cursorBounds, void *menuItem, int gfxPage);
 
-typedef unsigned int MenuItemFlags;
+typedef uint16 MenuItemFlags;
 
 #define MENUITEM_TYPE_MASK    0x0007 // 0b0000000000000111
 #define MENUITEM_SELECTABLE   0x0008 // 0b0000000000001000
@@ -160,24 +160,25 @@ typedef unsigned int MenuItemFlags;
 #define MENUITEM_SPRITE_BLINK 0x1000 // 0b0001000000000000
 
 typedef struct MenuItem {
-    int  hitX1;          /* 0x00 */
-    int  hitY1;          /* 0x02 */
-    int  hitX2;          /* 0x04 */
-    int  hitY2;          /* 0x06 */
+    int16  hitX1;          /* 0x00 */
+    int16  hitY1;          /* 0x02 */
+    int16  hitX2;          /* 0x04 */
+    int16  hitY2;          /* 0x06 */
 
-    int  colorX1;        /* 0x08 */
-    int  colorY1;        /* 0x0a */
-    int  colorX2;        /* 0x0c */
-    int  colorY2;        /* 0x0e */
-    int  colorTableIdx;  /* 0x10 */
-    int  colorPair;      /* 0x12 */
+    int16  colorX1;        /* 0x08 */
+    int16  colorY1;        /* 0x0a */
+    int16  colorX2;        /* 0x0c */
+    int16  colorY2;        /* 0x0e */
+    int16  colorTableIdx;  /* 0x10 */
+    int16  colorPair;      /* 0x12 */
 
     char label[0x18];    /* 0x14 .. 0x2b */
 
-    int  unk_2c;         /* 0x2c */
-    int  state;          /* 0x2e */
+    int16  unk_2c;         /* 0x2c */
+    int16  state;          /* 0x2e */
     MenuItemFlags flags; /* 0x30 */
 } MenuItem;
+STATIC_ASSERT(sizeof(struct MenuItem)==50);
 
 /* FlightRecord: 6 bytes per record */
 typedef struct {

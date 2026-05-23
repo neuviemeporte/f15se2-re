@@ -2,10 +2,12 @@
 #define STRUCT_H
 
 #include "inttype.h"
+#include "sassert.h"
 
 struct JoyAxes {
     uint8 x,y;
 };
+STATIC_ASSERT(sizeof(struct JoyAxes)==2);
 
 #pragma pack(1)
 struct Buf6Item {
@@ -24,6 +26,8 @@ struct Buf6Item {
     uint16 field_1C;
     uint8 field_1E[6];
 };
+#pragma pack()
+STATIC_ASSERT(sizeof(struct Buf6Item)==36);
 #define BUF6ITEMSIZE 0x24
 
 /* Buf4Item: 16-byte world target/object entry from .wld files.
@@ -41,6 +45,8 @@ struct Buf4Item {
     int16 field_C;       /* unknown */
     int16 objectIdx;     /* index into wld_obj_table, masked with 0x7f */
 };
+#pragma pack()
+STATIC_ASSERT(sizeof(struct Buf4Item)==16);
 #define BUF4ITEMSIZE 0x10
 
 #define BUF7SIZE 0x64
@@ -59,6 +65,8 @@ struct Target {
     uint8 coord[6];      /* grid reference string (e.g. "A3B2") */
     int16 distance;      /* distance metric */
 };
+#pragma pack()
+STATIC_ASSERT(sizeof(struct Target)==18);
 
 #define TARGETSIZE 0x12
 
@@ -74,6 +82,8 @@ struct MissionTableEntry {
     int16 missionCode;   /* completion detection flags */
     int16 special;       /* special parameter, can be negative */
 };
+#pragma pack()
+STATIC_ASSERT(sizeof(struct MissionTableEntry)==12);
 
 #define STRUC9SIZE 0xc
 
@@ -82,6 +92,8 @@ struct struc_10 {
     int16 field_0;
     int16 field_2;
 };
+#pragma pack()
+STATIC_ASSERT(sizeof(struct struc_10)==4);
 
 #define STRUC10SIZE 0x4
 #define PILOTNAMELEN 22
@@ -96,6 +108,8 @@ struct Pilot {
     int8 theater; // 0x1e
     int8 difficulty; // 0x1f
 };
+#pragma pack()
+STATIC_ASSERT(sizeof(struct Pilot)==32);
 
 struct Plane {
     int8 field_0[8]; // name
@@ -104,11 +118,17 @@ struct Plane {
     int16 field_14;
     int8 field_16[10];
 };
+STATIC_ASSERT(sizeof(struct Plane)==32);
 #define PLANESIZE 0x20
 
 struct TerrainUnk {
     uint8 *field_0[32];
 };
+STATIC_ASSERT(sizeof(struct TerrainUnk)==sizeof(uint8*)*32);
+// 64 with 16bit ptr
+// 128 with far/32bit ptr
+// 256 with 64bit ptr
+
 #define TERRAINUNKSIZE 64
 
 // used in egame.exe sub_155AB, 16 bytes
@@ -120,6 +140,7 @@ struct struc_1 {
     int16 field_C;
     int16 field_E;
 };
+STATIC_ASSERT(sizeof(struct struc_1)==16);
 
 // used in egame.exe sub_155AB, 0x18 bytes
 struct struc_2 {
@@ -133,6 +154,7 @@ struct struc_2 {
     int16 field_E;
     uint8 field_10[8];
 };
+STATIC_ASSERT(sizeof(struct struc_2)==0x18);
 
 // used in egame.exe sub_155AB, 0x24 bytes
 struct struc_3 {
@@ -141,6 +163,11 @@ struct struc_3 {
     int32 field_6;
     uint8 field_10[26];
 };
+#if defined(__clang__) || defined(_MSC_VER) && (_MSC_VER > 510) 
+STATIC_ASSERT(sizeof(struct struc_3)==40);
+#else
+STATIC_ASSERT(sizeof(struct struc_3)==36);
+#endif
 
 // used in egame.exe, 0x10 bytes
 struct struc_4 {
@@ -152,35 +179,40 @@ struct struc_4 {
     int16 field_C;
     int16 field_E;
 };
+STATIC_ASSERT(sizeof(struct struc_4)==0x10);
 
 // used in egame.exe, 4 bytes
 struct Waypoint {
     uint16 field_0;
     uint16 field_2;
 };
+STATIC_ASSERT(sizeof(struct Waypoint)==4);
 
 // 0x1a bytes
 struct Missile {
     char field_0[10];
     char field_A[12];
-    int field_16;
-    int field_18;
+    int16 field_16;
+    int16 field_18;
 };
+STATIC_ASSERT(sizeof(struct Missile)==26);
 
 // 0x12 bytes
 struct Sam {
     char field_0[8];
-    int field_8;
-    int field_A;
-    int field_C;
-    int field_E;
-    int field_10;
+    int16 field_8;
+    int16 field_A;
+    int16 field_C;
+    int16 field_E;
+    int16 field_10;
 };
+STATIC_ASSERT(sizeof(struct Sam)==18);
 
 // 0x4 bytes
 struct MissileSpec {
-    int field_0;
-    int field_2;
+    int16 field_0;
+    int16 field_2;
 };
+STATIC_ASSERT(sizeof(struct MissileSpec)==4);
 
 #endif // STRUCT_H
