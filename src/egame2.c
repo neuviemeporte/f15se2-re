@@ -111,6 +111,27 @@ int sub_13922(int arg_0) {
     return arg_0 - (arg_0 >> 2);
 }
 
+// ==== seg000:0x3932 ====
+void sub_13932(int *arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c, int arg_e) {
+    sub_139C0((int)arg_0);
+    sub_13A6C(arg_2, arg_4, arg_6);
+    sub_13A90(arg_8, arg_a, arg_c);
+    if (arg_e != 0) {
+        var_315 = 0;
+        if (word_38FDC == 0) {
+            *(uint8 *)&var_316 = 1;
+        }
+        if (*(uint8 *)&var_316 == 0) {
+            sub_20658();
+        }
+        while (*(uint8 *)&origCBreakSeg != 0)
+            ;
+        sub_10334(*(int *)((char *)arg_0 + 4));
+    }
+    var_255 = 0;
+    var_261 -= 0x3000 / word_330C4;
+}
+
 // ==== seg000:0x36d2 ====
 void sub_136D2(char far *param_1, int param_3, int param_4) {
     *(char far **)&var_200 = param_1;

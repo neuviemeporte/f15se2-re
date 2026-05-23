@@ -48,6 +48,7 @@ EXTRN _sub_1C7C6:PROC
 EXTRN _sub_1C7EA:PROC
 EXTRN _sub_21A7A:PROC
 EXTRN _sub_13922:PROC
+EXTRN _sub_13932:PROC
 EXTRN _sub_1CF8E:PROC
 
 EXTRN _sub_11BFD:PROC
@@ -164,6 +165,14 @@ PUBLIC _var_201
 PUBLIC _var_216
 PUBLIC _var_665
 PUBLIC _var_673
+PUBLIC _var_255
+PUBLIC _var_261
+PUBLIC _var_315
+PUBLIC _var_316
+PUBLIC _origCBreakSeg
+PUBLIC _sub_10334
+PUBLIC _sub_139C0
+PUBLIC _sub_20658
 PUBLIC _word_3C16C
 PUBLIC _sub_1374A
 PUBLIC _var_257
@@ -1110,6 +1119,7 @@ LAB_1000_0619:
     db 00h
     nop
 sub_10334 endp
+_sub_10334 equ sub_10334
 ; ------------------------------seg000:0x66e------------------------------
 ; ------------------------------seg000:0x688------------------------------
 _setupOverlaySlots proc near
@@ -3992,52 +4002,7 @@ sub_13816 endp
 _sub_13816 equ sub_13816
 ; ------------------------------seg000:0x3920------------------------------
 ; ------------------------------seg000:0x3932------------------------------
-sub_13932 proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP + 4h]
-    call sub_139C0
-    add SP,2h
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    call sub_13A6C
-    add SP,6h
-    push word ptr [BP + 10h]
-    push word ptr [BP + 0eh]
-    push word ptr [BP + 0ch]
-    call sub_13A90
-    add SP,6h
-    cmp word ptr [BP + 12h],0h
-    jz LAB_1000_3993
-    mov word ptr [_var_315],0h
-    cmp word ptr [_word_38FDC],0h
-    jnz LAB_1000_3974
-    mov byte ptr [_var_316],1h
-LAB_1000_3974:
-    cmp byte ptr [_var_316],0h
-    jnz LAB_1000_3980
-    call far ptr sub_20658
-LAB_1000_3980:
-    cmp byte ptr [origCBreakSeg],0h
-    jnz LAB_1000_3980
-    mov BX,word ptr [BP + 4h]
-    push word ptr [BX + 4h]
-    call sub_10334
-    add SP,2h
-LAB_1000_3993:
-    mov word ptr [_var_255],0h
-    mov AX,3000h
-    cwd
-    mov CX,word ptr [_word_330C4]
-    idiv CX
-    sub word ptr [_var_261],AX
-    pop BP
-    ret
-    nop
-sub_13932 endp
-    PUBLIC _sub_13932
-_sub_13932 equ sub_13932
+sub_13932 equ _sub_13932
 ; ------------------------------seg000:0x39a8------------------------------
 ; ------------------------------seg000:0x39aa------------------------------
 sub_139AA proc near
@@ -4053,6 +4018,7 @@ _sub_139AA equ sub_139AA
 ; ------------------------------seg000:0x39be------------------------------
 ; ------------------------------seg000:0x39c0------------------------------
 sub_139C0 proc near
+_sub_139C0 equ sub_139C0
     push BP
     mov BP,SP
     sub SP,4h
@@ -17560,6 +17526,7 @@ sub_20534 endp
 ; ------------------------------seg001:0xdd6------------------------------
 ; ------------------------------seg001:0xdd8------------------------------
 sub_20658 proc far
+_sub_20658 equ sub_20658
     retn
 sub_20658 endp
 ; ------------------------------seg001:0xde1------------------------------
@@ -30820,6 +30787,7 @@ word_378E5 dw 0
     db 0
 cbreakHit db 0
 origCBreakSeg dw 0
+_origCBreakSeg equ origCBreakSeg
 origCBreakOfs dw 0
     db 0 ;align 2
 byte_378EE db 0
