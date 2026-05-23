@@ -5,7 +5,7 @@ Data1 DATA 06b5
 Stack1 STACK 0e66
 padding: Code1 NEAR 0000-000f U0000-000f detached
 main: Code1 NEAR 0010-0482 R0010-0482 complete
-sub_10483: Code1 NEAR 0483-049f U0483-049f detached
+checkQuitFlag: Code1 NEAR 0483-049f U0483-049f detached
 initGraphics: Code1 NEAR 04a0-0510 R04a0-0510 complete
 cleanup: Code1 NEAR 0511-0543 R0511-0543 complete
 # 2 empty routines called from start; setenvp/setargv overrides
@@ -22,21 +22,21 @@ missionSelect: Code1 NEAR 06c8-090d R06c8-090d complete
 missionMenuSelect: Code1 NEAR 090e-0a9e R090e-0a9e complete
 animateArm: Code1 NEAR 0a9f-0cda R0a9f-0cda complete
 askRepeatMission: Code1 NEAR 0cdb-0d39 R0cdb-0d39 complete
-checkDiskA: Code1 NEAR 0d3a-0dc9 R0d3a-0dc9 complete 
+checkDiskA: Code1 NEAR 0d3a-0dc9 R0d3a-0dc9 complete
 missionDecode: Code1 NEAR 0dca-0e09 R0dca-0e09 complete
 printMission: Code1 NEAR 0e0a-10aa R0e0a-10aa complete
 processStoreInput: Code1 NEAR 10ab-1228 R10ab-1228 complete
 clearBriefing: Code1 NEAR 1229-1249 R1229-1249 complete
-sub_1124A: Code1 NEAR 124a-128f R124a-128f complete
-sub_11290: Code1 NEAR 1290-12b7 U1290-12b7 detached
+showSprite: Code1 NEAR 124a-128f R124a-128f complete
+dead_showSpriteAt: Code1 NEAR 1290-12b7 U1290-12b7 detached
 drawStringAt: Code1 NEAR 12b8-12de R12b8-12de complete
-# only called from sub_11290
-sub_112DF: Code1 NEAR 12df-1576 U12df-1576 detached
+# only called from dead_showSpriteAt
+dead_drawWrappedText: Code1 NEAR 12df-1576 U12df-1576 detached
 drawStringCentered: Code1 NEAR 1577-15ad R1577-15ad complete
 stringWidth: Code1 NEAR 15ae-15f0 R15ae-15f0 complete
 my_ltoa: Code1 NEAR 15f1-172b R15f1-172b complete
 my_itoa: Code1 NEAR 172c-1805 R172c-1805 complete
-sub_11806: Code1 NEAR 1806-1823 U1806-1823 detached
+timerWait: Code1 NEAR 1806-1823 U1806-1823 detached
 seedRandom: Code1 NEAR 1824-1834 R1824-1834 complete
 randMul: Code1 NEAR 1835-1858 R1835-1858 complete
 # !!!
@@ -44,14 +44,14 @@ setTimerIrqHandler: Code1 NEAR 185a-1897 R185a-1897 assembly
 restoreTimerIrqHandler: Code1 NEAR 1898-18b8 R1898-18b8 assembly
 unreach_118B9: Code1 NEAR 18b9-18e2 U18b9-18e2 detached
 timerIrqHandler: Code1 NEAR 18e7-194c R18e7-194c assembly
-sub_1194D: Code1 NEAR 194d-19d3 R194d-19d3 assembly
-sub_119D4: Code1 NEAR 19d4-1a68 R19d4-1a3b U1a3c-1a3c R1a3d-1a68 assembly
-sub_11A69: Code1 NEAR 1a69-1abd R1a69-1a92 U1a93-1a93 R1a94-1abd assembly
+timerIrqCallback: Code1 NEAR 194d-19d3 R194d-19d3 assembly
+calibrateTimerSpeed: Code1 NEAR 19d4-1a68 R19d4-1a3b U1a3c-1a3c R1a3d-1a68 assembly
+manipulateTimer: Code1 NEAR 1a69-1abd R1a69-1a92 U1a93-1a93 R1a94-1abd assembly
 getTimeOfDay: Code1 NEAR 1abe-1ac4 R1abe-1ac4 assembly
 # called from timerIrqHandler
 increaseTimerCounters: Code1 NEAR 1ac5-1ada U1ac5-1ada assembly
 # !!!
-sub_11ADC: Code1 NEAR 1adc-1b02 R1adc-1b02 assembly
+doFcbSearch: Code1 NEAR 1adc-1b02 R1adc-1b02 assembly
 picBlit: Code1 NEAR 1b03-1b70 R1b03-1b70 assembly
 pilotSelect: Code1 NEAR 1b72-1c06 R1b72-1c06 complete
 updateHallfame: Code1 NEAR 1c08-1d30 R1c08-1c22 U1c23-1c23 R1c24-1c86 U1c87-1c87 R1c88-1cb2 U1cb3-1cb3 R1cb4-1d30 complete
@@ -95,12 +95,12 @@ setupOverlaySlots: Code1 NEAR 2a88-2ae0 R2a88-2a99 U2a9a-2a9f R2aa0-2ae0 assembl
 unreach_2ae1: Code1 NEAR 2ae1-2bb9 U2ae1-2bb9 detached
 clearRect: Code1 NEAR 2bba-2c58 R2bba-2c58 assembly
 unreach_2c59: Code1 NEAR 2c59-2c74 U2c59-2c74 detached
-sub_12C75: Code1 NEAR 2c75-2ca5 R2c75-2ca5 assembly
+clearDirtyRects: Code1 NEAR 2c75-2ca5 R2c75-2ca5 assembly
 unreach_2ca6: Code1 NEAR 2ca6-2de9 U2ca6-2de9 detached
 # !!!
-sub_12DEA: Code1 NEAR 2dea-2df5 R2dea-2df5 assembly
-sub_12DF6: Code1 NEAR 2df6-2f69 R2df6-2e0a U2e0b-2e0b R2e0c-2e51 U2e52-2e52 R2e53-2e56 U2e57-2e57 R2e58-2e64 U2e65-2e65 R2e66-2f69 assembly
-sub_12F6A: Code1 NEAR 2f6a-2f8a R2f6a-2f8a assembly
+drawLineWrapper: Code1 NEAR 2dea-2df5 R2dea-2df5 assembly
+clipAndDrawLine: Code1 NEAR 2df6-2f69 R2df6-2e0a U2e0b-2e0b R2e0c-2e51 U2e52-2e52 R2e53-2e56 U2e57-2e57 R2e58-2e64 U2e65-2e65 R2e66-2f69 assembly
+computeOutcode: Code1 NEAR 2f6a-2f8a R2f6a-2f8a assembly
 unreach_2f8b: Code1 NEAR 2f8b-2fab U2f8b-2fab detached
 installCBreakHandler: Code1 NEAR 2fac-2fce R2fac-2fce assembly
 restoreCbreakHandler: Code1 NEAR 2fcf-2fdf R2fcf-2fdf assembly
@@ -119,7 +119,7 @@ fileClose: Code1 NEAR 31c8-31e8 R31c8-31e8 assembly
 unreach_31ea: Code1 NEAR 31ea-326b U31ea-326b detached
 read512FromFileIntoBuf: Code1 NEAR 326c-328c U326c-328c assembly
 unreach_328d: Code1 NEAR 328d-32a4 U328d-32a4 detached
-sub_132A5: Code1 NEAR 32a5-3311 U32a5-32d5 R32d6-3311 assembly 
+writeFileAtRaw: Code1 NEAR 32a5-3311 U32a5-32d5 R32d6-3311 assembly
 openShowPic: Code1 NEAR 3312-333d R3312-333d complete
 unreach_333e: Code1 NEAR 333e-3367 U333e-3367 detached
 loadPic: Code1 NEAR 3368-3390 R3368-3390 complete
@@ -230,9 +230,9 @@ _brkctl: Code1 NEAR 6998-6a05 R6998-6a05 external
 _unk_libc5: Code1 NEAR 6a06-6a5b R6a06-6a5b external
 # ======= code segment 2, utils
 unreach_000c: Code2 NEAR 000c-002e U000c-002e detached
-sub_16A7F: Code2 FAR 002f-0041 R002f-0041 assembly
+pollJoystick: Code2 FAR 002f-0041 R002f-0041 assembly
 readJoyPort: Code2 NEAR 0042-006e R0042-006e assembly
-sub_16ABF: Code2 NEAR 006f-00ca R006f-0082 U0083-0083 R0084-0097 U0098-0098 R0099-00a4 U00a5-00a5 R00a6-00b7 U00b8-00b8 R00b9-00ca assembly
+normalizeJoyAxis: Code2 NEAR 006f-00ca R006f-0082 U0083-0083 R0084-0097 U0098-0098 R0099-00a4 U00a5-00a5 R00a6-00b7 U00b8-00b8 R00b9-00ca assembly
 unreach_00cb: Code2 NEAR 00cb-00de U00cb-00de detached
 copyJoystickData: Code2 FAR 00df-00f6 R00df-00f6 assembly
 # segment alignment?

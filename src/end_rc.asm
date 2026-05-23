@@ -1329,7 +1329,7 @@ LAB_1000_0daa:
     call far ptr gfx_jump_0d_setCurBuf
     mov AH,byte ptr [BX + 4h]
     call far ptr gfx_jump_20_setVal
-    call sub_12C75
+    call clearDirtyRects
     mov AX,word ptr [BP + 0ah]
     sub AX,word ptr [BP + 6h]
     mov word ptr [_var_29],AX
@@ -1391,7 +1391,7 @@ clearRect proc near
     call far ptr gfx_jump_0d_setCurBuf
     mov AH,byte ptr [BX + 6h]
     call far ptr gfx_jump_20_setVal
-    call sub_12C75
+    call clearDirtyRects
     mov AX,word ptr [BP + 0ah]
     sub AX,word ptr [BP + 6h]
     mov word ptr [_var_29],AX
@@ -1467,7 +1467,7 @@ clearRect proc near
 clearRect endp
 _clearRect equ clearRect
 
-sub_12C75 proc near
+clearDirtyRects proc near
     mov DI,word ptr [_var_37]
     or DI,DI
     js LAB_1000_0f39
@@ -1813,7 +1813,7 @@ LAB_1000_0f39:
     db 0Dh
     db 00h
     db 0CBh
-sub_12C75 endp
+clearDirtyRects endp
 
 routine_154 proc near
     push BP
@@ -1890,11 +1890,11 @@ LAB_1000_10fa:
     mov DI,word ptr [_var_34]
     mov BX,CX
     mov BP,DX
-    call sub_12F6A
+    call computeOutcode
     mov byte ptr [_var_39],AL
     mov BX,SI
     mov BP,DI
-    call sub_12F6A
+    call computeOutcode
     jnz LAB_1000_1137
     cmp byte ptr [_var_39],0h
     jnz LAB_1000_1127
@@ -2000,7 +2000,7 @@ LAB_1000_11e8:
     jmp LAB_1000_115f
 routine_158 endp
 
-sub_12F6A proc near
+computeOutcode proc near
     mov AL,0fh
     or BX,BX
     js LAB_1000_1206
@@ -2020,7 +2020,7 @@ LAB_1000_1214:
 LAB_1000_121c:
     or AL,AL
     ret
-sub_12F6A endp
+computeOutcode endp
 
 FUN_1000_121f proc near
     push BP

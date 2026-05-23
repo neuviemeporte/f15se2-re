@@ -107,7 +107,7 @@ void drawLine(int *pageNum, int x1, int y1, int x2, int y2, int color) {
     lineY1 = y1;
     lineX2 = x2;
     lineY2 = y2;
-    sub_12DEA();
+    drawLineWrapper();
     gfx_jump_23();
     // 673
 }
@@ -523,7 +523,7 @@ int processStoreInput() {
         TRACE(("processStoreInput(): use joy 1"));
         j = misc_jump_5d_readJoy(0);
         l = misc_jump_5d_readJoy(1);
-        sub_16A7F();
+        pollJoystick();
     } // 10fa
     while ((misc_jump_5a_keybuf() != 0 && j == 0 && l == 0
         && joyAxes[0] >= JOY_DEADZONE_LO && joyAxes[0] <= JOY_DEADZONE_HI
@@ -543,7 +543,7 @@ int processStoreInput() {
             TRACE(("processStoreInput(): use joy 2"));
             j = misc_jump_5d_readJoy(0);
             l = misc_jump_5d_readJoy(1);
-            sub_16A7F();
+            pollJoystick();
         } // 1176
         if (cbreakHit != 0) {
             TRACE(("processStoreInput(): cbreak"));

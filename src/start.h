@@ -81,7 +81,7 @@
 #define SCREEN_MAXX 0x13f
 #define FILE_READBUF_SIZE 0x200
 // ==== startCode1:0x483 ====
-int sub_10483();
+int checkQuitFlag();
 // ==== startCode1:0x4a0 ====
 void initGraphics(void);
 // ==== startCode1:0x544 ====
@@ -122,7 +122,7 @@ void clearBriefing(void);
 // ==== startCode1:0x124a ====
 int __cdecl showSprite(int, int, int, int, int, int, int);
 // ==== startCode1:0x12df ====
-int sub_112DF();
+int dead_drawWrappedText();
 // ==== startCode1:0x130b ====
 int unreach_1130B();
 // ==== startCode1:0x1458 ====
@@ -143,18 +143,18 @@ int sub_118D1();
 // ==== startCode1:0x18e7 ====
 int far timerIrqHandler();
 // ==== startCode1:0x194d ====
-int sub_1194D();
+int timerIrqCallback();
 // ==== startCode1:0x19d4 ====
-int sub_119D4();
+int calibrateTimerSpeed();
 // ==== startCode1:0x1a69 ====
-int sub_11A69();
+int manipulateTimer();
 // ==== startCode1:0x1abe ====
 int getTimeOfDay();
 // ==== startCode1:0x1ac5 ====
 int increaseTimerCounters();
 // bytes outside routine, potential module boundary at 0x1adb
 // ==== startCode1:0x1adc ====
-int doFcbSearch();
+int doFcbSearch
 // ==== startCode1:0x1b03 ====
 void picBlit(int handle, int unk);
 // bytes outside routine, potential module boundary at 0x1b71
@@ -244,14 +244,14 @@ int unreach_12C59();
 // ==== startCode1:0x2c6f ====
 int sub_12C6F();
 // ==== startCode1:0x2c75 ====
-int sub_12C75();
+int clearDirtyRects();
 // bytes outside routine, potential module boundary at 0x2d7a
 // ==== startCode1:0x2dea ====
-int sub_12DEA();
+int drawLineWrapper();
 // ==== startCode1:0x2df6 ====
-int sub_12DF6();
+int clipAndDrawLine();
 // ==== startCode1:0x2f6a ====
-int sub_12F6A();
+int computeOutcode();
 // ==== startCode1:0x2f8b ====
 int far sub_12F8B();
 // ==== startCode1:0x2fac ====
@@ -299,7 +299,7 @@ int read512FromFileIntoBuf();
 // ==== startCode1:0x328d ====
 int unreach_1328D();
 // ==== startCode1:0x32a5 ====
-int sub_132A5();
+int writeFileAtRaw();
 // ==== startCode1:0x3312 ====
 void openShowPic(char *filename, int pageNum, int garbage);
 // ==== startCode1:0x333e ====
@@ -423,11 +423,11 @@ int sub_16A06();
 // ==== startCode2:0x1c ====
 int unreach_16A6C();
 // ==== startCode2:0x2f ====
-int far sub_16A7F();
+int far pollJoystick();
 // ==== startCode2:0x42 ====
 int readJoyPort();
 // ==== startCode2:0x6f ====
-int sub_16ABF();
+int normalizeJoyAxis();
 // ==== startCode2:0xdf ====
 int far copyJoystickData();
 extern uint8 crt0_start[];

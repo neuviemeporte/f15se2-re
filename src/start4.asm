@@ -231,10 +231,10 @@ PUBLIC _nearmemset
 PUBLIC _openFile
 PUBLIC _picBlit
 PUBLIC _setupOverlaySlots
-PUBLIC _sub_16A7F
+PUBLIC _pollJoystick
 PUBLIC _doFcbSearch
 PUBLIC _doNothing2
-PUBLIC _sub_12DEA
+PUBLIC _drawLineWrapper
 PUBLIC _fileClose
 
 ;startCode1 segment word public 'CODE' ;startCode1 segment byte public 'CODE'
@@ -259,7 +259,7 @@ _setTimerIrqHandler proc near
     mov _word_172B8, 1
     mov _word_172A4, 0
     mov _word_172A6, 0
-    call sub_119D4
+    call calibrateTimerSpeed
     mov ah, 35h
     mov al, 8
     int 21h ;DOS - 2+ - GET INTERRUPT VECTOR
@@ -315,7 +315,7 @@ timerIrqHandler proc far
     jnz short loc_11919
     mov ax, _word_172AE
     mov _word_172B8, ax
-    call sub_1194D
+    call timerIrqCallback
     mov _byte_172A2, 0
     call increaseTimerCounters
 loc_11919:
@@ -355,36 +355,42 @@ timerIsrPtr:
 timerIrqHandler endp
 ; ------------------------------startCode1:0x1948------------------------------
 ; ------------------------------startCode1:0x194d------------------------------
-sub_1194D proc near
-    dec _byte_172B0
-    jnz short loc_119D2
-    mov _byte_172B0, 14h
-    cmp _byte_172B7, 0
-    jz short loc_119A0
-    xor bl, bl
-    xor cx, cx
+; Called from timerIrqHandler. Decrements a tick divider; when it reaches zero,
+; reprograms the 8253 PIT timer divisor, optionally waiting for video retrace
+; to avoid glitches on CGA/MDA displays.
+timerIrqCallback proc near
+    dec _byte_172B0          ; tickDivider--
+    jnz short loc_119D2      ; if not zero, skip
+    mov _byte_172B0, 14h     ; reload divider = 20
+    cmp _byte_172B7, 0       ; syncToRetrace flag
+    jz short loc_119A0       ; if no sync needed, reprogram PIT directly
+    ; Wait for vertical retrace before reprogramming timer
+    xor bl, bl               ; previous vsync bit state
+    xor cx, cx               ; loop counter (65536 iterations max)
     mov es, cx
-    mov dx, es:BDA_CRTC
-    add dx, 6
-    cmp dx, 3BAh
+    mov dx, es:BDA_CRTC      ; BIOS data area: CRTC base port
+    add dx, 6                ; status register = CRTC base + 6
+    cmp dx, 3BAh             ; MDA status port?
     jz short loc_11987
+    ; CGA/EGA: wait for vertical retrace (bit 3)
 loc_11973:
     cli
     in al, dx
-    test al, 8
-    jnz short loc_119A0
+    test al, 8               ; vertical retrace bit
+    jnz short loc_119A0      ; retrace active, proceed
     sti
-    and al, 1
-    cmp al, bl
-    jz short loc_11973
-    xor bl, 1
-    loop loc_11973
-    jmp short loc_11999
+    and al, 1                ; horizontal retrace bit
+    cmp al, bl               ; changed since last read?
+    jz short loc_11973       ; no change, keep polling
+    xor bl, 1                ; toggle expected state
+    loop loc_11973           ; timeout counter
+    jmp short loc_11999      ; timed out, skip reprogramming
+    ; MDA: wait for vertical retrace (bit 7)
 loc_11987:
     cli
     in al, dx
-    test al, 80h
-    jz short loc_119A0
+    test al, 80h             ; MDA vertical retrace bit
+    jz short loc_119A0       ; retrace active, proceed
     sti
     and al, 1
     cmp al, bl
@@ -392,35 +398,36 @@ loc_11987:
     xor bl, 1
     loop loc_11987
 loc_11999:
-    mov _byte_172B7, 0
+    mov _byte_172B7, 0       ; clear sync flag (timed out)
     jmp short loc_119D2
+    ; Reprogram PIT channel 0 with new divisor
 loc_119A0:
-    mov dx, _word_172AA
-    cmp dx, _word_172A8
-    jz short loc_119B2
-    mov dx, _word_172A8
-    mov _word_172AA, dx
+    mov dx, _word_172AA      ; current PIT divisor
+    cmp dx, _word_172A8      ; target PIT divisor
+    jz short loc_119B2       ; already matches
+    mov dx, _word_172A8      ; load new target
+    mov _word_172AA, dx      ; update current
 loc_119B2:
-    mov al, 36h
-    out 43h, al ;Timer 8253-5 (AT: 8254.2).
-    jmp short $+2
-    mov al, dl
-    out 40h, al ;Timer 8253-5 (AT: 8254.2).
-    jmp short $+2
-    mov al, dh
-    out 40h, al ;Timer 8253-5 (AT: 8254.2).
-    inc _word_172AC
-    neg cx
-    mov _word_172BA, cx
-    jz short loc_119D2
-    inc _word_172B8
+    mov al, 36h              ; PIT: channel 0, mode 3, lo/hi byte
+    out 43h, al              ; PIT command register
+    jmp short $+2            ; I/O delay
+    mov al, dl               ; divisor low byte
+    out 40h, al              ; PIT channel 0 data
+    jmp short $+2            ; I/O delay
+    mov al, dh               ; divisor high byte
+    out 40h, al              ; PIT channel 0 data
+    inc _word_172AC          ; tick counter++
+    neg cx                   ; CX=0 if loop completed (timed out), nonzero otherwise
+    mov _word_172BA, cx      ; store retrace-detected flag
+    jz short loc_119D2       ; if timed out, don't increment
+    inc _word_172B8           ; retrace-synced tick counter++
 loc_119D2:
     sti
     retn
-sub_1194D endp
+timerIrqCallback endp
 ; ------------------------------startCode1:0x19d3------------------------------
 ; ------------------------------startCode1:0x19d4------------------------------
-sub_119D4 proc near
+calibrateTimerSpeed proc near
     pushf
     cli
     mov _byte_172B0, 1
@@ -428,12 +435,12 @@ sub_119D4 proc near
     mov _byte_172B7, 1
     mov _word_172B3, ax
     mov _word_172B5, ax
-    call sub_11A69
+    call manipulateTimer
     mov bx, ax
     mov cx, 10h
 loc_119F0:
     push bx
-    call sub_11A69
+    call manipulateTimer
     pop bx
     sub bx, ax
     add _word_172B3, bx
@@ -482,10 +489,10 @@ loc_11A58:
     mov _word_172A8, ax
     popf
     retn
-sub_119D4 endp
+calibrateTimerSpeed endp
 ; ------------------------------startCode1:0x1a68------------------------------
 ; ------------------------------startCode1:0x1a69------------------------------
-sub_11A69 proc near
+manipulateTimer proc near
     pushf
     cli
     xor ax, ax
@@ -539,7 +546,7 @@ loc_11ABA:
     mov ax, bx
     popf
     retn
-sub_11A69 endp
+manipulateTimer endp
 ; ------------------------------startCode1:0x1abd------------------------------
 ; ------------------------------startCode1:0x1abe------------------------------
 _getTimeOfDay proc near
@@ -987,7 +994,7 @@ _clearRect proc near
     call _gfx_jump_0d_setCurBuf
     mov ah, [bx+6]
     call _gfx_jump_20_setVal ;saves value of ah to gfx data
-    call sub_12C75
+    call clearDirtyRects
     mov ax, [bp+maxx]
     sub ax, [bp+maxy]
     mov _word_1786A, ax
@@ -1035,7 +1042,7 @@ _clearRect proc near
 _clearRect endp
 ; ------------------------------startCode1:0x2c58------------------------------
 ; ------------------------------startCode1:0x2c75------------------------------
-sub_12C75 proc near
+clearDirtyRects proc near
     mov di, _word_17BEB
     or di, di
     js short locret_12CA5
@@ -1057,24 +1064,24 @@ sub_12C75 proc near
     mov _word_17BED, ax
 locret_12CA5:
     retn
-sub_12C75 endp
+clearDirtyRects endp
 ; ------------------------------startCode1:0x2ca5------------------------------
 ; ------------------------------startCode1:0x2dea------------------------------
-_sub_12DEA proc near
+_drawLineWrapper proc near
     push bp
     push si
     push di
     push es
-    call sub_12DF6
+    call clipAndDrawLine
     pop es
     pop di
     pop si
     pop bp
     retn
-_sub_12DEA endp
+_drawLineWrapper endp
 ; ------------------------------startCode1:0x2df5------------------------------
 ; ------------------------------startCode1:0x2df6------------------------------
-sub_12DF6 proc near
+clipAndDrawLine proc near
     arg_109F = word ptr 10A1h
     sub ax, ax
     mov es, ax
@@ -1137,11 +1144,11 @@ loc_12E66:
     mov di, _lineY2
     mov bx, cx
     mov bp, dx
-    call sub_12F6A
+    call computeOutcode
     mov _byte_17BF0, al
     mov bx, si
     mov bp, di
-    call sub_12F6A
+    call computeOutcode
     jnz short loc_12EA3
     cmp _byte_17BF0, 0
     jnz short loc_12E93
@@ -1245,10 +1252,10 @@ loc_12F54:
     mov al, _byte_17BF0
     mov _byte_17BF0, 0
     jmp loc_12ECB
-sub_12DF6 endp
+clipAndDrawLine endp
 ; ------------------------------startCode1:0x2f67------------------------------
 ; ------------------------------startCode1:0x2f6a------------------------------
-sub_12F6A proc near
+computeOutcode proc near
     mov al, 0Fh
     or bx, bx
     js short loc_12F72
@@ -1268,7 +1275,7 @@ loc_12F80:
 loc_12F88:
     or al, al
     retn
-sub_12F6A endp
+computeOutcode endp
 ; ------------------------------startCode1:0x2f8a------------------------------
 ; ------------------------------startCode1:0x2fac------------------------------
 _installCBreakHandler proc near
@@ -1433,7 +1440,7 @@ readSuccess:
 read512FromFileIntoBuf endp
 ; ------------------------------startCode1:0x328c------------------------------
 ; ------------------------------startCode1:0x32a5------------------------------
-sub_132A5 proc near
+writeFileAtRaw proc near
     arg_0 = word ptr 4
     arg_2 = word ptr 6
     arg_4 = word ptr 8
@@ -1498,7 +1505,7 @@ errorAndExit:
 exitToDos:
     mov ax, 4C00h
     int 21h ;DOS - 2+ - QUIT WITH EXIT CODE (EXIT)
-sub_132A5 endp ;AL = exit code
+writeFileAtRaw endp ;AL = exit code
 ; ------------------------------startCode1:0x3310------------------------------
 
 msg1 db 'showPicFile(): entering, handle %d pagenum %d',0
@@ -1892,20 +1899,20 @@ loc_137D0:
 _dos_alloc endp
 ; ------------------------------startCode1:0x37d9------------------------------
 ; ------------------------------startCode2:0x2f------------------------------
-_sub_16A7F proc far
+_pollJoystick proc far
     call readJoyPort
 loc_16A82:
     mov bx, 0
 loc_16A85:
-    call sub_16ABF
+    call normalizeJoyAxis
 loc_16A88:
     mov bx, 1
 loc_16A8B:
-    call sub_16ABF
-loc_16A8E: ;sub_16ABF puts some value there
+    call normalizeJoyAxis
+loc_16A8E: ;normalizeJoyAxis puts some value there
     mov ax, word ptr _joyAxes
     retf
-_sub_16A7F endp
+_pollJoystick endp
 
 ;startCode2	segment	byte public 'CODE'
 ; ------------------------------startCode2:0x41------------------------------
@@ -1945,7 +1952,7 @@ loc_16ABD:
 readJoyPort endp
 ; ------------------------------startCode2:0x6e------------------------------
 ; ------------------------------startCode2:0x6f------------------------------
-sub_16ABF proc near
+normalizeJoyAxis proc near
     shl bx, 1
 loc_16AC1:
     mov ax, _word_17856[bx]
@@ -2001,7 +2008,7 @@ done_16B14:
 loc_16B16:
     mov _joyAxes[bx], ah
     retn
-sub_16ABF endp
+normalizeJoyAxis endp
 ; ------------------------------startCode2:0xca------------------------------
 ; ------------------------------startCode2:0xdf------------------------------
 _copyJoystickData proc far

@@ -72,7 +72,7 @@ _setTimerIrqHandler proc near
                 mov     word_172B8, 1
                 mov     word_172A4, 0
                 mov     word_172A6, 0
-                call    sub_119D4
+                call    calibrateTimerSpeed
                 mov     ah, 35h ; '5'
                 mov     al, 8
                 int     21h             ; DOS - 2+ - GET INTERRUPT VECTOR
@@ -135,7 +135,7 @@ timerIrqHandler:
                 jnz     short loc_11919
                 mov     ax, word_172AE
                 mov     word_172B8, ax
-                call    sub_1194d
+                call    timerIrqCallback
                 mov     byte_172A2, 0
                 call    increaseTimerCounters
 loc_11919:
@@ -173,7 +173,7 @@ loc_1193A:
 timerIsrPtr DB 0EAh,0,0,0,0
 
 ; 0x194d
-sub_1194d       proc near
+timerIrqCallback       proc near
                 dec     byte_172B0
                 jnz     short loc_119D2
                 mov     byte_172B0, 14h
@@ -235,10 +235,10 @@ loc_119B2:
 loc_119D2:
                 sti
                 retn
-sub_1194d         endp
+timerIrqCallback         endp
 
 ; 0x19d4
-sub_119D4       proc near
+calibrateTimerSpeed       proc near
                 pushf
                 cli
                 mov     byte_172B0, 1
@@ -246,12 +246,12 @@ sub_119D4       proc near
                 mov     byte_172B7, 1
                 mov     word_172B3, ax
                 mov     word_172B5, ax
-                call    sub_11A69
+                call    manipulateTimer
                 mov     bx, ax
                 mov     cx, 10h
 loc_119F0:
                 push    bx
-                call    sub_11A69
+                call    manipulateTimer
                 pop     bx
                 sub     bx, ax
                 add     word_172B3, bx
@@ -298,10 +298,10 @@ loc_11A58:
                 mov     word_172A8, ax
                 popf
                 retn
-sub_119D4       endp
+calibrateTimerSpeed       endp
 
 ; 0x1a69
-sub_11A69       proc near
+manipulateTimer       proc near
                 pushf
                 cli
                 xor     ax, ax
@@ -355,7 +355,7 @@ loc_11ABA:
                 mov     ax, bx
                 popf
                 retn
-sub_11A69       endp
+manipulateTimer       endp
 
 
 ; 0x1ac5
