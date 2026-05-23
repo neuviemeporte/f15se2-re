@@ -339,7 +339,7 @@ void draw2Strings(const char*, int, int, int);
 // ==== seg000:0xa13a ====
 int __cdecl drawStringCentered(int *, const char *, int, int, int);
 // ==== seg000:0xa183 ====
-oid sub_1A183(int, int, int, int);
+void sub_1A183(int, int, int, int);
 // ==== seg000:0xa1b1 ====
 int sub_1A1B1();
 // ==== seg000:0xa1e4 ====
