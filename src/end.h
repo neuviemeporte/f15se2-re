@@ -255,6 +255,7 @@ void decodePicRaw(int handle, int segment);
 void processMenuItems(void *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int gfxPage);
 int selectMenuItem(MenuItem *items, int unused, int itemCount, int inputState, int gfxPage);
 void loadWorldData(int destOffset, int size);
+void drawMenuItem(MenuItem *items, unsigned int index, int gfxPage);
 void readFromWorldBuf(int destOffset, int size, int flag, int bufHandle);
 void readFromWorldFile(int destOffset, int size, int flag, int bufHandle);
 extern int worldDataReady;

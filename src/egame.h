@@ -87,7 +87,7 @@ void sub_119A3(void);
 // ==== seg000:0x1a18 ====
 int sub_11A18();
 // ==== seg000:0x1a88 ====
-int sub_11A88();
+int sub_11A88(int param_1);
 // ==== seg000:0x1b37 ====
 int sub_11B37();
 // ==== seg000:0x1bc3 ====
@@ -119,7 +119,7 @@ int sub_121CA();
 // ==== seg000:0x2278 ====
 int sub_12278();
 // ==== seg000:0x229a ====
-int copySomeMem();
+int copySomeMem(int arg_0);
 // ==== seg000:0x22b8 ====
 int sub_122B8();
 // ==== seg000:0x26b4 ====
