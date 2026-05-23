@@ -241,7 +241,7 @@ int sub_15FDB();
 // ==== seg000:0x606c ====
 void sub_1606C(void);
 // ==== seg000:0x60d3 ====
-int sub_160D3(uint8* param_1);
+void sub_160D3(int *arg_0);
 // ==== seg000:0x613b ====
 void sub_1613B(void);
 // ==== seg000:0x6172 ====

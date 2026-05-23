@@ -20,11 +20,11 @@ sub_114E8: seg000 NEAR 14e8-14fb R14e8-14fb complete
 countermeasures: seg000 NEAR 14fc-1635 R14fc-15a8 U15a9-15aa R15ab-1635 assembly
 sub_11636: seg000 NEAR 1636-1675 R1636-1675 complete
 sub_11676: seg000 NEAR 1676-1840 R1676-1840 complete
-sub_11841: seg000 NEAR 1841-18d4 R1841-18d4 complete
+sub_11841: seg000 NEAR 1841-18d4 R1841-18d4 detached
 sub_118D5: seg000 NEAR 18d5-18f5 R18d5-18f5 complete
 sub_118F6: seg000 NEAR 18f6-1970 R18f6-1970 complete
 sub_11971: seg000 NEAR 1971-19a2 R1971-19a2 complete
-sub_119A3: seg000 NEAR 19a3-1a17 R19a3-1a17 complete
+sub_119A3: seg000 NEAR 19a3-1a17 R19a3-1a17 detached
 sub_11A18: seg000 NEAR 1a18-1a87 R1a18-1a87 complete
 sub_11A88: seg000 NEAR 1a88-1b36 R1a88-1b36 complete
 sub_11B37: seg000 NEAR 1b37-1bc2 R1b37-1bc2
@@ -100,7 +100,7 @@ sub_15557: seg000 NEAR 5557-55aa R5557-55aa complete
 sub_155AB: seg000 NEAR 55ab-5fda R55ab-5c22 U5c23-5c32 R5c33-5fda
 sub_15FDB: seg000 NEAR 5fdb-606b R5fdb-606b
 sub_1606C: seg000 NEAR 606c-60d2 R606c-60d2 complete
-sub_160D3: seg000 NEAR 60d3-613a R60d3-613a
+sub_160D3: seg000 NEAR 60d3-613a R60d3-613a complete
 sub_1613B: seg000 NEAR 613b-6171 R613b-6171 complete
 sub_16172: seg000 NEAR 6172-6345 R6172-6345
 sub_16346: seg000 NEAR 6346-660d R6346-660d

@@ -1341,6 +1341,24 @@ void sub_18A44(void) {
     }
 }
 
+// ==== seg000:0x60d3 ====
+void sub_160D3(int *arg_0) {
+    while (*arg_0 != -1) {
+        gfx_jump_21(((uint8 *)word_3419C)[*arg_0++]);
+        sub_2171A();
+        arg_0 += 2;
+        while (*arg_0 != -1) {
+            var_351 = arg_0[-2];
+            var_353 = arg_0[-1];
+            var_352 = *arg_0++;
+            var_354 = *arg_0++;
+            sub_2189C();
+        }
+        sub_21704();
+        arg_0++;
+    }
+}
+
 // ==== seg000:0x606c ====
 void sub_1606C(void) {
     if (word_330C2 == 0) {
