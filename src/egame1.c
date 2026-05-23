@@ -1822,3 +1822,12 @@ uint32 sub_126B4(int level, uint32 coord) {
         return coord << 1;
     }
 }
+
+// ==== seg000:0xda8d ====
+void sub_1DA8D(void) {
+    if (var_600 != 0 || word_3BE3C != 0) {
+        audio_jump_69();
+    } else {
+        audio_jump_68();
+    }
+}

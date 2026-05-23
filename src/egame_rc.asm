@@ -33,6 +33,7 @@ EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC
 EXTRN _sub_1DBE0:PROC
 EXTRN _sub_1DB9C:PROC
+EXTRN _sub_1DA8D:PROC
 EXTRN _sub_1DAAE:PROC
 EXTRN _sub_155AB:PROC
 EXTRN _main:PROC
@@ -223,6 +224,8 @@ PUBLIC _setupDac
 PUBLIC _restoreTimerIrqHandler
 PUBLIC _audio_jump_64
 PUBLIC _audio_jump_65
+PUBLIC _audio_jump_68
+PUBLIC _audio_jump_69
 PUBLIC _setTimerIrqHandler
 PUBLIC _sub_13C3B
 PUBLIC _setInt9Handler
@@ -431,6 +434,7 @@ PUBLIC _var_220
 PUBLIC _var_591
 PUBLIC _var_592
 PUBLIC _var_595
+PUBLIC _var_600
 PUBLIC _word_3AFA4
 PUBLIC _word_3B0AC
 PUBLIC _word_3995C
@@ -16748,23 +16752,7 @@ LAB_1000_da89:
 sub_1DA5F endp
 ; ------------------------------seg000:0xda8c------------------------------
 ; ------------------------------seg000:0xda8d------------------------------
-sub_1DA8D proc near
-    push BP
-    mov BP,SP
-    cmp word ptr [_var_600],0h
-    jnz LAB_1000_da9e
-    cmp word ptr [word_3BE3C],0h
-    jz LAB_1000_daa5
-LAB_1000_da9e:
-    call far ptr audio_jump_69
-    jmp LAB_1000_daaa
-LAB_1000_daa5:
-    call far ptr audio_jump_68
-LAB_1000_daaa:
-    mov SP,BP
-    pop BP
-    ret
-sub_1DA8D endp
+sub_1DA8D equ _sub_1DA8D
 ; ------------------------------seg000:0xdaad------------------------------
 ; ------------------------------seg000:0xdaae------------------------------
 sub_1DAAE equ _sub_1DAAE
@@ -20542,16 +20530,18 @@ audio_jump_66 endp
     db 0
     db 0
 ; ------------------------------dseg:0x10c6------------------------------
-audio_jump_68 proc near
+_audio_jump_68 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-audio_jump_68 endp
+_audio_jump_68 endp
+audio_jump_68 equ _audio_jump_68
 ; ------------------------------dseg:0x10c6------------------------------
 ; ------------------------------dseg:0x10cb------------------------------
-audio_jump_69 proc near
+_audio_jump_69 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-audio_jump_69 endp
+_audio_jump_69 endp
+audio_jump_69 equ _audio_jump_69
 ; ------------------------------dseg:0x10cb------------------------------
 ; ------------------------------dseg:0x10d0------------------------------
 audio_jump_6a proc near

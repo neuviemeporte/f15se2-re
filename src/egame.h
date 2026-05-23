@@ -431,7 +431,7 @@ int makeSound();
 // ==== seg000:0xda5f ====
 int sub_1DA5F();
 // ==== seg000:0xda8d ====
-int sub_1DA8D();
+void sub_1DA8D(void);
 // ==== seg000:0xdaae ====
 void sub_1DAAE(void);
 // ==== seg000:0xdb2b ====
@@ -1721,6 +1721,7 @@ extern uint8 var_456;
 extern int16 var_673;
 extern int16 var_592;
 extern int16 var_595;
+extern int16 var_600;
 extern int16 var_349;
 extern int16 var_350;
 extern int16 var_654;
