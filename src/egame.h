@@ -115,7 +115,7 @@ int setCommWorldbufPtr();
 // ==== seg000:0x21c6 ====
 int callLoad3DAll();
 // ==== seg000:0x21ca ====
-int sub_121CA();
+void sub_121CA(int, int, int, long, long, long, int, int, int, int);
 // ==== seg000:0x2278 ====
 int sub_12278();
 // ==== seg000:0x229a ====
@@ -1732,6 +1732,8 @@ extern uint8 var_456;
 extern int16 var_383;
 extern int16 var_673;
 extern int16 var_592;
+extern int16 *var_134;
+extern int16 var_135;
 extern int16 var_595;
 extern int16 var_600;
 extern int16 var_349;

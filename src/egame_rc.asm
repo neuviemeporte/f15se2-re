@@ -207,6 +207,14 @@ PUBLIC _word_3B15E
 PUBLIC _word_38FE0
 PUBLIC _var_349
 PUBLIC _var_350
+PUBLIC _sub_21704
+PUBLIC _sub_2171A
+PUBLIC _sub_2189C
+PUBLIC _var_134
+PUBLIC _var_135
+PUBLIC _sub_122B8
+PUBLIC _sub_1A9F8
+PUBLIC _sub_1B147
 PUBLIC _var_662
 PUBLIC _createFile
 PUBLIC _readFile1
@@ -420,7 +428,7 @@ PUBLIC _a256right_pic
 PUBLIC _a256rear_pic
 PUBLIC _gfx_jump_21
 PUBLIC _gfx_jump_23
-PUBLIC _sub_121CA
+EXTRN _sub_121CA:PROC
 PUBLIC _aRight_pic
 PUBLIC _byte_3995A
 PUBLIC _aLeft_pic
@@ -2694,71 +2702,7 @@ sub_11F3E equ _sub_11F3E
 ; ------------------------------seg000:0x21c6------------------------------
 callLoad3DAll equ _sub_121C6
 ; ------------------------------seg000:0x21c9------------------------------
-; ------------------------------seg000:0x21ca------------------------------
-_sub_121CA proc near
-    push BP
-    mov BP,SP
-    push SI
-    mov BX,word ptr [_var_134]
-    mov AX,word ptr [BP + 18h]
-    mov word ptr [BX + 0eh],AX
-    mov BX,word ptr [_var_134]
-    mov AX,word ptr [BP + 18h]
-    add AX,word ptr [BP + 1ch]
-    dec AX
-    mov word ptr [BX + 10h],AX
-    mov BX,word ptr [_var_134]
-    mov AX,word ptr [BP + 16h]
-    mov word ptr [BX + 12h],AX
-    mov BX,word ptr [_var_134]
-    mov AX,word ptr [BP + 16h]
-    add AX,word ptr [BP + 1ah]
-    dec AX
-    mov word ptr [BX + 14h],AX
-    call far ptr _gfx_jump_2d
-    sub AH,AH
-    mov BX,word ptr [_var_134]
-    mov word ptr [BX],AX
-    push word ptr [_var_595]
-    call _sub_12278
-    add SP,2h
-    mov BX,word ptr [_var_134]
-    mov SI,word ptr [_word_3BE98]
-    and SI,0ffh
-    mov AL,byte ptr [SI + offset byte_3419C]
-    sub AH,AH
-    mov word ptr [BX + 4h],AX
-    mov AX,1h
-    push AX
-    push word ptr [BP + 12h]
-    sub AX,AX
-    push AX
-    push AX
-    push word ptr [BP + 8h]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    push word ptr [_var_134]
-    call sub_13932
-    add SP,10h
-    push word ptr [BP + 14h]
-    push word ptr [BP + 12h]
-    push word ptr [BP + 10h]
-    push word ptr [BP + 0eh]
-    push word ptr [BP + 0ch]
-    push word ptr [BP + 0ah]
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call sub_122B8
-    add SP,10h
-    call sub_1A9F8
-    call sub_139AA
-    call sub_1B147
-    xor byte ptr [_var_135],1h
-    pop SI
-    pop BP
-    ret
-    nop
-_sub_121CA endp
+; _sub_121CA - now in C (egame2.c)
 ; _copySomeMem - now in C (egame2.c)
 ; ------------------------------seg000:0x22b7------------------------------
 ; ------------------------------seg000:0x22b8------------------------------
@@ -3158,6 +3102,7 @@ LAB_1000_26af:
     pop BP
     ret
 sub_122B8 endp
+_sub_122B8 equ sub_122B8
 ; ------------------------------seg000:0x26b3------------------------------
 ; ------------------------------seg000:0x26b4------------------------------
 sub_126B4 equ _sub_126B4
@@ -13021,6 +12966,7 @@ LAB_1000_b141:
     pop BP
     ret
 sub_1A9F8 endp
+_sub_1A9F8 equ sub_1A9F8
 ; ------------------------------seg000:0xb146------------------------------
 ; ------------------------------seg000:0xb147------------------------------
 sub_1B147 proc near
@@ -14680,6 +14626,7 @@ LAB_1000_c1b3:
     pop BP
     ret
 sub_1B147 endp
+_sub_1B147 equ sub_1B147
 ; ------------------------------seg000:0xc1b8------------------------------
 ; ------------------------------seg000:0xc1b9------------------------------
 sub_1C1B9 equ _sub_1C1B9
@@ -17561,11 +17508,13 @@ sub_216C2 endp
 sub_21704 proc far
     retn
 sub_21704 endp
+_sub_21704 equ sub_21704
 ; ------------------------------seg001:0x1e99------------------------------
 ; ------------------------------seg001:0x1e9a------------------------------
 sub_2171A proc far
     retn
 sub_2171A endp
+_sub_2171A equ sub_2171A
 ; ------------------------------seg001:0x1e9f------------------------------
 ; ------------------------------seg001:0x1ea0------------------------------
 sub_21720 proc near
@@ -17586,6 +17535,7 @@ sub_217B4 endp
 sub_2189C proc far
     retn
 sub_2189C endp
+_sub_2189C equ sub_2189C
 ; ------------------------------seg001:0x2027------------------------------
 ; ------------------------------seg001:0x2028------------------------------
 sub_218A8 proc near
