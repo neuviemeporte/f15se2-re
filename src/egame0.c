@@ -1,8 +1,8 @@
 // egame.exe main function
-#include "debug.h"
 #include "egame.h"
 #include "offsets.h"
 #include "pointers.h"
+#include "debug.h"
 #include "slot.h"
 #include "const.h"
 
@@ -11,20 +11,25 @@
 // ==== seg000:0x10 ====
 int main(void) {
     uint16 FAR *commPtr;
+    TRACE(("egame main: entering"));
+    TRACE(("egame main: start, about to read commPtr"));
     FP_SEG(commPtr) = SEG_LOWMEM;
     FP_OFF(commPtr) = OFF_IACA_START;
     FP_SEG(commData) = *commPtr;
     FP_OFF(commData) = 0;
     FP_SEG(gameData) = *commPtr;
     FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
+    TRACE(("egame main: commData=%04x:%04x gameData=%04x:%04x", FP_SEG(commData), FP_OFF(commData), FP_SEG(gameData), FP_OFF(gameData)));
     // 0x43
+    TRACE(("egame main: setup overlays"));
     setupOverlaySlots(commData->gfxOvlAddr);
     setupOverlaySlots(commData->miscOvlAddr);
-    setupOverlaySlots(commData->sndOvlAddr); 
+    setupOverlaySlots(commData->sndOvlAddr);
     // 0x6d
     hercFlag = commData->setupMono;
     gfxModeUnset = commData->gfxModeNum == 0;
     // 0x7c
+    TRACE(("egame main: install cbreak"));
     installCBreakHandler();
     if (commData->setupUseJoy == 1) {
         // 0x93
@@ -34,7 +39,9 @@ int main(void) {
         joyAxes[0] = joyAxes[1] = 0x80;
     }
     // 0xa5
+    TRACE(("egame main: gfxInit"));
     gfxInit();
+    TRACE(("egame main: after gfxInit"));
     gfx_jump_0c();
     gfx_jump_52(commData->setupMono);
     if (gameData->theater < 2) { // 0xc8
@@ -46,7 +53,9 @@ int main(void) {
     // 0xea
     gfxBufPtr = commData->gfxInitResult;
     sub_21A7E();
+    TRACE(("egame main: drawCockpit"));
     drawCockpit();
+    TRACE(("egame main: sub_10211"));
     sub_10211();
     if (commData->setupUseJoy == 1) {
         // 10c
@@ -60,5 +69,6 @@ int main(void) {
         int86(IRQ_VIDEO, &regs, &regs);
     }
     // 13d
+    TRACE(("egame main: exiting with code %d", exitCode));
     exit(exitCode);
 }

@@ -1,29 +1,175 @@
 // seg000 debug code (/Zi)
-#include "debug.h"
 #include "egame.h"
 #include "offsets.h"
 #include "pointers.h"
+#include "debug.h"
 #include "slot.h"
 #include "const.h"
 #include "comm.h"
 
 #include <dos.h>
+#include <conio.h>
+#include <bios.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-// far arrays found in seg004 in the original executable
-unsigned char far byte_228D0[0xadd4];
-unsigned char far byte_2D6A4[0x4844+0x9c8];
+// ==== seg000:0x18f6 ====
+int sub_118F6(void) {
+    int p, a, b, c;
+
+    sub_1D1E8();
+    sub_18E38();
+    word_336E8 = sub_1D200(0x1000) & 0x7ff8;
+    p = word_3B14C + word_3B15E;
+    word_330BC = (gameData->theater == 6 ? 5 : 9) < sub_1D200(0x10);
+    if (word_330BC && byte_32933) {
+        setupDac();
+    }
+    word_38F70 = (p & 0xF) << 8;
+    word_38FE0 = 0;
+}
+
+// ==== seg000:0x1a88 ====
+void sub_11A88(int param_1) {
+    if (word_330C2 == 0) return;
+    var_564[2] = 0;
+    sub_19BE1(((int *)asc_33744)[word_3374A], 0xc4, ((int *)asc_33744)[word_3374A] + 6, 0xc4);
+    var_564[2] = 7;
+    sub_19BE1(((int *)asc_33744)[word_3374A], 0xc5, ((int *)asc_33744)[word_3374A] + 6, 0xc5);
+    var_564[2] = 0x0c;
+    sub_19BE1(((int *)asc_33744)[param_1], 0xc4, ((int *)asc_33744)[param_1] + 6, 0xc4);
+    var_564[2] = 4;
+    sub_19BE1(((int *)asc_33744)[param_1], 0xc5, ((int *)asc_33744)[param_1] + 6, 0xc5);
+    word_3374A = param_1;
+}
+
+// ==== seg000:0x1d10 ====
+void sub_11D10(int arg_0, int arg_2) {
+    if (var_654 >= 255) {
+        return;
+    }
+    *(int *)&byte_3B7FC[var_654 * 6] = word_38FE0;
+    byte_3B7FC[var_654 * 6 + 2] = (unsigned)word_3BEC0 >> 7;
+    byte_3B7FC[var_654 * 6 + 3] = (unsigned)word_3BED0 >> 7;
+    byte_3B7FC[var_654 * 6 + 4] = arg_0;
+    byte_3B7FC[var_654 * 6 + 5] = arg_2;
+    var_654++;
+    byte_3B7FC[var_654 * 6 + 4] = 0;
+}
+
+// ==== seg000:0x1d6e placeString ====
+void placeString(int param_1) {
+    strcpy((char *)strBuf, (char *)word_3C0A2[(stru_3AA5E[param_1].field_C) & 0x7f]);
+    if (strlen((char *)word_3C0A2[(&word_3AA5C)[param_1 * 8]])) {
+        if (strlen((char *)word_3C0A2[(stru_3AA5E[param_1].field_C) & 0x7f])) {
+            strcat((char *)strBuf, (char *)aAt);
+        }
+        strcat((char *)strBuf, (char *)word_3C0A2[(&word_3AA5C)[param_1 * 8]]);
+    }
+    if ((int)strlen((char *)strBuf) > 25) {
+        byte_38F8C = '.';
+        byte_38F8D[0] = 0;
+    }
+}
+
+// ==== seg000:0x14e8 ====
+int sub_114E8(void) {
+    int p, a, b, c, d, e, f, g;
+    keyDispatch(keyScancode);
+}
+
+// ==== seg000:0x1bfd scheduleTimedEvent ====
+void sub_11BFD(int arg_0, int arg_2) {
+    if (word_3370E == 0) {
+        return;
+    }
+    keyValue = arg_0;
+    word_3370C = arg_2 * word_330C4 + word_336E8;
+}
+
+// ==== seg000:0x1bc3 ====
+void sub_11BC3(int arg_0, unsigned int arg_2) {
+    if (arg_2 > (unsigned int)word_3370E) return;
+    if (word_3370C != -1) return;
+    word_3C02E = arg_0;
+    sub_11BFD(0x89, word_3370E == 1 ? 3 : 4);
+}
+
+// ==== seg000:0x543b ====
+unsigned sub_1543B(int param_1, int param_2) {
+    char p = 1;
+    char a = 1;
+    long b;
+    long d;
+
+    if (param_1 < 0) p = -1;
+    if (param_2 < 0) a = -1;
+    b = (long)(param_1 < 0 ? -param_1 : param_1);
+    d = (long)(param_2 < 0 ? -param_2 : param_2);
+    return (unsigned)((unsigned int)((((unsigned long)(unsigned int)b) << 16) / d >> 1)) * (unsigned)(int)p * (unsigned)(int)a;
+done:
+    ;
+}
+
+// ==== seg000:0x54b7 ====
+int sub_154B7(int param_1) {
+    int p;
+    int a;
+    int b;
+    int c;
+
+    if (param_1 == (int)0x8000) return (int)0xc000;
+    a = abs(param_1);
+    b = (a >> 9) + 1;
+    for (; b >= 0; b--) {
+        if ((&word_37348)[b] <= a) {
+            c = (&word_3734A)[b] - (&word_37348)[b];
+            p = (int)((long)(a - (&word_37348)[b]) * 256L / (long)c) + b * 256;
+            break;
+        }
+    }
+    if (param_1 < 0) {
+        p = -p;
+    }
+    return p;
+}
+
+// ==== seg000:0x5540 ====
+int sub_15540(int arg_0) {
+    return 0x4000 - sub_154B7(arg_0);
+}
+
+int sub_15557(int arg_0) {
+    int p;
+    int a;
+    arg_0 = abs(arg_0);
+    if (arg_0 < 4) {
+        return 1;
+    }
+    a = arg_0 >> 2;
+    do {
+        p = arg_0 / a;
+        a = (a + p) >> 1;
+    } while (abs(a - p) > 1);
+    return a;
+}
 
 // ==== seg000:0x147 ====
 void drawCockpit() {
+    TRACE(("drawCockpit: enter, theater=%d", gameData->theater));
     sub_11E0E();
     load15Flt3d3();
     // 0x162
+    TRACE(("drawCockpit: after load15Flt3d3, scenPlh0=%04x, scenarioPlh@%04x", (unsigned)scenarioPlh[0], (unsigned)&scenarioPlh[0]));
     strcpy(regnStr, scenarioPlh[gameData->theater]);
+    TRACE(("drawCockpit: regnStr=%s", regnStr));
+    TRACE(("drawCockpit: calling sub_121C6"));
     sub_121C6();
+    TRACE(("drawCockpit: after sub_121C6"));
     // 0x16e
     f15DgtlResult = loadF15DgtlBin();
+    TRACE(("drawCockpit: f15DgtlResult=%d", f15DgtlResult));
     // 0x179
     byte_34197 = byte_228D0[0x2f];
     // 17c
@@ -32,6 +178,7 @@ void drawCockpit() {
     }
      gfx_jump_44_setDac(1);
      gfx_jump_45_retrace();
+     TRACE(("drawCockpit: opening pic"));
      // 1a1
      if (gfx_jump_3f_modecode() == 3) {
         openBlitClosePic(a256pit_pic, 1);
@@ -39,9 +186,11 @@ void drawCockpit() {
      else {
         openBlitClosePic(aCockpit_pic, 1);
      }
+     TRACE(("drawCockpit: pic done"));
      // 1df
      gfx_jump_2a(1, 0, 0x60, 0, 0, 0x60, 0x140, 0x68);
      gfx_jump_2a(1, 0, 0x60, 2, 0, 0x60, 0x140, 0x68);
+     TRACE(("drawCockpit: done"));
 }
 
 // ==== seg000:0x211 ====
@@ -114,6 +263,30 @@ int sub_11E0E() {
     word_3BEC0 = (dword_3B7DA + 0x10) >> 5;
     // 1f36
     word_3BED0 = 0x8000 - ((dword_3B7F8 + 0x10) >> 5);
+}
+
+// ==== seg000:0x1f3e ====
+void sub_11F3E() {
+    int a;
+    int p;
+
+    a = var_143;
+    for (p = 0; p < 2; p++) {
+        if (word_3B14A[p * 9] >> 8 != 0) {
+            word_39808 = sub_12FDA(
+                (unsigned long)(unsigned)stru_3AA5E[(&word_3B146)[p * 9]].field_0 << 5,
+                (0x8000L - (unsigned long)(unsigned)stru_3AA5E[(&word_3B146)[p * 9]].field_2) << 5);
+            if (word_39808 != 0) {
+                byte_3BFA4[a] = byte_3BFA4[*(int *)word_39808];
+                strcpy((char *)word_3C0A2[a], (char *)word_3C0A2[*(int *)word_39808]);
+                word_3C0A2[a + 1] = word_3C0A2[a] + strlen((char *)word_3C0A2[a]) + 1;
+                sub_13224((char *)word_39808, sub_1CF32(a + 0x100), a + 0x100);
+            }
+            stru_3AA5E[(&word_3B146)[p * 9]].field_C = a + 0x100;
+            a++;
+        }
+    }
+    word_33704 = 0;
 }
 
 // ==== seg000:0x2049 ====
@@ -380,10 +553,7 @@ int strcpyFromDot(char *arg_0, char *arg_2) {
     strcpy(arg_0, arg_2);
 }
 
-// ==== seg000:0x3f72 ====
-int otherKeyDispatch() {
 
-} // 51f9
 
 // ==== seg000:0x55ab ====
 // something to do with view switching?
@@ -811,8 +981,8 @@ void sub_19E5D(int arg_0, int arg_2, int arg_4, int arg_6) {
 
 // ==== seg000:0xa0cb ====
 int drawSomeStrings(const char *arg_0, int arg_2, int arg_4, int arg_6) {
-    drawStringCentered(off_38334, arg_0, arg_2, arg_4, arg_6);
-    drawStringCentered(off_3834C, arg_0, arg_2, arg_4, arg_6);
+    drawStringCentered(var_564, arg_0, arg_2, arg_4, arg_6);
+    drawStringCentered(var_565, arg_0, arg_2, arg_4, arg_6);
 }
 
 // ==== seg000:0xa13a ====
@@ -824,9 +994,11 @@ int drawStringCentered(int* arg_0, char *arg_2, int arg_4, int arg_6, int arg_8)
     gfx_jump_05_drawString(arg_0, strupr(arg_2), strlen(arg_2));
 }
 
-// ==== seg000:0x5540 ====
-int sub_15540(int arg_0) {
-    return -(sub_154B7(arg_0) - 0x4000);
+
+
+// ==== seg000:0x8e38 ====
+int sub_18E38(void) {
+    sub_19FAD(2, 0x5950, 0);
 }
 
 // ==== seg000:0x9be1 ====
@@ -834,8 +1006,897 @@ int sub_19BE1(int arg_0, int arg_2, int arg_4, int arg_6) {
     sub_19C84(arg_0, arg_2, arg_4, arg_6, 0, 0x13f, 0, 199, 1);
 }
 
+// ==== seg000:0x957a ====
+void sub_1957A(int arg_0) {
+    int p;
+    if (arg_0 == word_3C09E) {
+        sub_194D0(arg_0);
+    }
+}
+
 // ==== seg000:0x9e94 ====
 int sub_19E94(int arg_0, int arg_2, int arg_4) {
     sub_19E44(arg_4);
     sub_19BE1(arg_0, arg_2, arg_0, arg_2);
+}
+
+// ==== seg000:0x9ea0 ====
+void routine_328(int arg_0, int arg_2, int arg_4) {
+    sub_19E44(arg_4);
+    sub_19BE1(arg_0, arg_2, arg_0, arg_2);
+}
+
+// ==== seg000:0xdaae ====
+void sub_1DAAE(void) {
+    if (word_330C4 > 15) {
+        var_595 = sub_1CF64((-(120 / word_330C4 - 9)) >> 1, 1, 4);
+    } else {
+        var_595 = 0;
+    }
+    word_330C4 = sub_1CF64(word_330C4, 4 - word_3370A, 15);
+    word_3AFA4 = sub_1CF64(word_330C4 << 1, 3, 16);
+    word_3B0AC = 250 * word_330C4;
+    word_3995C = 200 * word_330C4;
+}
+
+// ==== seg000:0xdb9c ====
+int sub_1DB9C() {
+    if (word_3370A == 2) {
+        word_3370A = 1;
+        word_330C4 <<= 1;
+        sub_1DAAE();
+    }
+}
+
+// ==== seg000:0x9fad ====
+int sub_19FAD(int arg_0, int arg_1, int arg_2) {
+    sub_19FCC(arg_0, arg_2);
+    sub_1A030(arg_0, (char *)arg_1);
+}
+
+// ==== seg000:0xa7c4 ====
+void sub_1A7C4(int arg_0, int arg_2) {
+    int p;
+    int a;
+    char b;
+    word_3C016 = 0;
+    b = 7 - (char)var_588;
+    p = (arg_0 - word_3BEC0) >> b;
+    a = (word_3BED0 - arg_2) >> b;
+    var_279 = sub_1D190(var_542, p) - sub_1D178(var_542, a);
+    var_282 = sub_1D190(var_542, a) + sub_1D178(var_542, p);
+    var_279 += 0xa0;
+    var_282 = -var_282 + 0x98;
+    if (var_279 < 0x7c || var_279 > 0xc3) {
+        word_3C016 = -1;
+    }
+    if (var_282 < 0x6b || var_282 > 0xac) {
+        word_3C016 = -1;
+    }
+}
+
+// ==== seg000:0xa204 ====
+void sub_1A204(char *arg_0) {
+    strcpy(string_3C04A, arg_0);
+    var_592 = word_330C4 * 3;
+}
+
+// ==== seg000:0xdbe0 ====
+void sub_1DBE0(void) {
+    byte_3BF93[0] = 0;
+    regs.h.al = 0x8D;
+    int86(0x10, &regs, &regs);
+}
+
+// ==== seg000:0x18d5 ====
+int sub_118D5() {
+    if (word_3BFA2 > 0) {
+        if (word_3B4DC > -16) {
+            word_3B4DC -= 12;
+        }
+        word_3BFA2 += word_3B4DC;
+    }
+}
+
+// ==== seg000:0xc7a2 ====
+int sub_1C7A2(int arg_0) {
+    return sub_1C7EA(stru_3AA5E[arg_0].field_0, stru_3AA5E[arg_0].field_2, 1);
+}
+
+// ==== seg000:0xc7c6 ====
+int sub_1C7C6(int arg_0) {
+    return sub_1C7EA(*(int *)&unk_3B202[2 + arg_0 * 36], *(int *)&unk_3B202[4 + arg_0 * 36], 0);
+}
+
+// ==== seg000:0x9c84 ====
+void sub_19C84(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c, int arg_e, int arg_10) {
+    int p, a;
+
+    a = arg_a - arg_8 + 1;
+    p = arg_e - arg_c + 1;
+    gfx_jump_1a(gfx_jump_3e(arg_8, arg_c));
+    var_349 = a - 1;
+    var_350 = p - 1;
+    gfx_jump_21(var_564[2]);
+    var_351 = arg_0 - arg_8;
+    var_353 = arg_2 - arg_c;
+    var_352 = arg_4 - arg_8;
+    var_354 = arg_6 - arg_c;
+    sub_2152A();
+    gfx_jump_23();
+    if (arg_10 != 0) {
+        byte_3C5A0 = gfx_jump_2d();
+        gfx_jump_0e_setCurBuf(byte_3C5A0 == 0);
+        gfx_jump_21(var_564[2]);
+        var_351 = arg_0 - arg_8;
+        var_353 = arg_2 - arg_c;
+        var_352 = arg_4 - arg_8;
+        var_354 = arg_6 - arg_c;
+        sub_2152A();
+        gfx_jump_0e_setCurBuf(byte_3C5A0 != 0);
+        gfx_jump_23();
+    }
+    var_349 = 0x13f;
+    var_350 = 0xc7;
+    gfx_jump_1a(0);
+}
+
+// ==== seg000:0x9d86 ====
+int sub_19D86(int arg_0, int arg_1, int arg_2, int arg_3) {
+    sub_19C84(arg_0, arg_1, arg_2, arg_3, 0, 0x13f, 0, 0xc7, 0);
+}
+
+// ==== seg000:0x9db0 ====
+void sub_19DB0(int arg_0, int arg_2, int arg_4, int arg_6) {
+    if (var_456 != 0) {
+        if (gameData->unk4 < 2) {
+            sub_19C0C(arg_0, arg_2, arg_4, arg_6);
+        } else {
+            sub_19C84(arg_0, arg_2, arg_4, arg_6, 0x68, 0xd8, 0x3e, 0x60, 0);
+        }
+    } else if (word_330B8 != 0) {
+        sub_19C84(arg_0, arg_2, arg_4, arg_6, 0x30, 0x10f, 0x0f, 0x60, 0);
+    } else {
+        sub_19C0C(arg_0, arg_2, arg_4, arg_6);
+    }
+}
+
+// ==== seg000:0xa183 ====
+void sub_1A183(int arg_0, int arg_1, int arg_2, int arg_3) {
+    char buf[20];
+    itoa(arg_0, buf, 10);
+    drawSomeStrings(buf, arg_1, arg_2, arg_3);
+}
+
+// ==== seg000:0xc1b9 ====
+void sub_1C1B9(int arg_0, int arg_2, int arg_4, int arg_6) {
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+
+    if (word_330C2 == 0) {
+        return;
+    }
+    if (var_456 != 0) {
+        arg_4 >>= 1;
+    }
+    p = arg_4 - (arg_4 >> 2);
+    c = arg_0 + arg_4;
+    a = arg_0 - arg_4;
+    d = arg_2 + p;
+    b = arg_2 - p;
+    if (arg_6 == 0) {
+        sub_19DB0(a, b, a, d);
+        sub_19DB0(a, d, c, d);
+        sub_19DB0(c, d, c, b);
+        sub_19DB0(c, b, a, b);
+    } else {
+        sub_19DB0(arg_0, b, c, arg_2 - (p >> 1));
+        sub_19DB0(c, arg_2 - (p >> 1), c, arg_2 + (p >> 1));
+        sub_19DB0(c, (p >> 1) + arg_2, arg_0, d);
+        sub_19DB0(arg_0, d, a, (p >> 1) + arg_2);
+        sub_19DB0(a, arg_2 + (p >> 1), a, arg_2 - (p >> 1));
+        sub_19DB0(a, arg_2 - (p >> 1), arg_0, b);
+    }
+}
+
+// ==== seg000:0xc7ea ====
+void sub_1C7EA(int arg_0, int arg_1, int arg_2) {
+    int p;
+    int a;
+    p = word_3BEC0 - arg_0;
+    a = word_3BED0 - arg_1;
+    if (arg_2 != 0) {
+        var_674 = sub_1D008(-p, a);
+    }
+    var_672 = sub_1CFA6(p, a);
+    goto done;
+done:;
+}
+
+// ==== seg000:0xa1b1 ====
+int sub_1A1B1(int arg_0, int arg_1) {
+    byte_3BF93[0] = 0x0D;
+    *(int *)unk_3BF96 = arg_0;
+    *(int *)unk_3BF98 = arg_1;
+    unk_3BF95 = 0;
+    int86(0x10, &regs, &regs);
+    return regs.h.al;
+}
+
+// ==== seg000:0xa1e4 ====
+void tempStrcpy(char *arg_0) {
+    strcpy(tempString, arg_0);
+    var_591 = word_330C4 * 3;
+}
+
+// ==== seg000:0xa0fe ====
+void draw2Strings(char *arg_0, int arg_1, int arg_2, int arg_3) {
+    if (byte_3C5A0 == 0) {
+        drawStringCentered(var_564, arg_0, arg_1, arg_2, arg_3);
+    } else {
+        drawStringCentered(var_565, arg_0, arg_1, arg_2, arg_3);
+    }
+}
+
+// ==== seg000:0x9595 ====
+void sub_19595(void) {
+    word_3C09A = 0;
+    word_3C018 = 0x18;
+    word_3C45E = 0x60;
+    word_3C01A = 0x70;
+    word_3C5A2 = 0xa8;
+    word_38FC8 = 0x48;
+    word_38FCC = 0x38;
+    zoomIn();
+}
+
+// ==== seg000:0x9fcc ====
+void sub_19FCC(int arg_0, int arg_1) {
+    sub_19E44(arg_1);
+    if (arg_0 == 1) {
+        sub_19E5D(0x18, 0x70, 0x60, 0xa8);
+    }
+    if (arg_0 == 2) {
+        sub_19E5D(0x78, 0x68, 0xc7, 0xaf);
+    }
+    if (arg_0 == 3) {
+        sub_19E5D(0xe8, 0x80, 0x130, 0xb8);
+    }
+}
+
+// ==== seg000:0x9a4d ====
+extern int sub_198FA(int);
+extern int sub_19915(int);
+
+int sub_19A4D(int arg_0, int arg_1) {
+    int p;
+    int a;
+    int b;
+    if (word_3C09A != 0) return 0;
+    p = sub_198FA(arg_0);
+    a = sub_19915(arg_1);
+    p = sub_1CF64(p, word_3C018, word_3C45E);
+    a = sub_1CF64(a, word_3C01A, word_3C5A2);
+    b = -1;
+    if (p > word_3C018 && p < word_3C45E && a > word_3C01A && a < word_3C5A2) {
+        b = sub_1A1B1(p, a);
+    }
+    return b;
+}
+
+// ==== seg000:0x9b98 ====
+void sub_19B98(int arg_0, int arg_1, int arg_2, int arg_3) {
+    sub_19C84(sub_198FA(arg_0), sub_19915(arg_1), sub_198FA(arg_2), sub_19915(arg_3), word_3C018, word_3C45E, word_3C01A, word_3C5A2, 1);
+}
+
+// ==== seg000:0x9875 ====
+void zoomIn(void) {
+    if (keyValue & 0x80) {
+        word_336FE--;
+    } else {
+        if (word_3C09A == 0 && byte_383E5 < 9) {
+            byte_383E5++;
+            sub_195C9(word_3BEC0, word_3BED0);
+        }
+        if (word_3C09A == 1) {
+            var_588++;
+        }
+    }
+}
+
+// ==== seg000:0x98b1 ====
+void zoomOut(void) {
+    if (keyValue & 0x80) {
+        word_336FE++;
+    } else {
+        if (word_3C09A == 0 && byte_383E5 > 2) {
+            byte_383E5--;
+            sub_195C9(word_3BEC0, word_3BED0);
+        }
+        if (word_3C09A == 1 && var_588 != 0) {
+            var_588--;
+        }
+    }
+}
+
+// ==== seg000:0x8a44 ====
+extern int sub_1D200(int);
+void sub_18A44(void) {
+    int p;
+    if (!(planeFlags & 0x1000) && word_336EA != -1) {
+        p = 0;
+        goto check;
+        do {
+            word_33096 |= (1 << sub_1D200(8));
+            word_3BF90++;
+            p++;
+    check:;
+        } while (p <= word_330B8);
+        sub_1957A(0x16);
+        word_38FEA = 1;
+        makeSound(0, 2);
+    }
+}
+
+// ==== seg000:0x606c ====
+void sub_1606C(void) {
+    if (word_330C2 == 0) {
+        return;
+    }
+    sub_19E44(0);
+    sub_19E5D(5, 0x6d, 0x0a, 0x98);
+    sub_19E44(word_33098 > 2000 ? 2 : 14);
+    sub_19E5D(5, -(word_33098 / 250 - 0x98), 0x0a, 0x98);
+}
+
+// ==== seg000:0x98fa ====
+int sub_198FA(int arg_0) {
+    return ((arg_0 - var_589) >> (10 - (int)byte_383E5)) + 0x3C;
+}
+
+// ==== seg000:0x9915 ====
+int sub_19915(int arg_0) {
+    return (((arg_0 - var_590) >> (10 - (int)byte_383E5)) * 3 >> 1 >> 1) + 0x8C;
+}
+
+// ==== seg000:0x993a ====
+int sub_1993A(int arg_0, int arg_2, int arg_4, int arg_6) {
+    int p;
+    int a;
+    if (word_3C09A != 0 || word_330C2 == 0) {
+        return 0;
+    }
+    p = sub_198FA(arg_0);
+    a = sub_19915(arg_2);
+    if (arg_4 != -1 && p >= word_3C018 && p < word_3C45E - 1 && a >= word_3C01A && a < word_3C5A2 - 1) {
+        routine_328(p, a, arg_4);
+        if (arg_6 != 0) {
+            routine_328(p + 1, a, arg_4);
+            routine_328(p, a + 1, arg_4);
+            routine_328(p + 1, a + 1, arg_4);
+        }
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+// ==== seg000:0xC2F8 ====
+void sub_1C2F8(void) {
+    int p;
+    int a;
+    if (var_671 != 0 && word_330C2 != 0) {
+        if (byte_3C5A0 != 0) {
+            draw2Strings((char *)aMissileLock, 0xf4, 0x96, 14);
+        }
+        sub_19E44(14);
+        p = 0x10c;
+        a = 0x9c;
+        sub_19BE1(0x102, 0x9c, 0x116, 0x9c);
+        sub_19BE1(p, a - 8, p, a + 8);
+    }
+}
+
+// ==== seg000:0xc371 ====
+void sub_1C371(char *arg_0, int arg_2, int arg_4) {
+    if (var_279 == -1) {
+        return;
+    }
+    sub_19E44(arg_2);
+    if (arg_4 < var_279 && 0x13f - arg_4 > var_279 &&
+        arg_4 < var_282 && 0x58 - arg_4 > var_282) {
+        sub_1C1B9(var_279, var_282, arg_4, 1);
+    }
+    if (var_279 > 0x14 && var_279 < 0x118 &&
+        var_282 > 0 && var_282 < 0x52) {
+        draw2Strings(arg_0, var_279 - (int)strlen(arg_0) * 2, var_282 + 5, word_38F72);
+    }
+}
+
+// ==== seg000:0xdb2b ====
+void sub_1DB2B(void) {
+    int p;
+    for (p = 0; p < 6; p++) {
+        ((int *)(byte_3419F + 13))[p] = 0x20 << ((char)p + (char)(word_38FDC > 2 ? 2 : word_38FDC));
+    }
+    var_196 = var_195 + var_194;
+    var_197 = sub_1CF64(var_195 << 1, 0x1000, 9999);
+    var_198 = (word_38FDC > 2 ? 2 : word_38FDC) * 0xD05 + 0xD05;
+}
+
+// ==== seg000:0x99ec ====
+int sub_199EC(int arg_0, int arg_2, int *arg_4, int *arg_6) {
+    if (word_330C2 == 0) {
+        return 0;
+    }
+    *arg_4 = sub_198FA(arg_0);
+    *arg_6 = sub_19915(arg_2);
+    if (word_3C018 < *arg_4 && word_3C45E - 1 > *arg_4 &&
+        word_3C01A < *arg_6 && word_3C5A2 - 1 > *arg_6) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+// ==== seg000:0x1636 ====
+void sub_11636(void) {
+    int p;
+    for (p = 0; p < 4; p++) {
+        if (*((int16 *)((char *)&word_333DA + p * 12)) != 0) {
+            (*((int16 *)((char *)&word_333DA + p * 12)))--;
+            if (*((int16 *)((char *)&word_333DA + p * 12)) == 0) {
+                *((int16 *)((char *)&word_333D8 + p * 12)) = 0;
+            }
+        }
+    }
+}
+
+void sub_11676(void) {
+    register int p;
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+
+    for (c = 0; c < word_3AFA4 + 4; c++) {
+        p = c * 12;
+        if (*((int16 *)((char *)&word_3C5AC + p)) != 0) {
+            *((int16 *)((char *)&word_3C5AC + p)) += *((int16 *)((char *)&word_3C5B2 + p));
+            *((int16 *)((char *)&word_3C5AE + p)) += *((int16 *)((char *)&word_3C5B4 + p));
+            *((int16 *)((char *)&word_3C5B0 + p)) += *((int16 *)((char *)&word_3C5B6 + p));
+        }
+    }
+    if (!(word_336E8 & 1)) {
+        return;
+    }
+    e = (word_336E8 >> 1) % word_3AFA4;
+    a = sub_1D21E(0);
+    if (!a) goto no_fire;
+    if (word_330B4 <= 0) goto no_fire;
+    if (word_3BE3C != 0) goto no_fire;
+    word_330B4 = sub_1CF64(word_330B4 - 40 / word_330C4, 0, 1000);
+    makeSound(4, 2);
+    d = 186 / word_330C4;
+    *((int16 *)((char *)&word_3C5B6 + e * 12)) = sub_1D178(var_544, d) << 5;
+    d = sub_1D190(var_544, d);
+    *((int16 *)((char *)&word_3C5B2 + e * 12)) = sub_1D178(var_542, d);
+    *((int16 *)((char *)&word_3C5B4 + e * 12)) = -sub_1D190(var_542, d);
+    p = e * 12;
+    *((int16 *)((char *)&word_3C5AC + p)) = *((int16 *)((char *)&word_3C5B2 + p)) + word_3BEC0;
+    *((int16 *)((char *)&word_3C5AE + p)) = *((int16 *)((char *)&word_3C5B4 + p)) + word_3BED0;
+    *((int16 *)((char *)&word_3C5B0 + p)) = *((int16 *)((char *)&word_3C5B6 + p)) + var_547 - 2;
+    word_38FE8 = 1;
+    goto done_fire;
+no_fire:
+    *((int16 *)((char *)&word_3C5AC + e * 12)) = 0;
+    word_38FE8 = 0;
+done_fire:
+    if (a) {
+        strcpy(strBuf, aGun);
+        strcat(strBuf, itoa(word_330B4, unk_3C030, 10));
+        sub_1A204(strBuf);
+    }
+}
+
+// ==== seg000:0x0294 routine_6 ====
+int sub_10294() {
+}
+
+// ==== seg000:0x0297 routine_5 ====
+int sub_10297() {
+}
+
+// ==== seg000:0x1b37 routine_148 ====
+int sub_11B37(int arg_0) {
+    if (word_3BE3C != 0 && arg_0 != 0) {
+        return;
+    }
+    *((uint8 *)&word_3C6AC + 0x204) = 1;
+    commData->continueFlag = arg_0;
+    if (arg_0 == 0 && word_3BE3C == 0) {
+        commData->setupDone = 3;
+    }
+    *(int16 far *)((char far *)commData + 0x74) = word_3BEC0;
+    *(int16 far *)((char far *)commData + 0x76) = word_3BED0;
+    *(int16 far *)((char far *)commData + 0x34) = word_33096;
+    *(int16 far *)((char far *)commData + 0x36) = word_3BF90;
+    commData->unk8[0] = word_38FF6;
+    commData->unk8[1] = word_33710;
+    sub_11D10(8, 0);
+}
+
+// ==== seg000:0x1841 ====
+int sub_11841() {
+    int p;
+    int a;
+
+    if (word_336F6 != -1) {
+        for (p = 0; p < 8; p++) {
+            ((struct struc_9 *)stru_33402)[p].field_4 += 0x0a;
+            ((struct struc_9 *)stru_33402)[p].field_2 += ((struct struc_9 *)stru_33402)[p].field_4 >> 9;
+            *(((char *)&((struct struc_9 *)stru_33402)[p].field_6) + 1) += 6;
+        }
+        if (!((char)word_336E8 & 0x0f)) {
+            a = (word_336E8 >> 4) & 7;
+            ((struct struc_9 *)stru_33402)[a].field_0 = *(int16 *)((char *)stru_3AA5E + word_336F6 * 16);
+            ((struct struc_9 *)stru_33402)[a].field_2 = *(int16 *)((char *)stru_3AA5E + word_336F6 * 16 + 2);
+            ((struct struc_9 *)stru_33402)[a].field_4 = 0x80;
+            ((struct struc_9 *)stru_33402)[a].field_6 = sub_1D200(0x100) << 8;
+            word_33442 = a;
+        }
+    }
+}
+
+// ==== seg000:0x1971 ====
+int sub_11971() {
+    int p;
+    for (p = 0; p < word_3C046; p++) {
+        *(int *)((char *)&stru_3B208[p] + 26) = -1;
+    }
+    word_336E6 = -1;
+}
+
+// ==== seg000:0x1c21 routine_180 ====
+int sub_11C21(void) {
+    int p;
+
+    if (word_3370C != -1) {
+        return;
+    }
+    word_330B6 = 500;
+    word_3370E = 2;
+    switch (sub_1D200(3)) {
+    case 0:
+        p = sub_1D200(word_3BED2 - 3) + 3;
+        word_3C02E = p + 0x40;
+        keyValue = 0x89;
+        placeString(p);
+        tempStrcpy((char *)strBuf);
+        break;
+    case 1:
+        do {
+            p = sub_1D200(word_3C046);
+        } while (*(int16 *)&stru_3B208[p].field_10[10] == 0);
+        word_3C02E = p + 0x20;
+        keyValue = 0x89;
+        strcpy((char *)strBuf, (char *)(*(int16 *)&stru_3B208[p].field_10[6] * 32 + 0x2c8));
+        strcat((char *)strBuf, (char *)aOnPatrol);
+        tempStrcpy((char *)strBuf);
+        break;
+    case 2:
+        keyValue = 0x87;
+        tempStrcpy((char *)aF15StrikeEagle);
+        break;
+    }
+}
+
+// ==== seg000:0x94d0 routine_189 ====
+void sub_194D0(int arg_0) {
+    int p, a, b, c, d, e, f, g, h, i;
+    if (word_330C2 == 0) {
+        return;
+    }
+    switch (arg_0) {
+    case 0x13:
+        strcpy(strBuf, aTrackcam);
+        switch (*(int16 *)((char *)&word_3C6AC + 0x206)) {
+        case 0:
+            strcat(strBuf, aAhead);
+            break;
+        case (int16)0x8000:
+            strcat(strBuf, aRear);
+            break;
+        case 0x4000:
+            strcat(strBuf, aRight);
+            break;
+        case (int16)0xC000:
+            strcat(strBuf, aLeft);
+            break;
+        }
+        sub_19FAD(2, (int)strBuf, 3);
+        break;
+    }
+    word_3C09E = arg_0;
+}
+
+// ==== seg000:0x1a18 routine_131 ====
+int sub_11A18() {
+    int p;
+    int a;
+
+    if (word_330C2 == 0) {
+        return;
+    }
+    for (a = 0; a < 3; a++) {
+        sub_19E44(0);
+        p = (&word_38202)[a];
+        sub_19E5D(p - 1, 0xbe, p + 2, (int)&allocSize);
+        sub_1A183((&missileSpecIndex)[a * 2 + 1], p, 0xbe, 0x0c);
+    }
+}
+
+// ==== seg000:0x9adb ====
+void sub_19ADB(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7)
+{
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+
+    if (param_7 < param_6) {
+        param_6 += 0x100;
+    }
+    sub_19E44(param_4);
+    for (b = param_6; b <= param_7; b += 0x10) {
+        p = *(unsigned char *)&b << 8;
+        a = sub_1D178(p, param_3) + param_1;
+        d = param_2 - sub_1D190(p, param_3);
+        if ((unsigned)a > 0xC000u) {
+            a = 0;
+        }
+        if ((unsigned)d > 0xC000u) {
+            d = 0;
+        }
+        if (b != param_6 && param_5 != 0) {
+            sub_19B98(a, d, c, f);
+        } else {
+            sub_1993A(a, d, param_4, 0);
+        }
+        c = a;
+        f = d;
+    }
+}
+
+// ==== seg000:0xa224 ====
+int routine_260(int param_1, int param_2) {
+    return (int)(char)var_83[param_1 * 13 + ((int)(char)byte_3BFA4[stru_3AA5E[param_2].field_C & 0x7f] & 0xf)];
+}
+
+// ==== seg000:0xc40b ====
+void sub_1C40B(int param_1) {
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+
+    strcpy(strBuf, aRange);
+    strcat(strBuf, itoa(param_1 >> 6, unk_3C030, 10));
+    strcat(strBuf, aDot);
+    strcat(strBuf, itoa((param_1 & 0x3f) * 2 / 13, unk_3C030, 10));
+    strcat(strBuf, aKm);
+}
+
+// ==== seg000:0xd9db ====
+void selectMissile() {
+    strcpy((char *)strBuf, (char *)(missleSpec[missileSpecIndex].field_0 * 0x1a + 0x820));
+    strcat((char *)strBuf, (char *)(missleSpec[missileSpecIndex].field_2 == 0 ? aNotAvailable : aArmed));
+    sub_11A88(missileSpecIndex);
+    tempStrcpy((char *)strBuf);
+}
+
+// ==== seg000:0xc864 ====
+int sub_1C864(int param_1) {
+    if (stru_3AA5E[param_1].field_6 & 0x80) {
+        return (sub_1C8A4(param_1) ? (int)(char)byte_3BEC4[0] : (int)(char)byte_3C02A[0]) + 0x100;
+    }
+    return stru_3AA5E[param_1].field_C;
+}
+
+// ==== seg000:0xc8a4 ====
+int sub_1C8A4(int param_1) {
+    int p;
+
+    p = ((char *)byte_3BFA4)[stru_3AA5E[param_1].field_C & 0x7f] & 0x0f;
+    return (p == 0x0c || p == 9 || p == 0x0b) ? 1 : 0;
+}
+
+// ==== seg000:0x19a3 ====
+void sub_119A3() {
+    int p;
+    char far *b;
+
+    p = word_3BF90 = word_33096 = 0;
+    for (; p < 3; p++) {
+        b = (char far *)commData + p * 2;
+        ((int16 *)&missileSpecIndex)[p * 2] = *(int16 far *)(b + 0x38);
+        ((int16 *)&missileSpecIndex)[p * 2 + 1] = *(int16 far *)(b + 0x40);
+    }
+    word_330B4 = 0x3e8;
+    word_33098 = 0x2710;
+    word_3309E = 0x12;
+    word_3309C = 0x0c;
+    sub_11A18();
+    sub_1606C();
+    sub_15FDB();
+}
+
+// ==== seg000:0x51f9 ====
+void sub_151F9(int param_1, int param_2) {
+    int p;
+    int a;
+
+    var_549++;
+    if (!(*(char *)&var_549 & 7)) {
+        *(char *)&word_380D8 = 1;
+    }
+    sub_20E38(param_1, param_2, unk_380B6);
+    memcpy(unk_3806E, unk_380B6, 0x12);
+}
+
+// ==== seg000:0x5411 ====
+void sub_15411() {
+    sub_20BAE(unk_3806E, var_542, var_544, var_545);
+    *(char *)&word_380D8 = 0;
+    var_549 = 0;
+}
+
+// ==== seg000:0xc488 ====
+void sub_1C488(int param_1, int param_2, int param_3) {
+    int p;
+    long a;
+    int c;
+    long d;
+    int f;
+    long g;
+
+    p = word_3BEC0 - param_1;
+    c = param_2 - word_3BED0;
+    f = (param_3 - var_547) >> 5;
+
+    if (keyValue & 0x80) {
+        p -= (int)((dword_3B7DA - dword_3B1FE) >> 5);
+        c -= (int)((dword_3B7F8 - dword_3B4D4) >> 5);
+        f -= (int)((-((long)(unsigned)var_547 - (long)word_3B4DE)) >> 5);
+    }
+
+    a = sub_1C661(0, p, c, f);
+    d = sub_1C661(1, p, c, f);
+    g = sub_1C661(2, p, c, f);
+
+    if (g >= 0) {
+        var_279 = -1;
+        return;
+    }
+
+    if (var_456) {
+        a >>= 1;
+        d >>= 1;
+    }
+
+    if (-g < a || a < g) {
+        var_279 = -1;
+        return;
+    }
+
+    var_279 = (int)((a << 8) / g) + 0xa0;
+    var_282 = (int)((d << 8) / g);
+    var_282 -= var_282 >> 1 >> 1;
+    var_282 += (var_564[8] == 0xc7) ? 0x64 : 0x38;
+
+    word_3C016 = (int)(g >> 3);
+
+    if (var_279 < 0 || var_279 > 0x13f) {
+        var_673 = var_279;
+        var_279 = -1;
+    }
+    if (var_282 < 0 || var_564[8] < var_282) {
+        var_673 = var_279;
+        var_279 = -1;
+    }
+}
+
+// ==== seg000:0xc661 ====
+long sub_1C661(int param_1, int param_2, int param_3, int param_4) {
+    long p;
+
+    p = (long)sub_13B2F(((int *)unk_3A948)[param_1], param_2);
+    p += (long)sub_13B2F(((int *)(unk_3A948 + 6))[param_1], param_4);
+    p += (long)sub_13B2F(((int *)(unk_3A948 + 12))[param_1], param_3);
+    return p;
+}
+
+
+
+
+
+// ==== seg000:0xc82d ====
+int sub_1C82D() {
+    return (int)((unsigned long)((long)(0x4000 - abs(var_544)) << 12) / (unsigned long)(unsigned int)(var_547 + 0x1000)) - 0x4000;
+}
+
+// ==== seg000:0x345e ====
+void sub_1345E(char *arg_0, int arg_2, int arg_4, int arg_6) {
+    int p, a;
+    var_190 = 0;
+    sub_13932(arg_0, 0, 0, 0, 0, 0, 0, 0);
+    gfx_jump_1a(gfx_jump_3e(*(int *)(arg_0 + 0x12), *(int *)(arg_0 + 0x0e)));
+    sub_134AC(arg_2, arg_4, arg_6);
+    sub_139AA();
+}
+
+// ==== seg000:0x26b4 ====
+uint32 sub_126B4(int level, uint32 coord) {
+    switch (level) {
+    case 4:
+        return (coord + 0x20) >> 6;
+    case 3:
+        return (coord + 8) >> 4;
+    case 2:
+        return (coord + 2) >> 2;
+    case 1:
+        return coord;
+    case 0:
+        return coord << 1;
+    }
+}
+
+// ==== seg000:0xda35 ====
+void makeSound(int arg_0, int arg_2) {
+    if (arg_2 >= var_600) {
+        if (word_3BE3C == 0 || arg_2 > 1) {
+            audio_jump_66(arg_0);
+        }
+    }
+    sub_1DA8D();
+}
+
+// ==== seg000:0xda5f ====
+void sub_1DA5F(int arg_0) {
+    if (var_600 < 2 && word_3BE3C == 0 &&
+        (unsigned)((int16 *)(aArmed + 7))[arg_0] < (unsigned)f15DgtlResult) {
+        audio_jump_6d(arg_0);
+    }
+}
+
+// ==== seg000:0xda8d ====
+void sub_1DA8D(void) {
+    if (var_600 != 0 || word_3BE3C != 0) {
+        audio_jump_69();
+    } else {
+        audio_jump_68();
+    }
+}
+
+// ==== seg000:0x613b ====
+void sub_1613B(void) {
+    int p;
+
+    audio_jump_69();
+    p = var_383;
+loop:
+    while (kbhit() == 0)
+        ;
+    if (_bios_keybrd(0) == 0x1900)
+        goto loop;
+    sub_1DA8D();
+    var_383 = p;
 }

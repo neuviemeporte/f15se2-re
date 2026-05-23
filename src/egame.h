@@ -71,9 +71,9 @@ int sub_114E8();
 // ==== seg000:0x14fc ====
 int countermeasures();
 // ==== seg000:0x1636 ====
-int sub_11636();
+void sub_11636();
 // ==== seg000:0x1676 ====
-int sub_11676();
+void sub_11676();
 // ==== seg000:0x1841 ====
 int sub_11841();
 // ==== seg000:0x18d5 ====
@@ -83,27 +83,27 @@ int sub_118F6();
 // ==== seg000:0x1971 ====
 int sub_11971();
 // ==== seg000:0x19a3 ====
-int sub_119A3();
+void sub_119A3(void);
 // ==== seg000:0x1a18 ====
 int sub_11A18();
 // ==== seg000:0x1a88 ====
-int sub_11A88(int16);
+int sub_11A88();
 // ==== seg000:0x1b37 ====
 int sub_11B37();
 // ==== seg000:0x1bc3 ====
-int sub_11BC3();
+void sub_11BC3(int arg_0, int arg_2);
 // ==== seg000:0x1bfd ====
-int sub_11BFD();
+void sub_11BFD(int arg_0, int arg_2);
 // ==== seg000:0x1c21 ====
 int sub_11C21();
 // ==== seg000:0x1d10 ====
-int sub_11D10();
+void sub_11D10();
 // ==== seg000:0x1d6e ====
-int placeString();
+void placeString();
 // ==== seg000:0x1e0e ====
 int sub_11E0E();
 // ==== seg000:0x1f3e ====
-int sub_11F3E();
+void sub_11F3E();
 // ==== seg000:0x2049 ====
 int moveDataFar();
 // ==== seg000:0x206d ====
@@ -119,11 +119,11 @@ int sub_121CA();
 // ==== seg000:0x2278 ====
 int sub_12278();
 // ==== seg000:0x229a ====
-int copySomeMem(int16);
+int copySomeMem();
 // ==== seg000:0x22b8 ====
 int sub_122B8();
 // ==== seg000:0x26b4 ====
-int sub_126B4();
+uint32 sub_126B4(int level, uint32 coord);
 // ==== seg000:0x273e ====
 int process3dg();
 // ==== seg000:0x2874 ====
@@ -141,39 +141,39 @@ int __cdecl strcpyFromDot(char *arg_0, char *arg_2);
 // ==== seg000:0x2fda ====
 int sub_12FDA();
 // ==== seg000:0x3224 ====
-int sub_13224();
+void sub_13224(char *a, int b, int c);
 // ==== seg000:0x3266 ====
 int sub_13266();
 // ==== seg000:0x32ba ====
 int sub_132BA();
 // ==== seg000:0x345e ====
-int sub_1345E();
+void sub_1345E(char *, int, int, int);
 // ==== seg000:0x34ac ====
 int sub_134AC();
 // ==== seg000:0x3638 ====
-int sub_13638();
+void sub_13638(int *, int *, int *, int *);
 // ==== seg000:0x3694 ====
-int sub_13694();
+void sub_13694(int, int, int *, int *);
 // ==== seg000:0x36d2 ====
-int sub_136D2();
+void sub_136D2(char far *, int, int);
 // ==== seg000:0x374a ====
 int sub_1374A();
 // ==== seg000:0x378e ====
-int sub_1378E();
+void sub_1378E(int, int);
 // ==== seg000:0x3816 ====
 int sub_13816();
 // ==== seg000:0x3922 ====
 int sub_13922();
 // ==== seg000:0x3932 ====
-int sub_13932();
+void sub_13932(int *, int, int, int, int, int, int, int);
 // ==== seg000:0x39aa ====
 int sub_139AA();
 // ==== seg000:0x39c0 ====
 int sub_139C0();
 // ==== seg000:0x3a6c ====
-int sub_13A6C();
+void sub_13A6C(int, int, int);
 // ==== seg000:0x3a90 ====
-int sub_13A90();
+void sub_13A90(int arg_0, int arg_2, int arg_4);
 // ==== seg000:0x3aee ====
 int setupDac();
 // ==== seg000:0x3b2f ====
@@ -221,13 +221,13 @@ int sub_13EE3();
 // ==== seg000:0x3f72 ====
 int otherKeyDispatch();
 // ==== seg000:0x51f9 ====
-int sub_151F9();
+void sub_151F9(int param_1, int param_2);
 // ==== seg000:0x5237 ====
 int sub_15237();
 // ==== seg000:0x5411 ====
-int sub_15411();
+void sub_15411();
 // ==== seg000:0x543b ====
-int sub_1543B();
+unsigned sub_1543B(int, int);
 // ==== seg000:0x54b7 ====
 int sub_154B7();
 // ==== seg000:0x5540 ====
@@ -239,11 +239,11 @@ int sub_155AB();
 // ==== seg000:0x5fdb ====
 int sub_15FDB();
 // ==== seg000:0x606c ====
-int sub_1606C();
+void sub_1606C(void);
 // ==== seg000:0x60d3 ====
 int sub_160D3();
 // ==== seg000:0x613b ====
-int sub_1613B();
+void sub_1613B(void);
 // ==== seg000:0x6172 ====
 int sub_16172();
 // ==== seg000:0x6346 ====
@@ -251,9 +251,9 @@ int sub_16346();
 // ==== seg000:0x660e ====
 int sub_1660E();
 // ==== seg000:0x66be ====
-int sub_166BE();
+void sub_166BE();
 // ==== seg000:0x6742 ====
-int sub_16742();
+int routine_191();
 // ==== seg000:0x67b4 ====
 int sub_167B4();
 // ==== seg000:0x7594 ====
@@ -271,7 +271,7 @@ int sub_187EA();
 // ==== seg000:0x89aa ====
 int sub_189AA();
 // ==== seg000:0x8a44 ====
-int sub_18A44();
+void sub_18A44(void);
 // ==== seg000:0x8aa6 ====
 int sub_18AA6();
 // ==== seg000:0x8df4 ====
@@ -281,17 +281,17 @@ int sub_18E38();
 // ==== seg000:0x8e50 ====
 int sub_18E50();
 // ==== seg000:0x94d0 ====
-int sub_194D0();
+void __cdecl sub_194D0(int);
 // ==== seg000:0x957a ====
-int sub_1957A();
+void sub_1957A(int arg_0);
 // ==== seg000:0x9595 ====
-int sub_19595();
+void sub_19595(void);
 // ==== seg000:0x95c9 ====
 int sub_195C9();
 // ==== seg000:0x9875 ====
-int zoomIn();
+void zoomIn(void);
 // ==== seg000:0x98b4 ====
-int zoomOut();
+void zoomOut(void);
 // ==== seg000:0x98fa ====
 int sub_198FA();
 // ==== seg000:0x9915 ====
@@ -303,31 +303,33 @@ int sub_199EC();
 // ==== seg000:0x9a4d ====
 int sub_19A4D();
 // ==== seg000:0x9adb ====
-int sub_19ADB();
+void __cdecl sub_19ADB(int, int, int, int, int, int, int);
 // ==== seg000:0x9b98 ====
-int sub_19B98();
+void sub_19B98();
 // ==== seg000:0x9be1 ====
 int sub_19BE1();
 // ==== seg000:0x9c0c ====
 int sub_19C0C();
 // ==== seg000:0x9c84 ====
-int sub_19C84();
+void sub_19C84();
 // ==== seg000:0x9d86 ====
 int sub_19D86();
 // ==== seg000:0x9db0 ====
-int sub_19DB0();
+void __cdecl sub_19DB0(int, int, int, int);
 // ==== seg000:0x9e44 ====
 void __cdecl sub_19E44(int);
 // ==== seg000:0x9e5d ====
 void __cdecl sub_19E5D(int, int, int, int);
 // ==== seg000:0x9e94 ====
 int sub_19E94();
+// ==== seg000:0x9ea0 ====
+void routine_328(int, int, int);
 // ==== seg000:0x9eb6 ====
 int sub_19EB6();
 // ==== seg000:0x9fad ====
-int __cdecl sub_19FAD(int, char *);
+int __cdecl sub_19FAD(int, int, int);
 // ==== seg000:0x9fcc ====
-int sub_19FCC();
+void __cdecl sub_19FCC(int, int);
 // ==== seg000:0xa030 ====
 int __cdecl sub_1A030(int, char *);
 // ==== seg000:0xa0cb ====
@@ -341,21 +343,21 @@ int sub_1A183();
 // ==== seg000:0xa1b1 ====
 int sub_1A1B1();
 // ==== seg000:0xa1e4 ====
-int tempStrcpy();
+void tempStrcpy(char *arg_0);
 // ==== seg000:0xa204 ====
-int sub_1A204();
+void sub_1A204(char *arg_0);
 // ==== seg000:0xa224 ====
-int sub_1A224();
+int routine_260(int param_1, int param_2);
 // ==== seg000:0xa25c ====
 int sub_1A25C();
 // ==== seg000:0xa740 ====
 int sub_1A740();
 // ==== seg000:0xa7c4 ====
-int sub_1A7C4();
+void sub_1A7C4();
 // ==== seg000:0xa872 ====
-int sub_1A872();
+void sub_1A872();
 // ==== seg000:0xa8c8 ====
-int sub_1A8C8();
+void sub_1A8C8();
 // ==== seg000:0xa934 ====
 int sub_1A934();
 // ==== seg000:0xa962 ====
@@ -367,25 +369,25 @@ int sub_1A9F8();
 // ==== seg000:0xb147 ====
 int sub_1B147();
 // ==== seg000:0xc1b9 ====
-int sub_1C1B9();
+void sub_1C1B9(int, int, int, int);
 // ==== seg000:0xc2f8 ====
-int sub_1C2F8();
+void sub_1C2F8(void);
 // ==== seg000:0xc371 ====
-int __cdecl sub_1C371(char *, int);
+void __cdecl sub_1C371(char *, int, int);
 // ==== seg000:0xc40b ====
-int sub_1C40B();
+void sub_1C40B(int param_1);
 // ==== seg000:0xc488 ====
-int sub_1C488();
+void sub_1C488(int param_1, int param_2, int param_3);
 // ==== seg000:0xc661 ====
-int sub_1C661();
+long sub_1C661();
 // ==== seg000:0xc6be ====
 int sub_1C6BE();
 // ==== seg000:0xc7a2 ====
-int sub_1C7A2();
+int sub_1C7A2(int arg_0);
 // ==== seg000:0xc7c6 ====
 int sub_1C7C6();
 // ==== seg000:0xc7ea ====
-int sub_1C7EA();
+void sub_1C7EA();
 // ==== seg000:0xc82d ====
 int sub_1C82D();
 // ==== seg000:0xc864 ====
@@ -415,29 +417,30 @@ int sub_1D190();
 // ==== seg000:0xd1c8 ====
 int sub_1D1C8();
 // ==== seg000:0xd1e8 ====
-int sub_1D1E8();
+void sub_1D1E8(void);
 // ==== seg000:0xd200 ====
 int randlmul();
+int sub_1D200();
 // ==== seg000:0xd21e ====
 int sub_1D21E();
 // ==== seg000:0xd260 ====
 int keyDispatch();
 // ==== seg000:0xd9db ====
-int selectMissile();
+void selectMissile();
 // ==== seg000:0xda35 ====
-int makeSound();
+void makeSound(int arg_0, int arg_2);
 // ==== seg000:0xda5f ====
-int sub_1DA5F();
+void sub_1DA5F(int arg_0);
 // ==== seg000:0xda8d ====
-int sub_1DA8D();
+void sub_1DA8D(void);
 // ==== seg000:0xdaae ====
-int sub_1DAAE();
+void sub_1DAAE(void);
 // ==== seg000:0xdb2b ====
-int sub_1DB2B();
+void sub_1DB2B(void);
 // ==== seg000:0xdb9c ====
 int sub_1DB9C();
 // ==== seg000:0xdbe0 ====
-int sub_1DBE0();
+void sub_1DBE0(void);
 // ==== seg000:0xdd4c ====
 int __cdecl openFileWrapper(char *, int);
 // ==== seg000:0xdd5e ====
@@ -1292,7 +1295,15 @@ extern int16 word_383D6;
 extern int16 word_383D8;
 extern int16 word_383DA;
 extern uint8 byte_383E4;
-extern uint8 byte_383E5[];
+extern int16 byte_383E5;
+extern int16 var_542;
+extern int16 var_544;
+extern int16 var_545;
+extern int16 var_547;
+extern int16 var_549;
+extern int16 var_588;
+extern int16 var_589;
+extern int16 var_590;
 extern int16 word_383EA;
 extern int16 radarRange;
 extern int16 word_383EE;
@@ -1322,6 +1333,7 @@ extern uint8 aNoTarget[];
 extern uint8 aNoTarget_0[];
 extern uint8 aMissileLock[];
 extern uint8 aRange[];
+extern uint8 aDot[];
 extern uint8 aKm[];
 extern uint8 a_3d3_0[];
 extern char aRb_4[];
@@ -1687,4 +1699,81 @@ extern int16 word_3C8BE;
 extern int16 word_3C8C0;
 extern int16 word_3C8C2;
 extern size_t size3d3_7;
+extern int16 word_339B4[];
+extern int16 word_3419C[];
+extern int16 var_218;
+extern int16 var_219;
+extern int16 var_279;
+extern int8 var_83[];
+extern int16 var_282;
+extern int16 var_220;
+extern int *var_564;
+extern int *var_565;
+extern int16 var_569;
+extern int16 var_570;
+extern int16 var_571;
+extern int16 var_572;
+extern int16 var_573;
+extern int16 var_574;
+extern int16 var_575;
+extern int16 var_576;
+extern int16 var_577;
+extern int16 var_578;
+extern int16 var_579;
+extern int16 var_580;
+extern int16 var_581;
+extern int16 var_582;
+extern int16 var_583;
+extern int16 var_584;
+extern uint8 var_585;
+extern uint8 var_586;
+extern int16 var_591;
+extern uint8 var_456;
+extern int16 var_383;
+extern int16 var_673;
+extern int16 var_592;
+extern int16 var_595;
+extern int16 var_600;
+extern int16 var_349;
+extern int16 var_350;
+#define var_351 (*(int16 *)((char *)&var_349 + 6))
+#define var_352 (*(int16 *)((char *)&var_349 + 8))
+#define var_353 (*(int16 *)((char *)&var_349 + 10))
+#define var_354 (*(int16 *)((char *)&var_349 + 12))
+extern int16 var_654;
+extern int16 var_660;
+extern int16 var_661;
+extern int16 var_662;
+extern int16 var_663;
+extern int16 var_664;
+extern int16 var_669;
+extern int16 var_670;
+extern int16 var_671;
+extern int16 var_672;
+extern int16 var_674;
+extern int16 var_686;
+extern uint8 var_730;
+extern int16 var_143;
+extern uint8 var_190;
+extern int16 var_194;
+extern int16 var_195;
+extern int16 var_196;
+extern int16 var_197;
+extern int16 var_198;
+extern int16 var_200;
+extern int16 var_201;
+extern int16 var_216;
+extern int16 var_257;
+extern int16 var_258;
+extern int16 var_259;
+extern int16 var_260;
+extern int16 var_255;
+extern int16 var_261;
+extern int16 var_315;
+extern uint8 var_316;
+extern int16 var_665;
+
+extern int rand();
+extern long _aNlmul(long, long);
+
 #endif // F15_SE2_EGAME

@@ -41,7 +41,7 @@ HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
 cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-end tools
+.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-end debug-egame tools
 all: f15-se2
 
 #
@@ -147,14 +147,14 @@ EGAME_INC := $(LSTDIR)/egame.inc
 EGAME_CONF := $(CONFDIR)/egame_rc.json
 EGAME_BASE := egame_rc.asm
 EGAME_ASM := $(EGAME_BASE)
-EGAME_SRC := egame0.c egame1.c egame2.c egame3.c
+EGAME_SRC := egame0.c egame1.c egame2.c egame3.c egame4.c
 EGAME_BASEHDR = $(SRCDIR)/egame.h
 EGAME_COBJ := $(call cobj,$(BUILDDIR),$(EGAME_SRC))
 EGAME_OBJ := $(EGAME_COBJ) $(call asmobj,$(BUILDDIR),$(EGAME_ASM))
 $(EGAME_COBJ): $(EGAME_BASEHDR)
 $(EGAME_EXE): | $(BUILDDIR)
 $(EGAME_EXE): $(EGAME_OBJ)
-	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_OBJ) -o $@ -f "$(LINKFLAGS)"
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 
 # generate C header file from ida listing
 ifneq ($(shell test -s $(EGAME_LST) && echo yes),yes)
@@ -177,6 +177,20 @@ $(BUILDDIR)/egame3.obj: MSC_CFLAGS := /Od /Id:\f15-se2
 EGAME_VRF_REF := bin/egame.exe
 EGAME_VRF_REFEP := 0x10
 EGAME_VRF_TGTEP := [558bec83ec??c746]
+
+# egame.exe debug build
+EGAME_DEBUG := $(DEBUGDIR)/egame.exe
+EGAME_DBG_OBJ := $(call asmobj,$(DEBUGDIR),$(EGAME_ASM)) $(call cobj,$(DEBUGDIR),$(EGAME_SRC)) $(DEBUGDIR)/dbglite.obj $(DEBUGDIR)/dbgio.obj
+$(EGAME_DBG_OBJ): $(EGAME_BASEHDR)
+$(EGAME_DBG_OBJ): MSC_CFLAGS += /DDEBUG
+$(EGAME_DBG_OBJ): UASMFLAGS += -DDEBUG
+$(EGAME_DEBUG): $(DEBUGDIR) $(EGAME_DBG_OBJ)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
+	@if [ -n "$(F15_TESTDIR)" ]; then \
+	    echo "Copying $@ to $(F15_TESTDIR)"; \
+	    cp $@ "$(F15_TESTDIR)"; \
+		ls -l $(F15_TESTDIR)/egame.exe; \
+	fi
 
 #
 # end.exe reconstruction (rc)
@@ -248,8 +262,9 @@ start: $(START_EXE)
 egame: $(EGAME_EXE)
 end: $(END_EXE)
 
-debug: $(DEBUGDIR) $(START_DEBUG) $(END_DEBUG)
+debug: $(DEBUGDIR) $(START_DEBUG) $(END_DEBUG) $(EGAME_DEBUG)
 debug-end: $(DEBUGDIR) $(END_DEBUG)
+debug-egame: $(DEBUGDIR) $(EGAME_DEBUG)
 
 clean:
 	-rm -rf $(BUILDDIR)

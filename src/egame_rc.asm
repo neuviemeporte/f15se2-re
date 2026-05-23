@@ -1,17 +1,219 @@
 .8086
 DOSSEG
 .MODEL SMALL
+EXTRN _placeString:PROC
+EXTRN _sub_11F3E:PROC
+EXTRN _sub_15411:PROC
+EXTRN _sub_1543B:PROC
+EXTRN _sub_13224:PROC
+EXTRN _sub_13266:PROC
+PUBLIC _byte_3B4E6
+PUBLIC _var_660
+PUBLIC _word_38FF8
+PUBLIC _strBuf
+PUBLIC _aAt
+PUBLIC _aNotAvailable
+PUBLIC _aArmed
+PUBLIC _byte_38F8C
+PUBLIC _byte_38F8D
+PUBLIC _aOnPatrol
+PUBLIC _aF15StrikeEagle
+PUBLIC _aNone
+_aNone equ aNone
+EXTRN _sub_166BE:PROC
+EXTRN _routine_191:PROC
+EXTRN _sub_1660E:PROC
+EXTRN _sub_11C21:PROC
+EXTRN _sub_11D10:PROC
+EXTRN _sub_11A18:PROC
+EXTRN _sub_11A88:PROC
+EXTRN _sub_126B4:PROC
+EXTRN _sub_11971:PROC
+EXTRN _zoomIn:PROC
+EXTRN _zoomOut:PROC
+EXTRN _sub_1DBE0:PROC
+EXTRN _sub_1DA5F:PROC
+EXTRN _sub_1DB9C:PROC
+EXTRN _makeSound:PROC
+EXTRN _sub_1DA8D:PROC
+EXTRN _sub_1613B:PROC
+EXTRN _sub_1DAAE:PROC
 EXTRN _sub_155AB:PROC
+EXTRN _main:PROC
 EXTRN _sub_18E50:PROC
 EXTRN _sub_1D1C8:PROC
+EXTRN _sub_1D1E8:PROC
+EXTRN _sub_1C7A2:PROC
+EXTRN _sub_1C7C6:PROC
+EXTRN _sub_1C7EA:PROC
 EXTRN _sub_21A7A:PROC
-EXTRN _otherKeyDispatch:PROC
 EXTRN _sub_13922:PROC
-EXTRN _forceRange:PROC
+EXTRN _sub_13932:PROC
+EXTRN _sub_1CF8E:PROC
+
+EXTRN _sub_11BFD:PROC
+EXTRN _sub_11BC3:PROC
+EXTRN _sub_114E8:PROC
+EXTRN _sub_1C371:PROC
+EXTRN _sub_1C40B:PROC
+EXTRN _sub_1C8A4:PROC
+EXTRN _sub_1C864:PROC
+EXTRN _sub_1C82D:PROC
+EXTRN _sub_198FA:PROC
+EXTRN _sub_19915:PROC
+EXTRN _sub_118D5:PROC
+EXTRN _sub_118F6:PROC
+EXTRN _sub_18E38:PROC
+EXTRN _sub_1957A:PROC
+EXTRN _sub_19595:PROC
+EXTRN _sub_13A90:PROC
+EXTRN _copySomeMem:PROC
+EXTRN _sub_1CF64:PROC
+EXTRN _sub_1D178:PROC
+EXTRN _sub_1D190:PROC
+EXTRN _sub_1D200:PROC
+EXTRN _sub_121C6:PROC
+EXTRN _sub_154B7:PROC
 EXTRN _sub_15540:PROC
+EXTRN _sub_15557:PROC
 EXTRN _sub_19BE1:PROC
+EXTRN _sub_19C84:PROC
+EXTRN _sub_19D86:PROC
+EXTRN _sub_19FAD:PROC
+EXTRN _sub_19FCC:PROC
 EXTRN _sub_19E94:PROC
+EXTRN _sub_19E44:PROC
+EXTRN _sub_1A740:PROC
+EXTRN _sub_1A7C4:PROC
+EXTRN _sub_1606C:PROC
+EXTRN _sub_19E5D:PROC
+EXTRN _sub_1A1B1:PROC
+EXTRN _sub_19A4D:PROC
+EXTRN _sub_19B98:PROC
+EXTRN _sub_1A204:PROC
+EXTRN _sub_1A183:PROC
+EXTRN _setCommWorldbufPtr:PROC
+EXTRN _sub_12278:PROC
+EXTRN _fopen:PROC
+EXTRN _fclose:PROC
+EXTRN _fread:PROC
+EXTRN _abs:PROC
+EXTRN _strupr:PROC
+EXTRN __chkstk:PROC
+EXTRN _strcpy:PROC
+EXTRN _movedata:PROC
+EXTRN _segread:PROC
+EXTRN _memcpy:PROC
+EXTRN _getch:PROC
+EXTRN _exit:PROC
+EXTRN _strlen:PROC
+EXTRN _int86:PROC
+EXTRN _open:PROC
+EXTRN _close:PROC
+EXTRN _write:PROC
+EXTRN _read:PROC
+EXTRN _lseek:PROC
+EXTRN _strcat:PROC
+EXTRN _itoa:PROC
+EXTRN _kbhit:PROC
+EXTRN __bios_keybrd:PROC
+EXTRN _labs:PROC
+EXTRN _srand:PROC
+EXTRN _rand:PROC
+EXTRN __aNldiv:PROC
+EXTRN __aNlmul:PROC
+EXTRN __aNuldiv:PROC
+EXTRN __aNlshl:PROC
+EXTRN __aNlshr:PROC
+EXTRN _flushall:PROC
+EXTRN _stackavail:PROC
+EXTRN _remove:PROC
+EXTRN _sub_1DD5E:PROC
+EXTRN _sub_1DD7E:PROC
+EXTRN _sub_1DD92:PROC
+EXTRN _sub_1DDAA:PROC
+EXTRN _sub_13694:PROC
+EXTRN _sub_13638:PROC
+EXTRN _tempStrcpy:PROC
+EXTRN _selectMissile:PROC
+EXTRN _sub_18A44:PROC
+EXTRN _sub_189AA:PROC
+EXTRN _sub_19DB0:PROC
+EXTRN _sub_1C1B9:PROC
+EXTRN _sub_1C2F8:PROC
+EXTRN _sub_1C488:PROC
+EXTRN _sub_1C661:PROC
+EXTRN _routine_328:PROC
+EXTRN _routine_260:PROC
+EXTRN _sub_1993A:PROC
+EXTRN _sub_199EC:PROC
+EXTRN _sub_1DB2B:PROC
+EXTRN _sub_11636:PROC
+EXTRN _sub_11676:PROC
+EXTRN _sub_11841:PROC
+EXTRN _sub_11B37:PROC
+EXTRN _sub_10294:PROC
+EXTRN _sub_10297:PROC
+EXTRN _sub_13A6C:PROC
+EXTRN _sub_1345E:PROC
+EXTRN _sub_136D2:PROC
+EXTRN _sub_1378E:PROC
+PUBLIC _var_456
+PUBLIC _var_190
+PUBLIC _var_383
+PUBLIC _var_200
+PUBLIC _var_201
+PUBLIC _var_216
+PUBLIC _var_665
+PUBLIC _var_673
+PUBLIC _var_255
+PUBLIC _var_261
+PUBLIC _var_315
+PUBLIC _var_316
+PUBLIC _origCBreakSeg
+PUBLIC _sub_10334
+PUBLIC _sub_139C0
+PUBLIC _sub_20658
+PUBLIC _word_3C16C
+PUBLIC _sub_1374A
+PUBLIC _var_257
+PUBLIC _var_258
+PUBLIC _var_259
+PUBLIC _var_260
+PUBLIC _sub_13816
+PUBLIC _sub_202DA
+PUBLIC _sub_20A46
+PUBLIC _sub_20FDC
+PUBLIC _var_194
+PUBLIC _var_195
+PUBLIC _var_196
+PUBLIC _var_143
+PUBLIC _word_3B146
+PUBLIC _word_33704
+PUBLIC _word_39808
+PUBLIC _sub_12FDA
+PUBLIC _sub_1CF32
+PUBLIC _var_197
+PUBLIC _var_198
+PUBLIC _byte_3419F
+PUBLIC _var_654
+PUBLIC _var_83
+PUBLIC _var_279
+PUBLIC _var_282
+PUBLIC _word_38F72
+PUBLIC _word_38F70
+PUBLIC _word_3B14C
+PUBLIC _word_3B15E
+PUBLIC _word_38FE0
+PUBLIC _var_349
+PUBLIC _var_350
+PUBLIC _var_662
+PUBLIC _createFile
+PUBLIC _readFile1
+PUBLIC _readFile2
+PUBLIC _sub_1DF4F
 PUBLIC _commData
+
 PUBLIC _gameData
 PUBLIC _hercFlag
 PUBLIC _setupOverlaySlots
@@ -36,6 +238,10 @@ PUBLIC _setupDac
 PUBLIC _restoreTimerIrqHandler
 PUBLIC _audio_jump_64
 PUBLIC _audio_jump_65
+PUBLIC _audio_jump_66
+PUBLIC _audio_jump_6d
+PUBLIC _audio_jump_68
+PUBLIC _audio_jump_69
 PUBLIC _setTimerIrqHandler
 PUBLIC _sub_13C3B
 PUBLIC _setInt9Handler
@@ -43,6 +249,8 @@ PUBLIC _restoreInt9Handler
 PUBLIC _dword_38FE2
 PUBLIC _word_3C0A2
 PUBLIC _flagFarToNear
+PUBLIC _word_3BFA2
+PUBLIC _word_3B4DC
 PUBLIC _byte_3C16E
 PUBLIC _word_3BEC0
 PUBLIC _word_3BED0
@@ -79,6 +287,7 @@ PUBLIC _byte_3AFAC
 PUBLIC _word_3401A
 PUBLIC _openFile
 PUBLIC _closeFile
+
 PUBLIC _off_38334
 PUBLIC _off_3834C
 PUBLIC _a_3dg
@@ -137,7 +346,6 @@ PUBLIC _word_3B14A
 PUBLIC _sub_21444
 PUBLIC _dword_3C01C
 PUBLIC _dword_3B4D4
-PUBLIC _sub_1CF64
 PUBLIC _keyValue
 PUBLIC _word_380CE
 PUBLIC _dword_3B1FE
@@ -151,19 +359,37 @@ PUBLIC _word_380CA
 PUBLIC _word_380CC
 PUBLIC _word_3C5AA
 PUBLIC _word_3BE94
+PUBLIC _word_3BE3C
+PUBLIC _word_38FF6
+PUBLIC _word_33710
 PUBLIC _stru_3A95A
+PUBLIC _word_336E6
 PUBLIC _word_336E8
-PUBLIC _sub_1D190
-PUBLIC _sub_1D178
 PUBLIC _word_3C028
 PUBLIC _word_3C03A
 PUBLIC _word_330C4
+PUBLIC _sub_13B2F
+PUBLIC _sub_13B96
+PUBLIC _word_3419C
+PUBLIC _word_339B4
 PUBLIC _word_336F4
+PUBLIC _word_336F6
+PUBLIC _stru_33402
+PUBLIC _word_33442
 PUBLIC _stru_335C4
+PUBLIC _sub_1CFA6
 PUBLIC _sub_1D008
+PUBLIC _var_672
+PUBLIC _var_671
+PUBLIC _aMissileLock
+PUBLIC _aDot
+PUBLIC _aRange
+PUBLIC _aKm
+PUBLIC _unk_3C030
+PUBLIC _var_674
 PUBLIC _word_3A940
 PUBLIC _word_3370E
-PUBLIC _sub_1CFA6
+
 PUBLIC _word_3C02E
 PUBLIC _word_3C45C
 PUBLIC _word_336F2
@@ -173,18 +399,22 @@ PUBLIC _word_3370C
 PUBLIC _stru_3B208
 PUBLIC _unk_3A948
 PUBLIC _sub_160D3
-PUBLIC _sub_19FCC
+
 PUBLIC _word_38152
 PUBLIC _word_37561
 PUBLIC _word_39604
 PUBLIC _word_37563
 PUBLIC _word_38126
 PUBLIC _sub_195C9
+PUBLIC _var_589
+PUBLIC _var_590
 PUBLIC _sub_2152A
 PUBLIC _off_38364
 PUBLIC _word_330BC
 PUBLIC _unk_3806E
-PUBLIC _sub_1A8C8
+PUBLIC _unk_380B6
+PUBLIC _sub_20E38
+
 PUBLIC _a256left_pic
 PUBLIC _a256right_pic
 PUBLIC _a256rear_pic
@@ -198,22 +428,47 @@ PUBLIC _word_36B86
 PUBLIC _byte_3850E
 PUBLIC _unk_38128
 PUBLIC _word_3755D
-PUBLIC _sub_11A18
+
 PUBLIC _word_3755F
+PUBLIC _allocSize
+PUBLIC _word_38202
 PUBLIC _aRear_pic
 PUBLIC _word_38FDC
-PUBLIC _sub_11A88
+
 PUBLIC _word_3C09A
 PUBLIC _word_330C2
+PUBLIC _word_33098
+PUBLIC _word_330B4
+PUBLIC _word_3309C
+PUBLIC _word_3309E
 PUBLIC _sub_20BAE
 PUBLIC _word_3C09E
+PUBLIC _keyScancode
+PUBLIC _var_218
+PUBLIC _var_219
+PUBLIC _var_220
+PUBLIC _var_591
+PUBLIC _var_592
+PUBLIC _var_595
+PUBLIC _var_600
+PUBLIC _word_3AFA4
+PUBLIC _word_3B0AC
+PUBLIC _word_3995C
 PUBLIC _word_3BE98
+PUBLIC _word_3C5AC
+PUBLIC _word_3C5AE
+PUBLIC _word_3C5B0
+PUBLIC _word_3C5B2
+PUBLIC _word_3C5B4
+PUBLIC _word_3C5B6
+PUBLIC _word_38FE8
+PUBLIC _aGun
 PUBLIC _byte_3C5A0
 PUBLIC _sub_15FDB
 PUBLIC _word_3C040
 PUBLIC _word_383F4
 PUBLIC _word_3BEBE
-PUBLIC _sub_1A183
+
 PUBLIC _word_3C6A4
 PUBLIC _byte_37C2F
 PUBLIC _sams
@@ -224,22 +479,58 @@ PUBLIC _word_3C8B6
 PUBLIC _aPressAnyKeyToP
 PUBLIC _word_3AA5C
 PUBLIC _aTraining
-PUBLIC _copySomeMem
 PUBLIC _word_38FC4
 PUBLIC _waypoints
 PUBLIC _word_3C008
 PUBLIC _planeFlags
 PUBLIC _byte_37C24
 PUBLIC _string_3C04A
-PUBLIC _draw2Strings
+EXTRN _draw2Strings:PROC
+EXTRN _drawSomeStrings:PROC
+PUBLIC _var_564
+PUBLIC _var_565
+PUBLIC _var_569
+PUBLIC _var_570
+PUBLIC _var_571
+PUBLIC _var_572
+PUBLIC _var_573
+PUBLIC _var_574
+PUBLIC _var_575
+PUBLIC _var_576
+PUBLIC _var_577
+PUBLIC _var_578
+PUBLIC _var_579
+PUBLIC _var_580
+PUBLIC _var_581
+PUBLIC _var_582
+PUBLIC _var_583
+PUBLIC _var_584
+PUBLIC _var_585
+PUBLIC _var_586
+PUBLIC _word_383CC
+_word_383CC equ word_383CC
+PUBLIC _word_383AE
+_word_383AE equ word_383AE
 PUBLIC _word_3370A
 PUBLIC _word_3C6AC
+PUBLIC _word_333D8
+PUBLIC _word_333DA
+PUBLIC _var_661
+PUBLIC _var_663
+PUBLIC _var_664
+PUBLIC _word_3298C
+PUBLIC _word_3298E
 PUBLIC _missiles
 PUBLIC _aAccel
 PUBLIC _sub_19C0C
-PUBLIC _sub_154B7
-PUBLIC _sub_19C84
+
+PUBLIC _sub_1A030
 PUBLIC _aStallWarning
+PUBLIC _aSecond_Target
+_aSecond_Target equ aSecond_Target
+PUBLIC _aPrimaryTarget_0
+_aPrimaryTarget_0 equ aPrimaryTarget_0
+PUBLIC _var_730
 PUBLIC _waypointIndex
 PUBLIC _aAutopilot
 PUBLIC _word_38FEA
@@ -247,9 +538,16 @@ PUBLIC _word_3BE92
 PUBLIC _sub_1A25C
 PUBLIC _word_3C16A
 PUBLIC _word_380D0
+PUBLIC _word_380D8
 PUBLIC _tempString
 PUBLIC _word_383F2
 PUBLIC _word_330B6
+PUBLIC _word_33096
+PUBLIC _word_330B8
+PUBLIC _var_669
+PUBLIC _var_670
+PUBLIC _word_3BF90
+
 PUBLIC _missileSpecIndex
 PUBLIC _sub_21A86
 PUBLIC _gfx_jump_0_alloc
@@ -266,6 +564,33 @@ PUBLIC _gfx_jump_4b_storeBufPtr
 PUBLIC _gfx_jump_4c
 PUBLIC _gfx_jump_4f
 PUBLIC _gfx_jump_52
+PUBLIC _byte_383E5
+PUBLIC _var_542
+PUBLIC _var_544
+PUBLIC _var_545
+PUBLIC _var_547
+PUBLIC _var_549
+PUBLIC _word_336F0
+PUBLIC _word_333D2
+PUBLIC _word_333D4
+PUBLIC _word_3B4D8
+PUBLIC _word_3B4E0
+PUBLIC _word_3B5D6
+PUBLIC _word_38FEC
+PUBLIC _word_3BED4
+PUBLIC _word_330BA
+PUBLIC _word_3C016
+PUBLIC _var_588
+
+PUBLIC _word_3C018
+PUBLIC _word_3C01A
+PUBLIC _word_330BE
+PUBLIC _var_686
+PUBLIC _getTimeOfDay
+PUBLIC _word_3C45E
+PUBLIC _word_3C5A2
+PUBLIC _word_38FC8
+PUBLIC _word_38FCC
 ; ---------------------------------------------------------------------------
 
 SREGS		struc ;	(sizeof=0x8, align=0x2,	copyof_10) ; XREF: load15Flt3d3/r
@@ -422,15 +747,12 @@ OVL_HDR_FIRSTPTR  = 24h
 ; ==============================================================================
 .CODE ;seg000 segment byte public 'CODE' use16
 ; ------------------------------seg000:0x294------------------------------
-sub_10294 proc near
-    retn
-sub_10294 endp
+sub_10294 equ _sub_10294
 ; ------------------------------seg000:0x296------------------------------
 ; ------------------------------seg000:0x297------------------------------
-sub_10297 proc near
-    retn
-sub_10297 endp
+sub_10297 equ _sub_10297
 ; ------------------------------seg000:0x299------------------------------
+    nop
 ; ------------------------------seg000:0x2e2------------------------------
 _loadF15DgtlBin proc near
     call far ptr gfx_jump_32
@@ -440,7 +762,7 @@ _loadF15DgtlBin proc near
     jbe short loc_102F5
     mov bx, 0FFFh
 loc_102F5:
-    mov allocSize, bx
+    mov _allocSize, bx
     mov ah, 48h
     int 21h ;DOS - 2+ - ALLOCATE MEMORY
     mov f15dgtlAddr, ax
@@ -452,7 +774,7 @@ loc_102F5:
     mov dx, offset aF15dgtl_bin ;"F15DGTL.BIN"
     int 21h ;DOS - 2+ - OPEN DISK FILE WITH HANDLE
     mov bx, ax
-    mov cx, allocSize
+    mov cx, _allocSize
     shl cx, 1
     shl cx, 1
     shl cx, 1
@@ -473,8 +795,331 @@ _loadF15DgtlBin endp
 ; ------------------------------seg000:0x333------------------------------
 ; ------------------------------seg000:0x334------------------------------
 sub_10334 proc near
-    retn ;sp-analysis failed
+    push BP
+    mov BP,SP
+    sub SP,0a6h
+    push DI
+    push SI
+    cmp byte ptr [_word_38FDC],3h
+    jge LAB_1000_0356
+    push word ptr [BP + 4h]
+    call far ptr sub_1FEEC
+    add SP,2h
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
+    db 90h
+LAB_1000_0356:
+    mov word ptr [BP + -4h],0h
+LAB_1000_035b:
+    mov SI,word ptr [BP + -4h]
+    shl SI,1h
+    mov AX,word ptr [SI + 0e0h]
+    mov word ptr [SI + offset word_3BE9C],AX
+    inc word ptr [BP + -4h]
+    cmp word ptr [BP + -4h],10h
+    jl LAB_1000_035b
+    mov AX,word ptr [_var_226]
+    neg AX
+    mov word ptr [word_38FC6],AX
+    mov AX,word ptr [_var_225]
+    cmp AX,200h
+    jge LAB_1000_0384
+    mov AX,200h
+LAB_1000_0384:
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [_var_224]
+    cwd
+    mov DH,DL
+    mov DL,AH
+    mov AH,AL
+    sub AL,AL
+    push DX
+    push AX
+    call __aNldiv
+    mov word ptr [BP + -2h],AX
+    cmp byte ptr [_var_594],0h
+    jz LAB_1000_03a9
+    mov CL,byte ptr [_var_594]
+    shl word ptr [BP + -2h],CL
+LAB_1000_03a9:
+    cmp byte ptr [_var_456],0h
+    jz LAB_1000_03b3
+    sar word ptr [BP + -2h],1h
+LAB_1000_03b3:
+    mov word ptr [BP + -4h],0h
+    jmp LAB_1000_0469
+    db 90h
+LAB_1000_03bc:
+    mov word ptr [BP + -9eh],5848h
+LAB_1000_03c2:
+    push word ptr [_var_227]
+    mov AX,0a7b8h
+    push AX
+    call sub_13B2F
+    add SP,4h
+    mov SI,AX
+    push word ptr [word_38FC6]
+    push word ptr [BP + -9eh]
+    call sub_13B2F
+    add SP,4h
+    mov DI,AX
+    mov AX,word ptr [BP + -4h]
+    shl AX,1h
+    add AX,BP
+    mov word ptr [BP + -0a4h],AX
+    mov BX,AX
+    mov AX,word ptr [word_3298C]
+    add AX,SI
+    sub AX,DI
+    mov word ptr [BX + -26h],AX
+    mov BX,word ptr [BP + -0a4h]
+    mov AX,SI
+    neg AX
+    add AX,word ptr [word_3298C]
+    sub AX,DI
+    mov word ptr [BX + -6ah],AX
+    push word ptr [_var_227]
+    push word ptr [BP + -9eh]
+    call sub_13B2F
+    add SP,4h
+    mov SI,AX
+    push word ptr [word_38FC6]
+    mov AX,0a7b8h
+    push AX
+    call sub_13B2F
+    add SP,4h
+    mov DI,AX
+    mov AX,word ptr [BP + -4h]
+    shl AX,1h
+    add AX,BP
+    mov word ptr [BP + -0a6h],AX
+    mov BX,AX
+    mov AX,SI
+    add AX,DI
+    sar AX,1h
+    sar AX,1h
+    sub AX,SI
+    neg AX
+    add AX,DI
+    neg AX
+    add AX,word ptr [word_3298E]
+    mov word ptr [BX + -48h],AX
+    mov BX,word ptr [BP + -0a6h]
+    mov AX,SI
+    sub AX,DI
+    sar AX,1h
+    sar AX,1h
+    add AX,word ptr [word_3298E]
+    sub AX,SI
+    add AX,DI
+    mov word ptr [BX + 0ff74h],AX
+    inc word ptr [BP + -4h]
+LAB_1000_0469:
+    cmp word ptr [BP + -4h],11h
+    jge LAB_1000_048c
+    cmp word ptr [BP + -4h],10h
+    jl LAB_1000_0478
+    jmp LAB_1000_03bc
+LAB_1000_0478:
+    mov BX,word ptr [BP + -4h]
+    shl BX,1h
+    mov AX,word ptr [BX + offset word_3BE9C]
+    add AX,word ptr [BP + -2h]
+    mov word ptr [BP + -9eh],AX
+    jmp LAB_1000_03c2
+    db 90h
+LAB_1000_048c:
+    mov word ptr [BP + -4h],0h
+LAB_1000_0491:
+    mov SI,word ptr [BP + -4h]
+    shl SI,1h
+    add SI,BP
+    mov AX,word ptr [SI + -26h]
+    mov word ptr [BP + -9ch],AX
+    mov AX,word ptr [SI + -48h]
+    mov word ptr [BP + -9ah],AX
+    mov AX,word ptr [SI + -6ah]
+    mov word ptr [BP + -98h],AX
+    mov AX,word ptr [SI + 0ff74h]
+    mov word ptr [BP + -96h],AX
+    mov AX,word ptr [SI + -68h]
+    mov word ptr [BP + -94h],AX
+    mov AX,word ptr [SI + 0ff76h]
+    mov word ptr [BP + -92h],AX
+    mov AX,word ptr [SI + -24h]
+    mov word ptr [BP + -90h],AX
+    mov AX,word ptr [SI + -46h]
+    mov word ptr [BP + -8eh],AX
+    mov AX,word ptr [BP + -4h]
+    db 05h, 60h, 00h ; add AX,60h (force imm16 encoding)
+    push AX
+    lea AX,[BP + 0ff64h]
+    push AX
+    mov AX,4h
+    push AX
+    push word ptr [word_3298A]
+    call far ptr sub_1F882
+    add SP,8h
+    inc word ptr [BP + -4h]
+    cmp word ptr [BP + -4h],10h
+    jl LAB_1000_0491
+    mov AX,word ptr [_var_220]
+    cwd
+    xor AX,DX
+    sub AX,DX
+    mov CX,9h
+    sar AX,CL
+    xor AX,DX
+    sub AX,DX
+    mov word ptr [word_3BE9C],AX
+    mov word ptr [BP + -4h],1h
+LAB_1000_0510:
+    mov AX,word ptr [_var_220]
+    cwd
+    mov BX,10h
+    sub BX,word ptr [BP + -4h]
+    mov CL,5h
+    shl BX,CL
+    idiv BX
+    sub AX,word ptr [word_3BE9C]
+    mov BX,word ptr [BP + -4h]
+    shl BX,1h
+    mov word ptr [BX + offset word_3BE9C], AX
+    inc word ptr [BP + -4h]
+    cmp word ptr [BP + -4h],10h
+    jl LAB_1000_0510
+    mov word ptr [word_3BE9C],0h
+    mov word ptr [BP + -4h],0h
+    jmp LAB_1000_05f1
+LAB_1000_0544:
+    mov word ptr [BP + -9eh],0a7b8h
+LAB_1000_054a:
+    push word ptr [_var_227]
+    mov AX,0a7b8h
+    push AX
+    call sub_13B2F
+    add SP,4h
+    mov SI,AX
+    push word ptr [word_38FC6]
+    push word ptr [BP + -9eh]
+    call sub_13B2F
+    add SP,4h
+    mov DI,AX
+    mov AX,word ptr [BP + -4h]
+    shl AX,1h
+    add AX,BP
+    mov word ptr [BP + -0a2h],AX
+    mov BX,AX
+    mov AX,word ptr [word_3298C]
+    add AX,SI
+    sub AX,DI
+    mov word ptr [BX + -26h],AX
+    mov BX,word ptr [BP + -0a2h]
+    mov AX,SI
+    neg AX
+    add AX,word ptr [word_3298C]
+    sub AX,DI
+    mov word ptr [BX + -6ah],AX
+    push word ptr [_var_227]
+    push word ptr [BP + -9eh]
+    call sub_13B2F
+    add SP,4h
+    mov SI,AX
+    push word ptr [word_38FC6]
+    mov AX,0a7b8h
+    push AX
+    call sub_13B2F
+    add SP,4h
+    mov DI,AX
+    mov AX,word ptr [BP + -4h]
+    shl AX,1h
+    add AX,BP
+    mov word ptr [BP + -0a0h],AX
+    mov BX,AX
+    mov AX,SI
+    add AX,DI
+    sar AX,1h
+    sar AX,1h
+    sub AX,SI
+    neg AX
+    add AX,DI
+    neg AX
+    add AX,word ptr [word_3298E]
+    mov word ptr [BX + -48h],AX
+    mov BX,word ptr [BP + -0a0h]
+    mov AX,SI
+    sub AX,DI
+    sar AX,1h
+    sar AX,1h
+    add AX,word ptr [word_3298E]
+    sub AX,SI
+    add AX,DI
+    mov word ptr [BX + 0ff74h],AX
+    inc word ptr [BP + -4h]
+LAB_1000_05f1:
+    cmp word ptr [BP + -4h],11h
+    jge LAB_1000_0614
+    cmp word ptr [BP + -4h],10h
+    jl LAB_1000_0600
+    jmp LAB_1000_0544
+LAB_1000_0600:
+    mov AX,word ptr [BP + -2h]
+    mov BX,word ptr [BP + -4h]
+    shl BX,1h
+    sub AX,word ptr [BX + offset word_3BE9C]
+    mov word ptr [BP + -9eh],AX
+    jmp LAB_1000_054a
+    db 90h
+LAB_1000_0614:
+    mov word ptr [BP + -4h],0h
+LAB_1000_0619:
+    mov SI,word ptr [BP + -4h]
+    shl SI,1h
+    add SI,BP
+    mov AX,word ptr [SI + -26h]
+    mov word ptr [BP + -9ch],AX
+    mov AX,word ptr [SI + -48h]
+    mov word ptr [BP + -9ah],AX
+    mov AX,word ptr [SI + -6ah]
+    mov word ptr [BP + -98h],AX
+    mov AX,word ptr [SI + 0ff74h]
+    mov word ptr [BP + -96h],AX
+    mov AX,word ptr [SI + -68h]
+    mov word ptr [BP + -94h],AX
+    mov AX,word ptr [SI + 0ff76h]
+    mov word ptr [BP + -92h],AX
+    mov AX,word ptr [SI + -24h]
+    mov word ptr [BP + -90h],AX
+    mov AX,word ptr [SI + -46h]
+    mov word ptr [BP + -8eh],AX
+    mov AX,word ptr [BP + -4h]
+    db 05h, 70h, 00h ; add AX,70h (force imm16 encoding)
+    push AX
+    lea AX,[BP + 0ff64h]
+    push AX
+    mov AX,4h
+    push AX
+    push word ptr [word_3298A]
+    call far ptr sub_1F882
+    add SP,8h
+    inc word ptr [BP + -4h]
+    cmp word ptr [BP + -4h],10h
+    jl LAB_1000_0619
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
+    db 00h
+    db 00h
+    nop
 sub_10334 endp
+_sub_10334 equ sub_10334
 ; ------------------------------seg000:0x66e------------------------------
 ; ------------------------------seg000:0x688------------------------------
 _setupOverlaySlots proc near
@@ -524,222 +1169,3006 @@ locret_106E0:
     retn
 _setupOverlaySlots endp ;sp-analysis failed
 ; ------------------------------seg000:0x6e0------------------------------
+    nop
+    nop
 ; ------------------------------seg000:0x720------------------------------
 sub_10720 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,0ch
+    push DI
+    push SI
+    mov AX,word ptr [_dword_3B7DA]
+    mov DX,word ptr [_dword_3B7DA+2]
+    db 05h, 10h, 00h ; add AX,10h (force imm16 encoding)
+    adc DX,0h
+    mov CL,5h
+LAB_1000_0737:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jz LAB_1000_0741
+    jmp LAB_1000_0737
+LAB_1000_0741:
+    mov word ptr [_word_3BEC0],AX
+    mov AX,word ptr [_dword_3B7F8]
+    mov DX,word ptr [_dword_3B7F8+2]
+    db 05h, 10h, 00h ; add AX,10h (force imm16 encoding)
+    adc DX,0h
+    mov CL,5h
+LAB_1000_0753:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jz LAB_1000_075d
+    jmp LAB_1000_0753
+LAB_1000_075d:
+    sub AX,8000h
+    neg AX
+    mov word ptr [_word_3BED0],AX
+    cmp word ptr [word_3BECC],1h
+    jz LAB_1000_076f
+    jmp LAB_1000_0a94
+LAB_1000_076f:
+    mov word ptr [_planeFlags],0h
+    les BX,dword ptr [_gameData]
+    cmp word ptr ES:[BX + 3eh],4h
+    jnz LAB_1000_079a
+    mov word ptr ES:[BX + 3eh],2h
+    mov word ptr [_word_336EA],1h
+    or byte ptr [_var_730],10h
+    les BX,dword ptr [_commData]
+    or byte ptr ES:[BX + 30h],1h
+LAB_1000_079a:
+    les BX,dword ptr [_commData]
+    mov AL,byte ptr ES:[BX + 0dh]
+    sub AH,AH
+    mov word ptr [BP + -0ah],AX
+    db 3Dh, 69h, 00h ; cmp AX,69h (force imm16 encoding)
+    jz LAB_1000_07b1
+    db 3Dh, 49h, 00h ; cmp AX,49h (force imm16 encoding)
+    jnz LAB_1000_07b7
+LAB_1000_07b1:
+    mov word ptr [_var_600],1h
+LAB_1000_07b7:
+    call sub_11F3E
+    mov word ptr [word_336F0],0h
+    mov word ptr [word_336F8],1h
+    mov AX,0ffffh
+    mov word ptr [_word_336F4],AX
+    mov word ptr [_word_336F2],AX
+    sub AX,AX
+    mov word ptr [word_32A34],AX
+    mov word ptr [_waypointIndex],AX
+    mov word ptr [_word_330B6],AX
+    mov word ptr [_missileSpecIndex],AX
+    mov word ptr [word_33096],AX
+    mov word ptr [_var_597],AX
+    sub AL,AL
+    mov byte ptr [_var_456],AL
+    cbw
+    mov word ptr [word_3C014],AX
+    mov word ptr [word_3BFA0],AX
+    mov word ptr [word_3BED4],AX
+    mov word ptr [_word_3C16A],AX
+    sub AX,AX
+    mov word ptr [word_3B5D6],AX
+    mov word ptr [word_3B4E0],AX
+    mov word ptr [word_3B4D8],AX
+    mov AX,0ffffh
+    mov word ptr [word_336F6],AX
+    mov word ptr [word_33700],AX
+    mov word ptr [word_33098],2710h
+    mov word ptr [word_3BF90],0h
+    mov word ptr [_waypointIndex],1h
+    mov word ptr [_word_3C45C],1h
+    sub AX,AX
+    push AX
+    call _sub_11A88
+    add SP,2h
+    mov word ptr [_var_383],0ch
+    mov word ptr [_word_330C4],4h
+    call sub_1DAAE
+    mov word ptr [byte_383E5],1h
+    mov word ptr [_var_588],1h
+    les BX,dword ptr [_gameData]
+    cmp word ptr ES:[BX + 38h],6h
+    jnz LAB_1000_0855
+    mov AX,1h
+    jmp LAB_1000_0864
+LAB_1000_0855:
+    test byte ptr ES:[BX + 38h],1h
+    jz LAB_1000_0861
+    mov AX,1h
+    jmp LAB_1000_0864
+LAB_1000_0861:
+    mov AX,0ffffh
+LAB_1000_0864:
+    mov word ptr [word_3AFA8],AX
+    mov word ptr [BP + -2h],AX
+    mov BX,word ptr [_word_3B148]
+    mov CL,4h
+    shl BX,CL
+    test word ptr [BX + offset _stru_3AA5E + 6],200h
+    jz LAB_1000_088e
+    mov CL,7h
+    shl AX,CL
+    cwd
+    sub word ptr [_dword_3B7DA],AX
+    sbb word ptr [_dword_3B7DA+2],DX
+    or byte ptr [_planeFlags],8h
+    jmp LAB_1000_089e
+LAB_1000_088e:
+    mov AX,708h
+    imul word ptr [word_3AFA8]
+    cwd
+    sub word ptr [_dword_3B7F8],AX
+    sbb word ptr [_dword_3B7F8+2],DX
+LAB_1000_089e:
+    call sub_118F6
+    sub AX,AX
+    push AX
+    mov AX,8h
+    push AX
+    call sub_11D10
+    add SP,4h
+    call sub_19595
+    mov AX,0ah
+    push AX
+    mov AX,3h
+    push AX
+    call sub_19EB6
+    add SP,4h
+    mov AX,13h
+    push AX
+    call sub_194D0
+    add SP,2h
+    mov AX,0ffffh
+    mov word ptr [_word_336F2],AX
+    mov word ptr [_word_336F4],AX
+    mov word ptr [word_330BA],2h
+    les BX,dword ptr [_gameData]
+    mov AX,word ptr ES:[BX + 3eh]
+    mov word ptr [word_330B8],AX
+    mov word ptr ES:[BX + 40h],1h
+    les BX,dword ptr [_commData]
+    mov AX,word ptr ES:[BX + 32h]
+    mov word ptr [_word_38FDC],AX
+    call sub_1DB2B
+    les BX,dword ptr [_commData]
+    mov word ptr ES:[BX + 26h],1h
+    mov word ptr [word_330B4],3e8h
+    cmp word ptr [word_330B8],0h
+    jz LAB_1000_0918
+    cmp word ptr [_word_336EA],0h
+    jnz LAB_1000_0918
+    jmp LAB_1000_0a14
+LAB_1000_0918:
+    mov AX,word ptr [_word_3BED0]
+    sub AX,word ptr [_var_47]
+    cmp AX,8000h
+    jnc LAB_1000_0929
+    mov AX,1h
+    jmp LAB_1000_092c
+LAB_1000_0929:
+    mov AX,0ffffh
+LAB_1000_092c:
+    mov word ptr [word_3AFA8],AX
+    mov word ptr [_var_548],7d0h
+    mov word ptr [word_3A944],1fa4h
+    mov word ptr [_var_552],64h
+    call _sub_15FDB
+    or byte ptr [_planeFlags],1h
+    and byte ptr [_planeFlags],0f7h
+    les BX,dword ptr [_gameData]
+    mov AX,word ptr ES:[BX + 32h]
+    or AX,word ptr ES:[BX + 34h]
+    jz LAB_1000_095f
+    jmp LAB_1000_0a14
+LAB_1000_095f:
+    cmp word ptr ES:[BX + 38h],6h
+    jnz LAB_1000_0969
+    jmp LAB_1000_0a14
+LAB_1000_0969:
+    mov word ptr [BP + -0ah],0h
+    jmp LAB_1000_0973
+LAB_1000_0970:
+    inc word ptr [BP + -0ah]
+LAB_1000_0973:
+    mov AX,word ptr [_word_3C046]
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
+    cmp word ptr [BP + -0ah],AX
+    jl LAB_1000_0981
+    jmp LAB_1000_0a14
+LAB_1000_0981:
+    test byte ptr [BP + -0ah],1h
+    jz LAB_1000_098a
+    jmp LAB_1000_0a11
+LAB_1000_098a:
+    mov AX,24h
+    imul word ptr [BP + -0ah]
+    mov SI,AX
+    or byte ptr [SI + offset _stru_3B208 + 18],2h
+    mov word ptr [SI + offset _stru_3B208],898h
+    mov word ptr [SI + offset _stru_3B208 + 20],12ch
+    mov AX,word ptr [BP + -0ah]
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    shl AX,1h
+    shl AX,1h
+    add AX,word ptr [_word_3BEC0]
+    db 2Dh, 24h, 00h ; sub AX,24h (force imm16 encoding)
+    mov word ptr [SI + offset word_3B204],AX
+    mov AX,word ptr [BP + -0ah]
+    mov CL,5h
+    shl AX,CL
+    db 05h, 96h, 00h ; add AX,96h (force imm16 encoding)
+    imul word ptr [word_3AFA8]
+    mov CX,word ptr [_word_3BED0]
+    sub CX,AX
+    mov word ptr [SI + offset word_3B206],CX
+    mov AX,word ptr [SI + offset word_3B204]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_09db:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_09e5
+    jmp LAB_1000_09db
+LAB_1000_09e5:
+    mov word ptr [SI + offset _stru_3B208 + 2],AX
+    mov word ptr [SI + offset _stru_3B208 + 4],DX
+    mov AX,word ptr [SI + offset word_3B206]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_09f5:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_09ff
+    jmp LAB_1000_09f5
+LAB_1000_09ff:
+    mov word ptr [SI + offset _stru_3B208 + 6],AX
+    mov word ptr [SI + offset _stru_3B208 + 8],DX
+    mov AX,word ptr [_var_542]
+    add AH,80h
+    mov word ptr [SI + offset _stru_3B208 + 10],AX
+LAB_1000_0a11:
+    jmp LAB_1000_0970
+LAB_1000_0a14:
+    les BX,dword ptr [_gameData]
+    cmp word ptr ES:[BX + 38h],6h
+    jz LAB_1000_0a7a
+    or byte ptr [byte_3B23E],2h
+    mov word ptr [word_3B22C],834h
+    mov word ptr [word_3B240],2bch
+    mov AX,word ptr [_word_3BEC0]
+    mov word ptr [_var_810],AX
+    mov AX,50h
+    imul word ptr [word_3AFA8]
+    add AX,word ptr [_word_3BED0]
+    mov word ptr [_var_811],AX
+    mov AX,word ptr [_var_810]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_0a4b:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_0a55
+    jmp LAB_1000_0a4b
+LAB_1000_0a55:
+    mov word ptr [word_3B22E],AX
+    mov word ptr [word_3B230],DX
+    mov AX,word ptr [_var_811]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_0a63:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_0a6d
+    jmp LAB_1000_0a63
+LAB_1000_0a6d:
+    mov word ptr [word_3B232],AX
+    mov word ptr [word_3B234],DX
+    mov AX,word ptr [_var_542]
+    mov word ptr [word_3B236],AX
+LAB_1000_0a7a:
+    mov AX,word ptr [BP + -2h]
+    mov word ptr [word_3AFA8],AX
+    call sub_119A3
+    mov word ptr [word_3BECC],2h
+    call far ptr _gfx_jump_46_retrace2
+    call routine_191
+    mov word ptr [word_38FF6],AX
+LAB_1000_0a94:
+    mov AX,7e00h
+    push AX
+    mov AX,100h
+    push AX
+    push word ptr [_word_3BEC0]
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [BP + -6h],AX
+    mov AX,word ptr [_word_3BEC0]
+    cmp word ptr [BP + -6h],AX
+    jz LAB_1000_0acc
+    mov AX,word ptr [BP + -6h]
+    mov word ptr [_word_3BEC0],AX
+    sub DX,DX
+    mov CL,5h
+LAB_1000_0abb:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_0ac5
+    jmp LAB_1000_0abb
+LAB_1000_0ac5:
+    mov word ptr [_dword_3B7DA],AX
+    mov word ptr [_dword_3B7DA+2],DX
+LAB_1000_0acc:
+    mov AX,7d00h
+    push AX
+    mov AX,200h
+    push AX
+    push word ptr [_word_3BED0]
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [BP + -6h],AX
+    mov AX,word ptr [_word_3BED0]
+    cmp word ptr [BP + -6h],AX
+    jz LAB_1000_0b0b
+    mov AX,word ptr [BP + -6h]
+    mov word ptr [_word_3BED0],AX
+    mov AX,8000h
+    sub AX,word ptr [_word_3BED0]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_0afa:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_0b04
+    jmp LAB_1000_0afa
+LAB_1000_0b04:
+    mov word ptr [_dword_3B7F8],AX
+    mov word ptr [_dword_3B7F8+2],DX
+LAB_1000_0b0b:
+    sub BX,BX
+    mov ES,BX
+    mov BX,417h
+    and byte ptr ES:[BX],0fh
+    call sub_16172
+    call sub_167B4
+    call sub_179EE
+    call sub_11636
+    call sub_11676
+    call sub_11841
+    call sub_118D5
+    lea AX,[BP + -8h]
+    push AX
+    lea AX,[BP + -6h]
+    push AX
+    push word ptr [_word_3BED0]
+    push word ptr [_word_3BEC0]
+    call sub_199EC
+    add SP,8h
+    or AX,AX
+    jnz LAB_1000_0b48
+    jmp LAB_1000_0be5
+LAB_1000_0b48:
+    call far ptr _gfx_jump_2d
+    sub AL,1h
+    neg AL
+    mov byte ptr [_byte_3C5A0],AL
+    mov SI,word ptr [BP + -6h]
+    sub SI,3h
+    mov DI,word ptr [BP + -8h]
+    sub DI,3h
+    mov AX,6h
+    push AX
+    push AX
+    push DI
+    push SI
+    mov AL,byte ptr [_byte_3C5A0]
+    cbw
+    push AX
+    push DI
+    push SI
+    mov AX,2h
+    push AX
+    call far ptr _gfx_jump_2a
+    add SP,10h
+    sub AX,AX
+    push AX
+    mov AX,4h
+    push AX
+    push AX
+    push AX
+    mov AX,word ptr [_var_542]
+    add AH,10h
+    mov CL,0dh
+    sar AX,CL
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
+    shl AX,1h
+    shl AX,1h
+    db 05h, 0a4h, 00h ; add AX,0a4h (force imm16 encoding)
+    push AX
+    mov AX,word ptr [BP + -8h]
+    dec AX
+    push AX
+    mov AX,word ptr [BP + -6h]
+    dec AX
+    push AX
+    call _sub_1A8C8
+    add SP,0eh
+    mov AL,1h
+    sub AL,byte ptr [_byte_3C5A0]
+    mov byte ptr [_byte_3C5A0],AL
+    cmp word ptr [BP + -6h],20h
+    jl LAB_1000_0bca
+    cmp word ptr [BP + -6h],58h
+    jg LAB_1000_0bca
+    cmp word ptr [BP + -8h],76h
+    jl LAB_1000_0bca
+    cmp word ptr [BP + -8h],0a2h
+    jle LAB_1000_0be3
+LAB_1000_0bca:
+    cmp word ptr [byte_383E5],2h
+    jle LAB_1000_0be3
+    dec word ptr [byte_383E5]
+    push word ptr [_word_3BED0]
+    push word ptr [_word_3BEC0]
+    call _sub_195C9
+    add SP,4h
+LAB_1000_0be3:
+    jmp LAB_1000_0bf3
+LAB_1000_0be5:
+    push word ptr [_word_3BED0]
+    push word ptr [_word_3BEC0]
+    call _sub_195C9
+    add SP,4h
+LAB_1000_0bf3:
+    mov AX,word ptr [_word_3BEC0]
+    mov word ptr [word_3AF0C],AX
+    mov AX,word ptr [_word_3BED0]
+    mov word ptr [word_3AFAA],AX
+    mov AX,word ptr [_word_3370C]
+    cmp word ptr [_word_336E8],AX
+    jnz LAB_1000_0c1b
+    cmp word ptr [_word_336EA],0h
+    jnz LAB_1000_0c15
+    mov word ptr [_keyValue],0h
+LAB_1000_0c15:
+    mov word ptr [_word_3370C],0ffffh
+LAB_1000_0c1b:
+    cmp word ptr [word_336F0],0h
+    jz LAB_1000_0c26
+    dec word ptr [word_336F0]
+LAB_1000_0c26:
+    cmp word ptr [word_336EE],0h
+    jz LAB_1000_0c46
+    mov AX,word ptr [word_336EE]
+    cmp word ptr [_word_336E8],AX
+    jnz LAB_1000_0c46
+    mov word ptr [word_336EE],0h
+    mov AX,2h
+    push AX
+    call sub_1DA5F
+    add SP,2h
+LAB_1000_0c46:
+    test byte ptr [_word_336E8],7h
+    jz LAB_1000_0c50
+    jmp LAB_1000_0f3b
+LAB_1000_0c50:
+    mov AX,word ptr [_word_3C16A]
+    mov word ptr [word_33700],AX
+    mov word ptr [word_38FEE],7fffh
+    mov word ptr [BP + -0ah],0h
+    jmp LAB_1000_0c66
+LAB_1000_0c63:
+    inc word ptr [BP + -0ah]
+LAB_1000_0c66:
+    mov AX,word ptr [_word_3BED2]
+    cmp word ptr [BP + -0ah],AX
+    jge LAB_1000_0cbc
+    mov SI,word ptr [BP + -0ah]
+    mov CL,4h
+    shl SI,CL
+    test word ptr [SI + offset _stru_3AA5E + 6],201h
+    jz LAB_1000_0cba
+    test word ptr [SI + offset _stru_3AA5E + 6],500h
+    jz LAB_1000_0cba
+    test word ptr [SI + offset _stru_3AA5E + 6],800h
+    jnz LAB_1000_0cba
+    mov AX,word ptr [_word_3BED0]
+    sub AX,word ptr [SI + offset _stru_3AA5E + 2]
+    push AX
+    mov AX,word ptr [_word_3BEC0]
+    sub AX,word ptr [SI + offset _stru_3AA5E]
+    push AX
+    call _sub_1CFA6
+    add SP,4h
+    mov word ptr [BP + -2h],AX
+    mov AX,word ptr [word_38FEE]
+    cmp word ptr [BP + -2h],AX
+    jge LAB_1000_0cba
+    mov AX,word ptr [BP + -2h]
+    mov word ptr [word_38FEE],AX
+    mov AX,word ptr [BP + -0ah]
+    mov word ptr [_word_3C16A],AX
+LAB_1000_0cba:
+    jmp LAB_1000_0c63
+LAB_1000_0cbc:
+    mov AX,word ptr [_word_3C16A]
+    cmp word ptr [word_33700],AX
+    jz LAB_1000_0cdc
+    mov word ptr [word_3B15A],AX
+    mov SI,AX
+    mov CL,4h
+    shl SI,CL
+    mov AX,word ptr [SI + offset _stru_3AA5E]
+    mov word ptr [_var_48],AX
+    mov AX,word ptr [SI + offset _stru_3AA5E + 2]
+    mov word ptr [_var_49],AX
+LAB_1000_0cdc:
+    cmp byte ptr [_word_336E8],0h
+    jnz LAB_1000_0d20
+    cmp word ptr [_word_336E8],0h
+    jz LAB_1000_0d20
+    mov AX,0fffch
+    cwd
+    add AX,word ptr [_commData]
+    adc DX,0h
+    mov CX,0ch
+    shl DX,CL
+    add DX,word ptr [_commData+2]
+    mov ES,DX
+    mov BX,AX
+    cmp word ptr ES:[BX],0ca01h
+    jnz LAB_1000_0d11
+    cmp word ptr ES:[BX + 2h],3b9ah
+    jz LAB_1000_0d20
+LAB_1000_0d11:
+    mov AX,1h
+    push AX
+    call sub_11B37
+    add SP,2h
+    mov byte ptr [_exitCode],0h
+LAB_1000_0d20:
+    mov AX,word ptr [_word_3C16A]
+    cmp word ptr [word_33700],AX
+    jnz LAB_1000_0d2c
+    jmp LAB_1000_0eb6
+LAB_1000_0d2c:
+    mov BX,AX
+    mov CL,4h
+    shl BX,CL
+    test word ptr [BX + offset _stru_3AA5E + 6],800h
+    jz LAB_1000_0d3d
+    jmp LAB_1000_0eb6
+LAB_1000_0d3d:
+    mov word ptr [BP + -0ah],1h
+    jmp LAB_1000_0d47
+LAB_1000_0d44:
+    inc word ptr [BP + -0ah]
+LAB_1000_0d47:
+    cmp word ptr [BP + -0ah],2h
+    jg LAB_1000_0d9e
+    mov AX,word ptr [_word_3C046]
+    sub AX,word ptr [BP + -0ah]
+    mov CX,24h
+    imul CX
+    mov SI,AX
+    and byte ptr [SI + offset _stru_3B208 + 18],0fdh
+    mov BX,word ptr [_word_3C16A]
+    mov CL,4h
+    shl BX,CL
+    mov DI,word ptr [BX + offset _stru_3AA5E + 6]
+    test DI,400h
+    jz LAB_1000_0d76
+    mov AX,0dh
+    jmp LAB_1000_0d78
+LAB_1000_0d76:
+    sub AX,AX
+LAB_1000_0d78:
+    mov word ptr [SI + offset _stru_3B208 + 16],AX
+    test DI,100h
+    jz LAB_1000_0d88
+    mov word ptr [SI + offset _stru_3B208 + 16],12h
+LAB_1000_0d88:
+    mov AX,word ptr [_word_3C046]
+    sub AX,word ptr [BP + -0ah]
+    mov CX,24h
+    imul CX
+    mov BX,AX
+    mov AX,word ptr [_word_3C16A]
+    mov word ptr [BX + offset _unk_3B202],AX
+    jmp LAB_1000_0d44
+LAB_1000_0d9e:
+    mov word ptr [BP + -0ah],3h
+    jmp LAB_1000_0da8
+LAB_1000_0da5:
+    inc word ptr [BP + -0ah]
+LAB_1000_0da8:
+    cmp word ptr [BP + -0ah],4h
+    jle LAB_1000_0db1
+    jmp LAB_1000_0eb6
+LAB_1000_0db1:
+    mov AX,word ptr [_word_3C046]
+    sub AX,word ptr [BP + -0ah]
+    mov word ptr [BP + -0ch],AX
+    mov AX,24h
+    imul word ptr [BP + -0ch]
+    mov SI,AX
+    or byte ptr [SI + offset _stru_3B208 + 18],2h
+    mov DI,word ptr [_word_3C16A]
+    mov CL,4h
+    shl DI,CL
+    mov AX,word ptr [DI + offset _stru_3AA5E]
+    mov word ptr [SI + offset word_3B204],AX
+    mov AX,word ptr [DI + offset _stru_3AA5E + 2]
+    mov word ptr [SI + offset word_3B206],AX
+    test word ptr [DI + offset _stru_3AA5E + 6],200h
+    jz LAB_1000_0e10
+    mov AX,word ptr [word_3AFA8]
+    mov CX,AX
+    shl AX,1h
+    shl AX,1h
+    add AX,CX
+    add word ptr [SI + offset word_3B204],AX
+    mov AX,word ptr [BP + -0ah]
+    db 25h, 01h, 00h ; and AX,1h (force imm16 encoding)
+    imul word ptr [word_3AFA8]
+    mov CL,4h
+    shl AX,CL
+    add word ptr [SI + offset word_3B206],AX
+    mov word ptr [SI + offset _stru_3B208],84h
+    jmp LAB_1000_0e35
+LAB_1000_0e10:
+    mov AX,24h
+    imul word ptr [BP + -0ch]
+    mov SI,AX
+    add word ptr [SI + offset word_3B204],0ah
+    mov AX,word ptr [BP + -0ah]
+    add AX,word ptr [_word_3C16A]
+    db 25h, 03h, 00h ; and AX,3h (force imm16 encoding)
+    mov CL,4h
+    shl AX,CL
+    add word ptr [SI + offset word_3B206],AX
+    mov word ptr [SI + offset _stru_3B208],4h
+LAB_1000_0e35:
+    mov AX,24h
+    imul word ptr [BP + -0ch]
+    mov SI,AX
+    mov AX,word ptr [SI + offset word_3B204]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_0e45:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_0e4f
+    jmp LAB_1000_0e45
+LAB_1000_0e4f:
+    mov word ptr [SI + offset _stru_3B208 + 2],AX
+    mov word ptr [SI + offset _stru_3B208 + 4],DX
+    mov AX,word ptr [SI + offset word_3B206]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_0e5f:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_0e69
+    jmp LAB_1000_0e5f
+LAB_1000_0e69:
+    mov word ptr [SI + offset _stru_3B208 + 6],AX
+    mov word ptr [SI + offset _stru_3B208 + 8],DX
+    mov AX,4000h
+    push AX
+    call randlmul
+    add SP,2h
+    neg AX
+    mov word ptr [SI + offset _stru_3B208 + 10],AX
+    mov BX,word ptr [_word_3C16A]
+    mov CL,4h
+    shl BX,CL
+    mov SI,word ptr [BX + offset _stru_3AA5E + 6]
+    mov AX,24h
+    imul word ptr [BP + -0ch]
+    mov DI,AX
+    add DI,8968h
+    test SI,400h
+    jz LAB_1000_0ea4
+    mov AX,8h
+    jmp LAB_1000_0ea7
+LAB_1000_0ea4:
+    mov AX,0bh
+LAB_1000_0ea7:
+    mov word ptr [DI],AX
+    test SI,100h
+    jz LAB_1000_0eb3
+    mov word ptr [DI],9h
+LAB_1000_0eb3:
+    jmp LAB_1000_0da5
+LAB_1000_0eb6:
+    test byte ptr [_word_336E8],7fh
+    jnz LAB_1000_0f3b
+    mov BX,word ptr [_word_3C16A]
+    mov CL,4h
+    shl BX,CL
+    test word ptr [BX + offset _stru_3AA5E + 6],800h
+    jnz LAB_1000_0f29
+    test byte ptr [_word_336E8],80h
+    jz LAB_1000_0eda
+    mov AX,word ptr [_word_3C046]
+    dec AX
+    jmp LAB_1000_0ee0
+LAB_1000_0eda:
+    mov AX,word ptr [_word_3C046]
+    db 2Dh, 02h, 00h ; sub AX,2h (force imm16 encoding)
+LAB_1000_0ee0:
+    mov word ptr [BP + -0ch],AX
+    mov AX,24h
+    imul word ptr [BP + -0ch]
+    mov BX,AX
+    test byte ptr [BX + offset _stru_3B208 + 18],2h
+    jnz LAB_1000_0f29
+    push word ptr [_word_3C16A]
+    push word ptr [BP + -0ch]
+    call sub_1783A
+    add SP,4h
+    mov AX,24h
+    imul word ptr [BP + -0ch]
+    mov SI,AX
+    mov word ptr [SI + offset _stru_3B208 + 18],207h
+    mov word ptr [SI + offset _stru_3B208],3e8h
+    mov word ptr [SI + offset _stru_3B208 + 20],0fah
+    mov AX,3000h
+    imul word ptr [word_3AFA8]
+    cwd
+    add word ptr [SI + offset _stru_3B208 + 6],AX
+    adc word ptr [SI + offset _stru_3B208 + 8],DX
+LAB_1000_0f29:
+    mov AX,word ptr [word_3BFA0]
+    mov word ptr [word_3C014],AX
+    mov AX,word ptr [word_3BED4]
+    mov word ptr [word_3BFA0],AX
+    mov word ptr [word_3BED4],0h
+LAB_1000_0f3b:
+    cmp word ptr [word_38FEE],200h
+    jl LAB_1000_0f4f
+    mov AX,word ptr [_var_547]
+    cmp word ptr [_word_3BEBE],AX
+    jz LAB_1000_0f4f
+    jmp LAB_1000_128d
+LAB_1000_0f4f:
+    mov word ptr [_word_3BEBE],0h
+    mov word ptr [word_38FFC],0a0h
+    mov word ptr [word_39200],800h
+    mov BX,word ptr [_word_3C16A]
+    mov CL,4h
+    shl BX,CL
+    test word ptr [BX + offset _stru_3AA5E + 6],800h
+    jz LAB_1000_0f77
+    mov word ptr [word_39200],400h
+LAB_1000_0f77:
+    mov SI,word ptr [_word_3C16A]
+    mov CL,4h
+    shl SI,CL
+    test word ptr [SI + offset _stru_3AA5E + 6],200h
+    jz LAB_1000_0fef
+    mov word ptr [_word_3BEBE],80h
+    mov word ptr [word_38FFC],100h
+    mov word ptr [word_39200],3c0h
+    cmp word ptr [_var_547],80h
+    jnz LAB_1000_0fef
+    cmp word ptr [_word_3AA5A],50h
+    jle LAB_1000_0fef
+    mov AX,word ptr [_word_3BED0]
+    sub AX,word ptr [SI + offset _stru_3AA5E + 2]
+    mul word ptr [word_3AFA8]
+    mov DI,AX
+    cmp DI,10h
+    jc LAB_1000_0fef
+    cmp DI,14h
+    ja LAB_1000_0fef
+    mov AX,word ptr [_var_542]
+    mov DX,1h
+    sub DX,word ptr [word_3AFA8]
+    mov CL,0eh
+    shl DX,CL
+    sub AX,DX
+    push AX
+    call _abs
+    add SP,2h
+    cmp AX,2000h
+    jge LAB_1000_0fef
+    mov word ptr [word_38FDE],1h
+    mov AX,2h
+    push AX
+    mov AX,16h
+    push AX
+    call makeSound
+    add SP,4h
+LAB_1000_0fef:
+    les BX,dword ptr [_gameData]
+    cmp word ptr ES:[BX + 40h],1h
+    jnz LAB_1000_1004
+    add byte ptr [_var_727],1h
+    add byte ptr [_var_732],2h
+LAB_1000_1004:
+    mov AX,word ptr [_word_3BEC0]
+    mov BX,word ptr [_word_3C16A]
+    mov CL,4h
+    shl BX,CL
+    sub AX,word ptr [BX + offset _stru_3AA5E]
+    push AX
+    call _abs
+    add SP,2h
+    mov DX,word ptr [word_38FFC]
+    mov CL,5h
+    sar DX,CL
+    cmp AX,DX
+    jg LAB_1000_1048
+    mov AX,word ptr [_word_3BED0]
+    mov BX,word ptr [_word_3C16A]
+    mov CL,4h
+    shl BX,CL
+    sub AX,word ptr [BX + offset _stru_3AA5E + 2]
+    push AX
+    call _abs
+    add SP,2h
+    mov DX,word ptr [word_39200]
+    mov CL,5h
+    sar DX,CL
+    cmp AX,DX
+    jle LAB_1000_1057
+LAB_1000_1048:
+    mov word ptr [_word_3BEBE],0h
+    mov word ptr [word_33702],0h
+    jmp LAB_1000_1132
+LAB_1000_1057:
+    mov word ptr [word_33702],1h
+    cmp word ptr [_word_3AA5A],1h
+    jle LAB_1000_1067
+    jmp LAB_1000_1132
+LAB_1000_1067:
+    test byte ptr [_word_336E8],7h
+    jz LAB_1000_1071
+    jmp LAB_1000_1132
+LAB_1000_1071:
+    mov BX,word ptr [_word_3C16A]
+    mov CL,4h
+    shl BX,CL
+    mov SI,word ptr [BX + offset _stru_3AA5E + 6]
+    test SI,500h
+    jnz LAB_1000_1086
+    jmp LAB_1000_1132
+LAB_1000_1086:
+    cmp word ptr [word_33714],0h
+    jnz LAB_1000_1090
+    jmp LAB_1000_1132
+LAB_1000_1090:
+    test SI,800h
+    jz LAB_1000_1099
+    jmp LAB_1000_1132
+LAB_1000_1099:
+    mov word ptr [word_336EC],1h
+    mov word ptr [word_33706],1h
+    mov AX,word ptr [word_33714]
+    inc word ptr [word_33714]
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
+    jnz LAB_1000_10d1
+    mov AX,offset aSafeLanding
+    push AX
+    call tempStrcpy
+    add SP,2h
+    mov word ptr [_word_330B6],0h
+    mov word ptr [word_33712],0h
+    mov AX,4h
+    push AX
+    call sub_1DA5F
+    add SP,2h
+LAB_1000_10d1:
+    mov AX,word ptr [_planeFlags]
+    and AX,6000h
+    cmp AX,6000h
+    jnz LAB_1000_10f0
+    mov AX,word ptr [_word_330C4]
+    cmp word ptr [word_33714],AX
+    jle LAB_1000_10ee
+    sub AX,AX
+    push AX
+    call sub_11B37
+    add SP,2h
+LAB_1000_10ee:
+    jmp LAB_1000_1132
+LAB_1000_10f0:
+    cmp word ptr [word_33714],2h
+    jnz LAB_1000_1109
+    inc word ptr [word_33710]
+    push word ptr [_word_3C16A]
+    mov AX,0ah
+    push AX
+    call sub_11D10
+    add SP,4h
+LAB_1000_1109:
+    mov AX,word ptr [_word_330C4]
+    cmp word ptr [word_33714],AX
+    jle LAB_1000_1132
+    call sub_119A3
+    test byte ptr [_word_336E8],8h
+    jz LAB_1000_1128
+    mov AX,offset aReadyForTakeof
+    push AX
+    call tempStrcpy
+    add SP,2h
+    jmp LAB_1000_1132
+LAB_1000_1128:
+    mov AX,offset aWeaponsRepleni
+    push AX
+    call tempStrcpy
+    add SP,2h
+LAB_1000_1132:
+    cmp word ptr [word_33706],0h
+    jz LAB_1000_113c
+    jmp LAB_1000_128b
+LAB_1000_113c:
+    cmp word ptr [word_330B8],0h
+    jz LAB_1000_1146
+    jmp LAB_1000_128b
+LAB_1000_1146:
+    test word ptr [_planeFlags],6000h
+    jnz LAB_1000_1151
+    jmp LAB_1000_128b
+LAB_1000_1151:
+    mov AX,word ptr [_word_3BEC0]
+    mov BX,word ptr [_word_3C16A]
+    mov CL,4h
+    shl BX,CL
+    sub AX,word ptr [BX + offset _stru_3AA5E]
+    push AX
+    call _abs
+    add SP,2h
+    db 3Dh, 10h, 00h ; cmp AX,10h (force imm16 encoding)
+    jge LAB_1000_11d2
+    mov AX,word ptr [_word_3BED0]
+    mov BX,word ptr [_word_3C16A]
+    mov CL,4h
+    shl BX,CL
+    sub AX,word ptr [BX + offset _stru_3AA5E + 2]
+    push AX
+    call _abs
+    add SP,2h
+    db 3Dh, 10h, 00h ; cmp AX,10h (force imm16 encoding)
+    jge LAB_1000_11d2
+    sub AX,AX
+    mov word ptr [_var_548],AX
+    mov word ptr [word_3A944],AX
+    mov word ptr [_var_552],AX
+    mov SI,word ptr [_word_3C16A]
+    mov CL,4h
+    shl SI,CL
+    mov AX,word ptr [SI + offset _stru_3AA5E]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_11a2:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_11ac
+    jmp LAB_1000_11a2
+LAB_1000_11ac:
+    mov word ptr [_dword_3B7DA],AX
+    mov word ptr [_dword_3B7DA+2],DX
+    mov AX,8000h
+    sub AX,word ptr [SI + offset _stru_3AA5E + 2]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_11be:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_11c8
+    jmp LAB_1000_11be
+LAB_1000_11c8:
+    mov word ptr [_dword_3B7F8],AX
+    mov word ptr [_dword_3B7F8+2],DX
+    jmp LAB_1000_128b
+LAB_1000_11d2:
+    mov AX,offset aAutomaticLandi
+    push AX
+    call tempStrcpy
+    add SP,2h
+    mov word ptr [word_33712],1h
+    mov AX,word ptr [_word_330C4]
+    shl AX,1h
+    mov word ptr [BP + -0ah],AX
+    db 3Dh, 0Eh, 00h ; cmp AX,0eh (force imm16 encoding)
+    jle LAB_1000_11f4
+    mov word ptr [BP + -0ah],0eh
+LAB_1000_11f4:
+    mov word ptr [word_3A944],1518h
+    mov AX,word ptr [_var_548]
+    sub AX,word ptr [_word_3BEBE]
+    sub DX,DX
+    div word ptr [BP + -0ah]
+    sub word ptr [_var_548],AX
+    mov AX,word ptr [_word_3BEBE]
+    db 05h, 05h, 00h ; add AX,5h (force imm16 encoding)
+    mov SI,AX
+    cmp word ptr [_var_548],SI
+    jnc LAB_1000_121c
+    mov word ptr [_var_548],SI
+LAB_1000_121c:
+    mov SI,word ptr [_word_3C16A]
+    mov CL,4h
+    shl SI,CL
+    mov AX,word ptr [BP + -0ah]
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [_dword_3B7DA]
+    mov DX,word ptr [_dword_3B7DA+2]
+    mov CX,word ptr [SI + offset _stru_3AA5E]
+    sub BX,BX
+    mov DI,CX
+    mov CL,5h
+LAB_1000_123b:
+    shl DI,1h
+    rcl BX,1h
+    dec CL
+    jz LAB_1000_1245
+    jmp LAB_1000_123b
+LAB_1000_1245:
+    sub AX,DI
+    sbb DX,BX
+    push DX
+    push AX
+    call __aNldiv
+    sub word ptr [_dword_3B7DA],AX
+    sbb word ptr [_dword_3B7DA+2],DX
+    mov AX,word ptr [BP + -0ah]
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [_dword_3B7F8]
+    mov DX,word ptr [_dword_3B7F8+2]
+    mov CX,8000h
+    sub CX,word ptr [SI + offset _stru_3AA5E + 2]
+    sub BX,BX
+    mov DI,CX
+    mov CL,5h
+LAB_1000_1270:
+    shl DI,1h
+    rcl BX,1h
+    dec CL
+    jz LAB_1000_127a
+    jmp LAB_1000_1270
+LAB_1000_127a:
+    sub AX,DI
+    sbb DX,BX
+    push DX
+    push AX
+    call __aNldiv
+    sub word ptr [_dword_3B7F8],AX
+    sbb word ptr [_dword_3B7F8+2],DX
+LAB_1000_128b:
+    jmp LAB_1000_1299
+LAB_1000_128d:
+    mov word ptr [word_33706],0h
+    mov word ptr [word_33702],0h
+LAB_1000_1299:
+    cmp word ptr [word_33702],0h
+    jnz LAB_1000_1312
+    cmp word ptr [_var_547],0h
+    jnz LAB_1000_130c
+    les BX,dword ptr [_gameData]
+    cmp word ptr ES:[BX + 40h],0h
+    jnz LAB_1000_12c0
+    cmp word ptr [word_3BF90],4h
+    jg LAB_1000_12c0
+    cmp word ptr [word_33098],0h
+    jnz LAB_1000_130a
+LAB_1000_12c0:
+    cmp word ptr [word_3BE3C],0h
+    jnz LAB_1000_130a
+    cmp word ptr [_word_3AA5A],32h
+    jle LAB_1000_130a
+    mov AX,2h
+    push AX
+    sub AX,AX
+    push AX
+    call makeSound
+    add SP,4h
+    sub AX,AX
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov AX,0c7h
+    push AX
+    mov AX,13fh
+    push AX
+    sub AX,AX
+    push AX
+    push AX
+    call _sub_19E5D
+    add SP,8h
+    mov AX,78h
+    push AX
+    call _sub_12278
+    add SP,2h
+    mov AX,1h
+    push AX
+    call sub_11B37
+    add SP,2h
+LAB_1000_130a:
+    jmp LAB_1000_1312
+LAB_1000_130c:
+    mov word ptr [word_33714],1h
+LAB_1000_1312:
+    cmp byte ptr [_byte_3995A],0h
+    jz LAB_1000_1366
+    test byte ptr [_keyValue],80h
+    jnz LAB_1000_1366
+    les BX,dword ptr [_gameData]
+    cmp word ptr ES:[BX + 40h],0h
+    jz LAB_1000_135a
+    cmp word ptr [_var_548],0h
+    jz LAB_1000_135a
+    mov AX,2h
+    push AX
+    sub AX,AX
+    push AX
+    call makeSound
+    add SP,4h
+    call far ptr _gfx_jump_45_retrace
+    mov AX,78h
+    push AX
+    call _sub_12278
+    add SP,2h
+    mov AX,2h
+    push AX
+    call sub_11B37
+    add SP,2h
+    jmp LAB_1000_1366
+LAB_1000_135a:
+    add word ptr [_var_548],1f4h
+    mov word ptr [_word_330B6],0h
+LAB_1000_1366:
+    mov BX,word ptr [_word_3C16A]
+    mov CL,4h
+    shl BX,CL
+    test word ptr [BX + offset _stru_3AA5E + 6],200h
+    jz LAB_1000_1394
+    cmp word ptr [word_38FEE],500h
+    jge LAB_1000_1394
+    mov AH,byte ptr [word_3AFA8]
+    sub AL,AL
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    add AX,word ptr [word_3C0A0]
+    and AH,0fh
+    jmp LAB_1000_1396
+LAB_1000_1394:
+    sub AX,AX
+LAB_1000_1396:
+    mov word ptr [word_3C0A0],AX
+    inc word ptr [_word_336E8]
+    mov AX,word ptr [_word_336E8]
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    or DX,DX
+    jnz LAB_1000_13e7
+    inc word ptr [word_38FE0]
+    test byte ptr [word_38FE0],1fh
+    jnz LAB_1000_13c3
+    sub AX,AX
+    push AX
+    mov AX,9h
+    push AX
+    call sub_11D10
+    add SP,4h
+LAB_1000_13c3:
+    cmp word ptr [word_38FE0],1h
+    jnz LAB_1000_13d6
+    sub AX,AX
+    push AX
+    call sub_1DA5F
+    add SP,2h
+    call sub_1DA8D
+LAB_1000_13d6:
+    cmp word ptr [_word_336EA],0h
+    jz LAB_1000_13e7
+    test byte ptr [word_38FE0],3h
+    jnz LAB_1000_13e7
+    call sub_11C21
+LAB_1000_13e7:
+    mov AX,word ptr [_word_330C4]
+    shl AX,1h
+    shl AX,1h
+    inc word ptr [word_33708]
+    cmp AX,word ptr [word_33708]
+    jbe LAB_1000_13fb
+    jmp LAB_1000_14df
+LAB_1000_13fb:
+    mov AX,word ptr [_var_383]
+    sub DX,DX
+    div word ptr [_word_330C4]
+    mov word ptr [word_3C6AE],AX
+    mov AX,word ptr [_var_595]
+    shl AX,1h
+    dec AX
+    imul word ptr [_word_330C4]
+    shl AX,1h
+    sub word ptr [_var_383],AX
+    cmp word ptr [_var_383],4h
+    jnc LAB_1000_1424
+    mov word ptr [_var_383],4h
+LAB_1000_1424:
+    mov AX,0ffh
+    push AX
+    mov AX,1h
+    push AX
+    mov AX,word ptr [_var_383]
+    mul word ptr [_word_3370A]
+    mov CX,AX
+    mov AX,3c0h
+    imul word ptr [_word_330C4]
+    sub DX,DX
+    div CX
+    push AX
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [BP + -6h],AX
+    sub AX,AX
+    mov word ptr [_var_383],AX
+    mov word ptr [word_33708],AX
+    mov AX,word ptr [_word_330C4]
+    shl AX,1h
+    shl AX,1h
+    sub AX,word ptr [BP + -6h]
+    push AX
+    call _abs
+    add SP,2h
+    db 3Dh, 03h, 00h ; cmp AX,3h (force imm16 encoding)
+    jle LAB_1000_1478
+    mov AX,word ptr [BP + -6h]
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
+    sar AX,1h
+    sar AX,1h
+    mov word ptr [_word_330C4],AX
+    call sub_1DAAE
+LAB_1000_1478:
+    mov word ptr [word_3C09C],0h
+    mov word ptr [BP + -0ah],3h
+    jmp LAB_1000_1488
+LAB_1000_1485:
+    inc word ptr [BP + -0ah]
+LAB_1000_1488:
+    mov AX,word ptr [_word_38FFA]
+    cmp word ptr [BP + -0ah],AX
+    jge LAB_1000_14ae
+    mov SI,word ptr [BP + -0ah]
+    mov CL,4h
+    shl SI,CL
+    db 81h, 0bch, 0b6h, 81h, 0c0h, 00h  ; CMP word ptr [SI + 0...,0xc0                ;= ??
+    jle LAB_1000_14ac
+    db 0f6h, 84h, 0b4h, 81h, 80h  ; TEST byte ptr [SI + 0...,0x80                ;= ??
+    jnz LAB_1000_14ac
+    inc word ptr [word_3C09C]
+    jmp LAB_1000_14ae
+LAB_1000_14ac:
+    jmp LAB_1000_1485
+LAB_1000_14ae:
+    mov word ptr [BP + -0ah],0h
+    jmp LAB_1000_14b8
+LAB_1000_14b5:
+    inc word ptr [BP + -0ah]
+LAB_1000_14b8:
+    mov AX,word ptr [_word_3C046]
+    cmp word ptr [BP + -0ah],AX
+    jge LAB_1000_14df
+    mov AX,24h
+    imul word ptr [BP + -0ah]
+    mov SI,AX
+    cmp word ptr [SI + offset _stru_3B208 + 28],0c0h
+    jle LAB_1000_14dd
+    test byte ptr [SI + offset _stru_3B208 + 18],2h
+    jz LAB_1000_14dd
+    inc word ptr [word_3C09C]
+    jmp LAB_1000_14df
+LAB_1000_14dd:
+    jmp LAB_1000_14b5
+LAB_1000_14df:
+    call sub_114E8
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
 sub_10720 endp
 ; ------------------------------seg000:0x14e7------------------------------
 ; ------------------------------seg000:0x14e8------------------------------
-sub_114E8 proc near
-    retn
-sub_114E8 endp
+sub_114E8 equ _sub_114E8
 ; ------------------------------seg000:0x14fb------------------------------
 ; ------------------------------seg000:0x14fc------------------------------
 countermeasures proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,6h
+    push SI
+    mov word ptr [BP + -6h],0ffffh
+    mov SI,word ptr [BP + 4h]
+    shl SI,1h
+    add SI,7eah
+    mov AX,word ptr [SI]
+    dec word ptr [SI]
+    or AX,AX
+    jg LAB_1000_152a
+    mov word ptr [SI],0h
+    mov AX,offset aStoresExhauste
+    push AX
+    call tempStrcpy
+    add SP,2h
+    jmp LAB_1000_1631
+LAB_1000_152a:
+    mov word ptr [BP + -4h],1h
+    jmp LAB_1000_1534
+LAB_1000_1531:
+    inc word ptr [BP + -4h]
+LAB_1000_1534:
+    cmp word ptr [BP + -4h],4h
+    jge LAB_1000_1553
+    mov BX,word ptr [BP + -4h]
+    mov AX,BX
+    shl BX,1h
+    add BX,AX
+    shl BX,1h
+    shl BX,1h
+    db 83h, 0bfh, 2ah, 0bh, 00h  ; CMP word ptr [BX + 0...,0x0                 ;= ??
+    jnz LAB_1000_1551
+    mov word ptr [BP + -6h],AX
+LAB_1000_1551:
+    jmp LAB_1000_1531
+LAB_1000_1553:
+    cmp word ptr [BP + -6h],-1h
+    jnz LAB_1000_155c
+    jmp LAB_1000_1623
+LAB_1000_155c:
+    mov AX,word ptr [BP + -6h]
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    shl AX,1h
+    shl AX,1h
+    mov SI,AX
+    mov AX,word ptr [_word_3BEC0]
+    mov word ptr [SI + offset word_333D2], AX
+    mov AX,word ptr [_word_3BED0]
+    mov word ptr [SI + offset word_333D4], AX
+    mov AX,word ptr [BP + 4h]
+    mov word ptr [SI + offset word_333D8], AX
+    mov AX,word ptr [word_330B8]
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    db 2Dh, 0Fh, 00h ; sub AX,0fh (force imm16 encoding)
+    neg AX
+    imul word ptr [_word_330C4]
+    mov word ptr [SI + offset word_333DA], AX
+    mov AX,word ptr [BP + 4h]
+    jmp LAB_1000_15ab
+LAB_1000_159b:
+    mov word ptr [BP + -2h],0e77h
+    jmp LAB_1000_15b7
+LAB_1000_15a2:
+    mov word ptr [BP + -2h],0e7dh
+    jmp LAB_1000_15b7
+    db 0EBh
+    db 0Ch
+LAB_1000_15ab:
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
+    jz LAB_1000_159b
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
+    jz LAB_1000_15a2
+    jmp LAB_1000_15b7
+LAB_1000_15b7:
+    push word ptr [BP + -2h]
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,offset aReleased
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    push word ptr [BP + -2h]
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,offset asc_3373D
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,0ah
+    push AX
+    mov AX,offset unk_3C030
+    push AX
+    mov BX,word ptr [BP + 4h]
+    shl BX,1h
+    push word ptr [BX + offset word_3309A]
+    call _itoa
+    add SP,6h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call sub_1A204
+    add SP,2h
+LAB_1000_1623:
+    mov AX,2h
+    push AX
+    mov AX,16h
+    push AX
+    call makeSound
+    add SP,4h
+LAB_1000_1631:
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
 countermeasures endp
 ; ------------------------------seg000:0x1635------------------------------
 ; ------------------------------seg000:0x1636------------------------------
-sub_11636 proc near
-    retn
-sub_11636 endp
+sub_11636 equ _sub_11636
 ; ------------------------------seg000:0x1675------------------------------
 ; ------------------------------seg000:0x1676------------------------------
-sub_11676 proc near
-    retn
-sub_11676 endp
+sub_11676 equ _sub_11676
 ; ------------------------------seg000:0x1840------------------------------
 ; ------------------------------seg000:0x1841------------------------------
-sub_11841 proc near
-    retn
-sub_11841 endp
+sub_11841 equ _sub_11841
 ; ------------------------------seg000:0x18d4------------------------------
 ; ------------------------------seg000:0x18d5------------------------------
-sub_118D5 proc near
-    retn
-sub_118D5 endp
+sub_118D5 equ _sub_118D5
 ; ------------------------------seg000:0x18f5------------------------------
 ; ------------------------------seg000:0x18f6------------------------------
-sub_118F6 proc near
-    retn
-sub_118F6 endp
+sub_118F6 equ _sub_118F6
 ; ------------------------------seg000:0x1970------------------------------
 ; ------------------------------seg000:0x1971------------------------------
-sub_11971 proc near
-    retn
-sub_11971 endp
+sub_11971 equ _sub_11971
 ; ------------------------------seg000:0x19a2------------------------------
 ; ------------------------------seg000:0x19a3------------------------------
-sub_119A3 proc near
-    retn
-sub_119A3 endp
+EXTRN _sub_119A3:NEAR
+sub_119A3 equ _sub_119A3
 ; ------------------------------seg000:0x1a17------------------------------
 ; ------------------------------seg000:0x1a18------------------------------
-_sub_11A18 proc near
-    retn
-_sub_11A18 endp
+; sub_11A18 moved to egame1.c
 ; ------------------------------seg000:0x1a87------------------------------
 ; ------------------------------seg000:0x1a88------------------------------
-_sub_11A88 proc near
-    retn
-_sub_11A88 endp
+sub_11A88 equ _sub_11A88
 ; ------------------------------seg000:0x1b36------------------------------
 ; ------------------------------seg000:0x1b37------------------------------
-sub_11B37 proc near
-    retn
-sub_11B37 endp
+sub_11B37 equ _sub_11B37
 ; ------------------------------seg000:0x1bc2------------------------------
 ; ------------------------------seg000:0x1bc3------------------------------
-sub_11BC3 proc near
-    retn
-sub_11BC3 endp
+sub_11BC3 equ _sub_11BC3
 ; ------------------------------seg000:0x1bfc------------------------------
 ; ------------------------------seg000:0x1bfd------------------------------
-sub_11BFD proc near
-    retn
-sub_11BFD endp
+sub_11BFD equ _sub_11BFD
 ; ------------------------------seg000:0x1c20------------------------------
 ; ------------------------------seg000:0x1c21------------------------------
-sub_11C21 proc near
-    retn
-sub_11C21 endp
+sub_11C21 equ _sub_11C21
 ; ------------------------------seg000:0x1d0f------------------------------
 ; ------------------------------seg000:0x1d10------------------------------
-sub_11D10 proc near
-    retn
-sub_11D10 endp
+sub_11D10 equ _sub_11D10
 ; ------------------------------seg000:0x1d6d------------------------------
 ; ------------------------------seg000:0x1d6e------------------------------
-placeString proc near
-    retn
-placeString endp
+
 ; ------------------------------seg000:0x1e0d------------------------------
 ; ------------------------------seg000:0x1f3e------------------------------
-sub_11F3E proc near
-    retn
-sub_11F3E endp
+sub_11F3E equ _sub_11F3E
 ; ------------------------------seg000:0x2048------------------------------
 ; ------------------------------seg000:0x21a9------------------------------
-setCommWorldbufPtr proc near
-    retn
-setCommWorldbufPtr endp
 ; ------------------------------seg000:0x21c4------------------------------
+    nop
 ; ------------------------------seg000:0x21c6------------------------------
-callLoad3DAll proc near
-    retn
-callLoad3DAll endp
+callLoad3DAll equ _sub_121C6
 ; ------------------------------seg000:0x21c9------------------------------
 ; ------------------------------seg000:0x21ca------------------------------
 _sub_121CA proc near
-    retn
+    push BP
+    mov BP,SP
+    push SI
+    mov BX,word ptr [_var_134]
+    mov AX,word ptr [BP + 18h]
+    mov word ptr [BX + 0eh],AX
+    mov BX,word ptr [_var_134]
+    mov AX,word ptr [BP + 18h]
+    add AX,word ptr [BP + 1ch]
+    dec AX
+    mov word ptr [BX + 10h],AX
+    mov BX,word ptr [_var_134]
+    mov AX,word ptr [BP + 16h]
+    mov word ptr [BX + 12h],AX
+    mov BX,word ptr [_var_134]
+    mov AX,word ptr [BP + 16h]
+    add AX,word ptr [BP + 1ah]
+    dec AX
+    mov word ptr [BX + 14h],AX
+    call far ptr _gfx_jump_2d
+    sub AH,AH
+    mov BX,word ptr [_var_134]
+    mov word ptr [BX],AX
+    push word ptr [_var_595]
+    call _sub_12278
+    add SP,2h
+    mov BX,word ptr [_var_134]
+    mov SI,word ptr [_word_3BE98]
+    and SI,0ffh
+    mov AL,byte ptr [SI + offset byte_3419C]
+    sub AH,AH
+    mov word ptr [BX + 4h],AX
+    mov AX,1h
+    push AX
+    push word ptr [BP + 12h]
+    sub AX,AX
+    push AX
+    push AX
+    push word ptr [BP + 8h]
+    push word ptr [BP + 6h]
+    push word ptr [BP + 4h]
+    push word ptr [_var_134]
+    call sub_13932
+    add SP,10h
+    push word ptr [BP + 14h]
+    push word ptr [BP + 12h]
+    push word ptr [BP + 10h]
+    push word ptr [BP + 0eh]
+    push word ptr [BP + 0ch]
+    push word ptr [BP + 0ah]
+    push word ptr [BP + 6h]
+    push word ptr [BP + 4h]
+    call sub_122B8
+    add SP,10h
+    call sub_1A9F8
+    call sub_139AA
+    call sub_1B147
+    xor byte ptr [_var_135],1h
+    pop SI
+    pop BP
+    ret
+    nop
 _sub_121CA endp
-; ------------------------------seg000:0x2276------------------------------
-; ------------------------------seg000:0x229a------------------------------
-_copySomeMem proc near
-    retn
-_copySomeMem endp
+; _copySomeMem - now in C (egame2.c)
 ; ------------------------------seg000:0x22b7------------------------------
 ; ------------------------------seg000:0x22b8------------------------------
 sub_122B8 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,1ch
+    push SI
+    mov AX,word ptr [BP + 8h]
+    mov DX,word ptr [BP + 0ah]
+    mov [_word_3C8B6+2],AX
+    mov word ptr [_word_3C8B6+4],DX
+    mov AX,word ptr [BP + 0ch]
+    mov DX,word ptr [BP + 0eh]
+    mov [_word_3C8B6+6],AX
+    mov word ptr [_word_3C8B6+8],DX
+    mov AX,word ptr [BP + 10h]
+    mov DX,word ptr [BP + 12h]
+    mov [_word_3C8B6+0Ah],AX
+    mov word ptr [_word_3C8B6+0Ch],DX
+    mov AX,[_word_3C8B6+2]
+    mov DX,word ptr [_word_3C8B6+4]
+    mov word ptr [BP + 8h],AX
+    mov word ptr [BP + 0ah],DX
+    mov AX,[_word_3C8B6+6]
+    mov DX,word ptr [_word_3C8B6+8]
+    mov word ptr [BP + 0ch],AX
+    mov word ptr [BP + 0eh],DX
+    mov AX,[_word_3C8B6+0Ah]
+    mov DX,word ptr [_word_3C8B6+0Ch]
+    mov word ptr [BP + 10h],AX
+    mov word ptr [BP + 12h],DX
+    mov AX,word ptr [BP + 4h]
+    neg AX
+    add AH,10h
+    mov CL,0dh
+    shr AX,CL
+    mov word ptr [BP + -6h],AX
+    cmp word ptr [_word_38FDC],0h
+    jz LAB_1000_2328
+    mov AX,4h
+    jmp LAB_1000_232b
+LAB_1000_2328:
+    mov AX,3h
+LAB_1000_232b:
+    mov word ptr [word_3C16C],AX
+    jmp LAB_1000_2334
+LAB_1000_2330:
+    dec word ptr [word_3C16C]
+LAB_1000_2334:
+    cmp word ptr [word_3C16C],1h
+    jge LAB_1000_233e
+    jmp LAB_1000_26af
+LAB_1000_233e:
+    mov BX,word ptr [word_3C16C]
+    shl BX,1h
+    db 83h, 0bfh, 0f2h, 12h, 00h  ; CMP word ptr [BX + 0...,0x0                 ;= ??
+    jnz LAB_1000_234e
+    jmp LAB_1000_26ac
+LAB_1000_234e:
+    push word ptr [BP + 0ah]
+    push word ptr [BP + 8h]
+    push word ptr [word_3C16C]
+    call sub_126B4
+    add SP,6h
+    mov word ptr [BP + -18h],AX
+    mov word ptr [BP + -16h],DX
+    mov CL,0ch
+LAB_1000_2366:
+    shr DX,1h
+    rcr AX,1h
+    dec CL
+    jz LAB_1000_2370
+    jmp LAB_1000_2366
+LAB_1000_2370:
+    mov word ptr [BP + -12h],AX
+    mov AX,word ptr [BP + -18h]
+    and AH,0fh
+    mov word ptr [BP + -8h],AX
+    push word ptr [BP + 0eh]
+    push word ptr [BP + 0ch]
+    push word ptr [word_3C16C]
+    call sub_126B4
+    add SP,6h
+    mov word ptr [BP + -18h],AX
+    mov word ptr [BP + -16h],DX
+    mov CL,0ch
+LAB_1000_2394:
+    shr DX,1h
+    rcr AX,1h
+    dec CL
+    jz LAB_1000_239e
+    jmp LAB_1000_2394
+LAB_1000_239e:
+    mov word ptr [BP + -14h],AX
+    mov AX,word ptr [BP + -18h]
+    and AH,0fh
+    mov word ptr [BP + -0ch],AX
+    push word ptr [BP + 12h]
+    push word ptr [BP + 10h]
+    push word ptr [word_3C16C]
+    call sub_126B4
+    add SP,6h
+    mov word ptr [BP + -18h],AX
+    mov word ptr [BP + -16h],DX
+    or DX,DX
+    jz LAB_1000_23c7
+    jmp LAB_1000_26ac
+LAB_1000_23c7:
+    jc LAB_1000_23d1
+    cmp AX,7fffh
+    jc LAB_1000_23d1
+    jmp LAB_1000_26ac
+LAB_1000_23d1:
+    mov AX,word ptr [BP + -18h]
+    mov DX,word ptr [BP + -16h]
+    or DX,DX
+    jnz LAB_1000_23e7
+    jc LAB_1000_23e2
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
+    jnc LAB_1000_23e7
+LAB_1000_23e2:
+    sub DX,DX
+    mov AX,2h
+LAB_1000_23e7:
+    mov word ptr [_var_659],AX
+    mov word ptr [BP + -0eh],0h
+    jmp LAB_1000_23f4
+LAB_1000_23f1:
+    inc word ptr [BP + -0eh]
+LAB_1000_23f4:
+    cmp word ptr [word_3C16C],4h
+    jz LAB_1000_23fe
+    jmp LAB_1000_248a
+LAB_1000_23fe:
+    cmp word ptr [_word_38FDC],2h
+    jge LAB_1000_2408
+    jmp LAB_1000_248a
+LAB_1000_2408:
+    cmp word ptr [BP + -0eh],0fh
+    jnz LAB_1000_2411
+    jmp LAB_1000_26ac
+LAB_1000_2411:
+    mov AX,word ptr [BP + -0eh]
+    shl AX,1h
+    mov SI,AX
+    mov AX,12h
+    mul word ptr [BP + -6h]
+    mov BX,AX
+    mov AX,word ptr [BX + SI + offset word_339F4]
+    mov word ptr [BP + -2h],AX
+    mov AX,word ptr [BP + -6h]
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
+    mov CX,12h
+    mul CX
+    mov BX,AX
+    mov AX,word ptr [BX + SI + offset word_339F4]
+    mov word ptr [BP + -4h],AX
+    mov AX,word ptr [BP + -8h]
+    mov DX,word ptr [BP + -2h]
+    mov CL,0ch
+    shl DX,CL
+    sub AX,DX
+    sub AX,800h
+    mov word ptr [_var_657],AX
+    mov AX,word ptr [BP + -0ch]
+    mov DX,word ptr [BP + -4h]
+    shl DX,CL
+    sub AX,DX
+    sub AX,800h
+    mov word ptr [_var_658],AX
+    mov word ptr [_var_217],7h
+    mov AX,word ptr [_var_659]
+    neg AX
+    push AX
+    mov AX,word ptr [_var_658]
+    neg AX
+    push AX
+    mov AX,word ptr [_var_657]
+    neg AX
+    push AX
+    call far ptr sub_202C7
+    add SP,6h
+    or AX,AX
+    jz LAB_1000_2487
+    jmp LAB_1000_26a9
+LAB_1000_2487:
+    jmp LAB_1000_2515
+LAB_1000_248a:
+    cmp word ptr [BP + -0eh],9h
+    jnz LAB_1000_2493
+    jmp LAB_1000_26ac
+LAB_1000_2493:
+    cmp word ptr [word_3C16C],4h
+    jz LAB_1000_24aa
+    cmp word ptr [_word_38FDC],2h
+    jge LAB_1000_24aa
+    cmp word ptr [BP + -0eh],4h
+    jge LAB_1000_24aa
+    jmp LAB_1000_26a9
+LAB_1000_24aa:
+    cmp word ptr [BP + 6h],0d555h
+    jge LAB_1000_24c6
+    mov SI,word ptr [BP + -0eh]
+    shl SI,1h
+    mov AX,word ptr [SI + offset word_33B74]
+    mov word ptr [BP + -2h],AX
+    mov AX,word ptr [SI + offset word_33B86]
+    mov word ptr [BP + -4h],AX
+    jmp LAB_1000_24f3
+LAB_1000_24c6:
+    mov AX,word ptr [BP + -0eh]
+    shl AX,1h
+    mov SI,AX
+    mov AX,12h
+    mul word ptr [BP + -6h]
+    mov BX,AX
+    mov AX,word ptr [BX + SI + offset word_339F4]
+    mov word ptr [BP + -2h],AX
+    mov AX,word ptr [BP + -6h]
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
+    mov CX,12h
+    mul CX
+    mov BX,AX
+    mov AX,word ptr [BX + SI + offset word_339F4]
+    mov word ptr [BP + -4h],AX
+LAB_1000_24f3:
+    mov AX,word ptr [BP + -8h]
+    mov DX,word ptr [BP + -2h]
+    mov CL,0ch
+    shl DX,CL
+    sub AX,DX
+    sub AX,800h
+    mov word ptr [_var_657],AX
+    mov AX,word ptr [BP + -0ch]
+    mov DX,word ptr [BP + -4h]
+    shl DX,CL
+    sub AX,DX
+    sub AX,800h
+    mov word ptr [_var_658],AX
+LAB_1000_2515:
+    push word ptr [_var_659]
+    push word ptr [_var_658]
+    push word ptr [_var_657]
+    call sub_13A90
+    add SP,6h
+    mov AX,word ptr [BP + -14h]
+    add AX,word ptr [BP + -4h]
+    push AX
+    mov AX,word ptr [BP + -12h]
+    add AX,word ptr [BP + -2h]
+    push AX
+    push word ptr [word_3C16C]
+    call process3dg
+    add SP,6h
+    mov word ptr [BP + -1ah],AX
+    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
+    jnz LAB_1000_254a
+    jmp LAB_1000_26a9
+LAB_1000_254a:
+    cmp word ptr [BP + -0eh],4h
+    jge LAB_1000_255a
+    cmp word ptr [_word_38FDC],2h
+    jge LAB_1000_255a
+    jmp LAB_1000_264e
+LAB_1000_255a:
+    cmp word ptr [_word_38FDC],2h
+    jnz LAB_1000_2565
+    sub AX,AX
+    jmp LAB_1000_256b
+LAB_1000_2565:
+    mov AH,byte ptr [word_3C16C]
+    sub AL,AL
+LAB_1000_256b:
+    mov word ptr [_var_141],AX
+    mov SI,word ptr [BP + -1ah]
+    shl SI,1h
+    mov BX,word ptr [word_3C16C]
+    mov CL,6h
+    shl BX,CL
+    mov AX,word ptr [BX + SI + offset _matrix3dt_2]
+    mov word ptr [word_3C5A8],AX
+    mov word ptr [BP + -0ah],0h
+    jmp LAB_1000_258c
+LAB_1000_2589:
+    inc word ptr [BP + -0ah]
+LAB_1000_258c:
+    mov SI,word ptr [BP + -1ah]
+    shl SI,1h
+    mov BX,word ptr [word_3C16C]
+    mov CL,6h
+    shl BX,CL
+    mov AX,word ptr [BP + -0ah]
+    cmp word ptr [BX + SI + offset _matrix3dt + 198],AX
+    ja LAB_1000_25a5
+    jmp LAB_1000_264c
+LAB_1000_25a5:
+    mov BX,word ptr [word_3C5A8]
+    test byte ptr [BX + 6h],80h
+    jz LAB_1000_2604
+    mov AX,word ptr [BP + -14h]
+    add AX,word ptr [BP + -4h]
+    push AX
+    mov AX,word ptr [BP + -12h]
+    add AX,word ptr [BP + -2h]
+    push AX
+    push word ptr [BP + -0ah]
+    push word ptr [word_3C16C]
+    call sub_13266
+    add SP,8h
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
+    mov word ptr [_var_200],AX
+    mov word ptr [_var_201],228dh
+    mov AX,0h
+    mov DX,228dh
+    cmp AX,word ptr [_var_200]
+    jnz LAB_1000_2602
+    cmp DX,word ptr [_var_201]
+    jnz LAB_1000_2602
+    mov BX,word ptr [word_3C5A8]
+    mov BL,byte ptr [BX + 6h]
+    and BX,7fh
+    shl BX,1h
+    mov AX,word ptr [BX + offset _buf3d3]
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
+    mov word ptr [_var_200],AX
+    mov word ptr [_var_201],DX
+LAB_1000_2602:
+    jmp LAB_1000_261f
+LAB_1000_2604:
+    mov BX,word ptr [word_3C5A8]
+    mov BL,byte ptr [BX + 6h]
+    sub BH,BH
+    shl BX,1h
+    mov AX,word ptr [BX + offset _buf3d3]
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
+    mov word ptr [_var_200],AX
+    mov word ptr [_var_201],228dh
+LAB_1000_261f:
+    mov BX,word ptr [word_3C5A8]
+    push word ptr [BX + 4h]
+    push word ptr [BX + 2h]
+    push word ptr [BX]
+    sub AX,AX
+    push AX
+    push AX
+    push AX
+    push word ptr [_var_201]
+    push word ptr [_var_200]
+    call far ptr sub_20104
+    add SP,10h
+    add word ptr [word_3C5A8],7h
+    inc word ptr [_var_141]
+    jmp LAB_1000_2589
+LAB_1000_264c:
+    jmp LAB_1000_26a9
+LAB_1000_264e:
+    cmp word ptr [word_3C16C],4h
+    jnz LAB_1000_26a9
+    mov SI,word ptr [BP + -1ah]
+    shl SI,1h
+    mov BX,word ptr [word_3C16C]
+    mov CL,6h
+    shl BX,CL
+    mov AX,word ptr [BX + SI + offset _matrix3dt_2]
+    mov word ptr [word_3C5A8],AX
+    mov BX,AX
+    mov BL,byte ptr [BX + 6h]
+    sub BH,BH
+    shl BX,1h
+    mov AX,word ptr [BX + offset _buf3d3]
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
+    mov word ptr [_var_200],AX
+    mov word ptr [_var_201],228dh
+    mov word ptr [_var_141],400h
+    mov BX,word ptr [word_3C5A8]
+    push word ptr [BX + 4h]
+    push word ptr [BX + 2h]
+    push word ptr [BX]
+    sub AX,AX
+    push AX
+    push AX
+    push AX
+    push word ptr [_var_201]
+    push word ptr [_var_200]
+    call far ptr sub_20104
+    add SP,10h
+LAB_1000_26a9:
+    jmp LAB_1000_23f1
+LAB_1000_26ac:
+    jmp LAB_1000_2330
+LAB_1000_26af:
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
 sub_122B8 endp
 ; ------------------------------seg000:0x26b3------------------------------
 ; ------------------------------seg000:0x26b4------------------------------
-sub_126B4 proc near
-    retn
-sub_126B4 endp
+sub_126B4 equ _sub_126B4
 ; ------------------------------seg000:0x273d------------------------------
 ; ------------------------------seg000:0x273e------------------------------
 process3dg proc near
-    retn
-; ------------------------------seg000:0x2872------------------------------
+    push BP
+    mov BP,SP
+    push SI
+    cmp word ptr [BP + 4h],4h
+    jnz LAB_1000_2750
+    add word ptr [BP + 6h],2h
+    add word ptr [BP + 8h],2h
+LAB_1000_2750:
+    cmp word ptr [BP + 6h],0h
+    jl LAB_1000_276f
+    cmp word ptr [BP + 8h],0h
+    jl LAB_1000_276f
+    mov BX,word ptr [BP + 4h]
+    shl BX,1h
+    mov SI,word ptr [BX + offset word_33BAE]
+    cmp word ptr [BP + 6h],SI
+    jge LAB_1000_276f
+    cmp word ptr [BP + 8h],SI
+    jl LAB_1000_2774
+LAB_1000_276f:
+    sub AX,AX
+    jmp LAB_1000_286e
+LAB_1000_2774:
+    mov AX,word ptr [BP + 4h]
+    jmp LAB_1000_284b
+LAB_1000_277a:
+    mov SI,word ptr [BP + 8h]
+    mov CL,3h
+    shl SI,CL
+    mov BX,word ptr [BP + 6h]
+    mov AL,byte ptr [BX + SI + offset _byte_3A900]
+    sub AH,AH
+    jmp LAB_1000_286e
+LAB_1000_278d:
+    mov SI,word ptr [BP + 8h]
+    mov CL,4h
+    shl SI,CL
+    mov BX,word ptr [BP + 6h]
+    mov AL,byte ptr [BX + SI + offset _buf1_3dg]
+    sub AH,AH
+    jmp LAB_1000_286e
+LAB_1000_27a0:
+    mov AX,word ptr [BP + 8h]
+    sar AX,1h
+    sar AX,1h
+    push AX
+    mov AX,word ptr [BP + 6h]
+    sar AX,1h
+    sar AX,1h
+    push AX
+    mov AX,3h
+    push AX
+    call process3dg
+    add SP,6h
+    mov CL,4h
+    shl AX,CL
+    mov SI,word ptr [BP + 8h]
+    and SI,3h
+    shl SI,1h
+    shl SI,1h
+    add SI,AX
+    mov BX,word ptr [BP + 6h]
+    and BX,3h
+    mov AL,byte ptr [BX + SI + offset _buf2_3dg]
+    sub AH,AH
+    jmp LAB_1000_286e
+LAB_1000_27d9:
+    mov AX,word ptr [BP + 8h]
+    sar AX,1h
+    sar AX,1h
+    push AX
+    mov AX,word ptr [BP + 6h]
+    sar AX,1h
+    sar AX,1h
+    push AX
+    mov AX,2h
+    push AX
+    call process3dg
+    add SP,6h
+    mov CL,4h
+    shl AX,CL
+    mov SI,word ptr [BP + 8h]
+    and SI,3h
+    shl SI,1h
+    shl SI,1h
+    add SI,AX
+    mov BX,word ptr [BP + 6h]
+    and BX,3h
+    mov AL,byte ptr [BX + SI + offset _buf3_3dg]
+    sub AH,AH
+    jmp LAB_1000_286e
+LAB_1000_2811:
+    mov AX,word ptr [BP + 8h]
+    sar AX,1h
+    sar AX,1h
+    push AX
+    mov AX,word ptr [BP + 6h]
+    sar AX,1h
+    sar AX,1h
+    push AX
+    mov AX,1h
+    push AX
+    call process3dg
+    add SP,6h
+    mov CL,4h
+    shl AX,CL
+    mov SI,word ptr [BP + 8h]
+    and SI,3h
+    shl SI,1h
+    shl SI,1h
+    add SI,AX
+    mov BX,word ptr [BP + 6h]
+    and BX,3h
+    mov AL,byte ptr [BX + SI + offset _buf4_3dg]
+    sub AH,AH
+    jmp LAB_1000_286e
+    db 0EBh
+    db 23h
+LAB_1000_284b:
+    or AX,AX
+    jz LAB_1000_2811
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
+    jz LAB_1000_27d9
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
+    jnz LAB_1000_285c
+    jmp LAB_1000_27a0
+LAB_1000_285c:
+    db 3Dh, 03h, 00h ; cmp AX,3h (force imm16 encoding)
+    jnz LAB_1000_2864
+    jmp LAB_1000_278d
+LAB_1000_2864:
+    db 3Dh, 04h, 00h ; cmp AX,4h (force imm16 encoding)
+    jnz LAB_1000_286c
+    jmp LAB_1000_277a
+LAB_1000_286c:
+    jmp LAB_1000_286e
+LAB_1000_286e:
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
+    nop
 process3dg endp
 ; ------------------------------seg000:0x2872------------------------------
 ; ------------------------------seg000:0x2fda------------------------------
 sub_12FDA proc near
-    retn
+_sub_12FDA equ sub_12FDA
+    push BP
+    mov BP,SP
+    sub SP,24h
+    push DI
+    push SI
+    mov word ptr [word_3B7E2],7fffh
+    mov word ptr [BP + -0ch],1h
+    jmp LAB_1000_31fb
+LAB_1000_2ff0:
+    mov CL,2h
+    shl word ptr [BP + -16h],CL
+    shl word ptr [BP + -1ah],CL
+LAB_1000_2ff8:
+    mov BX,word ptr [word_3C5A8]
+    mov AL,byte ptr [BX + 6h]
+    sub AH,AH
+    mov word ptr [BP + -14h],AX
+    test byte ptr [BX + 6h],80h
+    jz LAB_1000_3031
+    push word ptr [BP + -1ch]
+    push word ptr [BP + -18h]
+    push word ptr [BP + -12h]
+    push word ptr [BP + -0ch]
+    call sub_13266
+    add SP,8h
+    or AX,AX
+    jz LAB_1000_3031
+    mov BX,word ptr [_var_660]
+    mov CL,3h
+    shl BX,CL
+    mov AL,byte ptr [BX + offset byte_3B4EC]
+    sub AH,AH
+    mov word ptr [BP + -14h],AX
+LAB_1000_3031:
+    mov AX,word ptr [word_3B7E2]
+    cmp word ptr [BP + -6h],AX
+    jge LAB_1000_30b2
+    mov BX,word ptr [BP + -14h]
+    shl BX,1h
+    mov AX,word ptr [BX + offset _buf3d3]
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
+    mov word ptr [_var_200],AX
+    mov word ptr [_var_201],228dh
+    les BX,dword ptr [_var_200]
+    cmp word ptr ES:[BX],0h
+    jnz LAB_1000_3066
+    cmp byte ptr ES:[BX + 2h],0h
+    jnz LAB_1000_3066
+    cmp word ptr [word_33704],0h
+    jz LAB_1000_30b2
+LAB_1000_3066:
+    mov AL,byte ptr [BP + -0ch]
+    mov byte ptr [byte_3B7EE],AL
+    mov AL,byte ptr [BP + -12h]
+    mov byte ptr [byte_3B7EF],AL
+    mov AL,byte ptr [BP + -18h]
+    mov byte ptr [byte_3B7F0],AL
+    mov AL,byte ptr [BP + -1ch]
+    mov byte ptr [byte_3B7F1],AL
+    mov AX,word ptr [word_3C5A8]
+    mov word ptr [word_3B7EC],AX
+    mov AX,word ptr [BP + -14h]
+    mov word ptr [word_3B7E0],AX
+    mov AX,word ptr [BP + -6h]
+    mov word ptr [word_3B7E2],AX
+    mov AX,word ptr [BP + -16h]
+    cwd
+    add AX,word ptr [BP + 4h]
+    adc DX,word ptr [BP + 6h]
+    mov word ptr [word_3B7E4],AX
+    mov word ptr [word_3B7E6],DX
+    mov AX,word ptr [BP + -1ah]
+    cwd
+    add AX,word ptr [BP + 8h]
+    adc DX,word ptr [BP + 0ah]
+    mov word ptr [word_3B7E8],AX
+    mov word ptr [word_3B7EA],DX
+LAB_1000_30b2:
+    add word ptr [word_3C5A8],7h
+    inc word ptr [BP + -12h]
+LAB_1000_30ba:
+    mov SI,word ptr [BP + -0ch]
+    mov CL,6h
+    shl SI,CL
+    mov BX,word ptr [BP + -22h]
+    shl BX,1h
+    mov AX,word ptr [BP + -12h]
+    cmp word ptr [BX + SI + offset _matrix3dt + 198],AX
+    jbe LAB_1000_311e
+    mov BX,word ptr [word_3C5A8]
+    mov BL,byte ptr [BX + 6h]
+    and BX,7fh
+    cmp byte ptr [BX + offset _byte_3BFA4],0h
+    jz LAB_1000_30b2
+    mov AX,word ptr [BP + -24h]
+    mov BX,word ptr [word_3C5A8]
+    add AX,word ptr [BX]
+    mov word ptr [BP + -16h],AX
+    mov AX,word ptr [BX + 2h]
+    add AX,word ptr [BP + -2h]
+    mov word ptr [BP + -1ah],AX
+    push AX
+    call _abs
+    add SP,2h
+    push word ptr [BP + -16h]
+    mov SI,AX
+    call _abs
+    add SP,2h
+    add AX,SI
+    mov word ptr [BP + -6h],AX
+    cmp word ptr [BP + -0ch],1h
+    jz LAB_1000_3115
+    jmp LAB_1000_2ff0
+LAB_1000_3115:
+    mov CL,2h
+    sar word ptr [BP + -6h],CL
+    jmp LAB_1000_2ff8
+    db 90h
+LAB_1000_311e:
+    inc word ptr [BP + -10h]
+LAB_1000_3121:
+    cmp word ptr [BP + -10h],9h
+    jl LAB_1000_312a
+    jmp LAB_1000_31f8
+LAB_1000_312a:
+    push word ptr [BP + 6h]
+    push word ptr [BP + 4h]
+    push word ptr [BP + -0ch]
+    call sub_126B4
+    add SP,6h
+    mov word ptr [BP + -20h],AX
+    mov word ptr [BP + -1eh],DX
+    mov CL,0ch
+LAB_1000_3141:
+    shr DX,1h
+    rcr AX,1h
+    dec CL
+    jnz LAB_1000_3141
+    mov word ptr [BP + -18h],AX
+    mov AX,word ptr [BP + -20h]
+    and AH,0fh
+    mov word ptr [BP + -0ah],AX
+    push word ptr [BP + 0ah]
+    push word ptr [BP + 8h]
+    push word ptr [BP + -0ch]
+    call sub_126B4
+    add SP,6h
+    mov word ptr [BP + -20h],AX
+    mov word ptr [BP + -1eh],DX
+    mov CL,0ch
+LAB_1000_316c:
+    shr DX,1h
+    rcr AX,1h
+    dec CL
+    jnz LAB_1000_316c
+    mov word ptr [BP + -1ch],AX
+    mov AX,word ptr [BP + -20h]
+    and AH,0fh
+    mov word ptr [BP + -0eh],AX
+    mov SI,word ptr [BP + -10h]
+    shl SI,1h
+    mov AX,word ptr [SI + offset word_33B74]
+    mov word ptr [BP + -4h],AX
+    mov AX,word ptr [SI + offset word_33B86]
+    mov word ptr [BP + -8h],AX
+    mov BX,word ptr [BP + -4h]
+    shl BX,1h
+    mov AX,word ptr [BX + offset word_33B9C]
+    sub AX,word ptr [BP + -0ah]
+    add AH,8h
+    mov word ptr [BP + -24h],AX
+    mov BX,word ptr [BP + -8h]
+    shl BX,1h
+    mov AX,word ptr [BX + offset word_33B9C]
+    sub AX,word ptr [BP + -0eh]
+    add AH,8h
+    mov word ptr [BP + -2h],AX
+    mov AX,word ptr [BP + -8h]
+    add word ptr [BP + -1ch],AX
+    push word ptr [BP + -1ch]
+    mov AX,word ptr [BP + -4h]
+    add word ptr [BP + -18h],AX
+    push word ptr [BP + -18h]
+    push word ptr [BP + -0ch]
+    call process3dg
+    add SP,6h
+    mov word ptr [BP + -22h],AX
+    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
+    jnz LAB_1000_31dd
+    jmp LAB_1000_311e
+LAB_1000_31dd:
+    mov DI,word ptr [BP + -0ch]
+    mov CL,6h
+    shl DI,CL
+    mov BX,AX
+    shl BX,1h
+    mov AX,word ptr [BX + DI + offset _matrix3dt_2]
+    mov word ptr [word_3C5A8],AX
+    mov word ptr [BP + -12h],0h
+    jmp LAB_1000_30ba
+    db 90h
+LAB_1000_31f8:
+    inc word ptr [BP + -0ch]
+LAB_1000_31fb:
+    cmp word ptr [BP + -0ch],2h
+    jg LAB_1000_320a
+    mov word ptr [BP + -10h],0h
+    jmp LAB_1000_3121
+    db 90h
+LAB_1000_320a:
+    cmp word ptr [word_3B7E2],7fffh
+    jz LAB_1000_321c
+    mov AX,offset word_3B7E0
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
+    db 90h
+LAB_1000_321c:
+    sub AX,AX
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
 sub_12FDA endp
 ; ------------------------------seg000:0x3223------------------------------
 ; ------------------------------seg000:0x3224------------------------------
-sub_13224 proc near
-    retn
-sub_13224 endp
+sub_13224 equ _sub_13224
 ; ------------------------------seg000:0x3264------------------------------
 ; ------------------------------seg000:0x3266------------------------------
-sub_13266 proc near
-    retn
-sub_13266 endp
+sub_13266 equ _sub_13266
 ; ------------------------------seg000:0x32b8------------------------------
 ; ------------------------------seg000:0x32ba------------------------------
 sub_132BA proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,1ch
+    push SI
+    mov byte ptr [_var_315],0h
+    mov word ptr [word_3B7E2],7fffh
+    mov word ptr [BP + -6h],4h
+    push word ptr [BP + 6h]
+    push word ptr [BP + 4h]
+    mov AX,4h
+    push AX
+    call sub_126B4
+    add SP,6h
+    mov word ptr [BP + -18h],AX
+    mov word ptr [BP + -16h],DX
+    mov CL,0ch
+LAB_1000_32e9:
+    shr DX,1h
+    rcr AX,1h
+    dec CL
+    jnz LAB_1000_32e9
+    mov word ptr [BP + -10h],AX
+    mov AX,word ptr [BP + -18h]
+    and AH,0fh
+    mov word ptr [BP + -4h],AX
+    push word ptr [BP + 0ah]
+    push word ptr [BP + 8h]
+    push word ptr [BP + -6h]
+    call sub_126B4
+    add SP,6h
+    mov word ptr [BP + -18h],AX
+    mov word ptr [BP + -16h],DX
+    mov CL,0ch
+LAB_1000_3314:
+    shr DX,1h
+    rcr AX,1h
+    dec CL
+    jnz LAB_1000_3314
+    mov word ptr [BP + -14h],AX
+    mov AX,word ptr [BP + -18h]
+    and AH,0fh
+    mov word ptr [BP + -8h],AX
+    push word ptr [BP + 0eh]
+    push word ptr [BP + 0ch]
+    push word ptr [BP + -6h]
+    call sub_126B4
+    add SP,6h
+    mov word ptr [_var_220],AX
+    mov AX,800h
+    sub AX,word ptr [BP + -4h]
+    mov word ptr [BP + -1ch],AX
+    mov AX,800h
+    sub AX,word ptr [BP + -8h]
+    mov word ptr [BP + -2h],AX
+    mov AX,word ptr [BP + -4h]
+    sub AX,800h
+    mov word ptr [_var_218],AX
+    mov AX,word ptr [BP + -8h]
+    sub AX,800h
+    mov word ptr [_var_219],AX
+    push word ptr [BP + -14h]
+    push word ptr [BP + -10h]
+    push word ptr [BP + -6h]
+    call process3dg
+    add SP,6h
+    mov word ptr [BP + -1ah],AX
+    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
+    jz LAB_1000_33e9
+    mov SI,word ptr [BP + -6h]
+    mov CL,6h
+    shl SI,CL
+    mov BX,AX
+    shl BX,1h
+    mov AX,word ptr [BX + SI + offset _matrix3dt_2]
+    mov word ptr [word_3C5A8],AX
+    mov word ptr [BP + -0ch],1h
+    jmp LAB_1000_33d4
+LAB_1000_338e:
+    mov AX,word ptr [BP + -1ch]
+    mov BX,word ptr [word_3C5A8]
+    add AX,word ptr [BX]
+    mov word ptr [BP + -0eh],AX
+    mov AX,word ptr [BX + 2h]
+    add AX,word ptr [BP + -2h]
+    mov word ptr [BP + -12h],AX
+    push AX
+    call _abs
+    add SP,2h
+    push word ptr [BP + -0eh]
+    mov SI,AX
+    call _abs
+    add SP,2h
+    add AX,SI
+    mov word ptr [_var_216],AX
+    cmp word ptr [word_3B7E2],AX
+    jle LAB_1000_33cc
+    mov AX,word ptr [word_3C5A8]
+    mov word ptr [word_3B7EC],AX
+    mov AX,word ptr [_var_216]
+    mov word ptr [word_3B7E2],AX
+LAB_1000_33cc:
+    add word ptr [word_3C5A8],7h
+    inc word ptr [BP + -0ch]
+LAB_1000_33d4:
+    mov SI,word ptr [BP + -6h]
+    mov CL,6h
+    shl SI,CL
+    mov BX,word ptr [BP + -1ah]
+    shl BX,1h
+    mov AX,word ptr [BP + -0ch]
+    cmp word ptr [BX + SI + offset _matrix3dt + 198],AX
+    ja LAB_1000_338e
+LAB_1000_33e9:
+    cmp word ptr [word_3B7E2],7fffh
+    jz LAB_1000_3459
+    mov AX,word ptr [word_3B7EC]
+    mov word ptr [word_3C5A8],AX
+    mov BX,AX
+    mov BL,byte ptr [BX + 6h]
+    sub BH,BH
+    shl BX,1h
+    mov AX,word ptr [BX + offset _buf3d3]
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
+    mov word ptr [_var_200],AX
+    mov word ptr [_var_201],228dh
+    mov BX,word ptr [word_3C5A8]
+    mov AX,word ptr [BX]
+    sub AX,word ptr [_var_218]
+    mov word ptr [_var_202],AX
+    mov AX,word ptr [BX + 2h]
+    sub AX,word ptr [_var_219]
+    mov word ptr [_var_203],AX
+    mov AX,word ptr [BX + 4h]
+    sub AX,word ptr [_var_220]
+    mov word ptr [_var_204],AX
+    inc word ptr [_var_200]
+    mov byte ptr [_var_217],0h
+    mov word ptr [_var_216],0h
+    call far ptr sub_202DA
+    les BX,dword ptr [_var_200]
+    test byte ptr ES:[BX],40h
+    jz LAB_1000_3459
+    mov byte ptr [_var_215],0h
+    call far ptr sub_2044A
+LAB_1000_3459:
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
 sub_132BA endp
 ; ------------------------------seg000:0x345d------------------------------
 ; ------------------------------seg000:0x345e------------------------------
-sub_1345E proc near
-    retn
-sub_1345E endp
+sub_1345E equ _sub_1345E
+    nop
 ; ------------------------------seg000:0x34aa------------------------------
 ; ------------------------------seg000:0x34ac------------------------------
 sub_134AC proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,14h
+    push DI
+    push SI
+    mov AX,word ptr [BP + 4h]
+    mov CL,byte ptr [BP + 8h]
+    sar AX,CL
+    mov word ptr [_var_663],AX
+    mov AX,word ptr [BP + 6h]
+    sar AX,CL
+    mov word ptr [_var_664],AX
+    mov word ptr [_var_666],4h
+    jmp LAB_1000_360e
+LAB_1000_34d0:
+    sub AX,AX
+LAB_1000_34d2:
+    mov word ptr [_var_665],AX
+    mov AX,word ptr [BP + 8h]
+    mov CX,word ptr [word_3C16C]
+    shl CX,1h
+    sub AX,CX
+    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
+    mov word ptr [word_3C042],AX
+    mov AX,1000h
+    mov CL,byte ptr [word_3C042]
+    sar AX,CL
+    mov word ptr [_var_661],AX
+    db 3Dh, 10h, 00h ; cmp AX,10h (force imm16 encoding)
+    jg LAB_1000_34fa
+    jmp LAB_1000_360a
+LAB_1000_34fa:
+    mov AX,4h
+    mov CL,byte ptr [word_3C16C]
+    shl CL,1h
+    sub CL,8h
+    neg CL
+    shl AX,CL
+    mov word ptr [_var_662],AX
+    lea AX,[BP + -2h]
+    push AX
+    lea AX,[BP + -8h]
+    push AX
+    lea AX,[BP + -12h]
+    push AX
+    lea AX,[BP + -6h]
+    push AX
+    call sub_13638
+    add SP,8h
+    mov AX,word ptr [BP + -8h]
+    mov word ptr [BP + -0eh],AX
+    jmp LAB_1000_35f9
+LAB_1000_352c:
+    mov BX,word ptr [word_3C5A8]
+    cmp word ptr [BX + 4h],0h
+    jnz LAB_1000_3574
+    mov BL,byte ptr [BX + 6h]
+    sub BH,BH
+    shl BX,1h
+    mov AX,word ptr [BX + offset _buf3d3]
+    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
+    mov word ptr [_var_200],AX
+    mov word ptr [_var_201],228dh
+    mov BX,word ptr [word_3C5A8]
+    mov AX,word ptr [BX + 2h]
+    mov CL,byte ptr [word_3C042]
+    sar AX,CL
+    add AX,word ptr [BP + -4h]
+    push AX
+    mov AX,word ptr [BX]
+    sar AX,CL
+    add AX,word ptr [BP + -14h]
+    push AX
+    push word ptr [_var_201]
+    push word ptr [_var_200]
+    call sub_136D2
+    add SP,8h
+LAB_1000_3574:
+    add word ptr [word_3C5A8],7h
+    inc word ptr [BP + -0ah]
+LAB_1000_357c:
+    mov SI,word ptr [BP + -10h]
+    shl SI,1h
+    mov BX,word ptr [word_3C16C]
+    mov CL,6h
+    shl BX,CL
+    mov AX,word ptr [BP + -0ah]
+    cmp word ptr [BX + SI + offset _matrix3dt + 198],AX
+    ja LAB_1000_352c
+LAB_1000_3592:
+    inc word ptr [BP + -0ch]
+LAB_1000_3595:
+    mov AX,word ptr [BP + -12h]
+    cmp word ptr [BP + -0ch],AX
+    jg LAB_1000_35f6
+    mov SI,word ptr [_var_661]
+    sar SI,1h
+    mov AX,word ptr [BP + -0ch]
+    imul word ptr [_var_661]
+    sub AX,word ptr [_var_663]
+    add AX,SI
+    mov word ptr [BP + -14h],AX
+    mov AX,word ptr [BP + -0eh]
+    imul word ptr [_var_661]
+    sub AX,word ptr [_var_664]
+    add AX,SI
+    mov word ptr [BP + -4h],AX
+    push word ptr [BP + -0eh]
+    push word ptr [BP + -0ch]
+    push word ptr [word_3C16C]
+    call process3dg
+    add SP,6h
+    mov word ptr [BP + -10h],AX
+    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
+    jz LAB_1000_3592
+    mov DI,AX
+    shl DI,1h
+    mov BX,word ptr [word_3C16C]
+    mov CL,6h
+    shl BX,CL
+    mov AX,word ptr [BX + DI + offset _matrix3dt_2]
+    mov word ptr [word_3C5A8],AX
+    mov word ptr [BP + -0ah],0h
+    jmp LAB_1000_357c
+    db 90h
+LAB_1000_35f6:
+    inc word ptr [BP + -0eh]
+LAB_1000_35f9:
+    mov AX,word ptr [BP + -2h]
+    cmp word ptr [BP + -0eh],AX
+    jg LAB_1000_360a
+    mov AX,word ptr [BP + -6h]
+    mov word ptr [BP + -0ch],AX
+    jmp LAB_1000_3595
+    db 90h
+LAB_1000_360a:
+    dec word ptr [_var_666]
+LAB_1000_360e:
+    cmp word ptr [_var_666],0h
+    jl LAB_1000_3632
+    mov BX,word ptr [_var_666]
+    shl BX,1h
+    mov AX,word ptr [BX + offset word_34186]
+    mov word ptr [word_3C16C],AX
+    cmp word ptr [_var_666],1h
+    jle LAB_1000_362c
+    jmp LAB_1000_34d0
+LAB_1000_362c:
+    mov AX,40h
+    jmp LAB_1000_34d2
+LAB_1000_3632:
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
 sub_134AC endp
+    PUBLIC _sub_134AC
+_sub_134AC equ sub_134AC
 ; ------------------------------seg000:0x3637------------------------------
 ; ------------------------------seg000:0x3638------------------------------
-sub_13638 proc near
-    retn
-sub_13638 endp
+sub_13638 equ _sub_13638
 ; ------------------------------seg000:0x3692------------------------------
 ; ------------------------------seg000:0x3694------------------------------
-sub_13694 proc near
-    retn
-sub_13694 endp
+sub_13694 equ _sub_13694
 ; ------------------------------seg000:0x36d0------------------------------
 ; ------------------------------seg000:0x36d2------------------------------
-sub_136D2 proc near
-    retn
-sub_136D2 endp
+sub_136D2 equ _sub_136D2
 ; ------------------------------seg000:0x3749------------------------------
 ; ------------------------------seg000:0x374a------------------------------
 sub_1374A proc near
-    retn
+    push BP
+    mov BP,SP
+    mov AX,word ptr [BP + 4h]
+    add AX,word ptr [word_3298C]
+    mov word ptr [_var_351],AX
+    mov word ptr [_var_352],AX
+    mov AX,word ptr [BP + 6h]
+    neg AX
+    add AX,word ptr [word_3298E]
+    mov word ptr [_var_353],AX
+    mov word ptr [_var_354],AX
+    inc word ptr [_var_200]
+    mov BX,word ptr [_var_200]
+    inc word ptr [_var_200]
+    mov ES,word ptr [_var_201]
+    mov AL,byte ptr ES:[BX]
+    sub AH,AH
+    push AX
+    call far ptr _gfx_jump_21
+    add SP,2h
+    call far ptr _sub_2152A
+    pop BP
+    ret
 sub_1374A endp
-; ------------------------------seg000:0x378d------------------------------
-; ------------------------------seg000:0x378e------------------------------
-sub_1378E proc near
-    retn
-sub_1378E endp
+_sub_1374A equ sub_1374A
 ; ------------------------------seg000:0x3815------------------------------
 ; ------------------------------seg000:0x3816------------------------------
 sub_13816 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,0ah
+    push SI
+    les BX,dword ptr [_var_200]
+    mov AL,byte ptr ES:[BX]
+    sub AH,AH
+    db 25h, 80h, 00h ; and AX,80h (force imm16 encoding)
+    mov word ptr [BP + -6h],AX
+    inc word ptr [_var_200]
+    mov AL,byte ptr ES:[BX]
+    sub AH,AH
+    db 25h, 7Fh, 00h ; and AX,7fh (force imm16 encoding)
+    mov word ptr [_var_256],AX
+    mov word ptr [BP + -2h],0h
+    jmp LAB_1000_38b5
+LAB_1000_3842:
+    mov BX,word ptr [_var_200]
+    add word ptr [_var_200],2h
+    mov ES,word ptr [_var_201]
+    mov AX,word ptr ES:[BX]
+    mov CL,byte ptr [word_3C042]
+    sar AX,CL
+    add AX,word ptr [BP + 4h]
+    mov word ptr [BP + -8h],AX
+    mov BX,word ptr [_var_200]
+    add word ptr [_var_200],2h
+    mov AX,word ptr ES:[BX]
+    sar AX,CL
+    add AX,word ptr [BP + 6h]
+    mov word ptr [BP + -0ah],AX
+    add word ptr [_var_200],2h
+LAB_1000_3877:
+    mov SI,word ptr [BP + -2h]
+    mov CL,2h
+    shl SI,CL
+    mov word ptr [SI + offset word_34684],1h
+    mov word ptr [SI + offset word_34686],1h
+    mov AX,word ptr [BP + -8h]
+    add AX,word ptr [word_3298C]
+    cwd
+    mov word ptr [SI + offset word_34868],AX
+    mov word ptr [SI + offset word_3486A],DX
+    push word ptr [BP + -0ah]
+    call _sub_13922
+    add SP,2h
+    neg AX
+    add AX,word ptr [word_3298E]
+    cwd
+    mov word ptr [SI + offset word_34A4C],AX
+    mov word ptr [SI + offset word_34A4E],DX
+    inc word ptr [BP + -2h]
+LAB_1000_38b5:
+    mov AX,word ptr [_var_256]
+    cmp word ptr [BP + -2h],AX
+    jge LAB_1000_391c
+    mov AL,byte ptr [_var_258]
+    sub AH,AH
+    shl AX,1h
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
+    add word ptr [_var_200],AX
+    cmp word ptr [BP + -6h],0h
+    jnz LAB_1000_38d4
+    jmp LAB_1000_3842
+LAB_1000_38d4:
+    mov BX,word ptr [_var_200]
+    inc word ptr [_var_200]
+    mov ES,word ptr [_var_201]
+    mov AL,byte ptr ES:[BX]
+    sub AH,AH
+    mov word ptr [BP + -4h],AX
+    mov BX,AX
+    mov BL,byte ptr [BX + offset _buf3d3_1]
+    sub BH,BH
+    shl BX,1h
+    mov AX,word ptr [BX + 954ch]
+    mov CL,byte ptr [word_3C042]
+    sar AX,CL
+    add AX,word ptr [BP + 4h]
+    mov word ptr [BP + -8h],AX
+    mov BX,word ptr [BP + -4h]
+    mov BL,byte ptr [BX + offset _buf3d3_2]
+    sub BH,BH
+    shl BX,1h
+    mov AX,word ptr [BX + offset _byte_3BE3E]
+    sar AX,CL
+    add AX,word ptr [BP + 6h]
+    mov word ptr [BP + -0ah],AX
+    jmp LAB_1000_3877
+LAB_1000_391c:
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
+    nop
 sub_13816 endp
+_sub_13816 equ sub_13816
 ; ------------------------------seg000:0x3920------------------------------
 ; ------------------------------seg000:0x3932------------------------------
-sub_13932 proc near
-    retn
-sub_13932 endp
+sub_13932 equ _sub_13932
 ; ------------------------------seg000:0x39a8------------------------------
 ; ------------------------------seg000:0x39aa------------------------------
 sub_139AA proc near
-    retn
+    call far ptr sub_202F6
+    call far ptr gfx_jump_18
+    call far ptr _gfx_jump_23
+    mov byte ptr [_var_316],0h
+    ret
+    nop
 sub_139AA endp
+    PUBLIC _sub_139AA
+_sub_139AA equ sub_139AA
 ; ------------------------------seg000:0x39be------------------------------
 ; ------------------------------seg000:0x39c0------------------------------
 sub_139C0 proc near
-    retn
+_sub_139C0 equ sub_139C0
+    push BP
+    mov BP,SP
+    sub SP,4h
+    mov BX,word ptr [BP + 4h]
+    mov AX,word ptr [BX + 14h]
+    sub AX,word ptr [BX + 12h]
+    inc AX
+    mov word ptr [BP + -4h],AX
+    mov AX,word ptr [BX + 10h]
+    sub AX,word ptr [BX + 0eh]
+    inc AX
+    mov word ptr [BP + -2h],AX
+    mov AX,word ptr [BP + -4h]
+    inc AX
+    sar AX,1h
+    dec AX
+    mov word ptr [word_3298C],AX
+    mov AX,word ptr [BP + -2h]
+    inc AX
+    sar AX,1h
+    dec AX
+    mov word ptr [word_3298E],AX
+    cmp word ptr [BX + 0eh],0h
+    jnz LAB_1000_3a0a
+    cmp word ptr [BX + 10h],0c7h
+    jnz LAB_1000_3a04
+    mov AX,64h
+    jmp LAB_1000_3a07
+    db 90h
+LAB_1000_3a04:
+    mov AX,38h
+LAB_1000_3a07:
+    mov word ptr [word_3298E],AX
+LAB_1000_3a0a:
+    mov AX,word ptr [BP + -4h]
+    dec AX
+    push AX
+    call far ptr gfx_jump_41
+    add SP,2h
+    mov BX,word ptr [BP + 4h]
+    push word ptr [BX + 0eh]
+    push word ptr [BX + 12h]
+    call far ptr gfx_jump_3e
+    add SP,4h
+    push AX
+    call far ptr gfx_jump_1a
+    add SP,2h
+    mov AX,word ptr [BP + -4h]
+    dec AX
+    mov word ptr [_var_349],AX
+    mov AX,word ptr [BP + -2h]
+    dec AX
+    mov word ptr [_var_350],AX
+    mov word ptr [word_3C69C],192ch
+    mov word ptr [word_3C6A2],194ch
+    cmp byte ptr [_var_456],0h
+    jz LAB_1000_3a5c
+    add word ptr [word_3C69C],10h
+    add word ptr [word_3C6A2],10h
+LAB_1000_3a5c:
+    cmp byte ptr [_word_330C2],0h
+    jz LAB_1000_3a68
+    add word ptr [word_3C6A2],20h
+LAB_1000_3a68:
+    mov SP,BP
+    pop BP
+    ret
 sub_139C0 endp
 ; ------------------------------seg000:0x3a6b------------------------------
 ; ------------------------------seg000:0x3a6c------------------------------
-sub_13A6C proc near
-    retn
-sub_13A6C endp
+sub_13A6C equ _sub_13A6C
 ; ------------------------------seg000:0x3a8e------------------------------
 ; ------------------------------seg000:0x3a90------------------------------
-sub_13A90 proc near
-    retn
-sub_13A90 endp
+sub_13A90 equ _sub_13A90
+; raw bytes for unlabeled code between 0x3aa1 and 0x3aee
+    db 80h
+    db 3Eh
+    db 04h
+    db 1Ah
+    db 00h
+    db 74h
+    db 29h
+    db 8Bh
+    db 1Eh
+    db 8Ch
+    db 19h
+    db 83h
+    db 06h
+    db 8Ch
+    db 19h
+    db 04h
+    db 8Eh
+    db 06h
+    db 8Eh
+    db 19h
+    db 26h
+    db 8Bh
+    db 07h
+    db 26h
+    db 8Bh
+    db 57h
+    db 02h
+    db 23h
+    db 06h
+    db 06h
+    db 1Ah
+    db 23h
+    db 16h
+    db 08h
+    db 1Ah
+    db 0Bh
+    db 0D0h
+    db 74h
+    db 05h
+    db 0B8h
+    db 01h
+    db 00h
+    db 0C3h
+    db 90h
+    db 2Bh
+    db 0C0h
+    db 0C3h
+    db 90h
+    db 8Bh
+    db 1Eh
+    db 8Ch
+    db 19h
+    db 83h
+    db 06h
+    db 8Ch
+    db 19h
+    db 02h
+    db 8Eh
+    db 06h
+    db 8Eh
+    db 19h
+    db 26h
+    db 8Bh
+    db 07h
+    db 23h
+    db 06h
+    db 06h
+    db 1Ah
+    db 0C3h
+    db 90h
+
 ; ------------------------------seg000:0x3aa6------------------------------
+    nop
+    nop
+    nop
 ; ------------------------------seg000:0x3aee------------------------------
 _setupDac proc near
     mov ax, ds
@@ -774,42 +4203,154 @@ _setupDac endp
 ; ------------------------------seg000:0x3b2e------------------------------
 ; ------------------------------seg000:0x3b2f------------------------------
 sub_13B2F proc near
-    retn
+_sub_13B2F:
+    mov BX,SP
+    mov AX,word ptr SS:[BX + 2h]
+    imul word ptr SS:[BX + 4h]
+    shl AX,1h
+    rcl DX,1h
+    shl AX,1h
+    adc DX,0h
+    mov AX,DX
+    ret
+    db 8Bh
+    db 0DCh
+    db 36h
+    db 8Bh
+    db 47h
+    db 02h
+    db 36h
+    db 0F7h
+    db 6Fh
+    db 04h
+    db 0D1h
+    db 0E0h
+    db 0D1h
+    db 0D2h
+    db 0C3h
+    db 8Bh
+    db 0DCh
+    db 36h
+    db 8Bh
+    db 47h
+    db 02h
+    db 99h
+    db 8Ah
+    db 0D4h
+    db 8Ah
+    db 0E0h
+    db 2Ah
+    db 0C0h
+    db 36h
+    db 8Bh
+    db 5Fh
+    db 04h
+    db 0Bh
+    db 0DBh
+    db 7Eh
+    db 13h
+    db 8Bh
+    db 0CAh
+    db 0Bh
+    db 0C9h
+    db 79h
+    db 02h
+    db 0F7h
+    db 0D9h
+    db 0D1h
+    db 0EBh
+    db 3Bh
+    db 0CBh
+    db 73h
+    db 05h
+    db 0D1h
+    db 0D3h
+    db 0F7h
+    db 0FBh
+    db 0C3h
+    db 0B8h
+    db 0FFh
+    db 7Fh
+    db 0Bh
+    db 0D2h
+    db 79h
+    db 02h
+    db 0F7h
+    db 0D8h
+    db 0C3h
 sub_13B2F endp
 ; ------------------------------seg000:0x3b44------------------------------
 ; ------------------------------seg000:0x3b86------------------------------
 sub_13B86 proc near
-    retn
+    mov BX,SP
+    mov BX,word ptr SS:[BX + 2h]
+    add BX,4000h
+    call sub_13BA2
+    mov AX,BX
+    ret
 sub_13B86 endp
 ; ------------------------------seg000:0x3b95------------------------------
 ; ------------------------------seg000:0x3b96------------------------------
 sub_13B96 proc near
-    retn
+_sub_13B96:
+    mov BX,SP
+    mov BX,word ptr SS:[BX + 2h]
+    call sub_13BA2
+    mov AX,BX
+    ret
 sub_13B96 endp
 ; ------------------------------seg000:0x3ba1------------------------------
 ; ------------------------------seg000:0x3ba2------------------------------
 sub_13BA2 proc near
-    retn
+    mov DL,BL
+    sub DH,DH
+    mov BL,BH
+    mov BH,DH
+    shl BX,1h
+    mov AX,word ptr [BX + offset word_37148]
+    mov BX,word ptr [BX + offset word_37146]
+    sub AX,BX
+    imul DX
+    mov DH,DL
+    mov DL,AH
+    shl AL,1h
+    adc BX,DX
+    ret
 sub_13BA2 endp
 ; ------------------------------seg000:0x3bc0------------------------------
 ; ------------------------------seg000:0x3bc1------------------------------
 sub_13BC1 proc far
-    retn
+    call sub_13BCD
+    retf
 sub_13BC1 endp
 ; ------------------------------seg000:0x3bc4------------------------------
 ; ------------------------------seg000:0x3bc5------------------------------
 sub_13BC5 proc far
-    retn
+    call sub_13BC9
+    retf
 sub_13BC5 endp
 ; ------------------------------seg000:0x3bc8------------------------------
 ; ------------------------------seg000:0x3bc9------------------------------
 sub_13BC9 proc near
-    retn ;sp-analysis failed
+    add BX,4000h
 sub_13BC9 endp
 ; ------------------------------seg000:0x3bc9------------------------------
 ; ------------------------------seg000:0x3bcd------------------------------
 sub_13BCD proc near
-    retn
+    mov DL,BL
+    sub DH,DH
+    mov BL,BH
+    mov BH,DH
+    shl BX,1h
+    mov AX,word ptr [BX + offset word_3734A]
+    mov BX,word ptr [BX + offset word_37348]
+    sub AX,BX
+    imul DX
+    mov DH,DL
+    mov DL,AH
+    shl AL,1h
+    adc BX,DX
+    ret
 sub_13BCD endp
 ; ------------------------------seg000:0x3beb------------------------------
 ; ------------------------------seg000:0x3bec------------------------------
@@ -882,7 +4423,7 @@ sub_13C47 proc near
     call _sub_18E50
     cmp _keyValue, 0
     jnz short loc_13C59
-    call far ptr _sub_21A7A ;call sub_21A7A
+    call far ptr _sub_21A7A ;call _sub_21A7A
 loc_13C59:
     mov bx, 0
     mov ax, _word_38126
@@ -1073,7 +4614,54 @@ manipulateTimer endp
 ; ------------------------------seg000:0x3edb------------------------------
 ; ------------------------------seg000:0x3edc------------------------------
 getTimeOfDay proc near
-    retn
+_getTimeOfDay equ getTimeOfDay
+    xor AH,AH
+    int 1Ah
+    mov AX,DX
+    ret
+    db 0FFh
+    db 06h
+    db 5Ah
+    db 50h
+    db 0FEh
+    db 06h
+    db 5Ch
+    db 50h
+    db 9Ah
+    db 0A4h
+    db 0Fh
+    db 8Bh
+    db 32h
+    db 9Ah
+    db 0D5h
+    db 10h
+    db 8Bh
+    db 32h
+    db 0Bh
+    db 0C0h
+    db 74h
+    db 08h
+    db 78h
+    db 03h
+    db 0E9h
+    db 0D9h
+    db 0FDh
+    db 0E9h
+    db 0EEh
+    db 0FDh
+    db 0C3h
+    db 33h
+    db 0C0h
+    db 0E8h
+    db 4Dh
+    db 0A7h
+    db 9Ah
+    db 95h
+    db 0Fh
+    db 8Bh
+    db 32h
+    db 0C3h
+    db 90h
 getTimeOfDay endp
 ; ------------------------------seg000:0x3ee2------------------------------
 ; ------------------------------seg000:0x3ee3------------------------------
@@ -1081,510 +4669,11909 @@ sub_13EE3 proc near
     retn
 sub_13EE3 endp
 ; ------------------------------seg000:0x3f01------------------------------
+    nop
+; ------------------------------seg000:0x3f72------------------------------
+_otherKeyDispatch proc near
+    push BP
+    mov BP,SP
+    sub SP,03Eh
+    push DI
+    push SI
+    cmp word ptr [_sign3d3+2],00h
+    jnz loc_13FF7
+    sub AX,AX
+    mov word ptr [_buf3d3_1+98h],AX
+    mov [_word_380D0+0Bh],AX
+    mov [_word_3A940+4],AX
+    mov [_word_380CA+1],AX
+    mov [_word_380C8+1],AX
+    mov word ptr [_unk_3806E+59h],AX
+    mov word ptr [_unk_3806E+57h],AX
+    les BX,dword ptr [_gameData]
+    cmp word ptr ES:[BX+03Eh],AX
+    jnz loc_13FBA
+    mov AX,[_word_3BED0]
+    sub AX,word ptr [_var_47]
+    cmp AX,08000h
+    jnc loc_13FB2
+    sub AX,AX
+    jmp loc_13FB5
+loc_13FB2:
+    mov AX,08000h
+loc_13FB5:
+    mov word ptr [_unk_3806E+55h],AX
+    jmp loc_13FD6
+loc_13FBA:
+    cmp word ptr ES:[BX+038h],06h
+    jnz loc_13FC5
+    sub AX,AX
+    jmp loc_13FD3
+loc_13FC5:
+    test byte ptr ES:[BX+038h],01h
+    jz loc_13FD0
+    sub AX,AX
+    jmp loc_13FD3
+loc_13FD0:
+    mov AX,08000h
+loc_13FD3:
+    mov word ptr [_unk_3806E+55h],AX
+loc_13FD6:
+    mov BX,word ptr [_word_3B148]
+    mov CL,04h
+    shl BX,CL
+    test word ptr [BX+offset _stru_3AA5E + 6],0200h
+    jz loc_13FEB
+    add byte ptr [_unk_3806E+56h],04h
+loc_13FEB:
+    call sub_15411
+    call _sub_15FDB
+    mov word ptr [_sign3d3+2],01h
+loc_13FF7:
+    mov word ptr [_flagFarToNear+2],00h
+    call _kbhit
+    or AX,AX
+    jz loc_14022
+    sub AX,AX
+    push AX
+    call __bios_keybrd
+    add SP,02h
+    mov [_flagFarToNear+2],AX
+    cmp word ptr [_word_336EA],01h
+    jnz loc_14022
+    sub AX,AX
+    mov word ptr [_word_3370E],AX
+    mov word ptr [_word_336EA],AX
+    mov [_keyValue],AX
+loc_14022:
+    call _kbhit
+    or AX,AX
+    jz loc_14034
+    sub AX,AX
+    push AX
+    call __bios_keybrd
+    add SP,02h
+    jmp loc_14022
+loc_14034:
+    mov AX,[_flagFarToNear+2]
+    jmp loc_141EB
+loc_1403A:
+    mov AX,064h
+    push AX
+    sub AX,AX
+    push AX
+    mov AX,[_word_380D0+0Bh]
+    db 02Dh, 0Ah, 00h ; sub AX,0Ah (force imm16 encoding)
+    push AX
+    call _sub_1CF64
+    add SP,06h
+    mov [_word_380D0+0Bh],AX
+    call _sub_15FDB
+    jmp loc_1423E
+loc_14057:
+    mov AX,064h
+    push AX
+    sub AX,AX
+    push AX
+    cmp word ptr [_word_380D0+0Bh],0Ah
+    jge loc_1406A
+    mov AX,05h
+    jmp loc_1406D
+loc_1406A:
+    mov AX,0Ah
+loc_1406D:
+    add AX,word ptr [_word_380D0+0Bh]
+    push AX
+    call _sub_1CF64
+    add SP,06h
+    mov [_word_380D0+0Bh],AX
+    call _sub_15FDB
+    and byte ptr [_planeFlags],0F7h
+    jmp loc_1423E
+loc_14086:
+    mov word ptr [_word_380D0+0Bh],090h
+    call _sub_15FDB
+    and byte ptr [_planeFlags],0F7h
+    jmp loc_1423E
+loc_14097:
+    mov word ptr [_word_380D0+0Bh],064h
+    call _sub_15FDB
+    and byte ptr [_planeFlags],0F7h
+    jmp loc_140C5
+loc_140A7:
+    mov word ptr [_word_380D0+0Bh],00h
+    sub AX,AX
+    push AX
+    mov AX,010h
+    push AX
+    call makeSound
+    add SP,04h
+    call _sub_15FDB
+    jmp loc_1423E
+loc_140C0:
+    xor byte ptr [_planeFlags],08h
+loc_140C5:
+    test byte ptr [_planeFlags],08h
+    jnz loc_140EE
+    cmp word ptr [_word_3BEBE],00h
+    jz loc_140EE
+    cmp word ptr [_word_380D0+0Bh],064h
+    jnz loc_140EE
+    mov word ptr [_word_3A940+4],0546h
+    mov AX,02h
+    push AX
+    mov AX,01Ch
+    push AX
+    call makeSound
+    add SP,04h
+loc_140EE:
+    jmp loc_1423E
+loc_140F1:
+    cmp word ptr [_word_380D0+0Dh],00h
+    jnz loc_14103
+    call far ptr sub_2265B
+    mov word ptr [_word_380D0+0Dh],028h
+loc_14103:
+    jmp loc_1423E
+loc_14106:
+    mov AX,01h
+    push AX
+    call sub_11B37
+    add SP,02h
+    mov byte ptr [_exitCode],00h
+    jmp loc_1423E
+loc_14118:
+    cmp word ptr [_word_330C2],00h
+    jz loc_14149
+    mov AX,offset aNc_xxx
+    push AX
+    mov AX,0140h
+    push AX
+    mov AX,061h
+    push AX
+    sub AX,AX
+    push AX
+    mov BX,word ptr [_off_38364-5]
+    push word ptr [BX]
+    mov AX,061h
+    push AX
+    sub AX,AX
+    push AX
+    mov BX,word ptr [_off_38334-5]
+    push word ptr [BX]
+    call far ptr _gfx_jump_2a
+    add SP,010h
+loc_14149:
+    sub AX,AX
+    push AX
+    call _sub_19E44
+    add SP,02h
+    mov AX,0C7h
+    push AX
+    mov AX,013Fh
+    push AX
+    sub AX,AX
+    push AX
+    push AX
+    call _sub_19E5D
+    add SP,08h
+    sub AX,AX
+    push AX
+    mov AX,07h
+    push AX
+    mov AX,0Ch
+    push AX
+    mov AX,037h
+    push AX
+    mov AX,071h
+    push AX
+    sub AX,AX
+    push AX
+    push AX
+    call _sub_1A8C8
+    add SP,0Eh
+    call sub_1613B
+    cmp word ptr [_word_330C2],00h
+    jz loc_141E2
+    mov AX,offset aNc_xxx
+    push AX
+    mov AX,0140h
+    push AX
+    mov AX,061h
+    push AX
+    sub AX,AX
+    push AX
+    mov BX,word ptr [_off_38334-5]
+    push word ptr [BX]
+    mov AX,061h
+    push AX
+    sub AX,AX
+    push AX
+    mov BX,word ptr [_off_38364-5]
+    push word ptr [BX]
+    call far ptr _gfx_jump_2a
+    add SP,010h
+    mov AX,offset aNc_xxx
+    push AX
+    mov AX,0140h
+    push AX
+    mov AX,061h
+    push AX
+    sub AX,AX
+    push AX
+    mov BX,word ptr [_off_3834C-5]
+    push word ptr [BX]
+    mov AX,061h
+    push AX
+    sub AX,AX
+    push AX
+    mov BX,word ptr [_off_38364-5]
+    push word ptr [BX]
+    call far ptr _gfx_jump_2a
+    add SP,010h
+    call _sub_15FDB
+loc_141E2:
+    jmp loc_1423E
+loc_141E4:
+    call sub_1613B
+    jmp loc_1423E
+    db 0EBh
+    db 53h
+loc_141EB:
+    cmp AX,01000h
+    jnz loc_141F3
+    jmp loc_14106
+loc_141F3:
+    ja loc_14217
+    cmp AX,0C2Dh
+    jnz loc_141FD
+    jmp loc_1403A
+loc_141FD:
+    cmp AX,0C5Fh
+    jnz loc_14205
+    jmp loc_140A7
+loc_14205:
+    cmp AX,0D2Bh
+    jnz loc_1420D
+    jmp loc_14097
+loc_1420D:
+    cmp AX,0D3Dh
+    jnz loc_14215
+    jmp loc_14057
+loc_14215:
+    jmp loc_1423E
+loc_14217:
+    cmp AX,01900h
+    jz loc_141E4
+    cmp AX,01E61h
+    jnz loc_14224
+    jmp loc_14086
+loc_14224:
+    cmp AX,02400h
+    jnz loc_1422C
+    jmp loc_140F1
+loc_1422C:
+    cmp AX,03000h
+    jnz loc_14234
+    jmp loc_14118
+loc_14234:
+    cmp AX,03062h
+    jnz loc_1423C
+    jmp loc_140C0
+loc_1423C:
+    jmp loc_1423E
+loc_1423E:
+    cmp word ptr [_word_380D0+0Dh],00h
+    jz loc_14249
+    dec word ptr [_word_380D0+0Dh]
+loc_14249:
+    cmp word ptr [_word_380D0+0Bh],00h
+    jz loc_14265
+    cmp word ptr [_buf3d3_1+98h],00h
+    jnz loc_14265
+    mov AX,02h
+    push AX
+    mov AX,0Eh
+    push AX
+    call makeSound
+    add SP,04h
+loc_14265:
+    cmp word ptr [word_330BE],00h
+    jz loc_14278
+    mov byte ptr [_joyAxes-5],00h
+    mov byte ptr [_joyAxes-4],00h
+    jmp loc_142B6
+loc_14278:
+    les BX,dword ptr [_commData]
+    cmp word ptr ES:[BX+072h],00h
+    jz loc_1428A
+    call far ptr sub_2267E
+    jmp loc_142B6
+loc_1428A:
+    mov SI,word ptr [_a15flt_xxx+0EDh]
+    inc SI
+    mov AL,[_joyAxes-1]
+    sub AH,AH
+    db 2Dh, 80h, 00h ; sub AX,080h (force imm16 encoding)
+    imul SI
+    cwd
+    mov CX,03h
+    idiv CX
+    sub AL,080h
+    mov [_joyAxes-5],AL
+    mov AL,[_joyAxes]
+    sub AH,AH
+    db 2Dh, 80h, 00h ; sub AX,080h (force imm16 encoding)
+    imul SI
+    cwd
+    idiv CX
+    sub AL,080h
+    mov [_joyAxes-4],AL
+loc_142B6:
+    mov AL,[_joyAxes-5]
+    sub AH,AH
+    mov CL,04h
+    shr AX,CL
+    db 02Dh, 08h, 00h ; sub AX,08h (force imm16 encoding)
+    mov [_word_3C00C+2],AX
+    or AX,AX
+    jge loc_142CD
+    inc word ptr [_word_3C00C+2]
+loc_142CD:
+    mov AL,[_joyAxes-4]
+    sub AH,AH
+    mov CL,04h
+    shr AX,CL
+    db 02Dh, 08h, 00h ; sub AX,08h (force imm16 encoding)
+    mov word ptr [_byte_3C5A0+4],AX
+    or AX,AX
+    jge loc_142E4
+    inc word ptr [_byte_3C5A0+4]
+loc_142E4:
+    push word ptr [_word_3C00C+2]
+    call _abs
+    add SP,02h
+    db 05h, 02h, 00h ; add AX,02h (force imm16 encoding)
+    imul word ptr [_word_3C00C+2]
+    neg AX
+    shl AX,01h
+    mov [_word_3C00C+2],AX
+    mov AX,06h
+    imul word ptr [_byte_3C5A0+4]
+    mov word ptr [_byte_3C5A0+4],AX
+    or AX,AX
+    jge loc_14313
+    mov CX,02h
+    cwd
+    idiv CX
+    mov word ptr [_byte_3C5A0+4],AX
+loc_14313:
+    mov AX,[_word_380C8+1]
+    cmp word ptr [_word_3BEBE],AX
+    jnz loc_14330
+    cmp word ptr [_byte_3C5A0+4],00h
+    jge loc_14330
+    cmp word ptr [_unk_3806E+57h],00h
+    jg loc_14330
+    mov word ptr [_byte_3C5A0+4],00h
+loc_14330:
+    cmp word ptr [_word_3AA5A],015Eh
+    jle loc_14369
+    test byte ptr [_planeFlags],01h
+    jnz loc_14369
+    cmp word ptr [word_336EC],00h
+    jz loc_14369
+    mov word ptr [word_336EC],00h
+    or byte ptr [_planeFlags],01h
+    mov AX,offset aLandingGearRaised
+    push AX
+    call tempStrcpy
+    add SP,02h
+    mov AX,02h
+    push AX
+    mov AX,020h
+    push AX
+    call makeSound
+    add SP,04h
+loc_14369:
+    mov AX,[_word_380C8+1]
+    cmp word ptr [_word_3BEBE],AX
+    jnz loc_1438F
+    cmp word ptr [_word_380D0+0Bh],00h
+    jnz loc_1438F
+    test byte ptr [_planeFlags],08h
+    jnz loc_1438F
+    or byte ptr [_planeFlags],08h
+    mov AX,offset aBrakesOn
+    push AX
+    call tempStrcpy
+    add SP,02h
+loc_1438F:
+    cmp word ptr [_word_3C00C+2],00h
+    jnz loc_1439D
+    cmp word ptr [_byte_3C5A0+4],00h
+    jz loc_143A3
+loc_1439D:
+    mov word ptr [_word_330B6],00h
+loc_143A3:
+    cmp word ptr [_word_330B6],00h
+    jnz loc_143AD
+    jmp loc_14724
+loc_143AD:
+    cmp word ptr [_word_336EA],00h
+    jz loc_143C5
+    mov AX,[_word_38FDC+4]
+    db 25h, 0Fh, 00h ; and AX,0Fh (force imm16 encoding)
+    mov CX,AX
+    mov AH,CL
+    sub AL,AL
+    sub AX,0800h
+    jmp loc_143C7
+loc_143C5:
+    sub AX,AX
+loc_143C7:
+    mov word ptr [BP-2Ch],AX
+    mov AX,01400h
+    push AX
+    mov AX,0EC00h
+    push AX
+    mov AX,word ptr [BP-2Ch]
+    sub AX,word ptr [_unk_3806E+55h]
+    add AX,word ptr [_word_3BE92]
+    push AX
+    call forceRange
+    add SP,06h
+    shl AX,01h
+    mov word ptr [BP-2Ch],AX
+    mov AX,018h
+    push AX
+    mov AX,0FFE8h
+    push AX
+    mov AX,word ptr [BP-2Ch]
+    sub AX,word ptr [_unk_3806E+59h]
+    mov CL,06h
+    sar AX,CL
+    push AX
+    call _sub_1CF64
+    add SP,06h
+    neg AX
+    mov [_word_3C00C+2],AX
+    mov AX,0C00h
+    push AX
+    mov AX,0EC00h
+    push AX
+    mov AX,word ptr [_word_330B6]
+    sub AX,word ptr [_word_380C8+1]
+    mov CL,04h
+    shl AX,CL
+    sub AX,word ptr [_word_38FC4]
+    push AX
+    call forceRange
+    add SP,06h
+    mov word ptr [BP-14h],AX
+    mov AX,08h
+    push AX
+    mov AX,0FFF8h
+    push AX
+    mov AX,word ptr [BP-14h]
+    sub AX,word ptr [_unk_3806E+57h]
+    mov CL,07h
+    sar AX,CL
+    push AX
+    call _sub_1CF64
+    add SP,06h
+    mov word ptr [_byte_3C5A0+4],AX
+    cmp word ptr [_waypointIndex],03h
+    jz loc_14450
+    jmp loc_14724
+loc_14450:
+    mov AX,word ptr [_buf3d3_1+9Ah]
+    mov word ptr [BP-3Eh],AX
+    mov AX,[_word_3B14A+10h]
+    mov word ptr [BP-10h],AX
+    mov SI,AX
+    mov CL,04h
+    shl SI,CL
+    mov AX,word ptr [SI+offset _stru_3AA5E]
+    sub AX,word ptr [_word_3BEC0]
+    mov word ptr [BP-2Ah],AX
+    mov AX,word ptr [SI+offset _stru_3AA5E + 2]
+    sub AX,word ptr [_word_3BED0]
+    mov word ptr [BP-34h],AX
+    test word ptr [SI+offset _stru_3AA5E + 6],0200h
+    jnz loc_1448C
+    push AX
+    call _sub_1D1C8
+    add SP,02h
+    neg AX
+    mov word ptr [BP-3Eh],AX
+loc_1448C:
+    mov BX,word ptr [BP-10h]
+    mov CL,04h
+    shl BX,CL
+    test word ptr [BX+offset _stru_3AA5E + 6],0200h
+    jz loc_144A0
+    mov AX,01Eh
+    jmp loc_144A3
+loc_144A0:
+    mov AX,040h
+loc_144A3:
+    imul word ptr [BP-3Eh]
+    add word ptr [BP-34h],AX
+    push word ptr [_unk_3806E+55h]
+    call _abs
+    add SP,02h
+    mov word ptr [BP-2Ch],AX
+    cmp word ptr [BP-3Eh],-01h
+    jnz loc_144DC
+    mov AX,word ptr [BP-2Ah]
+    neg AX
+    mov word ptr [BP-2Ah],AX
+    mov AX,word ptr [BP-34h]
+    neg AX
+    mov word ptr [BP-34h],AX
+    mov AX,word ptr [_unk_3806E+55h]
+    sub AX,08000h
+    push AX
+    call _abs
+    add SP,02h
+    mov word ptr [BP-2Ch],AX
+loc_144DC:
+    mov AX,01000h
+    push AX
+    mov AX,032h
+    push AX
+    push word ptr [BP-34h]
+    call _abs
+    add SP,02h
+    push word ptr [BP-2Ah]
+    mov SI,AX
+    call _abs
+    add SP,02h
+    add AX,SI
+    shl AX,01h
+    mov CX,AX
+    mov AX,word ptr [BP-2Ch]
+    mov BX,CX
+    cwd
+    xor AX,DX
+    sub AX,DX
+    mov CX,05h
+    sar AX,CL
+    xor AX,DX
+    sub AX,DX
+    add BX,AX
+    push BX
+    call _sub_1CF64
+    add SP,06h
+    mov word ptr [BP-14h],AX
+    cmp AX,01000h
+    jge loc_14525
+    call sub_1DB9C
+loc_14525:
+    mov BX,word ptr [BP-10h]
+    mov CL,04h
+    shl BX,CL
+    test word ptr [BX+offset _stru_3AA5E + 6],0200h
+    jz loc_14538
+    add word ptr [BP-14h],064h
+loc_14538:
+    cmp word ptr [word_33702],00h
+    jz loc_14552
+    push word ptr [BP-2Ch]
+    call _abs
+    add SP,02h
+    cmp AX,0200h
+    jge loc_14552
+    mov word ptr [BP-14h],0FFECh
+loc_14552:
+    mov SI,word ptr [BP-10h]
+    mov CL,04h
+    shl SI,CL
+    test word ptr [SI+offset _stru_3AA5E + 6],0200h
+    jz loc_14566
+    mov AX,01Ch
+    jmp loc_14569
+loc_14566:
+    mov AX,038h
+loc_14569:
+    imul word ptr [BP-3Eh]
+    add AX,word ptr [SI+offset _stru_3AA5E + 2]
+    mov word ptr [BP-34h],AX
+    mov AX,0C00h
+    push AX
+    sub AX,AX
+    push AX
+    push word ptr [BP-2Ah]
+    call _abs
+    add SP,02h
+    shl AX,01h
+    shl AX,01h
+    mov CX,AX
+    mov AX,word ptr [BP-2Ch]
+    mov BX,CX
+    cwd
+    xor AX,DX
+    sub AX,DX
+    mov CX,04h
+    sar AX,CL
+    xor AX,DX
+    sub AX,DX
+    add AX,BX
+    push AX
+    call _sub_1CF64
+    add SP,06h
+    imul word ptr [BP-3Eh]
+    add word ptr [BP-34h],AX
+    and byte ptr [_planeFlags],0F7h
+    cmp word ptr [BP-2Ch],04000h
+    jle loc_145CC
+    mov BX,word ptr [BP-10h]
+    mov CL,04h
+    shl BX,CL
+    mov AX,word ptr [BX+offset _stru_3AA5E]
+    mov word ptr [BP-2Ah],AX
+    mov word ptr [BP-14h],01000h
+    jmp loc_145F4
+loc_145CC:
+    mov AX,word ptr [BP-3Eh]
+    imul word ptr [BP-2Ah]
+    shl AX,01h
+    mov BX,word ptr [BP-10h]
+    mov CL,04h
+    shl BX,CL
+    add AX,word ptr [BX+offset _stru_3AA5E]
+    mov word ptr [BP-2Ah],AX
+    mov AX,050h
+    imul word ptr [_word_380D0+0Bh]
+    cmp AX,word ptr [_word_3AA5A]
+    jge loc_145F4
+    or byte ptr [_planeFlags],08h
+loc_145F4:
+    mov AX,[_word_3BED0]
+    sub AX,word ptr [BP-34h]
+    push AX
+    mov AX,word ptr [BP-2Ah]
+    sub AX,word ptr [_word_3BEC0]
+    push AX
+    call _sub_1D008
+    add SP,04h
+    mov word ptr [BP-0Eh],AX
+    mov AX,[_word_3AA5A]
+    cwd
+    xor AX,DX
+    sub AX,DX
+    mov CX,04h
+    sar AX,CL
+    xor AX,DX
+    sub AX,DX
+    mov word ptr [BP-3Ch],AX
+    mov AH,byte ptr [BP-3Ch]
+    sub AL,AL
+    push AX
+    mov AX,word ptr [BP-3Ch]
+    neg AX
+    mov CH,AL
+    sub CL,CL
+    push CX
+    mov AX,word ptr [BP-0Eh]
+    sub AX,word ptr [_unk_3806E+55h]
+    push AX
+    call forceRange
+    add SP,06h
+    shl AX,01h
+    mov word ptr [BP-2Ch],AX
+    cmp word ptr [word_33702],00h
+    jz loc_1464F
+    mov word ptr [BP-2Ch],00h
+loc_1464F:
+    mov AX,020h
+    push AX
+    mov AX,0FFE0h
+    push AX
+    mov AX,word ptr [BP-2Ch]
+    sub AX,word ptr [_unk_3806E+59h]
+    mov CL,06h
+    sar AX,CL
+    push AX
+    call _sub_1CF64
+    add SP,06h
+    neg AX
+    mov [_word_3C00C+2],AX
+    mov AX,050h
+    push AX
+    mov AX,023h
+    push AX
+    push word ptr [BP-2Ch]
+    call _abs
+    add SP,02h
+    cwd
+    xor AX,DX
+    sub AX,DX
+    mov CX,08h
+    sar AX,CL
+    xor AX,DX
+    sub AX,DX
+    mov CX,AX
+    mov AX,word ptr [BP-14h]
+    mov BX,CX
+    cwd
+    xor AX,DX
+    sub AX,DX
+    mov CX,06h
+    sar AX,CL
+    xor AX,DX
+    sub AX,DX
+    add BX,AX
+    push BX
+    call _sub_1CF64
+    add SP,06h
+    mov [_word_380D0+0Bh],AX
+    call _sub_15FDB
+    mov AX,018h
+    push AX
+    mov AX,0FFE8h
+    push AX
+    mov AX,word ptr [BP-14h]
+    sub AX,word ptr [_word_380C8+1]
+    mov CL,03h
+    sar AX,CL
+    mov DX,word ptr [_word_38FC4]
+    mov CL,07h
+    sar DX,CL
+    add AX,DX
+    push AX
+    call forceRange
+    add SP,06h
+    mov word ptr [BP-14h],AX
+    mov AX,010h
+    push AX
+    mov AX,0FFF0h
+    push AX
+    mov AX,word ptr [BP-14h]
+    mov DX,word ptr [_unk_3806E+57h]
+    mov CL,07h
+    sar DX,CL
+    sub AX,DX
+    push AX
+    call _sub_1CF64
+    add SP,06h
+    mov word ptr [_byte_3C5A0+4],AX
+    cmp word ptr [_word_3AA5A],015Eh
+    jge loc_14704
+    and byte ptr [_planeFlags],0FEh
+loc_14704:
+    mov AX,[_word_380C8+1]
+    cmp word ptr [_word_3BEBE],AX
+    jnz loc_14724
+    mov word ptr [_word_380D0+0Bh],00h
+    mov word ptr [_word_3C00C+2],00h
+    or byte ptr [_planeFlags],08h
+    mov word ptr [_byte_3C5A0+4],00h
+loc_14724:
+    les BX,dword ptr [_gameData]
+    cmp word ptr ES:[BX+040h],00h
+    jz loc_14753
+    mov AX,[_word_3AA5A]
+    cwd
+    push DX
+    push AX
+    mov AX,03E8h
+    sub AX,word ptr [_word_380C8+1]
+    cwd
+    push DX
+    push AX
+    call __aNlmul
+    mov CL,0Fh
+loc_14744:
+    sar DX,01h
+    rcr AX,01h
+    dec CL
+    jz loc_1474E
+    jmp loc_14744
+loc_1474E:
+    mov word ptr [BP-24h],AX
+    jmp loc_14758
+loc_14753:
+    mov word ptr [BP-24h],00h
+loc_14758:
+    test byte ptr [_planeFlags],01h
+    jnz loc_1477A
+    mov AX,020h
+    push AX
+    sub AX,AX
+    push AX
+    mov AX,[_word_3AA5A]
+    db 2Dh, 0C8h, 00h ; sub AX,0C8h (force imm16 encoding)
+    mov CL,05h
+    sar AX,CL
+    push AX
+    call _sub_1CF64
+    add SP,06h
+    add word ptr [BP-24h],AX
+loc_1477A:
+    cmp word ptr [BP-24h],00h
+    jle loc_147B3
+    mov AX,[_word_380C8+1]
+    cmp word ptr [_word_3BEBE],AX
+    jnc loc_147B3
+    push word ptr [BP-24h]
+    call randlmul
+    add SP,02h
+    mov CX,word ptr [BP-24h]
+    sar CX,01h
+    sub AX,CX
+    add word ptr [_word_3C00C+2],AX
+    push word ptr [BP-24h]
+    call randlmul
+    add SP,02h
+    mov CX,word ptr [BP-24h]
+    sar CX,01h
+    sub AX,CX
+    sar AX,01h
+    add word ptr [_byte_3C5A0+4],AX
+loc_147B3:
+    test byte ptr [_planeFlags],01h
+    jz loc_1481B
+    cmp word ptr [_byte_3C5A0+4],00h
+    jg loc_1481B
+    mov AX,[_word_3A940+4]
+    cmp word ptr [_val_3dt+0F9Ah],AX
+    jnc loc_1481B
+    les BX,dword ptr [_gameData]
+    cmp word ptr ES:[BX+040h],02h
+    jnc loc_1481B
+    push word ptr [_unk_3806E+59h]
+    call _abs
+    add SP,02h
+    cmp AX,03000h
+    jge loc_1481B
+    cmp word ptr [_fileHandle+2],00h
+    jnz loc_1481B
+    mov AX,[_word_38FC4]
+    sub AX,word ptr [_unk_3806E+57h]
+    sar AX,01h
+    sar AX,01h
+    sub AX,word ptr [_word_380C8+1]
+    add AX,012Ch
+    sar AX,01h
+    sar AX,01h
+    mov word ptr [BP-14h],AX
+    or AX,AX
+    jle loc_1481B
+    mov AX,020h
+    push AX
+    sub AX,AX
+    push AX
+    push word ptr [BP-14h]
+    call _sub_1CF64
+    add SP,06h
+    mov word ptr [_byte_3C5A0+4],AX
+loc_1481B:
+    cmp word ptr [_byte_3B7FC+640h],00h
+    jnz loc_14825
+    jmp loc_14958
+loc_14825:
+    mov word ptr [_word_3C00C+2],040h
+    push word ptr [_unk_3806E+59h]
+    call _abs
+    add SP,02h
+    cmp AX,04000h
+    jle loc_1483F
+    mov AX,010h
+    jmp loc_14842
+loc_1483F:
+    mov AX,0FFF8h
+loc_14842:
+    mov word ptr [_byte_3C5A0+4],AX
+    mov AX,080h
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    push AX
+    mov AX,0FF00h
+    cwd
+    idiv CX
+    push AX
+    inc word ptr [_byte_3B7FC+640h]
+    mov AX,word ptr [_byte_3B7FC+640h]
+    db 2Dh, 20h, 00h ; sub AX,020h (force imm16 encoding)
+    neg AX
+    push AX
+    call _sub_1CF64
+    add SP,06h
+    add word ptr [_word_3C040],AX
+    jns loc_14886
+    mov word ptr [_word_3C040],00h
+    test byte ptr [_word_38FDC+4],07h
+    jnz loc_14886
+    sub AX,AX
+    push AX
+    call sub_11B37
+    add SP,02h
+loc_14886:
+    cmp word ptr [_word_380C8+1],00h
+    jnz loc_148D1
+    cmp word ptr [word_336F6],-01h
+    jnz loc_148D1
+    mov word ptr [word_336F6],00h
+    mov AX,[_word_3BEC0]
+    mov [_stru_3AA5E],AX
+    mov AX,[_word_3BED0]
+    mov [_stru_3AA5E+2],AX
+    mov AX,[_word_3BEC0]
+    mov [_word_3BE98+24h],AX
+    mov AX,[_word_3BED0]
+    mov word ptr [_byte_3BEC4+4],AX
+    mov word ptr [_sign3d3+4],00h
+    mov word ptr [_word_39604+2],0FFF8h
+    mov AX,02h
+    push AX
+    push AX
+    call makeSound
+    add SP,04h
+    sub AX,AX
+    mov [_word_380D0+0Bh],AX
+    mov [_word_3A940+4],AX
+loc_148D1:
+    mov AX,word ptr [_byte_3B7FC+640h]
+    and AL,0FCh
+    db 3Dh, 10h, 00h ; cmp AX,010h (force imm16 encoding)
+    jnz loc_14958
+    mov AL,byte ptr [_word_336E8]
+    and AL,03h
+    cmp AL,01h
+    jnz loc_14958
+    mov word ptr [word_336F6],0FFFFh
+    mov AX,word ptr [_word_336E8]
+    shr AX,01h
+    db 25h, 07h, 00h ; and AX,07h (force imm16 encoding)
+    mov word ptr [BP-38h],AX
+    mov SI,AX
+    mov CL,03h
+    shl SI,CL
+    mov AX,[_word_3BEC0]
+    mov word ptr [SI+offset stru_33402],AX
+    mov AX,[_word_3BED0]
+    mov word ptr [SI+offset stru_33402 + 2],AX
+    mov AX,[_word_380C8+1]
+    mov word ptr [SI+offset stru_33402 + 4],AX
+    mov AX,020h
+    push AX
+    call randlmul
+    add SP,02h
+    mov CL,0Bh
+    shl AX,CL
+    mov word ptr [SI+offset stru_33402 + 6],AX
+    mov AX,word ptr [BP-38h]
+    mov word ptr [word_33442],AX
+    mov AX,[_word_3BEC0]
+    mov [_word_3BE98+24h],AX
+    mov AX,[_word_3BED0]
+    mov word ptr [_byte_3BEC4+4],AX
+    mov AX,[_word_380C8+1]
+    mov [_sign3d3+4],AX
+    mov word ptr [_word_39604+2],0FFF8h
+    mov AX,02h
+    push AX
+    sub AX,AX
+    push AX
+    call makeSound
+    add SP,04h
+    mov word ptr [_unk_3806E+57h],0C000h
+    mov byte ptr [_word_380D0+8],01h
+loc_14958:
+    cmp word ptr [_tempString+50h],00h
+    jz loc_14984
+    mov AX,word ptr [_tempString+50h]
+    shl AX,01h
+    shl AX,01h
+    db 2Dh, 90h, 00h ; sub AX,090h (force imm16 encoding)
+    neg AX
+    mov SI,AX
+    cmp word ptr [_word_380D0+0Bh],SI
+    jle loc_14984
+    mov word ptr [_word_380D0+0Bh],SI
+    or SI,SI
+    jge loc_14981
+    mov word ptr [_word_380D0+0Bh],00h
+loc_14981:
+    call _sub_15FDB
+loc_14984:
+    mov AX,[_word_380D0+0Bh]
+    sub AX,word ptr [_buf3d3_1+98h]
+    cwd
+    xor AX,DX
+    sub AX,DX
+    mov CX,02h
+    sar AX,CL
+    xor AX,DX
+    sub AX,DX
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    add word ptr [_buf3d3_1+98h],AX
+    mov AX,word ptr [_buf3d3_1+98h]
+    cmp word ptr [_word_380D0+0Bh],AX
+    jle loc_149B1
+    inc word ptr [_buf3d3_1+98h]
+loc_149B1:
+    mov AX,word ptr [_buf3d3_1+98h]
+    cmp word ptr [_word_380D0+0Bh],AX
+    jge loc_149C0
+    mov AX,[_word_380D0+0Bh]
+    mov word ptr [_buf3d3_1+98h],AX
+loc_149C0:
+    mov AX,word ptr [_word_336E8]
+    sub DX,DX
+    mov CX,word ptr [_word_330C4]
+    shl CX,01h
+    div CX
+    or DX,DX
+    jnz loc_149F4
+    cmp word ptr [_word_380D0+0Bh],00h
+    jz loc_149F4
+    cmp word ptr [_word_336EA],00h
+    jnz loc_149F4
+    mov AX,[_word_380D0+0Bh]
+    imul AX
+    cwd
+    mov CX,02EEh
+    idiv CX
+    db 05h, 02h, 00h ; add AX,02h (force imm16 encoding)
+    sub word ptr [word_33098],AX
+    call sub_1606C
+loc_149F4:
+    cmp word ptr [word_33098],00h
+    jg loc_14A07
+    mov word ptr [_buf3d3_1+98h],00h
+    mov word ptr [word_33098],00h
+loc_14A07:
+    push word ptr [_unk_3806E+59h]
+    call _abs
+    add SP,02h
+    mov BX,AX
+    mov CL,08h
+    sar BX,CL
+    and BX,07Fh
+    mov AL,byte ptr [BX+offset byte_37FEC]
+    sub AH,AH
+    mov [_word_38FC4+16h],AX
+    mov AX,[_word_380C8+1]
+    cmp word ptr [_word_3BEBE],AX
+    jnc loc_14A38
+    mov AX,word ptr [_byte_3C5A0+4]
+    cwd
+    sub AX,DX
+    sar AX,01h
+    add word ptr [_word_38FC4+16h],AX
+loc_14A38:
+    cmp word ptr [_word_38FC4+16h],080h
+    jle loc_14A75
+    mov word ptr [_word_38FC4+16h],080h
+    push word ptr [_byte_3C5A0+4]
+    sub AX,AX
+    push AX
+    push word ptr [_unk_3806E+59h]
+    call _abs
+    add SP,02h
+    mov BX,AX
+    mov CL,08h
+    sar BX,CL
+    and BX,07Fh
+    mov AL,byte ptr [BX+offset byte_37FEC]
+    sub AH,AH
+    db 2Dh, 80h, 00h ; sub AX,080h (force imm16 encoding)
+    neg AX
+    push AX
+    call _sub_1CF64
+    add SP,06h
+    mov word ptr [_byte_3C5A0+4],AX
+loc_14A75:
+    mov AX,0Ah
+    push AX
+    mov AX,offset strBuf
+    push AX
+    mov AX,[_word_38FC4+16h]
+    cwd
+    xor AX,DX
+    sub AX,DX
+    mov CX,04h
+    sar AX,CL
+    xor AX,DX
+    sub AX,DX
+    push AX
+    call _itoa
+    add SP,06h
+    push AX
+    mov AX,offset unk_38FD0
+    push AX
+    call _strcpy
+    add SP,04h
+    mov AX,offset a_
+    push AX
+    mov AX,offset unk_38FD0
+    push AX
+    call _strcat
+    add SP,04h
+    mov AX,0Ah
+    push AX
+    mov AX,offset strBuf
+    push AX
+    push word ptr [_word_38FC4+16h]
+    call _abs
+    add SP,02h
+    sub AH,AH
+    db 25h, 0Fh, 00h ; and AX,0Fh (force imm16 encoding)
+    shr AX,01h
+    push AX
+    call _itoa
+    add SP,06h
+    push AX
+    mov AX,offset unk_38FD0
+    push AX
+    call _strcat
+    add SP,04h
+    mov AX,offset aG
+    push AX
+    mov AX,offset unk_38FD0
+    push AX
+    call _strcat
+    add SP,04h
+    mov AX,064h
+    cwd
+    push DX
+    push AX
+    mov AX,0320h
+    cwd
+    push DX
+    push AX
+    mov AX,050h
+    push AX
+    push word ptr [_unk_3806E+57h]
+    call _sub_1D178
+    add SP,04h
+    mov CX,AX
+    mov AX,word ptr [_buf3d3_1+98h]
+    sub AX,CX
+    cwd
+    push DX
+    push AX
+    call __aNlmul
+    push DX
+    push AX
+    call __aNldiv
+    mov word ptr [BP-32h],AX
+    mov word ptr [_word_3C5A6],064h
+    mov AX,[_word_380C8+1]
+    mov CL,07h
+    shr AX,CL
+    add AH,04h
+    sub CX,CX
+    push CX
+    push AX
+    mov AX,word ptr [BP-32h]
+    cwd
+    push DX
+    push AX
+    call __aNlmul
+    mov CL,0Ah
+loc_14B35:
+    shr DX,01h
+    rcr AX,01h
+    dec CL
+    jz loc_14B3F
+    jmp loc_14B35
+loc_14B3F:
+    mov word ptr [BP-32h],AX
+    mov AX,064h
+    cwd
+    push DX
+    push AX
+    mov AX,[_word_380CA+1]
+    mov CL,06h
+    shr AX,CL
+    add AH,04h
+    sub CX,CX
+    push CX
+    push AX
+    call __aNlmul
+    mov CL,0Ah
+loc_14B5B:
+    shr DX,01h
+    rcr AX,01h
+    dec CL
+    jz loc_14B65
+    jmp loc_14B5B
+loc_14B65:
+    mov [_word_3C5A6],AX
+    mov AX,05Ah
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [BP-32h]
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [word_33098]
+    mov CL,09h
+    sar AX,CL
+    db 2Dh, 64h, 00h ; sub AX,064h (force imm16 encoding)
+    neg AX
+    cwd
+    push DX
+    push AX
+    call __aNlmul
+    push DX
+    push AX
+    call __aNldiv
+    mov word ptr [BP-32h],AX
+    mov AX,080h
+    sub AX,word ptr [_word_38FC4+16h]
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [BP-32h]
+    cwd
+    push DX
+    push AX
+    call __aNlmul
+    mov CL,07h
+loc_14BA3:
+    sar DX,01h
+    rcr AX,01h
+    dec CL
+    jz loc_14BAD
+    jmp loc_14BA3
+loc_14BAD:
+    mov word ptr [BP-32h],AX
+    mov AX,[_word_3C5A6]
+    cwd
+    push DX
+    push AX
+    mov AX,[_word_38FC4+16h]
+    shl AX,01h
+    shl AX,01h
+    push AX
+    call sub_15557
+    add SP,02h
+    cwd
+    push DX
+    push AX
+    call __aNlmul
+    mov CL,03h
+loc_14BCC:
+    sar DX,01h
+    rcr AX,01h
+    dec CL
+    jz loc_14BD6
+    jmp loc_14BCC
+loc_14BD6:
+    mov [_word_3C5A6],AX
+    push AX
+    call _abs
+    add SP,02h
+    mov [_word_3C5A6],AX
+    test byte ptr [_planeFlags],01h
+    jnz loc_14BF4
+    mov AX,word ptr [BP-32h]
+    mov CL,03h
+    sar AX,CL
+    sub word ptr [BP-32h],AX
+loc_14BF4:
+    mov AX,01Bh
+    imul word ptr [_word_3C5A6]
+    mov word ptr [_val_3dt+0F9Ah],AX
+    mov AX,0383h
+    push AX
+    sub AX,AX
+    push AX
+    push word ptr [BP-32h]
+    call _sub_1CF64
+    add SP,06h
+    mov CX,01Bh
+    imul CX
+    mov word ptr [BP-1Ah],AX
+    mov AX,word ptr [_word_330C4]
+    cwd
+    push DX
+    push AX
+    mov AX,010h
+    cwd
+    push DX
+    push AX
+    mov AX,[_word_3A940+4]
+    cwd
+    mov CX,AX
+    mov AX,word ptr [BP-1Ah]
+    mov BX,DX
+    cwd
+    sub AX,CX
+    sbb DX,BX
+    push DX
+    push AX
+    call __aNldiv
+    push DX
+    push AX
+    call __aNldiv
+    add word ptr [_word_3A940+4],AX
+    push word ptr [_word_3A940+4]
+    call _abs
+    add SP,02h
+    inc AX
+    cwd
+    push DX
+    push AX
+    mov AX,0C00h
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [_val_3dt+0F9Ah]
+    cwd
+    push DX
+    push AX
+    call __aNlmul
+    push DX
+    push AX
+    call __aNldiv
+    mov word ptr [_dword_3B4D4+6],AX
+    cmp AX,02000h
+    jbe loc_14C70
+    mov word ptr [_dword_3B4D4+6],02000h
+loc_14C70:
+    mov AX,word ptr [_dword_3B4D4+6]
+    sub AX,0300h
+    push AX
+    push word ptr [_unk_3806E+59h]
+    call _sub_1D190
+    add SP,04h
+    mov [_word_38FC4],AX
+    test byte ptr [_planeFlags],08h
+    jz loc_14CE0
+    mov AX,[_word_380C8+1]
+    cmp word ptr [_word_3BEBE],AX
+    jnz loc_14CCF
+    mov CX,01Bh
+    les BX,dword ptr [_gameData]
+    mov AX,word ptr ES:[BX+040h]
+    mov DX,CX
+    mov CL,03h
+    shl AX,CL
+    db 2Dh, 20h, 00h ; sub AX,020h (force imm16 encoding)
+    neg AX
+    mov CX,DX
+    mul CX
+    sub DX,DX
+    div word ptr [_word_330C4]
+    sub word ptr [_word_3A940+4],AX
+    cmp word ptr [_word_3BEBE],00h
+    jz loc_14CCD
+    cmp word ptr [_word_3A940+4],01B0h
+    jnc loc_14CCD
+    mov word ptr [_word_3A940+4],00h
+loc_14CCD:
+    jmp loc_14CE0
+loc_14CCF:
+    mov AX,[_word_3A940+4]
+    mov CL,04h
+    shr AX,CL
+    sub DX,DX
+    div word ptr [_word_330C4]
+    sub word ptr [_word_3A940+4],AX
+loc_14CE0:
+    cmp word ptr [_word_3A940+4],0AFC8h
+    jbe loc_14CEE
+    mov word ptr [_word_3A940+4],00h
+loc_14CEE:
+    push word ptr [_word_3A940+4]
+    push word ptr [_unk_3806E+57h]
+    call _sub_1D190
+    add SP,04h
+    mov word ptr [BP-22h],AX
+    mov AX,[_word_3A940+4]
+    sub DX,DX
+    mov CX,01Bh
+    div CX
+    mov [_word_3AA5A],AX
+    push word ptr [_buf3d3_1+98h]
+    push AX
+    call far ptr audio_jump_6a
+    add SP,04h
+    mov AX,[_word_3A940+4]
+    mov CL,09h
+    shr AX,CL
+    db 05h, 20h, 00h ; add AX,020h (force imm16 encoding)
+    cwd
+    push DX
+    push AX
+    mov AX,[_word_38FC4+16h]
+    mov CL,04h
+    shl AX,CL
+    push AX
+    push word ptr [_unk_3806E+59h]
+    call _sub_1D178
+    add SP,04h
+    cwd
+    mov CL,07h
+loc_14D3B:
+    shl AX,01h
+    rcl DX,01h
+    dec CL
+    jz loc_14D45
+    jmp loc_14D3B
+loc_14D45:
+    push DX
+    push AX
+    call __aNldiv
+    mov word ptr [BP-18h],AX
+    push AX
+    push word ptr [_unk_3806E+57h]
+    call _sub_1D190
+    add SP,04h
+    mov word ptr [BP-18h],AX
+    mov AX,[_word_380C8+1]
+    cmp word ptr [_word_3BEBE],AX
+    jnz loc_14D85
+    mov AX,[_word_3C00C+2]
+    neg AX
+    mov CL,06h
+    shl AX,CL
+    mov word ptr [BP-18h],AX
+    mov word ptr [_word_3C00C+2],00h
+    mov AX,[_word_3C5A6]
+    cmp word ptr [_word_3AA5A],AX
+    jge loc_14D85
+    mov word ptr [_byte_3C5A0+4],00h
+loc_14D85:
+    cmp word ptr [_word_38FDC+2],00h
+    jz loc_14D9E
+    mov AX,0FC00h
+    sub AX,word ptr [_unk_3806E+57h]
+    mov word ptr [_byte_3C5A0+4],AX
+    sub AX,AX
+    mov [_word_3A940+4],AX
+    mov [_word_380D0+0Bh],AX
+loc_14D9E:
+    mov AX,word ptr [_word_330C4]
+    cwd
+    push DX
+    push AX
+    mov AX,[_word_3C00C+2]
+    cwd
+    mov CL,07h
+loc_14DAA:
+    shl AX,01h
+    rcl DX,01h
+    dec CL
+    jz loc_14DB4
+    jmp loc_14DAA
+loc_14DB4:
+    push DX
+    push AX
+    call __aNldiv
+    mov word ptr [BP-28h],AX
+    or AX,AX
+    jz loc_14DEC
+    push AX
+    call sub_13B86
+    add SP,02h
+    mov word ptr [_unk_3806E+39h],AX
+    mov word ptr [_unk_3806E+31h],AX
+    push word ptr [BP-28h]
+    call sub_13B96
+    add SP,02h
+    mov word ptr [_unk_3806E+33h],AX
+    neg AX
+    mov word ptr [_unk_3806E+37h],AX
+    mov AX,offset word_380A4
+    push AX
+    mov AX,offset _unk_3806E
+    push AX
+    call sub_151F9
+    add SP,04h
+loc_14DEC:
+    mov AX,word ptr [_byte_3C5A0+4]
+    mov CL,07h
+    shl AX,CL
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    mov word ptr [BP-20h],AX
+    or AX,AX
+    jz loc_14E2D
+    push AX
+    call sub_13B86
+    add SP,02h
+    mov word ptr [_unk_3806E+2Fh],AX
+    mov word ptr [_unk_3806E+27h],AX
+    push word ptr [BP-20h]
+    call sub_13B96
+    add SP,02h
+    mov word ptr [_unk_3806E+2Dh],AX
+    neg AX
+    mov word ptr [_unk_3806E+29h],AX
+    mov AX,offset unk_38092
+    push AX
+    mov AX,offset _unk_3806E
+    push AX
+    call sub_151F9
+    add SP,04h
+loc_14E2D:
+    mov AX,word ptr [BP-18h]
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    mov word ptr [BP-16h],AX
+    or AX,AX
+    jz loc_14E6A
+    push AX
+    call sub_13B86
+    add SP,02h
+    mov word ptr [_unk_3806E+1Dh],AX
+    mov word ptr [_unk_3806E+0Dh],AX
+    push word ptr [BP-16h]
+    call sub_13B96
+    add SP,02h
+    mov word ptr [_unk_3806E+11h],AX
+    neg AX
+    mov word ptr [_unk_3806E+19h],AX
+    mov AX,offset _unk_3806E
+    push AX
+    mov AX,offset word_38080
+    push AX
+    call sub_151F9
+    add SP,04h
+loc_14E6A:
+    call sub_15237
+    mov AX,[_word_3A940+4]
+    cmp word ptr [_val_3dt+0F9Ah],AX
+    jbe loc_14EC6
+    mov AX,[_word_380C8+1]
+    cmp word ptr [_word_3BEBE],AX
+    jnc loc_14EC6
+    les BX,dword ptr [_gameData]
+    cmp word ptr ES:[BX+040h],02h
+    jz loc_14E91
+    cmp word ptr [_tempString+50h],08h
+    jle loc_14E95
+loc_14E91:
+    mov CL,01h
+    jmp loc_14E97
+loc_14E95:
+    mov CL,02h
+loc_14E97:
+    mov AX,word ptr [_val_3dt+0F9Ah]
+    sub AX,word ptr [_word_3A940+4]
+    shr AX,CL
+    sub word ptr [_unk_3806E+57h],AX
+    mov byte ptr [_word_380D0+8],01h
+    cmp word ptr [_unk_3806E+57h],00h
+    jl loc_14EB8
+    cmp word ptr [_word_380C8+1],0C8h
+    jnc loc_14EC6
+loc_14EB8:
+    mov AX,01h
+    push AX
+    mov AX,014h
+    push AX
+    call makeSound
+    add SP,04h
+loc_14EC6:
+    mov AX,[_word_380C8+1]
+    cmp word ptr [_word_3BEBE],AX
+    jnz loc_14F05
+    cmp word ptr [_unk_3806E+59h],00h
+    jz loc_14EE1
+    mov word ptr [_unk_3806E+59h],00h
+    mov byte ptr [_word_380D0+8],01h
+loc_14EE1:
+    cmp word ptr [_unk_3806E+57h],00h
+    jl loc_14EF3
+    jle loc_14F05
+    mov AX,[_word_3C5A6]
+    cmp word ptr [_word_3AA5A],AX
+    jge loc_14F05
+loc_14EF3:
+    cmp word ptr [_word_38FDC+2],00h
+    jnz loc_14F00
+    mov word ptr [_unk_3806E+57h],00h
+loc_14F00:
+    mov byte ptr [_word_380D0+8],01h
+loc_14F05:
+    mov word ptr [_word_38FDC+2],00h
+    push word ptr [_unk_3806E+59h]
+    call _abs
+    add SP,02h
+    cwd
+    sub AX,DX
+    sar AX,01h
+    push word ptr [_unk_3806E+57h]
+    mov SI,AX
+    call _abs
+    add SP,02h
+    sub AX,SI
+    cmp AX,01000h
+    jle loc_14F31
+    mov AL,01h
+    jmp loc_14F33
+loc_14F31:
+    sub AL,AL
+loc_14F33:
+    mov byte ptr [_word_3C69E+2],AL
+    cmp byte ptr [_word_380D0+8],00h
+    jz loc_14F40
+    call sub_15411
+loc_14F40:
+    mov AX,[_word_380CA+1]
+    mov word ptr [BP-0Ch],AX
+    mov AX,word ptr [_unk_3806E+57h]
+    sub AX,word ptr [_word_38FC4]
+    push AX
+    call sub_13B96
+    add SP,02h
+    push AX
+    mov AX,[_word_3A940+4]
+    sub DX,DX
+    mov CX,0Ah
+    div CX
+    push AX
+    call sub_13B2F
+    add SP,04h
+    mov [_word_3C8B6],AX
+    cmp word ptr [word_33712],00h
+    jnz loc_14FCF
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    add word ptr [_word_380CA+1],AX
+    push word ptr [_unk_3806E+55h]
+    call sub_13B96
+    add SP,02h
+    push AX
+    push word ptr [BP-22h]
+    call sub_13B2F
+    add SP,04h
+    cwd
+    mov CX,0Ah
+    idiv CX
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    cwd
+    add word ptr [_dword_3B7DA],AX
+    adc word ptr [_dword_3B7DA+2],DX
+    push word ptr [_unk_3806E+55h]
+    call sub_13B86
+    add SP,02h
+    push AX
+    push word ptr [BP-22h]
+    call sub_13B2F
+    add SP,04h
+    cwd
+    mov CX,0Ah
+    idiv CX
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    cwd
+    add word ptr [_dword_3B7F8],AX
+    adc word ptr [_dword_3B7F8+2],DX
+loc_14FCF:
+    cmp word ptr [_word_380CA+1],0F230h
+    ja loc_14FE0
+    mov AX,[_word_380CA+1]
+    cmp word ptr [_word_3BEBE],AX
+    jbe loc_14FE6
+loc_14FE0:
+    mov AX,[_word_3BEBE]
+    mov [_word_380CA+1],AX
+loc_14FE6:
+    cmp word ptr [_word_380CA+1],0EA60h
+    jbe loc_14FF4
+    mov word ptr [_word_380CA+1],0EA60h
+loc_14FF4:
+    cmp word ptr [_word_380CA+1],02000h
+    jnc loc_15004
+    mov AX,[_word_380CA+1]
+    mov [_word_380C8+1],AX
+    jmp loc_1502C
+loc_15004:
+    cmp word ptr [_word_380CA+1],04000h
+    jnc loc_1501C
+    mov AX,[_word_380CA+1]
+    sub AX,02000h
+    shr AX,01h
+    add AH,020h
+    mov [_word_380C8+1],AX
+    jmp loc_1502C
+loc_1501C:
+    mov AX,[_word_380CA+1]
+    sub AX,04000h
+    shr AX,01h
+    shr AX,01h
+    add AH,030h
+    mov [_word_380C8+1],AX
+loc_1502C:
+    mov AX,[_word_380C8+1]
+    cmp word ptr [_word_3BEBE],AX
+    jz loc_15038
+    jmp loc_150DF
+loc_15038:
+    mov AX,[_word_3BEBE]
+    cmp word ptr [BP-0Ch],AX
+    jg loc_15043
+    jmp loc_150D9
+loc_15043:
+    cmp word ptr [word_33702],00h
+    jnz loc_1504D
+    jmp loc_150D9
+loc_1504D:
+    mov AX,02h
+    push AX
+    mov AX,0Ch
+    push AX
+    call makeSound
+    add SP,04h
+    mov BX,word ptr [_word_3C16A]
+    mov CL,04h
+    shl BX,CL
+    test word ptr [BX+offset _stru_3AA5E + 6],0200h
+    jz loc_15070
+    mov AX,0100h
+    jmp loc_15073
+loc_15070:
+    mov AX,080h
+loc_15073:
+    mov CX,AX
+    mov AX,[_word_3C8B6]
+    neg AX
+    imul word ptr [word_330B8]
+    cwd
+    sub AX,DX
+    sar AX,01h
+    cmp CX,AX
+    jl loc_150B8
+    les BX,dword ptr [_gameData]
+    cmp word ptr ES:[BX+040h],00h
+    jz loc_150D9
+    test byte ptr [_planeFlags],01h
+    jnz loc_150B8
+    push word ptr [_unk_3806E+59h]
+    call _abs
+    add SP,02h
+    mov CX,AX
+    mov AX,030h
+    cwd
+    mov BX,word ptr [word_330B8]
+    inc BX
+    idiv BX
+    mov DH,AL
+    sub DL,DL
+    cmp DX,CX
+    jge loc_150D9
+loc_150B8:
+    mov AX,02h
+    push AX
+    sub AX,AX
+    push AX
+    call makeSound
+    add SP,04h
+    mov AX,03Ch
+    push AX
+    call _sub_12278
+    add SP,02h
+    mov AX,05h
+    push AX
+    call sub_11B37
+    add SP,02h
+loc_150D9:
+    mov word ptr [_word_3C8B6],00h
+loc_150DF:
+    mov AX,word ptr [_word_336E8]
+    db 25h, 0Fh, 00h ; and AX,0Fh (force imm16 encoding)
+    mov word ptr [BP-38h],AX
+    mov SI,AX
+    mov CL,04h
+    shl SI,CL
+    mov AX,word ptr [_unk_3806E+55h]
+    mov word ptr [SI+offset _stru_3A95A + 10],AX
+    mov AX,word ptr [_unk_3806E+57h]
+    mov word ptr [SI+offset _stru_3A95A + 12],AX
+    mov AX,word ptr [_unk_3806E+59h]
+    mov word ptr [SI+offset _stru_3A95A + 14],AX
+    mov AX,word ptr [_dword_3B7DA]
+    mov DX,word ptr [_dword_3B7DA+2]
+    mov word ptr [SI+offset _stru_3A95A],AX
+    mov word ptr [SI+offset _stru_3A95A + 2],DX
+    mov AX,word ptr [_dword_3B7F8]
+    mov DX,word ptr [_dword_3B7F8+2]
+    mov word ptr [SI+offset _stru_3A95A + 4],AX
+    mov word ptr [SI+offset _stru_3A95A + 6],DX
+    mov AX,[_word_380C8+1]
+    mov word ptr [SI+offset _stru_3A95A + 8],AX
+    cmp word ptr [_word_3C45C],01h
+    jz loc_15132
+    jmp loc_151F3
+loc_15132:
+    cmp word ptr [_word_336F2],00h
+    jl loc_15173
+    mov AX,024h
+    imul word ptr [_word_336F2]
+    mov SI,AX
+    mov AX,0Ch
+    push AX
+    sub AX,AX
+    push AX
+    mov AX,[_word_3BED0]
+    sub AX,word ptr [SI+offset word_3B206]
+    push AX
+    mov AX,[_word_3BEC0]
+    sub AX,word ptr [SI+offset word_3B204]
+    push AX
+    call _sub_1CFA6
+    add SP,04h
+    imul word ptr [_word_330C4]
+    mov CL,08h
+    sar AX,CL
+    push AX
+    call _sub_1CF64
+    add SP,06h
+    mov word ptr [BP-38h],AX
+    jmp loc_1517A
+loc_15173:
+    mov AX,word ptr [_word_330C4]
+    dec AX
+    mov word ptr [BP-38h],AX
+loc_1517A:
+    mov AX,word ptr [_word_336E8]
+    sub AX,word ptr [BP-38h]
+    db 25h, 0Fh, 00h ; and AX,0Fh (force imm16 encoding)
+    mov word ptr [BP-38h],AX
+    mov SI,AX
+    mov CL,04h
+    shl SI,CL
+    mov AX,word ptr [_unk_3806E+55h]
+    sub AX,word ptr [SI+offset _stru_3A95A + 10]
+    mov word ptr [BP-2Ch],AX
+    mov AX,word ptr [_unk_3806E+57h]
+    sub AX,word ptr [SI+offset _stru_3A95A + 12]
+    mov word ptr [BP-14h],AX
+    sar AX,01h
+    sar AX,01h
+    push AX
+    push word ptr [_unk_3806E+59h]
+    call _sub_1D178
+    add SP,04h
+    mov CX,word ptr [BP-2Ch]
+    neg CX
+    sar CX,01h
+    sar CX,01h
+    push CX
+    push word ptr [_unk_3806E+59h]
+    mov DI,AX
+    call _sub_1D190
+    add SP,04h
+    add AX,DI
+    mov [_word_3C6A4],AX
+    mov AX,word ptr [BP-14h]
+    sar AX,01h
+    push AX
+    push word ptr [_unk_3806E+59h]
+    call _sub_1D190
+    add SP,04h
+    mov CX,word ptr [BP-2Ch]
+    sar CX,01h
+    sar CX,01h
+    push CX
+    push word ptr [_unk_3806E+59h]
+    mov DI,AX
+    call _sub_1D178
+    add SP,04h
+    add AX,DI
+    mov [_word_3C6AC],AX
+loc_151F3:
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
+
+_otherKeyDispatch endp
 ; ------------------------------seg000:0x51f9------------------------------
-sub_151F9 proc near
-    retn
-sub_151F9 endp
+EXTRN _sub_151F9:NEAR
+sub_151F9 equ _sub_151F9
 ; ------------------------------seg000:0x5236------------------------------
 ; ------------------------------seg000:0x5237------------------------------
 sub_15237 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,2h
+    mov AX,word ptr [_var_528]
+    neg AX
+    push AX
+    call _sub_154B7
+    add SP,2h
+    mov word ptr [_var_544],AX
+    push AX
+    call sub_13B86
+    add SP,2h
+    mov word ptr [BP + -2h],AX
+    or AX,AX
+    jnz LAB_1000_525d
+    jmp LAB_1000_537c
+LAB_1000_525d:
+    push word ptr [_var_525]
+    call _abs
+    add SP,2h
+    cmp AX,5a81h
+    jge LAB_1000_528c
+    push word ptr [BP + -2h]
+    push word ptr [_var_525]
+    call sub_1543B
+    add SP,4h
+    push AX
+    call _abs
+    add SP,2h
+    push AX
+    call _sub_154B7
+    add SP,2h
+    mov word ptr [_var_542],AX
+    jmp LAB_1000_52aa
+LAB_1000_528c:
+    push word ptr [BP + -2h]
+    push word ptr [_var_529]
+    call sub_1543B
+    add SP,4h
+    push AX
+    call _abs
+    add SP,2h
+    push AX
+    call _sub_15540
+    add SP,2h
+    mov word ptr [_var_542],AX
+LAB_1000_52aa:
+    cmp word ptr [_var_525],0h
+    jg LAB_1000_52bd
+    cmp word ptr [_var_529],0h
+    jge LAB_1000_52bd
+    add byte ptr [_var_543],80h
+LAB_1000_52bd:
+    cmp word ptr [_var_525],0h
+    jle LAB_1000_52d5
+    cmp word ptr [_var_529],0h
+    jge LAB_1000_52d5
+    mov AX,8000h
+    sub AX,word ptr [_var_542]
+    mov word ptr [_var_542],AX
+LAB_1000_52d5:
+    cmp word ptr [_var_525],0h
+    jge LAB_1000_52eb
+    cmp word ptr [_var_529],0h
+    jle LAB_1000_52eb
+    mov AX,word ptr [_var_542]
+    neg AX
+    mov word ptr [_var_542],AX
+LAB_1000_52eb:
+    push word ptr [_var_526]
+    call _abs
+    add SP,2h
+    cmp AX,5a81h
+    jge LAB_1000_531a
+    push word ptr [BP + -2h]
+    push word ptr [_var_526]
+    call sub_1543B
+    add SP,4h
+    push AX
+    call _abs
+    add SP,2h
+    push AX
+    call _sub_154B7
+    add SP,2h
+    mov word ptr [_var_545],AX
+    jmp LAB_1000_5338
+LAB_1000_531a:
+    push word ptr [BP + -2h]
+    push word ptr [_var_527]
+    call sub_1543B
+    add SP,4h
+    push AX
+    call _abs
+    add SP,2h
+    push AX
+    call _sub_15540
+    add SP,2h
+    mov word ptr [_var_545],AX
+LAB_1000_5338:
+    cmp word ptr [_var_526],0h
+    jg LAB_1000_534b
+    cmp word ptr [_var_527],0h
+    jge LAB_1000_534b
+    add byte ptr [_word_380C8],80h
+LAB_1000_534b:
+    cmp word ptr [_var_526],0h
+    jle LAB_1000_5363
+    cmp word ptr [_var_527],0h
+    jge LAB_1000_5363
+    mov AX,8000h
+    sub AX,word ptr [_var_545]
+    mov word ptr [_var_545],AX
+LAB_1000_5363:
+    cmp word ptr [_var_526],0h
+    jge LAB_1000_537a
+    cmp word ptr [_var_527],0h
+    jle LAB_1000_537a
+    sub AX,AX
+    sub AX,word ptr [_var_545]
+    mov word ptr [_var_545],AX
+LAB_1000_537a:
+    jmp LAB_1000_53d0
+LAB_1000_537c:
+    mov word ptr [_var_545],0h
+    push word ptr [_var_524]
+    call _sub_154B7
+    add SP,2h
+    mov word ptr [_var_542],AX
+    cmp word ptr [_var_526],0h
+    jg LAB_1000_53a2
+    cmp word ptr [_var_527],0h
+    jge LAB_1000_53a2
+    add byte ptr [_var_543],80h
+LAB_1000_53a2:
+    cmp word ptr [_var_526],0h
+    jle LAB_1000_53ba
+    cmp word ptr [_var_527],0h
+    jge LAB_1000_53ba
+    mov AX,8000h
+    sub AX,word ptr [_var_542]
+    mov word ptr [_var_542],AX
+LAB_1000_53ba:
+    cmp word ptr [_var_526],0h
+    jge LAB_1000_53d0
+    cmp word ptr [_var_527],0h
+    jle LAB_1000_53d0
+    mov AX,word ptr [_var_542]
+    neg AX
+    mov word ptr [_var_542],AX
+LAB_1000_53d0:
+    cmp word ptr [_var_544],38e3h
+    jle LAB_1000_53e5
+    cmp word ptr [_var_544],4001h
+    jge LAB_1000_53e5
+    mov byte ptr [_word_380D8],1h
+LAB_1000_53e5:
+    cmp word ptr [_var_544],0c71dh
+    jge LAB_1000_53fa
+    cmp word ptr [_var_544],0bfffh
+    jle LAB_1000_53fa
+    mov byte ptr [_word_380D8],1h
+LAB_1000_53fa:
+    cmp byte ptr [_var_550],0h
+    jz LAB_1000_540d
+    cmp word ptr [_var_545],0h
+    jnz LAB_1000_540d
+    mov byte ptr [_word_380D8],1h
+LAB_1000_540d:
+    mov SP,BP
+    pop BP
+    ret
 sub_15237 endp
 ; ------------------------------seg000:0x5410------------------------------
 ; ------------------------------seg000:0x5411------------------------------
-sub_15411 proc near
-    retn
-sub_15411 endp
+sub_15411 equ _sub_15411
 ; ------------------------------seg000:0x543a------------------------------
 ; ------------------------------seg000:0x543b------------------------------
-sub_1543B proc near
-    retn
-sub_1543B endp
+sub_1543B equ _sub_1543B
 ; ------------------------------seg000:0x54b6------------------------------
 ; ------------------------------seg000:0x54b7------------------------------
-_sub_154B7 proc near
-    retn
-_sub_154B7 endp
+; sub_154B7 moved to egame1.c
 ; ------------------------------seg000:0x553f------------------------------
 ; ------------------------------seg000:0x5557------------------------------
-sub_15557 proc near
-    retn
-sub_15557 endp
+sub_15557 equ _sub_15557
 ; ------------------------------seg000:0x55aa------------------------------
 ; ------------------------------seg000:0x5fdb------------------------------
 _sub_15FDB proc near
-    retn
+    push BP
+    mov BP,SP
+    cmp word ptr [_word_330C2],0h
+    jnz LAB_1000_5fe8
+    jmp LAB_1000_6068
+LAB_1000_5fe8:
+    sub AX,AX
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov AX,0c4h
+    push AX
+    mov AX,0afh
+    push AX
+    mov AX,0deh
+    push AX
+    mov AX,7fh
+    push AX
+    mov AX,0d4h
+    push AX
+    call _sub_19E5D
+    add SP,0ah
+    mov AX,0ch
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov AX,0afh
+    push AX
+    mov AX,0deh
+    push AX
+    mov AX,word ptr [_var_552]
+    cwd
+    mov CX,3h
+    idiv CX
+    db 2Dh, 0AFh, 00h ; sub AX,0afh (force imm16 encoding)
+    neg AX
+    push AX
+    mov AX,0d4h
+    push AX
+    call _sub_19E5D
+    add SP,8h
+    cmp word ptr [_var_552],64h
+    jle LAB_1000_6068
+    mov AX,0eh
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov AX,8eh
+    push AX
+    mov AX,0deh
+    push AX
+    mov AX,word ptr [_var_552]
+    cwd
+    mov CX,3h
+    idiv CX
+    db 2Dh, 0AFh, 00h ; sub AX,0afh (force imm16 encoding)
+    neg AX
+    push AX
+    mov AX,0d4h
+    push AX
+    call _sub_19E5D
+    add SP,8h
+LAB_1000_6068:
+    mov SP,BP
+    pop BP
+    ret
 _sub_15FDB endp
 ; ------------------------------seg000:0x606b------------------------------
 ; ------------------------------seg000:0x606c------------------------------
-sub_1606C proc near
-    retn
-sub_1606C endp
+sub_1606C equ _sub_1606C
 ; ------------------------------seg000:0x60d2------------------------------
 ; ------------------------------seg000:0x60d3------------------------------
 _sub_160D3 proc near
-    retn
+    push BP
+    mov BP,SP
+LAB_1000_60d6:
+    mov BX,word ptr [BP + 4h]
+    cmp word ptr [BX],-1h
+    jz LAB_1000_6137
+    add word ptr [BP + 4h],2h
+    mov BX,word ptr [BX]
+    mov AL,byte ptr [BX + offset byte_3419C]
+    sub AH,AH
+    push AX
+    call far ptr _gfx_jump_21
+    add SP,2h
+    call far ptr sub_2171A
+    add word ptr [BP + 4h],4h
+LAB_1000_60fc:
+    mov BX,word ptr [BP + 4h]
+    cmp word ptr [BX],-1h
+    jz LAB_1000_612c
+    mov AX,word ptr [BX + -4h]
+    mov word ptr [_var_351],AX
+    mov AX,word ptr [BX + -2h]
+    mov word ptr [_var_353],AX
+    add word ptr [BP + 4h],2h
+    mov AX,word ptr [BX]
+    mov word ptr [_var_352],AX
+    mov BX,word ptr [BP + 4h]
+    add word ptr [BP + 4h],2h
+    mov AX,word ptr [BX]
+    mov word ptr [_var_354],AX
+    call far ptr sub_2189C
+    jmp LAB_1000_60fc
+LAB_1000_612c:
+    call far ptr sub_21704
+    add word ptr [BP + 4h],2h
+    jmp LAB_1000_60d6
+LAB_1000_6137:
+    mov SP,BP
+    pop BP
+    ret
 _sub_160D3 endp
 ; ------------------------------seg000:0x613a------------------------------
 ; ------------------------------seg000:0x613b------------------------------
-sub_1613B proc near
-    retn
-sub_1613B endp
+sub_1613B equ _sub_1613B
 ; ------------------------------seg000:0x6171------------------------------
 ; ------------------------------seg000:0x6172------------------------------
 sub_16172 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,0ch
+    push DI
+    push SI
+    cmp word ptr [word_336F8],0h
+    jz LAB_1000_618a
+    mov AX,word ptr [word_336E4]
+    cmp word ptr [word_3C03E],AX
+    jz LAB_1000_61ae
+LAB_1000_618a:
+    cmp word ptr [_word_330C2],0h
+    jz LAB_1000_61ae
+    cmp word ptr [word_336F8],0h
+    jnz LAB_1000_61ae
+    cmp word ptr [_word_3C09A],0h
+    jnz LAB_1000_61ae
+    call sub_1A962
+    mov word ptr [word_3BF3C],0h
+    mov word ptr [word_3BF3E],100h
+LAB_1000_61ae:
+    mov word ptr [BP + -0ah],0h
+    jmp LAB_1000_61c5
+    db 90h
+LAB_1000_61b6:
+    mov BX,word ptr [BP + -0ah]
+    mov CL,4h
+    shl BX,CL
+    and byte ptr [BX + offset _stru_3AA5E + 6],0fdh
+LAB_1000_61c2:
+    inc word ptr [BP + -0ah]
+LAB_1000_61c5:
+    mov AX,word ptr [_word_38FFA]
+    cmp word ptr [BP + -0ah],AX
+    jl LAB_1000_61d0
+    jmp LAB_1000_627c
+LAB_1000_61d0:
+    mov SI,word ptr [BP + -0ah]
+    mov CL,4h
+    shl SI,CL
+    cmp word ptr [SI + offset _stru_3AA5E + 4],0h
+    jz LAB_1000_61b6
+    test byte ptr [SI + offset _stru_3AA5E + 6],80h
+    jnz LAB_1000_61b6
+    mov AX,word ptr [BP + -0ah]
+    mov BX,word ptr [_word_336E8]
+    mov CL,0ah
+    sar BX,CL
+    imul BX
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    shl AX,1h
+    add AX,CX
+    and AL,7h
+    cmp AL,7h
+    jbe LAB_1000_6211
+    cmp word ptr [SI + offset _stru_3AA5E + 8],0h
+    jnz LAB_1000_6211
+    test word ptr [SI + offset _stru_3AA5E + 6],100h
+    jz LAB_1000_61b6
+LAB_1000_6211:
+    mov SI,word ptr [BP + -0ah]
+    mov CL,4h
+    shl SI,CL
+    dec word ptr [SI + offset _stru_3AA5E + 10]
+    cmp word ptr [SI + offset _stru_3AA5E + 10],0h
+    jg LAB_1000_6249
+    mov AX,word ptr [BP + -0ah]
+    cwd
+    sub AX,DX
+    sar AX,1h
+    mov CX,AX
+    mov AH,byte ptr [_word_330C4]
+    sub AL,AL
+    cwd
+    mov BX,word ptr [SI + offset _stru_3AA5E + 8]
+    mov DI,CX
+    mov CL,3h
+    sar BX,CL
+    add BX,20h
+    idiv BX
+    add AX,DI
+    mov word ptr [SI + offset _stru_3AA5E + 10],AX
+LAB_1000_6249:
+    mov BX,word ptr [BP + -0ah]
+    mov CL,4h
+    shl BX,CL
+    cmp word ptr [BX + offset _stru_3AA5E + 10],4h
+    jz LAB_1000_625a
+    jmp LAB_1000_61c2
+LAB_1000_625a:
+    cmp word ptr [word_336F8],0h
+    jl LAB_1000_6264
+    jmp LAB_1000_61c2
+LAB_1000_6264:
+    push word ptr [BP + -0ah]
+    call sub_16346
+    add SP,2h
+    mov BX,word ptr [BP + -0ah]
+    mov CL,4h
+    shl BX,CL
+    or byte ptr [BX + offset _stru_3AA5E + 6],2h
+    jmp LAB_1000_61c2
+LAB_1000_627c:
+    les BX,dword ptr [_commData]
+    cmp word ptr ES:[BX + 78h],0h
+    jnz LAB_1000_628d
+    mov word ptr [word_38F72],0h
+LAB_1000_628d:
+    cmp word ptr [_word_3C09A],0h
+    jz LAB_1000_6297
+    jmp LAB_1000_633c
+LAB_1000_6297:
+    cmp word ptr [word_336F8],0h
+    jg LAB_1000_62a1
+    jmp LAB_1000_633c
+LAB_1000_62a1:
+    cmp word ptr [_word_330C2],0h
+    jnz LAB_1000_62ab
+    jmp LAB_1000_633c
+LAB_1000_62ab:
+    cmp word ptr [word_3BE7E],1h
+    jg LAB_1000_62b5
+    jmp LAB_1000_633c
+LAB_1000_62b5:
+    cmp word ptr [_word_38FDC],0h
+    jz LAB_1000_62fc
+    cmp word ptr ES:[BX + 78h],0h
+    jz LAB_1000_62fc
+    call sub_1A9BC
+    mov AX,word ptr [_word_330C4]
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [word_3BE7E]
+    cwd
+    push DX
+    push AX
+    push word ptr [_word_330C4]
+    mov AX,1h
+    push AX
+    mov AX,word ptr [_word_330C4]
+    sub AX,word ptr [word_336F8]
+    push AX
+    call _sub_1CF64
+    add SP,6h
+    cwd
+    push DX
+    push AX
+    call __aNlmul
+    push DX
+    push AX
+    call __aNldiv
+    mov CL,6h
+    shl AX,CL
+    mov word ptr [BP + -4h],AX
+    jmp LAB_1000_630c
+LAB_1000_62fc:
+    mov AX,word ptr [word_3BE7E]
+    mov CL,6h
+    shl AX,CL
+    mov word ptr [BP + -4h],AX
+    mov word ptr [word_3BE7E],0h
+LAB_1000_630c:
+    cmp word ptr [word_3BE96],0h
+    jl LAB_1000_633c
+    mov SI,word ptr [word_3BE96]
+    mov CL,4h
+    shl SI,CL
+    push word ptr [word_3BF3E]
+    push word ptr [word_3BF3C]
+    push word ptr [word_3C6AA]
+    push word ptr [word_38F72]
+    push word ptr [BP + -4h]
+    push word ptr [SI + offset _stru_3AA5E + 2]
+    push word ptr [SI + offset _stru_3AA5E]
+    call sub_19ADB
+    add SP,0eh
+LAB_1000_633c:
+    dec word ptr [word_336F8]
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
 sub_16172 endp
 ; ------------------------------seg000:0x6345------------------------------
 ; ------------------------------seg000:0x6346------------------------------
 sub_16346 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,2ah
+    push DI
+    push SI
+    mov SI,word ptr [BP + 4h]
+    mov CL,4h
+    shl SI,CL
+    mov AX,word ptr [SI + offset _stru_3AA5E + 4]
+    mov word ptr [BP + -22h],AX
+    lea AX,[BP + -1eh]
+    push AX
+    lea AX,[BP + -16h]
+    push AX
+    push word ptr [BP + -22h]
+    sub AX,AX
+    push AX
+    push word ptr [SI + offset _stru_3AA5E + 2]
+    push word ptr [SI + offset _stru_3AA5E]
+    call sub_1660E
+    add SP,0ch
+    mov word ptr [BP + -2ah],AX
+    mov word ptr [word_336FA],0h
+    or AX,AX
+    jg LAB_1000_6388
+    jmp LAB_1000_6423
+LAB_1000_6388:
+    mov word ptr [BP + -20h],AX
+    db 3Dh, 63h, 00h ; cmp AX,63h (force imm16 encoding)
+    jle LAB_1000_6395
+    mov word ptr [BP + -20h],63h
+LAB_1000_6395:
+    mov word ptr [word_336FA],4h
+    mov AX,word ptr [BP + -2ah]
+    add AX,word ptr [word_336E4]
+    db 3Dh, 32h, 00h ; cmp AX,32h (force imm16 encoding)
+    jle LAB_1000_63ad
+    mov word ptr [word_336FA],0ch
+LAB_1000_63ad:
+    mov AX,word ptr [BP + -2ah]
+    add AX,word ptr [word_336E4]
+    db 3Dh, 64h, 00h ; cmp AX,64h (force imm16 encoding)
+    jle LAB_1000_63bf
+    mov word ptr [word_336FA],0eh
+LAB_1000_63bf:
+    mov AX,word ptr [BP + -2ah]
+    mov word ptr [word_3BE7E],AX
+    mov AX,word ptr [_word_330C4]
+    mov word ptr [word_336F8],AX
+    mov AX,word ptr [BP + 4h]
+    mov word ptr [word_3BE96],AX
+    mov BX,word ptr [BP + -22h]
+    mov AX,BX
+    shl BX,1h
+    add BX,AX
+    shl BX,1h
+    add BX,AX
+    shl BX,1h
+    mov AX,word ptr [BX + offset aNone + 12]
+    db 25h, 01h, 00h ; and AX,1h (force imm16 encoding)
+    mov word ptr [word_3C6AA],AX
+    mov BX,word ptr [BP + 4h]
+    mov CL,4h
+    shl BX,CL
+    cmp word ptr [BX + offset _stru_3AA5E + 8],0h
+    jz LAB_1000_640b
+    mov SI,word ptr [BP + -16h]
+    mov CL,8h
+    sar SI,CL
+    lea AX,[SI + -20h]
+    mov word ptr [word_3BF3C],AX
+    lea AX,[SI + 20h]
+    mov word ptr [word_3BF3E],AX
+LAB_1000_640b:
+    mov AX,word ptr [word_336FA]
+    mov word ptr [word_38F72],AX
+    mov SI,word ptr [BP + 4h]
+    mov CL,4h
+    shl SI,CL
+    add SI,81b4h
+    test byte ptr [SI],4h
+    jnz LAB_1000_6423
+    or byte ptr [SI],CL
+LAB_1000_6423:
+    mov AX,word ptr [BP + -1eh]
+    cmp word ptr [BP + -2ah],AX
+    ja LAB_1000_642e
+    jmp LAB_1000_65ee
+LAB_1000_642e:
+    mov SI,word ptr [BP + 4h]
+    mov CL,4h
+    shl SI,CL
+    add SI,81b6h
+    mov AX,word ptr [word_330BA]
+    add AX,word ptr [word_330B8]
+    mov CL,5h
+    shl AX,CL
+    db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
+    add word ptr [SI],AX
+    cmp word ptr [SI],0ffh
+    jle LAB_1000_6453
+    mov word ptr [SI],0ffh
+LAB_1000_6453:
+    mov SI,word ptr [BP + 4h]
+    mov CL,4h
+    shl SI,CL
+    test word ptr [SI + offset _stru_3AA5E + 6],100h
+    jnz LAB_1000_6473
+    cmp word ptr [word_333DA],0h
+    jnz LAB_1000_6473
+    cmp word ptr [SI + offset _stru_3AA5E + 8],7fh
+    jle LAB_1000_6473
+    call sub_166BE
+LAB_1000_6473:
+    mov AX,word ptr [word_330B8]
+    cmp word ptr [word_3A946],AX
+    jle LAB_1000_647f
+    jmp LAB_1000_65dc
+LAB_1000_647f:
+    mov SI,word ptr [BP + 4h]
+    mov CL,4h
+    shl SI,CL
+    cmp word ptr [SI + offset _stru_3AA5E + 8],0c0h
+    jg LAB_1000_6491
+    jmp LAB_1000_65dc
+LAB_1000_6491:
+    cmp word ptr [BP + -22h],15h
+    jnz LAB_1000_649a
+    jmp LAB_1000_65dc
+LAB_1000_649a:
+    cmp word ptr [word_38FEE],500h
+    jg LAB_1000_64a5
+    jmp LAB_1000_65dc
+LAB_1000_64a5:
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    db 2Dh, 14h, 00h ; sub AX,14h (force imm16 encoding)
+    neg AX
+    cmp AX,word ptr [BP + -1eh]
+    jc LAB_1000_64b8
+    jmp LAB_1000_65dc
+LAB_1000_64b8:
+    inc word ptr [word_3C09C]
+    cmp word ptr [SI + offset _stru_3AA5E + 8],0fah
+    jge LAB_1000_64c7
+    jmp LAB_1000_65dc
+LAB_1000_64c7:
+    or CX,CX
+    jz LAB_1000_64d6
+    mov AX,word ptr [BP + 4h]
+    cwd
+    idiv CX
+    mov AX,DX
+    jmp LAB_1000_64d8
+    db 90h
+LAB_1000_64d6:
+    sub AX,AX
+LAB_1000_64d8:
+    mov word ptr [BP + -24h],AX
+    mov AX,18h
+    imul word ptr [BP + -24h]
+    mov DI,AX
+    cmp word ptr [DI + offset _stru_335C4 + 14],0h
+    jz LAB_1000_64ed
+    jmp LAB_1000_65dc
+LAB_1000_64ed:
+    mov AX,12h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AX,word ptr [BP + -1eh]
+    cmp word ptr [BX + offset _sams + 8],AX
+    ja LAB_1000_6501
+    jmp LAB_1000_65dc
+LAB_1000_6501:
+    mov AX,word ptr [SI + offset _stru_3AA5E]
+    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
+    mov word ptr [DI + offset _stru_335C4],AX
+    mov AX,18h
+    imul word ptr [BP + -24h]
+    mov SI,AX
+    mov BX,word ptr [BP + 4h]
+    mov CL,4h
+    shl BX,CL
+    mov AX,word ptr [BX + offset _stru_3AA5E + 2]
+    mov word ptr [SI + offset _stru_335C4 + 2],AX
+    mov word ptr [SI + offset _stru_335C4 + 4],0h
+    mov word ptr [SI + offset _stru_335C4 + 6],1h
+    mov AX,word ptr [BP + -16h]
+    mov word ptr [SI + offset _stru_335C4 + 8],AX
+    mov word ptr [SI + offset _stru_335C4 + 10],4000h
+    mov AX,12h
+    imul word ptr [BP + -22h]
+    mov DI,AX
+    mov AX,word ptr [DI + offset _sams + 10]
+    mov CL,6h
+    sar AX,CL
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [_word_330C4]
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [DI + offset _sams + 8]
+    cwd
+    mov CL,3h
+LAB_1000_655c:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jnz LAB_1000_655c
+    push DX
+    push AX
+    call __aNlmul
+    push DX
+    push AX
+    call __aNldiv
+    mov word ptr [SI + offset _stru_335C4 + 14],AX
+    mov AX,word ptr [BP + -22h]
+    mov word ptr [SI + offset _stru_335C4 + 16],AX
+    mov AX,word ptr [BP + 4h]
+    mov word ptr [SI + offset _stru_335C4 + 22],AX
+    push word ptr [BP + 4h]
+    call _placeString
+    add SP,2h
+    mov AX,offset aFiring
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,12h
+    imul word ptr [BP + -22h]
+    add AX,528h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    mov AX,2h
+    push AX
+    mov AX,6h
+    push AX
+    call makeSound
+    add SP,4h
+    mov AX,2h
+    push AX
+    mov AX,word ptr [BP + 4h]
+    db 05h, 40h, 00h ; add AX,40h (force imm16 encoding)
+    push AX
+    call sub_11BC3
+    add SP,4h
+    les BX,dword ptr [_commData]
+    inc word ptr ES:[BX + 2ch]
+LAB_1000_65dc:
+    mov BX,word ptr [BP + 4h]
+    mov CL,4h
+    shl BX,CL
+    or byte ptr [BX + offset _stru_3AA5E + 6],10h
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
+LAB_1000_65ee:
+    mov SI,word ptr [BP + 4h]
+    mov CL,4h
+    shl SI,CL
+    and byte ptr [SI + offset _stru_3AA5E + 6],0efh
+    sub word ptr [SI + offset _stru_3AA5E + 8],10h
+    jns LAB_1000_6607
+    mov word ptr [SI + offset _stru_3AA5E + 8],0h
+LAB_1000_6607:
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
+    nop
 sub_16346 endp
 ; ------------------------------seg000:0x660c------------------------------
 ; ------------------------------seg000:0x660e------------------------------
-sub_1660E proc near
-    retn
-sub_1660E endp
+sub_1660E equ _sub_1660E
 ; ------------------------------seg000:0x66bd------------------------------
 ; ------------------------------seg000:0x66be------------------------------
-sub_166BE proc near
-    retn
-sub_166BE endp
+sub_166BE equ _sub_166BE
 ; ------------------------------seg000:0x6740------------------------------
 ; ------------------------------seg000:0x6742------------------------------
-sub_16742 proc near
-    retn
-sub_16742 endp
+routine_191 equ _routine_191
 ; ------------------------------seg000:0x67b3------------------------------
 ; ------------------------------seg000:0x67b4------------------------------
 sub_167B4 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,40h
+    push DI
+    push SI
+    test byte ptr [_word_336E8],1h
+    jnz LAB_1000_67dd
+    cmp word ptr [word_336F6],-1h
+    jnz LAB_1000_67dd
+    mov BX,word ptr [_word_336E8]
+    sar BX,1h
+    and BX,7h
+    mov CL,3h
+    shl BX,CL
+    mov word ptr [BX + offset stru_33402],0h
+LAB_1000_67dd:
+    mov BX,word ptr [_word_336E8]
+    sar BX,1h
+    sar BX,1h
+    and BX,3h
+    add BX,word ptr [word_3AFA4]
+    mov AX,BX
+    shl BX,1h
+    add BX,AX
+    shl BX,1h
+    shl BX,1h
+    mov word ptr [BX + offset word_3C5AC],0h
+    mov AX,word ptr [_var_668]
+    mov word ptr [word_3A946],AX
+    mov word ptr [_var_668],0h
+    mov word ptr [BP + -22h],0h
+    jmp LAB_1000_74ee
+LAB_1000_6810:
+    mov word ptr [BP + -1eh],3h
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    test word ptr [BX + offset _stru_3B208 + 18],100h
+    jz LAB_1000_68a4
+    cmp word ptr [_word_336FC],-1h
+    jz LAB_1000_68a4
+    mov AX,24h
+    imul word ptr [_word_336FC]
+    mov SI,AX
+    push word ptr [SI + offset _stru_3B208 + 20]
+    mov AX,word ptr [BP + -22h]
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
+    mov CL,0bh
+    shl AX,CL
+    add AX,word ptr [SI + offset _stru_3B208 + 10]
+    sub AX,1800h
+    push AX
+    call _sub_1D178
+    add SP,4h
+    add AX,word ptr [SI + offset word_3B204]
+    mov word ptr [BP + -30h],AX
+    mov AX,24h
+    imul word ptr [_word_336FC]
+    mov SI,AX
+    push word ptr [SI + offset _stru_3B208 + 20]
+    mov AX,word ptr [BP + -22h]
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
+    mov CL,0bh
+    shl AX,CL
+    add AX,word ptr [SI + offset _stru_3B208 + 10]
+    sub AX,1800h
+    push AX
+    call _sub_1D190
+    add SP,4h
+    mov CX,word ptr [SI + offset word_3B206]
+    sub CX,AX
+    mov word ptr [BP + -36h],CX
+    mov AX,24h
+    imul word ptr [_word_336FC]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_3B208]
+    mov DX,word ptr [BP + -22h]
+    and DX,7h
+    mov CL,6h
+    shl DX,CL
+    add AX,DX
+    jmp LAB_1000_69f7
+    db 90h
+    db 90h
+LAB_1000_68a4:
+    mov AL,byte ptr [BP + -22h]
+    mov CL,3h
+    shl AL,CL
+    add AL,byte ptr [word_38FE0]
+    test AL,0bfh
+    jz LAB_1000_68b6
+    jmp LAB_1000_69bf
+LAB_1000_68b6:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    test byte ptr [SI + offset _stru_3B208 + 18],40h
+    jz LAB_1000_68c8
+    jmp LAB_1000_69bf
+LAB_1000_68c8:
+    mov word ptr [BP + -1ch],7fffh
+    mov AX,word ptr [SI + offset word_3B206]
+    sub AX,word ptr [_word_3BED0]
+    push AX
+    mov AX,word ptr [_word_3BEC0]
+    sub AX,word ptr [SI + offset word_3B204]
+    push AX
+    call _sub_1D008
+    add SP,4h
+    mov word ptr [BP + -8h],AX
+    mov word ptr [BP + -26h],0h
+    jmp LAB_1000_68f1
+LAB_1000_68ee:
+    inc word ptr [BP + -26h]
+LAB_1000_68f1:
+    cmp word ptr [BP + -26h],8h
+    jl LAB_1000_68fa
+    jmp LAB_1000_697e
+LAB_1000_68fa:
+    push word ptr [_word_3BED2]
+    call randlmul
+    add SP,2h
+    inc AX
+    mov word ptr [BP + -10h],AX
+    mov SI,AX
+    mov CL,4h
+    shl SI,CL
+    test word ptr [SI + offset _stru_3AA5E + 6],400h
+    jnz LAB_1000_68ee
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov DI,AX
+    mov AX,word ptr [DI + offset word_3B206]
+    sub AX,word ptr [SI + offset _stru_3AA5E + 2]
+    push AX
+    mov AX,word ptr [SI + offset _stru_3AA5E]
+    sub AX,word ptr [DI + offset word_3B204]
+    push AX
+    call _sub_1D008
+    add SP,4h
+    mov word ptr [BP + -4h],AX
+    mov AX,word ptr [BP + -8h]
+    sub AX,word ptr [BP + -4h]
+    push AX
+    call _abs
+    add SP,2h
+    cmp AX,word ptr [BP + -1ch]
+    jge LAB_1000_68ee
+    mov AX,word ptr [BP + -8h]
+    sub AX,word ptr [BP + -4h]
+    push AX
+    call _abs
+    add SP,2h
+    mov word ptr [BP + -1ch],AX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AX,word ptr [BP + -10h]
+    mov word ptr [BX + offset _unk_3B202],AX
+    mov AX,word ptr [word_330B8]
+    mov CL,0ch
+    shl AX,CL
+    sub AX,4000h
+    neg AX
+    cmp AX,word ptr [BP + -1ch]
+    jg LAB_1000_697e
+    jmp LAB_1000_68ee
+LAB_1000_697e:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    mov AX,word ptr [_word_3BED0]
+    sub AX,word ptr [SI + offset word_3B206]
+    push AX
+    mov AX,word ptr [_word_3BEC0]
+    sub AX,word ptr [SI + offset word_3B204]
+    push AX
+    call _sub_1CFA6
+    add SP,4h
+    mov CL,6h
+    shr AX,CL
+    cmp AX,15eh
+    jbe LAB_1000_69bf
+    cmp word ptr [BP + -22h],0h
+    jz LAB_1000_69bf
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    and word ptr [SI + offset _stru_3B208 + 18],1c1h
+    mov word ptr [SI + offset _stru_3B208 + 22],0h
+LAB_1000_69bf:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _unk_3B202]
+    mov word ptr [BP + -10h],AX
+    mov SI,AX
+    mov CL,4h
+    shl SI,CL
+    mov AX,word ptr [SI + offset _stru_3AA5E]
+    mov word ptr [BP + -30h],AX
+    mov AX,word ptr [SI + offset _stru_3AA5E + 2]
+    mov word ptr [BP + -36h],AX
+    mov AX,4e20h
+    push AX
+    mov AX,1388h
+    push AX
+    mov AX,word ptr [_var_547]
+    add AX,3e8h
+    push AX
+LAB_1000_69f1:
+    call _sub_1CF64
+    add SP,6h
+LAB_1000_69f7:
+    mov word ptr [BP + -3ah],AX
+    jmp LAB_1000_6a96
+    db 90h
+LAB_1000_69fe:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    mov DI,word ptr [SI + offset _unk_3B202]
+    mov CL,4h
+    shl DI,CL
+    mov AX,word ptr [DI + offset _stru_3AA5E]
+    mov word ptr [BP + -30h],AX
+    test word ptr [SI + offset _stru_3B208 + 18],200h
+    jz LAB_1000_6a56
+    mov AX,word ptr [SI + offset word_3B204]
+    sub AX,word ptr [BP + -30h]
+    mov word ptr [BP + -3ah],AX
+    mov AX,word ptr [DI + offset _stru_3AA5E + 2]
+    mov word ptr [BP + -36h],AX
+    mov AX,word ptr [BP + -3ah]
+    shl AX,1h
+    sub word ptr [BP + -30h],AX
+    push word ptr [BP + -3ah]
+    call _abs
+    add SP,2h
+    mov CX,word ptr [DI + offset _stru_3AA5E + 6]
+    add CX,AX
+    test CX,200h
+    jz LAB_1000_6a50
+    mov AX,8ch
+    jmp LAB_1000_6a8e
+LAB_1000_6a50:
+    mov AX,0ch
+    jmp LAB_1000_6a8e
+    db 90h
+LAB_1000_6a56:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    mov AX,500h
+    imul word ptr [word_3AFA8]
+    mov BX,word ptr [SI + offset _unk_3B202]
+    mov CL,4h
+    shl BX,CL
+    mov CX,word ptr [BX + offset _stru_3AA5E + 2]
+    add CX,AX
+    mov word ptr [BP + -36h],CX
+    mov AX,word ptr [SI + offset word_3B206]
+    sub AX,CX
+    push AX
+    mov AX,word ptr [SI + offset word_3B204]
+    sub AX,word ptr [BP + -30h]
+    push AX
+    call _sub_1CFA6
+    add SP,4h
+    add AX,7d0h
+LAB_1000_6a8e:
+    mov word ptr [BP + -3ah],AX
+    mov word ptr [BP + -1eh],2h
+LAB_1000_6a96:
+    cmp word ptr [BP + -1eh],3h
+    jnz LAB_1000_6abe
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    test byte ptr [SI + offset _stru_3B208 + 18],8h
+    jz LAB_1000_6abe
+    mov AX,word ptr [_word_3BEC0]
+    mov word ptr [BP + -30h],AX
+    mov AX,word ptr [_word_3BED0]
+    mov word ptr [BP + -36h],AX
+    mov AX,word ptr [SI + offset _stru_3B208]
+    mov word ptr [BP + -3ah],AX
+LAB_1000_6abe:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    mov AX,word ptr [BP + -30h]
+    sub AX,word ptr [SI + offset word_3B204]
+    mov word ptr [BP + -2eh],AX
+    mov AX,word ptr [BP + -36h]
+    sub AX,word ptr [SI + offset word_3B206]
+    mov word ptr [BP + -34h],AX
+    neg AX
+    push AX
+    push word ptr [BP + -2eh]
+    call _sub_1D008
+    add SP,4h
+    mov word ptr [BP + -0ch],AX
+    push word ptr [BP + -34h]
+    push word ptr [BP + -2eh]
+    call _sub_1CFA6
+    add SP,4h
+    mov word ptr [BP + -1ah],AX
+    push AX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AX,word ptr [BP + -3ah]
+    sub AX,word ptr [BX + offset _stru_3B208]
+    mov CL,5h
+    sar AX,CL
+    push AX
+    call _sub_1D008
+    add SP,4h
+    mov word ptr [BP + -2h],AX
+    mov AX,1000h
+    push AX
+    mov AX,0e000h
+    push AX
+    push word ptr [BP + -2h]
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [BP + -2h],AX
+    cmp word ptr [BP + -1eh],1h
+    jz LAB_1000_6b33
+    jmp LAB_1000_6dd6
+LAB_1000_6b33:
+    cmp word ptr [BP + -1ah],600h
+    jc LAB_1000_6b3d
+    jmp LAB_1000_6dd6
+LAB_1000_6b3d:
+    inc word ptr [_var_668]
+    cmp word ptr [BP + -1ah],400h
+    jc LAB_1000_6b4b
+    jmp LAB_1000_6c6d
+LAB_1000_6b4b:
+    test byte ptr [_word_336E8],3h
+    jz LAB_1000_6b55
+    jmp LAB_1000_6c6d
+LAB_1000_6b55:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_3B208 + 10]
+    sub AX,word ptr [BP + -0ch]
+    push AX
+    call _abs
+    add SP,2h
+    cmp AX,800h
+    jl LAB_1000_6b73
+    jmp LAB_1000_6c6d
+LAB_1000_6b73:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_3B208 + 12]
+    sub AX,word ptr [BP + -2h]
+    push AX
+    call _abs
+    add SP,2h
+    cmp AX,800h
+    jl LAB_1000_6b91
+    jmp LAB_1000_6c6d
+LAB_1000_6b91:
+    mov AX,word ptr [_word_336E8]
+    sar AX,1h
+    sar AX,1h
+    db 25h, 03h, 00h ; and AX,3h (force imm16 encoding)
+    add AX,word ptr [word_3AFA4]
+    mov word ptr [BP + -2ah],AX
+    mov AX,138h
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    mov word ptr [BP + -28h],AX
+    push AX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_3B208 + 12]
+    neg AX
+    push AX
+    call _sub_1D178
+    add SP,4h
+    mov CL,5h
+    shl AX,CL
+    mov BX,word ptr [BP + -2ah]
+    mov CX,BX
+    shl BX,1h
+    add BX,CX
+    shl BX,1h
+    shl BX,1h
+    mov word ptr [BX + offset word_3C5B6],AX
+    push word ptr [BP + -28h]
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    push word ptr [BX + offset _stru_3B208 + 12]
+    call _sub_1D190
+    add SP,4h
+    mov word ptr [BP + -28h],AX
+    push AX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    push word ptr [BX + offset _stru_3B208 + 10]
+    call _sub_1D178
+    add SP,4h
+    mov BX,word ptr [BP + -2ah]
+    mov CX,BX
+    shl BX,1h
+    add BX,CX
+    shl BX,1h
+    shl BX,1h
+    mov word ptr [BX + offset word_3C5B2],AX
+    push word ptr [BP + -28h]
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    push word ptr [BX + offset _stru_3B208 + 10]
+    call _sub_1D190
+    add SP,4h
+    neg AX
+    mov BX,word ptr [BP + -2ah]
+    mov CX,BX
+    shl BX,1h
+    add BX,CX
+    shl BX,1h
+    shl BX,1h
+    mov word ptr [BX + offset word_3C5B4],AX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    mov AX,word ptr [BP + -2ah]
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    shl AX,1h
+    shl AX,1h
+    mov DI,AX
+    mov AX,word ptr [SI + offset word_3B204]
+    mov word ptr [DI + offset word_3C5AC],AX
+    mov AX,word ptr [SI + offset word_3B206]
+    mov word ptr [DI + offset word_3C5AE],AX
+    mov AX,word ptr [SI + offset _stru_3B208]
+    mov word ptr [DI + offset word_3C5B0],AX
+LAB_1000_6c6d:
+    mov AX,2h
+    push AX
+    sub AX,AX
+    push AX
+    mov AX,word ptr [BP + -22h]
+    db 25h, 03h, 00h ; and AX,3h (force imm16 encoding)
+    add AX,word ptr [word_330B8]
+    push AX
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [BP + -6h],AX
+    cmp word ptr [BP + -22h],0h
+    jnz LAB_1000_6c93
+    mov word ptr [BP + -6h],1h
+LAB_1000_6c93:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    mov AX,word ptr [SI + offset _stru_3B208 + 10]
+    mov word ptr [BP + -14h],AX
+    push word ptr [SI + offset _stru_3B208 + 14]
+    call _abs
+    add SP,2h
+    cmp AX,4000h
+    jge LAB_1000_6cc4
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_3B208 + 14]
+    sar AX,1h
+    sar AX,1h
+    add word ptr [BP + -14h],AX
+LAB_1000_6cc4:
+    mov AX,word ptr [BP + -0ch]
+    sub AX,word ptr [BP + -14h]
+    mov CL,0dh
+    sar AX,CL
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
+    mov word ptr [BP + -0ah],AX
+    mov AX,word ptr [_var_542]
+    mov word ptr [BP + -14h],AX
+    push word ptr [_var_545]
+    call _abs
+    add SP,2h
+    cmp AX,4000h
+    jge LAB_1000_6cf1
+    mov AX,word ptr [_var_545]
+    sar AX,1h
+    add word ptr [BP + -14h],AX
+LAB_1000_6cf1:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_3B208 + 10]
+    sub AX,word ptr [BP + -14h]
+    mov CL,0dh
+    sar AX,CL
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
+    mov word ptr [BP + -12h],AX
+    mov DI,word ptr [BP + -6h]
+    mov CL,7h
+    shl DI,CL
+    mov AX,word ptr [BP + -0ah]
+    mov CL,4h
+    shl AX,CL
+    add DI,AX
+    mov BX,word ptr [BP + -12h]
+    shl BX,1h
+    mov SI,word ptr [BX + DI + offset word_33442 + 2]
+    mov AX,SI
+    db 25h, 0Fh, 00h ; and AX,0fh (force imm16 encoding)
+    mov CL,0ch
+    shl AX,CL
+    mov word ptr [BP + -32h],AX
+    cmp SI,100h
+    jnz LAB_1000_6d51
+    mov word ptr [BP + -2h],6000h
+    mov AX,word ptr [_word_336E8]
+    mov CL,8h
+    sar AX,CL
+    db 25h, 08h, 00h ; and AX,8h (force imm16 encoding)
+    mov CL,0ch
+    shl AX,CL
+    sub AX,4000h
+    mov word ptr [BP + -32h],AX
+LAB_1000_6d51:
+    mov SI,word ptr [BP + -6h]
+    mov CL,7h
+    shl SI,CL
+    mov AX,word ptr [BP + -0ah]
+    mov CL,4h
+    shl AX,CL
+    add SI,AX
+    mov BX,word ptr [BP + -12h]
+    shl BX,1h
+    cmp word ptr [BX + SI + offset word_33442 + 2],200h
+    jnz LAB_1000_6d89
+    mov word ptr [BP + -2h],0a000h
+    mov AX,word ptr [_word_336E8]
+    mov CL,8h
+    sar AX,CL
+    db 25h, 08h, 00h ; and AX,8h (force imm16 encoding)
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
+    neg AX
+    mov CL,0ch
+    shl AX,CL
+    mov word ptr [BP + -32h],AX
+LAB_1000_6d89:
+    cmp word ptr [BP + -2h],0a000h
+    jnz LAB_1000_6db5
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    mov AX,word ptr [SI + offset _stru_3B208 + 12]
+    mov CL,3h
+    sar AX,CL
+    sub AX,0bb8h
+    neg AX
+    cmp AX,word ptr [SI + offset _stru_3B208]
+    jle LAB_1000_6db5
+    mov AX,word ptr [SI + offset _stru_3B208 + 12]
+    add AH,10h
+    mov word ptr [BP + -2h],AX
+LAB_1000_6db5:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    push word ptr [BX + offset _stru_3B208 + 14]
+    call _abs
+    add SP,2h
+    cmp AX,4000h
+    jle LAB_1000_6e0e
+    sub AX,AX
+    mov word ptr [BP + -32h],AX
+    mov word ptr [BP + -2h],AX
+    jmp LAB_1000_6e0e
+LAB_1000_6dd6:
+    mov AX,3000h
+    push AX
+    mov AX,0d000h
+    push AX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AX,word ptr [BP + -0ch]
+    sub AX,word ptr [BX + offset _stru_3B208 + 10]
+    push AX
+    call _sub_1CF64
+    add SP,6h
+    shl AX,1h
+    mov word ptr [BP + -32h],AX
+    cmp word ptr [BP + -1eh],1h
+    jnz LAB_1000_6e0e
+    mov AX,word ptr [word_330B8]
+    inc AX
+    cmp AX,word ptr [word_3A946]
+    jg LAB_1000_6e0e
+    mov word ptr [BP + -32h],3000h
+LAB_1000_6e0e:
+    cmp word ptr [BP + -1eh],1h
+    jnz LAB_1000_6e31
+    mov BX,word ptr [_word_3C16A]
+    mov CL,4h
+    shl BX,CL
+    test word ptr [BX + offset _stru_3AA5E + 6],400h
+    jz LAB_1000_6e31
+    cmp word ptr [word_38FEE],780h
+    jge LAB_1000_6e31
+    mov word ptr [BP + -32h],3000h
+LAB_1000_6e31:
+    mov BX,word ptr [_var_667]
+    mov CL,5h
+    shl BX,CL
+    mov SI,word ptr [BX + offset aFlogger + 14]
+    mov AX,SI
+    mov CL,0ch
+    shl AX,CL
+    push AX
+    mov AX,SI
+    neg AX
+    shl AX,CL
+    push AX
+    push word ptr [BP + -32h]
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [BP + -32h],AX
+    mov BX,word ptr [_var_667]
+    mov CL,5h
+    shl BX,CL
+    mov SI,word ptr [BX + offset aFlogger + 14]
+    mov AX,SI
+    mov CL,8h
+    shl AX,CL
+    push AX
+    mov AX,SI
+    neg AX
+    mov CH,AL
+    sub CL,CL
+    push CX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AX,word ptr [BP + -32h]
+    sub AX,word ptr [BX + offset _stru_3B208 + 14]
+    push AX
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [BP + -32h],AX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    test word ptr [SI + offset _stru_3B208 + 18],400h
+    jz LAB_1000_6efd
+    cmp word ptr [SI + offset _stru_3B208 + 20],96h
+    jge LAB_1000_6eac
+    mov word ptr [SI + offset _stru_3B208 + 12],0h
+    jmp LAB_1000_6eb9
+LAB_1000_6eac:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    add byte ptr [BX + offset _stru_3B208 + 13],1h
+LAB_1000_6eb9:
+    mov word ptr [BP + -32h],0h
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    add SI,896ch
+    mov BX,word ptr [_var_667]
+    mov CL,5h
+    shl BX,CL
+    mov AX,word ptr [SI]
+    cmp word ptr [BX + offset aFlogger + 10],AX
+    jle LAB_1000_6ee8
+    mov AX,3ch
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    add word ptr [SI],AX
+    jmp LAB_1000_6efd
+LAB_1000_6ee8:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    cmp word ptr [SI + offset _stru_3B208],12ch
+    jle LAB_1000_6efd
+    and byte ptr [SI + offset _stru_3B208 + 19],0fbh
+LAB_1000_6efd:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    test byte ptr [BX + offset _stru_3B208 + 18],30h
+    jz LAB_1000_6f11
+    mov word ptr [BP + -32h],400h
+LAB_1000_6f11:
+    mov AL,byte ptr [BP + -22h]
+    and AL,3h
+    mov CL,byte ptr [_word_336E8]
+    and CL,3h
+    cmp AL,CL
+    jnz LAB_1000_6f5f
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    push word ptr [SI + offset _stru_3B208]
+    push word ptr [SI + offset word_3B206]
+    push word ptr [SI + offset word_3B204]
+    call sub_18DF4
+    add SP,6h
+    cmp byte ptr [_var_315],0h
+    jz LAB_1000_6f52
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    or byte ptr [BX + offset _stru_3B208 + 19],20h
+    jmp LAB_1000_6f5f
+    db 90h
+LAB_1000_6f52:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    and byte ptr [BX + offset _stru_3B208 + 19],0dfh
+LAB_1000_6f5f:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    test word ptr [BX + offset _stru_3B208 + 18],2000h
+    jz LAB_1000_6f74
+    mov word ptr [BP + -2h],3000h
+LAB_1000_6f74:
+    cmp word ptr [word_38FE0],0ah
+    jge LAB_1000_6f80
+    mov CL,2h
+    sar word ptr [BP + -32h],CL
+LAB_1000_6f80:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    mov CX,word ptr [word_330B8]
+    add CX,2h
+    mov AX,word ptr [BP + -32h]
+    imul CX
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    add word ptr [SI + offset _stru_3B208 + 14],AX
+    mov AX,word ptr [SI + offset _stru_3B208 + 14]
+    mov CL,3h
+    sar AX,CL
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    add word ptr [SI + offset _stru_3B208 + 10],AX
+    mov AX,word ptr [BP + -2h]
+    sub AX,word ptr [SI + offset _stru_3B208 + 12]
+    mov word ptr [BP + -2ch],AX
+    test byte ptr [SI + offset _stru_3B208 + 18],20h
+    jz LAB_1000_701d
+    mov word ptr [BP + -2ch],0fe00h
+    test byte ptr [_word_336E8],3h
+    jnz LAB_1000_701d
+    mov AX,word ptr [_word_336E8]
+    sar AX,1h
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
+    mov word ptr [BP + -3ch],AX
+    mov BX,AX
+    mov CL,3h
+    shl BX,CL
+    mov AX,word ptr [SI + offset word_3B204]
+    mov word ptr [BX + offset stru_33402],AX
+    mov SI,word ptr [BP + -3ch]
+    shl SI,CL
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov DI,AX
+    mov AX,word ptr [DI + offset word_3B206]
+    mov word ptr [SI + offset stru_33402 + 2],AX
+    mov AX,word ptr [DI + offset _stru_3B208]
+    mov word ptr [SI + offset stru_33402 + 4],AX
+    mov AX,20h
+    push AX
+    call randlmul
+    add SP,2h
+    mov CL,0bh
+    shl AX,CL
+    mov word ptr [SI + offset stru_33402 + 6],AX
+    mov AX,word ptr [BP + -3ch]
+    mov word ptr [word_33442],AX
+LAB_1000_701d:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    cmp word ptr [SI + offset _stru_3B208 + 12],0h
+    jge LAB_1000_705a
+    mov AX,7d0h
+    push AX
+    push word ptr [SI + offset _stru_3B208 + 12]
+    call _sub_1D178
+    add SP,4h
+    db 2Dh, 0C8h, 00h ; sub AX,0c8h (force imm16 encoding)
+    neg AX
+    cmp AX,word ptr [SI + offset _stru_3B208]
+    jle LAB_1000_705a
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    test word ptr [BX + offset _stru_3B208 + 18],220h
+    jnz LAB_1000_705a
+    mov word ptr [BP + -2ch],400h
+LAB_1000_705a:
+    mov AX,400h
+    push AX
+    mov AX,0fc00h
+    push AX
+    push word ptr [BP + -2ch]
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [BP + -2ch],AX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    add SI,8964h
+    mov AX,word ptr [BP + -2ch]
+    shl AX,1h
+    shl AX,1h
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    add word ptr [SI],AX
+    push word ptr [SI]
+    call _abs
+    add SP,2h
+    cmp AX,4000h
+    jle LAB_1000_70b4
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    add byte ptr [SI + offset _stru_3B208 + 11],80h
+    add byte ptr [SI + offset _stru_3B208 + 15],80h
+    mov AX,8000h
+    sub AX,word ptr [SI + offset _stru_3B208 + 12]
+    mov word ptr [SI + offset _stru_3B208 + 12],AX
+LAB_1000_70b4:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    and byte ptr [SI + offset _stru_3B208 + 18],0efh
+    mov AX,word ptr [SI + offset _stru_3B208 + 20]
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [SI + offset _stru_3B208 + 12]
+    cwd
+    sub AX,DX
+    sar AX,1h
+    sub AX,8000h
+    neg AX
+    sub CX,CX
+    push CX
+    push AX
+    call __aNlmul
+    mov CL,0eh
+LAB_1000_70df:
+    shr DX,1h
+    rcr AX,1h
+    dec CL
+    jnz LAB_1000_70df
+    mov word ptr [BP + -20h],AX
+    push AX
+    push word ptr [SI + offset _stru_3B208 + 14]
+    call _sub_1D178
+    add SP,4h
+    push AX
+    call _abs
+    add SP,2h
+    sar AX,1h
+    sub word ptr [BP + -20h],AX
+    mov AX,word ptr [BP + -20h]
+    shl AX,1h
+    shl AX,1h
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    mov word ptr [BP + -20h],AX
+    mov CL,2h
+    sar word ptr [BP + -20h],CL
+    push word ptr [BP + -20h]
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    push word ptr [BX + offset _stru_3B208 + 12]
+    call _sub_1D190
+    add SP,4h
+    mov word ptr [BP + -38h],AX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    push word ptr [BP + -38h]
+    push word ptr [SI + offset _stru_3B208 + 10]
+    call _sub_1D178
+    add SP,4h
+    cwd
+    add word ptr [SI + offset _stru_3B208 + 2],AX
+    adc word ptr [SI + offset _stru_3B208 + 4],DX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    push word ptr [BP + -38h]
+    push word ptr [SI + offset _stru_3B208 + 10]
+    call _sub_1D190
+    add SP,4h
+    cwd
+    sub word ptr [SI + offset _stru_3B208 + 6],AX
+    sbb word ptr [SI + offset _stru_3B208 + 8],DX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    push word ptr [BP + -20h]
+    push word ptr [SI + offset _stru_3B208 + 12]
+    call _sub_1D178
+    add SP,4h
+    add word ptr [SI + offset _stru_3B208],AX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    mov AX,word ptr [SI + offset _stru_3B208 + 2]
+    mov DX,word ptr [SI + offset _stru_3B208 + 4]
+    mov CL,5h
+LAB_1000_7196:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jnz LAB_1000_7196
+    mov word ptr [SI + offset word_3B204],AX
+    mov AX,word ptr [SI + offset _stru_3B208 + 6]
+    mov DX,word ptr [SI + offset _stru_3B208 + 8]
+    mov CL,5h
+LAB_1000_71ac:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jnz LAB_1000_71ac
+    mov word ptr [SI + offset word_3B206],AX
+    cmp word ptr [SI + offset _stru_3B208],7530h
+    jle LAB_1000_71ce
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov word ptr [BX + offset _stru_3B208 + 12],0h
+LAB_1000_71ce:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    cmp word ptr [SI + offset _stru_3B208],0h
+    jge LAB_1000_7217
+    cmp word ptr [BP + -22h],0h
+    jz LAB_1000_71e8
+    mov AX,1c1h
+    jmp LAB_1000_71ea
+LAB_1000_71e8:
+    sub AX,AX
+LAB_1000_71ea:
+    and word ptr [SI + offset _stru_3B208 + 18],AX
+    mov AX,word ptr [SI + offset word_3B204]
+    mov word ptr [word_3BEBC],AX
+    mov AX,word ptr [SI + offset word_3B206]
+    mov word ptr [word_3BEC8],AX
+    mov AX,word ptr [SI + offset _stru_3B208]
+    mov word ptr [word_3BECE],AX
+    mov word ptr [word_39606],0fff8h
+    mov AX,word ptr [_word_336F2]
+    cmp word ptr [BP + -22h],AX
+    jnz LAB_1000_7217
+    mov word ptr [_word_336F2],0ffffh
+LAB_1000_7217:
+    cmp word ptr [BP + -1ah],10h
+    jnc LAB_1000_7249
+    cmp word ptr [BP + -1eh],2h
+    jnz LAB_1000_7249
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    add SI,896ah
+    test word ptr [SI],200h
+    jz LAB_1000_723c
+    or byte ptr [SI + 1h],10h
+    jmp LAB_1000_7249
+    db 90h
+LAB_1000_723c:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    or byte ptr [BX + offset _stru_3B208 + 19],2h
+LAB_1000_7249:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    test word ptr [SI + offset _stru_3B208 + 18],1000h
+    jnz LAB_1000_725c
+    jmp LAB_1000_72ef
+LAB_1000_725c:
+    sub AX,AX
+    mov word ptr [SI + offset _stru_3B208 + 12],AX
+    mov word ptr [SI + offset _stru_3B208 + 14],AX
+    cmp word ptr [word_3AFA8],1h
+    jz LAB_1000_7270
+    mov AX,8000h
+LAB_1000_7270:
+    mov word ptr [SI + offset _stru_3B208 + 10],AX
+    mov BX,word ptr [_word_3C16A]
+    mov CL,4h
+    shl BX,CL
+    test word ptr [BX + offset _stru_3AA5E + 6],200h
+    jz LAB_1000_728a
+    mov AX,8ch
+    jmp LAB_1000_728d
+    db 90h
+LAB_1000_728a:
+    mov AX,0ch
+LAB_1000_728d:
+    mov word ptr [SI + offset _stru_3B208],AX
+    cmp word ptr [SI + offset _stru_3B208 + 20],0h
+    jle LAB_1000_72a8
+    mov AX,78h
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    sub word ptr [SI + offset _stru_3B208 + 20],AX
+    jmp LAB_1000_72c9
+LAB_1000_72a8:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    add SI,896ah
+    and word ptr [SI],1c1h
+    cmp word ptr [BP + -22h],0h
+    jnz LAB_1000_72c9
+    cmp word ptr [_word_3B144],5h
+    jl LAB_1000_72c9
+    mov word ptr [SI],0h
+LAB_1000_72c9:
+    mov AX,word ptr [_word_3C046]
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
+    cmp word ptr [BP + -22h],AX
+    jl LAB_1000_72ef
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    cmp word ptr [SI + offset _stru_3B208 + 20],64h
+    jge LAB_1000_72ef
+    and word ptr [SI + offset _stru_3B208 + 18],1c1h
+    or word ptr [SI + offset _stru_3B208 + 18],406h
+LAB_1000_72ef:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    dec word ptr [SI + offset _stru_3B208 + 22]
+    jnz LAB_1000_736c
+    or byte ptr [SI + offset _stru_3B208 + 18],4h
+    mov word ptr [BP + -1ch],7fffh
+    mov word ptr [BP + -26h],3h
+    jmp LAB_1000_7364
+LAB_1000_730e:
+    mov SI,word ptr [BP + -26h]
+    mov CL,4h
+    shl SI,CL
+    mov AX,word ptr [SI + offset _stru_3AA5E + 6]
+    and AX,101h
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
+    jnz LAB_1000_7361
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov DI,AX
+    mov AX,word ptr [DI + offset word_3B206]
+    sub AX,word ptr [SI + offset _stru_3AA5E + 2]
+    push AX
+    mov AX,word ptr [DI + offset word_3B204]
+    sub AX,word ptr [SI + offset _stru_3AA5E]
+    push AX
+    call _sub_1CFA6
+    add SP,4h
+    mov word ptr [BP + -3ch],AX
+    mov AX,word ptr [BP + -1ch]
+    cmp word ptr [BP + -3ch],AX
+    jge LAB_1000_7361
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AX,word ptr [BP + -26h]
+    mov word ptr [BX + offset _unk_3B202],AX
+    mov AX,word ptr [BP + -3ch]
+    mov word ptr [BP + -1ch],AX
+LAB_1000_7361:
+    inc word ptr [BP + -26h]
+LAB_1000_7364:
+    mov AX,word ptr [_word_3C69E]
+    cmp word ptr [BP + -26h],AX
+    jl LAB_1000_730e
+LAB_1000_736c:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    push word ptr [SI + offset word_3B206]
+    push word ptr [SI + offset word_3B204]
+    call sub_19A4D
+    add SP,4h
+    mov word ptr [SI + offset _stru_3B208 + 26],AX
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AL,byte ptr [BX + offset _stru_3B208 + 18]
+    mov byte ptr [BP + -40h],AL
+    test byte ptr [BP + -40h],2h
+    jnz LAB_1000_739e
+    jmp LAB_1000_74eb
+LAB_1000_739e:
+    mov AL,byte ptr [BP + -22h]
+    sub AH,AH
+    db 25h, 08h, 00h ; and AX,8h (force imm16 encoding)
+    mov CL,3h
+    shr AX,CL
+    mov CX,word ptr [BP + -22h]
+    and CX,7h
+    shl CX,1h
+    add AX,CX
+    mov word ptr [BP + -24h],AX
+    mov AX,word ptr [_word_336E8]
+    cwd
+    mov BX,word ptr [_word_330C4]
+    mov CL,4h
+    shl BX,CL
+    idiv BX
+    mov AX,word ptr [BP + -24h]
+    mov CX,DX
+    imul word ptr [_word_330C4]
+    cmp AX,CX
+    jz LAB_1000_73d5
+    jmp LAB_1000_74eb
+LAB_1000_73d5:
+    test byte ptr [BP + -40h],20h
+    jz LAB_1000_73de
+    jmp LAB_1000_74eb
+LAB_1000_73de:
+    push word ptr [BP + -22h]
+    call sub_17594
+    add SP,2h
+    jmp LAB_1000_74eb
+LAB_1000_73ea:
+    mov AL,byte ptr [BP + -22h]
+    and AL,7h
+    mov DX,word ptr [word_38FE0]
+    mov CL,4h
+    sar DX,CL
+    and DL,7h
+    cmp AL,DL
+    jz LAB_1000_7401
+    jmp LAB_1000_74eb
+LAB_1000_7401:
+    mov AX,word ptr [_word_3C046]
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
+    cmp word ptr [BP + -22h],AX
+    jl LAB_1000_740f
+    jmp LAB_1000_74eb
+LAB_1000_740f:
+    cmp word ptr [BP + -22h],0h
+    jnz LAB_1000_7418
+    jmp LAB_1000_74eb
+LAB_1000_7418:
+    mov AX,0e0h
+    cwd
+    mov CX,word ptr [word_330B8]
+    add CX,2h
+    idiv CX
+    mov CX,word ptr [word_38FE0]
+    sub CX,word ptr [_var_556]
+    cmp CX,AX
+    jg LAB_1000_7434
+    jmp LAB_1000_74eb
+LAB_1000_7434:
+    push word ptr [_word_3C69E]
+    call randlmul
+    add SP,2h
+    mov word ptr [BP + -10h],AX
+    cmp word ptr [word_336F0],0h
+    jnz LAB_1000_745a
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    test byte ptr [BX + offset _stru_3B208 + 18],80h
+    jnz LAB_1000_745a
+    jmp LAB_1000_74eb
+LAB_1000_745a:
+    mov SI,word ptr [BP + -10h]
+    mov CL,4h
+    shl SI,CL
+    mov AX,word ptr [SI + offset _stru_3AA5E + 6]
+    and AX,181h
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
+    jnz LAB_1000_74eb
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov BX,AX
+    mov AX,word ptr [SI + offset _stru_3AA5E + 8]
+    cmp word ptr [BX + offset _stru_3B208 + 16],AX
+    jnz LAB_1000_74eb
+    mov AX,word ptr [word_330B8]
+    shl AX,1h
+    cmp AX,word ptr [word_3A946]
+    jl LAB_1000_74eb
+    mov AX,word ptr [word_3B4D8]
+    sub AX,word ptr [SI + offset _stru_3AA5E]
+    mov word ptr [BP + -2eh],AX
+    mov AX,word ptr [word_3B4E0]
+    sub AX,word ptr [SI + offset _stru_3AA5E + 2]
+    mov word ptr [BP + -34h],AX
+    push AX
+    push word ptr [BP + -2eh]
+    call _sub_1CFA6
+    add SP,4h
+    mov CL,6h
+    shr AX,CL
+    mov word ptr [BP + -1ah],AX
+    mov BX,word ptr [_var_667]
+    mov CL,5h
+    shl BX,CL
+    mov AX,word ptr [BX + offset aFlogger + 12]
+    mov word ptr [BP + -0eh],AX
+    cwd
+    sub AX,DX
+    sar AX,1h
+    cmp AX,word ptr [BP + -1ah]
+    jbe LAB_1000_74eb
+    mov AX,word ptr [word_38FE0]
+    mov word ptr [_var_556],AX
+    push word ptr [BP + -10h]
+    push word ptr [BP + -22h]
+    call sub_1783A
+    add SP,4h
+    mov AX,2h
+    push AX
+    mov AX,word ptr [BP + -22h]
+    db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
+    push AX
+    call sub_11BC3
+    add SP,4h
+LAB_1000_74eb:
+    inc word ptr [BP + -22h]
+LAB_1000_74ee:
+    mov AX,word ptr [_word_3C046]
+    cmp word ptr [BP + -22h],AX
+    jl LAB_1000_74f9
+    jmp LAB_1000_758e
+LAB_1000_74f9:
+    mov AX,24h
+    imul word ptr [BP + -22h]
+    mov SI,AX
+    test byte ptr [SI + offset _stru_3B208 + 18],1h
+    jz LAB_1000_74eb
+    mov AX,word ptr [SI + offset _stru_3B208 + 16]
+    mov word ptr [_var_667],AX
+    test byte ptr [SI + offset _stru_3B208 + 18],2h
+    jnz LAB_1000_7519
+    jmp LAB_1000_73ea
+LAB_1000_7519:
+    cmp word ptr [SI + offset _stru_3B208 + 20],0h
+    jnz LAB_1000_7523
+    jmp LAB_1000_73ea
+LAB_1000_7523:
+    mov word ptr [BP + -1eh],0h
+    test byte ptr [SI + offset _stru_3B208 + 18],4h
+    jz LAB_1000_7532
+    jmp LAB_1000_69fe
+LAB_1000_7532:
+    cmp word ptr [word_336F0],0h
+    jnz LAB_1000_753c
+    jmp LAB_1000_6810
+LAB_1000_753c:
+    test word ptr [SI + offset _stru_3B208 + 18],140h
+    jz LAB_1000_7550
+    mov AX,word ptr [word_3995C]
+    cmp word ptr [word_336F0],AX
+    jg LAB_1000_7550
+    jmp LAB_1000_6810
+LAB_1000_7550:
+    mov AX,word ptr [word_3B4D8]
+    mov word ptr [BP + -30h],AX
+    mov AX,word ptr [word_3B4E0]
+    mov word ptr [BP + -36h],AX
+    mov AX,word ptr [word_3B5D6]
+    mov word ptr [BP + -3ah],AX
+    mov word ptr [BP + -1eh],1h
+    cmp word ptr [word_333DA],0h
+    jnz LAB_1000_7571
+    jmp LAB_1000_6a96
+LAB_1000_7571:
+    mov AX,word ptr [word_333D2]
+    mov word ptr [BP + -30h],AX
+    mov AX,word ptr [word_333D4]
+    mov word ptr [BP + -36h],AX
+    mov AX,7530h
+    push AX
+    mov AX,3e8h
+    push AX
+    push word ptr [_var_547]
+    jmp LAB_1000_69f1
+    db 90h
+    db 90h
+LAB_1000_758e:
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
 sub_167B4 endp
 ; ------------------------------seg000:0x7593------------------------------
 ; ------------------------------seg000:0x7594------------------------------
 sub_17594 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,20h
+    push DI
+    push SI
+    mov BX,word ptr [_var_667]
+    mov CL,5h
+    shl BX,CL
+    mov AX,word ptr [BX + offset aFlogger + 16]
+    mov word ptr [BP + -14h],AX
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov SI,AX
+    lea AX,[BP + -10h]
+    push AX
+    lea AX,[BP + -0ah]
+    push AX
+    push word ptr [BP + -14h]
+    push word ptr [SI + offset _stru_3B208]
+    push word ptr [SI + offset word_3B206]
+    push word ptr [SI + offset word_3B204]
+    call sub_1660E
+    add SP,0ch
+    mov word ptr [BP + -1ch],AX
+    mov word ptr [word_336FA],4h
+    mov AX,word ptr [BP + -10h]
+    cmp word ptr [BP + -1ch],AX
+    ja LAB_1000_75e4
+    jmp LAB_1000_7804
+LAB_1000_75e4:
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov SI,AX
+    mov AX,word ptr [word_330BA]
+    add AX,word ptr [word_330B8]
+    mov CL,4h
+    shl AX,CL
+    db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
+    mov CL,byte ptr [_planeFlags]
+    and CL,10h
+    mov DX,CX
+    cmp DL,1h
+    sbb CX,CX
+    inc CX
+    sar AX,CL
+    add word ptr [SI + offset _stru_3B208 + 28],AX
+    cmp word ptr [SI + offset _stru_3B208 + 28],0c0h
+    jg LAB_1000_761a
+    jmp LAB_1000_77f5
+LAB_1000_761a:
+    inc word ptr [word_3C09C]
+    or byte ptr [SI + offset _stru_3B208 + 19],40h
+    call sub_166BE
+    mov AX,word ptr [BP + 4h]
+    cwd
+    mov CX,word ptr [word_330B8]
+    inc CX
+    idiv CX
+    mov word ptr [BP + -16h],DX
+    mov AX,word ptr [word_330B8]
+    shl AX,1h
+    cmp AX,word ptr [word_3A946]
+    jge LAB_1000_7642
+    jmp LAB_1000_77f5
+LAB_1000_7642:
+    mov AX,18h
+    imul DX
+    mov BX,AX
+    cmp word ptr [BX + offset _stru_335C4 + 14],0h
+    jz LAB_1000_7653
+    jmp LAB_1000_77f5
+LAB_1000_7653:
+    cmp word ptr [BP + -10h],8h
+    ja LAB_1000_765c
+    jmp LAB_1000_77f5
+LAB_1000_765c:
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov BX,AX
+    mov AX,word ptr [BP + -0ah]
+    sub AX,word ptr [BX + offset _stru_3B208 + 10]
+    push AX
+    call _abs
+    add SP,2h
+    cmp AX,1800h
+    jl LAB_1000_767a
+    jmp LAB_1000_77f5
+LAB_1000_767a:
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov SI,AX
+    mov AX,word ptr [SI + offset _stru_3B208 + 24]
+    mov word ptr [BP + -14h],AX
+    mov AX,12h
+    imul word ptr [BP + -14h]
+    mov BX,AX
+    mov AX,word ptr [BP + -10h]
+    shr AX,1h
+    cmp word ptr [BX + offset _sams + 8],AX
+    ja LAB_1000_769f
+    jmp LAB_1000_77f5
+LAB_1000_769f:
+    mov AX,word ptr [word_330B8]
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    db 2Dh, 10h, 00h ; sub AX,10h (force imm16 encoding)
+    neg AX
+    cmp AX,word ptr [BP + -10h]
+    jc LAB_1000_76b5
+    jmp LAB_1000_77f5
+LAB_1000_76b5:
+    cmp word ptr [BP + -10h],1000h
+    jc LAB_1000_76bf
+    jmp LAB_1000_77f5
+LAB_1000_76bf:
+    cmp word ptr [BP + -14h],0h
+    jnz LAB_1000_76c8
+    jmp LAB_1000_77f5
+LAB_1000_76c8:
+    mov AX,18h
+    imul word ptr [BP + -16h]
+    mov DI,AX
+    mov AX,word ptr [SI + offset word_3B204]
+    mov word ptr [DI + offset _stru_335C4],AX
+    mov AX,word ptr [SI + offset word_3B206]
+    mov word ptr [DI + offset _stru_335C4 + 2],AX
+    mov AX,18h
+    imul word ptr [BP + -16h]
+    mov SI,AX
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov DI,AX
+    mov AX,word ptr [DI + offset _stru_3B208]
+    db 2Dh, 19h, 00h ; sub AX,19h (force imm16 encoding)
+    mov word ptr [SI + offset _stru_335C4 + 4],AX
+    mov AX,12h
+    imul word ptr [BP + -14h]
+    mov word ptr [BP + -20h],AX
+    mov BX,AX
+    mov AX,word ptr [BX + offset _sams + 10]
+    mov CL,6h
+    sar AX,CL
+    mov word ptr [SI + offset _stru_335C4 + 6],AX
+    mov AX,word ptr [DI + offset _stru_3B208 + 10]
+    mov word ptr [SI + offset _stru_335C4 + 8],AX
+    mov AX,word ptr [DI + offset _stru_3B208 + 12]
+    sub AX,400h
+    mov word ptr [SI + offset _stru_335C4 + 10],AX
+    mov AX,word ptr [DI + offset _stru_3B208 + 14]
+    mov word ptr [SI + offset _stru_335C4 + 12],AX
+    mov AX,word ptr [SI + offset _stru_335C4 + 6]
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [_word_330C4]
+    cwd
+    push DX
+    push AX
+    mov BX,word ptr [BP + -20h]
+    mov AX,word ptr [BX + offset _sams + 8]
+    cwd
+    mov CL,3h
+LAB_1000_7744:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jnz LAB_1000_7744
+    push DX
+    push AX
+    call __aNlmul
+    push DX
+    push AX
+    call __aNldiv
+    mov word ptr [SI + offset _stru_335C4 + 14],AX
+    mov AX,word ptr [BP + -14h]
+    mov word ptr [SI + offset _stru_335C4 + 16],AX
+    mov AX,18h
+    imul word ptr [BP + -16h]
+    mov BX,AX
+    mov AX,word ptr [BP + 4h]
+    neg AX
+    mov word ptr [BX + offset _stru_335C4 + 22],AX
+    mov AX,12h
+    imul word ptr [BP + -14h]
+    add AX,528h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,offset aFiredBy
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,word ptr [_var_667]
+    mov CL,5h
+    shl AX,CL
+    add AX,2c8h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    mov AX,2h
+    push AX
+    mov AX,6h
+    push AX
+    call makeSound
+    add SP,4h
+    les BX,dword ptr [_commData]
+    inc word ptr ES:[BX + 2ch]
+    mov AX,2h
+    push AX
+    mov AX,word ptr [BP + 4h]
+    db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
+    push AX
+    call sub_11BC3
+    add SP,4h
+    mov AX,4h
+    push AX
+    call randlmul
+    add SP,2h
+    or AX,AX
+    jnz LAB_1000_77f5
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov BX,AX
+    or byte ptr [BX + offset _stru_3B208 + 18],4h
+LAB_1000_77f5:
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov BX,AX
+    or byte ptr [BX + offset _stru_3B208 + 18],8h
+    jmp LAB_1000_7816
+LAB_1000_7804:
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov SI,AX
+    and byte ptr [SI + offset _stru_3B208 + 18],0f7h
+    sub word ptr [SI + offset _stru_3B208 + 28],20h
+LAB_1000_7816:
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov SI,AX
+    add SI,8974h
+    mov AX,0ffh
+    push AX
+    sub AX,AX
+    push AX
+    push word ptr [SI]
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [SI],AX
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
+    nop
 sub_17594 endp
 ; ------------------------------seg000:0x7838------------------------------
 ; ------------------------------seg000:0x783a------------------------------
 sub_1783A proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,2h
+    push DI
+    push SI
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov SI,AX
+    mov AX,word ptr [SI + offset _stru_3B208 + 16]
+    mov word ptr [BP + -2h],AX
+    cmp word ptr [word_3AFA8],1h
+    jnz LAB_1000_785c
+    sub AX,AX
+    jmp LAB_1000_785f
+LAB_1000_785c:
+    mov AX,8000h
+LAB_1000_785f:
+    mov word ptr [SI + offset _stru_3B208 + 10],AX
+    mov DI,word ptr [BP + 6h]
+    mov CL,4h
+    shl DI,CL
+    test word ptr [DI + offset _stru_3AA5E + 6],200h
+    jz LAB_1000_78ae
+    mov AX,word ptr [word_3AFA8]
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    add AX,word ptr [DI + offset _stru_3AA5E]
+    mov word ptr [SI + offset word_3B204],AX
+    mov AX,word ptr [DI + offset _stru_3AA5E + 2]
+    mov CX,word ptr [word_3AFA8]
+    mov DX,CX
+    shl CX,1h
+    add CX,DX
+    shl CX,1h
+    shl CX,1h
+    sub AX,CX
+    mov word ptr [SI + offset word_3B206],AX
+    mov word ptr [SI + offset _stru_3B208],8ch
+    mov word ptr [SI + offset _stru_3B208 + 20],64h
+    add byte ptr [SI + offset _stru_3B208 + 11],0fch
+    jmp LAB_1000_78e0
+LAB_1000_78ae:
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov SI,AX
+    mov DI,word ptr [BP + 6h]
+    mov CL,4h
+    shl DI,CL
+    mov AX,word ptr [DI + offset _stru_3AA5E]
+    mov word ptr [SI + offset word_3B204],AX
+    mov AX,1eh
+    imul word ptr [word_3AFA8]
+    add AX,word ptr [DI + offset _stru_3AA5E + 2]
+    mov word ptr [SI + offset word_3B206],AX
+    mov word ptr [SI + offset _stru_3B208],0ch
+    mov word ptr [SI + offset _stru_3B208 + 20],0ah
+LAB_1000_78e0:
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov SI,AX
+    mov AX,word ptr [SI + offset word_3B204]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_78f0:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jnz LAB_1000_78f0
+    mov word ptr [SI + offset _stru_3B208 + 2],AX
+    mov word ptr [SI + offset _stru_3B208 + 4],DX
+    mov AX,word ptr [SI + offset word_3B206]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_7908:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jnz LAB_1000_7908
+    mov word ptr [SI + offset _stru_3B208 + 6],AX
+    mov word ptr [SI + offset _stru_3B208 + 8],DX
+    mov word ptr [SI + offset _stru_3B208 + 12],0h
+    mov word ptr [SI + offset _stru_3B208 + 14],0h
+    or word ptr [SI + offset _stru_3B208 + 18],403h
+    mov AX,word ptr [BP + 6h]
+    mov word ptr [SI + offset _unk_3B202],AX
+    mov DI,word ptr [BP + -2h]
+    mov CL,5h
+    shl DI,CL
+    mov AX,word ptr [DI + offset aFlogger + 10]
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [_word_330C4]
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [DI + offset aFlogger + 12]
+    cwd
+    mov CL,0bh
+LAB_1000_794c:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jnz LAB_1000_794c
+    push DX
+    push AX
+    call __aNlmul
+    push DX
+    push AX
+    call __aNldiv
+    mov word ptr [SI + offset _stru_3B208 + 22],AX
+    mov DI,word ptr [BP + 6h]
+    mov CL,4h
+    shl DI,CL
+    push word ptr [DI + offset _stru_3AA5E + 2]
+    push word ptr [DI + offset _stru_3AA5E]
+    call sub_19A4D
+    add SP,4h
+    mov word ptr [SI + offset _stru_3B208 + 26],AX
+    cmp word ptr [_word_336FC],-1h
+    jnz LAB_1000_798f
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov BX,AX
+    and byte ptr [BX + offset _stru_3B208 + 19],0feh
+LAB_1000_798f:
+    push word ptr [BP + 6h]
+    call _placeString
+    add SP,2h
+    mov AX,58bbh
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_3B208 + 16]
+    mov CL,5h
+    shl AX,CL
+    add AX,2c8h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset aTakingOff
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,word ptr [_word_3C046]
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
+    cmp word ptr [BP + 4h],AX
+    jge LAB_1000_79e7
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+LAB_1000_79e7:
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
+    nop
 sub_1783A endp
 ; ------------------------------seg000:0x79ec------------------------------
 ; ------------------------------seg000:0x79ee------------------------------
 sub_179EE proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,36h
+    push DI
+    push SI
+    mov AX,8h
+    push AX
+    sub AX,AX
+    push AX
+    call sub_19EB6
+    add SP,4h
+    mov AX,8h
+    push AX
+    mov AX,1h
+    push AX
+    call sub_19EB6
+    add SP,4h
+    cmp word ptr [word_333DA],0h
+    jz LAB_1000_7a24
+    mov AX,word ptr [word_333D2]
+    mov word ptr [BP + -2ah],AX
+    mov AX,word ptr [word_333D4]
+    jmp LAB_1000_7a2d
+    db 90h
+LAB_1000_7a24:
+    mov AX,word ptr [_word_3BEC0]
+    mov word ptr [BP + -2ah],AX
+    mov AX,word ptr [_word_3BED0]
+LAB_1000_7a2d:
+    mov word ptr [BP + -30h],AX
+    mov word ptr [BP + -1ch],0h
+    jmp LAB_1000_83f7
+LAB_1000_7a38:
+    mov word ptr [BP + -10h],7fffh
+    cmp word ptr [BP + -22h],7h
+    jz LAB_1000_7a46
+    jmp LAB_1000_7ade
+LAB_1000_7a46:
+    mov word ptr [BP + -20h],0h
+    jmp LAB_1000_7ad3
+LAB_1000_7a4e:
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov SI,AX
+    test byte ptr [SI + offset _stru_3B208 + 18],2h
+    jz LAB_1000_7ad0
+    cmp word ptr [SI + offset _stru_3B208 + 20],0h
+    jz LAB_1000_7ad0
+    push word ptr [BP + -22h]
+    push word ptr [SI + offset _stru_3B208]
+    push word ptr [SI + offset word_3B206]
+    push word ptr [SI + offset word_3B204]
+    push word ptr [BP + -1ch]
+    call sub_185BE
+    add SP,0ah
+    mov word ptr [BP + -2h],AX
+    mov AX,word ptr [_var_669]
+    cmp word ptr [BP + -10h],AX
+    jbe LAB_1000_7ad0
+    cmp word ptr [BP + -2h],0h
+    jz LAB_1000_7ad0
+    mov AX,word ptr [_var_670]
+    mov word ptr [BP + -6h],AX
+    mov AX,word ptr [_var_669]
+    mov word ptr [BP + -10h],AX
+    mov AX,word ptr [BP + -20h]
+    mov word ptr [BP + -14h],AX
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov SI,AX
+    mov AX,word ptr [SI + offset _stru_3B208]
+    mov word ptr [BP + -32h],AX
+    mov word ptr [BP + -4h],1h
+    cmp word ptr [BP + -10h],180h
+    jnc LAB_1000_7ad0
+    or byte ptr [SI + offset _stru_3B208 + 18],10h
+    mov AX,1h
+    push AX
+    mov AX,word ptr [BP + -20h]
+    db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
+    push AX
+    call sub_11BC3
+    add SP,4h
+LAB_1000_7ad0:
+    inc word ptr [BP + -20h]
+LAB_1000_7ad3:
+    mov AX,word ptr [_word_3C046]
+    cmp word ptr [BP + -20h],AX
+    jge LAB_1000_7ade
+    jmp LAB_1000_7a4e
+LAB_1000_7ade:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    mov AX,12h
+    imul word ptr [BP + -12h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _sams + 10]
+    mov CL,6h
+    sar AX,CL
+    cmp AX,word ptr [SI + offset _stru_335C4 + 6]
+    jle LAB_1000_7b0e
+    test byte ptr [_word_336E8],1h
+    jz LAB_1000_7b0e
+    inc word ptr [SI + offset _stru_335C4 + 6]
+    mov AX,word ptr [SI + offset _stru_335C4 + 8]
+    mov word ptr [BP + -6h],AX
+LAB_1000_7b0e:
+    cmp word ptr [BP + -22h],4h
+    jz LAB_1000_7b29
+    cmp word ptr [BP + -22h],6h
+    jz LAB_1000_7b29
+    cmp word ptr [BP + -22h],5h
+    jz LAB_1000_7b29
+    cmp word ptr [BP + -22h],1ch
+    jz LAB_1000_7b29
+    jmp LAB_1000_7c47
+LAB_1000_7b29:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    cmp word ptr [BX + offset _stru_335C4 + 20],-1h
+    jz LAB_1000_7b3b
+    jmp LAB_1000_7be0
+LAB_1000_7b3b:
+    mov word ptr [BP + -20h],0h
+    jmp LAB_1000_7b45
+LAB_1000_7b42:
+    inc word ptr [BP + -20h]
+LAB_1000_7b45:
+    mov AX,word ptr [_word_3BED2]
+    cmp word ptr [BP + -20h],AX
+    jl LAB_1000_7b50
+    jmp LAB_1000_7c47
+LAB_1000_7b50:
+    cmp word ptr [BP + -22h],4h
+    jnz LAB_1000_7b64
+    mov BX,word ptr [BP + -20h]
+    mov CL,4h
+    shl BX,CL
+    cmp word ptr [BX + offset _stru_3AA5E + 4],0h
+    jz LAB_1000_7b42
+LAB_1000_7b64:
+    cmp word ptr [BP + -22h],5h
+    jz LAB_1000_7b70
+    cmp word ptr [BP + -22h],6h
+    jnz LAB_1000_7b7e
+LAB_1000_7b70:
+    mov BX,word ptr [BP + -20h]
+    mov CL,4h
+    shl BX,CL
+    test byte ptr [BX + offset _stru_3AA5E + 6],8h
+    jnz LAB_1000_7b92
+LAB_1000_7b7e:
+    cmp word ptr [BP + -22h],5h
+    jz LAB_1000_7b42
+    mov BX,word ptr [BP + -20h]
+    mov CL,4h
+    shl BX,CL
+    test byte ptr [BX + offset _stru_3AA5E + 6],8h
+    jnz LAB_1000_7b42
+LAB_1000_7b92:
+    mov SI,word ptr [BP + -20h]
+    mov CL,4h
+    shl SI,CL
+    push word ptr [BP + -22h]
+    sub AX,AX
+    push AX
+    push word ptr [SI + offset _stru_3AA5E + 2]
+    push word ptr [SI + offset _stru_3AA5E]
+    push word ptr [BP + -1ch]
+    call sub_185BE
+    add SP,0ah
+    mov word ptr [BP + -2h],AX
+    mov AX,word ptr [_var_669]
+    cmp word ptr [BP + -10h],AX
+    jbe LAB_1000_7b42
+    cmp word ptr [BP + -2h],0h
+    jz LAB_1000_7b42
+    mov AX,word ptr [_var_670]
+    mov word ptr [BP + -6h],AX
+    mov AX,word ptr [_var_669]
+    mov word ptr [BP + -10h],AX
+    mov AX,word ptr [BP + -20h]
+    mov word ptr [BP + -14h],AX
+    mov word ptr [BP + -32h],0h
+    mov word ptr [BP + -4h],1h
+    jmp LAB_1000_7b42
+LAB_1000_7be0:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_335C4 + 20]
+    mov word ptr [BP + -20h],AX
+    mov SI,AX
+    mov CL,4h
+    shl SI,CL
+    push word ptr [BP + -22h]
+    sub AX,AX
+    push AX
+    push word ptr [SI + offset _stru_3AA5E + 2]
+    push word ptr [SI + offset _stru_3AA5E]
+    push word ptr [BP + -1ch]
+    call sub_185BE
+    add SP,0ah
+    mov word ptr [BP + -2h],AX
+    or AX,AX
+    jz LAB_1000_7c47
+    mov AX,word ptr [_var_670]
+    mov word ptr [BP + -6h],AX
+    mov AX,word ptr [_var_669]
+    mov word ptr [BP + -10h],AX
+    mov AX,word ptr [BP + -20h]
+    mov word ptr [BP + -14h],AX
+    mov word ptr [BP + -32h],0h
+    mov word ptr [BP + -4h],1h
+    cmp word ptr [BP + -10h],0c0h
+    jnc LAB_1000_7c47
+    mov AX,1h
+    push AX
+    mov AX,word ptr [BP + -20h]
+    db 05h, 40h, 00h ; add AX,40h (force imm16 encoding)
+    push AX
+    call sub_11BC3
+    add SP,4h
+LAB_1000_7c47:
+    cmp word ptr [BP + -4h],0h
+    jnz LAB_1000_7c50
+    jmp LAB_1000_7ce7
+LAB_1000_7c50:
+    cmp word ptr [BP + -1ch],8h
+    jl LAB_1000_7c59
+    jmp LAB_1000_7ce7
+LAB_1000_7c59:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov AX,word ptr [_var_670]
+    sub AX,word ptr [BX + offset _stru_335C4 + 8]
+    push AX
+    call _abs
+    add SP,2h
+    cmp AX,1000h
+    jge LAB_1000_7ce7
+    cmp word ptr [word_333DA],0h
+    jnz LAB_1000_7ce7
+    cmp word ptr [BP + -22h],0h
+    jg LAB_1000_7c96
+    test byte ptr [_word_336E8],2h
+    jz LAB_1000_7c96
+    mov AX,0ch
+    push AX
+    mov AX,1h
+    push AX
+    call sub_19EB6
+    add SP,4h
+LAB_1000_7c96:
+    cmp word ptr [BP + -22h],0h
+    jz LAB_1000_7cb0
+    test byte ptr [_word_336E8],2h
+    jnz LAB_1000_7cb0
+    mov AX,0eh
+    push AX
+    sub AX,AX
+    push AX
+    call sub_19EB6
+    add SP,4h
+LAB_1000_7cb0:
+    test byte ptr [_word_336E8],3h
+    jnz LAB_1000_7ce7
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_335C4 + 6]
+    mov CL,5h
+    shl AX,CL
+    cmp AX,word ptr [BP + -10h]
+    jbe LAB_1000_7ce7
+    mov AX,1h
+    push AX
+    mov AX,0ah
+    push AX
+    call makeSound
+    add SP,4h
+    mov AX,2h
+    push AX
+    push word ptr [BP + -1ch]
+    call sub_11BC3
+    add SP,4h
+LAB_1000_7ce7:
+    cmp word ptr [BP + -6h],0h
+    jnz LAB_1000_7cf0
+    jmp LAB_1000_7e48
+LAB_1000_7cf0:
+    cmp word ptr [BP + -4h],0h
+    jnz LAB_1000_7cf9
+    jmp LAB_1000_7e48
+LAB_1000_7cf9:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov AX,word ptr [BP + -6h]
+    sub AX,word ptr [BX + offset _stru_335C4 + 8]
+    mov word ptr [BP + -1ah],AX
+    cmp word ptr [BP + -1ch],8h
+    jge LAB_1000_7d32
+    mov AH,byte ptr [word_330B8]
+    sub AL,AL
+    add AH,1h
+    push AX
+    mov AX,word ptr [word_330B8]
+    inc AX
+    neg AX
+    mov CH,AL
+    sub CL,CL
+    push CX
+    push word ptr [BP + -1ah]
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [BP + -1ah],AX
+LAB_1000_7d32:
+    mov AX,12h
+    imul word ptr [BP + -12h]
+    mov BX,AX
+    mov SI,word ptr [BX + offset _sams + 14]
+    mov CL,7h
+    shl SI,CL
+    push SI
+    mov AX,SI
+    neg AX
+    push AX
+    push word ptr [BP + -1ah]
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [BP + -1ah],AX
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    mov AX,word ptr [BP + -1ah]
+    shl AX,1h
+    shl AX,1h
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    add word ptr [SI + offset _stru_335C4 + 8],AX
+    mov AX,word ptr [BP + -1ah]
+    shl AX,1h
+    mov word ptr [SI + offset _stru_335C4 + 12],AX
+    cmp word ptr [BP + -1ch],8h
+    jge LAB_1000_7da4
+    cmp word ptr [BP + -10h],400h
+    jnc LAB_1000_7da4
+    push word ptr [BP + -10h]
+    call _abs
+    add SP,2h
+    push AX
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov AX,word ptr [BP + -32h]
+    sub AX,word ptr [BX + offset _stru_335C4 + 4]
+    mov CL,4h
+    sar AX,CL
+    jmp LAB_1000_7de7
+    db 90h
+LAB_1000_7da4:
+    push word ptr [BP + -10h]
+    call _abs
+    add SP,2h
+    push AX
+    push word ptr [BP + -10h]
+    call _abs
+    add SP,2h
+    cmp AX,140h
+    jle LAB_1000_7dcc
+    push word ptr [BP + -10h]
+    call _abs
+    add SP,2h
+    mov CL,3h
+    sar AX,CL
+    jmp LAB_1000_7dce
+    db 90h
+LAB_1000_7dcc:
+    sub AX,AX
+LAB_1000_7dce:
+    mov CX,AX
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov AX,word ptr [BP + -32h]
+    sub AX,word ptr [BX + offset _stru_335C4 + 4]
+    mov DX,CX
+    mov CL,5h
+    sar AX,CL
+    add AX,DX
+LAB_1000_7de7:
+    push AX
+    call _sub_1D008
+    add SP,4h
+    mov word ptr [BP + -6h],AX
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov AX,word ptr [BP + -6h]
+    sub AX,word ptr [BX + offset _stru_335C4 + 10]
+    mov word ptr [BP + -24h],AX
+    mov AX,12h
+    imul word ptr [BP + -12h]
+    mov BX,AX
+    mov SI,word ptr [BX + offset _sams + 14]
+    mov AX,SI
+    mov CL,9h
+    shl AX,CL
+    push AX
+    mov AX,SI
+    mov CL,0bh
+    shl AX,CL
+    neg AX
+    push AX
+    push word ptr [BP + -24h]
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [BP + -24h],AX
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov AX,word ptr [BP + -24h]
+    shl AX,1h
+    shl AX,1h
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    add word ptr [BX + offset _stru_335C4 + 10],AX
+    jmp LAB_1000_7e74
+    db 90h
+LAB_1000_7e48:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    add SI,0d1eh
+    cmp word ptr [SI],0h
+    jle LAB_1000_7e74
+    cmp word ptr [BP + -22h],1eh
+    jz LAB_1000_7e74
+    push word ptr [SI]
+    call _sub_1D1C8
+    add SP,2h
+    mov CL,0ch
+    shl AX,CL
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    sub word ptr [SI],AX
+LAB_1000_7e74:
+    cmp word ptr [BP + -22h],1ch
+    jnz LAB_1000_7e90
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    add SI,0d1eh
+    cmp word ptr [SI],0f800h
+    jle LAB_1000_7e90
+    mov word ptr [SI],0f800h
+LAB_1000_7e90:
+    cmp word ptr [BP + -22h],1eh
+    jz LAB_1000_7ea5
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    cmp word ptr [BX + offset _stru_335C4 + 4],1h
+    jnz LAB_1000_7ec9
+LAB_1000_7ea5:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    mov AX,800h
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    sub word ptr [SI + offset _stru_335C4 + 10],AX
+    mov AX,word ptr [SI + offset _stru_335C4 + 22]
+    cmp word ptr [SI + offset _stru_335C4 + 10],AX
+    jge LAB_1000_7ec9
+    mov word ptr [SI + offset _stru_335C4 + 10],AX
+LAB_1000_7ec9:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    push word ptr [SI + offset _stru_335C4 + 6]
+    push word ptr [SI + offset _stru_335C4 + 10]
+    call _sub_1D190
+    add SP,4h
+    mov CL,3h
+    shl AX,CL
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    mov word ptr [BP + -16h],AX
+    cmp word ptr [BP + -22h],1eh
+    jnz LAB_1000_7f0e
+    mov CX,2h
+    cwd
+    idiv CX
+    mov word ptr [BP + -16h],AX
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    mov AX,word ptr [SI + offset _stru_335C4 + 6]
+    mov CL,7h
+    shl AX,CL
+    jmp LAB_1000_7f1c
+LAB_1000_7f0e:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    mov AH,byte ptr [SI + offset _stru_335C4 + 6]
+    sub AL,AL
+LAB_1000_7f1c:
+    cwd
+    mov CX,word ptr [_word_330C4]
+    idiv CX
+    push AX
+    push word ptr [SI + offset _stru_335C4 + 10]
+    call _sub_1D178
+    add SP,4h
+    add word ptr [SI + offset _stru_335C4 + 4],AX
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    push word ptr [BP + -16h]
+    push word ptr [SI + offset _stru_335C4 + 8]
+    call _sub_1D178
+    add SP,4h
+    add word ptr [SI + offset _stru_335C4],AX
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    push word ptr [BP + -16h]
+    push word ptr [SI + offset _stru_335C4 + 8]
+    call _sub_1D190
+    add SP,4h
+    sub word ptr [SI + offset _stru_335C4 + 2],AX
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    dec word ptr [BX + offset _stru_335C4 + 14]
+    cmp word ptr [BP + -1ch],8h
+    jge LAB_1000_7f99
+    cmp word ptr [BP + -4h],0h
+    jnz LAB_1000_7f8c
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    and byte ptr [BX + offset _stru_335C4 + 4],0feh
+    jmp LAB_1000_7f99
+    db 90h
+LAB_1000_7f8c:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    or byte ptr [BX + offset _stru_335C4 + 4],1h
+LAB_1000_7f99:
+    mov byte ptr [_var_315],0h
+    mov AL,byte ptr [BP + -1ch]
+    and AL,3h
+    mov CL,byte ptr [_word_336E8]
+    and CL,3h
+    cmp AL,CL
+    jnz LAB_1000_7fc8
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    push word ptr [SI + offset _stru_335C4 + 4]
+    push word ptr [SI + offset _stru_335C4 + 2]
+    push word ptr [SI + offset _stru_335C4]
+    call sub_18DF4
+    add SP,6h
+LAB_1000_7fc8:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    cmp word ptr [BX + offset _stru_335C4 + 4],0h
+    jl LAB_1000_7fe1
+    cmp byte ptr [_var_315],0h
+    jnz LAB_1000_7fe1
+    jmp LAB_1000_81a3
+LAB_1000_7fe1:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    mov AX,word ptr [SI + offset _stru_335C4]
+    mov word ptr [word_3BEBC],AX
+    mov AX,word ptr [SI + offset _stru_335C4 + 2]
+    mov word ptr [word_3BEC8],AX
+    mov AX,word ptr [SI + offset _stru_335C4 + 4]
+    mov word ptr [word_3BECE],AX
+    mov word ptr [word_39606],0fffdh
+    mov AX,word ptr [SI + offset _stru_335C4 + 14]
+    mov word ptr [word_3B7DE],AX
+    mov word ptr [SI + offset _stru_335C4 + 14],0h
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov AX,1ah
+    imul word ptr [BX + offset _stru_335C4 + 18]
+    add AX,820h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    cmp word ptr [BP + -22h],1eh
+    jz LAB_1000_8043
+    cmp word ptr [BP + -22h],1dh
+    jz LAB_1000_8043
+    cmp word ptr [BP + -22h],1ch
+    jz LAB_1000_8043
+    jmp LAB_1000_8172
+LAB_1000_8043:
+    mov AX,1h
+    push AX
+    sub AX,AX
+    push AX
+    call sub_11BFD
+    add SP,4h
+    mov AX,2h
+    push AX
+    push AX
+    call makeSound
+    add SP,4h
+    mov AX,offset aMisses
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov SI,word ptr [word_3C020]
+    mov CL,4h
+    shl SI,CL
+    mov AX,word ptr [word_3BEC8]
+    sub AX,word ptr [SI + offset _stru_3AA5E + 2]
+    push AX
+    mov AX,word ptr [word_3BEBC]
+    sub AX,word ptr [SI + offset _stru_3AA5E]
+    push AX
+    call _sub_1CFA6
+    add SP,4h
+    mov word ptr [BP + -0eh],AX
+    mov AX,100h
+    cwd
+    mov CX,word ptr [word_330B8]
+    inc CX
+    idiv CX
+    cmp AX,word ptr [BP + -0eh]
+    jbe LAB_1000_80aa
+    push word ptr [word_3C020]
+    call sub_187EA
+    add SP,2h
+    mov AX,offset aDestroyedBy
+    jmp LAB_1000_813b
+LAB_1000_80aa:
+    push word ptr [word_3BEC8]
+    push word ptr [word_3BEBC]
+    call sub_1C6BE
+    add SP,4h
+    mov word ptr [BP + -36h],AX
+    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
+    jnz LAB_1000_80c3
+    jmp LAB_1000_8199
+LAB_1000_80c3:
+    mov BX,AX
+    mov CL,4h
+    shl BX,CL
+    test byte ptr [BX + offset _stru_3AA5E + 6],80h
+    jz LAB_1000_80d3
+    jmp LAB_1000_8199
+LAB_1000_80d3:
+    mov BX,word ptr [word_39808]
+    mov AX,word ptr [BX + 4h]
+    mov DX,word ptr [BX + 6h]
+    mov CL,5h
+LAB_1000_80df:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jnz LAB_1000_80df
+    mov word ptr [BP + -26h],AX
+    mov BX,word ptr [word_39808]
+    mov AX,word ptr [BX + 8h]
+    mov DX,word ptr [BX + 0ah]
+    mov CL,5h
+LAB_1000_80f6:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jnz LAB_1000_80f6
+    sub AX,8000h
+    neg AX
+    mov word ptr [BP + -2ch],AX
+    mov AX,word ptr [word_3BEC8]
+    sub AX,word ptr [BP + -2ch]
+    push AX
+    mov AX,word ptr [word_3BEBC]
+    sub AX,word ptr [BP + -26h]
+    push AX
+    call _sub_1CFA6
+    add SP,4h
+    mov word ptr [BP + -0eh],AX
+    mov AX,180h
+    cwd
+    mov CX,word ptr [word_330B8]
+    add CX,2h
+    idiv CX
+    cmp AX,word ptr [BP + -0eh]
+    jbe LAB_1000_8199
+    push word ptr [BP + -36h]
+    call sub_187EA
+    add SP,2h
+    mov AX,offset aDestroyedBy_0
+LAB_1000_813b:
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov AX,1ah
+    imul word ptr [BX + offset _stru_335C4 + 18]
+    add AX,820h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov word ptr [word_39606],8h
+    mov word ptr [word_3BECE],0h
+    jmp LAB_1000_8199
+    db 90h
+LAB_1000_8172:
+    cmp word ptr [BP + -1ch],8h
+    jl LAB_1000_81a3
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov AX,word ptr [_word_330C4]
+    shl AX,1h
+    cmp word ptr [BX + offset _stru_335C4 + 14],AX
+    jle LAB_1000_81a3
+    mov AX,offset aGroundImpact
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+LAB_1000_8199:
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+LAB_1000_81a3:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    mov AX,word ptr [BP + -32h]
+    sub AX,word ptr [SI + offset _stru_335C4 + 4]
+    push AX
+    call _abs
+    add SP,2h
+    mov CL,5h
+    sar AX,CL
+    add AX,word ptr [BP + -10h]
+    mov CX,AX
+    mov AX,word ptr [SI + offset _stru_335C4 + 6]
+    mov DX,CX
+    mov CL,4h
+    shl AX,CL
+    mov CX,DX
+    cwd
+    mov BX,word ptr [_word_330C4]
+    idiv BX
+    cmp CX,AX
+    jc LAB_1000_81dc
+    jmp LAB_1000_83ac
+LAB_1000_81dc:
+    cmp word ptr [BP + -4h],0h
+    jnz LAB_1000_81e5
+    jmp LAB_1000_83ac
+LAB_1000_81e5:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_335C4]
+    mov word ptr [word_3BEBC],AX
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    mov AX,word ptr [SI + offset _stru_335C4 + 2]
+    mov word ptr [word_3BEC8],AX
+    mov AX,word ptr [SI + offset _stru_335C4 + 4]
+    mov word ptr [word_3BECE],AX
+    mov word ptr [word_39606],8h
+    cmp word ptr [SI + offset _stru_335C4 + 14],0h
+    jz LAB_1000_821e
+    mov AX,word ptr [SI + offset _stru_335C4 + 14]
+    mov word ptr [word_3B7DE],AX
+LAB_1000_821e:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov word ptr [BX + offset _stru_335C4 + 14],0h
+    cmp word ptr [BP + -1ch],8h
+    jge LAB_1000_82ac
+    cmp word ptr [word_333DA],0h
+    jz LAB_1000_823c
+    jmp LAB_1000_83ac
+LAB_1000_823c:
+    mov AX,offset aHitBy
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,12h
+    imul word ptr [BP + -12h]
+    add AX,528h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    call sub_18A44
+    mov AX,word ptr [_word_336E8]
+    sar AX,1h
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
+    mov word ptr [BP + -34h],AX
+    mov SI,AX
+    mov CL,3h
+    shl SI,CL
+    mov AX,word ptr [word_3BEBC]
+    mov word ptr [SI + offset stru_33402],AX
+    mov AX,word ptr [word_3BEC8]
+    mov word ptr [SI + offset stru_33402 + 2],AX
+    mov AX,word ptr [word_3BECE]
+    mov word ptr [SI + offset stru_33402 + 4],AX
+    test word ptr [_planeFlags],1000h
+    jz LAB_1000_829c
+    jmp LAB_1000_83ac
+LAB_1000_829c:
+    push word ptr [BP + -12h]
+    mov AX,5h
+    push AX
+    call sub_11D10
+    add SP,4h
+    jmp LAB_1000_83ac
+LAB_1000_82ac:
+    cmp word ptr [BP + -22h],7h
+    jnz LAB_1000_8306
+    push word ptr [BP + -14h]
+    call sub_186F8
+    add SP,2h
+    mov AX,word ptr [_word_336E8]
+    sar AX,1h
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
+    mov word ptr [BP + -34h],AX
+    mov AX,24h
+    imul word ptr [BP + -14h]
+    mov SI,AX
+    mov DI,word ptr [BP + -34h]
+    mov CL,3h
+    shl DI,CL
+    mov AX,word ptr [SI + offset word_3B204]
+    mov word ptr [word_3BEBC],AX
+    mov word ptr [DI + offset stru_33402],AX
+    mov AX,word ptr [SI + offset word_3B206]
+    mov word ptr [word_3BEC8],AX
+    mov word ptr [DI + offset stru_33402 + 2],AX
+    mov AX,24h
+    imul word ptr [BP + -14h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_3B208]
+    mov word ptr [word_3BECE],AX
+    mov BX,word ptr [BP + -34h]
+    shl BX,CL
+    mov word ptr [BX + offset stru_33402 + 4],AX
+    jmp LAB_1000_8380
+    db 90h
+LAB_1000_8306:
+    mov AX,4h
+    push AX
+    call randlmul
+    add SP,2h
+    push word ptr [BP + -14h]
+    mov CX,AX
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    push word ptr [BX + offset _stru_335C4 + 18]
+    mov SI,CX
+    call sub_1A224
+    add SP,4h
+    cmp AX,SI
+    jg LAB_1000_8340
+    mov AX,word ptr [_word_330C4]
+    mov CX,AX
+    shl AX,1h
+    shl AX,1h
+    add AX,CX
+    shl AX,1h
+    cmp AX,word ptr [word_3B7DE]
+    ja LAB_1000_834c
+LAB_1000_8340:
+    push word ptr [BP + -14h]
+    call sub_187EA
+    add SP,2h
+    jmp LAB_1000_835a
+    db 90h
+LAB_1000_834c:
+    mov AX,offset aIneffective
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+LAB_1000_835a:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov word ptr [BX + offset _stru_335C4 + 14],0h
+    mov AX,word ptr [word_3B0AC]
+    mov word ptr [word_336F0],AX
+    mov AX,word ptr [word_3BEBC]
+    mov word ptr [word_3B4D8],AX
+    mov AX,word ptr [word_3BEC8]
+    mov word ptr [word_3B4E0],AX
+    mov word ptr [word_3B5D6],0bb8h
+LAB_1000_8380:
+    mov AX,offset aHitBy_0
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,12h
+    imul word ptr [BP + -12h]
+    add AX,528h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+LAB_1000_83ac:
+    cmp word ptr [BP + -1ch],8h
+    jge LAB_1000_83f4
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    cmp word ptr [SI + offset _stru_335C4 + 14],0h
+    jz LAB_1000_83f4
+    push word ptr [SI + offset _stru_335C4 + 2]
+    push word ptr [SI + offset _stru_335C4]
+    call sub_19A4D
+    add SP,4h
+    mov word ptr [SI + offset _stru_335C4 + 20],AX
+    test byte ptr [_word_336E8],1h
+    jz LAB_1000_83f4
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    mov AX,0eh
+    push AX
+    push word ptr [SI + offset _stru_335C4 + 2]
+    push word ptr [SI + offset _stru_335C4]
+    call sub_1993A
+    add SP,6h
+LAB_1000_83f4:
+    inc word ptr [BP + -1ch]
+LAB_1000_83f7:
+    cmp word ptr [BP + -1ch],0ch
+    jl LAB_1000_8400
+    jmp LAB_1000_85b8
+LAB_1000_8400:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    cmp word ptr [SI + offset _stru_335C4 + 14],0h
+    jz LAB_1000_83f4
+    mov AX,word ptr [SI + offset _stru_335C4 + 16]
+    mov word ptr [BP + -12h],AX
+    mov word ptr [BP + -4h],0h
+    mov word ptr [BP + -6h],0h
+    mov AX,12h
+    imul word ptr [BP + -12h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _sams + 12]
+    mov word ptr [BP + -22h],AX
+    cmp word ptr [BP + -1ch],8h
+    jl LAB_1000_8438
+    jmp LAB_1000_7a38
+LAB_1000_8438:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    push word ptr [SI + offset _stru_335C4 + 20]
+    push word ptr [SI + offset _stru_335C4 + 2]
+    push word ptr [SI + offset _stru_335C4]
+    call sub_1993A
+    add SP,6h
+    mov AX,word ptr [_var_547]
+    mov word ptr [BP + -32h],AX
+    push word ptr [BP + -22h]
+    push AX
+    push word ptr [BP + -30h]
+    push word ptr [BP + -2ah]
+    push word ptr [BP + -1ch]
+    call sub_185BE
+    add SP,0ah
+    mov word ptr [BP + -4h],AX
+    mov AX,word ptr [_var_669]
+    mov word ptr [BP + -10h],AX
+    mov AX,word ptr [_var_670]
+    mov word ptr [BP + -6h],AX
+    mov word ptr [BP + -20h],1h
+LAB_1000_847f:
+    mov BX,word ptr [BP + -20h]
+    mov AX,BX
+    shl BX,1h
+    add BX,AX
+    shl BX,1h
+    shl BX,1h
+    db 83h, 0bfh, 28h, 0bh, 01h  ; CMP word ptr [BX + 0...,0x1                 ;= ??
+    jnz LAB_1000_8499
+    cmp word ptr [BP + -22h],0h
+    jle LAB_1000_84f2
+LAB_1000_8499:
+    mov BX,word ptr [BP + -20h]
+    mov AX,BX
+    shl BX,1h
+    add BX,AX
+    shl BX,1h
+    shl BX,1h
+    db 83h, 0bfh, 28h, 0bh, 02h  ; CMP word ptr [BX + 0...,0x2                 ;= ??
+    jnz LAB_1000_8528
+    cmp word ptr [BP + -22h],1h
+    jz LAB_1000_84f2
+    cmp word ptr [BP + -22h],2h
+    jz LAB_1000_84f2
+    cmp word ptr [BP + -22h],3h
+    jnz LAB_1000_8528
+    mov AX,word ptr [BP + -6h]
+    sub AX,word ptr [_var_542]
+    mov CL,8h
+    sar AX,CL
+    push AX
+    call _abs
+    add SP,2h
+    db 2Dh, 40h, 00h ; sub AX,40h (force imm16 encoding)
+    push AX
+    call _abs
+    add SP,2h
+    mov CX,word ptr [word_330B8]
+    mov DX,CX
+    shl CX,1h
+    add CX,DX
+    shl CX,1h
+    shl CX,1h
+    sub CX,40h
+    neg CX
+    cmp CX,AX
+    jle LAB_1000_8528
+LAB_1000_84f2:
+    mov AX,word ptr [BP + -20h]
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    shl AX,1h
+    shl AX,1h
+    mov SI,AX
+    push word ptr [BP + -22h]
+    push word ptr [_var_547]
+    push word ptr [SI + offset word_333D4]
+    push word ptr [SI + offset word_333D2]
+    push word ptr [BP + -1ch]
+    call sub_185BE
+    add SP,0ah
+    mov word ptr [BP + -2h],AX
+    or AX,AX
+    jz LAB_1000_8528
+    mov word ptr [BP + -6h],AX
+    mov word ptr [BP + -4h],0h
+LAB_1000_8528:
+    inc word ptr [BP + -20h]
+    cmp word ptr [BP + -20h],4h
+    jge LAB_1000_8534
+    jmp LAB_1000_847f
+LAB_1000_8534:
+    cmp word ptr [BP + -10h],200h
+    jbe LAB_1000_8585
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov SI,word ptr [BX + offset _stru_335C4 + 22]
+    cmp SI,2h
+    jle LAB_1000_855e
+    mov BX,SI
+    mov CL,4h
+    shl BX,CL
+    test byte ptr [BX + offset _stru_3AA5E + 6],10h
+    jnz LAB_1000_855e
+    mov word ptr [BP + -4h],0h
+LAB_1000_855e:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov BX,AX
+    mov SI,word ptr [BX + offset _stru_335C4 + 22]
+    or SI,SI
+    jg LAB_1000_8585
+    mov AX,SI
+    neg AX
+    mov CX,24h
+    imul CX
+    mov BX,AX
+    test byte ptr [BX + offset _stru_3B208 + 18],8h
+    jnz LAB_1000_8585
+    mov word ptr [BP + -4h],0h
+LAB_1000_8585:
+    mov AX,18h
+    imul word ptr [BP + -1ch]
+    mov SI,AX
+    add SI,0d1ah
+    mov AX,12h
+    imul word ptr [BP + -12h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _sams + 10]
+    mov CL,6h
+    sar AX,CL
+    cmp AX,word ptr [SI]
+    jg LAB_1000_85a8
+    jmp LAB_1000_7c47
+LAB_1000_85a8:
+    test byte ptr [_word_336E8],1h
+    jnz LAB_1000_85b2
+    jmp LAB_1000_7c47
+LAB_1000_85b2:
+    inc word ptr [SI]
+    jmp LAB_1000_7c47
+    db 90h
+LAB_1000_85b8:
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
 sub_179EE endp
 ; ------------------------------seg000:0x85bd------------------------------
 ; ------------------------------seg000:0x85be------------------------------
-sub_185BE proc near
-    retn
-sub_185BE endp
+EXTRN _sub_185BE:NEAR
+sub_185BE equ _sub_185BE
 ; ------------------------------seg000:0x86f5------------------------------
 ; ------------------------------seg000:0x86f8------------------------------
 sub_186F8 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,2h
+    push SI
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov SI,AX
+    test byte ptr [SI + offset _stru_3B208 + 18],20h
+    jz LAB_1000_8711
+    jmp LAB_1000_87a6
+LAB_1000_8711:
+    mov BX,word ptr [SI + offset _stru_3B208 + 16]
+    mov CL,5h
+    shl BX,CL
+    inc word ptr [BX + offset aFlogger + 22]
+    test word ptr [SI + offset _stru_3B208 + 18],800h
+    jz LAB_1000_8729
+    dec word ptr [word_3C044]
+LAB_1000_8729:
+    mov AX,word ptr [_word_336FC]
+    cmp word ptr [BP + 4h],AX
+    jnz LAB_1000_8737
+    mov word ptr [_word_336FC],0ffffh
+LAB_1000_8737:
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov SI,AX
+    or byte ptr [SI + offset _stru_3B208 + 18],20h
+    mov word ptr [word_336F6],0ffffh
+    mov AX,word ptr [SI + offset word_3B204]
+    mov word ptr [word_3BEC2],AX
+    mov AX,word ptr [SI + offset word_3B206]
+    mov word ptr [word_3BED6],AX
+    mov AX,word ptr [SI + offset _stru_3B208]
+    mov word ptr [word_3BFA2],AX
+    mov word ptr [word_3B4DC],80h
+    mov word ptr [BP + -2h],3h
+    test word ptr [SI + offset _stru_3B208 + 18],4000h
+    jz LAB_1000_8778
+    mov AX,80h
+    jmp LAB_1000_877a
+    db 90h
+LAB_1000_8778:
+    sub AX,AX
+LAB_1000_877a:
+    add AX,word ptr [SI + offset _stru_3B208 + 16]
+    push AX
+    mov AX,3h
+    push AX
+    call sub_11D10
+    add SP,4h
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov BX,AX
+    cmp word ptr [BX + offset _stru_3B208 + 20],0h
+    jnz LAB_1000_87a6
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov BX,AX
+    and word ptr [BX + offset _stru_3B208 + 18],1c1h
+LAB_1000_87a6:
+    mov AX,24h
+    imul word ptr [BP + 4h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_3B208 + 16]
+    mov CL,5h
+    shl AX,CL
+    add AX,2c8h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,2h
+    push AX
+    push AX
+    call makeSound
+    add SP,4h
+    cmp word ptr [_word_3C45C],1h
+    jnz LAB_1000_87e4
+    mov AX,word ptr [_word_336F2]
+    cmp word ptr [BP + 4h],AX
+    jnz LAB_1000_87e4
+    mov word ptr [_word_39604],1h
+LAB_1000_87e4:
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
+    nop
 sub_186F8 endp
 ; ------------------------------seg000:0x87e8------------------------------
 ; ------------------------------seg000:0x87ea------------------------------
 sub_187EA proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,6h
+    push SI
+    push word ptr [BP + 4h]
+    call _placeString
+    add SP,2h
+    mov word ptr [BP + -2h],1h
+    mov BX,word ptr [BP + 4h]
+    mov CL,4h
+    shl BX,CL
+    mov SI,word ptr [BX + offset _stru_3AA5E + 6]
+    mov AX,SI
+    test AL,80h
+    jz LAB_1000_8813
+    jmp LAB_1000_895f
+LAB_1000_8813:
+    test AX,1000h
+    jz LAB_1000_881c
+    dec word ptr [word_3C048]
+LAB_1000_881c:
+    mov SI,word ptr [BP + 4h]
+    mov CL,4h
+    shl SI,CL
+    mov AX,word ptr [SI + offset _stru_3AA5E + 2]
+    sub DX,DX
+    sub AX,8000h
+    sbb DX,DX
+    neg AX
+    adc DX,0h
+    neg DX
+    mov CL,5h
+LAB_1000_8837:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jnz LAB_1000_8837
+    push DX
+    push AX
+    mov AX,word ptr [SI + offset _stru_3AA5E]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_8849:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jnz LAB_1000_8849
+    push DX
+    push AX
+    call sub_12FDA
+    add SP,8h
+    mov word ptr [word_39808],AX
+    cmp word ptr [BP + 4h],0h
+    jnz LAB_1000_8865
+    jmp LAB_1000_88f8
+LAB_1000_8865:
+    mov BX,word ptr [BP + 4h]
+    mov CL,4h
+    shl BX,CL
+    cmp word ptr [BX + offset _stru_3AA5E + 4],0h
+    jnz LAB_1000_8878
+    mov word ptr [BP + -2h],0ch
+LAB_1000_8878:
+    mov SI,word ptr [BP + 4h]
+    mov CL,4h
+    shl SI,CL
+    or byte ptr [SI + offset _stru_3AA5E + 6],80h
+    mov word ptr [SI + offset _stru_3AA5E + 4],0h
+    mov word ptr [BP + -4h],0h
+    jmp LAB_1000_88b2
+    db 90h
+LAB_1000_8892:
+    mov AX,80h
+LAB_1000_8895:
+    or word ptr [BP + -2h],AX
+    mov AX,word ptr [_word_336E8]
+    add AX,word ptr [_word_330C4]
+    mov word ptr [word_336EE],AX
+    mov AX,2h
+    push AX
+    sub AX,AX
+    push AX
+    call makeSound
+    add SP,4h
+LAB_1000_88af:
+    inc word ptr [BP + -4h]
+LAB_1000_88b2:
+    cmp word ptr [BP + -4h],2h
+    jge LAB_1000_88de
+    mov AX,12h
+    imul word ptr [BP + -4h]
+    mov BX,AX
+    mov AX,word ptr [BP + 4h]
+    cmp word ptr [BX + offset word_3B146],AX
+    jnz LAB_1000_88af
+    push word ptr [BP + -4h]
+    call sub_189AA
+    add SP,2h
+    cmp word ptr [BP + -4h],0h
+    jz LAB_1000_8892
+    mov AX,40h
+    jmp LAB_1000_8895
+    db 90h
+LAB_1000_88de:
+    push word ptr [BP + 4h]
+    push word ptr [BP + -2h]
+    call sub_11D10
+    add SP,4h
+    push word ptr [BP + 4h]
+    call sub_1C864
+    add SP,2h
+    mov word ptr [BP + -6h],AX
+    jmp LAB_1000_8941
+LAB_1000_88f8:
+    push word ptr [BP + 4h]
+    call sub_1C8A4
+    add SP,2h
+    or AX,AX
+    jz LAB_1000_890a
+    mov AL,byte ptr [_byte_3BEC4]
+    jmp LAB_1000_890d
+LAB_1000_890a:
+    mov AL,byte ptr [_byte_3C02A]
+LAB_1000_890d:
+    cbw
+    mov word ptr [BP + -6h],AX
+    mov BX,word ptr [word_39808]
+    mov SI,word ptr [BX]
+    cmp AX,SI
+    jz LAB_1000_892f
+    inc byte ptr [SI + offset _byte_3BED8]
+    mov BX,word ptr [word_39808]
+    push word ptr [BX]
+    mov AX,2h
+    push AX
+    call sub_11D10
+    add SP,4h
+LAB_1000_892f:
+    or byte ptr [BP + -5h],1h
+    mov BX,word ptr [BP + 4h]
+    mov CL,4h
+    shl BX,CL
+    mov AX,word ptr [BP + -6h]
+    mov word ptr [BX + offset _stru_3AA5E + 12],AX
+LAB_1000_8941:
+    cmp word ptr [word_39808],0h
+    jz LAB_1000_895f
+    push word ptr [BP + -6h]
+    push word ptr [BP + -6h]
+    call sub_1CF32
+    add SP,2h
+    push AX
+    push word ptr [word_39808]
+    call sub_13224
+    add SP,6h
+LAB_1000_895f:
+    mov AX,word ptr [BP + 4h]
+    mov word ptr [word_336F6],AX
+    mov AX,2h
+    push AX
+    push AX
+    call makeSound
+    add SP,4h
+    cmp word ptr [_word_3C45C],2h
+    jnz LAB_1000_8985
+    mov AX,word ptr [_word_336F4]
+    cmp word ptr [BP + 4h],AX
+    jnz LAB_1000_8985
+    mov word ptr [_word_39604],1h
+LAB_1000_8985:
+    cmp word ptr [_word_3C09A],0h
+    jnz LAB_1000_899a
+    push word ptr [_word_3BED0]
+    push word ptr [_word_3BEC0]
+    call _sub_195C9
+    add SP,4h
+LAB_1000_899a:
+    cmp word ptr [word_330B8],2h
+    jge LAB_1000_89a4
+    call sub_166BE
+LAB_1000_89a4:
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
+    nop
 sub_187EA endp
 ; ------------------------------seg000:0x89a8------------------------------
 ; ------------------------------seg000:0x89aa------------------------------
-sub_189AA proc near
-    retn
-sub_189AA endp
+sub_189AA equ _sub_189AA
 ; ------------------------------seg000:0x8a43------------------------------
 ; ------------------------------seg000:0x8a44------------------------------
-sub_18A44 proc near
-    retn
-sub_18A44 endp
+sub_18A44 equ _sub_18A44
 ; ------------------------------seg000:0x8aa4------------------------------
+    nop
 ; ------------------------------seg000:0x8aa6------------------------------
 sub_18AA6 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,8h
+    push DI
+    push SI
+    push word ptr [_var_545]
+    call _abs
+    add SP,2h
+    cmp AX,3000h
+    jle LAB_1000_8ac0
+    jmp LAB_1000_8dee
+LAB_1000_8ac0:
+    cmp word ptr [word_33702],0h
+    jz LAB_1000_8aca
+    jmp LAB_1000_8dee
+LAB_1000_8aca:
+    cmp word ptr [word_3BE3C],0h
+    jz LAB_1000_8ad4
+    jmp LAB_1000_8dee
+LAB_1000_8ad4:
+    mov SI,word ptr [_missileSpecIndex]
+    mov CL,2h
+    shl SI,CL
+    mov AX,word ptr [SI + offset _missileSpecIndex]
+    mov word ptr [BP + -6h],AX
+    mov AX,1ah
+    imul word ptr [BP + -6h]
+    mov DI,AX
+    mov AX,word ptr [DI + offset _missiles + 22]
+    mov word ptr [BP + -2h],AX
+    cmp word ptr [SI + offset _missileSpecIndex + 2],0h
+    jnz LAB_1000_8b22
+    mov AX,DI
+    add AX,820h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,offset a0
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call sub_1A204
+    jmp LAB_1000_8deb
+    db 90h
+LAB_1000_8b22:
+    cmp word ptr [BP + -2h],0h
+    jnz LAB_1000_8b2b
+    jmp LAB_1000_8dee
+LAB_1000_8b2b:
+    cmp word ptr [BP + -2h],-1h
+    jnz LAB_1000_8b34
+    jmp LAB_1000_8dee
+LAB_1000_8b34:
+    mov BX,word ptr [_missileSpecIndex]
+    shl BX,1h
+    shl BX,1h
+    dec word ptr [BX + offset _missileSpecIndex + 2]
+    cmp word ptr [_word_330C2],0h
+    jnz LAB_1000_8b4a
+    jmp LAB_1000_8be8
+LAB_1000_8b4a:
+    sub AX,AX
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov BX,word ptr [_missileSpecIndex]
+    shl BX,1h
+    mov AX,word ptr [BX + offset aA]
+    mov word ptr [BP + -4h],AX
+    mov AX,offset _allocSize
+    push AX
+    mov AX,word ptr [BP + -4h]
+    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
+    push AX
+    mov AX,0beh
+    push AX
+    mov AX,word ptr [BP + -4h]
+    dec AX
+    push AX
+    call _sub_19E5D
+    add SP,8h
+    mov AX,0ch
+    push AX
+    mov AX,0beh
+    push AX
+    push word ptr [BP + -4h]
+    mov BX,word ptr [_missileSpecIndex]
+    shl BX,1h
+    shl BX,1h
+    push word ptr [BX + offset _missileSpecIndex + 2]
+    call _sub_1A183
+    add SP,8h
+    mov AX,1ah
+    imul word ptr [BP + -6h]
+    add AX,820h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,5947h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,0ah
+    push AX
+    mov AX,offset unk_3C030
+    push AX
+    mov BX,word ptr [_missileSpecIndex]
+    shl BX,1h
+    shl BX,1h
+    push word ptr [BX + offset _missileSpecIndex + 2]
+    call _itoa
+    add SP,6h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call sub_1A204
+    add SP,2h
+LAB_1000_8be8:
+    mov word ptr [BP + -8h],0ffffh
+    mov word ptr [BP + -4h],8h
+LAB_1000_8bf2:
+    mov AX,18h
+    imul word ptr [BP + -4h]
+    mov BX,AX
+    db 83h, 0bfh, 22h, 0dh, 00h  ; CMP word ptr [BX + 0...,0x0                 ;= ??
+    jnz LAB_1000_8c07
+    mov AX,word ptr [BP + -4h]
+    mov word ptr [BP + -8h],AX
+LAB_1000_8c07:
+    inc word ptr [BP + -4h]
+    cmp word ptr [BP + -4h],0ch
+    jl LAB_1000_8bf2
+    cmp word ptr [BP + -8h],-1h
+    jnz LAB_1000_8c19
+    jmp LAB_1000_8ddd
+LAB_1000_8c19:
+    mov AX,18h
+    imul word ptr [BP + -8h]
+    mov SI,AX
+    mov AX,word ptr [_word_3BEC0]
+    mov word ptr [SI + offset _stru_335C4], AX
+    mov AX,word ptr [_word_3BED0]
+    mov word ptr [SI + offset _stru_335C4 + 2], AX
+    mov AX,word ptr [_var_547]
+    db 2Dh, 14h, 00h ; sub AX,14h (force imm16 encoding)
+    mov word ptr [SI + offset _stru_335C4 + 4], AX
+    mov AX,word ptr [word_3A944]
+    mov CL,0bh
+    shr AX,CL
+    mov word ptr [SI + offset _stru_335C4 + 6], AX
+    mov AX,18h
+    imul word ptr [BP + -8h]
+    mov SI,AX
+    mov AX,word ptr [_var_542]
+    mov word ptr [SI + offset _stru_335C4 + 8], AX
+    mov AX,word ptr [_var_544]
+    mov word ptr [SI + offset _stru_335C4 + 10], AX
+    mov AX,word ptr [_var_545]
+    mov word ptr [SI + offset _stru_335C4 + 12], AX
+    mov AX,12h
+    imul word ptr [BP + -2h]
+    mov DI,AX
+    mov AX,word ptr [DI + offset _sams + 10]
+    mov CL,6h
+    sar AX,CL
+    inc AX
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [_word_330C4]
+    cwd
+    push DX
+    push AX
+    cmp word ptr [DI + offset _sams + 12],6h
+    jnz LAB_1000_8c86
+    mov CL,3h
+    jmp LAB_1000_8c88
+LAB_1000_8c86:
+    mov CL,2h
+LAB_1000_8c88:
+    sub CL,6h
+    neg CL
+    mov AX,word ptr [DI + offset _sams + 8]
+    cwd
+    or CL,CL
+    jz LAB_1000_8c9e
+LAB_1000_8c96:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jnz LAB_1000_8c96
+LAB_1000_8c9e:
+    push DX
+    push AX
+    call __aNlmul
+    push DX
+    push AX
+    call __aNldiv
+    db 05h, 06h, 00h ; add AX,6h (force imm16 encoding)
+    mov word ptr [SI + offset _stru_335C4 + 14], AX
+    mov AX,18h
+    imul word ptr [BP + -8h]
+    mov SI,AX
+    add SI,0d22h
+    cmp word ptr [SI],6h
+    jg LAB_1000_8cc4
+    mov word ptr [SI],3e7h
+LAB_1000_8cc4:
+    mov AX,18h
+    imul word ptr [BP + -8h]
+    mov SI,AX
+    mov AX,word ptr [BP + -2h]
+    mov word ptr [SI + offset _stru_335C4 + 16], AX
+    mov AX,word ptr [BP + -6h]
+    mov word ptr [SI + offset _stru_335C4 + 18], AX
+    db 0c7h, 84h, 28h, 0dh, 0ffh, 0ffh  ; MOV word ptr [SI + 0...,0xffff              ;= ??
+    cmp word ptr [BP + -2h],1eh
+    jz LAB_1000_8cee
+    db 81h, 0ach, 1eh, 0dh, 00h, 10h  ; SUB word ptr [SI + 0...,0x1000              ;= ??
+    jmp LAB_1000_8d08
+LAB_1000_8cee:
+    call sub_1C82D
+    sub AX,400h
+    mov CX,AX
+    mov AX,18h
+    imul word ptr [BP + -8h]
+    mov BX,AX
+    mov word ptr [BX + offset _stru_335C4 + 22], CX
+    mov AX,word ptr [_word_336F4]
+    mov word ptr [word_3C020],AX
+LAB_1000_8d08:
+    cmp word ptr [_word_336F4],0h
+    jl LAB_1000_8d2d
+    mov AX,12h
+    imul word ptr [BP + -2h]
+    mov BX,AX
+    cmp word ptr [BX + offset _sams + 12],6h
+    jnz LAB_1000_8d2d
+    mov AX,18h
+    imul word ptr [BP + -8h]
+    mov BX,AX
+    mov AX,word ptr [_word_336F4]
+    mov word ptr [BX + offset _stru_335C4 + 20], AX
+LAB_1000_8d2d:
+    cmp word ptr [_word_336F4],0h
+    jl LAB_1000_8d61
+    mov AX,12h
+    imul word ptr [BP + -2h]
+    mov BX,AX
+    cmp word ptr [BX + offset _sams + 12],5h
+    jnz LAB_1000_8d61
+    mov BX,word ptr [_word_336F4]
+    mov CL,4h
+    shl BX,CL
+    test byte ptr [BX + offset _stru_3AA5E + 6],8h
+    jz LAB_1000_8d61
+    mov AX,18h
+    imul word ptr [BP + -8h]
+    mov BX,AX
+    mov AX,word ptr [_word_336F4]
+    mov word ptr [BX + offset _stru_335C4 + 20], AX
+LAB_1000_8d61:
+    cmp word ptr [BP + -2h],1dh
+    jnz LAB_1000_8d7b
+    mov AX,18h
+    imul word ptr [BP + -8h]
+    mov SI,AX
+    db 0c7h, 84h, 1eh, 0dh, 00h, 0c0h  ; MOV word ptr [SI + 0...,0xc000              ;= ??
+    db 0c7h, 84h, 1ah, 0dh, 01h, 00h  ; MOV word ptr [SI + 0...,0x1                 ;= ??
+LAB_1000_8d7b:
+    mov AX,word ptr [BP + -8h]
+    mov word ptr [_word_3A940],AX
+    mov AX,1ah
+    imul word ptr [BP + -6h]
+    add AX,820h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,offset aFired
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    mov AX,2h
+    push AX
+    mov AX,12h
+    imul word ptr [BP + -2h]
+    mov BX,AX
+    cmp word ptr [BX + offset _sams + 8],0h
+    jz LAB_1000_8dc6
+    mov AX,12h
+    jmp LAB_1000_8dc9
+    db 90h
+LAB_1000_8dc6:
+    mov AX,18h
+LAB_1000_8dc9:
+    push AX
+    call makeSound
+    add SP,4h
+    mov AX,1h
+    push AX
+    push word ptr [BP + -8h]
+    call sub_11BC3
+    add SP,4h
+LAB_1000_8ddd:
+    cmp word ptr [_word_3C09E],15h
+    jnz LAB_1000_8dee
+    mov AX,15h
+    push AX
+    call sub_1957A
+LAB_1000_8deb:
+    add SP,2h
+LAB_1000_8dee:
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
 sub_18AA6 endp
 ; ------------------------------seg000:0x8df3------------------------------
 ; ------------------------------seg000:0x8df4------------------------------
 sub_18DF4 proc near
-    retn
+    push BP
+    mov BP,SP
+    mov byte ptr [_var_315],0h
+    mov AX,word ptr [BP + 8h]
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [BP + 6h]
+    cwd
+    sub AX,8000h
+    sbb DX,0h
+    neg AX
+    adc DX,0h
+    neg DX
+    mov CL,5h
+LAB_1000_8e15:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jnz LAB_1000_8e15
+    push DX
+    push AX
+    mov AX,word ptr [BP + 4h]
+    cwd
+    mov CL,5h
+LAB_1000_8e25:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jnz LAB_1000_8e25
+    push DX
+    push AX
+    call sub_132BA
+    add SP,0ch
+    pop BP
+    ret
+    nop
 sub_18DF4 endp
 ; ------------------------------seg000:0x8e36------------------------------
 ; ------------------------------seg000:0x8e38------------------------------
-sub_18E38 proc near
-    retn
-sub_18E38 endp
+sub_18E38 equ _sub_18E38
 ; ------------------------------seg000:0x8e4f------------------------------
 ; ------------------------------seg000:0x94d0------------------------------
-sub_194D0 proc near
-    retn
-sub_194D0 endp
+EXTRN _sub_194D0:near
+sub_194D0 equ _sub_194D0
 ; ------------------------------seg000:0x9579------------------------------
 ; ------------------------------seg000:0x957a------------------------------
-sub_1957A proc near
-    retn
-sub_1957A endp
+sub_1957A equ _sub_1957A
 ; ------------------------------seg000:0x9594------------------------------
 ; ------------------------------seg000:0x9595------------------------------
-sub_19595 proc near
-    retn
-sub_19595 endp
+sub_19595 equ _sub_19595
 ; ------------------------------seg000:0x95c8------------------------------
 ; ------------------------------seg000:0x95c9------------------------------
 _sub_195C9 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,10h
+    push SI
+    mov word ptr [_word_3C09A],0h
+    cmp word ptr [_word_330C2],0h
+    jnz LAB_1000_95e0
+    jmp LAB_1000_9870
+LAB_1000_95e0:
+    sub AX,AX
+    push AX
+    mov AX,offset aMap
+    push AX
+    mov AX,1h
+    push AX
+    call sub_19FAD
+    add SP,6h
+    mov AX,48h
+    mov CL,9h
+    sub CL,byte ptr [byte_383E5]
+    shl AX,CL
+    mov word ptr [BP + -6h],AX
+    mov AX,7fffh
+    sub AX,word ptr [BP + -6h]
+    push AX
+    push word ptr [BP + -6h]
+    mov AX,4000h
+    mov CL,byte ptr [byte_383E5]
+    sar AX,CL
+    push AX
+    push word ptr [_var_542]
+    call _sub_1D178
+    add SP,4h
+    add AX,word ptr [BP + 4h]
+    push AX
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [_var_589],AX
+    mov AX,38h
+    mov CL,9h
+    sub CL,byte ptr [byte_383E5]
+    shl AX,CL
+    cwd
+    mov CX,3h
+    idiv CX
+    shl AX,1h
+    shl AX,1h
+    mov word ptr [BP + -6h],AX
+    mov AX,7fffh
+    sub AX,word ptr [BP + -6h]
+    push AX
+    push word ptr [BP + -6h]
+    mov AX,4000h
+    mov CL,byte ptr [byte_383E5]
+    sar AX,CL
+    push AX
+    push word ptr [_var_542]
+    call _sub_1D190
+    add SP,4h
+    mov CX,word ptr [BP + 6h]
+    sub CX,AX
+    push CX
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [_var_590],AX
+    les BX,dword ptr [_commData]
+    cmp word ptr ES:[BX + 78h],0h
+    jz LAB_1000_967e
+    sub AX,AX
+    jmp LAB_1000_9681
+LAB_1000_967e:
+    mov AX,3h
+LAB_1000_9681:
+    push AX
+    call _copySomeMem
+    add SP,2h
+    mov AX,13h
+    push AX
+    call far ptr _gfx_jump_3d_null
+    add SP,2h
+    mov AX,9h
+    sub AX,word ptr [byte_383E5]
+    push AX
+    mov AX,word ptr [_var_590]
+    cwd
+    sub AX,DX
+    sar AX,1h
+    sub AX,4000h
+    neg AX
+    push AX
+    mov AX,word ptr [_var_589]
+    cwd
+    sub AX,DX
+    sar AX,1h
+    push AX
+    push word ptr [_var_567]
+    call sub_1345E
+    add SP,8h
+    les BX,dword ptr [_gameData]
+    cmp word ptr ES:[BX + 38h],2h
+    jnc LAB_1000_96d6
+    mov AX,0ch
+    push AX
+    call far ptr _gfx_jump_3d_null
+    add SP,2h
+    jmp LAB_1000_96e2
+LAB_1000_96d6:
+    mov AX,10h
+    push AX
+    call far ptr _gfx_jump_3d_null
+    add SP,2h
+LAB_1000_96e2:
+    mov AL,byte ptr [_byte_3C5A0]
+    cbw
+    mov word ptr [BP + -0ah],AX
+    call far ptr _gfx_jump_2d
+    mov byte ptr [_byte_3C5A0],AL
+    mov word ptr [BP + -6h],1h
+    jmp LAB_1000_96fb
+LAB_1000_96f8:
+    inc word ptr [BP + -6h]
+LAB_1000_96fb:
+    mov AX,word ptr [_word_3BED2]
+    cmp word ptr [BP + -6h],AX
+    jl LAB_1000_9706
+    jmp LAB_1000_97be
+LAB_1000_9706:
+    mov SI,word ptr [BP + -6h]
+    mov CL,4h
+    shl SI,CL
+    db 83h, 0bch, 0b2h, 81h, 00h  ; CMP word ptr [SI + 0...,0x0                 ;= ??
+    jz LAB_1000_9754
+    db 0f6h, 84h, 0b4h, 81h, 80h  ; TEST byte ptr [SI + 0...,0x80                ;= ??
+    jnz LAB_1000_9754
+    lea AX,[BP + -4h]
+    push AX
+    lea AX,[BP + -2h]
+    push AX
+    push word ptr [SI + offset _stru_3AA5E + 2]
+    push word ptr [SI + offset _stru_3AA5E]
+    call sub_199EC
+    add SP,8h
+    or AX,AX
+    jz LAB_1000_9754
+    sub AX,AX
+    push AX
+    mov AX,4h
+    push AX
+    push AX
+    sub AX,AX
+    push AX
+    mov AX,0a4h
+    push AX
+    mov AX,word ptr [BP + -4h]
+    dec AX
+    push AX
+    mov AX,word ptr [BP + -2h]
+    dec AX
+    push AX
+    call _sub_1A8C8
+    add SP,0eh
+LAB_1000_9754:
+    mov BX,word ptr [BP + -6h]
+    mov CL,4h
+    shl BX,CL
+    mov SI,word ptr [BX + offset _stru_3AA5E + 6]
+    mov AX,SI
+    and AX,481h
+    cmp AX,401h
+    jz LAB_1000_976f
+    test SI,200h
+    jz LAB_1000_97bb
+LAB_1000_976f:
+    mov SI,word ptr [BP + -6h]
+    mov CL,4h
+    shl SI,CL
+    lea AX,[BP + -4h]
+    push AX
+    lea AX,[BP + -2h]
+    push AX
+    push word ptr [SI + offset _stru_3AA5E + 2]
+    push word ptr [SI + offset _stru_3AA5E]
+    call sub_199EC
+    add SP,8h
+    or AX,AX
+    jz LAB_1000_97bb
+    sub AX,AX
+    push AX
+    mov AX,4h
+    push AX
+    push AX
+    sub AX,AX
+    push AX
+    cmp byte ptr [_gfxModeUnset],0h
+    jz LAB_1000_97a7
+    mov AX,0ach
+    jmp LAB_1000_97aa
+LAB_1000_97a7:
+    mov AX,0b0h
+LAB_1000_97aa:
+    push AX
+    mov AX,word ptr [BP + -4h]
+    dec AX
+    push AX
+    mov AX,word ptr [BP + -2h]
+    dec AX
+    push AX
+    call _sub_1A8C8
+    add SP,0eh
+LAB_1000_97bb:
+    jmp LAB_1000_96f8
+LAB_1000_97be:
+    mov word ptr [BP + -6h],0h
+    jmp LAB_1000_97c8
+LAB_1000_97c5:
+    inc word ptr [BP + -6h]
+LAB_1000_97c8:
+    cmp word ptr [BP + -6h],2h
+    jge LAB_1000_982a
+    mov AX,4000h
+    mov CL,byte ptr [BP + -6h]
+    sar AX,CL
+    test word ptr [_planeFlags],AX
+    jnz LAB_1000_9828
+    mov SI,word ptr [BP + -6h]
+    mov CL,2h
+    shl SI,CL
+    lea AX,[BP + -4h]
+    push AX
+    lea AX,[BP + -2h]
+    push AX
+    push word ptr [SI + offset _waypointIndex + 6]
+    push word ptr [SI + offset _waypointIndex + 4]
+    call sub_199EC
+    add SP,8h
+    or AX,AX
+    jz LAB_1000_9828
+    sub AX,AX
+    push AX
+    mov AX,4h
+    push AX
+    push AX
+    sub AX,AX
+    push AX
+    cmp byte ptr [_gfxModeUnset],0h
+    jz LAB_1000_9814
+    mov AX,offset aF15dgtl_bin
+    jmp LAB_1000_9817
+LAB_1000_9814:
+    mov AX,0a8h
+LAB_1000_9817:
+    push AX
+    mov AX,word ptr [BP + -4h]
+    dec AX
+    push AX
+    mov AX,word ptr [BP + -2h]
+    dec AX
+    push AX
+    call _sub_1A8C8
+    add SP,0eh
+LAB_1000_9828:
+    jmp LAB_1000_97c5
+LAB_1000_982a:
+    mov AL,byte ptr [BP + -0ah]
+    mov byte ptr [_byte_3C5A0],AL
+    call far ptr _gfx_jump_2d
+    or AL,AL
+    jnz LAB_1000_983e
+    call sub_1A934
+    jmp LAB_1000_986a
+LAB_1000_983e:
+    mov AX,38h
+    push AX
+    mov AX,48h
+    push AX
+    mov AX,70h
+    push AX
+    mov AX,18h
+    push AX
+    mov BX,word ptr [_var_566]
+    push word ptr [BX]
+    mov AX,70h
+    push AX
+    mov AX,18h
+    push AX
+    mov BX,word ptr [_var_565]
+    push word ptr [BX]
+    call far ptr _gfx_jump_2a
+    add SP,10h
+LAB_1000_986a:
+    call sub_1A962
+    call sub_11971
+LAB_1000_9870:
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
 _sub_195C9 endp
 ; ------------------------------seg000:0x9874------------------------------
 ; ------------------------------seg000:0x9875------------------------------
-zoomIn proc near
-    retn
-zoomIn endp
+zoomIn equ _zoomIn
 ; ------------------------------seg000:0x98b3------------------------------
-; ------------------------------seg000:0x98b4------------------------------
-zoomOut proc near
-    retn
-zoomOut endp
+zoomOut equ _zoomOut
 ; ------------------------------seg000:0x98f9------------------------------
 ; ------------------------------seg000:0x98fa------------------------------
-sub_198FA proc near
-    retn
-sub_198FA endp
+sub_198FA equ _sub_198FA
 ; ------------------------------seg000:0x9914------------------------------
 ; ------------------------------seg000:0x9915------------------------------
-sub_19915 proc near
-    retn
-sub_19915 endp
+sub_19915 equ _sub_19915
 ; ------------------------------seg000:0x9939------------------------------
 ; ------------------------------seg000:0x993a------------------------------
-sub_1993A proc near
-    retn
-sub_1993A endp
+sub_1993A equ _sub_1993A
 ; ------------------------------seg000:0x99eb------------------------------
 ; ------------------------------seg000:0x99ec------------------------------
-sub_199EC proc near
-    retn
-sub_199EC endp
+sub_199EC equ _sub_199EC
 ; ------------------------------seg000:0x9a4c------------------------------
 ; ------------------------------seg000:0x9a4d------------------------------
-sub_19A4D proc near
-    retn
-sub_19A4D endp
+sub_19A4D equ _sub_19A4D
 ; ------------------------------seg000:0x9ada------------------------------
 ; ------------------------------seg000:0x9adb------------------------------
-sub_19ADB proc near
-    retn
-sub_19ADB endp
+EXTRN _sub_19ADB:near
+sub_19ADB equ _sub_19ADB
 ; ------------------------------seg000:0x9b97------------------------------
 ; ------------------------------seg000:0x9b98------------------------------
-sub_19B98 proc near
-    retn
-sub_19B98 endp
+sub_19B98 equ _sub_19B98
 ; ------------------------------seg000:0x9be0------------------------------
 ; ------------------------------seg000:0x9c0c------------------------------
 _sub_19C0C proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,4h
+    mov BX,word ptr [_var_564]
+    mov AX,word ptr [BX + 14h]
+    sub AX,word ptr [BX + 12h]
+    inc AX
+    mov word ptr [BP + -4h],AX
+    mov AX,word ptr [BX + 10h]
+    sub AX,word ptr [BX + 0eh]
+    inc AX
+    mov word ptr [BP + -2h],AX
+    push word ptr [BX + 0eh]
+    push word ptr [BX + 12h]
+    call far ptr gfx_jump_3e
+    add SP,4h
+    push AX
+    call far ptr gfx_jump_1a
+    add SP,2h
+    mov AX,word ptr [BP + -4h]
+    dec AX
+    mov word ptr [_var_349],AX
+    mov AX,word ptr [BP + -2h]
+    dec AX
+    mov word ptr [_var_350],AX
+    mov BX,word ptr [_var_564]
+    push word ptr [BX + 4h]
+    call far ptr _gfx_jump_21
+    add SP,2h
+    mov AX,word ptr [BP + 4h]
+    mov word ptr [_var_351],AX
+    mov AX,word ptr [BP + 6h]
+    mov word ptr [_var_353],AX
+    mov AX,word ptr [BP + 8h]
+    mov word ptr [_var_352],AX
+    mov AX,word ptr [BP + 0ah]
+    mov word ptr [_var_354],AX
+    call far ptr _sub_2152A
+    call far ptr _gfx_jump_23
+    mov SP,BP
+    pop BP
+    ret
 _sub_19C0C endp
 ; ------------------------------seg000:0x9c83------------------------------
 ; ------------------------------seg000:0x9c84------------------------------
-_sub_19C84 proc near
-    retn
-_sub_19C84 endp
+EXTRN _sub_19C84:near
+sub_19C84 equ _sub_19C84
 ; ------------------------------seg000:0x9d85------------------------------
 ; ------------------------------seg000:0x9d86------------------------------
-sub_19D86 proc near
-    retn
-sub_19D86 endp
+sub_19D86 equ _sub_19D86
 ; ------------------------------seg000:0x9daf------------------------------
 ; ------------------------------seg000:0x9db0------------------------------
-sub_19DB0 proc near
-    retn
-sub_19DB0 endp
-; ------------------------------seg000:0x9e43------------------------------
+sub_19DB0 equ _sub_19DB0
+; sub_19E44 moved to egame1.c
+
+; sub_19E5D moved to C
+
+routine_328 equ _routine_328
+
 ; ------------------------------seg000:0x9eb6------------------------------
 sub_19EB6 proc near
-    retn
+    push BP
+    mov BP,SP
+    push SI
+    cmp word ptr [_word_330C2],0h
+    jnz LAB_1000_9ec3
+    jmp LAB_1000_9f42
+LAB_1000_9ec3:
+    mov AX,word ptr [BP + 4h]
+    mov CX,AX
+    shl AX,1h
+    shl AX,1h
+    add AX,CX
+    shl AX,1h
+    mov SI,AX
+    mov AX,word ptr [BP + 6h]
+    cmp word ptr [SI + offset _word_38202 + 14],AX
+    jz LAB_1000_9f42
+    push AX
+    push word ptr [SI + offset _word_38202 + 14]
+    push word ptr [SI + offset _word_38202 + 12]
+    push word ptr [SI + offset _word_38202 + 10]
+    push word ptr [SI + offset _word_38202 + 8]
+    push word ptr [SI + offset _word_38202 + 6]
+    push word ptr [_var_564]
+    call far ptr gfx_jump_29_switchColor
+    add SP,0eh
+    mov AX,word ptr [BP + 4h]
+    mov CX,AX
+    shl AX,1h
+    shl AX,1h
+    add AX,CX
+    shl AX,1h
+    mov SI,AX
+    push word ptr [BP + 6h]
+    push word ptr [SI + offset _word_38202 + 14]
+    push word ptr [SI + offset _word_38202 + 12]
+    push word ptr [SI + offset _word_38202 + 10]
+    push word ptr [SI + offset _word_38202 + 8]
+    push word ptr [SI + offset _word_38202 + 6]
+    push word ptr [_var_565]
+    call far ptr gfx_jump_29_switchColor
+    add SP,0eh
+    mov BX,word ptr [BP + 4h]
+    mov AX,BX
+    shl BX,1h
+    shl BX,1h
+    add BX,AX
+    shl BX,1h
+    mov AX,word ptr [BP + 6h]
+    mov word ptr [BX + offset _word_38202 + 14],AX
+LAB_1000_9f42:
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
 sub_19EB6 endp
 ; ------------------------------seg000:0x9f46------------------------------
 ; ------------------------------seg000:0x9fad------------------------------
-sub_19FAD proc near
-    retn
-sub_19FAD endp
+sub_19FAD equ _sub_19FAD
 ; ------------------------------seg000:0x9fcb------------------------------
 ; ------------------------------seg000:0x9fcc------------------------------
-_sub_19FCC proc near
-    retn
-_sub_19FCC endp
+; _sub_19FCC - now in C (egame1.c)
 ; ------------------------------seg000:0xa02f------------------------------
 ; ------------------------------seg000:0xa030------------------------------
 sub_1A030 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,6h
+    jmp LAB_1000_a0c7
+    db 0FFh
+    db 76h
+    db 06h
+    db 0E8h
+    db 0DFh
+    db 49h
+    db 83h
+    db 0C4h
+    db 02h
+    db 0Bh
+    db 0C0h
+    db 74h
+    db 07h
+    db 83h
+    db 3Eh
+    db 12h
+    db 08h
+    db 00h
+    db 75h
+    db 02h
+    db 0EBh
+    db 78h
+    db 83h
+    db 7Eh
+    db 04h
+    db 01h
+    db 75h
+    db 11h
+    db 0C7h
+    db 46h
+    db 0FEh
+    db 18h
+    db 00h
+    db 0C7h
+    db 46h
+    db 0FAh
+    db 60h
+    db 00h
+    db 0C7h
+    db 46h
+    db 0FCh
+    db 70h
+    db 00h
+    db 0EBh
+    db 0Fh
+    db 0C7h
+    db 46h
+    db 0FEh
+    db 78h
+    db 00h
+    db 0C7h
+    db 46h
+    db 0FAh
+    db 0C7h
+    db 00h
+    db 0C7h
+    db 46h
+    db 0FCh
+    db 68h
+    db 00h
+    db 83h
+    db 6Eh
+    db 0FCh
+    db 08h
+    db 0B8h
+    db 08h
+    db 00h
+    db 50h
+    db 0E8h
+    db 0C4h
+    db 0FDh
+    db 83h
+    db 0C4h
+    db 02h
+    db 8Bh
+    db 46h
+    db 0FCh
+    db 05h
+    db 04h
+    db 00h
+    db 50h
+    db 8Bh
+    db 46h
+    db 0FAh
+    db 2Dh
+    db 05h
+    db 00h
+    db 50h
+    db 0FFh
+    db 76h
+    db 0FCh
+    db 8Bh
+    db 46h
+    db 0FEh
+    db 05h
+    db 05h
+    db 00h
+    db 50h
+    db 0E8h
+    db 0BFh
+    db 0FDh
+    db 83h
+    db 0C4h
+    db 08h
+    db 0B8h
+    db 0Bh
+    db 00h
+    db 50h
+    db 0FFh
+    db 76h
+    db 0FCh
+    db 0FFh
+    db 76h
+    db 06h
+    db 0E8h
+    db 70h
+    db 49h
+    db 83h
+    db 0C4h
+    db 02h
+    db 0D1h
+    db 0E0h
+    db 8Bh
+    db 4Eh
+    db 0FEh
+    db 03h
+    db 4Eh
+    db 0FAh
+    db 0D1h
+    db 0F9h
+    db 2Bh
+    db 0C8h
+    db 51h
+    db 0FFh
+    db 76h
+    db 06h
+    db 0E8h
+    db 07h
+    db 00h
+    db 83h
+    db 0C4h
+    db 08h
+LAB_1000_a0c7:
+    mov SP,BP
+    pop BP
+    ret
 sub_1A030 endp
+_sub_1A030 equ sub_1A030
 ; ------------------------------seg000:0xa0ca------------------------------
+; _drawSomeStrings - now in C (egame1.c)
 ; ------------------------------seg000:0xa0fe------------------------------
-_draw2Strings proc near
-    retn
-_draw2Strings endp
+; _draw2Strings - now in C (egame1.c)
 ; ------------------------------seg000:0xa139------------------------------
-; ------------------------------seg000:0xa183------------------------------
-_sub_1A183 proc near
-    retn
-_sub_1A183 endp
+_drawStringCentered proc near
+    push BP
+    mov BP,SP
+    mov BX,word ptr [BP + 4h]
+    mov word ptr [BX + 0ch],0h
+    mov BX,word ptr [BP + 4h]
+    mov AX,word ptr [BP + 8h]
+    mov word ptr [BX + 8h],AX
+    mov BX,word ptr [BP + 4h]
+    mov AX,word ptr [BP + 0ah]
+    mov word ptr [BX + 0ah],AX
+    mov BX,word ptr [BP + 4h]
+    mov AX,word ptr [BP + 0ch]
+    mov word ptr [BX + 4h],AX
+    push word ptr [BP + 6h]
+    call _strlen
+    add SP,2h
+    push AX
+    push word ptr [BP + 6h]
+    call _strupr
+    add SP,2h
+    push AX
+    push word ptr [BP + 4h]
+    call far ptr _gfx_jump_05_drawString
+    add SP,6h
+    mov SP,BP
+    pop BP
+    ret
+_drawStringCentered endp
+; _sub_1A183 - now in C (egame1.c)
 ; ------------------------------seg000:0xa1b0------------------------------
 ; ------------------------------seg000:0xa1b1------------------------------
-sub_1A1B1 proc near
-    retn
-sub_1A1B1 endp
+sub_1A1B1 equ _sub_1A1B1
 ; ------------------------------seg000:0xa1e3------------------------------
 ; ------------------------------seg000:0xa1e4------------------------------
-tempStrcpy proc near
-    retn
-tempStrcpy endp
+tempStrcpy equ _tempStrcpy
 ; ------------------------------seg000:0xa203------------------------------
 ; ------------------------------seg000:0xa204------------------------------
-sub_1A204 proc near
-    retn
-sub_1A204 endp
+sub_1A204 equ _sub_1A204
 ; ------------------------------seg000:0xa223------------------------------
 ; ------------------------------seg000:0xa224------------------------------
-sub_1A224 proc near
-    retn
-sub_1A224 endp
+; sub_1A224 moved to C
+
+sub_1A224 equ _routine_260
+
 ; ------------------------------seg000:0xa25a------------------------------
 ; ------------------------------seg000:0xa25c------------------------------
 _sub_1A25C proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,16h
+    push SI
+    mov AX,word ptr [_var_588]
+    inc AX
+    mov word ptr [BP + -12h],AX
+    sub AX,AX
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov AX,0afh
+    push AX
+    mov AX,0c7h
+    push AX
+    mov AX,68h
+    push AX
+    mov AX,78h
+    push AX
+    cmp byte ptr [BP + 4h],0h
+    jnz LAB_1000_a28e
+    mov AX,word ptr [_var_564]
+    jmp LAB_1000_a291
+LAB_1000_a28e:
+    mov AX,word ptr [_var_565]
+LAB_1000_a291:
+    push AX
+    call far ptr _sub_21444
+    add SP,0ah
+    mov AX,8h
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov word ptr [BP + -16h],1h
+    cmp word ptr [_var_588],2h
+    jge LAB_1000_a2c6
+    cmp word ptr [_word_38FDC],0h
+    jz LAB_1000_a2c6
+    mov AX,1h
+    mov CL,2h
+    sub CL,byte ptr [_var_588]
+    shl AX,CL
+    inc AX
+    mov word ptr [BP + -16h],AX
+LAB_1000_a2c6:
+    mov AX,1h
+    sub AX,word ptr [BP + -16h]
+    mov word ptr [BP + -14h],AX
+    mov AX,word ptr [_word_3BEC0]
+    and AX,0f800h
+    mov word ptr [BP + -0ch],AX
+    mov AX,word ptr [_word_3BED0]
+    and AX,0f800h
+    mov word ptr [BP + -10h],AX
+    mov AX,word ptr [BP + -14h]
+    shl AX,1h
+    mov word ptr [BP + -0eh],AX
+    jmp LAB_1000_a353
+    db 90h
+LAB_1000_a2ec:
+    mov AX,word ptr [BP + -10h]
+    add AH,1ch
+    push AX
+    mov AX,word ptr [BP + -0eh]
+    mov CL,0ah
+    shl AX,CL
+    add AX,word ptr [BP + -0ch]
+    push AX
+    call sub_1A7C4
+    add SP,4h
+    mov AX,word ptr [_var_279]
+    mov word ptr [BP + -2h],AX
+    mov AX,word ptr [_var_282]
+    mov word ptr [BP + -6h],AX
+    mov AX,word ptr [BP + -10h]
+    sub AX,1800h
+    push AX
+    mov AX,word ptr [BP + -0eh]
+    mov CL,0ah
+    shl AX,CL
+    add AX,word ptr [BP + -0ch]
+    push AX
+    call sub_1A7C4
+    add SP,4h
+    sub AX,AX
+    push AX
+    mov AX,0afh
+    push AX
+    mov AX,68h
+    push AX
+    mov AX,0c7h
+    push AX
+    mov AX,78h
+    push AX
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    push word ptr [BP + -6h]
+    push word ptr [BP + -2h]
+    call _sub_19C84
+    add SP,12h
+    add word ptr [BP + -0eh],2h
+LAB_1000_a353:
+    mov AX,word ptr [BP + -16h]
+    shl AX,1h
+    cmp AX,word ptr [BP + -0eh]
+    jge LAB_1000_a2ec
+    mov AX,word ptr [BP + -14h]
+    shl AX,1h
+    mov word ptr [BP + -0eh],AX
+    jmp LAB_1000_a3cf
+    db 90h
+LAB_1000_a368:
+    mov AX,word ptr [BP + -0eh]
+    mov CL,0ah
+    shl AX,CL
+    add AX,word ptr [BP + -10h]
+    push AX
+    mov AX,word ptr [BP + -0ch]
+    add AH,1ch
+    push AX
+    call sub_1A7C4
+    add SP,4h
+    mov AX,word ptr [_var_279]
+    mov word ptr [BP + -2h],AX
+    mov AX,word ptr [_var_282]
+    mov word ptr [BP + -6h],AX
+    mov AX,word ptr [BP + -0eh]
+    mov CL,0ah
+    shl AX,CL
+    add AX,word ptr [BP + -10h]
+    push AX
+    mov AX,word ptr [BP + -0ch]
+    sub AX,1800h
+    push AX
+    call sub_1A7C4
+    add SP,4h
+    sub AX,AX
+    push AX
+    mov AX,0afh
+    push AX
+    mov AX,68h
+    push AX
+    mov AX,0c7h
+    push AX
+    mov AX,78h
+    push AX
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    push word ptr [BP + -6h]
+    push word ptr [BP + -2h]
+    call _sub_19C84
+    add SP,12h
+    add word ptr [BP + -0eh],2h
+LAB_1000_a3cf:
+    mov AX,word ptr [BP + -16h]
+    shl AX,1h
+    cmp AX,word ptr [BP + -0eh]
+    jge LAB_1000_a368
+    mov word ptr [BP + -0eh],0h
+    jmp LAB_1000_a4b7
+    db 90h
+LAB_1000_a3e2:
+    mov AX,24h
+    imul word ptr [BP + -0eh]
+    mov SI,AX
+    test byte ptr [SI + offset _stru_3B208 + 18],2h
+    jnz LAB_1000_a3f4
+    jmp LAB_1000_a4b4
+LAB_1000_a3f4:
+    cmp word ptr [SI + offset _stru_3B208 + 20],0h
+    jnz LAB_1000_a3fe
+    jmp LAB_1000_a4b4
+LAB_1000_a3fe:
+    push word ptr [SI + offset word_3B206]
+    push word ptr [SI + offset word_3B204]
+    call sub_1A7C4
+    add SP,4h
+    cmp word ptr [word_3C016],-1h
+    jnz LAB_1000_a416
+    jmp LAB_1000_a4b4
+LAB_1000_a416:
+    cmp word ptr [_word_3C45C],1h
+    jnz LAB_1000_a437
+    mov AX,word ptr [_word_336F2]
+    cmp word ptr [BP + -0eh],AX
+    jnz LAB_1000_a437
+    mov AX,7h
+    push AX
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call sub_1A740
+    add SP,6h
+LAB_1000_a437:
+    cmp word ptr [word_336F8],0h
+    jle LAB_1000_a45c
+    mov AX,0ffffh
+    sub AX,word ptr [word_3BE96]
+    cmp word ptr [BP + -0eh],AX
+    jnz LAB_1000_a45c
+    push word ptr [word_38F72]
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call sub_1A740
+    add SP,6h
+LAB_1000_a45c:
+    mov AX,24h
+    imul word ptr [BP + -0eh]
+    mov SI,AX
+    mov AX,word ptr [SI + offset _stru_3B208 + 10]
+    sub AX,word ptr [_var_542]
+    add AH,8h
+    mov word ptr [BP + -4h],AX
+    mov AX,word ptr [SI + offset _stru_3B208]
+    sub AX,word ptr [_var_547]
+    mov word ptr [BP + -0ah],AX
+    mov word ptr [BP + -8h],0h
+    cmp AX,0fc18h
+    jge LAB_1000_a48c
+    mov word ptr [BP + -8h],1h
+LAB_1000_a48c:
+    cmp word ptr [BP + -0ah],3e8h
+    jle LAB_1000_a498
+    mov word ptr [BP + -8h],2h
+LAB_1000_a498:
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    push word ptr [BP + -8h]
+    mov AX,word ptr [BP + -4h]
+    mov CL,0ch
+    sar AX,CL
+    db 25h, 0Fh, 00h ; and AX,0fh (force imm16 encoding)
+    push AX
+    call sub_1A872
+    add SP,8h
+LAB_1000_a4b4:
+    inc word ptr [BP + -0eh]
+LAB_1000_a4b7:
+    mov AX,word ptr [_word_3C046]
+    cmp word ptr [BP + -0eh],AX
+    jge LAB_1000_a4c2
+    jmp LAB_1000_a3e2
+LAB_1000_a4c2:
+    mov word ptr [BP + -0eh],0h
+    jmp LAB_1000_a571
+LAB_1000_a4ca:
+    mov AX,0eh
+LAB_1000_a4cd:
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov AX,18h
+    imul word ptr [BP + -0eh]
+    mov BX,AX
+    mov AX,12h
+    imul word ptr [BX + offset _stru_335C4 + 16]
+    mov BX,AX
+    cmp word ptr [BX + offset _sams + 12],3h
+    jnz LAB_1000_a502
+    cmp byte ptr [_gfxModeUnset],0h
+    jz LAB_1000_a4f8
+    mov AX,8h
+    jmp LAB_1000_a4fb
+LAB_1000_a4f8:
+    mov AX,0dh
+LAB_1000_a4fb:
+    push AX
+    call _sub_19E44
+    add SP,2h
+LAB_1000_a502:
+    mov AX,18h
+    imul word ptr [BP + -0eh]
+    mov BX,AX
+    test byte ptr [BX + offset _stru_335C4 + 4],1h
+    jnz LAB_1000_a51b
+    mov AX,7h
+    push AX
+    call _sub_19E44
+    add SP,2h
+LAB_1000_a51b:
+    cmp word ptr [BP + -0eh],8h
+    jl LAB_1000_a52b
+    mov AX,0fh
+    push AX
+    call _sub_19E44
+    add SP,2h
+LAB_1000_a52b:
+    mov AX,18h
+    imul word ptr [BP + -0eh]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_335C4 + 8]
+    sub AX,word ptr [_var_542]
+    mov word ptr [BP + -4h],AX
+    push word ptr [BP + -12h]
+    push AX
+    call _sub_1D190
+    add SP,4h
+    add AX,word ptr [_var_282]
+    push AX
+    push word ptr [BP + -12h]
+    push word ptr [BP + -4h]
+    call _sub_1D178
+    add SP,4h
+    mov CX,word ptr [_var_279]
+    sub CX,AX
+    push CX
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call sub_19D86
+    add SP,8h
+LAB_1000_a56e:
+    inc word ptr [BP + -0eh]
+LAB_1000_a571:
+    cmp word ptr [BP + -0eh],0ch
+    jge LAB_1000_a5bc
+    mov AX,18h
+    imul word ptr [BP + -0eh]
+    mov SI,AX
+    cmp word ptr [SI + offset _stru_335C4 + 14],0h
+    jz LAB_1000_a56e
+    push word ptr [SI + offset _stru_335C4 + 2]
+    push word ptr [SI + offset _stru_335C4]
+    call sub_1A7C4
+    add SP,4h
+    cmp word ptr [word_3C016],-1h
+    jz LAB_1000_a56e
+    mov AX,18h
+    imul word ptr [BP + -0eh]
+    mov BX,AX
+    mov AX,12h
+    imul word ptr [BX + offset _stru_335C4 + 16]
+    mov BX,AX
+    cmp word ptr [BX + offset _sams + 12],0h
+    jle LAB_1000_a5b6
+    jmp LAB_1000_a4ca
+LAB_1000_a5b6:
+    mov AX,0ch
+    jmp LAB_1000_a4cd
+LAB_1000_a5bc:
+    mov word ptr [BP + -0eh],0h
+    jmp LAB_1000_a68a
+LAB_1000_a5c4:
+    mov SI,word ptr [BP + -0eh]
+    mov CL,4h
+    shl SI,CL
+    test byte ptr [SI + offset _stru_3AA5E + 6],80h
+    jz LAB_1000_a5d5
+    jmp LAB_1000_a687
+LAB_1000_a5d5:
+    push word ptr [SI + offset _stru_3AA5E + 2]
+    push word ptr [SI + offset _stru_3AA5E]
+    call sub_1A7C4
+    add SP,4h
+    cmp word ptr [word_3C016],-1h
+    jnz LAB_1000_a5ed
+    jmp LAB_1000_a687
+LAB_1000_a5ed:
+    cmp word ptr [_word_3C45C],2h
+    jnz LAB_1000_a60e
+    mov AX,word ptr [_word_336F4]
+    cmp word ptr [BP + -0eh],AX
+    jnz LAB_1000_a60e
+    mov AX,7h
+    push AX
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call sub_1A740
+    add SP,6h
+LAB_1000_a60e:
+    mov word ptr [BP + -4h],5h
+    mov BX,word ptr [BP + -0eh]
+    mov CL,4h
+    shl BX,CL
+    test word ptr [BX + offset _stru_3AA5E + 6],201h
+    jz LAB_1000_a637
+    mov AX,word ptr [_var_542]
+    neg AX
+    add AH,10h
+    mov CL,0dh
+    sar AX,CL
+    db 25h, 03h, 00h ; and AX,3h (force imm16 encoding)
+    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
+    mov word ptr [BP + -4h],AX
+LAB_1000_a637:
+    mov BX,word ptr [BP + -0eh]
+    mov CL,4h
+    shl BX,CL
+    cmp word ptr [BX + offset _stru_3AA5E + 4],0h
+    jz LAB_1000_a64a
+    mov word ptr [BP + -4h],1h
+LAB_1000_a64a:
+    mov BX,word ptr [BP + -0eh]
+    mov CL,4h
+    shl BX,CL
+    test byte ptr [BX + offset _stru_3AA5E + 6],8h
+    jz LAB_1000_a65d
+    mov word ptr [BP + -4h],7h
+LAB_1000_a65d:
+    mov AX,word ptr [word_3B146]
+    cmp word ptr [BP + -0eh],AX
+    jz LAB_1000_a66d
+    mov AX,word ptr [word_3B158]
+    cmp word ptr [BP + -0eh],AX
+    jnz LAB_1000_a672
+LAB_1000_a66d:
+    mov word ptr [BP + -4h],6h
+LAB_1000_a672:
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    mov AX,3h
+    push AX
+    push word ptr [BP + -4h]
+    call sub_1A872
+    add SP,8h
+LAB_1000_a687:
+    inc word ptr [BP + -0eh]
+LAB_1000_a68a:
+    mov AX,word ptr [_word_3BED2]
+    cmp word ptr [BP + -0eh],AX
+    jge LAB_1000_a695
+    jmp LAB_1000_a5c4
+LAB_1000_a695:
+    push word ptr [_word_3BED0]
+    push word ptr [_word_3BEC0]
+    call sub_1A7C4
+    add SP,4h
+    cmp word ptr [word_3C016],-1h
+    jz LAB_1000_a6bf
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    mov AX,3h
+    push AX
+    sub AX,AX
+    push AX
+    call sub_1A872
+    add SP,8h
+LAB_1000_a6bf:
+    mov word ptr [BP + -0eh],0h
+    jmp LAB_1000_a6df
+LAB_1000_a6c6:
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    mov AX,3h
+    push AX
+    mov AX,2h
+LAB_1000_a6d5:
+    push AX
+    call sub_1A872
+    add SP,8h
+LAB_1000_a6dc:
+    inc word ptr [BP + -0eh]
+LAB_1000_a6df:
+    cmp word ptr [BP + -0eh],4h
+    jge LAB_1000_a73a
+    mov AX,word ptr [BP + -0eh]
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    shl AX,1h
+    shl AX,1h
+    mov SI,AX
+    cmp word ptr [SI + offset word_333DA],0h
+    jz LAB_1000_a6dc
+    push word ptr [SI + offset word_333D4]
+    push word ptr [SI + offset word_333D2]
+    call sub_1A7C4
+    add SP,4h
+    cmp word ptr [word_3C016],-1h
+    jz LAB_1000_a6dc
+    mov BX,word ptr [BP + -0eh]
+    mov AX,BX
+    shl BX,1h
+    add BX,AX
+    shl BX,1h
+    shl BX,1h
+    mov AX,word ptr [BX + offset word_333D8]
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
+    jz LAB_1000_a6c6
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
+    jnz LAB_1000_a6dc
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    mov AX,3h
+    push AX
+    jmp LAB_1000_a6d5
+    db 90h
+LAB_1000_a73a:
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
+    nop
 _sub_1A25C endp
 ; ------------------------------seg000:0xa73e------------------------------
 ; ------------------------------seg000:0xa740------------------------------
-sub_1A740 proc near
-    retn
-sub_1A740 endp
+sub_1A740 equ _sub_1A740
 ; ------------------------------seg000:0xa7c3------------------------------
 ; ------------------------------seg000:0xa7c4------------------------------
-sub_1A7C4 proc near
-    retn
-sub_1A7C4 endp
+sub_1A7C4 equ _sub_1A7C4
 ; ------------------------------seg000:0xa870------------------------------
 ; ------------------------------seg000:0xa872------------------------------
-sub_1A872 proc near
-    retn
-sub_1A872 endp
+    EXTRN _sub_1A872:PROC
+sub_1A872 equ _sub_1A872
 ; ------------------------------seg000:0xa8c7------------------------------
 ; ------------------------------seg000:0xa8c8------------------------------
-_sub_1A8C8 proc near
-    retn
-_sub_1A8C8 endp
+    EXTRN _sub_1A8C8:PROC
+sub_1A8C8 equ _sub_1A8C8
 ; ------------------------------seg000:0xa933------------------------------
 ; ------------------------------seg000:0xa934------------------------------
 sub_1A934 proc near
-    retn
+    mov AX,39h
+    push AX
+    mov AX,49h
+    push AX
+    mov AX,70h
+    push AX
+    mov AX,18h
+    push AX
+    mov BX,word ptr [_var_566]
+    push word ptr [BX]
+    mov AX,70h
+    push AX
+    mov AX,18h
+    push AX
+    mov BX,word ptr [_var_564]
+    push word ptr [BX]
+    call far ptr _gfx_jump_2a
+    add SP,10h
+    ret
+    nop
 sub_1A934 endp
 ; ------------------------------seg000:0xa961------------------------------
 ; ------------------------------seg000:0xa962------------------------------
 sub_1A962 proc near
-    retn
+    mov AX,39h
+    push AX
+    mov AX,49h
+    push AX
+    mov AX,70h
+    push AX
+    mov AX,18h
+    push AX
+    mov BX,word ptr [_var_564]
+    push word ptr [BX]
+    mov AX,70h
+    push AX
+    mov AX,18h
+    push AX
+    mov BX,word ptr [_var_566]
+    push word ptr [BX]
+    call far ptr _gfx_jump_2a
+    add SP,10h
+    mov AX,39h
+    push AX
+    mov AX,49h
+    push AX
+    mov AX,70h
+    push AX
+    mov AX,18h
+    push AX
+    mov BX,word ptr [_var_565]
+    push word ptr [BX]
+    mov AX,70h
+    push AX
+    mov AX,18h
+    push AX
+    mov BX,word ptr [_var_564]
+    push word ptr [BX]
+    call far ptr _gfx_jump_2a
+    add SP,10h
+    ret
+    nop
 sub_1A962 endp
 ; ------------------------------seg000:0xa9bb------------------------------
 ; ------------------------------seg000:0xa9bc------------------------------
 sub_1A9BC proc near
-    retn
+    mov AX,39h
+    push AX
+    mov AX,49h
+    push AX
+    mov AX,70h
+    push AX
+    mov AX,18h
+    push AX
+    cmp byte ptr [_byte_3C5A0],0h
+    jz LAB_1000_a9da
+    mov BX,word ptr [_var_565]
+    jmp LAB_1000_a9de
+    db 90h
+LAB_1000_a9da:
+    mov BX,word ptr [_var_564]
+LAB_1000_a9de:
+    mov AX,word ptr [BX]
+    push AX
+    mov AX,70h
+    push AX
+    mov AX,18h
+    push AX
+    mov BX,word ptr [_var_566]
+    push word ptr [BX]
+    call far ptr _gfx_jump_2a
+    add SP,10h
+    ret
 sub_1A9BC endp
 ; ------------------------------seg000:0xa9f7------------------------------
 ; ------------------------------seg000:0xa9f8------------------------------
 sub_1A9F8 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,32h
+    push DI
+    push SI
+    mov word ptr [BP + -1ah],0h
+    cmp word ptr [_keyValue],8bh
+    jnz LAB_1000_aa45
+    mov AX,2h
+    push AX
+    push word ptr [_var_545]
+    push word ptr [_var_544]
+    push word ptr [_var_542]
+    mov AX,word ptr [_var_547]
+    db 05h, 10h, 00h ; add AX,10h (force imm16 encoding)
+    push AX
+    sub AX,AX
+    mov DX,100h
+    sub AX,word ptr [_dword_3B7F8]
+    sbb DX,word ptr [_dword_3B7F8+2]
+    push DX
+    push AX
+    push word ptr [_dword_3B7DA+2]
+    push word ptr [_dword_3B7DA]
+    mov AX,6h
+    push AX
+    call sub_1C9D2
+    add SP,14h
+LAB_1000_aa45:
+    cmp word ptr [word_3B4D2],0h
+    jz LAB_1000_aa50
+    dec word ptr [word_3B4D2]
+LAB_1000_aa50:
+    test byte ptr [_word_336F4],80h
+    jnz LAB_1000_aa6b
+    test byte ptr [_word_336E8],0fh
+    jz LAB_1000_aa61
+    jmp LAB_1000_abd4
+LAB_1000_aa61:
+    cmp word ptr [word_3C00A],0h
+    jz LAB_1000_aa6b
+    jmp LAB_1000_abd4
+LAB_1000_aa6b:
+    cmp word ptr [_word_3C09E],13h
+    jz LAB_1000_aa75
+    jmp LAB_1000_abd4
+LAB_1000_aa75:
+    cmp word ptr [word_3B4D2],0h
+    jz LAB_1000_aa7f
+    jmp LAB_1000_abd4
+LAB_1000_aa7f:
+    cmp word ptr [_word_3C45C],1h
+    jnz LAB_1000_aa89
+    jmp LAB_1000_abd4
+LAB_1000_aa89:
+    test byte ptr [_keyValue],80h
+    jz LAB_1000_aa93
+    jmp LAB_1000_abd4
+LAB_1000_aa93:
+    test byte ptr [_word_336F4],80h
+    jnz LAB_1000_aaa3
+    mov AX,0ffffh
+    mov word ptr [BP + -2ch],AX
+    mov word ptr [_word_336F4],AX
+LAB_1000_aaa3:
+    mov AX,64h
+    mov CL,6h
+    sub CL,byte ptr [_word_330BC]
+    shl AX,CL
+    mov word ptr [BP + -10h],AX
+    cmp word ptr [_word_336F4],-1h
+    jz LAB_1000_ab10
+    mov AX,word ptr [_word_336F4]
+    db 2Dh, 80h, 00h ; sub AX,80h (force imm16 encoding)
+    mov word ptr [BP + -20h],AX
+    push AX
+    call sub_1C7A2
+    add SP,2h
+    dec AX
+    mov word ptr [BP + -1eh],AX
+    mov BX,word ptr [BP + -20h]
+    mov CL,4h
+    shl BX,CL
+    db 83h, 0bfh, 0b2h, 81h, 00h  ; CMP word ptr [BX + 0...,0x0                 ;= ??
+    jz LAB_1000_aadf
+    sub word ptr [BP + -1eh],280h
+LAB_1000_aadf:
+    cmp word ptr [BP + -20h],3h
+    jge LAB_1000_aaea
+    sub word ptr [BP + -1eh],0a00h
+LAB_1000_aaea:
+    mov AX,word ptr [_var_542]
+    add AX,word ptr [_word_3C6AC+206h]
+    sub AX,word ptr [_var_674]
+    push AX
+    call _abs
+    add SP,2h
+    cmp AX,2000h
+    jle LAB_1000_ab08
+    mov word ptr [BP + -1eh],8300h
+    jmp LAB_1000_ab0e
+LAB_1000_ab08:
+    mov word ptr [word_3C00A],1h
+LAB_1000_ab0e:
+    jmp LAB_1000_ab1b
+LAB_1000_ab10:
+    mov word ptr [word_3C00A],0h
+    mov word ptr [BP + -1eh],8300h
+LAB_1000_ab1b:
+    mov word ptr [BP + -2ch],0ffffh
+    mov word ptr [BP + -20h],1h
+    jmp LAB_1000_ab2a
+LAB_1000_ab27:
+    inc word ptr [BP + -20h]
+LAB_1000_ab2a:
+    mov AX,word ptr [_word_3BED2]
+    cmp word ptr [BP + -20h],AX
+    jge LAB_1000_abab
+    push word ptr [BP + -20h]
+    call sub_1C7A2
+    add SP,2h
+    mov AX,word ptr [_var_542]
+    add AX,word ptr [_word_3C6AC+206h]
+    sub AX,word ptr [_var_674]
+    push AX
+    call _abs
+    add SP,2h
+    cmp AX,1800h
+    jge LAB_1000_aba8
+    mov AX,word ptr [BP + -20h]
+    db 05h, 80h, 00h ; add AX,80h (force imm16 encoding)
+    cmp AX,word ptr [_word_336F4]
+    jz LAB_1000_aba8
+    mov SI,word ptr [BP + -20h]
+    mov CL,4h
+    shl SI,CL
+    db 0f6h, 84h, 0b4h, 81h, 80h  ; TEST byte ptr [SI + 0...,0x80                ;= ??
+    jnz LAB_1000_aba8
+    db 83h, 0bch, 0b2h, 81h, 00h  ; CMP word ptr [SI + 0...,0x0                 ;= ??
+    jz LAB_1000_ab79
+    sub word ptr [_var_672],280h
+LAB_1000_ab79:
+    mov AX,word ptr [word_3B146]
+    cmp word ptr [BP + -20h],AX
+    jz LAB_1000_ab89
+    mov AX,word ptr [word_3B158]
+    cmp word ptr [BP + -20h],AX
+    jnz LAB_1000_ab8f
+LAB_1000_ab89:
+    sub word ptr [_var_672],0a00h
+LAB_1000_ab8f:
+    mov AX,word ptr [_var_672]
+    cmp word ptr [BP + -10h],AX
+    jle LAB_1000_aba8
+    cmp word ptr [BP + -1eh],AX
+    jge LAB_1000_aba8
+    mov AX,word ptr [BP + -20h]
+    mov word ptr [BP + -2ch],AX
+    mov AX,word ptr [_var_672]
+    mov word ptr [BP + -10h],AX
+LAB_1000_aba8:
+    jmp LAB_1000_ab27
+LAB_1000_abab:
+    test byte ptr [BP + -2ch],80h
+    jz LAB_1000_abc8
+    cmp word ptr [_word_336F4],-1h
+    jnz LAB_1000_abc0
+    mov word ptr [word_3B4D2],4h
+    jmp LAB_1000_abc6
+LAB_1000_abc0:
+    mov word ptr [_word_336F4],0ffffh
+LAB_1000_abc6:
+    jmp LAB_1000_abd4
+LAB_1000_abc8:
+    mov AX,word ptr [BP + -2ch]
+    mov word ptr [_word_336F4],AX
+    mov word ptr [_word_39604],0h
+LAB_1000_abd4:
+    mov word ptr [BP + -20h],0h
+    jmp LAB_1000_abde
+LAB_1000_abdb:
+    inc word ptr [BP + -20h]
+LAB_1000_abde:
+    cmp word ptr [BP + -20h],8h
+    jl LAB_1000_abe7
+    jmp LAB_1000_ac70
+LAB_1000_abe7:
+    mov SI,word ptr [BP + -20h]
+    mov CL,3h
+    shl SI,CL
+    cmp word ptr [SI + offset stru_33402],0h
+    jz LAB_1000_ac6d
+    push word ptr [SI + offset stru_33402 + 4]
+    push word ptr [SI + offset stru_33402 + 2]
+    push word ptr [SI + offset stru_33402]
+    call sub_1C488
+    add SP,6h
+    cmp word ptr [word_3C016],0h
+    jge LAB_1000_ac6d
+    cmp word ptr [word_3C016],0ff00h
+    jle LAB_1000_ac6d
+    mov SI,word ptr [BP + -20h]
+    mov CL,3h
+    shl SI,CL
+    sub AX,AX
+    push AX
+    push AX
+    push word ptr [SI + offset stru_33402 + 6]
+    push AX
+    push word ptr [SI + offset stru_33402 + 4]
+    mov AX,word ptr [SI + offset stru_33402 + 2]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_ac32:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_ac3c
+    jmp LAB_1000_ac32
+LAB_1000_ac3c:
+    push DX
+    push AX
+    mov AX,word ptr [SI + offset stru_33402]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_ac46:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_ac50
+    jmp LAB_1000_ac46
+LAB_1000_ac50:
+    push DX
+    push AX
+    mov AL,byte ptr [word_33442]
+    sub AL,byte ptr [BP + -20h]
+    and AL,7h
+    cmp AL,4h
+    jnc LAB_1000_ac63
+    mov AX,3h
+    jmp LAB_1000_ac66
+LAB_1000_ac63:
+    mov AX,11h
+LAB_1000_ac66:
+    push AX
+    call sub_1C9D2
+    add SP,14h
+LAB_1000_ac6d:
+    jmp LAB_1000_abdb
+LAB_1000_ac70:
+    mov AX,4bh
+    mov CL,6h
+    sub CL,byte ptr [_word_330BC]
+    shl AX,CL
+    mov word ptr [BP + -10h],AX
+    cmp word ptr [_word_330C2],0h
+    jz LAB_1000_ac96
+    mov AX,word ptr [word_38FEE]
+    add AX,word ptr [_var_547]
+    cmp AX,5dch
+    jbe LAB_1000_ac96
+    mov AX,1h
+    jmp LAB_1000_ac98
+LAB_1000_ac96:
+    sub AX,AX
+LAB_1000_ac98:
+    mov word ptr [BP + -24h],AX
+    cmp word ptr [_word_330C2],0h
+    jz LAB_1000_acb3
+    mov AX,word ptr [word_38FEE]
+    add AX,word ptr [_var_547]
+    cmp AX,0fa0h
+    jbe LAB_1000_acb3
+    mov word ptr [BP + -24h],2h
+LAB_1000_acb3:
+    test byte ptr [_word_336F2],80h
+    jz LAB_1000_ad05
+    cmp word ptr [_word_336F2],-1h
+    jz LAB_1000_ad05
+    mov AX,word ptr [_word_336F2]
+    db 2Dh, 80h, 00h ; sub AX,80h (force imm16 encoding)
+    mov word ptr [BP + -20h],AX
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov SI,AX
+    mov AX,1h
+    push AX
+    push word ptr [SI + offset word_3B206]
+    push word ptr [SI + offset word_3B204]
+    call sub_1C7EA
+    add SP,6h
+    mov word ptr [BP + -1eh],AX
+    mov AX,word ptr [_var_542]
+    add AX,word ptr [_word_3C6AC+206h]
+    sub AX,word ptr [_var_674]
+    push AX
+    call _abs
+    add SP,2h
+    cmp AX,2000h
+    jle LAB_1000_ad03
+    mov word ptr [BP + -1eh],0h
+LAB_1000_ad03:
+    jmp LAB_1000_ad0a
+LAB_1000_ad05:
+    mov word ptr [BP + -1eh],0h
+LAB_1000_ad0a:
+    mov word ptr [BP + -2ch],0ffffh
+    mov word ptr [BP + -20h],0h
+    jmp LAB_1000_ad19
+LAB_1000_ad16:
+    inc word ptr [BP + -20h]
+LAB_1000_ad19:
+    mov AX,word ptr [_word_3C046]
+    cmp word ptr [BP + -20h],AX
+    jl LAB_1000_ad24
+    jmp LAB_1000_af20
+LAB_1000_ad24:
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov BX,AX
+    test byte ptr [BX + offset _stru_3B208 + 18],2h
+    jnz LAB_1000_ad36
+    jmp LAB_1000_af1d
+LAB_1000_ad36:
+    push word ptr [BP + -20h]
+    call sub_1C7C6
+    add SP,2h
+    cmp AX,12c0h
+    jl LAB_1000_ad4e
+    cmp word ptr [_word_3370E],0h
+    jnz LAB_1000_ad4e
+    jmp LAB_1000_af1d
+LAB_1000_ad4e:
+    mov AX,word ptr [_var_672]
+    cmp word ptr [BP + -10h],AX
+    jle LAB_1000_adad
+    cmp word ptr [BP + -1eh],AX
+    jge LAB_1000_adad
+    test byte ptr [_keyValue],80h
+    jnz LAB_1000_adad
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov SI,AX
+    test byte ptr [SI + offset _stru_3B208 + 18],20h
+    jnz LAB_1000_adad
+    cmp word ptr [SI + offset _stru_3B208 + 20],0h
+    jz LAB_1000_adad
+    mov AX,1h
+    push AX
+    push word ptr [SI + offset word_3B206]
+    push word ptr [SI + offset word_3B204]
+    call sub_1C7EA
+    add SP,6h
+    mov AX,word ptr [_var_542]
+    add AX,word ptr [_word_3C6AC+206h]
+    sub AX,word ptr [_var_674]
+    push AX
+    call _abs
+    add SP,2h
+    cmp AX,2000h
+    jge LAB_1000_adad
+    mov AX,word ptr [_var_672]
+    mov word ptr [BP + -10h],AX
+    mov AX,word ptr [BP + -20h]
+    mov word ptr [BP + -2ch],AX
+LAB_1000_adad:
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov SI,AX
+    push word ptr [SI + offset _stru_3B208]
+    push word ptr [SI + offset word_3B206]
+    push word ptr [SI + offset word_3B204]
+    call sub_1C488
+    add SP,6h
+    cmp word ptr [word_3C016],0h
+    jl LAB_1000_add1
+    jmp LAB_1000_af1d
+LAB_1000_add1:
+    mov CL,byte ptr [BP + -24h]
+    sar word ptr [word_3C016],CL
+    cmp word ptr [word_3C016],-20h
+    jg LAB_1000_ade2
+    jmp LAB_1000_aefd
+LAB_1000_ade2:
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov SI,AX
+    cmp word ptr [SI + offset _stru_3B208],3e7h
+    jl LAB_1000_adf5
+    jmp LAB_1000_aeaa
+LAB_1000_adf5:
+    cmp word ptr [_word_330BC],0h
+    jz LAB_1000_adff
+    jmp LAB_1000_aeaa
+LAB_1000_adff:
+    mov word ptr [BP + -1ch],0h
+    mov DI,word ptr [_word_3C16A]
+    mov CL,4h
+    shl DI,CL
+    test word ptr [DI + offset _stru_3AA5E + 6],200h
+    jz LAB_1000_ae5f
+    mov AX,word ptr [SI + offset word_3B204]
+    sub AX,word ptr [DI + offset _stru_3AA5E]
+    push AX
+    call _abs
+    add SP,2h
+    mov DX,word ptr [word_38FFC]
+    mov CL,5h
+    sar DX,CL
+    cmp AX,DX
+    jge LAB_1000_ae5f
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset word_3B206]
+    mov BX,word ptr [_word_3C16A]
+    mov CL,4h
+    shl BX,CL
+    sub AX,word ptr [BX + offset _stru_3AA5E + 2]
+    push AX
+    call _abs
+    add SP,2h
+    mov DX,word ptr [word_39200]
+    mov CL,5h
+    sar DX,CL
+    cmp AX,DX
+    jge LAB_1000_ae5f
+    mov word ptr [BP + -1ch],80h
+LAB_1000_ae5f:
+    cmp word ptr [_var_547],80h
+    jnz LAB_1000_ae6e
+    cmp word ptr [BP + -1ch],80h
+    jnz LAB_1000_aeaa
+LAB_1000_ae6e:
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov SI,AX
+    push word ptr [BP + -24h]
+    call _sub_1D1C8
+    add SP,2h
+    db 2Dh, 02h, 00h ; sub AX,2h (force imm16 encoding)
+    neg AX
+    push AX
+    sub AX,AX
+    push AX
+    push AX
+    push word ptr [SI + offset _stru_3B208 + 10]
+    push word ptr [BP + -1ch]
+    push word ptr [SI + offset _stru_3B208 + 8]
+    push word ptr [SI + offset _stru_3B208 + 6]
+    push word ptr [SI + offset _stru_3B208 + 4]
+    push word ptr [SI + offset _stru_3B208 + 2]
+    mov AX,5h
+    push AX
+    call sub_1C9D2
+    add SP,14h
+LAB_1000_aeaa:
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov SI,AX
+    mov AX,2h
+    sub AX,word ptr [BP + -24h]
+    push AX
+    push word ptr [SI + offset _stru_3B208 + 14]
+    push word ptr [SI + offset _stru_3B208 + 12]
+    push word ptr [SI + offset _stru_3B208 + 10]
+    push word ptr [SI + offset _stru_3B208]
+    push word ptr [SI + offset _stru_3B208 + 8]
+    push word ptr [SI + offset _stru_3B208 + 6]
+    push word ptr [SI + offset _stru_3B208 + 4]
+    push word ptr [SI + offset _stru_3B208 + 2]
+    cmp word ptr [word_3C016],-10h
+    jle LAB_1000_aee4
+    sub DI,DI
+    jmp LAB_1000_aee7
+LAB_1000_aee4:
+    mov DI,1h
+LAB_1000_aee7:
+    shl DI,1h
+    mov BX,word ptr [SI + offset _stru_3B208 + 16]
+    mov CL,5h
+    shl BX,CL
+    push word ptr [BX + DI + offset aFlogger + 18]
+    call sub_1C9D2
+    add SP,14h
+    jmp LAB_1000_af1d
+LAB_1000_aefd:
+    mov AX,0fh
+    push AX
+    call _sub_19E44
+    add SP,2h
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call _sub_19C0C
+    add SP,8h
+LAB_1000_af1d:
+    jmp LAB_1000_ad16
+LAB_1000_af20:
+    cmp word ptr [BP + -2ch],-1h
+    jz LAB_1000_af32
+    mov AX,word ptr [BP + -2ch]
+    mov word ptr [_word_336F2],AX
+    mov word ptr [_word_39604],0h
+LAB_1000_af32:
+    test byte ptr [_word_336F2],80h
+    jz LAB_1000_af3f
+    mov word ptr [_word_336F2],0ffffh
+LAB_1000_af3f:
+    mov word ptr [BP + -20h],0h
+    jmp LAB_1000_af49
+LAB_1000_af46:
+    inc word ptr [BP + -20h]
+LAB_1000_af49:
+    cmp word ptr [BP + -20h],0ch
+    jl LAB_1000_af52
+    jmp LAB_1000_b026
+LAB_1000_af52:
+    mov AX,18h
+    imul word ptr [BP + -20h]
+    mov SI,AX
+    cmp word ptr [SI + offset _stru_335C4 + 14],0h
+    jnz LAB_1000_af64
+    jmp LAB_1000_b023
+LAB_1000_af64:
+    push word ptr [SI + offset _stru_335C4 + 4]
+    push word ptr [SI + offset _stru_335C4 + 2]
+    push word ptr [SI + offset _stru_335C4]
+    call sub_1C488
+    add SP,6h
+    cmp word ptr [_var_279],-1h
+    jnz LAB_1000_af80
+    jmp LAB_1000_b023
+LAB_1000_af80:
+    cmp word ptr [word_3C016],-20h
+    jle LAB_1000_aff8
+    mov AX,18h
+    imul word ptr [BP + -20h]
+    mov SI,AX
+    test byte ptr [_keyValue],80h
+    jz LAB_1000_afa3
+    cmp word ptr [_keyValue],8bh
+    jz LAB_1000_afa3
+    mov AX,3h
+    jmp LAB_1000_afa6
+LAB_1000_afa3:
+    mov AX,1h
+LAB_1000_afa6:
+    push AX
+    mov AX,word ptr [SI + offset _stru_335C4 + 12]
+    add AH,20h
+    push AX
+    push word ptr [SI + offset _stru_335C4 + 10]
+    push word ptr [SI + offset _stru_335C4 + 8]
+    push word ptr [SI + offset _stru_335C4 + 4]
+    mov AX,word ptr [SI + offset _stru_335C4 + 2]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_afc3:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_afcd
+    jmp LAB_1000_afc3
+LAB_1000_afcd:
+    push DX
+    push AX
+    mov AX,word ptr [SI + offset _stru_335C4]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_afd7:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_afe1
+    jmp LAB_1000_afd7
+LAB_1000_afe1:
+    push DX
+    push AX
+    mov AX,12h
+    imul word ptr [SI + offset _stru_335C4 + 16]
+    mov BX,AX
+    push word ptr [BX + offset _sams + 16]
+    call sub_1C9D2
+    add SP,14h
+    jmp LAB_1000_b023
+LAB_1000_aff8:
+    cmp word ptr [BP + -20h],8h
+    jge LAB_1000_b003
+    mov AX,0ch
+    jmp LAB_1000_b006
+LAB_1000_b003:
+    mov AX,0dh
+LAB_1000_b006:
+    push AX
+    call _sub_19E44
+    add SP,2h
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call _sub_19C0C
+    add SP,8h
+LAB_1000_b023:
+    jmp LAB_1000_af46
+LAB_1000_b026:
+    cmp word ptr [word_3BFA2],0h
+    jle LAB_1000_b097
+    push word ptr [word_3BFA2]
+    push word ptr [word_3BED6]
+    push word ptr [word_3BEC2]
+    call sub_1C488
+    add SP,6h
+    cmp word ptr [word_3C016],0h
+    jge LAB_1000_b097
+    cmp word ptr [word_3C016],0ff00h
+    jle LAB_1000_b097
+    cmp word ptr [word_3B4DC],0h
+    jle LAB_1000_b05a
+    mov AX,4h
+    jmp LAB_1000_b05d
+LAB_1000_b05a:
+    mov AX,3h
+LAB_1000_b05d:
+    push AX
+    sub AX,AX
+    push AX
+    push AX
+    push AX
+    push word ptr [word_3BFA2]
+    mov AX,word ptr [word_3BED6]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_b06e:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_b078
+    jmp LAB_1000_b06e
+LAB_1000_b078:
+    push DX
+    push AX
+    mov AX,word ptr [word_3BEC2]
+    sub DX,DX
+    mov CL,5h
+LAB_1000_b081:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_b08b
+    jmp LAB_1000_b081
+LAB_1000_b08b:
+    push DX
+    push AX
+    mov AX,0eh
+    push AX
+    call sub_1C9D2
+    add SP,14h
+LAB_1000_b097:
+    test byte ptr [_keyValue],80h
+    jnz LAB_1000_b0a1
+    jmp LAB_1000_b141
+LAB_1000_b0a1:
+    cmp word ptr [_keyValue],8bh
+    jnz LAB_1000_b0ac
+    jmp LAB_1000_b141
+LAB_1000_b0ac:
+    cmp word ptr [_var_547],0h
+    jnz LAB_1000_b0bd
+    cmp word ptr [word_3BE3C],0h
+    jz LAB_1000_b0bd
+    jmp LAB_1000_b141
+LAB_1000_b0bd:
+    mov AX,2h
+    sub AX,word ptr [BP + -24h]
+    push AX
+    push word ptr [_var_545]
+    push word ptr [_var_544]
+    push word ptr [_var_542]
+    mov AX,word ptr [_var_547]
+    db 05h, 10h, 00h ; add AX,10h (force imm16 encoding)
+    push AX
+    sub AX,AX
+    mov DX,100h
+    sub AX,word ptr [_dword_3B7F8]
+    sbb DX,word ptr [_dword_3B7F8+2]
+    push DX
+    push AX
+    push word ptr [_dword_3B7DA+2]
+    push word ptr [_dword_3B7DA]
+    mov AL,byte ptr [_planeFlags]
+    and AL,1h
+    cmp AL,1h
+    sbb CX,CX
+    neg CX
+    add CX,6h
+    push CX
+    call sub_1C9D2
+    add SP,14h
+    cmp word ptr [_var_547],3e8h
+    jnc LAB_1000_b141
+    cmp word ptr [_word_330BC],0h
+    jnz LAB_1000_b141
+    mov AX,2h
+    push AX
+    sub AX,AX
+    push AX
+    push AX
+    push word ptr [_var_542]
+    push word ptr [_word_3BEBE]
+    mov DX,100h
+    sub AX,word ptr [_dword_3B7F8]
+    sbb DX,word ptr [_dword_3B7F8+2]
+    push DX
+    push AX
+    push word ptr [_dword_3B7DA+2]
+    push word ptr [_dword_3B7DA]
+    mov AX,15h
+    push AX
+    call sub_1C9D2
+    add SP,14h
+LAB_1000_b141:
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
 sub_1A9F8 endp
 ; ------------------------------seg000:0xb146------------------------------
 ; ------------------------------seg000:0xb147------------------------------
 sub_1B147 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,34h
+    push DI
+    push SI
+    mov AX,word ptr [word_39402]
+    mov word ptr [_var_675],AX
+    mov word ptr [word_39402],0h
+    mov word ptr [BP + -1eh],0h
+    jmp LAB_1000_b165
+LAB_1000_b162:
+    inc word ptr [BP + -1eh]
+LAB_1000_b165:
+    cmp word ptr [BP + -1eh],0ch
+    jge LAB_1000_b1bf
+    mov AX,18h
+    imul word ptr [BP + -1eh]
+    mov SI,AX
+    cmp word ptr [SI + offset _stru_335C4 + 14],0h
+    jz LAB_1000_b1bd
+    push word ptr [SI + offset _stru_335C4 + 4]
+    push word ptr [SI + offset _stru_335C4 + 2]
+    push word ptr [SI + offset _stru_335C4]
+    call sub_1C488
+    add SP,6h
+    cmp word ptr [_var_279],-1h
+    jz LAB_1000_b1bd
+    cmp word ptr [BP + -1eh],8h
+    jge LAB_1000_b19e
+    mov AX,0eh
+    jmp LAB_1000_b1a1
+LAB_1000_b19e:
+    mov AX,0ah
+LAB_1000_b1a1:
+    push AX
+    call _sub_19E44
+    add SP,2h
+    sub AX,AX
+    push AX
+    mov AX,6h
+    push AX
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call sub_1C1B9
+    add SP,8h
+LAB_1000_b1bd:
+    jmp LAB_1000_b162
+LAB_1000_b1bf:
+    mov AX,word ptr [_word_330C4]
+    shl AX,1h
+    shl AX,1h
+    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
+    push AX
+    call sub_15557
+    add SP,2h
+    mov CX,AX
+    mov AX,200h
+    cwd
+    idiv CX
+    mov word ptr [BP + -2eh],AX
+    mov word ptr [BP + -1eh],0h
+    jmp LAB_1000_b1e5
+LAB_1000_b1e2:
+    inc word ptr [BP + -1eh]
+LAB_1000_b1e5:
+    mov AX,word ptr [word_3AFA4]
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
+    cmp word ptr [BP + -1eh],AX
+    jl LAB_1000_b1f3
+    jmp LAB_1000_b5be
+LAB_1000_b1f3:
+    mov AX,word ptr [BP + -1eh]
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    shl AX,1h
+    shl AX,1h
+    mov SI,AX
+    cmp word ptr [SI + offset word_3C5AC],0h
+    jnz LAB_1000_b20c
+    jmp LAB_1000_b5bb
+LAB_1000_b20c:
+    push word ptr [SI + offset word_3C5B0]
+    push word ptr [SI + offset word_3C5AE]
+    push word ptr [SI + offset word_3C5AC]
+    call sub_1C488
+    add SP,6h
+    mov AX,word ptr [_var_279]
+    mov word ptr [BP + -2ch],AX
+    mov AX,word ptr [_var_282]
+    mov word ptr [BP + -32h],AX
+    mov AX,word ptr [word_3C016]
+    mov word ptr [BP + -4h],AX
+    mov AX,word ptr [BP + -1eh]
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    shl AX,1h
+    shl AX,1h
+    mov SI,AX
+    mov AX,word ptr [SI + offset word_3C5B6]
+    sar AX,1h
+    add AX,word ptr [SI + offset word_3C5B0]
+    push AX
+    mov AX,word ptr [SI + offset word_3C5B4]
+    sar AX,1h
+    add AX,word ptr [SI + offset word_3C5AE]
+    push AX
+    mov AX,word ptr [SI + offset word_3C5B2]
+    sar AX,1h
+    add AX,word ptr [SI + offset word_3C5AC]
+    push AX
+    call sub_1C488
+    add SP,6h
+    cmp word ptr [_var_279],-1h
+    jnz LAB_1000_b270
+    jmp LAB_1000_b5bb
+LAB_1000_b270:
+    cmp word ptr [BP + -2ch],-1h
+    jnz LAB_1000_b279
+    jmp LAB_1000_b5bb
+LAB_1000_b279:
+    mov AX,word ptr [_word_336E8]
+    sar AX,1h
+    sub AX,word ptr [BP + -1eh]
+    db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
+    mov word ptr [BP + -2ah],AX
+    mov AX,word ptr [word_3AFA4]
+    cmp word ptr [BP + -1eh],AX
+    jge LAB_1000_b294
+    mov AX,0dh
+    jmp LAB_1000_b297
+LAB_1000_b294:
+    mov AX,0ch
+LAB_1000_b297:
+    push AX
+    call _sub_19E44
+    add SP,2h
+    push word ptr [BP + -32h]
+    push word ptr [BP + -2ch]
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call _sub_19C0C
+    add SP,8h
+    mov word ptr [BP + -0eh],0h
+    mov AX,word ptr [word_3AFA4]
+    cmp word ptr [BP + -1eh],AX
+    jl LAB_1000_b2c2
+    jmp LAB_1000_b3e0
+LAB_1000_b2c2:
+    mov word ptr [BP + -20h],0h
+    jmp LAB_1000_b2cc
+LAB_1000_b2c9:
+    inc word ptr [BP + -20h]
+LAB_1000_b2cc:
+    mov AX,word ptr [_word_3C046]
+    cmp word ptr [BP + -20h],AX
+    jl LAB_1000_b2d7
+    jmp LAB_1000_b3dd
+LAB_1000_b2d7:
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov SI,AX
+    mov AL,byte ptr [SI + offset _stru_3B208 + 18]
+    and AL,22h
+    cmp AL,2h
+    jz LAB_1000_b2ec
+    jmp LAB_1000_b3da
+LAB_1000_b2ec:
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov BX,AX
+    mov DI,word ptr [BP + -1eh]
+    mov AX,DI
+    shl DI,1h
+    add DI,AX
+    shl DI,1h
+    shl DI,1h
+    mov AX,word ptr [DI + offset word_3C5AE]
+    sub AX,word ptr [BX + offset word_3B206]
+    push AX
+    call _abs
+    add SP,2h
+    mov CX,AX
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov BX,AX
+    mov DI,word ptr [BP + -1eh]
+    mov AX,DI
+    shl DI,1h
+    add DI,AX
+    shl DI,1h
+    shl DI,1h
+    mov AX,word ptr [DI + offset word_3C5AC]
+    sub AX,word ptr [BX + offset word_3B204]
+    push AX
+    mov DI,CX
+    call _abs
+    add SP,2h
+    mov BX,word ptr [BP + -1eh]
+    mov CX,BX
+    shl BX,1h
+    add BX,CX
+    shl BX,1h
+    shl BX,1h
+    mov CX,word ptr [BX + offset word_3C5B0]
+    sub CX,word ptr [SI + offset _stru_3B208]
+    push CX
+    mov word ptr [BP + -34h],AX
+    call _abs
+    add SP,2h
+    mov CL,5h
+    sar AX,CL
+    add AX,word ptr [BP + -34h]
+    add AX,DI
+    mov word ptr [BP + -2ah],AX
+    push AX
+    call _abs
+    add SP,2h
+    mov word ptr [BP + -2ah],AX
+    mov AX,word ptr [BP + -2eh]
+    cwd
+    mov CX,word ptr [word_330B8]
+    inc CX
+    idiv CX
+    mov SI,AX
+    cmp word ptr [BP + -2ah],SI
+    jge LAB_1000_b3da
+    mov word ptr [BP + -0eh],1h
+    mov AX,24h
+    imul word ptr [BP + -20h]
+    mov BX,AX
+    or byte ptr [BX + offset _stru_3B208 + 18],10h
+    mov word ptr [word_39606],1h
+    mov AX,word ptr [BP + -2ah]
+    shl AX,1h
+    cmp AX,SI
+    jge LAB_1000_b3da
+    push word ptr [BP + -20h]
+    call sub_186F8
+    add SP,2h
+    mov AX,offset aDestroyedByGun
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    mov word ptr [word_39606],8h
+    mov BX,word ptr [BP + -1eh]
+    mov AX,BX
+    shl BX,1h
+    add BX,AX
+    shl BX,1h
+    shl BX,1h
+    mov word ptr [BX + offset word_3C5AC],0h
+LAB_1000_b3da:
+    jmp LAB_1000_b2c9
+LAB_1000_b3dd:
+    jmp LAB_1000_b476
+LAB_1000_b3e0:
+    mov BX,word ptr [BP + -1eh]
+    mov AX,BX
+    shl BX,1h
+    add BX,AX
+    shl BX,1h
+    shl BX,1h
+    mov AX,word ptr [BX + offset word_3C5AE]
+    sub AX,word ptr [_word_3BED0]
+    push AX
+    call _abs
+    add SP,2h
+    mov BX,word ptr [BP + -1eh]
+    mov CX,BX
+    shl BX,1h
+    add BX,CX
+    shl BX,1h
+    shl BX,1h
+    mov CX,word ptr [BX + offset word_3C5AC]
+    sub CX,word ptr [_word_3BEC0]
+    push CX
+    mov SI,AX
+    call _abs
+    add SP,2h
+    mov BX,word ptr [BP + -1eh]
+    mov CX,BX
+    shl BX,1h
+    add BX,CX
+    shl BX,1h
+    shl BX,1h
+    mov CX,word ptr [BX + offset word_3C5B0]
+    sub CX,word ptr [_var_547]
+    push CX
+    mov DI,AX
+    call _abs
+    add SP,2h
+    mov CL,5h
+    sar AX,CL
+    add AX,DI
+    add AX,SI
+    mov word ptr [BP + -2ah],AX
+    push AX
+    call _abs
+    add SP,2h
+    mov word ptr [BP + -2ah],AX
+    db 3Dh, 20h, 00h ; cmp AX,20h (force imm16 encoding)
+    jge LAB_1000_b476
+    mov word ptr [BP + -0eh],1h
+    mov AX,offset aHitByGunfire
+    push AX
+    call tempStrcpy
+    add SP,2h
+    mov AX,20h
+    cwd
+    mov CX,4h
+    sub CX,word ptr [word_330B8]
+    idiv CX
+    cmp AX,word ptr [BP + -2ah]
+    jle LAB_1000_b476
+    call sub_18A44
+LAB_1000_b476:
+    cmp word ptr [BP + -0eh],0h
+    jz LAB_1000_b4a6
+    mov AX,word ptr [BP + -1eh]
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    shl AX,1h
+    shl AX,1h
+    mov SI,AX
+    mov AX,word ptr [SI + offset word_3C5AC]
+    mov word ptr [word_3BEBC],AX
+    mov AX,word ptr [SI + offset word_3C5AE]
+    mov word ptr [word_3BEC8],AX
+    mov AX,word ptr [SI + offset word_3C5B0]
+    mov word ptr [word_3BECE],AX
+    mov word ptr [word_39606],0ffffh
+LAB_1000_b4a6:
+    mov AX,word ptr [BP + -1eh]
+    mov CX,AX
+    shl AX,1h
+    add AX,CX
+    shl AX,1h
+    shl AX,1h
+    mov SI,AX
+    cmp word ptr [SI + offset word_3C5B0],0h
+    jl LAB_1000_b4bf
+    jmp LAB_1000_b5bb
+LAB_1000_b4bf:
+    cmp word ptr [word_39606],0h
+    jg LAB_1000_b4e1
+    mov AX,word ptr [SI + offset word_3C5AC]
+    mov word ptr [word_3BEBC],AX
+    mov AX,word ptr [SI + offset word_3C5AE]
+    mov word ptr [word_3BEC8],AX
+    mov AX,word ptr [SI + offset word_3C5B0]
+    mov word ptr [word_3BECE],AX
+    mov word ptr [word_39606],0ffffh
+LAB_1000_b4e1:
+    mov BX,word ptr [BP + -1eh]
+    mov AX,BX
+    shl BX,1h
+    add BX,AX
+    shl BX,1h
+    shl BX,1h
+    mov word ptr [BX + offset word_3C5AC],0h
+    push word ptr [word_3BEC8]
+    push word ptr [word_3BEBC]
+    call sub_1C6BE
+    add SP,4h
+    mov word ptr [BP + -8h],AX
+    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
+    jnz LAB_1000_b50d
+    jmp LAB_1000_b5bb
+LAB_1000_b50d:
+    mov BX,AX
+    mov CL,4h
+    shl BX,CL
+    test byte ptr [BX + offset _stru_3AA5E + 6],80h
+    jz LAB_1000_b51d
+    jmp LAB_1000_b5bb
+LAB_1000_b51d:
+    mov BX,word ptr [word_39808]
+    mov AX,word ptr [BX + 4h]
+    mov DX,word ptr [BX + 6h]
+    mov CL,5h
+LAB_1000_b529:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jz LAB_1000_b533
+    jmp LAB_1000_b529
+LAB_1000_b533:
+    mov word ptr [BP + -24h],AX
+    mov BX,word ptr [word_39808]
+    mov AX,word ptr [BX + 8h]
+    mov DX,word ptr [BX + 0ah]
+    mov CL,5h
+LAB_1000_b542:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jz LAB_1000_b54c
+    jmp LAB_1000_b542
+LAB_1000_b54c:
+    sub AX,8000h
+    neg AX
+    mov word ptr [BP + -26h],AX
+    mov AX,word ptr [word_3BEC8]
+    sub AX,word ptr [BP + -26h]
+    push AX
+    mov AX,word ptr [word_3BEBC]
+    sub AX,word ptr [BP + -24h]
+    push AX
+    call _sub_1CFA6
+    add SP,4h
+    mov CX,AX
+    mov AX,18h
+    cwd
+    mov BX,word ptr [word_330B8]
+    add BX,2h
+    idiv BX
+    cmp CX,AX
+    jge LAB_1000_b5bb
+    mov BX,word ptr [BP + -8h]
+    mov CL,4h
+    shl BX,CL
+    mov AL,byte ptr [BX + offset _stru_3AA5E + 12]
+    and AL,7fh
+    cmp AL,byte ptr [_byte_3C02A]
+    jz LAB_1000_b5bb
+    push word ptr [BP + -8h]
+    call sub_187EA
+    add SP,2h
+    mov AX,offset aDestroyedByG_0
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    mov word ptr [word_39606],8h
+    mov word ptr [word_3BECE],0h
+LAB_1000_b5bb:
+    jmp LAB_1000_b1e2
+LAB_1000_b5be:
+    cmp word ptr [word_39606],0h
+    jnz LAB_1000_b5c8
+    jmp LAB_1000_b6d2
+LAB_1000_b5c8:
+    push word ptr [word_3BECE]
+    push word ptr [word_3BEC8]
+    push word ptr [word_3BEBC]
+    call sub_1C488
+    add SP,6h
+    cmp word ptr [_var_279],-1h
+    jnz LAB_1000_b5e4
+    jmp LAB_1000_b6c2
+LAB_1000_b5e4:
+    mov AX,100h
+    cwd
+    mov CX,word ptr [word_3C016]
+    idiv CX
+    push AX
+    call _abs
+    add SP,2h
+    mov word ptr [BP + -22h],AX
+    mov word ptr [BP + -1eh],0h
+    jmp LAB_1000_b602
+LAB_1000_b5ff:
+    inc word ptr [BP + -1eh]
+LAB_1000_b602:
+    cmp word ptr [BP + -1eh],8h
+    jl LAB_1000_b60b
+    jmp LAB_1000_b6c2
+LAB_1000_b60b:
+    mov AX,4h
+    push AX
+    call randlmul
+    add SP,2h
+    db 05h, 0Ch, 00h ; add AX,0ch (force imm16 encoding)
+    push AX
+    call _sub_19E44
+    add SP,2h
+    cmp word ptr [word_3BECE],0h
+    jle LAB_1000_b65e
+    mov AX,word ptr [BP + -22h]
+    shl AX,1h
+    push AX
+    call randlmul
+    add SP,2h
+    sub AX,word ptr [BP + -22h]
+    add AX,word ptr [_var_282]
+    push AX
+    mov AX,word ptr [BP + -22h]
+    shl AX,1h
+    push AX
+    call randlmul
+    add SP,2h
+    sub AX,word ptr [BP + -22h]
+    add AX,word ptr [_var_279]
+    push AX
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call _sub_19C0C
+    add SP,8h
+    jmp LAB_1000_b6bf
+LAB_1000_b65e:
+    mov AX,6000h
+    push AX
+    call randlmul
+    add SP,2h
+    sub AX,3000h
+    mov word ptr [BP + -0ch],AX
+    cmp word ptr [_word_330C2],0h
+    jz LAB_1000_b67b
+    mov AX,word ptr [_var_545]
+    sub word ptr [BP + -0ch],AX
+LAB_1000_b67b:
+    push word ptr [BP + -22h]
+    call randlmul
+    add SP,2h
+    mov word ptr [BP + -4h],AX
+    push AX
+    push word ptr [BP + -0ch]
+    call _sub_1D178
+    add SP,4h
+    add AX,word ptr [_var_279]
+    mov word ptr [BP + -2ch],AX
+    push word ptr [BP + -4h]
+    push word ptr [BP + -0ch]
+    call _sub_1D190
+    add SP,4h
+    mov CX,word ptr [_var_282]
+    sub CX,AX
+    mov word ptr [BP + -32h],CX
+    push CX
+    push word ptr [BP + -2ch]
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call _sub_19C0C
+    add SP,8h
+LAB_1000_b6bf:
+    jmp LAB_1000_b5ff
+LAB_1000_b6c2:
+    push word ptr [word_39606]
+    call _sub_1D1C8
+    add SP,2h
+    sub word ptr [word_39606],AX
+    jmp LAB_1000_b6d8
+LAB_1000_b6d2:
+    mov word ptr [_word_39604],0h
+LAB_1000_b6d8:
+    cmp word ptr [_word_330C2],0h
+    jnz LAB_1000_b6e2
+    jmp LAB_1000_c1b3
+LAB_1000_b6e2:
+    cmp word ptr [_var_593],0h
+    jz LAB_1000_b6ef
+    mov word ptr [_var_593],0h
+LAB_1000_b6ef:
+    cmp word ptr [_word_330BC],0h
+    jz LAB_1000_b6fb
+    mov AX,2h
+    jmp LAB_1000_b6fe
+LAB_1000_b6fb:
+    mov AX,word ptr [_word_330BC]
+LAB_1000_b6fe:
+    push AX
+    call _copySomeMem
+    add SP,2h
+    mov AX,0fh
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov AX,0c7h
+    push AX
+    mov AX,13fh
+    push AX
+    mov AX,0c7h
+    push AX
+    mov AX,13fh
+    push AX
+    call _sub_19BE1
+    add SP,8h
+    mov word ptr [_var_671],0h
+    cmp word ptr [_word_3C45C],2h
+    jz LAB_1000_b735
+    jmp LAB_1000_b8ff
+LAB_1000_b735:
+    cmp word ptr [_keyValue],0h
+    jz LAB_1000_b73f
+    jmp LAB_1000_b8ff
+LAB_1000_b73f:
+    cmp word ptr [_word_336F4],0h
+    jge LAB_1000_b749
+    jmp LAB_1000_b8ff
+LAB_1000_b749:
+    mov SI,word ptr [_word_336F4]
+    mov CL,4h
+    shl SI,CL
+    sub AX,AX
+    push AX
+    push word ptr [SI + offset _stru_3AA5E + 2]
+    push word ptr [SI + offset _stru_3AA5E]
+    call sub_1C488
+    add SP,6h
+    mov BX,word ptr [_missileSpecIndex]
+    shl BX,1h
+    shl BX,1h
+    mov AX,1ah
+    imul word ptr [BX + offset _missileSpecIndex]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _missiles + 22]
+    mov word ptr [BP + -1ah],AX
+    db 3Dh, 1Ch, 00h ; cmp AX,1ch (force imm16 encoding)
+    jnz LAB_1000_b7aa
+    push word ptr [_word_336F4]
+    call sub_1C7A2
+    add SP,2h
+    mov DX,word ptr [_var_547]
+    mov CL,5h
+    shr DX,CL
+    mov CX,DX
+    shl DX,1h
+    shl DX,1h
+    add DX,CX
+    cmp AX,DX
+    jnc LAB_1000_b7aa
+    cmp word ptr [word_3C016],0h
+    jge LAB_1000_b7aa
+    mov word ptr [_var_671],1h
+LAB_1000_b7aa:
+    cmp word ptr [_var_279],-1h
+    jnz LAB_1000_b7b4
+    jmp LAB_1000_b8ff
+LAB_1000_b7b4:
+    cmp word ptr [_word_330BC],0h
+    jz LAB_1000_b7c0
+    mov AX,8h
+    jmp LAB_1000_b7c2
+LAB_1000_b7c0:
+    sub AX,AX
+LAB_1000_b7c2:
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov word ptr [BP + -6h],0h
+    push word ptr [_word_336F4]
+    mov BX,word ptr [_missileSpecIndex]
+    shl BX,1h
+    shl BX,1h
+    push word ptr [BX + offset _missileSpecIndex]
+    call sub_1A224
+    add SP,4h
+    or AX,AX
+    jz LAB_1000_b7ed
+    mov AX,4h
+    jmp LAB_1000_b7ef
+LAB_1000_b7ed:
+    sub AX,AX
+LAB_1000_b7ef:
+    mov word ptr [BP + -30h],AX
+    or AX,AX
+    jnz LAB_1000_b7f9
+    jmp LAB_1000_b8bb
+LAB_1000_b7f9:
+    cmp word ptr [BP + -1ah],4h
+    jnz LAB_1000_b811
+    mov BX,word ptr [_word_336F4]
+    mov CL,4h
+    shl BX,CL
+    cmp word ptr [BX + offset _stru_3AA5E + 4],0h
+    jnz LAB_1000_b811
+    jmp LAB_1000_b8bb
+LAB_1000_b811:
+    mov BX,word ptr [_missileSpecIndex]
+    shl BX,1h
+    shl BX,1h
+    cmp word ptr [BX + offset _missileSpecIndex + 2],0h
+    jnz LAB_1000_b823
+    jmp LAB_1000_b8b9
+LAB_1000_b823:
+    mov AX,0fh
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov AX,word ptr [_var_282]
+    db 2Dh, 38h, 00h ; sub AX,38h (force imm16 encoding)
+    push AX
+    mov AX,word ptr [_var_279]
+    db 2Dh, 0A0h, 00h ; sub AX,0a0h (force imm16 encoding)
+    push AX
+    call _sub_1CFA6
+    add SP,4h
+    db 3Dh, 30h, 00h ; cmp AX,30h (force imm16 encoding)
+    jl LAB_1000_b84d
+    cmp word ptr [_var_671],0h
+    jz LAB_1000_b8b3
+LAB_1000_b84d:
+    mov AX,12h
+    imul word ptr [BP + -1ah]
+    mov SI,AX
+    mov AX,word ptr [word_3C016]
+    neg AX
+    cwd
+    mov CX,7h
+    idiv CX
+    cmp AX,word ptr [SI + offset _sams + 8]
+    jge LAB_1000_b8b3
+    cmp word ptr [SI + offset _sams + 12],CX
+    jz LAB_1000_b8b3
+    cmp word ptr [SI + offset _sams + 12],1ch
+    jnz LAB_1000_b87a
+    cmp word ptr [_var_671],0h
+    jz LAB_1000_b8b1
+LAB_1000_b87a:
+    mov word ptr [_var_671],1h
+    mov word ptr [BP + -6h],1h
+    mov AX,12h
+    imul word ptr [BP + -1ah]
+    mov BX,AX
+    mov AX,word ptr [word_3C016]
+    neg AX
+    sar AX,1h
+    sar AX,1h
+    cmp word ptr [BX + offset _sams + 8],AX
+    jle LAB_1000_b8b1
+    cmp byte ptr [_gfxModeUnset],0h
+    jz LAB_1000_b8a7
+    sub AX,AX
+    jmp LAB_1000_b8aa
+LAB_1000_b8a7:
+    mov AX,0ch
+LAB_1000_b8aa:
+    push AX
+    call _sub_19E44
+    add SP,2h
+LAB_1000_b8b1:
+    jmp LAB_1000_b8b9
+LAB_1000_b8b3:
+    mov word ptr [_var_671],0h
+LAB_1000_b8b9:
+    jmp LAB_1000_b8dc
+LAB_1000_b8bb:
+    cmp word ptr [BP + -1ah],-1h
+    jz LAB_1000_b8d6
+    cmp word ptr [_word_330BC],0h
+    jz LAB_1000_b8cd
+    mov AX,8h
+    jmp LAB_1000_b8cf
+LAB_1000_b8cd:
+    sub AX,AX
+LAB_1000_b8cf:
+    push AX
+    call _sub_19E44
+    add SP,2h
+LAB_1000_b8d6:
+    mov word ptr [_var_671],0h
+LAB_1000_b8dc:
+    push word ptr [BP + -6h]
+    cmp word ptr [BP + -30h],0h
+    jz LAB_1000_b8ed
+    mov AX,word ptr [BP + -30h]
+    db 05h, 05h, 00h ; add AX,5h (force imm16 encoding)
+    jmp LAB_1000_b8f0
+LAB_1000_b8ed:
+    mov AX,9h
+LAB_1000_b8f0:
+    push AX
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call sub_1C1B9
+    add SP,8h
+LAB_1000_b8ff:
+    cmp word ptr [word_336F8],0h
+    jle LAB_1000_b94a
+    cmp word ptr [word_3BE96],0h
+    jl LAB_1000_b94a
+    mov SI,word ptr [word_3BE96]
+    mov CL,4h
+    shl SI,CL
+    sub AX,AX
+    push AX
+    push word ptr [SI + offset _stru_3AA5E + 2]
+    push word ptr [SI + offset _stru_3AA5E]
+    call sub_1C488
+    add SP,6h
+    mov AX,word ptr [_word_330C4]
+    sub AX,word ptr [word_336F8]
+    push AX
+    push word ptr [word_38F72]
+    mov BX,word ptr [word_3BE96]
+    mov CL,4h
+    shl BX,CL
+    mov BX,word ptr [BX + offset _word_3AA5C]
+    shl BX,1h
+    push word ptr [BX + offset _word_3C0A2]
+    call sub_1C371
+    add SP,6h
+LAB_1000_b94a:
+    and byte ptr [_var_730],0fdh
+    mov BX,word ptr [_var_564]
+    mov word ptr [BX + 2h],4h
+    mov BX,word ptr [_var_565]
+    mov word ptr [BX + 2h],4h
+    cmp word ptr [_word_3C09E],13h
+    jz LAB_1000_b96b
+    jmp LAB_1000_bbb6
+LAB_1000_b96b:
+    cmp word ptr [_word_3C45C],2h
+    jz LAB_1000_b97c
+    cmp word ptr [_word_3C45C],0h
+    jz LAB_1000_b97c
+    jmp LAB_1000_bbb6
+LAB_1000_b97c:
+    cmp word ptr [_word_336F4],-1h
+    jnz LAB_1000_b986
+    jmp LAB_1000_bbb6
+LAB_1000_b986:
+    mov AX,word ptr [_word_336F4]
+    db 25h, 7Fh, 00h ; and AX,7fh (force imm16 encoding)
+    mov word ptr [BP + -28h],AX
+    mov SI,AX
+    mov CL,4h
+    shl SI,CL
+    mov AX,0ffffh
+    push AX
+    mov AX,1h
+    push AX
+    sub AX,AX
+    push AX
+    push AX
+    push AX
+    push AX
+    push word ptr [SI + offset _stru_3AA5E + 2]
+    push word ptr [SI + offset _stru_3AA5E]
+    push word ptr [BP + -28h]
+    call sub_1C864
+    add SP,2h
+    push AX
+    call sub_1CB42
+    add SP,12h
+    call sub_1C2F8
+    push word ptr [BP + -28h]
+    call sub_1C7A2
+    add SP,2h
+    push AX
+    call sub_1C40B
+    add SP,2h
+    mov AX,0fh
+    push AX
+    mov AX,0aah
+    push AX
+    mov AX,0f4h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _draw2Strings
+    add SP,8h
+    mov BX,word ptr [BP + -28h]
+    mov CL,4h
+    shl BX,CL
+    mov BX,word ptr [BX + offset _stru_3AA5E + 12]
+    and BX,7fh
+    shl BX,1h
+    push word ptr [BX + offset _word_3C0A2]
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,0fh
+    push AX
+    mov AX,82h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strlen
+    add SP,2h
+    shl AX,1h
+    sub AX,10ch
+    neg AX
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _draw2Strings
+    add SP,8h
+    mov BX,word ptr [BP + -28h]
+    mov CL,4h
+    shl BX,CL
+    mov BX,word ptr [BX + offset _word_3AA5C]
+    shl BX,1h
+    push word ptr [BX + offset _word_3C0A2]
+    call _strlen
+    add SP,2h
+    or AX,AX
+    jz LAB_1000_bab1
+    mov BX,word ptr [BP + -28h]
+    mov CL,4h
+    shl BX,CL
+    mov BX,word ptr [BX + offset _stru_3AA5E + 12]
+    and BX,7fh
+    shl BX,1h
+    push word ptr [BX + offset _word_3C0A2]
+    call _strlen
+    add SP,2h
+    or AX,AX
+    jz LAB_1000_ba64
+    mov AX,offset aAt_0
+    jmp LAB_1000_ba67
+LAB_1000_ba64:
+    mov AX,5bf2h
+LAB_1000_ba67:
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov BX,word ptr [BP + -28h]
+    mov CL,4h
+    shl BX,CL
+    mov BX,word ptr [BX + offset _word_3AA5C]
+    shl BX,1h
+    push word ptr [BX + offset _word_3C0A2]
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,0fh
+    push AX
+    mov AX,88h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strlen
+    add SP,2h
+    shl AX,1h
+    sub AX,10ch
+    neg AX
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _draw2Strings
+    add SP,8h
+LAB_1000_bab1:
+    cmp word ptr [_word_3C45C],0h
+    jnz LAB_1000_baf3
+    mov SI,word ptr [_word_336F4]
+    mov CL,4h
+    shl SI,CL
+    sub AX,AX
+    push AX
+    push word ptr [SI + offset _stru_3AA5E + 2]
+    push word ptr [SI + offset _stru_3AA5E]
+    call sub_1C488
+    add SP,6h
+    mov AX,0fh
+    push AX
+    call _sub_19E44
+    add SP,2h
+    sub AX,AX
+    push AX
+    mov AX,8h
+    push AX
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call sub_1C1B9
+    add SP,8h
+    jmp LAB_1000_bb99
+LAB_1000_baf3:
+    mov AX,word ptr [_word_336F4]
+    cmp word ptr [word_3B146],AX
+    jnz LAB_1000_bb15
+    mov AX,0fh
+    push AX
+    mov AX,8eh
+    push AX
+    mov AX,0ech
+    push AX
+    mov AX,offset aPrimaryTarget
+    push AX
+    call _draw2Strings
+    add SP,8h
+    jmp LAB_1000_bb99
+LAB_1000_bb15:
+    mov AX,word ptr [_word_336F4]
+    cmp word ptr [word_3B158],AX
+    jnz LAB_1000_bb36
+    mov AX,0fh
+    push AX
+    mov AX,8eh
+    push AX
+    mov AX,0ech
+    push AX
+    mov AX,offset aSecondaryTarget
+    push AX
+    call _draw2Strings
+    add SP,8h
+    jmp LAB_1000_bb99
+LAB_1000_bb36:
+    test byte ptr [_word_336E8],1h
+    jnz LAB_1000_bb99
+    cmp word ptr [word_330BA],2h
+    jge LAB_1000_bb59
+    mov BX,word ptr [BP + -28h]
+    mov CL,4h
+    shl BX,CL
+    mov BX,word ptr [BX + offset _stru_3AA5E + 12]
+    and BX,7fh
+    test byte ptr [BX + offset _byte_3BFA4],0c0h
+    jnz LAB_1000_bb83
+LAB_1000_bb59:
+    mov SI,word ptr [BP + -28h]
+    mov CL,4h
+    shl SI,CL
+    test word ptr [SI + offset _stru_3AA5E + 6],500h
+    jnz LAB_1000_bb83
+    mov DI,word ptr [SI + offset _stru_3AA5E + 2]
+    mov CL,0bh
+    shr DI,CL
+    mov CL,4h
+    shl DI,CL
+    mov BX,word ptr [SI + offset _stru_3AA5E]
+    mov CL,0bh
+    shr BX,CL
+    test byte ptr [BX + DI + offset _byte_3AFAC],1h
+    jz LAB_1000_bb99
+LAB_1000_bb83:
+    mov AX,0fh
+    push AX
+    mov AX,8eh
+    push AX
+    mov AX,0fch
+    push AX
+    mov AX,offset aNoTarget
+    push AX
+    call _draw2Strings
+    add SP,8h
+LAB_1000_bb99:
+    mov AX,word ptr [_var_542]
+    add AX,word ptr [_word_3C6AC+206h]
+    sub AX,word ptr [_var_674]
+    push AX
+    call _abs
+    add SP,2h
+    cmp AX,2000h
+    jle LAB_1000_bbb6
+    mov word ptr [_word_336F4],0ffffh
+LAB_1000_bbb6:
+    mov AX,1h
+    push AX
+    call sub_1D21E
+    add SP,2h
+    mov word ptr [_var_677],AX
+    cmp word ptr [_word_3C45C],1h
+    jz LAB_1000_bbcd
+    jmp LAB_1000_bccd
+LAB_1000_bbcd:
+    cmp word ptr [_keyValue],0h
+    jz LAB_1000_bbd7
+    jmp LAB_1000_bccd
+LAB_1000_bbd7:
+    test byte ptr [_word_336F2],80h
+    jz LAB_1000_bbe1
+    jmp LAB_1000_bccd
+LAB_1000_bbe1:
+    mov AX,24h
+    imul word ptr [_word_336F2]
+    mov SI,AX
+    push word ptr [SI + offset _stru_3B208]
+    push word ptr [SI + offset word_3B206]
+    push word ptr [SI + offset word_3B204]
+    call sub_1C488
+    add SP,6h
+    cmp word ptr [_var_279],-1h
+    jnz LAB_1000_bc06
+    jmp LAB_1000_bccd
+LAB_1000_bc06:
+    cmp word ptr [_word_330BC],0h
+    jz LAB_1000_bc12
+    mov AX,8h
+    jmp LAB_1000_bc14
+LAB_1000_bc12:
+    sub AX,AX
+LAB_1000_bc14:
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov word ptr [BP + -6h],0h
+    mov SI,word ptr [_missileSpecIndex]
+    mov CL,2h
+    shl SI,CL
+    mov AX,1ah
+    imul word ptr [SI + offset _missileSpecIndex]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _missiles + 22]
+    mov word ptr [BP + -1ah],AX
+    cmp word ptr [SI + offset _missileSpecIndex + 2],0h
+    jz LAB_1000_bcb8
+    mov AX,12h
+    imul word ptr [BP + -1ah]
+    mov BX,AX
+    cmp word ptr [BX + offset _sams + 12],7h
+    jnz LAB_1000_bcb8
+    mov AX,0fh
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov AX,word ptr [_var_282]
+    db 2Dh, 38h, 00h ; sub AX,38h (force imm16 encoding)
+    push AX
+    mov AX,word ptr [_var_279]
+    db 2Dh, 0A0h, 00h ; sub AX,0a0h (force imm16 encoding)
+    push AX
+    call _sub_1CFA6
+    add SP,4h
+    db 3Dh, 30h, 00h ; cmp AX,30h (force imm16 encoding)
+    jge LAB_1000_bcb8
+    mov AX,word ptr [word_3C016]
+    neg AX
+    mov SI,AX
+    mov AX,12h
+    imul word ptr [BP + -1ah]
+    mov BX,AX
+    mov DI,word ptr [BX + offset _sams + 8]
+    mov AX,SI
+    mov CL,3h
+    sar AX,CL
+    cmp AX,DI
+    jge LAB_1000_bcb8
+    mov word ptr [_var_671],1h
+    mov word ptr [BP + -6h],1h
+    mov AX,SI
+    sar AX,1h
+    sar AX,1h
+    cmp AX,DI
+    jge LAB_1000_bcb8
+    cmp byte ptr [_gfxModeUnset],0h
+    jz LAB_1000_bcae
+    sub AX,AX
+    jmp LAB_1000_bcb1
+LAB_1000_bcae:
+    mov AX,0ch
+LAB_1000_bcb1:
+    push AX
+    call _sub_19E44
+    add SP,2h
+LAB_1000_bcb8:
+    push word ptr [BP + -6h]
+    mov AX,9h
+    push AX
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call sub_1C1B9
+    add SP,8h
+LAB_1000_bccd:
+    cmp word ptr [_word_3C09E],13h
+    jz LAB_1000_bcd7
+    jmp LAB_1000_be32
+LAB_1000_bcd7:
+    cmp word ptr [_word_3C45C],1h
+    jz LAB_1000_bce1
+    jmp LAB_1000_be32
+LAB_1000_bce1:
+    cmp word ptr [_word_336F2],-1h
+    jnz LAB_1000_bceb
+    jmp LAB_1000_be32
+LAB_1000_bceb:
+    mov AX,word ptr [_word_336F2]
+    db 25h, 7Fh, 00h ; and AX,7fh (force imm16 encoding)
+    mov word ptr [BP + -28h],AX
+    mov AX,24h
+    imul word ptr [BP + -28h]
+    mov SI,AX
+    mov AX,1h
+    push AX
+    push AX
+    push word ptr [SI + offset _stru_3B208 + 14]
+    push word ptr [SI + offset _stru_3B208 + 12]
+    push word ptr [SI + offset _stru_3B208 + 10]
+    push word ptr [SI + offset _stru_3B208]
+    push word ptr [SI + offset word_3B206]
+    push word ptr [SI + offset word_3B204]
+    mov BX,word ptr [SI + offset _stru_3B208 + 16]
+    mov CL,5h
+    shl BX,CL
+    push word ptr [BX + offset aFlogger + 18]
+    call sub_1CB42
+    add SP,12h
+    call sub_1C2F8
+    mov AX,24h
+    imul word ptr [BP + -28h]
+    mov SI,AX
+    mov AX,word ptr [_word_3BED0]
+    sub AX,word ptr [SI + offset word_3B206]
+    push AX
+    mov AX,word ptr [_word_3BEC0]
+    sub AX,word ptr [SI + offset word_3B204]
+    push AX
+    call _sub_1CFA6
+    add SP,4h
+    push AX
+    call sub_1C40B
+    add SP,2h
+    mov AX,0fh
+    push AX
+    mov AX,0aah
+    push AX
+    mov AX,0f4h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _draw2Strings
+    add SP,8h
+    mov AX,24h
+    imul word ptr [BP + -28h]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_3B208 + 16]
+    mov word ptr [BP + -1eh],AX
+    mov CL,5h
+    shl AX,CL
+    add AX,2c8h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,word ptr [BP + -1eh]
+    mov CL,5h
+    shl AX,CL
+    add AX,2cfh
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,0fh
+    push AX
+    mov AX,86h
+    push AX
+    mov AX,0f8h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _draw2Strings
+    add SP,8h
+    mov BX,word ptr [BP + -1eh]
+    mov CL,5h
+    shl BX,CL
+    cmp word ptr [BX + offset aFlogger + 16],-1h
+    jnz LAB_1000_bde0
+    test byte ptr [_word_336E8],1h
+    jnz LAB_1000_bde0
+    mov AX,0fh
+    push AX
+    mov AX,8ch
+    push AX
+    mov AX,0fch
+    push AX
+    mov AX,offset aNoTarget_0
+    push AX
+    call _draw2Strings
+    add SP,8h
+LAB_1000_bde0:
+    cmp word ptr [_word_38FDC],0h
+    jz LAB_1000_be32
+    test byte ptr [_word_336E8],1h
+    jz LAB_1000_be32
+    mov AX,24h
+    imul word ptr [BP + -28h]
+    mov SI,AX
+    mov AX,word ptr [SI + offset _stru_3B208 + 20]
+    cwd
+    push DX
+    push AX
+    mov AX,8000h
+    sub AX,word ptr [SI + offset _stru_3B208 + 12]
+    sub CX,CX
+    push CX
+    push AX
+    call __aNlmul
+    mov CL,0fh
+LAB_1000_be0d:
+    shr DX,1h
+    rcr AX,1h
+    dec CL
+    jz LAB_1000_be17
+    jmp LAB_1000_be0d
+LAB_1000_be17:
+    mov word ptr [_var_676],AX
+    push AX
+    push word ptr [SI + offset _stru_3B208 + 14]
+    call _sub_1D178
+    add SP,4h
+    push AX
+    call _abs
+    add SP,2h
+    sar AX,1h
+    sub word ptr [_var_676],AX
+LAB_1000_be32:
+    mov BX,word ptr [_var_564]
+    mov word ptr [BX + 2h],2h
+    mov BX,word ptr [_var_565]
+    mov word ptr [BX + 2h],2h
+    cmp word ptr [word_336F8],0h
+    jle LAB_1000_be9c
+    cmp word ptr [word_3BE96],0h
+    jge LAB_1000_be9c
+    mov AX,0ffffh
+    sub AX,word ptr [word_3BE96]
+    mov word ptr [BP + -1eh],AX
+    mov AX,24h
+    imul word ptr [BP + -1eh]
+    mov SI,AX
+    push word ptr [SI + offset _stru_3B208]
+    push word ptr [SI + offset word_3B206]
+    push word ptr [SI + offset word_3B204]
+    call sub_1C488
+    add SP,6h
+    mov AX,word ptr [_word_330C4]
+    sub AX,word ptr [word_336F8]
+    push AX
+    push word ptr [word_38F72]
+    mov AX,24h
+    imul word ptr [BP + -1eh]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _stru_3B208 + 16]
+    mov CL,5h
+    shl AX,CL
+    add AX,2c8h
+    push AX
+    call sub_1C371
+    add SP,6h
+LAB_1000_be9c:
+    cmp word ptr [_word_3C45C],2h
+    jz LAB_1000_bea6
+    jmp LAB_1000_c149
+LAB_1000_bea6:
+    cmp word ptr [_keyValue],0h
+    jz LAB_1000_beb0
+    jmp LAB_1000_c149
+LAB_1000_beb0:
+    mov BX,word ptr [_missileSpecIndex]
+    shl BX,1h
+    shl BX,1h
+    mov AX,1ah
+    imul word ptr [BX + offset _missileSpecIndex]
+    mov BX,AX
+    mov AX,word ptr [BX + offset _missiles + 22]
+    mov word ptr [BP + -10h],AX
+    db 3Dh, 1Eh, 00h ; cmp AX,1eh (force imm16 encoding)
+    jz LAB_1000_bed0
+    jmp LAB_1000_bfb6
+LAB_1000_bed0:
+    push word ptr [_var_545]
+    call _abs
+    add SP,2h
+    cmp AX,2000h
+    jl LAB_1000_bee2
+    jmp LAB_1000_bfb6
+LAB_1000_bee2:
+    call sub_1C82D
+    mov word ptr [BP + -0ch],AX
+    mov AX,20h
+    push AX
+    mov AX,word ptr [BP + -0ch]
+    neg AX
+    push AX
+    call _sub_1D178
+    add SP,4h
+    mov CX,AX
+    inc CX
+    push word ptr [_var_548]
+    push word ptr [BP + -0ch]
+    mov SI,CX
+    call _sub_1D190
+    add SP,4h
+    cwd
+    idiv SI
+    mov word ptr [BP + -16h],AX
+    push AX
+    push word ptr [_var_542]
+    call _sub_1D178
+    add SP,4h
+    add AX,word ptr [_word_3BEC0]
+    mov word ptr [BP + -24h],AX
+    push word ptr [BP + -16h]
+    push word ptr [_var_542]
+    call _sub_1D190
+    add SP,4h
+    mov CX,word ptr [_word_3BED0]
+    sub CX,AX
+    mov word ptr [BP + -26h],CX
+    sub AX,AX
+    push AX
+    push CX
+    push word ptr [BP + -24h]
+    call sub_1C488
+    add SP,6h
+    cmp word ptr [_var_279],-1h
+    jnz LAB_1000_bf76
+    mov AX,60h
+    sub AX,word ptr [_word_3C008]
+    push AX
+    push word ptr [_var_545]
+    call _sub_1D178
+    add SP,4h
+    shl AX,1h
+    shl AX,1h
+    cwd
+    mov CX,3h
+    idiv CX
+    db 05h, 0A0h, 00h ; add AX,0a0h (force imm16 encoding)
+    mov word ptr [_var_279],AX
+    mov word ptr [_var_282],60h
+    jmp LAB_1000_bf96
+LAB_1000_bf76:
+    mov AX,0ch
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov AX,1h
+    push AX
+    mov AX,5h
+    push AX
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    call sub_1C1B9
+    add SP,8h
+LAB_1000_bf96:
+    mov AX,0fh
+    push AX
+    call _sub_19E44
+    add SP,2h
+    push word ptr [_var_282]
+    push word ptr [_var_279]
+    push word ptr [_word_3C008]
+    mov AX,0a0h
+    push AX
+    call sub_19DB0
+    add SP,8h
+LAB_1000_bfb6:
+    cmp word ptr [BP + -10h],1eh
+    jz LAB_1000_bfc5
+    cmp word ptr [BP + -10h],1dh
+    jz LAB_1000_bfc5
+    jmp LAB_1000_c149
+LAB_1000_bfc5:
+    cmp word ptr [_word_336F4],0h
+    jge LAB_1000_bfcf
+    jmp LAB_1000_c149
+LAB_1000_bfcf:
+    push word ptr [_var_547]
+    mov AX,80h
+    push AX
+    push word ptr [_var_542]
+    call _sub_1D190
+    add SP,4h
+    mov BX,word ptr [_word_336F4]
+    mov CL,4h
+    shl BX,CL
+    mov CX,word ptr [BX + offset _stru_3AA5E + 2]
+    sub CX,AX
+    push CX
+    mov AX,80h
+    push AX
+    push word ptr [_var_542]
+    call _sub_1D178
+    add SP,4h
+    mov BX,word ptr [_word_336F4]
+    mov CL,4h
+    shl BX,CL
+    mov CX,word ptr [BX + offset _stru_3AA5E]
+    add CX,AX
+    push CX
+    call sub_1C488
+    add SP,6h
+    cmp word ptr [_var_279],-1h
+    jnz LAB_1000_c01d
+    jmp LAB_1000_c149
+LAB_1000_c01d:
+    cmp word ptr [BP + -10h],1eh
+    jnz LAB_1000_c058
+    mov SI,word ptr [_word_336F4]
+    mov CL,4h
+    shl SI,CL
+    mov AX,40h
+    push AX
+    sub AX,AX
+    push AX
+    mov AX,word ptr [BP + -26h]
+    sub AX,word ptr [SI + offset _stru_3AA5E + 2]
+    push AX
+    mov AX,word ptr [BP + -24h]
+    sub AX,word ptr [SI + offset _stru_3AA5E]
+    push AX
+    call _sub_1CFA6
+    add SP,4h
+    mov CL,3h
+    sar AX,CL
+    push AX
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [word_3C016],AX
+    jmp LAB_1000_c077
+LAB_1000_c058:
+    mov AX,40h
+    push AX
+    sub AX,AX
+    push AX
+    push word ptr [_word_336F4]
+    call sub_1C7A2
+    add SP,2h
+    mov CL,3h
+    sar AX,CL
+    push AX
+    call _sub_1CF64
+    add SP,6h
+    mov word ptr [word_3C016],AX
+LAB_1000_c077:
+    mov AX,0ch
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov AX,9fh
+    sub AX,word ptr [word_3C016]
+    mov SI,AX
+    mov AX,1eh
+    push AX
+    push SI
+    mov AX,21h
+    push AX
+    push SI
+    call _sub_19C0C
+    add SP,8h
+    mov SI,word ptr [word_3C016]
+    add SI,0a0h
+    mov AX,1eh
+    push AX
+    push SI
+    mov AX,21h
+    push AX
+    push SI
+    call _sub_19C0C
+    add SP,8h
+    mov AX,1eh
+    push AX
+    mov AX,word ptr [word_3C016]
+    db 05h, 0A0h, 00h ; add AX,0a0h (force imm16 encoding)
+    push AX
+    mov AX,1eh
+    push AX
+    mov AX,9fh
+    sub AX,word ptr [word_3C016]
+    push AX
+    call _sub_19C0C
+    add SP,8h
+    mov AX,0fh
+    push AX
+    call _sub_19E44
+    add SP,2h
+    mov AX,word ptr [_var_282]
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
+    push AX
+    push word ptr [_var_279]
+    push word ptr [_var_282]
+    mov AX,word ptr [_var_279]
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
+    push AX
+    call sub_19DB0
+    add SP,8h
+    push word ptr [_var_282]
+    mov AX,word ptr [_var_279]
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
+    push AX
+    mov AX,word ptr [_var_282]
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
+    push AX
+    push word ptr [_var_279]
+    call sub_19DB0
+    add SP,8h
+    mov AX,word ptr [_var_282]
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
+    push AX
+    push word ptr [_var_279]
+    push word ptr [_var_282]
+    mov AX,word ptr [_var_279]
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
+    push AX
+    call sub_19DB0
+    add SP,8h
+    push word ptr [_var_282]
+    mov AX,word ptr [_var_279]
+    db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
+    push AX
+    mov AX,word ptr [_var_282]
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
+    push AX
+    push word ptr [_var_279]
+    call sub_19DB0
+    add SP,8h
+LAB_1000_c149:
+    cmp word ptr [word_39606],0h
+    jz LAB_1000_c193
+    cmp word ptr [_word_3C09E],13h
+    jnz LAB_1000_c193
+    cmp word ptr [_word_39604],0h
+    jz LAB_1000_c193
+    cmp word ptr [word_39402],0h
+    jz LAB_1000_c193
+    sub AX,AX
+    push AX
+    mov AX,20h
+    push AX
+    push AX
+    mov AX,3fh
+    push AX
+    push word ptr [word_39606]
+    call _abs
+    add SP,2h
+    db 2Dh, 08h, 00h ; sub AX,8h (force imm16 encoding)
+    neg AX
+    mov CL,5h
+    shl AX,CL
+    push AX
+    mov AX,8ch
+    push AX
+    mov AX,0fch
+    push AX
+    call _sub_1A8C8
+    add SP,0eh
+LAB_1000_c193:
+    cmp word ptr [_word_3C09E],13h
+    jnz LAB_1000_c1b3
+    cmp word ptr [_var_675],0h
+    jz LAB_1000_c1b3
+    cmp word ptr [word_39402],0h
+    jnz LAB_1000_c1b3
+    mov AX,3h
+    push AX
+    push AX
+    call _sub_19FCC
+    add SP,4h
+LAB_1000_c1b3:
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
 sub_1B147 endp
 ; ------------------------------seg000:0xc1b8------------------------------
 ; ------------------------------seg000:0xc1b9------------------------------
-sub_1C1B9 proc near
-    retn
-sub_1C1B9 endp
+sub_1C1B9 equ _sub_1C1B9
 ; ------------------------------seg000:0xc2f7------------------------------
 ; ------------------------------seg000:0xc2f8------------------------------
-sub_1C2F8 proc near
-    retn
-sub_1C2F8 endp
+sub_1C2F8 equ _sub_1C2F8
 ; ------------------------------seg000:0xc370------------------------------
 ; ------------------------------seg000:0xc371------------------------------
-sub_1C371 proc near
-    retn
-sub_1C371 endp
+sub_1C371 equ _sub_1C371
 ; ------------------------------seg000:0xc40a------------------------------
 ; ------------------------------seg000:0xc40b------------------------------
-sub_1C40B proc near
-    retn
-sub_1C40B endp
+sub_1C40B equ _sub_1C40B
 ; ------------------------------seg000:0xc487------------------------------
 ; ------------------------------seg000:0xc488------------------------------
-sub_1C488 proc near
-    retn
-sub_1C488 endp
+sub_1C488 equ _sub_1C488
 ; ------------------------------seg000:0xc660------------------------------
 ; ------------------------------seg000:0xc661------------------------------
-sub_1C661 proc near
-    retn
-sub_1C661 endp
+sub_1C661 equ _sub_1C661
 ; ------------------------------seg000:0xc6bd------------------------------
 ; ------------------------------seg000:0xc6be------------------------------
 sub_1C6BE proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,2h
+    push SI
+    mov AX,word ptr [BP + 6h]
+    cwd
+    sub AX,8000h
+    sbb DX,0h
+    neg AX
+    adc DX,0h
+    neg DX
+    mov CL,5h
+LAB_1000_c6d8:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_c6e2
+    jmp LAB_1000_c6d8
+LAB_1000_c6e2:
+    push DX
+    push AX
+    mov AX,word ptr [BP + 4h]
+    cwd
+    mov CL,5h
+LAB_1000_c6ea:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jz LAB_1000_c6f4
+    jmp LAB_1000_c6ea
+LAB_1000_c6f4:
+    push DX
+    push AX
+    call sub_12FDA
+    add SP,8h
+    mov word ptr [word_39808],AX
+    or AX,AX
+    jnz LAB_1000_c706
+    jmp LAB_1000_c798
+LAB_1000_c706:
+    mov BX,AX
+    mov AX,word ptr [BX + 4h]
+    mov DX,word ptr [BX + 6h]
+    mov CL,5h
+LAB_1000_c710:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jz LAB_1000_c71a
+    jmp LAB_1000_c710
+LAB_1000_c71a:
+    mov word ptr [BP + 4h],AX
+    mov BX,word ptr [word_39808]
+    mov AX,word ptr [BX + 8h]
+    mov DX,word ptr [BX + 0ah]
+    mov CL,5h
+LAB_1000_c729:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jz LAB_1000_c733
+    jmp LAB_1000_c729
+LAB_1000_c733:
+    sub AX,8000h
+    neg AX
+    mov word ptr [BP + 6h],AX
+    mov word ptr [BP + -2h],1h
+    jmp LAB_1000_c745
+LAB_1000_c742:
+    inc word ptr [BP + -2h]
+LAB_1000_c745:
+    mov AX,word ptr [_word_3BED2]
+    cmp word ptr [BP + -2h],AX
+    jge LAB_1000_c76d
+    mov SI,word ptr [BP + -2h]
+    mov CL,4h
+    shl SI,CL
+    mov AX,word ptr [SI + offset _stru_3AA5E]
+    cmp word ptr [BP + 4h],AX
+    jnz LAB_1000_c76b
+    mov AX,word ptr [SI + offset _stru_3AA5E + 2]
+    cmp word ptr [BP + 6h],AX
+    jnz LAB_1000_c76b
+    mov AX,word ptr [BP + -2h]
+    jmp LAB_1000_c79d
+LAB_1000_c76b:
+    jmp LAB_1000_c742
+LAB_1000_c76d:
+    mov AX,word ptr [BP + 4h]
+    mov word ptr [_stru_3AA5E],AX
+    mov AX,word ptr [BP + 6h]
+    mov word ptr [_var_762],AX
+    mov BX,word ptr [word_39808]
+    mov AX,word ptr [BX]
+    add AH,1h
+    mov word ptr [_var_767],AX
+    cmp word ptr [word_336F6],0h
+    jnz LAB_1000_c792
+    mov word ptr [word_336F6],0ffffh
+LAB_1000_c792:
+    sub AX,AX
+    jmp LAB_1000_c79d
+    db 0EBh
+    db 05h
+LAB_1000_c798:
+    mov AX,0ffffh
+    jmp LAB_1000_c79d
+LAB_1000_c79d:
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
 sub_1C6BE endp
 ; ------------------------------seg000:0xc7a1------------------------------
 ; ------------------------------seg000:0xc7a2------------------------------
-sub_1C7A2 proc near
-    retn
-sub_1C7A2 endp
+sub_1C7A2 equ _sub_1C7A2
 ; ------------------------------seg000:0xc7c5------------------------------
 ; ------------------------------seg000:0xc7c6------------------------------
-sub_1C7C6 proc near
-    retn
-sub_1C7C6 endp
+sub_1C7C6 equ _sub_1C7C6
 ; ------------------------------seg000:0xc7e9------------------------------
 ; ------------------------------seg000:0xc7ea------------------------------
-sub_1C7EA proc near
-    retn
-sub_1C7EA endp
+sub_1C7EA equ _sub_1C7EA
 ; ------------------------------seg000:0xc82c------------------------------
 ; ------------------------------seg000:0xc82d------------------------------
-sub_1C82D proc near
-    retn
-sub_1C82D endp
+sub_1C82D equ _sub_1C82D
 ; ------------------------------seg000:0xc863------------------------------
 ; ------------------------------seg000:0xc864------------------------------
-sub_1C864 proc near
-    retn
-sub_1C864 endp
+sub_1C864 equ _sub_1C864
 ; ------------------------------seg000:0xc8a3------------------------------
 ; ------------------------------seg000:0xc8a4------------------------------
-sub_1C8A4 proc near
-    retn
-sub_1C8A4 endp
+sub_1C8A4 equ _sub_1C8A4
 ; ------------------------------seg000:0xc8dd------------------------------
 ; ------------------------------seg000:0xc9d2------------------------------
 sub_1C9D2 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,10h
+    push word ptr [BP + 4h]
+    call sub_1CF32
+    add SP,2h
+    mov word ptr [BP + -4h],AX
+    cmp byte ptr [_byte_3C5A0],0h
+    jnz LAB_1000_c9f0
+    mov AX,word ptr [_var_564]
+    jmp LAB_1000_c9f3
+LAB_1000_c9f0:
+    mov AX,word ptr [_var_565]
+LAB_1000_c9f3:
+    mov word ptr [BP + -2h],AX
+    mov AX,word ptr [BP + 6h]
+    mov DX,word ptr [BP + 8h]
+    sub AX,word ptr [_dword_3B7DA]
+    sbb DX,word ptr [_dword_3B7DA+2]
+    mov word ptr [BP + -8h],AX
+    mov word ptr [BP + -6h],DX
+    mov AX,word ptr [BP + 0ah]
+    mov DX,word ptr [BP + 0ch]
+    add AX,word ptr [_dword_3B7F8]
+    adc DX,word ptr [_dword_3B7F8+2]
+    db 2Dh, 00h, 00h ; sub AX,0h (force imm16 encoding)
+    sbb DX,100h
+    mov word ptr [BP + -0ch],AX
+    mov word ptr [BP + -0ah],DX
+    mov AX,word ptr [BP + 0eh]
+    sub AX,word ptr [_var_547]
+    mov word ptr [BP + -0eh],AX
+    test byte ptr [_keyValue],80h
+    jz LAB_1000_ca6a
+    mov AX,word ptr [_dword_3B7DA]
+    mov DX,word ptr [_dword_3B7DA+2]
+    sub AX,word ptr [_dword_3B1FE]
+    sbb DX,word ptr [_dword_3B1FE+2]
+    add word ptr [BP + -8h],AX
+    adc word ptr [BP + -6h],DX
+    mov AX,word ptr [_dword_3B4D4]
+    mov DX,word ptr [_dword_3B4D4+2]
+    sub AX,word ptr [_dword_3B7F8]
+    sbb DX,word ptr [_dword_3B7F8+2]
+    add word ptr [BP + -0ch],AX
+    adc word ptr [BP + -0ah],DX
+    mov AX,word ptr [_var_547]
+    sub AX,word ptr [_word_3B4DE]
+    add word ptr [BP + -0eh],AX
+LAB_1000_ca6a:
+    cmp byte ptr [_var_456],0h
+    jz LAB_1000_ca7a
+    mov AX,word ptr [BP + 16h]
+    db 2Dh, 02h, 00h ; sub AX,2h (force imm16 encoding)
+    jmp LAB_1000_ca80
+    db 90h
+LAB_1000_ca7a:
+    mov AX,word ptr [BP + 16h]
+    db 2Dh, 03h, 00h ; sub AX,3h (force imm16 encoding)
+LAB_1000_ca80:
+    mov word ptr [BP + 16h],AX
+    or AX,AX
+    jle LAB_1000_ca9f
+    push AX
+    lea AX,[BP + -8h]
+    push AX
+    call unknown_libname_1
+    push word ptr [BP + 16h]
+    lea AX,[BP + -0ch]
+    push AX
+    call unknown_libname_1
+    mov CL,byte ptr [BP + 16h]
+    shl word ptr [BP + -0eh],CL
+LAB_1000_ca9f:
+    cmp word ptr [BP + 16h],0h
+    jge LAB_1000_cac7
+    mov AX,word ptr [BP + 16h]
+    neg AX
+    mov byte ptr [BP + -10h],AL
+    push word ptr [BP + -10h]
+    lea AX,[BP + -8h]
+    push AX
+    call unknown_libname_2
+    push word ptr [BP + -10h]
+    lea AX,[BP + -0ch]
+    push AX
+    call unknown_libname_2
+    mov CL,byte ptr [BP + -10h]
+    sar word ptr [BP + -0eh],CL
+LAB_1000_cac7:
+    push word ptr [BP + -6h]
+    push word ptr [BP + -8h]
+    call _labs
+    add SP,4h
+    cwd
+    or DX,DX
+    jg LAB_1000_cb3e
+    jl LAB_1000_cadf
+    cmp AX,7fffh
+    jnc LAB_1000_cb3e
+LAB_1000_cadf:
+    push word ptr [BP + -0ah]
+    push word ptr [BP + -0ch]
+    call _labs
+    add SP,4h
+    cwd
+    or DX,DX
+    jg LAB_1000_cb3e
+    jl LAB_1000_caf7
+    cmp AX,7fffh
+    jnc LAB_1000_cb3e
+LAB_1000_caf7:
+    mov AX,word ptr [BP + -0eh]
+    neg AX
+    push AX
+    sub AX,AX
+    push AX
+    push AX
+    call sub_13A90
+    add SP,6h
+    mov word ptr [word_3C16C],1h
+    cmp word ptr [BP + 0eh],1h
+    sbb AX,AX
+    inc AX
+    push AX
+    mov AX,word ptr [BP + -0ch]
+    neg AX
+    push AX
+    push word ptr [BP + -8h]
+    push word ptr [BP + 14h]
+    push word ptr [BP + 12h]
+    mov AX,word ptr [BP + 10h]
+    neg AX
+    push AX
+    mov BX,word ptr [BP + -4h]
+        db 8Dh, 87h, 00h, 00h ; lea AX,[BX + 0h] (force disp16 encoding)
+        mov DX,228dh
+    push DX
+    push AX
+    call far ptr sub_20104
+    add SP,10h
+LAB_1000_cb3e:
+    mov SP,BP
+    pop BP
+    ret
 sub_1C9D2 endp
 ; ------------------------------seg000:0xcb41------------------------------
 ; ------------------------------seg000:0xcb42------------------------------
 sub_1CB42 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,1eh
+    push SI
+    mov word ptr [word_39402],1h
+    cmp word ptr [BP + 12h],1h
+    jnz LAB_1000_cb6d
+    cmp word ptr [_word_38FDC],0h
+    jnz LAB_1000_cb6d
+    cmp byte ptr [_gfxModeUnset],0h
+    jz LAB_1000_cb6d
+    test byte ptr [_word_336E8],3h
+    jz LAB_1000_cb6d
+    jmp LAB_1000_cf2c
+LAB_1000_cb6d:
+    push word ptr [BP + 4h]
+    call sub_1CF32
+    add SP,2h
+    mov word ptr [BP + -10h],AX
+    cmp byte ptr [_byte_3C5A0],0h
+    jnz LAB_1000_cb8a
+    mov BX,word ptr [_var_568]
+    mov word ptr [BX],0h
+    jmp LAB_1000_cb92
+LAB_1000_cb8a:
+    mov BX,word ptr [_var_568]
+    mov word ptr [BX],1h
+LAB_1000_cb92:
+    cmp word ptr [BP + 12h],2h
+    jl LAB_1000_cb9b
+    jmp LAB_1000_cd48
+LAB_1000_cb9b:
+    mov word ptr [_var_685],0h
+    mov AX,word ptr [BP + 6h]
+    sub AX,word ptr [_word_3BEC0]
+    mov word ptr [BP + -18h],AX
+    mov AX,word ptr [BP + 8h]
+    sub AX,word ptr [_word_3BED0]
+    mov word ptr [BP + -1ah],AX
+    mov AX,word ptr [BP + 0ah]
+    sub AX,word ptr [_var_547]
+    mov CL,5h
+    sar AX,CL
+    mov word ptr [BP + -1ch],AX
+    mov AX,word ptr [BP + -1ah]
+    neg AX
+    push AX
+    push word ptr [BP + -18h]
+    call _sub_1D008
+    add SP,4h
+    mov word ptr [BP + -6h],AX
+    push word ptr [BP + -1ah]
+    push word ptr [BP + -18h]
+    call _sub_1CFA6
+    add SP,4h
+    push AX
+    push word ptr [BP + -1ch]
+    call _sub_1D008
+    add SP,4h
+    mov word ptr [BP + -0eh],AX
+    push word ptr [BP + -1ah]
+    push word ptr [BP + -18h]
+    call _sub_1CFA6
+    add SP,4h
+    push AX
+    push word ptr [BP + -1ch]
+    call _sub_1CFA6
+    add SP,4h
+    mov word ptr [BP + -8h],AX
+    cmp word ptr [BP + 12h],1h
+    jnz LAB_1000_cc42
+    mov word ptr [_var_680],AX
+    mov CL,4h
+    sar AX,CL
+    add AX,190h
+    mov word ptr [_var_682],AX
+    mov CL,5h
+    shl AX,CL
+    cwd
+    mov CX,word ptr [BP + -8h]
+    inc CX
+    idiv CX
+    mov word ptr [_var_683],AX
+    mov AX,word ptr [_var_682]
+    shl AX,1h
+    shl AX,1h
+    mov word ptr [BP + -8h],AX
+    mov AX,word ptr [BP + -6h]
+    mov word ptr [_var_681],AX
+    mov AX,word ptr [BP + -0eh]
+    mov word ptr [_var_684],AX
+    jmp LAB_1000_cce0
+    db 90h
+LAB_1000_cc42:
+    mov AX,word ptr [_var_680]
+    mov CL,5h
+    shl AX,CL
+    cwd
+    mov CX,word ptr [BP + -8h]
+    inc CX
+    idiv CX
+    mov word ptr [_var_683],AX
+    cmp AX,100h
+    jle LAB_1000_cc5e
+    mov word ptr [_var_683],100h
+LAB_1000_cc5e:
+    cmp word ptr [_var_683],4h
+    jge LAB_1000_cc6b
+    mov word ptr [_var_683],4h
+LAB_1000_cc6b:
+    mov AX,word ptr [BP + -6h]
+    sub AX,word ptr [_var_681]
+    mov CL,5h
+    sar AX,CL
+    imul word ptr [_var_683]
+    mov word ptr [BP + -16h],AX
+    mov AX,word ptr [BP + -0eh]
+    sub AX,word ptr [_var_684]
+    sar AX,CL
+    imul word ptr [_var_683]
+    mov word ptr [BP + -0ah],AX
+    push word ptr [BP + -16h]
+    call _abs
+    add SP,2h
+    cmp AX,1000h
+    jle LAB_1000_cc9e
+    jmp LAB_1000_cf2c
+LAB_1000_cc9e:
+    push word ptr [BP + -0ah]
+    call _abs
+    add SP,2h
+    cmp AX,1000h
+    jle LAB_1000_ccaf
+    jmp LAB_1000_cf2c
+LAB_1000_ccaf:
+    mov AX,word ptr [BP + -16h]
+    shl AX,1h
+    shl AX,1h
+    add AX,word ptr [_var_681]
+    mov word ptr [BP + -6h],AX
+    mov AX,word ptr [BP + -0ah]
+    shl AX,1h
+    shl AX,1h
+    add AX,word ptr [_var_684]
+    mov word ptr [BP + -0eh],AX
+    mov AX,word ptr [_var_682]
+    mov CL,5h
+    shl AX,CL
+    cwd
+    mov CX,word ptr [_var_683]
+    idiv CX
+    shl AX,1h
+    shl AX,1h
+    mov word ptr [BP + -8h],AX
+LAB_1000_cce0:
+    push word ptr [BP + -8h]
+    push word ptr [BP + -0eh]
+    call _sub_1D190
+    add SP,4h
+    mov word ptr [BP + -14h],AX
+    mov byte ptr [_var_594],2h
+    cmp word ptr [BP + 14h],0h
+    jge LAB_1000_cd07
+    mov AL,byte ptr [BP + 14h]
+    add AL,2h
+    mov byte ptr [_var_594],AL
+    mov word ptr [BP + 14h],0h
+LAB_1000_cd07:
+    push word ptr [BP + -14h]
+    push word ptr [BP + -6h]
+    call _sub_1D178
+    add SP,4h
+    mov CL,byte ptr [BP + 14h]
+    sar AX,CL
+    mov word ptr [BP + -18h],AX
+    push word ptr [BP + -14h]
+    push word ptr [BP + -6h]
+    call _sub_1D190
+    add SP,4h
+    neg AX
+    mov CL,byte ptr [BP + 14h]
+    sar AX,CL
+    mov word ptr [BP + -1ah],AX
+    push word ptr [BP + -8h]
+    push word ptr [BP + -0eh]
+    call _sub_1D178
+    add SP,4h
+    mov CL,byte ptr [BP + 14h]
+    sar AX,CL
+    mov word ptr [BP + -1ch],AX
+    jmp LAB_1000_cd8b
+    db 90h
+LAB_1000_cd48:
+    mov AX,word ptr [BP + 6h]
+    sub AX,word ptr [_word_3BEC0]
+    mov CL,4h
+    shl AX,CL
+    mov word ptr [BP + -18h],AX
+    mov AX,word ptr [BP + 8h]
+    sub AX,word ptr [_word_3BED0]
+    shl AX,CL
+    mov word ptr [BP + -1ah],AX
+    mov AX,word ptr [BP + 0ah]
+    sub AX,word ptr [_var_547]
+    sar AX,1h
+    mov word ptr [BP + -1ch],AX
+    mov AX,word ptr [_var_542]
+    mov word ptr [_var_681],AX
+    mov AX,word ptr [word_38FCE]
+    mov word ptr [_var_684],AX
+    mov AX,word ptr [_var_545]
+    mov word ptr [_var_685],AX
+    mov word ptr [_var_683],20h
+    mov byte ptr [_var_594],2h
+LAB_1000_cd8b:
+    cmp word ptr [BP + 12h],1h
+    jz LAB_1000_cd9a
+    cmp word ptr [BP + 12h],3h
+    jz LAB_1000_cd9a
+    jmp LAB_1000_ce82
+LAB_1000_cd9a:
+    mov AX,word ptr [_var_683]
+    cwd
+    push DX
+    push AX
+    mov AX,word ptr [_var_684]
+    sar AX,1h
+    sar AX,1h
+    cwd
+    push DX
+    push AX
+    call __aNlmul
+    mov CL,5h
+LAB_1000_cdaf:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jnz LAB_1000_cdaf
+    db 05h, 9Ch, 00h ; add AX,9ch (force imm16 encoding)
+    mov word ptr [BP + -4h],AX
+    db 3Dh, 80h, 00h ; cmp AX,80h (force imm16 encoding)
+    jl LAB_1000_cdca
+    cmp word ptr [_var_684],0e800h
+    jge LAB_1000_cdcf
+LAB_1000_cdca:
+    mov word ptr [BP + -4h],80h
+LAB_1000_cdcf:
+    cmp word ptr [BP + -4h],0b8h
+    jg LAB_1000_cdde
+    cmp word ptr [_var_684],1800h
+    jle LAB_1000_cde3
+LAB_1000_cdde:
+    mov word ptr [BP + -4h],0b8h
+LAB_1000_cde3:
+    mov BX,word ptr [_var_568]
+    mov AL,byte ptr [byte_3419A]
+    sub AH,AH
+    mov word ptr [BX + 4h],AX
+    cmp word ptr [BP + -4h],80h
+    jz LAB_1000_ce11
+    push word ptr [BP + -4h]
+    mov AX,130h
+    push AX
+    mov AX,80h
+    push AX
+    mov AX,0e8h
+    push AX
+    push word ptr [_var_568]
+    call far ptr _sub_21444
+    add SP,0ah
+LAB_1000_ce11:
+    mov ES,word ptr [_var_653]
+    mov AL,ES:[2fh]
+    sub AH,AH
+    mov word ptr [BP + -12h],AX
+    mov BX,word ptr [BP + 4h]
+    and BX,7fh
+    mov AL,byte ptr [BX + offset _byte_3BFA4]
+    cbw
+    mov word ptr [BP + -0ch],AX
+    test byte ptr [BP + -0ch],10h
+    jz LAB_1000_ce37
+    mov word ptr [BP + -12h],8h
+LAB_1000_ce37:
+    mov AL,byte ptr [BP + -0ch]
+    and AL,0fh
+    mov byte ptr [BP + -1eh],AL
+    cmp AL,0ch
+    jz LAB_1000_ce4b
+    cmp AL,9h
+    jz LAB_1000_ce4b
+    cmp AL,0bh
+    jnz LAB_1000_ce50
+LAB_1000_ce4b:
+    mov word ptr [BP + -12h],1h
+LAB_1000_ce50:
+    mov BX,word ptr [_var_568]
+    mov SI,word ptr [BP + -12h]
+    mov AL,byte ptr [SI + offset byte_3419C]
+    sub AH,AH
+    mov word ptr [BX + 4h],AX
+    cmp word ptr [BP + -4h],0b8h
+    jz LAB_1000_ce82
+    mov AX,0b8h
+    push AX
+    mov AX,130h
+    push AX
+    push word ptr [BP + -4h]
+    mov AX,0e8h
+    push AX
+    push word ptr [_var_568]
+    call far ptr _sub_21444
+    add SP,0ah
+LAB_1000_ce82:
+    mov byte ptr [_var_316],1h
+    sub AX,AX
+    push AX
+    push AX
+    push AX
+    push AX
+    push word ptr [_var_685]
+    push word ptr [_var_684]
+    mov AX,word ptr [_var_681]
+    neg AX
+    push AX
+    push word ptr [_var_568]
+    call sub_13932
+    add SP,10h
+    push word ptr [BP + -1ch]
+    mov AX,word ptr [BP + -1ah]
+    neg AX
+    push AX
+    push word ptr [BP + -18h]
+    push word ptr [BP + 10h]
+    push word ptr [BP + 0eh]
+    mov AX,word ptr [BP + 0ch]
+    neg AX
+    push AX
+    mov BX,word ptr [BP + -10h]
+    db 8Dh, 87h, 00h, 00h ; lea AX,[BX + 0h] (force disp16 encoding)
+    mov DX,228dh
+    push DX
+    push AX
+    call far ptr sub_20104
+    add SP,10h
+    call sub_139AA
+    mov byte ptr [_var_316],0h
+    cmp word ptr [BP + 12h],1h
+    jnz LAB_1000_cf27
+    mov AX,offset aBrg
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,0ah
+    push AX
+    mov AX,offset unk_3C030
+    push AX
+    mov AX,word ptr [_var_681]
+    sub DX,DX
+    mov CX,0b6h
+    div CX
+    push AX
+    call _itoa
+    add SP,6h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,0fh
+    push AX
+    mov AX,0b0h
+    push AX
+    mov AX,0f8h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _draw2Strings
+    add SP,8h
+LAB_1000_cf27:
+    mov byte ptr [_var_594],0h
+LAB_1000_cf2c:
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
+    nop
 sub_1CB42 endp
 ; ------------------------------seg000:0xcf30------------------------------
 ; ------------------------------seg000:0xcf32------------------------------
 sub_1CF32 proc near
-    retn
+_sub_1CF32 equ sub_1CF32
+    push BP
+    mov BP,SP
+    test word ptr [BP + 4h],100h
+    jz LAB_1000_cf4a
+    mov BX,word ptr [BP + 4h]
+    and BX,7fh
+    shl BX,1h
+    mov AX,word ptr [BX + offset _buf3d3]
+    pop BP
+    ret
+LAB_1000_cf4a:
+    mov BX,word ptr [BP + 4h]
+    shl BX,1h
+    mov BX,word ptr [BX + offset _flt15_buf1]
+    lea AX,[BX + 0add4h]
+    mov DX,228dh
+    mov CX,0h
+    mov BX,228dh
+    sub AX,CX
+    pop BP
+    ret
 sub_1CF32 endp
 ; ------------------------------seg000:0xcf63------------------------------
 ; ------------------------------seg000:0xcf64------------------------------
-_sub_1CF64 proc near
-    retn
-_sub_1CF64 endp
+; _sub_1CF64 - now in C (egame2.c)
 ; ------------------------------seg000:0xcf8d------------------------------
+; ------------------------------seg000:0xcf8e------------------------------
+forceRange equ _sub_1CF8E
 ; ------------------------------seg000:0xcfa6------------------------------
 _sub_1CFA6 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,4h
+    push word ptr [BP + 4h]
+    call _abs
+    add SP,2h
+    mov word ptr [BP + 4h],AX
+    push word ptr [BP + 6h]
+    call _abs
+    add SP,2h
+    mov word ptr [BP + 6h],AX
+    cmp word ptr [BP + 4h],AX
+    jle LAB_1000_cfd4
+    mov AX,word ptr [BP + 4h]
+    cwd
+    mov CX,AX
+    mov AX,word ptr [BP + 6h]
+    jmp LAB_1000_cfdd
+LAB_1000_cfd4:
+    mov AX,word ptr [BP + 6h]
+    cwd
+    mov CX,AX
+    mov AX,word ptr [BP + 4h]
+LAB_1000_cfdd:
+    sar AX,1h
+    mov BX,DX
+    cwd
+    add AX,CX
+    adc DX,BX
+    mov word ptr [BP + -4h],AX
+    mov word ptr [BP + -2h],DX
+    or DX,DX
+    jl LAB_1000_d001
+    jg LAB_1000_cff7
+    cmp AX,7fffh
+    jbe LAB_1000_d001
+LAB_1000_cff7:
+    mov word ptr [BP + -4h],7fffh
+    mov word ptr [BP + -2h],0h
+LAB_1000_d001:
+    mov AX,word ptr [BP + -4h]
+    mov SP,BP
+    pop BP
+    ret
 _sub_1CFA6 endp
 ; ------------------------------seg000:0xd007------------------------------
 ; ------------------------------seg000:0xd008------------------------------
 _sub_1D008 proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,0eh
+    push SI
+    cmp word ptr [BP + 4h],0h
+    jnz LAB_1000_d02a
+    cmp word ptr [BP + 6h],0h
+    jle LAB_1000_d022
+    sub AX,AX
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
+LAB_1000_d022:
+    mov AX,8000h
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
+LAB_1000_d02a:
+    cmp word ptr [BP + 6h],0h
+    jnz LAB_1000_d046
+    cmp word ptr [BP + 4h],0h
+    jle LAB_1000_d03e
+    mov AX,4000h
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
+LAB_1000_d03e:
+    mov AX,0c000h
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
+LAB_1000_d046:
+    push word ptr [BP + 6h]
+    call _abs
+    add SP,2h
+    push word ptr [BP + 4h]
+    mov SI,AX
+    call _abs
+    add SP,2h
+    cmp AX,SI
+    jle LAB_1000_d08c
+    push word ptr [BP + 6h]
+    call _abs
+    add SP,2h
+    cwd
+    mov CL,0eh
+LAB_1000_d06a:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jnz LAB_1000_d06a
+    mov word ptr [BP + -8h],AX
+    mov word ptr [BP + -6h],DX
+    push word ptr [BP + 4h]
+    call _abs
+    add SP,2h
+    mov word ptr [BP + -0ah],AX
+    mov word ptr [BP + -0ch],1h
+    jmp LAB_1000_d0b7
+    db 90h
+LAB_1000_d08c:
+    push word ptr [BP + 4h]
+    call _abs
+    add SP,2h
+    cwd
+    mov CL,0eh
+LAB_1000_d098:
+    shl AX,1h
+    rcl DX,1h
+    dec CL
+    jnz LAB_1000_d098
+    mov word ptr [BP + -8h],AX
+    mov word ptr [BP + -6h],DX
+    push word ptr [BP + 6h]
+    call _abs
+    add SP,2h
+    mov word ptr [BP + -0ah],AX
+    mov word ptr [BP + -0ch],0h
+LAB_1000_d0b7:
+    mov AX,word ptr [BP + -0ah]
+    cwd
+    push DX
+    push AX
+    push word ptr [BP + -6h]
+    push word ptr [BP + -8h]
+    call __aNldiv
+    mov word ptr [BP + -0eh],AX
+    cwd
+    push DX
+    push AX
+    mov AX,0b00h
+    cwd
+    push DX
+    push AX
+    mov AX,1333h
+    sub AX,word ptr [BP + -0eh]
+    push AX
+    call _abs
+    add SP,2h
+    cwd
+    push DX
+    push AX
+    call __aNlmul
+    mov CL,0eh
+LAB_1000_d0e7:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jnz LAB_1000_d0e7
+    sub AX,2800h
+    sbb DX,0h
+    neg AX
+    adc DX,0h
+    neg DX
+    push DX
+    push AX
+    call __aNlmul
+    mov CL,0eh
+LAB_1000_d103:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jnz LAB_1000_d103
+    mov word ptr [BP + -2h],AX
+    cmp word ptr [BP + 4h],0h
+    jle LAB_1000_d142
+    cmp word ptr [BP + 6h],0h
+    jle LAB_1000_d12e
+    cmp word ptr [BP + -0ch],0h
+    jz LAB_1000_d128
+    mov AX,4000h
+LAB_1000_d123:
+    sub AX,word ptr [BP + -2h]
+    jmp LAB_1000_d170
+LAB_1000_d128:
+    mov AX,word ptr [BP + -2h]
+    jmp LAB_1000_d170
+    db 90h
+LAB_1000_d12e:
+    cmp word ptr [BP + -0ch],0h
+    jz LAB_1000_d13c
+    mov AX,word ptr [BP + -2h]
+    add AH,40h
+    jmp LAB_1000_d170
+LAB_1000_d13c:
+    mov AX,8000h
+    jmp LAB_1000_d123
+    db 90h
+LAB_1000_d142:
+    cmp word ptr [BP + 6h],0h
+    jle LAB_1000_d15e
+    cmp word ptr [BP + -0ch],0h
+    jz LAB_1000_d156
+    mov AX,word ptr [BP + -2h]
+    add AH,0c0h
+    jmp LAB_1000_d170
+LAB_1000_d156:
+    mov AX,word ptr [BP + -2h]
+    neg AX
+    jmp LAB_1000_d170
+    db 90h
+LAB_1000_d15e:
+    cmp word ptr [BP + -0ch],0h
+    jz LAB_1000_d16a
+    mov AX,0c000h
+    jmp LAB_1000_d123
+    db 90h
+LAB_1000_d16a:
+    mov AX,word ptr [BP + -2h]
+    add AH,80h
+LAB_1000_d170:
+    mov word ptr [BP + -4h],AX
+    pop SI
+    mov SP,BP
+    pop BP
+    ret
 _sub_1D008 endp
 ; ------------------------------seg000:0xd177------------------------------
 ; ------------------------------seg000:0xd178------------------------------
-_sub_1D178 proc near
-    retn
-_sub_1D178 endp
+; _sub_1D178 - now in C (egame2.c)
 ; ------------------------------seg000:0xd18f------------------------------
 ; ------------------------------seg000:0xd190------------------------------
-_sub_1D190 proc near
-    retn
-_sub_1D190 endp
+; _sub_1D190 - now in C (egame2.c)
 ; ------------------------------seg000:0xd1a4------------------------------
+    nop
+    nop
 ; ------------------------------seg000:0xd1e8------------------------------
-sub_1D1E8 proc near
-    retn
-sub_1D1E8 endp
+sub_1D1E8 equ _sub_1D1E8
 ; ------------------------------seg000:0xd1ff------------------------------
 ; ------------------------------seg000:0xd200------------------------------
-randlmul proc near
-    retn
-randlmul endp
+randlmul equ _sub_1D200
 ; ------------------------------seg000:0xd21d------------------------------
 ; ------------------------------seg000:0xd21e------------------------------
+PUBLIC _sub_1D21E
 sub_1D21E proc near
-    retn
+    push BP
+    mov BP,SP
+    sub SP,2h
+    cmp word ptr [word_330BE],0h
+    jz LAB_1000_d232
+    mov word ptr [BP + -2h],0h
+    jmp LAB_1000_d258
+LAB_1000_d232:
+    les BX,dword ptr [_commData]
+    cmp word ptr ES:[BX + 72h],0h
+    jz LAB_1000_d24a
+    push word ptr [BP + 4h]
+    call far ptr misc_jump_5d_readJoy
+    add SP,2h
+    jmp LAB_1000_d24c
+LAB_1000_d24a:
+    sub AX,AX
+LAB_1000_d24c:
+    mov BX,word ptr [BP + 4h]
+    shl BX,1h
+    add AX,word ptr [BX + offset word_38606]
+    mov word ptr [BP + -2h],AX
+LAB_1000_d258:
+    mov AX,word ptr [BP + -2h]
+    mov SP,BP
+    pop BP
+    ret
+    nop
 sub_1D21E endp
+_sub_1D21E equ sub_1D21E
 ; ------------------------------seg000:0xd25e------------------------------
 ; ------------------------------seg000:0xd260------------------------------
+PUBLIC _keyDispatch
 keyDispatch proc near
-    retn
+_keyDispatch equ keyDispatch
+    push BP
+    mov BP,SP
+    sub SP,0eh
+    push DI
+    push SI
+    sub AX,AX
+    mov word ptr [_var_599],AX
+    mov word ptr [_var_598],AX
+    cmp word ptr [BP + 4h],AX
+    jnz LAB_1000_d278
+    jmp LAB_1000_d958
+LAB_1000_d278:
+    mov AX,word ptr [BP + 4h]
+    jmp LAB_1000_d747
+LAB_1000_d27e:
+    call sub_1DBE0
+    jmp LAB_1000_d88c
+LAB_1000_d284:
+    inc word ptr [_var_588]
+    cmp word ptr [_var_588],2h
+    jle LAB_1000_d295
+    mov word ptr [_var_588],0h
+LAB_1000_d295:
+    mov AX,word ptr [_var_588]
+    jmp LAB_1000_d2cc
+LAB_1000_d29a:
+    mov AX,offset aLong
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    jmp LAB_1000_d2dc
+LAB_1000_d2aa:
+    mov AX,offset aMedium
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    jmp LAB_1000_d2dc
+LAB_1000_d2ba:
+    mov AX,offset aShort
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    jmp LAB_1000_d2dc
+    db 0EBh
+    db 10h
+LAB_1000_d2cc:
+    or AX,AX
+    jz LAB_1000_d29a
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
+    jz LAB_1000_d2aa
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
+    jz LAB_1000_d2ba
+    jmp LAB_1000_d2dc
+LAB_1000_d2dc:
+    mov AX,offset aRangeRadar
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    jmp LAB_1000_d88c
+LAB_1000_d2f7:
+    call zoomIn
+    jmp LAB_1000_d88c
+LAB_1000_d2fd:
+    call zoomOut
+    jmp LAB_1000_d88c
+LAB_1000_d303:
+    mov AX,1h
+    push AX
+    call countermeasures
+    add SP,2h
+    jmp LAB_1000_d88c
+LAB_1000_d310:
+    mov AX,2h
+    push AX
+    call countermeasures
+    add SP,2h
+    jmp LAB_1000_d88c
+LAB_1000_d31d:
+    mov AX,word ptr [_word_3BEBE]
+    cmp word ptr [_var_547],AX
+    jz LAB_1000_d33f
+    xor byte ptr [_planeFlags],1h
+    mov word ptr [word_336EC],0h
+    mov AX,2h
+    push AX
+    mov AX,20h
+    push AX
+    call makeSound
+    add SP,4h
+LAB_1000_d33f:
+    test byte ptr [_planeFlags],1h
+    jnz LAB_1000_d349
+    call sub_1DB9C
+LAB_1000_d349:
+    jmp LAB_1000_d88c
+LAB_1000_d34c:
+    dec word ptr [_word_38FDC]
+    jns LAB_1000_d367
+    call far ptr _gfx_jump_3f_modecode
+    db 3Dh, 03h, 00h ; cmp AX,3h (force imm16 encoding)
+    jnz LAB_1000_d361
+    mov AX,3h
+    jmp LAB_1000_d364
+LAB_1000_d361:
+    mov AX,2h
+LAB_1000_d364:
+    mov word ptr [_word_38FDC],AX
+LAB_1000_d367:
+    mov AX,offset aDetailLevel
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,0ah
+    push AX
+    mov AX,offset unk_3C030
+    push AX
+    push word ptr [_word_38FDC]
+    call _itoa
+    add SP,6h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    call sub_1DB2B
+    jmp LAB_1000_d88c
+LAB_1000_d3a2:
+    inc word ptr [_var_596]
+    cmp word ptr [_var_596],2h
+    jle LAB_1000_d3b3
+    mov word ptr [_var_596],0h
+LAB_1000_d3b3:
+    mov AX,offset aKybdSensitivit
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,0ah
+    push AX
+    mov AX,offset unk_3C030
+    push AX
+    mov AX,word ptr [_var_596]
+    inc AX
+    push AX
+    call _itoa
+    add SP,6h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    jmp LAB_1000_d88c
+LAB_1000_d3ec:
+    mov AX,offset aMemoryAvailabl
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,0ah
+    push AX
+    lea AX,[BP + -0eh]
+    push AX
+    push word ptr [_allocSize]
+    call _itoa
+    add SP,6h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    jmp LAB_1000_d88c
+LAB_1000_d424:
+    mov AX,offset aJiffiesFrame
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,0ah
+    push AX
+    mov AX,offset unk_3C030
+    push AX
+    push word ptr [word_3C6AE]
+    call _itoa
+    add SP,6h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    jmp LAB_1000_d88c
+LAB_1000_d45c:
+    cmp word ptr [_word_3370A],1h
+    jnz LAB_1000_d47a
+    mov word ptr [_word_3370A],2h
+    mov CX,2h
+    mov AX,word ptr [_word_330C4]
+    cwd
+    idiv CX
+    mov word ptr [_word_330C4],AX
+    call sub_1DAAE
+    jmp LAB_1000_d47d
+LAB_1000_d47a:
+    call sub_1DB9C
+LAB_1000_d47d:
+    jmp LAB_1000_d88c
+LAB_1000_d480:
+    inc word ptr [_var_600]
+    mov AX,word ptr [_var_600]
+    db 25h, 03h, 00h ; and AX,3h (force imm16 encoding)
+    mov word ptr [_var_600],AX
+    mov AX,offset aSounds
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    mov AX,0ah
+    push AX
+    mov AX,offset unk_3C030
+    push AX
+    mov AX,3h
+    sub AX,word ptr [_var_600]
+    push AX
+    call _itoa
+    add SP,6h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    call sub_1DA8D
+    jmp LAB_1000_d88c
+LAB_1000_d4cc:
+    xor byte ptr [_word_330BC],1h
+    cmp byte ptr [_byte_32933],0h
+    jz LAB_1000_d4db
+    call _setupDac
+LAB_1000_d4db:
+    jmp LAB_1000_d88c
+LAB_1000_d4de:
+    xor byte ptr [_var_730],10h
+    test word ptr [_planeFlags],1000h
+    jz LAB_1000_d4f4
+    les BX,dword ptr [_commData]
+    or byte ptr ES:[BX + 30h],1h
+LAB_1000_d4f4:
+    jmp LAB_1000_d88c
+LAB_1000_d4f7:
+    mov word ptr [_missileSpecIndex],0h
+    cmp word ptr [_word_3C45C],1h
+    jz LAB_1000_d50a
+    mov word ptr [_word_39604],0h
+LAB_1000_d50a:
+    mov word ptr [_word_3C45C],1h
+    call selectMissile
+    jmp LAB_1000_d88c
+LAB_1000_d516:
+    mov word ptr [_missileSpecIndex],1h
+    mov word ptr [_word_3C45C],1h
+    jmp LAB_1000_d52a
+    db 0C7h
+    db 06h
+    db 54h
+    db 6Dh
+    db 00h
+    db 00h
+LAB_1000_d52a:
+    call selectMissile
+    jmp LAB_1000_d88c
+LAB_1000_d530:
+    mov word ptr [_missileSpecIndex],2h
+    cmp word ptr [_word_3C45C],2h
+    jz LAB_1000_d543
+    mov word ptr [_word_39604],0h
+LAB_1000_d543:
+    mov word ptr [_word_3C45C],2h
+    call selectMissile
+    jmp LAB_1000_d88c
+LAB_1000_d54f:
+    inc word ptr [_word_3370E]
+    cmp word ptr [_word_3370E],2h
+    jle LAB_1000_d560
+    mov word ptr [_word_3370E],0h
+LAB_1000_d560:
+    mov AX,offset aDirector
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcpy
+    add SP,4h
+    cmp word ptr [_word_3370E],0h
+    jz LAB_1000_d594
+    mov AX,0ah
+    push AX
+    mov AX,offset unk_3C030
+    push AX
+    push word ptr [_word_3370E]
+    call _itoa
+    add SP,6h
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+    jmp LAB_1000_d5a2
+LAB_1000_d594:
+    mov AX,offset aOff
+    push AX
+    mov AX,offset strBuf
+    push AX
+    call _strcat
+    add SP,4h
+LAB_1000_d5a2:
+    mov AX,offset strBuf
+    push AX
+    call tempStrcpy
+    add SP,2h
+    jmp LAB_1000_d88c
+LAB_1000_d5af:
+    inc word ptr [_waypointIndex]
+    cmp word ptr [_waypointIndex],3h
+    jle LAB_1000_d5c0
+    mov word ptr [_waypointIndex],1h
+LAB_1000_d5c0:
+    mov AX,word ptr [_waypointIndex]
+    jmp LAB_1000_d5f1
+LAB_1000_d5c5:
+    mov AX,offset aWaypointPrimar
+    push AX
+    call tempStrcpy
+    add SP,2h
+    jmp LAB_1000_d602
+LAB_1000_d5d1:
+    mov AX,offset aWaypointSecond
+    push AX
+    call tempStrcpy
+    add SP,2h
+    jmp LAB_1000_d602
+LAB_1000_d5dd:
+    mov AX,offset aWaypointFriend
+    push AX
+    call tempStrcpy
+    add SP,2h
+    mov AX,word ptr [_word_3C16A]
+    mov word ptr [word_3B15A],AX
+    jmp LAB_1000_d602
+    db 0EBh
+    db 11h
+LAB_1000_d5f1:
+    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
+    jz LAB_1000_d5c5
+    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
+    jz LAB_1000_d5d1
+    db 3Dh, 03h, 00h ; cmp AX,3h (force imm16 encoding)
+    jz LAB_1000_d5dd
+    jmp LAB_1000_d602
+LAB_1000_d602:
+    jmp LAB_1000_d88c
+LAB_1000_d605:
+    cmp word ptr [_word_330B6],0h
+    jz LAB_1000_d61e
+    mov word ptr [_word_330B6],0h
+    mov AX,offset aAutopilotOff
+    push AX
+    call tempStrcpy
+    add SP,2h
+    jmp LAB_1000_d636
+LAB_1000_d61e:
+    mov AX,word ptr [_var_547]
+    cmp AX,3e8h
+    jge LAB_1000_d629
+    mov AX,3e8h
+LAB_1000_d629:
+    mov word ptr [_word_330B6],AX
+    mov AX,offset aAutopilotOn
+    push AX
+    call tempStrcpy
+    add SP,2h
+LAB_1000_d636:
+    jmp LAB_1000_d88c
+LAB_1000_d639:
+    or byte ptr [_word_336F4],80h
+    jmp LAB_1000_d88c
+LAB_1000_d641:
+    mov word ptr [_var_598],1h
+    jmp LAB_1000_d88c
+LAB_1000_d64a:
+    mov word ptr [_var_599],1h
+    jmp LAB_1000_d88c
+LAB_1000_d653:
+    mov word ptr [_keyValue],0h
+    jmp LAB_1000_d88c
+LAB_1000_d65c:
+    mov word ptr [_keyValue],44h
+    jmp LAB_1000_d88c
+LAB_1000_d665:
+    mov word ptr [_keyValue],42h
+    jmp LAB_1000_d88c
+LAB_1000_d66e:
+    mov word ptr [_keyValue],43h
+    jmp LAB_1000_d88c
+LAB_1000_d677:
+    mov word ptr [_keyValue],41h
+    jmp LAB_1000_d88c
+LAB_1000_d680:
+    mov word ptr [_keyValue],87h
+    jmp LAB_1000_d88c
+LAB_1000_d689:
+    mov word ptr [_keyValue],84h
+    jmp LAB_1000_d88c
+LAB_1000_d692:
+    mov word ptr [_keyValue],85h
+    jmp LAB_1000_d88c
+LAB_1000_d69b:
+    mov word ptr [_keyValue],89h
+    jmp LAB_1000_d88c
+LAB_1000_d6a4:
+    mov word ptr [_keyValue],88h
+    jmp LAB_1000_d88c
+LAB_1000_d6ad:
+    mov word ptr [_keyValue],8bh
+    jmp LAB_1000_d88c
+LAB_1000_d6b6:
+    cmp word ptr [word_3BE3C],0h
+    jz LAB_1000_d6c0
+    jmp LAB_1000_d741
+LAB_1000_d6c0:
+    mov AX,2h
+    push AX
+    push AX
+    call makeSound
+    add SP,4h
+    mov AX,2h
+    push AX
+    mov AX,22h
+    push AX
+    call makeSound
+    add SP,4h
+    mov AX,1f4h
+    push AX
+    call randlmul
+    add SP,2h
+    add AX,1f4h
+    push word ptr [_var_544]
+    mov SI,AX
+    call _abs
+    add SP,2h
+    mov CL,5h
+    sar AX,CL
+    push word ptr [_var_545]
+    mov DI,AX
+    call _abs
+    add SP,2h
+    mov CL,5h
+    sar AX,CL
+    add AX,DI
+    add AX,word ptr [_word_3AA5A]
+    cmp AX,SI
+    jle LAB_1000_d71c
+    mov AX,6h
+    push AX
+    call sub_11B37
+    add SP,2h
+    jmp LAB_1000_d726
+LAB_1000_d71c:
+    les BX,dword ptr [_commData]
+    mov word ptr ES:[BX + 26h],2h
+LAB_1000_d726:
+    mov word ptr [word_3BE3C],1h
+    mov AX,word ptr [_word_3BEC0]
+    mov word ptr [_word_3C028],AX
+    mov AX,word ptr [_word_3BED0]
+    mov word ptr [_word_3C03A],AX
+    mov AX,word ptr [_var_547]
+    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
+    mov word ptr [_word_3C040],AX
+LAB_1000_d741:
+    jmp LAB_1000_d88c
+    db 0E9h
+    db 45h
+    db 01h
+LAB_1000_d747:
+    cmp AX,266ch
+    jnz LAB_1000_d74f
+    jmp LAB_1000_d31d
+LAB_1000_d74f:
+    jbe LAB_1000_d754
+    jmp LAB_1000_d7ee
+LAB_1000_d754:
+    cmp AX,1970h
+    jnz LAB_1000_d75c
+    jmp LAB_1000_d605
+LAB_1000_d75c:
+    ja LAB_1000_d79e
+    cmp AX,1177h
+    jnz LAB_1000_d766
+    jmp LAB_1000_d5af
+LAB_1000_d766:
+    ja LAB_1000_d77b
+    cmp AX,11bh
+    jnz LAB_1000_d770
+    jmp LAB_1000_d6b6
+LAB_1000_d770:
+    cmp AX,0e08h
+    jnz LAB_1000_d778
+    jmp LAB_1000_d641
+LAB_1000_d778:
+    jmp LAB_1000_d88c
+LAB_1000_d77b:
+    cmp AX,1372h
+    jnz LAB_1000_d783
+    jmp LAB_1000_d284
+LAB_1000_d783:
+    cmp AX,1400h
+    jnz LAB_1000_d78b
+    jmp LAB_1000_d4de
+LAB_1000_d78b:
+    cmp AX,1474h
+    jnz LAB_1000_d793
+    jmp LAB_1000_d639
+LAB_1000_d793:
+    cmp AX,1500h
+    jnz LAB_1000_d79b
+    jmp LAB_1000_d27e
+LAB_1000_d79b:
+    jmp LAB_1000_d88c
+LAB_1000_d79e:
+    cmp AX,2000h
+    jnz LAB_1000_d7a6
+    jmp LAB_1000_d34c
+LAB_1000_d7a6:
+    ja LAB_1000_d7c3
+    cmp AX,1c0dh
+    jnz LAB_1000_d7b0
+    jmp LAB_1000_d64a
+LAB_1000_d7b0:
+    cmp AX,1e00h
+    jnz LAB_1000_d7b8
+    jmp LAB_1000_d45c
+LAB_1000_d7b8:
+    cmp AX,1f73h
+    jnz LAB_1000_d7c0
+    jmp LAB_1000_d4f7
+LAB_1000_d7c0:
+    jmp LAB_1000_d88c
+LAB_1000_d7c3:
+    cmp AX,2064h
+    jnz LAB_1000_d7cb
+    jmp LAB_1000_d54f
+LAB_1000_d7cb:
+    cmp AX,2100h
+    jnz LAB_1000_d7d3
+    jmp LAB_1000_d424
+LAB_1000_d7d3:
+    cmp AX,2166h
+    jnz LAB_1000_d7db
+    jmp LAB_1000_d303
+LAB_1000_d7db:
+    cmp AX,2267h
+    jnz LAB_1000_d7e3
+    jmp LAB_1000_d530
+LAB_1000_d7e3:
+    cmp AX,2500h
+    jnz LAB_1000_d7eb
+    jmp LAB_1000_d3a2
+LAB_1000_d7eb:
+    jmp LAB_1000_d88c
+LAB_1000_d7ee:
+    cmp AX,3b00h
+    jnz LAB_1000_d7f6
+    jmp LAB_1000_d65c
+LAB_1000_d7f6:
+    ja LAB_1000_d83e
+    cmp AX,2f00h
+    jnz LAB_1000_d800
+    jmp LAB_1000_d480
+LAB_1000_d800:
+    ja LAB_1000_d81c
+    cmp AX,2c7ah
+    jnz LAB_1000_d80a
+    jmp LAB_1000_d2f7
+LAB_1000_d80a:
+    cmp AX,2d78h
+    jnz LAB_1000_d812
+    jmp LAB_1000_d2fd
+LAB_1000_d812:
+    cmp AX,2e63h
+    jnz LAB_1000_d81a
+    jmp LAB_1000_d310
+LAB_1000_d81a:
+    jmp LAB_1000_d88c
+LAB_1000_d81c:
+    cmp AX,3100h
+    jnz LAB_1000_d824
+    jmp LAB_1000_d4cc
+LAB_1000_d824:
+    cmp AX,3200h
+    jnz LAB_1000_d82c
+    jmp LAB_1000_d3ec
+LAB_1000_d82c:
+    cmp AX,326dh
+    jnz LAB_1000_d834
+    jmp LAB_1000_d516
+LAB_1000_d834:
+    cmp AX,3920h
+    jnz LAB_1000_d83c
+    jmp LAB_1000_d653
+LAB_1000_d83c:
+    jmp LAB_1000_d88c
+LAB_1000_d83e:
+    cmp AX,3f00h
+    jnz LAB_1000_d846
+    jmp LAB_1000_d680
+LAB_1000_d846:
+    ja LAB_1000_d862
+    cmp AX,3c00h
+    jnz LAB_1000_d850
+    jmp LAB_1000_d665
+LAB_1000_d850:
+    cmp AX,3d00h
+    jnz LAB_1000_d858
+    jmp LAB_1000_d66e
+LAB_1000_d858:
+    cmp AX,3e00h
+    jnz LAB_1000_d860
+    jmp LAB_1000_d677
+LAB_1000_d860:
+    jmp LAB_1000_d88c
+LAB_1000_d862:
+    cmp AX,4000h
+    jnz LAB_1000_d86a
+    jmp LAB_1000_d689
+LAB_1000_d86a:
+    cmp AX,4100h
+    jnz LAB_1000_d872
+    jmp LAB_1000_d692
+LAB_1000_d872:
+    cmp AX,4200h
+    jnz LAB_1000_d87a
+    jmp LAB_1000_d69b
+LAB_1000_d87a:
+    cmp AX,4300h
+    jnz LAB_1000_d882
+    jmp LAB_1000_d6a4
+LAB_1000_d882:
+    cmp AX,4400h
+    jnz LAB_1000_d88a
+    jmp LAB_1000_d6ad
+LAB_1000_d88a:
+    jmp LAB_1000_d88c
+LAB_1000_d88c:
+    test word ptr [_planeFlags],1000h
+    jnz LAB_1000_d897
+    jmp LAB_1000_d94b
+LAB_1000_d897:
+    mov AX,word ptr [BP + 4h]
+    jmp LAB_1000_d92a
+LAB_1000_d89d:
+    call sub_119A3
+    jmp LAB_1000_d94b
+LAB_1000_d8a3:
+    sub AX,AX
+    mov DX,2h
+    mov CL,byte ptr [byte_383E5]
+    or CL,CL
+    jz LAB_1000_d8ba
+LAB_1000_d8b0:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jz LAB_1000_d8ba
+    jmp LAB_1000_d8b0
+LAB_1000_d8ba:
+    add word ptr [_dword_3B7F8],AX
+    adc word ptr [_dword_3B7F8+2],DX
+    jmp LAB_1000_d94b
+LAB_1000_d8c5:
+    sub AX,AX
+    mov DX,2h
+    mov CL,byte ptr [byte_383E5]
+    or CL,CL
+    jz LAB_1000_d8dc
+LAB_1000_d8d2:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jz LAB_1000_d8dc
+    jmp LAB_1000_d8d2
+LAB_1000_d8dc:
+    sub word ptr [_dword_3B7F8],AX
+    sbb word ptr [_dword_3B7F8+2],DX
+    jmp LAB_1000_d94b
+LAB_1000_d8e6:
+    sub AX,AX
+    mov DX,2h
+    mov CL,byte ptr [byte_383E5]
+    or CL,CL
+    jz LAB_1000_d8fd
+LAB_1000_d8f3:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jz LAB_1000_d8fd
+    jmp LAB_1000_d8f3
+LAB_1000_d8fd:
+    sub word ptr [_dword_3B7DA],AX
+    sbb word ptr [_dword_3B7DA+2],DX
+    jmp LAB_1000_d94b
+LAB_1000_d907:
+    sub AX,AX
+    mov DX,2h
+    mov CL,byte ptr [byte_383E5]
+    or CL,CL
+    jz LAB_1000_d91e
+LAB_1000_d914:
+    sar DX,1h
+    rcr AX,1h
+    dec CL
+    jz LAB_1000_d91e
+    jmp LAB_1000_d914
+LAB_1000_d91e:
+    add word ptr [_dword_3B7DA],AX
+    adc word ptr [_dword_3B7DA+2],DX
+    jmp LAB_1000_d94b
+    db 0EBh
+    db 21h
+LAB_1000_d92a:
+    cmp AX,1300h
+    jnz LAB_1000_d932
+    jmp LAB_1000_d89d
+LAB_1000_d932:
+    cmp AX,1f00h
+    jnz LAB_1000_d93a
+    jmp LAB_1000_d8a3
+LAB_1000_d93a:
+    cmp AX,2c00h
+    jz LAB_1000_d8e6
+    cmp AX,2d00h
+    jz LAB_1000_d8c5
+    cmp AX,2e00h
+    jz LAB_1000_d907
+    jmp LAB_1000_d94b
+LAB_1000_d94b:
+    cmp word ptr [word_3BE3C],0h
+    jz LAB_1000_d958
+    mov word ptr [_keyValue],8ch
+LAB_1000_d958:
+    cmp word ptr [_var_597],0h
+    jle LAB_1000_d963
+    dec word ptr [_var_597]
+LAB_1000_d963:
+    mov AX,1h
+    push AX
+    call sub_1D21E
+    add SP,2h
+    or AX,AX
+    jz LAB_1000_d981
+    cmp word ptr [_var_597],0h
+    jnz LAB_1000_d981
+    call sub_18AA6
+    mov word ptr [_var_597],4h
+LAB_1000_d981:
+    test byte ptr [_planeFlags],1h
+    jz LAB_1000_d98d
+    mov AX,4h
+    jmp LAB_1000_d9a4
+LAB_1000_d98d:
+    cmp word ptr [_word_3AA5A],0fah
+    jl LAB_1000_d99c
+    test byte ptr [_word_336E8],1h
+    jz LAB_1000_d9a1
+LAB_1000_d99c:
+    mov AX,2h
+    jmp LAB_1000_d9a4
+LAB_1000_d9a1:
+    mov AX,0ah
+LAB_1000_d9a4:
+    push AX
+    mov AX,3h
+    push AX
+    call sub_19EB6
+    add SP,4h
+    test byte ptr [_planeFlags],8h
+    jz LAB_1000_d9bb
+    mov AX,0eh
+    jmp LAB_1000_d9ca
+LAB_1000_d9bb:
+    cmp byte ptr [_gfxModeUnset],0h
+    jz LAB_1000_d9c7
+    mov AX,3h
+    jmp LAB_1000_d9ca
+LAB_1000_d9c7:
+    mov AX,2h
+LAB_1000_d9ca:
+    push AX
+    mov AX,2h
+    push AX
+    call sub_19EB6
+    add SP,4h
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
 keyDispatch endp
 ; ------------------------------seg000:0xd9da------------------------------
 ; ------------------------------seg000:0xd9db------------------------------
-selectMissile proc near
-    retn
-selectMissile endp
+selectMissile equ _selectMissile
 ; ------------------------------seg000:0xda34------------------------------
 ; ------------------------------seg000:0xda35------------------------------
-makeSound proc near
-    retn
-makeSound endp
+makeSound equ _makeSound
 ; ------------------------------seg000:0xda5e------------------------------
 ; ------------------------------seg000:0xda5f------------------------------
-sub_1DA5F proc near
-    retn
-sub_1DA5F endp
+sub_1DA5F equ _sub_1DA5F
 ; ------------------------------seg000:0xda8c------------------------------
 ; ------------------------------seg000:0xda8d------------------------------
-sub_1DA8D proc near
-    retn
-sub_1DA8D endp
+sub_1DA8D equ _sub_1DA8D
 ; ------------------------------seg000:0xdaad------------------------------
 ; ------------------------------seg000:0xdaae------------------------------
-sub_1DAAE proc near
-    retn
-sub_1DAAE endp
+sub_1DAAE equ _sub_1DAAE
 ; ------------------------------seg000:0xdb2a------------------------------
 ; ------------------------------seg000:0xdb2b------------------------------
-sub_1DB2B proc near
-    retn
-sub_1DB2B endp
+sub_1DB2B equ _sub_1DB2B
 ; ------------------------------seg000:0xdb9b------------------------------
 ; ------------------------------seg000:0xdb9c------------------------------
-sub_1DB9C proc near
-    retn
-sub_1DB9C endp
+sub_1DB9C equ _sub_1DB9C
 ; ------------------------------seg000:0xdbb6------------------------------
 ; ------------------------------seg000:0xdbe0------------------------------
-sub_1DBE0 proc near
-    retn
-sub_1DBE0 endp
+sub_1DBE0 equ _sub_1DBE0
 ; ------------------------------seg000:0xdbff------------------------------
+    nop
 ; ------------------------------seg000:0xdd5e------------------------------
-sub_1DD5E proc near
-    retn
-sub_1DD5E endp
+sub_1DD5E equ _sub_1DD5E
 ; ------------------------------seg000:0xdd6e------------------------------
+    nop
 ; ------------------------------seg000:0xdd7e------------------------------
-sub_1DD7E proc near
-    retn
-sub_1DD7E endp
+sub_1DD7E equ _sub_1DD7E
 ; ------------------------------seg000:0xdd91------------------------------
 ; ------------------------------seg000:0xdd92------------------------------
-sub_1DD92 proc near
-    retn
-sub_1DD92 endp
+sub_1DD92 equ _sub_1DD92
 ; ------------------------------seg000:0xdda8------------------------------
+    nop
 ; ------------------------------seg000:0xddaa------------------------------
-sub_1DDAA proc near
-    retn
-sub_1DDAA endp
+sub_1DDAA equ _sub_1DDAA
+    nop
 ; ------------------------------seg000:0xddc3------------------------------
 ; ------------------------------seg000:0xddc4------------------------------
 _openFile proc near
@@ -1689,6 +16676,7 @@ loc_1DE64:
     pop bp
     retn
 createFile endp
+_createFile equ createFile
 ; ------------------------------seg000:0xde71------------------------------
 ; ------------------------------seg000:0xde72------------------------------
 _closeFile proc near
@@ -1718,13 +16706,106 @@ _closeFile endp
 ; ------------------------------seg000:0xde92------------------------------
 ; ------------------------------seg000:0xde94------------------------------
 readFile1 proc near
-    retn
+    push BP
+    mov BP,SP
+    push DI
+    push SI
+    push ES
+    push BP
+    mov AH,3fh
+    mov BX,SS
+    mov DS,BX
+    mov BX,word ptr [BP + 4h]
+    mov CX,word ptr [BP + 6h]
+    mov DX,word ptr [BP + 8h]
+    int 21h
+    jnc LAB_1000_deb7
+    mov DX,5fc7h
+    mov CX,0ffffh
+    jmp printString_1DF9B
+LAB_1000_deb7:
+    pop BP
+    pop ES
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
 readFile1 endp
+_readFile1 equ readFile1
 ; ------------------------------seg000:0xdebe------------------------------
 ; ------------------------------seg000:0xdebf------------------------------
 readFile2 proc near
-    retn
+    push BP
+    mov BP,SP
+    push DI
+    push SI
+    push ES
+    push BP
+    push DS
+    mov AH,3fh
+    mov BX,word ptr [BP + 0ah]
+    mov DS,BX
+    mov BX,word ptr [BP + 4h]
+    mov CX,word ptr [BP + 6h]
+    mov DX,word ptr [BP + 8h]
+    int 21h
+    pop DS
+    jnc LAB_1000_dee5
+    mov DX,5fc7h
+    mov CX,0ffffh
+    jmp printString_1DF9B
+LAB_1000_dee5:
+    pop BP
+    pop ES
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
+    db 1Eh
+    db 06h
+    db 56h
+    db 57h
+    db 8Ch
+    db 0D8h
+    db 8Eh
+    db 0C0h
+    db 36h
+    db 8Eh
+    db 1Eh
+    db 0DEh
+    db 5Fh
+    db 0B9h
+    db 00h
+    db 01h
+    db 36h
+    db 8Bh
+    db 36h
+    db 0E0h
+    db 5Fh
+    db 0BFh
+    db 7Ch
+    db 5Dh
+    db 0F3h
+    db 0A5h
+    db 36h
+    db 81h
+    db 06h
+    db 0E0h
+    db 5Fh
+    db 00h
+    db 02h
+    db 0B8h
+    db 00h
+    db 02h
+    db 5Fh
+    db 5Eh
+    db 07h
+    db 1Fh
+    db 0C3h
 readFile2 endp
+_readFile2 equ readFile2
 ; ------------------------------seg000:0xdeec------------------------------
 ; ------------------------------seg000:0xdf16------------------------------
 read512FromFileIntoBuf proc near
@@ -1740,11 +16821,11 @@ read512FromFileIntoBuf proc near
     mov dx, 5FC7h
     mov cx, 0FFFFh
     jmp short printString_1DF9B
-    nop
 loc_1DF35:
     pop ds
     retn
 read512FromFileIntoBuf endp
+    nop
 ; ------------------------------seg000:0xdf36------------------------------
 ; ------------------------------seg000:0xdf4f------------------------------
 sub_1DF4F proc near
@@ -1806,13 +16887,15 @@ printString_1DF9B:
     add cx, 30h
     mov byte_3862A, cl
     mov byte_3862B, 24h
-    mov dx, 5D7Ah
+    mov dx, offset byte_3862A
     mov ah, 9
     int 21h ;DOS - PRINT STRING
 loc_1DFB7:
     mov ax, 4C00h
     int 21h ;DOS - 2+ - QUIT WITH EXIT CODE (EXIT)
 sub_1DF4F endp ;AL = exit code
+_sub_1DF4F equ sub_1DF4F
+    nop
 ; ------------------------------seg000:0xdfba------------------------------
 ; ------------------------------seg000:0xe0aa------------------------------
 _picBlit proc near
@@ -1861,17 +16944,89 @@ _picBlit endp
 ; ------------------------------seg000:0xe11b------------------------------
 ; ------------------------------seg000:0xe11c------------------------------
 sub_1E11C proc near
-    retn
+    push BP
+    mov BP,SP
+    push DI
+    push SI
+    push ES
+    push BP
+    mov AX,offset read512FromFileIntoBuf
+    mov word ptr [_var_610],AX
+    mov AX,word ptr [BP + 4h]
+    mov word ptr [_var_605],AX
+    mov AX,word ptr [BP + 6h]
+    mov ES,AX
+    call far ptr gfx_jump_3b_clearBuf
+    call nullsub_1
+    mov word ptr [_var_609],0h
+    mov word ptr [_var_606],0fa00h
+LAB_1000_e148:
+    mov DI,word ptr [_var_609]
+    call far ptr gfx_jump_3a_getRowOffset
+    mov word ptr [_var_608],AX
+    call sub_1E262
+    mov DI,word ptr [_var_608]
+    mov BP,offset picDecodedRowBuf
+    mov BX,word ptr [_var_609]
+    call far ptr gfx_jump_33_fillRow
+    mov DI,word ptr [_var_608]
+    call far ptr gfx_jump_41
+    inc word ptr [_var_609]
+    sub word ptr [_var_606],140h
+    jnz LAB_1000_e148
+    pop BP
+    pop ES
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
 sub_1E11C endp
 ; ------------------------------seg000:0xe1f7------------------------------
 ; ------------------------------seg000:0xe1f8------------------------------
 sub_1E1F8 proc near
-    retn
+    push BP
+    mov BP,SP
+    push DI
+    push SI
+    push ES
+    push BP
+    mov AX,offset read512FromFileIntoBuf
+    mov word ptr [_var_610],AX
+    mov AX,word ptr [BP + 4h]
+    mov word ptr [_var_605],AX
+    mov AX,word ptr [BP + 6h]
+    mov ES,AX
+    call far ptr gfx_jump_3b_clearBuf
+    call nullsub_1
+    mov word ptr [_var_609],0h
+    mov word ptr [_var_606],0fa00h
+LAB_1000_e224:
+    mov DI,word ptr [_var_609]
+    call far ptr gfx_jump_3a_getRowOffset
+    mov word ptr [_var_608],AX
+    call sub_1E262
+    mov DI,word ptr [_var_608]
+    mov BP,offset picDecodedRowBuf
+    mov BX,word ptr [_var_609]
+    call far ptr gfx_jump_38_getPageBuf
+    mov DI,word ptr [_var_608]
+    call far ptr gfx_jump_40
+    inc word ptr [_var_609]
+    sub word ptr [_var_606],140h
+    jnz LAB_1000_e224
+    pop BP
+    pop ES
+    pop SI
+    pop DI
+    mov SP,BP
+    pop BP
+    ret
 sub_1E1F8 endp
 ; ------------------------------seg000:0xe25f------------------------------
 ; ------------------------------seg000:0xe260------------------------------
 nullsub_1 proc near
-    retn
+    ret
 nullsub_1 endp
 ; ------------------------------seg000:0xe260------------------------------
 ; ------------------------------seg000:0xe262------------------------------
@@ -1881,16 +17036,16 @@ sub_1E262 proc near
     pop es
     cld
     mov si, fileReadPos
-    add si, 5D7Ch
+    add si, offset picBuf
     shr di, 1
     jnz short loc_1E275
     call sub_1E28C
 loc_1E275:
     mov cx, 140h
-    mov word_38D5E, cx
-    mov di, 5FE8h
+    mov word ptr [_var_689], cx
+    mov di, offset picDecodedRowBuf
     call sub_1E309
-    sub si, 5D7Ch
+    sub si, offset picBuf
     mov fileReadPos, si
     pop es
     retn
@@ -1898,353 +17053,234 @@ sub_1E262 endp
 ; ------------------------------seg000:0xe28b------------------------------
 ; ------------------------------seg000:0xe28c------------------------------
 sub_1E28C proc near
-    retn ;sp-analysis failed
+    mov AX,offset picBuf
+    add AX,200h
+    mov word ptr [_var_687],AX
+    mov AX,offset word_38F70 - 1
+    mov word ptr [_var_688],AX
+    mov byte ptr [_var_690],0h
+    mov byte ptr [word_38D5C],0h
+    cmp SI,word ptr [_var_687]
+    jc LAB_1000_e2b8
+    push BX
+    push CX
+    push DX
+    call word ptr [_var_610]
+    pop DX
+    pop CX
+    pop BX
+    mov SI,offset picBuf
+LAB_1000_e2b8:
+    lodsw
+    mov word ptr [byte_38D63],AX
+    mov byte ptr [_var_697],8h
+    mov byte ptr [word_38D66],1h
+    or AL,AL
+    jns LAB_1000_e2d0
+    dec byte ptr [word_38D66]
+    neg AL
+LAB_1000_e2d0:
+    mov byte ptr [word_38D5E],AL
 sub_1E28C endp
 ; ------------------------------seg000:0xe2d0------------------------------
 ; ------------------------------seg000:0xe2d3------------------------------
 sub_1E2D3 proc near
-    retn
+    mov byte ptr [_var_692],9h
+    mov word ptr [_var_694],1ffh
+    mov DX,100h
+    mov word ptr [byte_38D61],DX
+    mov AX,0ffffh
+    xor BX,BX
+    mov CX,800h
+LAB_1000_e2ed:
+    mov word ptr [BX + offset word_3424C], AX
+    add BX,3h
+    loop LAB_1000_e2ed
+    mov AL,0h
+    xor BX,BX
+    mov CX,100h
+LAB_1000_e2fd:
+    mov byte ptr [BX + offset word_3424E], AL
+    inc AL
+    add BX,3h
+    loop LAB_1000_e2fd
+    ret
 sub_1E2D3 endp
 ; ------------------------------seg000:0xe308------------------------------
 ; ------------------------------seg000:0xe309------------------------------
 sub_1E309 proc near
-    retn
+    cmp byte ptr [word_38D66],0h
+    jz LAB_1000_e314
+    shr word ptr [_var_689],1h
+LAB_1000_e314:
+    mov AX,word ptr [_var_688]
+    mov word ptr [_var_688],SP
+    mov SP,AX
+    mov DX,word ptr [byte_38D61]
+LAB_1000_e321:
+    cmp byte ptr [_var_690],0h
+    jnz LAB_1000_e349
+    call sub_1E382
+    cmp AL,90h
+    jz LAB_1000_e335
+    mov byte ptr [word_38D5C],AL
+    jmp LAB_1000_e350
+    db 90h
+LAB_1000_e335:
+    call sub_1E382
+    or AL,AL
+    jnz LAB_1000_e344
+    mov AL,90h
+    mov byte ptr [word_38D5C],AL
+    jmp LAB_1000_e350
+    db 90h
+LAB_1000_e344:
+    dec AL
+    mov byte ptr [_var_690],AL
+LAB_1000_e349:
+    mov AL,byte ptr [word_38D5C]
+    dec byte ptr [_var_690]
+LAB_1000_e350:
+    cmp byte ptr [word_38D66],0h
+    jz LAB_1000_e36d
+    mov AH,AL
+    and AL,0fh
+    shr AH,1h
+    shr AH,1h
+    shr AH,1h
+    shr AH,1h
+    stosw
+    dec word ptr [_var_689]
+    jnz LAB_1000_e321
+    jmp LAB_1000_e374
+    db 90h
+LAB_1000_e36d:
+    stosb
+    dec word ptr [_var_689]
+    jnz LAB_1000_e321
+LAB_1000_e374:
+    mov word ptr [byte_38D61],DX
+    mov AX,word ptr [_var_688]
+    mov word ptr [_var_688],SP
+    mov SP,AX
+    ret
 sub_1E309 endp
 ; ------------------------------seg000:0xe381------------------------------
 ; ------------------------------seg000:0xe382------------------------------
 sub_1E382 proc near
-    retn ;sp-analysis failed
+    pop BP
+    cmp SP,offset word_38F70 - 1
+    jz LAB_1000_e38c
+LAB_1000_e389:
+    pop AX
+    jmp BP
+LAB_1000_e38c:
+    mov BX,word ptr [byte_38D63]
+    mov CL,10h
+    mov CH,byte ptr [_var_697]
+    sub CL,CH
+    shr BX,CL
+    mov CL,CH
+LAB_1000_e39c:
+    cmp CL,byte ptr [_var_692]
+    jge LAB_1000_e3c2
+    cmp SI,word ptr [_var_687]
+    jc LAB_1000_e3b5
+    push BX
+    push CX
+    push DX
+    call word ptr [_var_610]
+    pop DX
+    pop CX
+    pop BX
+    mov SI,offset picBuf
+LAB_1000_e3b5:
+    lodsw
+    mov word ptr [byte_38D63],AX
+    shl AX,CL
+    or BX,AX
+    add CL,10h
+    jmp LAB_1000_e39c
+LAB_1000_e3c2:
+    sub CL,byte ptr [_var_692]
+    mov byte ptr [_var_697],CL
+    mov AX,BX
+    and AX,word ptr [_var_694]
+    mov CX,AX
+    cmp AX,DX
+    jl LAB_1000_e3e0
+    mov CX,DX
+    mov AX,word ptr [_var_699]
+    mov BL,byte ptr [_var_700]
+    push BX
+LAB_1000_e3e0:
+    mov BX,AX
+    add BX,AX
+    add BX,AX
+    mov AX,word ptr [BX + offset word_3424C]
+    inc AX
+    jz LAB_1000_e3f5
+    dec AX
+    mov BL,byte ptr [BX + offset word_3424E]
+    push BX
+    jmp LAB_1000_e3e0
+LAB_1000_e3f5:
+    mov AL,byte ptr [BX + offset word_3424E]
+    mov byte ptr [_var_700],AL
+    push AX
+    mov BX,DX
+    add BX,DX
+    add BX,DX
+    mov byte ptr [BX + offset word_3424E],AL
+    mov AX,word ptr [_var_699]
+    mov word ptr [BX + offset word_3424C],AX
+    inc DX
+    cmp DX,word ptr [_var_694]
+    jle LAB_1000_e41e
+    inc byte ptr [_var_692]
+    stc
+    rcl word ptr [_var_694],1h
+LAB_1000_e41e:
+    mov AL,byte ptr [_var_692]
+    cmp AL,byte ptr [word_38D5E]
+    jle LAB_1000_e42a
+    call sub_1E2D3
+LAB_1000_e42a:
+    mov word ptr [_var_699],CX
+    jmp LAB_1000_e389
 sub_1E382 endp
 ; ------------------------------seg000:0xe42e------------------------------
-; ------------------------------seg000:0xe432------------------------------
-start proc near
-    retn ;sp-analysis failed
-start endp
-; ------------------------------seg000:0xe4e0------------------------------
-; ------------------------------seg000:0xe4e4------------------------------
-__cinit proc near
-    retn
-__cinit endp
-; ------------------------------seg000:0xe5a7------------------------------
-; ------------------------------seg000:0xe5a8------------------------------
-_exit proc near
-    retn
-_exit endp
-; ------------------------------seg000:0xe5bd------------------------------
-; ------------------------------seg000:0xe5bf------------------------------
-__exit proc near
-    retn ;AL = exit code
-__exit endp
-; ------------------------------seg000:0xe602------------------------------
-; ------------------------------seg000:0xe604------------------------------
-__ctermsub proc near
-    retn
-__ctermsub endp
-; ------------------------------seg000:0xe630------------------------------
-; ------------------------------seg000:0xe631------------------------------
-sub_1E631 proc near
-    retn
-sub_1E631 endp
-; ------------------------------seg000:0xe63f------------------------------
-; ------------------------------seg000:0xe640------------------------------
-sub_1E640 proc near
-    retn
-sub_1E640 endp
-; ------------------------------seg000:0xe652------------------------------
-; ------------------------------seg000:0xe654------------------------------
-__chkstk proc near
-    retn
-__chkstk endp
-; ------------------------------seg000:0xe667------------------------------
-; ------------------------------seg000:0xe66a------------------------------
-_fclose proc near
-    retn
-_fclose endp
-; ------------------------------seg000:0xe723------------------------------
-; ------------------------------seg000:0xe724------------------------------
-_fopen proc near
-    retn
-_fopen endp
-; ------------------------------seg000:0xe74a------------------------------
-; ------------------------------seg000:0xe74c------------------------------
-_fread proc near
-    retn
-_fread endp
-; ------------------------------seg000:0xe931------------------------------
-; ------------------------------seg000:0xe932------------------------------
-_lseek proc near
-    retn
-_lseek endp
-; ------------------------------seg000:0xe9a9------------------------------
-; ------------------------------seg000:0xe9ac------------------------------
-_strcat proc near
-    retn
-_strcat endp
-; ------------------------------seg000:0xe9ea------------------------------
-; ------------------------------seg000:0xe9ec------------------------------
-_strcpy proc near
-    retn
-_strcpy endp
-; ------------------------------seg000:0xea1d------------------------------
-; ------------------------------seg000:0xea1e------------------------------
-_strlen proc near
-    retn
-_strlen endp
-; ------------------------------seg000:0xea38------------------------------
-; ------------------------------seg000:0xea3a------------------------------
-_itoa proc near
-    retn
-_itoa endp
-; ------------------------------seg000:0xea52------------------------------
-; ------------------------------seg000:0xea56------------------------------
-_kbhit proc near
-    retn
-_kbhit endp
-; ------------------------------seg000:0xea65------------------------------
-; ------------------------------seg000:0xea66------------------------------
-_getche proc near
-    retn
-_getche endp
-; ------------------------------seg000:0xea68------------------------------
-; ------------------------------seg000:0xea6a------------------------------
-_getch proc near
-    retn
-_getch endp
-; ------------------------------seg000:0xea80------------------------------
-; ------------------------------seg000:0xea82------------------------------
-_int86 proc near
-    retn
-_int86 endp
-; ------------------------------seg000:0xeaff------------------------------
-; ------------------------------seg000:0xeb00------------------------------
-_movedata proc near
-    retn
-_movedata endp
-; ------------------------------seg000:0xeb1d------------------------------
-; ------------------------------seg000:0xeb1e------------------------------
-_segread proc near
-    retn
-_segread endp
-; ------------------------------seg000:0xeb32------------------------------
-; ------------------------------seg000:0xeb34------------------------------
-_outp proc near
-    retn
-_outp endp
-; ------------------------------seg000:0xeb41------------------------------
-; ------------------------------seg000:0xeb42------------------------------
-_strupr proc near
-    retn
-_strupr endp
-; ------------------------------seg000:0xeb63------------------------------
-; ------------------------------seg000:0xeb64------------------------------
-_memcpy proc near
-    retn
-_memcpy endp
-; ------------------------------seg000:0xeb8f------------------------------
-; ------------------------------seg000:0xeb90------------------------------
-_abs proc near
-    retn
-_abs endp
-; ------------------------------seg000:0xeba4------------------------------
-; ------------------------------seg000:0xeba6------------------------------
-_labs proc near
-    retn
-_labs endp
-; ------------------------------seg000:0xebc6------------------------------
-; ------------------------------seg000:0xebc8------------------------------
-_srand proc near
-    retn
-_srand endp
-; ------------------------------seg000:0xebd8------------------------------
-; ------------------------------seg000:0xebda------------------------------
-_rand proc near
-    retn
-_rand endp
-; ------------------------------seg000:0xebff------------------------------
-; ------------------------------seg000:0xec00------------------------------
-__bios_keybrd proc near
-    retn
-__bios_keybrd endp
-; ------------------------------seg000:0xec13------------------------------
-; ------------------------------seg000:0xec14------------------------------
-__aNldiv proc near
-    retn
-__aNldiv endp
-; ------------------------------seg000:0xecad------------------------------
-; ------------------------------seg000:0xecb0------------------------------
-__aNlmul proc near
-    retn
-__aNlmul endp
-; ------------------------------seg000:0xece1------------------------------
-; ------------------------------seg000:0xece4------------------------------
+; These are compiler helper wrappers called by game code
 unknown_libname_1 proc near
-    retn
+    push BP
+    mov BP,SP
+    mov BX,word ptr [BP + 4h]
+    mov AX,word ptr [BX]
+    mov DX,word ptr [BX + 2h]
+    mov CX,word ptr [BP + 6h]
+    call __aNlshl
+    mov BX,word ptr [BP + 4h]
+    mov word ptr [BX],AX
+    mov word ptr [BX + 2h],DX
+    mov SP,BP
+    pop BP
+    ret 4h
 unknown_libname_1 endp
-; ------------------------------seg000:0xed00------------------------------
-; ------------------------------seg000:0xed04------------------------------
 unknown_libname_2 proc near
-    retn
+    push BP
+    mov BP,SP
+    mov BX,word ptr [BP + 4h]
+    mov AX,word ptr [BX]
+    mov DX,word ptr [BX + 2h]
+    mov CX,word ptr [BP + 6h]
+    call __aNlshr
+    mov BX,word ptr [BP + 4h]
+    mov word ptr [BX],AX
+    mov word ptr [BX + 2h],DX
+    mov SP,BP
+    pop BP
+    ret 4h
 unknown_libname_2 endp
-; ------------------------------seg000:0xed20------------------------------
-; ------------------------------seg000:0xed24------------------------------
-__aNuldiv proc near
-    retn
-__aNuldiv endp
-; ------------------------------seg000:0xed82------------------------------
-; ------------------------------seg000:0xed86------------------------------
-__FF_MSGBANNER proc near
-    retn
-__FF_MSGBANNER endp
-; ------------------------------seg000:0xeda5------------------------------
-; ------------------------------seg000:0xedac------------------------------
-__nullcheck proc near
-    retn
-__nullcheck endp
-; ------------------------------seg000:0xedcd------------------------------
-; ------------------------------seg000:0xedce------------------------------
-__NMSG_TEXT proc near
-    retn
-__NMSG_TEXT endp
-; ------------------------------seg000:0xedf6------------------------------
-; ------------------------------seg000:0xedf9------------------------------
-__NMSG_WRITE proc near
-    retn
-__NMSG_WRITE endp
-; ------------------------------seg000:0xee1f------------------------------
-; ------------------------------seg000:0xee42------------------------------
-__maperror proc near
-    retn
-__maperror endp
-; ------------------------------seg000:0xee47------------------------------
-; ------------------------------seg000:0xee48------------------------------
-sub_1EE48 proc near
-    retn
-sub_1EE48 endp
-; ------------------------------seg000:0xee74------------------------------
-; ------------------------------seg000:0xee76------------------------------
-__filbuf proc near
-    retn
-__filbuf endp
-; ------------------------------seg000:0xef35------------------------------
-; ------------------------------seg000:0xef36------------------------------
-__freebuf proc near
-    retn
-__freebuf endp
-; ------------------------------seg000:0xef62------------------------------
-; ------------------------------seg000:0xef64------------------------------
-__openfile proc near
-    retn
-__openfile endp
-; ------------------------------seg000:0xf05b------------------------------
-; ------------------------------seg000:0xf05c------------------------------
-_fflush proc near
-    retn
-_fflush endp
-; ------------------------------seg000:0xf0c9------------------------------
-; ------------------------------seg000:0xf0ca------------------------------
-__getstream proc near
-    retn
-__getstream endp
-; ------------------------------seg000:0xf103------------------------------
-; ------------------------------seg000:0xf104------------------------------
-_close proc near
-    retn
-_close endp
-; ------------------------------seg000:0xf121------------------------------
-; ------------------------------seg000:0xf124------------------------------
-_read proc near
-    retn
-_read endp
-; ------------------------------seg000:0xf1ff------------------------------
-; ------------------------------seg000:0xf262------------------------------
-_remove proc near
-    retn
-_remove endp
-; ------------------------------seg000:0xf26c------------------------------
-; ------------------------------seg000:0xf270------------------------------
-__aNlshl proc near
-    retn
-__aNlshl endp
-; ------------------------------seg000:0xf27a------------------------------
-; ------------------------------seg000:0xf27c------------------------------
-__aNlshr proc near
-    retn
-__aNlshr endp
-; ------------------------------seg000:0xf286------------------------------
-; ------------------------------seg000:0xf288------------------------------
-__getbuf proc near
-    retn
-__getbuf endp
-; ------------------------------seg000:0xf2f3------------------------------
-; ------------------------------seg000:0xf2f4------------------------------
-_open proc near
-    retn
-_open endp
-; ------------------------------seg000:0xf485------------------------------
-; ------------------------------seg000:0xf487------------------------------
-__cXENIXtoDOSmode proc near
-    retn
-__cXENIXtoDOSmode endp
-; ------------------------------seg000:0xf497------------------------------
-; ------------------------------seg000:0xf498------------------------------
-_write proc near
-    retn
-_write endp
-; ------------------------------seg000:0xf53b------------------------------
-; ------------------------------seg000:0xf53e------------------------------
-sub_1F53E proc near
-    retn ;sp-analysis failed
-sub_1F53E endp
-; ------------------------------seg000:0xf589------------------------------
-; ------------------------------seg000:0xf5c0------------------------------
-unknown_libname_3 proc near
-    retn
-unknown_libname_3 endp
-; ------------------------------seg000:0xf5d1------------------------------
-; ------------------------------seg000:0xf5d2------------------------------
-unknown_libname_4 proc near
-    retn
-unknown_libname_4 endp
-; ------------------------------seg000:0xf617------------------------------
-; ------------------------------seg000:0xf618------------------------------
-_flushall proc near
-    retn
-_flushall endp
-; ------------------------------seg000:0xf649------------------------------
-; ------------------------------seg000:0xf64a------------------------------
-_stackavail proc near
-    retn ;sp-analysis failed
-_stackavail endp
-; ------------------------------seg000:0xf65a------------------------------
-; ------------------------------seg000:0xf65f------------------------------
-__amalloc proc near
-    retn
-__amalloc endp
-; ------------------------------seg000:0xf741------------------------------
-; ------------------------------seg000:0xf742------------------------------
-__amexpand proc near
-    retn
-__amexpand endp
-; ------------------------------seg000:0xf77b------------------------------
-; ------------------------------seg000:0xf77c------------------------------
-__amlink proc near
-    retn
-__amlink endp
-; ------------------------------seg000:0xf79d------------------------------
-; ------------------------------seg000:0xf79e------------------------------
-__amallocbrk proc near
-    retn
-__amallocbrk endp
-; ------------------------------seg000:0xf7bc------------------------------
-; ------------------------------seg000:0xf7be------------------------------
-_brkctl proc near
-    retn
-_brkctl endp
-; ------------------------------seg000:0xf82b------------------------------
-; ------------------------------seg000:0xf82c------------------------------
-sub_1F82C proc near
-    retn
-sub_1F82C endp
 ; ------------------------------seg000:0xf881------------------------------
 ; ------------------------------seg001:0x2------------------------------
 sub_1F882 proc far
@@ -2370,6 +17406,7 @@ sub_202C7 endp
 sub_202DA proc far
     retn
 sub_202DA endp
+_sub_202DA equ sub_202DA
 ; ------------------------------seg001:0xa67------------------------------
 ; ------------------------------seg001:0xa76------------------------------
 sub_202F6 proc far
@@ -2403,6 +17440,7 @@ sub_20534 endp
 ; ------------------------------seg001:0xdd6------------------------------
 ; ------------------------------seg001:0xdd8------------------------------
 sub_20658 proc far
+_sub_20658 equ sub_20658
     retn
 sub_20658 endp
 ; ------------------------------seg001:0xde1------------------------------
@@ -2420,6 +17458,7 @@ sub_20970 endp
 sub_20A46 proc far
     retn
 sub_20A46 endp
+_sub_20A46 equ sub_20A46
 ; ------------------------------seg001:0x11d7------------------------------
 ; ------------------------------seg001:0x11d8------------------------------
 sub_20A58 proc near
@@ -2452,9 +17491,10 @@ sub_20E19 proc near
 sub_20E19 endp
 ; ------------------------------seg001:0x15b7------------------------------
 ; ------------------------------seg001:0x15b8------------------------------
-sub_20E38 proc far
+_sub_20E38 proc far
     retn
-sub_20E38 endp
+_sub_20E38 endp
+sub_20E38 equ _sub_20E38
 ; ------------------------------seg001:0x15cc------------------------------
 ; ------------------------------seg001:0x15cd------------------------------
 sub_20E4D proc near
@@ -2465,6 +17505,7 @@ sub_20E4D endp
 sub_20FDC proc far
     retn
 sub_20FDC endp
+_sub_20FDC equ sub_20FDC
 ; ------------------------------seg001:0x1769------------------------------
 ; ------------------------------seg001:0x176a------------------------------
 sub_20FEA proc near
@@ -3028,6 +18069,7 @@ int9Handler endp
 ; ------------------------------seg003:0x184------------------------------
 ; ==============================================================================
 .DATA ;dseg segment para public 'DATA' use16
+
 unk_328B0 db 0
     db 0
 word_328B2 dw 0
@@ -3066,7 +18108,7 @@ _aCockpit_pic db 'cockpit.PIC',0
     db 0
 aF15dgtl_bin db 'F15DGTL.BIN',0
 f15dgtlAddr dw 0
-allocSize dw 0
+_allocSize dw 0
     db 1
     db 0
     db 0
@@ -3090,7 +18132,9 @@ unk_32977 db 0
     db 0
     db 0
 word_3298A dw 0C4h
+_word_3298C label byte
 word_3298C dw 0A0h
+_word_3298E label byte
 word_3298E dw 64h
     db 0
     db 0
@@ -3941,10 +18985,14 @@ aAn72 db 'An-72',0
     Sam <'AA-10', 40h, 7D0h, 0, 4, 13h>
     Sam <'Equip.', 0, 0, 1Dh, 0, 0Eh>
 word_33096 dw 4
+_word_33096 equ word_33096
 word_33098 dw 1388h
+_word_33098 equ word_33098
 word_3309A dw 0
 word_3309C dw 0Ch
+_word_3309C equ word_3309C
 word_3309E dw 12h
+_word_3309E equ word_3309E
     db 3
     db 0
     _missleSpec MissileSpec <0, 4>
@@ -3953,11 +19001,15 @@ word_3309E dw 12h
     MissileSpec <0>
 _missileSpecIndex dw 0
 word_330B4 dw 28Ah
+_word_330B4 equ word_330B4
 _word_330B6 dw 0
 word_330B8 dw 1
+_word_330B8 equ word_330B8
 word_330BA dw 1
+_word_330BA equ word_330BA
 _word_330BC dw 0
 word_330BE dw 0
+_word_330BE equ word_330BE
     db 1
     db 0
 _word_330C2 dw 1
@@ -4243,11 +19295,15 @@ _word_330C4 dw 4
     db 0
     db 0
 word_333D2 dw 0
+_word_333D2 equ word_333D2
 word_333D4 dw 0
+_word_333D4 equ word_333D4
     db 0
     db 0
 word_333D8 dw 0
+_word_333D8 equ word_333D8
 word_333DA dw 0
+_word_333DA equ word_333DA
     db 0
     db 0
     db 0
@@ -4287,7 +19343,9 @@ word_333DA dw 0
     db 0
     db 0
     stru_33402 struc_9 8 dup(<0>)
+_stru_33402 equ stru_33402
 word_33442 dw 0
+_word_33442 equ word_33442
     db 3
     db 0
     db 3
@@ -4674,15 +19732,17 @@ word_33442 dw 0
     db 0FFh
     _stru_335C4 struc_2 0Ch dup(<0>)
 word_336E4 dw 4
-word_336E6 dw 0FFFFh
+_word_336E6 dw 0FFFFh
 _word_336E8 dw 0
 _word_336EA dw 0
 word_336EC dw 1
 word_336EE dw 0
 word_336F0 dw 0
+_word_336F0 equ word_336F0
 _word_336F2 dw 0FFFFh
 _word_336F4 dw 0FFFFh
 word_336F6 dw 0FFFFh
+_word_336F6 equ word_336F6
 word_336F8 dw 1
 word_336FA dw 0
 _word_336FC dw 0FFFFh
@@ -4690,12 +19750,14 @@ _word_336FE dw 4
 word_33700 dw 0FFFFh
 word_33702 dw 1
 word_33704 dw 1
+_word_33704 equ word_33704
 word_33706 dw 1
 word_33708 dw 0
 _word_3370A dw 1
 _word_3370C dw 0FFFFh
 _word_3370E dw 0
 word_33710 dw 1
+_word_33710 equ word_33710
 word_33712 dw 0
 word_33714 dw 0
 aStoresExhauste db 'Stores exhausted',0
@@ -4704,15 +19766,22 @@ aChaff db 'Chaff',0
 aReleased db ' released',0
 asc_3373D db ':',0
 aGun db 'GUN:',0
+_aGun equ aGun
 asc_33744 db 'L',0
     db '(',0
 aS db 's',0
 word_3374A dw 0
+PUBLIC _word_3374A
+_word_3374A equ word_3374A
+PUBLIC _asc_33744
+_asc_33744 equ asc_33744
 aOnPatrol db ' on patrol',0
+_aOnPatrol equ aOnPatrol
 aF15StrikeEagle db 'F15 Strike Eagle',0
+_aF15StrikeEagle equ aF15StrikeEagle
 aAt db ' at ',0
+_aAt equ aAt
     db 0
-; ------------------------------dseg:0xebe------------------------------
 _gfx_jump_0_alloc proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -4797,6 +19866,8 @@ gfx_jump_0e_setCurBuf proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_jump_0e_setCurBuf endp
+    PUBLIC _gfx_jump_0e_setCurBuf
+_gfx_jump_0e_setCurBuf equ gfx_jump_0e_setCurBuf
 ; ------------------------------dseg:0xf04------------------------------
 ; ------------------------------dseg:0xf09------------------------------
 gfx_jump_0f_getBufPtr proc near
@@ -4863,6 +19934,8 @@ gfx_jump_1a proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_jump_1a endp
+    PUBLIC _gfx_jump_1a
+_gfx_jump_1a equ gfx_jump_1a
 ; ------------------------------dseg:0xf40------------------------------
 ; ------------------------------dseg:0xf45------------------------------
 gfx_jump_1b proc near
@@ -5071,6 +20144,8 @@ gfx_jump_3e proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_jump_3e endp
+    PUBLIC _gfx_jump_3e
+_gfx_jump_3e equ gfx_jump_3e
 ; ------------------------------dseg:0xff4------------------------------
 ; ------------------------------dseg:0xff9------------------------------
 _gfx_jump_3f_modecode proc near
@@ -5083,6 +20158,11 @@ _gfx_jump_3f_modecode endp
     db 0
     db 0
     db 0
+; ------------------------------dseg:0x1003------------------------------
+gfx_jump_40 proc near
+    db 0EAh ;jmp far ptr 0:0
+    dd 0
+gfx_jump_40 endp
 ; ------------------------------dseg:0x1003------------------------------
 gfx_jump_41 proc near
     db 0EAh ;jmp far ptr 0:0
@@ -5122,6 +20202,8 @@ gfx_jump_47 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_jump_47 endp
+    PUBLIC _gfx_jump_47
+_gfx_jump_47 equ gfx_jump_47
 ; ------------------------------dseg:0x1021------------------------------
     db 0EAh
     db 0
@@ -5133,6 +20215,8 @@ gfx_jump_49 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_jump_49 endp
+    PUBLIC _gfx_jump_49
+_gfx_jump_49 equ gfx_jump_49
 ; ------------------------------dseg:0x102b------------------------------
     db 0EAh
     db 0
@@ -5231,10 +20315,11 @@ _audio_jump_65 proc near
 _audio_jump_65 endp
 ; ------------------------------dseg:0x10b7------------------------------
 ; ------------------------------dseg:0x10bc------------------------------
-audio_jump_66 proc near
+_audio_jump_66 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-audio_jump_66 endp
+_audio_jump_66 endp
+audio_jump_66 equ _audio_jump_66
 ; ------------------------------dseg:0x10bc------------------------------
     db 0EAh
     db 0
@@ -5242,16 +20327,18 @@ audio_jump_66 endp
     db 0
     db 0
 ; ------------------------------dseg:0x10c6------------------------------
-audio_jump_68 proc near
+_audio_jump_68 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-audio_jump_68 endp
+_audio_jump_68 endp
+audio_jump_68 equ _audio_jump_68
 ; ------------------------------dseg:0x10c6------------------------------
 ; ------------------------------dseg:0x10cb------------------------------
-audio_jump_69 proc near
+_audio_jump_69 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-audio_jump_69 endp
+_audio_jump_69 endp
+audio_jump_69 equ _audio_jump_69
 ; ------------------------------dseg:0x10cb------------------------------
 ; ------------------------------dseg:0x10d0------------------------------
 audio_jump_6a proc near
@@ -5271,10 +20358,11 @@ audio_jump_6b endp
     db 0
     db 0
 ; ------------------------------dseg:0x10df------------------------------
-audio_jump_6d proc near
+_audio_jump_6d proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-audio_jump_6d endp
+_audio_jump_6d endp
+audio_jump_6d equ _audio_jump_6d
 ; ------------------------------dseg:0x10df------------------------------
     db 0
     db 0
@@ -5308,6 +20396,7 @@ word_339B0 dw 10EAh
 byte_339B2 db 0
     db 0
 unk_339B4 db 0
+_word_339B4 equ unk_339B4
     db 1
     db 2
     db 3
@@ -6482,9 +21571,11 @@ word_34198 dw 0
 byte_3419A db 0
     db 0
 byte_3419C db 0
+_word_3419C equ byte_3419C
     db 1
     db 2
 byte_3419F db 3
+_byte_3419F equ byte_3419F
     db 4
     db 5
     db 6
@@ -14187,7 +29278,11 @@ word_37148 dw 324h
     db 0
     db 0
 word_37348 dw 0
+_word_37348 equ word_37348
+PUBLIC _word_37348
 word_3734A dw 324h
+_word_3734A equ word_3734A
+PUBLIC _word_3734A
     db 48h
     db 6
     db 6Bh
@@ -15608,6 +30703,7 @@ word_378E5 dw 0
     db 0
 cbreakHit db 0
 origCBreakSeg dw 0
+_origCBreakSeg equ origCBreakSeg
 origCBreakOfs dw 0
     db 0 ;align 2
 byte_378EE db 0
@@ -17438,7 +32534,7 @@ word_380AC dw 0
     db 0
     db 0FFh
     db 7Fh
-unk_380B6 db 0
+_unk_380B6 db 0
     db 0
     db 0
     db 0
@@ -17467,7 +32563,7 @@ _word_380D0 dw 0
     db 0
     db 0
     db 0
-word_380D8 dw 0
+_word_380D8 dw 0
 byte_380DA db 0
     db 0
     db 1
@@ -17554,7 +32650,7 @@ a0 db ':0',0
 aFired db ' fired',0
     db 0
     db 0
-word_38202 dw 41h
+_word_38202 dw 41h
     db 1Ah
     db 0
     db 65h
@@ -18005,6 +33101,7 @@ word_383DA dw 0
     db 1
 byte_383E4 db 1
 byte_383E5 db 1
+_byte_383E5 equ byte_383E5
     db 1
     db 0
     db 1
@@ -18021,10 +33118,20 @@ _aTraining db 'TRAINING',0
 _aAutopilot db 'AUTOPILOT',0
 _aPressAnyKeyToP db 'Press any key to play',0
 aTac db 'Tac',0
+PUBLIC _aTrackcam
+_aTrackcam equ aTrackcam
 aTrackcam db 'TrackCam ',0
+PUBLIC _aAhead
+_aAhead equ aAhead
 aAhead db 'Ahead',0
+PUBLIC _aRear
+_aRear equ aRear
 aRear db 'Rear',0
+PUBLIC _aRight
+_aRight equ aRight
 aRight db 'Right',0
+PUBLIC _aLeft
+_aLeft equ aLeft
 aLeft db 'Left',0
 aMap db 'Map',0
     db 0
@@ -18042,10 +33149,13 @@ aPrimaryTarget db 'Primary Target',0
 aSecondaryTarget db 'Secondary Target',0
 aNoTarget db 'No Target',0
 aNoTarget_0 db 'No Target',0
+_aMissileLock label byte
 aMissileLock db 'Missile Lock',0
+_aRange label byte
 aRange db 'Range ',0
-    db 2Eh
-    db 0
+_aDot label byte
+aDot db 2Eh,0
+_aKm label byte
 aKm db ' km',0
     db 0
 _a_3d3_0 db '.3D3',0
@@ -18082,7 +33192,9 @@ word_3860A dw 0
     db 0
     db 0
 aNotAvailable db ' not available',0
+_aNotAvailable equ aNotAvailable
 aArmed db ' armed',0
+_aArmed equ aArmed
     db 0F3h
     db 31h
     db 96h
@@ -19179,20 +34291,384 @@ byte_38D6E db 0
     db 0
     db 0
     db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
 ; ==============================================================================
+; --- Symbolic labels for code references ---
+ORG 00178h
+_var_47 label byte
+ORG 0017Eh
+_var_48 label byte
+ORG 00180h
+_var_49 label byte
+ORG 00A1Eh
+_var_83 label byte
+ORG 01100h
+_var_134 label byte
+ORG 01102h
+_var_135 label byte
+ORG 012FCh
+_var_141 label byte
+ORG 01308h
+_var_143 label byte
+ORG 018EAh
+_var_190 label byte
+ORG 01904h
+_var_194 label byte
+ORG 01906h
+_var_195 label byte
+ORG 01908h
+_var_196 label byte
+ORG 0190Ah
+_var_197 label byte
+ORG 0190Ch
+_var_198 label byte
+ORG 0198Ch
+_var_200 label byte
+ORG 0198Eh
+_var_201 label byte
+ORG 01990h
+_var_202 label byte
+ORG 01992h
+_var_203 label byte
+ORG 01994h
+_var_204 label byte
+ORG 019A8h
+_var_215 label byte
+ORG 019B0h
+_var_216 label byte
+ORG 019B2h
+_var_217 label byte
+ORG 019B4h
+_var_218 label byte
+ORG 019B6h
+_var_219 label byte
+ORG 019B8h
+_var_220 label byte
+ORG 019BEh
+_var_224 label byte
+ORG 019C0h
+_var_225 label byte
+ORG 019C2h
+_var_226 label byte
+ORG 019C4h
+_var_227 label byte
+ORG 019FCh
+_var_255 label byte
+ORG 019FEh
+_var_256 label byte
+ORG 01A00h
+_var_257 label byte
+ORG 01A04h
+_var_258 label byte
+ORG 01A06h
+_var_259 label byte
+ORG 01A08h
+_var_260 label byte
+ORG 01A0Ah
+_var_261 label byte
+ORG 01FB8h
+_var_279 label byte
+ORG 0219Ch
+_var_282 label byte
+ORG 042D6h
+_var_315 label byte
+ORG 042D8h
+_var_316 label byte
+ORG 04CA7h
+_var_349 label byte
+ORG 04CA9h
+_var_350 label byte
+ORG 04CADh
+_var_351 label byte
+ORG 04CAFh
+_var_352 label byte
+ORG 04CB1h
+_var_353 label byte
+ORG 04CB3h
+_var_354 label byte
+ORG 0505Ah
+_var_383 label byte
+ORG 05374h
+_var_456 label byte
+ORG 057C0h
+_var_524 label byte
+ORG 057C2h
+_var_525 label byte
+ORG 057C4h
+_var_526 label byte
+ORG 057C6h
+_var_527 label byte
+ORG 057C8h
+_var_528 label byte
+ORG 057CEh
+_var_529 label byte
+ORG 05818h
+_var_542 label byte
+ORG 05819h
+_var_543 label byte
+ORG 0581Ah
+_var_544 label byte
+ORG 0581Ch
+_var_545 label byte
+ORG 0581Eh
+_var_547 label byte
+ORG 05820h
+_var_548 label byte
+ORG 05828h
+_var_549 label byte
+ORG 0582Ah
+_var_550 label byte
+ORG 05830h
+_var_552 label byte
+ORG 058AEh
+_var_556 label byte
+ORG 05A84h
+_var_564 label byte
+ORG 05A9Ch
+_var_565 label byte
+ORG 05AB4h
+_var_566 label byte
+ORG 05ACCh
+_var_567 label byte
+ORG 05AFCh
+_var_568 label byte
+ORG 05AFEh
+_var_569 label byte
+ORG 05B00h
+_var_570 label byte
+ORG 05B02h
+_var_571 label byte
+ORG 05B04h
+_var_572 label byte
+ORG 05B06h
+_var_573 label byte
+ORG 05B08h
+_var_574 label byte
+ORG 05B0Ah
+_var_575 label byte
+ORG 05B0Ch
+_var_576 label byte
+ORG 05B1Ch
+_var_577 label byte
+ORG 05B1Eh
+_var_578 label byte
+ORG 05B20h
+_var_579 label byte
+ORG 05B22h
+_var_580 label byte
+ORG 05B24h
+_var_581 label byte
+ORG 05B26h
+_var_582 label byte
+ORG 05B28h
+_var_583 label byte
+ORG 05B2Ah
+_var_584 label byte
+ORG 05B34h
+_var_585 label byte
+ORG 05B35h
+_var_586 label byte
+ORG 05B3Ch
+_var_588 label byte
+ORG 05B3Eh
+_var_589 label byte
+ORG 05B40h
+_var_590 label byte
+ORG 05B42h
+_var_591 label byte
+ORG 05B44h
+_var_592 label byte
+ORG 05BB0h
+_var_593 label byte
+ORG 05C5Eh
+_var_594 label byte
+ORG 05D50h
+_var_595 label byte
+ORG 05D52h
+_var_596 label byte
+ORG 05D54h
+_var_597 label byte
+ORG 05D56h
+_var_598 label byte
+ORG 05D58h
+_var_599 label byte
+ORG 05D5Ah
+_var_600 label byte
+ORG 05FE6h
+_var_605 label byte
+ORG 06128h
+_var_606 label byte
+ORG 0612Ch
+_var_608 label byte
+ORG 06130h
+_var_609 label byte
+ORG 06132h
+_var_610 label byte
+ORG 06134h
+_var_611 label byte
+ORG 06138h
+_var_613 label byte
+ORG 0618Ah
+_var_615 label byte
+ORG 06199h
+_var_616 label byte
+ORG 0619Bh
+_var_617 label byte
+ORG 061A5h
+_var_618 label byte
+ORG 061A7h
+_var_619 label byte
+ORG 061ABh
+_var_620 label byte
+ORG 061ADh
+_var_621 label byte
+ORG 061C8h
+_var_625 label byte
+ORG 061CAh
+_var_626 label byte
+ORG 061CCh
+_var_627 label byte
+ORG 061D6h
+_var_628 label byte
+ORG 061D7h
+_var_629 label byte
+ORG 061D8h
+_var_630 label byte
+ORG 061E2h
+_var_632 label byte
+ORG 061E4h
+_var_633 label byte
+ORG 061E6h
+_var_634 label byte
+ORG 061E8h
+_var_635 label byte
+ORG 06316h
+_var_638 label byte
+ORG 06318h
+_var_639 label byte
+ORG 0631Ah
+_var_640 label byte
+ORG 0631Ch
+_var_641 label byte
+ORG 06320h
+_var_642 label byte
+ORG 06334h
+_var_647 label byte
+ORG 06336h
+_var_648 label byte
+ORG 06338h
+_var_649 label byte
+ORG 0633Ch
+_var_650 label byte
+ORG 06346h
+_var_653 label byte
+ORG 06422h
+_var_654 label byte
+ORG 06428h
+_var_657 label byte
+ORG 0642Ah
+_var_658 label byte
+ORG 0642Ch
+_var_659 label byte
+ORG 0642Eh
+_var_660 label byte
+ORG 06430h
+_var_661 label byte
+ORG 06432h
+_var_662 label byte
+ORG 06434h
+_var_663 label byte
+ORG 06436h
+_var_664 label byte
+ORG 06438h
+_var_665 label byte
+ORG 0643Ah
+_var_666 label byte
+ORG 0643Ch
+_var_667 label byte
+ORG 0643Eh
+_var_668 label byte
+ORG 06440h
+_var_669 label byte
+ORG 06442h
+_var_670 label byte
+ORG 0644Ah
+_var_671 label byte
+ORG 0644Ch
+_var_672 label byte
+ORG 0644Eh
+_var_673 label byte
+ORG 06450h
+_var_674 label byte
+ORG 06452h
+_var_675 label byte
+ORG 06454h
+_var_676 label byte
+ORG 06456h
+_var_677 label byte
+ORG 0649Ch
+_var_680 label byte
+ORG 0649Eh
+_var_681 label byte
+ORG 064A0h
+_var_682 label byte
+ORG 064A2h
+_var_683 label byte
+ORG 064A4h
+_var_684 label byte
+ORG 064A6h
+_var_685 label byte
+ORG 064A8h
+_var_686 label byte
+ORG 064AAh
+_var_687 label byte
+ORG 064ACh
+_var_688 label byte
+ORG 064AEh
+_var_689 label byte
+ORG 064B0h
+_var_690 label byte
+ORG 064B2h
+_var_692 label byte
+ORG 064B4h
+_var_694 label byte
+ORG 064BAh
+_var_697 label byte
+ORG 064BCh
+_var_699 label byte
+ORG 064BEh
+_var_700 label byte
+
 .DATA?
+IFDEF DEBUG
+PUBLIC __bss_start
+ENDIF
+__bss_start label byte
+; --- BSS-region symbolic labels (offsets relative to _BSS start) ---
+ORG 0008Dh
+_var_727 label byte
+ORG 0028Fh
+_var_730 label byte
+ORG 00291h
+_var_732 label byte
+ORG 01AF0h
+_var_762 label byte
+ORG 01AFAh
+_var_767 label byte
+ORG 022B8h
+_var_810 label byte
+ORG 022BAh
+_var_811 label byte
+ORG 00000h
 word_38F70 dw ?
+_word_38F70 equ word_38F70
 word_38F72 dw ?
+_word_38F72 equ word_38F72
 strBuf db 18h dup(?)
+_strBuf equ strBuf
 byte_38F8C db ?
+_byte_38F8C equ byte_38F8C
 byte_38F8D db ?
+_byte_38F8D equ byte_38F8D
     db ?
     db ?
     db ?
@@ -19250,9 +34726,11 @@ byte_38F8D db ?
 _word_38FC4 dw ?
 word_38FC6 dw ?
 word_38FC8 dw ?
+_word_38FC8 equ word_38FC8
     db ? ;align 4
     db ?
 word_38FCC dw ?
+_word_38FCC equ word_38FCC
 word_38FCE dw ?
 unk_38FD0 db ?
     db ?
@@ -19268,17 +34746,22 @@ word_38FDA dw ?
 _word_38FDC dw ?
 word_38FDE dw ?
 word_38FE0 dw ?
+_word_38FE0 equ word_38FE0
 _dword_38FE2 dd ?
 _fileHandle dw ?
 word_38FE8 dw ?
+_word_38FE8 equ word_38FE8
 _word_38FEA dw ?
 word_38FEC dw ?
+_word_38FEC equ word_38FEC
 word_38FEE dw ?
 _gameData dd ?
     db ?
     db ?
 word_38FF6 dw ?
+_word_38FF6 equ word_38FF6
 word_38FF8 dw ?
+_word_38FF8 equ word_38FF8
 _word_38FFA dw ?
 word_38FFC dw ?
 _buf4_3dg db 200h dup(?)
@@ -19802,6 +35285,7 @@ _word_39604 dw ?
 word_39606 dw ?
 _buf2_3dg db 200h dup(?)
 word_39808 dw ?
+_word_39808 equ word_39808
     db ?
     db ?
     db ?
@@ -19886,6 +35370,7 @@ _buf1_3dg db 100h dup(?)
 _byte_3995A db ?
     db ?
 word_3995C dw ?
+_word_3995C equ word_3995C
 _buf1_3dt db ?
     db ?
 _buf2_3dt db ?
@@ -23932,17 +39417,21 @@ _word_3AA5C dw ?
 word_3AF0C dw ?
 _buf3d3_1 db 96h dup(?)
 word_3AFA4 dw ?
+_word_3AFA4 equ word_3AFA4
 word_3AFA6 dw ?
 word_3AFA8 dw ?
 word_3AFAA dw ?
 _byte_3AFAC db 100h dup(?)
 word_3B0AC dw ?
+_word_3B0AC equ word_3B0AC
 _buf3d3_2 db 96h dup(?)
 _word_3B144 dw ?
 word_3B146 dw ?
+_word_3B146 equ word_3B146
 _word_3B148 dw ?
 _word_3B14A dw ?
 word_3B14C dw ?
+_word_3B14C equ word_3B14C
     db ?
     db ?
     db ?
@@ -23958,6 +39447,7 @@ word_3B15A dw ?
     db ?
     db ?
 word_3B15E dw ?
+_word_3B15E equ word_3B15E
     db ?
     db ?
     db ?
@@ -24647,14 +40137,18 @@ word_3B240 dw ?
 word_3B4D2 dw ?
 _dword_3B4D4 dd ?
 word_3B4D8 dw ?
+_word_3B4D8 equ word_3B4D8
 word_3B4DA dw ?
 word_3B4DC dw ?
+_word_3B4DC equ word_3B4DC
 _word_3B4DE dw ?
 word_3B4E0 dw ?
+_word_3B4E0 equ word_3B4E0
 _hercFlag db ?
     db ?
 _word_3B4E4 dw ?
 byte_3B4E6 db ?
+_byte_3B4E6 equ byte_3B4E6
 byte_3B4E7 db ?
 byte_3B4E8 db ?
 byte_3B4E9 db ?
@@ -24894,6 +40388,7 @@ byte_3B4EC db ?
     db ?
     db ?
 word_3B5D6 dw ?
+_word_3B5D6 equ word_3B5D6
     db ?
     db ?
     db ?
@@ -25430,6 +40925,7 @@ byte_3B7F1 db ?
 _dword_3B7F8 dd ?
 _byte_3B7FC db 640h dup(?)
 word_3BE3C dw ?
+_word_3BE3C equ word_3BE3C
 _byte_3BE3E db 40h dup(?)
 word_3BE7E dw ?
 _byte_3BE80 db 10h dup(?)
@@ -25486,28 +40982,35 @@ word_3BECE dw ?
 _word_3BED0 dw ?
 _word_3BED2 dw ?
 word_3BED4 dw ?
+_word_3BED4 equ word_3BED4
 word_3BED6 dw ?
 _byte_3BED8 db 64h dup(?)
 word_3BF3C dw ?
 word_3BF3E dw ?
 _tempString db 50h dup(?)
 word_3BF90 dw ?
+_word_3BF90 equ word_3BF90
 _regs db ?
+PUBLIC _byte_3BF93
+_byte_3BF93 label byte
 byte_3BF93 db ?
     db ?
+PUBLIC _unk_3BF95
+_unk_3BF95 label byte
 unk_3BF95 db ?
+PUBLIC _unk_3BF96
+_unk_3BF96 label byte
 unk_3BF96 db ?
     db ?
+PUBLIC _unk_3BF98
+_unk_3BF98 label byte
 unk_3BF98 db ?
-    db ?
-    db ?
-    db ?
-    db ?
     db ?
     db ?
     db ?
 word_3BFA0 dw ?
 word_3BFA2 dw ?
+_word_3BFA2 equ word_3BFA2
 _byte_3BFA4 db 64h dup(?)
 _word_3C008 dw ?
 word_3C00A dw ?
@@ -25515,10 +41018,14 @@ _word_3C00C dw ?
 word_3C00E dw ?
 _flagFarToNear dw ?
 keyScancode dw ?
+_keyScancode equ keyScancode
 word_3C014 dw ?
 word_3C016 dw ?
+_word_3C016 equ word_3C016
 word_3C018 dw ?
+_word_3C018 equ word_3C018
 word_3C01A dw ?
+_word_3C01A equ word_3C01A
 _dword_3C01C dd ?
 word_3C020 dw ?
     db ? ;align 4
@@ -25529,6 +41036,7 @@ _byte_3C02A db ?
     db ? ;align 2
 _word_3C02C dw ?
 _word_3C02E dw ?
+_unk_3C030 label byte
 unk_3C030 db ?
     db ?
     db ?
@@ -25556,23 +41064,32 @@ word_3C0A0 dw ?
 _word_3C0A2 dw 64h dup(?)
 _word_3C16A dw ?
 word_3C16C dw ?
+_word_3C16C equ word_3C16C
 _byte_3C16E db 2EEh dup(?)
 _word_3C45C dw ?
 word_3C45E dw ?
+_word_3C45E equ word_3C45E
 _matrix3dt_2 dw 0A0h dup(?)
 _byte_3C5A0 db ?
     db ?
 word_3C5A2 dw ?
+_word_3C5A2 equ word_3C5A2
 word_3C5A4 dw ?
 _word_3C5A6 dw ?
 word_3C5A8 dw ?
 _word_3C5AA dw ?
 word_3C5AC dw ?
+_word_3C5AC equ word_3C5AC
 word_3C5AE dw ?
+_word_3C5AE equ word_3C5AE
 word_3C5B0 dw ?
+_word_3C5B0 equ word_3C5B0
 word_3C5B2 dw ?
+_word_3C5B2 equ word_3C5B2
 word_3C5B4 dw ?
+_word_3C5B4 equ word_3C5B4
 word_3C5B6 dw ?
+_word_3C5B6 equ word_3C5B6
     db ?
     db ?
     db ?
@@ -26345,4 +41862,9 @@ _size3d3_7 dw ?
     db ?
     db ?
     db ?
+
+__bss_end label byte
+
+
+
 END
