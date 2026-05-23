@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    container:
+      image: ajenbo/iskukotka:latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup toolchain and reference binaries
+        run: |
+          cp -r /opt/f15se2/dos dos
+          cp -r /opt/f15se2/bin bin
+
+      - name: Build UASM
+        run: cd UASM && make -j$(nproc)
+
+      - name: Build mzretools
+        run: cd mzretools && ./build.sh
+
+      - name: Run verify
+        run: make verify
