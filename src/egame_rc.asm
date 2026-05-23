@@ -148,6 +148,7 @@ EXTRN _sub_11841:PROC
 EXTRN _sub_11B37:PROC
 EXTRN _sub_10294:PROC
 EXTRN _sub_10297:PROC
+EXTRN _sub_13A6C:PROC
 EXTRN _sub_136D2:PROC
 EXTRN _sub_1378E:PROC
 PUBLIC _var_456
@@ -4115,26 +4116,7 @@ LAB_1000_3a68:
 sub_139C0 endp
 ; ------------------------------seg000:0x3a6b------------------------------
 ; ------------------------------seg000:0x3a6c------------------------------
-sub_13A6C proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [BP + 8h]
-    neg AX
-    push AX
-    mov AX,word ptr [BP + 6h]
-    neg AX
-    push AX
-    mov AX,word ptr [BP + 4h]
-    neg AX
-    push AX
-    mov AX,19c6h
-    push AX
-    call far ptr _sub_20BAE
-    add SP,8h
-    pop BP
-    ret
-    nop
-sub_13A6C endp
+sub_13A6C equ _sub_13A6C
 ; ------------------------------seg000:0x3a8e------------------------------
 ; ------------------------------seg000:0x3a90------------------------------
 sub_13A90 equ _sub_13A90

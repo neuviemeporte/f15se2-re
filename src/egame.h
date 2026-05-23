@@ -170,7 +170,7 @@ int sub_139AA();
 // ==== seg000:0x39c0 ====
 int sub_139C0();
 // ==== seg000:0x3a6c ====
-int sub_13A6C();
+void sub_13A6C(int, int, int);
 // ==== seg000:0x3a90 ====
 void sub_13A90(int arg_0, int arg_2, int arg_4);
 // ==== seg000:0x3aee ====
