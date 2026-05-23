@@ -405,6 +405,26 @@ void sub_1A872(int arg_0, int arg_2, int arg_4, int arg_6) {
     gfx_jump_47(&word_383AE);
 }
 
+// ==== seg000:0xa8c8 ====
+void sub_1A8C8(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c) {
+    var_577 = gfxBufPtr;
+    var_578 = arg_4;
+    var_579 = arg_6;
+    var_580 = (byte_3C5A0 != 0);
+    var_581 = arg_0;
+    var_582 = arg_2;
+    var_583 = arg_8;
+    var_584 = arg_a;
+    var_586 = (char)arg_c;
+    if (arg_c != 0) {
+        var_585 = 1;
+        gfx_jump_47(&word_383CC);
+        return;
+    }
+    var_585 = 0x10;
+    gfx_jump_49(&word_383CC);
+}
+
 // ==== seg000:0x6742 ====
 int routine_191(void) {
     int p;

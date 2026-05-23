@@ -404,7 +404,7 @@ PUBLIC _word_330BC
 PUBLIC _unk_3806E
 PUBLIC _unk_380B6
 PUBLIC _sub_20E38
-PUBLIC _sub_1A8C8
+
 PUBLIC _a256left_pic
 PUBLIC _a256right_pic
 PUBLIC _a256rear_pic
@@ -487,6 +487,18 @@ PUBLIC _var_573
 PUBLIC _var_574
 PUBLIC _var_575
 PUBLIC _var_576
+PUBLIC _var_577
+PUBLIC _var_578
+PUBLIC _var_579
+PUBLIC _var_580
+PUBLIC _var_581
+PUBLIC _var_582
+PUBLIC _var_583
+PUBLIC _var_584
+PUBLIC _var_585
+PUBLIC _var_586
+PUBLIC _word_383CC
+_word_383CC equ word_383CC
 PUBLIC _word_383AE
 _word_383AE equ word_383AE
 PUBLIC _word_3370A
@@ -12298,49 +12310,8 @@ sub_1A7C4 equ _sub_1A7C4
 sub_1A872 equ _sub_1A872
 ; ------------------------------seg000:0xa8c7------------------------------
 ; ------------------------------seg000:0xa8c8------------------------------
-_sub_1A8C8 proc near
-    push BP
-    mov BP,SP
-    mov AX,[_gfxBufPtr]
-    mov word ptr [_var_577],AX
-    mov AX,word ptr [BP + 8h]
-    mov word ptr [_var_578],AX
-    mov AX,word ptr [BP + 0ah]
-    mov word ptr [_var_579],AX
-    cmp byte ptr [_byte_3C5A0],1h
-    sbb AX,AX
-    inc AX
-    mov word ptr [_var_580],AX
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [_var_581],AX
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [_var_582],AX
-    mov AX,word ptr [BP + 0ch]
-    mov word ptr [_var_583],AX
-    mov AX,word ptr [BP + 0eh]
-    mov word ptr [_var_584],AX
-    mov AL,byte ptr [BP + 10h]
-    mov byte ptr [_var_586],AL
-    cmp word ptr [BP + 10h],0h
-    jz LAB_1000_a920
-    mov byte ptr [_var_585],1h
-    mov AX,offset word_383CC
-    push AX
-    call far ptr gfx_jump_47
-    add SP,2h
-    pop BP
-    ret
-    db 90h
-LAB_1000_a920:
-    mov byte ptr [_var_585],10h
-    mov AX,offset word_383CC
-    push AX
-    call far ptr gfx_jump_49
-    add SP,2h
-    pop BP
-    ret
-    nop
-_sub_1A8C8 endp
+    EXTRN _sub_1A8C8:PROC
+sub_1A8C8 equ _sub_1A8C8
 ; ------------------------------seg000:0xa933------------------------------
 ; ------------------------------seg000:0xa934------------------------------
 sub_1A934 proc near
@@ -20361,6 +20332,8 @@ gfx_jump_49 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_jump_49 endp
+    PUBLIC _gfx_jump_49
+_gfx_jump_49 equ gfx_jump_49
 ; ------------------------------dseg:0x102b------------------------------
     db 0EAh
     db 0

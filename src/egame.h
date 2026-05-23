@@ -356,7 +356,7 @@ void sub_1A7C4();
 // ==== seg000:0xa872 ====
 void sub_1A872();
 // ==== seg000:0xa8c8 ====
-int sub_1A8C8();
+void sub_1A8C8();
 // ==== seg000:0xa934 ====
 int sub_1A934();
 // ==== seg000:0xa962 ====
@@ -1716,6 +1716,16 @@ extern int16 var_573;
 extern int16 var_574;
 extern int16 var_575;
 extern int16 var_576;
+extern int16 var_577;
+extern int16 var_578;
+extern int16 var_579;
+extern int16 var_580;
+extern int16 var_581;
+extern int16 var_582;
+extern int16 var_583;
+extern int16 var_584;
+extern uint8 var_585;
+extern uint8 var_586;
 extern int16 var_591;
 extern uint8 var_456;
 extern int16 var_383;
