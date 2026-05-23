@@ -8,6 +8,8 @@
 #include "comm.h"
 
 #include <dos.h>
+#include <conio.h>
+#include <bios.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1848,4 +1850,19 @@ void sub_1DA8D(void) {
     } else {
         audio_jump_68();
     }
+}
+
+// ==== seg000:0x613b ====
+void sub_1613B(void) {
+    int p;
+
+    audio_jump_69();
+    p = var_383;
+loop:
+    while (kbhit() == 0)
+        ;
+    if (_bios_keybrd(0) == 0x1900)
+        goto loop;
+    sub_1DA8D();
+    var_383 = p;
 }

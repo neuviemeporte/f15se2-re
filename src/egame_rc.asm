@@ -36,6 +36,7 @@ EXTRN _sub_1DA5F:PROC
 EXTRN _sub_1DB9C:PROC
 EXTRN _makeSound:PROC
 EXTRN _sub_1DA8D:PROC
+EXTRN _sub_1613B:PROC
 EXTRN _sub_1DAAE:PROC
 EXTRN _sub_155AB:PROC
 EXTRN _main:PROC
@@ -157,6 +158,7 @@ EXTRN _sub_136D2:PROC
 EXTRN _sub_1378E:PROC
 PUBLIC _var_456
 PUBLIC _var_190
+PUBLIC _var_383
 PUBLIC _var_200
 PUBLIC _var_201
 PUBLIC _var_216
@@ -6925,34 +6927,7 @@ LAB_1000_6137:
 _sub_160D3 endp
 ; ------------------------------seg000:0x613a------------------------------
 ; ------------------------------seg000:0x613b------------------------------
-sub_1613B proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    call far ptr audio_jump_69
-    mov AX,word ptr [_var_383]
-    mov word ptr [BP + -2h],AX
-LAB_1000_614c:
-    call _kbhit
-    or AX,AX
-    jnz LAB_1000_6155
-    jmp LAB_1000_614c
-LAB_1000_6155:
-    sub AX,AX
-    push AX
-    call __bios_keybrd
-    add SP,2h
-    cmp AX,1900h
-    jnz LAB_1000_6165
-    jmp LAB_1000_614c
-LAB_1000_6165:
-    call sub_1DA8D
-    mov AX,word ptr [BP + -2h]
-    mov word ptr [_var_383],AX
-    mov SP,BP
-    pop BP
-    ret
-sub_1613B endp
+sub_1613B equ _sub_1613B
 ; ------------------------------seg000:0x6171------------------------------
 ; ------------------------------seg000:0x6172------------------------------
 sub_16172 proc near
