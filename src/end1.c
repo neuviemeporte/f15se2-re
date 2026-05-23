@@ -4,28 +4,6 @@
 #include "end.h"
 #include "util.h"
 
-void closeFileWrapper(int handle)
-{
-    TRACE(("closeFileWrapper"));
-    routine_125(handle);
-}
-
-void loadPic(char *filename, int segment) {
-    int handle;
-    TRACE(("loadPic"));
-    handle = openFileWrapper(filename, 0);
-    decodePic(handle, segment);
-    closeFileWrapper(handle);
-}
-
-void openShowPic(char *name, int page, int garbage) {
-    int handle;
-    TRACE(("openShowPic"));
-    handle = openFileWrapper(name, 0);
-    showPicFile(handle, page, garbage);
-    closeFileWrapper(handle);
-}
-
 int allocBuffer(int size) {
     int segment;
     TRACE(("allocBuffer"));

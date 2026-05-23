@@ -301,7 +301,7 @@ int unreach_1328D();
 // ==== startCode1:0x32a5 ====
 int writeFileAtRaw();
 // ==== startCode1:0x3312 ====
-void openShowPic(char *filename, int pageNum, int garbage);
+void openShowPic(char *filename, int pageNum);
 // ==== startCode1:0x333e ====
 int unreach_1333E(int filename, int a);
 // ==== startCode1:0x3368 ====
@@ -311,7 +311,7 @@ void __cdecl loadPic(char *, unsigned int);
 void unreach_loadPicAt();
 // bytes outside routine, potential module boundary at 0x33cf
 // ==== startCode1:0x33d0 ====
-void showPicFile(int handle, int pageNum);
+void showPicFile(int handle, int pageNum, int garbage);
 // ==== startCode1:0x3442 ====
 int unreach_13442();
 // ==== startCode1:0x34aa ====
@@ -400,9 +400,9 @@ int memAppend();
 // ==== startCode1:0x52f1 ====
 int doNothing(FILE*);
 // ==== startCode1:0x52f4 ====
-char *__cdecl getItemCoordStr(int);
+char *__cdecl getItemCoordStr(int16);
 // ==== startCode1:0x531c ====
-char *__cdecl formatGridRef(int, int);
+char *__cdecl formatGridRef(int16, int16, int16);
 // ==== startCode1:0x5472 ====
 int __cdecl clampValue(int, int, int);
 // ==== startCode1:0x54a1 ====
@@ -818,7 +818,7 @@ extern int16 tmpPageIndex;
 extern int16 rowOffset;
 extern int16 row;
 extern int16 readFromFilePtr;
-extern char aInsufficientSy[];
+extern char str_allocError[];
 extern uint8 aBufferDeallocE[];
 extern int word_17FFE[];
 extern int word_18010[];

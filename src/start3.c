@@ -764,14 +764,15 @@ int doNothing(FILE* handle) {
 }
 
 // 52f4
-char* getItemCoordStr(int idx) {
+char* getItemCoordStr(int16 idx) {
     // 530f
     return formatGridRef(wldReadBuf4[idx].x_coord, wldReadBuf4[idx].y_coord, gameData->theater);
 }
 
 // 531c
-char* formatGridRef(int wx, int wy) {
+char* formatGridRef(int16 wx, int16 wy, int16 theater) {
     int gridOffX, gridOffY;
+    (void*)theater;
     switch (gameData->theater) { // 53f2
     case 0:
         mystrcpy(&bufCoordStr, aTd00);

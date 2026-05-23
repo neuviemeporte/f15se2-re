@@ -174,9 +174,10 @@ void drawMapPixel(int x, int y, int color) {
     drawClippedLine(x, y, x, y);
 }
 
-void plotMapPoint(int x, int y, int color) {
+void plotMapPoint(int x, int y, int color, int unused) {
     int sx;
     int sy;
+    (void*)unused;
     TRACE(("plotMapPoint"));
     sx = mapToScreenX(x);
     sy = mapToScreenY(y);

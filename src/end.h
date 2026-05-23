@@ -208,7 +208,7 @@ extern int far gfx_jump_11_blitSprite(int spritePtr);
 /* Reconstructed C functions */
 void seedRandom(void);
 void loadPic(char *filename, int segment);
-void openShowPic(char *name, int page, int garbage);
+void openShowPic(char *name, int page);
 int allocBuffer(int size);
 void freeBuffer(int segment);
 void srandInit(int seed);
@@ -239,7 +239,7 @@ void checkQuitFlag(void);
 void routine_5(void);
 void routine_6(void);
 void closeAndResetFile(int *p);
-void plotMapPoint(int x, int y, int color);
+void plotMapPoint(int x, int y, int color, int unused);
 void timerWait(unsigned int ticks);
 void drawStringAtPos(int *s, char far *str, int x, int y);
 void drawFarString(int *s, char far *str);
