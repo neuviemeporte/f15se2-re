@@ -198,10 +198,10 @@ extern int popupSpriteY[];
 extern int popupSpriteX[];
 
 /* Sprite struct pointers (first word of each sprite descriptor) */
-extern int *spriteAir;
-extern int *spriteSam;
-extern int *spriteGround;
-extern int *spriteWaypoint;
+extern int16 *spriteAir;
+extern int16 *spriteSam;
+extern int16 *spriteGround;
+extern int16 *spriteWaypoint;
 
 extern int far gfx_jump_11_blitSprite(int16* spritePtr);
 
