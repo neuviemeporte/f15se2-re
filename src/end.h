@@ -144,10 +144,10 @@ extern char timerCounter2;
 extern char timerCounter3;
 extern char enterPressed;
 extern int dat_1c8e[];
-extern int *spriteAirBlink;
-extern int *spriteSamBlink;
-extern int *spriteGroundBlink;
-extern int *spriteWaypointBlink;
+extern int16 *spriteAirBlink;
+extern int16 *spriteSamBlink;
+extern int16 *spriteGroundBlink;
+extern int16 *spriteWaypointBlink;
 extern void far pollJoystick(void);
 void processDebriefInput(int *cursorBounds, void *menuItem, int gfxPage);
 
@@ -203,7 +203,7 @@ extern int *spriteSam;
 extern int *spriteGround;
 extern int *spriteWaypoint;
 
-extern int far gfx_jump_11_blitSprite(int spritePtr);
+extern int far gfx_jump_11_blitSprite(int16* spritePtr);
 
 /* Reconstructed C functions */
 void seedRandom(void);
@@ -321,7 +321,7 @@ extern int var_425c[];
 extern int dat_4804;
 extern int var_193[];
 extern int var_192;
-extern int var_102;
+extern int16 *var_102;
 
 /* Data symbols used by showPostMissionAwards */
 extern int *awardPage;

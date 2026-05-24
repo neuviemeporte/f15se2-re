@@ -298,27 +298,27 @@ int drawEventSprite(int recordIdx)
         } else {
             spriteAir[1] = 0x12d;
         }
-        return gfx_jump_11_blitSprite((int)spriteAir);
+        return gfx_jump_11_blitSprite(spriteAir);
     case EVENT_GROUND_KILL:
         spriteGround[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
         spriteGround[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
-        return gfx_jump_11_blitSprite((int)spriteGround);
+        return gfx_jump_11_blitSprite(spriteGround);
     case EVENT_SAM_KILL:
         spriteSam[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
         spriteSam[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
-        return gfx_jump_11_blitSprite((int)spriteSam);
+        return gfx_jump_11_blitSprite(spriteSam);
     case EVENT_BOMB_HIT:
         spriteWaypoint[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1;
         spriteWaypoint[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1;
-        return gfx_jump_11_blitSprite((int)spriteWaypoint);
+        return gfx_jump_11_blitSprite(spriteWaypoint);
     case EVENT_EJECTED:
         spriteSam[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
         spriteSam[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
-        return gfx_jump_11_blitSprite((int)spriteSam);
+        return gfx_jump_11_blitSprite(spriteSam);
     case EVENT_WAYPOINT:
         spriteWaypoint[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1;
         spriteWaypoint[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1;
-        return gfx_jump_11_blitSprite((int)spriteWaypoint);
+        return gfx_jump_11_blitSprite(spriteWaypoint);
     }
 }
 
@@ -661,32 +661,32 @@ void processDebriefInput(int *cursorBounds, MenuItem *menuItem, int gfxPage) {
                 } else {
                     spriteAirBlink[1] = 0x12D;
                 }
-                gfx_jump_11_blitSprite((int)spriteAirBlink);
+                gfx_jump_11_blitSprite(spriteAirBlink);
                 break;
             case EVENT_SAM_KILL:
                 spriteSamBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
                 spriteSamBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
-                gfx_jump_11_blitSprite((int)spriteSamBlink);
+                gfx_jump_11_blitSprite(spriteSamBlink);
                 break;
             case EVENT_GROUND_KILL:
                 spriteGroundBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
                 spriteGroundBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
-                gfx_jump_11_blitSprite((int)spriteGroundBlink);
+                gfx_jump_11_blitSprite(spriteGroundBlink);
                 break;
             case EVENT_BOMB_HIT:
                 spriteWaypointBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1;
                 spriteWaypointBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1;
-                gfx_jump_11_blitSprite((int)spriteWaypointBlink);
+                gfx_jump_11_blitSprite(spriteWaypointBlink);
                 break;
             case EVENT_EJECTED:
                 spriteSamBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
                 spriteSamBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
-                gfx_jump_11_blitSprite((int)spriteSamBlink);
+                gfx_jump_11_blitSprite(spriteSamBlink);
                 break;
             case EVENT_WAYPOINT:
                 spriteWaypointBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1;
                 spriteWaypointBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1;
-                gfx_jump_11_blitSprite((int)spriteWaypointBlink);
+                gfx_jump_11_blitSprite(spriteWaypointBlink);
                 break;
             }
         } else {
