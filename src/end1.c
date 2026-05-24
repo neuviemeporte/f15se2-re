@@ -51,8 +51,7 @@ int readFileAtEx(int handle, int a, int b, int c, int d) {
     return readFileAtExRaw(handle, a, b, c, d);
 }
 
-void closeAndResetFile(p)
-register int *p;
+void closeAndResetFile(register int *p)
 {
     TRACE(("closeAndResetFile"));
     if ((((char *)p)[6] & 0x83) && (((char *)p)[6] & 0x08)) {
@@ -62,8 +61,7 @@ register int *p;
     }
 }
 
-void markHandleClosed(handle)
-int handle;
+void markHandleClosed(int handle)
 {
     TRACE(("markHandleClosed"));
     if (handle != 0) {
