@@ -89,10 +89,10 @@ int my_ltoa(int32 value, int8* buf) {
     *p = '\0';
 }
 
-int my_itoa(int value, int8 *buf) {
+int my_itoa(int value, char *buf) {
     int8 n[6];
     int8 i, k;
-    int8 *p;
+    char *p;
     p = buf;
     if (value < 0) {
         value = -value;

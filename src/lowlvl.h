@@ -4,7 +4,7 @@
 #include "inttype.h"
 #include "pointers.h"
 
-void setupOverlaySlots(uint16);
+void setupOverlaySlots(uint16 addr);
 void installCBreakHandler(void);
 void setTimerIrqHandler(void);
 uint16 loadOverlay(const char*);

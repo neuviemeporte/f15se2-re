@@ -638,7 +638,7 @@ int parseGrid() {
 }
 
 // 3e8c
-int showMsgWaitKey(char *msg) {
+int showMsgWaitKey(const char *msg) {
     doNothing2(msg, 0, 0x60, 0x0f);
     return getch();
 }

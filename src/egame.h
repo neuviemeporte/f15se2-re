@@ -63,7 +63,7 @@ int loadF15DgtlBin();
 // ==== seg000:0x334 ====
 int sub_10334();
 // ==== seg000:0x688 ====
-int setupOverlaySlots();
+int setupOverlaySlots(uint16 addr);
 // ==== seg000:0x720 ====
 int sub_10720();
 // ==== seg000:0x14e8 ====
@@ -456,13 +456,13 @@ int sub_1DDAA();
 // ==== seg000:0xddc4 ====
 int __cdecl openFile(char *, int);
 // ==== seg000:0xde1b ====
-int createFile();
+int createFile(int arg_0, int arg_1);
 // ==== seg000:0xde72 ====
-int closeFile();
+int closeFile(int arg_0);
 // ==== seg000:0xde94 ====
-int readFile1();
+int readFile1(int arg_0, int arg_1, int arg_2);
 // ==== seg000:0xdebf ====
-int readFile2();
+int readFile2(int arg_0, int arg_1, int arg_2, int arg_3);
 // ==== seg000:0xdf16 ====
 int read512FromFileIntoBuf();
 // ==== seg000:0xdf4f ====
@@ -649,7 +649,7 @@ int sub_22691();
 // ==== seg002:0xc4e ====
 int sub_226BE();
 // ==== seg002:0xcaa ====
-int far restoreJoystickData();
+int far restoreJoystickData(uint8 FAR *ptr);
 // ==== seg002:0xcbe ====
 int far copyJoystickData(uint8 FAR *ptr);
 // ==== seg003:0x6 ====
@@ -662,7 +662,7 @@ int int9Handler();
 extern uint8 unk_328B0[];
 extern int16 word_328B2;
 extern uint8 unk_328B6[];
-extern uint8 aMsRunTimeLibraryCopyr[];
+extern char aMsRunTimeLibraryCopyr[];
 extern uint8 unk_328F0[];
 extern uint8 aRegn_xxx[];
 extern uint8 aLb_xxx[];
@@ -789,7 +789,7 @@ extern uint8 aS[];
 extern int16 word_3374A;
 extern uint8 aOnPatrol[];
 extern uint8 aF15StrikeEagle[];
-extern uint8 aAt[];
+extern char aAt[];
 extern uint8 jmp_0[];
 extern uint8 jmp_1[];
 extern uint8 jmp_2[];
@@ -1265,8 +1265,8 @@ extern uint8 aHitBy[];
 extern uint8 aIneffective[];
 extern uint8 aHitBy_0[];
 extern uint8 aA[];
-extern uint8 aSecond_Target[];
-extern uint8 aPrimaryTarget_0[];
+extern char aSecond_Target[];
+extern char aPrimaryTarget_0[];
 extern uint8 a0[];
 extern uint8 aFired[];
 extern int16 word_38202;
@@ -1326,7 +1326,7 @@ extern int16 word_38460;
 extern uint8 aDestroyedByGun[];
 extern uint8 aHitByGunfire[];
 extern uint8 aDestroyedByG_0[];
-extern uint8 aAt_0[];
+extern char aAt_0[];
 extern uint8 aPrimaryTarget[];
 extern uint8 aSecondaryTarget[];
 extern uint8 aNoTarget[];
@@ -1335,7 +1335,7 @@ extern uint8 aMissileLock[];
 extern uint8 aRange[];
 extern uint8 aDot[];
 extern uint8 aKm[];
-extern uint8 a_3d3_0[];
+extern char a_3d3_0[];
 extern char aRb_4[];
 extern char aOpenErrorOn_3d3_0[];
 extern char byte_3850E;
@@ -1482,7 +1482,7 @@ extern int16 word_38D6C;
 extern uint8 byte_38D6E[];
 extern int16 word_38F70;
 extern int word_38F72;
-extern uint8 strBuf[];
+extern char strBuf[];
 extern uint8 byte_38F8C;
 extern uint8 byte_38F8D[];
 extern int16 word_38FC4;

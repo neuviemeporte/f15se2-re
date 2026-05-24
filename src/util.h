@@ -12,8 +12,8 @@ int cleanup(void);
 void drawStringAt(int *pageNum, const char *string, int x, int y);
 void drawStringCentered(int *page, const char *str, int startx, int y, int endx);
 int stringWidth(int *page, const char *str);
-int my_ltoa(int32 value, int8 *buf);
-int my_itoa(int value, int8 *buf);
+int my_ltoa(int32 value, char *buf);
+int my_itoa(int value, char *buf);
 
 /* functions provided by util2.c */
 int openFileWrapper(char *filename, int mode);

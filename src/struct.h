@@ -62,7 +62,7 @@ struct Target {
     int16 baseIdx;       /* takeoff base (primary) or landing base (secondary) index */
     int16 missionCode;   /* bit flags for mission completion detection */
     int16 missionNum;    /* index into mission lookup table (stru_18FC0/stru_33402) */
-    uint8 coord[6];      /* grid reference string (e.g. "A3B2") */
+    char coord[6];      /* grid reference string (e.g. "A3B2") */
     int16 distance;      /* distance metric */
 };
 #pragma pack()

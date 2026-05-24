@@ -327,7 +327,7 @@ extern int var_102;
 extern int *awardPage;
 extern int awardFont;
 extern int awardColor;
-extern unsigned char textBuf[];
+extern char textBuf[];
 extern char *rankNames[];
 extern long promoScores[];
 extern long promoThresholds[];
@@ -389,7 +389,7 @@ void loadTheaterIndex(void);
 void debriefMainLoop(void);
 void showPostMissionAwards(void);
 void installCBreakHandler(void);
-extern void far copyJoystickData(char far *data);
+extern void far copyJoystickData(uint8 far *data);
 extern int far gfx_jump_31(void);
 extern int far gfx_jump_17_bufSize(void);
 

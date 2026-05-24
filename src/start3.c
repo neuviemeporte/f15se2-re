@@ -751,7 +751,7 @@ int setMoveDstComm7A() {
 }
 
 // 52bb
-int memAppend(void *ptr, int itemsz, int count, int unused) {
+int memAppend(void *ptr, int itemsz, int count, FILE* unused) {
     void FAR *farptr;
     farptr = ptr;
     // 52dd
