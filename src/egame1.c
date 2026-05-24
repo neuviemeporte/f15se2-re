@@ -1919,3 +1919,17 @@ void sub_160D3(int *arg_0) {
         arg_0++;
     }
 }
+
+// ==== seg000:0x5fdb ====
+void sub_15FDB(void) {
+    if (word_330C2 != 0) {
+        sub_19E44(0);
+        sub_19E5D(0xd4, 0x7f, 0xde, 0xaf, 0xc4);
+        sub_19E44(0x0c);
+        sub_19E5D(0xd4, -(var_552 / 3 - 0xaf), 0xde, 0xaf);
+        if (100 < var_552) {
+            sub_19E44(0x0e);
+            sub_19E5D(0xd4, -(var_552 / 3 - 0xaf), 0xde, 0x8e);
+        }
+    }
+}
