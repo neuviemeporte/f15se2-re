@@ -20,8 +20,8 @@ jobs:
 
       - name: Setup toolchain and reference binaries
         run: |
-          cp -r /opt/f15se2/dos dos
-          cp -r /opt/f15se2/bin bin
+          ln -s /opt/f15se2/dos
+          ln -s /opt/f15se2/bin
 
       - name: Build UASM
         run: cd UASM && make -j$(nproc)
@@ -29,5 +29,14 @@ jobs:
       - name: Build mzretools
         run: cd mzretools && ./build.sh
 
-      - name: Run verify
-        run: make verify
+      - name: Build reconstruction
+        run: make start egame end
+
+      - name: Verify start.exe
+        run: make verify-start
+
+      - name: Verify egame.exe
+        run: make verify-egame
+
+      - name: Verify end.exe
+        run: make verify-end
