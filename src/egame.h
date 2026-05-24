@@ -61,7 +61,7 @@ void __cdecl gfxInit();
 // ==== seg000:0x2e2 ====
 int loadF15DgtlBin();
 // ==== seg000:0x334 ====
-int sub_10334();
+int sub_10334(int arg_0);
 // ==== seg000:0x688 ====
 int setupOverlaySlots(uint16 addr);
 // ==== seg000:0x720 ====
@@ -97,7 +97,7 @@ void sub_11BFD(int arg_0, int arg_2);
 // ==== seg000:0x1c21 ====
 int sub_11C21();
 // ==== seg000:0x1d10 ====
-void sub_11D10();
+void sub_11D10(int arg_0, int arg_2);
 // ==== seg000:0x1d6e ====
 void placeString();
 // ==== seg000:0x1e0e ====
@@ -117,11 +117,11 @@ int callLoad3DAll();
 // ==== seg000:0x21ca ====
 void sub_121CA(int, int, int, long, long, long, int, int, int, int);
 // ==== seg000:0x2278 ====
-int sub_12278();
+int sub_12278(int arg_0);
 // ==== seg000:0x229a ====
 void copySomeMem(int arg_0);
 // ==== seg000:0x22b8 ====
-int sub_122B8();
+int sub_122B8(int param_0, int param_1, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7);
 // ==== seg000:0x26b4 ====
 uint32 sub_126B4(int level, uint32 coord);
 // ==== seg000:0x273e ====
@@ -161,7 +161,7 @@ int sub_1374A();
 // ==== seg000:0x378e ====
 void sub_1378E(int, int);
 // ==== seg000:0x3816 ====
-int sub_13816();
+int sub_13816(int arg_0, int arg_1);
 // ==== seg000:0x3922 ====
 int sub_13922();
 // ==== seg000:0x3932 ====
@@ -169,7 +169,7 @@ void sub_13932(char*, int, int, int, int, int, int, int);
 // ==== seg000:0x39aa ====
 int sub_139AA();
 // ==== seg000:0x39c0 ====
-int sub_139C0();
+int sub_139C0(int arg_0);
 // ==== seg000:0x3a6c ====
 void sub_13A6C(int, int, int);
 // ==== seg000:0x3a90 ====
@@ -177,11 +177,11 @@ void sub_13A90(int arg_0, int arg_2, int arg_4);
 // ==== seg000:0x3aee ====
 int setupDac();
 // ==== seg000:0x3b2f ====
-int sub_13B2F();
+int sub_13B2F(int arg_0, int arg_2);
 // ==== seg000:0x3b86 ====
 int sub_13B86();
 // ==== seg000:0x3b96 ====
-int sub_13B96();
+int sub_13B96(int arg_0);
 // ==== seg000:0x3ba2 ====
 int sub_13BA2();
 // ==== seg000:0x3bc1 ====
@@ -313,7 +313,7 @@ int sub_19C0C();
 // ==== seg000:0x9c84 ====
 void sub_19C84();
 // ==== seg000:0x9d86 ====
-int sub_19D86();
+int sub_19D86(int arg_0, int arg_1, int arg_2, int arg_3);
 // ==== seg000:0x9db0 ====
 void __cdecl sub_19DB0(int, int, int, int);
 // ==== seg000:0x9e44 ====
@@ -407,9 +407,9 @@ int sub_1CF64();
 // ==== seg000:0xcf8e ====
 int forceRange();
 // ==== seg000:0xcfa6 ====
-int sub_1CFA6();
+int sub_1CFA6(int arg_0, int arg_1);
 // ==== seg000:0xd008 ====
-int sub_1D008();
+int sub_1D008(int arg_0, int arg_1);
 // ==== seg000:0xd178 ====
 int sub_1D178();
 // ==== seg000:0xd190 ====
@@ -466,7 +466,7 @@ int readFile2(int arg_0, int arg_1, int arg_2, int arg_3);
 // ==== seg000:0xdf16 ====
 int read512FromFileIntoBuf();
 // ==== seg000:0xdf4f ====
-int sub_1DF4F();
+int sub_1DF4F(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4);
 // ==== seg000:0xdfbc ====
 int openBlitClosePic();
 // ==== seg000:0xe0aa ====
