@@ -86,6 +86,7 @@ EXTRN _sub_19E44:PROC
 EXTRN _sub_1A740:PROC
 EXTRN _sub_1A7C4:PROC
 EXTRN _sub_1606C:PROC
+EXTRN _sub_15FDB:PROC
 EXTRN _sub_19E5D:PROC
 EXTRN _sub_1A1B1:PROC
 EXTRN _sub_19A4D:PROC
@@ -477,7 +478,6 @@ PUBLIC _word_3C5B6
 PUBLIC _word_38FE8
 PUBLIC _aGun
 PUBLIC _byte_3C5A0
-PUBLIC _sub_15FDB
 PUBLIC _word_3C040
 PUBLIC _word_383F4
 PUBLIC _word_3BEBE
@@ -579,6 +579,7 @@ PUBLIC _var_544
 PUBLIC _var_545
 PUBLIC _var_547
 PUBLIC _var_549
+PUBLIC _var_552
 PUBLIC _word_336F0
 PUBLIC _word_333D2
 PUBLIC _word_333D4
@@ -6764,74 +6765,11 @@ LAB_1000_540d:
     ret
 sub_15237 endp
 ; ------------------------------seg000:0x5fdb------------------------------
-_sub_15FDB proc near
-    push BP
-    mov BP,SP
-    cmp word ptr [_word_330C2],0h
-    jnz LAB_1000_5fe8
-    jmp LAB_1000_6068
-LAB_1000_5fe8:
-    sub AX,AX
-    push AX
-    call _sub_19E44
-    add SP,2h
-    mov AX,0c4h
-    push AX
-    mov AX,0afh
-    push AX
-    mov AX,0deh
-    push AX
-    mov AX,7fh
-    push AX
-    mov AX,0d4h
-    push AX
-    call _sub_19E5D
-    add SP,0ah
-    mov AX,0ch
-    push AX
-    call _sub_19E44
-    add SP,2h
-    mov AX,0afh
-    push AX
-    mov AX,0deh
-    push AX
-    mov AX,word ptr [_var_552]
-    cwd
-    mov CX,3h
-    idiv CX
-    db 2Dh, 0AFh, 00h ; sub AX,0afh (force imm16 encoding)
-    neg AX
-    push AX
-    mov AX,0d4h
-    push AX
-    call _sub_19E5D
-    add SP,8h
-    cmp word ptr [_var_552],64h
-    jle LAB_1000_6068
-    mov AX,0eh
-    push AX
-    call _sub_19E44
-    add SP,2h
-    mov AX,8eh
-    push AX
-    mov AX,0deh
-    push AX
-    mov AX,word ptr [_var_552]
-    cwd
-    mov CX,3h
-    idiv CX
-    db 2Dh, 0AFh, 00h ; sub AX,0afh (force imm16 encoding)
-    neg AX
-    push AX
-    mov AX,0d4h
-    push AX
-    call _sub_19E5D
-    add SP,8h
-LAB_1000_6068:
-    mov SP,BP
-    pop BP
-    ret
-_sub_15FDB endp
+sub_15FDB equ _sub_15FDB
+; ------------------------------seg000:0x606b------------------------------
+; ------------------------------seg000:0x606c------------------------------
+sub_1606C equ _sub_1606C
+; ------------------------------seg000:0x60d2------------------------------
 ; ------------------------------seg000:0x60d3------------------------------
 EXTRN _sub_160D3:NEAR
 sub_160D3 equ _sub_160D3

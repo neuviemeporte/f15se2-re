@@ -237,7 +237,7 @@ int sub_15557();
 // ==== seg000:0x55ab ====
 int sub_155AB();
 // ==== seg000:0x5fdb ====
-int sub_15FDB();
+void sub_15FDB(void);
 // ==== seg000:0x606c ====
 void sub_1606C(void);
 // ==== seg000:0x60d3 ====
@@ -319,7 +319,7 @@ void __cdecl sub_19DB0(int, int, int, int);
 // ==== seg000:0x9e44 ====
 void __cdecl sub_19E44(int);
 // ==== seg000:0x9e5d ====
-void __cdecl sub_19E5D(int, int, int, int);
+void __cdecl sub_19E5D();
 // ==== seg000:0x9e94 ====
 int sub_19E94();
 // ==== seg000:0x9ea0 ====
@@ -1301,6 +1301,7 @@ extern int16 var_544;
 extern int16 var_545;
 extern int16 var_547;
 extern int16 var_549;
+extern int16 var_552;
 extern int16 var_588;
 extern int16 var_589;
 extern int16 var_590;

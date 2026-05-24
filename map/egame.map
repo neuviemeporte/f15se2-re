@@ -6,7 +6,7 @@ seg003 CODE 1274
 Data3 DATA 128d
 Data1 DATA 228b
 padding: seg000 NEAR 0000-000f R0000-000f detached
-main: seg000 NEAR 0010-0146 R0010-0146
+main: seg000 NEAR 0010-0146 R0010-0146 complete
 drawCockpit: seg000 NEAR 0147-0210 R0147-0210 complete
 sub_10211: seg000 NEAR 0211-0293 R0211-0293 complete
 sub_10294: seg000 NEAR 0294-0296 R0294-0296 assembly
@@ -98,7 +98,7 @@ sub_154B7: seg000 NEAR 54b7-553f R54b7-553f complete
 sub_15540: seg000 NEAR 5540-5556 R5540-5556 complete
 sub_15557: seg000 NEAR 5557-55aa R5557-55aa complete
 sub_155AB: seg000 NEAR 55ab-5fda R55ab-5c22 U5c23-5c32 R5c33-5fda
-sub_15FDB: seg000 NEAR 5fdb-606b R5fdb-606b
+sub_15FDB: seg000 NEAR 5fdb-606b R5fdb-606b complete
 sub_1606C: seg000 NEAR 606c-60d2 R606c-60d2 complete
 sub_160D3: seg000 NEAR 60d3-613a R60d3-613a complete
 sub_1613B: seg000 NEAR 613b-6171 R613b-6171 complete
@@ -123,7 +123,7 @@ sub_18E50: seg000 NEAR 8e50-9484 R8e50-9484 complete
 sub_194D0: seg000 NEAR 94d0-9579 R94d0-9538 U9539-953a R953b-9563 U9564-9565 R9566-9579 complete
 sub_1957A: seg000 NEAR 957a-9594 R957a-9594 complete
 sub_19595: seg000 NEAR 9595-95c8 R9595-95c8 complete
-sub_195C9: seg000 NEAR 95c9-9874 R95c9-9874
+sub_195C9: seg000 NEAR 95c9-9874 R95c9-9874 assembly
 zoomIn: seg000 NEAR 9875-98b3 R9875-98b3 complete
 zoomOut: seg000 NEAR 98b4-98f9 R98b4-98f9 complete
 sub_198FA: seg000 NEAR 98fa-9914 R98fa-9914 complete
