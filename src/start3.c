@@ -745,13 +745,13 @@ int calcBearing(int dx, int dy) {
 }
 
 // 5268
-int setMoveDstComm7A() {
+int setMoveDstComm7A(const char *filename, const char* arg_1) {
     moveDst = (uint8 FAR*)(&commData->worldBuf);
     return 1;
 }
 
 // 52bb
-int memAppend(void *ptr, int itemsz, int count, int unused) {
+int memAppend(void *ptr, int itemsz, int count, FILE* unused) {
     void FAR *farptr;
     farptr = ptr;
     // 52dd

@@ -144,10 +144,10 @@ extern char timerCounter2;
 extern char timerCounter3;
 extern char enterPressed;
 extern int dat_1c8e[];
-extern int *spriteAirBlink;
-extern int *spriteSamBlink;
-extern int *spriteGroundBlink;
-extern int *spriteWaypointBlink;
+extern int16 *spriteAirBlink;
+extern int16 *spriteSamBlink;
+extern int16 *spriteGroundBlink;
+extern int16 *spriteWaypointBlink;
 extern void far pollJoystick(void);
 void processDebriefInput(int *cursorBounds, void *menuItem, int gfxPage);
 
@@ -198,12 +198,12 @@ extern int popupSpriteY[];
 extern int popupSpriteX[];
 
 /* Sprite struct pointers (first word of each sprite descriptor) */
-extern int *spriteAir;
-extern int *spriteSam;
-extern int *spriteGround;
-extern int *spriteWaypoint;
+extern int16 *spriteAir;
+extern int16 *spriteSam;
+extern int16 *spriteGround;
+extern int16 *spriteWaypoint;
 
-extern int far gfx_jump_11_blitSprite(int spritePtr);
+extern int far gfx_jump_11_blitSprite(int16* spritePtr);
 
 /* Reconstructed C functions */
 void seedRandom(void);
@@ -321,13 +321,13 @@ extern int var_425c[];
 extern int dat_4804;
 extern int var_193[];
 extern int var_192;
-extern int var_102;
+extern int16 *var_102;
 
 /* Data symbols used by showPostMissionAwards */
 extern int *awardPage;
 extern int awardFont;
 extern int awardColor;
-extern unsigned char textBuf[];
+extern char textBuf[];
 extern char *rankNames[];
 extern long promoScores[];
 extern long promoThresholds[];
@@ -389,7 +389,7 @@ void loadTheaterIndex(void);
 void debriefMainLoop(void);
 void showPostMissionAwards(void);
 void installCBreakHandler(void);
-extern void far copyJoystickData(char far *data);
+extern void far copyJoystickData(uint8 far *data);
 extern int far gfx_jump_31(void);
 extern int far gfx_jump_17_bufSize(void);
 

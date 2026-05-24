@@ -3,6 +3,7 @@
 #include "inttype.h"
 #include "struct.h"
 #include "comm.h"
+#include "pointers.h"
 
 #include <stdio.h>
 
@@ -200,9 +201,9 @@ int sub_126CB();
 // ==== startCode1:0x26e2 ====
 int sub_126E2();
 // ==== startCode1:0x26fd ====
-int mystrlen();
+int mystrlen(const char* str);
 // ==== startCode1:0x2719 ====
-int mystrcat();
+int mystrcat(char *dst, char *src);
 // ==== startCode1:0x2741 ====
 int sub_12741();
 // ==== startCode1:0x2764 ====
@@ -356,7 +357,7 @@ int parseTerrain(char *dest);
 // ==== startCode1:0x3d4c ====
 int parseGrid();
 // ==== startCode1:0x3e8c ====
-int __cdecl showMsgWaitKey(char *);
+int __cdecl showMsgWaitKey(const char *);
 // ==== startCode1:0x3ea8 ====
 int replaceExtension(char *dest, char *source);
 // ==== startCode1:0x3ed2 ====
@@ -388,15 +389,15 @@ void __cdecl parseWorld(const char *);
 // ==== startCode1:0x4f76 ====
 void writeWorld(const char *filename);
 // ==== startCode1:0x50e8 ====
-int doNothing2(char *msg, int a, int b, int c);
+int doNothing2(const char *msg, int a, int b, int c);
 // ==== startCode1:0x50eb ====
 int __cdecl calcBearing(int, int);
 // ==== startCode1:0x5268 ====
-int setMoveDstComm7A();
+int setMoveDstComm7A(const char *filename, const char* arg_1);
 // ==== startCode1:0x5285 ====
 int unreach_15285();
 // ==== startCode1:0x52bb ====
-int memAppend();
+int memAppend(void *ptr, int itemsz, int count, FILE* unused);
 // ==== startCode1:0x52f1 ====
 int doNothing(FILE*);
 // ==== startCode1:0x52f4 ====
@@ -429,7 +430,7 @@ int readJoyPort();
 // ==== startCode2:0x6f ====
 int normalizeJoyAxis();
 // ==== startCode2:0xdf ====
-int far copyJoystickData();
+int far copyJoystickData(uint8 FAR *ptr);
 extern uint8 crt0_start[];
 extern int16 crt0_16B52;
 extern uint8 byte_16B54[];
@@ -438,14 +439,14 @@ extern uint8 unk_16B57;
 extern uint8 aMsRunTimeLibra[];
 extern uint8 unk_16B90;
 extern uint8 crt0_end;
-extern uint8 aLabs_pic[];
-extern uint8 aAdv_pic[];
+extern char aLabs_pic[];
+extern char aAdv_pic[];
 extern char aEgraphic_exe[];
-extern uint8 aTitle640_pic[];
-extern uint8 aTitle16_pic[];
-extern uint8 aF15_spr[];
+extern char aTitle640_pic[];
+extern char aTitle16_pic[];
+extern char aF15_spr[];
 extern char aF15_spr_0[];
-extern uint8 aTemp_wld[];
+extern char aTemp_wld[];
 extern int16 word_16BE2;
 extern uint8 unk_16BF0[];
 extern int *bufPtr;
@@ -512,14 +513,14 @@ extern uint8 aCutTheSupplyLi[];
 extern uint8 asc_1700B;
 extern uint8 aMission[];
 extern uint8 placeholder_3d3[];
-extern uint8 aWall_pic[];
-extern uint8 aDifficulty[];
-extern uint8 aTheater[];
-extern uint8 aRb_1[];
+extern char aWall_pic[];
+extern char aDifficulty[];
+extern char aTheater[];
+extern char aRb_1[];
 extern char aNoScenarioFile[];
 extern char aSeeTechnicalSu[];
-extern uint8 aTheater_0[];
-extern uint8 aMissionType[];
+extern char aTheater_0[];
+extern char aMissionType[];
 extern int16 page1Num;
 extern int16 drawColor;
 extern int16 fontIndex;
@@ -560,8 +561,8 @@ extern char *plh3d3Ptr;
 extern int16 missionPick;
 extern int16 word_171B2[];
 extern char aRepeatLastMiss[];
-extern uint8 aRb_2[];
-extern uint8 aF15_spr_1[];
+extern char aRb_2[];
+extern char aF15_spr_1[];
 extern char aPleaseReinsert[];
 extern char aPressSelectorW[];
 extern char aDecodingMissio[];
@@ -615,7 +616,7 @@ extern uint8 aLtCol_[];
 extern uint8 aColonel[];
 extern uint8 aGen_[];
 extern char aArmpiece_pic[];
-extern uint8 aHiscore_pic[];
+extern char aHiscore_pic[];
 extern uint8 pilotSelectFlag;
 extern uint8 unk_173D2;
 extern uint8 unk_173D3[];
@@ -638,10 +639,10 @@ extern int blinkColors[];
 extern int16 blinkColorIdx;
 extern char aMenterYourName[];
 extern int pilotNameInputColors[];
-extern uint8 aRb_3[];
-extern uint8 aHallfame[];
-extern uint8 aWb[];
-extern uint8 aHallfame_0[];
+extern char aRb_3[];
+extern char aHallfame[];
+extern char aWb[];
+extern char aHallfame_0[];
 extern int16 ovlSeg1;
 extern int16 ovlParCnt;
 extern int16 ovlParBlock;
@@ -830,13 +831,13 @@ extern int16 gridSignature;
 extern int16 terrainDirtyFlag;
 extern int16 gridValidFlag;
 extern char a_3dt[];
-extern uint8 aRb[];
+extern char aRb[];
 extern char aOpenErrorOn_3d[];
 extern char aBadTileFileFor[];
-extern uint8 aTooManyTiles_[];
-extern uint8 aTooMuchTileDat[];
+extern char aTooManyTiles_[];
+extern char aTooMuchTileDat[];
 extern char a_3dg[];
-extern uint8 aRb_0[];
+extern char aRb_0[];
 extern char aOpenErrorOn__0[];
 extern char aBadGridFileFor[];
 extern uint8 aRegn_xxx[];
@@ -1001,17 +1002,17 @@ extern uint8 byte_192FC[];
 extern int *off_19304[];
 extern int *off_19314[];
 extern int16 word_19324[];
-extern uint8 aPowCamp[];
-extern uint8 aRb_4[];
-extern uint8 aWb_0[];
-extern uint8 aTd00[];
-extern uint8 aJz00[];
-extern uint8 aXv00[];
-extern uint8 aEs00[];
-extern uint8 aWx00[];
-extern uint8 aCc00[];
-extern uint8 aHz00[];
-extern uint8 aAt[];
+extern char aPowCamp[];
+extern char aRb_4[];
+extern char aWb_0[];
+extern char aTd00[];
+extern char aJz00[];
+extern char aXv00[];
+extern char aEs00[];
+extern char aWx00[];
+extern char aCc00[];
+extern char aHz00[];
+extern char aAt[];
 extern int16 LIBC_DATA_START;
 extern int16 word_19370;
 extern int16 off_19372;
@@ -1102,7 +1103,7 @@ extern uint8 byte_1B0C6[];
 extern int16 flag4Saved;
 extern int16 theaterSaved;
 extern unsigned __int8 far *moveDst;
-extern uint8 bufCoordStr;
+extern char bufCoordStr;
 extern uint8 byte_1B0D1;
 extern uint8 byte_1B0D2;
 extern uint8 byte_1B0D3[];
