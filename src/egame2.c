@@ -34,7 +34,7 @@ void sub_121CA(int arg_0, int arg_2, int arg_4, long arg_6, long arg_a, long arg
     *(int *)var_134 = gfx_jump_2d() & 0xFF;
     sub_12278(var_595);
     ((int *)var_134)[2] = (unsigned char)((char *)word_3419C)[word_3BE98 & 0xFF];
-    sub_13932((int *)var_134, arg_0, arg_2, arg_4, 0, 0, (int)arg_e, 1);
+    sub_13932((char *)var_134, arg_0, arg_2, arg_4, 0, 0, (int)arg_e, 1);
     sub_122B8(arg_0, arg_2, (int)arg_6, (int)(arg_6 >> 16), (int)arg_a, (int)(arg_a >> 16), (int)arg_e, (int)(arg_e >> 16));
     sub_1A9F8();
     sub_139AA();
@@ -130,7 +130,7 @@ int sub_13922(int arg_0) {
 }
 
 // ==== seg000:0x3932 ====
-void sub_13932(int *arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c, int arg_e) {
+void sub_13932(char *arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c, int arg_e) {
     sub_139C0((int)arg_0);
     sub_13A6C(arg_2, arg_4, arg_6);
     sub_13A90(arg_8, arg_a, arg_c);
@@ -144,7 +144,7 @@ void sub_13932(int *arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a
         }
         while (*(uint8 *)&origCBreakSeg != 0)
             ;
-        sub_10334(*(int *)((char *)arg_0 + 4));
+        sub_10334(*(int *)(arg_0 + 4));
     }
     var_255 = 0;
     var_261 -= 0x3000 / word_330C4;

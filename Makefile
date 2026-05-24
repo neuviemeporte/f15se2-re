@@ -1,7 +1,5 @@
 MZRE := mzretools
 MZRETOOLDIR := $(MZRE)/tools
-LST2ASM := $(MZRETOOLDIR)/lst2asm.py
-LST2CH := $(MZRETOOLDIR)/lst2ch.py
 DOSBUILD := $(MZRETOOLDIR)/dosbuild.sh
 DOSTEST := $(MZRETOOLDIR)/test.sh
 DISASM := $(MZRETOOLDIR)/disasm.sh
@@ -9,7 +7,6 @@ UASMDIR := UASM
 UASM := $(UASMDIR)/GccUnixR/uasm
 MZDIFF := $(MZRE)/debug/mzdiff
 MZHDR := $(MZRE)/debug/mzhdr
-LSTDIR := lst
 REASMDIR := reasm
 CONFDIR := conf
 TOOLDIR := tools
@@ -59,8 +56,6 @@ $(MAIN_EXE): $(MAIN_OBJS)
 # start.exe reconstruction (rc)
 #
 START_EXE := $(BUILDDIR)/start.exe
-START_LST := $(LSTDIR)/start.lst
-START_INC := $(LSTDIR)/start.inc
 START_CONF := $(CONFDIR)/start_rc.json
 START_BASE := start_rc.asm
 START_ASM := start4.asm $(START_BASE)
@@ -78,20 +73,6 @@ START_VRF_REF := bin/start.exe
 START_VRF_REFEP := 0x10
 START_VRF_TGTEP := [558bec83ec1c56c706]
 
-# ----- Dependencies on the IDA listing commented out with start.exe is out of life support;
-# ----- modifications should be made to the assembly files directly as everything gets
-# ----- gradually moved over to C.
-# $(START_LST) $(START_INC): $(MZRETOOLDIR) $(LSTDIR)
-# 	touch $@
-
-# # generate C header file from ida listing
-# $(START_BASEHDR): $(START_LST) $(START_INC) $(START_CONF) $(LST2CH)
-# 	$(LST2CH) $< $(SRCDIR) $(START_CONF) --noc
-
-# # generate assembly for base object from ida listing
-# $(SRCDIR)/$(START_BASE): $(START_LST) $(START_INC) $(START_CONF) $(LST2ASM)
-# 	$(LST2ASM) $< $@ $(START_CONF) --noproc --nopreserve
-
 $(START_COBJ): $(START_BASEHDR)
 $(COMMON_OBJ) $(COMMON_OBJ2): $(SRCDIR)/util.h
 $(BUILDDIR)/util2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
@@ -105,9 +86,9 @@ $(START_EXE): $(START_OBJ)
 
 # start.exe debug build
 START_DEBUG := $(DEBUGDIR)/start.exe
+$(START_DEBUG): MSC_CFLAGS += /DDEBUG
 START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC2)) $(DEBUGDIR)/debug.obj
 $(START_DBG_OBJ): $(START_BASEHDR)
-$(START_DBG_OBJ): MSC_CFLAGS += /DDEBUG
 $(START_DBG_OBJ): UASMFLAGS += -DDEBUG
 $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(START_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
@@ -118,32 +99,9 @@ $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
 	fi
 
 #
-# start.exe reassembly (re)
-#
-STARTRE_EXE := $(BUILDDIR)/start_re.exe
-STARTRE_CONF := $(CONFDIR)/start_re_conf.py
-STARTRE_ASM := $(SRCDIR)/start_re.asm
-STARTRE_OBJ := $(BUILDDIR)/start_re.obj
-
-# the reassembly file is created from the IDA listing file by the Python cleanup/tweak script
-$(STARTRE_ASM): $(START_LST) $(STARTRE_CONF) $(LST2ASM)
-	$(LST2ASM) $^ $@ $(STARTRE_CONF)
-
-$(STARTRE_EXE): UASMFLAGS += -Sp=1 -nt=startCode1
-$(STARTRE_EXE): $(STARTRE_OBJ)
-	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)"
-	$(DISASM) $@ > $(REASMDIR)/start_re.dis
-	$(MZHDR) $@ > $(REASMDIR)/start_re_hdr.txt
-	xxd -o -$$((1024+0x6b50)) -s $$((1024+0x6b50)) $@ > $(REASMDIR)/start_re_data.hex
-	xxd -o -$$((`$(MZHDR) $@ -l`)) -s $$((`$(MZHDR) $@ -l`)) $@ > $(REASMDIR)/start_re.hex
-	diff -q $(REASMDIR)/start.hex $(REASMDIR)/start_re.hex
-
-#
 # egame.exe reconstruction (rc)
 #
 EGAME_EXE := $(BUILDDIR)/egame.exe
-EGAME_LST := $(LSTDIR)/egame.lst
-EGAME_INC := $(LSTDIR)/egame.inc
 EGAME_CONF := $(CONFDIR)/egame_rc.json
 EGAME_BASE := egame_rc.asm
 EGAME_ASM := $(EGAME_BASE)
@@ -156,19 +114,6 @@ $(EGAME_EXE): | $(BUILDDIR)
 $(EGAME_EXE): $(EGAME_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 
-# generate C header file from ida listing
-ifneq ($(shell test -s $(EGAME_LST) && echo yes),yes)
-$(EGAME_BASEHDR): ; @true
-$(SRCDIR)/$(EGAME_BASE): ; @true
-else
-$(EGAME_BASEHDR): $(EGAME_LST) $(EGAME_INC) $(EGAME_CONF) $(LST2CH)
-	$(LST2CH) $< $(SRCDIR) $(EGAME_CONF) --noc
-
-# generate assembly for base object from ida listing
-$(SRCDIR)/$(EGAME_BASE): $(EGAME_LST) $(EGAME_INC) $(EGAME_CONF) $(LST2ASM)
-	$(LST2ASM) $< $@ $(EGAME_CONF) --stub
-endif
-
 $(EGAME_COBJ): $(EGAME_BASEHDR)
 $(BUILDDIR)/egame2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egame3.obj: MSC_CFLAGS := /Od /Id:\f15-se2
@@ -180,9 +125,9 @@ EGAME_VRF_TGTEP := [558bec83ec??c746]
 
 # egame.exe debug build
 EGAME_DEBUG := $(DEBUGDIR)/egame.exe
+$(EGAME_DEBUG): MSC_CFLAGS += /DDEBUG
 EGAME_DBG_OBJ := $(call asmobj,$(DEBUGDIR),$(EGAME_ASM)) $(call cobj,$(DEBUGDIR),$(EGAME_SRC)) $(DEBUGDIR)/dbglite.obj $(DEBUGDIR)/dbgio.obj
 $(EGAME_DBG_OBJ): $(EGAME_BASEHDR)
-$(EGAME_DBG_OBJ): MSC_CFLAGS += /DDEBUG
 $(EGAME_DBG_OBJ): UASMFLAGS += -DDEBUG
 $(EGAME_DEBUG): $(DEBUGDIR) $(EGAME_DBG_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
@@ -219,9 +164,9 @@ END_VRF_TGTEP := [558bec83ec0e56c746]
 
 # end.exe debug build
 END_DEBUG := $(DEBUGDIR)/end.exe
+$(END_DEBUG): MSC_CFLAGS += /DDEBUG
 END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC2)) $(DEBUGDIR)/debug.obj
 $(END_DBG_OBJ): $(END_BASEHDR)
-$(END_DBG_OBJ): MSC_CFLAGS += /DDEBUG
 $(END_DBG_OBJ): UASMFLAGS += -DDEBUG
 $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(END_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
@@ -282,7 +227,7 @@ hello: $(HELLO_EXE)
 f15-se2-test: $(BUILDDIR) $(MAIN_EXE)
 	$(DOSTEST) $(MAIN_EXE)
 
-$(BUILDDIR) $(DEBUGDIR) $(LSTDIR) $(TOOLDIR):
+$(BUILDDIR) $(DEBUGDIR) $(TOOLDIR):
 	mkdir -p $@
 
 $(TOOLCHAIN_DIR):

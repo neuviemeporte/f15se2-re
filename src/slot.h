@@ -11,7 +11,7 @@ int FAR CDECL gfx_jump_01();
 int FAR CDECL gfx_jump_02();
 int FAR CDECL gfx_jump_03();
 int FAR CDECL gfx_jump_04();
-int FAR CDECL gfx_jump_05_drawString();
+int FAR CDECL gfx_jump_05_drawString(int *pageNum, const char *string, int len);
 int FAR CDECL gfx_jump_06();
 int FAR CDECL gfx_jump_07();
 int FAR CDECL gfx_jump_08();

@@ -986,15 +986,13 @@ int drawSomeStrings(const char *arg_0, int arg_2, int arg_4, int arg_6) {
 }
 
 // ==== seg000:0xa13a ====
-int drawStringCentered(int* arg_0, char *arg_2, int arg_4, int arg_6, int arg_8) {
+int drawStringCentered(int* arg_0, const char *arg_2, int arg_4, int arg_6, int arg_8) {
     arg_0[6] = 0;
     arg_0[4] = arg_4;
     arg_0[5] = arg_6;
     arg_0[2] = arg_8;
-    gfx_jump_05_drawString(arg_0, strupr(arg_2), strlen(arg_2));
+    gfx_jump_05_drawString(arg_0, strupr((char*)arg_2), strlen(arg_2));
 }
-
-
 
 // ==== seg000:0x8e38 ====
 int sub_18E38(void) {
@@ -1233,7 +1231,7 @@ void tempStrcpy(char *arg_0) {
 }
 
 // ==== seg000:0xa0fe ====
-void draw2Strings(char *arg_0, int arg_1, int arg_2, int arg_3) {
+void draw2Strings(const char *arg_0, int arg_1, int arg_2, int arg_3) {
     if (byte_3C5A0 == 0) {
         drawStringCentered(var_564, arg_0, arg_1, arg_2, arg_3);
     } else {

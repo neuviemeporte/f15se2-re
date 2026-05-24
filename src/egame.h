@@ -91,7 +91,7 @@ void sub_11A88(int param_1);
 // ==== seg000:0x1b37 ====
 int sub_11B37();
 // ==== seg000:0x1bc3 ====
-void sub_11BC3(int arg_0, int arg_2);
+void sub_11BC3(int arg_0, unsigned int arg_2);
 // ==== seg000:0x1bfd ====
 void sub_11BFD(int arg_0, int arg_2);
 // ==== seg000:0x1c21 ====
@@ -141,7 +141,7 @@ int __cdecl strcpyFromDot(char *arg_0, char *arg_2);
 // ==== seg000:0x2fda ====
 int sub_12FDA();
 // ==== seg000:0x3224 ====
-void sub_13224(char *a, int b, int c);
+void sub_13224(char *a, int b, char c);
 // ==== seg000:0x3266 ====
 int sub_13266();
 // ==== seg000:0x32ba ====
@@ -165,7 +165,7 @@ int sub_13816();
 // ==== seg000:0x3922 ====
 int sub_13922();
 // ==== seg000:0x3932 ====
-void sub_13932(int *, int, int, int, int, int, int, int);
+void sub_13932(char*, int, int, int, int, int, int, int);
 // ==== seg000:0x39aa ====
 int sub_139AA();
 // ==== seg000:0x39c0 ====
