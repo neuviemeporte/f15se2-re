@@ -29,5 +29,8 @@ jobs:
       - name: Build mzretools
         run: cd mzretools && ./build.sh
 
+      - name: Build reconstruction
+        run: make start egame end
+
       - name: Run verify
         run: make verify
