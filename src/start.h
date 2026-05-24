@@ -201,7 +201,7 @@ int sub_126CB();
 // ==== startCode1:0x26e2 ====
 int sub_126E2();
 // ==== startCode1:0x26fd ====
-int mystrlen();
+int mystrlen(const char* str);
 // ==== startCode1:0x2719 ====
 int mystrcat(char *dst, char *src);
 // ==== startCode1:0x2741 ====

@@ -80,9 +80,9 @@ int FAR CDECL gfx_jump_43();
 int FAR CDECL gfx_jump_44_setDac(uint16);
 int FAR CDECL gfx_jump_45_retrace();
 int FAR CDECL gfx_jump_46_retrace2();
-int FAR CDECL gfx_jump_47();
+int FAR CDECL gfx_jump_47(int16* ptr);
 int FAR CDECL gfx_jump_48();
-int FAR CDECL gfx_jump_49();
+int FAR CDECL gfx_jump_49(int16* ptr);
 int FAR CDECL gfx_jump_4a();
 /* dseg:0xc2f */
 int FAR CDECL gfx_jump_4b_storeBufPtr(uint16, int);
