@@ -2,6 +2,7 @@
 #define F15_SE2_DEBUG
 
 #include <STDLIB.H>
+#include "pointers.h"
 
 #ifdef DEBUG
 void my_trace(const char* fmt, ...);

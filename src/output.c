@@ -87,7 +87,7 @@ void hexdump(const void FAR *buf, const size_t size, const size_t off, const int
     const size_t limit = 50 * bpl;
     size_t i = 0, j = 0;
     unsigned char c;
-    if (header) output("buf[0x%x] @ %p + 0x%x: \n", size, (uint8*)buf, off);
+    if (header) output("buf[0x%x] @ %p + 0x%x: \n", size, (uint8 FAR*)buf, off);
     if (!buf || !size || off >= size) {
         output("invalid input");
         return;
@@ -104,11 +104,11 @@ void hexdump(const void FAR *buf, const size_t size, const size_t off, const int
             output("0x%04x: ", i + off);
         }
         // hex byte
-        output("%02x ", (int)(((uint8*)buf)[i + off]));
+        output("%02x ", (int)(((uint8 FAR*)buf)[i + off]));
         if (pos + 1 == bpl || i + 1 == size) { // ascii dump at line or buffer end
             for (j = 1; j <= bpl; ++j) {
                 if (pos + j < bpl) { output("   "); continue; }
-                c = ((uint8*)buf)[i + off - bpl + j];
+                c = ((uint8 FAR*)buf)[i + off - bpl + j];
                 if (c >= 0x20 && c <= 0x7e) output("%c", c);
                 else output(".");
             }
