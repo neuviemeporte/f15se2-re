@@ -109,7 +109,7 @@ loop_top:
         drawStringAt(gfxPage, scoreString, 0xf0, 0x1e);
         gfx_jump_21(0);
         if (prevDrawX == 0 && prevDrawY == 0) {
-            drawFlightLine((int)var_194, (int)var_195, (int)flightRecords[curRecordIdx].mapX, (int)flightRecords[curRecordIdx].mapY);
+            drawFlightLine((int)flightRecords[0].mapX, (int)flightRecords[0].mapY, (int)flightRecords[curRecordIdx].mapX, (int)flightRecords[curRecordIdx].mapY);
             prevDrawX = (int)flightRecords[curRecordIdx].mapX;
             prevDrawY = (int)flightRecords[curRecordIdx].mapY;
         } else {
@@ -137,7 +137,7 @@ done:
     }
     gfx_jump_21(0);
     if (prevDrawX == 0 && prevDrawY == 0) {
-        drawFlightLine((int)var_194, (int)var_195, (int)flightRecords[curRecordIdx].mapX, (int)flightRecords[curRecordIdx].mapY);
+        drawFlightLine((int)flightRecords[0].mapX, (int)flightRecords[0].mapY, (int)flightRecords[curRecordIdx].mapX, (int)flightRecords[curRecordIdx].mapY);
         prevDrawX = (int)flightRecords[curRecordIdx].mapX;
         prevDrawY = (int)flightRecords[curRecordIdx].mapY;
     } else {
@@ -909,8 +909,10 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             }
             break;
         case EVENT_SAM_KILL:
+            /* 0x198: aircraft name field in samDataTable (32-byte records) */
             mystrcpy(dat_4824, (char *)(o * 32 + 0x198));
             mystrcat(dat_4824, str_shotDown2);
+            /* 0x19f: aircraft type field in samDataTable */
             mystrcat(dat_4824, (char *)(o * 32 + 0x19f));
             mystrcat(dat_4824, str_shotDown);
             break;
@@ -931,6 +933,7 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             break;
         case EVENT_BOMB_HIT:
             mystrcpy(dat_4824, str_hitBy);
+            /* 0x3f8: missile name field in weapon table (18-byte records) */
             mystrcat(dat_4824, (char *)(o * 18 + 0x3f8));
             mystrcat(dat_4824, str_missile);
             break;

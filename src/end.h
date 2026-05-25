@@ -98,10 +98,6 @@ int readFileAtExRaw(int handle, int a, int b, int c, int d);
 /* Extern variables from ASM */
 extern char timerHandlerInstalled;
 extern char timerCounter;
-#define var_194 (((char*)flightRecords)[0])
-#define var_195 (((char*)flightRecords)[1])
-#define var_196 (((char*)flightRecords)[2])
-#define var_197 (((char*)flightRecords)[3])
 extern int lastDrawX;
 extern int prevDrawX;
 extern int lastDrawY;
