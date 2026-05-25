@@ -663,8 +663,7 @@ FILE_READBUF_SIZE  = 200h
     EXTRN _gridSignature:word
     EXTRN _gridValidFlag:word
 word_16BE2 dw 0
-    db 0
-    db 0
+    db 2 dup(0)
     db 0Fh
     db 7 dup(0)
     db 1
@@ -742,8 +741,7 @@ aMission db 'MISSION',0
 placeholder_3d3 db 'xx.3d3',0
 
 page1Num dw 1
-    db 0
-    db 0
+    db 2 dup(0)
 _drawColor dw 0
     db 0Bh
     db 5 dup(0)
@@ -763,9 +761,7 @@ unk_170B2	db 4 dup(0)
     db 0Bh
     db 5 dup(0)
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 unk_170C0	db 6 dup(0)
     dw offset unk_170B0
 _missTheaNames dw offset aLibya
@@ -903,12 +899,9 @@ _word_1728C dw 0
 _word_1728E dw 0
 _word_17290 dw 0
 _word_17292 dw 0
-    db 0
-    db 0
+    db 2 dup(0)
     db 6Dh
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 3Fh
     db 1
 _byte_1729C db 1
@@ -932,8 +925,7 @@ _word_172B5 dw 0
 _byte_172B7 db 0
 _word_172B8 dw 0
 _word_172BA dw 0
-    db 0
-    db 0
+    db 2 dup(0)
 _timerCounter db 0
 _timerCounter2 db 0
 _timerCounter3 db 0
@@ -978,8 +970,7 @@ aGen_ db 'Gen. ',0
 _pilotSelectFlag db 0
 unk_173D2 db 0
 unk_173D3 db 0
-    db 0
-    db 0
+    db 2 dup(0)
 _textColor dw 7
     db 4 dup(0)
 unk_173DC db 0
@@ -993,8 +984,7 @@ unk_173EA	db 4 dup(0)
     db 3
     db 9 dup(0)
 _pageNumPtr dw offset unk_173EA
-    db 0
-    db 0
+    db 2 dup(0)
 _ranks dw offset a2ndLt_
     dw offset a1stLt_ ;"1st Lt. "
     dw offset aCapt_ ;"Capt. "
@@ -1029,8 +1019,7 @@ _byte_17422 db 9
 _blinkColors dw 7
     dw 0Fh
 _blinkColorIdx dw 0
-    db 0
-    db 0
+    db 2 dup(0)
 _pilotNameInputColors dw 0
     db 8 ;grey name input box
     db 0
@@ -1486,16 +1475,14 @@ byte_17D51 db 21h dup(0)
 byte_17D72 db 94h dup(0)
 word_17E68 dw 0
 word_17E6A dw 0
-    db 0
-    db 0
+    db 2 dup(0)
 _fileReadPos dw 0
 _tmpFileHandle dw 0
 _picDecodedRowBuf db 140h dup( 0)
 _screenBufSize dw 0
 _tmpPageIndex dw 0
 _rowOffset dw 0
-    db 0
-    db 0
+    db 2 dup(0)
 _row dw 0
 _readFromFilePtr dw 0
 _terrainBuf1 dw 5 dup(20h)
@@ -1529,35 +1516,23 @@ _word_182C8 dw 0
 aNone db 'None',0
     db 9 dup(0)
 aSa2 db 'SA-2',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db '�',0
     db 3
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSa5 db 'SA-5',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 5Eh
     db 1
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSa8b db 'SA-8B',0
-    db 0
-    db 0
+    db 2 dup(0)
     db '}',0
     db 5
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSa10 db 'SA-10',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 40h
     db 1
     db 7
@@ -1565,16 +1540,12 @@ aSa10 db 'SA-10',0
     db 1
     db 0
 aSa11 db 'SA-11',0
-    db 0
-    db 0
+    db 2 dup(0)
     db '�',0
     db 5
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSa12 db 'SA-12',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 22h
     db 1
     db 6
@@ -1582,13 +1553,10 @@ aSa12 db 'SA-12',0
     db 1
     db 0
 aSa13 db 'SA-13',0
-    db 0
-    db 0
+    db 2 dup(0)
     db '}',0
     db 3
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSaN4 db 'SA-N-4',0
     db 0
     db '�',0
@@ -1600,9 +1568,7 @@ aSaN5 db 'SA-N-5',0
     db 0
 aC db '�',0
     db 3
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSaN6 db 'SA-N-6',0
     db 0
     db 40h
@@ -1615,13 +1581,9 @@ aSaN7 db 'SA-N-7',0
     db 0
     db '�',0
     db 5
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aHawk db 'Hawk',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0AFh
     db 0
     db 6
@@ -1632,28 +1594,20 @@ aRapier db 'Rapier',0
     db 0
 aK db 'K',0
     db 8,0
-    db 0
-    db 0
+    db 2 dup(0)
 aTiger db 'Tiger',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 41h
     db 0
     db 4
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSeacat db 'Seacat',0
     db 0
     db '�',0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aIl76 db 'IL76',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0C8h
     db 0
     db 8
@@ -1693,9 +1647,7 @@ aIl76 db 'IL76',0
     db 28h
     db 0
     db 3
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 _planes db 4Dh, 49h, 47h, 2Dh, 32h, 33h, 0, 20h ;field_0 ; 19 items
     db 46h, 6Ch, 6Fh, 2 dup(67h), 65h, 72h, 3 dup(0) ;field_8
     dw 2E4h ;field_12
@@ -1798,9 +1750,7 @@ aNone_0 db 'None',0
     db 13h
     db 0
 aSa2_0 db 'SA-2',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 7Dh
     db 0
     db 0D0h
@@ -1812,9 +1762,7 @@ aSa2_0 db 'SA-2',0
     db 13h
     db 0
 aSa5_0 db 'SA-5',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aC_0 db '�',0
     db 8
     db 7
@@ -1825,8 +1773,7 @@ aC_0 db '�',0
     db 13h
     db 0
 aSa8b_0 db 'SA-8B',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 41h
     db 0
     db 0B0h
@@ -1838,8 +1785,7 @@ aSa8b_0 db 'SA-8B',0
     db 13h
     db 0
 aSa10_0 db 'SA-10',0
-    db 0
-    db 0
+    db 2 dup(0)
 unk_186C0 db 7Dh
     db 0
     db 8
@@ -1851,8 +1797,7 @@ unk_186C6 db 2
     db 13h
     db 0
 aSa11_0 db 'SA-11',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 64h
     db 0
     db 0DCh
@@ -1864,8 +1809,7 @@ aSa11_0 db 'SA-11',0
     db 13h
     db 0
 aSa12_0 db 'SA-12',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 96h
     db 0
     db 0D0h
@@ -1877,14 +1821,12 @@ aSa12_0 db 'SA-12',0
     db 13h
     db 0
 aSa13_0 db 'SA-13',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 41h
     db 0
     db 84h
     db 3
-    db 0
-    db 0
+    db 2 dup(0)
     db 4
     db 0
     db 13h
@@ -1938,9 +1880,7 @@ aSaN7_0 db 'SA-N-7',0
     db 13h
     db 0
 aHawk_0 db 'Hawk',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 7Dh
     db 0
     db 84h
@@ -1964,8 +1904,7 @@ aRapier_0 db 'Rapier',0
     db 13h
     db 0
 aTiger_1 db 'Tiger',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 1Eh
     db 0
     db 84h
@@ -1989,9 +1928,7 @@ aSeacat_0 db 'Seacat',0
     db 13h
     db 0
 aAa2 db 'AA-2',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0Eh
     db 0
     db 0DCh
@@ -2003,23 +1940,18 @@ aAa2 db 'AA-2',0
     db 13h
     db 0
 aAa8 db 'AA-8',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0Ch
     db 0
     db 8
     db 7
-    db 0
-    db 0
+    db 2 dup(0)
     db 5
     db 0
     db 13h
     db 0
 aAa6 db 'AA-6',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 a2_0 db '2',0
     db 60h
     db 9
@@ -2030,9 +1962,7 @@ a2_0 db '2',0
     db 13h
     db 0
 aAa7 db 'AA-7',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 22h
     db 0
     db 8
@@ -2044,9 +1974,7 @@ aAa7 db 'AA-7',0
     db 13h
     db 0
 aAa9 db 'AA-9',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aR db 'R',0
     db 0D0h
     db 7
@@ -2057,8 +1985,7 @@ aR db 'R',0
     db 13h
     db 0
 aAa10 db 'AA-10',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 40h
     db 0
     db 0D0h
@@ -2078,8 +2005,7 @@ aAim120 db 'AIM120',0
     db 1
     db 0
 aAim9 db 'AIM-9',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 11h
     db 0
     db 0D0h
@@ -2091,9 +2017,7 @@ aAim9 db 'AIM-9',0
     db 1
     db 0
 aHarm db 'HARM',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 14h
     db 0
     db 0B0h
@@ -2138,8 +2062,7 @@ aAgm65 db 'AGM-65',0
 aLgbomb db 'LGBOMB',0
     db 0
     db 0Ah,0
-    db 0
-    db 0
+    db 2 dup(0)
     db 1Ch
     db 0
     db 2
@@ -2179,29 +2102,24 @@ aAim9w db 'AIM-9W',0
     db 0
     db 0D0h
     db 7
-    db 0
-    db 0
+    db 2 dup(0)
     db 5
     db 0
     db 1
     db 0
 aSa14 db 'SA-14',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 10h
     db 0
     db 84h
     db 3
-    db 0
-    db 0
+    db 2 dup(0)
     db 5
     db 0
     db 1
     db 0
 aAa6_0 db 'AA-6',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 a2_1 db '2',0
     db 60h
     db 9
@@ -2212,9 +2130,7 @@ a2_1 db '2',0
     db 13h
     db 0
 aAa7_0 db 'AA-7',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 22h
     db 0
     db 8
@@ -2226,9 +2142,7 @@ aAa7_0 db 'AA-7',0
     db 13h
     db 0
 aAa9_0 db 'AA-9',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aR_0 db 'R',0
     db 0D0h
     db 7
@@ -2239,14 +2153,12 @@ aR_0 db 'R',0
     db 13h
     db 0
 aAa10_0 db 'AA-10',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 40h
     db 0
     db 0D0h
     db 7
-    db 0
-    db 0
+    db 2 dup(0)
     db 4
     db 0
     db 13h
@@ -2254,9 +2166,7 @@ aAa10_0 db 'AA-10',0
 aEquip_ db 'Equip.',0
     db 5 dup(0)
     db 1Dh
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0Eh
     db 0
     _stru_1892E struc_10 <0, 0>
@@ -2286,13 +2196,9 @@ aEquip_ db 'Equip.',0
     db 3
     db 0
     db 8
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 8
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0Ah
     db 0
     db 0Bh
@@ -2314,23 +2220,18 @@ aEquip_ db 'Equip.',0
     db 0Eh
     db 0
     db 0Fh
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 4
     db 0
     db 88h
     db 13h
-    db 0
-    db 0
+    db 2 dup(0)
     db 0Ch
     db 0
     db 12h
     db 0
     db 3
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 4
     db 0
     db 1
@@ -2343,14 +2244,12 @@ aEquip_ db 'Equip.',0
     db 7 dup(0)
     db 8Ah
     db 2
-    db 0
-    db 0
+    db 2 dup(0)
 _difficultySaved dw 1
     db 1
     db 0
 _word_18994 dw 0
-    db 0
-    db 0
+    db 2 dup(0)
     db 1
     db 0
     db 1
@@ -2358,17 +2257,14 @@ _word_18994 dw 0
     db 4
     db 0
 aAim9m db 'AIM-9M',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSidewinder db 'Sidewinder',0
     db 0
     db 17h
     db 0
 _word_189B6 dw 4
 aAim120_0 db 'AIM-120',0
-    db 0
-    db 0
+    db 2 dup(0)
 aAmraam db 'AMRAAM ',0
     db 4 dup(0)
     db 16h
@@ -2376,8 +2272,7 @@ aAmraam db 'AMRAAM ',0
     db 4
     db 0
 aAgm88a db 'AGM-88A',0
-    db 0
-    db 0
+    db 2 dup(0)
 aHarm_0 db 'HARM',0
     db 7 dup(0)
     db 18h
@@ -2385,9 +2280,7 @@ aHarm_0 db 'HARM',0
     db 4
     db 0
 aAim7m db 'AIM-7M',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSparrow db 'Sparrow',0
     db 4 dup(0)
     db 16h
@@ -2395,8 +2288,7 @@ aSparrow db 'Sparrow',0
     db 4
     db 0
 aAgm86a db 'AGM-86A',0
-    db 0
-    db 0
+    db 2 dup(0)
 aHarpoon_0 db 'Harpoon',0
     db 4 dup(0)
     db 1Ah
@@ -2404,20 +2296,15 @@ aHarpoon_0 db 'Harpoon',0
     db 1
     db 0
 aAgm65d db 'AGM-65D',0
-    db 0
-    db 0
+    db 2 dup(0)
 aMaverick db 'Maverick',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 1Bh
     db 0
     db 6
     db 0
 aGbu12 db 'GBU-12',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aPaveway db 'Paveway',0
     db 4 dup(0)
     db 1Ch
@@ -2435,16 +2322,13 @@ aRockeye db 'Rockeye',0
 aDndl db 'Dndl',0
     db 5 dup(0)
 aDurandal db 'Durandal',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 1Dh
     db 0
     db 2
     db 0
 aMk820 db 'Mk 82-0',0
-    db 0
-    db 0
+    db 2 dup(0)
 aSlick db 'Slick',0
     db 6 dup(0)
     db 1Eh
@@ -2452,8 +2336,7 @@ aSlick db 'Slick',0
     db 3
     db 0
 aMk821 db 'Mk 82-1',0
-    db 0
-    db 0
+    db 2 dup(0)
 aSnakeye db 'Snakeye',0
     db 4 dup(0)
     db 1Dh
@@ -2469,9 +2352,7 @@ aRockeyeIi db 'Rockeye II',0
     db 4
     db 0
 aMk122 db 'Mk 122',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aFireeye db 'Fireeye',0
     db 4 dup(0)
     db 1Eh
@@ -2479,13 +2360,9 @@ aFireeye db 'Fireeye',0
     db 2
     db 0
 aCbu72 db 'CBU-72',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aFuelAir db 'Fuel-Air',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 1Ch
     db 0
     db 2
@@ -2499,20 +2376,15 @@ aInCluster db 'IN Cluster',0
     db 2
     db 0
 aIscB1 db 'ISC B-1',0
-    db 0
-    db 0
+    db 2 dup(0)
 aMinelets db 'Minelets',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 1Dh
     db 0
     db 1
     db 0
 a135Mm db '135 mm',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aCamera db 'Camera',0
     db 5 dup(0)
     db 0FFh
@@ -2520,8 +2392,7 @@ aCamera db 'Camera',0
     db 1
     db 0
 a1900lbs db '1900lbs',0
-    db 0
-    db 0
+    db 2 dup(0)
 aExtraFuel db 'Extra Fuel',0
     db 0
     db 0FEh
@@ -2535,8 +2406,7 @@ aGuns db 'Guns',0
     db 1
     db 0
 aSpecial db 'Special',0
-    db 0
-    db 0
+    db 2 dup(0)
 aEquip db 'Equip',0
     db 6 dup(0)
     db 26h
@@ -2577,12 +2447,10 @@ aEquip db 'Equip',0
     db 4
     db 1
     db 3
-    db 0
-    db 0
+    db 2 dup(0)
     db 4
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 5
     db 5
     db 4
@@ -2592,8 +2460,7 @@ aEquip db 'Equip',0
     db 4
     db 0
     db 8
-    db 0
-    db 0
+    db 2 dup(0)
     db 2
     db 1
     db 7 dup(0)
@@ -2614,15 +2481,13 @@ aEquip db 'Equip',0
     db 1
     db 4
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 4
     db 0
     db 2
     db 0
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 1
     db 1
     db 4
@@ -2650,14 +2515,11 @@ aEquip db 'Equip',0
     db 1
     db 3
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 6
     db 0
     db 5
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 4
     db 0
     db 5
@@ -2666,8 +2528,7 @@ aEquip db 'Equip',0
     db 0
     db 6
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 6
     db 6
     db 3
@@ -2679,12 +2540,10 @@ aEquip db 'Equip',0
     db 6
     db 0
     db 3
-    db 0
-    db 0
+    db 2 dup(0)
     db 2
     db 3
-    db 0
-    db 0
+    db 2 dup(0)
     db 3
     db 28 dup(0)
     db 3
@@ -2708,9 +2567,7 @@ aEquip db 'Equip',0
     db 2
     db 0
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0FFh
     db 0FFh
     db 0FEh
@@ -2818,9 +2675,7 @@ aEquip db 'Equip',0
     db 2
     db 0
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0FFh
     db 0FFh
     db 0FEh
@@ -2996,12 +2851,10 @@ aEquip db 'Equip',0
     db 4
     db 0
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 1
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 1
     db 0
     db 1
@@ -3016,8 +2869,7 @@ aEquip db 'Equip',0
     db 0
     db 2
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 1
     db 0
     db 1
@@ -3056,8 +2908,7 @@ aEquip db 'Equip',0
     db 0FCh
     db 0FFh
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 1
     db 0FFh
     db 0FFh
@@ -3148,9 +2999,7 @@ aEquip db 'Equip',0
     db 8
     db 0
     db 15h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0FEh
     db 0FFh
 _regnPlhPtr dw offset aRegn_xxx
@@ -3173,8 +3022,7 @@ _worldFiles dw offset aLibya_wld
     dw 5958h
     db 30h
     db 30h
-    db 0
-    db 0
+    db 2 dup(0)
 unk_19284 db 0C0h
     db 3Dh
     db 0C0h
@@ -3312,14 +3160,12 @@ _picSlotCounter dw 0
 _dictionaryIndex db 0
     db 100h dup(0)
 unk_19775 db 0
-    db 0
-    db 0
+    db 2 dup(0)
 unk_19778 db 0
     db 0
 byte_1977A db 0FBh dup(0)
 _picWorkData db 0
-    db 0
-    db 0
+    db 2 dup(0)
 _picDecodeDictionary dw 0
 _picDecodeIncrement db 0
     db 1C1h dup(0)
@@ -3347,8 +3193,7 @@ _bufCoordStr db 0
 _byte_1B0D1 db 0
 _byte_1B0D2 db 0
 _byte_1B0D3 db 0
-    db 0
-    db 0
+    db 2 dup(0)
 ;  ==============================================================================
 
 .DATA?
@@ -3359,18 +3204,15 @@ _byte_1B100 db ?
     db 47h dup(?)
 _word_1B148 dw ?
 _gfxModeSetPtr dd ?
-    db ?
-    db ?
+    db 2 dup(?)
 _fileHandle dw ?
-    db ?
-    db ?
+    db 2 dup(?)
 _gameData dd ?
 _wldReadBuf2 dw ?
 byte_1B15A db ?
     db ?
 _gridBuf5 db 200h dup(?)
-    db ?
-    db ?
+    db 2 dup(?)
 _gridBuf4 db 200h dup(?)
 _page1Ptr dw ?
 _gridBuf3 db 200h dup(?)
@@ -3394,8 +3236,7 @@ byte_1C825 db ?
 byte_1C826 db ?
     db ?
     _wldReadBuf4 Buf4Item 4Bh dup(<?>)
-    db ?
-    db ?
+    db 2 dup(?)
 _wldReadBuf10 db 100h dup( ?)
 _needSplash dd ?
     _targets Target <?>
@@ -3426,25 +3267,21 @@ byte_1DBC6 db 76h dup(?)
 byte_1DC3C db 22h dup(?)
 _readItemSize dw ?
 _wldReadBuf8 db 64h dup( ?)
-    db ?
-    db ?
+    db 2 dup(?)
 _intRegs	db 12 dup(?)
 unk_1DCD2 db ?
     db ?
 _wldReadBuf7 db 64h dup( ?)
 _word_1DD38 dw ?
-    db ?
-    db ?
+    db 2 dup(?)
 _selectedPilotIdx dw ?
     db 12 dup(?)
 _wldReadBuf5Size dw ?
-    db ?
-    db ?
+    db 2 dup(?)
 _joyReady	db 4 dup(?)
 _wldOffsets dw 64h dup(?)
 _wldReadBuf11 db 2EEh dup( ?)
-    db ?
-    db ?
+    db 2 dup(?)
     _terrainPtrUnk TerrainUnk 5 dup(<?>)
 _word_1E24A dw ?
 byte_1E24C db 0F0h dup(?)
