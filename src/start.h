@@ -334,7 +334,7 @@ int doPicDecode();
 int dictionaryLookup();
 // bytes outside routine, potential module boundary at 0x3757
 // ==== startCode1:0x3758 ====
-unsigned int __cdecl allocBuffer(int sz);
+uint16 __cdecl allocBuffer(int sz);
 // ==== startCode1:0x378c ====
 int unreach_freeBuffer(int freeSeg);
 // ==== startCode1:0x37b4 ====
@@ -972,7 +972,7 @@ extern uint8 aCamera[];
 extern uint8 a1900lbs[];
 extern uint8 aExtraFuel[];
 extern uint8 a20Mm[];
-extern uint8 aGuns[];
+extern char aGuns[];
 extern uint8 aSpecial[];
 extern uint8 aEquip[];
 extern struct MissionTableEntry stru_18FC0[];
@@ -1173,7 +1173,7 @@ extern int selectedPilotIdx;
 extern int wldReadBuf5Size;
 extern uint8 joyReady[];
 extern char *wldOffsets[];
-extern uint8 wldReadBuf11[];
+extern char wldReadBuf11[];
 extern struct TerrainUnk terrainPtrUnk[];
 extern int16 word_1E24A;
 extern uint8 byte_1E24C[];

@@ -7,6 +7,9 @@
 #include "debug.h"
 
 int openFile(char *name, int mode);
+int fileClose(int handle);
+int decodePic(int handle, int segment);
+void showPicFile(int handle, int pageNum, int garbage);
 
 int openFileWrapper(char *filename, int mode)
 {

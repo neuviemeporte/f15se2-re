@@ -236,7 +236,7 @@ STATIC_ASSERT(sizeof(struct MCB)==0x10);
 static uint8 FAR* dos_sysvars(void) {
     rin.h.ah = DOSF_SYSVARS; 
     intdosx(&rin, &rout, &sreg);
-    return MK_FP(sreg.es, rout.x.bx);
+    return (uint8 FAR*)MK_FP(sreg.es, rout.x.bx);
 }
 
 void dos_mcbInfo(void) {
@@ -250,7 +250,7 @@ void dos_mcbInfo(void) {
     lol = dos_sysvars();
     // first mcb's segment is in LoL at offset -2
     segment = *((uint16 FAR*)(lol - 2));
-    mcb = MK_FP(segment, 0);
+    mcb = (struct MCB FAR *)MK_FP(segment, 0);
     INFO("Walking the MCB chain, LoL @ %p", lol);
     while (mcb) {
         switch (mcb->type) {
@@ -280,7 +280,7 @@ void dos_mcbInfo(void) {
         }
         else { // next mcb
             segment += mcb->size + 1;
-            mcb = MK_FP(segment, 0);
+            mcb = (struct MCB FAR *)MK_FP(segment, 0);
         }
     }
     sprintf(strbuf, "summary: total %s", sizeString(total));
@@ -297,7 +297,7 @@ uint16 dos_lastFreeBlock(void) {
     lol = dos_sysvars();
     // first mcb's segment is in LoL at offset -2
     segment = *((uint16 FAR*)(lol - 2));
-    mcb = MK_FP(segment, 0);
+    mcb = (struct MCB FAR *)MK_FP(segment, 0);
     while (mcb) {
         switch (mcb->type) {
         case 'M':
@@ -317,7 +317,7 @@ uint16 dos_lastFreeBlock(void) {
         }
         else { // next mcb
             segment += mcb->size + 1;
-            mcb = MK_FP(segment, 0);
+            mcb = (struct MCB FAR *)MK_FP(segment, 0);
         }
     }
     return 0;
@@ -325,6 +325,6 @@ uint16 dos_lastFreeBlock(void) {
 
 size_t dos_envSize(void) {
     const size_t envSegment = *(const uint16 FAR*)MK_FP(_psp, 0x2c);
-    const struct MCB FAR *envMcb = MK_FP(envSegment - 1, 0);
+    const struct MCB FAR *envMcb = (struct MCB FAR *)MK_FP(envSegment - 1, 0);
     return envMcb->size;
 }

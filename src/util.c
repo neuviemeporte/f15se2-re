@@ -7,6 +7,8 @@
 
 #include "util.h"
 
+#include "pointers.h"
+
 /* extern declarations needed by these functions */
 extern void far gfx_jump_05_drawString(int *pageNum, const char *string);
 extern int far gfx_jump_2f_charWidth(int ch, int font);
@@ -41,7 +43,11 @@ void drawStringCentered(int *page, const char *str, int startx, int y, int endx)
 
 int stringWidth(int *page, const char *str) {
     int n;
+#if defined(__clang__)
+    const char* l; // clang errors due to wrong type but char does change the binary
+#else
     const uint8* l;
+#endif
     int j;
     l = str;
     j = page[6];
