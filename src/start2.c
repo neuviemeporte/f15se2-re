@@ -349,7 +349,7 @@ void pilotToGameData(uint8 *pilotData)
 }
 
 // 22ec
-int pilotNameInput(int *page, int a, int b, int c, struct Pilot *pilot) {
+int pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
     int blinkToggle;
     int x, y;
     int nameLen;

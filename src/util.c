@@ -10,7 +10,7 @@
 #include "pointers.h"
 
 /* extern declarations needed by these functions */
-extern void far gfx_jump_05_drawString(int *pageNum, const char *string);
+extern void far gfx_jump_05_drawString(int16 *pageNum, const char *string);
 extern int far gfx_jump_2f_charWidth(int ch, int font);
 extern void far misc_jump_5e_clearKeyFlags(void);
 extern char timerHandlerInstalled;
@@ -29,19 +29,19 @@ int cleanup()
     misc_jump_5e_clearKeyFlags();
 }
 
-void drawStringAt(int *pageNum, const char *string, int x, int y) {
+void drawStringAt(int16 *pageNum, const char *string, int x, int y) {
     pageNum[4] = x;
     pageNum[5] = y;
     gfx_jump_05_drawString(pageNum, string);
 }
 
-void drawStringCentered(int *page, const char *str, int startx, int y, int endx) {
+void drawStringCentered(int16 *page, const char *str, int startx, int y, int endx) {
     int width;
     width = stringWidth(page, str);
     drawStringAt(page, str, (endx - width) / 2 + startx, y);
 }
 
-int stringWidth(int *page, const char *str) {
+int stringWidth(int16 *page, const char *str) {
     int n;
 #if defined(__clang__)
     const char* l; // clang errors due to wrong type but char does change the binary

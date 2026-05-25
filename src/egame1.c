@@ -60,14 +60,14 @@ void sub_11D10(int arg_0, int arg_2) {
 
 // ==== seg000:0x1d6e placeString ====
 void placeString(int param_1) {
-    strcpy((char *)strBuf, (char *)word_3C0A2[(stru_3AA5E[param_1].field_C) & 0x7f]);
-    if (strlen((char *)word_3C0A2[(&word_3AA5C)[param_1 * 8]])) {
-        if (strlen((char *)word_3C0A2[(stru_3AA5E[param_1].field_C) & 0x7f])) {
-            strcat((char *)strBuf, (char *)aAt);
+    strcpy(strBuf, word_3C0A2[(stru_3AA5E[param_1].field_C) & 0x7f]);
+    if (strlen(word_3C0A2[(&word_3AA5C)[param_1 * 8]])) {
+        if (strlen(word_3C0A2[(stru_3AA5E[param_1].field_C) & 0x7f])) {
+            strcat(strBuf, aAt);
         }
-        strcat((char *)strBuf, (char *)word_3C0A2[(&word_3AA5C)[param_1 * 8]]);
+        strcat(strBuf, word_3C0A2[(&word_3AA5C)[param_1 * 8]]);
     }
-    if ((int)strlen((char *)strBuf) > 25) {
+    if ((int)strlen(strBuf) > 25) {
         byte_38F8C = '.';
         byte_38F8D[0] = 0;
     }
@@ -238,13 +238,13 @@ int sub_11E0E() {
     flagFarToNear = 1;
     // 1e1e
     moveStuff();
-    word_3C0A2[0] = 0x98be;
+    word_3C0A2[0] = (char*)0x98be;
     var_2 = 1;
     // 1e2c
     for (var_4 = 0; var_4 < 750; ++var_4) {
         // 1e40
         if (byte_3C16E[var_4] == 0 && var_2 < 100) {
-            word_3C0A2[var_2++] = var_4 + 0x98bf;
+            word_3C0A2[var_2++] = var_4 + (char*)0x98bf;
         }
     } // 1e61
     if (gameData->difficulty != 0) { //1e6c
@@ -277,9 +277,9 @@ void sub_11F3E() {
                 (unsigned long)(unsigned)stru_3AA5E[(&word_3B146)[p * 9]].field_0 << 5,
                 (0x8000L - (unsigned long)(unsigned)stru_3AA5E[(&word_3B146)[p * 9]].field_2) << 5);
             if (word_39808 != 0) {
-                byte_3BFA4[a] = byte_3BFA4[*(int *)word_39808];
-                strcpy((char *)word_3C0A2[a], (char *)word_3C0A2[*(int *)word_39808]);
-                word_3C0A2[a + 1] = word_3C0A2[a] + strlen((char *)word_3C0A2[a]) + 1;
+                byte_3BFA4[a] = byte_3BFA4[*word_39808];
+                strcpy(word_3C0A2[a], (char *)word_3C0A2[*word_39808]);
+                word_3C0A2[a + 1] = word_3C0A2[a] + strlen(word_3C0A2[a]) + 1;
                 sub_13224((char *)word_39808, sub_1CF32(a + 0x100), a + 0x100);
             }
             stru_3AA5E[(&word_3B146)[p * 9]].field_C = a + 0x100;
@@ -986,7 +986,7 @@ int drawSomeStrings(const char *arg_0, int arg_2, int arg_4, int arg_6) {
 }
 
 // ==== seg000:0xa13a ====
-int drawStringCentered(int* arg_0, const char *arg_2, int arg_4, int arg_6, int arg_8) {
+int drawStringCentered(int16* arg_0, const char *arg_2, int arg_4, int arg_6, int arg_8) {
     arg_0[6] = 0;
     arg_0[4] = arg_4;
     arg_0[5] = arg_6;

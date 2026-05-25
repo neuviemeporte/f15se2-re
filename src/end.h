@@ -67,7 +67,7 @@
 #define SCORE_ALL_EVENTS    0x100
 
 void closeFileWrapper(int handle);
-extern void far gfx_jump_05_drawString(int *pageNum, const char *string);
+extern void far gfx_jump_05_drawString(int16 *pageNum, const char *string);
 extern int far gfx_jump_2f_charWidth(int ch, int font);
 
 /* ASM functions called from C */
@@ -149,7 +149,6 @@ extern int16 *spriteSamBlink;
 extern int16 *spriteGroundBlink;
 extern int16 *spriteWaypointBlink;
 extern void far pollJoystick(void);
-void processDebriefInput(int *cursorBounds, void *menuItem, int gfxPage);
 
 typedef uint16 MenuItemFlags;
 
@@ -179,6 +178,8 @@ typedef struct MenuItem {
     MenuItemFlags flags; /* 0x30 */
 } MenuItem;
 STATIC_ASSERT(sizeof(struct MenuItem)==50);
+
+void processDebriefInput(int *cursorBounds, MenuItem *menuItem, int16* gfxPage);
 
 /* FlightRecord: 6 bytes per record */
 typedef struct {
@@ -220,18 +221,18 @@ int drawEventSprite(int recordIdx);
 void drawMapPixel(int x, int y, int color);
 void markHandleClosed(int handle);
 int isPointInRect(void *p);
-void blinkWidget(void *item, int gfxPage);
-unsigned int drawFlightPath(int gfxPage, unsigned int maxRecord);
+void blinkWidget(MenuItem *item, int16* gfxPage);
+unsigned int drawFlightPath(int16 *gfxPage, unsigned int maxRecord);
 void showEventPopup(void);
 void drawFlightLine(int p1, int p2, int p3, int p4);
-void animateFlightPath(int gfxPage);
-void drawWrappedText(int *page, char *str, unsigned int maxWidth, int x, int y, int lineHeight);
-void clearRect(int *page, int y1, int x1, int x2, int y2);
+void animateFlightPath(int16* gfxPage);
+void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y, int lineHeight);
+void clearRect(int16 *page, int y1, int x1, int x2, int y2);
 void mystrcat(char *dst, char *src);
 char *formatFlightTime(int timeValue, char *buffer);
 extern void far gfx_jump_21(int param);
 extern void far gfx_jump_50(void);
-extern void far gfx_jump_29_switchColor(int page, int x1, int y1, int x2, int y2, int fromColor, int toColor);
+extern void far gfx_jump_29_switchColor(int16 *page, int x1, int y1, int x2, int y2, int fromColor, int toColor);
 extern void far gfx_jump_2a(int p1, int p2, int p3, int p4, int p5, int p6, int p7, int p8);
 long calcMissionScore(int param);
 void waitForKeyOrJoy(void);
@@ -241,8 +242,8 @@ void routine_6(void);
 void closeAndResetFile(int *p);
 void plotMapPoint(int x, int y, int color, int unused);
 void timerWait(unsigned int ticks);
-void drawStringAtPos(int *s, char far *str, int x, int y);
-void drawFarString(int *s, char far *str);
+void drawStringAtPos(int16 *s, char far *str, int x, int y);
+void drawFarString(int16 *s, char far *str);
 void farStrcpy(char *dst, char far *src);
 int openFileRead(char *name, int mode);
 int readFileBlock(int handle, int buf, int size);
@@ -252,8 +253,8 @@ int loadFileSection(char *name, int b, int c);
 int loadFileSectionEx(char *name, int b, int c, int d, int e);
 void outportByte(int port, int value);
 void decodePicRaw(int handle, int segment);
-void processMenuItems(void *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int gfxPage);
-int selectMenuItem(MenuItem *items, int unused, int itemCount, int inputState, int gfxPage);
+void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int16* gfxPage);
+int selectMenuItem(MenuItem *items, int unused, int itemCount, int inputState, int16* gfxPage);
 void loadWorldData(int destOffset, int size);
 void readFromWorldBuf(int destOffset, int size, int flag, int bufHandle);
 void readFromWorldFile(int destOffset, int size, int flag, int bufHandle);
@@ -264,7 +265,7 @@ extern int worldBufHandle;
 int fileSeek(int handle, int off, int whence, int mode);
 void loadPicFromFile(char *name, int segment);
 void loadPicFromFileAt(char *name, int segment, int off, int whence);
-void drawMenuItem(MenuItem *items, unsigned int index, int gfxPage);
+void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage);
 
 /* String constants from ASM */
 extern char str_pressExit[];
@@ -324,7 +325,7 @@ extern int var_192;
 extern int16 *var_102;
 
 /* Data symbols used by showPostMissionAwards */
-extern int *awardPage;
+extern int16 *awardPage;
 extern int awardFont;
 extern int awardColor;
 extern char textBuf[];
