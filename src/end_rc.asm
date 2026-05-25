@@ -2942,34 +2942,8 @@ getTimeOfDay endp
 
 routine_27 equ _showPostMissionAwards
 
-PUBLIC _loadTheaterIndex
-_loadTheaterIndex:
-loadTheaterIndex proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    push SI
-    les BX,dword ptr [_commData]
-    mov AX,word ptr ES:[BX + 74h]
-    mov CL,0bh
-    shr AX,CL
-    mov word ptr [BP + -2h],AX
-    mov AX,word ptr ES:[BX + 76h]
-    shr AX,CL
-    mov word ptr [BP + -4h],AX
-    mov SI,AX
-    mov CL,4h
-    shl SI,CL
-    mov BX,word ptr [BP + -2h]
-    mov AL,byte ptr [BX + SI + offset _gridFlags]
-    db 25h, 03h, 00h  ; and AX,3h (force word-immediate)
-    mov word ptr [_missionResult],AX
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-    db 90h
-loadTheaterIndex endp
+EXTRN _loadTheaterIndex:NEAR
+loadTheaterIndex equ _loadTheaterIndex
 
 processMenuItems equ _processMenuItems
 

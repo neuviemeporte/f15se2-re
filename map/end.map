@@ -92,7 +92,7 @@ calibrateTimerSpeed: Code1 NEAR 1d76-1e0a R1d76-1e0a assembly
 manipulateTimer: Code1 NEAR 1e0b-1e5f R1e0b-1e5f assembly
 getTimeOfDay: Code1 NEAR 1e60-1e66 R1e60-1e66 assembly
 showPostMissionAwards: Code1 NEAR 1e78-216d R1e78-216d complete
-loadTheaterIndex: Code1 NEAR 216e-21a4 R216e-21a4 assembly
+loadTheaterIndex: Code1 NEAR 216e-21a4 R216e-21a4 complete
 processMenuItems: Code1 NEAR 21a6-2249 R21a6-2249 complete
 selectMenuItem: Code1 NEAR 224a-2582 R224a-23be U23bf-23c1 R23c2-2582 complete
 blinkWidget: Code1 NEAR 2583-2617 R2583-2617 complete

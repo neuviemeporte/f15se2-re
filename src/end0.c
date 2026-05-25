@@ -1077,3 +1077,12 @@ int selectMenuItem(MenuItem *items, int unused, int itemCount, int inputState, i
 done:
     return i;
 }
+
+void loadTheaterIndex(void)
+{
+    unsigned int x, y;
+
+    x = commData->worldX >> 0x0b;
+    y = commData->worldY >> 0x0b;
+    missionResult = gridFlags[x + y * 16] & 3;
+}

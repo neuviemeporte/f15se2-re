@@ -36,7 +36,8 @@ struct GameComm {
     uint8 pad2[0x14];
     int16 setupT;
     int16 setupUseJoy;
-    uint8 pad3[4];
+    uint16 worldX;
+    uint16 worldY;
     uint16 gfxModeNum;
     uint16 worldBuf;
 };
