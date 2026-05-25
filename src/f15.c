@@ -50,7 +50,7 @@ uint16 commSegment = 0;
 uint16 load_driver(const char* filename, const uint16 commPtrOffset) {
     /* load driver overlay into memory */
     uint16 drvAddress;
-    uint16 FAR *commPtr = MK_FP(commSegment, commPtrOffset);
+    uint16 FAR *commPtr = (uint16 FAR *)MK_FP(commSegment, commPtrOffset);
     if (commSegment == 0)
         FATAL("COMM segment address invalid");
     if ((drvAddress = overlay_load(filename)) == 0)

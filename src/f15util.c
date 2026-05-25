@@ -5,7 +5,7 @@
 #include <STDIO.H>
 
 void strcpyFar(const char* src, const uint16 destSegment, const uint16 destOffset, size_t size) {
-    char FAR *dest = MK_FP(destSegment, destOffset);
+    char FAR *dest =(char FAR *)MK_FP(destSegment, destOffset);
     while (size > 0 && *src != '\0') {
         *dest = *src;
         dest++;
@@ -15,7 +15,7 @@ void strcpyFar(const char* src, const uint16 destSegment, const uint16 destOffse
 }
 
 void memcpyFar(const char* src, const uint16 destSegment, const uint16 destOffset, size_t size) {
-    uint8 FAR *dest = MK_FP(destSegment, destOffset);
+    uint8 FAR *dest = (uint8 FAR *)MK_FP(destSegment, destOffset);
     while (size > 0) {
         *dest = *src;
         dest++;
@@ -25,13 +25,13 @@ void memcpyFar(const char* src, const uint16 destSegment, const uint16 destOffse
 }
 
 void writeWordFar(const uint16 segment, const uint16 offset, const uint16 value) {
-    uint16 FAR *wordPtr  = MK_FP(segment, offset);
+    uint16 FAR *wordPtr  = (uint16 FAR *)MK_FP(segment, offset);
     *wordPtr = value;
 }
 
 enum { BUFSIZE = 256 };
 int blitFileFar(const char* filename, const uint16 segment, const uint16 offset) {
-    uint8 FAR *dest = MK_FP(segment, offset);
+    uint8 FAR *dest = (uint8 FAR *)MK_FP(segment, offset);
     uint8 buffer[BUFSIZE];
     FILE *infile = NULL;
     size_t readsize = 0, i;

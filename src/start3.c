@@ -13,7 +13,7 @@
 #include <string.h>
 
 // 37f8
-int* findNearestTerrain(int32 worldX, int32 worldY) {
+int16* findNearestTerrain(int32 worldX, int32 worldY) {
     int16 tmp, dx, dist, rowOff, x1, level, dy, i, cellIdx, gridX, offsetY, y1, cell;
     int16 sy;
     int16 ty;

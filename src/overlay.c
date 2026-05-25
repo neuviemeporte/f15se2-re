@@ -49,7 +49,7 @@ uint16 overlay_load(const char* filename) {
         dos_free(ovlSegment);
         return 0;
     }
-    ovlHeader = MK_FP(ovlSegment, 0);
+    ovlHeader = (struct OvlHeader FAR *)MK_FP(ovlSegment, 0);
     ovlSize = (ovlHeader->size1 >> 4) + (ovlHeader->size2 >> 4); // overlay size in paragraphs
     DEBUG("overlay_load(): successfully loaded overlay, calculated size = %up (%lu)", ovlSize, PARA_TO_BYTES(ovlSize));
     if (ovlSize > alloc) {
@@ -69,7 +69,7 @@ uint16 overlay_load(const char* filename) {
 }
 
 OverlayFunc overlay_functionAddress(const uint16 ovlLoadSegment, const uint16 funcNumber) {
-    struct OvlHeader FAR *ovlHeader = MK_FP(ovlLoadSegment, 0);
+    struct OvlHeader FAR *ovlHeader = (struct OvlHeader FAR *)MK_FP(ovlLoadSegment, 0);
     uint16 FAR* slotArray=&(ovlHeader->slot);
-    return MK_FP(ovlHeader->code_segment, slotArray[funcNumber]);
+    return (OverlayFunc)MK_FP(ovlHeader->code_segment, slotArray[funcNumber]);
 }

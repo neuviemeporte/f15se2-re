@@ -209,7 +209,7 @@ extern int far gfx_jump_11_blitSprite(int16* spritePtr);
 void seedRandom(void);
 void loadPic(char *filename, int segment);
 void openShowPic(char *name, int page);
-int allocBuffer(int size);
+uint16 allocBuffer(int size);
 void freeBuffer(int segment);
 void srandInit(int seed);
 int mapToScreenY(unsigned char mapCoord);

@@ -14,7 +14,7 @@ void memcpy() {}
 
 #ifdef IMPORT_LIBC
 void exit();
-void getch();
+int getch();
 void fclose();
 void fopen();
 void fread();
@@ -27,7 +27,7 @@ void inp();
 void putch();
 void abs();
 void srand();
-void rand();
+int rand();
 
 void _aNldiv();
 void _aNlmul();

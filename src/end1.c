@@ -4,7 +4,7 @@
 #include "end.h"
 #include "util.h"
 
-int allocBuffer(int size) {
+uint16 allocBuffer(int size) {
     int segment;
     TRACE(("allocBuffer"));
     segment = dos_alloc(size);
