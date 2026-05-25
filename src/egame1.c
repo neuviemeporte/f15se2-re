@@ -238,15 +238,13 @@ int sub_11E0E() {
     flagFarToNear = 1;
     // 1e1e
     moveStuff();
-    /* TODO: these should be byte_3C16E and &byte_3C16E[var_4+1] but changing
-     * them alters the binary output (hardcoded vs relocated address) */
-    word_3C0A2[0] = 0x98be;
+    word_3C0A2[0] = byte_3C16E;
     var_2 = 1;
     // 1e2c
     for (var_4 = 0; var_4 < 750; ++var_4) {
         // 1e40
         if (byte_3C16E[var_4] == 0 && var_2 < 100) {
-            word_3C0A2[var_2++] = var_4 + (char*)0x98bf;
+            word_3C0A2[var_2++] = &byte_3C16E[var_4+1];
         }
     } // 1e61
     if (gameData->difficulty != 0) { //1e6c
