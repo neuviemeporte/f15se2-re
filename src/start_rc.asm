@@ -16,35 +16,18 @@ EXTRN _pilotNameInput:PROC
 PUBLIC _byte_17412
 PUBLIC _byte_17422
 PUBLIC _word_173DE
-PUBLIC _asc_174AC
 PUBLIC _byte_1741A
-PUBLIC _asc_174AF
 PUBLIC _ranks
 PUBLIC _pilotNameInputColors
-PUBLIC _aMenterYourName
 PUBLIC _cbreakHit
 PUBLIC _joyRepeatFlag
-PUBLIC _a_3dg
-PUBLIC _aOpenErrorOn__0
-PUBLIC _aRb_0
-PUBLIC _gridValidFlag
 PUBLIC _gridBuf1
 PUBLIC _gridBuf2
 PUBLIC _gridBuf3
 PUBLIC _gridBuf4
 PUBLIC _gridBuf5
-PUBLIC _aBadGridFileFor
-PUBLIC _gridSignature
-PUBLIC _str_allocError
 PUBLIC _byte_1B0D3
-PUBLIC _aCc00
-PUBLIC _aEs00
-PUBLIC _aHz00
-PUBLIC _aJz00
-PUBLIC _aTd00
 PUBLIC _bufCoordStr
-PUBLIC _aWx00
-PUBLIC _aXv00
 PUBLIC _byte_1B0D1
 PUBLIC _byte_1B0D2
 PUBLIC _word_17290
@@ -62,44 +45,24 @@ PUBLIC _lineX1
 PUBLIC _lineY1
 PUBLIC _lineX2
 PUBLIC _lineY2
-PUBLIC _terrainDirtyFlag
-PUBLIC _aOpenErrorOn_3d
-PUBLIC _terrainSignature
-PUBLIC _a_3dt
-PUBLIC _aTooMuchTileDat
-PUBLIC _aRb
 PUBLIC _terrainBuf1
 PUBLIC _terrainBuf2
 PUBLIC _terrainBuf3
 PUBLIC _terrainBuf4
 PUBLIC _terrainBuf5
 PUBLIC _terrainPtrUnk
-PUBLIC _aTooManyTiles_
-PUBLIC _aBadTileFileFor
 PUBLIC _terrainIdxBuf
-PUBLIC _aHiscore_pic
-PUBLIC _aArmpiece_pic
-PUBLIC _aWb
-PUBLIC _aHallfame_0
 PUBLIC _planes
 PUBLIC _blinkColors
 PUBLIC _blinkColorIdx
-PUBLIC _word_18026
 PUBLIC _word_1E24A
-PUBLIC _word_17FFE
-PUBLIC _word_18010
 PUBLIC _hercFlag
 PUBLIC _timerCounter
 PUBLIC _commData
-PUBLIC _aF15_spr
 PUBLIC _joyAxes
-PUBLIC _aTitle640_pic
 PUBLIC _menuSprites
 PUBLIC _bufPtr
 PUBLIC _needSplash
-PUBLIC _aAdv_pic
-PUBLIC _aLabs_pic
-PUBLIC _aF15_spr_0
 PUBLIC _byte_1D5E2
 PUBLIC _byte_1D5E3
 PUBLIC _word_1D5D4
@@ -112,17 +75,13 @@ PUBLIC _gfxModeSetPtr
 PUBLIC _exitCode
 PUBLIC _joyReady
 PUBLIC _gameData
-PUBLIC _aEgraphic_exe
-PUBLIC _aTitle16_pic
 PUBLIC _page1Ptr
 PUBLIC _intRegs
 PUBLIC _selectedPilotIdx
 PUBLIC _hallfameBuf
 PUBLIC _screenBuf
-PUBLIC _aWall_pic
 PUBLIC _page1NumPtr
 PUBLIC _page2NumPtr
-PUBLIC _aAt
 PUBLIC _byte_1B100
 PUBLIC _byte_1B0FF
 PUBLIC _word_1D5D6
@@ -139,13 +98,10 @@ PUBLIC _missHistorical1Desc
 PUBLIC _missHistorical2Names
 PUBLIC _missHistorical2Desc
 PUBLIC _missionStr
-PUBLIC _aRb_1
 PUBLIC _plh3d3Ptr
-PUBLIC _enableHighlight
 PUBLIC _armPosition
 PUBLIC _word_182C8
 PUBLIC _word_19294
-PUBLIC _aPowCamp
 PUBLIC _word_18994
 PUBLIC _dword_1D5D0
 PUBLIC _word_182BC
@@ -169,21 +125,13 @@ PUBLIC _word_19324
 PUBLIC _off_19304
 PUBLIC _off_19314
 PUBLIC _word_1B960
-PUBLIC _aSeeTechnicalSu
-PUBLIC _aMissionType
 PUBLIC _fileHandle
 PUBLIC _scenarioCodePtr
 PUBLIC _timerCounter3
-PUBLIC _aTheater
-PUBLIC _aDifficulty
 PUBLIC _scenarioFoundArr
-PUBLIC _aNoScenarioFile
 PUBLIC _missionPick
 PUBLIC _drawColor
-PUBLIC _aRepeatLastMiss
-PUBLIC _aDecodingMissio
 PUBLIC _word_171B2
-PUBLIC _aTemp_wld
 PUBLIC _regnPlhPtr
 PUBLIC _difficultySaved
 PUBLIC _theaterSaved
@@ -191,30 +139,13 @@ PUBLIC _flag4Saved
 PUBLIC _plhFiles
 PUBLIC _worldFiles
 PUBLIC _todayMissStrBuf
-PUBLIC _aTakeoffFrom
 PUBLIC _fontIndex
-PUBLIC _aTodaySMission
-PUBLIC _aOnc_0
-PUBLIC _aOnc_1
-PUBLIC _aPrimaryTarget
-PUBLIC _aOnc_2
-PUBLIC _aSecondaryTarge
-PUBLIC _aRb_2
-PUBLIC _aPleaseReinsert
-PUBLIC _aF15_spr_1
-PUBLIC _aPressSelectorW
 PUBLIC _word_182BA
-PUBLIC _aWb_0
 PUBLIC _word_1B148
 PUBLIC _word_1DD38
 PUBLIC _readItemSize
 PUBLIC _timerHandlerInstalled
-PUBLIC _aRb_3
-PUBLIC _aHallfame
-PUBLIC _aPressAKeyToCon
-PUBLIC _aOriginalDiskIn
 PUBLIC _pageNumPtr
-PUBLIC _aUseSelectorToC
 PUBLIC _textColor
 PUBLIC _spriteBlitX
 PUBLIC _word_1714A
@@ -226,7 +157,6 @@ PUBLIC _spriteBlitY
 PUBLIC _word_1719A
 PUBLIC _spriteBlitW
 PUBLIC _spriteBlitH
-PUBLIC _aRb_4
 PUBLIC _wldReadBuf5Size
 PUBLIC _wldReadBuf1
 PUBLIC _wldReadBuf2
@@ -286,8 +216,6 @@ PUBLIC _audio_jump_65
 PUBLIC _audio_jump_67
 PUBLIC _audio_jump_6b
 PUBLIC _audio_jump_6c
-PUBLIC _aFileClosingError
-PUBLIC _aWriteError
 PUBLIC _diskTransferArea
 PUBLIC _byte_172C6
 PUBLIC _dictionaryIndex
@@ -300,14 +228,12 @@ PUBLIC _picWorkData
 PUBLIC _word_17BF3
 PUBLIC _picDecodedRowBuf
 PUBLIC _byte_17BF0
-PUBLIC _aReadError
 PUBLIC _word_17BF5
 PUBLIC _word_17BF7
 PUBLIC _word_17BF9
 PUBLIC _picWorkDataPtr
 PUBLIC _picProcessFlag0_1
 PUBLIC _word_1786A
-PUBLIC _aDosLied
 PUBLIC _picTmp9BitCount
 PUBLIC _picByteUnsignedFlag
 PUBLIC _word_1782E
@@ -316,7 +242,6 @@ PUBLIC _word_1783E
 PUBLIC _word_1784E
 PUBLIC _word_1737E
 PUBLIC _fileReadPos
-PUBLIC _ovlParBlock
 PUBLIC _row
 PUBLIC _readBufEndPtr
 PUBLIC _picRemainingBitCount
@@ -324,21 +249,14 @@ PUBLIC _timerCounter2
 PUBLIC _tmpFileHandle
 PUBLIC _timerCounter4
 PUBLIC _picDecodeIncrement
-PUBLIC _aAlloc1M
 PUBLIC _searchFCB
-PUBLIC _ovlSeg1
-PUBLIC _aNoFileBuffersAvailable
 PUBLIC _picNumberDictSlots
-PUBLIC _aOpenError
-PUBLIC _ovlSeg2
-PUBLIC _ovlParCnt
 PUBLIC _byte_17A2F
 PUBLIC _errorCodeStr
 PUBLIC _tmpPageIndex
 PUBLIC _word_17836
 PUBLIC _word_17846
 PUBLIC _word_172AA
-PUBLIC _ovlInsaneFlag
 PUBLIC _word_17856
 PUBLIC _word_172BA
 PUBLIC _word_17866
@@ -346,9 +264,7 @@ PUBLIC _screenBufSize
 PUBLIC _word_172AC
 PUBLIC _word_17858
 PUBLIC _word_17868
-PUBLIC _aOvlFail
 PUBLIC _word_172AE
-PUBLIC _aOvlShrink
 PUBLIC _byte_17877
 PUBLIC _word_17BEB
 PUBLIC _origCBreakOfs
@@ -367,15 +283,11 @@ PUBLIC _word_172B5
 PUBLIC _byte_172A2
 PUBLIC _word_172A6
 PUBLIC _picByte
-PUBLIC _aFileNotFound
-PUBLIC _aEnoughMem
 PUBLIC _byte_19ADB
 PUBLIC _picFileWord
 PUBLIC _word_172A8
 PUBLIC _word_172B8
 PUBLIC _picLookupResult
-PUBLIC _aFileNFound
-PUBLIC _aOvlOvrrun
 ; ---------------------------------------------------------------------------
 
 GameComm	struc ;	(sizeof=0x2, mappedto_8)
@@ -660,14 +572,96 @@ FILE_READBUF_SIZE  = 200h
 ;  ==============================================================================
 
 .DATA ;startData segment byte public 'DATA'
-_aLabs_pic db 'labs.pic',0
-_aAdv_pic db 'adv.pic',0
-_aEgraphic_exe db 'egraphic.exe',0
-_aTitle640_pic db 'Title640.Pic',0
-_aTitle16_pic db 'title16.pic',0
-_aF15_spr db 'f15.spr',0
-_aF15_spr_0 db 'f15.spr',0
-_aTemp_wld db 'temp.wld',0
+    EXTRN _aLabs_pic:byte
+    EXTRN _aAdv_pic:byte
+    EXTRN _aEgraphic_exe:byte
+    EXTRN _aTitle640_pic:byte
+    EXTRN _aTitle16_pic:byte
+    EXTRN _aF15_spr:byte
+    EXTRN _aF15_spr_0:byte
+    EXTRN _aTemp_wld:byte
+    EXTRN _aWall_pic:byte
+    EXTRN _aDifficulty:byte
+    EXTRN _aTheater:byte
+    EXTRN _aRb_1:byte
+    EXTRN _aNoScenarioFile:byte
+    EXTRN _aSeeTechnicalSu:byte
+    EXTRN _aTheater_0:byte
+    EXTRN _aMissionType:byte
+    EXTRN _aRepeatLastMiss:byte
+    EXTRN _aRb_2:byte
+    EXTRN _aF15_spr_1:byte
+    EXTRN _aPleaseReinsert:byte
+    EXTRN _aPressSelectorW:byte
+    EXTRN _aDecodingMissio:byte
+    EXTRN _aTodaySMission:byte
+    EXTRN _aTakeoffFrom:byte
+    EXTRN _aOnc_2:byte
+    EXTRN _aPrimaryTarget:byte
+    EXTRN _aOnc_0:byte
+    EXTRN _aSecondaryTarge:byte
+    EXTRN _aOnc_1:byte
+    EXTRN _aArmpiece_pic:byte
+    EXTRN _aHiscore_pic:byte
+    EXTRN _aOriginalDiskIn:byte
+    EXTRN _aPressAKeyToCon:byte
+    EXTRN _aUseSelectorToC:byte
+    EXTRN _asc_174AC:byte
+    EXTRN _asc_174AF:byte
+    EXTRN _aMenterYourName:byte
+    EXTRN _aRb_3:byte
+    EXTRN _aHallfame:byte
+    EXTRN _aWb:byte
+    EXTRN _aHallfame_0:byte
+    EXTRN _aAlloc1M:byte
+    EXTRN _aDosLied:byte
+    EXTRN _aFileNFound:byte
+    EXTRN _aEnoughMem:byte
+    EXTRN _aOvlFail:byte
+    EXTRN _aOvlOvrrun:byte
+    EXTRN _aOvlShrink:byte
+    EXTRN _aOvlRel:byte
+    EXTRN _aFileNotFound:byte
+    EXTRN _aNoFileBuffersAvailable:byte
+    EXTRN _aOpenError:byte
+    EXTRN _aFileClosingError:byte
+    EXTRN _aReadError:byte
+    EXTRN _aWriteError:byte
+    EXTRN _str_allocError:byte
+    EXTRN _a_3dt:byte
+    EXTRN _aRb:byte
+    EXTRN _aOpenErrorOn_3d:byte
+    EXTRN _aBadTileFileFor:byte
+    EXTRN _aTooManyTiles_:byte
+    EXTRN _aTooMuchTileDat:byte
+    EXTRN _a_3dg:byte
+    EXTRN _aRb_0:byte
+    EXTRN _aOpenErrorOn__0:byte
+    EXTRN _aBadGridFileFor:byte
+    EXTRN _aPowCamp:byte
+    EXTRN _aRb_4:byte
+    EXTRN _aWb_0:byte
+    EXTRN _aTd00:byte
+    EXTRN _aJz00:byte
+    EXTRN _aXv00:byte
+    EXTRN _aEs00:byte
+    EXTRN _aWx00:byte
+    EXTRN _aCc00:byte
+    EXTRN _aHz00:byte
+    EXTRN _aAt:byte
+    EXTRN _ovlSeg1:word
+    EXTRN _ovlParCnt:word
+    EXTRN _ovlParBlock:word
+    EXTRN _ovlSeg2:word
+    EXTRN _ovlInsaneFlag:byte
+    EXTRN _enableHighlight:word
+    EXTRN _word_17FFE:word
+    EXTRN _word_18010:word
+    EXTRN _word_18026:word
+    EXTRN _terrainSignature:word
+    EXTRN _terrainDirtyFlag:word
+    EXTRN _gridSignature:word
+    EXTRN _gridValidFlag:word
 word_16BE2 dw 0
     db 0
     db 0
@@ -776,14 +770,7 @@ aCutTheSupplyLi db 'Cut the Supply Lines',0
 asc_1700B db 0
 aMission db 'MISSION',0
 placeholder_3d3 db 'xx.3d3',0
-_aWall_pic db 'Wall.Pic',0
-_aDifficulty db 'DIFFICULTY',0
-_aTheater db 'THEATER',0
-_aRb_1 db 'rb',0
-_aNoScenarioFile db 'No scenario files found',0
-_aSeeTechnicalSu db 'See Technical Supplement',0
-aTheater_0 db 'THEATER',0
-_aMissionType db 'MISSION TYPE',0
+
 page1Num dw 1
     db 0
     db 0
@@ -962,7 +949,6 @@ _word_1719A dw 3Eh
     dw 4Bh
     dw 5Dh
     dw 74h
-_enableHighlight dw 1
 _plh3d3Ptr dw offset placeholder_3d3
 _missionPick dw 0FFFFh
     db 0FFh
@@ -974,19 +960,7 @@ _word_171B2 dw 1
     dw 5
     dw 6
     dw 7
-_aRepeatLastMiss db 'Repeat last mission ? (y/n)',0
-_aRb_2 db 'rb',0
-_aF15_spr_1 db 'F15.spr',0
-_aPleaseReinsert db 'Please reinsert F15 Disk A',0
-_aPressSelectorW db '<Press selector when ready>',0
-_aDecodingMissio db 'decoding mission...',0
-_aTodaySMission db 'TODAY',27h,'S MISSION',0
-_aTakeoffFrom db 'Takeoff from:',0
-_aOnc_2 db 'ONC ',0
-_aPrimaryTarget db 'Primary Target:',0
-_aOnc_0 db 'ONC ',0
-_aSecondaryTarge db 'Secondary Target:',0
-_aOnc_1 db 'ONC ',0
+
     db 0
 _joyRepeatFlag dw 0
 _word_17284 dw 0
@@ -1096,8 +1070,7 @@ aMajor db 'Major ',0
 aLtCol_ db 'Lt Col. ',0
 aColonel db 'Colonel ',0
 aGen_ db 'Gen. ',0
-_aArmpiece_pic db 'ArmPiece.Pic',0
-_aHiscore_pic db 'HiScore.Pic',0
+
 _pilotSelectFlag db 0
 unk_173D2 db 0
 unk_173D3 db 0
@@ -1175,38 +1148,16 @@ _byte_17422 db 9
     db 2Fh
     db 0Bh
     db 0Fh
-_aOriginalDiskIn db 'Original Disk in drive.  Roster will not be saved.',0
-_aPressAKeyToCon db 'Press a key to continue.',0
-_aUseSelectorToC db 'Use SELECTOR to choose pilot,  ESC to enter new pilot.',0
-_asc_174AC db ' (',0
-_asc_174AF db ')',0
     db 0
 _blinkColors dw 7
     dw 0Fh
 _blinkColorIdx dw 0
-_aMenterYourName db '�ENTER YOUR NAME !',0
+    db 0
     db 0
 _pilotNameInputColors dw 0
     db 8 ;grey name input box
     db 0
-_aRb_3 db 'rb',0
-_aHallfame db 'HallFame',0
-_aWb db 'wb',0
-_aHallfame_0 db 'HallFame',0
-_ovlSeg1 dw 0
-_ovlParCnt dw 0
-_ovlParBlock dw 0
-_ovlSeg2 dw 0
-_ovlInsaneFlag db 0
-_aAlloc1M db 'Allocated 1Mb of space????$'
-_aDosLied db 'MS-DOS lied to us about how much memory was available$'
-_aFileNFound db 'Filename not found$'
-_aEnoughMem db 'Not enough memory to load file$'
-_aOvlFail db 'Overlay load failed for some reason$'
-_aOvlOvrrun db 'Overlay has overrun allocated memory$'
-_aOvlShrink db 'Unable to shrink overlay memory allocation$'
-aOvlRel db 'Error releasing overlay memory$'
-    db 0
+
 ; ------------------------------startData:0xab8------------------------------
 _gfx_jump_0_alloc proc far
     db 0EAh ;jmp far ptr gfx_slot_0_alloc
@@ -1739,12 +1690,6 @@ byte_17D16 db 1Bh dup(0)
 byte_17D31 db 20h dup(0)
 byte_17D51 db 21h dup(0)
 byte_17D72 db 94h dup(0)
-_aFileNotFound db ':File not found$'
-_aNoFileBuffersAvailable db ':No file buffers available$'
-_aOpenError db ':Open error $'
-_aFileClosingError db 'File closing error$'
-_aReadError db 'Read error$'
-_aWriteError db 'Write error$'
 word_17E68 dw 0
 word_17E6A dw 0
     db 0
@@ -1759,31 +1704,8 @@ _rowOffset dw 0
     db 0
 _row dw 0
 _readFromFilePtr dw 0
-_str_allocError db 'Insufficient system memory - AllocBuffer$',0
-aBufferDeallocE db 'Buffer dealloc error$',0
-_word_17FFE dw 0FFFFh, 2 dup(1), 0FFFFh, 0, 1, 0, 0FFFFh, 0
-_word_18010 dw 2 dup(1), 2 dup(0FFFFh), 1, 0, 0FFFFh, 2 dup(0), 0E000h
-    dw 0F000h
-_word_18026 dw 0, 1000h, 2000h, 400h, 100h, 40h, 10h, 4
-_terrainSignature dw 3131h
 _terrainBuf1 dw 5 dup(20h)
     _terrainBuf2 TerrainUnk 5 dup(<0>)
-_gridSignature dw 3232h
-    db 0FFh
-    db 0FFh
-_terrainDirtyFlag dw 0
-_gridValidFlag dw 0
-_a_3dt db '.3dT',0
-_aRb db 'rb',0
-_aOpenErrorOn_3d db 'Open Error on *.3DT, assuming new file !',0
-_aBadTileFileFor db 'Bad Tile file format.',0
-_aTooManyTiles_ db 'Too many tiles.',0
-_aTooMuchTileDat db 'Too much tile data',0
-_a_3dg db '.3dG',0
-_aRb_0 db 'rb',0
-_aOpenErrorOn__0 db 'Open Error on *.3DG, assuming new file !',0
-_aBadGridFileFor db 'Bad Grid file format.',0
-    db 0
 aRegn_xxx db 'regn.xxx',0
 aLb_xxx db 'lb.xxx',0
 aPg_xxx db 'pg.xxx',0
@@ -4227,19 +4149,7 @@ _word_19324 dw 3
     dw 8
     dw 3
     dw 0
-_aPowCamp db 'POW Camp',0
-_aRb_4 db 'rb',0
-_aWb_0 db 'wb',0
-_aTd00 db 'TD00',0
-_aJz00 db 'JZ00',0
-_aXv00 db 'XV00',0
-_aEs00 db 'ES00',0
-_aWx00 db 'WX00',0
-_aCc00 db 'CC00',0
-_aHz00 db 'HZ00',0
-_aAt db ' at ',0
-    db 0
-    db 0
+
 _armPosition dw 0
 _spriteBlitX dw 0
 _spriteBlitY dw 0
