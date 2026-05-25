@@ -72,3 +72,15 @@ int main(void) {
     TRACE(("egame main: exiting with code %d", exitCode));
     exit(exitCode);
 }
+
+// ==== seg000:0x9eb6 ====
+int sub_19EB6(int arg_0, int arg_2) {
+    if (word_330C2 == 0) goto done;
+    if (*(&word_38202 + arg_0 * 5 + 7) != arg_2) {
+        gfx_jump_29_switchColor((int *)var_564, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
+        gfx_jump_29_switchColor((int *)var_565, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
+        *(&word_38202 + arg_0 * 5 + 7) = arg_2;
+    }
+done:
+    ;
+}
