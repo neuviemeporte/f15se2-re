@@ -98,10 +98,10 @@ int readFileAtExRaw(int handle, int a, int b, int c, int d);
 /* Extern variables from ASM */
 extern char timerHandlerInstalled;
 extern char timerCounter;
-extern char var_194;
-extern char var_195;
-extern char var_196;
-extern char var_197;
+#define var_194 (((char*)flightRecords)[0])
+#define var_195 (((char*)flightRecords)[1])
+#define var_196 (((char*)flightRecords)[2])
+#define var_197 (((char*)flightRecords)[3])
 extern int lastDrawX;
 extern int prevDrawX;
 extern int lastDrawY;
@@ -315,7 +315,7 @@ extern char str_pressSelect[];
 extern char str_pressNext[];
 
 /* Data symbols used by drawMenuItem */
-extern char dat_4824[];
+#define dat_4824 scoreString
 extern int dat_424e[];
 extern int var_425c[];
 extern int dat_4804;

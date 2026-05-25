@@ -72,41 +72,99 @@ EXTRN _drawFlightPath:PROC
 EXTRN _showEventPopup:PROC
 EXTRN __aNlmul:PROC
 EXTRN _formatFlightTime:PROC
+EXTRN _str_emptyRank:BYTE
+EXTRN _str_1stLt:BYTE
+EXTRN _str_captain:BYTE
+EXTRN _str_major:BYTE
+EXTRN _str_ltColonel:BYTE
+EXTRN _str_colonel:BYTE
+EXTRN _str_general:BYTE
+EXTRN _str_afcm:BYTE
+EXTRN _str_dfc:BYTE
+EXTRN _str_silverStar:BYTE
+EXTRN _str_afc:BYTE
+EXTRN _str_cmoh:BYTE
+EXTRN _str_deskPic:BYTE
+EXTRN _str_deskMsg1:BYTE
+EXTRN _str_deskMsg2:BYTE
+EXTRN _str_deathPic:BYTE
+EXTRN _str_deathMsg1:BYTE
+EXTRN _str_deathMsg2:BYTE
+EXTRN _str_promoPic:BYTE
+EXTRN _str_promoMsg1:BYTE
+EXTRN _str_promoMsg2:BYTE
+EXTRN _str_medalPic:BYTE
+EXTRN _str_medalMsg1:BYTE
+EXTRN _str_medalMsg2:BYTE
+EXTRN _rankNames:WORD
+EXTRN _medalNames:WORD
+EXTRN _str_allocError:BYTE
+EXTRN _str_deallocError:BYTE
+EXTRN _str_pressExit:BYTE
+EXTRN _str_dot1:BYTE
+EXTRN _str_overall1:BYTE
+EXTRN _str_missionRating1:BYTE
+EXTRN _str_dot2:BYTE
+EXTRN _str_trainingScore:BYTE
+EXTRN _str_notRecorded:BYTE
+EXTRN _str_dot3:BYTE
+EXTRN _str_careerTotal:BYTE
+EXTRN _str_dot4:BYTE
+EXTRN _str_missionSummary:BYTE
+EXTRN _str_priSecTargets:BYTE
+EXTRN _str_otherTargets:BYTE
+EXTRN _str_enemyPlanes:BYTE
+EXTRN _str_friendlyTargets:BYTE
+EXTRN _str_dot5:BYTE
+EXTRN _str_overall2:BYTE
+EXTRN _str_missionRating2:BYTE
+EXTRN _str_dot6:BYTE
+EXTRN _str_missionEvent:BYTE
+EXTRN _str_time:BYTE
+EXTRN _str_destroyed4:BYTE
+EXTRN _str_destroyed1:BYTE
+EXTRN _str_destroyed2:BYTE
+EXTRN _str_shotDown2:BYTE
+EXTRN _str_shotDown:BYTE
+EXTRN _str_destroyed3:BYTE
+EXTRN _str_rearmed3:BYTE
+EXTRN _str_rearmed1:BYTE
+EXTRN _str_rearmed2:BYTE
+EXTRN _str_hitBy:BYTE
+EXTRN _str_missile:BYTE
+EXTRN _str_takeoffPoint:BYTE
+EXTRN _str_missionEnd:BYTE
+EXTRN _str_crashed:BYTE
+EXTRN _str_goodBailout:BYTE
+EXTRN _str_captured:BYTE
+EXTRN _str_bailedDied:BYTE
+EXTRN _str_goodLanding:BYTE
+EXTRN _str_primaryObj:BYTE
+EXTRN _str_secndryObj:BYTE
+EXTRN _str_cumulative2:BYTE
+EXTRN _str_cumulative:BYTE
+EXTRN _str_missionRating3:BYTE
+EXTRN _str_pressSelect:BYTE
+EXTRN _str_pressNext:BYTE
+EXTRN _str_inFlight:BYTE
+EXTRN _str_timeLabel:BYTE
+EXTRN _str_timeZeros:BYTE
+EXTRN _str_timeFormat:BYTE
+
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
 PUBLIC _readFromWorldBuf
 PUBLIC _readFromWorldFile
-PUBLIC _worldBufHandle
-PUBLIC _worldDataReady
-PUBLIC _ejectedFlag
-PUBLIC _popupSpriteY
-PUBLIC _popupSpriteX
 PUBLIC _timerHandlerInstalled
-PUBLIC _str_allocError
-PUBLIC _str_deallocError
 PUBLIC _randSeed
 PUBLIC _randState
-PUBLIC _mapViewX1
-PUBLIC _mapViewY1
-PUBLIC _mapViewX2
-PUBLIC _mapViewY2
 PUBLIC _timerCounter
-PUBLIC _cursorX
-PUBLIC _cursorY
 PUBLIC _commData
 PUBLIC _quitFlag
-PUBLIC _slotInfoTable
-PUBLIC _curRecordIdx
 PUBLIC _spriteAir
 PUBLIC _spriteSam
 PUBLIC _spriteGround
 PUBLIC _spriteWaypoint
-PUBLIC _flightRecords
-PUBLIC _target1Type
-PUBLIC _target1MiscBits
-PUBLIC _target2Type
-PUBLIC _target2MiscBits
-PUBLIC _str_timeFormat
 PUBLIC _nightMission
 PUBLIC _gfx_jump_11_blitSprite
 PUBLIC _gfx_jump_21
@@ -114,91 +172,8 @@ PUBLIC _gfx_jump_29_switchColor
 PUBLIC _gfx_jump_2a
 PUBLIC _clearRect
 PUBLIC _mystrcat
-
-PUBLIC _str_pressExit
-PUBLIC _str_dot1
-PUBLIC _str_overall1
-PUBLIC _str_missionRating1
-PUBLIC _str_dot2
-PUBLIC _str_trainingScore
-PUBLIC _str_notRecorded
-PUBLIC _str_dot3
-PUBLIC _str_careerTotal
-PUBLIC _str_dot4
-PUBLIC _str_missionSummary
-PUBLIC _str_priSecTargets
-PUBLIC _str_otherTargets
-PUBLIC _str_enemyPlanes
-PUBLIC _str_friendlyTargets
-PUBLIC _str_dot5
-PUBLIC _str_overall2
-PUBLIC _str_missionRating2
-PUBLIC _str_dot6
-PUBLIC _str_missionEvent
-PUBLIC _str_time
-PUBLIC _str_destroyed4
-PUBLIC _str_destroyed1
-PUBLIC _str_destroyed2
-PUBLIC _str_shotDown2
-PUBLIC _str_shotDown
-PUBLIC _str_destroyed3
-PUBLIC _str_rearmed3
-PUBLIC _str_rearmed1
-PUBLIC _str_rearmed2
-PUBLIC _str_hitBy
-PUBLIC _str_missile
-PUBLIC _str_takeoffPoint
-PUBLIC _str_missionEnd
-PUBLIC _str_crashed
-PUBLIC _str_goodBailout
-PUBLIC _str_captured
-PUBLIC _str_bailedDied
-PUBLIC _str_goodLanding
-PUBLIC _str_primaryObj
-PUBLIC _str_secndryObj
-PUBLIC _str_cumulative2
-PUBLIC _str_cumulative
-PUBLIC _str_missionRating3
-PUBLIC _str_pressSelect
-PUBLIC _str_pressNext
-PUBLIC _dat_424e
-PUBLIC _var_425c
-PUBLIC _dat_4804
-PUBLIC _var_193
-PUBLIC _var_192
 PUBLIC _var_102
-
-
-PUBLIC _samKilled
-PUBLIC _samMissed
-PUBLIC _gridFlags
-PUBLIC _groundKilled
-PUBLIC _groundMissed
-PUBLIC _unitTypeTable
-PUBLIC _primaryHit
-PUBLIC _secondaryHit
-PUBLIC _airKilled
-PUBLIC _airMissed
 PUBLIC _samDataTable
-PUBLIC _var_194
-PUBLIC _selectedMenuItem
-PUBLIC _var_195
-PUBLIC _var_196
-PUBLIC _var_197
-PUBLIC _lastDrawX
-PUBLIC _prevDrawX
-PUBLIC _lastDrawY
-PUBLIC _prevDrawY
-PUBLIC _popupVisible
-PUBLIC _missionScore
-PUBLIC _missionScoreHi
-PUBLIC _popupX
-PUBLIC _popupY
-PUBLIC _scoreString
-PUBLIC _dat_4824
-PUBLIC _str_inFlight
-PUBLIC _str_timeLabel
-PUBLIC _str_timeZeros
 PUBLIC _misc_jump_5a_keybuf
 PUBLIC _misc_jump_5b_getkey
 PUBLIC _misc_jump_5d_readJoy
@@ -212,25 +187,10 @@ PUBLIC _gfx_jump_17_bufSize
 PUBLIC _awardColor
 PUBLIC _awardFont
 PUBLIC _awardPage
-PUBLIC _rankNames
 PUBLIC _promoScores
 PUBLIC _promoThresholds
-PUBLIC _medalNames
 PUBLIC _medalScores
 PUBLIC _medalThresholds
-PUBLIC _textBuf
-PUBLIC _str_deskPic
-PUBLIC _str_deskMsg1
-PUBLIC _str_deskMsg2
-PUBLIC _str_deathPic
-PUBLIC _str_deathMsg1
-PUBLIC _str_deathMsg2
-PUBLIC _str_promoPic
-PUBLIC _str_promoMsg1
-PUBLIC _str_promoMsg2
-PUBLIC _str_medalPic
-PUBLIC _str_medalMsg1
-PUBLIC _str_medalMsg2
 PUBLIC _gfx_jump_3d_null
 PUBLIC _gfx_jump_50
 PUBLIC _gfx_jump_45_retrace
@@ -240,33 +200,17 @@ PUBLIC _gfx_jump_46_retrace2
 
 EXTRN _main:PROC
 
-PUBLIC _colorTablePtr
-PUBLIC _inputChanged
-PUBLIC _colorAnimIdx
-PUBLIC _colorAnimEnabled
-PUBLIC _joyRepeatFlag
-PUBLIC _spriteToggle
-PUBLIC _animDone
-PUBLIC _enterPressed
 PUBLIC _timerCounter2
 PUBLIC _timerCounter3
-PUBLIC _dat_1c8e
 PUBLIC _spriteAirBlink
 PUBLIC _spriteSamBlink
 PUBLIC _spriteGroundBlink
 PUBLIC _spriteWaypointBlink
 PUBLIC _pollJoystick
 PUBLIC _gameData
-PUBLIC _hercFlag
 PUBLIC _joyAxisY
 PUBLIC _joyAxisX
-PUBLIC _hasVgaMode
 PUBLIC _gfxBufSeg
-PUBLIC _vgaBufSeg
-PUBLIC _vgaBufSeg2
-PUBLIC _vgaBufOffset
-PUBLIC _spriteBufSeg
-PUBLIC _missionResult
 
 main equ _main
 
@@ -3916,6 +3860,69 @@ _copyJoystickData equ copyJoystickData
 
 .DATA
 ; --- Data segment ---
+EXTRN _popupSpriteY:BYTE
+EXTRN _popupSpriteX:BYTE
+EXTRN _mapViewX1:BYTE
+EXTRN _mapViewY1:BYTE
+EXTRN _mapViewX2:BYTE
+EXTRN _mapViewY2:BYTE
+EXTRN _dat_1c8e:BYTE
+EXTRN _textBuf:BYTE
+EXTRN _unitTypeTable:BYTE
+EXTRN _gridFlags:BYTE
+EXTRN _target1Type:BYTE
+EXTRN _target1MiscBits:BYTE
+EXTRN _target2Type:BYTE
+EXTRN _target2MiscBits:BYTE
+EXTRN _scoreString:BYTE
+EXTRN _samKilled:BYTE
+EXTRN _samMissed:BYTE
+EXTRN _groundKilled:BYTE
+EXTRN _groundMissed:BYTE
+EXTRN _airKilled:BYTE
+EXTRN _airMissed:BYTE
+EXTRN _selectedMenuItem:BYTE
+EXTRN _missionResult:BYTE
+EXTRN _enterPressed:BYTE
+EXTRN _lastDrawX:BYTE
+EXTRN _prevDrawX:BYTE
+EXTRN _lastDrawY:BYTE
+EXTRN _prevDrawY:BYTE
+EXTRN _popupVisible:BYTE
+EXTRN _primaryHit:BYTE
+EXTRN _missionScore:BYTE
+EXTRN _missionScoreHi:BYTE
+EXTRN _secondaryHit:BYTE
+EXTRN _ejectedFlag:BYTE
+EXTRN _popupX:BYTE
+EXTRN _popupY:BYTE
+EXTRN _worldDataReady:BYTE
+EXTRN _worldStrings:BYTE
+EXTRN _worldStringBuf:BYTE
+EXTRN _worldBufHandle:BYTE
+EXTRN _spriteBufSeg:BYTE
+EXTRN _vgaBufSeg:BYTE
+EXTRN _vgaBufOffset:BYTE
+EXTRN _vgaBufSeg2:BYTE
+EXTRN _colorTablePtr:BYTE
+EXTRN _inputChanged:BYTE
+EXTRN _colorAnimIdx:BYTE
+EXTRN _colorAnimEnabled:BYTE
+EXTRN _joyRepeatFlag:BYTE
+EXTRN _spriteToggle:BYTE
+EXTRN _animDone:BYTE
+EXTRN _curRecordIdx:BYTE
+EXTRN _dat_424e:BYTE
+EXTRN _var_425c:BYTE
+EXTRN _dat_4804:BYTE
+EXTRN _var_192:BYTE
+EXTRN _var_193:BYTE
+EXTRN _slotInfoTable:BYTE
+EXTRN _flightRecords:BYTE
+EXTRN _cursorX:BYTE
+EXTRN _cursorY:BYTE
+EXTRN _hercFlag:BYTE
+EXTRN _hasVgaMode:BYTE
 
     db 000h
 _var_8 db 000h
@@ -4633,15 +4640,6 @@ _var_67 db 000h
     db 000h
 _var_68 db 000h
     db 000h
-_str_allocError label byte
-str_allocError db 049h
-    db 06Eh, 073h, 075h, 066h, 066h, 069h, 063h, 069h, 065h, 06Eh, 074h, 020h, 073h, 079h, 073h, 074h
-    db 065h, 06Dh, 020h, 06Dh, 065h, 06Dh, 06Fh, 072h, 079h, 020h, 02Dh, 020h, 041h, 06Ch, 06Ch, 06Fh
-    db 063h, 042h, 075h, 066h, 066h, 065h, 072h, 024h, 000h
-_str_deallocError label byte
-str_deallocError db 042h
-    db 075h, 066h, 066h, 065h, 072h, 020h, 064h, 065h, 061h, 06Ch, 06Ch, 06Fh, 063h, 020h, 065h, 072h
-    db 072h, 06Fh, 072h, 024h, 000h
 _var_timerFlag db 000h
 _timerHandlerInstalled db 000h
 _var_70 db 000h
@@ -4668,54 +4666,6 @@ _timerCounter db 000h
     db 000h
 _timerCounter2 db 000h
 _timerCounter3 db 000h
-_str_emptyRank db 000h
-_str_1stLt db '1st Lieutenant.', 0
-_str_captain db 'Captain.', 0
-_str_major db 'Major.', 0
-_str_ltColonel db 'Lt Colonel.', 0
-_str_colonel db 'Colonel.', 0
-_str_general db 'General.', 0
-_str_afcm db 'Air Force Commendation Medal.', 0
-_str_dfc db 'Distinguished Flying Cross.', 0
-_str_silverStar db 'Silver Star.', 0
-_str_afc db 'Air Force Cross.', 0
-_str_cmoh db 'Congressional Medal of Honor.', 0
-_str_deskPic db 064h
-    db 065h, 073h, 06Bh, 02Eh, 070h, 069h, 063h, 000h
-_str_deskMsg1 db 041h
-    db 066h, 074h, 065h, 072h, 020h, 064h, 069h, 074h, 063h, 068h, 069h, 06Eh, 067h, 020h, 074h, 068h
-    db 072h, 065h, 065h, 020h, 076h, 065h, 072h, 079h, 020h, 065h, 078h, 070h, 065h, 06Eh, 073h, 069h
-    db 076h, 065h, 020h, 061h, 069h, 072h, 063h, 072h, 061h, 066h, 074h, 02Ch, 000h
-_str_deskMsg2 db 079h
-    db 06Fh, 075h, 020h, 061h, 072h, 065h, 020h, 061h, 073h, 073h, 069h, 067h, 06Eh, 065h, 064h, 020h
-    db 061h, 020h, 064h, 065h, 073h, 06Bh, 020h, 06Ah, 06Fh, 062h, 02Eh, 000h
-_str_deathPic db 064h
-    db 065h, 061h, 074h, 068h, 02Eh, 070h, 069h, 063h, 000h
-_str_deathMsg1 db 049h
-    db 06Eh, 020h, 074h, 068h, 065h, 020h, 077h, 061h, 06Bh, 065h, 020h, 06Fh, 066h, 020h, 074h, 068h
-    db 065h, 020h, 068h, 06Fh, 072h, 072h, 069h, 062h, 06Ch, 065h, 020h, 063h, 072h, 061h, 073h, 068h
-    db 02Ch, 000h
-_str_deathMsg2 db 079h
-    db 06Fh, 075h, 072h, 020h, 066h, 061h, 06Dh, 069h, 06Ch, 079h, 020h, 061h, 06Eh, 064h, 020h, 066h
-    db 072h, 069h, 065h, 06Eh, 064h, 073h, 020h, 06Dh, 06Fh, 075h, 072h, 06Eh, 020h, 079h, 06Fh, 075h
-    db 072h, 020h, 06Ch, 06Fh, 073h, 073h, 02Eh, 000h
-_str_promoPic db 070h
-    db 072h, 06Fh, 06Dh, 06Fh, 02Eh, 070h, 069h, 063h, 000h
-_str_promoMsg1 db 046h
-    db 06Fh, 072h, 020h, 079h, 06Fh, 075h, 072h, 020h, 063h, 06Fh, 06Eh, 073h, 069h, 073h, 074h, 065h
-    db 06Eh, 074h, 06Ch, 079h, 020h, 073h, 075h, 063h, 063h, 065h, 073h, 073h, 066h, 075h, 06Ch, 020h
-    db 06Dh, 069h, 073h, 073h, 069h, 06Fh, 06Eh, 073h, 02Ch, 000h
-_str_promoMsg2 db 079h
-    db 06Fh, 075h, 020h, 068h, 061h, 076h, 065h, 020h, 062h, 065h, 065h, 06Eh, 020h, 070h, 072h, 06Fh
-    db 06Dh, 06Fh, 074h, 065h, 064h, 020h, 074h, 06Fh, 020h, 000h
-_str_medalPic db 06Dh
-    db 065h, 064h, 061h, 06Ch, 02Eh, 070h, 069h, 063h, 000h
-_str_medalMsg1 db 046h
-    db 06Fh, 072h, 020h, 079h, 06Fh, 075h, 072h, 020h, 06Fh, 075h, 074h, 073h, 074h, 061h, 06Eh, 064h
-    db 069h, 06Eh, 067h, 020h, 070h, 065h, 072h, 066h, 06Fh, 072h, 06Dh, 061h, 06Eh, 063h, 065h, 02Ch
-    db 020h, 079h, 06Fh, 075h, 020h, 072h, 065h, 063h, 065h, 069h, 076h, 065h, 000h
-_str_medalMsg2 db 074h
-    db 068h, 065h, 020h, 000h
 _ps_var86_target db 000h, 000h, 000h, 000h
 _awardColor db 007h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h
@@ -4725,153 +4675,15 @@ _awardPage dw offset _ps_var86_target
 _ps_var86_2 db 000h, 000h, 000h, 000h, 009h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h
     dw offset _ps_var86_2
-_rankNames dw offset _str_emptyRank
-    dw offset _str_1stLt
-    dw offset _str_captain
-    dw offset _str_major
-    dw offset _str_ltColonel
-    dw offset _str_colonel
-    dw offset _str_general
 _promoScores dw 05DCh  ; 1500 - first rank score threshold
 _promoThresholds dw 0000h
     dd 6000, 12000, 25000, 50000, 100000
-_medalNames dw offset _str_afcm
-    dw offset _str_dfc
-    dw offset _str_silverStar
-    dw offset _str_afc
-    dw offset _str_cmoh
 _medalScores dw 03E8h  ; 1000 - first medal score threshold
 _medalThresholds dw 0000h
     dd 2500, 4000, 6400, 7800
     db 004h, 003h, 003h, 002h, 007h, 005h, 003h, 002h, 008h, 007h, 004h, 002h, 008h, 006h, 005h
     db 003h
-_dat_1c8e db 006h, 000h, 09Dh, 000h, 0DBh, 000h, 0BDh, 000h, 0D9h, 000h, 093h, 000h, 039h, 000h, 002h
-    db 000h, 078h, 000h, 087h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 08Dh, 000h, 000h
-    db 000h
-_mapViewX1 db 008h
-    db 000h
-_mapViewY1 db 00Ah
-    db 000h
-_mapViewX2 db 0E8h
-    db 000h
-_mapViewY2 db 0B2h
-    db 000h
-_str_pressExit db 050h
-    db 072h, 065h, 073h, 073h, 020h, 053h, 065h, 06Ch, 065h, 063h, 074h, 06Fh, 072h, 020h, 074h, 06Fh
-    db 020h, 065h, 078h, 069h, 074h, 020h, 044h, 065h, 062h, 072h, 069h, 065h, 066h, 069h, 06Eh, 067h
-    db 000h
-_str_dot1 db 08Dh
-    db 000h
-_str_overall1 db 04Fh
-    db 056h, 045h, 052h, 041h, 04Ch, 04Ch, 000h
-_str_missionRating1 db 04Dh
-    db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 052h, 041h, 054h, 049h, 04Eh, 047h, 000h
-_str_dot2 db 080h
-    db 000h
-_str_trainingScore db 084h
-    db 054h, 072h, 061h, 069h, 06Eh, 069h, 06Eh, 067h, 020h, 053h, 063h, 06Fh, 072h, 065h, 000h
-_str_notRecorded db 04Eh
-    db 04Fh, 054h, 020h, 052h, 065h, 063h, 06Fh, 072h, 064h, 065h, 064h, 020h, 021h, 000h
-_str_dot3 db 08Dh
-    db 000h
-_str_careerTotal db 043h
-    db 041h, 052h, 045h, 045h, 052h, 020h, 054h, 04Fh, 054h, 041h, 04Ch, 000h
-_str_dot4 db 080h
-    db 000h
-_str_missionSummary db 04Dh
-    db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 053h, 055h, 04Dh, 04Dh, 041h, 052h, 059h, 000h
-_str_priSecTargets db 050h
-    db 072h, 069h, 02Fh, 053h, 065h, 063h, 020h, 054h, 061h, 072h, 067h, 065h, 074h, 073h, 000h
-_str_otherTargets db 04Fh
-    db 074h, 068h, 065h, 072h, 020h, 054h, 061h, 072h, 067h, 065h, 074h, 073h, 000h
-_str_enemyPlanes db 045h
-    db 06Eh, 065h, 06Dh, 079h, 020h, 050h, 06Ch, 061h, 06Eh, 065h, 073h, 000h
-_str_friendlyTargets db 046h
-    db 072h, 069h, 065h, 06Eh, 064h, 06Ch, 079h, 020h, 054h, 061h, 072h, 067h, 065h, 074h, 073h, 000h
-_str_dot5 db 08Dh
-    db 000h
-_str_overall2 db 04Fh
-    db 056h, 045h, 052h, 041h, 04Ch, 04Ch, 000h
-_str_missionRating2 db 04Dh
-    db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 052h, 041h, 054h, 049h, 04Eh, 047h, 000h
-_str_dot6 db 080h
-    db 000h
-_str_missionEvent db 04Dh
-    db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 045h, 056h, 045h, 04Eh, 054h, 000h
-_str_time db 054h
-    db 049h, 04Dh, 045h, 03Ah, 020h, 080h, 000h
-_str_destroyed4 db 020h
-    db 000h
-_str_destroyed1 db 020h
-    db 064h, 065h, 073h, 074h, 072h, 06Fh, 079h, 065h, 064h, 000h
-_str_destroyed2 db 020h
-    db 064h, 065h, 073h, 074h, 072h, 06Fh, 079h, 065h, 064h, 000h
-_str_shotDown2 db 020h
-    db 000h
-_str_shotDown db 020h
-    db 073h, 068h, 06Fh, 074h, 020h, 064h, 06Fh, 077h, 06Eh, 000h
-_str_destroyed3 db 020h
-    db 064h, 065h, 073h, 074h, 072h, 06Fh, 079h, 065h, 064h, 000h
-_str_rearmed3 db 020h
-    db 000h
-_str_rearmed1 db 020h
-    db 02Dh, 020h, 052h, 065h, 061h, 072h, 06Dh, 065h, 064h, 02Fh, 052h, 065h, 066h, 075h, 065h, 06Ch
-    db 065h, 064h, 000h
-_str_rearmed2 db 020h
-    db 02Dh, 020h, 052h, 065h, 061h, 072h, 06Dh, 065h, 064h, 02Fh, 052h, 065h, 066h, 075h, 065h, 06Ch
-    db 065h, 064h, 000h
-_str_hitBy db 048h
-    db 069h, 074h, 020h, 062h, 079h, 020h, 000h
-_str_missile db 020h
-    db 06Dh, 069h, 073h, 073h, 069h, 06Ch, 065h, 000h
-_str_takeoffPoint db 054h
-    db 061h, 06Bh, 065h, 06Fh, 066h, 066h, 020h, 070h, 06Fh, 069h, 06Eh, 074h, 03Ah, 000h
-_str_missionEnd db 04Dh
-    db 069h, 073h, 073h, 069h, 06Fh, 06Eh, 020h, 065h, 06Eh, 064h, 03Ah, 00Ah, 000h
-_str_crashed db 043h
-    db 072h, 061h, 073h, 068h, 065h, 064h, 000h
-_str_goodBailout db 047h
-    db 06Fh, 06Fh, 064h, 020h, 042h, 061h, 069h, 06Ch, 06Fh, 075h, 074h, 000h
-_str_captured db 043h
-    db 061h, 070h, 074h, 075h, 072h, 065h, 064h, 000h
-_str_bailedDied db 042h
-    db 061h, 069h, 06Ch, 065h, 064h, 020h, 026h, 020h, 044h, 069h, 065h, 064h, 000h
-_str_goodLanding db 047h
-    db 06Fh, 06Fh, 064h, 020h, 04Ch, 061h, 06Eh, 064h, 069h, 06Eh, 067h, 000h
-_str_primaryObj db 08Ch
-    db 050h, 052h, 049h, 04Dh, 041h, 052h, 059h, 020h, 04Fh, 042h, 04Ah, 045h, 043h, 054h, 049h, 056h
-    db 045h, 000h
-_str_secndryObj db 08Ch
-    db 053h, 045h, 043h, 04Eh, 044h, 052h, 059h, 020h, 04Fh, 042h, 04Ah, 045h, 043h, 054h, 049h, 056h
-    db 045h, 000h
-_str_cumulative2 db 08Dh
-    db 000h
-_str_cumulative db 043h
-    db 055h, 04Dh, 055h, 04Ch, 041h, 054h, 049h, 056h, 045h, 000h
-_str_missionRating3 db 04Dh
-    db 049h, 053h, 053h, 049h, 04Fh, 04Eh, 020h, 052h, 041h, 054h, 049h, 04Eh, 047h, 000h
-_str_pressSelect db 080h
-    db 000h
-_str_pressNext db 050h
-    db 072h, 065h, 073h, 073h, 020h, 053h, 065h, 06Ch, 065h, 063h, 074h, 06Fh, 072h, 020h, 066h, 06Fh
-    db 072h, 020h, 06Eh, 065h, 078h, 074h, 020h, 06Dh, 069h, 073h, 073h, 069h, 06Fh, 06Eh, 020h, 065h
-    db 076h, 065h, 06Eh, 074h, 000h
-_str_inFlight db 080h
-    db 049h, 06Eh, 02Dh, 046h, 06Ch, 069h, 067h, 068h, 074h, 000h
-_str_timeLabel db 08Dh
-    db 054h, 049h, 04Dh, 045h, 03Ah, 020h, 080h, 000h
-_str_timeZeros db 080h
-    db 000h
-_str_timeFormat db 030h
-    db 030h, 03Ah, 030h, 030h, 03Ah, 030h, 030h, 000h
-_popupSpriteY db 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 028h, 000h, 028h, 000h, 028h
-    db 000h, 028h, 000h, 028h, 000h, 028h, 000h, 050h, 000h, 050h, 000h, 050h, 000h, 050h, 000h, 050h
-    db 000h, 050h, 000h
-_popupSpriteX db 000h
-    db 000h, 030h, 000h, 060h, 000h, 090h, 000h, 0C0h, 000h, 0F0h, 000h, 000h, 000h, 030h, 000h, 060h
-    db 000h, 090h, 000h, 0C0h, 000h, 0F0h, 000h, 000h, 000h, 030h, 000h, 060h, 000h, 090h, 000h, 0C0h
-    db 000h, 0F0h, 000h
+
 str_libya_spr db 'libya.spr', 0
 str_persian_spr db 'persian.spr', 0
 str_vn_spr db 'vn.spr', 0
@@ -5154,91 +4966,23 @@ dat_3FB2 db 2 dup(?)
 dat_3FB4 db 2 dup(?)
 dat_3FB6 db 2 dup(?)
 dat_3FB8 db 2 dup(?)
-_colorTablePtr db 2 dup(?)
-_inputChanged db 2 dup(?)
-_colorAnimIdx db 2 dup(?)
-_colorAnimEnabled db 2 dup(?)
-_joyRepeatFlag db ?
-_spriteToggle db ?
-_animDone db 2 dup(?)
 _var_3fc6 db 10 dup(?)
-_textBuf db 100 dup(?)
 dat_4034 db 4 dup(?)
-_worldBufHandle db 2 dup(?)
 _gameData db 2 dup(?)
 _var_179 db 4 dup(?)
 dat_4040 db 516 dup(?)
 _var_180 db 2 dup(?)
 dat_4246 db 2 dup(?)
-_samKilled db 2 dup(?)
-_samMissed db 4 dup(?)
-_dat_424e db 8 dup(?)
-_slotInfoTable label byte
-_var_183x db 6 dup(?)
-_var_425c db 1188 dup(?)
-_gridFlags db 256 dup(?)
-_target1Type db 4 dup(?)
-_dat_4804 db 4 dup(?)
-_target1MiscBits db 10 dup(?)
-_target2Type db 8 dup(?)
-_target2MiscBits db 10 dup(?)
-_scoreString db 512 dup(?)
-scoreString equ _scoreString
-_dat_4824 equ _scoreString
-_hasVgaMode db 4 dup(?)
-_curRecordIdx label word
-_var_190x db 2 dup(?)
 dat_4a2a db 720 dup(?)
-_hercFlag db 518 dup(?)
-_var_192 db 2 dup(?)
-_var_193 db 2 dup(?)
-_flightRecords label byte
-_var_194 db ?
-_var_195 db ?
-_var_196 db ?
-_var_197 db 1531 dup(?)
-_selectedMenuItem db 6 dup(?)
-_groundKilled db 2 dup(?)
-_groundMissed db 2 dup(?)
-_missionResult db 3 dup(?)
-_enterPressed db ?
 _var_203 db 2 dup(?)
 dat_5512 db 102 dup(?)
-_unitTypeTable db 100 dup(?)
 _var_205 db 2 dup(?)
 dat_55de db 2 dup(?)
-_worldDataReady db 14 dup(?)
-_ejectedFlag db 2 dup(?)
-_lastDrawX db 2 dup(?)
-_prevDrawX db 2 dup(?)
-_cursorX label byte
-_var_210x db 4 dup(?)
-_lastDrawY db 2 dup(?)
-_cursorY label byte
-_var_212x db 2 dup(?)
-_prevDrawY db 2 dup(?)
-_popupVisible db 2 dup(?)
-_primaryHit db 2 dup(?)
 _var_216 db 6 dup(?)
-PUBLIC _worldStrings
-_worldStrings db 200 dup(?)
-PUBLIC _worldStringBuf
-_worldStringBuf db 750 dup(?)
-_missionScore db 2 dup(?)
-_missionScoreHi db 2 dup(?)
-_secondaryHit db 242 dup(?)
 dat_5ab4 db 2 dup(?)
 _commData db 2 dup(?)
 _commData_seg db 2 dup(?)
-_airKilled db 4 dup(?)
-_airMissed db 2 dup(?)
 _gfxBufSeg db 514 dup(?)
-_popupX db 2 dup(?)
-_popupY db 2 dup(?)
-_spriteBufSeg db 2 dup(?)
-_vgaBufSeg db 2 dup(?)
-_vgaBufOffset db 2 dup(?)
-_vgaBufSeg2 db ?
 
 __bss_end label byte
 
