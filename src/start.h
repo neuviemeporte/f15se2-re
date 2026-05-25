@@ -64,7 +64,6 @@
 #define BDA_EGASW 0x88
 #define TIMEOUT_ADV 0xb4
 #define BDA_CRTC 0x463
-#define STACK_JOYDATA 0xcde
 #define DOS_PRINT_STR 0x9
 #define DOS_ERROR_RMDIR 0x10
 #define DOS_SET_IRQH 0x25

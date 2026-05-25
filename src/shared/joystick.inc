@@ -92,11 +92,28 @@ joyNormDone:
     ret
 normalizeJoyAxis endp
 
-; Dead code: unused inverse of copyJoystickData (reads joy data out to far ptr)
+; TODO: readJoystickData and trailing db 0 below should be included unconditionally
+; (they exist in the original start.exe binary), but adding them changes the code
+; segment size which currently breaks start.exe due to an unknown hardcoded offset
+; dependency. For now, only include for end.exe until the root cause is found.
+IFDEF JOY_INCLUDE_DEAD_CODE
+; Unused inverse of copyJoystickData: copies joystick data out to a far pointer.
 ; Must remain for binary compatibility.
-    db 08Bh, 0DCh, 056h, 057h, 006h, 0BEh
-    dw offset joyMinValues
-    db 0C4h, 07Fh, 004h, 0B9h, 014h, 000h, 0F3h, 0A5h, 007h, 05Fh, 05Eh, 0CBh
+readJoystickData proc far
+    mov bx, sp
+    push si
+    push di
+    push es
+    mov si, offset joyMinValues
+    les di, [bx+4]
+    mov cx, 14h
+    rep movsw
+    pop es
+    pop di
+    pop si
+    retf
+readJoystickData endp
+ENDIF
 
 copyJoystickData proc far
     mov BX,SP
@@ -115,5 +132,4 @@ copyJoystickData proc far
     pop DI
     pop SI
     retf
-    db 0
 copyJoystickData endp

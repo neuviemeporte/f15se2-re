@@ -1012,7 +1012,14 @@ picSlotCounter       EQU _picSlotCounter
 picDictionaryIndex   EQU _dictionaryIndex
 picInitRoutine       EQU nullsub_1
 picReadFileFunc      EQU read512FromFileIntoBuf
-INCLUDE shared/pic.inc
+INCLUDE shared/pic_showpicfile.inc
+INCLUDE shared/pic_decodepic.inc
+; ------------------------------startCode1:0x3585------------------------------
+msg9 db 'decodePicRow(): finished making dict',0
+msg10 db 'decodePicRow(): after doPicDecode',0
+msg11 db 'decodePicRow(): exiting',0
+; ------------------------------startCode1:0x3588------------------------------
+INCLUDE shared/pic_lzw.inc
 _showPicFile EQU showPicFile
 _decodePic EQU decodePic
 ; ------------------------------startCode1:0x3754------------------------------

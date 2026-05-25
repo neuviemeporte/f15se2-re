@@ -539,7 +539,6 @@ TIMEOUT_MPS	 = 78h
 BDA_EGASW	 = 88h
 TIMEOUT_ADV	 = 0B4h
 BDA_CRTC	 = 463h
-STACK_JOYDATA	 = 0CDEh
 
 ; ---------------------------------------------------------------------------
 

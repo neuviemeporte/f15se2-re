@@ -3045,6 +3045,7 @@ joyCenterValues  EQU _var_50
 joyRangeBelow    EQU _var_51
 joyRangeAbove    EQU _var_52
 joyNormAxes      EQU _joyAxisX
+JOY_INCLUDE_DEAD_CODE EQU 1
 INCLUDE shared/joystick.inc
 _pollJoystick equ pollJoystick
 _copyJoystickData equ copyJoystickData
