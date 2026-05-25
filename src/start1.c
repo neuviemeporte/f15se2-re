@@ -100,7 +100,7 @@ void waitMdaCgaStatus(int16 iter)
 }
 
 // 635
-void drawLine(int *pageNum, int x1, int y1, int x2, int y2, int color) {
+void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
     gfx_jump_0e_setCurBuf(*pageNum);
     gfx_jump_21(color);
     lineX1 = x1;

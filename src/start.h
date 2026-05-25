@@ -98,7 +98,7 @@ int joyOrKey();
 // ==== startCode1:0x5d5 ====
 void waitMdaCgaStatus(int);
 // ==== startCode1:0x635 ====
-void drawLine(int *pageNum, int x1, int y1, int x2, int y2, int color);
+void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color);
 // ==== startCode1:0x674 ====
 int showPic640(char *filename);
 // bytes outside routine, potential module boundary at 0x6c7
@@ -179,7 +179,7 @@ void __cdecl gameDataToPilot(struct Pilot *pilot);
 // ==== startCode1:0x2232 ====
 void pilotToGameData(unsigned __int8 *pilotData);
 // ==== startCode1:0x22ec ====
-int __cdecl pilotNameInput(int *, int, int, int, struct Pilot *);
+int __cdecl pilotNameInput(int16 *, int, int, int, struct Pilot *);
 // ==== startCode1:0x24e4 ====
 void loadHallfame(void);
 // ==== startCode1:0x2542 ====
@@ -239,7 +239,7 @@ int unreach_12AE1();
 // ==== startCode1:0x2b1b ====
 int sub_12B1B();
 // ==== startCode1:0x2bba ====
-void __cdecl clearRect(int *buf, int x, int y, int maxx, int maxy);
+void __cdecl clearRect(int16 *buf, int x, int y, int maxx, int maxy);
 // ==== startCode1:0x2c59 ====
 int unreach_12C59();
 // ==== startCode1:0x2c6f ====
@@ -449,7 +449,7 @@ extern char aF15_spr_0[];
 extern char aTemp_wld[];
 extern int16 word_16BE2;
 extern uint8 unk_16BF0[];
-extern int *bufPtr;
+extern int16 *bufPtr;
 extern uint8 unk_16C10[];
 extern uint8 aLibya[];
 extern uint8 aPersianGulf[];
@@ -524,7 +524,7 @@ extern char aMissionType[];
 extern int16 page1Num;
 extern int16 drawColor;
 extern int16 fontIndex;
-extern int *page1NumPtr;
+extern int16 *page1NumPtr;
 extern int16 page2Num;
 extern uint8 unk_1709A[];
 extern int *page2NumPtr;
@@ -623,9 +623,9 @@ extern uint8 unk_173D3[];
 extern int16 textColor;
 extern uint8 unk_173DC[];
 extern int16 word_173DE;
-extern int *screenBuf;
+extern int16 *screenBuf;
 extern uint8 unk_173EA[];
-extern int *pageNumPtr;
+extern int16 *pageNumPtr;
 extern char *ranks[];
 extern unsigned __int8 byte_17412[];
 extern unsigned __int8 byte_1741A[];

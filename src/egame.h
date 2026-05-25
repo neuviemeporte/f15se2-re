@@ -139,7 +139,7 @@ int __cdecl printError(const char *);
 // ==== seg000:0x2faf ====
 int __cdecl strcpyFromDot(char *arg_0, char *arg_2);
 // ==== seg000:0x2fda ====
-int sub_12FDA(uint32 param_0, uint32 param_1);
+int16* sub_12FDA(uint32 param_0, uint32 param_1);
 // ==== seg000:0x3224 ====
 void sub_13224(char *a, int b, char c);
 // ==== seg000:0x3266 ====
@@ -337,7 +337,7 @@ int __cdecl drawSomeStrings(const char *, int, int, int);
 // ==== seg000:0xa0fe ====
 void draw2Strings(const char*, int, int, int);
 // ==== seg000:0xa13a ====
-int __cdecl drawStringCentered(int *, const char *, int, int, int);
+int __cdecl drawStringCentered(int16 *, const char *, int, int, int);
 // ==== seg000:0xa183 ====
 void sub_1A183(int, int, int, int);
 // ==== seg000:0xa1b1 ====
@@ -1514,7 +1514,7 @@ extern int16 word_39402;
 extern int16 word_39604;
 extern int word_39606;
 extern uint8 buf2_3dg[];
-extern int16 word_39808;
+extern int16* word_39808;
 extern uint8 buf1_3dg[];
 extern char byte_3995A;
 extern int16 word_3995C;
@@ -1660,7 +1660,7 @@ extern int16 word_3C09A;
 extern int16 word_3C09C;
 extern int16 word_3C09E;
 extern int16 word_3C0A0;
-extern int16 word_3C0A2[];
+extern char* word_3C0A2[];
 extern int16 word_3C16A;
 extern int16 word_3C16C;
 extern uint8 byte_3C16E[];
@@ -1707,8 +1707,8 @@ extern int16 var_279;
 extern int8 var_83[];
 extern int16 var_282;
 extern int16 var_220;
-extern int *var_564;
-extern int *var_565;
+extern int16 *var_564;
+extern int16 *var_565;
 extern int16 var_569;
 extern int16 var_570;
 extern int16 var_571;
