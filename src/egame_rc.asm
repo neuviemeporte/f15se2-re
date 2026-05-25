@@ -2,6 +2,7 @@
 DOSSEG
 .MODEL SMALL
 EXTRN _placeString:PROC
+EXTRN _process3dg:PROC
 EXTRN _sub_11F3E:PROC
 EXTRN _sub_15411:PROC
 EXTRN _sub_1543B:PROC
@@ -316,6 +317,7 @@ PUBLIC _unk_33E1A
 PUBLIC _unk_34121
 PUBLIC _aPleaseInsertF15DiskB
 PUBLIC _sign3dg
+PUBLIC _word_33BAE
 PUBLIC _buf1_3dg
 PUBLIC _buf2_3dg
 PUBLIC _buf3_3dg
@@ -3168,150 +3170,7 @@ _sub_122B8 equ sub_122B8
 ; ------------------------------seg000:0x26b4------------------------------
 ; ------------------------------seg000:0x273d------------------------------
 ; ------------------------------seg000:0x273e------------------------------
-process3dg proc near
-    push BP
-    mov BP,SP
-    push SI
-    cmp word ptr [BP + 4h],4h
-    jnz LAB_1000_2750
-    add word ptr [BP + 6h],2h
-    add word ptr [BP + 8h],2h
-LAB_1000_2750:
-    cmp word ptr [BP + 6h],0h
-    jl LAB_1000_276f
-    cmp word ptr [BP + 8h],0h
-    jl LAB_1000_276f
-    mov BX,word ptr [BP + 4h]
-    shl BX,1h
-    mov SI,word ptr [BX + offset word_33BAE]
-    cmp word ptr [BP + 6h],SI
-    jge LAB_1000_276f
-    cmp word ptr [BP + 8h],SI
-    jl LAB_1000_2774
-LAB_1000_276f:
-    sub AX,AX
-    jmp LAB_1000_286e
-LAB_1000_2774:
-    mov AX,word ptr [BP + 4h]
-    jmp LAB_1000_284b
-LAB_1000_277a:
-    mov SI,word ptr [BP + 8h]
-    mov CL,3h
-    shl SI,CL
-    mov BX,word ptr [BP + 6h]
-    mov AL,byte ptr [BX + SI + offset _byte_3A900]
-    sub AH,AH
-    jmp LAB_1000_286e
-LAB_1000_278d:
-    mov SI,word ptr [BP + 8h]
-    mov CL,4h
-    shl SI,CL
-    mov BX,word ptr [BP + 6h]
-    mov AL,byte ptr [BX + SI + offset _buf1_3dg]
-    sub AH,AH
-    jmp LAB_1000_286e
-LAB_1000_27a0:
-    mov AX,word ptr [BP + 8h]
-    sar AX,1h
-    sar AX,1h
-    push AX
-    mov AX,word ptr [BP + 6h]
-    sar AX,1h
-    sar AX,1h
-    push AX
-    mov AX,3h
-    push AX
-    call process3dg
-    add SP,6h
-    mov CL,4h
-    shl AX,CL
-    mov SI,word ptr [BP + 8h]
-    and SI,3h
-    shl SI,1h
-    shl SI,1h
-    add SI,AX
-    mov BX,word ptr [BP + 6h]
-    and BX,3h
-    mov AL,byte ptr [BX + SI + offset _buf2_3dg]
-    sub AH,AH
-    jmp LAB_1000_286e
-LAB_1000_27d9:
-    mov AX,word ptr [BP + 8h]
-    sar AX,1h
-    sar AX,1h
-    push AX
-    mov AX,word ptr [BP + 6h]
-    sar AX,1h
-    sar AX,1h
-    push AX
-    mov AX,2h
-    push AX
-    call process3dg
-    add SP,6h
-    mov CL,4h
-    shl AX,CL
-    mov SI,word ptr [BP + 8h]
-    and SI,3h
-    shl SI,1h
-    shl SI,1h
-    add SI,AX
-    mov BX,word ptr [BP + 6h]
-    and BX,3h
-    mov AL,byte ptr [BX + SI + offset _buf3_3dg]
-    sub AH,AH
-    jmp LAB_1000_286e
-LAB_1000_2811:
-    mov AX,word ptr [BP + 8h]
-    sar AX,1h
-    sar AX,1h
-    push AX
-    mov AX,word ptr [BP + 6h]
-    sar AX,1h
-    sar AX,1h
-    push AX
-    mov AX,1h
-    push AX
-    call process3dg
-    add SP,6h
-    mov CL,4h
-    shl AX,CL
-    mov SI,word ptr [BP + 8h]
-    and SI,3h
-    shl SI,1h
-    shl SI,1h
-    add SI,AX
-    mov BX,word ptr [BP + 6h]
-    and BX,3h
-    mov AL,byte ptr [BX + SI + offset _buf4_3dg]
-    sub AH,AH
-    jmp LAB_1000_286e
-    db 0EBh
-    db 23h
-LAB_1000_284b:
-    or AX,AX
-    jz LAB_1000_2811
-    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
-    jz LAB_1000_27d9
-    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
-    jnz LAB_1000_285c
-    jmp LAB_1000_27a0
-LAB_1000_285c:
-    db 3Dh, 03h, 00h ; cmp AX,3h (force imm16 encoding)
-    jnz LAB_1000_2864
-    jmp LAB_1000_278d
-LAB_1000_2864:
-    db 3Dh, 04h, 00h ; cmp AX,4h (force imm16 encoding)
-    jnz LAB_1000_286c
-    jmp LAB_1000_277a
-LAB_1000_286c:
-    jmp LAB_1000_286e
-LAB_1000_286e:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-    nop
-process3dg endp
+process3dg equ _process3dg
 ; ------------------------------seg000:0x2872------------------------------
 ; ------------------------------seg000:0x2fda------------------------------
 sub_12FDA proc near
@@ -20371,6 +20230,7 @@ word_33BA2 dw 1
     db 1
     db 0
 word_33BAC dw 0
+_word_33BAE label word
 word_33BAE dw 400h
     db 0
     db 1

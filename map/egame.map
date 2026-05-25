@@ -45,7 +45,7 @@ sub_12278: seg000 NEAR 2278-2299 R2278-2299 complete
 copySomeMem: seg000 NEAR 229a-22b7 R229a-22b7 complete
 sub_122B8: seg000 NEAR 22b8-26b3 R22b8-26b3
 sub_126B4: seg000 NEAR 26b4-273d R26b4-271d U271e-271f R2720-273d complete
-process3dg: seg000 NEAR 273e-2873 R273e-2848 U2849-284a R284b-2873
+process3dg: seg000 NEAR 273e-2873 R273e-2848 U2849-284a R284b-2873 complete
 load3DAll: seg000 NEAR 2874-2897 R2874-2897 complete
 load3D3: seg000 NEAR 2898-2c81 R2898-2c81 complete
 load3DT: seg000 NEAR 2c82-2e53 R2c82-2e53 complete
