@@ -507,3 +507,15 @@ int16 sub_1D21E(int16 arg_0)
     }
     return p;
 }
+
+int sub_1CFA6(int arg_0, int arg_1) {
+    long a;
+    arg_0 = abs(arg_0);
+    arg_1 = abs(arg_1);
+    if (arg_0 > arg_1)
+        a = (long)(arg_1 >> 1) + (long)arg_0;
+    else
+        a = (long)(arg_0 >> 1) + (long)arg_1;
+    if (a > 0x7FFF) a = 0x7FFF;
+    return (int)a;
+}
