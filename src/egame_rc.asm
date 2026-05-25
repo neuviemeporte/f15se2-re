@@ -141,6 +141,7 @@ EXTRN _selectMissile:PROC
 EXTRN _sub_18A44:PROC
 EXTRN _sub_189AA:PROC
 EXTRN _sub_19DB0:PROC
+EXTRN _sub_19EB6:PROC
 EXTRN _sub_1C1B9:PROC
 EXTRN _sub_1C2F8:PROC
 EXTRN _sub_1C488:PROC
@@ -11150,64 +11151,9 @@ sub_19DB0 equ _sub_19DB0
 
 routine_328 equ _routine_328
 
-; ------------------------------seg000:0x9eb6------------------------------
-sub_19EB6 proc near
-    push BP
-    mov BP,SP
-    push SI
-    cmp word ptr [_word_330C2],0h
-    jnz LAB_1000_9ec3
-    jmp LAB_1000_9f42
-LAB_1000_9ec3:
-    mov AX,word ptr [BP + 4h]
-    mov CX,AX
-    shl AX,1h
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    mov AX,word ptr [BP + 6h]
-    cmp word ptr [SI + offset _word_38202 + 14],AX
-    jz LAB_1000_9f42
-    push AX
-    push word ptr [SI + offset _word_38202 + 14]
-    push word ptr [SI + offset _word_38202 + 12]
-    push word ptr [SI + offset _word_38202 + 10]
-    push word ptr [SI + offset _word_38202 + 8]
-    push word ptr [SI + offset _word_38202 + 6]
-    push word ptr [_var_564]
-    call far ptr gfx_jump_29_switchColor
-    add SP,0eh
-    mov AX,word ptr [BP + 4h]
-    mov CX,AX
-    shl AX,1h
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    mov SI,AX
-    push word ptr [BP + 6h]
-    push word ptr [SI + offset _word_38202 + 14]
-    push word ptr [SI + offset _word_38202 + 12]
-    push word ptr [SI + offset _word_38202 + 10]
-    push word ptr [SI + offset _word_38202 + 8]
-    push word ptr [SI + offset _word_38202 + 6]
-    push word ptr [_var_565]
-    call far ptr gfx_jump_29_switchColor
-    add SP,0eh
-    mov BX,word ptr [BP + 4h]
-    mov AX,BX
-    shl BX,1h
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [BX + offset _word_38202 + 14],AX
-LAB_1000_9f42:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_19EB6 endp
+; sub_19EB6 moved to C
+
+sub_19EB6 equ _sub_19EB6
 ; ------------------------------seg000:0x9f46------------------------------
 ; ------------------------------seg000:0x9fcc------------------------------
 ; _sub_19FCC - now in C (egame1.c)
@@ -19612,10 +19558,11 @@ gfx_jump_28 proc near
 gfx_jump_28 endp
 ; ------------------------------dseg:0xf86------------------------------
 ; ------------------------------dseg:0xf8b------------------------------
-gfx_jump_29_switchColor proc near
+PUBLIC _gfx_jump_29_switchColor
+_gfx_jump_29_switchColor proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_29_switchColor endp
+_gfx_jump_29_switchColor endp
 ; ------------------------------dseg:0xf8b------------------------------
 ; ------------------------------dseg:0xf90------------------------------
 _gfx_jump_2a proc near

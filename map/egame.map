@@ -141,7 +141,7 @@ sub_19DB0: seg000 NEAR 9db0-9e43 R9db0-9e43 complete
 sub_19E44: seg000 NEAR 9e44-9e5c R9e44-9e5c complete
 sub_19E5D: seg000 NEAR 9e5d-9e93 R9e5d-9e93 complete
 sub_19E94: seg000 NEAR 9e94-9eb5 R9e94-9eb5 complete
-sub_19EB6: seg000 NEAR 9eb6-9f46 R9eb6-9f46
+sub_19EB6: seg000 NEAR 9eb6-9f46 R9eb6-9f46 complete
 sub_19FAD: seg000 NEAR 9fad-9fcb R9fad-9fcb complete
 sub_19FCC: seg000 NEAR 9fcc-a02f R9fcc-a02f complete
 sub_1A030: seg000 NEAR a030-a0ca Ra030-a038 Ua039-a0c6 Ra0c7-a0ca assembly
