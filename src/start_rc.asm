@@ -380,27 +380,27 @@ struc_10	ends
 
 Pilot		struc ;	(sizeof=0x20, mappedto_14) ; XREF: startData:hallfameBuf/r
 field_0		db ?			; XREF:	processPilotInput+EB/o
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
+field_1		db ?
+field_2		db ?
+field_3		db ?
+field_4		db ?
+field_5		db ?
+field_6		db ?
+field_7		db ?
+field_8		db ?
+field_9		db ?
+field_A		db ?
+field_B		db ?
+field_C		db ?
+field_D		db ?
+field_E		db ?
+field_F		db ?
+field_10	db ?
+field_11	db ?
+field_12	db ?
+field_13	db ?
+field_14	db ?
+field_15	db ?
 field_16	dd ?
 field_1A	dw ?
 field_1C	db ?
@@ -423,67 +423,67 @@ Plane		ends
 
 TerrainUnk	struc ;	(sizeof=0x40, mappedto_16) ; XREF: startData:terrainPtrUnk/r
 field_0		db ?
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
-		db ? ; undefined
+field_1		db ?
+field_2		db ?
+field_3		db ?
+field_4		db ?
+field_5		db ?
+field_6		db ?
+field_7		db ?
+field_8		db ?
+field_9		db ?
+field_A		db ?
+field_B		db ?
+field_C		db ?
+field_D		db ?
+field_E		db ?
+field_F		db ?
+field_10	db ?
+field_11	db ?
+field_12	db ?
+field_13	db ?
+field_14	db ?
+field_15	db ?
+field_16	db ?
+field_17	db ?
+field_18	db ?
+field_19	db ?
+field_1A	db ?
+field_1B	db ?
+field_1C	db ?
+field_1D	db ?
+field_1E	db ?
+field_1F	db ?
+field_20	db ?
+field_21	db ?
+field_22	db ?
+field_23	db ?
+field_24	db ?
+field_25	db ?
+field_26	db ?
+field_27	db ?
+field_28	db ?
+field_29	db ?
+field_2A	db ?
+field_2B	db ?
+field_2C	db ?
+field_2D	db ?
+field_2E	db ?
+field_2F	db ?
+field_30	db ?
+field_31	db ?
+field_32	db ?
+field_33	db ?
+field_34	db ?
+field_35	db ?
+field_36	db ?
+field_37	db ?
+field_38	db ?
+field_39	db ?
+field_3A	db ?
+field_3B	db ?
+field_3C	db ?
+field_3D	db ?
 field_3E	dw ?
 TerrainUnk	ends
 
@@ -666,46 +666,16 @@ word_16BE2 dw 0
     db 0
     db 0
     db 0Fh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 1
     db 0
-unk_16BF0 db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+unk_16BF0	db 8 dup(0)
 _bufPtr dw offset word_16BE2
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 9
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
 unk_16C10 db 0AAh
     db 0
 aLibya db 'Libya',0
@@ -776,65 +746,27 @@ page1Num dw 1
     db 0
 _drawColor dw 0
     db 0Bh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
 _fontIndex dw 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 8 dup(0)
 _page1NumPtr dw offset page1Num
 page2Num dw 2
-unk_1709A db 0
-    db 0
-    db 0
-    db 0
+unk_1709A	db 4 dup(0)
     db 0Bh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
 _page2NumPtr dw offset page2Num
 unk_170B0 db 3
     db 0
-unk_170B2 db 0
-    db 0
-    db 0
-    db 0
+unk_170B2	db 4 dup(0)
     db 0Bh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
     db 1
     db 0
     db 0
     db 0
-unk_170C0 db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+unk_170C0	db 6 dup(0)
     dw offset unk_170B0
 _missTheaNames dw offset aLibya
     dw offset aPersianGulf ;"Persian Gulf"
@@ -1018,11 +950,7 @@ unk_172CA db 35h
     db 41h
     db 0
 _searchFCB db 0FFh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
     db 8
     db 0
     db 3Fh ;? ; filename to search for
@@ -1036,31 +964,7 @@ _searchFCB db 0FFh
     db 3Fh
     db 3Fh
     db 3Fh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 25 dup(0)
 _diskTransferArea db 85h dup(0)
 _word_1737E dw 0
 a2ndLt_ db '2nd Lt. ',0
@@ -1077,44 +981,17 @@ unk_173D3 db 0
     db 0
     db 0
 _textColor dw 7
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
 unk_173DC db 0
     db 0
 _word_173DE dw 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 8 dup(0)
 _screenBuf dw offset unk_173D2
-unk_173EA db 0
-    db 0
-    db 0
-    db 0
+unk_173EA	db 4 dup(0)
     db 0Ch
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 3
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
 _pageNumPtr dw offset unk_173EA
     db 0
     db 0
@@ -1478,36 +1355,7 @@ _gfx_jump_52 proc near
     dd 0
 _gfx_jump_52 endp
 ; ------------------------------startData:0xc57------------------------------
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 30 dup(0)
 ; ------------------------------startData:0xc7a------------------------------
 _misc_jump_5a_keybuf proc near
     db 0EAh ;jmp far ptr misc_5a_checkKeyBuf
@@ -1536,26 +1384,9 @@ _misc_jump_5e_clearKeyFlags endp
 ; ------------------------------startData:0xc8e------------------------------
     db 0EAh ;jmp far ptr misc_5e_5f_clearKeyFlags
     dd 0
-    db 0
-    db 0
-    db 0
-    db 0
-unk_177EC db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-unk_177F6 db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
+unk_177EC	db 10 dup(0)
+unk_177F6	db 6 dup(0)
 ; ------------------------------startData:0xcac------------------------------
 _audio_jump_64 proc near
     db 0EAh ;jmp far ptr 0:0
@@ -1582,15 +1413,9 @@ unk_17812 db 0
 unk_17813 db 0
 unk_17814 db 0
 unk_17815 db 0EAh
-unk_17816 db 0
-    db 0
-    db 0
-    db 0
+unk_17816	db 4 dup(0)
     db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
 ; ------------------------------startData:0xccf------------------------------
 _audio_jump_6b proc near
     db 0EAh ;jmp far ptr 0:0
@@ -1604,51 +1429,20 @@ _audio_jump_6c proc near
 _audio_jump_6c endp
 ; ------------------------------startData:0xcd4------------------------------
     db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
 _word_1782E dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
 _word_17836 dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
 _word_1783E dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
 _word_17846 dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
 _word_1784E dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
 _word_17856 dw 0
 _word_17858 dw 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
 _joyAxes db 8 dup( 0)
 _word_17866 dw 0
 _word_17868 dw 0
@@ -1731,20 +1525,9 @@ _word_182C2 dw 0
 _word_182C4 dw 0
 _word_182C6 dw 0
 _word_182C8 dw 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
 aNone db 'None',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
 aSa2 db 'SA-2',0
     db 0
     db 0
@@ -1876,57 +1659,21 @@ aIl76 db 'IL76',0
     db 8
     db 0
     db 3
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
     db 32h
     db 0
     db 5
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 11 dup(0)
     db 46h
     db 0
     db 6
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 11 dup(0)
     db 50h
     db 0
     db 7
     db 0
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
     db 64h
     db 0
     db 8
@@ -1936,25 +1683,13 @@ aIl76 db 'IL76',0
     db 4Fh
     db 54h
     db 48h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
     db 0F4h
     db 1
     db 5
     db 0
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
     db 28h
     db 0
     db 3
@@ -2057,15 +1792,7 @@ _planes db 4Dh, 49h, 47h, 2Dh, 32h, 33h, 0, 20h ;field_0 ; 19 items
     dw 3E8h ;field_14
     db 1, 0, 2 dup(0FFh), 12h, 0, 2, 3 dup(0) ;field_16
 aNone_0 db 'None',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
     db 1
     db 0
     db 13h
@@ -2420,11 +2147,7 @@ aLgbomb db 'LGBOMB',0
     db 0Fh
     db 0
 aRtbomb db 'RTBOMB',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
     db 1Dh
     db 0
     db 2
@@ -2432,11 +2155,7 @@ aRtbomb db 'RTBOMB',0
     db 0Fh
     db 0
 aFfbomb db 'FFBOMB',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
     db 1Eh
     db 0
     db 2
@@ -2533,11 +2252,7 @@ aAa10_0 db 'AA-10',0
     db 13h
     db 0
 aEquip_ db 'Equip.',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
     db 1Dh
     db 0
     db 0
@@ -2625,13 +2340,7 @@ aEquip_ db 'Equip.',0
     db 5
     db 0
     db 6
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 8Ah
     db 2
     db 0
@@ -2661,10 +2370,7 @@ aAim120_0 db 'AIM-120',0
     db 0
     db 0
 aAmraam db 'AMRAAM ',0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 16h
     db 0
     db 4
@@ -2673,13 +2379,7 @@ aAgm88a db 'AGM-88A',0
     db 0
     db 0
 aHarm_0 db 'HARM',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 18h
     db 0
     db 4
@@ -2689,10 +2389,7 @@ aAim7m db 'AIM-7M',0
     db 0
     db 0
 aSparrow db 'Sparrow',0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 16h
     db 0
     db 4
@@ -2701,10 +2398,7 @@ aAgm86a db 'AGM-86A',0
     db 0
     db 0
 aHarpoon_0 db 'Harpoon',0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 1Ah
     db 0
     db 1
@@ -2725,34 +2419,21 @@ aGbu12 db 'GBU-12',0
     db 0
     db 0
 aPaveway db 'Paveway',0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 1Ch
     db 0
     db 8
     db 0
 aMk20 db 'Mk 20',0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
 aRockeye db 'Rockeye',0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 1Dh
     db 0
     db 2
     db 0
 aDndl db 'Dndl',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
 aDurandal db 'Durandal',0
     db 0
     db 0
@@ -2765,12 +2446,7 @@ aMk820 db 'Mk 82-0',0
     db 0
     db 0
 aSlick db 'Slick',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
     db 1Eh
     db 0
     db 3
@@ -2779,19 +2455,13 @@ aMk821 db 'Mk 82-1',0
     db 0
     db 0
 aSnakeye db 'Snakeye',0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 1Dh
     db 0
     db 3
     db 0
 aMk20_0 db 'Mk 20',0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
 aRockeyeIi db 'Rockeye II',0
     db 0
     db 1Ch
@@ -2803,10 +2473,7 @@ aMk122 db 'Mk 122',0
     db 0
     db 0
 aFireeye db 'Fireeye',0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 1Eh
     db 0
     db 2
@@ -2824,10 +2491,7 @@ aFuelAir db 'Fuel-Air',0
     db 2
     db 0
 aMk35 db 'Mk 35',0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
 aInCluster db 'IN Cluster',0
     db 0
     db 1Dh
@@ -2850,11 +2514,7 @@ a135Mm db '135 mm',0
     db 0
     db 0
 aCamera db 'Camera',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
     db 0FFh
     db 0FFh
     db 1
@@ -2869,100 +2529,27 @@ aExtraFuel db 'Extra Fuel',0
     db 1
     db 0
 a20Mm db '20 mm',0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
 aGuns db 'Guns',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
     db 1
     db 0
 aSpecial db 'Special',0
     db 0
     db 0
 aEquip db 'Equip',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
     db 26h
     db 0
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 34 dup(0)
     db 2
     db 6
     db 2
     db 0
     db 2
     db 5
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 25 dup(0)
     db 6
     db 2
     db 1
@@ -3009,13 +2596,7 @@ aEquip db 'Equip',0
     db 0
     db 2
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 3
     db 1
     db 3
@@ -3105,34 +2686,7 @@ aEquip db 'Equip',0
     db 0
     db 0
     db 3
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 28 dup(0)
     db 3
     db 0
     db 4
@@ -3146,133 +2700,7 @@ aEquip db 'Equip',0
     db 5
     db 0
     db 3
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 127 dup(0)
     db 3
     db 0
     db 3
@@ -3657,294 +3085,7 @@ aEquip db 'Equip',0
     db 0FFh
     db 0FFh
     db 0FFh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 288 dup(0)
     db 0Fh
     db 0
     db 7
@@ -4244,23 +3385,7 @@ _terrainBuf5 db ?
 _terrainIdxBuf db 0DA6h dup(?)
 _wldReadBuf1 db ?
     db ?
-_gridBuf1 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_gridBuf1	db 17 dup(?)
 _scenarioFoundArr db ?
 byte_1C822 db ?
 byte_1C823 db ?
@@ -4278,42 +3403,7 @@ _needSplash dd ?
     db 208h dup(?)
 _word_1D00A dw ?
     _wldReadBuf6 Buf6Item 13h dup(<?>)
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 36 dup(?)
 _hercFlag db ?
 byte_1D2DD db 0F3h dup(?)
 _dword_1D5D0 dd ?
@@ -4338,18 +3428,7 @@ _readItemSize dw ?
 _wldReadBuf8 db 64h dup( ?)
     db ?
     db ?
-_intRegs db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+_intRegs	db 12 dup(?)
 unk_1DCD2 db ?
     db ?
 _wldReadBuf7 db 64h dup( ?)
@@ -4357,25 +3436,11 @@ _word_1DD38 dw ?
     db ?
     db ?
 _selectedPilotIdx dw ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 12 dup(?)
 _wldReadBuf5Size dw ?
     db ?
     db ?
-_joyReady db ?
-    db ?
-    db ?
-    db ?
+_joyReady	db 4 dup(?)
 _wldOffsets dw 64h dup(?)
 _wldReadBuf11 db 2EEh dup( ?)
     db ?
@@ -4384,16 +3449,10 @@ _wldReadBuf11 db 2EEh dup( ?)
 _word_1E24A dw ?
 byte_1E24C db 0F0h dup(?)
 _wldReadBuf3 dw ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 4 dup(?)
 _commData dd ?
     _hallfameBuf Pilot 8 dup(<?>)
-    db ?
-    db ?
-    db ?
-    db ?
+    db 4 dup(?)
 _menuSprites dw ?
     db 14h dup(?)
 END
