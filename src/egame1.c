@@ -238,8 +238,6 @@ int sub_11E0E() {
     flagFarToNear = 1;
     // 1e1e
     moveStuff();
-    /* TODO: these should be byte_3C16E and &byte_3C16E[var_4+1] but changing
-     * them alters the binary output (hardcoded vs relocated address) */
     word_3C0A2[0] = byte_3C16E;
     var_2 = 1;
     // 1e2c
