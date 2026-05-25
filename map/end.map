@@ -32,7 +32,7 @@ cleanup: Code1 NEAR 0185-01b7 R0185-01b7 complete
 setargv: Code1 NEAR 01b8-01b8 R01b8-01b8 external
 setenvp: Code1 NEAR 01b9-01b9 R01b9-01b9 external
 loadWorldStrings: Code1 NEAR 01ba-020b R01ba-020b complete
-readWorldData: Code1 NEAR 020c-02f4 R020c-02f4 assembly
+readWorldData: Code1 NEAR 020c-02f4 R020c-02f4 complete
 loadWorldData: Code1 NEAR 02f5-0327 R02f5-0327 complete
 setupWorldBufPtr: Code1 NEAR 0328-033c R0328-033c assembly
 readFromWorldBuf: Code1 NEAR 033d-0370 R033d-0370 assembly

@@ -313,6 +313,16 @@ extern char str_pressNext[];
 /* Data symbols used by drawMenuItem */
 #define dat_4824 scoreString
 extern int dat_424e[];
+extern int dat_4246;
+extern int dat_4040;
+extern int dat_5ab4;
+extern int dat_4a2a;
+extern int dat_5512;
+extern int dat_55de;
+extern int dat_4034;
+extern char dat_0042;
+extern int var_203;
+extern int var_216;
 extern int var_425c[];
 extern int dat_4804;
 extern int var_193[];
@@ -388,5 +398,11 @@ void installCBreakHandler(void);
 extern void far copyJoystickData(uint8 far *data);
 extern int far gfx_jump_31(void);
 extern int far gfx_jump_17_bufSize(void);
+extern void far gfx_jump_0_alloc(int param);
+extern void far gfx_jump_0e_setCurBuf(int param);
+extern void far gfx_jump_44_setDac(int param);
+extern void far gfx_jump_4b_storeBufPtr(int param1, int param2);
+extern void far gfx_jump_52(int param);
+extern void far gfx_jump_53(int param);
 
 #endif // F15_SE2_END

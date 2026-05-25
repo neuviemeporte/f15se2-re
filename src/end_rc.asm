@@ -59,6 +59,7 @@ EXTRN _checkQuitFlag:PROC
 EXTRN _routine_5:PROC
 EXTRN _routine_6:PROC
 EXTRN _loadWorldData:PROC
+EXTRN _readWorldData:PROC
 EXTRN _my_itoa:PROC
 EXTRN _my_ltoa:PROC
 EXTRN _blinkWidget:PROC
@@ -153,6 +154,12 @@ EXTRN _str_timeFormat:BYTE
 
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
+PUBLIC _gfx_jump_0_alloc
+PUBLIC _gfx_jump_0e_setCurBuf
+PUBLIC _gfx_jump_44_setDac
+PUBLIC _gfx_jump_4b_storeBufPtr
+PUBLIC _gfx_jump_52
+PUBLIC _gfx_jump_53
 PUBLIC _readFromWorldBuf
 PUBLIC _readFromWorldFile
 PUBLIC _timerHandlerInstalled
@@ -261,110 +268,26 @@ routine_5 equ _routine_5
 
 loadWorldStrings equ _loadWorldStrings
 
-PUBLIC _readWorldData
-_readWorldData:
-readWorldData proc near
-    mov AX,2h
-    push AX
-    mov AX,offset dat_4246
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,2h
-    push AX
-    mov AX,offset _var_203
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,2h
-    push AX
-    mov AX,offset dat_4040
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,2h
-    push AX
-    mov AX,offset dat_5ab4
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,word ptr [_var_203]
-    mov CL,4h
-    shl AX,CL
-    push AX
-    mov AX,offset _dat_424e
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,2h
-    push AX
-    mov AX,offset _var_216
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,24h
-    imul word ptr [_var_216]
-    push AX
-    mov AX,offset dat_4a2a
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,64h
-    push AX
-    mov AX,offset _unitTypeTable
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,64h
-    push AX
-    mov AX,offset dat_5512
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,2eeh
-    push AX
-    mov AX,offset _worldStringBuf
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,100h
-    push AX
-    mov AX,offset _gridFlags
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,2h
-    push AX
-    mov AX,offset dat_55de
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,2h
-    push AX
-    mov AX,offset dat_4034
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,10h
-    push AX
-    mov AX,offset dat_0042
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,24h
-    push AX
-    mov AX,offset _target1Type
-    push AX
-    call _loadWorldData
-    add SP,4h
-    mov AX,600h
-    push AX
-    mov AX,offset _var_193
-    push AX
-    call _loadWorldData
-    add SP,4h
-    ret
-readWorldData endp
+PUBLIC _dat_4034
+_dat_4034 equ dat_4034
+PUBLIC _dat_4040
+_dat_4040 equ dat_4040
+PUBLIC _dat_4246
+_dat_4246 equ dat_4246
+PUBLIC _dat_4a2a
+_dat_4a2a equ dat_4a2a
+PUBLIC _dat_5512
+_dat_5512 equ dat_5512
+PUBLIC _dat_55de
+_dat_55de equ dat_55de
+PUBLIC _dat_5ab4
+_dat_5ab4 equ dat_5ab4
+PUBLIC _dat_0042
+_dat_0042 equ dat_0042
+PUBLIC _var_203
+PUBLIC _var_216
+
+readWorldData equ _readWorldData
 
 routine_71 equ _loadWorldData
 
@@ -4215,6 +4138,7 @@ gfx_jump_0_alloc proc far               ; 0x1008
     db 0EAh
     dd 0
 gfx_jump_0_alloc endp
+_gfx_jump_0_alloc equ gfx_jump_0_alloc
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
     db 000h, 000h, 000h, 000h
 gfx_jump_05_drawString proc far               ; 0x1021
@@ -4233,6 +4157,7 @@ gfx_jump_0e_setCurBuf proc far               ; 0x104E
     db 0EAh
     dd 0
 gfx_jump_0e_setCurBuf endp
+_gfx_jump_0e_setCurBuf equ gfx_jump_0e_setCurBuf
 gfx_jump_0f_getBufPtr proc far               ; 0x1053
     db 0EAh
     dd 0
@@ -4368,6 +4293,7 @@ gfx_jump_44_setDac proc far               ; 0x115C
     db 0EAh
     dd 0
 gfx_jump_44_setDac endp
+_gfx_jump_44_setDac equ gfx_jump_44_setDac
 gfx_jump_45_retrace proc far               ; 0x1161
     db 0EAh
     dd 0
@@ -4384,6 +4310,7 @@ gfx_jump_4b_storeBufPtr proc far               ; 0x117F
     db 0EAh
     dd 0
 gfx_jump_4b_storeBufPtr endp
+_gfx_jump_4b_storeBufPtr equ gfx_jump_4b_storeBufPtr
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
     db 000h, 000h, 000h, 000h
 PUBLIC _gfx_jump_50
@@ -4400,10 +4327,12 @@ gfx_jump_52 proc far               ; 0x11A2
     db 0EAh
     dd 0
 gfx_jump_52 endp
+_gfx_jump_52 equ gfx_jump_52
 gfx_jump_53 proc far               ; 0x11A7
     db 0EAh
     dd 0
 gfx_jump_53 endp
+_gfx_jump_53 equ gfx_jump_53
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
 misc_jump_5a_keybuf proc far               ; 0x11CA
