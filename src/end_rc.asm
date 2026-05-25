@@ -160,8 +160,9 @@ PUBLIC _gfx_jump_44_setDac
 PUBLIC _gfx_jump_4b_storeBufPtr
 PUBLIC _gfx_jump_52
 PUBLIC _gfx_jump_53
-PUBLIC _readFromWorldBuf
-PUBLIC _readFromWorldFile
+PUBLIC _var_151
+PUBLIC _var_152
+
 PUBLIC _timerHandlerInstalled
 PUBLIC _randSeed
 PUBLIC _randState
@@ -303,58 +304,10 @@ setupWorldBufPtr proc near
     ret
 setupWorldBufPtr endp
 
-_readFromWorldBuf:
-readFromWorldBuf proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    push SI
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [BP + -4h],AX
-    mov word ptr [BP + -2h],DS
-    mov AX,word ptr [BP + 6h]
-    imul word ptr [BP + 8h]
-    mov SI,AX
-    push SI
-    push word ptr [BP + -4h]
-    push DS
-    push word ptr [_var_151]
-    push word ptr [_var_152]
-    call routine_140
-    add SP,0ah
-    add word ptr [_var_151],SI
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-readFromWorldBuf endp
-
-_readFromWorldFile:
-readFromWorldFile proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    push SI
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [BP + -4h],AX
-    mov word ptr [BP + -2h],DS
-    mov AX,word ptr [BP + 6h]
-    imul word ptr [BP + 8h]
-    mov SI,AX
-    push SI
-    push word ptr [_var_151]
-    push word ptr [_var_152]
-    push word ptr [BP + -4h]
-    push DS
-    call routine_140
-    add SP,0ah
-    add word ptr [_var_151],SI
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-    db 0C3h
-readFromWorldFile endp
+EXTRN _readFromWorldBuf:PROC
+EXTRN _readFromWorldFile:PROC
+readFromWorldBuf equ _readFromWorldBuf
+readFromWorldFile equ _readFromWorldFile
 
 PUBLIC _clearKeybuf
 _clearKeybuf:
@@ -3563,6 +3516,8 @@ LAB_1000_4c97:
     jmp FUN_1000_4f33
 fileSeek endp
 
+PUBLIC _routine_140
+_routine_140:
 routine_140 proc near
     push BP
     mov BP,SP

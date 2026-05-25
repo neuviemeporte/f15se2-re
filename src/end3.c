@@ -22,8 +22,26 @@ void readWorldData(void) {
 
 void loadWorldData(int destOffset, int size) {
     if (worldDataReady != 0) {
-        readFromWorldBuf(destOffset, size, 1, worldBufHandle);
+        readFromWorldBuf((char *)destOffset, size, 1, worldBufHandle);
     } else {
-        readFromWorldFile(destOffset, size, 1, worldBufHandle);
+        readFromWorldFile((char *)destOffset, size, 1, worldBufHandle);
     }
+}
+
+void readFromWorldBuf(char *dest, int size, int count, int bufHandle) {
+    char far *farDest;
+    register int totalSize;
+    farDest = (char far *)dest;
+    totalSize = size * count;
+    routine_140(var_152, var_151, FP_SEG(farDest), FP_OFF(farDest), totalSize);
+    var_151 += totalSize;
+}
+
+void readFromWorldFile(char *dest, int size, int count, int bufHandle) {
+    char far *farDest;
+    register int totalSize;
+    farDest = (char far *)dest;
+    totalSize = size * count;
+    routine_140(FP_SEG(farDest), FP_OFF(farDest), var_152, var_151, totalSize);
+    var_151 += totalSize;
 }

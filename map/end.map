@@ -35,8 +35,8 @@ loadWorldStrings: Code1 NEAR 01ba-020b R01ba-020b complete
 readWorldData: Code1 NEAR 020c-02f4 R020c-02f4 complete
 loadWorldData: Code1 NEAR 02f5-0327 R02f5-0327 complete
 setupWorldBufPtr: Code1 NEAR 0328-033c R0328-033c assembly
-readFromWorldBuf: Code1 NEAR 033d-0370 R033d-0370 assembly
-readFromWorldFile: Code1 NEAR 0371-03a4 R0371-03a4 assembly
+readFromWorldBuf: Code1 NEAR 033d-0370 R033d-0370 complete
+readFromWorldFile: Code1 NEAR 0371-03a4 R0371-03a4 complete
 clearKeybuf: Code1 NEAR 03a6-03b6 R03a6-03b6 assembly
 waitForKeyOrJoy: Code1 NEAR 03b7-0418 R03b7-0418 complete
 drawStringAt: Code1 NEAR 0442-0468 R0442-0468 complete
