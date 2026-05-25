@@ -71,6 +71,7 @@ EXTRN _sub_19595:PROC
 EXTRN _sub_13A90:PROC
 EXTRN _copySomeMem:PROC
 EXTRN _sub_1CF64:PROC
+EXTRN _sub_1CFA6:PROC
 EXTRN _sub_1D178:PROC
 EXTRN _sub_1D190:PROC
 EXTRN _sub_1D200:PROC
@@ -393,7 +394,7 @@ PUBLIC _word_336F6
 PUBLIC _stru_33402
 PUBLIC _word_33442
 PUBLIC _stru_335C4
-PUBLIC _sub_1CFA6
+
 PUBLIC _sub_1D008
 PUBLIC _var_672
 PUBLIC _var_671
@@ -14994,53 +14995,8 @@ sub_1CB42 endp
 ; ------------------------------seg000:0xcf64------------------------------
 ; _sub_1CF64 - now in C (egame2.c)
 ; ------------------------------seg000:0xcf8d------------------------------
+; _sub_1CFA6 - now in C (egame2.c)
 ; ------------------------------seg000:0xcfa6------------------------------
-_sub_1CFA6 proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    push word ptr [BP + 4h]
-    call _abs
-    add SP,2h
-    mov word ptr [BP + 4h],AX
-    push word ptr [BP + 6h]
-    call _abs
-    add SP,2h
-    mov word ptr [BP + 6h],AX
-    cmp word ptr [BP + 4h],AX
-    jle LAB_1000_cfd4
-    mov AX,word ptr [BP + 4h]
-    cwd
-    mov CX,AX
-    mov AX,word ptr [BP + 6h]
-    jmp LAB_1000_cfdd
-LAB_1000_cfd4:
-    mov AX,word ptr [BP + 6h]
-    cwd
-    mov CX,AX
-    mov AX,word ptr [BP + 4h]
-LAB_1000_cfdd:
-    sar AX,1h
-    mov BX,DX
-    cwd
-    add AX,CX
-    adc DX,BX
-    mov word ptr [BP + -4h],AX
-    mov word ptr [BP + -2h],DX
-    or DX,DX
-    jl LAB_1000_d001
-    jg LAB_1000_cff7
-    cmp AX,7fffh
-    jbe LAB_1000_d001
-LAB_1000_cff7:
-    mov word ptr [BP + -4h],7fffh
-    mov word ptr [BP + -2h],0h
-LAB_1000_d001:
-    mov AX,word ptr [BP + -4h]
-    mov SP,BP
-    pop BP
-    ret
-_sub_1CFA6 endp
 ; ------------------------------seg000:0xd007------------------------------
 ; ------------------------------seg000:0xd008------------------------------
 _sub_1D008 proc near

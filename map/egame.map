@@ -179,10 +179,10 @@ sub_1C8A4: seg000 NEAR c8a4-c8dd Rc8a4-c8dd complete
 load15Flt3d3: seg000 NEAR c8de-c9d1 Rc8de-c9d1 complete
 sub_1C9D2: seg000 NEAR c9d2-cb41 Rc9d2-cb41
 sub_1CB42: seg000 NEAR cb42-cf31 Rcb42-cf31
-sub_1CF32: seg000 NEAR cf32-cf63 Rcf32-cf63
+sub_1CF32: seg000 NEAR cf32-cf63 Rcf32-cf63 complete
 sub_1CF64: seg000 NEAR cf64-cf8d Rcf64-cf8d complete
 forceRange: seg000 NEAR cf8e-cfa5 Rcf8e-cfa5 complete
-sub_1CFA6: seg000 NEAR cfa6-d007 Rcfa6-d007
+sub_1CFA6: seg000 NEAR cfa6-d007 Rcfa6-d007 complete
 sub_1D008: seg000 NEAR d008-d177 Rd008-d177
 sub_1D178: seg000 NEAR d178-d18f Rd178-d18f complete
 sub_1D190: seg000 NEAR d190-d1a5 Rd190-d1a5 complete
