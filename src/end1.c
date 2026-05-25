@@ -2,7 +2,7 @@
 #include "pointers.h"
 #include "debug.h"
 #include "end.h"
-#include "util.h"
+#include "shared/util.h"
 
 uint16 allocBuffer(int size) {
     int segment;

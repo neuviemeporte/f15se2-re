@@ -1286,7 +1286,7 @@ clipDivZeroHandler EQU _var_26
 CALL_GFX_1F MACRO
     call far ptr gfx_jump_1f
 ENDM
-INCLUDE shared_gfx.inc
+INCLUDE shared/gfx.inc
 ; dead code (unreconstructed routines between clearDirtyRects and drawLineWrapper)
 dead_0f3a proc near
     db 8Bh
@@ -1645,7 +1645,7 @@ PUBLIC _restoreCbreakHandler
 cbreakSavedSeg   EQU _var_58
 cbreakSavedOfs   EQU _var_59
 cbreakFlag       EQU _quitFlag
-INCLUDE shared_cbreak.inc
+INCLUDE shared/cbreak.inc
 ; remaining code that was inside the original routine_33 scope
 dead_routine_33 proc near
     db 00h
@@ -2001,49 +2001,46 @@ loadPic equ _loadPic
 
 loadPicFromFileAt equ _loadPicFromFileAt
 
+; --- shared pic decoding routines
+picFileReadPos       EQU _var_62
+picFileReadBuf       EQU dat_1606
+picDecodedRowBuf     EQU dat_1872
+picRowLength         EQU _var_155
+picScreenBufSize     EQU _var_64
+picPageIndex         EQU _var_65
+picRowOffset         EQU _var_66
+picRow               EQU _var_67
+picReadFromFilePtr   EQU _var_68
+picFileHandle        EQU _var_63
+picReadBufEndPtr     EQU _var_153
+picWorkData          EQU dat_2769
+picWorkDataPtr       EQU _var_154
+picProcessFlag       EQU _var_156
+picLookupResult      EQU _var_157
+picFileWord          EQU _var_162
+picRemainingBitCount EQU _var_163
+picByteUnsignedFlag  EQU _var_164
+picByte              EQU _var_159
+picTmp9BitCount      EQU _var_158
+picFileReadBufEnd    EQU _var_160
+picNumberDictSlots   EQU _var_161
+picDecodeDictionary  EQU _var_167
+picDecodeIncrement   EQU _var_168
+picSlotCounter       EQU _var_165
+picDictionaryIndex   EQU _var_166
+picInitRoutine       EQU routine_120
+picReadFileFunc      EQU FUN_1000_1500
+_gfx_jump_33_fillRow EQU gfx_jump_33_fillRow
+_gfx_jump_34_fillRow EQU gfx_jump_34_fillRow
+_gfx_jump_35         EQU gfx_jump_35
+_gfx_jump_36_null    EQU gfx_jump_36_null
+_gfx_jump_38_getPageBuf EQU gfx_jump_38_getPageBuf
+_gfx_jump_3a_getRowOffset EQU gfx_jump_3a_getRowOffset
+_gfx_jump_3b_clearBuf EQU gfx_jump_3b_clearBuf
+
 PUBLIC _showPicFile
 _showPicFile:
-showPicFile proc near
-    push BP
-    mov BP,SP
-    push DI
-    push SI
-    push ES
-    push BP
-    mov AX,offset FUN_1000_1500
-    mov word ptr [_var_68],AX
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [_var_63],AX
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [_var_65],AX
-    call routine_120
-    mov SI,word ptr [_var_65]
-    call far ptr gfx_jump_38_getPageBuf
-    call far ptr gfx_jump_3b_clearBuf
-    mov word ptr [_var_67],0h
-    mov word ptr [_var_64],0fa00h
-LAB_1000_169a:
-    mov DI,word ptr [_var_67]
-    call far ptr gfx_jump_3a_getRowOffset
-    mov word ptr [_var_66],AX
-    call decodePicRow
-    mov DI,word ptr [_var_66]
-    mov BP,offset dat_1872
-    mov BX,word ptr [_var_67]
-    call far ptr gfx_jump_33_fillRow
-    mov DI,word ptr [_var_66]
-    call far ptr gfx_jump_35
-    inc word ptr [_var_67]
-    sub word ptr [_var_64],140h
-    jnz LAB_1000_169a
-    pop BP
-    pop ES
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-showPicFile endp
+INCLUDE shared/pic_showpicfile.inc
 
 _decodePicRaw:
 decodePicRaw proc near
@@ -2130,267 +2127,15 @@ FUN_1000_173e endp
 
 PUBLIC _decodePic
 _decodePic:
-decodePic proc near
-    push BP
-    mov BP,SP
-    push DI
-    push SI
-    push ES
-    push BP
-    mov AX,offset FUN_1000_1500
-    mov word ptr [_var_68],AX
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [_var_63],AX
-    mov AX,word ptr [BP + Stack[4h]+2h]
-    mov ES,AX
-    call far ptr gfx_jump_3b_clearBuf
-    call routine_120
-    mov word ptr [_var_67],0h
-    mov word ptr [_var_64],0fa00h
-LAB_1000_17de:
-    mov DI,word ptr [_var_67]
-    call far ptr gfx_jump_3a_getRowOffset
-    mov word ptr [_var_66],AX
-    call decodePicRow
-    mov DI,word ptr [_var_66]
-    mov BP,offset dat_1872
-    mov BX,word ptr [_var_67]
-    call far ptr gfx_jump_34_fillRow
-    mov DI,word ptr [_var_66]
-    call far ptr gfx_jump_36_null
-    inc word ptr [_var_67]
-    sub word ptr [_var_64],140h
-    jnz LAB_1000_17de
-    pop BP
-    pop ES
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-decodePic endp
+INCLUDE shared/pic_decodepic.inc
 
 routine_120 proc near
     ret
     db 00h
 routine_120 endp
 
-decodePicRow proc near
-    push ES
-    push DS
-    pop ES
-    cld
-    mov SI,word ptr [_var_62]
-    add SI,offset dat_1606
-    shr DI,1h
-    jnz LAB_1000_182f
-    call picReadDataAndMakeDict
-LAB_1000_182f:
-    mov CX,140h
-    mov word ptr [_var_155],CX
-    mov DI,offset dat_1872
-    call routine_145
-    sub SI,offset dat_1606
-    mov word ptr [_var_62],SI
-    pop ES
-    ret
-decodePicRow endp
-
-picReadDataAndMakeDict proc near
-    mov AX,offset dat_1606
-    add AX,200h
-    mov word ptr [_var_153],AX
-    mov AX,offset dat_2769
-    mov word ptr [_var_154],AX
-    mov byte ptr [_var_156],0h
-    mov byte ptr [_var_157],0h
-    cmp SI,word ptr [_var_153]
-    jc LAB_1000_1872
-    push BX
-    push CX
-    push DX
-    call word ptr [_var_68]
-    pop DX
-    pop CX
-    pop BX
-    mov SI,offset dat_1606
-LAB_1000_1872:
-    lodsw
-    mov word ptr [_var_162],AX
-    mov byte ptr [_var_163],8h
-    mov byte ptr [_var_164],1h
-    or AL,AL
-    jns LAB_1000_188a
-    dec byte ptr [_var_164]
-    neg AL
-LAB_1000_188a:
-    mov byte ptr [_var_159],AL
-picReadDataAndMakeDict endp
-
-picMakeDict proc near
-    mov byte ptr [_var_158],9h
-    mov word ptr [_var_160],1ffh
-    mov DX,100h
-    mov word ptr [_var_161],DX
-    mov AX,0ffffh
-    xor BX,BX
-    mov CX,800h
-LAB_1000_18a7:
-    mov word ptr [BX + offset _var_167],AX
-    add BX,3h
-    loop LAB_1000_18a7
-    mov AL,0h
-    xor BX,BX
-    mov CX,100h
-LAB_1000_18b7:
-    mov byte ptr [BX + offset _var_168],AL
-    inc AL
-    add BX,3h
-    loop LAB_1000_18b7
-    ret
-picMakeDict endp
-
-routine_145 proc near
-    cmp byte ptr [_var_164],0h
-    jz LAB_1000_18ce
-    shr word ptr [_var_155],1h
-LAB_1000_18ce:
-    mov AX,word ptr [_var_154]
-    mov word ptr [_var_154],SP
-    mov SP,AX
-    mov DX,word ptr [_var_161]
-LAB_1000_18db:
-    cmp byte ptr [_var_156],0h
-    jnz LAB_1000_1903
-    call dictionaryLookup
-    cmp AL,90h
-    jz LAB_1000_18ef
-    mov byte ptr [_var_157],AL
-    jmp LAB_1000_190a
-    db 90h
-LAB_1000_18ef:
-    call dictionaryLookup
-    or AL,AL
-    jnz LAB_1000_18fe
-    mov AL,90h
-    mov byte ptr [_var_157],AL
-    jmp LAB_1000_190a
-    db 90h
-LAB_1000_18fe:
-    dec AL
-    mov byte ptr [_var_156],AL
-LAB_1000_1903:
-    mov AL,byte ptr [_var_157]
-    dec byte ptr [_var_156]
-LAB_1000_190a:
-    cmp byte ptr [_var_164],0h
-    jz LAB_1000_1927
-    mov AH,AL
-    and AL,0fh
-    shr AH,1h
-    shr AH,1h
-    shr AH,1h
-    shr AH,1h
-    stosw
-    dec word ptr [_var_155]
-    jnz LAB_1000_18db
-    jmp LAB_1000_192e
-    db 90h
-LAB_1000_1927:
-    stosb
-    dec word ptr [_var_155]
-    jnz LAB_1000_18db
-LAB_1000_192e:
-    mov word ptr [_var_161],DX
-    mov AX,word ptr [_var_154]
-    mov word ptr [_var_154],SP
-    mov SP,AX
-    ret
-routine_145 endp
-
-dictionaryLookup proc near
-    pop BP
-    cmp SP,offset dat_2769
-    jz LAB_1000_1946
-LAB_1000_1943:
-    pop AX
-    jmp BP
-LAB_1000_1946:
-    mov BX,word ptr [_var_162]
-    mov CL,10h
-    mov CH,byte ptr [_var_163]
-    sub CL,CH
-    shr BX,CL
-    mov CL,CH
-LAB_1000_1956:
-    cmp CL,byte ptr [_var_158]
-    jge LAB_1000_197c
-    cmp SI,word ptr [_var_153]
-    jc LAB_1000_196f
-    push BX
-    push CX
-    push DX
-    call word ptr [_var_68]
-    pop DX
-    pop CX
-    pop BX
-    mov SI,offset dat_1606
-LAB_1000_196f:
-    lodsw
-    mov word ptr [_var_162],AX
-    shl AX,CL
-    or BX,AX
-    add CL,10h
-    jmp LAB_1000_1956
-LAB_1000_197c:
-    sub CL,byte ptr [_var_158]
-    mov byte ptr [_var_163],CL
-    mov AX,BX
-    and AX,word ptr [_var_160]
-    mov CX,AX
-    cmp AX,DX
-    jl LAB_1000_199a
-    mov CX,DX
-    mov AX,word ptr [_var_165]
-    mov BL,byte ptr [_var_166]
-    push BX
-LAB_1000_199a:
-    mov BX,AX
-    add BX,AX
-    add BX,AX
-    mov AX,word ptr [BX + offset _var_167]
-    inc AX
-    jz LAB_1000_19af
-    dec AX
-    mov BL,byte ptr [BX + offset _var_168]
-    push BX
-    jmp LAB_1000_199a
-LAB_1000_19af:
-    mov AL,byte ptr [BX + offset _var_168]
-    mov byte ptr [_var_166],AL
-    push AX
-    mov BX,DX
-    add BX,DX
-    add BX,DX
-    mov byte ptr [BX + offset _var_168],AL
-    mov AX,word ptr [_var_165]
-    mov word ptr [BX + offset _var_167],AX
-    inc DX
-    cmp DX,word ptr [_var_160]
-    jle LAB_1000_19d8
-    inc byte ptr [_var_158]
-    stc
-    rcl word ptr [_var_160],1h
-LAB_1000_19d8:
-    mov AL,byte ptr [_var_158]
-    cmp AL,byte ptr [_var_159]
-    jle LAB_1000_19e4
-    call picMakeDict
-LAB_1000_19e4:
-    mov word ptr [_var_165],CX
-    jmp LAB_1000_1943
+INCLUDE shared/pic_lzw.inc
     db 00h
-dictionaryLookup endp
 
 allocBuffer equ _allocBuffer
 
@@ -3581,129 +3326,17 @@ LAB_1000_4f70:
 routine_114 endp
 
 
-pollJoystick proc far
+; --- shared joystick routines
+joyRawAxis0      EQU _var_53
+joyRawAxis1      EQU _var_54
+joyMinValues     EQU _var_48
+joyMaxValues     EQU _var_49
+joyCenterValues  EQU _var_50
+joyRangeBelow    EQU _var_51
+joyRangeAbove    EQU _var_52
+joyNormAxes      EQU _joyAxisX
+INCLUDE shared/joystick.inc
 _pollJoystick equ pollJoystick
-    call readJoyPort
-    mov BX,0h
-    call normalizeJoyAxis
-    mov BX,1h
-    call normalizeJoyAxis
-    mov AX,word ptr [_joyAxisX]
-    retf
-pollJoystick endp
-
-readJoyPort proc near
-    push BP
-    xor BX,BX
-    xor BP,BP
-    mov CX,0ffffh
-    mov DX,201h
-    cli
-    out DX,AL
-    jmp LAB_1571_0049
-LAB_1571_0049:
-    jmp LAB_1571_004b
-LAB_1571_004b:
-    in AL,DX
-    and AL,3h
-    jz LAB_1571_005c
-    shr AL,1h
-    adc BX,0h
-    shr AL,1h
-    adc BP,0h
-    loop LAB_1571_004b
-LAB_1571_005c:
-    sti
-    mov word ptr [_var_53],BX
-    mov word ptr [_var_54],BP
-    pop BP
-    ret
-readJoyPort endp
-
-normalizeJoyAxis proc near
-    shl BX,1h
-    mov AX,word ptr [BX + offset _var_53]
-    mov DX,AX
-    sub DX,word ptr [BX + offset _var_50]
-    jc LAB_1571_007c
-    ja LAB_1571_009e
-    mov AH,80h
-    jmp LAB_1571_00bc
-    db 90h
-LAB_1571_007c:
-    neg DX
-    cmp AX,word ptr [BX + offset _var_48]
-    ja LAB_1571_0091
-    mov word ptr [BX + offset _var_48],AX
-    mov word ptr [BX + offset _var_51],DX
-    mov AH,0h
-    jmp LAB_1571_00bc
-    db 90h
-LAB_1571_0091:
-    xor AX,AX
-    div word ptr [BX + offset _var_51]
-    not AX
-    shr AX,1h
-    jmp LAB_1571_00bc
-    db 90h
-LAB_1571_009e:
-    cmp AX,word ptr [BX + offset _var_49]
-    jc LAB_1571_00b1
-    mov word ptr [BX + offset _var_49],AX
-    mov word ptr [BX + offset _var_52],DX
-    mov AH,0ffh
-    jmp LAB_1571_00bc
-    db 90h
-LAB_1571_00b1:
-    xor AX,AX
-    div word ptr [BX + offset _var_52]
-    shr AX,1h
-    add AH,80h
-LAB_1571_00bc:
-    shr BX,1h
-    mov byte ptr [BX + offset _joyAxisX],AH
-    ret
-    db 8Bh
-    db 0DCh
-    db 56h
-    db 57h
-    db 06h
-    db 0BEh
-    db 0CAh
-    db 15h
-    db 0C4h
-    db 7Fh
-    db 04h
-    db 0B9h
-    db 14h
-    db 00h
-    db 0F3h
-    db 0A5h
-    db 07h
-    db 5Fh
-    db 5Eh
-    db 0CBh
-normalizeJoyAxis endp
-
-copyJoystickData proc far
-    mov BX,SP
-    push SI
-    push DI
-    push DS
-    push ES
-    lds SI,dword ptr [BX + 4h]
-    mov DI,offset _var_48
-    push SS
-    pop ES
-    mov CX,14h
-    rep movsw
-    pop ES
-    pop DS
-    pop DI
-    pop SI
-    retf
-    db 00h
-copyJoystickData endp
 _copyJoystickData equ copyJoystickData
 
 

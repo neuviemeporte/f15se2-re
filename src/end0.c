@@ -2,7 +2,7 @@
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
-#include "util.h"
+#include "shared/util.h"
 #include "end.h"
 
 void main(void) {

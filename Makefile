@@ -59,10 +59,10 @@ START_EXE := $(BUILDDIR)/start.exe
 START_CONF := $(CONFDIR)/start_rc.json
 START_BASE := start_rc.asm
 START_ASM := start4.asm $(START_BASE)
-COMMON_SRC := util.c
-COMMON_SRC2 := util2.c
-COMMON_OBJ := $(call cobj,$(BUILDDIR),$(COMMON_SRC))
-COMMON_OBJ2 := $(call cobj,$(BUILDDIR),$(COMMON_SRC2))
+COMMON_SRC := shared/util.c
+COMMON_SRC2 := shared/util2.c
+COMMON_OBJ := $(BUILDDIR)/util.obj
+COMMON_OBJ2 := $(BUILDDIR)/util2.obj
 START_SRC := start0.c start1.c start2.c start3.c startdat.c
 START_BASEHDR = $(SRCDIR)/start.h
 START_COBJ := $(call cobj,$(BUILDDIR),$(START_SRC))
@@ -74,9 +74,19 @@ START_VRF_REFEP := 0x10
 START_VRF_TGTEP := [558bec83ec1c56c706]
 
 $(START_COBJ): $(START_BASEHDR)
-$(COMMON_OBJ) $(COMMON_OBJ2): $(SRCDIR)/util.h
-$(BUILDDIR)/util2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(DEBUGDIR)/util2.obj: MSC_CFLAGS := /Gs /w /Id:\f15-se2 /DDEBUG
+$(COMMON_OBJ) $(COMMON_OBJ2): $(SRCDIR)/shared/util.h
+$(BUILDDIR)/util.obj: $(SRCDIR)/shared/util.c $(HDRS) | $(BUILDDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
+$(BUILDDIR)/util2.obj: $(SRCDIR)/shared/util2.c $(HDRS) | $(BUILDDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
+$(DEBUGDIR)/util.obj: $(SRCDIR)/shared/util.c $(HDRS) | $(DEBUGDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
+$(DEBUGDIR)/util2.obj: $(SRCDIR)/shared/util2.c $(HDRS) | $(DEBUGDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
+$(BUILDDIR)/util2.obj: MSC_CFLAGS := /Gs /I.. /Id:\f15-se2
+$(BUILDDIR)/util.obj: MSC_CFLAGS := /Gs /Zi /I.. /Id:\f15-se2
+$(DEBUGDIR)/util2.obj: MSC_CFLAGS := /Gs /w /I.. /Id:\f15-se2 /DDEBUG
+$(DEBUGDIR)/util.obj: MSC_CFLAGS := /Gs /Zi /I.. /Id:\f15-se2 /DDEBUG
 $(BUILDDIR)/start2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/start4.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 
@@ -87,7 +97,7 @@ $(START_EXE): $(START_OBJ)
 # start.exe debug build
 START_DEBUG := $(DEBUGDIR)/start.exe
 $(START_DEBUG): MSC_CFLAGS += /DDEBUG
-START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC2)) $(DEBUGDIR)/debug.obj
+START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
 $(START_DBG_OBJ): $(START_BASEHDR)
 $(START_DBG_OBJ): UASMFLAGS += -DDEBUG
 $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
@@ -165,7 +175,7 @@ END_VRF_TGTEP := [558bec83ec0e56c746]
 # end.exe debug build
 END_DEBUG := $(DEBUGDIR)/end.exe
 $(END_DEBUG): MSC_CFLAGS += /DDEBUG
-END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC2)) $(DEBUGDIR)/debug.obj
+END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
 $(END_DBG_OBJ): $(END_BASEHDR)
 $(END_DBG_OBJ): UASMFLAGS += -DDEBUG
 $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
@@ -182,7 +192,7 @@ $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
 TEST_EXE := $(DEBUGDIR)/test.exe
 TEST_SRCS := test.c start1.c start2.c start3.c startdat.c
 TEST_ASMS := start4.asm start_rc.asm
-TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC2)) $(DEBUGDIR)/debug.obj
+TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
 TEST_LIBS := slibce.lib
 
 $(TEST_EXE): MSC_CFLAGS := /Gs /w /Id:\f15-se2 /DDEBUG

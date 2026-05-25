@@ -25,7 +25,7 @@ OVL_HDR_SLOTCOUNT  = 22h
 OVL_HDR_FIRSTPTR  = 24h
 OVL_HDR_CODESEG	 = 18h
 FILE_READBUF_SIZE  = 200h
-STACK_JOYDATA	 = 0CDEh
+
 
 IFDEF DEBUG
     EXTRN _my_fartrace:PROC
@@ -1062,7 +1062,7 @@ clipDivZeroHandler EQU _byte_19ADB
 CALL_GFX_1F MACRO
     call _gfx_jump_1f
 ENDM
-INCLUDE shared_gfx.inc
+INCLUDE shared/gfx.inc
 ; ------------------------------startCode1:0x2f8a------------------------------
 ; ------------------------------startCode1:0x2f8a------------------------------
 ; ------------------------------startCode1:0x2fac------------------------------
@@ -1070,7 +1070,7 @@ INCLUDE shared_gfx.inc
 cbreakSavedSeg   EQU _origCBreakSeg
 cbreakSavedOfs   EQU _origCBreakOfs
 cbreakFlag       EQU _cbreakHit
-INCLUDE shared_cbreak.inc
+INCLUDE shared/cbreak.inc
 ; ------------------------------startCode1:0x2ffa------------------------------
 ; ------------------------------startCode1:0x311a------------------------------
 _openFile proc near
@@ -1254,357 +1254,38 @@ msg5 db 'showPicFile(): gfx_35 returned',0
 msg6 db 'showPicFile(): ---row %u, rowOffset 0x%x',0
 msg8 db 'showPicFile(): before loop, screenBufSize = 0x%x',0
 
-; ------------------------------startCode1:0x33d0------------------------------
-_showPicFile proc near
-    handle = word ptr 4
-    pageNum = word ptr 6
-    ; 28da:492a
-    push bp
-    mov bp, sp
-    push di
-    push si
-    push es
-    push bp
-IFDEF PICDEBUG
-    trace msg1
-ENDIF
-    mov ax, offset read512FromFileIntoBuf
-    mov _readFromFilePtr, ax
-    mov ax, [bp+handle]
-    mov _tmpFileHandle, ax
-    mov ax, [bp+pageNum]
-    mov _tmpPageIndex, ax
-    call nullsub_1
-    mov si, _tmpPageIndex
-    ; get either vmem addr or allocated page buffer into es
-    call far ptr _gfx_jump_38_getPageBuf
-    call far ptr _gfx_jump_3b_clearBuf ;zeroes out 32000 bytes
-IFDEF PICDEBUG
-    trace msg2
-ENDIF
-    mov _row, 0
-    mov _screenBufSize, 0FA00h
-IFDEF PICDEBUG
-    trace msg8,_screenBufSize
-ENDIF
-nextRow:
-    mov di, _row ;argument for gfx slot
-    call far ptr _gfx_jump_3a_getRowOffset ;returned in ax
-    mov _rowOffset, ax
-IFDEF PICDEBUG
-    trace msg6, _row, _rowOffset
-ENDIF
-    call decodePicRow
-    mov di, _rowOffset
-    mov bp, offset _picDecodedRowBuf ;source for memcpy
-    mov bx, _row
-    call far ptr _gfx_jump_33_fillRow ;destination: es:di (gfx page:rowOffset)
-IFDEF PICDEBUG
-    trace msg3
-ENDIF
-    mov di, _rowOffset
-    call far ptr _gfx_jump_35
-IFDEF PICDEBUG
-    trace msg5
-ENDIF
-    inc _row
-    sub _screenBufSize, 320
-    jnz short nextRow ;argument for gfx slot
-IFDEF PICDEBUG
-    trace msg4
-ENDIF
-    pop bp
-    pop es
-    pop si
-    pop di
-    mov sp, bp
-    pop bp
-    retn
-_showPicFile endp
-; ------------------------------startCode1:0x3441------------------------------
-; ------------------------------startCode1:0x351e------------------------------
-_decodePic proc near
-    handle = word ptr 4
-    buffer = word ptr 6
-    push bp
-    mov bp, sp
-    push di
-    push si
-    push es
-    push bp
-    mov ax, offset read512FromFileIntoBuf
-    mov _readFromFilePtr, ax
-    mov ax, [bp+handle]
-    mov _tmpFileHandle, ax
-    mov ax, [bp+buffer]
-    mov es, ax
-    call far ptr _gfx_jump_3b_clearBuf ;zeroes out 32000 bytes
-    call nullsub_1
-    mov _row, 0
-    mov _screenBufSize, 0FA00h
-loc_1354A:
-    mov di, _row
-    call far ptr _gfx_jump_3a_getRowOffset ;returned in ax
-    mov _rowOffset, ax
-    call decodePicRow
-    mov di, _rowOffset
-    mov bp, offset _picDecodedRowBuf
-    mov bx, _row
-    call far ptr _gfx_jump_34_fillRow
-    mov di, _rowOffset
-    call far ptr _gfx_jump_36_null
-    inc _row
-    sub _screenBufSize, 320
-    jnz short loc_1354A
-    pop bp
-    pop es
-    pop si
-    pop di
-    mov sp, bp
-    pop bp
-    retn
-_decodePic endp
-; ------------------------------startCode1:0x3585------------------------------
-
-msg9 db 'decodePicRow(): finished making dict',0
-msg10 db 'decodePicRow(): after doPicDecode',0
-msg11 db 'decodePicRow(): exiting',0
-
-; ------------------------------startCode1:0x3588------------------------------
-decodePicRow proc near
-    push es
-    push ds
-    pop es
-    cld
-    mov si, _fileReadPos
-    add si, offset _fileReadBuf
-    shr di, 1 ;di: row /2?
-    jnz short rowNonZero
-    ; otherwise (row zero), initialize dictionary for decode?
-    call picReadDataAndMakeDict
-IFDEF PICDEBUG
-    trace msg9
-ENDIF
-rowNonZero:
-    mov cx, 320
-    mov _picRowLength, cx
-    mov di, offset _picDecodedRowBuf
-    call doPicDecode
-IFDEF PICDEBUG
-    trace msg10
-ENDIF
-    sub si, offset _fileReadBuf
-    mov _fileReadPos, si ;reset buf ptr to beginning
-    pop es
-IFDEF PICDEBUG
-    trace msg11
-ENDIF
-    retn
-decodePicRow endp
-; ------------------------------startCode1:0x35b1------------------------------
-; ------------------------------startCode1:0x35b2------------------------------
-picReadDataAndMakeDict proc near
-    mov ax, offset _fileReadBuf
-    add ax, FILE_READBUF_SIZE
-    mov _readBufEndPtr, ax
-    mov ax, offset _picWorkData
-    mov _picWorkDataPtr, ax
-    mov _picProcessFlag0_1, 0
-    mov _picLookupResult, 0
-    ; si: index to unprocessed data? if not at end then don't read more?
-    cmp si, _readBufEndPtr
-    jb short siBelowBufEnd ;otherwise (at end) read more data into buffer
-    push bx
-    push cx
-    push dx
-    call _readFromFilePtr ;read from file into static buffer
-    pop dx
-    pop cx
-    pop bx
-    mov si, offset _fileReadBuf ;reseat si to buffer start
-siBelowBufEnd:
-    lodsw ;ds:si -> ax
-    mov _picFileWord, ax
-    mov _picRemainingBitCount, 8
-    mov _picByteUnsignedFlag, 1
-    or al, al ;update flags based on al contents
-    ; check if symbol has sign bit set: literal or LZW sequence?
-    jns short picByteUnsigned
-    dec _picByteUnsignedFlag ;byte has sign set, clear flag
-    neg al
-picByteUnsigned:
-    mov _picByte, al ;continues to next routine
-picReadDataAndMakeDict endp
-; ------------------------------startCode1:0x35f6------------------------------
-; ------------------------------startCode1:0x35f9------------------------------
-picMakeDict proc near
-    mov _picTmp9BitCount, 9
-    mov _picFileReadBufEnd, 1FFh
-    mov dx, 256
-    mov _picNumberDictSlots, dx
-    mov ax, 0FFFFh
-    xor bx, bx
-    mov cx, 2048
-fillFF:
-    mov _picDecodeDictionary[bx], ax ;make a pattern of ff ff 00, ff ff 00, ...
-    add bx, 3
-    loop fillFF ;make a pattern of ff ff 00, ff ff 00, ...
-    mov al, 0
-    xor bx, bx
-    mov cx, 256
-fillSubsequentValues:
-    mov _picDecodeIncrement[bx], al
-    inc al
-    add bx, 3
-    loop fillSubsequentValues ;put 01, 02, 03... in the gaps between the ff's
-    retn
-picMakeDict endp
-; ------------------------------startCode1:0x362e------------------------------
-; ------------------------------startCode1:0x362f------------------------------
-doPicDecode proc near
-    cmp _picByteUnsignedFlag, 0
-    jz short unsigned_loc_1363A
-    shr _picRowLength, 1 ;rowLength / 2, number of words
-unsigned_loc_1363A:
-    mov ax, _picWorkDataPtr
-    mov _picWorkDataPtr, sp
-    mov sp, ax
-    mov dx, _picNumberDictSlots
-lookupLoop:
-    cmp _picProcessFlag0_1, 0
-    jnz short loc_1366F
-    call dictionaryLookup
-dictionaryLookupResCheck: ;magic marker?
-    cmp al, 90h
-    jz short lookupRes90
-    mov _picLookupResult, al
-    jmp short lookupFound
-    nop
-lookupRes90:
-    call dictionaryLookup
-    or al, al
-    jnz short loc_1366A
-    mov al, 90h
-    mov _picLookupResult, al
-    jmp short lookupFound
-    nop
-loc_1366A:
-    dec al
-    mov _picProcessFlag0_1, al
-loc_1366F:
-    mov al, _picLookupResult
-    dec _picProcessFlag0_1
-lookupFound:
-    cmp _picByteUnsignedFlag, 0
-    jz short byteWasSigned ;store literal?
-    mov ah, al
-    and al, 0Fh ;what's the point?
-    shr ah, 1 ;ah / 16, shift out lower nibble
-    shr ah, 1
-    shr ah, 1
-    shr ah, 1
-    stosw ;ax -> es:di, points to picDecodedBuf
-    dec _picRowLength ;count off words
-    jnz short lookupLoop
-    jmp short rowDone
-    nop
-byteWasSigned:
-    stosb ;store literal?
-    dec _picRowLength
-    jnz short lookupLoop
-rowDone:
-    mov _picNumberDictSlots, dx
-    mov ax, _picWorkDataPtr
-    mov _picWorkDataPtr, sp
-    mov sp, ax
-    retn
-doPicDecode endp
-; ------------------------------startCode1:0x36a7------------------------------
-; ------------------------------startCode1:0x36a8------------------------------
-dictionaryLookup proc near
-    pop bp ;pop caller return address
-    cmp sp, offset _picWorkData ;make sure we have the work data buffer in sp
-    jz short workBufOk
-jumpOut:
-    pop ax
-    jmp bp ;synonym for retn
-workBufOk:
-    mov bx, _picFileWord
-    mov cl, 16 ;size of code word, 16 bits?
-    mov ch, _picRemainingBitCount
-    sub cl, ch ;subtract number of bits
-    shr bx, cl
-    mov cl, ch ;remaining number of bits
-; ------------------------------startCode1:0x36c2------------------------------
-processLoop:
-    cmp cl, _picTmp9BitCount
-    jge short tooManyBits
-    cmp si, _readBufEndPtr ;check if read buffer empty
-    jb short skipFileRead
-    push bx
-    push cx
-    push dx
-    call _readFromFilePtr
-    pop dx
-    pop cx
-    pop bx
-    mov si, offset _fileReadBuf ;reseat pointer to file beginning
-skipFileRead:
-    lodsw
-    mov _picFileWord, ax
-    shl ax, cl ;shift the next word from the file by the remaining amount of bits
-    or bx, ax
-    add cl, 16 ;add 16 bits to the counter
-; ------------------------------startCode1:0x36e6------------------------------
-jmp short processLoop
-tooManyBits:
-    sub cl, _picTmp9BitCount
-    mov _picRemainingBitCount, cl
-    mov ax, bx
-    and ax, _picFileReadBufEnd
-    mov cx, ax
-    cmp ax, dx ;compare to the number of dictionary slots
-    jl short withinDictionary
-    mov cx, dx
-    mov ax, _picSlotCounter
-    mov bl, _dictionaryIndex
-    push bx
-withinDictionary:
-    mov bx, ax
-    add bx, ax
-    add bx, ax
-    mov ax, _picDecodeDictionary[bx] ;initially ffff
-    inc ax
-    jz short dictValNull ;if ffff
-    dec ax
-    mov bl, _picDecodeIncrement[bx]
-    push bx
-    jmp short withinDictionary
-dictValNull:
-    mov al, _picDecodeIncrement[bx] ;al = 00..ff index from dictionary
-    mov _dictionaryIndex, al
-    push ax
-    mov bx, dx ;bx *= 3, past the dictionary?
-    add bx, dx
-    add bx, dx
-    mov _picDecodeIncrement[bx], al
-    mov ax, _picSlotCounter
-    mov _picDecodeDictionary[bx], ax
-    inc dx ;makes it go past the allocated 01..ff slots?
-    cmp dx, _picFileReadBufEnd
-    jle short slotCountNotPastBufEnd
-    inc _picTmp9BitCount
-    stc
-    rcl _picFileReadBufEnd, 1
-slotCountNotPastBufEnd:
-    mov al, _picTmp9BitCount
-    cmp al, _picByte
-    jle short done
-    call picMakeDict ;looks like a dictionary for LZW decoding?
-done:
-    mov _picSlotCounter, cx
-    jmp jumpOut ;jump out of routine?
-dictionaryLookup endp
+; --- shared pic decoding routines
+picFileReadPos       EQU _fileReadPos
+picFileReadBuf       EQU _fileReadBuf
+picDecodedRowBuf     EQU _picDecodedRowBuf
+picRowLength         EQU _picRowLength
+picScreenBufSize     EQU _screenBufSize
+picPageIndex         EQU _tmpPageIndex
+picRowOffset         EQU _rowOffset
+picRow               EQU _row
+picReadFromFilePtr   EQU _readFromFilePtr
+picFileHandle        EQU _tmpFileHandle
+picReadBufEndPtr     EQU _readBufEndPtr
+picWorkData          EQU _picWorkData
+picWorkDataPtr       EQU _picWorkDataPtr
+picProcessFlag       EQU _picProcessFlag0_1
+picLookupResult      EQU _picLookupResult
+picFileWord          EQU _picFileWord
+picRemainingBitCount EQU _picRemainingBitCount
+picByteUnsignedFlag  EQU _picByteUnsignedFlag
+picByte              EQU _picByte
+picTmp9BitCount      EQU _picTmp9BitCount
+picFileReadBufEnd    EQU _picFileReadBufEnd
+picNumberDictSlots   EQU _picNumberDictSlots
+picDecodeDictionary  EQU _picDecodeDictionary
+picDecodeIncrement   EQU _picDecodeIncrement
+picSlotCounter       EQU _picSlotCounter
+picDictionaryIndex   EQU _dictionaryIndex
+picInitRoutine       EQU nullsub_1
+picReadFileFunc      EQU read512FromFileIntoBuf
+INCLUDE shared/pic.inc
+_showPicFile EQU showPicFile
+_decodePic EQU decodePic
 ; ------------------------------startCode1:0x3754------------------------------
 ; ------------------------------startCode1:0x37b4------------------------------
 _dos_alloc proc near
@@ -1637,138 +1318,18 @@ loc_137D0:
 _dos_alloc endp
 ; ------------------------------startCode1:0x37d9------------------------------
 ; ------------------------------startCode2:0x2f------------------------------
-_pollJoystick proc far
-    call readJoyPort
-loc_16A82:
-    mov bx, 0
-loc_16A85:
-    call normalizeJoyAxis
-loc_16A88:
-    mov bx, 1
-loc_16A8B:
-    call normalizeJoyAxis
-loc_16A8E: ;normalizeJoyAxis puts some value there
-    mov ax, word ptr _joyAxes
-    retf
-_pollJoystick endp
-
-;startCode2	segment	byte public 'CODE'
-; ------------------------------startCode2:0x41------------------------------
-; ------------------------------startCode2:0x42------------------------------
-readJoyPort proc near
-    push bp
-loc_16A93:
-    xor bx, bx
-    xor bp, bp
-loc_16A97:
-    mov cx, 0FFFFh
-loc_16A9A:
-    mov dx, 201h
-    cli
-loc_16A9E: ;Game I/O port
-    out dx, al ;bits 0-3: Coordinates (resistive, time-dependent inputs)
-    jmp short $+2
-    jmp short $+2
-loc_16AA3:
-    in al, dx ;Game I/O port
-    and al, 3
-    jz short loc_16AB4
-    shr al, 1
-    adc bx, 0
-    shr al, 1
-loc_16AAF:
-    adc bp, 0
-    loop loc_16AA3
-loc_16AB4:
-    sti
-    mov _word_17856, bx
-loc_16AB9:
-    mov _word_17858, bp
-loc_16ABD:
-    pop bp
-    retn
-readJoyPort endp
-; ------------------------------startCode2:0x6e------------------------------
-; ------------------------------startCode2:0x6f------------------------------
-normalizeJoyAxis proc near
-    shl bx, 1
-loc_16AC1:
-    mov ax, _word_17856[bx]
-    mov dx, ax
-loc_16AC7:
-    sub dx, _word_1783E[bx]
-    jb short loc_16AD4
-loc_16ACD:
-    ja short loc_16AF6
-loc_16ACF:
-    mov ah, 80h
-loc_16AD1:
-    jmp short done_16B14
-    nop
-loc_16AD4:
-    neg dx
-loc_16AD6:
-    cmp ax, _word_1782E[bx]
-    ja short loc_16AE9
-loc_16ADC:
-    mov _word_1782E[bx], ax
-loc_16AE0:
-    mov _word_17846[bx], dx
-    mov ah, 0
-    jmp short done_16B14
-    nop
-loc_16AE9:
-    xor ax, ax
-    div _word_17846[bx]
-loc_16AEF:
-    not ax
-    shr ax, 1
-    jmp short done_16B14
-    nop
-loc_16AF6:
-    cmp ax, _word_17836[bx]
-    jb short loc_16B09
-loc_16AFC:
-    mov _word_17836[bx], ax
-    mov _word_1784E[bx], dx
-loc_16B04:
-    mov ah, 0FFh
-    jmp short done_16B14
-    nop
-loc_16B09:
-    xor ax, ax
-    div _word_1784E[bx]
-loc_16B0F:
-    shr ax, 1
-    add ah, 80h
-done_16B14:
-    shr bx, 1
-loc_16B16:
-    mov _joyAxes[bx], ah
-    retn
-normalizeJoyAxis endp
-; ------------------------------startCode2:0xca------------------------------
-; ------------------------------startCode2:0xdf------------------------------
-_copyJoystickData proc far
-    mov bx, sp ;stack pointer to bx
-    push si
-loc_16B32:
-    push di
-    push ds
-    push es
-    lds si, [bx+4] ;take far pointer argument off the stack, set as source
-    mov di, STACK_JOYDATA
-loc_16B3B:
-    push ss
-    pop es
-    mov cx, 14h
-    rep movsw ;copy 20 bytes from argument address to ss:cde
-    pop es
-    pop ds
-    pop di
-    pop si
-    retf
-_copyJoystickData endp
+; --- shared joystick routines
+joyRawAxis0      EQU _word_17856
+joyRawAxis1      EQU _word_17858
+joyMinValues     EQU _word_1782E
+joyMaxValues     EQU _word_17836
+joyCenterValues  EQU _word_1783E
+joyRangeBelow    EQU _word_17846
+joyRangeAbove    EQU _word_1784E
+joyNormAxes      EQU _joyAxes
+INCLUDE shared/joystick.inc
+_pollJoystick equ pollJoystick
+_copyJoystickData equ copyJoystickData
 ; ------------------------------startCode2:0xf6------------------------------
 
 
