@@ -50,6 +50,7 @@ EXTRN _sub_21A7A:PROC
 EXTRN _sub_13922:PROC
 EXTRN _sub_13932:PROC
 EXTRN _sub_1CF8E:PROC
+EXTRN _sub_1CF32:PROC
 
 EXTRN _sub_11BFD:PROC
 EXTRN _sub_11BC3:PROC
@@ -200,7 +201,6 @@ PUBLIC _word_3B146
 PUBLIC _word_33704
 PUBLIC _word_39808
 PUBLIC _sub_12FDA
-PUBLIC _sub_1CF32
 PUBLIC _var_197
 PUBLIC _var_198
 PUBLIC _byte_3419F
@@ -656,6 +656,7 @@ sub_1C7EA equ _sub_1C7EA
 sub_1C82D equ _sub_1C82D
 sub_1C864 equ _sub_1C864
 sub_1C8A4 equ _sub_1C8A4
+sub_1CF32 equ _sub_1CF32
 forceRange equ _sub_1CF8E
 randlmul equ _sub_1D200
 selectMissile equ _selectMissile
@@ -14989,30 +14990,6 @@ LAB_1000_cf2c:
 sub_1CB42 endp
 ; ------------------------------seg000:0xcf30------------------------------
 ; ------------------------------seg000:0xcf32------------------------------
-sub_1CF32 proc near
-_sub_1CF32 equ sub_1CF32
-    push BP
-    mov BP,SP
-    test word ptr [BP + 4h],100h
-    jz LAB_1000_cf4a
-    mov BX,word ptr [BP + 4h]
-    and BX,7fh
-    shl BX,1h
-    mov AX,word ptr [BX + offset _buf3d3]
-    pop BP
-    ret
-LAB_1000_cf4a:
-    mov BX,word ptr [BP + 4h]
-    shl BX,1h
-    mov BX,word ptr [BX + offset _flt15_buf1]
-    lea AX,[BX + 0add4h]
-    mov DX,228dh
-    mov CX,0h
-    mov BX,228dh
-    sub AX,CX
-    pop BP
-    ret
-sub_1CF32 endp
 ; ------------------------------seg000:0xcf63------------------------------
 ; ------------------------------seg000:0xcf64------------------------------
 ; _sub_1CF64 - now in C (egame2.c)
