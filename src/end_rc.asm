@@ -780,68 +780,8 @@ FUN_1000_0b5c endp
 
 PUBLIC _intDispatch
 _intDispatch:
-intDispatch proc near
-    push BP
-    mov BP,SP
-    push SI
-    push DI
-    push AX
-    push BX
-    push CX
-    push DX
-    mov DI,word ptr [BP + 6h]
-    mov AX,word ptr [DI]
-    mov BX,word ptr [DI + 2h]
-    mov CX,word ptr [DI + 4h]
-    mov DX,word ptr [DI + 6h]
-    cmp word ptr [BP + 4h],10h
-    jz LAB_1000_0bb9
-    cmp word ptr [BP + 4h],21h
-    jz LAB_1000_0bbe
-    cmp word ptr [BP + 4h],16h
-    jz LAB_1000_0bc3
-    cmp word ptr [BP + 4h],1ah
-    jz LAB_1000_0bc8
-    jmp LAB_1000_0bcd
-    db 90h
-LAB_1000_0bb9:
-    int 10h
-    jmp LAB_1000_0bd4
-    db 90h
-LAB_1000_0bbe:
-    int 21h
-    jmp LAB_1000_0bd4
-    db 90h
-LAB_1000_0bc3:
-    int 16h
-    jmp LAB_1000_0bd4
-    db 90h
-LAB_1000_0bc8:
-    int 1Ah
-    jmp LAB_1000_0bd4
-    db 90h
-LAB_1000_0bcd:
-    sub AX,AX
-    not AX
-    jmp LAB_1000_0be2
-    db 90h
-LAB_1000_0bd4:
-    mov DI,word ptr [BP + 8h]
-    mov word ptr [DI],AX
-    mov word ptr [DI + 2h],BX
-    mov word ptr [DI + 4h],CX
-    mov word ptr [DI + 6h],DX
-LAB_1000_0be2:
-    pop DX
-    pop CX
-    pop BX
-    pop AX
-    pop DI
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-intDispatch endp
+; --- shared interrupt dispatch routine
+INCLUDE shared/overlay_dispatch.inc
 
 routine_87 proc near
     push BP
@@ -1008,69 +948,15 @@ routine_116 endp
 
 PUBLIC _dos_printstring
 _dos_printstring:
-dos_printstring proc near
-    push BP
-    mov BP,SP
-    mov AH,9h
-    mov DX,word ptr [BP + Stack[2h]+2h]
-    int 21h
-    pop BP
-    ret
-    db 00h
-    db 00h
-dos_printstring endp
+; --- shared DOS print string routine
+INCLUDE shared/file_printstring.inc
 
 PUBLIC _setupOverlaySlots
 _setupOverlaySlots:
-setupOverlaySlots proc near
-    push BP
-    mov BP,SP
-    push DI
-    push SI
-    push ES
-    push DS
-    push BP
-    mov DX,word ptr [BP + 4h]
-    mov byte ptr [_var_25],0h
-    jmp LAB_1000_0d2f
-    db 90h
-    db 0C6h
-    db 06h
-    db 0E8h
-    db 0Fh
-    db 01h
-LAB_1000_0d2f:
-    mov ES,DX
-    mov BX,offset gfx_jump_0_alloc
-    mov DI,1ch
-    mov AX,word ptr ES:[DI]
-    mov DL,5h
-    mul DL
-    add BX,AX
-    mov DI,22h
-    mov CX,word ptr ES:[DI]
-    mov SI,24h
-    mov DI,18h
-    mov DI,word ptr ES:[DI]
-LAB_1000_0d4f:
-    mov AX,word ptr ES:[SI]
-    mov word ptr [BX + 1h],AX
-    mov word ptr [BX + 3h],DI
-    add SI,2h
-    add BX,5h
-    loop LAB_1000_0d4f
-    cmp byte ptr [_var_25],0h
-    jnz LAB_1000_0d6f
-    pop BP
-    pop DS
-    pop ES
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-LAB_1000_0d6f:
-    ret
-setupOverlaySlots endp
+; --- shared overlay slot setup routine
+ovlInsaneFlag    EQU _var_25
+ovlJumpTable     EQU gfx_jump_0_alloc
+INCLUDE shared/overlay_slots.inc
 
 FUN_1000_0d70 proc near
     push BP
@@ -1686,51 +1572,13 @@ readFileAtEx equ _readFileAtEx
 
 PUBLIC _openFile
 _openFile:
-openFile proc near
-    push BP
-    mov BP,SP
-    push DI
-    push SI
-    push ES
-    push BP
-    mov AH,3dh
-    mov AL,byte ptr [BP + Stack[4h]+2h]
-    mov BX,SS
-    mov DS,BX
-    mov DX,word ptr [BP + Stack[2h]+2h]
-    int 21h
-    jnc LAB_1000_13f7
-    db 3Dh, 02h, 00h  ; cmp AX,02h (force word-immediate)
-    jnz LAB_1000_13d6
-LAB_1000_13ca:
-    mov BX,word ptr [BP + Stack[2h]+2h]
-    mov AX,offset str_fileNotFound
-    mov CX,0ffffh
-    jmp FUN_1000_156a
-LAB_1000_13d6:
-    db 3Dh, 03h, 00h  ; cmp AX,03h (force word-immediate)
-    jz LAB_1000_13ca
-    db 3Dh, 04h, 00h  ; cmp AX,04h (force word-immediate)
-    jnz LAB_1000_13ec
-    mov CX,0ffffh
-    mov BX,word ptr [BP + Stack[2h]+2h]
-    mov AX,offset str_noFileBufs
-    jmp FUN_1000_156a
-LAB_1000_13ec:
-    mov CX,AX
-    mov AX,offset str_openError
-    mov BX,word ptr [BP + Stack[2h]+2h]
-    jmp FUN_1000_156a
-LAB_1000_13f7:
-    mov word ptr [_var_62],200h
-    pop BP
-    pop ES
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-openFile endp
+; --- shared open file routine
+fileNotFoundStr  EQU str_fileNotFound
+fileNoBufsStr    EQU str_noFileBufs
+fileOpenErrorStr EQU str_openError
+fileReadPosVar   EQU _var_62
+fileErrorExit    EQU FUN_1000_156a
+INCLUDE shared/file_open.inc
 
 PUBLIC _openFileRaw
 _openFileRaw:
@@ -1782,30 +1630,10 @@ openFileRaw endp
 
 PUBLIC _fileClose
 _fileClose:
-fileClose proc near
-    push BP
-    mov BP,SP
-    push DI
-    push SI
-    push ES
-    push BP
-    mov AH,3eh
-    mov BX,word ptr [BP + 4h]
-    int 21h
-    jnc LAB_1000_1475
-    mov DX,offset str_fileCloseError
-    mov CX,0ffffh
-    jmp LAB_1000_1585
-LAB_1000_1475:
-    pop BP
-    pop ES
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-    db 0C3h
-fileClose endp
+; --- shared file close routine
+fileCloseErrorStr EQU str_fileCloseError
+fileCloseErrExit  EQU LAB_1000_1585
+INCLUDE shared/file_close.inc
 
 PUBLIC _readFileRaw
 _readFileRaw:
@@ -1961,37 +1789,11 @@ LAB_1000_1562:
     ret
 readFileAtExRaw endp
 
-FUN_1000_156a proc near
-    push AX
-    mov AX,3h
-    int 10h
-    mov DI,0h
-LAB_1000_1573:
-    cmp byte ptr [BX + DI],0h
-    jz LAB_1000_157b
-    inc DI
-    jmp LAB_1000_1573
-LAB_1000_157b:
-    mov byte ptr [BX + DI],24h
-    mov DX,BX
-    mov AH,9h
-    int 21h
-    pop DX
-LAB_1000_1585:
-    mov AH,9h
-    int 21h
-    cmp CX,-1h
-    jz LAB_1000_15a1
-    add CX,30h
-    mov byte ptr [_var_60],CL
-    mov byte ptr [_var_61],24h
-    mov DX,offset _var_60
-    mov AH,9h
-    int 21h
-LAB_1000_15a1:
-    mov AX,4c00h
-    int 21h
-FUN_1000_156a endp
+; --- shared file error handler
+fileErrorCodeStr EQU _var_60
+INCLUDE shared/file_error.inc
+FUN_1000_156a equ errorDescAndExit
+LAB_1000_1585 equ errorAndExit
 
 openShowPic equ _openShowPic
 
@@ -2143,32 +1945,8 @@ freeBuffer equ _freeBuffer
 
 PUBLIC _dos_alloc
 _dos_alloc:
-dos_alloc proc near
-    push BP
-    mov BP,SP
-    push DI
-    push SI
-    push ES
-    push BP
-    mov AH,48h
-    mov BX,word ptr [BP + Stack[2h]+2h]
-    shr BX,1h
-    shr BX,1h
-    shr BX,1h
-    shr BX,1h
-    test word ptr [BP + Stack[2h]+2h],0fh
-    jz LAB_1000_1a64
-    inc BX
-LAB_1000_1a64:
-    int 21h
-    pop BP
-    pop ES
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-dos_alloc endp
+; --- shared DOS memory allocate routine
+INCLUDE shared/file_alloc.inc
 
 PUBLIC _dos_free
 _dos_free:
@@ -2361,27 +2139,16 @@ LAB_1000_1bed:
     ret
 FUN_1000_1bc3 endp
 
-_setTimerIrqHandler:
-setTimerIrqHandler proc near
-    mov word ptr [_var_74],1h
-    mov word ptr [_var_80],1h
-    mov word ptr [_var_70],0h
-    mov word ptr [_var_71],0h
-    call sub_13DF2
-    mov AH,35h
-    mov AL,8h
-    int 21h
-    mov word ptr CS:[var_2],BX
-    mov word ptr CS:[var_3],ES
-    push DS
-    mov AH,25h
-    mov AL,8h
-    lds DX,CS:dword ptr [var_1]
-    int 21h
-    pop DS
-    mov byte ptr [_timerHandlerInstalled],1h
-    ret
-setTimerIrqHandler endp
+TIMER_VAR_74 EQU <word ptr [_var_74]>
+TIMER_VAR_80 EQU <word ptr [_var_80]>
+TIMER_VAR_70 EQU <word ptr [_var_70]>
+TIMER_VAR_71 EQU <word ptr [_var_71]>
+TIMER_CALIBRATE EQU <sub_13DF2>
+TIMER_ISR_PTR EQU <var_2>
+TIMER_IRQ_ADDR EQU <dword ptr [var_1]>
+TIMER_INSTALLED EQU <byte ptr [_timerHandlerInstalled]>
+INCLUDE shared/timer_setHandler.inc
+setTimerIrqHandler EQU _setTimerIrqHandler
 
 PUBLIC _restoreTimerIrqHandler
 _restoreTimerIrqHandler:
@@ -2610,64 +2377,7 @@ LAB_1000_1dfa:
     ret
 sub_13DF2 endp
 
-manipulateTimer proc near
-    pushf
-    cli
-    xor AX,AX
-    mov ES,AX
-    mov DX,word ptr ES:[463h]
-    add DX,6h
-    cmp DX,3bah
-    jz LAB_1000_1e36
-    xor BX,BX
-LAB_1000_1e21:
-    dec BX
-    jz LAB_1000_1e5c
-    in AL,DX
-    test AL,8h
-    jnz LAB_1000_1e21
-    xor BX,BX
-LAB_1000_1e2b:
-    dec BX
-    jz LAB_1000_1e5c
-    in AL,DX
-    test AL,8h
-    jz LAB_1000_1e2b
-    jmp LAB_1000_1e4a
-    db 90h
-LAB_1000_1e36:
-    xor BX,BX
-LAB_1000_1e38:
-    dec BX
-    jz LAB_1000_1e5c
-    in AL,DX
-    test AL,80h
-    jz LAB_1000_1e38
-    xor BX,BX
-LAB_1000_1e42:
-    dec BX
-    jz LAB_1000_1e5c
-    in AL,DX
-    test AL,80h
-    jnz LAB_1000_1e42
-LAB_1000_1e4a:
-    mov AL,0h
-    out 43h,AL
-    jmp LAB_1000_1e50
-LAB_1000_1e50:
-    in AL,40h
-    jmp LAB_1000_1e54
-LAB_1000_1e54:
-    mov BL,AL
-    in AL,40h
-    jmp LAB_1000_1e5a
-LAB_1000_1e5a:
-    mov BH,AL
-LAB_1000_1e5c:
-    mov AX,BX
-    popf
-    ret
-manipulateTimer endp
+INCLUDE shared/timer_manipulate.inc
 
 PUBLIC _getTimeOfDay
 _getTimeOfDay:

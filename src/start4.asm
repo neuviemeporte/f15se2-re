@@ -254,26 +254,15 @@ nullsub_1 proc near
 nullsub_1 endp
 
 ; ------------------------------startCode1:0x185a------------------------------
-_setTimerIrqHandler proc near
-    mov _word_172AE, 1
-    mov _word_172B8, 1
-    mov _word_172A4, 0
-    mov _word_172A6, 0
-    call calibrateTimerSpeed
-    mov ah, 35h
-    mov al, 8
-    int 21h ;DOS - 2+ - GET INTERRUPT VECTOR
-    mov word ptr cs:timerIsrPtr+1, bx
-    mov word ptr cs:timerIsrPtr+3, es
-    push ds
-    mov ah, DOS_SET_IRQH
-    mov al, 8
-    lds dx, cs:timerIrqAddr
-    int 21h ;DOS - SET INTERRUPT VECTOR
-    pop ds
-    mov _timerHandlerInstalled, 1
-    retn
-_setTimerIrqHandler endp
+TIMER_VAR_74 EQU <word ptr _word_172AE>
+TIMER_VAR_80 EQU <word ptr _word_172B8>
+TIMER_VAR_70 EQU <word ptr _word_172A4>
+TIMER_VAR_71 EQU <word ptr _word_172A6>
+TIMER_CALIBRATE EQU <calibrateTimerSpeed>
+TIMER_ISR_PTR EQU <timerIsrPtr+1>
+TIMER_IRQ_ADDR EQU <dword ptr timerIrqAddr>
+TIMER_INSTALLED EQU <_timerHandlerInstalled>
+INCLUDE shared/timer_setHandler.inc
 ; ------------------------------startCode1:0x1897------------------------------
 ; ------------------------------startCode1:0x1898------------------------------
 _restoreTimerIrqHandler proc near
@@ -492,61 +481,7 @@ loc_11A58:
 calibrateTimerSpeed endp
 ; ------------------------------startCode1:0x1a68------------------------------
 ; ------------------------------startCode1:0x1a69------------------------------
-manipulateTimer proc near
-    pushf
-    cli
-    xor ax, ax
-    mov es, ax
-    mov dx, es:463h
-    add dx, 6
-    cmp dx, 3BAh
-    jz short loc_11A94
-    xor bx, bx
-loc_11A7F:
-    dec bx
-    jz short loc_11ABA
-    in al, dx
-    test al, 8
-    jnz short loc_11A7F
-    xor bx, bx
-loc_11A89:
-    dec bx
-    jz short loc_11ABA
-    in al, dx
-    test al, 8
-    jz short loc_11A89
-    jmp short loc_11AA8
-    nop
-loc_11A94:
-    xor bx, bx
-loc_11A96:
-    dec bx
-    jz short loc_11ABA
-    in al, dx
-    test al, 80h
-    jz short loc_11A96
-    xor bx, bx
-loc_11AA0:
-    dec bx
-    jz short loc_11ABA
-    in al, dx
-    test al, 80h
-    jnz short loc_11AA0
-loc_11AA8:
-    mov al, 0
-    out 43h, al ;Timer 8253-5 (AT: 8254.2).
-    jmp short $+2
-    in al, 40h ;Timer 8253-5 (AT: 8254.2).
-    jmp short $+2
-    mov bl, al
-    in al, 40h ;Timer 8253-5 (AT: 8254.2).
-    jmp short $+2
-    mov bh, al
-loc_11ABA:
-    mov ax, bx
-    popf
-    retn
-manipulateTimer endp
+INCLUDE shared/timer_manipulate.inc
 ; ------------------------------startCode1:0x1abd------------------------------
 ; ------------------------------startCode1:0x1abe------------------------------
 _getTimeOfDay proc near
@@ -704,89 +639,14 @@ _nearmemset proc near
 _nearmemset endp
 ; ------------------------------startCode1:0x2779------------------------------
 ; ------------------------------startCode1:0x27f5------------------------------
-_intDispatch proc near
-    arg_0 = word ptr 4
-    outregs = word ptr 6
-    arg_4 = word ptr 8
-    push bp
-    mov bp, sp
-    push si
-    push di
-loc_127FA:
-    push ax
-    push bx
-    push cx
-    push dx
-loc_127FE: ;load registers with values for int call
-    mov di, [bp+outregs]
-    mov ax, [di]
-loc_12803:
-    mov bx, [di+2]
-    mov cx, [di+4]
-loc_12809:
-    mov dx, [di+6]
-loc_1280C:
-    cmp [bp+arg_0], IRQ_VIDEO
-    jz short loc_12827
-loc_12812:
-    cmp [bp+arg_0], IRQ_DOS
-    jz short loc_1282C
-    cmp [bp+arg_0], IRQ_KBD
-    jz short loc_12831
-    cmp [bp+arg_0], IRQ_TIME
-    jz short loc_12836
-    jmp short loc_1283B
-    nop
-loc_12827:
-    int 10h ;- VIDEO -
-    jmp short loc_12842
-    nop
-loc_1282C:
-    int 21h ;DOS -
-    jmp short loc_12842
-    nop
-loc_12831:
-    int 16h ;KEYBOARD -
-    jmp short loc_12842
-    nop
-loc_12836:
-    int 1Ah ;system time
-    jmp short loc_12842
-    nop
-loc_1283B:
-    sub ax, ax
-    not ax
-    jmp short loc_12850
-    nop
-loc_12842:
-    mov di, [bp+arg_4]
-    mov [di], ax
-    mov [di+2], bx
-    mov [di+4], cx
-    mov [di+6], dx
-loc_12850:
-    pop dx
-    pop cx
-    pop bx
-    pop ax
-    pop di
-    pop si
-    mov sp, bp
-    pop bp
-    retn
-_intDispatch endp
+; --- shared interrupt dispatch routine
+INCLUDE shared/overlay_dispatch.inc
+_intDispatch equ intDispatch
 ; ------------------------------startCode1:0x2859------------------------------
 ; ------------------------------startCode1:0x2977------------------------------
-_dos_printstring proc near
-    arg_0 = word ptr 4
-    push bp
-    mov bp, sp
-    mov ah, DOS_PRINT_STR
-    mov dx, [bp+arg_0]
-    int 21h ;DOS - PRINT STRING
-    pop bp
-    retn
-_dos_printstring endp
+; --- shared DOS print string routine
+INCLUDE shared/file_printstring.inc
+_dos_printstring equ dos_printstring
 ; ------------------------------startCode1:0x2982------------------------------
 ; ------------------------------startCode1:0x2985------------------------------
 _loadOverlay proc near
@@ -921,53 +781,11 @@ loc_12A83:
 _loadOverlay endp ;AL = exit code
 ; ------------------------------startCode1:0x2a86------------------------------
 ; ------------------------------startCode1:0x2a88------------------------------
-_setupOverlaySlots proc near
-    arg_0 = word ptr 4
-    ovlSegment = word ptr 6
-    push bp
-    mov bp, sp
-    push di
-    push si
-    push es
-    push ds
-    push bp
-    mov dx, [bp+arg_0]
-    mov _ovlInsaneFlag, 0
-    jmp short ovlSane
-    nop
-    mov _ovlInsaneFlag, 1
-ovlSane:
-    mov es, dx
-    mov bx, offset _gfx_jump_0_alloc
-    mov di, OVL_HDR_FIRSTIDX
-    mov ax, es:[di]
-    mov dl, 5
-    mul dl ;ax = al*dl
-    add bx, ax ;bx = address of first slot in jump table
-    mov di, OVL_HDR_SLOTCOUNT
-    mov cx, es:[di]
-    mov si, OVL_HDR_FIRSTPTR
-    mov di, OVL_HDR_CODESEG
-    mov di, es:[di]
-writeSlots:
-    mov ax, es:[si]
-    mov [bx+1], ax
-    mov [bx+3], di
-    add si, 2 ;next word in jump offset array
-    add bx, 5 ;next slot in jump table (5 bytes each)
-    loop writeSlots
-    cmp _ovlInsaneFlag, 0
-    jnz short sos_exit
-    pop bp
-    pop ds
-    pop es
-    pop si
-    pop di
-    mov sp, bp
-    pop bp
-sos_exit:
-    retn
-_setupOverlaySlots endp
+; --- shared overlay slot setup routine
+ovlInsaneFlag    EQU _ovlInsaneFlag
+ovlJumpTable     EQU _gfx_jump_0_alloc
+INCLUDE shared/overlay_slots.inc
+_setupOverlaySlots equ setupOverlaySlots
 ; ------------------------------startCode1:0x2ae0------------------------------
 msg14 db 'clearRect(): buf 0x%x %d %d %d %d',0
 msg15 db 'clearRect(): destination 0x%x',0
@@ -1073,83 +891,21 @@ cbreakFlag       EQU _cbreakHit
 INCLUDE shared/cbreak.inc
 ; ------------------------------startCode1:0x2ffa------------------------------
 ; ------------------------------startCode1:0x311a------------------------------
-_openFile proc near
-    arg_0 = word ptr 4
-    mode = word ptr 6
-    push bp
-    mov bp, sp
-    push di
-    push si
-    push es
-    push bp
-    mov ah, 3Dh
-    mov al, byte ptr [bp+mode]
-    mov bx, ss
-    mov ds, bx
-    mov dx, [bp+arg_0]
-    int 21h ;DOS - 2+ - OPEN DISK FILE WITH HANDLE
-    jnb short openSuccess
-    db 3Dh ;ax == 2: file not foundcmp ax, 2
-    dw 2
-    jnz short otherError ;error 03: path not found
-fileNotFound:
-    mov bx, [bp+arg_0]
-    mov ax, offset _aFileNotFound ;":File not found$"
-    mov cx, 0FFFFh
-    jmp errorDescAndExit ;ax: pointer to error message
-otherError:
-    db 3Dh ;error 03: path not foundcmp ax, 3
-    dw 3
-    jz short fileNotFound
-    db 3Dh ;error 04: too many open filescmp ax, 4
-    dw 4
-    jnz short stillOtherError
-    mov cx, 0FFFFh
-    mov bx, [bp+arg_0]
-    mov ax, offset _aNoFileBuffersAvailable ;":No file buffers available$"
-    jmp errorDescAndExit ;ax: pointer to error message
-stillOtherError:
-    mov cx, ax
-    mov ax, offset _aOpenError ;":Open error $"
-    mov bx, [bp+arg_0]
-    jmp errorDescAndExit ;ax: pointer to error message
-openSuccess:
-    mov _fileReadPos, 200h
-    pop bp
-    pop es
-    pop si
-    pop di
-    mov sp, bp
-    pop bp
-    retn
-_openFile endp
+; --- shared open file routine
+fileNotFoundStr  EQU _aFileNotFound
+fileNoBufsStr    EQU _aNoFileBuffersAvailable
+fileOpenErrorStr EQU _aOpenError
+fileReadPosVar   EQU _fileReadPos
+fileErrorExit    EQU errorDescAndExit
+INCLUDE shared/file_open.inc
+_openFile equ openFile
 ; ------------------------------startCode1:0x3170------------------------------
 ; ------------------------------startCode1:0x31c8------------------------------
-_fileClose proc near
-    arg_0 = word ptr 4
-    handle = word ptr 6
-    push bp
-    mov bp, sp
-    push di
-    push si
-    push es
-    push bp
-    mov ah, 3Eh
-    mov bx, [bp+arg_0]
-    int 21h ;DOS - 2+ - CLOSE A FILE WITH HANDLE
-    jnb short loc_131E1
-    mov dx, offset _aFileClosingError
-    mov cx, 0FFFFh
-    jmp errorAndExit
-loc_131E1:
-    pop bp
-    pop es
-    pop si
-    pop di
-    mov sp, bp
-    pop bp
-    retn
-_fileClose endp
+; --- shared file close routine
+fileCloseErrorStr EQU _aFileClosingError
+fileCloseErrExit  EQU errorAndExit
+INCLUDE shared/file_close.inc
+_fileClose equ fileClose
 ; ------------------------------startCode1:0x31e8------------------------------
 msg12 db 'Reading from file handle %d',0
 msg13 db 'Read success, count %d',0
@@ -1213,36 +969,9 @@ loc_132CE:
     mov sp, bp
     pop bp
     retn
-errorDescAndExit:
-    push ax ;ax: pointer to error message
-    mov ax, 3 ;mode 3: 80x25
-    int 10h ;- VIDEO - SET VIDEO MODE
-    mov di, 0
-findStringLength:
-    cmp byte ptr [bx+di], 0 ;bx: string pointer, look for terminator
-    jz short foundNull ;terminate with '$' instead
-    inc di
-    jmp short findStringLength ;bx: string pointer, look for terminator
-foundNull:
-    mov byte ptr [bx+di], 24h
-    mov dx, bx ;dx: pointer to filename
-    mov ah, 9
-    int 21h ;DOS - PRINT STRING
-    pop dx ;dx: pointer to error message
-errorAndExit:
-    mov ah, 9
-    int 21h ;DOS - PRINT STRING
-    cmp cx, 0FFFFh ;check for -1: error
-    jz short exitToDos
-    add cx, 30h
-    mov byte ptr _errorCodeStr, cl
-    mov byte ptr _errorCodeStr+1, 24h
-    mov dx, offset _errorCodeStr
-    mov ah, 9
-    int 21h ;DOS - PRINT STRING
-exitToDos:
-    mov ax, 4C00h
-    int 21h ;DOS - 2+ - QUIT WITH EXIT CODE (EXIT)
+; --- shared file error handler
+fileErrorCodeStr EQU _errorCodeStr
+INCLUDE shared/file_error.inc
 writeFileAtRaw endp ;AL = exit code
 ; ------------------------------startCode1:0x3310------------------------------
 
@@ -1288,34 +1017,9 @@ _showPicFile EQU showPicFile
 _decodePic EQU decodePic
 ; ------------------------------startCode1:0x3754------------------------------
 ; ------------------------------startCode1:0x37b4------------------------------
-_dos_alloc proc near
-    arg_0 = word ptr 4
-    sz = word ptr 6
-    push bp
-    mov bp, sp
-    push di
-    push si
-    push es
-    push bp
-    mov ah, DOS_ALLOC_MEM
-    mov bx, [bp+arg_0]
-    shr bx, 1
-    shr bx, 1
-    shr bx, 1
-    shr bx, 1
-    test [bp+arg_0], 0Fh
-    jz short loc_137D0
-    inc bx
-loc_137D0:
-    int 21h ;DOS - 2+ - ALLOCATE MEMORY
-    pop bp
-    pop es
-    pop si
-    pop di
-    mov sp, bp
-    pop bp
-    retn
-_dos_alloc endp
+; --- shared DOS memory allocate routine
+INCLUDE shared/file_alloc.inc
+_dos_alloc equ dos_alloc
 ; ------------------------------startCode1:0x37d9------------------------------
 ; ------------------------------startCode2:0x2f------------------------------
 ; --- shared joystick routines
