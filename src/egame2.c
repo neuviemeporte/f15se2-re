@@ -9,6 +9,15 @@
 #include <dos.h>
 #include <memory.h>
 
+// ==== seg000:0xcf32 ====
+int sub_1CF32(unsigned int param)
+{
+    if (param & 0x100) {
+        return buf3d3[param & 0x7f];
+    }
+    return (int)(&byte_2D6A4[((int *)flt15_buf1)[param]] - byte_228D0);
+}
+
 // ==== seg002:0xa ====
 void far sub_21A7A() {
     sub_21A86();
