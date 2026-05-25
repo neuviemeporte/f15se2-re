@@ -32,6 +32,9 @@ jobs:
       - name: Build reconstruction
         run: make -j$(nproc) start egame end
 
+      - name: Build debug
+        run: make -j$(nproc) debug
+
       - name: Verify start.exe
         run: make verify-start
 
