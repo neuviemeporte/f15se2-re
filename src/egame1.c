@@ -238,6 +238,8 @@ int sub_11E0E() {
     flagFarToNear = 1;
     // 1e1e
     moveStuff();
+    /* TODO: these should be byte_3C16E and &byte_3C16E[var_4+1] but changing
+     * them alters the binary output (hardcoded vs relocated address) */
     word_3C0A2[0] = 0x98be;
     var_2 = 1;
     // 1e2c
@@ -1582,7 +1584,7 @@ int sub_11C21(void) {
         } while (*(int16 *)&stru_3B208[p].field_10[10] == 0);
         word_3C02E = p + 0x20;
         keyValue = 0x89;
-        strcpy((char *)strBuf, (char *)(*(int16 *)&stru_3B208[p].field_10[6] * 32 + 0x2c8));
+        strcpy((char *)strBuf, (char *)(*(int16 *)&stru_3B208[p].field_10[6] * 32 + 0x2c8)); /* 0x2c8: aircraft name table (32-byte records) */
         strcat((char *)strBuf, (char *)aOnPatrol);
         tempStrcpy((char *)strBuf);
         break;
@@ -1695,7 +1697,7 @@ void sub_1C40B(int param_1) {
 
 // ==== seg000:0xd9db ====
 void selectMissile() {
-    strcpy((char *)strBuf, (char *)(missleSpec[missileSpecIndex].field_0 * 0x1a + 0x820));
+    strcpy((char *)strBuf, (char *)(missleSpec[missileSpecIndex].field_0 * 0x1a + 0x820)); /* 0x820: missile name table (0x1a-byte records) */
     strcat((char *)strBuf, (char *)(missleSpec[missileSpecIndex].field_2 == 0 ? aNotAvailable : aArmed));
     sub_11A88(missileSpecIndex);
     tempStrcpy((char *)strBuf);
