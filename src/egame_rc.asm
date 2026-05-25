@@ -534,7 +534,7 @@ PUBLIC _word_3298C
 PUBLIC _word_3298E
 PUBLIC _missiles
 PUBLIC _aAccel
-PUBLIC _sub_19C0C
+
 
 PUBLIC _sub_1A030
 PUBLIC _aStallWarning
@@ -11127,55 +11127,13 @@ LAB_1000_9870:
     ret
 _sub_195C9 endp
 ; ------------------------------seg000:0x9874------------------------------
-; ------------------------------seg000:0x9875------------------------------
+; ------------------------------seg000:0x9c0c------------------------------
 zoomIn equ _zoomIn
 ; ------------------------------seg000:0x98b3------------------------------
 zoomOut equ _zoomOut
 ; ------------------------------seg000:0x9c0c------------------------------
-_sub_19C0C proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    mov BX,word ptr [_var_564]
-    mov AX,word ptr [BX + 14h]
-    sub AX,word ptr [BX + 12h]
-    inc AX
-    mov word ptr [BP + -4h],AX
-    mov AX,word ptr [BX + 10h]
-    sub AX,word ptr [BX + 0eh]
-    inc AX
-    mov word ptr [BP + -2h],AX
-    push word ptr [BX + 0eh]
-    push word ptr [BX + 12h]
-    call far ptr gfx_jump_3e
-    add SP,4h
-    push AX
-    call far ptr gfx_jump_1a
-    add SP,2h
-    mov AX,word ptr [BP + -4h]
-    dec AX
-    mov word ptr [_var_349],AX
-    mov AX,word ptr [BP + -2h]
-    dec AX
-    mov word ptr [_var_350],AX
-    mov BX,word ptr [_var_564]
-    push word ptr [BX + 4h]
-    call far ptr _gfx_jump_21
-    add SP,2h
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [_var_351],AX
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [_var_353],AX
-    mov AX,word ptr [BP + 8h]
-    mov word ptr [_var_352],AX
-    mov AX,word ptr [BP + 0ah]
-    mov word ptr [_var_354],AX
-    call far ptr _sub_2152A
-    call far ptr _gfx_jump_23
-    mov SP,BP
-    pop BP
-    ret
-_sub_19C0C endp
+EXTRN _sub_19C0C:near
+sub_19C0C equ _sub_19C0C
 ; ------------------------------seg000:0x9c83------------------------------
 ; ------------------------------seg000:0x9c84------------------------------
 EXTRN _sub_19C84:near

@@ -1107,6 +1107,24 @@ int sub_1C7C6(int arg_0) {
     return sub_1C7EA(*(int *)&unk_3B202[2 + arg_0 * 36], *(int *)&unk_3B202[4 + arg_0 * 36], 0);
 }
 
+// ==== seg000:0x9c0c ====
+int sub_19C0C(int arg_0, int arg_2, int arg_4, int arg_6) {
+    int p, a;
+
+    a = var_564[10] - var_564[9] + 1;
+    p = var_564[8] - var_564[7] + 1;
+    gfx_jump_1a(gfx_jump_3e(var_564[9], var_564[7]));
+    var_349 = a - 1;
+    var_350 = p - 1;
+    gfx_jump_21(var_564[2]);
+    var_351 = arg_0;
+    var_353 = arg_2;
+    var_352 = arg_4;
+    var_354 = arg_6;
+    sub_2152A();
+    gfx_jump_23();
+}
+
 // ==== seg000:0x9c84 ====
 void sub_19C84(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c, int arg_e, int arg_10) {
     int p, a;
