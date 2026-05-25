@@ -33,7 +33,7 @@ int FAR CDECL gfx_jump_16();
 int FAR CDECL gfx_jump_17_bufSize();
 int FAR CDECL gfx_jump_18();
 int FAR CDECL gfx_jump_19();
-int FAR CDECL gfx_jump_1a();
+int FAR CDECL gfx_jump_1a(int param_1);
 int FAR CDECL gfx_jump_1b();
 int FAR CDECL gfx_jump_1c();
 int FAR CDECL gfx_jump_1d();
@@ -70,7 +70,7 @@ int FAR CDECL gfx_jump_3b_clearBuf();
 /* dseg:0xbe4 */
 int FAR CDECL gfx_jump_3c_setMode13(int16);
 int FAR CDECL gfx_jump_3d_null(int);
-int FAR CDECL gfx_jump_3e();
+int FAR CDECL gfx_jump_3e(int param_1, int param_2);
 /* dseg:0xbf3 */
 int FAR CDECL gfx_jump_3f_modecode();
 int FAR CDECL gfx_jump_40();
@@ -89,7 +89,7 @@ int FAR CDECL gfx_jump_4b_storeBufPtr(uint16, int);
 int FAR CDECL gfx_jump_4c();
 int FAR CDECL gfx_jump_4d();
 int FAR CDECL gfx_jump_4e_getVal();
-int FAR CDECL gfx_jump_4f();
+int FAR CDECL gfx_jump_4f(uint16);
 int FAR CDECL gfx_jump_50_null();
 int FAR CDECL gfx_jump_51_null();
 int FAR CDECL gfx_jump_52(uint16);
@@ -114,13 +114,13 @@ int FAR CDECL misc_jump_63();
 /* sound (first slot 0x64, 10 used) */
 int FAR CDECL audio_jump_64(int16, int16);
 int FAR CDECL audio_jump_65(void);
-int FAR CDECL audio_jump_66();
+int FAR CDECL audio_jump_66(int param);
 int FAR CDECL audio_jump_67(); /* intro music? */
 int FAR CDECL audio_jump_68();
 int FAR CDECL audio_jump_69();
 int FAR CDECL audio_jump_6a();
 int FAR CDECL audio_jump_6b();
 int FAR CDECL audio_jump_6c();
-int FAR CDECL audio_jump_6d();
+int FAR CDECL audio_jump_6d(int param_1);
 
 #endif /* SLOT_H */
