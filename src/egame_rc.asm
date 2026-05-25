@@ -42,6 +42,7 @@ EXTRN _main:PROC
 EXTRN _sub_18E50:PROC
 EXTRN _sub_1D1C8:PROC
 EXTRN _sub_1D1E8:PROC
+EXTRN _sub_1D21E:PROC
 EXTRN _sub_1C7A2:PROC
 EXTRN _sub_1C7C6:PROC
 EXTRN _sub_1C7EA:PROC
@@ -15356,38 +15357,7 @@ _sub_1D008 endp
 sub_1D1E8 equ _sub_1D1E8
 ; ------------------------------seg000:0xd1ff------------------------------
 ; ------------------------------seg000:0xd21e------------------------------
-PUBLIC _sub_1D21E
-sub_1D21E proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    cmp word ptr [word_330BE],0h
-    jz LAB_1000_d232
-    mov word ptr [BP + -2h],0h
-    jmp LAB_1000_d258
-LAB_1000_d232:
-    les BX,dword ptr [_commData]
-    cmp word ptr ES:[BX + 72h],0h
-    jz LAB_1000_d24a
-    push word ptr [BP + 4h]
-    call far ptr misc_jump_5d_readJoy
-    add SP,2h
-    jmp LAB_1000_d24c
-LAB_1000_d24a:
-    sub AX,AX
-LAB_1000_d24c:
-    mov BX,word ptr [BP + 4h]
-    shl BX,1h
-    add AX,word ptr [BX + offset word_38606]
-    mov word ptr [BP + -2h],AX
-LAB_1000_d258:
-    mov AX,word ptr [BP + -2h]
-    mov SP,BP
-    pop BP
-    ret
-    nop
-sub_1D21E endp
-_sub_1D21E equ sub_1D21E
+sub_1D21E equ _sub_1D21E
 ; ------------------------------seg000:0xd25e------------------------------
 ; ------------------------------seg000:0xd260------------------------------
 PUBLIC _keyDispatch
@@ -19956,10 +19926,12 @@ _misc_jump_5b_getkey endp
     db 0
     db 0
 ; ------------------------------dseg:0x108f------------------------------
+PUBLIC _misc_jump_5d_readJoy
 misc_jump_5d_readJoy proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
 misc_jump_5d_readJoy endp
+_misc_jump_5d_readJoy equ misc_jump_5d_readJoy
 ; ------------------------------dseg:0x108f------------------------------
     db 0EAh, 4 dup(0)
     db 0EAh, 4 dup(0)
@@ -32847,6 +32819,8 @@ word_38600 dw 1
 word_38602 dw 2
 word_38604 dw 0
 word_38606 dw 0
+PUBLIC _word_38606
+_word_38606 equ word_38606
 word_38608 dw 0
 word_3860A dw 0
     db 0

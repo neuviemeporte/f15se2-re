@@ -486,3 +486,15 @@ int routine_191(void) {
     b /= 100;
     return b;
 }
+
+int16 sub_1D21E(int16 arg_0)
+{
+    int16 p;
+
+    if (word_330BE) {
+        p = 0;
+    } else {
+        p = ((commData->setupUseJoy) ? misc_jump_5d_readJoy(arg_0) : 0) + (&word_38606)[arg_0];
+    }
+    return p;
+}
