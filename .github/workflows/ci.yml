@@ -30,7 +30,7 @@ jobs:
         run: cd mzretools && ./build.sh
 
       - name: Build reconstruction
-        run: make start egame end
+        run: make -j$(nproc) start egame end
 
       - name: Verify start.exe
         run: make verify-start
