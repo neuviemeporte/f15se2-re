@@ -180,7 +180,7 @@ $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
 # unit test executable
 #
 TEST_EXE := $(DEBUGDIR)/test.exe
-TEST_SRCS := test.c start1.c start2.c start3.c
+TEST_SRCS := test.c start1.c start2.c start3.c startdat.c
 TEST_ASMS := start4.asm start_rc.asm
 TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC)) $(call cobj,$(DEBUGDIR),$(COMMON_SRC2)) $(DEBUGDIR)/debug.obj
 TEST_LIBS := slibce.lib
