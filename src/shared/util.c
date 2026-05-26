@@ -7,7 +7,7 @@
 
 #include "util.h"
 
-#include "pointers.h"
+#include "../pointers.h"
 
 /* extern declarations needed by these functions */
 extern void far gfx_jump_05_drawString(int16 *pageNum, const char *string);

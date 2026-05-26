@@ -4,7 +4,7 @@
  */
 
 #include "util.h"
-#include "debug.h"
+#include "../debug.h"
 
 int openFile(char *name, int mode);
 int fileClose(int handle);

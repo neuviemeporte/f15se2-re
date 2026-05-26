@@ -4,8 +4,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include "inttype.h"
-#include "const.h"
+#include "../inttype.h"
+#include "../const.h"
 
 /* functions provided by util.c */
 void cleanup(void);
