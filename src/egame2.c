@@ -665,3 +665,138 @@ check_end:
 end:
     ;
 }
+
+// ==== seg000:0xa25c ====
+int sub_1A25C(char param_1)
+{
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+    int g;
+    int h;
+    int i;
+    int j;
+
+    h = var_588 + 1;
+    sub_19E44(0);
+    sub_21444(param_1 == 0 ? var_564 : var_565, 0x78, 0x68, 0xc7, 0xaf);
+    sub_19E44(8);
+    j = 1;
+    if (var_588 < 2 && word_38FDC != 0) {
+        j = (1 << (2 - (unsigned char)var_588)) + 1;
+    }
+    i = 1 - j;
+    e = word_3BEC0 & 0xf800;
+    g = word_3BED0 & 0xf800;
+    f = i * 2;
+    while (j * 2 >= f) {
+        sub_1A7C4(f * 0x400 + e, g + 0x1c00);
+        p = var_279;
+        b = var_282;
+        sub_1A7C4(f * 0x400 + e, g - 0x1800);
+        sub_19C84(p, b, var_279, var_282, 0x78, 0xc7, 0x68, 0xaf, 0);
+        f += 2;
+    }
+    f = i * 2;
+    while (j * 2 >= f) {
+        sub_1A7C4(e + 0x1c00, f * 0x400 + g);
+        p = var_279;
+        b = var_282;
+        sub_1A7C4(e - 0x1800, f * 0x400 + g);
+        sub_19C84(p, b, var_279, var_282, 0x78, 0xc7, 0x68, 0xaf, 0);
+        f += 2;
+    }
+    for (f = 0; f < word_3C046; f++) {
+        if ((stru_3B208[f].field_10[8] & 2) && *(int16 *)&stru_3B208[f].field_10[10] != 0) {
+            sub_1A7C4(*(int16 *)((char *)&stru_3B208[f] - 4), *(int16 *)((char *)&stru_3B208[f] - 2));
+            if (word_3C016 != -1) {
+                if (word_3C45C == 1 && f == word_336F2) {
+                    sub_1A740(var_279, var_282, 7);
+                }
+                if (word_336F8 > 0 && f == 0xffff - word_3BE96) {
+                    sub_1A740(var_279, var_282, word_38F72);
+                }
+                a = *(int16 *)&stru_3B208[f].field_10[0] - var_542 + 0x800;
+                d = stru_3B208[f].field_0 - var_547;
+                c = 0;
+                if (d < -1000) {
+                    c = 1;
+                }
+                if (d > 1000) {
+                    c = 2;
+                }
+                sub_1A872((a >> 12) & 0xf, c, var_279, var_282);
+            }
+        }
+    }
+    for (f = 0; f < 12; f++) {
+        if (*(int16 *)&stru_335C4[f].field_10[4] != 0) {
+            sub_1A7C4(stru_335C4[f].field_0, stru_335C4[f].field_2);
+            if (word_3C016 != -1) {
+                if (sams[*(int16 *)&stru_335C4[f].field_10[6]].field_C <= 0) {
+                    sub_19E44(0x0c);
+                } else {
+                    sub_19E44(0x0e);
+                }
+                if (sams[*(int16 *)&stru_335C4[f].field_10[6]].field_C == 3) {
+                    sub_19E44(*(char *)&gfxModeUnset != 0 ? 8 : 0x0d);
+                }
+                if (!(stru_335C4[f].field_4 & 1)) {
+                    sub_19E44(7);
+                }
+                if (f >= 8) {
+                    sub_19E44(0x0f);
+                }
+                a = stru_335C4[f].field_8 - var_542;
+                sub_19D86(var_279, var_282, var_279 - sub_1D178(a, h), sub_1D190(a, h) + var_282);
+            }
+        }
+    }
+    for (f = 0; f < word_3BED2; f++) {
+        if (!(stru_3AA5E[f].field_6 & 0x80)) {
+            sub_1A7C4(stru_3AA5E[f].field_0, stru_3AA5E[f].field_2);
+            if (word_3C016 != -1) {
+                if (word_3C45C == 2 && f == word_336F4) {
+                    sub_1A740(var_279, var_282, 7);
+                }
+                a = 5;
+                if (stru_3AA5E[f].field_6 & 0x201) {
+                    a = (((-var_542 + 0x1000) >> 13) & 3) + 8;
+                }
+                if (stru_3AA5E[f].field_4 != 0) {
+                    a = 1;
+                }
+                if (stru_3AA5E[f].field_6 & 8) {
+                    a = 7;
+                }
+                if (f == word_3B146 || f == word_3B158) {
+                    a = 6;
+                }
+                sub_1A872(a, 3, var_279, var_282);
+            }
+        }
+    }
+    sub_1A7C4(word_3BEC0, word_3BED0);
+    if (word_3C016 != -1) {
+        sub_1A872(0, 3, var_279, var_282);
+    }
+    for (f = 0; f < 4; f++) {
+        if ((&word_333DA)[f * 6] != 0) {
+            sub_1A7C4((&word_333D2)[f * 6], (&word_333D4)[f * 6]);
+            if (word_3C016 != -1) {
+                switch ((&word_333D8)[f * 6]) {
+                case 1:
+                    sub_1A872(2, 3, var_279, var_282);
+                    break;
+                case 2:
+                    sub_1A872(3, 3, var_279, var_282);
+                    break;
+                }
+            }
+        }
+    }
+}

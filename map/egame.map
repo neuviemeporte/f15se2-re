@@ -153,7 +153,7 @@ sub_1A1B1: seg000 NEAR a1b1-a1e3 Ra1b1-a1e3 complete
 tempStrcpy: seg000 NEAR a1e4-a203 Ra1e4-a203 complete
 sub_1A204: seg000 NEAR a204-a223 Ra204-a223 complete
 sub_1A224: seg000 NEAR a224-a25a Ra224-a25a complete
-sub_1A25C: seg000 NEAR a25c-a73f Ra25c-a73f
+sub_1A25C: seg000 NEAR a25c-a73f Ra25c-a73f complete
 sub_1A740: seg000 NEAR a740-a7c3 Ra740-a7c3 complete
 sub_1A7C4: seg000 NEAR a7c4-a871 Ra7c4-a870 complete
 sub_1A872: seg000 NEAR a872-a8c7 Ra872-a8c7 complete
