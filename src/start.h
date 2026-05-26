@@ -521,12 +521,8 @@ extern char aSeeTechnicalSu[];
 extern char aTheater_0[];
 extern char aMissionType[];
 extern struct PageDesc page1Desc;
-#define page1Num page1Desc.pageNum
-#define drawColor page1Desc.color
-#define fontIndex page1Desc.font
 extern int16 *page1NumPtr;
 extern struct PageDesc page2Desc;
-#define page2Num page2Desc.pageNum
 extern int *page2NumPtr;
 extern struct PageDesc page3Desc;
 extern uint8 unk_170B2[];
@@ -575,15 +571,7 @@ extern char aSecondaryTarge[];
 extern char aOnc_1[];
 extern int16 joyRepeatFlag;
 extern struct SpriteParams spriteParams;
-#define word_17284 spriteParams.bufPtr
-#define word_17286 spriteParams.srcX
-#define word_17288 spriteParams.srcY
-#define word_1728A spriteParams.page
-#define word_1728C spriteParams.dstX
-#define word_1728E spriteParams.dstY
-#define word_17290 spriteParams.width
-#define word_17292 spriteParams.height
-#define byte_1729C (&spriteParams.flags)
+
 extern uint8 timerFlag;
 extern uint8 timerHandlerInstalled;
 extern int16 timerCountLo;
@@ -620,8 +608,6 @@ extern char aArmpiece_pic[];
 extern char aHiscore_pic[];
 extern uint8 pilotSelectFlag;
 extern struct PageDesc screenDesc;
-#define textColor screenDesc.color
-#define word_173DE screenDesc.font
 extern int16 *screenBuf;
 extern struct PageDesc pageNumPageDesc;
 extern int16 *pageNumPtr;
