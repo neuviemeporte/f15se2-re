@@ -258,9 +258,6 @@ int16 lineX2 = 0;
 int16 lineY1 = 0;
 int16 lineY2 = 0;
 
-/* Dirty rect buffers stay in start_rc.asm - overlay hardcodes +0x1B8 offset
- * between dirtyMinBuf and dirtyMaxBuf, only ASM can guarantee contiguity. */
-
 /* Clipping state */
 uint8 clipOutcode = 0;
 int16 clipDx = 0;
@@ -275,6 +272,33 @@ uint8 cbreakHit = 0;
 int16 origCBreakSeg = 0;
 int16 origCBreakOfs = 0;
 int16 errorCodeStr = 0;
+
+/* Weapon table (struct Weapon, 14 bytes/entry, 23 entries) */
+struct Weapon aNone[] = {
+    { "None",   0x0000, 0x0000, 0x0000 },
+    { "SA-2",   0x00c8, 0x0003, 0x0000 },
+    { "SA-5",   0x015e, 0x0002, 0x0000 },
+    { "SA-8B",  0x007d, 0x0005, 0x0000 },
+    { "SA-10",  0x0140, 0x0007, 0x0001 },
+    { "SA-11",  0x00c8, 0x0005, 0x0000 },
+    { "SA-12",  0x0122, 0x0006, 0x0001 },
+    { "SA-13",  0x007d, 0x0003, 0x0000 },
+    { "SA-N-4", 0x00c8, 0x0004, 0x0001 },
+    { "SA-N-5", 0x0096, 0x0003, 0x0000 },
+    { "SA-N-6", 0x0140, 0x0006, 0x0001 },
+    { "SA-N-7", 0x00c8, 0x0005, 0x0000 },
+    { "Hawk",   0x00af, 0x0006, 0x0001 },
+    { "Rapier", 0x004b, 0x0008, 0x0000 },
+    { "Tiger",  0x0041, 0x0004, 0x0000 },
+    { "Seacat", 0x00c8, 0x0002, 0x0000 },
+    { "IL76",   0x00c8, 0x0008, 0x0003 },
+    { "",       0x0032, 0x0005, 0x0000 },
+    { "",       0x0046, 0x0006, 0x0000 },
+    { "",       0x0050, 0x0007, 0x0001 },
+    { "",       0x0064, 0x0008, 0x0001 },
+    { "OTH",    0x01f4, 0x0005, 0x0001 },
+    { "",       0x0028, 0x0003, 0x0000 },
+};
 
 /* File I/O buffer (512 bytes total) */
 uint8 fileReadBuf[0x200] = {0};

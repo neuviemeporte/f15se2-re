@@ -294,96 +294,96 @@ TerrainUnk	ends
 ;  ==============================================================================
 
 .DATA ;startData segment byte public 'DATA'
-    EXTRN _aLabs_pic:byte
-    EXTRN _aAdv_pic:byte
-    EXTRN _aEgraphic_exe:byte
-    EXTRN _aTitle640_pic:byte
-    EXTRN _aTitle16_pic:byte
-    EXTRN _aF15_spr:byte
-    EXTRN _aF15_spr_0:byte
-    EXTRN _aTemp_wld:byte
-    EXTRN _aWall_pic:byte
-    EXTRN _aDifficulty:byte
-    EXTRN _aTheater:byte
-    EXTRN _aRb_1:byte
-    EXTRN _aNoScenarioFile:byte
-    EXTRN _aSeeTechnicalSu:byte
-    EXTRN _aTheater_0:byte
-    EXTRN _aMissionType:byte
-    EXTRN _aRepeatLastMiss:byte
-    EXTRN _aRb_2:byte
-    EXTRN _aF15_spr_1:byte
-    EXTRN _aPleaseReinsert:byte
-    EXTRN _aPressSelectorW:byte
-    EXTRN _aDecodingMissio:byte
-    EXTRN _aTodaySMission:byte
-    EXTRN _aTakeoffFrom:byte
-    EXTRN _aOnc_2:byte
-    EXTRN _aPrimaryTarget:byte
-    EXTRN _aOnc_0:byte
-    EXTRN _aSecondaryTarge:byte
-    EXTRN _aOnc_1:byte
-    EXTRN _aArmpiece_pic:byte
-    EXTRN _aHiscore_pic:byte
-    EXTRN _aOriginalDiskIn:byte
-    EXTRN _aPressAKeyToCon:byte
-    EXTRN _aUseSelectorToC:byte
-    EXTRN _asc_174AC:byte
-    EXTRN _asc_174AF:byte
-    EXTRN _aMenterYourName:byte
-    EXTRN _aRb_3:byte
-    EXTRN _aHallfame:byte
-    EXTRN _aWb:byte
-    EXTRN _aHallfame_0:byte
-    EXTRN _aAlloc1M:byte
-    EXTRN _aDosLied:byte
-    EXTRN _aFileNFound:byte
-    EXTRN _aEnoughMem:byte
-    EXTRN _aOvlFail:byte
-    EXTRN _aOvlOvrrun:byte
-    EXTRN _aOvlShrink:byte
-    EXTRN _aOvlRel:byte
-    EXTRN _aFileNotFound:byte
-    EXTRN _aNoFileBuffersAvailable:byte
-    EXTRN _aOpenError:byte
-    EXTRN _aFileClosingError:byte
-    EXTRN _aReadError:byte
-    EXTRN _aWriteError:byte
-    EXTRN _str_allocError:byte
-    EXTRN _a_3dt:byte
-    EXTRN _aRb:byte
-    EXTRN _aOpenErrorOn_3d:byte
-    EXTRN _aBadTileFileFor:byte
-    EXTRN _aTooManyTiles_:byte
-    EXTRN _aTooMuchTileDat:byte
-    EXTRN _a_3dg:byte
-    EXTRN _aRb_0:byte
-    EXTRN _aOpenErrorOn__0:byte
-    EXTRN _aBadGridFileFor:byte
-    EXTRN _aPowCamp:byte
-    EXTRN _aRb_4:byte
-    EXTRN _aWb_0:byte
-    EXTRN _aTd00:byte
-    EXTRN _aJz00:byte
-    EXTRN _aXv00:byte
-    EXTRN _aEs00:byte
-    EXTRN _aWx00:byte
-    EXTRN _aCc00:byte
-    EXTRN _aHz00:byte
-    EXTRN _aAt:byte
-    EXTRN _ovlSeg1:word
-    EXTRN _ovlParCnt:word
-    EXTRN _ovlParBlock:word
-    EXTRN _ovlSeg2:word
-    EXTRN _ovlInsaneFlag:byte
-    EXTRN _enableHighlight:word
-    EXTRN _word_17FFE:word
-    EXTRN _word_18010:word
-    EXTRN _word_18026:word
-    EXTRN _terrainSignature:word
-    EXTRN _terrainDirtyFlag:word
-    EXTRN _gridSignature:word
-    EXTRN _gridValidFlag:word
+EXTRN _aLabs_pic:byte
+EXTRN _aAdv_pic:byte
+EXTRN _aEgraphic_exe:byte
+EXTRN _aTitle640_pic:byte
+EXTRN _aTitle16_pic:byte
+EXTRN _aF15_spr:byte
+EXTRN _aF15_spr_0:byte
+EXTRN _aTemp_wld:byte
+EXTRN _aWall_pic:byte
+EXTRN _aDifficulty:byte
+EXTRN _aTheater:byte
+EXTRN _aRb_1:byte
+EXTRN _aNoScenarioFile:byte
+EXTRN _aSeeTechnicalSu:byte
+EXTRN _aTheater_0:byte
+EXTRN _aMissionType:byte
+EXTRN _aRepeatLastMiss:byte
+EXTRN _aRb_2:byte
+EXTRN _aF15_spr_1:byte
+EXTRN _aPleaseReinsert:byte
+EXTRN _aPressSelectorW:byte
+EXTRN _aDecodingMissio:byte
+EXTRN _aTodaySMission:byte
+EXTRN _aTakeoffFrom:byte
+EXTRN _aOnc_2:byte
+EXTRN _aPrimaryTarget:byte
+EXTRN _aOnc_0:byte
+EXTRN _aSecondaryTarge:byte
+EXTRN _aOnc_1:byte
+EXTRN _aArmpiece_pic:byte
+EXTRN _aHiscore_pic:byte
+EXTRN _aOriginalDiskIn:byte
+EXTRN _aPressAKeyToCon:byte
+EXTRN _aUseSelectorToC:byte
+EXTRN _asc_174AC:byte
+EXTRN _asc_174AF:byte
+EXTRN _aMenterYourName:byte
+EXTRN _aRb_3:byte
+EXTRN _aHallfame:byte
+EXTRN _aWb:byte
+EXTRN _aHallfame_0:byte
+EXTRN _aAlloc1M:byte
+EXTRN _aDosLied:byte
+EXTRN _aFileNFound:byte
+EXTRN _aEnoughMem:byte
+EXTRN _aOvlFail:byte
+EXTRN _aOvlOvrrun:byte
+EXTRN _aOvlShrink:byte
+EXTRN _aOvlRel:byte
+EXTRN _aFileNotFound:byte
+EXTRN _aNoFileBuffersAvailable:byte
+EXTRN _aOpenError:byte
+EXTRN _aFileClosingError:byte
+EXTRN _aReadError:byte
+EXTRN _aWriteError:byte
+EXTRN _str_allocError:byte
+EXTRN _a_3dt:byte
+EXTRN _aRb:byte
+EXTRN _aOpenErrorOn_3d:byte
+EXTRN _aBadTileFileFor:byte
+EXTRN _aTooManyTiles_:byte
+EXTRN _aTooMuchTileDat:byte
+EXTRN _a_3dg:byte
+EXTRN _aRb_0:byte
+EXTRN _aOpenErrorOn__0:byte
+EXTRN _aBadGridFileFor:byte
+EXTRN _aPowCamp:byte
+EXTRN _aRb_4:byte
+EXTRN _aWb_0:byte
+EXTRN _aTd00:byte
+EXTRN _aJz00:byte
+EXTRN _aXv00:byte
+EXTRN _aEs00:byte
+EXTRN _aWx00:byte
+EXTRN _aCc00:byte
+EXTRN _aHz00:byte
+EXTRN _aAt:byte
+EXTRN _ovlSeg1:word
+EXTRN _ovlParCnt:word
+EXTRN _ovlParBlock:word
+EXTRN _ovlSeg2:word
+EXTRN _ovlInsaneFlag:byte
+EXTRN _enableHighlight:word
+EXTRN _word_17FFE:word
+EXTRN _word_18010:word
+EXTRN _word_18026:word
+EXTRN _terrainSignature:word
+EXTRN _terrainDirtyFlag:word
+EXTRN _gridSignature:word
+EXTRN _gridValidFlag:word
 word_16BE2 dw 0
     db 2 dup(0)
     db 0Fh
@@ -399,49 +399,48 @@ _bufPtr dw offset word_16BE2
     db 9 dup(0)
 unk_16C10 db 0AAh
     db 0
-    EXTRN _missTheaNames:WORD
-    EXTRN _missTheaDesc:WORD
-    EXTRN _missDiffLevels:WORD
-    EXTRN _missDiffDesc:WORD
-    EXTRN _scenarioCodePtr:WORD
-    EXTRN _missScenarioNames:WORD
-    EXTRN _missScenarioDesc:WORD
-    EXTRN _missTypeNames:WORD
-    EXTRN _missTypeDesc:WORD
-    EXTRN _missHistorical1Names:WORD
-    EXTRN _missHistorical1Desc:WORD
-    EXTRN _missHistorical2Names:WORD
-    EXTRN _missHistorical2Desc:WORD
-    EXTRN _missionStr:WORD
-    EXTRN _plh3d3Ptr:WORD
-
+EXTRN _missTheaNames:WORD
+EXTRN _missTheaDesc:WORD
+EXTRN _missDiffLevels:WORD
+EXTRN _missDiffDesc:WORD
+EXTRN _scenarioCodePtr:WORD
+EXTRN _missScenarioNames:WORD
+EXTRN _missScenarioDesc:WORD
+EXTRN _missTypeNames:WORD
+EXTRN _missTypeDesc:WORD
+EXTRN _missHistorical1Names:WORD
+EXTRN _missHistorical1Desc:WORD
+EXTRN _missHistorical2Names:WORD
+EXTRN _missHistorical2Desc:WORD
+EXTRN _missionStr:WORD
+EXTRN _plh3d3Ptr:WORD
 EXTRN _page1Desc:BYTE
 EXTRN _page2Desc:BYTE
 EXTRN _page3Desc:BYTE
-    EXTRN _word_1714A:WORD
-    EXTRN _word_1715A:WORD
-    EXTRN _word_1716A:WORD
-    EXTRN _word_1717A:WORD
-    EXTRN _word_1718A:WORD
-    EXTRN _word_1719A:WORD
-    EXTRN _missionPick:WORD
-    EXTRN _word_171B2:WORD
-    EXTRN _joyRepeatFlag:WORD
-    EXTRN _fcbMatchStr:BYTE
-    EXTRN _searchFCB:BYTE
-    EXTRN _diskTransferArea:BYTE
+EXTRN _word_1714A:WORD
+EXTRN _word_1715A:WORD
+EXTRN _word_1716A:WORD
+EXTRN _word_1717A:WORD
+EXTRN _word_1718A:WORD
+EXTRN _word_1719A:WORD
+EXTRN _missionPick:WORD
+EXTRN _word_171B2:WORD
+EXTRN _joyRepeatFlag:WORD
+EXTRN _fcbMatchStr:BYTE
+EXTRN _searchFCB:BYTE
+EXTRN _diskTransferArea:BYTE
 EXTRN _spriteParams:BYTE
-    EXTRN _picCurrentRow:WORD
-    EXTRN _pilotSelectFlag:BYTE
+EXTRN _picCurrentRow:WORD
+EXTRN _pilotSelectFlag:BYTE
 EXTRN _screenDesc:BYTE
 EXTRN _pageNumPageDesc:BYTE
-    EXTRN _ranks:WORD
-    EXTRN _byte_17412:BYTE
-    EXTRN _byte_1741A:BYTE
-    EXTRN _byte_17422:BYTE
-    EXTRN _blinkColors:WORD
-    EXTRN _blinkColorIdx:WORD
-    EXTRN _pilotNameInputColors:WORD
+EXTRN _ranks:WORD
+EXTRN _byte_17412:BYTE
+EXTRN _byte_1741A:BYTE
+EXTRN _byte_17422:BYTE
+EXTRN _blinkColors:WORD
+EXTRN _blinkColorIdx:WORD
+EXTRN _pilotNameInputColors:WORD
 
 ; ------------------------------startData:0xab8------------------------------
 _gfx_jump_0_alloc proc far
@@ -838,22 +837,22 @@ _audio_jump_6c endp
 ; ------------------------------startData:0xcd4------------------------------
     db 0EAh
     db 4 dup(0)
-    EXTRN _joyMinValues:WORD
-    EXTRN _joyMaxValues:WORD
-    EXTRN _joyCenterValues:WORD
-    EXTRN _joyRangeBelow:WORD
-    EXTRN _joyRangeAbove:WORD
-    EXTRN _joyRawAxis0:WORD
-    EXTRN _joyRawAxis1:WORD
-    EXTRN _joyAxes:BYTE
-    EXTRN _clearRectX:WORD
-    EXTRN _clearRectY:WORD
-    EXTRN _clearRectWidth:WORD
-    EXTRN _clearRectHeight:WORD
-    EXTRN _lineX1:WORD
-    EXTRN _lineX2:WORD
-    EXTRN _lineY1:WORD
-    EXTRN _lineY2:WORD
+EXTRN _joyMinValues:WORD
+EXTRN _joyMaxValues:WORD
+EXTRN _joyCenterValues:WORD
+EXTRN _joyRangeBelow:WORD
+EXTRN _joyRangeAbove:WORD
+EXTRN _joyRawAxis0:WORD
+EXTRN _joyRawAxis1:WORD
+EXTRN _joyAxes:BYTE
+EXTRN _clearRectX:WORD
+EXTRN _clearRectY:WORD
+EXTRN _clearRectWidth:WORD
+EXTRN _clearRectHeight:WORD
+EXTRN _lineX1:WORD
+EXTRN _lineX2:WORD
+EXTRN _lineY1:WORD
+EXTRN _lineY2:WORD
 ; dirtyMinBuf and dirtyMaxBuf MUST be contiguous - overlay slot 0x28
 ; hardcodes dirtyMaxBuf = dirtyMinBuf + 0x1B8
 PUBLIC _dirtyMinBuf
@@ -868,174 +867,39 @@ _dirtyMaxBuf db 0D5h dup(0)
     dw 0
 _dirtyRectMin dw 0FFFFh
 _dirtyRectMax dw 0
-    EXTRN _clipOutcode:BYTE
-    EXTRN _clipDx:WORD
-    EXTRN _clipDy:WORD
-    EXTRN _clipDxHalf:WORD
-    EXTRN _clipDyHalf:WORD
-    EXTRN _clipMaxX:WORD
-    EXTRN _clipMaxY:WORD
-    EXTRN _cbreakHit:BYTE
-    EXTRN _origCBreakSeg:WORD
-    EXTRN _origCBreakOfs:WORD
-    EXTRN _errorCodeStr:WORD
-    EXTRN _fileReadBuf:BYTE
-    EXTRN _fileReadPos:WORD
-    EXTRN _tmpFileHandle:WORD
-    EXTRN _picDecodedRowBuf:BYTE
-    EXTRN _screenBufSize:WORD
-    EXTRN _tmpPageIndex:WORD
-    EXTRN _rowOffset:WORD
-    EXTRN _row:WORD
-    EXTRN _readFromFilePtr:WORD
+EXTRN _clipOutcode:BYTE
+EXTRN _clipDx:WORD
+EXTRN _clipDy:WORD
+EXTRN _clipDxHalf:WORD
+EXTRN _clipDyHalf:WORD
+EXTRN _clipMaxX:WORD
+EXTRN _clipMaxY:WORD
+EXTRN _cbreakHit:BYTE
+EXTRN _origCBreakSeg:WORD
+EXTRN _origCBreakOfs:WORD
+EXTRN _errorCodeStr:WORD
+EXTRN _fileReadBuf:BYTE
+EXTRN _fileReadPos:WORD
+EXTRN _tmpFileHandle:WORD
+EXTRN _picDecodedRowBuf:BYTE
+EXTRN _screenBufSize:WORD
+EXTRN _tmpPageIndex:WORD
+EXTRN _rowOffset:WORD
+EXTRN _row:WORD
+EXTRN _readFromFilePtr:WORD
 _terrainBuf1 dw 5 dup(20h)
     _terrainBuf2 TerrainUnk 5 dup(<0>)
-    EXTRN _word_182BA:WORD
-    EXTRN _word_182BC:WORD
-    EXTRN _word_182BE:WORD
-    EXTRN _word_182C0:WORD
-    EXTRN _word_182C2:WORD
-    EXTRN _word_182C4:WORD
-    EXTRN _word_182C6:WORD
-    EXTRN _word_182C8:WORD
+EXTRN _word_182BA:WORD
+EXTRN _word_182BC:WORD
+EXTRN _word_182BE:WORD
+EXTRN _word_182C0:WORD
+EXTRN _word_182C2:WORD
+EXTRN _word_182C4:WORD
+EXTRN _word_182C6:WORD
+EXTRN _word_182C8:WORD
 ; 4 bytes of padding/unknown data between word_182C8 and weapon table
     db 4 dup(0)
-; Weapon table (struct Weapon, 14 bytes/entry) - accessed as aNone[idx * 14 + field]
-aNone db 'None',0
-    db 9 dup(0)
-aSa2 db 'SA-2',0
-    db 3 dup(0)
-    db '�',0
-    db 3
-    db 3 dup(0)
-aSa5 db 'SA-5',0
-    db 3 dup(0)
-    db 5Eh
-    db 1
-    db 2
-    db 3 dup(0)
-aSa8b db 'SA-8B',0
-    db 2 dup(0)
-    db '}',0
-    db 5
-    db 3 dup(0)
-aSa10 db 'SA-10',0
-    db 2 dup(0)
-    db 40h
-    db 1
-    db 7
-    db 0
-    db 1
-    db 0
-aSa11 db 'SA-11',0
-    db 2 dup(0)
-    db '�',0
-    db 5
-    db 3 dup(0)
-aSa12 db 'SA-12',0
-    db 2 dup(0)
-    db 22h
-    db 1
-    db 6
-    db 0
-    db 1
-    db 0
-aSa13 db 'SA-13',0
-    db 2 dup(0)
-    db '}',0
-    db 3
-    db 3 dup(0)
-aSaN4 db 'SA-N-4',0
-    db 0
-    db '�',0
-    db 4
-    db 0
-    db 1
-    db 0
-aSaN5 db 'SA-N-5',0
-    db 0
-aC db '�',0
-    db 3
-    db 3 dup(0)
-aSaN6 db 'SA-N-6',0
-    db 0
-    db 40h
-    db 1
-    db 6
-    db 0
-    db 1
-    db 0
-aSaN7 db 'SA-N-7',0
-    db 0
-    db '�',0
-    db 5
-    db 3 dup(0)
-aHawk db 'Hawk',0
-    db 3 dup(0)
-    db 0AFh
-    db 0
-    db 6
-    db 0
-    db 1
-    db 0
-aRapier db 'Rapier',0
-    db 0
-aK db 'K',0
-    db 8,0
-    db 2 dup(0)
-aTiger db 'Tiger',0
-    db 2 dup(0)
-    db 41h
-    db 0
-    db 4
-    db 3 dup(0)
-aSeacat db 'Seacat',0
-    db 0
-    db '�',0
-    db 2
-    db 3 dup(0)
-aIl76 db 'IL76',0
-    db 3 dup(0)
-    db 0C8h
-    db 0
-    db 8
-    db 0
-    db 3
-    db 9 dup(0)
-    db 32h
-    db 0
-    db 5
-    db 11 dup(0)
-    db 46h
-    db 0
-    db 6
-    db 11 dup(0)
-    db 50h
-    db 0
-    db 7
-    db 0
-    db 1
-    db 9 dup(0)
-    db 64h
-    db 0
-    db 8
-    db 0
-    db 1
-    db 0
-    db 4Fh
-    db 54h
-    db 48h
-    db 5 dup(0)
-    db 0F4h
-    db 1
-    db 5
-    db 0
-    db 1
-    db 9 dup(0)
-    db 28h
-    db 0
-    db 3
-    db 3 dup(0)
+EXTRN _aNone:BYTE
 _planes db 4Dh, 49h, 47h, 2Dh, 32h, 33h, 0, 20h ;field_0 ; 19 items
     db 46h, 6Ch, 6Fh, 2 dup(67h), 65h, 72h, 3 dup(0) ;field_8
     dw 2E4h ;field_12
@@ -2391,9 +2255,9 @@ aEquip db 'Equip',0
     db 3 dup(0)
     db 0FEh
     db 0FFh
-    EXTRN _regnPlhPtr:WORD
-    EXTRN _plhFiles:WORD
-    EXTRN _worldFiles:WORD
+EXTRN _regnPlhPtr:WORD
+EXTRN _plhFiles:WORD
+EXTRN _worldFiles:WORD
     dw 5958h
     db 30h
     db 30h
@@ -2514,24 +2378,24 @@ _word_19324 dw 3
     dw 3
     dw 0
 
-    EXTRN _armPosition:WORD
-    EXTRN _spriteBlitX:WORD
-    EXTRN _spriteBlitY:WORD
-    EXTRN _spriteBlitW:WORD
-    EXTRN _spriteBlitH:WORD
-    EXTRN _readBufEndPtr:WORD
-    EXTRN _picWorkDataPtr:WORD
-    EXTRN _picRowLength:WORD
-    EXTRN _picProcessFlag0_1:BYTE
-    EXTRN _picLookupResult:BYTE
-    EXTRN _picTmp9BitCount:BYTE
-    EXTRN _picByte:BYTE
-    EXTRN _picFileReadBufEnd:WORD
-    EXTRN _picNumberDictSlots:WORD
-    EXTRN _picFileWord:WORD
-    EXTRN _picRemainingBitCount:BYTE
-    EXTRN _picByteUnsignedFlag:BYTE
-    EXTRN _picSlotCounter:WORD
+EXTRN _armPosition:WORD
+EXTRN _spriteBlitX:WORD
+EXTRN _spriteBlitY:WORD
+EXTRN _spriteBlitW:WORD
+EXTRN _spriteBlitH:WORD
+EXTRN _readBufEndPtr:WORD
+EXTRN _picWorkDataPtr:WORD
+EXTRN _picRowLength:WORD
+EXTRN _picProcessFlag0_1:BYTE
+EXTRN _picLookupResult:BYTE
+EXTRN _picTmp9BitCount:BYTE
+EXTRN _picByte:BYTE
+EXTRN _picFileReadBufEnd:WORD
+EXTRN _picNumberDictSlots:WORD
+EXTRN _picFileWord:WORD
+EXTRN _picRemainingBitCount:BYTE
+EXTRN _picByteUnsignedFlag:BYTE
+EXTRN _picSlotCounter:WORD
 _dictionaryIndex db 0
     db 200h dup(0)
 _picWorkData db 0
