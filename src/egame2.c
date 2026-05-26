@@ -393,7 +393,7 @@ int sub_189AA(int arg_0) {
 // ==== seg000:0x8df4 ====
 void sub_18DF4(int param_1, int param_2, int param_3) {
     *(char *)&var_315 = 0;
-    sub_132BA((long)param_1 << 5, -((long)param_2 - 0x8000L) << 5, (long)param_3);
+    sub_132BA((int32)param_1 << 5, -((int32)param_2 - 0x8000L) << 5, (int32)param_3);
 }
 
 // ==== seg000:0x85be ====

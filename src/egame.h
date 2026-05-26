@@ -145,7 +145,7 @@ void sub_13224(char *a, int b, char c);
 // ==== seg000:0x3266 ====
 int sub_13266();
 // ==== seg000:0x32ba ====
-int sub_132BA();
+int sub_132BA(int32,int32,int32);
 // ==== seg000:0x345e ====
 void sub_1345E(char *, int, int, int);
 // ==== seg000:0x34ac ====
