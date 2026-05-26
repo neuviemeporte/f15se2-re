@@ -1678,7 +1678,7 @@ extern int16 word_3C0A0;
 extern char* word_3C0A2[];
 extern int16 word_3C16A;
 extern int16 word_3C16C;
-extern uint8 byte_3C16E[];
+extern char byte_3C16E[];
 extern int16 word_3C45C;
 extern int16 word_3C45E;
 extern int matrix3dt_2[5][32];
