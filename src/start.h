@@ -520,14 +520,15 @@ extern char aNoScenarioFile[];
 extern char aSeeTechnicalSu[];
 extern char aTheater_0[];
 extern char aMissionType[];
-extern int16 page1Num;
-extern int16 drawColor;
-extern int16 fontIndex;
+extern struct PageDesc page1Desc;
+#define page1Num page1Desc.pageNum
+#define drawColor page1Desc.color
+#define fontIndex page1Desc.font
 extern int16 *page1NumPtr;
-extern int16 page2Num;
-extern uint8 unk_1709A[];
+extern struct PageDesc page2Desc;
+#define page2Num page2Desc.pageNum
 extern int *page2NumPtr;
-extern uint8 unk_170B0[];
+extern struct PageDesc page3Desc;
 extern uint8 unk_170B2[];
 extern uint8 unk_170C0[];
 extern char *missTheaNames[];
@@ -618,13 +619,11 @@ extern uint8 aGen_[];
 extern char aArmpiece_pic[];
 extern char aHiscore_pic[];
 extern uint8 pilotSelectFlag;
-extern uint8 unk_173D2;
-extern uint8 unk_173D3[];
-extern int16 textColor;
-extern uint8 unk_173DC[];
-extern int16 word_173DE;
+extern struct PageDesc screenDesc;
+#define textColor screenDesc.color
+#define word_173DE screenDesc.font
 extern int16 *screenBuf;
-extern uint8 unk_173EA[];
+extern struct PageDesc pageNumPageDesc;
 extern int16 *pageNumPtr;
 extern char *ranks[];
 extern unsigned __int8 byte_17412[];
@@ -777,9 +776,7 @@ extern int16 lineX2;
 extern int16 lineY1;
 extern int16 lineY2;
 extern uint8 dirtyMinBuf[];
-extern uint8 byte_179D9[];
 extern uint8 dirtyMaxBuf[];
-extern uint8 byte_17AD9[];
 extern uint8 unk_17B04[];
 extern uint8 byte_17B06[];
 extern int16 word_17BE7;

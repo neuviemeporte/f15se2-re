@@ -3,7 +3,6 @@ DOSSEG
 .MODEL SMALL
 PUBLIC _byte_17412
 PUBLIC _byte_17422
-PUBLIC _word_173DE
 PUBLIC _byte_1741A
 PUBLIC _ranks
 PUBLIC _pilotNameInputColors
@@ -30,11 +29,9 @@ PUBLIC _terrainIdxBuf
 PUBLIC _planes
 PUBLIC _blinkColors
 PUBLIC _blinkColorIdx
-
 PUBLIC _hercFlag
 PUBLIC _commData
 PUBLIC _joyAxes
-
 PUBLIC _bufPtr
 PUBLIC _needSplash
 PUBLIC _gfxModeSetPtr
@@ -44,9 +41,6 @@ PUBLIC _gameData
 PUBLIC _intRegs
 PUBLIC _selectedPilotIdx
 PUBLIC _hallfameBuf
-PUBLIC _screenBuf
-PUBLIC _page1NumPtr
-PUBLIC _page2NumPtr
 PUBLIC _byte_1B100
 PUBLIC _byte_1B0FF
 PUBLIC _missDiffLevels
@@ -72,11 +66,9 @@ PUBLIC _stru_18FC0
 PUBLIC _word_182BE
 PUBLIC _byte_192FC
 PUBLIC _target2
-
 PUBLIC _word_182C0
 PUBLIC _targets
 PUBLIC _word_182C2
-
 PUBLIC _word_192A4
 PUBLIC _word_182C4
 PUBLIC _stru_1892E
@@ -91,7 +83,6 @@ PUBLIC _fileHandle
 PUBLIC _scenarioCodePtr
 PUBLIC _scenarioFoundArr
 PUBLIC _missionPick
-PUBLIC _drawColor
 PUBLIC _word_171B2
 PUBLIC _regnPlhPtr
 PUBLIC _difficultySaved
@@ -100,12 +91,8 @@ PUBLIC _flag4Saved
 PUBLIC _plhFiles
 PUBLIC _worldFiles
 PUBLIC _todayMissStrBuf
-PUBLIC _fontIndex
 PUBLIC _word_182BA
-
 PUBLIC _readItemSize
-PUBLIC _pageNumPtr
-PUBLIC _textColor
 PUBLIC _spriteBlitX
 PUBLIC _word_1714A
 PUBLIC _word_1715A
@@ -601,30 +588,12 @@ asc_1700B db 0
 aMission db 'MISSION',0
 placeholder_3d3 db 'xx.3d3',0
 
-page1Num dw 1
-    db 2 dup(0)
-_drawColor dw 0
-    db 0Bh
-    db 5 dup(0)
-_fontIndex dw 1
-    db 8 dup(0)
-_page1NumPtr dw offset page1Num
-page2Num dw 2
-unk_1709A	db 4 dup(0)
-    db 0Bh
-    db 5 dup(0)
-    db 1
-    db 9 dup(0)
-_page2NumPtr dw offset page2Num
-unk_170B0 db 3
-    db 0
-unk_170B2	db 4 dup(0)
-    db 0Bh
-    db 5 dup(0)
-    db 1
-    db 3 dup(0)
-unk_170C0	db 6 dup(0)
-    dw offset unk_170B0
+EXTRN _page1Desc:BYTE
+    db 18h dup(0)  ; page1Desc (24 bytes)
+EXTRN _page2Desc:BYTE
+    db 18h dup(0)  ; page2Desc (24 bytes)
+EXTRN _page3Desc:BYTE
+    db 18h dup(0)  ; page3Desc (24 bytes)
 _missTheaNames dw offset aLibya
     dw offset aPersianGulf ;"Persian Gulf"
     dw offset aVietnam ;"Vietnam"
@@ -814,22 +783,10 @@ aColonel db 'Colonel ',0
 aGen_ db 'Gen. ',0
 
 _pilotSelectFlag db 0
-unk_173D2 db 0
-unk_173D3 db 0
-    db 2 dup(0)
-_textColor dw 7
-    db 4 dup(0)
-unk_173DC db 0
-    db 0
-_word_173DE dw 1
-    db 8 dup(0)
-_screenBuf dw offset unk_173D2
-unk_173EA	db 4 dup(0)
-    db 0Ch
-    db 7 dup(0)
-    db 3
-    db 9 dup(0)
-_pageNumPtr dw offset unk_173EA
+EXTRN _screenDesc:BYTE
+    db 18h dup(0)  ; screenDesc (24 bytes)
+EXTRN _pageNumPageDesc:BYTE
+    db 18h dup(0)  ; pageNumPageDesc (24 bytes)
     db 2 dup(0)
 _ranks dw offset a2ndLt_
     dw offset a1stLt_ ;"1st Lt. "
@@ -1288,10 +1245,10 @@ _lineX1 dw 0
 _lineX2 dw 0
 _lineY1 dw 0
 _lineY2 dw 0
-_dirtyMinBuf db 162h dup(0FFh)
-byte_179D9 db 56h dup(0FFh)
-_dirtyMaxBuf db 0AAh dup(0)
-byte_17AD9 db 2Bh dup(0)
+; dirtyMinBuf and dirtyMaxBuf MUST be contiguous - overlay slot 0x28
+; hardcodes dirtyMaxBuf = dirtyMinBuf + 0x1B8
+_dirtyMinBuf db 1B8h dup(0FFh)
+_dirtyMaxBuf db 0D5h dup(0)
 unk_17B04 db 0
     db 0
 byte_17B06 db 0E1h dup(0)
@@ -3004,22 +2961,14 @@ _picRemainingBitCount db 0
 _picByteUnsignedFlag db 0
 _picSlotCounter dw 0
 _dictionaryIndex db 0
-    db 100h dup(0)
-unk_19775 db 0
-    db 2 dup(0)
-unk_19778 db 0
-    db 0
-byte_1977A db 0FBh dup(0)
+    db 200h dup(0)
 _picWorkData db 0
     db 2 dup(0)
 _picDecodeDictionary dw 0
 _picDecodeIncrement db 0
-    db 1C1h dup(0)
-byte_19A3C db 9Fh dup(0)
-_clipDivZeroHandler db 61h dup(0)
-byte_19B3C db 180h dup(0)
-byte_19CBC db 100h dup(0)
-byte_19DBC db 12BCh dup(0)
+    db 260h dup(0)
+_clipDivZeroHandler db 0
+    db 159Ch dup(0)
 byte_1B078 db 0
 byte_1B079 db 0
 word_1B07A dw 0
