@@ -468,9 +468,19 @@ int read512FromFileIntoBuf();
 // ==== seg000:0xdf4f ====
 int sub_1DF4F(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4);
 // ==== seg000:0xdfbc ====
-int openBlitClosePic(); // 2 or 3 args?
+ // 2 parameters correct
+#if defined(__clang__)
+void openBlitClosePic(char* path, int arg_2);
+#else
+void openBlitClosePic();
+#endif
 // ==== seg000:0xe0aa ====
-int picBlit(); // 2 or 3 args?
+ // 2 parameters correct
+#if defined(__clang__)
+void picBlit(int handle, int unk);
+#else
+void picBlit();
+#endif
 // ==== seg000:0xe11c ====
 int sub_1E11C();
 // ==== seg000:0xe1f8 ====
@@ -1244,12 +1254,12 @@ extern uint8 byte_380DA[];
 extern char byte_380DD;
 extern int16 word_380E0;
 extern int16 word_380E2;
-extern uint8 a256left_pic[];
-extern uint8 a256right_pic[];
-extern uint8 a256rear_pic[];
-extern uint8 aLeft_pic[];
-extern uint8 aRight_pic[];
-extern uint8 aRear_pic[];
+extern char a256left_pic[];
+extern char a256right_pic[];
+extern char a256rear_pic[];
+extern char aLeft_pic[];
+extern char aRight_pic[];
+extern char aRear_pic[];
 extern int16 word_38126;
 extern uint8 unk_38128[];
 extern int16 word_38152;
