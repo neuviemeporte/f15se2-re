@@ -163,7 +163,7 @@ struct struc_3 {
     int32 field_6;
     uint8 field_10[26];
 };
-#if defined(__clang__) || defined(_MSC_VER) && (_MSC_VER > 510) 
+#if !defined(MSDOS) || defined(_MSC_VER) && (_MSC_VER > 510)
 STATIC_ASSERT(sizeof(struct struc_3)==40);
 #else
 STATIC_ASSERT(sizeof(struct struc_3)==36);

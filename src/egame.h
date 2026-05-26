@@ -241,7 +241,7 @@ void sub_15FDB(void);
 // ==== seg000:0x606c ====
 void sub_1606C(void);
 // ==== seg000:0x60d3 ====
-void sub_160D3(int *arg_0);
+void sub_160D3(int16 *arg_0);
 // ==== seg000:0x613b ====
 void sub_1613B(void);
 // ==== seg000:0x6172 ====
@@ -469,14 +469,14 @@ int read512FromFileIntoBuf();
 int sub_1DF4F(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4);
 // ==== seg000:0xdfbc ====
  // 2 parameters correct
-#if defined(__clang__)
+#if !defined(MSDOS)
 void openBlitClosePic(char* path, int arg_2);
 #else
 void openBlitClosePic();
 #endif
 // ==== seg000:0xe0aa ====
  // 2 parameters correct
-#if defined(__clang__)
+#if !defined(MSDOS)
 void picBlit(int handle, int unk);
 #else
 void picBlit();
@@ -1261,7 +1261,7 @@ extern char aLeft_pic[];
 extern char aRight_pic[];
 extern char aRear_pic[];
 extern int16 word_38126;
-extern uint8 unk_38128[];
+extern int16 unk_38128[];
 extern int16 word_38152;
 extern uint8 aFiring[];
 extern int16 word_3815E;

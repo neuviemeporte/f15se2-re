@@ -43,7 +43,7 @@ void drawStringCentered(int16 *page, const char *str, int startx, int y, int end
 
 int stringWidth(int16 *page, const char *str) {
     int n;
-#if defined(__clang__)
+#if !defined(MSDOS)
     const char* l; // clang errors due to wrong type but char does change the binary
 #else
     const uint8* l;

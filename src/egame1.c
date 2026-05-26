@@ -1901,7 +1901,7 @@ loop:
 }
 
 // ==== seg000:0x60d3 ====
-void sub_160D3(int *arg_0) {
+void sub_160D3(int16 *arg_0) {
     while (*arg_0 != -1) {
         gfx_jump_21(((uint8 *)word_3419C)[*arg_0++]);
         sub_2171A();

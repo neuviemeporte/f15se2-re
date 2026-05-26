@@ -9,7 +9,7 @@
 #include <dos.h>
 #include <memory.h>
 
-#if defined(__clang__)
+#if !defined(MSDOS)
 // ==== seg000:0xdfbc ====
 void openBlitClosePic(char* path, int arg_2) {
     int var_2 = openFileWrapper(path, 0);
