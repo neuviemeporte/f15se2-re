@@ -3112,9 +3112,9 @@ EXTRN _dat_424e:BYTE
 EXTRN _var_425c:BYTE
 EXTRN _dat_4804:BYTE
 EXTRN _var_192:BYTE
-EXTRN _var_193:BYTE
+PUBLIC _var_193
+PUBLIC _flightRecords
 EXTRN _slotInfoTable:BYTE
-EXTRN _flightRecords:BYTE
 EXTRN _cursorX:BYTE
 EXTRN _cursorY:BYTE
 EXTRN _hercFlag:BYTE
@@ -3988,6 +3988,9 @@ dat_5ab4 db 2 dup(?)
 _commData db 2 dup(?)
 _commData_seg db 2 dup(?)
 _gfxBufSeg db 514 dup(?)
+
+_var_193 db 2 dup(?)
+_flightRecords db 1534 dup(?)
 
 __bss_end label byte
 
