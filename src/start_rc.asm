@@ -2,14 +2,12 @@
 DOSSEG
 .MODEL SMALL
 
-PUBLIC _joyRepeatFlag
 PUBLIC _gridBuf1
 PUBLIC _gridBuf2
 PUBLIC _gridBuf3
 PUBLIC _gridBuf4
 PUBLIC _gridBuf5
 PUBLIC _page1Ptr
-
 PUBLIC _terrainBuf1
 PUBLIC _terrainBuf2
 PUBLIC _terrainBuf3
@@ -18,7 +16,6 @@ PUBLIC _terrainBuf5
 PUBLIC _terrainPtrUnk
 PUBLIC _terrainIdxBuf
 PUBLIC _planes
-
 PUBLIC _hercFlag
 PUBLIC _commData
 PUBLIC _bufPtr
@@ -48,19 +45,11 @@ PUBLIC _off_19314
 PUBLIC _word_1B960
 PUBLIC _fileHandle
 PUBLIC _scenarioFoundArr
-PUBLIC _missionPick
-PUBLIC _word_171B2
 PUBLIC _difficultySaved
 PUBLIC _theaterSaved
 PUBLIC _flag4Saved
 PUBLIC _todayMissStrBuf
 PUBLIC _readItemSize
-PUBLIC _word_1714A
-PUBLIC _word_1715A
-PUBLIC _word_1716A
-PUBLIC _word_1717A
-PUBLIC _word_1718A
-PUBLIC _word_1719A
 PUBLIC _wldReadBuf5Size
 PUBLIC _wldReadBuf1
 PUBLIC _wldReadBuf2
@@ -120,13 +109,10 @@ PUBLIC _audio_jump_65
 PUBLIC _audio_jump_67
 PUBLIC _audio_jump_6b
 PUBLIC _audio_jump_6c
-PUBLIC _diskTransferArea
-PUBLIC _fcbMatchStr
 PUBLIC _dictionaryIndex
 PUBLIC _picDecodeDictionary
 PUBLIC _picWorkData
 PUBLIC _picDecodeIncrement
-PUBLIC _searchFCB
 PUBLIC _clipDivZeroHandler
 
 ; ---------------------------------------------------------------------------
@@ -432,90 +418,19 @@ unk_16C10 db 0AAh
 EXTRN _page1Desc:BYTE
 EXTRN _page2Desc:BYTE
 EXTRN _page3Desc:BYTE
-_word_1714A dw 1
-    dw 53h ;these arrays are used in the arm animation routine, maybe coords?
-    dw 0D9h
-    dw 0A4h
-    dw 1
-    dw 1
-    dw 0BFh
-    dw 10Ah
-_word_1715A dw 0
-    dw 0
-    dw 0
-    dw 2Eh
-    dw 3Eh
-    dw 7Ch
-    dw 6Ah
-    dw 53h
-_word_1716A dw 3Eh
-    dw 3Eh
-    dw 3Dh
-    dw 3Eh
-    dw 3Eh
-    dw 3Eh
-    dw 3Fh
-    dw 3Eh
-_word_1717A dw 1Ch
-    dw 2Fh
-    dw 35h
-    dw 36h
-    dw 37h
-    dw 38h
-    dw 39h
-    dw 38h
-_word_1718A dw 52h
-    dw 5Dh
-    dw 66h
-    dw 66h
-    dw 68h
-    dw 5Ch
-    dw 4Bh
-    dw 35h
-_word_1719A dw 3Eh
-    dw 2Eh
-    dw 25h
-    dw 2Dh
-    dw 3Eh
-    dw 4Bh
-    dw 5Dh
-    dw 74h
-_missionPick dw 0FFFFh
-    db 0FFh
-    db 0FFh
-_word_171B2 dw 1
-    dw 2
-    dw 3
-    dw 4
-    dw 5
-    dw 6
-    dw 7
-_joyRepeatFlag dw 0
+    EXTRN _word_1714A:WORD
+    EXTRN _word_1715A:WORD
+    EXTRN _word_1716A:WORD
+    EXTRN _word_1717A:WORD
+    EXTRN _word_1718A:WORD
+    EXTRN _word_1719A:WORD
+    EXTRN _missionPick:WORD
+    EXTRN _word_171B2:WORD
+    EXTRN _joyRepeatFlag:WORD
+    EXTRN _fcbMatchStr:BYTE
+    EXTRN _searchFCB:BYTE
+    EXTRN _diskTransferArea:BYTE
 EXTRN _spriteParams:BYTE
-_fcbMatchStr db 49h
-    db 3
-    db 46h
-    db 31h
-unk_172CA db 35h
-    db 41h
-    db 0
-_searchFCB db 0FFh
-    db 5 dup(0)
-    db 8
-    db 0
-    db 3Fh ;? ; filename to search for
-    db 3Fh
-    db 3Fh
-    db 3Fh
-    db 3Fh
-    db 3Fh
-    db 3Fh
-    db 3Fh
-    db 3Fh
-    db 3Fh
-    db 3Fh
-    db 25 dup(0)
-_diskTransferArea db 85h dup(0)
     EXTRN _picCurrentRow:WORD
     EXTRN _pilotSelectFlag:BYTE
 EXTRN _screenDesc:BYTE

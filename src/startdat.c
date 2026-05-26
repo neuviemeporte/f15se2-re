@@ -455,3 +455,30 @@ int16 blinkColorIdx = 0;
 
 /* Pilot name input colors (2 words: word + byte pair) */
 int16 pilotNameInputColors[] = { 0, 0x0008 };
+
+/* Arm animation coordinate arrays (8 entries each) */
+int16 word_1714A[] = { 1, 0x53, 0xD9, 0xA4, 1, 1, 0xBF, 0x10A };
+int16 word_1715A[] = { 0, 0, 0, 0x2E, 0x3E, 0x7C, 0x6A, 0x53 };
+int16 word_1716A[] = { 0x3E, 0x3E, 0x3D, 0x3E, 0x3E, 0x3E, 0x3F, 0x3E };
+int16 word_1717A[] = { 0x1C, 0x2F, 0x35, 0x36, 0x37, 0x38, 0x39, 0x38 };
+int16 word_1718A[] = { 0x52, 0x5D, 0x66, 0x66, 0x68, 0x5C, 0x4B, 0x35 };
+int16 word_1719A[] = { 0x3E, 0x2E, 0x25, 0x2D, 0x3E, 0x4B, 0x5D, 0x74 };
+
+/* Mission pick state */
+int16 missionPick = -1;  /* 0xFFFF */
+int16 missionPickPad = -1; /* the db 0FFh, 0FFh after missionPick */
+int16 word_171B2[] = { 1, 2, 3, 4, 5, 6, 7 };
+
+/* Joystick repeat flag */
+int16 joyRepeatFlag = 0;
+
+/* FCB search data */
+uint8 fcbMatchStr[] = { 0x49, 0x03, 0x46, 0x31, 0x35, 0x41, 0x00 };
+uint8 searchFCB[] = {
+    0xFF, 0, 0, 0, 0, 0, 0x08, 0x00,
+    '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?',
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+};
+
+/* Disk Transfer Area (DOS FCB search result buffer) */
+uint8 diskTransferArea[0x85] = {0};
