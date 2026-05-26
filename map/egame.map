@@ -134,7 +134,7 @@ sub_19A4D: seg000 NEAR 9a4d-9ada R9a4d-9ada complete
 sub_19ADB: seg000 NEAR 9adb-9b97 R9adb-9b97 complete
 sub_19B98: seg000 NEAR 9b98-9be0 R9b98-9be0 complete
 sub_19BE1: seg000 NEAR 9be1-9c0b R9be1-9c0b complete
-sub_19C0C: seg000 NEAR 9c0c-9c83 R9c0c-9c83
+sub_19C0C: seg000 NEAR 9c0c-9c83 R9c0c-9c83 complete
 sub_19C84: seg000 NEAR 9c84-9d85 R9c84-9d85 complete
 sub_19D86: seg000 NEAR 9d86-9daf R9d86-9daf complete
 sub_19DB0: seg000 NEAR 9db0-9e43 R9db0-9e43 complete
@@ -183,13 +183,13 @@ sub_1CF32: seg000 NEAR cf32-cf63 Rcf32-cf63 complete
 sub_1CF64: seg000 NEAR cf64-cf8d Rcf64-cf8d complete
 forceRange: seg000 NEAR cf8e-cfa5 Rcf8e-cfa5 complete
 sub_1CFA6: seg000 NEAR cfa6-d007 Rcfa6-d007 complete
-sub_1D008: seg000 NEAR d008-d177 Rd008-d177
+sub_1D008: seg000 NEAR d008-d177 Rd008-d177 complete
 sub_1D178: seg000 NEAR d178-d18f Rd178-d18f complete
 sub_1D190: seg000 NEAR d190-d1a5 Rd190-d1a5 complete
 sub_1D1C8: seg000 NEAR d1c8-d1e7 Rd1c8-d1e7 complete
 sub_1D1E8: seg000 NEAR d1e8-d1ff Rd1e8-d1ff complete
 randlmul: seg000 NEAR d200-d21d Rd200-d21d complete
-sub_1D21E: seg000 NEAR d21e-d25f Rd21e-d25f
+sub_1D21E: seg000 NEAR d21e-d25f Rd21e-d25f complete
 keyDispatch: seg000 NEAR d260-d9da Rd260-d2c9 Ud2ca-d2cb Rd2cc-d523 Ud524-d529 Rd52a-d5ee Ud5ef-d5f0 Rd5f1-d743 Ud744-d746 Rd747-d927 Ud928-d929 Rd92a-d9da
 selectMissile: seg000 NEAR d9db-da34 Rd9db-da34 complete
 makeSound: seg000 NEAR da35-da5e Rda35-da5e complete

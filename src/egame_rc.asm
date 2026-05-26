@@ -73,6 +73,7 @@ EXTRN _sub_13A90:PROC
 EXTRN _copySomeMem:PROC
 EXTRN _sub_1CF64:PROC
 EXTRN _sub_1CFA6:PROC
+EXTRN _sub_1D008:PROC
 EXTRN _sub_1D178:PROC
 EXTRN _sub_1D190:PROC
 EXTRN _sub_1D200:PROC
@@ -397,7 +398,7 @@ PUBLIC _stru_33402
 PUBLIC _word_33442
 PUBLIC _stru_335C4
 
-PUBLIC _sub_1D008
+
 PUBLIC _var_672
 PUBLIC _var_671
 PUBLIC _aMissileLock
@@ -14858,188 +14859,8 @@ sub_1CB42 endp
 ; ------------------------------seg000:0xcfa6------------------------------
 ; ------------------------------seg000:0xd007------------------------------
 ; ------------------------------seg000:0xd008------------------------------
-_sub_1D008 proc near
-    push BP
-    mov BP,SP
-    sub SP,0eh
-    push SI
-    cmp word ptr [BP + 4h],0h
-    jnz LAB_1000_d02a
-    cmp word ptr [BP + 6h],0h
-    jle LAB_1000_d022
-    sub AX,AX
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-LAB_1000_d022:
-    mov AX,8000h
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-LAB_1000_d02a:
-    cmp word ptr [BP + 6h],0h
-    jnz LAB_1000_d046
-    cmp word ptr [BP + 4h],0h
-    jle LAB_1000_d03e
-    mov AX,4000h
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-LAB_1000_d03e:
-    mov AX,0c000h
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-LAB_1000_d046:
-    push word ptr [BP + 6h]
-    call _abs
-    add SP,2h
-    push word ptr [BP + 4h]
-    mov SI,AX
-    call _abs
-    add SP,2h
-    cmp AX,SI
-    jle LAB_1000_d08c
-    push word ptr [BP + 6h]
-    call _abs
-    add SP,2h
-    cwd
-    mov CL,0eh
-LAB_1000_d06a:
-    shl AX,1h
-    rcl DX,1h
-    dec CL
-    jnz LAB_1000_d06a
-    mov word ptr [BP + -8h],AX
-    mov word ptr [BP + -6h],DX
-    push word ptr [BP + 4h]
-    call _abs
-    add SP,2h
-    mov word ptr [BP + -0ah],AX
-    mov word ptr [BP + -0ch],1h
-    jmp LAB_1000_d0b7
-    db 90h
-LAB_1000_d08c:
-    push word ptr [BP + 4h]
-    call _abs
-    add SP,2h
-    cwd
-    mov CL,0eh
-LAB_1000_d098:
-    shl AX,1h
-    rcl DX,1h
-    dec CL
-    jnz LAB_1000_d098
-    mov word ptr [BP + -8h],AX
-    mov word ptr [BP + -6h],DX
-    push word ptr [BP + 6h]
-    call _abs
-    add SP,2h
-    mov word ptr [BP + -0ah],AX
-    mov word ptr [BP + -0ch],0h
-LAB_1000_d0b7:
-    mov AX,word ptr [BP + -0ah]
-    cwd
-    push DX
-    push AX
-    push word ptr [BP + -6h]
-    push word ptr [BP + -8h]
-    call __aNldiv
-    mov word ptr [BP + -0eh],AX
-    cwd
-    push DX
-    push AX
-    mov AX,0b00h
-    cwd
-    push DX
-    push AX
-    mov AX,1333h
-    sub AX,word ptr [BP + -0eh]
-    push AX
-    call _abs
-    add SP,2h
-    cwd
-    push DX
-    push AX
-    call __aNlmul
-    mov CL,0eh
-LAB_1000_d0e7:
-    sar DX,1h
-    rcr AX,1h
-    dec CL
-    jnz LAB_1000_d0e7
-    sub AX,2800h
-    sbb DX,0h
-    neg AX
-    adc DX,0h
-    neg DX
-    push DX
-    push AX
-    call __aNlmul
-    mov CL,0eh
-LAB_1000_d103:
-    sar DX,1h
-    rcr AX,1h
-    dec CL
-    jnz LAB_1000_d103
-    mov word ptr [BP + -2h],AX
-    cmp word ptr [BP + 4h],0h
-    jle LAB_1000_d142
-    cmp word ptr [BP + 6h],0h
-    jle LAB_1000_d12e
-    cmp word ptr [BP + -0ch],0h
-    jz LAB_1000_d128
-    mov AX,4000h
-LAB_1000_d123:
-    sub AX,word ptr [BP + -2h]
-    jmp LAB_1000_d170
-LAB_1000_d128:
-    mov AX,word ptr [BP + -2h]
-    jmp LAB_1000_d170
-    db 90h
-LAB_1000_d12e:
-    cmp word ptr [BP + -0ch],0h
-    jz LAB_1000_d13c
-    mov AX,word ptr [BP + -2h]
-    add AH,40h
-    jmp LAB_1000_d170
-LAB_1000_d13c:
-    mov AX,8000h
-    jmp LAB_1000_d123
-    db 90h
-LAB_1000_d142:
-    cmp word ptr [BP + 6h],0h
-    jle LAB_1000_d15e
-    cmp word ptr [BP + -0ch],0h
-    jz LAB_1000_d156
-    mov AX,word ptr [BP + -2h]
-    add AH,0c0h
-    jmp LAB_1000_d170
-LAB_1000_d156:
-    mov AX,word ptr [BP + -2h]
-    neg AX
-    jmp LAB_1000_d170
-    db 90h
-LAB_1000_d15e:
-    cmp word ptr [BP + -0ch],0h
-    jz LAB_1000_d16a
-    mov AX,0c000h
-    jmp LAB_1000_d123
-    db 90h
-LAB_1000_d16a:
-    mov AX,word ptr [BP + -2h]
-    add AH,80h
-LAB_1000_d170:
-    mov word ptr [BP + -4h],AX
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-_sub_1D008 endp
+; _sub_1D008 - now in C (egame1.c)
+sub_1D008 equ _sub_1D008
 ; ------------------------------seg000:0xd177------------------------------
 ; ------------------------------seg000:0xd178------------------------------
 ; _sub_1D178 - now in C (egame2.c)

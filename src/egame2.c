@@ -519,3 +519,43 @@ int sub_1CFA6(int arg_0, int arg_1) {
     if (a > 0x7FFF) a = 0x7FFF;
     return (int)a;
 }
+
+// ==== seg000:0xd008 ====
+int sub_1D008(int param_1, int param_2) {
+    int p, a;
+    long b;
+    int d, e, f;
+
+    if (param_1 == 0) {
+        if (param_2 > 0) return 0;
+        return BEARING_SOUTH;
+    }
+    if (param_2 == 0) {
+        if (param_1 > 0) return BEARING_EAST;
+        return BEARING_WEST;
+    }
+    if (abs(param_1) > abs(param_2)) {
+        b = (long)abs(param_2) << 0xe;
+        d = abs(param_1);
+        e = 1;
+    }
+    else {
+        b = (long)abs(param_1) << 0xe;
+        d = abs(param_2);
+        e = 0;
+    }
+    f = b / (long)d;
+    p = ((0x2800L - (((long)abs(0x1333 - f) * 0xB00L) >> 0xe)) * (long)f) >> 0xe;
+    if (param_1 > 0) {
+        if (param_2 > 0)
+            a = e ? BEARING_EAST - p : p;
+        else
+            a = e ? p + BEARING_EAST : BEARING_SOUTH - p;
+    }
+    else {
+        if (param_2 > 0)
+            a = e ? p + BEARING_WEST : -p;
+        else
+            a = e ? BEARING_WEST - p : p + BEARING_SOUTH;
+    }
+}
