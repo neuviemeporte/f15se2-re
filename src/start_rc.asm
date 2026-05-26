@@ -131,7 +131,7 @@ PUBLIC _gfx_jump_23
 PUBLIC _gfx_jump_25
 PUBLIC _gfx_jump_28
 PUBLIC _gfx_jump_29_switchColor
-PUBLIC _gfx_jump_2a
+PUBLIC _gfx_copyRect
 PUBLIC _gfx_jump_2f_charWidth
 PUBLIC _gfx_jump_30_blitToCurrent
 PUBLIC _gfx_jump_33_fillRow
@@ -143,16 +143,16 @@ PUBLIC _gfx_jump_38_getPageBuf
 PUBLIC _gfx_jump_3a_getRowOffset
 PUBLIC _gfx_jump_3b_clearBuf
 PUBLIC _gfx_jump_3c_setMode13
-PUBLIC _gfx_jump_3d_null
+PUBLIC _gfx_setFadeSteps
 PUBLIC _gfx_jump_3f_modecode
 PUBLIC _gfx_jump_44_setDac
 PUBLIC _gfx_jump_45_retrace
 PUBLIC _gfx_jump_46_retrace2
 PUBLIC _gfx_jump_4b_storeBufPtr
 PUBLIC _gfx_jump_4e_getVal
-PUBLIC _gfx_jump_50_null
+PUBLIC _gfx_commitPage
 PUBLIC _gfx_jump_51_null
-PUBLIC _gfx_jump_52
+PUBLIC _gfx_setMonoFlag
 PUBLIC _misc_jump_5a_keybuf
 PUBLIC _misc_jump_5b_getkey
 PUBLIC _misc_jump_5d_readJoy
@@ -918,10 +918,10 @@ _gfx_jump_29_switchColor proc near
 _gfx_jump_29_switchColor endp
 ; ------------------------------startData:0xb85------------------------------
 ; ------------------------------startData:0xb8a------------------------------
-_gfx_jump_2a proc near
+_gfx_copyRect proc near
     db 0EAh ;jmp gfx_slot_2a
     dd 0
-_gfx_jump_2a endp
+_gfx_copyRect endp
 ; ------------------------------startData:0xb8a------------------------------
     db 0EAh ;jmp far ptr gfx_slot_2b
     dd 0
@@ -1004,10 +1004,10 @@ _gfx_jump_3c_setMode13 proc far
 _gfx_jump_3c_setMode13 endp
 ; ------------------------------startData:0xbe4------------------------------
 ; ------------------------------startData:0xbe9------------------------------
-_gfx_jump_3d_null proc near
+_gfx_setFadeSteps proc near
     db 0EAh ;jmp far ptr gfx_slot_3d_null
     dd 0
-_gfx_jump_3d_null endp
+_gfx_setFadeSteps endp
 ; ------------------------------startData:0xbe9------------------------------
     db 0EAh ;jmp far ptr gfx_slot_3e
     dd 0
@@ -1070,10 +1070,10 @@ _gfx_jump_4e_getVal endp
     db 0EAh ;jmp gfx_slot_4f
     dd 0
 ; ------------------------------startData:0xc48------------------------------
-_gfx_jump_50_null proc far
+_gfx_commitPage proc far
     db 0EAh ;jmp gfx_slot_50_null
     dd 0
-_gfx_jump_50_null endp
+_gfx_commitPage endp
 ; ------------------------------startData:0xc48------------------------------
 ; ------------------------------startData:0xc4d------------------------------
 _gfx_jump_51_null proc far
@@ -1084,10 +1084,10 @@ _gfx_jump_51_null endp
     db 0EAh ;jmp gfx_slot_52
     dd 0
 ; ------------------------------startData:0xc57------------------------------
-_gfx_jump_52 proc near
+_gfx_setMonoFlag proc near
     db 0EAh ;jmp gfx_slot_52_null
     dd 0
-_gfx_jump_52 endp
+_gfx_setMonoFlag endp
 ; ------------------------------startData:0xc57------------------------------
     db 30 dup(0)
 ; ------------------------------startData:0xc7a------------------------------

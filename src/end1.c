@@ -175,7 +175,7 @@ void showPostMissionAwards(void) {
     if (commData->gfxModeChar != 0)
         goto done;
     if (gameData->campaignProgress == 1) {
-        gfx_jump_3d_null(3);
+        gfx_setFadeSteps(3);
         openShowPic(str_deskPic, *awardPage);
         drawStringCentered(awardPage, str_deskMsg1, 0x24, 0xb3, 0xfa);
         drawStringCentered(awardPage, str_deskMsg2, 0x24, 0xbc, 0xfa);
@@ -191,7 +191,7 @@ void showPostMissionAwards(void) {
         goto show;
     }
     if (gameData->campaignProgress == 2) {
-        gfx_jump_3d_null(2);
+        gfx_setFadeSteps(2);
         openShowPic(str_deathPic, *awardPage);
         drawStringCentered(awardPage, str_deathMsg1, 0x24, 0xad, 0xfa);
         drawStringCentered(awardPage, str_deathMsg2, 0x24, 0xb6, 0xfa);
@@ -199,14 +199,14 @@ void showPostMissionAwards(void) {
     }
     // 1fa8
     if (((unsigned)gameData->rank < 6) && (*(long *)&promoThresholds[gameData->rank] < gameData->totalScore)) {
-        gfx_jump_3d_null(6);
+        gfx_setFadeSteps(6);
         openShowPic(str_promoPic, *awardPage);
         awardColor = 1;
         drawStringCentered(awardPage, str_promoMsg1, 0x24, 0xae, 0xfa);
         mystrcpy(textBuf, str_promoMsg2);
         mystrcat(textBuf, rankNames[++gameData->rank]);
         drawStringCentered(awardPage, textBuf, 0x24, 0xb7, 0xfa);
-        gfx_jump_50();
+        gfx_commitPage();
         gfx_jump_46_retrace2();
         waitForKeyOrJoy();
     }
@@ -221,7 +221,7 @@ medals:
     if (gameData->medals & (1 << (char)p))
         goto done;
     gfx_jump_45_retrace();
-    gfx_jump_3d_null(0x0a);
+    gfx_setFadeSteps(0x0a);
     openShowPic(str_medalPic, *awardPage);
     awardColor = 0x0f;
     drawStringCentered(awardPage, str_medalMsg1, 0x24, 0xae, 0xfa);
@@ -230,7 +230,7 @@ medals:
     drawStringCentered(awardPage, textBuf, 0x24, 0xb7, 0xfa);
     gameData->medals |= (1 << (char)p);
 show:
-    gfx_jump_50();
+    gfx_commitPage();
     gfx_jump_46_retrace2();
     waitForKeyOrJoy();
 done:

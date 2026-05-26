@@ -41,11 +41,11 @@ void pilotSelect(int16 needSplash)
         TRACE(("pilotSelect(): updated hallfame"));
     }
     // 0x1b8d
-    gfx_jump_3d_null(4);
+    gfx_setFadeSteps(4);
     loadPic(aArmpiece_pic, menuSprites);
     TRACE(("pilotSelect(): loaded armpiece"));
     // 0x1ba7
-    gfx_jump_3d_null(7);
+    gfx_setFadeSteps(7);
     // 0x1bb9
     openShowPic(aHiscore_pic, *screenBuf);
     TRACE(("pilotSelect(): showed hiscore pic"));
@@ -101,7 +101,7 @@ void updateHallfame()
     screenBuf[3] = 0;
     // 1ccd
     clearRect(screenBuf, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
-    gfx_jump_50_null();
+    gfx_commitPage();
     screenBuf[2] = COLOR_WHITE;
     // 1cf4
     drawStringCentered(screenBuf, aOriginalDiskIn, 0, 0x64, 0x140);
@@ -129,7 +129,7 @@ void displayPilots(void)
     // 1d71
     drawStringCentered(pageNumPtr, aUseSelectorToC, 0, 0xC0, 0x140);
     TRACE(("displayPilots(): drawn prompt"));
-    gfx_jump_50_null();
+    gfx_commitPage();
     TRACE(("displayPilots(): exiting"));
 }
 

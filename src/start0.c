@@ -57,11 +57,11 @@ int main(void)
         gameData->campaignProgress = 1;
         gameData->difficulty = 0xffff;
         gameData->theater = 0xffff;
-        gfx_jump_3d_null(5);
+        gfx_setFadeSteps(5);
         /* 0xeb */
         TRACE(("main: showing labs"));
         openShowPic(aLabs_pic, 0);
-        gfx_jump_50_null();
+        gfx_commitPage();
         /* 0xfd */
         TRACE(("main: setting timer irq handler"));
         setTimerIrqHandler();
@@ -76,11 +76,11 @@ int main(void)
         if (timerCounter >= MPS_TIMEOUT) { // key was not pressed, show adv.pic
             // 0x125
             gfx_jump_45_retrace();
-            gfx_jump_3d_null(0xf);
+            gfx_setFadeSteps(0xf);
             /* 0x13d */
             TRACE(("main: showing adv"));
             openShowPic(aAdv_pic, 0);
-            gfx_jump_50_null();
+            gfx_commitPage();
             gfx_jump_46_retrace2();
             /* 0x14d */
             for (introStage = 0; introStage < 2; introStage++) {
@@ -110,10 +110,10 @@ checkEga:
         /* 0x1c5 */
         else {
             TRACE(("main: doing 16color title"));
-            gfx_jump_3d_null(1);
+            gfx_setFadeSteps(1);
             gfx_jump_45_retrace();
             openShowPic(aTitle16_pic, 0);
-            gfx_jump_50_null();
+            gfx_commitPage();
             /* 0x1ec */
             gfx_jump_44_setDac(commData->gfxModeNum >= GFX_MODE_VGA ? 4 : 3);
         }
@@ -221,7 +221,7 @@ doSrand:
     TRACE(("main: restoring cbreak handler and clearing splash"));
     restoreCbreakHandler();
     *needSplash = 0;
-    gfx_jump_3d_null(8);
+    gfx_setFadeSteps(8);
     /* 0x3d8 */
     TRACE(("main: loading sprites"));
     if (gfx_jump_4e_getVal() == 0) {
@@ -251,7 +251,7 @@ doSrand:
     misc_jump_5e_clearKeyFlags();
     // 461
     clearRect(bufPtr, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
-    gfx_jump_52(0);
+    gfx_setMonoFlag(0);
     /* 0x478 */
     TRACE(("main: exiting with code %hd", exitCode[0]));
 #ifdef DEBUG

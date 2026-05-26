@@ -3,6 +3,7 @@
 #include "inttype.h"
 #include "struct.h"
 #include "comm.h"
+#include "slot.h"
 
 #include <stdio.h>
 #include <dos.h>
@@ -67,17 +68,11 @@
 #define SCORE_ALL_EVENTS    0x100
 
 void closeFileWrapper(int handle);
-extern void far gfx_jump_05_drawString(int16 *pageNum, const char *string);
-extern int far gfx_jump_2f_charWidth(int ch, int font);
 
 /* ASM functions called from C */
 void restoreTimerIrqHandler(void);
 void setTimerIrqHandler(void);
 void intDispatch(int intNum, uint8 *inRegs, uint8 *outRegs);
-extern void far misc_jump_5e_clearKeyFlags(void);
-extern int far misc_jump_5a_keybuf(void);
-extern int far misc_jump_5b_getkey(void);
-extern int far misc_jump_5d_readJoy(int param);
 void restoreCbreakHandler(void);
 void memcopy(char *dst, char *src, int count);
 void farMemcopy(int src_seg, int src_off, int dst_seg, int dst_off, int count);
@@ -200,8 +195,6 @@ extern int16 *spriteSam;
 extern int16 *spriteGround;
 extern int16 *spriteWaypoint;
 
-extern int far gfx_jump_11_blitSprite(int16* spritePtr);
-
 /* Reconstructed C functions */
 void seedRandom(void);
 void loadPic(char *filename, int segment);
@@ -226,10 +219,6 @@ void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y
 void clearRect(int16 *page, int y1, int x1, int x2, int y2);
 void mystrcat(char *dst, char *src);
 char *formatFlightTime(int timeValue, char *buffer);
-extern void far gfx_jump_21(int param);
-extern void far gfx_jump_50(void);
-extern void far gfx_jump_29_switchColor(int16 *page, int x1, int y1, int x2, int y2, int fromColor, int toColor);
-extern void far gfx_jump_2a(int p1, int p2, int p3, int p4, int p5, int p6, int p7, int p8);
 long calcMissionScore(int param);
 void waitForKeyOrJoy(void);
 void checkQuitFlag(void);
@@ -356,10 +345,6 @@ extern char str_promoMsg2[];
 extern char str_medalPic[];
 extern char str_medalMsg1[];
 extern char str_medalMsg2[];
-extern void far gfx_jump_3d_null(int param);
-extern void far gfx_jump_50(void);
-extern void far gfx_jump_45_retrace(void);
-extern void far gfx_jump_46_retrace2(void);
 
 /* Variables used by calcMissionScore */
 extern int secondaryHit;
@@ -400,13 +385,5 @@ void debriefMainLoop(void);
 void showPostMissionAwards(void);
 void installCBreakHandler(void);
 extern void far copyJoystickData(uint8 far *data);
-extern int far gfx_jump_31(void);
-extern int far gfx_jump_17_bufSize(void);
-extern void far gfx_jump_0_alloc(int param);
-extern void far gfx_jump_0e_setCurBuf(int param);
-extern void far gfx_jump_44_setDac(int param);
-extern void far gfx_jump_4b_storeBufPtr(int param1, int param2);
-extern void far gfx_jump_52(int param);
-extern void far gfx_jump_53(int param);
 
 #endif // F15_SE2_END

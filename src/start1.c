@@ -133,7 +133,7 @@ void missionSelect()
     // 6d3
     gfx_jump_44_setDac(1);
     // 6de
-    gfx_jump_3d_null(0);
+    gfx_setFadeSteps(0);
     // 6f0
     openShowPic(aWall_pic, *page1NumPtr);
     TRACE(("missionSelect(): shown wall"));
@@ -299,7 +299,7 @@ void animateArm(int a, int b)
     // ac2
     if (a == -1) {
         // ae5
-        gfx_jump_2a(*page1NumPtr, 0, 0, *page2NumPtr, 0, 0 , SCREEN_WIDTH, SCREEN_HEIGHT);
+        gfx_copyRect(*page1NumPtr, 0, 0, *page2NumPtr, 0, 0 , SCREEN_WIDTH, SCREEN_HEIGHT);
     }
     // aed
     if (b != -1) {
@@ -314,7 +314,7 @@ void animateArm(int a, int b)
     // b55
     if (commData->gfxModeNum == GFX_MODE_MDA || commData->gfxModeNum == GFX_MODE_EGA) { // mda or cga?
         // b70
-        gfx_jump_52(*page1NumPtr);
+        gfx_setMonoFlag(*page1NumPtr);
         // b7c
         waitMdaCgaStatus(1);
         // ba9
@@ -322,10 +322,10 @@ void animateArm(int a, int b)
         // b89
         if (a == -1) {
             // ba9
-            gfx_jump_2a(*page2NumPtr, 0, 0, *page1NumPtr, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            gfx_copyRect(*page2NumPtr, 0, 0, *page1NumPtr, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         } else {// bb3
             // bd7
-            gfx_jump_2a(*page2NumPtr, spriteBlitX, spriteBlitY, *page1NumPtr, spriteBlitX, spriteBlitY, spriteBlitW, spriteBlitH);
+            gfx_copyRect(*page2NumPtr, spriteBlitX, spriteBlitY, *page1NumPtr, spriteBlitX, spriteBlitY, spriteBlitW, spriteBlitH);
             // bdf
             if (a < 5 && enableHighlight != 0) {
                 // c10
@@ -346,7 +346,7 @@ void animateArm(int a, int b)
         spriteBlitW = word_1718A[j];
         spriteBlitH = word_1719A[j];
         // c95
-        gfx_jump_2a(*page2NumPtr, spriteBlitX, spriteBlitY, *page1NumPtr, spriteBlitX, spriteBlitY, spriteBlitW, spriteBlitH);
+        gfx_copyRect(*page2NumPtr, spriteBlitX, spriteBlitY, *page1NumPtr, spriteBlitX, spriteBlitY, spriteBlitW, spriteBlitH);
         // c9d
         if (b < 5 && enableHighlight != 0) {
             // cce

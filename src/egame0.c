@@ -42,13 +42,13 @@ int main(void) {
     TRACE(("egame main: gfxInit"));
     gfxInit();
     TRACE(("egame main: after gfxInit"));
-    gfx_jump_0c();
-    gfx_jump_52(commData->setupMono);
+    gfx_initOverlay();
+    gfx_setMonoFlag(commData->setupMono);
     if (gameData->theater < 2) { // 0xc8
-        gfx_jump_3d_null(0xc);
+        gfx_setFadeSteps(0xc);
     }
     else { // 0xd6
-        gfx_jump_3d_null(0x10);
+        gfx_setFadeSteps(0x10);
     }
     // 0xea
     gfxBufPtr = commData->gfxInitResult;
