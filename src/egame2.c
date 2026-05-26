@@ -559,3 +559,109 @@ int sub_1D008(int param_1, int param_2) {
             a = e ? BEARING_WEST - p : p + BEARING_SOUTH;
     }
 }
+
+// ==== seg000:0x8aa6 ====
+void sub_18AA6()
+{
+    int p;
+    int a;
+    int b;
+    int c;
+
+    if (abs(var_545) > 0x3000) return;
+    if (word_33702 != 0) return;
+    if (word_3BE3C != 0) return;
+
+    b = missleSpec[missileSpecIndex].field_0;
+    p = *(int16 *)&missiles[b].field_A[2];
+
+    if (missleSpec[missileSpecIndex].field_2 == 0) {
+        strcpy((char *)strBuf, missiles[b].field_0);
+        strcat((char *)strBuf, (char *)a0);
+        sub_1A204((char *)strBuf);
+        goto end;
+    }
+
+    if (p == 0) return;
+    if (p == -1) return;
+
+    missleSpec[missileSpecIndex].field_2--;
+
+    if (word_330C2 != 0) {
+        sub_19E44(0);
+        a = ((int16 *)aA)[missileSpecIndex];
+        sub_19E5D(a - 1, 0xbe, a + 2, 0xc2);
+        sub_1A183(missleSpec[missileSpecIndex].field_2, a, 0xbe, 0x0c);
+        strcpy((char *)strBuf, missiles[b].field_0);
+        strcat((char *)strBuf, (char *)0x5947);
+        strcat((char *)strBuf, itoa(missleSpec[missileSpecIndex].field_2, (char *)unk_3C030, 0x0a));
+        sub_1A204((char *)strBuf);
+    }
+
+    c = -1;
+    a = 8;
+    do {
+        if (stru_335C4[a].field_E == 0) {
+            c = a;
+        }
+        a++;
+    } while (a < 12);
+
+    if (c == -1) goto check_end;
+
+    stru_335C4[c].field_0 = word_3BEC0;
+    stru_335C4[c].field_2 = word_3BED0;
+    stru_335C4[c].field_4 = var_547 - 0x14;
+    stru_335C4[c].field_6 = (unsigned int)word_3A944 >> 11;
+    c = c;
+    stru_335C4[c].field_8 = var_542;
+    stru_335C4[c].field_A = var_544;
+    stru_335C4[c].field_C = var_545;
+
+    stru_335C4[c].field_E = (int)(((long)sams[p].field_8 << (6 - (sams[p].field_C == 6 ? 3 : 2))) * (long)word_330C4 / (long)((sams[p].field_A >> 6) + 1)) + 6;
+
+    c = c;
+    if (stru_335C4[c].field_E <= 6) {
+        stru_335C4[c].field_E = 999;
+    }
+
+    *(int16 *)&stru_335C4[c].field_10[0] = p;
+    *(int16 *)&stru_335C4[c].field_10[2] = b;
+    *(int16 *)&stru_335C4[c].field_10[4] = -1;
+
+    if (p != 0x1e) {
+        stru_335C4[c].field_A -= 0x1000;
+    } else {
+        *(int16 *)&stru_335C4[c].field_10[6] = sub_1C82D() - 0x400;
+        word_3C020 = word_336F4;
+    }
+
+    if (word_336F4 >= 0 && sams[p].field_C == 6) {
+        *(int16 *)&stru_335C4[c].field_10[4] = word_336F4;
+    }
+
+    if (word_336F4 >= 0 && sams[p].field_C == 5 && (stru_3AA5E[word_336F4].field_6 & 8)) {
+        *(int16 *)&stru_335C4[c].field_10[4] = word_336F4;
+    }
+
+    if (p == 0x1d) {
+        stru_335C4[c].field_A = (int16)0xc000;
+        stru_335C4[c].field_6 = 1;
+    }
+
+    word_3A940 = c;
+    strcpy((char *)strBuf, missiles[b].field_0);
+    strcat((char *)strBuf, (char *)aFired);
+    tempStrcpy((char *)strBuf);
+
+    makeSound(sams[p].field_8 != 0 ? 0x12 : 0x18, 2);
+
+    sub_11BC3(c, 1);
+
+check_end:
+    if (word_3C09E == 0x15) {
+        sub_1957A(0x15);
+    }
+end:
+    ;
+}

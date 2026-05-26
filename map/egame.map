@@ -116,7 +116,7 @@ sub_186F8: seg000 NEAR 86f8-87e9 R86f8-87e9
 sub_187EA: seg000 NEAR 87ea-89a9 R87ea-89a9
 sub_189AA: seg000 NEAR 89aa-8a43 R89aa-8a43 complete
 sub_18A44: seg000 NEAR 8a44-8aa4 R8a44-8aa4 complete
-sub_18AA6: seg000 NEAR 8aa6-8df3 R8aa6-8df3
+sub_18AA6: seg000 NEAR 8aa6-8df3 R8aa6-8df3 complete
 sub_18DF4: seg000 NEAR 8df4-8e37 R8df4-8e37 complete
 sub_18E38: seg000 NEAR 8e38-8e4f R8e38-8e4f complete
 sub_18E50: seg000 NEAR 8e50-9484 R8e50-9484 complete
