@@ -153,6 +153,62 @@ struct SpriteParams spriteParams = {
     {0x01, 0x01, 0x00}        /* pad19 */
 };
 
+/* Page descriptors - 24-byte structs passed by pointer to graphics overlay */
+struct PageDesc page1Desc = {
+    1,                        /* pageNum */
+    {0, 0},                   /* pad1 */
+    0,                        /* color (drawColor) */
+    0x0B,                     /* byte6 */
+    {0, 0, 0, 0, 0},         /* pad2 */
+    1,                        /* font (fontIndex) */
+    {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
+    (int16*)&page1Desc        /* selfPtr (page1NumPtr) */
+};
+int16 *page1NumPtr = (int16*)&page1Desc;
+struct PageDesc page2Desc = {
+    2,                        /* pageNum */
+    {0, 0},                   /* pad1 */
+    0,                        /* color */
+    0x0B,                     /* byte6 */
+    {0, 0, 0, 0, 0},         /* pad2 */
+    1,                        /* font */
+    {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
+    (int16*)&page2Desc        /* selfPtr (page2NumPtr) */
+};
+int *page2NumPtr = (int*)&page2Desc;
+struct PageDesc page3Desc = {
+    3,                        /* pageNum */
+    {0, 0},                   /* pad1 */
+    0,                        /* color */
+    0x0B,                     /* byte6 */
+    {0, 0, 0, 0, 0},         /* pad2 */
+    1,                        /* font */
+    {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
+    (int16*)&page3Desc        /* selfPtr */
+};
+struct PageDesc screenDesc = {
+    0,                        /* pageNum (unk_173D2) */
+    {0, 0},                   /* pad1 */
+    7,                        /* color (textColor) */
+    0x00,                     /* byte6 */
+    {0, 0, 0, 0, 0},         /* pad2 */
+    1,                        /* font (word_173DE) */
+    {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
+    (int16*)&screenDesc       /* selfPtr (screenBuf) */
+};
+int16 *screenBuf = (int16*)&screenDesc;
+struct PageDesc pageNumPageDesc = {
+    0,                        /* pageNum */
+    {0, 0},                   /* pad1 */
+    0x0C,                     /* color */
+    0x00,                     /* byte6 */
+    {0, 0, 0, 0, 0},         /* pad2 */
+    3,                        /* font */
+    {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
+    (int16*)&pageNumPageDesc  /* selfPtr (pageNumPtr) */
+};
+int16 *pageNumPtr = (int16*)&pageNumPageDesc;
+
 /* Migrated from .DATA */
 int16 word_18994 = 0;
 char bufCoordStr = 0;
