@@ -2,6 +2,7 @@
  * See docs/start_rc_data_migration.md
  */
 #include "inttype.h"
+#include "struct.h"
 
 /* Filename strings */
 char aLabs_pic[] = "labs.pic";
@@ -140,6 +141,18 @@ uint8 timerCounter4 = 0;
 uint8 far *moveDst = 0;
 /* page1Ptr must stay in start_rc.asm - sandwiched between grid buffers */
 
+/* Sprite blit params struct - was word_17284..byte_1729C in start_rc.asm */
+struct SpriteParams spriteParams = {
+    0, 0, 0, 0, 0, 0, 0, 0,  /* bufPtr..height */
+    {0, 0},                   /* pad10 */
+    0x6D,                     /* byte12 */
+    {0, 0, 0},                /* pad13 */
+    0x3F,                     /* byte16 */
+    0x01,                     /* byte17 */
+    0x01,                     /* flags (byte_1729C) */
+    {0x01, 0x01, 0x00}        /* pad19 */
+};
+
 /* Migrated from .DATA */
 int16 word_18994 = 0;
 char bufCoordStr = 0;
@@ -148,6 +161,7 @@ uint8 byte_1B0D2 = 0;
 uint8 byte_1B0D3 = 0;
 
 /* Migrated from .DATA? */
+int16 word_1B148;
 uint32 dword_1D5D0 = 0;
 int16 word_1D5D4 = 0;
 int16 word_1D5D6 = 0;
@@ -158,3 +172,8 @@ uint8 byte_1D5E2 = 0;
 uint8 byte_1D5E3 = 0;
 uint8 byte_1D5E4 = 0;
 uint8 byte_1D5E5 = 0;
+int16 word_1DD38;
+int16 word_1D00A;
+uint32 dword_1D650;
+int16 word_1E24A;
+int16 menuSprites;

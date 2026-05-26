@@ -15,15 +15,6 @@ PUBLIC _gridBuf3
 PUBLIC _gridBuf4
 PUBLIC _gridBuf5
 PUBLIC _page1Ptr
-PUBLIC _word_17290
-PUBLIC _word_17292
-PUBLIC _word_17284
-PUBLIC _word_17286
-PUBLIC _word_17288
-PUBLIC _word_1728A
-PUBLIC _word_1728C
-PUBLIC _byte_1729C
-PUBLIC _word_1728E
 PUBLIC _pilotSelectFlag
 PUBLIC _lineX1
 PUBLIC _lineY1
@@ -39,12 +30,11 @@ PUBLIC _terrainIdxBuf
 PUBLIC _planes
 PUBLIC _blinkColors
 PUBLIC _blinkColorIdx
-PUBLIC _word_1E24A
-PUBLIC _hercFlag
 
+PUBLIC _hercFlag
 PUBLIC _commData
 PUBLIC _joyAxes
-PUBLIC _menuSprites
+
 PUBLIC _bufPtr
 PUBLIC _needSplash
 PUBLIC _gfxModeSetPtr
@@ -82,11 +72,11 @@ PUBLIC _stru_18FC0
 PUBLIC _word_182BE
 PUBLIC _byte_192FC
 PUBLIC _target2
-PUBLIC _word_1D00A
+
 PUBLIC _word_182C0
 PUBLIC _targets
 PUBLIC _word_182C2
-PUBLIC _dword_1D650
+
 PUBLIC _word_192A4
 PUBLIC _word_182C4
 PUBLIC _stru_1892E
@@ -99,7 +89,6 @@ PUBLIC _off_19314
 PUBLIC _word_1B960
 PUBLIC _fileHandle
 PUBLIC _scenarioCodePtr
-
 PUBLIC _scenarioFoundArr
 PUBLIC _missionPick
 PUBLIC _drawColor
@@ -113,10 +102,8 @@ PUBLIC _worldFiles
 PUBLIC _todayMissStrBuf
 PUBLIC _fontIndex
 PUBLIC _word_182BA
-PUBLIC _word_1B148
-PUBLIC _word_1DD38
-PUBLIC _readItemSize
 
+PUBLIC _readItemSize
 PUBLIC _pageNumPtr
 PUBLIC _textColor
 PUBLIC _spriteBlitX
@@ -191,7 +178,6 @@ PUBLIC _audio_jump_6c
 PUBLIC _diskTransferArea
 PUBLIC _fcbMatchStr
 PUBLIC _dictionaryIndex
-
 PUBLIC _picDecodeDictionary
 PUBLIC _clipDx
 PUBLIC _picRowLength
@@ -217,9 +203,7 @@ PUBLIC _fileReadPos
 PUBLIC _row
 PUBLIC _readBufEndPtr
 PUBLIC _picRemainingBitCount
-
 PUBLIC _tmpFileHandle
-
 PUBLIC _picDecodeIncrement
 PUBLIC _searchFCB
 PUBLIC _picNumberDictSlots
@@ -228,37 +212,24 @@ PUBLIC _errorCodeStr
 PUBLIC _tmpPageIndex
 PUBLIC _joyMaxValues
 PUBLIC _joyRangeBelow
-
 PUBLIC _joyRawAxis0
-
 PUBLIC _clearRectX
 PUBLIC _screenBufSize
-
 PUBLIC _joyRawAxis1
 PUBLIC _clearRectY
-
 PUBLIC _dirtyMinBuf
 PUBLIC _dirtyRectMin
 PUBLIC _origCBreakOfs
 PUBLIC _clipMaxY
 PUBLIC _picSlotCounter
-
 PUBLIC _origCBreakSeg
 PUBLIC _dirtyRectMax
 PUBLIC _picFileReadBufEnd
 PUBLIC _readFromFilePtr
-
-
-
 PUBLIC _fileReadBuf
-
-
-
 PUBLIC _picByte
 PUBLIC _clipDivZeroHandler
 PUBLIC _picFileWord
-
-
 PUBLIC _picLookupResult
 ; ---------------------------------------------------------------------------
 
@@ -781,23 +752,8 @@ _word_171B2 dw 1
 
     db 0
 _joyRepeatFlag dw 0
-_word_17284 dw 0
-_word_17286 dw 0
-_word_17288 dw 0
-_word_1728A dw 0
-_word_1728C dw 0
-_word_1728E dw 0
-_word_17290 dw 0
-_word_17292 dw 0
-    db 2 dup(0)
-    db 6Dh
-    db 3 dup(0)
-    db 3Fh
-    db 1
-_byte_1729C db 1
-    db 1
-    db 1
-    db 0
+EXTRN _spriteParams:BYTE
+    db 1Ch dup(0)
     db 1
     db 0
     db 0 ; _timerFlag
@@ -3093,7 +3049,8 @@ _todayMissStrBuf db 1Dh dup(?)
 _byte_1B0FF db ?
 _byte_1B100 db ?
     db 47h dup(?)
-_word_1B148 dw ?
+EXTRN _word_1B148:WORD
+    db 2 dup(?)
 _gfxModeSetPtr dd ?
     db 2 dup(?)
 _fileHandle dw ?
@@ -3133,7 +3090,8 @@ _needSplash dd ?
     _targets Target <?>
     _target2 Target <?>
     db 208h dup(?)
-_word_1D00A dw ?
+EXTRN _word_1D00A:WORD
+    db 2 dup(?)
     _wldReadBuf6 Buf6Item 13h dup(<?>)
     db 36 dup(?)
 _hercFlag db ?
@@ -3152,7 +3110,8 @@ EXTRN _byte_1D5E5:BYTE
 _exitCode db ?
     db ?
 _wldReadBuf9 db 64h dup( ?)
-_dword_1D650 dd ?
+EXTRN _dword_1D650:DWORD
+    db 4 dup(?)
 byte_1D654 db 572h dup(?)
 byte_1DBC6 db 76h dup(?)
 byte_1DC3C db 22h dup(?)
@@ -3163,7 +3122,8 @@ _intRegs	db 12 dup(?)
 unk_1DCD2 db ?
     db ?
 _wldReadBuf7 db 64h dup( ?)
-_word_1DD38 dw ?
+EXTRN _word_1DD38:WORD
+    db 2 dup(?)
     db 2 dup(?)
 _selectedPilotIdx dw ?
     db 12 dup(?)
@@ -3174,13 +3134,15 @@ _wldOffsets dw 64h dup(?)
 _wldReadBuf11 db 2EEh dup( ?)
     db 2 dup(?)
     _terrainPtrUnk TerrainUnk 5 dup(<?>)
-_word_1E24A dw ?
+EXTRN _word_1E24A:WORD
+    db 2 dup(?)
 byte_1E24C db 0F0h dup(?)
 _wldReadBuf3 dw ?
     db 4 dup(?)
 _commData dd ?
     _hallfameBuf Pilot 8 dup(<?>)
     db 4 dup(?)
-_menuSprites dw ?
+EXTRN _menuSprites:WORD
+    db 2 dup(?)
     db 14h dup(?)
 END
