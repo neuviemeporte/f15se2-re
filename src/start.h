@@ -600,7 +600,7 @@ extern int16 timerRetrace;
 extern uint8 timerCounter;
 extern uint8 timerCounter2;
 extern uint8 timerCounter3;
-extern uint8 timerCounter4[];
+extern uint8 timerCounter4;
 extern uint8 unk_172C5;
 extern uint8 fcbMatchStr[];
 extern uint8 unk_172CA[];

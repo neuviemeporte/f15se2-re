@@ -116,3 +116,45 @@ int terrainSignature = 0x3131;
 int terrainDirtyFlag = 0;
 int gridSignature = 0x3232;
 int gridValidFlag = 0;
+
+/* Timer variables */
+uint8 timerFlag = 0;
+uint8 timerHandlerInstalled = 0;
+int16 timerCountLo = 0;
+int16 timerCountHi = 0;
+int16 timerTarget = 0;
+int16 timerDivisor = 0;
+int16 timerTickCnt = 0;
+int16 timerReload = 0;
+uint8 timerDivider = 0;
+int16 timerMode = 0;
+int16 timerCalSumLo = 0;
+int16 timerCalSumHi = 0;
+uint8 timerSyncRetrace = 0;
+int16 timerTick = 0;
+int16 timerRetrace = 0;
+uint8 timerCounter = 0;
+uint8 timerCounter2 = 0;
+uint8 timerCounter3 = 0;
+uint8 timerCounter4 = 0;
+uint8 far *moveDst = 0;
+/* page1Ptr must stay in start_rc.asm - sandwiched between grid buffers */
+
+/* Migrated from .DATA */
+int16 word_18994 = 0;
+char bufCoordStr = 0;
+uint8 byte_1B0D1 = 0;
+uint8 byte_1B0D2 = 0;
+uint8 byte_1B0D3 = 0;
+
+/* Migrated from .DATA? */
+uint32 dword_1D5D0 = 0;
+int16 word_1D5D4 = 0;
+int16 word_1D5D6 = 0;
+uint32 dword_1D5D8 = 0;
+uint32 dword_1D5DC = 0;
+int16 word_1D5E0 = 0;
+uint8 byte_1D5E2 = 0;
+uint8 byte_1D5E3 = 0;
+uint8 byte_1D5E4 = 0;
+uint8 byte_1D5E5 = 0;
