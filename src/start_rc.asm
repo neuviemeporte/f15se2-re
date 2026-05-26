@@ -205,30 +205,30 @@ PUBLIC _audio_jump_67
 PUBLIC _audio_jump_6b
 PUBLIC _audio_jump_6c
 PUBLIC _diskTransferArea
-PUBLIC _byte_172C6
+PUBLIC _fcbMatchStr
 PUBLIC _dictionaryIndex
-PUBLIC _byte_172B7
+PUBLIC _timerSyncRetrace
 PUBLIC _picDecodeDictionary
-PUBLIC _word_17BF1
+PUBLIC _clipDx
 PUBLIC _picRowLength
 PUBLIC _rowOffset
 PUBLIC _picWorkData
-PUBLIC _word_17BF3
+PUBLIC _clipDy
 PUBLIC _picDecodedRowBuf
-PUBLIC _byte_17BF0
-PUBLIC _word_17BF5
-PUBLIC _word_17BF7
-PUBLIC _word_17BF9
+PUBLIC _clipOutcode
+PUBLIC _clipDxHalf
+PUBLIC _clipDyHalf
+PUBLIC _clipMaxX
 PUBLIC _picWorkDataPtr
 PUBLIC _picProcessFlag0_1
-PUBLIC _word_1786A
+PUBLIC _clearRectWidth
 PUBLIC _picTmp9BitCount
 PUBLIC _picByteUnsignedFlag
-PUBLIC _word_1782E
-PUBLIC _word_1786C
-PUBLIC _word_1783E
-PUBLIC _word_1784E
-PUBLIC _word_1737E
+PUBLIC _joyMinValues
+PUBLIC _clearRectHeight
+PUBLIC _joyCenterValues
+PUBLIC _joyRangeAbove
+PUBLIC _picCurrentRow
 PUBLIC _fileReadPos
 PUBLIC _row
 PUBLIC _readBufEndPtr
@@ -239,42 +239,42 @@ PUBLIC _timerCounter4
 PUBLIC _picDecodeIncrement
 PUBLIC _searchFCB
 PUBLIC _picNumberDictSlots
-PUBLIC _byte_17A2F
+PUBLIC _dirtyMaxBuf
 PUBLIC _errorCodeStr
 PUBLIC _tmpPageIndex
-PUBLIC _word_17836
-PUBLIC _word_17846
-PUBLIC _word_172AA
-PUBLIC _word_17856
-PUBLIC _word_172BA
-PUBLIC _word_17866
+PUBLIC _joyMaxValues
+PUBLIC _joyRangeBelow
+PUBLIC _timerDivisor
+PUBLIC _joyRawAxis0
+PUBLIC _timerRetrace
+PUBLIC _clearRectX
 PUBLIC _screenBufSize
-PUBLIC _word_172AC
-PUBLIC _word_17858
-PUBLIC _word_17868
-PUBLIC _word_172AE
-PUBLIC _byte_17877
-PUBLIC _word_17BEB
+PUBLIC _timerTickCnt
+PUBLIC _joyRawAxis1
+PUBLIC _clearRectY
+PUBLIC _timerReload
+PUBLIC _dirtyMinBuf
+PUBLIC _dirtyRectMin
 PUBLIC _origCBreakOfs
-PUBLIC _word_17BFB
+PUBLIC _clipMaxY
 PUBLIC _picSlotCounter
-PUBLIC _word_172B1
+PUBLIC _timerMode
 PUBLIC _origCBreakSeg
-PUBLIC _word_17BED
+PUBLIC _dirtyRectMax
 PUBLIC _picFileReadBufEnd
 PUBLIC _readFromFilePtr
-PUBLIC _word_172B3
-PUBLIC _word_172A4
-PUBLIC _byte_172B0
+PUBLIC _timerCalSumLo
+PUBLIC _timerCountLo
+PUBLIC _timerDivider
 PUBLIC _fileReadBuf
-PUBLIC _word_172B5
-PUBLIC _byte_172A2
-PUBLIC _word_172A6
+PUBLIC _timerCalSumHi
+PUBLIC _timerFlag
+PUBLIC _timerCountHi
 PUBLIC _picByte
-PUBLIC _byte_19ADB
+PUBLIC _clipDivZeroHandler
 PUBLIC _picFileWord
-PUBLIC _word_172A8
-PUBLIC _word_172B8
+PUBLIC _timerTarget
+PUBLIC _timerTick
 PUBLIC _picLookupResult
 ; ---------------------------------------------------------------------------
 
@@ -816,21 +816,21 @@ _byte_1729C db 1
     db 0
     db 1
     db 0
-_byte_172A2 db 0
+_timerFlag db 0
 _timerHandlerInstalled db 0
-_word_172A4 dw 0
-_word_172A6 dw 0
-_word_172A8 dw 0
-_word_172AA dw 0
-_word_172AC dw 0
-_word_172AE dw 0
-_byte_172B0 db 0
-_word_172B1 dw 0
-_word_172B3 dw 0
-_word_172B5 dw 0
-_byte_172B7 db 0
-_word_172B8 dw 0
-_word_172BA dw 0
+_timerCountLo dw 0
+_timerCountHi dw 0
+_timerTarget dw 0
+_timerDivisor dw 0
+_timerTickCnt dw 0
+_timerReload dw 0
+_timerDivider db 0
+_timerMode dw 0
+_timerCalSumLo dw 0
+_timerCalSumHi dw 0
+_timerSyncRetrace db 0
+_timerTick dw 0
+_timerRetrace dw 0
     db 2 dup(0)
 _timerCounter db 0
 _timerCounter2 db 0
@@ -840,7 +840,7 @@ _timerCounter4 db 0
     db 2Eh
     db 2Ah
 unk_172C5 db 0
-_byte_172C6 db 49h
+_fcbMatchStr db 49h
     db 3
     db 46h
     db 31h
@@ -864,7 +864,7 @@ _searchFCB db 0FFh
     db 3Fh
     db 25 dup(0)
 _diskTransferArea db 85h dup(0)
-_word_1737E dw 0
+_picCurrentRow dw 0
 a2ndLt_ db '2nd Lt. ',0
 a1stLt_ db '1st Lt. ',0
 aCapt_ db 'Capt. ',0
@@ -1325,48 +1325,48 @@ _audio_jump_6c endp
 ; ------------------------------startData:0xcd4------------------------------
     db 0EAh
     db 4 dup(0)
-_word_1782E dw 0
+_joyMinValues dw 0
     db 6 dup(0)
-_word_17836 dw 0
+_joyMaxValues dw 0
     db 6 dup(0)
-_word_1783E dw 0
+_joyCenterValues dw 0
     db 6 dup(0)
-_word_17846 dw 0
+_joyRangeBelow dw 0
     db 6 dup(0)
-_word_1784E dw 0
+_joyRangeAbove dw 0
     db 6 dup(0)
-_word_17856 dw 0
-_word_17858 dw 0
+_joyRawAxis0 dw 0
+_joyRawAxis1 dw 0
     db 4 dup(0)
 _joyAxes db 8 dup( 0)
-_word_17866 dw 0
-_word_17868 dw 0
-_word_1786A dw 0
-_word_1786C dw 0
+_clearRectX dw 0
+_clearRectY dw 0
+_clearRectWidth dw 0
+_clearRectHeight dw 0
     db 0
 _lineX1 dw 0
 _lineX2 dw 0
 _lineY1 dw 0
 _lineY2 dw 0
-_byte_17877 db 162h dup(0FFh)
+_dirtyMinBuf db 162h dup(0FFh)
 byte_179D9 db 56h dup(0FFh)
-_byte_17A2F db 0AAh dup(0)
+_dirtyMaxBuf db 0AAh dup(0)
 byte_17AD9 db 2Bh dup(0)
 unk_17B04 db 0
     db 0
 byte_17B06 db 0E1h dup(0)
 word_17BE7 dw 0
 word_17BE9 dw 0
-_word_17BEB dw 0FFFFh
-_word_17BED dw 0
+_dirtyRectMin dw 0FFFFh
+_dirtyRectMax dw 0
     db 0
-_byte_17BF0 db 0
-_word_17BF1 dw 0
-_word_17BF3 dw 0
-_word_17BF5 dw 0
-_word_17BF7 dw 0
-_word_17BF9 dw 13Fh
-_word_17BFB dw 6Fh
+_clipOutcode db 0
+_clipDx dw 0
+_clipDy dw 0
+_clipDxHalf dw 0
+_clipDyHalf dw 0
+_clipMaxX dw 13Fh
+_clipMaxY dw 6Fh
     db 0
 _cbreakHit db 0
 _origCBreakSeg dw 0
@@ -3076,7 +3076,7 @@ _picDecodeDictionary dw 0
 _picDecodeIncrement db 0
     db 1C1h dup(0)
 byte_19A3C db 9Fh dup(0)
-_byte_19ADB db 61h dup(0)
+_clipDivZeroHandler db 61h dup(0)
 byte_19B3C db 180h dup(0)
 byte_19CBC db 100h dup(0)
 byte_19DBC db 12BCh dup(0)

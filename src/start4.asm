@@ -96,21 +96,21 @@ EXTRN _gfx_jump_3a_getRowOffset:FAR
 EXTRN _gfx_jump_34_fillRow:FAR
 EXTRN _gfx_jump_36_null:FAR
 EXTRN _audio_jump_6c:FAR
-EXTRN _word_172AE:WORD
-EXTRN _word_172B8:WORD
-EXTRN _word_172A4:WORD
-EXTRN _word_172A6:WORD
+EXTRN _timerReload:WORD
+EXTRN _timerTick:WORD
+EXTRN _timerCountLo:WORD
+EXTRN _timerCountHi:WORD
 EXTRN _timerHandlerInstalled:BYTE
-EXTRN _word_172AA:WORD
-EXTRN _byte_172A2:BYTE
-EXTRN _byte_172B0:BYTE
-EXTRN _byte_172B7:BYTE
-EXTRN _word_172AC:WORD
-EXTRN _word_172BA:WORD
-EXTRN _word_172B5:WORD
-EXTRN _word_172B1:WORD
-EXTRN _word_172B3:WORD
-EXTRN _word_172A8:WORD
+EXTRN _timerDivisor:WORD
+EXTRN _timerFlag:BYTE
+EXTRN _timerDivider:BYTE
+EXTRN _timerSyncRetrace:BYTE
+EXTRN _timerTickCnt:WORD
+EXTRN _timerRetrace:WORD
+EXTRN _timerCalSumHi:WORD
+EXTRN _timerMode:WORD
+EXTRN _timerCalSumLo:WORD
+EXTRN _timerTarget:WORD
 EXTRN _timerCounter2: BYTE
 EXTRN _timerCounter3:BYTE
 EXTRN _timerCounter:BYTE
@@ -120,7 +120,7 @@ EXTRN _readFromFilePtr:WORD
 EXTRN _tmpFileHandle:WORD
 EXTRN _tmpPageIndex:WORD
 EXTRN _rowOffset:WORD
-EXTRN _word_1737E:WORD
+EXTRN _picCurrentRow:WORD
 EXTRN _ovlInsaneFlag:BYTE
 EXTRN _aAlloc1M:BYTE
 EXTRN _ovlParCnt:WORD
@@ -133,26 +133,26 @@ EXTRN _aEnoughMem:BYTE
 EXTRN _aOvlFail:BYTE
 EXTRN _aOvlOvrrun:BYTE
 EXTRN _aOvlShrink:BYTE
-EXTRN _word_1786A:WORD
-EXTRN _word_1786C:WORD
-EXTRN _word_17868:WORD
-EXTRN _word_17866:WORD
-EXTRN _byte_17A2F:BYTE
-EXTRN _byte_17877:BYTE
-EXTRN _word_17BEB:WORD
-EXTRN _word_17BED:WORD
-EXTRN _byte_19ADB:BYTE
+EXTRN _clearRectWidth:WORD
+EXTRN _clearRectHeight:WORD
+EXTRN _clearRectY:WORD
+EXTRN _clearRectX:WORD
+EXTRN _dirtyMaxBuf:BYTE
+EXTRN _dirtyMinBuf:BYTE
+EXTRN _dirtyRectMin:WORD
+EXTRN _dirtyRectMax:WORD
+EXTRN _clipDivZeroHandler:BYTE
 EXTRN _lineX1:WORD
 EXTRN _lineY1:WORD
 EXTRN _lineX2:WORD
 EXTRN _lineY2:WORD
-EXTRN _word_17BF1:WORD
-EXTRN _word_17BF5:WORD
-EXTRN _byte_17BF0:BYTE
-EXTRN _word_17BF3:WORD
-EXTRN _word_17BF7:WORD
-EXTRN _word_17BF9:WORD
-EXTRN _word_17BFB:WORD
+EXTRN _clipDx:WORD
+EXTRN _clipDxHalf:WORD
+EXTRN _clipOutcode:BYTE
+EXTRN _clipDy:WORD
+EXTRN _clipDyHalf:WORD
+EXTRN _clipMaxX:WORD
+EXTRN _clipMaxY:WORD
 EXTRN _origCBreakSeg:WORD
 EXTRN _origCBreakOfs:WORD
 EXTRN _cbreakHit:BYTE
@@ -183,16 +183,16 @@ EXTRN _picProcessFlag0_1:BYTE
 EXTRN _picByteUnsignedFlag:BYTE
 EXTRN _dictionaryIndex:BYTE
 EXTRN _picSlotCounter:WORD
-EXTRN _word_17858:WORD
-EXTRN _word_17856:WORD
-EXTRN _word_1783E:WORD
-EXTRN _word_1782E:WORD
-EXTRN _word_17846:WORD
-EXTRN _word_17836:WORD
-EXTRN _word_1784E:WORD
+EXTRN _joyRawAxis1:WORD
+EXTRN _joyRawAxis0:WORD
+EXTRN _joyCenterValues:WORD
+EXTRN _joyMinValues:WORD
+EXTRN _joyRangeBelow:WORD
+EXTRN _joyMaxValues:WORD
+EXTRN _joyRangeAbove:WORD
 EXTRN _joyAxes:BYTE
 EXTRN _diskTransferArea:BYTE
-EXTRN _byte_172C6:BYTE
+EXTRN _fcbMatchStr:BYTE
 EXTRN _aFileClosingError:BYTE
 EXTRN _aWriteError:BYTE
 
@@ -238,10 +238,10 @@ nullsub_1 proc near
 nullsub_1 endp
 
 ; ------------------------------startCode1:0x185a------------------------------
-TIMER_VAR_74 EQU <word ptr _word_172AE>
-TIMER_VAR_80 EQU <word ptr _word_172B8>
-TIMER_VAR_70 EQU <word ptr _word_172A4>
-TIMER_VAR_71 EQU <word ptr _word_172A6>
+TIMER_VAR_74 EQU <word ptr _timerReload>
+TIMER_VAR_80 EQU <word ptr _timerTick>
+TIMER_VAR_70 EQU <word ptr _timerCountLo>
+TIMER_VAR_71 EQU <word ptr _timerCountHi>
 TIMER_CALIBRATE EQU <calibrateTimerSpeed>
 TIMER_ISR_PTR EQU <timerIsrPtr+1>
 TIMER_IRQ_ADDR EQU <dword ptr timerIrqAddr>
@@ -249,220 +249,32 @@ TIMER_INSTALLED EQU <_timerHandlerInstalled>
 INCLUDE shared/timer_setHandler.inc
 ; ------------------------------startCode1:0x1897------------------------------
 ; ------------------------------startCode1:0x1898------------------------------
-_restoreTimerIrqHandler proc near
-    mov al, 110110b
-    out PORT_PIT_CNTRL, al ;prepare PIT
-    jmp short $+2
-    xor al, al
-    out PORT_PIT_TIME0, al ;send LSB of timer count
-    jmp short $+2
-    out PORT_PIT_TIME0, al ;send MSB
-    push ds
-    mov ah, DOS_SET_IRQH
-    mov al, IRQ_PIT
-    lds dx, dword ptr cs:timerIsrPtr+1
-    int 21h ;DOS - SET INTERRUPT VECTOR
-    pop ds
-    mov _timerHandlerInstalled, 0
-    retn
-_restoreTimerIrqHandler endp
+INCLUDE shared/timer_restore.inc
 ; ------------------------------startCode1:0x18b8------------------------------
 ; ------------------------------startCode1:0x18e7------------------------------
-timerIrqHandler proc far
-    sti
-    push ax
-    push bx
-    push cx
-    push dx
-    push si
-    push di
-    push bp
-    push ds
-    push es
-    mov ax, @data
-    mov ds, ax
-    mov ax, _word_172AA
-    add _word_172A4, ax
-    adc _word_172A6, 0
-    dec _word_172B8
-    jnz short loc_11919
-    mov ax, _word_172AE
-    mov _word_172B8, ax
-    call timerIrqCallback
-    mov _byte_172A2, 0
-    call increaseTimerCounters
-loc_11919:
-    cmp _word_172AE, 1
-    jz short loc_11925
-    call far ptr _audio_jump_6c
-loc_11925:
-    cmp _word_172A6, 0
-    jnz short loc_1193A
-    mov al, 20h
-    out 20h, al ;Interrupt controller, 8259A.
-    pop es
-    pop ds
-    pop bp
-    pop di
-    pop si
-    pop dx
-    pop cx
-    pop bx
-    pop ax
-    iret
-loc_1193A:
-    dec _word_172A6
-    pop es
-    pop ds
-    pop bp
-    pop di
-    pop si
-    pop dx
-    pop cx
-    pop bx
-    pop ax
-    cli
-timerIsrPtr:
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
-timerIrqHandler endp
+TIMER_VAR_DIVISOR EQU <word ptr _timerDivisor>
+TIMER_VAR_COUNT_LO EQU <word ptr _timerCountLo>
+TIMER_VAR_COUNT_HI EQU <word ptr _timerCountHi>
+TIMER_VAR_TICK EQU <word ptr _timerTick>
+TIMER_VAR_FLAG EQU <byte ptr _timerFlag>
+TIMER_VAR_DIVIDER EQU <byte ptr _timerDivider>
+TIMER_VAR_SYNC EQU <byte ptr _timerSyncRetrace>
+TIMER_VAR_TARGET EQU <word ptr _timerTarget>
+TIMER_VAR_TICKCNT EQU <word ptr _timerTickCnt>
+TIMER_VAR_RETRACE EQU <word ptr _timerRetrace>
+TIMER_VAR_CALSUM_LO EQU <word ptr _timerCalSumLo>
+TIMER_VAR_CALSUM_HI EQU <word ptr _timerCalSumHi>
+TIMER_VAR_MODE EQU <word ptr _timerMode>
+TIMER_INC_COUNTERS EQU <increaseTimerCounters>
+TIMER_CALLBACK EQU <timerIrqCallback>
+TIMER_AUDIO_6C_CALL EQU <call far ptr _audio_jump_6c>
+INCLUDE shared/timer_isr.inc
 ; ------------------------------startCode1:0x1948------------------------------
 ; ------------------------------startCode1:0x194d------------------------------
-; Called from timerIrqHandler. Decrements a tick divider; when it reaches zero,
-; reprograms the 8253 PIT timer divisor, optionally waiting for video retrace
-; to avoid glitches on CGA/MDA displays.
-timerIrqCallback proc near
-    dec _byte_172B0          ; tickDivider--
-    jnz short loc_119D2      ; if not zero, skip
-    mov _byte_172B0, 14h     ; reload divider = 20
-    cmp _byte_172B7, 0       ; syncToRetrace flag
-    jz short loc_119A0       ; if no sync needed, reprogram PIT directly
-    ; Wait for vertical retrace before reprogramming timer
-    xor bl, bl               ; previous vsync bit state
-    xor cx, cx               ; loop counter (65536 iterations max)
-    mov es, cx
-    mov dx, es:BDA_CRTC      ; BIOS data area: CRTC base port
-    add dx, 6                ; status register = CRTC base + 6
-    cmp dx, 3BAh             ; MDA status port?
-    jz short loc_11987
-    ; CGA/EGA: wait for vertical retrace (bit 3)
-loc_11973:
-    cli
-    in al, dx
-    test al, 8               ; vertical retrace bit
-    jnz short loc_119A0      ; retrace active, proceed
-    sti
-    and al, 1                ; horizontal retrace bit
-    cmp al, bl               ; changed since last read?
-    jz short loc_11973       ; no change, keep polling
-    xor bl, 1                ; toggle expected state
-    loop loc_11973           ; timeout counter
-    jmp short loc_11999      ; timed out, skip reprogramming
-    ; MDA: wait for vertical retrace (bit 7)
-loc_11987:
-    cli
-    in al, dx
-    test al, 80h             ; MDA vertical retrace bit
-    jz short loc_119A0       ; retrace active, proceed
-    sti
-    and al, 1
-    cmp al, bl
-    jz short loc_11973
-    xor bl, 1
-    loop loc_11987
-loc_11999:
-    mov _byte_172B7, 0       ; clear sync flag (timed out)
-    jmp short loc_119D2
-    ; Reprogram PIT channel 0 with new divisor
-loc_119A0:
-    mov dx, _word_172AA      ; current PIT divisor
-    cmp dx, _word_172A8      ; target PIT divisor
-    jz short loc_119B2       ; already matches
-    mov dx, _word_172A8      ; load new target
-    mov _word_172AA, dx      ; update current
-loc_119B2:
-    mov al, 36h              ; PIT: channel 0, mode 3, lo/hi byte
-    out 43h, al              ; PIT command register
-    jmp short $+2            ; I/O delay
-    mov al, dl               ; divisor low byte
-    out 40h, al              ; PIT channel 0 data
-    jmp short $+2            ; I/O delay
-    mov al, dh               ; divisor high byte
-    out 40h, al              ; PIT channel 0 data
-    inc _word_172AC          ; tick counter++
-    neg cx                   ; CX=0 if loop completed (timed out), nonzero otherwise
-    mov _word_172BA, cx      ; store retrace-detected flag
-    jz short loc_119D2       ; if timed out, don't increment
-    inc _word_172B8           ; retrace-synced tick counter++
-loc_119D2:
-    sti
-    retn
-timerIrqCallback endp
+INCLUDE shared/timer_callback.inc
 ; ------------------------------startCode1:0x19d3------------------------------
 ; ------------------------------startCode1:0x19d4------------------------------
-calibrateTimerSpeed proc near
-    pushf
-    cli
-    mov _byte_172B0, 1
-    xor ax, ax
-    mov _byte_172B7, 1
-    mov _word_172B3, ax
-    mov _word_172B5, ax
-    call manipulateTimer
-    mov bx, ax
-    mov cx, 10h
-loc_119F0:
-    push bx
-    call manipulateTimer
-    pop bx
-    sub bx, ax
-    add _word_172B3, bx
-    adc _word_172B5, 0
-    mov bx, ax
-    loop loc_119F0
-    mov ax, _word_172B3
-    mov dx, _word_172B5
-    add _word_172A4, ax
-    adc _word_172A6, dx
-    mov cx, 10h
-    div cx
-    shr ax, 1
-    mov _word_172B3, ax
-    mov bx, ax
-    shr bx, 1
-    shr bx, 1
-    shr bx, 1
-    shr bx, 1
-    add ax, bx
-    xor dx, dx
-    mov bx, 0F89h
-    div bx
-    db 3Dh ;cmp ax, 4
-    dw 4
-    jb short loc_11A3D
-    db 3Dh ;cmp ax, 6
-    dw 6
-    ja short loc_11A3D
-    jmp short loc_11A4B
-    nop
-loc_11A3D:
-    mov _byte_172B7, 0
-    mov _word_172B3, 4DAEh
-    mov ax, 5
-loc_11A4B:
-    mov _word_172B1, ax
-    cmp _word_172AE, 1
-    jz short loc_11A58
-    mov _word_172AE, ax
-loc_11A58:
-    mov ax, _word_172B3
-    xor dx, dx
-    div _word_172AE
-    mov _word_172AA, ax
-    mov _word_172A8, ax
-    popf
-    retn
-calibrateTimerSpeed endp
+INCLUDE shared/timer_calibrate.inc
 ; ------------------------------startCode1:0x1a68------------------------------
 ; ------------------------------startCode1:0x1a69------------------------------
 INCLUDE shared/timer_manipulate.inc
@@ -499,7 +311,7 @@ _doFcbSearch proc near
     mov bx, 0FFFFh
 loc_11AF3:
     inc bx
-    mov al, _byte_172C6[bx]
+    mov al, _fcbMatchStr[bx]
     or al, al
     jz short locret_11B02
     sub al, (_diskTransferArea+8)[bx]
@@ -528,22 +340,22 @@ _picBlit proc near
 loc_11B20:
     call far ptr _gfx_jump_38_getPageBuf
     call far ptr _gfx_jump_3b_clearBuf ;zeroes out 32000 bytes
-    mov _word_1737E, 0
+    mov _picCurrentRow, 0
     mov _rowOffset, 0
 loc_11B36:
-    mov di, _word_1737E
+    mov di, _picCurrentRow
     shl di, 1
     call decodePicRow
     mov di, _rowOffset
     mov bp, offset _picDecodedRowBuf
 loc_11B46:
-    mov bx, _word_1737E
+    mov bx, _picCurrentRow
     call far ptr _gfx_jump_33_fillRow
     mov di, _rowOffset
     call far ptr _gfx_jump_35
-    inc _word_1737E
+    inc _picCurrentRow
     add _rowOffset, 28h
-    cmp _word_1737E, 2BCh
+    cmp _picCurrentRow, 2BCh
     jnz short loc_11B36
     pop bp
     pop es
@@ -759,35 +571,35 @@ clearRectJump28    EQU _gfx_jump_28
 clearRectJump22    EQU _gfx_jump_22
 clearRectNull      EQU _gfx_jump_51_null
 clearRectGetBufPtr EQU _gfx_jump_0f_getBufPtr
-clearRectVar27     EQU _word_17866
-clearRectVar28     EQU _word_17868
-clearRectVar29     EQU _word_1786A
-clearRectVar30     EQU _word_1786C
-clearRectVar35     EQU _byte_17877
-clearRectVar36     EQU _byte_17A2F
-clearRectVar37     EQU _word_17BEB
-clearRectVar38     EQU _word_17BED
+clearRectX     EQU _clearRectX
+clearRectY     EQU _clearRectY
+clearRectWidth     EQU _clearRectWidth
+clearRectHeight     EQU _clearRectHeight
+clearRectDirtyMinBuf     EQU _dirtyMinBuf
+clearRectDirtyMaxBuf     EQU _dirtyMaxBuf
+clearRectDirtyMin     EQU _dirtyRectMin
+clearRectDirtyMax     EQU _dirtyRectMax
 INCLUDE shared/gfx_clearrect.inc
 _clearRect equ clearRect
 ; ------------------------------startCode1:0x2c58------------------------------
 ; ------------------------------startCode1:0x2c75------------------------------
 ; --- shared graphics routines (clearDirtyRects, drawLineWrapper, clipAndDrawLine, computeOutcode)
-dirtyRectMin     EQU _word_17BEB
-dirtyRectMax     EQU _word_17BED
-dirtyMinBuf      EQU _byte_17877
-dirtyMaxBuf      EQU _byte_17A2F
+dirtyRectMin     EQU _dirtyRectMin
+dirtyRectMax     EQU _dirtyRectMax
+dirtyMinBuf      EQU _dirtyMinBuf
+dirtyMaxBuf      EQU _dirtyMaxBuf
 lineX1           EQU _lineX1
 lineY1           EQU _lineY1
 lineX2           EQU _lineX2
 lineY2           EQU _lineY2
-clipDx           EQU _word_17BF1
-clipDy           EQU _word_17BF3
-clipDxHalf       EQU _word_17BF5
-clipDyHalf       EQU _word_17BF7
-clipOutcode      EQU _byte_17BF0
-clipMaxX         EQU _word_17BF9
-clipMaxY         EQU _word_17BFB
-clipDivZeroHandler EQU _byte_19ADB
+clipDx           EQU _clipDx
+clipDy           EQU _clipDy
+clipDxHalf       EQU _clipDxHalf
+clipDyHalf       EQU _clipDyHalf
+clipOutcode      EQU _clipOutcode
+clipMaxX         EQU _clipMaxX
+clipMaxY         EQU _clipMaxY
+clipDivZeroHandler EQU _clipDivZeroHandler
 CALL_GFX_1F MACRO
     call _gfx_jump_1f
 ENDM
@@ -893,13 +705,13 @@ _dos_alloc equ dos_alloc
 ; ------------------------------startCode1:0x37d9------------------------------
 ; ------------------------------startCode2:0x2f------------------------------
 ; --- shared joystick routines
-joyRawAxis0      EQU _word_17856
-joyRawAxis1      EQU _word_17858
-joyMinValues     EQU _word_1782E
-joyMaxValues     EQU _word_17836
-joyCenterValues  EQU _word_1783E
-joyRangeBelow    EQU _word_17846
-joyRangeAbove    EQU _word_1784E
+joyRawAxis0      EQU _joyRawAxis0
+joyRawAxis1      EQU _joyRawAxis1
+joyMinValues     EQU _joyMinValues
+joyMaxValues     EQU _joyMaxValues
+joyCenterValues  EQU _joyCenterValues
+joyRangeBelow    EQU _joyRangeBelow
+joyRangeAbove    EQU _joyRangeAbove
 joyNormAxes      EQU _joyAxes
 INCLUDE shared/joystick.inc
 _pollJoystick equ pollJoystick

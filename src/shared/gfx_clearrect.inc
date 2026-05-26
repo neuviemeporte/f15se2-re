@@ -8,14 +8,14 @@
 ;   clearRectJump22     - far proc: gfx_jump_22
 ;   clearRectNull       - far proc: gfx_jump_51_null
 ;   clearRectGetBufPtr  - far proc: gfx_jump_0f_getBufPtr
-;   clearRectVar27      - word: min x storage
-;   clearRectVar28      - word: min y storage
-;   clearRectVar29      - word: width storage
-;   clearRectVar30      - word: height storage
-;   clearRectVar35      - array: dirty rect min x per row
-;   clearRectVar36      - array: dirty rect max x per row
-;   clearRectVar37      - word: dirtyRectMin
-;   clearRectVar38      - word: dirtyRectMax
+;   clearRectX      - word: min x storage
+;   clearRectY      - word: min y storage
+;   clearRectWidth      - word: width storage
+;   clearRectHeight      - word: height storage
+;   clearRectDirtyMinBuf      - array: dirty rect min x per row
+;   clearRectDirtyMaxBuf      - array: dirty rect max x per row
+;   clearRectDirtyMin      - word: dirtyRectMin
+;   clearRectDirtyMax      - word: dirtyRectMax
 
 clearRect proc near
     push BP
@@ -35,39 +35,39 @@ clearRect proc near
     call clearDirtyRects
     mov AX,word ptr [BP + 0Ah]
     sub AX,word ptr [BP + 6h]
-    mov word ptr [clearRectVar29],AX
+    mov word ptr [clearRectWidth],AX
     mov AX,word ptr [BP + 0Ch]
     sub AX,word ptr [BP + 8h]
     inc AX
-    mov word ptr [clearRectVar30],AX
+    mov word ptr [clearRectHeight],AX
     mov CX,word ptr [BP + 0Ch]
     mov SI,word ptr [BP + 8h]
-    mov word ptr [clearRectVar28],SI
-    mov word ptr [clearRectVar38],CX
-    mov word ptr [clearRectVar37],SI
+    mov word ptr [clearRectY],SI
+    mov word ptr [clearRectDirtyMax],CX
+    mov word ptr [clearRectDirtyMin],SI
     sub CX,SI
     inc CX
-    lea DI,word ptr [clearRectVar35]
+    lea DI,word ptr [clearRectDirtyMinBuf]
     shl SI,1h
     add DI,SI
     mov AX,word ptr [BP + 6h]
-    mov word ptr [clearRectVar27],AX
+    mov word ptr [clearRectX],AX
     mov DX,CX
     rep stosw
     mov CX,DX
-    lea DI,word ptr [clearRectVar36]
+    lea DI,word ptr [clearRectDirtyMaxBuf]
     add DI,SI
     mov AX,word ptr [BP + 0Ah]
     rep stosw
-    mov BX,offset clearRectVar35
-    mov AX,word ptr [clearRectVar37]
-    mov CX,word ptr [clearRectVar38]
+    mov BX,offset clearRectDirtyMinBuf
+    mov AX,word ptr [clearRectDirtyMin]
+    mov CX,word ptr [clearRectDirtyMax]
     call far ptr clearRectJump28
     call far ptr clearRectJump22
-    mov AX,word ptr [clearRectVar27]
-    mov BX,word ptr [clearRectVar28]
-    mov CX,word ptr [clearRectVar29]
-    mov DX,word ptr [clearRectVar30]
+    mov AX,word ptr [clearRectX]
+    mov BX,word ptr [clearRectY]
+    mov CX,word ptr [clearRectWidth]
+    mov DX,word ptr [clearRectHeight]
     call far ptr clearRectNull
     pop AX
     call far ptr clearRectGetBufPtr
