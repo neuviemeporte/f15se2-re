@@ -217,12 +217,14 @@ struct Sam {
 STATIC_ASSERT(sizeof(struct Sam)==18);
 
 // 0x0E bytes - weapon/SAM entry (first table, accessed with stride 14)
+#pragma pack(1)
 struct Weapon {
     char name[8];     /* null-terminated, zero-padded to 8 */
     int16 field_8;    /* range or speed */
     int16 field_A;    /* damage or type */
     int16 field_C;    /* flags */
 };
+#pragma pack()
 STATIC_ASSERT(sizeof(struct Weapon)==14);
 
 // 0x4 bytes
