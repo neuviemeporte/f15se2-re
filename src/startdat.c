@@ -347,3 +347,111 @@ int16 word_182C2 = 0;
 int16 word_182C4 = 0;
 int16 word_182C6 = 0;
 int16 word_182C8 = 0;
+
+/* Mission selection strings */
+char aLibya[] = "Libya";
+char aPersianGulf[] = "Persian Gulf";
+char aVietnam[] = "Vietnam";
+char aMiddleEast[] = "Middle East";
+char aOtherAreas[] = "Other Areas";
+char aAcrossTheLineO[] = "Across the \"Line of Death\"";
+char aKeepingTheSeaL[] = "Keeping the Sea Lanes Open";
+char aAmericaSLonges[] = "America's Longest Air War";
+char aEaglesVsMigs[] = "Eagles vs MiGs";
+char aInsertYourScen[] = "Insert your scenario disk";
+char aRookie[] = "Rookie";
+char aPilot[] = "Pilot";
+char aVeteran[] = "Veteran";
+char aAce[] = "Ace";
+char aDemo[] = "Demo";
+char aGetOffToAGoodS[] = "Get off to a good start";
+char aForTheCasualPl[] = "For the casual player";
+char aForMoreSerious[] = "For more serious players";
+char aTheUltimateCha[] = "The Ultimate Challenge";
+char aLetSSeeWhatThi[] = "Let's see what this thing can do";
+char aNc[] = "nc";
+char aCe[] = "ce";
+char aJp[] = "jp";
+char aNa[] = "na";
+char aNorthCape[] = "North Cape";
+char aCentralEurope[] = "Central Europe";
+char aDesertStorm[] = "Desert Storm";
+char aNorthAtlantic[] = "North Atlantic";
+char aOtherAreas_0[] = "Other Areas";
+char aIntoTheSovietS[] = "Into the Soviet's Backyard";
+char aRedStormRaging[] = "Red Storm Raging";
+char aTheFightForKuw[] = "The Fight for Kuwait";
+char aDefendingTheIc[] = "Defending the Iceland-UK Gap";
+char aSelectABuiltIn[] = "Select a built-in area";
+char aHistoricalMiss[] = "Historical Missions";
+char aGeneralAirStri[] = "General Air Strikes";
+char asc_16E46[3] = {0, 0, 0};
+char aReenactHistory[] = "Reenact history";
+char aTheCoreOfTheAi[] = "The core of the Air Campaign";
+char asc_16E76[3] = {0, 0, 0};
+char aSaddamSEyes[] = "Saddam's Eyes";
+char aCommandAndCont[] = "Command and Control";
+char aScudBusting[] = "Scud Busting";
+char aNoNukes[] = "No Nukes";
+char aMoreHistorical[] = "more historical missions";
+char aIraqSEarlyWarn[] = "Iraq's Early Warning Radar";
+char aIraqiDefenseNe[] = "Iraqi Defense Nerve Center";
+char aStopSaddamSTer[] = "Stop Saddam's Terror Weapon";
+char aNuclearResearc[] = "Nuclear Research Facility";
+char unk_16F36 = 0;
+char aBabyMilkFactory[] = "'Baby Milk Factory'";
+char aStopTheSpill[] = "Stop the Spill";
+char aBridgesToNowhe[] = "Bridges to Nowhere";
+char aRepublicanGuar[] = "Republican Guards";
+char aMoreHistoric_0[] = "more historical missions";
+char aChemicalBiolog[] = "Chemical/Biological Weapons Plant";
+char aSeverTheOilPum[] = "Sever the Oil Pumping Manifold";
+char aSaddamSEliteAr[] = "Saddam's Elite Armored Units";
+char aCutTheSupplyLi[] = "Cut the Supply Lines";
+char asc_1700B = 0;
+char aMission[] = "MISSION";
+char placeholder_3d3[] = "xx.3d3";
+
+/* Mission menu pointer arrays */
+char *missTheaNames[] = { aLibya, aPersianGulf, aVietnam, aMiddleEast, aOtherAreas };
+char *missTheaDesc[] = { aAcrossTheLineO, aKeepingTheSeaL, aAmericaSLonges, aEaglesVsMigs, aInsertYourScen };
+char *missDiffLevels[] = { aRookie, aPilot, aVeteran, aAce, aDemo };
+char *missDiffDesc[] = { aGetOffToAGoodS, aForTheCasualPl, aForMoreSerious, aTheUltimateCha, aLetSSeeWhatThi };
+char *scenarioCodePtr[] = { aNc, aCe, aJp, aNa };
+char *missScenarioNames[] = { aNorthCape, aCentralEurope, aDesertStorm, aNorthAtlantic, aOtherAreas_0 };
+char *missScenarioDesc[] = { aIntoTheSovietS, aRedStormRaging, aTheFightForKuw, aDefendingTheIc, aSelectABuiltIn };
+char *missTypeNames[] = { aHistoricalMiss, aGeneralAirStri, &asc_16E46[0], &asc_16E46[1], &asc_16E46[2] };
+char *missTypeDesc[] = { aReenactHistory, aTheCoreOfTheAi, &asc_16E76[0], &asc_16E76[1], &asc_16E76[2] };
+char *missHistorical1Names[] = { aSaddamSEyes, aCommandAndCont, aScudBusting, aNoNukes, aMoreHistorical };
+char *missHistorical1Desc[] = { aIraqSEarlyWarn, aIraqiDefenseNe, aStopSaddamSTer, aNuclearResearc, &unk_16F36 };
+char *missHistorical2Names[] = { aBabyMilkFactory, aStopTheSpill, aBridgesToNowhe, aRepublicanGuar, aMoreHistoric_0 };
+char *missHistorical2Desc[] = { aChemicalBiolog, aSeverTheOilPum, aSaddamSEliteAr, aCutTheSupplyLi, &asc_1700B };
+char *missionStr = aMission;
+char *plh3d3Ptr = placeholder_3d3;
+
+/* Rank name strings */
+char a2ndLt_[] = "2nd Lt. ";
+char a1stLt_[] = "1st Lt. ";
+char aCapt_[] = "Capt. ";
+char aMajor[] = "Major ";
+char aLtCol_[] = "Lt Col. ";
+char aColonel[] = "Colonel ";
+char aGen_[] = "Gen. ";
+
+/* Pilot state */
+uint8 pilotSelectFlag = 0;
+
+/* Rank pointer array */
+char *ranks[] = { a2ndLt_, a1stLt_, aCapt_, aMajor, aLtCol_, aColonel, aGen_ };
+
+/* Pilot color tables (8 bytes each, null-terminated) */
+uint8 byte_17412[] = { 0x82, 0x71, 0x81, 0x70, 0x6F, 0xA1, 0x9F, 0 };
+uint8 byte_1741A[] = { 0x80, 0x80, 0xB3, 0xB3, 0x91, 0x91, 0xA2, 0 };
+uint8 byte_17422[] = { 0x09, 0x0B, 0x0B, 0x0D, 0x2F, 0x0B, 0x0F, 0 };
+
+/* Blink animation colors */
+int16 blinkColors[] = { 7, 0x0F };
+int16 blinkColorIdx = 0;
+
+/* Pilot name input colors (2 words: word + byte pair) */
+int16 pilotNameInputColors[] = { 0, 0x0008 };
