@@ -270,21 +270,13 @@ routine_5 equ _routine_5
 loadWorldStrings equ _loadWorldStrings
 
 PUBLIC _dat_4034
-_dat_4034 equ dat_4034
 PUBLIC _dat_4040
-_dat_4040 equ dat_4040
 PUBLIC _dat_4246
-_dat_4246 equ dat_4246
 PUBLIC _dat_4a2a
-_dat_4a2a equ dat_4a2a
 PUBLIC _dat_5512
-_dat_5512 equ dat_5512
 PUBLIC _dat_55de
-_dat_55de equ dat_55de
 PUBLIC _dat_5ab4
-_dat_5ab4 equ dat_5ab4
 PUBLIC _dat_0042
-_dat_0042 equ dat_0042
 PUBLIC _var_203
 PUBLIC _var_216
 
@@ -3148,6 +3140,7 @@ _var_21 db 038h
 _var_22 db 02Ch
     db 020h, 04Dh, 069h, 063h, 072h, 06Fh, 073h, 06Fh, 066h, 074h, 020h, 043h, 06Fh, 072h, 070h, 011h
     db 000h
+_dat_0042 label byte
 dat_0042 db 20 dup(0)                                                        ; header/padding
     db 'None',    000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h ; None
     db 'SA-2',    000h, 000h, 000h, 000h, 0C8h, 000h, 003h, 000h, 000h, 000h ; SA-2
@@ -3972,18 +3965,25 @@ dat_3FB4 db 2 dup(?)
 dat_3FB6 db 2 dup(?)
 dat_3FB8 db 2 dup(?)
 _var_3fc6 db 10 dup(?)
+_dat_4034 label byte
 dat_4034 db 4 dup(?)
 _gameData db 2 dup(?)
 _var_179 db 4 dup(?)
+_dat_4040 label byte
 dat_4040 db 516 dup(?)
 _var_180 db 2 dup(?)
+_dat_4246 label byte
 dat_4246 db 2 dup(?)
+_dat_4a2a label byte
 dat_4a2a db 720 dup(?)
 _var_203 db 2 dup(?)
+_dat_5512 label byte
 dat_5512 db 102 dup(?)
 _var_205 db 2 dup(?)
+_dat_55de label byte
 dat_55de db 2 dup(?)
 _var_216 db 6 dup(?)
+_dat_5ab4 label byte
 dat_5ab4 db 2 dup(?)
 _commData db 2 dup(?)
 _commData_seg db 2 dup(?)
