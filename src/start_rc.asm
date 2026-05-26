@@ -1,11 +1,7 @@
 .8086
 DOSSEG
 .MODEL SMALL
-PUBLIC _byte_17412
-PUBLIC _byte_17422
-PUBLIC _byte_1741A
-PUBLIC _ranks
-PUBLIC _pilotNameInputColors
+
 PUBLIC _joyRepeatFlag
 PUBLIC _gridBuf1
 PUBLIC _gridBuf2
@@ -13,7 +9,7 @@ PUBLIC _gridBuf3
 PUBLIC _gridBuf4
 PUBLIC _gridBuf5
 PUBLIC _page1Ptr
-PUBLIC _pilotSelectFlag
+
 PUBLIC _terrainBuf1
 PUBLIC _terrainBuf2
 PUBLIC _terrainBuf3
@@ -22,8 +18,7 @@ PUBLIC _terrainBuf5
 PUBLIC _terrainPtrUnk
 PUBLIC _terrainIdxBuf
 PUBLIC _planes
-PUBLIC _blinkColors
-PUBLIC _blinkColorIdx
+
 PUBLIC _hercFlag
 PUBLIC _commData
 PUBLIC _bufPtr
@@ -37,21 +32,6 @@ PUBLIC _selectedPilotIdx
 PUBLIC _hallfameBuf
 PUBLIC _byte_1B100
 PUBLIC _byte_1B0FF
-PUBLIC _missDiffLevels
-PUBLIC _missDiffDesc
-PUBLIC _missTheaNames
-PUBLIC _missTheaDesc
-PUBLIC _missScenarioNames
-PUBLIC _missScenarioDesc
-PUBLIC _missTypeNames
-PUBLIC _missTypeDesc
-PUBLIC _missHistorical1Names
-PUBLIC _missHistorical1Desc
-PUBLIC _missHistorical2Names
-PUBLIC _missHistorical2Desc
-PUBLIC _missionStr
-PUBLIC _plh3d3Ptr
-
 PUBLIC _word_19294
 PUBLIC _word_192EC
 PUBLIC _stru_18FC0
@@ -67,7 +47,6 @@ PUBLIC _off_19304
 PUBLIC _off_19314
 PUBLIC _word_1B960
 PUBLIC _fileHandle
-PUBLIC _scenarioCodePtr
 PUBLIC _scenarioFoundArr
 PUBLIC _missionPick
 PUBLIC _word_171B2
@@ -76,15 +55,12 @@ PUBLIC _theaterSaved
 PUBLIC _flag4Saved
 PUBLIC _todayMissStrBuf
 PUBLIC _readItemSize
-
 PUBLIC _word_1714A
 PUBLIC _word_1715A
 PUBLIC _word_1716A
 PUBLIC _word_1717A
 PUBLIC _word_1718A
-
 PUBLIC _word_1719A
-
 PUBLIC _wldReadBuf5Size
 PUBLIC _wldReadBuf1
 PUBLIC _wldReadBuf2
@@ -148,12 +124,9 @@ PUBLIC _diskTransferArea
 PUBLIC _fcbMatchStr
 PUBLIC _dictionaryIndex
 PUBLIC _picDecodeDictionary
-
 PUBLIC _picWorkData
-
 PUBLIC _picDecodeIncrement
 PUBLIC _searchFCB
-
 PUBLIC _clipDivZeroHandler
 
 ; ---------------------------------------------------------------------------
@@ -440,137 +413,25 @@ _bufPtr dw offset word_16BE2
     db 9 dup(0)
 unk_16C10 db 0AAh
     db 0
-aLibya db 'Libya',0
-aPersianGulf db 'Persian Gulf',0
-aVietnam db 'Vietnam',0
-aMiddleEast db 'Middle East',0
-aOtherAreas db 'Other Areas',0
-aAcrossTheLineO db 'Across the "Line of Death"',0
-aKeepingTheSeaL db 'Keeping the Sea Lanes Open',0
-aAmericaSLonges db 'America',27h,'s Longest Air War',0
-aEaglesVsMigs db 'Eagles vs MiGs',0
-aInsertYourScen db 'Insert your scenario disk',0
-aRookie db 'Rookie',0
-aPilot db 'Pilot',0
-aVeteran db 'Veteran',0
-aAce db 'Ace',0
-aDemo db 'Demo',0
-aGetOffToAGoodS db 'Get off to a good start',0
-aForTheCasualPl db 'For the casual player',0
-aForMoreSerious db 'For more serious players',0
-aTheUltimateCha db 'The Ultimate Challenge',0
-aLetSSeeWhatThi db 'Let',27h,'s see what this thing can do',0
-aNc db 'nc',0
-aCe db 'ce',0
-aJp db 'jp',0
-aNa db 'na',0
-aNorthCape db 'North Cape',0
-aCentralEurope db 'Central Europe',0
-aDesertStorm db 'Desert Storm',0
-aNorthAtlantic db 'North Atlantic',0
-aOtherAreas_0 db 'Other Areas',0
-aIntoTheSovietS db 'Into the Soviet',27h,'s Backyard',0
-aRedStormRaging db 'Red Storm Raging',0
-aTheFightForKuw db 'The Fight for Kuwait',0
-aDefendingTheIc db 'Defending the Iceland-UK Gap',0
-aSelectABuiltIn db 'Select a built-in area',0
-aHistoricalMiss db 'Historical Missions',0
-aGeneralAirStri db 'General Air Strikes',0
-asc_16E46 db 0,0,0
-aReenactHistory db 'Reenact history',0
-aTheCoreOfTheAi db 'The core of the Air Campaign',0
-asc_16E76 db 0,0,0
-aSaddamSEyes db 'Saddam',27h,'s Eyes',0
-aCommandAndCont db 'Command and Control',0
-aScudBusting db 'Scud Busting',0
-aNoNukes db 'No Nukes',0
-aMoreHistorical db 'more historical missions',0
-aIraqSEarlyWarn db 'Iraq',27h,'s Early Warning Radar',0
-aIraqiDefenseNe db 'Iraqi Defense Nerve Center',0
-aStopSaddamSTer db 'Stop Saddam',27h,'s Terror Weapon',0
-aNuclearResearc db 'Nuclear Research Facility',0
-unk_16F36 db 0
-aBabyMilkFactory db 27h,'Baby Milk Factory',27h,0
-aStopTheSpill db 'Stop the Spill',0
-aBridgesToNowhe db 'Bridges to Nowhere',0
-aRepublicanGuar db 'Republican Guards',0
-aMoreHistoric_0 db 'more historical missions',0
-aChemicalBiolog db 'Chemical/Biological Weapons Plant',0
-aSeverTheOilPum db 'Sever the Oil Pumping Manifold',0
-aSaddamSEliteAr db 'Saddam',27h,'s Elite Armored Units',0
-aCutTheSupplyLi db 'Cut the Supply Lines',0
-asc_1700B db 0
-aMission db 'MISSION',0
-placeholder_3d3 db 'xx.3d3',0
+    EXTRN _missTheaNames:WORD
+    EXTRN _missTheaDesc:WORD
+    EXTRN _missDiffLevels:WORD
+    EXTRN _missDiffDesc:WORD
+    EXTRN _scenarioCodePtr:WORD
+    EXTRN _missScenarioNames:WORD
+    EXTRN _missScenarioDesc:WORD
+    EXTRN _missTypeNames:WORD
+    EXTRN _missTypeDesc:WORD
+    EXTRN _missHistorical1Names:WORD
+    EXTRN _missHistorical1Desc:WORD
+    EXTRN _missHistorical2Names:WORD
+    EXTRN _missHistorical2Desc:WORD
+    EXTRN _missionStr:WORD
+    EXTRN _plh3d3Ptr:WORD
 
 EXTRN _page1Desc:BYTE
 EXTRN _page2Desc:BYTE
 EXTRN _page3Desc:BYTE
-_missTheaNames dw offset aLibya
-    dw offset aPersianGulf ;"Persian Gulf"
-    dw offset aVietnam ;"Vietnam"
-    dw offset aMiddleEast ;"Middle East"
-    dw offset aOtherAreas ;"Other Areas"
-_missTheaDesc dw offset aAcrossTheLineO
-    dw offset aKeepingTheSeaL ;"Keeping the Sea Lanes Open"
-    dw offset aAmericaSLonges ;"America's Longest Air War"
-    dw offset aEaglesVsMigs ;"Eagles vs MiGs"
-    dw offset aInsertYourScen ;"Insert your scenario disk"
-_missDiffLevels dw offset aRookie
-    dw offset aPilot ;"Pilot"
-    dw offset aVeteran ;"Veteran"
-    dw offset aAce ;"Ace"
-    dw offset aDemo ;"Demo"
-_missDiffDesc dw offset aGetOffToAGoodS
-    dw offset aForTheCasualPl ;"For the casual player"
-    dw offset aForMoreSerious ;"For more serious players"
-    dw offset aTheUltimateCha ;"The Ultimate Challenge"
-    dw offset aLetSSeeWhatThi ;"Let's see what this thing can do"
-_scenarioCodePtr dw offset aNc
-    dw offset aCe ;"ce"
-    dw offset aJp ;"jp"
-    dw offset aNa ;"na"
-_missScenarioNames dw offset aNorthCape
-    dw offset aCentralEurope ;"Central Europe"
-    dw offset aDesertStorm ;"Desert Storm"
-    dw offset aNorthAtlantic ;"North Atlantic"
-    dw offset aOtherAreas_0 ;"Other Areas"
-_missScenarioDesc dw offset aIntoTheSovietS
-    dw offset aRedStormRaging ;"Red Storm Raging"
-    dw offset aTheFightForKuw ;"The Fight for Kuwait"
-    dw offset aDefendingTheIc ;"Defending the Iceland-UK Gap"
-    dw offset aSelectABuiltIn ;"Select a built-in area"
-_missTypeNames dw offset aHistoricalMiss
-off_1710E dw offset aGeneralAirStri ;"General Air Strikes"
-off_17110 dw offset asc_16E46
-    dw offset asc_16E46+1
-    dw offset asc_16E46+2
-_missTypeDesc dw offset aReenactHistory
-    dw offset aTheCoreOfTheAi ;"The core of the Air Campaign"
-    dw offset asc_16E76
-    dw offset asc_16E76+1
-off_1711E dw offset asc_16E76+2
-_missHistorical1Names dw offset aSaddamSEyes
-    dw offset aCommandAndCont ;"Command and Control"
-    dw offset aScudBusting ;"Scud Busting"
-    dw offset aNoNukes ;"No Nukes"
-    dw offset aMoreHistorical ;"more historical missions"
-_missHistorical1Desc dw offset aIraqSEarlyWarn
-    dw offset aIraqiDefenseNe ;"Iraqi Defense Nerve Center"
-    dw offset aStopSaddamSTer ;"Stop Saddam's Terror Weapon"
-    dw offset aNuclearResearc ;"Nuclear Research Facility"
-off_17132 dw offset unk_16F36
-_missHistorical2Names dw offset aBabyMilkFactory
-    dw offset aStopTheSpill ;"Stop the Spill"
-    dw offset aBridgesToNowhe ;"Bridges to Nowhere"
-    dw offset aRepublicanGuar ;"Republican Guards"
-    dw offset aMoreHistoric_0 ;"more historical missions"
-_missHistorical2Desc dw offset aChemicalBiolog
-    dw offset aSeverTheOilPum ;"Sever the Oil Pumping Manifold"
-off_17142 dw offset aSaddamSEliteAr ;"Saddam's Elite Armored Units"
-    dw offset aCutTheSupplyLi ;"Cut the Supply Lines"
-    dw offset asc_1700B
-_missionStr dw offset aMission
 _word_1714A dw 1
     dw 53h ;these arrays are used in the arm animation routine, maybe coords?
     dw 0D9h
@@ -619,7 +480,6 @@ _word_1719A dw 3Eh
     dw 4Bh
     dw 5Dh
     dw 74h
-_plh3d3Ptr dw offset placeholder_3d3
 _missionPick dw 0FFFFh
     db 0FFh
     db 0FFh
@@ -630,7 +490,6 @@ _word_171B2 dw 1
     dw 5
     dw 6
     dw 7
-
 _joyRepeatFlag dw 0
 EXTRN _spriteParams:BYTE
 _fcbMatchStr db 49h
@@ -658,54 +517,16 @@ _searchFCB db 0FFh
     db 25 dup(0)
 _diskTransferArea db 85h dup(0)
     EXTRN _picCurrentRow:WORD
-a2ndLt_ db '2nd Lt. ',0
-a1stLt_ db '1st Lt. ',0
-aCapt_ db 'Capt. ',0
-aMajor db 'Major ',0
-aLtCol_ db 'Lt Col. ',0
-aColonel db 'Colonel ',0
-aGen_ db 'Gen. ',0
-
-_pilotSelectFlag db 0
+    EXTRN _pilotSelectFlag:BYTE
 EXTRN _screenDesc:BYTE
 EXTRN _pageNumPageDesc:BYTE
-_ranks dw offset a2ndLt_
-    dw offset a1stLt_ ;"1st Lt. "
-    dw offset aCapt_ ;"Capt. "
-    dw offset aMajor ;"Major "
-    dw offset aLtCol_ ;"Lt Col. "
-    dw offset aColonel ;"Colonel "
-    dw offset aGen_ ;"Gen. "
-_byte_17412 db 82h
-    db 71h
-    db 81h
-    db 70h
-    db 6Fh
-    db 0A1h
-    db 9Fh
-    db 0
-_byte_1741A db 80h
-    db 80h
-    db 0B3h
-    db 0B3h
-    db 91h
-    db 91h
-    db 0A2h
-    db 0
-_byte_17422 db 9
-    db 0Bh
-    db 0Bh
-    db 0Dh
-    db 2Fh
-    db 0Bh
-    db 0Fh
-    db 0
-_blinkColors dw 7
-    dw 0Fh
-_blinkColorIdx dw 0
-_pilotNameInputColors dw 0
-    db 8 ;grey name input box
-    db 0
+    EXTRN _ranks:WORD
+    EXTRN _byte_17412:BYTE
+    EXTRN _byte_1741A:BYTE
+    EXTRN _byte_17422:BYTE
+    EXTRN _blinkColors:WORD
+    EXTRN _blinkColorIdx:WORD
+    EXTRN _pilotNameInputColors:WORD
 
 ; ------------------------------startData:0xab8------------------------------
 _gfx_jump_0_alloc proc far
@@ -1162,7 +983,9 @@ _terrainBuf1 dw 5 dup(20h)
     EXTRN _word_182C4:WORD
     EXTRN _word_182C6:WORD
     EXTRN _word_182C8:WORD
+; 4 bytes of padding/unknown data between word_182C8 and weapon table
     db 4 dup(0)
+; Weapon table (struct Weapon, 14 bytes/entry) - accessed as aNone[idx * 14 + field]
 aNone db 'None',0
     db 9 dup(0)
 aSa2 db 'SA-2',0
@@ -1393,6 +1216,7 @@ _planes db 4Dh, 49h, 47h, 2Dh, 32h, 33h, 0, 20h ;field_0 ; 19 items
     dw 190h ;field_12
     dw 3E8h ;field_14
     db 1, 0, 2 dup(0FFh), 12h, 0, 2, 3 dup(0) ;field_16
+; Sam table (struct Sam, 18 bytes/entry)
 aNone_0 db 'None',0
     db 9 dup(0)
     db 1
