@@ -67,7 +67,7 @@ int setupOverlaySlots(uint16 addr);
 // ==== seg000:0x720 ====
 int sub_10720();
 // ==== seg000:0x14e8 ====
-int sub_114E8();
+void sub_114E8();
 // ==== seg000:0x14fc ====
 int countermeasures();
 // ==== seg000:0x1636 ====
@@ -79,23 +79,23 @@ int sub_11841();
 // ==== seg000:0x18d5 ====
 int sub_118D5();
 // ==== seg000:0x18f6 ====
-int sub_118F6();
+void sub_118F6();
 // ==== seg000:0x1971 ====
 int sub_11971();
 // ==== seg000:0x19a3 ====
 void sub_119A3(void);
 // ==== seg000:0x1a18 ====
-int sub_11A18();
+void sub_11A18();
 // ==== seg000:0x1a88 ====
 void sub_11A88(int param_1);
 // ==== seg000:0x1b37 ====
-int sub_11B37();
+void sub_11B37();
 // ==== seg000:0x1bc3 ====
 void sub_11BC3(int arg_0, unsigned int arg_2);
 // ==== seg000:0x1bfd ====
 void sub_11BFD(int arg_0, int arg_2);
 // ==== seg000:0x1c21 ====
-int sub_11C21();
+void sub_11C21();
 // ==== seg000:0x1d10 ====
 void sub_11D10(int arg_0, int arg_2);
 // ==== seg000:0x1d6e ====
@@ -117,7 +117,7 @@ int callLoad3DAll();
 // ==== seg000:0x21ca ====
 void sub_121CA(int, int, int, long, long, long, int, int, int, int);
 // ==== seg000:0x2278 ====
-int sub_12278(int arg_0);
+void sub_12278(int arg_0);
 // ==== seg000:0x229a ====
 void copySomeMem(int arg_0);
 // ==== seg000:0x22b8 ====
@@ -133,7 +133,7 @@ void __cdecl load3D3(char *);
 // ==== seg000:0x2c82 ====
 void __cdecl load3DT(char *);
 // ==== seg000:0x2e54 ====
-int load3DG();
+void load3DG();
 // ==== seg000:0x2f8c ====
 int __cdecl printError(const char *);
 // ==== seg000:0x2faf ====
@@ -275,7 +275,7 @@ void sub_18A44(void);
 // ==== seg000:0x8aa6 ====
 int sub_18AA6();
 // ==== seg000:0x8df4 ====
-void sub_18DF4();
+void sub_18DF4(int param_1, int param_2, int param_3);
 // ==== seg000:0x8e38 ====
 int sub_18E38();
 // ==== seg000:0x8e50 ====
@@ -351,7 +351,7 @@ int routine_260(int param_1, int param_2);
 // ==== seg000:0xa25c ====
 int sub_1A25C(char param_1);
 // ==== seg000:0xa740 ====
-int sub_1A740();
+void sub_1A740();
 // ==== seg000:0xa7c4 ====
 void sub_1A7C4();
 // ==== seg000:0xa872 ====
@@ -395,7 +395,7 @@ int sub_1C864();
 // ==== seg000:0xc8a4 ====
 int sub_1C8A4(int param_1);
 // ==== seg000:0xc8de ====
-int load15Flt3d3();
+void load15Flt3d3();
 // ==== seg000:0xc9d2 ====
 int sub_1C9D2();
 // ==== seg000:0xcb42 ====
@@ -446,7 +446,7 @@ int __cdecl openFileWrapper(char *, int);
 // ==== seg000:0xdd5e ====
 int sub_1DD5E();
 // ==== seg000:0xdd70 ====
-int closeFileWrapper(int handle);
+void closeFileWrapper(int handle);
 // ==== seg000:0xdd7e ====
 int sub_1DD7E();
 // ==== seg000:0xdd92 ====
@@ -629,7 +629,7 @@ int far sub_2189C();
 int sub_218A8();
 // bytes outside routine, potential module boundary at 0x9
 // ==== seg002:0xa ====
-int far sub_21A7A();
+void far sub_21A7A();
 // ==== seg002:0xe ====
 void __cdecl __far sub_21A7E();
 // ==== seg002:0x12 ====

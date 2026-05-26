@@ -587,7 +587,7 @@ int itemDistance(int idx1, int idx2) {
 }
 
 // 4cc5
-int positionUnit(int unit, int loc) {
+void positionUnit(int unit, int loc) {
     int j;
     // 4cd9
     j = wldReadBuf6[unit].field_16;
@@ -751,7 +751,7 @@ int setMoveDstComm7A(const char *filename, const char* arg_1) {
 }
 
 // 52bb
-int memAppend(void *ptr, int itemsz, int count, FILE* unused) {
+void memAppend(void *ptr, int itemsz, int count, FILE* unused) {
     void FAR *farptr;
     farptr = ptr;
     // 52dd
@@ -760,7 +760,7 @@ int memAppend(void *ptr, int itemsz, int count, FILE* unused) {
 }
 
 // 52f1
-int doNothing(FILE* handle) {
+void doNothing(FILE* handle) {
 }
 
 // 52f4

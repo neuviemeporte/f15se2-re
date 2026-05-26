@@ -11,7 +11,7 @@
 #include <string.h>
 
 // 124a
-int showSprite(int page, int x, int y, int src_x, int src_y, int width, int height) {
+void showSprite(int page, int x, int y, int src_x, int src_y, int width, int height) {
     TRACE(("showSprite(%d, %d, %d, %d, %d, %d, %d)", page, x, y, src_x, src_y, width, height));
     word_17284 = menuSprites;
     word_17286 = src_x;
@@ -67,7 +67,7 @@ void pilotSelect(int16 needSplash)
 }
 
 // 0x1c08
-int updateHallfame()
+void updateHallfame()
 {
     int j;
     // 0x1c14
@@ -205,7 +205,7 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
 // ---- likely module boundary
 // 1f44
 // XXX: non-linear execution due to optimization
-int processPilotInput() {
+void processPilotInput() {
     int pilot;
     int x;
     int counter;
@@ -301,7 +301,7 @@ handleArrow:
 }
 
 // 210a
-int blinkPilot() {
+void blinkPilot() {
     int16 x, y;
     if (pilotSelectFlag == 0) return;
     waitMdaCgaStatus(6);
@@ -349,7 +349,7 @@ void pilotToGameData(uint8 *pilotData)
 }
 
 // 22ec
-int pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
+void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
     int blinkToggle;
     int x, y;
     int nameLen;
@@ -469,7 +469,7 @@ void loadHallfame(void)
 }
 
 // 2542
-int saveHallfame() {
+void saveHallfame() {
     FILE *fp;
     int idx;
     // 2550
@@ -544,7 +544,7 @@ void parseGridTerrain(void) {
 }
 
 // 3b9e
-int parseTerrain(char *filename) {
+void parseTerrain(char *filename) {
     int16 tmp, level, tileOffset, entry;
     uint16 i;
     replaceExtension(filename, a_3dt);
@@ -598,7 +598,7 @@ int parseTerrain(char *filename) {
 }
 
 // 3d4c
-int parseGrid() {
+void parseGrid() {
     int j;
     replaceExtension(regnPlhPtr, a_3dg);
     // 3d71
@@ -644,7 +644,7 @@ int showMsgWaitKey(const char *msg) {
 }
 
 // 3ea8
-int replaceExtension(char *path, char *source) {
+void replaceExtension(char *path, char *source) {
     int8 ch;
     for(; (ch = *path) != '.';) {
         if (ch == 0) break;

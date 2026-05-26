@@ -99,7 +99,7 @@ void waitMdaCgaStatus(int);
 // ==== startCode1:0x635 ====
 void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color);
 // ==== startCode1:0x674 ====
-int showPic640(char *filename);
+void showPic640(char *filename);
 // bytes outside routine, potential module boundary at 0x6c7
 // ==== startCode1:0x6c8 ====
 void missionSelect(void);
@@ -120,7 +120,7 @@ int processStoreInput();
 // ==== startCode1:0x1229 ====
 void clearBriefing(void);
 // ==== startCode1:0x124a ====
-int __cdecl showSprite(int, int, int, int, int, int, int);
+void __cdecl showSprite(int, int, int, int, int, int, int);
 // ==== startCode1:0x12df ====
 int dead_drawWrappedText();
 // ==== startCode1:0x130b ====
@@ -128,7 +128,7 @@ int unreach_1130B();
 // ==== startCode1:0x1458 ====
 int sub_11458();
 // ==== startCode1:0x1824 ====
-int seedRandom();
+void seedRandom();
 // ==== startCode1:0x1835 ====
 int __cdecl randMul(unsigned int);
 // bytes outside routine, potential module boundary at 0x1859
@@ -162,7 +162,7 @@ void picBlit(int handle, int unk);
 void pilotSelect(int ps_needSplash);
 // bytes outside routine, potential module boundary at 0x1c07
 // ==== startCode1:0x1c08 ====
-int updateHallfame();
+void updateHallfame();
 // bytes outside routine, potential module boundary at 0x1d31
 // ==== startCode1:0x1d32 ====
 void displayPilots(void);
@@ -170,19 +170,19 @@ void displayPilots(void);
 void __cdecl printPilot(int);
 // bytes outside routine, potential module boundary at 0x1f43
 // ==== startCode1:0x1f44 ====
-int processPilotInput();
+void processPilotInput();
 // ==== startCode1:0x210a ====
-int blinkPilot();
+void blinkPilot();
 // ==== startCode1:0x2182 ====
 void __cdecl gameDataToPilot(struct Pilot *pilot);
 // ==== startCode1:0x2232 ====
 void pilotToGameData(unsigned __int8 *pilotData);
 // ==== startCode1:0x22ec ====
-int __cdecl pilotNameInput(int16 *, int, int, int, struct Pilot *);
+void __cdecl pilotNameInput(int16 *, int, int, int, struct Pilot *);
 // ==== startCode1:0x24e4 ====
 void loadHallfame(void);
 // ==== startCode1:0x2542 ====
-int saveHallfame();
+void saveHallfame();
 // ==== startCode1:0x25a0 ====
 int getJoyKey();
 // bytes outside routine, potential module boundary at 0x25e3
@@ -275,7 +275,7 @@ int unreach_1306A();
 int unreach_130B4();
 // bytes outside routine, potential module boundary at 0x30c5
 // ==== startCode1:0x30c6 ====
-int closeFileWrapper(int handle);
+void closeFileWrapper(int handle);
 // ==== startCode1:0x30d4 ====
 int unreach_130D4();
 // ==== startCode1:0x30e8 ====
@@ -351,14 +351,14 @@ int __cdecl lookupGridCell(int, int, int);
 // ==== startCode1:0x3b8a ====
 void parseGridTerrain(void);
 // ==== startCode1:0x3b9e ====
-int parseTerrain(char *dest);
+void parseTerrain(char *dest);
 // bytes outside routine, potential module boundary at 0x3d4b
 // ==== startCode1:0x3d4c ====
-int parseGrid();
+void parseGrid();
 // ==== startCode1:0x3e8c ====
 int __cdecl showMsgWaitKey(const char *);
 // ==== startCode1:0x3ea8 ====
-int replaceExtension(char *dest, char *source);
+void replaceExtension(char *dest, char *source);
 // ==== startCode1:0x3ed2 ====
 int unreach_13ED2();
 // ==== startCode1:0x3f08 ====
@@ -380,7 +380,7 @@ int __cdecl findOrPlaceItem(int, int, int);
 // ==== startCode1:0x4c94 ====
 int __cdecl itemDistance(int, int);
 // ==== startCode1:0x4cc5 ====
-int __cdecl positionUnit(int, int);
+void __cdecl positionUnit(int, int);
 // ==== startCode1:0x4d96 ====
 int __cdecl approxDistance(int, int);
 // ==== startCode1:0x4e03 ====
@@ -396,9 +396,9 @@ int setMoveDstComm7A(const char *filename, const char* arg_1);
 // ==== startCode1:0x5285 ====
 int unreach_15285();
 // ==== startCode1:0x52bb ====
-int memAppend(void *ptr, int itemsz, int count, FILE* unused);
+void memAppend(void *ptr, int itemsz, int count, FILE* unused);
 // ==== startCode1:0x52f1 ====
-int doNothing(FILE*);
+void doNothing(FILE*);
 // ==== startCode1:0x52f4 ====
 char *__cdecl getItemCoordStr(int16);
 // ==== startCode1:0x531c ====

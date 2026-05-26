@@ -21,7 +21,7 @@ void mystrcpy(char *dest, const char *source) {
     } while ((*dest++ = *source++) != '\0');
 }
 
-int closeFileWrapper(int handle)
+void closeFileWrapper(int handle)
 {
     TRACE(("closeFileWrapper"));
     fileClose(handle);

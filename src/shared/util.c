@@ -17,7 +17,7 @@ extern char timerHandlerInstalled;
 void restoreTimerIrqHandler(void);
 void intDispatch(int intNum, uint8 *inRegs, uint8 *outRegs);
 
-int cleanup()
+void cleanup()
 {
     uint8 regs[0xe];
     if (timerHandlerInstalled == 1) {
@@ -58,7 +58,7 @@ int stringWidth(int16 *page, const char *str) {
     return n;
 }
 
-int my_ltoa(int32 value, int8* buf) {
+void my_ltoa(int32 value, int8* buf) {
     int8 i, k;
     int8 *p;
     int8 n[6];
@@ -95,7 +95,7 @@ int my_ltoa(int32 value, int8* buf) {
     *p = '\0';
 }
 
-int my_itoa(int value, char *buf) {
+void my_itoa(int value, char *buf) {
     int8 n[6];
     int8 i, k;
     char *p;
