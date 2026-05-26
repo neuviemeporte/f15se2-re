@@ -233,3 +233,117 @@ int16 word_1D00A;
 uint32 dword_1D650;
 int16 word_1E24A;
 int16 menuSprites;
+
+/* Joystick calibration arrays (4 words each, only first declared in header) */
+int16 joyMinValues[4] = {0};
+int16 joyMaxValues[4] = {0};
+int16 joyCenterValues[4] = {0};
+int16 joyRangeBelow[4] = {0};
+int16 joyRangeAbove[4] = {0};
+int16 joyRawAxis0 = 0;
+int16 joyRawAxis1 = 0;
+int16 joyRawAxis2 = 0; /* padding - 2 words after joyRawAxis1 */
+int16 joyRawAxis3 = 0;
+uint8 joyAxes[8] = {0};
+
+/* Clear rect parameters */
+int16 clearRectX = 0;
+int16 clearRectY = 0;
+int16 clearRectWidth = 0;
+int16 clearRectHeight = 0;
+
+/* Line drawing parameters */
+int16 lineX1 = 0;
+int16 lineX2 = 0;
+int16 lineY1 = 0;
+int16 lineY2 = 0;
+
+/* Dirty rect buffers stay in start_rc.asm - overlay hardcodes +0x1B8 offset
+ * between dirtyMinBuf and dirtyMaxBuf, only ASM can guarantee contiguity. */
+
+/* Clipping state */
+uint8 clipOutcode = 0;
+int16 clipDx = 0;
+int16 clipDy = 0;
+int16 clipDxHalf = 0;
+int16 clipDyHalf = 0;
+int16 clipMaxX = 0x13F;
+int16 clipMaxY = 0x6F;
+
+/* Ctrl-Break handler state */
+uint8 cbreakHit = 0;
+int16 origCBreakSeg = 0;
+int16 origCBreakOfs = 0;
+int16 errorCodeStr = 0;
+
+/* File I/O buffer (512 bytes total) */
+uint8 fileReadBuf[0x200] = {0};
+int16 fileReadPos = 0;
+int16 tmpFileHandle = 0;
+
+/* Pic decode row buffer */
+uint8 picDecodedRowBuf[0x140] = {0};
+
+/* Graphics state */
+int16 screenBufSize = 0;
+int16 tmpPageIndex = 0;
+int16 rowOffset = 0;
+int16 row = 0;
+int16 readFromFilePtr = 0;
+
+/* Sprite blit state */
+int armPosition = 0;
+int spriteBlitX = 0;
+int spriteBlitY = 0;
+int spriteBlitW = 0;
+int spriteBlitH = 0;
+
+/* Pic decode scalar state */
+int16 readBufEndPtr = 0;
+int16 picWorkDataPtr = 0;
+int16 picRowLength = 0;
+uint8 picProcessFlag0_1 = 0;
+uint8 picLookupResult = 0;
+uint8 picTmp9BitCount = 0;
+uint8 picByte = 0;
+int16 picFileReadBufEnd = 0;
+int16 picNumberDictSlots = 0;
+int16 picFileWord = 0;
+uint8 picRemainingBitCount = 0;
+uint8 picByteUnsignedFlag = 0;
+int16 picSlotCounter = 0;
+int16 picCurrentRow = 0;
+
+/* Region/theater filename strings */
+char aRegn_xxx[] = "regn.xxx";
+char aLb_xxx[] = "lb.xxx";
+char aPg_xxx[] = "pg.xxx";
+char aVn_xxx[] = "vn.xxx";
+char aMe_xxx[] = "me.xxx";
+char aNc_xxx[] = "nc.xxx";
+char aCe_xxx[] = "ce.xxx";
+char aJp_xxx[] = "jp.xxx";
+char aNa_xxx[] = "na.xxx";
+char aLibya_wld[] = "Libya.wld";
+char aGulf_wld[] = "gulf.wld";
+char aVn_wld[] = "vn.wld";
+char aMe_wld[] = "me.wld";
+char aNc_wld[] = "nc.wld";
+char aCe_wld[] = "ce.wld";
+char aJp_wld[] = "jp.wld";
+char aNa_wld[] = "na.wld";
+
+/* Pointer arrays for region/world files */
+char *regnPlhPtr = aRegn_xxx;
+char *plhFiles[] = { aLb_xxx, aPg_xxx, aVn_xxx, aMe_xxx, aNc_xxx, aCe_xxx, aJp_xxx, aNa_xxx };
+char *worldFiles[] = { aLibya_wld, aGulf_wld, aVn_wld, aMe_wld, aNc_wld, aCe_wld, aJp_wld, aNa_wld };
+
+/* Mission coordinate state */
+int16 word_182BA = 0;
+int16 word_182BC = 0;
+int16 word_182BE = 0;
+int16 word_182C0 = 0;
+int16 word_182C2 = 0;
+int16 word_182C4 = 0;
+int16 word_182C6 = 0;
+int16 word_182C8 = 0;

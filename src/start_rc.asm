@@ -6,7 +6,6 @@ PUBLIC _byte_17422
 PUBLIC _byte_1741A
 PUBLIC _ranks
 PUBLIC _pilotNameInputColors
-PUBLIC _cbreakHit
 PUBLIC _joyRepeatFlag
 PUBLIC _gridBuf1
 PUBLIC _gridBuf2
@@ -15,10 +14,6 @@ PUBLIC _gridBuf4
 PUBLIC _gridBuf5
 PUBLIC _page1Ptr
 PUBLIC _pilotSelectFlag
-PUBLIC _lineX1
-PUBLIC _lineY1
-PUBLIC _lineX2
-PUBLIC _lineY2
 PUBLIC _terrainBuf1
 PUBLIC _terrainBuf2
 PUBLIC _terrainBuf3
@@ -31,7 +26,6 @@ PUBLIC _blinkColors
 PUBLIC _blinkColorIdx
 PUBLIC _hercFlag
 PUBLIC _commData
-PUBLIC _joyAxes
 PUBLIC _bufPtr
 PUBLIC _needSplash
 PUBLIC _gfxModeSetPtr
@@ -57,23 +51,16 @@ PUBLIC _missHistorical2Names
 PUBLIC _missHistorical2Desc
 PUBLIC _missionStr
 PUBLIC _plh3d3Ptr
-PUBLIC _armPosition
-PUBLIC _word_182C8
+
 PUBLIC _word_19294
-PUBLIC _word_182BC
 PUBLIC _word_192EC
 PUBLIC _stru_18FC0
-PUBLIC _word_182BE
 PUBLIC _byte_192FC
 PUBLIC _target2
-PUBLIC _word_182C0
 PUBLIC _targets
-PUBLIC _word_182C2
 PUBLIC _word_192A4
-PUBLIC _word_182C4
 PUBLIC _stru_1892E
 PUBLIC _word_192F4
-PUBLIC _word_182C6
 PUBLIC _word_189B6
 PUBLIC _word_19324
 PUBLIC _off_19304
@@ -84,25 +71,20 @@ PUBLIC _scenarioCodePtr
 PUBLIC _scenarioFoundArr
 PUBLIC _missionPick
 PUBLIC _word_171B2
-PUBLIC _regnPlhPtr
 PUBLIC _difficultySaved
 PUBLIC _theaterSaved
 PUBLIC _flag4Saved
-PUBLIC _plhFiles
-PUBLIC _worldFiles
 PUBLIC _todayMissStrBuf
-PUBLIC _word_182BA
 PUBLIC _readItemSize
-PUBLIC _spriteBlitX
+
 PUBLIC _word_1714A
 PUBLIC _word_1715A
 PUBLIC _word_1716A
 PUBLIC _word_1717A
 PUBLIC _word_1718A
-PUBLIC _spriteBlitY
+
 PUBLIC _word_1719A
-PUBLIC _spriteBlitW
-PUBLIC _spriteBlitH
+
 PUBLIC _wldReadBuf5Size
 PUBLIC _wldReadBuf1
 PUBLIC _wldReadBuf2
@@ -166,58 +148,14 @@ PUBLIC _diskTransferArea
 PUBLIC _fcbMatchStr
 PUBLIC _dictionaryIndex
 PUBLIC _picDecodeDictionary
-PUBLIC _clipDx
-PUBLIC _picRowLength
-PUBLIC _rowOffset
+
 PUBLIC _picWorkData
-PUBLIC _clipDy
-PUBLIC _picDecodedRowBuf
-PUBLIC _clipOutcode
-PUBLIC _clipDxHalf
-PUBLIC _clipDyHalf
-PUBLIC _clipMaxX
-PUBLIC _picWorkDataPtr
-PUBLIC _picProcessFlag0_1
-PUBLIC _clearRectWidth
-PUBLIC _picTmp9BitCount
-PUBLIC _picByteUnsignedFlag
-PUBLIC _joyMinValues
-PUBLIC _clearRectHeight
-PUBLIC _joyCenterValues
-PUBLIC _joyRangeAbove
-PUBLIC _picCurrentRow
-PUBLIC _fileReadPos
-PUBLIC _row
-PUBLIC _readBufEndPtr
-PUBLIC _picRemainingBitCount
-PUBLIC _tmpFileHandle
+
 PUBLIC _picDecodeIncrement
 PUBLIC _searchFCB
-PUBLIC _picNumberDictSlots
-PUBLIC _dirtyMaxBuf
-PUBLIC _errorCodeStr
-PUBLIC _tmpPageIndex
-PUBLIC _joyMaxValues
-PUBLIC _joyRangeBelow
-PUBLIC _joyRawAxis0
-PUBLIC _clearRectX
-PUBLIC _screenBufSize
-PUBLIC _joyRawAxis1
-PUBLIC _clearRectY
-PUBLIC _dirtyMinBuf
-PUBLIC _dirtyRectMin
-PUBLIC _origCBreakOfs
-PUBLIC _clipMaxY
-PUBLIC _picSlotCounter
-PUBLIC _origCBreakSeg
-PUBLIC _dirtyRectMax
-PUBLIC _picFileReadBufEnd
-PUBLIC _readFromFilePtr
-PUBLIC _fileReadBuf
-PUBLIC _picByte
+
 PUBLIC _clipDivZeroHandler
-PUBLIC _picFileWord
-PUBLIC _picLookupResult
+
 ; ---------------------------------------------------------------------------
 
 Buf6Item	struc ;	(sizeof=0x24, mappedto_9) ; XREF: startData:wldReadBuf6/r
@@ -719,7 +657,7 @@ _searchFCB db 0FFh
     db 3Fh
     db 25 dup(0)
 _diskTransferArea db 85h dup(0)
-_picCurrentRow dw 0
+    EXTRN _picCurrentRow:WORD
 a2ndLt_ db '2nd Lt. ',0
 a1stLt_ db '1st Lt. ',0
 aCapt_ db 'Capt. ',0
@@ -1164,91 +1102,66 @@ _audio_jump_6c endp
 ; ------------------------------startData:0xcd4------------------------------
     db 0EAh
     db 4 dup(0)
-_joyMinValues dw 0
-    db 6 dup(0)
-_joyMaxValues dw 0
-    db 6 dup(0)
-_joyCenterValues dw 0
-    db 6 dup(0)
-_joyRangeBelow dw 0
-    db 6 dup(0)
-_joyRangeAbove dw 0
-    db 6 dup(0)
-_joyRawAxis0 dw 0
-_joyRawAxis1 dw 0
-    db 4 dup(0)
-_joyAxes db 8 dup( 0)
-_clearRectX dw 0
-_clearRectY dw 0
-_clearRectWidth dw 0
-_clearRectHeight dw 0
-_lineX1 dw 0
-_lineX2 dw 0
-_lineY1 dw 0
-_lineY2 dw 0
+    EXTRN _joyMinValues:WORD
+    EXTRN _joyMaxValues:WORD
+    EXTRN _joyCenterValues:WORD
+    EXTRN _joyRangeBelow:WORD
+    EXTRN _joyRangeAbove:WORD
+    EXTRN _joyRawAxis0:WORD
+    EXTRN _joyRawAxis1:WORD
+    EXTRN _joyAxes:BYTE
+    EXTRN _clearRectX:WORD
+    EXTRN _clearRectY:WORD
+    EXTRN _clearRectWidth:WORD
+    EXTRN _clearRectHeight:WORD
+    EXTRN _lineX1:WORD
+    EXTRN _lineX2:WORD
+    EXTRN _lineY1:WORD
+    EXTRN _lineY2:WORD
 ; dirtyMinBuf and dirtyMaxBuf MUST be contiguous - overlay slot 0x28
 ; hardcodes dirtyMaxBuf = dirtyMinBuf + 0x1B8
+PUBLIC _dirtyMinBuf
+PUBLIC _dirtyMaxBuf
+PUBLIC _dirtyRectMin
+PUBLIC _dirtyRectMax
 _dirtyMinBuf db 1B8h dup(0FFh)
 _dirtyMaxBuf db 0D5h dup(0)
-unk_17B04 db 0
-    db 0
-byte_17B06 db 0E1h dup(0)
-word_17BE7 dw 0
-word_17BE9 dw 0
+    db 2 dup(0)
+    db 0E1h dup(0)
+    dw 0
+    dw 0
 _dirtyRectMin dw 0FFFFh
 _dirtyRectMax dw 0
-_clipOutcode db 0
-_clipDx dw 0
-_clipDy dw 0
-_clipDxHalf dw 0
-_clipDyHalf dw 0
-_clipMaxX dw 13Fh
-_clipMaxY dw 6Fh
-_cbreakHit db 0
-_origCBreakSeg dw 0
-_origCBreakOfs dw 0
-_errorCodeStr dw 0
-_fileReadBuf db 100h dup( 0)
-byte_17D06 db 10h dup(0)
-byte_17D16 db 1Bh dup(0)
-byte_17D31 db 20h dup(0)
-byte_17D51 db 21h dup(0)
-byte_17D72 db 94h dup(0)
-_fileReadPos dw 0
-_tmpFileHandle dw 0
-_picDecodedRowBuf db 140h dup( 0)
-_screenBufSize dw 0
-_tmpPageIndex dw 0
-_rowOffset dw 0
-_row dw 0
-_readFromFilePtr dw 0
+    EXTRN _clipOutcode:BYTE
+    EXTRN _clipDx:WORD
+    EXTRN _clipDy:WORD
+    EXTRN _clipDxHalf:WORD
+    EXTRN _clipDyHalf:WORD
+    EXTRN _clipMaxX:WORD
+    EXTRN _clipMaxY:WORD
+    EXTRN _cbreakHit:BYTE
+    EXTRN _origCBreakSeg:WORD
+    EXTRN _origCBreakOfs:WORD
+    EXTRN _errorCodeStr:WORD
+    EXTRN _fileReadBuf:BYTE
+    EXTRN _fileReadPos:WORD
+    EXTRN _tmpFileHandle:WORD
+    EXTRN _picDecodedRowBuf:BYTE
+    EXTRN _screenBufSize:WORD
+    EXTRN _tmpPageIndex:WORD
+    EXTRN _rowOffset:WORD
+    EXTRN _row:WORD
+    EXTRN _readFromFilePtr:WORD
 _terrainBuf1 dw 5 dup(20h)
     _terrainBuf2 TerrainUnk 5 dup(<0>)
-aRegn_xxx db 'regn.xxx',0
-aLb_xxx db 'lb.xxx',0
-aPg_xxx db 'pg.xxx',0
-aVn_xxx db 'vn.xxx',0
-aMe_xxx db 'me.xxx',0
-aNc_xxx db 'nc.xxx',0
-aCe_xxx db 'ce.xxx',0
-aJp_xxx db 'jp.xxx',0
-aNa_xxx db 'na.xxx',0
-aLibya_wld db 'Libya.wld',0
-aGulf_wld db 'gulf.wld',0
-aVn_wld db 'vn.wld',0
-aMe_wld db 'me.wld',0
-aNc_wld db 'nc.wld',0
-aCe_wld db 'ce.wld',0
-aJp_wld db 'jp.wld',0
-aNa_wld db 'na.wld',0
-_word_182BA dw 0
-_word_182BC dw 0
-_word_182BE dw 0
-_word_182C0 dw 0
-_word_182C2 dw 0
-_word_182C4 dw 0
-_word_182C6 dw 0
-_word_182C8 dw 0
+    EXTRN _word_182BA:WORD
+    EXTRN _word_182BC:WORD
+    EXTRN _word_182BE:WORD
+    EXTRN _word_182C0:WORD
+    EXTRN _word_182C2:WORD
+    EXTRN _word_182C4:WORD
+    EXTRN _word_182C6:WORD
+    EXTRN _word_182C8:WORD
     db 4 dup(0)
 aNone db 'None',0
     db 9 dup(0)
@@ -2739,23 +2652,9 @@ aEquip db 'Equip',0
     db 3 dup(0)
     db 0FEh
     db 0FFh
-_regnPlhPtr dw offset aRegn_xxx
-_plhFiles dw offset aLb_xxx
-    dw offset aPg_xxx ;"pg.xxx"
-off_19262 dw offset aVn_xxx ;"vn.xxx"
-    dw offset aMe_xxx ;"me.xxx"
-    dw offset aNc_xxx ;"nc.xxx"
-    dw offset aCe_xxx ;"ce.xxx"
-    dw offset aJp_xxx ;"jp.xxx"
-    dw offset aNa_xxx ;"na.xxx"
-_worldFiles dw offset aLibya_wld
-    dw offset aGulf_wld ;"gulf.wld"
-    dw offset aVn_wld ;"vn.wld"
-    dw offset aMe_wld ;"me.wld"
-    dw offset aNc_wld ;"nc.wld"
-    dw offset aCe_wld ;"ce.wld"
-    dw offset aJp_wld ;"jp.wld"
-    dw offset aNa_wld ;"na.wld"
+    EXTRN _regnPlhPtr:WORD
+    EXTRN _plhFiles:WORD
+    EXTRN _worldFiles:WORD
     dw 5958h
     db 30h
     db 30h
@@ -2876,24 +2775,24 @@ _word_19324 dw 3
     dw 3
     dw 0
 
-_armPosition dw 0
-_spriteBlitX dw 0
-_spriteBlitY dw 0
-_spriteBlitW dw 0
-_spriteBlitH dw 0
-_readBufEndPtr dw 0
-_picWorkDataPtr dw 0
-_picRowLength dw 0
-_picProcessFlag0_1 db 0
-_picLookupResult db 0
-_picTmp9BitCount db 0
-_picByte db 0
-_picFileReadBufEnd dw 0
-_picNumberDictSlots dw 0
-_picFileWord dw 0
-_picRemainingBitCount db 0
-_picByteUnsignedFlag db 0
-_picSlotCounter dw 0
+    EXTRN _armPosition:WORD
+    EXTRN _spriteBlitX:WORD
+    EXTRN _spriteBlitY:WORD
+    EXTRN _spriteBlitW:WORD
+    EXTRN _spriteBlitH:WORD
+    EXTRN _readBufEndPtr:WORD
+    EXTRN _picWorkDataPtr:WORD
+    EXTRN _picRowLength:WORD
+    EXTRN _picProcessFlag0_1:BYTE
+    EXTRN _picLookupResult:BYTE
+    EXTRN _picTmp9BitCount:BYTE
+    EXTRN _picByte:BYTE
+    EXTRN _picFileReadBufEnd:WORD
+    EXTRN _picNumberDictSlots:WORD
+    EXTRN _picFileWord:WORD
+    EXTRN _picRemainingBitCount:BYTE
+    EXTRN _picByteUnsignedFlag:BYTE
+    EXTRN _picSlotCounter:WORD
 _dictionaryIndex db 0
     db 200h dup(0)
 _picWorkData db 0
