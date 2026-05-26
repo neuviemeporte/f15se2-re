@@ -573,15 +573,16 @@ extern char aOnc_0[];
 extern char aSecondaryTarge[];
 extern char aOnc_1[];
 extern int16 joyRepeatFlag;
-extern int16 word_17284;
-extern int16 word_17286;
-extern int16 word_17288;
-extern int16 word_1728A;
-extern int16 word_1728C;
-extern int16 word_1728E;
-extern int16 word_17290;
-extern int16 word_17292;
-extern uint8 byte_1729C[];
+extern struct SpriteParams spriteParams;
+#define word_17284 spriteParams.bufPtr
+#define word_17286 spriteParams.srcX
+#define word_17288 spriteParams.srcY
+#define word_1728A spriteParams.page
+#define word_1728C spriteParams.dstX
+#define word_1728E spriteParams.dstY
+#define word_17290 spriteParams.width
+#define word_17292 spriteParams.height
+#define byte_1729C (&spriteParams.flags)
 extern uint8 timerFlag;
 extern uint8 timerHandlerInstalled;
 extern int16 timerCountLo;

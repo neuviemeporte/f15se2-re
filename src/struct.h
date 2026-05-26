@@ -223,4 +223,28 @@ struct MissileSpec {
 };
 STATIC_ASSERT(sizeof(struct MissileSpec)==4);
 
+/* SpriteParams: 28-byte sprite blit descriptor passed by pointer to gfx overlay.
+ * Fields at +0x10..0x17 are constant config bytes set at init time.
+ * The graphics overlay reads all fields by offset from the struct base address. */
+#pragma pack(1)
+struct SpriteParams {
+    int16 bufPtr;       /* +0x00: sprite buffer pointer */
+    int16 srcX;         /* +0x02: source X in sprite sheet */
+    int16 srcY;         /* +0x04: source Y in sprite sheet */
+    int16 page;         /* +0x06: target page */
+    int16 dstX;         /* +0x08: destination X */
+    int16 dstY;         /* +0x0A: destination Y */
+    int16 width;        /* +0x0C: blit width */
+    int16 height;       /* +0x0E: blit height */
+    uint8 pad10[2];     /* +0x10 */
+    uint8 byte12;       /* +0x12: 0x6D */
+    uint8 pad13[3];     /* +0x13 */
+    uint8 byte16;       /* +0x16: 0x3F */
+    uint8 byte17;       /* +0x17: 0x01 */
+    uint8 flags;        /* +0x18: blit flags (byte_1729C) */
+    uint8 pad19[3];     /* +0x19 */
+};
+#pragma pack()
+STATIC_ASSERT(sizeof(struct SpriteParams)==28);
+
 #endif // STRUCT_H

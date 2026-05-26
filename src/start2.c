@@ -22,7 +22,7 @@ void showSprite(int page, int x, int y, int src_x, int src_y, int width, int hei
     word_17290 = width;
     word_17292 = height;
     byte_1729C[0] = 0x10;
-    gfx_jump_11_blitSprite(&word_17284);
+    gfx_jump_11_blitSprite(&spriteParams);
     TRACE(("showSprite(): returning"));
 }
 
