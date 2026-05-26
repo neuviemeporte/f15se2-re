@@ -14,10 +14,7 @@ PUBLIC _gridBuf2
 PUBLIC _gridBuf3
 PUBLIC _gridBuf4
 PUBLIC _gridBuf5
-PUBLIC _byte_1B0D3
-PUBLIC _bufCoordStr
-PUBLIC _byte_1B0D1
-PUBLIC _byte_1B0D2
+PUBLIC _page1Ptr
 PUBLIC _word_17290
 PUBLIC _word_17292
 PUBLIC _word_17284
@@ -28,7 +25,6 @@ PUBLIC _word_1728C
 PUBLIC _byte_1729C
 PUBLIC _word_1728E
 PUBLIC _pilotSelectFlag
-PUBLIC _moveDst
 PUBLIC _lineX1
 PUBLIC _lineY1
 PUBLIC _lineX2
@@ -45,25 +41,16 @@ PUBLIC _blinkColors
 PUBLIC _blinkColorIdx
 PUBLIC _word_1E24A
 PUBLIC _hercFlag
-PUBLIC _timerCounter
+
 PUBLIC _commData
 PUBLIC _joyAxes
 PUBLIC _menuSprites
 PUBLIC _bufPtr
 PUBLIC _needSplash
-PUBLIC _byte_1D5E2
-PUBLIC _byte_1D5E3
-PUBLIC _word_1D5D4
-PUBLIC _byte_1D5E4
-PUBLIC _byte_1D5E5
-PUBLIC _dword_1D5D8
-PUBLIC _dword_1D5DC
-PUBLIC _word_1D5E0
 PUBLIC _gfxModeSetPtr
 PUBLIC _exitCode
 PUBLIC _joyReady
 PUBLIC _gameData
-PUBLIC _page1Ptr
 PUBLIC _intRegs
 PUBLIC _selectedPilotIdx
 PUBLIC _hallfameBuf
@@ -72,7 +59,6 @@ PUBLIC _page1NumPtr
 PUBLIC _page2NumPtr
 PUBLIC _byte_1B100
 PUBLIC _byte_1B0FF
-PUBLIC _word_1D5D6
 PUBLIC _missDiffLevels
 PUBLIC _missDiffDesc
 PUBLIC _missTheaNames
@@ -90,8 +76,6 @@ PUBLIC _plh3d3Ptr
 PUBLIC _armPosition
 PUBLIC _word_182C8
 PUBLIC _word_19294
-PUBLIC _word_18994
-PUBLIC _dword_1D5D0
 PUBLIC _word_182BC
 PUBLIC _word_192EC
 PUBLIC _stru_18FC0
@@ -115,7 +99,7 @@ PUBLIC _off_19314
 PUBLIC _word_1B960
 PUBLIC _fileHandle
 PUBLIC _scenarioCodePtr
-PUBLIC _timerCounter3
+
 PUBLIC _scenarioFoundArr
 PUBLIC _missionPick
 PUBLIC _drawColor
@@ -132,7 +116,7 @@ PUBLIC _word_182BA
 PUBLIC _word_1B148
 PUBLIC _word_1DD38
 PUBLIC _readItemSize
-PUBLIC _timerHandlerInstalled
+
 PUBLIC _pageNumPtr
 PUBLIC _textColor
 PUBLIC _spriteBlitX
@@ -207,7 +191,7 @@ PUBLIC _audio_jump_6c
 PUBLIC _diskTransferArea
 PUBLIC _fcbMatchStr
 PUBLIC _dictionaryIndex
-PUBLIC _timerSyncRetrace
+
 PUBLIC _picDecodeDictionary
 PUBLIC _clipDx
 PUBLIC _picRowLength
@@ -233,9 +217,9 @@ PUBLIC _fileReadPos
 PUBLIC _row
 PUBLIC _readBufEndPtr
 PUBLIC _picRemainingBitCount
-PUBLIC _timerCounter2
+
 PUBLIC _tmpFileHandle
-PUBLIC _timerCounter4
+
 PUBLIC _picDecodeIncrement
 PUBLIC _searchFCB
 PUBLIC _picNumberDictSlots
@@ -244,37 +228,37 @@ PUBLIC _errorCodeStr
 PUBLIC _tmpPageIndex
 PUBLIC _joyMaxValues
 PUBLIC _joyRangeBelow
-PUBLIC _timerDivisor
+
 PUBLIC _joyRawAxis0
-PUBLIC _timerRetrace
+
 PUBLIC _clearRectX
 PUBLIC _screenBufSize
-PUBLIC _timerTickCnt
+
 PUBLIC _joyRawAxis1
 PUBLIC _clearRectY
-PUBLIC _timerReload
+
 PUBLIC _dirtyMinBuf
 PUBLIC _dirtyRectMin
 PUBLIC _origCBreakOfs
 PUBLIC _clipMaxY
 PUBLIC _picSlotCounter
-PUBLIC _timerMode
+
 PUBLIC _origCBreakSeg
 PUBLIC _dirtyRectMax
 PUBLIC _picFileReadBufEnd
 PUBLIC _readFromFilePtr
-PUBLIC _timerCalSumLo
-PUBLIC _timerCountLo
-PUBLIC _timerDivider
+
+
+
 PUBLIC _fileReadBuf
-PUBLIC _timerCalSumHi
-PUBLIC _timerFlag
-PUBLIC _timerCountHi
+
+
+
 PUBLIC _picByte
 PUBLIC _clipDivZeroHandler
 PUBLIC _picFileWord
-PUBLIC _timerTarget
-PUBLIC _timerTick
+
+
 PUBLIC _picLookupResult
 ; ---------------------------------------------------------------------------
 
@@ -816,26 +800,26 @@ _byte_1729C db 1
     db 0
     db 1
     db 0
-_timerFlag db 0
-_timerHandlerInstalled db 0
-_timerCountLo dw 0
-_timerCountHi dw 0
-_timerTarget dw 0
-_timerDivisor dw 0
-_timerTickCnt dw 0
-_timerReload dw 0
-_timerDivider db 0
-_timerMode dw 0
-_timerCalSumLo dw 0
-_timerCalSumHi dw 0
-_timerSyncRetrace db 0
-_timerTick dw 0
-_timerRetrace dw 0
+    db 0 ; _timerFlag
+    db 0 ; _timerHandlerInstalled
+    dw 0 ; _timerCountLo
+    dw 0 ; _timerCountHi
+    dw 0 ; _timerTarget
+    dw 0 ; _timerDivisor
+    dw 0 ; _timerTickCnt
+    dw 0 ; _timerReload
+    db 0 ; _timerDivider
+    dw 0 ; _timerMode
+    dw 0 ; _timerCalSumLo
+    dw 0 ; _timerCalSumHi
+    db 0 ; _timerSyncRetrace
+    dw 0 ; _timerTick
+    dw 0 ; _timerRetrace
     db 2 dup(0)
-_timerCounter db 0
-_timerCounter2 db 0
-_timerCounter3 db 0
-_timerCounter4 db 0
+    db 0 ; _timerCounter
+    db 0 ; _timerCounter2
+    db 0 ; _timerCounter3
+    db 0 ; _timerCounter4
     db 2Ah
     db 2Eh
     db 2Ah
@@ -2154,7 +2138,7 @@ aEquip_ db 'Equip.',0
 _difficultySaved dw 1
     db 1
     db 0
-_word_18994 dw 0
+EXTRN _word_18994:WORD
     db 2 dup(0)
     db 1
     db 0
@@ -3094,11 +3078,12 @@ byte_1B0C6 db 0
     db 0
 _flag4Saved dw 0
 _theaterSaved dw 0
-_moveDst dd 0
-_bufCoordStr db 0
-_byte_1B0D1 db 0
-_byte_1B0D2 db 0
-_byte_1B0D3 db 0
+EXTRN _moveDst:DWORD
+    db 4 dup(0)
+EXTRN _bufCoordStr:BYTE
+EXTRN _byte_1B0D1:BYTE
+EXTRN _byte_1B0D2:BYTE
+EXTRN _byte_1B0D3:BYTE
     db 2 dup(0)
 ;  ==============================================================================
 
@@ -3153,16 +3138,16 @@ _word_1D00A dw ?
     db 36 dup(?)
 _hercFlag db ?
 byte_1D2DD db 0F3h dup(?)
-_dword_1D5D0 dd ?
-_word_1D5D4 dw ?
-_word_1D5D6 dw ?
-_dword_1D5D8 dd ?
-_dword_1D5DC dd ?
-_word_1D5E0 dw ?
-_byte_1D5E2 db ?
-_byte_1D5E3 db ?
-_byte_1D5E4 db ?
-_byte_1D5E5 db ?
+EXTRN _dword_1D5D0:DWORD
+EXTRN _word_1D5D4:WORD
+EXTRN _word_1D5D6:WORD
+EXTRN _dword_1D5D8:DWORD
+EXTRN _dword_1D5DC:DWORD
+EXTRN _word_1D5E0:WORD
+EXTRN _byte_1D5E2:BYTE
+EXTRN _byte_1D5E3:BYTE
+EXTRN _byte_1D5E4:BYTE
+EXTRN _byte_1D5E5:BYTE
     db 4 dup(?)
 _exitCode db ?
     db ?
