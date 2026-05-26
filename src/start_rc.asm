@@ -220,29 +220,6 @@ PUBLIC _picFileWord
 PUBLIC _picLookupResult
 ; ---------------------------------------------------------------------------
 
-GameComm	struc ;	(sizeof=0x2, mappedto_8)
-field_0		dw ?
-GameComm	ends
-
-; ---------------------------------------------------------------------------
-
-Game		struc ;	(sizeof=0x2, mappedto_7)
-field_0		dw ?
-Game		ends
-
-; ---------------------------------------------------------------------------
-
-JoyAxes		struc ;	(sizeof=0x2, mappedto_6)
-field_0		dw ?
-JoyAxes		ends
-
-; ---------------------------------------------------------------------------
-
-FILE		struc ;	(sizeof=0x0, mappedto_5)
-FILE		ends
-
-; ---------------------------------------------------------------------------
-
 Buf6Item	struc ;	(sizeof=0x24, mappedto_9) ; XREF: startData:wldReadBuf6/r
 field_0		dw ?			; XREF:	sub_14CC5+A6/w
 field_2		dw ?			; XREF:	sub_14CC5+25/w sub_14CC5+34/r
@@ -589,11 +566,8 @@ aMission db 'MISSION',0
 placeholder_3d3 db 'xx.3d3',0
 
 EXTRN _page1Desc:BYTE
-    db 18h dup(0)  ; page1Desc (24 bytes)
 EXTRN _page2Desc:BYTE
-    db 18h dup(0)  ; page2Desc (24 bytes)
 EXTRN _page3Desc:BYTE
-    db 18h dup(0)  ; page3Desc (24 bytes)
 _missTheaNames dw offset aLibya
     dw offset aPersianGulf ;"Persian Gulf"
     dw offset aVietnam ;"Vietnam"
@@ -719,36 +693,8 @@ _word_171B2 dw 1
     dw 6
     dw 7
 
-    db 0
 _joyRepeatFlag dw 0
 EXTRN _spriteParams:BYTE
-    db 1Ch dup(0)
-    db 1
-    db 0
-    db 0 ; _timerFlag
-    db 0 ; _timerHandlerInstalled
-    dw 0 ; _timerCountLo
-    dw 0 ; _timerCountHi
-    dw 0 ; _timerTarget
-    dw 0 ; _timerDivisor
-    dw 0 ; _timerTickCnt
-    dw 0 ; _timerReload
-    db 0 ; _timerDivider
-    dw 0 ; _timerMode
-    dw 0 ; _timerCalSumLo
-    dw 0 ; _timerCalSumHi
-    db 0 ; _timerSyncRetrace
-    dw 0 ; _timerTick
-    dw 0 ; _timerRetrace
-    db 2 dup(0)
-    db 0 ; _timerCounter
-    db 0 ; _timerCounter2
-    db 0 ; _timerCounter3
-    db 0 ; _timerCounter4
-    db 2Ah
-    db 2Eh
-    db 2Ah
-unk_172C5 db 0
 _fcbMatchStr db 49h
     db 3
     db 46h
@@ -784,10 +730,7 @@ aGen_ db 'Gen. ',0
 
 _pilotSelectFlag db 0
 EXTRN _screenDesc:BYTE
-    db 18h dup(0)  ; screenDesc (24 bytes)
 EXTRN _pageNumPageDesc:BYTE
-    db 18h dup(0)  ; pageNumPageDesc (24 bytes)
-    db 2 dup(0)
 _ranks dw offset a2ndLt_
     dw offset a1stLt_ ;"1st Lt. "
     dw offset aCapt_ ;"Capt. "
@@ -822,7 +765,6 @@ _byte_17422 db 9
 _blinkColors dw 7
     dw 0Fh
 _blinkColorIdx dw 0
-    db 2 dup(0)
 _pilotNameInputColors dw 0
     db 8 ;grey name input box
     db 0
@@ -1240,7 +1182,6 @@ _clearRectX dw 0
 _clearRectY dw 0
 _clearRectWidth dw 0
 _clearRectHeight dw 0
-    db 0
 _lineX1 dw 0
 _lineX2 dw 0
 _lineY1 dw 0
@@ -1256,7 +1197,6 @@ word_17BE7 dw 0
 word_17BE9 dw 0
 _dirtyRectMin dw 0FFFFh
 _dirtyRectMax dw 0
-    db 0
 _clipOutcode db 0
 _clipDx dw 0
 _clipDy dw 0
@@ -1264,11 +1204,9 @@ _clipDxHalf dw 0
 _clipDyHalf dw 0
 _clipMaxX dw 13Fh
 _clipMaxY dw 6Fh
-    db 0
 _cbreakHit db 0
 _origCBreakSeg dw 0
 _origCBreakOfs dw 0
-    db 0
 _errorCodeStr dw 0
 _fileReadBuf db 100h dup( 0)
 byte_17D06 db 10h dup(0)
@@ -1276,16 +1214,12 @@ byte_17D16 db 1Bh dup(0)
 byte_17D31 db 20h dup(0)
 byte_17D51 db 21h dup(0)
 byte_17D72 db 94h dup(0)
-word_17E68 dw 0
-word_17E6A dw 0
-    db 2 dup(0)
 _fileReadPos dw 0
 _tmpFileHandle dw 0
 _picDecodedRowBuf db 140h dup( 0)
 _screenBufSize dw 0
 _tmpPageIndex dw 0
 _rowOffset dw 0
-    db 2 dup(0)
 _row dw 0
 _readFromFilePtr dw 0
 _terrainBuf1 dw 5 dup(20h)
@@ -2980,16 +2914,13 @@ word_1B0C0 dw 0
 word_1B0C2 dw 0
 word_1B0C4 dw 0
 byte_1B0C6 db 0
-    db 0
 _flag4Saved dw 0
 _theaterSaved dw 0
 EXTRN _moveDst:DWORD
-    db 4 dup(0)
 EXTRN _bufCoordStr:BYTE
 EXTRN _byte_1B0D1:BYTE
 EXTRN _byte_1B0D2:BYTE
 EXTRN _byte_1B0D3:BYTE
-    db 2 dup(0)
 ;  ==============================================================================
 
 .DATA?

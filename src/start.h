@@ -571,7 +571,6 @@ extern char aSecondaryTarge[];
 extern char aOnc_1[];
 extern int16 joyRepeatFlag;
 extern struct SpriteParams spriteParams;
-
 extern uint8 timerFlag;
 extern uint8 timerHandlerInstalled;
 extern int16 timerCountLo;
