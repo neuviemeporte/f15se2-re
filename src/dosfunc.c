@@ -310,7 +310,7 @@ uint16 dos_lastFreeBlock(void) {
             break;
         default:
             ERROR("unexpected MCB type: %Xh", mcb->type);
-            return;
+            return 0;
         }
         if (mcb->type == 'Z') { // last mcb
             mcb = NULL;
