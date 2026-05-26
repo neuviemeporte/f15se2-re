@@ -13,15 +13,15 @@
 // 124a
 void showSprite(int page, int x, int y, int src_x, int src_y, int width, int height) {
     TRACE(("showSprite(%d, %d, %d, %d, %d, %d, %d)", page, x, y, src_x, src_y, width, height));
-    word_17284 = menuSprites;
-    word_17286 = src_x;
-    word_17288 = src_y;
-    word_1728A = page;
-    word_1728C = x;
-    word_1728E = y;
-    word_17290 = width;
-    word_17292 = height;
-    byte_1729C[0] = 0x10;
+    spriteParams.bufPtr = menuSprites;
+    spriteParams.srcX = src_x;
+    spriteParams.srcY = src_y;
+    spriteParams.page = page;
+    spriteParams.dstX = x;
+    spriteParams.dstY = y;
+    spriteParams.width = width;
+    spriteParams.height = height;
+    spriteParams.flags = 0x10;
     gfx_jump_11_blitSprite(&spriteParams);
     TRACE(("showSprite(): returning"));
 }
@@ -125,7 +125,7 @@ void displayPilots(void)
         printPilot(pilotIdx);
     } while (++pilotIdx < HALLFAME_SLOTS);
     TRACE(("displayPilots(): loop terminating"));
-    textColor = COLOR_WHITE;
+    screenDesc.color = COLOR_WHITE;
     // 1d71
     drawStringCentered(pageNumPtr, aUseSelectorToC, 0, 0xC0, 0x140);
     TRACE(("displayPilots(): drawn prompt"));
@@ -151,7 +151,7 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
     clearRect(screenBuf, x, yPos - 1, x + PILOT_ENTRY_WIDTH, yPos + 0x20);
     TRACE(("printPilot(): cleared rect"));
     // 1de3
-    textColor = (pilotIdx == selectedPilotIdx) ? COLOR_WHITE : COLOR_GRAY;
+    screenDesc.color = (pilotIdx == selectedPilotIdx) ? COLOR_WHITE : COLOR_GRAY;
     // 1df9
     mystrcpy(todayMissStrBuf, ranks[pilot->rank & 0xf]);
     TRACE(("printPilot(): strcpy %s", todayMissStrBuf));
@@ -161,8 +161,8 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
     // 1e1e
     drawStringCentered(screenBuf, todayMissStrBuf, x, yPos, 0x90);
     TRACE(("printPilot(): drawn string %s", todayMissStrBuf));
-    textColor = COLOR_RED;
-    word_173DE = 4;
+    screenDesc.color = COLOR_RED;
+    screenDesc.font = 4;
     // 1e3d
     my_ltoa(pilot->total_score, todayMissStrBuf);
     TRACE(("printPilot(): ltoa 1 %ld -> %s, about to cat %s", pilot->total_score, todayMissStrBuf, asc_174AC));
@@ -177,7 +177,7 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
     // 1e8f
     drawStringCentered(screenBuf, todayMissStrBuf, x, yPos + 9, 0x90);
     TRACE(("printPilot(): drawn string2"));
-    word_173DE = 1;
+    screenDesc.font = 1;
     // 1e9b
     for (medalIdx = 0, medalWidth = 0; medalIdx < 7; medalIdx++) { // 1ea8
         // 1eb8

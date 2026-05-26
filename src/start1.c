@@ -215,7 +215,7 @@ int missionMenuSelect(char **names, char **desc, char *title, int selection)
     int a, row, act;
     TRACE(("missionMenuSelect(): entering, selection %d", selection));
     enableHighlight = 1;
-    drawColor = COLOR_TITLE;
+    page1Desc.color = COLOR_TITLE;
     // 934
     drawStringCentered(page1NumPtr, title, 113, 14, 185);
     // 952
@@ -225,15 +225,15 @@ int missionMenuSelect(char **names, char **desc, char *title, int selection)
     // 95d
     for (row = 0; row < 5; row++) {
         if (scenarioFoundArr[row] == 0) {
-            drawColor = COLOR_TITLE;
+            page1Desc.color = COLOR_TITLE;
             // 993
             drawStringCentered(page1NumPtr, names[row], 113, a, 185);
-            fontIndex = FONT_SMALL;
-            drawColor = COLOR_BRIEF_DESC_NORMAL;
+            page1Desc.font = FONT_SMALL;
+            page1Desc.color = COLOR_BRIEF_DESC_NORMAL;
             // 9c2
             drawStringCentered(page1NumPtr, desc[row], 113, a + 8, 185);
             TRACE(("missionMenuSelect(): drawn item %s/%s", names[row], desc[row]));
-            fontIndex = FONT_NORMAL;
+            page1Desc.font = FONT_NORMAL;
         }
         a += 21;
     }
@@ -358,7 +358,7 @@ void animateArm(int a, int b)
 // cdb
 int askRepeatMission() {
     char keycode;
-    drawColor = COLOR_BRIEF_DESC_HL;
+    page1Desc.color = COLOR_BRIEF_DESC_HL;
     drawStringCentered(page1NumPtr, aRepeatLastMiss, 0x71, 0x42, 0xb9);
     enableHighlight = 0;
     timerCounter3 = 6;
@@ -378,7 +378,7 @@ void checkDiskA() {
         clearBriefing();
         // d69
         drawStringCentered(page1NumPtr, aPleaseReinsert, 0x71, 0x3d, 0xb9);
-        page1NumPtr[6] = FONT_SMALL; // fontIndex?
+        page1NumPtr[6] = FONT_SMALL; // page1Desc.font?
         // d8c
         drawStringCentered(page1NumPtr, aPressSelectorW, 0x71, 0x49, 0xb9);
         page1NumPtr[6] = FONT_NORMAL;
@@ -397,7 +397,7 @@ void checkDiskA() {
 
 // dca
 void missionDecode() {
-    drawColor = COLOR_BRIEF_DESC_NORMAL;
+    page1Desc.color = COLOR_BRIEF_DESC_NORMAL;
     drawStringCentered(page1NumPtr, aDecodingMissio, 0x71, 0x42, 0xb9);
     enableHighlight = 0;
     timerCounter3 = 6;
@@ -409,14 +409,14 @@ void printMission() {
     int j;
     // e10
     clearBriefing();
-    drawColor = COLOR_TITLE;
+    page1Desc.color = COLOR_TITLE;
     // e2d
     drawStringCentered(page1NumPtr, aTodaySMission, 0x71, 0x0e, 0xb9);
     // e4b
     drawLine(page1NumPtr, 0xa0, 0x16, 0xf9, 0x16, 1);
     // e61
     drawStringAt(page1NumPtr, aTakeoffFrom, 0x82, 0x20);
-    drawColor = COLOR_BRIEF_DESC_HL;
+    page1Desc.color = COLOR_BRIEF_DESC_HL;
     // e71
     placeString(targets[0].baseIdx);
     // e8b
@@ -425,45 +425,45 @@ void printMission() {
     mystrcpy(todayMissStrBuf, aOnc_2);
     // eae
     mystrcat(todayMissStrBuf, getItemCoordStr(targets[0].baseIdx));
-    fontIndex = FONT_SMALL;
-    drawColor = COLOR_COORDS;
+    page1Desc.font = FONT_SMALL;
+    page1Desc.color = COLOR_COORDS;
     // ed4
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x34, 0xb9);
-    fontIndex = FONT_NORMAL;
-    drawColor = COLOR_TITLE;
+    page1Desc.font = FONT_NORMAL;
+    page1Desc.color = COLOR_TITLE;
     // ef6
     drawStringAt(page1NumPtr, aPrimaryTarget, 0x82, 0x40);
-    drawColor = COLOR_BRIEF_DESC_HL;
+    page1Desc.color = COLOR_BRIEF_DESC_HL;
     // f06
     placeString(targets[0].targetIdx);
     // f20
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x4a, 0xb9);
-    fontIndex = FONT_SMALL;
-    drawColor = COLOR_COORDS;
+    page1Desc.font = FONT_SMALL;
+    page1Desc.color = COLOR_COORDS;
     // f3a
     mystrcpy(todayMissStrBuf, aOnc_0);
     // f48
     mystrcat(todayMissStrBuf, targets[0].coord);
     // f62
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x54, 0xb9);
-    fontIndex = FONT_NORMAL;
-    drawColor = COLOR_TITLE;
+    page1Desc.font = FONT_NORMAL;
+    page1Desc.color = COLOR_TITLE;
     // f84
     drawStringAt(page1NumPtr, aSecondaryTarge, 0x82, 0x60);
-    drawColor = COLOR_BRIEF_DESC_HL;
+    page1Desc.color = COLOR_BRIEF_DESC_HL;
     // f94
     placeString(target2.targetIdx);
     // fae
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x6a, 0xb9);
-    fontIndex = FONT_SMALL;
-    drawColor = COLOR_COORDS;
+    page1Desc.font = FONT_SMALL;
+    page1Desc.color = COLOR_COORDS;
     // fc8
     mystrcpy(todayMissStrBuf, aOnc_1);
     // fd6
     mystrcat(todayMissStrBuf, target2.coord);
     // ff0
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x74, 0xb9);
-    fontIndex = FONT_NORMAL;
+    page1Desc.font = FONT_NORMAL;
     enableHighlight = 0;
     // 1002
     setTimerIrqHandler();
