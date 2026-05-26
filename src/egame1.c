@@ -173,7 +173,7 @@ void drawCockpit() {
     // 0x179
     byte_34197 = byte_228D0[0x2f];
     // 17c
-    if ((byte_32933 = gfx_jump_4c()) != 0) {
+    if ((byte_32933 = gfx_getModeFlag()) != 0) {
         setupDac();
     }
      gfx_jump_44_setDac(1);
@@ -188,8 +188,8 @@ void drawCockpit() {
      }
      TRACE(("drawCockpit: pic done"));
      // 1df
-     gfx_jump_2a(1, 0, 0x60, 0, 0, 0x60, 0x140, 0x68);
-     gfx_jump_2a(1, 0, 0x60, 2, 0, 0x60, 0x140, 0x68);
+     gfx_copyRect(1, 0, 0x60, 0, 0, 0x60, 0x140, 0x68);
+     gfx_copyRect(1, 0, 0x60, 2, 0, 0x60, 0x140, 0x68);
      TRACE(("drawCockpit: done"));
 }
 
@@ -216,7 +216,7 @@ int sub_10211() {
         restoreInt9Handler();
     }
     // 276
-    gfx_jump_4f(1);
+    gfx_setDacAnimCount(1);
     sub_12278(2);
     restoreTimerIrqHandler();
     audio_jump_65();
@@ -760,9 +760,9 @@ int sub_155AB() {
         if (word_330C2 != 0) { // 5cd2
             gfx_jump_23();
             // the pointer arguments are probably rastports, RectCopy?
-            gfx_jump_2a(*off_38364, 0, 0x61, *off_38334, 0, 0x61, 0x140, 0x67);
+            gfx_copyRect(*off_38364, 0, 0x61, *off_38334, 0, 0x61, 0x140, 0x67);
             // 5d23
-            gfx_jump_2a(*off_38364, 0, 0x61, *off_3834C, 0, 0x61, 0x140, 0x67);
+            gfx_copyRect(*off_38364, 0, 0x61, *off_3834C, 0, 0x61, 0x140, 0x67);
             sub_15FDB();
             sub_11A18();
             sub_11A88(missileSpecIndex);
@@ -774,7 +774,7 @@ int sub_155AB() {
             word_39604 = 0;
         }
         else { // 5d6c
-            gfx_jump_2a(*off_38334, 0, 0x61, *off_38364, 0, 0x61, 0x140, 0x67);
+            gfx_copyRect(*off_38334, 0, 0x61, *off_38364, 0, 0x61, 0x140, 0x67);
         }
     } // 5d96
     if (keyValue != word_38152) { // 5da2
@@ -786,7 +786,7 @@ int sub_155AB() {
             else { // 5df3
                 openBlitClosePic(keyValue == 0x42 ? aLeft_pic : keyValue == 0x43 ? aRight_pic : aRear_pic, *off_38334);
             } // 5e1b
-            gfx_jump_2a(*off_38334, 0, 0x61, *off_3834C, 0, 0x61, 0x140, 0x67);
+            gfx_copyRect(*off_38334, 0, 0x61, *off_3834C, 0, 0x61, 0x140, 0x67);
             // 5e50
             off_38334[0x10] = off_3834C[0x10] = 0x60;
         }
@@ -825,7 +825,7 @@ int sub_155AB() {
         sub_2152A();
         gfx_jump_23();
         var_E = byte_3C5A0;
-        byte_3C5A0 = gfx_jump_2d();
+        byte_3C5A0 = gfx_getDisplayPage();
         // 5f84
         sub_1A8C8(0x6b, 0x30, 0xd1, 0, 0x6f, 0x2f, 0);
         sub_1A8C8(0x41, 0x5f, 0x7d, 0x36, 0xc3, 2, 0);
@@ -841,7 +841,7 @@ int sub_155AB() {
 int sub_18E50(int arg_0) {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E, var_10, var_12, var_14, var_16, var_18, var_1A;
     char var_1C;
-    byte_3C5A0 = gfx_jump_2d();
+    byte_3C5A0 = gfx_getDisplayPage();
     // probably x,y
     var_16 = waypoints[waypointIndex].field_0 - word_3BEC0;
     var_1A = waypoints[waypointIndex].field_2 - word_3BED0;
@@ -853,7 +853,7 @@ int sub_18E50(int arg_0) {
             if (!(keyValue & 0x80)) { // 8eaa
                 sub_19E44(0xd);
                 sub_19E5D(0, 0, 0x13f, 0x60);
-                gfx_jump_4f(0x3c);
+                gfx_setDacAnimCount(0x3c);
             }
         } // 8ed2
         byte_37C2F = 1;
@@ -1113,7 +1113,7 @@ int sub_19C0C(int arg_0, int arg_2, int arg_4, int arg_6) {
 
     a = var_564[10] - var_564[9] + 1;
     p = var_564[8] - var_564[7] + 1;
-    gfx_jump_1a(gfx_jump_3e(var_564[9], var_564[7]));
+    gfx_setBlitOffset(gfx_calcRowAddr(var_564[9], var_564[7]));
     var_349 = a - 1;
     var_350 = p - 1;
     gfx_jump_21(var_564[2]);
@@ -1131,7 +1131,7 @@ void sub_19C84(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a,
 
     a = arg_a - arg_8 + 1;
     p = arg_e - arg_c + 1;
-    gfx_jump_1a(gfx_jump_3e(arg_8, arg_c));
+    gfx_setBlitOffset(gfx_calcRowAddr(arg_8, arg_c));
     var_349 = a - 1;
     var_350 = p - 1;
     gfx_jump_21(var_564[2]);
@@ -1142,7 +1142,7 @@ void sub_19C84(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a,
     sub_2152A();
     gfx_jump_23();
     if (arg_10 != 0) {
-        byte_3C5A0 = gfx_jump_2d();
+        byte_3C5A0 = gfx_getDisplayPage();
         gfx_jump_0e_setCurBuf(byte_3C5A0 == 0);
         gfx_jump_21(var_564[2]);
         var_351 = arg_0 - arg_8;
@@ -1155,7 +1155,7 @@ void sub_19C84(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a,
     }
     var_349 = 0x13f;
     var_350 = 0xc7;
-    gfx_jump_1a(0);
+    gfx_setBlitOffset(0);
 }
 
 // ==== seg000:0x9d86 ====
@@ -1855,7 +1855,7 @@ void sub_1345E(char *arg_0, int arg_2, int arg_4, int arg_6) {
     int p, a;
     var_190 = 0;
     sub_13932(arg_0, 0, 0, 0, 0, 0, 0, 0);
-    gfx_jump_1a(gfx_jump_3e(*(int *)(arg_0 + 0x12), *(int *)(arg_0 + 0x0e)));
+    gfx_setBlitOffset(gfx_calcRowAddr(*(int *)(arg_0 + 0x12), *(int *)(arg_0 + 0x0e)));
     sub_134AC(arg_2, arg_4, arg_6);
     sub_139AA();
 }

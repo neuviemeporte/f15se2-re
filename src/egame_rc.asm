@@ -570,18 +570,18 @@ PUBLIC _missileSpecIndex
 PUBLIC _sub_21A86
 PUBLIC _gfx_jump_0_alloc
 PUBLIC _gfx_jump_05_drawString
-PUBLIC _gfx_jump_0c
-PUBLIC _gfx_jump_2a
-PUBLIC _gfx_jump_2d
-PUBLIC _gfx_jump_3d_null
+PUBLIC _gfx_initOverlay
+PUBLIC _gfx_copyRect
+PUBLIC _gfx_getDisplayPage
+PUBLIC _gfx_setFadeSteps
 PUBLIC _gfx_jump_3f_modecode
 PUBLIC _gfx_jump_44_setDac
 PUBLIC _gfx_jump_45_retrace
 PUBLIC _gfx_jump_46_retrace2
 PUBLIC _gfx_jump_4b_storeBufPtr
-PUBLIC _gfx_jump_4c
-PUBLIC _gfx_jump_4f
-PUBLIC _gfx_jump_52
+PUBLIC _gfx_getModeFlag
+PUBLIC _gfx_setDacAnimCount
+PUBLIC _gfx_setMonoFlag
 PUBLIC _byte_383E5
 PUBLIC _var_542
 PUBLIC _var_544
@@ -1648,7 +1648,7 @@ LAB_1000_0b0b:
     jnz LAB_1000_0b48
     jmp LAB_1000_0be5
 LAB_1000_0b48:
-    call far ptr _gfx_jump_2d
+    call far ptr _gfx_getDisplayPage
     sub AL,1h
     neg AL
     mov byte ptr [_byte_3C5A0],AL
@@ -1668,7 +1668,7 @@ LAB_1000_0b48:
     push SI
     mov AX,2h
     push AX
-    call far ptr _gfx_jump_2a
+    call far ptr _gfx_copyRect
     add SP,10h
     sub AX,AX
     push AX
@@ -3920,10 +3920,10 @@ LAB_1000_3a0a:
     mov BX,word ptr [BP + 4h]
     push word ptr [BX + 0eh]
     push word ptr [BX + 12h]
-    call far ptr gfx_jump_3e
+    call far ptr gfx_calcRowAddr
     add SP,4h
     push AX
-    call far ptr gfx_jump_1a
+    call far ptr gfx_setBlitOffset
     add SP,2h
     mov AX,word ptr [BP + -4h]
     dec AX
@@ -4716,7 +4716,7 @@ loc_14118:
     push AX
     mov BX,word ptr [_off_38334-5]
     push word ptr [BX]
-    call far ptr _gfx_jump_2a
+    call far ptr _gfx_copyRect
     add SP,010h
 loc_14149:
     sub AX,AX
@@ -4766,7 +4766,7 @@ loc_14149:
     push AX
     mov BX,word ptr [_off_38364-5]
     push word ptr [BX]
-    call far ptr _gfx_jump_2a
+    call far ptr _gfx_copyRect
     add SP,010h
     mov AX,offset aNc_xxx
     push AX
@@ -4784,7 +4784,7 @@ loc_14149:
     push AX
     mov BX,word ptr [_off_38364-5]
     push word ptr [BX]
-    call far ptr _gfx_jump_2a
+    call far ptr _gfx_copyRect
     add SP,010h
     call _sub_15FDB
 loc_141E2:
@@ -10433,7 +10433,7 @@ LAB_1000_9681:
     add SP,2h
     mov AX,13h
     push AX
-    call far ptr _gfx_jump_3d_null
+    call far ptr _gfx_setFadeSteps
     add SP,2h
     mov AX,9h
     sub AX,word ptr [byte_383E5]
@@ -10458,19 +10458,19 @@ LAB_1000_9681:
     jnc LAB_1000_96d6
     mov AX,0ch
     push AX
-    call far ptr _gfx_jump_3d_null
+    call far ptr _gfx_setFadeSteps
     add SP,2h
     jmp LAB_1000_96e2
 LAB_1000_96d6:
     mov AX,10h
     push AX
-    call far ptr _gfx_jump_3d_null
+    call far ptr _gfx_setFadeSteps
     add SP,2h
 LAB_1000_96e2:
     mov AL,byte ptr [_byte_3C5A0]
     cbw
     mov word ptr [BP + -0ah],AX
-    call far ptr _gfx_jump_2d
+    call far ptr _gfx_getDisplayPage
     mov byte ptr [_byte_3C5A0],AL
     mov word ptr [BP + -6h],1h
     jmp LAB_1000_96fb
@@ -10620,7 +10620,7 @@ LAB_1000_9828:
 LAB_1000_982a:
     mov AL,byte ptr [BP + -0ah]
     mov byte ptr [_byte_3C5A0],AL
-    call far ptr _gfx_jump_2d
+    call far ptr _gfx_getDisplayPage
     or AL,AL
     jnz LAB_1000_983e
     call sub_1A934
@@ -10642,7 +10642,7 @@ LAB_1000_983e:
     push AX
     mov BX,word ptr [_var_565]
     push word ptr [BX]
-    call far ptr _gfx_jump_2a
+    call far ptr _gfx_copyRect
     add SP,10h
 LAB_1000_986a:
     call sub_1A962
@@ -10893,7 +10893,7 @@ sub_1A934 proc near
     push AX
     mov BX,word ptr [_var_564]
     push word ptr [BX]
-    call far ptr _gfx_jump_2a
+    call far ptr _gfx_copyRect
     add SP,10h
     ret
     nop
@@ -10917,7 +10917,7 @@ sub_1A962 proc near
     push AX
     mov BX,word ptr [_var_566]
     push word ptr [BX]
-    call far ptr _gfx_jump_2a
+    call far ptr _gfx_copyRect
     add SP,10h
     mov AX,39h
     push AX
@@ -10935,7 +10935,7 @@ sub_1A962 proc near
     push AX
     mov BX,word ptr [_var_564]
     push word ptr [BX]
-    call far ptr _gfx_jump_2a
+    call far ptr _gfx_copyRect
     add SP,10h
     ret
     nop
@@ -10967,7 +10967,7 @@ LAB_1000_a9de:
     push AX
     mov BX,word ptr [_var_566]
     push word ptr [BX]
-    call far ptr _gfx_jump_2a
+    call far ptr _gfx_copyRect
     add SP,10h
     ret
 sub_1A9BC endp
@@ -18176,10 +18176,10 @@ gfx_jump_0b proc near
 gfx_jump_0b endp
 ; ------------------------------dseg:0xef5------------------------------
 ; ------------------------------dseg:0xefa------------------------------
-_gfx_jump_0c proc near
+_gfx_initOverlay proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_0c endp
+_gfx_initOverlay endp
 ; ------------------------------dseg:0xefa------------------------------
 ; ------------------------------dseg:0xeff------------------------------
 gfx_jump_0d_setCurBuf proc near
@@ -18256,12 +18256,12 @@ gfx_jump_19 proc near
 gfx_jump_19 endp
 ; ------------------------------dseg:0xf3b------------------------------
 ; ------------------------------dseg:0xf40------------------------------
-gfx_jump_1a proc near
+gfx_setBlitOffset proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_1a endp
-    PUBLIC _gfx_jump_1a
-_gfx_jump_1a equ gfx_jump_1a
+gfx_setBlitOffset endp
+    PUBLIC _gfx_setBlitOffset
+_gfx_setBlitOffset equ gfx_setBlitOffset
 ; ------------------------------dseg:0xf40------------------------------
 ; ------------------------------dseg:0xf45------------------------------
 gfx_jump_1b proc near
@@ -18352,10 +18352,10 @@ _gfx_jump_29_switchColor proc near
 _gfx_jump_29_switchColor endp
 ; ------------------------------dseg:0xf8b------------------------------
 ; ------------------------------dseg:0xf90------------------------------
-_gfx_jump_2a proc near
+_gfx_copyRect proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_2a endp
+_gfx_copyRect endp
 ; ------------------------------dseg:0xf90------------------------------
 ; ------------------------------dseg:0xf95------------------------------
 gfx_jump_2b proc near
@@ -18370,10 +18370,10 @@ gfx_jump_2c proc near
 gfx_jump_2c endp
 ; ------------------------------dseg:0xf9a------------------------------
 ; ------------------------------dseg:0xf9f------------------------------
-_gfx_jump_2d proc near
+_gfx_getDisplayPage proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_2d endp
+_gfx_getDisplayPage endp
 ; ------------------------------dseg:0xf9f------------------------------
 ; ------------------------------dseg:0xfa4------------------------------
 gfx_jump_2e proc near
@@ -18461,18 +18461,18 @@ gfx_jump_3b_clearBuf endp
     db 0
     db 0
 ; ------------------------------dseg:0xfef------------------------------
-_gfx_jump_3d_null proc near
+_gfx_setFadeSteps proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_3d_null endp
+_gfx_setFadeSteps endp
 ; ------------------------------dseg:0xfef------------------------------
 ; ------------------------------dseg:0xff4------------------------------
-gfx_jump_3e proc near
+gfx_calcRowAddr proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_3e endp
-    PUBLIC _gfx_jump_3e
-_gfx_jump_3e equ gfx_jump_3e
+gfx_calcRowAddr endp
+    PUBLIC _gfx_calcRowAddr
+_gfx_calcRowAddr equ gfx_calcRowAddr
 ; ------------------------------dseg:0xff4------------------------------
 ; ------------------------------dseg:0xff9------------------------------
 _gfx_jump_3f_modecode proc near
@@ -18557,10 +18557,10 @@ _gfx_jump_4b_storeBufPtr proc near
 _gfx_jump_4b_storeBufPtr endp
 ; ------------------------------dseg:0x1035------------------------------
 ; ------------------------------dseg:0x103a------------------------------
-_gfx_jump_4c proc near
+_gfx_getModeFlag proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_4c endp
+_gfx_getModeFlag endp
 ; ------------------------------dseg:0x103a------------------------------
     db 0EAh
     db 0
@@ -18573,10 +18573,10 @@ _gfx_jump_4c endp
     db 0
     db 0
 ; ------------------------------dseg:0x1049------------------------------
-_gfx_jump_4f proc near
+_gfx_setDacAnimCount proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_4f endp
+_gfx_setDacAnimCount endp
 ; ------------------------------dseg:0x1049------------------------------
     db 0EAh
     db 0
@@ -18589,10 +18589,10 @@ _gfx_jump_4f endp
     db 0
     db 0
 ; ------------------------------dseg:0x1058------------------------------
-_gfx_jump_52 proc near
+_gfx_setMonoFlag proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_52 endp
+_gfx_setMonoFlag endp
 ; ------------------------------dseg:0x1058------------------------------
     db 0EAh, 4 dup(0)
     db 5 dup(0)

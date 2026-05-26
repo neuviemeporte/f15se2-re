@@ -74,7 +74,7 @@ PUBLIC _gfx_jump_0_alloc
 PUBLIC _gfx_jump_0e_setCurBuf
 PUBLIC _gfx_jump_44_setDac
 PUBLIC _gfx_jump_4b_storeBufPtr
-PUBLIC _gfx_jump_52
+PUBLIC _gfx_setMonoFlag
 PUBLIC _gfx_jump_53
 PUBLIC _var_151
 PUBLIC _var_152
@@ -93,7 +93,7 @@ PUBLIC _nightMission
 PUBLIC _gfx_jump_11_blitSprite
 PUBLIC _gfx_jump_21
 PUBLIC _gfx_jump_29_switchColor
-PUBLIC _gfx_jump_2a
+PUBLIC _gfx_copyRect
 PUBLIC _clearRect
 PUBLIC _mystrcat
 PUBLIC _var_102
@@ -106,7 +106,7 @@ PUBLIC _farStrcpy
 PUBLIC _decodePicRaw
 PUBLIC _fileSeek
 PUBLIC _copyJoystickData
-PUBLIC _gfx_jump_31
+PUBLIC _gfx_getAuxBufSize
 PUBLIC _gfx_jump_17_bufSize
 PUBLIC _awardColor
 PUBLIC _awardFont
@@ -115,8 +115,8 @@ PUBLIC _promoScores
 PUBLIC _promoThresholds
 PUBLIC _medalScores
 PUBLIC _medalThresholds
-PUBLIC _gfx_jump_3d_null
-PUBLIC _gfx_jump_50
+PUBLIC _gfx_setFadeSteps
+PUBLIC _gfx_commitPage
 PUBLIC _gfx_jump_45_retrace
 PUBLIC _gfx_jump_46_retrace2
 
@@ -157,7 +157,7 @@ initGraphics proc near
     add SP,2h
     les BX,dword ptr [_commData]
     push word ptr ES:[BX + 24h]
-    call far ptr gfx_jump_52
+    call far ptr gfx_setMonoFlag
     add SP,2h
     mov AX,1h
     push AX
@@ -1988,10 +1988,10 @@ drawClippedLineEx proc near
     mov word ptr [BP + -2h],AX
     push word ptr [BP + 10h]
     push word ptr [BP + 0ch]
-    call far ptr gfx_jump_3e
+    call far ptr gfx_calcRowAddr
     add SP,4h
     push AX
-    call far ptr gfx_jump_1a
+    call far ptr gfx_setBlitOffset
     add SP,2h
     mov AX,word ptr [BP + -4h]
     dec AX
@@ -2026,7 +2026,7 @@ drawClippedLineEx proc near
     add SP,2h
     sub AX,AX
     push AX
-    call far ptr gfx_jump_1a
+    call far ptr gfx_setBlitOffset
     add SP,2h
     mov SP,BP
     pop BP
@@ -2110,7 +2110,7 @@ LAB_1000_45e6:
     add SP,2h
     mov AX,9h
     push AX
-    call far ptr gfx_jump_3d_null
+    call far ptr gfx_setFadeSteps
     add SP,2h
     call far ptr gfx_jump_17_bufSize
     push AX
@@ -2183,7 +2183,7 @@ LAB_1000_4692:
     add SP,2h
     mov AX,8h
     push AX
-    call far ptr gfx_jump_3d_null
+    call far ptr gfx_setFadeSteps
     add SP,2h
     mov AX,1h
     push AX
@@ -2253,7 +2253,7 @@ LAB_1000_475c:
     mov word ptr [BP + -12h],0h
     mov byte ptr [_ejectedFlag],1h
     mov word ptr [_curRecordIdx],0h
-    call far ptr gfx_jump_50
+    call far ptr gfx_commitPage
     call far ptr gfx_jump_46_retrace2
     call setTimerIrqHandler
     mov word ptr [BP + -6h],1h
@@ -2879,10 +2879,10 @@ gfx_jump_17_bufSize proc far               ; 0x107B
 gfx_jump_17_bufSize endp
 _gfx_jump_17_bufSize equ gfx_jump_17_bufSize
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h
-gfx_jump_1a proc far               ; 0x108A
+gfx_setBlitOffset proc far               ; 0x108A
     db 0EAh
     dd 0
-gfx_jump_1a endp
+gfx_setBlitOffset endp
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
     db 000h, 000h, 000h, 000h
 gfx_jump_1f proc far               ; 0x10A3
@@ -2917,11 +2917,11 @@ gfx_jump_29_switchColor proc far
     dd 0
 gfx_jump_29_switchColor endp
 _gfx_jump_29_switchColor equ gfx_jump_29_switchColor
-gfx_jump_2a proc far               ; 0x10DA
+gfx_copyRect proc far               ; 0x10DA
     db 0EAh
     dd 0
-gfx_jump_2a endp
-_gfx_jump_2a equ gfx_jump_2a
+gfx_copyRect endp
+_gfx_copyRect equ gfx_copyRect
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
     db 000h, 000h, 000h, 000h
 gfx_jump_2f_charWidth proc far               ; 0x10F3
@@ -2930,11 +2930,11 @@ gfx_jump_2f_charWidth proc far               ; 0x10F3
 gfx_jump_2f_charWidth endp
 _gfx_jump_2f_charWidth equ gfx_jump_2f_charWidth
     db 0EAh, 000h, 000h, 000h, 000h
-gfx_jump_31 proc far               ; 0x10FD
+gfx_getAuxBufSize proc far               ; 0x10FD
     db 0EAh
     dd 0
-gfx_jump_31 endp
-_gfx_jump_31 equ gfx_jump_31
+gfx_getAuxBufSize endp
+_gfx_getAuxBufSize equ gfx_getAuxBufSize
     db 0EAh, 000h, 000h, 000h, 000h
 gfx_jump_33_fillRow proc far               ; 0x1107
     db 0EAh
@@ -2970,15 +2970,15 @@ gfx_jump_3b_clearBuf proc far               ; 0x112F
     dd 0
 gfx_jump_3b_clearBuf endp
     db 0EAh, 000h, 000h, 000h, 000h
-gfx_jump_3d_null proc far               ; 0x1139
+gfx_setFadeSteps proc far               ; 0x1139
     db 0EAh
     dd 0
-gfx_jump_3d_null endp
-_gfx_jump_3d_null equ gfx_jump_3d_null
-gfx_jump_3e proc far               ; 0x113E
+gfx_setFadeSteps endp
+_gfx_setFadeSteps equ gfx_setFadeSteps
+gfx_calcRowAddr proc far               ; 0x113E
     db 0EAh
     dd 0
-gfx_jump_3e endp
+gfx_calcRowAddr endp
     db 0EAh, 000h, 000h, 000h, 000h
 gfx_jump_40 proc far               ; 0x1148
     db 0EAh
@@ -3013,21 +3013,21 @@ gfx_jump_4b_storeBufPtr endp
 _gfx_jump_4b_storeBufPtr equ gfx_jump_4b_storeBufPtr
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
     db 000h, 000h, 000h, 000h
-PUBLIC _gfx_jump_50
-gfx_jump_50 proc far               ; 0x1198
+PUBLIC _gfx_commitPage
+gfx_commitPage proc far               ; 0x1198
     db 0EAh
     dd 0
-gfx_jump_50 endp
-_gfx_jump_50 equ gfx_jump_50
+gfx_commitPage endp
+_gfx_commitPage equ gfx_commitPage
 gfx_jump_51_null proc far               ; 0x119D
     db 0EAh
     dd 0
 gfx_jump_51_null endp
-gfx_jump_52 proc far               ; 0x11A2
+gfx_setMonoFlag proc far               ; 0x11A2
     db 0EAh
     dd 0
-gfx_jump_52 endp
-_gfx_jump_52 equ gfx_jump_52
+gfx_setMonoFlag endp
+_gfx_setMonoFlag equ gfx_setMonoFlag
 gfx_jump_53 proc far               ; 0x11A7
     db 0EAh
     dd 0

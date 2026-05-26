@@ -35,7 +35,7 @@ void main(void) {
         joyAxisX = joyAxisY = JOY_CENTER;
     }
     loadWorldStrings();
-    b = gfx_jump_31();
+    b = gfx_getAuxBufSize();
     p = gfx_jump_17_bufSize();
     gfxBufSeg = allocBuffer(b);
     if (hasVgaMode == 1) {
@@ -94,7 +94,7 @@ void animateFlightPath(int16* gfxPage)
     int pad;
 
     if (popupVisible == 1) {
-        gfx_jump_2a(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
+        gfx_copyRect(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
         popupVisible = 0;
     }
     clearRect(gfxPage, 0xe9, 0x1e, 0x13f, 0x45);
@@ -475,7 +475,7 @@ void showEventPopup(void) {
     (void)p;
 
     if (popupVisible == 1) {
-        gfx_jump_2a(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
+        gfx_copyRect(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
         popupVisible = 0;
     }
     a = flightRecords[curRecordIdx].status & STATUS_TYPE_MASK;
@@ -538,8 +538,8 @@ void showEventPopup(void) {
         popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 + 10;
         popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 - 0x28;
     }
-    gfx_jump_2a(0, popupX, popupY, 1, 0, POPUP_SAVE_Y, POPUP_WIDTH, POPUP_HEIGHT);
-    gfx_jump_2a(1, popupSpriteX[a], popupSpriteY[a], 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
+    gfx_copyRect(0, popupX, popupY, 1, 0, POPUP_SAVE_Y, POPUP_WIDTH, POPUP_HEIGHT);
+    gfx_copyRect(1, popupSpriteX[a], popupSpriteY[a], 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
     popupVisible = 1;
 }
 
@@ -818,7 +818,7 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         drawWrappedText(gfxPage, dat_4824, 0x50, 0xf0, 0x82, 8);
         clearRect(gfxPage, 0xf0, 0x64, 0x12c, 0x7e);
         if (popupVisible == 1) {
-            gfx_jump_2a(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
+            gfx_copyRect(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
             popupVisible = 0;
         }
         curRecordIdx = 0;
@@ -1003,7 +1003,7 @@ int selectMenuItem(MenuItem *items, int unused, int itemCount, int inputState, i
     e[0] = 0x89; e[1] = 0;
     c[0] = 0x8d; c[1] = 0;
     h[0] = 0x80; h[1] = 0;
-    gfx_jump_50();
+    gfx_commitPage();
     colorAnimEnabled = 0;
     i = 0;
     while (isPointInRect(&items[i]) == 0 && i < itemCount)
@@ -1012,7 +1012,7 @@ int selectMenuItem(MenuItem *items, int unused, int itemCount, int inputState, i
     for (;;) {
         // 22a8
         do {
-            gfx_jump_50();
+            gfx_commitPage();
             if ((items[i].flags & MENUITEM_ENABLED) == 0) {
                 colorAnimEnabled = 1;
             }
