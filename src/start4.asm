@@ -576,32 +576,9 @@ loc_1270E:
 _mystrlen endp
 ; ------------------------------startCode1:0x2718------------------------------
 ; ------------------------------startCode1:0x2719------------------------------
-_mystrcat proc near
-    string = word ptr 4
-    source = word ptr 6
-    push bp
-    mov bp, sp
-    push si
-loc_1271D:
-    mov bx, [bp+string]
-    cmp byte ptr [bx], 0 ;look for \0 in string
-    jz short foundEnd
-    inc [bp+string]
-    jmp short loc_1271D
-appendNext:
-    inc [bp+string]
-    mov bx, [bp+string]
-foundEnd:
-    mov si, [bp+source]
-    inc [bp+source]
-    mov al, [si]
-    mov [bx], al
-    or al, al
-    jnz short appendNext
-    pop si
-    pop bp
-    retn
-_mystrcat endp
+; --- shared strcat
+INCLUDE shared/str_strcat.inc
+_mystrcat equ mystrcat
 ; ------------------------------startCode1:0x2740------------------------------
 ; ------------------------------startCode1:0x2764------------------------------
 _nearmemset proc near
@@ -774,74 +751,24 @@ _setupOverlaySlots equ setupOverlaySlots
 msg14 db 'clearRect(): buf 0x%x %d %d %d %d',0
 msg15 db 'clearRect(): destination 0x%x',0
 ; ------------------------------startCode1:0x2bba------------------------------
-_clearRect proc near
-    buf = word ptr 4
-    maxy = word ptr 6
-    y = word ptr 8
-    maxx = word ptr 0Ah
-    arg_8 = word ptr 0Ch
-    push bp
-    mov bp, sp
-    push di
-    push si
-    push bp
-    push ds
-    pop es
-    trace msg14,bp+buf,bp+maxy,bp+y,bp+maxx,bp+arg_8
-    call _gfx_jump_10_getCurBuf
-    push ax
-    mov bx, [bp+buf]
-    mov ax, [bx]
-    trace msg15,bx
-    call _gfx_jump_0d_setCurBuf
-    mov ah, [bx+6]
-    call _gfx_jump_20_setVal ;saves value of ah to gfx data
-    call clearDirtyRects
-    mov ax, [bp+maxx]
-    sub ax, [bp+maxy]
-    mov _word_1786A, ax
-    mov ax, [bp+arg_8]
-    sub ax, [bp+y]
-    inc ax
-    mov _word_1786C, ax
-    mov cx, [bp+arg_8]
-    mov si, [bp+y]
-    mov _word_17868, si
-    mov _word_17BED, cx
-    mov _word_17BEB, si
-    sub cx, si
-    inc cx
-    lea di, _byte_17877
-    shl si, 1
-    add di, si
-    mov ax, [bp+maxy]
-    mov _word_17866, ax
-    mov dx, cx
-    rep stosw
-    mov cx, dx
-    lea di, _byte_17A2F
-    add di, si
-    mov ax, [bp+maxx]
-    rep stosw
-    mov bx, offset _byte_17877
-    mov ax, _word_17BEB
-    mov cx, _word_17BED
-    call far ptr _gfx_jump_28
-    call far ptr _gfx_jump_22
-    mov ax, _word_17866
-    mov bx, _word_17868
-    mov cx, _word_1786A
-    mov dx, _word_1786C
-    call _gfx_jump_51_null
-    pop ax
-    call _gfx_jump_0f_getBufPtr
-    pop bp
-    pop si
-    pop di
-    mov sp, bp
-    pop bp
-    retn
-_clearRect endp
+; --- shared clearRect
+clearRectGetCurBuf EQU _gfx_jump_10_getCurBuf
+clearRectSetCurBuf EQU _gfx_jump_0d_setCurBuf
+clearRectSetVal    EQU _gfx_jump_20_setVal
+clearRectJump28    EQU _gfx_jump_28
+clearRectJump22    EQU _gfx_jump_22
+clearRectNull      EQU _gfx_jump_51_null
+clearRectGetBufPtr EQU _gfx_jump_0f_getBufPtr
+clearRectVar27     EQU _word_17866
+clearRectVar28     EQU _word_17868
+clearRectVar29     EQU _word_1786A
+clearRectVar30     EQU _word_1786C
+clearRectVar35     EQU _byte_17877
+clearRectVar36     EQU _byte_17A2F
+clearRectVar37     EQU _word_17BEB
+clearRectVar38     EQU _word_17BED
+INCLUDE shared/gfx_clearrect.inc
+_clearRect equ clearRect
 ; ------------------------------startCode1:0x2c58------------------------------
 ; ------------------------------startCode1:0x2c75------------------------------
 ; --- shared graphics routines (clearDirtyRects, drawLineWrapper, clipAndDrawLine, computeOutcode)
@@ -894,68 +821,21 @@ _fileClose equ fileClose
 msg12 db 'Reading from file handle %d',0
 msg13 db 'Read success, count %d',0
 ; ------------------------------startCode1:0x326c------------------------------
-read512FromFileIntoBuf proc near
-    ; trace msg12,_tmpFileHandle
-    push ds
-    mov ah, 3Fh
-    mov bx, @data
-    mov ds, bx
-    mov bx, _tmpFileHandle
-    mov cx, 200h ;read 512 bytes at most (int returns number of chars
-    mov dx, offset _fileReadBuf
-    int 21h ;DOS - 2+ - READ FROM FILE WITH HANDLE
-    jnb short readSuccess
-    mov dx, offset _aReadError ;"Read error$"
-    mov cx, 0FFFFh
-    jmp short errorAndExit
-    nop
-readSuccess:
-    ; mov charCount,ax
-    ; trace msg13,charCount
-    pop ds
-    retn
-read512FromFileIntoBuf endp
+; --- shared file read 512
+fileRead512Handle EQU _tmpFileHandle
+fileRead512Buf    EQU _fileReadBuf
+fileRead512ErrStr EQU _aReadError
+fileRead512ErrExit EQU errorAndExit
+INCLUDE shared/file_read512.inc
 ; ------------------------------startCode1:0x328c------------------------------
 ; ------------------------------startCode1:0x32a5------------------------------
-writeFileAtRaw proc near
-    arg_0 = word ptr 4
-    arg_2 = word ptr 6
-    arg_4 = word ptr 8
-    arg_6 = word ptr 0Ah
-    arg_8 = word ptr 0Ch
-    push bp
-    mov bp, sp
-    push di
-    push si
-    push es
-    push bp
-    push ds
-    mov ah, 40h
-    mov bx, [bp+arg_6]
-    mov ds, bx
-    mov bx, [bp+arg_0]
-    mov cx, [bp+arg_2]
-    mov dx, [bp+arg_4]
-    add dx, [bp+arg_8]
-    int 21h ;DOS - 2+ - WRITE TO FILE WITH HANDLE
-    pop ds
-    jnb short loc_132CE
-    mov dx, offset _aWriteError
-    mov cx, 0FFFFh
-    jmp short errorAndExit
-    nop
-loc_132CE:
-    pop bp
-    pop es
-    pop si
-    pop di
-    mov sp, bp
-    pop bp
-    retn
+; --- shared file write
+fileWriteErrStr  EQU _aWriteError
+fileWriteErrExit EQU errorAndExit
+INCLUDE shared/file_write.inc
 ; --- shared file error handler
 fileErrorCodeStr EQU _errorCodeStr
 INCLUDE shared/file_error.inc
-writeFileAtRaw endp ;AL = exit code
 ; ------------------------------startCode1:0x3310------------------------------
 
 msg1 db 'showPicFile(): entering, handle %d pagenum %d',0

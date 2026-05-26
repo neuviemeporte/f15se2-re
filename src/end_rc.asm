@@ -498,29 +498,10 @@ LAB_1000_0a95:
     ret
 FUN_1000_0a8f endp
 
-mystrcat proc near
-    push BP
-    mov BP,SP
-    push SI
-LAB_1000_0aaf:
-    mov BX,word ptr [BP + 4h]
-    cmp byte ptr [BX],0h
-    jz LAB_1000_0ac2
-    inc word ptr [BP + 4h]
-    jmp LAB_1000_0aaf
-LAB_1000_0abc:
-    inc word ptr [BP + 4h]
-    mov BX,word ptr [BP + 4h]
-LAB_1000_0ac2:
-    mov SI,word ptr [BP + 6h]
-    inc word ptr [BP + 6h]
-    mov AL,byte ptr [SI]
-    mov byte ptr [BX],AL
-    or AL,AL
-    jnz LAB_1000_0abc
-    pop SI
-    pop BP
-    ret
+; --- shared strcat
+INCLUDE shared/str_strcat.inc
+; dead code (strchr-like routine bundled after mystrcat)
+FUN_1000_0ad0 proc near
     push BP
     mov BP,SP
     push SI
@@ -543,7 +524,7 @@ LAB_1000_0af3:
     pop SI
     pop BP
     ret
-mystrcat endp
+FUN_1000_0ad0 endp
 _mystrcat equ mystrcat
 
 FUN_1000_0af6 proc near
@@ -930,66 +911,24 @@ LAB_1000_0daa:
     ret
 FUN_1000_0d70 endp
 
-clearRect proc near
-    push BP
-    mov BP,SP
-    push DI
-    push SI
-    push BP
-    push DS
-    pop ES
-    call far ptr gfx_jump_10_getCurBuf
-    push AX
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BX]
-    call far ptr gfx_jump_0d_setCurBuf
-    mov AH,byte ptr [BX + 6h]
-    call far ptr gfx_jump_20_setVal
-    call clearDirtyRects
-    mov AX,word ptr [BP + 0ah]
-    sub AX,word ptr [BP + 6h]
-    mov word ptr [_var_29],AX
-    mov AX,word ptr [BP + 0ch]
-    sub AX,word ptr [BP + 8h]
-    inc AX
-    mov word ptr [_var_30],AX
-    mov CX,word ptr [BP + 0ch]
-    mov SI,word ptr [BP + 8h]
-    mov word ptr [_var_28],SI
-    mov word ptr [_var_38],CX
-    mov word ptr [_var_37],SI
-    sub CX,SI
-    inc CX
-    lea DI,word ptr [_var_35]
-    shl SI,1h
-    add DI,SI
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [_var_27],AX
-    mov DX,CX
-    rep stosw
-    mov CX,DX
-    lea DI,word ptr [_var_36]
-    add DI,SI
-    mov AX,word ptr [BP + 0ah]
-    rep stosw
-    mov BX,offset _var_35
-    mov AX,word ptr [_var_37]
-    mov CX,word ptr [_var_38]
-    call far ptr gfx_jump_28
-    call far ptr gfx_jump_22
-    mov AX,word ptr [_var_27]
-    mov BX,word ptr [_var_28]
-    mov CX,word ptr [_var_29]
-    mov DX,word ptr [_var_30]
-    call far ptr gfx_jump_51_null
-    pop AX
-    call far ptr gfx_jump_0f_getBufPtr
-    pop BP
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
+; --- shared clearRect
+clearRectGetCurBuf EQU gfx_jump_10_getCurBuf
+clearRectSetCurBuf EQU gfx_jump_0d_setCurBuf
+clearRectSetVal    EQU gfx_jump_20_setVal
+clearRectJump28    EQU gfx_jump_28
+clearRectJump22    EQU gfx_jump_22
+clearRectNull      EQU gfx_jump_51_null
+clearRectGetBufPtr EQU gfx_jump_0f_getBufPtr
+clearRectVar27     EQU _var_27
+clearRectVar28     EQU _var_28
+clearRectVar29     EQU _var_29
+clearRectVar30     EQU _var_30
+clearRectVar35     EQU _var_35
+clearRectVar36     EQU _var_36
+clearRectVar37     EQU _var_37
+clearRectVar38     EQU _var_38
+INCLUDE shared/gfx_clearrect.inc
+; dead code after clearRect
     db 57h
     db 56h
     db 55h
@@ -1018,7 +957,6 @@ clearRect proc near
     db 00h
     db 5Fh
     db 0C3h
-clearRect endp
 _clearRect equ clearRect
 
 ; --- shared graphics routines
@@ -1576,24 +1514,13 @@ FUN_1000_14d7 proc near
 FUN_1000_14d7 endp
 readFileAtRaw endp
 
-FUN_1000_1500 proc near
-    push DS
-    mov AH,3fh
-    mov BX,seg @data
-    mov DS,BX
-    mov BX,word ptr [_var_63]
-    mov CX,200h
-    mov DX,offset dat_1606
-    int 21h
-    jnc LAB_1000_151f
-    mov DX,offset str_readError
-    mov CX,0ffffh
-    jmp LAB_1000_1585
-    db 90h
-LAB_1000_151f:
-    pop DS
-    ret
-FUN_1000_1500 endp
+; --- shared file read 512
+fileRead512Handle  EQU _var_63
+fileRead512Buf     EQU dat_1606
+fileRead512ErrStr  EQU str_readError
+fileRead512ErrExit EQU LAB_1000_1585
+INCLUDE shared/file_read512.inc
+FUN_1000_1500 equ read512FromFileIntoBuf
 
 FUN_1000_1521 proc near
     push BP
@@ -1616,37 +1543,11 @@ FUN_1000_1521 endp
 
 PUBLIC _readFileAtExRaw
 _readFileAtExRaw:
-readFileAtExRaw proc near
-    push BP
-    mov BP,SP
-    push DI
-    push SI
-    push ES
-    push BP
-    push DS
-    mov AH,40h
-    mov BX,word ptr [BP + 0ah]
-    mov DS,BX
-    mov BX,word ptr [BP + 4h]
-    mov CX,word ptr [BP + 6h]
-    mov DX,word ptr [BP + 8h]
-    add DX,word ptr [BP + 0ch]
-    int 21h
-    pop DS
-    jnc LAB_1000_1562
-    mov DX,offset str_writeError
-    mov CX,0ffffh
-    jmp LAB_1000_1585
-    db 90h
-LAB_1000_1562:
-    pop BP
-    pop ES
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-readFileAtExRaw endp
+; --- shared file write
+fileWriteErrStr  EQU str_writeError
+fileWriteErrExit EQU LAB_1000_1585
+INCLUDE shared/file_write.inc
+readFileAtExRaw equ writeFileAtRaw
 
 ; --- shared file error handler
 fileErrorCodeStr EQU _var_60
@@ -2122,7 +2023,7 @@ LAB_timer_color_loop:
     cli
     in AL,DX
     test AL,08h
-    jnz LAB_timer_sub_end
+    jnz LAB_timer_reprogram
     sti
     and AL,01h
     cmp AL,BL
@@ -2135,7 +2036,7 @@ LAB_timer_mono:
     cli
     in AL,DX
     test AL,80h
-    jz LAB_timer_sub_end
+    jz LAB_timer_reprogram
     sti
     and AL,01h
     cmp AL,BL
