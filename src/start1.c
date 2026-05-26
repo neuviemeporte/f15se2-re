@@ -113,7 +113,7 @@ void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
 }
 
 /* 0x674 */
-int showPic640(char* filename)
+void showPic640(char* filename)
 {
     int fileHandle;
     intRegs[1] = INT_VID_MODESET;
@@ -613,7 +613,7 @@ void clearBriefing(void)
 
 
 // 1824
-int seedRandom() {
+void seedRandom() {
     srand(getTimeOfDay());
 }
 

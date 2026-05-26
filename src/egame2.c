@@ -10,7 +10,7 @@
 #include <memory.h>
 
 // ==== seg002:0xa ====
-int far sub_21A7A() {
+void far sub_21A7A() {
     sub_21A86();
 }
 
@@ -20,7 +20,7 @@ void far sub_21A7E() {
 }
 
 // ==== seg000:0x21c6 ====
-int sub_121C6() {
+void sub_121C6() {
     load3DAll();
 }
 
@@ -43,7 +43,7 @@ void sub_121CA(int arg_0, int arg_2, int arg_4, long arg_6, long arg_a, long arg
 }
 
 // ==== seg000:0x2278 ====
-int sub_12278(int arg_0) {
+void sub_12278(int arg_0) {
     uint8 var_2;
     if (arg_0 > 0) { // 2284
         var_2 = (uint8)arg_0 + byte_3790C[0];
@@ -52,7 +52,7 @@ int sub_12278(int arg_0) {
 }
 
 // ==== seg000:0xc8de ====
-int load15Flt3d3() {
+void load15Flt3d3() {
     int var_A, var_C;
     struct SREGS var_8;
     uint8 FAR *var_10;
@@ -115,7 +115,7 @@ int openFileWrapper(char *path, int mode) {
 }
 
 // ==== seg000:0xdd70 ====
-int closeFileWrapper(int arg_0) {
+void closeFileWrapper(int arg_0) {
     closeFile(arg_0);
 }
 
@@ -288,7 +288,7 @@ void sub_13638(int *arg_0, int *arg_1, int *arg_2, int *arg_3) {
 }
 
 // ==== seg000:0xa740 ====
-int sub_1A740(int arg_0, int arg_2, int arg_4) {
+void sub_1A740(int arg_0, int arg_2, int arg_4) {
     sub_19E44(arg_4);
     sub_19D86(var_279 - 4, var_282 - 3, var_279 + 4, var_282 - 3);
     sub_19D86(var_279 + 4, var_282 - 3, var_279 + 4, var_282 + 3);

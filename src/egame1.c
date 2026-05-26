@@ -15,7 +15,7 @@
 #include <string.h>
 
 // ==== seg000:0x18f6 ====
-int sub_118F6(void) {
+void sub_118F6(void) {
     int p, a, b, c;
 
     sub_1D1E8();
@@ -74,7 +74,7 @@ void placeString(int param_1) {
 }
 
 // ==== seg000:0x14e8 ====
-int sub_114E8(void) {
+void sub_114E8(void) {
     int p, a, b, c, d, e, f, g;
     keyDispatch(keyScancode);
 }
@@ -506,7 +506,7 @@ void load3DT(char *arg_0) {
 }
 
 // ==== seg000:0x2e54 ====
-int load3DG() {
+void load3DG() {
     int unused_1, unused_2, unused_3;
     strcpyFromDot(regnStr, a_3dg);
     // 2e68
@@ -1511,7 +1511,7 @@ int sub_10297() {
 }
 
 // ==== seg000:0x1b37 routine_148 ====
-int sub_11B37(int arg_0) {
+void sub_11B37(int arg_0) {
     if (word_3BE3C != 0 && arg_0 != 0) {
         return;
     }
@@ -1561,7 +1561,7 @@ int sub_11971() {
 }
 
 // ==== seg000:0x1c21 routine_180 ====
-int sub_11C21(void) {
+void sub_11C21(void) {
     int p;
 
     if (word_3370C != -1) {
@@ -1624,7 +1624,7 @@ void sub_194D0(int arg_0) {
 }
 
 // ==== seg000:0x1a18 routine_131 ====
-int sub_11A18() {
+void sub_11A18() {
     int p;
     int a;
 

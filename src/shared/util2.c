@@ -4,7 +4,7 @@
  */
 
 #include "util.h"
-#include "debug.h"
+#include "../debug.h"
 
 int openFile(char *name, int mode);
 int fileClose(int handle);
@@ -21,7 +21,7 @@ void mystrcpy(char *dest, const char *source) {
     } while ((*dest++ = *source++) != '\0');
 }
 
-int closeFileWrapper(int handle)
+void closeFileWrapper(int handle)
 {
     TRACE(("closeFileWrapper"));
     fileClose(handle);

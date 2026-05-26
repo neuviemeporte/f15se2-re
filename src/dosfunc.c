@@ -214,14 +214,6 @@ int dos_getReturnCode(void) {
     return rout.h.al;
 }
 
-uint16 dos_getProcessId(void) {
-
-}
-
-int dos_setProcessId(const uint16 pid) {
-
-}
-
 #pragma pack(1)
 struct MCB {
     char type;
@@ -310,7 +302,7 @@ uint16 dos_lastFreeBlock(void) {
             break;
         default:
             ERROR("unexpected MCB type: %Xh", mcb->type);
-            return;
+            return 0;
         }
         if (mcb->type == 'Z') { // last mcb
             mcb = NULL;
