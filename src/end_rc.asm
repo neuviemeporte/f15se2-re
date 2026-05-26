@@ -4,11 +4,7 @@ DOSSEG
 
 Stack equ 0
 local_res0 equ 0
-param_1 equ 4h
-param_2 equ 6h
-param_3 equ 8h
 a equ 2h
-b equ 6h
 
 .CODE
 EXTRN __osmajor:BYTE
@@ -42,8 +38,6 @@ EXTRN _readFileAtEx:PROC
 EXTRN _loadFileSection:PROC
 EXTRN _loadFileSectionEx:PROC
 EXTRN _plotMapPoint:PROC
-EXTRN _closeAndResetFile:PROC
-EXTRN _markHandleClosed:PROC
 EXTRN _outportByte:PROC
 EXTRN _loadPicFromFile:PROC
 EXTRN _loadPicFromFileAt:PROC
@@ -73,84 +67,6 @@ EXTRN _drawFlightPath:PROC
 EXTRN _showEventPopup:PROC
 EXTRN __aNlmul:PROC
 EXTRN _formatFlightTime:PROC
-EXTRN _str_emptyRank:BYTE
-EXTRN _str_1stLt:BYTE
-EXTRN _str_captain:BYTE
-EXTRN _str_major:BYTE
-EXTRN _str_ltColonel:BYTE
-EXTRN _str_colonel:BYTE
-EXTRN _str_general:BYTE
-EXTRN _str_afcm:BYTE
-EXTRN _str_dfc:BYTE
-EXTRN _str_silverStar:BYTE
-EXTRN _str_afc:BYTE
-EXTRN _str_cmoh:BYTE
-EXTRN _str_deskPic:BYTE
-EXTRN _str_deskMsg1:BYTE
-EXTRN _str_deskMsg2:BYTE
-EXTRN _str_deathPic:BYTE
-EXTRN _str_deathMsg1:BYTE
-EXTRN _str_deathMsg2:BYTE
-EXTRN _str_promoPic:BYTE
-EXTRN _str_promoMsg1:BYTE
-EXTRN _str_promoMsg2:BYTE
-EXTRN _str_medalPic:BYTE
-EXTRN _str_medalMsg1:BYTE
-EXTRN _str_medalMsg2:BYTE
-EXTRN _rankNames:WORD
-EXTRN _medalNames:WORD
-EXTRN _str_allocError:BYTE
-EXTRN _str_deallocError:BYTE
-EXTRN _str_pressExit:BYTE
-EXTRN _str_dot1:BYTE
-EXTRN _str_overall1:BYTE
-EXTRN _str_missionRating1:BYTE
-EXTRN _str_dot2:BYTE
-EXTRN _str_trainingScore:BYTE
-EXTRN _str_notRecorded:BYTE
-EXTRN _str_dot3:BYTE
-EXTRN _str_careerTotal:BYTE
-EXTRN _str_dot4:BYTE
-EXTRN _str_missionSummary:BYTE
-EXTRN _str_priSecTargets:BYTE
-EXTRN _str_otherTargets:BYTE
-EXTRN _str_enemyPlanes:BYTE
-EXTRN _str_friendlyTargets:BYTE
-EXTRN _str_dot5:BYTE
-EXTRN _str_overall2:BYTE
-EXTRN _str_missionRating2:BYTE
-EXTRN _str_dot6:BYTE
-EXTRN _str_missionEvent:BYTE
-EXTRN _str_time:BYTE
-EXTRN _str_destroyed4:BYTE
-EXTRN _str_destroyed1:BYTE
-EXTRN _str_destroyed2:BYTE
-EXTRN _str_shotDown2:BYTE
-EXTRN _str_shotDown:BYTE
-EXTRN _str_destroyed3:BYTE
-EXTRN _str_rearmed3:BYTE
-EXTRN _str_rearmed1:BYTE
-EXTRN _str_rearmed2:BYTE
-EXTRN _str_hitBy:BYTE
-EXTRN _str_missile:BYTE
-EXTRN _str_takeoffPoint:BYTE
-EXTRN _str_missionEnd:BYTE
-EXTRN _str_crashed:BYTE
-EXTRN _str_goodBailout:BYTE
-EXTRN _str_captured:BYTE
-EXTRN _str_bailedDied:BYTE
-EXTRN _str_goodLanding:BYTE
-EXTRN _str_primaryObj:BYTE
-EXTRN _str_secndryObj:BYTE
-EXTRN _str_cumulative2:BYTE
-EXTRN _str_cumulative:BYTE
-EXTRN _str_missionRating3:BYTE
-EXTRN _str_pressSelect:BYTE
-EXTRN _str_pressNext:BYTE
-EXTRN _str_inFlight:BYTE
-EXTRN _str_timeLabel:BYTE
-EXTRN _str_timeZeros:BYTE
-EXTRN _str_timeFormat:BYTE
 
 PUBLIC _gfx_jump_05_drawString
 PUBLIC _gfx_jump_2f_charWidth
@@ -220,10 +136,6 @@ PUBLIC _joyAxisY
 PUBLIC _joyAxisX
 PUBLIC _gfxBufSeg
 
-main equ _main
-
-checkQuitFlag equ _checkQuitFlag
-
 PUBLIC _initGraphics
 _initGraphics:
 initGraphics proc near
@@ -261,14 +173,6 @@ initGraphics proc near
     ret
 initGraphics endp
 
-cleanup equ _cleanup
-
-routine_6 equ _routine_6
-
-routine_5 equ _routine_5
-
-loadWorldStrings equ _loadWorldStrings
-
 PUBLIC _dat_4034
 PUBLIC _dat_4040
 PUBLIC _dat_4246
@@ -279,10 +183,6 @@ PUBLIC _dat_5ab4
 PUBLIC _dat_0042
 PUBLIC _var_203
 PUBLIC _var_216
-
-readWorldData equ _readWorldData
-
-routine_71 equ _loadWorldData
 
 PUBLIC _setupWorldBufPtr
 _setupWorldBufPtr:
@@ -298,8 +198,6 @@ setupWorldBufPtr endp
 
 EXTRN _readFromWorldBuf:PROC
 EXTRN _readFromWorldFile:PROC
-readFromWorldBuf equ _readFromWorldBuf
-readFromWorldFile equ _readFromWorldFile
 
 PUBLIC _clearKeybuf
 _clearKeybuf:
@@ -316,14 +214,7 @@ FUN_1000_03ad proc near
     ret
 FUN_1000_03ad endp
 
-waitForKeyOrJoy equ _waitForKeyOrJoy
-
-
-drawStringAtPos equ _drawStringAtPos
-
 drawStringAt equ _drawStringAt
-
-drawFarString equ _drawFarString
 
 FUN_1000_0495 proc near
     push BP
@@ -460,17 +351,7 @@ LAB_1000_05dd:
     ret
 FUN_1000_0495 endp
 
-drawWrappedText equ _drawWrappedText
-
 drawStringCentered equ _drawStringCentered
-
-stringWidth equ _stringWidth
-
-my_ltoa equ _my_ltoa
-
-my_itoa equ _my_itoa
-
-timerWait equ _timerWait
 
 FUN_1000_09bf proc near
     push BP
@@ -498,8 +379,6 @@ LAB_1000_09df:
     ret
     db 90h
 FUN_1000_09bf endp
-
-outportByte equ _outportByte
 
 FUN_1000_09f2 proc near
     push BP
@@ -556,8 +435,6 @@ LAB_1000_0a40:
     pop BP
     ret
 FUN_1000_0a12 endp
-
-mystrcpy equ _mystrcpy
 
 FUN_1000_0a5d proc near
     push BP
@@ -1552,16 +1429,6 @@ dead_routine_33 proc near
     db 90h
 dead_routine_33 endp
 
-loadFileSection equ _loadFileSection
-
-loadFileSectionEx equ _loadFileSectionEx
-
-openFileRead equ _openFileRead
-
-readFileAt equ _readFileAt
-
-readFileAtEx equ _readFileAtEx
-
 PUBLIC _openFile
 _openFile:
 ; --- shared open file routine
@@ -1789,11 +1656,7 @@ LAB_1000_1585 equ errorAndExit
 
 openShowPic equ _openShowPic
 
-loadPicFromFile equ _loadPicFromFile
-
 loadPic equ _loadPic
-
-loadPicFromFileAt equ _loadPicFromFileAt
 
 ; --- shared pic decoding routines
 picFileReadPos       EQU _var_62
@@ -2387,40 +2250,11 @@ _incTimerCounters proc near
 _incTimerCounters endp
 getTimeOfDay endp
 
-routine_27 equ _showPostMissionAwards
-
-EXTRN _loadTheaterIndex:NEAR
-loadTheaterIndex equ _loadTheaterIndex
-
 processMenuItems equ _processMenuItems
 
 selectMenuItem equ _selectMenuItem
 
-blinkWidget equ _blinkWidget
-
-isPointInRect equ _isPointInRect
-
-processDebriefInput equ _processDebriefInput
-
-drawMenuItem equ _drawMenuItem
-
-drawEventSprite equ _drawEventSprite
-
 animateFlightPath equ _animateFlightPath
-
-drawFlightPath equ _drawFlightPath
-
-formatFlightTime equ _formatFlightTime
-
-mapToScreenX equ _mapToScreenX
-
-mapToScreenY equ _mapToScreenY
-
-plotMapPoint equ _plotMapPoint
-
-drawFlightLine equ _drawFlightLine
-
-drawClippedLine equ _drawClippedLine
 
 PUBLIC _drawClippedLineEx
 _drawClippedLineEx:
@@ -2481,11 +2315,7 @@ drawClippedLineEx proc near
     ret
 drawClippedLineEx endp
 
-drawMapPixel equ _drawMapPixel
-
 calcMissionScore equ _calcMissionScore
-
-showEventPopup equ _showEventPopup
 
 PUBLIC _debriefMainLoop
 _debriefMainLoop:
@@ -2959,8 +2789,6 @@ routine_140 proc near
     ret
 routine_140 endp
 
-srandInit equ _srandInit
-
 FUN_1000_4cca proc near
     mov AX,43fdh
     mov DX,3h
@@ -3048,69 +2876,15 @@ _copyJoystickData equ copyJoystickData
 
 .DATA
 ; --- Data segment ---
-EXTRN _popupSpriteY:BYTE
-EXTRN _popupSpriteX:BYTE
-EXTRN _mapViewX1:BYTE
-EXTRN _mapViewY1:BYTE
-EXTRN _mapViewX2:BYTE
-EXTRN _mapViewY2:BYTE
-EXTRN _dat_1c8e:BYTE
-EXTRN _textBuf:BYTE
-EXTRN _unitTypeTable:BYTE
-EXTRN _gridFlags:BYTE
-EXTRN _target1Type:BYTE
-EXTRN _target1MiscBits:BYTE
-EXTRN _target2Type:BYTE
-EXTRN _target2MiscBits:BYTE
-EXTRN _scoreString:BYTE
-EXTRN _samKilled:BYTE
-EXTRN _samMissed:BYTE
-EXTRN _groundKilled:BYTE
-EXTRN _groundMissed:BYTE
-EXTRN _airKilled:BYTE
-EXTRN _airMissed:BYTE
-EXTRN _selectedMenuItem:BYTE
-EXTRN _missionResult:BYTE
-EXTRN _enterPressed:BYTE
-EXTRN _lastDrawX:BYTE
-EXTRN _prevDrawX:BYTE
-EXTRN _lastDrawY:BYTE
-EXTRN _prevDrawY:BYTE
-EXTRN _popupVisible:BYTE
-EXTRN _primaryHit:BYTE
 EXTRN _missionScore:BYTE
 EXTRN _missionScoreHi:BYTE
-EXTRN _secondaryHit:BYTE
 EXTRN _ejectedFlag:BYTE
-EXTRN _popupX:BYTE
-EXTRN _popupY:BYTE
-EXTRN _worldDataReady:BYTE
-EXTRN _worldStrings:BYTE
-EXTRN _worldStringBuf:BYTE
 EXTRN _worldBufHandle:BYTE
 EXTRN _spriteBufSeg:BYTE
-EXTRN _vgaBufSeg:BYTE
-EXTRN _vgaBufOffset:BYTE
-EXTRN _vgaBufSeg2:BYTE
-EXTRN _colorTablePtr:BYTE
-EXTRN _inputChanged:BYTE
-EXTRN _colorAnimIdx:BYTE
-EXTRN _colorAnimEnabled:BYTE
-EXTRN _joyRepeatFlag:BYTE
-EXTRN _spriteToggle:BYTE
-EXTRN _animDone:BYTE
 EXTRN _curRecordIdx:BYTE
-EXTRN _dat_424e:BYTE
-EXTRN _var_425c:BYTE
-EXTRN _dat_4804:BYTE
 EXTRN _var_192:BYTE
 PUBLIC _var_193
 PUBLIC _flightRecords
-EXTRN _slotInfoTable:BYTE
-EXTRN _cursorX:BYTE
-EXTRN _cursorY:BYTE
-EXTRN _hercFlag:BYTE
-EXTRN _hasVgaMode:BYTE
 
     db 000h
 _var_8 db 000h
@@ -3995,6 +3769,5 @@ _flightRecords db 1534 dup(?)
 __bss_end label byte
 
 ; Stack size must match the original (0x800 = 2048 bytes)
-__stack_top equ __bss_end + 0800h
 
 END

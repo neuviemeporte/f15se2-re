@@ -1,18 +1,6 @@
 .8086
 DOSSEG
 .MODEL SMALL
-EXTRN _main:PROC
-EXTRN _waitMdaCgaStatus:PROC
-EXTRN _openFileWrapper:PROC
-EXTRN _closeFileWrapper:PROC
-EXTRN _cleanup:PROC
-EXTRN _pilotToGameData:PROC
-EXTRN _clearBriefing:PROC
-EXTRN _seedRandom:PROC
-EXTRN _gameDataToPilot:PROC
-EXTRN _saveHallfame:PROC
-EXTRN _processStoreInput:PROC
-EXTRN _pilotNameInput:PROC
 PUBLIC _byte_17412
 PUBLIC _byte_17422
 PUBLIC _word_173DE
@@ -486,87 +474,6 @@ field_3C	db ?
 field_3D	db ?
 field_3E	dw ?
 TerrainUnk	ends
-
-; ---------------------------------------------------------------------------
-
-; enum Pointers, mappedto_1
-COMM_SNDOVL_NAME  = 0Dh
-ROSTER_SCORE_LO	 = 16h
-OVL_HDR_CODESEG	 = 18h
-ROSTER_SCORE_HI	 = 18h
-COMM_GVXOVL_SEG	 = 1Ah
-ROSTER_LASTSCORE  = 1Ah
-COMM_SNDOVL_SEG	 = 1Ch
-OVL_HDR_FIRSTIDX  = 1Ch
-ROSTER_UNK1	 = 1Ch
-ROSTER_UNK2	 = 1Dh
-COMM_MISCOVL_SEG  = 1Eh
-OVL_HDR_SIZE1	 = 1Eh
-ROSTER_THEATER	 = 1Eh
-ROSTER_DIFFICULTY  = 1Fh
-COMM_GFXBUF_PTR	 = 20h
-OVL_HDR_SIZE2	 = 20h
-GAMEDATA_UNK2	 = 20h
-OVL_HDR_SLOTCOUNT  = 22h
-COMM_SETUP1	 = 22h
-GAMEDATA_UNK3	 = 22h
-OVL_HDR_FIRSTPTR  = 24h
-COMM_HERC_FLAG	 = 24h
-COMM_SETUPDONE	 = 26h
-COMM_UNK2	 = 28h
-COMM_UNK3	 = 2Ch
-GAMEDATA_LASTSCORE  = 2Eh
-COMM_SETUP_GFXMODE  = 30h
-COMM_BUFFER_FLAG2  = 30h
-GAMEDATA_SCORE_LO  = 32h
-GAMEDATA_SCORE_HI  = 34h
-GAMEDATA_THEATER  = 38h
-COMM_UNK7	 = 38h
-GAMEDATA_FLAG4	 = 3Ah
-COMM_UNK5	 = 3Ah
-GAMEDATA_FLAG3	 = 3Ch
-COMM_UNK6	 = 3Ch
-COMM_BUFFER_DIFFICULTY	= 3Eh
-SEGMENT_BDA	 = 40h
-COMM_UNK8	 = 40h
-COMM_BUFFER_RAND  = 42h
-GAMEDATA_UNK1	 = 44h
-COMM_JOYDATA_OFF  = 48h
-COMM_BUFFER_FLAG1  = 4Eh
-COMM_USEJOY_OFF	 = 72h
-COMM_GFXMODE_OFFSET  = 78h
-TIMEOUT_MPS	 = 78h
-BDA_EGASW	 = 88h
-TIMEOUT_ADV	 = 0B4h
-BDA_CRTC	 = 463h
-
-; ---------------------------------------------------------------------------
-
-; enum Dos, mappedto_2
-DOS_PRINT_STR	 = 9
-DOS_ERROR_RMDIR	 = 10h
-DOS_SET_IRQH	 = 25h
-DOS_ALLOC_MEM	 = 48h
-
-; ---------------------------------------------------------------------------
-
-; enum Varia, mappedto_3
-IRQ_PIT		 = 8
-IRQ_VIDEO	 = 10h
-IRQ_KBD		 = 16h
-IRQ_TIME	 = 1Ah
-IRQ_CBREAK	 = 1Bh
-HALLFAME_RECORDSZ  = 20h
-IRQ_DOS		 = 21h
-PORT_PIT_TIME0	 = 40h
-PORT_PIT_CNTRL	 = 43h
-SCREEN_MAXY	 = 0C7h
-SCREEN_MAXX	 = 13Fh
-
-; ---------------------------------------------------------------------------
-
-; enum Sizes, mappedto_4
-FILE_READBUF_SIZE  = 200h
 
 ;  ==============================================================================
 

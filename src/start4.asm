@@ -2,29 +2,14 @@ DOSSEG
 .8086
 .MODEL SMALL
 
-DOS_PRINT_STR	 = 9
-DOS_ERROR_RMDIR	 = 10h
 DOS_SET_IRQH	 = 25h
-DOS_ALLOC_MEM	 = 48h
 IRQ_PIT		 = 8
-IRQ_VIDEO	 = 10h
-IRQ_KBD		 = 16h
-IRQ_TIME	 = 1Ah
 IRQ_CBREAK	 = 1Bh
-HALLFAME_RECORDSZ  = 20h
-IRQ_DOS		 = 21h
 PORT_PIT_TIME0	 = 40h
 PORT_PIT_CNTRL	 = 43h
-SCREEN_MAXY	 = 0C7h
-SCREEN_MAXX	 = 13Fh
 BDA_CRTC	 = 463h
 OVL_HDR_SIZE1	 = 1Eh
 OVL_HDR_SIZE2	 = 20h
-OVL_HDR_FIRSTIDX  = 1Ch
-OVL_HDR_SLOTCOUNT  = 22h
-OVL_HDR_FIRSTPTR  = 24h
-OVL_HDR_CODESEG	 = 18h
-FILE_READBUF_SIZE  = 200h
 
 
 IFDEF DEBUG
@@ -208,7 +193,6 @@ EXTRN _word_1784E:WORD
 EXTRN _joyAxes:BYTE
 EXTRN _diskTransferArea:BYTE
 EXTRN _byte_172C6:BYTE
-EXTRN _mystrcpy:PROC
 EXTRN _aFileClosingError:BYTE
 EXTRN _aWriteError:BYTE
 
@@ -909,7 +893,6 @@ _fileClose equ fileClose
 ; ------------------------------startCode1:0x31e8------------------------------
 msg12 db 'Reading from file handle %d',0
 msg13 db 'Read success, count %d',0
-charCount dw 0
 ; ------------------------------startCode1:0x326c------------------------------
 read512FromFileIntoBuf proc near
     ; trace msg12,_tmpFileHandle
