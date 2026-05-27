@@ -230,5 +230,70 @@ int strcpyFromDot(char *arg_0, char *arg_2) {
 
 // ==== seg000:0x345e ====
 
-// TODO: sub_12FDA (seg000:2fda-3223) - follows strcpyFromDot
-// Once implemented, try merging egame1d.c + egame2b.c (if register spill doesn't affect codegen)
+int16* sub_12FDA(uint32 param_0, uint32 param_1) {
+    int p, a, q, b, r, c, d, e, f, g, h, i, j, k, l, m, n, o;
+
+    word_3B7E2 = 0x7fff;
+    for (c = 1; c <= 2; c++) {
+        for (e = 0; e < 9; e++) {
+            *(long *)&m = sub_126B4(c, param_0);
+            i = *(unsigned long *)&m >> 0xc;
+            r = m & 0xfff;
+            *(long *)&m = sub_126B4(c, param_1);
+            k = *(unsigned long *)&m >> 0xc;
+            d = m & 0xfff;
+            a = (&word_33B74)[e];
+            b = (&word_33B86)[e];
+            o = (&word_33B9C)[a] - r + 0x800;
+            p = (&word_33B9C)[b] - d + 0x800;
+            k += b;
+            i += a;
+            n = process3dg(c, i, k);
+            if (n != -1) {
+                word_3C5A8 = matrix3dt_2[c][n];
+                for (f = 0; matrix3dt[c + 3][n + 3] > (unsigned int)f; f++) {
+                    if ((&byte_3BFA4)[*((uint8 *)word_3C5A8 + 6) & 0x7f] != 0) {
+                        h = o + *(int *)word_3C5A8;
+                        j = *((int *)word_3C5A8 + 1) + p;
+                        q = abs(j) + abs(h);
+                        if (c == 1) {
+                            q >>= 2;
+                        } else {
+                            h <<= 2;
+                            j <<= 2;
+                        }
+                        g = *((uint8 *)word_3C5A8 + 6);
+                        if ((*((uint8 *)word_3C5A8 + 6) & 0x80) != 0 &&
+                            sub_13266(c, f, i, k) != 0) {
+                            g = byte_3B4EC[var_660 * 8];
+                        }
+                        if (q < word_3B7E2) {
+                            var_200 = buf3d3[g];
+                            var_201 = 0x228d;
+                            if (*(int far *)MK_FP(var_201, var_200) != 0 ||
+                                *((char far *)MK_FP(var_201, var_200) + 2) != 0 ||
+                                word_33704 != 0) {
+                                byte_3B7EE = (uint8)c;
+                                byte_3B7EF = (uint8)f;
+                                byte_3B7F0 = (uint8)i;
+                                byte_3B7F1[0] = (uint8)k;
+                                word_3B7EC = word_3C5A8;
+                                word_3B7E0 = g;
+                                word_3B7E2 = q;
+                                word_3B7E4 = (int)(param_0 + (long)h);
+                                word_3B7E6 = (int)((param_0 + (long)h) >> 16);
+                                word_3B7E8 = (int)(param_1 + (long)j);
+                                word_3B7EA = (int)((param_1 + (long)j) >> 16);
+                            }
+                        }
+                    }
+                    word_3C5A8 += 7;
+                }
+            }
+        }
+    }
+    if (word_3B7E2 == 0x7fff) {
+        return 0;
+    }
+    return &word_3B7E0;
+}
