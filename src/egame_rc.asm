@@ -10265,6 +10265,7 @@ sub_19C0C equ _sub_19C0C
 
 ; ------------------------------seg000:0x9c84------------------------------
 EXTRN _sub_19C84:near
+EXTRN _sub_1C6BE:near
 sub_19C84 equ _sub_19C84
 ; ------------------------------seg000:0x9d85------------------------------
 ; ------------------------------seg000:0x9d86------------------------------
@@ -12966,120 +12967,7 @@ LAB_1000_c1b3:
 sub_1B147 endp
 _sub_1B147 equ sub_1B147
 ; ------------------------------seg000:0xc6be------------------------------
-sub_1C6BE proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    push SI
-    mov AX,word ptr [BP + 6h]
-    cwd
-    sub AX,8000h
-    sbb DX,0h
-    neg AX
-    adc DX,0h
-    neg DX
-    mov CL,5h
-LAB_1000_c6d8:
-    shl AX,1h
-    rcl DX,1h
-    dec CL
-    jz LAB_1000_c6e2
-    jmp LAB_1000_c6d8
-LAB_1000_c6e2:
-    push DX
-    push AX
-    mov AX,word ptr [BP + 4h]
-    cwd
-    mov CL,5h
-LAB_1000_c6ea:
-    shl AX,1h
-    rcl DX,1h
-    dec CL
-    jz LAB_1000_c6f4
-    jmp LAB_1000_c6ea
-LAB_1000_c6f4:
-    push DX
-    push AX
-    call sub_12FDA
-    add SP,8h
-    mov word ptr [word_39808],AX
-    or AX,AX
-    jnz LAB_1000_c706
-    jmp LAB_1000_c798
-LAB_1000_c706:
-    mov BX,AX
-    mov AX,word ptr [BX + 4h]
-    mov DX,word ptr [BX + 6h]
-    mov CL,5h
-LAB_1000_c710:
-    sar DX,1h
-    rcr AX,1h
-    dec CL
-    jz LAB_1000_c71a
-    jmp LAB_1000_c710
-LAB_1000_c71a:
-    mov word ptr [BP + 4h],AX
-    mov BX,word ptr [word_39808]
-    mov AX,word ptr [BX + 8h]
-    mov DX,word ptr [BX + 0ah]
-    mov CL,5h
-LAB_1000_c729:
-    sar DX,1h
-    rcr AX,1h
-    dec CL
-    jz LAB_1000_c733
-    jmp LAB_1000_c729
-LAB_1000_c733:
-    sub AX,8000h
-    neg AX
-    mov word ptr [BP + 6h],AX
-    mov word ptr [BP + -2h],1h
-    jmp LAB_1000_c745
-LAB_1000_c742:
-    inc word ptr [BP + -2h]
-LAB_1000_c745:
-    mov AX,word ptr [_word_3BED2]
-    cmp word ptr [BP + -2h],AX
-    jge LAB_1000_c76d
-    mov SI,word ptr [BP + -2h]
-    mov CL,4h
-    shl SI,CL
-    mov AX,word ptr [SI + offset _stru_3AA5E]
-    cmp word ptr [BP + 4h],AX
-    jnz LAB_1000_c76b
-    mov AX,word ptr [SI + offset _stru_3AA5E + 2]
-    cmp word ptr [BP + 6h],AX
-    jnz LAB_1000_c76b
-    mov AX,word ptr [BP + -2h]
-    jmp LAB_1000_c79d
-LAB_1000_c76b:
-    jmp LAB_1000_c742
-LAB_1000_c76d:
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [_stru_3AA5E],AX
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [_var_762],AX
-    mov BX,word ptr [word_39808]
-    mov AX,word ptr [BX]
-    add AH,1h
-    mov word ptr [_var_767],AX
-    cmp word ptr [word_336F6],0h
-    jnz LAB_1000_c792
-    mov word ptr [word_336F6],0ffffh
-LAB_1000_c792:
-    sub AX,AX
-    jmp LAB_1000_c79d
-    db 0EBh
-    db 05h
-LAB_1000_c798:
-    mov AX,0ffffh
-    jmp LAB_1000_c79d
-LAB_1000_c79d:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-sub_1C6BE endp
+sub_1C6BE equ _sub_1C6BE
 ; ------------------------------seg000:0xc9d2------------------------------
 sub_1C9D2 proc near
     push BP

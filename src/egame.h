@@ -145,7 +145,7 @@ void sub_13224(char *a, int b, char c);
 // ==== seg000:0x3266 ====
 int sub_13266();
 // ==== seg000:0x32ba ====
-int sub_132BA(int32,int32,int32);
+int sub_132BA();
 // ==== seg000:0x345e ====
 void sub_1345E(char *, int, int, int);
 // ==== seg000:0x34ac ====
@@ -241,7 +241,7 @@ void sub_15FDB(void);
 // ==== seg000:0x606c ====
 void sub_1606C(void);
 // ==== seg000:0x60d3 ====
-void sub_160D3(int16 *arg_0);
+void sub_160D3(int *arg_0);
 // ==== seg000:0x613b ====
 void sub_1613B(void);
 // ==== seg000:0x6172 ====
@@ -319,11 +319,7 @@ void __cdecl sub_19DB0(int, int, int, int);
 // ==== seg000:0x9e44 ====
 void __cdecl sub_19E44(int);
 // ==== seg000:0x9e5d ====
-#if !defined(MSDOS)
-void __cdecl sub_19E5D(int arg_0, int arg_2, int arg_4, int arg_6);
-#else
 void __cdecl sub_19E5D();
-#endif
 // ==== seg000:0x9e94 ====
 int sub_19E94();
 // ==== seg000:0x9ea0 ====
@@ -1258,14 +1254,14 @@ extern uint8 byte_380DA[];
 extern char byte_380DD;
 extern int16 word_380E0;
 extern int16 word_380E2;
-extern char a256left_pic[];
-extern char a256right_pic[];
-extern char a256rear_pic[];
-extern char aLeft_pic[];
-extern char aRight_pic[];
-extern char aRear_pic[];
+extern uint8 a256left_pic[];
+extern uint8 a256right_pic[];
+extern uint8 a256rear_pic[];
+extern uint8 aLeft_pic[];
+extern uint8 aRight_pic[];
+extern uint8 aRear_pic[];
 extern int16 word_38126;
-extern int16 unk_38128[];
+extern uint8 unk_38128[];
 extern int16 word_38152;
 extern uint8 aFiring[];
 extern int16 word_3815E;
@@ -1678,7 +1674,7 @@ extern int16 word_3C0A0;
 extern char* word_3C0A2[];
 extern int16 word_3C16A;
 extern int16 word_3C16C;
-extern char byte_3C16E[];
+extern uint8 byte_3C16E[];
 extern int16 word_3C45C;
 extern int16 word_3C45E;
 extern int matrix3dt_2[5][32];
@@ -1767,8 +1763,8 @@ extern int16 var_669;
 extern int16 var_670;
 extern int16 var_671;
 extern int16 var_672;
-extern uint8 var_594;
 extern int16 var_674;
+extern uint8 var_594;
 extern int16 *var_568;
 extern int16 var_680;
 extern int16 var_681;
