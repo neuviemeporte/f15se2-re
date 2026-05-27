@@ -149,7 +149,7 @@ int sub_132BA();
 // ==== seg000:0x345e ====
 void sub_1345E(char *, int, int, int);
 // ==== seg000:0x34ac ====
-int sub_134AC(int param_1, int param_2, int param_3);
+void sub_134AC(int param_1, int param_2, int param_3);
 // ==== seg000:0x3638 ====
 void sub_13638(int *, int *, int *, int *);
 // ==== seg000:0x3694 ====
@@ -1798,6 +1798,7 @@ extern int16 var_261;
 extern int16 var_315;
 extern uint8 var_316;
 extern int16 var_665;
+extern int16 var_666;
 
 extern int rand();
 extern long _aNlmul(long, long);

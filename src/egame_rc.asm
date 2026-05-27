@@ -182,6 +182,7 @@ EXTRN _sub_10294:PROC
 EXTRN _sub_10297:PROC
 EXTRN _sub_13A6C:PROC
 EXTRN _sub_1345E:PROC
+EXTRN _sub_134AC:PROC
 EXTRN _sub_136D2:PROC
 EXTRN _sub_1378E:PROC
 EXTRN _sub_185BE:NEAR
@@ -209,6 +210,9 @@ PUBLIC _word_3B7EC
 PUBLIC _word_3C5A8
 PUBLIC _sub_2044A
 PUBLIC _var_665
+PUBLIC _var_666
+PUBLIC _word_3C5A8
+PUBLIC _word_34186
 PUBLIC _var_673
 PUBLIC _var_255
 PUBLIC _var_261
@@ -3461,166 +3465,9 @@ sub_1345E equ _sub_1345E
     nop
 ; ------------------------------seg000:0x34aa------------------------------
 ; ------------------------------seg000:0x34ac------------------------------
-sub_134AC proc near
-    push BP
-    mov BP,SP
-    sub SP,14h
-    push DI
-    push SI
-    mov AX,word ptr [BP + 4h]
-    mov CL,byte ptr [BP + 8h]
-    sar AX,CL
-    mov word ptr [_var_663],AX
-    mov AX,word ptr [BP + 6h]
-    sar AX,CL
-    mov word ptr [_var_664],AX
-    mov word ptr [_var_666],4h
-    jmp LAB_1000_360e
-LAB_1000_34d0:
-    sub AX,AX
-LAB_1000_34d2:
-    mov word ptr [_var_665],AX
-    mov AX,word ptr [BP + 8h]
-    mov CX,word ptr [word_3C16C]
-    shl CX,1h
-    sub AX,CX
-    db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
-    mov word ptr [word_3C042],AX
-    mov AX,1000h
-    mov CL,byte ptr [word_3C042]
-    sar AX,CL
-    mov word ptr [_var_661],AX
-    db 3Dh, 10h, 00h ; cmp AX,10h (force imm16 encoding)
-    jg LAB_1000_34fa
-    jmp LAB_1000_360a
-LAB_1000_34fa:
-    mov AX,4h
-    mov CL,byte ptr [word_3C16C]
-    shl CL,1h
-    sub CL,8h
-    neg CL
-    shl AX,CL
-    mov word ptr [_var_662],AX
-    lea AX,[BP + -2h]
-    push AX
-    lea AX,[BP + -8h]
-    push AX
-    lea AX,[BP + -12h]
-    push AX
-    lea AX,[BP + -6h]
-    push AX
-    call sub_13638
-    add SP,8h
-    mov AX,word ptr [BP + -8h]
-    mov word ptr [BP + -0eh],AX
-    jmp LAB_1000_35f9
-LAB_1000_352c:
-    mov BX,word ptr [word_3C5A8]
-    cmp word ptr [BX + 4h],0h
-    jnz LAB_1000_3574
-    mov BL,byte ptr [BX + 6h]
-    sub BH,BH
-    shl BX,1h
-    mov AX,word ptr [BX + offset _buf3d3]
-    db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
-    mov word ptr [_var_200],AX
-    mov word ptr [_var_201],228dh
-    mov BX,word ptr [word_3C5A8]
-    mov AX,word ptr [BX + 2h]
-    mov CL,byte ptr [word_3C042]
-    sar AX,CL
-    add AX,word ptr [BP + -4h]
-    push AX
-    mov AX,word ptr [BX]
-    sar AX,CL
-    add AX,word ptr [BP + -14h]
-    push AX
-    push word ptr [_var_201]
-    push word ptr [_var_200]
-    call sub_136D2
-    add SP,8h
-LAB_1000_3574:
-    add word ptr [word_3C5A8],7h
-    inc word ptr [BP + -0ah]
-LAB_1000_357c:
-    mov SI,word ptr [BP + -10h]
-    shl SI,1h
-    mov BX,word ptr [word_3C16C]
-    mov CL,6h
-    shl BX,CL
-    mov AX,word ptr [BP + -0ah]
-    cmp word ptr [BX + SI + offset _matrix3dt + 198],AX
-    ja LAB_1000_352c
-LAB_1000_3592:
-    inc word ptr [BP + -0ch]
-LAB_1000_3595:
-    mov AX,word ptr [BP + -12h]
-    cmp word ptr [BP + -0ch],AX
-    jg LAB_1000_35f6
-    mov SI,word ptr [_var_661]
-    sar SI,1h
-    mov AX,word ptr [BP + -0ch]
-    imul word ptr [_var_661]
-    sub AX,word ptr [_var_663]
-    add AX,SI
-    mov word ptr [BP + -14h],AX
-    mov AX,word ptr [BP + -0eh]
-    imul word ptr [_var_661]
-    sub AX,word ptr [_var_664]
-    add AX,SI
-    mov word ptr [BP + -4h],AX
-    push word ptr [BP + -0eh]
-    push word ptr [BP + -0ch]
-    push word ptr [word_3C16C]
-    call process3dg
-    add SP,6h
-    mov word ptr [BP + -10h],AX
-    db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
-    jz LAB_1000_3592
-    mov DI,AX
-    shl DI,1h
-    mov BX,word ptr [word_3C16C]
-    mov CL,6h
-    shl BX,CL
-    mov AX,word ptr [BX + DI + offset _matrix3dt_2]
-    mov word ptr [word_3C5A8],AX
-    mov word ptr [BP + -0ah],0h
-    jmp LAB_1000_357c
-    db 90h
-LAB_1000_35f6:
-    inc word ptr [BP + -0eh]
-LAB_1000_35f9:
-    mov AX,word ptr [BP + -2h]
-    cmp word ptr [BP + -0eh],AX
-    jg LAB_1000_360a
-    mov AX,word ptr [BP + -6h]
-    mov word ptr [BP + -0ch],AX
-    jmp LAB_1000_3595
-    db 90h
-LAB_1000_360a:
-    dec word ptr [_var_666]
-LAB_1000_360e:
-    cmp word ptr [_var_666],0h
-    jl LAB_1000_3632
-    mov BX,word ptr [_var_666]
-    shl BX,1h
-    mov AX,word ptr [BX + offset word_34186]
-    mov word ptr [word_3C16C],AX
-    cmp word ptr [_var_666],1h
-    jle LAB_1000_362c
-    jmp LAB_1000_34d0
-LAB_1000_362c:
-    mov AX,40h
-    jmp LAB_1000_34d2
-LAB_1000_3632:
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-sub_134AC endp
-    PUBLIC _sub_134AC
-_sub_134AC equ sub_134AC
+sub_134AC equ _sub_134AC
+
+
 ; ------------------------------seg000:0x374a------------------------------
 sub_1374A proc near
     push BP
@@ -18704,6 +18551,7 @@ word_3417F dw 0
     db 0
     db 0
 word_34186 dw 3
+_word_34186 equ word_34186
     db 4
     db 0
     db 2
