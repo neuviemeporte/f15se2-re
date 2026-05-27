@@ -169,7 +169,7 @@ void sub_13932(char*, int, int, int, int, int, int, int);
 // ==== seg000:0x39aa ====
 int sub_139AA();
 // ==== seg000:0x39c0 ====
-int sub_139C0(int arg_0);
+void sub_139C0(char *arg_0);
 // ==== seg000:0x3a6c ====
 void sub_13A6C(int, int, int);
 // ==== seg000:0x3a90 ====

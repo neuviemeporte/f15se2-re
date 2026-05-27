@@ -8,6 +8,7 @@ EXTRN _sub_15411:PROC
 EXTRN _sub_1543B:PROC
 EXTRN _sub_13224:PROC
 EXTRN _sub_13266:PROC
+EXTRN _sub_139C0:PROC
 PUBLIC _byte_3B4E6
 PUBLIC _var_660
 PUBLIC _word_38FF8
@@ -185,7 +186,6 @@ PUBLIC _var_315
 PUBLIC _var_316
 PUBLIC _origCBreakSeg
 PUBLIC _sub_10334
-PUBLIC _sub_139C0
 PUBLIC _sub_20658
 PUBLIC _word_3C16C
 PUBLIC _sub_1374A
@@ -3876,76 +3876,7 @@ sub_139AA endp
 _sub_139AA equ sub_139AA
 ; ------------------------------seg000:0x39be------------------------------
 ; ------------------------------seg000:0x39c0------------------------------
-sub_139C0 proc near
-_sub_139C0 equ sub_139C0
-    push BP
-    mov BP,SP
-    sub SP,4h
-    mov BX,word ptr [BP + 4h]
-    mov AX,word ptr [BX + 14h]
-    sub AX,word ptr [BX + 12h]
-    inc AX
-    mov word ptr [BP + -4h],AX
-    mov AX,word ptr [BX + 10h]
-    sub AX,word ptr [BX + 0eh]
-    inc AX
-    mov word ptr [BP + -2h],AX
-    mov AX,word ptr [BP + -4h]
-    inc AX
-    sar AX,1h
-    dec AX
-    mov word ptr [word_3298C],AX
-    mov AX,word ptr [BP + -2h]
-    inc AX
-    sar AX,1h
-    dec AX
-    mov word ptr [word_3298E],AX
-    cmp word ptr [BX + 0eh],0h
-    jnz LAB_1000_3a0a
-    cmp word ptr [BX + 10h],0c7h
-    jnz LAB_1000_3a04
-    mov AX,64h
-    jmp LAB_1000_3a07
-    db 90h
-LAB_1000_3a04:
-    mov AX,38h
-LAB_1000_3a07:
-    mov word ptr [word_3298E],AX
-LAB_1000_3a0a:
-    mov AX,word ptr [BP + -4h]
-    dec AX
-    push AX
-    call far ptr gfx_jump_41
-    add SP,2h
-    mov BX,word ptr [BP + 4h]
-    push word ptr [BX + 0eh]
-    push word ptr [BX + 12h]
-    call far ptr gfx_calcRowAddr
-    add SP,4h
-    push AX
-    call far ptr gfx_setBlitOffset
-    add SP,2h
-    mov AX,word ptr [BP + -4h]
-    dec AX
-    mov word ptr [_var_349],AX
-    mov AX,word ptr [BP + -2h]
-    dec AX
-    mov word ptr [_var_350],AX
-    mov word ptr [word_3C69C],192ch
-    mov word ptr [word_3C6A2],194ch
-    cmp byte ptr [_var_456],0h
-    jz LAB_1000_3a5c
-    add word ptr [word_3C69C],10h
-    add word ptr [word_3C6A2],10h
-LAB_1000_3a5c:
-    cmp byte ptr [_word_330C2],0h
-    jz LAB_1000_3a68
-    add word ptr [word_3C6A2],20h
-LAB_1000_3a68:
-    mov SP,BP
-    pop BP
-    ret
-sub_139C0 endp
+sub_139C0 equ _sub_139C0
 ; ------------------------------seg000:0x3a6b------------------------------
 ; ------------------------------seg000:0x3a6c------------------------------
 sub_13A6C equ _sub_13A6C
@@ -18492,6 +18423,8 @@ gfx_jump_40 proc near
 gfx_jump_40 endp
 ; ------------------------------dseg:0x1003------------------------------
 gfx_jump_41 proc near
+    PUBLIC _gfx_jump_41
+    _gfx_jump_41 equ gfx_jump_41
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_jump_41 endp
@@ -39657,11 +39590,15 @@ _word_3C5B6 equ word_3C5B6
     db ?
     db ?
     db ?
+    PUBLIC _word_3C69C
 word_3C69C dw ?
+_word_3C69C equ word_3C69C
 _word_3C69E dw ?
 byte_3C6A0 db ?
     db ? ;align 2
+    PUBLIC _word_3C6A2
 word_3C6A2 dw ?
+_word_3C6A2 equ word_3C6A2
 _word_3C6A4 dw ?
 _commData dd ?
 word_3C6AA dw ?
