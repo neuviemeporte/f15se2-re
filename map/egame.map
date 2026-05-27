@@ -109,7 +109,7 @@ sub_166BE: seg000 NEAR 66be-6741 R66be-6741 complete
 routine_191: seg000 NEAR 6742-67b3 R6742-67b3 complete
 sub_167B4: seg000 NEAR 67b4-7593 R67b4-7593
 sub_17594: seg000 NEAR 7594-7839 R7594-7839
-sub_1783A: seg000 NEAR 783a-79ed R783a-79ed
+sub_1783A: seg000 NEAR 783a-79ed R783a-79ed complete
 sub_179EE: seg000 NEAR 79ee-85bd R79ee-85bd external
 sub_185BE: seg000 NEAR 85be-86f7 R85be-86f7 complete
 sub_186F8: seg000 NEAR 86f8-87e9 R86f8-87e9 complete
