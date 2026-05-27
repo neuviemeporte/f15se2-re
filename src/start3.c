@@ -535,7 +535,7 @@ counterMore1k:
   for (idx = 0; idx < 3; idx++) { // 4b23
     TRACE(("runGenerator(): loop8, counter %d", idx));
     // 4b49
-    commData->unk8[idx] = word_189B6[commData->unk7[idx] * 0xD];
+    commData->unk8[idx] = weaponLoadouts[commData->unk7[idx]].qty;
   }
   TRACE(("runGenerator(): past loop8"));
   // 4b4f

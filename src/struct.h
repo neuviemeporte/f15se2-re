@@ -227,6 +227,17 @@ struct Weapon {
 #pragma pack()
 STATIC_ASSERT(sizeof(struct Weapon)==14);
 
+// 0x1A (26) bytes - weapon loadout entry (accessed with stride 0xD words)
+#pragma pack(1)
+struct WeaponLoadout {
+    int16 qty;            /* number carried */
+    char shortName[10];   /* short display name, null-padded */
+    char longName[12];    /* long display name, null-padded */
+    int16 typeId;         /* weapon type index (0xFFFF=camera, 0xFFFE=fuel) */
+};
+#pragma pack()
+STATIC_ASSERT(sizeof(struct WeaponLoadout)==26);
+
 // 0x4 bytes
 struct MissileSpec {
     int16 field_0;
