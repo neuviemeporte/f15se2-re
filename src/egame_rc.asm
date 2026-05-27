@@ -281,7 +281,6 @@ PUBLIC _var_261
 PUBLIC _var_315
 PUBLIC _var_316
 PUBLIC _origCBreakSeg
-PUBLIC _drawProjectionSphere
 PUBLIC _word_3C16C
 PUBLIC _drawModelPoint
 PUBLIC _var_257
@@ -708,8 +707,15 @@ PUBLIC _word_333DA
 PUBLIC _var_661
 PUBLIC _var_663
 PUBLIC _var_664
+PUBLIC _word_3298A
 PUBLIC _word_3298C
 PUBLIC _word_3298E
+PUBLIC _word_3BE9C
+PUBLIC _word_38FC6
+PUBLIC _var_224
+PUBLIC _var_225
+PUBLIC _var_226
+PUBLIC _var_227
 PUBLIC _missiles
 PUBLIC _aAccel
 
@@ -1053,332 +1059,7 @@ loc_102F5:
 _loadF15DgtlBin endp
 ; ------------------------------seg000:0x333------------------------------
 ; ------------------------------seg000:0x334------------------------------
-drawProjectionSphere proc near
-    push BP
-    mov BP,SP
-    sub SP,0a6h
-    push DI
-    push SI
-    cmp byte ptr [_word_38FDC],3h
-    jge LAB_1000_0356
-    push word ptr [BP + 4h]
-    call far ptr sub_1FEEC
-    add SP,2h
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-    db 90h
-LAB_1000_0356:
-    mov word ptr [BP + -4h],0h
-LAB_1000_035b:
-    mov SI,word ptr [BP + -4h]
-    shl SI,1h
-    mov AX,word ptr [SI + 0e0h]
-    mov word ptr [SI + offset word_3BE9C],AX
-    inc word ptr [BP + -4h]
-    cmp word ptr [BP + -4h],10h
-    jl LAB_1000_035b
-    mov AX,word ptr [_var_226]
-    neg AX
-    mov word ptr [word_38FC6],AX
-    mov AX,word ptr [_var_225]
-    cmp AX,200h
-    jge LAB_1000_0384
-    mov AX,200h
-LAB_1000_0384:
-    cwd
-    push DX
-    push AX
-    mov AX,word ptr [_var_224]
-    cwd
-    mov DH,DL
-    mov DL,AH
-    mov AH,AL
-    sub AL,AL
-    push DX
-    push AX
-    call __aNldiv
-    mov word ptr [BP + -2h],AX
-    cmp byte ptr [_var_594],0h
-    jz LAB_1000_03a9
-    mov CL,byte ptr [_var_594]
-    shl word ptr [BP + -2h],CL
-LAB_1000_03a9:
-    cmp byte ptr [_var_456],0h
-    jz LAB_1000_03b3
-    sar word ptr [BP + -2h],1h
-LAB_1000_03b3:
-    mov word ptr [BP + -4h],0h
-    jmp LAB_1000_0469
-    db 90h
-LAB_1000_03bc:
-    mov word ptr [BP + -9eh],5848h
-LAB_1000_03c2:
-    push word ptr [_var_227]
-    mov AX,0a7b8h
-    push AX
-    call fixedMulQ14
-    add SP,4h
-    mov SI,AX
-    push word ptr [word_38FC6]
-    push word ptr [BP + -9eh]
-    call fixedMulQ14
-    add SP,4h
-    mov DI,AX
-    mov AX,word ptr [BP + -4h]
-    shl AX,1h
-    add AX,BP
-    mov word ptr [BP + -0a4h],AX
-    mov BX,AX
-    mov AX,word ptr [word_3298C]
-    add AX,SI
-    sub AX,DI
-    mov word ptr [BX + -26h],AX
-    mov BX,word ptr [BP + -0a4h]
-    mov AX,SI
-    neg AX
-    add AX,word ptr [word_3298C]
-    sub AX,DI
-    mov word ptr [BX + -6ah],AX
-    push word ptr [_var_227]
-    push word ptr [BP + -9eh]
-    call fixedMulQ14
-    add SP,4h
-    mov SI,AX
-    push word ptr [word_38FC6]
-    mov AX,0a7b8h
-    push AX
-    call fixedMulQ14
-    add SP,4h
-    mov DI,AX
-    mov AX,word ptr [BP + -4h]
-    shl AX,1h
-    add AX,BP
-    mov word ptr [BP + -0a6h],AX
-    mov BX,AX
-    mov AX,SI
-    add AX,DI
-    sar AX,1h
-    sar AX,1h
-    sub AX,SI
-    neg AX
-    add AX,DI
-    neg AX
-    add AX,word ptr [word_3298E]
-    mov word ptr [BX + -48h],AX
-    mov BX,word ptr [BP + -0a6h]
-    mov AX,SI
-    sub AX,DI
-    sar AX,1h
-    sar AX,1h
-    add AX,word ptr [word_3298E]
-    sub AX,SI
-    add AX,DI
-    mov word ptr [BX + 0ff74h],AX
-    inc word ptr [BP + -4h]
-LAB_1000_0469:
-    cmp word ptr [BP + -4h],11h
-    jge LAB_1000_048c
-    cmp word ptr [BP + -4h],10h
-    jl LAB_1000_0478
-    jmp LAB_1000_03bc
-LAB_1000_0478:
-    mov BX,word ptr [BP + -4h]
-    shl BX,1h
-    mov AX,word ptr [BX + offset word_3BE9C]
-    add AX,word ptr [BP + -2h]
-    mov word ptr [BP + -9eh],AX
-    jmp LAB_1000_03c2
-    db 90h
-LAB_1000_048c:
-    mov word ptr [BP + -4h],0h
-LAB_1000_0491:
-    mov SI,word ptr [BP + -4h]
-    shl SI,1h
-    add SI,BP
-    mov AX,word ptr [SI + -26h]
-    mov word ptr [BP + -9ch],AX
-    mov AX,word ptr [SI + -48h]
-    mov word ptr [BP + -9ah],AX
-    mov AX,word ptr [SI + -6ah]
-    mov word ptr [BP + -98h],AX
-    mov AX,word ptr [SI + 0ff74h]
-    mov word ptr [BP + -96h],AX
-    mov AX,word ptr [SI + -68h]
-    mov word ptr [BP + -94h],AX
-    mov AX,word ptr [SI + 0ff76h]
-    mov word ptr [BP + -92h],AX
-    mov AX,word ptr [SI + -24h]
-    mov word ptr [BP + -90h],AX
-    mov AX,word ptr [SI + -46h]
-    mov word ptr [BP + -8eh],AX
-    mov AX,word ptr [BP + -4h]
-    db 05h, 60h, 00h ; add AX,60h (force imm16 encoding)
-    push AX
-    lea AX,[BP + 0ff64h]
-    push AX
-    mov AX,4h
-    push AX
-    push word ptr [word_3298A]
-    call far ptr drawPolygonOutline
-    add SP,8h
-    inc word ptr [BP + -4h]
-    cmp word ptr [BP + -4h],10h
-    jl LAB_1000_0491
-    mov AX,word ptr [_var_220]
-    cwd
-    xor AX,DX
-    sub AX,DX
-    mov CX,9h
-    sar AX,CL
-    xor AX,DX
-    sub AX,DX
-    mov word ptr [word_3BE9C],AX
-    mov word ptr [BP + -4h],1h
-LAB_1000_0510:
-    mov AX,word ptr [_var_220]
-    cwd
-    mov BX,10h
-    sub BX,word ptr [BP + -4h]
-    mov CL,5h
-    shl BX,CL
-    idiv BX
-    sub AX,word ptr [word_3BE9C]
-    mov BX,word ptr [BP + -4h]
-    shl BX,1h
-    mov word ptr [BX + offset word_3BE9C], AX
-    inc word ptr [BP + -4h]
-    cmp word ptr [BP + -4h],10h
-    jl LAB_1000_0510
-    mov word ptr [word_3BE9C],0h
-    mov word ptr [BP + -4h],0h
-    jmp LAB_1000_05f1
-LAB_1000_0544:
-    mov word ptr [BP + -9eh],0a7b8h
-LAB_1000_054a:
-    push word ptr [_var_227]
-    mov AX,0a7b8h
-    push AX
-    call fixedMulQ14
-    add SP,4h
-    mov SI,AX
-    push word ptr [word_38FC6]
-    push word ptr [BP + -9eh]
-    call fixedMulQ14
-    add SP,4h
-    mov DI,AX
-    mov AX,word ptr [BP + -4h]
-    shl AX,1h
-    add AX,BP
-    mov word ptr [BP + -0a2h],AX
-    mov BX,AX
-    mov AX,word ptr [word_3298C]
-    add AX,SI
-    sub AX,DI
-    mov word ptr [BX + -26h],AX
-    mov BX,word ptr [BP + -0a2h]
-    mov AX,SI
-    neg AX
-    add AX,word ptr [word_3298C]
-    sub AX,DI
-    mov word ptr [BX + -6ah],AX
-    push word ptr [_var_227]
-    push word ptr [BP + -9eh]
-    call fixedMulQ14
-    add SP,4h
-    mov SI,AX
-    push word ptr [word_38FC6]
-    mov AX,0a7b8h
-    push AX
-    call fixedMulQ14
-    add SP,4h
-    mov DI,AX
-    mov AX,word ptr [BP + -4h]
-    shl AX,1h
-    add AX,BP
-    mov word ptr [BP + -0a0h],AX
-    mov BX,AX
-    mov AX,SI
-    add AX,DI
-    sar AX,1h
-    sar AX,1h
-    sub AX,SI
-    neg AX
-    add AX,DI
-    neg AX
-    add AX,word ptr [word_3298E]
-    mov word ptr [BX + -48h],AX
-    mov BX,word ptr [BP + -0a0h]
-    mov AX,SI
-    sub AX,DI
-    sar AX,1h
-    sar AX,1h
-    add AX,word ptr [word_3298E]
-    sub AX,SI
-    add AX,DI
-    mov word ptr [BX + 0ff74h],AX
-    inc word ptr [BP + -4h]
-LAB_1000_05f1:
-    cmp word ptr [BP + -4h],11h
-    jge LAB_1000_0614
-    cmp word ptr [BP + -4h],10h
-    jl LAB_1000_0600
-    jmp LAB_1000_0544
-LAB_1000_0600:
-    mov AX,word ptr [BP + -2h]
-    mov BX,word ptr [BP + -4h]
-    shl BX,1h
-    sub AX,word ptr [BX + offset word_3BE9C]
-    mov word ptr [BP + -9eh],AX
-    jmp LAB_1000_054a
-    db 90h
-LAB_1000_0614:
-    mov word ptr [BP + -4h],0h
-LAB_1000_0619:
-    mov SI,word ptr [BP + -4h]
-    shl SI,1h
-    add SI,BP
-    mov AX,word ptr [SI + -26h]
-    mov word ptr [BP + -9ch],AX
-    mov AX,word ptr [SI + -48h]
-    mov word ptr [BP + -9ah],AX
-    mov AX,word ptr [SI + -6ah]
-    mov word ptr [BP + -98h],AX
-    mov AX,word ptr [SI + 0ff74h]
-    mov word ptr [BP + -96h],AX
-    mov AX,word ptr [SI + -68h]
-    mov word ptr [BP + -94h],AX
-    mov AX,word ptr [SI + 0ff76h]
-    mov word ptr [BP + -92h],AX
-    mov AX,word ptr [SI + -24h]
-    mov word ptr [BP + -90h],AX
-    mov AX,word ptr [SI + -46h]
-    mov word ptr [BP + -8eh],AX
-    mov AX,word ptr [BP + -4h]
-    db 05h, 70h, 00h ; add AX,70h (force imm16 encoding)
-    push AX
-    lea AX,[BP + 0ff64h]
-    push AX
-    mov AX,4h
-    push AX
-    push word ptr [word_3298A]
-    call far ptr drawPolygonOutline
-    add SP,8h
-    inc word ptr [BP + -4h]
-    cmp word ptr [BP + -4h],10h
-    jl LAB_1000_0619
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-    db 00h
-    db 00h
-    nop
-drawProjectionSphere endp
-_drawProjectionSphere equ drawProjectionSphere
+EXTRN _drawProjectionSphere:NEAR
 ; ------------------------------seg000:0x66e------------------------------
 ; ------------------------------seg000:0x688------------------------------
 _setupOverlaySlots proc near
@@ -12956,11 +12637,14 @@ unk_32977 db 0
     db 0
     db 0
     db 0
+_word_3298A label byte
 word_3298A dw 0C4h
 _word_3298C label byte
 word_3298C dw 0A0h
 _word_3298E label byte
 word_3298E dw 64h
+PUBLIC _word_32990
+_word_32990 label byte
     db 0
     db 0
     db 2
@@ -29392,6 +29076,7 @@ _byte_38F8D equ byte_38F8D
     db ?
     db ?
 _word_38FC4 dw ?
+_word_38FC6 label byte
 word_38FC6 dw ?
 word_38FC8 dw ?
 _word_38FC8 equ word_38FC8
@@ -31658,6 +31343,7 @@ _word_3BE96 equ word_3BE96
 _word_3BE98 dw ?
     db ? ;align 4
     db ?
+_word_3BE9C label byte
 word_3BE9C dw ?
     db ?
     db ?
