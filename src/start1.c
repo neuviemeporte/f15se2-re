@@ -611,7 +611,6 @@ void clearBriefing(void)
     clearRect(page1NumPtr, 113, 13, 297, 126);
 }
 
-
 // 1824
 void seedRandom() {
     srand(getTimeOfDay());

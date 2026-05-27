@@ -4,90 +4,49 @@
 #include "end.h"
 #include "shared/util.h"
 
-uint16 allocBuffer(int size) {
-    int segment;
-    TRACE(("allocBuffer"));
-    segment = dos_alloc(size);
-    if ((unsigned)segment < 0x10) {
-        cleanup();
-        dos_printstring(str_allocError);
-        dosExit(0);
-    }
-    return segment;
-}
 
-void freeBuffer(int segment) {
-    TRACE(("freeBuffer"));
-    if (dos_free(segment) != 0) {
+void checkQuitFlag(void) {
+    TRACE(("checkQuitFlag"));
+    if (quitFlag != 0) {
         cleanup();
-        dos_printstring(str_deallocError);
+        restoreCbreakHandler();
         dosExit(0);
     }
 }
 
-void srandInit(int seed) {
-    TRACE(("srandInit"));
-    randSeed = seed;
-    randState = 0;
+
+void routine_5(void) {
 }
 
-int openFileRead(char *name, int mode) {
-    TRACE(("openFileRead"));
-    return openFileRaw(name, mode);
+
+void routine_6(void) {
 }
 
-int readFileBlock(int handle, int buf, int size) {
-    TRACE(("readFileBlock"));
-    return readFileRaw(handle, buf, size);
+
+void outportByte(int port, int value) {
+    TRACE(("outportByte"));
+    outp(port, value);
 }
 
-int readFileAt(int handle, int a, int b, int c) {
-    TRACE(("readFileAt"));
-    return readFileAtRaw(handle, a, b, c);
-}
 
-int readFileAtEx(int handle, int a, int b, int c, int d) {
-    TRACE(("readFileAtEx"));
-    return readFileAtExRaw(handle, a, b, c, d);
-}
-
-void closeAndResetFile(register int *p)
-{
-    TRACE(("closeAndResetFile"));
-    if ((((char *)p)[6] & 0x83) && (((char *)p)[6] & 0x08)) {
-        markHandleClosed(p[2]);
-        ((char *)p)[6] &= 0xf7;
-        p[1] = p[2] = p[0] = 0;
+void loadWorldStrings(void) {
+    int p;
+    int a;
+    TRACE(("loadWorldStrings"));
+    setupWorldBufPtr();
+    worldDataReady = 1;
+    readWorldData();
+    worldStrings[0] = worldStringBuf;
+    p = 1;
+    a = 0;
+    while (a < 0x2ee) {
+        if (worldStringBuf[a] == '\0' && p < 100) {
+            worldStrings[p++] = &worldStringBuf[a + 1];
+        }
+        a++;
     }
 }
 
-void markHandleClosed(int handle)
-{
-    TRACE(("markHandleClosed"));
-    if (handle != 0) {
-        ((char *)handle)[-2] |= 0x01;
-    }
-}
-
-int loadFileSection(char *name, int b, int c) {
-    int handle;
-    int result;
-    TRACE(("loadFileSection"));
-    handle = openFileWrapper(name, 0);
-    result = readFileAt(handle, -1, b, c);
-    closeFileWrapper(handle);
-    return result;
-}
-
-int loadFileSectionEx(char *name, int b, int c, int d, int e) {
-    int handle;
-    int result;
-    TRACE(("loadFileSectionEx"));
-    handle = openFileRead(name, 0);
-    result = readFileAtEx(handle, e, b, c, d);
-    closeFileWrapper(handle);
-    return result;
-}
 
 void waitForKeyOrJoy(void) {
     int key;
@@ -113,25 +72,29 @@ done:
     }
 }
 
-void checkQuitFlag(void) {
-    TRACE(("checkQuitFlag"));
-    if (quitFlag != 0) {
+
+uint16 allocBuffer(int size) {
+    int segment;
+    TRACE(("allocBuffer"));
+    segment = dos_alloc(size);
+    if ((unsigned)segment < 0x10) {
         cleanup();
-        restoreCbreakHandler();
+        dos_printstring(str_allocError);
+        dosExit(0);
+    }
+    return segment;
+}
+
+
+void freeBuffer(int segment) {
+    TRACE(("freeBuffer"));
+    if (dos_free(segment) != 0) {
+        cleanup();
+        dos_printstring(str_deallocError);
         dosExit(0);
     }
 }
 
-void routine_5(void) {
-}
-
-void routine_6(void) {
-}
-
-void outportByte(int port, int value) {
-    TRACE(("outportByte"));
-    outp(port, value);
-}
 
 void loadPicFromFile(char *name, int segment) {
     int handle;
@@ -140,6 +103,7 @@ void loadPicFromFile(char *name, int segment) {
     decodePicRaw(handle, segment);
     closeFileWrapper(handle);
 }
+
 
 void loadPicFromFileAt(char *name, int segment, int off, int whence) {
     int handle;
@@ -150,23 +114,6 @@ void loadPicFromFileAt(char *name, int segment, int off, int whence) {
     closeFileWrapper(handle);
 }
 
-void loadWorldStrings(void) {
-    int p;
-    int a;
-    TRACE(("loadWorldStrings"));
-    setupWorldBufPtr();
-    worldDataReady = 1;
-    readWorldData();
-    worldStrings[0] = worldStringBuf;
-    p = 1;
-    a = 0;
-    while (a < 0x2ee) {
-        if (worldStringBuf[a] == '\0' && p < 100) {
-            worldStrings[p++] = &worldStringBuf[a + 1];
-        }
-        a++;
-    }
-}
 
 // 1e78
 void showPostMissionAwards(void) {
@@ -237,3 +184,76 @@ done:
     clearRect(awardPage, 0, 0, 0x13f, 0xc7);
     gfx_jump_46_retrace2();
 }
+
+void srandInit(int seed) {
+    TRACE(("srandInit"));
+    randSeed = seed;
+    randState = 0;
+}
+
+
+int openFileRead(char *name, int mode) {
+    TRACE(("openFileRead"));
+    return openFileRaw(name, mode);
+}
+
+
+int readFileBlock(int handle, int buf, int size) {
+    TRACE(("readFileBlock"));
+    return readFileRaw(handle, buf, size);
+}
+
+
+int readFileAt(int handle, int a, int b, int c) {
+    TRACE(("readFileAt"));
+    return readFileAtRaw(handle, a, b, c);
+}
+
+
+int readFileAtEx(int handle, int a, int b, int c, int d) {
+    TRACE(("readFileAtEx"));
+    return readFileAtExRaw(handle, a, b, c, d);
+}
+
+
+void closeAndResetFile(register int *p)
+{
+    TRACE(("closeAndResetFile"));
+    if ((((char *)p)[6] & 0x83) && (((char *)p)[6] & 0x08)) {
+        markHandleClosed(p[2]);
+        ((char *)p)[6] &= 0xf7;
+        p[1] = p[2] = p[0] = 0;
+    }
+}
+
+
+void markHandleClosed(int handle)
+{
+    TRACE(("markHandleClosed"));
+    if (handle != 0) {
+        ((char *)handle)[-2] |= 0x01;
+    }
+}
+
+
+int loadFileSection(char *name, int b, int c) {
+    int handle;
+    int result;
+    TRACE(("loadFileSection"));
+    handle = openFileWrapper(name, 0);
+    result = readFileAt(handle, -1, b, c);
+    closeFileWrapper(handle);
+    return result;
+}
+
+
+int loadFileSectionEx(char *name, int b, int c, int d, int e) {
+    int handle;
+    int result;
+    TRACE(("loadFileSectionEx"));
+    handle = openFileRead(name, 0);
+    result = readFileAtEx(handle, e, b, c, d);
+    closeFileWrapper(handle);
+    return result;
+}
+
