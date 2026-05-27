@@ -14,8 +14,334 @@
 #include <stdlib.h>
 #include <string.h>
 
-// TODO: keyDispatch (seg000:d260-d9da) - large unimplemented function
-// Once implemented, try merging egame2f.c + egame1k.c (if register spill doesn't affect codegen)
+// ==== seg000:0xd260 ====
+int keyDispatch(scanCode)
+int16 scanCode;
+{
+    char p[14]; /* local buffer at BP-0e, used by itoa for memory display */
+    int a;
+    unsigned int b, c;
+    char d;
+
+    var_599 = 0;
+    var_598 = 0;
+
+    if (scanCode == 0)
+        goto end_dispatch;
+
+    switch (scanCode) {
+    case 0x1500:
+        sub_1DBE0();
+        break;
+    case 0x1372:
+        var_588++;
+        if (var_588 > 2)
+            var_588 = 0;
+        switch (var_588) {
+        case 0:
+            strcpy(strBuf, (char *)aLong);
+            break;
+        case 1:
+            strcpy(strBuf, (char *)aMedium);
+            break;
+        case 2:
+            strcpy(strBuf, (char *)aShort);
+            break;
+        }
+        strcat(strBuf, (char *)aRangeRadar);
+        tempStrcpy(strBuf);
+        break;
+    case 0x2c7a:
+        zoomIn();
+        break;
+    case 0x2d78:
+        zoomOut();
+        break;
+    case 0x2166:
+        countermeasures(1);
+        break;
+    case 0x2e63:
+        countermeasures(2);
+        break;
+    case 0x266c:
+        if (word_3BEBE != var_547) {
+            *(char *)&planeFlags ^= 1;
+            word_336EC = 0;
+            makeSound(0x20, 2);
+        }
+        if (!(*(char *)&planeFlags & 1)) {
+            sub_1DB9C();
+        }
+        break;
+    case 0x2000:
+        word_38FDC--;
+        if (word_38FDC < 0) {
+            if (gfx_jump_3f_modecode() == 3)
+                word_38FDC = 3;
+            else
+                word_38FDC = 2;
+        }
+        strcpy(strBuf, (char *)aDetailLevel);
+        strcat(strBuf, itoa(word_38FDC, unk_3C030, 10));
+        tempStrcpy(strBuf);
+        sub_1DB2B();
+        break;
+    case 0x2500:
+        var_596++;
+        if (var_596 > 2)
+            var_596 = 0;
+        strcpy(strBuf, (char *)aKybdSensitivit);
+        strcat(strBuf, itoa(var_596 + 1, unk_3C030, 10));
+        tempStrcpy(strBuf);
+        break;
+    case 0x3200:
+        strcpy(strBuf, (char *)aMemoryAvailabl);
+        strcat(strBuf, itoa(allocSize, p, 10));
+        tempStrcpy(strBuf);
+        break;
+    case 0x2100:
+        strcpy(strBuf, (char *)aJiffiesFrame);
+        strcat(strBuf, itoa(word_3C6AE, unk_3C030, 10));
+        tempStrcpy(strBuf);
+        break;
+    case 0x1e00:
+        if (word_3370A == 1) {
+            word_3370A = 2;
+            word_330C4 = word_330C4 / 2;
+            sub_1DAAE();
+        } else {
+            sub_1DB9C();
+        }
+        break;
+    case 0x2f00:
+        var_600++;
+        var_600 &= 3;
+        strcpy(strBuf, (char *)aSounds);
+        strcat(strBuf, itoa(3 - var_600, unk_3C030, 10));
+        tempStrcpy(strBuf);
+        sub_1DA8D();
+        break;
+    case 0x3100:
+        *(char *)&word_330BC ^= 1;
+        if (byte_32933 != 0)
+            setupDac();
+        break;
+    case 0x1400:
+        *(char *)&var_730 ^= 0x10;
+        if (planeFlags & 0x1000) {
+            *((char far *)commData + 0x30) |= 1;
+        }
+        break;
+    case 0x1f73:
+        missileSpecIndex = 0;
+        if (word_3C45C != 1)
+            word_39604 = 0;
+        word_3C45C = 1;
+        selectMissile();
+        break;
+    case 0x326d:
+        missileSpecIndex = 1;
+        word_3C45C = 1;
+        selectMissile();
+        break;
+    case 0x2267:
+        missileSpecIndex = 2;
+        if (word_3C45C != 2)
+            word_39604 = 0;
+        word_3C45C = 2;
+        selectMissile();
+        break;
+    case 0x2064:
+        word_3370E++;
+        if (word_3370E > 2)
+            word_3370E = 0;
+        strcpy(strBuf, (char *)aDirector);
+        if (word_3370E == 0) {
+            strcat(strBuf, (char *)aOff);
+        } else {
+            strcat(strBuf, itoa(word_3370E, unk_3C030, 10));
+        }
+        tempStrcpy(strBuf);
+        break;
+    case 0x1177:
+        waypointIndex++;
+        if (waypointIndex > 3)
+            waypointIndex = 1;
+        switch (waypointIndex) {
+        case 1:
+            tempStrcpy((char *)aWaypointPrimar);
+            break;
+        case 2:
+            tempStrcpy((char *)aWaypointSecond);
+            break;
+        case 3:
+            tempStrcpy((char *)aWaypointFriend);
+            word_3B15A = word_3C16A;
+            break;
+        }
+        break;
+    case 0x1970:
+        if (word_330B6 != 0) {
+            word_330B6 = 0;
+            tempStrcpy((char *)aAutopilotOff);
+        } else {
+            a = var_547;
+            if (a < 1000)
+                a = 1000;
+            word_330B6 = a;
+            tempStrcpy((char *)aAutopilotOn);
+        }
+        break;
+    case 0x1474:
+        *(char *)&word_336F4 |= 0x80;
+        break;
+    case 0xe08:
+        var_598 = 1;
+        break;
+    case 0x1c0d:
+        var_599 = 1;
+        break;
+    case 0x3920:
+        keyValue = 0;
+        break;
+    case 0x3b00:
+        keyValue = 0x44;
+        break;
+    case 0x3c00:
+        keyValue = 0x42;
+        break;
+    case 0x3d00:
+        keyValue = 0x43;
+        break;
+    case 0x3e00:
+        keyValue = 0x41;
+        break;
+    case 0x3f00:
+        keyValue = 0x87;
+        break;
+    case 0x4000:
+        keyValue = 0x84;
+        break;
+    case 0x4100:
+        keyValue = 0x85;
+        break;
+    case 0x4200:
+        keyValue = 0x89;
+        break;
+    case 0x4300:
+        keyValue = 0x88;
+        break;
+    case 0x4400:
+        keyValue = 0x8b;
+        break;
+    case 0x11b:
+        if (word_3BE3C != 0)
+            break;
+        makeSound(2, 2);
+        makeSound(0x22, 2);
+        b = sub_1D200(500) + 500;
+        a = abs(var_544);
+        a >>= 5;
+        c = abs(var_545);
+        c >>= 5;
+        if ((int)(c + a + word_3AA5A) > (int)b) {
+            sub_11B37(6);
+        } else {
+            *(int far *)((char far *)commData + 0x26) = 2;
+        }
+        word_3BE3C = 1;
+        word_3C028 = word_3BEC0;
+        word_3C03A = word_3BED0;
+        word_3C040 = var_547 + 8;
+        break;
+    }
+
+    if (planeFlags & 0x1000) {
+        switch (scanCode) {
+        case 0x1300:
+            sub_119A3();
+            break;
+        case 0x1f00:
+            b = 0;
+            c = 2;
+            for (d = (char)byte_383E5; d != 0; d--) {
+                a = c & 1;
+                c >>= 1;
+                b = (b >> 1) | (a ? 0x8000u : 0);
+            }
+            *(int *)&dword_3B7F8 += b;
+            *((int *)&dword_3B7F8 + 1) += c + (*(unsigned int *)&dword_3B7F8 < b ? 1 : 0);
+            break;
+        case 0x2d00:
+            b = 0;
+            c = 2;
+            for (d = (char)byte_383E5; d != 0; d--) {
+                a = c & 1;
+                c >>= 1;
+                b = (b >> 1) | (a ? 0x8000u : 0);
+            }
+            *(unsigned int *)&dword_3B7F8 -= b;
+            *((int *)&dword_3B7F8 + 1) -= c + (*(unsigned int *)&dword_3B7F8 > (unsigned int)(*(unsigned int *)&dword_3B7F8 + b) ? 1 : 0);
+            break;
+        case 0x2c00:
+            b = 0;
+            c = 2;
+            for (d = (char)byte_383E5; d != 0; d--) {
+                a = c & 1;
+                c >>= 1;
+                b = (b >> 1) | (a ? 0x8000u : 0);
+            }
+            *(unsigned int *)&dword_3B7DA -= b;
+            *((int *)&dword_3B7DA + 1) -= c + (*(unsigned int *)&dword_3B7DA > (unsigned int)(*(unsigned int *)&dword_3B7DA + b) ? 1 : 0);
+            break;
+        case 0x2e00:
+            b = 0;
+            c = 2;
+            for (d = (char)byte_383E5; d != 0; d--) {
+                a = c & 1;
+                c >>= 1;
+                b = (b >> 1) | (a ? 0x8000u : 0);
+            }
+            *(int *)&dword_3B7DA += b;
+            *((int *)&dword_3B7DA + 1) += c + (*(unsigned int *)&dword_3B7DA < b ? 1 : 0);
+            break;
+        }
+    }
+
+    if (word_3BE3C != 0) {
+        keyValue = 0x8c;
+    }
+
+end_dispatch:
+    if (var_597 > 0)
+        var_597--;
+
+    a = sub_1D21E(1);
+    if (a != 0 && var_597 == 0) {
+        sub_18AA6();
+        var_597 = 4;
+    }
+
+    if (*(char *)&planeFlags & 1) {
+        a = 4;
+    } else if (word_3AA5A < 250 || (*(char *)&word_336E8 & 1)) {
+        a = 2;
+    } else {
+        a = 10;
+    }
+    sub_19EB6(3, a);
+
+    if (*(char *)&planeFlags & 8) {
+        a = 14;
+    } else if (gfxModeUnset != 0) {
+        a = 3;
+    } else {
+        a = 2;
+    }
+    sub_19EB6(2, a);
+
+    return 0;
+}
 
 // ==== seg000:0xd9db ====
 
