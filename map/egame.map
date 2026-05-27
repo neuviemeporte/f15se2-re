@@ -67,7 +67,7 @@ sub_13816: seg000 NEAR 3816-3921 R3816-3921
 sub_13922: seg000 NEAR 3922-3931 R3922-3931 complete
 sub_13932: seg000 NEAR 3932-39a9 R3932-39a9 complete
 sub_139AA: seg000 NEAR 39aa-39bf R39aa-39bf assembly
-sub_139C0: seg000 NEAR 39c0-3a6b R39c0-3a6b
+sub_139C0: seg000 NEAR 39c0-3a6b R39c0-3a6b complete
 sub_13A6C: seg000 NEAR 3a6c-3a8f R3a6c-3a8f complete
 sub_13A90: seg000 NEAR 3a90-3aa7 R3a90-3aa7 complete
 setupDac: seg000 NEAR 3aee-3b2e R3aee-3b2e assembly

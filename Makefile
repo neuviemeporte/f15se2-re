@@ -115,7 +115,7 @@ EGAME_EXE := $(BUILDDIR)/egame.exe
 EGAME_CONF := $(CONFDIR)/egame_rc.json
 EGAME_BASE := egame_rc.asm
 EGAME_ASM := $(EGAME_BASE)
-EGAME_SRC := egame0.c egame1.c egame2.c egame3.c egame4.c egame6.c
+EGAME_SRC := egame0.c egame1.c egame1b.c egame2.c egame3.c egame4.c egame6.c
 EGAME_BASEHDR = $(SRCDIR)/egame.h
 EGAME_COBJ := $(call cobj,$(BUILDDIR),$(EGAME_SRC))
 EGAME_OBJ := $(EGAME_COBJ) $(call asmobj,$(BUILDDIR),$(EGAME_ASM))
@@ -125,6 +125,7 @@ $(EGAME_EXE): $(EGAME_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 
 $(EGAME_COBJ): $(EGAME_BASEHDR)
+$(BUILDDIR)/egame1b.obj: MSC_CFLAGS := /Gs /Zi /Ot /Id:\f15-se2
 $(BUILDDIR)/egame2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egame3.obj: MSC_CFLAGS := /Od /Id:\f15-se2
 
