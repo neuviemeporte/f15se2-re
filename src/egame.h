@@ -125,7 +125,7 @@ void waitFrameSync(int frames);
 // ==== seg000:0x229a ====
 void copySomeMem(int idx);
 // ==== seg000:0x22b8 ====
-int projectObjects(int param_0, int param_1, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7);
+int projectObjects(int param_0, int param_1, long param_2, long param_4, long param_6);
 // ==== seg000:0x26b4 ====
 uint32 scaleCoordToLod(int level, uint32 coord);
 // ==== seg000:0x273e ====
@@ -1714,6 +1714,7 @@ extern int16 word_3C8C2;
 extern size_t size3d3_7;
 extern int16 word_339B4[];
 extern int16 word_3419C[];
+extern int16 var_217;
 extern int16 var_218;
 extern int16 var_219;
 extern int16 var_279;
@@ -1761,7 +1762,11 @@ extern int16 var_350;
 #define var_352 (*(int16 *)((char *)&var_349 + 8))
 #define var_353 (*(int16 *)((char *)&var_349 + 10))
 #define var_354 (*(int16 *)((char *)&var_349 + 12))
+extern int16 var_141;
 extern int16 var_654;
+extern int16 var_657;
+extern int16 var_658;
+extern int16 var_659;
 extern int16 var_660;
 extern int16 var_661;
 extern int16 var_662;
