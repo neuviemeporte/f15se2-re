@@ -861,3 +861,141 @@ void sub_13816(int arg_0, int arg_1) {
         *(long *)((char *)&word_34A4C + p * 4) = (long)(-sub_13922(d) + word_3298E);
     }
 }
+
+
+int sub_1CB42(param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8, param_9)
+int param_1;
+int param_2;
+int param_3;
+int param_4;
+int param_5;
+int param_6;
+int param_7;
+int param_8;
+int param_9;
+{
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+    int g;
+    int h;
+    int i;
+    int j;
+    int k;
+    int l;
+    int m;
+    char n;
+
+    word_39402 = 1;
+    if (param_8 == 1 && word_38FDC == 0 && *(char*)&gfxModeUnset != 0 && (word_336E8 & 3) != 0) {
+        return;
+    }
+
+    g = sub_1CF32(param_1);
+    if (byte_3C5A0 == 0) {
+        *var_568 = 0;
+    } else {
+        *var_568 = 1;
+    }
+
+    if (param_8 < 2) {
+        var_685 = 0;
+        k = param_2 - word_3BEC0;
+        l = param_3 - word_3BED0;
+        m = (param_4 - var_547) >> 5;
+        b = sub_1D008(k, -l);
+        f = sub_1D008(m, sub_1CFA6(k, l));
+        c = sub_1CFA6(m, sub_1CFA6(k, l));
+
+        if (param_8 == 1) {
+            var_680 = c;
+            var_682 = (c >> 4) + 0x190;
+            var_683 = (var_682 << 5) / (c + 1);
+            c = var_682 << 2;
+            var_681 = b;
+            var_684 = f;
+        } else {
+            var_683 = (var_680 << 5) / (c + 1);
+            if (var_683 > 0x100) {
+                var_683 = 0x100;
+            }
+            if (var_683 < 4) {
+                var_683 = 4;
+            }
+            j = ((b - var_681) >> 5) * var_683;
+            d = ((f - var_684) >> 5) * var_683;
+            if (abs(j) > 0x1000) {
+                return;
+            }
+            if (abs(d) > 0x1000) {
+                return;
+            }
+            b = (j << 2) + var_681;
+            f = (d << 2) + var_684;
+            c = (var_682 << 5) / var_683 << 2;
+        }
+
+        i = sub_1D190(f, c);
+        var_594 = 2;
+        if (param_9 < 0) {
+            var_594 = (uint8)(param_9 + 2);
+            param_9 = 0;
+        }
+        k = sub_1D178(b, i) >> (char)param_9;
+        l = -(sub_1D190(b, i)) >> (char)param_9;
+        m = sub_1D178(f, c) >> (char)param_9;
+    } else {
+        k = (param_2 - word_3BEC0) << 4;
+        l = (param_3 - word_3BED0) << 4;
+        m = (param_4 - var_547) >> 1;
+        var_681 = var_542;
+        var_684 = word_38FCE;
+        var_685 = var_545;
+        var_683 = 0x20;
+        var_594 = 2;
+    }
+    if (param_8 == 1 || param_8 == 3) {
+        a = (int)((long)var_683 * (long)((int)var_684 >> 2) >> 5) + 0x9c;
+        if (a < 0x80 || (int)var_684 < (int)0xe800) {
+            a = 0x80;
+        }
+        if (a > 0xb8 || (int)var_684 > 0x1800) {
+            a = 0xb8;
+        }
+        *(((int*)var_568) + 2) = (int)byte_3419A[0];
+        if (a != 0x80) {
+            sub_21444((int*)var_568, 0xe8, 0x80, 0x130, a);
+        }
+        h = byte_228D0[0x2f];
+        e = (int)(signed char)byte_3BFA4[param_1 & 0x7f];
+        if (e & 0x10) {
+            h = 8;
+        }
+        n = (char)(e & 0xf);
+        if (n == 0xc || n == 9 || n == 0xb) {
+            h = 1;
+        }
+        *(((int*)var_568) + 2) = (int)byte_3419C[h];
+        if (a != 0xb8) {
+            sub_21444((int*)var_568, 0xe8, a, 0x130, 0xb8);
+        }
+    }
+
+    var_316 = 1;
+    sub_13932((char*)var_568, -var_681, var_684, var_685, 0, 0, 0, 0);
+    sub_20104(byte_228D0 + g, -param_5, param_6, param_7, k, -l, m);
+    sub_139AA();
+    var_316 = 0;
+
+    if (param_8 == 1) {
+        strcpy(strBuf, (char*)aBrg);
+        strcat(strBuf, itoa((unsigned int)var_681 / 0xb6, unk_3C030, 10));
+        draw2Strings(strBuf, 0xf8, 0xb0, 0xf);
+    }
+    var_594 = 0;
+}
+
