@@ -174,8 +174,390 @@ int computeThreatScore(void) {
     return b;
 }
 
-// TODO: updateObjects (seg000:67b4-7593) - large unimplemented function
-// TODO: fireAirThreat (seg000:7594-7839) - unimplemented
+// ==== seg000:0x67b4 ====
+#define ENT_FLAGS(v) (*(uint16 *)&stru_3B208[(v)].field_10[8])
+void updateObjects(void)
+{
+    int p, q, a, aa, r, b, ab, s, c, ac, t, d, ad, u, e, ae, v, f, af, w, g, x, h, y, i, z, j, k, l, m, n, o;
+
+    if ((word_336E8 & 1) == 0 && word_336F6 == -1) {
+        *(int16 *)((char *)stru_33402 + ((word_336E8 >> 1) & 7) * 8) = 0;
+    }
+
+    *(int16 *)((char *)&word_3C5AC + (((word_336E8 >> 2) & 3) + word_3AFA4) * 12) = 0;
+
+    word_3A946 = var_668;
+    var_668 = 0;
+    v = 0;
+    goto loop_test;
+
+do_mode3:
+    e = 3;
+    if ((ENT_FLAGS(v) & 0x100) != 0 && word_336FC != -1) {
+        y = sub_1D178((v & 7) * 0x800 + *(int16 *)&stru_3B208[word_336FC].field_10[0] - 0x1800,
+                      *(int16 *)&stru_3B208[word_336FC].field_10[10])
+            + *(int16 *)((char *)&stru_3B208[word_336FC] - 4);
+
+        j = *(int16 *)((char *)&stru_3B208[word_336FC] - 2) -
+            sub_1D190((v & 7) * 0x800 + *(int16 *)&stru_3B208[word_336FC].field_10[0] - 0x1800,
+                      *(int16 *)&stru_3B208[word_336FC].field_10[10]);
+
+        l = stru_3B208[word_336FC].field_0 + (v & 7) * 0x40;
+        goto got_target_alt;
+    }
+
+    if (((uint8)v * 8 + (uint8)word_38FE0) & 0xbf) goto after_retarget;
+    if (*(uint8 *)&stru_3B208[v].field_10[8] & 0x40) goto after_retarget;
+
+    u = 0x7fff;
+    aa = sub_1D008(*(int16 *)((char *)&stru_3B208[v] - 2) - word_3BED0,
+                   word_3BEC0 - *(int16 *)((char *)&stru_3B208[v] - 4));
+    for (af = 0; af < 8; af++) {
+        s = sub_1D200(word_3BED2) + 1;
+        if (stru_3AA5E[s].field_6 & 0x400) continue;
+        q = sub_1D008(*(int16 *)((char *)&stru_3B208[v] - 2) - stru_3AA5E[s].field_2,
+                      stru_3AA5E[s].field_0 - *(int16 *)((char *)&stru_3B208[v] - 4));
+        if (abs(aa - q) < u) {
+            u = abs(aa - q);
+            *(int16 *)((char *)&stru_3B208[v] - 6) = s;
+            if ((int)u <= -(word_330B8 * 0x1000 - 0x4000)) break;
+        }
+    }
+    b = sub_1CFA6(word_3BEC0 - *(int16 *)((char *)&stru_3B208[v] - 4),
+                  word_3BED0 - *(int16 *)((char *)&stru_3B208[v] - 2));
+    if ((unsigned)b >> 6 > 0x15e && v != 0) {
+        ENT_FLAGS(v) &= 0x1c1;
+        *(int16 *)&stru_3B208[v].field_10[12] = 0;
+    }
+
+after_retarget:
+    s = *(int16 *)((char *)&stru_3B208[v] - 6);
+    y = stru_3AA5E[s].field_0;
+    j = stru_3AA5E[s].field_2;
+    l = sub_1CF64(var_547 + 1000, 5000, 20000);
+    goto got_target_alt;
+
+do_returning:
+    s = *(int16 *)((char *)&stru_3B208[v] - 6);
+    y = stru_3AA5E[s].field_0;
+    if (ENT_FLAGS(v) & 0x200) {
+        l = *(int16 *)((char *)&stru_3B208[v] - 4) - y;
+        j = stru_3AA5E[s].field_2;
+        y = y - l * 2;
+        if ((stru_3AA5E[s].field_6 + abs(l)) & 0x200) {
+            l = 0x8c;
+        } else {
+            l = 0x0c;
+        }
+    } else {
+        j = stru_3AA5E[s].field_2 + word_3AFA8 * 0x500;
+        l = sub_1CFA6(*(int16 *)((char *)&stru_3B208[v] - 4) - y,
+                      *(int16 *)((char *)&stru_3B208[v] - 2) - j) + 2000;
+    }
+    e = 2;
+
+got_target:
+    if (e == 3 && (*(uint8 *)&stru_3B208[v].field_10[8] & 8)) {
+        y = word_3BEC0;
+        j = word_3BED0;
+        l = stru_3B208[v].field_0;
+    }
+    h = y - *(int16 *)((char *)&stru_3B208[v] - 4);
+    z = j - *(int16 *)((char *)&stru_3B208[v] - 2);
+    b = sub_1D008(h, -z);
+    ad = sub_1CFA6(h, z);
+    q = sub_1D008((l - stru_3B208[v].field_0) >> 5, ad);
+    p = sub_1CF64(q, -0x2000, 0x1000);
+    if (e != 1 || (unsigned)ad >= 0x600) goto not_close;
+
+    var_668++;
+    if ((unsigned)ad >= 0x400) goto after_missile_table;
+    if (word_336E8 & 3) goto after_missile_table;
+    if (abs(*(int16 *)&stru_3B208[v].field_10[0] - b) >= 0x800) goto after_missile_table;
+    if (abs(*(int16 *)&stru_3B208[v].field_10[2] - p) >= 0x800) goto after_missile_table;
+
+    g = ((word_336E8 >> 2) & 3) + word_3AFA4;
+    w = 0x138 / word_330C4;
+    *(int16 *)((char *)&word_3C5B6 + g * 12) = sub_1D178(-*(int16 *)&stru_3B208[v].field_10[2], w) << 5;
+    w = sub_1D190(*(int16 *)&stru_3B208[v].field_10[2], w);
+    *(int16 *)((char *)&word_3C5B2 + g * 12) = sub_1D178(*(int16 *)&stru_3B208[v].field_10[0], w);
+    *(int16 *)((char *)&word_3C5B4 + g * 12) = -sub_1D190(*(int16 *)&stru_3B208[v].field_10[0], w);
+    *(int16 *)((char *)&word_3C5AC + g * 12) = *(int16 *)((char *)&stru_3B208[v] - 4);
+    *(int16 *)((char *)&word_3C5AE + g * 12) = *(int16 *)((char *)&stru_3B208[v] - 2);
+    *(int16 *)((char *)&word_3C5B0 + g * 12) = stru_3B208[v].field_0;
+
+after_missile_table:
+    a = sub_1CF64((v & 3) + word_330B8, 0, 2);
+    if (v == 0) a = 1;
+    ac = *(int16 *)&stru_3B208[v].field_10[0];
+    if (abs(*(int16 *)&stru_3B208[v].field_10[4]) < 0x4000) {
+        ac += *(int16 *)&stru_3B208[v].field_10[4] >> 2;
+    }
+    r = (int)(b - ac) >> 13 & 7;
+    ac = var_542;
+    if (abs(var_545) < 0x4000) {
+        ac = var_542 + (var_545 >> 1);
+    }
+    c = ((*(int16 *)&stru_3B208[v].field_10[0] - ac) >> 13) + 4 & 7;
+    m = *(int16 *)((char *)&word_33442 + 2 + a * 128 + r * 16 + c * 2);
+    i = (m & 0xf) << 12;
+    if (m == 0x100) {
+        p = 0x6000;
+        i = ((word_336E8 >> 8) & 8) * 0x1000 - 0x4000;
+    }
+    if (*(int16 *)((char *)&word_33442 + 2 + a * 128 + r * 16 + c * 2) == 0x200) {
+        p = (int16)0xa000;
+        i = (((word_336E8 >> 8) & 8) - 4) * -0x1000;
+    }
+    if (p == (int16)0xa000) {
+        if (-(*(int16 *)&stru_3B208[v].field_10[2] / 8 - 3000) > stru_3B208[v].field_0) {
+            p = *(int16 *)&stru_3B208[v].field_10[2] + 0x1000;
+        }
+    }
+    if (abs(*(int16 *)&stru_3B208[v].field_10[4]) > 0x4000) {
+        i = 0;
+        p = 0;
+    }
+    goto after_accel;
+
+not_close:
+    i = sub_1CF64(b - *(int16 *)&stru_3B208[v].field_10[0], -0x3000, 0x3000) << 1;
+    if (e == 1 && word_330B8 + 1 <= word_3A946) {
+        i = 0x3000;
+    }
+
+after_accel:
+    if (e == 1 && (stru_3AA5E[word_3C16A].field_6 & 0x400) && word_38FEE < 0x780) {
+        i = 0x3000;
+    }
+
+    s = *(int16 *)(aFlogger + var_667 * 32 + 14);
+    i = sub_1CF64(i, -s * 0x1000, s * 0x1000);
+    i = sub_1CF64(i - *(int16 *)&stru_3B208[v].field_10[4],
+                  -s * 256, s * 256);
+
+    if (ENT_FLAGS(v) & 0x400) {
+        if (*(int16 *)&stru_3B208[v].field_10[10] < 0x96) {
+            *(int16 *)&stru_3B208[v].field_10[2] = 0;
+        } else {
+            stru_3B208[v].field_10[3] += 1;
+        }
+        i = 0;
+        if (*(int16 *)&stru_3B208[v].field_10[10] < *(int16 *)(aFlogger + var_667 * 32 + 10)) {
+            *(int16 *)&stru_3B208[v].field_10[10] += 0x3c / word_330C4;
+        } else if (stru_3B208[v].field_0 > 300) {
+            stru_3B208[v].field_10[9] &= 0xfb;
+        }
+    }
+
+    if (*(uint8 *)&stru_3B208[v].field_10[8] & 0x30) {
+        i = 0x400;
+    }
+
+    if (((uint8)v & 3) == (word_336E8 & 3)) {
+        sub_18DF4(*(int16 *)((char *)&stru_3B208[v] - 4),
+                  *(int16 *)((char *)&stru_3B208[v] - 2),
+                  stru_3B208[v].field_0);
+        if (var_315 != 0) {
+            stru_3B208[v].field_10[9] |= 0x20;
+        } else {
+            stru_3B208[v].field_10[9] &= 0xdf;
+        }
+    }
+
+    if (ENT_FLAGS(v) & 0x2000) {
+        p = 0x3000;
+    }
+
+    if (word_38FE0 < 10) {
+        i >>= 2;
+    }
+
+    *(int16 *)&stru_3B208[v].field_10[4] += (i * (word_330B8 + 2)) / word_330C4;
+    *(int16 *)&stru_3B208[v].field_10[0] += (*(int16 *)&stru_3B208[v].field_10[4] >> 3) / word_330C4;
+
+    x = p - *(int16 *)&stru_3B208[v].field_10[2];
+    if (*(uint8 *)&stru_3B208[v].field_10[8] & 0x20) {
+        x = -0x200;
+        if ((word_336E8 & 3) == 0) {
+            b = (word_336E8 >> 1) & 7;
+            *(int16 *)((char *)stru_33402 + b * 8) = *(int16 *)((char *)&stru_3B208[v] - 4);
+            *(int16 *)((char *)stru_33402 + b * 8 + 2) = *(int16 *)((char *)&stru_3B208[v] - 2);
+            *(int16 *)((char *)stru_33402 + b * 8 + 4) = stru_3B208[v].field_0;
+            *(int16 *)((char *)stru_33402 + b * 8 + 6) = sub_1D200(0x20) << 11;
+            word_33442 = b;
+        }
+    }
+
+    if (*(int16 *)&stru_3B208[v].field_10[2] < 0 &&
+        -(sub_1D178(*(int16 *)&stru_3B208[v].field_10[2], 2000) - 200) > stru_3B208[v].field_0 &&
+        (ENT_FLAGS(v) & 0x220) == 0) {
+        x = 0x400;
+    }
+
+    x = sub_1CF64(x, -0x400, 0x400);
+    *(int16 *)&stru_3B208[v].field_10[2] += (x << 2) / word_330C4;
+    if (abs(*(int16 *)&stru_3B208[v].field_10[2]) > 0x4000) {
+        *(int8 *)((char *)&stru_3B208[v].field_10[0] + 1) += (char)0x80;
+        *(int8 *)((char *)&stru_3B208[v].field_10[4] + 1) += (char)0x80;
+        *(int16 *)&stru_3B208[v].field_10[2] = (int16)0x8000 - *(int16 *)&stru_3B208[v].field_10[2];
+    }
+
+    *(uint8 *)&stru_3B208[v].field_10[8] &= 0xef;
+
+    ae = (unsigned int)(-(*(int16 *)&stru_3B208[v].field_10[2] / 2 + (int16)0x8000));
+    /* ae = 0x8000 - pitch/2 (unsigned) */
+    /* multiply ae * fuel, shift right 14 */
+    ae = (int)((unsigned long)(unsigned)ae * (long)*(int16 *)&stru_3B208[v].field_10[10] >> 14);
+
+    k = sub_1D178(*(int16 *)&stru_3B208[v].field_10[4], ae);
+    k = abs(k);
+    ae = (int)((unsigned int)(ae - (unsigned)k / 2) * 4) / word_330C4;
+    ae >>= 2;
+
+    k = sub_1D190(*(int16 *)&stru_3B208[v].field_10[2], ae);
+
+    q = sub_1D178(*(int16 *)&stru_3B208[v].field_10[0], k);
+    stru_3B208[v].field_2 += (long)q;
+
+    q = sub_1D190(*(int16 *)&stru_3B208[v].field_10[0], k);
+    stru_3B208[v].field_6 -= (long)q;
+
+    stru_3B208[v].field_0 += sub_1D178(*(int16 *)&stru_3B208[v].field_10[2], ae);
+
+    *(int16 *)((char *)&stru_3B208[v] - 4) = (int16)(stru_3B208[v].field_2 >> 5);
+    *(int16 *)((char *)&stru_3B208[v] - 2) = (int16)(stru_3B208[v].field_6 >> 5);
+
+    if (stru_3B208[v].field_0 > 30000) {
+        *(int16 *)&stru_3B208[v].field_10[2] = 0;
+    }
+
+    if (stru_3B208[v].field_0 < 0) {
+        ENT_FLAGS(v) &= (v == 0) ? 0 : 0x1c1;
+        word_3BEBC = *(int16 *)((char *)&stru_3B208[v] - 4);
+        word_3BEC8 = *(int16 *)((char *)&stru_3B208[v] - 2);
+        word_3BECE = stru_3B208[v].field_0;
+        word_39606 = -8;
+        if (v == word_336F2) {
+            word_336F2 = -1;
+        }
+    }
+
+    if ((unsigned)ad < 0x10 && e == 2) {
+        if (ENT_FLAGS(v) & 0x200) {
+            stru_3B208[v].field_10[9] |= 0x10;
+        } else {
+            stru_3B208[v].field_10[9] |= 0x02;
+        }
+    }
+
+    if (ENT_FLAGS(v) & 0x1000) {
+        *(int16 *)&stru_3B208[v].field_10[2] = 0;
+        *(int16 *)&stru_3B208[v].field_10[4] = 0;
+        if (word_3AFA8 != 1) {
+            *(int16 *)&stru_3B208[v].field_10[0] = (int16)0x8000;
+        } else {
+            *(int16 *)&stru_3B208[v].field_10[0] = 0;
+        }
+        if (stru_3AA5E[word_3C16A].field_6 & 0x200) {
+            stru_3B208[v].field_0 = 0x8c;
+        } else {
+            stru_3B208[v].field_0 = 0x0c;
+        }
+        if (*(int16 *)&stru_3B208[v].field_10[10] > 0) {
+            *(int16 *)&stru_3B208[v].field_10[10] -= 0x78 / word_330C4;
+        } else {
+            ENT_FLAGS(v) &= 0x1c1;
+            if (v == 0 && word_3B144 >= 5) {
+                ENT_FLAGS(v) = 0;
+            }
+        }
+        if (v >= word_3C046 - 4 && *(int16 *)&stru_3B208[v].field_10[10] < 100) {
+            ENT_FLAGS(v) &= 0x1c1;
+            ENT_FLAGS(v) |= 0x406;
+        }
+    }
+
+    if (--*(int16 *)&stru_3B208[v].field_10[12] == 0) {
+        *(uint8 *)&stru_3B208[v].field_10[8] |= 4;
+        u = 0x7fff;
+        for (af = 3; af < word_3C69E; af++) {
+            if ((stru_3AA5E[af].field_6 & 0x101) == 1) {
+                m = sub_1CFA6(*(int16 *)((char *)&stru_3B208[v] - 4) - stru_3AA5E[af].field_0,
+                              *(int16 *)((char *)&stru_3B208[v] - 2) - stru_3AA5E[af].field_2);
+                if (m < u) {
+                    *(int16 *)((char *)&stru_3B208[v] - 6) = af;
+                    u = m;
+                }
+            }
+        }
+    }
+
+    *(int16 *)&stru_3B208[v].field_10[16] = sub_19A4D(
+        *(int16 *)((char *)&stru_3B208[v] - 4),
+        *(int16 *)((char *)&stru_3B208[v] - 2));
+
+    o = *(uint8 *)&stru_3B208[v].field_10[8];
+    if ((o & 2) &&
+        (((((uint8)v & 8) >> 3) + ((uint8)v & 7) * 2) * word_330C4 -
+         word_336E8 % (word_330C4 << 4)) == 0 &&
+        !(o & 0x20)) {
+        sub_17594(v);
+    }
+    goto loop_end;
+
+do_patrol_check:
+    if (((uint8)v & 7) != (((uint8)(word_38FE0 >> 4)) & 7)) goto loop_end;
+    if (v >= word_3C046 - 4) goto loop_end;
+    if (v == 0) goto loop_end;
+    if (0xe0 / (long)(word_330B8 + 2) >= word_38FE0 - var_556) goto loop_end;
+
+    s = sub_1D200(word_3C69E);
+    if (word_336F0 == 0 && !(*(uint8 *)&stru_3B208[v].field_10[8] & 0x80)) goto loop_end;
+
+    if ((stru_3AA5E[s].field_6 & 0x181) != 1) goto loop_end;
+    if (*(int16 *)&stru_3B208[v].field_10[6] != stru_3AA5E[s].field_8) goto loop_end;
+    if (word_330B8 * 2 < word_3A946) goto loop_end;
+
+    h = word_3B4D8 - stru_3AA5E[s].field_0;
+    z = word_3B4E0 - stru_3AA5E[s].field_2;
+    ad = sub_1CFA6(h, z) >> 6;
+    ab = *(int16 *)(aFlogger + var_667 * 32 + 12);
+    if ((unsigned)((ab + 1) >> 1) > (unsigned)ad) goto loop_end;
+
+    var_556 = word_38FE0;
+    sub_1783A(v, s);
+    sub_11BC3(v + 0x20, 2);
+
+loop_end:
+    v++;
+loop_test:
+    if (v >= word_3C046) return;
+
+    if (!(*(uint8 *)&stru_3B208[v].field_10[8] & 1)) goto loop_end;
+    var_667 = *(int16 *)&stru_3B208[v].field_10[6];
+    if (!(*(uint8 *)&stru_3B208[v].field_10[8] & 2)) goto do_patrol_check;
+    if (*(int16 *)&stru_3B208[v].field_10[10] == 0) goto do_patrol_check;
+
+    e = 0;
+    if (*(uint8 *)&stru_3B208[v].field_10[8] & 4) goto do_returning;
+    if (word_336F0 == 0) goto do_mode3;
+    if ((ENT_FLAGS(v) & 0x140) != 0 && word_336F0 <= word_3995C) goto do_mode3;
+
+    y = word_3B4D8;
+    j = word_3B4E0;
+    l = word_3B5D6;
+    e = 1;
+    if (word_333DA == 0) goto got_target;
+    y = word_333D2;
+    j = word_333D4;
+    l = sub_1CF64(var_547, 1000, 30000);
+
+got_target_alt:
+    goto got_target;
+}
+#undef ENT_FLAGS
+// TODO: sub_17594 (seg000:7594-7839) - unimplemented
 
 // ==== seg000:0x783A ====
 void spawnEnemyAircraft(int slot, int objType)
