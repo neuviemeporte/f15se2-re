@@ -169,6 +169,8 @@ EXTRN _sub_136D2:PROC
 EXTRN _sub_1378E:PROC
 EXTRN _sub_185BE:NEAR
 sub_185BE equ _sub_185BE
+EXTRN _sub_186F8:NEAR
+sub_186F8 equ _sub_186F8
 EXTRN _sub_194D0:near
 sub_194D0 equ _sub_194D0
 
@@ -271,6 +273,10 @@ PUBLIC _word_3C0A2
 PUBLIC _flagFarToNear
 PUBLIC _word_3BFA2
 PUBLIC _word_3B4DC
+PUBLIC _word_3C044
+PUBLIC _word_3BEC2
+PUBLIC _word_3BED6
+PUBLIC _aFlogger
 PUBLIC _byte_3C16E
 PUBLIC _word_3BEC0
 PUBLIC _word_3BED0
@@ -9991,98 +9997,7 @@ LAB_1000_85b8:
     ret
 sub_179EE endp
 ; ------------------------------seg000:0x86f8------------------------------
-sub_186F8 proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    push SI
-    mov AX,24h
-    imul word ptr [BP + 4h]
-    mov SI,AX
-    test byte ptr [SI + offset _stru_3B208 + 18],20h
-    jz LAB_1000_8711
-    jmp LAB_1000_87a6
-LAB_1000_8711:
-    mov BX,word ptr [SI + offset _stru_3B208 + 16]
-    mov CL,5h
-    shl BX,CL
-    inc word ptr [BX + offset aFlogger + 22]
-    test word ptr [SI + offset _stru_3B208 + 18],800h
-    jz LAB_1000_8729
-    dec word ptr [word_3C044]
-LAB_1000_8729:
-    mov AX,word ptr [_word_336FC]
-    cmp word ptr [BP + 4h],AX
-    jnz LAB_1000_8737
-    mov word ptr [_word_336FC],0ffffh
-LAB_1000_8737:
-    mov AX,24h
-    imul word ptr [BP + 4h]
-    mov SI,AX
-    or byte ptr [SI + offset _stru_3B208 + 18],20h
-    mov word ptr [word_336F6],0ffffh
-    mov AX,word ptr [SI + offset word_3B204]
-    mov word ptr [word_3BEC2],AX
-    mov AX,word ptr [SI + offset word_3B206]
-    mov word ptr [word_3BED6],AX
-    mov AX,word ptr [SI + offset _stru_3B208]
-    mov word ptr [word_3BFA2],AX
-    mov word ptr [word_3B4DC],80h
-    mov word ptr [BP + -2h],3h
-    test word ptr [SI + offset _stru_3B208 + 18],4000h
-    jz LAB_1000_8778
-    mov AX,80h
-    jmp LAB_1000_877a
-    db 90h
-LAB_1000_8778:
-    sub AX,AX
-LAB_1000_877a:
-    add AX,word ptr [SI + offset _stru_3B208 + 16]
-    push AX
-    mov AX,3h
-    push AX
-    call sub_11D10
-    add SP,4h
-    mov AX,24h
-    imul word ptr [BP + 4h]
-    mov BX,AX
-    cmp word ptr [BX + offset _stru_3B208 + 20],0h
-    jnz LAB_1000_87a6
-    mov AX,24h
-    imul word ptr [BP + 4h]
-    mov BX,AX
-    and word ptr [BX + offset _stru_3B208 + 18],1c1h
-LAB_1000_87a6:
-    mov AX,24h
-    imul word ptr [BP + 4h]
-    mov BX,AX
-    mov AX,word ptr [BX + offset _stru_3B208 + 16]
-    mov CL,5h
-    shl AX,CL
-    add AX,2c8h
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcpy
-    add SP,4h
-    mov AX,2h
-    push AX
-    push AX
-    call makeSound
-    add SP,4h
-    cmp word ptr [_word_3C45C],1h
-    jnz LAB_1000_87e4
-    mov AX,word ptr [_word_336F2]
-    cmp word ptr [BP + 4h],AX
-    jnz LAB_1000_87e4
-    mov word ptr [_word_39604],1h
-LAB_1000_87e4:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-    nop
-sub_186F8 endp
+; sub_186F8 - replaced by C implementation
 ; ------------------------------seg000:0x87e8------------------------------
 ; ------------------------------seg000:0x87ea------------------------------
 sub_187EA proc near
@@ -10593,6 +10508,7 @@ zoomOut equ _zoomOut
 EXTRN _sub_19C0C:near
 sub_19C0C equ _sub_19C0C
 ; ------------------------------seg000:0x9c83------------------------------
+
 ; ------------------------------seg000:0x9c84------------------------------
 EXTRN _sub_19C84:near
 sub_19C84 equ _sub_19C84
@@ -16675,6 +16591,7 @@ aIl76 db 'IL76',0
 aMig23 db 'MIG-23',0
     db 20h
 aFlogger db 'Flogger',0
+_aFlogger equ aFlogger
     db 0
     db 0
     db 0E4h
@@ -39241,6 +39158,7 @@ word_3BEBC dw ?
 _word_3BEBE dw ?
 _word_3BEC0 dw ?
 word_3BEC2 dw ?
+_word_3BEC2 equ word_3BEC2
 _byte_3BEC4 db ?
     db ? ;align 4
     db ?
@@ -39254,6 +39172,7 @@ _word_3BED2 dw ?
 word_3BED4 dw ?
 _word_3BED4 equ word_3BED4
 word_3BED6 dw ?
+_word_3BED6 equ word_3BED6
 _byte_3BED8 db 64h dup(?)
 word_3BF3C dw ?
 word_3BF3E dw ?
@@ -39326,6 +39245,7 @@ word_3C03E dw ?
 _word_3C040 dw ?
 word_3C042 dw ?
 word_3C044 dw ?
+_word_3C044 equ word_3C044
 _word_3C046 dw ?
 word_3C048 dw ?
 _string_3C04A db 50h dup(?)

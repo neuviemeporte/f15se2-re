@@ -800,3 +800,36 @@ int sub_1A25C(char param_1)
         }
     }
 }
+
+// ==== seg000:0x86f8 ====
+void sub_186F8(int param_1)
+{
+    int p;
+
+    if (!(stru_3B208[param_1].field_10[8] & 0x20)) {
+        *(int16 *)&aFlogger[*(int16 *)&stru_3B208[param_1].field_10[6] * 32 + 22] += 1;
+        if (*(uint16 *)&stru_3B208[param_1].field_10[8] & 0x800) {
+            word_3C044--;
+        }
+        if (param_1 == word_336FC) {
+            word_336FC = -1;
+        }
+        stru_3B208[param_1].field_10[8] |= 0x20;
+        word_336F6 = -1;
+        word_3BEC2 = *(int16 *)((char *)&stru_3B208[param_1] - 4);
+        word_3BED6 = *(int16 *)((char *)&stru_3B208[param_1] - 2);
+        word_3BFA2 = stru_3B208[param_1].field_0;
+        word_3B4DC = 0x80;
+        p = 3;
+        sub_11D10(p, (*(uint16 *)&stru_3B208[param_1].field_10[8] & 0x4000 ? 0x80 : 0) + *(int16 *)&stru_3B208[param_1].field_10[6]);
+        if (*(int16 *)&stru_3B208[param_1].field_10[10] != 0) goto done;
+        *(uint16 *)&stru_3B208[param_1].field_10[8] &= 0x1c1;
+    done:
+        ;
+    }
+    strcpy((char *)strBuf, (char *)(*(int16 *)&stru_3B208[param_1].field_10[6] * 32 + 0x2c8));
+    makeSound(2, 2);
+    if (word_3C45C == 1 && param_1 == word_336F2) {
+        word_39604 = 1;
+    }
+}

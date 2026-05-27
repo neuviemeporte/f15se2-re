@@ -265,7 +265,7 @@ int sub_179EE();
 // ==== seg000:0x85be ====
 int sub_185BE();
 // ==== seg000:0x86f8 ====
-int sub_186F8();
+void sub_186F8(int param_1);
 // ==== seg000:0x87ea ====
 int sub_187EA();
 // ==== seg000:0x89aa ====
