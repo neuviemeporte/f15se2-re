@@ -109,6 +109,9 @@ EXTRN _appendMapEvent:PROC
 EXTRN _drawWeaponAmmo:PROC
 EXTRN _drawWeaponSelectMarker:PROC
 EXTRN _scaleCoordToLod:PROC
+EXTRN _sub_17594:NEAR
+sub_17594 equ _sub_17594
+fireAirThreat equ _sub_17594
 EXTRN _sub_11971:PROC
 EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC
@@ -763,7 +766,14 @@ PUBLIC _word_330B6
 PUBLIC _word_33096
 PUBLIC _word_330B8
 PUBLIC _var_669
+PUBLIC _var_667
 PUBLIC _var_670
+PUBLIC _word_336FA
+PUBLIC _word_3A946
+PUBLIC _word_3C09C
+PUBLIC _aFiredBy
+PUBLIC _word_3B204
+PUBLIC _word_3B206
 PUBLIC _word_3BF90
 
 PUBLIC _missileSpecIndex
@@ -5416,7 +5426,8 @@ updateObjects endp
 _updateObjects equ updateObjects
 ; ------------------------------seg000:0x7593------------------------------
 ; ------------------------------seg000:0x7594------------------------------
-fireAirThreat proc near
+; fireAirThreat (_sub_17594) - now in C (egflight.c)
+if 0
     push BP
     mov BP,SP
     sub SP,20h
@@ -5683,7 +5694,7 @@ LAB_1000_7816:
     pop BP
     ret
     nop
-fireAirThreat endp
+endif
 ; ------------------------------seg000:0x7838------------------------------
 ; ------------------------------seg000:0x783a------------------------------
 updateThreatTargeting proc near
@@ -13162,6 +13173,7 @@ word_336F6 dw 0FFFFh
 _word_336F6 equ word_336F6
 word_336F8 dw 1
 _word_336F8 equ word_336F8
+_word_336FA label byte
 word_336FA dw 0
 _word_336FA equ word_336FA
 _word_336FC dw 0FFFFh
@@ -25849,6 +25861,7 @@ aFiring db ' firing ',0
 _aFiring equ aFiring
     db 0 ;align 2
 word_3815E dw 0
+_aFiredBy label byte
 aFiredBy db ' fired by ',0
 aDash db ' - ',0
 _aTakingOff label byte
@@ -28651,6 +28664,7 @@ _word_3A940 dw ?
 word_3A944 dw ?
 PUBLIC _word_3A944
 _word_3A944 equ word_3A944
+_word_3A946 label byte
 word_3A946 dw ?
 _word_3A946 equ word_3A946
 _unk_3A948 db ?
@@ -28743,7 +28757,9 @@ _buf3d3_3 db 96h dup(?)
 _dword_3B1FE dd ?
 _stru_3B202 db ?
     db ?
+_word_3B204 label byte
 word_3B204 dw ?
+_word_3B206 label byte
 word_3B206 dw ?
     _stru_3B208 SimObject <?>
 word_3B22C dw ?
@@ -30392,6 +30408,7 @@ word_3C048 dw ?
 _word_3C048 equ word_3C048
 _string_3C04A db 50h dup(?)
 _word_3C09A dw ?
+_word_3C09C label byte
 word_3C09C dw ?
 PUBLIC _word_3C09C
 _word_3C09C equ word_3C09C
