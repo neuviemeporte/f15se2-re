@@ -61,7 +61,7 @@ void __cdecl gfxInit();
 // ==== seg000:0x2e2 ====
 int loadF15DgtlBin();
 // ==== seg000:0x334 ====
-int sub_10334(int arg_0);
+void sub_10334(int arg_0);
 // ==== seg000:0x688 ====
 int setupOverlaySlots(uint16 addr);
 // ==== seg000:0x720 ====
@@ -698,6 +698,7 @@ extern uint8 unk_32977[];
 extern int16 word_3298A;
 extern int16 word_3298C;
 extern int16 word_3298E;
+extern int16 word_32990;
 extern uint8 unk_329AB[];
 extern uint8 ovlInsaneFlag;
 extern uint8 aErrorReleasingOverlay[];
@@ -1747,8 +1748,13 @@ extern int16 var_673;
 extern int16 var_592;
 extern int16 *var_134;
 extern int16 var_135;
+extern int16 var_224;
+extern int16 var_225;
+extern int16 var_226;
+extern int16 var_227;
 extern int16 var_595;
 extern int16 var_597;
+extern uint8 var_594;
 extern int16 var_600;
 extern int16 var_349;
 extern int16 var_350;
@@ -1767,7 +1773,6 @@ extern int16 var_670;
 extern int16 var_671;
 extern int16 var_672;
 extern int16 var_674;
-extern uint8 var_594;
 extern int16 *var_568;
 extern int16 var_680;
 extern int16 var_681;
