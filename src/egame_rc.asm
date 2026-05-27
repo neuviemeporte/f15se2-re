@@ -11,6 +11,7 @@ EXTRN _addTileEntry:PROC
 EXTRN _lookupTileEntry:PROC
 EXTRN _projectModelVertices:PROC
 EXTRN _setupViewport:PROC
+EXTRN _computeHudAttitude:PROC
 PUBLIC _byte_3B4E6
 PUBLIC _var_548
 PUBLIC _var_47
@@ -777,9 +778,19 @@ PUBLIC _gfx_getModeFlag
 PUBLIC _gfx_setDacAnimCount
 PUBLIC _gfx_setMonoFlag
 PUBLIC _byte_383E5
+PUBLIC _var_524
+PUBLIC _var_525
+PUBLIC _var_526
+PUBLIC _var_527
+PUBLIC _var_528
+PUBLIC _var_529
 PUBLIC _var_542
+PUBLIC _var_543
 PUBLIC _var_544
 PUBLIC _var_545
+PUBLIC _var_550
+PUBLIC _cosine
+_cosine equ cosine
 PUBLIC _var_547
 PUBLIC _var_549
 PUBLIC _var_552
@@ -3960,179 +3971,7 @@ _otherKeyDispatch endp
 EXTRN _applyRotationDelta:NEAR
 ; ------------------------------seg000:0x5236------------------------------
 ; ------------------------------seg000:0x5237------------------------------
-computeHudAttitude proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    mov AX,word ptr [_var_528]
-    neg AX
-    push AX
-    call _valueToAngle
-    add SP,2h
-    mov word ptr [_var_544],AX
-    push AX
-    call cosine
-    add SP,2h
-    mov word ptr [BP + -2h],AX
-    or AX,AX
-    jnz LAB_1000_525d
-    jmp LAB_1000_537c
-LAB_1000_525d:
-    push word ptr [_var_525]
-    call _abs
-    add SP,2h
-    cmp AX,5a81h
-    jge LAB_1000_528c
-    push word ptr [BP + -2h]
-    push word ptr [_var_525]
-    call signedRatio16
-    add SP,4h
-    push AX
-    call _abs
-    add SP,2h
-    push AX
-    call _valueToAngle
-    add SP,2h
-    mov word ptr [_var_542],AX
-    jmp LAB_1000_52aa
-LAB_1000_528c:
-    push word ptr [BP + -2h]
-    push word ptr [_var_529]
-    call signedRatio16
-    add SP,4h
-    push AX
-    call _abs
-    add SP,2h
-    push AX
-    call _complementAngle
-    add SP,2h
-    mov word ptr [_var_542],AX
-LAB_1000_52aa:
-    cmp word ptr [_var_525],0h
-    jg LAB_1000_52bd
-    cmp word ptr [_var_529],0h
-    jge LAB_1000_52bd
-    add byte ptr [_var_543],80h
-LAB_1000_52bd:
-    cmp word ptr [_var_525],0h
-    jle LAB_1000_52d5
-    cmp word ptr [_var_529],0h
-    jge LAB_1000_52d5
-    mov AX,8000h
-    sub AX,word ptr [_var_542]
-    mov word ptr [_var_542],AX
-LAB_1000_52d5:
-    cmp word ptr [_var_525],0h
-    jge LAB_1000_52eb
-    cmp word ptr [_var_529],0h
-    jle LAB_1000_52eb
-    mov AX,word ptr [_var_542]
-    neg AX
-    mov word ptr [_var_542],AX
-LAB_1000_52eb:
-    push word ptr [_var_526]
-    call _abs
-    add SP,2h
-    cmp AX,5a81h
-    jge LAB_1000_531a
-    push word ptr [BP + -2h]
-    push word ptr [_var_526]
-    call signedRatio16
-    add SP,4h
-    push AX
-    call _abs
-    add SP,2h
-    push AX
-    call _valueToAngle
-    add SP,2h
-    mov word ptr [_var_545],AX
-    jmp LAB_1000_5338
-LAB_1000_531a:
-    push word ptr [BP + -2h]
-    push word ptr [_var_527]
-    call signedRatio16
-    add SP,4h
-    push AX
-    call _abs
-    add SP,2h
-    push AX
-    call _complementAngle
-    add SP,2h
-    mov word ptr [_var_545],AX
-LAB_1000_5338:
-    cmp word ptr [_var_526],0h
-    jg LAB_1000_534b
-    cmp word ptr [_var_527],0h
-    jge LAB_1000_534b
-    add byte ptr [_word_380CC+1],80h
-LAB_1000_534b:
-    cmp word ptr [_var_526],0h
-    jle LAB_1000_5363
-    cmp word ptr [_var_527],0h
-    jge LAB_1000_5363
-    mov AX,8000h
-    sub AX,word ptr [_var_545]
-    mov word ptr [_var_545],AX
-LAB_1000_5363:
-    cmp word ptr [_var_526],0h
-    jge LAB_1000_537a
-    cmp word ptr [_var_527],0h
-    jle LAB_1000_537a
-    sub AX,AX
-    sub AX,word ptr [_var_545]
-    mov word ptr [_var_545],AX
-LAB_1000_537a:
-    jmp LAB_1000_53d0
-LAB_1000_537c:
-    mov word ptr [_var_545],0h
-    push word ptr [_var_524]
-    call _valueToAngle
-    add SP,2h
-    mov word ptr [_var_542],AX
-    cmp word ptr [_var_526],0h
-    jg LAB_1000_53a2
-    cmp word ptr [_var_527],0h
-    jge LAB_1000_53a2
-    add byte ptr [_var_543],80h
-LAB_1000_53a2:
-    cmp word ptr [_var_526],0h
-    jle LAB_1000_53ba
-    cmp word ptr [_var_527],0h
-    jge LAB_1000_53ba
-    mov AX,8000h
-    sub AX,word ptr [_var_542]
-    mov word ptr [_var_542],AX
-LAB_1000_53ba:
-    cmp word ptr [_var_526],0h
-    jge LAB_1000_53d0
-    cmp word ptr [_var_527],0h
-    jle LAB_1000_53d0
-    mov AX,word ptr [_var_542]
-    neg AX
-    mov word ptr [_var_542],AX
-LAB_1000_53d0:
-    cmp word ptr [_var_544],38e3h
-    jle LAB_1000_53e5
-    cmp word ptr [_var_544],4001h
-    jge LAB_1000_53e5
-    mov byte ptr [_word_380D8],1h
-LAB_1000_53e5:
-    cmp word ptr [_var_544],0c71dh
-    jge LAB_1000_53fa
-    cmp word ptr [_var_544],0bfffh
-    jle LAB_1000_53fa
-    mov byte ptr [_word_380D8],1h
-LAB_1000_53fa:
-    cmp byte ptr [_var_550],0h
-    jz LAB_1000_540d
-    cmp word ptr [_var_545],0h
-    jnz LAB_1000_540d
-    mov byte ptr [_word_380D8],1h
-LAB_1000_540d:
-    mov SP,BP
-    pop BP
-    ret
-computeHudAttitude endp
+computeHudAttitude equ _computeHudAttitude
 ; ------------------------------seg000:0x5fdb------------------------------
 sub_15FDB equ _sub_15FDB
 ; ------------------------------seg000:0x606b------------------------------
