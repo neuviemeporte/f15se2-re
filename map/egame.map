@@ -97,7 +97,7 @@ sub_1543B: seg000 NEAR 543b-54b6 R543b-54b6 complete
 sub_154B7: seg000 NEAR 54b7-553f R54b7-553f complete
 sub_15540: seg000 NEAR 5540-5556 R5540-5556 complete
 sub_15557: seg000 NEAR 5557-55aa R5557-55aa complete
-sub_155AB: seg000 NEAR 55ab-5fda R55ab-5c22 U5c23-5c32 R5c33-5fda
+sub_155AB: seg000 NEAR 55ab-5fda R55ab-5c22 U5c23-5c32 R5c33-5fda complete
 sub_15FDB: seg000 NEAR 5fdb-606b R5fdb-606b complete
 sub_1606C: seg000 NEAR 606c-60d2 R606c-60d2 complete
 sub_160D3: seg000 NEAR 60d3-613a R60d3-613a complete
@@ -171,14 +171,14 @@ sub_1C488: seg000 NEAR c488-c660 Rc488-c660 complete
 sub_1C661: seg000 NEAR c661-c6bd Rc661-c6bd complete
 sub_1C6BE: seg000 NEAR c6be-c7a1 Rc6be-c795 Uc796-c797 Rc798-c7a1
 sub_1C7A2: seg000 NEAR c7a2-c7c5 Rc7a2-c7c5 complete
-sub_1C7C6: seg000 NEAR c7c6-c7e9 Rc7c6-c7e9
+sub_1C7C6: seg000 NEAR c7c6-c7e9 Rc7c6-c7e9 complete
 sub_1C7EA: seg000 NEAR c7ea-c82c Rc7ea-c82c complete
 sub_1C82D: seg000 NEAR c82d-c863 Rc82d-c863 complete
 sub_1C864: seg000 NEAR c864-c8a3 Rc864-c890 Uc891-c892 Rc893-c8a3 complete
 sub_1C8A4: seg000 NEAR c8a4-c8dd Rc8a4-c8dd complete
 load15Flt3d3: seg000 NEAR c8de-c9d1 Rc8de-c9d1 complete
 sub_1C9D2: seg000 NEAR c9d2-cb41 Rc9d2-cb41
-sub_1CB42: seg000 NEAR cb42-cf31 Rcb42-cf31
+sub_1CB42: seg000 NEAR cb42-cf31 Rcb42-cf31 complete
 sub_1CF32: seg000 NEAR cf32-cf63 Rcf32-cf63 complete
 sub_1CF64: seg000 NEAR cf64-cf8d Rcf64-cf8d complete
 forceRange: seg000 NEAR cf8e-cfa5 Rcf8e-cfa5 complete
