@@ -40,16 +40,21 @@ As of the time of writing this, the status of the reconstruction is as follows:
 * all C code has been reconstructed, the executable works with the original game
 * assembly routines need porting into C
 * the data segment is still generated from assembly, all variables need to be moved to C
-* code still contains placeholder names for routines and variables, needs experimentation, refactoring and comments to document the purpose of the code, especially around the mission generator
-* some bugs still remain, e.g. missile counts are wrong when in the cockpit
+* code still contains placeholder names for routines and variables, needs experimentation, refactoring and comments to document the purpose of the code, especially around the mission generator. Work has begun on it already, but some routine/var/struct names are obtained from LLMs, so need to be take with a grain of salt.
 
 ## `egame.exe` 
 
-* reconstruction of C code in progress, about 14% done as of 7.04.2025
+* reconstruction of C code in progress, about 95% done as of 27.05.2026
+* assembly routines need porting into C
+* the data segment is still generated from assembly, all variables need to be moved to C
+* likewise refactoring needed
 
 ## `end.exe`
 
-* not started
+* all C code has been reconstructed, the executable works with the original game
+* assembly routines need porting into C, part of it is shared with `start/egame`
+* the data segment is still generated from assembly, all variables need to be moved to C
+* likewise refactoring needed
 
 ## `mgraphic.exe` 
 
