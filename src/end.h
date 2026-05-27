@@ -135,10 +135,10 @@ extern char timerCounter2;
 extern char timerCounter3;
 extern char enterPressed;
 extern int dat_1c8e[];
-extern int16 *spriteAirBlink;
-extern int16 *spriteSamBlink;
-extern int16 *spriteGroundBlink;
-extern int16 *spriteWaypointBlink;
+extern struct SpriteParams* spriteAirBlink;
+extern struct SpriteParams* spriteSamBlink;
+extern struct SpriteParams* spriteGroundBlink;
+extern struct SpriteParams* spriteWaypointBlink;
 extern void far pollJoystick(void);
 
 typedef uint16 MenuItemFlags;
@@ -190,10 +190,10 @@ extern int popupSpriteY[];
 extern int popupSpriteX[];
 
 /* Sprite struct pointers (first word of each sprite descriptor) */
-extern int16 *spriteAir;
-extern int16 *spriteSam;
-extern int16 *spriteGround;
-extern int16 *spriteWaypoint;
+extern struct SpriteParams* spriteAir;
+extern struct SpriteParams* spriteSam;
+extern struct SpriteParams* spriteGround;
+extern struct SpriteParams* spriteWaypoint;
 
 /* Reconstructed C functions */
 void seedRandom(void);
@@ -320,7 +320,7 @@ extern int var_425c[];
 extern int dat_4804;
 extern int var_193[];
 extern int var_192;
-extern int16 *var_102;
+extern struct SpriteParams* var_102;
 
 /* Data symbols used by showPostMissionAwards */
 extern int16 *awardPage;
