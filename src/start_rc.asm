@@ -1502,14 +1502,6 @@ EXTRN _word_18994:WORD
     db 0
     db 1
     db 0
-    db 4
-    db 0
-aAim9m db 'AIM-9M',0
-    db 3 dup(0)
-aSidewinder db 'Sidewinder',0
-    db 0
-    db 17h
-    db 0
 EXTRN _weaponLoadouts:BYTE
     db 1
     db 34 dup(0)
@@ -2262,17 +2254,6 @@ _picDecodeIncrement db 0
     db 260h dup(0)
 _clipDivZeroHandler db 0
     db 159Ch dup(0)
-byte_1B078 db 0
-byte_1B079 db 0
-word_1B07A dw 0
-word_1B07C dw 0
-byte_1B07E db 0
-byte_1B07F db 0
-    db 40h dup(0)
-word_1B0C0 dw 0
-word_1B0C2 dw 0
-word_1B0C4 dw 0
-byte_1B0C6 db 0
 EXTRN _flag4Saved:WORD
 EXTRN _theaterSaved:WORD
 EXTRN _moveDst:DWORD
@@ -2296,8 +2277,6 @@ _fileHandle dw ?
     db 2 dup(?)
 _gameData dd ?
 _wldReadBuf2 dw ?
-byte_1B15A db ?
-    db ?
 _gridBuf5 db 200h dup(?)
     db 2 dup(?)
 _gridBuf4 db 200h dup(?)
@@ -2328,13 +2307,10 @@ _wldReadBuf10 db 100h dup( ?)
 _needSplash dd ?
     _targets Target <?>
     _target2 Target <?>
-    db 208h dup(?)
 EXTRN _word_1D00A:WORD
     db 2 dup(?)
     _wldReadBuf6 Buf6Item 13h dup(<?>)
-    db 36 dup(?)
 _hercFlag db ?
-byte_1D2DD db 0F3h dup(?)
 EXTRN _dword_1D5D0:DWORD
 EXTRN _word_1D5D4:WORD
 EXTRN _word_1D5D6:WORD
@@ -2351,15 +2327,10 @@ _exitCode db ?
 _wldReadBuf9 db 64h dup( ?)
 EXTRN _dword_1D650:DWORD
     db 4 dup(?)
-byte_1D654 db 572h dup(?)
-byte_1DBC6 db 76h dup(?)
-byte_1DC3C db 22h dup(?)
 _readItemSize dw ?
 _wldReadBuf8 db 64h dup( ?)
     db 2 dup(?)
 _intRegs	db 12 dup(?)
-unk_1DCD2 db ?
-    db ?
 _wldReadBuf7 db 64h dup( ?)
 EXTRN _word_1DD38:WORD
     db 2 dup(?)
@@ -2375,7 +2346,6 @@ _wldReadBuf11 db 2EEh dup( ?)
     _terrainPtrUnk TerrainUnk 5 dup(<?>)
 EXTRN _word_1E24A:WORD
     db 2 dup(?)
-byte_1E24C db 0F0h dup(?)
 _wldReadBuf3 dw ?
     db 4 dup(?)
 _commData dd ?
