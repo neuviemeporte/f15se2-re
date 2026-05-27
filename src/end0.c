@@ -295,33 +295,33 @@ int drawEventSprite(int recordIdx)
     switch (flightRecords[recordIdx].status & STATUS_TYPE_MASK) {
         case EVENT_AIR_KILL:
         case EVENT_AIR_KILL2:
-        spriteAir[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
-        spriteAir[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
+        spriteAir->dstX  = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
+        spriteAir->dstY = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
         if (slotInfoTable[(flightRecords[curRecordIdx].unitId & UNIT_ID_MASK) * 16] & 8) {
-                    spriteAir[1] = 0x11e;
+                    spriteAir->srcX = 0x11e;
         } else {
-            spriteAir[1] = 0x12d;
+            spriteAir->srcX = 0x12d;
         }
         return gfx_jump_11_blitSprite(spriteAir);
     case EVENT_GROUND_KILL:
-        spriteGround[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
-        spriteGround[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
+        spriteGround->dstX  = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
+        spriteGround->dstY = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
         return gfx_jump_11_blitSprite(spriteGround);
     case EVENT_SAM_KILL:
-        spriteSam[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
-        spriteSam[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
+        spriteSam->dstX  = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
+        spriteSam->dstY = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
         return gfx_jump_11_blitSprite(spriteSam);
     case EVENT_BOMB_HIT:
-        spriteWaypoint[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1;
-        spriteWaypoint[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1;
+        spriteWaypoint->dstX  = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1;
+        spriteWaypoint->dstY = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1;
         return gfx_jump_11_blitSprite(spriteWaypoint);
     case EVENT_EJECTED:
-        spriteSam[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
-        spriteSam[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
+        spriteSam->dstX  = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
+        spriteSam->dstY = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
         return gfx_jump_11_blitSprite(spriteSam);
     case EVENT_WAYPOINT:
-        spriteWaypoint[4] = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1;
-        spriteWaypoint[5] = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1;
+        spriteWaypoint->dstX  = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1;
+        spriteWaypoint->dstY = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1;
         return gfx_jump_11_blitSprite(spriteWaypoint);
     }
 }
@@ -658,38 +658,38 @@ void blinkWidget(MenuItem *item, int16* gfxPage) {
             switch (flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) {
             case EVENT_AIR_KILL:
             case EVENT_AIR_KILL2:
-                spriteAirBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
-                spriteAirBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
+                spriteAirBlink->dstX = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
+                spriteAirBlink->dstY = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
                 if (slotInfoTable[(flightRecords[curRecordIdx].unitId & UNIT_ID_MASK) << 4] & 8) {
-                    spriteAirBlink[1] = 0x11E;
+                    spriteAirBlink->srcX = 0x11E;
                 } else {
-                    spriteAirBlink[1] = 0x12D;
+                    spriteAirBlink->srcX = 0x12D;
                 }
                 gfx_jump_11_blitSprite(spriteAirBlink);
                 break;
             case EVENT_SAM_KILL:
-                spriteSamBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
-                spriteSamBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
+                spriteSamBlink->dstX = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
+                spriteSamBlink->dstY = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
                 gfx_jump_11_blitSprite(spriteSamBlink);
                 break;
             case EVENT_GROUND_KILL:
-                spriteGroundBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
-                spriteGroundBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
+                spriteGroundBlink->dstX = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
+                spriteGroundBlink->dstY = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
                 gfx_jump_11_blitSprite(spriteGroundBlink);
                 break;
             case EVENT_BOMB_HIT:
-                spriteWaypointBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1;
-                spriteWaypointBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1;
+                spriteWaypointBlink->dstX = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1;
+                spriteWaypointBlink->dstY = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1;
                 gfx_jump_11_blitSprite(spriteWaypointBlink);
                 break;
             case EVENT_EJECTED:
-                spriteSamBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
-                spriteSamBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
+                spriteSamBlink->dstX = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
+                spriteSamBlink->dstY = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
                 gfx_jump_11_blitSprite(spriteSamBlink);
                 break;
             case EVENT_WAYPOINT:
-                spriteWaypointBlink[4] = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1;
-                spriteWaypointBlink[5] = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1;
+                spriteWaypointBlink->dstX = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1;
+                spriteWaypointBlink->dstY = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1;
                 gfx_jump_11_blitSprite(spriteWaypointBlink);
                 break;
             }

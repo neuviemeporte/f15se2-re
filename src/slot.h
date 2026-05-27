@@ -24,7 +24,7 @@ int FAR CDECL gfx_jump_0d_setCurBuf();            /* slot 0x0d: curPage = pageSe
 int FAR CDECL gfx_jump_0e_setCurBuf(uint16 pageNum);      /* slot 0x0e: curPage = pageSegs[n] */
 int FAR CDECL gfx_jump_0f_getBufPtr();            /* slot 0x0f: returns curPageSeg */
 int FAR CDECL gfx_jump_10_getCurBuf();            /* slot 0x10: returns curPageSeg */
-int FAR CDECL gfx_jump_11_blitSprite(int16* spritePtr); /* slot 0x11: sprite blit */
+int FAR CDECL gfx_jump_11_blitSprite(struct SpriteParams* spritePtr); /* slot 0x11: sprite blit */
 int FAR CDECL gfx_jump_12();                      /* slot 0x12: blit core (internal) */
 int FAR CDECL gfx_jump_13();                      /* slot 0x13: sprite variant */
 int FAR CDECL gfx_jump_14();                      /* slot 0x14: sprite variant */
