@@ -115,19 +115,32 @@ EGAME_EXE := $(BUILDDIR)/egame.exe
 EGAME_CONF := $(CONFDIR)/egame_rc.json
 EGAME_BASE := egame_rc.asm
 EGAME_ASM := $(EGAME_BASE)
-EGAME_SRC := egame0.c egame1.c egame1b.c egame2.c egame3.c egame4.c egame6.c
+EGAME_SRC := egmain.c eg3d_a.c eg3d_b.c eg3d_c.c eg3d_d.c eg3d_e.c eg3d_f.c eg3d_g.c eghud.c egflight.c egtacmap.c egui.c egwaypt.c egmath.c egweap.c egfileio.c egpic.c egfarbuf.c
 EGAME_BASEHDR = $(SRCDIR)/egame.h
 EGAME_COBJ := $(call cobj,$(BUILDDIR),$(EGAME_SRC))
 EGAME_OBJ := $(EGAME_COBJ) $(call asmobj,$(BUILDDIR),$(EGAME_ASM))
-$(EGAME_COBJ): $(EGAME_BASEHDR)
 $(EGAME_EXE): | $(BUILDDIR)
 $(EGAME_EXE): $(EGAME_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 
 $(EGAME_COBJ): $(EGAME_BASEHDR)
-$(BUILDDIR)/egame1b.obj: MSC_CFLAGS := /Gs /Zi /Ot /Id:\f15-se2
-$(BUILDDIR)/egame2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/egame3.obj: MSC_CFLAGS := /Od /Id:\f15-se2
+$(BUILDDIR)/egmain.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/eg3d_b.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/eg3d_c.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/eg3d_d.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/eg3d_f.obj: MSC_CFLAGS := /Gs /Zi /Ot /Id:\f15-se2
+$(BUILDDIR)/eghud.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/egtacmap.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/egwaypt.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/egweap.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/eg3d_a.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/eg3d_e.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/eg3d_g.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/egflight.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/egui.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/egmath.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/egfileio.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/egpic.obj: MSC_CFLAGS := /Od /Id:\f15-se2
 
 # reference and target entrypoints (offset of main()) for binary comparison
 EGAME_VRF_REF := bin/egame.exe

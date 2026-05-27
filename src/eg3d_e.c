@@ -1,0 +1,181 @@
+// seg000 optimized code (/Ot)
+#include "egame.h"
+#include "offsets.h"
+#include "pointers.h"
+#include "debug.h"
+#include "slot.h"
+#include "const.h"
+
+#include "comm.h"
+
+#include <dos.h>
+#include <memory.h>
+#include <conio.h>
+#include <bios.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+void sub_13224(char *a, int b, char c) {
+    *(int *)(a + 0x12) = b;
+    *(a + 0x14) = c;
+    memcpy((char *)&byte_3B4E6 + word_38FF8++ * 8, a + 0x0e, 8);
+    *(*(char **)(a + 0x0c) + 6) |= 0x80;
+}
+
+// ==== seg000:0x3266 ====
+int sub_13266(int p1, int p2, int p3, int p4) {
+    for (var_660 = word_38FF8 - 1; var_660 >= 0; var_660--) {
+        if (*(&byte_3B4E6 + var_660 * 8) == p1 &&
+            *(&byte_3B4E6 + var_660 * 8 + 1) == p2 &&
+            *(&byte_3B4E6 + var_660 * 8 + 2) == p3 &&
+            *(&byte_3B4E6 + var_660 * 8 + 3) == p4) {
+            return *(int *)(&byte_3B4E6 + var_660 * 8 + 4);
+        }
+    }
+    return 0;
+}
+
+// TODO: sub_132BA (seg000:32ba-345d) - unimplemented
+
+// ==== seg000:0x345e ====
+void sub_1345E(char *arg_0, int arg_2, int arg_4, int arg_6) {
+    int p, a;
+    var_190 = 0;
+    sub_13932(arg_0, 0, 0, 0, 0, 0, 0, 0);
+    gfx_setBlitOffset(gfx_calcRowAddr(*(int *)(arg_0 + 0x12), *(int *)(arg_0 + 0x0e)));
+    sub_134AC(arg_2, arg_4, arg_6);
+    sub_139AA();
+}
+
+// ==== seg000:0x51f9 ====
+
+// TODO: sub_134AC (seg000:34ac-3637) - unimplemented
+
+// ==== seg000:0x3638 ====
+void sub_13638(int *arg_0, int *arg_1, int *arg_2, int *arg_3) {
+    sub_13694(0, 0, arg_0, arg_2);
+    if (*arg_0 < 0) {
+        *arg_0 = 0;
+    }
+    if (*arg_2 < 0) {
+        *arg_2 = 0;
+    }
+    sub_13694(var_349, var_350, arg_1, arg_3);
+    if (*arg_1 >= var_662) {
+        *arg_1 = var_662 - 1;
+    }
+    if (*arg_3 >= var_662) {
+        *arg_3 = var_662 - 1;
+    }
+}
+
+// ==== seg000:0x3694 ====
+void sub_13694(int arg_0, int arg_1, int *arg_2, int *arg_3) {
+    *arg_2 = (arg_0 - word_3298C + var_663) / var_661;
+    *arg_3 = ((arg_1 - word_3298E) * 4 / 3 + var_664) / var_661;
+}
+
+// ==== seg000:0x36d2 ====
+void sub_136D2(char far *param_1, int param_3, int param_4) {
+    *(char far **)&var_200 = param_1;
+    var_200++;
+    var_216 = 0;
+    sub_202DA();
+    if (word_3C16C >= 3) {
+        if ((**(char far **)&var_200 & 0x40) != var_665)
+            return;
+    }
+    switch ((unsigned)(unsigned char)**(char far **)&var_200 & 0x3f) {
+    case 0x3e:
+        return;
+    case 0x3f:
+        sub_1374A();
+        return;
+    }
+    sub_1378E(param_3, param_4);
+    sub_13816(param_3, param_4);
+    sub_20A46();
+    sub_20FDC();
+}
+
+// ==== seg000:0x378e ====
+void sub_1378E(int param_1, int param_2) {
+    long p;
+    int b;
+
+    p = 1L;
+    var_257 = (int)(unsigned char)(*((*(char far **)&var_200)++)) & 0x1f;
+    var_259 = -1;
+    var_260 = -1;
+    *(char *)&var_258 = (var_257 > 0x10) ? 1 : 0;
+    b = 0;
+    while (b < var_257) {
+        var_200 += 4;
+        if (*(*(int far **)&var_200)++ < 0) {
+            *(long *)&var_259 ^= p;
+        }
+        var_200 += 2;
+        p <<= 1;
+        b++;
+    }
+}
+
+
+
+// ==== seg000:0x3816 ====
+void sub_13816(int arg_0, int arg_1) {
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+
+    b = (int)(unsigned char)**(char far **)&var_200 & 0x80;
+    var_256 = (int)(unsigned char)(*(*(char far **)&var_200)++) & 0x7F;
+    for (p = 0; p < var_256; p++) {
+        var_200 += (unsigned char)var_258 * 2 + 2;
+        if (b != 0) {
+            a = (int)(unsigned char)(*(*(char far **)&var_200)++);
+            c = (((int16 *)&byte_3B7FC[0x600])[buf3d3_1[a]] >> word_3C042) + arg_0;
+            d = (((int16 *)byte_3BE3E)[buf3d3_2[a]] >> word_3C042) + arg_1;
+        } else {
+            c = (*(*(int far **)&var_200)++ >> word_3C042) + arg_0;
+            d = (*(*(int far **)&var_200)++ >> word_3C042) + arg_1;
+            var_200 += 2;
+        }
+        (&word_34684)[p * 2] = 1;
+        (&word_34686)[p * 2] = 1;
+        *(long *)((char *)&word_34868 + p * 4) = (long)(c + word_3298C);
+        *(long *)((char *)&word_34A4C + p * 4) = (long)(-sub_13922(d) + word_3298E);
+    }
+}
+
+// ==== seg000:0x3922 ====
+int sub_13922(int arg_0) {
+    return arg_0 - (arg_0 >> 2);
+}
+
+// ==== seg000:0x3932 ====
+void sub_13932(char *arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c, int arg_e) {
+    sub_139C0((int)arg_0);
+    sub_13A6C(arg_2, arg_4, arg_6);
+    sub_13A90(arg_8, arg_a, arg_c);
+    if (arg_e != 0) {
+        var_315 = 0;
+        if (word_38FDC == 0) {
+            *(uint8 *)&var_316 = 1;
+        }
+        if (*(uint8 *)&var_316 == 0) {
+            sub_20658();
+        }
+        while (*(uint8 *)&origCBreakSeg != 0)
+            ;
+        sub_10334(*(int *)(arg_0 + 4));
+    }
+    var_255 = 0;
+    var_261 -= 0x3000 / word_330C4;
+}
+
+// ==== seg000:0x3a6c ====

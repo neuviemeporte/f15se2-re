@@ -1,0 +1,220 @@
+// seg000 optimized code (/Ot)
+#include "egame.h"
+#include "offsets.h"
+#include "pointers.h"
+#include "debug.h"
+#include "slot.h"
+#include "const.h"
+
+#include "comm.h"
+
+#include <dos.h>
+#include <conio.h>
+#include <bios.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <memory.h>
+
+
+int sub_1A25C(char param_1)
+{
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+    int g;
+    int h;
+    int i;
+    int j;
+
+    h = var_588 + 1;
+    sub_19E44(0);
+    sub_21444(param_1 == 0 ? var_564 : var_565, 0x78, 0x68, 0xc7, 0xaf);
+    sub_19E44(8);
+    j = 1;
+    if (var_588 < 2 && word_38FDC != 0) {
+        j = (1 << (2 - (unsigned char)var_588)) + 1;
+    }
+    i = 1 - j;
+    e = word_3BEC0 & 0xf800;
+    g = word_3BED0 & 0xf800;
+    f = i * 2;
+    while (j * 2 >= f) {
+        sub_1A7C4(f * 0x400 + e, g + 0x1c00);
+        p = var_279;
+        b = var_282;
+        sub_1A7C4(f * 0x400 + e, g - 0x1800);
+        sub_19C84(p, b, var_279, var_282, 0x78, 0xc7, 0x68, 0xaf, 0);
+        f += 2;
+    }
+    f = i * 2;
+    while (j * 2 >= f) {
+        sub_1A7C4(e + 0x1c00, f * 0x400 + g);
+        p = var_279;
+        b = var_282;
+        sub_1A7C4(e - 0x1800, f * 0x400 + g);
+        sub_19C84(p, b, var_279, var_282, 0x78, 0xc7, 0x68, 0xaf, 0);
+        f += 2;
+    }
+    for (f = 0; f < word_3C046; f++) {
+        if ((stru_3B208[f].field_10[8] & 2) && *(int16 *)&stru_3B208[f].field_10[10] != 0) {
+            sub_1A7C4(*(int16 *)((char *)&stru_3B208[f] - 4), *(int16 *)((char *)&stru_3B208[f] - 2));
+            if (word_3C016 != -1) {
+                if (word_3C45C == 1 && f == word_336F2) {
+                    sub_1A740(var_279, var_282, 7);
+                }
+                if (word_336F8 > 0 && f == 0xffff - word_3BE96) {
+                    sub_1A740(var_279, var_282, word_38F72);
+                }
+                a = *(int16 *)&stru_3B208[f].field_10[0] - var_542 + 0x800;
+                d = stru_3B208[f].field_0 - var_547;
+                c = 0;
+                if (d < -1000) {
+                    c = 1;
+                }
+                if (d > 1000) {
+                    c = 2;
+                }
+                sub_1A872((a >> 12) & 0xf, c, var_279, var_282);
+            }
+        }
+    }
+    for (f = 0; f < 12; f++) {
+        if (*(int16 *)&stru_335C4[f].field_10[4] != 0) {
+            sub_1A7C4(stru_335C4[f].field_0, stru_335C4[f].field_2);
+            if (word_3C016 != -1) {
+                if (sams[*(int16 *)&stru_335C4[f].field_10[6]].field_C <= 0) {
+                    sub_19E44(0x0c);
+                } else {
+                    sub_19E44(0x0e);
+                }
+                if (sams[*(int16 *)&stru_335C4[f].field_10[6]].field_C == 3) {
+                    sub_19E44(*(char *)&gfxModeUnset != 0 ? 8 : 0x0d);
+                }
+                if (!(stru_335C4[f].field_4 & 1)) {
+                    sub_19E44(7);
+                }
+                if (f >= 8) {
+                    sub_19E44(0x0f);
+                }
+                a = stru_335C4[f].field_8 - var_542;
+                sub_19D86(var_279, var_282, var_279 - sub_1D178(a, h), sub_1D190(a, h) + var_282);
+            }
+        }
+    }
+    for (f = 0; f < word_3BED2; f++) {
+        if (!(stru_3AA5E[f].field_6 & 0x80)) {
+            sub_1A7C4(stru_3AA5E[f].field_0, stru_3AA5E[f].field_2);
+            if (word_3C016 != -1) {
+                if (word_3C45C == 2 && f == word_336F4) {
+                    sub_1A740(var_279, var_282, 7);
+                }
+                a = 5;
+                if (stru_3AA5E[f].field_6 & 0x201) {
+                    a = (((-var_542 + 0x1000) >> 13) & 3) + 8;
+                }
+                if (stru_3AA5E[f].field_4 != 0) {
+                    a = 1;
+                }
+                if (stru_3AA5E[f].field_6 & 8) {
+                    a = 7;
+                }
+                if (f == word_3B146 || f == word_3B158) {
+                    a = 6;
+                }
+                sub_1A872(a, 3, var_279, var_282);
+            }
+        }
+    }
+    sub_1A7C4(word_3BEC0, word_3BED0);
+    if (word_3C016 != -1) {
+        sub_1A872(0, 3, var_279, var_282);
+    }
+    for (f = 0; f < 4; f++) {
+        if ((&word_333DA)[f * 6] != 0) {
+            sub_1A7C4((&word_333D2)[f * 6], (&word_333D4)[f * 6]);
+            if (word_3C016 != -1) {
+                switch ((&word_333D8)[f * 6]) {
+                case 1:
+                    sub_1A872(2, 3, var_279, var_282);
+                    break;
+                case 2:
+                    sub_1A872(3, 3, var_279, var_282);
+                    break;
+                }
+            }
+        }
+    }
+}
+
+// ==== seg000:0xa740 ====
+void sub_1A740(int arg_0, int arg_2, int arg_4) {
+    sub_19E44(arg_4);
+    sub_19D86(var_279 - 4, var_282 - 3, var_279 + 4, var_282 - 3);
+    sub_19D86(var_279 + 4, var_282 - 3, var_279 + 4, var_282 + 3);
+    sub_19D86(var_279 + 4, var_282 + 3, var_279 - 4, var_282 + 3);
+    sub_19D86(var_279 - 4, var_282 + 3, var_279 - 4, var_282 - 3);
+}
+
+// ==== seg000:0xa7c4 ====
+
+void sub_1A7C4(int arg_0, int arg_2) {
+    int p;
+    int a;
+    char b;
+    word_3C016 = 0;
+    b = 7 - (char)var_588;
+    p = (arg_0 - word_3BEC0) >> b;
+    a = (word_3BED0 - arg_2) >> b;
+    var_279 = sub_1D190(var_542, p) - sub_1D178(var_542, a);
+    var_282 = sub_1D190(var_542, a) + sub_1D178(var_542, p);
+    var_279 += 0xa0;
+    var_282 = -var_282 + 0x98;
+    if (var_279 < 0x7c || var_279 > 0xc3) {
+        word_3C016 = -1;
+    }
+    if (var_282 < 0x6b || var_282 > 0xac) {
+        word_3C016 = -1;
+    }
+}
+
+// ==== seg000:0xa872 ====
+void sub_1A872(int arg_0, int arg_2, int arg_4, int arg_6) {
+    var_569 = gfxBufPtr;
+    var_570 = arg_0 * 8 + 1;
+    var_571 = arg_2 * 8 + 0x1f;
+    var_572 = (byte_3C5A0 != 0);
+    var_573 = arg_4 - 3;
+    var_574 = arg_6 - 3;
+    var_575 = 7;
+    var_576 = 7;
+    gfx_jump_47(&word_383AE);
+}
+
+// ==== seg000:0xa8c8 ====
+void sub_1A8C8(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c) {
+    var_577 = gfxBufPtr;
+    var_578 = arg_4;
+    var_579 = arg_6;
+    var_580 = (byte_3C5A0 != 0);
+    var_581 = arg_0;
+    var_582 = arg_2;
+    var_583 = arg_8;
+    var_584 = arg_a;
+    var_586 = (char)arg_c;
+    if (arg_c != 0) {
+        var_585 = 1;
+        gfx_jump_47(&word_383CC);
+        return;
+    }
+    var_585 = 0x10;
+    gfx_jump_49(&word_383CC);
+}
+
+// TODO: sub_1A9F8 (seg000:a9f8-b146) - unimplemented
+// TODO: sub_1B147 (seg000:b147-c1b8) - large unimplemented function
+// Once implemented, try merging egame2e.c + egame1j.c (if register spill doesn't affect codegen)
