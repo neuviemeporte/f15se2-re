@@ -567,7 +567,6 @@ int far drawModelDisplayList() { return 0; }
 int drawModelPoint() { return 0; }
 int far drawPolygonOutline(int, int, int*, int) { return 0; }
 int far fillSpanRect(int16* param_1, int param_2, int param_3, int param_4, int param_5) { return 0; }
-int fireGroundThreat(int) { return 0; }
 int fixedMulQ14(int arg_0, int arg_2) { return 0; }
 int far flushSpanDirtyRect() { return 0; }
 int keyDispatch(int16 scanCode) { return 0; }
