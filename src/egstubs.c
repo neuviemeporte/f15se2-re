@@ -223,6 +223,24 @@ struct Projectile stru_335C4[1];
 struct ViewSnapshot stru_3A95A[1];
 struct MapTarget stru_3AA5E[1];
 struct SimObject stru_3B202[1];
+struct SimObject stru_3B208[1];
+/* --- data referenced by drawHudWorldOverlay (egui.c) --- */
+char aAt_0[] = " at ";
+uint8 aDestroyedByGun[] = " destroyed by gunfire";
+uint8 aDestroyedByG_0[] = " destroyed by gunfire";
+uint8 aHitByGunfire[] = "Hit by gunfire";
+uint8 aNoTarget[] = "No Target";
+uint8 aNoTarget_0[] = "No Target";
+uint8 aPrimaryTarget[] = "Primary Target";
+uint8 aSecondaryTarget[] = "Secondary Target";
+int16 var_593;
+int16 var_675;
+int16 var_676;
+int16 var_677;
+int word_39606;
+int16 word_3BEBC;
+int16 word_3BEC8;
+int16 word_3BECE;
 char tempString[80];
 uint8 unk_33E1A[1];
 char unk_34121[1];
@@ -568,7 +586,6 @@ int cosine(int) { return 0; }
 int createFile(const char *arg_0, int arg_1) { return 0; }
 int __cdecl drawCenteredLabelBox(int, char *) { return 0; }
 int far drawClipLineGlobal() { return 0; }
-int drawHudWorldOverlay() { return 0; }
 int far drawModelDisplayList() { return 0; }
 int drawModelPoint() { return 0; }
 int far drawPolygonOutline(int, int, int*, int) { return 0; }

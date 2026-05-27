@@ -252,7 +252,3 @@ next3:
 done:
     ;
 }
-
-
-// TODO: drawHudWorldOverlay (seg000:b147-c1b8) - large unimplemented function
-// Once implemented, try merging egame2e.c + egame1j.c (if register spill doesn't affect codegen)

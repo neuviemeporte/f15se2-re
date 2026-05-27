@@ -240,7 +240,7 @@ int valueToAngle(int value);
 // ==== seg000:0x5540 ====
 int complementAngle(int arg_0);
 // ==== seg000:0x5557 ====
-int isqrt();
+int isqrt(int value);
 // ==== seg000:0x55ab ====
 void renderFrame();
 // ==== seg000:0x5fdb ====
@@ -374,7 +374,7 @@ int captureScopePanel();
 // ==== seg000:0xa9f8 ====
 void updateTargetLock();
 // ==== seg000:0xb147 ====
-int drawHudWorldOverlay();
+void drawHudWorldOverlay(void);
 // ==== seg000:0xc1b9 ====
 void drawTargetBox(int, int, int, int);
 // ==== seg000:0xc2f8 ====
@@ -388,7 +388,7 @@ void projectWorldToHud(int worldX, int worldY, int worldZ);
 // ==== seg000:0xc661 ====
 long rotateVectorComponent(int axis, int vecX, int vecY, int vecZ);
 // ==== seg000:0xc6be ====
-int findWaypointEntry();
+int findWaypointEntry(int mapX, int mapY);
 // ==== seg000:0xc7a2 ====
 int computeMapTargetRange(int targetIdx);
 // ==== seg000:0xc7c6 ====
@@ -406,7 +406,7 @@ void load15Flt3d3();
 // ==== seg000:0xc9d2 ====
 void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int param_5, int param_6, int param_7, int scaleShift);
 // ==== seg000:0xcb42 ====
-void drawTargetView();
+void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param_5, int param_6, int param_7, int mode, int shift);
 // ==== seg000:0xcf32 ====
 int shapeDataOffset(int param_1);
 // ==== seg000:0xcf64 ====
@@ -1793,7 +1793,11 @@ extern int16 var_669;
 extern int16 var_670;
 extern int16 var_671;
 extern int16 var_672;
+extern int16 var_593;
 extern int16 var_674;
+extern int16 var_675;
+extern int16 var_676;
+extern int16 var_677;
 extern int16 *var_568;
 extern int16 var_680;
 extern int16 var_681;
