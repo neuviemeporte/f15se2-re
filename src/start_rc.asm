@@ -45,8 +45,6 @@ PUBLIC _word_1B960
 PUBLIC _fileHandle
 PUBLIC _scenarioFoundArr
 PUBLIC _difficultySaved
-PUBLIC _theaterSaved
-PUBLIC _flag4Saved
 PUBLIC _todayMissStrBuf
 PUBLIC _readItemSize
 PUBLIC _wldReadBuf5Size
@@ -108,9 +106,7 @@ PUBLIC _audio_jump_65
 PUBLIC _audio_jump_67
 PUBLIC _audio_jump_6b
 PUBLIC _audio_jump_6c
-PUBLIC _dictionaryIndex
 PUBLIC _picDecodeDictionary
-PUBLIC _picWorkData
 PUBLIC _picDecodeIncrement
 PUBLIC _clipDivZeroHandler
 
@@ -2247,10 +2243,20 @@ EXTRN _picFileWord:WORD
 EXTRN _picRemainingBitCount:BYTE
 EXTRN _picByteUnsignedFlag:BYTE
 EXTRN _picSlotCounter:WORD
+; dictionaryIndex + picWorkData + picDecodeDictionary + picDecodeIncrement +
+; clipDivZeroHandler form a single contiguous block used by the LZW pic decoder.
+; dictionaryIndex is stack space, picWorkData is boundary marker,
+; the rest is a stride-3 dictionary buffer (0x1800 bytes).
+; They MUST remain contiguous.
+PUBLIC _dictionaryIndex
+PUBLIC _picWorkData
 _dictionaryIndex db 0
     db 200h dup(0)
 _picWorkData db 0
     db 2 dup(0)
+; picDecodeDictionary + picDecodeIncrement + clipDivZeroHandler form a single
+; contiguous 0x1800-byte buffer used by LZW decoder with stride-3 access.
+; They MUST remain contiguous.
 _picDecodeDictionary dw 0
 _picDecodeIncrement db 0
     db 260h dup(0)
@@ -2267,8 +2273,8 @@ word_1B0C0 dw 0
 word_1B0C2 dw 0
 word_1B0C4 dw 0
 byte_1B0C6 db 0
-_flag4Saved dw 0
-_theaterSaved dw 0
+EXTRN _flag4Saved:WORD
+EXTRN _theaterSaved:WORD
 EXTRN _moveDst:DWORD
 EXTRN _bufCoordStr:BYTE
 EXTRN _byte_1B0D1:BYTE
