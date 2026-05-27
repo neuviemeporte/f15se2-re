@@ -194,7 +194,70 @@ void destroyAircraft(int objIdx)
     }
 }
 
-// TODO: processTargetReached (seg000:87ea-89a9) - unimplemented
+void sub_187EA(int param_1)
+{
+    int p;
+    int a;
+    int b;
+
+    placeString(param_1);
+    p = 1;
+    if ((stru_3AA5E[param_1].flags & 0x80) == 0) {
+        if (stru_3AA5E[param_1].flags & 0x1000) {
+            word_3C048--;
+        }
+
+        word_39808 = findNearestTileObject(
+            (long)stru_3AA5E[param_1].mapX << 5,
+            (0x8000L - (long)stru_3AA5E[param_1].mapY) << 5);
+
+        if (param_1 != 0) {
+            if (stru_3AA5E[param_1].field_4 == 0) {
+                p = 0x0c;
+            }
+            *((uint8 *)&stru_3AA5E[param_1].flags) |= 0x80;
+            stru_3AA5E[param_1].field_4 = 0;
+            for (a = 0; a < 2; a++) {
+                if ((&word_3B146)[a * 9] == param_1) {
+                    markTargetReached(a);
+                    p |= (a != 0 ? 0x40 : 0x80);
+                    word_336EE = frameTick + word_330C4;
+                    makeSound(0, 2);
+                }
+            }
+            appendMapEvent(p, param_1);
+            b = getTargetSymbol(param_1);
+        } else {
+            if (isTargetOverWater(param_1) != 0) {
+                b = (int)(char)byte_3BEC4[0];
+            } else {
+                b = (int)(char)byte_3C02A[0];
+            }
+            if (b != *word_39808) {
+                byte_3BED8[*word_39808]++;
+                appendMapEvent(2, *word_39808);
+            }
+            *(((uint8 *)&b) + 1) |= 1;
+            stru_3AA5E[param_1].field_C = b;
+        }
+
+        if (word_39808 != 0) {
+            addTileEntry((char *)word_39808, shapeDataOffset(b), b);
+        }
+    }
+
+    word_336F6 = param_1;
+    makeSound(2, 2);
+    if (word_3C45C == 2 && param_1 == word_336F4) {
+        word_39604 = 1;
+    }
+    if (word_3C09A == 0) {
+        redrawTacMap(word_3BEC0, word_3BED0);
+    }
+    if (word_330B8 < 2) {
+        sub_166BE();
+    }
+}
 
 // ==== seg000:0x89aa ====
 int markTargetReached(int targetIdx) {

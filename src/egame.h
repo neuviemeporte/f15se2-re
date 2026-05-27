@@ -270,7 +270,7 @@ int samCanAcquireTarget();
 // ==== seg000:0x86f8 ====
 void destroyAircraft(int objIdx);
 // ==== seg000:0x87ea ====
-int processTargetReached();
+void sub_187EA(int param_1);
 // ==== seg000:0x89aa ====
 int markTargetReached();
 // ==== seg000:0x8a44 ====
