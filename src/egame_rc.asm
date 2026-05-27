@@ -8,6 +8,7 @@ EXTRN _sub_15411:PROC
 EXTRN _sub_1543B:PROC
 EXTRN _sub_13224:PROC
 EXTRN _sub_13266:PROC
+EXTRN _sub_13816:PROC
 EXTRN _sub_139C0:PROC
 PUBLIC _byte_3B4E6
 PUBLIC _var_660
@@ -195,7 +196,12 @@ PUBLIC _var_257
 PUBLIC _var_258
 PUBLIC _var_259
 PUBLIC _var_260
-PUBLIC _sub_13816
+PUBLIC _var_256
+PUBLIC _word_34684
+PUBLIC _word_34686
+PUBLIC _word_34868
+PUBLIC _word_34A4C
+PUBLIC _word_3C042
 PUBLIC _sub_202DA
 PUBLIC _sub_20A46
 PUBLIC _sub_20FDC
@@ -3767,104 +3773,7 @@ sub_1374A endp
 _sub_1374A equ sub_1374A
 ; ------------------------------seg000:0x3815------------------------------
 ; ------------------------------seg000:0x3816------------------------------
-sub_13816 proc near
-    push BP
-    mov BP,SP
-    sub SP,0ah
-    push SI
-    les BX,dword ptr [_var_200]
-    mov AL,byte ptr ES:[BX]
-    sub AH,AH
-    db 25h, 80h, 00h ; and AX,80h (force imm16 encoding)
-    mov word ptr [BP + -6h],AX
-    inc word ptr [_var_200]
-    mov AL,byte ptr ES:[BX]
-    sub AH,AH
-    db 25h, 7Fh, 00h ; and AX,7fh (force imm16 encoding)
-    mov word ptr [_var_256],AX
-    mov word ptr [BP + -2h],0h
-    jmp LAB_1000_38b5
-LAB_1000_3842:
-    mov BX,word ptr [_var_200]
-    add word ptr [_var_200],2h
-    mov ES,word ptr [_var_201]
-    mov AX,word ptr ES:[BX]
-    mov CL,byte ptr [word_3C042]
-    sar AX,CL
-    add AX,word ptr [BP + 4h]
-    mov word ptr [BP + -8h],AX
-    mov BX,word ptr [_var_200]
-    add word ptr [_var_200],2h
-    mov AX,word ptr ES:[BX]
-    sar AX,CL
-    add AX,word ptr [BP + 6h]
-    mov word ptr [BP + -0ah],AX
-    add word ptr [_var_200],2h
-LAB_1000_3877:
-    mov SI,word ptr [BP + -2h]
-    mov CL,2h
-    shl SI,CL
-    mov word ptr [SI + offset word_34684],1h
-    mov word ptr [SI + offset word_34686],1h
-    mov AX,word ptr [BP + -8h]
-    add AX,word ptr [word_3298C]
-    cwd
-    mov word ptr [SI + offset word_34868],AX
-    mov word ptr [SI + offset word_3486A],DX
-    push word ptr [BP + -0ah]
-    call _sub_13922
-    add SP,2h
-    neg AX
-    add AX,word ptr [word_3298E]
-    cwd
-    mov word ptr [SI + offset word_34A4C],AX
-    mov word ptr [SI + offset word_34A4E],DX
-    inc word ptr [BP + -2h]
-LAB_1000_38b5:
-    mov AX,word ptr [_var_256]
-    cmp word ptr [BP + -2h],AX
-    jge LAB_1000_391c
-    mov AL,byte ptr [_var_258]
-    sub AH,AH
-    shl AX,1h
-    db 05h, 02h, 00h ; add AX,2h (force imm16 encoding)
-    add word ptr [_var_200],AX
-    cmp word ptr [BP + -6h],0h
-    jnz LAB_1000_38d4
-    jmp LAB_1000_3842
-LAB_1000_38d4:
-    mov BX,word ptr [_var_200]
-    inc word ptr [_var_200]
-    mov ES,word ptr [_var_201]
-    mov AL,byte ptr ES:[BX]
-    sub AH,AH
-    mov word ptr [BP + -4h],AX
-    mov BX,AX
-    mov BL,byte ptr [BX + offset _buf3d3_1]
-    sub BH,BH
-    shl BX,1h
-    mov AX,word ptr [BX + 954ch]
-    mov CL,byte ptr [word_3C042]
-    sar AX,CL
-    add AX,word ptr [BP + 4h]
-    mov word ptr [BP + -8h],AX
-    mov BX,word ptr [BP + -4h]
-    mov BL,byte ptr [BX + offset _buf3d3_2]
-    sub BH,BH
-    shl BX,1h
-    mov AX,word ptr [BX + offset _byte_3BE3E]
-    sar AX,CL
-    add AX,word ptr [BP + 6h]
-    mov word ptr [BP + -0ah],AX
-    jmp LAB_1000_3877
-LAB_1000_391c:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-    nop
-sub_13816 endp
-_sub_13816 equ sub_13816
+sub_13816 equ _sub_13816
 ; ------------------------------seg000:0x3920------------------------------
 ; ------------------------------seg000:0x3932------------------------------
 sub_13932 equ _sub_13932
@@ -20937,7 +20846,9 @@ word_344A2 dw 0
 word_34680 dw 0
 word_34682 dw 0
 word_34684 dw 0
+_word_34684 equ word_34684
 word_34686 dw 0
+_word_34686 equ word_34686
     db 0
     db 0
     db 0
@@ -21417,6 +21328,7 @@ unk_34713 db 0
 word_34864 dw 0
 word_34866 dw 0
 word_34868 dw 0
+_word_34868 equ word_34868
 word_3486A dw 0
     db 0
     db 0
@@ -21896,6 +21808,7 @@ word_3486A dw 0
     db 0
 dword_34A48 dd 0
 word_34A4C dw 0
+_word_34A4C equ word_34A4C
 word_34A4E dw 0
     db 0
     db 0
@@ -39244,6 +39157,7 @@ _word_3C03A dw ?
 word_3C03E dw ?
 _word_3C040 dw ?
 word_3C042 dw ?
+_word_3C042 equ word_3C042
 word_3C044 dw ?
 _word_3C044 equ word_3C044
 _word_3C046 dw ?

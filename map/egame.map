@@ -63,7 +63,7 @@ sub_13694: seg000 NEAR 3694-36d1 R3694-36d1 complete
 sub_136D2: seg000 NEAR 36d2-3749 R36d2-3749 complete
 sub_1374A: seg000 NEAR 374a-378d R374a-378d assembly
 sub_1378E: seg000 NEAR 378e-3815 R378e-3815 complete
-sub_13816: seg000 NEAR 3816-3921 R3816-3921
+sub_13816: seg000 NEAR 3816-3921 R3816-3921 complete
 sub_13922: seg000 NEAR 3922-3931 R3922-3931 complete
 sub_13932: seg000 NEAR 3932-39a9 R3932-39a9 complete
 sub_139AA: seg000 NEAR 39aa-39bf R39aa-39bf assembly

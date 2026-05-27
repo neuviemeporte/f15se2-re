@@ -833,3 +833,31 @@ void sub_186F8(int param_1)
         word_39604 = 1;
     }
 }
+
+// ==== seg000:0x3816 ====
+void sub_13816(int arg_0, int arg_1) {
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+
+    b = (int)(unsigned char)**(char far **)&var_200 & 0x80;
+    var_256 = (int)(unsigned char)(*(*(char far **)&var_200)++) & 0x7F;
+    for (p = 0; p < var_256; p++) {
+        var_200 += (unsigned char)var_258 * 2 + 2;
+        if (b != 0) {
+            a = (int)(unsigned char)(*(*(char far **)&var_200)++);
+            c = (((int16 *)&byte_3B7FC[0x600])[buf3d3_1[a]] >> word_3C042) + arg_0;
+            d = (((int16 *)byte_3BE3E)[buf3d3_2[a]] >> word_3C042) + arg_1;
+        } else {
+            c = (*(*(int far **)&var_200)++ >> word_3C042) + arg_0;
+            d = (*(*(int far **)&var_200)++ >> word_3C042) + arg_1;
+            var_200 += 2;
+        }
+        (&word_34684)[p * 2] = 1;
+        (&word_34686)[p * 2] = 1;
+        *(long *)((char *)&word_34868 + p * 4) = (long)(c + word_3298C);
+        *(long *)((char *)&word_34A4C + p * 4) = (long)(-sub_13922(d) + word_3298E);
+    }
+}
