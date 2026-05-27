@@ -1,8 +1,8 @@
 #include "pointers.h"
 
 #include <stdio.h>
-#include <STDARG.H>
-#include <STRING.H>
+#include <stdarg.h>
+#include <string.h>
 
 static FILE *stream = NULL;
 

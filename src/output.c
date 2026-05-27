@@ -1,8 +1,8 @@
 #include "output.h"
 #include "inttype.h"
 
-#include <STDIO.H>
-#include <STDARG.H>
+#include <stdio.h>
+#include <stdarg.h>
 
 void output_stdout(const char* format, va_list ap) {
     vprintf(format, ap);

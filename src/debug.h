@@ -1,7 +1,7 @@
 #ifndef F15_SE2_DEBUG
 #define F15_SE2_DEBUG
 
-#include <STDLIB.H>
+#include <stdlib.h>
 #include "pointers.h"
 
 #ifdef DEBUG

@@ -4,8 +4,8 @@
 #include "inttype.h"
 #include "pointers.h"
 
-#include <DOS.H>
-#include <STDDEF.H>
+#include <dos.h>
+#include <stddef.h>
 
 void log_open(bool append);
 void log_close();

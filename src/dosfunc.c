@@ -5,11 +5,11 @@
 #include "f15util.h"
 #include "offsets.h"
 
-#include <STDIO.H>
-#include <DOS.H>
-#include <STDDEF.H>
-#include <STDLIB.H>
-#include <ASSERT.H>
+#include <stdio.h>
+#include <dos.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <assert.h>
 
 typedef enum {
     DOSF_ALLOCMEM = 0x48,

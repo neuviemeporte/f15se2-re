@@ -3,7 +3,7 @@
 
 #include "inttype.h"
 #include "pointers.h"
-#include <STDDEF.H>
+#include <stddef.h>
 
 uint16 dos_alloc(const size_t paragraphs);
 int dos_free(const uint16 segment);
