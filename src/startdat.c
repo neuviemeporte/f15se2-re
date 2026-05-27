@@ -338,6 +338,10 @@ uint8 picByteUnsignedFlag = 0;
 int16 picSlotCounter = 0;
 int16 picCurrentRow = 0;
 
+/* Mission state (moved from start_rc.asm) */
+int16 flag4Saved = 0;
+int16 theaterSaved = 0;
+
 /* Region/theater filename strings */
 char aRegn_xxx[] = "regn.xxx";
 char aLb_xxx[] = "lb.xxx";
