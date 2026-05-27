@@ -5,7 +5,7 @@
 #include "offsets.h"
 #include "sassert.h"
 
-#include <STDDEF.H>
+#include <stddef.h>
 
 // Microprose overlay header format
 #pragma pack(1)

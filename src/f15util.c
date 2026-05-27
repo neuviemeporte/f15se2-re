@@ -2,7 +2,7 @@
 #include "pointers.h"
 #include "output.h"
 
-#include <STDIO.H>
+#include <stdio.h>
 
 void strcpyFar(const char* src, const uint16 destSegment, const uint16 destOffset, size_t size) {
     char FAR *dest =(char FAR *)MK_FP(destSegment, destOffset);

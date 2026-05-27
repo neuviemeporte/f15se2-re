@@ -25,11 +25,11 @@
 #include "f15util.h"
 #include "offsets.h"
 
-#include <STDIO.H>
-#include <STDDEF.H>
-#include <STDLIB.H>
-#include <STRING.H>
-#include <CTYPE.H>
+#include <stdio.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 const char* SOUND_DRIVER = "Nsound.exe";
 const char* GFX_DRIVER = "Mgraphic.exe";

@@ -2,7 +2,7 @@
 #define F15UTIL_H
 
 #include "inttype.h"
-#include <STDDEF.H>
+#include <stddef.h>
 
 void strcpyFar(const char* src, const uint16 destSegment, const uint16 destOffset, size_t size);
 void memcpyFar(const char* src, const uint16 destSegment, const uint16 destOffset, size_t size);
