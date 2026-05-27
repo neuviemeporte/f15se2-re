@@ -9,11 +9,21 @@
 #include <dos.h>
 #include <memory.h>
 
+#if !defined(MSDOS)
 // ==== seg000:0xdfbc ====
-int openBlitClosePic(char* path, int arg_2, int arg_4) {
+void openBlitClosePic(char* path, int arg_2) {
     int var_2 = openFileWrapper(path, 0);
     TRACE(("openBlitClosePic: picBlit(%d, %d)", var_2, arg_2));
-    picBlit(var_2, arg_2, arg_4);
+    picBlit(var_2, arg_2);
     TRACE(("openBlitClosePic: closing"));
     closeFileWrapper(var_2);
 }
+#else
+void openBlitClosePic(char* path, int arg_2, int garbage) {
+    int var_2 = openFileWrapper(path, 0);
+    TRACE(("openBlitClosePic: picBlit(%d, %d)", var_2, arg_2));
+    picBlit(var_2, arg_2, garbage);
+    TRACE(("openBlitClosePic: closing"));
+    closeFileWrapper(var_2);
+}
+#endif

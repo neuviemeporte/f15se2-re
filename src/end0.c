@@ -231,7 +231,11 @@ void drawFlightLine(int p1, int p2, int p3, int p4)
 void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y, int lineHeight) {
     int p;
     char *a;
+#if !defined(MSDOS)
+    char *b;
+#else
     uint8 *b;
+#endif
     int c;
     int d;
     char *e;
