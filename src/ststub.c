@@ -1,7 +1,12 @@
+/*
+ * ststub.c - start.exe-specific data variable stubs for NO_ASM build.
+ * These are normally defined in start_rc.asm's data segment.
+ */
+
 #include "inttype.h"
 #include "pointers.h"
 
-/* Game data variables - from start_rc.asm data segment */
+/* Graphics/terrain buffers */
 uint16 gridBuf1[1];
 uint16 gridBuf2[1];
 uint16 gridBuf3[1];
@@ -16,17 +21,17 @@ uint16 terrainBuf5[1];
 uint16 terrainPtrUnk[1];
 uint16 terrainIdxBuf[1];
 uint16 planes[1];
-uint8  hercFlag = 0;
-uint16 commData = 0;
-uint16 bufPtr = 0;
-uint8  needSplash = 0;
-uint16 gfxModeSetPtr = 0;
-uint8  exitCode = 0;
-uint8  joyReady = 0;
-uint16 gameData = 0;
+
+/* Misc game state */
+int16 *bufPtr = 0;
+int far *needSplash = 0;
+int far *gfxModeSetPtr = 0;
+uint8  joyReady[2] = {0};
 uint8  intRegs[20];
 uint16 selectedPilotIdx = 0;
 uint8  hallfameBuf[1];
+
+/* Unnamed/unresearched variables */
 uint8  byte_1B100 = 0;
 uint8  byte_1B0FF = 0;
 uint16 word_19294 = 0;
@@ -42,7 +47,6 @@ uint16 word_19324 = 0;
 uint16 off_19304[1];
 uint16 off_19314[1];
 uint16 word_1B960 = 0;
-int16  fileHandle = 0;
 uint8  scenarioFoundArr[1];
 uint8  difficultySaved = 0;
 uint8  todayMissStrBuf[64];
@@ -59,12 +63,3 @@ uint16 wldReadBuf9[1];
 uint16 wldReadBuf10[1];
 uint16 wldReadBuf11[1];
 uint16 wldOffsets[1];
-
-/* Misc/audio overlay slot stubs */
-void far misc_jump_5a_keybuf(void) {}
-void far misc_jump_5b_getkey(void) {}
-void far misc_jump_5d_readJoy(void) {}
-void far misc_jump_5e_clearKeyFlags(void) {}
-void far audio_jump_64(void) {}
-void far audio_jump_65(void) {}
-void far audio_jump_67(void) {}
