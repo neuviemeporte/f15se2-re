@@ -70,6 +70,7 @@ EXTRN _sub_13932:PROC
 EXTRN _sub_1CF8E:PROC
 EXTRN _sub_1CF32:PROC
 EXTRN _sub_1CB42:PROC
+EXTRN _sub_1C9D2:PROC
 EXTRN _sub_11BFD:PROC
 EXTRN _sub_11BC3:PROC
 EXTRN _sub_114E8:PROC
@@ -12939,153 +12940,7 @@ LAB_1000_c79d:
     ret
 sub_1C6BE endp
 ; ------------------------------seg000:0xc9d2------------------------------
-sub_1C9D2 proc near
-    push BP
-    mov BP,SP
-    sub SP,10h
-    push word ptr [BP + 4h]
-    call sub_1CF32
-    add SP,2h
-    mov word ptr [BP + -4h],AX
-    cmp byte ptr [_byte_3C5A0],0h
-    jnz LAB_1000_c9f0
-    mov AX,word ptr [_var_564]
-    jmp LAB_1000_c9f3
-LAB_1000_c9f0:
-    mov AX,word ptr [_var_565]
-LAB_1000_c9f3:
-    mov word ptr [BP + -2h],AX
-    mov AX,word ptr [BP + 6h]
-    mov DX,word ptr [BP + 8h]
-    sub AX,word ptr [_dword_3B7DA]
-    sbb DX,word ptr [_dword_3B7DA+2]
-    mov word ptr [BP + -8h],AX
-    mov word ptr [BP + -6h],DX
-    mov AX,word ptr [BP + 0ah]
-    mov DX,word ptr [BP + 0ch]
-    add AX,word ptr [_dword_3B7F8]
-    adc DX,word ptr [_dword_3B7F8+2]
-    db 2Dh, 00h, 00h ; sub AX,0h (force imm16 encoding)
-    sbb DX,100h
-    mov word ptr [BP + -0ch],AX
-    mov word ptr [BP + -0ah],DX
-    mov AX,word ptr [BP + 0eh]
-    sub AX,word ptr [_var_547]
-    mov word ptr [BP + -0eh],AX
-    test byte ptr [_keyValue],80h
-    jz LAB_1000_ca6a
-    mov AX,word ptr [_dword_3B7DA]
-    mov DX,word ptr [_dword_3B7DA+2]
-    sub AX,word ptr [_dword_3B1FE]
-    sbb DX,word ptr [_dword_3B1FE+2]
-    add word ptr [BP + -8h],AX
-    adc word ptr [BP + -6h],DX
-    mov AX,word ptr [_dword_3B4D4]
-    mov DX,word ptr [_dword_3B4D4+2]
-    sub AX,word ptr [_dword_3B7F8]
-    sbb DX,word ptr [_dword_3B7F8+2]
-    add word ptr [BP + -0ch],AX
-    adc word ptr [BP + -0ah],DX
-    mov AX,word ptr [_var_547]
-    sub AX,word ptr [_word_3B4DE]
-    add word ptr [BP + -0eh],AX
-LAB_1000_ca6a:
-    cmp byte ptr [_var_456],0h
-    jz LAB_1000_ca7a
-    mov AX,word ptr [BP + 16h]
-    db 2Dh, 02h, 00h ; sub AX,2h (force imm16 encoding)
-    jmp LAB_1000_ca80
-    db 90h
-LAB_1000_ca7a:
-    mov AX,word ptr [BP + 16h]
-    db 2Dh, 03h, 00h ; sub AX,3h (force imm16 encoding)
-LAB_1000_ca80:
-    mov word ptr [BP + 16h],AX
-    or AX,AX
-    jle LAB_1000_ca9f
-    push AX
-    lea AX,[BP + -8h]
-    push AX
-    call unknown_libname_1
-    push word ptr [BP + 16h]
-    lea AX,[BP + -0ch]
-    push AX
-    call unknown_libname_1
-    mov CL,byte ptr [BP + 16h]
-    shl word ptr [BP + -0eh],CL
-LAB_1000_ca9f:
-    cmp word ptr [BP + 16h],0h
-    jge LAB_1000_cac7
-    mov AX,word ptr [BP + 16h]
-    neg AX
-    mov byte ptr [BP + -10h],AL
-    push word ptr [BP + -10h]
-    lea AX,[BP + -8h]
-    push AX
-    call unknown_libname_2
-    push word ptr [BP + -10h]
-    lea AX,[BP + -0ch]
-    push AX
-    call unknown_libname_2
-    mov CL,byte ptr [BP + -10h]
-    sar word ptr [BP + -0eh],CL
-LAB_1000_cac7:
-    push word ptr [BP + -6h]
-    push word ptr [BP + -8h]
-    call _labs
-    add SP,4h
-    cwd
-    or DX,DX
-    jg LAB_1000_cb3e
-    jl LAB_1000_cadf
-    cmp AX,7fffh
-    jnc LAB_1000_cb3e
-LAB_1000_cadf:
-    push word ptr [BP + -0ah]
-    push word ptr [BP + -0ch]
-    call _labs
-    add SP,4h
-    cwd
-    or DX,DX
-    jg LAB_1000_cb3e
-    jl LAB_1000_caf7
-    cmp AX,7fffh
-    jnc LAB_1000_cb3e
-LAB_1000_caf7:
-    mov AX,word ptr [BP + -0eh]
-    neg AX
-    push AX
-    sub AX,AX
-    push AX
-    push AX
-    call sub_13A90
-    add SP,6h
-    mov word ptr [word_3C16C],1h
-    cmp word ptr [BP + 0eh],1h
-    sbb AX,AX
-    inc AX
-    push AX
-    mov AX,word ptr [BP + -0ch]
-    neg AX
-    push AX
-    push word ptr [BP + -8h]
-    push word ptr [BP + 14h]
-    push word ptr [BP + 12h]
-    mov AX,word ptr [BP + 10h]
-    neg AX
-    push AX
-    mov BX,word ptr [BP + -4h]
-        db 8Dh, 87h, 00h, 00h ; lea AX,[BX + 0h] (force disp16 encoding)
-        mov DX,228dh
-    push DX
-    push AX
-    call far ptr sub_20104
-    add SP,10h
-LAB_1000_cb3e:
-    mov SP,BP
-    pop BP
-    ret
-sub_1C9D2 endp
+sub_1C9D2 equ _sub_1C9D2
 ; ------------------------------seg000:0xcb41------------------------------
 ; ------------------------------seg000:0xcb42------------------------------
 ; ------------------------------seg000:0xcf30------------------------------
@@ -14654,6 +14509,7 @@ unknown_libname_1 proc near
     pop BP
     ret 4h
 unknown_libname_1 endp
+PUBLIC unknown_libname_1
 unknown_libname_2 proc near
     push BP
     mov BP,SP
@@ -14669,6 +14525,7 @@ unknown_libname_2 proc near
     pop BP
     ret 4h
 unknown_libname_2 endp
+PUBLIC unknown_libname_2
 ; ------------------------------seg000:0xf881------------------------------
 ; ------------------------------seg001:0x2------------------------------
 sub_1F882 proc far
@@ -14770,6 +14627,8 @@ sub_20104 proc far
 _sub_20104 equ sub_20104
     retn
 sub_20104 endp
+PUBLIC _sub_20104
+_sub_20104 equ sub_20104
 ; ------------------------------seg001:0x907------------------------------
 ; ------------------------------seg001:0x908------------------------------
 sub_20188 proc near

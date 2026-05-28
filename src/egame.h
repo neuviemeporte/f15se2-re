@@ -401,7 +401,7 @@ int sub_1C8A4(int param_1);
 // ==== seg000:0xc8de ====
 void load15Flt3d3();
 // ==== seg000:0xc9d2 ====
-int sub_1C9D2();
+void sub_1C9D2(int param_1, long param_2, long param_3, int param_4, int param_5, int param_6, int param_7, int param_8);
 // ==== seg000:0xcb42 ====
 int sub_1CB42();
 // ==== seg000:0xcf32 ====
@@ -506,9 +506,9 @@ int sub_1E631();
 // ==== seg000:0xe640 ====
 int sub_1E640();
 // ==== seg000:0xece4 ====
-int unknown_libname_1();
+void pascal unknown_libname_1(int count, long *ptr);
 // ==== seg000:0xed04 ====
-int unknown_libname_2();
+void pascal unknown_libname_2(int count, long *ptr);
 // ==== seg000:0xee48 ====
 int sub_1EE48();
 // ==== seg000:0xf53e ====
