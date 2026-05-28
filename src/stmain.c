@@ -9,6 +9,10 @@
 #include "start.h"
 
 #include <dos.h>
+#ifdef NO_ASM
+extern void picdbg(const char *msg);
+#include <stdio.h>
+#endif
 
 int main(void)
 {
@@ -61,6 +65,30 @@ int main(void)
         /* 0xeb */
         TRACE(("main: showing labs"));
         openShowPic(aLabs_pic, 0);
+#ifdef DEBUG
+        dumpbuf("LABSPIX.BIN", (const char far *)MK_FP(0xA000, 0), 64000UL);
+#endif
+#ifdef NO_ASM
+        /* DEBUG: dump VGA to PICDUMP.BIN for verification against LABSPIX.BIN */
+        {
+            union REGS cr;
+            struct SREGS cs;
+            int dh;
+            uint16 off;
+            cr.h.ah = 0x3C;
+            cr.x.cx = 0;
+            segread(&cs);
+            cr.x.dx = (uint16)"PICDUMP.BIN";
+            intdosx(&cr, &cr, &cs);
+            if (!cr.x.cflag) {
+                dh = cr.x.ax;
+                for (off = 0; off < 64000U; off += 320) {
+                    writeFileAtRaw(dh, (void far *)MK_FP(0xA000, off), 320);
+                }
+                fileClose(dh);
+            }
+        }
+#endif
         gfx_commitPage();
         /* 0xfd */
         TRACE(("main: setting timer irq handler"));
@@ -96,6 +124,7 @@ int main(void)
         /* 0x17c */
         TRACE(("main: checking ega"));
 checkEga:
+#ifndef NO_ASM
         if (commData->gfxModeNum >= GFX_MODE_EGA && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & EGA_SWITCH_MASK) == EGA_SWITCH_VALUE) {
             TRACE(("main: switching to ega for title"));
             /* 0x19c */
@@ -108,7 +137,9 @@ checkEga:
             showPic640(aTitle640_pic);
         }
         /* 0x1c5 */
-        else {
+        else
+#endif
+        {
             TRACE(("main: doing 16color title"));
             gfx_setFadeSteps(1);
             gfx_waitRetrace();
@@ -130,6 +161,7 @@ checkEga:
         audio_jump_67();
         if (isPcSpeaker == 0) restoreTimerIrqHandler();
         /* 0x23c */
+#ifndef NO_ASM
         if (commData->gfxModeNum >= GFX_MODE_EGA && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & EGA_SWITCH_MASK) == EGA_SWITCH_VALUE) {
             TRACE(("main: restoring old overlay after title"));
             gfx_setDac(2);
@@ -142,7 +174,9 @@ checkEga:
             gfx_setMode13(commData->setupMono);
         }
         /* 0x28c */
-        else {
+        else
+#endif
+        {
             TRACE(("main: after 16 title"));
             gfx_setDac(0);
             getch();

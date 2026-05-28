@@ -6,9 +6,17 @@
 #include "slot.h"
 #include <dos.h>
 #include <string.h>
+#include <stdio.h>
 
 /* dos_alloc is provided by lowlvl.asm (start.exe) or dosfunc.c (f15.exe) */
 extern uint16 dos_alloc(uint16 size);
+
+/* Debug log file */
+static FILE *g_dbgFile = NULL;
+static void dbg(const char *msg)
+{
+    (void)msg;
+}
 
 /* Far memory helpers — small model doesn't have _fmemcpy/_fmemset */
 static void far_memset(uint16 seg, uint16 off, uint8 val, uint16 count)
@@ -46,8 +54,12 @@ static void initRowOffsets(void)
 int FAR CDECL gfx_allocPage(int pageNum)
 {
     uint16 seg;
-    /* Allocate 0x1000 paragraphs = 64KB */
-    seg = dos_alloc(0x1000);
+    union REGS r;
+    /* Allocate 0x1000 paragraphs = 64KB directly via INT 21h */
+    r.h.ah = 0x48;
+    r.x.bx = 0x1000;
+    intdos(&r, &r);
+    seg = r.x.cflag ? 0 : r.x.ax;
     if (seg == 0) return 0;
     g_pageSegs[pageNum] = seg;
     return (int)seg;
@@ -59,6 +71,7 @@ int FAR CDECL gfx_setMode13(int16 monoFlag)
     union REGS regs;
 
     (void)monoFlag;
+    dbg("setMode13: enter");
     initRowOffsets();
 
     /* Set video mode 13h */
@@ -74,6 +87,7 @@ int FAR CDECL gfx_setMode13(int16 monoFlag)
     g_pageSegs[0] = 0xA000;
     g_curPageSeg = g_pageSegs[1]; /* default to back buffer */
     g_modeFlag = 1;
+    dbg("setMode13: done");
 
     return 0;
 }
@@ -126,7 +140,7 @@ int FAR CDECL gfx_getCurPageSeg(void)
 /* ---- Slot 0x17: gfx_getBufSize ---- */
 int FAR CDECL gfx_getBufSize(void)
 {
-    return 0x5580; /* 21888 bytes — sprite buffer size */
+    return 0x5580; /* 21888 bytes — sprite buffer size (matches real overlay) */
 }
 
 /* ---- Slot 0x3a: gfx_getRowOffset ---- */
@@ -148,6 +162,7 @@ int FAR CDECL gfx_getPageSeg(void)
 /* ---- Slot 0x3f: gfx_getModecode ---- */
 int FAR CDECL gfx_getModecode(void)
 {
+    dbg("getModecode");
     return 3; /* MCGA mode code */
 }
 
@@ -179,12 +194,66 @@ int FAR CDECL gfx_fillDirty(void)
     return 0;
 }
 
-/* ---- Slot 0x05: gfx_drawString (stub) ---- */
+/* ---- Font data ---- */
+static uint8 far *g_fontPtr = 0; /* Pointer to 8x8 BIOS font */
+static uint8 g_fontHeight = 8;
+
+static void ensureFont(void)
+{
+    if (g_fontPtr) return;
+    /* Use well-known BIOS 8x8 font at F000:FA6E (IBM PC/AT compatible) */
+    g_fontPtr = (uint8 far *)MK_FP(0xF000, 0xFA6E);
+}
+
+/* ---- Slot 0x05: gfx_drawString ---- */
 int FAR CDECL gfx_drawString(int16 *pageNum, const char *string, int len)
 {
-    (void)pageNum;
-    (void)string;
-    (void)len;
+    uint16 x, y, color;
+    uint8 far *page;
+    int i;
+    uint8 ch;
+    uint8 far *glyph;
+    int row, col;
+
+    if (!string) return 0;
+    ensureFont();
+    if (!g_fontPtr) return 0;
+
+    x = (uint16)pageNum[4];
+    y = (uint16)pageNum[5];
+    color = (uint16)pageNum[2];
+
+    if (len <= 0) len = 0;
+    /* Calculate length if not provided */
+    if (len == 0) {
+        const char *s = string;
+        while (*s) { len++; s++; }
+    }
+
+    page = (uint8 far *)MK_FP(g_curPageSeg, 0);
+
+    for (i = 0; i < len; i++) {
+        ch = (uint8)string[i];
+        if (ch == 0) break;
+        if (x + 8 > 320) break;
+        if (y + g_fontHeight > 200) break;
+
+        glyph = g_fontPtr + (uint16)ch * g_fontHeight;
+        for (row = 0; row < g_fontHeight; row++) {
+            uint8 bits = glyph[row];
+            uint16 rowOff = g_rowOffsets[y + row] + x;
+            for (col = 0; col < 8; col++) {
+                if (bits & 0x80) {
+                    page[rowOff + col] = (uint8)color;
+                }
+                bits <<= 1;
+            }
+        }
+        x += 8;
+    }
+
+    /* Update x position in page struct */
+    pageNum[4] = (int16)x;
     return 0;
 }
 
@@ -232,10 +301,49 @@ int FAR CDECL gfx_switchColor(int16 *pageDesc, int x1, int y1,
 }
 
 /* ---- Slot 0x44: gfx_setDac ---- */
+/* Palette data extracted from original MGRAPHIC.EXE overlay */
+static uint8 g_palettes[5][48] = {
+    /* Palette 0: standard VGA 16-color */
+    {0x00,0x00,0x00, 0x00,0x00,0x2a, 0x00,0x2a,0x00, 0x00,0x2a,0x2a,
+     0x2a,0x00,0x00, 0x2a,0x00,0x2a, 0x2a,0x15,0x00, 0x2a,0x2a,0x2a,
+     0x15,0x15,0x15, 0x15,0x15,0x3f, 0x15,0x3f,0x15, 0x15,0x3f,0x3f,
+     0x3f,0x15,0x15, 0x3f,0x15,0x3f, 0x3f,0x3f,0x15, 0x3f,0x3f,0x3f},
+    /* Palette 1: magenta darkened */
+    {0x00,0x00,0x00, 0x00,0x00,0x2a, 0x00,0x2a,0x00, 0x00,0x2a,0x2a,
+     0x2a,0x00,0x00, 0x00,0x00,0x00, 0x2a,0x15,0x00, 0x2a,0x2a,0x2a,
+     0x15,0x15,0x15, 0x15,0x15,0x3f, 0x15,0x3f,0x15, 0x15,0x3f,0x3f,
+     0x3f,0x15,0x15, 0x3f,0x15,0x3f, 0x3f,0x3f,0x15, 0x3f,0x3f,0x3f},
+    /* Palette 2: bright red/yellow zeroed */
+    {0x00,0x00,0x00, 0x00,0x00,0x2a, 0x00,0x2a,0x00, 0x00,0x2a,0x2a,
+     0x2a,0x00,0x00, 0x2a,0x00,0x2a, 0x2a,0x15,0x00, 0x2a,0x2a,0x2a,
+     0x15,0x15,0x15, 0x15,0x15,0x3f, 0x15,0x3f,0x15, 0x15,0x3f,0x3f,
+     0x3f,0x15,0x15, 0x00,0x00,0x00, 0x3f,0x3f,0x15, 0x3f,0x3f,0x3f},
+    /* Palette 3: all black (fade out) */
+    {0x00,0x00,0x00, 0x00,0x00,0x00, 0x00,0x00,0x00, 0x00,0x00,0x00,
+     0x00,0x00,0x00, 0x00,0x00,0x00, 0x00,0x00,0x00, 0x00,0x00,0x00,
+     0x00,0x00,0x00, 0x00,0x00,0x00, 0x00,0x00,0x00, 0x00,0x00,0x00,
+     0x00,0x00,0x00, 0x00,0x00,0x00, 0x00,0x00,0x00, 0x00,0x00,0x00},
+    /* Palette 4: green zeroed */
+    {0x00,0x00,0x00, 0x00,0x00,0x2a, 0x00,0x00,0x00, 0x00,0x2a,0x2a,
+     0x2a,0x00,0x00, 0x2a,0x00,0x2a, 0x2a,0x15,0x00, 0x2a,0x2a,0x2a,
+     0x15,0x15,0x15, 0x15,0x15,0x3f, 0x00,0x00,0x00, 0x15,0x3f,0x3f,
+     0x3f,0x15,0x15, 0x3f,0x15,0x3f, 0x3f,0x3f,0x15, 0x3f,0x3f,0x3f}
+};
+
 int FAR CDECL gfx_setDac(uint16 palIdx)
 {
-    (void)palIdx;
-    /* TODO: load palette data and program DAC registers */
+    union REGS regs;
+    struct SREGS sregs;
+    if (palIdx > 4) return 0;
+    /* INT 10h AX=1012h: set block of DAC color registers */
+    regs.x.ax = 0x1012;
+    regs.x.bx = 0;       /* first register */
+    regs.x.cx = 16;      /* number of registers */
+    regs.x.dx = (uint16)g_palettes[palIdx];
+    segread(&sregs);
+    sregs.es = sregs.ds;  /* ES:DX -> palette table */
+    int86x(0x10, &regs, &regs, &sregs);
+    gfx_waitRetrace();
     return 0;
 }
 
@@ -257,9 +365,12 @@ int FAR CDECL gfx_setPageDirect(void) { return 0; }
 int FAR CDECL gfx_resetBlitOffset2(void) { g_blitOffset = 0; return 0; }
 int FAR CDECL gfx_dirtyRect2(void) { return 0; }
 int FAR CDECL gfx_getDisplayPage(void) { return 0; }
-int FAR CDECL gfx_setFont(uint16 ch, uint16 fontIdx) { (void)ch; (void)fontIdx; return 0; }
+int FAR CDECL gfx_setFont(uint16 ch, uint16 fontIdx) { (void)ch; (void)fontIdx; return 8; }
 int FAR CDECL gfx_getAuxBufSize(void) { return 0x1950; }
 int FAR CDECL gfx_fontSetup(void) { return 0; }
+/* gfx_fillRow: ASM calling convention is DI=rowOffset, BP=srcBuf, BX=rowNum
+ * In NO_ASM build, showPicFile is reimplemented in C and writes directly to page.
+ * These stubs remain for any other callers. */
 int FAR CDECL gfx_fillRow(void) { return 0; }
 int FAR CDECL gfx_fillRow2(void) { return 0; }
 int FAR CDECL gfx_copyRow(void) { return 0; }
@@ -275,7 +386,13 @@ int FAR CDECL gfx_getModeFlag2(void) { return (int)g_modeFlag; }
 int FAR CDECL gfx_getVal(void) { return 0; }
 int FAR CDECL gfx_getVal2(void) { return 0; }
 int FAR CDECL gfx_setDacAnimCount(uint16 count) { g_dacCounter = (uint8)count; return 0; }
-int FAR CDECL gfx_commitPage(void) { return 0; }
+int FAR CDECL gfx_commitPage(void)
+{
+    dbg("commitPage: copying to VGA");
+    /* commitPage: copy back buffer to VGA (same as flipPage but without waitRetrace) */
+    far_memcpy_to(0xA000, 0, g_curPageSeg, 0, 64000u);
+    return 0;
+}
 int FAR CDECL gfx_nop51(void) { return 0; }
 int FAR CDECL gfx_setMonoFlag(uint16 mono) { (void)mono; return 0; }
 int FAR CDECL gfx_blitSpriteClipped(int16 *ptr) { (void)ptr; return 0; }

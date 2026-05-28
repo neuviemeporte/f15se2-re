@@ -6,12 +6,14 @@
 #include "pointers.h"
 #include <dos.h>
 
-/* file_alloc.inc: Allocate DOS memory. Callers pass paragraph count directly. */
+/* file_alloc.inc: Allocate DOS memory. Callers pass BYTE count. */
 uint16 dos_alloc(uint16 size)
 {
     union REGS r;
     r.h.ah = 0x48;
-    r.x.bx = size;
+    /* Convert bytes to paragraphs (divide by 16, round up) */
+    r.x.bx = size >> 4;
+    if (size & 0x0F) r.x.bx++;
     intdos(&r, &r);
     if (r.x.cflag) return 0;
     return r.x.ax;
@@ -33,12 +35,13 @@ int openFile(const char *filename, int mode)
     struct SREGS s;
     r.h.ah = 0x3D;
     r.h.al = (unsigned char)mode;
-    s.ds = FP_SEG(filename);
-    r.x.dx = FP_OFF(filename);
+    segread(&s);
+    r.x.dx = (uint16)filename;
     intdosx(&r, &r, &s);
     if (r.x.cflag) return -1;
     return r.x.ax;
 }
+
 
 /* file_printstring.inc: Print '$'-terminated string via DOS */
 void dos_printstring(const char *str)
@@ -46,8 +49,8 @@ void dos_printstring(const char *str)
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x09;
-    s.ds = FP_SEG(str);
-    r.x.dx = FP_OFF(str);
+    segread(&s);
+    r.x.dx = (uint16)str;
     intdosx(&r, &r, &s);
 }
 

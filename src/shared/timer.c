@@ -1,22 +1,40 @@
 /*
- * timer.c - Stub implementations of shared timer routines for NO_ASM build.
+ * timer.c - Timer ISR for NO_ASM build.
  *
- * The real implementation hooks INT 08h and reprograms the PIT (ports 0x40-0x43).
- * These stubs just provide the symbols so the program links without crashing.
+ * Hooks INT 08h (timer tick) to increment timerCounter and chains to
+ * the original BIOS handler.
  */
 
 #include "inttype.h"
 #include "pointers.h"
 #include <dos.h>
 
-/* timer_setHandler.inc */
-void setTimerIrqHandler(void)
+extern uint8 timerCounter;
+extern uint8 timerCounter2;
+extern uint8 timerCounter3;
+extern uint8 timerCounter4;
+extern uint8 timerHandlerInstalled;
+
+static void (interrupt far *oldTimerIsr)(void);
+
+static void interrupt far timerIrqHandler(void)
 {
-    /* Stub: don't install custom timer in NO_ASM mode */
+    timerCounter++;
+    timerCounter2++;
+    timerCounter3++;
+    timerCounter4++;
+    _chain_intr(oldTimerIsr);
 }
 
-/* timer_restore.inc */
+void setTimerIrqHandler(void)
+{
+    oldTimerIsr = _dos_getvect(0x08);
+    _dos_setvect(0x08, timerIrqHandler);
+    timerHandlerInstalled = 1;
+}
+
 void restoreTimerIrqHandler(void)
 {
-    /* Stub: nothing to restore */
+    _dos_setvect(0x08, oldTimerIsr);
+    timerHandlerInstalled = 0;
 }
