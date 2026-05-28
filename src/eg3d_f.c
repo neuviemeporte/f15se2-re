@@ -11,7 +11,7 @@ void sub_139C0(char *arg_0) {
     if (*(int *)(arg_0 + 0x0e) == 0) {
         word_3298E = *(int *)(arg_0 + 0x10) == 199 ? 0x64 : 0x38;
     }
-    gfx_jump_41(b - 1);
+    gfx_setOvlVal2(b - 1);
     gfx_setBlitOffset(gfx_calcRowAddr(*(int *)(arg_0 + 0x12), *(int *)(arg_0 + 0x0e)));
     var_349 = b - 1;
     var_350 = a - 1;

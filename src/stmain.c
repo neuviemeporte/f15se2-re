@@ -42,7 +42,7 @@ int main(void)
     setupOverlaySlots(commData->sndOvlAddr);
     /* 0x81 */
     TRACE(("main: slot 4b"));
-    gfx_jump_4b_storeBufPtr(commData->gfxInitResult, 2);
+    gfx_storeBufPtr(commData->gfxInitResult, 2);
     hercFlag = commData->setupMono;
     TRACE(("main: init graphics"));
     initGraphics();
@@ -75,13 +75,13 @@ int main(void)
         /* 0x11e */
         if (timerCounter >= MPS_TIMEOUT) { // key was not pressed, show adv.pic
             // 0x125
-            gfx_jump_45_retrace();
+            gfx_waitRetrace();
             gfx_setFadeSteps(0xf);
             /* 0x13d */
             TRACE(("main: showing adv"));
             openShowPic(aAdv_pic, 0);
             gfx_commitPage();
-            gfx_jump_46_retrace2();
+            gfx_flipPage();
             /* 0x14d */
             for (introStage = 0; introStage < 2; introStage++) {
                 for (timerCounter = 0; timerCounter < ADV_TIMEOUT;) {
@@ -103,7 +103,7 @@ checkEga:
                 setupOverlaySlots(loadOverlay(aEgraphic_exe));
             }
             /* 0x1b4 */
-            gfx_jump_45_retrace();
+            gfx_waitRetrace();
             /* 0x1bd */
             showPic640(aTitle640_pic);
         }
@@ -111,11 +111,11 @@ checkEga:
         else {
             TRACE(("main: doing 16color title"));
             gfx_setFadeSteps(1);
-            gfx_jump_45_retrace();
+            gfx_waitRetrace();
             openShowPic(aTitle16_pic, 0);
             gfx_commitPage();
             /* 0x1ec */
-            gfx_jump_44_setDac(commData->gfxModeNum >= GFX_MODE_VGA ? 4 : 3);
+            gfx_setDac(commData->gfxModeNum >= GFX_MODE_VGA ? 4 : 3);
         }
         /* 0x204 */
         TRACE(("main: waiting for mda/cga"));
@@ -132,19 +132,19 @@ checkEga:
         /* 0x23c */
         if (commData->gfxModeNum >= GFX_MODE_EGA && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & EGA_SWITCH_MASK) == EGA_SWITCH_VALUE) {
             TRACE(("main: restoring old overlay after title"));
-            gfx_jump_44_setDac(2);
+            gfx_setDac(2);
             /* 0x264 */
             getch();
             /* 0x26f */
             setupOverlaySlots(commData->gfxOvlAddr); /* restore temporarily shadowed overlay? */
-            gfx_jump_45_retrace();
+            gfx_waitRetrace();
             /* 0x282 */
-            gfx_jump_3c_setMode13(commData->setupMono);
+            gfx_setMode13(commData->setupMono);
         }
         /* 0x28c */
         else {
             TRACE(("main: after 16 title"));
-            gfx_jump_44_setDac(0);
+            gfx_setDac(0);
             getch();
         }
     }
@@ -184,7 +184,7 @@ checkEga:
     TRACE(("main: init pilot/mission"));
     /* 0x316 */
     joyReady[0] = 1;
-    bufSize = gfx_jump_17_bufSize();
+    bufSize = gfx_getBufSize();
     /* 0x32a */
     menuSprites = allocBuffer(bufSize);
     pilotSelect(*needSplash);
@@ -224,7 +224,7 @@ doSrand:
     gfx_setFadeSteps(8);
     /* 0x3d8 */
     TRACE(("main: loading sprites"));
-    if (gfx_jump_4e_getVal() == 0) {
+    if (gfx_getVal() == 0) {
         openShowPic(aF15_spr, 2);
     }
     /* 0x3f1 */

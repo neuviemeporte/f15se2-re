@@ -38,7 +38,7 @@ HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
 cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-end debug-egame tools
+.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-end debug-egame tools noasm-start
 all: f15-se2
 
 #
@@ -116,6 +116,44 @@ $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
 	    cp $@ "$(F15_TESTDIR)"; \
 		ls -l $(F15_TESTDIR)/start.exe; \
 	fi
+
+#
+# start.exe NO_ASM build (pure C graphics, no overlay needed)
+#
+NOASMDIR := noasm_build
+START_NOASM := $(NOASMDIR)/start.exe
+NOASM_SRC := $(START_SRC) gfx_impl.c
+NOASM_SHARED_SRC := file_io.c timer.c miscstub.c gfxstub.c picstub.c datastub.c
+NOASM_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
+NOASM_OBJ := $(NOASM_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util2.obj
+$(NOASM_COBJ): $(START_BASEHDR)
+$(NOASM_COBJ): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DNO_ASM
+$(NOASMDIR)/util.obj: $(SRCDIR)/shared/util.c $(HDRS) | $(NOASMDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /I.. /Id:\f15-se2 /DNO_ASM"
+$(NOASMDIR)/util2.obj: $(SRCDIR)/shared/util2.c $(HDRS) | $(NOASMDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /I.. /Id:\f15-se2 /DNO_ASM"
+$(START_NOASM): | $(NOASMDIR)
+$(START_NOASM): $(NOASM_OBJ)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(NOASM_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
+	@if [ -n "$(F15_TESTDIR)" ]; then \
+	    echo "Copying $@ to $(F15_TESTDIR)"; \
+	    cp $@ "$(F15_TESTDIR)"; \
+		ls -l $(F15_TESTDIR)/start.exe; \
+	fi
+
+$(NOASMDIR):
+	mkdir -p $@
+
+$(NOASMDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(NOASMDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
+
+$(NOASMDIR)/%.obj: $(SRCDIR)/shared/%.c $(HDRS) | $(NOASMDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /Zi /I.. /Id:\f15-se2 /DNO_ASM"
+
+$(NOASMDIR)/%.obj: $(SRCDIR)/%.asm | $(NOASMDIR)
+	$(UASM) $(UASMFLAGS) -Fo$@ $<
+
+noasm-start: $(START_NOASM)
 
 #
 # egame.exe reconstruction (rc)
@@ -252,6 +290,7 @@ debug-egame: $(DEBUGDIR) $(EGAME_DEBUG)
 clean:
 	-rm -rf $(BUILDDIR)
 	-rm -rf $(DEBUGDIR)
+	-rm -rf $(NOASMDIR)
 
 test: $(TEST_EXE)
 	@$(DOSBUILD) test -i $<

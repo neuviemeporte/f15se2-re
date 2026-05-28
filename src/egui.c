@@ -192,7 +192,7 @@ void sub_1A872(int arg_0, int arg_2, int arg_4, int arg_6) {
     var_574 = arg_6 - 3;
     var_575 = 7;
     var_576 = 7;
-    gfx_jump_47(&word_383AE);
+    gfx_blitSpriteClipped(&word_383AE);
 }
 
 // ==== seg000:0xa8c8 ====
@@ -208,11 +208,11 @@ void sub_1A8C8(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a,
     var_586 = (char)arg_c;
     if (arg_c != 0) {
         var_585 = 1;
-        gfx_jump_47(&word_383CC);
+        gfx_blitSpriteClipped(&word_383CC);
         return;
     }
     var_585 = 0x10;
-    gfx_jump_49(&word_383CC);
+    gfx_blitSpriteOpaque(&word_383CC);
 }
 
 // TODO: sub_1A9F8 (seg000:a9f8-b146) - unimplemented

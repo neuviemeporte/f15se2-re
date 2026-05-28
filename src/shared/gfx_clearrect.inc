@@ -1,13 +1,13 @@
 ; shared/gfx_clearrect.inc — Clear a rectangular area
 ;
 ; Required EQU definitions before INCLUDE:
-;   clearRectGetCurBuf  - far proc: gfx_jump_10_getCurBuf
-;   clearRectSetCurBuf  - far proc: gfx_jump_0d_setCurBuf
-;   clearRectSetVal     - far proc: gfx_jump_20_setVal
-;   clearRectJump28     - far proc: gfx_jump_28
-;   clearRectJump22     - far proc: gfx_jump_22
-;   clearRectNull       - far proc: gfx_jump_51_null
-;   clearRectGetBufPtr  - far proc: gfx_jump_0f_getBufPtr
+;   clearRectGetCurBuf  - far proc: gfx_getCurPageSeg2
+;   clearRectSetCurBuf  - far proc: gfx_setPage1
+;   clearRectSetVal     - far proc: gfx_setPageDirect
+;   clearRectJump28     - far proc: gfx_dirtyRect2
+;   clearRectJump22     - far proc: gfx_resetBlitOffset
+;   clearRectNull       - far proc: gfx_nop51
+;   clearRectGetBufPtr  - far proc: gfx_getCurPageSeg
 ;   clearRectX      - word: min x storage
 ;   clearRectY      - word: min y storage
 ;   clearRectWidth      - word: width storage

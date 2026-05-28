@@ -78,23 +78,23 @@ ELSE
     ENDM
 ENDIF
 
-EXTRN _gfx_jump_38_getPageBuf:FAR
-EXTRN _gfx_jump_3b_clearBuf:FAR
-EXTRN _gfx_jump_33_fillRow:FAR
-EXTRN _gfx_jump_35:FAR
-EXTRN _gfx_jump_0_alloc:FAR
-EXTRN _gfx_jump_10_getCurBuf:FAR
-EXTRN _gfx_jump_0d_setCurBuf:FAR
-EXTRN _gfx_jump_20_setVal:FAR
-EXTRN _gfx_jump_28:FAR
-EXTRN _gfx_jump_22:FAR
-EXTRN _gfx_jump_51_null:FAR
-EXTRN _gfx_jump_0f_getBufPtr:FAR
-EXTRN _gfx_jump_1f:FAR
+EXTRN _gfx_getPageSeg:FAR
+EXTRN _gfx_clearPage:FAR
+EXTRN _gfx_fillRow:FAR
+EXTRN _gfx_copyRow:FAR
+EXTRN _gfx_allocPage:FAR
+EXTRN _gfx_getCurPageSeg2:FAR
+EXTRN _gfx_setPage1:FAR
+EXTRN _gfx_setPageDirect:FAR
+EXTRN _gfx_dirtyRect2:FAR
+EXTRN _gfx_resetBlitOffset:FAR
+EXTRN _gfx_nop51:FAR
+EXTRN _gfx_getCurPageSeg:FAR
+EXTRN _gfx_drawLine:FAR
 EXTRN _audio_jump_6b:FAR
-EXTRN _gfx_jump_3a_getRowOffset:FAR
-EXTRN _gfx_jump_34_fillRow:FAR
-EXTRN _gfx_jump_36_null:FAR
+EXTRN _gfx_getRowOffset:FAR
+EXTRN _gfx_fillRow2:FAR
+EXTRN _gfx_nop36:FAR
 EXTRN _audio_jump_6c:FAR
 EXTRN _timerReload:WORD
 EXTRN _timerTick:WORD
@@ -338,8 +338,8 @@ _picBlit proc near
     mov _tmpPageIndex, ax
     mov si, _tmpPageIndex
 loc_11B20:
-    call far ptr _gfx_jump_38_getPageBuf
-    call far ptr _gfx_jump_3b_clearBuf ;zeroes out 32000 bytes
+    call far ptr _gfx_getPageSeg
+    call far ptr _gfx_clearPage ;zeroes out 32000 bytes
     mov _picCurrentRow, 0
     mov _rowOffset, 0
 loc_11B36:
@@ -350,9 +350,9 @@ loc_11B36:
     mov bp, offset _picDecodedRowBuf
 loc_11B46:
     mov bx, _picCurrentRow
-    call far ptr _gfx_jump_33_fillRow
+    call far ptr _gfx_fillRow
     mov di, _rowOffset
-    call far ptr _gfx_jump_35
+    call far ptr _gfx_copyRow
     inc _picCurrentRow
     add _rowOffset, 28h
     cmp _picCurrentRow, 2BCh
@@ -556,7 +556,7 @@ _loadOverlay endp ;AL = exit code
 ; ------------------------------startCode1:0x2a88------------------------------
 ; --- shared overlay slot setup routine
 ovlInsaneFlag    EQU _ovlInsaneFlag
-ovlJumpTable     EQU _gfx_jump_0_alloc
+ovlJumpTable     EQU _gfx_allocPage
 INCLUDE shared/overlay_slots.inc
 _setupOverlaySlots equ setupOverlaySlots
 ; ------------------------------startCode1:0x2ae0------------------------------
@@ -564,13 +564,13 @@ msg14 db 'clearRect(): buf 0x%x %d %d %d %d',0
 msg15 db 'clearRect(): destination 0x%x',0
 ; ------------------------------startCode1:0x2bba------------------------------
 ; --- shared clearRect
-clearRectGetCurBuf EQU _gfx_jump_10_getCurBuf
-clearRectSetCurBuf EQU _gfx_jump_0d_setCurBuf
-clearRectSetVal    EQU _gfx_jump_20_setVal
-clearRectJump28    EQU _gfx_jump_28
-clearRectJump22    EQU _gfx_jump_22
-clearRectNull      EQU _gfx_jump_51_null
-clearRectGetBufPtr EQU _gfx_jump_0f_getBufPtr
+clearRectGetCurBuf EQU _gfx_getCurPageSeg2
+clearRectSetCurBuf EQU _gfx_setPage1
+clearRectSetVal    EQU _gfx_setPageDirect
+clearRectJump28    EQU _gfx_dirtyRect2
+clearRectJump22    EQU _gfx_resetBlitOffset
+clearRectNull      EQU _gfx_nop51
+clearRectGetBufPtr EQU _gfx_getCurPageSeg
 clearRectX     EQU _clearRectX
 clearRectY     EQU _clearRectY
 clearRectWidth     EQU _clearRectWidth
@@ -601,7 +601,7 @@ clipMaxX         EQU _clipMaxX
 clipMaxY         EQU _clipMaxY
 clipDivZeroHandler EQU _clipDivZeroHandler
 CALL_GFX_1F MACRO
-    call _gfx_jump_1f
+    call _gfx_drawLine
 ENDM
 INCLUDE shared/gfx.inc
 ; ------------------------------startCode1:0x2f8a------------------------------

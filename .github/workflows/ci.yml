@@ -43,3 +43,6 @@ jobs:
 
       - name: Verify end.exe
         run: make verify-end
+
+      - name: Build noasm-start
+        run: make noasm-start

@@ -19,7 +19,7 @@ void missionSelect()
     int index, count;
     TRACE(("missionSelect(): entering"));
     // 6d3
-    gfx_jump_44_setDac(1);
+    gfx_setDac(1);
     // 6de
     gfx_setFadeSteps(0);
     // 6f0
@@ -194,7 +194,7 @@ void animateArm(int a, int b)
         // af3
         if (b < 5 && enableHighlight != 0) {
             // b24
-            gfx_jump_29_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
+            gfx_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
         }
         // b2c
         showSprite(*page1NumPtr, word_1716A[j], word_1717A[j], word_1714A[j], word_1715A[j], word_1718A[j], word_1719A[j]);
@@ -217,7 +217,7 @@ void animateArm(int a, int b)
             // bdf
             if (a < 5 && enableHighlight != 0) {
                 // c10
-                gfx_jump_29_switchColor(page1NumPtr, 113, (21 * a) + 0x22, 297, (21 * a) + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
+                gfx_switchColor(page1NumPtr, 113, (21 * a) + 0x22, 297, (21 * a) + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
             } // c18
         }
         spriteBlitX = word_1716A[j];
@@ -226,9 +226,9 @@ void animateArm(int a, int b)
         spriteBlitH = word_1719A[j];
     }
     else { // c3c
-        gfx_jump_0e_setCurBuf(0);
+        gfx_setPageN(0);
         // c4b
-        gfx_jump_30_blitToCurrent(page1Ptr);
+        gfx_blitToCurrent(page1Ptr);
         spriteBlitX = word_1716A[j];
         spriteBlitY = word_1717A[j];
         spriteBlitW = word_1718A[j];
@@ -238,7 +238,7 @@ void animateArm(int a, int b)
         // c9d
         if (b < 5 && enableHighlight != 0) {
             // cce
-            gfx_jump_29_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
+            gfx_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
         } //cd9
     }
 }

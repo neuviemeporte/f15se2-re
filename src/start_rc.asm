@@ -59,43 +59,43 @@ PUBLIC _wldReadBuf9
 PUBLIC _wldReadBuf10
 PUBLIC _wldReadBuf11
 PUBLIC _wldOffsets
-PUBLIC _gfx_jump_0_alloc
-PUBLIC _gfx_jump_05_drawString
-PUBLIC _gfx_jump_0d_setCurBuf
-PUBLIC _gfx_jump_0e_setCurBuf
-PUBLIC _gfx_jump_0f_getBufPtr
-PUBLIC _gfx_jump_10_getCurBuf
-PUBLIC _gfx_jump_11_blitSprite
-PUBLIC _gfx_jump_17_bufSize
-PUBLIC _gfx_jump_1f
-PUBLIC _gfx_jump_20_setVal
-PUBLIC _gfx_jump_21
-PUBLIC _gfx_jump_22
-PUBLIC _gfx_jump_23
-PUBLIC _gfx_jump_25
-PUBLIC _gfx_jump_28
-PUBLIC _gfx_jump_29_switchColor
+PUBLIC _gfx_allocPage
+PUBLIC _gfx_drawString
+PUBLIC _gfx_setPage1
+PUBLIC _gfx_setPageN
+PUBLIC _gfx_getCurPageSeg
+PUBLIC _gfx_getCurPageSeg2
+PUBLIC _gfx_blitSprite
+PUBLIC _gfx_getBufSize
+PUBLIC _gfx_drawLine
+PUBLIC _gfx_setPageDirect
+PUBLIC _gfx_setColor
+PUBLIC _gfx_resetBlitOffset
+PUBLIC _gfx_resetBlitOffset2
+PUBLIC _gfx_dirtyRect
+PUBLIC _gfx_dirtyRect2
+PUBLIC _gfx_switchColor
 PUBLIC _gfx_copyRect
-PUBLIC _gfx_jump_2f_charWidth
-PUBLIC _gfx_jump_30_blitToCurrent
-PUBLIC _gfx_jump_33_fillRow
-PUBLIC _gfx_jump_34_fillRow
-PUBLIC _gfx_jump_35
-PUBLIC _gfx_jump_36_null
-PUBLIC _gfx_jump_37_null
-PUBLIC _gfx_jump_38_getPageBuf
-PUBLIC _gfx_jump_3a_getRowOffset
-PUBLIC _gfx_jump_3b_clearBuf
-PUBLIC _gfx_jump_3c_setMode13
+PUBLIC _gfx_setFont
+PUBLIC _gfx_blitToCurrent
+PUBLIC _gfx_fillRow
+PUBLIC _gfx_fillRow2
+PUBLIC _gfx_copyRow
+PUBLIC _gfx_nop36
+PUBLIC _gfx_nop37
+PUBLIC _gfx_getPageSeg
+PUBLIC _gfx_getRowOffset
+PUBLIC _gfx_clearPage
+PUBLIC _gfx_setMode13
 PUBLIC _gfx_setFadeSteps
-PUBLIC _gfx_jump_3f_modecode
-PUBLIC _gfx_jump_44_setDac
-PUBLIC _gfx_jump_45_retrace
-PUBLIC _gfx_jump_46_retrace2
-PUBLIC _gfx_jump_4b_storeBufPtr
-PUBLIC _gfx_jump_4e_getVal
+PUBLIC _gfx_getModecode
+PUBLIC _gfx_setDac
+PUBLIC _gfx_waitRetrace
+PUBLIC _gfx_flipPage
+PUBLIC _gfx_storeBufPtr
+PUBLIC _gfx_getVal
 PUBLIC _gfx_commitPage
-PUBLIC _gfx_jump_51_null
+PUBLIC _gfx_nop51
 PUBLIC _gfx_setMonoFlag
 PUBLIC _misc_jump_5a_keybuf
 PUBLIC _misc_jump_5b_getkey
@@ -438,10 +438,10 @@ EXTRN _blinkColorIdx:WORD
 EXTRN _pilotNameInputColors:WORD
 
 ; ------------------------------startData:0xab8------------------------------
-_gfx_jump_0_alloc proc far
+_gfx_allocPage proc far
     db 0EAh ;jmp far ptr gfx_slot_0_alloc
     dd 0
-_gfx_jump_0_alloc endp
+_gfx_allocPage endp
 ; ------------------------------startData:0xab8------------------------------
     db 0EAh ;jmp far ptr gfx_slot_01
     dd 0
@@ -452,10 +452,10 @@ _gfx_jump_0_alloc endp
     db 0EAh ;jmp gfx_slot_04
     dd 0
 ; ------------------------------startData:0xad1------------------------------
-_gfx_jump_05_drawString proc near
+_gfx_drawString proc near
     db 0EAh ;jmp gfx_slot_05_t04
     dd 0
-_gfx_jump_05_drawString endp
+_gfx_drawString endp
 ; ------------------------------startData:0xad1------------------------------
     db 0EAh ;jmp gfx_slot_06
     dd 0
@@ -472,34 +472,34 @@ _gfx_jump_05_drawString endp
     db 0EAh ;jmp far ptr gfx_slot_0c
     dd 0
 ; ------------------------------startData:0xaf9------------------------------
-_gfx_jump_0d_setCurBuf proc far
+_gfx_setPage1 proc far
     db 0EAh ;jmp gfx_slot_0d_setCurBuf
     dd 0
-_gfx_jump_0d_setCurBuf endp
+_gfx_setPage1 endp
 ; ------------------------------startData:0xaf9------------------------------
 ; ------------------------------startData:0xafe------------------------------
-_gfx_jump_0e_setCurBuf proc near
+_gfx_setPageN proc near
     db 0EAh ;jmp far ptr gfx_slot_0e_setCurBuf
     dd 0
-_gfx_jump_0e_setCurBuf endp
+_gfx_setPageN endp
 ; ------------------------------startData:0xafe------------------------------
 ; ------------------------------startData:0xb03------------------------------
-_gfx_jump_0f_getBufPtr proc far
+_gfx_getCurPageSeg proc far
     db 0EAh ;jmp gfx_slot_0f_getButPtr
     dd 0
-_gfx_jump_0f_getBufPtr endp
+_gfx_getCurPageSeg endp
 ; ------------------------------startData:0xb03------------------------------
 ; ------------------------------startData:0xb08------------------------------
-_gfx_jump_10_getCurBuf proc far
+_gfx_getCurPageSeg2 proc far
     db 0EAh ;jmp gfx_slot_10_getCurBuf
     dd 0
-_gfx_jump_10_getCurBuf endp
+_gfx_getCurPageSeg2 endp
 ; ------------------------------startData:0xb08------------------------------
 ; ------------------------------startData:0xb0d------------------------------
-_gfx_jump_11_blitSprite proc near
+_gfx_blitSprite proc near
     db 0EAh ;jmp gfx_slot_11
     dd 0
-_gfx_jump_11_blitSprite endp
+_gfx_blitSprite endp
 ; ------------------------------startData:0xb0d------------------------------
     db 0EAh ;jmp gfx_slot_12
     dd 0
@@ -512,10 +512,10 @@ _gfx_jump_11_blitSprite endp
     db 0EAh ;jmp far ptr gfx_slot_15
     dd 0
 ; ------------------------------startData:0xb2b------------------------------
-_gfx_jump_17_bufSize proc far
+_gfx_getBufSize proc far
     db 0EAh ;jmp gfx_slot_17
     dd 0
-_gfx_jump_17_bufSize endp
+_gfx_getBufSize endp
 ; ------------------------------startData:0xb2b------------------------------
     db 0EAh ;jmp far ptr gfx_slot_18
     dd 0
@@ -532,58 +532,58 @@ _gfx_jump_17_bufSize endp
     db 0EAh ;jmp far ptr gfx_slot_1e
     dd 0
 ; ------------------------------startData:0xb53------------------------------
-_gfx_jump_1f proc far
+_gfx_drawLine proc far
     db 0EAh ;jmp gfx_slot_1f
     dd 0
-_gfx_jump_1f endp
+_gfx_drawLine endp
 ; ------------------------------startData:0xb53------------------------------
 ; ------------------------------startData:0xb58------------------------------
-_gfx_jump_20_setVal proc far
+_gfx_setPageDirect proc far
     db 0EAh ;jmp gfx_slot_20_setVal
     dd 0
-_gfx_jump_20_setVal endp
+_gfx_setPageDirect endp
 ; ------------------------------startData:0xb58------------------------------
 ; ------------------------------startData:0xb5d------------------------------
-_gfx_jump_21 proc near
+_gfx_setColor proc near
     db 0EAh ;jmp far ptr gfx_slot_21
     dd 0
-_gfx_jump_21 endp
+_gfx_setColor endp
 ; ------------------------------startData:0xb5d------------------------------
 ; ------------------------------startData:0xb62------------------------------
-_gfx_jump_22 proc near
+_gfx_resetBlitOffset proc near
     db 0EAh ;jmp gfx_slot_22_nullsub
     dd 0
-_gfx_jump_22 endp
+_gfx_resetBlitOffset endp
 ; ------------------------------startData:0xb62------------------------------
 ; ------------------------------startData:0xb67------------------------------
-_gfx_jump_23 proc far
+_gfx_resetBlitOffset2 proc far
     db 0EAh ;jmp gfx_slot_22_nullsub
     dd 0
-_gfx_jump_23 endp
+_gfx_resetBlitOffset2 endp
 ; ------------------------------startData:0xb67------------------------------
     db 0EAh ;jmp far ptr gfx_slot_24
     dd 0
 ; ------------------------------startData:0xb71------------------------------
-_gfx_jump_25 proc near
+_gfx_dirtyRect proc near
     db 0EAh ;jmp far ptr gfx_slot_25
     dd 0
-_gfx_jump_25 endp
+_gfx_dirtyRect endp
 ; ------------------------------startData:0xb71------------------------------
     db 0EAh ;jmp far ptr gfx_slot_26
     dd 0
     db 0EAh ;jmp far ptr gfx_slot_27
     dd 0
 ; ------------------------------startData:0xb80------------------------------
-_gfx_jump_28 proc near
+_gfx_dirtyRect2 proc near
     db 0EAh ;jmp far ptr gfx_slot_25
     dd 0
-_gfx_jump_28 endp
+_gfx_dirtyRect2 endp
 ; ------------------------------startData:0xb80------------------------------
 ; ------------------------------startData:0xb85------------------------------
-_gfx_jump_29_switchColor proc near
+_gfx_switchColor proc near
     db 0EAh ;jmp far ptr gfx_slot_29_fillRect
     dd 0
-_gfx_jump_29_switchColor endp
+_gfx_switchColor endp
 ; ------------------------------startData:0xb85------------------------------
 ; ------------------------------startData:0xb8a------------------------------
 _gfx_copyRect proc near
@@ -600,76 +600,76 @@ _gfx_copyRect endp
     db 0EAh ;jmp far ptr gfx_slot_2e
     dd 0
 ; ------------------------------startData:0xba3------------------------------
-_gfx_jump_2f_charWidth proc far
+_gfx_setFont proc far
     db 0EAh ;jmp gfx_slot_2f
     dd 0
-_gfx_jump_2f_charWidth endp
+_gfx_setFont endp
 ; ------------------------------startData:0xba3------------------------------
 ; ------------------------------startData:0xba8------------------------------
-_gfx_jump_30_blitToCurrent proc near
+_gfx_blitToCurrent proc near
     db 0EAh ;jmp far ptr gfx_slot_30_blitToCurrent
     dd 0
-_gfx_jump_30_blitToCurrent endp
+_gfx_blitToCurrent endp
 ; ------------------------------startData:0xba8------------------------------
     db 0EAh ;jmp gfx_slot_31
     dd 0
     db 0EAh ;jmp gfx_slot_32
     dd 0
 ; ------------------------------startData:0xbb7------------------------------
-_gfx_jump_33_fillRow proc near
+_gfx_fillRow proc near
     db 0EAh ;args: ss, bpjmp far ptr gfx_slot_33_memcpyRow
     dd 0
-_gfx_jump_33_fillRow endp
+_gfx_fillRow endp
 ; ------------------------------startData:0xbb7------------------------------
 ; ------------------------------startData:0xbbc------------------------------
-_gfx_jump_34_fillRow proc near
+_gfx_fillRow2 proc near
     db 0EAh ;args: ss, bpjmp far ptr gfx_slot_33_memcpyRow
     dd 0
-_gfx_jump_34_fillRow endp
+_gfx_fillRow2 endp
 ; ------------------------------startData:0xbbc------------------------------
 ; ------------------------------startData:0xbc1------------------------------
-_gfx_jump_35 proc near
+_gfx_copyRow proc near
     db 0EAh ;jmp far ptr gfx_slot_35_null
     dd 0
-_gfx_jump_35 endp
+_gfx_copyRow endp
 ; ------------------------------startData:0xbc1------------------------------
 ; ------------------------------startData:0xbc6------------------------------
-_gfx_jump_36_null proc near
+_gfx_nop36 proc near
     db 0EAh ;jmp far ptr gfx_slot_36_null
     dd 0
-_gfx_jump_36_null endp
+_gfx_nop36 endp
 ; ------------------------------startData:0xbc6------------------------------
 ; ------------------------------startData:0xbcb------------------------------
-_gfx_jump_37_null proc near
+_gfx_nop37 proc near
     db 0EAh ;jmp far ptr gfx_slot_37_null
     dd 0
-_gfx_jump_37_null endp
+_gfx_nop37 endp
 ; ------------------------------startData:0xbcb------------------------------
 ; ------------------------------startData:0xbd0------------------------------
-_gfx_jump_38_getPageBuf proc near
+_gfx_getPageSeg proc near
     db 0EAh ;index to word offsetjmp far ptr gfx_slot_38_getBuf
     dd 0
-_gfx_jump_38_getPageBuf endp
+_gfx_getPageSeg endp
 ; ------------------------------startData:0xbd0------------------------------
     db 0EAh ;jmp far ptr gfx_slot_39
     dd 0
 ; ------------------------------startData:0xbda------------------------------
-_gfx_jump_3a_getRowOffset proc near
+_gfx_getRowOffset proc near
     db 0EAh ;index *= 2, word index?jmp far ptr gfx_slot_3a_getRowOffset
     dd 0
-_gfx_jump_3a_getRowOffset endp
+_gfx_getRowOffset endp
 ; ------------------------------startData:0xbda------------------------------
 ; ------------------------------startData:0xbdf------------------------------
-_gfx_jump_3b_clearBuf proc near
+_gfx_clearPage proc near
     db 0EAh ;jmp far ptr gfx_slot_3b_clearBuf
     dd 0
-_gfx_jump_3b_clearBuf endp
+_gfx_clearPage endp
 ; ------------------------------startData:0xbdf------------------------------
 ; ------------------------------startData:0xbe4------------------------------
-_gfx_jump_3c_setMode13 proc far
+_gfx_setMode13 proc far
     db 0EAh ;mode 13h: 40x25 halfwidthjmp far ptr gfx_slot_3c_setMode13
     dd 0
-_gfx_jump_3c_setMode13 endp
+_gfx_setMode13 endp
 ; ------------------------------startData:0xbe4------------------------------
 ; ------------------------------startData:0xbe9------------------------------
 _gfx_setFadeSteps proc near
@@ -680,10 +680,10 @@ _gfx_setFadeSteps endp
     db 0EAh ;jmp far ptr gfx_slot_3e
     dd 0
 ; ------------------------------startData:0xbf3------------------------------
-_gfx_jump_3f_modecode proc far
+_gfx_getModecode proc far
     db 0EAh ;jmp gfx_slot_3f_ax3
     dd 0
-_gfx_jump_3f_modecode endp
+_gfx_getModecode endp
 ; ------------------------------startData:0xbf3------------------------------
     db 0EAh ;jmp far ptr gfx_slot_40
     dd 0
@@ -694,22 +694,22 @@ _gfx_jump_3f_modecode endp
     db 0EAh ;jmp far ptr gfx_slot_43
     dd 0
 ; ------------------------------startData:0xc0c------------------------------
-_gfx_jump_44_setDac proc far
+_gfx_setDac proc far
     db 0EAh ;jmp gfx_slot_44_setDac
     dd 0
-_gfx_jump_44_setDac endp
+_gfx_setDac endp
 ; ------------------------------startData:0xc0c------------------------------
 ; ------------------------------startData:0xc11------------------------------
-_gfx_jump_45_retrace proc far
+_gfx_waitRetrace proc far
     db 0EAh ;jmp gfx_slot_45_retrace
     dd 0
-_gfx_jump_45_retrace endp
+_gfx_waitRetrace endp
 ; ------------------------------startData:0xc11------------------------------
 ; ------------------------------startData:0xc16------------------------------
-_gfx_jump_46_retrace2 proc far
+_gfx_flipPage proc far
     db 0EAh ;jmp gfx_slot_46_retrace2
     dd 0
-_gfx_jump_46_retrace2 endp
+_gfx_flipPage endp
 ; ------------------------------startData:0xc16------------------------------
     db 0EAh ;jmp far ptr gfx_slot_13
     dd 0
@@ -720,20 +720,20 @@ _gfx_jump_46_retrace2 endp
     db 0EAh ;jmp gfx_slot_12
     dd 0
 ; ------------------------------startData:0xc2f------------------------------
-_gfx_jump_4b_storeBufPtr proc far
+_gfx_storeBufPtr proc far
     db 0EAh ;jmp gfx_slot_4b_storeBufPtr
     dd 0
-_gfx_jump_4b_storeBufPtr endp
+_gfx_storeBufPtr endp
 ; ------------------------------startData:0xc2f------------------------------
     db 0EAh ;jmp far ptr gfx_slot_4c
     dd 0
     db 0EAh ;jmp far ptr gfx_slot_4d
     dd 0
 ; ------------------------------startData:0xc3e------------------------------
-_gfx_jump_4e_getVal proc far
+_gfx_getVal proc far
     db 0EAh ;jmp gfx_slot_4e_getVal
     dd 0
-_gfx_jump_4e_getVal endp
+_gfx_getVal endp
 ; ------------------------------startData:0xc3e------------------------------
     db 0EAh ;jmp gfx_slot_4f
     dd 0
@@ -744,10 +744,10 @@ _gfx_commitPage proc far
 _gfx_commitPage endp
 ; ------------------------------startData:0xc48------------------------------
 ; ------------------------------startData:0xc4d------------------------------
-_gfx_jump_51_null proc far
+_gfx_nop51 proc far
     db 0EAh ;jmp gfx_slot_51_null
     dd 0
-_gfx_jump_51_null endp
+_gfx_nop51 endp
 ; ------------------------------startData:0xc4d------------------------------
     db 0EAh ;jmp gfx_slot_52
     dd 0

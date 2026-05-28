@@ -36,7 +36,7 @@ void main(void) {
     }
     loadWorldStrings();
     b = gfx_getAuxBufSize();
-    p = gfx_jump_17_bufSize();
+    p = gfx_getBufSize();
     gfxBufSeg = allocBuffer(b);
     if (hasVgaMode == 1) {
         vgaBufSeg = allocBuffer(VGA_BUF_SIZE);
@@ -68,7 +68,7 @@ void drawFarString(int16* s, char far *str) {
     char buf[200];
     TRACE(("drawFarString"));
     farStrcpy(buf, str);
-    gfx_jump_05_drawString(s, buf);
+    gfx_drawString(s, buf);
 }
 
 void checkQuitFlag(void) {

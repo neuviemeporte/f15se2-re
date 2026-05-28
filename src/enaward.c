@@ -85,7 +85,7 @@ void showPostMissionAwards(void) {
         mystrcat(textBuf, rankNames[++gameData->rank]);
         drawStringCentered(awardPage, textBuf, 0x24, 0xb7, 0xfa);
         gfx_commitPage();
-        gfx_jump_46_retrace2();
+        gfx_flipPage();
         waitForKeyOrJoy();
     }
 medals:
@@ -98,7 +98,7 @@ medals:
         goto done;
     if (gameData->medals & (1 << (char)p))
         goto done;
-    gfx_jump_45_retrace();
+    gfx_waitRetrace();
     gfx_setFadeSteps(0x0a);
     openShowPic(str_medalPic, *awardPage);
     awardColor = 0x0f;
@@ -109,9 +109,9 @@ medals:
     gameData->medals |= (1 << (char)p);
 show:
     gfx_commitPage();
-    gfx_jump_46_retrace2();
+    gfx_flipPage();
     waitForKeyOrJoy();
 done:
     clearRect(awardPage, 0, 0, 0x13f, 0xc7);
-    gfx_jump_46_retrace2();
+    gfx_flipPage();
 }

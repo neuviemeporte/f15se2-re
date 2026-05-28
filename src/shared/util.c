@@ -10,8 +10,8 @@
 #include "../pointers.h"
 
 /* extern declarations needed by these functions */
-extern void far gfx_jump_05_drawString(int16 *pageNum, const char *string);
-extern int far gfx_jump_2f_charWidth(int ch, int font);
+extern void far gfx_drawString(int16 *pageNum, const char *string);
+extern int far gfx_setFont(int ch, int font);
 extern void far misc_jump_5e_clearKeyFlags(void);
 extern char timerHandlerInstalled;
 void restoreTimerIrqHandler(void);
@@ -32,7 +32,7 @@ void cleanup()
 void drawStringAt(int16 *pageNum, const char *string, int x, int y) {
     pageNum[4] = x;
     pageNum[5] = y;
-    gfx_jump_05_drawString(pageNum, string);
+    gfx_drawString(pageNum, string);
 }
 
 void drawStringCentered(int16 *page, const char *str, int startx, int y, int endx) {
@@ -53,7 +53,7 @@ int stringWidth(int16 *page, const char *str) {
     j = page[6];
     n = 0;
     while (*l != '\0') {
-        n += gfx_jump_2f_charWidth(*(l++), j);
+        n += gfx_setFont(*(l++), j);
     }
     return n;
 }

@@ -484,8 +484,8 @@ PUBLIC _sub_20E38
 PUBLIC _a256left_pic
 PUBLIC _a256right_pic
 PUBLIC _a256rear_pic
-PUBLIC _gfx_jump_21
-PUBLIC _gfx_jump_23
+PUBLIC _gfx_setColor
+PUBLIC _gfx_resetBlitOffset2
 EXTRN _sub_121CA:PROC
 PUBLIC _aRight_pic
 PUBLIC _byte_3995A
@@ -613,17 +613,17 @@ PUBLIC _word_3BF90
 
 PUBLIC _missileSpecIndex
 PUBLIC _sub_21A86
-PUBLIC _gfx_jump_0_alloc
-PUBLIC _gfx_jump_05_drawString
+PUBLIC _gfx_allocPage
+PUBLIC _gfx_drawString
 PUBLIC _gfx_initOverlay
 PUBLIC _gfx_copyRect
 PUBLIC _gfx_getDisplayPage
 PUBLIC _gfx_setFadeSteps
-PUBLIC _gfx_jump_3f_modecode
-PUBLIC _gfx_jump_44_setDac
-PUBLIC _gfx_jump_45_retrace
-PUBLIC _gfx_jump_46_retrace2
-PUBLIC _gfx_jump_4b_storeBufPtr
+PUBLIC _gfx_getModecode
+PUBLIC _gfx_setDac
+PUBLIC _gfx_waitRetrace
+PUBLIC _gfx_flipPage
+PUBLIC _gfx_storeBufPtr
 PUBLIC _gfx_getModeFlag
 PUBLIC _gfx_setDacAnimCount
 PUBLIC _gfx_setMonoFlag
@@ -888,7 +888,7 @@ sub_10297 equ _sub_10297
     nop
 ; ------------------------------seg000:0x2e2------------------------------
 _loadF15DgtlBin proc near
-    call far ptr gfx_jump_32
+    call far ptr gfx_fontSetup
     mov bx, ax
     sub bx, 2
     cmp bx, 0FFFh
@@ -1271,7 +1271,7 @@ _setupOverlaySlots proc near
     mov ovlInsaneFlag, 1
 loc_106A0:
     mov es, dx
-    mov bx, offset _gfx_jump_0_alloc
+    mov bx, offset _gfx_allocPage
     mov di, OVL_HDR_FIRSTIDX
     mov ax, es:[di]
     mov dl, 5
@@ -1614,7 +1614,7 @@ LAB_1000_0a7a:
     mov word ptr [word_3AFA8],AX
     call _sub_119A3
     mov word ptr [word_3BECC],2h
-    call far ptr _gfx_jump_46_retrace2
+    call far ptr _gfx_flipPage
     call routine_191
     mov word ptr [word_38FF6],AX
 LAB_1000_0a94:
@@ -2460,7 +2460,7 @@ LAB_1000_1312:
     push AX
     call makeSound
     add SP,4h
-    call far ptr _gfx_jump_45_retrace
+    call far ptr _gfx_waitRetrace
     mov AX,78h
     push AX
     call _sub_12278
@@ -3488,7 +3488,7 @@ sub_1374A proc near
     mov AL,byte ptr ES:[BX]
     sub AH,AH
     push AX
-    call far ptr _gfx_jump_21
+    call far ptr _gfx_setColor
     add SP,2h
     call far ptr _sub_2152A
     pop BP
@@ -3505,8 +3505,8 @@ sub_13932 equ _sub_13932
 ; ------------------------------seg000:0x39aa------------------------------
 sub_139AA proc near
     call far ptr sub_202F6
-    call far ptr gfx_jump_18
-    call far ptr _gfx_jump_23
+    call far ptr gfx_setBlitOffset2
+    call far ptr _gfx_resetBlitOffset2
     mov byte ptr [_var_316],0h
     ret
     nop
@@ -3855,7 +3855,7 @@ sub_13C47 proc near
 loc_13C59:
     mov bx, 0
     mov ax, _word_38126
-    call far ptr gfx_jump_2c
+    call far ptr gfx_dacAnimate
     mov byte_378EE, 1
     call _otherKeyDispatch
     call sub_10720
@@ -10174,7 +10174,7 @@ _drawStringCentered proc near
     add SP,2h
     push AX
     push word ptr [BP + 4h]
-    call far ptr _gfx_jump_05_drawString
+    call far ptr _gfx_drawString
     add SP,6h
     mov SP,BP
     pop BP
@@ -12819,7 +12819,7 @@ LAB_1000_d349:
 LAB_1000_d34c:
     dec word ptr [_word_38FDC]
     jns LAB_1000_d367
-    call far ptr _gfx_jump_3f_modecode
+    call far ptr _gfx_getModecode
     db 3Dh, 03h, 00h ; cmp AX,3h (force imm16 encoding)
     jnz LAB_1000_d361
     mov AX,3h
@@ -13893,21 +13893,21 @@ _picBlit proc near
     mov tmpPageIndex, ax
     call nullsub_1
     mov si, tmpPageIndex
-    call far ptr gfx_jump_38_getPageBuf
-    call far ptr gfx_jump_3b_clearBuf
+    call far ptr gfx_getPageSeg
+    call far ptr gfx_clearPage
     mov word_389E0, 0
     mov word_389D8, 0FA00h
 loc_1E0E0:
     mov di, word_389E0
-    call far ptr gfx_jump_3a_getRowOffset
+    call far ptr gfx_getRowOffset
     mov rowOffset, ax
     call sub_1E262
     mov di, rowOffset
     mov bp, offset picDecodedRowBuf
     mov bx, word_389E0
-    call far ptr gfx_jump_33_fillRow
+    call far ptr gfx_fillRow
     mov di, rowOffset
-    call far ptr gfx_jump_35
+    call far ptr gfx_copyRow
     inc word_389E0
     sub word_389D8, 140h
     jnz short loc_1E0E0
@@ -13934,21 +13934,21 @@ sub_1E11C proc near
     mov word ptr [_var_605],AX
     mov AX,word ptr [BP + 6h]
     mov ES,AX
-    call far ptr gfx_jump_3b_clearBuf
+    call far ptr gfx_clearPage
     call nullsub_1
     mov word ptr [_var_609],0h
     mov word ptr [_var_606],0fa00h
 LAB_1000_e148:
     mov DI,word ptr [_var_609]
-    call far ptr gfx_jump_3a_getRowOffset
+    call far ptr gfx_getRowOffset
     mov word ptr [_var_608],AX
     call sub_1E262
     mov DI,word ptr [_var_608]
     mov BP,offset picDecodedRowBuf
     mov BX,word ptr [_var_609]
-    call far ptr gfx_jump_33_fillRow
+    call far ptr gfx_fillRow
     mov DI,word ptr [_var_608]
-    call far ptr gfx_jump_41
+    call far ptr gfx_setOvlVal2
     inc word ptr [_var_609]
     sub word ptr [_var_606],140h
     jnz LAB_1000_e148
@@ -13975,21 +13975,21 @@ sub_1E1F8 proc near
     mov word ptr [_var_605],AX
     mov AX,word ptr [BP + 6h]
     mov ES,AX
-    call far ptr gfx_jump_3b_clearBuf
+    call far ptr gfx_clearPage
     call nullsub_1
     mov word ptr [_var_609],0h
     mov word ptr [_var_606],0fa00h
 LAB_1000_e224:
     mov DI,word ptr [_var_609]
-    call far ptr gfx_jump_3a_getRowOffset
+    call far ptr gfx_getRowOffset
     mov word ptr [_var_608],AX
     call sub_1E262
     mov DI,word ptr [_var_608]
     mov BP,offset picDecodedRowBuf
     mov BX,word ptr [_var_609]
-    call far ptr gfx_jump_38_getPageBuf
+    call far ptr gfx_getPageSeg
     mov DI,word ptr [_var_608]
-    call far ptr gfx_jump_40
+    call far ptr gfx_setOvlVal1
     inc word ptr [_var_609]
     sub word ptr [_var_606],140h
     jnz LAB_1000_e224
@@ -14644,7 +14644,7 @@ loc_2242F:
     mov word_37C18, ax
     mov ax, 9Fh
     mov word_37C1A, ax
-    call far ptr gfx_jump_1c
+    call far ptr gfx_getBlitOffset
     mov word_37C1C, ax
     mov ax, 42h
     mov word_37C1E, ax
@@ -14744,7 +14744,7 @@ loc_22599:
     mov ax, 9Fh
     mov word_37C1A, ax
 loc_225BF:
-    call far ptr gfx_jump_1d
+    call far ptr gfx_setClipVal1
 loc_225C4:
     mov word_37C1C, ax
 loc_225C7:
@@ -16773,46 +16773,46 @@ _aF15StrikeEagle equ aF15StrikeEagle
 aAt db ' at ',0
 _aAt equ aAt
     db 0
-_gfx_jump_0_alloc proc near
+_gfx_allocPage proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_0_alloc endp
+_gfx_allocPage endp
 ; ------------------------------dseg:0xebe------------------------------
 ; ------------------------------dseg:0xec3------------------------------
-gfx_jump_01 proc near
+gfx_fillDirty proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_01 endp
+gfx_fillDirty endp
 ; ------------------------------dseg:0xec3------------------------------
 ; ------------------------------dseg:0xec8------------------------------
-gfx_jump_02 proc near
+gfx_blitTransparent proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_02 endp
+gfx_blitTransparent endp
 ; ------------------------------dseg:0xec8------------------------------
 ; ------------------------------dseg:0xecd------------------------------
-gfx_jump_03 proc near
+gfx_blitVariant proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_03 endp
+gfx_blitVariant endp
 ; ------------------------------dseg:0xecd------------------------------
 ; ------------------------------dseg:0xed2------------------------------
-gfx_jump_04 proc near
+gfx_copyBlock proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_04 endp
+gfx_copyBlock endp
 ; ------------------------------dseg:0xed2------------------------------
 ; ------------------------------dseg:0xed7------------------------------
-_gfx_jump_05_drawString proc near
+_gfx_drawString proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_05_drawString endp
+_gfx_drawString endp
 ; ------------------------------dseg:0xed7------------------------------
 ; ------------------------------dseg:0xedc------------------------------
-gfx_jump_06 proc near
+gfx_drawStringUnclipped proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_06 endp
+gfx_drawStringUnclipped endp
 ; ------------------------------dseg:0xedc------------------------------
     db 0EAh
     db 0
@@ -16835,10 +16835,10 @@ gfx_jump_06 endp
     db 0
     db 0
 ; ------------------------------dseg:0xef5------------------------------
-gfx_jump_0b proc near
+gfx_complexRender proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_0b endp
+gfx_complexRender endp
 ; ------------------------------dseg:0xef5------------------------------
 ; ------------------------------dseg:0xefa------------------------------
 _gfx_initOverlay proc near
@@ -16847,30 +16847,30 @@ _gfx_initOverlay proc near
 _gfx_initOverlay endp
 ; ------------------------------dseg:0xefa------------------------------
 ; ------------------------------dseg:0xeff------------------------------
-gfx_jump_0d_setCurBuf proc near
+gfx_setPage1 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_0d_setCurBuf endp
+gfx_setPage1 endp
 ; ------------------------------dseg:0xeff------------------------------
 ; ------------------------------dseg:0xf04------------------------------
-gfx_jump_0e_setCurBuf proc near
+gfx_setPageN proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_0e_setCurBuf endp
-    PUBLIC _gfx_jump_0e_setCurBuf
-_gfx_jump_0e_setCurBuf equ gfx_jump_0e_setCurBuf
+gfx_setPageN endp
+    PUBLIC _gfx_setPageN
+_gfx_setPageN equ gfx_setPageN
 ; ------------------------------dseg:0xf04------------------------------
 ; ------------------------------dseg:0xf09------------------------------
-gfx_jump_0f_getBufPtr proc near
+gfx_getCurPageSeg proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_0f_getBufPtr endp
+gfx_getCurPageSeg endp
 ; ------------------------------dseg:0xf09------------------------------
 ; ------------------------------dseg:0xf0e------------------------------
-gfx_jump_10_getCurBuf proc near
+gfx_getCurPageSeg2 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_10_getCurBuf endp
+gfx_getCurPageSeg2 endp
 ; ------------------------------dseg:0xf0e------------------------------
     db 0EAh
     db 0
@@ -16878,10 +16878,10 @@ gfx_jump_10_getCurBuf endp
     db 0
     db 0
 ; ------------------------------dseg:0xf18------------------------------
-gfx_jump_12 proc near
+gfx_blitCore proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_12 endp
+gfx_blitCore endp
 ; ------------------------------dseg:0xf18------------------------------
     db 0EAh
     db 0
@@ -16909,16 +16909,16 @@ gfx_jump_12 endp
     db 0
     db 0
 ; ------------------------------dseg:0xf36------------------------------
-gfx_jump_18 proc near
+gfx_setBlitOffset2 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_18 endp
+gfx_setBlitOffset2 endp
 ; ------------------------------dseg:0xf36------------------------------
 ; ------------------------------dseg:0xf3b------------------------------
-gfx_jump_19 proc near
+gfx_setBlitOffset3 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_19 endp
+gfx_setBlitOffset3 endp
 ; ------------------------------dseg:0xf3b------------------------------
 ; ------------------------------dseg:0xf40------------------------------
 gfx_setBlitOffset proc near
@@ -16929,22 +16929,22 @@ gfx_setBlitOffset endp
 _gfx_setBlitOffset equ gfx_setBlitOffset
 ; ------------------------------dseg:0xf40------------------------------
 ; ------------------------------dseg:0xf45------------------------------
-gfx_jump_1b proc near
+gfx_getAuxSize proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_1b endp
+gfx_getAuxSize endp
 ; ------------------------------dseg:0xf45------------------------------
 ; ------------------------------dseg:0xf4a------------------------------
-gfx_jump_1c proc near
+gfx_getBlitOffset proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_1c endp
+gfx_getBlitOffset endp
 ; ------------------------------dseg:0xf4a------------------------------
 ; ------------------------------dseg:0xf4f------------------------------
-gfx_jump_1d proc near
+gfx_setClipVal1 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_1d endp
+gfx_setClipVal1 endp
 ; ------------------------------dseg:0xf4f------------------------------
     db 0EAh
     db 0
@@ -16952,46 +16952,46 @@ gfx_jump_1d endp
     db 0
     db 0
 ; ------------------------------dseg:0xf59------------------------------
-gfx_jump_1f proc near
+gfx_drawLine proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_1f endp
+gfx_drawLine endp
 ; ------------------------------dseg:0xf59------------------------------
 ; ------------------------------dseg:0xf5e------------------------------
-gfx_jump_20 proc near
+gfx_setPageDirect proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_20 endp
+gfx_setPageDirect endp
 ; ------------------------------dseg:0xf5e------------------------------
 ; ------------------------------dseg:0xf63------------------------------
-_gfx_jump_21 proc near
+_gfx_setColor proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_21 endp
+_gfx_setColor endp
 ; ------------------------------dseg:0xf63------------------------------
 ; ------------------------------dseg:0xf68------------------------------
-gfx_jump_22 proc near
+gfx_resetBlitOffset proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_22 endp
+gfx_resetBlitOffset endp
 ; ------------------------------dseg:0xf68------------------------------
 ; ------------------------------dseg:0xf6d------------------------------
-_gfx_jump_23 proc near
+_gfx_resetBlitOffset2 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_23 endp
+_gfx_resetBlitOffset2 endp
 ; ------------------------------dseg:0xf6d------------------------------
 ; ------------------------------dseg:0xf72------------------------------
-gfx_jump_24 proc near
+gfx_nop24 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_24 endp
+gfx_nop24 endp
 ; ------------------------------dseg:0xf72------------------------------
 ; ------------------------------dseg:0xf77------------------------------
-gfx_jump_25 proc near
+gfx_dirtyRect proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_25 endp
+gfx_dirtyRect endp
 ; ------------------------------dseg:0xf77------------------------------
     db 0EAh
     db 0
@@ -17004,17 +17004,17 @@ gfx_jump_25 endp
     db 0
     db 0
 ; ------------------------------dseg:0xf86------------------------------
-gfx_jump_28 proc near
+gfx_dirtyRect2 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_28 endp
+gfx_dirtyRect2 endp
 ; ------------------------------dseg:0xf86------------------------------
 ; ------------------------------dseg:0xf8b------------------------------
-PUBLIC _gfx_jump_29_switchColor
-_gfx_jump_29_switchColor proc near
+PUBLIC _gfx_switchColor
+_gfx_switchColor proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_29_switchColor endp
+_gfx_switchColor endp
 ; ------------------------------dseg:0xf8b------------------------------
 ; ------------------------------dseg:0xf90------------------------------
 _gfx_copyRect proc near
@@ -17023,16 +17023,16 @@ _gfx_copyRect proc near
 _gfx_copyRect endp
 ; ------------------------------dseg:0xf90------------------------------
 ; ------------------------------dseg:0xf95------------------------------
-gfx_jump_2b proc near
+gfx_unknown2b proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_2b endp
+gfx_unknown2b endp
 ; ------------------------------dseg:0xf95------------------------------
 ; ------------------------------dseg:0xf9a------------------------------
-gfx_jump_2c proc near
+gfx_dacAnimate proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_2c endp
+gfx_dacAnimate endp
 ; ------------------------------dseg:0xf9a------------------------------
 ; ------------------------------dseg:0xf9f------------------------------
 _gfx_getDisplayPage proc near
@@ -17041,10 +17041,10 @@ _gfx_getDisplayPage proc near
 _gfx_getDisplayPage endp
 ; ------------------------------dseg:0xf9f------------------------------
 ; ------------------------------dseg:0xfa4------------------------------
-gfx_jump_2e proc near
+gfx_unknown2e proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_2e endp
+gfx_unknown2e endp
 ; ------------------------------dseg:0xfa4------------------------------
     db 0EAh
     db 0
@@ -17062,46 +17062,46 @@ gfx_jump_2e endp
     db 0
     db 0
 ; ------------------------------dseg:0xfb8------------------------------
-gfx_jump_32 proc near
+gfx_fontSetup proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_32 endp
+gfx_fontSetup endp
 ; ------------------------------dseg:0xfb8------------------------------
 ; ------------------------------dseg:0xfbd------------------------------
-gfx_jump_33_fillRow proc near
+gfx_fillRow proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_33_fillRow endp
+gfx_fillRow endp
 ; ------------------------------dseg:0xfbd------------------------------
 ; ------------------------------dseg:0xfc2------------------------------
-gfx_jump_34_fillRow proc near
+gfx_fillRow2 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_34_fillRow endp
+gfx_fillRow2 endp
 ; ------------------------------dseg:0xfc2------------------------------
 ; ------------------------------dseg:0xfc7------------------------------
-gfx_jump_35 proc near
+gfx_copyRow proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_35 endp
+gfx_copyRow endp
 ; ------------------------------dseg:0xfc7------------------------------
 ; ------------------------------dseg:0xfcc------------------------------
-gfx_jump_36_null proc near
+gfx_nop36 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_36_null endp
+gfx_nop36 endp
 ; ------------------------------dseg:0xfcc------------------------------
 ; ------------------------------dseg:0xfd1------------------------------
-gfx_jump_37_null proc near
+gfx_nop37 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_37_null endp
+gfx_nop37 endp
 ; ------------------------------dseg:0xfd1------------------------------
 ; ------------------------------dseg:0xfd6------------------------------
-gfx_jump_38_getPageBuf proc near
+gfx_getPageSeg proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_38_getPageBuf endp
+gfx_getPageSeg endp
 ; ------------------------------dseg:0xfd6------------------------------
     db 0EAh
     db 0
@@ -17109,16 +17109,16 @@ gfx_jump_38_getPageBuf endp
     db 0
     db 0
 ; ------------------------------dseg:0xfe0------------------------------
-gfx_jump_3a_getRowOffset proc near
+gfx_getRowOffset proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_3a_getRowOffset endp
+gfx_getRowOffset endp
 ; ------------------------------dseg:0xfe0------------------------------
 ; ------------------------------dseg:0xfe5------------------------------
-gfx_jump_3b_clearBuf proc near
+gfx_clearPage proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_3b_clearBuf endp
+gfx_clearPage endp
 ; ------------------------------dseg:0xfe5------------------------------
     db 0EAh
     db 0
@@ -17140,10 +17140,10 @@ gfx_calcRowAddr endp
 _gfx_calcRowAddr equ gfx_calcRowAddr
 ; ------------------------------dseg:0xff4------------------------------
 ; ------------------------------dseg:0xff9------------------------------
-_gfx_jump_3f_modecode proc near
+_gfx_getModecode proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_3f_modecode endp
+_gfx_getModecode endp
 ; ------------------------------dseg:0xff9------------------------------
     db 0EAh
     db 0
@@ -17151,17 +17151,17 @@ _gfx_jump_3f_modecode endp
     db 0
     db 0
 ; ------------------------------dseg:0x1003------------------------------
-gfx_jump_40 proc near
+gfx_setOvlVal1 proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_40 endp
+gfx_setOvlVal1 endp
 ; ------------------------------dseg:0x1003------------------------------
-gfx_jump_41 proc near
-    PUBLIC _gfx_jump_41
-    _gfx_jump_41 equ gfx_jump_41
+gfx_setOvlVal2 proc near
+    PUBLIC _gfx_setOvlVal2
+    _gfx_setOvlVal2 equ gfx_setOvlVal2
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_41 endp
+gfx_setOvlVal2 endp
 ; ------------------------------dseg:0x1003------------------------------
     db 0EAh
     db 0
@@ -17174,30 +17174,30 @@ gfx_jump_41 endp
     db 0
     db 0
 ; ------------------------------dseg:0x1012------------------------------
-_gfx_jump_44_setDac proc near
+_gfx_setDac proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_44_setDac endp
+_gfx_setDac endp
 ; ------------------------------dseg:0x1012------------------------------
 ; ------------------------------dseg:0x1017------------------------------
-_gfx_jump_45_retrace proc near
+_gfx_waitRetrace proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_45_retrace endp
+_gfx_waitRetrace endp
 ; ------------------------------dseg:0x1017------------------------------
 ; ------------------------------dseg:0x101c------------------------------
-_gfx_jump_46_retrace2 proc near
+_gfx_flipPage proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_46_retrace2 endp
+_gfx_flipPage endp
 ; ------------------------------dseg:0x101c------------------------------
 ; ------------------------------dseg:0x1021------------------------------
-gfx_jump_47 proc near
+gfx_blitSpriteClipped proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_47 endp
-    PUBLIC _gfx_jump_47
-_gfx_jump_47 equ gfx_jump_47
+gfx_blitSpriteClipped endp
+    PUBLIC _gfx_blitSpriteClipped
+_gfx_blitSpriteClipped equ gfx_blitSpriteClipped
 ; ------------------------------dseg:0x1021------------------------------
     db 0EAh
     db 0
@@ -17205,12 +17205,12 @@ _gfx_jump_47 equ gfx_jump_47
     db 0
     db 0
 ; ------------------------------dseg:0x102b------------------------------
-gfx_jump_49 proc near
+gfx_blitSpriteOpaque proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_jump_49 endp
-    PUBLIC _gfx_jump_49
-_gfx_jump_49 equ gfx_jump_49
+gfx_blitSpriteOpaque endp
+    PUBLIC _gfx_blitSpriteOpaque
+_gfx_blitSpriteOpaque equ gfx_blitSpriteOpaque
 ; ------------------------------dseg:0x102b------------------------------
     db 0EAh
     db 0
@@ -17218,10 +17218,10 @@ _gfx_jump_49 equ gfx_jump_49
     db 0
     db 0
 ; ------------------------------dseg:0x1035------------------------------
-_gfx_jump_4b_storeBufPtr proc near
+_gfx_storeBufPtr proc near
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_jump_4b_storeBufPtr endp
+_gfx_storeBufPtr endp
 ; ------------------------------dseg:0x1035------------------------------
 ; ------------------------------dseg:0x103a------------------------------
 _gfx_getModeFlag proc near

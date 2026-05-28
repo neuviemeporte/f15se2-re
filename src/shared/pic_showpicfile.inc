@@ -13,21 +13,21 @@ showPicFile proc near
     mov word ptr picPageIndex, ax
     call picInitRoutine
     mov si, word ptr picPageIndex
-    call far ptr _gfx_jump_38_getPageBuf
-    call far ptr _gfx_jump_3b_clearBuf
+    call far ptr _gfx_getPageSeg
+    call far ptr _gfx_clearPage
     mov word ptr picRow, 0
     mov word ptr picScreenBufSize, 0FA00h
 @@showPicNextRow:
     mov di, word ptr picRow
-    call far ptr _gfx_jump_3a_getRowOffset
+    call far ptr _gfx_getRowOffset
     mov word ptr picRowOffset, ax
     call decodePicRow
     mov di, word ptr picRowOffset
     mov bp, offset picDecodedRowBuf
     mov bx, word ptr picRow
-    call far ptr _gfx_jump_33_fillRow
+    call far ptr _gfx_fillRow
     mov di, word ptr picRowOffset
-    call far ptr _gfx_jump_35
+    call far ptr _gfx_copyRow
     inc word ptr picRow
     sub word ptr picScreenBufSize, 320
     jnz short @@showPicNextRow

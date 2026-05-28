@@ -32,7 +32,7 @@ void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y
         }
         g = c = 0;
         while (g < maxWidth && *b != '\0' && *b != '\r' && *b != '\n') {
-            g += gfx_jump_2f_charWidth(*b++, p);
+            g += gfx_setFont(*b++, p);
             c++;
         }
         if (g >= maxWidth) {
@@ -55,7 +55,7 @@ void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y
             memcopy(buf, a, c);
             buf[c] = 0;
             page[4] = x;
-            gfx_jump_05_drawString(page, buf);
+            gfx_drawString(page, buf);
             page[5] += lineHeight;
             if (*b == '\r') {
                 page[5] += 2;

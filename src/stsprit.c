@@ -16,6 +16,6 @@ void showSprite(int page, int x, int y, int src_x, int src_y, int width, int hei
     spriteParams.width = width;
     spriteParams.height = height;
     spriteParams.flags = 0x10;
-    gfx_jump_11_blitSprite(&spriteParams);
+    gfx_blitSprite(&spriteParams);
     TRACE(("showSprite(): returning"));
 }
