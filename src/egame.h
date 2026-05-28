@@ -1803,7 +1803,6 @@ extern int16 var_203;
 extern int16 var_204;
 extern uint8 var_215;
 extern int16 var_216;
-extern uint8 var_217;
 extern int16 var_256;
 extern int16 var_257;
 extern int16 var_258;
