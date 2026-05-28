@@ -37,7 +37,66 @@ int sub_13266(int p1, int p2, int p3, int p4) {
     return 0;
 }
 
-// TODO: sub_132BA (seg000:32ba-345d) - unimplemented
+int sub_132BA(uint32 coord1, uint32 coord2, uint32 coord3)
+{
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+    int g;
+    int h;
+    int i;
+    uint32 k;
+    int l;
+    int m;
+
+    *(char *)&var_315 = 0;
+    word_3B7E2 = 0x7fff;
+    b = 4;
+    k = sub_126B4(b, coord1);
+    g = (int)(k >> 12);
+    a = (int)k & 0xfff;
+    k = sub_126B4(b, coord2);
+    i = (int)(k >> 12);
+    c = (int)k & 0xfff;
+    var_220 = (int)sub_126B4(b, coord3);
+    m = 0x800 - a;
+    p = 0x800 - c;
+    var_218 = a - 0x800;
+    var_219 = c - 0x800;
+    l = process3dg(b, g, i);
+    if (l != -1) {
+        word_3C5A8 = (char *)matrix3dt_2[b][l];
+        for (e = 1; (unsigned int)e < matrix3dt[b + 3][l + 3]; e++) {
+            f = *(int *)word_3C5A8 + m;
+            h = *((int *)word_3C5A8 + 1) + p;
+            var_216 = abs(f) + abs(h);
+            if (word_3B7E2 > var_216) {
+                word_3B7EC = word_3C5A8;
+                word_3B7E2 = var_216;
+            }
+            word_3C5A8 += 7;
+        }
+    }
+    if (word_3B7E2 != 0x7fff) {
+        word_3C5A8 = word_3B7EC;
+        var_200 = (char far *)(byte_228D0 + buf3d3[*((unsigned char *)word_3B7EC + 6)]);
+        var_202 = *(int *)word_3C5A8 - var_218;
+        var_203 = *((int *)word_3C5A8 + 1) - var_219;
+        var_204 = *((int *)word_3C5A8 + 2) - var_220;
+        FP_OFF(var_200)++;
+        var_217 = 0;
+        var_216 = 0;
+        sub_202DA();
+        if (*var_200 & 0x40) {
+            var_215 = 0;
+            sub_2044A();
+        }
+    }
+}
 
 // ==== seg000:0x345e ====
 void sub_1345E(char *arg_0, int arg_2, int arg_4, int arg_6) {
