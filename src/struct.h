@@ -189,6 +189,16 @@ struct struc_9 {
     int16 field_6;
 };
 
+#pragma pack(1)
+struct TerrainTile {
+    int16 buf3;
+    int16 buf4;
+    int16 buf5;
+    uint8 idx;
+};
+#pragma pack()
+STATIC_ASSERT(sizeof(struct TerrainTile)==7);
+
 // used in egame.exe, 4 bytes
 struct Waypoint {
     uint16 field_0;

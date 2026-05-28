@@ -3,6 +3,8 @@
  */
 #include "inttype.h"
 #include "struct.h"
+#include "comm.h"
+#include <stdio.h>
 
 /* === Group 1 (0x0042-0x0530): Filename, mission selection, UI strings === */
 char aLabs_pic[] = "labs.pic";
@@ -536,3 +538,178 @@ struct WeaponLoadout weaponLoadouts[] = {
     { 1, "20 mm\0\0\0\0",  "Guns\0\0\0\0\0\0\0",  0x00 },  /* 18 */
     { 1, "Special\0\0",  "Equip\0\0\0\0\0\0",  0x26 },  /* 19 */
 };
+
+/* === Mission generation coordinate tables (from start_rc.asm) === */
+
+/* Unit type remapping table - maps unit type to alternative types */
+struct struc_10 stru_1892E[] = {
+    {0, 0},
+    {2, 0},
+    {6, 1},
+    {7, 3},
+    {6, 2},
+    {5, 7},
+    {4, 2},
+    {5, 3},
+    {8, 0},
+    {8, 0},
+    {0x0A, 0x0B},
+    {0x0B, 0x09},
+    {0x0C, 0x0D},
+    {0x0C, 0x0E},
+    {0x0D, 0x0E},
+    {0x0F, 0},
+    {4, 0x1388},
+    {0, 0x0C},
+    {0x12, 3},
+    {0, 4},
+    {1, 4},
+    {5, 6},
+    {0, 0},
+    {0, 0x028A},
+    {0, 0},
+};
+
+/* Difficulty level saved from game state */
+int difficultySaved = 1;
+
+/* Mission table - 56 entries defining mission types per theater/tension */
+struct MissionTableEntry stru_18FC0[56] = {
+    {4, 1, 0x2F, 0, 0x0F, 7},
+    {4, 1, 0x2F, 0, 0x0F, 1},
+    {3, 1, 0x3A, 0, 0x0F, 6},
+    {3, 1, 0x3A, 0, 0x0F, 3},
+    {1, 2, 0, 0, 0x0F, 6},
+    {2, 2, 0, 0, 0x0F, 6},
+    {2, 3, 0, 1, 0x0F, 7},
+    {1, 4, 0, 0, 0x0F, 6},
+    {2, 4, 0, 0, 0x0F, 1},
+    {1, 5, 0, 0, 0x0F, 7},
+    {2, 5, 0, 0, 0x0F, 7},
+    {1, 6, 0, 9, 0x0F, 4},
+    {2, 6, 0, 9, 0x0F, 3},
+    {1, 7, 0, 4, 0x0F, 7},
+    {2, 7, 0, 4, 0x0F, 7},
+    {1, 0x16, 0, 5, 0x0F, 7},
+    {2, 0x16, 0, 5, 0x0F, 7},
+    {1, 0x16, 0, 6, 0x0F, 7},
+    {2, 0x16, 0, 6, 0x0F, 3},
+    {1, 0x16, 0x22, 6, 0x0F, 7},
+    {2, 0x16, 0x22, 6, 3, 3},
+    {1, 0x17, 0, 0x0B, 3, 7},
+    {2, 0x17, 2, 0x0B, 0x0F, 1},
+    {1, 0x0A, 0, 3, 0x0F, 6},
+    {2, 0x0A, 0, 3, 0x0F, 7},
+    {1, 0x0C, 0, 7, 3, 7},
+    {2, 0x0C, 2, 7, 3, 7},
+    {2, 0x0C, 0, 7, 3, 7},
+    {1, 0x0D, 0, 1, 3, 7},
+    {2, 0x0D, 0, 1, 2, 3},
+    {1, 0x0E, 0, 8, 2, 7},
+    {2, 0x0E, 0, 8, 3, 3},
+    {1, 0x0F, 0, 2, 3, 7},
+    {2, 0x0F, 0, 2, 0x0F, 3},
+    {1, 0x10, 0, 0, 0x0F, 6},
+    {2, 0x10, 0, 0, 0x0F, 3},
+    {1, 0x11, 0x22, 0, 3, 7},
+    {2, 0x11, 0x22, 0, 0x0F, 3},
+    {1, 0x12, 0, 0, 0x0F, 6},
+    {2, 0x12, 0, 0, 0x0F, 1},
+    {1, 0x13, 0, 0, 0x0F, 7},
+    {2, 0x13, 0, 0, 0x0B, 7},
+    {1, 9, 0, 0, 0x0B, 7},
+    {2, 9, 0, 0, 0x0C, 6},
+    {2, 9, 2, 0, 0x0F, 6},
+    {1, 0x14, 0, 0, 0x0F, 6},
+    {2, 0x14, 0, 0, 0x0C, 6},
+    {5, 0x15, 0, 0, 3, 7},
+    {5, 0x15, 0, 0, 0x0C, 6},
+    {7, 0x15, 0, 0, 3, 3},
+    {7, 0x15, 0, 0, 0x0B, 1},
+    {7, 0x15, 0, 0, 0x0F, 3},
+    {6, 0x15, 0, (int16)0xFFF1, 0x0C, 6},
+    {8, 0x15, 0, (int16)0xFFF1, 0x0D, 6},
+    {8, 0x15, 0, (int16)0xFFFB, 0x0F, 7},
+    {8, 0x15, 0, (int16)0xFFFE, 0, 0},
+};
+
+/* Target coordinate arrays per mission pick type */
+int16 targetCoordsX0[3] = {(int16)0x45C0, (int16)0x3D40, (int16)0x0DC0}; /* unk_192E0 */
+int16 targetCoordsY0[3] = {(int16)0x3CC0, (int16)0x4340, (int16)0x24C0}; /* unk_192E6 */
+int16 targetCoordsX1[2] = {(int16)0x26C0, 0x2740}; /* unk_1928C */
+int16 targetCoordsY1[2] = {0x2140, (int16)0x21C0}; /* unk_19290 */
+int16 targetCoordsX2[2] = {(int16)0x3DC0, (int16)0x25C0}; /* unk_19284 */
+int16 targetCoordsY2[2] = {(int16)0x43C0, (int16)0x3BC0}; /* unk_19288 */
+int16 targetCoordsX3[3] = {0x2100, 0x0900, 0x1100}; /* asc_192C8 */
+int16 targetCoordsY3[3] = {0x2300, 0x0900, 0x0500}; /* asc_192CE */
+int16 targetCoordsX4[4] = {0x2F00, 0x1B00, 0x3D00, 0x1500}; /* asc_192B4 */
+int16 targetCoordsY4[4] = {0x2B00, 0x1300, 0x2D00, 0x3500}; /* unk_192BC */
+int16 targetCoordsX5 = (int16)0x5AC0; /* unk_192C4 */
+int16 targetCoordsY5 = (int16)0x3AC0; /* unk_192C6 */
+int16 word_19294[8] = {(int16)0x48C0, (int16)0x10C0, (int16)0x40C0, (int16)0x44C0, (int16)0x24C0, (int16)0x0EC0, (int16)0x12C0, (int16)0x50C0};
+int16 word_192A4[8] = {0x2940, 0x2140, 0x2540, 0x2540, 0x2140, 0x0B40, 0x0740, 0x3540};
+int16 targetCoordsX7[3] = {0x4D40, 0x4C40, 0x4D40}; /* unk_192D4 */
+int16 targetCoordsY7[3] = {0x3940, (int16)0x39C0, (int16)0x39C0}; /* unk_192DA */
+int16 word_192EC[4] = {(int16)0x3CC0, 0x3C40, (int16)0x24C0, 0x2440};
+int16 word_192F4[4] = {0x4240, (int16)0x42C0, 0x3A40, (int16)0x3AC0};
+uint8 byte_192FC[8] = {2, 6, 5, 6, 6, 6, 6, 0x0B};
+
+/* Pointer arrays: target coordinates per mission pick index */
+int16 *off_19304[8] = {
+    targetCoordsX0, targetCoordsX1, targetCoordsX2, targetCoordsX3,
+    targetCoordsX4, &targetCoordsX5, word_19294, targetCoordsX7
+};
+int16 *off_19314[8] = {
+    targetCoordsY0, targetCoordsY1, targetCoordsY2, targetCoordsY3,
+    targetCoordsY4, &targetCoordsY5, word_192A4, targetCoordsY7
+};
+int16 word_19324[9] = {3, 2, 2, 3, 4, 1, 8, 3, 0};
+
+/* === BSS variables migrated from start_rc.asm .DATA? segment === */
+
+struct Pilot hallfameBuf[8];
+struct GameComm far *commData;
+struct Game far *gameData;
+FILE *fileHandle;
+int far *needSplash;
+int far *gfxModeSetPtr;
+uint8 hercFlag;
+int selectedPilotIdx;
+int readItemSize;
+int wldReadBuf5Size;
+uint8 joyReady[4];
+uint8 intRegs[12];
+char todayMissStrBuf[0x1D];
+uint8 byte_1B0FF;
+uint8 byte_1B100;
+uint8 exitCode[2];
+int *word_1B960;
+char wldReadBuf9[0x64];
+uint8 wldReadBuf8[0x64];
+uint8 wldReadBuf7[0x64];
+char *wldOffsets[0x64];
+char wldReadBuf11[0x2EE];
+struct TerrainUnk terrainPtrUnk[5];
+unsigned int wldReadBuf3;
+char scenarioFoundArr[6];
+struct Buf4Item wldReadBuf4[0x4B];
+char wldReadBuf10[256];
+struct Buf6Item wldReadBuf6[0x13];
+int16 wldReadBuf2;
+uint8 wldReadBuf1[2];
+int16 page1Ptr;
+uint8 gridBuf1[17];
+uint8 gridBuf2[0x100];
+uint8 gridBuf3[0x200];
+uint8 gridBuf4[0x200];
+uint8 gridBuf5[0x200];
+struct Target targets[2];
+uint16 terrainBuf1[5] = { 0x20, 0x20, 0x20, 0x20, 0x20 };
+struct TerrainUnk terrainBuf2[5] = {0};
+
+/* terrainBuf3, terrainBuf4, terrainBuf5, terrainIdxBuf must be contiguous.
+ * Code indexes them with stride 7: terrainBuf3+off(2), terrainBuf4+off(2),
+ * terrainBuf5+off(2), terrainIdxBuf+off(1) per tile entry.
+ * Max entries: 0xDAC/7 = 0x1F8 (504) tiles.
+ */
+struct TerrainTile terrainTileBlock[0x1F8];

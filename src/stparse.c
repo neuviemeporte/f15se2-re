@@ -43,7 +43,7 @@ void parseTerrain(char *filename) {
             for (level = 0; level < 5; level = level + 1) {
                 for (entry = 0; terrainBuf1[level] > entry; entry++) {
                 // 3d20
-                    terrainPtrUnk[level].field_0[entry] = terrainBuf3 + tileOffset;
+                    terrainPtrUnk[level].field_0[entry] = (uint8*)terrainTileBlock + tileOffset;
                     // 3ce7
                     for (i = 0; i < (uint16)terrainBuf2[level].field_0[entry]; i++) {
                         // 3ced
@@ -51,12 +51,12 @@ void parseTerrain(char *filename) {
                             showMsgWaitKey(aTooMuchTileDat);
                             return;
                         } // 3c66
-                        fread(terrainBuf3 + tileOffset,2,1,fileHandle);
-                        fread(terrainBuf4 + tileOffset,2,1,fileHandle);
-                        fread(terrainBuf5 + tileOffset,2,1,fileHandle);
+                        fread((uint8*)terrainTileBlock + tileOffset,2,1,fileHandle);
+                        fread((uint8*)terrainTileBlock + 2 + tileOffset,2,1,fileHandle);
+                        fread((uint8*)terrainTileBlock + 4 + tileOffset,2,1,fileHandle);
                         fread(&tmp,2,1,fileHandle);
                         // 3cca
-                        terrainIdxBuf[tileOffset] = tmp;
+                        *((uint8*)terrainTileBlock + 6 + tileOffset) = tmp;
                         tileOffset += 7;
                     }
                 }
