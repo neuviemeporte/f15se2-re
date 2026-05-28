@@ -2,63 +2,8 @@
 DOSSEG
 .MODEL SMALL
 
-PUBLIC _gridBuf1
-PUBLIC _gridBuf2
-PUBLIC _gridBuf3
-PUBLIC _gridBuf4
-PUBLIC _gridBuf5
-PUBLIC _page1Ptr
-PUBLIC _terrainBuf1
-PUBLIC _terrainBuf2
-PUBLIC _terrainBuf3
-PUBLIC _terrainBuf4
-PUBLIC _terrainBuf5
-PUBLIC _terrainPtrUnk
-PUBLIC _terrainIdxBuf
 PUBLIC _planes
-PUBLIC _hercFlag
-PUBLIC _commData
 PUBLIC _bufPtr
-PUBLIC _needSplash
-PUBLIC _gfxModeSetPtr
-PUBLIC _exitCode
-PUBLIC _joyReady
-PUBLIC _gameData
-PUBLIC _intRegs
-PUBLIC _selectedPilotIdx
-PUBLIC _hallfameBuf
-PUBLIC _byte_1B100
-PUBLIC _byte_1B0FF
-PUBLIC _word_19294
-PUBLIC _word_192EC
-PUBLIC _stru_18FC0
-PUBLIC _byte_192FC
-PUBLIC _target2
-PUBLIC _targets
-PUBLIC _word_192A4
-PUBLIC _stru_1892E
-PUBLIC _word_192F4
-PUBLIC _word_19324
-PUBLIC _off_19304
-PUBLIC _off_19314
-PUBLIC _word_1B960
-PUBLIC _fileHandle
-PUBLIC _scenarioFoundArr
-PUBLIC _difficultySaved
-PUBLIC _todayMissStrBuf
-PUBLIC _readItemSize
-PUBLIC _wldReadBuf5Size
-PUBLIC _wldReadBuf1
-PUBLIC _wldReadBuf2
-PUBLIC _wldReadBuf3
-PUBLIC _wldReadBuf4
-PUBLIC _wldReadBuf6
-PUBLIC _wldReadBuf7
-PUBLIC _wldReadBuf8
-PUBLIC _wldReadBuf9
-PUBLIC _wldReadBuf10
-PUBLIC _wldReadBuf11
-PUBLIC _wldOffsets
 PUBLIC _gfx_allocPage
 PUBLIC _gfx_drawString
 PUBLIC _gfx_setPage1
@@ -882,8 +827,8 @@ EXTRN _tmpPageIndex:WORD
 EXTRN _rowOffset:WORD
 EXTRN _row:WORD
 EXTRN _readFromFilePtr:WORD
-_terrainBuf1 dw 5 dup(20h)
-    _terrainBuf2 TerrainUnk 5 dup(<0>)
+EXTRN _terrainBuf1:WORD
+EXTRN _terrainBuf2:BYTE
 EXTRN _word_182BA:WORD
 EXTRN _word_182BC:WORD
 EXTRN _word_182BE:WORD
@@ -1417,85 +1362,9 @@ aEquip_ db 'Equip.',0
     db 3 dup(0)
     db 0Eh
     db 0
-    _stru_1892E struc_10 <0, 0>
-    struc_10 <2, 0>
-    db 6
-    db 0
-    db 1
-    db 0
-    db 7
-    db 0
-    db 3
-    db 0
-    db 6
-    db 0
-    db 2
-    db 0
-    db 5
-    db 0
-    db 7
-    db 0
-    db 4
-    db 0
-    db 2
-    db 0
-    db 5
-    db 0
-    db 3
-    db 0
-    db 8
-    db 3 dup(0)
-    db 8
-    db 3 dup(0)
-    db 0Ah
-    db 0
-    db 0Bh
-    db 0
-    db 0Bh
-    db 0
-    db 9
-    db 0
-    db 0Ch
-    db 0
-    db 0Dh
-    db 0
-    db 0Ch
-    db 0
-    db 0Eh
-    db 0
-    db 0Dh
-    db 0
-    db 0Eh
-    db 0
-    db 0Fh
-    db 3 dup(0)
-    db 4
-    db 0
-    db 88h
-    db 13h
-    db 2 dup(0)
-    db 0Ch
-    db 0
-    db 12h
-    db 0
-    db 3
-    db 3 dup(0)
-    db 4
-    db 0
-    db 1
-    db 0
-    db 4
-    db 0
-    db 5
-    db 0
-    db 6
-    db 7 dup(0)
-    db 8Ah
-    db 2
-    db 2 dup(0)
-_difficultySaved dw 1
-    db 1
-    db 0
+EXTRN _stru_1892E:BYTE
+EXTRN _difficultySaved:WORD
+EXTRN _stru_18FC0:BYTE
 EXTRN _word_18994:WORD
     db 2 dup(0)
     db 1
@@ -2033,67 +1902,6 @@ EXTRN _weaponLoadouts:BYTE
     db 0
     db 7
     db 0
-    _stru_18FC0 struc_9 <4, 1, 2Fh, 0, 0Fh, 7>
-    struc_9 <4, 1, 2Fh, 0, 0Fh, 1> ;55 items? routine 4093 counts i = 0; i < 0x38
-    struc_9 <3, 1, 3Ah, 0, 0Fh, 6>
-    struc_9 <3, 1, 3Ah, 0, 0Fh, 3>
-    struc_9 <1, 2, 0, 0, 0Fh, 6>
-    struc_9 <2, 2, 0, 0, 0Fh, 6>
-    struc_9 <2, 3, 0, 1, 0Fh, 7>
-    struc_9 <1, 4, 0, 0, 0Fh, 6>
-    struc_9 <2, 4, 0, 0, 0Fh, 1>
-    struc_9 <1, 5, 0, 0, 0Fh, 7>
-    struc_9 <2, 5, 0, 0, 0Fh, 7>
-    struc_9 <1, 6, 0, 9, 0Fh, 4>
-    struc_9 <2, 6, 0, 9, 0Fh, 3>
-    struc_9 <1, 7, 0, 4, 0Fh, 7>
-    struc_9 <2, 7, 0, 4, 0Fh, 7>
-    struc_9 <1, 16h, 0, 5, 0Fh, 7>
-    struc_9 <2, 16h, 0, 5, 0Fh, 7>
-    struc_9 <1, 16h, 0, 6, 0Fh, 7>
-    struc_9 <2, 16h, 0, 6, 0Fh, 3>
-    struc_9 <1, 16h, 22h, 6, 0Fh, 7>
-    struc_9 <2, 16h, 22h, 6, 3, 3>
-    struc_9 <1, 17h, 0, 0Bh, 3, 7>
-    struc_9 <2, 17h, 2, 0Bh, 0Fh, 1>
-    struc_9 <1, 0Ah, 0, 3, 0Fh, 6>
-    struc_9 <2, 0Ah, 0, 3, 0Fh, 7>
-    struc_9 <1, 0Ch, 0, 7, 3, 7>
-    struc_9 <2, 0Ch, 2, 7, 3, 7>
-    struc_9 <2, 0Ch, 0, 7, 3, 7>
-    struc_9 <1, 0Dh, 0, 1, 3, 7>
-    struc_9 <2, 0Dh, 0, 1, 2, 3>
-    struc_9 <1, 0Eh, 0, 8, 2, 7>
-    struc_9 <2, 0Eh, 0, 8, 3, 3>
-    struc_9 <1, 0Fh, 0, 2, 3, 7>
-    struc_9 <2, 0Fh, 0, 2, 0Fh, 3>
-    struc_9 <1, 10h, 0, 0, 0Fh, 6>
-    struc_9 <2, 10h, 0, 0, 0Fh, 3>
-    struc_9 <1, 11h, 22h, 0, 3, 7>
-    struc_9 <2, 11h, 22h, 0, 0Fh, 3>
-    struc_9 <1, 12h, 0, 0, 0Fh, 6>
-    struc_9 <2, 12h, 0, 0, 0Fh, 1>
-    struc_9 <1, 13h, 0, 0, 0Fh, 7>
-    struc_9 <2, 13h, 0, 0, 0Bh, 7>
-    struc_9 <1, 9, 0, 0, 0Bh, 7>
-    struc_9 <2, 9, 0, 0, 0Ch, 6>
-    struc_9 <2, 9, 2, 0, 0Fh, 6>
-    struc_9 <1, 14h, 0, 0, 0Fh, 6>
-    struc_9 <2, 14h, 0, 0, 0Ch, 6>
-    struc_9 <5, 15h, 0, 0, 3, 7>
-    struc_9 <5, 15h, 0, 0, 0Ch, 6>
-    struc_9 <7, 15h, 0, 0, 3, 3>
-    struc_9 <7, 15h, 0, 0, 0Bh, 1>
-    struc_9 <7, 15h, 0, 0, 0Fh, 3>
-    struc_9 <6, 15h, 0, 0FFF1h, 0Ch, 6>
-    struc_9 <8, 15h, 0, 0FFF1h, 0Dh, 6>
-    struc_9 <8, 15h, 0, 0FFFBh, 0Fh, 7>
-    db 8
-    db 0
-    db 15h
-    db 3 dup(0)
-    db 0FEh
-    db 0FFh
 EXTRN _regnPlhPtr:WORD
 EXTRN _plhFiles:WORD
 EXTRN _worldFiles:WORD
@@ -2101,121 +1909,28 @@ EXTRN _worldFiles:WORD
     db 30h
     db 30h
     db 2 dup(0)
-unk_19284 db 0C0h
-    db 3Dh
-    db 0C0h
-    db 25h
-unk_19288 db 0C0h
-    db 43h
-    db 0C0h
-    db 3Bh
-unk_1928C db 0C0h
-    db 26h
-    db 40h
-    db 27h
-unk_19290 db 40h
-    db 21h
-    db 0C0h
-    db 21h
-_word_19294 dw 48C0h
-    dw 10C0h
-    dw 40C0h
-    dw 44C0h
-    dw 24C0h
-    dw 0EC0h
-    dw 12C0h
-    dw 50C0h
-_word_192A4 dw 2940h
-    dw 2140h
-    dw 2540h
-    dw 2540h
-    dw 2140h
-    dw 0B40h
-    dw 740h
-    dw 3540h
-asc_192B4 db 0,'/',0,1Bh,0,'=',0
-    db 15h
-unk_192BC db 0
-    db 2Bh
-    db 0
-    db 13h
-    db 0
-    db 2Dh
-    db 0
-    db 35h
-unk_192C4 db 0C0h
-    db 5Ah
-unk_192C6 db 0C0h
-    db 3Ah
-asc_192C8 db 0,'!',0,9,0
-    db 11h
-asc_192CE db 0,'#',0,9,0
-    db 5
-unk_192D4 db 40h
-    db 4Dh
-    db 40h
-    db 4Ch
-    db 40h
-    db 4Dh
-unk_192DA db 40h
-    db 39h
-    db 0C0h
-    db 39h
-    db 0C0h
-    db 39h
-unk_192E0 db 0C0h
-    db 45h
-    db 40h
-    db 3Dh
-    db 0C0h
-    db 0Dh
-unk_192E6 db 0C0h
-    db 3Ch
-    db 40h
-    db 43h
-    db 0C0h
-    db 24h
-_word_192EC dw 3CC0h
-    dw 3C40h
-    dw 24C0h
-    dw 2440h
-_word_192F4 dw 4240h
-    dw 42C0h
-    dw 3A40h
-    dw 3AC0h
-_byte_192FC db 2
-    db 6
-    db 5
-    db 6
-    db 6
-    db 6
-    db 6
-    db 0Bh
-_off_19304 dw offset unk_192E0
-    dw offset unk_1928C
-    dw offset unk_19284
-    dw offset asc_192C8 ;"!\t"
-    dw offset asc_192B4 ;"/\x1B="
-    dw offset unk_192C4
-    dw offset _word_19294
-    dw offset unk_192D4
-_off_19314 dw offset unk_192E6
-    dw offset unk_19290
-    dw offset unk_19288
-    dw offset asc_192CE ;"#\t"
-    dw offset unk_192BC
-    dw offset unk_192C6
-    dw offset _word_192A4
-    dw offset unk_192DA
-_word_19324 dw 3
-    dw 2
-    dw 2
-    dw 3
-    dw 4
-    dw 1
-    dw 8
-    dw 3
-    dw 0
+EXTRN _targetCoordsX2:WORD
+EXTRN _targetCoordsY2:WORD
+EXTRN _targetCoordsX1:WORD
+EXTRN _targetCoordsY1:WORD
+EXTRN _word_19294:WORD
+EXTRN _word_192A4:WORD
+EXTRN _targetCoordsX4:WORD
+EXTRN _targetCoordsY4:WORD
+EXTRN _targetCoordsX5:WORD
+EXTRN _targetCoordsY5:WORD
+EXTRN _targetCoordsX3:WORD
+EXTRN _targetCoordsY3:WORD
+EXTRN _targetCoordsX7:WORD
+EXTRN _targetCoordsY7:WORD
+EXTRN _targetCoordsX0:WORD
+EXTRN _targetCoordsY0:WORD
+EXTRN _word_192EC:WORD
+EXTRN _word_192F4:WORD
+EXTRN _byte_192FC:BYTE
+EXTRN _off_19304:WORD
+EXTRN _off_19314:WORD
+EXTRN _word_19324:WORD
 
 EXTRN _armPosition:WORD
 EXTRN _spriteBlitX:WORD
@@ -2265,52 +1980,38 @@ EXTRN _byte_1B0D3:BYTE
 
 .DATA?
     db ?
-_todayMissStrBuf db 1Dh dup(?)
-_byte_1B0FF db ?
-_byte_1B100 db ?
+EXTRN _todayMissStrBuf:BYTE
+EXTRN _byte_1B0FF:BYTE
+EXTRN _byte_1B100:BYTE
     db 47h dup(?)
 EXTRN _word_1B148:WORD
     db 2 dup(?)
-_gfxModeSetPtr dd ?
+EXTRN _gfxModeSetPtr:DWORD
     db 2 dup(?)
-_fileHandle dw ?
+EXTRN _fileHandle:WORD
     db 2 dup(?)
-_gameData dd ?
-_wldReadBuf2 dw ?
-_gridBuf5 db 200h dup(?)
+EXTRN _gameData:DWORD
+EXTRN _wldReadBuf2:WORD
+EXTRN _gridBuf5:BYTE
+EXTRN _gridBuf4:BYTE
+EXTRN _page1Ptr:WORD
+EXTRN _gridBuf3:BYTE
+EXTRN _word_1B960:WORD
+EXTRN _gridBuf2:BYTE
+EXTRN _terrainTileBlock:BYTE
+EXTRN _wldReadBuf1:BYTE
+EXTRN _gridBuf1:BYTE
+EXTRN _scenarioFoundArr:BYTE
+    db ?
+    EXTRN _wldReadBuf4:BYTE
     db 2 dup(?)
-_gridBuf4 db 200h dup(?)
-_page1Ptr dw ?
-_gridBuf3 db 200h dup(?)
-_word_1B960 dw ?
-_gridBuf2 db 100h dup(?)
-_terrainBuf3 db ?
-    db ?
-_terrainBuf4 db ?
-    db ?
-_terrainBuf5 db ?
-    db ?
-_terrainIdxBuf db 0DA6h dup(?)
-_wldReadBuf1 db ?
-    db ?
-_gridBuf1	db 17 dup(?)
-_scenarioFoundArr db ?
-byte_1C822 db ?
-byte_1C823 db ?
-byte_1C824 db ?
-byte_1C825 db ?
-byte_1C826 db ?
-    db ?
-    _wldReadBuf4 Buf4Item 4Bh dup(<?>)
-    db 2 dup(?)
-_wldReadBuf10 db 100h dup( ?)
-_needSplash dd ?
-    _targets Target <?>
-    _target2 Target <?>
+EXTRN _wldReadBuf10:BYTE
+EXTRN _needSplash:DWORD
+    EXTRN _targets:BYTE
 EXTRN _word_1D00A:WORD
     db 2 dup(?)
-    _wldReadBuf6 Buf6Item 13h dup(<?>)
-_hercFlag db ?
+    EXTRN _wldReadBuf6:BYTE
+EXTRN _hercFlag:BYTE
 EXTRN _dword_1D5D0:DWORD
 EXTRN _word_1D5D4:WORD
 EXTRN _word_1D5D6:WORD
@@ -2322,34 +2023,33 @@ EXTRN _byte_1D5E3:BYTE
 EXTRN _byte_1D5E4:BYTE
 EXTRN _byte_1D5E5:BYTE
     db 4 dup(?)
-_exitCode db ?
-    db ?
-_wldReadBuf9 db 64h dup( ?)
+EXTRN _exitCode:BYTE
+EXTRN _wldReadBuf9:BYTE
 EXTRN _dword_1D650:DWORD
     db 4 dup(?)
-_readItemSize dw ?
-_wldReadBuf8 db 64h dup( ?)
+EXTRN _readItemSize:WORD
+EXTRN _wldReadBuf8:BYTE
     db 2 dup(?)
-_intRegs	db 12 dup(?)
-_wldReadBuf7 db 64h dup( ?)
+EXTRN _intRegs:BYTE
+EXTRN _wldReadBuf7:BYTE
 EXTRN _word_1DD38:WORD
     db 2 dup(?)
     db 2 dup(?)
-_selectedPilotIdx dw ?
+EXTRN _selectedPilotIdx:WORD
     db 12 dup(?)
-_wldReadBuf5Size dw ?
+EXTRN _wldReadBuf5Size:WORD
     db 2 dup(?)
-_joyReady	db 4 dup(?)
-_wldOffsets dw 64h dup(?)
-_wldReadBuf11 db 2EEh dup( ?)
+EXTRN _joyReady:BYTE
+EXTRN _wldOffsets:WORD
+EXTRN _wldReadBuf11:BYTE
     db 2 dup(?)
-    _terrainPtrUnk TerrainUnk 5 dup(<?>)
+    EXTRN _terrainPtrUnk:BYTE
 EXTRN _word_1E24A:WORD
     db 2 dup(?)
-_wldReadBuf3 dw ?
+EXTRN _wldReadBuf3:WORD
     db 4 dup(?)
-_commData dd ?
-    _hallfameBuf Pilot 8 dup(<?>)
+EXTRN _commData:DWORD
+    EXTRN _hallfameBuf:BYTE
     db 4 dup(?)
 EXTRN _menuSprites:WORD
     db 2 dup(?)

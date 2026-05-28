@@ -420,6 +420,7 @@ str_deallocError: Data1 VAR 1498
 word_17FFE: Data1 VAR 14ae
 word_18010: Data1 VAR 14c0
 word_18026: Data1 VAR 14d6
+# LZW pic decoder state (picReadDataAndMakeDict / dictionaryLookup)
 dat_1518: Data1 VAR 1518
 dat_1519: Data1 VAR 1519
 dat_151a: Data1 VAR 151a
@@ -440,11 +441,12 @@ dat_1572: Data1 VAR 1572
 dat_1573: Data1 VAR 1573
 dat_159f: Data1 VAR 159f
 dat_15a0: Data1 VAR 15a0
-dat_15e8: Data1 VAR 15e8
+word_1B148: Data1 VAR 15e8
 gfxModeSetPtr: Data1 VAR 15ea
 fileHandle: Data1 VAR 15f0
 gameData: Data1 VAR 15f4
 dat_15f8: Data1 VAR 15f8
+# dat_15f8 is in gameData/grid area
 gridSignature: Data1 VAR 1632
 a_3dt: Data1 VAR 163a
 aRb: Data1 VAR 163f
@@ -491,47 +493,52 @@ aCc00: Data1 VAR 280e
 aHz00: Data1 VAR 2813
 aAt: Data1 VAR 2818
 
-dat_2cc1: Data1 VAR 2cc1
-dat_2cc2: Data1 VAR 2cc2
-dat_2cc3: Data1 VAR 2cc3
-dat_2cc4: Data1 VAR 2cc4
-dat_2cc5: Data1 VAR 2cc5
+# scenarioFoundArr[5] - scenario search result flags
+scenarioFoundArr: Data1 VAR 2cc1
+scenarioFoundArr_1: Data1 VAR 2cc2
+scenarioFoundArr_2: Data1 VAR 2cc3
+scenarioFoundArr_3: Data1 VAR 2cc4
+scenarioFoundArr_4: Data1 VAR 2cc5
 
 needSplash: Data1 VAR 327a
 
-dat_34aa: Data1 VAR 34aa
+word_1D00A: Data1 VAR 34aa
 dat_34c2: Data1 VAR 34c2
+# wldReadBuf6[0].field_1C (set to DEFAULT_FUEL=19999)
 dat_34c8: Data1 VAR 34c8
 
 hercFlag: Data1 VAR 377c
 
-dat_3a70: Data1 VAR 3a70
-dat_3a72: Data1 VAR 3a72
-dat_3a74: Data1 VAR 3a74
-dat_3a76: Data1 VAR 3a76
-dat_3a78: Data1 VAR 3a78
-dat_3a7a: Data1 VAR 3a7a
-dat_3a7c: Data1 VAR 3a7c
-dat_3a7e: Data1 VAR 3a7e
-dat_3a80: Data1 VAR 3a80
-dat_3a82: Data1 VAR 3a82
-dat_3a83: Data1 VAR 3a83
-dat_3a84: Data1 VAR 3a84
-dat_3a85: Data1 VAR 3a85
-dat_3a8a: Data1 VAR 3a8a
+# findNearestTerrain result struct (dword_1D5D0 through byte_1D5E5)
+dword_1D5D0: Data1 VAR 3a70
+dword_1D5D0_hi: Data1 VAR 3a72
+word_1D5D4: Data1 VAR 3a74
+word_1D5D6: Data1 VAR 3a76
+dword_1D5D8: Data1 VAR 3a78
+dword_1D5D8_hi: Data1 VAR 3a7a
+dword_1D5DC: Data1 VAR 3a7c
+dword_1D5DC_hi: Data1 VAR 3a7e
+word_1D5E0: Data1 VAR 3a80
+byte_1D5E2: Data1 VAR 3a82
+byte_1D5E3: Data1 VAR 3a83
+byte_1D5E4: Data1 VAR 3a84
+byte_1D5E5: Data1 VAR 3a85
+exitCode: Data1 VAR 3a8a
+# moveDst coordinate pair
 dat_3af0: Data1 VAR 3af0
 dat_3af2: Data1 VAR 3af2
 
-dat_40fe: Data1 VAR 40fe
+wldReadBuf5Size: Data1 VAR 40fe
 dat_4166: Data1 VAR 4166
 dat_4167: Data1 VAR 4167
-dat_41d8: Data1 VAR 41d8
+difficultySaved: Data1 VAR 41d8
 selectedPilotIdx: Data1 VAR 41dc
 dat_41ea: Data1 VAR 41ea
 dat_41ee: Data1 VAR 41ee
+# dat_41ea/41ee: mission generation state
 
-dat_46ea: Data1 VAR 46ea
-dat_47dc: Data1 VAR 47dc
+word_1B960: Data1 VAR 46ea
+readItemSize: Data1 VAR 47dc
 commData: Data1 VAR 47e2
 
 menuSprites: Data1 VAR 4aea

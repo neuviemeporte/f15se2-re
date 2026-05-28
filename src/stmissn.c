@@ -340,7 +340,7 @@ void printMission() {
     drawStringAt(page1NumPtr, aSecondaryTarge, 0x82, 0x60);
     page1Desc.color = COLOR_BRIEF_DESC_HL;
     // f94
-    placeString(target2.targetIdx);
+    placeString(targets[1].targetIdx);
     // fae
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x6a, 0xb9);
     page1Desc.font = FONT_SMALL;
@@ -348,7 +348,7 @@ void printMission() {
     // fc8
     mystrcpy(todayMissStrBuf, aOnc_1);
     // fd6
-    mystrcat(todayMissStrBuf, target2.coord);
+    mystrcat(todayMissStrBuf, targets[1].coord);
     // ff0
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x74, 0xb9);
     page1Desc.font = FONT_NORMAL;
@@ -498,5 +498,3 @@ void clearBriefing(void)
     // clear briefing board
     clearRect(page1NumPtr, 113, 13, 297, 126);
 }
-
-

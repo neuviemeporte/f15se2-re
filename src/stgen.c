@@ -93,20 +93,20 @@ restart_40a8:
       // 414c
       if (missionPick == 7) {
         // 4172
-        target2.targetIdx = findOrPlaceItem(off_19304[missionPick][randIdx],
+        targets[1].targetIdx = findOrPlaceItem(off_19304[missionPick][randIdx],
           off_19314[missionPick][randIdx] + 0x28, 2);
       }
       // 417e
       else if (missionPick == 2) {
         randIdx = randIdx * 2 + randMul(2);
         // 41a9
-        target2.targetIdx = findOrPlaceItem(word_192EC[randIdx], word_192F4[randIdx], 2);
+        targets[1].targetIdx = findOrPlaceItem(word_192EC[randIdx], word_192F4[randIdx], 2);
       }
       // 41b5
       else if (missionPick == 6) {
         randIdx = randMul(6) + randIdx + 1 & 7;
         // 41e0
-        target2.targetIdx = findOrPlaceItem(word_19294[randIdx], word_192A4[randIdx], 2);
+        targets[1].targetIdx = findOrPlaceItem(word_19294[randIdx], word_192A4[randIdx], 2);
       }
       // 41eb
       else {
@@ -119,15 +119,15 @@ restart_40a8:
           // 4224
           } while ((wldReadBuf10[(randIdx >> 0xb) + (randY >> 0xb) * 0x10] & 3) != 0);
           // 4235
-          target2.targetIdx = findOrPlaceItem(randIdx, randY, 2);
-        } while ((target2.targetIdx == -1) || ((missionPick == 0 && (wldReadBuf4[target2.targetIdx].unitType == 0))));
+          targets[1].targetIdx = findOrPlaceItem(randIdx, randY, 2);
+        } while ((targets[1].targetIdx == -1) || ((missionPick == 0 && (wldReadBuf4[targets[1].targetIdx].unitType == 0))));
       }
       TRACE(("runGenerator(): past inner check 2"));
     // 4257
-    } while ((targets[0].targetIdx == target2.targetIdx) || (itemDistance(targets[0].targetIdx, target2.targetIdx) >> 6) > 200);
+    } while ((targets[0].targetIdx == targets[1].targetIdx) || (itemDistance(targets[0].targetIdx, targets[1].targetIdx) >> 6) > 200);
     TRACE(("runGenerator(): passed inner"));
   // 427a
-  } while ((gameData->theater != THEATER_DS) && (wldReadBuf4[targets[0].targetIdx].objectIdx == wldReadBuf4[target2.targetIdx].objectIdx));
+  } while ((gameData->theater != THEATER_DS) && (wldReadBuf4[targets[0].targetIdx].objectIdx == wldReadBuf4[targets[1].targetIdx].objectIdx));
   TRACE(("runGenerator(): past outer"));
   // 42a0
   for (slot = 0; slot < 2; slot++) {
