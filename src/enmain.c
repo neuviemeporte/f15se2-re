@@ -1,0 +1,114 @@
+/* enmain.c — main/init, compiled with /Gs */
+#include "offsets.h"
+#include "pointers.h"
+#include "debug.h"
+#include "shared/util.h"
+#include "end.h"
+
+void main(void) {
+    int p;
+    int a;
+    int b;
+    uint16 far *d;
+    int e;
+    register int seg;
+
+    (void)a; (void)e;
+
+    FP_SEG(d) = SEG_LOWMEM;
+    FP_OFF(d) = OFF_IACA_START;
+    seg = *d;
+    FP_SEG(commData) = seg;
+    FP_OFF(commData) = 0;
+    FP_SEG(gameData) = seg;
+    FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
+    setupOverlaySlots(commData->gfxOvlAddr);
+    setupOverlaySlots(commData->miscOvlAddr);
+    misc_jump_5e_clearKeyFlags();
+    clearKeybuf();
+    hercFlag = (char)commData->setupMono;
+    installCBreakHandler();
+    initGraphics();
+    if (commData->setupUseJoy == 1) {
+        copyJoystickData(commData->joyData);
+    } else {
+        joyAxisX = joyAxisY = JOY_CENTER;
+    }
+    loadWorldStrings();
+    b = gfx_getAuxBufSize();
+    p = gfx_jump_17_bufSize();
+    gfxBufSeg = allocBuffer(b);
+    if (hasVgaMode == 1) {
+        vgaBufSeg = allocBuffer(VGA_BUF_SIZE);
+        vgaBufSeg2 = vgaBufSeg;
+        vgaBufOffset = 0;
+    }
+    spriteBufSeg = allocBuffer(p);
+    missionResult = 3;
+    if (commData->setupDone == 2) {
+        loadTheaterIndex();
+    }
+    clearKeybuf();
+    debriefMainLoop();
+    checkQuitFlag();
+    clearKeybuf();
+    showPostMissionAwards();
+    restoreCbreakHandler();
+    dosExit(EXIT_DEBRIEF);
+}
+
+void drawStringAtPos(int16 *s, char far *str, int x, int y) {
+    TRACE(("drawStringAtPos"));
+    s[4] = x;
+    s[5] = y;
+    drawFarString(s, str);
+}
+
+void drawFarString(int16* s, char far *str) {
+    char buf[200];
+    TRACE(("drawFarString"));
+    farStrcpy(buf, str);
+    gfx_jump_05_drawString(s, buf);
+}
+
+void checkQuitFlag(void) {
+    TRACE(("checkQuitFlag"));
+    if (quitFlag != 0) {
+        cleanup();
+        restoreCbreakHandler();
+        dosExit(0);
+    }
+}
+
+
+void routine_5(void) {
+}
+
+
+void routine_6(void) {
+}
+
+
+void outportByte(int port, int value) {
+    TRACE(("outportByte"));
+    outp(port, value);
+}
+
+
+void loadWorldStrings(void) {
+    int p;
+    int a;
+    TRACE(("loadWorldStrings"));
+    setupWorldBufPtr();
+    worldDataReady = 1;
+    readWorldData();
+    worldStrings[0] = worldStringBuf;
+    p = 1;
+    a = 0;
+    while (a < 0x2ee) {
+        if (worldStringBuf[a] == '\0' && p < 100) {
+            worldStrings[p++] = &worldStringBuf[a + 1];
+        }
+        a++;
+    }
+}

@@ -176,7 +176,7 @@ $(EGAME_DEBUG): $(DEBUGDIR) $(EGAME_DBG_OBJ)
 END_EXE := $(BUILDDIR)/end.exe
 END_BASE := end_rc.asm
 END_ASM := $(END_BASE)
-END_SRC := end0.c end1.c end2.c end3.c end_data.c
+END_SRC := enmain.c enworld.c eninput.c entext.c enaward.c enbrief.c enfile.c end2.c end_data.c
 END_BASEHDR = $(SRCDIR)/end.h
 END_COBJ := $(call cobj,$(BUILDDIR),$(END_SRC))
 END_OBJ := $(END_COBJ) $(COMMON_OBJ) $(COMMON_OBJ2) $(call asmobj,$(BUILDDIR),$(END_ASM))
@@ -186,9 +186,12 @@ $(END_EXE): $(END_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(END_OBJ) -o $@ -f "$(LINKFLAGS)"
 
 $(END_COBJ): $(END_BASEHDR)
-$(BUILDDIR)/end1.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/enmain.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/eninput.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/enaward.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/enfile.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/end2.obj: MSC_CFLAGS := /Od /Id:\f15-se2
-$(BUILDDIR)/end3.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2
+$(BUILDDIR)/enworld.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2
 
 # reference and target entrypoints for binary comparison
 END_VRF_REF := bin/end.exe

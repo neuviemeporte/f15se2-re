@@ -1,4 +1,4 @@
-/* end3.c — compiled with /Gs /Os */
+/* enworld.c — world data reading, compiled with /Gs /Os */
 #include "end.h"
 
 void readWorldData(void) {
