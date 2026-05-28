@@ -100,11 +100,11 @@ void drawCockpit() {
     if ((byte_32933 = gfx_getModeFlag()) != 0) {
         setupDac();
     }
-     gfx_jump_44_setDac(1);
-     gfx_jump_45_retrace();
+     gfx_setDac(1);
+     gfx_waitRetrace();
      TRACE(("drawCockpit: opening pic"));
      // 1a1
-     if (gfx_jump_3f_modecode() == 3) {
+     if (gfx_getModecode() == 3) {
         openBlitClosePic(a256pit_pic, 1);
      }
      else {
@@ -157,10 +157,10 @@ int sub_10297() {
 // ==== seg000:0x29a ====
 void gfxInit() {
     int var_2;
-    gfx_jump_0_alloc(0);
-    var_2 = gfx_jump_0_alloc(1);
-    gfx_jump_4b_storeBufPtr(var_2, 1);
-    gfx_jump_4b_storeBufPtr(commData->gfxInitResult, 2);
+    gfx_allocPage(0);
+    var_2 = gfx_allocPage(1);
+    gfx_storeBufPtr(var_2, 1);
+    gfx_storeBufPtr(commData->gfxInitResult, 2);
 }
 
 // TODO: sub_10720 (seg000:0720-14e7) - large unimplemented function

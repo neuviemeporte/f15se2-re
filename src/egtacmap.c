@@ -350,13 +350,13 @@ int sub_19C0C(int arg_0, int arg_2, int arg_4, int arg_6) {
     gfx_setBlitOffset(gfx_calcRowAddr(var_564[9], var_564[7]));
     var_349 = a - 1;
     var_350 = p - 1;
-    gfx_jump_21(var_564[2]);
+    gfx_setColor(var_564[2]);
     var_351 = arg_0;
     var_353 = arg_2;
     var_352 = arg_4;
     var_354 = arg_6;
     sub_2152A();
-    gfx_jump_23();
+    gfx_resetBlitOffset2();
 }
 
 // ==== seg000:0x9c84 ====
@@ -368,24 +368,24 @@ void sub_19C84(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a,
     gfx_setBlitOffset(gfx_calcRowAddr(arg_8, arg_c));
     var_349 = a - 1;
     var_350 = p - 1;
-    gfx_jump_21(var_564[2]);
+    gfx_setColor(var_564[2]);
     var_351 = arg_0 - arg_8;
     var_353 = arg_2 - arg_c;
     var_352 = arg_4 - arg_8;
     var_354 = arg_6 - arg_c;
     sub_2152A();
-    gfx_jump_23();
+    gfx_resetBlitOffset2();
     if (arg_10 != 0) {
         byte_3C5A0 = gfx_getDisplayPage();
-        gfx_jump_0e_setCurBuf(byte_3C5A0 == 0);
-        gfx_jump_21(var_564[2]);
+        gfx_setPageN(byte_3C5A0 == 0);
+        gfx_setColor(var_564[2]);
         var_351 = arg_0 - arg_8;
         var_353 = arg_2 - arg_c;
         var_352 = arg_4 - arg_8;
         var_354 = arg_6 - arg_c;
         sub_2152A();
-        gfx_jump_0e_setCurBuf(byte_3C5A0 != 0);
-        gfx_jump_23();
+        gfx_setPageN(byte_3C5A0 != 0);
+        gfx_resetBlitOffset2();
     }
     var_349 = 0x13f;
     var_350 = 0xc7;
@@ -440,8 +440,8 @@ void routine_328(int arg_0, int arg_2, int arg_4) {
 int sub_19EB6(int arg_0, int arg_2) {
     if (word_330C2 == 0) goto done;
     if (*(&word_38202 + arg_0 * 5 + 7) != arg_2) {
-        gfx_jump_29_switchColor((int *)var_564, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
-        gfx_jump_29_switchColor((int *)var_565, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
+        gfx_switchColor((int *)var_564, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
+        gfx_switchColor((int *)var_565, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
         *(&word_38202 + arg_0 * 5 + 7) = arg_2;
     }
 done:
@@ -489,7 +489,7 @@ int drawStringCentered(int16* arg_0, const char *arg_2, int arg_4, int arg_6, in
     arg_0[4] = arg_4;
     arg_0[5] = arg_6;
     arg_0[2] = arg_8;
-    gfx_jump_05_drawString(arg_0, strupr((char*)arg_2), strlen(arg_2));
+    gfx_drawString(arg_0, strupr((char*)arg_2), strlen(arg_2));
 }
 
 

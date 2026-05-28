@@ -11,21 +11,21 @@ decodePic proc near
     mov word ptr picFileHandle, ax
     mov ax, [bp+6]
     mov es, ax
-    call far ptr _gfx_jump_3b_clearBuf
+    call far ptr _gfx_clearPage
     call picInitRoutine
     mov word ptr picRow, 0
     mov word ptr picScreenBufSize, 0FA00h
 @@decodePicNextRow:
     mov di, word ptr picRow
-    call far ptr _gfx_jump_3a_getRowOffset
+    call far ptr _gfx_getRowOffset
     mov word ptr picRowOffset, ax
     call decodePicRow
     mov di, word ptr picRowOffset
     mov bp, offset picDecodedRowBuf
     mov bx, word ptr picRow
-    call far ptr _gfx_jump_34_fillRow
+    call far ptr _gfx_fillRow2
     mov di, word ptr picRowOffset
-    call far ptr _gfx_jump_36_null
+    call far ptr _gfx_nop36
     inc word ptr picRow
     sub word ptr picScreenBufSize, 320
     jnz short @@decodePicNextRow

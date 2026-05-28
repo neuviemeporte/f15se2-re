@@ -21,19 +21,19 @@ void initGraphics()
     /* 0x4a6 */
     seedRandom();
     /* 0x4ac */
-    gfx_jump_0e_setCurBuf(0);
-    gfx_jump_0_alloc(0);
+    gfx_setPageN(0);
+    gfx_allocPage(0);
     /* 0x4c4 - see f14 gmain.c InitGraphicPages() */
-    gfx_jump_4b_storeBufPtr(page1Ptr = gfx_jump_0_alloc(1), 1); // 64k framebuffer @ 2cc0:0
+    gfx_storeBufPtr(page1Ptr = gfx_allocPage(1), 1); // 64k framebuffer @ 2cc0:0
     /* 0x4d8 */
     if (*gfxModeSetPtr == 0) {
         /* looks like arg is unused inside driver function, maybe it was in an older version of the overlay? */
-        gfx_jump_3c_setMode13(commData->setupMono);
+        gfx_setMode13(commData->setupMono);
         /* 0x4f2, looks like a gfx mode set flag? */
         *gfxModeSetPtr = 1;
     }
     /* 0x4fb */
-    commData->gfxModeNum = gfx_jump_3f_modecode();
+    commData->gfxModeNum = gfx_getModecode();
     misc_jump_5e_clearKeyFlags();
 }
 
@@ -101,14 +101,14 @@ void waitMdaCgaStatus(int16 iter)
 
 // 635
 void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
-    gfx_jump_0e_setCurBuf(*pageNum);
-    gfx_jump_21(color);
+    gfx_setPageN(*pageNum);
+    gfx_setColor(color);
     lineX1 = x1;
     lineY1 = y1;
     lineX2 = x2;
     lineY2 = y2;
     drawLineWrapper();
-    gfx_jump_23();
+    gfx_resetBlitOffset2();
     // 673
 }
 
@@ -119,7 +119,7 @@ void showPic640(char* filename)
     intRegs[1] = INT_VID_MODESET;
     intRegs[0] = MODE_640_350;
     intDispatch(IRQ_VIDEO, intRegs, intRegs);
-    gfx_jump_44_setDac(4);
+    gfx_setDac(4);
     fileHandle = openFileWrapper(filename, 0);
     picBlit(fileHandle, 0);
     closeFileWrapper(fileHandle);

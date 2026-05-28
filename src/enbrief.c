@@ -78,11 +78,11 @@ int selectMenuItem(MenuItem *items, int unused, int itemCount, int inputState, i
             if (items[selectedMenuItem].colorTableIdx == 0) {
                 b = 0x0b;
                 a = 9;
-                gfx_jump_29_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0b, 9);
+                gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0b, 9);
                 b = 3;
-                gfx_jump_29_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 3, a);
+                gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 3, a);
                 b = 0x0d;
-                gfx_jump_29_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0d, a);
+                gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0d, a);
             }
             // 23bc
             goto done;
@@ -102,18 +102,18 @@ int selectMenuItem(MenuItem *items, int unused, int itemCount, int inputState, i
                 if (items[selectedMenuItem].colorTableIdx == 0) {
                     b = 9;
                     a = 6;
-                    gfx_jump_29_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 9, 6);
+                    gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 9, 6);
                     b = 3;
-                    gfx_jump_29_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 3, a);
+                    gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 3, a);
                     b = 0x0d;
-                    gfx_jump_29_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0d, a);
+                    gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0d, a);
                     b = 0x0b;
-                    gfx_jump_29_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0b, a);
+                    gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0b, a);
                 }
                 if (items[selectedMenuItem].colorTableIdx == 1) {
                     b = 8;
                     a = 7;
-                    gfx_jump_29_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 8, 7);
+                    gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 8, 7);
                 }
                 blinkWidget(&items[i], gfxPage);
             }
@@ -139,7 +139,7 @@ void blinkWidget(MenuItem *item, int16* gfxPage) {
         b = (unsigned)item->colorPair >> 4;
         p = item->colorPair & 0xF;
         if (item->colorPair != 0) {
-            gfx_jump_29_switchColor(gfxPage, item->colorX1, item->colorY1, item->colorX2, item->colorY2, b, p);
+            gfx_switchColor(gfxPage, item->colorX1, item->colorY1, item->colorX2, item->colorY2, b, p);
         }
     } else {
         item->state = 0;
@@ -147,7 +147,7 @@ void blinkWidget(MenuItem *item, int16* gfxPage) {
         p = (unsigned)item->colorPair >> 4;
     }
     if (item->colorPair != 0) {
-        gfx_jump_29_switchColor(gfxPage, item->colorX1, item->colorY1, item->colorX2, item->colorY2, b, p);
+        gfx_switchColor(gfxPage, item->colorX1, item->colorY1, item->colorX2, item->colorY2, b, p);
     }
 }
 
@@ -231,7 +231,7 @@ int isPointInRect(MenuItem *p)
                 timerCounter2 = 0;
                 c = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] >> 4;
                 b = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] & 0xF;
-                gfx_jump_29_switchColor(gfxPage, menuItem->colorX1, menuItem->colorY1, menuItem->colorX2, menuItem->colorY2, c, b);
+                gfx_switchColor(gfxPage, menuItem->colorX1, menuItem->colorY1, menuItem->colorX2, menuItem->colorY2, c, b);
                 colorAnimIdx++;
                 colorAnimIdx = (unsigned)colorAnimIdx % *(unsigned int *)colorTablePtr;
             }
@@ -253,32 +253,32 @@ int isPointInRect(MenuItem *p)
                 } else {
                     spriteAirBlink->srcX = 0x12D;
                 }
-                gfx_jump_11_blitSprite(spriteAirBlink);
+                gfx_blitSprite(spriteAirBlink);
                 break;
             case EVENT_SAM_KILL:
                 spriteSamBlink->dstX = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
                 spriteSamBlink->dstY = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
-                gfx_jump_11_blitSprite(spriteSamBlink);
+                gfx_blitSprite(spriteSamBlink);
                 break;
             case EVENT_GROUND_KILL:
                 spriteGroundBlink->dstX = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
                 spriteGroundBlink->dstY = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
-                gfx_jump_11_blitSprite(spriteGroundBlink);
+                gfx_blitSprite(spriteGroundBlink);
                 break;
             case EVENT_BOMB_HIT:
                 spriteWaypointBlink->dstX = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1;
                 spriteWaypointBlink->dstY = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1;
-                gfx_jump_11_blitSprite(spriteWaypointBlink);
+                gfx_blitSprite(spriteWaypointBlink);
                 break;
             case EVENT_EJECTED:
                 spriteSamBlink->dstX = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
                 spriteSamBlink->dstY = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
-                gfx_jump_11_blitSprite(spriteSamBlink);
+                gfx_blitSprite(spriteSamBlink);
                 break;
             case EVENT_WAYPOINT:
                 spriteWaypointBlink->dstX = mapToScreenX((char)flightRecords[curRecordIdx].mapX) + mapViewX1;
                 spriteWaypointBlink->dstY = mapToScreenY((char)flightRecords[curRecordIdx].mapY) + mapViewY1;
-                gfx_jump_11_blitSprite(spriteWaypointBlink);
+                gfx_blitSprite(spriteWaypointBlink);
                 break;
             }
         } else {
@@ -438,7 +438,7 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         if (ejectedFlag == 1) {
             ejectedFlag = 0;
             popupVisible = 0;
-            gfx_jump_11_blitSprite(var_102);
+            gfx_blitSprite(var_102);
             curRecordIdx = prevDrawX = prevDrawY = 0;
             clearRect(gfxPage, 0xeb, 0x0a, 0x13f, 0x95);
             *(long *)&missionScore = calcMissionScore(SCORE_ALL_EVENTS);
@@ -572,27 +572,27 @@ int drawEventSprite(int recordIdx)
         } else {
             spriteAir->srcX = 0x12d;
         }
-        return gfx_jump_11_blitSprite(spriteAir);
+        return gfx_blitSprite(spriteAir);
     case EVENT_GROUND_KILL:
         spriteGround->dstX  = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
         spriteGround->dstY = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
-        return gfx_jump_11_blitSprite(spriteGround);
+        return gfx_blitSprite(spriteGround);
     case EVENT_SAM_KILL:
         spriteSam->dstX  = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
         spriteSam->dstY = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
-        return gfx_jump_11_blitSprite(spriteSam);
+        return gfx_blitSprite(spriteSam);
     case EVENT_BOMB_HIT:
         spriteWaypoint->dstX  = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1;
         spriteWaypoint->dstY = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1;
-        return gfx_jump_11_blitSprite(spriteWaypoint);
+        return gfx_blitSprite(spriteWaypoint);
     case EVENT_EJECTED:
         spriteSam->dstX  = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
         spriteSam->dstY = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
-        return gfx_jump_11_blitSprite(spriteSam);
+        return gfx_blitSprite(spriteSam);
     case EVENT_WAYPOINT:
         spriteWaypoint->dstX  = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1;
         spriteWaypoint->dstY = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1;
-        return gfx_jump_11_blitSprite(spriteWaypoint);
+        return gfx_blitSprite(spriteWaypoint);
     }
 }
 
@@ -618,7 +618,7 @@ loop_top:
         mystrcpy(scoreString, str_timeLabel);
         mystrcat(scoreString, formatFlightTime(*((int *)&flightRecords[curRecordIdx] - 1), local_18));
         drawStringAt(gfxPage, scoreString, 0xf0, 0x1e);
-        gfx_jump_21(0);
+        gfx_setColor(0);
         if (prevDrawX == 0 && prevDrawY == 0) {
             drawFlightLine((int)flightRecords[0].mapX, (int)flightRecords[0].mapY, (int)flightRecords[curRecordIdx].mapX, (int)flightRecords[curRecordIdx].mapY);
             prevDrawX = (int)flightRecords[curRecordIdx].mapX;
@@ -646,7 +646,7 @@ done:
     if (!(flightRecords[curRecordIdx].status & STATUS_TYPE_MASK)) {
         curRecordIdx--;
     }
-    gfx_jump_21(0);
+    gfx_setColor(0);
     if (prevDrawX == 0 && prevDrawY == 0) {
         drawFlightLine((int)flightRecords[0].mapX, (int)flightRecords[0].mapY, (int)flightRecords[curRecordIdx].mapX, (int)flightRecords[curRecordIdx].mapY);
         prevDrawX = (int)flightRecords[curRecordIdx].mapX;
@@ -680,7 +680,7 @@ unsigned int drawFlightPath(int16 *gfxPage, unsigned int maxRecord) {
     (void)j; (void)k; (void)l; (void)m; (void)n; (void)p;
     a = -1;
     while (++a, (flightRecords[a].status & STATUS_TYPE_MASK) != 0 && (unsigned)a <= maxRecord) {
-        gfx_jump_21(0);
+        gfx_setColor(0);
         if (a == 0) {
             plotMapPoint((int)flightRecords[0].mapX, (int)flightRecords[0].mapY, 0, 0);
             b = (int)flightRecords[0].mapX;

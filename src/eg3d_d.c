@@ -84,10 +84,10 @@ void load3D3(char *arg_0) {
         sub_19E44(0);
         sub_19E5D(0, 0x28, 0x13f, 0x2d);
         drawSomeStrings(aPleaseInsertF15DiskB, 0x6c, 0x28, 0x0f);
-        gfx_jump_46_retrace2();
+        gfx_flipPage();
         misc_jump_5b_getkey();
     } // 2b1a
-    gfx_jump_45_retrace();
+    gfx_waitRetrace();
     for (var_10 = 0; var_10 < 2; var_10++) { // 2b32
         // 2b45
         if ((var_18 = word_3B14A[var_10 * 0x9] >> 8) != 0) { // 2b4c
@@ -186,11 +186,11 @@ void load3DG() {
     while ((fileHandle = fopen(regnStr, aRb_3)) == NULL) {
         drawSomeStrings(aPleaseInsertF15DiskB, 0x68, 0x28, 0x0f);
         drawSomeStrings(unk_34121, 0x68, 0x32, 0x0f);
-        gfx_jump_46_retrace2();
+        gfx_flipPage();
         misc_jump_5b_getkey();
     }
     // 2eb5
-    gfx_jump_45_retrace();
+    gfx_waitRetrace();
     fread(&sign3dg, 2, 1, fileHandle);
     // 2ed0
     if (sign3dg != SIGNATURE_3DG) {
@@ -212,7 +212,7 @@ void load3DG() {
 
 // ==== seg000:0x2f8c ====
 int printError(const char *msg) {
-    gfx_jump_46_retrace2();
+    gfx_flipPage();
     drawSomeStrings(msg, 0, 0x60, 0xf);
     getch();
 }

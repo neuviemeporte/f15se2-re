@@ -101,10 +101,10 @@ handleArrow:
         y = ((pilot & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
         // 20b3
         // looks like ChangeColor() from library.h?
-        gfx_jump_29_switchColor(screenBuf, x, y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, COLOR_WHITE, COLOR_GRAY);
+        gfx_switchColor(screenBuf, x, y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, COLOR_WHITE, COLOR_GRAY);
         x = (selectedPilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
         y = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
-        gfx_jump_29_switchColor(screenBuf, x, y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, COLOR_GRAY, COLOR_WHITE);
+        gfx_switchColor(screenBuf, x, y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, COLOR_GRAY, COLOR_WHITE);
     }
     TRACE(("processPilotInput(): returning, selected %d", selectedPilotIdx));
 }
@@ -118,7 +118,7 @@ void blinkPilot() {
     x = selectedPilotIdx < PILOTS_PER_COLUMN ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
     y = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
     // 2171
-    gfx_jump_29_switchColor(screenBuf, x , y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, blinkColors[blinkColorIdx], blinkColors[blinkColorIdx ^ 1]);
+    gfx_switchColor(screenBuf, x , y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, blinkColors[blinkColorIdx], blinkColors[blinkColorIdx ^ 1]);
     blinkColorIdx ^= 1;
 }
 
@@ -232,7 +232,7 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
         TRACE(("pilotNameInput(): before input loop"));
         while (getJoyKey() == 0) {
             waitMdaCgaStatus(3);
-            gfx_jump_29_switchColor(page, x, y - 1, x + rankWidth, y + c,
+            gfx_switchColor(page, x, y - 1, x + rankWidth, y + c,
                 pilotNameInputColors[blinkToggle], pilotNameInputColors[blinkToggle ^ 1]);
             blinkToggle ^= 1;
             page[3] = pilotNameInputColors[blinkToggle];

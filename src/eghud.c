@@ -299,9 +299,9 @@ int sub_155AB() {
     var_E = word_330C2;
     word_330C2 = (keyValue & 0xc0) == 0;
     if (var_E != word_330C2) { // 5cc3
-        gfx_jump_45_retrace();
+        gfx_waitRetrace();
         if (word_330C2 != 0) { // 5cd2
-            gfx_jump_23();
+            gfx_resetBlitOffset2();
             // the pointer arguments are probably rastports, RectCopy?
             gfx_copyRect(*off_38364, 0, 0x61, *off_38334, 0, 0x61, 0x140, 0x67);
             // 5d23
@@ -322,8 +322,8 @@ int sub_155AB() {
     } // 5d96
     if (keyValue != word_38152) { // 5da2
         if (keyValue == 0x42 || keyValue == 0x43 || keyValue == 0x41) { // 5dba
-            gfx_jump_45_retrace();
-            if (gfx_jump_3f_modecode() == 3) { // 5dc9
+            gfx_waitRetrace();
+            if (gfx_getModecode() == 3) { // 5dc9
                 openBlitClosePic(keyValue == 0x42 ? a256left_pic : keyValue == 0x43 ? a256right_pic : a256rear_pic, *off_38334);
             }
             else { // 5df3
@@ -353,7 +353,7 @@ int sub_155AB() {
     // 5efc
     if (keyValue == 0x41) { // 5f06
         sub_160D3(unk_38128);
-        gfx_jump_21(0xf);
+        gfx_setColor(0xf);
         word_3755D = 0xf1;
         word_37561 = 0x15;
         word_3755F = 0xfb;
@@ -366,7 +366,7 @@ int sub_155AB() {
         word_37563 = 0x5e;
         // 5f51
         sub_2152A();
-        gfx_jump_23();
+        gfx_resetBlitOffset2();
         var_E = byte_3C5A0;
         byte_3C5A0 = gfx_getDisplayPage();
         // 5f84
@@ -374,7 +374,7 @@ int sub_155AB() {
         sub_1A8C8(0x41, 0x5f, 0x7d, 0x36, 0xc3, 2, 0);
         byte_3C5A0 = var_E;
     } // 5fb1
-    gfx_jump_46_retrace2();
+    gfx_flipPage();
     // 5fd3
     // height of picture depending on whether view full or cockpit in the way?
     word_38126 = (word_3C09E == 0x13 || word_3C09A == 1 || word_330C2 == 0) ? 0xc8 : 0x61;
@@ -411,7 +411,7 @@ void sub_1606C(void) {
 // ==== seg000:0x60d3 ====
 void sub_160D3(int16 *arg_0) {
     while (*arg_0 != -1) {
-        gfx_jump_21(((uint8 *)word_3419C)[*arg_0++]);
+        gfx_setColor(((uint8 *)word_3419C)[*arg_0++]);
         sub_2171A();
         arg_0 += 2;
         while (*arg_0 != -1) {

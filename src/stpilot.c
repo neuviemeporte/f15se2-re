@@ -15,7 +15,7 @@ void pilotSelect(int16 needSplash)
 {
     int unused;
     TRACE(("pilotSelect(): entering, needSplash %d", needSplash));
-    gfx_jump_45_retrace();
+    gfx_waitRetrace();
     // 0x1b7d
     loadHallfame();
     TRACE(("pilotSelect(): loaded hallfame"));
@@ -35,8 +35,8 @@ void pilotSelect(int16 needSplash)
     TRACE(("pilotSelect(): showed hiscore pic"));
     displayPilots();
     TRACE(("pilotSelect(): showed prompt"));
-    gfx_jump_44_setDac(1);
-    gfx_jump_46_retrace2();
+    gfx_setDac(1);
+    gfx_flipPage();
     TRACE(("pilotSelect(): retrace done"));
     // 0x1bd3
     processPilotInput();
@@ -92,9 +92,9 @@ void updateHallfame()
     drawStringCentered(screenBuf, aPressAKeyToCon, 0, 0x96, 0x140);
     screenBuf[2] = COLOR_GRAY;
     // 1d1c
-    gfx_jump_46_retrace2();
+    gfx_flipPage();
     misc_jump_5b_getkey();
-    gfx_jump_45_retrace();
+    gfx_waitRetrace();
 }
 
 // 0x1d32
