@@ -110,7 +110,42 @@ void sub_1345E(char *arg_0, int arg_2, int arg_4, int arg_6) {
 
 // ==== seg000:0x51f9 ====
 
-// TODO: sub_134AC (seg000:34ac-3637) - unimplemented
+void sub_134AC(int param_1, int param_2, int param_3)
+{
+    int p, a, b, c, d, e, f, g, h, i;
+
+    var_663 = param_1 >> (char)param_3;
+    var_664 = param_2 >> (char)param_3;
+    for (var_666 = 4; var_666 >= 0; var_666--) {
+        word_3C16C = (&word_34186)[var_666];
+        var_665 = (var_666 <= 1) ? 0x40 : 0;
+        word_3C042 = param_3 - word_3C16C * 2 + 8;
+        var_661 = 0x1000 >> (char)word_3C042;
+        if (var_661 > 16) {
+            var_662 = 4 << (8 - (char)word_3C16C * 2);
+            sub_13638(&b, &h, &c, &p);
+            for (f = c; f <= p; f++) {
+                for (e = b; e <= h; e++) {
+                    i = e * var_661 - var_663 + (var_661 >> 1);
+                    a = f * var_661 - var_664 + (var_661 >> 1);
+                    g = process3dg(word_3C16C, e, f);
+                    if (g != -1) {
+                        word_3C5A8 = matrix3dt_2[word_3C16C][g];
+                        for (d = 0; matrix3dt[word_3C16C + 3][g + 3] > (unsigned int)d; d++) {
+                            if (*((int *)word_3C5A8 + 2) == 0) {
+                                var_200 = (char far *)(byte_228D0 + buf3d3[*((unsigned char *)word_3C5A8 + 6)]);
+                                sub_136D2(var_200,
+                                    (*(int *)word_3C5A8 >> (char)word_3C042) + i,
+                                    (*((int *)word_3C5A8 + 1) >> (char)word_3C042) + a);
+                            }
+                            word_3C5A8 += 7;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 // ==== seg000:0x3638 ====
 void sub_13638(int *arg_0, int *arg_1, int *arg_2, int *arg_3) {
