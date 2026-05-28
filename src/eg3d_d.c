@@ -228,7 +228,3 @@ int strcpyFromDot(char *arg_0, char *arg_2) {
 
 
 
-// ==== seg000:0x345e ====
-
-// TODO: sub_12FDA (seg000:2fda-3223) - follows strcpyFromDot
-// Once implemented, try merging egame1d.c + egame2b.c (if register spill doesn't affect codegen)
