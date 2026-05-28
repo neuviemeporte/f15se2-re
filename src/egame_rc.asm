@@ -20,44 +20,15 @@ PUBLIC _var_810
 PUBLIC _var_811
 PUBLIC _var_727
 PUBLIC _var_732
-PUBLIC _word_39200
-PUBLIC _word_33700
 PUBLIC _sub_167B4
-PUBLIC _word_33712
 PUBLIC _var_597
-PUBLIC _word_33714
-PUBLIC _word_3AF0C
-PUBLIC _word_33706
-PUBLIC _word_3B230
-PUBLIC _word_3B240
-PUBLIC _word_33708
-PUBLIC _word_3B232
-PUBLIC _word_3C014
-PUBLIC _word_3BFA0
-PUBLIC _word_3B234
-PUBLIC _word_3B236
 
-PUBLIC _word_336EC
-PUBLIC _word_336EE
-PUBLIC _word_32A34
 PUBLIC _aAutomaticLandi
 PUBLIC _aSafeLanding
 PUBLIC _aWeaponsRepleni
-PUBLIC _word_3C6AE
 PUBLIC _sub_16172
-PUBLIC _word_3B15A
-PUBLIC _word_3B22C
-PUBLIC _word_38FFC
-PUBLIC _word_3B22E
-PUBLIC _word_3AFAA
-PUBLIC _byte_3B23E
-PUBLIC _word_38FDE
-PUBLIC _word_3C09C
-PUBLIC _word_38FEE
 PUBLIC _sub_179EE
-PUBLIC _word_3C0A0
 PUBLIC _aReadyForTakeof
-PUBLIC _word_3BECC
 PUBLIC _var_660
 PUBLIC _word_39402
 PUBLIC _word_38FCE
@@ -83,43 +54,14 @@ PUBLIC _byte_38F8D
 PUBLIC _aOnPatrol
 PUBLIC _aF15StrikeEagle
 PUBLIC _aNone
-_word_39200 equ word_39200
-_word_33700 equ word_33700
 _sub_167B4 equ sub_167B4
-_word_33712 equ word_33712
-_word_33714 equ word_33714
-_word_3AF0C equ word_3AF0C
-_word_33706 equ word_33706
-_word_3B230 equ word_3B230
-_word_3B240 equ word_3B240
-_word_33708 equ word_33708
-_word_3B232 equ word_3B232
-_word_3C014 equ word_3C014
-_word_3BFA0 equ word_3BFA0
-_word_3B234 equ word_3B234
-_word_3B236 equ word_3B236
 
-_word_336EC equ word_336EC
-_word_336EE equ word_336EE
-_word_32A34 equ word_32A34
 _aAutomaticLandi equ aAutomaticLandi
 _aSafeLanding equ aSafeLanding
 _aWeaponsRepleni equ aWeaponsRepleni
-_word_3C6AE equ word_3C6AE
 _sub_16172 equ sub_16172
-_word_3B15A equ word_3B15A
-_word_3B22C equ word_3B22C
-_word_38FFC equ word_38FFC
-_word_3B22E equ word_3B22E
-_word_3AFAA equ word_3AFAA
-_byte_3B23E equ byte_3B23E
-_word_38FDE equ word_38FDE
-_word_3C09C equ word_3C09C
-_word_38FEE equ word_38FEE
 _sub_179EE equ sub_179EE
-_word_3C0A0 equ word_3C0A0
 _aReadyForTakeof equ aReadyForTakeof
-_word_3BECC equ word_3BECC
 EXTRN _sub_166BE:PROC
 EXTRN _routine_191:PROC
 EXTRN _sub_1660E:PROC
@@ -13716,6 +13658,8 @@ aAutomaticLandi db 'Automatic Landing Engaged',0
     _waypoints Waypoint 4 dup(<0>)
 _waypointIndex dw 0
 word_32A34 dw 0
+PUBLIC _word_32A34
+_word_32A34 equ word_32A34
 _aNone db 'None',0
     db 0
     db 0
@@ -15271,7 +15215,11 @@ _word_336E6 dw 0FFFFh
 _word_336E8 dw 0
 _word_336EA dw 0
 word_336EC dw 1
+PUBLIC _word_336EC
+_word_336EC equ word_336EC
 word_336EE dw 0
+PUBLIC _word_336EE
+_word_336EE equ word_336EE
 word_336F0 dw 0
 _word_336F0 equ word_336F0
 _word_336F2 dw 0FFFFh
@@ -15284,20 +15232,30 @@ word_336FA dw 0
 _word_336FC dw 0FFFFh
 _word_336FE dw 4
 word_33700 dw 0FFFFh
+PUBLIC _word_33700
+_word_33700 equ word_33700
 word_33702 dw 1
 PUBLIC _word_33702
 _word_33702 equ word_33702
 word_33704 dw 1
 _word_33704 equ word_33704
 word_33706 dw 1
+PUBLIC _word_33706
+_word_33706 equ word_33706
 word_33708 dw 0
+PUBLIC _word_33708
+_word_33708 equ word_33708
 _word_3370A dw 1
 _word_3370C dw 0FFFFh
 _word_3370E dw 0
 word_33710 dw 1
 _word_33710 equ word_33710
 word_33712 dw 0
+PUBLIC _word_33712
+_word_33712 equ word_33712
 word_33714 dw 0
+PUBLIC _word_33714
+_word_33714 equ word_33714
 aStoresExhauste db 'Stores exhausted',0
 aFlare db 'Flare',0
 aChaff db 'Chaff',0
@@ -30305,6 +30263,8 @@ unk_38FD0 db ?
 word_38FDA dw ?
 _word_38FDC dw ?
 word_38FDE dw ?
+PUBLIC _word_38FDE
+_word_38FDE equ word_38FDE
 word_38FE0 dw ?
 _word_38FE0 equ word_38FE0
 _dword_38FE2 dd ?
@@ -30315,6 +30275,8 @@ _word_38FEA dw ?
 word_38FEC dw ?
 _word_38FEC equ word_38FEC
 word_38FEE dw ?
+PUBLIC _word_38FEE
+_word_38FEE equ word_38FEE
 _gameData dd ?
     db ?
     db ?
@@ -30324,9 +30286,13 @@ word_38FF8 dw ?
 _word_38FF8 equ word_38FF8
 _word_38FFA dw ?
 word_38FFC dw ?
+PUBLIC _word_38FFC
+_word_38FFC equ word_38FFC
 _buf4_3dg db 200h dup(?)
 _planeFlags dw ?
 word_39200 dw ?
+PUBLIC _word_39200
+_word_39200 equ word_39200
 _buf3_3dg db 200h dup(?)
 word_39402 dw ?
 _word_39402 equ word_39402
@@ -34978,6 +34944,8 @@ _word_3AA5C dw ?
     db ?
     db ?
 word_3AF0C dw ?
+PUBLIC _word_3AF0C
+_word_3AF0C equ word_3AF0C
 _buf3d3_1 db 96h dup(?)
 word_3AFA4 dw ?
 _word_3AFA4 equ word_3AFA4
@@ -34985,6 +34953,8 @@ word_3AFA6 dw ?
 _word_3AFA8 label word
 word_3AFA8 dw ?
 word_3AFAA dw ?
+PUBLIC _word_3AFAA
+_word_3AFAA equ word_3AFAA
 _byte_3AFAC db 100h dup(?)
 word_3B0AC dw ?
 _word_3B0AC equ word_3B0AC
@@ -35009,6 +34979,8 @@ _word_3B14C equ word_3B14C
 word_3B158 dw ?
 _word_3B158 equ word_3B158
 word_3B15A dw ?
+PUBLIC _word_3B15A
+_word_3B15A equ word_3B15A
     db ?
     db ?
 word_3B15E dw ?
@@ -35029,11 +35001,23 @@ word_3B204 dw ?
 word_3B206 dw ?
     _stru_3B208 struc_3 <?>
 word_3B22C dw ?
+PUBLIC _word_3B22C
+_word_3B22C equ word_3B22C
 word_3B22E dw ?
+PUBLIC _word_3B22E
+_word_3B22E equ word_3B22E
 word_3B230 dw ?
+PUBLIC _word_3B230
+_word_3B230 equ word_3B230
 word_3B232 dw ?
+PUBLIC _word_3B232
+_word_3B232 equ word_3B232
 word_3B234 dw ?
+PUBLIC _word_3B234
+_word_3B234 equ word_3B234
 word_3B236 dw ?
+PUBLIC _word_3B236
+_word_3B236 equ word_3B236
     db ?
     db ?
     db ?
@@ -35041,8 +35025,12 @@ word_3B236 dw ?
     db ?
     db ?
 byte_3B23E db ?
+PUBLIC _byte_3B23E
+_byte_3B23E equ byte_3B23E
     db ? ;align 2
 word_3B240 dw ?
+PUBLIC _word_3B240
+_word_3B240 equ word_3B240
     db ?
     db ?
     db ?
@@ -36557,6 +36545,8 @@ _byte_3BEC4 db ?
 word_3BEC8 dw ?
 _sign3d3 dw ?
 word_3BECC dw ?
+PUBLIC _word_3BECC
+_word_3BECC equ word_3BECC
 word_3BECE dw ?
 _word_3BED0 dw ?
 _word_3BED2 dw ?
@@ -36589,6 +36579,8 @@ unk_3BF98 db ?
     db ?
     db ?
 word_3BFA0 dw ?
+PUBLIC _word_3BFA0
+_word_3BFA0 equ word_3BFA0
 word_3BFA2 dw ?
 _word_3BFA2 equ word_3BFA2
 _byte_3BFA4 db 64h dup(?)
@@ -36600,6 +36592,8 @@ _flagFarToNear dw ?
 keyScancode dw ?
 _keyScancode equ keyScancode
 word_3C014 dw ?
+PUBLIC _word_3C014
+_word_3C014 equ word_3C014
 word_3C016 dw ?
 _word_3C016 equ word_3C016
 word_3C018 dw ?
@@ -36646,8 +36640,12 @@ word_3C048 dw ?
 _string_3C04A db 50h dup(?)
 _word_3C09A dw ?
 word_3C09C dw ?
+PUBLIC _word_3C09C
+_word_3C09C equ word_3C09C
 _word_3C09E dw ?
 word_3C0A0 dw ?
+PUBLIC _word_3C0A0
+_word_3C0A0 equ word_3C0A0
 _word_3C0A2 dw 64h dup(?)
 _word_3C16A dw ?
 word_3C16C dw ?
@@ -36920,6 +36918,8 @@ _commData dd ?
 word_3C6AA dw ?
 _word_3C6AC dw ?
 word_3C6AE dw ?
+PUBLIC _word_3C6AE
+_word_3C6AE equ word_3C6AE
     db ? ;align 400h
     db ?
     db ?

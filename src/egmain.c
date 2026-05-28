@@ -173,7 +173,7 @@ void sub_10720(void) {
     int e;
 
     word_3BEC0 = (int)((dword_3B7DA + 0x10L) >> 5);
-    word_3BED0 = -((int)((dword_3B7F8 + 0x10L) >> 5) - (int)0x8000);
+    word_3BED0 = -((int)((dword_3B7F8 + 0x10L) >> 5) - 0x8000);
 
     if (word_3BECC == 1) {
         planeFlags = 0;
@@ -190,24 +190,11 @@ void sub_10720(void) {
         sub_11F3E();
         word_336F0 = 0;
         word_336F8 = 1;
-        word_336F4 = -1;
-        word_336F2 = -1;
-        word_32A34 = 0;
-        waypointIndex = 0;
-        word_330B6 = 0;
-        missileSpecIndex = 0;
-        word_33096 = 0;
-        var_597 = 0;
-        var_456 = 0;
-        word_3C014 = 0;
-        word_3BFA0 = 0;
-        word_3BED4 = 0;
-        word_3C16A = 0;
-        word_3B5D6 = 0;
-        word_3B4E0 = 0;
-        word_3B4D8 = 0;
-        word_336F6 = -1;
-        word_33700 = -1;
+        word_336F4 = word_336F2 = -1;
+        var_597 = word_33096 = missileSpecIndex = word_330B6 = waypointIndex = word_32A34 = 0;
+        word_3C16A = word_3BED4 = word_3BFA0 = word_3C014 = var_456 = 0;
+        word_3B4D8 = word_3B4E0 = word_3B5D6 = 0;
+        word_33700 = word_336F6 = -1;
         word_33098 = 10000;
         word_3BF90 = 0;
         waypointIndex = 1;
@@ -220,7 +207,7 @@ void sub_10720(void) {
         var_588 = 1;
         if (gameData->theater == 6) {
             p = 1;
-        } else if (*(char *)&gameData->theater & 1) {
+        } else if (*((char far *)gameData + 0x38) & 1) {
             p = 1;
         } else {
             p = -1;
@@ -228,7 +215,7 @@ void sub_10720(void) {
         word_3AFA8 = p;
 
         if (((stru_3AA5E[word_3B148].field_6) & 0x200) != 0) {
-            dword_3B7DA -= (long)p * 0x80;
+            dword_3B7DA -= (long)p * 0x80L;
             *(char *)&planeFlags |= 8;
         } else {
             dword_3B7F8 -= (long)(0x708 * word_3AFA8);
