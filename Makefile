@@ -123,7 +123,7 @@ $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
 EGAME_EXE := $(BUILDDIR)/egame.exe
 EGAME_CONF := $(CONFDIR)/egame_rc.json
 EGAME_BASE := egame_rc.asm
-EGAME_ASM := $(EGAME_BASE)
+EGAME_ASM := $(EGAME_BASE) egfarbu2.asm
 EGAME_SRC := egmain.c eg3d_a.c eg3d_b.c eg3d_c.c eg3d_d.c eg3d_e.c eg3d_f.c eg3d_g.c eghud.c egflight.c egtacmap.c egui.c egwaypt.c egmath.c egweap.c egfileio.c egpic.c egfarbuf.c
 EGAME_BASEHDR = $(SRCDIR)/egame.h
 EGAME_COBJ := $(call cobj,$(BUILDDIR),$(EGAME_SRC))
@@ -159,6 +159,8 @@ EGAME_VRF_TGTEP := [558bec83ec??c746]
 # egame.exe debug build
 EGAME_DEBUG := $(DEBUGDIR)/egame.exe
 $(EGAME_DEBUG): MSC_CFLAGS += /DDEBUG
+# Compile egflight.c without /Zi in debug to keep _TEXT under 64K
+$(DEBUGDIR)/egflight.obj: MSC_CFLAGS := /Gs /Id:\f15-se2 /DDEBUG
 EGAME_DBG_OBJ := $(call asmobj,$(DEBUGDIR),$(EGAME_ASM)) $(call cobj,$(DEBUGDIR),$(EGAME_SRC)) $(DEBUGDIR)/dbglite.obj $(DEBUGDIR)/dbgio.obj
 $(EGAME_DBG_OBJ): $(EGAME_BASEHDR)
 $(EGAME_DBG_OBJ): UASMFLAGS += -DDEBUG
