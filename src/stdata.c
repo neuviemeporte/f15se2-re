@@ -4,7 +4,7 @@
 #include "inttype.h"
 #include "struct.h"
 
-/* Filename strings */
+/* === Group 1 (0x0042-0x0530): Filename, mission selection, UI strings === */
 char aLabs_pic[] = "labs.pic";
 char aAdv_pic[] = "adv.pic";
 char aEgraphic_exe[] = "egraphic.exe";
@@ -13,6 +13,70 @@ char aTitle16_pic[] = "title16.pic";
 char aF15_spr[] = "f15.spr";
 char aF15_spr_0[] = "f15.spr";
 char aTemp_wld[] = "temp.wld";
+
+/* Mission selection strings */
+char aLibya[] = "Libya";
+char aPersianGulf[] = "Persian Gulf";
+char aVietnam[] = "Vietnam";
+char aMiddleEast[] = "Middle East";
+char aOtherAreas[] = "Other Areas";
+char aAcrossTheLineO[] = "Across the \"Line of Death\"";
+char aKeepingTheSeaL[] = "Keeping the Sea Lanes Open";
+char aAmericaSLonges[] = "America's Longest Air War";
+char aEaglesVsMigs[] = "Eagles vs MiGs";
+char aInsertYourScen[] = "Insert your scenario disk";
+char aRookie[] = "Rookie";
+char aPilot[] = "Pilot";
+char aVeteran[] = "Veteran";
+char aAce[] = "Ace";
+char aDemo[] = "Demo";
+char aGetOffToAGoodS[] = "Get off to a good start";
+char aForTheCasualPl[] = "For the casual player";
+char aForMoreSerious[] = "For more serious players";
+char aTheUltimateCha[] = "The Ultimate Challenge";
+char aLetSSeeWhatThi[] = "Let's see what this thing can do";
+char aNc[] = "nc";
+char aCe[] = "ce";
+char aJp[] = "jp";
+char aNa[] = "na";
+char aNorthCape[] = "North Cape";
+char aCentralEurope[] = "Central Europe";
+char aDesertStorm[] = "Desert Storm";
+char aNorthAtlantic[] = "North Atlantic";
+char aOtherAreas_0[] = "Other Areas";
+char aIntoTheSovietS[] = "Into the Soviet's Backyard";
+char aRedStormRaging[] = "Red Storm Raging";
+char aTheFightForKuw[] = "The Fight for Kuwait";
+char aDefendingTheIc[] = "Defending the Iceland-UK Gap";
+char aSelectABuiltIn[] = "Select a built-in area";
+char aHistoricalMiss[] = "Historical Missions";
+char aGeneralAirStri[] = "General Air Strikes";
+char asc_16E46[3] = {0, 0, 0};
+char aReenactHistory[] = "Reenact history";
+char aTheCoreOfTheAi[] = "The core of the Air Campaign";
+char asc_16E76[3] = {0, 0, 0};
+char aSaddamSEyes[] = "Saddam's Eyes";
+char aCommandAndCont[] = "Command and Control";
+char aScudBusting[] = "Scud Busting";
+char aNoNukes[] = "No Nukes";
+char aMoreHistorical[] = "more historical missions";
+char aIraqSEarlyWarn[] = "Iraq's Early Warning Radar";
+char aIraqiDefenseNe[] = "Iraqi Defense Nerve Center";
+char aStopSaddamSTer[] = "Stop Saddam's Terror Weapon";
+char aNuclearResearc[] = "Nuclear Research Facility";
+char unk_16F36 = 0;
+char aBabyMilkFactory[] = "'Baby Milk Factory'";
+char aStopTheSpill[] = "Stop the Spill";
+char aBridgesToNowhe[] = "Bridges to Nowhere";
+char aRepublicanGuar[] = "Republican Guards";
+char aMoreHistoric_0[] = "more historical missions";
+char aChemicalBiolog[] = "Chemical/Biological Weapons Plant";
+char aSeverTheOilPum[] = "Sever the Oil Pumping Manifold";
+char aSaddamSEliteAr[] = "Saddam's Elite Armored Units";
+char aCutTheSupplyLi[] = "Cut the Supply Lines";
+char asc_1700B = 0;
+char aMission[] = "MISSION";
+char placeholder_3d3[] = "xx.3d3";
 
 /* UI strings */
 char aWall_pic[] = "Wall.Pic";
@@ -24,8 +88,9 @@ char aSeeTechnicalSu[] = "See Technical Supplement";
 char aTheater_0[] = "THEATER";
 char aMissionType[] = "MISSION TYPE";
 
-/* Mission briefing strings */
+/* === Group 2 (0x0670-0x072c): Mission briefing strings === */
 char aRepeatLastMiss[] = "Repeat last mission ? (y/n)";
+char asc_174AF[] = ")";
 char aRb_2[] = "rb";
 char aF15_spr_1[] = "F15.spr";
 char aPleaseReinsert[] = "Please reinsert F15 Disk A";
@@ -39,19 +104,33 @@ char aOnc_0[] = "ONC ";
 char aSecondaryTarge[] = "Secondary Target:";
 char aOnc_1[] = "ONC ";
 
-/* Roster / pilot strings */
+/* === Group 3 (0x0830-0x0a98): Rank, roster, overlay strings === */
+char a2ndLt_[] = "2nd Lt. ";
+char a1stLt_[] = "1st Lt. ";
+char aCapt_[] = "Capt. ";
+char aMajor[] = "Major ";
+char aLtCol_[] = "Lt Col. ";
+char aColonel[] = "Colonel ";
+char aGen_[] = "Gen. ";
+
 char aArmpiece_pic[] = "ArmPiece.Pic";
 char aHiscore_pic[] = "HiScore.Pic";
 char aOriginalDiskIn[] = "Original Disk in drive.  Roster will not be saved.";
 char aPressAKeyToCon[] = "Press a key to continue.";
 char aUseSelectorToC[] = "Use SELECTOR to choose pilot,  ESC to enter new pilot.";
 char asc_174AC[] = " (";
-char asc_174AF[] = ")";
 char aMenterYourName[] = "\376ENTER YOUR NAME !";
 char aRb_3[] = "rb";
 char aHallfame[] = "HallFame";
 char aWb[] = "wb";
 char aHallfame_0[] = "HallFame";
+
+/* Overlay loader variables */
+int ovlSeg1 = 0;
+int ovlParCnt = 0;
+int ovlParBlock = 0;
+int ovlSeg2 = 0;
+char ovlInsaneFlag = 0;
 
 /* Overlay error strings */
 char aAlloc1M[] = "Allocated 1Mb of space????$";
@@ -63,16 +142,31 @@ char aOvlOvrrun[] = "Overlay has overrun allocated memory$";
 char aOvlShrink[] = "Unable to shrink overlay memory allocation$";
 char aOvlRel[] = "Error releasing overlay memory$";
 
-/* File I/O error strings */
+/* === Group 4 (0x12b6-0x130c): File I/O error strings === */
 char aFileNotFound[] = ":File not found$";
 char aNoFileBuffersAvailable[] = ":No file buffers available$";
 char aOpenError[] = ":Open error $";
 char aFileClosingError[] = "File closing error$";
 char aReadError[] = "Read error$";
 char aWriteError[] = "Write error$";
+
+/* === Group 5 (0x146e-0x14d6): Alloc error, highlight, lookup tables === */
 char str_allocError[] = "Insufficient system memory - AllocBuffer$";
 
-/* Terrain/grid file strings */
+/* Mission selection state */
+int enableHighlight = 1;
+
+/* Direction/level lookup tables */
+int word_17FFE[] = {-1, 1, 1, -1, 0, 1, 0, -1, 0};
+int word_18010[] = {1, 1, -1, -1, 1, 0, -1, 0, 0, (int)0xE000, (int)0xF000};
+int word_18026[] = {0, 0x1000, 0x2000, 0x400, 0x100, 0x40, 0x10, 4};
+
+/* === Group 6 (0x1632-0x1763): Terrain/grid file strings === */
+int gridSignature = 0x3232;
+int terrainSignature = 0x3131;
+int terrainDirtyFlag = 0;
+int gridValidFlag = 0;
+
 char a_3dt[] = ".3dT";
 char aRb[] = "rb";
 char aOpenErrorOn_3d[] = "Open Error on *.3DT, assuming new file !";
@@ -84,7 +178,26 @@ char aRb_0[] = "rb";
 char aOpenErrorOn__0[] = "Open Error on *.3DG, assuming new file !";
 char aBadGridFileFor[] = "Bad Grid file format.";
 
-/* Mission/scenario strings */
+/* Region/theater filename strings */
+char aRegn_xxx[] = "regn.xxx";
+char aLb_xxx[] = "lb.xxx";
+char aPg_xxx[] = "pg.xxx";
+char aVn_xxx[] = "vn.xxx";
+char aMe_xxx[] = "me.xxx";
+char aNc_xxx[] = "nc.xxx";
+char aCe_xxx[] = "ce.xxx";
+char aJp_xxx[] = "jp.xxx";
+char aNa_xxx[] = "na.xxx";
+char aLibya_wld[] = "Libya.wld";
+char aGulf_wld[] = "gulf.wld";
+char aVn_wld[] = "vn.wld";
+char aMe_wld[] = "me.wld";
+char aNc_wld[] = "nc.wld";
+char aCe_wld[] = "ce.wld";
+char aJp_wld[] = "jp.wld";
+char aNa_wld[] = "na.wld";
+
+/* === Group 7 (0x27e6-0x2818): Mission/scenario strings === */
 char aPowCamp[] = "POW Camp";
 char aRb_4[] = "rb";
 char aWb_0[] = "wb";
@@ -97,26 +210,7 @@ char aCc00[] = "CC00";
 char aHz00[] = "HZ00";
 char aAt[] = " at ";
 
-/* Overlay loader variables */
-int ovlSeg1 = 0;
-int ovlParCnt = 0;
-int ovlParBlock = 0;
-int ovlSeg2 = 0;
-char ovlInsaneFlag = 0;
-
-/* Mission selection state */
-int enableHighlight = 1;
-
-/* Direction/level lookup tables */
-int word_17FFE[] = {-1, 1, 1, -1, 0, 1, 0, -1, 0};
-int word_18010[] = {1, 1, -1, -1, 1, 0, -1, 0, 0, (int)0xE000, (int)0xF000};
-int word_18026[] = {0, 0x1000, 0x2000, 0x400, 0x100, 0x40, 0x10, 4};
-
-/* Terrain/grid state */
-int terrainSignature = 0x3131;
-int terrainDirtyFlag = 0;
-int gridSignature = 0x3232;
-int gridValidFlag = 0;
+/* === Unmapped variables (original relative order preserved) === */
 
 /* Timer variables */
 uint8 timerFlag = 0;
@@ -342,25 +436,6 @@ int16 picCurrentRow = 0;
 int16 flag4Saved = 0;
 int16 theaterSaved = 0;
 
-/* Region/theater filename strings */
-char aRegn_xxx[] = "regn.xxx";
-char aLb_xxx[] = "lb.xxx";
-char aPg_xxx[] = "pg.xxx";
-char aVn_xxx[] = "vn.xxx";
-char aMe_xxx[] = "me.xxx";
-char aNc_xxx[] = "nc.xxx";
-char aCe_xxx[] = "ce.xxx";
-char aJp_xxx[] = "jp.xxx";
-char aNa_xxx[] = "na.xxx";
-char aLibya_wld[] = "Libya.wld";
-char aGulf_wld[] = "gulf.wld";
-char aVn_wld[] = "vn.wld";
-char aMe_wld[] = "me.wld";
-char aNc_wld[] = "nc.wld";
-char aCe_wld[] = "ce.wld";
-char aJp_wld[] = "jp.wld";
-char aNa_wld[] = "na.wld";
-
 /* Pointer arrays for region/world files */
 char *regnPlhPtr = aRegn_xxx;
 char *plhFiles[] = { aLb_xxx, aPg_xxx, aVn_xxx, aMe_xxx, aNc_xxx, aCe_xxx, aJp_xxx, aNa_xxx };
@@ -375,70 +450,6 @@ int16 word_182C2 = 0;
 int16 word_182C4 = 0;
 int16 word_182C6 = 0;
 int16 word_182C8 = 0;
-
-/* Mission selection strings */
-char aLibya[] = "Libya";
-char aPersianGulf[] = "Persian Gulf";
-char aVietnam[] = "Vietnam";
-char aMiddleEast[] = "Middle East";
-char aOtherAreas[] = "Other Areas";
-char aAcrossTheLineO[] = "Across the \"Line of Death\"";
-char aKeepingTheSeaL[] = "Keeping the Sea Lanes Open";
-char aAmericaSLonges[] = "America's Longest Air War";
-char aEaglesVsMigs[] = "Eagles vs MiGs";
-char aInsertYourScen[] = "Insert your scenario disk";
-char aRookie[] = "Rookie";
-char aPilot[] = "Pilot";
-char aVeteran[] = "Veteran";
-char aAce[] = "Ace";
-char aDemo[] = "Demo";
-char aGetOffToAGoodS[] = "Get off to a good start";
-char aForTheCasualPl[] = "For the casual player";
-char aForMoreSerious[] = "For more serious players";
-char aTheUltimateCha[] = "The Ultimate Challenge";
-char aLetSSeeWhatThi[] = "Let's see what this thing can do";
-char aNc[] = "nc";
-char aCe[] = "ce";
-char aJp[] = "jp";
-char aNa[] = "na";
-char aNorthCape[] = "North Cape";
-char aCentralEurope[] = "Central Europe";
-char aDesertStorm[] = "Desert Storm";
-char aNorthAtlantic[] = "North Atlantic";
-char aOtherAreas_0[] = "Other Areas";
-char aIntoTheSovietS[] = "Into the Soviet's Backyard";
-char aRedStormRaging[] = "Red Storm Raging";
-char aTheFightForKuw[] = "The Fight for Kuwait";
-char aDefendingTheIc[] = "Defending the Iceland-UK Gap";
-char aSelectABuiltIn[] = "Select a built-in area";
-char aHistoricalMiss[] = "Historical Missions";
-char aGeneralAirStri[] = "General Air Strikes";
-char asc_16E46[3] = {0, 0, 0};
-char aReenactHistory[] = "Reenact history";
-char aTheCoreOfTheAi[] = "The core of the Air Campaign";
-char asc_16E76[3] = {0, 0, 0};
-char aSaddamSEyes[] = "Saddam's Eyes";
-char aCommandAndCont[] = "Command and Control";
-char aScudBusting[] = "Scud Busting";
-char aNoNukes[] = "No Nukes";
-char aMoreHistorical[] = "more historical missions";
-char aIraqSEarlyWarn[] = "Iraq's Early Warning Radar";
-char aIraqiDefenseNe[] = "Iraqi Defense Nerve Center";
-char aStopSaddamSTer[] = "Stop Saddam's Terror Weapon";
-char aNuclearResearc[] = "Nuclear Research Facility";
-char unk_16F36 = 0;
-char aBabyMilkFactory[] = "'Baby Milk Factory'";
-char aStopTheSpill[] = "Stop the Spill";
-char aBridgesToNowhe[] = "Bridges to Nowhere";
-char aRepublicanGuar[] = "Republican Guards";
-char aMoreHistoric_0[] = "more historical missions";
-char aChemicalBiolog[] = "Chemical/Biological Weapons Plant";
-char aSeverTheOilPum[] = "Sever the Oil Pumping Manifold";
-char aSaddamSEliteAr[] = "Saddam's Elite Armored Units";
-char aCutTheSupplyLi[] = "Cut the Supply Lines";
-char asc_1700B = 0;
-char aMission[] = "MISSION";
-char placeholder_3d3[] = "xx.3d3";
 
 /* Mission menu pointer arrays */
 char *missTheaNames[] = { aLibya, aPersianGulf, aVietnam, aMiddleEast, aOtherAreas };
@@ -456,15 +467,6 @@ char *missHistorical2Names[] = { aBabyMilkFactory, aStopTheSpill, aBridgesToNowh
 char *missHistorical2Desc[] = { aChemicalBiolog, aSeverTheOilPum, aSaddamSEliteAr, aCutTheSupplyLi, &asc_1700B };
 char *missionStr = aMission;
 char *plh3d3Ptr = placeholder_3d3;
-
-/* Rank name strings */
-char a2ndLt_[] = "2nd Lt. ";
-char a1stLt_[] = "1st Lt. ";
-char aCapt_[] = "Capt. ";
-char aMajor[] = "Major ";
-char aLtCol_[] = "Lt Col. ";
-char aColonel[] = "Colonel ";
-char aGen_[] = "Gen. ";
 
 /* Pilot state */
 uint8 pilotSelectFlag = 0;

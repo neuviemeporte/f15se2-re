@@ -63,7 +63,7 @@ COMMON_SRC := shared/util.c
 COMMON_SRC2 := shared/util2.c
 COMMON_OBJ := $(BUILDDIR)/util.obj
 COMMON_OBJ2 := $(BUILDDIR)/util2.obj
-START_SRC := start0.c start1.c start2.c start3.c startdat.c
+START_SRC := stmain.c stinit.c stmissn.c stsprit.c strand.c stpilot.c stpinp.c stinkey.c stalloc.c stterr.c stparse.c stgrid.c stgen.c stdata.c
 START_BASEHDR = $(SRCDIR)/start.h
 START_COBJ := $(call cobj,$(BUILDDIR),$(START_SRC))
 START_OBJ := $(START_COBJ) $(COMMON_OBJ) $(COMMON_OBJ2) $(call asmobj,$(BUILDDIR),$(START_ASM))
@@ -87,7 +87,16 @@ $(BUILDDIR)/util2.obj: MSC_CFLAGS := /Gs /I.. /Id:\f15-se2
 $(BUILDDIR)/util.obj: MSC_CFLAGS := /Gs /Zi /I.. /Id:\f15-se2
 $(DEBUGDIR)/util2.obj: MSC_CFLAGS := /Gs /w /I.. /Id:\f15-se2 /DDEBUG
 $(DEBUGDIR)/util.obj: MSC_CFLAGS := /Gs /Zi /I.. /Id:\f15-se2 /DDEBUG
-$(BUILDDIR)/start2.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/stpilot.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/stpinp.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/stinkey.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/stalloc.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/stterr.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/stparse.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/stgrid.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/stmissn.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/stsprit.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/stgen.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/start4.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 
 $(START_EXE): | $(BUILDDIR)
@@ -204,7 +213,7 @@ $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
 # unit test executable
 #
 TEST_EXE := $(DEBUGDIR)/test.exe
-TEST_SRCS := test.c start1.c start2.c start3.c startdat.c
+TEST_SRCS := test.c stinit.c stmissn.c stsprit.c strand.c stpilot.c stpinp.c stinkey.c stalloc.c stterr.c stparse.c stgrid.c stgen.c stdata.c
 TEST_ASMS := start4.asm start_rc.asm
 TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
 TEST_LIBS := slibce.lib
