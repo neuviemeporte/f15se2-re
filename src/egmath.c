@@ -65,7 +65,7 @@ int param_8;
     long c;
     long e;
     int f;
-    unsigned char g;
+    int g;
 
     a = sub_1CF32(param_1);
     p = (byte_3C5A0 == 0) ? (int)var_564 : (int)var_565;
@@ -84,7 +84,7 @@ int param_8;
         f <<= (char)param_8;
     }
     if (param_8 < 0) {
-        g = -param_8;
+        *(char *)&g = -param_8;
         unknown_libname_2(g, &c);
         unknown_libname_2(g, &e);
         f >>= (char)g;
