@@ -169,26 +169,24 @@ int sub_1C6BE(int param_1, int param_2)
 {
     int p;
 
-    word_39808 = sub_12FDA((int32)param_1 << 5, (0x8000L - (int32)param_2) << 5);
-    if (word_39808 == 0) {
-        goto fail;
-    }
-    param_1 = ((int32 *)word_39808)[1] >> 5;
-    param_2 = -((int)(((int32 *)word_39808)[2] >> 5) - 0x8000);
-    for (p = 1; p < word_3BED2; p++) {
-        if (stru_3AA5E[p].field_0 == param_1 && stru_3AA5E[p].field_2 == param_2) {
-            return p;
+    if (word_39808 = sub_12FDA((int32)param_1 << 5, (0x8000L - (int32)param_2) << 5)) {
+        param_1 = ((int32 *)word_39808)[1] >> 5;
+        param_2 = -((int)(((int32 *)word_39808)[2] >> 5) - 0x8000);
+        for (p = 1; p < word_3BED2; p++) {
+            if (stru_3AA5E[p].field_0 == param_1 && stru_3AA5E[p].field_2 == param_2) {
+                return p;
+            }
         }
+        stru_3AA5E[0].field_0 = param_1;
+        stru_3AA5E[0].field_2 = param_2;
+        stru_3AA5E[0].field_C = *word_39808 + 0x100;
+        if (word_336F6 == 0) {
+            word_336F6 = -1;
+        }
+        return 0;
+    } else {
+        return -1;
     }
-    stru_3AA5E[0].field_0 = param_1;
-    stru_3AA5E[0].field_2 = param_2;
-    stru_3AA5E[0].field_C = *word_39808 + 0x100;
-    if (word_336F6 == 0) {
-        word_336F6 = -1;
-    }
-    return 0;
-fail:
-    return -1;
 }
 
 // ==== seg000:0xc7a2 ====
