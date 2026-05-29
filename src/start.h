@@ -80,355 +80,168 @@
 #define SCREEN_MAXY 0xc7
 #define SCREEN_MAXX 0x13f
 #define FILE_READBUF_SIZE 0x200
-// ==== startCode1:0x483 ====
 int checkQuitFlag();
-// ==== startCode1:0x4a0 ====
 void initGraphics(void);
-// ==== startCode1:0x544 ====
 int setargv();
-// ==== startCode1:0x547 ====
 int setenvp();
-// ==== startCode1:0x54a ====
 void clearKeybuf(void);
-// ==== startCode1:0x561 ====
 void waitJoyKey(void);
-// ==== startCode1:0x571 ====
 int joyOrKey();
-// ==== startCode1:0x5d5 ====
 void waitMdaCgaStatus(int);
-// ==== startCode1:0x635 ====
 void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color);
-// ==== startCode1:0x674 ====
 void showPic640(char *filename);
-// bytes outside routine, potential module boundary at 0x6c7
-// ==== startCode1:0x6c8 ====
 void missionSelect(void);
-// ==== startCode1:0x90e ====
 int __cdecl missionMenuSelect(char **names, char **desc, char *title, int s);
-// ==== startCode1:0xa9f ====
 void animateArm(int, int);
-// ==== startCode1:0xcdb ====
 int askRepeatMission(void);
-// ==== startCode1:0xd3a ====
 void checkDiskA(void);
-// ==== startCode1:0xdca ====
 void missionDecode(void);
-// ==== startCode1:0xe0a ====
 void printMission(void);
-// ==== startCode1:0x10ab ====
 int processStoreInput();
-// ==== startCode1:0x1229 ====
 void clearBriefing(void);
-// ==== startCode1:0x124a ====
 void __cdecl showSprite(int, int, int, int, int, int, int);
-// ==== startCode1:0x12df ====
 int dead_drawWrappedText();
-// ==== startCode1:0x130b ====
 int unreach_1130B();
-// ==== startCode1:0x1458 ====
 int sub_11458();
-// ==== startCode1:0x1824 ====
 void seedRandom();
-// ==== startCode1:0x1835 ====
 int __cdecl randMul(unsigned int);
-// bytes outside routine, potential module boundary at 0x1859
-// ==== startCode1:0x185a ====
 void setTimerIrqHandler(void);
-// ==== startCode1:0x1898 ====
 void restoreTimerIrqHandler(void);
-// ==== startCode1:0x18b9 ====
 int sub_118B9();
-// ==== startCode1:0x18d1 ====
 int sub_118D1();
-// ==== startCode1:0x18e7 ====
 int far timerIrqHandler();
-// ==== startCode1:0x194d ====
 int timerIrqCallback();
-// ==== startCode1:0x19d4 ====
 int calibrateTimerSpeed();
-// ==== startCode1:0x1a69 ====
 int manipulateTimer();
-// ==== startCode1:0x1abe ====
 int getTimeOfDay();
-// ==== startCode1:0x1ac5 ====
 int increaseTimerCounters();
-// bytes outside routine, potential module boundary at 0x1adb
-// ==== startCode1:0x1adc ====
 int doFcbSearch();
-// ==== startCode1:0x1b03 ====
 void picBlit(int handle, int unk);
-// bytes outside routine, potential module boundary at 0x1b71
-// ==== startCode1:0x1b72 ====
 void pilotSelect(int ps_needSplash);
-// bytes outside routine, potential module boundary at 0x1c07
-// ==== startCode1:0x1c08 ====
 void updateHallfame();
-// bytes outside routine, potential module boundary at 0x1d31
-// ==== startCode1:0x1d32 ====
 void displayPilots(void);
-// ==== startCode1:0x1d80 ====
 void __cdecl printPilot(int);
-// bytes outside routine, potential module boundary at 0x1f43
-// ==== startCode1:0x1f44 ====
 void processPilotInput();
-// ==== startCode1:0x210a ====
 void blinkPilot();
-// ==== startCode1:0x2182 ====
 void __cdecl gameDataToPilot(struct Pilot *pilot);
-// ==== startCode1:0x2232 ====
-void pilotToGameData(unsigned __int8 *pilotData);
-// ==== startCode1:0x22ec ====
+void pilotToGameData(uint8 *pilotData);
 void __cdecl pilotNameInput(int16 *, int, int, int, struct Pilot *);
-// ==== startCode1:0x24e4 ====
 void loadHallfame(void);
-// ==== startCode1:0x2542 ====
 void saveHallfame();
-// ==== startCode1:0x25a0 ====
 int getJoyKey();
-// bytes outside routine, potential module boundary at 0x25e3
-// ==== startCode1:0x25e4 ====
 int readInputKey();
-// bytes outside routine, potential module boundary at 0x2651
-// ==== startCode1:0x2652 ====
 int sub_12652();
-// ==== startCode1:0x2660 ====
 int sub_12660();
-// ==== startCode1:0x2680 ====
 int sub_12680();
-// ==== startCode1:0x26cb ====
 int sub_126CB();
-// ==== startCode1:0x26e2 ====
 int sub_126E2();
-// ==== startCode1:0x26fd ====
 int mystrlen(const char* str);
-// ==== startCode1:0x2719 ====
 int mystrcat(char *dst, char *src);
-// ==== startCode1:0x2741 ====
 int sub_12741();
-// ==== startCode1:0x2764 ====
 void nearmemset(void *dst, char value, int count);
-// ==== startCode1:0x277a ====
 void farmemset(char far *dst, char value, int count);
-// ==== startCode1:0x2790 ====
 int my_memcpy();
-// ==== startCode1:0x27ae ====
 int unreach_127AE();
-// ==== startCode1:0x27ca ====
 int sub_127CA();
-// ==== startCode1:0x27f5 ====
 void intDispatch(int intNum, uint8 *inregs, uint8 *outregs);
-// ==== startCode1:0x285a ====
 int myItoa();
-// ==== startCode1:0x2897 ====
 int base10_itoa();
-// ==== startCode1:0x28c2 ====
 int base16_itoa();
-// ==== startCode1:0x290a ====
 int base2_itoa();
-// ==== startCode1:0x292c ====
 int unreach_1292C();
-// ==== startCode1:0x2977 ====
 int dos_printstring(const char *str);
-// ==== startCode1:0x2985 ====
 int loadOverlay(const char *filename);
-// ==== startCode1:0x2a88 ====
 void setupOverlaySlots(int ovlSegment);
-// ==== startCode1:0x2ae1 ====
 int unreach_12AE1();
-// ==== startCode1:0x2b1b ====
 int sub_12B1B();
-// ==== startCode1:0x2bba ====
 void __cdecl clearRect(int16 *buf, int x, int y, int maxx, int maxy);
-// ==== startCode1:0x2c59 ====
 int unreach_12C59();
-// ==== startCode1:0x2c6f ====
 int sub_12C6F();
-// ==== startCode1:0x2c75 ====
 int clearDirtyRects();
-// bytes outside routine, potential module boundary at 0x2d7a
-// ==== startCode1:0x2dea ====
 int drawLineWrapper();
-// ==== startCode1:0x2df6 ====
 int clipAndDrawLine();
-// ==== startCode1:0x2f6a ====
 int computeOutcode();
-// ==== startCode1:0x2f8b ====
 int far sub_12F8B();
-// ==== startCode1:0x2fac ====
 int installCBreakHandler();
-// ==== startCode1:0x2fcf ====
 void restoreCbreakHandler(void);
-// ==== startCode1:0x2fe0 ====
 int getInterruptHandler();
-// ==== startCode1:0x2fec ====
 int far cbreakHandler();
-// bytes outside routine, potential module boundary at 0x2ffb
-// ==== startCode1:0x2ffc ====
 int unreach_12FFC(int filename, int a);
-// bytes outside routine, potential module boundary at 0x3031
-// ==== startCode1:0x3032 ====
 int unreach_13032(int filename, int a, int b);
-// ==== startCode1:0x306a ====
 int unreach_1306A();
-// bytes outside routine, potential module boundary at 0x30b3
-// ==== startCode1:0x30b4 ====
 int unreach_130B4();
-// bytes outside routine, potential module boundary at 0x30c5
-// ==== startCode1:0x30c6 ====
 void closeFileWrapper(int handle);
-// ==== startCode1:0x30d4 ====
 int unreach_130D4();
-// ==== startCode1:0x30e8 ====
 int unreach_130E8();
-// ==== startCode1:0x3100 ====
 int unreach_13100();
-// ==== startCode1:0x311a ====
 int openFile(char *filename, int mode);
-// ==== startCode1:0x3171 ====
 int unreach_13171();
-// ==== startCode1:0x31c8 ====
 int fileClose(int handle);
-// ==== startCode1:0x31ea ====
 int unreach_131EA();
-// ==== startCode1:0x3215 ====
 int unreach_13215();
-// ==== startCode1:0x3243 ====
 int unreach_13243();
-// ==== startCode1:0x326c ====
 int read512FromFileIntoBuf();
-// ==== startCode1:0x328d ====
 int unreach_1328D();
-// ==== startCode1:0x32a5 ====
 int writeFileAtRaw();
-// ==== startCode1:0x3312 ====
 void openShowPic(char *filename, int pageNum);
-// ==== startCode1:0x333e ====
 int unreach_1333E(int filename, int a);
-// ==== startCode1:0x3368 ====
 void __cdecl loadPic(char *, unsigned int);
-// bytes outside routine, potential module boundary at 0x3391
-// ==== startCode1:0x3392 ====
 void unreach_loadPicAt();
-// bytes outside routine, potential module boundary at 0x33cf
-// ==== startCode1:0x33d0 ====
 void showPicFile(int handle, int pageNum, int garbage);
-// ==== startCode1:0x3442 ====
 int unreach_13442();
-// ==== startCode1:0x34aa ====
 int unreach_134AA();
-// ==== startCode1:0x351e ====
 int decodePic(int handle, int segment);
-// ==== startCode1:0x3586 ====
 int nullsub_1();
-// bytes outside routine, potential module boundary at 0x3587
-// ==== startCode1:0x3588 ====
 int decodePicRow();
-// ==== startCode1:0x35b2 ====
 int picReadDataAndMakeDict();
-// ==== startCode1:0x35f9 ====
 int picMakeDict();
-// ==== startCode1:0x362f ====
 int doPicDecode();
-// ==== startCode1:0x36a8 ====
 int dictionaryLookup();
-// bytes outside routine, potential module boundary at 0x3757
-// ==== startCode1:0x3758 ====
 uint16 __cdecl allocBuffer(int sz);
-// ==== startCode1:0x378c ====
 int unreach_freeBuffer(int freeSeg);
-// ==== startCode1:0x37b4 ====
 unsigned int __cdecl dos_alloc(int sz);
-// ==== startCode1:0x37da ====
 int unreach_dos_freeMem(int freeSeg);
-// bytes outside routine, potential module boundary at 0x37f7
-// ==== startCode1:0x37f8 ====
 int *__cdecl findNearestTerrain(__int32, __int32);
-// ==== startCode1:0x39e9 ====
 unsigned __int32 __cdecl scaleCoordByLevel(int, unsigned __int32);
-// ==== startCode1:0x3a61 ====
 int __cdecl lookupGridCell(int, int, int);
-// bytes outside routine, potential module boundary at 0x3b89
-// ==== startCode1:0x3b8a ====
 void parseGridTerrain(void);
-// ==== startCode1:0x3b9e ====
 void parseTerrain(char *dest);
-// bytes outside routine, potential module boundary at 0x3d4b
-// ==== startCode1:0x3d4c ====
 void parseGrid();
-// ==== startCode1:0x3e8c ====
 int __cdecl showMsgWaitKey(const char *);
-// ==== startCode1:0x3ea8 ====
 void replaceExtension(char *dest, char *source);
-// ==== startCode1:0x3ed2 ====
 int unreach_13ED2();
-// ==== startCode1:0x3f08 ====
 int unreach_13F08();
-// ==== startCode1:0x3f1e ====
 int unreach_initPicDictionary();
-// ==== startCode1:0x3f52 ====
 int unreach_13F52();
-// ==== startCode1:0x3f6a ====
 int unreach_13F6A();
-// ==== startCode1:0x4009 ====
 int unreach_14009();
-// ==== startCode1:0x4042 ====
 void missionGenerate(void);
-// ==== startCode1:0x4093 ====
 void runGenerator();
-// ==== startCode1:0x4bb4 ====
 int __cdecl findOrPlaceItem(int, int, int);
-// ==== startCode1:0x4c94 ====
 int __cdecl itemDistance(int, int);
-// ==== startCode1:0x4cc5 ====
 void __cdecl positionUnit(int, int);
-// ==== startCode1:0x4d96 ====
 int __cdecl approxDistance(int, int);
-// ==== startCode1:0x4e03 ====
 void __cdecl parseWorld(const char *);
-// ==== startCode1:0x4f76 ====
 void writeWorld(const char *filename);
-// ==== startCode1:0x50e8 ====
 int doNothing2(const char *msg, int a, int b, int c);
-// ==== startCode1:0x50eb ====
 int __cdecl calcBearing(int, int);
-// ==== startCode1:0x5268 ====
 int setMoveDstComm7A(const char *filename, const char* arg_1);
-// ==== startCode1:0x5285 ====
 int unreach_15285();
-// ==== startCode1:0x52bb ====
 void memAppend(void *ptr, int itemsz, int count, FILE* unused);
-// ==== startCode1:0x52f1 ====
 void doNothing(FILE*);
-// ==== startCode1:0x52f4 ====
 char *__cdecl getItemCoordStr(int16);
-// ==== startCode1:0x531c ====
 char *__cdecl formatGridRef(int16, int16, int16);
-// ==== startCode1:0x5472 ====
 int __cdecl clampValue(int, int, int);
-// ==== startCode1:0x54a1 ====
 void __cdecl placeString(int arg_0);
-// ==== startCode1:0x5741 ====
 int sub_15741();
-// ==== startCode1:0x5750 ====
 int sub_15750();
-// bytes outside routine, potential module boundary at 0x5763
-// ==== startCode1:0x5f0a ====
 int sub_15F0A();
-// bytes outside routine, potential module boundary at 0x6419
-// ==== startCode1:0x64c0 ====
 int sub_164C0();
-// bytes outside routine, potential module boundary at 0x654f
-// ==== startCode1:0x6a06 ====
 int sub_16A06();
-// ==== startCode2:0x1c ====
 int unreach_16A6C();
-// ==== startCode2:0x2f ====
 int far pollJoystick();
-// ==== startCode2:0x42 ====
 int readJoyPort();
-// ==== startCode2:0x6f ====
 int normalizeJoyAxis();
-// ==== startCode2:0xdf ====
 int far copyJoystickData(uint8 FAR *ptr);
 extern uint8 crt0_start[];
 extern int16 crt0_16B52;
@@ -446,7 +259,7 @@ extern char aTitle16_pic[];
 extern char aF15_spr[];
 extern char aF15_spr_0[];
 extern char aTemp_wld[];
-extern int16 word_16BE2;
+extern int16 bufPageDesc;
 extern uint8 unk_16BF0[];
 extern int16 *bufPtr;
 extern uint8 unk_16C10[];
@@ -535,27 +348,22 @@ extern char *scenarioCodePtr[];
 extern char *missScenarioNames[];
 extern char *missScenarioDesc[];
 extern char *missTypeNames[];
-extern int16 off_1710E;
-extern int16 off_17110;
 extern char *missTypeDesc[];
-extern int16 off_1711E;
 extern char *missHistorical1Names[];
 extern char *missHistorical1Desc[];
-extern int16 off_17132;
 extern char *missHistorical2Names[];
 extern char *missHistorical2Desc[];
-extern int16 off_17142;
 extern char *missionStr;
-extern int16 word_1714A[];
-extern int16 word_1715A[];
-extern int16 word_1716A[];
-extern int16 word_1717A[];
-extern int16 word_1718A[];
-extern int16 word_1719A[];
+extern int16 armSrcX[];
+extern int16 armSrcY[];
+extern int16 armBlitX[];
+extern int16 armBlitY[];
+extern int16 armBlitW[];
+extern int16 armBlitH[];
 extern int16 enableHighlight;
 extern char *plh3d3Ptr;
 extern int16 missionPick;
-extern int16 word_171B2[];
+extern int16 armSpriteIndex[];
 extern char aRepeatLastMiss[];
 extern char aRb_2[];
 extern char aF15_spr_1[];
@@ -611,9 +419,9 @@ extern int16 *screenBuf;
 extern struct PageDesc pageNumPageDesc;
 extern int16 *pageNumPtr;
 extern char *ranks[];
-extern unsigned __int8 byte_17412[];
-extern unsigned __int8 byte_1741A[];
-extern unsigned __int8 byte_17422[];
+extern uint8 medalSpriteX[];
+extern uint8 medalSpriteY[];
+extern uint8 medalWidth[];
 extern char aOriginalDiskIn[];
 extern char aPressAKeyToCon[];
 extern char aUseSelectorToC[];
@@ -803,12 +611,12 @@ extern int16 row;
 extern int16 readFromFilePtr;
 extern char str_allocError[];
 extern uint8 aBufferDeallocE[];
-extern int word_17FFE[];
-extern int word_18010[];
-extern int word_18026[];
+extern int dirDeltaX[];
+extern int dirDeltaY[];
+extern int gridLevelSize[];
 extern int16 terrainSignature;
 extern unsigned int terrainBuf1[];
-extern struct TerrainUnk terrainBuf2[];
+extern struct TerrainPtrTable terrainTileCounts[];
 extern int16 gridSignature;
 extern int16 terrainDirtyFlag;
 extern int16 gridValidFlag;
@@ -839,14 +647,14 @@ extern uint8 aNc_wld[];
 extern uint8 aCe_wld[];
 extern uint8 aJp_wld[];
 extern uint8 aNa_wld[];
-extern int16 word_182BA;
-extern int16 word_182BC;
-extern unsigned int word_182BE;
-extern unsigned int word_182C0;
-extern int16 word_182C2;
-extern int16 word_182C4;
-extern int16 word_182C6;
-extern int16 word_182C8;
+extern int16 missionMidX;
+extern int16 missionMidY;
+extern unsigned int missionTargetX;
+extern unsigned int missionTargetY;
+extern int16 missionTarget2X;
+extern int16 missionTarget2Y;
+extern int16 missionBase2X;
+extern int16 missionBase2Y;
 extern uint8 aNone[];
 extern uint8 aSa2[];
 extern uint8 aSa5[];
@@ -913,13 +721,13 @@ extern uint8 aAa9_0[];
 extern uint8 aR_0[];
 extern uint8 aAa10_0[];
 extern uint8 aEquip_[];
-extern struct struc_10 stru_1892E[];
+extern struct UnitTypeRemap unitTypeRemapTable[];
 extern int difficultySaved;
-extern int16 word_18994;
+extern int16 nightMissionFlag;
 extern uint8 aAim9m[];
 extern uint8 aSidewinder[];
 extern struct WeaponLoadout weaponLoadouts[];
-extern struct MissionTableEntry stru_18FC0[];
+extern struct MissionTableEntry missionTable[];
 extern char *regnPlhPtr;
 extern char *plhFiles[];
 extern int16 off_19262[];
@@ -928,8 +736,8 @@ extern int16 targetCoordsX2[];
 extern int16 targetCoordsY2[];
 extern int16 targetCoordsX1[];
 extern int16 targetCoordsY1[];
-extern int16 word_19294[];
-extern int16 word_192A4[];
+extern int16 targetCoordsX6[];
+extern int16 targetCoordsY6[];
 extern int16 targetCoordsX4[];
 extern int16 targetCoordsY4[];
 extern int16 targetCoordsX5;
@@ -940,12 +748,12 @@ extern int16 targetCoordsX7[];
 extern int16 targetCoordsY7[];
 extern int16 targetCoordsX0[];
 extern int16 targetCoordsY0[];
-extern int16 word_192EC[];
-extern int16 word_192F4[];
-extern uint8 byte_192FC[];
-extern int16 *off_19304[];
-extern int16 *off_19314[];
-extern int16 word_19324[];
+extern int16 targetCoordsX2Alt[];
+extern int16 targetCoordsY2Alt[];
+extern uint8 missionPickType[];
+extern int16 *targetCoordsXPtrs[];
+extern int16 *targetCoordsYPtrs[];
+extern int16 targetCoordsCount[];
 extern char aPowCamp[];
 extern char aRb_4[];
 extern char aWb_0[];
@@ -1036,60 +844,60 @@ extern uint8 byte_19CBC[];
 extern uint8 byte_19DBC[];
 extern int16 flag4Saved;
 extern int16 theaterSaved;
-extern unsigned __int8 far *moveDst;
+extern uint8 far *moveDst;
 extern char bufCoordStr;
-extern uint8 byte_1B0D1;
-extern uint8 byte_1B0D2;
-extern uint8 byte_1B0D3[];
+extern uint8 gridRefRow;
+extern uint8 gridRefCol;
+extern uint8 gridRefRowDigit[];
 extern uint8 CRT0_BSS_START[];
 extern uint8 CRT0_BSS_END[];
 extern char todayMissStrBuf[];
-extern uint8 byte_1B0FF;
-extern uint8 byte_1B100[];
-extern int16 word_1B148;
+extern uint8 missionStrTrunc;
+extern uint8 missionStrTruncEnd[];
+extern int16 escortMissionFlag;
 extern int far *gfxModeSetPtr;
 extern FILE *fileHandle;
 extern struct Game far *gameData;
-extern int16 wldReadBuf2;
+extern int16 groundUnitCount;
 extern uint8 byte_1B15A[];
 extern uint8 gridBuf5[];
 extern uint8 gridBuf4[];
 extern int16 page1Ptr;
 extern uint8 libc_bufout[];
 extern uint8 gridBuf3[];
-extern int *word_1B960;
+extern int *nearestTerrainResult;
 extern uint8 gridBuf2[];
 extern struct TerrainTile terrainTileBlock[];
-extern unsigned __int8 wldReadBuf1[];
-extern unsigned __int8 gridBuf1[];
+extern uint8 wldReadBuf1[];
+extern uint8 gridBuf1[];
 extern char scenarioFoundArr[];
 extern uint8 byte_1C822;
 extern uint8 byte_1C823;
 extern uint8 byte_1C824;
 extern uint8 byte_1C825;
 extern uint8 byte_1C826[];
-extern struct Buf4Item wldReadBuf4[];
-extern char wldReadBuf10[256];
+extern struct WorldObject worldObjects[];
+extern char terrainGrid[256];
 extern int far *needSplash;
 extern struct Target targets[];
-extern int word_1D00A;
-extern struct Buf6Item wldReadBuf6[];
+extern int playerStartLoc;
+extern struct FlightUnit flightUnits[];
 extern uint8 hercFlag;
 extern uint8 byte_1D2DD[];
 extern uint8 libc_bufin[];
-extern uint32 dword_1D5D0;
-extern int16 word_1D5D4;
-extern int16 word_1D5D6;
-extern uint32 dword_1D5D8;
-extern uint32 dword_1D5DC;
-extern int16 word_1D5E0;
-extern uint8 byte_1D5E2;
-extern uint8 byte_1D5E3;
-extern uint8 byte_1D5E4;
-extern uint8 byte_1D5E5[];
+extern uint32 baseXPrecise;
+extern int16 nearestObjectType;
+extern int16 nearestDist;
+extern uint32 nearestWorldX;
+extern uint32 nearestWorldY;
+extern int16 nearestTilePtr;
+extern uint8 nearestLevel;
+extern uint8 nearestCellIdx;
+extern uint8 nearestGridX;
+extern uint8 nearestGridY[];
 extern uint8 exitCode[];
-extern char wldReadBuf9[];
-extern uint32 dword_1D650;
+extern char objectTypeTable[];
+extern uint32 baseYPrecise;
 extern uint8 byte_1D654[];
 extern uint8 byte_1DBC6[];
 extern uint8 byte_1DC3C[];
@@ -1098,16 +906,16 @@ extern uint8 wldReadBuf8[];
 extern uint8 intRegs[];
 extern uint8 unk_1DCD2[];
 extern uint8 wldReadBuf7[];
-extern int16 word_1DD38;
+extern int16 missionDistAccum;
 extern int selectedPilotIdx;
-extern int wldReadBuf5Size;
+extern int flightUnitCount;
 extern uint8 joyReady[];
 extern char *wldOffsets[];
 extern char wldReadBuf11[];
-extern struct TerrainUnk terrainPtrUnk[];
-extern int16 word_1E24A;
+extern struct TerrainPtrTable terrainTilePtrs[];
+extern int16 tileDataPtr;
 extern uint8 byte_1E24C[];
-extern unsigned int wldReadBuf3;
+extern unsigned int worldObjectCount;
 extern struct GameComm far *commData;
 extern struct Pilot hallfameBuf[];
 extern uint8 libc_buferr[];

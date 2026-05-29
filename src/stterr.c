@@ -18,7 +18,7 @@ int16* findNearestTerrain(int32 worldX, int32 worldY) {
     int16 sy;
     int16 ty;
     uint32 fx;
-    word_1D5D6 = 0x7fff;
+    nearestDist = 0x7fff;
     for (level = 1; level <= 2; level++) { // 3819
         for (i = 0; i < 9; i++) { // 382c
             // 383b
@@ -32,24 +32,24 @@ int16* findNearestTerrain(int32 worldX, int32 worldY) {
             // 387a
             y1 = fx >> 0xc;
             dy = (int16)fx & 0xfff;
-            dx = word_17FFE[i];
-            rowOff = word_18010[i];
-            sy = word_18026[dx] - x1 + 0x800;
-            tmp = word_18026[rowOff] - dy + 0x800;
+            dx = dirDeltaX[i];
+            rowOff = dirDeltaY[i];
+            sy = gridLevelSize[dx] - x1 + 0x800;
+            tmp = gridLevelSize[rowOff] - dy + 0x800;
             y1 += rowOff;
             // 38d2
             cell = lookupGridCell(level, gridX += dx, y1);
             // 38db
             if (cell != 0xffff) {
                 // 38f2
-                word_1E24A = (int16)terrainPtrUnk[level].field_0[cell];
+                tileDataPtr = (int16)terrainTilePtrs[level].entries[cell];
                 // 38f5
-                for (cellIdx = 0; (uint16)terrainBuf2[level].field_0[cell] > cellIdx; cellIdx++) { // 3917
+                for (cellIdx = 0; (uint16)terrainTileCounts[level].entries[cell] > cellIdx; cellIdx++) { // 3917
                     // 3920
-                    if (wldReadBuf9[((uint8*)(word_1E24A))[6]] != 0) { // 3929
-                        ty = *((uint16*)word_1E24A) + sy;
+                    if (objectTypeTable[((uint8*)(tileDataPtr))[6]] != 0) { // 3929
+                        ty = *((uint16*)tileDataPtr) + sy;
                         // 393b
-                        offsetY = *((uint16*)word_1E24A + 1) + tmp;
+                        offsetY = *((uint16*)tileDataPtr + 1) + tmp;
                         dist = abs(ty) + abs(offsetY);
                         if (level == 1) { // 395b
                             dist >>= 2;
@@ -58,27 +58,27 @@ int16* findNearestTerrain(int32 worldX, int32 worldY) {
                             ty <<= 2;
                             offsetY <<= 2;
                         } // 396a
-                        if (dist < word_1D5D6) { // 3972
-                            byte_1D5E2 = (int8)level;
-                            byte_1D5E3 = (int8)cellIdx;
-                            byte_1D5E4 = (int8)gridX;
-                            byte_1D5E5[0] = (int8)y1;
+                        if (dist < nearestDist) { // 3972
+                            nearestLevel = (int8)level;
+                            nearestCellIdx = (int8)cellIdx;
+                            nearestGridX = (int8)gridX;
+                            nearestGridY[0] = (int8)y1;
                             // 398d
-                            word_1D5E0 = word_1E24A;
-                            word_1D5D4 = ((uint8*)word_1D5E0)[6];
-                            word_1D5D6 = dist;
-                            dword_1D5D8 = ty + worldX;
-                            dword_1D5DC = offsetY + worldY;
+                            nearestTilePtr = tileDataPtr;
+                            nearestObjectType = ((uint8*)nearestTilePtr)[6];
+                            nearestDist = dist;
+                            nearestWorldX = ty + worldX;
+                            nearestWorldY = offsetY + worldY;
                         }
                     }
                     // 39c2
-                    word_1E24A += 7;
+                    tileDataPtr += 7;
                 } // 39ca
             } // 39ca
         } // 39cd
     } // 39d0
-    if (word_1D5D6 != 0x7fff) {
-        return &word_1D5D4;
+    if (nearestDist != 0x7fff) {
+        return &nearestObjectType;
     }
     else return NULL;
 }
@@ -101,7 +101,7 @@ uint32 scaleCoordByLevel(int level, uint32 coord) {
 
 // 0x3a61
 int lookupGridCell(int16 level, int16 col, int16 row) {
-    if (col < 0 || row < 0 || col >= word_18026[level + 6] || row >= word_18026[level + 6])
+    if (col < 0 || row < 0 || col >= gridLevelSize[level + 6] || row >= gridLevelSize[level + 6])
         return -1;
     // 3a8a
     switch (level) { // 3b61

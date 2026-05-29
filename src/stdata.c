@@ -1,6 +1,3 @@
-/* start_data.c — Data definitions migrated from stslots.asm (.DATA segment)
- * See docs/stdata.md
- */
 #include "inttype.h"
 #include "struct.h"
 #include "comm.h"
@@ -159,9 +156,9 @@ char str_allocError[] = "Insufficient system memory - AllocBuffer$";
 int enableHighlight = 1;
 
 /* Direction/level lookup tables */
-int word_17FFE[] = {-1, 1, 1, -1, 0, 1, 0, -1, 0};
-int word_18010[] = {1, 1, -1, -1, 1, 0, -1, 0, 0, (int)0xE000, (int)0xF000};
-int word_18026[] = {0, 0x1000, 0x2000, 0x400, 0x100, 0x40, 0x10, 4};
+int dirDeltaX[] = {-1, 1, 1, -1, 0, 1, 0, -1, 0};
+int dirDeltaY[] = {1, 1, -1, -1, 1, 0, -1, 0, 0, (int)0xE000, (int)0xF000};
+int gridLevelSize[] = {0, 0x1000, 0x2000, 0x400, 0x100, 0x40, 0x10, 4};
 
 /* === Group 6 (0x1632-0x1763): Terrain/grid file strings === */
 int gridSignature = 0x3232;
@@ -235,9 +232,8 @@ uint8 timerCounter2 = 0;
 uint8 timerCounter3 = 0;
 uint8 timerCounter4 = 0;
 uint8 far *moveDst = 0;
-/* page1Ptr must stay in stslots.asm - sandwiched between grid buffers */
 
-/* Sprite blit params struct - was word_17284..byte_1729C in stslots.asm */
+/* Sprite blit params struct */
 struct SpriteParams spriteParams = {
     0, 0, 0, 0, 0, 0, 0, 0,  /* bufPtr..height */
     {0, 0},                   /* pad10 */
@@ -306,28 +302,28 @@ struct PageDesc pageNumPageDesc = {
 int16 *pageNumPtr = (int16*)&pageNumPageDesc;
 
 /* Migrated from .DATA */
-int16 word_18994 = 0;
+int16 nightMissionFlag = 0;
 char bufCoordStr = 0;
-uint8 byte_1B0D1 = 0;
-uint8 byte_1B0D2 = 0;
-uint8 byte_1B0D3 = 0;
+uint8 gridRefRow = 0;
+uint8 gridRefCol = 0;
+uint8 gridRefRowDigit = 0;
 
 /* Migrated from .DATA? */
-int16 word_1B148;
-uint32 dword_1D5D0 = 0;
-int16 word_1D5D4 = 0;
-int16 word_1D5D6 = 0;
-uint32 dword_1D5D8 = 0;
-uint32 dword_1D5DC = 0;
-int16 word_1D5E0 = 0;
-uint8 byte_1D5E2 = 0;
-uint8 byte_1D5E3 = 0;
-uint8 byte_1D5E4 = 0;
-uint8 byte_1D5E5 = 0;
-int16 word_1DD38;
-int16 word_1D00A;
-uint32 dword_1D650;
-int16 word_1E24A;
+int16 escortMissionFlag;
+uint32 baseXPrecise = 0;
+int16 nearestObjectType = 0;
+int16 nearestDist = 0;
+uint32 nearestWorldX = 0;
+uint32 nearestWorldY = 0;
+int16 nearestTilePtr = 0;
+uint8 nearestLevel = 0;
+uint8 nearestCellIdx = 0;
+uint8 nearestGridX = 0;
+uint8 nearestGridY = 0;
+int16 missionDistAccum;
+int16 playerStartLoc;
+uint32 baseYPrecise;
+int16 tileDataPtr;
 int16 menuSprites;
 
 /* Joystick calibration arrays (4 words each, only first declared in header) */
@@ -369,9 +365,9 @@ int16 origCBreakSeg = 0;
 int16 origCBreakOfs = 0;
 int16 errorCodeStr = 0;
 
-/* Page descriptor used by bufPtr - first word is page number 0 */
-int16 word_16BE2[7] = {0, 0, 0x0F, 0, 0, 0, 0x0100};
-int16 *bufPtr = word_16BE2;
+/* Page descriptor for buffer page 0 (color=0x0F, font=0x0100) */
+int16 bufPageDesc[7] = {0, 0, 0x0F, 0, 0, 0, 0x0100};
+int16 *bufPtr = bufPageDesc;
 
 /* Weapon table (struct Weapon, 14 bytes/entry, 23 entries) */
 struct Weapon aNone[] = {
@@ -448,14 +444,14 @@ char *plhFiles[] = { aLb_xxx, aPg_xxx, aVn_xxx, aMe_xxx, aNc_xxx, aCe_xxx, aJp_x
 char *worldFiles[] = { aLibya_wld, aGulf_wld, aVn_wld, aMe_wld, aNc_wld, aCe_wld, aJp_wld, aNa_wld };
 
 /* Mission coordinate state */
-int16 word_182BA = 0;
-int16 word_182BC = 0;
-int16 word_182BE = 0;
-int16 word_182C0 = 0;
-int16 word_182C2 = 0;
-int16 word_182C4 = 0;
-int16 word_182C6 = 0;
-int16 word_182C8 = 0;
+int16 missionMidX = 0;
+int16 missionMidY = 0;
+unsigned int missionTargetX = 0;
+unsigned int missionTargetY = 0;
+int16 missionTarget2X = 0;
+int16 missionTarget2Y = 0;
+int16 missionBase2X = 0;
+int16 missionBase2Y = 0;
 
 /* Mission menu pointer arrays */
 char *missTheaNames[] = { aLibya, aPersianGulf, aVietnam, aMiddleEast, aOtherAreas };
@@ -480,10 +476,10 @@ uint8 pilotSelectFlag = 0;
 /* Rank pointer array */
 char *ranks[] = { a2ndLt_, a1stLt_, aCapt_, aMajor, aLtCol_, aColonel, aGen_ };
 
-/* Pilot color tables (8 bytes each, null-terminated) */
-uint8 byte_17412[] = { 0x82, 0x71, 0x81, 0x70, 0x6F, 0xA1, 0x9F, 0 };
-uint8 byte_1741A[] = { 0x80, 0x80, 0xB3, 0xB3, 0x91, 0x91, 0xA2, 0 };
-uint8 byte_17422[] = { 0x09, 0x0B, 0x0B, 0x0D, 0x2F, 0x0B, 0x0F, 0 };
+/* Medal sprite tables (7 entries for 7 medals, null-terminated) */
+uint8 medalSpriteX[] = { 0x82, 0x71, 0x81, 0x70, 0x6F, 0xA1, 0x9F, 0 };
+uint8 medalSpriteY[] = { 0x80, 0x80, 0xB3, 0xB3, 0x91, 0x91, 0xA2, 0 };
+uint8 medalWidth[] = { 0x09, 0x0B, 0x0B, 0x0D, 0x2F, 0x0B, 0x0F, 0 };
 
 /* Blink animation colors */
 int16 blinkColors[] = { 7, 0x0F };
@@ -492,18 +488,18 @@ int16 blinkColorIdx = 0;
 /* Pilot name input colors (2 words: word + byte pair) */
 int16 pilotNameInputColors[] = { 0, 0x0008 };
 
-/* Arm animation coordinate arrays (8 entries each) */
-int16 word_1714A[] = { 1, 0x53, 0xD9, 0xA4, 1, 1, 0xBF, 0x10A };
-int16 word_1715A[] = { 0, 0, 0, 0x2E, 0x3E, 0x7C, 0x6A, 0x53 };
-int16 word_1716A[] = { 0x3E, 0x3E, 0x3D, 0x3E, 0x3E, 0x3E, 0x3F, 0x3E };
-int16 word_1717A[] = { 0x1C, 0x2F, 0x35, 0x36, 0x37, 0x38, 0x39, 0x38 };
-int16 word_1718A[] = { 0x52, 0x5D, 0x66, 0x66, 0x68, 0x5C, 0x4B, 0x35 };
-int16 word_1719A[] = { 0x3E, 0x2E, 0x25, 0x2D, 0x3E, 0x4B, 0x5D, 0x74 };
+/* Arm animation sprite tables (8 entries each) */
+int16 armSrcX[] = { 1, 0x53, 0xD9, 0xA4, 1, 1, 0xBF, 0x10A };
+int16 armSrcY[] = { 0, 0, 0, 0x2E, 0x3E, 0x7C, 0x6A, 0x53 };
+int16 armBlitX[] = { 0x3E, 0x3E, 0x3D, 0x3E, 0x3E, 0x3E, 0x3F, 0x3E };
+int16 armBlitY[] = { 0x1C, 0x2F, 0x35, 0x36, 0x37, 0x38, 0x39, 0x38 };
+int16 armBlitW[] = { 0x52, 0x5D, 0x66, 0x66, 0x68, 0x5C, 0x4B, 0x35 };
+int16 armBlitH[] = { 0x3E, 0x2E, 0x25, 0x2D, 0x3E, 0x4B, 0x5D, 0x74 };
 
 /* Mission pick state */
 int16 missionPick = -1;  /* 0xFFFF */
 int16 missionPickPad = -1; /* the db 0FFh, 0FFh after missionPick */
-int16 word_171B2[] = { 1, 2, 3, 4, 5, 6, 7 };
+int16 armSpriteIndex[] = { 1, 2, 3, 4, 5, 6, 7 };
 
 /* Joystick repeat flag */
 int16 joyRepeatFlag = 0;
@@ -569,7 +565,7 @@ struct Plane planes[19] = {
 /* === Mission generation coordinate tables (from stslots.asm) === */
 
 /* Unit type remapping table - maps unit type to alternative types */
-struct struc_10 stru_1892E[] = {
+struct UnitTypeRemap unitTypeRemapTable[] = {
     {0, 0},
     {2, 0},
     {6, 1},
@@ -601,7 +597,7 @@ struct struc_10 stru_1892E[] = {
 int difficultySaved = 1;
 
 /* Mission table - 56 entries defining mission types per theater/tension */
-struct MissionTableEntry stru_18FC0[56] = {
+struct MissionTableEntry missionTable[56] = {
     {4, 1, 0x2F, 0, 0x0F, 7},
     {4, 1, 0x2F, 0, 0x0F, 1},
     {3, 1, 0x3A, 0, 0x0F, 6},
@@ -673,24 +669,24 @@ int16 targetCoordsX4[4] = {0x2F00, 0x1B00, 0x3D00, 0x1500}; /* asc_192B4 */
 int16 targetCoordsY4[4] = {0x2B00, 0x1300, 0x2D00, 0x3500}; /* unk_192BC */
 int16 targetCoordsX5 = (int16)0x5AC0; /* unk_192C4 */
 int16 targetCoordsY5 = (int16)0x3AC0; /* unk_192C6 */
-int16 word_19294[8] = {(int16)0x48C0, (int16)0x10C0, (int16)0x40C0, (int16)0x44C0, (int16)0x24C0, (int16)0x0EC0, (int16)0x12C0, (int16)0x50C0};
-int16 word_192A4[8] = {0x2940, 0x2140, 0x2540, 0x2540, 0x2140, 0x0B40, 0x0740, 0x3540};
+int16 targetCoordsX6[8] = {(int16)0x48C0, (int16)0x10C0, (int16)0x40C0, (int16)0x44C0, (int16)0x24C0, (int16)0x0EC0, (int16)0x12C0, (int16)0x50C0};
+int16 targetCoordsY6[8] = {0x2940, 0x2140, 0x2540, 0x2540, 0x2140, 0x0B40, 0x0740, 0x3540};
 int16 targetCoordsX7[3] = {0x4D40, 0x4C40, 0x4D40}; /* unk_192D4 */
 int16 targetCoordsY7[3] = {0x3940, (int16)0x39C0, (int16)0x39C0}; /* unk_192DA */
-int16 word_192EC[4] = {(int16)0x3CC0, 0x3C40, (int16)0x24C0, 0x2440};
-int16 word_192F4[4] = {0x4240, (int16)0x42C0, 0x3A40, (int16)0x3AC0};
-uint8 byte_192FC[8] = {2, 6, 5, 6, 6, 6, 6, 0x0B};
+int16 targetCoordsX2Alt[4] = {(int16)0x3CC0, 0x3C40, (int16)0x24C0, 0x2440};
+int16 targetCoordsY2Alt[4] = {0x4240, (int16)0x42C0, 0x3A40, (int16)0x3AC0};
+uint8 missionPickType[8] = {2, 6, 5, 6, 6, 6, 6, 0x0B};
 
 /* Pointer arrays: target coordinates per mission pick index */
-int16 *off_19304[8] = {
+int16 *targetCoordsXPtrs[8] = {
     targetCoordsX0, targetCoordsX1, targetCoordsX2, targetCoordsX3,
-    targetCoordsX4, &targetCoordsX5, word_19294, targetCoordsX7
+    targetCoordsX4, &targetCoordsX5, targetCoordsX6, targetCoordsX7
 };
-int16 *off_19314[8] = {
+int16 *targetCoordsYPtrs[8] = {
     targetCoordsY0, targetCoordsY1, targetCoordsY2, targetCoordsY3,
-    targetCoordsY4, &targetCoordsY5, word_192A4, targetCoordsY7
+    targetCoordsY4, &targetCoordsY5, targetCoordsY6, targetCoordsY7
 };
-int16 word_19324[9] = {3, 2, 2, 3, 4, 1, 8, 3, 0};
+int16 targetCoordsCount[9] = {3, 2, 2, 3, 4, 1, 8, 3, 0};
 
 /* === BSS variables migrated from stslots.asm .DATA? segment === */
 
@@ -703,26 +699,26 @@ int far *gfxModeSetPtr;
 uint8 hercFlag;
 int selectedPilotIdx;
 int readItemSize;
-int wldReadBuf5Size;
+int flightUnitCount;
 uint8 joyReady[4];
 uint8 intRegs[12];
 char todayMissStrBuf[0x1D];
-uint8 byte_1B0FF;
-uint8 byte_1B100;
+uint8 missionStrTrunc;
+uint8 missionStrTruncEnd;
 uint8 exitCode[2];
-int *word_1B960;
-char wldReadBuf9[0x64];
+int *nearestTerrainResult;
+char objectTypeTable[0x64];
 uint8 wldReadBuf8[0x64];
 uint8 wldReadBuf7[0x64];
 char *wldOffsets[0x64];
 char wldReadBuf11[0x2EE];
-struct TerrainUnk terrainPtrUnk[5];
-unsigned int wldReadBuf3;
+struct TerrainPtrTable terrainTilePtrs[5];
+unsigned int worldObjectCount;
 char scenarioFoundArr[6];
-struct Buf4Item wldReadBuf4[0x4B];
-char wldReadBuf10[256];
-struct Buf6Item wldReadBuf6[0x13];
-int16 wldReadBuf2;
+struct WorldObject worldObjects[0x4B];
+char terrainGrid[256];
+struct FlightUnit flightUnits[0x13];
+int16 groundUnitCount;
 uint8 wldReadBuf1[2];
 int16 page1Ptr;
 uint8 gridBuf1[17];
@@ -732,7 +728,7 @@ uint8 gridBuf4[0x200];
 uint8 gridBuf5[0x200];
 struct Target targets[2];
 uint16 terrainBuf1[5] = { 0x20, 0x20, 0x20, 0x20, 0x20 };
-struct TerrainUnk terrainBuf2[5] = {0};
+struct TerrainPtrTable terrainTileCounts[5] = {0};
 
 /* terrainBuf3, terrainBuf4, terrainBuf5, terrainIdxBuf must be contiguous.
  * Code indexes them with stride 7: terrainBuf3+off(2), terrainBuf4+off(2),
