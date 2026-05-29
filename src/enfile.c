@@ -35,26 +35,6 @@ int readFileAtEx(int handle, int a, int b, int c, int d) {
 }
 
 
-void closeAndResetFile(register int *p)
-{
-    TRACE(("closeAndResetFile"));
-    if ((((char *)p)[6] & 0x83) && (((char *)p)[6] & 0x08)) {
-        markHandleClosed(p[2]);
-        ((char *)p)[6] &= 0xf7;
-        p[1] = p[2] = p[0] = 0;
-    }
-}
-
-
-void markHandleClosed(int handle)
-{
-    TRACE(("markHandleClosed"));
-    if (handle != 0) {
-        ((char *)handle)[-2] |= 0x01;
-    }
-}
-
-
 int loadFileSection(char *name, int b, int c) {
     int handle;
     int result;

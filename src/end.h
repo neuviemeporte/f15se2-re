@@ -208,7 +208,6 @@ void drawClippedLineEx(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2
 void drawClippedLine(int x1, int y1, int x2, int y2);
 int drawEventSprite(int recordIdx);
 void drawMapPixel(int x, int y, int color);
-void markHandleClosed(int handle);
 int isPointInRect(void *p);
 void blinkWidget(MenuItem *item, int16* gfxPage);
 unsigned int drawFlightPath(int16 *gfxPage, unsigned int maxRecord);
@@ -224,7 +223,6 @@ void waitForKeyOrJoy(void);
 void checkQuitFlag(void);
 void routine_5(void);
 void routine_6(void);
-void closeAndResetFile(int *p);
 void plotMapPoint(int x, int y, int color, int unused);
 void timerWait(unsigned int ticks);
 void drawStringAtPos(int16 *s, char far *str, int x, int y);

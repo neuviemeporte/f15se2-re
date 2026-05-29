@@ -133,7 +133,7 @@ __nullcheck: Code1 NEAR 4eaa-4ecb R4eaa-4ecb external
 __NMSG_TEXT: Code1 NEAR 4ecc-4ef6 R4ecc-4ef6 external
 __NMSG_WRITE: Code1 NEAR 4ef7-4f1f R4ef7-4f1f external
 _unk_libc3: Code1 NEAR 4f46-4f73 R4f46-4f73 external
-closeAndResetFile: Code1 NEAR 4f74-4fa0 R4f74-4fa0 complete
+__freebuf: Code1 NEAR 4f74-4fa0 R4f74-4fa0 external
 __openfile: Code1 NEAR 4fa2-5099 R4fa2-4fff R5000-5099 external
 _fflush: Code1 NEAR 509a-5107 R509a-5107 external
 __getstream: Code1 NEAR 5108-5141 R5108-5141 external
