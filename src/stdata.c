@@ -369,6 +369,10 @@ int16 origCBreakSeg = 0;
 int16 origCBreakOfs = 0;
 int16 errorCodeStr = 0;
 
+/* Page descriptor used by bufPtr - first word is page number 0 */
+int16 word_16BE2[7] = {0, 0, 0x0F, 0, 0, 0, 0x0100};
+int16 *bufPtr = word_16BE2;
+
 /* Weapon table (struct Weapon, 14 bytes/entry, 23 entries) */
 struct Weapon aNone[] = {
     { "None",   0x0000, 0x0000, 0x0000 },
@@ -537,6 +541,29 @@ struct WeaponLoadout weaponLoadouts[] = {
     { 1, "1900lbs\0\0",  "Extra Fuel\0",  -2 },  /* 17 */
     { 1, "20 mm\0\0\0\0",  "Guns\0\0\0\0\0\0\0",  0x00 },  /* 18 */
     { 1, "Special\0\0",  "Equip\0\0\0\0\0\0",  0x26 },  /* 19 */
+};
+
+/* Plane/aircraft table - 19 entries used by mission generator */
+struct Plane planes[19] = {
+    {{"MIG-23"}, {"Flogger"}, 0x02E4, 0x0230, {3, 0, 0x11, 0, 0x0A, 0, 2, 0, 0, 0}},
+    {{"MIG-25"}, {"Foxbat"}, 0x023A, 0x02BC, {2, 0, 0x12, 0, 0, 0, 2, 0, 0, 0}},
+    {{"MIG-29"}, {"Fulcrum"}, 0x02BC, 0x0190, {5, 0, 0x13, 0, 0x14, 0, 2, 0, 0, 0}},
+    {{"F-1"}, {"Mirage"}, 0x0316, 0x03A2, {3, 0, 0x14, 0, 0, 0, 2, 0, 0, 0}},
+    {{"Su-27"}, {"Flanker"}, 0x02D5, 0x02CB, {4, 0, 0x13, 0, 0x14, 0, 2, 0, 0, 0}},
+    {{"IL-76"}, {"Mainstay"}, 0x0190, 0x0FA0, {1, 0, 0x10, 0, 0x0C, 0, 2, 0, 0, 0}},
+    {{"F-4E"}, {"Phantom"}, 0x0320, 0x0208, {4, 0, 0x12, 0, 0x0B, 0, 2, 0, 0, 0}},
+    {{"F-14"}, {"Tomcat"}, 0x0320, 0x0320, {4, 0, 0x13, 0, 8, 0, 2, 0, 0, 0}},
+    {{"F-18"}, {"Hornet"}, 0x0294, 0x01CD, {5, 0, -1, -1, 0, 0, 2, 0, 0, 0}},
+    {{"An-72"}, {"Coaler"}, 0x015E, 0x026C, {2, 0, 0, 0, 9, 0, 2, 0, 0, 0}},
+    {{"F-18"}, {"Hornet"}, 0x0294, 0x01CD, {5, 0, -1, -1, 4, 0, 2, 0, 0, 0}},
+    {{"MIG-23"}, {"Flogger"}, 0x02E4, 0x0230, {3, 0, 0, 0, 4, 0, 2, 0, 0, 0}},
+    {{"F-14"}, {"Tomcat"}, 0x0320, 0x0320, {4, 0, -1, -1, 8, 0, 2, 0, 0, 0}},
+    {{"F-4E"}, {"Phantom"}, 0x0320, 0x0208, {4, 0, -1, -1, 0x0B, 0, 2, 0, 0, 0}},
+    {{"MIG-17"}, {"Fresco"}, 0x0226, 0x012C, {3, 0, 0x11, 0, 0x10, 0, 2, 0, 0, 0}},
+    {{"Tu-95"}, {"Bear"}, 0x019A, 0x13EC, {1, 0, 0, 0, 0x12, 0, 2, 0, 0, 0}},
+    {{"Mi-24"}, {"Hind"}, 0x00C8, 0x012C, {1, 0, 0x11, 0, 0x13, 0, 2, 0, 0, 0}},
+    {{"F-5"}, {"Tiger"}, 0x01F4, 0x00FA, {3, 0, 0x16, 0, 0x16, 0, 2, 0, 0, 0}},
+    {{"767"}, {"Boeing"}, 0x0190, 0x03E8, {1, 0, -1, -1, 0x12, 0, 2, 0, 0, 0}},
 };
 
 /* === Mission generation coordinate tables (from start_rc.asm) === */

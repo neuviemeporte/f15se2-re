@@ -2,8 +2,9 @@
 DOSSEG
 .MODEL SMALL
 
-PUBLIC _planes
-PUBLIC _bufPtr
+; Overlay jump table slots - patched at runtime by setupOverlaySlots.
+; Each slot is 5 bytes: db 0EAh (far jmp opcode) + dd 0 (target, filled in).
+; The slots MUST remain contiguous with 5-byte stride.
 PUBLIC _gfx_allocPage
 PUBLIC _gfx_drawString
 PUBLIC _gfx_setPage1
@@ -51,754 +52,278 @@ PUBLIC _audio_jump_65
 PUBLIC _audio_jump_67
 PUBLIC _audio_jump_6b
 PUBLIC _audio_jump_6c
-PUBLIC _picDecodeDictionary
-PUBLIC _picDecodeIncrement
-PUBLIC _clipDivZeroHandler
 
-; ---------------------------------------------------------------------------
-
-Buf6Item	struc ;	(sizeof=0x24, mappedto_9) ; XREF: startData:wldReadBuf6/r
-field_0		dw ?			; XREF:	sub_14CC5+A6/w
-field_2		dw ?			; XREF:	sub_14CC5+25/w sub_14CC5+34/r
-field_4		dw ?			; XREF:	sub_14CC5+30/w sub_14CC5+4E/r
-field_6		db ?			; XREF:	sub_14CC5:loc_14D3D/w
-		db ? ; undefined
-field_8		dd ?			; XREF:	sub_14CC5:loc_14D0B/w
-					; sub_14CC5+4A/w
-field_C		dd ?			; XREF:	sub_14CC5:loc_14D25/w
-					; sub_14CC5+64/w
-field_10	dw ?			; XREF:	sub_14CC5+8B/w
-field_12	dw ?			; XREF:	sub_14CC5+91/w
-field_14	dw ?			; XREF:	sub_14CC5+97/w
-field_16	dw ?			; XREF:	sub_14CC5+10/r
-field_18	dw ?			; XREF:	sub_14CC5+9D/w
-field_1A	dw ?			; XREF:	sub_14CC5+87/w sub_14CC5+AA/r
-field_1C	dw ?			; XREF:	sub_14CC5+C7/w
-field_1E	db 6 dup(?)
-Buf6Item	ends
-
-; ---------------------------------------------------------------------------
-
-Buf4Item	struc ;	(sizeof=0x10, mappedto_10) ; XREF: startData:wldReadBuf4/r
-field_0		dw ?			; XREF:	placeString+28/r placeString+6F/r
-field_2		dw ?			; XREF:	sub_14BB4+96/r sub_14BB4+B9/w ...
-field_4		dw ?			; XREF:	sub_14BB4+9F/r sub_14BB4+C0/w ...
-field_6		dw ?
-field_8		dw ?			; XREF:	sub_14CC5+68/r
-field_A		dw ?
-field_C		dw ?
-field_E		dw ?			; XREF:	sub_14BB4+CD/w placeString+A/r ...
-Buf4Item	ends
-
-; ---------------------------------------------------------------------------
-
-Target		struc ;	(sizeof=0x12, mappedto_11) ; XREF: startData:targets/r
-					; startData:target2/r
-field_0		dw ?
-field_2		dw ?
-field_4		dw ?
-field_6		dw ?
-field_8		dw ?
-coord		db 8 dup(?)
-Target		ends
-
-; ---------------------------------------------------------------------------
-
-struc_9		struc ;	(sizeof=0xC, mappedto_12) ; XREF: startData:stru_18FC0/r
-field_0		dw ?
-field_2		dw ?
-field_4		dw ?
-field_6		dw ?
-field_8		dw ?
-field_A		dw ?
-struc_9		ends
-
-; ---------------------------------------------------------------------------
-
-struc_10	struc ;	(sizeof=0x4, mappedto_13) ; XREF: startData:stru_1892E/r
-field_0		dw ?
-field_2		dw ?
-struc_10	ends
-
-; ---------------------------------------------------------------------------
-
-Pilot		struc ;	(sizeof=0x20, mappedto_14) ; XREF: startData:hallfameBuf/r
-field_0		db ?			; XREF:	processPilotInput+EB/o
-field_1		db ?
-field_2		db ?
-field_3		db ?
-field_4		db ?
-field_5		db ?
-field_6		db ?
-field_7		db ?
-field_8		db ?
-field_9		db ?
-field_A		db ?
-field_B		db ?
-field_C		db ?
-field_D		db ?
-field_E		db ?
-field_F		db ?
-field_10	db ?
-field_11	db ?
-field_12	db ?
-field_13	db ?
-field_14	db ?
-field_15	db ?
-field_16	dd ?
-field_1A	dw ?
-field_1C	db ?
-field_1D	db ?
-field_1E	db ?
-field_1F	db ?
-Pilot		ends
-
-; ---------------------------------------------------------------------------
-
-Plane		struc ;	(sizeof=0x20, mappedto_15) ; XREF: startData:planes/r
-field_0		db 8 dup(?)
-field_8		db 10 dup(?)
-field_12	dw ?
-field_14	dw ?
-field_16	db 10 dup(?)
-Plane		ends
-
-; ---------------------------------------------------------------------------
-
-TerrainUnk	struc ;	(sizeof=0x40, mappedto_16) ; XREF: startData:terrainPtrUnk/r
-field_0		db ?
-field_1		db ?
-field_2		db ?
-field_3		db ?
-field_4		db ?
-field_5		db ?
-field_6		db ?
-field_7		db ?
-field_8		db ?
-field_9		db ?
-field_A		db ?
-field_B		db ?
-field_C		db ?
-field_D		db ?
-field_E		db ?
-field_F		db ?
-field_10	db ?
-field_11	db ?
-field_12	db ?
-field_13	db ?
-field_14	db ?
-field_15	db ?
-field_16	db ?
-field_17	db ?
-field_18	db ?
-field_19	db ?
-field_1A	db ?
-field_1B	db ?
-field_1C	db ?
-field_1D	db ?
-field_1E	db ?
-field_1F	db ?
-field_20	db ?
-field_21	db ?
-field_22	db ?
-field_23	db ?
-field_24	db ?
-field_25	db ?
-field_26	db ?
-field_27	db ?
-field_28	db ?
-field_29	db ?
-field_2A	db ?
-field_2B	db ?
-field_2C	db ?
-field_2D	db ?
-field_2E	db ?
-field_2F	db ?
-field_30	db ?
-field_31	db ?
-field_32	db ?
-field_33	db ?
-field_34	db ?
-field_35	db ?
-field_36	db ?
-field_37	db ?
-field_38	db ?
-field_39	db ?
-field_3A	db ?
-field_3B	db ?
-field_3C	db ?
-field_3D	db ?
-field_3E	dw ?
-TerrainUnk	ends
-
-;  ==============================================================================
-
-.DATA ;startData segment byte public 'DATA'
-EXTRN _aLabs_pic:byte
-EXTRN _aAdv_pic:byte
-EXTRN _aEgraphic_exe:byte
-EXTRN _aTitle640_pic:byte
-EXTRN _aTitle16_pic:byte
-EXTRN _aF15_spr:byte
-EXTRN _aF15_spr_0:byte
-EXTRN _aTemp_wld:byte
-EXTRN _aWall_pic:byte
-EXTRN _aDifficulty:byte
-EXTRN _aTheater:byte
-EXTRN _aRb_1:byte
-EXTRN _aNoScenarioFile:byte
-EXTRN _aSeeTechnicalSu:byte
-EXTRN _aTheater_0:byte
-EXTRN _aMissionType:byte
-EXTRN _aRepeatLastMiss:byte
-EXTRN _aRb_2:byte
-EXTRN _aF15_spr_1:byte
-EXTRN _aPleaseReinsert:byte
-EXTRN _aPressSelectorW:byte
-EXTRN _aDecodingMissio:byte
-EXTRN _aTodaySMission:byte
-EXTRN _aTakeoffFrom:byte
-EXTRN _aOnc_2:byte
-EXTRN _aPrimaryTarget:byte
-EXTRN _aOnc_0:byte
-EXTRN _aSecondaryTarge:byte
-EXTRN _aOnc_1:byte
-EXTRN _aArmpiece_pic:byte
-EXTRN _aHiscore_pic:byte
-EXTRN _aOriginalDiskIn:byte
-EXTRN _aPressAKeyToCon:byte
-EXTRN _aUseSelectorToC:byte
-EXTRN _asc_174AC:byte
-EXTRN _asc_174AF:byte
-EXTRN _aMenterYourName:byte
-EXTRN _aRb_3:byte
-EXTRN _aHallfame:byte
-EXTRN _aWb:byte
-EXTRN _aHallfame_0:byte
-EXTRN _aAlloc1M:byte
-EXTRN _aDosLied:byte
-EXTRN _aFileNFound:byte
-EXTRN _aEnoughMem:byte
-EXTRN _aOvlFail:byte
-EXTRN _aOvlOvrrun:byte
-EXTRN _aOvlShrink:byte
-EXTRN _aOvlRel:byte
-EXTRN _aFileNotFound:byte
-EXTRN _aNoFileBuffersAvailable:byte
-EXTRN _aOpenError:byte
-EXTRN _aFileClosingError:byte
-EXTRN _aReadError:byte
-EXTRN _aWriteError:byte
-EXTRN _str_allocError:byte
-EXTRN _a_3dt:byte
-EXTRN _aRb:byte
-EXTRN _aOpenErrorOn_3d:byte
-EXTRN _aBadTileFileFor:byte
-EXTRN _aTooManyTiles_:byte
-EXTRN _aTooMuchTileDat:byte
-EXTRN _a_3dg:byte
-EXTRN _aRb_0:byte
-EXTRN _aOpenErrorOn__0:byte
-EXTRN _aBadGridFileFor:byte
-EXTRN _aPowCamp:byte
-EXTRN _aRb_4:byte
-EXTRN _aWb_0:byte
-EXTRN _aTd00:byte
-EXTRN _aJz00:byte
-EXTRN _aXv00:byte
-EXTRN _aEs00:byte
-EXTRN _aWx00:byte
-EXTRN _aCc00:byte
-EXTRN _aHz00:byte
-EXTRN _aAt:byte
-EXTRN _ovlSeg1:word
-EXTRN _ovlParCnt:word
-EXTRN _ovlParBlock:word
-EXTRN _ovlSeg2:word
-EXTRN _ovlInsaneFlag:byte
-EXTRN _enableHighlight:word
-EXTRN _word_17FFE:word
-EXTRN _word_18010:word
-EXTRN _word_18026:word
-EXTRN _terrainSignature:word
-EXTRN _terrainDirtyFlag:word
-EXTRN _gridSignature:word
-EXTRN _gridValidFlag:word
-word_16BE2 dw 0
-    db 2 dup(0)
-    db 0Fh
-    db 7 dup(0)
-    db 1
-    db 0
-unk_16BF0	db 8 dup(0)
-_bufPtr dw offset word_16BE2
-    db 4 dup(0)
-    db 9
-    db 7 dup(0)
-    db 1
-    db 9 dup(0)
-unk_16C10 db 0AAh
-    db 0
-EXTRN _missTheaNames:WORD
-EXTRN _missTheaDesc:WORD
-EXTRN _missDiffLevels:WORD
-EXTRN _missDiffDesc:WORD
-EXTRN _scenarioCodePtr:WORD
-EXTRN _missScenarioNames:WORD
-EXTRN _missScenarioDesc:WORD
-EXTRN _missTypeNames:WORD
-EXTRN _missTypeDesc:WORD
-EXTRN _missHistorical1Names:WORD
-EXTRN _missHistorical1Desc:WORD
-EXTRN _missHistorical2Names:WORD
-EXTRN _missHistorical2Desc:WORD
-EXTRN _missionStr:WORD
-EXTRN _plh3d3Ptr:WORD
-EXTRN _page1Desc:BYTE
-EXTRN _page2Desc:BYTE
-EXTRN _page3Desc:BYTE
-EXTRN _word_1714A:WORD
-EXTRN _word_1715A:WORD
-EXTRN _word_1716A:WORD
-EXTRN _word_1717A:WORD
-EXTRN _word_1718A:WORD
-EXTRN _word_1719A:WORD
-EXTRN _missionPick:WORD
-EXTRN _word_171B2:WORD
-EXTRN _joyRepeatFlag:WORD
-EXTRN _fcbMatchStr:BYTE
-EXTRN _searchFCB:BYTE
-EXTRN _diskTransferArea:BYTE
-EXTRN _spriteParams:BYTE
-EXTRN _picCurrentRow:WORD
-EXTRN _pilotSelectFlag:BYTE
-EXTRN _screenDesc:BYTE
-EXTRN _pageNumPageDesc:BYTE
-EXTRN _ranks:WORD
-EXTRN _byte_17412:BYTE
-EXTRN _byte_1741A:BYTE
-EXTRN _byte_17422:BYTE
-EXTRN _blinkColors:WORD
-EXTRN _blinkColorIdx:WORD
-EXTRN _pilotNameInputColors:WORD
-
-; ------------------------------startData:0xab8------------------------------
-_gfx_allocPage proc far
-    db 0EAh ;jmp far ptr gfx_slot_0_alloc
-    dd 0
-_gfx_allocPage endp
-; ------------------------------startData:0xab8------------------------------
-    db 0EAh ;jmp far ptr gfx_slot_01
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_02
-    dd 0
-    db 0EAh ;jmp gfx_slot_03
-    dd 0
-    db 0EAh ;jmp gfx_slot_04
-    dd 0
-; ------------------------------startData:0xad1------------------------------
-_gfx_drawString proc near
-    db 0EAh ;jmp gfx_slot_05_t04
-    dd 0
-_gfx_drawString endp
-; ------------------------------startData:0xad1------------------------------
-    db 0EAh ;jmp gfx_slot_06
-    dd 0
-    db 0EAh ;jmp gfx_slot_07
-    dd 0
-    db 0EAh ;jmp gfx_slot_08
-    dd 0
-    db 0EAh ;jmp gfx_slot_09
-    dd 0
-    db 0EAh ;jmp gfx_slot_0a
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_0b
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_0c
-    dd 0
-; ------------------------------startData:0xaf9------------------------------
-_gfx_setPage1 proc far
-    db 0EAh ;jmp gfx_slot_0d_setCurBuf
-    dd 0
-_gfx_setPage1 endp
-; ------------------------------startData:0xaf9------------------------------
-; ------------------------------startData:0xafe------------------------------
-_gfx_setPageN proc near
-    db 0EAh ;jmp far ptr gfx_slot_0e_setCurBuf
-    dd 0
-_gfx_setPageN endp
-; ------------------------------startData:0xafe------------------------------
-; ------------------------------startData:0xb03------------------------------
-_gfx_getCurPageSeg proc far
-    db 0EAh ;jmp gfx_slot_0f_getButPtr
-    dd 0
-_gfx_getCurPageSeg endp
-; ------------------------------startData:0xb03------------------------------
-; ------------------------------startData:0xb08------------------------------
-_gfx_getCurPageSeg2 proc far
-    db 0EAh ;jmp gfx_slot_10_getCurBuf
-    dd 0
-_gfx_getCurPageSeg2 endp
-; ------------------------------startData:0xb08------------------------------
-; ------------------------------startData:0xb0d------------------------------
-_gfx_blitSprite proc near
-    db 0EAh ;jmp gfx_slot_11
-    dd 0
-_gfx_blitSprite endp
-; ------------------------------startData:0xb0d------------------------------
-    db 0EAh ;jmp gfx_slot_12
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_13
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_14
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_15
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_15
-    dd 0
-; ------------------------------startData:0xb2b------------------------------
-_gfx_getBufSize proc far
-    db 0EAh ;jmp gfx_slot_17
-    dd 0
-_gfx_getBufSize endp
-; ------------------------------startData:0xb2b------------------------------
-    db 0EAh ;jmp far ptr gfx_slot_18
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_18
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_1a
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_1b
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_1c
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_1d
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_1e
-    dd 0
-; ------------------------------startData:0xb53------------------------------
-_gfx_drawLine proc far
-    db 0EAh ;jmp gfx_slot_1f
-    dd 0
-_gfx_drawLine endp
-; ------------------------------startData:0xb53------------------------------
-; ------------------------------startData:0xb58------------------------------
-_gfx_setPageDirect proc far
-    db 0EAh ;jmp gfx_slot_20_setVal
-    dd 0
-_gfx_setPageDirect endp
-; ------------------------------startData:0xb58------------------------------
-; ------------------------------startData:0xb5d------------------------------
-_gfx_setColor proc near
-    db 0EAh ;jmp far ptr gfx_slot_21
-    dd 0
-_gfx_setColor endp
-; ------------------------------startData:0xb5d------------------------------
-; ------------------------------startData:0xb62------------------------------
-_gfx_resetBlitOffset proc near
-    db 0EAh ;jmp gfx_slot_22_nullsub
-    dd 0
-_gfx_resetBlitOffset endp
-; ------------------------------startData:0xb62------------------------------
-; ------------------------------startData:0xb67------------------------------
-_gfx_resetBlitOffset2 proc far
-    db 0EAh ;jmp gfx_slot_22_nullsub
-    dd 0
-_gfx_resetBlitOffset2 endp
-; ------------------------------startData:0xb67------------------------------
-    db 0EAh ;jmp far ptr gfx_slot_24
-    dd 0
-; ------------------------------startData:0xb71------------------------------
-_gfx_dirtyRect proc near
-    db 0EAh ;jmp far ptr gfx_slot_25
-    dd 0
-_gfx_dirtyRect endp
-; ------------------------------startData:0xb71------------------------------
-    db 0EAh ;jmp far ptr gfx_slot_26
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_27
-    dd 0
-; ------------------------------startData:0xb80------------------------------
-_gfx_dirtyRect2 proc near
-    db 0EAh ;jmp far ptr gfx_slot_25
-    dd 0
-_gfx_dirtyRect2 endp
-; ------------------------------startData:0xb80------------------------------
-; ------------------------------startData:0xb85------------------------------
-_gfx_switchColor proc near
-    db 0EAh ;jmp far ptr gfx_slot_29_fillRect
-    dd 0
-_gfx_switchColor endp
-; ------------------------------startData:0xb85------------------------------
-; ------------------------------startData:0xb8a------------------------------
-_gfx_copyRect proc near
-    db 0EAh ;jmp gfx_slot_2a
-    dd 0
-_gfx_copyRect endp
-; ------------------------------startData:0xb8a------------------------------
-    db 0EAh ;jmp far ptr gfx_slot_2b
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_2c_blitPage1
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_2d
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_2e
-    dd 0
-; ------------------------------startData:0xba3------------------------------
-_gfx_setFont proc far
-    db 0EAh ;jmp gfx_slot_2f
-    dd 0
-_gfx_setFont endp
-; ------------------------------startData:0xba3------------------------------
-; ------------------------------startData:0xba8------------------------------
-_gfx_blitToCurrent proc near
-    db 0EAh ;jmp far ptr gfx_slot_30_blitToCurrent
-    dd 0
-_gfx_blitToCurrent endp
-; ------------------------------startData:0xba8------------------------------
-    db 0EAh ;jmp gfx_slot_31
-    dd 0
-    db 0EAh ;jmp gfx_slot_32
-    dd 0
-; ------------------------------startData:0xbb7------------------------------
-_gfx_fillRow proc near
-    db 0EAh ;args: ss, bpjmp far ptr gfx_slot_33_memcpyRow
-    dd 0
-_gfx_fillRow endp
-; ------------------------------startData:0xbb7------------------------------
-; ------------------------------startData:0xbbc------------------------------
-_gfx_fillRow2 proc near
-    db 0EAh ;args: ss, bpjmp far ptr gfx_slot_33_memcpyRow
-    dd 0
-_gfx_fillRow2 endp
-; ------------------------------startData:0xbbc------------------------------
-; ------------------------------startData:0xbc1------------------------------
-_gfx_copyRow proc near
-    db 0EAh ;jmp far ptr gfx_slot_35_null
-    dd 0
-_gfx_copyRow endp
-; ------------------------------startData:0xbc1------------------------------
-; ------------------------------startData:0xbc6------------------------------
-_gfx_nop36 proc near
-    db 0EAh ;jmp far ptr gfx_slot_36_null
-    dd 0
-_gfx_nop36 endp
-; ------------------------------startData:0xbc6------------------------------
-; ------------------------------startData:0xbcb------------------------------
-_gfx_nop37 proc near
-    db 0EAh ;jmp far ptr gfx_slot_37_null
-    dd 0
-_gfx_nop37 endp
-; ------------------------------startData:0xbcb------------------------------
-; ------------------------------startData:0xbd0------------------------------
-_gfx_getPageSeg proc near
-    db 0EAh ;index to word offsetjmp far ptr gfx_slot_38_getBuf
-    dd 0
-_gfx_getPageSeg endp
-; ------------------------------startData:0xbd0------------------------------
-    db 0EAh ;jmp far ptr gfx_slot_39
-    dd 0
-; ------------------------------startData:0xbda------------------------------
-_gfx_getRowOffset proc near
-    db 0EAh ;index *= 2, word index?jmp far ptr gfx_slot_3a_getRowOffset
-    dd 0
-_gfx_getRowOffset endp
-; ------------------------------startData:0xbda------------------------------
-; ------------------------------startData:0xbdf------------------------------
-_gfx_clearPage proc near
-    db 0EAh ;jmp far ptr gfx_slot_3b_clearBuf
-    dd 0
-_gfx_clearPage endp
-; ------------------------------startData:0xbdf------------------------------
-; ------------------------------startData:0xbe4------------------------------
-_gfx_setMode13 proc far
-    db 0EAh ;mode 13h: 40x25 halfwidthjmp far ptr gfx_slot_3c_setMode13
-    dd 0
-_gfx_setMode13 endp
-; ------------------------------startData:0xbe4------------------------------
-; ------------------------------startData:0xbe9------------------------------
-_gfx_setFadeSteps proc near
-    db 0EAh ;jmp far ptr gfx_slot_3d_null
-    dd 0
-_gfx_setFadeSteps endp
-; ------------------------------startData:0xbe9------------------------------
-    db 0EAh ;jmp far ptr gfx_slot_3e
-    dd 0
-; ------------------------------startData:0xbf3------------------------------
-_gfx_getModecode proc far
-    db 0EAh ;jmp gfx_slot_3f_ax3
-    dd 0
-_gfx_getModecode endp
-; ------------------------------startData:0xbf3------------------------------
-    db 0EAh ;jmp far ptr gfx_slot_40
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_41
-    dd 0
-    db 0EAh ;jmp gfx_slot_42
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_43
-    dd 0
-; ------------------------------startData:0xc0c------------------------------
-_gfx_setDac proc far
-    db 0EAh ;jmp gfx_slot_44_setDac
-    dd 0
-_gfx_setDac endp
-; ------------------------------startData:0xc0c------------------------------
-; ------------------------------startData:0xc11------------------------------
-_gfx_waitRetrace proc far
-    db 0EAh ;jmp gfx_slot_45_retrace
-    dd 0
-_gfx_waitRetrace endp
-; ------------------------------startData:0xc11------------------------------
-; ------------------------------startData:0xc16------------------------------
-_gfx_flipPage proc far
-    db 0EAh ;jmp gfx_slot_46_retrace2
-    dd 0
-_gfx_flipPage endp
-; ------------------------------startData:0xc16------------------------------
-    db 0EAh ;jmp far ptr gfx_slot_13
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_14
-    dd 0
-    db 0EAh ;jmp gfx_slot_11
-    dd 0
-    db 0EAh ;jmp gfx_slot_12
-    dd 0
-; ------------------------------startData:0xc2f------------------------------
-_gfx_storeBufPtr proc far
-    db 0EAh ;jmp gfx_slot_4b_storeBufPtr
-    dd 0
-_gfx_storeBufPtr endp
-; ------------------------------startData:0xc2f------------------------------
-    db 0EAh ;jmp far ptr gfx_slot_4c
-    dd 0
-    db 0EAh ;jmp far ptr gfx_slot_4d
-    dd 0
-; ------------------------------startData:0xc3e------------------------------
-_gfx_getVal proc far
-    db 0EAh ;jmp gfx_slot_4e_getVal
-    dd 0
-_gfx_getVal endp
-; ------------------------------startData:0xc3e------------------------------
-    db 0EAh ;jmp gfx_slot_4f
-    dd 0
-; ------------------------------startData:0xc48------------------------------
-_gfx_commitPage proc far
-    db 0EAh ;jmp gfx_slot_50_null
-    dd 0
-_gfx_commitPage endp
-; ------------------------------startData:0xc48------------------------------
-; ------------------------------startData:0xc4d------------------------------
-_gfx_nop51 proc far
-    db 0EAh ;jmp gfx_slot_51_null
-    dd 0
-_gfx_nop51 endp
-; ------------------------------startData:0xc4d------------------------------
-    db 0EAh ;jmp gfx_slot_52
-    dd 0
-; ------------------------------startData:0xc57------------------------------
-_gfx_setMonoFlag proc near
-    db 0EAh ;jmp gfx_slot_52_null
-    dd 0
-_gfx_setMonoFlag endp
-; ------------------------------startData:0xc57------------------------------
-    db 30 dup(0)
-; ------------------------------startData:0xc7a------------------------------
-_misc_jump_5a_keybuf proc near
-    db 0EAh ;jmp far ptr misc_5a_checkKeyBuf
-    dd 0
-_misc_jump_5a_keybuf endp
-; ------------------------------startData:0xc7a------------------------------
-; ------------------------------startData:0xc7f------------------------------
-_misc_jump_5b_getkey proc near
-    db 0EAh ;jmp far ptr misc_5b_getKey
-    dd 0
-_misc_jump_5b_getkey endp
-; ------------------------------startData:0xc7f------------------------------
-    db 0EAh ;jmp far ptr misc_5c_dosGetKey
-    dd 0
-; ------------------------------startData:0xc89------------------------------
-_misc_jump_5d_readJoy proc near
-    db 0EAh ;jmp far ptr misc_5d_readJoy
-    dd 0
-_misc_jump_5d_readJoy endp
-; ------------------------------startData:0xc89------------------------------
-; ------------------------------startData:0xc8e------------------------------
-_misc_jump_5e_clearKeyFlags proc near
-    db 0EAh ;jmp far ptr misc_5e_5f_clearKeyFlags
-    dd 0
-_misc_jump_5e_clearKeyFlags endp
-; ------------------------------startData:0xc8e------------------------------
-    db 0EAh ;jmp far ptr misc_5e_5f_clearKeyFlags
-    dd 0
-    db 4 dup(0)
-unk_177EC	db 10 dup(0)
-unk_177F6	db 6 dup(0)
-; ------------------------------startData:0xcac------------------------------
-_audio_jump_64 proc near
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
-_audio_jump_64 endp
-; ------------------------------startData:0xcac------------------------------
-; ------------------------------startData:0xcb1------------------------------
-_audio_jump_65 proc near
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
-_audio_jump_65 endp
-; ------------------------------startData:0xcb1------------------------------
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
-; ------------------------------startData:0xcbb------------------------------
-_audio_jump_67 proc near
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
-_audio_jump_67 endp
-; ------------------------------startData:0xcbb------------------------------
-unk_17810 db 0EAh
-    db 0
-unk_17812 db 0
-unk_17813 db 0
-unk_17814 db 0
-unk_17815 db 0EAh
-unk_17816	db 4 dup(0)
-    db 0EAh
-    db 4 dup(0)
-; ------------------------------startData:0xccf------------------------------
-_audio_jump_6b proc near
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
-_audio_jump_6b endp
-; ------------------------------startData:0xccf------------------------------
-; ------------------------------startData:0xcd4------------------------------
-_audio_jump_6c proc near
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
-_audio_jump_6c endp
-; ------------------------------startData:0xcd4------------------------------
-    db 0EAh
-    db 4 dup(0)
-EXTRN _joyMinValues:WORD
-EXTRN _joyMaxValues:WORD
-EXTRN _joyCenterValues:WORD
-EXTRN _joyRangeBelow:WORD
-EXTRN _joyRangeAbove:WORD
-EXTRN _joyRawAxis0:WORD
-EXTRN _joyRawAxis1:WORD
-EXTRN _joyAxes:BYTE
-EXTRN _clearRectX:WORD
-EXTRN _clearRectY:WORD
-EXTRN _clearRectWidth:WORD
-EXTRN _clearRectHeight:WORD
-EXTRN _lineX1:WORD
-EXTRN _lineX2:WORD
-EXTRN _lineY1:WORD
-EXTRN _lineY2:WORD
-; dirtyMinBuf and dirtyMaxBuf MUST be contiguous - overlay slot 0x28
-; hardcodes dirtyMaxBuf = dirtyMinBuf + 0x1B8
+; Dirty rect buffers - MUST be contiguous (overlay hardcodes offset +0x1B8)
 PUBLIC _dirtyMinBuf
 PUBLIC _dirtyMaxBuf
 PUBLIC _dirtyRectMin
 PUBLIC _dirtyRectMax
+
+; LZW pic decoder contiguous block
+PUBLIC _dictionaryIndex
+PUBLIC _picWorkData
+PUBLIC _picDecodeDictionary
+PUBLIC _picDecodeIncrement
+PUBLIC _clipDivZeroHandler
+
+.DATA
+
+; === Overlay jump table (slots 0x00 - 0x6d) ===
+; Graphics slots 0x00-0x53
+_gfx_allocPage proc far             ; slot 00
+    db 0EAh
+    dd 0
+_gfx_allocPage endp
+    db 0EAh, 4 dup(0)               ; slot 01
+    db 0EAh, 4 dup(0)               ; slot 02
+    db 0EAh, 4 dup(0)               ; slot 03
+    db 0EAh, 4 dup(0)               ; slot 04
+_gfx_drawString proc near            ; slot 05
+    db 0EAh
+    dd 0
+_gfx_drawString endp
+    db 0EAh, 4 dup(0)               ; slot 06
+    db 0EAh, 4 dup(0)               ; slot 07
+    db 0EAh, 4 dup(0)               ; slot 08
+    db 0EAh, 4 dup(0)               ; slot 09
+    db 0EAh, 4 dup(0)               ; slot 0a
+    db 0EAh, 4 dup(0)               ; slot 0b
+    db 0EAh, 4 dup(0)               ; slot 0c
+_gfx_setPage1 proc far               ; slot 0d
+    db 0EAh
+    dd 0
+_gfx_setPage1 endp
+_gfx_setPageN proc near              ; slot 0e
+    db 0EAh
+    dd 0
+_gfx_setPageN endp
+_gfx_getCurPageSeg proc far          ; slot 0f
+    db 0EAh
+    dd 0
+_gfx_getCurPageSeg endp
+_gfx_getCurPageSeg2 proc far         ; slot 10
+    db 0EAh
+    dd 0
+_gfx_getCurPageSeg2 endp
+_gfx_blitSprite proc near            ; slot 11
+    db 0EAh
+    dd 0
+_gfx_blitSprite endp
+    db 0EAh, 4 dup(0)               ; slot 12
+    db 0EAh, 4 dup(0)               ; slot 13
+    db 0EAh, 4 dup(0)               ; slot 14
+    db 0EAh, 4 dup(0)               ; slot 15
+    db 0EAh, 4 dup(0)               ; slot 16
+_gfx_getBufSize proc far             ; slot 17
+    db 0EAh
+    dd 0
+_gfx_getBufSize endp
+    db 0EAh, 4 dup(0)               ; slot 18
+    db 0EAh, 4 dup(0)               ; slot 19
+    db 0EAh, 4 dup(0)               ; slot 1a
+    db 0EAh, 4 dup(0)               ; slot 1b
+    db 0EAh, 4 dup(0)               ; slot 1c
+    db 0EAh, 4 dup(0)               ; slot 1d
+    db 0EAh, 4 dup(0)               ; slot 1e
+_gfx_drawLine proc far               ; slot 1f
+    db 0EAh
+    dd 0
+_gfx_drawLine endp
+_gfx_setPageDirect proc far          ; slot 20
+    db 0EAh
+    dd 0
+_gfx_setPageDirect endp
+_gfx_setColor proc near              ; slot 21
+    db 0EAh
+    dd 0
+_gfx_setColor endp
+_gfx_resetBlitOffset proc near       ; slot 22
+    db 0EAh
+    dd 0
+_gfx_resetBlitOffset endp
+_gfx_resetBlitOffset2 proc far       ; slot 23
+    db 0EAh
+    dd 0
+_gfx_resetBlitOffset2 endp
+    db 0EAh, 4 dup(0)               ; slot 24
+_gfx_dirtyRect proc near             ; slot 25
+    db 0EAh
+    dd 0
+_gfx_dirtyRect endp
+    db 0EAh, 4 dup(0)               ; slot 26
+    db 0EAh, 4 dup(0)               ; slot 27
+_gfx_dirtyRect2 proc near            ; slot 28
+    db 0EAh
+    dd 0
+_gfx_dirtyRect2 endp
+_gfx_switchColor proc near           ; slot 29
+    db 0EAh
+    dd 0
+_gfx_switchColor endp
+_gfx_copyRect proc near              ; slot 2a
+    db 0EAh
+    dd 0
+_gfx_copyRect endp
+    db 0EAh, 4 dup(0)               ; slot 2b
+    db 0EAh, 4 dup(0)               ; slot 2c
+    db 0EAh, 4 dup(0)               ; slot 2d
+    db 0EAh, 4 dup(0)               ; slot 2e
+_gfx_setFont proc far                ; slot 2f
+    db 0EAh
+    dd 0
+_gfx_setFont endp
+_gfx_blitToCurrent proc near         ; slot 30
+    db 0EAh
+    dd 0
+_gfx_blitToCurrent endp
+    db 0EAh, 4 dup(0)               ; slot 31
+    db 0EAh, 4 dup(0)               ; slot 32
+_gfx_fillRow proc near               ; slot 33
+    db 0EAh
+    dd 0
+_gfx_fillRow endp
+_gfx_fillRow2 proc near              ; slot 34
+    db 0EAh
+    dd 0
+_gfx_fillRow2 endp
+_gfx_copyRow proc near               ; slot 35
+    db 0EAh
+    dd 0
+_gfx_copyRow endp
+_gfx_nop36 proc near                 ; slot 36
+    db 0EAh
+    dd 0
+_gfx_nop36 endp
+_gfx_nop37 proc near                 ; slot 37
+    db 0EAh
+    dd 0
+_gfx_nop37 endp
+_gfx_getPageSeg proc near            ; slot 38
+    db 0EAh
+    dd 0
+_gfx_getPageSeg endp
+    db 0EAh, 4 dup(0)               ; slot 39
+_gfx_getRowOffset proc near          ; slot 3a
+    db 0EAh
+    dd 0
+_gfx_getRowOffset endp
+_gfx_clearPage proc near             ; slot 3b
+    db 0EAh
+    dd 0
+_gfx_clearPage endp
+_gfx_setMode13 proc far              ; slot 3c
+    db 0EAh
+    dd 0
+_gfx_setMode13 endp
+_gfx_setFadeSteps proc near          ; slot 3d
+    db 0EAh
+    dd 0
+_gfx_setFadeSteps endp
+    db 0EAh, 4 dup(0)               ; slot 3e
+_gfx_getModecode proc far            ; slot 3f
+    db 0EAh
+    dd 0
+_gfx_getModecode endp
+    db 0EAh, 4 dup(0)               ; slot 40
+    db 0EAh, 4 dup(0)               ; slot 41
+    db 0EAh, 4 dup(0)               ; slot 42
+    db 0EAh, 4 dup(0)               ; slot 43
+_gfx_setDac proc far                 ; slot 44
+    db 0EAh
+    dd 0
+_gfx_setDac endp
+_gfx_waitRetrace proc far            ; slot 45
+    db 0EAh
+    dd 0
+_gfx_waitRetrace endp
+_gfx_flipPage proc far               ; slot 46
+    db 0EAh
+    dd 0
+_gfx_flipPage endp
+    db 0EAh, 4 dup(0)               ; slot 47
+    db 0EAh, 4 dup(0)               ; slot 48
+    db 0EAh, 4 dup(0)               ; slot 49
+    db 0EAh, 4 dup(0)               ; slot 4a
+_gfx_storeBufPtr proc far            ; slot 4b
+    db 0EAh
+    dd 0
+_gfx_storeBufPtr endp
+    db 0EAh, 4 dup(0)               ; slot 4c
+    db 0EAh, 4 dup(0)               ; slot 4d
+_gfx_getVal proc far                 ; slot 4e
+    db 0EAh
+    dd 0
+_gfx_getVal endp
+    db 0EAh, 4 dup(0)               ; slot 4f
+_gfx_commitPage proc far             ; slot 50
+    db 0EAh
+    dd 0
+_gfx_commitPage endp
+_gfx_nop51 proc far                  ; slot 51
+    db 0EAh
+    dd 0
+_gfx_nop51 endp
+    db 0EAh, 4 dup(0)               ; slot 52
+_gfx_setMonoFlag proc near           ; slot 53
+    db 0EAh
+    dd 0
+_gfx_setMonoFlag endp
+
+; Slots 54-59 (unused in start.exe, zeroed)
+    db 30 dup(0)
+
+; Misc/input slots 5a-5f
+_misc_jump_5a_keybuf proc near       ; slot 5a
+    db 0EAh
+    dd 0
+_misc_jump_5a_keybuf endp
+_misc_jump_5b_getkey proc near       ; slot 5b
+    db 0EAh
+    dd 0
+_misc_jump_5b_getkey endp
+    db 0EAh, 4 dup(0)               ; slot 5c
+_misc_jump_5d_readJoy proc near      ; slot 5d
+    db 0EAh
+    dd 0
+_misc_jump_5d_readJoy endp
+_misc_jump_5e_clearKeyFlags proc near ; slot 5e
+    db 0EAh
+    dd 0
+_misc_jump_5e_clearKeyFlags endp
+    db 0EAh, 4 dup(0)               ; slot 5f
+
+; Slots 60-63 (unused padding)
+    db 20 dup(0)
+
+; Audio slots 64-6d
+_audio_jump_64 proc near             ; slot 64
+    db 0EAh
+    dd 0
+_audio_jump_64 endp
+_audio_jump_65 proc near             ; slot 65
+    db 0EAh
+    dd 0
+_audio_jump_65 endp
+    db 0EAh, 4 dup(0)               ; slot 66
+_audio_jump_67 proc near             ; slot 67
+    db 0EAh
+    dd 0
+_audio_jump_67 endp
+    db 0EAh, 4 dup(0)               ; slot 68
+    db 0EAh, 4 dup(0)               ; slot 69
+    db 0EAh, 4 dup(0)               ; slot 6a
+_audio_jump_6b proc near             ; slot 6b
+    db 0EAh
+    dd 0
+_audio_jump_6b endp
+_audio_jump_6c proc near             ; slot 6c
+    db 0EAh
+    dd 0
+_audio_jump_6c endp
+    db 0EAh, 4 dup(0)               ; slot 6d
+
+; === Dirty rect buffers (MUST be contiguous) ===
+; Overlay slot 0x28 hardcodes dirtyMaxBuf = dirtyMinBuf + 0x1B8
 _dirtyMinBuf db 1B8h dup(0FFh)
 _dirtyMaxBuf db 0D5h dup(0)
     db 2 dup(0)
@@ -807,1251 +332,18 @@ _dirtyMaxBuf db 0D5h dup(0)
     dw 0
 _dirtyRectMin dw 0FFFFh
 _dirtyRectMax dw 0
-EXTRN _clipOutcode:BYTE
-EXTRN _clipDx:WORD
-EXTRN _clipDy:WORD
-EXTRN _clipDxHalf:WORD
-EXTRN _clipDyHalf:WORD
-EXTRN _clipMaxX:WORD
-EXTRN _clipMaxY:WORD
-EXTRN _cbreakHit:BYTE
-EXTRN _origCBreakSeg:WORD
-EXTRN _origCBreakOfs:WORD
-EXTRN _errorCodeStr:WORD
-EXTRN _fileReadBuf:BYTE
-EXTRN _fileReadPos:WORD
-EXTRN _tmpFileHandle:WORD
-EXTRN _picDecodedRowBuf:BYTE
-EXTRN _screenBufSize:WORD
-EXTRN _tmpPageIndex:WORD
-EXTRN _rowOffset:WORD
-EXTRN _row:WORD
-EXTRN _readFromFilePtr:WORD
-EXTRN _terrainBuf1:WORD
-EXTRN _terrainBuf2:BYTE
-EXTRN _word_182BA:WORD
-EXTRN _word_182BC:WORD
-EXTRN _word_182BE:WORD
-EXTRN _word_182C0:WORD
-EXTRN _word_182C2:WORD
-EXTRN _word_182C4:WORD
-EXTRN _word_182C6:WORD
-EXTRN _word_182C8:WORD
-; 4 bytes of padding/unknown data between word_182C8 and weapon table
-    db 4 dup(0)
-EXTRN _aNone:BYTE
-_planes db 4Dh, 49h, 47h, 2Dh, 32h, 33h, 0, 20h ;field_0 ; 19 items
-    db 46h, 6Ch, 6Fh, 2 dup(67h), 65h, 72h, 3 dup(0) ;field_8
-    dw 2E4h ;field_12
-    dw 230h ;field_14
-    db 3, 0, 11h, 0, 0Ah, 0, 2, 3 dup(0) ;field_16
-    db 4Dh, 49h, 47h, 2Dh, 32h, 35h, 0, 20h ;field_0
-    db 46h, 6Fh, 78h, 62h, 61h, 74h, 4 dup(0) ;field_8
-    dw 23Ah ;field_12
-    dw 2BCh ;field_14
-    db 2, 0, 12h, 3 dup(0), 2, 3 dup(0) ;field_16
-    db 4Dh, 49h, 47h, 2Dh, 32h, 39h, 0, 20h ;field_0
-    db 46h, 75h, 6Ch, 63h, 72h, 75h, 6Dh, 3 dup(0) ;field_8
-    dw 2BCh ;field_12
-    dw 190h ;field_14
-    db 5, 0, 13h, 0, 14h, 0, 2, 3 dup(0) ;field_16
-    db 46h, 2Dh, 31h, 4 dup(0), 20h ;field_0
-    db 4Dh, 69h, 72h, 61h, 67h, 65h, 4 dup(0) ;field_8
-    dw 316h ;field_12
-    dw 3A2h ;field_14
-    db 3, 0, 14h, 3 dup(0), 2, 3 dup(0) ;field_16
-    db 53h, 75h, 2Dh, 32h, 37h, 2 dup(0), 20h ;field_0
-    db 46h, 6Ch, 61h, 6Eh, 6Bh, 65h, 72h, 3 dup(0) ;field_8
-    dw 2D5h ;field_12
-    dw 2CBh ;field_14
-    db 4, 0, 13h, 0, 14h, 0, 2, 3 dup(0) ;field_16
-    db 49h, 4Ch, 2Dh, 37h, 36h, 2 dup(0), 20h ;field_0
-    db 4Dh, 61h, 69h, 6Eh, 73h, 74h, 61h, 79h, 2 dup(0) ;field_8
-    dw 190h ;field_12
-    dw 0FA0h ;field_14
-    db 1, 0, 10h, 0, 0Ch, 0, 2, 3 dup(0) ;field_16
-    db 46h, 2Dh, 34h, 45h, 3 dup(0), 20h ;field_0
-    db 50h, 68h, 61h, 6Eh, 74h, 6Fh, 6Dh, 3 dup(0) ;field_8
-    dw 320h ;field_12
-    dw 208h ;field_14
-    db 4, 0, 12h, 0, 0Bh, 0, 2, 3 dup(0) ;field_16
-    db 46h, 2Dh, 31h, 34h, 3 dup(0), 20h ;field_0
-    db 54h, 6Fh, 6Dh, 63h, 61h, 74h, 4 dup(0) ;field_8
-    dw 320h ;field_12
-    dw 320h ;field_14
-    db 4, 0, 13h, 0, 8, 0, 2, 3 dup(0) ;field_16
-    db 46h, 2Dh, 31h, 38h, 3 dup(0), 20h ;field_0
-    db 48h, 6Fh, 72h, 6Eh, 65h, 74h, 4 dup(0) ;field_8
-    dw 294h ;field_12
-    dw 1CDh ;field_14
-    db 5, 0, 2 dup(0FFh), 2 dup(0), 2, 3 dup(0) ;field_16
-    db 41h, 6Eh, 2Dh, 37h, 32h, 2 dup(0), 20h ;field_0
-    db 43h, 6Fh, 61h, 6Ch, 65h, 72h, 4 dup(0) ;field_8
-    dw 15Eh ;field_12
-    dw 26Ch ;field_14
-    db 2, 3 dup(0), 9, 0, 2, 3 dup(0) ;field_16
-    db 46h, 2Dh, 31h, 38h, 3 dup(0), 20h ;field_0
-    db 48h, 6Fh, 72h, 6Eh, 65h, 74h, 4 dup(0) ;field_8
-    dw 294h ;field_12
-    dw 1CDh ;field_14
-    db 5, 0, 2 dup(0FFh), 4, 0, 2, 3 dup(0) ;field_16
-    db 4Dh, 49h, 47h, 2Dh, 32h, 33h, 0, 20h ;field_0
-    db 46h, 6Ch, 6Fh, 2 dup(67h), 65h, 72h, 3 dup(0) ;field_8
-    dw 2E4h ;field_12
-    dw 230h ;field_14
-    db 3, 3 dup(0), 4, 0, 2, 3 dup(0) ;field_16
-    db 46h, 2Dh, 31h, 34h, 3 dup(0), 20h ;field_0
-    db 54h, 6Fh, 6Dh, 63h, 61h, 74h, 4 dup(0) ;field_8
-    dw 320h ;field_12
-    dw 320h ;field_14
-    db 4, 0, 2 dup(0FFh), 8, 0, 2, 3 dup(0) ;field_16
-    db 46h, 2Dh, 34h, 45h, 3 dup(0), 20h ;field_0
-    db 50h, 68h, 61h, 6Eh, 74h, 6Fh, 6Dh, 3 dup(0) ;field_8
-    dw 320h ;field_12
-    dw 208h ;field_14
-    db 4, 0, 2 dup(0FFh), 0Bh, 0, 2, 3 dup(0) ;field_16
-    db 4Dh, 49h, 47h, 2Dh, 31h, 37h, 0, 20h ;field_0
-    db 46h, 72h, 65h, 73h, 63h, 6Fh, 4 dup(0) ;field_8
-    dw 226h ;field_12
-    dw 12Ch ;field_14
-    db 3, 0, 11h, 0, 10h, 0, 2, 3 dup(0) ;field_16
-    db 54h, 75h, 2Dh, 39h, 35h, 2 dup(0), 20h ;field_0
-    db 42h, 65h, 61h, 72h, 6 dup(0) ;field_8
-    dw 19Ah ;field_12
-    dw 13ECh ;field_14
-    db 1, 3 dup(0), 12h, 0, 2, 3 dup(0) ;field_16
-    db 4Dh, 69h, 2Dh, 32h, 34h, 2 dup(0), 20h ;field_0
-    db 48h, 69h, 6Eh, 64h, 6 dup(0) ;field_8
-    dw 0C8h ;field_12
-    dw 12Ch ;field_14
-    db 1, 0, 11h, 0, 13h, 0, 2, 3 dup(0) ;field_16
-    db 46h, 2Dh, 35h, 4 dup(0), 20h ;field_0
-    db 54h, 69h, 67h, 65h, 72h, 5 dup(0) ;field_8
-    dw 1F4h ;field_12
-    dw 0FAh ;field_14
-    db 3, 0, 16h, 0, 16h, 0, 2, 3 dup(0) ;field_16
-    db 37h, 36h, 37h, 4 dup(0), 20h ;field_0
-    db 42h, 6Fh, 65h, 69h, 6Eh, 67h, 4 dup(0) ;field_8
-    dw 190h ;field_12
-    dw 3E8h ;field_14
-    db 1, 0, 2 dup(0FFh), 12h, 0, 2, 3 dup(0) ;field_16
-; Sam table (struct Sam, 18 bytes/entry)
-aNone_0 db 'None',0
-    db 9 dup(0)
-    db 1
-    db 0
-    db 13h
-    db 0
-aSa2_0 db 'SA-2',0
-    db 3 dup(0)
-    db 7Dh
-    db 0
-    db 0D0h
-    db 7
-    db 1
-    db 0
-    db 4
-    db 0
-    db 13h
-    db 0
-aSa5_0 db 'SA-5',0
-    db 3 dup(0)
-aC_0 db '�',0
-    db 8
-    db 7
-    db 1
-    db 0
-    db 1
-    db 0
-    db 13h
-    db 0
-aSa8b_0 db 'SA-8B',0
-    db 2 dup(0)
-    db 41h
-    db 0
-    db 0B0h
-    db 4
-    db 2
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-aSa10_0 db 'SA-10',0
-    db 2 dup(0)
-unk_186C0 db 7Dh
-    db 0
-    db 8
-    db 7
-    db 3
-    db 0
-unk_186C6 db 2
-    db 0
-    db 13h
-    db 0
-aSa11_0 db 'SA-11',0
-    db 2 dup(0)
-    db 64h
-    db 0
-    db 0DCh
-    db 5
-    db 2
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-aSa12_0 db 'SA-12',0
-    db 2 dup(0)
-    db 96h
-    db 0
-    db 0D0h
-    db 7
-    db 3
-    db 0
-    db 2
-    db 0
-    db 13h
-    db 0
-aSa13_0 db 'SA-13',0
-    db 2 dup(0)
-    db 41h
-    db 0
-    db 84h
-    db 3
-    db 2 dup(0)
-    db 4
-    db 0
-    db 13h
-    db 0
-aSaN4_0 db 'SA-N-4',0
-    db 0
-    db 1Eh
-    db 0
-    db 0B0h
-    db 4
-    db 2
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-aSaN5_0 db 'SA-N-5',0
-    db 0
-    db 1Eh
-    db 0
-    db 84h
-    db 3
-    db 0FFh
-    db 0FFh
-    db 4
-    db 0
-    db 13h
-    db 0
-aSaN6_0 db 'SA-N-6',0
-    db 0
-    db 7Dh
-    db 0
-    db 8
-    db 7
-    db 3
-    db 0
-    db 2
-    db 0
-    db 13h
-    db 0
-aSaN7_0 db 'SA-N-7',0
-    db 0
-    db 64h
-    db 0
-    db 0DCh
-    db 5
-    db 2
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-aHawk_0 db 'Hawk',0
-    db 3 dup(0)
-    db 7Dh
-    db 0
-    db 84h
-    db 3
-    db 2
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-aRapier_0 db 'Rapier',0
-    db 0
-    db 41h
-    db 0
-    db 0B0h
-    db 4
-    db 2
-    db 0
-    db 4
-    db 0
-    db 13h
-    db 0
-aTiger_1 db 'Tiger',0
-    db 2 dup(0)
-    db 1Eh
-    db 0
-    db 84h
-    db 3
-    db 1
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-aSeacat_0 db 'Seacat',0
-    db 0
-    db 1Eh
-    db 0
-    db 84h
-    db 3
-    db 1
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-aAa2 db 'AA-2',0
-    db 3 dup(0)
-    db 0Eh
-    db 0
-    db 0DCh
-    db 5
-    db 0FFh
-    db 0FFh
-    db 4
-    db 0
-    db 13h
-    db 0
-aAa8 db 'AA-8',0
-    db 3 dup(0)
-    db 0Ch
-    db 0
-    db 8
-    db 7
-    db 2 dup(0)
-    db 5
-    db 0
-    db 13h
-    db 0
-aAa6 db 'AA-6',0
-    db 3 dup(0)
-a2_0 db '2',0
-    db 60h
-    db 9
-    db 2
-    db 0
-    db 2
-    db 0
-    db 13h
-    db 0
-aAa7 db 'AA-7',0
-    db 3 dup(0)
-    db 22h
-    db 0
-    db 8
-    db 7
-    db 2
-    db 0
-    db 2
-    db 0
-    db 13h
-    db 0
-aAa9 db 'AA-9',0
-    db 3 dup(0)
-aR db 'R',0
-    db 0D0h
-    db 7
-    db 2
-    db 0
-    db 3
-    db 0
-    db 13h
-    db 0
-aAa10 db 'AA-10',0
-    db 2 dup(0)
-    db 40h
-    db 0
-    db 0D0h
-    db 7
-    db 3
-    db 0
-    db 4
-    db 0
-    db 13h
-    db 0
-aAim120 db 'AIM120',0
-    db 0
-    db ' ',0
-    db '`',9,7,0
-    db 4
-    db 0
-    db 1
-    db 0
-aAim9 db 'AIM-9',0
-    db 2 dup(0)
-    db 11h
-    db 0
-    db 0D0h
-    db 7
-    db 7
-    db 0
-    db 8
-    db 0
-    db 1
-    db 0
-aHarm db 'HARM',0
-    db 3 dup(0)
-    db 14h
-    db 0
-    db 0B0h
-    db 4
-    db 4
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-aPenguin db 'Penguin',0
-    db ' ',0
-    db 0F4h
-    db 1
-    db 5
-    db 0
-    db 2
-    db 0
-    db 13h
-    db 0
-aHarpoon db 'Harpoon',0
-    db '<',0
-    db 0F4h
-    db 1
-    db 5
-    db 0
-    db 2
-    db 0
-    db 13h
-    db 0
-aAgm65 db 'AGM-65',0
-    db 0
-    db ' ',0
-    db 20h
-    db 3
-    db 6
-    db 0
-    db 2
-    db 0
-    db 0Dh
-    db 0
-aLgbomb db 'LGBOMB',0
-    db 0
-    db 0Ah,0
-    db 2 dup(0)
-    db 1Ch
-    db 0
-    db 2
-    db 0
-    db 0Fh
-    db 0
-aRtbomb db 'RTBOMB',0
-    db 5 dup(0)
-    db 1Dh
-    db 0
-    db 2
-    db 0
-    db 0Fh
-    db 0
-aFfbomb db 'FFBOMB',0
-    db 5 dup(0)
-    db 1Eh
-    db 0
-    db 2
-    db 0
-    db 0Fh
-    db 0
-aAim7w db 'AIM-7W',0
-    db 0
-    db ',',0
-    db 60h
-    db 9
-    db 2
-    db 0
-    db 4
-    db 0
-    db 1
-    db 0
-aAim9w db 'AIM-9W',0
-    db 0
-    db 0Ch
-    db 0
-    db 0D0h
-    db 7
-    db 2 dup(0)
-    db 5
-    db 0
-    db 1
-    db 0
-aSa14 db 'SA-14',0
-    db 2 dup(0)
-    db 10h
-    db 0
-    db 84h
-    db 3
-    db 2 dup(0)
-    db 5
-    db 0
-    db 1
-    db 0
-aAa6_0 db 'AA-6',0
-    db 3 dup(0)
-a2_1 db '2',0
-    db 60h
-    db 9
-    db 0FFh
-    db 0FFh
-    db 2
-    db 0
-    db 13h
-    db 0
-aAa7_0 db 'AA-7',0
-    db 3 dup(0)
-    db 22h
-    db 0
-    db 8
-    db 7
-    db 0FFh
-    db 0FFh
-    db 2
-    db 0
-    db 13h
-    db 0
-aAa9_0 db 'AA-9',0
-    db 3 dup(0)
-aR_0 db 'R',0
-    db 0D0h
-    db 7
-    db 0FFh
-    db 0FFh
-    db 3
-    db 0
-    db 13h
-    db 0
-aAa10_0 db 'AA-10',0
-    db 2 dup(0)
-    db 40h
-    db 0
-    db 0D0h
-    db 7
-    db 2 dup(0)
-    db 4
-    db 0
-    db 13h
-    db 0
-aEquip_ db 'Equip.',0
-    db 5 dup(0)
-    db 1Dh
-    db 3 dup(0)
-    db 0Eh
-    db 0
-EXTRN _stru_1892E:BYTE
-EXTRN _difficultySaved:WORD
-EXTRN _stru_18FC0:BYTE
-EXTRN _word_18994:WORD
-    db 2 dup(0)
-    db 1
-    db 0
-    db 1
-    db 0
-EXTRN _weaponLoadouts:BYTE
-    db 1
-    db 34 dup(0)
-    db 2
-    db 6
-    db 2
-    db 0
-    db 2
-    db 5
-    db 25 dup(0)
-    db 6
-    db 2
-    db 1
-    db 2
-    db 2
-    db 3
-    db 4
-    db 3
-    db 3
-    db 4
-    db 4
-    db 4
-    db 1
-    db 2
-    db 4
-    db 1
-    db 2
-    db 4
-    db 5
-    db 5
-    db 4
-    db 4
-    db 5
-    db 4
-    db 4
-    db 1
-    db 3
-    db 2 dup(0)
-    db 4
-    db 4
-    db 2 dup(0)
-    db 5
-    db 5
-    db 4
-    db 4
-    db 5
-    db 0
-    db 4
-    db 0
-    db 8
-    db 2 dup(0)
-    db 2
-    db 1
-    db 7 dup(0)
-    db 3
-    db 1
-    db 3
-    db 4
-    db 1
-    db 1
-    db 4
-    db 2
-    db 3
-    db 3
-    db 4
-    db 0
-    db 3
-    db 0
-    db 1
-    db 4
-    db 4
-    db 2 dup(0)
-    db 4
-    db 0
-    db 2
-    db 0
-    db 4
-    db 2 dup(0)
-    db 1
-    db 1
-    db 4
-    db 4
-    db 1
-    db 1
-    db 4
-    db 4
-    db 4
-    db 4
-    db 4
-    db 1
-    db 3
-    db 2
-    db 0
-    db 4
-    db 4
-    db 0
-    db 2
-    db 5
-    db 3
-    db 3
-    db 2
-    db 5
-    db 1
-    db 3
-    db 4
-    db 2 dup(0)
-    db 6
-    db 0
-    db 5
-    db 3 dup(0)
-    db 4
-    db 0
-    db 5
-    db 2
-    db 1
-    db 0
-    db 6
-    db 4
-    db 2 dup(0)
-    db 6
-    db 6
-    db 3
-    db 6
-    db 6
-    db 0
-    db 3
-    db 0
-    db 6
-    db 0
-    db 3
-    db 2 dup(0)
-    db 2
-    db 3
-    db 2 dup(0)
-    db 3
-    db 28 dup(0)
-    db 3
-    db 0
-    db 4
-    db 4
-    db 0
-    db 2
-    db 4
-    db 4
-    db 3
-    db 4
-    db 5
-    db 0
-    db 3
-    db 127 dup(0)
-    db 3
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 1
-    db 3 dup(0)
-    db 0FFh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 3
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 2
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 1
-    db 0
-    db 2
-    db 0
-    db 1
-    db 3 dup(0)
-    db 0FFh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 2
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 0FEh
-    db 0FFh
-    db 4
-    db 0
-    db 4
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 0FEh
-    db 0FFh
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 4
-    db 0
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 2
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 2
-    db 0
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 2
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 0FFh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 4
-    db 0
-    db 4
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 2 dup(0)
-    db 1
-    db 4
-    db 2 dup(0)
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0
-    db 2
-    db 4
-    db 2 dup(0)
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0FCh
-    db 0FFh
-    db 0
-    db 2
-    db 4
-    db 0
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0FCh
-    db 0FFh
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 4
-    db 2 dup(0)
-    db 1
-    db 0FFh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 2
-    db 0
-    db 1
-    db 0
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 288 dup(0)
-    db 0Fh
-    db 0
-    db 7
-    db 0
-EXTRN _regnPlhPtr:WORD
-EXTRN _plhFiles:WORD
-EXTRN _worldFiles:WORD
-    dw 5958h
-    db 30h
-    db 30h
-    db 2 dup(0)
-EXTRN _targetCoordsX2:WORD
-EXTRN _targetCoordsY2:WORD
-EXTRN _targetCoordsX1:WORD
-EXTRN _targetCoordsY1:WORD
-EXTRN _word_19294:WORD
-EXTRN _word_192A4:WORD
-EXTRN _targetCoordsX4:WORD
-EXTRN _targetCoordsY4:WORD
-EXTRN _targetCoordsX5:WORD
-EXTRN _targetCoordsY5:WORD
-EXTRN _targetCoordsX3:WORD
-EXTRN _targetCoordsY3:WORD
-EXTRN _targetCoordsX7:WORD
-EXTRN _targetCoordsY7:WORD
-EXTRN _targetCoordsX0:WORD
-EXTRN _targetCoordsY0:WORD
-EXTRN _word_192EC:WORD
-EXTRN _word_192F4:WORD
-EXTRN _byte_192FC:BYTE
-EXTRN _off_19304:WORD
-EXTRN _off_19314:WORD
-EXTRN _word_19324:WORD
 
-EXTRN _armPosition:WORD
-EXTRN _spriteBlitX:WORD
-EXTRN _spriteBlitY:WORD
-EXTRN _spriteBlitW:WORD
-EXTRN _spriteBlitH:WORD
-EXTRN _readBufEndPtr:WORD
-EXTRN _picWorkDataPtr:WORD
-EXTRN _picRowLength:WORD
-EXTRN _picProcessFlag0_1:BYTE
-EXTRN _picLookupResult:BYTE
-EXTRN _picTmp9BitCount:BYTE
-EXTRN _picByte:BYTE
-EXTRN _picFileReadBufEnd:WORD
-EXTRN _picNumberDictSlots:WORD
-EXTRN _picFileWord:WORD
-EXTRN _picRemainingBitCount:BYTE
-EXTRN _picByteUnsignedFlag:BYTE
-EXTRN _picSlotCounter:WORD
-; dictionaryIndex + picWorkData + picDecodeDictionary + picDecodeIncrement +
-; clipDivZeroHandler form a single contiguous block used by the LZW pic decoder.
-; dictionaryIndex is stack space, picWorkData is boundary marker,
-; the rest is a stride-3 dictionary buffer (0x1800 bytes).
-; They MUST remain contiguous.
-PUBLIC _dictionaryIndex
-PUBLIC _picWorkData
+; === LZW pic decoder contiguous block ===
+; dictionaryIndex (0x201 bytes) + picWorkData (3 bytes) +
+; picDecodeDictionary/picDecodeIncrement/clipDivZeroHandler (0x1800 bytes)
+; All MUST remain contiguous.
 _dictionaryIndex db 0
     db 200h dup(0)
 _picWorkData db 0
     db 2 dup(0)
-; picDecodeDictionary + picDecodeIncrement + clipDivZeroHandler form a single
-; contiguous 0x1800-byte buffer used by LZW decoder with stride-3 access.
-; They MUST remain contiguous.
 _picDecodeDictionary dw 0
 _picDecodeIncrement db 0
     db 260h dup(0)
 _clipDivZeroHandler db 0
     db 159Ch dup(0)
-EXTRN _flag4Saved:WORD
-EXTRN _theaterSaved:WORD
-EXTRN _moveDst:DWORD
-EXTRN _bufCoordStr:BYTE
-EXTRN _byte_1B0D1:BYTE
-EXTRN _byte_1B0D2:BYTE
-EXTRN _byte_1B0D3:BYTE
-;  ==============================================================================
-
-.DATA?
-    db ?
-EXTRN _todayMissStrBuf:BYTE
-EXTRN _byte_1B0FF:BYTE
-EXTRN _byte_1B100:BYTE
-    db 47h dup(?)
-EXTRN _word_1B148:WORD
-    db 2 dup(?)
-EXTRN _gfxModeSetPtr:DWORD
-    db 2 dup(?)
-EXTRN _fileHandle:WORD
-    db 2 dup(?)
-EXTRN _gameData:DWORD
-EXTRN _wldReadBuf2:WORD
-EXTRN _gridBuf5:BYTE
-EXTRN _gridBuf4:BYTE
-EXTRN _page1Ptr:WORD
-EXTRN _gridBuf3:BYTE
-EXTRN _word_1B960:WORD
-EXTRN _gridBuf2:BYTE
-EXTRN _terrainTileBlock:BYTE
-EXTRN _wldReadBuf1:BYTE
-EXTRN _gridBuf1:BYTE
-EXTRN _scenarioFoundArr:BYTE
-    db ?
-    EXTRN _wldReadBuf4:BYTE
-    db 2 dup(?)
-EXTRN _wldReadBuf10:BYTE
-EXTRN _needSplash:DWORD
-    EXTRN _targets:BYTE
-EXTRN _word_1D00A:WORD
-    db 2 dup(?)
-    EXTRN _wldReadBuf6:BYTE
-EXTRN _hercFlag:BYTE
-EXTRN _dword_1D5D0:DWORD
-EXTRN _word_1D5D4:WORD
-EXTRN _word_1D5D6:WORD
-EXTRN _dword_1D5D8:DWORD
-EXTRN _dword_1D5DC:DWORD
-EXTRN _word_1D5E0:WORD
-EXTRN _byte_1D5E2:BYTE
-EXTRN _byte_1D5E3:BYTE
-EXTRN _byte_1D5E4:BYTE
-EXTRN _byte_1D5E5:BYTE
-    db 4 dup(?)
-EXTRN _exitCode:BYTE
-EXTRN _wldReadBuf9:BYTE
-EXTRN _dword_1D650:DWORD
-    db 4 dup(?)
-EXTRN _readItemSize:WORD
-EXTRN _wldReadBuf8:BYTE
-    db 2 dup(?)
-EXTRN _intRegs:BYTE
-EXTRN _wldReadBuf7:BYTE
-EXTRN _word_1DD38:WORD
-    db 2 dup(?)
-    db 2 dup(?)
-EXTRN _selectedPilotIdx:WORD
-    db 12 dup(?)
-EXTRN _wldReadBuf5Size:WORD
-    db 2 dup(?)
-EXTRN _joyReady:BYTE
-EXTRN _wldOffsets:WORD
-EXTRN _wldReadBuf11:BYTE
-    db 2 dup(?)
-    EXTRN _terrainPtrUnk:BYTE
-EXTRN _word_1E24A:WORD
-    db 2 dup(?)
-EXTRN _wldReadBuf3:WORD
-    db 4 dup(?)
-EXTRN _commData:DWORD
-    EXTRN _hallfameBuf:BYTE
-    db 4 dup(?)
-EXTRN _menuSprites:WORD
-    db 2 dup(?)
-    db 14h dup(?)
 END

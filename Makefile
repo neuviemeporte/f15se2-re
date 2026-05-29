@@ -122,7 +122,7 @@ $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
 #
 NOASMDIR := noasm_build
 START_NOASM := $(NOASMDIR)/start.exe
-NOASM_SRC := $(START_SRC) gfx_impl.c ststub.c
+NOASM_SRC := $(START_SRC) gfx_impl.c
 NOASM_SHARED_SRC := file_io.c timer.c miscstub.c gfxstub.c picstub.c ovlstub.c
 NOASM_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
 NOASM_OBJ := $(NOASM_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util2.obj
@@ -315,7 +315,7 @@ $(UASM): $(UASMDIR)/Makefile
 
 $(UASMDIR)/Makefile:
 	git submodule init
-	git submodule update	
+	git submodule update
 
 $(MZDIFF):
 	cd $(MZRE) && ./build.sh
