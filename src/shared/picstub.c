@@ -20,9 +20,14 @@ void picdbg(const char *msg)
 
 /* Pic decode work data */
 uint8 picDecodedRowBuf[320];
-uint8 picWorkData[4096];
-uint16 picDecodeDictionary[4096];
-uint16 picDecodeIncrement[4096];
+/* Large buffers allocated from DOS to save DGROUP space */
+static uint8 far *picWorkDataFar;
+static uint16 far *picDecodeDictionaryFar;
+static uint16 far *picDecodeIncrementFar;
+static uint16 picBufSeg = 0;
+#define picWorkData picWorkDataFar
+#define picDecodeDictionary picDecodeDictionaryFar
+#define picDecodeIncrement picDecodeIncrementFar
 uint16 dictionaryIndex = 0;
 
 /* File I/O state */
@@ -46,6 +51,21 @@ static uint16 picSignedFlag;
 /* RLE state - persists across row calls (matches ASM picProcessFlag/picLookupResult) */
 static uint8 rlePrevByte;
 static uint8 rleProcessFlag;  /* remaining RLE repeats */
+
+static void picAllocBuffers(void)
+{
+    union REGS r;
+    if (picBufSeg) return;
+    /* Allocate (4096 + 8192 + 8192) = 20480 bytes = 0x500 paragraphs */
+    r.h.ah = 0x48;
+    r.x.bx = 0x500;
+    intdos(&r, &r);
+    if (r.x.cflag) return;
+    picBufSeg = r.x.ax;
+    picWorkDataFar = (uint8 far *)MK_FP(picBufSeg, 0);
+    picDecodeDictionaryFar = (uint16 far *)MK_FP(picBufSeg, 4096);
+    picDecodeIncrementFar = (uint16 far *)MK_FP(picBufSeg, 4096 + 8192);
+}
 
 /* Dictionary - 2048 entries max */
 static uint16 dictParent[2048];
@@ -242,6 +262,7 @@ static void picDecodeToSegment(int handle, uint16 pageSeg)
     uint8 far *dst;
     static uint8 tempBuf[160];
 
+    picAllocBuffers();
     picFileHandle = handle;
     read512FromFile();
 

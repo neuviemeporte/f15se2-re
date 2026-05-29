@@ -11,7 +11,7 @@ int FAR CDECL gfx_fillDirty();                         /* slot 0x01: fill dirty 
 int FAR CDECL gfx_blitTransparent();                   /* slot 0x02: blit with transparency */
 int FAR CDECL gfx_blitVariant();                       /* slot 0x03: blit variant */
 int FAR CDECL gfx_copyBlock();                         /* slot 0x04: copyBlock opaque rect */
-int FAR CDECL gfx_drawString(int16 *pageNum, const char *string, int len); /* slot 0x05: draw clipped string */
+int FAR CDECL gfx_drawString(int16 *pageNum, const char *string); /* slot 0x05: draw clipped string */
 int FAR CDECL gfx_drawStringUnclipped();               /* slot 0x06: draw string unclipped */
 int FAR CDECL gfx_clipRight();                         /* slot 0x07: clip X right */
 int FAR CDECL gfx_clipTop();                           /* slot 0x08: clip Y top */
