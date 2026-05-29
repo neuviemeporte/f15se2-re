@@ -56,9 +56,8 @@ $(MAIN_EXE): $(MAIN_OBJS)
 # start.exe reconstruction (rc)
 #
 START_EXE := $(BUILDDIR)/start.exe
-START_CONF := $(CONFDIR)/start_rc.json
-START_BASE := start_rc.asm
-START_ASM := start4.asm $(START_BASE)
+START_BASE := stslots.asm
+START_ASM := stcode.asm $(START_BASE)
 COMMON_SRC := shared/util.c
 COMMON_SRC2 := shared/util2.c
 COMMON_OBJ := $(BUILDDIR)/util.obj
@@ -97,7 +96,7 @@ $(BUILDDIR)/stgrid.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/stmissn.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/stsprit.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/stgen.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
-$(BUILDDIR)/start4.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/stcode.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 
 $(START_EXE): | $(BUILDDIR)
 $(START_EXE): $(START_OBJ)
@@ -159,7 +158,6 @@ noasm-start: $(START_NOASM)
 # egame.exe reconstruction (rc)
 #
 EGAME_EXE := $(BUILDDIR)/egame.exe
-EGAME_CONF := $(CONFDIR)/egame_rc.json
 EGAME_BASE := egame_rc.asm
 EGAME_ASM := $(EGAME_BASE) egfarbu2.asm
 EGAME_SRC := egmain.c eg3d_a.c eg3d_b.c eg3d_c.c eg3d_d.c eg3d_e.c eg3d_f.c eg3d_g.c eghud.c egflight.c egtacmap.c egui.c egwaypt.c egmath.c egweap.c egfileio.c egpic.c egfarbuf.c
@@ -257,7 +255,7 @@ $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
 #
 TEST_EXE := $(DEBUGDIR)/test.exe
 TEST_SRCS := test.c stinit.c stmissn.c stsprit.c strand.c stpilot.c stpinp.c stinkey.c stalloc.c stterr.c stparse.c stgrid.c stgen.c stdata.c
-TEST_ASMS := start4.asm start_rc.asm
+TEST_ASMS := stcode.asm stslots.asm
 TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
 TEST_LIBS := slibce.lib
 

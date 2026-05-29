@@ -11,7 +11,6 @@ BDA_CRTC	 = 463h
 OVL_HDR_SIZE1	 = 1Eh
 OVL_HDR_SIZE2	 = 20h
 
-
 IFDEF DEBUG
     EXTRN _my_fartrace:PROC
 
@@ -237,7 +236,6 @@ nullsub_1 proc near
     retn
 nullsub_1 endp
 
-; ------------------------------startCode1:0x185a------------------------------
 TIMER_VAR_74 EQU <word ptr _timerReload>
 TIMER_VAR_80 EQU <word ptr _timerTick>
 TIMER_VAR_70 EQU <word ptr _timerCountLo>
@@ -247,11 +245,7 @@ TIMER_ISR_PTR EQU <timerIsrPtr+1>
 TIMER_IRQ_ADDR EQU <dword ptr timerIrqAddr>
 TIMER_INSTALLED EQU <_timerHandlerInstalled>
 INCLUDE shared/timer_setHandler.inc
-; ------------------------------startCode1:0x1897------------------------------
-; ------------------------------startCode1:0x1898------------------------------
 INCLUDE shared/timer_restore.inc
-; ------------------------------startCode1:0x18b8------------------------------
-; ------------------------------startCode1:0x18e7------------------------------
 TIMER_VAR_DIVISOR EQU <word ptr _timerDivisor>
 TIMER_VAR_COUNT_LO EQU <word ptr _timerCountLo>
 TIMER_VAR_COUNT_HI EQU <word ptr _timerCountHi>
@@ -269,25 +263,15 @@ TIMER_INC_COUNTERS EQU <increaseTimerCounters>
 TIMER_CALLBACK EQU <timerIrqCallback>
 TIMER_AUDIO_6C_CALL EQU <call far ptr _audio_jump_6c>
 INCLUDE shared/timer_isr.inc
-; ------------------------------startCode1:0x1948------------------------------
-; ------------------------------startCode1:0x194d------------------------------
 INCLUDE shared/timer_callback.inc
-; ------------------------------startCode1:0x19d3------------------------------
-; ------------------------------startCode1:0x19d4------------------------------
 INCLUDE shared/timer_calibrate.inc
-; ------------------------------startCode1:0x1a68------------------------------
-; ------------------------------startCode1:0x1a69------------------------------
 INCLUDE shared/timer_manipulate.inc
-; ------------------------------startCode1:0x1abd------------------------------
-; ------------------------------startCode1:0x1abe------------------------------
 _getTimeOfDay proc near
     xor ah, ah
     int 1Ah ;CLOCK - GET TIME OF DAY
     mov ax, dx
     retn
 _getTimeOfDay endp
-; ------------------------------startCode1:0x1ac4------------------------------
-; ------------------------------startCode1:0x1ac5------------------------------
 increaseTimerCounters proc near
     inc _timerCounter2
     inc _timerCounter3
@@ -296,8 +280,6 @@ increaseTimerCounters proc near
     call far ptr _audio_jump_6b
     retn
 increaseTimerCounters endp
-; ------------------------------startCode1:0x1ada------------------------------
-; ------------------------------startCode1:0x1adc------------------------------
 _doFcbSearch proc near
     mov ah, 1Ah
     mov dx, offset _diskTransferArea
@@ -319,8 +301,6 @@ loc_11AF3:
 locret_11B02:
     retn
 _doFcbSearch endp
-; ------------------------------startCode1:0x1b02------------------------------
-; ------------------------------startCode1:0x1b03------------------------------
 _picBlit proc near
     arg_0 = word ptr 4
     unk = word ptr 6
@@ -366,8 +346,6 @@ loc_11B46:
 locret_11B70:
     retn
 _picBlit endp
-; ------------------------------startCode1:0x1b70------------------------------
-; ------------------------------startCode1:0x26fd------------------------------
 _mystrlen proc near
     arg_0 = word ptr 4
     push bp
@@ -386,13 +364,9 @@ loc_1270E:
     pop bp
     retn
 _mystrlen endp
-; ------------------------------startCode1:0x2718------------------------------
-; ------------------------------startCode1:0x2719------------------------------
 ; --- shared strcat
 INCLUDE shared/str_strcat.inc
 _mystrcat equ mystrcat
-; ------------------------------startCode1:0x2740------------------------------
-; ------------------------------startCode1:0x2764------------------------------
 _nearmemset proc near
     arg_0 = word ptr 4
     count = word ptr 6
@@ -410,18 +384,12 @@ _nearmemset proc near
     pop bp
     retn
 _nearmemset endp
-; ------------------------------startCode1:0x2779------------------------------
-; ------------------------------startCode1:0x27f5------------------------------
 ; --- shared interrupt dispatch routine
 INCLUDE shared/overlay_dispatch.inc
 _intDispatch equ intDispatch
-; ------------------------------startCode1:0x2859------------------------------
-; ------------------------------startCode1:0x2977------------------------------
 ; --- shared DOS print string routine
 INCLUDE shared/file_printstring.inc
 _dos_printstring equ dos_printstring
-; ------------------------------startCode1:0x2982------------------------------
-; ------------------------------startCode1:0x2985------------------------------
 _loadOverlay proc near
     arg_0 = word ptr 4
     filename = word ptr 6
@@ -552,17 +520,13 @@ loc_12A83:
     mov ax, 4C00h
     int 21h ;DOS - 2+ - QUIT WITH EXIT CODE (EXIT)
 _loadOverlay endp ;AL = exit code
-; ------------------------------startCode1:0x2a86------------------------------
-; ------------------------------startCode1:0x2a88------------------------------
 ; --- shared overlay slot setup routine
 ovlInsaneFlag    EQU _ovlInsaneFlag
 ovlJumpTable     EQU _gfx_allocPage
 INCLUDE shared/overlay_slots.inc
 _setupOverlaySlots equ setupOverlaySlots
-; ------------------------------startCode1:0x2ae0------------------------------
 msg14 db 'clearRect(): buf 0x%x %d %d %d %d',0
 msg15 db 'clearRect(): destination 0x%x',0
-; ------------------------------startCode1:0x2bba------------------------------
 ; --- shared clearRect
 clearRectGetCurBuf EQU _gfx_getCurPageSeg2
 clearRectSetCurBuf EQU _gfx_setPage1
@@ -581,8 +545,6 @@ clearRectDirtyMin     EQU _dirtyRectMin
 clearRectDirtyMax     EQU _dirtyRectMax
 INCLUDE shared/gfx_clearrect.inc
 _clearRect equ clearRect
-; ------------------------------startCode1:0x2c58------------------------------
-; ------------------------------startCode1:0x2c75------------------------------
 ; --- shared graphics routines (clearDirtyRects, drawLineWrapper, clipAndDrawLine, computeOutcode)
 dirtyRectMin     EQU _dirtyRectMin
 dirtyRectMax     EQU _dirtyRectMax
@@ -604,16 +566,11 @@ CALL_GFX_1F MACRO
     call _gfx_drawLine
 ENDM
 INCLUDE shared/gfx.inc
-; ------------------------------startCode1:0x2f8a------------------------------
-; ------------------------------startCode1:0x2f8a------------------------------
-; ------------------------------startCode1:0x2fac------------------------------
 ; --- shared Ctrl+Break handler (installCBreakHandler, restoreCbreakHandler, getInterruptHandler, cbreakHandler)
 cbreakSavedSeg   EQU _origCBreakSeg
 cbreakSavedOfs   EQU _origCBreakOfs
 cbreakFlag       EQU _cbreakHit
 INCLUDE shared/cbreak.inc
-; ------------------------------startCode1:0x2ffa------------------------------
-; ------------------------------startCode1:0x311a------------------------------
 ; --- shared open file routine
 fileNotFoundStr  EQU _aFileNotFound
 fileNoBufsStr    EQU _aNoFileBuffersAvailable
@@ -622,25 +579,19 @@ fileReadPosVar   EQU _fileReadPos
 fileErrorExit    EQU errorDescAndExit
 INCLUDE shared/file_open.inc
 _openFile equ openFile
-; ------------------------------startCode1:0x3170------------------------------
-; ------------------------------startCode1:0x31c8------------------------------
 ; --- shared file close routine
 fileCloseErrorStr EQU _aFileClosingError
 fileCloseErrExit  EQU errorAndExit
 INCLUDE shared/file_close.inc
 _fileClose equ fileClose
-; ------------------------------startCode1:0x31e8------------------------------
 msg12 db 'Reading from file handle %d',0
 msg13 db 'Read success, count %d',0
-; ------------------------------startCode1:0x326c------------------------------
 ; --- shared file read 512
 fileRead512Handle EQU _tmpFileHandle
 fileRead512Buf    EQU _fileReadBuf
 fileRead512ErrStr EQU _aReadError
 fileRead512ErrExit EQU errorAndExit
 INCLUDE shared/file_read512.inc
-; ------------------------------startCode1:0x328c------------------------------
-; ------------------------------startCode1:0x32a5------------------------------
 ; --- shared file write
 fileWriteErrStr  EQU _aWriteError
 fileWriteErrExit EQU errorAndExit
@@ -648,7 +599,6 @@ INCLUDE shared/file_write.inc
 ; --- shared file error handler
 fileErrorCodeStr EQU _errorCodeStr
 INCLUDE shared/file_error.inc
-; ------------------------------startCode1:0x3310------------------------------
 
 msg1 db 'showPicFile(): entering, handle %d pagenum %d',0
 msg2 db 'showPicFile(): after gfx_3b_clearbuf, handle %d pageidx %d',0
@@ -689,21 +639,15 @@ picInitRoutine       EQU nullsub_1
 picReadFileFunc      EQU read512FromFileIntoBuf
 INCLUDE shared/pic_showpicfile.inc
 INCLUDE shared/pic_decodepic.inc
-; ------------------------------startCode1:0x3585------------------------------
 msg9 db 'decodePicRow(): finished making dict',0
 msg10 db 'decodePicRow(): after doPicDecode',0
 msg11 db 'decodePicRow(): exiting',0
-; ------------------------------startCode1:0x3588------------------------------
 INCLUDE shared/pic_lzw.inc
 _showPicFile EQU showPicFile
 _decodePic EQU decodePic
-; ------------------------------startCode1:0x3754------------------------------
-; ------------------------------startCode1:0x37b4------------------------------
 ; --- shared DOS memory allocate routine
 INCLUDE shared/file_alloc.inc
 _dos_alloc equ dos_alloc
-; ------------------------------startCode1:0x37d9------------------------------
-; ------------------------------startCode2:0x2f------------------------------
 ; --- shared joystick routines
 joyRawAxis0      EQU _joyRawAxis0
 joyRawAxis1      EQU _joyRawAxis1
@@ -716,12 +660,7 @@ joyNormAxes      EQU _joyAxes
 INCLUDE shared/joystick.inc
 _pollJoystick equ pollJoystick
 _copyJoystickData equ copyJoystickData
-; ------------------------------startCode2:0xf6------------------------------
-
 
 ;startCode1 ends
-
-
-
 
 end
