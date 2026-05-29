@@ -113,7 +113,9 @@ PUBLIC _promoThresholds
 PUBLIC _quitFlag
 PUBLIC _randSeed
 PUBLIC _randState
+PUBLIC _planeArray
 PUBLIC _samDataTable
+PUBLIC _samWeaponTable
 PUBLIC _spriteAir
 PUBLIC _spriteGround
 PUBLIC _spriteSam
@@ -317,6 +319,7 @@ dat_0042 db 20 dup(0)                                                        ; h
     db 8 dup(0),  064h, 000h, 008h, 000h, 001h, 000h                          ; (unnamed)
     db 'OTH',    000h, 000h, 000h, 000h, 000h, 0F4h, 001h, 005h, 000h, 001h, 000h ; OTH
     db 8 dup(0),  028h, 000h, 003h, 000h, 000h, 000h                          ; (unnamed)
+_planeArray label byte
     db 'MIG-23', 000h, 020h, 'Flogger', 000h, 000h, 000h, 0E4h, 002h, 030h, 002h, 003h, 000h ; MIG-23 Flogger
 _samDataTable db 011h, 000h, 00Ah, 000h, 002h, 000h, 000h, 000h, 04Dh, 049h, 047h, 02Dh, 032h, 035h, 000h, 020h, 046h, 06Fh, 078h, 062h, 061h, 074h, 000h, 000h, 000h, 000h, 03Ah, 002h, 0BCh, 002h, 002h, 000h ; MIG-25 Foxbat
     db 012h, 000h, 000h, 000h, 002h, 000h, 000h, 000h, 04Dh, 049h, 047h, 02Dh, 032h, 039h, 000h, 020h, 046h, 075h, 06Ch, 063h, 072h, 075h, 06Dh, 000h, 000h, 000h, 0BCh, 002h, 090h, 001h, 005h, 000h ; MIG-29 Fulcrum
@@ -337,7 +340,9 @@ _samDataTable db 011h, 000h, 00Ah, 000h, 002h, 000h, 000h, 000h, 04Dh, 049h, 047
     db 011h, 000h, 013h, 000h, 002h, 000h, 000h, 000h, 046h, 02Dh, 035h, 000h, 000h, 000h, 000h, 020h, 054h, 069h, 067h, 065h, 072h, 000h, 000h, 000h, 000h, 000h, 0F4h, 001h, 0FAh, 000h, 003h, 000h ; F-5 Tiger
     db 016h, 000h, 016h, 000h, 002h, 000h, 000h, 000h, 037h, 036h, 037h, 000h, 000h, 000h, 000h, 020h, 042h, 06Fh, 065h, 069h, 06Eh, 067h, 000h, 000h, 000h, 000h, 090h, 001h, 0E8h, 003h, 001h, 000h ; 767 Boeing
     db 0FFh
-    db 0FFh, 012h, 000h, 002h, 000h, 000h, 000h, 'None', 000h, 000h, 000h, 000h, 000h ; None
+    db 0FFh, 012h, 000h, 002h, 000h, 000h, 000h
+_samWeaponTable label byte
+    db 'None', 000h, 000h, 000h, 000h, 000h ; None
     db 000h, 000h, 000h, 000h, 000h, 001h, 000h, 013h, 000h, 'SA-2', 000h, 000h, 000h, 000h, 07Dh, 000h, 0D0h, 007h, 001h, 000h ; SA-2
     db 004h, 000h, 013h, 000h, 'SA-5', 000h, 000h, 000h, 000h, 096h, 000h, 008h, 007h, 001h, 000h ; SA-5
     db 001h, 000h, 013h, 000h, 'SA-8B', 000h, 000h, 000h, 041h, 000h, 0B0h, 004h, 002h, 000h ; SA-8B

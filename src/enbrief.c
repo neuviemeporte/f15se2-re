@@ -463,22 +463,22 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         switch (flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) {
         case EVENT_AIR_KILL:
         case EVENT_AIR_KILL2:
-            if (dat_424e[o * 8] != 0) {
-                mystrcpy(dat_4824, worldStrings[dat_424e[o * 8]]);
+            if (dat_424e[o].unitRef != 0) {
+                mystrcpy(dat_4824, worldStrings[dat_424e[o].unitRef]);
                 mystrcat(dat_4824, str_destroyed4);
-                mystrcat(dat_4824, worldStrings[var_425c[o * 8] & UNIT_ID_MASK]);
+                mystrcat(dat_4824, worldStrings[dat_424e[o].objectIdx & UNIT_ID_MASK]);
                 mystrcat(dat_4824, str_destroyed1);
             } else {
-                mystrcpy(dat_4824, worldStrings[var_425c[o * 8] & UNIT_ID_MASK]);
+                mystrcpy(dat_4824, worldStrings[dat_424e[o].objectIdx & UNIT_ID_MASK]);
                 mystrcat(dat_4824, str_destroyed2);
             }
             break;
         case EVENT_SAM_KILL:
             /* 0x198: aircraft name field in samDataTable (32-byte records) */
-            mystrcpy(dat_4824, (char *)(o * 32 + 0x198));
+            mystrcpy(dat_4824, planeArray[o].name);
             mystrcat(dat_4824, str_shotDown2);
             /* 0x19f: aircraft type field in samDataTable */
-            mystrcat(dat_4824, (char *)(o * 32 + 0x19f));
+            mystrcat(dat_4824, &planeArray[o].name[7]);
             mystrcat(dat_4824, str_shotDown);
             break;
         case EVENT_GROUND_KILL:
@@ -486,29 +486,29 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             mystrcat(dat_4824, str_destroyed3);
             break;
         case EVENT_WAYPOINT:
-            if (dat_424e[o * 8] != 0) {
-                mystrcpy(dat_4824, worldStrings[dat_424e[o * 8]]);
+            if (dat_424e[o].unitRef != 0) {
+                mystrcpy(dat_4824, worldStrings[dat_424e[o].unitRef]);
                 mystrcat(dat_4824, str_rearmed3);
-                mystrcat(dat_4824, worldStrings[var_425c[o * 8] & UNIT_ID_MASK]);
+                mystrcat(dat_4824, worldStrings[dat_424e[o].objectIdx & UNIT_ID_MASK]);
                 mystrcat(dat_4824, str_rearmed1);
             } else {
-                mystrcpy(dat_4824, worldStrings[var_425c[o * 8] & UNIT_ID_MASK]);
+                mystrcpy(dat_4824, worldStrings[dat_424e[o].objectIdx & UNIT_ID_MASK]);
                 mystrcat(dat_4824, str_rearmed2);
             }
             break;
         case EVENT_BOMB_HIT:
             mystrcpy(dat_4824, str_hitBy);
             /* 0x3f8: missile name field in weapon table (18-byte records) */
-            mystrcat(dat_4824, (char *)(o * 18 + 0x3f8));
+            mystrcat(dat_4824, samWeaponTable[o].field_0);
             mystrcat(dat_4824, str_missile);
             break;
         case EVENT_EJECTED:
             if (curRecordIdx == 0) {
                 mystrcpy(dat_4824, str_takeoffPoint);
-                if (dat_424e[dat_4804 * 8] != 0) {
-                    mystrcat(dat_4824, worldStrings[dat_424e[dat_4804 * 8]]);
+                if (dat_424e[dat_4804].unitRef != 0) {
+                    mystrcat(dat_4824, worldStrings[dat_424e[dat_4804].unitRef]);
                 } else {
-                    mystrcat(dat_4824, worldStrings[(unsigned char)var_425c[dat_4804 * 8]]);
+                    mystrcat(dat_4824, worldStrings[(unsigned char)dat_424e[dat_4804].objectIdx]);
                 }
             } else {
                 mystrcpy(dat_4824, str_missionEnd);
@@ -831,7 +831,7 @@ long calcMissionScore(int param) {
             } else if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_SECONDARY_HIT) {
                 secondaryHit = 1;
                 samKilled++;
-            } else if (*(int *)&samDataTable[(f & UNIT_ID_MASK) * 0x20] == -1) {
+            } else if (planeArray[(f & UNIT_ID_MASK) + 1].field_0 == -1) {
                 samMissed++;
             } else {
                 samKilled++;
