@@ -52,7 +52,7 @@ int16* sub_12FDA(uint32 param_0, uint32 param_1) {
                         g = word_3C5A8->_0x06;
                         if ((word_3C5A8->_0x06 & 0x80) != 0 &&
                             sub_13266(c, f, i, k) != 0) {
-                            g = byte_3B4EC[var_660 * 8];
+                            g = byte_3B4E6[var_660]._0x06;
                         }
                         if (q < word_3B7E2) {
                             var_200 = (char far *)(byte_228D0 + buf3d3[g]);
