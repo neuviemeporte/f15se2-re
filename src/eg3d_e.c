@@ -85,18 +85,18 @@ int16* sub_12FDA(uint32 param_0, uint32 param_1) {
 void sub_13224(char *a, int b, char c) {
     *(int *)(a + 0x12) = b;
     *(a + 0x14) = c;
-    memcpy((char *)&byte_3B4E6 + word_38FF8++ * 8, a + 0x0e, 8);
+    memcpy((char *)&byte_3B4E6[word_38FF8++], a + 0x0e, 8);
     *(*(char **)(a + 0x0c) + 6) |= 0x80;
 }
 
 // ==== seg000:0x3266 ====
 int sub_13266(int p1, int p2, int p3, int p4) {
     for (var_660 = word_38FF8 - 1; var_660 >= 0; var_660--) {
-        if (*(&byte_3B4E6 + var_660 * 8) == p1 &&
-            *(&byte_3B4E6 + var_660 * 8 + 1) == p2 &&
-            *(&byte_3B4E6 + var_660 * 8 + 2) == p3 &&
-            *(&byte_3B4E6 + var_660 * 8 + 3) == p4) {
-            return *(int *)(&byte_3B4E6 + var_660 * 8 + 4);
+        if (byte_3B4E6[var_660]._0x00 == p1 &&
+            byte_3B4E6[var_660]._0x01 == p2 &&
+            byte_3B4E6[var_660]._0x02 == p3 &&
+            byte_3B4E6[var_660]._0x03 == p4) {
+            return byte_3B4E6[var_660]._0x04;
         }
     }
     return 0;
