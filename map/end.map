@@ -108,7 +108,7 @@ mapToScreenY: Code1 NEAR 3d19-3d31 R3d19-3d31 complete
 plotMapPoint: Code1 NEAR 3d32-3d88 R3d32-3d88 complete
 drawFlightLine: Code1 NEAR 3d89-3dd1 R3d89-3dd1 complete
 drawClippedLine: Code1 NEAR 3dd2-3dfe R3dd2-3dfe complete
-drawClippedLineEx: Code1 NEAR 3dff-3ea3 R3dff-3ea3 complete
+drawClippedLineEx: Code1 NEAR 3dff-3ea3 R3dff-3ea3 assembly
 drawMapPixel: Code1 NEAR 3ea4-3ebc R3ea4-3ebc complete
 calcMissionScore: Code1 NEAR 3ebd-41d2 R3ebd-409c U409d-409e R409f-41b6 U41b7-41b8 R41b9-41d2 complete
 showEventPopup: Code1 NEAR 41d3-4533 R41d3-4224 U4225-42d1 R42d2-42e1 U42e2-42f9 R42fa-4533 complete
@@ -224,7 +224,7 @@ dat_0042: Data1 VAR 0042
 samDataTable: Data1 VAR 01b0
 nightMission: Data1 VAR 071c
 dat_0f89: Data1 VAR 0f89
-var_25: Data1 VAR 0fe8
+ovlInsaneFlag: Data1 VAR 0fe8
 str_overlayRelError: Data1 VAR 0fe9
 var_26: Data1 VAR 121f
 var_27: Data1 VAR 1232

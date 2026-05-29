@@ -7,11 +7,9 @@ UASMDIR := UASM
 UASM := $(UASMDIR)/GccUnixR/uasm
 MZDIFF := $(MZRE)/debug/mzdiff
 MZHDR := $(MZRE)/debug/mzhdr
-REASMDIR := reasm
-CONFDIR := conf
 TOOLDIR := tools
 CXXFLAGS := -Wfatal-errors
-# UASM: no copyright into, 8086 instuctions, MASM compatibility
+# UASM: no copyright info, 8086 instuctions, MASM compatibility
 UASMFLAGS := -q -0 -Zm
 # DOS C compiler: no stack probes, debug mode
 C_TOOLCHAIN ?= msc510
@@ -22,7 +20,7 @@ ASM_TOOLCHAIN ?= masm510
 ASFLAGS := /t
 # DOS linker
 LINK_TOOLCHAIN ?= msc510
-# ms link: verbose, create mapfile, no default libs
+# ms link: verbose, create mapfile
 LINKFLAGS := /M /I
 DOSDIR := dos
 TOOLCHAIN_DIR := $(DOSDIR)/$(C_TOOLCHAIN)
@@ -31,6 +29,7 @@ VERIFY_FLAGS := --verbose --loose --ctx 20 --asm
 SRCTOP := src
 SRCDIR := $(SRCTOP)
 BUILDDIR := build
+MAPDIR := map
 DEBUGDIR := debug_build
 HDRFILES := dosfunc.h output.h pointers.h offsets.h biosfunc.h comm.h overlay.h f15util.h start.h slot.h const.h struct.h debug.h
 HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
@@ -56,6 +55,8 @@ $(MAIN_EXE): $(MAIN_OBJS)
 # start.exe reconstruction (rc)
 #
 START_EXE := $(BUILDDIR)/start.exe
+START_MAP := $(MAPDIR)/start.map
+START_LINKMAP := $(BUILDDIR)/start.map:link
 START_BASE := stslots.asm
 START_ASM := stcode.asm $(START_BASE)
 COMMON_SRC := shared/util.c
@@ -158,6 +159,8 @@ noasm-start: $(START_NOASM)
 # egame.exe reconstruction (rc)
 #
 EGAME_EXE := $(BUILDDIR)/egame.exe
+EGAME_MAP := $(MAPDIR)/egame.map
+EGAME_LINKMAP := $(BUILDDIR)/egame.map:link
 EGAME_BASE := egame_rc.asm
 EGAME_ASM := $(EGAME_BASE) egfarbu2.asm
 EGAME_SRC := egmain.c eg3d_a.c eg3d_b.c eg3d_c.c eg3d_d.c eg3d_e.c eg3d_f.c eg3d_g.c eghud.c egflight.c egtacmap.c egui.c egwaypt.c egmath.c egweap.c egfileio.c egpic.c egfarbuf.c
@@ -212,6 +215,8 @@ $(EGAME_DEBUG): $(DEBUGDIR) $(EGAME_DBG_OBJ)
 # end.exe reconstruction (rc)
 #
 END_EXE := $(BUILDDIR)/end.exe
+END_MAP := $(MAPDIR)/end.map
+END_LINKMAP := $(BUILDDIR)/end.map:link
 END_BASE := end_rc.asm
 END_ASM := $(END_BASE)
 END_SRC := enmain.c enworld.c eninput.c entext.c enaward.c enbrief.c enfile.c end2.c end_data.c
@@ -342,21 +347,21 @@ $(START_VRF_REF):
 	@exit 1
 
 verify-start: $(MZDIFF) $(START_EXE) $(START_VRF_REF)
-	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map map/start.map --asm
+	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map $(START_MAP) --tmap $(START_LINKMAP) --asm
 
 $(EGAME_VRF_REF):
 	@echo "---> Place egame.exe (unpacked with tools/unp) with md5sum ffc191b1caeafc3b6f435795f8ea868e into bin/"
 	@exit 1
 
 verify-egame: $(MZDIFF) $(EGAME_EXE) $(EGAME_VRF_REF)
-	$(MZDIFF) $(EGAME_VRF_REF):$(EGAME_VRF_REFEP) $(EGAME_EXE):$(EGAME_VRF_TGTEP) $(VERIFY_FLAGS) --map map/egame.map
+	$(MZDIFF) $(EGAME_VRF_REF):$(EGAME_VRF_REFEP) $(EGAME_EXE):$(EGAME_VRF_TGTEP) $(VERIFY_FLAGS) --map $(EGAME_MAP) --tmap $(EGAME_LINKMAP)
 
 $(END_VRF_REF):
 	@echo "---> Place end.exe (unpacked with tools/unlzexe) with md5sum 3b7aac9c52ca3fedefff3a8db54b5799 into bin/"
 	@exit 1
 
 verify-end: $(MZDIFF) $(END_EXE) $(END_VRF_REF)
-	$(MZDIFF) $(END_VRF_REF):$(END_VRF_REFEP) $(END_EXE):$(END_VRF_TGTEP) $(VERIFY_FLAGS) --map map/end.map
+	$(MZDIFF) $(END_VRF_REF):$(END_VRF_REFEP) $(END_EXE):$(END_VRF_TGTEP) $(VERIFY_FLAGS) --map $(END_MAP) --tmap $(END_LINKMAP)
 
 TOOLS := $(TOOLDIR)/ovltool $(TOOLDIR)/vgapal $(TOOLDIR)/wldparse
 f15-tools: $(TOOLDIR) $(TOOLS)
