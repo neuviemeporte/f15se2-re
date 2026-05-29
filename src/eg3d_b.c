@@ -18,8 +18,6 @@
 int projectObjects(int param_0, int param_1, long param_2, long param_4, long param_6)
 {
     int p;
-    int var_200;
-    int var_201;
     int a;
     int b;
     int c;
@@ -33,6 +31,7 @@ int projectObjects(int param_0, int param_1, long param_2, long param_4, long pa
     int k;
     int l;
     int m;
+
 
     *(long *)(&word_3C8B6 + 1) = param_2;
     *(long *)(&word_3C8B6 + 3) = param_4;
@@ -62,11 +61,11 @@ outer_test:
         if (j != 0) {
             continue;
         }
-        if (!(k < 0x7fff)) {
+        if (k >= (int)0x7fff) {
             continue;
         }
         if (*(long *)&k < 2L) {
-            *(long *)&k = 2L;
+            k = 2;
         }
         var_659 = k;
         for (f = 0; ;f++) {
@@ -74,8 +73,8 @@ outer_test:
                 if (f == 15) {
                     break;
                 }
-                p = *((int *)((char *)&word_339F4 + (unsigned)18 * (unsigned)b) + f);
-                a = *((int *)((char *)&word_339F4 + (unsigned)18 * (unsigned)((b + 2) & 7)) + f);
+                p = *(int *)((char *)&word_339F4 + (unsigned)18 * (unsigned)b + (unsigned)f * 2);
+                a = *(int *)((char *)&word_339F4 + (unsigned)18 * (unsigned)((b + 2) & 7) + (unsigned)f * 2);
                 var_657 = c - (p << 12) - 0x800;
                 var_658 = e - (a << 12) - 0x800;
                 var_217 = 7;
@@ -94,8 +93,8 @@ outer_test:
                     p = (&word_33B74)[f];
                     a = (&word_33B86)[f];
                 } else {
-                    p = *((int *)((char *)&word_339F4 + (unsigned)18 * (unsigned)b) + f);
-                    a = *((int *)((char *)&word_339F4 + (unsigned)18 * (unsigned)((b + 2) & 7)) + f);
+                    p = *(int *)((char *)&word_339F4 + (unsigned)18 * (unsigned)b + (unsigned)f * 2);
+                    a = *(int *)((char *)&word_339F4 + (unsigned)18 * (unsigned)((b + 2) & 7) + (unsigned)f * 2);
                 }
                 var_657 = c - (p << 12) - 0x800;
                 var_658 = e - (a << 12) - 0x800;
@@ -109,10 +108,10 @@ do_process:
             if (f < 4 && word_38FDC < 2) {
                 if (word_3C16C == 4) {
                     word_3C5A8 = matrix3dt_2[word_3C16C][l];
-                    var_200 = buf3d3[*((unsigned char *)word_3C5A8 + 6)] + 0;
-                    var_201 = 0x228d;
+                    FP_OFF(var_200) = buf3d3[*((unsigned char *)word_3C5A8 + 6)] + 0;
+                    FP_SEG(var_200) = 0x228d;
                     var_141 = 0x400;
-                    sub_20104(var_200, var_201, 0, 0, 0,
+                    sub_20104(FP_OFF(var_200), FP_SEG(var_200), 0, 0, 0,
                         *(int *)word_3C5A8,
                         *((int *)word_3C5A8 + 1),
                         *((int *)word_3C5A8 + 2));
@@ -126,17 +125,17 @@ do_process:
                 word_3C5A8 = matrix3dt_2[word_3C16C][l];
                 for (d = 0; (unsigned int)d < matrix3dt[word_3C16C + 3][l + 3]; d++) {
                     if (*((unsigned char *)word_3C5A8 + 6) & 0x80) {
-                        var_200 = sub_13266(word_3C16C, d, h + p, i + a) + 0;
-                        var_201 = 0x228d;
-                        if (var_200 == 0 && var_201 == 0x228d) {
-                            var_200 = buf3d3[*((unsigned char *)word_3C5A8 + 6) & 0x7f] + 0;
-                            var_201 = var_201;
+                        FP_OFF(var_200) = sub_13266(word_3C16C, d, h + p, i + a) + 0;
+                        FP_SEG(var_200) = 0x228d;
+                        if (FP_OFF(var_200) == 0 && FP_SEG(var_200) == 0x228d) {
+                            FP_OFF(var_200) = buf3d3[*((unsigned char *)word_3C5A8 + 6) & 0x7f] + 0;
+                            FP_SEG(var_200) = FP_SEG(var_200);
                         }
                     } else {
-                        var_200 = buf3d3[*((unsigned char *)word_3C5A8 + 6)] + 0;
-                        var_201 = 0x228d;
+                        FP_OFF(var_200) = buf3d3[*((unsigned char *)word_3C5A8 + 6)] + 0;
+                        FP_SEG(var_200) = 0x228d;
                     }
-                    sub_20104(var_200, var_201, 0, 0, 0,
+                    sub_20104(FP_OFF(var_200), FP_SEG(var_200), 0, 0, 0,
                         *(int *)word_3C5A8,
                         *((int *)word_3C5A8 + 1),
                         *((int *)word_3C5A8 + 2));
