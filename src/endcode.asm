@@ -318,42 +318,8 @@ EXTRN _main:PROC
 
 PUBLIC _pollJoystick
 
-PUBLIC _initGraphics
-_initGraphics:
-initGraphics proc near
-    push BP
-    mov BP,SP
-    sub SP,10h
-    call _seedRandom
-    sub AX,AX
-    push AX
-    call far ptr gfx_setPageN
-    add SP,2h
-    sub AX,AX
-    push AX
-    call far ptr gfx_allocPage
-    add SP,2h
-    sub AX,AX
-    push AX
-    call far ptr gfx_getCurPage
-    add SP,2h
-    les BX,dword ptr [_commData]
-    push word ptr ES:[BX + 24h]
-    call far ptr gfx_setMonoFlag
-    add SP,2h
-    mov AX,1h
-    push AX
-    call far ptr gfx_setDac
-    add SP,2h
-    mov AX,1h
-    push AX
-    les BX,dword ptr [_commData]
-    push word ptr ES:[BX + 20h]
-    call far ptr gfx_storeBufPtr
-    mov SP,BP
-    pop BP
-    ret
-initGraphics endp
+EXTRN _initGraphics:PROC
+
 
 
 PUBLIC _setupWorldBufPtr

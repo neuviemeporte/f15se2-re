@@ -5,6 +5,19 @@
 #include "shared/util.h"
 #include "end.h"
 
+void initGraphics(void) {
+    int a, b, c, d, e, f, g, h;
+    (void)a; (void)b; (void)c; (void)d;
+    (void)e; (void)f; (void)g; (void)h;
+    seedRandom();
+    gfx_setPageN(0);
+    gfx_allocPage(0);
+    gfx_getCurPage(0);
+    gfx_setMonoFlag(commData->setupMono);
+    gfx_setDac(1);
+    gfx_storeBufPtr(commData->gfxInitResult, 1);
+}
+
 void main(void) {
     int p;
     int a;
