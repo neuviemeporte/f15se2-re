@@ -34,20 +34,21 @@ void drawLineWrapper(void)
 /* Parameters: pageNum, x1, y1, x2, y2 (absolute coordinates) */
 void clearRect(int16 *pageNum, int x1, int y1, int x2, int y2)
 {
+    uint8 color;
+    uint16 pageSeg;
+    uint8 far *page;
+    int row, col;
+
     gfx_setPageN(*pageNum);
-    gfx_setColor(0);
-    /* Fill rectangle with color 0 by writing directly to page */
-    {
-        uint16 pageSeg = (uint16)gfx_getCurPageSeg();
-        uint8 far *page = (uint8 far *)MK_FP(pageSeg, 0);
-        int row, col;
-        if (x2 > 320) x2 = 320;
-        if (y2 > 200) y2 = 200;
-        for (row = y1; row < y2; row++) {
-            uint16 off = (uint16)(row * 320) + (uint16)x1;
-            for (col = x1; col < x2; col++) {
-                page[off++] = 0;
-            }
+    color = (uint8)pageNum[3];
+    pageSeg = (uint16)gfx_getCurPageSeg();
+    page = (uint8 far *)MK_FP(pageSeg, 0);
+    if (x2 > 320) x2 = 320;
+    if (y2 > 200) y2 = 200;
+    for (row = y1; row < y2; row++) {
+        uint16 off = (uint16)(row * 320) + (uint16)x1;
+        for (col = x1; col < x2; col++) {
+            page[off++] = color;
         }
     }
 }

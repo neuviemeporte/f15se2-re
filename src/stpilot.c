@@ -118,7 +118,7 @@ void displayPilots(void)
 }
 
 // 0x1d80
-void printPilot(int pilotIdx) { // pilotIdx: index?
+void printPilot(int pilotIdx) {
     struct Pilot *pilot;
     int x;
     int yPos;
@@ -126,14 +126,12 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
     int totalMedalWidth;
     // 1d90
     pilot = &hallfameBuf[pilotIdx];
-    TRACE(("printPilot(): index %d, name %s", pilotIdx, pilot->name));
     // 1da1
     x = (pilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
     // 1db2
     yPos = ((pilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
     // 1dcc
     clearRect(screenBuf, x, yPos - 1, x + PILOT_ENTRY_WIDTH, yPos + 0x20);
-    TRACE(("printPilot(): cleared rect"));
     // 1de3
     screenDesc.color = (pilotIdx == selectedPilotIdx) ? COLOR_WHITE : COLOR_GRAY;
     // 1df9
