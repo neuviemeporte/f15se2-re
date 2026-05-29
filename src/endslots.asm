@@ -256,15 +256,7 @@ PUBLIC str_openError
 PUBLIC str_fileCloseError
 PUBLIC str_readError
 PUBLIC str_writeError
-PUBLIC str_insertScenario
-PUBLIC str_pressKey1
-PUBLIC str_insertDiskA
-PUBLIC str_pressKey2
-PUBLIC str_dbicons1
-PUBLIC str_dbicons2
-PUBLIC str_missionDebrief
-PUBLIC str_modeRb1
-PUBLIC str_modeRb2
+
 
     db 000h
 _var_8 db 000h
@@ -865,25 +857,44 @@ _medalThresholds dw 0000h
     db 004h, 003h, 003h, 002h, 007h, 005h, 003h, 002h, 008h, 007h, 004h, 002h, 008h, 006h, 005h
     db 003h
 
-str_libya_spr db 'libya.spr', 0
-str_persian_spr db 'persian.spr', 0
-str_vn_spr db 'vn.spr', 0
-str_me_spr db 'me.spr', 0
-str_ncape_spr db 'ncape.spr', 0
-str_ceurope_spr db 'ceurope.spr', 0
-str_jp_spr db 'jp.spr', 0
-str_na_spr db 'na.spr', 0
-str_reviewMission db 'Review Mission', 0
-str_exitDebriefing db 'Exit Debriefing', 0
-str_modeRb1 db 'rb', 0
-str_insertScenario db 'Please insert scenario disk', 0
-str_pressKey1 db '<Press a key when ready>', 0
-str_modeRb2 db 'rb', 0
-str_dbicons1 db 'dbicons.spr', 0
-str_insertDiskA db 'Please insert F15 Disk A', 0
-str_pressKey2 db '<Press a key when ready>', 0
-str_dbicons2 db 'dbicons.spr', 0
-str_missionDebrief db '  MISSION DEBRIEFING', 0, 0
+EXTRN _str_libya_spr:BYTE
+EXTRN _str_persian_spr:BYTE
+EXTRN _str_vn_spr:BYTE
+EXTRN _str_me_spr:BYTE
+EXTRN _str_ncape_spr:BYTE
+EXTRN _str_ceurope_spr:BYTE
+EXTRN _str_jp_spr:BYTE
+EXTRN _str_na_spr:BYTE
+EXTRN _str_reviewMission:BYTE
+EXTRN _str_exitDebriefing:BYTE
+EXTRN _str_modeRb1:BYTE
+EXTRN _str_insertScenario:BYTE
+EXTRN _str_pressKey1:BYTE
+EXTRN _str_modeRb2:BYTE
+EXTRN _str_dbicons1:BYTE
+EXTRN _str_insertDiskA:BYTE
+EXTRN _str_pressKey2:BYTE
+EXTRN _str_dbicons2:BYTE
+EXTRN _str_missionDebrief:BYTE
+str_libya_spr equ _str_libya_spr
+str_persian_spr equ _str_persian_spr
+str_vn_spr equ _str_vn_spr
+str_me_spr equ _str_me_spr
+str_ncape_spr equ _str_ncape_spr
+str_ceurope_spr equ _str_ceurope_spr
+str_jp_spr equ _str_jp_spr
+str_na_spr equ _str_na_spr
+str_reviewMission equ _str_reviewMission
+str_exitDebriefing equ _str_exitDebriefing
+str_modeRb1 equ _str_modeRb1
+str_insertScenario equ _str_insertScenario
+str_pressKey1 equ _str_pressKey1
+str_modeRb2 equ _str_modeRb2
+str_dbicons1 equ _str_dbicons1
+str_insertDiskA equ _str_insertDiskA
+str_pressKey2 equ _str_pressKey2
+str_dbicons2 equ _str_dbicons2
+str_missionDebrief equ _str_missionDebrief
 _pageStruct dw 0000h, 0000h, 0002h, 000Fh, 0000h, 0000h, 0001h, 0000h, 0000h, 0000h, 0000h
 _var_99 dw offset _pageStruct
 _pageStruct2 db 000h, 000h, 000h, 000h, 000h, 000h, 00Fh, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 000h, 000h

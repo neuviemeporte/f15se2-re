@@ -27,7 +27,7 @@ Data1 DATA 0580
 padding: Code1 NEAR 0000-000f R0000-000f external
 main: Code1 NEAR 0010-0112 R0010-0112 complete
 checkQuitFlag: Code1 NEAR 0113-0129 R0113-0129 complete
-initGraphics: Code1 NEAR 012a-0184 R012a-0184 assembly
+initGraphics: Code1 NEAR 012a-0184 R012a-0184 complete
 cleanup: Code1 NEAR 0185-01b7 R0185-01b7 complete
 setargv: Code1 NEAR 01b8-01b8 R01b8-01b8 external
 setenvp: Code1 NEAR 01b9-01b9 R01b9-01b9 external

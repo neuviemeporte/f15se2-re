@@ -151,15 +151,24 @@ EXTRN str_openError:BYTE
 EXTRN str_fileCloseError:BYTE
 EXTRN str_readError:BYTE
 EXTRN str_writeError:BYTE
-EXTRN str_insertScenario:BYTE
-EXTRN str_pressKey1:BYTE
-EXTRN str_insertDiskA:BYTE
-EXTRN str_pressKey2:BYTE
-EXTRN str_dbicons1:BYTE
-EXTRN str_dbicons2:BYTE
-EXTRN str_missionDebrief:BYTE
-EXTRN str_modeRb1:BYTE
-EXTRN str_modeRb2:BYTE
+EXTRN _str_insertScenario:BYTE
+EXTRN _str_pressKey1:BYTE
+EXTRN _str_insertDiskA:BYTE
+EXTRN _str_pressKey2:BYTE
+EXTRN _str_dbicons1:BYTE
+EXTRN _str_dbicons2:BYTE
+EXTRN _str_missionDebrief:BYTE
+EXTRN _str_modeRb1:BYTE
+EXTRN _str_modeRb2:BYTE
+str_insertScenario equ _str_insertScenario
+str_pressKey1 equ _str_pressKey1
+str_insertDiskA equ _str_insertDiskA
+str_pressKey2 equ _str_pressKey2
+str_dbicons1 equ _str_dbicons1
+str_dbicons2 equ _str_dbicons2
+str_missionDebrief equ _str_missionDebrief
+str_modeRb1 equ _str_modeRb1
+str_modeRb2 equ _str_modeRb2
 EXTRN _dat_0042:BYTE
 EXTRN _samDataTable:BYTE
 EXTRN _var_99:WORD

@@ -202,3 +202,28 @@ int spriteBufSeg;
 int vgaBufSeg;
 int vgaBufOffset;
 char vgaBufSeg2;  /* 1 byte in original BSS */
+
+/* Theater sprite filenames */
+char str_libya_spr[] = "libya.spr";
+char str_persian_spr[] = "persian.spr";
+char str_vn_spr[] = "vn.spr";
+char str_me_spr[] = "me.spr";
+char str_ncape_spr[] = "ncape.spr";
+char str_ceurope_spr[] = "ceurope.spr";
+char str_jp_spr[] = "jp.spr";
+char str_na_spr[] = "na.spr";
+
+/* Debrief menu strings */
+char str_reviewMission[] = "Review Mission";
+char str_exitDebriefing[] = "Exit Debriefing";
+
+/* Debrief main loop strings */
+char str_modeRb1[] = "rb";
+char str_insertScenario[] = "Please insert scenario disk";
+char str_pressKey1[] = "<Press a key when ready>";
+char str_modeRb2[] = "rb";
+char str_dbicons1[] = "dbicons.spr";
+char str_insertDiskA[] = "Please insert F15 Disk A";
+char str_pressKey2[] = "<Press a key when ready>";
+char str_dbicons2[] = "dbicons.spr";
+char str_missionDebrief[] = "  MISSION DEBRIEFING\0";
