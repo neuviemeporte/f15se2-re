@@ -178,7 +178,7 @@ int computeThreatScore(void) {
 #define ENT_FLAGS(v) (*(uint16 *)&stru_3B208[(v)].field_10[8])
 void updateObjects(void)
 {
-    int p, q, a, aa, r, b, ab, s, c, ac, t, d, ad, u, e, ae, v, f, af, w, g, x, h, y, i, z, j, k, l, m, n, o;
+    int pp, q, r, s, d, u, f, g, x, i, j, k, ak, al, am, an, p, a, b, c, t, e, v, w, h, y, z, aj, l, m, n, o;
 
     if ((word_336E8 & 1) == 0 && word_336F6 == -1) {
         *(int16 *)((char *)stru_33402 + ((word_336E8 >> 1) & 7) * 8) = 0;
@@ -188,370 +188,370 @@ void updateObjects(void)
 
     word_3A946 = var_668;
     var_668 = 0;
-    v = 0;
+    h = 0;
     goto loop_test;
 
 do_mode3:
-    e = 3;
-    if ((ENT_FLAGS(v) & 0x100) != 0 && word_336FC != -1) {
-        y = sub_1D178((v & 7) * 0x800 + *(int16 *)&stru_3B208[word_336FC].field_10[0] - 0x1800,
+    w = 3;
+    if ((ENT_FLAGS(h) & 0x100) != 0 && word_336FC != -1) {
+        k = sub_1D178((h & 7) * 0x800 + *(int16 *)&stru_3B208[word_336FC].field_10[0] - 0x1800,
                       *(int16 *)&stru_3B208[word_336FC].field_10[10])
             + *(int16 *)((char *)&stru_3B208[word_336FC] - 4);
 
-        j = *(int16 *)((char *)&stru_3B208[word_336FC] - 2) -
-            sub_1D190((v & 7) * 0x800 + *(int16 *)&stru_3B208[word_336FC].field_10[0] - 0x1800,
+        m = *(int16 *)((char *)&stru_3B208[word_336FC] - 2) -
+            sub_1D190((h & 7) * 0x800 + *(int16 *)&stru_3B208[word_336FC].field_10[0] - 0x1800,
                       *(int16 *)&stru_3B208[word_336FC].field_10[10]);
 
-        l = stru_3B208[word_336FC].field_0 + (v & 7) * 0x40;
+        n = stru_3B208[word_336FC].field_0 + (h & 7) * 0x40;
         goto got_target_alt;
     }
 
-    if (((uint8)v * 8 + (uint8)word_38FE0) & 0xbf) goto after_retarget;
-    if (*(uint8 *)&stru_3B208[v].field_10[8] & 0x40) goto after_retarget;
+    if (((uint8)h * 8 + (uint8)word_38FE0) & 0xbf) goto after_retarget;
+    if (*(uint8 *)&stru_3B208[h].field_10[8] & 0x40) goto after_retarget;
 
-    u = 0x7fff;
-    aa = sub_1D008(*(int16 *)((char *)&stru_3B208[v] - 2) - word_3BED0,
-                   word_3BEC0 - *(int16 *)((char *)&stru_3B208[v] - 4));
-    for (af = 0; af < 8; af++) {
+    f = 0x7fff;
+    pp = sub_1D008(*(int16 *)((char *)&stru_3B208[h] - 2) - word_3BED0,
+                   word_3BEC0 - *(int16 *)((char *)&stru_3B208[h] - 4));
+    for (y = 0; y < 8; y++) {
         s = sub_1D200(word_3BED2) + 1;
         if (stru_3AA5E[s].field_6 & 0x400) continue;
-        q = sub_1D008(*(int16 *)((char *)&stru_3B208[v] - 2) - stru_3AA5E[s].field_2,
-                      stru_3AA5E[s].field_0 - *(int16 *)((char *)&stru_3B208[v] - 4));
-        if (abs(aa - q) < u) {
-            u = abs(aa - q);
-            *(int16 *)((char *)&stru_3B208[v] - 6) = s;
-            if ((int)u <= -(word_330B8 * 0x1000 - 0x4000)) break;
+        q = sub_1D008(*(int16 *)((char *)&stru_3B208[h] - 2) - stru_3AA5E[s].field_2,
+                      stru_3AA5E[s].field_0 - *(int16 *)((char *)&stru_3B208[h] - 4));
+        if (abs(pp - q) < f) {
+            f = abs(pp - q);
+            *(int16 *)((char *)&stru_3B208[h] - 6) = s;
+            if ((int)f <= -(word_330B8 * 0x1000 - 0x4000)) break;
         }
     }
-    b = sub_1CFA6(word_3BEC0 - *(int16 *)((char *)&stru_3B208[v] - 4),
-                  word_3BED0 - *(int16 *)((char *)&stru_3B208[v] - 2));
-    if ((unsigned)b >> 6 > 0x15e && v != 0) {
-        ENT_FLAGS(v) &= 0x1c1;
-        *(int16 *)&stru_3B208[v].field_10[12] = 0;
+    b = sub_1CFA6(word_3BEC0 - *(int16 *)((char *)&stru_3B208[h] - 4),
+                  word_3BED0 - *(int16 *)((char *)&stru_3B208[h] - 2));
+    if ((unsigned)b >> 6 > 0x15e && h != 0) {
+        ENT_FLAGS(h) &= 0x1c1;
+        *(int16 *)&stru_3B208[h].field_10[12] = 0;
     }
 
 after_retarget:
-    s = *(int16 *)((char *)&stru_3B208[v] - 6);
-    y = stru_3AA5E[s].field_0;
-    j = stru_3AA5E[s].field_2;
-    l = sub_1CF64(var_547 + 1000, 5000, 20000);
+    s = *(int16 *)((char *)&stru_3B208[h] - 6);
+    k = stru_3AA5E[s].field_0;
+    m = stru_3AA5E[s].field_2;
+    n = sub_1CF64(var_547 + 1000, 5000, 20000);
     goto got_target_alt;
 
 do_returning:
-    s = *(int16 *)((char *)&stru_3B208[v] - 6);
-    y = stru_3AA5E[s].field_0;
-    if (ENT_FLAGS(v) & 0x200) {
-        l = *(int16 *)((char *)&stru_3B208[v] - 4) - y;
-        j = stru_3AA5E[s].field_2;
-        y = y - l * 2;
-        if ((stru_3AA5E[s].field_6 + abs(l)) & 0x200) {
-            l = 0x8c;
+    s = *(int16 *)((char *)&stru_3B208[h] - 6);
+    k = stru_3AA5E[s].field_0;
+    if (ENT_FLAGS(h) & 0x200) {
+        n = *(int16 *)((char *)&stru_3B208[h] - 4) - k;
+        m = stru_3AA5E[s].field_2;
+        k = k - n * 2;
+        if ((stru_3AA5E[s].field_6 + abs(n)) & 0x200) {
+            n = 0x8c;
         } else {
-            l = 0x0c;
+            n = 0x0c;
         }
     } else {
-        j = stru_3AA5E[s].field_2 + word_3AFA8 * 0x500;
-        l = sub_1CFA6(*(int16 *)((char *)&stru_3B208[v] - 4) - y,
-                      *(int16 *)((char *)&stru_3B208[v] - 2) - j) + 2000;
+        m = stru_3AA5E[s].field_2 + word_3AFA8 * 0x500;
+        n = sub_1CFA6(*(int16 *)((char *)&stru_3B208[h] - 4) - k,
+                      *(int16 *)((char *)&stru_3B208[h] - 2) - m) + 2000;
     }
-    e = 2;
+    w = 2;
 
 got_target:
-    if (e == 3 && (*(uint8 *)&stru_3B208[v].field_10[8] & 8)) {
-        y = word_3BEC0;
-        j = word_3BED0;
-        l = stru_3B208[v].field_0;
+    if (w == 3 && (*(uint8 *)&stru_3B208[h].field_10[8] & 8)) {
+        k = word_3BEC0;
+        m = word_3BED0;
+        n = stru_3B208[h].field_0;
     }
-    h = y - *(int16 *)((char *)&stru_3B208[v] - 4);
-    z = j - *(int16 *)((char *)&stru_3B208[v] - 2);
-    b = sub_1D008(h, -z);
-    ad = sub_1CFA6(h, z);
-    q = sub_1D008((l - stru_3B208[v].field_0) >> 5, ad);
+    x = k - *(int16 *)((char *)&stru_3B208[h] - 4);
+    z = m - *(int16 *)((char *)&stru_3B208[h] - 2);
+    b = sub_1D008(x, -z);
+    e = sub_1CFA6(x, z);
+    q = sub_1D008((n - stru_3B208[h].field_0) >> 5, e);
     p = sub_1CF64(q, -0x2000, 0x1000);
-    if (e != 1 || (unsigned)ad >= 0x600) goto not_close;
+    if (w != 1 || (unsigned)e >= 0x600) goto not_close;
 
     var_668++;
-    if ((unsigned)ad >= 0x400) goto after_missile_table;
+    if ((unsigned)e >= 0x400) goto after_missile_table;
     if (word_336E8 & 3) goto after_missile_table;
-    if (abs(*(int16 *)&stru_3B208[v].field_10[0] - b) >= 0x800) goto after_missile_table;
-    if (abs(*(int16 *)&stru_3B208[v].field_10[2] - p) >= 0x800) goto after_missile_table;
+    if (abs(*(int16 *)&stru_3B208[h].field_10[0] - b) >= 0x800) goto after_missile_table;
+    if (abs(*(int16 *)&stru_3B208[h].field_10[2] - p) >= 0x800) goto after_missile_table;
 
     g = ((word_336E8 >> 2) & 3) + word_3AFA4;
-    w = 0x138 / word_330C4;
-    *(int16 *)((char *)&word_3C5B6 + g * 12) = sub_1D178(-*(int16 *)&stru_3B208[v].field_10[2], w) << 5;
-    w = sub_1D190(*(int16 *)&stru_3B208[v].field_10[2], w);
-    *(int16 *)((char *)&word_3C5B2 + g * 12) = sub_1D178(*(int16 *)&stru_3B208[v].field_10[0], w);
-    *(int16 *)((char *)&word_3C5B4 + g * 12) = -sub_1D190(*(int16 *)&stru_3B208[v].field_10[0], w);
-    *(int16 *)((char *)&word_3C5AC + g * 12) = *(int16 *)((char *)&stru_3B208[v] - 4);
-    *(int16 *)((char *)&word_3C5AE + g * 12) = *(int16 *)((char *)&stru_3B208[v] - 2);
-    *(int16 *)((char *)&word_3C5B0 + g * 12) = stru_3B208[v].field_0;
+    v = 0x138 / word_330C4;
+    *(int16 *)((char *)&word_3C5B6 + g * 12) = sub_1D178(-*(int16 *)&stru_3B208[h].field_10[2], v) << 5;
+    v = sub_1D190(*(int16 *)&stru_3B208[h].field_10[2], v);
+    *(int16 *)((char *)&word_3C5B2 + g * 12) = sub_1D178(*(int16 *)&stru_3B208[h].field_10[0], v);
+    *(int16 *)((char *)&word_3C5B4 + g * 12) = -sub_1D190(*(int16 *)&stru_3B208[h].field_10[0], v);
+    *(int16 *)((char *)&word_3C5AC + g * 12) = *(int16 *)((char *)&stru_3B208[h] - 4);
+    *(int16 *)((char *)&word_3C5AE + g * 12) = *(int16 *)((char *)&stru_3B208[h] - 2);
+    *(int16 *)((char *)&word_3C5B0 + g * 12) = stru_3B208[h].field_0;
 
 after_missile_table:
-    a = sub_1CF64((v & 3) + word_330B8, 0, 2);
-    if (v == 0) a = 1;
-    ac = *(int16 *)&stru_3B208[v].field_10[0];
-    if (abs(*(int16 *)&stru_3B208[v].field_10[4]) < 0x4000) {
-        ac += *(int16 *)&stru_3B208[v].field_10[4] >> 2;
+    a = sub_1CF64((h & 3) + word_330B8, 0, 2);
+    if (h == 0) a = 1;
+    d = *(int16 *)&stru_3B208[h].field_10[0];
+    if (abs(*(int16 *)&stru_3B208[h].field_10[4]) < 0x4000) {
+        d += *(int16 *)&stru_3B208[h].field_10[4] >> 2;
     }
-    r = (int)(b - ac) >> 13 & 7;
-    ac = var_542;
+    r = (int)(b - d) >> 13 & 7;
+    d = var_542;
     if (abs(var_545) < 0x4000) {
-        ac = var_542 + (var_545 >> 1);
+        d = var_542 + (var_545 >> 1);
     }
-    c = ((*(int16 *)&stru_3B208[v].field_10[0] - ac) >> 13) + 4 & 7;
-    m = *(int16 *)((char *)&word_33442 + 2 + a * 128 + r * 16 + c * 2);
-    i = (m & 0xf) << 12;
-    if (m == 0x100) {
+    c = ((*(int16 *)&stru_3B208[h].field_10[0] - d) >> 13) + 4 & 7;
+    ak = *(int16 *)((char *)&word_33442 + 2 + a * 128 + r * 16 + c * 2);
+    l = (ak & 0xf) << 12;
+    if (ak == 0x100) {
         p = 0x6000;
-        i = ((word_336E8 >> 8) & 8) * 0x1000 - 0x4000;
+        l = ((word_336E8 >> 8) & 8) * 0x1000 - 0x4000;
     }
     if (*(int16 *)((char *)&word_33442 + 2 + a * 128 + r * 16 + c * 2) == 0x200) {
         p = (int16)0xa000;
-        i = (((word_336E8 >> 8) & 8) - 4) * -0x1000;
+        l = (((word_336E8 >> 8) & 8) - 4) * -0x1000;
     }
     if (p == (int16)0xa000) {
-        if (-(*(int16 *)&stru_3B208[v].field_10[2] / 8 - 3000) > stru_3B208[v].field_0) {
-            p = *(int16 *)&stru_3B208[v].field_10[2] + 0x1000;
+        if (-(*(int16 *)&stru_3B208[h].field_10[2] / 8 - 3000) > stru_3B208[h].field_0) {
+            p = *(int16 *)&stru_3B208[h].field_10[2] + 0x1000;
         }
     }
-    if (abs(*(int16 *)&stru_3B208[v].field_10[4]) > 0x4000) {
-        i = 0;
+    if (abs(*(int16 *)&stru_3B208[h].field_10[4]) > 0x4000) {
+        l = 0;
         p = 0;
     }
     goto after_accel;
 
 not_close:
-    i = sub_1CF64(b - *(int16 *)&stru_3B208[v].field_10[0], -0x3000, 0x3000) << 1;
-    if (e == 1 && word_330B8 + 1 <= word_3A946) {
-        i = 0x3000;
+    l = sub_1CF64(b - *(int16 *)&stru_3B208[h].field_10[0], -0x3000, 0x3000) << 1;
+    if (w == 1 && word_330B8 + 1 <= word_3A946) {
+        l = 0x3000;
     }
 
 after_accel:
-    if (e == 1 && (stru_3AA5E[word_3C16A].field_6 & 0x400) && word_38FEE < 0x780) {
-        i = 0x3000;
+    if (w == 1 && (stru_3AA5E[word_3C16A].field_6 & 0x400) && word_38FEE < 0x780) {
+        l = 0x3000;
     }
 
     s = *(int16 *)(aFlogger + var_667 * 32 + 14);
-    i = sub_1CF64(i, -s * 0x1000, s * 0x1000);
-    i = sub_1CF64(i - *(int16 *)&stru_3B208[v].field_10[4],
+    l = sub_1CF64(l, -s * 0x1000, s * 0x1000);
+    l = sub_1CF64(l - *(int16 *)&stru_3B208[h].field_10[4],
                   -s * 256, s * 256);
 
-    if (ENT_FLAGS(v) & 0x400) {
-        if (*(int16 *)&stru_3B208[v].field_10[10] < 0x96) {
-            *(int16 *)&stru_3B208[v].field_10[2] = 0;
+    if (ENT_FLAGS(h) & 0x400) {
+        if (*(int16 *)&stru_3B208[h].field_10[10] < 0x96) {
+            *(int16 *)&stru_3B208[h].field_10[2] = 0;
         } else {
-            stru_3B208[v].field_10[3] += 1;
+            stru_3B208[h].field_10[3] += 1;
         }
-        i = 0;
-        if (*(int16 *)&stru_3B208[v].field_10[10] < *(int16 *)(aFlogger + var_667 * 32 + 10)) {
-            *(int16 *)&stru_3B208[v].field_10[10] += 0x3c / word_330C4;
-        } else if (stru_3B208[v].field_0 > 300) {
-            stru_3B208[v].field_10[9] &= 0xfb;
+        l = 0;
+        if (*(int16 *)&stru_3B208[h].field_10[10] < *(int16 *)(aFlogger + var_667 * 32 + 10)) {
+            *(int16 *)&stru_3B208[h].field_10[10] += 0x3c / word_330C4;
+        } else if (stru_3B208[h].field_0 > 300) {
+            stru_3B208[h].field_10[9] &= 0xfb;
         }
     }
 
-    if (*(uint8 *)&stru_3B208[v].field_10[8] & 0x30) {
-        i = 0x400;
+    if (*(uint8 *)&stru_3B208[h].field_10[8] & 0x30) {
+        l = 0x400;
     }
 
-    if (((uint8)v & 3) == (word_336E8 & 3)) {
-        sub_18DF4(*(int16 *)((char *)&stru_3B208[v] - 4),
-                  *(int16 *)((char *)&stru_3B208[v] - 2),
-                  stru_3B208[v].field_0);
+    if (((uint8)h & 3) == (word_336E8 & 3)) {
+        sub_18DF4(*(int16 *)((char *)&stru_3B208[h] - 4),
+                  *(int16 *)((char *)&stru_3B208[h] - 2),
+                  stru_3B208[h].field_0);
         if (var_315 != 0) {
-            stru_3B208[v].field_10[9] |= 0x20;
+            stru_3B208[h].field_10[9] |= 0x20;
         } else {
-            stru_3B208[v].field_10[9] &= 0xdf;
+            stru_3B208[h].field_10[9] &= 0xdf;
         }
     }
 
-    if (ENT_FLAGS(v) & 0x2000) {
+    if (ENT_FLAGS(h) & 0x2000) {
         p = 0x3000;
     }
 
     if (word_38FE0 < 10) {
-        i >>= 2;
+        l >>= 2;
     }
 
-    *(int16 *)&stru_3B208[v].field_10[4] += (i * (word_330B8 + 2)) / word_330C4;
-    *(int16 *)&stru_3B208[v].field_10[0] += (*(int16 *)&stru_3B208[v].field_10[4] >> 3) / word_330C4;
+    *(int16 *)&stru_3B208[h].field_10[4] += (l * (word_330B8 + 2)) / word_330C4;
+    *(int16 *)&stru_3B208[h].field_10[0] += (*(int16 *)&stru_3B208[h].field_10[4] >> 3) / word_330C4;
 
-    x = p - *(int16 *)&stru_3B208[v].field_10[2];
-    if (*(uint8 *)&stru_3B208[v].field_10[8] & 0x20) {
-        x = -0x200;
+    j = p - *(int16 *)&stru_3B208[h].field_10[2];
+    if (*(uint8 *)&stru_3B208[h].field_10[8] & 0x20) {
+        j = -0x200;
         if ((word_336E8 & 3) == 0) {
             b = (word_336E8 >> 1) & 7;
-            *(int16 *)((char *)stru_33402 + b * 8) = *(int16 *)((char *)&stru_3B208[v] - 4);
-            *(int16 *)((char *)stru_33402 + b * 8 + 2) = *(int16 *)((char *)&stru_3B208[v] - 2);
-            *(int16 *)((char *)stru_33402 + b * 8 + 4) = stru_3B208[v].field_0;
+            *(int16 *)((char *)stru_33402 + b * 8) = *(int16 *)((char *)&stru_3B208[h] - 4);
+            *(int16 *)((char *)stru_33402 + b * 8 + 2) = *(int16 *)((char *)&stru_3B208[h] - 2);
+            *(int16 *)((char *)stru_33402 + b * 8 + 4) = stru_3B208[h].field_0;
             *(int16 *)((char *)stru_33402 + b * 8 + 6) = sub_1D200(0x20) << 11;
             word_33442 = b;
         }
     }
 
-    if (*(int16 *)&stru_3B208[v].field_10[2] < 0 &&
-        -(sub_1D178(*(int16 *)&stru_3B208[v].field_10[2], 2000) - 200) > stru_3B208[v].field_0 &&
-        (ENT_FLAGS(v) & 0x220) == 0) {
-        x = 0x400;
+    if (*(int16 *)&stru_3B208[h].field_10[2] < 0 &&
+        -(sub_1D178(*(int16 *)&stru_3B208[h].field_10[2], 2000) - 200) > stru_3B208[h].field_0 &&
+        (ENT_FLAGS(h) & 0x220) == 0) {
+        j = 0x400;
     }
 
-    x = sub_1CF64(x, -0x400, 0x400);
-    *(int16 *)&stru_3B208[v].field_10[2] += (x << 2) / word_330C4;
-    if (abs(*(int16 *)&stru_3B208[v].field_10[2]) > 0x4000) {
-        *(int8 *)((char *)&stru_3B208[v].field_10[0] + 1) += (char)0x80;
-        *(int8 *)((char *)&stru_3B208[v].field_10[4] + 1) += (char)0x80;
-        *(int16 *)&stru_3B208[v].field_10[2] = (int16)0x8000 - *(int16 *)&stru_3B208[v].field_10[2];
+    j = sub_1CF64(j, -0x400, 0x400);
+    *(int16 *)&stru_3B208[h].field_10[2] += (j << 2) / word_330C4;
+    if (abs(*(int16 *)&stru_3B208[h].field_10[2]) > 0x4000) {
+        *(int8 *)((char *)&stru_3B208[h].field_10[0] + 1) += (char)0x80;
+        *(int8 *)((char *)&stru_3B208[h].field_10[4] + 1) += (char)0x80;
+        *(int16 *)&stru_3B208[h].field_10[2] = (int16)0x8000 - *(int16 *)&stru_3B208[h].field_10[2];
     }
 
-    *(uint8 *)&stru_3B208[v].field_10[8] &= 0xef;
+    *(uint8 *)&stru_3B208[h].field_10[8] &= 0xef;
 
-    ae = (unsigned int)(-(*(int16 *)&stru_3B208[v].field_10[2] / 2 + (int16)0x8000));
-    /* ae = 0x8000 - pitch/2 (unsigned) */
-    /* multiply ae * fuel, shift right 14 */
-    ae = (int)((unsigned long)(unsigned)ae * (long)*(int16 *)&stru_3B208[v].field_10[10] >> 14);
+    u = (unsigned int)(-(*(int16 *)&stru_3B208[h].field_10[2] / 2 + (int16)0x8000));
+    /* u = 0x8000 - pitch/2 (unsigned) */
+    /* multiply u * fuel, shift right 14 */
+    u = (int)((unsigned long)(unsigned)u * (long)*(int16 *)&stru_3B208[h].field_10[10] >> 14);
 
-    k = sub_1D178(*(int16 *)&stru_3B208[v].field_10[4], ae);
-    k = abs(k);
-    ae = (int)((unsigned int)(ae - (unsigned)k / 2) * 4) / word_330C4;
-    ae >>= 2;
+    i = sub_1D178(*(int16 *)&stru_3B208[h].field_10[4], u);
+    i = abs(i);
+    u = (int)((unsigned int)(u - (unsigned)i / 2) * 4) / word_330C4;
+    u >>= 2;
 
-    k = sub_1D190(*(int16 *)&stru_3B208[v].field_10[2], ae);
+    i = sub_1D190(*(int16 *)&stru_3B208[h].field_10[2], u);
 
-    q = sub_1D178(*(int16 *)&stru_3B208[v].field_10[0], k);
-    stru_3B208[v].field_2 += (long)q;
+    q = sub_1D178(*(int16 *)&stru_3B208[h].field_10[0], i);
+    stru_3B208[h].field_2 += (long)q;
 
-    q = sub_1D190(*(int16 *)&stru_3B208[v].field_10[0], k);
-    stru_3B208[v].field_6 -= (long)q;
+    q = sub_1D190(*(int16 *)&stru_3B208[h].field_10[0], i);
+    stru_3B208[h].field_6 -= (long)q;
 
-    stru_3B208[v].field_0 += sub_1D178(*(int16 *)&stru_3B208[v].field_10[2], ae);
+    stru_3B208[h].field_0 += sub_1D178(*(int16 *)&stru_3B208[h].field_10[2], u);
 
-    *(int16 *)((char *)&stru_3B208[v] - 4) = (int16)(stru_3B208[v].field_2 >> 5);
-    *(int16 *)((char *)&stru_3B208[v] - 2) = (int16)(stru_3B208[v].field_6 >> 5);
+    *(int16 *)((char *)&stru_3B208[h] - 4) = (int16)(stru_3B208[h].field_2 >> 5);
+    *(int16 *)((char *)&stru_3B208[h] - 2) = (int16)(stru_3B208[h].field_6 >> 5);
 
-    if (stru_3B208[v].field_0 > 30000) {
-        *(int16 *)&stru_3B208[v].field_10[2] = 0;
+    if (stru_3B208[h].field_0 > 30000) {
+        *(int16 *)&stru_3B208[h].field_10[2] = 0;
     }
 
-    if (stru_3B208[v].field_0 < 0) {
-        ENT_FLAGS(v) &= (v == 0) ? 0 : 0x1c1;
-        word_3BEBC = *(int16 *)((char *)&stru_3B208[v] - 4);
-        word_3BEC8 = *(int16 *)((char *)&stru_3B208[v] - 2);
-        word_3BECE = stru_3B208[v].field_0;
+    if (stru_3B208[h].field_0 < 0) {
+        ENT_FLAGS(h) &= (h == 0) ? 0 : 0x1c1;
+        word_3BEBC = *(int16 *)((char *)&stru_3B208[h] - 4);
+        word_3BEC8 = *(int16 *)((char *)&stru_3B208[h] - 2);
+        word_3BECE = stru_3B208[h].field_0;
         word_39606 = -8;
-        if (v == word_336F2) {
+        if (h == word_336F2) {
             word_336F2 = -1;
         }
     }
 
-    if ((unsigned)ad < 0x10 && e == 2) {
-        if (ENT_FLAGS(v) & 0x200) {
-            stru_3B208[v].field_10[9] |= 0x10;
+    if ((unsigned)e < 0x10 && w == 2) {
+        if (ENT_FLAGS(h) & 0x200) {
+            stru_3B208[h].field_10[9] |= 0x10;
         } else {
-            stru_3B208[v].field_10[9] |= 0x02;
+            stru_3B208[h].field_10[9] |= 0x02;
         }
     }
 
-    if (ENT_FLAGS(v) & 0x1000) {
-        *(int16 *)&stru_3B208[v].field_10[2] = 0;
-        *(int16 *)&stru_3B208[v].field_10[4] = 0;
+    if (ENT_FLAGS(h) & 0x1000) {
+        *(int16 *)&stru_3B208[h].field_10[2] = 0;
+        *(int16 *)&stru_3B208[h].field_10[4] = 0;
         if (word_3AFA8 != 1) {
-            *(int16 *)&stru_3B208[v].field_10[0] = (int16)0x8000;
+            *(int16 *)&stru_3B208[h].field_10[0] = (int16)0x8000;
         } else {
-            *(int16 *)&stru_3B208[v].field_10[0] = 0;
+            *(int16 *)&stru_3B208[h].field_10[0] = 0;
         }
         if (stru_3AA5E[word_3C16A].field_6 & 0x200) {
-            stru_3B208[v].field_0 = 0x8c;
+            stru_3B208[h].field_0 = 0x8c;
         } else {
-            stru_3B208[v].field_0 = 0x0c;
+            stru_3B208[h].field_0 = 0x0c;
         }
-        if (*(int16 *)&stru_3B208[v].field_10[10] > 0) {
-            *(int16 *)&stru_3B208[v].field_10[10] -= 0x78 / word_330C4;
+        if (*(int16 *)&stru_3B208[h].field_10[10] > 0) {
+            *(int16 *)&stru_3B208[h].field_10[10] -= 0x78 / word_330C4;
         } else {
-            ENT_FLAGS(v) &= 0x1c1;
-            if (v == 0 && word_3B144 >= 5) {
-                ENT_FLAGS(v) = 0;
+            ENT_FLAGS(h) &= 0x1c1;
+            if (h == 0 && word_3B144 >= 5) {
+                ENT_FLAGS(h) = 0;
             }
         }
-        if (v >= word_3C046 - 4 && *(int16 *)&stru_3B208[v].field_10[10] < 100) {
-            ENT_FLAGS(v) &= 0x1c1;
-            ENT_FLAGS(v) |= 0x406;
+        if (h >= word_3C046 - 4 && *(int16 *)&stru_3B208[h].field_10[10] < 100) {
+            ENT_FLAGS(h) &= 0x1c1;
+            ENT_FLAGS(h) |= 0x406;
         }
     }
 
-    if (--*(int16 *)&stru_3B208[v].field_10[12] == 0) {
-        *(uint8 *)&stru_3B208[v].field_10[8] |= 4;
-        u = 0x7fff;
-        for (af = 3; af < word_3C69E; af++) {
-            if ((stru_3AA5E[af].field_6 & 0x101) == 1) {
-                m = sub_1CFA6(*(int16 *)((char *)&stru_3B208[v] - 4) - stru_3AA5E[af].field_0,
-                              *(int16 *)((char *)&stru_3B208[v] - 2) - stru_3AA5E[af].field_2);
-                if (m < u) {
-                    *(int16 *)((char *)&stru_3B208[v] - 6) = af;
-                    u = m;
+    if (--*(int16 *)&stru_3B208[h].field_10[12] == 0) {
+        *(uint8 *)&stru_3B208[h].field_10[8] |= 4;
+        f = 0x7fff;
+        for (y = 3; y < word_3C69E; y++) {
+            if ((stru_3AA5E[y].field_6 & 0x101) == 1) {
+                ak = sub_1CFA6(*(int16 *)((char *)&stru_3B208[h] - 4) - stru_3AA5E[y].field_0,
+                              *(int16 *)((char *)&stru_3B208[h] - 2) - stru_3AA5E[y].field_2);
+                if (ak < f) {
+                    *(int16 *)((char *)&stru_3B208[h] - 6) = y;
+                    f = ak;
                 }
             }
         }
     }
 
-    *(int16 *)&stru_3B208[v].field_10[16] = sub_19A4D(
-        *(int16 *)((char *)&stru_3B208[v] - 4),
-        *(int16 *)((char *)&stru_3B208[v] - 2));
+    *(int16 *)&stru_3B208[h].field_10[16] = sub_19A4D(
+        *(int16 *)((char *)&stru_3B208[h] - 4),
+        *(int16 *)((char *)&stru_3B208[h] - 2));
 
-    o = *(uint8 *)&stru_3B208[v].field_10[8];
+    o = *(uint8 *)&stru_3B208[h].field_10[8];
     if ((o & 2) &&
-        (((((uint8)v & 8) >> 3) + ((uint8)v & 7) * 2) * word_330C4 -
+        (((((uint8)h & 8) >> 3) + ((uint8)h & 7) * 2) * word_330C4 -
          word_336E8 % (word_330C4 << 4)) == 0 &&
         !(o & 0x20)) {
-        sub_17594(v);
+        sub_17594(h);
     }
     goto loop_end;
 
 do_patrol_check:
-    if (((uint8)v & 7) != (((uint8)(word_38FE0 >> 4)) & 7)) goto loop_end;
-    if (v >= word_3C046 - 4) goto loop_end;
-    if (v == 0) goto loop_end;
+    if (((uint8)h & 7) != (((uint8)(word_38FE0 >> 4)) & 7)) goto loop_end;
+    if (h >= word_3C046 - 4) goto loop_end;
+    if (h == 0) goto loop_end;
     if (0xe0 / (long)(word_330B8 + 2) >= word_38FE0 - var_556) goto loop_end;
 
     s = sub_1D200(word_3C69E);
-    if (word_336F0 == 0 && !(*(uint8 *)&stru_3B208[v].field_10[8] & 0x80)) goto loop_end;
+    if (word_336F0 == 0 && !(*(uint8 *)&stru_3B208[h].field_10[8] & 0x80)) goto loop_end;
 
     if ((stru_3AA5E[s].field_6 & 0x181) != 1) goto loop_end;
-    if (*(int16 *)&stru_3B208[v].field_10[6] != stru_3AA5E[s].field_8) goto loop_end;
+    if (*(int16 *)&stru_3B208[h].field_10[6] != stru_3AA5E[s].field_8) goto loop_end;
     if (word_330B8 * 2 < word_3A946) goto loop_end;
 
-    h = word_3B4D8 - stru_3AA5E[s].field_0;
+    x = word_3B4D8 - stru_3AA5E[s].field_0;
     z = word_3B4E0 - stru_3AA5E[s].field_2;
-    ad = sub_1CFA6(h, z) >> 6;
-    ab = *(int16 *)(aFlogger + var_667 * 32 + 12);
-    if ((unsigned)((ab + 1) >> 1) > (unsigned)ad) goto loop_end;
+    e = sub_1CFA6(x, z) >> 6;
+    t = *(int16 *)(aFlogger + var_667 * 32 + 12);
+    if ((unsigned)((t + 1) >> 1) > (unsigned)e) goto loop_end;
 
     var_556 = word_38FE0;
-    sub_1783A(v, s);
-    sub_11BC3(v + 0x20, 2);
+    sub_1783A(h, s);
+    sub_11BC3(h + 0x20, 2);
 
 loop_end:
-    v++;
+    h++;
 loop_test:
-    if (v >= word_3C046) return;
+    if (h >= word_3C046) return;
 
-    if (!(*(uint8 *)&stru_3B208[v].field_10[8] & 1)) goto loop_end;
-    var_667 = *(int16 *)&stru_3B208[v].field_10[6];
-    if (!(*(uint8 *)&stru_3B208[v].field_10[8] & 2)) goto do_patrol_check;
-    if (*(int16 *)&stru_3B208[v].field_10[10] == 0) goto do_patrol_check;
+    if (!(*(uint8 *)&stru_3B208[h].field_10[8] & 1)) goto loop_end;
+    var_667 = *(int16 *)&stru_3B208[h].field_10[6];
+    if (!(*(uint8 *)&stru_3B208[h].field_10[8] & 2)) goto do_patrol_check;
+    if (*(int16 *)&stru_3B208[h].field_10[10] == 0) goto do_patrol_check;
 
-    e = 0;
-    if (*(uint8 *)&stru_3B208[v].field_10[8] & 4) goto do_returning;
+    w = 0;
+    if (*(uint8 *)&stru_3B208[h].field_10[8] & 4) goto do_returning;
     if (word_336F0 == 0) goto do_mode3;
-    if ((ENT_FLAGS(v) & 0x140) != 0 && word_336F0 <= word_3995C) goto do_mode3;
+    if ((ENT_FLAGS(h) & 0x140) != 0 && word_336F0 <= word_3995C) goto do_mode3;
 
-    y = word_3B4D8;
-    j = word_3B4E0;
-    l = word_3B5D6;
-    e = 1;
+    k = word_3B4D8;
+    m = word_3B4E0;
+    n = word_3B5D6;
+    w = 1;
     if (word_333DA == 0) goto got_target;
-    y = word_333D2;
-    j = word_333D4;
-    l = sub_1CF64(var_547, 1000, 30000);
+    k = word_333D2;
+    m = word_333D4;
+    n = sub_1CF64(var_547, 1000, 30000);
 
 got_target_alt:
     goto got_target;
