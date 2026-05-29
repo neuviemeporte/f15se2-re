@@ -1,4 +1,4 @@
-- try splitting start_rc.asm after ds:2818 (would need multiple output files support in lst2asm), original has libc here, try using explicit linking order with slibce in the middle to obtain identical data segment layout
+- try splitting stslots.asm after ds:2818 (would need multiple output files support in lst2asm), original has libc here, try using explicit linking order with slibce in the middle to obtain identical data segment layout
 - backtrace dump analysis tool?
 - implement tool to parse linker map, take image of memory and print all var values?
 - go over end.exe verify output and check bright red locations

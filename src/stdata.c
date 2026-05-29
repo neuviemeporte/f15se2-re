@@ -1,5 +1,5 @@
-/* start_data.c — Data definitions migrated from start_rc.asm (.DATA segment)
- * See docs/start_rc_data_migration.md
+/* start_data.c — Data definitions migrated from stslots.asm (.DATA segment)
+ * See docs/stdata.md
  */
 #include "inttype.h"
 #include "struct.h"
@@ -235,9 +235,9 @@ uint8 timerCounter2 = 0;
 uint8 timerCounter3 = 0;
 uint8 timerCounter4 = 0;
 uint8 far *moveDst = 0;
-/* page1Ptr must stay in start_rc.asm - sandwiched between grid buffers */
+/* page1Ptr must stay in stslots.asm - sandwiched between grid buffers */
 
-/* Sprite blit params struct - was word_17284..byte_1729C in start_rc.asm */
+/* Sprite blit params struct - was word_17284..byte_1729C in stslots.asm */
 struct SpriteParams spriteParams = {
     0, 0, 0, 0, 0, 0, 0, 0,  /* bufPtr..height */
     {0, 0},                   /* pad10 */
@@ -438,7 +438,7 @@ uint8 picByteUnsignedFlag = 0;
 int16 picSlotCounter = 0;
 int16 picCurrentRow = 0;
 
-/* Mission state (moved from start_rc.asm) */
+/* Mission state (moved from stslots.asm) */
 int16 flag4Saved = 0;
 int16 theaterSaved = 0;
 
@@ -566,7 +566,7 @@ struct Plane planes[19] = {
     {{"767"}, {"Boeing"}, 0x0190, 0x03E8, {1, 0, -1, -1, 0x12, 0, 2, 0, 0, 0}},
 };
 
-/* === Mission generation coordinate tables (from start_rc.asm) === */
+/* === Mission generation coordinate tables (from stslots.asm) === */
 
 /* Unit type remapping table - maps unit type to alternative types */
 struct struc_10 stru_1892E[] = {
@@ -692,7 +692,7 @@ int16 *off_19314[8] = {
 };
 int16 word_19324[9] = {3, 2, 2, 3, 4, 1, 8, 3, 0};
 
-/* === BSS variables migrated from start_rc.asm .DATA? segment === */
+/* === BSS variables migrated from stslots.asm .DATA? segment === */
 
 struct Pilot hallfameBuf[8];
 struct GameComm far *commData;
