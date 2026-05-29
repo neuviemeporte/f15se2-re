@@ -217,8 +217,8 @@ $(EGAME_DEBUG): $(DEBUGDIR) $(EGAME_DBG_OBJ)
 END_EXE := $(BUILDDIR)/end.exe
 END_MAP := $(MAPDIR)/end.map
 END_LINKMAP := $(BUILDDIR)/end.map:link
-END_BASE := end_rc.asm
-END_ASM := $(END_BASE)
+END_BASE := endslots.asm
+END_ASM := endcode.asm $(END_BASE)
 END_SRC := enmain.c enworld.c eninput.c entext.c enaward.c enbrief.c enfile.c end2.c end_data.c
 END_BASEHDR = $(SRCDIR)/end.h
 END_COBJ := $(call cobj,$(BUILDDIR),$(END_SRC))
