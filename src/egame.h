@@ -76,7 +76,7 @@ void updateFrame(void);
 // ==== seg000:0x14e8 ====
 void dispatchKeyScancode();
 // ==== seg000:0x14fc ====
-int countermeasures();
+int countermeasures(int kind);
 // ==== seg000:0x1636 ====
 void tickMessageTimers();
 // ==== seg000:0x1676 ====

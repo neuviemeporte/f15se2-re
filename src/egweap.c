@@ -15,8 +15,7 @@
 #include <string.h>
 
 // ==== seg000:0xd260 ====
-int keyDispatch(scanCode)
-int16 scanCode;
+int keyDispatch(int16 scanCode)
 {
     char p[14]; /* local buffer at BP-0e, used by itoa for memory display */
     int a;
@@ -76,7 +75,7 @@ int16 scanCode;
     case 0x2000:
         word_38FDC--;
         if (word_38FDC < 0) {
-            if (gfx_jump_3f_modecode() == 3)
+            if (gfx_getModecode() == 3)
                 word_38FDC = 3;
             else
                 word_38FDC = 2;
@@ -84,7 +83,7 @@ int16 scanCode;
         strcpy(strBuf, (char *)aDetailLevel);
         strcat(strBuf, itoa(word_38FDC, unk_3C030, 10));
         tempStrcpy(strBuf);
-        sub_1DB2B();
+        setupLodDistances();
         break;
     case 0x2500:
         var_596++;
@@ -108,7 +107,7 @@ int16 scanCode;
         if (word_3370A == 1) {
             word_3370A = 2;
             word_330C4 = word_330C4 / 2;
-            sub_1DAAE();
+            recalcTimeScale();
         } else {
             sub_1DB9C();
         }
@@ -239,13 +238,13 @@ int16 scanCode;
             break;
         makeSound(2, 2);
         makeSound(0x22, 2);
-        b = sub_1D200(500) + 500;
+        b = randomRange(500) + 500;
         a = abs(var_544);
         a >>= 5;
         c = abs(var_545);
         c >>= 5;
         if ((int)(c + a + word_3AA5A) > (int)b) {
-            sub_11B37(6);
+            finalizeMission(6);
         } else {
             *(int far *)((char far *)commData + 0x26) = 2;
         }
@@ -259,7 +258,7 @@ int16 scanCode;
     if (planeFlags & 0x1000) {
         switch (scanCode) {
         case 0x1300:
-            sub_119A3();
+            initWeaponLoadout();
             break;
         case 0x1f00:
             b = 0;
@@ -316,20 +315,20 @@ end_dispatch:
     if (var_597 > 0)
         var_597--;
 
-    a = sub_1D21E(1);
+    a = readAxisInput(1);
     if (a != 0 && var_597 == 0) {
-        sub_18AA6();
+        fireMissile();
         var_597 = 4;
     }
 
     if (*(char *)&planeFlags & 1) {
         a = 4;
-    } else if (word_3AA5A < 250 || (*(char *)&word_336E8 & 1)) {
+    } else if (word_3AA5A < 250 || (*(char *)&frameTick & 1)) {
         a = 2;
     } else {
         a = 10;
     }
-    sub_19EB6(3, a);
+    switchIndicatorColor(3, a);
 
     if (*(char *)&planeFlags & 8) {
         a = 14;
@@ -338,7 +337,7 @@ end_dispatch:
     } else {
         a = 2;
     }
-    sub_19EB6(2, a);
+    switchIndicatorColor(2, a);
 
     return 0;
 }

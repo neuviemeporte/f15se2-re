@@ -24849,7 +24849,6 @@ _byte_38F8D equ byte_38F8D
 _word_38FC4 dw ?
 _word_38FC6 label byte
 word_38FC6 dw ?
-_word_38FC6 equ word_38FC6
 word_38FC8 dw ?
 _word_38FC8 equ word_38FC8
     db ? ;align 4
@@ -27108,7 +27107,6 @@ _word_3BE98 dw ?
     db ?
 _word_3BE9C label byte
 word_3BE9C dw ?
-_word_3BE9C equ word_3BE9C
     db ?
     db ?
     db ?
