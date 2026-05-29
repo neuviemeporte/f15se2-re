@@ -417,9 +417,9 @@ aWriteError: Data1 VAR 130c
 
 str_allocError: Data1 VAR 146e
 str_deallocError: Data1 VAR 1498
-word_17FFE: Data1 VAR 14ae
-word_18010: Data1 VAR 14c0
-word_18026: Data1 VAR 14d6
+dirDeltaX: Data1 VAR 14ae
+dirDeltaY: Data1 VAR 14c0
+gridLevelSize: Data1 VAR 14d6
 # LZW pic decoder state (picReadDataAndMakeDict / dictionaryLookup)
 dat_1518: Data1 VAR 1518
 dat_1519: Data1 VAR 1519

@@ -28,7 +28,7 @@ void processPilotInput() {
     // 1f84
     case KEYCODE_ENTER:
         TRACE(("processPilotInput(): enter"));
-        if ((hallfameBuf[selectedPilotIdx].field_1D & 0x60) == 0) {
+        if ((hallfameBuf[selectedPilotIdx].medals & 0x60) == 0) {
             // 1f98
             restoreTimerIrqHandler();
             pilotSelectFlag = 0;
@@ -46,7 +46,7 @@ void processPilotInput() {
             = hallfameBuf[selectedPilotIdx].difficulty
             = hallfameBuf[selectedPilotIdx].total_score
             = hallfameBuf[selectedPilotIdx].last_score
-            = hallfameBuf[selectedPilotIdx].field_1D
+            = hallfameBuf[selectedPilotIdx].medals
             = hallfameBuf[selectedPilotIdx].rank
             = 0;
         // 1fef
@@ -135,7 +135,7 @@ void gameDataToPilot(struct Pilot *pilot) {
     pilot->difficulty = gameData->difficulty;
     pilot->rank = (gameData->rankHigh * 64) + gameData->rank;
     // 2202
-    pilot->field_1D = (uint8)((gameData->campaignProgress == 2) ? 0x20 : 0) + (uint8)((gameData->campaignProgress == 1) ? 0x40 : 0) + gameData->medals;
+    pilot->medals = (uint8)((gameData->campaignProgress == 2) ? 0x20 : 0) + (uint8)((gameData->campaignProgress == 1) ? 0x40 : 0) + gameData->medals;
 }
 
 // 0x2232

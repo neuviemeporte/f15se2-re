@@ -123,7 +123,7 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
     int x;
     int yPos;
     int medalIdx;
-    int medalWidth;
+    int totalMedalWidth;
     // 1d90
     pilot = &hallfameBuf[pilotIdx];
     TRACE(("printPilot(): index %d, name %s", pilotIdx, pilot->name));
@@ -163,24 +163,24 @@ void printPilot(int pilotIdx) { // pilotIdx: index?
     TRACE(("printPilot(): drawn string2"));
     screenDesc.font = 1;
     // 1e9b
-    for (medalIdx = 0, medalWidth = 0; medalIdx < 7; medalIdx++) { // 1ea8
+    for (medalIdx = 0, totalMedalWidth = 0; medalIdx < 7; medalIdx++) { // 1ea8
         // 1eb8
-        if ((pilot->field_1D & (1 << medalIdx)) == 0) continue;
-        medalWidth += (uint8)byte_17422[medalIdx] + 4;
+        if ((pilot->medals & (1 << medalIdx)) == 0) continue;
+        totalMedalWidth += (uint8)medalWidth[medalIdx] + 4;
     } // 1ed2
-    TRACE(("printPilot(): past loop 1, medalWidth = %d", medalWidth));
+    TRACE(("printPilot(): past loop 1, totalMedalWidth = %d", totalMedalWidth));
     // 1edd
-    x += (0x90 - medalWidth) / 2;
+    x += (0x90 - totalMedalWidth) / 2;
     yPos += 0x11;
     medalIdx = 0;
     // 1ee9
     // display medals
     do {
-        if ((pilot->field_1D & (1 << medalIdx)) == 0) continue;
+        if ((pilot->medals & (1 << medalIdx)) == 0) continue;
         // 1f21
-        showSprite(screenBuf[0], x, yPos, byte_17412[medalIdx], byte_1741A[medalIdx], byte_17422[medalIdx], 0x10);
+        showSprite(screenBuf[0], x, yPos, medalSpriteX[medalIdx], medalSpriteY[medalIdx], medalWidth[medalIdx], 0x10);
         // 1f27
-        x += byte_17422[medalIdx] + 4;
+        x += medalWidth[medalIdx] + 4;
     } while(++medalIdx < 7);
     TRACE(("printPilot(): returning"));
     // 1f42

@@ -10,8 +10,8 @@
 
 using namespace std;
 
-static_assert(sizeof(Buf4Item) == BUF4ITEMSIZE, "Invalid buf4 item size");
-static_assert(sizeof(Buf6Item) == BUF6ITEMSIZE, "Invalid buf6 item size");
+static_assert(sizeof(WorldObject) == BUF4ITEMSIZE, "Invalid WorldObject size");
+static_assert(sizeof(FlightUnit) == BUF6ITEMSIZE, "Invalid FlightUnit size");
 
 template <typename T> string hexStr(const T &value) {
     ostringstream str;
@@ -70,7 +70,7 @@ void parseWorld(ifstream &ifs) {
     for (uint16 i = 0; i < buf4count; ++i) {
         cout << "--- buf4 item " << i << ":" << endl;
         ifs.read(buf4data, BUF4ITEMSIZE);
-        Buf4Item item;
+        WorldObject item;
         memcpy(&item, buf4data, sizeof(item));
         cout << "field_0 = " << hexStr(item.field_0) << endl
              << "field_2 = " << hexStr(item.field_2) << endl

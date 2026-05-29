@@ -183,7 +183,7 @@ void animateArm(int a, int b)
     while (timerCounter3 < 6) {}
     timerCounter3 = 0;
     armPosition = b;
-    j = word_171B2[b];
+    j = armSpriteIndex[b];
     // ac2
     if (a == -1) {
         // ae5
@@ -197,7 +197,7 @@ void animateArm(int a, int b)
             gfx_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
         }
         // b2c
-        showSprite(*page1NumPtr, word_1716A[j], word_1717A[j], word_1714A[j], word_1715A[j], word_1718A[j], word_1719A[j]);
+        showSprite(*page1NumPtr, armBlitX[j], armBlitY[j], armSrcX[j], armSrcY[j], armBlitW[j], armBlitH[j]);
     }
     // b55
     if (commData->gfxModeNum == GFX_MODE_MDA || commData->gfxModeNum == GFX_MODE_EGA) { // mda or cga?
@@ -220,19 +220,19 @@ void animateArm(int a, int b)
                 gfx_switchColor(page1NumPtr, 113, (21 * a) + 0x22, 297, (21 * a) + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
             } // c18
         }
-        spriteBlitX = word_1716A[j];
-        spriteBlitY = word_1717A[j];
-        spriteBlitW = word_1718A[j];
-        spriteBlitH = word_1719A[j];
+        spriteBlitX = armBlitX[j];
+        spriteBlitY = armBlitY[j];
+        spriteBlitW = armBlitW[j];
+        spriteBlitH = armBlitH[j];
     }
     else { // c3c
         gfx_setPageN(0);
         // c4b
         gfx_blitToCurrent(page1Ptr);
-        spriteBlitX = word_1716A[j];
-        spriteBlitY = word_1717A[j];
-        spriteBlitW = word_1718A[j];
-        spriteBlitH = word_1719A[j];
+        spriteBlitX = armBlitX[j];
+        spriteBlitY = armBlitY[j];
+        spriteBlitW = armBlitW[j];
+        spriteBlitH = armBlitH[j];
         // c95
         gfx_copyRect(*page2NumPtr, spriteBlitX, spriteBlitY, *page1NumPtr, spriteBlitX, spriteBlitY, spriteBlitW, spriteBlitH);
         // c9d
