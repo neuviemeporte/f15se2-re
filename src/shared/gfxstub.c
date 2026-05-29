@@ -43,11 +43,11 @@ void clearRect(int16 *pageNum, int x1, int y1, int x2, int y2)
     color = (uint8)pageNum[3];
     pageSeg = (uint16)gfx_getCurPageSeg();
     page = (uint8 far *)MK_FP(pageSeg, 0);
-    if (x2 > 320) x2 = 320;
-    if (y2 > 200) y2 = 200;
-    for (row = y1; row < y2; row++) {
+    if (x2 > 319) x2 = 319;
+    if (y2 > 199) y2 = 199;
+    for (row = y1; row <= y2; row++) {
         uint16 off = (uint16)(row * 320) + (uint16)x1;
-        for (col = x1; col < x2; col++) {
+        for (col = x1; col <= x2; col++) {
             page[off++] = color;
         }
     }

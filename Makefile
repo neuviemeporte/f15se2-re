@@ -133,7 +133,7 @@ $(NOASMDIR)/util2.obj: $(SRCDIR)/shared/util2.c $(HDRS) | $(NOASMDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /I.. /Id:\f15-se2 /DNO_ASM"
 $(START_NOASM): | $(NOASMDIR)
 $(START_NOASM): $(NOASM_OBJ)
-	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(NOASM_OBJ) -o $@ -f "$(LINKFLAGS) /STACK:16384" -l "slibce.lib"
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(NOASM_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 	@if [ -n "$(F15_TESTDIR)" ]; then \
 	    echo "Copying $@ to $(F15_TESTDIR)"; \
 	    cp $@ "$(F15_TESTDIR)"; \

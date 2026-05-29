@@ -15,21 +15,12 @@
 /* dos_alloc is provided by lowlvl.asm (start.exe) or dosfunc.c (f15.exe) */
 extern uint16 dos_alloc(uint16 size);
 
+#include "fontdata.h"
 
-
-/* Far memory helpers — small model doesn't have _fmemcpy/_fmemset */
-static void far_memset(uint16 seg, uint16 off, uint8 val, uint16 count)
-{
-    uint8 far *p = (uint8 far *)MK_FP(seg, off);
-    while (count--) *p++ = val;
-}
-
-static void far_memcpy_to(uint16 dseg, uint16 doff, uint16 sseg, uint16 soff, uint16 count)
-{
-    uint8 far *d = (uint8 far *)MK_FP(dseg, doff);
-    uint8 far *s = (uint8 far *)MK_FP(sseg, soff);
-    while (count--) *d++ = *s++;
-}
+/* movedata(src_seg, src_off, dst_seg, dst_off, count) from <memory.h>/<string.h>
+ * is the closest thing to memcpy() for far memory in MSC 5.1.
+ * It uses rep movsw internally. We use it directly everywhere.
+ */
 
 /* ---- Internal state (replaces cs: and ds: overlay variables) ---- */
 
@@ -109,7 +100,7 @@ int FAR CDECL gfx_waitRetrace(void)
 int FAR CDECL gfx_flipPage(void)
 {
     gfx_waitRetrace();
-    far_memcpy_to(0xA000, 0, g_curPageSeg, 0, 64000u);
+    movedata(g_curPageSeg, 0, 0xA000, 0, 64000u);
     return 0;
 }
 
@@ -123,7 +114,12 @@ int FAR CDECL gfx_storeBufPtr(uint16 seg, int pageIdx)
 /* ---- Slot 0x3b: gfx_clearPage ---- */
 int FAR CDECL gfx_clearPage(void)
 {
-    far_memset(g_curPageSeg, 0, 0, 64000u);
+    uint8 far *p = (uint8 far *)MK_FP(g_curPageSeg, 0);
+    uint16 i;
+    /* Clear 64000 bytes (32000 words) */
+    for (i = 0; i < 32000u; i++) {
+        ((uint16 far *)p)[i] = 0;
+    }
     return 0;
 }
 
@@ -198,8 +194,6 @@ int FAR CDECL gfx_fillDirty(void)
 }
 
 /* ---- Font data ---- */
-static uint8 far *g_fontPtr = 0; /* Pointer to 8x8 BIOS font */
-static uint8 g_fontHeight = 8;
 
 /* Font width tables extracted from MGRAPHIC.EXE */
 static uint8 g_font1_widths[96] = {
@@ -223,15 +217,15 @@ static uint8 *g_fontWidthTables[8] = {
     NULL, g_font1_widths, NULL, g_font3_widths,
     g_font4_widths, g_font5_widths, NULL, NULL
 };
-static uint8 g_fontHeightsArr[8] = {5, 8, 4, 6, 7, 6, 4, 0};
+static uint8 g_fontHeightsArr[8] = {5, 8, 7, 6, 7, 6, 4, 0};
 static uint8 g_fontMaxWidths[8] = {8, 8, 6, 6, 8, 6, 0, 0};
 
-static void ensureFont(void)
-{
-    if (g_fontPtr) return;
-    /* Use well-known BIOS 8x8 font at F000:FA6E (IBM PC/AT compatible) */
-    g_fontPtr = (uint8 far *)MK_FP(0xF000, 0xFA6E);
-}
+/* Bitmap pointers per font index — NULL means no bitmap available */
+static uint8 *g_fontBitmapPtrs[8] = {
+    NULL, (uint8 *)g_font1_bitmaps, NULL, (uint8 *)g_font3_bitmaps,
+    (uint8 *)g_font4_bitmaps, (uint8 *)g_font5_bitmaps, NULL, NULL
+};
+static uint8 g_fontBitmapRowSize[8] = {0, 8, 0, 6, 7, 6, 0, 0};
 
 /* ---- Slot 0x05: gfx_drawString ---- */
 int FAR CDECL gfx_drawString(int16 *pageNum, const char *string)
@@ -240,41 +234,43 @@ int FAR CDECL gfx_drawString(int16 *pageNum, const char *string)
     uint8 far *page;
     int i;
     uint8 ch;
-    uint8 far *glyph;
     int row, col;
     uint16 fontIdx;
+    uint8 height;
+    uint8 *bitmaps;
+    uint8 *wt;
 
     if (!string) return 0;
-    ensureFont();
-    if (!g_fontPtr) return 0;
 
     x = (uint16)pageNum[4];
     y = (uint16)pageNum[5];
     color = (uint16)pageNum[2];
     fontIdx = (uint16)pageNum[6] & 7;
+    height = g_fontHeightsArr[fontIdx];
+    bitmaps = g_fontBitmapPtrs[fontIdx];
+    wt = g_fontWidthTables[fontIdx];
 
     page = (uint8 far *)MK_FP(g_curPageSeg, 0);
 
     for (i = 0; string[i] != '\0'; i++) {
         ch = (uint8)string[i];
         if (x + 8 > 320) break;
-        if (y + g_fontHeight > 200) break;
+        if (y + height > 200) break;
 
-        glyph = g_fontPtr + (uint16)ch * 8;
-        for (row = 0; row < g_fontHeight; row++) {
-            uint8 bits = glyph[row];
-            uint16 rowOff = g_rowOffsets[y + row] + x;
-            for (col = 0; col < 8; col++) {
-                if (bits & 0x80) {
-                    page[rowOff + col] = (uint8)color;
+        if (bitmaps && ch >= 0x20 && ch <= 0x7F) {
+            uint8 *glyph = bitmaps + (ch - 0x20) * (uint16)g_fontBitmapRowSize[fontIdx];
+            for (row = 0; row < height; row++) {
+                uint8 bits = glyph[row];
+                uint16 rowOff = g_rowOffsets[y + row] + x;
+                for (col = 0; col < 8; col++) {
+                    if (bits & 0x80) {
+                        page[rowOff + col] = (uint8)color;
+                    }
+                    bits <<= 1;
                 }
-                bits <<= 1;
             }
         }
-        {
-            uint8 *wt = g_fontWidthTables[fontIdx];
-            x += wt ? (ch >= 0x20 && ch <= 0x7F ? wt[ch-0x20] : 8) : 8;
-        }
+        x += wt ? (ch >= 0x20 && ch <= 0x7F ? wt[ch-0x20] : 8) : 8;
     }
 
     /* Update x position in page struct */
@@ -292,7 +288,7 @@ int FAR CDECL gfx_copyRect(int srcPage, int srcX, int srcY,
     for (row = 0; row < height; row++) {
         uint16 sOff = g_rowOffsets[srcY + row] + (uint16)srcX;
         uint16 dOff = g_rowOffsets[dstY + row] + (uint16)dstX;
-        far_memcpy_to(g_pageSegs[dstPage], dOff, g_pageSegs[srcPage], sOff, (uint16)width);
+        movedata(g_pageSegs[srcPage], sOff, g_pageSegs[dstPage], dOff, (uint16)width);
     }
     return 0;
 }
@@ -386,23 +382,40 @@ int FAR CDECL gfx_getCurPageSeg2(void) { return (int)g_curPageSeg; }
 int FAR CDECL gfx_getCurPage(void) { return (int)g_curPageSeg; }
 int FAR CDECL gfx_blitSprite(struct SpriteParams *p)
 {
-    uint8 far *src;
-    uint8 far *dst;
+    uint16 srcSeg, dstSeg;
     int row, col;
     uint16 srcOff, dstOff;
-    uint8 pixel;
+    uint8 rowBuf[320];
+    int w;
 
     if (!p) return 0;
-    src = (uint8 far *)MK_FP(p->bufPtr, 0);
-    dst = (uint8 far *)MK_FP(g_pageSegs[p->page], 0);
+    srcSeg = p->bufPtr;
+    dstSeg = g_pageSegs[p->page];
+    w = p->width;
 
-    for (row = 0; row < p->height; row++) {
-        srcOff = g_rowOffsets[p->srcY + row] + (uint16)p->srcX;
-        dstOff = g_rowOffsets[p->dstY + row] + (uint16)p->dstX;
-        for (col = 0; col < p->width; col++) {
-            pixel = src[srcOff + col];
-            if (pixel != 0 || !(p->flags & 0x10)) {
-                dst[dstOff + col] = pixel;
+    if (!(p->flags & 0x10)) {
+        /* Opaque blit — use movedata per row */
+        for (row = 0; row < p->height; row++) {
+            srcOff = g_rowOffsets[p->srcY + row] + (uint16)p->srcX;
+            dstOff = g_rowOffsets[p->dstY + row] + (uint16)p->dstX;
+            movedata(srcSeg, srcOff, dstSeg, dstOff, (uint16)w);
+        }
+    } else {
+        /* Transparent blit — read row to near buffer, write non-zero pixels */
+        struct SREGS sr;
+        uint16 dsSeg;
+        segread(&sr);
+        dsSeg = sr.ds;
+        for (row = 0; row < p->height; row++) {
+            uint8 far *dst;
+            srcOff = g_rowOffsets[p->srcY + row] + (uint16)p->srcX;
+            dstOff = g_rowOffsets[p->dstY + row] + (uint16)p->dstX;
+            movedata(srcSeg, srcOff, dsSeg, (uint16)(void near *)rowBuf, (uint16)w);
+            dst = (uint8 far *)MK_FP(dstSeg, dstOff);
+            for (col = 0; col < w; col++) {
+                if (rowBuf[col] != 0) {
+                    dst[col] = rowBuf[col];
+                }
             }
         }
     }
@@ -446,7 +459,7 @@ int FAR CDECL gfx_setDacAnimCount(uint16 count) { g_dacCounter = (uint8)count; r
 int FAR CDECL gfx_commitPage(void)
 {
     /* commitPage: copy back buffer to VGA */
-    far_memcpy_to(0xA000, 0, g_curPageSeg, 0, 64000u);
+    movedata(g_curPageSeg, 0, 0xA000, 0, 64000u);
     return 0;
 }
 int FAR CDECL gfx_nop51(void) { return 0; }
@@ -459,6 +472,6 @@ int FAR CDECL gfx_blitSpriteOpaque2(void) { return 0; }
 /* ---- Slot 0x30: gfx_blitToCurrent ---- */
 int FAR CDECL gfx_blitToCurrent(int16 pagePtr)
 {
-    far_memcpy_to(g_curPageSeg, 0, (uint16)pagePtr, 0, 64000u);
+    movedata((uint16)pagePtr, 0, g_curPageSeg, 0, 64000u);
     return 0;
 }
