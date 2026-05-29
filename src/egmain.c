@@ -277,7 +277,7 @@ void sub_10720(void) {
         word_3AFA8 = p;
         sub_119A3();
         word_3BECC = 2;
-        gfx_jump_46_retrace2();
+        gfx_flipPage();
         word_38FF6 = routine_191();
     }
 
@@ -549,7 +549,7 @@ skip_autopilot:
     if (byte_3995A != 0 && (keyValue & 0x80) == 0) {
         if (gameData->unk4 != 0 && var_548 != 0) {
             makeSound(0, 2);
-            gfx_jump_45_retrace();
+            gfx_waitRetrace();
             sub_12278(0x78);
             sub_11B37(2);
         } else {
