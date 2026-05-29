@@ -9,10 +9,6 @@
 #include "start.h"
 
 #include <dos.h>
-#ifdef NO_ASM
-extern void picdbg(const char *msg);
-#include <stdio.h>
-#endif
 
 int main(void)
 {
@@ -67,27 +63,6 @@ int main(void)
         openShowPic(aLabs_pic, 0);
 #ifdef DEBUG
         dumpbuf("LABSPIX.BIN", (const char far *)MK_FP(0xA000, 0), 64000UL);
-#endif
-#ifdef NO_ASM
-        /* DEBUG: dump VGA to PICDUMP.BIN for verification against LABSPIX.BIN */
-        {
-            union REGS cr;
-            struct SREGS cs;
-            int dh;
-            uint16 off;
-            cr.h.ah = 0x3C;
-            cr.x.cx = 0;
-            segread(&cs);
-            cr.x.dx = (uint16)"PICDUMP.BIN";
-            intdosx(&cr, &cr, &cs);
-            if (!cr.x.cflag) {
-                dh = cr.x.ax;
-                for (off = 0; off < 64000U; off += 320) {
-                    writeFileAtRaw(dh, (void far *)MK_FP(0xA000, off), 320);
-                }
-                fileClose(dh);
-            }
-        }
 #endif
         gfx_commitPage();
         /* 0xfd */

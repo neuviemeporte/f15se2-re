@@ -28,7 +28,7 @@ struct FlightUnit {
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct FlightUnit)==36);
-#define BUF6ITEMSIZE 0x24
+#define FLIGHTUNIT_SIZE 0x24
 
 /* WorldObject: 16-byte world target/object entry from .wld files.
  * Each entry describes a placeable object in the game world.
@@ -47,7 +47,7 @@ struct WorldObject {
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct WorldObject)==16);
-#define BUF4ITEMSIZE 0x10
+#define WORLDOBJECT_SIZE 0x10
 
 #define BUF7SIZE 0x64
 #define BUF10SIZE 0x100
@@ -85,7 +85,7 @@ struct MissionTableEntry {
 #pragma pack()
 STATIC_ASSERT(sizeof(struct MissionTableEntry)==12);
 
-#define STRUC9SIZE 0xc
+#define MISSIONTABLEENTRY_SIZE 0xc
 
 #pragma pack(1)
 struct UnitTypeRemap {
@@ -95,7 +95,7 @@ struct UnitTypeRemap {
 #pragma pack()
 STATIC_ASSERT(sizeof(struct UnitTypeRemap)==4);
 
-#define STRUC10SIZE 0x4
+#define UNITTYPEREMAP_SIZE 0x4
 #define PILOTNAMELEN 22
 
 #pragma pack(1)
