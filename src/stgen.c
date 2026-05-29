@@ -533,9 +533,9 @@ void parseWorld(const char *filename) {
     fread(&readItemSize, 2, 1, fileHandle);
     fread(&groundUnitCount, 2, 1, fileHandle);
     fread(&worldObjectCount, 2, 1, fileHandle);
-    fread(worldObjects, BUF4ITEMSIZE, readItemSize, fileHandle);
+    fread(worldObjects, WORLDOBJECT_SIZE, readItemSize, fileHandle);
     fread(&flightUnitCount, 2, 1, fileHandle);
-    fread(flightUnits, BUF6ITEMSIZE, flightUnitCount, fileHandle);
+    fread(flightUnits, FLIGHTUNIT_SIZE, flightUnitCount, fileHandle);
     fread(wldReadBuf7, BUF7SIZE, 1, fileHandle);
     fread(wldReadBuf8, BUF7SIZE, 1, fileHandle);
     fread(objectTypeTable, BUF7SIZE, 1, fileHandle);

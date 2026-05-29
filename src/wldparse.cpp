@@ -10,8 +10,8 @@
 
 using namespace std;
 
-static_assert(sizeof(WorldObject) == BUF4ITEMSIZE, "Invalid WorldObject size");
-static_assert(sizeof(FlightUnit) == BUF6ITEMSIZE, "Invalid FlightUnit size");
+static_assert(sizeof(WorldObject) == WORLDOBJECT_SIZE, "Invalid WorldObject size");
+static_assert(sizeof(FlightUnit) == FLIGHTUNIT_SIZE, "Invalid FlightUnit size");
 
 template <typename T> string hexStr(const T &value) {
     ostringstream str;
@@ -66,10 +66,10 @@ void parseWorld(ifstream &ifs) {
     uint16 buf3;
     ifs.read(reinterpret_cast<char*>(&buf3), sizeof(buf3));
     cout << "--- buf3 = " << hexStr(buf3) << endl;
-    char buf4data[BUF4ITEMSIZE];
+    char buf4data[WORLDOBJECT_SIZE];
     for (uint16 i = 0; i < buf4count; ++i) {
         cout << "--- buf4 item " << i << ":" << endl;
-        ifs.read(buf4data, BUF4ITEMSIZE);
+        ifs.read(buf4data, WORLDOBJECT_SIZE);
         WorldObject item;
         memcpy(&item, buf4data, sizeof(item));
         cout << "field_0 = " << hexStr(item.field_0) << endl
@@ -82,11 +82,11 @@ void parseWorld(ifstream &ifs) {
     uint16 buf6count;
     ifs.read(reinterpret_cast<char*>(&buf6count), sizeof(buf6count));
     cout << "--- buf6count = " << hexStr(buf6count) << endl;    
-    char buf6data[BUF6ITEMSIZE];
+    char buf6data[FLIGHTUNIT_SIZE];
     for (uint16 i = 0; i < buf6count; ++i) {
         cout << "--- buf6 item " << i << ":" << endl;
-        ifs.read(buf6data, BUF6ITEMSIZE);
-        Buf6Item item;
+        ifs.read(buf6data, FLIGHTUNIT_SIZE);
+        FlightUnit item;
         memcpy(&item, buf6data, sizeof(item));
         cout << "field_0 = " << hexStr(item.field_0) << endl
              << "field_2 = " << hexStr(item.field_2) << endl

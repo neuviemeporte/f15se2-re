@@ -68,11 +68,11 @@ void testGame() {
 
 void testStruct() {
     printf("Testing various structs: ");
-    ASSERT_EQ(sizeof(struct WorldObject), BUF4ITEMSIZE);
-    ASSERT_EQ(sizeof(struct Buf6Item), BUF6ITEMSIZE);
+    ASSERT_EQ(sizeof(struct WorldObject), WORLDOBJECT_SIZE);
+    ASSERT_EQ(sizeof(struct FlightUnit), FLIGHTUNIT_SIZE);
     ASSERT_EQ(sizeof(struct Target), TARGETSIZE);
-    ASSERT_EQ(sizeof(struct MissionTableEntry), STRUC9SIZE);
-    ASSERT_EQ(sizeof(struct UnitTypeRemap), STRUC10SIZE);
+    ASSERT_EQ(sizeof(struct MissionTableEntry), MISSIONTABLEENTRY_SIZE);
+    ASSERT_EQ(sizeof(struct UnitTypeRemap), UNITTYPEREMAP_SIZE);
     ASSERT_EQ(sizeof(struct Pilot), HALLFAME_RECORDSZ);
     ASSERT_EQ(sizeof(struct Plane), PLANESIZE);
     ASSERT_EQ(sizeof(struct TerrainPtrTable), TERRAINUNKSIZE);
