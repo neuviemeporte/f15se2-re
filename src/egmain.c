@@ -205,22 +205,16 @@ void sub_10720(void) {
         sub_1DAAE();
         byte_383E5 = 1;
         var_588 = 1;
-        if (gameData->theater == 6) {
-            p = 1;
-        } else if (*((char far *)gameData + 0x38) & 1) {
-            p = 1;
-        } else {
-            p = -1;
-        }
+        p = (gameData->theater == 6) ? 1 :
+            (*((char far *)gameData + 0x38) & 1) ? 1 : -1;
         word_3AFA8 = p;
 
         if (((stru_3AA5E[word_3B148].field_6) & 0x200) != 0) {
-            dword_3B7DA -= (long)p * 0x80L;
+            dword_3B7DA -= (long)(p * 0x80);
             *(char *)&planeFlags |= 8;
         } else {
             dword_3B7F8 -= (long)(0x708 * word_3AFA8);
         }
-        p = word_3AFA8;
         sub_118F6();
         sub_11D10(8, 0);
         sub_19595();
