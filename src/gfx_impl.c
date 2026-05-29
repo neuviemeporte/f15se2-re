@@ -421,7 +421,30 @@ int FAR CDECL gfx_blitSprite(struct SpriteParams *p)
     }
     return 0;
 }
-int FAR CDECL gfx_drawLine(void) { return 0; }
+int FAR CDECL gfx_drawLine(void)
+{
+    /* Bresenham line using lineX1/Y1/X2/Y2 globals, draws to curPageSeg */
+    extern int16 lineX1, lineY1, lineX2, lineY2;
+    uint8 far *page = (uint8 far *)MK_FP(g_curPageSeg, 0);
+    int x0 = lineX1, y0 = lineY1, x1 = lineX2, y1 = lineY2;
+    int dx = x1 - x0;
+    int dy = y1 - y0;
+    int sx = dx >= 0 ? 1 : -1;
+    int sy = dy >= 0 ? 1 : -1;
+    int err, e2;
+    if (dx < 0) dx = -dx;
+    if (dy < 0) dy = -dy;
+    err = dx - dy;
+    for (;;) {
+        if ((unsigned)x0 < 320 && (unsigned)y0 < 200)
+            page[g_rowOffsets[y0] + x0] = g_fillColor;
+        if (x0 == x1 && y0 == y1) break;
+        e2 = err * 2;
+        if (e2 > -dy) { err -= dy; x0 += sx; }
+        if (e2 < dx)  { err += dx; y0 += sy; }
+    }
+    return 0;
+}
 int FAR CDECL gfx_setPageDirect(void) { return 0; }
 int FAR CDECL gfx_resetBlitOffset2(void) { g_blitOffset = 0; return 0; }
 int FAR CDECL gfx_dirtyRect2(void) { return 0; }
