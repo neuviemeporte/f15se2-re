@@ -297,4 +297,13 @@ struct PageDesc {
 #pragma pack()
 STATIC_ASSERT(sizeof(struct PageDesc)==24);
 
+#pragma pack(1)
+struct Matrix3dEntry7 {
+    int16 _0x00;
+    int16 _0x02;
+    int16 _0x04;
+    uint8 _0x06;
+};
+#pragma pack()
+
 #endif // STRUCT_H
