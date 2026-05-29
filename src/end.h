@@ -303,7 +303,7 @@ extern char str_pressNext[];
 
 /* Data symbols used by drawMenuItem */
 #define dat_4824 scoreString
-extern int dat_424e[];
+extern struct WorldObject dat_424e[];
 extern int dat_4246;
 extern int dat_4040;
 extern int dat_5ab4;
@@ -314,7 +314,6 @@ extern int dat_4034;
 extern char dat_0042;
 extern int var_203;
 extern int var_216;
-extern int var_425c[];
 extern int dat_4804;
 extern int var_193[];
 extern int var_192;
@@ -356,6 +355,8 @@ extern int samKilled;
 extern char unitTypeTable[];
 extern char gridFlags[];
 extern char samDataTable[];
+extern struct SamDataEntry planeArray[];
+extern struct Sam samWeaponTable[];
 
 /* Variables used by main */
 extern struct Game far *gameData;

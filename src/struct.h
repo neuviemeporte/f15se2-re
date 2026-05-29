@@ -121,6 +121,21 @@ struct Plane {
 STATIC_ASSERT(sizeof(struct Plane)==32);
 #define PLANESIZE 0x20
 
+/* SamDataEntry: 32-byte record in end.exe's planeArray/samDataTable.
+ * Unlike struct Plane (start.exe), this has 8 prefix bytes before the name. */
+struct SamDataEntry {
+    int16 field_0;      /* -1 = sentinel/invalid entry */
+    int16 field_2;
+    int16 field_4;
+    int16 field_6;
+    char name[8];       /* "MIG-23\0 " - null-terminated, space at [7] precedes nickname */
+    char nickname[10];  /* "Flogger\0\0\0" */
+    int16 maxSpeed;
+    int16 range;
+    int16 field_1E;
+};
+STATIC_ASSERT(sizeof(struct SamDataEntry)==32);
+
 struct TerrainPtrTable {
     uint8 *entries[32];
 };
