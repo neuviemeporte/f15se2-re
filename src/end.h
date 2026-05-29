@@ -375,7 +375,7 @@ extern int selectedMenuItem;
 /* ASM functions called by main */
 void setupOverlaySlots(int param);
 void clearKeybuf(void);
-void initGraphics(void);
+
 void loadWorldStrings(void);
 void setupWorldBufPtr(void);
 void readWorldData(void);
