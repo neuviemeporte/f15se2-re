@@ -243,6 +243,7 @@ PUBLIC _timerCounter4
 PUBLIC dat_1868
 PUBLIC dat_186A
 PUBLIC dat_21e4
+PUBLIC _dat_21e4
 PUBLIC dat_2769
 PUBLIC dat_3F6A
 PUBLIC dat_3F6B
@@ -977,6 +978,7 @@ _var_114 db 000h
     db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
 spriteWaypointBlink dw offset _var_114
 _spriteWaypointBlink equ spriteWaypointBlink
+_dat_21e4 label byte
 dat_21e4 db 0ECh
     db 000h, 096h, 000h, 03Ch, 001h, 09Fh, 000h, 0ECh, 000h, 096h, 000h, 03Ch, 001h, 09Fh, 000h, 000h
     db 000h, 069h, 000h, 098h, 000h, 008h, 000h, 011h, 001h, 039h, 000h, 007h, 000h

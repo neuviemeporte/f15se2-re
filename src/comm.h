@@ -86,7 +86,7 @@ struct Game {
     uint16 medals;
     uint8 pad5[0xa];
     uint16 lastScore;
-    int16 rankHigh;
+    uint16 rankHigh;
     int32 totalScore;
     uint8 pad2[2];
     uint16 theater;

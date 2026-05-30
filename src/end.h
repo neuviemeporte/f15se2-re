@@ -92,7 +92,7 @@ int readFileAtExRaw(int handle, int a, int b, int c, int d);
 
 /* Extern variables from ASM */
 extern char timerHandlerInstalled;
-extern char timerCounter;
+extern unsigned char timerCounter;
 extern int lineX1;
 extern int lineY1;
 extern int lineX2;
@@ -261,6 +261,15 @@ void loadPicFromFileAt(char *name, int segment, int off, int whence);
 void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage);
 
 /* String constants from ASM */
+extern char str_insertScenario[];
+extern char str_pressKey1[];
+extern char str_insertDiskA[];
+extern char str_pressKey2[];
+extern char str_dbicons1[];
+extern char str_dbicons2[];
+extern char str_modeRb1[];
+extern char str_modeRb2[];
+extern char str_missionDebrief[];
 extern char str_pressExit[];
 extern char str_dot1[];
 extern char str_overall1[];
@@ -382,7 +391,6 @@ extern int selectedMenuItem;
 /* ASM functions called by main */
 void setupOverlaySlots(int param);
 void clearKeybuf(void);
-
 void loadWorldStrings(void);
 void setupWorldBufPtr(void);
 void readWorldData(void);
