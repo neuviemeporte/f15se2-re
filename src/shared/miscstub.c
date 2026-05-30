@@ -52,7 +52,8 @@ uint8 *outreg;
     outreg[1] = r.h.ah;
 }
 
-void setupOverlaySlots(void)
+void setupOverlaySlots(param)
+int param;
 {
     miscdbg("setupOverlaySlots called");
 }
