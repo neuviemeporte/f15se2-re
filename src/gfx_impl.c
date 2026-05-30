@@ -49,13 +49,24 @@ int FAR CDECL gfx_allocPage(int pageNum)
     uint16 seg;
     union REGS r;
     initRowOffsets();
+    /* In the original game, the MGRAPHIC overlay persists across exes and
+     * gfx_setMode13 was already called by start.exe. In our NO_ASM build,
+     * each exe has fresh static state. Bootstrap mode 13h on first use. */
+    if (g_pageSegs[0] == 0) {
+        gfx_setMode13(0);
+    }
     /* Allocate 0x1000 paragraphs = 64KB directly via INT 21h */
     r.h.ah = 0x48;
     r.x.bx = 0x1000;
     intdos(&r, &r);
     seg = r.x.cflag ? 0 : r.x.ax;
     if (seg == 0) return 0;
-    g_pageSegs[pageNum] = seg;
+    /* Don't overwrite page 0 if it's already the VGA framebuffer.
+     * end.exe draws directly to 0xA000; gfx_setPageN(0) must keep
+     * returning 0xA000 so all rendering is immediately visible. */
+    if (pageNum != 0 || g_pageSegs[0] != 0xA000) {
+        g_pageSegs[pageNum] = seg;
+    }
     return (int)seg;
 }
 
@@ -99,8 +110,13 @@ int FAR CDECL gfx_waitRetrace(void)
 /* ---- Slot 0x46: gfx_flipPage ---- */
 int FAR CDECL gfx_flipPage(void)
 {
+    /* In the original MGRAPHIC overlay, this is just a retrace wait +
+     * CRT register tweak. It does NOT copy memory. end.exe draws
+     * directly to 0xA000 (curPageSeg = VGA framebuffer). */
     gfx_waitRetrace();
-    movedata(g_curPageSeg, 0, 0xA000, 0, 64000u);
+    if (g_curPageSeg != 0xA000) {
+        movedata(g_curPageSeg, 0, 0xA000, 0, 64000u);
+    }
     return 0;
 }
 
@@ -126,6 +142,9 @@ int FAR CDECL gfx_clearPage(void)
 /* ---- Slot 0x0e: gfx_setPageN ---- */
 int FAR CDECL gfx_setPageN(uint16 pageNum)
 {
+    if (g_pageSegs[0] == 0) {
+        gfx_setMode13(0);
+    }
     g_curPageSeg = g_pageSegs[pageNum];
     return 0;
 }
@@ -250,14 +269,22 @@ int FAR CDECL gfx_drawString(int16 *pageNum, const char *string)
     bitmaps = g_fontBitmapPtrs[fontIdx];
     wt = g_fontWidthTables[fontIdx];
 
-    page = (uint8 far *)MK_FP(g_curPageSeg, 0);
+    page = (uint8 far *)MK_FP(g_pageSegs[pageNum[0]], 0);
 
     for (i = 0; string[i] != '\0'; i++) {
         ch = (uint8)string[i];
+
+        /* Inline color escape: chars >= 0x80 change the text color.
+         * The new color is (ch & 0x7F). No glyph is drawn. */
+        if (ch & 0x80) {
+            color = ch & 0x7F;
+            continue;
+        }
+
         if (x + 8 > 320) break;
         if (y + height > 200) break;
 
-        if (bitmaps && ch >= 0x20 && ch <= 0x7F) {
+        if (bitmaps && ch >= 0x20) {
             uint8 *glyph = bitmaps + (ch - 0x20) * (uint16)g_fontBitmapRowSize[fontIdx];
             for (row = 0; row < height; row++) {
                 uint8 bits = glyph[row];
@@ -270,11 +297,13 @@ int FAR CDECL gfx_drawString(int16 *pageNum, const char *string)
                 }
             }
         }
-        x += wt ? (ch >= 0x20 && ch <= 0x7F ? wt[ch-0x20] : 8) : 8;
+        x += wt ? (ch >= 0x20 ? wt[ch-0x20] : 8) : 8;
     }
 
-    /* Update x position in page struct */
+    /* Update x position and color in page struct (the original overlay
+     * writes back the color after inline escape codes modify it) */
     pageNum[4] = (int16)x;
+    pageNum[2] = (int16)color;
     return 0;
 }
 
@@ -456,7 +485,10 @@ int FAR CDECL gfx_setFont(uint16 ch, uint16 fontIdx)
     if (fontIdx >= 8) return 8;
     widths = g_fontWidthTables[fontIdx];
     if (!widths) return 8; /* fixed-width fallback */
-    if (ch < 0x20 || ch > 0x7F) return widths[0]; /* space width for control chars */
+    /* Chars >= 0x80 are inline color escapes — return 0 width
+     * (matches original overlay behavior) */
+    if (ch >= 0x80) return 0;
+    if (ch < 0x20) return widths[0]; /* space width for control chars */
     return widths[ch - 0x20];
 }
 int FAR CDECL gfx_getAuxBufSize(void) { return 0x1950; }
@@ -481,8 +513,11 @@ int FAR CDECL gfx_getVal2(void) { return 0; }
 int FAR CDECL gfx_setDacAnimCount(uint16 count) { g_dacCounter = (uint8)count; return 0; }
 int FAR CDECL gfx_commitPage(void)
 {
-    /* commitPage: copy back buffer to VGA */
-    movedata(g_curPageSeg, 0, 0xA000, 0, 64000u);
+    /* Original slot 0x50 is RETF (no-op) — end.exe draws directly to VGA.
+     * Only copy if we're somehow drawing to a back buffer. */
+    if (g_curPageSeg != 0xA000 && g_curPageSeg != 0) {
+        movedata(g_curPageSeg, 0, 0xA000, 0, 64000u);
+    }
     return 0;
 }
 int FAR CDECL gfx_nop51(void) { return 0; }
