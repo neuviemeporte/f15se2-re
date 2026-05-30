@@ -29,7 +29,6 @@ PUBLIC _misc_jump_5a_keybuf
 PUBLIC _misc_jump_5b_getkey
 PUBLIC _misc_jump_5d_readJoy
 PUBLIC _misc_jump_5e_clearKeyFlags
-
 PUBLIC _awardColor
 PUBLIC _awardFont
 PUBLIC _awardPage
@@ -146,7 +145,6 @@ PUBLIC _var_41
 PUBLIC _var_43
 PUBLIC _var_61
 PUBLIC _var_timerFlag
-
 ; Overlay jump table proc labels (non-underscored)
 PUBLIC gfx_allocPage
 PUBLIC gfx_drawString
