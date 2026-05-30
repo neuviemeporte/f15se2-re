@@ -86,8 +86,8 @@ dos_alloc: Code1 NEAR 1a48-1a6d R1a48-1a6d assembly
 dos_free: Code1 NEAR 1a6e-1a8a R1a6e-1a8a assembly
 setTimerIrqHandler: Code1 NEAR 1bfc-1c39 R1bfc-1c39 assembly
 restoreTimerIrqHandler: Code1 NEAR 1c3a-1c5a R1c3a-1c5a assembly
-setTimerMode1: Code1 NEAR 1c5b-1c72 R1c5b-1c72 assembly
-setTimerMode2: Code1 NEAR 1c73-1c83 R1c73-1c83 assembly
+setTimerMode1: Code1 NEAR 1c5b-1c72 R1c5b-1c72 assembly detached
+setTimerMode2: Code1 NEAR 1c73-1c83 R1c73-1c83 assembly detached
 calibrateTimerSpeed: Code1 NEAR 1d76-1e0a R1d76-1e0a assembly
 manipulateTimer: Code1 NEAR 1e0b-1e5f R1e0b-1e5f assembly
 getTimeOfDay: Code1 NEAR 1e60-1e66 R1e60-1e66 assembly
@@ -175,7 +175,7 @@ gfx_fillRow: Data1 FAR 1107-110b R1107-110b assembly
 gfx_fillRow2: Data1 FAR 110c-1110 R110c-1110 assembly
 gfx_copyRow: Data1 FAR 1111-1115 R1111-1115 assembly
 gfx_nop36: Data1 FAR 1116-111a R1116-111a assembly
-thunk_gfx_nop37: Data1 FAR 111b-111f R111b-111f assembly ignore
+gfx_nop37: Data1 FAR 111b-111f R111b-111f assembly ignore
 gfx_getPageSeg: Data1 FAR 1120-1124 R1120-1124 assembly
 gfx_getRowOffset: Data1 FAR 112a-112e R112a-112e assembly
 gfx_clearPage: Data1 FAR 112f-1133 R112f-1133 assembly
@@ -473,7 +473,7 @@ var_165: Data1 VAR 2566
 var_166: Data1 VAR 2568
 dat_270f: Data1 VAR 270f
 var_167: Data1 VAR 276a
-dat_2769: Data1 VAR 2769
+picWorkData: Data1 VAR 2769
 var_168: Data1 VAR 276c
 dat_3F6A: Data1 VAR 3f6a
 dat_3F6B: Data1 VAR 3f6b

@@ -8,48 +8,25 @@ a equ 2h
 
 ; --- External overlay jump table procs (in endslots.asm .DATA segment) ---
 EXTRN _gfx_allocPage:FAR
-EXTRN _gfx_drawString:FAR
 EXTRN _gfx_setPage1:FAR
-EXTRN _gfx_setPageN:FAR
 EXTRN _gfx_getCurPageSeg:FAR
 EXTRN _gfx_getCurPageSeg2:FAR
-EXTRN _gfx_blitSprite:FAR
-EXTRN _gfx_getBufSize:FAR
-EXTRN _gfx_setBlitOffset:FAR
 EXTRN _gfx_drawLine:FAR
 EXTRN _gfx_setPageDirect:FAR
-EXTRN _gfx_setColor:FAR
 EXTRN _gfx_resetBlitOffset:FAR
-EXTRN _gfx_resetBlitOffset2:FAR
 EXTRN _gfx_dirtyRect2:FAR
-EXTRN _gfx_switchColor:FAR
-EXTRN _gfx_copyRect:FAR
-EXTRN _gfx_setFont:FAR
-EXTRN _gfx_getAuxBufSize:FAR
 EXTRN _gfx_fillRow:FAR
+EXTRN _gfx_getRowOffset:FAR
+EXTRN _gfx_clearPage:FAR
+EXTRN _gfx_nop51:FAR
+EXTRN _gfx_getCurPage:FAR
+EXTRN _misc_jump_5a_keybuf:FAR
+EXTRN _misc_jump_5b_getkey:FAR
+EXTRN _gfx_nop37:FAR
 EXTRN _gfx_fillRow2:FAR
 EXTRN _gfx_copyRow:FAR
 EXTRN _gfx_nop36:FAR
 EXTRN _gfx_getPageSeg:FAR
-EXTRN _gfx_getRowOffset:FAR
-EXTRN _gfx_clearPage:FAR
-EXTRN _gfx_setFadeSteps:FAR
-EXTRN _gfx_calcRowAddr:FAR
-EXTRN _gfx_setOvlVal1:FAR
-EXTRN _gfx_setOvlVal2:FAR
-EXTRN _gfx_setDac:FAR
-EXTRN _gfx_waitRetrace:FAR
-EXTRN _gfx_flipPage:FAR
-EXTRN _gfx_storeBufPtr:FAR
-EXTRN _gfx_commitPage:FAR
-EXTRN _gfx_nop51:FAR
-EXTRN _gfx_setMonoFlag:FAR
-EXTRN _gfx_getCurPage:FAR
-EXTRN _misc_jump_5a_keybuf:FAR
-EXTRN _misc_jump_5b_getkey:FAR
-EXTRN _misc_jump_5d_readJoy:FAR
-EXTRN _misc_jump_5e_clearKeyFlags:FAR
-EXTRN _gfx_nop37:FAR
 
 ; --- External data variables (in endslots.asm) ---
 EXTRN _commData:BYTE
@@ -139,10 +116,7 @@ EXTRN _str_fileCloseError:BYTE
 EXTRN _str_readError:BYTE
 EXTRN _str_writeError:BYTE
 EXTRN _var_3f72:BYTE
-EXTRN _pageStruct:BYTE
-EXTRN _dat_1868:WORD
-EXTRN _dat_186A:WORD
-EXTRN dat_2769:BYTE
+EXTRN _picWorkData:BYTE
 EXTRN _dat_3F6A:BYTE
 EXTRN _dat_3F6B:BYTE
 EXTRN _dat_3F6C:WORD
@@ -153,10 +127,7 @@ EXTRN _dat_3FB2:WORD
 EXTRN _dat_3FB4:WORD
 EXTRN _dat_3FB6:WORD
 EXTRN _dat_3FB8:BYTE
-EXTRN _missionScore:WORD
 .CODE
-EXTRN _drawClippedLine:PROC
-EXTRN _loadPicFromFile:PROC
 
 PUBLIC _clearRect
 PUBLIC _mystrcat
@@ -425,7 +396,7 @@ picRow               EQU _picRow
 picReadFromFilePtr   EQU _picReadFromFilePtr
 picFileHandle        EQU _tmpFileHandle
 picReadBufEndPtr     EQU _picReadBufEndPtr
-picWorkData          EQU dat_2769
+picWorkData          EQU _picWorkData
 picWorkDataPtr       EQU _picWorkDataPtr
 picProcessFlag       EQU _picProcessFlag
 picLookupResult      EQU _picLookupResult
