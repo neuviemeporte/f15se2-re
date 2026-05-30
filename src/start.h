@@ -9,6 +9,10 @@
 
 #if !defined(MSDOS) && !defined(__MSDOS__)
 #define far
+#define near
+#define cdecl
+#define _interrupt
+#define __interrupt
 #endif
 
 #define __int32 long
@@ -80,6 +84,9 @@
 #define SCREEN_MAXY 0xc7
 #define SCREEN_MAXX 0x13f
 #define FILE_READBUF_SIZE 0x200
+#if !defined(MSDOS) && !defined(__MSDOS__)
+int start_main(void);
+#endif
 int checkQuitFlag();
 void initGraphics(void);
 int setargv();
@@ -87,7 +94,7 @@ int setenvp();
 void clearKeybuf(void);
 void waitJoyKey(void);
 int joyOrKey();
-void waitMdaCgaStatus(int);
+void waitMdaCgaStatus(int16);
 void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color);
 void showPic640(char *filename);
 void missionSelect(void);
@@ -104,7 +111,7 @@ int dead_drawWrappedText();
 int unreach_1130B();
 int sub_11458();
 void seedRandom();
-int __cdecl randMul(unsigned int);
+int __cdecl randMul(uint16);
 void setTimerIrqHandler(void);
 void restoreTimerIrqHandler(void);
 int sub_118B9();
@@ -117,7 +124,7 @@ int getTimeOfDay();
 int increaseTimerCounters();
 int doFcbSearch();
 void picBlit(int handle, int unk);
-void pilotSelect(int ps_needSplash);
+void pilotSelect(int16 ps_needSplash);
 void updateHallfame();
 void displayPilots(void);
 void __cdecl printPilot(int);
@@ -183,9 +190,13 @@ int unreach_13243();
 int read512FromFileIntoBuf();
 int unreach_1328D();
 int writeFileAtRaw();
-void openShowPic(char *filename, int pageNum);
+#ifdef BUGFIX
+void openShowPic(char *filename, int16 pageNum);
+#else
+void openShowPic(char *filename, int16 pageNum, int16 garbage);
+#endif
 int unreach_1333E(int filename, int a);
-void __cdecl loadPic(char *, unsigned int);
+void __cdecl loadPic(char *, uint16);
 void unreach_loadPicAt();
 void showPicFile(int handle, int pageNum, int garbage);
 int unreach_13442();
@@ -199,11 +210,11 @@ int doPicDecode();
 int dictionaryLookup();
 uint16 __cdecl allocBuffer(int sz);
 int unreach_freeBuffer(int freeSeg);
-unsigned int __cdecl dos_alloc(int sz);
+uint16 __cdecl dos_alloc(uint16 sz);
 int unreach_dos_freeMem(int freeSeg);
-int *__cdecl findNearestTerrain(__int32, __int32);
+int16 *__cdecl findNearestTerrain(__int32, __int32);
 unsigned __int32 __cdecl scaleCoordByLevel(int, unsigned __int32);
-int __cdecl lookupGridCell(int, int, int);
+int __cdecl lookupGridCell(int16, int16, int16);
 void parseGridTerrain(void);
 void parseTerrain(char *dest);
 void parseGrid();

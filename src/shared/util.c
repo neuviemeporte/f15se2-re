@@ -58,7 +58,7 @@ int stringWidth(int16 *page, const char *str) {
     return n;
 }
 
-void my_ltoa(int32 value, int8* buf) {
+void my_ltoa(int32 value, char* buf) {
     int8 i, k;
     int8 *p;
     int8 n[6];

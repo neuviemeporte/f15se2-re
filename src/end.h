@@ -273,7 +273,11 @@ extern MenuItem debriefMenuItems[];
 /* Reconstructed C functions */
 void seedRandom(void);
 void loadPic(char *filename, int segment);
+#ifdef BUGFIX
 void openShowPic(char *name, int page);
+#else
+void openShowPic(char *name, int page, int garbage);
+#endif
 uint16 allocBuffer(int size);
 void freeBuffer(int segment);
 void srandInit(int seed);

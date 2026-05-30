@@ -35,7 +35,11 @@ void loadPic(char *filename, uint16 segment) {
     closeFileWrapper(handle);
 }
 
+#ifdef BUGFIX
+void openShowPic(char *name, int16 page)
+#else
 void openShowPic(char *name, int16 page, int16 garbage)
+#endif
 {
     int16 fileHandle;
     TRACE(("openShowPic: opening file %s, page %d",name,page));

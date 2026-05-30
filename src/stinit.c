@@ -39,7 +39,7 @@ void initGraphics()
 
 
 // 54a
-void clearKeyBuf()
+void clearKeybuf()
 {
     while (misc_jump_5a_keybuf() == 0) {
         misc_jump_5b_getkey();
