@@ -1,6 +1,7 @@
 #ifndef STRUCT_H
 #define STRUCT_H
 
+#include "platform.h"
 #include "inttype.h"
 #include "sassert.h"
 
@@ -310,7 +311,13 @@ struct PageDesc {
     int16 *selfPtr;     /* +0x16: pointer to start of this struct (pageNum field) */
 };
 #pragma pack()
+#if F15_PTR_BITS==64
+STATIC_ASSERT(sizeof(struct PageDesc)==30);
+#elif F15_PTR_BITS==32
+STATIC_ASSERT(sizeof(struct PageDesc)==26);
+#else
 STATIC_ASSERT(sizeof(struct PageDesc)==24);
+#endif
 
 #pragma pack(1)
 struct Matrix3dEntry7 {
