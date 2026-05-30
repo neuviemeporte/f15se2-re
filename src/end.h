@@ -171,7 +171,7 @@ extern char animDone;
 extern char timerCounter2;
 extern char timerCounter3;
 extern char enterPressed;
-extern int dat_1c8e[];
+extern int colorStyleTable[];
 extern struct SpriteParams* spriteAirBlink;
 extern struct SpriteParams* spriteSamBlink;
 extern struct SpriteParams* spriteGroundBlink;
@@ -237,32 +237,32 @@ extern struct SpriteParams* spriteGround;
 extern struct SpriteParams* spriteWaypoint;
 
 /* Sprite descriptor structs */
-extern struct SpriteParams ps_101;
-extern struct SpriteParams ps_103;
-extern struct SpriteParams ps_105;
-extern struct SpriteParams ps_106;
-extern struct SpriteParams ps_107;
-extern struct SpriteParams ps_108;
-extern struct SpriteParams ps_109;
-extern struct SpriteParams ps_110;
-extern struct SpriteParams ps_111;
-extern struct SpriteParams ps_112;
-extern struct SpriteParams ps_113;
-extern struct SpriteParams ps_114;
+extern struct SpriteParams spriteMapAreaDef;
+extern struct SpriteParams spriteStatusBarDef;
+extern struct SpriteParams spriteAirDef;
+extern struct SpriteParams spriteAirBlinkDef;
+extern struct SpriteParams spriteSamDef;
+extern struct SpriteParams spriteSamBlinkDef;
+extern struct SpriteParams spriteGroundDef;
+extern struct SpriteParams spriteGroundBlinkDef;
+extern struct SpriteParams spriteBombDef;
+extern struct SpriteParams spriteBombBlinkDef;
+extern struct SpriteParams spriteWaypointDef;
+extern struct SpriteParams spriteWaypointBlinkDef;
 
 /* Page descriptors and pointers */
 extern struct PageDesc pageStruct;
 extern struct PageDesc pageStruct2;
 extern int16 pageStruct3[];
-extern int16 *var_99;
-extern int16 *var_100;
-extern struct SpriteParams *var_102;
-extern struct SpriteParams *var_104;
-extern int16 *var_116;
-extern char *var_115;
-extern char *var_117[];
-extern char *var_118[];
-extern MenuItem dat_21e4[];
+extern int16 *debriefPage;
+extern int16 *debriefPage2;
+extern struct SpriteParams *spriteMapArea;
+extern struct SpriteParams *spriteStatusBar;
+extern int16 *cursorBoundsPtr;
+extern char *menuItemsBase;
+extern char *theaterSprFiles[];
+extern char *debriefMenuStrings[];
+extern MenuItem debriefMenuItems[];
 
 /* Reconstructed C functions */
 void seedRandom(void);
@@ -291,8 +291,8 @@ char *formatFlightTime(int timeValue, char *buffer);
 long calcMissionScore(int param);
 void waitForKeyOrJoy(void);
 void checkQuitFlag(void);
-void routine_5(void);
-void routine_6(void);
+void restoreVideoMode(void);
+void restoreInterrupts(void);
 void plotMapPoint(int x, int y, int color, int unused);
 void timerWait(unsigned int ticks);
 void drawStringAtPos(int16 *s, char far *str, int x, int y);
@@ -374,20 +374,20 @@ extern char str_pressNext[];
 
 /* Data symbols used by drawMenuItem */
 #define dat_4824 scoreString
-extern struct WorldObject dat_424e[];
-extern int dat_4246;
-extern int dat_4040;
-extern int dat_5ab4;
-extern int dat_4a2a;
-extern int dat_5512;
-extern int dat_55de;
-extern int dat_4034;
-extern unsigned char dat_0042;
-extern int var_203;
-extern int var_216;
-extern int dat_4804;
-extern int var_193[];
-extern int var_192;
+extern struct WorldObject worldObjects[];
+extern int worldWaypointCount;
+extern int worldRouteTable;
+extern int worldRouteCount;
+extern int worldSamTable;
+extern int worldUnitFlags;
+extern int worldGridSize;
+extern int worldMiscHeader;
+extern unsigned char weaponDataBlock;
+extern int worldObjectCount;
+extern int worldSamCount;
+extern int waypointData;
+extern int flightTimeTable[];
+extern int totalFlightRecords;
 
 /* Data symbols used by showPostMissionAwards */
 extern struct PageDesc awardPageDesc;
@@ -455,7 +455,7 @@ extern void far copyJoystickData(uint8 far *data);
 
 /* File I/O variables */
 extern uint8 errorCodeStr;
-extern uint8 var_61;
+extern uint8 errorCodeTerminator;
 extern uint8 fileReadBuf[];
 extern char str_fileNotFound[];
 extern char str_noFileBufs[];
@@ -463,9 +463,9 @@ extern char str_openError[];
 extern char str_fileCloseError[];
 extern char str_readError[];
 extern char str_writeError[];
-extern int16 dat_1868;
-extern int16 dat_186A;
-extern int16 dat_186C;
+extern int16 fileIoVar1;
+extern int16 fileIoVar2;
+extern int16 fileIoVar3;
 extern int16 fileReadPos;
 extern int16 tmpFileHandle;
 
@@ -474,13 +474,13 @@ extern uint8 picDecodedRowBuf[];
 extern int16 picScreenBufSize;
 extern int16 picPageIndex;
 extern int16 picRowOffset;
-extern int16 dat_picRowPad;
+extern int16 picRowPad;
 extern int16 picRow;
 extern int16 picReadFromFilePtr;
 
 /* Pic decoder state (BSS, moved to end_data.c) */
-extern int16 var_151;
-extern int16 var_152;
+extern int16 worldBufOffset;
+extern int16 worldBufSegment;
 extern int16 picReadBufEndPtr;
 extern int16 picWorkDataPtr;
 extern int16 picRowLength;
@@ -496,18 +496,18 @@ extern uint8 picByteUnsignedFlag;
 extern int16 picSlotCounter;
 
 /* Second LZW decoder state */
-extern uint8 dat_3F6A;
-extern uint8 dat_3F6B;
-extern int16 dat_3F6C;
-extern int16 dat_3F6E;
-extern uint8 dat_3F70;
-extern uint8 dat_3F71;
-extern uint8 var_3f72[];
-extern int16 dat_3FB2;
-extern int16 dat_3FB4;
-extern int16 dat_3FB6;
-extern int16 dat_3FB8;
-extern uint8 var_3fc6[];
+extern uint8 lzw2CodeBitWidth;
+extern uint8 lzw2MaxBitWidth;
+extern int16 lzw2CodeMask;
+extern int16 lzw2NextSlot;
+extern uint8 lzw2ReadByte;
+extern uint8 lzw2BitPos;
+extern uint8 lzw2DictBuf[];
+extern int16 lzw2StackPtr;
+extern int16 lzw2PrevCode;
+extern int16 lzw2CurCode;
+extern int16 lzw2FirstChar;
+extern uint8 lzw2WorkBuf[];
 
 extern uint8 ovlInsaneFlag;
 

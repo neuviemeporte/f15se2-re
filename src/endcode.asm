@@ -30,8 +30,8 @@ EXTRN _gfx_getPageSeg:FAR
 
 ; --- External data variables (in endslots.asm) ---
 EXTRN _commData:BYTE
-EXTRN _var_151:WORD
-EXTRN _var_152:WORD
+EXTRN _worldBufOffset:WORD
+EXTRN _worldBufSegment:WORD
 EXTRN _quitFlag:BYTE
 EXTRN _timerCounter:BYTE
 EXTRN _timerCounter2:BYTE
@@ -115,18 +115,18 @@ EXTRN _str_openError:BYTE
 EXTRN _str_fileCloseError:BYTE
 EXTRN _str_readError:BYTE
 EXTRN _str_writeError:BYTE
-EXTRN _var_3f72:BYTE
+EXTRN _lzw2DictBuf:BYTE
 EXTRN _picWorkData:BYTE
-EXTRN _dat_3F6A:BYTE
-EXTRN _dat_3F6B:BYTE
-EXTRN _dat_3F6C:WORD
-EXTRN _dat_3F6E:WORD
-EXTRN _dat_3F70:BYTE
-EXTRN _dat_3F71:BYTE
-EXTRN _dat_3FB2:WORD
-EXTRN _dat_3FB4:WORD
-EXTRN _dat_3FB6:WORD
-EXTRN _dat_3FB8:BYTE
+EXTRN _lzw2CodeBitWidth:BYTE
+EXTRN _lzw2MaxBitWidth:BYTE
+EXTRN _lzw2CodeMask:WORD
+EXTRN _lzw2NextSlot:WORD
+EXTRN _lzw2ReadByte:BYTE
+EXTRN _lzw2BitPos:BYTE
+EXTRN _lzw2StackPtr:WORD
+EXTRN _lzw2PrevCode:WORD
+EXTRN _lzw2CurCode:WORD
+EXTRN _lzw2FirstChar:BYTE
 .CODE
 
 PUBLIC _clearRect
@@ -145,8 +145,8 @@ setupWorldBufPtr proc near
     mov AX,word ptr [_commData]
     mov DX,word ptr [_commData + 2]
     db 05h, 7Ah, 00h  ; add AX,7Ah (force word-immediate)
-    mov word ptr [_var_151],AX
-    mov word ptr [_var_152],DX
+    mov word ptr [_worldBufOffset],AX
+    mov word ptr [_worldBufSegment],DX
     mov AX,1h
     ret
 setupWorldBufPtr endp
@@ -534,18 +534,18 @@ dos_free endp
 
 lzwDecoderInit proc near
     call lzwInitDictionary
-    mov word ptr [_dat_3FB2],0h
-    mov byte ptr [_dat_3F71],0h
+    mov word ptr [_lzw2StackPtr],0h
+    mov byte ptr [_lzw2BitPos],0h
     mov AL,byte ptr ES:[DI]
     inc DI
-    mov byte ptr [_dat_3F6B],AL
+    mov byte ptr [_lzw2MaxBitWidth],AL
     ret
 lzwDecoderInit endp
 
 lzwInitDictionary proc near
-    mov byte ptr [_dat_3F6A],9h
-    mov word ptr [_dat_3F6C],1ffh
-    mov word ptr [_dat_3F6E],100h
+    mov byte ptr [_lzw2CodeBitWidth],9h
+    mov word ptr [_lzw2CodeMask],1ffh
+    mov word ptr [_lzw2NextSlot],100h
     mov BX,offset _picDecodeDictionary
     mov AX,0ffffh
     mov CX,800h
@@ -565,30 +565,30 @@ LAB_1000_1b01:
 lzwInitDictionary endp
 
 lzwGetByte proc near
-    mov BX,word ptr [_dat_3FB2]
+    mov BX,word ptr [_lzw2StackPtr]
     or BX,BX
     jnz LAB_1000_1b17
     call lzwDecodeNext
 LAB_1000_1b17:
-    dec word ptr [_dat_3FB2]
-    mov BX,word ptr [_dat_3FB2]
-    mov AL,byte ptr [BX + offset _var_3f72]
+    dec word ptr [_lzw2StackPtr]
+    mov BX,word ptr [_lzw2StackPtr]
+    mov AL,byte ptr [BX + offset _lzw2DictBuf]
     ret
 lzwGetByte endp
 
 lzwDecodeNext proc near
     push CX
     call lzwReadCode
-    mov word ptr [_dat_3FB6],CX
-    cmp CX,word ptr [_dat_3F6E]
+    mov word ptr [_lzw2CurCode],CX
+    cmp CX,word ptr [_lzw2NextSlot]
     jl LAB_1000_1b4b
-    mov AL,byte ptr [_dat_3FB8]
-    mov BX,word ptr [_dat_3FB2]
-    mov byte ptr [BX + offset _var_3f72],AL
-    inc word ptr [_dat_3FB2]
-    mov CX,word ptr [_dat_3FB4]
-    mov AX,word ptr [_dat_3F6E]
-    mov word ptr [_dat_3FB6],AX
+    mov AL,byte ptr [_lzw2FirstChar]
+    mov BX,word ptr [_lzw2StackPtr]
+    mov byte ptr [BX + offset _lzw2DictBuf],AL
+    inc word ptr [_lzw2StackPtr]
+    mov CX,word ptr [_lzw2PrevCode]
+    mov AX,word ptr [_lzw2NextSlot]
+    mov word ptr [_lzw2CurCode],AX
 LAB_1000_1b4b:
     mov BX,offset _picDecodeDictionary
     add BX,CX
@@ -600,59 +600,59 @@ LAB_1000_1b4b:
     dec AX
     mov CX,AX
     mov AL,byte ptr [BX + 2h]
-    mov BX,word ptr [_dat_3FB2]
+    mov BX,word ptr [_lzw2StackPtr]
     cmp BX,40h
     jnc LAB_1000_1b6c
-    mov byte ptr [BX + offset _var_3f72],AL
+    mov byte ptr [BX + offset _lzw2DictBuf],AL
 LAB_1000_1b6c:
-    inc word ptr [_dat_3FB2]
+    inc word ptr [_lzw2StackPtr]
     jmp LAB_1000_1b4b
 LAB_1000_1b72:
     mov AL,byte ptr [BX + 2h]
-    mov byte ptr [_dat_3FB8],AL
-    mov BX,word ptr [_dat_3FB2]
-    mov byte ptr [BX + offset _var_3f72],AL
-    inc word ptr [_dat_3FB2]
-    mov CX,word ptr [_dat_3F6E]
+    mov byte ptr [_lzw2FirstChar],AL
+    mov BX,word ptr [_lzw2StackPtr]
+    mov byte ptr [BX + offset _lzw2DictBuf],AL
+    inc word ptr [_lzw2StackPtr]
+    mov CX,word ptr [_lzw2NextSlot]
     mov BX,offset _picDecodeDictionary
     add BX,CX
     add BX,CX
     add BX,CX
     mov byte ptr [BX + 2h],AL
-    mov AX,word ptr [_dat_3FB4]
+    mov AX,word ptr [_lzw2PrevCode]
     mov word ptr [BX],AX
-    inc word ptr [_dat_3F6E]
-    mov AX,word ptr [_dat_3F6E]
-    cmp AX,word ptr [_dat_3F6C]
+    inc word ptr [_lzw2NextSlot]
+    mov AX,word ptr [_lzw2NextSlot]
+    cmp AX,word ptr [_lzw2CodeMask]
     jle LAB_1000_1baf
-    inc byte ptr [_dat_3F6A]
+    inc byte ptr [_lzw2CodeBitWidth]
     stc
-    rcl word ptr [_dat_3F6C],1h
+    rcl word ptr [_lzw2CodeMask],1h
 LAB_1000_1baf:
-    mov AL,byte ptr [_dat_3F6A]
-    cmp AL,byte ptr [_dat_3F6B]
+    mov AL,byte ptr [_lzw2CodeBitWidth]
+    cmp AL,byte ptr [_lzw2MaxBitWidth]
     jle LAB_1000_1bbb
     call lzwInitDictionary
 LAB_1000_1bbb:
-    mov AX,word ptr [_dat_3FB6]
-    mov word ptr [_dat_3FB4],AX
+    mov AX,word ptr [_lzw2CurCode]
+    mov word ptr [_lzw2PrevCode],AX
     pop CX
     ret
 lzwDecodeNext endp
 
 lzwReadCode proc near
     xor DH,DH
-    mov DL,byte ptr [_dat_3F70]
-    mov BL,byte ptr [_dat_3F71]
+    mov DL,byte ptr [_lzw2ReadByte]
+    mov BL,byte ptr [_lzw2BitPos]
     mov CL,8h
     sub CL,BL
     shr DX,CL
 LAB_1000_1bd3:
-    cmp BL,byte ptr [_dat_3F6A]
+    cmp BL,byte ptr [_lzw2CodeBitWidth]
     jge LAB_1000_1bed
     mov AL,byte ptr ES:[DI]
     inc DI
-    mov byte ptr [_dat_3F70],AL
+    mov byte ptr [_lzw2ReadByte],AL
     mov CL,BL
     xor AH,AH
     shl AX,CL
@@ -660,10 +660,10 @@ LAB_1000_1bd3:
     add BL,8h
     jmp LAB_1000_1bd3
 LAB_1000_1bed:
-    sub BL,byte ptr [_dat_3F6A]
-    mov byte ptr [_dat_3F71],BL
+    sub BL,byte ptr [_lzw2CodeBitWidth]
+    mov byte ptr [_lzw2BitPos],BL
     mov CX,DX
-    and CX,word ptr [_dat_3F6C]
+    and CX,word ptr [_lzw2CodeMask]
     ret
 lzwReadCode endp
 

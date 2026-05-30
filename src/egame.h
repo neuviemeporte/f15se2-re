@@ -1790,7 +1790,7 @@ extern int16 var_197;
 extern int16 var_198;
 extern char far *var_200;
 extern int16 var_202;
-extern int16 var_203;
+extern int16 worldObjectCount;
 extern int16 var_204;
 extern uint8 var_215;
 extern int16 var_216;
