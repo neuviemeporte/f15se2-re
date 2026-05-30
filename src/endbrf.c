@@ -5,26 +5,7 @@
 #include "shared/util.h"
 #include "end.h"
 
-extern int16 *var_99;
-extern int16 *var_100;
-extern int var_101;
-extern struct SpriteParams* var_104;
-extern int var_103;
-extern int var_105;
-extern int var_106;
-extern int var_107;
-extern int var_108;
-extern int var_109;
-extern int var_110;
-extern int var_111;
-extern int var_112;
-extern int var_113;
-extern int var_114;
-extern int16 *var_116;
-extern char *var_117[];
-extern char *var_118[];
 extern int var_205;
-extern MenuItem dat_21e4[];
 extern char var_180;
 
 extern int routine_46(char *filename, char *mode);

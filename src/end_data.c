@@ -2,6 +2,31 @@
  * See docs/end_rc_data_migration.md
  */
 #include "inttype.h"
+#include "struct.h"
+
+/* Forward declarations needed for MenuItem */
+struct SpriteParams;
+typedef uint16 MenuItemFlags;
+typedef struct MenuItem {
+    int16  hitX1;
+    int16  hitY1;
+    int16  hitX2;
+    int16  hitY2;
+    int16  colorX1;
+    int16  colorY1;
+    int16  colorX2;
+    int16  colorY2;
+    int16  colorTableIdx;
+    int16  colorPair;
+    int16  labelData1[5];
+    int16 *pagePtr;
+    int16  labelData2[4];
+    struct SpriteParams *spriteNormal;
+    struct SpriteParams *spriteBlink;
+    int16  unk_2c;
+    int16  state;
+    MenuItemFlags flags;
+} MenuItem;
 
 /* Rank names (index 0 = empty, 1-6 = promotable ranks) */
 char str_emptyRank[] = "";
@@ -216,6 +241,157 @@ char str_na_spr[] = "na.spr";
 /* Debrief menu strings */
 char str_reviewMission[] = "Review Mission";
 char str_exitDebriefing[] = "Exit Debriefing";
+
+/* Theater sprite filename pointer table (8 entries) */
+char *var_117[] = {
+    str_libya_spr,
+    str_persian_spr,
+    str_vn_spr,
+    str_me_spr,
+    str_ncape_spr,
+    str_ceurope_spr,
+    str_jp_spr,
+    str_na_spr
+};
+
+/* Debrief menu string pointer table (2 entries) */
+char *var_118[] = {
+    str_reviewMission,
+    str_exitDebriefing
+};
+
+/* === Page descriptors === */
+struct PageDesc pageStruct = {
+    0,             /* pageNum */
+    {0, 0},        /* pad1 */
+    2,             /* color */
+    0x0F,          /* byte6 */
+    {0, 0, 0, 0, 0}, /* pad2 */
+    1,             /* font */
+    {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
+    (int16*)&pageStruct  /* selfPtr */
+};
+int16 *var_99 = (int16*)&pageStruct;
+
+struct PageDesc pageStruct2 = {
+    0,             /* pageNum */
+    {0, 0},        /* pad1 */
+    0,             /* color */
+    0x0F,          /* byte6 */
+    {0, 0, 0, 0, 0}, /* pad2 */
+    3,             /* font */
+    {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
+    (int16*)&pageStruct2  /* selfPtr */
+};
+int16 *var_100 = (int16*)&pageStruct2;
+
+/* pageStruct3 is actually a 6-int cursor bounds array */
+int16 pageStruct3[] = {0, 0x0A, 0xFA, 0xFA, 0x97, 0xA1};
+int16 *var_116 = pageStruct3;
+
+/* === Sprite descriptors (28 bytes each) === */
+struct SpriteParams ps_101 = {
+    0, 0, 0, 0, 8, 0x0A, 0xE0, 0xA8,
+    {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
+};
+struct SpriteParams *var_102 = &ps_101;
+
+struct SpriteParams ps_103 = {
+    0, 0, 0xB2, 0, 0, 0xB2, 0x140, 0x15,
+    {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
+};
+struct SpriteParams *var_104 = &ps_103;
+
+struct SpriteParams ps_105 = {
+    0, 0x12D, 0, 0, 0, 0, 5, 5,
+    {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
+};
+struct SpriteParams *spriteAir = &ps_105;
+
+struct SpriteParams ps_106 = {
+    0, 0x12D, 5, 0, 0, 0, 5, 5,
+    {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
+};
+struct SpriteParams *spriteAirBlink = &ps_106;
+
+struct SpriteParams ps_107 = {
+    0, 0x123, 0, 0, 0, 0, 5, 5,
+    {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
+};
+struct SpriteParams *spriteSam = &ps_107;
+
+struct SpriteParams ps_108 = {
+    0, 0x123, 5, 0, 0, 0, 5, 5,
+    {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
+};
+struct SpriteParams *spriteSamBlink = &ps_108;
+
+struct SpriteParams ps_109 = {
+    0, 0x117, 0, 0, 0, 0, 5, 5,
+    {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
+};
+struct SpriteParams *spriteGround = &ps_109;
+
+struct SpriteParams ps_110 = {
+    0, 0x117, 5, 0, 0, 0, 5, 5,
+    {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
+};
+struct SpriteParams *spriteGroundBlink = &ps_110;
+
+struct SpriteParams ps_111 = {
+    0, 0x11E, 0, 0, 0, 0, 5, 5,
+    {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
+};
+struct SpriteParams *spriteVar111Ptr = &ps_111;
+
+struct SpriteParams ps_112 = {
+    0, 0x11E, 5, 0, 0, 0, 5, 5,
+    {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
+};
+struct SpriteParams *spriteVar112Ptr = &ps_112;
+
+struct SpriteParams ps_113 = {
+    0, 0x12A, 0, 0, 0, 0, 1, 1,
+    {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
+};
+struct SpriteParams *spriteWaypoint = &ps_113;
+
+struct SpriteParams ps_114 = {
+    0, 0x12A, 5, 0, 0, 0, 1, 1,
+    {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
+};
+struct SpriteParams *spriteWaypointBlink = &ps_114;
+
+/* === MenuItem array (dat_21e4) - 2 entries === */
+MenuItem dat_21e4[2] = {
+    {
+        0xEC, 0x96, 0x13C, 0x9F,       /* hit rect */
+        0xEC, 0x96, 0x13C, 0x9F,       /* color rect */
+        0, 0x69,                        /* colorTableIdx, colorPair */
+        {0x98, 0x08, 0x111, 0x39, 7},  /* labelData1 */
+        (int16*)&pageStruct2,           /* pagePtr */
+        {0x1A, 7, 0xFA, 0x3C},         /* labelData2 */
+        &ps_105,                        /* spriteNormal */
+        &ps_106,                        /* spriteBlink */
+        0,                              /* unk_2c */
+        0,                              /* state */
+        0x1808                          /* flags */
+    },
+    {
+        0xEC, 0xA0, 0x13C, 0xA9,       /* hit rect */
+        0xEC, 0xA0, 0x13C, 0xA9,       /* color rect */
+        0, 0x69,                        /* colorTableIdx, colorPair */
+        {0x98, 0x08, 0x111, 0x39, 7},  /* labelData1 */
+        (int16*)&pageStruct2,           /* pagePtr */
+        {0x1A, 7, 0xFA, 0x3C},         /* labelData2 */
+        &ps_105,                        /* spriteNormal */
+        &ps_106,                        /* spriteBlink */
+        0,                              /* unk_2c */
+        0,                              /* state */
+        0x080F                          /* flags */
+    }
+};
+char *var_115 = (char*)&dat_21e4[1];
 
 /* Debrief main loop strings */
 char str_modeRb1[] = "rb";
