@@ -8,7 +8,7 @@
 extern int var_205;
 extern char var_180;
 
-extern int routine_46(char *filename, char *mode);
+
 
 void debriefMainLoop(void)
 {
@@ -31,12 +31,12 @@ insert_scenario:
     misc_jump_5b_getkey();
 
 open_theater:
-    worldBufHandle = routine_46(var_117[gameData->theater], str_modeRb1);
+    worldBufHandle = (int)fopen(var_117[gameData->theater], str_modeRb1);
     if (!worldBufHandle)
         goto insert_scenario;
 
     gfx_waitRetrace();
-    fclose(worldBufHandle);
+    fclose((FILE *)worldBufHandle);
     gfx_setFadeSteps(9);
     spriteBufSeg = allocBuffer(gfx_getBufSize());
     loadPic(var_117[gameData->theater], spriteBufSeg);
@@ -54,12 +54,12 @@ insert_diska:
     misc_jump_5b_getkey();
 
 open_dbicons:
-    worldBufHandle = routine_46(str_dbicons1, str_modeRb2);
+    worldBufHandle = (int)fopen(str_dbicons1, str_modeRb2);
     if (!worldBufHandle)
         goto insert_diska;
 
     gfx_waitRetrace();
-    fclose(worldBufHandle);
+    fclose((FILE *)worldBufHandle);
     gfx_setFadeSteps(8);
     openShowPic(str_dbicons2, 1);
 

@@ -1,4 +1,5 @@
 /* enworld.c — world data reading, compiled with /Gs /Os */
+#include <memory.h>
 #include "end.h"
 
 void readWorldData(void) {
@@ -33,7 +34,7 @@ void readFromWorldBuf(char *dest, int size, int count, int bufHandle) {
     register int totalSize;
     farDest = (char far *)dest;
     totalSize = size * count;
-    routine_140(var_152, var_151, FP_SEG(farDest), FP_OFF(farDest), totalSize);
+    movedata(var_152, var_151, FP_SEG(farDest), FP_OFF(farDest), totalSize);
     var_151 += totalSize;
 }
 
@@ -42,6 +43,6 @@ void readFromWorldFile(char *dest, int size, int count, int bufHandle) {
     register int totalSize;
     farDest = (char far *)dest;
     totalSize = size * count;
-    routine_140(FP_SEG(farDest), FP_OFF(farDest), var_152, var_151, totalSize);
+    movedata(FP_SEG(farDest), FP_OFF(farDest), var_152, var_151, totalSize);
     var_151 += totalSize;
 }
