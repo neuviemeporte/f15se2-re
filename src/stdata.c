@@ -405,11 +405,11 @@ int16 tmpFileHandle = 0;
 uint8 picDecodedRowBuf[0x140] = {0};
 
 /* Graphics state */
-int16 screenBufSize = 0;
-int16 tmpPageIndex = 0;
-int16 rowOffset = 0;
-int16 row = 0;
-int16 readFromFilePtr = 0;
+int16 picScreenBufSize = 0;
+int16 picPageIndex = 0;
+int16 picRowOffset = 0;
+int16 picRow = 0;
+int16 picReadFromFilePtr = 0;
 
 /* Sprite blit state */
 int armPosition = 0;
@@ -419,7 +419,7 @@ int spriteBlitW = 0;
 int spriteBlitH = 0;
 
 /* Pic decode scalar state */
-int16 readBufEndPtr = 0;
+int16 picReadBufEndPtr = 0;
 int16 picWorkDataPtr = 0;
 int16 picRowLength = 0;
 uint8 picProcessFlag0_1 = 0;

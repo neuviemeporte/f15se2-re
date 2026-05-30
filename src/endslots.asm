@@ -330,8 +330,8 @@ _gfx_dirtyRect2 proc far             ; slot 28
     db 0EAh
     dd 0
 _gfx_dirtyRect2 endp
-_gfx_switchColor proc far
-    db 0EAh, 4 dup(0)               ; slot 29
+_gfx_switchColor proc far             ; slot 29
+    db 0EAh
     dd 0
 _gfx_switchColor endp
 _gfx_copyRect proc far             ; slot 2a
@@ -716,7 +716,6 @@ _var_149 db 000h
     db 000h, 000h, 000h
 _var_150 db 000h
     db 000h, 000h, 000h
-
 
 .DATA?
 ; --- BSS ---
