@@ -150,7 +150,7 @@ int sub_132BA(uint32 coord1, uint32 coord2, uint32 coord3)
         word_3C5A8 = word_3B7EC;
         var_200 = (char far *)(byte_228D0 + buf3d3[word_3B7EC->_0x06]);
         var_202 = word_3C5A8->_0x00 - var_218;
-        worldObjectCount = word_3C5A8->_0x02 - var_219;
+        var_203 = word_3C5A8->_0x02 - var_219;
         var_204 = word_3C5A8->_0x04 - var_220;
         FP_OFF(var_200)++;
         var_217 = 0;
