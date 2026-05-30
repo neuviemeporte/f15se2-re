@@ -62,8 +62,6 @@ EXTRN _timerCounter2:BYTE
 EXTRN _timerCounter3:BYTE
 EXTRN _timerCounter4:BYTE
 EXTRN _timerHandlerInstalled:BYTE
-EXTRN _randSeed:WORD
-EXTRN _randState:WORD
 EXTRN _joyAxisX:BYTE
 EXTRN _joyAxisY:BYTE
 EXTRN _gameData:WORD
@@ -180,9 +178,6 @@ EXTRN _var_120:BYTE
 EXTRN _var_121:BYTE
 EXTRN _var_122:BYTE
 EXTRN _var_125:WORD
-EXTRN _var_129:WORD
-EXTRN _var_130:WORD
-EXTRN _var_131:BYTE
 EXTRN _var_180:WORD
 EXTRN _var_193:WORD
 EXTRN _var_203:WORD
@@ -237,11 +232,6 @@ EXTRN _curRecordIdx:WORD
 EXTRN _var_192:BYTE
 EXTRN _var_104:WORD
 .CODE
-EXTRN __osmajor:BYTE
-EXTRN _exit:PROC
-EXTRN _fclose:PROC
-EXTRN __getstream:PROC
-EXTRN __openfile:PROC
 EXTRN _loadWorldStrings:PROC
 EXTRN _closeFileWrapper:PROC
 EXTRN _drawStringAt:PROC
@@ -295,7 +285,6 @@ EXTRN _calcMissionScore:PROC
 EXTRN _showPostMissionAwards:PROC
 EXTRN _drawFlightPath:PROC
 EXTRN _showEventPopup:PROC
-EXTRN __aNlmul:PROC
 EXTRN _formatFlightTime:PROC
 
 PUBLIC _clearRect
@@ -303,7 +292,6 @@ PUBLIC _mystrcat
 PUBLIC _setTimerIrqHandler
 PUBLIC _farStrcpy
 PUBLIC _decodePicRaw
-PUBLIC _fileSeek
 PUBLIC _copyJoystickData
 
 ; --- Code segment ---
@@ -349,33 +337,6 @@ drawStringAt equ _drawStringAt
 
 drawStringCentered equ _drawStringCentered
 
-randomInRange proc near
-    push BP
-    mov BP,SP
-    call getRandom
-    cwd
-    push DX
-    push AX
-    sub AX,AX
-    push AX
-    push word ptr [BP + 4h]
-    call __aNlmul
-    mov CL,0fh
-LAB_1000_09d3:
-    sar DX,1h
-    rcr AX,1h
-    dec CL
-    jz LAB_1000_09dd
-    jmp LAB_1000_09d3
-LAB_1000_09dd:
-    jmp LAB_1000_09df
-LAB_1000_09df:
-    mov SP,BP
-    pop BP
-    ret
-    db 90h
-randomInRange endp
-
 
 _farStrcpy:
 farStrcpy proc near
@@ -402,82 +363,9 @@ LAB_1000_0a83:
     ret
 farStrcpy endp
 
-mystrlen proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [BP + 4h]
-LAB_1000_0a95:
-    mov BX,word ptr [BP + 4h]
-    inc word ptr [BP + 4h]
-    cmp byte ptr [BX],0h
-    jnz LAB_1000_0a95
-    mov BX,word ptr [BP + 4h]
-    sub AX,BX
-    not AX
-    mov SP,BP
-    pop BP
-    ret
-mystrlen endp
-
 ; --- shared strcat
 INCLUDE shared/str_strcat.inc
-; dead code (strchr-like routine bundled after mystrcat)
-mystrchr proc near
-    push BP
-    mov BP,SP
-    push SI
-    mov AX,word ptr [BP + 6h]
-LAB_1000_0ada:
-    mov BX,word ptr [BP + 4h]
-    cmp byte ptr [BX],0h
-    jz LAB_1000_0aeb
-    cmp byte ptr [BX],AL
-    jz LAB_1000_0af1
-    inc word ptr [BP + 4h]
-    jmp LAB_1000_0ada
-LAB_1000_0aeb:
-    mov AX,0h
-    jmp LAB_1000_0af3
-    db 90h
-LAB_1000_0af1:
-    mov AX,BX
-LAB_1000_0af3:
-    pop SI
-    pop BP
-    ret
-mystrchr endp
 _mystrcat equ mystrcat
-
-myNearMemset proc near
-    push BP
-    mov BP,SP
-    push DI
-    mov AX,DS
-    mov ES,AX
-    mov AL,byte ptr [BP + 6h]
-    mov DI,word ptr [BP + 4h]
-    mov CX,word ptr [BP + 8h]
-    rep stosb
-    pop DI
-    pop BP
-    ret
-myNearMemset endp
-
-farMemset proc near
-    push BP
-    mov BP,SP
-    push SI
-    push ES
-    mov AL,byte ptr [BP + 8h]
-    les DI,dword ptr [BP + 4h]
-    mov CX,word ptr [BP + 0ah]
-    rep stosb
-    pop ES
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-farMemset endp
 
 PUBLIC _memcopy
 _memcopy:
@@ -499,60 +387,6 @@ LAB_1000_0b29:
     pop BP
     ret
 memcopy endp
-
-farToNearCopy proc near
-    push BP
-    mov BP,SP
-    push SI
-    push DI
-    push ES
-    push DS
-    push DS
-    pop ES
-    mov CX,word ptr [BP + 0ah]
-    mov DI,word ptr [BP + 4h]
-    lds SI,dword ptr [BP + 6h]
-    rep movsb
-    pop DS
-    pop ES
-    pop DI
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-farToNearCopy endp
-
-memEqualWords proc near
-    push BP
-    mov BP,SP
-    push SI
-    mov CX,word ptr [BP + 8h]
-LAB_1000_0b63:
-    mov SI,word ptr [BP + 4h]
-    inc word ptr [BP + 4h]
-    mov AX,word ptr [SI]
-    mov BX,word ptr [BP + 6h]
-    inc word ptr [BP + 6h]
-    cmp AX,word ptr [BX]
-    loopz LAB_1000_0b63
-    or CX,CX
-    jz LAB_1000_0b7f
-    mov AX,0h
-    jmp LAB_1000_0b82
-    db 90h
-LAB_1000_0b7f:
-    mov AX,1h
-LAB_1000_0b82:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-memEqualWords endp
-
-PUBLIC _intDispatch
-_intDispatch:
-; --- shared interrupt dispatch routine
-INCLUDE shared/overlay_dispatch.inc
 
 routine_87 proc near
     push BP
@@ -716,6 +550,11 @@ LAB_1000_0d06:
     pop BP
     ret
 routine_116 endp
+
+PUBLIC _intDispatch
+_intDispatch:
+; --- shared interrupt dispatch routine
+INCLUDE shared/overlay_dispatch.inc
 
 PUBLIC _dos_printstring
 _dos_printstring:
@@ -1376,186 +1215,8 @@ calcMissionScore equ _calcMissionScore
 EXTRN _debriefMainLoop:PROC
 debriefMainLoop equ _debriefMainLoop
 
-PUBLIC _dosExit
-_dosExit:
-dosExit proc near
-    push BP
-    mov BP,SP
-    push word ptr [BP+4h]
-    call _exit
-dosExit endp
+EXTRN _dosExit:PROC
 
-PUBLIC _routine_46
-_routine_46:
-routine_46 proc near
-    push BP
-    mov BP,SP
-    sub SP,2h
-    push SI
-    call __getstream
-    mov SI,AX
-    or SI,SI
-    jz LAB_1000_4c18
-    push SI
-    push word ptr [BP + 6h]
-    push word ptr [BP + 4h]
-    call __openfile
-    add SP,6h
-    jmp LAB_1000_4c1a
-    db 90h
-LAB_1000_4c18:
-    sub AX,AX
-LAB_1000_4c1a:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-    db 90h
-routine_46 endp
-
-_fileSeek:
-fileSeek proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    mov BX,word ptr [BP + 4h]
-    cmp BX,word ptr [_var_130]
-    jc LAB_1000_4c34
-    mov AX,900h
-    jmp LAB_1000_4c5e
-LAB_1000_4c34:
-    test word ptr [BP + 8h],8000h
-    jz LAB_1000_4c83
-    cmp word ptr [BP + 0ah],0h
-    jz LAB_1000_4c5b
-    xor CX,CX
-    mov DX,CX
-    mov AX,4201h
-    int 21h
-    jc LAB_1000_4c97
-    test word ptr [BP + 0ah],2h
-    jnz LAB_1000_4c61
-    add AX,word ptr [BP + 6h]
-    adc DX,word ptr [BP + 8h]
-    jns LAB_1000_4c83
-LAB_1000_4c5b:
-    mov AX,1600h
-LAB_1000_4c5e:
-    stc
-    jmp LAB_1000_4c97
-LAB_1000_4c61:
-    mov word ptr [BP + -2h],DX
-    mov word ptr [BP + -4h],AX
-    mov DX,CX
-    mov AX,4202h
-    int 21h
-    add AX,word ptr [BP + 6h]
-    adc DX,word ptr [BP + 8h]
-    jns LAB_1000_4c83
-    mov CX,word ptr [BP + -2h]
-    mov DX,word ptr [BP + -4h]
-    mov AX,4200h
-    int 21h
-    jmp LAB_1000_4c5b
-LAB_1000_4c83:
-    mov DX,word ptr [BP + 6h]
-    mov CX,word ptr [BP + 8h]
-    mov AL,byte ptr [BP + 0ah]
-    mov AH,42h
-    int 21h
-    jc LAB_1000_4c97
-    and byte ptr [BX + offset _var_131],0fdh
-LAB_1000_4c97:
-    jmp fileSeekWithCheck
-fileSeek endp
-
-PUBLIC _routine_140
-_routine_140:
-routine_140 proc near
-    push BP
-    mov BP,SP
-    push SI
-    push DI
-    push DS
-    mov DS,word ptr [BP + 4h]
-    mov SI,word ptr [BP + 6h]
-    mov ES,word ptr [BP + 8h]
-    mov DI,word ptr [BP + 0ah]
-    mov CX,word ptr [BP + 0ch]
-    rep movsb
-    pop DS
-    pop DI
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-routine_140 endp
-
-getRandom proc near
-    mov AX,43fdh
-    mov DX,3h
-    push DX
-    push AX
-    push word ptr [_randState]
-    push word ptr [_randSeed]
-    call __aNlmul
-    add AX,9ec3h
-    adc DX,26h
-    mov word ptr [_randSeed],AX
-    mov word ptr [_randState],DX
-    mov AX,DX
-    and AH,7fh
-    ret
-getRandom endp
-
-
-fileSeekWithCheck proc near
-    jnc LAB_1000_4f3c
-LAB_1000_4f35:
-    call routine_114
-    mov AX,0ffffh
-    cwd
-LAB_1000_4f3c:
-    mov SP,BP
-    pop BP
-    ret
-    db 32h
-    db 0E4h
-    db 0E8h
-    db 01h
-    db 00h
-    db 0C3h
-fileSeekWithCheck endp
-
-routine_114 proc near
-    mov byte ptr [_var_129],AL
-    or AH,AH
-    jnz LAB_1000_4f70
-    cmp byte ptr [__osmajor],3h
-    jc LAB_1000_4f61
-    cmp AL,22h
-    jnc LAB_1000_4f65
-    cmp AL,20h
-    jc LAB_1000_4f61
-    mov AL,5h
-    jmp LAB_1000_4f67
-    db 90h
-LAB_1000_4f61:
-    cmp AL,13h
-    jbe LAB_1000_4f67
-LAB_1000_4f65:
-    mov AL,13h
-LAB_1000_4f67:
-    mov BX,offset _dat_231c
-    xlat
-LAB_1000_4f6b:
-    cbw
-    mov word ptr [_var_125],AX
-    ret
-LAB_1000_4f70:
-    mov AL,AH
-    jmp LAB_1000_4f6b
-routine_114 endp
 
 
 ; --- shared joystick routines

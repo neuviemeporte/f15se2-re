@@ -3,6 +3,7 @@
 #include "pointers.h"
 #include "debug.h"
 #include "shared/util.h"
+#include <stdlib.h>
 #include "end.h"
 
 void initGraphics(void) {
@@ -106,6 +107,12 @@ void outportByte(int port, int value) {
     TRACE(("outportByte"));
     outp(port, value);
 }
+
+void dosExit(int code) {
+    exit(code);
+}
+
+
 
 
 void loadWorldStrings(void) {

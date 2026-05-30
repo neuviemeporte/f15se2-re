@@ -40,7 +40,7 @@ void loadPicFromFileAt(char *name, int segment, int off, int whence) {
     int handle;
     TRACE(("loadPicFromFileAt"));
     handle = openFileWrapper(name, 0);
-    fileSeek(handle, off, whence, 0);
+    lseek(handle, off, whence, 0);
     decodePic(handle, segment);
     closeFileWrapper(handle);
 }
