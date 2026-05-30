@@ -390,9 +390,11 @@ extern int var_193[];
 extern int var_192;
 
 /* Data symbols used by showPostMissionAwards */
+extern struct PageDesc awardPageDesc;
+extern struct PageDesc awardPageDesc2;
 extern int16 *awardPage;
-extern int awardFont;
-extern int awardColor;
+#define awardFont  (awardPageDesc.font)
+#define awardColor (awardPageDesc.color)
 extern char textBuf[];
 extern char *rankNames[];
 extern long promoScores[];
