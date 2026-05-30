@@ -68,7 +68,7 @@ void main(void) {
     clearKeybuf();
     showPostMissionAwards();
     restoreCbreakHandler();
-    dosExit(EXIT_DEBRIEF);
+    exit(EXIT_DEBRIEF);
 }
 
 void drawStringAtPos(int16 *s, char far *str, int x, int y) {
@@ -76,6 +76,11 @@ void drawStringAtPos(int16 *s, char far *str, int x, int y) {
     s[4] = x;
     s[5] = y;
     drawFarString(s, str);
+}
+
+void farStrcpy(char *dst, char far *src) {
+    while ((*dst++ = *src++) != '\0')
+        ;
 }
 
 void drawFarString(int16* s, char far *str) {
@@ -90,7 +95,7 @@ void checkQuitFlag(void) {
     if (quitFlag != 0) {
         cleanup();
         restoreCbreakHandler();
-        dosExit(0);
+        exit(0);
     }
 }
 
@@ -107,13 +112,6 @@ void outportByte(int port, int value) {
     TRACE(("outportByte"));
     outp(port, value);
 }
-
-void dosExit(int code) {
-    exit(code);
-}
-
-
-
 
 void loadWorldStrings(void) {
     int p;

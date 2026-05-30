@@ -24,6 +24,6 @@ done:
         if (quitFlag != 0) {
             restoreCbreakHandler();
         }
-        dosExit(0);
+        exit(0);
     }
 }

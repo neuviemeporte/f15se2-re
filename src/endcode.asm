@@ -7,49 +7,49 @@ local_res0 equ 0
 a equ 2h
 
 ; --- External overlay jump table procs (in endslots.asm .DATA segment) ---
-EXTRN gfx_allocPage:FAR
-EXTRN gfx_drawString:FAR
-EXTRN gfx_setPage1:FAR
-EXTRN gfx_setPageN:FAR
-EXTRN gfx_getCurPageSeg:FAR
-EXTRN gfx_getCurPageSeg2:FAR
-EXTRN gfx_blitSprite:FAR
-EXTRN gfx_getBufSize:FAR
-EXTRN gfx_setBlitOffset:FAR
-EXTRN gfx_drawLine:FAR
-EXTRN gfx_setPageDirect:FAR
-EXTRN gfx_setColor:FAR
-EXTRN gfx_resetBlitOffset:FAR
-EXTRN gfx_resetBlitOffset2:FAR
-EXTRN gfx_dirtyRect2:FAR
-EXTRN gfx_switchColor:FAR
-EXTRN gfx_copyRect:FAR
-EXTRN gfx_setFont:FAR
-EXTRN gfx_getAuxBufSize:FAR
-EXTRN gfx_fillRow:FAR
-EXTRN gfx_fillRow2:FAR
-EXTRN gfx_copyRow:FAR
-EXTRN gfx_nop36:FAR
-EXTRN gfx_getPageSeg:FAR
-EXTRN gfx_getRowOffset:FAR
-EXTRN gfx_clearPage:FAR
-EXTRN gfx_setFadeSteps:FAR
-EXTRN gfx_calcRowAddr:FAR
-EXTRN gfx_setOvlVal1:FAR
-EXTRN gfx_setOvlVal2:FAR
-EXTRN gfx_setDac:FAR
-EXTRN gfx_waitRetrace:FAR
-EXTRN gfx_flipPage:FAR
-EXTRN gfx_storeBufPtr:FAR
-EXTRN gfx_commitPage:FAR
-EXTRN gfx_nop51:FAR
-EXTRN gfx_setMonoFlag:FAR
-EXTRN gfx_getCurPage:FAR
-EXTRN misc_jump_5a_keybuf:FAR
-EXTRN misc_jump_5b_getkey:FAR
-EXTRN misc_jump_5d_readJoy:FAR
-EXTRN misc_jump_5e_clearKeyFlags:FAR
-EXTRN thunk_EXT_FUN_0000:FAR
+EXTRN _gfx_allocPage:FAR
+EXTRN _gfx_drawString:FAR
+EXTRN _gfx_setPage1:FAR
+EXTRN _gfx_setPageN:FAR
+EXTRN _gfx_getCurPageSeg:FAR
+EXTRN _gfx_getCurPageSeg2:FAR
+EXTRN _gfx_blitSprite:FAR
+EXTRN _gfx_getBufSize:FAR
+EXTRN _gfx_setBlitOffset:FAR
+EXTRN _gfx_drawLine:FAR
+EXTRN _gfx_setPageDirect:FAR
+EXTRN _gfx_setColor:FAR
+EXTRN _gfx_resetBlitOffset:FAR
+EXTRN _gfx_resetBlitOffset2:FAR
+EXTRN _gfx_dirtyRect2:FAR
+EXTRN _gfx_switchColor:FAR
+EXTRN _gfx_copyRect:FAR
+EXTRN _gfx_setFont:FAR
+EXTRN _gfx_getAuxBufSize:FAR
+EXTRN _gfx_fillRow:FAR
+EXTRN _gfx_fillRow2:FAR
+EXTRN _gfx_copyRow:FAR
+EXTRN _gfx_nop36:FAR
+EXTRN _gfx_getPageSeg:FAR
+EXTRN _gfx_getRowOffset:FAR
+EXTRN _gfx_clearPage:FAR
+EXTRN _gfx_setFadeSteps:FAR
+EXTRN _gfx_calcRowAddr:FAR
+EXTRN _gfx_setOvlVal1:FAR
+EXTRN _gfx_setOvlVal2:FAR
+EXTRN _gfx_setDac:FAR
+EXTRN _gfx_waitRetrace:FAR
+EXTRN _gfx_flipPage:FAR
+EXTRN _gfx_storeBufPtr:FAR
+EXTRN _gfx_commitPage:FAR
+EXTRN _gfx_nop51:FAR
+EXTRN _gfx_setMonoFlag:FAR
+EXTRN _gfx_getCurPage:FAR
+EXTRN _misc_jump_5a_keybuf:FAR
+EXTRN _misc_jump_5b_getkey:FAR
+EXTRN _misc_jump_5d_readJoy:FAR
+EXTRN _misc_jump_5e_clearKeyFlags:FAR
+EXTRN _thunk_EXT_FUN_0000:FAR
 
 ; --- External data variables (in endslots.asm) ---
 EXTRN _commData:WORD
@@ -63,10 +63,6 @@ EXTRN _timerCounter3:BYTE
 EXTRN _timerCounter4:BYTE
 EXTRN _timerHandlerInstalled:BYTE
 EXTRN _joyAxisX:BYTE
-EXTRN _joyAxisY:BYTE
-EXTRN _gameData:WORD
-EXTRN _var_179:WORD
-EXTRN _gfxBufSeg:WORD
 EXTRN _ovlInsaneFlag:BYTE
 EXTRN _clipDivZeroHandler:BYTE
 EXTRN _clearRectX:WORD
@@ -83,9 +79,7 @@ EXTRN _dirtyRectMin:WORD
 EXTRN _dirtyRectMax:WORD
 EXTRN _clipOutcode:BYTE
 EXTRN _clipDx:WORD
-EXTRN _var_41:BYTE
 EXTRN _clipDy:WORD
-EXTRN _var_43:BYTE
 EXTRN _clipDxHalf:WORD
 EXTRN _clipDyHalf:WORD
 EXTRN _clipMaxX:WORD
@@ -139,7 +133,6 @@ EXTRN _joyRawAxis1:WORD
 EXTRN _origCBreakSeg:WORD
 EXTRN _origCBreakOfs:WORD
 EXTRN _errorCodeStr:WORD
-EXTRN _var_61:BYTE
 EXTRN str_overlayRelError:BYTE
 EXTRN str_fileNotFound:BYTE
 EXTRN str_noFileBufs:BYTE
@@ -147,71 +140,10 @@ EXTRN str_openError:BYTE
 EXTRN str_fileCloseError:BYTE
 EXTRN str_readError:BYTE
 EXTRN str_writeError:BYTE
-EXTRN _str_insertScenario:BYTE
-EXTRN _str_pressKey1:BYTE
-EXTRN _str_insertDiskA:BYTE
-EXTRN _str_pressKey2:BYTE
-EXTRN _str_dbicons1:BYTE
-EXTRN _str_dbicons2:BYTE
-EXTRN _str_missionDebrief:BYTE
-EXTRN _str_modeRb1:BYTE
-EXTRN _str_modeRb2:BYTE
-str_insertScenario equ _str_insertScenario
-str_pressKey1 equ _str_pressKey1
-str_insertDiskA equ _str_insertDiskA
-str_pressKey2 equ _str_pressKey2
-str_dbicons1 equ _str_dbicons1
-str_dbicons2 equ _str_dbicons2
-str_missionDebrief equ _str_missionDebrief
-str_modeRb1 equ _str_modeRb1
-str_modeRb2 equ _str_modeRb2
-EXTRN _dat_0042:BYTE
-EXTRN _var_99:WORD
-EXTRN _var_100:WORD
-EXTRN _var_102:WORD
-EXTRN _var_115:BYTE
-EXTRN _var_116:WORD
-EXTRN _var_117:WORD
-EXTRN _var_118:WORD
-EXTRN _var_119:BYTE
-EXTRN _var_120:BYTE
-EXTRN _var_121:BYTE
-EXTRN _var_122:BYTE
-EXTRN _var_125:WORD
-EXTRN _var_180:WORD
-EXTRN _var_193:WORD
-EXTRN _var_203:WORD
-EXTRN _var_205:WORD
-EXTRN _var_216:BYTE
 EXTRN _var_3f72:BYTE
-EXTRN _dat_231c:BYTE
-EXTRN _dat_4034:BYTE
-EXTRN _dat_4040:BYTE
-EXTRN _dat_4246:BYTE
-EXTRN _dat_4a2a:BYTE
-EXTRN _dat_5512:BYTE
-EXTRN _dat_55de:BYTE
-EXTRN _dat_5ab4:BYTE
-EXTRN _dat_1580:BYTE
-EXTRN _awardColor:BYTE
-EXTRN _awardFont:BYTE
-EXTRN _awardPage:WORD
-EXTRN _promoScores:WORD
-EXTRN _promoThresholds:WORD
-EXTRN _medalScores:WORD
-EXTRN _medalThresholds:WORD
-EXTRN _spriteAir:WORD
-EXTRN _spriteSam:WORD
-EXTRN _spriteGround:WORD
-EXTRN _spriteWaypoint:WORD
 EXTRN _pageStruct:BYTE
-EXTRN _pageStruct2:BYTE
-EXTRN _pageStruct3:BYTE
-EXTRN _flightRecords:BYTE
 EXTRN dat_1868:WORD
 EXTRN dat_186A:WORD
-EXTRN _dat_21e4:BYTE
-dat_21e4 equ _dat_21e4
 EXTRN dat_2769:BYTE
 EXTRN dat_3F6A:BYTE
 EXTRN dat_3F6B:BYTE
@@ -224,83 +156,21 @@ EXTRN dat_3FB4:WORD
 EXTRN dat_3FB6:WORD
 EXTRN dat_3FB8:BYTE
 EXTRN _missionScore:WORD
-EXTRN _missionScoreHi:WORD
-EXTRN _ejectedFlag:BYTE
-EXTRN _worldBufHandle:WORD
-EXTRN _spriteBufSeg:WORD
-EXTRN _curRecordIdx:WORD
-EXTRN _var_192:BYTE
-EXTRN _var_104:WORD
 .CODE
-EXTRN _loadWorldStrings:PROC
-EXTRN _closeFileWrapper:PROC
-EXTRN _drawStringAt:PROC
-EXTRN _stringWidth:PROC
-EXTRN _drawStringCentered:PROC
-EXTRN _mystrcpy:PROC
-EXTRN _cleanup:PROC
-EXTRN _seedRandom:PROC
-EXTRN _loadPic:PROC
-EXTRN _openShowPic:PROC
-EXTRN _allocBuffer:PROC
-EXTRN _freeBuffer:PROC
-EXTRN _srandInit:PROC
-EXTRN _drawEventSprite:PROC
-EXTRN _mapToScreenY:PROC
-EXTRN _mapToScreenX:PROC
-EXTRN _drawMapPixel:PROC
 EXTRN _drawClippedLine:PROC
-EXTRN _openFileWrapper:PROC
-EXTRN _openFileRead:PROC
-EXTRN _readFileBlock:PROC
-EXTRN _readFileAt:PROC
-EXTRN _readFileAtEx:PROC
-EXTRN _loadFileSection:PROC
-EXTRN _loadFileSectionEx:PROC
-EXTRN _plotMapPoint:PROC
-EXTRN _outportByte:PROC
 EXTRN _loadPicFromFile:PROC
-EXTRN _loadPicFromFileAt:PROC
-EXTRN _isPointInRect:PROC
-EXTRN _drawFlightLine:PROC
-EXTRN _timerWait:PROC
-EXTRN _drawStringAtPos:PROC
-EXTRN _drawFarString:PROC
-EXTRN _animateFlightPath:PROC
-EXTRN _drawWrappedText:PROC
-EXTRN _waitForKeyOrJoy:PROC
-EXTRN _checkQuitFlag:PROC
-EXTRN _routine_5:PROC
-EXTRN _routine_6:PROC
-EXTRN _loadWorldData:PROC
-EXTRN _readWorldData:PROC
-EXTRN _my_itoa:PROC
-EXTRN _my_ltoa:PROC
-EXTRN _blinkWidget:PROC
-EXTRN _processMenuItems:PROC
-EXTRN _selectMenuItem:PROC
-EXTRN _processDebriefInput:PROC
-EXTRN _drawMenuItem:PROC
-EXTRN _calcMissionScore:PROC
-EXTRN _showPostMissionAwards:PROC
-EXTRN _drawFlightPath:PROC
-EXTRN _showEventPopup:PROC
-EXTRN _formatFlightTime:PROC
 
 PUBLIC _clearRect
 PUBLIC _mystrcat
 PUBLIC _setTimerIrqHandler
-PUBLIC _farStrcpy
 PUBLIC _decodePicRaw
 PUBLIC _copyJoystickData
 
 ; --- Code segment ---
 
-EXTRN _main:PROC
 
 PUBLIC _pollJoystick
 
-EXTRN _initGraphics:PROC
 
 PUBLIC _setupWorldBufPtr
 _setupWorldBufPtr:
@@ -314,79 +184,27 @@ setupWorldBufPtr proc near
     ret
 setupWorldBufPtr endp
 
-EXTRN _readFromWorldBuf:PROC
-EXTRN _readFromWorldFile:PROC
 
 PUBLIC _clearKeybuf
 _clearKeybuf:
 clearKeybuf proc near
     jmp FUN_1000_03ad
 LAB_1000_03a8:
-    call far ptr misc_jump_5b_getkey
+    call far ptr _misc_jump_5b_getkey
 clearKeybuf endp
 
 FUN_1000_03ad proc near
-    call far ptr misc_jump_5a_keybuf
+    call far ptr _misc_jump_5a_keybuf
     or AX,AX
     jz LAB_1000_03a8
     ret
 FUN_1000_03ad endp
 
-drawStringAt equ _drawStringAt
-
-
-drawStringCentered equ _drawStringCentered
-
-
-_farStrcpy:
-farStrcpy proc near
-    push BP
-    mov BP,SP
-    push SI
-    push DI
-    push ES
-    push DS
-    push DS
-    pop ES
-    lds SI,dword ptr [BP + 6h]
-    mov DI,word ptr [BP + 4h]
-LAB_1000_0a83:
-    lodsb
-    stosb
-    or AL,AL
-    jnz LAB_1000_0a83
-    pop DS
-    pop ES
-    pop DI
-    pop SI
-    pop BP
-    ret
-farStrcpy endp
 
 ; --- shared strcat
 INCLUDE shared/str_strcat.inc
 _mystrcat equ mystrcat
 
-PUBLIC _memcopy
-_memcopy:
-memcopy proc near
-    push BP
-    mov BP,SP
-    push SI
-    mov CX,word ptr [BP + 8h]
-LAB_1000_0b29:
-    mov SI,word ptr [BP + 4h]
-    inc word ptr [BP + 4h]
-    mov BX,word ptr [BP + 6h]
-    inc word ptr [BP + 6h]
-    mov DL,byte ptr [BX]
-    mov byte ptr [SI],DL
-    loop LAB_1000_0b29
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-memcopy endp
 
 PUBLIC _intDispatch
 _intDispatch:
@@ -402,17 +220,17 @@ PUBLIC _setupOverlaySlots
 _setupOverlaySlots:
 ; --- shared overlay slot setup routine
 ovlInsaneFlag    EQU _ovlInsaneFlag
-ovlJumpTable     EQU gfx_allocPage
+ovlJumpTable     EQU _gfx_allocPage
 INCLUDE shared/overlay_slots.inc
 
 ; --- shared clearRect
-clearRectGetCurBuf EQU gfx_getCurPageSeg2
-clearRectSetCurBuf EQU gfx_setPage1
-clearRectSetVal    EQU gfx_setPageDirect
-clearRectJump28    EQU gfx_dirtyRect2
-clearRectJump22    EQU gfx_resetBlitOffset
-clearRectNull      EQU gfx_nop51
-clearRectGetBufPtr EQU gfx_getCurPageSeg
+clearRectGetCurBuf EQU _gfx_getCurPageSeg2
+clearRectSetCurBuf EQU _gfx_setPage1
+clearRectSetVal    EQU _gfx_setPageDirect
+clearRectJump28    EQU _gfx_dirtyRect2
+clearRectJump22    EQU _gfx_resetBlitOffset
+clearRectNull      EQU _gfx_nop51
+clearRectGetBufPtr EQU _gfx_getCurPageSeg
 clearRectX     EQU _clearRectX
 clearRectY     EQU _clearRectY
 clearRectWidth     EQU _clearRectWidth
@@ -443,7 +261,7 @@ clipMaxX         EQU _clipMaxX
 clipMaxY         EQU _clipMaxY
 clipDivZeroHandler EQU _clipDivZeroHandler
 CALL_GFX_1F MACRO
-    call far ptr gfx_drawLine
+    call far ptr _gfx_drawLine
 ENDM
 PUBLIC _drawLineWrapper
 INCLUDE shared/gfx.inc
@@ -491,8 +309,8 @@ fileReadPosVar   EQU _fileReadPos
 fileErrorExit    EQU errorDescAndExit
 INCLUDE shared/file_open.inc
 
-PUBLIC _openFileRaw
-_openFileRaw:
+PUBLIC _createFile
+_createFile:
 openFileRaw proc near
     push BP
     mov BP,SP
@@ -546,8 +364,8 @@ fileCloseErrorStr EQU str_fileCloseError
 fileCloseErrExit  EQU errorAndExit
 INCLUDE shared/file_close.inc
 
-PUBLIC _readFileRaw
-_readFileRaw:
+PUBLIC _readFile
+_readFile:
 readFileRaw proc near
     push BP
     mov BP,SP
@@ -576,8 +394,8 @@ LAB_1000_14a1:
     ret
 readFileRaw endp
 
-PUBLIC _readFileAtRaw
-_readFileAtRaw:
+PUBLIC _readFileAt
+_readFileAt:
 readFileAtRaw proc near
     push BP
     mov BP,SP
@@ -654,8 +472,8 @@ setHandleAndRead512 proc near
     ret
 setHandleAndRead512 endp
 
-PUBLIC _readFileAtExRaw
-_readFileAtExRaw:
+PUBLIC _writeFile
+_writeFile:
 ; --- shared file write
 fileWriteErrStr  EQU str_writeError
 fileWriteErrExit EQU errorAndExit
@@ -666,9 +484,6 @@ readFileAtExRaw equ writeFileAtRaw
 fileErrorCodeStr EQU _errorCodeStr
 INCLUDE shared/file_error.inc
 
-openShowPic equ _openShowPic
-
-loadPic equ _loadPic
 
 ; --- shared pic decoding routines
 picFileReadPos       EQU _fileReadPos
@@ -699,13 +514,6 @@ picSlotCounter       EQU _picSlotCounter
 picDictionaryIndex   EQU _picDictionaryIndex
 picInitRoutine       EQU routine_120
 picReadFileFunc      EQU read512FromFileIntoBuf
-_gfx_fillRow EQU gfx_fillRow
-_gfx_fillRow2 EQU gfx_fillRow2
-_gfx_copyRow         EQU gfx_copyRow
-_gfx_nop36    EQU gfx_nop36
-_gfx_getPageSeg EQU gfx_getPageSeg
-_gfx_getRowOffset EQU gfx_getRowOffset
-_gfx_clearPage EQU gfx_clearPage
 
 PUBLIC _showPicFile
 _showPicFile:
@@ -725,21 +533,21 @@ decodePicRaw proc near
     mov word ptr [_tmpFileHandle],AX
     mov AX,word ptr [BP + Stack[4h]+2h]
     mov ES,AX
-    call far ptr gfx_clearPage
+    call far ptr _gfx_clearPage
     call routine_120
     mov word ptr [_picRow],0h
     mov word ptr [_picScreenBufSize],0fa00h
 LAB_1000_1702:
     mov DI,word ptr [_picRow]
-    call far ptr gfx_getRowOffset
+    call far ptr _gfx_getRowOffset
     mov word ptr [_picRowOffset],AX
     call decodePicRow
     mov DI,word ptr [_picRowOffset]
     mov BP,offset _picDecodedRowBuf
     mov BX,word ptr [_picRow]
-    call far ptr gfx_fillRow
+    call far ptr _gfx_fillRow
     mov DI,word ptr [_picRowOffset]
-    call far ptr thunk_EXT_FUN_0000
+    call far ptr _thunk_EXT_FUN_0000
     inc word ptr [_picRow]
     sub word ptr [_picScreenBufSize],140h
     jnz LAB_1000_1702
@@ -764,9 +572,6 @@ routine_120 endp
 INCLUDE shared/pic_lzw.inc
     db 00h
 
-allocBuffer equ _allocBuffer
-
-freeBuffer equ _freeBuffer
 
 PUBLIC _dos_alloc
 _dos_alloc:
@@ -1038,23 +843,6 @@ _incTimerCounters proc near
 _incTimerCounters endp
 getTimeOfDay endp
 
-processMenuItems equ _processMenuItems
-
-selectMenuItem equ _selectMenuItem
-
-animateFlightPath equ _animateFlightPath
-
-EXTRN _drawClippedLineEx:PROC
-drawClippedLineEx equ _drawClippedLineEx
-
-calcMissionScore equ _calcMissionScore
-
-EXTRN _debriefMainLoop:PROC
-debriefMainLoop equ _debriefMainLoop
-
-EXTRN _dosExit:PROC
-
-
 
 ; --- shared joystick routines
 joyRawAxis0      EQU _joyRawAxis0
@@ -1068,9 +856,5 @@ joyNormAxes      EQU _joyAxisX
 INCLUDE shared/joystick.inc
 _pollJoystick equ pollJoystick
 _copyJoystickData equ copyJoystickData
-
-
-
-
 
 END
