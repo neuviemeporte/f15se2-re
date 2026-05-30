@@ -222,7 +222,7 @@ END_MAP := $(MAPDIR)/end.map
 END_LINKMAP := $(BUILDDIR)/end.map:link
 END_BASE := endslots.asm
 END_ASM := endcode.asm $(END_BASE)
-END_SRC := enmain.c enworld.c eninput.c entext.c enaward.c enbrief.c endbrf.c enfile.c end2.c end_data.c endtbl.c
+END_SRC := enmain.c enworld.c eninput.c entext.c enaward.c enbrief.c endbrf.c enfile.c end_data.c
 END_BASEHDR = $(SRCDIR)/end.h
 END_COBJ := $(call cobj,$(BUILDDIR),$(END_SRC))
 END_OBJ := $(END_COBJ) $(COMMON_OBJ) $(COMMON_OBJ2) $(call asmobj,$(BUILDDIR),$(END_ASM))
@@ -238,7 +238,6 @@ $(BUILDDIR)/endbrf.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/eninput.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/enaward.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/enfile.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/end2.obj: MSC_CFLAGS := /Od /Id:\f15-se2
 $(BUILDDIR)/enworld.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2
 
 # reference and target entrypoints for binary comparison

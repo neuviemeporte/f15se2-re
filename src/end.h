@@ -365,7 +365,6 @@ extern int dat_4804;
 extern int var_193[];
 extern int var_192;
 
-
 /* Data symbols used by showPostMissionAwards */
 extern int16 *awardPage;
 extern int awardFont;
@@ -401,7 +400,6 @@ extern int groundKilled;
 extern int samKilled;
 extern char unitTypeTable[];
 extern char gridFlags[];
-
 
 /* Variables used by main */
 extern struct Game far *gameData;
