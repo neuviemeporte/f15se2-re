@@ -745,3 +745,128 @@ char str_insertDiskA[] = "Please insert F15 Disk A";
 char str_pressKey2[] = "<Press a key when ready>";
 char str_dbicons2[] = "dbicons.spr";
 char str_missionDebrief[] = "  MISSION DEBRIEFING\0";
+
+/* Ctrl-Break handler state */
+uint8 quitFlag = 0;
+int16 origCBreakSeg = 0;
+int16 origCBreakOfs = 0;
+
+/* Timer variables */
+uint8 var_timerFlag = 0;
+uint8 timerHandlerInstalled = 0;
+int16 timerCountLo = 0;
+int16 timerCountHi = 0;
+int16 timerTarget = 0;
+int16 timerDivisor = 0;
+int16 timerTickCnt = 0;
+int16 timerReload = 0;
+uint8 timerDivider = 0;
+int16 timerMode = 0;
+int16 timerCalSumLo = 0;
+int16 timerCalSumHi = 0;
+uint8 timerSyncRetrace = 0;
+int16 timerTick = 0;
+int16 timerRetrace = 0;
+uint8 timerCounter = 0;
+uint8 timerCounter4 = 0;
+uint8 timerCounter2 = 0;
+uint8 timerCounter3 = 0;
+
+/* Random number generator */
+int16 randSeed = 1;
+int16 randState = 0;
+
+/* File I/O variables */
+uint8 errorCodeStr = 0;
+uint8 var_61 = 0;
+uint8 fileReadBuf[512] = {0};
+char str_fileNotFound[] = ":File not found$";
+char str_noFileBufs[] = ":No file buffers available$";
+char str_openError[] = ":Open error $";
+char str_fileCloseError[] = "File closing error$";
+char str_readError[] = "Read error$";
+char str_writeError[] = "Write error$";
+int16 dat_1868 = 0;
+int16 dat_186A = 0;
+int16 dat_186C = 0;
+int16 fileReadPos = 0;
+int16 tmpFileHandle = 0;
+
+/* Pic decoder state */
+uint8 picDecodedRowBuf[320] = {0};
+int16 picScreenBufSize = 0;
+int16 picPageIndex = 0;
+int16 picRowOffset = 0;
+int16 dat_picRowPad = 0;
+int16 picRow = 0;
+int16 picReadFromFilePtr = 0;
+
+/* Clear rect parameters */
+int16 clearRectX = 0;
+int16 clearRectY = 0;
+int16 clearRectWidth = 0;
+int16 clearRectHeight = 0;
+uint8 clearRectHeightPad = 0;
+
+/* Line drawing parameters */
+int16 lineX1 = 0;
+int16 lineX2 = 0;
+int16 lineY1 = 0;
+int16 lineY2 = 0;
+
+/* Clipping state */
+uint8 clipOutcode = 0;
+int16 clipDx = 0;
+int16 clipDy = 0;
+int16 clipDxHalf = 0;
+int16 clipDyHalf = 0;
+int16 clipMaxX = 0x13F;
+int16 clipMaxY = 0x6F;
+uint8 clipMaxYPad = 0;
+
+/* Joystick calibration arrays */
+int16 joyMinValues[4] = {0};
+int16 joyMaxValues[4] = {0};
+int16 joyCenterValues[4] = {0};
+int16 joyRangeBelow[4] = {0};
+int16 joyRangeAbove[4] = {0};
+int16 joyRawAxis0 = 0;
+int16 joyRawAxis1 = 0;
+int16 joyRawAxis2 = 0;
+int16 joyRawAxis3 = 0;
+char joyAxisX = 0;
+char joyAxisY = 0;
+
+/* Pic decoder state */
+int16 var_151 = 0;
+int16 var_152 = 0;
+int16 picReadBufEndPtr = 0;
+int16 picWorkDataPtr = 0;
+int16 picRowLength = 0;
+uint8 picProcessFlag = 0;
+uint8 picLookupResult = 0;
+uint8 picTmp9BitCount = 0;
+uint8 picByte = 0;
+int16 picFileReadBufEnd = 0;
+int16 picNumberDictSlots = 0;
+int16 picFileWord = 0;
+uint8 picRemainingBitCount = 0;
+uint8 picByteUnsignedFlag = 0;
+int16 picSlotCounter = 0;
+
+/* Second LZW decoder state */
+uint8 dat_3F6A = 0;
+uint8 dat_3F6B = 0;
+int16 dat_3F6C = 0;
+int16 dat_3F6E = 0;
+uint8 dat_3F70 = 0;
+uint8 dat_3F71 = 0;
+uint8 var_3f72[64] = {0};
+int16 dat_3FB2 = 0;
+int16 dat_3FB4 = 0;
+int16 dat_3FB6 = 0;
+int16 dat_3FB8 = 0;
+uint8 var_3fc6[10] = {0};
+
+/* Overlay insane flag - used by overlay slot setup */
+uint8 ovlInsaneFlag = 0;

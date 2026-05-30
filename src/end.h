@@ -88,14 +88,49 @@ int readFileAt(int handle, int a, int b, int c);
 int writeFile(int handle, int a, int b, int c, int d);
 
 /* Extern variables from ASM */
+extern char var_timerFlag;
 extern char timerHandlerInstalled;
+extern int timerCountLo;
+extern int timerCountHi;
+extern int timerTarget;
+extern int timerDivisor;
+extern int timerTickCnt;
+extern int timerReload;
+extern char timerDivider;
+extern int timerMode;
+extern int timerCalSumLo;
+extern int timerCalSumHi;
+extern char timerSyncRetrace;
+extern int timerTick;
+extern int timerRetrace;
 extern unsigned char timerCounter;
+extern char timerCounter4;
+extern int origCBreakSeg;
+extern int origCBreakOfs;
 extern int lineX1;
 extern int lineY1;
 extern int lineX2;
 extern int lineY2;
 extern int clipMaxX;
 extern int clipMaxY;
+extern unsigned char clipOutcode;
+extern int clipDx;
+extern int clipDy;
+extern int clipDxHalf;
+extern int clipDyHalf;
+extern int clearRectX;
+extern int clearRectY;
+extern int clearRectWidth;
+extern int clearRectHeight;
+extern int joyMinValues[];
+extern int joyMaxValues[];
+extern int joyCenterValues[];
+extern int joyRangeBelow[];
+extern int joyRangeAbove[];
+extern int joyRawAxis0;
+extern int joyRawAxis1;
+extern int joyRawAxis2;
+extern int joyRawAxis3;
 extern int lastDrawX;
 extern int prevDrawX;
 extern int lastDrawY;
@@ -276,8 +311,6 @@ extern int worldDataReady;
 extern char *worldStrings[];
 extern char worldStringBuf[];
 extern int worldBufHandle;
-extern unsigned int var_151;
-extern unsigned int var_152;
 void loadPicFromFile(char *name, int segment);
 void loadPicFromFileAt(char *name, int segment, int off, int whence);
 void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage);
@@ -417,5 +450,63 @@ void debriefMainLoop(void);
 void showPostMissionAwards(void);
 void installCBreakHandler(void);
 extern void far copyJoystickData(uint8 far *data);
+
+/* File I/O variables */
+extern uint8 errorCodeStr;
+extern uint8 var_61;
+extern uint8 fileReadBuf[];
+extern char str_fileNotFound[];
+extern char str_noFileBufs[];
+extern char str_openError[];
+extern char str_fileCloseError[];
+extern char str_readError[];
+extern char str_writeError[];
+extern int16 dat_1868;
+extern int16 dat_186A;
+extern int16 dat_186C;
+extern int16 fileReadPos;
+extern int16 tmpFileHandle;
+
+/* Pic decoder state */
+extern uint8 picDecodedRowBuf[];
+extern int16 picScreenBufSize;
+extern int16 picPageIndex;
+extern int16 picRowOffset;
+extern int16 dat_picRowPad;
+extern int16 picRow;
+extern int16 picReadFromFilePtr;
+
+/* Pic decoder state (BSS, moved to end_data.c) */
+extern int16 var_151;
+extern int16 var_152;
+extern int16 picReadBufEndPtr;
+extern int16 picWorkDataPtr;
+extern int16 picRowLength;
+extern uint8 picProcessFlag;
+extern uint8 picLookupResult;
+extern uint8 picTmp9BitCount;
+extern uint8 picByte;
+extern int16 picFileReadBufEnd;
+extern int16 picNumberDictSlots;
+extern int16 picFileWord;
+extern uint8 picRemainingBitCount;
+extern uint8 picByteUnsignedFlag;
+extern int16 picSlotCounter;
+
+/* Second LZW decoder state */
+extern uint8 dat_3F6A;
+extern uint8 dat_3F6B;
+extern int16 dat_3F6C;
+extern int16 dat_3F6E;
+extern uint8 dat_3F70;
+extern uint8 dat_3F71;
+extern uint8 var_3f72[];
+extern int16 dat_3FB2;
+extern int16 dat_3FB4;
+extern int16 dat_3FB6;
+extern int16 dat_3FB8;
+extern uint8 var_3fc6[];
+
+extern uint8 ovlInsaneFlag;
 
 #endif // F15_SE2_END
