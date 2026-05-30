@@ -100,11 +100,11 @@ void checkQuitFlag(void) {
 }
 
 
-void routine_5(void) {
+void restoreVideoMode(void) {
 }
 
 
-void routine_6(void) {
+void restoreInterrupts(void) {
 }
 
 
