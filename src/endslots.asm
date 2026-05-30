@@ -61,35 +61,7 @@ PUBLIC _picDecodeDictionary
 PUBLIC _picDecodeIncrement
 PUBLIC _clipDivZeroHandler
 
-
-
-
-
-; Misc data/BSS variables
-PUBLIC _dat_1580
-
-EXTRN _commData:BYTE
-EXTRN _dat_4034:BYTE
-EXTRN _dat_4040:BYTE
-EXTRN _dat_4246:BYTE
-EXTRN _dat_4a2a:BYTE
-EXTRN _dat_5512:BYTE
-EXTRN _dat_55de:BYTE
-EXTRN _dat_5ab4:BYTE
-EXTRN _gameData:BYTE
-EXTRN _gfxBufSeg:WORD
-EXTRN _var_179:BYTE
-EXTRN _var_180:WORD
-EXTRN _var_203:WORD
-EXTRN _var_205:WORD
-EXTRN _var_216:BYTE
-EXTRN _var_193:WORD
-EXTRN _flightRecords:BYTE
-
 .DATA
-
-PUBLIC dat_2769
-
 
 _gfx_allocPage proc far             ; slot 00
     db 0EAh, 4 dup(0)
@@ -277,127 +249,30 @@ _misc_jump_5e_clearKeyFlags endp
     db 0EAh, 4 dup(0)               ; slot 68
     db 0EAh, 4 dup(0)               ; slot 69
     db 0EAh, 4 dup(0)               ; slot 6a
-_clipDivZeroHandler db 0EAh
-    db 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h
-EXTRN _clearRectX:BYTE
-EXTRN _clearRectY:BYTE
-EXTRN _clearRectWidth:BYTE
-EXTRN _clearRectHeight:BYTE
-EXTRN _lineX1:BYTE
-EXTRN _lineX2:BYTE
-EXTRN _lineY1:BYTE
-EXTRN _lineY2:BYTE
+_clipDivZeroHandler proc far         ; slot 6b
+    db 0EAh, 4 dup(0)
+_clipDivZeroHandler endp
+    db 0EAh, 4 dup(0)               ; slot 6c
+    db 0EAh, 4 dup(0)               ; slot 6d
+
+; === Dirty rect buffers (MUST be contiguous) ===
+; Overlay slot 0x28 hardcodes dirtyMaxBuf = dirtyMinBuf + 0x1B8
 _dirtyMinBuf db 440 dup(0FFh)
 _dirtyMaxBuf db 220 dup(000h)
-dat_14d7 db 41 dup(0)
-dat_1500 db 128 dup(0)
-_dat_1580 db 55 dup(0)
-_dirtyRectMin db 0FFh
-    db 0FFh
-_dirtyRectMax db 000h
-    db 000h, 000h
-EXTRN _clipOutcode:BYTE
-EXTRN _clipDx:BYTE
-EXTRN _clipDy:BYTE
-EXTRN _clipDxHalf:BYTE
-EXTRN _clipDyHalf:BYTE
-EXTRN _clipMaxX:BYTE
-EXTRN _clipMaxY:BYTE
-EXTRN _joyMinValues:BYTE
-EXTRN _joyMaxValues:BYTE
-EXTRN _joyCenterValues:BYTE
-EXTRN _joyRangeBelow:BYTE
-EXTRN _joyRangeAbove:BYTE
-EXTRN _joyRawAxis0:BYTE
-EXTRN _joyRawAxis1:BYTE
-EXTRN _joyAxisX:BYTE
-EXTRN _joyAxisY:BYTE
-EXTRN _awardPageDesc:BYTE
-EXTRN _awardPageDesc2:BYTE
-EXTRN _awardPage:BYTE
-EXTRN _promoScores:BYTE
-EXTRN _promoThresholds:BYTE
-EXTRN _medalScores:BYTE
-EXTRN _medalThresholds:BYTE
-
-EXTRN _quitFlag:BYTE
-EXTRN _origCBreakSeg:BYTE
-EXTRN _origCBreakOfs:BYTE
-EXTRN _var_timerFlag:BYTE
-EXTRN _timerHandlerInstalled:BYTE
-EXTRN _timerCountLo:BYTE
-EXTRN _timerCountHi:BYTE
-EXTRN _timerTarget:BYTE
-EXTRN _timerDivisor:BYTE
-EXTRN _timerTickCnt:BYTE
-EXTRN _timerReload:BYTE
-EXTRN _timerDivider:BYTE
-EXTRN _timerMode:BYTE
-EXTRN _timerCalSumLo:BYTE
-EXTRN _timerCalSumHi:BYTE
-EXTRN _timerSyncRetrace:BYTE
-EXTRN _timerTick:BYTE
-EXTRN _timerRetrace:BYTE
-EXTRN _timerCounter:BYTE
-EXTRN _timerCounter4:BYTE
-EXTRN _timerCounter2:BYTE
-EXTRN _timerCounter3:BYTE
-EXTRN _var_151:BYTE
-EXTRN _var_152:BYTE
-EXTRN _picReadBufEndPtr:BYTE
-EXTRN _picWorkDataPtr:BYTE
-EXTRN _picRowLength:BYTE
-EXTRN _picProcessFlag:BYTE
-EXTRN _picLookupResult:BYTE
-EXTRN _picTmp9BitCount:BYTE
-EXTRN _picByte:BYTE
-EXTRN _picFileReadBufEnd:BYTE
-EXTRN _picNumberDictSlots:BYTE
-EXTRN _picFileWord:BYTE
-EXTRN _picRemainingBitCount:BYTE
-EXTRN _picByteUnsignedFlag:BYTE
-EXTRN _picSlotCounter:BYTE
-EXTRN _dat_3F6A:BYTE
-EXTRN _dat_3F6B:BYTE
-EXTRN _dat_3F6C:BYTE
-EXTRN _dat_3F6E:BYTE
-EXTRN _dat_3F70:BYTE
-EXTRN _dat_3F71:BYTE
-EXTRN _var_3f72:BYTE
-EXTRN _dat_3FB2:BYTE
-EXTRN _dat_3FB4:BYTE
-EXTRN _dat_3FB6:BYTE
-EXTRN _dat_3FB8:BYTE
-EXTRN _var_3fc6:BYTE
-EXTRN _randSeed:BYTE
-EXTRN _randState:BYTE
-
-EXTRN _str_libya_spr:BYTE
-EXTRN _str_persian_spr:BYTE
-EXTRN _str_vn_spr:BYTE
-EXTRN _str_me_spr:BYTE
-EXTRN _str_ncape_spr:BYTE
-EXTRN _str_ceurope_spr:BYTE
-EXTRN _str_jp_spr:BYTE
-EXTRN _str_na_spr:BYTE
-EXTRN _str_reviewMission:BYTE
-EXTRN _str_exitDebriefing:BYTE
-EXTRN _str_modeRb1:BYTE
-EXTRN _str_insertScenario:BYTE
-EXTRN _str_pressKey1:BYTE
-EXTRN _str_modeRb2:BYTE
-EXTRN _str_dbicons1:BYTE
-EXTRN _str_insertDiskA:BYTE
-EXTRN _str_pressKey2:BYTE
-EXTRN _str_dbicons2:BYTE
-EXTRN _str_missionDebrief:BYTE
+    db 41 dup(0)
+    db 128 dup(0)
+    db 55 dup(0)
+_dirtyRectMin dw 0FFFFh
+_dirtyRectMax dw 0
 
 .DATA?
 ; --- BSS ---
-_picDictionaryIndex db 423 dup(?)
-dat_270f db 90 dup(?)
-dat_2769 db ?
+; === LZW pic decoder contiguous block ===
+; picDictionaryIndex (0x201 bytes) + picWorkData (1 byte) +
+; picDecodeDictionary/picDecodeIncrement (contiguous)
+_picDictionaryIndex db 201h dup(?)
+PUBLIC _picWorkData
+_picWorkData db ?
 _picDecodeDictionary db 2 dup(?)
 _picDecodeIncrement db 6142 dup(?)
 
