@@ -4,10 +4,12 @@
 #include "inttype.h"
 #include "sassert.h"
 
-#if defined(MSDOS) || defined(__MSDOS__) || defined(MSC_VER)
+#if (F15_COMPILER == F15_COMPILER_MSC51)
 #define NEAR near
 #define FAR far
 #define CDECL cdecl
+
+#define offsetof(st, m) ((size_t)&(((st*)0)->m))
 #else
 #define NEAR
 #define FAR
