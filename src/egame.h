@@ -124,8 +124,7 @@ void render3DView(int, int, int, long, long, long, int, int, int, int);
 void waitFrameSync(int frames);
 // ==== seg000:0x229a ====
 void copySomeMem(int idx);
-// ==== seg000:0x22b8 ====
-int projectObjects(int param_0, int param_1, long param_2, long param_4, long param_6);
+// ==== seg000:0x22b8 (prototype local to callers — eg3d_a.c) ====
 // ==== seg000:0x26b4 ====
 uint32 scaleCoordToLod(int level, uint32 coord);
 // ==== seg000:0x273e ====
