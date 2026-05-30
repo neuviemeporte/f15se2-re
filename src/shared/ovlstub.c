@@ -17,9 +17,6 @@ static void ovldbg(const char *msg)
     if (f) { fputs(msg, f); fputs("\r\n", f); fclose(f); }
 }
 
-/* Shared game state variables (used by multiple executables) */
-struct GameComm far *commData = 0;
-struct Game far *gameData = 0;
 uint8  hercFlag = 0;
 uint8  exitCode = 0;
 int16  fileHandle = 0;

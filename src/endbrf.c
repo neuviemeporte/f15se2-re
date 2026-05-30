@@ -5,10 +5,8 @@
 #include "shared/util.h"
 #include "end.h"
 
-extern int var_205;
-extern char var_180;
-
-extern int routine_46(char *filename, char *mode);
+extern int menuItemUnused;
+extern char animExitFlag;
 
 void debriefMainLoop(void)
 {
@@ -22,73 +20,73 @@ void debriefMainLoop(void)
     goto open_theater;
 
 insert_scenario:
-    clearRect(var_99, 0, 0, 0x13f, 0xc7);
-    drawStringCentered(var_99, str_insertScenario, 0, 0x5a, 0x13f);
-    var_99[6] = 4;
-    drawStringCentered(var_99, str_pressKey1, 0, 0x64, 0x13f);
-    var_99[6] = 1;
+    clearRect(debriefPage, 0, 0, 0x13f, 0xc7);
+    drawStringCentered(debriefPage, str_insertScenario, 0, 0x5a, 0x13f);
+    debriefPage[6] = 4;
+    drawStringCentered(debriefPage, str_pressKey1, 0, 0x64, 0x13f);
+    debriefPage[6] = 1;
     gfx_flipPage();
     misc_jump_5b_getkey();
 
 open_theater:
-    worldBufHandle = routine_46(var_117[gameData->theater], str_modeRb1);
+    worldBufHandle = (int)fopen(theaterSprFiles[gameData->theater], str_modeRb1);
     if (!worldBufHandle)
         goto insert_scenario;
 
     gfx_waitRetrace();
-    fclose(worldBufHandle);
+    fclose((FILE *)worldBufHandle);
     gfx_setFadeSteps(9);
     spriteBufSeg = allocBuffer(gfx_getBufSize());
-    loadPic(var_117[gameData->theater], spriteBufSeg);
+    loadPic(theaterSprFiles[gameData->theater], spriteBufSeg);
     a = spriteBufSeg;
 
     goto open_dbicons;
 
 insert_diska:
-    clearRect(var_99, 0, 0, 0x13f, 0xc7);
-    drawStringCentered(var_99, str_insertDiskA, 0, 0x5a, 0x13f);
-    var_99[6] = 4;
-    drawStringCentered(var_99, str_pressKey2, 0, 0x64, 0x13f);
-    var_99[6] = 1;
+    clearRect(debriefPage, 0, 0, 0x13f, 0xc7);
+    drawStringCentered(debriefPage, str_insertDiskA, 0, 0x5a, 0x13f);
+    debriefPage[6] = 4;
+    drawStringCentered(debriefPage, str_pressKey2, 0, 0x64, 0x13f);
+    debriefPage[6] = 1;
     gfx_flipPage();
     misc_jump_5b_getkey();
 
 open_dbicons:
-    worldBufHandle = routine_46(str_dbicons1, str_modeRb2);
+    worldBufHandle = (int)fopen(str_dbicons1, str_modeRb2);
     if (!worldBufHandle)
         goto insert_diska;
 
     gfx_waitRetrace();
-    fclose(worldBufHandle);
+    fclose((FILE *)worldBufHandle);
     gfx_setFadeSteps(8);
     openShowPic(str_dbicons2, 1);
 
-    ps_101.bufPtr = a;
-    ps_103.bufPtr = a;
-    ps_105.bufPtr = a;
-    ps_106.bufPtr = a;
-    ps_107.bufPtr = a;
-    ps_108.bufPtr = a;
-    ps_109.bufPtr = a;
-    ps_110.bufPtr = a;
-    ps_111.bufPtr = a;
-    ps_112.bufPtr = a;
-    ps_113.bufPtr = a;
-    ps_114.bufPtr = a;
+    spriteMapAreaDef.bufPtr = a;
+    spriteStatusBarDef.bufPtr = a;
+    spriteAirDef.bufPtr = a;
+    spriteAirBlinkDef.bufPtr = a;
+    spriteSamDef.bufPtr = a;
+    spriteSamBlinkDef.bufPtr = a;
+    spriteGroundDef.bufPtr = a;
+    spriteGroundBlinkDef.bufPtr = a;
+    spriteBombDef.bufPtr = a;
+    spriteBombBlinkDef.bufPtr = a;
+    spriteWaypointDef.bufPtr = a;
+    spriteWaypointBlinkDef.bufPtr = a;
 
     gfx_waitRetrace();
-    clearRect(var_99, 0, 0, 0x13f, 0xc7);
-    gfx_blitSprite(var_102);
-    gfx_blitSprite(var_104);
+    clearRect(debriefPage, 0, 0, 0x13f, 0xc7);
+    gfx_blitSprite(spriteMapArea);
+    gfx_blitSprite(spriteStatusBar);
 
-    var_99[2] = 0;
-    drawStringAt(var_99, str_missionDebrief, 0x6a, 1);
-    var_99[2] = 6;
+    debriefPage[2] = 0;
+    drawStringAt(debriefPage, str_missionDebrief, 0x6a, 1);
+    debriefPage[2] = 6;
 
     e = 0x96;
     c = 0;
     do {
-        drawStringAt(var_99, var_118[c], 0xec, e);
+        drawStringAt(debriefPage, debriefMenuStrings[c], 0xec, e);
         e += 0x0a;
         c++;
     } while (c < 2);
@@ -102,14 +100,14 @@ open_dbicons:
     b = 1;
 
     do {
-        dat_21e4[g].state = 2;
-        processMenuItems(dat_21e4, var_205, 2, 0xfa, g * 10 + 0x97, var_100);
-        g = selectMenuItem(dat_21e4, var_205, 2, var_116, var_100);
+        debriefMenuItems[g].state = 2;
+        processMenuItems(debriefMenuItems, menuItemUnused, 2, 0xfa, g * 10 + 0x97, debriefPage2);
+        g = selectMenuItem(debriefMenuItems, menuItemUnused, 2, cursorBoundsPtr, debriefPage2);
 
         switch (g) {
         case 0:
-            animateFlightPath(var_100);
-            if (var_180 == 1) {
+            animateFlightPath(debriefPage2);
+            if (animExitFlag == 1) {
                 g = 1;
             }
             break;
@@ -131,7 +129,7 @@ open_dbicons:
 
     restoreTimerIrqHandler();
     gfx_waitRetrace();
-    *(long *)&missionScore = calcMissionScore(var_192);
+    *(long *)&missionScore = calcMissionScore(totalFlightRecords);
 
     gameData->hallOfFameEligible = 0;
 

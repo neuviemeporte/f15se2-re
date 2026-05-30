@@ -175,7 +175,7 @@ int isPointInRect(MenuItem *p)
     (void)g;
     (void)i;
 
-    colorTablePtr = menuItem->colorTableIdx * 14 + (int)dat_1c8e;
+    colorTablePtr = menuItem->colorTableIdx * 14 + (int)colorStyleTable;
     timerCounter2 = 0;
     d = e = 0;
     inputChanged = enterPressed = animDone = f = 0;
@@ -222,7 +222,7 @@ int isPointInRect(MenuItem *p)
         if (quitFlag != 0) {
             cleanup();
             restoreCbreakHandler();
-            dosExit(0);
+            exit(0);
         }
 
         /* animation */
@@ -387,8 +387,8 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             popupVisible = 0;
         }
         curRecordIdx = 0;
-        var_192 = drawFlightPath(gfxPage, ALL_RECORDS);
-        *(long *)&missionScore = calcMissionScore(var_192);
+        totalFlightRecords = drawFlightPath(gfxPage, ALL_RECORDS);
+        *(long *)&missionScore = calcMissionScore(totalFlightRecords);
         mystrcpy(dat_4824, str_dot1);
         mystrcat(dat_4824, str_overall1);
         drawStringCentered(gfxPage, dat_4824, 0xe8, 0x46, 0x57);
@@ -438,7 +438,7 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         if (ejectedFlag == 1) {
             ejectedFlag = 0;
             popupVisible = 0;
-            gfx_blitSprite(var_102);
+            gfx_blitSprite(spriteMapArea);
             curRecordIdx = prevDrawX = prevDrawY = 0;
             clearRect(gfxPage, 0xeb, 0x0a, 0x13f, 0x95);
             *(long *)&missionScore = calcMissionScore(SCORE_ALL_EVENTS);
@@ -457,27 +457,27 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         mystrcpy(dat_4824, str_missionEvent);
         drawStringCentered(gfxPage, dat_4824, 0xe8, 0x14, 0x57);
         mystrcpy(dat_4824, str_time);
-        mystrcat(dat_4824, formatFlightTime(var_193[curRecordIdx * 3], (char *)n));
+        mystrcat(dat_4824, formatFlightTime(flightTimeTable[curRecordIdx * 3], (char *)n));
         drawStringAt(gfxPage, dat_4824, 0xf0, 0x1e);
         o = flightRecords[curRecordIdx].unitId & UNIT_ID_MASK;
         switch (flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) {
         case EVENT_AIR_KILL:
         case EVENT_AIR_KILL2:
-            if (dat_424e[o].unitRef != 0) {
-                mystrcpy(dat_4824, worldStrings[dat_424e[o].unitRef]);
+            if (worldObjects[o].unitRef != 0) {
+                mystrcpy(dat_4824, worldStrings[worldObjects[o].unitRef]);
                 mystrcat(dat_4824, str_destroyed4);
-                mystrcat(dat_4824, worldStrings[dat_424e[o].objectIdx & UNIT_ID_MASK]);
+                mystrcat(dat_4824, worldStrings[worldObjects[o].objectIdx & UNIT_ID_MASK]);
                 mystrcat(dat_4824, str_destroyed1);
             } else {
-                mystrcpy(dat_4824, worldStrings[dat_424e[o].objectIdx & UNIT_ID_MASK]);
+                mystrcpy(dat_4824, worldStrings[worldObjects[o].objectIdx & UNIT_ID_MASK]);
                 mystrcat(dat_4824, str_destroyed2);
             }
             break;
         case EVENT_SAM_KILL:
             /* 0x198: aircraft name field in samDataTable (32-byte records) */
-            mystrcpy(dat_4824, ((struct SamDataEntry*)((unsigned char*)&dat_0042 + 0x156))[o].name);
+            mystrcpy(dat_4824, ((struct SamDataEntry*)((unsigned char*)&weaponDataBlock + 0x156))[o].name);
             mystrcat(dat_4824, str_shotDown2);
-            mystrcat(dat_4824, &((struct SamDataEntry*)((unsigned char*)&dat_0042 + 0x156))[o].name[7]);
+            mystrcat(dat_4824, &((struct SamDataEntry*)((unsigned char*)&weaponDataBlock + 0x156))[o].name[7]);
             mystrcat(dat_4824, str_shotDown);
             break;
         case EVENT_GROUND_KILL:
@@ -485,29 +485,29 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             mystrcat(dat_4824, str_destroyed3);
             break;
         case EVENT_WAYPOINT:
-            if (dat_424e[o].unitRef != 0) {
-                mystrcpy(dat_4824, worldStrings[dat_424e[o].unitRef]);
+            if (worldObjects[o].unitRef != 0) {
+                mystrcpy(dat_4824, worldStrings[worldObjects[o].unitRef]);
                 mystrcat(dat_4824, str_rearmed3);
-                mystrcat(dat_4824, worldStrings[dat_424e[o].objectIdx & UNIT_ID_MASK]);
+                mystrcat(dat_4824, worldStrings[worldObjects[o].objectIdx & UNIT_ID_MASK]);
                 mystrcat(dat_4824, str_rearmed1);
             } else {
-                mystrcpy(dat_4824, worldStrings[dat_424e[o].objectIdx & UNIT_ID_MASK]);
+                mystrcpy(dat_4824, worldStrings[worldObjects[o].objectIdx & UNIT_ID_MASK]);
                 mystrcat(dat_4824, str_rearmed2);
             }
             break;
         case EVENT_BOMB_HIT:
             mystrcpy(dat_4824, str_hitBy);
             /* 0x3f8: missile name field in weapon table (18-byte records) */
-            mystrcat(dat_4824, ((struct Sam*)((unsigned char*)&dat_0042 + 0x3B6))[o].field_0);
+            mystrcat(dat_4824, ((struct Sam*)((unsigned char*)&weaponDataBlock + 0x3B6))[o].field_0);
             mystrcat(dat_4824, str_missile);
             break;
         case EVENT_EJECTED:
             if (curRecordIdx == 0) {
                 mystrcpy(dat_4824, str_takeoffPoint);
-                if (dat_424e[dat_4804].unitRef != 0) {
-                    mystrcat(dat_4824, worldStrings[dat_424e[dat_4804].unitRef]);
+                if (worldObjects[waypointData].unitRef != 0) {
+                    mystrcat(dat_4824, worldStrings[worldObjects[waypointData].unitRef]);
                 } else {
-                    mystrcat(dat_4824, worldStrings[(unsigned char)dat_424e[dat_4804].objectIdx]);
+                    mystrcat(dat_4824, worldStrings[(unsigned char)worldObjects[waypointData].objectIdx]);
                 }
             } else {
                 mystrcpy(dat_4824, str_missionEnd);
@@ -709,17 +709,17 @@ char *formatFlightTime(int timeValue, char *buffer) {
     int c;
 
     a = target1MiscBits[0] + target2MiscBits[0];
-    (*(int16*)((unsigned char*)&dat_0042 + 0x6DA)) = ((char)a & 3) == 0;
+    (*(int16*)((unsigned char*)&weaponDataBlock + 0x6DA)) = ((char)a & 3) == 0;
     if (target1Type[0] == 1 || target2Type[0] == 1) {
-        (*(int16*)((unsigned char*)&dat_0042 + 0x6DA)) = 0;
+        (*(int16*)((unsigned char*)&weaponDataBlock + 0x6DA)) = 0;
     }
     if (target1Type[0] == 4 || target2Type[0] == 4) {
-        (*(int16*)((unsigned char*)&dat_0042 + 0x6DA)) = 1;
+        (*(int16*)((unsigned char*)&weaponDataBlock + 0x6DA)) = 1;
     }
     timeValue += (a & 0xF) << 8;
     mystrcpy(buffer, str_timeFormat);
     p = (unsigned)timeValue / 0x708;
-    buffer[0] += (*(int16*)((unsigned char*)&dat_0042 + 0x6DA)) + 1;
+    buffer[0] += (*(int16*)((unsigned char*)&weaponDataBlock + 0x6DA)) + 1;
     buffer[1] += p % 10;
     b = ((unsigned)timeValue / 30) % 60;
     buffer[3] += b / 10;
@@ -854,7 +854,7 @@ long calcMissionScore(int param) {
             } else if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_SECONDARY_HIT) {
                 secondaryHit = 1;
                 samKilled++;
-            } else if (((struct SamDataEntry*)((unsigned char*)&dat_0042 + 0x156))[(f & UNIT_ID_MASK) + 1].field_0 == -1) {
+            } else if (((struct SamDataEntry*)((unsigned char*)&weaponDataBlock + 0x156))[(f & UNIT_ID_MASK) + 1].field_0 == -1) {
                 samMissed++;
             } else {
                 samKilled++;

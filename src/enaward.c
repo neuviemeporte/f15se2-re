@@ -11,7 +11,7 @@ uint16 allocBuffer(int size) {
     if ((unsigned)segment < 0x10) {
         cleanup();
         dos_printstring(str_allocError);
-        dosExit(0);
+        exit(0);
     }
     return segment;
 }
@@ -22,7 +22,7 @@ void freeBuffer(int segment) {
     if (dos_free(segment) != 0) {
         cleanup();
         dos_printstring(str_deallocError);
-        dosExit(0);
+        exit(0);
     }
 }
 
@@ -40,7 +40,7 @@ void loadPicFromFileAt(char *name, int segment, int off, int whence) {
     int handle;
     TRACE(("loadPicFromFileAt"));
     handle = openFileWrapper(name, 0);
-    fileSeek(handle, off, whence, 0);
+    lseek(handle, off, whence, 0);
     decodePic(handle, segment);
     closeFileWrapper(handle);
 }

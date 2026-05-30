@@ -2,10 +2,11 @@
  */
 #include "inttype.h"
 #include "struct.h"
+#include "comm.h"
 
 /* Split into chunks due to MSC 5.1 initializer limits.
  *
- * Key offsets within dat_0042[]:
+ * Key offsets within weaponDataBlock[]:
  *   planeArray:     +0x156 (342)
  *   samDataTable:   +0x16E (366)
  *   samWeaponTable: +0x3B6 (950)
@@ -14,7 +15,7 @@
 #include "inttype.h"
 
 #pragma pack(1)
-struct Dat0042Block {
+struct WeaponDataBlock {
     unsigned char c0[200];
     unsigned char c200[200];
     unsigned char c400[200];
@@ -39,7 +40,7 @@ struct Dat0042Block {
 };
 #pragma pack()
 
-struct Dat0042Block dat_0042 = {
+struct WeaponDataBlock weaponDataBlock = {
     { /* +0x0000 */
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x4E, 0x6F, 0x6E, 0x65, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -486,8 +487,8 @@ int mapViewY1 = 0x0A;
 int mapViewX2 = 0xE8;
 int mapViewY2 = 0xB2;
 
-/* dat_1c8e - color/style table (16 int entries) */
-int dat_1c8e[] = {
+/* colorStyleTable - color/style table (16 int entries) */
+int colorStyleTable[] = {
     0x0006, 0x009D, 0x00DB, 0x00BD, 0x00D9, 0x0093, 0x0039, 0x0002,
     0x0078, 0x0087, 0x0000, 0x0000, 0x0000, 0x0000, 0x008D, 0x0000
 };
@@ -556,10 +557,10 @@ char joyRepeatFlag;
 char spriteToggle;
 char animDone;
 int curRecordIdx;
-char dat_424e[8];
-char var_425c[1188];
-char dat_4804[4];
-int var_192;
+char worldObjects[8];
+char worldObjectsBuf[1188];
+char waypointData[4];
+int totalFlightRecords;
 char slotInfoTable[6];
 unsigned int cursorX;
 unsigned int cursorY;
@@ -585,7 +586,7 @@ char str_reviewMission[] = "Review Mission";
 char str_exitDebriefing[] = "Exit Debriefing";
 
 /* Theater sprite filename pointer table (8 entries) */
-char *var_117[] = {
+char *theaterSprFiles[] = {
     str_libya_spr,
     str_persian_spr,
     str_vn_spr,
@@ -597,7 +598,7 @@ char *var_117[] = {
 };
 
 /* Debrief menu string pointer table (2 entries) */
-char *var_118[] = {
+char *debriefMenuStrings[] = {
     str_reviewMission,
     str_exitDebriefing
 };
@@ -613,7 +614,7 @@ struct PageDesc pageStruct = {
     {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
     (int16*)&pageStruct  /* selfPtr */
 };
-int16 *var_99 = (int16*)&pageStruct;
+int16 *debriefPage = (int16*)&pageStruct;
 
 struct PageDesc pageStruct2 = {
     0,             /* pageNum */
@@ -625,87 +626,123 @@ struct PageDesc pageStruct2 = {
     {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
     (int16*)&pageStruct2  /* selfPtr */
 };
-int16 *var_100 = (int16*)&pageStruct2;
+int16 *debriefPage2 = (int16*)&pageStruct2;
 
 /* pageStruct3 is actually a 6-int cursor bounds array */
 int16 pageStruct3[] = {0, 0x0A, 0xFA, 0xFA, 0x97, 0xA1};
-int16 *var_116 = pageStruct3;
+int16 *cursorBoundsPtr = pageStruct3;
+
+/* === Award page descriptors === */
+struct PageDesc awardPageDesc = {
+    0,             /* pageNum */
+    {0, 0},        /* pad1 */
+    7,             /* color (awardColor) */
+    0,             /* byte6 */
+    {0, 0, 0, 0, 0}, /* pad2 */
+    1,             /* font (awardFont) */
+    {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
+    (int16*)&awardPageDesc  /* selfPtr */
+};
+
+struct PageDesc awardPageDesc2 = {
+    0,             /* pageNum */
+    {0, 0},        /* pad1 */
+    9,             /* color */
+    0,             /* byte6 */
+    {0, 0, 0, 0, 0}, /* pad2 */
+    3,             /* font */
+    {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
+    (int16*)&awardPageDesc2  /* selfPtr */
+};
+
+int16 *awardPage = (int16*)&awardPageDesc;
+
+/* Promotion score thresholds */
+long promoScores[] = {1500L};
+long promoThresholds[] = {6000L, 12000L, 25000L, 50000L, 100000L};
+
+/* Medal score thresholds */
+long medalScores[] = {1000L};
+long medalThresholds[] = {2500L, 4000L, 6400L, 7800L};
+
+/* Trailing data after medal thresholds (16 bytes, accessed via offset) */
+uint8 medalTrailingData[] = {4, 3, 3, 2, 7, 5, 3, 2, 8, 7, 4, 2, 8, 6, 5, 3};
 
 /* === Sprite descriptors (28 bytes each) === */
-struct SpriteParams ps_101 = {
+struct SpriteParams spriteMapAreaDef = {
     0, 0, 0, 0, 8, 0x0A, 0xE0, 0xA8,
     {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
 };
-struct SpriteParams *var_102 = &ps_101;
+struct SpriteParams *spriteMapArea = &spriteMapAreaDef;
 
-struct SpriteParams ps_103 = {
+struct SpriteParams spriteStatusBarDef = {
     0, 0, 0xB2, 0, 0, 0xB2, 0x140, 0x15,
     {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
 };
-struct SpriteParams *var_104 = &ps_103;
+struct SpriteParams *spriteStatusBar = &spriteStatusBarDef;
 
-struct SpriteParams ps_105 = {
+struct SpriteParams spriteAirDef = {
     0, 0x12D, 0, 0, 0, 0, 5, 5,
     {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
 };
-struct SpriteParams *spriteAir = &ps_105;
+struct SpriteParams *spriteAir = &spriteAirDef;
 
-struct SpriteParams ps_106 = {
+struct SpriteParams spriteAirBlinkDef = {
     0, 0x12D, 5, 0, 0, 0, 5, 5,
     {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
 };
-struct SpriteParams *spriteAirBlink = &ps_106;
+struct SpriteParams *spriteAirBlink = &spriteAirBlinkDef;
 
-struct SpriteParams ps_107 = {
+struct SpriteParams spriteSamDef = {
     0, 0x123, 0, 0, 0, 0, 5, 5,
     {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
 };
-struct SpriteParams *spriteSam = &ps_107;
+struct SpriteParams *spriteSam = &spriteSamDef;
 
-struct SpriteParams ps_108 = {
+struct SpriteParams spriteSamBlinkDef = {
     0, 0x123, 5, 0, 0, 0, 5, 5,
     {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
 };
-struct SpriteParams *spriteSamBlink = &ps_108;
+struct SpriteParams *spriteSamBlink = &spriteSamBlinkDef;
 
-struct SpriteParams ps_109 = {
+struct SpriteParams spriteGroundDef = {
     0, 0x117, 0, 0, 0, 0, 5, 5,
     {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
 };
-struct SpriteParams *spriteGround = &ps_109;
+struct SpriteParams *spriteGround = &spriteGroundDef;
 
-struct SpriteParams ps_110 = {
+struct SpriteParams spriteGroundBlinkDef = {
     0, 0x117, 5, 0, 0, 0, 5, 5,
     {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
 };
-struct SpriteParams *spriteGroundBlink = &ps_110;
+struct SpriteParams *spriteGroundBlink = &spriteGroundBlinkDef;
 
-struct SpriteParams ps_111 = {
+struct SpriteParams spriteBombDef = {
     0, 0x11E, 0, 0, 0, 0, 5, 5,
     {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
 };
-struct SpriteParams *spriteVar111Ptr = &ps_111;
+struct SpriteParams *spriteBomb = &spriteBombDef;
 
-struct SpriteParams ps_112 = {
+struct SpriteParams spriteBombBlinkDef = {
     0, 0x11E, 5, 0, 0, 0, 5, 5,
     {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
 };
-struct SpriteParams *spriteVar112Ptr = &ps_112;
+struct SpriteParams *spriteBombBlink = &spriteBombBlinkDef;
 
-struct SpriteParams ps_113 = {
+struct SpriteParams spriteWaypointDef = {
     0, 0x12A, 0, 0, 0, 0, 1, 1,
     {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
 };
-struct SpriteParams *spriteWaypoint = &ps_113;
+struct SpriteParams *spriteWaypoint = &spriteWaypointDef;
 
-struct SpriteParams ps_114 = {
+struct SpriteParams spriteWaypointBlinkDef = {
     0, 0x12A, 5, 0, 0, 0, 1, 1,
     {0, 0}, 0xC7, {0, 0, 0}, 0x36, 0x01, 0x09, {0, 0, 0}
 };
-struct SpriteParams *spriteWaypointBlink = &ps_114;
+struct SpriteParams *spriteWaypointBlink = &spriteWaypointBlinkDef;
 
 /* === MenuItem array (dat_21e4) - 2 entries === */
-MenuItem dat_21e4[2] = {
+MenuItem debriefMenuItems[2] = {
     {
         0xEC, 0x96, 0x13C, 0x9F,       /* hit rect */
         0xEC, 0x96, 0x13C, 0x9F,       /* color rect */
@@ -713,8 +750,8 @@ MenuItem dat_21e4[2] = {
         {0x98, 0x08, 0x111, 0x39, 7},  /* labelData1 */
         (int16*)&pageStruct2,           /* pagePtr */
         {0x1A, 7, 0xFA, 0x3C},         /* labelData2 */
-        &ps_105,                        /* spriteNormal */
-        &ps_106,                        /* spriteBlink */
+        &spriteAirDef,                        /* spriteNormal */
+        &spriteAirBlinkDef,                        /* spriteBlink */
         0,                              /* unk_2c */
         0,                              /* state */
         0x1808                          /* flags */
@@ -726,14 +763,14 @@ MenuItem dat_21e4[2] = {
         {0x98, 0x08, 0x111, 0x39, 7},  /* labelData1 */
         (int16*)&pageStruct2,           /* pagePtr */
         {0x1A, 7, 0xFA, 0x3C},         /* labelData2 */
-        &ps_105,                        /* spriteNormal */
-        &ps_106,                        /* spriteBlink */
+        &spriteAirDef,                        /* spriteNormal */
+        &spriteAirBlinkDef,                        /* spriteBlink */
         0,                              /* unk_2c */
         0,                              /* state */
         0x080F                          /* flags */
     }
 };
-char *var_115 = (char*)&dat_21e4[1];
+char *menuItemsBase = (char*)&debriefMenuItems[1];
 
 /* Debrief main loop strings */
 char str_modeRb1[] = "rb";
@@ -745,3 +782,148 @@ char str_insertDiskA[] = "Please insert F15 Disk A";
 char str_pressKey2[] = "<Press a key when ready>";
 char str_dbicons2[] = "dbicons.spr";
 char str_missionDebrief[] = "  MISSION DEBRIEFING\0";
+
+/* Ctrl-Break handler state */
+uint8 quitFlag = 0;
+int16 origCBreakSeg = 0;
+int16 origCBreakOfs = 0;
+
+/* Timer variables */
+uint8 var_timerFlag = 0;
+uint8 timerHandlerInstalled = 0;
+int16 timerCountLo = 0;
+int16 timerCountHi = 0;
+int16 timerTarget = 0;
+int16 timerDivisor = 0;
+int16 timerTickCnt = 0;
+int16 timerReload = 0;
+uint8 timerDivider = 0;
+int16 timerMode = 0;
+int16 timerCalSumLo = 0;
+int16 timerCalSumHi = 0;
+uint8 timerSyncRetrace = 0;
+int16 timerTick = 0;
+int16 timerRetrace = 0;
+uint8 timerCounter = 0;
+uint8 timerCounter4 = 0;
+uint8 timerCounter2 = 0;
+uint8 timerCounter3 = 0;
+
+/* Random number generator */
+int16 randSeed = 1;
+int16 randState = 0;
+
+/* File I/O variables */
+uint8 errorCodeStr = 0;
+uint8 errorCodeTerminator = 0;
+uint8 fileReadBuf[512] = {0};
+char str_fileNotFound[] = ":File not found$";
+char str_noFileBufs[] = ":No file buffers available$";
+char str_openError[] = ":Open error $";
+char str_fileCloseError[] = "File closing error$";
+char str_readError[] = "Read error$";
+char str_writeError[] = "Write error$";
+int16 fileIoVar1 = 0;
+int16 fileIoVar2 = 0;
+int16 fileIoVar3 = 0;
+int16 fileReadPos = 0;
+int16 tmpFileHandle = 0;
+
+/* Pic decoder state */
+uint8 picDecodedRowBuf[320] = {0};
+int16 picScreenBufSize = 0;
+int16 picPageIndex = 0;
+int16 picRowOffset = 0;
+int16 picRowPad = 0;
+int16 picRow = 0;
+int16 picReadFromFilePtr = 0;
+
+/* Clear rect parameters */
+int16 clearRectX = 0;
+int16 clearRectY = 0;
+int16 clearRectWidth = 0;
+int16 clearRectHeight = 0;
+uint8 clearRectHeightPad = 0;
+
+/* Line drawing parameters */
+int16 lineX1 = 0;
+int16 lineX2 = 0;
+int16 lineY1 = 0;
+int16 lineY2 = 0;
+
+/* Clipping state */
+uint8 clipOutcode = 0;
+int16 clipDx = 0;
+int16 clipDy = 0;
+int16 clipDxHalf = 0;
+int16 clipDyHalf = 0;
+int16 clipMaxX = 0x13F;
+int16 clipMaxY = 0x6F;
+uint8 clipMaxYPad = 0;
+
+/* Joystick calibration arrays */
+int16 joyMinValues[4] = {0};
+int16 joyMaxValues[4] = {0};
+int16 joyCenterValues[4] = {0};
+int16 joyRangeBelow[4] = {0};
+int16 joyRangeAbove[4] = {0};
+int16 joyRawAxis0 = 0;
+int16 joyRawAxis1 = 0;
+int16 joyRawAxis2 = 0;
+int16 joyRawAxis3 = 0;
+char joyAxisX = 0;
+char joyAxisY = 0;
+
+/* Pic decoder state */
+int16 worldBufOffset = 0;
+int16 worldBufSegment = 0;
+int16 picReadBufEndPtr = 0;
+int16 picWorkDataPtr = 0;
+int16 picRowLength = 0;
+uint8 picProcessFlag = 0;
+uint8 picLookupResult = 0;
+uint8 picTmp9BitCount = 0;
+uint8 picByte = 0;
+int16 picFileReadBufEnd = 0;
+int16 picNumberDictSlots = 0;
+int16 picFileWord = 0;
+uint8 picRemainingBitCount = 0;
+uint8 picByteUnsignedFlag = 0;
+int16 picSlotCounter = 0;
+
+/* Second LZW decoder state */
+uint8 lzw2CodeBitWidth = 0;
+uint8 lzw2MaxBitWidth = 0;
+int16 lzw2CodeMask = 0;
+int16 lzw2NextSlot = 0;
+uint8 lzw2ReadByte = 0;
+uint8 lzw2BitPos = 0;
+uint8 lzw2DictBuf[64] = {0};
+int16 lzw2StackPtr = 0;
+int16 lzw2PrevCode = 0;
+int16 lzw2CurCode = 0;
+int16 lzw2FirstChar = 0;
+uint8 lzw2WorkBuf[10] = {0};
+
+/* Overlay insane flag - used by overlay slot setup */
+uint8 ovlInsaneFlag = 0;
+
+/* BSS variables migrated from endslots.asm .DATA? section */
+uint8 worldMiscHeader[4] = {0};
+struct Game far *gameData = 0;
+uint8 bssPad179[4] = {0};
+uint8 worldRouteTable[516] = {0};
+int16 animExitFlag = 0;
+int16 worldWaypointCount = 0;
+uint8 worldSamTable[720] = {0};
+int16 worldObjectCount = 0;
+uint8 worldUnitFlags[102] = {0};
+int16 menuItemUnused = 0;
+int16 worldGridSize = 0;
+uint8 worldSamCount[6] = {0};
+int16 worldRouteCount = 0;
+struct GameComm far *commData = 0;
+int16 gfxBufSeg = 0;
+uint8 gfxBufPad[512] = {0};
+int16 flightTimeTable = 0;
+uint8 flightRecords[1534] = {0};

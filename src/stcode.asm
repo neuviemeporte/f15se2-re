@@ -115,10 +115,10 @@ EXTRN _timerCounter3:BYTE
 EXTRN _timerCounter:BYTE
 EXTRN _timerCounter4:BYTE
 EXTRN _searchFCB:BYTE
-EXTRN _readFromFilePtr:WORD
+EXTRN _picReadFromFilePtr:WORD
 EXTRN _tmpFileHandle:WORD
-EXTRN _tmpPageIndex:WORD
-EXTRN _rowOffset:WORD
+EXTRN _picPageIndex:WORD
+EXTRN _picRowOffset:WORD
 EXTRN _picCurrentRow:WORD
 EXTRN _ovlInsaneFlag:BYTE
 EXTRN _aAlloc1M:BYTE
@@ -162,11 +162,11 @@ EXTRN _fileReadPos:WORD
 EXTRN _fileReadBuf:BYTE
 EXTRN _aReadError:BYTE
 EXTRN _errorCodeStr:WORD
-EXTRN _row:WORD
-EXTRN _screenBufSize:WORD
+EXTRN _picRow:WORD
+EXTRN _picScreenBufSize:WORD
 EXTRN _picDecodedRowBuf:BYTE
 EXTRN _picWorkData:BYTE
-EXTRN _readBufEndPtr:WORD
+EXTRN _picReadBufEndPtr:WORD
 EXTRN _picFileWord:WORD
 EXTRN _picRemainingBitCount:BYTE
 EXTRN _picByte:BYTE
@@ -180,7 +180,7 @@ EXTRN _picNumberDictSlots:WORD
 EXTRN _picLookupResult:BYTE
 EXTRN _picProcessFlag0_1:BYTE
 EXTRN _picByteUnsignedFlag:BYTE
-EXTRN _dictionaryIndex:BYTE
+EXTRN _picDictionaryIndex:BYTE
 EXTRN _picSlotCounter:WORD
 EXTRN _joyRawAxis1:WORD
 EXTRN _joyRawAxis0:WORD
@@ -311,30 +311,30 @@ _picBlit proc near
     push es
     push bp
     mov ax, offset read512FromFileIntoBuf
-    mov _readFromFilePtr, ax
+    mov _picReadFromFilePtr, ax
     mov ax, [bp+arg_0]
     mov _tmpFileHandle, ax
     mov ax, [bp+unk]
-    mov _tmpPageIndex, ax
-    mov si, _tmpPageIndex
+    mov _picPageIndex, ax
+    mov si, _picPageIndex
 loc_11B20:
     call far ptr _gfx_getPageSeg
     call far ptr _gfx_clearPage ;zeroes out 32000 bytes
     mov _picCurrentRow, 0
-    mov _rowOffset, 0
+    mov _picRowOffset, 0
 loc_11B36:
     mov di, _picCurrentRow
     shl di, 1
     call decodePicRow
-    mov di, _rowOffset
+    mov di, _picRowOffset
     mov bp, offset _picDecodedRowBuf
 loc_11B46:
     mov bx, _picCurrentRow
     call far ptr _gfx_fillRow
-    mov di, _rowOffset
+    mov di, _picRowOffset
     call far ptr _gfx_copyRow
     inc _picCurrentRow
-    add _rowOffset, 28h
+    add _picRowOffset, 28h
     cmp _picCurrentRow, 2BCh
     jnz short loc_11B36
     pop bp
@@ -613,13 +613,13 @@ picFileReadPos       EQU _fileReadPos
 picFileReadBuf       EQU _fileReadBuf
 picDecodedRowBuf     EQU _picDecodedRowBuf
 picRowLength         EQU _picRowLength
-picScreenBufSize     EQU _screenBufSize
-picPageIndex         EQU _tmpPageIndex
-picRowOffset         EQU _rowOffset
-picRow               EQU _row
-picReadFromFilePtr   EQU _readFromFilePtr
+picScreenBufSize     EQU _picScreenBufSize
+picPageIndex         EQU _picPageIndex
+picRowOffset         EQU _picRowOffset
+picRow               EQU _picRow
+picReadFromFilePtr   EQU _picReadFromFilePtr
 picFileHandle        EQU _tmpFileHandle
-picReadBufEndPtr     EQU _readBufEndPtr
+picReadBufEndPtr     EQU _picReadBufEndPtr
 picWorkData          EQU _picWorkData
 picWorkDataPtr       EQU _picWorkDataPtr
 picProcessFlag       EQU _picProcessFlag0_1
@@ -634,7 +634,7 @@ picNumberDictSlots   EQU _picNumberDictSlots
 picDecodeDictionary  EQU _picDecodeDictionary
 picDecodeIncrement   EQU _picDecodeIncrement
 picSlotCounter       EQU _picSlotCounter
-picDictionaryIndex   EQU _dictionaryIndex
+picDictionaryIndex   EQU _picDictionaryIndex
 picInitRoutine       EQU nullsub_1
 picReadFileFunc      EQU read512FromFileIntoBuf
 INCLUDE shared/pic_showpicfile.inc
