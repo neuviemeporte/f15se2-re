@@ -61,11 +61,11 @@ outer_test:
         if (j != 0) {
             continue;
         }
-        if (k >= (int)0x7fff) {
+        if ((unsigned long)*(long *)&k >= 0x7FFFUL) {
             continue;
         }
         if (*(long *)&k < 2L) {
-            k = 2;
+            *(long *)&k = 2L;
         }
         var_659 = k;
         for (f = 0; ;f++) {
