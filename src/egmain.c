@@ -205,9 +205,8 @@ void sub_10720(void) {
         sub_1DAAE();
         byte_383E5 = 1;
         var_588 = 1;
-        p = (gameData->theater == 6) ? 1 :
+        p = word_3AFA8 = (gameData->theater == 6) ? 1 :
             (*((char far *)gameData + 0x38) & 1) ? 1 : -1;
-        word_3AFA8 = p;
 
         if (((stru_3AA5E[word_3B148].field_6) & 0x200) != 0) {
             dword_3B7DA -= (long)(p * 0x80);
@@ -220,8 +219,7 @@ void sub_10720(void) {
         sub_19595();
         sub_19EB6(3, 10);
         sub_194D0(0x13);
-        word_336F2 = -1;
-        word_336F4 = -1;
+        word_336F4 = word_336F2 = -1;
         word_330BA = 2;
         word_330B8 = gameData->difficulty;
         gameData->unk4 = 1;
@@ -230,18 +228,14 @@ void sub_10720(void) {
         *(int far *)((char far *)commData + 0x26) = 1;
         word_330B4 = 1000;
         if (word_330B8 == 0 || word_336EA != 0) {
-            if ((unsigned)(word_3BED0 - var_47) < 0x8000u) {
-                word_3AFA8 = 1;
-            } else {
-                word_3AFA8 = -1;
-            }
+            word_3AFA8 = ((unsigned)(word_3BED0 - var_47) < 0x8000u) ? 1 : -1;
             var_548 = 2000;
             word_3A944 = 0x1fa4;
             var_552 = 100;
             sub_15FDB();
             *(char *)&planeFlags |= 1;
             *(char *)&planeFlags &= ~8;
-            if (*(int far *)((char far *)gameData + 0x32) == 0 && *(int far *)((char far *)gameData + 0x34) == 0 && gameData->theater != 6) {
+            if ((*(int far *)((char far *)gameData + 0x32) | *(int far *)((char far *)gameData + 0x34)) == 0 && gameData->theater != 6) {
                 for (d = 0; d < word_3C046 - 4; d++) {
                     if ((d & 1) == 0) {
                         *(char *)((char *)&stru_3B208[d] + 18) |= 2;
@@ -268,7 +262,7 @@ void sub_10720(void) {
             word_3B234 = (int)(((long)var_811 << 5) >> 16);
             word_3B236 = var_542;
         }
-        word_3AFA8 = p;
+        p = word_3AFA8 = ((unsigned)(word_3BED0 - var_47) < 0x8000u) ? 1 : -1;
         sub_119A3();
         word_3BECC = 2;
         gfx_flipPage();
