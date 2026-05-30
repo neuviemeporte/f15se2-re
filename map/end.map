@@ -50,10 +50,10 @@ mystrcpy: Code1 NEAR 0a42-0a5c R0a42-0a5c complete
 mystrcat: Code1 NEAR 0aab-0ad2 R0aab-0ad2 assembly
 memcopy: Code1 NEAR 0b22-0b3f R0b22-0b3f assembly
 intDispatch: Code1 NEAR 0b87-0beb R0b87-0bbf U0bc0-0bc2 R0bc3-0beb assembly
-myItoa: Code1 NEAR 0bec-0c28 R0bec-0c28 assembly
-base10_itoa: Code1 NEAR 0c29-0c53 R0c29-0c53 assembly
-base16_itoa: Code1 NEAR 0c54-0c9b R0c54-0c9b assembly
-base2_itoa: Code1 NEAR 0c9c-0cbc R0c9c-0cbc assembly
+myItoa: Code1 NEAR 0bec-0c28 R0bec-0c28 ignore
+base10_itoa: Code1 NEAR 0c29-0c53 R0c29-0c53 ignore
+base16_itoa: Code1 NEAR 0c54-0c9b R0c54-0c9b ignore
+base2_itoa: Code1 NEAR 0c9c-0cbc R0c9c-0cbc ignore
 dos_printstring: Code1 NEAR 0d09-0d14 R0d09-0d14 assembly
 setupOverlaySlots: Code1 NEAR 0d17-0d6f R0d17-0d29 U0d2a-0d2e R0d2f-0d6f assembly
 clearRect: Code1 NEAR 0e4e-0eec R0e4e-0eec assembly
