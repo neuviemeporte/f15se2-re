@@ -6,7 +6,6 @@ Stack equ 0
 local_res0 equ 0
 a equ 2h
 
-
 ; --- External overlay jump table procs (in endslots.asm .DATA segment) ---
 EXTRN gfx_allocPage:FAR
 EXTRN gfx_drawString:FAR
@@ -65,7 +64,6 @@ EXTRN _timerCounter4:BYTE
 EXTRN _timerHandlerInstalled:BYTE
 EXTRN _randSeed:WORD
 EXTRN _randState:WORD
-EXTRN _nightMission:BYTE
 EXTRN _joyAxisX:BYTE
 EXTRN _joyAxisY:BYTE
 EXTRN _gameData:WORD
@@ -170,7 +168,6 @@ str_missionDebrief equ _str_missionDebrief
 str_modeRb1 equ _str_modeRb1
 str_modeRb2 equ _str_modeRb2
 EXTRN _dat_0042:BYTE
-EXTRN _samDataTable:BYTE
 EXTRN _var_99:WORD
 EXTRN _var_100:WORD
 EXTRN _var_102:WORD
@@ -301,7 +298,6 @@ EXTRN _showEventPopup:PROC
 EXTRN __aNlmul:PROC
 EXTRN _formatFlightTime:PROC
 
-
 PUBLIC _clearRect
 PUBLIC _mystrcat
 PUBLIC _setTimerIrqHandler
@@ -317,8 +313,6 @@ EXTRN _main:PROC
 PUBLIC _pollJoystick
 
 EXTRN _initGraphics:PROC
-
-
 
 PUBLIC _setupWorldBufPtr
 _setupWorldBufPtr:

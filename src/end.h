@@ -113,7 +113,6 @@ extern int target1Type[];
 extern int target1MiscBits[];
 extern int target2Type[];
 extern int target2MiscBits[];
-extern int nightMission;
 extern char str_inFlight[];
 extern char str_timeLabel[];
 extern char str_timeZeros[];
@@ -218,20 +217,6 @@ extern struct SpriteParams ps_111;
 extern struct SpriteParams ps_112;
 extern struct SpriteParams ps_113;
 extern struct SpriteParams ps_114;
-
-/* bufPtr field aliases (code writes sprite buffer segment to first field) */
-#define var_101 ps_101.bufPtr
-#define var_103 ps_103.bufPtr
-#define var_105 ps_105.bufPtr
-#define var_106 ps_106.bufPtr
-#define var_107 ps_107.bufPtr
-#define var_108 ps_108.bufPtr
-#define var_109 ps_109.bufPtr
-#define var_110 ps_110.bufPtr
-#define var_111 ps_111.bufPtr
-#define var_112 ps_112.bufPtr
-#define var_113 ps_113.bufPtr
-#define var_114 ps_114.bufPtr
 
 /* Page descriptors and pointers */
 extern struct PageDesc pageStruct;
@@ -373,7 +358,7 @@ extern int dat_4a2a;
 extern int dat_5512;
 extern int dat_55de;
 extern int dat_4034;
-extern char dat_0042;
+extern unsigned char dat_0042;
 extern int var_203;
 extern int var_216;
 extern int dat_4804;
@@ -416,9 +401,7 @@ extern int groundKilled;
 extern int samKilled;
 extern char unitTypeTable[];
 extern char gridFlags[];
-extern char samDataTable[];
-extern struct SamDataEntry planeArray[];
-extern struct Sam samWeaponTable[];
+
 
 /* Variables used by main */
 extern struct Game far *gameData;

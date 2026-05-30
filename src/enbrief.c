@@ -475,10 +475,9 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             break;
         case EVENT_SAM_KILL:
             /* 0x198: aircraft name field in samDataTable (32-byte records) */
-            mystrcpy(dat_4824, planeArray[o].name);
+            mystrcpy(dat_4824, ((struct SamDataEntry*)((unsigned char*)&dat_0042 + 0x156))[o].name);
             mystrcat(dat_4824, str_shotDown2);
-            /* 0x19f: aircraft type field in samDataTable */
-            mystrcat(dat_4824, &planeArray[o].name[7]);
+            mystrcat(dat_4824, &((struct SamDataEntry*)((unsigned char*)&dat_0042 + 0x156))[o].name[7]);
             mystrcat(dat_4824, str_shotDown);
             break;
         case EVENT_GROUND_KILL:
@@ -499,7 +498,7 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         case EVENT_BOMB_HIT:
             mystrcpy(dat_4824, str_hitBy);
             /* 0x3f8: missile name field in weapon table (18-byte records) */
-            mystrcat(dat_4824, samWeaponTable[o].field_0);
+            mystrcat(dat_4824, ((struct Sam*)((unsigned char*)&dat_0042 + 0x3B6))[o].field_0);
             mystrcat(dat_4824, str_missile);
             break;
         case EVENT_EJECTED:
@@ -710,17 +709,17 @@ char *formatFlightTime(int timeValue, char *buffer) {
     int c;
 
     a = target1MiscBits[0] + target2MiscBits[0];
-    nightMission = ((char)a & 3) == 0;
+    (*(int16*)((unsigned char*)&dat_0042 + 0x6DA)) = ((char)a & 3) == 0;
     if (target1Type[0] == 1 || target2Type[0] == 1) {
-        nightMission = 0;
+        (*(int16*)((unsigned char*)&dat_0042 + 0x6DA)) = 0;
     }
     if (target1Type[0] == 4 || target2Type[0] == 4) {
-        nightMission = 1;
+        (*(int16*)((unsigned char*)&dat_0042 + 0x6DA)) = 1;
     }
     timeValue += (a & 0xF) << 8;
     mystrcpy(buffer, str_timeFormat);
     p = (unsigned)timeValue / 0x708;
-    buffer[0] += nightMission + 1;
+    buffer[0] += (*(int16*)((unsigned char*)&dat_0042 + 0x6DA)) + 1;
     buffer[1] += p % 10;
     b = ((unsigned)timeValue / 30) % 60;
     buffer[3] += b / 10;
@@ -855,7 +854,7 @@ long calcMissionScore(int param) {
             } else if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_SECONDARY_HIT) {
                 secondaryHit = 1;
                 samKilled++;
-            } else if (planeArray[(f & UNIT_ID_MASK) + 1].field_0 == -1) {
+            } else if (((struct SamDataEntry*)((unsigned char*)&dat_0042 + 0x156))[(f & UNIT_ID_MASK) + 1].field_0 == -1) {
                 samMissed++;
             } else {
                 samKilled++;

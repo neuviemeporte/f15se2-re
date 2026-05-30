@@ -63,18 +63,18 @@ open_dbicons:
     gfx_setFadeSteps(8);
     openShowPic(str_dbicons2, 1);
 
-    var_101 = a;
-    var_103 = a;
-    var_105 = a;
-    var_106 = a;
-    var_107 = a;
-    var_108 = a;
-    var_109 = a;
-    var_110 = a;
-    var_111 = a;
-    var_112 = a;
-    var_113 = a;
-    var_114 = a;
+    ps_101.bufPtr = a;
+    ps_103.bufPtr = a;
+    ps_105.bufPtr = a;
+    ps_106.bufPtr = a;
+    ps_107.bufPtr = a;
+    ps_108.bufPtr = a;
+    ps_109.bufPtr = a;
+    ps_110.bufPtr = a;
+    ps_111.bufPtr = a;
+    ps_112.bufPtr = a;
+    ps_113.bufPtr = a;
+    ps_114.bufPtr = a;
 
     gfx_waitRetrace();
     clearRect(var_99, 0, 0, 0x13f, 0xc7);
