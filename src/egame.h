@@ -65,7 +65,7 @@ int sub_10334(int arg_0);
 // ==== seg000:0x688 ====
 int setupOverlaySlots(uint16 addr);
 // ==== seg000:0x720 ====
-int sub_10720();
+void sub_10720(void);
 // ==== seg000:0x14e8 ====
 void sub_114E8();
 // ==== seg000:0x14fc ====
@@ -1310,6 +1310,7 @@ extern int16 var_542;
 extern int16 var_544;
 extern int16 var_545;
 extern int16 var_547;
+extern int16 var_548;
 extern int16 var_549;
 extern int16 var_552;
 extern int16 var_588;
@@ -1740,13 +1741,14 @@ extern int16 var_584;
 extern uint8 var_585;
 extern uint8 var_586;
 extern int16 var_591;
-extern uint8 var_456;
+extern int8 var_456;
 extern int16 var_383;
 extern int16 var_673;
 extern int16 var_592;
 extern int16 *var_134;
 extern int16 var_135;
 extern int16 var_595;
+extern int16 var_597;
 extern int16 var_600;
 extern int16 var_349;
 extern int16 var_350;
@@ -1775,6 +1777,10 @@ extern int16 var_684;
 extern int16 var_685;
 extern int16 var_686;
 extern uint8 var_730;
+extern uint8 var_727;
+extern uint8 var_732;
+extern int16 var_810;
+extern int16 var_811;
 extern int16 var_143;
 extern uint8 var_190;
 extern int16 var_194;
@@ -1803,5 +1809,9 @@ extern int16 var_666;
 
 extern int rand();
 extern long _aNlmul(long, long);
+
+extern int16 var_47;
+extern int16 var_48;
+extern int16 var_49;
 
 #endif // F15_SE2_EGAME

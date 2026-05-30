@@ -163,8 +163,444 @@ void gfxInit() {
     gfx_storeBufPtr(commData->gfxInitResult, 2);
 }
 
-// TODO: sub_10720 (seg000:0720-14e7) - large unimplemented function
-// Once implemented, the register spill from this function may affect sub_114E8 codegen
+// ==== seg000:0x0720 ====
+void sub_10720(void) {
+    int p;
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+
+    word_3BEC0 = (int)((dword_3B7DA + 0x10L) >> 5);
+    word_3BED0 = -((int)((dword_3B7F8 + 0x10L) >> 5) - 0x8000);
+
+    if (word_3BECC == 1) {
+        planeFlags = 0;
+        if (gameData->difficulty == 4) {
+            gameData->difficulty = 2;
+            word_336EA = 1;
+            var_730 |= 0x10;
+            *(char far *)((char far *)commData + 0x30) |= 1;
+        }
+        d = (unsigned char)*((char far *)commData + 0x0d);
+        if (d == 0x69 || d == 0x49) {
+            var_600 = 1;
+        }
+        sub_11F3E();
+        word_336F0 = 0;
+        word_336F8 = 1;
+        word_336F4 = word_336F2 = -1;
+        var_597 = word_33096 = missileSpecIndex = word_330B6 = waypointIndex = word_32A34 = 0;
+        word_3C16A = word_3BED4 = word_3BFA0 = word_3C014 = var_456 = 0;
+        word_3B4D8 = word_3B4E0 = word_3B5D6 = 0;
+        word_33700 = word_336F6 = -1;
+        word_33098 = 10000;
+        word_3BF90 = 0;
+        waypointIndex = 1;
+        word_3C45C = 1;
+        sub_11A88(0);
+        var_383 = 0x0c;
+        word_330C4 = 4;
+        sub_1DAAE();
+        byte_383E5 = 1;
+        var_588 = 1;
+        p = word_3AFA8 = (gameData->theater == 6) ? 1 :
+            (*((char far *)gameData + 0x38) & 1) ? 1 : -1;
+
+        if (((stru_3AA5E[word_3B148].field_6) & 0x200) != 0) {
+            dword_3B7DA -= (long)(p * 0x80);
+            *(char *)&planeFlags |= 8;
+        } else {
+            dword_3B7F8 -= (long)(0x708 * word_3AFA8);
+        }
+        sub_118F6();
+        sub_11D10(8, 0);
+        sub_19595();
+        sub_19EB6(3, 10);
+        sub_194D0(0x13);
+        word_336F4 = word_336F2 = -1;
+        word_330BA = 2;
+        word_330B8 = gameData->difficulty;
+        gameData->unk4 = 1;
+        word_38FDC = *(int far *)((char far *)commData + 0x32);
+        sub_1DB2B();
+        *(int far *)((char far *)commData + 0x26) = 1;
+        word_330B4 = 1000;
+        if (word_330B8 == 0 || word_336EA != 0) {
+            word_3AFA8 = ((unsigned)(word_3BED0 - var_47) < 0x8000u) ? 1 : -1;
+            var_548 = 2000;
+            word_3A944 = 0x1fa4;
+            var_552 = 100;
+            sub_15FDB();
+            *(char *)&planeFlags |= 1;
+            *(char *)&planeFlags &= ~8;
+            if ((*(int far *)((char far *)gameData + 0x32) | *(int far *)((char far *)gameData + 0x34)) == 0 && gameData->theater != 6) {
+                for (d = 0; d < word_3C046 - 4; d++) {
+                    if ((d & 1) == 0) {
+                        *(char *)((char *)&stru_3B208[d] + 18) |= 2;
+                        stru_3B208[d].field_0 = 0x898;
+                        *(int *)((char *)&stru_3B208[d] + 20) = 300;
+                        *(int *)((char *)&stru_3B208[d] - 4) = d * 12 + word_3BEC0 - 0x24;
+                        *(int *)((char *)&stru_3B208[d] - 2) = word_3BED0 - (d * 0x20 + 0x96) * word_3AFA8;
+                        stru_3B208[d].field_2 = (long)*(int *)((char *)&stru_3B208[d] - 4) << 5;
+                        stru_3B208[d].field_6 = (long)*(int *)((char *)&stru_3B208[d] - 2) << 5;
+                        *(int *)((char *)&stru_3B208[d] + 10) = var_542 + (int)0x8000;
+                    }
+                }
+            }
+        }
+        if (gameData->theater != 6) {
+            *(char *)&byte_3B23E[0] |= 2;
+            word_3B22C = 0x834;
+            word_3B240 = 700;
+            var_810 = word_3BEC0;
+            var_811 = 0x50 * word_3AFA8 + word_3BED0;
+            word_3B22E = (int)((long)var_810 << 5);
+            word_3B230 = (int)(((long)var_810 << 5) >> 16);
+            word_3B232 = (int)((long)var_811 << 5);
+            word_3B234 = (int)(((long)var_811 << 5) >> 16);
+            word_3B236 = var_542;
+        }
+        p = word_3AFA8 = ((unsigned)(word_3BED0 - var_47) < 0x8000u) ? 1 : -1;
+        sub_119A3();
+        word_3BECC = 2;
+        gfx_flipPage();
+        word_38FF6 = routine_191();
+    }
+
+    b = sub_1CF64(word_3BEC0, 0x100, 0x7e00);
+    if (b != word_3BEC0) {
+        word_3BEC0 = b;
+        dword_3B7DA = (long)b << 5;
+    }
+    b = sub_1CF64(word_3BED0, 0x200, 0x7d00);
+    if (b != word_3BED0) {
+        word_3BED0 = b;
+        dword_3B7F8 = (long)(0x8000 - word_3BED0) << 5;
+    }
+
+    *(char far *)0x00000417L &= 0x0f;
+    sub_16172();
+    sub_167B4();
+    sub_179EE();
+    sub_11636();
+    sub_11676();
+    sub_11841();
+    sub_118D5();
+
+    c = sub_199EC(word_3BEC0, word_3BED0, &b, &d);
+    if (c == 0) {
+        sub_195C9(word_3BEC0, word_3BED0);
+    } else {
+        byte_3C5A0 = -(gfx_getDisplayPage() - 1);
+        gfx_copyRect(0x328b, 2, b - 3, d - 3, (int)byte_3C5A0, b - 3, d - 3, 6);
+        sub_1A8C8(b - 1, d - 1, ((var_542 + 0x1000) >> 0xd & 7) * 4 + 0xa4, 4, 4, 4, 0);
+        byte_3C5A0 = 1 - byte_3C5A0;
+        if ((b < 0x20 || b > 0x58 || d < 0x76 || d > 0xa2) && byte_383E5 > 2) {
+            byte_383E5--;
+            sub_195C9(word_3BEC0, word_3BED0);
+        }
+    }
+
+    word_3AF0C = word_3BEC0;
+    word_3AFAA = word_3BED0;
+
+    if (word_3370C == word_336E8) {
+        if (word_336EA == 0) {
+            keyValue = 0;
+        }
+        word_3370C = -1;
+    }
+    if (word_336F0 != 0) {
+        word_336F0--;
+    }
+    if (word_336EE != 0 && word_336E8 == word_336EE) {
+        word_336EE = 0;
+        sub_1DA5F(2);
+    }
+
+    if ((word_336E8 & 7) != 0) goto skip_target_section;
+
+    word_33700 = word_3C16A;
+    word_38FEE = 0x7fff;
+    for (d = 0; d < word_3BED2; d++) {
+        if ((stru_3AA5E[d].field_6 & 0x201) != 0 &&
+            (stru_3AA5E[d].field_6 & 0x500) != 0 &&
+            (stru_3AA5E[d].field_6 & 0x800) == 0) {
+            p = sub_1CFA6(word_3BEC0 - stru_3AA5E[d].field_0, word_3BED0 - stru_3AA5E[d].field_2);
+            if (p < word_38FEE) {
+                word_38FEE = p;
+                word_3C16A = d;
+            }
+        }
+    }
+    if (word_33700 != word_3C16A) {
+        word_3B15A = word_3C16A;
+        var_48 = stru_3AA5E[word_3C16A].field_0;
+        var_49 = stru_3AA5E[word_3C16A].field_2;
+    }
+
+    if ((char)word_336E8 == 0 && word_336E8 != 0) {
+        if (*(int far *)((char far *)commData - 4) != (int)0xca01 ||
+            *(int far *)((char far *)commData - 2) != 0x3b9a) {
+            sub_11B37(1);
+            exitCode = 0;
+        }
+    }
+
+    if (word_33700 != word_3C16A && (stru_3AA5E[word_3C16A].field_6 & 0x800) == 0) {
+        for (d = 1; d <= 2; d++) {
+            e = word_3C046 - d;
+            *(char *)((char *)&stru_3B208[e] + 18) &= ~2;
+            c = stru_3AA5E[word_3C16A].field_6;
+            if (c & 0x400) {
+                *(int *)((char *)&stru_3B208[e] + 16) = 0x0d;
+            } else {
+                *(int *)((char *)&stru_3B208[e] + 16) = 0;
+            }
+            if (c & 0x100) {
+                *(int *)((char *)&stru_3B208[e] + 16) = 0x12;
+            }
+            *(int *)((char *)unk_3B202 + (word_3C046 - d) * 36) = word_3C16A;
+        }
+        for (d = 3; d <= 4; d++) {
+            e = word_3C046 - d;
+            *(char *)((char *)&stru_3B208[e] + 18) |= 2;
+            *(int *)((char *)&stru_3B208[e] - 4) = stru_3AA5E[word_3C16A].field_0;
+            *(int *)((char *)&stru_3B208[e] - 2) = stru_3AA5E[word_3C16A].field_2;
+            if ((stru_3AA5E[word_3C16A].field_6 & 0x200) != 0) {
+                *(int *)((char *)&stru_3B208[e] - 4) += word_3AFA8 * 5;
+                *(int *)((char *)&stru_3B208[e] - 2) += (d & 1) * word_3AFA8 * 0x10;
+                stru_3B208[e].field_0 = 0x84;
+            } else {
+                *(int *)((char *)&stru_3B208[e] - 4) += 10;
+                *(int *)((char *)&stru_3B208[e] - 2) += (d + word_3C16A & 3) * 0x10;
+                stru_3B208[e].field_0 = 4;
+            }
+            stru_3B208[e].field_2 = (long)*(int *)((char *)&stru_3B208[e] - 4) << 5;
+            stru_3B208[e].field_6 = (long)*(int *)((char *)&stru_3B208[e] - 2) << 5;
+            *(int *)((char *)&stru_3B208[e] + 10) = -sub_1D200(0x4000);
+            c = stru_3AA5E[word_3C16A].field_6;
+            if (c & 0x400) {
+                *(int *)((char *)&stru_3B208[e] + 16) = 8;
+            } else {
+                *(int *)((char *)&stru_3B208[e] + 16) = 0x0b;
+            }
+            if (c & 0x100) {
+                *(int *)((char *)&stru_3B208[e] + 16) = 9;
+            }
+        }
+    }
+
+    if ((word_336E8 & 0x7f) == 0) {
+        if ((stru_3AA5E[word_3C16A].field_6 & 0x800) == 0) {
+            if (word_336E8 & 0x80) {
+                e = word_3C046 - 1;
+            } else {
+                e = word_3C046 - 2;
+            }
+            if ((*(char *)((char *)&stru_3B208[e] + 18) & 2) == 0) {
+                sub_1783A(e, word_3C16A);
+                *(int *)((char *)&stru_3B208[e] + 18) = 0x207;
+                stru_3B208[e].field_0 = 1000;
+                *(int *)((char *)&stru_3B208[e] + 20) = 0xfa;
+                stru_3B208[e].field_6 += (long)word_3AFA8 * 0x3000;
+            }
+        }
+        word_3C014 = word_3BFA0;
+        word_3BFA0 = word_3BED4;
+        word_3BED4 = 0;
+    }
+
+skip_target_section:
+    if (word_38FEE >= 0x200 && word_3BEBE != var_547) {
+        word_33706 = 0;
+        word_33702 = 0;
+        goto skip_autopilot;
+    }
+
+    word_3BEBE = 0;
+    word_38FFC = 0xa0;
+    word_39200 = 0x800;
+    if (stru_3AA5E[word_3C16A].field_6 & 0x800) {
+        word_39200 = 0x400;
+    }
+    if (stru_3AA5E[word_3C16A].field_6 & 0x200) {
+        word_3BEBE = 0x80;
+        word_38FFC = 0x100;
+        word_39200 = 0x3c0;
+        if (var_547 == 0x80 && word_3AA5A > 0x50) {
+            c = (unsigned)(word_3BED0 - stru_3AA5E[word_3C16A].field_2) * word_3AFA8;
+            if (c >= 0x10 && c < 0x15) {
+                b = abs(var_542 + (1 - word_3AFA8) * (int)0x4000);
+                if (b < 0x2000) {
+                    word_38FDE = 1;
+                    makeSound(0x16, 2);
+                }
+            }
+        }
+    }
+    if (gameData->unk4 == 1) {
+        var_727 += 1;
+        var_732 += 2;
+    }
+    b = abs(word_3BEC0 - stru_3AA5E[word_3C16A].field_0);
+    if (b > (word_38FFC >> 5) ||
+        (b = abs(word_3BED0 - stru_3AA5E[word_3C16A].field_2), b > (word_39200 >> 5))) {
+        word_3BEBE = 0;
+        word_33702 = 0;
+    } else {
+        word_33702 = 1;
+        if (word_3AA5A > 1) goto end_landing_check;
+        if ((word_336E8 & 7) != 0) goto end_landing_check;
+        c = stru_3AA5E[word_3C16A].field_6;
+        if ((c & 0x500) == 0) goto end_landing_check;
+        if (word_33714 == 0) goto end_landing_check;
+        if (c & 0x800) goto end_landing_check;
+        word_336EC = 1;
+        word_33706 = 1;
+        b = word_33714;
+        word_33714++;
+        if (b == 1) {
+            tempStrcpy((char *)aSafeLanding);
+            word_330B6 = 0;
+            word_33712 = 0;
+            sub_1DA5F(4);
+        }
+        if ((planeFlags & 0x6000) == 0x6000) {
+            if (word_33714 > word_330C4) {
+                sub_11B37(0);
+            }
+        } else {
+            if (word_33714 == 2) {
+                word_33710++;
+                sub_11D10(10, (char)word_3C16A);
+            }
+            if (word_33714 > word_330C4) {
+                sub_119A3();
+                if (word_336E8 & 8) {
+                    tempStrcpy((char *)aReadyForTakeof);
+                } else {
+                    tempStrcpy((char *)aWeaponsRepleni);
+                }
+            }
+        }
+    }
+end_landing_check:
+    if (word_33706 != 0) goto skip_autopilot;
+    if (word_330B8 != 0) goto skip_autopilot;
+    if ((planeFlags & 0x6000) == 0) goto skip_autopilot;
+
+    b = abs(word_3BEC0 - stru_3AA5E[word_3C16A].field_0);
+    if (b < 0x10) {
+        b = abs(word_3BED0 - stru_3AA5E[word_3C16A].field_2);
+        if (b < 0x10) {
+            var_548 = 0;
+            word_3A944 = 0;
+            var_552 = 0;
+            dword_3B7DA = (long)stru_3AA5E[word_3C16A].field_0 << 5;
+            dword_3B7F8 = (long)(0x8000 - stru_3AA5E[word_3C16A].field_2) << 5;
+            goto skip_autopilot;
+        }
+    }
+    tempStrcpy((char *)aAutomaticLandi);
+    word_33712 = 1;
+    d = word_330C4 * 2;
+    if (d > 0x0e) {
+        d = 0x0e;
+    }
+    word_3A944 = 0x1518;
+    var_548 -= (unsigned)(var_548 - word_3BEBE) / (unsigned)d;
+    if (var_548 < (unsigned)(word_3BEBE + 5)) {
+        var_548 = word_3BEBE + 5;
+    }
+    dword_3B7DA -= (dword_3B7DA - ((long)stru_3AA5E[word_3C16A].field_0 << 5)) / (long)d;
+    dword_3B7F8 -= (dword_3B7F8 - ((long)(0x8000 - stru_3AA5E[word_3C16A].field_2) << 5)) / (long)d;
+
+skip_autopilot:
+    if (word_33702 == 0) {
+        if (var_547 == 0) {
+            if ((gameData->unk4 != 0 || word_3BF90 > 4 || word_33098 == 0) &&
+                word_3BE3C == 0 && word_3AA5A > 0x32) {
+                makeSound(0, 2);
+                sub_19E44(0);
+                sub_19E5D(0, 0, 0x13f, 199);
+                sub_12278(0x78);
+                sub_11B37(1);
+            }
+        } else {
+            word_33714 = 1;
+        }
+    }
+
+    if (byte_3995A != 0 && (keyValue & 0x80) == 0) {
+        if (gameData->unk4 != 0 && var_548 != 0) {
+            makeSound(0, 2);
+            gfx_waitRetrace();
+            sub_12278(0x78);
+            sub_11B37(2);
+        } else {
+            var_548 += 500;
+            word_330B6 = 0;
+        }
+    }
+
+    if ((stru_3AA5E[word_3C16A].field_6 & 0x200) == 0 || word_38FEE >= 0x500) {
+        word_3C0A0 = 0;
+    } else {
+        word_3C0A0 = (int)((long)((int)(char)word_3AFA8 << 8) / (long)word_330C4) + word_3C0A0 & 0xfff;
+    }
+
+    word_336E8++;
+    if (word_336E8 % word_330C4 == 0) {
+        word_38FE0++;
+        if ((word_38FE0 & 0x1f) == 0) {
+            sub_11D10(9, 0);
+        }
+        if (word_38FE0 == 1) {
+            sub_1DA5F(0);
+            sub_1DA8D();
+        }
+        if (word_336EA != 0 && (word_38FE0 & 3) == 0) {
+            sub_11C21();
+        }
+    }
+
+    b = word_330C4 * 4;
+    word_33708++;
+    if (word_33708 >= (unsigned)b) {
+        word_3C6AE = var_383 / word_330C4;
+        var_383 -= (var_595 * 2 - 1) * word_330C4 * 2;
+        if (var_383 < 4) {
+            var_383 = 4;
+        }
+        b = sub_1CF64((int)((long)word_330C4 * 0x3c0 / (unsigned long)((unsigned)var_383 * (unsigned)word_3370A)), 1, 0xff);
+        var_383 = 0;
+        word_33708 = 0;
+        c = abs(word_330C4 * 4 - b);
+        if (c > 3) {
+            word_330C4 = (b + 2) >> 2;
+            sub_1DAAE();
+        }
+        word_3C09C = 0;
+        for (d = 3; d < word_38FFA; d++) {
+            if (*(int *)((char *)&stru_3AA5E[d] + 6 + 0x50) > 0xc0 &&
+                (stru_3AA5E[d].field_6 & 0x80) == 0) {
+                word_3C09C = 1;
+                break;
+            }
+        }
+        for (d = 0; d < word_3C046; d++) {
+            if (*(int *)((char *)&stru_3B208[d] + 28) > 0xc0 &&
+                (*(char *)((char *)&stru_3B208[d] + 18) & 2) != 0) {
+                word_3C09C++;
+                break;
+            }
+        }
+    }
+    sub_114E8();
+}
 
 // ==== seg000:0x14e8 ====
 void sub_114E8(void) {
