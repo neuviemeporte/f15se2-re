@@ -48,7 +48,7 @@ my_itoa: Code1 NEAR 08b6-098f R08b6-098f complete
 seedRandom: Code1 NEAR 09ae-09be R09ae-09be complete
 mystrcpy: Code1 NEAR 0a42-0a5c R0a42-0a5c complete
 mystrcat: Code1 NEAR 0aab-0ad2 R0aab-0ad2 assembly
-memcopy: Code1 NEAR 0b22-0b3f R0b22-0b3f assembly
+memcopy: Code1 NEAR 0b22-0b3f R0b22-0b3f ignore
 intDispatch: Code1 NEAR 0b87-0beb R0b87-0bbf U0bc0-0bc2 R0bc3-0beb assembly
 myItoa: Code1 NEAR 0bec-0c28 R0bec-0c28 ignore
 base10_itoa: Code1 NEAR 0c29-0c53 R0c29-0c53 ignore
@@ -68,7 +68,7 @@ openFileWrapper: Code1 NEAR 1336-1346 R1336-1346 complete
 closeFileWrapper: Code1 NEAR 135a-1367 R135a-1367 complete
 openFile: Code1 NEAR 13ae-1404 R13ae-1404 R156a-15a5 assembly
 fileClose: Code1 NEAR 145c-147c R145c-147c assembly
-readFileAtRaw: Code1 NEAR 14a9-14ff R14a9-14ff assembly ignore
+readFileAt: Code1 NEAR 14a9-14ff R14a9-14ff assembly ignore
 readFileSector: Code1 NEAR 1500-1520 R1500-1520 assembly ignore
 openShowPic: Code1 NEAR 15a6-15d1 R15a6-15d1 complete
 loadPic: Code1 NEAR 15fc-1624 R15fc-1624 complete
@@ -112,7 +112,7 @@ drawClippedLineEx: Code1 NEAR 3dff-3ea3 R3dff-3ea3 assembly
 drawMapPixel: Code1 NEAR 3ea4-3ebc R3ea4-3ebc complete
 calcMissionScore: Code1 NEAR 3ebd-41d2 R3ebd-409c U409d-409e R409f-41b6 U41b7-41b8 R41b9-41d2 complete
 showEventPopup: Code1 NEAR 41d3-4533 R41d3-4224 U4225-42d1 R42d2-42e1 U42e2-42f9 R42fa-4533 complete
-debriefMainLoop: Code1 NEAR 4534-4919 R4534-4919 assembly
+debriefMainLoop: Code1 NEAR 4534-4919 R4534-4919 complete
 # ================ libc ===========================
 start: Code1 NEAR 491c-49cd R491c-49cd external
 __cinit: Code1 NEAR 49ce-4a91 R49ce-4a91 R4ea4-4ea9 external

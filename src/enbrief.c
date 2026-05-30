@@ -222,7 +222,7 @@ int isPointInRect(MenuItem *p)
         if (quitFlag != 0) {
             cleanup();
             restoreCbreakHandler();
-            dosExit(0);
+            exit(0);
         }
 
         /* animation */

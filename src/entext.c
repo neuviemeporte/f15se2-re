@@ -1,4 +1,5 @@
 /* entext.c — text rendering, compiled with /Gs /Zi */
+#include <string.h>
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -52,7 +53,7 @@ void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y
             f = 0;
         }
         if (c != 0) {
-            memcopy(buf, a, c);
+            memcpy(buf, a, c);
             buf[c] = 0;
             page[4] = x;
             gfx_drawString(page, buf);

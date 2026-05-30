@@ -2,68 +2,90 @@
 DOSSEG
 .MODEL SMALL
 
-PUBLIC _gfx_allocPage
-PUBLIC _gfx_drawString
-PUBLIC _gfx_setPageN
-PUBLIC _gfx_blitSprite
-PUBLIC _gfx_getBufSize
-PUBLIC _gfx_setColor
-PUBLIC _gfx_switchColor
-PUBLIC _gfx_copyRect
-PUBLIC _gfx_setFont
-PUBLIC _gfx_getAuxBufSize
-PUBLIC _gfx_setFadeSteps
-PUBLIC _gfx_setDac
-PUBLIC _gfx_waitRetrace
-PUBLIC _gfx_flipPage
-PUBLIC _gfx_storeBufPtr
-PUBLIC _gfx_commitPage
-PUBLIC _gfx_setMonoFlag
-PUBLIC _gfx_getCurPage
-PUBLIC _gfx_setOvlVal1
-PUBLIC _gfx_setOvlVal2
-PUBLIC _gfx_setBlitOffset
-PUBLIC _gfx_calcRowAddr
-PUBLIC _gfx_resetBlitOffset2
-PUBLIC _misc_jump_5a_keybuf
-PUBLIC _misc_jump_5b_getkey
-PUBLIC _misc_jump_5d_readJoy
-PUBLIC _misc_jump_5e_clearKeyFlags
-PUBLIC _awardColor
-PUBLIC _awardFont
-PUBLIC _awardPage
-PUBLIC _clearRectHeight
-PUBLIC _clearRectWidth
-PUBLIC _clearRectX
-PUBLIC _clearRectY
-PUBLIC _clipDivZeroHandler
-PUBLIC _clipDx
-PUBLIC _clipDxHalf
-PUBLIC _clipDy
-PUBLIC _clipDyHalf
-PUBLIC _clipMaxX
-PUBLIC _clipMaxY
-PUBLIC _clipOutcode
-PUBLIC _commData
-PUBLIC _commData_seg
-PUBLIC _dat_1580
-PUBLIC _dat_231c
-PUBLIC _dat_4034
-PUBLIC _dat_4040
-PUBLIC _dat_4246
-PUBLIC _dat_4a2a
-PUBLIC _dat_5512
-PUBLIC _dat_55de
-PUBLIC _dat_5ab4
-PUBLIC _dirtyMaxBuf
+; Overlay jump table slots - patched at runtime by setupOverlaySlots.
+; Each slot is 5 bytes: db 0EAh (far jmp opcode) + dd 0 (target, filled in).
+; The slots MUST remain contiguous with 5-byte stride.
+PUBLIC _gfx_allocPage, gfx_allocPage
+PUBLIC _gfx_drawString, gfx_drawString
+PUBLIC _gfx_setPageN, gfx_setPageN
+PUBLIC _gfx_blitSprite, gfx_blitSprite
+PUBLIC _gfx_getBufSize, gfx_getBufSize
+PUBLIC _gfx_setBlitOffset, gfx_setBlitOffset
+PUBLIC _gfx_setColor, gfx_setColor
+PUBLIC _gfx_resetBlitOffset2, gfx_resetBlitOffset2
+PUBLIC _gfx_switchColor, gfx_switchColor
+PUBLIC _gfx_copyRect, gfx_copyRect
+PUBLIC _gfx_setFont, gfx_setFont
+PUBLIC _gfx_getAuxBufSize, gfx_getAuxBufSize
+PUBLIC _gfx_setFadeSteps, gfx_setFadeSteps
+PUBLIC _gfx_calcRowAddr, gfx_calcRowAddr
+PUBLIC _gfx_setOvlVal1, gfx_setOvlVal1
+PUBLIC _gfx_setOvlVal2, gfx_setOvlVal2
+PUBLIC _gfx_setDac, gfx_setDac
+PUBLIC _gfx_waitRetrace, gfx_waitRetrace
+PUBLIC _gfx_flipPage, gfx_flipPage
+PUBLIC _gfx_storeBufPtr, gfx_storeBufPtr
+PUBLIC _gfx_commitPage, gfx_commitPage
+PUBLIC _gfx_setMonoFlag, gfx_setMonoFlag
+PUBLIC _gfx_getCurPage, gfx_getCurPage
+PUBLIC _misc_jump_5a_keybuf, misc_jump_5a_keybuf
+PUBLIC _misc_jump_5b_getkey, misc_jump_5b_getkey
+PUBLIC _misc_jump_5d_readJoy, misc_jump_5d_readJoy
+PUBLIC _misc_jump_5e_clearKeyFlags, misc_jump_5e_clearKeyFlags
+PUBLIC _thunk_EXT_FUN_0000, thunk_EXT_FUN_0000
+PUBLIC _gfx_setPage1, gfx_setPage1
+PUBLIC _gfx_getCurPageSeg, gfx_getCurPageSeg
+PUBLIC _gfx_getCurPageSeg2, gfx_getCurPageSeg2
+PUBLIC _gfx_drawLine, gfx_drawLine
+PUBLIC _gfx_setPageDirect, gfx_setPageDirect
+PUBLIC _gfx_resetBlitOffset, gfx_resetBlitOffset
+PUBLIC _gfx_dirtyRect2, gfx_dirtyRect2
+PUBLIC _gfx_nop51, gfx_nop51
+PUBLIC _gfx_fillRow, gfx_fillRow
+PUBLIC _gfx_fillRow2, gfx_fillRow2
+PUBLIC _gfx_copyRow, gfx_copyRow
+PUBLIC _gfx_nop36, gfx_nop36
+PUBLIC _gfx_getPageSeg, gfx_getPageSeg
+PUBLIC _gfx_getRowOffset, gfx_getRowOffset
+PUBLIC _gfx_clearPage, gfx_clearPage
+
+; Dirty rect buffers - MUST be contiguous (overlay hardcodes offset +0x1B8)
 PUBLIC _dirtyMinBuf
-PUBLIC _dirtyRectMax
+PUBLIC _dirtyMaxBuf
 PUBLIC _dirtyRectMin
+PUBLIC _dirtyRectMax
+
+; LZW pic decoder contiguous block
+PUBLIC _picDictionaryIndex
+PUBLIC _picDecodeDictionary
+PUBLIC _picDecodeIncrement
+PUBLIC _clipDivZeroHandler
+
+; Timer variables
+PUBLIC _timerCalSumHi
+PUBLIC _timerCalSumLo
+PUBLIC _timerCountHi
+PUBLIC _timerCountLo
+PUBLIC _timerCounter
+PUBLIC _timerCounter2
+PUBLIC _timerCounter3
+PUBLIC _timerDivider
+PUBLIC _timerDivisor
+PUBLIC _timerHandlerInstalled
+PUBLIC _timerMode
+PUBLIC _timerReload
+PUBLIC _timerSyncRetrace
+PUBLIC _timerTarget
+PUBLIC _timerTick
+PUBLIC _var_timerFlag
+
+; File I/O variables
 PUBLIC _errorCodeStr
 PUBLIC _fileReadBuf
 PUBLIC _fileReadPos
-PUBLIC _gameData
-PUBLIC _gfxBufSeg
+PUBLIC _tmpFileHandle
+
+; Joystick variables
 PUBLIC _joyAxisX
 PUBLIC _joyAxisY
 PUBLIC _joyCenterValues
@@ -73,21 +95,24 @@ PUBLIC _joyRangeAbove
 PUBLIC _joyRangeBelow
 PUBLIC _joyRawAxis0
 PUBLIC _joyRawAxis1
+
+; Line drawing variables
+PUBLIC _clipDx
+PUBLIC _clipDxHalf
+PUBLIC _clipDy
+PUBLIC _clipDyHalf
+PUBLIC _clipMaxX
+PUBLIC _clipMaxY
+PUBLIC _clipOutcode
 PUBLIC _lineX1
 PUBLIC _lineX2
 PUBLIC _lineY1
 PUBLIC _lineY2
-PUBLIC _medalScores
-PUBLIC _medalThresholds
-PUBLIC _origCBreakOfs
-PUBLIC _origCBreakSeg
-PUBLIC _ovlInsaneFlag
+
+; Pic decoder state variables
 PUBLIC _picByte
 PUBLIC _picByteUnsignedFlag
-PUBLIC _picDecodeDictionary
-PUBLIC _picDecodeIncrement
 PUBLIC _picDecodedRowBuf
-PUBLIC _picDictionaryIndex
 PUBLIC _picFileReadBufEnd
 PUBLIC _picFileWord
 PUBLIC _picLookupResult
@@ -104,27 +129,42 @@ PUBLIC _picScreenBufSize
 PUBLIC _picSlotCounter
 PUBLIC _picTmp9BitCount
 PUBLIC _picWorkDataPtr
+
+; Award/promotion data
+PUBLIC _awardColor
+PUBLIC _awardFont
+PUBLIC _awardPage
+PUBLIC _medalScores
+PUBLIC _medalThresholds
 PUBLIC _promoScores
 PUBLIC _promoThresholds
+
+; Clear rect variables
+PUBLIC _clearRectHeight
+PUBLIC _clearRectWidth
+PUBLIC _clearRectX
+PUBLIC _clearRectY
+
+; Misc data/BSS variables
+PUBLIC _commData
+PUBLIC _commData_seg
+PUBLIC _dat_1580
+PUBLIC _dat_231c
+PUBLIC _dat_4034
+PUBLIC _dat_4040
+PUBLIC _dat_4246
+PUBLIC _dat_4a2a
+PUBLIC _dat_5512
+PUBLIC _dat_55de
+PUBLIC _dat_5ab4
+PUBLIC _gameData
+PUBLIC _gfxBufSeg
+PUBLIC _origCBreakOfs
+PUBLIC _origCBreakSeg
+PUBLIC _ovlInsaneFlag
 PUBLIC _quitFlag
 PUBLIC _randSeed
 PUBLIC _randState
-PUBLIC _timerCalSumHi
-PUBLIC _timerCalSumLo
-PUBLIC _timerCountHi
-PUBLIC _timerCountLo
-PUBLIC _timerCounter
-PUBLIC _timerCounter2
-PUBLIC _timerCounter3
-PUBLIC _timerDivider
-PUBLIC _timerDivisor
-PUBLIC _timerHandlerInstalled
-PUBLIC _timerMode
-PUBLIC _timerReload
-PUBLIC _timerSyncRetrace
-PUBLIC _timerTarget
-PUBLIC _timerTick
-PUBLIC _tmpFileHandle
 PUBLIC _var_119
 PUBLIC _var_120
 PUBLIC _var_121
@@ -144,62 +184,10 @@ PUBLIC _var_3f72
 PUBLIC _var_41
 PUBLIC _var_43
 PUBLIC _var_61
-PUBLIC _var_timerFlag
-; Overlay jump table proc labels (non-underscored)
-PUBLIC gfx_allocPage
-PUBLIC gfx_drawString
-PUBLIC gfx_setPage1
-PUBLIC gfx_setPageN
-PUBLIC gfx_getCurPageSeg
-PUBLIC gfx_getCurPageSeg2
-PUBLIC gfx_blitSprite
-PUBLIC gfx_getBufSize
-PUBLIC gfx_setBlitOffset
-PUBLIC gfx_drawLine
-PUBLIC gfx_setPageDirect
-PUBLIC gfx_setColor
-PUBLIC gfx_resetBlitOffset
-PUBLIC gfx_resetBlitOffset2
-PUBLIC gfx_dirtyRect2
-PUBLIC gfx_switchColor
-PUBLIC gfx_copyRect
-PUBLIC gfx_setFont
-PUBLIC gfx_getAuxBufSize
-PUBLIC gfx_fillRow
-PUBLIC gfx_fillRow2
-PUBLIC gfx_copyRow
-PUBLIC gfx_nop36
-PUBLIC gfx_getPageSeg
-PUBLIC gfx_getRowOffset
-PUBLIC gfx_clearPage
-PUBLIC gfx_setFadeSteps
-PUBLIC gfx_calcRowAddr
-PUBLIC gfx_setOvlVal1
-PUBLIC gfx_setOvlVal2
-PUBLIC gfx_setDac
-PUBLIC gfx_waitRetrace
-PUBLIC gfx_flipPage
-PUBLIC gfx_storeBufPtr
-PUBLIC gfx_commitPage
-PUBLIC gfx_nop51
-PUBLIC gfx_setMonoFlag
-PUBLIC gfx_getCurPage
-PUBLIC misc_jump_5a_keybuf
-PUBLIC misc_jump_5b_getkey
-PUBLIC misc_jump_5d_readJoy
-PUBLIC misc_jump_5e_clearKeyFlags
-PUBLIC thunk_EXT_FUN_0000
 
 .DATA
 ; --- Data segment ---
-EXTRN _missionScore:BYTE
-EXTRN _missionScoreHi:BYTE
-EXTRN _ejectedFlag:BYTE
-EXTRN _worldBufHandle:BYTE
-EXTRN _spriteBufSeg:BYTE
-EXTRN _curRecordIdx:BYTE
-EXTRN _var_192:BYTE
-EXTRN _dat_0042:BYTE
+
 PUBLIC _var_193
 PUBLIC _flightRecords
 PUBLIC _timerTickCnt
@@ -378,6 +366,7 @@ gfx_nop36 proc far               ; 0x1116
     dd 0
 gfx_nop36 endp
 thunk_EXT_FUN_0000 proc far               ; 0x111B
+_thunk_EXT_FUN_0000 equ thunk_EXT_FUN_0000
     db 0EAh
     dd 0
 thunk_EXT_FUN_0000 endp
@@ -485,6 +474,21 @@ misc_jump_5e_clearKeyFlags proc far               ; 0x11DE
 misc_jump_5e_clearKeyFlags endp
 PUBLIC _misc_jump_5e_clearKeyFlags
 _misc_jump_5e_clearKeyFlags equ misc_jump_5e_clearKeyFlags
+_gfx_setPage1 equ gfx_setPage1
+_gfx_getCurPageSeg equ gfx_getCurPageSeg
+_gfx_getCurPageSeg2 equ gfx_getCurPageSeg2
+_gfx_drawLine equ gfx_drawLine
+_gfx_setPageDirect equ gfx_setPageDirect
+_gfx_resetBlitOffset equ gfx_resetBlitOffset
+_gfx_dirtyRect2 equ gfx_dirtyRect2
+_gfx_nop51 equ gfx_nop51
+_gfx_fillRow equ gfx_fillRow
+_gfx_fillRow2 equ gfx_fillRow2
+_gfx_copyRow equ gfx_copyRow
+_gfx_nop36 equ gfx_nop36
+_gfx_getPageSeg equ gfx_getPageSeg
+_gfx_getRowOffset equ gfx_getRowOffset
+_gfx_clearPage equ gfx_clearPage
     db 0EAh, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
     db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h
     db 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h
@@ -666,24 +670,6 @@ str_insertDiskA equ _str_insertDiskA
 str_pressKey2 equ _str_pressKey2
 str_dbicons2 equ _str_dbicons2
 str_missionDebrief equ _str_missionDebrief
-EXTRN _pageStruct:BYTE
-EXTRN _pageStruct2:BYTE
-EXTRN _pageStruct3:BYTE
-EXTRN _var_99:WORD
-EXTRN _var_100:WORD
-EXTRN _var_102:WORD
-EXTRN _var_104:WORD
-EXTRN _var_115:BYTE
-EXTRN _var_116:WORD
-EXTRN _spriteAir:WORD
-EXTRN _spriteSam:WORD
-EXTRN _spriteGround:WORD
-EXTRN _spriteWaypoint:WORD
-EXTRN _spriteAirBlink:WORD
-EXTRN _spriteSamBlink:WORD
-EXTRN _spriteGroundBlink:WORD
-EXTRN _spriteWaypointBlink:WORD
-EXTRN _dat_21e4:BYTE
 
 _var_119 db 000h
     db 000h

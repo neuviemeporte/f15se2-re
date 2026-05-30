@@ -11,30 +11,6 @@ void srandInit(int seed) {
 }
 
 
-int openFileRead(char *name, int mode) {
-    TRACE(("openFileRead"));
-    return openFileRaw(name, mode);
-}
-
-
-int readFileBlock(int handle, int buf, int size) {
-    TRACE(("readFileBlock"));
-    return readFileRaw(handle, buf, size);
-}
-
-
-int readFileAt(int handle, int a, int b, int c) {
-    TRACE(("readFileAt"));
-    return readFileAtRaw(handle, a, b, c);
-}
-
-
-int readFileAtEx(int handle, int a, int b, int c, int d) {
-    TRACE(("readFileAtEx"));
-    return readFileAtExRaw(handle, a, b, c, d);
-}
-
-
 int loadFileSection(char *name, int b, int c) {
     int handle;
     int result;
@@ -50,8 +26,8 @@ int loadFileSectionEx(char *name, int b, int c, int d, int e) {
     int handle;
     int result;
     TRACE(("loadFileSectionEx"));
-    handle = openFileRead(name, 0);
-    result = readFileAtEx(handle, e, b, c, d);
+    handle = createFile(name, 0);
+    result = writeFile(handle, e, b, c, d);
     closeFileWrapper(handle);
     return result;
 }
