@@ -44,5 +44,5 @@ jobs:
       - name: Verify end.exe
         run: make verify-end
 
-      - name: Build noasm-start
-        run: make noasm-start
+      - name: Build noasm
+        run: make -j$(nproc) noasm-start noasm-end

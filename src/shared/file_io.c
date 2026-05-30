@@ -69,6 +69,77 @@ int writeFileAtRaw(int handle, void far *buf, uint16 count)
     return r.x.ax;
 }
 
+/* dos_free: Free DOS memory block (INT 21h/49h) */
+int dos_free(int segment)
+{
+    union REGS r;
+    struct SREGS s;
+    r.h.ah = 0x49;
+    s.es = segment;
+    intdosx(&r, &r, &s);
+    if (r.x.cflag) return r.x.ax;
+    return 0;
+}
+
+/* createFile: Create or truncate file (INT 21h/3Ch) */
+int createFile(const char *filename, int attr)
+{
+    union REGS r;
+    struct SREGS s;
+    r.h.ah = 0x3C;
+    r.x.cx = attr;
+    segread(&s);
+    r.x.dx = (uint16)filename;
+    intdosx(&r, &r, &s);
+    if (r.x.cflag) return -1;
+    return r.x.ax;
+}
+
+/* readFile: Read from file into DS-relative buffer (INT 21h/3Fh) */
+int readFile(int handle, int count, int bufOffset)
+{
+    union REGS r;
+    struct SREGS s;
+    r.h.ah = 0x3F;
+    r.x.bx = handle;
+    r.x.cx = count;
+    r.x.dx = bufOffset;
+    segread(&s);
+    intdosx(&r, &r, &s);
+    if (r.x.cflag) return -1;
+    return r.x.ax;
+}
+
+/* readFileAt: Read from file into specific segment:offset (INT 21h/3Fh) */
+int readFileAt(int handle, int count, int offset, int segment)
+{
+    union REGS r;
+    struct SREGS s;
+    r.h.ah = 0x3F;
+    r.x.bx = handle;
+    r.x.cx = count;
+    r.x.dx = offset;
+    s.ds = segment;
+    intdosx(&r, &r, &s);
+    if (r.x.cflag) return -1;
+    return r.x.ax;
+}
+
+/* writeFile: Write to file from specific segment:offset (INT 21h/40h) */
+int writeFile(int handle, int count, int offset, int segment, int unused)
+{
+    union REGS r;
+    struct SREGS s;
+    r.h.ah = 0x40;
+    r.x.bx = handle;
+    r.x.cx = count;
+    r.x.dx = offset;
+    s.ds = segment;
+    intdosx(&r, &r, &s);
+    if (r.x.cflag) return -1;
+    return r.x.ax;
+}
+
 /* file_read512.inc: Read 512 bytes from file - stub */
 int read512FromFileIntoBuf(void)
 {

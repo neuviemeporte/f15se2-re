@@ -333,6 +333,13 @@ void decodePic(int handle, int segment)
     picDecodeToSegment(handle, (uint16)segment);
 }
 
+void decodePicRaw(int handle, int segment)
+{
+    /* Same as decodePic: clears page and decodes PIC row-by-row */
+    gfx_clearPage();
+    picDecodeToSegment(handle, (uint16)segment);
+}
+
 void picBlit(int handle, int segment)
 {
     decodePic(handle, segment);

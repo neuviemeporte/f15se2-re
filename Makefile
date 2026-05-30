@@ -260,6 +260,26 @@ $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
 	fi
 
 #
+# end.exe NO_ASM build (pure C graphics, no overlay needed)
+#
+END_NOASM := $(NOASMDIR)/end.exe
+NOASM_END_SRC := $(END_SRC) gfx_impl.c
+NOASM_END_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_END_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
+NOASM_END_OBJ := $(NOASM_END_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util2.obj
+$(NOASM_END_COBJ): $(END_BASEHDR)
+$(NOASM_END_COBJ): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DNO_ASM
+$(END_NOASM): | $(NOASMDIR)
+$(END_NOASM): $(NOASM_END_OBJ)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(NOASM_END_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
+	@if [ -n "$(F15_TESTDIR)" ]; then \
+	    echo "Copying $@ to $(F15_TESTDIR)"; \
+	    cp $@ "$(F15_TESTDIR)"; \
+		ls -l $(F15_TESTDIR)/end.exe; \
+	fi
+
+noasm-end: $(END_NOASM)
+
+#
 # unit test executable
 #
 TEST_EXE := $(DEBUGDIR)/test.exe

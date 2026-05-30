@@ -6,6 +6,21 @@
 #include <stdlib.h>
 #include "end.h"
 
+#ifdef NO_ASM
+void clearKeybuf(void) {
+    while (misc_jump_5a_keybuf() == 0) {
+        misc_jump_5b_getkey();
+    }
+}
+
+void setupWorldBufPtr(void) {
+    uint16 seg = FP_SEG(commData);
+    uint16 off = FP_OFF(commData);
+    worldBufOffset = off + 0x7A;
+    worldBufSegment = seg;
+}
+#endif
+
 void initGraphics(void) {
     int a, b, c, d, e, f, g, h;
     (void)a; (void)b; (void)c; (void)d;
