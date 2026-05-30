@@ -274,15 +274,15 @@ gfx_getVal: Data1 FAR 0c3e-0c42 R0c3e-0c42 ignore
 gfx_commitPage: Data1 FAR 0c48-0c4c R0c48-0c4c ignore
 gfx_nop51: Data1 FAR 0c4d-0c51 R0c4d-0c51 ignore
 gfx_setMonoFlag: Data1 FAR 0c57-0c5b R0c57-0c5b ignore
-misc_slot_5a_checkkbuf: Data1 FAR 0c7a-0c7e R0c7a-0c7e ignore
-misc_slot_5b_getkey: Data1 FAR 0c7f-0c83 R0c7f-0c83 ignore
+misc_jump_5a_keybuf: Data1 FAR 0c7a-0c7e R0c7a-0c7e ignore
+misc_jump_5b_getkey: Data1 FAR 0c7f-0c83 R0c7f-0c83 ignore
 misc_jump_5d_readJoy: Data1 FAR 0c89-0c8d R0c89-0c8d ignore
-misc_slot_5e_clearKeyFlags: Data1 FAR 0c8e-0c92 R0c8e-0c92 ignore
-audio_slot_64: Data1 FAR 0cac-0cb0 R0cac-0cb0 ignore
-audio_slot_65: Data1 FAR 0cb1-0cb5 R0cb1-0cb5 ignore
-audio_slot_67: Data1 FAR 0cbb-0cbf R0cbb-0cbf ignore
-audio_slot_6b: Data1 FAR 0ccf-0cd3 R0ccf-0cd3 ignore
-audio_slot_6c: Data1 FAR 0cd4-0cd8 R0cd4-0cd8 ignore
+misc_jump_5e_clearKeyFlags: Data1 FAR 0c8e-0c92 R0c8e-0c92 ignore
+audio_jump_64: Data1 FAR 0cac-0cb0 R0cac-0cb0 ignore
+audio_jump_65: Data1 FAR 0cb1-0cb5 R0cb1-0cb5 ignore
+audio_jump_67: Data1 FAR 0cbb-0cbf R0cbb-0cbf ignore
+audio_jump_6b: Data1 FAR 0ccf-0cd3 R0ccf-0cd3 ignore
+audio_jump_6c: Data1 FAR 0cd4-0cd8 R0cd4-0cd8 ignore
 #
 # Discovered variables, one per line, syntax is "VariableName: Segment VAR OffsetWithinSegment"
 #
@@ -542,3 +542,148 @@ readItemSize: Data1 VAR 47dc
 commData: Data1 VAR 47e2
 
 menuSprites: Data1 VAR 4aea
+bufPtr: Data1 VAR a8
+page1NumPtr: Data1 VAR 546
+page2NumPtr: Data1 VAR 55e
+missionStr: Data1 VAR 5f8
+enableHighlight: Data1 VAR 65a
+plh3d3Ptr: Data1 VAR 65c
+missionPick: Data1 VAR 65e
+joyRepeatFlag: Data1 VAR 732
+spriteParams: Data1 VAR 734
+timerFlag: Data1 VAR 752
+timerHandlerInstalled: Data1 VAR 753
+timerCountLo: Data1 VAR 754
+timerCountHi: Data1 VAR 756
+timerTarget: Data1 VAR 758
+timerDivisor: Data1 VAR 75a
+timerTickCnt: Data1 VAR 75c
+timerReload: Data1 VAR 75e
+timerDivider: Data1 VAR 760
+timerMode: Data1 VAR 761
+timerCalSumLo: Data1 VAR 763
+timerCalSumHi: Data1 VAR 765
+timerSyncRetrace: Data1 VAR 767
+timerTick: Data1 VAR 768
+timerRetrace: Data1 VAR 76a
+timerCounter: Data1 VAR 76e
+timerCounter2: Data1 VAR 76f
+timerCounter3: Data1 VAR 770
+timerCounter4: Data1 VAR 771
+picCurrentRow: Data1 VAR 82e
+pilotSelectFlag: Data1 VAR 881
+screenBuf: Data1 VAR 898
+pageNumPtr: Data1 VAR 8b0
+ranks: Data1 VAR 8b4
+blinkColorIdx: Data1 VAR 966
+joyRawAxis0: Data1 VAR d06
+joyRawAxis1: Data1 VAR d08
+joyAxes: Data1 VAR d0e
+clearRectX: Data1 VAR d16
+clearRectY: Data1 VAR d18
+clearRectWidth: Data1 VAR d1a
+clearRectHeight: Data1 VAR d1c
+lineX1: Data1 VAR d1f
+lineX2: Data1 VAR d21
+lineY1: Data1 VAR d23
+lineY2: Data1 VAR d25
+dirtyMinBuf: Data1 VAR d27
+dirtyMaxBuf: Data1 VAR edf
+dirtyRectMin: Data1 VAR 109b
+dirtyRectMax: Data1 VAR 109d
+clipOutcode: Data1 VAR 10a0
+clipDx: Data1 VAR 10a1
+clipDy: Data1 VAR 10a3
+clipDxHalf: Data1 VAR 10a5
+clipDyHalf: Data1 VAR 10a7
+clipMaxX: Data1 VAR 10a9
+clipMaxY: Data1 VAR 10ab
+cbreakHit: Data1 VAR 10ae
+origCBreakSeg: Data1 VAR 10af
+origCBreakOfs: Data1 VAR 10b1
+errorCodeStr: Data1 VAR 10b4
+fileReadPos: Data1 VAR 131e
+tmpFileHandle: Data1 VAR 1320
+screenBufSize: Data1 VAR 1462
+tmpPageIndex: Data1 VAR 1464
+rowOffset: Data1 VAR 1466
+row: Data1 VAR 146a
+readFromFilePtr: Data1 VAR 146c
+terrainSignature: Data1 VAR 14e6
+terrainDirtyFlag: Data1 VAR 1636
+gridValidFlag: Data1 VAR 1638
+missionMidX: Data1 VAR 176a
+missionMidY: Data1 VAR 176c
+missionTargetX: Data1 VAR 176e
+missionTargetY: Data1 VAR 1770
+missionTarget2X: Data1 VAR 1772
+missionTarget2Y: Data1 VAR 1774
+missionBase2X: Data1 VAR 1776
+missionBase2Y: Data1 VAR 1778
+difficultySaved: Data1 VAR 1e40
+nightMissionFlag: Data1 VAR 1e44
+regnPlhPtr: Data1 VAR 270c
+armPosition: Data1 VAR 2b06
+spriteBlitX: Data1 VAR 2b08
+spriteBlitY: Data1 VAR 2b0a
+spriteBlitW: Data1 VAR 2b0c
+spriteBlitH: Data1 VAR 2b0e
+readBufEndPtr: Data1 VAR 2b10
+picWorkDataPtr: Data1 VAR 2b12
+picRowLength: Data1 VAR 2b14
+picProcessFlag0_1: Data1 VAR 2b16
+picLookupResult: Data1 VAR 2b17
+picTmp9BitCount: Data1 VAR 2b18
+picByte: Data1 VAR 2b19
+picFileReadBufEnd: Data1 VAR 2b1a
+picNumberDictSlots: Data1 VAR 2b1c
+picFileWord: Data1 VAR 2b1e
+picRemainingBitCount: Data1 VAR 2b20
+picByteUnsignedFlag: Data1 VAR 2b21
+picSlotCounter: Data1 VAR 2b22
+dictionaryIndex: Data1 VAR 2b24
+clipDivZeroHandler: Data1 VAR 2f8b
+flag4Saved: Data1 VAR 4578
+theaterSaved: Data1 VAR 457a
+moveDst: Data1 VAR 457c
+bufCoordStr: Data1 VAR 4580
+gridRefRow: Data1 VAR 4581
+gridRefCol: Data1 VAR 4582
+gridRefRowDigit: Data1 VAR 4583
+missionStrTrunc: Data1 VAR 45af
+missionStrTruncEnd: Data1 VAR 45b0
+escortMissionFlag: Data1 VAR 45f8
+gfxModeSetPtr: Data1 VAR 45fa
+fileHandle: Data1 VAR 4600
+gameData: Data1 VAR 4604
+groundUnitCount: Data1 VAR 4608
+page1Ptr: Data1 VAR 4a0e
+nearestTerrainResult: Data1 VAR 4e10
+scenarioFoundArr: Data1 VAR 5cd1
+needSplash: Data1 VAR 628a
+targets: Data1 VAR 628e
+playerStartLoc: Data1 VAR 64ba
+hercFlag: Data1 VAR 678c
+baseXPrecise: Data1 VAR 6a80
+nearestObjectType: Data1 VAR 6a84
+nearestDist: Data1 VAR 6a86
+nearestWorldX: Data1 VAR 6a88
+nearestWorldY: Data1 VAR 6a8c
+nearestTilePtr: Data1 VAR 6a90
+nearestLevel: Data1 VAR 6a92
+nearestCellIdx: Data1 VAR 6a93
+nearestGridX: Data1 VAR 6a94
+nearestGridY: Data1 VAR 6a95
+exitCode: Data1 VAR 6a9a
+baseYPrecise: Data1 VAR 6b00
+readItemSize: Data1 VAR 710e
+intRegs: Data1 VAR 7176
+missionDistAccum: Data1 VAR 71e8
+selectedPilotIdx: Data1 VAR 71ec
+flightUnitCount: Data1 VAR 71fa
+joyReady: Data1 VAR 71fe
+wldOffsets: Data1 VAR 7202
+tileDataPtr: Data1 VAR 76fa
+worldObjectCount: Data1 VAR 77ec
+commData: Data1 VAR 77f2
+menuSprites: Data1 VAR 7afa
