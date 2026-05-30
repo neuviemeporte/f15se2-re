@@ -4,6 +4,12 @@
 #include "struct.h"
 #include "comm.h"
 
+#if !defined(MSDOS) && !defined(__MSDOS__)
+#ifndef far
+#define far
+#endif
+#endif
+
 /* Split into chunks due to MSC 5.1 initializer limits.
  *
  * Key offsets within weaponDataBlock[]:

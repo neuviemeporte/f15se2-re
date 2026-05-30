@@ -29,7 +29,7 @@ void fileClose(int handle)
 }
 
 /* file_open.inc: Open file, returns handle or -1 on error */
-int openFile(const char *filename, int mode)
+int openFile(char *filename, int mode)
 {
     union REGS r;
     struct SREGS s;
@@ -82,7 +82,7 @@ int dos_free(int segment)
 }
 
 /* createFile: Create or truncate file (INT 21h/3Ch) */
-int createFile(const char *filename, int attr)
+int createFile(char *filename, int attr)
 {
     union REGS r;
     struct SREGS s;

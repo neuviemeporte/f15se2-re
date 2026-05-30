@@ -6,6 +6,7 @@
 #include "inttype.h"
 #include "pointers.h"
 #include "slot.h"
+#include <dos.h>
 
 /* Dirty rect tracking variables - these are declared in the data module */
 extern int16 dirtyMinBuf[];

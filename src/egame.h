@@ -9,6 +9,9 @@
 
 #if !defined(MSDOS) && !defined(__MSDOS__)
 #define far
+#ifndef pascal
+#define pascal
+#endif
 #endif
 
 #define __int32 long
@@ -89,7 +92,11 @@ void sub_11A18();
 // ==== seg000:0x1a88 ====
 void sub_11A88(int param_1);
 // ==== seg000:0x1b37 ====
+#ifdef BUGFIX
+void sub_11B37(int arg_0);
+#else
 void sub_11B37();
+#endif
 // ==== seg000:0x1bc3 ====
 void sub_11BC3(int arg_0, unsigned int arg_2);
 // ==== seg000:0x1bfd ====
@@ -99,7 +106,11 @@ void sub_11C21();
 // ==== seg000:0x1d10 ====
 void sub_11D10(int arg_0, int arg_2);
 // ==== seg000:0x1d6e ====
+#ifdef BUGFIX
+void placeString(int param_1);
+#else
 void placeString();
+#endif
 // ==== seg000:0x1e0e ====
 int sub_11E0E();
 // ==== seg000:0x1f3e ====
@@ -109,11 +120,16 @@ int moveDataFar();
 // ==== seg000:0x206d ====
 int moveStuff();
 // ==== seg000:0x215c ====
+#ifdef BUGFIX
+int moveNearFar(void *nearPtr, int count);
+#else
 int moveNearFar();
+#endif
 // ==== seg000:0x21a9 ====
 int setCommWorldbufPtr();
 // ==== seg000:0x21c6 ====
 int callLoad3DAll();
+void sub_121C6();
 // ==== seg000:0x21ca ====
 void sub_121CA(int, int, int, long, long, long, int, int, int, int);
 // ==== seg000:0x2278 ====
@@ -125,7 +141,11 @@ int sub_122B8(int param_0, int param_1, int param_2, int param_3, int param_4, i
 // ==== seg000:0x26b4 ====
 uint32 sub_126B4(int level, uint32 coord);
 // ==== seg000:0x273e ====
+#ifdef BUGFIX
+int process3dg(int param_1, int param_2, int param_3);
+#else
 int process3dg();
+#endif
 // ==== seg000:0x2874 ====
 int load3DAll();
 // ==== seg000:0x2898 ====
@@ -143,9 +163,17 @@ int16* sub_12FDA(uint32 param_0, uint32 param_1);
 // ==== seg000:0x3224 ====
 void sub_13224(char *a, int b, char c);
 // ==== seg000:0x3266 ====
+#ifdef BUGFIX
+int sub_13266(int p1, int p2, int p3, int p4);
+#else
 int sub_13266();
+#endif
 // ==== seg000:0x32ba ====
+#ifdef BUGFIX
+int sub_132BA(uint32 coord1, uint32 coord2, uint32 coord3);
+#else
 int sub_132BA();
+#endif
 // ==== seg000:0x345e ====
 void sub_1345E(char *, int, int, int);
 // ==== seg000:0x34ac ====
@@ -163,7 +191,11 @@ void sub_1378E(int, int);
 // ==== seg000:0x3816 ====
 void sub_13816(int arg_0, int arg_1);
 // ==== seg000:0x3922 ====
+#ifdef BUGFIX
+int sub_13922(int arg_0);
+#else
 int sub_13922();
+#endif
 // ==== seg000:0x3932 ====
 void sub_13932(char*, int, int, int, int, int, int, int);
 // ==== seg000:0x39aa ====
@@ -241,7 +273,7 @@ void sub_15FDB(void);
 // ==== seg000:0x606c ====
 void sub_1606C(void);
 // ==== seg000:0x60d3 ====
-void sub_160D3(int *arg_0);
+void sub_160D3(int16 *arg_0);
 // ==== seg000:0x613b ====
 void sub_1613B(void);
 // ==== seg000:0x6172 ====
@@ -259,7 +291,11 @@ int sub_167B4();
 // ==== seg000:0x7594 ====
 int sub_17594();
 // ==== seg000:0x783a ====
+#ifdef BUGFIX
+int sub_1783A(int arg_0, int arg_2);
+#else
 int sub_1783A();
+#endif
 // ==== seg000:0x79ee ====
 int sub_179EE();
 // ==== seg000:0x85be ====
@@ -299,13 +335,25 @@ int sub_19915();
 // ==== seg000:0x993a ====
 int sub_1993A();
 // ==== seg000:0x99ec ====
+#ifdef BUGFIX
+int sub_199EC(int arg_0, int arg_2, int *arg_4, int *arg_6);
+#else
 int sub_199EC();
+#endif
 // ==== seg000:0x9a4d ====
+#ifdef BUGFIX
+int sub_19A4D(int arg_0, int arg_1);
+#else
 int sub_19A4D();
+#endif
 // ==== seg000:0x9adb ====
 void __cdecl sub_19ADB(int, int, int, int, int, int, int);
 // ==== seg000:0x9b98 ====
+#ifdef BUGFIX
+void sub_19B98(int arg_0, int arg_1, int arg_2, int arg_3);
+#else
 void sub_19B98();
+#endif
 // ==== seg000:0x9be1 ====
 int sub_19BE1(int arg_0, int arg_2, int arg_4, int arg_6);
 // ==== seg000:0x9c0c ====
@@ -319,13 +367,21 @@ void __cdecl sub_19DB0(int, int, int, int);
 // ==== seg000:0x9e44 ====
 void __cdecl sub_19E44(int);
 // ==== seg000:0x9e5d ====
+#ifdef BUGFIX
+void __cdecl sub_19E5D(int arg_0, int arg_2, int arg_4, int arg_6);
+#else
 void __cdecl sub_19E5D();
+#endif
 // ==== seg000:0x9e94 ====
 int sub_19E94();
 // ==== seg000:0x9ea0 ====
 void routine_328(int, int, int);
 // ==== seg000:0x9eb6 ====
+#ifdef BUGFIX
+int sub_19EB6(int arg_0, int arg_2);
+#else
 int sub_19EB6();
+#endif
 // ==== seg000:0x9fad ====
 int __cdecl sub_19FAD(int, char*, int);
 // ==== seg000:0x9fcc ====
@@ -341,7 +397,11 @@ int __cdecl drawStringCentered(int16 *, const char *, int, int, int);
 // ==== seg000:0xa183 ====
 void sub_1A183(int, int, int, int);
 // ==== seg000:0xa1b1 ====
+#ifdef BUGFIX
+int sub_1A1B1(int arg_0, int arg_1);
+#else
 int sub_1A1B1();
+#endif
 // ==== seg000:0xa1e4 ====
 void tempStrcpy(char *arg_0);
 // ==== seg000:0xa204 ====
@@ -351,11 +411,23 @@ int routine_260(int param_1, int param_2);
 // ==== seg000:0xa25c ====
 int sub_1A25C(char param_1);
 // ==== seg000:0xa740 ====
+#ifdef BUGFIX
+void sub_1A740(int arg_0, int arg_2, int arg_4);
+#else
 void sub_1A740();
+#endif
 // ==== seg000:0xa7c4 ====
+#ifdef BUGFIX
+void sub_1A7C4(int arg_0, int arg_2);
+#else
 void sub_1A7C4();
+#endif
 // ==== seg000:0xa872 ====
+#ifdef BUGFIX
+void sub_1A872(int arg_0, int arg_2, int arg_4, int arg_6);
+#else
 void sub_1A872();
+#endif
 // ==== seg000:0xa8c8 ====
 void sub_1A8C8(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c);
 // ==== seg000:0xa934 ====
@@ -554,7 +626,11 @@ int far sub_1FEEC();
 // ==== seg001:0x67e ====
 int sub_1FEFE();
 // ==== seg001:0x884 ====
+#ifdef BUGFIX
+int far sub_20104(int a, int b, int c, int d, int e, int f, int g);
+#else
 int far sub_20104();
+#endif
 // ==== seg001:0x908 ====
 int sub_20188();
 // ==== seg001:0xa09 ====
@@ -614,7 +690,7 @@ int nullsub_2();
 // ==== seg001:0x1ba2 ====
 int sub_21422();
 // ==== seg001:0x1bc4 ====
-int far sub_21444(int* param_1, int param_2, int param_3, int param_4, int param_5);
+int far sub_21444(int16* param_1, int param_2, int param_3, int param_4, int param_5);
 // ==== seg001:0x1ca6 ====
 int far sub_21526();
 // ==== seg001:0x1caa ====
@@ -1281,9 +1357,9 @@ extern uint8 a0[];
 extern uint8 aFired[];
 extern int16 word_38202;
 extern uint8 unk_3831E[];
-extern int *off_38334;
+extern int16 *off_38334;
 extern uint8 unk_38336[];
-extern int *off_3834C;
+extern int16 *off_3834C;
 extern int16 word_3834E[];
 extern int *off_38364;
 extern int16 word_3837C;
@@ -1807,7 +1883,9 @@ extern uint8 var_316;
 extern int16 var_665;
 extern int16 var_666;
 
+#if defined(MSDOS) || defined(__MSDOS__)
 extern int rand();
+#endif
 extern long _aNlmul(long, long);
 
 extern int16 var_47;

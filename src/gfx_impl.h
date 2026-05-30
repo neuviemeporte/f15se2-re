@@ -36,6 +36,7 @@ typedef struct {
  * Passed as int16* to drawString, switchColor, blitSprite, etc.
  * The overlay accesses fields at word offsets [0]..[10+].
  */
+#if 0 /* PageDesc is defined in struct.h — this is documentation only */
 typedef struct {
     int16 pageNum;    /* [0] page index into pageSegs[] */
     int16 flags;      /* [1] rendering flags */
@@ -49,6 +50,7 @@ typedef struct {
     int16 clipMinY;   /* [9] clip rect top */
     int16 clipMaxY;   /* [10] clip rect bottom */
 } PageDesc;
+#endif
 
 /* Sprite blit parameter block.
  * Passed to slots 0x11/0x47/0x49 as int16* pointer.

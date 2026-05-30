@@ -27,7 +27,7 @@ void closeFileWrapper(int handle)
     fileClose(handle);
 }
 
-void loadPic(char *filename, uint16 segment) {
+void loadPic(char *filename, int segment) {
     int handle;
     handle = openFileWrapper(filename, 0);
     TRACE(("loadPic(): opened %s, loading into segment 0x%x", filename, segment));
@@ -36,16 +36,20 @@ void loadPic(char *filename, uint16 segment) {
 }
 
 #ifdef BUGFIX
-void openShowPic(char *name, int16 page)
+void openShowPic(char *name, int page)
 #else
-void openShowPic(char *name, int16 page, int16 garbage)
+void openShowPic(char *name, int page, int garbage)
 #endif
 {
     int16 fileHandle;
     TRACE(("openShowPic: opening file %s, page %d",name,page));
     fileHandle = openFileWrapper(name, 0);
     TRACE(("openShowPic: showing pic, handle %d",fileHandle));
+#ifdef BUGFIX
+    showPicFile(fileHandle, page, 0);
+#else
     showPicFile(fileHandle, page, garbage);
+#endif
     closeFileWrapper(fileHandle);
     TRACE(("openShowPic: file closed, returning"));
 }

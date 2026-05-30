@@ -27,21 +27,19 @@ void pollJoystick(void)
 {
 }
 
-void copyJoystickData(void)
+int far copyJoystickData(uint8 *ptr)
 {
+    (void)ptr;
+    return 0;
 }
 
-void mystrcat(dst, src)
-char *dst;
-const char *src;
+int mystrcat(char *dst, char *src)
 {
     strcat(dst, src);
+    return 0;
 }
 
-void intDispatch(intnum, inreg, outreg)
-int16 intnum;
-uint8 *inreg;
-uint8 *outreg;
+void intDispatch(int intnum, uint8 *inreg, uint8 *outreg)
 {
     union REGS r;
     /* inreg[0] = AL, inreg[1] = AH based on stinit.c usage */
@@ -52,43 +50,58 @@ uint8 *outreg;
     outreg[1] = r.h.ah;
 }
 
-void setupOverlaySlots(param)
-int param;
+void setupOverlaySlots(int param)
 {
     miscdbg("setupOverlaySlots called");
 }
 
-void doNothing2(void)
+int doNothing2(const char *msg, int a, int b, int c)
 {
+    (void)msg; (void)a; (void)b; (void)c;
+    return 0;
 }
 
-void getTimeOfDay(regs)
-uint8 *regs;
-{
-}
-
-int mystrlen(s)
-const char *s;
-{
-    return strlen(s);
-}
-
-void nearmemset(dst, val, count)
-char *dst;
-int val;
-int count;
-{
-    memset(dst, val, count);
-}
-
-int loadOverlay(filename)
-const char *filename;
+int getTimeOfDay(void)
 {
     return 0;
 }
 
-int doFcbSearch(fcb)
-void *fcb;
+int mystrlen(const char *s)
+{
+    return strlen(s);
+}
+
+void nearmemset(void *dst, char val, int count)
+{
+    memset(dst, val, count);
+}
+
+int loadOverlay(const char *filename)
+{
+    return 0;
+}
+
+int doFcbSearch(void)
 {
     return -1;
 }
+
+#if !defined(MSDOS) && !defined(__MSDOS__)
+int16 *findNearestTerrain(long a, long b)
+{
+    (void)a; (void)b;
+    return 0;
+}
+
+unsigned long scaleCoordByLevel(int level, unsigned long coord)
+{
+    (void)level;
+    return coord;
+}
+
+int dos_alloc(int size)
+{
+    (void)size;
+    return 0;
+}
+#endif

@@ -352,7 +352,7 @@ int sub_155AB() {
     byte_3995A = word_36B86;
     // 5efc
     if (keyValue == 0x41) { // 5f06
-        sub_160D3(unk_38128);
+        sub_160D3((int16*)unk_38128);
         gfx_setColor(0xf);
         word_3755D = 0xf1;
         word_37561 = 0x15;

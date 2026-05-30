@@ -191,12 +191,12 @@ int read512FromFileIntoBuf();
 int unreach_1328D();
 int writeFileAtRaw();
 #ifdef BUGFIX
-void openShowPic(char *filename, int16 pageNum);
+void openShowPic(char *filename, int pageNum);
 #else
-void openShowPic(char *filename, int16 pageNum, int16 garbage);
+void openShowPic(char *filename, int pageNum, int garbage);
 #endif
 int unreach_1333E(int filename, int a);
-void __cdecl loadPic(char *, uint16);
+void __cdecl loadPic(char *, int);
 void unreach_loadPicAt();
 void showPicFile(int handle, int pageNum, int garbage);
 int unreach_13442();
@@ -876,7 +876,7 @@ extern uint8 gridBuf4[];
 extern int16 page1Ptr;
 extern uint8 libc_bufout[];
 extern uint8 gridBuf3[];
-extern int *nearestTerrainResult;
+extern int16 *nearestTerrainResult;
 extern uint8 gridBuf2[];
 extern struct TerrainTile terrainTileBlock[];
 extern uint8 wldReadBuf1[];

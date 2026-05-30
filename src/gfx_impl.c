@@ -379,7 +379,7 @@ int FAR CDECL gfx_setColor(int color)
 int FAR CDECL gfx_initOverlay(void) { return 0; }
 int FAR CDECL gfx_setPage1(void) { g_curPageSeg = g_pageSegs[1]; return 0; }
 int FAR CDECL gfx_getCurPageSeg2(void) { return (int)g_curPageSeg; }
-int FAR CDECL gfx_getCurPage(void) { return (int)g_curPageSeg; }
+int FAR CDECL gfx_getCurPage(int page) { (void)page; return (int)g_curPageSeg; }
 int FAR CDECL gfx_blitSprite(struct SpriteParams *p)
 {
     uint16 srcSeg, dstSeg;
@@ -471,8 +471,8 @@ int FAR CDECL gfx_nop36(void) { return 0; }
 int FAR CDECL gfx_nop37(void) { return 0; }
 int FAR CDECL gfx_setFadeSteps(int steps) { (void)steps; return 0; }
 int FAR CDECL gfx_calcRowAddr(int y, int x) { return (int)(g_rowOffsets[y] + (uint16)x); }
-int FAR CDECL gfx_setOvlVal1(void) { return 0; }
-int FAR CDECL gfx_setOvlVal2(void) { return 0; }
+int FAR CDECL gfx_setOvlVal1(int val) { (void)val; return 0; }
+int FAR CDECL gfx_setOvlVal2(int val) { (void)val; return 0; }
 int FAR CDECL gfx_getBlitOffset(void) { return (int)g_blitOffset; }
 int FAR CDECL gfx_getModeFlag(void) { return (int)g_modeFlag; }
 int FAR CDECL gfx_getModeFlag2(void) { return (int)g_modeFlag; }

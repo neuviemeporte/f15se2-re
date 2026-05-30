@@ -34,7 +34,11 @@ void initGraphics(void) {
     gfx_storeBufPtr(commData->gfxInitResult, 1);
 }
 
+#if defined(MSDOS) || defined(__MSDOS__)
 void main(void) {
+#else
+int main(void) {
+#endif
     int p;
     int a;
     int b;

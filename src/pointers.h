@@ -2,13 +2,13 @@
 #define POINTERS_H
 
 #include "inttype.h"
+#include "platform.h"
 #include "sassert.h"
 
 #if (F15_COMPILER == F15_COMPILER_MSC51)
 #define NEAR near
 #define FAR far
 #define CDECL cdecl
-
 #define offsetof(st, m) ((size_t)&(((st*)0)->m))
 #else
 #define NEAR

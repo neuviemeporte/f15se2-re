@@ -73,8 +73,13 @@ int FAR CDECL gfx_setFadeSteps(int steps);             /* slot 0x3d: setFadeStep
 int FAR CDECL gfx_calcRowAddr(int y, int x);           /* slot 0x3e: calcRowAddr */
 /* dseg:0xbf3 */
 int FAR CDECL gfx_getModecode();                       /* slot 0x3f: returns 3 (MCGA) */
+#ifdef BUGFIX
+int FAR CDECL gfx_setOvlVal1(int val);                  /* slot 0x40: writes ds:0xcc */
+int FAR CDECL gfx_setOvlVal2(int val);                  /* slot 0x41: writes ds:0xce */
+#else
 int FAR CDECL gfx_setOvlVal1();                        /* slot 0x40: writes ds:0xcc */
 int FAR CDECL gfx_setOvlVal2();                        /* slot 0x41: writes ds:0xce */
+#endif
 int FAR CDECL gfx_getModeFlag2();                      /* slot 0x42: returns modeFlag */
 int FAR CDECL gfx_unknown43();                         /* slot 0x43: unknown */
 int FAR CDECL gfx_setDac(uint16 palIdx);               /* slot 0x44: set VGA DAC palette */
@@ -93,7 +98,11 @@ int FAR CDECL gfx_setDacAnimCount(uint16 count);       /* slot 0x4f: setDacAnimC
 int FAR CDECL gfx_commitPage();                        /* slot 0x50: commitPage */
 int FAR CDECL gfx_nop51();                             /* slot 0x51: retf */
 int FAR CDECL gfx_setMonoFlag(uint16 mono);            /* slot 0x52: setMonoFlag */
+#ifdef BUGFIX
+int FAR CDECL gfx_getCurPage(int page);               /* slot 0x53: returns curPageSeg */
+#else
 int FAR CDECL gfx_getCurPage();                        /* slot 0x53: returns curPageSeg */
+#endif
 int FAR CDECL gfx_slot54();
 int FAR CDECL gfx_slot55();
 int FAR CDECL gfx_slot56();

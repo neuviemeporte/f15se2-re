@@ -440,8 +440,8 @@ void routine_328(int arg_0, int arg_2, int arg_4) {
 int sub_19EB6(int arg_0, int arg_2) {
     if (word_330C2 == 0) goto done;
     if (*(&word_38202 + arg_0 * 5 + 7) != arg_2) {
-        gfx_switchColor((int *)var_564, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
-        gfx_switchColor((int *)var_565, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
+        gfx_switchColor(var_564, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
+        gfx_switchColor(var_565, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
         *(&word_38202 + arg_0 * 5 + 7) = arg_2;
     }
 done:
@@ -489,7 +489,11 @@ int drawStringCentered(int16* arg_0, const char *arg_2, int arg_4, int arg_6, in
     arg_0[4] = arg_4;
     arg_0[5] = arg_6;
     arg_0[2] = arg_8;
+#ifdef BUGFIX
+    gfx_drawString(arg_0, strupr((char*)arg_2));
+#else
     gfx_drawString(arg_0, strupr((char*)arg_2), strlen(arg_2));
+#endif
 }
 
 

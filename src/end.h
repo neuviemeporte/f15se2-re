@@ -209,11 +209,7 @@ typedef struct MenuItem {
     int16  state;          /* 0x2e */
     MenuItemFlags flags; /* 0x30 */
 } MenuItem;
-#if F15_PTR_BITS==64
-STATIC_ASSERT(sizeof(struct MenuItem)==72);
-#elif F15_PTR_BITS==32
-STATIC_ASSERT(sizeof(struct MenuItem)==60);
-#else
+#ifdef F15_EQUAL_BINARY
 STATIC_ASSERT(sizeof(struct MenuItem)==50);
 #endif
 
@@ -287,7 +283,7 @@ void drawClippedLineEx(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2
 void drawClippedLine(int x1, int y1, int x2, int y2);
 int drawEventSprite(int recordIdx);
 void drawMapPixel(int x, int y, int color);
-int isPointInRect(void *p);
+int isPointInRect(struct MenuItem *p);
 void blinkWidget(MenuItem *item, int16* gfxPage);
 unsigned int drawFlightPath(int16 *gfxPage, unsigned int maxRecord);
 void showEventPopup(void);

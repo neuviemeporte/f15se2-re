@@ -46,3 +46,24 @@ jobs:
 
       - name: Build noasm
         run: make -j$(nproc) noasm-start noasm-end
+
+  build-64bit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure CMake
+        run: cmake -S . -B build64
+
+      - name: Build f15
+        run: cmake --build build64 --target f15 -j$(nproc)
+
+      - name: Build start
+        run: cmake --build build64 --target start -j$(nproc)
+
+      - name: Build end
+        run: cmake --build build64 --target end -j$(nproc)

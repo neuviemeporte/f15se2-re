@@ -38,9 +38,11 @@ typedef int32_t int32;
 typedef int16_t int16;
 typedef int8_t int8;
 
+#ifndef __cplusplus
 typedef int bool;
 #define true 1
 #define false 0
+#endif
 
 #elif defined(MSDOS) || defined(__MSDOS__) || defined(MSC_VER)
 typedef unsigned long uint32;
