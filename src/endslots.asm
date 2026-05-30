@@ -716,16 +716,7 @@ _var_149 db 000h
     db 000h, 000h, 000h
 _var_150 db 000h
     db 000h, 000h, 000h
-_nmsgTable dw 0
-str_nmsg db '<<NMSG>>'
-_nmsgEntries db 000h, 000h, 'R6000', 0Dh, 0Ah, '- stack overflow', 0Dh, 0Ah, 000h
-    db 003h, 000h, 'R6003', 0Dh, 0Ah, '- integer divide by 0', 0Dh, 0Ah, 000h
-    db 009h, 000h, 'R6009', 0Dh, 0Ah, '- not enough space for environment', 0Dh, 0Ah, 000h
-    db 0FCh, 000h, 0Dh, 0Ah, 000h
-    db 0FFh, 000h, 'run-time error ', 000h
-    db 002h, 000h, 'R6002', 0Dh, 0Ah, '- floating point n'
-_nmsgNotLoaded db 'ot loaded', 0Dh, 0Ah, 000h
-    db 001h, 000h, 'R6001', 0Dh, 0Ah, '- null pointer assignment', 0Dh, 0Ah, 000h, 0FFh, 0FFh, 0FFh
+
 
 .DATA?
 ; --- BSS ---
