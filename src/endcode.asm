@@ -49,7 +49,7 @@ EXTRN _misc_jump_5a_keybuf:FAR
 EXTRN _misc_jump_5b_getkey:FAR
 EXTRN _misc_jump_5d_readJoy:FAR
 EXTRN _misc_jump_5e_clearKeyFlags:FAR
-EXTRN _thunk_EXT_FUN_0000:FAR
+EXTRN _gfx_nop37:FAR
 
 ; --- External data variables (in endslots.asm) ---
 EXTRN _commData:WORD
@@ -547,7 +547,7 @@ LAB_1000_1702:
     mov BX,word ptr [_picRow]
     call far ptr _gfx_fillRow
     mov DI,word ptr [_picRowOffset]
-    call far ptr _thunk_EXT_FUN_0000
+    call far ptr _gfx_nop37
     inc word ptr [_picRow]
     sub word ptr [_picScreenBufSize],140h
     jnz LAB_1000_1702
