@@ -27,7 +27,7 @@ typedef signed int int32_t;
 #define FP_SEG(fp) (*((unsigned *)&(fp) + 1))
 #define FP_OFF(fp) (*((unsigned *)&(fp)))
 
-long time(int);
+long time(int) { return 0; }
 
 inline uint16_t _psp;
 
@@ -49,7 +49,6 @@ inline FILE* stderr;
 
 inline int _CDECL abs(int) { return 0; }
 inline int _CDECL getch(void) { return 0; }
-inline void _CDECL abort(void) {};
 inline void _CDECL exit(int) {};
 
 #define _IOMYBUF 0x08
@@ -85,7 +84,7 @@ inline char* _CDECL strncpy(char*, const char*, size_t) { return 0; }
 inline char* _CDECL strupr(char*) { return 0; }
 inline void* _CDECL memcpy(void*, const void*, size_t) { return 0; }
 inline void* _CDECL memset(void*, int, size_t) { return 0; }
-inline void _CDECL movedata(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int) { return 0; }
+inline void _CDECL movedata(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int) { return; }
 inline void abort(void) { return; }
 inline char* itoa(int value, char* str, int base) { return 0; }
 inline int _bios_keybrd(int cmd) { return 0; }
