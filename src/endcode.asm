@@ -134,27 +134,27 @@ EXTRN _origCBreakSeg:WORD
 EXTRN _origCBreakOfs:WORD
 EXTRN _errorCodeStr:WORD
 EXTRN str_overlayRelError:BYTE
-EXTRN str_fileNotFound:BYTE
-EXTRN str_noFileBufs:BYTE
-EXTRN str_openError:BYTE
-EXTRN str_fileCloseError:BYTE
-EXTRN str_readError:BYTE
-EXTRN str_writeError:BYTE
+EXTRN _str_fileNotFound:BYTE
+EXTRN _str_noFileBufs:BYTE
+EXTRN _str_openError:BYTE
+EXTRN _str_fileCloseError:BYTE
+EXTRN _str_readError:BYTE
+EXTRN _str_writeError:BYTE
 EXTRN _var_3f72:BYTE
 EXTRN _pageStruct:BYTE
-EXTRN dat_1868:WORD
-EXTRN dat_186A:WORD
+EXTRN _dat_1868:WORD
+EXTRN _dat_186A:WORD
 EXTRN dat_2769:BYTE
-EXTRN dat_3F6A:BYTE
-EXTRN dat_3F6B:BYTE
-EXTRN dat_3F6C:WORD
-EXTRN dat_3F6E:WORD
-EXTRN dat_3F70:BYTE
-EXTRN dat_3F71:BYTE
-EXTRN dat_3FB2:WORD
-EXTRN dat_3FB4:WORD
-EXTRN dat_3FB6:WORD
-EXTRN dat_3FB8:BYTE
+EXTRN _dat_3F6A:BYTE
+EXTRN _dat_3F6B:BYTE
+EXTRN _dat_3F6C:WORD
+EXTRN _dat_3F6E:WORD
+EXTRN _dat_3F70:BYTE
+EXTRN _dat_3F71:BYTE
+EXTRN _dat_3FB2:WORD
+EXTRN _dat_3FB4:WORD
+EXTRN _dat_3FB6:WORD
+EXTRN _dat_3FB8:BYTE
 EXTRN _missionScore:WORD
 .CODE
 EXTRN _drawClippedLine:PROC
@@ -168,9 +168,7 @@ PUBLIC _copyJoystickData
 
 ; --- Code segment ---
 
-
 PUBLIC _pollJoystick
-
 
 PUBLIC _setupWorldBufPtr
 _setupWorldBufPtr:
@@ -184,27 +182,24 @@ setupWorldBufPtr proc near
     ret
 setupWorldBufPtr endp
 
-
 PUBLIC _clearKeybuf
 _clearKeybuf:
 clearKeybuf proc near
-    jmp FUN_1000_03ad
+    jmp pollKeyBuffer
 LAB_1000_03a8:
     call far ptr _misc_jump_5b_getkey
 clearKeybuf endp
 
-FUN_1000_03ad proc near
+pollKeyBuffer proc near
     call far ptr _misc_jump_5a_keybuf
     or AX,AX
     jz LAB_1000_03a8
     ret
-FUN_1000_03ad endp
-
+pollKeyBuffer endp
 
 ; --- shared strcat
 INCLUDE shared/str_strcat.inc
 _mystrcat equ mystrcat
-
 
 PUBLIC _intDispatch
 _intDispatch:
@@ -271,25 +266,6 @@ INCLUDE shared/gfx.inc
 ; Alias for callers that used the old name
 routine_154 EQU _drawLineWrapper
 
-divZeroHandler proc near
-    push BP
-    mov BP,SP
-    cmp word ptr [BP + local_res0+2h],11b0h
-    mov AX,word ptr [_clipDy]
-    jz LAB_1000_122f
-    mov AX,word ptr [_clipDx]
-LAB_1000_122f:
-    xor DX,AX
-    mov AX,7f00h
-    jns LAB_1000_1238
-    neg AX
-LAB_1000_1238:
-    add word ptr [BP + local_res0+2h],4h
-    sub DX,DX
-    pop BP
-    iret
-divZeroHandler endp
-
 ; --- shared Ctrl+Break handler
 PUBLIC _installCBreakHandler
 PUBLIC _restoreCbreakHandler
@@ -302,16 +278,15 @@ INCLUDE shared/cbreak.inc
 PUBLIC _openFile
 _openFile:
 ; --- shared open file routine
-fileNotFoundStr  EQU str_fileNotFound
-fileNoBufsStr    EQU str_noFileBufs
-fileOpenErrorStr EQU str_openError
+fileNotFoundStr  EQU _str_fileNotFound
+fileNoBufsStr    EQU _str_noFileBufs
+fileOpenErrorStr EQU _str_openError
 fileReadPosVar   EQU _fileReadPos
 fileErrorExit    EQU errorDescAndExit
 INCLUDE shared/file_open.inc
 
 PUBLIC _createFile
 _createFile:
-openFileRaw proc near
     push BP
     mov BP,SP
     push DI
@@ -329,7 +304,7 @@ openFileRaw proc near
     jnz LAB_1000_142d
 LAB_1000_1421:
     mov BX,word ptr [BP + Stack[2h]+2h]
-    mov AX,offset str_fileNotFound
+    mov AX,offset _str_fileNotFound
     mov CX,0ffffh
     jmp errorDescAndExit
 LAB_1000_142d:
@@ -339,11 +314,11 @@ LAB_1000_142d:
     jnz LAB_1000_1443
     mov CX,0ffffh
     mov BX,word ptr [BP + Stack[2h]+2h]
-    mov AX,offset str_noFileBufs
+    mov AX,offset _str_noFileBufs
     jmp errorDescAndExit
 LAB_1000_1443:
     mov CX,AX
-    mov AX,offset str_openError
+    mov AX,offset _str_openError
     mov BX,word ptr [BP + Stack[2h]+2h]
     jmp errorDescAndExit
 LAB_1000_144e:
@@ -355,18 +330,16 @@ LAB_1000_144e:
     mov SP,BP
     pop BP
     ret
-openFileRaw endp
 
 PUBLIC _fileClose
 _fileClose:
 ; --- shared file close routine
-fileCloseErrorStr EQU str_fileCloseError
+fileCloseErrorStr EQU _str_fileCloseError
 fileCloseErrExit  EQU errorAndExit
 INCLUDE shared/file_close.inc
 
 PUBLIC _readFile
 _readFile:
-readFileRaw proc near
     push BP
     mov BP,SP
     push DI
@@ -381,7 +354,7 @@ readFileRaw proc near
     mov DX,word ptr [BP + 8h]
     int 21h
     jnc LAB_1000_14a1
-    mov DX,offset str_readError
+    mov DX,offset _str_readError
     mov CX,0ffffh
     jmp errorAndExit
 LAB_1000_14a1:
@@ -392,11 +365,9 @@ LAB_1000_14a1:
     mov SP,BP
     pop BP
     ret
-readFileRaw endp
 
 PUBLIC _readFileAt
 _readFileAt:
-readFileAtRaw proc near
     push BP
     mov BP,SP
     push DI
@@ -413,7 +384,7 @@ readFileAtRaw proc near
     int 21h
     pop DS
     jnc LAB_1000_14cf
-    mov DX,offset str_readError
+    mov DX,offset _str_readError
     mov CX,0ffffh
     jmp errorAndExit
 LAB_1000_14cf:
@@ -424,58 +395,18 @@ LAB_1000_14cf:
     mov SP,BP
     pop BP
     ret
-FUN_1000_14d7 proc near
-    push DS
-    push ES
-    push SI
-    push DI
-    mov AX,DS
-    mov ES,AX
-    mov DS,word ptr [dat_1868]
-    mov CX,100h
-    mov SI,word ptr [dat_186A]
-    mov DI,offset _fileReadBuf
-    rep movsw
-    add word ptr [dat_186A],200h
-    mov AX,200h
-    pop DI
-    pop SI
-    pop ES
-    pop DS
-    ret
-FUN_1000_14d7 endp
-readFileAtRaw endp
 
 ; --- shared file read 512
 fileRead512Handle  EQU _tmpFileHandle
 fileRead512Buf     EQU _fileReadBuf
-fileRead512ErrStr  EQU str_readError
+fileRead512ErrStr  EQU _str_readError
 fileRead512ErrExit EQU errorAndExit
 INCLUDE shared/file_read512.inc
-
-setHandleAndRead512 proc near
-    push BP
-    mov BP,SP
-    push DI
-    push SI
-    push ES
-    push BP
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [_tmpFileHandle],AX
-    call read512FromFileIntoBuf
-    pop BP
-    pop ES
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-setHandleAndRead512 endp
 
 PUBLIC _writeFile
 _writeFile:
 ; --- shared file write
-fileWriteErrStr  EQU str_writeError
+fileWriteErrStr  EQU _str_writeError
 fileWriteErrExit EQU errorAndExit
 INCLUDE shared/file_write.inc
 readFileAtExRaw equ writeFileAtRaw
@@ -483,7 +414,6 @@ readFileAtExRaw equ writeFileAtRaw
 ; --- shared file error handler
 fileErrorCodeStr EQU _errorCodeStr
 INCLUDE shared/file_error.inc
-
 
 ; --- shared pic decoding routines
 picFileReadPos       EQU _fileReadPos
@@ -512,7 +442,7 @@ picDecodeDictionary  EQU _picDecodeDictionary
 picDecodeIncrement   EQU _picDecodeIncrement
 picSlotCounter       EQU _picSlotCounter
 picDictionaryIndex   EQU _picDictionaryIndex
-picInitRoutine       EQU routine_120
+picInitRoutine       EQU picInitStub
 picReadFileFunc      EQU read512FromFileIntoBuf
 
 PUBLIC _showPicFile
@@ -534,7 +464,7 @@ decodePicRaw proc near
     mov AX,word ptr [BP + Stack[4h]+2h]
     mov ES,AX
     call far ptr _gfx_clearPage
-    call routine_120
+    call picInitStub
     mov word ptr [_picRow],0h
     mov word ptr [_picScreenBufSize],0fa00h
 LAB_1000_1702:
@@ -564,14 +494,13 @@ PUBLIC _decodePic
 _decodePic:
 INCLUDE shared/pic_decodepic.inc
 
-routine_120 proc near
+picInitStub proc near
     ret
     db 00h
-routine_120 endp
+picInitStub endp
 
 INCLUDE shared/pic_lzw.inc
     db 00h
-
 
 PUBLIC _dos_alloc
 _dos_alloc:
@@ -608,12 +537,12 @@ LAB_1000_1a83:
     mov AX,word ptr [BP + 8h]
     mov ES,AX
     xor DI,DI
-    call FUN_1000_1ac2
+    call lzwDecoderInit
     mov CX,word ptr [BP + 4h]
     or CX,CX
     jz LAB_1000_1aaa
 LAB_1000_1aa1:
-    call FUN_1000_1b0c
+    call lzwGetByte
     or AL,AL
     jnz LAB_1000_1aa1
     loop LAB_1000_1aa1
@@ -622,7 +551,7 @@ LAB_1000_1aaa:
     mov CX,200h
 LAB_1000_1ab0:
     push BX
-    call FUN_1000_1b0c
+    call lzwGetByte
     pop BX
     mov byte ptr [BX],AL
     inc BX
@@ -634,20 +563,20 @@ LAB_1000_1ab0:
     ret
 dos_free endp
 
-FUN_1000_1ac2 proc near
-    call FUN_1000_1ad8
-    mov word ptr [dat_3FB2],0h
-    mov byte ptr [dat_3F71],0h
+lzwDecoderInit proc near
+    call lzwInitDictionary
+    mov word ptr [_dat_3FB2],0h
+    mov byte ptr [_dat_3F71],0h
     mov AL,byte ptr ES:[DI]
     inc DI
-    mov byte ptr [dat_3F6B],AL
+    mov byte ptr [_dat_3F6B],AL
     ret
-FUN_1000_1ac2 endp
+lzwDecoderInit endp
 
-FUN_1000_1ad8 proc near
-    mov byte ptr [dat_3F6A],9h
-    mov word ptr [dat_3F6C],1ffh
-    mov word ptr [dat_3F6E],100h
+lzwInitDictionary proc near
+    mov byte ptr [_dat_3F6A],9h
+    mov word ptr [_dat_3F6C],1ffh
+    mov word ptr [_dat_3F6E],100h
     mov BX,offset _picDecodeDictionary
     mov AX,0ffffh
     mov CX,800h
@@ -664,33 +593,33 @@ LAB_1000_1b01:
     add BX,3h
     loop LAB_1000_1b01
     ret
-FUN_1000_1ad8 endp
+lzwInitDictionary endp
 
-FUN_1000_1b0c proc near
-    mov BX,word ptr [dat_3FB2]
+lzwGetByte proc near
+    mov BX,word ptr [_dat_3FB2]
     or BX,BX
     jnz LAB_1000_1b17
-    call FUN_1000_1b24
+    call lzwDecodeNext
 LAB_1000_1b17:
-    dec word ptr [dat_3FB2]
-    mov BX,word ptr [dat_3FB2]
+    dec word ptr [_dat_3FB2]
+    mov BX,word ptr [_dat_3FB2]
     mov AL,byte ptr [BX + offset _var_3f72]
     ret
-FUN_1000_1b0c endp
+lzwGetByte endp
 
-FUN_1000_1b24 proc near
+lzwDecodeNext proc near
     push CX
-    call FUN_1000_1bc3
-    mov word ptr [dat_3FB6],CX
-    cmp CX,word ptr [dat_3F6E]
+    call lzwReadCode
+    mov word ptr [_dat_3FB6],CX
+    cmp CX,word ptr [_dat_3F6E]
     jl LAB_1000_1b4b
-    mov AL,byte ptr [dat_3FB8]
-    mov BX,word ptr [dat_3FB2]
+    mov AL,byte ptr [_dat_3FB8]
+    mov BX,word ptr [_dat_3FB2]
     mov byte ptr [BX + offset _var_3f72],AL
-    inc word ptr [dat_3FB2]
-    mov CX,word ptr [dat_3FB4]
-    mov AX,word ptr [dat_3F6E]
-    mov word ptr [dat_3FB6],AX
+    inc word ptr [_dat_3FB2]
+    mov CX,word ptr [_dat_3FB4]
+    mov AX,word ptr [_dat_3F6E]
+    mov word ptr [_dat_3FB6],AX
 LAB_1000_1b4b:
     mov BX,offset _picDecodeDictionary
     add BX,CX
@@ -702,59 +631,59 @@ LAB_1000_1b4b:
     dec AX
     mov CX,AX
     mov AL,byte ptr [BX + 2h]
-    mov BX,word ptr [dat_3FB2]
+    mov BX,word ptr [_dat_3FB2]
     cmp BX,40h
     jnc LAB_1000_1b6c
     mov byte ptr [BX + offset _var_3f72],AL
 LAB_1000_1b6c:
-    inc word ptr [dat_3FB2]
+    inc word ptr [_dat_3FB2]
     jmp LAB_1000_1b4b
 LAB_1000_1b72:
     mov AL,byte ptr [BX + 2h]
-    mov byte ptr [dat_3FB8],AL
-    mov BX,word ptr [dat_3FB2]
+    mov byte ptr [_dat_3FB8],AL
+    mov BX,word ptr [_dat_3FB2]
     mov byte ptr [BX + offset _var_3f72],AL
-    inc word ptr [dat_3FB2]
-    mov CX,word ptr [dat_3F6E]
+    inc word ptr [_dat_3FB2]
+    mov CX,word ptr [_dat_3F6E]
     mov BX,offset _picDecodeDictionary
     add BX,CX
     add BX,CX
     add BX,CX
     mov byte ptr [BX + 2h],AL
-    mov AX,word ptr [dat_3FB4]
+    mov AX,word ptr [_dat_3FB4]
     mov word ptr [BX],AX
-    inc word ptr [dat_3F6E]
-    mov AX,word ptr [dat_3F6E]
-    cmp AX,word ptr [dat_3F6C]
+    inc word ptr [_dat_3F6E]
+    mov AX,word ptr [_dat_3F6E]
+    cmp AX,word ptr [_dat_3F6C]
     jle LAB_1000_1baf
-    inc byte ptr [dat_3F6A]
+    inc byte ptr [_dat_3F6A]
     stc
-    rcl word ptr [dat_3F6C],1h
+    rcl word ptr [_dat_3F6C],1h
 LAB_1000_1baf:
-    mov AL,byte ptr [dat_3F6A]
-    cmp AL,byte ptr [dat_3F6B]
+    mov AL,byte ptr [_dat_3F6A]
+    cmp AL,byte ptr [_dat_3F6B]
     jle LAB_1000_1bbb
-    call FUN_1000_1ad8
+    call lzwInitDictionary
 LAB_1000_1bbb:
-    mov AX,word ptr [dat_3FB6]
-    mov word ptr [dat_3FB4],AX
+    mov AX,word ptr [_dat_3FB6]
+    mov word ptr [_dat_3FB4],AX
     pop CX
     ret
-FUN_1000_1b24 endp
+lzwDecodeNext endp
 
-FUN_1000_1bc3 proc near
+lzwReadCode proc near
     xor DH,DH
-    mov DL,byte ptr [dat_3F70]
-    mov BL,byte ptr [dat_3F71]
+    mov DL,byte ptr [_dat_3F70]
+    mov BL,byte ptr [_dat_3F71]
     mov CL,8h
     sub CL,BL
     shr DX,CL
 LAB_1000_1bd3:
-    cmp BL,byte ptr [dat_3F6A]
+    cmp BL,byte ptr [_dat_3F6A]
     jge LAB_1000_1bed
     mov AL,byte ptr ES:[DI]
     inc DI
-    mov byte ptr [dat_3F70],AL
+    mov byte ptr [_dat_3F70],AL
     mov CL,BL
     xor AH,AH
     shl AX,CL
@@ -762,12 +691,12 @@ LAB_1000_1bd3:
     add BL,8h
     jmp LAB_1000_1bd3
 LAB_1000_1bed:
-    sub BL,byte ptr [dat_3F6A]
-    mov byte ptr [dat_3F71],BL
+    sub BL,byte ptr [_dat_3F6A]
+    mov byte ptr [_dat_3F71],BL
     mov CX,DX
-    and CX,word ptr [dat_3F6C]
+    and CX,word ptr [_dat_3F6C]
     ret
-FUN_1000_1bc3 endp
+lzwReadCode endp
 
 TIMER_VAR_74 EQU <word ptr [_timerReload]>
 TIMER_VAR_80 EQU <word ptr [_timerTick]>
@@ -801,6 +730,7 @@ setTimerMode2 proc near
     mov byte ptr [_timerDivider],1h
     ret
 setTimerMode2 endp
+
 var_1:
     dw offset timerIrqHandler
     dw seg timerIrqHandler
@@ -842,7 +772,6 @@ _incTimerCounters proc near
     ret
 _incTimerCounters endp
 getTimeOfDay endp
-
 
 ; --- shared joystick routines
 joyRawAxis0      EQU _joyRawAxis0
