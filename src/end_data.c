@@ -2,6 +2,7 @@
  */
 #include "inttype.h"
 #include "struct.h"
+#include "comm.h"
 
 /* Split into chunks due to MSC 5.1 initializer limits.
  *
@@ -631,6 +632,42 @@ int16 *var_100 = (int16*)&pageStruct2;
 int16 pageStruct3[] = {0, 0x0A, 0xFA, 0xFA, 0x97, 0xA1};
 int16 *var_116 = pageStruct3;
 
+/* === Award page descriptors === */
+struct PageDesc awardPageDesc = {
+    0,             /* pageNum */
+    {0, 0},        /* pad1 */
+    7,             /* color (awardColor) */
+    0,             /* byte6 */
+    {0, 0, 0, 0, 0}, /* pad2 */
+    1,             /* font (awardFont) */
+    {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
+    (int16*)&awardPageDesc  /* selfPtr */
+};
+
+struct PageDesc awardPageDesc2 = {
+    0,             /* pageNum */
+    {0, 0},        /* pad1 */
+    9,             /* color */
+    0,             /* byte6 */
+    {0, 0, 0, 0, 0}, /* pad2 */
+    3,             /* font */
+    {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
+    (int16*)&awardPageDesc2  /* selfPtr */
+};
+
+int16 *awardPage = (int16*)&awardPageDesc;
+
+/* Promotion score thresholds */
+long promoScores[] = {1500L};
+long promoThresholds[] = {6000L, 12000L, 25000L, 50000L, 100000L};
+
+/* Medal score thresholds */
+long medalScores[] = {1000L};
+long medalThresholds[] = {2500L, 4000L, 6400L, 7800L};
+
+/* Trailing data after medal thresholds (16 bytes, accessed via offset) */
+uint8 medalTrailingData[] = {4, 3, 3, 2, 7, 5, 3, 2, 8, 7, 4, 2, 8, 6, 5, 3};
+
 /* === Sprite descriptors (28 bytes each) === */
 struct SpriteParams ps_101 = {
     0, 0, 0, 0, 8, 0x0A, 0xE0, 0xA8,
@@ -870,3 +907,23 @@ uint8 var_3fc6[10] = {0};
 
 /* Overlay insane flag - used by overlay slot setup */
 uint8 ovlInsaneFlag = 0;
+
+/* BSS variables migrated from endslots.asm .DATA? section */
+uint8 dat_4034[4] = {0};
+struct Game far *gameData = 0;
+uint8 var_179[4] = {0};
+uint8 dat_4040[516] = {0};
+int16 var_180 = 0;
+int16 dat_4246 = 0;
+uint8 dat_4a2a[720] = {0};
+int16 var_203 = 0;
+uint8 dat_5512[102] = {0};
+int16 var_205 = 0;
+int16 dat_55de = 0;
+uint8 var_216[6] = {0};
+int16 dat_5ab4 = 0;
+struct GameComm far *commData = 0;
+int16 gfxBufSeg = 0;
+uint8 gfxBufPad[512] = {0};
+int16 var_193 = 0;
+uint8 flightRecords[1534] = {0};

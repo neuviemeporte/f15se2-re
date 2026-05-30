@@ -52,8 +52,7 @@ EXTRN _misc_jump_5e_clearKeyFlags:FAR
 EXTRN _gfx_nop37:FAR
 
 ; --- External data variables (in endslots.asm) ---
-EXTRN _commData:WORD
-EXTRN _commData_seg:WORD
+EXTRN _commData:BYTE
 EXTRN _var_151:WORD
 EXTRN _var_152:WORD
 EXTRN _quitFlag:BYTE
@@ -133,7 +132,6 @@ EXTRN _joyRawAxis1:WORD
 EXTRN _origCBreakSeg:WORD
 EXTRN _origCBreakOfs:WORD
 EXTRN _errorCodeStr:WORD
-EXTRN str_overlayRelError:BYTE
 EXTRN _str_fileNotFound:BYTE
 EXTRN _str_noFileBufs:BYTE
 EXTRN _str_openError:BYTE
@@ -174,7 +172,7 @@ PUBLIC _setupWorldBufPtr
 _setupWorldBufPtr:
 setupWorldBufPtr proc near
     mov AX,word ptr [_commData]
-    mov DX,word ptr [_commData_seg]
+    mov DX,word ptr [_commData + 2]
     db 05h, 7Ah, 00h  ; add AX,7Ah (force word-immediate)
     mov word ptr [_var_151],AX
     mov word ptr [_var_152],DX

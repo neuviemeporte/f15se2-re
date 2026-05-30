@@ -63,73 +63,34 @@ PUBLIC _clipDivZeroHandler
 
 
 
-; Award/promotion data
-PUBLIC _awardColor
-PUBLIC _awardFont
-PUBLIC _awardPage
-PUBLIC _medalScores
-PUBLIC _medalThresholds
-PUBLIC _promoScores
-PUBLIC _promoThresholds
+
 
 ; Misc data/BSS variables
-PUBLIC _commData
-PUBLIC _commData_seg
 PUBLIC _dat_1580
-PUBLIC _dat_4034
-PUBLIC _dat_4040
-PUBLIC _dat_4246
-PUBLIC _dat_4a2a
-PUBLIC _dat_5512
-PUBLIC _dat_55de
-PUBLIC _dat_5ab4
-PUBLIC _gameData
-PUBLIC _gfxBufSeg
-PUBLIC _var_179
-PUBLIC _var_180
-PUBLIC _var_203
-PUBLIC _var_205
-PUBLIC _var_216
 
+EXTRN _commData:BYTE
+EXTRN _dat_4034:BYTE
+EXTRN _dat_4040:BYTE
+EXTRN _dat_4246:BYTE
+EXTRN _dat_4a2a:BYTE
+EXTRN _dat_5512:BYTE
+EXTRN _dat_55de:BYTE
+EXTRN _dat_5ab4:BYTE
+EXTRN _gameData:BYTE
+EXTRN _gfxBufSeg:WORD
+EXTRN _var_179:BYTE
+EXTRN _var_180:WORD
+EXTRN _var_203:WORD
+EXTRN _var_205:WORD
+EXTRN _var_216:BYTE
+EXTRN _var_193:WORD
+EXTRN _flightRecords:BYTE
 
 .DATA
 
-PUBLIC _var_193
-PUBLIC _flightRecords
 PUBLIC dat_2769
 
-PUBLIC str_overlayRelError
 
-    db 000h
-_var_8 db 000h
-_var_9 db 000h
-_var_10 db 000h
-_var_11 db 000h
-    db 000h
-_var_12 db 000h
-_var_13 db 000h
-_var_14 db 04Dh
-    db 053h
-_var_15 db 020h
-    db 052h
-_var_16 db 075h
-    db 06Eh
-_var_17 db 02Dh
-    db 054h
-_var_18 db 069h
-    db 06Dh
-_var_19 db 065h
-    db 020h, 04Ch, 069h, 062h, 072h, 061h, 072h, 079h, 020h, 02Dh, 020h, 043h, 06Fh, 070h, 079h, 072h
-    db 069h, 067h, 068h, 074h, 020h, 028h, 063h, 029h, 020h
-_var_20 db 031h
-    db 039h
-_var_21 db 038h
-    db 038h
-_var_22 db 02Ch
-    db 020h, 04Dh, 069h, 063h, 072h, 06Fh, 073h, 06Fh, 066h, 074h, 020h, 043h, 06Fh, 072h, 070h, 011h
-    db 000h
-    db 000h ; was ovlInsaneFlag, now in C
-str_overlayRelError db 'Error releasing overlay memory$'
 _gfx_allocPage proc far             ; slot 00
     db 0EAh, 4 dup(0)
 _gfx_allocPage endp
@@ -352,23 +313,13 @@ EXTRN _joyRawAxis0:BYTE
 EXTRN _joyRawAxis1:BYTE
 EXTRN _joyAxisX:BYTE
 EXTRN _joyAxisY:BYTE
-_ps_var86_target db 000h, 000h, 000h, 000h
-_awardColor db 007h
-    db 7 dup(0)
-_awardFont db 001h
-    db 9 dup(0)
-_awardPage dw offset _ps_var86_target
-_ps_var86_2 db 000h, 000h, 000h, 000h, 009h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 000h
-    db 7 dup(0)
-    dw offset _ps_var86_2
-_promoScores dw 05DCh  ; 1500 - first rank score threshold
-_promoThresholds dw 0000h
-    dd 6000, 12000, 25000, 50000, 100000
-_medalScores dw 03E8h  ; 1000 - first medal score threshold
-_medalThresholds dw 0000h
-    dd 2500, 4000, 6400, 7800
-    db 004h, 003h, 003h, 002h, 007h, 005h, 003h, 002h, 008h, 007h, 004h, 002h, 008h, 006h, 005h
-    db 003h
+EXTRN _awardPageDesc:BYTE
+EXTRN _awardPageDesc2:BYTE
+EXTRN _awardPage:BYTE
+EXTRN _promoScores:BYTE
+EXTRN _promoThresholds:BYTE
+EXTRN _medalScores:BYTE
+EXTRN _medalThresholds:BYTE
 
 EXTRN _quitFlag:BYTE
 EXTRN _origCBreakSeg:BYTE
@@ -449,33 +400,6 @@ dat_270f db 90 dup(?)
 dat_2769 db ?
 _picDecodeDictionary db 2 dup(?)
 _picDecodeIncrement db 6142 dup(?)
-
-_dat_4034 label byte
-dat_4034 db 4 dup(?)
-_gameData db 2 dup(?)
-_var_179 db 4 dup(?)
-_dat_4040 label byte
-dat_4040 db 516 dup(?)
-_var_180 db 2 dup(?)
-_dat_4246 label byte
-dat_4246 db 2 dup(?)
-_dat_4a2a label byte
-dat_4a2a db 720 dup(?)
-_var_203 db 2 dup(?)
-_dat_5512 label byte
-dat_5512 db 102 dup(?)
-_var_205 db 2 dup(?)
-_dat_55de label byte
-dat_55de db 2 dup(?)
-_var_216 db 6 dup(?)
-_dat_5ab4 label byte
-dat_5ab4 db 2 dup(?)
-_commData db 2 dup(?)
-_commData_seg db 2 dup(?)
-_gfxBufSeg db 514 dup(?)
-
-_var_193 db 2 dup(?)
-_flightRecords db 1534 dup(?)
 
 __bss_end label byte
 
