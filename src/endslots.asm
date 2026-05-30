@@ -20,6 +20,11 @@ PUBLIC _gfx_storeBufPtr
 PUBLIC _gfx_commitPage
 PUBLIC _gfx_setMonoFlag
 PUBLIC _gfx_getCurPage
+PUBLIC _gfx_setOvlVal1
+PUBLIC _gfx_setOvlVal2
+PUBLIC _gfx_setBlitOffset
+PUBLIC _gfx_calcRowAddr
+PUBLIC _gfx_resetBlitOffset2
 PUBLIC _misc_jump_5a_keybuf
 PUBLIC _misc_jump_5b_getkey
 PUBLIC _misc_jump_5d_readJoy
@@ -540,6 +545,7 @@ gfx_setBlitOffset proc far               ; 0x108A
     db 0EAh
     dd 0
 gfx_setBlitOffset endp
+_gfx_setBlitOffset equ gfx_setBlitOffset
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
     db 000h, 000h, 000h, 000h
 gfx_drawLine proc far               ; 0x10A3
@@ -563,6 +569,7 @@ gfx_resetBlitOffset2 proc far               ; 0x10B7
     db 0EAh
     dd 0
 gfx_resetBlitOffset2 endp
+_gfx_resetBlitOffset2 equ gfx_resetBlitOffset2
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
     db 000h, 000h, 000h, 000h
 gfx_dirtyRect2 proc far               ; 0x10D0
@@ -636,15 +643,18 @@ gfx_calcRowAddr proc far               ; 0x113E
     db 0EAh
     dd 0
 gfx_calcRowAddr endp
+_gfx_calcRowAddr equ gfx_calcRowAddr
     db 0EAh, 000h, 000h, 000h, 000h
 gfx_setOvlVal1 proc far               ; 0x1148
     db 0EAh
     dd 0
 gfx_setOvlVal1 endp
+_gfx_setOvlVal1 equ gfx_setOvlVal1
 gfx_setOvlVal2 proc far               ; 0x114D
     db 0EAh
     dd 0
 gfx_setOvlVal2 endp
+_gfx_setOvlVal2 equ gfx_setOvlVal2
     db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h
 gfx_setDac proc far               ; 0x115C
     db 0EAh

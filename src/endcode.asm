@@ -1126,6 +1126,7 @@ clipDivZeroHandler EQU _clipDivZeroHandler
 CALL_GFX_1F MACRO
     call far ptr gfx_drawLine
 ENDM
+PUBLIC _drawLineWrapper
 INCLUDE shared/gfx.inc
 ; dead code (unreconstructed routines between clearDirtyRects and drawLineWrapper)
 dead_0f3a proc near
@@ -2121,64 +2122,8 @@ selectMenuItem equ _selectMenuItem
 
 animateFlightPath equ _animateFlightPath
 
-PUBLIC _drawClippedLineEx
-_drawClippedLineEx:
-drawClippedLineEx proc near
-    push BP
-    mov BP,SP
-    sub SP,4h
-    mov AX,word ptr [BP + 0eh]
-    sub AX,word ptr [BP + 0ch]
-    mov word ptr [BP + -4h],AX
-    mov AX,word ptr [BP + 12h]
-    sub AX,word ptr [BP + 10h]
-    mov word ptr [BP + -2h],AX
-    push word ptr [BP + 10h]
-    push word ptr [BP + 0ch]
-    call far ptr gfx_calcRowAddr
-    add SP,4h
-    push AX
-    call far ptr gfx_setBlitOffset
-    add SP,2h
-    mov AX,word ptr [BP + -4h]
-    dec AX
-    mov word ptr [_clipMaxX],AX
-    mov AX,word ptr [BP + -2h]
-    dec AX
-    mov word ptr [_clipMaxY],AX
-    push AX
-    call far ptr gfx_setOvlVal1
-    add SP,2h
-    push word ptr [_clipMaxX]
-    call far ptr gfx_setOvlVal2
-    add SP,2h
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [_lineX1],AX
-    mov AX,word ptr [BP + 6h]
-    mov word ptr [_lineY1],AX
-    mov AX,word ptr [BP + 8h]
-    mov word ptr [_lineX2],AX
-    mov AX,word ptr [BP + 0ah]
-    mov word ptr [_lineY2],AX
-    call routine_154
-    call far ptr gfx_resetBlitOffset2
-    mov word ptr [_clipMaxX],13fh
-    mov word ptr [_clipMaxY],0c7h
-    mov AX,0c7h
-    push AX
-    call far ptr gfx_setOvlVal1
-    add SP,2h
-    push word ptr [_clipMaxX]
-    call far ptr gfx_setOvlVal2
-    add SP,2h
-    sub AX,AX
-    push AX
-    call far ptr gfx_setBlitOffset
-    add SP,2h
-    mov SP,BP
-    pop BP
-    ret
-drawClippedLineEx endp
+EXTRN _drawClippedLineEx:PROC
+drawClippedLineEx equ _drawClippedLineEx
 
 calcMissionScore equ _calcMissionScore
 
