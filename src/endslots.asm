@@ -5,49 +5,49 @@ DOSSEG
 ; Overlay jump table slots - patched at runtime by setupOverlaySlots.
 ; Each slot is 5 bytes: db 0EAh (far jmp opcode) + dd 0 (target, filled in).
 ; The slots MUST remain contiguous with 5-byte stride.
-PUBLIC _gfx_allocPage, gfx_allocPage
-PUBLIC _gfx_drawString, gfx_drawString
-PUBLIC _gfx_setPageN, gfx_setPageN
-PUBLIC _gfx_blitSprite, gfx_blitSprite
-PUBLIC _gfx_getBufSize, gfx_getBufSize
-PUBLIC _gfx_setBlitOffset, gfx_setBlitOffset
-PUBLIC _gfx_setColor, gfx_setColor
-PUBLIC _gfx_resetBlitOffset2, gfx_resetBlitOffset2
-PUBLIC _gfx_switchColor, gfx_switchColor
-PUBLIC _gfx_copyRect, gfx_copyRect
-PUBLIC _gfx_setFont, gfx_setFont
-PUBLIC _gfx_getAuxBufSize, gfx_getAuxBufSize
-PUBLIC _gfx_setFadeSteps, gfx_setFadeSteps
-PUBLIC _gfx_calcRowAddr, gfx_calcRowAddr
-PUBLIC _gfx_setOvlVal1, gfx_setOvlVal1
-PUBLIC _gfx_setOvlVal2, gfx_setOvlVal2
-PUBLIC _gfx_setDac, gfx_setDac
-PUBLIC _gfx_waitRetrace, gfx_waitRetrace
-PUBLIC _gfx_flipPage, gfx_flipPage
-PUBLIC _gfx_storeBufPtr, gfx_storeBufPtr
-PUBLIC _gfx_commitPage, gfx_commitPage
-PUBLIC _gfx_setMonoFlag, gfx_setMonoFlag
-PUBLIC _gfx_getCurPage, gfx_getCurPage
-PUBLIC _misc_jump_5a_keybuf, misc_jump_5a_keybuf
-PUBLIC _misc_jump_5b_getkey, misc_jump_5b_getkey
-PUBLIC _misc_jump_5d_readJoy, misc_jump_5d_readJoy
-PUBLIC _misc_jump_5e_clearKeyFlags, misc_jump_5e_clearKeyFlags
-PUBLIC _thunk_EXT_FUN_0000, thunk_EXT_FUN_0000
-PUBLIC _gfx_setPage1, gfx_setPage1
-PUBLIC _gfx_getCurPageSeg, gfx_getCurPageSeg
-PUBLIC _gfx_getCurPageSeg2, gfx_getCurPageSeg2
-PUBLIC _gfx_drawLine, gfx_drawLine
-PUBLIC _gfx_setPageDirect, gfx_setPageDirect
-PUBLIC _gfx_resetBlitOffset, gfx_resetBlitOffset
-PUBLIC _gfx_dirtyRect2, gfx_dirtyRect2
-PUBLIC _gfx_nop51, gfx_nop51
-PUBLIC _gfx_fillRow, gfx_fillRow
-PUBLIC _gfx_fillRow2, gfx_fillRow2
-PUBLIC _gfx_copyRow, gfx_copyRow
-PUBLIC _gfx_nop36, gfx_nop36
-PUBLIC _gfx_getPageSeg, gfx_getPageSeg
-PUBLIC _gfx_getRowOffset, gfx_getRowOffset
-PUBLIC _gfx_clearPage, gfx_clearPage
+PUBLIC _gfx_allocPage
+PUBLIC _gfx_drawString
+PUBLIC _gfx_setPageN
+PUBLIC _gfx_blitSprite
+PUBLIC _gfx_getBufSize
+PUBLIC _gfx_setBlitOffset
+PUBLIC _gfx_setColor
+PUBLIC _gfx_resetBlitOffset2
+PUBLIC _gfx_switchColor
+PUBLIC _gfx_copyRect
+PUBLIC _gfx_setFont
+PUBLIC _gfx_getAuxBufSize
+PUBLIC _gfx_setFadeSteps
+PUBLIC _gfx_calcRowAddr
+PUBLIC _gfx_setOvlVal1
+PUBLIC _gfx_setOvlVal2
+PUBLIC _gfx_setDac
+PUBLIC _gfx_waitRetrace
+PUBLIC _gfx_flipPage
+PUBLIC _gfx_storeBufPtr
+PUBLIC _gfx_commitPage
+PUBLIC _gfx_setMonoFlag
+PUBLIC _gfx_getCurPage
+PUBLIC _misc_jump_5a_keybuf
+PUBLIC _misc_jump_5b_getkey
+PUBLIC _misc_jump_5d_readJoy
+PUBLIC _misc_jump_5e_clearKeyFlags
+PUBLIC _gfx_nop37
+PUBLIC _gfx_setPage1
+PUBLIC _gfx_getCurPageSeg
+PUBLIC _gfx_getCurPageSeg2
+PUBLIC _gfx_drawLine
+PUBLIC _gfx_setPageDirect
+PUBLIC _gfx_resetBlitOffset
+PUBLIC _gfx_dirtyRect2
+PUBLIC _gfx_nop51
+PUBLIC _gfx_fillRow
+PUBLIC _gfx_fillRow2
+PUBLIC _gfx_copyRow
+PUBLIC _gfx_nop36
+PUBLIC _gfx_getPageSeg
+PUBLIC _gfx_getRowOffset
+PUBLIC _gfx_clearPage
 
 ; Dirty rect buffers - MUST be contiguous (overlay hardcodes offset +0x1B8)
 PUBLIC _dirtyMinBuf
@@ -186,7 +186,6 @@ PUBLIC _var_43
 PUBLIC _var_61
 
 .DATA
-; --- Data segment ---
 
 PUBLIC _var_193
 PUBLIC _flightRecords
@@ -245,254 +244,235 @@ _var_22 db 02Ch
     db 000h
 _ovlInsaneFlag db 000h
 str_overlayRelError db 'Error releasing overlay memory$'
-gfx_allocPage proc far               ; 0x1008
+_gfx_allocPage proc far             ; slot 00
     db 0EAh
     dd 0
-gfx_allocPage endp
-_gfx_allocPage equ gfx_allocPage
-    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
-    db 000h, 000h, 000h, 000h
-gfx_drawString proc far               ; 0x1021
+_gfx_allocPage endp
+    db 0EAh, 4 dup(0)               ; slot 01
+    db 0EAh, 4 dup(0)               ; slot 02
+    db 0EAh, 4 dup(0)               ; slot 03
+    db 0EAh, 4 dup(0)               ; slot 04
+_gfx_drawString proc far             ; slot 05
     db 0EAh
     dd 0
-gfx_drawString endp
-_gfx_drawString equ gfx_drawString
-    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
-    db 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h
-    db 000h, 000h, 000h
-gfx_setPage1 proc far               ; 0x1049
+_gfx_drawString endp
+    db 0EAh, 4 dup(0)               ; slot 06
+    db 0EAh, 4 dup(0)               ; slot 07
+    db 0EAh, 4 dup(0)               ; slot 08
+    db 0EAh, 4 dup(0)               ; slot 09
+    db 0EAh, 4 dup(0)               ; slot 0a
+    db 0EAh, 4 dup(0)               ; slot 0b
+    db 0EAh, 4 dup(0)               ; slot 0c
+_gfx_setPage1 proc far             ; slot 0d
     db 0EAh
     dd 0
-gfx_setPage1 endp
-gfx_setPageN proc far               ; 0x104E
+_gfx_setPage1 endp
+_gfx_setPageN proc far             ; slot 0e
     db 0EAh
     dd 0
-gfx_setPageN endp
-_gfx_setPageN equ gfx_setPageN
-gfx_getCurPageSeg proc far               ; 0x1053
+_gfx_setPageN endp
+_gfx_getCurPageSeg proc far             ; slot 0f
     db 0EAh
     dd 0
-gfx_getCurPageSeg endp
-gfx_getCurPageSeg2 proc far               ; 0x1058
+_gfx_getCurPageSeg endp
+_gfx_getCurPageSeg2 proc far             ; slot 10
     db 0EAh
     dd 0
-gfx_getCurPageSeg2 endp
-gfx_blitSprite proc far               ; 0x105D
+_gfx_getCurPageSeg2 endp
+_gfx_blitSprite proc far             ; slot 11
     db 0EAh
     dd 0
-gfx_blitSprite endp
-_gfx_blitSprite equ gfx_blitSprite
-    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
-    db 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h
-gfx_getBufSize proc far               ; 0x107B
+_gfx_blitSprite endp
+    db 0EAh, 4 dup(0)               ; slot 12
+    db 0EAh, 4 dup(0)               ; slot 13
+    db 0EAh, 4 dup(0)               ; slot 14
+    db 0EAh, 4 dup(0)               ; slot 15
+    db 0EAh, 4 dup(0)               ; slot 16
+_gfx_getBufSize proc far             ; slot 17
     db 0EAh
     dd 0
-gfx_getBufSize endp
-_gfx_getBufSize equ gfx_getBufSize
-    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h
-gfx_setBlitOffset proc far               ; 0x108A
+_gfx_getBufSize endp
+    db 0EAh, 4 dup(0)               ; slot 18
+    db 0EAh, 4 dup(0)               ; slot 19
+_gfx_setBlitOffset proc far             ; slot 1a
     db 0EAh
     dd 0
-gfx_setBlitOffset endp
-_gfx_setBlitOffset equ gfx_setBlitOffset
-    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
-    db 000h, 000h, 000h, 000h
-gfx_drawLine proc far               ; 0x10A3
+_gfx_setBlitOffset endp
+    db 0EAh, 4 dup(0)               ; slot 1b
+    db 0EAh, 4 dup(0)               ; slot 1c
+    db 0EAh, 4 dup(0)               ; slot 1d
+    db 0EAh, 4 dup(0)               ; slot 1e
+_gfx_drawLine proc far             ; slot 1f
     db 0EAh
     dd 0
-gfx_drawLine endp
-gfx_setPageDirect proc far               ; 0x10A8
+_gfx_drawLine endp
+_gfx_setPageDirect proc far             ; slot 20
     db 0EAh
     dd 0
-gfx_setPageDirect endp
-gfx_setColor proc far               ; 0x10AD
+_gfx_setPageDirect endp
+_gfx_setColor proc far             ; slot 21
     db 0EAh
     dd 0
-gfx_setColor endp
-_gfx_setColor equ gfx_setColor
-gfx_resetBlitOffset proc far               ; 0x10B2
+_gfx_setColor endp
+_gfx_resetBlitOffset proc far             ; slot 22
     db 0EAh
     dd 0
-gfx_resetBlitOffset endp
-gfx_resetBlitOffset2 proc far               ; 0x10B7
+_gfx_resetBlitOffset endp
+_gfx_resetBlitOffset2 proc far             ; slot 23
     db 0EAh
     dd 0
-gfx_resetBlitOffset2 endp
-_gfx_resetBlitOffset2 equ gfx_resetBlitOffset2
-    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
-    db 000h, 000h, 000h, 000h
-gfx_dirtyRect2 proc far               ; 0x10D0
+_gfx_resetBlitOffset2 endp
+    db 0EAh, 4 dup(0)               ; slot 24
+    db 0EAh, 4 dup(0)               ; slot 25
+    db 0EAh, 4 dup(0)               ; slot 26
+    db 0EAh, 4 dup(0)               ; slot 27
+_gfx_dirtyRect2 proc far             ; slot 28
     db 0EAh
     dd 0
-gfx_dirtyRect2 endp
-gfx_switchColor proc far
+_gfx_dirtyRect2 endp
+_gfx_switchColor proc far
+    db 0EAh, 4 dup(0)               ; slot 29
+    dd 0
+_gfx_switchColor endp
+_gfx_copyRect proc far             ; slot 2a
     db 0EAh
     dd 0
-gfx_switchColor endp
-_gfx_switchColor equ gfx_switchColor
-gfx_copyRect proc far               ; 0x10DA
+_gfx_copyRect endp
+    db 0EAh, 4 dup(0)               ; slot 2b
+    db 0EAh, 4 dup(0)               ; slot 2c
+    db 0EAh, 4 dup(0)               ; slot 2d
+    db 0EAh, 4 dup(0)               ; slot 2e
+_gfx_setFont proc far             ; slot 2f
     db 0EAh
     dd 0
-gfx_copyRect endp
-_gfx_copyRect equ gfx_copyRect
-    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
-    db 000h, 000h, 000h, 000h
-gfx_setFont proc far               ; 0x10F3
+_gfx_setFont endp
+    db 0EAh, 4 dup(0)               ; slot 30
+_gfx_getAuxBufSize proc far             ; slot 31
     db 0EAh
     dd 0
-gfx_setFont endp
-_gfx_setFont equ gfx_setFont
-    db 0EAh, 000h, 000h, 000h, 000h
-gfx_getAuxBufSize proc far               ; 0x10FD
+_gfx_getAuxBufSize endp
+    db 0EAh, 4 dup(0)               ; slot 32
+_gfx_fillRow proc far             ; slot 33
     db 0EAh
     dd 0
-gfx_getAuxBufSize endp
-_gfx_getAuxBufSize equ gfx_getAuxBufSize
-    db 0EAh, 000h, 000h, 000h, 000h
-gfx_fillRow proc far               ; 0x1107
+_gfx_fillRow endp
+_gfx_fillRow2 proc far             ; slot 34
     db 0EAh
     dd 0
-gfx_fillRow endp
-gfx_fillRow2 proc far               ; 0x110C
+_gfx_fillRow2 endp
+_gfx_copyRow proc far             ; slot 35
     db 0EAh
     dd 0
-gfx_fillRow2 endp
-gfx_copyRow proc far               ; 0x1111
+_gfx_copyRow endp
+_gfx_nop36 proc far             ; slot 36
     db 0EAh
     dd 0
-gfx_copyRow endp
-gfx_nop36 proc far               ; 0x1116
+_gfx_nop36 endp
+_gfx_nop37 proc far             ; slot 37
     db 0EAh
     dd 0
-gfx_nop36 endp
-thunk_EXT_FUN_0000 proc far               ; 0x111B
-_thunk_EXT_FUN_0000 equ thunk_EXT_FUN_0000
+_gfx_nop37 endp
+_gfx_getPageSeg proc far             ; slot 38
     db 0EAh
     dd 0
-thunk_EXT_FUN_0000 endp
-gfx_getPageSeg proc far               ; 0x1120
+_gfx_getPageSeg endp
+    db 0EAh, 4 dup(0)               ; slot 39
+_gfx_getRowOffset proc far             ; slot 3a
     db 0EAh
     dd 0
-gfx_getPageSeg endp
-    db 0EAh, 000h, 000h, 000h, 000h
-gfx_getRowOffset proc far               ; 0x112A
+_gfx_getRowOffset endp
+_gfx_clearPage proc far             ; slot 3b
     db 0EAh
     dd 0
-gfx_getRowOffset endp
-gfx_clearPage proc far               ; 0x112F
+_gfx_clearPage endp
+    db 0EAh, 4 dup(0)               ; slot 3c
+_gfx_setFadeSteps proc far             ; slot 3d
     db 0EAh
     dd 0
-gfx_clearPage endp
-    db 0EAh, 000h, 000h, 000h, 000h
-gfx_setFadeSteps proc far               ; 0x1139
+_gfx_setFadeSteps endp
+_gfx_calcRowAddr proc far             ; slot 3e
     db 0EAh
     dd 0
-gfx_setFadeSteps endp
-_gfx_setFadeSteps equ gfx_setFadeSteps
-gfx_calcRowAddr proc far               ; 0x113E
+_gfx_calcRowAddr endp
+    db 0EAh, 4 dup(0)               ; slot 3f
+_gfx_setOvlVal1 proc far             ; slot 40
     db 0EAh
     dd 0
-gfx_calcRowAddr endp
-_gfx_calcRowAddr equ gfx_calcRowAddr
-    db 0EAh, 000h, 000h, 000h, 000h
-gfx_setOvlVal1 proc far               ; 0x1148
+_gfx_setOvlVal1 endp
+_gfx_setOvlVal2 proc far             ; slot 41
     db 0EAh
     dd 0
-gfx_setOvlVal1 endp
-_gfx_setOvlVal1 equ gfx_setOvlVal1
-gfx_setOvlVal2 proc far               ; 0x114D
+_gfx_setOvlVal2 endp
+    db 0EAh, 4 dup(0)               ; slot 42
+    db 0EAh, 4 dup(0)               ; slot 43
+_gfx_setDac proc far             ; slot 44
     db 0EAh
     dd 0
-gfx_setOvlVal2 endp
-_gfx_setOvlVal2 equ gfx_setOvlVal2
-    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h
-gfx_setDac proc far               ; 0x115C
+_gfx_setDac endp
+_gfx_waitRetrace proc far             ; slot 45
     db 0EAh
     dd 0
-gfx_setDac endp
-_gfx_setDac equ gfx_setDac
-gfx_waitRetrace proc far               ; 0x1161
+_gfx_waitRetrace endp
+_gfx_flipPage proc far             ; slot 46
     db 0EAh
     dd 0
-gfx_waitRetrace endp
-_gfx_waitRetrace equ gfx_waitRetrace
-gfx_flipPage proc far               ; 0x1166
+_gfx_flipPage endp
+    db 0EAh, 4 dup(0)               ; slot 47
+    db 0EAh, 4 dup(0)               ; slot 48
+    db 0EAh, 4 dup(0)               ; slot 49
+    db 0EAh, 4 dup(0)               ; slot 4a
+_gfx_storeBufPtr proc far             ; slot 4b
     db 0EAh
     dd 0
-gfx_flipPage endp
-_gfx_flipPage equ gfx_flipPage
-    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
-    db 000h, 000h, 000h, 000h
-gfx_storeBufPtr proc far               ; 0x117F
-    db 0EAh
-    dd 0
-gfx_storeBufPtr endp
-_gfx_storeBufPtr equ gfx_storeBufPtr
-    db 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh
-    db 000h, 000h, 000h, 000h
+_gfx_storeBufPtr endp
+    db 0EAh, 4 dup(0)               ; slot 4c
+    db 0EAh, 4 dup(0)               ; slot 4d
+    db 0EAh, 4 dup(0)               ; slot 4e
+    db 0EAh, 4 dup(0)               ; slot 4f
 PUBLIC _gfx_commitPage
-gfx_commitPage proc far               ; 0x1198
+_gfx_commitPage proc far             ; slot 50
     db 0EAh
     dd 0
-gfx_commitPage endp
-_gfx_commitPage equ gfx_commitPage
-gfx_nop51 proc far               ; 0x119D
+_gfx_commitPage endp
+_gfx_nop51 proc far             ; slot 51
     db 0EAh
     dd 0
-gfx_nop51 endp
-gfx_setMonoFlag proc far               ; 0x11A2
+_gfx_nop51 endp
+_gfx_setMonoFlag proc far             ; slot 52
     db 0EAh
     dd 0
-gfx_setMonoFlag endp
-_gfx_setMonoFlag equ gfx_setMonoFlag
-gfx_getCurPage proc far               ; 0x11A7
+_gfx_setMonoFlag endp
+_gfx_getCurPage proc far             ; slot 53
     db 0EAh
     dd 0
-gfx_getCurPage endp
-_gfx_getCurPage equ gfx_getCurPage
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-misc_jump_5a_keybuf proc far               ; 0x11CA
-_misc_jump_5a_keybuf equ misc_jump_5a_keybuf
+_gfx_getCurPage endp
+    db 30 dup(0)
+_misc_jump_5a_keybuf proc far             ; slot 5a
     db 0EAh
     dd 0
-misc_jump_5a_keybuf endp
-misc_jump_5b_getkey proc far               ; 0x11CF
-_misc_jump_5b_getkey equ misc_jump_5b_getkey
+_misc_jump_5a_keybuf endp
+_misc_jump_5b_getkey proc far             ; slot 5b
     db 0EAh
     dd 0
-misc_jump_5b_getkey endp
-    db 0EAh, 000h, 000h, 000h, 000h
-misc_jump_5d_readJoy proc far               ; 0x11D9
-_misc_jump_5d_readJoy equ misc_jump_5d_readJoy
+_misc_jump_5b_getkey endp
+    db 0EAh, 4 dup(0)               ; slot 5c
+_misc_jump_5d_readJoy proc far             ; slot 5d
     db 0EAh
     dd 0
-misc_jump_5d_readJoy endp
-misc_jump_5e_clearKeyFlags proc far               ; 0x11DE
+_misc_jump_5d_readJoy endp
+_misc_jump_5e_clearKeyFlags proc far             ; slot 5e
     db 0EAh
     dd 0
-misc_jump_5e_clearKeyFlags endp
-PUBLIC _misc_jump_5e_clearKeyFlags
-_misc_jump_5e_clearKeyFlags equ misc_jump_5e_clearKeyFlags
-_gfx_setPage1 equ gfx_setPage1
-_gfx_getCurPageSeg equ gfx_getCurPageSeg
-_gfx_getCurPageSeg2 equ gfx_getCurPageSeg2
-_gfx_drawLine equ gfx_drawLine
-_gfx_setPageDirect equ gfx_setPageDirect
-_gfx_resetBlitOffset equ gfx_resetBlitOffset
-_gfx_dirtyRect2 equ gfx_dirtyRect2
-_gfx_nop51 equ gfx_nop51
-_gfx_fillRow equ gfx_fillRow
-_gfx_fillRow2 equ gfx_fillRow2
-_gfx_copyRow equ gfx_copyRow
-_gfx_nop36 equ gfx_nop36
-_gfx_getPageSeg equ gfx_getPageSeg
-_gfx_getRowOffset equ gfx_getRowOffset
-_gfx_clearPage equ gfx_clearPage
-    db 0EAh, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h
-    db 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h
-    db 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h
+_misc_jump_5e_clearKeyFlags endp
+    db 0EAh, 4 dup(0)               ; slot 5f
+    db 20 dup(0)
+    db 0EAh, 4 dup(0)               ; slot 64
+    db 0EAh, 4 dup(0)               ; slot 65
+    db 0EAh, 4 dup(0)               ; slot 66
+    db 0EAh, 4 dup(0)               ; slot 67
+    db 0EAh, 4 dup(0)               ; slot 68
+    db 0EAh, 4 dup(0)               ; slot 69
+    db 0EAh, 4 dup(0)               ; slot 6a
 _clipDivZeroHandler db 0EAh
     db 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 0EAh, 000h, 000h, 000h, 000h, 000h, 000h
     db 000h, 000h
@@ -535,15 +515,15 @@ _clipMaxX db 03Fh
 _clipMaxY db 06Fh
     db 000h, 000h
 _joyMinValues db 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 7 dup(0)
 _joyMaxValues db 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 7 dup(0)
 _joyCenterValues db 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 7 dup(0)
 _joyRangeBelow db 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 7 dup(0)
 _joyRangeAbove db 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 7 dup(0)
 _joyRawAxis0 db 000h
     db 000h
 _joyRawAxis1 db 000h
@@ -616,12 +596,12 @@ _timerCounter2 db 000h
 _timerCounter3 db 000h
 _ps_var86_target db 000h, 000h, 000h, 000h
 _awardColor db 007h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 7 dup(0)
 _awardFont db 001h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 9 dup(0)
 _awardPage dw offset _ps_var86_target
 _ps_var86_2 db 000h, 000h, 000h, 000h, 009h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h
+    db 7 dup(0)
     dw offset _ps_var86_2
 _promoScores dw 05DCh  ; 1500 - first rank score threshold
 _promoThresholds dw 0000h
@@ -651,25 +631,6 @@ EXTRN _str_insertDiskA:BYTE
 EXTRN _str_pressKey2:BYTE
 EXTRN _str_dbicons2:BYTE
 EXTRN _str_missionDebrief:BYTE
-str_libya_spr equ _str_libya_spr
-str_persian_spr equ _str_persian_spr
-str_vn_spr equ _str_vn_spr
-str_me_spr equ _str_me_spr
-str_ncape_spr equ _str_ncape_spr
-str_ceurope_spr equ _str_ceurope_spr
-str_jp_spr equ _str_jp_spr
-str_na_spr equ _str_na_spr
-str_reviewMission equ _str_reviewMission
-str_exitDebriefing equ _str_exitDebriefing
-str_modeRb1 equ _str_modeRb1
-str_insertScenario equ _str_insertScenario
-str_pressKey1 equ _str_pressKey1
-str_modeRb2 equ _str_modeRb2
-str_dbicons1 equ _str_dbicons1
-str_insertDiskA equ _str_insertDiskA
-str_pressKey2 equ _str_pressKey2
-str_dbicons2 equ _str_dbicons2
-str_missionDebrief equ _str_missionDebrief
 
 _var_119 db 000h
     db 000h
@@ -730,14 +691,7 @@ _fileHandleTable label byte
 _var_141 db 001h
     db 000h, 000h, 002h
 _var_142 db 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h
-    db 000h, 000h, 000h
+    db 115 dup(0)
 _var_143 dw offset _fileHandleTable + 098h
 _var_144 db 000h
     db 000h
@@ -837,7 +791,5 @@ _var_193 db 2 dup(?)
 _flightRecords db 1534 dup(?)
 
 __bss_end label byte
-
-; Stack size must match the original (0x800 = 2048 bytes)
 
 END
