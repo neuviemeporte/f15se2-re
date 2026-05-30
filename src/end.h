@@ -177,7 +177,13 @@ typedef struct MenuItem {
     int16  state;          /* 0x2e */
     MenuItemFlags flags; /* 0x30 */
 } MenuItem;
+#if F15_PTR_BITS==64
+STATIC_ASSERT(sizeof(struct MenuItem)==72);
+#elif F15_PTR_BITS==32
+STATIC_ASSERT(sizeof(struct MenuItem)==60);
+#else
 STATIC_ASSERT(sizeof(struct MenuItem)==50);
+#endif
 
 void processDebriefInput(int *cursorBounds, MenuItem *menuItem, int16* gfxPage);
 
