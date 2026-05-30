@@ -32,6 +32,9 @@ void drawLineWrapper(void)
 
 /* gfx_clearrect.inc: clearRect - clear a rectangular region */
 /* Parameters: pageNum, x1, y1, x2, y2 (absolute coordinates) */
+/* NOTE: The original clearRect uses the dirty rect system and operates on
+ * curPageSeg. We use the page index from the page descriptor to look up
+ * the correct segment directly, matching gfx_switchColor's approach. */
 void clearRect(int16 *pageNum, int x1, int y1, int x2, int y2)
 {
     uint8 color;
@@ -39,8 +42,8 @@ void clearRect(int16 *pageNum, int x1, int y1, int x2, int y2)
     uint8 far *page;
     int row, col;
 
-    gfx_setPageN(*pageNum);
     color = (uint8)pageNum[3];
+    gfx_setPageN(*pageNum);
     pageSeg = (uint16)gfx_getCurPageSeg();
     page = (uint8 far *)MK_FP(pageSeg, 0);
     if (x2 > 319) x2 = 319;
