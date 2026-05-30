@@ -168,7 +168,11 @@ typedef struct MenuItem {
     int16  colorTableIdx;  /* 0x10 */
     int16  colorPair;      /* 0x12 */
 
-    char label[0x18];    /* 0x14 .. 0x2b */
+    int16  labelData1[5];  /* 0x14-0x1D */
+    int16 *pagePtr;        /* 0x1E */
+    int16  labelData2[4];  /* 0x20-0x27 */
+    struct SpriteParams *spriteNormal; /* 0x28 */
+    struct SpriteParams *spriteBlink;  /* 0x2A */
 
     int16  unk_2c;         /* 0x2c */
     int16  state;          /* 0x2e */
@@ -200,6 +204,48 @@ extern struct SpriteParams* spriteAir;
 extern struct SpriteParams* spriteSam;
 extern struct SpriteParams* spriteGround;
 extern struct SpriteParams* spriteWaypoint;
+
+/* Sprite descriptor structs */
+extern struct SpriteParams ps_101;
+extern struct SpriteParams ps_103;
+extern struct SpriteParams ps_105;
+extern struct SpriteParams ps_106;
+extern struct SpriteParams ps_107;
+extern struct SpriteParams ps_108;
+extern struct SpriteParams ps_109;
+extern struct SpriteParams ps_110;
+extern struct SpriteParams ps_111;
+extern struct SpriteParams ps_112;
+extern struct SpriteParams ps_113;
+extern struct SpriteParams ps_114;
+
+/* bufPtr field aliases (code writes sprite buffer segment to first field) */
+#define var_101 ps_101.bufPtr
+#define var_103 ps_103.bufPtr
+#define var_105 ps_105.bufPtr
+#define var_106 ps_106.bufPtr
+#define var_107 ps_107.bufPtr
+#define var_108 ps_108.bufPtr
+#define var_109 ps_109.bufPtr
+#define var_110 ps_110.bufPtr
+#define var_111 ps_111.bufPtr
+#define var_112 ps_112.bufPtr
+#define var_113 ps_113.bufPtr
+#define var_114 ps_114.bufPtr
+
+/* Page descriptors and pointers */
+extern struct PageDesc pageStruct;
+extern struct PageDesc pageStruct2;
+extern int16 pageStruct3[];
+extern int16 *var_99;
+extern int16 *var_100;
+extern struct SpriteParams *var_102;
+extern struct SpriteParams *var_104;
+extern int16 *var_116;
+extern char *var_115;
+extern char *var_117[];
+extern char *var_118[];
+extern MenuItem dat_21e4[];
 
 /* Reconstructed C functions */
 void seedRandom(void);
@@ -333,7 +379,7 @@ extern int var_216;
 extern int dat_4804;
 extern int var_193[];
 extern int var_192;
-extern struct SpriteParams* var_102;
+
 
 /* Data symbols used by showPostMissionAwards */
 extern int16 *awardPage;

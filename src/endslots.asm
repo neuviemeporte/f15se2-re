@@ -29,10 +29,7 @@ PUBLIC _misc_jump_5a_keybuf
 PUBLIC _misc_jump_5b_getkey
 PUBLIC _misc_jump_5d_readJoy
 PUBLIC _misc_jump_5e_clearKeyFlags
-PUBLIC _spriteAirBlink
-PUBLIC _spriteSamBlink
-PUBLIC _spriteGroundBlink
-PUBLIC _spriteWaypointBlink
+
 PUBLIC _awardColor
 PUBLIC _awardFont
 PUBLIC _awardPage
@@ -88,9 +85,7 @@ PUBLIC _nightMission
 PUBLIC _origCBreakOfs
 PUBLIC _origCBreakSeg
 PUBLIC _ovlInsaneFlag
-PUBLIC _pageStruct
-PUBLIC _pageStruct2
-PUBLIC _pageStruct3
+
 PUBLIC _picByte
 PUBLIC _picByteUnsignedFlag
 PUBLIC _picDecodeDictionary
@@ -121,10 +116,7 @@ PUBLIC _randState
 PUBLIC _planeArray
 PUBLIC _samDataTable
 PUBLIC _samWeaponTable
-PUBLIC _spriteAir
-PUBLIC _spriteGround
-PUBLIC _spriteSam
-PUBLIC _spriteWaypoint
+
 PUBLIC _timerCalSumHi
 PUBLIC _timerCalSumLo
 PUBLIC _timerCountHi
@@ -141,25 +133,8 @@ PUBLIC _timerSyncRetrace
 PUBLIC _timerTarget
 PUBLIC _timerTick
 PUBLIC _tmpFileHandle
-PUBLIC _var_100
-PUBLIC _var_101
-PUBLIC _var_102
-PUBLIC _var_103
-PUBLIC _var_104
-PUBLIC _var_105
-PUBLIC _var_106
-PUBLIC _var_107
-PUBLIC _var_108
-PUBLIC _var_109
-PUBLIC _var_110
-PUBLIC _var_111
-PUBLIC _var_112
-PUBLIC _var_113
-PUBLIC _var_114
-PUBLIC _var_115
-PUBLIC _var_116
-PUBLIC _var_117
-PUBLIC _var_118
+
+
 PUBLIC _var_119
 PUBLIC _var_120
 PUBLIC _var_121
@@ -179,7 +154,7 @@ PUBLIC _var_3f72
 PUBLIC _var_41
 PUBLIC _var_43
 PUBLIC _var_61
-PUBLIC _var_99
+
 PUBLIC _var_timerFlag
 ; Overlay jump table proc labels (non-underscored)
 PUBLIC gfx_allocPage
@@ -242,8 +217,7 @@ PUBLIC _timerRetrace
 PUBLIC _timerCounter4
 PUBLIC dat_1868
 PUBLIC dat_186A
-PUBLIC dat_21e4
-PUBLIC _dat_21e4
+
 PUBLIC dat_2769
 PUBLIC dat_3F6A
 PUBLIC dat_3F6B
@@ -906,111 +880,25 @@ str_insertDiskA equ _str_insertDiskA
 str_pressKey2 equ _str_pressKey2
 str_dbicons2 equ _str_dbicons2
 str_missionDebrief equ _str_missionDebrief
-_pageStruct dw 0000h, 0000h, 0002h, 000Fh, 0000h, 0000h, 0001h, 0000h, 0000h, 0000h, 0000h
-_var_99 dw offset _pageStruct
-_pageStruct2 db 000h, 000h, 000h, 000h, 000h, 000h, 00Fh, 000h, 000h, 000h, 000h, 000h, 003h, 000h, 000h, 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h
-_var_100 dw offset _pageStruct2
-_ps_101 label byte
-_var_101 db 000h
-    db 000h, 000h, 000h, 000h, 000h, 000h, 000h, 008h, 000h, 00Ah, 000h, 0E0h, 000h, 0A8h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-_var_102 dw offset _ps_101
-_ps_103 label byte
-_var_103 db 000h
-    db 000h, 000h, 000h, 0B2h, 000h, 000h, 000h, 000h, 000h, 0B2h, 000h, 040h, 001h, 015h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-_var_104 dw offset _ps_103
-_ps_105 label byte
-_var_105 db 000h
-    db 000h, 02Dh, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-_spriteAir label word
-spriteAir dw offset _ps_105
-_ps_106 label byte
-_var_106 db 000h
-    db 000h, 02Dh, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-spriteAirBlink dw offset _ps_106
-_spriteAirBlink equ spriteAirBlink
-_ps_107 label byte
-_var_107 db 000h
-    db 000h, 023h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-_spriteSam label word
-spriteSam dw offset _ps_107
-_ps_108 label byte
-_var_108 db 000h
-    db 000h, 023h, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-spriteSamBlink dw offset _ps_108
-_spriteSamBlink equ spriteSamBlink
-_ps_109 label byte
-_var_109 db 000h
-    db 000h, 017h, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-_spriteGround label word
-spriteGround dw offset _ps_109
-_ps_110 label byte
-_var_110 db 000h
-    db 000h, 017h, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-spriteGroundBlink dw offset _ps_110
-_spriteGroundBlink equ spriteGroundBlink
-_ps_111 label byte
-_var_111 db 000h
-    db 000h, 01Eh, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-    dw offset _ps_111
-_ps_112 label byte
-_var_112 db 000h
-    db 000h, 01Eh, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 005h, 000h, 005h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-    dw offset _ps_112
-_ps_113 label byte
-_var_113 db 000h
-    db 000h, 02Ah, 001h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 001h, 000h, 001h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-_spriteWaypoint label word
-spriteWaypoint dw offset _ps_113
-_var_114 db 000h
-    db 000h, 02Ah, 001h, 005h, 000h, 000h, 000h, 000h, 000h, 000h, 000h, 001h, 000h, 001h, 000h, 000h
-    db 000h, 0C7h, 000h, 000h, 000h, 036h, 001h, 009h, 000h, 000h, 000h, 000h, 000h
-spriteWaypointBlink dw offset _var_114
-_spriteWaypointBlink equ spriteWaypointBlink
-_dat_21e4 label byte
-dat_21e4 db 0ECh
-    db 000h, 096h, 000h, 03Ch, 001h, 09Fh, 000h, 0ECh, 000h, 096h, 000h, 03Ch, 001h, 09Fh, 000h, 000h
-    db 000h, 069h, 000h, 098h, 000h, 008h, 000h, 011h, 001h, 039h, 000h, 007h, 000h
-    dw offset _pageStruct2
-    db 01Ah
-    db 000h, 007h, 000h, 0FAh, 000h, 03Ch, 000h
-    dw offset _ps_105
-    dw offset _ps_106
-    db 000h, 000h
-_var_115 db 000h
-    db 000h, 008h, 018h, 0ECh, 000h, 0A0h, 000h, 03Ch, 001h, 0A9h, 000h, 0ECh, 000h, 0A0h, 000h, 03Ch
-    db 001h, 0A9h, 000h, 000h, 000h, 069h, 000h, 098h, 000h, 008h, 000h, 011h, 001h, 039h, 000h, 007h
-    db 000h
-    dw offset _pageStruct2
-    db 01Ah, 000h, 007h, 000h, 0FAh, 000h, 03Ch, 000h
-    dw offset _ps_105
-    dw offset _ps_106
-    db 000h
-    db 000h, 000h, 000h, 00Fh, 008h
-_pageStruct3 db 000h, 000h, 00Ah, 000h, 0FAh, 000h, 0FAh, 000h, 097h, 000h, 0A1h
-    db 000h
-_var_116 dw offset _pageStruct3
-_var_117 dw offset str_libya_spr
-    dw offset str_persian_spr
-    dw offset str_vn_spr
-    dw offset str_me_spr
-    dw offset str_ncape_spr
-    dw offset str_ceurope_spr
-    dw offset str_jp_spr
-    dw offset str_na_spr
-_var_118 dw offset str_reviewMission
-    dw offset str_exitDebriefing
+EXTRN _pageStruct:BYTE
+EXTRN _pageStruct2:BYTE
+EXTRN _pageStruct3:BYTE
+EXTRN _var_99:WORD
+EXTRN _var_100:WORD
+EXTRN _var_102:WORD
+EXTRN _var_104:WORD
+EXTRN _var_115:BYTE
+EXTRN _var_116:WORD
+EXTRN _spriteAir:WORD
+EXTRN _spriteSam:WORD
+EXTRN _spriteGround:WORD
+EXTRN _spriteWaypoint:WORD
+EXTRN _spriteAirBlink:WORD
+EXTRN _spriteSamBlink:WORD
+EXTRN _spriteGroundBlink:WORD
+EXTRN _spriteWaypointBlink:WORD
+EXTRN _dat_21e4:BYTE
+
 _var_119 db 000h
     db 000h
 _var_120 db 000h
