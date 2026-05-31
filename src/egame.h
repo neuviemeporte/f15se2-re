@@ -28,7 +28,7 @@ extern unsigned char far byte_2D6A4[];
 #define COMM_HERC_FLAG 0x24
 #define COMM_SETUP_DONE_OFFSET 0x26
 #define COMM_SETUP_GFXMODE_OFFSET 0x30
-#define COMM_UNK7 0x38
+#define COMM_UNK7 0x38  /* weaponType */
 #define COMM_JOYDATA_OFF 0x48
 #define COMM_USEJOY_OFF 0x72
 #define COMM_GFXMODE_OFFSET 0x78

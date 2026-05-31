@@ -773,13 +773,11 @@ int sub_11971() {
 // ==== seg000:0x19a3 ====
 void sub_119A3() {
     int p;
-    char far *b;
 
     p = word_3BF90 = word_33096 = 0;
     for (; p < 3; p++) {
-        b = (char far *)commData + p * 2;
-        ((int16 *)missleSpec)[p * 2] = *(int16 far *)(b + 0x38);
-        ((int16 *)missleSpec)[p * 2 + 1] = *(int16 far *)(b + 0x40);
+        missleSpec[p].weaponIdx = commData->weaponType[p];
+        missleSpec[p].ammo = commData->weaponCount[p];
     }
     word_330B4 = 0x3e8;
     word_33098 = 0x2710;
@@ -802,7 +800,7 @@ void sub_11A18() {
         sub_19E44(0);
         p = (&word_38202)[a];
         sub_19E5D(p - 1, 0xbe, p + 2, (int)&allocSize);
-        sub_1A183(missleSpec[a].field_2, p, 0xbe, 0x0c);
+        sub_1A183(missleSpec[a].ammo, p, 0xbe, 0x0c);
     }
 }
 
@@ -835,8 +833,8 @@ void sub_11B37(int arg_0) {
     *(int16 far *)((char far *)commData + 0x76) = word_3BED0;
     *(int16 far *)((char far *)commData + 0x34) = word_33096;
     *(int16 far *)((char far *)commData + 0x36) = word_3BF90;
-    commData->unk8[0] = word_38FF6;
-    commData->unk8[1] = word_33710;
+    commData->weaponCount[0] = word_38FF6;
+    commData->weaponCount[1] = word_33710;
     sub_11D10(8, 0);
 }
 

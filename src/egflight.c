@@ -250,10 +250,10 @@ void sub_18AA6()
     if (word_33702 != 0) return;
     if (word_3BE3C != 0) return;
 
-    b = missleSpec[missileSpecIndex].field_0;
+    b = missleSpec[missileSpecIndex].weaponIdx;
     p = *(int16 *)&missiles[b].field_A[2];
 
-    if (missleSpec[missileSpecIndex].field_2 == 0) {
+    if (missleSpec[missileSpecIndex].ammo == 0) {
         strcpy((char *)strBuf, missiles[b].field_0);
         strcat((char *)strBuf, (char *)a0);
         sub_1A204((char *)strBuf);
@@ -263,16 +263,16 @@ void sub_18AA6()
     if (p == 0) return;
     if (p == -1) return;
 
-    missleSpec[missileSpecIndex].field_2--;
+    missleSpec[missileSpecIndex].ammo--;
 
     if (word_330C2 != 0) {
         sub_19E44(0);
         a = ((int16 *)aA)[missileSpecIndex];
         sub_19E5D(a - 1, 0xbe, a + 2, 0xc2);
-        sub_1A183(missleSpec[missileSpecIndex].field_2, a, 0xbe, 0x0c);
+        sub_1A183(missleSpec[missileSpecIndex].ammo, a, 0xbe, 0x0c);
         strcpy((char *)strBuf, missiles[b].field_0);
         strcat((char *)strBuf, (char *)0x5947);
-        strcat((char *)strBuf, itoa(missleSpec[missileSpecIndex].field_2, (char *)unk_3C030, 0x0a));
+        strcat((char *)strBuf, itoa(missleSpec[missileSpecIndex].ammo, (char *)unk_3C030, 0x0a));
         sub_1A204((char *)strBuf);
     }
 

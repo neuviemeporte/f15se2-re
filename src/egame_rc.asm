@@ -948,8 +948,8 @@ Sam		ends
 ; ---------------------------------------------------------------------------
 
 MissileSpec	struc ;	(sizeof=0x4, mappedto_18) ; XREF: dseg:missleSpec/r
-field_0		dw ?
-field_2		dw ?
+weaponIdx		dw ?
+ammo		dw ?
 MissileSpec	ends
 
 ; ---------------------------------------------------------------------------
@@ -978,7 +978,7 @@ COMM_GFXBUF_PTR	 = 20h
 COMM_HERC_FLAG	 = 24h
 COMM_SETUP_DONE_OFFSET	= 26h
 COMM_SETUP_GFXMODE_OFFSET  = 30h
-COMM_UNK7	 = 38h
+COMM_UNK7	 = 38h ; weaponType
 COMM_JOYDATA_OFF  = 48h
 COMM_USEJOY_OFF	 = 72h
 COMM_GFXMODE_OFFSET  = 78h
