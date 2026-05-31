@@ -414,15 +414,15 @@ counterMore1k:
     }
   } // 4ac2
   TRACE(("runGenerator(): past loop7"));
-  commData->unk7[1] = 1;
-  commData->unk7[2] = 5;
-  commData->unk7[0] = 0;
+  commData->weaponType[1] = 1;
+  commData->weaponType[2] = 5;
+  commData->weaponType[0] = 0;
   // 4ae4
   if (gameData->theater == THEATER_DS) { // 4ae8
-    commData->unk7[1] = 3;
+    commData->weaponType[1] = 3;
     if (missionPick != -1) { // 4afc
       // 4b0a
-      commData->unk7[2] = missionPickType[missionPick];
+      commData->weaponType[2] = missionPickType[missionPick];
     }
   } // 4b0e
   i = 0;
@@ -430,7 +430,7 @@ counterMore1k:
   for (idx = 0; idx < 3; idx++) { // 4b23
     TRACE(("runGenerator(): loop8, counter %d", idx));
     // 4b49
-    commData->unk8[idx] = weaponLoadouts[commData->unk7[idx]].qty;
+    commData->weaponCount[idx] = weaponLoadouts[commData->weaponType[idx]].qty;
   }
   TRACE(("runGenerator(): past loop8"));
   // 4b4f

@@ -265,8 +265,8 @@ STATIC_ASSERT(sizeof(struct WeaponLoadout)==26);
 
 // 0x4 bytes
 struct MissileSpec {
-    int16 field_0;
-    int16 field_2;
+    int16 weaponIdx;  /* index into weaponLoadouts[] / missiles[] */
+    int16 ammo;       /* remaining count */
 };
 STATIC_ASSERT(sizeof(struct MissileSpec)==4);
 

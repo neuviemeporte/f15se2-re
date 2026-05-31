@@ -46,14 +46,14 @@
 #define GAMEDATA_SCORE_LO 0x32
 #define GAMEDATA_SCORE_HI 0x34
 #define GAMEDATA_THEATER 0x38
-#define COMM_UNK7 0x38
+#define COMM_UNK7 0x38  /* weaponType */
 #define GAMEDATA_FLAG4 0x3a
 #define COMM_UNK5 0x3a
 #define GAMEDATA_FLAG3 0x3c
 #define COMM_UNK6 0x3c
 #define COMM_BUFFER_DIFFICULTY 0x3e
 #define SEGMENT_BDA 0x40
-#define COMM_UNK8 0x40
+#define COMM_UNK8 0x40  /* weaponCount */
 #define COMM_BUFFER_RAND 0x42
 #define GAMEDATA_UNK1 0x44
 #define COMM_JOYDATA_OFF 0x48

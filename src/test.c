@@ -37,8 +37,8 @@ void testComm() {
     ASSERT_EQ(offsetof(struct GameComm, gfxModeChar), COMM_SETUP_GFXMODE_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, setupDetail), COMM_SETUP_DETAIL_OFFSET);
 
-    ASSERT_EQ(offsetof(struct GameComm, unk7), COMM_UNK7_OFFSET);
-    ASSERT_EQ(offsetof(struct GameComm, unk8), COMM_UNK8_OFFSET);
+    ASSERT_EQ(offsetof(struct GameComm, weaponType), COMM_WEAPONTYPE_OFFSET);
+    ASSERT_EQ(offsetof(struct GameComm, weaponCount), COMM_WEAPONCOUNT_OFFSET);
 
     ASSERT_EQ(offsetof(struct GameComm, joyData), COMM_SETUP_JOYDATA_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, setupT), COMM_SETUP_SWITCHT_OFFSET);

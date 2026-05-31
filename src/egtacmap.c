@@ -108,7 +108,7 @@ int sub_18E50(int arg_0) {
                     sub_1A8C8(var_14 - 6, var_18 - 5, 0x91, 0x4, 0xd, 0xb, 0xe);
                 } // 9202
                 // 7 = air to air? Only Sidewinder and Amraam have it
-                if (sams[missiles[missleSpec[missileSpecIndex].field_0].field_16].field_C == 7) { // 9223
+                if (sams[missiles[missleSpec[missileSpecIndex].weaponIdx].field_16].field_C == 7) { // 9223
                     sub_19E44((uint8)gfxModeUnset != 0 ? 0xf : 7);
                     // 9239
                     for (var_A = 0; var_A <= 0x100; var_A += 0x10) { // 924b

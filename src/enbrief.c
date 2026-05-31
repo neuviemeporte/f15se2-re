@@ -818,7 +818,7 @@ long calcMissionScore(int param) {
     g = 1;
     e = 0;
 
-    p = commData->unk8[0];
+    p = commData->weaponCount[0];
     if (p > 15) {
         p = 15;
     }
