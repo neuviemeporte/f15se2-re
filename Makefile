@@ -1,16 +1,25 @@
 MZRE := mzretools
 MZRETOOLDIR := $(MZRE)/tools
-DOSBUILD := $(MZRETOOLDIR)/dosbuild.sh
+DOSBOX ?= dosbox
+DOSBUILD := DOSBOX=$(DOSBOX) $(MZRETOOLDIR)/dosbuild.sh
 DOSTEST := $(MZRETOOLDIR)/test.sh
 DISASM := $(MZRETOOLDIR)/disasm.sh
-UASMDIR := UASM
-UASM := $(UASMDIR)/GccUnixR/uasm
+ASSEMBLER ?= UASM
+ifeq ($(ASSEMBLER),JWasm)
+ASMDIR := JWasm
+ASM := $(ASMDIR)/build/GccUnixR/jwasm
+ASM_BUILD_CMD := make -f GccUnix.mak -j
+else
+ASMDIR := UASM
+ASM := $(ASMDIR)/GccUnixR/uasm
+ASM_BUILD_CMD := make -j
+endif
 MZDIFF := $(MZRE)/debug/mzdiff
 MZHDR := $(MZRE)/debug/mzhdr
 TOOLDIR := tools
 CXXFLAGS := -Wfatal-errors
-# UASM: no copyright info, 8086 instuctions, MASM compatibility
-UASMFLAGS := -q -0 -Zm
+# UASM/JWasm: no copyright info, 8086 instructions, MASM compatibility
+ASMFLAGS := -q -0 -Zm
 # DOS C compiler: no stack probes, debug mode
 C_TOOLCHAIN ?= msc510
 MSC_CFLAGS ?= /Gs /Zi /Id:\f15-se2
@@ -108,7 +117,7 @@ START_DEBUG := $(DEBUGDIR)/start.exe
 $(START_DEBUG): MSC_CFLAGS += /DDEBUG
 START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
 $(START_DBG_OBJ): $(START_BASEHDR)
-$(START_DBG_OBJ): UASMFLAGS += -DDEBUG
+$(START_DBG_OBJ): ASMFLAGS += -DDEBUG
 $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(START_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 	@if [ -n "$(F15_TESTDIR)" ]; then \
@@ -151,7 +160,7 @@ $(NOASMDIR)/%.obj: $(SRCDIR)/shared/%.c $(HDRS) | $(NOASMDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /Zi /I.. /Id:\f15-se2 /DNO_ASM"
 
 $(NOASMDIR)/%.obj: $(SRCDIR)/%.asm | $(NOASMDIR)
-	$(UASM) $(UASMFLAGS) -Fo$@ $<
+	$(ASM) $(ASMFLAGS) -Fo$@ $<
 
 noasm-start: $(START_NOASM)
 
@@ -202,7 +211,7 @@ EGAME_DEBUG := $(DEBUGDIR)/egame.exe
 $(EGAME_DEBUG): MSC_CFLAGS := /Gs /Id:\f15-se2 /DDEBUG
 EGAME_DBG_OBJ := $(call asmobj,$(DEBUGDIR),$(EGAME_ASM)) $(call cobj,$(DEBUGDIR),$(EGAME_SRC)) $(DEBUGDIR)/dbglite.obj $(DEBUGDIR)/dbgio.obj
 $(EGAME_DBG_OBJ): $(EGAME_BASEHDR)
-$(EGAME_DBG_OBJ): UASMFLAGS += -DDEBUG
+$(EGAME_DBG_OBJ): ASMFLAGS += -DDEBUG
 # Compile largest C files with /Os in debug to stay under 64K _TEXT limit
 $(DEBUGDIR)/eghud.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG
 $(DEBUGDIR)/egweap.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG
@@ -251,7 +260,7 @@ END_DEBUG := $(DEBUGDIR)/end.exe
 $(END_DEBUG): MSC_CFLAGS += /DDEBUG
 END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
 $(END_DBG_OBJ): $(END_BASEHDR)
-$(END_DBG_OBJ): UASMFLAGS += -DDEBUG
+$(END_DBG_OBJ): ASMFLAGS += -DDEBUG
 $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(END_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 	@if [ -n "$(F15_TESTDIR)" ]; then \
@@ -305,7 +314,7 @@ $(HELLO_EXE): LINKFLAGS := /M /I
 $(HELLO_EXE): $(HELLO_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)" -l "$(HELLO_LIB)"
 
-f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(UASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE)
+f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(ASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE)
 
 start: $(START_EXE)
 egame: $(EGAME_EXE)
@@ -339,10 +348,10 @@ $(BUILDDIR) $(DEBUGDIR) $(TOOLDIR):
 $(TOOLCHAIN_DIR):
 	@echo "Place a copy of the Microsoft C 5.1 compiler in $(TOOLCHAIN_DIR) to build" && exit 1
 
-$(UASM): $(UASMDIR)/Makefile
-	cd $(UASMDIR) && make -j
+$(ASM): $(ASMDIR)/Makefile
+	cd $(ASMDIR) && $(ASM_BUILD_CMD)
 
-$(UASMDIR)/Makefile:
+$(ASMDIR)/Makefile:
 	git submodule init
 	git submodule update
 
@@ -356,10 +365,10 @@ $(DEBUGDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(DEBUGDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 
 $(BUILDDIR)/%.obj: $(SRCDIR)/%.asm | $(BUILDDIR)
-	$(UASM) $(UASMFLAGS) -Fo$@ $<
+	$(ASM) $(ASMFLAGS) -Fo$@ $<
 
 $(DEBUGDIR)/%.obj: $(SRCDIR)/%.asm | $(DEBUGDIR)
-	$(UASM) $(UASMFLAGS) -Fo$@ $<
+	$(ASM) $(ASMFLAGS) -Fo$@ $<
 #	@$(DOSBUILD) as $(ASM_TOOLCHAIN) -i $< -o $@ -f "$(ASFLAGS)"
 
 reasm: $(STARTRE_EXE)
