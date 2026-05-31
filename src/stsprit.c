@@ -4,7 +4,6 @@
 #include "slot.h"
 #include "debug.h"
 
-// 0x124a
 void showSprite(int page, int x, int y, int src_x, int src_y, int width, int height) {
     TRACE(("showSprite(%d, %d, %d, %d, %d, %d, %d)", page, x, y, src_x, src_y, width, height));
     spriteParams.bufPtr = menuSprites;

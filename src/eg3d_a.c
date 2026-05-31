@@ -41,7 +41,7 @@ void sub_121CA(int arg_0, int arg_2, int arg_4, long arg_6, long arg_a, long arg
 // ==== seg000:0x2278 ====
 void sub_12278(int arg_0) {
     uint8 var_2;
-    if (arg_0 > 0) { // 2284
+    if (arg_0 > 0) {
         var_2 = (uint8)arg_0 + byte_3790C[0];
         while (var_2 != byte_3790C[0]) {}
     }

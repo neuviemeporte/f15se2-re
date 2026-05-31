@@ -31,135 +31,120 @@ int sub_18E50(int arg_0) {
     var_16 = waypoints[waypointIndex].field_0 - word_3BEC0;
     var_1A = waypoints[waypointIndex].field_2 - word_3BED0;
     TRACE(("sub_18E50: after waypoints, word_330C2=%d", word_330C2));
-    // 8e83
     word_3BE92 = sub_1D008(var_16, -var_1A);
     TRACE(("sub_18E50: after sub_1D008"));
-    if (word_330C2 != 0) { // 8e96
+    if (word_330C2 != 0) {
         TRACE(("sub_18E50: word_330C2 branch, word_38FEA=%d", word_38FEA));
-        if (word_38FEA != 0) { // 8e9d
+        if (word_38FEA != 0) {
             word_38FEA = 0;
-            if (!(keyValue & 0x80)) { // 8eaa
+            if (!(keyValue & 0x80)) {
                 TRACE(("sub_18E50: calling sub_19E44(0xd)"));
                 sub_19E44(0xd);
                 TRACE(("sub_18E50: calling sub_19E5D"));
                 sub_19E5D(0, 0, 0x13f, 0x60);
                 gfx_setDacAnimCount(0x3c);
             }
-        } // 8ed2
+        }
         TRACE(("sub_18E50: past 8ed2, keyValue=%d byte_37C24=%d", keyValue, byte_37C24));
         byte_37C2F = 1;
-        if (keyValue == 0 && byte_37C24 == 0) { // 8eeb
+        if (keyValue == 0 && byte_37C24 == 0) {
             TRACE(("sub_18E50: entering keyValue==0 branch, setupUseJoy=%d", commData->setupUseJoy));
-            if (!commData->setupUseJoy) { // 8ef9
+            if (!commData->setupUseJoy) {
                 TRACE(("sub_18E50: calling sub_19E44(0)"));
                 sub_19E44(0);
                 TRACE(("sub_18E50: calling sub_19C0C"));
                 sub_19C0C(0x115, 0x53, 0x125, 0x53);
                 sub_19C0C(0x125, 0x53, 0x125, 0x5f);
-                // 8f3e
                 sub_19C0C(0x125, 0x5f, 0x115, 0x5f);
                 sub_19C0C(0x115, 0x5f, 0x115, 0x53);
                 sub_19C0C(0x11d, 0x59, 0x11d, 0x59);
-                // 8f74
                 sub_19E44(0xf);
                 var_14 = ((int16)(joyAxes[0] - 0x78) >> 4) + 0x11d;
-                // 8fa1
                 var_18 = ((int16)((joyAxes[1] * 3) - 0x168) >> 6) + 0x59;
                 sub_19C0C(var_14 - 1, var_18, var_14 + 1, var_18);
-                // 8fc8
                 sub_19C0C(var_14, var_18 + 1, var_14, var_18 - 1);
-            } // 8fce
-            if (planeFlags & 0x200) { // 8fd6
+            }
+            if (planeFlags & 0x200) {
                 sub_19E44(0xf);
                 sub_19C0C(0x9c, 0x59, 0xa4, 0x59);
                 sub_19C0C(0xa0, 0x56, 0xa0, 0x5c);
-            } // 900c
+            }
             sub_19E44(word_330BC != 0 ? 4 : 0);
-            // 9041
             var_10 = sub_1CF64((((word_3C5A6 - word_3AA5A) * 2) / 5) + 0x1d, 0, 0x3d);
             if (var_10) sub_19C0C(0x48, 0x55 - var_10, 0x48, 0x55);
-            // 9089
             sub_19C0C(0xf7,  0x38, 0xf7, sub_1CF64(-((word_3C8B6 >> 4) - 0x38), 0x14, 0x55));
-            // 908f
-            if ((planeFlags & 1) == 0 && (word_336E8 & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) { // 90af
+            if ((planeFlags & 1) == 0 && (word_336E8 & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) {
                 var_2 = (((stru_3AA5E[word_3C16A].field_6 & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
                 sub_19E44(0xf);
-                // 90f7
                 sub_19C0C(0xf2, var_2 - 2, 0xf4, var_2);
                 sub_19C0C(0xf2, var_2 + 2, 0xf4, var_2);
-            } // 9115
+            }
             // stall warning display
-            if (word_3AA5A < word_3C5A6 && word_3BEBE != word_380CE && word_336E8 & 1) { // 912e
+            if (word_3AA5A < word_3C5A6 && word_3BEBE != word_380CE && word_336E8 & 1) {
                 draw2Strings(aStallWarning, 0x84, 0x1e, 0xf);
-            } // 9144
-            if (word_3C45C == 0 || word_3C45C == 2) { // 9152
+            }
+            if (word_3C45C == 0 || word_3C45C == 2) {
                 sub_19E44(7);
                 word_3C008 = (word_38FC4 >> 6) + 0x38;
-                if (word_3C008 > 0xa && word_3C008 < 0x6f) { // 9173
+                if (word_3C008 > 0xa && word_3C008 < 0x6f) {
                     sub_1A8C8(0x9a, word_3C008 - 4, 0x94, 0x15, 0x0b, 7, 0xf);
                 }
-            } // 9198
-            if (word_3C45C == 1) { // 91a2
+            }
+            if (word_3C45C == 1) {
                 var_1C = byte_37C24 + 4;
                 var_14 = (word_3C6A4 >> var_1C) + 0x9f;
                 var_18 = (word_3C6AC >> var_1C) + 0x38;
-                // 91c3
-                if (var_14 > 0xa && var_14 < 0x135 && var_18 > 8 && var_18 < 0x5b) { // 91da
+                if (var_14 > 0xa && var_14 < 0x135 && var_18 > 8 && var_18 < 0x5b) {
                     sub_1A8C8(var_14 - 6, var_18 - 5, 0x91, 0x4, 0xd, 0xb, 0xe);
-                } // 9202
+                }
                 // 7 = air to air? Only Sidewinder and Amraam have it
-                if (sams[missiles[missleSpec[missileSpecIndex].weaponIdx].field_16].field_C == 7) { // 9223
+                if (sams[missiles[missleSpec[missileSpecIndex].weaponIdx].field_16].field_C == 7) {
                     sub_19E44((uint8)gfxModeUnset != 0 ? 0xf : 7);
-                    // 9239
-                    for (var_A = 0; var_A <= 0x100; var_A += 0x10) { // 924b
+                    for (var_A = 0; var_A <= 0x100; var_A += 0x10) {
                         var_4 = var_A << 8;
                         var_8 = sub_1D178(var_4, 0x28) + 0x9f;
-                        // 9278
                         var_C = -(sub_1D190(var_4, 0x23) - 0x38);
                         if (var_A != 0) sub_19C0C(var_8, var_C, var_E, var_12);
-                        // 9294
                         var_E = var_8;
                         var_12 = var_C;
                     }
                 }
-            } // 929f
+            }
             sub_1A183(word_3AA5A, 0x50, 0x36, 0xf);
-            if (word_380D0 <= 0x4e20) { // 92bd
+            if (word_380D0 <= 0x4e20) {
                 sub_1A183(word_380D0 < 0x64 ? word_380D0 : (word_380D0 / 5) * 5, 0xe4, 0x36, 0xf);
-            } // 92ee
-            if (word_3370A > 1) { // 92f5
+            }
+            if (word_3370A > 1) {
                 drawSomeStrings(aAccel, 0x96, 0x4, 0xf);
-            } // 930b
-            if (planeFlags & 0x1000) { // 9313
+            }
+            if (planeFlags & 0x1000) {
                 drawSomeStrings(aTraining, 0xea, 0x10, 0xf);
-            } // 9329
-            if (word_330B6 != 0) { // 9330
+            }
+            if (word_330B6 != 0) {
                 drawSomeStrings(aAutopilot, 0xec, 0x5a, 0xf);
-            } // 9346
+            }
             var_6 = sub_1CF64((((word_3BE92 - word_380C8) >> 6) / 3) + 0x9f, 0x59, 0xe5);
             sub_19E44(0x0b);
             sub_19C0C(var_6 - 2, 0xf, var_6, 0x11);
-            // 93a0
             sub_19C0C(var_6, 0x11, var_6 + 2, 0xf);
             sub_19C0C(var_6 - 2, 0xf, var_6 + 2, 0xf);
             goto somewhere;
-        } // 93c4
+        }
 somewhere:
         sub_1A25C(byte_3C5A0);
-    } // 93cf
-    if (word_383F2 != 0 && ((keyValue == 0 && byte_37C24 == 0) || (word_3370E != 0))) { // 93eb
+    }
+    if (word_383F2 != 0 && ((keyValue == 0 && byte_37C24 == 0) || (word_3370E != 0))) {
         draw2Strings(tempString, -(((int16)strlen(tempString) >> 1) - 0x28) * 4, 0x18, 0xf);
         word_383F2--;
-        // 9417
-        if (word_336EA == 1) { // 941e
+        if (word_336EA == 1) {
             draw2Strings(aPressAnyKeyToP, 0x78, 1, word_330BC != 0 ? 0xe : 0);
         }
-    } // 943f
-    if (word_383F4 != 0 && keyValue == 0 && byte_37C24 == 0) { // 9454
+    }
+    if (word_383F4 != 0 && keyValue == 0 && byte_37C24 == 0) {
         draw2Strings(string_3C04A, -(((int16)strlen(string_3C04A) >> 1) - 0x28) * 4, 0x5a, 0xf);
         word_383F4--;
-    } // 9480
-} // 9485
+    }
+}
 
 // ==== seg000:0x94d0 routine_189 ====
 void sub_194D0(int arg_0) {
