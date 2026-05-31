@@ -115,6 +115,7 @@ $(START_EXE): $(START_OBJ)
 # start.exe debug build
 START_DEBUG := $(DEBUGDIR)/start.exe
 $(START_DEBUG): MSC_CFLAGS += /DDEBUG
+$(DEBUGDIR)/stmain.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DDEBUG /DDEBUG_AUTOSTART
 START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
 $(START_DBG_OBJ): $(START_BASEHDR)
 $(START_DBG_OBJ): ASMFLAGS += -DDEBUG

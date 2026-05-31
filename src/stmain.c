@@ -164,6 +164,9 @@ checkEga:
 #ifdef DEBUG_AUTOSTART
     /* Auto-start: skip UI, set hardcoded difficulty/theater, go straight to egame */
     TRACE(("main: DEBUG_AUTOSTART - skipping UI"));
+    /* f15.com normally writes copy-protection magic into the COMM MCB; replicate here */
+    *(int16 far *)((char far *)commData - 4) = COMM_MCB_VALUE_MAGIC1;
+    *(int16 far *)((char far *)commData - 2) = COMM_MCB_VALUE_MAGIC2;
     gameData->difficulty = 2;  /* 0=green, 1=veteran, 2=ace, 3=max, 4=demo */
     gameData->theater = 0;     /* 0=Libya, 1=Desert, 2=Europe, 3=Kuril */
     gameData->missionReady = 1;
