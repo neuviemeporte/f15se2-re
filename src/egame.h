@@ -1530,10 +1530,7 @@ extern int16* word_39808;
 extern uint8 buf1_3dg[];
 extern char byte_3995A;
 extern int16 word_3995C;
-extern uint8 buf1_3dt[];
-extern uint8 buf2_3dt[];
-extern uint8 buf3_3dt[];
-extern uint8 val_3dt[];
+extern uint8 buf_3dt[]; // #define MAX_TILE_DATA
 extern int16 word_3A8FE;
 extern uint8 byte_3A900[];
 extern int16 word_3A940;
