@@ -43,7 +43,6 @@ PUBLIC _var_683
 PUBLIC _var_684
 PUBLIC _var_685
 PUBLIC _var_594
-PUBLIC _sub_20104
 PUBLIC _word_38FF8
 PUBLIC _strBuf
 PUBLIC _aAt
@@ -54,6 +53,51 @@ PUBLIC _byte_38F8D
 PUBLIC _aOnPatrol
 PUBLIC _aF15StrikeEagle
 PUBLIC _aNone
+PUBLIC byte_37C2D
+PUBLIC byte_37C2E
+PUBLIC byte_37C35
+PUBLIC byte_37C3A
+PUBLIC byte_37EEE
+PUBLIC byte_37EEF
+PUBLIC byte_3C6A0
+PUBLIC unk_37565
+PUBLIC unk_38FD0
+PUBLIC word_37557
+PUBLIC word_37559
+PUBLIC word_37B26
+PUBLIC word_37B2E
+PUBLIC word_37B30
+PUBLIC word_37B3C
+PUBLIC word_37B44
+PUBLIC word_37B52
+PUBLIC word_37B5A
+PUBLIC word_37B5C
+PUBLIC word_37B68
+PUBLIC word_37B70
+PUBLIC word_37B82
+PUBLIC word_37B84
+PUBLIC word_37BA2
+PUBLIC word_37BC0
+PUBLIC word_37BDE
+PUBLIC word_37C25
+PUBLIC word_37C27
+PUBLIC word_37C29
+PUBLIC word_37C2B
+PUBLIC word_37C30
+PUBLIC word_37C32
+PUBLIC word_37C36
+PUBLIC word_37EF0
+PUBLIC word_37EF2
+PUBLIC word_37F50
+PUBLIC word_37F52
+PUBLIC word_37F54
+PUBLIC word_37F56
+PUBLIC word_37F58
+PUBLIC word_37F5A
+PUBLIC word_37F5C
+PUBLIC word_37F5E
+PUBLIC word_37F60
+PUBLIC word_37F62
 _sub_167B4 equ sub_167B4
 
 _aAutomaticLandi equ aAutomaticLandi
@@ -233,7 +277,6 @@ PUBLIC _var_217
 PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
 PUBLIC _word_3C5A8
-PUBLIC _sub_2044A
 PUBLIC _var_665
 PUBLIC _var_666
 PUBLIC _word_3C5A8
@@ -245,7 +288,6 @@ PUBLIC _var_315
 PUBLIC _var_316
 PUBLIC _origCBreakSeg
 PUBLIC _sub_10334
-PUBLIC _sub_20658
 PUBLIC _word_3C16C
 PUBLIC _sub_1374A
 PUBLIC _var_257
@@ -258,9 +300,6 @@ PUBLIC _word_34686
 PUBLIC _word_34868
 PUBLIC _word_34A4C
 PUBLIC _word_3C042
-PUBLIC _sub_202DA
-PUBLIC _sub_20A46
-PUBLIC _sub_20FDC
 PUBLIC _var_194
 PUBLIC _var_195
 PUBLIC _var_196
@@ -296,9 +335,6 @@ PUBLIC _word_3B15E
 PUBLIC _word_38FE0
 PUBLIC _var_349
 PUBLIC _var_350
-PUBLIC _sub_21704
-PUBLIC _sub_2171A
-PUBLIC _sub_2189C
 PUBLIC _var_134
 PUBLIC _var_135
 PUBLIC _sub_122B8
@@ -316,14 +352,13 @@ PUBLIC _hercFlag
 PUBLIC _setupOverlaySlots
 PUBLIC _gfxModeUnset
 PUBLIC _joyAxes
-PUBLIC _copyJoystickData
+EXTRN _copyJoystickData:FAR
 PUBLIC _installCBreakHandler
 PUBLIC _gfxBufPtr
-PUBLIC _restoreJoystickData
+EXTRN _restoreJoystickData:FAR
 PUBLIC _regs
 PUBLIC _exitCode
 PUBLIC _restoreCBreakHandler
-PUBLIC _sub_22411
 PUBLIC _scenarioPlh
 PUBLIC _regnStr
 PUBLIC _f15DgtlResult
@@ -341,8 +376,75 @@ PUBLIC _audio_jump_68
 PUBLIC _audio_jump_69
 PUBLIC _setTimerIrqHandler
 PUBLIC _sub_13C3B
-PUBLIC _setInt9Handler
-PUBLIC _restoreInt9Handler
+EXTRN _setInt9Handler:FAR
+EXTRN sub_2265B:FAR
+EXTRN sub_2267E:FAR
+EXTRN sub_1F882:FAR
+EXTRN sub_1FEEC:FAR
+EXTRN sub_20104:FAR
+EXTRN sub_202C7:FAR
+EXTRN sub_202F6:FAR
+EXTRN _sub_2152A:FAR
+PUBLIC word_37B7E
+PUBLIC word_37B9C
+PUBLIC word_37BBA
+PUBLIC word_37BD8
+PUBLIC word_37BF7
+PUBLIC byte_37BF9
+PUBLIC word_37BFA
+PUBLIC byte_37BFC
+PUBLIC word_37BFD
+PUBLIC word_37BFF
+PUBLIC byte_37BF6
+PUBLIC word_37C01
+PUBLIC word_37C03
+PUBLIC word_37C05
+PUBLIC word_37C07
+PUBLIC word_37C09
+PUBLIC word_37C0B
+PUBLIC word_37C0D
+PUBLIC word_37C0F
+PUBLIC word_37C11
+PUBLIC byte_37C13
+PUBLIC word_37C14
+PUBLIC word_37C16
+PUBLIC word_37C18
+PUBLIC word_37C1A
+PUBLIC word_37C1C
+PUBLIC word_37C1E
+PUBLIC word_37C20
+PUBLIC word_37C22
+PUBLIC word_37B34
+PUBLIC word_37B36
+PUBLIC word_37B32
+PUBLIC word_37B48
+PUBLIC word_37B5E
+PUBLIC word_37B74
+PUBLIC word_37B46
+PUBLIC word_37B4E
+PUBLIC word_37B50
+PUBLIC word_37B9E
+PUBLIC word_37BA0
+PUBLIC word_37BA4
+PUBLIC word_37BA6
+PUBLIC word_37BA8
+PUBLIC word_37BAA
+PUBLIC word_37B86
+PUBLIC word_37B88
+PUBLIC word_37B8A
+PUBLIC word_37B8C
+PUBLIC word_37B60
+PUBLIC word_37B64
+PUBLIC word_37B66
+PUBLIC word_37B72
+EXTRN _restoreInt9Handler:FAR
+PUBLIC byte_37F98
+PUBLIC byte_37F99
+PUBLIC byte_37F9A
+PUBLIC word_37F9B
+PUBLIC byte_37F9D
+PUBLIC byte_37F9E
+PUBLIC byte_37F9F
 PUBLIC _dword_38FE2
 PUBLIC _word_3C0A2
 PUBLIC _flagFarToNear
@@ -447,7 +549,6 @@ PUBLIC _size3d3_7
 PUBLIC _aPhoto_3d3_0
 PUBLIC _aPhoto_3d3
 PUBLIC _word_3B14A
-PUBLIC _sub_21444
 PUBLIC _dword_3C01C
 PUBLIC _dword_3B4D4
 PUBLIC _keyValue
@@ -512,12 +613,10 @@ PUBLIC _word_38126
 PUBLIC _sub_195C9
 PUBLIC _var_589
 PUBLIC _var_590
-PUBLIC _sub_2152A
 PUBLIC _off_38364
 PUBLIC _word_330BC
 PUBLIC _unk_3806E
 PUBLIC _unk_380B6
-PUBLIC _sub_20E38
 
 PUBLIC _a256left_pic
 PUBLIC _a256right_pic
@@ -545,7 +644,6 @@ PUBLIC _word_33098
 PUBLIC _word_330B4
 PUBLIC _word_3309C
 PUBLIC _word_3309E
-PUBLIC _sub_20BAE
 PUBLIC _word_3C09E
 PUBLIC _keyScancode
 PUBLIC _var_218
@@ -650,7 +748,6 @@ PUBLIC _var_670
 PUBLIC _word_3BF90
 
 PUBLIC _missileSpecIndex
-PUBLIC _sub_21A86
 PUBLIC _gfx_allocPage
 PUBLIC _gfx_drawString
 PUBLIC _gfx_initOverlay
@@ -2236,6 +2333,8 @@ sub_13BA2 proc near
 sub_13BA2 endp
 ; ------------------------------seg000:0x3bc0------------------------------
 ; ------------------------------seg000:0x3bc1------------------------------
+PUBLIC sub_13BC1
+PUBLIC sub_13BC5
 sub_13BC1 proc far
     call sub_13BCD
     retf
@@ -12848,798 +12947,8 @@ unknown_libname_2 proc near
 unknown_libname_2 endp
 PUBLIC unknown_libname_2
 ; ------------------------------seg000:0xf881------------------------------
-; ------------------------------seg001:0x2------------------------------
-sub_1F882 proc far
-    retf
-sub_1F882 endp
-; ------------------------------seg001:0x64------------------------------
-; ------------------------------seg001:0x78------------------------------
-sub_1F8F8 proc near
-    retn
-sub_1F8F8 endp
-; ------------------------------seg001:0xfa------------------------------
-; ------------------------------seg001:0x113------------------------------
-sub_1F993 proc near
-    retn
-sub_1F993 endp
-; ------------------------------seg001:0x136------------------------------
-; ------------------------------seg001:0x137------------------------------
-sub_1F9B7 proc near
-    retn
-sub_1F9B7 endp
-; ------------------------------seg001:0x14b------------------------------
-; ------------------------------seg001:0x15d------------------------------
-sub_1F9DD proc near
-    retn
-sub_1F9DD endp
-; ------------------------------seg001:0x23e------------------------------
-; ------------------------------seg001:0x23f------------------------------
-sub_1FABF proc near
-    retn
-sub_1FABF endp
-; ------------------------------seg001:0x29c------------------------------
-; ------------------------------seg001:0x29d------------------------------
-sub_1FB1D proc near
-    retn
-sub_1FB1D endp
-; ------------------------------seg001:0x2d1------------------------------
-; ------------------------------seg001:0x2d2------------------------------
-sub_1FB52 proc near
-    retn
-sub_1FB52 endp
-; ------------------------------seg001:0x307------------------------------
-; ------------------------------seg001:0x308------------------------------
-sub_1FB88 proc near
-    retn
-sub_1FB88 endp
-; ------------------------------seg001:0x333------------------------------
-; ------------------------------seg001:0x334------------------------------
-sub_1FBB4 proc near
-    retn
-sub_1FBB4 endp
-; ------------------------------seg001:0x382------------------------------
-; ------------------------------seg001:0x383------------------------------
-sub_1FC03 proc near
-    retn
-sub_1FC03 endp
-; ------------------------------seg001:0x3b9------------------------------
-; ------------------------------seg001:0x3ba------------------------------
-sub_1FC3A proc near
-    retn
-sub_1FC3A endp
-; ------------------------------seg001:0x40d------------------------------
-; ------------------------------seg001:0x40e------------------------------
-sub_1FC8E proc near
-    retn
-sub_1FC8E endp
-; ------------------------------seg001:0x483------------------------------
-; ------------------------------seg001:0x484------------------------------
-sub_1FD04 proc near
-    retn
-sub_1FD04 endp
-; ------------------------------seg001:0x4f1------------------------------
-; ------------------------------seg001:0x4f2------------------------------
-sub_1FD72 proc near
-    retn
-sub_1FD72 endp
-; ------------------------------seg001:0x52c------------------------------
-; ------------------------------seg001:0x52d------------------------------
-sub_1FDAD proc near
-    retn
-sub_1FDAD endp
-; ------------------------------seg001:0x54f------------------------------
-; ------------------------------seg001:0x5dc------------------------------
-sub_1FE5C proc near
-    retn ;sp-analysis failed
-sub_1FE5C endp
-; ------------------------------seg001:0x669------------------------------
-; ------------------------------seg001:0x66c------------------------------
-sub_1FEEC proc far
-    retf
-sub_1FEEC endp
-; ------------------------------seg001:0x67d------------------------------
-; ------------------------------seg001:0x67e------------------------------
-sub_1FEFE proc near
-    retn
-sub_1FEFE endp
-; ------------------------------seg001:0x883------------------------------
-; ------------------------------seg001:0x884------------------------------
-sub_20104 proc far
-_sub_20104 equ sub_20104
-    retf
-sub_20104 endp
-PUBLIC _sub_20104
-_sub_20104 equ sub_20104
-; ------------------------------seg001:0x907------------------------------
-; ------------------------------seg001:0x908------------------------------
-sub_20188 proc near
-    retn
-sub_20188 endp
-; ------------------------------seg001:0xa08------------------------------
-; ------------------------------seg001:0xa09------------------------------
-sub_20289 proc near
-    retn
-sub_20289 endp
-; ------------------------------seg001:0xa31------------------------------
-; ------------------------------seg001:0xa36------------------------------
-sub_202B6 proc near
-    retn
-sub_202B6 endp
-; ------------------------------seg001:0xa46------------------------------
-; ------------------------------seg001:0xa47------------------------------
-sub_202C7 proc far
-    retf
-sub_202C7 endp
-; ------------------------------seg001:0xa59------------------------------
-; ------------------------------seg001:0xa5a------------------------------
-sub_202DA proc far
-    retf
-sub_202DA endp
-_sub_202DA equ sub_202DA
-; ------------------------------seg001:0xa67------------------------------
-; ------------------------------seg001:0xa76------------------------------
-sub_202F6 proc far
-    retf
-sub_202F6 endp
-; ------------------------------seg001:0xa7f------------------------------
-; ------------------------------seg001:0xa80------------------------------
-sub_20300 proc near
-    retn
-sub_20300 endp
-; ------------------------------seg001:0xb5f------------------------------
-; ------------------------------seg001:0xb60------------------------------
-sub_203E0 proc near
-    retn
-sub_203E0 endp
-; ------------------------------seg001:0xbbb------------------------------
-; ------------------------------seg001:0xbca------------------------------
-sub_2044A proc far
-    retf
-sub_2044A endp
-_sub_2044A equ sub_2044A
-; ------------------------------seg001:0xbe6------------------------------
-; ------------------------------seg001:0xbe7------------------------------
-sub_20467 proc near
-    retn ;sp-analysis failed
-sub_20467 endp
-; ------------------------------seg001:0xcb3------------------------------
-; ------------------------------seg001:0xcb4------------------------------
-sub_20534 proc near
-    retn
-sub_20534 endp
-; ------------------------------seg001:0xdd6------------------------------
-; ------------------------------seg001:0xdd8------------------------------
-sub_20658 proc far
-_sub_20658 equ sub_20658
-    retf
-sub_20658 endp
-; ------------------------------seg001:0xde1------------------------------
-; ------------------------------seg001:0xdf4------------------------------
-sub_20674 proc near
-    retn
-sub_20674 endp
-; ------------------------------seg001:0xf77------------------------------
-; ------------------------------seg001:0x10f0------------------------------
-sub_20970 proc near
-    retn
-sub_20970 endp
-; ------------------------------seg001:0x11c2------------------------------
-; ------------------------------seg001:0x11c6------------------------------
-sub_20A46 proc far
-    retf
-sub_20A46 endp
-_sub_20A46 equ sub_20A46
-; ------------------------------seg001:0x11d7------------------------------
-; ------------------------------seg001:0x11d8------------------------------
-sub_20A58 proc near
-    retn
-sub_20A58 endp
-; ------------------------------seg001:0x1281------------------------------
-; ------------------------------seg001:0x1282------------------------------
-sub_20B02 proc near
-    retn
-sub_20B02 endp
-; ------------------------------seg001:0x132c------------------------------
-; ------------------------------seg001:0x132e------------------------------
-_sub_20BAE proc far
-    retf
-_sub_20BAE endp
-; ------------------------------seg001:0x1345------------------------------
-; ------------------------------seg001:0x135f------------------------------
-sub_20BDF proc near
-    retn
-sub_20BDF endp
-; ------------------------------seg001:0x147a------------------------------
-; ------------------------------seg001:0x147b------------------------------
-sub_20CFB proc near
-    retn
-sub_20CFB endp
-; ------------------------------seg001:0x1598------------------------------
-; ------------------------------seg001:0x1599------------------------------
-sub_20E19 proc near
-    retn
-sub_20E19 endp
-; ------------------------------seg001:0x15b7------------------------------
-; ------------------------------seg001:0x15b8------------------------------
-_sub_20E38 proc far
-    retf
-_sub_20E38 endp
-sub_20E38 equ _sub_20E38
-; ------------------------------seg001:0x15cc------------------------------
-; ------------------------------seg001:0x15cd------------------------------
-sub_20E4D proc near
-    retn
-sub_20E4D endp
-; ------------------------------seg001:0x175b------------------------------
-; ------------------------------seg001:0x175c------------------------------
-sub_20FDC proc far
-    retf
-sub_20FDC endp
-_sub_20FDC equ sub_20FDC
-; ------------------------------seg001:0x1769------------------------------
-; ------------------------------seg001:0x176a------------------------------
-sub_20FEA proc near
-    retn
-sub_20FEA endp
-; ------------------------------seg001:0x17f4------------------------------
-; ------------------------------seg001:0x17f5------------------------------
-sub_21075 proc near
-    retn ;sp-analysis failed
-sub_21075 endp
-; ------------------------------seg001:0x1933------------------------------
-; ------------------------------seg001:0x193a------------------------------
-sub_211BA proc near
-    retn
-sub_211BA endp
-; ------------------------------seg001:0x1989------------------------------
-; ------------------------------seg001:0x19e7------------------------------
-nullsub_2 proc near
-    retn
-nullsub_2 endp
-; ------------------------------seg001:0x19e7------------------------------
-; ------------------------------seg001:0x1ba2------------------------------
-sub_21422 proc near
-    retn
-sub_21422 endp
-; ------------------------------seg001:0x1bc2------------------------------
-; ------------------------------seg001:0x1bc4------------------------------
-_sub_21444 proc far
-    retf
-_sub_21444 endp
-; ------------------------------seg001:0x1c34------------------------------
-; ------------------------------seg001:0x1ca6------------------------------
-sub_21526 proc far
-    retf
-sub_21526 endp
-; ------------------------------seg001:0x1ca9------------------------------
-; ------------------------------seg001:0x1caa------------------------------
-_sub_2152A proc far
-    retf
-_sub_2152A endp
-; ------------------------------seg001:0x1cb5------------------------------
-; ------------------------------seg001:0x1cb6------------------------------
-sub_21536 proc near
-    retn
-sub_21536 endp
-; ------------------------------seg001:0x1e3f------------------------------
-; ------------------------------seg001:0x1e42------------------------------
-sub_216C2 proc near
-    retn
-sub_216C2 endp
-; ------------------------------seg001:0x1e62------------------------------
-; ------------------------------seg001:0x1e84------------------------------
-sub_21704 proc far
-    retf
-sub_21704 endp
-_sub_21704 equ sub_21704
-; ------------------------------seg001:0x1e99------------------------------
-; ------------------------------seg001:0x1e9a------------------------------
-sub_2171A proc far
-    retf
-sub_2171A endp
-_sub_2171A equ sub_2171A
-; ------------------------------seg001:0x1e9f------------------------------
-; ------------------------------seg001:0x1ea0------------------------------
-sub_21720 proc near
-    retn
-sub_21720 endp
-; ------------------------------seg001:0x1ed5------------------------------
-; ------------------------------seg001:0x1ed6------------------------------
-sub_21756 proc near
-    retn
-sub_21756 endp
-; ------------------------------seg001:0x1f24------------------------------
-; ------------------------------seg001:0x1f34------------------------------
-sub_217B4 proc near
-    retn
-sub_217B4 endp
-; ------------------------------seg001:0x201a------------------------------
-; ------------------------------seg001:0x201c------------------------------
-sub_2189C proc far
-    retf
-sub_2189C endp
-_sub_2189C equ sub_2189C
-; ------------------------------seg001:0x2027------------------------------
-; ------------------------------seg001:0x2028------------------------------
-sub_218A8 proc near
-    retn
-sub_218A8 endp
-; ------------------------------seg001:0x21d5------------------------------
-; ------------------------------seg002:0x12------------------------------
-sub_21A82 proc far
-    retf
-sub_21A82 endp
-; ------------------------------seg002:0x15------------------------------
-; ------------------------------seg002:0x16------------------------------
-_sub_21A86 proc near
-    retn
-_sub_21A86 endp
-; ------------------------------seg002:0x9a0------------------------------
-; ------------------------------seg002:0x9a1------------------------------
-_sub_22411 proc near
-    mov ax, _gfxBufPtr
-    mov word_37B7E, ax
-    mov word_37B9C, ax
-    mov word_37BBA, ax
-    mov word_37BD8, ax
-    mov _byte_37C24, 0
-loc_22425:
-    cmp _byte_37C24, 1
-    jz short loc_2242F
-    jmp loc_22545
-loc_2242F:
-    mov ax, 64h
-    mov word_37BF7, ax
-    mov al, 8
-    mov byte_37BF9, al
-    mov ax, 0Ah
-    mov word_37BFA, ax
-    mov al, 0
-    mov byte_37BFC, al
-    mov ax, 66h
-    mov word_37BFD, ax
-    mov ax, 0CCh
-    mov word_37BFF, ax
-    mov al, 88h
-    mov byte_37BF6, al
-    mov ax, 12h
-    mov word_37C01, ax
-    mov ax, 0AFh
-    mov word_37C03, ax
-    mov ax, 4
-    mov word_37C05, ax
-    mov ax, 2
-    mov word_37C07, ax
-    mov ax, 0FFE9h
-    mov word_37C09, ax
-    mov ax, 0FFF8h
-    mov word_37C0B, ax
-    mov ax, 9
-    mov word_37C0D, ax
-    mov ax, 17h
-    mov word_37C0F, ax
-    mov ax, 1Ah
-    mov word_37C11, ax
-    mov al, 34h
-    mov byte_37C13, al
-    mov ax, 1Fh
-    mov word_37C14, ax
-    mov ax, 0Dh
-    mov word_37C16, ax
-    mov ax, 50h
-    mov word_37C18, ax
-    mov ax, 9Fh
-    mov word_37C1A, ax
-    call far ptr gfx_getBlitOffset
-    mov word_37C1C, ax
-    mov ax, 42h
-    mov word_37C1E, ax
-    mov ax, 25h
-    mov word_37C20, ax
-    mov ax, 6Ch
-    mov word_37C22, ax
-    mov ax, 44h
-    mov word_37B34, ax
-    mov ax, 60h
-    mov word_37B36, ax
-    mov ax, 2
-    mov word_37B32, ax
-    mov word_37B48, ax
-    mov word_37B5E, ax
-    mov word_37B74, ax
-    mov ax, 3Bh
-    mov word_37B46, ax
-    mov ax, 82h
-    mov word_37B4E, ax
-    mov ax, 0BCh
-    mov word_37B50, ax
-    mov ax, 93h
-    mov word_37B9E, ax
-    mov ax, 14h
-    mov word_37BA0, ax
-    mov ax, 99h
-    mov word_37BA4, ax
-    mov ax, 4Ch
-    mov word_37BA6, ax
-    mov ax, 0Dh
-    mov word_37BA8, ax
-    mov ax, 9
-    mov word_37BAA, ax
-    mov ax, 82h
-    mov word_37B86, ax
-    mov ax, 40h
-    mov word_37B88, ax
-    mov ax, 3Bh
-    mov word_37B8A, ax
-    mov ax, 2
-    mov word_37B8C, ax
-    mov ax, 44h
-    mov word_37B60, ax
-    mov ax, 7Fh
-    mov word_37B64, ax
-    mov ax, 0C3h
-    mov word_37B66, ax
-    mov ax, 3Fh
-    mov word_37B72, ax
-    retn
-loc_22545:
-    mov ax, 5Eh
-    mov word_37BF7, ax
-    mov al, 11h
-    mov byte_37BF9, al
-    mov ax, 14h
-    mov word_37BFA, ax
-    mov al, 1
-    mov byte_37BFC, al
-    mov ax, 31h
-    mov word_37BFD, ax
-    mov ax, 0FFh
-    mov word_37BFF, ax
-    mov al, 6Dh
-    mov byte_37BF6, al
-    mov ax, 2Dh
-    mov word_37C01, ax
-    mov ax, 0F8h
-    mov word_37C03, ax
-    mov ax, 0Ah
-    mov word_37C05, ax
-    mov ax, 5
-    mov word_37C07, ax
-    mov ax, 0FFC4h
-    mov word_37C09, ax
-    mov ax, 0FFF1h
-    mov word_37C0B, ax
-loc_22590:
-    mov ax, 10h
-loc_22593:
-    mov word_37C0D, ax
-loc_22596:
-    mov ax, 3Ch
-loc_22599:
-    mov word_37C0F, ax
-    mov ax, 34h
-    mov word_37C11, ax
-    mov al, 68h
-    mov byte_37C13, al
-    mov ax, 4Fh
-    mov word_37C14, ax
-    mov ax, 24h
-    mov word_37C16, ax
-    mov ax, 38h
-    mov word_37C18, ax
-    mov ax, 9Fh
-    mov word_37C1A, ax
-loc_225BF:
-    call far ptr gfx_setClipVal1
-loc_225C4:
-    mov word_37C1C, ax
-loc_225C7:
-    mov ax, 0A0h
-    mov word_37C1E, ax
-    mov ax, 4Ch
-    mov word_37C20, ax
-    mov ax, 3Ch
-    mov word_37C22, ax
-    mov ax, 1Ah
-    mov word_37B34, ax
-    mov ax, 56h
-    mov word_37B36, ax
-    mov ax, 0
-    mov word_37B32, ax
-    mov word_37B48, ax
-    mov word_37B5E, ax
-    mov word_37B74, ax
-    mov ax, 0Ah
-    mov word_37B46, ax
-    mov ax, 5Ah
-    mov word_37B4E, ax
-    mov ax, 0E6h
-    mov word_37B50, ax
-    mov ax, 82h
-    mov word_37B9E, ax
-    mov ax, 26h
-    mov word_37BA0, ax
-    mov ax, 93h
-    mov word_37BA4, ax
-    mov ax, 30h
-    mov word_37BA6, ax
-    mov ax, 19h
-    mov word_37BA8, ax
-    mov ax, 0Fh
-    mov word_37BAA, ax
-    mov ax, 5Ah
-    mov word_37B86, ax
-    mov ax, 10h
-    mov word_37B88, ax
-    mov ax, 8Dh
-    mov word_37B8A, ax
-    mov ax, 3
-    mov word_37B8C, ax
-    mov ax, 14h
-    mov word_37B60, ax
-    mov ax, 4Eh
-    mov word_37B64, ax
-    mov ax, 0F1h
-    mov word_37B66, ax
-    mov ax, 10h
-    mov word_37B72, ax
-    retn
-_sub_22411 endp
-; ------------------------------seg002:0xbea------------------------------
-; ------------------------------seg002:0xbeb------------------------------
-sub_2265B proc far
-    retf
-sub_2265B endp
-; ------------------------------seg002:0xbfa------------------------------
-; ------------------------------seg002:0xbfb------------------------------
-sub_2266B proc near
-    retn
-sub_2266B endp
-; ------------------------------seg002:0xc0d------------------------------
-; ------------------------------seg002:0xc0e------------------------------
-sub_2267E proc far
-    retf
-sub_2267E endp
-; ------------------------------seg002:0xc20------------------------------
-; ------------------------------seg002:0xc21------------------------------
-sub_22691 proc near
-    retn
-sub_22691 endp
-; ------------------------------seg002:0xc4d------------------------------
-; ------------------------------seg002:0xc4e------------------------------
-sub_226BE proc near
-    retn
-sub_226BE endp
-; ------------------------------seg002:0xca9------------------------------
-; ------------------------------seg002:0xcaa------------------------------
-_restoreJoystickData proc far
-    mov bx, sp
-    push si
-    push di
-    push es
-    mov si, offset joyData
-    les di, [bx+4]
-    mov cx, 14h
-    rep movsw
-    pop es
-    pop di
-    pop si
-    retf
-_restoreJoystickData endp
-; ------------------------------seg002:0xcbd------------------------------
-; ------------------------------seg002:0xcbe------------------------------
-_copyJoystickData proc far
-    mov bx, sp
-    push si
-    push di
-    push ds
-    push es
-    lds si, [bx+4]
-    mov di, offset joyData
-    push ss
-    pop es
-    mov cx, 14h
-    rep movsw
-    pop es
-    pop ds
-    pop di
-    pop si
-    retf
-_copyJoystickData endp
-; ------------------------------seg002:0xcd5------------------------------
-; ------------------------------seg003:0x6------------------------------
-_setInt9Handler proc far
-    push ds
-    mov ax, 40h
-    mov ds, ax
-    and byte ptr ds:17h, 0DFh ;40:17, keyboard flag byte?
-    xor ax, ax
-    mov ss:56EAh, al
-loc_22757:
-    mov ss:56EBh, ax
-loc_2275B:
-    mov ss:56EDh, al
-loc_2275F:
-    mov ss:56EEh, al
-loc_22763:
-    mov ss:56EFh, al
-    mov byte ptr ss:56E8h, 80h
-loc_2276D:
-    mov byte ptr ss:56E9h, 80h
-    xor ax, ax
-    mov ds, ax
-loc_22777: ;int 9, keyboard data ready
-    mov bx, 24h
-    mov ax, [bx]
-loc_2277C:
-    mov dx, [bx+2]
-loc_2277F: ;store original int9 handler address
-    mov word ptr cs:loc_228C4+1, ax
-    mov word ptr cs:loc_228C4+3, dx
-    mov ax, offset int9Handler
-loc_2278B:
-    mov dx, cs
-    cli
-    mov [bx], ax
-loc_22790:
-    mov [bx+2], dx
-    sti
-    pop ds
-    retf
-_setInt9Handler endp
-; ------------------------------seg003:0x55------------------------------
-; ------------------------------seg003:0x56------------------------------
-_restoreInt9Handler proc far
-    push ds
-    xor ax, ax
-loc_22799:
-    mov ds, ax
-    mov bx, 24h
-loc_2279E:
-    mov ax, word ptr cs:loc_228C4+1
-    mov dx, word ptr cs:loc_228C4+3
-loc_227A7:
-    cli
-    mov [bx], ax
-    mov [bx+2], dx
-    sti
-loc_227AE:
-    pop ds
-    retf
-_restoreInt9Handler endp
-; ------------------------------seg003:0x6f------------------------------
-; ------------------------------seg003:0x70------------------------------
-int9Handler proc near
-    sti
-    pushf
-loc_227B2:
-    push ds
-    push es
-loc_227B4:
-    push ax
-    push bx
-loc_227B6:
-    mov ax, @data ;mov ax, seg dseg
-    mov ds, ax
-    mov ax, 40h
-    mov es, ax
-    mov ah, byte_37F9F
-    or ah, ah
-    jz short loc_227D1
-loc_227C8:
-    dec ah
-    mov byte_37F9F, ah
-    jmp loc_2288D
-loc_227D1:
-    in al, 60h ;8042 keyboard controller data register
-    cmp byte_37F9D, 0E0h
-    mov byte_37F9D, al
-    jz short loc_22808
-    cmp al, 0E0h
-    mov ah, 1
-    jz short loc_227C8
-    cmp al, 0E1h
-    mov ah, 3
-    jz short loc_227C8
-    xor ah, ah
-    test byte ptr es:17h, 20h
-    jz short loc_227F6
-    xor ah, 1
-loc_227F6:
-    test byte ptr es:17h, 3
-    jz short loc_22801
-    xor ah, 1
-loc_22801:
-    or ah, ah
-    jz short loc_22808
-loc_22805:
-    jmp loc_2288D
-loc_22808:
-    mov ah, al
-    and al, 7Fh
-    cmp al, 51h
-    ja short loc_2288D
-    sub al, 29h
-    jb short loc_2288D
-    mov bx, 56F0h
-    xlat
-    or al, al
-    jz short loc_2288D
-    test ah, 80h
-    jnz short loc_22878
-    cmp byte_37F9A, 0
-    jnz short loc_2288D
-    mov byte_37F9A, al
-    cmp byte_37F9E, al
-    mov byte_37F9E, al
-    jnz short loc_22844
-    mov bx, es:6Ch
-    sub bx, word_37F9B
-    cmp bx, 5
-    mov bh, 7Fh
-    jb short loc_22846
-loc_22844:
-    mov bh, 5Ah
-loc_22846:
-    mov bl, 80h
-    sub bl, bh
-    add bh, 80h
-    test al, 1
-    jz short loc_22855
-    mov byte_37F99, bl
-loc_22855:
-    test al, 2
-    jz short loc_2285D
-    mov byte_37F99, bh
-loc_2285D:
-    test al, 4
-    jz short loc_22865
-    mov byte_37F98, bl
-loc_22865:
-    test al, 8
-    jz short loc_2286D
-    mov byte_37F98, bh
-loc_2286D:
-    mov bx, es:6Ch
-    mov word_37F9B, bx
-    jmp short loc_2288D
-loc_22878:
-    cmp byte_37F9A, al
-    jnz short loc_2288D
-loc_2287E:
-    mov byte_37F9A, 0
-    mov byte_37F98, 80h
-    mov byte_37F99, 80h
-loc_2288D:
-    mov bx, es:1Ah
-    cmp bx, es:1Ch
-    jz short loc_228BE
-    mov ax, es:[bx]
-loc_2289C:
-    add bx, 2
-    cmp bx, es:82h
-    jb short loc_228AB
-    mov bx, es:80h
-loc_228AB:
-    cmp bx, es:1Ch
-    jz short loc_228BE
-loc_228B2:
-    cmp ax, es:[bx]
-    jnz short loc_228BE
-    mov es:1Ah, bx
-    jmp short loc_2289C
-loc_228BE:
-    pop bx
-    pop ax
-    pop es
-    pop ds
-    popf
-    cli
-loc_228C4:
-    db 0EAh ;far jump to original handlerjmp far ptr 0:0
-    dd 0
-int9Handler endp
-; ------------------------------seg003:0x184------------------------------
+; seg002 code moved to egseg2.asm
+; seg003 code moved to egseg3.asm
 ; ==============================================================================
 .DATA ;dseg segment para public 'DATA' use16
 
@@ -15379,18 +14688,22 @@ _gfx_allocPage proc near                    ; slot 0x00
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_allocPage endp
+PUBLIC gfx_fillDirty
 gfx_fillDirty proc near                     ; slot 0x01
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_fillDirty endp
+PUBLIC gfx_blitTransparent
 gfx_blitTransparent proc near               ; slot 0x03
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_blitTransparent endp
+PUBLIC gfx_blitVariant
 gfx_blitVariant proc near                   ; slot 0x04
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_blitVariant endp
+PUBLIC gfx_copyBlock
 gfx_copyBlock proc near                     ; slot 0x05
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -15399,6 +14712,7 @@ _gfx_drawString proc near                   ; slot 0x06
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_drawString endp
+PUBLIC gfx_drawStringUnclipped
 gfx_drawStringUnclipped proc near           ; slot 0x07
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -15407,6 +14721,7 @@ gfx_drawStringUnclipped endp
     db 0EAh, 4 dup(0)                       ; slot 0x09
     db 0EAh, 4 dup(0)                       ; slot 0x0A
     db 0EAh, 4 dup(0)                       ; slot 0x0B
+PUBLIC gfx_complexRender
 gfx_complexRender proc near                 ; slot 0x0C
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -15415,6 +14730,7 @@ _gfx_initOverlay proc near                  ; slot 0x0D
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_initOverlay endp
+PUBLIC gfx_setPage1
 gfx_setPage1 proc near                      ; slot 0x0E
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -15427,6 +14743,8 @@ gfx_setPageN endp
     PUBLIC _gfx_getCurPageSeg
 _gfx_setPageN equ gfx_setPageN
 _gfx_getCurPageSeg equ gfx_getCurPageSeg
+PUBLIC gfx_getCurPageSeg
+PUBLIC gfx_getCurPageSeg2
 gfx_getCurPageSeg proc near                 ; slot 0x10
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -15436,6 +14754,7 @@ gfx_getCurPageSeg2 proc near                ; slot 0x11
     dd 0
 gfx_getCurPageSeg2 endp
     db 0EAh, 4 dup(0)                       ; slot 0x12
+PUBLIC gfx_blitCore
 gfx_blitCore proc near                      ; slot 0x13
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -15449,6 +14768,7 @@ gfx_setBlitOffset2 proc near                ; slot 0x19
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_setBlitOffset2 endp
+PUBLIC gfx_setBlitOffset3
 gfx_setBlitOffset3 proc near                ; slot 0x1A
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -15459,23 +14779,28 @@ gfx_setBlitOffset proc near                 ; slot 0x1B
 gfx_setBlitOffset endp
     PUBLIC _gfx_setBlitOffset
 _gfx_setBlitOffset equ gfx_setBlitOffset
+PUBLIC gfx_getAuxSize
 gfx_getAuxSize proc near                    ; slot 0x1C
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_getAuxSize endp
+PUBLIC gfx_getBlitOffset
 gfx_getBlitOffset proc near                 ; slot 0x1D
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_getBlitOffset endp
+PUBLIC gfx_setClipVal1
 gfx_setClipVal1 proc near                   ; slot 0x1E
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_setClipVal1 endp
     db 0EAh, 4 dup(0)                       ; slot 0x1F
+PUBLIC gfx_drawLine
 gfx_drawLine proc near                      ; slot 0x20
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_drawLine endp
+PUBLIC gfx_setPageDirect
 gfx_setPageDirect proc near                 ; slot 0x21
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -15484,6 +14809,7 @@ _gfx_setColor proc near                     ; slot 0x22
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_setColor endp
+PUBLIC gfx_resetBlitOffset
 gfx_resetBlitOffset proc near               ; slot 0x23
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -15496,12 +14822,14 @@ gfx_nop24 proc near                         ; slot 0x25
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_nop24 endp
+PUBLIC gfx_dirtyRect
 gfx_dirtyRect proc near                     ; slot 0x26
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_dirtyRect endp
     db 0EAh, 4 dup(0)                       ; slot 0x27
     db 0EAh, 4 dup(0)                       ; slot 0x28
+PUBLIC gfx_dirtyRect2
 gfx_dirtyRect2 proc near                    ; slot 0x29
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -15523,10 +14851,12 @@ gfx_dacAnimate proc near                    ; slot 0x2D
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_dacAnimate endp
-_gfx_getDisplayPage proc near               ; slot 0x2E
+gfx_getDisplayPage proc near               ; slot 0x2E
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_getDisplayPage endp
+gfx_getDisplayPage endp
+PUBLIC gfx_getDisplayPage
+_gfx_getDisplayPage equ gfx_getDisplayPage
 gfx_unknown2e proc near                     ; slot 0x2F
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -27621,33 +26951,25 @@ word_37F5C dw 0
 word_37F5E dw 0
 word_37F60 dw 0
 word_37F62 dw 0
-joyData db 14h dup(0)
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+PUBLIC joyData
+PUBLIC word_37F6C
+PUBLIC word_37F74
+PUBLIC word_37F7C
+PUBLIC word_37F84
+PUBLIC word_37F8C
+PUBLIC word_37F8E
+joyData db 8 dup(0)
+word_37F6C dw 0
+    db 6 dup(0)
+word_37F74 dw 0
+    db 6 dup(0)
+word_37F7C dw 0
+    db 6 dup(0)
+word_37F84 dw 0
+    db 6 dup(0)
 word_37F8C dw 0
 word_37F8E dw 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
 _joyAxes db 0
 joyAxes_2 db 0
     db 0

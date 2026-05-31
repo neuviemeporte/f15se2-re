@@ -283,79 +283,79 @@ __amallocbrk: seg000 NEAR f79e-f7bc Rf79e-f7bc external
 _brkctl: seg000 NEAR f7be-f82b Rf7be-f82b external
 _unk_libc7: seg000 NEAR f82c-f881 Rf82c-f87f Rf880-f881 external
 # ================ libc end ===========================
-routine_346: seg001 FAR 0002-0064 R0002-0064 external
-routine_366: seg001 NEAR 0078-00fa R0078-00fa external
-routine_365: seg001 NEAR 0113-0136 R0113-0136 external
-routine_367: seg001 NEAR 0137-014b R0137-014b external
-routine_383: seg001 NEAR 015d-023e R015d-023e external
-routine_390: seg001 NEAR 023f-029c R023f-029c external
-routine_392: seg001 NEAR 029d-02d1 R029d-02d1 external
-routine_391: seg001 NEAR 02d2-0307 R02d2-0307 external
-routine_393: seg001 NEAR 0308-0333 R0308-0333 external
-routine_400: seg001 NEAR 0334-0382 R0334-0382 external
-routine_388: seg001 NEAR 0383-03b9 R0383-03b9 external
-routine_389: seg001 NEAR 03ba-040d R03ba-040d external
-routine_396: seg001 NEAR 040e-0483 R040e-0483 R058a-05c0 external
-routine_395: seg001 NEAR 0484-04f1 R0484-04f1 R0550-0589 external
-routine_399: seg001 NEAR 04f2-052c R04f2-052c external
-routine_398: seg001 NEAR 052d-054f R052d-054f external
-routine_386: seg001 NEAR 05dc-066b R05dc-066b external
-routine_345: seg001 FAR 066c-067d R066c-067d external
-routine_364: seg001 NEAR 067e-0883 R067e-0883 external
-routine_295: seg001 FAR 0884-0907 R0884-0907 external
-routine_347: seg001 NEAR 0908-0a08 R0908-0a08 external
-routine_348: seg001 NEAR 0a09-0a31 R0a09-0a31 external
-routine_349: seg001 NEAR 0a36-0a46 R0a36-0a46 external
-routine_297: seg001 FAR 0a47-0a59 R0a47-0a59 external
-routine_361: seg001 FAR 0a5a-0a67 R0a5a-0a67 external
-routine_303: seg001 FAR 0a76-0a7f R0a76-0a7f external
-routine_351: seg001 NEAR 0a80-0b5f R0a80-0b5f external
-routine_356: seg001 NEAR 0b60-0bbb R0b60-0bbb external
-routine_362: seg001 FAR 0bca-0be6 R0bca-0be6 external
-routine_350: seg001 NEAR 0be7-0cb3 R0be7-0cb3 R198a-1ba1 external
-routine_369: seg001 NEAR 0cb4-0dd6 R0cb4-0dd6 external
-routine_291: seg001 FAR 0dd8-0de1 R0dd8-0de1 external
-routine_344: seg001 NEAR 0df4-0f77 R0df4-0f77 external
-routine_370: seg001 NEAR 10f0-11c4 R0f78-10ef R10f0-11c4 external
-routine_379: seg001 FAR 11c6-11d7 R11c6-11d7 external
-routine_371: seg001 NEAR 11d8-1281 R11d8-1281 external
-routine_384: seg001 NEAR 1282-132c R1282-132c external
-routine_135: seg001 FAR 132e-1345 R132e-1345 external
-routine_217: seg001 NEAR 135f-147a R135f-147a external
-routine_368: seg001 NEAR 147b-1598 R147b-1598 external
-routine_381: seg001 NEAR 1599-15b7 R1599-15b7 external
-routine_242: seg001 FAR 15b8-15cc R15b8-15cc external
-routine_321: seg001 NEAR 15cd-175b R15cd-175b external
-routine_380: seg001 FAR 175c-1769 R175c-1769 external
-routine_372: seg001 NEAR 176a-17f4 R176a-17f4 external
-routine_385: seg001 NEAR 17f5-1939 R17f5-1939 external
-routine_394: seg001 NEAR 193a-1989 R193a-1989 external
-routine_382: seg001 NEAR 1ba2-1bc2 R1ba2-1bc2 external
-sub_21444: seg001 FAR 1bc4-1c34 R1bc4-1c34 assembly external
-routine_237: seg001 FAR 1ca6-1ca9 R1ca6-1ca9 external
-routine_126: seg001 FAR 1caa-1cb5 R1caa-1cb5 external
-routine_208: seg001 NEAR 1cb6-1e41 R1cb6-1e41 external
-routine_315: seg001 NEAR 1e42-1e62 R1e42-1e62 external
-routine_207: seg001 FAR 1e84-1e99 R1e84-1e99 external
-routine_205: seg001 FAR 1e9a-1e9f R1e9a-1e9f external
-routine_284: seg001 NEAR 1ea0-1ed5 R1ea0-1ed5 external
-routine_357: seg001 NEAR 1ed6-1f24 R1ed6-1f24 external
-routine_397: seg001 NEAR 1f34-201a R1f34-201a external
-routine_206: seg001 FAR 201c-2027 R201c-2027 external
-routine_313: seg001 NEAR 2028-21d7 R1f25-1f33 R2028-21d7 external
-sub_21A7A: seg002 FAR 000a-000d R000a-000d external
-sub_21A7E: seg002 FAR 000e-0011 R000e-0011 external
-routine_144: seg002 NEAR 0016-09a0 R0016-09a0 external
-sub_22411: seg002 NEAR 09a1-0bea R09a1-0bea assembly external
-routine_167: seg002 FAR 0beb-0bfa R0beb-0bfa external
-routine_248: seg002 NEAR 0bfb-0c0d R0bfb-0c0d external
-routine_166: seg002 FAR 0c0e-0c20 R0c0e-0c20 external
-routine_246: seg002 NEAR 0c21-0c4d R0c21-0c4d external
-routine_247: seg002 NEAR 0c4e-0ca9 R0c4e-0ca9 external
-restoreJoystickData: seg002 FAR 0caa-0cbd R0caa-0cbd assembly external
-copyJoystickData: seg002 FAR 0cbe-0cd5 R0cbe-0cd5 assembly external
-setInt9Handler: seg003 FAR 0006-0055 R0006-0055 assembly external
-restoreInt9Handler: seg003 FAR 0056-006f R0056-006f assembly external
+routine_346: seg001 FAR 0002-0064 R0002-0064
+routine_366: seg001 NEAR 0078-00fa R0078-00fa
+routine_365: seg001 NEAR 0113-0136 R0113-0136
+routine_367: seg001 NEAR 0137-014b R0137-014b
+routine_383: seg001 NEAR 015d-023e R015d-023e
+routine_390: seg001 NEAR 023f-029c R023f-029c
+routine_392: seg001 NEAR 029d-02d1 R029d-02d1
+routine_391: seg001 NEAR 02d2-0307 R02d2-0307
+routine_393: seg001 NEAR 0308-0333 R0308-0333
+routine_400: seg001 NEAR 0334-0382 R0334-0382
+routine_388: seg001 NEAR 0383-03b9 R0383-03b9
+routine_389: seg001 NEAR 03ba-040d R03ba-040d
+routine_396: seg001 NEAR 040e-0483 R040e-0483 R058a-05c0
+routine_395: seg001 NEAR 0484-04f1 R0484-04f1 R0550-0589
+routine_399: seg001 NEAR 04f2-052c R04f2-052c
+routine_398: seg001 NEAR 052d-054f R052d-054f
+routine_386: seg001 NEAR 05dc-066b R05dc-066b
+routine_345: seg001 FAR 066c-067d R066c-067d
+routine_364: seg001 NEAR 067e-0883 R067e-0883
+routine_295: seg001 FAR 0884-0907 R0884-0907
+routine_347: seg001 NEAR 0908-0a08 R0908-0a08
+routine_348: seg001 NEAR 0a09-0a31 R0a09-0a31
+routine_349: seg001 NEAR 0a36-0a46 R0a36-0a46
+routine_297: seg001 FAR 0a47-0a59 R0a47-0a59
+routine_361: seg001 FAR 0a5a-0a67 R0a5a-0a67
+routine_303: seg001 FAR 0a76-0a7f R0a76-0a7f
+routine_351: seg001 NEAR 0a80-0b5f R0a80-0b5f
+routine_356: seg001 NEAR 0b60-0bbb R0b60-0bbb
+routine_362: seg001 FAR 0bca-0be6 R0bca-0be6
+routine_350: seg001 NEAR 0be7-0cb3 R0be7-0cb3 R198a-1ba1
+routine_369: seg001 NEAR 0cb4-0dd6 R0cb4-0dd6
+routine_291: seg001 FAR 0dd8-0de1 R0dd8-0de1
+routine_344: seg001 NEAR 0df4-0f77 R0df4-0f77
+routine_370: seg001 NEAR 10f0-11c4 R0f78-10ef R10f0-11c4
+routine_379: seg001 FAR 11c6-11d7 R11c6-11d7
+routine_371: seg001 NEAR 11d8-1281 R11d8-1281
+routine_384: seg001 NEAR 1282-132c R1282-132c
+routine_135: seg001 FAR 132e-1345 R132e-1345
+routine_217: seg001 NEAR 135f-147a R135f-147a
+routine_368: seg001 NEAR 147b-1598 R147b-1598
+routine_381: seg001 NEAR 1599-15b7 R1599-15b7
+routine_242: seg001 FAR 15b8-15cc R15b8-15cc
+routine_321: seg001 NEAR 15cd-175b R15cd-175b
+routine_380: seg001 FAR 175c-1769 R175c-1769
+routine_372: seg001 NEAR 176a-17f4 R176a-17f4
+routine_385: seg001 NEAR 17f5-1939 R17f5-1939
+routine_394: seg001 NEAR 193a-1989 R193a-1989
+routine_382: seg001 NEAR 1ba2-1bc2 R1ba2-1bc2
+sub_21444: seg001 FAR 1bc4-1c34 R1bc4-1c34
+routine_237: seg001 FAR 1ca6-1ca9 R1ca6-1ca9
+routine_126: seg001 FAR 1caa-1cb5 R1caa-1cb5
+routine_208: seg001 NEAR 1cb6-1e41 R1cb6-1e41
+routine_315: seg001 NEAR 1e42-1e62 R1e42-1e62
+routine_207: seg001 FAR 1e84-1e99 R1e84-1e99
+routine_205: seg001 FAR 1e9a-1e9f R1e9a-1e9f
+routine_284: seg001 NEAR 1ea0-1ed5 R1ea0-1ed5
+routine_357: seg001 NEAR 1ed6-1f24 R1ed6-1f24
+routine_397: seg001 NEAR 1f34-201a R1f34-201a
+routine_206: seg001 FAR 201c-2027 R201c-2027
+routine_313: seg001 NEAR 2028-21d7 R1f25-1f33 R2028-21d7
+sub_21A7A: seg002 FAR 000a-000d R000a-000d
+sub_21A7E: seg002 FAR 000e-0011 R000e-0011
+routine_144: seg002 NEAR 0016-09a0 R0016-09a0
+sub_22411: seg002 NEAR 09a1-0bea R09a1-0bea
+routine_167: seg002 FAR 0beb-0bfa R0beb-0bfa
+routine_248: seg002 NEAR 0bfb-0c0d R0bfb-0c0d
+routine_166: seg002 FAR 0c0e-0c20 R0c0e-0c20
+routine_246: seg002 NEAR 0c21-0c4d R0c21-0c4d
+routine_247: seg002 NEAR 0c4e-0ca9 R0c4e-0ca9
+restoreJoystickData: seg002 FAR 0caa-0cbd R0caa-0cbd
+copyJoystickData: seg002 FAR 0cbe-0cd5 R0cbe-0cd5
+setInt9Handler: seg003 FAR 0006-0055 R0006-0055
+restoreInt9Handler: seg003 FAR 0056-006f R0056-006f
 # ======= data segment callable trampolines into overlay drivers
 gfx_allocPage: Data1 FAR 0ebe-0ec2 R0ebe-0ec2 ignore
 gfx_fillDirty: Data1 FAR 0ec3-0ec7 R0ec3-0ec7 ignore
@@ -424,8 +424,8 @@ var_4: seg000 VAR 3d01
 var_5: seg000 VAR 3d67
 var_6: seg000 VAR 3d69
 var_7: seg000 VAR 5c23
-var_8: seg003 VAR 0185 external
-var_9: seg003 VAR 0187 external
+var_8: seg003 VAR 0185
+var_9: seg003 VAR 0187
 var_10: Data3 VAR 002f
 var_11: Data1 VAR 0001
 var_12: Data1 VAR 0002
