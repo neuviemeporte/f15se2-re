@@ -208,6 +208,7 @@ EXTRN _write:PROC
 EXTRN _read:PROC
 EXTRN _lseek:PROC
 EXTRN _strcat:PROC
+EXTRN _byte_228D0:BYTE
 EXTRN _itoa:PROC
 EXTRN _kbhit:PROC
 EXTRN __bios_keybrd:PROC
@@ -1940,9 +1941,9 @@ LAB_1000_25a5:
     add SP,8h
     db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
     mov word ptr [_var_200],AX
-    mov word ptr [_var_201],228dh
+    mov word ptr [_var_201],seg _byte_228D0
     mov AX,0h
-    mov DX,228dh
+    mov DX,seg _byte_228D0
     cmp AX,word ptr [_var_200]
     jnz LAB_1000_2602
     cmp DX,word ptr [_var_201]
@@ -1965,7 +1966,7 @@ LAB_1000_2604:
     mov AX,word ptr [BX + offset _buf3d3]
     db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
     mov word ptr [_var_200],AX
-    mov word ptr [_var_201],228dh
+    mov word ptr [_var_201],seg _byte_228D0
 LAB_1000_261f:
     mov BX,word ptr [word_3C5A8]
     push word ptr [BX + 4h]
@@ -2001,7 +2002,7 @@ LAB_1000_264e:
     mov AX,word ptr [BX + offset _buf3d3]
     db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
     mov word ptr [_var_200],AX
-    mov word ptr [_var_201],228dh
+    mov word ptr [_var_201],seg _byte_228D0
     mov word ptr [_var_141],400h
     mov BX,word ptr [word_3C5A8]
     push word ptr [BX + 4h]
@@ -12947,18 +12948,13 @@ PUBLIC unknown_libname_2
 ; seg002 code moved to egseg2.asm
 ; seg003 code moved to egseg3.asm
 ; ==============================================================================
+; NOTE: The first 0x42 bytes of DGROUP (NULL segment) are provided by slibce.lib.
+; The seg001 raw binary code uses DGROUP-relative offsets for data access.
+; ORG values in _DATA correspond to DGROUP offsets (offset = ORG value).
+; _DATA starts at DGROUP:0x42 (after the 0x42-byte NULL segment from the library).
+; Therefore the first ORG value used must be >= 0x42.
 .DATA ;dseg segment para public 'DATA' use16
 
-unk_328B0 db 0
-    db 0
-word_328B2 dw 0
-    db 0
-    db 0
-unk_328B6 db 0
-    db 0
-aMsRunTimeLibraryCopyr db 'MS Run-Time Library - Copyright (c) 1988, Microsoft Corp'
-unk_328F0 db 11h
-    db 0
 aRegn_xxx db 'regn.xxx',0
 aLb_xxx db 'lb.xxx',0
 aPg_xxx db 'pg.xxx',0
@@ -25389,6 +25385,8 @@ _origCBreakSeg equ origCBreakSeg
 origCBreakOfs dw 0
     db 0 ;align 2
 byte_378EE db 0
+PUBLIC _byte_378EE
+_byte_378EE equ byte_378EE
 timerHandlerInstalled db 0
 word_378F0 dw 0
 word_378F2 dw 0
