@@ -244,16 +244,6 @@ int sub_1CF32(unsigned int param)
     return (int)(&byte_2D6A4[((int *)flt15_buf1)[param]] - byte_228D0);
 }
 
-// ==== seg002:0xa ====
-void far sub_21A7A() {
-    sub_21A86();
-}
-
-// ==== seg002:0xe ====
-void far sub_21A7E() {
-    sub_22411();
-}
-
 // ==== seg000:0xcf64 clamp ====
 int sub_1CF64(int arg_0, int arg_2, int arg_4) {
     if (arg_0 > arg_4) {
