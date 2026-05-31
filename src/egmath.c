@@ -22,11 +22,9 @@ void load15Flt3d3() {
     fileHandle = fopen(a15flt_xxx, aRb_4);
     TRACE(("load15Flt3d3: fopen returned %d", (int)fileHandle));
     if (fileHandle == NULL) {
-        // c90b
         printError(aOpenErrorOn_3d3_0);
         return;
     }
-    // c922
     fread(&flt15_word1, 2, 1, fileHandle);
     fread(&flt15_size, 2, 1, fileHandle);
     fread(flt15_buf1, 2, flt15_size, fileHandle);
@@ -36,16 +34,13 @@ void load15Flt3d3() {
     var_10 = byte_2D6A4;
     TRACE(("load15Flt3d3: DS=%04x var_10=%04x:%04x", var_8.ds, FP_SEG(var_10), FP_OFF(var_10)));
     while(var_A > 0) {
-        // c98b
         var_C = var_A <= 0x800 ? var_A : 0x800;
-        // c99b
         fread(flt15_buf2, 1, var_C, fileHandle);
         movedata(var_8.ds, (uint16)flt15_buf2, FP_SEG(var_10), FP_OFF(var_10), var_C);
         var_A -= 0x800;
         FP_OFF(var_10) += 0x800;
     }
     TRACE(("load15Flt3d3: loop done"));
-    // c9ca
     fclose(fileHandle);
     TRACE(("load15Flt3d3: done"));
 }

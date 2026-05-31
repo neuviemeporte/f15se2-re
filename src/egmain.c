@@ -26,25 +26,20 @@ int main(void) {
     FP_SEG(gameData) = *commPtr;
     FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
     TRACE(("egame main: commData=%04x:%04x gameData=%04x:%04x", FP_SEG(commData), FP_OFF(commData), FP_SEG(gameData), FP_OFF(gameData)));
-    // 0x43
     TRACE(("egame main: setup overlays"));
     setupOverlaySlots(commData->gfxOvlAddr);
     setupOverlaySlots(commData->miscOvlAddr);
     setupOverlaySlots(commData->sndOvlAddr);
-    // 0x6d
     hercFlag = commData->setupMono;
     gfxModeUnset = commData->gfxModeNum == 0;
-    // 0x7c
     TRACE(("egame main: install cbreak"));
     installCBreakHandler();
     if (commData->setupUseJoy == 1) {
-        // 0x93
         copyJoystickData(commData->joyData);
     }
-    else { // 0x9d
+    else {
         joyAxes[0] = joyAxes[1] = 0x80;
     }
-    // 0xa5
     TRACE(("egame main: gfxInit"));
     gfxInit();
     TRACE(("egame main: after gfxInit"));
@@ -53,13 +48,12 @@ int main(void) {
     TRACE(("egame main: calling setMonoFlag"));
     gfx_setMonoFlag(commData->setupMono);
     TRACE(("egame main: calling setFadeSteps"));
-    if (gameData->theater < 2) { // 0xc8
+    if (gameData->theater < 2) {
         gfx_setFadeSteps(0xc);
     }
-    else { // 0xd6
+    else {
         gfx_setFadeSteps(0x10);
     }
-    // 0xea
     gfxBufPtr = commData->gfxInitResult;
     sub_21A7E();
     TRACE(("egame main: drawCockpit"));
@@ -67,17 +61,14 @@ int main(void) {
     TRACE(("egame main: sub_10211"));
     sub_10211();
     if (commData->setupUseJoy == 1) {
-        // 10c
         restoreJoystickData(commData->joyData);
     }
     restoreCBreakHandler();
     if (exitCode == 0) {
         regs.h.ah = 0;
         regs.h.al = 3;
-        // 0x131
         int86(IRQ_VIDEO, &regs, &regs);
     }
-    // 13d
     TRACE(("egame main: exiting with code %d", exitCode));
     exit(exitCode);
 }
@@ -87,26 +78,21 @@ void drawCockpit() {
     TRACE(("drawCockpit: enter, theater=%d", gameData->theater));
     sub_11E0E();
     load15Flt3d3();
-    // 0x162
     TRACE(("drawCockpit: after load15Flt3d3, scenPlh0=%04x, scenarioPlh@%04x", (unsigned)scenarioPlh[0], (unsigned)&scenarioPlh[0]));
     strcpy(regnStr, scenarioPlh[gameData->theater]);
     TRACE(("drawCockpit: regnStr=%s", regnStr));
     TRACE(("drawCockpit: calling sub_121C6"));
     sub_121C6();
     TRACE(("drawCockpit: after sub_121C6"));
-    // 0x16e
     f15DgtlResult = loadF15DgtlBin();
     TRACE(("drawCockpit: f15DgtlResult=%d", f15DgtlResult));
-    // 0x179
     byte_34197 = byte_228D0[0x2f];
-    // 17c
     if ((byte_32933 = gfx_getModeFlag()) != 0) {
         setupDac();
     }
      gfx_setDac(1);
      gfx_waitRetrace();
      TRACE(("drawCockpit: opening pic"));
-     // 1a1
      if (gfx_getModecode() == 3) {
         openBlitClosePic(a256pit_pic, 1);
      }
@@ -114,7 +100,6 @@ void drawCockpit() {
         openBlitClosePic(aCockpit_pic, 1);
      }
      TRACE(("drawCockpit: pic done"));
-     // 1df
      gfx_copyRect(1, 0, 0x60, 0, 0, 0x60, 0x140, 0x68);
      gfx_copyRect(1, 0, 0x60, 2, 0, 0x60, 0x140, 0x68);
      TRACE(("drawCockpit: done"));
@@ -125,18 +110,15 @@ int sub_10211() {
     TRACE(("sub_10211: enter"));
     FP_OFF(dword_38FE2) = OFF_BDA_FLOPPYMOTOR; // floppy motor runtime in bda???
     FP_SEG(dword_38FE2) = 0;
-    // 224
     if (*dword_38FE2 > 1) {
         *dword_38FE2 = 1;
     }
     TRACE(("sub_10211: audio_jump_65"));
     audio_jump_65();
-    // 241
     TRACE(("sub_10211: audio_jump_64"));
     audio_jump_64(*(int16 FAR*)(OFF_IACA_UNK), f15DgtlResult);
     TRACE(("sub_10211: setTimerIrqHandler"));
     setTimerIrqHandler();
-    // 250
     if (commData->setupUseJoy == 0) {
         TRACE(("sub_10211: setInt9Handler"));
         setInt9Handler();
@@ -145,11 +127,9 @@ int sub_10211() {
     sub_13C3B();
 #ifndef DEBUG  /* cleanup after game loop — cannot enable in DEBUG builds until seg001 hardcoded DGROUP offsets are replaced with labels (see docs/task_seg001_labels.md) */
     moveDataFar();
-    // 266
     if (commData->setupUseJoy == 0) {
         restoreInt9Handler();
     }
-    // 276
     gfx_setDacAnimCount(1);
     sub_12278(2);
 #endif
@@ -923,32 +903,23 @@ int sub_11E0E() {
     int var_2, var_4;
     setCommWorldbufPtr();
     flagFarToNear = 1;
-    // 1e1e
     moveStuff();
     word_3C0A2[0] = byte_3C16E;
     var_2 = 1;
-    // 1e2c
     for (var_4 = 0; var_4 < 750; ++var_4) {
-        // 1e40
         if (byte_3C16E[var_4] == 0 && var_2 < 100) {
             word_3C0A2[var_2++] = &byte_3C16E[var_4+1];
         }
-    } // 1e61
+    }
     if (gameData->difficulty != 0) { //1e6c
-        // 1e8c
         dword_3B7DA = ((int32)(stru_3AA5E[word_3B148].field_0) << 5) + 2;
-        // 1eb1
         dword_3B7F8 = (0x8000 - (int32)(stru_3AA5E[word_3B148].field_2)) << 5;
     }
-    else { // 1eba
-        // 1ed1
+    else {
         dword_3B7DA = ((int32)waypoints[0].field_0 << 5) + 2;
-        // 1ef5
         dword_3B7F8 = (0x8000 - (int32)waypoints[0].field_2) << 5;
-    } // 1efc
-    // 1f15
+    }
     word_3BEC0 = (dword_3B7DA + 0x10) >> 5;
-    // 1f36
     word_3BED0 = 0x8000 - ((dword_3B7F8 + 0x10) >> 5);
 }
 
@@ -982,7 +953,6 @@ int moveDataFar() {
     setCommWorldbufPtr();
     flagFarToNear = 0;
     moveStuff();
-    // 2063
     moveNearFar(byte_3B7FC, 0x600);
 }
 
@@ -990,23 +960,18 @@ int moveDataFar() {
 int moveStuff() {
     moveNearFar(byte_3C02A, 1);
     moveNearFar(byte_3BEC4, 1);
-    // 2094
     moveNearFar(&word_3BED2, 2);
     moveNearFar(&word_38FFA, 2);
     moveNearFar(&word_3C69E, 2);
-    // 20c2
     moveNearFar(&word_3AA5C, word_3BED2 * 16);
     moveNearFar(&word_3C046, 2);
     moveNearFar(unk_3B202, word_3C046 * 0x24);
-    // 20f0
     moveNearFar(byte_3BFA4, 0x64);
     moveNearFar(byte_3BED8, 0x64);
     moveNearFar(byte_3C16E, 0x2ee);
-    // 211a
     moveNearFar(byte_3AFAC, 0x100);
     moveNearFar(&word_3C00C, 2);
     moveNearFar(&word_336FC, 2);
-    // 2144
     moveNearFar(waypoints, 0x10);
     moveNearFar(&word_3B144, 0x24);
 }
@@ -1014,12 +979,12 @@ int moveStuff() {
 // ==== seg000:0x215c ====
 int moveNearFar(void *nearPtr, int count) {
     void FAR *farPtr = nearPtr;
-    if (flagFarToNear != 0) { // 2172
+    if (flagFarToNear != 0) {
         movedata(FP_SEG(farPointer), FP_OFF(farPointer), FP_SEG(farPtr), FP_OFF(farPtr), count);
     }
-    else { // 2187
+    else {
         movedata(FP_SEG(farPtr), FP_OFF(farPtr), FP_SEG(farPointer), FP_OFF(farPointer), count);
-    } // 219e
+    }
     farPointer += count;
 }
 

@@ -6,14 +6,12 @@
 
 #include <stdio.h>
 
-// 0x3b8a
 void parseGridTerrain(void) {
     parseGrid();
     parseTerrain(regnPlhPtr);
     terrainDirtyFlag = 0;
 }
 
-// 0x3b9e
 void parseTerrain(char *filename) {
     int16 tmp, level, tileOffset, entry;
     uint16 i;
@@ -23,46 +21,37 @@ void parseTerrain(char *filename) {
     }
     else {
         fread(&terrainSignature,2,1,fileHandle);
-        // 3be6
-        if (terrainSignature != TERRAIN_MAGIC) { // 3bee
+        if (terrainSignature != TERRAIN_MAGIC) {
             showMsgWaitKey(aBadTileFileFor);
         }
-        else { // 3bfc
+        else {
             fread(terrainBuf1,2,5,fileHandle);
                 for (level = 0; level < 5; level++) {
-                    // 3c4a
-                    if (terrainBuf1[level] > 0x20) { // 3c51
+                    if (terrainBuf1[level] > 0x20) {
                     showMsgWaitKey(aTooManyTiles_);
                     return;
                 }
-                // 3c36
                 fread(&terrainTileCounts[level],2,terrainBuf1[level], fileHandle);
             }
-            // 3c58
             tileOffset = 0;
             for (level = 0; level < 5; level = level + 1) {
                 for (entry = 0; terrainBuf1[level] > entry; entry++) {
-                // 3d20
                     terrainTilePtrs[level].entries[entry] = (uint8*)terrainTileBlock + tileOffset;
-                    // 3ce7
                     for (i = 0; i < (uint16)terrainTileCounts[level].entries[entry]; i++) {
-                        // 3ced
-                        if (tileOffset > 0xdac) { // 3cf7
+                        if (tileOffset > 0xdac) {
                             showMsgWaitKey(aTooMuchTileDat);
                             return;
-                        } // 3c66
+                        }
                         fread((uint8*)terrainTileBlock + tileOffset,2,1,fileHandle);
                         fread((uint8*)terrainTileBlock + 2 + tileOffset,2,1,fileHandle);
                         fread((uint8*)terrainTileBlock + 4 + tileOffset,2,1,fileHandle);
                         fread(&tmp,2,1,fileHandle);
-                        // 3cca
                         *((uint8*)terrainTileBlock + 6 + tileOffset) = tmp;
                         tileOffset += 7;
                     }
                 }
             }
         }
-        // 3d40
         fclose(fileHandle);
     }
 }

@@ -8,29 +8,23 @@
 
 #include <dos.h>
 
-// 0x25e4
 int readInputKey() {
     int key;
-    if (commData->setupUseJoy == 1) { // 25f5
+    if (commData->setupUseJoy == 1) {
         do {
             if (misc_jump_5a_keybuf() == 0) break;
         } while (misc_jump_5d_readJoy(0) == 0);
-        // 260d
-        if (misc_jump_5a_keybuf() != 0) { // 2616
+        if (misc_jump_5a_keybuf() != 0) {
             key = KEYCODE_ENTER;
             goto checkKey;
         }
     }
-    // 261e
     key = misc_jump_5b_getkey();
-    // 2626
 checkKey:
-    if (key == KEYCODE_ALTQ || cbreakHit != 0) { // 262d
+    if (key == KEYCODE_ALTQ || cbreakHit != 0) {
         cleanup();
         if (cbreakHit != 0) restoreCbreakHandler();
-        // 2644
         exit(0);
     }
-    // 264a
     return key;
 }

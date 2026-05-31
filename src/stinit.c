@@ -38,7 +38,6 @@ void initGraphics()
 }
 
 
-// 54a
 void clearKeyBuf()
 {
     while (misc_jump_5a_keybuf() == 0) {
@@ -46,36 +45,30 @@ void clearKeyBuf()
     }
 }
 
-// 0x561
 void waitJoyKey(void)
 {
     while (joyOrKey() == 0) {}
 }
 
-// 571
 int joyOrKey() {
-    // 578
-    if (commData->setupUseJoy == 1) { // 57f
-        // 582
-        if (misc_jump_5d_readJoy(0) != 0) { // 58e
+    if (commData->setupUseJoy == 1) {
+        if (misc_jump_5d_readJoy(0) != 0) {
             return 1;
         }
     }
-    // 593
-    if (cbreakHit != 0) { // 59a
+    if (cbreakHit != 0) {
         cleanup();
         restoreCbreakHandler();
         exit(0);
-    } // 5a9
-    if (misc_jump_5a_keybuf() != 0) { // 5b2
+    }
+    if (misc_jump_5a_keybuf() != 0) {
         return 0;
-    } // 5b6
+    }
     // 5b6, alt-q hit check
-    if (misc_jump_5b_getkey() == KEYCODE_ALTQ) { // 5c0
+    if (misc_jump_5b_getkey() == KEYCODE_ALTQ) {
         cleanup();
         exit(0);
     }
-    // 5cc
     return 1;
 }
 
@@ -99,7 +92,6 @@ void waitMdaCgaStatus(int16 iter)
     /* 0x634 */
 }
 
-// 635
 void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
     gfx_setPageN(*pageNum);
     gfx_setColor(color);
@@ -109,7 +101,6 @@ void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
     lineY2 = y2;
     drawLineWrapper();
     gfx_resetBlitOffset2();
-    // 673
 }
 
 /* 0x674 */

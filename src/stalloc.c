@@ -5,7 +5,6 @@
 
 #include <dos.h>
 
-// 0x3758
 uint16 allocBuffer(int size) {
     uint16 segment;
     TRACE(("allocBuffer(): Allocating buffer of size %u", size));
