@@ -24,25 +24,36 @@ int sub_18E38(void) {
 int sub_18E50(int arg_0) {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E, var_10, var_12, var_14, var_16, var_18, var_1A;
     char var_1C;
+    TRACE(("sub_18E50: enter"));
     byte_3C5A0 = gfx_getDisplayPage();
+    TRACE(("sub_18E50: after getDisplayPage=%d"));
     // probably x,y
     var_16 = waypoints[waypointIndex].field_0 - word_3BEC0;
     var_1A = waypoints[waypointIndex].field_2 - word_3BED0;
+    TRACE(("sub_18E50: after waypoints, word_330C2=%d", word_330C2));
     // 8e83
     word_3BE92 = sub_1D008(var_16, -var_1A);
+    TRACE(("sub_18E50: after sub_1D008"));
     if (word_330C2 != 0) { // 8e96
+        TRACE(("sub_18E50: word_330C2 branch, word_38FEA=%d", word_38FEA));
         if (word_38FEA != 0) { // 8e9d
             word_38FEA = 0;
             if (!(keyValue & 0x80)) { // 8eaa
+                TRACE(("sub_18E50: calling sub_19E44(0xd)"));
                 sub_19E44(0xd);
+                TRACE(("sub_18E50: calling sub_19E5D"));
                 sub_19E5D(0, 0, 0x13f, 0x60);
                 gfx_setDacAnimCount(0x3c);
             }
         } // 8ed2
+        TRACE(("sub_18E50: past 8ed2, keyValue=%d byte_37C24=%d", keyValue, byte_37C24));
         byte_37C2F = 1;
         if (keyValue == 0 && byte_37C24 == 0) { // 8eeb
+            TRACE(("sub_18E50: entering keyValue==0 branch, setupUseJoy=%d", commData->setupUseJoy));
             if (!commData->setupUseJoy) { // 8ef9
+                TRACE(("sub_18E50: calling sub_19E44(0)"));
                 sub_19E44(0);
+                TRACE(("sub_18E50: calling sub_19C0C"));
                 sub_19C0C(0x115, 0x53, 0x125, 0x53);
                 sub_19C0C(0x125, 0x53, 0x125, 0x5f);
                 // 8f3e

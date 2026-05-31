@@ -2317,8 +2317,19 @@ getInterruptHandler endp
 ; ------------------------------seg000:0x3c2b------------------------------
 ; ------------------------------seg000:0x3c2c------------------------------
 cbreakHandler proc far
-    retn
+    retf
 cbreakHandler endp
+IFDEF DEBUG
+    PUBLIC _getRowOffsetHelper
+_getRowOffsetHelper proc near
+    push bp
+    mov bp, sp
+    mov di, [bp+4]
+    call far ptr gfx_getRowOffset
+    pop bp
+    retn
+_getRowOffsetHelper endp
+ENDIF
 ; ------------------------------seg000:0x3c3a------------------------------
 ; ------------------------------seg000:0x3c3b------------------------------
 _sub_13C3B proc near
@@ -2335,18 +2346,45 @@ _sub_13C3B proc near
 _sub_13C3B endp
 ; ------------------------------seg000:0x3c46------------------------------
 ; ------------------------------seg000:0x3c47------------------------------
+IFDEF DEBUG
+EXTRN _trace_gameloop:NEAR
+ENDIF
 sub_13C47 proc near
     call _sub_155AB
     call _sub_18E50
     cmp _keyValue, 0
     jnz short loc_13C59
+IFDEF DEBUG
+    mov ax, 1
+    push ax
+    call _trace_gameloop
+    add sp, 2
+ENDIF
     call far ptr _sub_21A7A ;call _sub_21A7A
 loc_13C59:
+IFDEF DEBUG
+    mov ax, 2
+    push ax
+    call _trace_gameloop
+    add sp, 2
+ENDIF
     mov bx, 0
     mov ax, _word_38126
     call far ptr gfx_dacAnimate
+IFDEF DEBUG
+    mov ax, 3
+    push ax
+    call _trace_gameloop
+    add sp, 2
+ENDIF
     mov byte_378EE, 1
     call _otherKeyDispatch
+IFDEF DEBUG
+    mov ax, 4
+    push ax
+    call _trace_gameloop
+    add sp, 2
+ENDIF
     call sub_10720
     cmp byte_3C8B0, 0
     jz short sub_13C47
@@ -2396,8 +2434,65 @@ loc_13CC2:
     retn
 _restoreTimerIrqHandler endp
 ; ------------------------------seg000:0x3cd6------------------------------
-timerIrqAddr dd byte_13D05
-byte_13D05 db 0FBh, 50h, 53h, 51h, 52h, 56h, 57h, 55h, 1Eh, 6, 0B8h
+timerIrqAddr dd timerIsr
+
+timerIsr proc far
+    sti
+    push AX
+    push BX
+    push CX
+    push DX
+    push SI
+    push DI
+    push BP
+    push DS
+    push ES
+    mov AX, @data
+    mov DS, AX
+    mov AX, word_378F6
+    add word_378F0, AX
+    adc word_378F2, 0
+    dec word_37904
+    jnz short @@tisr_skip
+    mov AX, word_378FA
+    mov word_37904, AX
+    call sub_13D6B
+    mov byte_378EE, 0
+    call sub_13EE3
+@@tisr_skip:
+    cmp word_378FA, 1
+    jz short @@tisr_nochain
+    call far ptr timerIsrPtr
+@@tisr_nochain:
+    cmp word_378F2, 0
+    jnz short @@tisr_chain
+    mov AL, 20h
+    out 20h, AL
+    pop ES
+    pop DS
+    pop BP
+    pop DI
+    pop SI
+    pop DX
+    pop CX
+    pop BX
+    pop AX
+    iret
+@@tisr_chain:
+    dec word_378F2
+    pop ES
+    pop DS
+    pop BP
+    pop DI
+    pop SI
+    pop DX
+    pop CX
+    pop BX
+    pop AX
+    cli
+    jmp dword ptr timerIsrPtr
+timerIsr endp
+
 timerIsrPtr dd 0
 ; ------------------------------seg000:0x3d6b------------------------------
 sub_13D6B proc near
@@ -2583,6 +2678,8 @@ getTimeOfDay endp
 ; ------------------------------seg000:0x3ee2------------------------------
 ; ------------------------------seg000:0x3ee3------------------------------
 sub_13EE3 proc near
+    inc word ptr [_byte_3790C-2]  ; word_3790A
+    inc byte ptr [_byte_3790C]    ; frame tick counter
     retn
 sub_13EE3 endp
 ; ------------------------------seg000:0x3f01------------------------------
@@ -12375,7 +12472,7 @@ _picBlit proc near
     push es
     push bp
     mov ax, offset read512FromFileIntoBuf
-    mov readFromFilePtr, ax
+    mov word ptr [_var_610], ax
     mov ax, [bp+arg_0]
     mov tmpFileHandle, ax
     mov ax, [bp+arg_2]
@@ -12753,7 +12850,7 @@ PUBLIC unknown_libname_2
 ; ------------------------------seg000:0xf881------------------------------
 ; ------------------------------seg001:0x2------------------------------
 sub_1F882 proc far
-    retn
+    retf
 sub_1F882 endp
 ; ------------------------------seg001:0x64------------------------------
 ; ------------------------------seg001:0x78------------------------------
@@ -12838,7 +12935,7 @@ sub_1FE5C endp
 ; ------------------------------seg001:0x669------------------------------
 ; ------------------------------seg001:0x66c------------------------------
 sub_1FEEC proc far
-    retn
+    retf
 sub_1FEEC endp
 ; ------------------------------seg001:0x67d------------------------------
 ; ------------------------------seg001:0x67e------------------------------
@@ -12849,7 +12946,7 @@ sub_1FEFE endp
 ; ------------------------------seg001:0x884------------------------------
 sub_20104 proc far
 _sub_20104 equ sub_20104
-    retn
+    retf
 sub_20104 endp
 PUBLIC _sub_20104
 _sub_20104 equ sub_20104
@@ -12871,18 +12968,18 @@ sub_202B6 endp
 ; ------------------------------seg001:0xa46------------------------------
 ; ------------------------------seg001:0xa47------------------------------
 sub_202C7 proc far
-    retn
+    retf
 sub_202C7 endp
 ; ------------------------------seg001:0xa59------------------------------
 ; ------------------------------seg001:0xa5a------------------------------
 sub_202DA proc far
-    retn
+    retf
 sub_202DA endp
 _sub_202DA equ sub_202DA
 ; ------------------------------seg001:0xa67------------------------------
 ; ------------------------------seg001:0xa76------------------------------
 sub_202F6 proc far
-    retn
+    retf
 sub_202F6 endp
 ; ------------------------------seg001:0xa7f------------------------------
 ; ------------------------------seg001:0xa80------------------------------
@@ -12897,7 +12994,7 @@ sub_203E0 endp
 ; ------------------------------seg001:0xbbb------------------------------
 ; ------------------------------seg001:0xbca------------------------------
 sub_2044A proc far
-    retn
+    retf
 sub_2044A endp
 _sub_2044A equ sub_2044A
 ; ------------------------------seg001:0xbe6------------------------------
@@ -12914,7 +13011,7 @@ sub_20534 endp
 ; ------------------------------seg001:0xdd8------------------------------
 sub_20658 proc far
 _sub_20658 equ sub_20658
-    retn
+    retf
 sub_20658 endp
 ; ------------------------------seg001:0xde1------------------------------
 ; ------------------------------seg001:0xdf4------------------------------
@@ -12929,7 +13026,7 @@ sub_20970 endp
 ; ------------------------------seg001:0x11c2------------------------------
 ; ------------------------------seg001:0x11c6------------------------------
 sub_20A46 proc far
-    retn
+    retf
 sub_20A46 endp
 _sub_20A46 equ sub_20A46
 ; ------------------------------seg001:0x11d7------------------------------
@@ -12945,7 +13042,7 @@ sub_20B02 endp
 ; ------------------------------seg001:0x132c------------------------------
 ; ------------------------------seg001:0x132e------------------------------
 _sub_20BAE proc far
-    retn
+    retf
 _sub_20BAE endp
 ; ------------------------------seg001:0x1345------------------------------
 ; ------------------------------seg001:0x135f------------------------------
@@ -12965,7 +13062,7 @@ sub_20E19 endp
 ; ------------------------------seg001:0x15b7------------------------------
 ; ------------------------------seg001:0x15b8------------------------------
 _sub_20E38 proc far
-    retn
+    retf
 _sub_20E38 endp
 sub_20E38 equ _sub_20E38
 ; ------------------------------seg001:0x15cc------------------------------
@@ -12976,7 +13073,7 @@ sub_20E4D endp
 ; ------------------------------seg001:0x175b------------------------------
 ; ------------------------------seg001:0x175c------------------------------
 sub_20FDC proc far
-    retn
+    retf
 sub_20FDC endp
 _sub_20FDC equ sub_20FDC
 ; ------------------------------seg001:0x1769------------------------------
@@ -13007,17 +13104,17 @@ sub_21422 endp
 ; ------------------------------seg001:0x1bc2------------------------------
 ; ------------------------------seg001:0x1bc4------------------------------
 _sub_21444 proc far
-    retn
+    retf
 _sub_21444 endp
 ; ------------------------------seg001:0x1c34------------------------------
 ; ------------------------------seg001:0x1ca6------------------------------
 sub_21526 proc far
-    retn
+    retf
 sub_21526 endp
 ; ------------------------------seg001:0x1ca9------------------------------
 ; ------------------------------seg001:0x1caa------------------------------
 _sub_2152A proc far
-    retn
+    retf
 _sub_2152A endp
 ; ------------------------------seg001:0x1cb5------------------------------
 ; ------------------------------seg001:0x1cb6------------------------------
@@ -13032,13 +13129,13 @@ sub_216C2 endp
 ; ------------------------------seg001:0x1e62------------------------------
 ; ------------------------------seg001:0x1e84------------------------------
 sub_21704 proc far
-    retn
+    retf
 sub_21704 endp
 _sub_21704 equ sub_21704
 ; ------------------------------seg001:0x1e99------------------------------
 ; ------------------------------seg001:0x1e9a------------------------------
 sub_2171A proc far
-    retn
+    retf
 sub_2171A endp
 _sub_2171A equ sub_2171A
 ; ------------------------------seg001:0x1e9f------------------------------
@@ -13059,7 +13156,7 @@ sub_217B4 endp
 ; ------------------------------seg001:0x201a------------------------------
 ; ------------------------------seg001:0x201c------------------------------
 sub_2189C proc far
-    retn
+    retf
 sub_2189C endp
 _sub_2189C equ sub_2189C
 ; ------------------------------seg001:0x2027------------------------------
@@ -13070,7 +13167,7 @@ sub_218A8 endp
 ; ------------------------------seg001:0x21d5------------------------------
 ; ------------------------------seg002:0x12------------------------------
 sub_21A82 proc far
-    retn
+    retf
 sub_21A82 endp
 ; ------------------------------seg002:0x15------------------------------
 ; ------------------------------seg002:0x16------------------------------
@@ -13291,7 +13388,7 @@ _sub_22411 endp
 ; ------------------------------seg002:0xbea------------------------------
 ; ------------------------------seg002:0xbeb------------------------------
 sub_2265B proc far
-    retn
+    retf
 sub_2265B endp
 ; ------------------------------seg002:0xbfa------------------------------
 ; ------------------------------seg002:0xbfb------------------------------
@@ -13301,7 +13398,7 @@ sub_2266B endp
 ; ------------------------------seg002:0xc0d------------------------------
 ; ------------------------------seg002:0xc0e------------------------------
 sub_2267E proc far
-    retn
+    retf
 sub_2267E endp
 ; ------------------------------seg002:0xc20------------------------------
 ; ------------------------------seg002:0xc21------------------------------
@@ -15278,593 +15375,338 @@ _aF15StrikeEagle equ aF15StrikeEagle
 aAt db ' at ',0
 _aAt equ aAt
     db 0
-_gfx_allocPage proc near
+_gfx_allocPage proc near                    ; slot 0x00
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_allocPage endp
-; ------------------------------dseg:0xebe------------------------------
-; ------------------------------dseg:0xec3------------------------------
-gfx_fillDirty proc near
+gfx_fillDirty proc near                     ; slot 0x01
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_fillDirty endp
-; ------------------------------dseg:0xec3------------------------------
-; ------------------------------dseg:0xec8------------------------------
-gfx_blitTransparent proc near
+gfx_blitTransparent proc near               ; slot 0x03
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_blitTransparent endp
-; ------------------------------dseg:0xec8------------------------------
-; ------------------------------dseg:0xecd------------------------------
-gfx_blitVariant proc near
+gfx_blitVariant proc near                   ; slot 0x04
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_blitVariant endp
-; ------------------------------dseg:0xecd------------------------------
-; ------------------------------dseg:0xed2------------------------------
-gfx_copyBlock proc near
+gfx_copyBlock proc near                     ; slot 0x05
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_copyBlock endp
-; ------------------------------dseg:0xed2------------------------------
-; ------------------------------dseg:0xed7------------------------------
-_gfx_drawString proc near
+_gfx_drawString proc near                   ; slot 0x06
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_drawString endp
-; ------------------------------dseg:0xed7------------------------------
-; ------------------------------dseg:0xedc------------------------------
-gfx_drawStringUnclipped proc near
+gfx_drawStringUnclipped proc near           ; slot 0x07
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_drawStringUnclipped endp
-; ------------------------------dseg:0xedc------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0xef5------------------------------
-gfx_complexRender proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x08
+    db 0EAh, 4 dup(0)                       ; slot 0x09
+    db 0EAh, 4 dup(0)                       ; slot 0x0A
+    db 0EAh, 4 dup(0)                       ; slot 0x0B
+gfx_complexRender proc near                 ; slot 0x0C
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_complexRender endp
-; ------------------------------dseg:0xef5------------------------------
-; ------------------------------dseg:0xefa------------------------------
-_gfx_initOverlay proc near
+_gfx_initOverlay proc near                  ; slot 0x0D
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_initOverlay endp
-; ------------------------------dseg:0xefa------------------------------
-; ------------------------------dseg:0xeff------------------------------
-gfx_setPage1 proc near
+gfx_setPage1 proc near                      ; slot 0x0E
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_setPage1 endp
-; ------------------------------dseg:0xeff------------------------------
-; ------------------------------dseg:0xf04------------------------------
-gfx_setPageN proc near
+gfx_setPageN proc near                      ; slot 0x0F
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_setPageN endp
     PUBLIC _gfx_setPageN
+    PUBLIC _gfx_getCurPageSeg
 _gfx_setPageN equ gfx_setPageN
-; ------------------------------dseg:0xf04------------------------------
-; ------------------------------dseg:0xf09------------------------------
-gfx_getCurPageSeg proc near
+_gfx_getCurPageSeg equ gfx_getCurPageSeg
+gfx_getCurPageSeg proc near                 ; slot 0x10
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_getCurPageSeg endp
-; ------------------------------dseg:0xf09------------------------------
-; ------------------------------dseg:0xf0e------------------------------
-gfx_getCurPageSeg2 proc near
+gfx_getCurPageSeg2 proc near                ; slot 0x11
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_getCurPageSeg2 endp
-; ------------------------------dseg:0xf0e------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0xf18------------------------------
-gfx_blitCore proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x12
+gfx_blitCore proc near                      ; slot 0x13
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_blitCore endp
-; ------------------------------dseg:0xf18------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0xf36------------------------------
-gfx_setBlitOffset2 proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x14
+    db 0EAh, 4 dup(0)                       ; slot 0x15
+    db 0EAh, 4 dup(0)                       ; slot 0x16
+    db 0EAh, 4 dup(0)                       ; slot 0x17
+    db 0EAh, 4 dup(0)                       ; slot 0x18
+gfx_setBlitOffset2 proc near                ; slot 0x19
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_setBlitOffset2 endp
-; ------------------------------dseg:0xf36------------------------------
-; ------------------------------dseg:0xf3b------------------------------
-gfx_setBlitOffset3 proc near
+gfx_setBlitOffset3 proc near                ; slot 0x1A
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_setBlitOffset3 endp
-; ------------------------------dseg:0xf3b------------------------------
-; ------------------------------dseg:0xf40------------------------------
-gfx_setBlitOffset proc near
+gfx_setBlitOffset proc near                 ; slot 0x1B
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_setBlitOffset endp
     PUBLIC _gfx_setBlitOffset
 _gfx_setBlitOffset equ gfx_setBlitOffset
-; ------------------------------dseg:0xf40------------------------------
-; ------------------------------dseg:0xf45------------------------------
-gfx_getAuxSize proc near
+gfx_getAuxSize proc near                    ; slot 0x1C
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_getAuxSize endp
-; ------------------------------dseg:0xf45------------------------------
-; ------------------------------dseg:0xf4a------------------------------
-gfx_getBlitOffset proc near
+gfx_getBlitOffset proc near                 ; slot 0x1D
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_getBlitOffset endp
-; ------------------------------dseg:0xf4a------------------------------
-; ------------------------------dseg:0xf4f------------------------------
-gfx_setClipVal1 proc near
+gfx_setClipVal1 proc near                   ; slot 0x1E
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_setClipVal1 endp
-; ------------------------------dseg:0xf4f------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0xf59------------------------------
-gfx_drawLine proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x1F
+gfx_drawLine proc near                      ; slot 0x20
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_drawLine endp
-; ------------------------------dseg:0xf59------------------------------
-; ------------------------------dseg:0xf5e------------------------------
-gfx_setPageDirect proc near
+gfx_setPageDirect proc near                 ; slot 0x21
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_setPageDirect endp
-; ------------------------------dseg:0xf5e------------------------------
-; ------------------------------dseg:0xf63------------------------------
-_gfx_setColor proc near
+_gfx_setColor proc near                     ; slot 0x22
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_setColor endp
-; ------------------------------dseg:0xf63------------------------------
-; ------------------------------dseg:0xf68------------------------------
-gfx_resetBlitOffset proc near
+gfx_resetBlitOffset proc near               ; slot 0x23
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_resetBlitOffset endp
-; ------------------------------dseg:0xf68------------------------------
-; ------------------------------dseg:0xf6d------------------------------
-_gfx_resetBlitOffset2 proc near
+_gfx_resetBlitOffset2 proc near             ; slot 0x24
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_resetBlitOffset2 endp
-; ------------------------------dseg:0xf6d------------------------------
-; ------------------------------dseg:0xf72------------------------------
-gfx_nop24 proc near
+gfx_nop24 proc near                         ; slot 0x25
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_nop24 endp
-; ------------------------------dseg:0xf72------------------------------
-; ------------------------------dseg:0xf77------------------------------
-gfx_dirtyRect proc near
+gfx_dirtyRect proc near                     ; slot 0x26
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_dirtyRect endp
-; ------------------------------dseg:0xf77------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0xf86------------------------------
-gfx_dirtyRect2 proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x27
+    db 0EAh, 4 dup(0)                       ; slot 0x28
+gfx_dirtyRect2 proc near                    ; slot 0x29
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_dirtyRect2 endp
-; ------------------------------dseg:0xf86------------------------------
-; ------------------------------dseg:0xf8b------------------------------
 PUBLIC _gfx_switchColor
-_gfx_switchColor proc near
+_gfx_switchColor proc near                  ; slot 0x2A
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_switchColor endp
-; ------------------------------dseg:0xf8b------------------------------
-; ------------------------------dseg:0xf90------------------------------
-_gfx_copyRect proc near
+_gfx_copyRect proc near                     ; slot 0x2B
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_copyRect endp
-; ------------------------------dseg:0xf90------------------------------
-; ------------------------------dseg:0xf95------------------------------
-gfx_unknown2b proc near
+gfx_unknown2b proc near                     ; slot 0x2C
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_unknown2b endp
-; ------------------------------dseg:0xf95------------------------------
-; ------------------------------dseg:0xf9a------------------------------
-gfx_dacAnimate proc near
+gfx_dacAnimate proc near                    ; slot 0x2D
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_dacAnimate endp
-; ------------------------------dseg:0xf9a------------------------------
-; ------------------------------dseg:0xf9f------------------------------
-_gfx_getDisplayPage proc near
+_gfx_getDisplayPage proc near               ; slot 0x2E
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_getDisplayPage endp
-; ------------------------------dseg:0xf9f------------------------------
-; ------------------------------dseg:0xfa4------------------------------
-gfx_unknown2e proc near
+gfx_unknown2e proc near                     ; slot 0x2F
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_unknown2e endp
-; ------------------------------dseg:0xfa4------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0xfb8------------------------------
-gfx_fontSetup proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x30
+    db 0EAh, 4 dup(0)                       ; slot 0x31
+    db 0EAh, 4 dup(0)                       ; slot 0x32
+gfx_fontSetup proc near                     ; slot 0x33
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_fontSetup endp
-; ------------------------------dseg:0xfb8------------------------------
-; ------------------------------dseg:0xfbd------------------------------
-gfx_fillRow proc near
+gfx_fillRow proc near                       ; slot 0x34
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_fillRow endp
-; ------------------------------dseg:0xfbd------------------------------
-; ------------------------------dseg:0xfc2------------------------------
-gfx_fillRow2 proc near
+gfx_fillRow2 proc near                      ; slot 0x35
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_fillRow2 endp
-; ------------------------------dseg:0xfc2------------------------------
-; ------------------------------dseg:0xfc7------------------------------
-gfx_copyRow proc near
+gfx_copyRow proc near                       ; slot 0x36
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_copyRow endp
-; ------------------------------dseg:0xfc7------------------------------
-; ------------------------------dseg:0xfcc------------------------------
-gfx_nop36 proc near
+gfx_nop36 proc near                         ; slot 0x37
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_nop36 endp
-; ------------------------------dseg:0xfcc------------------------------
-; ------------------------------dseg:0xfd1------------------------------
-gfx_nop37 proc near
+gfx_nop37 proc near                         ; slot 0x38
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_nop37 endp
-; ------------------------------dseg:0xfd1------------------------------
-; ------------------------------dseg:0xfd6------------------------------
-gfx_getPageSeg proc near
+gfx_getPageSeg proc near                    ; slot 0x39
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_getPageSeg endp
-; ------------------------------dseg:0xfd6------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0xfe0------------------------------
-gfx_getRowOffset proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x3A
+gfx_getRowOffset proc near                  ; slot 0x3B
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_getRowOffset endp
-; ------------------------------dseg:0xfe0------------------------------
-; ------------------------------dseg:0xfe5------------------------------
-gfx_clearPage proc near
+gfx_clearPage proc near                     ; slot 0x3C
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_clearPage endp
-; ------------------------------dseg:0xfe5------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0xfef------------------------------
-_gfx_setFadeSteps proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x3D
+_gfx_setFadeSteps proc near                 ; slot 0x3E
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_setFadeSteps endp
-; ------------------------------dseg:0xfef------------------------------
-; ------------------------------dseg:0xff4------------------------------
-gfx_calcRowAddr proc near
+gfx_calcRowAddr proc near                   ; slot 0x3F
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_calcRowAddr endp
     PUBLIC _gfx_calcRowAddr
 _gfx_calcRowAddr equ gfx_calcRowAddr
-; ------------------------------dseg:0xff4------------------------------
-; ------------------------------dseg:0xff9------------------------------
-_gfx_getModecode proc near
+_gfx_getModecode proc near                  ; slot 0x40
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_getModecode endp
-; ------------------------------dseg:0xff9------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0x1003------------------------------
-gfx_setOvlVal1 proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x41
+gfx_setOvlVal1 proc near                    ; slot 0x42
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_setOvlVal1 endp
-; ------------------------------dseg:0x1003------------------------------
-gfx_setOvlVal2 proc near
-    PUBLIC _gfx_setOvlVal2
-    _gfx_setOvlVal2 equ gfx_setOvlVal2
+gfx_setOvlVal2 proc near                    ; slot 0x43
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_setOvlVal2 endp
-; ------------------------------dseg:0x1003------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0x1012------------------------------
-_gfx_setDac proc near
+    PUBLIC _gfx_setOvlVal2
+_gfx_setOvlVal2 equ gfx_setOvlVal2
+    db 0EAh, 4 dup(0)                       ; slot 0x44
+_gfx_setDac proc near                       ; slot 0x45
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_setDac endp
-; ------------------------------dseg:0x1012------------------------------
-; ------------------------------dseg:0x1017------------------------------
-_gfx_waitRetrace proc near
+_gfx_waitRetrace proc near                  ; slot 0x46
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_waitRetrace endp
-; ------------------------------dseg:0x1017------------------------------
-; ------------------------------dseg:0x101c------------------------------
-_gfx_flipPage proc near
+_gfx_flipPage proc near                     ; slot 0x47
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_flipPage endp
-; ------------------------------dseg:0x101c------------------------------
-; ------------------------------dseg:0x1021------------------------------
-gfx_blitSpriteClipped proc near
+gfx_blitSpriteClipped proc near             ; slot 0x48
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_blitSpriteClipped endp
     PUBLIC _gfx_blitSpriteClipped
 _gfx_blitSpriteClipped equ gfx_blitSpriteClipped
-; ------------------------------dseg:0x1021------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0x102b------------------------------
-gfx_blitSpriteOpaque proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x49
+gfx_blitSpriteOpaque proc near              ; slot 0x4A
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_blitSpriteOpaque endp
     PUBLIC _gfx_blitSpriteOpaque
 _gfx_blitSpriteOpaque equ gfx_blitSpriteOpaque
-; ------------------------------dseg:0x102b------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0x1035------------------------------
-_gfx_storeBufPtr proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x4B
+_gfx_storeBufPtr proc near                  ; slot 0x4C
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_storeBufPtr endp
-; ------------------------------dseg:0x1035------------------------------
-; ------------------------------dseg:0x103a------------------------------
-_gfx_getModeFlag proc near
+_gfx_getModeFlag proc near                  ; slot 0x4D
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_getModeFlag endp
-; ------------------------------dseg:0x103a------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0x1049------------------------------
-_gfx_setDacAnimCount proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x4E
+    db 0EAh, 4 dup(0)                       ; slot 0x4F
+_gfx_setDacAnimCount proc near              ; slot 0x50
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_setDacAnimCount endp
-; ------------------------------dseg:0x1049------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0x1058------------------------------
-_gfx_setMonoFlag proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x51
+    db 0EAh, 4 dup(0)                       ; slot 0x52
+_gfx_setMonoFlag proc near                  ; slot 0x53
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_setMonoFlag endp
-; ------------------------------dseg:0x1058------------------------------
-    db 0EAh, 4 dup(0)
-    db 5 dup(0)
-    db 5 dup(0)
-    db 5 dup(0)
-    db 5 dup(0)
-    db 5 dup(0)
-    db 5 dup(0)
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0x1085------------------------------
-_misc_jump_5b_getkey proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x54
+    db 0EAh, 4 dup(0)                       ; slot 0x55
+    db 0EAh, 4 dup(0)                       ; slot 0x56
+    db 0EAh, 4 dup(0)                       ; slot 0x57
+    db 0EAh, 4 dup(0)                       ; slot 0x58
+    db 0EAh, 4 dup(0)                       ; slot 0x59
+    db 0EAh, 4 dup(0)                       ; slot 0x5A
+    db 0EAh, 4 dup(0)                       ; slot 0x5B
+_misc_jump_5b_getkey proc near              ; slot 0x5C
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _misc_jump_5b_getkey endp
-; ------------------------------dseg:0x1085------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0x108f------------------------------
+    db 0EAh, 4 dup(0)                       ; slot 0x5D
 PUBLIC _misc_jump_5d_readJoy
-misc_jump_5d_readJoy proc near
+misc_jump_5d_readJoy proc near              ; slot 0x5E
     db 0EAh ;jmp far ptr 0:0
     dd 0
 misc_jump_5d_readJoy endp
 _misc_jump_5d_readJoy equ misc_jump_5d_readJoy
-; ------------------------------dseg:0x108f------------------------------
-    db 0EAh, 4 dup(0)
-    db 0EAh, 4 dup(0)
-    db 5 dup(0)
-    db 5 dup(0)
-    db 5 dup(0)
-    db 5 dup(0)
-; ------------------------------dseg:0x10b2------------------------------
-_audio_jump_64 proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x5F
+    db 0EAh, 4 dup(0)                       ; slot 0x60
+    db 0EAh, 4 dup(0)                       ; slot 0x61
+    db 0EAh, 4 dup(0)                       ; slot 0x62
+    db 0EAh, 4 dup(0)                       ; slot 0x63
+    db 0EAh, 4 dup(0)                       ; slot 0x64
+_audio_jump_64 proc near                    ; slot 0x65
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _audio_jump_64 endp
-; ------------------------------dseg:0x10b2------------------------------
-; ------------------------------dseg:0x10b7------------------------------
-_audio_jump_65 proc near
+_audio_jump_65 proc near                    ; slot 0x66
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _audio_jump_65 endp
-; ------------------------------dseg:0x10b7------------------------------
-; ------------------------------dseg:0x10bc------------------------------
-_audio_jump_66 proc near
+_audio_jump_66 proc near                    ; slot 0x67
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _audio_jump_66 endp
 audio_jump_66 equ _audio_jump_66
-; ------------------------------dseg:0x10bc------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0x10c6------------------------------
-_audio_jump_68 proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x68
+_audio_jump_68 proc near                    ; slot 0x69
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _audio_jump_68 endp
 audio_jump_68 equ _audio_jump_68
-; ------------------------------dseg:0x10c6------------------------------
-; ------------------------------dseg:0x10cb------------------------------
-_audio_jump_69 proc near
+_audio_jump_69 proc near                    ; slot 0x6A
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _audio_jump_69 endp
 audio_jump_69 equ _audio_jump_69
-; ------------------------------dseg:0x10cb------------------------------
-; ------------------------------dseg:0x10d0------------------------------
-audio_jump_6a proc near
+audio_jump_6a proc near                     ; slot 0x6B
     db 0EAh ;jmp far ptr 0:0
     dd 0
 audio_jump_6a endp
-; ------------------------------dseg:0x10d0------------------------------
-; ------------------------------dseg:0x10d5------------------------------
-audio_jump_6b proc near
+audio_jump_6b proc near                     ; slot 0x6C
     db 0EAh ;jmp far ptr 0:0
     dd 0
 audio_jump_6b endp
-; ------------------------------dseg:0x10d5------------------------------
-    db 0EAh
-    db 0
-    db 0
-    db 0
-    db 0
-; ------------------------------dseg:0x10df------------------------------
-_audio_jump_6d proc near
+    db 0EAh, 4 dup(0)                       ; slot 0x6D
+_audio_jump_6d proc near                    ; slot 0x6E
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _audio_jump_6d endp
 audio_jump_6d equ _audio_jump_6d
-; ------------------------------dseg:0x10df------------------------------
     db 0
     db 0
     db 0
@@ -17235,7 +17077,8 @@ word_341BC dw 2710h
     db 7
     db 0ECh
     db 0Eh
-dword_3423C dd 0
+dword_3423C dw 0
+word_3423E dw 0
 word_34240 dw 0
 word_34242 dw 0
 word_34244 dw 0
@@ -28698,7 +28541,7 @@ aWaypointFriend db 'Waypoint: Friendly Airbase',0
 aAutopilotOff db 'Autopilot off',0
 aAutopilotOn db 'Autopilot on',0
     db 0 ;align 2
-word_38600 dw 1
+word_38600 dw 0
 word_38602 dw 2
 word_38604 dw 0
 word_38606 dw 0
@@ -28741,6 +28584,17 @@ rowOffset dw 0
     db 0
 word_389E0 dw 0
 readFromFilePtr dw 0
+; --- LZW decoder state (EQU targets for _var_687 through _var_700) ---
+lzw_readBufEndPtr dw 0     ; _var_687
+lzw_workDataPtr dw 0       ; _var_688
+lzw_rowLength dw 0         ; _var_689
+lzw_processFlag dw 0       ; _var_690
+lzw_bitWidth dw 0          ; _var_692
+lzw_maxCode dw 0           ; _var_694
+lzw_bitsLeft dw 0          ; _var_697
+lzw_slotCounter dw 0       ; _var_699
+lzw_dictIndex dw 0         ; _var_700
+; --- end LZW state ---
 word_389E4 dw 0
 word_389E6 dw 0
 off_389E8 dw 0 ;off_389E8 dw offset __exit
@@ -29216,7 +29070,7 @@ byte_38BF0 db 18h
     db 0F6h
     dw 0 ;seg_38BF2 dw seg seg004
     dw 0 ;seg_38BF4 dw seg seg004
-    dw 0 ;seg_38BF6 dw seg seg004
+seg_38BF6 dw 0 ;seg_38BF6 dw seg seg004
 aNmsg db '<<NMSG>>',0
     db 0 ;align 2
 aR6000StackOver db 'R6000',0Dh,0Ah
@@ -29808,352 +29662,365 @@ byte_38D6E db 0
     db 0
     db 0
     db 0
+; --- Variables created for ORG-based _var_* labels whose targets didn't exist ---
+word_32A28 dw 0
+word_32A2E dw 0
+word_32A30 dw 0
+word_332CE dw 0
+word_33BB8 dw 0
+word_383EC dw 0
+word_38896 dw 0
+word_389DC dw 0
+byte_38A4B db 0
+    db 0 ;align
+word_38A78 dw 0
+word_38A7A dw 0
 ; ==============================================================================
 ; --- Symbolic labels for code references ---
 ORG 00178h
-_var_47 label byte
+_var_47 EQU word_32A28
 ORG 0017Eh
-_var_48 label byte
+_var_48 EQU word_32A2E
 ORG 00180h
-_var_49 label byte
+_var_49 EQU word_32A30
 ORG 00A1Eh
-_var_83 label byte
+_var_83 EQU word_332CE
 ORG 01100h
-_var_134 label byte
+_var_134 EQU word_339B0
 ORG 01102h
-_var_135 label byte
+_var_135 EQU byte_339B2
 ORG 012FCh
-_var_141 label byte
+_var_141 EQU word_33BAC
 ORG 01308h
-_var_143 label byte
+_var_143 EQU word_33BB8
 ORG 018EAh
-_var_190 label byte
+_var_190 EQU byte_3419A
 ORG 01904h
-_var_194 label byte
+_var_194 EQU word_341B4
 ORG 01906h
-_var_195 label byte
+_var_195 EQU word_341B6
 ORG 01908h
-_var_196 label byte
+_var_196 EQU word_341B8
 ORG 0190Ah
-_var_197 label byte
+_var_197 EQU word_341BA
 ORG 0190Ch
-_var_198 label byte
+_var_198 EQU word_341BC
 ORG 0198Ch
-_var_200 label byte
+_var_200 EQU dword_3423C
 ORG 0198Eh
-_var_201 label byte
+_var_201 EQU word_3423E
 ORG 01990h
-_var_202 label byte
+_var_202 EQU word_34240
 ORG 01992h
-_var_203 label byte
+_var_203 EQU word_34242
 ORG 01994h
-_var_204 label byte
+_var_204 EQU word_34244
 ORG 019A8h
-_var_215 label byte
+_var_215 EQU byte_34258
 ORG 019B0h
-_var_216 label byte
+_var_216 EQU word_34260
 ORG 019B2h
-_var_217 label byte
+_var_217 EQU word_34262
 ORG 019B4h
-_var_218 label byte
+_var_218 EQU word_34264
 ORG 019B6h
-_var_219 label byte
+_var_219 EQU word_34266
 ORG 019B8h
-_var_220 label byte
+_var_220 EQU word_34268
 ORG 019BEh
-_var_224 label byte
+_var_224 EQU word_3426E
 ORG 019C0h
-_var_225 label byte
+_var_225 EQU word_34270
 ORG 019C2h
-_var_226 label byte
+_var_226 EQU word_34272
 ORG 019C4h
-_var_227 label byte
+_var_227 EQU word_34274
 ORG 019FCh
-_var_255 label byte
+_var_255 EQU word_342AC
 ORG 019FEh
-_var_256 label byte
+_var_256 EQU word_342AE
 ORG 01A00h
-_var_257 label byte
+_var_257 EQU word_342B0
 ORG 01A04h
-_var_258 label byte
+_var_258 EQU byte_342B4
 ORG 01A06h
-_var_259 label byte
+_var_259 EQU word_342B6
 ORG 01A08h
-_var_260 label byte
+_var_260 EQU word_342B8
 ORG 01A0Ah
-_var_261 label byte
+_var_261 EQU word_342BA
 ORG 01FB8h
-_var_279 label byte
+_var_279 EQU word_34868
 ORG 0219Ch
-_var_282 label byte
+_var_282 EQU word_34A4C
 ORG 042D6h
-_var_315 label byte
+_var_315 EQU _word_36B86
 ORG 042D8h
-_var_316 label byte
+_var_316 EQU byte_36B88
 ORG 04CA7h
-_var_349 label byte
+_var_349 EQU word_37557
 ORG 04CA9h
-_var_350 label byte
+_var_350 EQU word_37559
 ORG 04CADh
-_var_351 label byte
+_var_351 EQU _word_3755D
 ORG 04CAFh
-_var_352 label byte
+_var_352 EQU _word_3755F
 ORG 04CB1h
-_var_353 label byte
+_var_353 EQU _word_37561
 ORG 04CB3h
-_var_354 label byte
+_var_354 EQU _word_37563
 ORG 0505Ah
-_var_383 label byte
+_var_383 EQU word_3790A
 ORG 05374h
-_var_456 label byte
+_var_456 EQU _byte_37C24
 ORG 057C0h
-_var_524 label byte
+_var_524 EQU word_38070
 ORG 057C2h
-_var_525 label byte
+_var_525 EQU word_38072
 ORG 057C4h
-_var_526 label byte
+_var_526 EQU word_38074
 ORG 057C6h
-_var_527 label byte
+_var_527 EQU word_38076
 ORG 057C8h
-_var_528 label byte
+_var_528 EQU word_38078
 ORG 057CEh
-_var_529 label byte
+_var_529 EQU word_3807E
 ORG 05818h
-_var_542 label byte
+_var_542 EQU _word_380C8
 ORG 05819h
-_var_543 label byte
+_var_543 EQU _word_380C8 + 1
 ORG 0581Ah
-_var_544 label byte
+_var_544 EQU _word_380CA
 ORG 0581Ch
-_var_545 label byte
+_var_545 EQU _word_380CC
 ORG 0581Eh
-_var_547 label byte
+_var_547 EQU _word_380CE
 ORG 05820h
-_var_548 label byte
+_var_548 EQU _word_380D0
 ORG 05828h
-_var_549 label byte
+_var_549 EQU _word_380D8
 ORG 0582Ah
-_var_550 label byte
+_var_550 EQU byte_380DA
 ORG 05830h
-_var_552 label byte
+_var_552 EQU word_380E0
 ORG 058AEh
-_var_556 label byte
+_var_556 EQU word_3815E
 ORG 05A84h
-_var_564 label byte
+_var_564 EQU _off_38334
 ORG 05A9Ch
-_var_565 label byte
+_var_565 EQU _off_3834C
 ORG 05AB4h
-_var_566 label byte
+_var_566 EQU _off_38364
 ORG 05ACCh
-_var_567 label byte
+_var_567 EQU word_3837C
 ORG 05AFCh
-_var_568 label byte
+_var_568 EQU word_383AC
 ORG 05AFEh
-_var_569 label byte
+_var_569 EQU _word_383AE
 ORG 05B00h
-_var_570 label byte
+_var_570 EQU word_383B0
 ORG 05B02h
-_var_571 label byte
+_var_571 EQU word_383B2
 ORG 05B04h
-_var_572 label byte
+_var_572 EQU word_383B4
 ORG 05B06h
-_var_573 label byte
+_var_573 EQU word_383B6
 ORG 05B08h
-_var_574 label byte
+_var_574 EQU word_383B8
 ORG 05B0Ah
-_var_575 label byte
+_var_575 EQU word_383BA
 ORG 05B0Ch
-_var_576 label byte
+_var_576 EQU word_383BC
 ORG 05B1Ch
-_var_577 label byte
+_var_577 EQU _word_383CC
 ORG 05B1Eh
-_var_578 label byte
+_var_578 EQU word_383CE
 ORG 05B20h
-_var_579 label byte
+_var_579 EQU word_383D0
 ORG 05B22h
-_var_580 label byte
+_var_580 EQU word_383D2
 ORG 05B24h
-_var_581 label byte
+_var_581 EQU word_383D4
 ORG 05B26h
-_var_582 label byte
+_var_582 EQU word_383D6
 ORG 05B28h
-_var_583 label byte
+_var_583 EQU word_383D8
 ORG 05B2Ah
-_var_584 label byte
+_var_584 EQU word_383DA
 ORG 05B34h
-_var_585 label byte
+_var_585 EQU byte_383E4
 ORG 05B35h
-_var_586 label byte
+_var_586 EQU byte_383E5
 ORG 05B3Ch
-_var_588 label byte
+_var_588 EQU word_383EC
 ORG 05B3Eh
-_var_589 label byte
+_var_589 EQU word_383EE
 ORG 05B40h
-_var_590 label byte
+_var_590 EQU word_383F0
 ORG 05B42h
-_var_591 label byte
+_var_591 EQU _word_383F2
 ORG 05B44h
-_var_592 label byte
+_var_592 EQU _word_383F4
 ORG 05BB0h
-_var_593 label byte
+_var_593 EQU word_38460
 ORG 05C5Eh
-_var_594 label byte
+_var_594 EQU _byte_3850E
 ORG 05D50h
-_var_595 label byte
+_var_595 EQU word_38600
 ORG 05D52h
-_var_596 label byte
+_var_596 EQU word_38602
 ORG 05D54h
-_var_597 label byte
+_var_597 EQU word_38604
 ORG 05D56h
-_var_598 label byte
+_var_598 EQU word_38606
 ORG 05D58h
-_var_599 label byte
+_var_599 EQU word_38608
 ORG 05D5Ah
-_var_600 label byte
+_var_600 EQU word_3860A
 ORG 05FE6h
-_var_605 label byte
+_var_605 EQU word_38896
 ORG 06128h
-_var_606 label byte
+_var_606 EQU word_389D8
 ORG 0612Ch
-_var_608 label byte
+_var_608 EQU word_389DC
 ORG 06130h
-_var_609 label byte
+_var_609 EQU word_389E0
 ORG 06132h
-_var_610 label byte
+_var_610 EQU readFromFilePtr
 ORG 06134h
-_var_611 label byte
+_var_611 EQU word_389E4
 ORG 06138h
-_var_613 label byte
+_var_613 EQU off_389E8
 ORG 0618Ah
-_var_615 label byte
+_var_615 EQU word_38A3A
 ORG 06199h
-_var_616 label byte
+_var_616 EQU dword_38A49
 ORG 0619Bh
-_var_617 label byte
+_var_617 EQU byte_38A4B
 ORG 061A5h
-_var_618 label byte
+_var_618 EQU word_38A55
 ORG 061A7h
-_var_619 label byte
+_var_619 EQU word_38A57
 ORG 061ABh
-_var_620 label byte
+_var_620 EQU word_38A5B
 ORG 061ADh
-_var_621 label byte
+_var_621 EQU word_38A5D
 ORG 061C8h
-_var_625 label byte
+_var_625 EQU word_38A78
 ORG 061CAh
-_var_626 label byte
+_var_626 EQU word_38A7A
 ORG 061CCh
-_var_627 label byte
+_var_627 EQU word_38A7C
 ORG 061D6h
-_var_628 label byte
+_var_628 EQU byte_38A86
 ORG 061D7h
-_var_629 label byte
+_var_629 EQU byte_38A87
 ORG 061D8h
-_var_630 label byte
+_var_630 EQU dword_38A88
 ORG 061E2h
-_var_632 label byte
+_var_632 EQU word_38A92
 ORG 061E4h
-_var_633 label byte
+_var_633 EQU word_38A94
 ORG 061E6h
-_var_634 label byte
+_var_634 EQU word_38A96
 ORG 061E8h
-_var_635 label byte
+_var_635 EQU word_38A98
 ORG 06316h
-_var_638 label byte
+_var_638 EQU word_38BC6
 ORG 06318h
-_var_639 label byte
+_var_639 EQU word_38BC8
 ORG 0631Ah
-_var_640 label byte
+_var_640 EQU word_38BCA
 ORG 0631Ch
-_var_641 label byte
+_var_641 EQU word_38BCC
 ORG 06320h
-_var_642 label byte
+_var_642 EQU word_38BD0
 ORG 06334h
-_var_647 label byte
+_var_647 EQU unk_38BE4
 ORG 06336h
-_var_648 label byte
+_var_648 EQU word_38BE6
 ORG 06338h
-_var_649 label byte
+_var_649 EQU dword_38BE8
 ORG 0633Ch
-_var_650 label byte
+_var_650 EQU dword_38BEC
 ORG 06346h
-_var_653 label byte
+_var_653 EQU seg_38BF6
 ORG 06422h
-_var_654 label byte
+_var_654 EQU word_38CD2
 ORG 06428h
-_var_657 label byte
+_var_657 EQU word_38CD8
 ORG 0642Ah
-_var_658 label byte
+_var_658 EQU word_38CDA
 ORG 0642Ch
-_var_659 label byte
+_var_659 EQU word_38CDC
 ORG 0642Eh
-_var_660 label byte
+_var_660 EQU word_38CDE
 ORG 06430h
-_var_661 label byte
+_var_661 EQU word_38CE0
 ORG 06432h
-_var_662 label byte
+_var_662 EQU word_38CE2
 ORG 06434h
-_var_663 label byte
+_var_663 EQU word_38CE4
 ORG 06436h
-_var_664 label byte
+_var_664 EQU word_38CE6
 ORG 06438h
-_var_665 label byte
+_var_665 EQU word_38CE8
 ORG 0643Ah
-_var_666 label byte
+_var_666 EQU word_38CEA
 ORG 0643Ch
-_var_667 label byte
+_var_667 EQU word_38CEC
 ORG 0643Eh
-_var_668 label byte
+_var_668 EQU word_38CEE
 ORG 06440h
-_var_669 label byte
+_var_669 EQU word_38CF0
 ORG 06442h
-_var_670 label byte
+_var_670 EQU word_38CF2
 ORG 0644Ah
-_var_671 label byte
+_var_671 EQU word_38CFA
 ORG 0644Ch
-_var_672 label byte
+_var_672 EQU word_38CFC
 ORG 0644Eh
-_var_673 label byte
+_var_673 EQU word_38CFE
 ORG 06450h
-_var_674 label byte
+_var_674 EQU word_38D00
 ORG 06452h
-_var_675 label byte
+_var_675 EQU word_38D02
 ORG 06454h
-_var_676 label byte
+_var_676 EQU word_38D04
 ORG 06456h
-_var_677 label byte
+_var_677 EQU word_38D06
 ORG 0649Ch
-_var_680 label byte
+_var_680 EQU word_38D4C
 ORG 0649Eh
-_var_681 label byte
+_var_681 EQU word_38D4E
 ORG 064A0h
-_var_682 label byte
+_var_682 EQU word_38D50
 ORG 064A2h
-_var_683 label byte
+_var_683 EQU word_38D52
 ORG 064A4h
-_var_684 label byte
+_var_684 EQU word_38D54
 ORG 064A6h
-_var_685 label byte
+_var_685 EQU word_38D56
 ORG 064A8h
-_var_686 label byte
+_var_686 EQU word_38D58
 ORG 064AAh
-_var_687 label byte
+_var_687 EQU lzw_readBufEndPtr
 ORG 064ACh
-_var_688 label byte
+_var_688 EQU lzw_workDataPtr
 ORG 064AEh
-_var_689 label byte
+_var_689 EQU lzw_rowLength
 ORG 064B0h
-_var_690 label byte
+_var_690 EQU lzw_processFlag
 ORG 064B2h
-_var_692 label byte
+_var_692 EQU lzw_bitWidth
 ORG 064B4h
-_var_694 label byte
+_var_694 EQU lzw_maxCode
 ORG 064BAh
-_var_697 label byte
+_var_697 EQU lzw_bitsLeft
 ORG 064BCh
-_var_699 label byte
+_var_699 EQU lzw_slotCounter
 ORG 064BEh
-_var_700 label byte
+_var_700 EQU lzw_dictIndex
 
 .DATA?
 IFDEF DEBUG
@@ -37432,6 +37299,8 @@ _word_3C6AE equ word_3C6AE
     db ?
     db ?
     db ?
+    PUBLIC _byte_3C8B0
+_byte_3C8B0 label byte
 byte_3C8B0 db ?
     db ? ;align 2
 word_3C8B2 dw ?

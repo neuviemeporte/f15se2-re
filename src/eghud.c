@@ -102,13 +102,16 @@ int sub_15557(int arg_0) {
 // something to do with view switching?
 int sub_155AB() {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E;
+    TRACE(("sub_155AB: enter"));
     dword_3B1FE = dword_3C01C = dword_3B7DA;
     dword_3B4D4 = dword_3B7F8;
     dword_3C024 = 0x100000 - dword_3B7F8;
+    TRACE(("sub_155AB: past assigns"));
     // 55ef
     word_3B4DE = word_380CE + 0x18;
     word_3C02C = word_380CE;
     var_2 = word_336FE = sub_1CF64(word_336FE, 2, 8);
+    TRACE(("sub_155AB: past clamp, keyValue=%d", keyValue));
     // 5613
     switch(keyValue) {
     case 0:
@@ -346,6 +349,7 @@ int sub_155AB() {
     } // 5ea7
     copySomeMem(word_330BC);
     *(uint8*)(&word_36B86) = 0;
+    TRACE(("sub_155AB: before sub_121CA"));
     // 5eeb
     sub_121CA(-word_3C5AA, word_3BE94, word_3B4E4, dword_3B1FE, dword_3B4D4, (int32)word_3B4DE, 0, 0, 0x140, off_38334[0x10] + 1);
     byte_3850E = 0;
@@ -378,6 +382,7 @@ int sub_155AB() {
     // 5fd3
     // height of picture depending on whether view full or cockpit in the way?
     word_38126 = (word_3C09E == 0x13 || word_3C09A == 1 || word_330C2 == 0) ? 0xc8 : 0x61;
+    TRACE(("sub_155AB: exit"));
 } // 5fda
 
 // ==== seg000:0x5fdb ====
