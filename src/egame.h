@@ -881,7 +881,7 @@ extern unsigned int buf3d3[];
 extern unsigned int size3d3_2;
 extern int16 sign3dt;
 extern unsigned int sizes3dt[];
-extern unsigned int matrix3dt[6][32];
+extern unsigned int matrix3dt[5][32];
 extern int word_33DD0[];
 extern int16 word_33DD2;
 extern size_t size3d3_4;

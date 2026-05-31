@@ -167,6 +167,9 @@ void trace_gameloop(int step) {
         TRACE(("gameloop: step %d, var_255=%d, var200=%04x:%04x, timerC=%d", step, var_255, var_200_seg, var_200_off, (int)byte_3790C[0]));
     else if (step == 4)
         TRACE(("gameloop: step %d, 38FDC=%d", step, word_38FDC));
+    else if (step == 3) {
+        TRACE(("gameloop: step %d, keyScan=%04x", step, keyScancode));
+    }
     else
         TRACE(("gameloop: step %d", step));
 }

@@ -1932,7 +1932,7 @@ LAB_1000_258c:
     mov CL,6h
     shl BX,CL
     mov AX,word ptr [BP + -0ah]
-    cmp word ptr [BX + SI + offset _matrix3dt + 198],AX
+    cmp word ptr [BX + SI + offset _matrix3dt],AX
     ja LAB_1000_25a5
     jmp LAB_1000_264c
 LAB_1000_25a5:

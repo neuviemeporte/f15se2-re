@@ -1,7 +1,15 @@
 ; seg003 - Keyboard IRQ handler segment
 ; Contains setInt9Handler, restoreInt9Handler, and the keyboard ISR
 
-.MODEL large
+.8086
+
+DGROUP GROUP NULL, _DATA, _BSS
+NULL SEGMENT WORD PUBLIC 'BEGDATA'
+NULL ENDS
+_DATA SEGMENT WORD PUBLIC 'DATA'
+_DATA ENDS
+_BSS SEGMENT WORD PUBLIC 'BSS'
+_BSS ENDS
 
 EXTRN byte_37F98:BYTE
 EXTRN byte_37F99:BYTE
@@ -14,7 +22,7 @@ EXTRN byte_37F9F:BYTE
 seg003 SEGMENT BYTE PUBLIC 'CODE'
 ASSUME CS:seg003, DS:DGROUP, SS:DGROUP
 
-    ; 6 bytes padding before first routine (offsets 0x0000-0x0005)
+    ; padding before first routine (matches original 6 bytes at seg start)
     db 6 dup(0)
 
 ; offset 0x0006

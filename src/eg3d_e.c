@@ -38,7 +38,7 @@ int16* sub_12FDA(uint32 param_0, uint32 param_1) {
             n = process3dg(c, i += a, k += b);
             if (n != -1) {
                 word_3C5A8 = matrix3dt_2[c][n];
-                for (f = 0; matrix3dt[c + 3][n + 3] > (unsigned int)f; f++) {
+                for (f = 0; matrix3dt[c][n] > (unsigned int)f; f++) {
                     if (byte_3BFA4[word_3C5A8->_0x06 & 0x7f] != 0) {
                         h = o + word_3C5A8->_0x00;
                         j = word_3C5A8->_0x02 + p;
@@ -135,7 +135,7 @@ int sub_132BA(uint32 coord1, uint32 coord2, uint32 coord3)
     l = process3dg(b, g, i);
     if (l != -1) {
         word_3C5A8 = matrix3dt_2[b][l];
-        for (e = 1; (unsigned int)e < matrix3dt[b + 3][l + 3]; e++) {
+        for (e = 1; (unsigned int)e < matrix3dt[b][l]; e++) {
             f = word_3C5A8->_0x00 + m;
             h = word_3C5A8->_0x02 + p;
             var_216 = abs(f) + abs(h);
