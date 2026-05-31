@@ -19,7 +19,7 @@ EXTRN byte_37F9D:BYTE
 EXTRN byte_37F9E:BYTE
 EXTRN byte_37F9F:BYTE
 
-seg003 SEGMENT BYTE PUBLIC 'CODE'
+seg003 SEGMENT PARA PUBLIC 'CODE'
 ASSUME CS:seg003, DS:DGROUP, SS:DGROUP
 
     ; padding before first routine (matches original 6 bytes at seg start)
@@ -47,6 +47,7 @@ _setInt9Handler proc far
     mov dx, [bx+2]
     mov word ptr cs:savedInt9Ofs, ax
     mov word ptr cs:savedInt9Seg, dx
+    ; Install int9Handler into IVT
     mov ax, offset int9Handler
     mov dx, cs
     cli
