@@ -153,22 +153,23 @@ void load3DT(char *arg_0) {
         fread(matrix3dt[var_4], 2, sizes3dt[var_4], fileHandle);
     } // 2d4f
     var_6 = 0;
+#define GET_MATRIX(BYTE_OFFSET)((struct Matrix3dEntry7*)(buf_3dt + BYTE_OFFSET))
     for (var_4 = 0; var_4 < 5; var_4++) { // 2d67
         for (var_8 = 0; sizes3dt[var_4] > var_8; var_8++) {
             // 2d93
-            matrix3dt_2[var_4][var_8] = (int16)(buf1_3dt + var_6);
+            matrix3dt_2[var_4][var_8] = GET_MATRIX(var_6);
             // 2d97
             for (var_A = 0; matrix3dt[var_4][var_8] > var_A; var_A++) { // 2db9
                 if (var_6 > MAX_TILE_DATA) {
                     printError(aTooMuchTileData);
                     return;
                 } // 2dcd
-                fread(buf1_3dt + var_6, 2, 1, fileHandle);
-                fread(buf2_3dt + var_6, 2, 1, fileHandle);
-                fread(buf3_3dt + var_6, 2, 1, fileHandle);
+                fread(&GET_MATRIX(var_6)->_0x00, 2, 1, fileHandle);
+                fread(&GET_MATRIX(var_6)->_0x02, 2, 1, fileHandle);
+                fread(&GET_MATRIX(var_6)->_0x04, 2, 1, fileHandle);
                 fread(&var_2, 2, 1, fileHandle);
-                val_3dt[var_6] = var_2;
-                var_6 += 7;
+                GET_MATRIX(var_6)->_0x06 = (uint8)var_2;
+                var_6 += sizeof(struct Matrix3dEntry7);
                 // 2e3c
             }
             // 2e3f
