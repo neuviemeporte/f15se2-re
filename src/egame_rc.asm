@@ -15081,7 +15081,7 @@ audio_jump_6d equ _audio_jump_6d
     db 0
     db 0
     db 0
-    db 0
+buf6data_4 db 0
     db 0
     db 2
     db 0
@@ -15103,7 +15103,7 @@ audio_jump_6d equ _audio_jump_6d
     db 0
     db 3Fh
     db 1
-word_339B0 dw 10EAh
+word_339B0 dw offset buf6data_4
 byte_339B2 db 0
     db 0
 unk_339B4 db 0
@@ -27715,7 +27715,7 @@ word_3834E dw 2
     dw 0
     dw 13Fh
 _off_38364 dw offset word_3834E
-    db 0 ;align 4
+buf6data_0 db 0 ;align 4
     db 0
     db 2
     db 0
@@ -27737,7 +27737,7 @@ _off_38364 dw offset word_3834E
     db 0
     db 60h
     db 0
-word_3837C dw 5AB6h
+word_3837C dw offset buf6data_0
     db 0 ;align 4
     db 0
     db 2
@@ -27762,7 +27762,7 @@ word_3837C dw 5AB6h
     db 1
     db 0CEh
     db 5Ah
-    db 0
+buf6data_1 db 0
     db 0
     db 2
     db 0
@@ -27784,7 +27784,7 @@ word_3837C dw 5AB6h
     db 0
     db 30h
     db 1
-word_383AC dw 5AE6h
+word_383AC dw offset buf6data_1
 _word_383AE dw 0
 word_383B0 dw 0
 word_383B2 dw 0
@@ -28038,7 +28038,7 @@ word_389EA dw 0
     db 0
     db 0
     db 0
-word_38A3A dw 613Ah
+word_38A3A dw offset lzw_processFlag
 aC_file_info db ';C_FILE_INFO',0
 dword_38A49 dd 0
     db 0
@@ -28255,7 +28255,7 @@ word_38A98 dw 0
     db 0
     db 0
     db 0
-    db 0
+buf6data_3 db 0
     db 0
     db 0
     db 0
@@ -28401,7 +28401,7 @@ word_38A98 dw 0
     db 0
     db 0
     db 0
-word_38BC6 dw 6296h
+word_38BC6 dw offset buf6data_3
 word_38BC8 dw 0
 word_38BCA dw 0
 word_38BCC dw 0
@@ -32289,6 +32289,15 @@ PUBLIC word_378E5
 PUBLIC word_3C16C
 PUBLIC word_3C69C
 PUBLIC word_3C6A2
+PUBLIC word_3837C
+PUBLIC word_383AC
+PUBLIC word_38A3A
+PUBLIC word_38BC6
+PUBLIC buf6data_0
+PUBLIC buf6data_1
+PUBLIC buf6data_3
+PUBLIC lzw_processFlag
+PUBLIC buf6data_4
 _word_3C6AE equ word_3C6AE
     db ? ;align 400h
     db ?
