@@ -45,15 +45,7 @@ void load15Flt3d3() {
     TRACE(("load15Flt3d3: done"));
 }
 
-void sub_1C9D2(param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8)
-int param_1;
-long param_2;
-long param_3;
-int param_4;
-int param_5;
-int param_6;
-int param_7;
-int param_8;
+void sub_1C9D2(int param_1, long param_2, long param_3, int param_4, int param_5, int param_6, int param_7, int param_8)
 {
     int p;
     int a;
@@ -94,16 +86,7 @@ int param_8;
 }
 
 // ==== seg000:0xcb42 ====
-int sub_1CB42(param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8, param_9)
-int param_1;
-int param_2;
-int param_3;
-int param_4;
-int param_5;
-int param_6;
-int param_7;
-int param_8;
-int param_9;
+int sub_1CB42(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7, int param_8, int param_9)
 {
     int p;
     int a;
