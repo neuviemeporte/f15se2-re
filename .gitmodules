@@ -4,3 +4,7 @@
 [submodule "mzretools"]
 	path = mzretools
 	url = git@github.com:neuviemeporte/mzretools.git
+[submodule "JWasm"]
+	path = JWasm
+	url = https://github.com/sezero/JWasm.git
+	branch = c23fix
