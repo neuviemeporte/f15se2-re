@@ -1,6 +1,7 @@
 MZRE := mzretools
 MZRETOOLDIR := $(MZRE)/tools
-DOSBUILD := $(MZRETOOLDIR)/dosbuild.sh
+DOSBOX ?= dosbox
+DOSBUILD := DOSBOX=$(DOSBOX) $(MZRETOOLDIR)/dosbuild.sh
 DOSTEST := $(MZRETOOLDIR)/test.sh
 DISASM := $(MZRETOOLDIR)/disasm.sh
 ASSEMBLER ?= UASM
