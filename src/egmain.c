@@ -488,7 +488,7 @@ skip_target_section:
         b = word_33714;
         word_33714++;
         if (b == 1) {
-            tempStrcpy((char *)aSafeLanding);
+            tempStrcpy(aSafeLanding);
             word_330B6 = 0;
             word_33712 = 0;
             sub_1DA5F(4);
@@ -505,9 +505,9 @@ skip_target_section:
             if (word_33714 > word_330C4) {
                 sub_119A3();
                 if (word_336E8 & 8) {
-                    tempStrcpy((char *)aReadyForTakeof);
+                    tempStrcpy(aReadyForTakeof);
                 } else {
-                    tempStrcpy((char *)aWeaponsRepleni);
+                    tempStrcpy(aWeaponsRepleni);
                 }
             }
         }
@@ -529,7 +529,7 @@ end_landing_check:
             goto skip_autopilot;
         }
     }
-    tempStrcpy((char *)aAutomaticLandi);
+    tempStrcpy(aAutomaticLandi);
     word_33712 = 1;
     d = word_330C4 * 2;
     if (d > 0x0e) {
@@ -851,7 +851,7 @@ void sub_11C21(void) {
         word_3C02E = p + 0x40;
         keyValue = 0x89;
         placeString(p);
-        tempStrcpy((char *)strBuf);
+        tempStrcpy(strBuf);
         break;
     case 1:
         do {
@@ -859,13 +859,13 @@ void sub_11C21(void) {
         } while (*(int16 *)&stru_3B208[p].field_10[10] == 0);
         word_3C02E = p + 0x20;
         keyValue = 0x89;
-        strcpy((char *)strBuf, (char *)(*(int16 *)&stru_3B208[p].field_10[6] * 32 + (int)aMig23)); /* 0x2c8: aircraft name table (32-byte records) */
-        strcat((char *)strBuf, (char *)aOnPatrol);
-        tempStrcpy((char *)strBuf);
+        strcpy(strBuf, (char *)(*(int16 *)&stru_3B208[p].field_10[6] * 32 + (int)aMig23)); /* 0x2c8: aircraft name table (32-byte records) */
+        strcat(strBuf, aOnPatrol);
+        tempStrcpy(strBuf);
         break;
     case 2:
         keyValue = 0x87;
-        tempStrcpy((char *)aF15StrikeEagle);
+        tempStrcpy(aF15StrikeEagle);
         break;
     }
 }

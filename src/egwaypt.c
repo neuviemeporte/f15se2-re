@@ -55,7 +55,7 @@ void sub_1C2F8(void) {
     int a;
     if (var_671 != 0 && word_330C2 != 0) {
         if (byte_3C5A0 != 0) {
-            draw2Strings((char *)aMissileLock, 0xf4, 0x96, 14);
+            draw2Strings(aMissileLock, 0xf4, 0x96, 14);
         }
         sub_19E44(14);
         p = 0x10c;

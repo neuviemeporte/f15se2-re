@@ -447,7 +447,7 @@ done:
 // ==== seg000:0x9fad ====
 int sub_19FAD(int arg_0, char* arg_1, int arg_2) {
     sub_19FCC(arg_0, arg_2);
-    sub_1A030(arg_0, (char *)arg_1);
+    sub_1A030(arg_0, arg_1);
 }
 
 // ==== seg000:0x9fcc ====

@@ -20,10 +20,10 @@
 // ==== seg000:0xd9db ====
 
 void selectMissile() {
-    strcpy((char *)strBuf, missiles[missleSpec[missileSpecIndex].weaponIdx].field_A);
-    strcat((char *)strBuf, (char *)(missleSpec[missileSpecIndex].ammo == 0 ? aNotAvailable : aArmed));
+    strcpy(strBuf, missiles[missleSpec[missileSpecIndex].weaponIdx].field_A);
+    strcat(strBuf, (char *)(missleSpec[missileSpecIndex].ammo == 0 ? aNotAvailable : aArmed));
     sub_11A88(missileSpecIndex);
-    tempStrcpy((char *)strBuf);
+    tempStrcpy(strBuf);
 }
 
 // ==== seg000:0xda35 ====

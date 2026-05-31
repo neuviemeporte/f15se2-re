@@ -395,8 +395,8 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         mystrcpy(dat_4824, str_missionRating1);
         drawStringCentered(gfxPage, dat_4824, 0xe8, 0x4e, 0x57);
         mystrcpy(dat_4824, str_dot2);
-        my_ltoa(*(long *)&missionScore, (char *)n);
-        mystrcat(dat_4824, (char *)n);
+        my_ltoa(*(long *)&missionScore, n);
+        mystrcat(dat_4824, n);
         drawStringCentered(gfxPage, dat_4824, 0xe8, 0x56, 0x57);
         if (commData->trainingFlag != 0) {
             drawStringCentered(gfxPage, str_trainingScore, 0xe8, 0x60, 0x57);
@@ -406,8 +406,8 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             mystrcat(dat_4824, str_careerTotal);
             drawStringCentered(gfxPage, dat_4824, 0xe8, 0x6c, 0x57);
             mystrcpy(dat_4824, str_dot4);
-            my_ltoa(gameData->totalScore + *(long *)&missionScore, (char *)n);
-            mystrcat(dat_4824, (char *)n);
+            my_ltoa(gameData->totalScore + *(long *)&missionScore, n);
+            mystrcat(dat_4824, n);
             drawStringCentered(gfxPage, dat_4824, 0xe8, 0x74, 0x57);
         }
         gfxPage[2] = FONT_TITLE;
@@ -448,8 +448,8 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             mystrcpy(dat_4824, str_missionRating2);
             drawStringCentered(gfxPage, dat_4824, 0xe8, 0x6c, 0x57);
             mystrcpy(dat_4824, str_dot6);
-            my_ltoa(*(long *)&missionScore, (char *)n);
-            mystrcat(dat_4824, (char *)n);
+            my_ltoa(*(long *)&missionScore, n);
+            mystrcat(dat_4824, n);
             drawStringCentered(gfxPage, dat_4824, 0xe8, 0x74, 0x57);
         }
         clearRect(gfxPage, 0xeb, 0x0a, 0x13f, 0x63);
@@ -457,7 +457,7 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         mystrcpy(dat_4824, str_missionEvent);
         drawStringCentered(gfxPage, dat_4824, 0xe8, 0x14, 0x57);
         mystrcpy(dat_4824, str_time);
-        mystrcat(dat_4824, formatFlightTime(flightTimeTable[curRecordIdx * 3], (char *)n));
+        mystrcat(dat_4824, formatFlightTime(flightTimeTable[curRecordIdx * 3], n));
         drawStringAt(gfxPage, dat_4824, 0xf0, 0x1e);
         o = flightRecords[curRecordIdx].unitId & UNIT_ID_MASK;
         switch (flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) {
@@ -547,8 +547,8 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         mystrcpy(dat_4824, str_missionRating3);
         drawStringCentered(gfxPage, dat_4824, 0xe8, 0x4e, 0x57);
         mystrcpy(dat_4824, str_pressSelect);
-        my_ltoa(*(long *)&missionScore, (char *)n);
-        mystrcat(dat_4824, (char *)n);
+        my_ltoa(*(long *)&missionScore, n);
+        mystrcat(dat_4824, n);
         drawStringCentered(gfxPage, dat_4824, 0xe8, 0x56, 0x57);
         showEventPopup();
         mystrcpy(dat_4824, b);
