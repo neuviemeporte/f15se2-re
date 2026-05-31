@@ -134,6 +134,9 @@ PUBLIC _sub_218A8
 
 seg001 segment byte public 'CODE'
 
+    ; 2 bytes padding to match original segment layout (first routine at offset 0x0002)
+    db 2 dup(0)
+
 sub_1F882 proc far
     PUSH BP
     MOV BP,SP

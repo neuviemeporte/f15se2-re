@@ -329,7 +329,7 @@ void sub_13932(char *arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_
         if (*(uint8 *)&var_316 == 0) {
             sub_20658();
         }
-        while (*(uint8 *)&origCBreakSeg != 0)
+        while (byte_378EE != 0)
             ;
         sub_10334(*(int *)(arg_0 + 4));
     }
