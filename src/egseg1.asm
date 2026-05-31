@@ -135,818 +135,3804 @@ PUBLIC _sub_218A8
 seg001 segment byte public 'CODE'
 
 sub_1F882 proc far
-    db 055h, 08Bh, 0ECh, 006h, 01Eh, 056h, 057h, 08Ah, 066h, 00Ch
+    PUSH BP
+    MOV BP,SP
+    PUSH ES
+    PUSH DS
+    PUSH SI
+    PUSH DI
+    MOV AH,[BP+0Ch]
     call far ptr gfx_setPageDirect
-    db 0E8h, 08Ch, 01Eh, 08Bh, 076h, 00Ah, 08Bh, 04Eh, 008h, 049h, 0ADh, 0A3h, 0ADh, 04Ch, 050h, 0ADh
-    db 0A3h, 0B1h, 04Ch, 050h, 051h, 0ADh, 0A3h, 0AFh, 04Ch, 050h, 0ADh, 0A3h, 0B3h, 04Ch, 050h, 056h
-    db 0E8h, 0F4h, 01Fh, 05Eh, 08Fh, 006h, 0B1h, 04Ch, 08Fh, 006h, 0ADh, 04Ch, 059h, 0E2h, 0E5h, 08Fh
-    db 006h, 0B3h, 04Ch, 08Fh, 006h, 0AFh, 04Ch, 0E8h, 0DDh, 01Fh, 0A1h, 029h, 050h, 08Bh, 00Eh, 02Bh
-    db 050h, 0BBh, 0B5h, 04Ch
+    CALL loc_1EA0
+    MOV SI,[BP+0Ah]
+    MOV CX,[BP+8h]
+    DEC CX
+    LODSW
+    MOV [4CADh],AX
+    PUSH AX
+    LODSW
+    MOV [4CB1h],AX
+    PUSH AX
+loc_0025:
+    PUSH CX
+    LODSW
+    MOV [4CAFh],AX
+    PUSH AX
+    LODSW
+    MOV [4CB3h],AX
+    PUSH AX
+    PUSH SI
+    CALL loc_2028
+    POP SI
+    POP WORD PTR [4CB1h]
+    POP WORD PTR [4CADh]
+    POP CX
+    LOOP short loc_0025
+    POP WORD PTR [4CB3h]
+    POP WORD PTR [4CAFh]
+    CALL loc_2028
+    MOV AX,[5029h]
+    MOV CX,[502Bh]
+    MOV BX,4CB5h
     call far ptr gfx_dirtyRect
     call far ptr gfx_resetBlitOffset
-    db 05Fh, 05Eh, 01Fh, 007h, 05Dh, 0CBh
+    POP DI
+    POP SI
+    POP DS
+    POP ES
+    POP BP
+    RETF
 sub_1F882 endp
 
     db 000h, 08Bh, 0DCh, 056h, 057h, 036h, 08Bh, 05Fh, 002h, 0D1h, 0E3h, 0D1h, 0E3h, 0E8h, 003h, 000h
     db 05Fh, 05Eh, 0C3h
 sub_1F8F8 proc near
-    db 08Bh, 08Fh, 0D6h, 01Dh, 080h, 03Eh, 074h, 053h, 000h, 074h, 002h, 0D1h, 0E1h, 080h, 03Eh, 05Eh
-    db 05Ch, 000h, 074h, 00Ah, 087h, 0D1h, 08Ah, 00Eh, 05Eh, 05Ch, 0D3h, 0FAh, 087h, 0D1h, 00Bh, 0C9h
-    db 07Eh, 04Dh, 08Bh, 097h, 00Dh, 01Ah, 08Ah, 087h, 00Fh, 01Ah, 098h, 092h, 0F7h, 0F9h, 099h, 00Bh
-    db 0C0h, 003h, 006h, 0DCh, 000h, 083h, 0D2h, 000h, 089h, 097h, 0BAh, 01Fh, 089h, 087h, 0B8h, 01Fh
-    db 08Bh, 097h, 0F1h, 01Bh, 08Ah, 087h, 0F3h, 01Bh, 098h, 092h, 08Bh, 0F2h, 08Bh, 0F8h, 0D1h, 0FAh
-    db 0D1h, 0D8h, 0D1h, 0FAh, 0D1h, 0D8h, 02Bh, 0C7h, 01Bh, 0D6h, 0F7h, 0F9h, 099h, 00Bh, 0C0h, 003h
-    db 006h, 0DEh, 000h, 083h, 0D2h, 000h, 089h, 097h, 09Eh, 021h, 089h, 087h, 09Ch, 021h, 0C3h, 0B8h
-    db 000h, 080h, 089h, 087h, 0B8h, 01Fh, 089h, 087h, 0BAh, 01Fh, 089h, 087h, 09Ch, 021h, 089h, 087h
-    db 09Eh, 021h, 0C3h
+loc_0078:
+    MOV CX,[BX+1DD6h]
+    CMP BYTE PTR [5374h],0h
+    JZ short loc_0085
+    SHL CX,1
+loc_0085:
+    CMP BYTE PTR [5C5Eh],0h
+    JZ short loc_0096
+    db 087h, 0D1h
+    MOV CL,[5C5Eh]
+    SAR DX,CL
+    db 087h, 0D1h
+loc_0096:
+    OR CX,CX
+    JNG short loc_00E7
+    MOV DX,[BX+1A0Dh]
+    MOV AL,[BX+1A0Fh]
+    CBW
+    XCHG AX,DX
+    IDIV CX
+    CWD
+    OR AX,AX
+    ADD AX,[0DCh]
+    ADC DX,BYTE PTR +0x0
+    MOV [BX+1FBAh],DX
+    MOV [BX+1FB8h],AX
+    MOV DX,[BX+1BF1h]
+    MOV AL,[BX+1BF3h]
+    CBW
+    XCHG AX,DX
+    MOV SI,DX
+    MOV DI,AX
+    SAR DX,1
+    RCR AX,1
+    SAR DX,1
+    RCR AX,1
+    SUB AX,DI
+    SBB DX,SI
+    IDIV CX
+    CWD
+    OR AX,AX
+    ADD AX,[0DEh]
+    ADC DX,BYTE PTR +0x0
+    MOV [BX+219Eh],DX
+    MOV [BX+219Ch],AX
+    RET
+loc_00E7:
+    MOV AX,8000h
+    MOV [BX+1FB8h],AX
+    MOV [BX+1FBAh],AX
+    MOV [BX+219Ch],AX
+    MOV [BX+219Eh],AX
+    RET
 sub_1F8F8 endp
 
     db 055h, 08Bh, 0ECh, 083h, 046h, 002h, 003h, 08Ah, 0C4h, 08Ah, 0E2h, 08Ah, 0D6h, 0F7h, 0F9h, 099h
     db 08Ah, 0D4h, 08Ah, 0E0h, 02Ah, 0C0h, 05Dh, 0CFh
 sub_1F993 proc near
-    db 006h, 02Bh, 0C0h, 08Eh, 0C0h, 026h, 0A1h, 000h, 000h, 0A3h, 0A0h, 018h, 08Dh, 006h, 0FBh, 000h
-    db 026h, 0A3h, 000h, 000h, 026h, 0A1h, 002h, 000h, 0A3h, 0A2h, 018h, 0B8h, 088h, 00Fh, 026h, 0A3h
-    db 002h, 000h, 007h, 0C3h
+loc_0113:
+    PUSH ES
+    SUB AX,AX
+    MOV ES,AX
+    MOV AX,[ES:0h]
+    MOV [18A0h],AX
+    LEA AX,[0FBh]
+    MOV [ES:0h],AX
+    MOV AX,[ES:2h]
+    MOV [18A2h],AX
+    MOV AX,0F88h
+    MOV [ES:2h],AX
+    POP ES
+    RET
 sub_1F993 endp
 
 sub_1F9B7 proc near
-    db 006h, 02Bh, 0C0h, 08Eh, 0C0h, 0A1h, 0A0h, 018h, 026h, 0A3h, 000h, 000h, 0A1h, 0A2h, 018h, 026h
-    db 0A3h, 002h, 000h, 007h, 0C3h
+loc_0137:
+    PUSH ES
+    SUB AX,AX
+    MOV ES,AX
+    MOV AX,[18A0h]
+    MOV [ES:0h],AX
+    MOV AX,[18A2h]
+    MOV [ES:2h],AX
+    POP ES
+    RET
 sub_1F9B7 endp
 
     db 055h, 08Bh, 0ECh, 056h, 057h, 006h, 08Bh, 07Eh, 006h, 0E8h, 005h, 000h, 007h, 05Fh, 05Eh, 05Dh
     db 0C3h
 sub_1F9DD proc near
-    db 08Bh, 005h, 08Bh, 04Dh, 002h, 099h, 03Bh, 0D1h, 075h, 040h, 08Bh, 0F0h, 08Bh, 045h, 004h, 08Bh
-    db 04Dh, 006h, 099h, 03Bh, 0D1h, 075h, 033h, 08Bh, 0C8h, 08Bh, 045h, 008h, 08Bh, 05Dh, 00Ah, 099h
-    db 03Bh, 0D3h, 075h, 026h, 08Bh, 0E8h, 08Bh, 045h, 00Ch, 08Bh, 05Dh, 00Eh, 099h, 03Bh, 0D3h, 075h
-    db 019h, 08Bh, 0D0h, 0A1h, 0A7h, 04Ch, 03Bh, 0F0h, 077h, 010h, 03Bh, 0E8h, 077h, 00Ch, 0A1h, 0A9h
-    db 04Ch, 03Bh, 0C8h, 077h, 005h, 03Bh, 0D0h, 077h, 001h, 0C3h, 02Ah, 0C0h, 0A2h, 0C0h, 018h, 08Bh
-    db 01Dh, 089h, 01Eh, 0A6h, 018h, 08Bh, 04Dh, 002h, 089h, 00Eh, 0A8h, 018h, 08Bh, 075h, 004h, 089h
-    db 036h, 0AAh, 018h, 08Bh, 055h, 006h, 089h, 016h, 0ACh, 018h, 0E8h, 0B9h, 001h, 0A2h, 0BEh, 018h
-    db 074h, 009h, 0E8h, 0E8h, 001h, 089h, 045h, 002h, 089h, 06Dh, 006h, 08Bh, 05Dh, 008h, 089h, 01Eh
-    db 0AEh, 018h, 08Bh, 04Dh, 00Ah, 089h, 00Eh, 0B0h, 018h, 08Bh, 075h, 00Ch, 089h, 036h, 0B2h, 018h
-    db 08Bh, 055h, 00Eh, 089h, 016h, 0B4h, 018h, 0E8h, 08Ch, 001h, 0A2h, 0BFh, 018h, 074h, 009h, 0E8h
-    db 0BBh, 001h, 089h, 045h, 00Ah, 089h, 06Dh, 00Eh, 08Ah, 026h, 0BEh, 018h, 0A0h, 0BFh, 018h, 00Ah
-    db 0E0h, 084h, 006h, 0BEh, 018h, 075h, 027h, 00Ah, 0C0h, 074h, 00Bh, 0A0h, 0BEh, 018h, 00Ah, 0C0h
-    db 074h, 008h, 0E8h, 01Dh, 000h, 0C3h, 0E8h, 077h, 000h, 0C3h, 08Bh, 01Eh, 0A6h, 018h, 08Bh, 00Eh
-    db 0A8h, 018h, 08Bh, 036h, 0AAh, 018h, 08Bh, 016h, 0ACh, 018h, 0E8h, 098h, 000h, 0C3h, 0E8h, 0CAh
-    db 000h, 0C3h
+loc_015D:
+    MOV AX,[DI]
+    MOV CX,[DI+2h]
+    CWD
+    CMP DX,CX
+    JNZ short loc_01A7
+    MOV SI,AX
+    MOV AX,[DI+4h]
+    MOV CX,[DI+6h]
+    CWD
+    CMP DX,CX
+    JNZ short loc_01A7
+    MOV CX,AX
+    MOV AX,[DI+8h]
+    MOV BX,[DI+0Ah]
+    CWD
+    CMP DX,BX
+    JNZ short loc_01A7
+    MOV BP,AX
+    MOV AX,[DI+0Ch]
+    MOV BX,[DI+0Eh]
+    CWD
+    CMP DX,BX
+    JNZ short loc_01A7
+    MOV DX,AX
+    MOV AX,[4CA7h]
+    CMP SI,AX
+    JA short loc_01A7
+    CMP BP,AX
+    JA short loc_01A7
+    MOV AX,[4CA9h]
+    CMP CX,AX
+    JA short loc_01A7
+    CMP DX,AX
+    JA short loc_01A7
+    RET
+loc_01A7:
+    SUB AL,AL
+    MOV [18C0h],AL
+    MOV BX,[DI]
+    MOV [18A6h],BX
+    MOV CX,[DI+2h]
+    MOV [18A8h],CX
+    MOV SI,[DI+4h]
+    MOV [18AAh],SI
+    MOV DX,[DI+6h]
+    MOV [18ACh],DX
+    CALL loc_0383
+    MOV [18BEh],AL
+    JZ short loc_01D8
+    CALL loc_03BA
+    MOV [DI+2h],AX
+    MOV [DI+6h],BP
+loc_01D8:
+    MOV BX,[DI+8h]
+    MOV [18AEh],BX
+    MOV CX,[DI+0Ah]
+    MOV [18B0h],CX
+    MOV SI,[DI+0Ch]
+    MOV [18B2h],SI
+    MOV DX,[DI+0Eh]
+    MOV [18B4h],DX
+    CALL loc_0383
+    MOV [18BFh],AL
+    JZ short loc_0205
+    CALL loc_03BA
+    MOV [DI+0Ah],AX
+    MOV [DI+0Eh],BP
+loc_0205:
+    MOV AH,[18BEh]
+    MOV AL,[18BFh]
+    OR AH,AL
+    TEST [18BEh],AL
+    JNZ short loc_023B
+    OR AL,AL
+    JZ short loc_0223
+    MOV AL,[18BEh]
+    OR AL,AL
+    JZ short loc_0227
+    CALL loc_023F
+    RET
+loc_0223:
+    CALL loc_029D
+    RET
+loc_0227:
+    MOV BX,[18A6h]
+    MOV CX,[18A8h]
+    MOV SI,[18AAh]
+    MOV DX,[18ACh]
+    CALL loc_02D2
+    RET
+loc_023B:
+    CALL loc_0308
+    RET
 sub_1F9DD endp
 
 sub_1FABF proc near
-    db 0A1h, 0A6h, 018h, 0A3h, 0B6h, 018h, 0A1h, 0A8h, 018h, 0A3h, 0B8h, 018h, 0A1h, 0AAh, 018h, 0A3h
-    db 0BAh, 018h, 0A1h, 0ACh, 018h, 0A3h, 0BCh, 018h, 08Bh, 01Eh, 0AEh, 018h, 08Bh, 00Eh, 0B0h, 018h
-    db 08Bh, 036h, 0B2h, 018h, 08Bh, 016h, 0B4h, 018h, 0E8h, 01Ah, 002h, 074h, 00Ah, 08Bh, 055h, 00Eh
-    db 089h, 055h, 004h, 0E8h, 093h, 000h, 0C3h, 089h, 01Eh, 0C9h, 018h, 089h, 00Eh, 0CBh, 018h, 089h
-    db 036h, 0CDh, 018h, 089h, 016h, 0CFh, 018h, 0E8h, 014h, 000h, 08Bh, 01Eh, 0C9h, 018h, 08Bh, 00Eh
-    db 0CBh, 018h, 08Bh, 036h, 0CDh, 018h, 08Bh, 016h, 0CFh, 018h, 0E8h, 036h, 000h, 0C3h
+loc_023F:
+    MOV AX,[18A6h]
+    MOV [18B6h],AX
+    MOV AX,[18A8h]
+    MOV [18B8h],AX
+    MOV AX,[18AAh]
+    MOV [18BAh],AX
+    MOV AX,[18ACh]
+    MOV [18BCh],AX
+    MOV BX,[18AEh]
+    MOV CX,[18B0h]
+    MOV SI,[18B2h]
+    MOV DX,[18B4h]
+    CALL loc_0484
+    JZ short loc_0276
+    MOV DX,[DI+0Eh]
+    MOV [DI+4h],DX
+    CALL loc_0308
+    RET
+loc_0276:
+    MOV [18C9h],BX
+    MOV [18CBh],CX
+    MOV [18CDh],SI
+    MOV [18CFh],DX
+    CALL loc_029D
+    MOV BX,[18C9h]
+    MOV CX,[18CBh]
+    MOV SI,[18CDh]
+    MOV DX,[18CFh]
+    CALL loc_02D2
+    RET
 sub_1FABF endp
 
 sub_1FB1D proc near
-    db 089h, 01Eh, 0B6h, 018h, 089h, 00Eh, 0B8h, 018h, 089h, 036h, 0BAh, 018h, 089h, 016h, 0BCh, 018h
-    db 08Bh, 01Eh, 0A6h, 018h, 08Bh, 00Eh, 0A8h, 018h, 08Bh, 036h, 0AAh, 018h, 08Bh, 016h, 0ACh, 018h
-    db 0E8h, 04Eh, 001h, 089h, 01Dh, 089h, 075h, 004h, 08Bh, 045h, 004h, 03Bh, 045h, 006h, 074h, 004h
-    db 080h, 04Dh, 018h, 020h, 0C3h
+loc_029D:
+    MOV [18B6h],BX
+    MOV [18B8h],CX
+    MOV [18BAh],SI
+    MOV [18BCh],DX
+    MOV BX,[18A6h]
+    MOV CX,[18A8h]
+    MOV SI,[18AAh]
+    MOV DX,[18ACh]
+    CALL loc_040E
+    MOV [DI],BX
+    MOV [DI+4h],SI
+    MOV AX,[DI+4h]
+    CMP AX,[DI+6h]
+    JZ short loc_02D1
+    OR BYTE PTR [DI+18h],20h
+loc_02D1:
+    RET
 sub_1FB1D endp
 
 sub_1FB52 proc near
-    db 089h, 01Eh, 0B6h, 018h, 089h, 00Eh, 0B8h, 018h, 089h, 036h, 0BAh, 018h, 089h, 016h, 0BCh, 018h
-    db 08Bh, 01Eh, 0AEh, 018h, 08Bh, 00Eh, 0B0h, 018h, 08Bh, 036h, 0B2h, 018h, 08Bh, 016h, 0B4h, 018h
-    db 0E8h, 019h, 001h, 089h, 05Dh, 008h, 089h, 075h, 00Ch, 08Bh, 045h, 00Ch, 03Bh, 045h, 00Eh, 074h
-    db 004h, 080h, 04Dh, 018h, 010h, 0C3h
+loc_02D2:
+    MOV [18B6h],BX
+    MOV [18B8h],CX
+    MOV [18BAh],SI
+    MOV [18BCh],DX
+    MOV BX,[18AEh]
+    MOV CX,[18B0h]
+    MOV SI,[18B2h]
+    MOV DX,[18B4h]
+    CALL loc_040E
+    MOV [DI+8h],BX
+    MOV [DI+0Ch],SI
+    MOV AX,[DI+0Ch]
+    CMP AX,[DI+0Eh]
+    JZ short loc_0307
+    OR BYTE PTR [DI+18h],10h
+loc_0307:
+    RET
 sub_1FB52 endp
 
 sub_1FB88 proc near
-    db 08Ah, 04Dh, 018h, 080h, 0C9h, 080h, 08Bh, 055h, 00Eh, 089h, 055h, 004h, 0A8h, 009h, 074h, 018h
-    db 0BAh, 000h, 000h, 0A8h, 008h, 075h, 004h, 08Bh, 016h, 0A7h, 04Ch, 089h, 015h, 08Bh, 045h, 004h
-    db 03Bh, 045h, 006h, 074h, 003h, 080h, 0C9h, 020h, 088h, 04Dh, 018h, 0C3h
+loc_0308:
+    MOV CL,[DI+18h]
+    OR CL,80h
+    MOV DX,[DI+0Eh]
+    MOV [DI+4h],DX
+    TEST AL,9h
+    JZ short loc_0330
+    MOV DX,0h
+    TEST AL,8h
+    JNZ short loc_0323
+    MOV DX,[4CA7h]
+loc_0323:
+    MOV [DI],DX
+    MOV AX,[DI+4h]
+    CMP AX,[DI+6h]
+    JZ short loc_0330
+    OR CL,20h
+loc_0330:
+    MOV [DI+18h],CL
+    RET
 sub_1FB88 endp
 
 sub_1FBB4 proc near
-    db 00Bh, 0C9h, 075h, 00Bh, 083h, 0FBh, 000h, 074h, 018h, 03Bh, 01Eh, 0A7h, 04Ch, 074h, 012h, 00Bh
-    db 0D2h, 075h, 00Bh, 083h, 0FEh, 000h, 074h, 020h, 03Bh, 036h, 0A9h, 04Ch, 074h, 01Ah, 02Bh, 0C0h
-    db 0C3h, 02Bh, 0C0h, 00Bh, 0D2h, 078h, 00Eh, 075h, 00Ch, 083h, 0FEh, 000h, 072h, 007h, 03Bh, 036h
-    db 0A9h, 04Ch, 077h, 001h, 040h, 00Bh, 0C0h, 0C3h, 02Bh, 0C0h, 00Bh, 0C9h, 078h, 00Eh, 075h, 00Ch
-    db 083h, 0FBh, 000h, 072h, 007h, 03Bh, 01Eh, 0A7h, 04Ch, 077h, 001h, 040h, 00Bh, 0C0h, 0C3h
+loc_0334:
+    OR CX,CX
+    JNZ short loc_0343
+    CMP BX,BYTE PTR +0x0
+    JZ short loc_0355
+    CMP BX,[4CA7h]
+    JZ short loc_0355
+loc_0343:
+    OR DX,DX
+    JNZ short loc_0352
+    CMP SI,BYTE PTR +0x0
+    JZ short loc_036C
+    CMP SI,[4CA9h]
+    JZ short loc_036C
+loc_0352:
+    SUB AX,AX
+    RET
+loc_0355:
+    SUB AX,AX
+    OR DX,DX
+    JS short loc_0369
+    JNZ short loc_0369
+    CMP SI,BYTE PTR +0x0
+    JC short loc_0369
+    CMP SI,[4CA9h]
+    JA short loc_0369
+    INC AX
+loc_0369:
+    OR AX,AX
+    RET
+loc_036C:
+    SUB AX,AX
+    OR CX,CX
+    JS short loc_0380
+    JNZ short loc_0380
+    CMP BX,BYTE PTR +0x0
+    JC short loc_0380
+    CMP BX,[4CA7h]
+    JA short loc_0380
+    INC AX
+loc_0380:
+    OR AX,AX
+    RET
 sub_1FBB4 endp
 
 sub_1FC03 proc near
-    db 0B0h, 00Ch, 00Bh, 0C9h, 078h, 015h, 075h, 005h, 083h, 0FBh, 000h, 072h, 00Eh, 034h, 009h, 00Bh
-    db 0C9h, 075h, 008h, 03Bh, 01Eh, 0A7h, 04Ch, 077h, 002h, 034h, 001h, 00Bh, 0D2h, 078h, 015h, 075h
-    db 005h, 083h, 0FEh, 000h, 072h, 00Eh, 034h, 006h, 00Bh, 0D2h, 075h, 008h, 03Bh, 036h, 0A9h, 04Ch
-    db 077h, 002h, 034h, 002h, 00Ah, 0C0h, 0C3h
+loc_0383:
+    MOV AL,0Ch
+    OR CX,CX
+    JS short loc_039E
+    JNZ short loc_0390
+    CMP BX,BYTE PTR +0x0
+    JC short loc_039E
+loc_0390:
+    XOR AL,9h
+    OR CX,CX
+    JNZ short loc_039E
+    CMP BX,[4CA7h]
+    JA short loc_039E
+    XOR AL,1h
+loc_039E:
+    OR DX,DX
+    JS short loc_03B7
+    JNZ short loc_03A9
+    CMP SI,BYTE PTR +0x0
+    JC short loc_03B7
+loc_03A9:
+    XOR AL,6h
+    OR DX,DX
+    JNZ short loc_03B7
+    CMP SI,[4CA9h]
+    JA short loc_03B7
+    XOR AL,2h
+loc_03B7:
+    OR AL,AL
+    RET
 sub_1FC03 endp
 
 sub_1FC3A proc near
-    db 0B4h, 001h, 08Bh, 0E9h, 045h, 083h, 0FDh, 001h, 077h, 022h, 08Bh, 0E9h, 0D1h, 0FDh, 033h, 0EBh
-    db 081h, 0E5h, 000h, 0C0h, 075h, 016h, 08Bh, 0EAh, 045h, 083h, 0FDh, 001h, 077h, 00Eh, 08Bh, 0EAh
-    db 0D1h, 0FDh, 033h, 0EEh, 081h, 0E5h, 000h, 0C0h, 075h, 002h, 02Ah, 0E4h, 008h, 026h, 0C0h, 018h
-    db 08Bh, 0EEh, 0A8h, 004h, 074h, 003h, 0BDh, 000h, 000h, 0A8h, 002h, 074h, 004h, 08Bh, 02Eh, 0A9h
-    db 04Ch, 0A8h, 008h, 074h, 004h, 0B8h, 000h, 000h, 0C3h, 0A8h, 001h, 074h, 004h, 0A1h, 0A7h, 04Ch
-    db 0C3h, 08Bh, 0C3h, 0C3h
+loc_03BA:
+    MOV AH,1h
+    MOV BP,CX
+    INC BP
+    CMP BP,BYTE PTR +0x1
+    JA short loc_03E6
+    MOV BP,CX
+    SAR BP,1
+    XOR BP,BX
+    AND BP,0C000h
+    JNZ short loc_03E6
+    MOV BP,DX
+    INC BP
+    CMP BP,BYTE PTR +0x1
+    JA short loc_03E6
+    MOV BP,DX
+    SAR BP,1
+    XOR BP,SI
+    AND BP,0C000h
+    JNZ short loc_03E6
+    SUB AH,AH
+loc_03E6:
+    OR [18C0h],AH
+    MOV BP,SI
+    TEST AL,4h
+    JZ short loc_03F3
+    MOV BP,0h
+loc_03F3:
+    TEST AL,2h
+    JZ short loc_03FB
+    MOV BP,[4CA9h]
+loc_03FB:
+    TEST AL,8h
+    JZ short loc_0403
+    MOV AX,0h
+    RET
+loc_0403:
+    TEST AL,1h
+    JZ short loc_040B
+    MOV AX,[4CA7h]
+    RET
+loc_040B:
+    MOV AX,BX
+    RET
 sub_1FC3A endp
 
 sub_1FC8E proc near
-    db 0A0h, 0C0h, 018h, 00Ah, 0C0h, 075h, 003h, 0E9h, 072h, 001h, 0BDh, 020h, 000h, 089h, 01Eh, 0C1h
-    db 018h, 089h, 00Eh, 0C3h, 018h, 089h, 036h, 0C5h, 018h, 089h, 016h, 0C7h, 018h, 003h, 01Eh, 0B6h
-    db 018h, 013h, 00Eh, 0B8h, 018h, 0D1h, 0F9h, 0D1h, 0DBh, 003h, 036h, 0BAh, 018h, 013h, 016h, 0BCh
-    db 018h, 0D1h, 0FAh, 0D1h, 0DEh, 0E8h, 0EEh, 0FEh, 075h, 02Ah, 04Dh, 074h, 028h, 0E8h, 035h, 0FFh
-    db 075h, 0CBh, 089h, 01Eh, 0B6h, 018h, 089h, 00Eh, 0B8h, 018h, 089h, 036h, 0BAh, 018h, 089h, 016h
-    db 0BCh, 018h, 08Bh, 01Eh, 0C1h, 018h, 08Bh, 00Eh, 0C3h, 018h, 08Bh, 036h, 0C5h, 018h, 08Bh, 016h
-    db 0C7h, 018h, 0EBh, 0B9h, 0C3h, 08Bh, 01Eh, 0B6h, 018h, 08Bh, 00Eh, 0B8h, 018h, 08Bh, 036h, 0BAh
-    db 018h, 08Bh, 016h, 0BCh, 018h, 0C3h
+loc_040E:
+    MOV AL,[18C0h]
+    OR AL,AL
+    JNZ short loc_0418
+    JMP near ptr loc_058A
+loc_0418:
+    MOV BP,20h
+loc_041B:
+    MOV [18C1h],BX
+    MOV [18C3h],CX
+    MOV [18C5h],SI
+    MOV [18C7h],DX
+loc_042B:
+    ADD BX,[18B6h]
+    ADC CX,[18B8h]
+    SAR CX,1
+    RCR BX,1
+    ADD SI,[18BAh]
+    ADC DX,[18BCh]
+    SAR DX,1
+    RCR SI,1
+    CALL loc_0334
+    JNZ short loc_0472
+    DEC BP
+    JZ short loc_0473
+    CALL loc_0383
+    JNZ short loc_041B
+    MOV [18B6h],BX
+    MOV [18B8h],CX
+    MOV [18BAh],SI
+    MOV [18BCh],DX
+    MOV BX,[18C1h]
+    MOV CX,[18C3h]
+    MOV SI,[18C5h]
+    MOV DX,[18C7h]
+    JMP short loc_042B
+loc_0472:
+    RET
+loc_0473:
+    MOV BX,[18B6h]
+    MOV CX,[18B8h]
+    MOV SI,[18BAh]
+    MOV DX,[18BCh]
+    RET
 sub_1FC8E endp
 
 sub_1FD04 proc near
-    db 0A0h, 0C0h, 018h, 00Ah, 0C0h, 075h, 003h, 0E9h, 0C2h, 000h, 0BDh, 020h, 000h, 089h, 01Eh, 0C1h
-    db 018h, 089h, 00Eh, 0C3h, 018h, 089h, 036h, 0C5h, 018h, 089h, 016h, 0C7h, 018h, 003h, 01Eh, 0B6h
-    db 018h, 013h, 00Eh, 0B8h, 018h, 0D1h, 0F9h, 0D1h, 0DBh, 003h, 036h, 0BAh, 018h, 013h, 016h, 0BCh
-    db 018h, 0D1h, 0FAh, 0D1h, 0DEh, 0E8h, 0C7h, 0FEh, 074h, 031h, 04Dh, 074h, 02Eh, 084h, 006h, 0BEh
-    db 018h, 074h, 0CAh, 084h, 006h, 0BFh, 018h, 075h, 022h, 089h, 01Eh, 0B6h, 018h, 089h, 00Eh, 0B8h
-    db 018h, 089h, 036h, 0BAh, 018h, 089h, 016h, 0BCh, 018h, 08Bh, 01Eh, 0C1h, 018h, 08Bh, 00Eh, 0C3h
-    db 018h, 08Bh, 036h, 0C5h, 018h, 08Bh, 016h, 0C7h, 018h, 0EBh, 0B2h, 00Ah, 0C0h, 0C3h
+loc_0484:
+    MOV AL,[18C0h]
+    OR AL,AL
+    JNZ short loc_048E
+    JMP near ptr loc_0550
+loc_048E:
+    MOV BP,20h
+loc_0491:
+    MOV [18C1h],BX
+    MOV [18C3h],CX
+    MOV [18C5h],SI
+    MOV [18C7h],DX
+loc_04A1:
+    ADD BX,[18B6h]
+    ADC CX,[18B8h]
+    SAR CX,1
+    RCR BX,1
+    ADD SI,[18BAh]
+    ADC DX,[18BCh]
+    SAR DX,1
+    RCR SI,1
+    CALL loc_0383
+    JZ short loc_04EF
+    DEC BP
+    JZ short loc_04EF
+    TEST [18BEh],AL
+    JZ short loc_0491
+    TEST [18BFh],AL
+    JNZ short loc_04EF
+    MOV [18B6h],BX
+    MOV [18B8h],CX
+    MOV [18BAh],SI
+    MOV [18BCh],DX
+    MOV BX,[18C1h]
+    MOV CX,[18C3h]
+    MOV SI,[18C5h]
+    MOV DX,[18C7h]
+    JMP short loc_04A1
+loc_04EF:
+    OR AL,AL
+    RET
 sub_1FD04 endp
 
 sub_1FD72 proc near
-    db 083h, 0FBh, 000h, 074h, 014h, 03Bh, 01Eh, 0A7h, 04Ch, 074h, 00Eh, 083h, 0FEh, 000h, 074h, 01Ah
-    db 03Bh, 036h, 0A9h, 04Ch, 074h, 014h, 02Bh, 0C0h, 0C3h, 02Bh, 0C0h, 083h, 0FEh, 000h, 07Ch, 007h
-    db 03Bh, 036h, 0A9h, 04Ch, 07Fh, 001h, 040h, 00Bh, 0C0h, 0C3h, 02Bh, 0C0h, 083h, 0FBh, 000h, 07Ch
-    db 007h, 03Bh, 01Eh, 0A7h, 04Ch, 07Fh, 001h, 040h, 00Bh, 0C0h, 0C3h
+loc_04F2:
+    CMP BX,BYTE PTR +0x0
+    JZ short loc_050B
+    CMP BX,[4CA7h]
+    JZ short loc_050B
+    CMP SI,BYTE PTR +0x0
+    JZ short loc_051C
+    CMP SI,[4CA9h]
+    JZ short loc_051C
+    SUB AX,AX
+    RET
+loc_050B:
+    SUB AX,AX
+    CMP SI,BYTE PTR +0x0
+    JL short loc_0519
+    CMP SI,[4CA9h]
+    JG short loc_0519
+    INC AX
+loc_0519:
+    OR AX,AX
+    RET
+loc_051C:
+    SUB AX,AX
+    CMP BX,BYTE PTR +0x0
+    JL short loc_052A
+    CMP BX,[4CA7h]
+    JG short loc_052A
+    INC AX
+loc_052A:
+    OR AX,AX
+    RET
 sub_1FD72 endp
 
 sub_1FDAD proc near
-    db 0B0h, 00Ch, 083h, 0FBh, 000h, 07Ch, 00Ah, 034h, 009h, 03Bh, 01Eh, 0A7h, 04Ch, 07Fh, 002h, 034h
-    db 001h, 083h, 0FEh, 000h, 07Ch, 00Ah, 034h, 006h, 03Bh, 036h, 0A9h, 04Ch, 07Fh, 002h, 034h, 002h
-    db 00Ah, 0C0h, 0C3h
+loc_052D:
+    MOV AL,0Ch
+    CMP BX,BYTE PTR +0x0
+    JL short loc_053E
+    XOR AL,9h
+    CMP BX,[4CA7h]
+    JG short loc_053E
+    XOR AL,1h
+loc_053E:
+    CMP SI,BYTE PTR +0x0
+    JL short loc_054D
+    XOR AL,6h
+    CMP SI,[4CA9h]
+    JG short loc_054D
+    XOR AL,2h
+loc_054D:
+    OR AL,AL
+    RET
 sub_1FDAD endp
 
-    db 057h, 08Bh, 00Eh, 0B6h, 018h, 08Bh, 016h, 0BAh, 018h, 0BDh, 010h, 000h, 08Bh, 0FBh, 08Eh, 0C6h
-    db 003h, 0D9h, 0D1h, 0FBh, 003h, 0F2h, 0D1h, 0FEh, 0E8h, 0C2h, 0FFh, 074h, 019h, 04Dh, 074h, 016h
-    db 084h, 006h, 0BEh, 018h, 074h, 0E6h, 084h, 006h, 0BFh, 018h, 075h, 00Ah, 08Bh, 0CBh, 08Bh, 0D6h
-    db 08Bh, 0DFh, 08Ch, 0C6h, 0EBh, 0DAh, 05Fh, 00Ah, 0C0h, 0C3h, 057h, 08Bh, 00Eh, 0B6h, 018h, 08Bh
-    db 016h, 0BAh, 018h, 0BDh, 010h, 000h, 08Bh, 0FBh, 08Eh, 0C6h, 003h, 0D9h, 0D1h, 0FBh, 003h, 0F2h
-    db 0D1h, 0FEh, 0E8h, 04Dh, 0FFh, 075h, 012h, 04Dh, 074h, 011h, 0E8h, 080h, 0FFh, 075h, 0E7h, 08Bh
-    db 0CBh, 08Bh, 0D6h, 08Bh, 0DFh, 08Ch, 0C6h, 0EBh, 0E1h, 05Fh, 0C3h, 08Bh, 0D9h, 08Bh, 0F2h, 05Fh
-    db 0C3h, 000h, 055h, 08Bh, 0ECh, 056h, 057h, 08Bh, 076h, 004h, 08Bh, 046h, 006h, 08Eh, 0C0h, 08Bh
-    db 07Eh, 008h, 08Bh, 05Eh, 00Ah, 0E8h, 004h, 000h, 05Fh, 05Eh, 05Dh, 0C3h
+loc_0550:
+    PUSH DI
+    MOV CX,[18B6h]
+    MOV DX,[18BAh]
+    MOV BP,10h
+loc_055C:
+    MOV DI,BX
+    MOV ES,SI
+loc_0560:
+    ADD BX,CX
+    SAR BX,1
+    ADD SI,DX
+    SAR SI,1
+    CALL loc_052D
+    JZ short loc_0586
+    DEC BP
+    JZ short loc_0586
+    TEST [18BEh],AL
+    JZ short loc_055C
+    TEST [18BFh],AL
+    JNZ short loc_0586
+    MOV CX,BX
+    MOV DX,SI
+    MOV BX,DI
+    MOV SI,ES
+    JMP short loc_0560
+loc_0586:
+    POP DI
+    OR AL,AL
+    RET
+loc_058A:
+    PUSH DI
+    MOV CX,[18B6h]
+    MOV DX,[18BAh]
+    MOV BP,10h
+loc_0596:
+    MOV DI,BX
+    MOV ES,SI
+loc_059A:
+    ADD BX,CX
+    SAR BX,1
+    ADD SI,DX
+    SAR SI,1
+    CALL loc_04F2
+    JNZ short loc_05B9
+    DEC BP
+    JZ short loc_05BB
+    CALL loc_052D
+    JNZ short loc_0596
+    MOV CX,BX
+    MOV DX,SI
+    MOV BX,DI
+    MOV SI,ES
+    JMP short loc_059A
+loc_05B9:
+    POP DI
+    RET
+loc_05BB:
+    MOV BX,CX
+    MOV SI,DX
+    POP DI
+    RET
+    db 000h, 055h, 08Bh, 0ECh, 056h, 057h, 08Bh, 076h, 004h, 08Bh, 046h, 006h, 08Eh, 0C0h, 08Bh, 07Eh
+    db 008h, 08Bh, 05Eh, 00Ah, 0E8h, 004h, 000h, 05Fh, 05Eh, 05Dh, 0C3h
 sub_1FE5C proc near
-    db 089h, 01Eh, 0E0h, 018h, 02Bh, 0EDh, 026h, 08Ah, 004h, 046h, 02Ah, 0E4h, 08Bh, 0C8h, 08Bh, 01Eh
-    db 0E0h, 018h, 003h, 0D9h, 08Ah, 007h, 08Bh, 0D9h, 0D1h, 0E3h, 02Bh, 0D2h, 03Ch, 0FFh, 075h, 003h
-    db 0BAh, 002h, 000h, 083h, 0FAh, 000h, 074h, 012h, 083h, 0FAh, 001h, 074h, 013h, 083h, 0FAh, 002h
-    db 074h, 017h, 083h, 0FAh, 003h, 074h, 018h, 0EBh, 01Fh, 090h, 0BAh, 001h, 000h, 0EBh, 03Dh, 090h
-    db 088h, 00Dh, 047h, 0BAh, 004h, 000h, 0EBh, 028h, 090h, 0BAh, 003h, 000h, 0EBh, 022h, 090h, 088h
-    db 00Dh, 047h, 0BAh, 004h, 000h, 0EBh, 025h, 090h, 083h, 0EDh, 001h, 078h, 00Fh, 058h, 08Ah, 0D0h
-    db 02Ah, 0F6h, 08Ah, 0CCh, 02Ah, 0EDh, 08Bh, 0D9h, 0D1h, 0E3h, 0EBh, 0B7h, 0C6h, 005h, 0FFh, 0C3h
-    db 026h, 08Ah, 000h, 03Ch, 0FFh, 074h, 003h, 0EBh, 00Bh, 090h, 0EBh, 0A7h, 026h, 08Ah, 040h, 001h
-    db 03Ch, 0FFh, 074h, 0F6h, 02Ah, 0E4h, 091h, 08Ah, 0E0h, 08Ah, 0C2h, 050h, 045h, 0E9h, 07Eh, 0FFh
+loc_05DC:
+    MOV [18E0h],BX
+    SUB BP,BP
+    MOV AL,[ES:SI]
+    INC SI
+    SUB AH,AH
+    MOV CX,AX
+loc_05EA:
+    MOV BX,[18E0h]
+    ADD BX,CX
+    MOV AL,[BX]
+    MOV BX,CX
+    SHL BX,1
+    SUB DX,DX
+    CMP AL,0FFh
+    JNZ short loc_05FF
+    MOV DX,2h
+loc_05FF:
+    CMP DX,BYTE PTR +0x0
+    JZ short loc_0616
+    CMP DX,BYTE PTR +0x1
+    JZ short loc_061C
+    CMP DX,BYTE PTR +0x2
+    JZ short loc_0625
+    CMP DX,BYTE PTR +0x3
+    JZ short loc_062B
+    JMP short loc_0634
+    NOP
+loc_0616:
+    MOV DX,1h
+    JMP short loc_0658
+    NOP
+loc_061C:
+    MOV [DI],CL
+    INC DI
+    MOV DX,4h
+    JMP short loc_064C
+    NOP
+loc_0625:
+    MOV DX,3h
+    JMP short loc_064C
+    NOP
+loc_062B:
+    MOV [DI],CL
+    INC DI
+    MOV DX,4h
+    JMP short loc_0658
+    NOP
+loc_0634:
+    SUB BP,BYTE PTR +0x1
+    JS short loc_0648
+    POP AX
+    MOV DL,AL
+    SUB DH,DH
+    MOV CL,AH
+    SUB CH,CH
+    MOV BX,CX
+    SHL BX,1
+    JMP short loc_05FF
+loc_0648:
+    MOV BYTE PTR [DI],0FFh
+    RET
+loc_064C:
+    MOV AL,[ES:BX+SI]
+    CMP AL,0FFh
+    JZ short loc_0656
+    JMP short loc_0660
+    NOP
+loc_0656:
+    JMP short loc_05FF
+loc_0658:
+    MOV AL,[ES:BX+SI+1h]
+    CMP AL,0FFh
+    JZ short loc_0656
+loc_0660:
+    SUB AH,AH
+    XCHG AX,CX
+    MOV AH,AL
+    MOV AL,DL
+    PUSH AX
+    INC BP
+    JMP near ptr loc_05EA
 sub_1FE5C endp
 
 sub_1FEEC proc far
-    db 055h, 08Bh, 0ECh, 08Ah, 046h, 006h, 0A2h, 0E6h, 018h, 056h, 057h, 0E8h, 004h, 000h, 05Fh, 05Eh
-    db 05Dh, 0CBh
+    PUSH BP
+    MOV BP,SP
+    MOV AL,[BP+6h]
+    MOV [18E6h],AL
+    PUSH SI
+    PUSH DI
+    CALL loc_067E
+    POP DI
+    POP SI
+    POP BP
+    RETF
 sub_1FEEC endp
 
 sub_1FEFE proc near
-    db 0A1h, 0C2h, 019h, 0F7h, 0D8h, 0A3h, 0E4h, 018h, 0A1h, 0BEh, 019h, 099h, 08Ah, 0D4h, 08Ah, 0E0h
-    db 02Ah, 0C0h, 08Bh, 00Eh, 0C0h, 019h, 081h, 0F9h, 00Bh, 01Fh, 07Fh, 006h, 0B8h, 0FFh, 003h, 0EBh
-    db 01Fh, 090h, 0F7h, 0F9h, 080h, 03Eh, 02Ch, 067h, 002h, 075h, 015h, 08Ah, 016h, 0B9h, 019h, 02Ah
-    db 0F6h, 08Bh, 0CAh, 0D1h, 0E9h, 003h, 0D1h, 0B1h, 003h, 0D3h, 0EAh, 083h, 0C2h, 004h, 02Bh, 0C2h
-    db 080h, 03Eh, 05Eh, 05Ch, 000h, 074h, 006h, 08Ah, 00Eh, 05Eh, 05Ch, 0D3h, 0E0h, 080h, 03Eh, 074h
-    db 053h, 000h, 074h, 002h, 0D1h, 0F8h, 08Bh, 0E8h, 0F7h, 02Eh, 0E4h, 018h, 0D1h, 0E0h, 0D1h, 0D2h
-    db 08Bh, 0D8h, 08Bh, 0CAh, 0A1h, 0DCh, 000h, 0D1h, 0E0h, 0F7h, 02Eh, 0C4h, 019h, 0D1h, 0E0h, 0D1h
-    db 0D2h, 08Bh, 0F0h, 08Bh, 0FAh, 02Bh, 0C3h, 01Bh, 0D1h, 0D1h, 0E0h, 013h, 016h, 0DCh, 000h, 089h
-    db 016h, 0ADh, 04Ch, 003h, 0DEh, 013h, 0CFh, 0D1h, 0E3h, 083h, 0D1h, 000h, 08Bh, 016h, 0DCh, 000h
-    db 02Bh, 0D1h, 089h, 016h, 0AFh, 04Ch, 08Bh, 0C5h, 0F7h, 02Eh, 0C4h, 019h, 0D1h, 0E0h, 0D1h, 0D2h
-    db 08Bh, 0F0h, 08Bh, 0FAh, 0A1h, 0DCh, 000h, 0D1h, 0E0h, 0F7h, 02Eh, 0E4h, 018h, 0D1h, 0E0h, 0D1h
-    db 0D2h, 08Bh, 0D8h, 08Bh, 0CAh, 02Bh, 0C6h, 01Bh, 0D7h, 0D1h, 0E0h, 083h, 0D2h, 000h, 08Bh, 0C2h
-    db 0D1h, 0F8h, 0D1h, 0F8h, 02Bh, 0D0h, 003h, 016h, 0DEh, 000h, 089h, 016h, 0B3h, 04Ch, 003h, 0F3h
-    db 013h, 0F9h, 0D1h, 0E6h, 083h, 0D7h, 000h, 08Bh, 0F7h, 0D1h, 0FEh, 0D1h, 0FEh, 02Bh, 0FEh, 08Bh
-    db 016h, 0DEh, 000h, 02Bh, 0D7h, 089h, 016h, 0B1h, 04Ch, 0C7h, 006h, 0E8h, 018h, 000h, 000h, 08Ah
-    db 026h, 0E6h, 018h
+loc_067E:
+    MOV AX,[19C2h]
+    NEG AX
+    MOV [18E4h],AX
+    MOV AX,[19BEh]
+    CWD
+    MOV DL,AH
+    MOV AH,AL
+    SUB AL,AL
+    MOV CX,[19C0h]
+    CMP CX,1F0Bh
+    JG short loc_06A0
+    MOV AX,3FFh
+    JMP short loc_06BE
+    NOP
+loc_06A0:
+    IDIV CX
+    CMP BYTE PTR [672Ch],2h
+    JNZ short loc_06BE
+    MOV DL,[19B9h]
+    SUB DH,DH
+    MOV CX,DX
+    SHR CX,1
+    ADD DX,CX
+    MOV CL,3h
+    SHR DX,CL
+    ADD DX,BYTE PTR +0x4
+    SUB AX,DX
+loc_06BE:
+    CMP BYTE PTR [5C5Eh],0h
+    JZ short loc_06CB
+    MOV CL,[5C5Eh]
+    SHL AX,CL
+loc_06CB:
+    CMP BYTE PTR [5374h],0h
+    JZ short loc_06D4
+    SAR AX,1
+loc_06D4:
+    MOV BP,AX
+    IMUL WORD PTR [18E4h]
+    SHL AX,1
+    RCL DX,1
+    MOV BX,AX
+    MOV CX,DX
+    MOV AX,[0DCh]
+    SHL AX,1
+    IMUL WORD PTR [19C4h]
+    SHL AX,1
+    RCL DX,1
+    MOV SI,AX
+    MOV DI,DX
+    SUB AX,BX
+    SBB DX,CX
+    SHL AX,1
+    ADC DX,[0DCh]
+    MOV [4CADh],DX
+    ADD BX,SI
+    ADC CX,DI
+    SHL BX,1
+    ADC CX,BYTE PTR +0x0
+    MOV DX,[0DCh]
+    SUB DX,CX
+    MOV [4CAFh],DX
+    MOV AX,BP
+    IMUL WORD PTR [19C4h]
+    SHL AX,1
+    RCL DX,1
+    MOV SI,AX
+    MOV DI,DX
+    MOV AX,[0DCh]
+    SHL AX,1
+    IMUL WORD PTR [18E4h]
+    SHL AX,1
+    RCL DX,1
+    MOV BX,AX
+    MOV CX,DX
+    SUB AX,SI
+    SBB DX,DI
+    SHL AX,1
+    ADC DX,BYTE PTR +0x0
+    MOV AX,DX
+    SAR AX,1
+    SAR AX,1
+    SUB DX,AX
+    ADD DX,[0DEh]
+    MOV [4CB3h],DX
+    ADD SI,BX
+    ADC DI,CX
+    SHL SI,1
+    ADC DI,BYTE PTR +0x0
+    MOV SI,DI
+    SAR SI,1
+    SAR SI,1
+    SUB DI,SI
+    MOV DX,[0DEh]
+    SUB DX,DI
+    MOV [4CB1h],DX
+    MOV WORD PTR [18E8h],0h
+    MOV AH,[18E6h]
     call far ptr gfx_setPageDirect
-    db 0E8h, 027h, 017h, 0E8h, 03Ah, 015h, 073h, 044h, 083h, 03Eh, 0BEh, 019h, 000h, 078h, 013h, 08Ah
-    db 026h, 0E7h, 018h
+    CALL loc_1EA0
+    CALL loc_1CB6
+    JNC short loc_07C2
+loc_077E:
+    CMP WORD PTR [19BEh],BYTE PTR +0x0
+    JS short loc_0798
+    MOV AH,[18E7h]
     call far ptr gfx_setPageDirect
-    db 080h, 03Eh, 02Ch, 067h, 002h, 075h, 003h, 0E9h, 0E6h, 000h, 02Bh, 0F6h, 08Bh, 0FEh, 08Bh, 016h
-    db 0A9h, 04Ch, 0E8h, 033h, 017h, 08Bh, 036h, 0A7h, 04Ch, 02Bh, 0FFh, 08Bh, 016h, 0A9h, 04Ch, 0E8h
-    db 026h, 017h, 0A1h, 029h, 050h, 08Bh, 00Eh, 02Bh, 050h, 0BBh, 0B5h, 04Ch
+    CMP BYTE PTR [672Ch],2h
+    JNZ short loc_0798
+    JMP near ptr loc_087E
+loc_0798:
+    SUB SI,SI
+    MOV DI,SI
+    MOV DX,[4CA9h]
+    CALL loc_1ED6
+    MOV SI,[4CA7h]
+    SUB DI,DI
+    MOV DX,[4CA9h]
+    CALL loc_1ED6
+    MOV AX,[5029h]
+    MOV CX,[502Bh]
+    MOV BX,4CB5h
     call far ptr gfx_dirtyRect
-    db 0E9h, 0BCh, 000h, 0A1h, 0B1h, 04Ch, 03Bh, 006h, 0B3h, 04Ch, 075h, 00Ah, 00Bh, 0C0h, 074h, 0AFh
-    db 03Bh, 006h, 0A9h, 04Ch, 074h, 0A9h, 0FFh, 036h, 0ADh, 04Ch, 0FFh, 036h, 0B1h, 04Ch, 0FFh, 036h
-    db 0AFh, 04Ch, 0FFh, 036h, 0B3h, 04Ch, 0E8h, 040h, 018h, 08Fh, 006h, 0B3h, 04Ch, 08Fh, 006h, 0AFh
-    db 04Ch, 08Fh, 006h, 0B1h, 04Ch, 08Fh, 006h, 0ADh, 04Ch, 02Bh, 0C0h, 08Bh, 036h, 0E8h, 018h, 033h
-    db 036h, 0E4h, 018h, 079h, 003h, 0A1h, 0A7h, 04Ch, 0A3h, 0E2h, 018h, 02Bh, 0DBh, 08Bh, 02Eh, 0A9h
-    db 04Ch, 08Bh, 036h, 0E8h, 018h, 033h, 036h, 0C4h, 019h, 079h, 002h, 087h, 0DDh, 08Bh, 036h, 0ADh
-    db 04Ch, 08Bh, 03Eh, 0B1h, 04Ch, 03Bh, 0FBh, 074h, 00Fh, 03Bh, 0FDh, 075h, 006h, 08Bh, 0FDh, 08Bh
-    db 036h, 0E2h, 018h, 08Bh, 0D3h, 0E8h, 09Fh, 016h, 08Bh, 036h, 0AFh, 04Ch, 08Bh, 03Eh, 0B3h, 04Ch
-    db 03Bh, 0FBh, 074h, 00Fh, 03Bh, 0FDh, 075h, 006h, 08Bh, 0FDh, 08Bh, 036h, 0E2h, 018h, 08Bh, 0D3h
-    db 0E8h, 084h, 016h, 0A1h, 029h, 050h, 08Bh, 00Eh, 02Bh, 050h, 0BBh, 0B5h, 04Ch
+    JMP near ptr loc_087E
+loc_07C2:
+    MOV AX,[4CB1h]
+    CMP AX,[4CB3h]
+    JNZ short loc_07D5
+    OR AX,AX
+    JZ short loc_077E
+    CMP AX,[4CA9h]
+    JZ short loc_077E
+loc_07D5:
+    PUSH WORD PTR [4CADh]
+    PUSH WORD PTR [4CB1h]
+    PUSH WORD PTR [4CAFh]
+    PUSH WORD PTR [4CB3h]
+    CALL loc_2028
+    POP WORD PTR [4CB3h]
+    POP WORD PTR [4CAFh]
+    POP WORD PTR [4CB1h]
+    POP WORD PTR [4CADh]
+    SUB AX,AX
+    MOV SI,[18E8h]
+    XOR SI,[18E4h]
+    JNS short loc_0807
+    MOV AX,[4CA7h]
+loc_0807:
+    MOV [18E2h],AX
+    SUB BX,BX
+    MOV BP,[4CA9h]
+    MOV SI,[18E8h]
+    XOR SI,[19C4h]
+    JNS short loc_081C
+    db 087h, 0DDh
+loc_081C:
+    MOV SI,[4CADh]
+    MOV DI,[4CB1h]
+    CMP DI,BX
+    JZ short loc_0837
+    CMP DI,BP
+    JNZ short loc_0832
+    MOV DI,BP
+    MOV SI,[18E2h]
+loc_0832:
+    MOV DX,BX
+    CALL loc_1ED6
+loc_0837:
+    MOV SI,[4CAFh]
+    MOV DI,[4CB3h]
+    CMP DI,BX
+    JZ short loc_0852
+    CMP DI,BP
+    JNZ short loc_084D
+    MOV DI,BP
+    MOV SI,[18E2h]
+loc_084D:
+    MOV DX,BX
+    CALL loc_1ED6
+loc_0852:
+    MOV AX,[5029h]
+    MOV CX,[502Bh]
+    MOV BX,4CB5h
     call far ptr gfx_dirtyRect
-    db 080h, 03Eh, 02Ch, 067h, 002h, 074h, 016h, 083h, 036h, 0E8h, 018h, 0FFh, 074h, 00Fh, 08Ah, 026h
-    db 0E7h, 018h
+    CMP BYTE PTR [672Ch],2h
+    JZ short loc_087E
+    XOR WORD PTR [18E8h],BYTE PTR -0x1
+    JZ short loc_087E
+    MOV AH,[18E7h]
     call far ptr gfx_setPageDirect
-    db 0E8h, 025h, 016h, 0E9h, 057h, 0FFh
+    CALL loc_1EA0
+    JMP near ptr loc_07D5
+loc_087E:
     call far ptr gfx_resetBlitOffset
-    db 0C3h
+    RET
 sub_1FEFE endp
 
 sub_20104 proc far
-    db 055h, 08Bh, 0ECh, 056h, 057h, 08Bh, 046h, 00Ah, 0A3h, 096h, 019h, 08Bh, 046h, 00Ch, 0A3h, 098h
-    db 019h, 08Bh, 046h, 00Eh, 0A3h, 09Ah, 019h, 0C4h, 076h, 006h, 089h, 036h, 08Ch, 019h, 08Ch, 006h
-    db 08Eh, 019h, 026h, 0ACh, 0A2h, 0B2h, 019h, 08Bh, 05Eh, 012h, 02Bh, 01Eh, 0B6h, 019h, 089h, 01Eh
-    db 092h, 019h, 08Bh, 04Eh, 014h, 02Bh, 00Eh, 0B8h, 019h, 089h, 00Eh, 094h, 019h, 08Bh, 06Eh, 010h
-    db 02Bh, 02Eh, 0B4h, 019h, 089h, 02Eh, 090h, 019h, 0E8h, 039h, 000h, 075h, 033h, 0E8h, 035h, 001h
-    db 083h, 0FEh, 001h, 075h, 007h, 083h, 03Eh, 02Ch, 067h, 002h, 075h, 024h, 08Ah, 0C8h, 024h, 060h
-    db 03Ch, 060h, 075h, 003h, 0E8h, 04Bh, 001h, 0F6h, 0C1h, 040h, 075h, 00Bh, 0A1h, 0B8h, 019h, 0F7h
-    db 0D8h, 03Bh, 006h, 094h, 019h, 074h, 006h, 0E8h, 082h, 001h, 0EBh, 004h, 090h, 0E8h, 0E3h, 002h
-    db 05Fh, 05Eh, 05Dh, 0CBh
+    PUSH BP
+    MOV BP,SP
+    PUSH SI
+    PUSH DI
+    MOV AX,[BP+0Ah]
+    MOV [1996h],AX
+    MOV AX,[BP+0Ch]
+    MOV [1998h],AX
+    MOV AX,[BP+0Eh]
+    MOV [199Ah],AX
+    LES SI,DWORD PTR [BP+6h]
+    MOV [198Ch],SI
+    MOV [198Eh],ES
+    db 026h
+    LODSB
+    MOV [19B2h],AL
+    MOV BX,[BP+12h]
+    SUB BX,[19B6h]
+    MOV [1992h],BX
+    MOV CX,[BP+14h]
+    SUB CX,[19B8h]
+    MOV [1994h],CX
+    MOV BP,[BP+10h]
+    SUB BP,[19B4h]
+    MOV [1990h],BP
+    CALL loc_0908
+    JNZ short loc_0904
+    CALL loc_0A09
+    CMP SI,BYTE PTR +0x1
+    JNZ short loc_08E0
+    CMP WORD PTR [672Ch],BYTE PTR +0x2
+    JNZ short loc_0904
+loc_08E0:
+    MOV CL,AL
+    AND AL,60h
+    CMP AL,60h
+    JNZ short loc_08EB
+    CALL loc_0A36
+loc_08EB:
+    TEST CL,40h
+    JNZ short loc_08FB
+    MOV AX,[19B8h]
+    NEG AX
+    CMP AX,[1994h]
+    JZ short loc_0901
+loc_08FB:
+    CALL loc_0A80
+    JMP short loc_0904
+    NOP
+loc_0901:
+    CALL loc_0BE7
+loc_0904:
+    POP DI
+    POP SI
+    POP BP
+    RETF
 sub_20104 endp
 
 sub_20188 proc near
-    db 056h, 0A1h, 0D2h, 019h, 0F7h, 0EBh, 08Bh, 0FAh, 08Bh, 0F0h, 0A1h, 0CCh, 019h, 0F7h, 0E9h, 003h
-    db 0F0h, 013h, 0FAh, 0A1h, 0C6h, 019h, 0F7h, 0EDh, 003h, 0F0h, 013h, 0FAh, 0D1h, 0E6h, 0D1h, 0D7h
-    db 089h, 036h, 09Ch, 019h, 089h, 03Eh, 09Eh, 019h, 0A1h, 0D4h, 019h, 0F7h, 0EBh, 08Bh, 0FAh, 08Bh
-    db 0F0h, 0A1h, 0CEh, 019h, 0F7h, 0E9h, 003h, 0F0h, 013h, 0FAh, 0A1h, 0C8h, 019h, 0F7h, 0EDh, 003h
-    db 0F0h, 013h, 0FAh, 0D1h, 0E6h, 0D1h, 0D7h, 089h, 036h, 0A0h, 019h, 089h, 03Eh, 0A2h, 019h, 0A1h
-    db 0D6h, 019h, 0F7h, 0EBh, 08Bh, 0FAh, 08Bh, 0F0h, 0A1h, 0D0h, 019h, 0F7h, 0E9h, 003h, 0F0h, 013h
-    db 0FAh, 0A1h, 0CAh, 019h, 0F7h, 0EDh, 003h, 0F0h, 013h, 0FAh, 0D1h, 0E6h, 0D1h, 0D7h, 089h, 036h
-    db 0A4h, 019h, 089h, 03Eh, 0A6h, 019h, 03Bh, 03Eh, 00Ch, 019h, 07Fh, 07Eh, 08Bh, 01Eh, 0B2h, 019h
-    db 0D1h, 0E3h, 03Bh, 0BFh, 01Ch, 019h, 07Ch, 072h, 08Bh, 036h, 0ECh, 09Dh, 08Bh, 02Eh, 0F2h, 09Dh
-    db 003h, 0F3h, 003h, 0EBh, 08Ah, 00Eh, 074h, 053h, 080h, 0F1h, 001h, 08Bh, 0C7h, 099h, 033h, 0C2h
-    db 02Bh, 0C2h, 08Bh, 0F8h, 003h, 004h, 0D3h, 0F8h, 08Bh, 0F0h, 0D1h, 0FEh, 0D1h, 0FEh, 003h, 0F0h
-    db 0A1h, 09Eh, 019h, 099h, 033h, 0C2h, 02Bh, 0C2h, 03Bh, 0C6h, 07Fh, 03Eh, 08Bh, 0F0h, 08Bh, 0C7h
-    db 003h, 046h, 000h, 0D3h, 0F8h, 08Bh, 0D8h, 080h, 03Eh, 012h, 008h, 000h, 074h, 00Ah, 0D1h, 0FBh
-    db 0D1h, 0FBh, 0D1h, 0FBh, 003h, 0D8h, 0D1h, 0FBh, 0A1h, 0A2h, 019h, 099h, 033h, 0C2h, 02Bh, 0C2h
-    db 03Bh, 0C3h, 07Fh, 016h, 003h, 0F0h, 0D1h, 0FEh, 0D1h, 0FEh, 003h, 0F7h, 089h, 036h, 0B0h, 019h
-    db 03Bh, 036h, 00Ch, 019h, 07Fh, 004h, 02Bh, 0C0h, 05Eh, 0C3h, 0B8h, 001h, 000h, 00Bh, 0C0h, 05Eh
-    db 0C3h
+loc_0908:
+    PUSH SI
+    MOV AX,[19D2h]
+    IMUL BX
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,[19CCh]
+    IMUL CX
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,[19C6h]
+    IMUL BP
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    MOV [199Ch],SI
+    MOV [199Eh],DI
+    MOV AX,[19D4h]
+    IMUL BX
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,[19CEh]
+    IMUL CX
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,[19C8h]
+    IMUL BP
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    MOV [19A0h],SI
+    MOV [19A2h],DI
+    MOV AX,[19D6h]
+    IMUL BX
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,[19D0h]
+    IMUL CX
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,[19CAh]
+    IMUL BP
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    MOV [19A4h],SI
+    MOV [19A6h],DI
+    CMP DI,[190Ch]
+    JG short loc_0A02
+    MOV BX,[19B2h]
+    SHL BX,1
+    CMP DI,[BX+191Ch]
+    JL short loc_0A02
+    MOV SI,[9DECh]
+    MOV BP,[9DF2h]
+    ADD SI,BX
+    ADD BP,BX
+    MOV CL,[5374h]
+    XOR CL,1h
+    MOV AX,DI
+    CWD
+    XOR AX,DX
+    SUB AX,DX
+    MOV DI,AX
+    ADD AX,[SI]
+    SAR AX,CL
+    MOV SI,AX
+    SAR SI,1
+    SAR SI,1
+    ADD SI,AX
+    MOV AX,[199Eh]
+    CWD
+    XOR AX,DX
+    SUB AX,DX
+    CMP AX,SI
+    JG short loc_0A02
+    MOV SI,AX
+    MOV AX,DI
+    ADD AX,[BP+0h]
+    SAR AX,CL
+    MOV BX,AX
+    CMP BYTE PTR [812h],0h
+    JZ short loc_09E0
+    SAR BX,1
+    SAR BX,1
+    SAR BX,1
+    ADD BX,AX
+    SAR BX,1
+loc_09E0:
+    MOV AX,[19A2h]
+    CWD
+    XOR AX,DX
+    SUB AX,DX
+    CMP AX,BX
+    JG short loc_0A02
+    ADD SI,AX
+    SAR SI,1
+    SAR SI,1
+    ADD SI,DI
+    MOV [19B0h],SI
+    CMP SI,[190Ch]
+    JG short loc_0A02
+    SUB AX,AX
+    POP SI
+    RET
+loc_0A02:
+    MOV AX,1h
+    OR AX,AX
+    POP SI
+    RET
 sub_20188 endp
 
 sub_20289 proc near
-    db 026h, 08Ah, 004h, 0A8h, 080h, 074h, 021h, 025h, 007h, 000h, 0D1h, 0E0h, 08Bh, 0D8h, 0A1h, 0B0h
-    db 019h, 08Ah, 00Eh, 05Eh, 05Ch, 0D3h, 0F8h, 03Bh, 087h, 0FCh, 018h, 07Eh, 006h, 026h, 003h, 074h
-    db 001h, 0EBh, 0DDh, 083h, 0C6h, 003h, 0EBh, 0D8h, 0C3h
+loc_0A09:
+    MOV AL,[ES:SI]
+    TEST AL,80h
+    JZ short loc_0A31
+    db 025h, 007h, 000h
+    SHL AX,1
+    MOV BX,AX
+    MOV AX,[19B0h]
+    MOV CL,[5C5Eh]
+    SAR AX,CL
+    CMP AX,[BX+18FCh]
+    JNG short loc_0A2C
+    ADD SI,[ES:SI+1h]
+    JMP short loc_0A09
+loc_0A2C:
+    ADD SI,BYTE PTR +0x3
+    JMP short loc_0A09
+loc_0A31:
+    RET
 sub_20289 endp
 
     db 0C4h, 036h, 08Ch, 019h
 sub_202B6 proc near
-    db 026h, 0ACh, 025h, 003h, 000h, 0D1h, 0E0h, 08Bh, 0D8h, 0A1h, 00Ah, 01Ah, 089h, 087h, 094h, 019h
-    db 0C3h
+loc_0A36:
+    db 026h
+    LODSB
+    db 025h, 003h, 000h
+    SHL AX,1
+    MOV BX,AX
+    MOV AX,[1A0Ah]
+    MOV [BX+1994h],AX
+    RET
 sub_202B6 endp
 
 sub_202C7 proc far
-    db 055h, 08Bh, 0ECh, 057h, 08Bh, 04Eh, 00Ah, 08Bh, 05Eh, 008h, 08Bh, 06Eh, 006h, 0E8h, 0B1h, 0FEh
-    db 05Fh, 05Dh, 0CBh
+    PUSH BP
+    MOV BP,SP
+    PUSH DI
+    MOV CX,[BP+0Ah]
+    MOV BX,[BP+8h]
+    MOV BP,[BP+6h]
+    CALL loc_0908
+    POP DI
+    POP BP
+    RETF
 sub_202C7 endp
 
 sub_202DA proc far
-    db 056h, 0C4h, 036h, 08Ch, 019h, 0E8h, 0A7h, 0FFh, 089h, 036h, 08Ch, 019h, 05Eh, 0CBh
+    PUSH SI
+    LES SI,DWORD PTR [198Ch]
+    CALL loc_0A09
+    MOV [198Ch],SI
+    POP SI
+    RETF
 sub_202DA endp
 
     db 055h, 056h, 057h, 0C4h, 036h, 08Ch, 019h, 0E8h, 00Eh, 000h, 05Fh, 05Eh, 05Dh, 0C3h
 sub_202F6 proc far
-    db 055h, 056h, 057h, 0E8h, 0E4h, 000h, 05Fh, 05Eh, 05Dh, 0CBh
+    PUSH BP
+    PUSH SI
+    PUSH DI
+    CALL loc_0B60
+    POP DI
+    POP SI
+    POP BP
+    RETF
 sub_202F6 endp
 
 sub_20300 proc near
-    db 089h, 036h, 08Ch, 019h, 08Ch, 006h, 08Eh, 019h, 08Ch, 0D8h, 08Eh, 0C0h, 0A1h, 0FCh, 019h, 03Dh
-    db 023h, 000h, 07Ch, 018h, 08Bh, 01Eh, 048h, 032h, 0B9h, 022h, 000h, 0BEh, 04Ah, 032h, 0BFh, 048h
-    db 032h, 0F3h, 0A5h, 08Bh, 0FBh, 048h, 0A3h, 0FCh, 019h, 0EBh, 00Ah, 090h, 0BFh, 0E8h, 02Dh, 0B1h
-    db 005h, 0D3h, 0E0h, 003h, 0F8h, 0A1h, 0A4h, 019h, 08Bh, 016h, 0A6h, 019h, 08Bh, 00Eh, 0BCh, 098h
-    db 08Bh, 0D9h, 0D1h, 0E1h, 0F7h, 0D9h, 083h, 0C1h, 008h, 074h, 006h, 0D1h, 0FAh, 0D1h, 0D8h, 0E2h
-    db 0FAh, 083h, 0FBh, 002h, 075h, 00Ah, 083h, 03Eh, 0B2h, 019h, 005h, 075h, 003h, 083h, 0C2h, 020h
-    db 08Bh, 0EFh, 050h, 052h, 0ABh, 08Bh, 0C2h, 0ABh, 0A1h, 08Ch, 019h, 0ABh, 0A1h, 08Eh, 019h, 0ABh
-    db 0A1h, 090h, 019h, 0ABh, 0A1h, 092h, 019h, 0ABh, 0A1h, 094h, 019h, 0ABh, 0A1h, 096h, 019h, 0ABh
-    db 0A1h, 098h, 019h, 0ABh, 0A1h, 09Ah, 019h, 0ABh, 0A1h, 09Ch, 019h, 0ABh, 0A1h, 09Eh, 019h, 0ABh
-    db 0A1h, 0A0h, 019h, 0ABh, 0A1h, 0A2h, 019h, 0ABh, 0A1h, 0A4h, 019h, 0ABh, 0A1h, 0A6h, 019h, 0ABh
-    db 05Ah, 058h, 08Bh, 01Eh, 0FCh, 019h, 0D1h, 0E3h, 08Bh, 0CBh, 083h, 0EBh, 002h, 078h, 00Fh, 08Bh
-    db 0BFh, 048h, 032h, 03Bh, 055h, 002h, 07Fh, 0F2h, 07Ch, 004h, 03Bh, 005h, 077h, 0ECh, 083h, 0E9h
-    db 002h, 08Bh, 0F9h, 081h, 0C7h, 04Ah, 032h, 08Bh, 0F1h, 081h, 0C6h, 048h, 032h, 02Bh, 0CBh, 07Eh
-    db 008h, 0D1h, 0E9h, 0FAh, 0FDh, 0F3h, 0A5h, 0FCh, 0FBh, 089h, 02Dh, 0FFh, 006h, 0FCh, 019h, 0C3h
+loc_0A80:
+    MOV [198Ch],SI
+    MOV [198Eh],ES
+    MOV AX,DS
+    MOV ES,AX
+    MOV AX,[19FCh]
+    db 03Dh, 023h, 000h
+    JL short loc_0AAC
+    MOV BX,[3248h]
+    MOV CX,22h
+    MOV SI,324Ah
+    MOV DI,3248h
+    REP movsw
+    MOV DI,BX
+    DEC AX
+    MOV [19FCh],AX
+    JMP short loc_0AB5
+    NOP
+loc_0AAC:
+    MOV DI,2DE8h
+    MOV CL,5h
+    SHL AX,CL
+    ADD DI,AX
+loc_0AB5:
+    MOV AX,[19A4h]
+    MOV DX,[19A6h]
+    MOV CX,[98BCh]
+    MOV BX,CX
+    SHL CX,1
+    NEG CX
+    ADD CX,BYTE PTR +0x8
+    JZ short loc_0AD1
+loc_0ACB:
+    SAR DX,1
+    RCR AX,1
+    LOOP short loc_0ACB
+loc_0AD1:
+    CMP BX,BYTE PTR +0x2
+    JNZ short loc_0AE0
+    CMP WORD PTR [19B2h],BYTE PTR +0x5
+    JNZ short loc_0AE0
+    ADD DX,BYTE PTR +0x20
+loc_0AE0:
+    MOV BP,DI
+    PUSH AX
+    PUSH DX
+    STOSW
+    MOV AX,DX
+    STOSW
+    MOV AX,[198Ch]
+    STOSW
+    MOV AX,[198Eh]
+    STOSW
+    MOV AX,[1990h]
+    STOSW
+    MOV AX,[1992h]
+    STOSW
+    MOV AX,[1994h]
+    STOSW
+    MOV AX,[1996h]
+    STOSW
+    MOV AX,[1998h]
+    STOSW
+    MOV AX,[199Ah]
+    STOSW
+    MOV AX,[199Ch]
+    STOSW
+    MOV AX,[199Eh]
+    STOSW
+    MOV AX,[19A0h]
+    STOSW
+    MOV AX,[19A2h]
+    STOSW
+    MOV AX,[19A4h]
+    STOSW
+    MOV AX,[19A6h]
+    STOSW
+    POP DX
+    POP AX
+    MOV BX,[19FCh]
+    SHL BX,1
+    MOV CX,BX
+loc_0B2A:
+    SUB BX,BYTE PTR +0x2
+    JS short loc_0B3E
+    MOV DI,[BX+3248h]
+    CMP DX,[DI+2h]
+    JG short loc_0B2A
+    JL short loc_0B3E
+    CMP AX,[DI]
+    JA short loc_0B2A
+loc_0B3E:
+    SUB CX,BYTE PTR +0x2
+    MOV DI,CX
+    ADD DI,324Ah
+    MOV SI,CX
+    ADD SI,3248h
+    SUB CX,BX
+    JNG short loc_0B59
+    SHR CX,1
+    CLI
+    STD
+    REP movsw
+    CLD
+    STI
+loc_0B59:
+    MOV [DI],BP
+    INC WORD PTR [19FCh]
+    RET
 sub_20300 endp
 
 sub_203E0 proc near
-    db 083h, 03Eh, 0FCh, 019h, 000h, 074h, 054h, 0BEh, 046h, 032h, 083h, 0C6h, 002h, 056h, 08Bh, 034h
-    db 083h, 0C6h, 004h, 0ADh, 0A3h, 08Ch, 019h, 0ADh, 0A3h, 08Eh, 019h, 0ADh, 0A3h, 090h, 019h, 0ADh
-    db 0A3h, 092h, 019h, 0ADh, 0A3h, 094h, 019h, 0ADh, 0A3h, 096h, 019h, 0ADh, 0A3h, 098h, 019h, 0ADh
-    db 0A3h, 09Ah, 019h, 0ADh, 0A3h, 09Ch, 019h, 0ADh, 0A3h, 09Eh, 019h, 0ADh, 0A3h, 0A0h, 019h, 0ADh
-    db 0A3h, 0A2h, 019h, 0ADh, 0A3h, 0A4h, 019h, 0ADh, 0A3h, 0A6h, 019h, 0C4h, 036h, 08Ch, 019h, 0E8h
-    db 035h, 000h, 05Eh, 0FFh, 00Eh, 0FCh, 019h, 074h, 002h, 0EBh, 0AFh, 0C3h
+loc_0B60:
+    CMP WORD PTR [19FCh],BYTE PTR +0x0
+    JZ short loc_0BBB
+    MOV SI,3246h
+loc_0B6A:
+    ADD SI,BYTE PTR +0x2
+    PUSH SI
+    MOV SI,[SI]
+    ADD SI,BYTE PTR +0x4
+    LODSW
+    MOV [198Ch],AX
+    LODSW
+    MOV [198Eh],AX
+    LODSW
+    MOV [1990h],AX
+    LODSW
+    MOV [1992h],AX
+    LODSW
+    MOV [1994h],AX
+    LODSW
+    MOV [1996h],AX
+    LODSW
+    MOV [1998h],AX
+    LODSW
+    MOV [199Ah],AX
+    LODSW
+    MOV [199Ch],AX
+    LODSW
+    MOV [199Eh],AX
+    LODSW
+    MOV [19A0h],AX
+    LODSW
+    MOV [19A2h],AX
+    LODSW
+    MOV [19A4h],AX
+    LODSW
+    MOV [19A6h],AX
+    LES SI,DWORD PTR [198Ch]
+    CALL loc_0BE7
+    POP SI
+    DEC WORD PTR [19FCh]
+    JZ short loc_0BBB
+    JMP short loc_0B6A
+loc_0BBB:
+    RET
 sub_203E0 endp
 
     db 055h, 056h, 057h, 0C4h, 036h, 08Ch, 019h, 0E8h, 021h, 000h, 05Fh, 05Eh, 05Dh, 0C3h
 sub_2044A proc far
-    db 055h, 056h, 057h, 08Bh, 00Eh, 094h, 019h, 0A1h, 092h, 019h, 08Bh, 02Eh, 090h, 019h, 0C4h, 036h
-    db 08Ch, 019h, 0E8h, 0D5h, 000h, 089h, 036h, 08Ch, 019h, 05Fh, 05Eh, 05Dh, 0CBh
+    PUSH BP
+    PUSH SI
+    PUSH DI
+    MOV CX,[1994h]
+    MOV AX,[1992h]
+    MOV BP,[1990h]
+    LES SI,DWORD PTR [198Ch]
+    CALL loc_0CB4
+    MOV [198Ch],SI
+    POP DI
+    POP SI
+    POP BP
+    RETF
 sub_2044A endp
 
 sub_20467 proc near
-    db 08Ah, 026h, 083h, 000h, 00Ah, 0E4h, 074h, 027h, 0A0h, 0A7h, 019h, 098h, 0F6h, 0D4h, 022h, 0C4h
-    db 02Ah, 0E4h, 0D1h, 0E8h, 08Ah, 0E0h, 080h, 0ECh, 000h, 079h, 002h, 02Ah, 0E4h, 080h, 0FCh, 007h
-    db 07Eh, 002h, 0B4h, 007h, 0D0h, 0E4h, 0D0h, 0E4h, 0D0h, 0E4h, 0D0h, 0E4h, 080h, 0C4h, 080h, 088h
-    db 026h, 0EAh, 018h, 026h, 08Ah, 004h, 024h, 03Fh, 03Ch, 03Eh, 07Ch, 008h, 074h, 003h, 0E9h, 062h
-    db 00Dh, 0E9h, 0C9h, 00Eh, 0A1h, 096h, 019h, 00Bh, 006h, 098h, 019h, 00Bh, 006h, 09Ah, 019h, 00Ah
-    db 0C4h, 0A2h, 0A8h, 019h, 074h, 023h, 056h, 0BFh, 0D8h, 019h, 08Bh, 00Eh, 096h, 019h, 08Bh, 036h
-    db 098h, 019h, 08Bh, 02Eh, 09Ah, 019h, 0E8h, 02Bh, 008h, 0BBh, 0D8h, 019h, 0BEh, 0C6h, 019h, 0BFh
-    db 0EAh, 019h, 0E8h, 071h, 009h, 05Eh, 0EBh, 037h, 090h, 0A1h, 0C6h, 019h, 0A3h, 0EAh, 019h, 0A1h
-    db 0C8h, 019h, 0A3h, 0ECh, 019h, 0A1h, 0CAh, 019h, 0A3h, 0EEh, 019h, 0A1h, 0CCh, 019h, 0A3h, 0F0h
-    db 019h, 0A1h, 0CEh, 019h, 0A3h, 0F2h, 019h, 0A1h, 0D0h, 019h, 0A3h, 0F4h, 019h, 0A1h, 0D2h, 019h
-    db 0A3h, 0F6h, 019h, 0A1h, 0D4h, 019h, 0A3h, 0F8h, 019h, 0A1h, 0D6h, 019h, 0A3h, 0FAh, 019h, 08Bh
-    db 00Eh, 094h, 019h, 0A1h, 092h, 019h, 08Bh, 02Eh, 090h, 019h, 0E8h, 010h, 000h, 0E8h, 06Ch, 0F4h
-    db 0E8h, 046h, 004h, 0E8h, 02Bh, 005h, 0E8h, 0BAh, 00Ah, 0E8h, 084h, 0F4h, 0C3h
+loc_0BE7:
+    MOV AH,[83h]
+    OR AH,AH
+    JZ short loc_0C16
+    MOV AL,[19A7h]
+    CBW
+    NOT AH
+    AND AL,AH
+    SUB AH,AH
+    SHR AX,1
+    MOV AH,AL
+    SUB AH,0h
+    JNS short loc_0C04
+    SUB AH,AH
+loc_0C04:
+    CMP AH,7h
+    JNG short loc_0C0B
+    MOV AH,7h
+loc_0C0B:
+    SHL AH,1
+    SHL AH,1
+    SHL AH,1
+    SHL AH,1
+    ADD AH,80h
+loc_0C16:
+    MOV [18EAh],AH
+    MOV AL,[ES:SI]
+    AND AL,3Fh
+    CMP AL,3Eh
+    JL short loc_0C2B
+    JZ short loc_0C28
+    JMP near ptr loc_198A
+loc_0C28:
+    JMP near ptr loc_1AF4
+loc_0C2B:
+    MOV AX,[1996h]
+    OR AX,[1998h]
+    OR AX,[199Ah]
+    OR AL,AH
+    MOV [19A8h],AL
+    JZ short loc_0C60
+    PUSH SI
+    MOV DI,19D8h
+    MOV CX,[1996h]
+    MOV SI,[1998h]
+    MOV BP,[199Ah]
+    CALL loc_147B
+    MOV BX,19D8h
+    MOV SI,19C6h
+    MOV DI,19EAh
+    CALL loc_15CD
+    POP SI
+    JMP short loc_0C96
+    NOP
+loc_0C60:
+    MOV AX,[19C6h]
+    MOV [19EAh],AX
+    MOV AX,[19C8h]
+    MOV [19ECh],AX
+    MOV AX,[19CAh]
+    MOV [19EEh],AX
+    MOV AX,[19CCh]
+    MOV [19F0h],AX
+    MOV AX,[19CEh]
+    MOV [19F2h],AX
+    MOV AX,[19D0h]
+    MOV [19F4h],AX
+    MOV AX,[19D2h]
+    MOV [19F6h],AX
+    MOV AX,[19D4h]
+    MOV [19F8h],AX
+    MOV AX,[19D6h]
+    MOV [19FAh],AX
+loc_0C96:
+    MOV CX,[1994h]
+    MOV AX,[1992h]
+    MOV BP,[1990h]
+    CALL loc_0CB4
+    CALL loc_0113
+    CALL loc_10F0
+    CALL loc_11D8
+    CALL loc_176A
+    CALL loc_0137
+    RET
 sub_20467 endp
 
 sub_20534 proc near
-    db 0F7h, 0DDh, 0F7h, 0D8h, 0F7h, 0D9h, 080h, 03Eh, 0A8h, 019h, 000h, 075h, 00Eh, 089h, 02Eh, 0CEh
-    db 042h, 089h, 00Eh, 0D0h, 042h, 0A3h, 0D2h, 042h, 0E9h, 08Fh, 000h, 0A3h, 0D4h, 042h, 0E8h, 0C4h
-    db 008h, 056h, 0A1h, 0D4h, 042h, 0F7h, 02Eh, 0E4h, 019h, 08Bh, 0FAh, 08Bh, 0F0h, 08Bh, 0C1h, 0F7h
-    db 02Eh, 0DEh, 019h, 003h, 0F0h, 013h, 0FAh, 08Bh, 0C5h, 0F7h, 02Eh, 0D8h, 019h, 003h, 0F0h, 013h
-    db 0FAh, 0D1h, 0E6h, 0D1h, 0D7h, 0D1h, 0E6h, 083h, 0D7h, 000h, 089h, 03Eh, 0CEh, 042h, 0A1h, 0D4h
-    db 042h, 0F7h, 02Eh, 0E6h, 019h, 08Bh, 0FAh, 08Bh, 0F0h, 08Bh, 0C1h, 0F7h, 02Eh, 0E0h, 019h, 003h
-    db 0F0h, 013h, 0FAh, 08Bh, 0C5h, 0F7h, 02Eh, 0DAh, 019h, 003h, 0F0h, 013h, 0FAh, 0D1h, 0E6h, 0D1h
-    db 0D7h, 0D1h, 0E6h, 083h, 0D7h, 000h, 089h, 03Eh, 0D0h, 042h, 0A1h, 0D4h, 042h, 0F7h, 02Eh, 0E8h
-    db 019h, 08Bh, 0FAh, 08Bh, 0F0h, 08Bh, 0C1h, 0F7h, 02Eh, 0E2h, 019h, 003h, 0F0h, 013h, 0FAh, 08Bh
-    db 0C5h, 0F7h, 02Eh, 0DCh, 019h, 003h, 0F0h, 013h, 0FAh, 0D1h, 0E6h, 0D1h, 0D7h, 0D1h, 0E6h, 083h
-    db 0D7h, 000h, 089h, 03Eh, 0D2h, 042h, 05Eh, 0E8h, 03Bh, 008h, 026h, 0ACh, 025h, 01Fh, 000h, 0A3h
-    db 000h, 01Ah, 08Bh, 0C8h, 02Bh, 0C0h, 083h, 0F9h, 010h, 07Eh, 001h, 040h, 0A2h, 004h, 01Ah, 0C7h
-    db 006h, 006h, 01Ah, 0FFh, 0FFh, 0C7h, 006h, 008h, 01Ah, 0FFh, 0FFh, 00Bh, 0C9h, 074h, 044h, 0BBh
-    db 001h, 000h, 02Bh, 0FFh, 053h, 026h, 0ADh, 0F7h, 02Eh, 0CEh, 042h, 08Bh, 0E8h, 08Bh, 0DAh, 026h
-    db 0ADh, 0F7h, 02Eh, 0D2h, 042h, 003h, 0E8h, 013h, 0DAh, 026h, 0ADh, 0F7h, 02Eh, 0D0h, 042h, 003h
-    db 0E8h, 013h, 0DAh, 026h, 0ADh, 099h, 03Bh, 0DAh, 05Bh, 07Fh, 010h, 07Ch, 004h, 03Bh, 0E8h, 073h
-    db 00Ah, 031h, 01Eh, 006h, 01Ah, 031h, 03Eh, 008h, 01Ah, 0FEh, 0C5h, 0D1h, 0E3h, 0D1h, 0D7h, 0FEh
-    db 0C9h, 075h, 0C1h, 0A0h, 000h, 01Ah, 03Ch, 004h, 07Ch, 008h, 03Ah, 0C5h, 075h, 004h, 0FFh, 006h
-    db 0D6h, 042h, 0C3h
+loc_0CB4:
+    NEG BP
+    NEG AX
+    NEG CX
+    CMP BYTE PTR [19A8h],0h
+    JNZ short loc_0CCF
+    MOV [42CEh],BP
+    MOV [42D0h],CX
+    MOV [42D2h],AX
+    JMP near ptr loc_0D5E
+loc_0CCF:
+    MOV [42D4h],AX
+    CALL loc_1599
+    PUSH SI
+    MOV AX,[42D4h]
+    IMUL WORD PTR [19E4h]
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,CX
+    IMUL WORD PTR [19DEh]
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,BP
+    IMUL WORD PTR [19D8h]
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    SHL SI,1
+    ADC DI,BYTE PTR +0x0
+    MOV [42CEh],DI
+    MOV AX,[42D4h]
+    IMUL WORD PTR [19E6h]
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,CX
+    IMUL WORD PTR [19E0h]
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,BP
+    IMUL WORD PTR [19DAh]
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    SHL SI,1
+    ADC DI,BYTE PTR +0x0
+    MOV [42D0h],DI
+    MOV AX,[42D4h]
+    IMUL WORD PTR [19E8h]
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,CX
+    IMUL WORD PTR [19E2h]
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,BP
+    IMUL WORD PTR [19DCh]
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    SHL SI,1
+    ADC DI,BYTE PTR +0x0
+    MOV [42D2h],DI
+    POP SI
+    CALL loc_1599
+loc_0D5E:
+    db 026h
+    LODSB
+    db 025h, 01Fh, 000h
+    MOV [1A00h],AX
+    MOV CX,AX
+    SUB AX,AX
+    CMP CX,BYTE PTR +0x10
+    JNG short loc_0D70
+    INC AX
+loc_0D70:
+    MOV [1A04h],AL
+    MOV WORD PTR [1A06h],0FFFFh
+    MOV WORD PTR [1A08h],0FFFFh
+    OR CX,CX
+    JZ short loc_0DC7
+    MOV BX,1h
+    SUB DI,DI
+loc_0D88:
+    PUSH BX
+    db 026h
+    LODSW
+    IMUL WORD PTR [42CEh]
+    MOV BP,AX
+    MOV BX,DX
+    db 026h
+    LODSW
+    IMUL WORD PTR [42D2h]
+    ADD BP,AX
+    ADC BX,DX
+    db 026h
+    LODSW
+    IMUL WORD PTR [42D0h]
+    ADD BP,AX
+    ADC BX,DX
+    db 026h
+    LODSW
+    CWD
+    CMP BX,DX
+    POP BX
+    JG short loc_0DBF
+    JL short loc_0DB5
+    CMP BP,AX
+    JNC short loc_0DBF
+loc_0DB5:
+    XOR [1A06h],BX
+    XOR [1A08h],DI
+    INC CH
+loc_0DBF:
+    SHL BX,1
+    RCL DI,1
+    DEC CL
+    JNZ short loc_0D88
+loc_0DC7:
+    MOV AL,[1A00h]
+    CMP AL,4h
+    JL short loc_0DD6
+    CMP AL,CH
+    JNZ short loc_0DD6
+    INC WORD PTR [42D6h]
+loc_0DD6:
+    RET
 sub_20534 endp
 
     db 0C3h
 sub_20658 proc far
-    db 055h, 056h, 057h, 0E8h, 016h, 000h, 05Fh, 05Eh, 05Dh, 0CBh
+    PUSH BP
+    PUSH SI
+    PUSH DI
+    CALL loc_0DF4
+    POP DI
+    POP SI
+    POP BP
+    RETF
 sub_20658 endp
 
     db 055h, 056h, 057h, 0C4h, 036h, 08Ch, 019h, 0E8h, 004h, 003h, 089h, 036h, 08Ch, 019h, 05Fh, 05Eh
     db 05Dh, 0C3h
 sub_20674 proc near
-    db 083h, 03Eh, 066h, 015h, 000h, 075h, 001h, 0C3h, 08Bh, 01Eh, 060h, 015h, 04Bh, 0D1h, 0E3h, 08Bh
-    db 0FBh, 0D1h, 0E7h, 08Bh, 08Fh, 04Ch, 095h, 0A1h, 0C6h, 019h, 0F7h, 0E9h, 0D1h, 0E0h, 0D1h, 0D2h
-    db 089h, 085h, 088h, 02Ah, 089h, 095h, 08Ah, 02Ah, 0A1h, 0C8h, 019h, 0F7h, 0E9h, 0D1h, 0E0h, 0D1h
-    db 0D2h, 089h, 085h, 008h, 02Bh, 089h, 095h, 00Ah, 02Bh, 0A1h, 0CAh, 019h, 0F7h, 0E9h, 0D1h, 0E0h
-    db 0D1h, 0D2h, 089h, 085h, 088h, 02Bh, 089h, 095h, 08Ah, 02Bh, 083h, 0EFh, 004h, 083h, 0EBh, 002h
-    db 079h, 0C1h, 08Bh, 01Eh, 064h, 015h, 04Bh, 0D1h, 0E3h, 08Bh, 0FBh, 0D1h, 0E7h, 08Bh, 08Fh, 0D0h
-    db 095h, 0A1h, 0CCh, 019h, 0F7h, 0E9h, 0D1h, 0E0h, 0D1h, 0D2h, 089h, 085h, 008h, 02Ch, 089h, 095h
-    db 00Ah, 02Ch, 0A1h, 0CEh, 019h, 0F7h, 0E9h, 0D1h, 0E0h, 0D1h, 0D2h, 089h, 085h, 028h, 02Ch, 089h
-    db 095h, 02Ah, 02Ch, 0A1h, 0D0h, 019h, 0F7h, 0E9h, 0D1h, 0E0h, 0D1h, 0D2h, 089h, 085h, 048h, 02Ch
-    db 089h, 095h, 04Ah, 02Ch, 083h, 0EFh, 004h, 083h, 0EBh, 002h, 079h, 0C1h, 08Bh, 01Eh, 062h, 015h
-    db 04Bh, 0D1h, 0E3h, 08Bh, 0FBh, 0D1h, 0E7h, 08Bh, 08Fh, 08Eh, 095h, 0A1h, 0D2h, 019h, 0F7h, 0E9h
-    db 0D1h, 0E0h, 0D1h, 0D2h, 089h, 085h, 068h, 02Ch, 089h, 095h, 06Ah, 02Ch, 0A1h, 0D4h, 019h, 0F7h
-    db 0E9h, 0D1h, 0E0h, 0D1h, 0D2h, 089h, 085h, 0E8h, 02Ch, 089h, 095h, 0EAh, 02Ch, 0A1h, 0D6h, 019h
-    db 0F7h, 0E9h, 0D1h, 0E0h, 0D1h, 0D2h, 089h, 085h, 068h, 02Dh, 089h, 095h, 06Ah, 02Dh, 083h, 0EFh
-    db 004h, 083h, 0EBh, 002h, 079h, 0C1h, 08Bh, 036h, 066h, 015h, 04Eh, 08Bh, 09Ch, 05Eh, 086h, 081h
-    db 0E3h, 0FFh, 000h, 0D1h, 0E3h, 0D1h, 0E3h, 08Bh, 0BCh, 0FEh, 087h, 081h, 0E7h, 0FFh, 000h, 0D1h
-    db 0E7h, 0D1h, 0E7h, 08Bh, 0ACh, 0B8h, 088h, 081h, 0E5h, 0FFh, 000h, 0D1h, 0E5h, 0D1h, 0E5h, 0C4h
-    db 087h, 088h, 02Ah, 08Ch, 0C2h, 0C4h, 08Eh, 008h, 02Ch, 003h, 0C1h, 08Ch, 0C1h, 013h, 0D1h, 0C4h
-    db 08Dh, 068h, 02Ch, 003h, 0C1h, 08Ch, 0C1h, 013h, 0D1h, 0D1h, 0E6h, 0D1h, 0E6h, 089h, 084h, 080h
-    db 023h, 089h, 094h, 082h, 023h, 0C4h, 087h, 008h, 02Bh, 08Ch, 0C2h, 0C4h, 08Eh, 028h, 02Ch, 003h
-    db 0C1h, 08Ch, 0C1h, 013h, 0D1h, 0C4h, 08Dh, 0E8h, 02Ch, 003h, 0C1h, 08Ch, 0C1h, 013h, 0D1h, 089h
-    db 084h, 0D8h, 025h, 089h, 094h, 0DAh, 025h, 0C4h, 087h, 088h, 02Bh, 08Ch, 0C2h, 0C4h, 08Eh, 048h
-    db 02Ch, 003h, 0C1h, 08Ch, 0C1h, 013h, 0D1h, 0C4h, 08Dh, 068h, 02Dh, 003h, 0C1h, 08Ch, 0C1h, 013h
-    db 0D1h, 089h, 084h, 030h, 028h, 089h, 094h, 032h, 028h, 0D1h, 0EEh, 0D1h, 0EEh, 04Eh, 078h, 003h
-    db 0E9h, 068h, 0FFh, 0C3h
+loc_0DF4:
+    CMP WORD PTR [1566h],BYTE PTR +0x0
+    JNZ short loc_0DFC
+    RET
+loc_0DFC:
+    MOV BX,[1560h]
+    DEC BX
+    SHL BX,1
+    MOV DI,BX
+    SHL DI,1
+loc_0E07:
+    MOV CX,[BX-6AB4h]
+    MOV AX,[19C6h]
+    IMUL CX
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+2A88h],AX
+    MOV [DI+2A8Ah],DX
+    MOV AX,[19C8h]
+    IMUL CX
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+2B08h],AX
+    MOV [DI+2B0Ah],DX
+    MOV AX,[19CAh]
+    IMUL CX
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+2B88h],AX
+    MOV [DI+2B8Ah],DX
+    SUB DI,BYTE PTR +0x4
+    SUB BX,BYTE PTR +0x2
+    JNS short loc_0E07
+    MOV BX,[1564h]
+    DEC BX
+    SHL BX,1
+    MOV DI,BX
+    SHL DI,1
+loc_0E51:
+    MOV CX,[BX-6A30h]
+    MOV AX,[19CCh]
+    IMUL CX
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+2C08h],AX
+    MOV [DI+2C0Ah],DX
+    MOV AX,[19CEh]
+    IMUL CX
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+2C28h],AX
+    MOV [DI+2C2Ah],DX
+    MOV AX,[19D0h]
+    IMUL CX
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+2C48h],AX
+    MOV [DI+2C4Ah],DX
+    SUB DI,BYTE PTR +0x4
+    SUB BX,BYTE PTR +0x2
+    JNS short loc_0E51
+    MOV BX,[1562h]
+    DEC BX
+    SHL BX,1
+    MOV DI,BX
+    SHL DI,1
+loc_0E9B:
+    MOV CX,[BX-6A72h]
+    MOV AX,[19D2h]
+    IMUL CX
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+2C68h],AX
+    MOV [DI+2C6Ah],DX
+    MOV AX,[19D4h]
+    IMUL CX
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+2CE8h],AX
+    MOV [DI+2CEAh],DX
+    MOV AX,[19D6h]
+    IMUL CX
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+2D68h],AX
+    MOV [DI+2D6Ah],DX
+    SUB DI,BYTE PTR +0x4
+    SUB BX,BYTE PTR +0x2
+    JNS short loc_0E9B
+    MOV SI,[1566h]
+    DEC SI
+loc_0EDF:
+    MOV BX,[SI-79A2h]
+    AND BX,0FFh
+    SHL BX,1
+    SHL BX,1
+    MOV DI,[SI-7802h]
+    AND DI,0FFh
+    SHL DI,1
+    SHL DI,1
+    MOV BP,[SI-7748h]
+    AND BP,0FFh
+    SHL BP,1
+    SHL BP,1
+    LES AX,DWORD PTR [BX+2A88h]
+    MOV DX,ES
+    LES CX,DWORD PTR [BP+2C08h]
+    ADD AX,CX
+    MOV CX,ES
+    ADC DX,CX
+    LES CX,DWORD PTR [DI+2C68h]
+    ADD AX,CX
+    MOV CX,ES
+    ADC DX,CX
+    SHL SI,1
+    SHL SI,1
+    MOV [SI+2380h],AX
+    MOV [SI+2382h],DX
+    LES AX,DWORD PTR [BX+2B08h]
+    MOV DX,ES
+    LES CX,DWORD PTR [BP+2C28h]
+    ADD AX,CX
+    MOV CX,ES
+    ADC DX,CX
+    LES CX,DWORD PTR [DI+2CE8h]
+    ADD AX,CX
+    MOV CX,ES
+    ADC DX,CX
+    MOV [SI+25D8h],AX
+    MOV [SI+25DAh],DX
+    LES AX,DWORD PTR [BX+2B88h]
+    MOV DX,ES
+    LES CX,DWORD PTR [BP+2C48h]
+    ADD AX,CX
+    MOV CX,ES
+    ADC DX,CX
+    LES CX,DWORD PTR [DI+2D68h]
+    ADD AX,CX
+    MOV CX,ES
+    ADC DX,CX
+    MOV [SI+2830h],AX
+    MOV [SI+2832h],DX
+    SHR SI,1
+    SHR SI,1
+    DEC SI
+    JS short loc_0F77
+    JMP near ptr loc_0EDF
+loc_0F77:
+    RET
 sub_20674 endp
 
-    db 08Ah, 0D8h, 083h, 0E3h, 07Fh, 0D1h, 0E3h, 0D1h, 0E3h, 089h, 01Eh, 0D9h, 042h, 0BBh, 0FCh, 0FFh
-    db 083h, 0C3h, 004h, 03Bh, 01Eh, 0D9h, 042h, 07Ch, 001h, 0C3h, 0E8h, 00Dh, 00Ch, 046h, 00Bh, 0C0h
-    db 074h, 0EEh, 026h, 08Bh, 06Ch, 0FFh, 081h, 0E5h, 0FFh, 000h, 08Ah, 086h, 0B8h, 088h, 02Ah, 0E4h
-    db 0D1h, 0E0h, 08Bh, 0E8h, 08Bh, 08Eh, 0D0h, 095h, 026h, 08Bh, 06Ch, 0FFh, 081h, 0E5h, 0FFh, 000h
-    db 08Ah, 086h, 0FEh, 087h, 02Ah, 0E4h, 0D1h, 0E0h, 08Bh, 0E8h, 08Bh, 086h, 08Eh, 095h, 0A3h, 0DBh
-    db 042h, 026h, 08Bh, 06Ch, 0FFh, 081h, 0E5h, 0FFh, 000h, 08Ah, 086h, 05Eh, 086h, 02Ah, 0E4h, 0D1h
-    db 0E0h, 08Bh, 0E8h, 08Bh, 0AEh, 04Ch, 095h, 056h, 0A1h, 0DBh, 042h, 0F7h, 02Eh, 0F6h, 019h, 08Bh
-    db 0FAh, 08Bh, 0F0h, 0A1h, 0F0h, 019h, 0F7h, 0E9h, 003h, 0F0h, 013h, 0FAh, 0A1h, 0EAh, 019h, 0F7h
-    db 0EDh, 003h, 0F0h, 013h, 0FAh, 0D1h, 0E6h, 0D1h, 0D7h, 003h, 036h, 09Ch, 019h, 013h, 03Eh, 09Eh
-    db 019h, 089h, 0B7h, 00Ch, 01Ah, 089h, 0BFh, 00Eh, 01Ah, 0A1h, 0DBh, 042h, 0F7h, 02Eh, 0F8h, 019h
-    db 08Bh, 0FAh, 08Bh, 0F0h, 0A1h, 0F2h, 019h, 0F7h, 0E9h, 003h, 0F0h, 013h, 0FAh, 0A1h, 0ECh, 019h
-    db 0F7h, 0EDh, 003h, 0F0h, 013h, 0FAh, 0D1h, 0E6h, 0D1h, 0D7h, 003h, 036h, 0A0h, 019h, 013h, 03Eh
-    db 0A2h, 019h, 089h, 0B7h, 0F0h, 01Bh, 089h, 0BFh, 0F2h, 01Bh, 0A1h, 0DBh, 042h, 0F7h, 02Eh, 0FAh
-    db 019h, 08Bh, 0FAh, 08Bh, 0F0h, 0A1h, 0F4h, 019h, 0F7h, 0E9h, 003h, 0F0h, 013h, 0FAh, 0A1h, 0EEh
-    db 019h, 0F7h, 0EDh, 003h, 0F0h, 013h, 0FAh, 0D1h, 0E6h, 0D1h, 0D7h, 003h, 036h, 0A4h, 019h, 013h
-    db 03Eh, 0A6h, 019h, 089h, 0B7h, 0D4h, 01Dh, 089h, 0BFh, 0D6h, 01Dh, 0E8h, 002h, 0F0h, 05Eh, 0E9h
-    db 00Eh, 0FFh, 0E9h, 0FBh, 0FEh, 080h, 03Eh, 0D8h, 042h, 000h, 075h, 0F6h, 08Ah, 0C8h, 083h, 0E1h
-    db 07Fh, 02Bh, 0DBh, 0E8h, 014h, 00Bh, 075h, 007h, 046h, 083h, 0C3h, 004h, 0E2h, 0F5h, 0C3h, 026h
-    db 0ACh, 02Ah, 0E4h, 0D1h, 0E0h, 0D1h, 0E0h, 08Bh, 0F8h, 0A1h, 09Ch, 019h, 003h, 085h, 080h, 023h
-    db 089h, 087h, 00Ch, 01Ah, 0A1h, 09Eh, 019h, 013h, 085h, 082h, 023h, 089h, 087h, 00Eh, 01Ah, 0A1h
-    db 0A0h, 019h, 003h, 085h, 0D8h, 025h, 089h, 087h, 0F0h, 01Bh, 0A1h, 0A2h, 019h, 013h, 085h, 0DAh
-    db 025h, 089h, 087h, 0F2h, 01Bh, 0A1h, 0A4h, 019h, 003h, 085h, 030h, 028h, 089h, 087h, 0D4h, 01Dh
-    db 0A1h, 0A6h, 019h, 013h, 085h, 032h, 028h, 089h, 087h, 0D6h, 01Dh, 051h, 056h, 0E8h, 090h, 0EFh
-    db 05Eh, 059h, 083h, 0C3h, 004h, 0E2h, 09Ch, 0C3h
+loc_0F78:
+    MOV BL,AL
+    AND BX,BYTE PTR +0x7f
+    SHL BX,1
+    SHL BX,1
+    MOV [42D9h],BX
+    MOV BX,0FFFCh
+loc_0F88:
+    ADD BX,BYTE PTR +0x4
+    CMP BX,[42D9h]
+    JL short loc_0F92
+    RET
+loc_0F92:
+    CALL loc_1BA2
+    INC SI
+    OR AX,AX
+    JZ short loc_0F88
+    MOV BP,[ES:SI-1h]
+    AND BP,0FFh
+    MOV AL,[BP-7748h]
+    SUB AH,AH
+    SHL AX,1
+    MOV BP,AX
+    MOV CX,[BP-6A30h]
+    MOV BP,[ES:SI-1h]
+    AND BP,0FFh
+    MOV AL,[BP-7802h]
+    SUB AH,AH
+    SHL AX,1
+    MOV BP,AX
+    MOV AX,[BP-6A72h]
+    MOV [42DBh],AX
+    MOV BP,[ES:SI-1h]
+    AND BP,0FFh
+    MOV AL,[BP-79A2h]
+    SUB AH,AH
+    SHL AX,1
+    MOV BP,AX
+    MOV BP,[BP-6AB4h]
+    PUSH SI
+    MOV AX,[42DBh]
+    IMUL WORD PTR [19F6h]
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,[19F0h]
+    IMUL CX
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,[19EAh]
+    IMUL BP
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    ADD SI,[199Ch]
+    ADC DI,[199Eh]
+    MOV [BX+1A0Ch],SI
+    MOV [BX+1A0Eh],DI
+    MOV AX,[42DBh]
+    IMUL WORD PTR [19F8h]
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,[19F2h]
+    IMUL CX
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,[19ECh]
+    IMUL BP
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    ADD SI,[19A0h]
+    ADC DI,[19A2h]
+    MOV [BX+1BF0h],SI
+    MOV [BX+1BF2h],DI
+    MOV AX,[42DBh]
+    IMUL WORD PTR [19FAh]
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,[19F4h]
+    IMUL CX
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,[19EEh]
+    IMUL BP
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    ADD SI,[19A4h]
+    ADC DI,[19A6h]
+    MOV [BX+1DD4h],SI
+    MOV [BX+1DD6h],DI
+    CALL loc_0078
+    POP SI
+    JMP near ptr loc_0F88
+loc_107A:
+    JMP near ptr loc_0F78
+loc_107D:
+    CMP BYTE PTR [42D8h],0h
+    JNZ short loc_107A
+    MOV CL,AL
+    AND CX,BYTE PTR +0x7f
+    SUB BX,BX
+loc_108B:
+    CALL loc_1BA2
+    JNZ short loc_1097
+    INC SI
+    ADD BX,BYTE PTR +0x4
+    LOOP short loc_108B
+    RET
+loc_1097:
+    db 026h
+    LODSB
+    SUB AH,AH
+    SHL AX,1
+    SHL AX,1
+    MOV DI,AX
+    MOV AX,[199Ch]
+    ADD AX,[DI+2380h]
+    MOV [BX+1A0Ch],AX
+    MOV AX,[199Eh]
+    ADC AX,[DI+2382h]
+    MOV [BX+1A0Eh],AX
+    MOV AX,[19A0h]
+    ADD AX,[DI+25D8h]
+    MOV [BX+1BF0h],AX
+    MOV AX,[19A2h]
+    ADC AX,[DI+25DAh]
+    MOV [BX+1BF2h],AX
+    MOV AX,[19A4h]
+    ADD AX,[DI+2830h]
+    MOV [BX+1DD4h],AX
+    MOV AX,[19A6h]
+    ADC AX,[DI+2832h]
+    MOV [BX+1DD6h],AX
+    PUSH CX
+    PUSH SI
+    CALL loc_0078
+    POP SI
+    POP CX
+    ADD BX,BYTE PTR +0x4
+    LOOP short loc_108B
+    RET
 sub_20970 proc near
-    db 026h, 0ACh, 0A8h, 080h, 075h, 087h, 0A8h, 07Fh, 074h, 019h, 08Ah, 0D8h, 083h, 0E3h, 07Fh, 0D1h
-    db 0E3h, 0D1h, 0E3h, 089h, 01Eh, 0D9h, 042h, 0BBh, 0FCh, 0FFh, 083h, 0C3h, 004h, 03Bh, 01Eh, 0D9h
-    db 042h, 07Ch, 001h, 0C3h, 0E8h, 08Bh, 00Ah, 083h, 0C6h, 006h, 00Bh, 0C0h, 074h, 0ECh, 026h, 08Bh
-    db 06Ch, 0FAh, 026h, 08Bh, 04Ch, 0FEh, 026h, 08Bh, 044h, 0FCh, 0A3h, 0DBh, 042h, 056h, 0F7h, 02Eh
-    db 0F6h, 019h, 08Bh, 0FAh, 08Bh, 0F0h, 0A1h, 0F0h, 019h, 0F7h, 0E9h, 003h, 0F0h, 013h, 0FAh, 0A1h
-    db 0EAh, 019h, 0F7h, 0EDh, 003h, 0F0h, 013h, 0FAh, 0D1h, 0E6h, 0D1h, 0D7h, 003h, 036h, 09Ch, 019h
-    db 013h, 03Eh, 09Eh, 019h, 089h, 0B7h, 00Ch, 01Ah, 089h, 0BFh, 00Eh, 01Ah, 0A1h, 0DBh, 042h, 0F7h
-    db 02Eh, 0F8h, 019h, 08Bh, 0FAh, 08Bh, 0F0h, 0A1h, 0F2h, 019h, 0F7h, 0E9h, 003h, 0F0h, 013h, 0FAh
-    db 0A1h, 0ECh, 019h, 0F7h, 0EDh, 003h, 0F0h, 013h, 0FAh, 0D1h, 0E6h, 0D1h, 0D7h, 003h, 036h, 0A0h
-    db 019h, 013h, 03Eh, 0A2h, 019h, 089h, 0B7h, 0F0h, 01Bh, 089h, 0BFh, 0F2h, 01Bh, 0A1h, 0DBh, 042h
-    db 0F7h, 02Eh, 0FAh, 019h, 08Bh, 0FAh, 08Bh, 0F0h, 0A1h, 0F4h, 019h, 0F7h, 0E9h, 003h, 0F0h, 013h
-    db 0FAh, 0A1h, 0EEh, 019h, 0F7h, 0EDh, 003h, 0F0h, 013h, 0FAh, 0D1h, 0E6h, 0D1h, 0D7h, 003h, 036h
-    db 0A4h, 019h, 013h, 03Eh, 0A6h, 019h, 089h, 0B7h, 0D4h, 01Dh, 089h, 0BFh, 0D6h, 01Dh, 0E8h, 0B7h
-    db 0EEh, 05Eh, 0E9h, 045h, 0FFh
+loc_10F0:
+    db 026h
+    LODSB
+    TEST AL,80h
+    JNZ short loc_107D
+    TEST AL,7Fh
+    JZ short loc_1113
+    MOV BL,AL
+    AND BX,BYTE PTR +0x7f
+    SHL BX,1
+    SHL BX,1
+    MOV [42D9h],BX
+    MOV BX,0FFFCh
+loc_110A:
+    ADD BX,BYTE PTR +0x4
+    CMP BX,[42D9h]
+    JL short loc_1114
+loc_1113:
+    RET
+loc_1114:
+    CALL loc_1BA2
+    ADD SI,BYTE PTR +0x6
+    OR AX,AX
+    JZ short loc_110A
+    MOV BP,[ES:SI-6h]
+    MOV CX,[ES:SI-2h]
+    MOV AX,[ES:SI-4h]
+    MOV [42DBh],AX
+    PUSH SI
+    IMUL WORD PTR [19F6h]
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,[19F0h]
+    IMUL CX
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,[19EAh]
+    IMUL BP
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    ADD SI,[199Ch]
+    ADC DI,[199Eh]
+    MOV [BX+1A0Ch],SI
+    MOV [BX+1A0Eh],DI
+    MOV AX,[42DBh]
+    IMUL WORD PTR [19F8h]
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,[19F2h]
+    IMUL CX
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,[19ECh]
+    IMUL BP
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    ADD SI,[19A0h]
+    ADC DI,[19A2h]
+    MOV [BX+1BF0h],SI
+    MOV [BX+1BF2h],DI
+    MOV AX,[42DBh]
+    IMUL WORD PTR [19FAh]
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,[19F4h]
+    IMUL CX
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,[19EEh]
+    IMUL BP
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    ADD SI,[19A4h]
+    ADC DI,[19A6h]
+    MOV [BX+1DD4h],SI
+    MOV [BX+1DD6h],DI
+    CALL loc_0078
+    POP SI
+    JMP near ptr loc_110A
 sub_20970 endp
 
     db 000h
 sub_20A46 proc far
-    db 055h, 056h, 057h, 0C4h, 036h, 08Ch, 019h, 0E8h, 008h, 000h, 089h, 036h, 08Ch, 019h, 05Fh, 05Eh
-    db 05Dh, 0CBh
+    db 055h
+    db 056h
+    PUSH DI
+    LES SI,DWORD PTR [198Ch]
+    CALL loc_11D8
+    MOV [198Ch],SI
+    POP DI
+    POP SI
+    POP BP
+    RETF
 sub_20A46 endp
 
 sub_20A58 proc near
-    db 02Ah, 0E4h, 026h, 0ACh, 00Bh, 0C0h, 074h, 015h, 08Bh, 0C8h, 02Bh, 0FFh, 081h, 0C7h, 08Eh, 032h
-    db 0E8h, 0B7h, 009h, 075h, 009h, 083h, 0C6h, 002h, 083h, 0C7h, 01Ah, 0E2h, 0F3h, 0C3h, 02Ah, 0E4h
-    db 026h, 0ACh, 08Bh, 0D8h, 0D1h, 0E3h, 0D1h, 0E3h, 026h, 0ACh, 08Bh, 0E8h, 0D1h, 0E5h, 0D1h, 0E5h
-    db 0C6h, 045h, 018h, 000h, 083h, 0BFh, 0D6h, 01Dh, 001h, 07Ch, 02Dh, 083h, 0BEh, 0D6h, 01Dh, 001h
-    db 07Ch, 01Eh, 08Bh, 087h, 0B8h, 01Fh, 089h, 005h, 08Bh, 087h, 0BAh, 01Fh, 089h, 045h, 002h, 08Bh
-    db 087h, 09Ch, 021h, 089h, 045h, 004h, 08Bh, 087h, 09Eh, 021h, 089h, 045h, 006h, 0EBh, 01Ah, 090h
-    db 087h, 0EBh, 0E8h, 045h, 000h, 0EBh, 012h, 090h, 083h, 0BEh, 0D6h, 01Dh, 001h, 07Dh, 007h, 080h
-    db 04Dh, 018h, 080h, 0EBh, 02Bh, 090h, 0E8h, 031h, 000h, 08Bh, 086h, 0B8h, 01Fh, 089h, 045h, 008h
-    db 08Bh, 086h, 0BAh, 01Fh, 089h, 045h, 00Ah, 08Bh, 086h, 09Ch, 021h, 089h, 045h, 00Ch, 08Bh, 086h
-    db 09Eh, 021h, 089h, 045h, 00Eh, 051h, 056h, 0E8h, 0EBh, 0EEh, 08Eh, 006h, 08Eh, 019h, 05Eh, 059h
-    db 083h, 0C7h, 01Ah, 049h, 074h, 003h, 0E9h, 067h, 0FFh, 0C3h
+loc_11D8:
+    SUB AH,AH
+    db 026h
+    LODSB
+    OR AX,AX
+    JZ short loc_11F5
+    MOV CX,AX
+    SUB DI,DI
+    ADD DI,328Eh
+loc_11E8:
+    CALL loc_1BA2
+    JNZ short loc_11F6
+    ADD SI,BYTE PTR +0x2
+    ADD DI,BYTE PTR +0x1a
+    LOOP short loc_11E8
+loc_11F5:
+    RET
+loc_11F6:
+    SUB AH,AH
+    db 026h
+    LODSB
+    MOV BX,AX
+    SHL BX,1
+    SHL BX,1
+    db 026h
+    LODSB
+    MOV BP,AX
+    SHL BP,1
+    SHL BP,1
+    MOV BYTE PTR [DI+18h],0h
+    CMP WORD PTR [BX+1DD6h],BYTE PTR +0x1
+    JL short loc_1240
+    CMP WORD PTR [BP+1DD6h],BYTE PTR +0x1
+    JL short loc_1238
+    MOV AX,[BX+1FB8h]
+    MOV [DI],AX
+    MOV AX,[BX+1FBAh]
+    MOV [DI+2h],AX
+    MOV AX,[BX+219Ch]
+    MOV [DI+4h],AX
+    MOV AX,[BX+219Eh]
+    MOV [DI+6h],AX
+    JMP short loc_1251
+    NOP
+loc_1238:
+    db 087h, 0EBh
+    CALL loc_1282
+    JMP short loc_1251
+    NOP
+loc_1240:
+    CMP WORD PTR [BP+1DD6h],BYTE PTR +0x1
+    JNL short loc_124E
+    OR BYTE PTR [DI+18h],80h
+    JMP short loc_1278
+    NOP
+loc_124E:
+    CALL loc_1282
+loc_1251:
+    MOV AX,[BP+1FB8h]
+    MOV [DI+8h],AX
+    MOV AX,[BP+1FBAh]
+    MOV [DI+0Ah],AX
+    MOV AX,[BP+219Ch]
+    MOV [DI+0Ch],AX
+    MOV AX,[BP+219Eh]
+    MOV [DI+0Eh],AX
+    PUSH CX
+    PUSH SI
+    CALL loc_015D
+    MOV ES,[198Eh]
+    POP SI
+    POP CX
+loc_1278:
+    ADD DI,BYTE PTR +0x1a
+    DEC CX
+    JZ short loc_1281
+    JMP near ptr loc_11E8
+loc_1281:
+    RET
 sub_20A58 endp
 
 sub_20B02 proc near
-    db 006h, 051h, 056h, 057h, 08Bh, 086h, 0D4h, 01Dh, 08Bh, 096h, 0D6h, 01Dh, 08Bh, 0CAh, 02Bh, 08Fh
-    db 0D6h, 01Dh, 04Ah, 0F7h, 0F1h, 0D1h, 0E8h, 08Bh, 0C8h, 08Bh, 096h, 00Ch, 01Ah, 08Bh, 086h, 00Eh
-    db 01Ah, 08Bh, 0F2h, 08Bh, 0F8h, 02Bh, 097h, 00Ch, 01Ah, 01Bh, 087h, 00Eh, 01Ah, 0D1h, 0E2h, 015h
-    db 000h, 000h, 0F7h, 0E9h, 0D1h, 0E0h, 0D1h, 0D2h, 02Bh, 0F0h, 01Bh, 0FAh, 089h, 036h, 0ECh, 01Bh
-    db 089h, 03Eh, 0EEh, 01Bh, 08Bh, 096h, 0F0h, 01Bh, 08Bh, 086h, 0F2h, 01Bh, 08Bh, 0F2h, 08Bh, 0F8h
-    db 02Bh, 097h, 0F0h, 01Bh, 01Bh, 087h, 0F2h, 01Bh, 0D1h, 0E2h, 015h, 000h, 000h, 0F7h, 0E9h, 0D1h
-    db 0E0h, 0D1h, 0D2h, 02Bh, 0F0h, 01Bh, 0FAh, 089h, 036h, 0D0h, 01Dh, 089h, 03Eh, 0D2h, 01Dh, 0C7h
-    db 006h, 0B4h, 01Fh, 000h, 000h, 0C7h, 006h, 0B6h, 01Fh, 001h, 000h, 053h, 0BBh, 0E0h, 001h, 0E8h
-    db 074h, 0EDh, 05Bh, 05Fh, 0C4h, 006h, 098h, 021h, 089h, 005h, 08Ch, 045h, 002h, 089h, 045h, 010h
-    db 08Ch, 045h, 012h, 0C4h, 006h, 07Ch, 023h, 089h, 045h, 004h, 08Ch, 045h, 006h, 089h, 045h, 014h
-    db 08Ch, 045h, 016h, 083h, 04Dh, 018h, 040h, 05Eh, 059h, 007h, 0C3h
+loc_1282:
+    PUSH ES
+    PUSH CX
+    PUSH SI
+    PUSH DI
+    MOV AX,[BP+1DD4h]
+    MOV DX,[BP+1DD6h]
+    MOV CX,DX
+    SUB CX,[BX+1DD6h]
+    DEC DX
+    DIV CX
+    SHR AX,1
+    MOV CX,AX
+    MOV DX,[BP+1A0Ch]
+    MOV AX,[BP+1A0Eh]
+    MOV SI,DX
+    MOV DI,AX
+    SUB DX,[BX+1A0Ch]
+    SBB AX,[BX+1A0Eh]
+    SHL DX,1
+    db 015h, 000h, 000h
+    IMUL CX
+    SHL AX,1
+    RCL DX,1
+    SUB SI,AX
+    SBB DI,DX
+    MOV [1BECh],SI
+    MOV [1BEEh],DI
+    MOV DX,[BP+1BF0h]
+    MOV AX,[BP+1BF2h]
+    MOV SI,DX
+    MOV DI,AX
+    SUB DX,[BX+1BF0h]
+    SBB AX,[BX+1BF2h]
+    SHL DX,1
+    db 015h, 000h, 000h
+    IMUL CX
+    SHL AX,1
+    RCL DX,1
+    SUB SI,AX
+    SBB DI,DX
+    MOV [1DD0h],SI
+    MOV [1DD2h],DI
+    MOV WORD PTR [1FB4h],0h
+    MOV WORD PTR [1FB6h],1h
+    PUSH BX
+    MOV BX,1E0h
+    CALL loc_0078
+    POP BX
+    POP DI
+    LES AX,DWORD PTR [2198h]
+    MOV [DI],AX
+    MOV [DI+2h],ES
+    MOV [DI+10h],AX
+    MOV [DI+12h],ES
+    LES AX,DWORD PTR [237Ch]
+    MOV [DI+4h],AX
+    MOV [DI+6h],ES
+    MOV [DI+14h],AX
+    MOV [DI+16h],ES
+    OR WORD PTR [DI+18h],BYTE PTR +0x40
+    POP SI
+    POP CX
+    POP ES
+    RET
 sub_20B02 endp
 
     db 000h
 sub_20BAE proc far
-    db 055h, 08Bh, 0ECh, 056h, 057h, 08Bh, 07Eh, 006h, 08Bh, 04Eh, 008h, 08Bh, 076h, 00Ah, 08Bh, 06Eh
-    db 00Ch, 0E8h, 01Dh, 000h, 05Fh, 05Eh, 05Dh, 0CBh
+    db 055h
+    db 08Bh
+    IN AL,DX
+    PUSH SI
+    PUSH DI
+    MOV DI,[BP+6h]
+    MOV CX,[BP+8h]
+    MOV SI,[BP+0Ah]
+    MOV BP,[BP+0Ch]
+    CALL loc_135F
+    POP DI
+    POP SI
+    POP BP
+    RETF
 sub_20BAE endp
 
     db 055h, 056h, 057h, 0BFh, 0D8h, 019h, 08Bh, 00Eh, 096h, 019h, 08Bh, 036h, 098h, 019h, 08Bh, 02Eh
     db 09Ah, 019h, 0E8h, 020h, 001h, 05Fh, 05Eh, 05Dh, 0C3h
 sub_20BDF proc near
-    db 08Bh, 0D9h
+loc_135F:
+    MOV BX,CX
     call far ptr sub_13BC1
-    db 089h, 01Eh, 0BAh, 019h, 08Bh, 0D9h
+    MOV [19BAh],BX
+    MOV BX,CX
     call far ptr sub_13BC5
-    db 089h, 01Eh, 0BCh, 019h, 08Bh, 0DDh
+    MOV [19BCh],BX
+    MOV BX,BP
     call far ptr sub_13BC1
-    db 089h, 01Eh, 0C2h, 019h, 08Bh, 0DDh
+    MOV [19C2h],BX
+    MOV BX,BP
     call far ptr sub_13BC5
-    db 089h, 01Eh, 0C4h, 019h, 08Bh, 0DEh
+    MOV [19C4h],BX
+    MOV BX,SI
     call far ptr sub_13BC1
-    db 089h, 01Eh, 0BEh, 019h, 08Bh, 0DEh
+    MOV [19BEh],BX
+    MOV BX,SI
     call far ptr sub_13BC5
-    db 089h, 01Eh, 0C0h, 019h, 0A1h, 0BEh, 019h, 0F7h, 02Eh, 0C2h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh
-    db 0F2h, 08Bh, 0C2h, 0F7h, 02Eh, 0BAh, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0D8h, 08Bh, 0CAh, 0A1h
-    db 0BCh, 019h, 0F7h, 02Eh, 0C4h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0C3h, 013h, 0D1h, 089h, 015h
-    db 0A1h, 0BEh, 019h, 0F7h, 02Eh, 0C4h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0EAh, 08Bh, 0C2h, 0F7h
-    db 02Eh, 0BAh, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0D8h, 08Bh, 0CAh, 0A1h, 0BCh, 019h, 0F7h, 02Eh
-    db 0C2h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 02Bh, 0D8h, 01Bh, 0CAh, 089h, 04Dh, 002h, 0A1h, 0BAh, 019h
-    db 0F7h, 02Eh, 0C0h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 089h, 055h, 004h, 0A1h, 0C2h, 019h, 0F7h, 02Eh
-    db 0C0h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 089h, 055h, 006h, 0A1h, 0C4h, 019h, 0F7h, 02Eh, 0C0h, 019h
-    db 0D1h, 0E0h, 0D1h, 0D2h, 089h, 055h, 008h, 0A1h, 0BEh, 019h, 0F7h, 0D8h, 089h, 045h, 00Ah, 08Bh
-    db 0C6h, 0F7h, 02Eh, 0BCh, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0D8h, 08Bh, 0CAh, 0A1h, 0BAh, 019h
-    db 0F7h, 02Eh, 0C4h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 02Bh, 0D8h, 01Bh, 0CAh, 089h, 04Dh, 00Ch, 08Bh
-    db 0C5h, 0F7h, 02Eh, 0BCh, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0D8h, 08Bh, 0CAh, 0A1h, 0BAh, 019h
-    db 0F7h, 02Eh, 0C2h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0C3h, 013h, 0D1h, 089h, 055h, 00Eh, 0A1h
-    db 0BCh, 019h, 0F7h, 02Eh, 0C0h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 089h, 055h, 010h, 0C3h
+    MOV [19C0h],BX
+    MOV AX,[19BEh]
+    IMUL WORD PTR [19C2h]
+    SHL AX,1
+    RCL DX,1
+    MOV SI,DX
+    MOV AX,DX
+    IMUL WORD PTR [19BAh]
+    SHL AX,1
+    RCL DX,1
+    MOV BX,AX
+    MOV CX,DX
+    MOV AX,[19BCh]
+    IMUL WORD PTR [19C4h]
+    SHL AX,1
+    RCL DX,1
+    ADD AX,BX
+    ADC DX,CX
+    MOV [DI],DX
+    MOV AX,[19BEh]
+    IMUL WORD PTR [19C4h]
+    SHL AX,1
+    RCL DX,1
+    MOV BP,DX
+    MOV AX,DX
+    IMUL WORD PTR [19BAh]
+    SHL AX,1
+    RCL DX,1
+    MOV BX,AX
+    MOV CX,DX
+    MOV AX,[19BCh]
+    IMUL WORD PTR [19C2h]
+    SHL AX,1
+    RCL DX,1
+    SUB BX,AX
+    SBB CX,DX
+    MOV [DI+2h],CX
+    MOV AX,[19BAh]
+    IMUL WORD PTR [19C0h]
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+4h],DX
+    MOV AX,[19C2h]
+    IMUL WORD PTR [19C0h]
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+6h],DX
+    MOV AX,[19C4h]
+    IMUL WORD PTR [19C0h]
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+8h],DX
+    MOV AX,[19BEh]
+    NEG AX
+    MOV [DI+0Ah],AX
+    MOV AX,SI
+    IMUL WORD PTR [19BCh]
+    SHL AX,1
+    RCL DX,1
+    MOV BX,AX
+    MOV CX,DX
+    MOV AX,[19BAh]
+    IMUL WORD PTR [19C4h]
+    SHL AX,1
+    RCL DX,1
+    SUB BX,AX
+    SBB CX,DX
+    MOV [DI+0Ch],CX
+    MOV AX,BP
+    IMUL WORD PTR [19BCh]
+    SHL AX,1
+    RCL DX,1
+    MOV BX,AX
+    MOV CX,DX
+    MOV AX,[19BAh]
+    IMUL WORD PTR [19C2h]
+    SHL AX,1
+    RCL DX,1
+    ADD AX,BX
+    ADC DX,CX
+    MOV [DI+0Eh],DX
+    MOV AX,[19BCh]
+    IMUL WORD PTR [19C0h]
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+10h],DX
+    RET
 sub_20BDF endp
 
 sub_20CFB proc near
-    db 08Bh, 0D9h
+loc_147B:
+    MOV BX,CX
     call far ptr sub_13BC1
-    db 089h, 01Eh, 0BAh, 019h, 08Bh, 0D9h
+    MOV [19BAh],BX
+    MOV BX,CX
     call far ptr sub_13BC5
-    db 089h, 01Eh, 0BCh, 019h, 08Bh, 0DDh
+    MOV [19BCh],BX
+    MOV BX,BP
     call far ptr sub_13BC1
-    db 089h, 01Eh, 0C2h, 019h, 08Bh, 0DDh
+    MOV [19C2h],BX
+    MOV BX,BP
     call far ptr sub_13BC5
-    db 089h, 01Eh, 0C4h, 019h, 08Bh, 0DEh
+    MOV [19C4h],BX
+    MOV BX,SI
     call far ptr sub_13BC1
-    db 089h, 01Eh, 0BEh, 019h, 08Bh, 0DEh
+    MOV [19BEh],BX
+    MOV BX,SI
     call far ptr sub_13BC5
-    db 089h, 01Eh, 0C0h, 019h, 0A1h, 0BEh, 019h, 0F7h, 02Eh, 0C2h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh
-    db 0F2h, 08Bh, 0C2h, 0F7h, 02Eh, 0BAh, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0D8h, 08Bh, 0CAh, 0A1h
-    db 0BCh, 019h, 0F7h, 02Eh, 0C4h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 02Bh, 0C3h, 01Bh, 0D1h, 089h, 015h
-    db 0A1h, 0BEh, 019h, 0F7h, 02Eh, 0C4h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0EAh, 08Bh, 0C2h, 0F7h
-    db 02Eh, 0BAh, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0D8h, 08Bh, 0CAh, 0A1h, 0BCh, 019h, 0F7h, 02Eh
-    db 0C2h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0D8h, 013h, 0CAh, 089h, 04Dh, 006h, 0A1h, 0BAh, 019h
-    db 0F7h, 02Eh, 0C0h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 0F7h, 0DAh, 089h, 055h, 00Ch, 0A1h, 0C2h, 019h
-    db 0F7h, 02Eh, 0C0h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 0F7h, 0DAh, 089h, 055h, 002h, 0A1h, 0C4h, 019h
-    db 0F7h, 02Eh, 0C0h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 089h, 055h, 008h, 0A1h, 0BEh, 019h, 089h, 045h
-    db 00Eh, 08Bh, 0C6h, 0F7h, 02Eh, 0BCh, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0D8h, 08Bh, 0CAh, 0A1h
-    db 0BAh, 019h, 0F7h, 02Eh, 0C4h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0D8h, 013h, 0CAh, 089h, 04Dh
-    db 004h, 08Bh, 0C5h, 0F7h, 02Eh, 0BCh, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0D8h, 08Bh, 0CAh, 0A1h
-    db 0BAh, 019h, 0F7h, 02Eh, 0C2h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 02Bh, 0C3h, 01Bh, 0D1h, 089h, 055h
-    db 00Ah, 0A1h, 0BCh, 019h, 0F7h, 02Eh, 0C0h, 019h, 0D1h, 0E0h, 0D1h, 0D2h, 089h, 055h, 010h, 0C3h
+    MOV [19C0h],BX
+    MOV AX,[19BEh]
+    IMUL WORD PTR [19C2h]
+    SHL AX,1
+    RCL DX,1
+    MOV SI,DX
+    MOV AX,DX
+    IMUL WORD PTR [19BAh]
+    SHL AX,1
+    RCL DX,1
+    MOV BX,AX
+    MOV CX,DX
+    MOV AX,[19BCh]
+    IMUL WORD PTR [19C4h]
+    SHL AX,1
+    RCL DX,1
+    SUB AX,BX
+    SBB DX,CX
+    MOV [DI],DX
+    MOV AX,[19BEh]
+    IMUL WORD PTR [19C4h]
+    SHL AX,1
+    RCL DX,1
+    MOV BP,DX
+    MOV AX,DX
+    IMUL WORD PTR [19BAh]
+    SHL AX,1
+    RCL DX,1
+    MOV BX,AX
+    MOV CX,DX
+    MOV AX,[19BCh]
+    IMUL WORD PTR [19C2h]
+    SHL AX,1
+    RCL DX,1
+    ADD BX,AX
+    ADC CX,DX
+    MOV [DI+6h],CX
+    MOV AX,[19BAh]
+    IMUL WORD PTR [19C0h]
+    SHL AX,1
+    RCL DX,1
+    NEG DX
+    MOV [DI+0Ch],DX
+    MOV AX,[19C2h]
+    IMUL WORD PTR [19C0h]
+    SHL AX,1
+    RCL DX,1
+    NEG DX
+    MOV [DI+2h],DX
+    MOV AX,[19C4h]
+    IMUL WORD PTR [19C0h]
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+8h],DX
+    MOV AX,[19BEh]
+    MOV [DI+0Eh],AX
+    MOV AX,SI
+    IMUL WORD PTR [19BCh]
+    SHL AX,1
+    RCL DX,1
+    MOV BX,AX
+    MOV CX,DX
+    MOV AX,[19BAh]
+    IMUL WORD PTR [19C4h]
+    SHL AX,1
+    RCL DX,1
+    ADD BX,AX
+    ADC CX,DX
+    MOV [DI+4h],CX
+    MOV AX,BP
+    IMUL WORD PTR [19BCh]
+    SHL AX,1
+    RCL DX,1
+    MOV BX,AX
+    MOV CX,DX
+    MOV AX,[19BAh]
+    IMUL WORD PTR [19C2h]
+    SHL AX,1
+    RCL DX,1
+    SUB AX,BX
+    SBB DX,CX
+    MOV [DI+0Ah],DX
+    MOV AX,[19BCh]
+    IMUL WORD PTR [19C0h]
+    SHL AX,1
+    RCL DX,1
+    MOV [DI+10h],DX
+    RET
 sub_20CFB endp
 
 sub_20E19 proc near
-    db 0BBh, 0D8h, 019h, 08Bh, 047h, 002h, 087h, 047h, 006h, 089h, 047h, 002h, 08Bh, 047h, 004h, 087h
-    db 047h, 00Ch, 089h, 047h, 004h, 08Bh, 047h, 00Ah, 087h, 047h, 00Eh, 089h, 047h, 00Ah, 0C3h
+loc_1599:
+    MOV BX,19D8h
+    MOV AX,[BX+2h]
+    XCHG [BX+6h],AX
+    MOV [BX+2h],AX
+    MOV AX,[BX+4h]
+    XCHG [BX+0Ch],AX
+    MOV [BX+4h],AX
+    MOV AX,[BX+0Ah]
+    XCHG [BX+0Eh],AX
+    MOV [BX+0Ah],AX
+    RET
 sub_20E19 endp
 
 sub_20E38 proc far
-    db 055h, 08Bh, 0ECh, 056h, 057h, 08Bh, 05Eh, 006h, 08Bh, 076h, 008h, 08Bh, 07Eh, 00Ah, 0E8h, 004h
-    db 000h, 05Fh, 05Eh, 05Dh, 0CBh
+    PUSH BP
+    MOV BP,SP
+    PUSH SI
+    PUSH DI
+    MOV BX,[BP+6h]
+    MOV SI,[BP+8h]
+    MOV DI,[BP+0Ah]
+    CALL loc_15CD
+    POP DI
+    POP SI
+    POP BP
+    RETF
 sub_20E38 endp
 
 sub_20E4D proc near
-    db 08Bh, 007h, 0F7h, 02Ch, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0E8h, 08Bh, 0CAh, 08Bh, 047h, 002h, 0F7h
-    db 06Ch, 006h, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h, 0CAh, 08Bh, 047h, 004h, 0F7h, 06Ch, 00Ch
-    db 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h, 0CAh, 089h, 00Dh, 08Bh, 007h, 0F7h, 06Ch, 002h, 0D1h
-    db 0E0h, 0D1h, 0D2h, 08Bh, 0E8h, 08Bh, 0CAh, 08Bh, 047h, 002h, 0F7h, 06Ch, 008h, 0D1h, 0E0h, 0D1h
-    db 0D2h, 003h, 0E8h, 013h, 0CAh, 08Bh, 047h, 004h, 0F7h, 06Ch, 00Eh, 0D1h, 0E0h, 0D1h, 0D2h, 003h
-    db 0E8h, 013h, 0CAh, 089h, 04Dh, 002h, 08Bh, 007h, 0F7h, 06Ch, 004h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh
-    db 0E8h, 08Bh, 0CAh, 08Bh, 047h, 002h, 0F7h, 06Ch, 00Ah, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h
-    db 0CAh, 08Bh, 047h, 004h, 0F7h, 06Ch, 010h, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h, 0CAh, 089h
-    db 04Dh, 004h, 08Bh, 047h, 006h, 0F7h, 02Ch, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0E8h, 08Bh, 0CAh, 08Bh
-    db 047h, 008h, 0F7h, 06Ch, 006h, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h, 0CAh, 08Bh, 047h, 00Ah
-    db 0F7h, 06Ch, 00Ch, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h, 0CAh, 089h, 04Dh, 006h, 08Bh, 047h
-    db 006h, 0F7h, 06Ch, 002h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0E8h, 08Bh, 0CAh, 08Bh, 047h, 008h, 0F7h
-    db 06Ch, 008h, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h, 0CAh, 08Bh, 047h, 00Ah, 0F7h, 06Ch, 00Eh
-    db 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h, 0CAh, 089h, 04Dh, 008h, 08Bh, 047h, 006h, 0F7h, 06Ch
-    db 004h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0E8h, 08Bh, 0CAh, 08Bh, 047h, 008h, 0F7h, 06Ch, 00Ah, 0D1h
-    db 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h, 0CAh, 08Bh, 047h, 00Ah, 0F7h, 06Ch, 010h, 0D1h, 0E0h, 0D1h
-    db 0D2h, 003h, 0E8h, 013h, 0CAh, 089h, 04Dh, 00Ah, 08Bh, 047h, 00Ch, 0F7h, 02Ch, 0D1h, 0E0h, 0D1h
-    db 0D2h, 08Bh, 0E8h, 08Bh, 0CAh, 08Bh, 047h, 00Eh, 0F7h, 06Ch, 006h, 0D1h, 0E0h, 0D1h, 0D2h, 003h
-    db 0E8h, 013h, 0CAh, 08Bh, 047h, 010h, 0F7h, 06Ch, 00Ch, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h
-    db 0CAh, 089h, 04Dh, 00Ch, 08Bh, 047h, 00Ch, 0F7h, 06Ch, 002h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0E8h
-    db 08Bh, 0CAh, 08Bh, 047h, 00Eh, 0F7h, 06Ch, 008h, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h, 0CAh
-    db 08Bh, 047h, 010h, 0F7h, 06Ch, 00Eh, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h, 0CAh, 089h, 04Dh
-    db 00Eh, 08Bh, 047h, 00Ch, 0F7h, 06Ch, 004h, 0D1h, 0E0h, 0D1h, 0D2h, 08Bh, 0E8h, 08Bh, 0CAh, 08Bh
-    db 047h, 00Eh, 0F7h, 06Ch, 00Ah, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h, 0CAh, 08Bh, 047h, 010h
-    db 0F7h, 06Ch, 010h, 0D1h, 0E0h, 0D1h, 0D2h, 003h, 0E8h, 013h, 0CAh, 089h, 04Dh, 010h, 0C3h
+loc_15CD:
+    MOV AX,[BX]
+    IMUL WORD PTR [SI]
+    SHL AX,1
+    RCL DX,1
+    MOV BP,AX
+    MOV CX,DX
+    MOV AX,[BX+2h]
+    IMUL WORD PTR [SI+6h]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV AX,[BX+4h]
+    IMUL WORD PTR [SI+0Ch]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV [DI],CX
+    MOV AX,[BX]
+    IMUL WORD PTR [SI+2h]
+    SHL AX,1
+    RCL DX,1
+    MOV BP,AX
+    MOV CX,DX
+    MOV AX,[BX+2h]
+    IMUL WORD PTR [SI+8h]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV AX,[BX+4h]
+    IMUL WORD PTR [SI+0Eh]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV [DI+2h],CX
+    MOV AX,[BX]
+    IMUL WORD PTR [SI+4h]
+    SHL AX,1
+    RCL DX,1
+    MOV BP,AX
+    MOV CX,DX
+    MOV AX,[BX+2h]
+    IMUL WORD PTR [SI+0Ah]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV AX,[BX+4h]
+    IMUL WORD PTR [SI+10h]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV [DI+4h],CX
+    MOV AX,[BX+6h]
+    IMUL WORD PTR [SI]
+    SHL AX,1
+    RCL DX,1
+    MOV BP,AX
+    MOV CX,DX
+    MOV AX,[BX+8h]
+    IMUL WORD PTR [SI+6h]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV AX,[BX+0Ah]
+    IMUL WORD PTR [SI+0Ch]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV [DI+6h],CX
+    MOV AX,[BX+6h]
+    IMUL WORD PTR [SI+2h]
+    SHL AX,1
+    RCL DX,1
+    MOV BP,AX
+    MOV CX,DX
+    MOV AX,[BX+8h]
+    IMUL WORD PTR [SI+8h]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV AX,[BX+0Ah]
+    IMUL WORD PTR [SI+0Eh]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV [DI+8h],CX
+    MOV AX,[BX+6h]
+    IMUL WORD PTR [SI+4h]
+    SHL AX,1
+    RCL DX,1
+    MOV BP,AX
+    MOV CX,DX
+    MOV AX,[BX+8h]
+    IMUL WORD PTR [SI+0Ah]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV AX,[BX+0Ah]
+    IMUL WORD PTR [SI+10h]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV [DI+0Ah],CX
+    MOV AX,[BX+0Ch]
+    IMUL WORD PTR [SI]
+    SHL AX,1
+    RCL DX,1
+    MOV BP,AX
+    MOV CX,DX
+    MOV AX,[BX+0Eh]
+    IMUL WORD PTR [SI+6h]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV AX,[BX+10h]
+    IMUL WORD PTR [SI+0Ch]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV [DI+0Ch],CX
+    MOV AX,[BX+0Ch]
+    IMUL WORD PTR [SI+2h]
+    SHL AX,1
+    RCL DX,1
+    MOV BP,AX
+    MOV CX,DX
+    MOV AX,[BX+0Eh]
+    IMUL WORD PTR [SI+8h]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV AX,[BX+10h]
+    IMUL WORD PTR [SI+0Eh]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV [DI+0Eh],CX
+    MOV AX,[BX+0Ch]
+    IMUL WORD PTR [SI+4h]
+    SHL AX,1
+    RCL DX,1
+    MOV BP,AX
+    MOV CX,DX
+    MOV AX,[BX+0Eh]
+    IMUL WORD PTR [SI+0Ah]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV AX,[BX+10h]
+    IMUL WORD PTR [SI+10h]
+    SHL AX,1
+    RCL DX,1
+    ADD BP,AX
+    ADC CX,DX
+    MOV [DI+10h],CX
+    RET
 sub_20E4D endp
 
 sub_20FDC proc far
-    db 055h, 056h, 057h, 0C4h, 036h, 08Ch, 019h, 0E8h, 004h, 000h, 05Fh, 05Eh, 05Dh, 0CBh
+    PUSH BP
+    PUSH SI
+    PUSH DI
+    LES SI,DWORD PTR [198Ch]
+    CALL loc_176A
+    POP DI
+    POP SI
+    POP BP
+    RETF
 sub_20FDC endp
 
 sub_20FEA proc near
-    db 026h, 0ACh, 00Ah, 0C0h, 074h, 010h, 03Ch, 0FFh, 074h, 00Dh, 0A2h, 0FEh, 042h, 0E8h, 07Bh, 000h
-    db 0FEh, 00Eh, 0FEh, 042h, 075h, 0F7h, 0C3h, 0A1h, 006h, 01Ah, 08Bh, 02Eh, 008h, 01Ah, 08Bh, 00Eh
-    db 000h, 01Ah, 0BFh, 040h, 043h, 08Bh, 0DFh, 0D1h, 0EDh, 0D1h, 0D8h, 0B2h, 0FFh, 080h, 0D2h, 000h
-    db 088h, 015h, 047h, 0E2h, 0F2h, 0BFh, 0FFh, 042h, 056h, 0E8h, 036h, 0EEh, 05Eh, 08Bh, 01Eh, 000h
-    db 01Ah, 08Bh, 0C3h, 0D1h, 0E0h, 003h, 0F0h, 046h, 089h, 036h, 060h, 043h, 003h, 0F0h, 089h, 036h
-    db 062h, 043h, 003h, 0F3h, 089h, 036h, 064h, 043h, 0BEh, 0FFh, 042h, 0ACh, 02Ah, 0E4h, 056h, 08Bh
-    db 03Eh, 062h, 043h, 003h, 0F8h, 026h, 08Ah, 01Dh, 088h, 01Eh, 066h, 043h, 08Bh, 036h, 060h, 043h
-    db 0D1h, 0E0h, 003h, 0F0h, 026h, 08Bh, 034h, 003h, 036h, 064h, 043h, 0E8h, 00Dh, 000h, 0FEh, 00Eh
-    db 066h, 043h, 075h, 0F7h, 05Eh, 0ACh, 03Ch, 0FFh, 075h, 0D2h, 0C3h
+loc_176A:
+    db 026h
+    LODSB
+    OR AL,AL
+    JZ short loc_1780
+    CMP AL,0FFh
+    JZ short loc_1781
+    MOV [42FEh],AL
+loc_1777:
+    CALL loc_17F5
+    DEC BYTE PTR [42FEh]
+    JNZ short loc_1777
+loc_1780:
+    RET
+loc_1781:
+    MOV AX,[1A06h]
+    MOV BP,[1A08h]
+    MOV CX,[1A00h]
+    MOV DI,4340h
+    MOV BX,DI
+loc_1791:
+    SHR BP,1
+    RCR AX,1
+    MOV DL,0FFh
+    ADC DL,0h
+    MOV [DI],DL
+    INC DI
+    LOOP short loc_1791
+    MOV DI,42FFh
+    PUSH SI
+    CALL loc_05DC
+    POP SI
+    MOV BX,[1A00h]
+    MOV AX,BX
+    SHL AX,1
+    ADD SI,AX
+    INC SI
+    MOV [4360h],SI
+    ADD SI,AX
+    MOV [4362h],SI
+    ADD SI,BX
+    MOV [4364h],SI
+    MOV SI,42FFh
+    LODSB
+loc_17C6:
+    SUB AH,AH
+    PUSH SI
+    MOV DI,[4362h]
+    ADD DI,AX
+    MOV BL,[ES:DI]
+    MOV [4366h],BL
+    MOV SI,[4360h]
+    SHL AX,1
+    ADD SI,AX
+    MOV SI,[ES:SI]
+    ADD SI,[4364h]
+loc_17E5:
+    CALL loc_17F5
+    DEC BYTE PTR [4366h]
+    JNZ short loc_17E5
+    POP SI
+    LODSB
+    CMP AL,0FFh
+    JNZ short loc_17C6
+    RET
 sub_20FEA endp
 
 sub_21075 proc near
-    db 026h, 0ACh, 08Ah, 0D8h, 024h, 003h, 03Ch, 001h, 074h, 04Fh, 0E8h, 0A0h, 003h, 075h, 004h, 083h
-    db 0C6h, 002h, 0C3h, 026h, 0ACh, 02Ah, 0E4h, 0D1h, 0E0h, 08Bh, 0D8h, 0D1h, 0E3h, 0D1h, 0E3h, 08Bh
-    db 0CBh, 0D1h, 0E1h, 003h, 0D9h, 003h, 0D8h, 081h, 0C3h, 08Eh, 032h, 0F6h, 047h, 018h, 080h, 074h
-    db 002h, 046h, 0C3h, 026h, 0ACh, 02Ah, 0E4h, 08Bh, 0F8h, 08Ah, 0A5h, 0ECh, 018h, 002h, 026h, 0EAh
-    db 018h
+loc_17F5:
+    db 026h
+    LODSB
+    MOV BL,AL
+    AND AL,3h
+    CMP AL,1h
+    JZ short loc_184E
+    CALL loc_1BA2
+    JNZ short loc_1808
+    ADD SI,BYTE PTR +0x2
+    RET
+loc_1808:
+    db 026h
+    LODSB
+    SUB AH,AH
+    SHL AX,1
+    MOV BX,AX
+    SHL BX,1
+    SHL BX,1
+    MOV CX,BX
+    SHL CX,1
+    ADD BX,CX
+    ADD BX,AX
+    ADD BX,328Eh
+    TEST BYTE PTR [BX+18h],80h
+    JZ short loc_1828
+    INC SI
+    RET
+loc_1828:
+    db 026h
+    LODSB
+    SUB AH,AH
+    MOV DI,AX
+    MOV AH,[DI+18ECh]
+    ADD AH,[18EAh]
     call far ptr gfx_setPageDirect
-    db 08Bh, 04Fh, 008h, 08Bh, 057h, 00Ch, 08Bh, 007h, 08Bh, 05Fh, 004h, 056h
+    MOV CX,[BX+8h]
+    MOV DX,[BX+0Ch]
+    MOV AX,[BX]
+    MOV BX,[BX+4h]
+    PUSH SI
     call far ptr gfx_drawLine
-    db 05Eh, 0C3h, 026h, 0ACh, 0D0h, 0EBh, 0D0h, 0EBh, 08Ah, 0CBh, 083h, 0E3h, 01Eh, 08Bh, 09Fh, 0DEh
-    db 042h, 0F6h, 0C1h, 020h, 075h, 00Ch, 085h, 01Eh, 006h, 01Ah, 075h, 00Ch, 02Ah, 0E4h, 003h, 0F0h
-    db 046h, 0C3h, 085h, 01Eh, 008h, 01Ah, 074h, 0F4h, 0A2h, 067h, 043h, 08Ah, 0D8h, 02Ah, 0FFh, 026h
-    db 08Ah, 018h, 080h, 0FBh, 0FFh, 074h, 0E5h, 081h, 03Eh, 0FCh, 012h, 000h, 004h, 075h, 005h, 080h
-    db 0FBh, 001h, 075h, 0D8h, 08Bh, 0FBh, 08Ah, 0A5h, 0ECh, 018h, 002h, 026h, 0EAh, 018h
+    POP SI
+    RET
+loc_184E:
+    db 026h
+    LODSB
+    SHR BL,1
+    SHR BL,1
+    MOV CL,BL
+    AND BX,BYTE PTR +0x1e
+    MOV BX,[BX+42DEh]
+    TEST CL,20h
+    JNZ short loc_186E
+    TEST [1A06h],BX
+    JNZ short loc_1874
+loc_1868:
+    SUB AH,AH
+    ADD SI,AX
+    INC SI
+    RET
+loc_186E:
+    TEST [1A08h],BX
+    JZ short loc_1868
+loc_1874:
+    MOV [4367h],AL
+    MOV BL,AL
+    SUB BH,BH
+    MOV BL,[ES:BX+SI]
+    CMP BL,0FFh
+    JZ short loc_1868
+    CMP WORD PTR [12FCh],400h
+    JNZ short loc_1890
+    CMP BL,1h
+    JNZ short loc_1868
+loc_1890:
+    MOV DI,BX
+    MOV AH,[DI+18ECh]
+    ADD AH,[18EAh]
     call far ptr gfx_setPageDirect
-    db 0E8h, 0FEh, 005h, 08Eh, 006h, 08Eh, 019h, 0C6h, 006h, 068h, 043h, 000h, 026h, 0ACh, 02Ah, 0E4h
-    db 0D1h, 0E0h, 08Bh, 0D8h, 0D1h, 0E3h, 0D1h, 0E3h, 08Bh, 0CBh, 0D1h, 0E1h, 003h, 0D9h, 003h, 0D8h
-    db 081h, 0C3h, 08Eh, 032h, 0F6h, 047h, 018h, 040h, 074h, 038h, 08Bh, 047h, 010h, 08Bh, 057h, 012h
-    db 08Bh, 04Fh, 014h, 08Bh, 07Fh, 016h, 080h, 03Eh, 068h, 043h, 000h, 075h, 012h, 0A3h, 069h, 043h
-    db 089h, 016h, 06Bh, 043h, 089h, 00Eh, 06Dh, 043h, 089h, 03Eh, 06Fh, 043h, 0EBh, 010h, 090h, 0A3h
-    db 071h, 043h, 089h, 016h, 073h, 043h, 089h, 00Eh, 075h, 043h, 089h, 03Eh, 077h, 043h, 0FEh, 006h
-    db 068h, 043h, 056h, 0E8h, 035h, 000h, 05Eh, 0FEh, 00Eh, 067h, 043h, 075h, 09Fh, 046h, 056h, 080h
-    db 03Eh, 068h, 043h, 002h, 07Ch, 014h, 0C6h, 006h, 081h, 043h, 000h, 0BFh, 069h, 043h, 0E8h, 03Dh
-    db 0E8h, 08Eh, 006h, 08Eh, 019h, 08Bh, 0DFh, 0E8h, 011h, 000h, 0A1h, 029h, 050h, 08Bh, 00Eh, 02Bh
-    db 050h, 0BBh, 0B5h, 04Ch
+    CALL loc_1EA0
+    MOV ES,[198Eh]
+    MOV BYTE PTR [4368h],0h
+loc_18AB:
+    db 026h
+    LODSB
+    SUB AH,AH
+    SHL AX,1
+    MOV BX,AX
+    SHL BX,1
+    SHL BX,1
+    MOV CX,BX
+    SHL CX,1
+    ADD BX,CX
+    ADD BX,AX
+    ADD BX,328Eh
+    TEST BYTE PTR [BX+18h],40h
+    JZ short loc_1901
+    MOV AX,[BX+10h]
+    MOV DX,[BX+12h]
+    MOV CX,[BX+14h]
+    MOV DI,[BX+16h]
+    CMP BYTE PTR [4368h],0h
+    JNZ short loc_18EE
+    MOV [4369h],AX
+    MOV [436Bh],DX
+    MOV [436Dh],CX
+    MOV [436Fh],DI
+    JMP short loc_18FD
+    NOP
+loc_18EE:
+    MOV [4371h],AX
+    MOV [4373h],DX
+    MOV [4375h],CX
+    MOV [4377h],DI
+loc_18FD:
+    INC BYTE PTR [4368h]
+loc_1901:
+    PUSH SI
+    CALL loc_193A
+    POP SI
+    DEC BYTE PTR [4367h]
+    JNZ short loc_18AB
+    INC SI
+    PUSH SI
+    CMP BYTE PTR [4368h],2h
+    JL short loc_1929
+    MOV BYTE PTR [4381h],0h
+    MOV DI,4369h
+    CALL loc_015D
+    MOV ES,[198Eh]
+    MOV BX,DI
+    CALL loc_193A
+loc_1929:
+    MOV AX,[5029h]
+    MOV CX,[502Bh]
+    MOV BX,4CB5h
     call far ptr gfx_dirtyRect
-    db 05Eh, 0C3h
+    POP SI
+    RET
 sub_21075 endp
 
 sub_211BA proc near
-    db 0F6h, 047h, 018h, 080h, 075h, 01Ch, 08Bh, 007h, 0A3h, 0ADh, 04Ch, 08Bh, 047h, 004h, 0A3h, 0B1h
-    db 04Ch, 08Bh, 047h, 008h, 0A3h, 0AFh, 04Ch, 08Bh, 047h, 00Ch, 0A3h, 0B3h, 04Ch, 053h, 0E8h, 0D9h
-    db 005h, 05Bh, 0F6h, 047h, 018h, 020h, 074h, 011h, 08Bh, 037h, 08Bh, 07Fh, 004h, 08Bh, 057h, 006h
-    db 053h, 0E8h, 068h, 005h, 08Eh, 006h, 08Eh, 019h, 05Bh, 0F6h, 047h, 018h, 010h, 074h, 010h, 08Bh
-    db 077h, 008h, 08Bh, 07Fh, 00Ch, 08Bh, 057h, 00Eh, 0E8h, 051h, 005h, 08Eh, 006h, 08Eh, 019h, 0C3h
+loc_193A:
+    TEST BYTE PTR [BX+18h],80h
+    JNZ short loc_195C
+    MOV AX,[BX]
+    MOV [4CADh],AX
+    MOV AX,[BX+4h]
+    MOV [4CB1h],AX
+    MOV AX,[BX+8h]
+    MOV [4CAFh],AX
+    MOV AX,[BX+0Ch]
+    MOV [4CB3h],AX
+    PUSH BX
+    CALL loc_1F34
+    POP BX
+loc_195C:
+    TEST BYTE PTR [BX+18h],20h
+    JZ short loc_1973
+    MOV SI,[BX]
+    MOV DI,[BX+4h]
+    MOV DX,[BX+6h]
+    PUSH BX
+    CALL loc_1ED6
+    MOV ES,[198Eh]
+    POP BX
+loc_1973:
+    TEST BYTE PTR [BX+18h],10h
+    JZ short loc_1989
+    MOV SI,[BX+8h]
+    MOV DI,[BX+0Ch]
+    MOV DX,[BX+0Eh]
+    CALL loc_1ED6
+    MOV ES,[198Eh]
+loc_1989:
+    RET
 sub_211BA endp
 
-    db 0A1h, 0A6h, 019h, 03Dh, 001h, 000h, 07Ch, 055h, 0A3h, 0D6h, 01Dh, 0A1h, 0A4h, 019h, 0A3h, 0D4h
-    db 01Dh, 0A1h, 09Ch, 019h, 0A3h, 00Ch, 01Ah, 0A1h, 09Eh, 019h, 0A3h, 00Eh, 01Ah, 0A1h, 0A0h, 019h
-    db 0A3h, 0F0h, 01Bh, 0A1h, 0A2h, 019h, 0A3h, 0F2h, 01Bh, 046h, 026h, 0ACh, 02Ah, 0E4h, 08Bh, 0F8h
-    db 08Ah, 0A5h, 0ECh, 018h, 002h, 026h, 0EAh, 018h
+loc_198A:
+    MOV AX,[19A6h]
+    db 03Dh, 001h, 000h
+    JL short loc_19E7
+    MOV [1DD6h],AX
+    MOV AX,[19A4h]
+    MOV [1DD4h],AX
+    MOV AX,[199Ch]
+    MOV [1A0Ch],AX
+    MOV AX,[199Eh]
+    MOV [1A0Eh],AX
+    MOV AX,[19A0h]
+    MOV [1BF0h],AX
+    MOV AX,[19A2h]
+    MOV [1BF2h],AX
+    INC SI
+    db 026h
+    LODSB
+    SUB AH,AH
+    MOV DI,AX
+    MOV AH,[DI+18ECh]
+    ADD AH,[18EAh]
     call far ptr gfx_setPageDirect
-    db 0E8h, 049h, 0E7h, 02Bh, 0DBh, 0E8h, 0A9h, 0E6h, 0E8h, 065h, 0E7h, 0A1h, 0B8h, 01Fh, 0A3h, 0ADh
-    db 04Ch, 0A3h, 0AFh, 04Ch, 0A1h, 09Ch, 021h, 0A3h, 0B1h, 04Ch, 0A3h, 0B3h, 04Ch, 0E8h, 0CFh, 002h
-    db 0C3h, 026h, 0ACh, 02Ah, 0E4h, 08Bh, 0F8h, 08Ah, 09Dh, 0B8h, 088h, 02Ah, 0FFh, 0D1h, 0E3h, 08Bh
-    db 08Fh, 0D0h, 095h, 08Ah, 09Dh, 0FEh, 087h, 02Ah, 0FFh, 0D1h, 0E3h, 08Bh, 087h, 08Eh, 095h, 0A3h
-    db 083h, 043h, 08Ah, 09Dh, 05Eh, 086h, 02Ah, 0FFh, 0D1h, 0E3h, 08Bh, 09Fh, 04Ch, 095h, 056h, 0A1h
-    db 083h, 043h, 0F7h, 02Eh, 0F6h, 019h, 08Bh, 0FAh, 08Bh, 0F0h, 0A1h, 0F0h, 019h, 0F7h, 0E9h, 003h
-    db 0F0h, 013h, 0FAh, 0A1h, 0EAh, 019h, 0F7h, 0EBh, 003h, 0F0h, 013h, 0FAh, 0D1h, 0E6h, 0D1h, 0D7h
-    db 003h, 036h, 09Ch, 019h, 013h, 03Eh, 09Eh, 019h, 089h, 036h, 00Ch, 01Ah, 089h, 03Eh, 00Eh, 01Ah
-    db 0A1h, 083h, 043h, 0F7h, 02Eh, 0F8h, 019h, 08Bh, 0FAh, 08Bh, 0F0h, 0A1h, 0F2h, 019h, 0F7h, 0E9h
-    db 003h, 0F0h, 013h, 0FAh, 0A1h, 0ECh, 019h, 0F7h, 0EBh, 003h, 0F0h, 013h, 0FAh, 0D1h, 0E6h, 0D1h
-    db 0D7h, 003h, 036h, 0A0h, 019h, 013h, 03Eh, 0A2h, 019h, 089h, 036h, 0F0h, 01Bh, 089h, 03Eh, 0F2h
-    db 01Bh, 0A1h, 083h, 043h, 0F7h, 02Eh, 0FAh, 019h, 08Bh, 0FAh, 08Bh, 0F0h, 0A1h, 0F4h, 019h, 0F7h
-    db 0E9h, 003h, 0F0h, 013h, 0FAh, 0A1h, 0EEh, 019h, 0F7h, 0EBh, 003h, 0F0h, 013h, 0FAh, 0D1h, 0E6h
-    db 0D1h, 0D7h, 003h, 036h, 0A4h, 019h, 013h, 03Eh, 0A6h, 019h, 089h, 036h, 0D4h, 01Dh, 089h, 03Eh
-    db 0D6h, 01Dh, 0BBh, 008h, 000h, 081h, 0FFh, 088h, 013h, 07Fh, 00Ah, 04Bh, 081h, 0FFh, 0C4h, 009h
-    db 07Fh, 003h, 0BBh, 00Fh, 000h, 08Ah, 0A7h, 0ECh, 018h
+    CALL loc_0113
+    SUB BX,BX
+    CALL loc_0078
+    CALL loc_0137
+    MOV AX,[1FB8h]
+    MOV [4CADh],AX
+    MOV [4CAFh],AX
+    MOV AX,[219Ch]
+    MOV [4CB1h],AX
+    MOV [4CB3h],AX
+    CALL loc_1CB6
+loc_19E7:
+    RET
+loc_19E8:
+    db 026h
+    LODSB
+    SUB AH,AH
+    MOV DI,AX
+    MOV BL,[DI-7748h]
+    SUB BH,BH
+    SHL BX,1
+    MOV CX,[BX-6A30h]
+    MOV BL,[DI-7802h]
+    SUB BH,BH
+    SHL BX,1
+    MOV AX,[BX-6A72h]
+    MOV [4383h],AX
+    MOV BL,[DI-79A2h]
+    SUB BH,BH
+    SHL BX,1
+    MOV BX,[BX-6AB4h]
+    PUSH SI
+    MOV AX,[4383h]
+    IMUL WORD PTR [19F6h]
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,[19F0h]
+    IMUL CX
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,[19EAh]
+    IMUL BX
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    ADD SI,[199Ch]
+    ADC DI,[199Eh]
+    MOV [1A0Ch],SI
+    MOV [1A0Eh],DI
+    MOV AX,[4383h]
+    IMUL WORD PTR [19F8h]
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,[19F2h]
+    IMUL CX
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,[19ECh]
+    IMUL BX
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    ADD SI,[19A0h]
+    ADC DI,[19A2h]
+    MOV [1BF0h],SI
+    MOV [1BF2h],DI
+    MOV AX,[4383h]
+    IMUL WORD PTR [19FAh]
+    MOV DI,DX
+    MOV SI,AX
+    MOV AX,[19F4h]
+    IMUL CX
+    ADD SI,AX
+    ADC DI,DX
+    MOV AX,[19EEh]
+    IMUL BX
+    ADD SI,AX
+    ADC DI,DX
+    SHL SI,1
+    RCL DI,1
+    ADD SI,[19A4h]
+    ADC DI,[19A6h]
+    MOV [1DD4h],SI
+    MOV [1DD6h],DI
+    MOV BX,8h
+    CMP DI,1388h
+    JG short loc_1ABC
+    DEC BX
+    CMP DI,9C4h
+    JG short loc_1ABC
+    MOV BX,0Fh
+loc_1ABC:
+    MOV AH,[BX+18ECh]
     call far ptr gfx_setPageDirect
-    db 02Bh, 0DBh, 0E8h, 0AEh, 0E5h, 0A1h, 0B8h, 01Fh, 0A3h, 0ADh, 04Ch, 0A3h, 0AFh, 04Ch, 0A1h, 09Ch
-    db 021h, 0A3h, 0B1h, 04Ch, 0A3h, 0B3h, 04Ch, 0E8h, 0D7h, 001h, 05Eh, 08Eh, 006h, 08Eh, 019h, 0FEh
-    db 00Eh, 082h, 043h, 074h, 003h, 0E9h, 0FBh, 0FEh, 0E8h, 047h, 0E6h, 0C3h, 0E9h, 0F4h, 0FEh, 0E8h
-    db 01Ch, 0E6h, 083h, 0C6h, 002h, 026h, 0ACh, 0A2h, 082h, 043h, 080h, 03Eh, 0D8h, 042h, 000h, 075h
-    db 0EBh, 026h, 0ACh, 02Ah, 0E4h, 0D1h, 0E0h, 0D1h, 0E0h, 08Bh, 0F8h, 08Bh, 085h, 030h, 028h, 003h
-    db 006h, 0A4h, 019h, 0A3h, 0D4h, 01Dh, 08Bh, 085h, 032h, 028h, 013h, 006h, 0A6h, 019h, 03Dh, 001h
-    db 000h, 07Ch, 06Dh, 0A3h, 0D6h, 01Dh, 08Bh, 0D0h, 08Bh, 085h, 080h, 023h, 003h, 006h, 09Ch, 019h
-    db 0A3h, 00Ch, 01Ah, 08Bh, 085h, 082h, 023h, 013h, 006h, 09Eh, 019h, 0A3h, 00Eh, 01Ah, 08Bh, 085h
-    db 0D8h, 025h, 003h, 006h, 0A0h, 019h, 0A3h, 0F0h, 01Bh, 08Bh, 085h, 0DAh, 025h, 013h, 006h, 0A2h
-    db 019h, 0A3h, 0F2h, 01Bh, 0BBh, 008h, 000h, 081h, 0FAh, 088h, 013h, 07Fh, 00Ah, 04Bh, 081h, 0FAh
-    db 0C4h, 009h, 07Fh, 003h, 0BBh, 00Fh, 000h, 08Ah, 0A7h, 0ECh, 018h
+    SUB BX,BX
+    CALL loc_0078
+    MOV AX,[1FB8h]
+    MOV [4CADh],AX
+    MOV [4CAFh],AX
+    MOV AX,[219Ch]
+    MOV [4CB1h],AX
+    MOV [4CB3h],AX
+    CALL loc_1CB6
+    POP SI
+    MOV ES,[198Eh]
+    DEC BYTE PTR [4382h]
+    JZ short loc_1AED
+    JMP near ptr loc_19E8
+loc_1AED:
+    CALL loc_0137
+    RET
+loc_1AF1:
+    JMP near ptr loc_19E8
+loc_1AF4:
+    CALL loc_0113
+    ADD SI,BYTE PTR +0x2
+    db 026h
+    LODSB
+    MOV [4382h],AL
+    CMP BYTE PTR [42D8h],0h
+    JNZ short loc_1AF1
+loc_1B06:
+    db 026h
+    LODSB
+    SUB AH,AH
+    SHL AX,1
+    SHL AX,1
+    MOV DI,AX
+    MOV AX,[DI+2830h]
+    ADD AX,[19A4h]
+    MOV [1DD4h],AX
+    MOV AX,[DI+2832h]
+    ADC AX,[19A6h]
+    db 03Dh, 001h, 000h
+    JL short loc_1B95
+    MOV [1DD6h],AX
+    MOV DX,AX
+    MOV AX,[DI+2380h]
+    ADD AX,[199Ch]
+    MOV [1A0Ch],AX
+    MOV AX,[DI+2382h]
+    ADC AX,[199Eh]
+    MOV [1A0Eh],AX
+    MOV AX,[DI+25D8h]
+    ADD AX,[19A0h]
+    MOV [1BF0h],AX
+    MOV AX,[DI+25DAh]
+    ADC AX,[19A2h]
+    MOV [1BF2h],AX
+    MOV BX,8h
+    CMP DX,1388h
+    JG short loc_1B6C
+    DEC BX
+    CMP DX,9C4h
+    JG short loc_1B6C
+    MOV BX,0Fh
+loc_1B6C:
+    MOV AH,[BX+18ECh]
     call far ptr gfx_setPageDirect
-    db 056h, 02Bh, 0DBh, 0E8h, 0FDh, 0E4h, 0A1h, 0B8h, 01Fh, 0A3h, 0ADh, 04Ch, 0A3h, 0AFh, 04Ch, 0A1h
-    db 09Ch, 021h, 0A3h, 0B1h, 04Ch, 0A3h, 0B3h, 04Ch, 0E8h, 026h, 001h, 05Eh, 08Eh, 006h, 08Eh, 019h
-    db 0FEh, 00Eh, 082h, 043h, 074h, 003h, 0E9h, 068h, 0FFh, 0E8h, 096h, 0E5h, 0C3h
+    PUSH SI
+    SUB BX,BX
+    CALL loc_0078
+    MOV AX,[1FB8h]
+    MOV [4CADh],AX
+    MOV [4CAFh],AX
+    MOV AX,[219Ch]
+    MOV [4CB1h],AX
+    MOV [4CB3h],AX
+    CALL loc_1CB6
+    POP SI
+    MOV ES,[198Eh]
+loc_1B95:
+    DEC BYTE PTR [4382h]
+    JZ short loc_1B9E
+    JMP near ptr loc_1B06
+loc_1B9E:
+    CALL loc_0137
+    RET
 sub_21422 proc near
-    db 080h, 03Eh, 004h, 01Ah, 000h, 075h, 007h, 026h, 0ADh, 023h, 006h, 006h, 01Ah, 0C3h, 026h, 0ADh
-    db 026h, 08Bh, 014h, 083h, 0C6h, 002h, 023h, 006h, 006h, 01Ah, 023h, 016h, 008h, 01Ah, 00Bh, 0C2h
-    db 0C3h
+loc_1BA2:
+    CMP BYTE PTR [1A04h],0h
+    JNZ short loc_1BB0
+    db 026h
+    LODSW
+    AND AX,[1A06h]
+    RET
+loc_1BB0:
+    db 026h
+    LODSW
+    MOV DX,[ES:SI]
+    ADD SI,BYTE PTR +0x2
+    AND AX,[1A06h]
+    AND DX,[1A08h]
+    OR AX,DX
+    RET
 sub_21422 endp
 
     db 000h
 sub_21444 proc far
-    db 055h, 08Bh, 0ECh, 057h, 056h, 055h, 01Eh, 007h
+    db 055h
+    db 08Bh
+    IN AL,DX
+    PUSH DI
+    PUSH SI
+    PUSH BP
+    PUSH DS
+    POP ES
     call far ptr gfx_getCurPageSeg2
-    db 050h, 08Bh, 05Eh, 006h, 08Bh, 007h
+    PUSH AX
+    MOV BX,[BP+6h]
+    MOV AX,[BX]
     call far ptr gfx_setPage1
-    db 08Ah, 067h, 004h
+    MOV AH,[BX+4h]
     call far ptr gfx_setPageDirect
-    db 0E8h, 0B9h, 002h, 08Bh, 04Eh, 00Eh, 08Bh, 076h, 00Ah, 089h, 00Eh, 02Bh, 050h, 089h, 036h, 029h
-    db 050h, 02Bh, 0CEh, 041h, 08Dh, 03Eh, 0B5h, 04Ch, 0D1h, 0E6h, 003h, 0FEh, 08Bh, 046h, 008h, 08Bh
-    db 0D1h, 0F3h, 0ABh, 08Bh, 0CAh, 08Dh, 03Eh, 06Dh, 04Eh, 003h, 0FEh, 08Bh, 046h, 00Ch, 0F3h, 0ABh
-    db 0BBh, 0B5h, 04Ch, 0A1h, 029h, 050h, 08Bh, 00Eh, 02Bh, 050h
+    CALL loc_1EA0
+    MOV CX,[BP+0Eh]
+    MOV SI,[BP+0Ah]
+    MOV [502Bh],CX
+    MOV [5029h],SI
+    SUB CX,SI
+    INC CX
+    LEA DI,[4CB5h]
+    SHL SI,1
+    ADD DI,SI
+    MOV AX,[BP+8h]
+    MOV DX,CX
+    REP stosw
+    MOV CX,DX
+    LEA DI,[4E6Dh]
+    ADD DI,SI
+    MOV AX,[BP+0Ch]
+    REP stosw
+    MOV BX,4CB5h
+    MOV AX,[5029h]
+    MOV CX,[502Bh]
     call far ptr gfx_dirtyRect2
     call far ptr gfx_resetBlitOffset
-    db 058h
+    POP AX
     call far ptr gfx_getCurPageSeg
-    db 05Dh, 05Eh, 05Fh, 08Bh, 0E5h, 05Dh, 0CBh
+    POP BP
+    POP SI
+    POP DI
+    MOV SP,BP
+    POP BP
+    RETF
 sub_21444 endp
 
-    db 055h, 08Bh, 0ECh, 057h, 056h, 055h, 01Eh, 007h
-    call far ptr gfx_getCurPageSeg2
-    db 050h, 08Bh, 05Eh, 006h, 08Bh, 007h
-    call far ptr gfx_setPage1
-    db 08Ah, 067h, 006h
-    call far ptr gfx_setPageDirect
+    db 055h, 08Bh, 0ECh, 057h, 056h, 055h, 01Eh, 007h, 09Ah, 00Eh, 00Fh, 08Bh, 022h, 050h, 08Bh, 05Eh
+    db 006h, 08Bh, 007h, 09Ah, 0FFh, 00Eh, 08Bh, 022h, 08Ah, 067h, 006h, 09Ah, 05Eh, 00Fh, 08Bh, 022h
     db 0E8h, 048h, 002h, 08Bh, 04Eh, 00Eh, 08Bh, 076h, 00Ah, 089h, 00Eh, 02Bh, 050h, 089h, 036h, 029h
     db 050h, 02Bh, 0CEh, 041h, 08Dh, 03Eh, 0B5h, 04Ch, 0D1h, 0E6h, 003h, 0FEh, 08Bh, 046h, 008h, 08Bh
     db 0D1h, 0F3h, 0ABh, 08Bh, 0CAh, 08Dh, 03Eh, 06Dh, 04Eh, 003h, 0FEh, 08Bh, 046h, 00Ch, 0F3h, 0ABh
-    db 0BBh, 0B5h, 04Ch, 0A1h, 029h, 050h, 08Bh, 00Eh, 02Bh, 050h
-    call far ptr gfx_dirtyRect2
-    call far ptr gfx_resetBlitOffset
-    db 058h
-    call far ptr gfx_getCurPageSeg
-    db 05Dh, 05Eh, 05Fh, 08Bh, 0E5h, 05Dh, 0C3h
+    db 0BBh, 0B5h, 04Ch, 0A1h, 029h, 050h, 08Bh, 00Eh, 02Bh, 050h, 09Ah, 086h, 00Fh, 08Bh, 022h, 09Ah
+    db 068h, 00Fh, 08Bh, 022h, 058h, 09Ah, 009h, 00Fh, 08Bh, 022h, 05Dh, 05Eh, 05Fh, 08Bh, 0E5h, 05Dh
+    db 0C3h
 sub_21526 proc far
-    db 0E8h, 00Dh, 000h, 0CBh
+    CALL loc_1CB6
+    RETF
 sub_21526 endp
 
 sub_2152A proc far
-    db 055h, 056h, 057h, 006h, 0E8h, 005h, 000h, 007h, 05Fh, 05Eh, 05Dh, 0CBh
+    PUSH BP
+    PUSH SI
+    PUSH DI
+    PUSH ES
+    CALL loc_1CB6
+    POP ES
+    POP DI
+    POP SI
+    POP BP
+    RETF
 sub_2152A endp
 
 sub_21536 proc near
-    db 02Bh, 0C0h, 08Eh, 0C0h, 026h, 0FFh, 036h, 000h, 000h, 026h, 0FFh, 036h, 002h, 000h, 08Dh, 006h
-    db 063h, 01Eh, 026h, 0A3h, 000h, 000h, 026h, 0C7h, 006h, 002h, 000h, 088h, 00Fh, 01Eh, 007h, 0EBh
-    db 067h, 090h, 02Bh, 0C0h, 08Eh, 0C0h, 026h, 08Fh, 006h, 002h, 000h, 026h, 08Fh, 006h, 000h, 000h
-    db 01Eh, 007h, 0A1h, 0ADh, 04Ch, 08Bh, 01Eh, 0B1h, 04Ch, 08Bh, 00Eh, 0AFh, 04Ch, 08Bh, 016h, 0B3h
-    db 04Ch
+loc_1CB6:
+    SUB AX,AX
+    MOV ES,AX
+    PUSH WORD PTR [ES:0h]
+    PUSH WORD PTR [ES:2h]
+    LEA AX,[1E63h]
+    MOV [ES:0h],AX
+    MOV WORD PTR [ES:2h],0F88h
+    PUSH DS
+    POP ES
+    JMP short loc_1D3E
+    NOP
+loc_1CD8:
+    SUB AX,AX
+    MOV ES,AX
+    POP WORD PTR [ES:2h]
+    POP WORD PTR [ES:0h]
+    PUSH DS
+    POP ES
+    MOV AX,[4CADh]
+    MOV BX,[4CB1h]
+    MOV CX,[4CAFh]
+    MOV DX,[4CB3h]
     call far ptr gfx_drawLine
-    db 0F8h, 0C3h, 02Bh, 0C0h, 08Eh, 0C0h, 026h, 08Fh, 006h, 002h, 000h, 026h, 08Fh, 006h, 000h, 000h
-    db 01Eh, 007h, 0F9h, 0C3h, 0F5h, 0D1h, 0DAh, 089h, 016h, 09Fh, 04Ch, 0D1h, 0FAh, 089h, 016h, 0A3h
-    db 04Ch, 08Bh, 0D7h, 02Bh, 0D5h, 071h, 006h, 0F5h, 0D1h, 0DAh, 0EBh, 071h, 090h, 0D1h, 0FAh, 0EBh
-    db 06Ch, 090h, 0F5h, 0D1h, 0DAh, 0D1h, 03Eh, 09Fh, 04Ch, 0D1h, 03Eh, 0A3h, 04Ch, 0EBh, 05Eh, 090h
-    db 0EBh, 0C0h, 08Bh, 00Eh, 0ADh, 04Ch, 08Bh, 016h, 0B1h, 04Ch, 08Bh, 036h, 0AFh, 04Ch, 08Bh, 03Eh
-    db 0B3h, 04Ch, 08Bh, 0D9h, 08Bh, 0EAh, 0E8h, 0EDh, 000h, 0A2h, 09Eh, 04Ch, 08Bh, 0DEh, 08Bh, 0EFh
-    db 0E8h, 0E3h, 000h, 075h, 01Ah, 080h, 03Eh, 09Eh, 04Ch, 000h, 075h, 003h, 0E9h, 06Dh, 0FFh, 087h
-    db 0CEh, 087h, 0D7h, 086h, 006h, 09Eh, 04Ch, 089h, 00Eh, 0ADh, 04Ch, 089h, 016h, 0B1h, 04Ch, 084h
-    db 006h, 09Eh, 04Ch, 075h, 0BBh, 08Bh, 0EAh, 08Bh, 0D6h, 02Bh, 0D1h, 070h, 087h, 089h, 016h, 09Fh
-    db 04Ch, 0D1h, 0FAh, 089h, 016h, 0A3h, 04Ch, 08Bh, 0D7h, 02Bh, 0D5h, 070h, 095h, 089h, 016h, 0A1h
-    db 04Ch, 0D1h, 0FAh, 089h, 016h, 0A5h, 04Ch, 0A8h, 009h, 074h, 038h, 02Bh, 0DBh, 00Bh, 0F6h, 078h
-    db 004h, 08Bh, 01Eh, 0A7h, 04Ch, 08Bh, 0C3h, 02Bh, 0C1h, 0F7h, 02Eh, 0A1h, 04Ch, 053h, 08Bh, 0DAh
-    db 0F7h, 03Eh, 09Fh, 04Ch, 08Ah, 0DFh, 032h, 01Eh, 0A0h, 04Ch, 079h, 003h, 0F7h, 0DAh, 048h, 02Bh
-    db 016h, 0A3h, 04Ch, 032h, 0F7h, 078h, 001h, 040h, 05Bh, 003h, 0C5h, 078h, 00Eh, 03Bh, 006h, 0A9h
-    db 04Ch, 07Eh, 039h, 08Bh, 01Eh, 0A9h, 04Ch, 03Bh, 0FBh, 07Fh, 002h, 02Bh, 0DBh, 08Bh, 0C3h, 02Bh
-    db 0C5h, 0F7h, 02Eh, 09Fh, 04Ch, 053h, 08Bh, 0DAh, 0F7h, 03Eh, 0A1h, 04Ch, 08Ah, 0DFh, 032h, 01Eh
-    db 0A2h, 04Ch, 079h, 003h, 0F7h, 0DAh, 048h, 02Bh, 016h, 0A5h, 04Ch, 032h, 0F7h, 078h, 001h, 040h
-    db 05Bh, 003h, 0C1h, 078h, 018h, 03Bh, 006h, 0A7h, 04Ch, 07Fh, 012h, 093h, 080h, 03Eh, 09Eh, 04Ch
-    db 000h, 075h, 00Dh, 0A3h, 0B3h, 04Ch, 089h, 01Eh, 0AFh, 04Ch, 0E9h, 0AFh, 0FEh, 0E9h, 0D2h, 0FEh
-    db 0A3h, 0B1h, 04Ch, 089h, 01Eh, 0ADh, 04Ch, 087h, 0CEh, 087h, 0EFh, 0A0h, 09Eh, 04Ch, 0C6h, 006h
-    db 09Eh, 04Ch, 000h, 0E9h, 061h, 0FFh
+    CLC
+    RET
+loc_1CFE:
+    SUB AX,AX
+    MOV ES,AX
+    POP WORD PTR [ES:2h]
+    POP WORD PTR [ES:0h]
+    PUSH DS
+    POP ES
+    STC
+    RET
+loc_1D10:
+    CMC
+    RCR DX,1
+    MOV [4C9Fh],DX
+    SAR DX,1
+    MOV [4CA3h],DX
+    MOV DX,DI
+    SUB DX,BP
+    JNO short loc_1D29
+    CMC
+    RCR DX,1
+    JMP short loc_1D99
+    NOP
+loc_1D29:
+    SAR DX,1
+    JMP short loc_1D99
+    NOP
+loc_1D2E:
+    CMC
+    RCR DX,1
+    SAR WORD PTR [4C9Fh],1
+    SAR WORD PTR [4CA3h],1
+    JMP short loc_1D99
+    NOP
+loc_1D3C:
+    JMP short loc_1CFE
+loc_1D3E:
+    MOV CX,[4CADh]
+    MOV DX,[4CB1h]
+    MOV SI,[4CAFh]
+    MOV DI,[4CB3h]
+    MOV BX,CX
+    MOV BP,DX
+    CALL loc_1E42
+    MOV [4C9Eh],AL
+    MOV BX,SI
+    MOV BP,DI
+    CALL loc_1E42
+    JNZ short loc_1D7B
+    CMP BYTE PTR [4C9Eh],0h
+    JNZ short loc_1D6B
+    JMP near ptr loc_1CD8
+loc_1D6B:
+    db 087h, 0CEh
+    db 087h, 0D7h
+    XCHG [4C9Eh],AL
+    MOV [4CADh],CX
+    MOV [4CB1h],DX
+loc_1D7B:
+    TEST [4C9Eh],AL
+    JNZ short loc_1D3C
+    MOV BP,DX
+    MOV DX,SI
+    SUB DX,CX
+    JO short loc_1D10
+    MOV [4C9Fh],DX
+    SAR DX,1
+    MOV [4CA3h],DX
+    MOV DX,DI
+    SUB DX,BP
+    JO short loc_1D2E
+loc_1D99:
+    MOV [4CA1h],DX
+    SAR DX,1
+    MOV [4CA5h],DX
+loc_1DA3:
+    TEST AL,9h
+    JZ short loc_1DDF
+    SUB BX,BX
+    OR SI,SI
+    JS short loc_1DB1
+    MOV BX,[4CA7h]
+loc_1DB1:
+    MOV AX,BX
+    SUB AX,CX
+    IMUL WORD PTR [4CA1h]
+    PUSH BX
+    MOV BX,DX
+    IDIV WORD PTR [4C9Fh]
+    MOV BL,BH
+    XOR BL,[4CA0h]
+    JNS short loc_1DCB
+    NEG DX
+    DEC AX
+loc_1DCB:
+    SUB DX,[4CA3h]
+    XOR DH,BH
+    JS short loc_1DD4
+    INC AX
+loc_1DD4:
+    POP BX
+    ADD AX,BP
+    JS short loc_1DE7
+    CMP AX,[4CA9h]
+    JNG short loc_1E18
+loc_1DDF:
+    MOV BX,[4CA9h]
+    CMP DI,BX
+    JG short loc_1DE9
+loc_1DE7:
+    SUB BX,BX
+loc_1DE9:
+    MOV AX,BX
+    SUB AX,BP
+    IMUL WORD PTR [4C9Fh]
+    PUSH BX
+    MOV BX,DX
+    IDIV WORD PTR [4CA1h]
+    MOV BL,BH
+    XOR BL,[4CA2h]
+    JNS short loc_1E03
+    NEG DX
+    DEC AX
+loc_1E03:
+    SUB DX,[4CA5h]
+    XOR DH,BH
+    JS short loc_1E0C
+    INC AX
+loc_1E0C:
+    POP BX
+    ADD AX,CX
+    JS short loc_1E29
+    CMP AX,[4CA7h]
+    JG short loc_1E29
+    XCHG AX,BX
+loc_1E18:
+    CMP BYTE PTR [4C9Eh],0h
+    JNZ short loc_1E2C
+    MOV [4CB3h],AX
+    MOV [4CAFh],BX
+    JMP near ptr loc_1CD8
+loc_1E29:
+    JMP near ptr loc_1CFE
+loc_1E2C:
+    MOV [4CB1h],AX
+    MOV [4CADh],BX
+    db 087h, 0CEh
+    db 087h, 0EFh
+    MOV AL,[4C9Eh]
+    MOV BYTE PTR [4C9Eh],0h
+    JMP near ptr loc_1DA3
 sub_21536 endp
 
 sub_216C2 proc near
-    db 0B0h, 00Fh, 00Bh, 0DBh, 078h, 002h, 024h, 0F7h, 03Bh, 01Eh, 0A7h, 04Ch, 07Fh, 002h, 024h, 0FEh
-    db 00Bh, 0EDh, 078h, 002h, 024h, 0FBh, 03Bh, 02Eh, 0A9h, 04Ch, 07Fh, 002h, 024h, 0FDh, 00Ah, 0C0h
-    db 0C3h
+loc_1E42:
+    MOV AL,0Fh
+    OR BX,BX
+    JS short loc_1E4A
+    AND AL,0F7h
+loc_1E4A:
+    CMP BX,[4CA7h]
+    JG short loc_1E52
+    AND AL,0FEh
+loc_1E52:
+    OR BP,BP
+    JS short loc_1E58
+    AND AL,0FBh
+loc_1E58:
+    CMP BP,[4CA9h]
+    JG short loc_1E60
+    AND AL,0FDh
+loc_1E60:
+    OR AL,AL
+    RET
 sub_216C2 endp
 
     db 055h, 08Bh, 0ECh, 081h, 07Eh, 002h, 0F4h, 01Dh, 0A1h, 0A1h, 04Ch, 074h, 003h, 0A1h, 09Fh, 04Ch
     db 033h, 0D0h, 0B8h, 000h, 07Fh, 079h, 002h, 0F7h, 0D8h, 083h, 046h, 002h, 004h, 02Bh, 0D2h, 05Dh
     db 0CFh
 sub_21704 proc far
-    db 057h, 056h, 055h, 0A1h, 029h, 050h, 08Bh, 00Eh, 02Bh, 050h, 0BBh, 0B5h, 04Ch
+    PUSH DI
+    PUSH SI
+    PUSH BP
+    MOV AX,[5029h]
+    MOV CX,[502Bh]
+    MOV BX,4CB5h
     call far ptr gfx_dirtyRect
-    db 05Dh, 05Eh, 05Fh, 0CBh
+    POP BP
+    POP SI
+    POP DI
+    RETF
 sub_21704 endp
 
 sub_2171A proc far
-    db 057h, 0E8h, 002h, 000h, 05Fh, 0CBh
+    PUSH DI
+    CALL loc_1EA0
+    POP DI
+    RETF
 sub_2171A endp
 
 sub_21720 proc near
-    db 08Bh, 03Eh, 029h, 050h, 00Bh, 0FFh, 078h, 02Dh, 0B8h, 08Bh, 022h, 08Eh, 0C0h, 08Bh, 00Eh, 02Bh
-    db 050h, 041h, 02Bh, 0CFh, 0D1h, 0E7h, 08Bh, 0D9h, 08Bh, 0D7h, 081h, 0C7h, 0B5h, 04Ch, 0B8h, 0FFh
-    db 0FFh, 0F3h, 0ABh, 0A3h, 029h, 050h, 08Bh, 0CBh, 08Bh, 0FAh, 081h, 0C7h, 06Dh, 04Eh, 02Bh, 0C0h
-    db 0F3h, 0ABh, 0A3h, 02Bh, 050h, 0C3h
+loc_1EA0:
+    MOV DI,[5029h]
+    OR DI,DI
+    JS short loc_1ED5
+    MOV AX,228Bh
+    MOV ES,AX
+    MOV CX,[502Bh]
+    INC CX
+    SUB CX,DI
+    SHL DI,1
+    MOV BX,CX
+    MOV DX,DI
+    ADD DI,4CB5h
+    MOV AX,0FFFFh
+    REP stosw
+    MOV [5029h],AX
+    MOV CX,BX
+    MOV DI,DX
+    ADD DI,4E6Dh
+    SUB AX,AX
+    REP stosw
+    MOV [502Bh],AX
+loc_1ED5:
+    RET
 sub_21720 endp
 
 sub_21756 proc near
-    db 0B8h, 08Bh, 022h, 08Eh, 0C0h, 08Bh, 0CFh, 00Bh, 0F6h, 08Dh, 03Eh, 0B5h, 04Ch, 074h, 00Ah, 03Bh
-    db 036h, 0A7h, 04Ch, 075h, 039h, 08Dh, 03Eh, 06Dh, 04Eh, 03Bh, 0CAh, 07Dh, 002h, 087h, 0CAh, 00Bh
-    db 0D2h, 079h, 002h, 02Bh, 0D2h, 03Bh, 00Eh, 0A9h, 04Ch, 07Eh, 004h, 08Bh, 00Eh, 0A9h, 04Ch, 03Bh
-    db 00Eh, 02Bh, 050h, 076h, 004h, 089h, 00Eh, 02Bh, 050h, 03Bh, 016h, 029h, 050h, 073h, 004h, 089h
-    db 016h, 029h, 050h, 003h, 0FAh, 003h, 0FAh, 02Bh, 0CAh, 041h, 08Bh, 0C6h, 0F3h, 0ABh, 0C3h
+loc_1ED6:
+    MOV AX,228Bh
+    MOV ES,AX
+    MOV CX,DI
+    OR SI,SI
+    LEA DI,[4CB5h]
+    JZ short loc_1EEF
+    CMP SI,[4CA7h]
+    JNZ short loc_1F24
+    LEA DI,[4E6Dh]
+loc_1EEF:
+    CMP CX,DX
+    JNL short loc_1EF5
+    db 087h, 0CAh
+loc_1EF5:
+    OR DX,DX
+    JNS short loc_1EFB
+    SUB DX,DX
+loc_1EFB:
+    CMP CX,[4CA9h]
+    JNG short loc_1F05
+    MOV CX,[4CA9h]
+loc_1F05:
+    CMP CX,[502Bh]
+    JNA short loc_1F0F
+    MOV [502Bh],CX
+loc_1F0F:
+    CMP DX,[5029h]
+    JNC short loc_1F19
+    MOV [5029h],DX
+loc_1F19:
+    ADD DI,DX
+    ADD DI,DX
+    SUB CX,DX
+    INC CX
+    MOV AX,SI
+    REP stosw
+loc_1F24:
+    RET
 sub_21756 endp
 
-    db 02Bh, 0F6h, 00Bh, 0DBh, 078h, 0ABh, 08Bh, 036h, 0A7h, 04Ch, 03Bh, 0DEh, 07Fh, 0A3h, 0C3h
+loc_1F25:
+    SUB SI,SI
+    OR BX,BX
+    JS short loc_1ED6
+    MOV SI,[4CA7h]
+    CMP BX,SI
+    JG short loc_1ED6
+    RET
 sub_217B4 proc near
-    db 0A1h, 0AFh, 04Ch, 03Bh, 006h, 0ADh, 04Ch, 073h, 019h, 08Bh, 01Eh, 0ADh, 04Ch, 089h, 01Eh, 0AFh
-    db 04Ch, 0A3h, 0ADh, 04Ch, 0A1h, 0B3h, 04Ch, 08Bh, 01Eh, 0B1h, 04Ch, 089h, 01Eh, 0B3h, 04Ch, 0A3h
-    db 0B1h, 04Ch, 08Bh, 01Eh, 0AFh, 04Ch, 02Bh, 01Eh, 0ADh, 04Ch, 089h, 01Eh, 025h, 050h, 0A1h, 0B3h
-    db 04Ch, 08Bh, 0D0h, 08Bh, 00Eh, 0B1h, 04Ch, 02Bh, 0C1h, 0BDh, 002h, 000h, 079h, 006h, 087h, 0CAh
-    db 0F7h, 0DDh, 0F7h, 0D8h, 0A3h, 027h, 050h, 03Bh, 016h, 02Bh, 050h, 076h, 004h, 089h, 016h, 02Bh
-    db 050h, 03Bh, 00Eh, 029h, 050h, 073h, 004h, 089h, 00Eh, 029h, 050h, 03Bh, 0C3h, 073h, 04Bh, 08Bh
-    db 03Eh, 0B1h, 04Ch, 0D1h, 0E7h, 0A1h, 0ADh, 04Ch, 08Bh, 016h, 025h, 050h, 08Bh, 0CAh, 08Bh, 0D9h
-    db 043h, 0D1h, 0EBh, 0F7h, 0DBh, 08Bh, 036h, 027h, 050h, 0EBh, 010h, 090h, 03Bh, 085h, 06Dh, 04Eh
-    db 076h, 004h, 089h, 085h, 06Dh, 04Eh, 040h, 02Bh, 0DAh, 003h, 0FDh, 03Bh, 085h, 0B5h, 04Ch, 073h
-    db 004h, 089h, 085h, 0B5h, 04Ch, 049h, 078h, 007h, 003h, 0DEh, 079h, 0E0h, 040h, 0EBh, 0F6h, 03Bh
-    db 085h, 06Dh, 04Eh, 076h, 004h, 089h, 085h, 06Dh, 04Eh, 0C3h, 08Bh, 03Eh, 0B1h, 04Ch, 0D1h, 0E7h
-    db 0A1h, 0ADh, 04Ch, 08Bh, 016h, 027h, 050h, 08Bh, 0CAh, 08Bh, 0D9h, 043h, 0D1h, 0EBh, 0F7h, 0DBh
-    db 08Bh, 036h, 025h, 050h, 03Bh, 085h, 0B5h, 04Ch, 073h, 004h, 089h, 085h, 0B5h, 04Ch, 03Bh, 085h
-    db 06Dh, 04Eh, 076h, 004h, 089h, 085h, 06Dh, 04Eh, 049h, 078h, 00Bh, 003h, 0FDh, 003h, 0DEh, 078h
-    db 0E3h, 02Bh, 0DAh, 040h, 0EBh, 0DEh, 0C3h
+loc_1F34:
+    MOV AX,[4CAFh]
+    CMP AX,[4CADh]
+    JNC short loc_1F56
+    MOV BX,[4CADh]
+    MOV [4CAFh],BX
+    MOV [4CADh],AX
+    MOV AX,[4CB3h]
+    MOV BX,[4CB1h]
+    MOV [4CB3h],BX
+    MOV [4CB1h],AX
+loc_1F56:
+    MOV BX,[4CAFh]
+    SUB BX,[4CADh]
+    MOV [5025h],BX
+    MOV AX,[4CB3h]
+    MOV DX,AX
+    MOV CX,[4CB1h]
+    SUB AX,CX
+    MOV BP,2h
+    JNS short loc_1F78
+    db 087h, 0CAh
+    NEG BP
+    NEG AX
+loc_1F78:
+    MOV [5027h],AX
+    CMP DX,[502Bh]
+    JNA short loc_1F85
+    MOV [502Bh],DX
+loc_1F85:
+    CMP CX,[5029h]
+    JNC short loc_1F8F
+    MOV [5029h],CX
+loc_1F8F:
+    CMP AX,BX
+    JNC short loc_1FDE
+    MOV DI,[4CB1h]
+    SHL DI,1
+    MOV AX,[4CADh]
+    MOV DX,[5025h]
+    MOV CX,DX
+    MOV BX,CX
+    INC BX
+    SHR BX,1
+    NEG BX
+    MOV SI,[5027h]
+    JMP short loc_1FBF
+    NOP
+loc_1FB0:
+    CMP AX,[DI+4E6Dh]
+    JNA short loc_1FBA
+    MOV [DI+4E6Dh],AX
+loc_1FBA:
+    INC AX
+    SUB BX,DX
+    ADD DI,BP
+loc_1FBF:
+    CMP AX,[DI+4CB5h]
+    JNC short loc_1FC9
+    MOV [DI+4CB5h],AX
+loc_1FC9:
+    DEC CX
+    JS short loc_1FD3
+    ADD BX,SI
+    JNS short loc_1FB0
+    INC AX
+    JMP short loc_1FC9
+loc_1FD3:
+    CMP AX,[DI+4E6Dh]
+    JNA short loc_1FDD
+    MOV [DI+4E6Dh],AX
+loc_1FDD:
+    RET
+loc_1FDE:
+    MOV DI,[4CB1h]
+    SHL DI,1
+    MOV AX,[4CADh]
+    MOV DX,[5027h]
+    MOV CX,DX
+    MOV BX,CX
+    INC BX
+    SHR BX,1
+    NEG BX
+    MOV SI,[5025h]
+loc_1FF8:
+    CMP AX,[DI+4CB5h]
+    JNC short loc_2002
+    MOV [DI+4CB5h],AX
+loc_2002:
+    CMP AX,[DI+4E6Dh]
+    JNA short loc_200C
+    MOV [DI+4E6Dh],AX
+loc_200C:
+    DEC CX
+    JS short loc_201A
+    ADD DI,BP
+    ADD BX,SI
+    JS short loc_1FF8
+    SUB BX,DX
+    INC AX
+    JMP short loc_1FF8
+loc_201A:
+    RET
 sub_217B4 endp
 
     db 000h
 sub_2189C proc far
-    db 006h, 056h, 057h, 055h, 0E8h, 005h, 000h, 05Dh, 05Fh, 05Eh, 007h, 0CBh
+    db 006h
+    db 056h
+    db 057h
+    PUSH BP
+    CALL loc_2028
+    POP BP
+    POP DI
+    POP SI
+    POP ES
+    RETF
 sub_2189C endp
 
 sub_218A8 proc near
-    db 02Bh, 0C0h, 08Eh, 0C0h, 026h, 0FFh, 036h, 000h, 000h, 026h, 0FFh, 036h, 002h, 000h, 08Dh, 006h
-    db 0D8h, 021h, 026h, 0A3h, 000h, 000h, 026h, 0C7h, 006h, 002h, 000h, 088h, 00Fh, 01Eh, 007h, 0EBh
-    db 04Eh, 090h, 02Bh, 0C0h, 08Eh, 0C0h, 026h, 08Fh, 006h, 002h, 000h, 026h, 08Fh, 006h, 000h, 000h
-    db 01Eh, 007h, 0C3h, 022h, 006h, 02Eh, 050h, 0A8h, 006h, 075h, 0E7h, 08Bh, 0D9h, 0E9h, 032h, 001h
-    db 0E9h, 05Ah, 001h, 0F5h, 0D1h, 0DAh, 089h, 016h, 02Fh, 050h, 0D1h, 0FAh, 089h, 016h, 033h, 050h
-    db 08Bh, 0D7h, 02Bh, 0D5h, 071h, 006h, 0F5h, 0D1h, 0DAh, 0EBh, 06Ch, 090h, 0D1h, 0FAh, 0EBh, 067h
-    db 090h, 0F5h, 0D1h, 0DAh, 0D1h, 03Eh, 02Fh, 050h, 0D1h, 03Eh, 033h, 050h, 0EBh, 059h, 090h, 08Bh
-    db 00Eh, 0ADh, 04Ch, 08Bh, 016h, 0B1h, 04Ch, 08Bh, 036h, 0AFh, 04Ch, 08Bh, 03Eh, 0B3h, 04Ch, 08Bh
-    db 0D9h, 08Bh, 0EAh, 0E8h, 094h, 0FDh, 0A2h, 02Eh, 050h, 08Bh, 0DEh, 08Bh, 0EFh, 0E8h, 08Ah, 0FDh
-    db 075h, 017h, 080h, 03Eh, 02Eh, 050h, 000h, 074h, 0A7h, 087h, 0CEh, 087h, 0D7h, 086h, 006h, 02Eh
-    db 050h, 089h, 00Eh, 0ADh, 04Ch, 089h, 016h, 0B1h, 04Ch, 08Bh, 0EAh, 084h, 006h, 02Eh, 050h, 075h
-    db 082h, 08Bh, 0D6h, 02Bh, 0D1h, 070h, 08Ch, 089h, 016h, 02Fh, 050h, 0D1h, 0FAh, 089h, 016h, 033h
-    db 050h, 08Bh, 0D7h, 02Bh, 0D5h, 070h, 09Ah, 089h, 016h, 031h, 050h, 0D1h, 0FAh, 089h, 016h, 035h
-    db 050h, 0A8h, 009h, 074h, 03Ch, 02Bh, 0DBh, 00Bh, 0F6h, 078h, 004h, 08Bh, 01Eh, 0A7h, 04Ch, 08Bh
-    db 0C3h, 02Bh, 0C1h, 0F7h, 02Eh, 031h, 050h, 053h, 08Bh, 0DAh, 0F7h, 03Eh, 02Fh, 050h, 00Bh, 0C0h
-    db 00Bh, 0C0h, 08Ah, 0DFh, 032h, 01Eh, 030h, 050h, 079h, 003h, 0F7h, 0DAh, 048h, 02Bh, 016h, 033h
-    db 050h, 032h, 0F7h, 078h, 001h, 040h, 05Bh, 003h, 0C5h, 078h, 00Eh, 03Bh, 006h, 0A9h, 04Ch, 07Eh
-    db 03Dh, 08Bh, 01Eh, 0A9h, 04Ch, 03Bh, 0FBh, 07Fh, 002h, 02Bh, 0DBh, 08Bh, 0C3h, 02Bh, 0C5h, 0F7h
-    db 02Eh, 02Fh, 050h, 053h, 08Bh, 0DAh, 0F7h, 03Eh, 031h, 050h, 00Bh, 0C0h, 00Bh, 0C0h, 08Ah, 0DFh
-    db 032h, 01Eh, 032h, 050h, 079h, 003h, 0F7h, 0DAh, 048h, 02Bh, 016h, 035h, 050h, 032h, 0F7h, 078h
-    db 001h, 040h, 05Bh, 003h, 0C1h, 093h, 078h, 02Ah, 03Bh, 01Eh, 0A7h, 04Ch, 07Fh, 024h, 050h, 053h
-    db 051h, 056h, 057h, 08Bh, 0D7h, 08Bh, 0F8h, 08Bh, 0F3h, 0E8h, 052h, 0FDh, 05Fh, 05Eh, 059h, 05Bh
-    db 058h, 080h, 03Eh, 02Eh, 050h, 000h, 075h, 01Fh, 0A3h, 0B3h, 04Ch, 089h, 01Eh, 0AFh, 04Ch, 0EBh
-    db 02Ch, 090h, 08Bh, 0D5h, 02Bh, 0C0h, 08Eh, 0C0h, 026h, 08Fh, 006h, 002h, 000h, 026h, 08Fh, 006h
-    db 000h, 000h, 01Eh, 007h, 0E9h, 076h, 0FDh, 0A3h, 0B1h, 04Ch, 089h, 01Eh, 0ADh, 04Ch, 087h, 0CEh
-    db 087h, 0EFh, 0A0h, 02Eh, 050h, 0C6h, 006h, 02Eh, 050h, 000h, 0E9h, 034h, 0FFh, 02Bh, 0C0h, 08Eh
-    db 0C0h, 026h, 08Fh, 006h, 002h, 000h, 026h, 08Fh, 006h, 000h, 000h, 01Eh, 007h, 0E9h, 05Ch, 0FDh
+loc_2028:
+    SUB AX,AX
+    MOV ES,AX
+    PUSH WORD PTR [ES:0h]
+    PUSH WORD PTR [ES:2h]
+    LEA AX,[21D8h]
+    MOV [ES:0h],AX
+    MOV WORD PTR [ES:2h],0F88h
+    PUSH DS
+    POP ES
+    JMP short loc_2097
+    NOP
+loc_204A:
+    SUB AX,AX
+    MOV ES,AX
+    POP WORD PTR [ES:2h]
+    POP WORD PTR [ES:0h]
+    PUSH DS
+    POP ES
+    RET
+loc_205B:
+    AND AL,[502Eh]
+    TEST AL,6h
+    JNZ short loc_204A
+    MOV BX,CX
+    JMP near ptr loc_219A
+loc_2068:
+    JMP near ptr loc_21C5
+loc_206B:
+    CMC
+    RCR DX,1
+    MOV [502Fh],DX
+    SAR DX,1
+    MOV [5033h],DX
+    MOV DX,DI
+    SUB DX,BP
+    JNO short loc_2084
+    CMC
+    RCR DX,1
+    JMP short loc_20EF
+    NOP
+loc_2084:
+    SAR DX,1
+    JMP short loc_20EF
+    NOP
+loc_2089:
+    CMC
+    RCR DX,1
+    SAR WORD PTR [502Fh],1
+    SAR WORD PTR [5033h],1
+    JMP short loc_20EF
+    NOP
+loc_2097:
+    MOV CX,[4CADh]
+    MOV DX,[4CB1h]
+    MOV SI,[4CAFh]
+    MOV DI,[4CB3h]
+    MOV BX,CX
+    MOV BP,DX
+    CALL loc_1E42
+    MOV [502Eh],AL
+    MOV BX,SI
+    MOV BP,DI
+    CALL loc_1E42
+    JNZ short loc_20D1
+    CMP BYTE PTR [502Eh],0h
+    JZ short loc_2068
+    db 087h, 0CEh
+    db 087h, 0D7h
+    XCHG [502Eh],AL
+    MOV [4CADh],CX
+    MOV [4CB1h],DX
+loc_20D1:
+    MOV BP,DX
+    TEST [502Eh],AL
+    JNZ short loc_205B
+    MOV DX,SI
+    SUB DX,CX
+    JO short loc_206B
+    MOV [502Fh],DX
+    SAR DX,1
+    MOV [5033h],DX
+    MOV DX,DI
+    SUB DX,BP
+    JO short loc_2089
+loc_20EF:
+    MOV [5031h],DX
+    SAR DX,1
+    MOV [5035h],DX
+loc_20F9:
+    TEST AL,9h
+    JZ short loc_2139
+    SUB BX,BX
+    OR SI,SI
+    JS short loc_2107
+    MOV BX,[4CA7h]
+loc_2107:
+    MOV AX,BX
+    SUB AX,CX
+    IMUL WORD PTR [5031h]
+    PUSH BX
+    MOV BX,DX
+    IDIV WORD PTR [502Fh]
+    OR AX,AX
+    OR AX,AX
+    MOV BL,BH
+    XOR BL,[5030h]
+    JNS short loc_2125
+    NEG DX
+    DEC AX
+loc_2125:
+    SUB DX,[5033h]
+    XOR DH,BH
+    JS short loc_212E
+    INC AX
+loc_212E:
+    POP BX
+    ADD AX,BP
+    JS short loc_2141
+    CMP AX,[4CA9h]
+    JNG short loc_2176
+loc_2139:
+    MOV BX,[4CA9h]
+    CMP DI,BX
+    JG short loc_2143
+loc_2141:
+    SUB BX,BX
+loc_2143:
+    MOV AX,BX
+    SUB AX,BP
+    IMUL WORD PTR [502Fh]
+    PUSH BX
+    MOV BX,DX
+    IDIV WORD PTR [5031h]
+    OR AX,AX
+    OR AX,AX
+    MOV BL,BH
+    XOR BL,[5032h]
+    JNS short loc_2161
+    NEG DX
+    DEC AX
+loc_2161:
+    SUB DX,[5035h]
+    XOR DH,BH
+    JS short loc_216A
+    INC AX
+loc_216A:
+    POP BX
+    ADD AX,CX
+    XCHG AX,BX
+    JS short loc_219A
+    CMP BX,[4CA7h]
+    JG short loc_219A
+loc_2176:
+    PUSH AX
+    PUSH BX
+    PUSH CX
+    PUSH SI
+    PUSH DI
+    MOV DX,DI
+    MOV DI,AX
+    MOV SI,BX
+    CALL loc_1ED6
+    POP DI
+    POP SI
+    POP CX
+    POP BX
+    POP AX
+    CMP BYTE PTR [502Eh],0h
+    JNZ short loc_21AF
+    MOV [4CB3h],AX
+    MOV [4CAFh],BX
+    JMP short loc_21C5
+    NOP
+loc_219A:
+    MOV DX,BP
+    SUB AX,AX
+    MOV ES,AX
+    POP WORD PTR [ES:2h]
+    POP WORD PTR [ES:0h]
+    PUSH DS
+    POP ES
+    JMP near ptr loc_1F25
+loc_21AF:
+    MOV [4CB1h],AX
+    MOV [4CADh],BX
+    db 087h, 0CEh
+    db 087h, 0EFh
+    MOV AL,[502Eh]
+    MOV BYTE PTR [502Eh],0h
+    JMP near ptr loc_20F9
+loc_21C5:
+    SUB AX,AX
+    MOV ES,AX
+    POP WORD PTR [ES:2h]
+    POP WORD PTR [ES:0h]
+    PUSH DS
+    POP ES
+    JMP near ptr loc_1F34
 sub_218A8 endp
 
 
