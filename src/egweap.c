@@ -20,7 +20,7 @@
 // ==== seg000:0xd9db ====
 
 void selectMissile() {
-    strcpy((char *)strBuf, (char *)(missleSpec[missileSpecIndex].weaponIdx * 0x1a + 0x820)); /* 0x820: missile name table (0x1a-byte records) */
+    strcpy((char *)strBuf, missiles[missleSpec[missileSpecIndex].weaponIdx].field_A);
     strcat((char *)strBuf, (char *)(missleSpec[missileSpecIndex].ammo == 0 ? aNotAvailable : aArmed));
     sub_11A88(missileSpecIndex);
     tempStrcpy((char *)strBuf);

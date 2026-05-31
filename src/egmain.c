@@ -125,14 +125,12 @@ int sub_10211() {
     }
     TRACE(("sub_10211: sub_13C3B (game loop)"));
     sub_13C3B();
-#ifndef DEBUG  /* cleanup after game loop — cannot enable in DEBUG builds until seg001 hardcoded DGROUP offsets are replaced with labels (see docs/task_seg001_labels.md) */
     moveDataFar();
     if (commData->setupUseJoy == 0) {
         restoreInt9Handler();
     }
     gfx_setDacAnimCount(1);
     sub_12278(2);
-#endif
     restoreTimerIrqHandler();
     audio_jump_65();
 }
@@ -858,7 +856,7 @@ void sub_11C21(void) {
         } while (*(int16 *)&stru_3B208[p].field_10[10] == 0);
         word_3C02E = p + 0x20;
         keyValue = 0x89;
-        strcpy((char *)strBuf, (char *)(*(int16 *)&stru_3B208[p].field_10[6] * 32 + 0x2c8)); /* 0x2c8: aircraft name table (32-byte records) */
+        strcpy((char *)strBuf, (char *)(*(int16 *)&stru_3B208[p].field_10[6] * 32 + (int)aMig23)); /* 0x2c8: aircraft name table (32-byte records) */
         strcat((char *)strBuf, (char *)aOnPatrol);
         tempStrcpy((char *)strBuf);
         break;

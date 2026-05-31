@@ -11,7 +11,7 @@
 
 
 void sub_13A6C(int arg_0, int arg_2, int arg_4) {
-    sub_20BAE((uint8*)0x19c6, -arg_0, -arg_2, -arg_4);
+    sub_20BAE((uint8*)&word_34276, -arg_0, -arg_2, -arg_4);
 }
 
 // ==== seg000:0x3a90 ====

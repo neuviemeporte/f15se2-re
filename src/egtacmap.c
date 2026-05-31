@@ -17,7 +17,7 @@
 // ==== seg000:0x8e38 ====
 
 int sub_18E38(void) {
-    sub_19FAD(2, (char*)0x5950, 0);
+    sub_19FAD(2, (char*)aEmpty_5950, 0);
 }
 
 // ==== seg000:0x8e50 ====

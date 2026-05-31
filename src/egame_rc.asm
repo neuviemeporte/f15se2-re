@@ -27344,7 +27344,7 @@ aFiring db ' firing ',0
     db 0 ;align 2
 word_3815E dw 0
 aFiredBy db ' fired by ',0
-    db ' - ',0
+aDash db ' - ',0
 _aTakingOff label byte
 aTakingOff db ' taking off',0
     db 0 ;align 2
@@ -27368,11 +27368,11 @@ _aPrimaryTarget_0 db 'Primary target',0
 PUBLIC _a0
 a0 db ':0',0
 _a0 equ a0
-    db ':',0
+aColon db ':',0
 PUBLIC _aFired
 aFired db ' fired',0
 _aFired equ aFired
-    db 0
+aEmpty_5950 db 0
     db 0
 _word_38202 dw 41h
     db 1Ah
@@ -32298,6 +32298,20 @@ PUBLIC buf6data_1
 PUBLIC buf6data_3
 PUBLIC lzw_processFlag
 PUBLIC buf6data_4
+PUBLIC aDash
+PUBLIC aColon
+PUBLIC aEmpty_5950
+PUBLIC aMig23
+PUBLIC _aMig23
+_aMig23 equ aMig23
+PUBLIC _aDash
+_aDash equ aDash
+PUBLIC _aColon
+_aColon equ aColon
+PUBLIC _aEmpty_5950
+_aEmpty_5950 equ aEmpty_5950
+PUBLIC _word_34276
+_word_34276 equ word_34276
 _word_3C6AE equ word_3C6AE
     db ? ;align 400h
     db ?

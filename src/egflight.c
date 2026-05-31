@@ -113,8 +113,8 @@ int sub_1783A(int arg_0, int arg_2)
         stru_3B208[arg_0].field_10[9] &= 0xfe;
     }
     placeString(arg_2);
-    strcat((char *)strBuf, (char *)0x58bb);
-    strcat((char *)strBuf, (char *)(*(int16 *)&stru_3B208[arg_0].field_10[6] * 32 + 0x2c8));
+    strcat((char *)strBuf, (char *)aDash);
+    strcat((char *)strBuf, (char *)(*(int16 *)&stru_3B208[arg_0].field_10[6] * 32 + (int)aMig23));
     strcat((char *)strBuf, (char *)aTakingOff);
     if (arg_0 < word_3C046 - 4) {
         tempStrcpy((char *)strBuf);
@@ -187,7 +187,7 @@ void sub_186F8(int param_1)
     done:
         ;
     }
-    strcpy((char *)strBuf, (char *)(*(int16 *)&stru_3B208[param_1].field_10[6] * 32 + 0x2c8));
+    strcpy((char *)strBuf, (char *)(*(int16 *)&stru_3B208[param_1].field_10[6] * 32 + (int)aMig23));
     makeSound(2, 2);
     if (word_3C45C == 1 && param_1 == word_336F2) {
         word_39604 = 1;
@@ -271,7 +271,7 @@ void sub_18AA6()
         sub_19E5D(a - 1, 0xbe, a + 2, 0xc2);
         sub_1A183(missleSpec[missileSpecIndex].ammo, a, 0xbe, 0x0c);
         strcpy((char *)strBuf, missiles[b].field_0);
-        strcat((char *)strBuf, (char *)0x5947);
+        strcat((char *)strBuf, (char *)aColon);
         strcat((char *)strBuf, itoa(missleSpec[missileSpecIndex].ammo, (char *)unk_3C030, 0x0a));
         sub_1A204((char *)strBuf);
     }
