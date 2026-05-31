@@ -3546,7 +3546,7 @@ loc_147B3:
     cmp word ptr [_byte_3C5A0+4],00h
     jg loc_1481B
     mov AX,[_word_3A940+4]
-    cmp word ptr [_buf_3dt+4000],AX
+    cmp word ptr [word_3A8FE],AX
     jnc loc_1481B
     les BX,dword ptr [_gameData]
     cmp word ptr ES:[BX+040h],02h
@@ -3991,7 +3991,7 @@ loc_14BD6:
 loc_14BF4:
     mov AX,01Bh
     imul word ptr [_word_3C5A6]
-    mov word ptr [_buf_3dt+4000],AX
+    mov word ptr [word_3A8FE],AX
     mov AX,0383h
     push AX
     sub AX,AX
@@ -4036,7 +4036,7 @@ loc_14BF4:
     cwd
     push DX
     push AX
-    mov AX,word ptr [_buf_3dt+4000]
+    mov AX,word ptr [word_3A8FE]
     cwd
     push DX
     push AX
@@ -4254,7 +4254,7 @@ loc_14E2D:
 loc_14E6A:
     call sub_15237
     mov AX,[_word_3A940+4]
-    cmp word ptr [_buf_3dt+4000],AX
+    cmp word ptr [word_3A8FE],AX
     jbe loc_14EC6
     mov AX,[_word_380C8+1]
     cmp word ptr [_word_3BEBE],AX
@@ -4270,7 +4270,7 @@ loc_14E91:
 loc_14E95:
     mov CL,02h
 loc_14E97:
-    mov AX,word ptr [_buf_3dt+4000]
+    mov AX,word ptr [word_3A8FE]
     sub AX,word ptr [_word_3A940+4]
     shr AX,CL
     sub word ptr [_unk_3806E+57h],AX
