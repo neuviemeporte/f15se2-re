@@ -17,14 +17,14 @@ void sub_121C6() {
 // ==== seg000:0x21ca ====
 //
 void sub_121CA(int arg_0, int arg_2, int arg_4, long arg_6, long arg_a, long arg_e, int arg_12, int arg_14, int arg_16, int arg_18) {
-    ((int *)var_134)[7] = arg_14;
-    ((int *)var_134)[8] = arg_14 + arg_18 - 1;
-    ((int *)var_134)[9] = arg_12;
-    ((int *)var_134)[10] = arg_12 + arg_16 - 1;
-    *(int *)var_134 = gfx_getDisplayPage() & 0xFF;
+    var_134[7] = arg_14;
+    var_134[8] = arg_14 + arg_18 - 1;
+    var_134[9] = arg_12;
+    var_134[10] = arg_12 + arg_16 - 1;
+    *var_134 = gfx_getDisplayPage() & 0xFF;
     sub_12278(var_595);
     TRACE(("121CA:1"));
-    ((int *)var_134)[2] = (unsigned char)((char *)word_3419C)[word_3BE98 & 0xFF];
+    var_134[2] = (unsigned char)((char *)word_3419C)[word_3BE98 & 0xFF];
     sub_13932((char *)var_134, arg_0, arg_2, arg_4, 0, 0, (int)arg_e, 1);
     TRACE(("121CA:2"));
     sub_122B8(arg_0, arg_2, (int)arg_6, (int)(arg_6 >> 16), (int)arg_a, (int)(arg_a >> 16), (int)arg_e, (int)(arg_e >> 16));

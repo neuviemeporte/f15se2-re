@@ -155,9 +155,9 @@ void sub_1C488(int param_1, int param_2, int param_3) {
 long sub_1C661(int param_1, int param_2, int param_3, int param_4) {
     long p;
 
-    p = (long)sub_13B2F(((int *)unk_3A948)[param_1], param_2);
-    p += (long)sub_13B2F(((int *)(unk_3A948 + 6))[param_1], param_4);
-    p += (long)sub_13B2F(((int *)(unk_3A948 + 12))[param_1], param_3);
+    p = (long)sub_13B2F(unk_3A948[param_1], param_2);
+    p += (long)sub_13B2F(unk_3A948[3 + param_1], param_4);
+    p += (long)sub_13B2F(unk_3A948[6 + param_1], param_3);
     return p;
 }
 

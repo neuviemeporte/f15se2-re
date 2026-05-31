@@ -789,13 +789,13 @@ void sub_11A18() {
 void sub_11A88(int param_1) {
     if (word_330C2 == 0) return;
     var_564[2] = 0;
-    sub_19BE1(((int *)asc_33744)[word_3374A], 0xc4, ((int *)asc_33744)[word_3374A] + 6, 0xc4);
+    sub_19BE1(asc_33744[word_3374A], 0xc4, asc_33744[word_3374A] + 6, 0xc4);
     var_564[2] = 7;
-    sub_19BE1(((int *)asc_33744)[word_3374A], 0xc5, ((int *)asc_33744)[word_3374A] + 6, 0xc5);
+    sub_19BE1(asc_33744[word_3374A], 0xc5, asc_33744[word_3374A] + 6, 0xc5);
     var_564[2] = 0x0c;
-    sub_19BE1(((int *)asc_33744)[param_1], 0xc4, ((int *)asc_33744)[param_1] + 6, 0xc4);
+    sub_19BE1(asc_33744[param_1], 0xc4, asc_33744[param_1] + 6, 0xc4);
     var_564[2] = 4;
-    sub_19BE1(((int *)asc_33744)[param_1], 0xc5, ((int *)asc_33744)[param_1] + 6, 0xc5);
+    sub_19BE1(asc_33744[param_1], 0xc5, asc_33744[param_1] + 6, 0xc5);
     word_3374A = param_1;
 }
 

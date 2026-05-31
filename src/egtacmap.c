@@ -436,8 +436,8 @@ void routine_328(int arg_0, int arg_2, int arg_4) {
 int sub_19EB6(int arg_0, int arg_2) {
     if (word_330C2 == 0) goto done;
     if (*(&word_38202 + arg_0 * 5 + 7) != arg_2) {
-        gfx_switchColor((int *)var_564, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
-        gfx_switchColor((int *)var_565, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
+        gfx_switchColor(var_564, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
+        gfx_switchColor(var_565, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
         *(&word_38202 + arg_0 * 5 + 7) = arg_2;
     }
 done:
@@ -499,8 +499,8 @@ void sub_1A183(int arg_0, int arg_1, int arg_2, int arg_3) {
 // ==== seg000:0xa1b1 ====
 int sub_1A1B1(int arg_0, int arg_1) {
     byte_3BF93[0] = 0x0D;
-    *(int *)unk_3BF96 = arg_0;
-    *(int *)unk_3BF98 = arg_1;
+    unk_3BF96 = arg_0;
+    unk_3BF98 = arg_1;
     unk_3BF95 = 0;
     int86(0x10, &regs, &regs);
     return regs.h.al;

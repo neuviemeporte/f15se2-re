@@ -180,9 +180,9 @@ int sub_1CB42(int param_1, int param_2, int param_3, int param_4, int param_5, i
         if (a > 0xb8 || (int)var_684 > 0x1800) {
             a = 0xb8;
         }
-        *(((int*)var_568) + 2) = (int)byte_3419A[0];
+        *(var_568 + 2) = (int)byte_3419A[0];
         if (a != 0x80) {
-            sub_21444((int*)var_568, 0xe8, 0x80, 0x130, a);
+            sub_21444(var_568, 0xe8, 0x80, 0x130, a);
         }
         h = byte_228D0[0x2f];
         e = (int)(signed char)byte_3BFA4[param_1 & 0x7f];
@@ -193,9 +193,9 @@ int sub_1CB42(int param_1, int param_2, int param_3, int param_4, int param_5, i
         if (n == 0xc || n == 9 || n == 0xb) {
             h = 1;
         }
-        *(((int*)var_568) + 2) = (int)byte_3419C[h];
+        *(var_568 + 2) = (int)byte_3419C[h];
         if (a != 0xb8) {
-            sub_21444((int*)var_568, 0xe8, a, 0x130, 0xb8);
+            sub_21444(var_568, 0xe8, a, 0x130, 0xb8);
         }
     }
 

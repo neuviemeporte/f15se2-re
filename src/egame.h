@@ -9,6 +9,9 @@
 
 #if !defined(MSDOS) && !defined(__MSDOS__)
 #define far
+#ifndef pascal
+#define pascal
+#endif
 #endif
 
 #define __int32 long
@@ -114,6 +117,7 @@ int moveNearFar();
 int setCommWorldbufPtr();
 // ==== seg000:0x21c6 ====
 int callLoad3DAll();
+void sub_121C6();
 // ==== seg000:0x21ca ====
 void sub_121CA(int, int, int, long, long, long, int, int, int, int);
 // ==== seg000:0x2278 ====
@@ -241,7 +245,7 @@ void sub_15FDB(void);
 // ==== seg000:0x606c ====
 void sub_1606C(void);
 // ==== seg000:0x60d3 ====
-void sub_160D3(int *arg_0);
+void sub_160D3(int16 *arg_0);
 // ==== seg000:0x613b ====
 void sub_1613B(void);
 // ==== seg000:0x6172 ====
@@ -590,7 +594,7 @@ int sub_20A58();
 // ==== seg001:0x1282 ====
 int sub_20B02();
 // ==== seg001:0x132e ====
-int far sub_20BAE(uint8* param_1, int param_2, int param_3, int param_4);
+int far sub_20BAE(int16* param_1, int param_2, int param_3, int param_4);
 // ==== seg001:0x135f ====
 int sub_20BDF();
 // ==== seg001:0x147b ====
@@ -598,7 +602,7 @@ int sub_20CFB();
 // ==== seg001:0x1599 ====
 int sub_20E19();
 // ==== seg001:0x15b8 ====
-int far sub_20E38(int param_1, int param_2, uint8* param_3);
+int far sub_20E38(int param_1, int param_2, int16* param_3);
 // ==== seg001:0x15cd ====
 int sub_20E4D();
 // ==== seg001:0x175c ====
@@ -614,7 +618,7 @@ int nullsub_2();
 // ==== seg001:0x1ba2 ====
 int sub_21422();
 // ==== seg001:0x1bc4 ====
-int far sub_21444(int* param_1, int param_2, int param_3, int param_4, int param_5);
+int far sub_21444(int16* param_1, int param_2, int param_3, int param_4, int param_5);
 // ==== seg001:0x1ca6 ====
 int far sub_21526();
 // ==== seg001:0x1caa ====
@@ -794,7 +798,7 @@ extern uint8 aChaff[];
 extern uint8 aReleased[];
 extern uint8 asc_3373D[];
 extern char aGun[];
-extern uint8 asc_33744[];
+extern int16 asc_33744[];
 extern uint8 aS[];
 extern int16 word_3374A;
 extern uint8 aOnPatrol[];
@@ -1223,7 +1227,7 @@ extern uint8 aBrakesOn[];
 extern uint8 a_[];
 extern uint8 aG[];
 extern uint8 byte_37FEC[];
-extern uint8 unk_3806E[];
+extern int16 unk_3806E[];
 extern int16 word_38070;
 extern int word_38072;
 extern int word_38074;
@@ -1243,7 +1247,7 @@ extern int16 word_380A4;
 extern int16 word_380A6;
 extern int16 word_380AA;
 extern int16 word_380AC;
-extern uint8 unk_380B6[];
+extern int16 unk_380B6[];
 extern int word_380C8;
 extern int word_380CA;
 extern int word_380CC;
@@ -1261,7 +1265,7 @@ extern uint8 aLeft_pic[];
 extern uint8 aRight_pic[];
 extern uint8 aRear_pic[];
 extern int16 word_38126;
-extern uint8 unk_38128[];
+extern int16 unk_38128[];
 extern int16 word_38152;
 extern uint8 aFiring[];
 extern int16 word_3815E;
@@ -1283,12 +1287,12 @@ extern char aPrimaryTarget_0[];
 extern uint8 a0[];
 extern uint8 aFired[];
 extern int16 word_38202;
-extern uint8 unk_3831E[];
-extern int *off_38334;
-extern uint8 unk_38336[];
-extern int *off_3834C;
+extern int16 unk_3831E[];
+extern int16 *off_38334;
+extern int16 unk_38336[];
+extern int16 *off_3834C;
 extern int16 word_3834E[];
-extern int *off_38364;
+extern int16 *off_38364;
 extern int16 word_3837C;
 extern int16 word_383AC;
 extern int16 word_383AE;
@@ -1539,7 +1543,7 @@ extern uint8 byte_3A900[];
 extern int16 word_3A940;
 extern int word_3A944;
 extern int16 word_3A946;
-extern uint8 unk_3A948[];
+extern int16 unk_3A948[];
 extern struct struc_1 stru_3A95A[];
 extern int16 word_3AA5A;
 extern int16 word_3AA5C;
@@ -1637,8 +1641,8 @@ extern int16 word_3BF90;
 extern union REGS regs;
 extern uint8 byte_3BF93[];
 extern uint8 unk_3BF95;
-extern uint8 unk_3BF96[];
-extern uint8 unk_3BF98[];
+extern int16 unk_3BF96;
+extern int16 unk_3BF98;
 extern int16 word_3BFA0;
 extern int16 word_3BFA2;
 #define UNIT_STATE_COUNT 0x64
@@ -1807,7 +1811,9 @@ extern uint8 var_316;
 extern int16 var_665;
 extern int16 var_666;
 
+#if defined(MSDOS) || defined(__MSDOS__)
 extern int rand();
+#endif
 extern long _aNlmul(long, long);
 
 extern int16 var_47;
