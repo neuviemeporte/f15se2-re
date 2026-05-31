@@ -1630,6 +1630,9 @@ callLoad3DAll equ _sub_121C6
 ; _copySomeMem - now in C (egame2.c)
 ; ------------------------------seg000:0x22b7------------------------------
 ; ------------------------------seg000:0x22b8------------------------------
+IFDEF DEBUG
+EXTRN _trace_gameloop:NEAR
+ENDIF
 sub_122B8 proc near
     push BP
     mov BP,SP
@@ -1677,6 +1680,13 @@ LAB_1000_232b:
 LAB_1000_2330:
     dec word ptr [word_3C16C]
 LAB_1000_2334:
+IFDEF DEBUG
+    push ax
+    push word ptr [word_3C16C]
+    call _trace_gameloop
+    add sp, 2
+    pop ax
+ENDIF
     cmp word ptr [word_3C16C],1h
     jge LAB_1000_233e
     jmp LAB_1000_26af
@@ -2087,10 +2097,45 @@ sub_13816 equ _sub_13816
 sub_13932 equ _sub_13932
 ; ------------------------------seg000:0x39a8------------------------------
 ; ------------------------------seg000:0x39aa------------------------------
+IFDEF DEBUG
+EXTRN _trace_gameloop:NEAR
+ENDIF
 sub_139AA proc near
+IFDEF DEBUG
+    push ax
+    mov ax, 100
+    push ax
+    call _trace_gameloop
+    add sp, 2
+    pop ax
+ENDIF
     call far ptr sub_202F6
+IFDEF DEBUG
+    push ax
+    mov ax, 101
+    push ax
+    call _trace_gameloop
+    add sp, 2
+    pop ax
+ENDIF
     call far ptr gfx_setBlitOffset2
+IFDEF DEBUG
+    push ax
+    mov ax, 102
+    push ax
+    call _trace_gameloop
+    add sp, 2
+    pop ax
+ENDIF
     call far ptr _gfx_resetBlitOffset2
+IFDEF DEBUG
+    push ax
+    mov ax, 103
+    push ax
+    call _trace_gameloop
+    add sp, 2
+    pop ax
+ENDIF
     mov byte ptr [_var_316],0h
     ret
     nop
@@ -29024,8 +29069,12 @@ ORG 0190Ch
 _var_198 EQU word_341BC
 ORG 0198Ch
 _var_200 EQU dword_3423C
+PUBLIC _var_200_off
+_var_200_off EQU dword_3423C
 ORG 0198Eh
 _var_201 EQU word_3423E
+PUBLIC _var_200_seg
+_var_200_seg EQU word_3423E
 ORG 01990h
 _var_202 EQU word_34240
 ORG 01992h

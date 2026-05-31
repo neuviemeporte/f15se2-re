@@ -196,7 +196,7 @@ void sub_134AC(int param_1, int param_2, int param_3)
                     g = process3dg(word_3C16C, e, f);
                     if (g != -1) {
                         word_3C5A8 = matrix3dt_2[word_3C16C][g];
-                        for (d = 0; matrix3dt[word_3C16C + 3][g + 3] > (unsigned int)d; d++) {
+                        for (d = 0; matrix3dt[word_3C16C][g] > (unsigned int)d; d++) {
                             if (word_3C5A8->_0x04 == 0) {
                                 var_200 = (char far *)(byte_228D0 + buf3d3[word_3C5A8->_0x06]);
                                 sub_136D2(var_200,

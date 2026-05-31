@@ -143,8 +143,7 @@ int sub_10211() {
     }
     TRACE(("sub_10211: sub_13C3B (game loop)"));
     sub_13C3B();
-#ifndef DEBUG
-    TRACE(("sub_10211: moveDataFar"));
+#ifndef DEBUG  /* cleanup after game loop — cannot enable in DEBUG builds until seg001 hardcoded DGROUP offsets are replaced with labels (see docs/task_seg001_labels.md) */
     moveDataFar();
     // 266
     if (commData->setupUseJoy == 0) {
@@ -180,8 +179,18 @@ void gfxInit() {
 }
 
 #ifdef DEBUG
+extern int var_255;
+extern unsigned int var_200_off;
+extern unsigned int var_200_seg;
+extern unsigned char byte_3790C[];
+extern int word_38FDC;
 void trace_gameloop(int step) {
-    TRACE(("gameloop: step %d", step));
+    if (step == 100)
+        TRACE(("gameloop: step %d, var_255=%d, var200=%04x:%04x, timerC=%d", step, var_255, var_200_seg, var_200_off, (int)byte_3790C[0]));
+    else if (step == 4)
+        TRACE(("gameloop: step %d, 38FDC=%d", step, word_38FDC));
+    else
+        TRACE(("gameloop: step %d", step));
 }
 #endif
 
@@ -193,7 +202,7 @@ void sub_10720(void) {
     int c;
     int d;
     int e;
-    TRACE(("sub_10720: enter"));
+    TRACE(("sub_10720: enter, word_3BECC=%d", word_3BECC));
 
     word_3BEC0 = (int)((dword_3B7DA + 0x10L) >> 5);
     word_3BED0 = -((int)((dword_3B7F8 + 0x10L) >> 5) - 0x8000);
@@ -211,6 +220,7 @@ void sub_10720(void) {
             var_600 = 1;
         }
         sub_11F3E();
+        TRACE(("sub_10720: past 11F3E"));
         word_336F0 = 0;
         word_336F8 = 1;
         word_336F4 = word_336F2 = -1;
@@ -238,10 +248,15 @@ void sub_10720(void) {
             dword_3B7F8 -= (long)(0x708 * word_3AFA8);
         }
         sub_118F6();
+        TRACE(("sub_10720: past 118F6"));
         sub_11D10(8, 0);
+        TRACE(("sub_10720: past 11D10"));
         sub_19595();
+        TRACE(("sub_10720: past 19595"));
         sub_19EB6(3, 10);
+        TRACE(("sub_10720: past 19EB6"));
         sub_194D0(0x13);
+        TRACE(("sub_10720: past 194D0"));
         word_336F4 = word_336F2 = -1;
         word_330BA = 2;
         word_330B8 = gameData->difficulty;
@@ -304,13 +319,19 @@ void sub_10720(void) {
     }
 
     *(char far *)0x00000417L &= 0x0f;
+    TRACE(("sub_10720: past init"));
     sub_16172();
     sub_167B4();
     sub_179EE();
+    TRACE(("sub_10720: past 179EE"));
     sub_11636();
+    TRACE(("sub_10720: past 11636"));
     sub_11676();
+    TRACE(("sub_10720: past 11676"));
     sub_11841();
+    TRACE(("sub_10720: past 11841"));
     sub_118D5();
+    TRACE(("sub_10720: past 118D5"));
 
     c = sub_199EC(word_3BEC0, word_3BED0, &b, &d);
     if (c == 0) {
@@ -757,8 +778,8 @@ void sub_119A3() {
     p = word_3BF90 = word_33096 = 0;
     for (; p < 3; p++) {
         b = (char far *)commData + p * 2;
-        ((int16 *)&missileSpecIndex)[p * 2] = *(int16 far *)(b + 0x38);
-        ((int16 *)&missileSpecIndex)[p * 2 + 1] = *(int16 far *)(b + 0x40);
+        ((int16 *)missleSpec)[p * 2] = *(int16 far *)(b + 0x38);
+        ((int16 *)missleSpec)[p * 2 + 1] = *(int16 far *)(b + 0x40);
     }
     word_330B4 = 0x3e8;
     word_33098 = 0x2710;
@@ -781,7 +802,7 @@ void sub_11A18() {
         sub_19E44(0);
         p = (&word_38202)[a];
         sub_19E5D(p - 1, 0xbe, p + 2, (int)&allocSize);
-        sub_1A183((&missileSpecIndex)[a * 2 + 1], p, 0xbe, 0x0c);
+        sub_1A183(missleSpec[a].field_2, p, 0xbe, 0x0c);
     }
 }
 
@@ -801,6 +822,7 @@ void sub_11A88(int param_1) {
 
 // ==== seg000:0x1b37 routine_148 ====
 void sub_11B37(int arg_0) {
+    TRACE(("sub_11B37: arg_0=%d, word_3BE3C=%d", arg_0, word_3BE3C));
     if (word_3BE3C != 0 && arg_0 != 0) {
         return;
     }
