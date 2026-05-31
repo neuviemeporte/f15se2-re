@@ -48,8 +48,11 @@ int main(void) {
     TRACE(("egame main: gfxInit"));
     gfxInit();
     TRACE(("egame main: after gfxInit"));
+    TRACE(("egame main: calling initOverlay"));
     gfx_initOverlay();
+    TRACE(("egame main: calling setMonoFlag"));
     gfx_setMonoFlag(commData->setupMono);
+    TRACE(("egame main: calling setFadeSteps"));
     if (gameData->theater < 2) { // 0xc8
         gfx_setFadeSteps(0xc);
     }
@@ -119,21 +122,29 @@ void drawCockpit() {
 
 // ==== seg000:0x211 ====
 int sub_10211() {
+    TRACE(("sub_10211: enter"));
     FP_OFF(dword_38FE2) = OFF_BDA_FLOPPYMOTOR; // floppy motor runtime in bda???
     FP_SEG(dword_38FE2) = 0;
     // 224
     if (*dword_38FE2 > 1) {
         *dword_38FE2 = 1;
     }
+    TRACE(("sub_10211: audio_jump_65"));
     audio_jump_65();
     // 241
+    TRACE(("sub_10211: audio_jump_64"));
     audio_jump_64(*(int16 FAR*)(OFF_IACA_UNK), f15DgtlResult);
+    TRACE(("sub_10211: setTimerIrqHandler"));
     setTimerIrqHandler();
     // 250
     if (commData->setupUseJoy == 0) {
+        TRACE(("sub_10211: setInt9Handler"));
         setInt9Handler();
     }
+    TRACE(("sub_10211: sub_13C3B (game loop)"));
     sub_13C3B();
+#ifndef DEBUG
+    TRACE(("sub_10211: moveDataFar"));
     moveDataFar();
     // 266
     if (commData->setupUseJoy == 0) {
@@ -142,6 +153,7 @@ int sub_10211() {
     // 276
     gfx_setDacAnimCount(1);
     sub_12278(2);
+#endif
     restoreTimerIrqHandler();
     audio_jump_65();
 }
@@ -157,11 +169,21 @@ int sub_10297() {
 // ==== seg000:0x29a ====
 void gfxInit() {
     int var_2;
+    TRACE(("gfxInit: allocPage(0)"));
     gfx_allocPage(0);
+    TRACE(("gfxInit: allocPage(1)"));
     var_2 = gfx_allocPage(1);
+    TRACE(("gfxInit: allocPage(1) returned %d", var_2));
     gfx_storeBufPtr(var_2, 1);
     gfx_storeBufPtr(commData->gfxInitResult, 2);
+    TRACE(("gfxInit: done"));
 }
+
+#ifdef DEBUG
+void trace_gameloop(int step) {
+    TRACE(("gameloop: step %d", step));
+}
+#endif
 
 // ==== seg000:0x0720 ====
 void sub_10720(void) {
@@ -171,6 +193,7 @@ void sub_10720(void) {
     int c;
     int d;
     int e;
+    TRACE(("sub_10720: enter"));
 
     word_3BEC0 = (int)((dword_3B7DA + 0x10L) >> 5);
     word_3BED0 = -((int)((dword_3B7F8 + 0x10L) >> 5) - 0x8000);

@@ -51,6 +51,7 @@ int main(void)
     audio_jump_65();
     audio_jump_64(0, 0);
     /* 0xb4 */
+#ifndef DEBUG_AUTOSTART
     if (*needSplash == 1) {
         TRACE(("main: doing splash"));
         /* 0xc1 doSplash:  */
@@ -157,8 +158,23 @@ checkEga:
             getch();
         }
     }
+#endif /* !DEBUG_AUTOSTART */
 
     TRACE(("main: setting difficulty and theater"));
+#ifdef DEBUG_AUTOSTART
+    /* Auto-start: skip UI, set hardcoded difficulty/theater, go straight to egame */
+    TRACE(("main: DEBUG_AUTOSTART - skipping UI"));
+    gameData->difficulty = 2;  /* 0=green, 1=veteran, 2=ace, 3=max, 4=demo */
+    gameData->theater = 0;     /* 0=Libya, 1=Desert, 2=Europe, 3=Kuril */
+    gameData->missionReady = 1;
+    gameData->isCampaignMission = 0;
+    gameData->campaignProgress = 0;
+    gameData->rand = 12345;
+    commData->startDone = 1;
+    joyAxes[0] = joyAxes[1] = JOY_CENTER;
+    srand(gameData->rand);
+    missionGenerate();
+#else
     /* 0x29a */
     difficulty = gameData->difficulty;
     theater = gameData->theater;
@@ -181,9 +197,7 @@ checkEga:
     if (commData->setupUseJoy == 1) {
         /*
             This data of length 0x14 is copied in su.exe at seg0001(683):d1 from dseg(692):eb4 to COMM:48, then later this copies it from there onto the stack (???)
-            1CC2:0CDE     6D 01 6D 01 00 00 00 00 73 01 73 01 00 00 00 00  m.m.....s.s.....
-            1CC2:0CEE     6E 01 6E 01 00 00 00 00 01 00 01 00 00 00 00 00  n.n.............
-        */
+            1CC2:0CDE     6D 01 6D 01 00 00 00 00 73 01 73 01 00 00 00 00  m.m.....s.s.....\n            1CC2:0CEE     6E 01 6E 01 00 00 00 00 01 00 01 00 00 00 00 00  n.n.............\n        */
        copyJoystickData(commData->joyData);
     }
     /* 0x30e */
@@ -217,6 +231,25 @@ doSrand:
     missionDecode();
     TRACE(("main: mission generation"));
     missionGenerate();
+#endif
+#ifdef DEBUG_AUTOSTART
+    /* Skip printMission, checkDiskA, sprite loading - just write world and exit */
+    exitCode[0] = 0xc;
+    restoreCbreakHandler();
+    *needSplash = 0;
+    TRACE(("main: DEBUG_AUTOSTART - write world"));
+    writeWorld(aTemp_wld);
+    commData->setupDone = 3;
+    commData->continueFlag = 0;
+    commData->restartFlag = 0;
+    commData->gfxModeChar = 0;
+    misc_jump_5e_clearKeyFlags();
+    TRACE(("main: DEBUG_AUTOSTART - exiting with code %hd", exitCode[0]));
+#ifdef DEBUG
+    log_close();
+#endif
+    exit(exitCode[0]);
+#else
     /* 0x3aa */
     if (gameData->difficulty != DIFFICULTY_DEMO) {
         TRACE(("main: printing mission"));
@@ -267,5 +300,6 @@ doSrand:
     log_close();
 #endif
     exit(exitCode[0]);
+#endif /* !DEBUG_AUTOSTART */
     /* 0x482 */
 }

@@ -37,7 +37,7 @@ HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
 cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-end debug-egame tools noasm-start
+.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-start debug-end debug-egame tools noasm-start
 all: f15-se2
 
 #
@@ -189,6 +189,7 @@ $(BUILDDIR)/egui.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egmath.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egfileio.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egpic.obj: MSC_CFLAGS := /Od /Id:\f15-se2
+$(DEBUGDIR)/egpic.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG
 
 # reference and target entrypoints (offset of main()) for binary comparison
 EGAME_VRF_REF := bin/egame.exe
@@ -311,6 +312,7 @@ egame: $(EGAME_EXE)
 end: $(END_EXE)
 
 debug: $(DEBUGDIR) $(START_DEBUG) $(END_DEBUG) $(EGAME_DEBUG)
+debug-start: $(DEBUGDIR) $(START_DEBUG)
 debug-end: $(DEBUGDIR) $(END_DEBUG)
 debug-egame: $(DEBUGDIR) $(EGAME_DEBUG)
 
