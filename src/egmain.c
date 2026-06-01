@@ -162,6 +162,10 @@ extern unsigned int var_200_off;
 extern unsigned int var_200_seg;
 extern unsigned char byte_3790C[];
 extern int word_38FDC;
+void trace_tile(int level, int iter, int tile) {
+    TRACE(("tile: lv=%d it=%d tile=%d", level, iter, tile));
+}
+
 void trace_gameloop(int step) {
     if (step == 100)
         TRACE(("gameloop: step %d, var_255=%d, var200=%04x:%04x, timerC=%d", step, var_255, var_200_seg, var_200_off, (int)byte_3790C[0]));

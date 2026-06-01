@@ -1632,6 +1632,7 @@ callLoad3DAll equ _sub_121C6
 ; ------------------------------seg000:0x22b8------------------------------
 IFDEF DEBUG
 EXTRN _trace_gameloop:NEAR
+EXTRN _trace_tile:NEAR
 ENDIF
 sub_122B8 proc near
     push BP
@@ -1693,7 +1694,7 @@ ENDIF
 LAB_1000_233e:
     mov BX,word ptr [word_3C16C]
     shl BX,1h
-    db 83h, 0bfh, 0f2h, 12h, 00h  ; CMP word ptr [BX + 0...,0x0                 ;= ??
+    cmp word ptr [BX + offset _sizes3dt],0h
     jnz LAB_1000_234e
     jmp LAB_1000_26ac
 LAB_1000_234e:
@@ -1895,6 +1896,13 @@ LAB_1000_2515:
     call process3dg
     add SP,6h
     mov word ptr [BP + -1ah],AX
+IFDEF DEBUG
+    push AX
+    push word ptr [BP + -0eh]
+    push word ptr [word_3C16C]
+    call _trace_tile
+    add sp, 6
+ENDIF
     db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
     jnz LAB_1000_254a
     jmp LAB_1000_26a9
