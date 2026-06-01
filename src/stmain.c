@@ -7,6 +7,7 @@
 #include "const.h"
 #include "debug.h"
 #include "start.h"
+#include "shared/util.h"
 
 #include <dos.h>
 

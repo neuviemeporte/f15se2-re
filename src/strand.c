@@ -1,5 +1,6 @@
 /* Random number utilities */
 #include "start.h"
+#include "shared/util.h"
 
 #include <dos.h>
 

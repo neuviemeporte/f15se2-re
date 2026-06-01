@@ -19,7 +19,7 @@ void picdbg(const char *msg)
 }
 
 /* Pic decode work data */
-uint8 picDecodedRowBuf[320];
+extern uint8 picDecodedRowBuf[320];
 /* Large buffers allocated from DOS to save DGROUP space */
 static uint8 far *picWorkDataFar;
 static uint16 far *picDecodeDictionaryFar;
@@ -314,10 +314,9 @@ static void picDecodeToSegment(int handle, uint16 pageSeg)
     }
 }
 
-void showPicFile(int handle, int page, int unused)
+void showPicFile(int handle, int page)
 {
     uint16 pageSeg;
-    (void)unused;
 
     if (handle < 0) return;
 

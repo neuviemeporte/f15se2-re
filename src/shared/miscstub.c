@@ -27,16 +27,18 @@ void pollJoystick(void)
 {
 }
 
-void copyJoystickData(void)
+int far copyJoystickData(uint8 *ptr)
 {
+    return 0;
 }
 
-void mystrcat(char *dst, const char *src)
+int mystrcat(char *dst, char *src)
 {
     strcat(dst, src);
+    return 0;
 }
 
-void intDispatch(int16 intnum, uint8 *inreg, uint8 *outreg)
+void intDispatch(int intnum, uint8 *inreg, uint8 *outreg)
 {
     union REGS r;
     /* inreg[0] = AL, inreg[1] = AH based on stinit.c usage */
@@ -52,12 +54,14 @@ void setupOverlaySlots(int param)
     miscdbg("setupOverlaySlots called");
 }
 
-void doNothing2(void)
+int doNothing2(const char *msg, int a, int b, int c)
 {
+    return 0;
 }
 
-void getTimeOfDay(uint8 *regs)
+int getTimeOfDay(void)
 {
+    return 0;
 }
 
 int mystrlen(const char *s)
@@ -65,7 +69,7 @@ int mystrlen(const char *s)
     return strlen(s);
 }
 
-void nearmemset(char *dst, int val, int count)
+void nearmemset(void *dst, char val, int count)
 {
     memset(dst, val, count);
 }
@@ -75,7 +79,7 @@ int loadOverlay(const char *filename)
     return 0;
 }
 
-int doFcbSearch(void *fcb)
+int doFcbSearch(void)
 {
     return -1;
 }

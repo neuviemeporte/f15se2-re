@@ -6,6 +6,7 @@
 #include "comm.h"
 #include "debug.h"
 #include "const.h"
+#include "shared/util.h"
 
 #include <memory.h>
 #include <dos.h>

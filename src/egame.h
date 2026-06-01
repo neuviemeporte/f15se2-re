@@ -460,7 +460,7 @@ int sub_1DDAA();
 // ==== seg000:0xddc4 ====
 int __cdecl openFile(char *, int);
 // ==== seg000:0xde1b ====
-int createFile(int arg_0, int arg_1);
+int createFile(const char *arg_0, int arg_1);
 // ==== seg000:0xde72 ====
 int closeFile(int arg_0);
 // ==== seg000:0xde94 ====
@@ -473,18 +473,10 @@ int read512FromFileIntoBuf();
 int sub_1DF4F(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4);
 // ==== seg000:0xdfbc ====
  // 2 parameters correct
-#if !defined(MSDOS)
 void openBlitClosePic(char* path, int arg_2);
-#else
-void openBlitClosePic();
-#endif
 // ==== seg000:0xe0aa ====
  // 2 parameters correct
-#if !defined(MSDOS)
 void picBlit(int handle, int unk);
-#else
-void picBlit();
-#endif
 // ==== seg000:0xe11c ====
 int sub_1E11C();
 // ==== seg000:0xe1f8 ====

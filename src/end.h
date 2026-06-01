@@ -67,22 +67,13 @@
 /* calcMissionScore: compute score for all events */
 #define SCORE_ALL_EVENTS    0x100
 
-void closeFileWrapper(int handle);
-
 /* ASM functions called from C */
-void restoreTimerIrqHandler(void);
-void setTimerIrqHandler(void);
-void intDispatch(int intNum, uint8 *inRegs, uint8 *outRegs);
-void restoreCbreakHandler(void);
-int getTimeOfDay(void);
 void srandInit(int seed);
 void decodePic(int handle, int segment);
-void showPicFile(int handle, int page, int garbage);
 int dos_alloc(int size);
 void dos_printstring(const char *str);
 int dos_free(int segment);
-int openFile(char *name, int mode);
-int createFile(char *name, int mode);
+int createFile(const char *name, int mode);
 int readFile(int handle, int buf, int size);
 int readFileAt(int handle, int a, int b, int c);
 int writeFile(int handle, int a, int b, int c, int d);
@@ -266,8 +257,6 @@ extern MenuItem debriefMenuItems[];
 
 /* Reconstructed C functions */
 void seedRandom(void);
-void loadPic(char *filename, int segment);
-void openShowPic(char *name, int page);
 uint16 allocBuffer(int size);
 void freeBuffer(int segment);
 void srandInit(int seed);
@@ -277,7 +266,7 @@ void drawClippedLineEx(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2
 void drawClippedLine(int x1, int y1, int x2, int y2);
 int drawEventSprite(int recordIdx);
 void drawMapPixel(int x, int y, int color);
-int isPointInRect(void *p);
+int isPointInRect(struct MenuItem *p);
 void blinkWidget(MenuItem *item, int16* gfxPage);
 unsigned int drawFlightPath(int16 *gfxPage, unsigned int maxRecord);
 void showEventPopup(void);
@@ -442,7 +431,6 @@ extern int missionResult;
 extern int selectedMenuItem;
 
 /* ASM functions called by main */
-void setupOverlaySlots(int param);
 void clearKeybuf(void);
 void loadWorldStrings(void);
 void setupWorldBufPtr(void);
@@ -450,7 +438,6 @@ void readWorldData(void);
 void loadTheaterIndex(void);
 void debriefMainLoop(void);
 void showPostMissionAwards(void);
-void installCBreakHandler(void);
 extern void far copyJoystickData(uint8 far *data);
 
 /* File I/O variables */

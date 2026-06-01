@@ -73,16 +73,16 @@ int FAR CDECL gfx_setFadeSteps(int steps);             /* slot 0x3d: setFadeStep
 int FAR CDECL gfx_calcRowAddr(int y, int x);           /* slot 0x3e: calcRowAddr */
 /* dseg:0xbf3 */
 int FAR CDECL gfx_getModecode();                       /* slot 0x3f: returns 3 (MCGA) */
-int FAR CDECL gfx_setOvlVal1();                        /* slot 0x40: writes ds:0xcc */
-int FAR CDECL gfx_setOvlVal2();                        /* slot 0x41: writes ds:0xce */
+int FAR CDECL gfx_setOvlVal1(int val);                 /* slot 0x40: writes ds:0xcc */
+int FAR CDECL gfx_setOvlVal2(int val);                 /* slot 0x41: writes ds:0xce */
 int FAR CDECL gfx_getModeFlag2();                      /* slot 0x42: returns modeFlag */
 int FAR CDECL gfx_unknown43();                         /* slot 0x43: unknown */
 int FAR CDECL gfx_setDac(uint16 palIdx);               /* slot 0x44: set VGA DAC palette */
 int FAR CDECL gfx_waitRetrace();                       /* slot 0x45: wait for vblank */
 int FAR CDECL gfx_flipPage();                          /* slot 0x46: vblank + flip to VGA */
-int FAR CDECL gfx_blitSpriteClipped(int16* ptr);      /* slot 0x47: sprite variant */
+int FAR CDECL gfx_blitSpriteClipped(int16* ptr);       /* slot 0x47: sprite variant */
 int FAR CDECL gfx_blitSpriteClipped2();                /* slot 0x48: sprite variant */
-int FAR CDECL gfx_blitSpriteOpaque(int16* ptr);       /* slot 0x49: sprite blit (=0x11) */
+int FAR CDECL gfx_blitSpriteOpaque(int16* ptr);        /* slot 0x49: sprite blit (=0x11) */
 int FAR CDECL gfx_blitSpriteOpaque2();                 /* slot 0x4a: blit core (=0x12) */
 /* dseg:0xc2f */
 int FAR CDECL gfx_storeBufPtr(uint16 seg, int pageIdx); /* slot 0x4b: pageSegs[idx]=seg */
@@ -93,7 +93,7 @@ int FAR CDECL gfx_setDacAnimCount(uint16 count);       /* slot 0x4f: setDacAnimC
 int FAR CDECL gfx_commitPage();                        /* slot 0x50: commitPage */
 int FAR CDECL gfx_nop51();                             /* slot 0x51: retf */
 int FAR CDECL gfx_setMonoFlag(uint16 mono);            /* slot 0x52: setMonoFlag */
-int FAR CDECL gfx_getCurPage();                        /* slot 0x53: returns curPageSeg */
+int FAR CDECL gfx_getCurPage(int page);                /* slot 0x53: returns curPageSeg */
 int FAR CDECL gfx_slot54();
 int FAR CDECL gfx_slot55();
 int FAR CDECL gfx_slot56();

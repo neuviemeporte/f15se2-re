@@ -34,7 +34,7 @@ void initGraphics(void) {
     gfx_storeBufPtr(commData->gfxInitResult, 1);
 }
 
-void main(void) {
+int main(void) {
     int p;
     int a;
     int b;

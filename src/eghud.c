@@ -344,8 +344,8 @@ int sub_155AB() {
 void sub_15FDB(void) {
     if (word_330C2 != 0) {
         sub_19E44(0);
-#if !defined(MSDOS)
-        sub_19E5D(0xd4, 0x7f, 0xde, 0xaf/*, 0xc4 garbage*/);
+#ifdef BUGFIX
+        sub_19E5D(0xd4, 0x7f, 0xde, 0xaf);
 #else
         sub_19E5D(0xd4, 0x7f, 0xde, 0xaf, 0xc4);
 #endif
