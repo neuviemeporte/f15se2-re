@@ -370,8 +370,10 @@ void sub_10720(void) {
     }
 
     if ((char)word_336E8 == 0 && word_336E8 != 0) {
+        TRACE(("sub_10720: copy-prot check, 336E8=%d sig=%04x/%04x", word_336E8, *(int far *)((char far *)commData - 4), *(int far *)((char far *)commData - 2)));
         if (*(int far *)((char far *)commData - 4) != (int)0xca01 ||
             *(int far *)((char far *)commData - 2) != 0x3b9a) {
+            TRACE(("sub_10720: COPY PROT EXIT!"));
             sub_11B37(1);
             exitCode = 0;
         }
@@ -547,10 +549,12 @@ end_landing_check:
     dword_3B7F8 -= (dword_3B7F8 - ((long)(0x8000 - stru_3AA5E[word_3C16A].field_2) << 5)) / (long)d;
 
 skip_autopilot:
+    TRACE(("sub_10720: skip_autopilot, w33702=%d var547=%d unk4=%d 3BF90=%d 33098=%d 3BE3C=%d 3AA5A=%d", word_33702, var_547, gameData->unk4, word_3BF90, word_33098, word_3BE3C, word_3AA5A));
     if (word_33702 == 0) {
         if (var_547 == 0) {
             if ((gameData->unk4 != 0 || word_3BF90 > 4 || word_33098 == 0) &&
                 word_3BE3C == 0 && word_3AA5A > 0x32) {
+                TRACE(("sub_10720: CRASH EXIT - altitude zero!"));
                 makeSound(0, 2);
                 sub_19E44(0);
                 sub_19E5D(0, 0, 0x13f, 199);

@@ -102,7 +102,9 @@ int sub_15557(int arg_0) {
 // something to do with view switching?
 int sub_155AB() {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E;
-    TRACE_KEY(("155AB: kv=%d 38FDC=%d pos=%04x/%04x alt=%04x 3BECC=%d var548=%d", keyValue, word_38FDC, (unsigned)(dword_3B7DA>>5), (unsigned)(dword_3B7F8>>5), word_380CE, word_3BECC, var_548));
+#ifdef DEBUG
+    if (word_38FDC > 1) word_38FDC = 1; /* HACK: level-4 3D data traversal hangs */
+#endif
     TRACE(("sub_155AB: enter"));
     dword_3B1FE = dword_3C01C = dword_3B7DA;
     dword_3B4D4 = dword_3B7F8;
