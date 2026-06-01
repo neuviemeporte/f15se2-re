@@ -6,13 +6,7 @@
 #include "pointers.h"
 
 #include <stdio.h>
-
-#if !defined(MSDOS) && !defined(__MSDOS__)
-#define far
-#define near
-#define _interrupt
-#define __interrupt
-#endif
+#include <dos.h>
 
 #define __int32 long
 #define __int8 char
@@ -90,7 +84,7 @@ int setenvp();
 void clearKeybuf(void);
 void waitJoyKey(void);
 int joyOrKey();
-void waitMdaCgaStatus(int);
+void waitMdaCgaStatus(int16);
 void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color);
 void showPic640(char *filename);
 void missionSelect(void);
@@ -107,7 +101,7 @@ int dead_drawWrappedText();
 int unreach_1130B();
 int sub_11458();
 void seedRandom();
-int __cdecl randMul(unsigned int);
+int __cdecl randMul(uint16);
 int sub_118B9();
 int sub_118D1();
 int far timerIrqHandler();
@@ -117,7 +111,7 @@ int manipulateTimer();
 int increaseTimerCounters();
 int doFcbSearch();
 void picBlit(int handle, int unk);
-void pilotSelect(int ps_needSplash);
+void pilotSelect(int16 ps_needSplash);
 void updateHallfame();
 void displayPilots(void);
 void __cdecl printPilot(int);
@@ -194,7 +188,7 @@ unsigned int __cdecl dos_alloc(int sz);
 int unreach_dos_freeMem(int freeSeg);
 int16 *__cdecl findNearestTerrain(__int32, __int32);
 unsigned __int32 __cdecl scaleCoordByLevel(int, unsigned __int32);
-int __cdecl lookupGridCell(int, int, int);
+int __cdecl lookupGridCell(int16, int16, int16);
 void parseGridTerrain(void);
 void parseTerrain(char *dest);
 void parseGrid();

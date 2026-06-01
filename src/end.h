@@ -8,10 +8,6 @@
 #include <stdio.h>
 #include <dos.h>
 
-#if !defined(MSDOS) && !defined(__MSDOS__)
-#define far
-#endif
-
 #define __int32 long
 #define __int8 char
 #define __cdecl
@@ -177,6 +173,7 @@ typedef uint16 MenuItemFlags;
 #define MENUITEM_HAS_SPRITE   0x0800 // 0b0000100000000000
 #define MENUITEM_SPRITE_BLINK 0x1000 // 0b0001000000000000
 
+#pragma pack(1)
 typedef struct MenuItem {
     int16  hitX1;          /* 0x00 */
     int16  hitY1;          /* 0x02 */
@@ -200,7 +197,8 @@ typedef struct MenuItem {
     int16  state;          /* 0x2e */
     MenuItemFlags flags; /* 0x30 */
 } MenuItem;
-STATIC_ASSERT(sizeof(struct MenuItem)==50);
+#pragma pack()
+STATIC_ASSERT(sizeof(struct MenuItem) == 44 + 3 * sizeof(void*));
 
 void processDebriefInput(int *cursorBounds, MenuItem *menuItem, int16* gfxPage);
 
