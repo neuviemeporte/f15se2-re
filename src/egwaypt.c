@@ -191,12 +191,22 @@ int sub_1C6BE(int param_1, int param_2)
 
 // ==== seg000:0xc7a2 ====
 int sub_1C7A2(int arg_0) {
+#ifdef BUGFIX
+    sub_1C7EA(stru_3AA5E[arg_0].field_0, stru_3AA5E[arg_0].field_2, 1);
+    return 0;
+#else
     return sub_1C7EA(stru_3AA5E[arg_0].field_0, stru_3AA5E[arg_0].field_2, 1);
+#endif
 }
 
 // ==== seg000:0xc7c6 ====
 int sub_1C7C6(int arg_0) {
+#ifdef BUGFIX
+    sub_1C7EA(*(int *)&unk_3B202[2 + arg_0 * 36], *(int *)&unk_3B202[4 + arg_0 * 36], 0);
+    return 0;
+#else
     return sub_1C7EA(*(int *)&unk_3B202[2 + arg_0 * 36], *(int *)&unk_3B202[4 + arg_0 * 36], 0);
+#endif
 }
 
 // ==== seg000:0xc7ea ====

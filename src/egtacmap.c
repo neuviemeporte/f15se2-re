@@ -485,7 +485,11 @@ int drawStringCentered(int16* arg_0, const char *arg_2, int arg_4, int arg_6, in
     arg_0[4] = arg_4;
     arg_0[5] = arg_6;
     arg_0[2] = arg_8;
+#ifdef BUGFIX
+    gfx_drawString(arg_0, strupr((char*)arg_2));
+#else
     gfx_drawString(arg_0, strupr((char*)arg_2), strlen(arg_2));
+#endif
 }
 
 

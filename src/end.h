@@ -8,10 +8,6 @@
 #include <stdio.h>
 #include <dos.h>
 
-#if !defined(MSDOS) && !defined(__MSDOS__)
-#define far
-#endif
-
 #define __int32 long
 #define __int8 char
 #define __cdecl

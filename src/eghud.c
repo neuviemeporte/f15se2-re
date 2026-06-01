@@ -314,8 +314,9 @@ int sub_155AB() {
     sub_121CA(-word_3C5AA, word_3BE94, word_3B4E4, dword_3B1FE, dword_3B4D4, (int32)word_3B4DE, 0, 0, 0x140, off_38334[0x10] + 1);
     byte_3850E = 0;
     byte_3995A = word_36B86;
-    if (keyValue == 0x41) {
-        sub_160D3(unk_38128);
+    // 5efc
+    if (keyValue == 0x41) { // 5f06
+        sub_160D3((int16*)unk_38128);
         gfx_setColor(0xf);
         word_3755D = 0xf1;
         word_37561 = 0x15;

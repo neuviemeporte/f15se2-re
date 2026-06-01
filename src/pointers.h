@@ -2,9 +2,10 @@
 #define POINTERS_H
 
 #include "inttype.h"
+#include "platform.h"
 #include "sassert.h"
 
-#if (F15_COMPILER == F15_COMPILER_MSC51)
+#if defined(MSDOS)
 #define NEAR near
 #define FAR far
 #define CDECL cdecl

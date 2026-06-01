@@ -83,3 +83,23 @@ int doFcbSearch(void)
 {
     return -1;
 }
+
+#if !defined(MSDOS) && !defined(__MSDOS__)
+int16 *findNearestTerrain(long a, long b)
+{
+    (void)a; (void)b;
+    return 0;
+}
+
+unsigned long scaleCoordByLevel(int level, unsigned long coord)
+{
+    (void)level;
+    return coord;
+}
+
+int dos_alloc(int size)
+{
+    (void)size;
+    return 0;
+}
+#endif
