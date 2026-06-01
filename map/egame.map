@@ -15,7 +15,7 @@ gfxInit: seg000 NEAR 029a-02e0 R029a-02e0 complete
 loadF15DgtlBin: seg000 NEAR 02e2-0333 R02e2-0333 assembly
 sub_10334: seg000 NEAR 0334-0685 R0334-03ff R0400-0685
 setupOverlaySlots: seg000 NEAR 0688-06e0 R0688-069a U069b-069f R06a0-06e0 assembly
-sub_10720: seg000 NEAR 0720-14e7 R0720-09cf R09d0-14e7 complete
+sub_10720: seg000 NEAR 0720-14e7 R0720-14e7 complete
 sub_114E8: seg000 NEAR 14e8-14fb R14e8-14fb complete
 countermeasures: seg000 NEAR 14fc-1635 R14fc-15a8 U15a9-15aa R15ab-1635 assembly
 sub_11636: seg000 NEAR 1636-1675 R1636-1675 complete
