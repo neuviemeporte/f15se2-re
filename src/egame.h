@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 
-#if !defined(MSDOS) && !defined(__MSDOS__)
+#if !defined(MSDOS)
 #define far
 #ifndef pascal
 #define pascal
@@ -1803,7 +1803,7 @@ extern uint8 var_316;
 extern int16 var_665;
 extern int16 var_666;
 
-#if defined(MSDOS) || defined(__MSDOS__)
+#if defined(MSDOS)
 extern int rand();
 #endif
 extern long _aNlmul(long, long);

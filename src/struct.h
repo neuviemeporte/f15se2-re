@@ -172,17 +172,15 @@ struct struc_2 {
 STATIC_ASSERT(sizeof(struct struc_2)==0x18);
 
 // used in egame.exe sub_155AB, 0x24 bytes
+#pragma pack(1)
 struct struc_3 {
     int16 field_0;
     int32 field_2;
     int32 field_6;
     uint8 field_10[26];
 };
-#if !defined(MSDOS) || defined(_MSC_VER) && (_MSC_VER > 510)
-STATIC_ASSERT(sizeof(struct struc_3)==40);
-#else
+#pragma pack()
 STATIC_ASSERT(sizeof(struct struc_3)==36);
-#endif
 
 // used in egame.exe, 0x10 bytes
 struct struc_4 {
@@ -310,7 +308,7 @@ struct PageDesc {
     int16 *selfPtr;     /* +0x16: pointer to start of this struct (pageNum field) */
 };
 #pragma pack()
-STATIC_ASSERT(sizeof(struct PageDesc)==24);
+STATIC_ASSERT(sizeof(struct PageDesc) == 22 + sizeof(void*));
 
 #pragma pack(1)
 struct Matrix3dEntry7 {

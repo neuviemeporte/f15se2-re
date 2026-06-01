@@ -32,24 +32,6 @@ typedef struct {
     int16 maxX[220];  /* 0x1B8: per-row maximum dirty X */
 } DirtyRectBuf;
 
-/* Page descriptor / "rastport" structure.
- * Passed as int16* to drawString, switchColor, blitSprite, etc.
- * The overlay accesses fields at word offsets [0]..[10+].
- */
-typedef struct {
-    int16 pageNum;    /* [0] page index into pageSegs[] */
-    int16 flags;      /* [1] rendering flags */
-    int16 color;      /* [2] current draw color */
-    int16 font;       /* [3] font index */
-    int16 x;          /* [4] cursor/draw X position */
-    int16 y;          /* [5] cursor/draw Y position */
-    int16 field_6;    /* [6] misc (often 0) */
-    int16 clipMinX;   /* [7] clip rect left */
-    int16 clipMaxX;   /* [8] clip rect right */
-    int16 clipMinY;   /* [9] clip rect top */
-    int16 clipMaxY;   /* [10] clip rect bottom */
-} PageDesc;
-
 /* Sprite blit parameter block.
  * Passed to slots 0x11/0x47/0x49 as int16* pointer.
  * The overlay loads BP from the pointer and accesses [bp+N].

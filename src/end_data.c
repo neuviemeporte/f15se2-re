@@ -3,6 +3,7 @@
 #include "inttype.h"
 #include "struct.h"
 #include "comm.h"
+#include <dos.h>
 
 /* Split into chunks due to MSC 5.1 initializer limits.
  *

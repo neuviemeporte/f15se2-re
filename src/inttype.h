@@ -28,7 +28,7 @@
  * 
  * long = 4, int =2, short = 2, char = 1, near = 2, far = 4, size = 2
  */
-#if defined(MSDOS) || defined(__MSDOS__)
+#if defined(MSDOS)
 typedef unsigned long uint32;
 typedef unsigned int uint16;
 typedef unsigned char uint8;
