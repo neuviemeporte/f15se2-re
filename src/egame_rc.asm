@@ -2845,12 +2845,12 @@ _otherKeyDispatch proc near
     jnz loc_13FF7
     sub AX,AX
     mov word ptr [_buf3d3_1+98h],AX
-    mov [_word_380D0+0Bh],AX
+    mov [word_380E0],AX
     mov [_word_3A940+4],AX
-    mov [_word_380CA+1],AX
-    mov [_word_380C8+1],AX
-    mov word ptr [_unk_3806E+59h],AX
-    mov word ptr [_unk_3806E+57h],AX
+    mov [_word_380D0],AX
+    mov [_word_380CE],AX
+    mov word ptr [_word_380CA],AX
+    mov word ptr [_word_380C8],AX
     les BX,dword ptr [_gameData]
     cmp word ptr ES:[BX+03Eh],AX
     jnz loc_13FBA
@@ -2863,7 +2863,7 @@ _otherKeyDispatch proc near
 loc_13FB2:
     mov AX,08000h
 loc_13FB5:
-    mov word ptr [_unk_3806E+55h],AX
+    mov word ptr [_unk_3806E+5Ah],AX
     jmp loc_13FD6
 loc_13FBA:
     cmp word ptr ES:[BX+038h],06h
@@ -2878,14 +2878,14 @@ loc_13FC5:
 loc_13FD0:
     mov AX,08000h
 loc_13FD3:
-    mov word ptr [_unk_3806E+55h],AX
+    mov word ptr [_unk_3806E+5Ah],AX
 loc_13FD6:
     mov BX,word ptr [_word_3B148]
     mov CL,04h
     shl BX,CL
     test word ptr [BX+offset _stru_3AA5E + 6],0200h
     jz loc_13FEB
-    add byte ptr [_unk_3806E+56h],04h
+    add byte ptr [_word_380C8+1],04h
 loc_13FEB:
     call sub_15411
     call _sub_15FDB
@@ -2923,12 +2923,12 @@ loc_1403A:
     push AX
     sub AX,AX
     push AX
-    mov AX,[_word_380D0+0Bh]
+    mov AX,[word_380E0]
     db 02Dh, 0Ah, 00h ; sub AX,0Ah (force imm16 encoding)
     push AX
     call _sub_1CF64
     add SP,06h
-    mov [_word_380D0+0Bh],AX
+    mov [word_380E0],AX
     call _sub_15FDB
     jmp loc_1423E
 loc_14057:
@@ -2936,33 +2936,33 @@ loc_14057:
     push AX
     sub AX,AX
     push AX
-    cmp word ptr [_word_380D0+0Bh],0Ah
+    cmp word ptr [word_380E0],0Ah
     jge loc_1406A
     mov AX,05h
     jmp loc_1406D
 loc_1406A:
     mov AX,0Ah
 loc_1406D:
-    add AX,word ptr [_word_380D0+0Bh]
+    add AX,word ptr [word_380E0]
     push AX
     call _sub_1CF64
     add SP,06h
-    mov [_word_380D0+0Bh],AX
+    mov [word_380E0],AX
     call _sub_15FDB
     and byte ptr [_planeFlags],0F7h
     jmp loc_1423E
 loc_14086:
-    mov word ptr [_word_380D0+0Bh],090h
+    mov word ptr [word_380E0],090h
     call _sub_15FDB
     and byte ptr [_planeFlags],0F7h
     jmp loc_1423E
 loc_14097:
-    mov word ptr [_word_380D0+0Bh],064h
+    mov word ptr [word_380E0],064h
     call _sub_15FDB
     and byte ptr [_planeFlags],0F7h
     jmp loc_140C5
 loc_140A7:
-    mov word ptr [_word_380D0+0Bh],00h
+    mov word ptr [word_380E0],00h
     sub AX,AX
     push AX
     mov AX,010h
@@ -2978,7 +2978,7 @@ loc_140C5:
     jnz loc_140EE
     cmp word ptr [_word_3BEBE],00h
     jz loc_140EE
-    cmp word ptr [_word_380D0+0Bh],064h
+    cmp word ptr [word_380E0],064h
     jnz loc_140EE
     mov word ptr [_word_3A940+4],0546h
     mov AX,02h
@@ -3148,7 +3148,7 @@ loc_1423E:
     jz loc_14249
     dec word ptr [_word_380D0+0Dh]
 loc_14249:
-    cmp word ptr [_word_380D0+0Bh],00h
+    cmp word ptr [word_380E0],00h
     jz loc_14265
     cmp word ptr [_buf3d3_1+98h],00h
     jnz loc_14265
@@ -3229,12 +3229,12 @@ loc_142E4:
     idiv CX
     mov word ptr [_byte_3C5A0+4],AX
 loc_14313:
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     cmp word ptr [_word_3BEBE],AX
     jnz loc_14330
     cmp word ptr [_byte_3C5A0+4],00h
     jge loc_14330
-    cmp word ptr [_unk_3806E+57h],00h
+    cmp word ptr [_word_380C8],00h
     jg loc_14330
     mov word ptr [_byte_3C5A0+4],00h
 loc_14330:
@@ -3257,10 +3257,10 @@ loc_14330:
     call makeSound
     add SP,04h
 loc_14369:
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     cmp word ptr [_word_3BEBE],AX
     jnz loc_1438F
-    cmp word ptr [_word_380D0+0Bh],00h
+    cmp word ptr [word_380E0],00h
     jnz loc_1438F
     test byte ptr [_planeFlags],08h
     jnz loc_1438F
@@ -3299,7 +3299,7 @@ loc_143C7:
     mov AX,0EC00h
     push AX
     mov AX,word ptr [BP-2Ch]
-    sub AX,word ptr [_unk_3806E+55h]
+    sub AX,word ptr [_unk_3806E+5Ah]
     add AX,word ptr [_word_3BE92]
     push AX
     call forceRange
@@ -3311,7 +3311,7 @@ loc_143C7:
     mov AX,0FFE8h
     push AX
     mov AX,word ptr [BP-2Ch]
-    sub AX,word ptr [_unk_3806E+59h]
+    sub AX,word ptr [_word_380CA]
     mov CL,06h
     sar AX,CL
     push AX
@@ -3324,7 +3324,7 @@ loc_143C7:
     mov AX,0EC00h
     push AX
     mov AX,word ptr [_word_330B6]
-    sub AX,word ptr [_word_380C8+1]
+    sub AX,word ptr [_word_380CE]
     mov CL,04h
     shl AX,CL
     sub AX,word ptr [_word_38FC4]
@@ -3337,7 +3337,7 @@ loc_143C7:
     mov AX,0FFF8h
     push AX
     mov AX,word ptr [BP-14h]
-    sub AX,word ptr [_unk_3806E+57h]
+    sub AX,word ptr [_word_380C8]
     mov CL,07h
     sar AX,CL
     push AX
@@ -3381,7 +3381,7 @@ loc_144A0:
 loc_144A3:
     imul word ptr [BP-3Eh]
     add word ptr [BP-34h],AX
-    push word ptr [_unk_3806E+55h]
+    push word ptr [_unk_3806E+5Ah]
     call _abs
     add SP,02h
     mov word ptr [BP-2Ch],AX
@@ -3393,7 +3393,7 @@ loc_144A3:
     mov AX,word ptr [BP-34h]
     neg AX
     mov word ptr [BP-34h],AX
-    mov AX,word ptr [_unk_3806E+55h]
+    mov AX,word ptr [_unk_3806E+5Ah]
     sub AX,08000h
     push AX
     call _abs
@@ -3506,7 +3506,7 @@ loc_145CC:
     add AX,word ptr [BX+offset _stru_3AA5E]
     mov word ptr [BP-2Ah],AX
     mov AX,050h
-    imul word ptr [_word_380D0+0Bh]
+    imul word ptr [word_380E0]
     cmp AX,word ptr [_word_3AA5A]
     jge loc_145F4
     or byte ptr [_planeFlags],08h
@@ -3538,7 +3538,7 @@ loc_145F4:
     sub CL,CL
     push CX
     mov AX,word ptr [BP-0Eh]
-    sub AX,word ptr [_unk_3806E+55h]
+    sub AX,word ptr [_unk_3806E+5Ah]
     push AX
     call forceRange
     add SP,06h
@@ -3553,7 +3553,7 @@ loc_1464F:
     mov AX,0FFE0h
     push AX
     mov AX,word ptr [BP-2Ch]
-    sub AX,word ptr [_unk_3806E+59h]
+    sub AX,word ptr [_word_380CA]
     mov CL,06h
     sar AX,CL
     push AX
@@ -3589,14 +3589,14 @@ loc_1464F:
     push BX
     call _sub_1CF64
     add SP,06h
-    mov [_word_380D0+0Bh],AX
+    mov [word_380E0],AX
     call _sub_15FDB
     mov AX,018h
     push AX
     mov AX,0FFE8h
     push AX
     mov AX,word ptr [BP-14h]
-    sub AX,word ptr [_word_380C8+1]
+    sub AX,word ptr [_word_380CE]
     mov CL,03h
     sar AX,CL
     mov DX,word ptr [_word_38FC4]
@@ -3612,7 +3612,7 @@ loc_1464F:
     mov AX,0FFF0h
     push AX
     mov AX,word ptr [BP-14h]
-    mov DX,word ptr [_unk_3806E+57h]
+    mov DX,word ptr [_word_380C8]
     mov CL,07h
     sar DX,CL
     sub AX,DX
@@ -3624,10 +3624,10 @@ loc_1464F:
     jge loc_14704
     and byte ptr [_planeFlags],0FEh
 loc_14704:
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     cmp word ptr [_word_3BEBE],AX
     jnz loc_14724
-    mov word ptr [_word_380D0+0Bh],00h
+    mov word ptr [word_380E0],00h
     mov word ptr [_word_3C00C+2],00h
     or byte ptr [_planeFlags],08h
     mov word ptr [_byte_3C5A0+4],00h
@@ -3640,7 +3640,7 @@ loc_14724:
     push DX
     push AX
     mov AX,03E8h
-    sub AX,word ptr [_word_380C8+1]
+    sub AX,word ptr [_word_380CE]
     cwd
     push DX
     push AX
@@ -3675,7 +3675,7 @@ loc_14758:
 loc_1477A:
     cmp word ptr [BP-24h],00h
     jle loc_147B3
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     cmp word ptr [_word_3BEBE],AX
     jnc loc_147B3
     push word ptr [BP-24h]
@@ -3704,7 +3704,7 @@ loc_147B3:
     les BX,dword ptr [_gameData]
     cmp word ptr ES:[BX+040h],02h
     jnc loc_1481B
-    push word ptr [_unk_3806E+59h]
+    push word ptr [_word_380CA]
     call _abs
     add SP,02h
     cmp AX,03000h
@@ -3712,10 +3712,10 @@ loc_147B3:
     cmp word ptr [_fileHandle+2],00h
     jnz loc_1481B
     mov AX,[_word_38FC4]
-    sub AX,word ptr [_unk_3806E+57h]
+    sub AX,word ptr [_word_380C8]
     sar AX,01h
     sar AX,01h
-    sub AX,word ptr [_word_380C8+1]
+    sub AX,word ptr [_word_380CE]
     add AX,012Ch
     sar AX,01h
     sar AX,01h
@@ -3736,7 +3736,7 @@ loc_1481B:
     jmp loc_14958
 loc_14825:
     mov word ptr [_word_3C00C+2],040h
-    push word ptr [_unk_3806E+59h]
+    push word ptr [_word_380CA]
     call _abs
     add SP,02h
     cmp AX,04000h
@@ -3773,7 +3773,7 @@ loc_14842:
     call _sub_11B37
     add SP,02h
 loc_14886:
-    cmp word ptr [_word_380C8+1],00h
+    cmp word ptr [_word_380CE],00h
     jnz loc_148D1
     cmp word ptr [word_336F6],-01h
     jnz loc_148D1
@@ -3794,7 +3794,7 @@ loc_14886:
     call makeSound
     add SP,04h
     sub AX,AX
-    mov [_word_380D0+0Bh],AX
+    mov [word_380E0],AX
     mov [_word_3A940+4],AX
 loc_148D1:
     mov AX,word ptr [_byte_3B7FC+640h]
@@ -3817,7 +3817,7 @@ loc_148D1:
     mov word ptr [SI+offset stru_33402],AX
     mov AX,[_word_3BED0]
     mov word ptr [SI+offset stru_33402 + 2],AX
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     mov word ptr [SI+offset stru_33402 + 4],AX
     mov AX,020h
     push AX
@@ -3832,7 +3832,7 @@ loc_148D1:
     mov [_word_3BE98+24h],AX
     mov AX,[_word_3BED0]
     mov word ptr [_byte_3BEC4+4],AX
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     mov [_sign3d3+4],AX
     mov word ptr [_word_39604+2],0FFF8h
     mov AX,02h
@@ -3841,7 +3841,7 @@ loc_148D1:
     push AX
     call makeSound
     add SP,04h
-    mov word ptr [_unk_3806E+57h],0C000h
+    mov word ptr [_word_380C8],0C000h
     mov byte ptr [_word_380D0+8],01h
 loc_14958:
     cmp word ptr [_tempString+50h],00h
@@ -3852,16 +3852,16 @@ loc_14958:
     db 2Dh, 90h, 00h ; sub AX,090h (force imm16 encoding)
     neg AX
     mov SI,AX
-    cmp word ptr [_word_380D0+0Bh],SI
+    cmp word ptr [word_380E0],SI
     jle loc_14984
-    mov word ptr [_word_380D0+0Bh],SI
+    mov word ptr [word_380E0],SI
     or SI,SI
     jge loc_14981
-    mov word ptr [_word_380D0+0Bh],00h
+    mov word ptr [word_380E0],00h
 loc_14981:
     call _sub_15FDB
 loc_14984:
-    mov AX,[_word_380D0+0Bh]
+    mov AX,[word_380E0]
     sub AX,word ptr [_buf3d3_1+98h]
     cwd
     xor AX,DX
@@ -3875,14 +3875,14 @@ loc_14984:
     idiv CX
     add word ptr [_buf3d3_1+98h],AX
     mov AX,word ptr [_buf3d3_1+98h]
-    cmp word ptr [_word_380D0+0Bh],AX
+    cmp word ptr [word_380E0],AX
     jle loc_149B1
     inc word ptr [_buf3d3_1+98h]
 loc_149B1:
     mov AX,word ptr [_buf3d3_1+98h]
-    cmp word ptr [_word_380D0+0Bh],AX
+    cmp word ptr [word_380E0],AX
     jge loc_149C0
-    mov AX,[_word_380D0+0Bh]
+    mov AX,[word_380E0]
     mov word ptr [_buf3d3_1+98h],AX
 loc_149C0:
     mov AX,word ptr [_word_336E8]
@@ -3892,11 +3892,11 @@ loc_149C0:
     div CX
     or DX,DX
     jnz loc_149F4
-    cmp word ptr [_word_380D0+0Bh],00h
+    cmp word ptr [word_380E0],00h
     jz loc_149F4
     cmp word ptr [_word_336EA],00h
     jnz loc_149F4
-    mov AX,[_word_380D0+0Bh]
+    mov AX,[word_380E0]
     imul AX
     cwd
     mov CX,02EEh
@@ -3910,7 +3910,7 @@ loc_149F4:
     mov word ptr [_buf3d3_1+98h],00h
     mov word ptr [word_33098],00h
 loc_14A07:
-    push word ptr [_unk_3806E+59h]
+    push word ptr [_word_380CA]
     call _abs
     add SP,02h
     mov BX,AX
@@ -3920,7 +3920,7 @@ loc_14A07:
     mov AL,byte ptr [BX+offset byte_37FEC]
     sub AH,AH
     mov [_word_38FC4+16h],AX
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     cmp word ptr [_word_3BEBE],AX
     jnc loc_14A38
     mov AX,word ptr [_byte_3C5A0+4]
@@ -3935,7 +3935,7 @@ loc_14A38:
     push word ptr [_byte_3C5A0+4]
     sub AX,AX
     push AX
-    push word ptr [_unk_3806E+59h]
+    push word ptr [_word_380CA]
     call _abs
     add SP,02h
     mov BX,AX
@@ -4011,7 +4011,7 @@ loc_14A75:
     push AX
     mov AX,050h
     push AX
-    push word ptr [_unk_3806E+57h]
+    push word ptr [_word_380C8]
     call _sub_1D178
     add SP,04h
     mov CX,AX
@@ -4026,7 +4026,7 @@ loc_14A75:
     call __aNldiv
     mov word ptr [BP-32h],AX
     mov word ptr [_word_3C5A6],064h
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     mov CL,07h
     shr AX,CL
     add AH,04h
@@ -4051,7 +4051,7 @@ loc_14B3F:
     cwd
     push DX
     push AX
-    mov AX,[_word_380CA+1]
+    mov AX,[_word_380D0]
     mov CL,06h
     shr AX,CL
     add AH,04h
@@ -4205,13 +4205,13 @@ loc_14C70:
     mov AX,word ptr [_dword_3B4D4+6]
     sub AX,0300h
     push AX
-    push word ptr [_unk_3806E+59h]
+    push word ptr [_word_380CA]
     call _sub_1D190
     add SP,04h
     mov [_word_38FC4],AX
     test byte ptr [_planeFlags],08h
     jz loc_14CE0
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     cmp word ptr [_word_3BEBE],AX
     jnz loc_14CCF
     mov CX,01Bh
@@ -4247,7 +4247,7 @@ loc_14CE0:
     mov word ptr [_word_3A940+4],00h
 loc_14CEE:
     push word ptr [_word_3A940+4]
-    push word ptr [_unk_3806E+57h]
+    push word ptr [_word_380C8]
     call _sub_1D190
     add SP,04h
     mov word ptr [BP-22h],AX
@@ -4271,7 +4271,7 @@ loc_14CEE:
     mov CL,04h
     shl AX,CL
     push AX
-    push word ptr [_unk_3806E+59h]
+    push word ptr [_word_380CA]
     call _sub_1D178
     add SP,04h
     cwd
@@ -4288,11 +4288,11 @@ loc_14D45:
     call __aNldiv
     mov word ptr [BP-18h],AX
     push AX
-    push word ptr [_unk_3806E+57h]
+    push word ptr [_word_380C8]
     call _sub_1D190
     add SP,04h
     mov word ptr [BP-18h],AX
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     cmp word ptr [_word_3BEBE],AX
     jnz loc_14D85
     mov AX,[_word_3C00C+2]
@@ -4309,11 +4309,11 @@ loc_14D85:
     cmp word ptr [_word_38FDC+2],00h
     jz loc_14D9E
     mov AX,0FC00h
-    sub AX,word ptr [_unk_3806E+57h]
+    sub AX,word ptr [_word_380C8]
     mov word ptr [_byte_3C5A0+4],AX
     sub AX,AX
     mov [_word_3A940+4],AX
-    mov [_word_380D0+0Bh],AX
+    mov [word_380E0],AX
 loc_14D9E:
     mov AX,word ptr [_word_330C4]
     cwd
@@ -4338,14 +4338,14 @@ loc_14DB4:
     push AX
     call sub_13B86
     add SP,02h
-    mov word ptr [_unk_3806E+39h],AX
-    mov word ptr [_unk_3806E+31h],AX
+    mov word ptr [_unk_3806E+3Eh],AX
+    mov word ptr [_unk_3806E+36h],AX
     push word ptr [BP-28h]
     call sub_13B96
     add SP,02h
-    mov word ptr [_unk_3806E+33h],AX
+    mov word ptr [_unk_3806E+38h],AX
     neg AX
-    mov word ptr [_unk_3806E+37h],AX
+    mov word ptr [_unk_3806E+3Ch],AX
     mov AX,offset word_380A4
     push AX
     mov AX,offset _unk_3806E
@@ -4365,14 +4365,14 @@ loc_14DEC:
     push AX
     call sub_13B86
     add SP,02h
-    mov word ptr [_unk_3806E+2Fh],AX
-    mov word ptr [_unk_3806E+27h],AX
+    mov word ptr [_unk_3806E+34h],AX
+    mov word ptr [_unk_3806E+2Ch],AX
     push word ptr [BP-20h]
     call sub_13B96
     add SP,02h
-    mov word ptr [_unk_3806E+2Dh],AX
+    mov word ptr [_unk_3806E+32h],AX
     neg AX
-    mov word ptr [_unk_3806E+29h],AX
+    mov word ptr [_unk_3806E+2Eh],AX
     mov AX,offset unk_38092
     push AX
     mov AX,offset _unk_3806E
@@ -4390,14 +4390,14 @@ loc_14E2D:
     push AX
     call sub_13B86
     add SP,02h
-    mov word ptr [_unk_3806E+1Dh],AX
-    mov word ptr [_unk_3806E+0Dh],AX
+    mov word ptr [_unk_3806E+22h],AX
+    mov word ptr [_unk_3806E+12h],AX
     push word ptr [BP-16h]
     call sub_13B96
     add SP,02h
-    mov word ptr [_unk_3806E+11h],AX
+    mov word ptr [_unk_3806E+16h],AX
     neg AX
-    mov word ptr [_unk_3806E+19h],AX
+    mov word ptr [_unk_3806E+1Eh],AX
     mov AX,offset _unk_3806E
     push AX
     mov AX,offset word_38080
@@ -4409,7 +4409,7 @@ loc_14E6A:
     mov AX,[_word_3A940+4]
     cmp word ptr [word_3A8FE],AX
     jbe loc_14EC6
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     cmp word ptr [_word_3BEBE],AX
     jnc loc_14EC6
     les BX,dword ptr [_gameData]
@@ -4426,11 +4426,11 @@ loc_14E97:
     mov AX,word ptr [word_3A8FE]
     sub AX,word ptr [_word_3A940+4]
     shr AX,CL
-    sub word ptr [_unk_3806E+57h],AX
+    sub word ptr [_word_380C8],AX
     mov byte ptr [_word_380D0+8],01h
-    cmp word ptr [_unk_3806E+57h],00h
+    cmp word ptr [_word_380C8],00h
     jl loc_14EB8
-    cmp word ptr [_word_380C8+1],0C8h
+    cmp word ptr [_word_380CE],0C8h
     jnc loc_14EC6
 loc_14EB8:
     mov AX,01h
@@ -4440,15 +4440,15 @@ loc_14EB8:
     call makeSound
     add SP,04h
 loc_14EC6:
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     cmp word ptr [_word_3BEBE],AX
     jnz loc_14F05
-    cmp word ptr [_unk_3806E+59h],00h
+    cmp word ptr [_word_380CA],00h
     jz loc_14EE1
-    mov word ptr [_unk_3806E+59h],00h
+    mov word ptr [_word_380CA],00h
     mov byte ptr [_word_380D0+8],01h
 loc_14EE1:
-    cmp word ptr [_unk_3806E+57h],00h
+    cmp word ptr [_word_380C8],00h
     jl loc_14EF3
     jle loc_14F05
     mov AX,[_word_3C5A6]
@@ -4457,18 +4457,18 @@ loc_14EE1:
 loc_14EF3:
     cmp word ptr [_word_38FDC+2],00h
     jnz loc_14F00
-    mov word ptr [_unk_3806E+57h],00h
+    mov word ptr [_word_380C8],00h
 loc_14F00:
     mov byte ptr [_word_380D0+8],01h
 loc_14F05:
     mov word ptr [_word_38FDC+2],00h
-    push word ptr [_unk_3806E+59h]
+    push word ptr [_word_380CA]
     call _abs
     add SP,02h
     cwd
     sub AX,DX
     sar AX,01h
-    push word ptr [_unk_3806E+57h]
+    push word ptr [_word_380C8]
     mov SI,AX
     call _abs
     add SP,02h
@@ -4485,9 +4485,9 @@ loc_14F33:
     jz loc_14F40
     call sub_15411
 loc_14F40:
-    mov AX,[_word_380CA+1]
+    mov AX,[_word_380D0]
     mov word ptr [BP-0Ch],AX
-    mov AX,word ptr [_unk_3806E+57h]
+    mov AX,word ptr [_word_380C8]
     sub AX,word ptr [_word_38FC4]
     push AX
     call sub_13B96
@@ -4506,8 +4506,8 @@ loc_14F40:
     cwd
     mov CX,word ptr [_word_330C4]
     idiv CX
-    add word ptr [_word_380CA+1],AX
-    push word ptr [_unk_3806E+55h]
+    add word ptr [_word_380D0],AX
+    push word ptr [_unk_3806E+5Ah]
     call sub_13B96
     add SP,02h
     push AX
@@ -4523,7 +4523,7 @@ loc_14F40:
     cwd
     add word ptr [_dword_3B7DA],AX
     adc word ptr [_dword_3B7DA+2],DX
-    push word ptr [_unk_3806E+55h]
+    push word ptr [_unk_3806E+5Ah]
     call sub_13B86
     add SP,02h
     push AX
@@ -4540,42 +4540,42 @@ loc_14F40:
     add word ptr [_dword_3B7F8],AX
     adc word ptr [_dword_3B7F8+2],DX
 loc_14FCF:
-    cmp word ptr [_word_380CA+1],0F230h
+    cmp word ptr [_word_380D0],0F230h
     ja loc_14FE0
-    mov AX,[_word_380CA+1]
+    mov AX,[_word_380D0]
     cmp word ptr [_word_3BEBE],AX
     jbe loc_14FE6
 loc_14FE0:
     mov AX,[_word_3BEBE]
-    mov [_word_380CA+1],AX
+    mov [_word_380D0],AX
 loc_14FE6:
-    cmp word ptr [_word_380CA+1],0EA60h
+    cmp word ptr [_word_380D0],0EA60h
     jbe loc_14FF4
-    mov word ptr [_word_380CA+1],0EA60h
+    mov word ptr [_word_380D0],0EA60h
 loc_14FF4:
-    cmp word ptr [_word_380CA+1],02000h
+    cmp word ptr [_word_380D0],02000h
     jnc loc_15004
-    mov AX,[_word_380CA+1]
-    mov [_word_380C8+1],AX
+    mov AX,[_word_380D0]
+    mov [_word_380CE],AX
     jmp loc_1502C
 loc_15004:
-    cmp word ptr [_word_380CA+1],04000h
+    cmp word ptr [_word_380D0],04000h
     jnc loc_1501C
-    mov AX,[_word_380CA+1]
+    mov AX,[_word_380D0]
     sub AX,02000h
     shr AX,01h
     add AH,020h
-    mov [_word_380C8+1],AX
+    mov [_word_380CE],AX
     jmp loc_1502C
 loc_1501C:
-    mov AX,[_word_380CA+1]
+    mov AX,[_word_380D0]
     sub AX,04000h
     shr AX,01h
     shr AX,01h
     add AH,030h
-    mov [_word_380C8+1],AX
+    mov [_word_380CE],AX
 loc_1502C:
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     cmp word ptr [_word_3BEBE],AX
     jz loc_15038
     jmp loc_150DF
@@ -4619,7 +4619,7 @@ loc_15073:
     jz loc_150D9
     test byte ptr [_planeFlags],01h
     jnz loc_150B8
-    push word ptr [_unk_3806E+59h]
+    push word ptr [_word_380CA]
     call _abs
     add SP,02h
     mov CX,AX
@@ -4656,11 +4656,11 @@ loc_150DF:
     mov SI,AX
     mov CL,04h
     shl SI,CL
-    mov AX,word ptr [_unk_3806E+55h]
+    mov AX,word ptr [_unk_3806E+5Ah]
     mov word ptr [SI+offset _stru_3A95A + 10],AX
-    mov AX,word ptr [_unk_3806E+57h]
+    mov AX,word ptr [_word_380C8]
     mov word ptr [SI+offset _stru_3A95A + 12],AX
-    mov AX,word ptr [_unk_3806E+59h]
+    mov AX,word ptr [_word_380CA]
     mov word ptr [SI+offset _stru_3A95A + 14],AX
     mov AX,word ptr [_dword_3B7DA]
     mov DX,word ptr [_dword_3B7DA+2]
@@ -4670,7 +4670,7 @@ loc_150DF:
     mov DX,word ptr [_dword_3B7F8+2]
     mov word ptr [SI+offset _stru_3A95A + 4],AX
     mov word ptr [SI+offset _stru_3A95A + 6],DX
-    mov AX,[_word_380C8+1]
+    mov AX,[_word_380CE]
     mov word ptr [SI+offset _stru_3A95A + 8],AX
     cmp word ptr [_word_3C45C],01h
     jz loc_15132
@@ -4713,16 +4713,16 @@ loc_1517A:
     mov SI,AX
     mov CL,04h
     shl SI,CL
-    mov AX,word ptr [_unk_3806E+55h]
+    mov AX,word ptr [_unk_3806E+5Ah]
     sub AX,word ptr [SI+offset _stru_3A95A + 10]
     mov word ptr [BP-2Ch],AX
-    mov AX,word ptr [_unk_3806E+57h]
+    mov AX,word ptr [_word_380C8]
     sub AX,word ptr [SI+offset _stru_3A95A + 12]
     mov word ptr [BP-14h],AX
     sar AX,01h
     sar AX,01h
     push AX
-    push word ptr [_unk_3806E+59h]
+    push word ptr [_word_380CA]
     call _sub_1D178
     add SP,04h
     mov CX,word ptr [BP-2Ch]
@@ -4730,7 +4730,7 @@ loc_1517A:
     sar CX,01h
     sar CX,01h
     push CX
-    push word ptr [_unk_3806E+59h]
+    push word ptr [_word_380CA]
     mov DI,AX
     call _sub_1D190
     add SP,04h
@@ -4739,14 +4739,14 @@ loc_1517A:
     mov AX,word ptr [BP-14h]
     sar AX,01h
     push AX
-    push word ptr [_unk_3806E+59h]
+    push word ptr [_word_380CA]
     call _sub_1D190
     add SP,04h
     mov CX,word ptr [BP-2Ch]
     sar CX,01h
     sar CX,01h
     push CX
-    push word ptr [_unk_3806E+59h]
+    push word ptr [_word_380CA]
     mov DI,AX
     call _sub_1D178
     add SP,04h
@@ -4868,7 +4868,7 @@ LAB_1000_5338:
     jg LAB_1000_534b
     cmp word ptr [_var_527],0h
     jge LAB_1000_534b
-    add byte ptr [_word_380C8],80h
+    add byte ptr [_word_380CC+1],80h
 LAB_1000_534b:
     cmp word ptr [_var_526],0h
     jle LAB_1000_5363

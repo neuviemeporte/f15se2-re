@@ -75,15 +75,14 @@ int main(void) {
 
 // ==== seg000:0x147 ====
 void drawCockpit() {
-    TRACE(("drawCockpit: enter, theater=%d", gameData->theater));
+    TRACE_KEY(("drawCockpit: theater=%d regnStr=%s 38FDC=%d", gameData->theater, regnStr, word_38FDC));
     sub_11E0E();
     load15Flt3d3();
     TRACE(("drawCockpit: after load15Flt3d3, scenPlh0=%04x, scenarioPlh@%04x", (unsigned)scenarioPlh[0], (unsigned)&scenarioPlh[0]));
     strcpy(regnStr, scenarioPlh[gameData->theater]);
-    TRACE(("drawCockpit: regnStr=%s", regnStr));
-    TRACE(("drawCockpit: calling sub_121C6"));
+    TRACE_KEY(("drawCockpit: regnStr=%s theater=%d", regnStr, gameData->theater));
     sub_121C6();
-    TRACE(("drawCockpit: after sub_121C6"));
+    TRACE_KEY(("drawCockpit: after load3D, 38FDC=%d sizes3dt=%d/%d/%d/%d/%d", word_38FDC, sizes3dt[0], sizes3dt[1], sizes3dt[2], sizes3dt[3], sizes3dt[4]));
     f15DgtlResult = loadF15DgtlBin();
     TRACE(("drawCockpit: f15DgtlResult=%d", f15DgtlResult));
     byte_34197 = byte_228D0[0x2f];
