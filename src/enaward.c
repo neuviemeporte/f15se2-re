@@ -40,7 +40,11 @@ void loadPicFromFileAt(char *name, int segment, int off, int whence) {
     int handle;
     TRACE(("loadPicFromFileAt"));
     handle = openFileWrapper(name, 0);
+#ifdef BUGFIX
+    lseek(handle, off, whence);
+#else
     lseek(handle, off, whence, 0);
+#endif
     decodePic(handle, segment);
     closeFileWrapper(handle);
 }

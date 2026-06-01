@@ -17,9 +17,9 @@ static void ovldbg(const char *msg)
     if (f) { fputs(msg, f); fputs("\r\n", f); fclose(f); }
 }
 
-uint8  hercFlag = 0;
-uint8  exitCode = 0;
-int16  fileHandle = 0;
+extern uint8  hercFlag;
+extern uint8  exitCode;
+extern int16  fileHandle;
 
 /* Misc input overlay slots - real DOS keyboard I/O */
 int far cdecl misc_jump_5a_keybuf(void) {
@@ -36,10 +36,10 @@ int far cdecl misc_jump_5b_getkey(void) {
     int86(0x16, &regs, &regs);
     return regs.x.ax;
 }
-int far cdecl misc_jump_5d_readJoy(void) { return 0; }
+int far cdecl misc_jump_5d_readJoy(int16 param) { return 0; }
 int far cdecl misc_jump_5e_clearKeyFlags(void) { ovldbg("clearKeyFlags"); return 0; }
 
 /* Audio overlay slots */
-int far cdecl audio_jump_64(void) { return 0; }
+int far cdecl audio_jump_64(int16 a, int16 b) { return 0; }
 int far cdecl audio_jump_65(void) { return 0; }
 int far cdecl audio_jump_67(void) { return 0; }

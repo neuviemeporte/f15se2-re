@@ -8,10 +8,11 @@
 #include "util.h"
 
 #include "../pointers.h"
+#include <dos.h>
 
 /* extern declarations needed by these functions */
 extern void far gfx_drawString(int16 *pageNum, const char *string);
-extern int far gfx_setFont(int ch, int font);
+extern int far gfx_setFont(uint16 ch, uint16 font);
 extern void far misc_jump_5e_clearKeyFlags(void);
 extern char timerHandlerInstalled;
 void restoreTimerIrqHandler(void);
@@ -58,7 +59,7 @@ int stringWidth(int16 *page, const char *str) {
     return n;
 }
 
-void my_ltoa(int32 value, int8* buf) {
+void my_ltoa(int32 value, char* buf) {
     int8 i, k;
     int8 *p;
     int8 n[6];

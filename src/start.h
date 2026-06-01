@@ -9,6 +9,9 @@
 
 #if !defined(MSDOS) && !defined(__MSDOS__)
 #define far
+#define near
+#define _interrupt
+#define __interrupt
 #endif
 
 #define __int32 long
@@ -105,15 +108,12 @@ int unreach_1130B();
 int sub_11458();
 void seedRandom();
 int __cdecl randMul(unsigned int);
-void setTimerIrqHandler(void);
-void restoreTimerIrqHandler(void);
 int sub_118B9();
 int sub_118D1();
 int far timerIrqHandler();
 int timerIrqCallback();
 int calibrateTimerSpeed();
 int manipulateTimer();
-int getTimeOfDay();
 int increaseTimerCounters();
 int doFcbSearch();
 void picBlit(int handle, int unk);
@@ -143,7 +143,6 @@ void farmemset(char far *dst, char value, int count);
 int my_memcpy();
 int unreach_127AE();
 int sub_127CA();
-void intDispatch(int intNum, uint8 *inregs, uint8 *outregs);
 int myItoa();
 int base10_itoa();
 int base16_itoa();
@@ -151,7 +150,6 @@ int base2_itoa();
 int unreach_1292C();
 int dos_printstring(const char *str);
 int loadOverlay(const char *filename);
-void setupOverlaySlots(int ovlSegment);
 int unreach_12AE1();
 int sub_12B1B();
 void __cdecl clearRect(int16 *buf, int x, int y, int maxx, int maxy);
@@ -162,19 +160,15 @@ int drawLineWrapper();
 int clipAndDrawLine();
 int computeOutcode();
 int far sub_12F8B();
-int installCBreakHandler();
-void restoreCbreakHandler(void);
 int getInterruptHandler();
 int far cbreakHandler();
 int unreach_12FFC(int filename, int a);
 int unreach_13032(int filename, int a, int b);
 int unreach_1306A();
 int unreach_130B4();
-void closeFileWrapper(int handle);
 int unreach_130D4();
 int unreach_130E8();
 int unreach_13100();
-int openFile(char *filename, int mode);
 int unreach_13171();
 int fileClose(int handle);
 int unreach_131EA();
@@ -183,11 +177,8 @@ int unreach_13243();
 int read512FromFileIntoBuf();
 int unreach_1328D();
 int writeFileAtRaw();
-void openShowPic(char *filename, int pageNum);
 int unreach_1333E(int filename, int a);
-void __cdecl loadPic(char *, unsigned int);
 void unreach_loadPicAt();
-void showPicFile(int handle, int pageNum, int garbage);
 int unreach_13442();
 int unreach_134AA();
 int decodePic(int handle, int segment);
@@ -201,7 +192,7 @@ uint16 __cdecl allocBuffer(int sz);
 int unreach_freeBuffer(int freeSeg);
 unsigned int __cdecl dos_alloc(int sz);
 int unreach_dos_freeMem(int freeSeg);
-int *__cdecl findNearestTerrain(__int32, __int32);
+int16 *__cdecl findNearestTerrain(__int32, __int32);
 unsigned __int32 __cdecl scaleCoordByLevel(int, unsigned __int32);
 int __cdecl lookupGridCell(int, int, int);
 void parseGridTerrain(void);
@@ -865,7 +856,7 @@ extern uint8 gridBuf4[];
 extern int16 page1Ptr;
 extern uint8 libc_bufout[];
 extern uint8 gridBuf3[];
-extern int *nearestTerrainResult;
+extern int16 *nearestTerrainResult;
 extern uint8 gridBuf2[];
 extern struct TerrainTile terrainTileBlock[];
 extern uint8 wldReadBuf1[];

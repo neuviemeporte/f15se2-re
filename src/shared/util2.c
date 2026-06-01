@@ -6,10 +6,9 @@
 #include "util.h"
 #include "../debug.h"
 
-int openFile(char *name, int mode);
+int openFile(const char *name, int mode);
 int fileClose(int handle);
 int decodePic(int handle, int segment);
-void showPicFile(int handle, int pageNum, int garbage);
 
 int openFileWrapper(char *filename, int mode)
 {
@@ -27,7 +26,7 @@ void closeFileWrapper(int handle)
     fileClose(handle);
 }
 
-void loadPic(char *filename, uint16 segment) {
+void loadPic(const char *filename, int segment) {
     int handle;
     handle = openFileWrapper(filename, 0);
     TRACE(("loadPic(): opened %s, loading into segment 0x%x", filename, segment));
@@ -35,13 +34,21 @@ void loadPic(char *filename, uint16 segment) {
     closeFileWrapper(handle);
 }
 
-void openShowPic(char *name, int16 page, int16 garbage)
+#ifdef BUGFIX
+void openShowPic(char *name, int page)
+#else
+void openShowPic(char *name, int page, int garbage)
+#endif
 {
     int16 fileHandle;
     TRACE(("openShowPic: opening file %s, page %d",name,page));
     fileHandle = openFileWrapper(name, 0);
     TRACE(("openShowPic: showing pic, handle %d",fileHandle));
+#ifdef BUGFIX
+    showPicFile(fileHandle, page);
+#else
     showPicFile(fileHandle, page, garbage);
+#endif
     closeFileWrapper(fileHandle);
     TRACE(("openShowPic: file closed, returning"));
 }

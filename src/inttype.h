@@ -28,7 +28,7 @@
  * 
  * long = 4, int =2, short = 2, char = 1, near = 2, far = 4, size = 2
  */
-#if defined(MSDOS) || defined(__MSDOS__) || defined(MSC_VER)
+#if defined(MSDOS) || defined(__MSDOS__)
 typedef unsigned long uint32;
 typedef unsigned int uint16;
 typedef unsigned char uint8;
@@ -41,7 +41,7 @@ typedef int bool;
 #define true 1
 #define false 0
 #else
-#include <cstdint>
+#include <stdint.h>
 typedef uint32_t uint32;
 typedef uint16_t uint16;
 typedef uint8_t uint8;
@@ -49,6 +49,13 @@ typedef uint8_t uint8;
 typedef int32_t int32;
 typedef int16_t int16;
 typedef int8_t int8;
+
+#ifndef __cplusplus
+typedef int bool;
+#define true 1
+#define false 0
+#endif
+
 #endif
 
 #endif /* INTTYPE_H */

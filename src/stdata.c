@@ -2,6 +2,7 @@
 #include "struct.h"
 #include "comm.h"
 #include <stdio.h>
+#include <dos.h>
 
 /* === Group 1 (0x0042-0x0530): Filename, mission selection, UI strings === */
 char aLabs_pic[] = "labs.pic";
@@ -706,7 +707,7 @@ char todayMissStrBuf[0x1D];
 uint8 missionStrTrunc;
 uint8 missionStrTruncEnd;
 uint8 exitCode[2];
-int *nearestTerrainResult;
+int16 *nearestTerrainResult;
 char objectTypeTable[0x64];
 uint8 wldReadBuf8[0x64];
 uint8 wldReadBuf7[0x64];
