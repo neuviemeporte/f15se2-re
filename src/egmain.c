@@ -21,13 +21,20 @@ int main(void) {
     TRACE(("egame main: start, about to read commPtr"));
     FP_SEG(commPtr) = SEG_LOWMEM;
     FP_OFF(commPtr) = OFF_IACA_START;
-    /* commData is normalized to (commSeg-1):0x10, which is the SAME physical
-       address as commSeg:0 for every field access, but makes the copy-prot
-       reads at commData-4 / commData-2 alias the COMM MCB magic that f15.com
-       writes at (commSeg-1):0x0C / 0x0E (see f15.c). With FP_OFF=0 those reads
-       wrapped to commSeg:0xFFFC (clobbered during init) and the check failed. */
-    FP_SEG(commData) = *commPtr;
+#ifdef DEBUG
+    /* DEBUG-only: normalize commData to (commSeg-1):0x10 -- physically IDENTICAL
+       to commSeg:0 for every field access, but makes the copy-prot reads at
+       commData-4 / commData-2 alias the durable COMM MCB magic that f15.com
+       writes at (commSeg-1):0x0C / 0x0E (see f15.c). With the release form
+       (FP_OFF=0) those reads wrap to commSeg:0xFFFC, which egame clobbers during
+       init, so the in-game copy-prot check fails ~frame 256+ and kills the game.
+       Release keeps the original form (adding the -1 would break verify). */
+    FP_SEG(commData) = *commPtr - 1;
     FP_OFF(commData) = 0x10;
+#else
+    FP_SEG(commData) = *commPtr;
+    FP_OFF(commData) = 0;
+#endif
     FP_SEG(gameData) = *commPtr;
     FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
     TRACE(("egame main: commData=%04x:%04x gameData=%04x:%04x", FP_SEG(commData), FP_OFF(commData), FP_SEG(gameData), FP_OFF(gameData)));

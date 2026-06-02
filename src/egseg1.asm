@@ -3744,7 +3744,7 @@ loc_1EA0:
     MOV DI,[word_378D9]
     OR DI,DI
     JS short loc_1ED5
-    MOV AX,228Bh
+    MOV AX,@data    ; was literal 228Bh (original DGROUP@loadtime); must be relocatable
     MOV ES,AX
     MOV CX,[word_378DB]
     INC CX
@@ -3768,7 +3768,7 @@ sub_21720 endp
 
 sub_21756 proc near
 loc_1ED6:
-    MOV AX,228Bh
+    MOV AX,@data    ; was literal 228Bh (original DGROUP@loadtime); must be relocatable
     MOV ES,AX
     MOV CX,DI
     OR SI,SI

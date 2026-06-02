@@ -323,9 +323,7 @@ int sub_155AB() {
     copySomeMem(word_330BC);
     *(uint8*)(&word_36B86) = 0;
 #if defined(DEBUG) && defined(DISABLE_3D)
-    /* Skip the broken 3D world renderer: it hangs in loc_0BE7 on certain
-       geometry and draws garbage. Keeps the 2D parts (cockpit/HUD/radar)
-       rendering continuously so the rest of the game is usable/testable. */
+    /* Skip the whole 3D render (incl. sub_1B147 HUD) to get continuous frames. */
 #else
     sub_121CA(-word_3C5AA, word_3BE94, word_3B4E4, dword_3B1FE, dword_3B4D4, (int32)word_3B4DE, 0, 0, 0x140, off_38334[0x10] + 1);
 #endif

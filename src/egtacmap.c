@@ -416,6 +416,10 @@ void sub_19E44(int arg_0) {
 
 // ==== seg000:0x9e5d ====
 void sub_19E5D(int arg_0, int arg_2, int arg_4, int arg_6) {
+#ifdef DEBUG
+    if (word_336E8 < 80)
+        TRACE_KEY(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", word_336E8, arg_0, arg_2, arg_4, arg_6, arg_4-arg_0+1, arg_6-arg_2+1, (int)off_38334[2], (int)off_38334[0x10]));
+#endif
     sub_21444(off_38334, arg_0, arg_2, arg_4, arg_6);
     sub_21444(off_3834C, arg_0, arg_2, arg_4, arg_6);
 }
