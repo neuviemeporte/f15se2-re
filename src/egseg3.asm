@@ -11,8 +11,11 @@ _DATA ENDS
 _BSS SEGMENT WORD PUBLIC 'BSS'
 _BSS ENDS
 
-EXTRN byte_37F98:BYTE
-EXTRN byte_37F99:BYTE
+; int9Handler writes the keyboard virtual-stick axes. The original wrote them to
+; joyAxes (DGROUP 0x56e4/0x56e5) -- where the stick dot (sub_18E50) and the
+; flight control (otherKeyDispatch) read. The reconstruction had used _joyAxes/99
+; (0x56e8/e9), 4 bytes off, so the stick was computed but never consumed.
+EXTRN _joyAxes:BYTE
 EXTRN byte_37F9A:BYTE
 EXTRN word_37F9B:WORD
 EXTRN byte_37F9D:BYTE
@@ -150,19 +153,19 @@ int9Handler proc near
     add bh, 80h
     test al, 1
     jz short @@noLeft
-    mov byte_37F99, bl
+    mov byte ptr [_joyAxes+1], bl
 @@noLeft:
     test al, 2
     jz short @@noRight
-    mov byte_37F99, bh
+    mov byte ptr [_joyAxes+1], bh
 @@noRight:
     test al, 4
     jz short @@noUp
-    mov byte_37F98, bl
+    mov _joyAxes, bl
 @@noUp:
     test al, 8
     jz short @@noDown
-    mov byte_37F98, bh
+    mov _joyAxes, bh
 @@noDown:
     mov bx, es:6Ch
     mov word_37F9B, bx
@@ -171,8 +174,8 @@ int9Handler proc near
     cmp byte_37F9A, al
     jnz short @@flushKbd
     mov byte_37F9A, 0
-    mov byte_37F98, 80h
-    mov byte_37F99, 80h
+    mov _joyAxes, 80h
+    mov byte ptr [_joyAxes+1], 80h
 @@flushKbd:
     mov bx, es:1Ah
     cmp bx, es:1Ch
