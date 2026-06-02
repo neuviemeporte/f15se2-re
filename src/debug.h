@@ -12,7 +12,6 @@ void changeext(char *filename, const char *ext);
 void log_close();
 #define TRACE(x) do { } while(0)
 #define TRACE_KEY(x) my_trace x
-void debug_vga_indicator(int frame, int step);
 #else
 #define TRACE(x)
 #define TRACE_KEY(x)

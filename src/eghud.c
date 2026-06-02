@@ -327,11 +327,6 @@ int sub_155AB() {
 #else
     sub_121CA(-word_3C5AA, word_3BE94, word_3B4E4, dword_3B1FE, dword_3B4D4, (int32)word_3B4DE, 0, 0, 0x140, off_38334[0x10] + 1);
 #endif
-#ifdef DEBUG
-#if 0 /* disabled - VGA writes interfere */
-    debug_vga_indicator(word_336E8, 2);
-#endif
-#endif
     byte_3850E = 0;
     byte_3995A = word_36B86;
     if (keyValue == 0x41) {
@@ -355,11 +350,6 @@ int sub_155AB() {
         byte_3C5A0 = var_E;
     }
     gfx_flipPage();
-#ifdef DEBUG
-#if 0
-    debug_vga_indicator(word_336E8, 3);
-#endif
-#endif
     word_38126 = (word_3C09E == 0x13 || word_3C09A == 1 || word_330C2 == 0) ? 0xc8 : 0x61;
     TRACE(("sub_155AB: exit"));
 }

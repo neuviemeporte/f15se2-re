@@ -104,26 +104,3 @@ void my_fartrace(const char FAR *msg) {
     buf[i] = 0;
     my_trace(buf);
 }
-
-/* Write a visible indicator directly to VGA page 0 (0xA000:0000). */
-void debug_vga_indicator(int frame, int step) {
-    char far *vga = (char far *)0xA0000000L;
-    int i;
-    /* horizontal bar at row 0: length = frame mod 320, color 15 (white) */
-    for (i = 0; i < ((frame + 1) & 0xFF); i++) {
-        vga[i] = 15;
-    }
-    /* vertical bar at col 0: height = step * 4, color 10 (green) */
-    for (i = 0; i < step * 4 && i < 200; i++) {
-        vga[(i + 2) * 320] = 10;
-    }
-    /* Also mark page 1 (0xA000:8000) same way, color 14 (yellow) */
-    vga = (char far *)0xA0008000L;
-    for (i = 0; i < ((frame + 1) & 0xFF); i++) {
-        vga[i] = 14;
-    }
-    for (i = 0; i < step * 4 && i < 200; i++) {
-        vga[(i + 2) * 320] = 12;
-    }
-    /* no file write - just VGA */
-}

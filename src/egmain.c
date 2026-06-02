@@ -396,19 +396,10 @@ void sub_10720(void) {
     }
 
     if ((char)word_336E8 == 0 && word_336E8 != 0) {
-        TRACE_KEY(("COPYPROT check@frame %d: sig=%04x/%04x (want ca01/3b9a)", word_336E8, *(int far *)((char far *)commData - 4), *(int far *)((char far *)commData - 2)));
         if (*(int far *)((char far *)commData - 4) != (int)0xca01 ||
             *(int far *)((char far *)commData - 2) != 0x3b9a) {
-#ifdef DEBUG
-            /* Copy-protection signature is not set up in our reconstruction
-               (the startup protection-pass routine that writes 0x3b9aca01 to
-               commData-4 isn't reimplemented yet). Bypass the kill so the game
-               is playable for testing. Release build keeps the original check. */
-            TRACE_KEY(("COPYPROT FAIL @frame %d -> bypassed (DEBUG)", word_336E8));
-#else
             sub_11B37(1);
             exitCode = 0;
-#endif
         }
     }
 

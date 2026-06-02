@@ -3311,7 +3311,7 @@ loc_143C7:
     mov AX,0FFE8h
     push AX
     mov AX,word ptr [BP-2Ch]
-    sub AX,word ptr [_word_380CA]
+    sub AX,word ptr [_word_380CC]
     mov CL,06h
     sar AX,CL
     push AX
@@ -3553,7 +3553,7 @@ loc_1464F:
     mov AX,0FFE0h
     push AX
     mov AX,word ptr [BP-2Ch]
-    sub AX,word ptr [_word_380CA]
+    sub AX,word ptr [_word_380CC]
     mov CL,06h
     sar AX,CL
     push AX
