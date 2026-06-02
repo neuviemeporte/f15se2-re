@@ -329,8 +329,21 @@ void sub_13932(char *arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_
         if (*(uint8 *)&var_316 == 0) {
             sub_20658();
         }
+#ifdef DEBUG
+        {
+            unsigned long spins = 0;
+            while (byte_378EE != 0) {
+                if (++spins > 3000000UL) {
+                    TRACE_KEY(("13932: SPIN TIMEOUT - timer ISR not clearing 378EE"));
+                    byte_378EE = 0;
+                    break;
+                }
+            }
+        }
+#else
         while (byte_378EE != 0)
             ;
+#endif
         sub_10334(*(int *)(arg_0 + 4));
     }
     var_255 = 0;

@@ -100,10 +100,19 @@ int sub_15557(int arg_0) {
 
 // ==== seg000:0x55ab ====
 // something to do with view switching?
+#ifdef DEBUG
+extern unsigned int dbg_loc0a09_trips;
+#endif
 int sub_155AB() {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E;
 #ifdef DEBUG
     if (word_38FDC > 1) word_38FDC = 1; /* HACK: level-4 3D data traversal hangs */
+#endif
+#ifdef DEBUG
+    if ((word_336E8 & 0x1f) == 0)  /* periodic, every 32 frames, to keep runs smooth */
+        TRACE_KEY(("FRAME %d: alt(547)=%d alt(548)=%d head=%04x/%04x/%04x speed=%04x 38FDC=%d 3BECC=%d kv=%d",
+            word_336E8, word_380CE, word_380D0, word_380C8, word_380CA, word_380CC,
+            word_3A944, word_38FDC, word_3BECC, keyValue));
 #endif
     TRACE(("sub_155AB: enter"));
     dword_3B1FE = dword_3C01C = dword_3B7DA;
@@ -313,8 +322,18 @@ int sub_155AB() {
     }
     copySomeMem(word_330BC);
     *(uint8*)(&word_36B86) = 0;
-    TRACE(("sub_155AB: before sub_121CA"));
+#if defined(DEBUG) && defined(DISABLE_3D)
+    /* Skip the broken 3D world renderer: it hangs in loc_0BE7 on certain
+       geometry and draws garbage. Keeps the 2D parts (cockpit/HUD/radar)
+       rendering continuously so the rest of the game is usable/testable. */
+#else
     sub_121CA(-word_3C5AA, word_3BE94, word_3B4E4, dword_3B1FE, dword_3B4D4, (int32)word_3B4DE, 0, 0, 0x140, off_38334[0x10] + 1);
+#endif
+#ifdef DEBUG
+#if 0 /* disabled - VGA writes interfere */
+    debug_vga_indicator(word_336E8, 2);
+#endif
+#endif
     byte_3850E = 0;
     byte_3995A = word_36B86;
     if (keyValue == 0x41) {
@@ -338,7 +357,11 @@ int sub_155AB() {
         byte_3C5A0 = var_E;
     }
     gfx_flipPage();
-    // height of picture depending on whether view full or cockpit in the way?
+#ifdef DEBUG
+#if 0
+    debug_vga_indicator(word_336E8, 3);
+#endif
+#endif
     word_38126 = (word_3C09E == 0x13 || word_3C09A == 1 || word_330C2 == 0) ? 0xc8 : 0x61;
     TRACE(("sub_155AB: exit"));
 }

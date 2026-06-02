@@ -209,14 +209,17 @@ EGAME_VRF_TGTEP := [558bec83ec??c746]
 # egame.exe debug build
 EGAME_DEBUG := $(DEBUGDIR)/egame.exe
 # Disable /Zi globally for debug egame to keep _TEXT under 64K
-$(EGAME_DEBUG): MSC_CFLAGS := /Gs /Id:\f15-se2 /DDEBUG
+# DBG_DEFS: extra debug-only defines. /DDISABLE_3D skips the broken 3D world
+# renderer (see sub_155AB) so 2D/HUD/radar render continuously. Remove to re-enable 3D.
+DBG_DEFS ?= /DDISABLE_3D
+$(EGAME_DEBUG): MSC_CFLAGS := /Gs /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
 EGAME_DBG_OBJ := $(call asmobj,$(DEBUGDIR),$(EGAME_ASM)) $(call cobj,$(DEBUGDIR),$(EGAME_SRC)) $(DEBUGDIR)/dbglite.obj $(DEBUGDIR)/dbgio.obj
 $(EGAME_DBG_OBJ): $(EGAME_BASEHDR)
 $(EGAME_DBG_OBJ): ASMFLAGS += -DDEBUG
 # Compile largest C files with /Os in debug to stay under 64K _TEXT limit
-$(DEBUGDIR)/eghud.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG
-$(DEBUGDIR)/egweap.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG
-$(DEBUGDIR)/egmain.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG
+$(DEBUGDIR)/eghud.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
+$(DEBUGDIR)/egweap.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
+$(DEBUGDIR)/egmain.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
 $(EGAME_DEBUG): $(DEBUGDIR) $(EGAME_DBG_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 	@if [ -n "$(F15_TESTDIR)" ]; then \

@@ -10,8 +10,9 @@ void my_fartrace(const char FAR *msg);
 void dumpbuf(const char *filename, const char far *buf, uint32 size);
 void changeext(char *filename, const char *ext);
 void log_close();
-#define TRACE(x) my_trace x
+#define TRACE(x) do { } while(0)
 #define TRACE_KEY(x) my_trace x
+void debug_vga_indicator(int frame, int step);
 #else
 #define TRACE(x)
 #define TRACE_KEY(x)

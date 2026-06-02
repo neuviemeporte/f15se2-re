@@ -43,7 +43,20 @@ void sub_12278(int arg_0) {
     uint8 var_2;
     if (arg_0 > 0) {
         var_2 = (uint8)arg_0 + byte_3790C[0];
+#ifdef DEBUG
+        {
+            unsigned long spins = 0;
+            uint8 start = byte_3790C[0];
+            while (var_2 != byte_3790C[0]) {
+                if (++spins > 3000000UL) {
+                    TRACE_KEY(("12278: SPIN TIMEOUT arg=%d want=%d cur=%d start=%d (ISR frozen?)", arg_0, (int)var_2, (int)byte_3790C[0], (int)start));
+                    break;
+                }
+            }
+        }
+#else
         while (var_2 != byte_3790C[0]) {}
+#endif
     }
 }
 

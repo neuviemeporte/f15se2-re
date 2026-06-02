@@ -1,5 +1,8 @@
 .MODEL large
 
+IFDEF DEBUG
+EXTRN _dbg_loc0a09_trips:word
+ENDIF
 EXTRN gfx_dirtyRect:far
 EXTRN gfx_dirtyRect2:far
 EXTRN gfx_drawLine:far
@@ -1311,8 +1314,8 @@ MOV byte ptr [_var_217], AL
     SUB BP,[_var_218]
     MOV [_var_202],BP
     CALL loc_0908
-    JNZ short loc_0904
-    CALL loc_0A09
+        JNZ short loc_0904
+        CALL loc_0A09
     CMP SI,BYTE PTR +0x1
     JNZ short loc_08E0
     CMP WORD PTR [_word_38FDC],BYTE PTR +0x2
@@ -1461,6 +1464,11 @@ sub_20188 endp
 
 sub_20289 proc near
 loc_0A09:
+IFDEF DEBUG
+    push di
+    xor di, di
+ENDIF
+loc_0A09b:
     MOV AL,[ES:SI]
     TEST AL,80h
     JZ short loc_0A31
@@ -1473,11 +1481,28 @@ loc_0A09:
     CMP AX,[BX+18FCh]
     JNG short loc_0A2C
     ADD SI,[ES:SI+1h]
-    JMP short loc_0A09
+IFDEF DEBUG
+    inc di
+    cmp di, 4000h
+    jae short loc_0A30
+ENDIF
+    JMP short loc_0A09b
 loc_0A2C:
     ADD SI,BYTE PTR +0x3
-    JMP short loc_0A09
+IFDEF DEBUG
+    inc di
+    cmp di, 4000h
+    jae short loc_0A30
+ENDIF
+    JMP short loc_0A09b
+IFDEF DEBUG
+loc_0A30:
+    inc word ptr [_dbg_loc0a09_trips]
+ENDIF
 loc_0A31:
+IFDEF DEBUG
+    pop di
+ENDIF
     RET
 sub_20289 endp
 

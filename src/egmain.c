@@ -21,11 +21,20 @@ int main(void) {
     TRACE(("egame main: start, about to read commPtr"));
     FP_SEG(commPtr) = SEG_LOWMEM;
     FP_OFF(commPtr) = OFF_IACA_START;
+    /* commData is normalized to (commSeg-1):0x10, which is the SAME physical
+       address as commSeg:0 for every field access, but makes the copy-prot
+       reads at commData-4 / commData-2 alias the COMM MCB magic that f15.com
+       writes at (commSeg-1):0x0C / 0x0E (see f15.c). With FP_OFF=0 those reads
+       wrapped to commSeg:0xFFFC (clobbered during init) and the check failed. */
     FP_SEG(commData) = *commPtr;
-    FP_OFF(commData) = 0;
+    FP_OFF(commData) = 0x10;
     FP_SEG(gameData) = *commPtr;
     FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
     TRACE(("egame main: commData=%04x:%04x gameData=%04x:%04x", FP_SEG(commData), FP_OFF(commData), FP_SEG(gameData), FP_OFF(gameData)));
+#ifdef DEBUG
+    TRACE_KEY(("SIG@startup: commData-4/-2 (=MCB magic now) = %04x/%04x",
+        *(int far *)((char far *)commData - 4), *(int far *)((char far *)commData - 2)));
+#endif
     TRACE(("egame main: setup overlays"));
     setupOverlaySlots(commData->gfxOvlAddr);
     setupOverlaySlots(commData->miscOvlAddr);
@@ -69,7 +78,7 @@ int main(void) {
         regs.h.al = 3;
         int86(IRQ_VIDEO, &regs, &regs);
     }
-    TRACE(("egame main: exiting with code %d", exitCode));
+    TRACE_KEY(("egame main: EXITING with code %d, frame=%d", exitCode, word_336E8));
     exit(exitCode);
 }
 
@@ -187,6 +196,16 @@ void sub_10720(void) {
     int d;
     int e;
     TRACE(("sub_10720: enter, word_3BECC=%d", word_3BECC));
+#ifdef DEBUG
+    {
+        static int sig_was_ok = 1;
+        int s4 = *(int far *)((char far *)commData - 4);
+        if (sig_was_ok && (unsigned)s4 != 0xca01) {
+            sig_was_ok = 0;
+            TRACE_KEY(("SIG CORRUPTED at frame %d: commData-4(MCB)=%04x", word_336E8, s4));
+        }
+    }
+#endif
 
     word_3BEC0 = (int)((dword_3B7DA + 0x10L) >> 5);
     word_3BED0 = -((int)((dword_3B7F8 + 0x10L) >> 5) - 0x8000);
@@ -370,12 +389,19 @@ void sub_10720(void) {
     }
 
     if ((char)word_336E8 == 0 && word_336E8 != 0) {
-        TRACE(("sub_10720: copy-prot check, 336E8=%d sig=%04x/%04x", word_336E8, *(int far *)((char far *)commData - 4), *(int far *)((char far *)commData - 2)));
+        TRACE_KEY(("COPYPROT check@frame %d: sig=%04x/%04x (want ca01/3b9a)", word_336E8, *(int far *)((char far *)commData - 4), *(int far *)((char far *)commData - 2)));
         if (*(int far *)((char far *)commData - 4) != (int)0xca01 ||
             *(int far *)((char far *)commData - 2) != 0x3b9a) {
-            TRACE(("sub_10720: COPY PROT EXIT!"));
+#ifdef DEBUG
+            /* Copy-protection signature is not set up in our reconstruction
+               (the startup protection-pass routine that writes 0x3b9aca01 to
+               commData-4 isn't reimplemented yet). Bypass the kill so the game
+               is playable for testing. Release build keeps the original check. */
+            TRACE_KEY(("COPYPROT FAIL @frame %d -> bypassed (DEBUG)", word_336E8));
+#else
             sub_11B37(1);
             exitCode = 0;
+#endif
         }
     }
 
@@ -554,7 +580,7 @@ skip_autopilot:
         if (var_547 == 0) {
             if ((gameData->unk4 != 0 || word_3BF90 > 4 || word_33098 == 0) &&
                 word_3BE3C == 0 && word_3AA5A > 0x32) {
-                TRACE(("sub_10720: CRASH EXIT - altitude zero!"));
+                TRACE_KEY(("DEATH: altitude-zero crash, frame=%d var547=%d 3AA5A=%d", word_336E8, var_547, word_3AA5A));
                 makeSound(0, 2);
                 sub_19E44(0);
                 sub_19E5D(0, 0, 0x13f, 199);
@@ -567,6 +593,7 @@ skip_autopilot:
     }
 
     if (byte_3995A != 0 && (keyValue & 0x80) == 0) {
+        TRACE_KEY(("DEATH-path collision: byte_3995A=%d unk4=%d var548=%d frame=%d", byte_3995A, gameData->unk4, var_548, word_336E8));
         if (gameData->unk4 != 0 && var_548 != 0) {
             makeSound(0, 2);
             gfx_waitRetrace();
@@ -808,7 +835,7 @@ void sub_11A88(int param_1) {
 
 // ==== seg000:0x1b37 routine_148 ====
 void sub_11B37(int arg_0) {
-    TRACE(("sub_11B37: arg_0=%d, word_3BE3C=%d", arg_0, word_3BE3C));
+    TRACE_KEY(("DEATH/END sub_11B37: arg_0=%d, word_3BE3C=%d, frame=%d", arg_0, word_3BE3C, word_336E8));
     if (word_3BE3C != 0 && arg_0 != 0) {
         return;
     }

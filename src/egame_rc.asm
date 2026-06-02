@@ -32858,6 +32858,11 @@ _size3d3_7 dw ?
     db ?
     db ?
 
+IFDEF DEBUG
+PUBLIC _dbg_loc0a09_trips
+_dbg_loc0a09_trips dw ?
+ENDIF
+
 __bss_end label byte
 
 
