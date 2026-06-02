@@ -207,9 +207,9 @@ int sub_155AB() {
             }
             else {
                 // .... word_3C02E & 0x1f
-                dword_3C01C = stru_3B208[word_3C02E & 0x1f].field_2;
-                dword_3C024 = stru_3B208[word_3C02E & 0x1f].field_6;
-                word_3C02C = stru_3B208[word_3C02E & 0x1f].field_0;
+                dword_3C01C = stru_3B202[word_3C02E & 0x1f].field_2;
+                dword_3C024 = stru_3B202[word_3C02E & 0x1f].field_6;
+                word_3C02C = stru_3B202[word_3C02E & 0x1f].field_0;
                 var_2 = 5;
             }
         }

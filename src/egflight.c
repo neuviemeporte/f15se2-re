@@ -87,34 +87,34 @@ int sub_1783A(int arg_0, int arg_2)
 {
     int p;
 
-    p = *(int16 *)&stru_3B208[arg_0].field_10[6];
-    *(int16 *)&stru_3B208[arg_0].field_10[0] = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
+    p = *(int16 *)&stru_3B202[arg_0].field_10[6];
+    *(int16 *)&stru_3B202[arg_0].field_10[0] = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
     if (stru_3AA5E[arg_2].field_6 & 0x200) {
-        *(int16 *)((char *)&stru_3B208[arg_0] - 4) = word_3AFA8 * 3 + stru_3AA5E[arg_2].field_0;
-        *(int16 *)((char *)&stru_3B208[arg_0] - 2) = stru_3AA5E[arg_2].field_2 - word_3AFA8 * 12;
-        stru_3B208[arg_0].field_0 = 0x8c;
-        *(int16 *)&stru_3B208[arg_0].field_10[10] = 100;
-        *(uint8 *)((char *)&stru_3B208[arg_0].field_10[1]) += 0xfc;
+        stru_3B202[arg_0].posX = word_3AFA8 * 3 + stru_3AA5E[arg_2].field_0;
+        stru_3B202[arg_0].posY = stru_3AA5E[arg_2].field_2 - word_3AFA8 * 12;
+        stru_3B202[arg_0].field_0 = 0x8c;
+        *(int16 *)&stru_3B202[arg_0].field_10[10] = 100;
+        *(uint8 *)((char *)&stru_3B202[arg_0].field_10[1]) += 0xfc;
     } else {
-        *(int16 *)((char *)&stru_3B208[arg_0] - 4) = stru_3AA5E[arg_2].field_0;
-        *(int16 *)((char *)&stru_3B208[arg_0] - 2) = 0x1e * word_3AFA8 + stru_3AA5E[arg_2].field_2;
-        stru_3B208[arg_0].field_0 = 0x0c;
-        *(int16 *)&stru_3B208[arg_0].field_10[10] = 10;
+        stru_3B202[arg_0].posX = stru_3AA5E[arg_2].field_0;
+        stru_3B202[arg_0].posY = 0x1e * word_3AFA8 + stru_3AA5E[arg_2].field_2;
+        stru_3B202[arg_0].field_0 = 0x0c;
+        *(int16 *)&stru_3B202[arg_0].field_10[10] = 10;
     }
-    stru_3B208[arg_0].field_2 = (long)(uint16)*(int16 *)((char *)&stru_3B208[arg_0] - 4) << 5;
-    stru_3B208[arg_0].field_6 = (long)(uint16)*(int16 *)((char *)&stru_3B208[arg_0] - 2) << 5;
-    *(int16 *)&stru_3B208[arg_0].field_10[2] = 0;
-    *(int16 *)&stru_3B208[arg_0].field_10[4] = 0;
-    *(uint16 *)&stru_3B208[arg_0].field_10[8] |= 0x403;
-    *(int16 *)((char *)&stru_3B208[arg_0] - 6) = arg_2;
-    *(int16 *)&stru_3B208[arg_0].field_10[12] = (int16)(((long)*(int16 *)&aFlogger[p * 32 + 12] << 11) * (long)word_330C4 / (long)*(int16 *)&aFlogger[p * 32 + 10]);
-    *(int16 *)&stru_3B208[arg_0].field_10[16] = sub_19A4D(stru_3AA5E[arg_2].field_0, stru_3AA5E[arg_2].field_2);
+    stru_3B202[arg_0].field_2 = (long)(uint16)stru_3B202[arg_0].posX << 5;
+    stru_3B202[arg_0].field_6 = (long)(uint16)stru_3B202[arg_0].posY << 5;
+    *(int16 *)&stru_3B202[arg_0].field_10[2] = 0;
+    *(int16 *)&stru_3B202[arg_0].field_10[4] = 0;
+    *(uint16 *)&stru_3B202[arg_0].field_10[8] |= 0x403;
+    stru_3B202[arg_0].objType = arg_2;
+    *(int16 *)&stru_3B202[arg_0].field_10[12] = (int16)(((long)*(int16 *)&aFlogger[p * 32 + 12] << 11) * (long)word_330C4 / (long)*(int16 *)&aFlogger[p * 32 + 10]);
+    *(int16 *)&stru_3B202[arg_0].field_10[16] = sub_19A4D(stru_3AA5E[arg_2].field_0, stru_3AA5E[arg_2].field_2);
     if (word_336FC == -1) {
-        stru_3B208[arg_0].field_10[9] &= 0xfe;
+        stru_3B202[arg_0].field_10[9] &= 0xfe;
     }
     placeString(arg_2);
     strcat(strBuf, aDash);
-    strcat(strBuf, (char *)(*(int16 *)&stru_3B208[arg_0].field_10[6] * 32 + (int)aMig23));
+    strcat(strBuf, (char *)(*(int16 *)&stru_3B202[arg_0].field_10[6] * 32 + (int)aMig23));
     strcat(strBuf, aTakingOff);
     if (arg_0 < word_3C046 - 4) {
         tempStrcpy(strBuf);
@@ -166,28 +166,28 @@ void sub_186F8(int param_1)
 {
     int p;
 
-    if (!(stru_3B208[param_1].field_10[8] & 0x20)) {
-        *(int16 *)&aFlogger[*(int16 *)&stru_3B208[param_1].field_10[6] * 32 + 22] += 1;
-        if (*(uint16 *)&stru_3B208[param_1].field_10[8] & 0x800) {
+    if (!(stru_3B202[param_1].field_10[8] & 0x20)) {
+        *(int16 *)&aFlogger[*(int16 *)&stru_3B202[param_1].field_10[6] * 32 + 22] += 1;
+        if (*(uint16 *)&stru_3B202[param_1].field_10[8] & 0x800) {
             word_3C044--;
         }
         if (param_1 == word_336FC) {
             word_336FC = -1;
         }
-        stru_3B208[param_1].field_10[8] |= 0x20;
+        stru_3B202[param_1].field_10[8] |= 0x20;
         word_336F6 = -1;
-        word_3BEC2 = *(int16 *)((char *)&stru_3B208[param_1] - 4);
-        word_3BED6 = *(int16 *)((char *)&stru_3B208[param_1] - 2);
-        word_3BFA2 = stru_3B208[param_1].field_0;
+        word_3BEC2 = stru_3B202[param_1].posX;
+        word_3BED6 = stru_3B202[param_1].posY;
+        word_3BFA2 = stru_3B202[param_1].field_0;
         word_3B4DC = 0x80;
         p = 3;
-        sub_11D10(p, (*(uint16 *)&stru_3B208[param_1].field_10[8] & 0x4000 ? 0x80 : 0) + *(int16 *)&stru_3B208[param_1].field_10[6]);
-        if (*(int16 *)&stru_3B208[param_1].field_10[10] != 0) goto done;
-        *(uint16 *)&stru_3B208[param_1].field_10[8] &= 0x1c1;
+        sub_11D10(p, (*(uint16 *)&stru_3B202[param_1].field_10[8] & 0x4000 ? 0x80 : 0) + *(int16 *)&stru_3B202[param_1].field_10[6]);
+        if (*(int16 *)&stru_3B202[param_1].field_10[10] != 0) goto done;
+        *(uint16 *)&stru_3B202[param_1].field_10[8] &= 0x1c1;
     done:
         ;
     }
-    strcpy(strBuf, (char *)(*(int16 *)&stru_3B208[param_1].field_10[6] * 32 + (int)aMig23));
+    strcpy(strBuf, (char *)(*(int16 *)&stru_3B202[param_1].field_10[6] * 32 + (int)aMig23));
     makeSound(2, 2);
     if (word_3C45C == 1 && param_1 == word_336F2) {
         word_39604 = 1;

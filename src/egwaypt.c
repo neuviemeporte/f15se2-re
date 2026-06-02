@@ -196,7 +196,7 @@ int sub_1C7A2(int arg_0) {
 
 // ==== seg000:0xc7c6 ====
 int sub_1C7C6(int arg_0) {
-    return sub_1C7EA(*(int *)&unk_3B202[2 + arg_0 * 36], *(int *)&unk_3B202[4 + arg_0 * 36], 0);
+    return sub_1C7EA(stru_3B202[arg_0].posX, stru_3B202[arg_0].posY, 0);
 }
 
 // ==== seg000:0xc7ea ====

@@ -488,7 +488,7 @@ PUBLIC _word_3C00C
 PUBLIC _word_38FFA
 PUBLIC _word_3AFA8
 PUBLIC _aTakingOff
-PUBLIC _unk_3B202
+PUBLIC _stru_3B202
 PUBLIC _byte_3AFAC
 PUBLIC _word_3401A
 PUBLIC _openFile
@@ -5587,7 +5587,7 @@ LAB_1000_68fa:
     imul word ptr [BP + -22h]
     mov BX,AX
     mov AX,word ptr [BP + -10h]
-    mov word ptr [BX + offset _unk_3B202],AX
+    mov word ptr [BX + offset _stru_3B202],AX
     mov AX,word ptr [word_330B8]
     mov CL,0ch
     shl AX,CL
@@ -5623,7 +5623,7 @@ LAB_1000_69bf:
     mov AX,24h
     imul word ptr [BP + -22h]
     mov BX,AX
-    mov AX,word ptr [BX + offset _unk_3B202]
+    mov AX,word ptr [BX + offset _stru_3B202]
     mov word ptr [BP + -10h],AX
     mov SI,AX
     mov CL,4h
@@ -5650,7 +5650,7 @@ LAB_1000_69fe:
     mov AX,24h
     imul word ptr [BP + -22h]
     mov SI,AX
-    mov DI,word ptr [SI + offset _unk_3B202]
+    mov DI,word ptr [SI + offset _stru_3B202]
     mov CL,4h
     shl DI,CL
     mov AX,word ptr [DI + offset _stru_3AA5E]
@@ -5684,7 +5684,7 @@ LAB_1000_6a56:
     mov SI,AX
     mov AX,500h
     imul word ptr [word_3AFA8]
-    mov BX,word ptr [SI + offset _unk_3B202]
+    mov BX,word ptr [SI + offset _stru_3B202]
     mov CL,4h
     shl BX,CL
     mov CX,word ptr [BX + offset _stru_3AA5E + 2]
@@ -6531,7 +6531,7 @@ LAB_1000_730e:
     imul word ptr [BP + -22h]
     mov BX,AX
     mov AX,word ptr [BP + -26h]
-    mov word ptr [BX + offset _unk_3B202],AX
+    mov word ptr [BX + offset _stru_3B202],AX
     mov AX,word ptr [BP + -3ch]
     mov word ptr [BP + -1ch],AX
 LAB_1000_7361:
@@ -30241,7 +30241,7 @@ _word_3B15E equ word_3B15E
     db ?
 _buf3d3_3 db 96h dup(?)
 _dword_3B1FE dd ?
-_unk_3B202 db ?
+_stru_3B202 db ?
     db ?
 word_3B204 dw ?
 word_3B206 dw ?

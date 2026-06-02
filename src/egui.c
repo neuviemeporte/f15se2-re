@@ -61,8 +61,8 @@ int sub_1A25C(char param_1)
         f += 2;
     }
     for (f = 0; f < word_3C046; f++) {
-        if ((stru_3B208[f].field_10[8] & 2) && *(int16 *)&stru_3B208[f].field_10[10] != 0) {
-            sub_1A7C4(*(int16 *)((char *)&stru_3B208[f] - 4), *(int16 *)((char *)&stru_3B208[f] - 2));
+        if ((stru_3B202[f].field_10[8] & 2) && *(int16 *)&stru_3B202[f].field_10[10] != 0) {
+            sub_1A7C4(stru_3B202[f].posX, stru_3B202[f].posY);
             if (word_3C016 != -1) {
                 if (word_3C45C == 1 && f == word_336F2) {
                     sub_1A740(var_279, var_282, 7);
@@ -70,8 +70,8 @@ int sub_1A25C(char param_1)
                 if (word_336F8 > 0 && f == 0xffff - word_3BE96) {
                     sub_1A740(var_279, var_282, word_38F72);
                 }
-                a = *(int16 *)&stru_3B208[f].field_10[0] - var_542 + 0x800;
-                d = stru_3B208[f].field_0 - var_547;
+                a = *(int16 *)&stru_3B202[f].field_10[0] - var_542 + 0x800;
+                d = stru_3B202[f].field_0 - var_547;
                 c = 0;
                 if (d < -1000) {
                     c = 1;

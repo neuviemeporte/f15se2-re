@@ -279,14 +279,14 @@ void sub_10720(void) {
             if ((*(int far *)((char far *)gameData + 0x32) | *(int far *)((char far *)gameData + 0x34)) == 0 && gameData->theater != 6) {
                 for (d = 0; d < word_3C046 - 4; d++) {
                     if ((d & 1) == 0) {
-                        *(char *)((char *)&stru_3B208[d] + 18) |= 2;
-                        stru_3B208[d].field_0 = 0x898;
-                        *(int *)((char *)&stru_3B208[d] + 20) = 300;
-                        *(int *)((char *)&stru_3B208[d] - 4) = d * 12 + word_3BEC0 - 0x24;
-                        *(int *)((char *)&stru_3B208[d] - 2) = word_3BED0 - (d * 0x20 + 0x96) * word_3AFA8;
-                        stru_3B208[d].field_2 = (long)*(int *)((char *)&stru_3B208[d] - 4) << 5;
-                        stru_3B208[d].field_6 = (long)*(int *)((char *)&stru_3B208[d] - 2) << 5;
-                        *(int *)((char *)&stru_3B208[d] + 10) = var_542 + (int)0x8000;
+                        stru_3B202[d].field_10[8] |= 2;
+                        stru_3B202[d].field_0 = 0x898;
+                        *(int *)&stru_3B202[d].field_10[10] = 300;
+                        stru_3B202[d].posX = d * 12 + word_3BEC0 - 0x24;
+                        stru_3B202[d].posY = word_3BED0 - (d * 0x20 + 0x96) * word_3AFA8;
+                        stru_3B202[d].field_2 = (long)stru_3B202[d].posX << 5;
+                        stru_3B202[d].field_6 = (long)stru_3B202[d].posY << 5;
+                        *(int *)&stru_3B202[d].field_10[0] = var_542 + (int)0x8000;
                     }
                 }
             }
@@ -408,43 +408,43 @@ void sub_10720(void) {
     if (word_33700 != word_3C16A && (stru_3AA5E[word_3C16A].field_6 & 0x800) == 0) {
         for (d = 1; d <= 2; d++) {
             e = word_3C046 - d;
-            *(char *)((char *)&stru_3B208[e] + 18) &= ~2;
+            stru_3B202[e].field_10[8] &= ~2;
             c = stru_3AA5E[word_3C16A].field_6;
             if (c & 0x400) {
-                *(int *)((char *)&stru_3B208[e] + 16) = 0x0d;
+                *(int *)&stru_3B202[e].field_10[6] = 0x0d;
             } else {
-                *(int *)((char *)&stru_3B208[e] + 16) = 0;
+                *(int *)&stru_3B202[e].field_10[6] = 0;
             }
             if (c & 0x100) {
-                *(int *)((char *)&stru_3B208[e] + 16) = 0x12;
+                *(int *)&stru_3B202[e].field_10[6] = 0x12;
             }
-            *(int *)((char *)unk_3B202 + (word_3C046 - d) * 36) = word_3C16A;
+            stru_3B202[word_3C046 - d].objType = word_3C16A;
         }
         for (d = 3; d <= 4; d++) {
             e = word_3C046 - d;
-            *(char *)((char *)&stru_3B208[e] + 18) |= 2;
-            *(int *)((char *)&stru_3B208[e] - 4) = stru_3AA5E[word_3C16A].field_0;
-            *(int *)((char *)&stru_3B208[e] - 2) = stru_3AA5E[word_3C16A].field_2;
+            stru_3B202[e].field_10[8] |= 2;
+            stru_3B202[e].posX = stru_3AA5E[word_3C16A].field_0;
+            stru_3B202[e].posY = stru_3AA5E[word_3C16A].field_2;
             if ((stru_3AA5E[word_3C16A].field_6 & 0x200) != 0) {
-                *(int *)((char *)&stru_3B208[e] - 4) += word_3AFA8 * 5;
-                *(int *)((char *)&stru_3B208[e] - 2) += (d & 1) * word_3AFA8 * 0x10;
-                stru_3B208[e].field_0 = 0x84;
+                stru_3B202[e].posX += word_3AFA8 * 5;
+                stru_3B202[e].posY += (d & 1) * word_3AFA8 * 0x10;
+                stru_3B202[e].field_0 = 0x84;
             } else {
-                *(int *)((char *)&stru_3B208[e] - 4) += 10;
-                *(int *)((char *)&stru_3B208[e] - 2) += (d + word_3C16A & 3) * 0x10;
-                stru_3B208[e].field_0 = 4;
+                stru_3B202[e].posX += 10;
+                stru_3B202[e].posY += (d + word_3C16A & 3) * 0x10;
+                stru_3B202[e].field_0 = 4;
             }
-            stru_3B208[e].field_2 = (long)*(int *)((char *)&stru_3B208[e] - 4) << 5;
-            stru_3B208[e].field_6 = (long)*(int *)((char *)&stru_3B208[e] - 2) << 5;
-            *(int *)((char *)&stru_3B208[e] + 10) = -sub_1D200(0x4000);
+            stru_3B202[e].field_2 = (long)stru_3B202[e].posX << 5;
+            stru_3B202[e].field_6 = (long)stru_3B202[e].posY << 5;
+            *(int *)&stru_3B202[e].field_10[0] = -sub_1D200(0x4000);
             c = stru_3AA5E[word_3C16A].field_6;
             if (c & 0x400) {
-                *(int *)((char *)&stru_3B208[e] + 16) = 8;
+                *(int *)&stru_3B202[e].field_10[6] = 8;
             } else {
-                *(int *)((char *)&stru_3B208[e] + 16) = 0x0b;
+                *(int *)&stru_3B202[e].field_10[6] = 0x0b;
             }
             if (c & 0x100) {
-                *(int *)((char *)&stru_3B208[e] + 16) = 9;
+                *(int *)&stru_3B202[e].field_10[6] = 9;
             }
         }
     }
@@ -456,12 +456,12 @@ void sub_10720(void) {
             } else {
                 e = word_3C046 - 2;
             }
-            if ((*(char *)((char *)&stru_3B208[e] + 18) & 2) == 0) {
+            if ((stru_3B202[e].field_10[8] & 2) == 0) {
                 sub_1783A(e, word_3C16A);
-                *(int *)((char *)&stru_3B208[e] + 18) = 0x207;
-                stru_3B208[e].field_0 = 1000;
-                *(int *)((char *)&stru_3B208[e] + 20) = 0xfa;
-                stru_3B208[e].field_6 += (long)word_3AFA8 * 0x3000;
+                *(int *)&stru_3B202[e].field_10[8] = 0x207;
+                stru_3B202[e].field_0 = 1000;
+                *(int *)&stru_3B202[e].field_10[10] = 0xfa;
+                stru_3B202[e].field_6 += (long)word_3AFA8 * 0x3000;
             }
         }
         word_3C014 = word_3BFA0;
@@ -651,8 +651,8 @@ skip_autopilot:
             }
         }
         for (d = 0; d < word_3C046; d++) {
-            if (*(int *)((char *)&stru_3B208[d] + 28) > 0xc0 &&
-                (*(char *)((char *)&stru_3B208[d] + 18) & 2) != 0) {
+            if (*(int *)&stru_3B202[d].field_10[18] > 0xc0 &&
+                (stru_3B202[d].field_10[8] & 2) != 0) {
                 word_3C09C++;
                 break;
             }
@@ -780,7 +780,7 @@ void sub_118F6(void) {
 int sub_11971() {
     int p;
     for (p = 0; p < word_3C046; p++) {
-        *(int *)((char *)&stru_3B208[p] + 26) = -1;
+        *(int *)&stru_3B202[p].field_10[16] = -1;
     }
     word_336E6 = -1;
 }
@@ -890,10 +890,10 @@ void sub_11C21(void) {
     case 1:
         do {
             p = sub_1D200(word_3C046);
-        } while (*(int16 *)&stru_3B208[p].field_10[10] == 0);
+        } while (*(int16 *)&stru_3B202[p].field_10[10] == 0);
         word_3C02E = p + 0x20;
         keyValue = 0x89;
-        strcpy(strBuf, (char *)(*(int16 *)&stru_3B208[p].field_10[6] * 32 + (int)aMig23)); /* 0x2c8: aircraft name table (32-byte records) */
+        strcpy(strBuf, (char *)(*(int16 *)&stru_3B202[p].field_10[6] * 32 + (int)aMig23)); /* 0x2c8: aircraft name table (32-byte records) */
         strcat(strBuf, aOnPatrol);
         tempStrcpy(strBuf);
         break;
@@ -1000,7 +1000,7 @@ int moveStuff() {
     moveNearFar(&word_3C69E, 2);
     moveNearFar(&word_3AA5C, word_3BED2 * 16);
     moveNearFar(&word_3C046, 2);
-    moveNearFar(unk_3B202, word_3C046 * 0x24);
+    moveNearFar(stru_3B202, word_3C046 * 0x24);
     moveNearFar(byte_3BFA4, 0x64);
     moveNearFar(byte_3BED8, 0x64);
     moveNearFar(byte_3C16E, 0x2ee);
