@@ -16,7 +16,7 @@
 
 // ==== seg000:0xc1b9 ====
 
-void drawTargetBox(int arg_0, int arg_2, int arg_4, int arg_6) {
+void drawTargetBox(int centerX, int centerY, int size, int mode) {
     int p;
     int a;
     int b;
@@ -27,25 +27,25 @@ void drawTargetBox(int arg_0, int arg_2, int arg_4, int arg_6) {
         return;
     }
     if (var_456 != 0) {
-        arg_4 >>= 1;
+        size >>= 1;
     }
-    p = arg_4 - (arg_4 >> 2);
-    c = arg_0 + arg_4;
-    a = arg_0 - arg_4;
-    d = arg_2 + p;
-    b = arg_2 - p;
-    if (arg_6 == 0) {
+    p = size - (size >> 2);
+    c = centerX + size;
+    a = centerX - size;
+    d = centerY + p;
+    b = centerY - p;
+    if (mode == 0) {
         drawHudViewLine(a, b, a, d);
         drawHudViewLine(a, d, c, d);
         drawHudViewLine(c, d, c, b);
         drawHudViewLine(c, b, a, b);
     } else {
-        drawHudViewLine(arg_0, b, c, arg_2 - (p >> 1));
-        drawHudViewLine(c, arg_2 - (p >> 1), c, arg_2 + (p >> 1));
-        drawHudViewLine(c, (p >> 1) + arg_2, arg_0, d);
-        drawHudViewLine(arg_0, d, a, (p >> 1) + arg_2);
-        drawHudViewLine(a, arg_2 + (p >> 1), a, arg_2 - (p >> 1));
-        drawHudViewLine(a, arg_2 - (p >> 1), arg_0, b);
+        drawHudViewLine(centerX, b, c, centerY - (p >> 1));
+        drawHudViewLine(c, centerY - (p >> 1), c, centerY + (p >> 1));
+        drawHudViewLine(c, (p >> 1) + centerY, centerX, d);
+        drawHudViewLine(centerX, d, a, (p >> 1) + centerY);
+        drawHudViewLine(a, centerY + (p >> 1), a, centerY - (p >> 1));
+        drawHudViewLine(a, centerY - (p >> 1), centerX, b);
     }
 }
 
@@ -66,23 +66,23 @@ void drawMissileLock(void) {
 }
 
 // ==== seg000:0xc371 ====
-void drawTargetLabel(char *arg_0, int arg_2, int arg_4) {
+void drawTargetLabel(char *text, int color, int size) {
     if (var_279 == -1) {
         return;
     }
-    setDrawColor(arg_2);
-    if (arg_4 < var_279 && 0x13f - arg_4 > var_279 &&
-        arg_4 < var_282 && 0x58 - arg_4 > var_282) {
-        drawTargetBox(var_279, var_282, arg_4, 1);
+    setDrawColor(color);
+    if (size < var_279 && 0x13f - size > var_279 &&
+        size < var_282 && 0x58 - size > var_282) {
+        drawTargetBox(var_279, var_282, size, 1);
     }
     if (var_279 > 0x14 && var_279 < 0x118 &&
         var_282 > 0 && var_282 < 0x52) {
-        draw2Strings(arg_0, var_279 - (int)strlen(arg_0) * 2, var_282 + 5, word_38F72);
+        draw2Strings(text, var_279 - (int)strlen(text) * 2, var_282 + 5, word_38F72);
     }
 }
 
 // ==== seg000:0xc40b ====
-void buildRangeString(int param_1) {
+void buildRangeString(int rangeRaw) {
     int p;
     int a;
     int b;
@@ -90,14 +90,14 @@ void buildRangeString(int param_1) {
     int d;
 
     strcpy(strBuf, aRange);
-    strcat(strBuf, itoa(param_1 >> 6, unk_3C030, 10));
+    strcat(strBuf, itoa(rangeRaw >> 6, unk_3C030, 10));
     strcat(strBuf, aDot);
-    strcat(strBuf, itoa((param_1 & 0x3f) * 2 / 13, unk_3C030, 10));
+    strcat(strBuf, itoa((rangeRaw & 0x3f) * 2 / 13, unk_3C030, 10));
     strcat(strBuf, aKm);
 }
 
 // ==== seg000:0xc488 ====
-void projectWorldToHud(int param_1, int param_2, int param_3) {
+void projectWorldToHud(int worldX, int worldY, int worldZ) {
     int p;
     long a;
     int c;
@@ -105,9 +105,9 @@ void projectWorldToHud(int param_1, int param_2, int param_3) {
     int f;
     long g;
 
-    p = word_3BEC0 - param_1;
-    c = param_2 - word_3BED0;
-    f = (param_3 - var_547) >> 5;
+    p = word_3BEC0 - worldX;
+    c = worldY - word_3BED0;
+    f = (worldZ - var_547) >> 5;
 
     if (keyValue & 0x80) {
         p -= (int)((dword_3B7DA - dword_3B1FE) >> 5);
@@ -152,12 +152,12 @@ void projectWorldToHud(int param_1, int param_2, int param_3) {
 }
 
 // ==== seg000:0xc661 ====
-long rotateVectorComponent(int param_1, int param_2, int param_3, int param_4) {
+long rotateVectorComponent(int axis, int vecX, int vecY, int vecZ) {
     long p;
 
-    p = (long)fixedMulQ14(unk_3A948[param_1], param_2);
-    p += (long)fixedMulQ14(unk_3A948[3 + param_1], param_4);
-    p += (long)fixedMulQ14(unk_3A948[6 + param_1], param_3);
+    p = (long)fixedMulQ14(unk_3A948[axis], vecX);
+    p += (long)fixedMulQ14(unk_3A948[3 + axis], vecZ);
+    p += (long)fixedMulQ14(unk_3A948[6 + axis], vecY);
     return p;
 }
 
@@ -165,20 +165,20 @@ long rotateVectorComponent(int param_1, int param_2, int param_3, int param_4) {
 
 
 
-int findWaypointEntry(int param_1, int param_2)
+int findWaypointEntry(int mapX, int mapY)
 {
     int p;
 
-    if (word_39808 = findNearestTileObject((int32)param_1 << 5, (0x8000L - (int32)param_2) << 5)) {
-        param_1 = ((int32 *)word_39808)[1] >> 5;
-        param_2 = -((int)(((int32 *)word_39808)[2] >> 5) - 0x8000);
+    if (word_39808 = findNearestTileObject((int32)mapX << 5, (0x8000L - (int32)mapY) << 5)) {
+        mapX = ((int32 *)word_39808)[1] >> 5;
+        mapY = -((int)(((int32 *)word_39808)[2] >> 5) - 0x8000);
         for (p = 1; p < word_3BED2; p++) {
-            if (stru_3AA5E[p].mapX == param_1 && stru_3AA5E[p].mapY == param_2) {
+            if (stru_3AA5E[p].mapX == mapX && stru_3AA5E[p].mapY == mapY) {
                 return p;
             }
         }
-        stru_3AA5E[0].mapX = param_1;
-        stru_3AA5E[0].mapY = param_2;
+        stru_3AA5E[0].mapX = mapX;
+        stru_3AA5E[0].mapY = mapY;
         stru_3AA5E[0].field_C = *word_39808 + 0x100;
         if (word_336F6 == 0) {
             word_336F6 = -1;
@@ -190,22 +190,22 @@ int findWaypointEntry(int param_1, int param_2)
 }
 
 // ==== seg000:0xc7a2 ====
-int computeMapTargetRange(int arg_0) {
-    return computeTargetBearing(stru_3AA5E[arg_0].mapX, stru_3AA5E[arg_0].mapY, 1);
+int computeMapTargetRange(int targetIdx) {
+    return computeTargetBearing(stru_3AA5E[targetIdx].mapX, stru_3AA5E[targetIdx].mapY, 1);
 }
 
 // ==== seg000:0xc7c6 ====
-int computeSimObjectRange(int arg_0) {
-    return computeTargetBearing(stru_3B202[arg_0].posX, stru_3B202[arg_0].posY, 0);
+int computeSimObjectRange(int objIdx) {
+    return computeTargetBearing(stru_3B202[objIdx].posX, stru_3B202[objIdx].posY, 0);
 }
 
 // ==== seg000:0xc7ea ====
-void computeTargetBearing(int arg_0, int arg_1, int arg_2) {
+void computeTargetBearing(int targetX, int targetY, int wantBearing) {
     int p;
     int a;
-    p = word_3BEC0 - arg_0;
-    a = word_3BED0 - arg_1;
-    if (arg_2 != 0) {
+    p = word_3BEC0 - targetX;
+    a = word_3BED0 - targetY;
+    if (wantBearing != 0) {
         var_674 = computeBearing(-p, a);
     }
     var_672 = rangeApprox(p, a);
@@ -219,18 +219,18 @@ int sub_1C82D() {
 }
 
 // ==== seg000:0xc864 ====
-int getTargetSymbol(int param_1) {
-    if (stru_3AA5E[param_1].flags & 0x80) {
-        return (isTargetOverWater(param_1) ? (int)(char)byte_3BEC4[0] : (int)(char)byte_3C02A[0]) + 0x100;
+int getTargetSymbol(int wpIdx) {
+    if (stru_3AA5E[wpIdx].flags & 0x80) {
+        return (isTargetOverWater(wpIdx) ? (int)(char)byte_3BEC4[0] : (int)(char)byte_3C02A[0]) + 0x100;
     }
-    return stru_3AA5E[param_1].field_C;
+    return stru_3AA5E[wpIdx].field_C;
 }
 
 // ==== seg000:0xc8a4 ====
-int isTargetOverWater(int param_1) {
+int isTargetOverWater(int wpIdx) {
     int p;
 
-    p = ((char *)byte_3BFA4)[stru_3AA5E[param_1].field_C & 0x7f] & 0x0f;
+    p = ((char *)byte_3BFA4)[stru_3AA5E[wpIdx].field_C & 0x7f] & 0x0f;
     return (p == 0x0c || p == 9 || p == 0x0b) ? 1 : 0;
 }
 

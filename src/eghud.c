@@ -40,30 +40,30 @@ void rebuildOrientation() {
 }
 
 // ==== seg000:0x543b ====
-unsigned signedRatio16(int param_1, int param_2) {
+unsigned signedRatio16(int numerator, int denominator) {
     char p = 1;
     char a = 1;
     long b;
     long d;
 
-    if (param_1 < 0) p = -1;
-    if (param_2 < 0) a = -1;
-    b = (long)(param_1 < 0 ? -param_1 : param_1);
-    d = (long)(param_2 < 0 ? -param_2 : param_2);
+    if (numerator < 0) p = -1;
+    if (denominator < 0) a = -1;
+    b = (long)(numerator < 0 ? -numerator : numerator);
+    d = (long)(denominator < 0 ? -denominator : denominator);
     return (unsigned)((unsigned int)((((unsigned long)(unsigned int)b) << 16) / d >> 1)) * (unsigned)(int)p * (unsigned)(int)a;
 done:
     ;
 }
 
 // ==== seg000:0x54b7 ====
-int valueToAngle(int param_1) {
+int valueToAngle(int value) {
     int p;
     int a;
     int b;
     int c;
 
-    if (param_1 == (int)0x8000) return (int)0xc000;
-    a = abs(param_1);
+    if (value == (int)0x8000) return (int)0xc000;
+    a = abs(value);
     b = (a >> 9) + 1;
     for (; b >= 0; b--) {
         if ((&word_37348)[b] <= a) {
@@ -72,7 +72,7 @@ int valueToAngle(int param_1) {
             break;
         }
     }
-    if (param_1 < 0) {
+    if (value < 0) {
         p = -p;
     }
     return p;
@@ -83,16 +83,16 @@ int complementAngle(int arg_0) {
     return 0x4000 - valueToAngle(arg_0);
 }
 
-int isqrt(int arg_0) {
+int isqrt(int value) {
     int p;
     int a;
-    arg_0 = abs(arg_0);
-    if (arg_0 < 4) {
+    value = abs(value);
+    if (value < 4) {
         return 1;
     }
-    a = arg_0 >> 2;
+    a = value >> 2;
     do {
-        p = arg_0 / a;
+        p = value / a;
         a = (a + p) >> 1;
     } while (abs(a - p) > 1);
     return a;
@@ -383,20 +383,20 @@ void drawFuelGauge(void) {
 }
 
 // ==== seg000:0x60d3 ====
-void drawVectorShape(int16 *arg_0) {
-    while (*arg_0 != -1) {
-        gfx_setColor(((uint8 *)word_3419C)[*arg_0++]);
+void drawVectorShape(int16 *shapeData) {
+    while (*shapeData != -1) {
+        gfx_setColor(((uint8 *)word_3419C)[*shapeData++]);
         resetScanlineSpans();
-        arg_0 += 2;
-        while (*arg_0 != -1) {
-            var_351 = arg_0[-2];
-            var_353 = arg_0[-1];
-            var_352 = *arg_0++;
-            var_354 = *arg_0++;
+        shapeData += 2;
+        while (*shapeData != -1) {
+            var_351 = shapeData[-2];
+            var_353 = shapeData[-1];
+            var_352 = *shapeData++;
+            var_354 = *shapeData++;
             clipAndRasterizeEdge();
         }
         flushSpanDirtyRect();
-        arg_0++;
+        shapeData++;
     }
 }
 

@@ -147,12 +147,12 @@ somewhere:
 }
 
 // ==== seg000:0x94d0 routine_189 ====
-void setActivePanel(int arg_0) {
+void setActivePanel(int panelId) {
     int p, a, b, c, d, e, f, g, h, i;
     if (word_330C2 == 0) {
         return;
     }
-    switch (arg_0) {
+    switch (panelId) {
     case 0x13:
         strcpy(strBuf, aTrackcam);
         switch (*(int16 *)((char *)&word_3C6AC + 0x206)) {
@@ -172,14 +172,14 @@ void setActivePanel(int arg_0) {
         drawPanelText(2, strBuf, 3);
         break;
     }
-    word_3C09E = arg_0;
+    word_3C09E = panelId;
 }
 
 // ==== seg000:0x957a ====
-void refreshActivePanel(int arg_0) {
+void refreshActivePanel(int panelId) {
     int p;
-    if (arg_0 == word_3C09E) {
-        setActivePanel(arg_0);
+    if (panelId == word_3C09E) {
+        setActivePanel(panelId);
     }
 }
 
@@ -226,30 +226,30 @@ void zoomOut(void) {
 }
 
 // ==== seg000:0x98fa ====
-int mapXToScreen(int arg_0) {
-    return ((arg_0 - var_589) >> (10 - (int)byte_383E5)) + 0x3C;
+int mapXToScreen(int mapX) {
+    return ((mapX - var_589) >> (10 - (int)byte_383E5)) + 0x3C;
 }
 
 // ==== seg000:0x9915 ====
-int mapYToScreen(int arg_0) {
-    return (((arg_0 - var_590) >> (10 - (int)byte_383E5)) * 3 >> 1 >> 1) + 0x8C;
+int mapYToScreen(int mapY) {
+    return (((mapY - var_590) >> (10 - (int)byte_383E5)) * 3 >> 1 >> 1) + 0x8C;
 }
 
 // ==== seg000:0x993a ====
-int plotMapObject(int arg_0, int arg_2, int arg_4, int arg_6) {
+int plotMapObject(int mapX, int mapY, int color, int big) {
     int p;
     int a;
     if (word_3C09A != 0 || word_330C2 == 0) {
         return 0;
     }
-    p = mapXToScreen(arg_0);
-    a = mapYToScreen(arg_2);
-    if (arg_4 != -1 && p >= word_3C018 && p < word_3C45E - 1 && a >= word_3C01A && a < word_3C5A2 - 1) {
-        drawMapPoint(p, a, arg_4);
-        if (arg_6 != 0) {
-            drawMapPoint(p + 1, a, arg_4);
-            drawMapPoint(p, a + 1, arg_4);
-            drawMapPoint(p + 1, a + 1, arg_4);
+    p = mapXToScreen(mapX);
+    a = mapYToScreen(mapY);
+    if (color != -1 && p >= word_3C018 && p < word_3C45E - 1 && a >= word_3C01A && a < word_3C5A2 - 1) {
+        drawMapPoint(p, a, color);
+        if (big != 0) {
+            drawMapPoint(p + 1, a, color);
+            drawMapPoint(p, a + 1, color);
+            drawMapPoint(p + 1, a + 1, color);
         }
         return 0;
     } else {
@@ -258,14 +258,14 @@ int plotMapObject(int arg_0, int arg_2, int arg_4, int arg_6) {
 }
 
 // ==== seg000:0x99ec ====
-int objectToScreen(int arg_0, int arg_2, int *arg_4, int *arg_6) {
+int objectToScreen(int mapX, int mapY, int *outScreenX, int *outScreenY) {
     if (word_330C2 == 0) {
         return 0;
     }
-    *arg_4 = mapXToScreen(arg_0);
-    *arg_6 = mapYToScreen(arg_2);
-    if (word_3C018 < *arg_4 && word_3C45E - 1 > *arg_4 &&
-        word_3C01A < *arg_6 && word_3C5A2 - 1 > *arg_6) {
+    *outScreenX = mapXToScreen(mapX);
+    *outScreenY = mapYToScreen(mapY);
+    if (word_3C018 < *outScreenX && word_3C45E - 1 > *outScreenX &&
+        word_3C01A < *outScreenY && word_3C5A2 - 1 > *outScreenY) {
         return 1;
     } else {
         return 0;
@@ -276,13 +276,13 @@ int objectToScreen(int arg_0, int arg_2, int *arg_4, int *arg_6) {
 extern int mapXToScreen(int);
 extern int mapYToScreen(int);
 
-int readMapPixelColor(int arg_0, int arg_1) {
+int readMapPixelColor(int mapX, int mapY) {
     int p;
     int a;
     int b;
     if (word_3C09A != 0) return 0;
-    p = mapXToScreen(arg_0);
-    a = mapYToScreen(arg_1);
+    p = mapXToScreen(mapX);
+    a = mapYToScreen(mapY);
     p = clampRange(p, word_3C018, word_3C45E);
     a = clampRange(a, word_3C01A, word_3C5A2);
     b = -1;
@@ -293,7 +293,7 @@ int readMapPixelColor(int arg_0, int arg_1) {
 }
 
 // ==== seg000:0x9adb ====
-void drawMapRangeArc(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7)
+void drawMapRangeArc(int centerX, int centerY, int radius, int color, int connectLines, int startAngle, int endAngle)
 {
     int p;
     int a;
@@ -303,24 +303,24 @@ void drawMapRangeArc(int param_1, int param_2, int param_3, int param_4, int par
     int e;
     int f;
 
-    if (param_7 < param_6) {
-        param_6 += 0x100;
+    if (endAngle < startAngle) {
+        startAngle += 0x100;
     }
-    setDrawColor(param_4);
-    for (b = param_6; b <= param_7; b += 0x10) {
+    setDrawColor(color);
+    for (b = startAngle; b <= endAngle; b += 0x10) {
         p = *(unsigned char *)&b << 8;
-        a = sinMul(p, param_3) + param_1;
-        d = param_2 - cosMul(p, param_3);
+        a = sinMul(p, radius) + centerX;
+        d = centerY - cosMul(p, radius);
         if ((unsigned)a > 0xC000u) {
             a = 0;
         }
         if ((unsigned)d > 0xC000u) {
             d = 0;
         }
-        if (b != param_6 && param_5 != 0) {
+        if (b != startAngle && connectLines != 0) {
             drawMapLine(a, d, c, f);
         } else {
-            plotMapObject(a, d, param_4, 0);
+            plotMapObject(a, d, color, 0);
         }
         c = a;
         f = d;
@@ -328,17 +328,17 @@ void drawMapRangeArc(int param_1, int param_2, int param_3, int param_4, int par
 }
 
 // ==== seg000:0x9b98 ====
-void drawMapLine(int arg_0, int arg_1, int arg_2, int arg_3) {
-    drawClippedLineRegion(mapXToScreen(arg_0), mapYToScreen(arg_1), mapXToScreen(arg_2), mapYToScreen(arg_3), word_3C018, word_3C45E, word_3C01A, word_3C5A2, 1);
+void drawMapLine(int x1, int y1, int x2, int y2) {
+    drawClippedLineRegion(mapXToScreen(x1), mapYToScreen(y1), mapXToScreen(x2), mapYToScreen(y2), word_3C018, word_3C45E, word_3C01A, word_3C5A2, 1);
 }
 
 // ==== seg000:0x9be1 ====
-int drawFullscreenLine(int arg_0, int arg_2, int arg_4, int arg_6) {
-    drawClippedLineRegion(arg_0, arg_2, arg_4, arg_6, 0, 0x13f, 0, 199, 1);
+int drawFullscreenLine(int x1, int y1, int x2, int y2) {
+    drawClippedLineRegion(x1, y1, x2, y2, 0, 0x13f, 0, 199, 1);
 }
 
 // ==== seg000:0x9c0c ====
-int drawViewportLine(int arg_0, int arg_2, int arg_4, int arg_6) {
+int drawViewportLine(int x1, int y1, int x2, int y2) {
     int p, a;
 
     a = var_564[10] - var_564[9] + 1;
@@ -347,38 +347,38 @@ int drawViewportLine(int arg_0, int arg_2, int arg_4, int arg_6) {
     var_349 = a - 1;
     var_350 = p - 1;
     gfx_setColor(var_564[2]);
-    var_351 = arg_0;
-    var_353 = arg_2;
-    var_352 = arg_4;
-    var_354 = arg_6;
+    var_351 = x1;
+    var_353 = y1;
+    var_352 = x2;
+    var_354 = y2;
     drawClipLineGlobal();
     gfx_resetBlitOffset2();
 }
 
 // ==== seg000:0x9c84 ====
-void drawClippedLineRegion(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c, int arg_e, int arg_10) {
+void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int arg_a, int arg_c, int arg_e, int drawBothPages) {
     int p, a;
 
-    a = arg_a - arg_8 + 1;
+    a = arg_a - clipLeft + 1;
     p = arg_e - arg_c + 1;
-    gfx_setBlitOffset(gfx_calcRowAddr(arg_8, arg_c));
+    gfx_setBlitOffset(gfx_calcRowAddr(clipLeft, arg_c));
     var_349 = a - 1;
     var_350 = p - 1;
     gfx_setColor(var_564[2]);
-    var_351 = arg_0 - arg_8;
-    var_353 = arg_2 - arg_c;
-    var_352 = arg_4 - arg_8;
-    var_354 = arg_6 - arg_c;
+    var_351 = x1 - clipLeft;
+    var_353 = y1 - arg_c;
+    var_352 = x2 - clipLeft;
+    var_354 = y2 - arg_c;
     drawClipLineGlobal();
     gfx_resetBlitOffset2();
-    if (arg_10 != 0) {
+    if (drawBothPages != 0) {
         byte_3C5A0 = gfx_getDisplayPage();
         gfx_setPageN(byte_3C5A0 == 0);
         gfx_setColor(var_564[2]);
-        var_351 = arg_0 - arg_8;
-        var_353 = arg_2 - arg_c;
-        var_352 = arg_4 - arg_8;
-        var_354 = arg_6 - arg_c;
+        var_351 = x1 - clipLeft;
+        var_353 = y1 - arg_c;
+        var_352 = x2 - clipLeft;
+        var_354 = y2 - arg_c;
         drawClipLineGlobal();
         gfx_setPageN(byte_3C5A0 != 0);
         gfx_resetBlitOffset2();
@@ -389,141 +389,141 @@ void drawClippedLineRegion(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8
 }
 
 // ==== seg000:0x9d86 ====
-int drawScreenLineOnePage(int arg_0, int arg_1, int arg_2, int arg_3) {
-    drawClippedLineRegion(arg_0, arg_1, arg_2, arg_3, 0, 0x13f, 0, 0xc7, 0);
+int drawScreenLineOnePage(int x1, int y1, int x2, int y2) {
+    drawClippedLineRegion(x1, y1, x2, y2, 0, 0x13f, 0, 0xc7, 0);
 }
 
 // ==== seg000:0x9db0 ====
-void drawHudViewLine(int arg_0, int arg_2, int arg_4, int arg_6) {
+void drawHudViewLine(int x1, int y1, int x2, int y2) {
     if (var_456 != 0) {
         if (gameData->unk4 < 2) {
-            drawViewportLine(arg_0, arg_2, arg_4, arg_6);
+            drawViewportLine(x1, y1, x2, y2);
         } else {
-            drawClippedLineRegion(arg_0, arg_2, arg_4, arg_6, 0x68, 0xd8, 0x3e, 0x60, 0);
+            drawClippedLineRegion(x1, y1, x2, y2, 0x68, 0xd8, 0x3e, 0x60, 0);
         }
     } else if (word_330B8 != 0) {
-        drawClippedLineRegion(arg_0, arg_2, arg_4, arg_6, 0x30, 0x10f, 0x0f, 0x60, 0);
+        drawClippedLineRegion(x1, y1, x2, y2, 0x30, 0x10f, 0x0f, 0x60, 0);
     } else {
-        drawViewportLine(arg_0, arg_2, arg_4, arg_6);
+        drawViewportLine(x1, y1, x2, y2);
     }
 }
 
 // ==== seg000:0x9e44 ====
-void setDrawColor(int arg_0) {
-    off_38334[2] = arg_0;
-    off_3834C[2] = arg_0;
+void setDrawColor(int color) {
+    off_38334[2] = color;
+    off_3834C[2] = color;
 }
 
 // ==== seg000:0x9e5d ====
-void fillRectBoth(int arg_0, int arg_2, int arg_4, int arg_6) {
+void fillRectBoth(int x1, int y1, int x2, int y2) {
 #ifdef DEBUG
     if (word_336E8 < 80)
-        TRACE_KEY(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", word_336E8, arg_0, arg_2, arg_4, arg_6, arg_4-arg_0+1, arg_6-arg_2+1, (int)off_38334[2], (int)off_38334[0x10]));
+        TRACE_KEY(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", word_336E8, x1, y1, x2, y2, x2-x1+1, y2-y1+1, (int)off_38334[2], (int)off_38334[0x10]));
 #endif
-    fillSpanRect(off_38334, arg_0, arg_2, arg_4, arg_6);
-    fillSpanRect(off_3834C, arg_0, arg_2, arg_4, arg_6);
+    fillSpanRect(off_38334, x1, y1, x2, y2);
+    fillSpanRect(off_3834C, x1, y1, x2, y2);
 }
 
 // ==== seg000:0x9e94 ====
-int drawColorPoint(int arg_0, int arg_2, int arg_4) {
-    setDrawColor(arg_4);
-    drawFullscreenLine(arg_0, arg_2, arg_0, arg_2);
+int drawColorPoint(int screenX, int screenY, int color) {
+    setDrawColor(color);
+    drawFullscreenLine(screenX, screenY, screenX, screenY);
 }
 
 // ==== seg000:0x9ea0 ====
-void drawMapPoint(int arg_0, int arg_2, int arg_4) {
-    setDrawColor(arg_4);
-    drawFullscreenLine(arg_0, arg_2, arg_0, arg_2);
+void drawMapPoint(int x, int y, int color) {
+    setDrawColor(color);
+    drawFullscreenLine(x, y, x, y);
 }
 
 // ==== seg000:0x9eb6 ====
-int switchIndicatorColor(int arg_0, int arg_2) {
+int switchIndicatorColor(int indicatorIdx, int color) {
     if (word_330C2 == 0) goto done;
-    if (*(&word_38202 + arg_0 * 5 + 7) != arg_2) {
-        gfx_switchColor(var_564, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
-        gfx_switchColor(var_565, *(&word_38202 + arg_0 * 5 + 3), *(&word_38202 + arg_0 * 5 + 4), *(&word_38202 + arg_0 * 5 + 5), *(&word_38202 + arg_0 * 5 + 6), *(&word_38202 + arg_0 * 5 + 7), arg_2);
-        *(&word_38202 + arg_0 * 5 + 7) = arg_2;
+    if (*(&word_38202 + indicatorIdx * 5 + 7) != color) {
+        gfx_switchColor(var_564, *(&word_38202 + indicatorIdx * 5 + 3), *(&word_38202 + indicatorIdx * 5 + 4), *(&word_38202 + indicatorIdx * 5 + 5), *(&word_38202 + indicatorIdx * 5 + 6), *(&word_38202 + indicatorIdx * 5 + 7), color);
+        gfx_switchColor(var_565, *(&word_38202 + indicatorIdx * 5 + 3), *(&word_38202 + indicatorIdx * 5 + 4), *(&word_38202 + indicatorIdx * 5 + 5), *(&word_38202 + indicatorIdx * 5 + 6), *(&word_38202 + indicatorIdx * 5 + 7), color);
+        *(&word_38202 + indicatorIdx * 5 + 7) = color;
     }
 done:
     ;
 }
 
 // ==== seg000:0x9fad ====
-int drawPanelText(int arg_0, char* arg_1, int arg_2) {
-    fillPanelBox(arg_0, arg_2);
-    drawCenteredLabelBox(arg_0, arg_1);
+int drawPanelText(int panel, char* text, int color) {
+    fillPanelBox(panel, color);
+    drawCenteredLabelBox(panel, text);
 }
 
 // ==== seg000:0x9fcc ====
-void fillPanelBox(int arg_0, int arg_1) {
-    setDrawColor(arg_1);
-    if (arg_0 == 1) {
+void fillPanelBox(int panelId, int color) {
+    setDrawColor(color);
+    if (panelId == 1) {
         fillRectBoth(0x18, 0x70, 0x60, 0xa8);
     }
-    if (arg_0 == 2) {
+    if (panelId == 2) {
         fillRectBoth(0x78, 0x68, 0xc7, 0xaf);
     }
-    if (arg_0 == 3) {
+    if (panelId == 3) {
         fillRectBoth(0xe8, 0x80, 0x130, 0xb8);
     }
 }
 
 // ==== seg000:0xa0cb ====
-int drawSomeStrings(const char *arg_0, int arg_2, int arg_4, int arg_6) {
-    drawStringCentered(var_564, arg_0, arg_2, arg_4, arg_6);
-    drawStringCentered(var_565, arg_0, arg_2, arg_4, arg_6);
+int drawSomeStrings(const char *text, int screenX, int screenY, int color) {
+    drawStringCentered(var_564, text, screenX, screenY, color);
+    drawStringCentered(var_565, text, screenX, screenY, color);
 }
 
 // ==== seg000:0xa0fe ====
-void draw2Strings(const char *arg_0, int arg_1, int arg_2, int arg_3) {
+void draw2Strings(const char *text, int screenX, int screenY, int color) {
     if (byte_3C5A0 == 0) {
-        drawStringCentered(var_564, arg_0, arg_1, arg_2, arg_3);
+        drawStringCentered(var_564, text, screenX, screenY, color);
     } else {
-        drawStringCentered(var_565, arg_0, arg_1, arg_2, arg_3);
+        drawStringCentered(var_565, text, screenX, screenY, color);
     }
 }
 
 // ==== seg000:0xa13a ====
-int drawStringCentered(int16* arg_0, const char *arg_2, int arg_4, int arg_6, int arg_8) {
-    arg_0[6] = 0;
-    arg_0[4] = arg_4;
-    arg_0[5] = arg_6;
-    arg_0[2] = arg_8;
-    gfx_drawString(arg_0, strupr((char*)arg_2), strlen(arg_2));
+int drawStringCentered(int16* strStruct, const char *text, int screenX, int screenY, int color) {
+    strStruct[6] = 0;
+    strStruct[4] = screenX;
+    strStruct[5] = screenY;
+    strStruct[2] = color;
+    gfx_drawString(strStruct, strupr((char*)text), strlen(text));
 }
 
 
 // ==== seg000:0xa183 ====
-void drawNumber(int arg_0, int arg_1, int arg_2, int arg_3) {
+void drawNumber(int value, int x, int y, int color) {
     char buf[20];
-    itoa(arg_0, buf, 10);
-    drawSomeStrings(buf, arg_1, arg_2, arg_3);
+    itoa(value, buf, 10);
+    drawSomeStrings(buf, x, y, color);
 }
 
 // ==== seg000:0xa1b1 ====
-int readScreenPixel(int arg_0, int arg_1) {
+int readScreenPixel(int screenX, int screenY) {
     byte_3BF93[0] = 0x0D;
-    unk_3BF96 = arg_0;
-    unk_3BF98 = arg_1;
+    unk_3BF96 = screenX;
+    unk_3BF98 = screenY;
     unk_3BF95 = 0;
     int86(0x10, &regs, &regs);
     return regs.h.al;
 }
 
 // ==== seg000:0xa1e4 ====
-void tempStrcpy(char *arg_0) {
-    strcpy(tempString, arg_0);
+void tempStrcpy(char *src) {
+    strcpy(tempString, src);
     var_591 = word_330C4 * 3;
 }
 
 // ==== seg000:0xa204 ====
-void setTimedMessage(char *arg_0) {
-    strcpy(string_3C04A, arg_0);
+void setTimedMessage(char *message) {
+    strcpy(string_3C04A, message);
     var_592 = word_330C4 * 3;
 }
 
 // ==== seg000:0xa224 ====
-int routine_260(int param_1, int param_2) {
-    return (int)(char)var_83[param_1 * 13 + ((int)(char)byte_3BFA4[stru_3AA5E[param_2].field_C & 0x7f] & 0xf)];
+int routine_260(int param_1, int objIdx) {
+    return (int)(char)var_83[param_1 * 13 + ((int)(char)byte_3BFA4[stru_3AA5E[objIdx].field_C & 0x7f] & 0xf)];
 }
 

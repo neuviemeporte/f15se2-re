@@ -19,16 +19,16 @@
 
 // ==== seg000:0x2fda ====
 
-int16* findNearestTileObject(uint32 param_0, uint32 param_1) {
+int16* findNearestTileObject(uint32 worldX, uint32 worldY) {
     int p, q, a, r, b, c, d, e, f, g, h, i, j, k, l, m, n, o;
 
     word_3B7E2 = 0x7fff;
     for (c = 1; c <= 2; c++) {
         for (e = 0; e < 9; e++) {
-            *(long *)&m = scaleCoordToLod(c, param_0);
+            *(long *)&m = scaleCoordToLod(c, worldX);
             i = *(unsigned long *)&m >> 0xc;
             r = m & 0xfff;
-            *(long *)&m = scaleCoordToLod(c, param_1);
+            *(long *)&m = scaleCoordToLod(c, worldY);
             k = *(unsigned long *)&m >> 0xc;
             d = m & 0xfff;
             a = (&word_33B74)[e];
@@ -66,8 +66,8 @@ int16* findNearestTileObject(uint32 param_0, uint32 param_1) {
                                 word_3B7EC = word_3C5A8;
                                 word_3B7E0 = g;
                                 word_3B7E2 = q;
-                                *(long *)&word_3B7E4 = param_0 + (long)h;
-                                *(long *)&word_3B7E8 = param_1 + (long)j;
+                                *(long *)&word_3B7E4 = worldX + (long)h;
+                                *(long *)&word_3B7E8 = worldY + (long)j;
                             }
                         }
                     }
@@ -164,27 +164,27 @@ int drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
 }
 
 // ==== seg000:0x345e ====
-void renderMapTerrain(char *arg_0, int arg_2, int arg_4, int arg_6) {
+void renderMapTerrain(char *transform, int mapX, int mapY, int zoomShift) {
     int p, a;
     var_190 = 0;
-    setup3DTransform(arg_0, 0, 0, 0, 0, 0, 0, 0);
-    gfx_setBlitOffset(gfx_calcRowAddr(*(int *)(arg_0 + 0x12), *(int *)(arg_0 + 0x0e)));
-    drawMapTiles(arg_2, arg_4, arg_6);
+    setup3DTransform(transform, 0, 0, 0, 0, 0, 0, 0);
+    gfx_setBlitOffset(gfx_calcRowAddr(*(int *)(transform + 0x12), *(int *)(transform + 0x0e)));
+    drawMapTiles(mapX, mapY, zoomShift);
     rasterize3DWorld();
 }
 
 // ==== seg000:0x51f9 ====
 
-void drawMapTiles(int param_1, int param_2, int param_3)
+void drawMapTiles(int originX, int originY, int zoomShift)
 {
     int p, a, b, c, d, e, f, g, h, i;
 
-    var_663 = param_1 >> (char)param_3;
-    var_664 = param_2 >> (char)param_3;
+    var_663 = originX >> (char)zoomShift;
+    var_664 = originY >> (char)zoomShift;
     for (var_666 = 4; var_666 >= 0; var_666--) {
         word_3C16C = (&word_34186)[var_666];
         var_665 = (var_666 <= 1) ? 0x40 : 0;
-        word_3C042 = param_3 - word_3C16C * 2 + 8;
+        word_3C042 = zoomShift - word_3C16C * 2 + 8;
         var_661 = 0x1000 >> (char)word_3C042;
         if (var_661 > 16) {
             var_662 = 4 << (8 - (char)word_3C16C * 2);
@@ -213,32 +213,32 @@ void drawMapTiles(int param_1, int param_2, int param_3)
 }
 
 // ==== seg000:0x3638 ====
-void computeTileBounds(int *arg_0, int *arg_1, int *arg_2, int *arg_3) {
-    worldToTileIndex(0, 0, arg_0, arg_2);
-    if (*arg_0 < 0) {
-        *arg_0 = 0;
+void computeTileBounds(int *minTileX, int *maxTileX, int *minTileY, int *maxTileY) {
+    worldToTileIndex(0, 0, minTileX, minTileY);
+    if (*minTileX < 0) {
+        *minTileX = 0;
     }
-    if (*arg_2 < 0) {
-        *arg_2 = 0;
+    if (*minTileY < 0) {
+        *minTileY = 0;
     }
-    worldToTileIndex(var_349, var_350, arg_1, arg_3);
-    if (*arg_1 >= var_662) {
-        *arg_1 = var_662 - 1;
+    worldToTileIndex(var_349, var_350, maxTileX, maxTileY);
+    if (*maxTileX >= var_662) {
+        *maxTileX = var_662 - 1;
     }
-    if (*arg_3 >= var_662) {
-        *arg_3 = var_662 - 1;
+    if (*maxTileY >= var_662) {
+        *maxTileY = var_662 - 1;
     }
 }
 
 // ==== seg000:0x3694 ====
-void worldToTileIndex(int arg_0, int arg_1, int *arg_2, int *arg_3) {
-    *arg_2 = (arg_0 - word_3298C + var_663) / var_661;
-    *arg_3 = ((arg_1 - word_3298E) * 4 / 3 + var_664) / var_661;
+void worldToTileIndex(int worldX, int worldY, int *outCol, int *outRow) {
+    *outCol = (worldX - word_3298C + var_663) / var_661;
+    *outRow = ((worldY - word_3298E) * 4 / 3 + var_664) / var_661;
 }
 
 // ==== seg000:0x36d2 ====
-void drawMapTileObject(char far *param_1, int param_3, int param_4) {
-    *(char far **)&var_200 = param_1;
+void drawMapTileObject(char far *modelData, int screenX, int screenY) {
+    *(char far **)&var_200 = modelData;
     var_200++;
     var_216 = 0;
     advanceModelPointerLod();
@@ -253,8 +253,8 @@ void drawMapTileObject(char far *param_1, int param_3, int param_4) {
         drawModelPoint();
         return;
     }
-    buildVertexSignMask(param_3, param_4);
-    projectModelVertices(param_3, param_4);
+    buildVertexSignMask(screenX, screenY);
+    projectModelVertices(screenX, screenY);
     projectModelEdgesFar();
     drawModelDisplayList();
 }
@@ -284,7 +284,7 @@ void buildVertexSignMask(int param_1, int param_2) {
 
 
 // ==== seg000:0x3816 ====
-void projectModelVertices(int arg_0, int arg_1) {
+void projectModelVertices(int screenX, int screenY) {
     int p;
     int a;
     int b;
@@ -297,11 +297,11 @@ void projectModelVertices(int arg_0, int arg_1) {
         var_200 += (unsigned char)var_258 * 2 + 2;
         if (b != 0) {
             a = (int)(unsigned char)(*(*(char far **)&var_200)++);
-            c = (((int16 *)&byte_3B7FC[0x600])[buf3d3_1[a]] >> word_3C042) + arg_0;
-            d = (((int16 *)byte_3BE3E)[buf3d3_2[a]] >> word_3C042) + arg_1;
+            c = (((int16 *)&byte_3B7FC[0x600])[buf3d3_1[a]] >> word_3C042) + screenX;
+            d = (((int16 *)byte_3BE3E)[buf3d3_2[a]] >> word_3C042) + screenY;
         } else {
-            c = (*(*(int far **)&var_200)++ >> word_3C042) + arg_0;
-            d = (*(*(int far **)&var_200)++ >> word_3C042) + arg_1;
+            c = (*(*(int far **)&var_200)++ >> word_3C042) + screenX;
+            d = (*(*(int far **)&var_200)++ >> word_3C042) + screenY;
             var_200 += 2;
         }
         (&word_34684)[p * 2] = 1;
@@ -312,15 +312,15 @@ void projectModelVertices(int arg_0, int arg_1) {
 }
 
 // ==== seg000:0x3922 ====
-int aspectScaleY(int arg_0) {
-    return arg_0 - (arg_0 >> 2);
+int aspectScaleY(int screenY) {
+    return screenY - (screenY >> 2);
 }
 
 // ==== seg000:0x3932 ====
-void setup3DTransform(char *arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c, int arg_e) {
-    setupViewport((int)arg_0);
-    setViewRotation(arg_2, arg_4, arg_6);
-    setViewPosition(arg_8, arg_a, arg_c);
+void setup3DTransform(char *model, int angleX, int angleY, int angleZ, int posX, int arg_a, int arg_c, int arg_e) {
+    setupViewport((int)model);
+    setViewRotation(angleX, angleY, angleZ);
+    setViewPosition(posX, arg_a, arg_c);
     if (arg_e != 0) {
         var_315 = 0;
         if (word_38FDC == 0) {
@@ -344,7 +344,7 @@ void setup3DTransform(char *arg_0, int arg_2, int arg_4, int arg_6, int arg_8, i
         while (byte_378EE != 0)
             ;
 #endif
-        drawProjectionSphere(*(int *)(arg_0 + 4));
+        drawProjectionSphere(*(int *)(model + 4));
     }
     var_255 = 0;
     var_261 -= 0x3000 / word_330C4;

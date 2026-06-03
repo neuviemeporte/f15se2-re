@@ -45,7 +45,7 @@ void load15Flt3d3() {
     TRACE(("load15Flt3d3: done"));
 }
 
-void drawWorldObject(int param_1, long param_2, long param_3, int param_4, int param_5, int param_6, int param_7, int param_8)
+void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int param_5, int param_6, int param_7, int scaleShift)
 {
     int p;
     int a;
@@ -54,24 +54,24 @@ void drawWorldObject(int param_1, long param_2, long param_3, int param_4, int p
     int f;
     int g;
 
-    a = shapeDataOffset(param_1);
+    a = shapeDataOffset(shapeId);
     p = (byte_3C5A0 == 0) ? (int)var_564 : (int)var_565;
-    c = param_2 - dword_3B7DA;
-    e = param_3 + dword_3B7F8 - 0x01000000L;
-    f = param_4 - var_547;
+    c = worldX - dword_3B7DA;
+    e = worldY + dword_3B7F8 - 0x01000000L;
+    f = altitude - var_547;
     if ((keyValue & 0x80) != 0) {
         c += dword_3B7DA - dword_3B1FE;
         e += dword_3B4D4 - dword_3B7F8;
         f += var_547 - word_3B4DE;
     }
-    param_8 = (var_456 != 0) ? (param_8 - 2) : (param_8 - 3);
-    if (param_8 > 0) {
-        shiftLongLeftInPlace(param_8, &c);
-        shiftLongLeftInPlace(param_8, &e);
-        f <<= (char)param_8;
+    scaleShift = (var_456 != 0) ? (scaleShift - 2) : (scaleShift - 3);
+    if (scaleShift > 0) {
+        shiftLongLeftInPlace(scaleShift, &c);
+        shiftLongLeftInPlace(scaleShift, &e);
+        f <<= (char)scaleShift;
     }
-    if (param_8 < 0) {
-        *(char *)&g = -param_8;
+    if (scaleShift < 0) {
+        *(char *)&g = -scaleShift;
         shiftLongRightInPlace(g, &c);
         shiftLongRightInPlace(g, &e);
         f >>= (char)g;
@@ -80,13 +80,13 @@ void drawWorldObject(int param_1, long param_2, long param_3, int param_4, int p
         if ((long)(int)labs(e) < (long)0x7FFF) {
             setViewPosition(0, 0, -f);
             word_3C16C = 1;
-            projectSceneObject(byte_228D0 + a, -param_5, param_6, param_7, (int)c, -(int)e, param_4 != 0);
+            projectSceneObject(byte_228D0 + a, -param_5, param_6, param_7, (int)c, -(int)e, altitude != 0);
         }
     }
 }
 
 // ==== seg000:0xcb42 ====
-int drawTargetView(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7, int param_8, int param_9)
+int drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param_5, int param_6, int param_7, int mode, int shift)
 {
     int p;
     int a;
@@ -105,27 +105,27 @@ int drawTargetView(int param_1, int param_2, int param_3, int param_4, int param
     char n;
 
     word_39402 = 1;
-    if (param_8 == 1 && word_38FDC == 0 && *(char*)&gfxModeUnset != 0 && (word_336E8 & 3) != 0) {
+    if (mode == 1 && word_38FDC == 0 && *(char*)&gfxModeUnset != 0 && (word_336E8 & 3) != 0) {
         return;
     }
 
-    g = shapeDataOffset(param_1);
+    g = shapeDataOffset(shapeId);
     if (byte_3C5A0 == 0) {
         *var_568 = 0;
     } else {
         *var_568 = 1;
     }
 
-    if (param_8 < 2) {
+    if (mode < 2) {
         var_685 = 0;
-        k = param_2 - word_3BEC0;
-        l = param_3 - word_3BED0;
-        m = (param_4 - var_547) >> 5;
+        k = worldX - word_3BEC0;
+        l = worldY - word_3BED0;
+        m = (altitude - var_547) >> 5;
         b = computeBearing(k, -l);
         f = computeBearing(m, rangeApprox(k, l));
         c = rangeApprox(m, rangeApprox(k, l));
 
-        if (param_8 == 1) {
+        if (mode == 1) {
             var_680 = c;
             var_682 = (c >> 4) + 0x190;
             var_683 = (var_682 << 5) / (c + 1);
@@ -155,24 +155,24 @@ int drawTargetView(int param_1, int param_2, int param_3, int param_4, int param
 
         i = cosMul(f, c);
         var_594 = 2;
-        if (param_9 < 0) {
-            var_594 = (uint8)(param_9 + 2);
-            param_9 = 0;
+        if (shift < 0) {
+            var_594 = (uint8)(shift + 2);
+            shift = 0;
         }
-        k = sinMul(b, i) >> (char)param_9;
-        l = -(cosMul(b, i)) >> (char)param_9;
-        m = sinMul(f, c) >> (char)param_9;
+        k = sinMul(b, i) >> (char)shift;
+        l = -(cosMul(b, i)) >> (char)shift;
+        m = sinMul(f, c) >> (char)shift;
     } else {
-        k = (param_2 - word_3BEC0) << 4;
-        l = (param_3 - word_3BED0) << 4;
-        m = (param_4 - var_547) >> 1;
+        k = (worldX - word_3BEC0) << 4;
+        l = (worldY - word_3BED0) << 4;
+        m = (altitude - var_547) >> 1;
         var_681 = var_542;
         var_684 = word_38FCE;
         var_685 = var_545;
         var_683 = 0x20;
         var_594 = 2;
     }
-    if (param_8 == 1 || param_8 == 3) {
+    if (mode == 1 || mode == 3) {
         a = (int)((long)var_683 * (long)((int)var_684 >> 2) >> 5) + 0x9c;
         if (a < 0x80 || (int)var_684 < (int)0xe800) {
             a = 0x80;
@@ -185,7 +185,7 @@ int drawTargetView(int param_1, int param_2, int param_3, int param_4, int param
             fillSpanRect(var_568, 0xe8, 0x80, 0x130, a);
         }
         h = byte_228D0[0x2f];
-        e = (int)(signed char)byte_3BFA4[param_1 & 0x7f];
+        e = (int)(signed char)byte_3BFA4[shapeId & 0x7f];
         if (e & 0x10) {
             h = 8;
         }
@@ -205,7 +205,7 @@ int drawTargetView(int param_1, int param_2, int param_3, int param_4, int param
     rasterize3DWorld();
     var_316 = 0;
 
-    if (param_8 == 1) {
+    if (mode == 1) {
         strcpy(strBuf, (char*)aBrg);
         strcat(strBuf, itoa((unsigned int)var_681 / 0xb6, unk_3C030, 10));
         draw2Strings(strBuf, 0xf8, 0xb0, 0xf);
@@ -223,77 +223,77 @@ int shapeDataOffset(unsigned int param)
 }
 
 // ==== seg000:0xcf64 clamp ====
-int clampRange(int arg_0, int arg_2, int arg_4) {
-    if (arg_0 > arg_4) {
-        return arg_4;
+int clampRange(int value, int minVal, int maxVal) {
+    if (value > maxVal) {
+        return maxVal;
     }
-    if (arg_0 >= arg_2) {
-        return arg_0;
+    if (value >= minVal) {
+        return value;
     }
-    if (arg_0 <= -0x4000) {
-        return arg_4;
+    if (value <= -0x4000) {
+        return maxVal;
     }
-    return arg_2;
+    return minVal;
 }
 
 // ==== seg000:0xcf8e ====
-int sub_1CF8E(int arg_0, int arg_2, int arg_4) {
-    if (arg_0 > arg_4) {
-        return arg_4;
+int sub_1CF8E(int value, int min, int max) {
+    if (value > max) {
+        return max;
     }
-    if (arg_0 < arg_2) {
-        return arg_2;
+    if (value < min) {
+        return min;
     }
-    return arg_0;
+    return value;
 }
 
 // ==== seg000:0xcfa6 ====
-int rangeApprox(int arg_0, int arg_1) {
+int rangeApprox(int dx, int dy) {
     long a;
-    arg_0 = abs(arg_0);
-    arg_1 = abs(arg_1);
-    if (arg_0 > arg_1)
-        a = (long)(arg_1 >> 1) + (long)arg_0;
+    dx = abs(dx);
+    dy = abs(dy);
+    if (dx > dy)
+        a = (long)(dy >> 1) + (long)dx;
     else
-        a = (long)(arg_0 >> 1) + (long)arg_1;
+        a = (long)(dx >> 1) + (long)dy;
     if (a > 0x7FFF) a = 0x7FFF;
     return (int)a;
 }
 
 // ==== seg000:0xd008 ====
-int computeBearing(int param_1, int param_2) {
+int computeBearing(int deltaX, int deltaY) {
     int p, a;
     long b;
     int d, e, f;
 
-    if (param_1 == 0) {
-        if (param_2 > 0) return 0;
+    if (deltaX == 0) {
+        if (deltaY > 0) return 0;
         return BEARING_SOUTH;
     }
-    if (param_2 == 0) {
-        if (param_1 > 0) return BEARING_EAST;
+    if (deltaY == 0) {
+        if (deltaX > 0) return BEARING_EAST;
         return BEARING_WEST;
     }
-    if (abs(param_1) > abs(param_2)) {
-        b = (long)abs(param_2) << 0xe;
-        d = abs(param_1);
+    if (abs(deltaX) > abs(deltaY)) {
+        b = (long)abs(deltaY) << 0xe;
+        d = abs(deltaX);
         e = 1;
     }
     else {
-        b = (long)abs(param_1) << 0xe;
-        d = abs(param_2);
+        b = (long)abs(deltaX) << 0xe;
+        d = abs(deltaY);
         e = 0;
     }
     f = b / (long)d;
     p = ((0x2800L - (((long)abs(0x1333 - f) * 0xB00L) >> 0xe)) * (long)f) >> 0xe;
-    if (param_1 > 0) {
-        if (param_2 > 0)
+    if (deltaX > 0) {
+        if (deltaY > 0)
             a = e ? BEARING_EAST - p : p;
         else
             a = e ? p + BEARING_EAST : BEARING_SOUTH - p;
     }
     else {
-        if (param_2 > 0)
+        if (deltaY > 0)
             a = e ? p + BEARING_WEST : -p;
         else
             a = e ? BEARING_WEST - p : p + BEARING_SOUTH;
@@ -301,21 +301,21 @@ int computeBearing(int param_1, int param_2) {
 }
 
 // ==== seg000:0xd178 sinMul ====
-int sinMul(int arg_0, int arg_2) {
-    return fixedMulQ14(sine(arg_0), arg_2);
+int sinMul(int angle, int value) {
+    return fixedMulQ14(sine(angle), value);
 }
 
 // ==== seg000:0xd190 cosMul ====
-int cosMul(int arg_0, int arg_2) {
-    return sinMul(arg_0 + 0x4000, arg_2);
+int cosMul(int angle, int value) {
+    return sinMul(angle + 0x4000, value);
 }
 
 // ==== seg000:0xd1c8 ====
-int signOf(int arg_0) {
-    if (arg_0 == 0) {
+int signOf(int value) {
+    if (value == 0) {
         return 0;
     }
-    if (arg_0 > 0) {
+    if (value > 0) {
         return 1;
     }
     return -1;
@@ -329,19 +329,19 @@ void seedRng(void) {
 }
 
 // ==== seg000:0xd200 randomRange ====
-int randomRange(int arg_0) {
-    return (int)(((long)rand() * (long)arg_0) >> 15);
+int randomRange(int maxVal) {
+    return (int)(((long)rand() * (long)maxVal) >> 15);
 }
 
 // ==== seg000:0xd21e ====
-int16 readAxisInput(int16 arg_0)
+int16 readAxisInput(int16 axisIdx)
 {
     int16 p;
 
     if (word_330BE) {
         p = 0;
     } else {
-        p = ((commData->setupUseJoy) ? misc_jump_5d_readJoy(arg_0) : 0) + (&word_38606)[arg_0];
+        p = ((commData->setupUseJoy) ? misc_jump_5d_readJoy(axisIdx) : 0) + (&word_38606)[axisIdx];
     }
     return p;
 }

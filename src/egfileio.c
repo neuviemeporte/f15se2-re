@@ -16,13 +16,13 @@ int openFileWrapper(char *path, int mode) {
 }
 
 // ==== seg000:0xdd5e ====
-int createFileWrapper(int arg_0, int arg_1) {
-    return createFile(arg_0, arg_1);
+int createFileWrapper(int filename, int attr) {
+    return createFile(filename, attr);
 }
 
 // ==== seg000:0xdd70 ====
-void closeFileWrapper(int arg_0) {
-    closeFile(arg_0);
+void closeFileWrapper(int handle) {
+    closeFile(handle);
 }
 
 // ==== seg000:0xdd7e ====
@@ -36,7 +36,7 @@ int readFile2Wrapper(int arg_0, int arg_1, int arg_2, int arg_3) {
 }
 
 // ==== seg000:0xddaa ====
-int writeFileAtRawWrapper(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) {
-    return writeFileAtRaw(arg_0, arg_1, arg_2, arg_3, arg_4);
+int writeFileAtRawWrapper(int handle, int count, int bufOffset, int bufSegment, int offsetAddend) {
+    return writeFileAtRaw(handle, count, bufOffset, bufSegment, offsetAddend);
 }
 

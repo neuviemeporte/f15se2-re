@@ -24,14 +24,14 @@ int load3DAll() {
 }
 
 // ==== seg000:0x2898 ====
-void load3D3(char *arg_0) {
+void load3D3(char *fileName) {
     uint8 FAR *var_E;
     uint8 FAR *var_16;
     struct SREGS var_8;
     int var_10, var_18, var_12;
     int var_A;
-    strcpyFromDot(arg_0, a_3d3);
-    if ((fileHandle = fopen(arg_0, aRb)) == NULL) {
+    strcpyFromDot(fileName, a_3d3);
+    if ((fileHandle = fopen(fileName, aRb)) == NULL) {
         printError(aOpenErrorOn_3d3);
         return;
     }
@@ -109,10 +109,10 @@ void load3D3(char *arg_0) {
 }
 
 // ==== seg000:0x2c82 ====
-void load3DT(char *arg_0) {
+void load3DT(char *fileName) {
     int var_2, var_4, var_6, var_8, var_A;
-    strcpyFromDot(arg_0, a_3dt);
-    if ((fileHandle = fopen(arg_0, aRb_2)) == NULL) {
+    strcpyFromDot(fileName, a_3dt);
+    if ((fileHandle = fopen(fileName, aRb_2)) == NULL) {
         printError(aOpenErrorOn_3dt);
         return;
     }
@@ -186,12 +186,12 @@ int printError(const char *msg) {
 }
 
 // ==== seg000:0x2faf ====
-int strcpyFromDot(char *arg_0, char *arg_2) {
+int strcpyFromDot(char *dst, char *src) {
     char var_2;
-    while ((var_2 = *arg_0) != '.' && var_2 != 0) {
-        arg_0++;
+    while ((var_2 = *dst) != '.' && var_2 != 0) {
+        dst++;
     }
-    strcpy(arg_0, arg_2);
+    strcpy(dst, src);
 }
 
 

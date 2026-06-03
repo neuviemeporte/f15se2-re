@@ -487,7 +487,7 @@ int calcBearing(int dx, int dy) {
     return result;
 }
 
-int setMoveDstComm7A(const char *filename, const char* arg_1) {
+int setMoveDstComm7A(const char *filename, const char* mode) {
     moveDst = (uint8 FAR*)(&commData->worldBuf);
     return 1;
 }

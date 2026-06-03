@@ -17,7 +17,7 @@
 #include <memory.h>
 
 
-int drawTacticalMap(char param_1)
+int drawTacticalMap(char page)
 {
     int p;
     int a;
@@ -33,7 +33,7 @@ int drawTacticalMap(char param_1)
 
     h = var_588 + 1;
     setDrawColor(0);
-    fillSpanRect(param_1 == 0 ? var_564 : var_565, 0x78, 0x68, 0xc7, 0xaf);
+    fillSpanRect(page == 0 ? var_564 : var_565, 0x78, 0x68, 0xc7, 0xaf);
     setDrawColor(8);
     j = 1;
     if (var_588 < 2 && word_38FDC != 0) {
@@ -152,8 +152,8 @@ int drawTacticalMap(char param_1)
 }
 
 // ==== seg000:0xa740 ====
-void drawMapMarkerBox(int arg_0, int arg_2, int arg_4) {
-    setDrawColor(arg_4);
+void drawMapMarkerBox(int arg_0, int arg_2, int color) {
+    setDrawColor(color);
     drawScreenLineOnePage(var_279 - 4, var_282 - 3, var_279 + 4, var_282 - 3);
     drawScreenLineOnePage(var_279 + 4, var_282 - 3, var_279 + 4, var_282 + 3);
     drawScreenLineOnePage(var_279 + 4, var_282 + 3, var_279 - 4, var_282 + 3);
@@ -162,14 +162,14 @@ void drawMapMarkerBox(int arg_0, int arg_2, int arg_4) {
 
 // ==== seg000:0xa7c4 ====
 
-void projectMapPoint(int arg_0, int arg_2) {
+void projectMapPoint(int mapX, int mapY) {
     int p;
     int a;
     char b;
     word_3C016 = 0;
     b = 7 - (char)var_588;
-    p = (arg_0 - word_3BEC0) >> b;
-    a = (word_3BED0 - arg_2) >> b;
+    p = (mapX - word_3BEC0) >> b;
+    a = (word_3BED0 - mapY) >> b;
     var_279 = cosMul(var_542, p) - sinMul(var_542, a);
     var_282 = cosMul(var_542, a) + sinMul(var_542, p);
     var_279 += 0xa0;
@@ -183,27 +183,27 @@ void projectMapPoint(int arg_0, int arg_2) {
 }
 
 // ==== seg000:0xa872 ====
-void blitGaugeSprite(int arg_0, int arg_2, int arg_4, int arg_6) {
+void blitGaugeSprite(int srcCol, int srcRow, int destX, int destY) {
     var_569 = gfxBufPtr;
-    var_570 = arg_0 * 8 + 1;
-    var_571 = arg_2 * 8 + 0x1f;
+    var_570 = srcCol * 8 + 1;
+    var_571 = srcRow * 8 + 0x1f;
     var_572 = (byte_3C5A0 != 0);
-    var_573 = arg_4 - 3;
-    var_574 = arg_6 - 3;
+    var_573 = destX - 3;
+    var_574 = destY - 3;
     var_575 = 7;
     var_576 = 7;
     gfx_blitSpriteClipped(&word_383AE);
 }
 
 // ==== seg000:0xa8c8 ====
-void blitSprite(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c) {
+void blitSprite(int destX, int destY, int srcX, int srcY, int spriteWidth, int arg_a, int arg_c) {
     var_577 = gfxBufPtr;
-    var_578 = arg_4;
-    var_579 = arg_6;
+    var_578 = srcX;
+    var_579 = srcY;
     var_580 = (byte_3C5A0 != 0);
-    var_581 = arg_0;
-    var_582 = arg_2;
-    var_583 = arg_8;
+    var_581 = destX;
+    var_582 = destY;
+    var_583 = spriteWidth;
     var_584 = arg_a;
     var_586 = (char)arg_c;
     if (arg_c != 0) {

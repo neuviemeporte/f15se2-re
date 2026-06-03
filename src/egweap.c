@@ -27,20 +27,20 @@ void selectMissile() {
 }
 
 // ==== seg000:0xda35 ====
-void makeSound(int arg_0, int arg_2) {
-    if (arg_2 >= var_600) {
-        if (word_3BE3C == 0 || arg_2 > 1) {
-            audio_jump_66(arg_0);
+void makeSound(int soundId, int priority) {
+    if (priority >= var_600) {
+        if (word_3BE3C == 0 || priority > 1) {
+            audio_jump_66(soundId);
         }
     }
     sub_1DA8D();
 }
 
 // ==== seg000:0xda5f ====
-void sub_1DA5F(int arg_0) {
+void sub_1DA5F(int weaponIdx) {
     if (var_600 < 2 && word_3BE3C == 0 &&
-        (unsigned)((int16 *)(aArmed + 7))[arg_0] < (unsigned)f15DgtlResult) {
-        audio_jump_6d(arg_0);
+        (unsigned)((int16 *)(aArmed + 7))[weaponIdx] < (unsigned)f15DgtlResult) {
+        audio_jump_6d(weaponIdx);
     }
 }
 

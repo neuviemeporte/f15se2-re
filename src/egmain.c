@@ -823,28 +823,28 @@ void drawWeaponAmmo() {
 }
 
 // ==== seg000:0x1a88 ====
-void drawWeaponSelectMarker(int param_1) {
+void drawWeaponSelectMarker(int weaponIdx) {
     if (word_330C2 == 0) return;
     var_564[2] = 0;
     drawFullscreenLine(asc_33744[word_3374A], 0xc4, asc_33744[word_3374A] + 6, 0xc4);
     var_564[2] = 7;
     drawFullscreenLine(asc_33744[word_3374A], 0xc5, asc_33744[word_3374A] + 6, 0xc5);
     var_564[2] = 0x0c;
-    drawFullscreenLine(asc_33744[param_1], 0xc4, asc_33744[param_1] + 6, 0xc4);
+    drawFullscreenLine(asc_33744[weaponIdx], 0xc4, asc_33744[weaponIdx] + 6, 0xc4);
     var_564[2] = 4;
-    drawFullscreenLine(asc_33744[param_1], 0xc5, asc_33744[param_1] + 6, 0xc5);
-    word_3374A = param_1;
+    drawFullscreenLine(asc_33744[weaponIdx], 0xc5, asc_33744[weaponIdx] + 6, 0xc5);
+    word_3374A = weaponIdx;
 }
 
 // ==== seg000:0x1b37 routine_148 ====
-void finalizeMission(int arg_0) {
-    TRACE_KEY(("DEATH/END finalizeMission: arg_0=%d, word_3BE3C=%d, frame=%d", arg_0, word_3BE3C, word_336E8));
-    if (word_3BE3C != 0 && arg_0 != 0) {
+void finalizeMission(int outcome) {
+    TRACE_KEY(("DEATH/END finalizeMission: outcome=%d, word_3BE3C=%d, frame=%d", outcome, word_3BE3C, word_336E8));
+    if (word_3BE3C != 0 && outcome != 0) {
         return;
     }
     *((uint8 *)&word_3C6AC + 0x204) = 1;
-    commData->continueFlag = arg_0;
-    if (arg_0 == 0 && word_3BE3C == 0) {
+    commData->continueFlag = outcome;
+    if (outcome == 0 && word_3BE3C == 0) {
         commData->setupDone = 3;
     }
     *(int16 far *)((char far *)commData + 0x74) = word_3BEC0;
@@ -857,20 +857,20 @@ void finalizeMission(int arg_0) {
 }
 
 // ==== seg000:0x1bc3 ====
-void scheduleEventCheck(int arg_0, unsigned int arg_2) {
-    if (arg_2 > (unsigned int)word_3370E) return;
+void scheduleEventCheck(int eventObjIdx, unsigned int priority) {
+    if (priority > (unsigned int)word_3370E) return;
     if (word_3370C != -1) return;
-    word_3C02E = arg_0;
+    word_3C02E = eventObjIdx;
     scheduleTimedEvent(0x89, word_3370E == 1 ? 3 : 4);
 }
 
 // ==== seg000:0x1bfd scheduleTimedEvent ====
-void scheduleTimedEvent(int arg_0, int arg_2) {
+void scheduleTimedEvent(int keyVal, int delay) {
     if (word_3370E == 0) {
         return;
     }
-    keyValue = arg_0;
-    word_3370C = arg_2 * word_330C4 + word_336E8;
+    keyValue = keyVal;
+    word_3370C = delay * word_330C4 + word_336E8;
 }
 
 // ==== seg000:0x1c21 routine_180 ====
@@ -908,27 +908,27 @@ void generateRandomRadioMessage(void) {
 }
 
 // ==== seg000:0x1d10 ====
-void appendMapEvent(int arg_0, int arg_2) {
+void appendMapEvent(int eventType, int arg_2) {
     if (var_654 >= 255) {
         return;
     }
     *(int *)&byte_3B7FC[var_654 * 6] = word_38FE0;
     byte_3B7FC[var_654 * 6 + 2] = (unsigned)word_3BEC0 >> 7;
     byte_3B7FC[var_654 * 6 + 3] = (unsigned)word_3BED0 >> 7;
-    byte_3B7FC[var_654 * 6 + 4] = arg_0;
+    byte_3B7FC[var_654 * 6 + 4] = eventType;
     byte_3B7FC[var_654 * 6 + 5] = arg_2;
     var_654++;
     byte_3B7FC[var_654 * 6 + 4] = 0;
 }
 
 // ==== seg000:0x1d6e placeString ====
-void placeString(int param_1) {
-    strcpy(strBuf, word_3C0A2[(stru_3AA5E[param_1].field_C) & 0x7f]);
-    if (strlen(word_3C0A2[(&word_3AA5C)[param_1 * 8]])) {
-        if (strlen(word_3C0A2[(stru_3AA5E[param_1].field_C) & 0x7f])) {
+void placeString(int waypointIdx) {
+    strcpy(strBuf, word_3C0A2[(stru_3AA5E[waypointIdx].field_C) & 0x7f]);
+    if (strlen(word_3C0A2[(&word_3AA5C)[waypointIdx * 8]])) {
+        if (strlen(word_3C0A2[(stru_3AA5E[waypointIdx].field_C) & 0x7f])) {
             strcat(strBuf, aAt);
         }
-        strcat(strBuf, word_3C0A2[(&word_3AA5C)[param_1 * 8]]);
+        strcat(strBuf, word_3C0A2[(&word_3AA5C)[waypointIdx * 8]]);
     }
     if ((int)strlen(strBuf) > 25) {
         byte_38F8C = '.';

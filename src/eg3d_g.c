@@ -10,14 +10,14 @@
 #include <memory.h>
 
 
-void setViewRotation(int arg_0, int arg_2, int arg_4) {
-    buildRotationMatrixFar((uint8*)&word_34276, -arg_0, -arg_2, -arg_4);
+void setViewRotation(int rotX, int rotY, int rotZ) {
+    buildRotationMatrixFar((uint8*)&word_34276, -rotX, -rotY, -rotZ);
 }
 
 // ==== seg000:0x3a90 ====
-void setViewPosition(int arg_0, int arg_2, int arg_4) {
-    var_218 = arg_0;
-    var_219 = arg_2;
-    var_220 = arg_4;
+void setViewPosition(int posX, int posY, int posZ) {
+    var_218 = posX;
+    var_219 = posY;
+    var_220 = posZ;
 }
 

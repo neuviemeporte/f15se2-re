@@ -19,7 +19,7 @@
 // TODO: fireGroundThreat (seg000:6346-660d) - unimplemented
 
 // ==== seg000:0x660e routine_324 ====
-int computeThreatRangeBearing(int arg_0, int arg_2, int arg_4, int arg_6, int *arg_8, int *arg_a) {
+int computeThreatRangeBearing(int threatX, int threatY, int arg_4, int threatType, int *outBearing, int *arg_a) {
     int p;
     int a;
     int b;
@@ -28,15 +28,15 @@ int computeThreatRangeBearing(int arg_0, int arg_2, int arg_4, int arg_6, int *a
     int e;
     unsigned f;
 
-    if (arg_6 == 0 || arg_6 == -1) {
+    if (threatType == 0 || threatType == -1) {
         return 0;
     }
-    d = word_3BEC0 - arg_0;
-    e = word_3BED0 - arg_2;
+    d = word_3BEC0 - threatX;
+    e = word_3BED0 - threatY;
     c = (unsigned)rangeApprox(d, e) >> 6;
     b = computeBearing(d, -e);
-    f = (f = (*(int16 *)&aNone[arg_6 * 14 + 10] + word_330B8 * 2 + 3) * *(int16 *)&aNone[arg_6 * 14 + 8] / 16) * (((unsigned)var_547 >> 6) + 0x40) >> 7;
-    *arg_8 = b;
+    f = (f = (*(int16 *)&aNone[threatType * 14 + 10] + word_330B8 * 2 + 3) * *(int16 *)&aNone[threatType * 14 + 8] / 16) * (((unsigned)var_547 >> 6) + 0x40) >> 7;
+    *outBearing = b;
     *arg_a = c;
     return f;
 }
@@ -83,77 +83,77 @@ int computeThreatScore(void) {
 // TODO: fireAirThreat (seg000:7594-7839) - unimplemented
 
 // ==== seg000:0x783A ====
-int spawnEnemyAircraft(int arg_0, int arg_2)
+int spawnEnemyAircraft(int slot, int objType)
 {
     int p;
 
-    p = *(int16 *)&stru_3B202[arg_0].state[6];
-    *(int16 *)&stru_3B202[arg_0].state[0] = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
-    if (stru_3AA5E[arg_2].flags & 0x200) {
-        stru_3B202[arg_0].posX = word_3AFA8 * 3 + stru_3AA5E[arg_2].mapX;
-        stru_3B202[arg_0].posY = stru_3AA5E[arg_2].mapY - word_3AFA8 * 12;
-        stru_3B202[arg_0].alt = 0x8c;
-        *(int16 *)&stru_3B202[arg_0].state[10] = 100;
-        *(uint8 *)((char *)&stru_3B202[arg_0].state[1]) += 0xfc;
+    p = *(int16 *)&stru_3B202[slot].state[6];
+    *(int16 *)&stru_3B202[slot].state[0] = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
+    if (stru_3AA5E[objType].flags & 0x200) {
+        stru_3B202[slot].posX = word_3AFA8 * 3 + stru_3AA5E[objType].mapX;
+        stru_3B202[slot].posY = stru_3AA5E[objType].mapY - word_3AFA8 * 12;
+        stru_3B202[slot].alt = 0x8c;
+        *(int16 *)&stru_3B202[slot].state[10] = 100;
+        *(uint8 *)((char *)&stru_3B202[slot].state[1]) += 0xfc;
     } else {
-        stru_3B202[arg_0].posX = stru_3AA5E[arg_2].mapX;
-        stru_3B202[arg_0].posY = 0x1e * word_3AFA8 + stru_3AA5E[arg_2].mapY;
-        stru_3B202[arg_0].alt = 0x0c;
-        *(int16 *)&stru_3B202[arg_0].state[10] = 10;
+        stru_3B202[slot].posX = stru_3AA5E[objType].mapX;
+        stru_3B202[slot].posY = 0x1e * word_3AFA8 + stru_3AA5E[objType].mapY;
+        stru_3B202[slot].alt = 0x0c;
+        *(int16 *)&stru_3B202[slot].state[10] = 10;
     }
-    stru_3B202[arg_0].worldX = (long)(uint16)stru_3B202[arg_0].posX << 5;
-    stru_3B202[arg_0].worldY = (long)(uint16)stru_3B202[arg_0].posY << 5;
-    *(int16 *)&stru_3B202[arg_0].state[2] = 0;
-    *(int16 *)&stru_3B202[arg_0].state[4] = 0;
-    *(uint16 *)&stru_3B202[arg_0].state[8] |= 0x403;
-    stru_3B202[arg_0].objType = arg_2;
-    *(int16 *)&stru_3B202[arg_0].state[12] = (int16)(((long)*(int16 *)&aFlogger[p * 32 + 12] << 11) * (long)word_330C4 / (long)*(int16 *)&aFlogger[p * 32 + 10]);
-    *(int16 *)&stru_3B202[arg_0].state[16] = readMapPixelColor(stru_3AA5E[arg_2].mapX, stru_3AA5E[arg_2].mapY);
+    stru_3B202[slot].worldX = (long)(uint16)stru_3B202[slot].posX << 5;
+    stru_3B202[slot].worldY = (long)(uint16)stru_3B202[slot].posY << 5;
+    *(int16 *)&stru_3B202[slot].state[2] = 0;
+    *(int16 *)&stru_3B202[slot].state[4] = 0;
+    *(uint16 *)&stru_3B202[slot].state[8] |= 0x403;
+    stru_3B202[slot].objType = objType;
+    *(int16 *)&stru_3B202[slot].state[12] = (int16)(((long)*(int16 *)&aFlogger[p * 32 + 12] << 11) * (long)word_330C4 / (long)*(int16 *)&aFlogger[p * 32 + 10]);
+    *(int16 *)&stru_3B202[slot].state[16] = readMapPixelColor(stru_3AA5E[objType].mapX, stru_3AA5E[objType].mapY);
     if (word_336FC == -1) {
-        stru_3B202[arg_0].state[9] &= 0xfe;
+        stru_3B202[slot].state[9] &= 0xfe;
     }
-    placeString(arg_2);
+    placeString(objType);
     strcat(strBuf, aDash);
-    strcat(strBuf, (char *)(*(int16 *)&stru_3B202[arg_0].state[6] * 32 + (int)aMig23));
+    strcat(strBuf, (char *)(*(int16 *)&stru_3B202[slot].state[6] * 32 + (int)aMig23));
     strcat(strBuf, aTakingOff);
-    if (arg_0 < word_3C046 - 4) {
+    if (slot < word_3C046 - 4) {
         tempStrcpy(strBuf);
     }
 }
 // ==== seg000:0x85be ====
-int samCanAcquireTarget(int param_1, int param_2, int param_3, int param_4, int param_5) {
+int samCanAcquireTarget(int slot, int targetX, int targetY, int param_4, int mode) {
     int p;
     int a;
     int b;
     int c;
 
-    b = param_2 - stru_335C4[param_1].mapX;
-    c = param_3 - stru_335C4[param_1].mapY;
+    b = targetX - stru_335C4[slot].mapX;
+    c = targetY - stru_335C4[slot].mapY;
     a = rangeApprox(b, c);
     var_670 = computeBearing(b, -c);
-    if (stru_335C4[param_1].field_6 * 24 / word_330C4 > a) {
+    if (stru_335C4[slot].field_6 * 24 / word_330C4 > a) {
         var_669 = a;
         return 1;
     }
-    p = abs(var_670 - stru_335C4[param_1].worldX);
-    if (p > 0x1000 && param_5 != 3) {
-        if (p > 0x6000 && param_1 < 8) {
-            if ((stru_335C4[param_1].field_6 << 4) / word_330C4 < a) {
-                stru_335C4[param_1].ttl = clampRange(stru_335C4[param_1].ttl, 0, word_330C4 << 4);
+    p = abs(var_670 - stru_335C4[slot].worldX);
+    if (p > 0x1000 && mode != 3) {
+        if (p > 0x6000 && slot < 8) {
+            if ((stru_335C4[slot].field_6 << 4) / word_330C4 < a) {
+                stru_335C4[slot].ttl = clampRange(stru_335C4[slot].ttl, 0, word_330C4 << 4);
             }
         }
         return 0;
     }
-    if (param_5 == 0) {
-        if (abs(stru_335C4[param_1].worldX - var_542) > 0x2000) {
+    if (mode == 0) {
+        if (abs(stru_335C4[slot].worldX - var_542) > 0x2000) {
             return 0;
         }
     }
-    if (param_5 == 0) {
+    if (mode == 0) {
         var_669 = a;
         return 1;
     }
-    p = abs(stru_335C4[param_1].worldX - var_542);
+    p = abs(stru_335C4[slot].worldX - var_542);
     if (abs(p - 0x4000) >= 0x2000 - word_330B8 * 2048) {
         var_669 = a;
         return 1;
@@ -162,34 +162,34 @@ int samCanAcquireTarget(int param_1, int param_2, int param_3, int param_4, int 
 }
 
 // ==== seg000:0x86f8 ====
-void destroyAircraft(int param_1)
+void destroyAircraft(int objIdx)
 {
     int p;
 
-    if (!(stru_3B202[param_1].state[8] & 0x20)) {
-        *(int16 *)&aFlogger[*(int16 *)&stru_3B202[param_1].state[6] * 32 + 22] += 1;
-        if (*(uint16 *)&stru_3B202[param_1].state[8] & 0x800) {
+    if (!(stru_3B202[objIdx].state[8] & 0x20)) {
+        *(int16 *)&aFlogger[*(int16 *)&stru_3B202[objIdx].state[6] * 32 + 22] += 1;
+        if (*(uint16 *)&stru_3B202[objIdx].state[8] & 0x800) {
             word_3C044--;
         }
-        if (param_1 == word_336FC) {
+        if (objIdx == word_336FC) {
             word_336FC = -1;
         }
-        stru_3B202[param_1].state[8] |= 0x20;
+        stru_3B202[objIdx].state[8] |= 0x20;
         word_336F6 = -1;
-        word_3BEC2 = stru_3B202[param_1].posX;
-        word_3BED6 = stru_3B202[param_1].posY;
-        word_3BFA2 = stru_3B202[param_1].alt;
+        word_3BEC2 = stru_3B202[objIdx].posX;
+        word_3BED6 = stru_3B202[objIdx].posY;
+        word_3BFA2 = stru_3B202[objIdx].alt;
         word_3B4DC = 0x80;
         p = 3;
-        appendMapEvent(p, (*(uint16 *)&stru_3B202[param_1].state[8] & 0x4000 ? 0x80 : 0) + *(int16 *)&stru_3B202[param_1].state[6]);
-        if (*(int16 *)&stru_3B202[param_1].state[10] != 0) goto done;
-        *(uint16 *)&stru_3B202[param_1].state[8] &= 0x1c1;
+        appendMapEvent(p, (*(uint16 *)&stru_3B202[objIdx].state[8] & 0x4000 ? 0x80 : 0) + *(int16 *)&stru_3B202[objIdx].state[6]);
+        if (*(int16 *)&stru_3B202[objIdx].state[10] != 0) goto done;
+        *(uint16 *)&stru_3B202[objIdx].state[8] &= 0x1c1;
     done:
         ;
     }
-    strcpy(strBuf, (char *)(*(int16 *)&stru_3B202[param_1].state[6] * 32 + (int)aMig23));
+    strcpy(strBuf, (char *)(*(int16 *)&stru_3B202[objIdx].state[6] * 32 + (int)aMig23));
     makeSound(2, 2);
-    if (word_3C45C == 1 && param_1 == word_336F2) {
+    if (word_3C45C == 1 && objIdx == word_336F2) {
         word_39604 = 1;
     }
 }
@@ -197,14 +197,14 @@ void destroyAircraft(int param_1)
 // TODO: processTargetReached (seg000:87ea-89a9) - unimplemented
 
 // ==== seg000:0x89aa ====
-int markTargetReached(int arg_0) {
-    if (planeFlags & (0x4000 >> arg_0)) {
+int markTargetReached(int targetIdx) {
+    if (planeFlags & (0x4000 >> targetIdx)) {
         return 0;
     }
-    if (*(&word_3B144 + 9 * arg_0) == 4 || *(&word_3B144 + 9 * arg_0) == 3) {
-        appendMapEvent((arg_0 != 0 ? 0x40 : 0x80) + 0x0b, 0);
+    if (*(&word_3B144 + 9 * targetIdx) == 4 || *(&word_3B144 + 9 * targetIdx) == 3) {
+        appendMapEvent((targetIdx != 0 ? 0x40 : 0x80) + 0x0b, 0);
     }
-    if (arg_0 != 0) {
+    if (targetIdx != 0) {
         strcpy(strBuf, aSecond_Target);
         waypointIndex = 1;
         var_730 |= 0x20;
@@ -345,8 +345,8 @@ end:
 }
 
 // ==== seg000:0x8df4 ====
-void projectWorldPos(int param_1, int param_2, int param_3) {
+void projectWorldPos(int worldX, int worldY, int worldZ) {
     *(char *)&var_315 = 0;
-    drawNearestTileObject((int32)param_1 << 5, -((int32)param_2 - 0x8000L) << 5, (int32)param_3);
+    drawNearestTileObject((int32)worldX << 5, -((int32)worldY - 0x8000L) << 5, (int32)worldZ);
 }
 
