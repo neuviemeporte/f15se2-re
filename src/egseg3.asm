@@ -11,11 +11,16 @@ _DATA ENDS
 _BSS SEGMENT WORD PUBLIC 'BSS'
 _BSS ENDS
 
-; int9Handler writes the keyboard virtual-stick axes. The original wrote them to
-; joyAxes (DGROUP 0x56e4/0x56e5) -- where the stick dot (sub_18E50) and the
-; flight control (otherKeyDispatch) read. The reconstruction had used _joyAxes/99
-; (0x56e8/e9), 4 bytes off, so the stick was computed but never consumed.
+; int9Handler writes the keyboard virtual-stick RAW axes to byte_37F98/byte_37F99
+; (DGROUP 0x56e8/0x56e9), which setInt9Handler initializes to center (0x80).
+; otherKeyDispatch's keyboard path reads them, scales by the gain (a15flt+0F2h),
+; and writes the result to joyAxes (0x56e4/0x56e5), which the stick dot
+; (sub_18E50/egtacmap) displays. Writing 0x56e4/0x56e5 here directly let
+; otherKeyDispatch overwrite the deflection with a centered value -> the stick
+; only reacted intermittently. byte_37F98=Up/Down (pitch), byte_37F99=Left/Right.
 EXTRN _joyAxes:BYTE
+EXTRN byte_37F98:BYTE
+EXTRN byte_37F99:BYTE
 EXTRN byte_37F9A:BYTE
 EXTRN word_37F9B:WORD
 EXTRN byte_37F9D:BYTE
@@ -153,19 +158,19 @@ int9Handler proc near
     add bh, 80h
     test al, 1
     jz short @@noLeft
-    mov byte ptr [_joyAxes+1], bl
+    mov byte ptr [byte_37F99], bl
 @@noLeft:
     test al, 2
     jz short @@noRight
-    mov byte ptr [_joyAxes+1], bh
+    mov byte ptr [byte_37F99], bh
 @@noRight:
     test al, 4
     jz short @@noUp
-    mov _joyAxes, bl
+    mov byte ptr [byte_37F98], bl
 @@noUp:
     test al, 8
     jz short @@noDown
-    mov _joyAxes, bh
+    mov byte ptr [byte_37F98], bh
 @@noDown:
     mov bx, es:6Ch
     mov word_37F9B, bx
@@ -174,8 +179,8 @@ int9Handler proc near
     cmp byte_37F9A, al
     jnz short @@flushKbd
     mov byte_37F9A, 0
-    mov _joyAxes, 80h
-    mov byte ptr [_joyAxes+1], 80h
+    mov byte ptr [byte_37F98], 80h
+    mov byte ptr [byte_37F99], 80h
 @@flushKbd:
     mov bx, es:1Ah
     cmp bx, es:1Ch
