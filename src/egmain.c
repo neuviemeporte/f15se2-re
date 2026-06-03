@@ -434,7 +434,7 @@ void updateFrame(void) {
             }
             stru_3B202[e].field_2 = (long)stru_3B202[e].posX << 5;
             stru_3B202[e].field_6 = (long)stru_3B202[e].posY << 5;
-            *(int *)&stru_3B202[e].field_10[0] = -sub_1D200(0x4000);
+            *(int *)&stru_3B202[e].field_10[0] = -randomRange(0x4000);
             c = stru_3AA5E[word_3C16A].field_6;
             if (c & 0x400) {
                 *(int *)&stru_3B202[e].field_10[6] = 8;
@@ -747,7 +747,7 @@ int updateTracerParticles() {
             ((struct struc_9 *)stru_33402)[a].field_0 = *(int16 *)((char *)stru_3AA5E + word_336F6 * 16);
             ((struct struc_9 *)stru_33402)[a].field_2 = *(int16 *)((char *)stru_3AA5E + word_336F6 * 16 + 2);
             ((struct struc_9 *)stru_33402)[a].field_4 = 0x80;
-            ((struct struc_9 *)stru_33402)[a].field_6 = sub_1D200(0x100) << 8;
+            ((struct struc_9 *)stru_33402)[a].field_6 = randomRange(0x100) << 8;
             word_33442 = a;
         }
     }
@@ -768,10 +768,10 @@ void initFrameRandom(void) {
     int p, a, b, c;
 
     seedRng();
-    sub_18E38();
-    word_336E8 = sub_1D200(0x1000) & 0x7ff8;
+    clearStatusPanel();
+    word_336E8 = randomRange(0x1000) & 0x7ff8;
     p = word_3B14C + word_3B15E;
-    word_330BC = (gameData->theater == 6 ? 5 : 9) < sub_1D200(0x10);
+    word_330BC = (gameData->theater == 6 ? 5 : 9) < randomRange(0x10);
     if (word_330BC && byte_32933) {
         setupDac();
     }
@@ -861,11 +861,11 @@ void scheduleEventCheck(int arg_0, unsigned int arg_2) {
     if (arg_2 > (unsigned int)word_3370E) return;
     if (word_3370C != -1) return;
     word_3C02E = arg_0;
-    sub_11BFD(0x89, word_3370E == 1 ? 3 : 4);
+    scheduleTimedEvent(0x89, word_3370E == 1 ? 3 : 4);
 }
 
 // ==== seg000:0x1bfd scheduleTimedEvent ====
-void sub_11BFD(int arg_0, int arg_2) {
+void scheduleTimedEvent(int arg_0, int arg_2) {
     if (word_3370E == 0) {
         return;
     }
@@ -882,9 +882,9 @@ void generateRandomRadioMessage(void) {
     }
     word_330B6 = 500;
     word_3370E = 2;
-    switch (sub_1D200(3)) {
+    switch (randomRange(3)) {
     case 0:
-        p = sub_1D200(word_3BED2 - 3) + 3;
+        p = randomRange(word_3BED2 - 3) + 3;
         word_3C02E = p + 0x40;
         keyValue = 0x89;
         placeString(p);
@@ -892,7 +892,7 @@ void generateRandomRadioMessage(void) {
         break;
     case 1:
         do {
-            p = sub_1D200(word_3C046);
+            p = randomRange(word_3C046);
         } while (*(int16 *)&stru_3B202[p].field_10[10] == 0);
         word_3C02E = p + 0x20;
         keyValue = 0x89;

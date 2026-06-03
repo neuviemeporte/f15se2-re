@@ -66,21 +66,21 @@ void drawWorldObject(int param_1, long param_2, long param_3, int param_4, int p
     }
     param_8 = (var_456 != 0) ? (param_8 - 2) : (param_8 - 3);
     if (param_8 > 0) {
-        unknown_libname_1(param_8, &c);
-        unknown_libname_1(param_8, &e);
+        shiftLongLeftInPlace(param_8, &c);
+        shiftLongLeftInPlace(param_8, &e);
         f <<= (char)param_8;
     }
     if (param_8 < 0) {
         *(char *)&g = -param_8;
-        unknown_libname_2(g, &c);
-        unknown_libname_2(g, &e);
+        shiftLongRightInPlace(g, &c);
+        shiftLongRightInPlace(g, &e);
         f >>= (char)g;
     }
     if ((long)(int)labs(c) < (long)0x7FFF) {
         if ((long)(int)labs(e) < (long)0x7FFF) {
             setViewPosition(0, 0, -f);
             word_3C16C = 1;
-            sub_20104(byte_228D0 + a, -param_5, param_6, param_7, (int)c, -(int)e, param_4 != 0);
+            projectSceneObject(byte_228D0 + a, -param_5, param_6, param_7, (int)c, -(int)e, param_4 != 0);
         }
     }
 }
@@ -182,7 +182,7 @@ int drawTargetView(int param_1, int param_2, int param_3, int param_4, int param
         }
         *(var_568 + 2) = (int)byte_3419A[0];
         if (a != 0x80) {
-            sub_21444(var_568, 0xe8, 0x80, 0x130, a);
+            fillSpanRect(var_568, 0xe8, 0x80, 0x130, a);
         }
         h = byte_228D0[0x2f];
         e = (int)(signed char)byte_3BFA4[param_1 & 0x7f];
@@ -195,13 +195,13 @@ int drawTargetView(int param_1, int param_2, int param_3, int param_4, int param
         }
         *(var_568 + 2) = (int)byte_3419C[h];
         if (a != 0xb8) {
-            sub_21444(var_568, 0xe8, a, 0x130, 0xb8);
+            fillSpanRect(var_568, 0xe8, a, 0x130, 0xb8);
         }
     }
 
     var_316 = 1;
     setup3DTransform((char*)var_568, -var_681, var_684, var_685, 0, 0, 0, 0);
-    sub_20104(byte_228D0 + g, -param_5, param_6, param_7, k, -l, m);
+    projectSceneObject(byte_228D0 + g, -param_5, param_6, param_7, k, -l, m);
     rasterize3DWorld();
     var_316 = 0;
 
@@ -329,7 +329,7 @@ void seedRng(void) {
 }
 
 // ==== seg000:0xd200 randomRange ====
-int sub_1D200(int arg_0) {
+int randomRange(int arg_0) {
     return (int)(((long)rand() * (long)arg_0) >> 15);
 }
 

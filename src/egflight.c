@@ -194,7 +194,7 @@ void destroyAircraft(int param_1)
     }
 }
 
-// TODO: sub_187EA (seg000:87ea-89a9) - unimplemented
+// TODO: processTargetReached (seg000:87ea-89a9) - unimplemented
 
 // ==== seg000:0x89aa ====
 int markTargetReached(int arg_0) {
@@ -219,14 +219,14 @@ int markTargetReached(int arg_0) {
     return 1;
 }
 
-extern int sub_1D200(int);
+extern int randomRange(int);
 void bombTarget(void) {
     int p;
     if (!(planeFlags & 0x1000) && word_336EA != -1) {
         p = 0;
         goto check;
         do {
-            word_33096 |= (1 << sub_1D200(8));
+            word_33096 |= (1 << randomRange(8));
             word_3BF90++;
             p++;
     check:;

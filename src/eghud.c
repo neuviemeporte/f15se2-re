@@ -26,7 +26,7 @@ void applyRotationDelta(int param_1, int param_2) {
     if (!(*(char *)&var_549 & 7)) {
         *(char *)&word_380D8 = 1;
     }
-    sub_20E38(param_1, param_2, unk_380B6);
+    multiplyMatrix3x3Far(param_1, param_2, unk_380B6);
     memcpy(unk_3806E, unk_380B6, 0x12);
 }
 
@@ -34,7 +34,7 @@ void applyRotationDelta(int param_1, int param_2) {
 // TODO: computeHudAttitude (seg000:5237-5410) - unimplemented
 
 void rebuildOrientation() {
-    sub_20BAE(unk_3806E, var_542, var_544, var_545);
+    buildRotationMatrixFar(unk_3806E, var_542, var_544, var_545);
     *(char *)&word_380D8 = 0;
     var_549 = 0;
 }
@@ -271,7 +271,7 @@ int renderFrame() {
         memcpy(unk_3A948, unk_3806E, 0x12);
     }
     else {
-        sub_20BAE(unk_3A948, word_3C5AA, word_3BE94, word_3B4E4);
+        buildRotationMatrixFar(unk_3A948, word_3C5AA, word_3BE94, word_3B4E4);
     }
     word_3B4DE = word_3B4DE < 0x10 ? 0x10 : word_3B4DE;
     var_E = word_330C2;
@@ -323,7 +323,7 @@ int renderFrame() {
     copySomeMem(word_330BC);
     *(uint8*)(&word_36B86) = 0;
 #if defined(DEBUG) && defined(DISABLE_3D)
-    /* Skip the whole 3D render (incl. sub_1B147 HUD) to get continuous frames. */
+    /* Skip the whole 3D render (incl. drawHudWorldOverlay HUD) to get continuous frames. */
 #else
     render3DView(-word_3C5AA, word_3BE94, word_3B4E4, dword_3B1FE, dword_3B4D4, (int32)word_3B4DE, 0, 0, 0x140, off_38334[0x10] + 1);
 #endif
@@ -336,12 +336,12 @@ int renderFrame() {
         word_37561 = 0x15;
         word_3755F = 0xfb;
         word_37563 = 0x5e;
-        sub_2152A();
+        drawClipLineGlobal();
         word_3755D = 0x53;
         word_37561 = 0x15;
         word_3755F = 0x49;
         word_37563 = 0x5e;
-        sub_2152A();
+        drawClipLineGlobal();
         gfx_resetBlitOffset2();
         var_E = byte_3C5A0;
         byte_3C5A0 = gfx_getDisplayPage();
@@ -386,16 +386,16 @@ void drawFuelGauge(void) {
 void drawVectorShape(int16 *arg_0) {
     while (*arg_0 != -1) {
         gfx_setColor(((uint8 *)word_3419C)[*arg_0++]);
-        sub_2171A();
+        resetScanlineSpans();
         arg_0 += 2;
         while (*arg_0 != -1) {
             var_351 = arg_0[-2];
             var_353 = arg_0[-1];
             var_352 = *arg_0++;
             var_354 = *arg_0++;
-            sub_2189C();
+            clipAndRasterizeEdge();
         }
-        sub_21704();
+        flushSpanDirtyRect();
         arg_0++;
     }
 }

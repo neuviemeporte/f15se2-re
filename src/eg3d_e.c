@@ -155,7 +155,7 @@ int drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
         FP_OFF(var_200)++;
         var_217 = 0;
         var_216 = 0;
-        sub_202DA();
+        advanceModelPointerLod();
         if (*var_200 & 0x40) {
             var_215 = 0;
             sub_2044A();
@@ -241,7 +241,7 @@ void drawMapTileObject(char far *param_1, int param_3, int param_4) {
     *(char far **)&var_200 = param_1;
     var_200++;
     var_216 = 0;
-    sub_202DA();
+    advanceModelPointerLod();
     if (word_3C16C >= 3) {
         if ((**(char far **)&var_200 & 0x40) != var_665)
             return;
@@ -255,8 +255,8 @@ void drawMapTileObject(char far *param_1, int param_3, int param_4) {
     }
     buildVertexSignMask(param_3, param_4);
     projectModelVertices(param_3, param_4);
-    sub_20A46();
-    sub_20FDC();
+    projectModelEdgesFar();
+    drawModelDisplayList();
 }
 
 // ==== seg000:0x378e ====
@@ -319,7 +319,7 @@ int aspectScaleY(int arg_0) {
 // ==== seg000:0x3932 ====
 void setup3DTransform(char *arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c, int arg_e) {
     setupViewport((int)arg_0);
-    sub_13A6C(arg_2, arg_4, arg_6);
+    setViewRotation(arg_2, arg_4, arg_6);
     setViewPosition(arg_8, arg_a, arg_c);
     if (arg_e != 0) {
         var_315 = 0;

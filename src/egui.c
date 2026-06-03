@@ -33,7 +33,7 @@ int drawTacticalMap(char param_1)
 
     h = var_588 + 1;
     setDrawColor(0);
-    sub_21444(param_1 == 0 ? var_564 : var_565, 0x78, 0x68, 0xc7, 0xaf);
+    fillSpanRect(param_1 == 0 ? var_564 : var_565, 0x78, 0x68, 0xc7, 0xaf);
     setDrawColor(8);
     j = 1;
     if (var_588 < 2 && word_38FDC != 0) {
@@ -215,6 +215,6 @@ void blitSprite(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a
     gfx_blitSpriteOpaque(&word_383CC);
 }
 
-// TODO: sub_1A9F8 (seg000:a9f8-b146) - unimplemented
-// TODO: sub_1B147 (seg000:b147-c1b8) - large unimplemented function
+// TODO: updateTargetLock (seg000:a9f8-b146) - unimplemented
+// TODO: drawHudWorldOverlay (seg000:b147-c1b8) - large unimplemented function
 // Once implemented, try merging egame2e.c + egame1j.c (if register spill doesn't affect codegen)

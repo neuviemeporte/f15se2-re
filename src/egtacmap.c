@@ -16,7 +16,7 @@
 
 // ==== seg000:0x8e38 ====
 
-int sub_18E38(void) {
+int clearStatusPanel(void) {
     drawPanelText(2, (char*)aEmpty_5950, 0);
 }
 
@@ -245,11 +245,11 @@ int plotMapObject(int arg_0, int arg_2, int arg_4, int arg_6) {
     p = mapXToScreen(arg_0);
     a = mapYToScreen(arg_2);
     if (arg_4 != -1 && p >= word_3C018 && p < word_3C45E - 1 && a >= word_3C01A && a < word_3C5A2 - 1) {
-        routine_328(p, a, arg_4);
+        drawMapPoint(p, a, arg_4);
         if (arg_6 != 0) {
-            routine_328(p + 1, a, arg_4);
-            routine_328(p, a + 1, arg_4);
-            routine_328(p + 1, a + 1, arg_4);
+            drawMapPoint(p + 1, a, arg_4);
+            drawMapPoint(p, a + 1, arg_4);
+            drawMapPoint(p + 1, a + 1, arg_4);
         }
         return 0;
     } else {
@@ -351,7 +351,7 @@ int drawViewportLine(int arg_0, int arg_2, int arg_4, int arg_6) {
     var_353 = arg_2;
     var_352 = arg_4;
     var_354 = arg_6;
-    sub_2152A();
+    drawClipLineGlobal();
     gfx_resetBlitOffset2();
 }
 
@@ -369,7 +369,7 @@ void drawClippedLineRegion(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8
     var_353 = arg_2 - arg_c;
     var_352 = arg_4 - arg_8;
     var_354 = arg_6 - arg_c;
-    sub_2152A();
+    drawClipLineGlobal();
     gfx_resetBlitOffset2();
     if (arg_10 != 0) {
         byte_3C5A0 = gfx_getDisplayPage();
@@ -379,7 +379,7 @@ void drawClippedLineRegion(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8
         var_353 = arg_2 - arg_c;
         var_352 = arg_4 - arg_8;
         var_354 = arg_6 - arg_c;
-        sub_2152A();
+        drawClipLineGlobal();
         gfx_setPageN(byte_3C5A0 != 0);
         gfx_resetBlitOffset2();
     }
@@ -420,8 +420,8 @@ void fillRectBoth(int arg_0, int arg_2, int arg_4, int arg_6) {
     if (word_336E8 < 80)
         TRACE_KEY(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", word_336E8, arg_0, arg_2, arg_4, arg_6, arg_4-arg_0+1, arg_6-arg_2+1, (int)off_38334[2], (int)off_38334[0x10]));
 #endif
-    sub_21444(off_38334, arg_0, arg_2, arg_4, arg_6);
-    sub_21444(off_3834C, arg_0, arg_2, arg_4, arg_6);
+    fillSpanRect(off_38334, arg_0, arg_2, arg_4, arg_6);
+    fillSpanRect(off_3834C, arg_0, arg_2, arg_4, arg_6);
 }
 
 // ==== seg000:0x9e94 ====
@@ -431,7 +431,7 @@ int drawColorPoint(int arg_0, int arg_2, int arg_4) {
 }
 
 // ==== seg000:0x9ea0 ====
-void routine_328(int arg_0, int arg_2, int arg_4) {
+void drawMapPoint(int arg_0, int arg_2, int arg_4) {
     setDrawColor(arg_4);
     drawFullscreenLine(arg_0, arg_2, arg_0, arg_2);
 }
@@ -451,7 +451,7 @@ done:
 // ==== seg000:0x9fad ====
 int drawPanelText(int arg_0, char* arg_1, int arg_2) {
     fillPanelBox(arg_0, arg_2);
-    sub_1A030(arg_0, arg_1);
+    drawCenteredLabelBox(arg_0, arg_1);
 }
 
 // ==== seg000:0x9fcc ====

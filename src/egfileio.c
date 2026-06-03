@@ -31,12 +31,12 @@ int readFile1Wrapper(int arg_0, int arg_1, int arg_2) {
 }
 
 // ==== seg000:0xdd92 ====
-int sub_1DD92(int arg_0, int arg_1, int arg_2, int arg_3) {
+int readFile2Wrapper(int arg_0, int arg_1, int arg_2, int arg_3) {
     return readFile2(arg_0, arg_1, arg_2, arg_3);
 }
 
 // ==== seg000:0xddaa ====
-int sub_1DDAA(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) {
+int writeFileAtRawWrapper(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) {
     return writeFileAtRaw(arg_0, arg_1, arg_2, arg_3, arg_4);
 }
 

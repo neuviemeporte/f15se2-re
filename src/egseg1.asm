@@ -189,133 +189,133 @@ EXTRN word_3C16C:word
 EXTRN word_3C69C:word
 EXTRN word_3C6A2:word
 
-PUBLIC sub_1F882
-PUBLIC _sub_1F882
-PUBLIC sub_1F8F8
-PUBLIC _sub_1F8F8
-PUBLIC sub_1F993
-PUBLIC _sub_1F993
-PUBLIC sub_1F9B7
-PUBLIC _sub_1F9B7
-PUBLIC sub_1F9DD
-PUBLIC _sub_1F9DD
+PUBLIC drawPolygonOutline
+PUBLIC _drawPolygonOutline
+PUBLIC projectVertexToScreen
+PUBLIC _projectVertexToScreen
+PUBLIC installDivZeroHandler
+PUBLIC _installDivZeroHandler
+PUBLIC installDivZeroVector
+PUBLIC _installDivZeroVector
+PUBLIC clipLineSegment
+PUBLIC _clipLineSegment
 PUBLIC sub_1FABF
 PUBLIC _sub_1FABF
-PUBLIC sub_1FB1D
-PUBLIC _sub_1FB1D
-PUBLIC sub_1FB52
-PUBLIC _sub_1FB52
-PUBLIC sub_1FB88
-PUBLIC _sub_1FB88
-PUBLIC sub_1FBB4
-PUBLIC _sub_1FBB4
-PUBLIC sub_1FC03
-PUBLIC _sub_1FC03
-PUBLIC sub_1FC3A
-PUBLIC _sub_1FC3A
-PUBLIC sub_1FC8E
-PUBLIC _sub_1FC8E
-PUBLIC sub_1FD04
-PUBLIC _sub_1FD04
-PUBLIC sub_1FD72
-PUBLIC _sub_1FD72
-PUBLIC sub_1FDAD
-PUBLIC _sub_1FDAD
+PUBLIC writeClippedStart
+PUBLIC _writeClippedStart
+PUBLIC writeClippedEnd
+PUBLIC _writeClippedEnd
+PUBLIC rejectClippedLine
+PUBLIC _rejectClippedLine
+PUBLIC clipPointInside
+PUBLIC _clipPointInside
+PUBLIC clipComputeOutcode
+PUBLIC _clipComputeOutcode
+PUBLIC clampToClipEdge
+PUBLIC _clampToClipEdge
+PUBLIC clipMidpointSubdivide
+PUBLIC _clipMidpointSubdivide
+PUBLIC clipLineMidpoint
+PUBLIC _clipLineMidpoint
+PUBLIC pointOnClipEdge
+PUBLIC _pointOnClipEdge
+PUBLIC computeClipOutcode
+PUBLIC _computeClipOutcode
 PUBLIC sub_1FE5C
 PUBLIC _sub_1FE5C
 PUBLIC sub_1FEEC
 PUBLIC _sub_1FEEC
 PUBLIC sub_1FEFE
 PUBLIC _sub_1FEFE
-PUBLIC sub_20104
-PUBLIC _sub_20104
-PUBLIC sub_20188
-PUBLIC _sub_20188
-PUBLIC sub_20289
-PUBLIC _sub_20289
+PUBLIC projectSceneObject
+PUBLIC _projectSceneObject
+PUBLIC transformAndCullObject
+PUBLIC _transformAndCullObject
+PUBLIC skipDisplayListByLod
+PUBLIC _skipDisplayListByLod
 PUBLIC sub_202B6
 PUBLIC _sub_202B6
 PUBLIC sub_202C7
 PUBLIC _sub_202C7
-PUBLIC sub_202DA
-PUBLIC _sub_202DA
+PUBLIC advanceModelPointerLod
+PUBLIC _advanceModelPointerLod
 PUBLIC sub_202F6
 PUBLIC _sub_202F6
-PUBLIC sub_20300
-PUBLIC _sub_20300
-PUBLIC sub_203E0
-PUBLIC _sub_203E0
+PUBLIC insertSortedObject
+PUBLIC _insertSortedObject
+PUBLIC renderSortedList
+PUBLIC _renderSortedList
 PUBLIC sub_2044A
 PUBLIC _sub_2044A
-PUBLIC sub_20467
-PUBLIC _sub_20467
-PUBLIC sub_20534
-PUBLIC _sub_20534
+PUBLIC processSceneObject
+PUBLIC _processSceneObject
+PUBLIC rotatePoint3d
+PUBLIC _rotatePoint3d
 PUBLIC sub_20658
 PUBLIC _sub_20658
-PUBLIC sub_20674
-PUBLIC _sub_20674
-PUBLIC sub_20970
-PUBLIC _sub_20970
-PUBLIC sub_20A46
-PUBLIC _sub_20A46
-PUBLIC sub_20A58
-PUBLIC _sub_20A58
-PUBLIC sub_20B02
-PUBLIC _sub_20B02
-PUBLIC sub_20BAE
-PUBLIC _sub_20BAE
-PUBLIC sub_20BDF
-PUBLIC _sub_20BDF
-PUBLIC sub_20CFB
-PUBLIC _sub_20CFB
-PUBLIC sub_20E19
-PUBLIC _sub_20E19
-PUBLIC sub_20E38
-PUBLIC _sub_20E38
-PUBLIC sub_20E4D
-PUBLIC _sub_20E4D
-PUBLIC sub_20FDC
-PUBLIC _sub_20FDC
-PUBLIC sub_20FEA
-PUBLIC _sub_20FEA
-PUBLIC sub_21075
-PUBLIC _sub_21075
-PUBLIC sub_211BA
-PUBLIC _sub_211BA
-PUBLIC sub_21422
-PUBLIC _sub_21422
-PUBLIC sub_21444
-PUBLIC _sub_21444
+PUBLIC transformModelVertices
+PUBLIC _transformModelVertices
+PUBLIC transformVertexList
+PUBLIC _transformVertexList
+PUBLIC projectModelEdgesFar
+PUBLIC _projectModelEdgesFar
+PUBLIC projectModelEdges
+PUBLIC _projectModelEdges
+PUBLIC clipEdgeNearPlane
+PUBLIC _clipEdgeNearPlane
+PUBLIC buildRotationMatrixFar
+PUBLIC _buildRotationMatrixFar
+PUBLIC buildRotationMatrix
+PUBLIC _buildRotationMatrix
+PUBLIC buildInverseRotationMatrix
+PUBLIC _buildInverseRotationMatrix
+PUBLIC transposeOrientationMatrix
+PUBLIC _transposeOrientationMatrix
+PUBLIC multiplyMatrix3x3Far
+PUBLIC _multiplyMatrix3x3Far
+PUBLIC multiplyMatrix3x3
+PUBLIC _multiplyMatrix3x3
+PUBLIC drawModelDisplayList
+PUBLIC _drawModelDisplayList
+PUBLIC renderPrimitiveList
+PUBLIC _renderPrimitiveList
+PUBLIC renderPrimitiveCommand
+PUBLIC _renderPrimitiveCommand
+PUBLIC drawPrimitiveEdges
+PUBLIC _drawPrimitiveEdges
+PUBLIC testVisibilityMask
+PUBLIC _testVisibilityMask
+PUBLIC fillSpanRect
+PUBLIC _fillSpanRect
 PUBLIC sub_21526
 PUBLIC _sub_21526
-PUBLIC sub_2152A
-PUBLIC _sub_2152A
-PUBLIC sub_21536
-PUBLIC _sub_21536
-PUBLIC sub_216C2
-PUBLIC _sub_216C2
-PUBLIC sub_21704
-PUBLIC _sub_21704
-PUBLIC sub_2171A
-PUBLIC _sub_2171A
-PUBLIC sub_21720
-PUBLIC _sub_21720
-PUBLIC sub_21756
-PUBLIC _sub_21756
-PUBLIC sub_217B4
-PUBLIC _sub_217B4
-PUBLIC sub_2189C
-PUBLIC _sub_2189C
-PUBLIC sub_218A8
-PUBLIC _sub_218A8
+PUBLIC drawClipLineGlobal
+PUBLIC _drawClipLineGlobal
+PUBLIC clipLineCohenSutherland
+PUBLIC _clipLineCohenSutherland
+PUBLIC computeLineOutcode
+PUBLIC _computeLineOutcode
+PUBLIC flushSpanDirtyRect
+PUBLIC _flushSpanDirtyRect
+PUBLIC resetScanlineSpans
+PUBLIC _resetScanlineSpans
+PUBLIC resetScanlineSpansImpl
+PUBLIC _resetScanlineSpansImpl
+PUBLIC clampScanlineSpan
+PUBLIC _clampScanlineSpan
+PUBLIC rasterizeEdgeSpan
+PUBLIC _rasterizeEdgeSpan
+PUBLIC clipAndRasterizeEdge
+PUBLIC _clipAndRasterizeEdge
+PUBLIC clipAndRasterizeEdgeImpl
+PUBLIC _clipAndRasterizeEdgeImpl
 
 seg001 segment byte public 'CODE'
 
     ; 2 bytes padding to match original segment layout (first routine at offset 0x0002)
     db 2 dup(0)
 
-sub_1F882 proc far
+drawPolygonOutline proc far
     PUSH BP
     MOV BP,SP
     PUSH ES
@@ -363,11 +363,11 @@ loc_0025:
     POP ES
     POP BP
     RETF
-sub_1F882 endp
+drawPolygonOutline endp
 
     db 000h, 08Bh, 0DCh, 056h, 057h, 036h, 08Bh, 05Fh, 002h, 0D1h, 0E3h, 0D1h, 0E3h, 0E8h, 003h, 000h
     db 05Fh, 05Eh, 0C3h
-sub_1F8F8 proc near
+projectVertexToScreen proc near
 loc_0078:
     MOV CX,[BX+1DD6h]
     CMP BYTE PTR [_byte_37C24],0h
@@ -421,11 +421,11 @@ loc_00E7:
     MOV [BX+219Ch],AX
     MOV [BX+219Eh],AX
     RET
-sub_1F8F8 endp
+projectVertexToScreen endp
 
     db 055h, 08Bh, 0ECh, 083h, 046h, 002h, 003h, 08Ah, 0C4h, 08Ah, 0E2h, 08Ah, 0D6h, 0F7h, 0F9h, 099h
     db 08Ah, 0D4h, 08Ah, 0E0h, 02Ah, 0C0h, 05Dh, 0CFh
-sub_1F993 proc near
+installDivZeroHandler proc near
 loc_0113:
     PUSH ES
     SUB AX,AX
@@ -440,9 +440,9 @@ loc_0113:
     MOV [ES:2h],AX
     POP ES
     RET
-sub_1F993 endp
+installDivZeroHandler endp
 
-sub_1F9B7 proc near
+installDivZeroVector proc near
 loc_0137:
     PUSH ES
     SUB AX,AX
@@ -453,11 +453,11 @@ loc_0137:
     MOV [ES:2h],AX
     POP ES
     RET
-sub_1F9B7 endp
+installDivZeroVector endp
 
     db 055h, 08Bh, 0ECh, 056h, 057h, 006h, 08Bh, 07Eh, 006h, 0E8h, 005h, 000h, 007h, 05Fh, 05Eh, 05Dh
     db 0C3h
-sub_1F9DD proc near
+clipLineSegment proc near
 loc_015D:
     MOV AX,[DI]
     MOV CX,[DI+2h]
@@ -552,7 +552,7 @@ loc_0227:
 loc_023B:
     CALL loc_0308
     RET
-sub_1F9DD endp
+clipLineSegment endp
 
 sub_1FABF proc near
 loc_023F:
@@ -588,7 +588,7 @@ loc_0276:
     RET
 sub_1FABF endp
 
-sub_1FB1D proc near
+writeClippedStart proc near
 loc_029D:
     MOV [word_34166],BX
     MOV [word_34168],CX
@@ -607,9 +607,9 @@ loc_029D:
     OR BYTE PTR [DI+18h],20h
 loc_02D1:
     RET
-sub_1FB1D endp
+writeClippedStart endp
 
-sub_1FB52 proc near
+writeClippedEnd proc near
 loc_02D2:
     MOV [word_34166],BX
     MOV [word_34168],CX
@@ -628,9 +628,9 @@ loc_02D2:
     OR BYTE PTR [DI+18h],10h
 loc_0307:
     RET
-sub_1FB52 endp
+writeClippedEnd endp
 
-sub_1FB88 proc near
+rejectClippedLine proc near
 loc_0308:
     MOV CL,[DI+18h]
     OR CL,80h
@@ -651,9 +651,9 @@ loc_0323:
 loc_0330:
     MOV [DI+18h],CL
     RET
-sub_1FB88 endp
+rejectClippedLine endp
 
-sub_1FBB4 proc near
+clipPointInside proc near
 loc_0334:
     OR CX,CX
     JNZ short loc_0343
@@ -697,9 +697,9 @@ loc_036C:
 loc_0380:
     OR AX,AX
     RET
-sub_1FBB4 endp
+clipPointInside endp
 
-sub_1FC03 proc near
+clipComputeOutcode proc near
 loc_0383:
     MOV AL,0Ch
     OR CX,CX
@@ -730,9 +730,9 @@ loc_03A9:
 loc_03B7:
     OR AL,AL
     RET
-sub_1FC03 endp
+clipComputeOutcode endp
 
-sub_1FC3A proc near
+clampToClipEdge proc near
 loc_03BA:
     MOV AH,1h
     MOV BP,CX
@@ -777,9 +777,9 @@ loc_0403:
 loc_040B:
     MOV AX,BX
     RET
-sub_1FC3A endp
+clampToClipEdge endp
 
-sub_1FC8E proc near
+clipMidpointSubdivide proc near
 loc_040E:
     MOV AL,[byte_34170]
     OR AL,AL
@@ -824,9 +824,9 @@ loc_0473:
     MOV SI,[word_3416A]
     MOV DX,[word_3416C]
     RET
-sub_1FC8E endp
+clipMidpointSubdivide endp
 
-sub_1FD04 proc near
+clipLineMidpoint proc near
 loc_0484:
     MOV AL,[byte_34170]
     OR AL,AL
@@ -868,9 +868,9 @@ loc_04A1:
 loc_04EF:
     OR AL,AL
     RET
-sub_1FD04 endp
+clipLineMidpoint endp
 
-sub_1FD72 proc near
+pointOnClipEdge proc near
 loc_04F2:
     CMP BX,BYTE PTR +0x0
     JZ short loc_050B
@@ -902,9 +902,9 @@ loc_051C:
 loc_052A:
     OR AX,AX
     RET
-sub_1FD72 endp
+pointOnClipEdge endp
 
-sub_1FDAD proc near
+computeClipOutcode proc near
 loc_052D:
     MOV AL,0Ch
     CMP BX,BYTE PTR +0x0
@@ -923,7 +923,7 @@ loc_053E:
 loc_054D:
     OR AL,AL
     RET
-sub_1FDAD endp
+computeClipOutcode endp
 
 loc_0550:
     PUSH DI
@@ -1287,7 +1287,7 @@ loc_087E:
     RET
 sub_1FEFE endp
 
-sub_20104 proc far
+projectSceneObject proc far
     PUSH BP
     MOV BP,SP
     PUSH SI
@@ -1344,9 +1344,9 @@ loc_0904:
     POP SI
     POP BP
     RETF
-sub_20104 endp
+projectSceneObject endp
 
-sub_20188 proc near
+transformAndCullObject proc near
 loc_0908:
     PUSH SI
     MOV AX,[word_34282]
@@ -1460,9 +1460,9 @@ loc_0A02:
     OR AX,AX
     POP SI
     RET
-sub_20188 endp
+transformAndCullObject endp
 
-sub_20289 proc near
+skipDisplayListByLod proc near
 loc_0A09:
 IFDEF DEBUG
     push di
@@ -1504,7 +1504,7 @@ IFDEF DEBUG
     pop di
 ENDIF
     RET
-sub_20289 endp
+skipDisplayListByLod endp
 
     db 0C4h, 036h, 08Ch, 019h
 sub_202B6 proc near
@@ -1532,14 +1532,14 @@ sub_202C7 proc far
     RETF
 sub_202C7 endp
 
-sub_202DA proc far
+advanceModelPointerLod proc far
     PUSH SI
     LES SI,DWORD PTR [_var_200]
     CALL loc_0A09
     MOV [_var_200],SI
     POP SI
     RETF
-sub_202DA endp
+advanceModelPointerLod endp
 
     db 055h, 056h, 057h, 0C4h, 036h, 08Ch, 019h, 0E8h, 00Eh, 000h, 05Fh, 05Eh, 05Dh, 0C3h
 sub_202F6 proc far
@@ -1553,7 +1553,7 @@ sub_202F6 proc far
     RETF
 sub_202F6 endp
 
-sub_20300 proc near
+insertSortedObject proc near
 loc_0A80:
     MOV [_var_200],SI
     MOV [_var_200_seg],ES
@@ -1663,9 +1663,9 @@ loc_0B59:
     MOV [DI],BP
     INC WORD PTR [_var_255]
     RET
-sub_20300 endp
+insertSortedObject endp
 
-sub_203E0 proc near
+renderSortedList proc near
 loc_0B60:
     CMP WORD PTR [_var_255],BYTE PTR +0x0
     JZ short loc_0BBB
@@ -1711,7 +1711,7 @@ loc_0B6A:
     JMP short loc_0B6A
 loc_0BBB:
     RET
-sub_203E0 endp
+renderSortedList endp
 
     db 055h, 056h, 057h, 0C4h, 036h, 08Ch, 019h, 0E8h, 021h, 000h, 05Fh, 05Eh, 05Dh, 0C3h
 sub_2044A proc far
@@ -1730,7 +1730,7 @@ sub_2044A proc far
     RETF
 sub_2044A endp
 
-sub_20467 proc near
+processSceneObject proc near
 loc_0BE7:
     MOV AH,[83h]
     OR AH,AH
@@ -1815,9 +1815,9 @@ loc_0C96:
     CALL loc_176A
     CALL loc_0137
     RET
-sub_20467 endp
+processSceneObject endp
 
-sub_20534 proc near
+rotatePoint3d proc near
 loc_0CB4:
     NEG BP
     NEG AX
@@ -1947,7 +1947,7 @@ MOV AL, byte ptr [_var_257]
     INC WORD PTR [_var_315]
 loc_0DD6:
     RET
-sub_20534 endp
+rotatePoint3d endp
 
     db 0C3h
 sub_20658 proc far
@@ -1963,7 +1963,7 @@ sub_20658 endp
 
     db 055h, 056h, 057h, 0C4h, 036h, 08Ch, 019h, 0E8h, 004h, 003h, 089h, 036h, 08Ch, 019h, 05Fh, 05Eh
     db 05Dh, 0C3h
-sub_20674 proc near
+transformModelVertices proc near
 loc_0DF4:
     CMP WORD PTR [_size3d3_3],BYTE PTR +0x0
     JNZ short loc_0DFC
@@ -2113,7 +2113,7 @@ loc_0EDF:
     JMP near ptr loc_0EDF
 loc_0F77:
     RET
-sub_20674 endp
+transformModelVertices endp
 
 loc_0F78:
     MOV BL,AL
@@ -2260,7 +2260,7 @@ loc_1097:
     ADD BX,BYTE PTR +0x4
     LOOP short loc_108B
     RET
-sub_20970 proc near
+transformVertexList proc near
 loc_10F0:
     db 026h
     LODSB
@@ -2346,10 +2346,10 @@ loc_1114:
     CALL loc_0078
     POP SI
     JMP near ptr loc_110A
-sub_20970 endp
+transformVertexList endp
 
     db 000h
-sub_20A46 proc far
+projectModelEdgesFar proc far
     db 055h
     db 056h
     PUSH DI
@@ -2360,9 +2360,9 @@ sub_20A46 proc far
     POP SI
     POP BP
     RETF
-sub_20A46 endp
+projectModelEdgesFar endp
 
-sub_20A58 proc near
+projectModelEdges proc near
 loc_11D8:
     SUB AH,AH
     db 026h
@@ -2442,9 +2442,9 @@ loc_1278:
     JMP near ptr loc_11E8
 loc_1281:
     RET
-sub_20A58 endp
+projectModelEdges endp
 
-sub_20B02 proc near
+clipEdgeNearPlane proc near
 loc_1282:
     PUSH ES
     PUSH CX
@@ -2510,10 +2510,10 @@ loc_1282:
     POP CX
     POP ES
     RET
-sub_20B02 endp
+clipEdgeNearPlane endp
 
     db 000h
-sub_20BAE proc far
+buildRotationMatrixFar proc far
     db 055h
     db 08Bh
     IN AL,DX
@@ -2528,11 +2528,11 @@ sub_20BAE proc far
     POP SI
     POP BP
     RETF
-sub_20BAE endp
+buildRotationMatrixFar endp
 
     db 055h, 056h, 057h, 0BFh, 0D8h, 019h, 08Bh, 00Eh, 096h, 019h, 08Bh, 036h, 098h, 019h, 08Bh, 02Eh
     db 09Ah, 019h, 0E8h, 020h, 001h, 05Fh, 05Eh, 05Dh, 0C3h
-sub_20BDF proc near
+buildRotationMatrix proc near
 loc_135F:
     MOV BX,CX
     call far ptr lookupSineFar
@@ -2638,9 +2638,9 @@ loc_135F:
     RCL DX,1
     MOV [DI+10h],DX
     RET
-sub_20BDF endp
+buildRotationMatrix endp
 
-sub_20CFB proc near
+buildInverseRotationMatrix proc near
 loc_147B:
     MOV BX,CX
     call far ptr lookupSineFar
@@ -2747,9 +2747,9 @@ loc_147B:
     RCL DX,1
     MOV [DI+10h],DX
     RET
-sub_20CFB endp
+buildInverseRotationMatrix endp
 
-sub_20E19 proc near
+transposeOrientationMatrix proc near
 loc_1599:
     MOV BX,19D8h
     MOV AX,[BX+2h]
@@ -2762,9 +2762,9 @@ loc_1599:
     XCHG [BX+0Eh],AX
     MOV [BX+0Ah],AX
     RET
-sub_20E19 endp
+transposeOrientationMatrix endp
 
-sub_20E38 proc far
+multiplyMatrix3x3Far proc far
     PUSH BP
     MOV BP,SP
     PUSH SI
@@ -2777,9 +2777,9 @@ sub_20E38 proc far
     POP SI
     POP BP
     RETF
-sub_20E38 endp
+multiplyMatrix3x3Far endp
 
-sub_20E4D proc near
+multiplyMatrix3x3 proc near
 loc_15CD:
     MOV AX,[BX]
     IMUL WORD PTR [SI]
@@ -2953,9 +2953,9 @@ loc_15CD:
     ADC CX,DX
     MOV [DI+10h],CX
     RET
-sub_20E4D endp
+multiplyMatrix3x3 endp
 
-sub_20FDC proc far
+drawModelDisplayList proc far
     PUSH BP
     PUSH SI
     PUSH DI
@@ -2965,9 +2965,9 @@ sub_20FDC proc far
     POP SI
     POP BP
     RETF
-sub_20FDC endp
+drawModelDisplayList endp
 
-sub_20FEA proc near
+renderPrimitiveList proc near
 loc_176A:
     db 026h
     LODSB
@@ -3033,9 +3033,9 @@ loc_17E5:
     CMP AL,0FFh
     JNZ short loc_17C6
     RET
-sub_20FEA endp
+renderPrimitiveList endp
 
-sub_21075 proc near
+renderPrimitiveCommand proc near
 loc_17F5:
     db 026h
     LODSB
@@ -3176,9 +3176,9 @@ loc_1929:
     call far ptr gfx_dirtyRect
     POP SI
     RET
-sub_21075 endp
+renderPrimitiveCommand endp
 
-sub_211BA proc near
+drawPrimitiveEdges proc near
 loc_193A:
     TEST BYTE PTR [BX+18h],80h
     JNZ short loc_195C
@@ -3213,7 +3213,7 @@ loc_1973:
     MOV ES,[_var_200_seg]
 loc_1989:
     RET
-sub_211BA endp
+drawPrimitiveEdges endp
 
 loc_198A:
     MOV AX,[word_34256]
@@ -3418,7 +3418,7 @@ loc_1B95:
 loc_1B9E:
     CALL loc_0137
     RET
-sub_21422 proc near
+testVisibilityMask proc near
 loc_1BA2:
     CMP BYTE PTR [_var_258],0h
     JNZ short loc_1BB0
@@ -3435,10 +3435,10 @@ loc_1BB0:
     AND DX,[_var_260]
     OR AX,DX
     RET
-sub_21422 endp
+testVisibilityMask endp
 
     db 000h
-sub_21444 proc far
+fillSpanRect proc far
     db 055h
     db 08Bh
     IN AL,DX
@@ -3485,7 +3485,7 @@ sub_21444 proc far
     MOV SP,BP
     POP BP
     RETF
-sub_21444 endp
+fillSpanRect endp
 
     db 055h, 08Bh, 0ECh, 057h, 056h, 055h, 01Eh, 007h, 09Ah, 00Eh, 00Fh, 08Bh, 022h, 050h, 08Bh, 05Eh
     db 006h, 08Bh, 007h, 09Ah, 0FFh, 00Eh, 08Bh, 022h, 08Ah, 067h, 006h, 09Ah, 05Eh, 00Fh, 08Bh, 022h
@@ -3500,7 +3500,7 @@ sub_21526 proc far
     RETF
 sub_21526 endp
 
-sub_2152A proc far
+drawClipLineGlobal proc far
     PUSH BP
     PUSH SI
     PUSH DI
@@ -3511,9 +3511,9 @@ sub_2152A proc far
     POP SI
     POP BP
     RETF
-sub_2152A endp
+drawClipLineGlobal endp
 
-sub_21536 proc near
+clipLineCohenSutherland proc near
 loc_1CB6:
     SUB AX,AX
     MOV ES,AX
@@ -3690,9 +3690,9 @@ loc_1E2C:
     MOV AL,[byte_3754E]
     MOV BYTE PTR [byte_3754E],0h
     JMP near ptr loc_1DA3
-sub_21536 endp
+clipLineCohenSutherland endp
 
-sub_216C2 proc near
+computeLineOutcode proc near
 loc_1E42:
     MOV AL,0Fh
     OR BX,BX
@@ -3713,12 +3713,12 @@ loc_1E58:
 loc_1E60:
     OR AL,AL
     RET
-sub_216C2 endp
+computeLineOutcode endp
 
     db 055h, 08Bh, 0ECh, 081h, 07Eh, 002h, 0F4h, 01Dh, 0A1h, 0A1h, 04Ch, 074h, 003h, 0A1h, 09Fh, 04Ch
     db 033h, 0D0h, 0B8h, 000h, 07Fh, 079h, 002h, 0F7h, 0D8h, 083h, 046h, 002h, 004h, 02Bh, 0D2h, 05Dh
     db 0CFh
-sub_21704 proc far
+flushSpanDirtyRect proc far
     PUSH DI
     PUSH SI
     PUSH BP
@@ -3730,16 +3730,16 @@ sub_21704 proc far
     POP SI
     POP DI
     RETF
-sub_21704 endp
+flushSpanDirtyRect endp
 
-sub_2171A proc far
+resetScanlineSpans proc far
     PUSH DI
     CALL loc_1EA0
     POP DI
     RETF
-sub_2171A endp
+resetScanlineSpans endp
 
-sub_21720 proc near
+resetScanlineSpansImpl proc near
 loc_1EA0:
     MOV DI,[word_378D9]
     OR DI,DI
@@ -3764,9 +3764,9 @@ loc_1EA0:
     MOV [word_378DB],AX
 loc_1ED5:
     RET
-sub_21720 endp
+resetScanlineSpansImpl endp
 
-sub_21756 proc near
+clampScanlineSpan proc near
 loc_1ED6:
     MOV AX,@data    ; was literal 228Bh (original DGROUP@loadtime); must be relocatable
     MOV ES,AX
@@ -3806,7 +3806,7 @@ loc_1F19:
     REP stosw
 loc_1F24:
     RET
-sub_21756 endp
+clampScanlineSpan endp
 
 loc_1F25:
     SUB SI,SI
@@ -3816,7 +3816,7 @@ loc_1F25:
     CMP BX,SI
     JG short loc_1ED6
     RET
-sub_217B4 proc near
+rasterizeEdgeSpan proc near
 loc_1F34:
     MOV AX,[_word_3755F]
     CMP AX,[_word_3755D]
@@ -3920,10 +3920,10 @@ loc_200C:
     JMP short loc_1FF8
 loc_201A:
     RET
-sub_217B4 endp
+rasterizeEdgeSpan endp
 
     db 000h
-sub_2189C proc far
+clipAndRasterizeEdge proc far
     db 006h
     db 056h
     db 057h
@@ -3934,9 +3934,9 @@ sub_2189C proc far
     POP SI
     POP ES
     RETF
-sub_2189C endp
+clipAndRasterizeEdge endp
 
-sub_218A8 proc near
+clipAndRasterizeEdgeImpl proc near
 loc_2028:
     SUB AX,AX
     MOV ES,AX
@@ -4136,70 +4136,70 @@ loc_21C5:
     PUSH DS
     POP ES
     JMP near ptr loc_1F34
-sub_218A8 endp
+clipAndRasterizeEdgeImpl endp
 
 
 seg001 ends
 
-_sub_1F882 EQU sub_1F882
-_sub_1F8F8 EQU sub_1F8F8
-_sub_1F993 EQU sub_1F993
-_sub_1F9B7 EQU sub_1F9B7
-_sub_1F9DD EQU sub_1F9DD
+_drawPolygonOutline EQU drawPolygonOutline
+_projectVertexToScreen EQU projectVertexToScreen
+_installDivZeroHandler EQU installDivZeroHandler
+_installDivZeroVector EQU installDivZeroVector
+_clipLineSegment EQU clipLineSegment
 _sub_1FABF EQU sub_1FABF
-_sub_1FB1D EQU sub_1FB1D
-_sub_1FB52 EQU sub_1FB52
-_sub_1FB88 EQU sub_1FB88
-_sub_1FBB4 EQU sub_1FBB4
-_sub_1FC03 EQU sub_1FC03
-_sub_1FC3A EQU sub_1FC3A
-_sub_1FC8E EQU sub_1FC8E
-_sub_1FD04 EQU sub_1FD04
-_sub_1FD72 EQU sub_1FD72
-_sub_1FDAD EQU sub_1FDAD
+_writeClippedStart EQU writeClippedStart
+_writeClippedEnd EQU writeClippedEnd
+_rejectClippedLine EQU rejectClippedLine
+_clipPointInside EQU clipPointInside
+_clipComputeOutcode EQU clipComputeOutcode
+_clampToClipEdge EQU clampToClipEdge
+_clipMidpointSubdivide EQU clipMidpointSubdivide
+_clipLineMidpoint EQU clipLineMidpoint
+_pointOnClipEdge EQU pointOnClipEdge
+_computeClipOutcode EQU computeClipOutcode
 _sub_1FE5C EQU sub_1FE5C
 _sub_1FEEC EQU sub_1FEEC
 _sub_1FEFE EQU sub_1FEFE
-_sub_20104 EQU sub_20104
-_sub_20188 EQU sub_20188
-_sub_20289 EQU sub_20289
+_projectSceneObject EQU projectSceneObject
+_transformAndCullObject EQU transformAndCullObject
+_skipDisplayListByLod EQU skipDisplayListByLod
 _sub_202B6 EQU sub_202B6
 _sub_202C7 EQU sub_202C7
-_sub_202DA EQU sub_202DA
+_advanceModelPointerLod EQU advanceModelPointerLod
 _sub_202F6 EQU sub_202F6
-_sub_20300 EQU sub_20300
-_sub_203E0 EQU sub_203E0
+_insertSortedObject EQU insertSortedObject
+_renderSortedList EQU renderSortedList
 _sub_2044A EQU sub_2044A
-_sub_20467 EQU sub_20467
-_sub_20534 EQU sub_20534
+_processSceneObject EQU processSceneObject
+_rotatePoint3d EQU rotatePoint3d
 _sub_20658 EQU sub_20658
-_sub_20674 EQU sub_20674
-_sub_20970 EQU sub_20970
-_sub_20A46 EQU sub_20A46
-_sub_20A58 EQU sub_20A58
-_sub_20B02 EQU sub_20B02
-_sub_20BAE EQU sub_20BAE
-_sub_20BDF EQU sub_20BDF
-_sub_20CFB EQU sub_20CFB
-_sub_20E19 EQU sub_20E19
-_sub_20E38 EQU sub_20E38
-_sub_20E4D EQU sub_20E4D
-_sub_20FDC EQU sub_20FDC
-_sub_20FEA EQU sub_20FEA
-_sub_21075 EQU sub_21075
-_sub_211BA EQU sub_211BA
-_sub_21422 EQU sub_21422
-_sub_21444 EQU sub_21444
+_transformModelVertices EQU transformModelVertices
+_transformVertexList EQU transformVertexList
+_projectModelEdgesFar EQU projectModelEdgesFar
+_projectModelEdges EQU projectModelEdges
+_clipEdgeNearPlane EQU clipEdgeNearPlane
+_buildRotationMatrixFar EQU buildRotationMatrixFar
+_buildRotationMatrix EQU buildRotationMatrix
+_buildInverseRotationMatrix EQU buildInverseRotationMatrix
+_transposeOrientationMatrix EQU transposeOrientationMatrix
+_multiplyMatrix3x3Far EQU multiplyMatrix3x3Far
+_multiplyMatrix3x3 EQU multiplyMatrix3x3
+_drawModelDisplayList EQU drawModelDisplayList
+_renderPrimitiveList EQU renderPrimitiveList
+_renderPrimitiveCommand EQU renderPrimitiveCommand
+_drawPrimitiveEdges EQU drawPrimitiveEdges
+_testVisibilityMask EQU testVisibilityMask
+_fillSpanRect EQU fillSpanRect
 _sub_21526 EQU sub_21526
-_sub_2152A EQU sub_2152A
-_sub_21536 EQU sub_21536
-_sub_216C2 EQU sub_216C2
-_sub_21704 EQU sub_21704
-_sub_2171A EQU sub_2171A
-_sub_21720 EQU sub_21720
-_sub_21756 EQU sub_21756
-_sub_217B4 EQU sub_217B4
-_sub_2189C EQU sub_2189C
-_sub_218A8 EQU sub_218A8
+_drawClipLineGlobal EQU drawClipLineGlobal
+_clipLineCohenSutherland EQU clipLineCohenSutherland
+_computeLineOutcode EQU computeLineOutcode
+_flushSpanDirtyRect EQU flushSpanDirtyRect
+_resetScanlineSpans EQU resetScanlineSpans
+_resetScanlineSpansImpl EQU resetScanlineSpansImpl
+_clampScanlineSpan EQU clampScanlineSpan
+_rasterizeEdgeSpan EQU rasterizeEdgeSpan
+_clipAndRasterizeEdge EQU clipAndRasterizeEdge
+_clipAndRasterizeEdgeImpl EQU clipAndRasterizeEdgeImpl
 
 end

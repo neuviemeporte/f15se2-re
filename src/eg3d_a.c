@@ -29,7 +29,7 @@ void render3DView(int arg_0, int arg_2, int arg_4, long arg_6, long arg_a, long 
     TRACE(("121CA:2"));
     projectObjects(arg_0, arg_2, (int)arg_6, (int)(arg_6 >> 16), (int)arg_a, (int)(arg_a >> 16), (int)arg_e, (int)(arg_e >> 16));
     TRACE(("121CA:3"));
-    sub_1A9F8();
+    updateTargetLock();
     TRACE(("121CA:4"));
 #if defined(DEBUG) && defined(DISABLE_3D)
     /* rasterize3DWorld renders the 3D world objects and hangs in loc_0BE7 on certain
@@ -39,7 +39,7 @@ void render3DView(int arg_0, int arg_2, int arg_4, long arg_6, long arg_a, long 
     rasterize3DWorld();
 #endif
     TRACE(("121CA:5"));
-    sub_1B147();
+    drawHudWorldOverlay();
     TRACE(("121CA:6"));
     *(char *)&var_135 ^= 1;
 }

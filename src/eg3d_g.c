@@ -10,8 +10,8 @@
 #include <memory.h>
 
 
-void sub_13A6C(int arg_0, int arg_2, int arg_4) {
-    sub_20BAE((uint8*)&word_34276, -arg_0, -arg_2, -arg_4);
+void setViewRotation(int arg_0, int arg_2, int arg_4) {
+    buildRotationMatrixFar((uint8*)&word_34276, -arg_0, -arg_2, -arg_4);
 }
 
 // ==== seg000:0x3a90 ====

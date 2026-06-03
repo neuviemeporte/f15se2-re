@@ -130,8 +130,8 @@ EXTRN _drawCockpitHud:PROC
 EXTRN _signOf:PROC
 EXTRN _seedRng:PROC
 EXTRN _readAxisInput:PROC
-EXTRN _sub_1C7A2:PROC
-EXTRN _sub_1C7C6:PROC
+EXTRN _computeMapTargetRange:PROC
+EXTRN _computeSimObjectRange:PROC
 EXTRN _computeTargetBearing:PROC
 EXTRN _sub_21A7A:PROC
 EXTRN _aspectScaleY:PROC
@@ -140,7 +140,7 @@ EXTRN _sub_1CF8E:PROC
 EXTRN _shapeDataOffset:PROC
 EXTRN _drawTargetView:PROC
 EXTRN _drawWorldObject:PROC
-EXTRN _sub_11BFD:PROC
+EXTRN _scheduleTimedEvent:PROC
 EXTRN _scheduleEventCheck:PROC
 EXTRN _dispatchKeyScancode:PROC
 EXTRN _drawTargetLabel:PROC
@@ -153,7 +153,7 @@ EXTRN _mapYToScreen:PROC
 EXTRN _applyGravityFall:PROC
 EXTRN _initFrameRandom:PROC
 EXTRN _projectWorldPos:PROC
-EXTRN _sub_18E38:PROC
+EXTRN _clearStatusPanel:PROC
 EXTRN _refreshActivePanel:PROC
 EXTRN _initTacMapView:PROC
 EXTRN _setViewPosition:PROC
@@ -163,7 +163,7 @@ EXTRN _rangeApprox:PROC
 EXTRN _computeBearing:PROC
 EXTRN _sinMul:PROC
 EXTRN _cosMul:PROC
-EXTRN _sub_1D200:PROC
+EXTRN _randomRange:PROC
 EXTRN _sub_121C6:PROC
 EXTRN _valueToAngle:PROC
 EXTRN _complementAngle:PROC
@@ -225,8 +225,8 @@ EXTRN _stackavail:PROC
 EXTRN _remove:PROC
 EXTRN _createFileWrapper:PROC
 EXTRN _readFile1Wrapper:PROC
-EXTRN _sub_1DD92:PROC
-EXTRN _sub_1DDAA:PROC
+EXTRN _readFile2Wrapper:PROC
+EXTRN _writeFileAtRawWrapper:PROC
 EXTRN _worldToTileIndex:PROC
 EXTRN _computeTileBounds:PROC
 EXTRN _tempStrcpy:PROC
@@ -239,7 +239,7 @@ EXTRN _drawTargetBox:PROC
 EXTRN _drawMissileLock:PROC
 EXTRN _projectWorldToHud:PROC
 EXTRN _rotateVectorComponent:PROC
-EXTRN _routine_328:PROC
+EXTRN _drawMapPoint:PROC
 EXTRN _routine_260:PROC
 EXTRN _plotMapObject:PROC
 EXTRN _objectToScreen:PROC
@@ -250,7 +250,7 @@ EXTRN _updateTracerParticles:PROC
 EXTRN _finalizeMission:PROC
 EXTRN _sub_10294:PROC
 EXTRN _sub_10297:PROC
-EXTRN _sub_13A6C:PROC
+EXTRN _setViewRotation:PROC
 EXTRN _renderMapTerrain:PROC
 EXTRN _drawMapTiles:PROC
 EXTRN _drawMapTileObject:PROC
@@ -339,8 +339,8 @@ PUBLIC _var_350
 PUBLIC _var_134
 PUBLIC _var_135
 PUBLIC _projectObjects
-PUBLIC _sub_1A9F8
-PUBLIC _sub_1B147
+PUBLIC _updateTargetLock
+PUBLIC _drawHudWorldOverlay
 PUBLIC _var_662
 PUBLIC _createFile
 PUBLIC _readFile1
@@ -378,14 +378,14 @@ PUBLIC _audio_jump_69
 PUBLIC _setTimerIrqHandler
 PUBLIC _runGameLoop
 EXTRN _setInt9Handler:FAR
-EXTRN sub_2265B:FAR
-EXTRN sub_2267E:FAR
-EXTRN sub_1F882:FAR
+EXTRN initJoystickCalibration:FAR
+EXTRN readCalibratedJoystick:FAR
+EXTRN drawPolygonOutline:FAR
 EXTRN sub_1FEEC:FAR
-EXTRN sub_20104:FAR
+EXTRN projectSceneObject:FAR
 EXTRN sub_202C7:FAR
 EXTRN sub_202F6:FAR
-EXTRN _sub_2152A:FAR
+EXTRN _drawClipLineGlobal:FAR
 PUBLIC word_37B7E
 PUBLIC word_37B9C
 PUBLIC word_37BBA
@@ -721,7 +721,7 @@ PUBLIC _missiles
 PUBLIC _aAccel
 
 
-PUBLIC _sub_1A030
+PUBLIC _drawCenteredLabelBox
 PUBLIC _aStallWarning
 PUBLIC _aSecond_Target
 PUBLIC _aPrimaryTarget_0
@@ -835,15 +835,15 @@ drawTargetLabel equ _drawTargetLabel
 buildRangeString equ _buildRangeString
 projectWorldToHud equ _projectWorldToHud
 rotateVectorComponent equ _rotateVectorComponent
-sub_1C7A2 equ _sub_1C7A2
-sub_1C7C6 equ _sub_1C7C6
+computeMapTargetRange equ _computeMapTargetRange
+computeSimObjectRange equ _computeSimObjectRange
 computeTargetBearing equ _computeTargetBearing
 sub_1C82D equ _sub_1C82D
 getTargetSymbol equ _getTargetSymbol
 isTargetOverWater equ _isTargetOverWater
 shapeDataOffset equ _shapeDataOffset
 forceRange equ _sub_1CF8E
-randlmul equ _sub_1D200
+randlmul equ _randomRange
 selectMissile equ _selectMissile
 makeSound equ _makeSound
 sub_1DA5F equ _sub_1DA5F
@@ -854,8 +854,8 @@ sub_1DB9C equ _sub_1DB9C
 sub_1DBE0 equ _sub_1DBE0
 createFileWrapper equ _createFileWrapper
 readFile1Wrapper equ _readFile1Wrapper
-sub_1DD92 equ _sub_1DD92
-sub_1DDAA equ _sub_1DDAA
+readFile2Wrapper equ _readFile2Wrapper
+writeFileAtRawWrapper equ _writeFileAtRawWrapper
 
 ; ---------------------------------------------------------------------------
 
@@ -1229,7 +1229,7 @@ LAB_1000_0491:
     mov AX,4h
     push AX
     push word ptr [word_3298A]
-    call far ptr sub_1F882
+    call far ptr drawPolygonOutline
     add SP,8h
     inc word ptr [BP + -4h]
     cmp word ptr [BP + -4h],10h
@@ -1371,7 +1371,7 @@ LAB_1000_0619:
     mov AX,4h
     push AX
     push word ptr [word_3298A]
-    call far ptr sub_1F882
+    call far ptr drawPolygonOutline
     add SP,8h
     inc word ptr [BP + -4h]
     cmp word ptr [BP + -4h],10h
@@ -1609,7 +1609,7 @@ EXTRN _initWeaponLoadout:NEAR
 scheduleEventCheck equ _scheduleEventCheck
 ; ------------------------------seg000:0x1bfc------------------------------
 ; ------------------------------seg000:0x1bfd------------------------------
-sub_11BFD equ _sub_11BFD
+scheduleTimedEvent equ _scheduleTimedEvent
 ; ------------------------------seg000:0x1c20------------------------------
 ; ------------------------------seg000:0x1c21------------------------------
 ; ------------------------------seg000:0x1d0f------------------------------
@@ -1996,7 +1996,7 @@ LAB_1000_261f:
     push AX
     push word ptr [_var_201]
     push word ptr [_var_200]
-    call far ptr sub_20104
+    call far ptr projectSceneObject
     add SP,10h
     add word ptr [word_3C5A8],7h
     inc word ptr [_var_141]
@@ -2032,7 +2032,7 @@ LAB_1000_264e:
     push AX
     push word ptr [_var_201]
     push word ptr [_var_200]
-    call far ptr sub_20104
+    call far ptr projectSceneObject
     add SP,10h
 LAB_1000_26a9:
     jmp LAB_1000_23f1
@@ -2092,7 +2092,7 @@ drawModelPoint proc near
     push AX
     call far ptr _gfx_setColor
     add SP,2h
-    call far ptr _sub_2152A
+    call far ptr _drawClipLineGlobal
     pop BP
     ret
 drawModelPoint endp
@@ -2155,7 +2155,7 @@ _rasterize3DWorld equ rasterize3DWorld
 setupViewport equ _setupViewport
 ; ------------------------------seg000:0x3a6b------------------------------
 ; ------------------------------seg000:0x3a6c------------------------------
-sub_13A6C equ _sub_13A6C
+setViewRotation equ _setViewRotation
 ; ------------------------------seg000:0x3a8e------------------------------
 ; ------------------------------seg000:0x3a90------------------------------
 ; raw bytes for unlabeled code between 0x3aa1 and 0x3aee
@@ -2608,7 +2608,7 @@ timerIsr proc far
     mov word_37904, AX
     call sub_13D6B
     mov byte_378EE, 0
-    call sub_13EE3
+    call advanceFrameTick
 @@tisr_skip:
     cmp word_378FA, 1
     jz short @@tisr_nochain
@@ -2827,11 +2827,11 @@ _getTimeOfDay equ getTimeOfDay
 getTimeOfDay endp
 ; ------------------------------seg000:0x3ee2------------------------------
 ; ------------------------------seg000:0x3ee3------------------------------
-sub_13EE3 proc near
+advanceFrameTick proc near
     inc word ptr [_byte_3790C-2]  ; word_3790A
     inc byte ptr [_byte_3790C]    ; frame tick counter
     retn
-sub_13EE3 endp
+advanceFrameTick endp
 ; ------------------------------seg000:0x3f01------------------------------
     nop
 ; ------------------------------seg000:0x3f72------------------------------
@@ -2992,7 +2992,7 @@ loc_140EE:
 loc_140F1:
     cmp word ptr [word_380E0+2],00h
     jnz loc_14103
-    call far ptr sub_2265B
+    call far ptr initJoystickCalibration
     mov word ptr [word_380E0+2],028h
 loc_14103:
     jmp loc_1423E
@@ -3168,7 +3168,7 @@ loc_14278:
     les BX,dword ptr [_commData]
     cmp word ptr ES:[BX+072h],00h
     jz loc_1428A
-    call far ptr sub_2267E
+    call far ptr readCalibratedJoystick
     jmp loc_142B6
 loc_1428A:
     mov SI,word ptr [_a15flt_xxx+0F2h]
@@ -7652,7 +7652,7 @@ LAB_1000_8043:
     push AX
     sub AX,AX
     push AX
-    call sub_11BFD
+    call scheduleTimedEvent
     add SP,4h
     mov AX,2h
     push AX
@@ -7685,7 +7685,7 @@ LAB_1000_8043:
     cmp AX,word ptr [BP + -0eh]
     jbe LAB_1000_80aa
     push word ptr [word_3C020]
-    call sub_187EA
+    call processTargetReached
     add SP,2h
     mov AX,offset aDestroyedBy
     jmp LAB_1000_813b
@@ -7745,7 +7745,7 @@ LAB_1000_80f6:
     cmp AX,word ptr [BP + -0eh]
     jbe LAB_1000_8199
     push word ptr [BP + -36h]
-    call sub_187EA
+    call processTargetReached
     add SP,2h
     mov AX,offset aDestroyedBy_0
 LAB_1000_813b:
@@ -7947,7 +7947,7 @@ LAB_1000_8306:
     ja LAB_1000_834c
 LAB_1000_8340:
     push word ptr [BP + -14h]
-    call sub_187EA
+    call processTargetReached
     add SP,2h
     jmp LAB_1000_835a
     db 90h
@@ -8196,7 +8196,7 @@ updateThreatTargeting endp
 ; destroyAircraft - replaced by C implementation
 ; ------------------------------seg000:0x87e8------------------------------
 ; ------------------------------seg000:0x87ea------------------------------
-sub_187EA proc near
+processTargetReached proc near
     push BP
     mov BP,SP
     sub SP,6h
@@ -8383,7 +8383,7 @@ LAB_1000_89a4:
     pop BP
     ret
     nop
-sub_187EA endp
+processTargetReached endp
 ; ------------------------------seg000:0x8aa4------------------------------
     nop
 ; ------------------------------seg000:0x8aa6------------------------------
@@ -8394,7 +8394,7 @@ fireMissile equ _fireMissile
 projectWorldPos equ _projectWorldPos
 ; ------------------------------seg000:0x8e36------------------------------
 ; ------------------------------seg000:0x8e38------------------------------
-sub_18E38 equ _sub_18E38
+clearStatusPanel equ _clearStatusPanel
 ; ------------------------------seg000:0x95c9------------------------------
 _redrawTacMap proc near
     push BP
@@ -8719,7 +8719,7 @@ drawHudViewLine equ _drawHudViewLine
 
 ; fillRectBoth moved to C
 
-routine_328 equ _routine_328
+drawMapPoint equ _drawMapPoint
 
 ; switchIndicatorColor moved to C
 
@@ -8729,7 +8729,7 @@ switchIndicatorColor equ _switchIndicatorColor
 ; _fillPanelBox - now in C (egame1.c)
 ; ------------------------------seg000:0xa02f------------------------------
 ; ------------------------------seg000:0xa030------------------------------
-sub_1A030 proc near
+drawCenteredLabelBox proc near
     push BP
     mov BP,SP
     sub SP,6h
@@ -8880,8 +8880,8 @@ LAB_1000_a0c7:
     mov SP,BP
     pop BP
     ret
-sub_1A030 endp
-_sub_1A030 equ sub_1A030
+drawCenteredLabelBox endp
+_drawCenteredLabelBox equ drawCenteredLabelBox
 ; ------------------------------seg000:0xa0ca------------------------------
 ; _drawSomeStrings - now in C (egame1.c)
 ; ------------------------------seg000:0xa0fe------------------------------
@@ -9017,7 +9017,7 @@ LAB_1000_a9de:
 captureScopePanel endp
 ; ------------------------------seg000:0xa9f7------------------------------
 ; ------------------------------seg000:0xa9f8------------------------------
-sub_1A9F8 proc near
+updateTargetLock proc near
     push BP
     mov BP,SP
     sub SP,32h
@@ -9094,7 +9094,7 @@ LAB_1000_aaa3:
     db 2Dh, 80h, 00h ; sub AX,80h (force imm16 encoding)
     mov word ptr [BP + -20h],AX
     push AX
-    call sub_1C7A2
+    call computeMapTargetRange
     add SP,2h
     dec AX
     mov word ptr [BP + -1eh],AX
@@ -9137,7 +9137,7 @@ LAB_1000_ab2a:
     cmp word ptr [BP + -20h],AX
     jge LAB_1000_abab
     push word ptr [BP + -20h]
-    call sub_1C7A2
+    call computeMapTargetRange
     add SP,2h
     mov AX,word ptr [_var_542]
     add AX,word ptr [_word_3C6AC+206h]
@@ -9343,7 +9343,7 @@ LAB_1000_ad24:
     jmp LAB_1000_af1d
 LAB_1000_ad36:
     push word ptr [BP + -20h]
-    call sub_1C7C6
+    call computeSimObjectRange
     add SP,2h
     cmp AX,12c0h
     jl LAB_1000_ad4e
@@ -9746,11 +9746,11 @@ LAB_1000_b141:
     mov SP,BP
     pop BP
     ret
-sub_1A9F8 endp
-_sub_1A9F8 equ sub_1A9F8
+updateTargetLock endp
+_updateTargetLock equ updateTargetLock
 ; ------------------------------seg000:0xb146------------------------------
 ; ------------------------------seg000:0xb147------------------------------
-sub_1B147 proc near
+drawHudWorldOverlay proc near
     push BP
     mov BP,SP
     sub SP,34h
@@ -10186,7 +10186,7 @@ LAB_1000_b54c:
     cmp AL,byte ptr [_byte_3C02A]
     jz LAB_1000_b5bb
     push word ptr [BP + -8h]
-    call sub_187EA
+    call processTargetReached
     add SP,2h
     mov AX,offset aDestroyedByG_0
     push AX
@@ -10375,7 +10375,7 @@ LAB_1000_b749:
     db 3Dh, 1Ch, 00h ; cmp AX,1ch (force imm16 encoding)
     jnz LAB_1000_b7aa
     push word ptr [_word_336F4]
-    call sub_1C7A2
+    call computeMapTargetRange
     add SP,2h
     mov DX,word ptr [_var_547]
     mov CL,5h
@@ -10602,7 +10602,7 @@ LAB_1000_b986:
     add SP,12h
     call drawMissileLock
     push word ptr [BP + -28h]
-    call sub_1C7A2
+    call computeMapTargetRange
     add SP,2h
     push AX
     call buildRangeString
@@ -11268,7 +11268,7 @@ LAB_1000_c058:
     sub AX,AX
     push AX
     push word ptr [_word_336F4]
-    call sub_1C7A2
+    call computeMapTargetRange
     add SP,2h
     mov CL,3h
     sar AX,CL
@@ -11406,8 +11406,8 @@ LAB_1000_c1b3:
     mov SP,BP
     pop BP
     ret
-sub_1B147 endp
-_sub_1B147 equ sub_1B147
+drawHudWorldOverlay endp
+_drawHudWorldOverlay equ drawHudWorldOverlay
 ; ------------------------------seg000:0xc6be------------------------------
 findWaypointEntry equ _findWaypointEntry
 ; ------------------------------seg000:0xc9d2------------------------------
@@ -12657,7 +12657,7 @@ loc_1E0E0:
 _picBlit endp
 ; ------------------------------seg000:0xe11b------------------------------
 ; ------------------------------seg000:0xe11c------------------------------
-sub_1E11C proc near
+picBlitOverlay2 proc near
     push BP
     mov BP,SP
     push DI
@@ -12695,10 +12695,10 @@ LAB_1000_e148:
     mov SP,BP
     pop BP
     ret
-sub_1E11C endp
+picBlitOverlay2 endp
 ; ------------------------------seg000:0xe1f7------------------------------
 ; ------------------------------seg000:0xe1f8------------------------------
-sub_1E1F8 proc near
+picBlitOverlay1 proc near
     push BP
     mov BP,SP
     push DI
@@ -12736,7 +12736,7 @@ LAB_1000_e224:
     mov SP,BP
     pop BP
     ret
-sub_1E1F8 endp
+picBlitOverlay1 endp
 ; ------------------------------seg000:0xe25f------------------------------
 ; ------------------------------seg000:0xe260------------------------------
 nullsub_1 proc near
@@ -12965,7 +12965,7 @@ LAB_1000_e42a:
 dictionaryLookup endp
 ; ------------------------------seg000:0xe42e------------------------------
 ; These are compiler helper wrappers called by game code
-unknown_libname_1 proc near
+shiftLongLeftInPlace proc near
     push BP
     mov BP,SP
     mov BX,word ptr [BP + 4h]
@@ -12979,9 +12979,9 @@ unknown_libname_1 proc near
     mov SP,BP
     pop BP
     ret 4h
-unknown_libname_1 endp
-PUBLIC unknown_libname_1
-unknown_libname_2 proc near
+shiftLongLeftInPlace endp
+PUBLIC shiftLongLeftInPlace
+shiftLongRightInPlace proc near
     push BP
     mov BP,SP
     mov BX,word ptr [BP + 4h]
@@ -12995,8 +12995,8 @@ unknown_libname_2 proc near
     mov SP,BP
     pop BP
     ret 4h
-unknown_libname_2 endp
-PUBLIC unknown_libname_2
+shiftLongRightInPlace endp
+PUBLIC shiftLongRightInPlace
 ; ------------------------------seg000:0xf881------------------------------
 ; seg002 code moved to egseg2.asm
 ; seg003 code moved to egseg3.asm

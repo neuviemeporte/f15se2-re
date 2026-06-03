@@ -29,7 +29,7 @@ drawWeaponAmmo: seg000 NEAR 1a18-1a87 R1a18-1a87 complete
 drawWeaponSelectMarker: seg000 NEAR 1a88-1b36 R1a88-1b36 complete
 finalizeMission: seg000 NEAR 1b37-1bc2 R1b37-1bc2 complete
 scheduleEventCheck: seg000 NEAR 1bc3-1bfc R1bc3-1bfc complete
-sub_11BFD: seg000 NEAR 1bfd-1c20 R1bfd-1c20 complete
+scheduleTimedEvent: seg000 NEAR 1bfd-1c20 R1bfd-1c20 complete
 generateRandomRadioMessage: seg000 NEAR 1c21-1d0f R1c21-1cf3 U1cf4-1cf5 R1cf6-1d0f complete
 appendMapEvent: seg000 NEAR 1d10-1d6d R1d10-1d6d complete
 placeString: seg000 NEAR 1d6e-1e0d R1d6e-1e0d complete
@@ -68,7 +68,7 @@ aspectScaleY: seg000 NEAR 3922-3931 R3922-3931 complete
 setup3DTransform: seg000 NEAR 3932-39a9 R3932-39a9 complete
 rasterize3DWorld: seg000 NEAR 39aa-39bf R39aa-39bf assembly
 setupViewport: seg000 NEAR 39c0-3a6b R39c0-3a6b complete
-sub_13A6C: seg000 NEAR 3a6c-3a8f R3a6c-3a8f complete
+setViewRotation: seg000 NEAR 3a6c-3a8f R3a6c-3a8f complete
 setViewPosition: seg000 NEAR 3a90-3aa7 R3a90-3aa7 complete
 setupDac: seg000 NEAR 3aee-3b2e R3aee-3b2e assembly
 fixedMulQ14: seg000 NEAR 3b2f-3b44 R3b2f-3b44 assembly
@@ -113,12 +113,12 @@ spawnEnemyAircraft: seg000 NEAR 783a-79ed R783a-79ed complete
 updateThreatTargeting: seg000 NEAR 79ee-85bd R79ee-85bd external
 samCanAcquireTarget: seg000 NEAR 85be-86f7 R85be-86f7 complete
 destroyAircraft: seg000 NEAR 86f8-87e9 R86f8-87e9 complete
-sub_187EA: seg000 NEAR 87ea-89a9 R87ea-89a9
+processTargetReached: seg000 NEAR 87ea-89a9 R87ea-89a9
 markTargetReached: seg000 NEAR 89aa-8a43 R89aa-8a43 complete
 bombTarget: seg000 NEAR 8a44-8aa4 R8a44-8aa4 complete
 fireMissile: seg000 NEAR 8aa6-8df3 R8aa6-8df3 complete
 projectWorldPos: seg000 NEAR 8df4-8e37 R8df4-8e37 complete
-sub_18E38: seg000 NEAR 8e38-8e4f R8e38-8e4f complete
+clearStatusPanel: seg000 NEAR 8e38-8e4f R8e38-8e4f complete
 drawCockpitHud: seg000 NEAR 8e50-9484 R8e50-9484 complete
 setActivePanel: seg000 NEAR 94d0-9579 R94d0-9538 U9539-953a R953b-9563 U9564-9565 R9566-9579 complete
 refreshActivePanel: seg000 NEAR 957a-9594 R957a-9594 complete
@@ -144,7 +144,7 @@ drawColorPoint: seg000 NEAR 9e94-9eb5 R9e94-9eb5 complete
 switchIndicatorColor: seg000 NEAR 9eb6-9f46 R9eb6-9f46 complete
 drawPanelText: seg000 NEAR 9fad-9fcb R9fad-9fcb complete
 fillPanelBox: seg000 NEAR 9fcc-a02f R9fcc-a02f complete
-sub_1A030: seg000 NEAR a030-a0ca Ra030-a038 Ua039-a0c6 Ra0c7-a0ca assembly
+drawCenteredLabelBox: seg000 NEAR a030-a0ca Ra030-a038 Ua039-a0c6 Ra0c7-a0ca assembly
 drawSomeStrings: seg000 NEAR a0cb-a0fd Ra0cb-a0fd complete
 draw2Strings: seg000 NEAR a0fe-a139 Ra0fe-a139 complete
 drawStringCentered: seg000 NEAR a13a-a182 Ra13a-a182 complete
@@ -161,8 +161,8 @@ blitSprite: seg000 NEAR a8c8-a933 Ra8c8-a933 complete
 cacheScopePanel: seg000 NEAR a934-a961 Ra934-a961 assembly
 restoreScopePanel: seg000 NEAR a962-a9bb Ra962-a9bb assembly
 captureScopePanel: seg000 NEAR a9bc-a9f7 Ra9bc-a9f7 assembly
-sub_1A9F8: seg000 NEAR a9f8-b146 Ra9f8-b146
-sub_1B147: seg000 NEAR b147-c1b8 Rb147-c1b8
+updateTargetLock: seg000 NEAR a9f8-b146 Ra9f8-b146
+drawHudWorldOverlay: seg000 NEAR b147-c1b8 Rb147-c1b8
 drawTargetBox: seg000 NEAR c1b9-c2f7 Rc1b9-c2f7 complete
 drawMissileLock: seg000 NEAR c2f8-c370 Rc2f8-c370 complete
 drawTargetLabel: seg000 NEAR c371-c40a Rc371-c40a complete
@@ -170,8 +170,8 @@ buildRangeString: seg000 NEAR c40b-c487 Rc40b-c487 complete
 projectWorldToHud: seg000 NEAR c488-c660 Rc488-c660 complete
 rotateVectorComponent: seg000 NEAR c661-c6bd Rc661-c6bd complete
 findWaypointEntry: seg000 NEAR c6be-c7a1 Rc6be-c795 Uc796-c797 Rc798-c7a1 complete
-sub_1C7A2: seg000 NEAR c7a2-c7c5 Rc7a2-c7c5 complete
-sub_1C7C6: seg000 NEAR c7c6-c7e9 Rc7c6-c7e9 complete
+computeMapTargetRange: seg000 NEAR c7a2-c7c5 Rc7a2-c7c5 complete
+computeSimObjectRange: seg000 NEAR c7c6-c7e9 Rc7c6-c7e9 complete
 computeTargetBearing: seg000 NEAR c7ea-c82c Rc7ea-c82c complete
 sub_1C82D: seg000 NEAR c82d-c863 Rc82d-c863 complete
 getTargetSymbol: seg000 NEAR c864-c8a3 Rc864-c890 Uc891-c892 Rc893-c8a3 complete
@@ -203,8 +203,8 @@ openFileWrapper: seg000 NEAR dd4c-dd5d Rdd4c-dd5d complete
 closeFileWrapper: seg000 NEAR dd70-dd7d Rdd70-dd7d complete
 createFileWrapper: seg000 NEAR dd5e-dd6d Rdd5e-dd6d complete
 readFile1Wrapper: seg000 NEAR dd7e-dd90 Rdd7e-dd90 complete
-sub_1DD92: seg000 NEAR dd92-dda7 Rdd92-dda7 complete
-sub_1DDAA: seg000 NEAR ddaa-ddc2 Rddaa-ddc2 complete
+readFile2Wrapper: seg000 NEAR dd92-dda7 Rdd92-dda7 complete
+writeFileAtRawWrapper: seg000 NEAR ddaa-ddc2 Rddaa-ddc2 complete
 openFile: seg000 NEAR ddc4-de1a Rddc4-de1a Rdf80-dfbb assembly
 createFile: seg000 NEAR de1b-de71 Rde1b-de71 assembly
 writeFileAtRaw: seg000 NEAR df4f-df7f Rdf4f-df7f assembly
@@ -283,75 +283,75 @@ __amallocbrk: seg000 NEAR f79e-f7bc Rf79e-f7bc external
 _brkctl: seg000 NEAR f7be-f82b Rf7be-f82b external
 _unk_libc7: seg000 NEAR f82c-f881 Rf82c-f87f Rf880-f881 external
 # ================ libc end ===========================
-routine_346: seg001 FAR 0002-0064 R0002-0064 assembly
-routine_366: seg001 NEAR 0078-00fa R0078-00fa assembly
-routine_365: seg001 NEAR 0113-0136 R0113-0136 assembly
-routine_367: seg001 NEAR 0137-014b R0137-014b assembly
-routine_383: seg001 NEAR 015d-023e R015d-023e assembly
-routine_390: seg001 NEAR 023f-029c R023f-029c assembly
-routine_392: seg001 NEAR 029d-02d1 R029d-02d1 assembly
-routine_391: seg001 NEAR 02d2-0307 R02d2-0307 assembly
-routine_393: seg001 NEAR 0308-0333 R0308-0333 assembly
-routine_400: seg001 NEAR 0334-0382 R0334-0382 assembly
-routine_388: seg001 NEAR 0383-03b9 R0383-03b9 assembly
-routine_389: seg001 NEAR 03ba-040d R03ba-040d assembly
-routine_396: seg001 NEAR 040e-0483 R040e-0483 R058a-05c0 assembly
-routine_395: seg001 NEAR 0484-04f1 R0484-04f1 R0550-0589 assembly
-routine_399: seg001 NEAR 04f2-052c R04f2-052c assembly
-routine_398: seg001 NEAR 052d-054f R052d-054f assembly
-routine_386: seg001 NEAR 05dc-066b R05dc-066b assembly
-routine_345: seg001 FAR 066c-067d R066c-067d assembly
-routine_364: seg001 NEAR 067e-0883 R067e-0883 assembly
-routine_295: seg001 FAR 0884-0907 R0884-0907 assembly
-routine_347: seg001 NEAR 0908-0a08 R0908-0a08 assembly
-routine_348: seg001 NEAR 0a09-0a31 R0a09-0a31 assembly
-routine_349: seg001 NEAR 0a36-0a46 R0a36-0a46 assembly
-routine_297: seg001 FAR 0a47-0a59 R0a47-0a59 assembly
-routine_361: seg001 FAR 0a5a-0a67 R0a5a-0a67 assembly
-routine_303: seg001 FAR 0a76-0a7f R0a76-0a7f assembly
-routine_351: seg001 NEAR 0a80-0b5f R0a80-0b5f assembly
-routine_356: seg001 NEAR 0b60-0bbb R0b60-0bbb assembly
-routine_362: seg001 FAR 0bca-0be6 R0bca-0be6 assembly
-routine_350: seg001 NEAR 0be7-0cb3 R0be7-0cb3 R198a-1ba1 assembly
-routine_369: seg001 NEAR 0cb4-0dd6 R0cb4-0dd6 assembly
-routine_291: seg001 FAR 0dd8-0de1 R0dd8-0de1 assembly
-routine_344: seg001 NEAR 0df4-0f77 R0df4-0f77 assembly
-routine_370: seg001 NEAR 10f0-11c4 R0f78-10ef R10f0-11c4 assembly
-routine_379: seg001 FAR 11c6-11d7 R11c6-11d7 assembly
-routine_371: seg001 NEAR 11d8-1281 R11d8-1281 assembly
-routine_384: seg001 NEAR 1282-132c R1282-132c assembly
-routine_135: seg001 FAR 132e-1345 R132e-1345 assembly
-routine_217: seg001 NEAR 135f-147a R135f-147a assembly
-routine_368: seg001 NEAR 147b-1598 R147b-1598 assembly
-routine_381: seg001 NEAR 1599-15b7 R1599-15b7 assembly
-routine_242: seg001 FAR 15b8-15cc R15b8-15cc assembly
-routine_321: seg001 NEAR 15cd-175b R15cd-175b assembly
-routine_380: seg001 FAR 175c-1769 R175c-1769 assembly
-routine_372: seg001 NEAR 176a-17f4 R176a-17f4 assembly
-routine_385: seg001 NEAR 17f5-1939 R17f5-1939 assembly
-routine_394: seg001 NEAR 193a-1989 R193a-1989 assembly
-routine_382: seg001 NEAR 1ba2-1bc2 R1ba2-1bc2 assembly
-sub_21444: seg001 FAR 1bc4-1c34 R1bc4-1c34 assembly
-routine_237: seg001 FAR 1ca6-1ca9 R1ca6-1ca9 assembly
-routine_126: seg001 FAR 1caa-1cb5 R1caa-1cb5 assembly
-routine_208: seg001 NEAR 1cb6-1e41 R1cb6-1e41 assembly
-routine_315: seg001 NEAR 1e42-1e62 R1e42-1e62 assembly
-routine_207: seg001 FAR 1e84-1e99 R1e84-1e99 assembly
-routine_205: seg001 FAR 1e9a-1e9f R1e9a-1e9f assembly
-routine_284: seg001 NEAR 1ea0-1ed5 R1ea0-1ed5 assembly
-routine_357: seg001 NEAR 1ed6-1f24 R1ed6-1f24 assembly
-routine_397: seg001 NEAR 1f34-201a R1f34-201a assembly
-routine_206: seg001 FAR 201c-2027 R201c-2027 assembly
-routine_313: seg001 NEAR 2028-21d7 R1f25-1f33 R2028-21d7 assembly
+drawPolygonOutline: seg001 FAR 0002-0064 R0002-0064 assembly
+projectVertexToScreen: seg001 NEAR 0078-00fa R0078-00fa assembly
+installDivZeroHandler: seg001 NEAR 0113-0136 R0113-0136 assembly
+installDivZeroVector: seg001 NEAR 0137-014b R0137-014b assembly
+clipLineSegment: seg001 NEAR 015d-023e R015d-023e assembly
+sub_1FABF: seg001 NEAR 023f-029c R023f-029c assembly
+writeClippedStart: seg001 NEAR 029d-02d1 R029d-02d1 assembly
+writeClippedEnd: seg001 NEAR 02d2-0307 R02d2-0307 assembly
+rejectClippedLine: seg001 NEAR 0308-0333 R0308-0333 assembly
+clipPointInside: seg001 NEAR 0334-0382 R0334-0382 assembly
+clipComputeOutcode: seg001 NEAR 0383-03b9 R0383-03b9 assembly
+clampToClipEdge: seg001 NEAR 03ba-040d R03ba-040d assembly
+clipMidpointSubdivide: seg001 NEAR 040e-0483 R040e-0483 R058a-05c0 assembly
+clipLineMidpoint: seg001 NEAR 0484-04f1 R0484-04f1 R0550-0589 assembly
+pointOnClipEdge: seg001 NEAR 04f2-052c R04f2-052c assembly
+computeClipOutcode: seg001 NEAR 052d-054f R052d-054f assembly
+sub_1FE5C: seg001 NEAR 05dc-066b R05dc-066b assembly
+sub_1FEEC: seg001 FAR 066c-067d R066c-067d assembly
+sub_1FEFE: seg001 NEAR 067e-0883 R067e-0883 assembly
+projectSceneObject: seg001 FAR 0884-0907 R0884-0907 assembly
+transformAndCullObject: seg001 NEAR 0908-0a08 R0908-0a08 assembly
+skipDisplayListByLod: seg001 NEAR 0a09-0a31 R0a09-0a31 assembly
+sub_202B6: seg001 NEAR 0a36-0a46 R0a36-0a46 assembly
+sub_202C7: seg001 FAR 0a47-0a59 R0a47-0a59 assembly
+advanceModelPointerLod: seg001 FAR 0a5a-0a67 R0a5a-0a67 assembly
+sub_202F6: seg001 FAR 0a76-0a7f R0a76-0a7f assembly
+insertSortedObject: seg001 NEAR 0a80-0b5f R0a80-0b5f assembly
+renderSortedList: seg001 NEAR 0b60-0bbb R0b60-0bbb assembly
+sub_2044A: seg001 FAR 0bca-0be6 R0bca-0be6 assembly
+processSceneObject: seg001 NEAR 0be7-0cb3 R0be7-0cb3 R198a-1ba1 assembly
+rotatePoint3d: seg001 NEAR 0cb4-0dd6 R0cb4-0dd6 assembly
+sub_20658: seg001 FAR 0dd8-0de1 R0dd8-0de1 assembly
+transformModelVertices: seg001 NEAR 0df4-0f77 R0df4-0f77 assembly
+transformVertexList: seg001 NEAR 10f0-11c4 R0f78-10ef R10f0-11c4 assembly
+projectModelEdgesFar: seg001 FAR 11c6-11d7 R11c6-11d7 assembly
+projectModelEdges: seg001 NEAR 11d8-1281 R11d8-1281 assembly
+clipEdgeNearPlane: seg001 NEAR 1282-132c R1282-132c assembly
+buildRotationMatrixFar: seg001 FAR 132e-1345 R132e-1345 assembly
+buildRotationMatrix: seg001 NEAR 135f-147a R135f-147a assembly
+buildInverseRotationMatrix: seg001 NEAR 147b-1598 R147b-1598 assembly
+transposeOrientationMatrix: seg001 NEAR 1599-15b7 R1599-15b7 assembly
+multiplyMatrix3x3Far: seg001 FAR 15b8-15cc R15b8-15cc assembly
+multiplyMatrix3x3: seg001 NEAR 15cd-175b R15cd-175b assembly
+drawModelDisplayList: seg001 FAR 175c-1769 R175c-1769 assembly
+renderPrimitiveList: seg001 NEAR 176a-17f4 R176a-17f4 assembly
+renderPrimitiveCommand: seg001 NEAR 17f5-1939 R17f5-1939 assembly
+drawPrimitiveEdges: seg001 NEAR 193a-1989 R193a-1989 assembly
+testVisibilityMask: seg001 NEAR 1ba2-1bc2 R1ba2-1bc2 assembly
+fillSpanRect: seg001 FAR 1bc4-1c34 R1bc4-1c34 assembly
+sub_21526: seg001 FAR 1ca6-1ca9 R1ca6-1ca9 assembly
+drawClipLineGlobal: seg001 FAR 1caa-1cb5 R1caa-1cb5 assembly
+clipLineCohenSutherland: seg001 NEAR 1cb6-1e41 R1cb6-1e41 assembly
+computeLineOutcode: seg001 NEAR 1e42-1e62 R1e42-1e62 assembly
+flushSpanDirtyRect: seg001 FAR 1e84-1e99 R1e84-1e99 assembly
+resetScanlineSpans: seg001 FAR 1e9a-1e9f R1e9a-1e9f assembly
+resetScanlineSpansImpl: seg001 NEAR 1ea0-1ed5 R1ea0-1ed5 assembly
+clampScanlineSpan: seg001 NEAR 1ed6-1f24 R1ed6-1f24 assembly
+rasterizeEdgeSpan: seg001 NEAR 1f34-201a R1f34-201a assembly
+clipAndRasterizeEdge: seg001 FAR 201c-2027 R201c-2027 assembly
+clipAndRasterizeEdgeImpl: seg001 NEAR 2028-21d7 R1f25-1f33 R2028-21d7 assembly
 sub_21A7A: seg002 FAR 000a-000d R000a-000d assembly
 sub_21A7E: seg002 FAR 000e-0011 R000e-0011 assembly
-routine_144: seg002 NEAR 0016-09a0 R0016-09a0 assembly
+sub_21A86: seg002 NEAR 0016-09a0 R0016-09a0 assembly
 sub_22411: seg002 NEAR 09a1-0bea R09a1-0bea assembly
-routine_167: seg002 FAR 0beb-0bfa R0beb-0bfa assembly
-routine_248: seg002 NEAR 0bfb-0c0d R0bfb-0c0d assembly
-routine_166: seg002 FAR 0c0e-0c20 R0c0e-0c20 assembly
-routine_246: seg002 NEAR 0c21-0c4d R0c21-0c4d assembly
-routine_247: seg002 NEAR 0c4e-0ca9 R0c4e-0ca9 assembly
+initJoystickCalibration: seg002 FAR 0beb-0bfa R0beb-0bfa assembly
+seedJoystickBaseline: seg002 NEAR 0bfb-0c0d R0bfb-0c0d assembly
+readCalibratedJoystick: seg002 FAR 0c0e-0c20 R0c0e-0c20 assembly
+readJoystickHardware: seg002 NEAR 0c21-0c4d R0c21-0c4d assembly
+computeJoystickAxis: seg002 NEAR 0c4e-0ca9 R0c4e-0ca9 assembly
 restoreJoystickData: seg002 FAR 0caa-0cbd R0caa-0cbd assembly
 copyJoystickData: seg002 FAR 0cbe-0cd5 R0cbe-0cd5 assembly
 setInt9Handler: seg003 FAR 0006-0055 R0006-0055 assembly

@@ -1,5 +1,5 @@
 ; seg002 - HUD rendering and joystick routines
-; Contains _sub_21A7A, _sub_21A7E, _sub_21A86, _sub_22411, joystick routines
+; Contains _sub_21A7A, _sub_21A7E, drawInstrumentGauges, setupInstrumentLayout, joystick routines
 
 .MODEL large
 
@@ -178,14 +178,14 @@ ASSUME CS:seg002, DS:DGROUP, SS:DGROUP
 ; offset 0x000A
     PUBLIC _sub_21A7A
 _sub_21A7A proc far
-    call _sub_21A86
+    call drawInstrumentGauges
     retf
 _sub_21A7A endp
 
 ; offset 0x000E
     PUBLIC _sub_21A7E
 _sub_21A7E proc far
-    call _sub_22411
+    call setupInstrumentLayout
     retf
 _sub_21A7E endp
 
@@ -193,8 +193,8 @@ _sub_21A7E endp
     db 4 dup(0)
 
 ; offset 0x0016
-    PUBLIC _sub_21A86
-_sub_21A86 proc near
+    PUBLIC drawInstrumentGauges
+drawInstrumentGauges proc near
     call far ptr _gfx_getDisplayPage
     sub AH,AH
     mov [word_37B26],AX
@@ -1048,11 +1048,11 @@ loc_21a7_0993:
     call far ptr gfx_setBlitOffset3
     ret
 
-_sub_21A86 endp
+drawInstrumentGauges endp
 
-; _sub_22411 - display configuration setup
-    PUBLIC _sub_22411
-_sub_22411 proc near
+; setupInstrumentLayout - display configuration setup
+    PUBLIC setupInstrumentLayout
+setupInstrumentLayout proc near
     mov ax, _gfxBufPtr
     mov word_37B7E, ax
     mov word_37B9C, ax
@@ -1260,18 +1260,18 @@ loc_225C7:
     mov ax, 10h
     mov word_37B72, ax
     retn
-_sub_22411 endp
+setupInstrumentLayout endp
 
 ; routine_167 - joystick init
-    PUBLIC sub_2265B
-sub_2265B proc far
+    PUBLIC initJoystickCalibration
+initJoystickCalibration proc far
     call routine_246
     mov BX,0
     call routine_248
     mov BX,1
     call routine_248
     retf
-sub_2265B endp
+initJoystickCalibration endp
 
 ; routine_248 - joystick data init helper
 routine_248 proc near
@@ -1284,8 +1284,8 @@ routine_248 proc near
 routine_248 endp
 
 ; routine_166 - joystick calibration entry
-    PUBLIC sub_2267E
-sub_2267E proc far
+    PUBLIC readCalibratedJoystick
+readCalibratedJoystick proc far
     call routine_246
     mov BX,0
     call routine_247
@@ -1293,7 +1293,7 @@ sub_2267E proc far
     call routine_247
     mov AX,word ptr [_joyAxes]
     retf
-sub_2267E endp
+readCalibratedJoystick endp
 
 ; routine_246 - joystick read (hardware port 201h)
 routine_246 proc near
