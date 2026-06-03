@@ -183,14 +183,38 @@ void trace_tile(int level, int iter, int tile) {
 
 void trace_gameloop(int step) {
     if (step == 100)
-        TRACE(("gameloop: step %d, var_255=%d, var200=%04x:%04x, timerC=%d", step, var_255, var_200_seg, var_200_off, (int)byte_3790C[0]));
+        TRACE_KEY(("gameloop: step %d, var_255=%d, var200=%04x:%04x, timerC=%d", step, var_255, var_200_seg, var_200_off, (int)byte_3790C[0]));
     else if (step == 4)
-        TRACE(("gameloop: step %d, 38FDC=%d", step, word_38FDC));
+        TRACE_KEY(("gameloop: step %d, 38FDC=%d", step, word_38FDC));
     else if (step == 3) {
-        TRACE(("gameloop: step %d, keyScan=%04x", step, keyScancode));
+        TRACE_KEY(("gameloop: step %d, keyScan=%04x", step, keyScancode));
     }
+    else if (step == 5)
+        TRACE_KEY(("gameloop: step 5 (post-updateFrame), 3C8B0=%d frame=%d", (int)byte_3C8B0, word_336E8));
     else
-        TRACE(("gameloop: step %d", step));
+        TRACE_KEY(("gameloop: step %d", step));
+}
+
+/* far-callable (seg001 renderSortedList lives in a different code segment):
+   logs the current object's model pointer + transformed position right before
+   processSceneObject draws it, so the last line before a 3D crash names the
+   culprit object. DEBUG-only -> not in the verified build. */
+void far trace_obj(void) {
+    TRACE_KEY(("OBJ200 m=%04x:%04x b=%d,%d,%d,%d,%d pos=%d/%d/%d", var_200_seg, var_200_off,
+        var_200[0], var_200[1], var_200[2], var_200[3], var_200[4], var_202, var_203, var_204));
+}
+
+/* far-callable: logged at the near/far cull point (transformAndCullObject) with
+   the freshly-computed transformed Z (word_34256) the cull compares, the object
+   class index var_217, the far clip var_198, and the near-clip threshold that
+   setupLodDistances WROTE (byte_3419F+13)[idx]. If a drawn object's z34256 is
+   below 'nearW' yet it isn't culled, the cull reads a different address than the
+   writer -> data-layout bug. */
+extern uint8 byte_3419F[];
+void far trace_cull(void) {
+    int idx = var_217 & 7;
+    int nearW = ((int *)(byte_3419F + 13))[idx];
+    TRACE_KEY(("CULL z=%d v217=%d far=%d nearW=%d", word_34256, idx, var_198, nearW));
 }
 #endif
 

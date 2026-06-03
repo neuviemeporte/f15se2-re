@@ -307,10 +307,10 @@ int renderFrame() {
                 openBlitClosePic(keyValue == 0x42 ? aLeft_pic : keyValue == 0x43 ? aRight_pic : aRear_pic, *off_38334);
             }
             gfx_copyRect(*off_38334, 0, 0x61, *off_3834C, 0, 0x61, 0x140, 0x67);
-            off_38334[0x10] = off_3834C[0x10] = 0x60;
+            off_38334[8] = off_3834C[8] = 0x60;
         }
         else {
-            off_38334[0x10] = off_3834C[0x10] = word_330C2 != 0 ? 0x60 : 0xc7;
+            off_38334[8] = off_3834C[8] = word_330C2 != 0 ? 0x60 : 0xc7;
         }
         word_38152 = keyValue;
     }
@@ -325,7 +325,12 @@ int renderFrame() {
 #if defined(DEBUG) && defined(DISABLE_3D)
     /* Skip the whole 3D render (incl. drawHudWorldOverlay HUD) to get continuous frames. */
 #else
-    render3DView(-word_3C5AA, word_3BE94, word_3B4E4, dword_3B1FE, dword_3B4D4, (int32)word_3B4DE, 0, 0, 0x140, off_38334[0x10] + 1);
+    /* clip height = viewport bottom (rastport word [8], i.e. byte 0x10). The
+       reconstruction previously used [0x10] (byte 0x20), which is where the 3D
+       engine writes the per-frame horizon -> the 3D drew down over the whole
+       cockpit and drove the rasterizer into the freeze. The original renderFrame
+       reads off_38334[8]+1 (Ghidra FUN_1000_55ab). */
+    render3DView(-word_3C5AA, word_3BE94, word_3B4E4, dword_3B1FE, dword_3B4D4, (int32)word_3B4DE, 0, 0, 0x140, off_38334[8] + 1);
 #endif
     byte_3850E = 0;
     byte_3995A = word_36B86;
