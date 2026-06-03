@@ -237,17 +237,36 @@ doSrand:
     missionGenerate();
 #endif
 #ifdef DEBUG_AUTOSTART
-    /* Skip printMission, checkDiskA, sprite loading - just write world and exit */
+    /* Auto-start: skip ONLY the interactive screens (printMission briefing and
+       the checkDiskA disk prompt). Everything else must run exactly as the
+       normal path below -- in particular the f15.spr sprite-sheet load into
+       commData->gfxInitResult, which egame reads as gfxBufPtr for the radar /
+       tactical-map / HUD sprites. */
     exitCode[0] = 0xc;
     restoreCbreakHandler();
     *needSplash = 0;
+    gfx_setFadeSteps(8);
+    TRACE(("main: DEBUG_AUTOSTART - loading sprites"));
+    if (gfx_getVal() == 0) {
+        openShowPic(aF15_spr, 2);
+    }
+    else {
+        loadPic(aF15_spr_0, commData->gfxInitResult);
+    }
     TRACE(("main: DEBUG_AUTOSTART - write world"));
     writeWorld(aTemp_wld);
     commData->setupDone = 3;
     commData->continueFlag = 0;
     commData->restartFlag = 0;
-    commData->gfxModeChar = 0;
+    if (gameData->missionReady > 1) {
+        commData->gfxModeChar = 1;
+    }
+    else {
+        commData->gfxModeChar = 0;
+    }
     misc_jump_5e_clearKeyFlags();
+    clearRect(bufPtr, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
+    gfx_setMonoFlag(0);
     TRACE(("main: DEBUG_AUTOSTART - exiting with code %hd", exitCode[0]));
 #ifdef DEBUG
     log_close();

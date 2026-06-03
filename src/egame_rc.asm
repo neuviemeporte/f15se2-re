@@ -3014,13 +3014,13 @@ loc_14118:
     push AX
     sub AX,AX
     push AX
-    mov BX,word ptr [_off_38364-5]
+    mov BX,word ptr [_off_38364]
     push word ptr [BX]
     mov AX,061h
     push AX
     sub AX,AX
     push AX
-    mov BX,word ptr [_off_38334-5]
+    mov BX,word ptr [_off_38334]
     push word ptr [BX]
     call far ptr _gfx_copyRect
     add SP,010h
@@ -3064,13 +3064,13 @@ loc_14149:
     push AX
     sub AX,AX
     push AX
-    mov BX,word ptr [_off_38334-5]
+    mov BX,word ptr [_off_38334]
     push word ptr [BX]
     mov AX,061h
     push AX
     sub AX,AX
     push AX
-    mov BX,word ptr [_off_38364-5]
+    mov BX,word ptr [_off_38364]
     push word ptr [BX]
     call far ptr _gfx_copyRect
     add SP,010h
@@ -3082,13 +3082,13 @@ loc_14149:
     push AX
     sub AX,AX
     push AX
-    mov BX,word ptr [_off_3834C-5]
+    mov BX,word ptr [_off_3834C]
     push word ptr [BX]
     mov AX,061h
     push AX
     sub AX,AX
     push AX
-    mov BX,word ptr [_off_38364-5]
+    mov BX,word ptr [_off_38364]
     push word ptr [BX]
     call far ptr _gfx_copyRect
     add SP,010h
@@ -3161,8 +3161,8 @@ loc_14249:
 loc_14265:
     cmp word ptr [word_330BE],00h
     jz loc_14278
-    mov byte ptr [_joyAxes-5],00h
-    mov byte ptr [_joyAxes-4],00h
+    mov byte ptr [_joyAxes],00h
+    mov byte ptr [joyAxes_2],00h
     jmp loc_142B6
 loc_14278:
     les BX,dword ptr [_commData]
@@ -3171,9 +3171,9 @@ loc_14278:
     call far ptr sub_2267E
     jmp loc_142B6
 loc_1428A:
-    mov SI,word ptr [_a15flt_xxx+0EDh]
+    mov SI,word ptr [_a15flt_xxx+0F2h]
     inc SI
-    mov AL,[_joyAxes-1]
+    mov AL,[byte_37F98]
     sub AH,AH
     db 2Dh, 80h, 00h ; sub AX,080h (force imm16 encoding)
     imul SI
@@ -3181,17 +3181,17 @@ loc_1428A:
     mov CX,03h
     idiv CX
     sub AL,080h
-    mov [_joyAxes-5],AL
-    mov AL,[_joyAxes]
+    mov [_joyAxes],AL
+    mov AL,[byte_37F99]
     sub AH,AH
     db 2Dh, 80h, 00h ; sub AX,080h (force imm16 encoding)
     imul SI
     cwd
     idiv CX
     sub AL,080h
-    mov [_joyAxes-4],AL
+    mov [joyAxes_2],AL
 loc_142B6:
-    mov AL,[_joyAxes-5]
+    mov AL,[_joyAxes]
     sub AH,AH
     mov CL,04h
     shr AX,CL
@@ -3201,7 +3201,7 @@ loc_142B6:
     jge loc_142CD
     inc word ptr [_word_3C00C+2]
 loc_142CD:
-    mov AL,[_joyAxes-4]
+    mov AL,[joyAxes_2]
     sub AH,AH
     mov CL,04h
     shr AX,CL
@@ -4271,7 +4271,7 @@ loc_14CEE:
     mov CL,04h
     shl AX,CL
     push AX
-    push word ptr [_word_380CA]
+    push word ptr [_word_380CC]
     call _sub_1D178
     add SP,04h
     cwd
