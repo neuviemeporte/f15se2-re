@@ -49,7 +49,7 @@ int FAR CDECL gfx_storePageSeg();                      /* slot 0x26: store page 
 int FAR CDECL gfx_setPageSeg();                        /* slot 0x27: pageSegs[idx]=seg */
 int FAR CDECL gfx_dirtyRect2();                        /* slot 0x28: dirtyRect2 (=0x25) */
 int FAR CDECL gfx_switchColor(int16* pageDesc, int x1, int y1, int x2, int y2, int oldColor, int newColor); /* slot 0x29: replace color in rect */
-int FAR CDECL gfx_copyRect(int srcPage, int srcX, int srcY, int dstPage, int dstX, int dstY, int width, int height); /* slot 0x2a: copyRect between pages */
+int FAR CDECL gfx_copyRect(int srcPage, uint16 srcX, uint16 srcY, int dstPage, uint16 dstX, uint16 dstY, int width, int height); /* slot 0x2a: copyRect between pages */
 int FAR CDECL gfx_unknown2b();                         /* slot 0x2b: unknown */
 int FAR CDECL gfx_dacAnimate();                        /* slot 0x2c: DAC palette animation */
 int FAR CDECL gfx_getDisplayPage();                    /* slot 0x2d: getDisplayPage */

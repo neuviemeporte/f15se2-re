@@ -180,8 +180,8 @@ STATIC_ASSERT(sizeof(struct Projectile)==0x18);
 #pragma pack(1)
 struct SimObject {
     int16 objType;      // +0x00  spec index into stru_3AA5E (was -6)
-    int16 posX;         // +0x02  world X seed; worldX = posX << 5 (was -4)
-    int16 posY;         // +0x04  world Y seed; worldY = posY << 5 (was -2)
+    uint16 posX;         // +0x02  world X seed; worldX = posX << 5 (was -4)
+    uint16 posY;         // +0x04  world Y seed; worldY = posY << 5 (was -2)
     int16 alt;          // +0x06  altitude
     int32 worldX;       // +0x08  world X position (integrated each frame)
     int32 worldY;       // +0x0C  world Y position

@@ -198,8 +198,8 @@ void trace_gameloop(int step) {
 void updateFrame(void) {
     int p;
     int a;
-    int b;
-    int c;
+    uint16 b;
+    uint16 c;
     int d;
     int e;
     TRACE(("updateFrame: enter, word_3BECC=%d", word_3BECC));
@@ -233,7 +233,7 @@ void updateFrame(void) {
         TRACE(("updateFrame: past 11F3E"));
         word_336F0 = 0;
         word_336F8 = 1;
-        word_336F4 = word_336F2 = -1;
+        word_336F2 = word_336F4 = -1;
         var_597 = word_33096 = missileSpecIndex = word_330B6 = waypointIndex = word_32A34 = 0;
         word_3C16A = word_3BED4 = word_3BFA0 = word_3C014 = var_456 = 0;
         word_3B4D8 = word_3B4E0 = word_3B5D6 = 0;
@@ -291,9 +291,9 @@ void updateFrame(void) {
                         *(int *)&stru_3B202[d].state[10] = 300;
                         stru_3B202[d].posX = d * 12 + word_3BEC0 - 0x24;
                         stru_3B202[d].posY = word_3BED0 - (d * 0x20 + 0x96) * word_3AFA8;
-                        stru_3B202[d].worldX = (long)stru_3B202[d].posX << 5;
-                        stru_3B202[d].worldY = (long)stru_3B202[d].posY << 5;
-                        *(int *)&stru_3B202[d].state[0] = var_542 + (int)0x8000;
+                        stru_3B202[d].worldX = (long)stru_3B202[d].posX * 32;
+                        stru_3B202[d].worldY = (long)stru_3B202[d].posY * 32;
+                        *(int *)&stru_3B202[d].state[0] = var_542 + 0x8000;
                     }
                 }
             }
@@ -304,13 +304,11 @@ void updateFrame(void) {
             word_3B240 = 700;
             var_810 = word_3BEC0;
             var_811 = 0x50 * word_3AFA8 + word_3BED0;
-            word_3B22E = (int)((long)var_810 << 5);
-            word_3B230 = (int)(((long)var_810 << 5) >> 16);
-            word_3B232 = (int)((long)var_811 << 5);
-            word_3B234 = (int)(((long)var_811 << 5) >> 16);
+            word_3B22E = (long)var_810 * 32;
+            word_3B232 = (long)var_811 * 32;
             word_3B236 = var_542;
         }
-        p = word_3AFA8 = ((unsigned)(word_3BED0 - var_47) < 0x8000u) ? 1 : -1;
+        word_3AFA8 = p; // = ((unsigned)(word_3BED0 - var_47) < 0x8000u) ? 1 : -1;
         initWeaponLoadout();
         word_3BECC = 2;
         gfx_flipPage();
@@ -328,7 +326,7 @@ void updateFrame(void) {
         dword_3B7F8 = (long)(0x8000 - word_3BED0) << 5;
     }
 
-    *(char far *)0x00000417L &= 0x0f;
+    *MAKEFAR(char, SEG_LOWMEM, OFF_BDA_KEYFLAGS) &= 0xf;
     TRACE(("updateFrame: past init"));
     updateThreatSites();
     updateObjects();
@@ -343,18 +341,17 @@ void updateFrame(void) {
     applyGravityFall();
     TRACE(("updateFrame: past 118D5"));
 
-    c = objectToScreen(word_3BEC0, word_3BED0, &b, &d);
-    if (c == 0) {
-        redrawTacMap(word_3BEC0, word_3BED0);
-    } else {
+    if (objectToScreen(word_3BEC0, word_3BED0, &b, &c) != 0) {
         byte_3C5A0 = -(gfx_getDisplayPage() - 1);
-        gfx_copyRect(2, b - 3, d - 3, (int)byte_3C5A0, b - 3, d - 3, 6, 6);
-        blitSprite(b - 1, d - 1, ((var_542 + 0x1000) >> 0xd & 7) * 4 + 0xa4, 4, 4, 4, 0);
+        gfx_copyRect(2, b - 3, c - 3, byte_3C5A0, b - 3, c - 3, 6, 6);
+        blitSprite(b - 1, c - 1, ((var_542 + 0x1000) >> 0xd & 7) * 4 + 0xa4, 4, 4, 4, 0);
         byte_3C5A0 = 1 - byte_3C5A0;
-        if ((b < 0x20 || b > 0x58 || d < 0x76 || d > 0xa2) && byte_383E5 > 2) {
+        if (((int16)b < 0x20 || (int16)b > 0x58 || (int16)c < 0x76 || (int16)c > 0xa2) && byte_383E5 > 2) {
             byte_383E5--;
             redrawTacMap(word_3BEC0, word_3BED0);
         }
+    } else {
+        redrawTacMap(word_3BEC0, word_3BED0);
     }
 
     word_3AF0C = word_3BEC0;

@@ -15,7 +15,7 @@ gfxInit: seg000 NEAR 029a-02e0 R029a-02e0 complete
 loadF15DgtlBin: seg000 NEAR 02e2-0333 R02e2-0333 assembly
 drawProjectionSphere: seg000 NEAR 0334-0685 R0334-03ff R0400-0685
 setupOverlaySlots: seg000 NEAR 0688-06e0 R0688-069a U069b-069f R06a0-06e0 assembly
-updateFrame: seg000 NEAR 0720-14e7 R0720-09cf R09d0-14e7 complete
+updateFrame: seg000 NEAR 0720-14e7 R0720-14e7 complete
 dispatchKeyScancode: seg000 NEAR 14e8-14fb R14e8-14fb complete
 countermeasures: seg000 NEAR 14fc-1635 R14fc-15a8 U15a9-15aa R15ab-1635 assembly
 tickMessageTimers: seg000 NEAR 1636-1675 R1636-1675 complete
@@ -537,7 +537,7 @@ word_336F8: Data1 VAR 0e48
 var_118: Data1 VAR 0e4a
 word_336FC: Data1 VAR 0e4c
 word_336FE: Data1 VAR 0e4e
-var_121: Data1 VAR 0e50
+word_33700: Data1 VAR 0e50
 word_33702: Data1 VAR 0e52
 word_33704: Data1 VAR 0e54
 var_124: Data1 VAR 0e56
@@ -1136,7 +1136,7 @@ fileHandle: Data1 VAR 6736
 word_38FE8: Data1 VAR 6738
 word_38FEA: Data1 VAR 673a
 word_38FEC: Data1 VAR 673c
-var_720: Data1 VAR 673e
+word_38FEE: Data1 VAR 673e
 gameData: Data1 VAR 6740
 var_722: Data1 VAR 6742
 word_38FF6: Data1 VAR 6746
@@ -1199,7 +1199,7 @@ word_3B148: Data1 VAR 8898
 word_3B14A: Data1 VAR 889a
 word_3B14C: Data1 VAR 889c
 word_3B158: Data1 VAR 88a8
-var_783: Data1 VAR 88aa
+word_3B15A: Data1 VAR 88aa
 word_3B15E: Data1 VAR 88ae
 var_785: Data1 VAR 88b8
 dword_3B1FE: Data1 VAR 894e
@@ -1228,13 +1228,12 @@ var_808: Data1 VAR 8972
 var_809: Data1 VAR 8974
 var_810: Data1 VAR 8978
 var_811: Data1 VAR 897a
-var_812: Data1 VAR 897c
-var_813: Data1 VAR 897e
-var_814: Data1 VAR 8980
-var_815: Data1 VAR 8982
-var_816: Data1 VAR 8984
+word_3B22C: Data1 VAR 897c
+word_3B22E: Data1 VAR 897e
+word_3B232: Data1 VAR 8982
+word_3B234: Data1 VAR 8984
 var_817: Data1 VAR 8986
-var_818: Data1 VAR 898e
+byte_3B23E: Data1 VAR 898e
 var_819: Data1 VAR 8990
 var_820: Data1 VAR 8c22
 dword_3B4D4: Data1 VAR 8c24
