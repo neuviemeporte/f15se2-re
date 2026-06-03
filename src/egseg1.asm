@@ -2,6 +2,8 @@
 
 IFDEF DEBUG
 EXTRN _dbg_loc0a09_trips:word
+EXTRN _trace_obj:far
+EXTRN _trace_cull:far
 ENDIF
 EXTRN gfx_dirtyRect:far
 EXTRN gfx_dirtyRect2:far

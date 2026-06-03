@@ -16467,6 +16467,8 @@ word_34250 dw 0
 word_34252 dw 0
 word_34254 dw 0
 word_34256 dw 0
+PUBLIC _word_34256
+_word_34256 equ word_34256
 byte_34258 db 0
     db 0
     db 0
