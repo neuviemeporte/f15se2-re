@@ -109,7 +109,7 @@ int sub_155AB() {
     if (word_38FDC > 1) word_38FDC = 1; /* HACK: level-4 3D data traversal hangs */
 #endif
 #ifdef DEBUG
-    if ((word_336E8 & 0x1f) == 0)  /* periodic, every 32 frames, to keep runs smooth */
+    if ((word_336E8 & 0x1f) == 0)  /* periodic, every 32 frames, to keep logs readable */
         TRACE_KEY(("FRAME %d: alt(547)=%d alt(548)=%d head=%04x/%04x/%04x speed=%04x 38FDC=%d 3BECC=%d kv=%d",
             word_336E8, word_380CE, word_380D0, word_380C8, word_380CA, word_380CC,
             word_3A944, word_38FDC, word_3BECC, keyValue));

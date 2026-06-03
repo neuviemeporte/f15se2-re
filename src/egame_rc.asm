@@ -27832,13 +27832,13 @@ word_383DA dw 0
     db 3Fh
     db 1
 byte_383E4 db 1
-byte_383E5 db 1
+var_586 db 1
+    db 1
+    db 0
+    db 1
+    db 0
+byte_383E5 dw 8
 _byte_383E5 equ byte_383E5
-    db 1
-    db 0
-    db 1
-    db 0
-word_383EA dw 8
 radarRange dw 1
 word_383EE dw 0
 word_383F0 dw 0
@@ -29224,9 +29224,9 @@ _var_584 EQU word_383DA
 ORG 05B34h
 _var_585 EQU byte_383E4
 ORG 05B35h
-_var_586 EQU byte_383E5
+_var_586 EQU var_586
 ORG 05B3Ch
-_var_588 EQU word_383EC
+_var_588 EQU radarRange
 ORG 05B3Eh
 _var_589 EQU word_383EE
 ORG 05B40h

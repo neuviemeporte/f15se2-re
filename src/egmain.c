@@ -348,7 +348,7 @@ void sub_10720(void) {
         sub_195C9(word_3BEC0, word_3BED0);
     } else {
         byte_3C5A0 = -(gfx_getDisplayPage() - 1);
-        gfx_copyRect(0x328b, 2, b - 3, d - 3, (int)byte_3C5A0, b - 3, d - 3, 6);
+        gfx_copyRect(2, b - 3, d - 3, (int)byte_3C5A0, b - 3, d - 3, 6, 6);
         sub_1A8C8(b - 1, d - 1, ((var_542 + 0x1000) >> 0xd & 7) * 4 + 0xa4, 4, 4, 4, 0);
         byte_3C5A0 = 1 - byte_3C5A0;
         if ((b < 0x20 || b > 0x58 || d < 0x76 || d > 0xa2) && byte_383E5 > 2) {
