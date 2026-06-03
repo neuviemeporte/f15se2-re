@@ -758,7 +758,7 @@ extern int16 word_333D8;
 extern int16 word_333DA;
 extern struct MissionTableEntry stru_33402[];
 extern int16 word_33442;
-extern struct struc_2 stru_335C4[];
+extern struct Projectile stru_335C4[];
 extern int16 word_336E4;
 extern int16 word_336E6;
 extern int16 word_336E8;

@@ -28,8 +28,8 @@ int drawCockpitHud(int arg_0) {
     byte_3C5A0 = gfx_getDisplayPage();
     TRACE(("drawCockpitHud: after getDisplayPage=%d"));
     // probably x,y
-    var_16 = waypoints[waypointIndex].field_0 - word_3BEC0;
-    var_1A = waypoints[waypointIndex].field_2 - word_3BED0;
+    var_16 = waypoints[waypointIndex].mapX - word_3BEC0;
+    var_1A = waypoints[waypointIndex].mapY - word_3BED0;
     TRACE(("drawCockpitHud: after waypoints, word_330C2=%d", word_330C2));
     word_3BE92 = computeBearing(var_16, -var_1A);
     TRACE(("drawCockpitHud: after computeBearing"));
@@ -74,7 +74,7 @@ int drawCockpitHud(int arg_0) {
             if (var_10) drawViewportLine(0x48, 0x55 - var_10, 0x48, 0x55);
             drawViewportLine(0xf7,  0x38, 0xf7, clampRange(-((word_3C8B6 >> 4) - 0x38), 0x14, 0x55));
             if ((planeFlags & 1) == 0 && (word_336E8 & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) {
-                var_2 = (((stru_3AA5E[word_3C16A].field_6 & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
+                var_2 = (((stru_3AA5E[word_3C16A].flags & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
                 setDrawColor(0xf);
                 drawViewportLine(0xf2, var_2 - 2, 0xf4, var_2);
                 drawViewportLine(0xf2, var_2 + 2, 0xf4, var_2);

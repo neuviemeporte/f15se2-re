@@ -147,12 +147,12 @@ int renderFrame() {
         break;
     case 0x84:
         var_E = (word_336E8 - ((word_330C4  + 1) / 2) - 1) & 0xf;
-        word_3C5AA = stru_3A95A[var_E].field_A;
-        word_3BE94 = stru_3A95A[var_E].field_C;
-        word_3B4E4 = stru_3A95A[var_E].field_E;
-        dword_3B1FE = stru_3A95A[var_E].field_0;
-        dword_3B4D4 = stru_3A95A[var_E].field_4;
-        word_3B4DE = stru_3A95A[var_E].field_8;
+        word_3C5AA = stru_3A95A[var_E].heading;
+        word_3BE94 = stru_3A95A[var_E].pitch;
+        word_3B4E4 = stru_3A95A[var_E].roll;
+        dword_3B1FE = stru_3A95A[var_E].worldX;
+        dword_3B4D4 = stru_3A95A[var_E].worldY;
+        word_3B4DE = stru_3A95A[var_E].alt;
         break;
     case 0x85:
         word_3C5AA = word_380C8 - 0x4000;
@@ -193,30 +193,30 @@ int renderFrame() {
         var_4 = var_2;
         if (!(word_3C02E & 0x40)) {
             if (!(word_3C02E & 0x20)) {
-                if (stru_335C4[word_3C02E].field_E != 0) {
-                    dword_3C01C = (uint32)(stru_335C4[word_3C02E].field_0) << 5;
-                    dword_3C024 = (uint32)(stru_335C4[word_3C02E].field_2) << 5;
-                    word_3C02C = stru_335C4[word_3C02E].field_4;
+                if (stru_335C4[word_3C02E].ttl != 0) {
+                    dword_3C01C = (uint32)(stru_335C4[word_3C02E].mapX) << 5;
+                    dword_3C024 = (uint32)(stru_335C4[word_3C02E].mapY) << 5;
+                    word_3C02C = stru_335C4[word_3C02E].alt;
                 }
                 else {
-                    stru_335C4[word_3C02E].field_8 = word_380C8;
-                    stru_335C4[word_3C02E].field_A = word_380CA;
+                    stru_335C4[word_3C02E].worldX = word_380C8;
+                    stru_335C4[word_3C02E].worldY = word_380CA;
                     if (word_3370E != 0) keyValue = 0x87;
                 }
                 var_2 = 5;
             }
             else {
                 // .... word_3C02E & 0x1f
-                dword_3C01C = stru_3B202[word_3C02E & 0x1f].field_2;
-                dword_3C024 = stru_3B202[word_3C02E & 0x1f].field_6;
-                word_3C02C = stru_3B202[word_3C02E & 0x1f].field_0;
+                dword_3C01C = stru_3B202[word_3C02E & 0x1f].worldX;
+                dword_3C024 = stru_3B202[word_3C02E & 0x1f].worldY;
+                word_3C02C = stru_3B202[word_3C02E & 0x1f].alt;
                 var_2 = 5;
             }
         }
         else {
-            dword_3C01C = (uint32)stru_3AA5E[word_3C02E & 0x3f].field_0 << 5;
-            dword_3C024 = (uint32)stru_3AA5E[word_3C02E & 0x3f].field_2 << 5;
-            word_3C02C = stru_3AA5E[word_3C02E & 0x3f].field_6 & 0x200 ? 0xc8 : 0x32;
+            dword_3C01C = (uint32)stru_3AA5E[word_3C02E & 0x3f].mapX << 5;
+            dword_3C024 = (uint32)stru_3AA5E[word_3C02E & 0x3f].mapY << 5;
+            word_3C02C = stru_3AA5E[word_3C02E & 0x3f].flags & 0x200 ? 0xc8 : 0x32;
             var_2 = 7;
             if (word_336EA != 0 && word_3370C == -1) var_2 = 6;
         }
@@ -239,15 +239,15 @@ int renderFrame() {
                 dword_3B1FE = sinMul(word_3C5AA, var_8) + dword_3C01C;
                 dword_3B4D4 = cosMul(word_3C5AA, var_8) - dword_3C024 + 0x100000;
                 word_3B4DE = (4 << var_2) - sinMul(word_3BE94, 0x18 << var_2) + word_3C02C;
-                if (word_3C02E & 0x40 && stru_3AA5E[word_3C02E & 0x3f].field_6 & 0x200 && word_3B4DE < 0x84) {
+                if (word_3C02E & 0x40 && stru_3AA5E[word_3C02E & 0x3f].flags & 0x200 && word_3B4DE < 0x84) {
                     word_3B4DE = 0x84;
                 }
                 word_3C5AA += 0x8000;
             }
         }
         else {
-            word_3C5AA = stru_335C4[word_3C02E].field_8;
-            word_3BE94 = stru_335C4[word_3C02E].field_A - 0x400;
+            word_3C5AA = stru_335C4[word_3C02E].worldX;
+            word_3BE94 = stru_335C4[word_3C02E].worldY - 0x400;
             var_8 = cosMul(word_3BE94, 0x10 << var_2);
             dword_3B1FE = dword_3C01C - sinMul(word_3C5AA, var_8);
             dword_3B4D4 = 0x100000 - (cosMul(word_3C5AA, var_8) + dword_3C024);

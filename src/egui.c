@@ -61,7 +61,7 @@ int drawTacticalMap(char param_1)
         f += 2;
     }
     for (f = 0; f < word_3C046; f++) {
-        if ((stru_3B202[f].field_10[8] & 2) && *(int16 *)&stru_3B202[f].field_10[10] != 0) {
+        if ((stru_3B202[f].state[8] & 2) && *(int16 *)&stru_3B202[f].state[10] != 0) {
             projectMapPoint(stru_3B202[f].posX, stru_3B202[f].posY);
             if (word_3C016 != -1) {
                 if (word_3C45C == 1 && f == word_336F2) {
@@ -70,8 +70,8 @@ int drawTacticalMap(char param_1)
                 if (word_336F8 > 0 && f == 0xffff - word_3BE96) {
                     drawMapMarkerBox(var_279, var_282, word_38F72);
                 }
-                a = *(int16 *)&stru_3B202[f].field_10[0] - var_542 + 0x800;
-                d = stru_3B202[f].field_0 - var_547;
+                a = *(int16 *)&stru_3B202[f].state[0] - var_542 + 0x800;
+                d = stru_3B202[f].alt - var_547;
                 c = 0;
                 if (d < -1000) {
                     c = 1;
@@ -84,43 +84,43 @@ int drawTacticalMap(char param_1)
         }
     }
     for (f = 0; f < 12; f++) {
-        if (*(int16 *)&stru_335C4[f].field_10[4] != 0) {
-            projectMapPoint(stru_335C4[f].field_0, stru_335C4[f].field_2);
+        if (*(int16 *)&stru_335C4[f].state[4] != 0) {
+            projectMapPoint(stru_335C4[f].mapX, stru_335C4[f].mapY);
             if (word_3C016 != -1) {
-                if (sams[*(int16 *)&stru_335C4[f].field_10[6]].field_C <= 0) {
+                if (sams[*(int16 *)&stru_335C4[f].state[6]].field_C <= 0) {
                     setDrawColor(0x0c);
                 } else {
                     setDrawColor(0x0e);
                 }
-                if (sams[*(int16 *)&stru_335C4[f].field_10[6]].field_C == 3) {
+                if (sams[*(int16 *)&stru_335C4[f].state[6]].field_C == 3) {
                     setDrawColor(*(char *)&gfxModeUnset != 0 ? 8 : 0x0d);
                 }
-                if (!(stru_335C4[f].field_4 & 1)) {
+                if (!(stru_335C4[f].alt & 1)) {
                     setDrawColor(7);
                 }
                 if (f >= 8) {
                     setDrawColor(0x0f);
                 }
-                a = stru_335C4[f].field_8 - var_542;
+                a = stru_335C4[f].worldX - var_542;
                 drawScreenLineOnePage(var_279, var_282, var_279 - sinMul(a, h), cosMul(a, h) + var_282);
             }
         }
     }
     for (f = 0; f < word_3BED2; f++) {
-        if (!(stru_3AA5E[f].field_6 & 0x80)) {
-            projectMapPoint(stru_3AA5E[f].field_0, stru_3AA5E[f].field_2);
+        if (!(stru_3AA5E[f].flags & 0x80)) {
+            projectMapPoint(stru_3AA5E[f].mapX, stru_3AA5E[f].mapY);
             if (word_3C016 != -1) {
                 if (word_3C45C == 2 && f == word_336F4) {
                     drawMapMarkerBox(var_279, var_282, 7);
                 }
                 a = 5;
-                if (stru_3AA5E[f].field_6 & 0x201) {
+                if (stru_3AA5E[f].flags & 0x201) {
                     a = (((-var_542 + 0x1000) >> 13) & 3) + 8;
                 }
                 if (stru_3AA5E[f].field_4 != 0) {
                     a = 1;
                 }
-                if (stru_3AA5E[f].field_6 & 8) {
+                if (stru_3AA5E[f].flags & 8) {
                     a = 7;
                 }
                 if (f == word_3B146 || f == word_3B158) {

@@ -173,12 +173,12 @@ int findWaypointEntry(int param_1, int param_2)
         param_1 = ((int32 *)word_39808)[1] >> 5;
         param_2 = -((int)(((int32 *)word_39808)[2] >> 5) - 0x8000);
         for (p = 1; p < word_3BED2; p++) {
-            if (stru_3AA5E[p].field_0 == param_1 && stru_3AA5E[p].field_2 == param_2) {
+            if (stru_3AA5E[p].mapX == param_1 && stru_3AA5E[p].mapY == param_2) {
                 return p;
             }
         }
-        stru_3AA5E[0].field_0 = param_1;
-        stru_3AA5E[0].field_2 = param_2;
+        stru_3AA5E[0].mapX = param_1;
+        stru_3AA5E[0].mapY = param_2;
         stru_3AA5E[0].field_C = *word_39808 + 0x100;
         if (word_336F6 == 0) {
             word_336F6 = -1;
@@ -191,7 +191,7 @@ int findWaypointEntry(int param_1, int param_2)
 
 // ==== seg000:0xc7a2 ====
 int computeMapTargetRange(int arg_0) {
-    return computeTargetBearing(stru_3AA5E[arg_0].field_0, stru_3AA5E[arg_0].field_2, 1);
+    return computeTargetBearing(stru_3AA5E[arg_0].mapX, stru_3AA5E[arg_0].mapY, 1);
 }
 
 // ==== seg000:0xc7c6 ====
@@ -220,7 +220,7 @@ int sub_1C82D() {
 
 // ==== seg000:0xc864 ====
 int getTargetSymbol(int param_1) {
-    if (stru_3AA5E[param_1].field_6 & 0x80) {
+    if (stru_3AA5E[param_1].flags & 0x80) {
         return (isTargetOverWater(param_1) ? (int)(char)byte_3BEC4[0] : (int)(char)byte_3C02A[0]) + 0x100;
     }
     return stru_3AA5E[param_1].field_C;

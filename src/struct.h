@@ -148,28 +148,30 @@ STATIC_ASSERT(sizeof(struct TerrainPtrTable)==sizeof(uint8*)*32);
 
 // used in egame.exe renderFrame, 16 bytes
 struct ViewSnapshot {
-    int32 field_0;
-    int32 field_4;
-    int16 field_8;
-    int16 field_A;
-    int16 field_C;
-    int16 field_E;
+    int32 worldX;       // +0x00  camera world X
+    int32 worldY;       // +0x04  camera world Y
+    int16 alt;          // +0x08  camera altitude
+    int16 heading;      // +0x0A  yaw
+    int16 pitch;        // +0x0C
+    int16 roll;         // +0x0E
 };
 STATIC_ASSERT(sizeof(struct ViewSnapshot)==16);
 
-// used in egame.exe renderFrame, 0x18 bytes
-struct struc_2 {
-    uint16 field_0;
-    uint16 field_2;
-    int16 field_4;
-    int16 field_6;
-    int16 field_8;
-    int16 field_A;
-    int16 field_C;
-    int16 field_E;
-    uint8 field_10[8];
+// In-flight guided-weapon tracking (stru_335C4[12]): slots 0-7 = SAM/ground
+// threat shots, 8-11 = player-fired missiles. fireMissile() claims a slot whose
+// ttl == 0 and seeds the launch position; ttl counts down the flight time. 0x18 bytes.
+struct Projectile {
+    uint16 mapX;        // +0x00  launch map X coord
+    uint16 mapY;        // +0x02  launch map Y coord
+    int16 alt;          // +0x04  altitude (render target)
+    int16 field_6;      // +0x06  speed/range term
+    int16 worldX;       // +0x08  launch world X
+    int16 worldY;       // +0x0A  launch world Y
+    int16 worldZ;       // +0x0C  launch world Z
+    int16 ttl;          // +0x0E  flight-time countdown (0 = free slot)
+    uint8 state[8];     // +0x10  per-projectile state
 };
-STATIC_ASSERT(sizeof(struct struc_2)==0x18);
+STATIC_ASSERT(sizeof(struct Projectile)==0x18);
 
 // used in egame.exe renderFrame, 0x24 bytes.
 // Array based at 0x3B202 (symbol stru_3B202), stride 0x24, cleared in moveStuff().
@@ -178,22 +180,22 @@ STATIC_ASSERT(sizeof(struct struc_2)==0x18);
 #pragma pack(1)
 struct SimObject {
     int16 objType;      // +0x00  spec index into stru_3AA5E (was -6)
-    int16 posX;         // +0x02  world X seed; field_2 = posX << 5 (was -4)
-    int16 posY;         // +0x04  world Y seed; field_6 = posY << 5 (was -2)
-    int16 field_0;      // +0x06
-    int32 field_2;      // +0x08
-    int32 field_6;      // +0x0C
-    uint8 field_10[20]; // +0x10..0x24
+    int16 posX;         // +0x02  world X seed; worldX = posX << 5 (was -4)
+    int16 posY;         // +0x04  world Y seed; worldY = posY << 5 (was -2)
+    int16 alt;          // +0x06  altitude
+    int32 worldX;       // +0x08  world X position (integrated each frame)
+    int32 worldY;       // +0x0C  world Y position
+    uint8 state[20];    // +0x10..0x24  per-object motion/AI state
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct SimObject)==0x24);
 
 // used in egame.exe, 0x10 bytes
 struct MapTarget {
-    uint16 field_0;
-    uint16 field_2;
+    uint16 mapX;        // +0x00  map X coord (worldX = mapX << 5)
+    uint16 mapY;        // +0x02  map Y coord (worldY = mapY << 5)
     int16 field_4;
-    int16 field_6;
+    int16 flags;        // +0x06  0x100 air / 0x200 ground / 0x8 ...
     int32 field_8;
     int16 field_C;
     int16 field_E;
@@ -220,8 +222,8 @@ STATIC_ASSERT(sizeof(struct TerrainTile)==7);
 
 // used in egame.exe, 4 bytes
 struct Waypoint {
-    uint16 field_0;
-    uint16 field_2;
+    uint16 mapX;        // +0x00  map X coord (worldX = mapX << 5)
+    uint16 mapY;        // +0x02  map Y coord
 };
 STATIC_ASSERT(sizeof(struct Waypoint)==4);
 

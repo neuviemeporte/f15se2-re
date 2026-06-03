@@ -884,7 +884,7 @@ ViewSnapshot		ends
 
 ; ---------------------------------------------------------------------------
 
-struc_2		struc ;	(sizeof=0x18, mappedto_12) ; XREF: dseg:stru_335C4/r
+Projectile		struc ;	(sizeof=0x18, mappedto_12) ; XREF: dseg:stru_335C4/r
 field_0		dw ?
 field_2		dw ?
 field_4		dw ?
@@ -894,7 +894,7 @@ field_A		dw ?
 field_C		dw ?
 field_E		dw ?
 field_10	db 8 dup(?)
-struc_2		ends
+Projectile		ends
 
 ; ---------------------------------------------------------------------------
 
@@ -14661,7 +14661,7 @@ _word_33442 equ word_33442
     db 0FFh
     db 0FFh
     db 0FFh
-    _stru_335C4 struc_2 0Ch dup(<0>)
+    _stru_335C4 Projectile 0Ch dup(<0>)
 word_336E4 dw 4
 _word_336E6 dw 0FFFFh
 _word_336E8 dw 0

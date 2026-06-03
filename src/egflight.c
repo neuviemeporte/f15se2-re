@@ -87,34 +87,34 @@ int spawnEnemyAircraft(int arg_0, int arg_2)
 {
     int p;
 
-    p = *(int16 *)&stru_3B202[arg_0].field_10[6];
-    *(int16 *)&stru_3B202[arg_0].field_10[0] = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
-    if (stru_3AA5E[arg_2].field_6 & 0x200) {
-        stru_3B202[arg_0].posX = word_3AFA8 * 3 + stru_3AA5E[arg_2].field_0;
-        stru_3B202[arg_0].posY = stru_3AA5E[arg_2].field_2 - word_3AFA8 * 12;
-        stru_3B202[arg_0].field_0 = 0x8c;
-        *(int16 *)&stru_3B202[arg_0].field_10[10] = 100;
-        *(uint8 *)((char *)&stru_3B202[arg_0].field_10[1]) += 0xfc;
+    p = *(int16 *)&stru_3B202[arg_0].state[6];
+    *(int16 *)&stru_3B202[arg_0].state[0] = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
+    if (stru_3AA5E[arg_2].flags & 0x200) {
+        stru_3B202[arg_0].posX = word_3AFA8 * 3 + stru_3AA5E[arg_2].mapX;
+        stru_3B202[arg_0].posY = stru_3AA5E[arg_2].mapY - word_3AFA8 * 12;
+        stru_3B202[arg_0].alt = 0x8c;
+        *(int16 *)&stru_3B202[arg_0].state[10] = 100;
+        *(uint8 *)((char *)&stru_3B202[arg_0].state[1]) += 0xfc;
     } else {
-        stru_3B202[arg_0].posX = stru_3AA5E[arg_2].field_0;
-        stru_3B202[arg_0].posY = 0x1e * word_3AFA8 + stru_3AA5E[arg_2].field_2;
-        stru_3B202[arg_0].field_0 = 0x0c;
-        *(int16 *)&stru_3B202[arg_0].field_10[10] = 10;
+        stru_3B202[arg_0].posX = stru_3AA5E[arg_2].mapX;
+        stru_3B202[arg_0].posY = 0x1e * word_3AFA8 + stru_3AA5E[arg_2].mapY;
+        stru_3B202[arg_0].alt = 0x0c;
+        *(int16 *)&stru_3B202[arg_0].state[10] = 10;
     }
-    stru_3B202[arg_0].field_2 = (long)(uint16)stru_3B202[arg_0].posX << 5;
-    stru_3B202[arg_0].field_6 = (long)(uint16)stru_3B202[arg_0].posY << 5;
-    *(int16 *)&stru_3B202[arg_0].field_10[2] = 0;
-    *(int16 *)&stru_3B202[arg_0].field_10[4] = 0;
-    *(uint16 *)&stru_3B202[arg_0].field_10[8] |= 0x403;
+    stru_3B202[arg_0].worldX = (long)(uint16)stru_3B202[arg_0].posX << 5;
+    stru_3B202[arg_0].worldY = (long)(uint16)stru_3B202[arg_0].posY << 5;
+    *(int16 *)&stru_3B202[arg_0].state[2] = 0;
+    *(int16 *)&stru_3B202[arg_0].state[4] = 0;
+    *(uint16 *)&stru_3B202[arg_0].state[8] |= 0x403;
     stru_3B202[arg_0].objType = arg_2;
-    *(int16 *)&stru_3B202[arg_0].field_10[12] = (int16)(((long)*(int16 *)&aFlogger[p * 32 + 12] << 11) * (long)word_330C4 / (long)*(int16 *)&aFlogger[p * 32 + 10]);
-    *(int16 *)&stru_3B202[arg_0].field_10[16] = readMapPixelColor(stru_3AA5E[arg_2].field_0, stru_3AA5E[arg_2].field_2);
+    *(int16 *)&stru_3B202[arg_0].state[12] = (int16)(((long)*(int16 *)&aFlogger[p * 32 + 12] << 11) * (long)word_330C4 / (long)*(int16 *)&aFlogger[p * 32 + 10]);
+    *(int16 *)&stru_3B202[arg_0].state[16] = readMapPixelColor(stru_3AA5E[arg_2].mapX, stru_3AA5E[arg_2].mapY);
     if (word_336FC == -1) {
-        stru_3B202[arg_0].field_10[9] &= 0xfe;
+        stru_3B202[arg_0].state[9] &= 0xfe;
     }
     placeString(arg_2);
     strcat(strBuf, aDash);
-    strcat(strBuf, (char *)(*(int16 *)&stru_3B202[arg_0].field_10[6] * 32 + (int)aMig23));
+    strcat(strBuf, (char *)(*(int16 *)&stru_3B202[arg_0].state[6] * 32 + (int)aMig23));
     strcat(strBuf, aTakingOff);
     if (arg_0 < word_3C046 - 4) {
         tempStrcpy(strBuf);
@@ -127,25 +127,25 @@ int samCanAcquireTarget(int param_1, int param_2, int param_3, int param_4, int 
     int b;
     int c;
 
-    b = param_2 - stru_335C4[param_1].field_0;
-    c = param_3 - stru_335C4[param_1].field_2;
+    b = param_2 - stru_335C4[param_1].mapX;
+    c = param_3 - stru_335C4[param_1].mapY;
     a = rangeApprox(b, c);
     var_670 = computeBearing(b, -c);
     if (stru_335C4[param_1].field_6 * 24 / word_330C4 > a) {
         var_669 = a;
         return 1;
     }
-    p = abs(var_670 - stru_335C4[param_1].field_8);
+    p = abs(var_670 - stru_335C4[param_1].worldX);
     if (p > 0x1000 && param_5 != 3) {
         if (p > 0x6000 && param_1 < 8) {
             if ((stru_335C4[param_1].field_6 << 4) / word_330C4 < a) {
-                stru_335C4[param_1].field_E = clampRange(stru_335C4[param_1].field_E, 0, word_330C4 << 4);
+                stru_335C4[param_1].ttl = clampRange(stru_335C4[param_1].ttl, 0, word_330C4 << 4);
             }
         }
         return 0;
     }
     if (param_5 == 0) {
-        if (abs(stru_335C4[param_1].field_8 - var_542) > 0x2000) {
+        if (abs(stru_335C4[param_1].worldX - var_542) > 0x2000) {
             return 0;
         }
     }
@@ -153,7 +153,7 @@ int samCanAcquireTarget(int param_1, int param_2, int param_3, int param_4, int 
         var_669 = a;
         return 1;
     }
-    p = abs(stru_335C4[param_1].field_8 - var_542);
+    p = abs(stru_335C4[param_1].worldX - var_542);
     if (abs(p - 0x4000) >= 0x2000 - word_330B8 * 2048) {
         var_669 = a;
         return 1;
@@ -166,28 +166,28 @@ void destroyAircraft(int param_1)
 {
     int p;
 
-    if (!(stru_3B202[param_1].field_10[8] & 0x20)) {
-        *(int16 *)&aFlogger[*(int16 *)&stru_3B202[param_1].field_10[6] * 32 + 22] += 1;
-        if (*(uint16 *)&stru_3B202[param_1].field_10[8] & 0x800) {
+    if (!(stru_3B202[param_1].state[8] & 0x20)) {
+        *(int16 *)&aFlogger[*(int16 *)&stru_3B202[param_1].state[6] * 32 + 22] += 1;
+        if (*(uint16 *)&stru_3B202[param_1].state[8] & 0x800) {
             word_3C044--;
         }
         if (param_1 == word_336FC) {
             word_336FC = -1;
         }
-        stru_3B202[param_1].field_10[8] |= 0x20;
+        stru_3B202[param_1].state[8] |= 0x20;
         word_336F6 = -1;
         word_3BEC2 = stru_3B202[param_1].posX;
         word_3BED6 = stru_3B202[param_1].posY;
-        word_3BFA2 = stru_3B202[param_1].field_0;
+        word_3BFA2 = stru_3B202[param_1].alt;
         word_3B4DC = 0x80;
         p = 3;
-        appendMapEvent(p, (*(uint16 *)&stru_3B202[param_1].field_10[8] & 0x4000 ? 0x80 : 0) + *(int16 *)&stru_3B202[param_1].field_10[6]);
-        if (*(int16 *)&stru_3B202[param_1].field_10[10] != 0) goto done;
-        *(uint16 *)&stru_3B202[param_1].field_10[8] &= 0x1c1;
+        appendMapEvent(p, (*(uint16 *)&stru_3B202[param_1].state[8] & 0x4000 ? 0x80 : 0) + *(int16 *)&stru_3B202[param_1].state[6]);
+        if (*(int16 *)&stru_3B202[param_1].state[10] != 0) goto done;
+        *(uint16 *)&stru_3B202[param_1].state[8] &= 0x1c1;
     done:
         ;
     }
-    strcpy(strBuf, (char *)(*(int16 *)&stru_3B202[param_1].field_10[6] * 32 + (int)aMig23));
+    strcpy(strBuf, (char *)(*(int16 *)&stru_3B202[param_1].state[6] * 32 + (int)aMig23));
     makeSound(2, 2);
     if (word_3C45C == 1 && param_1 == word_336F2) {
         word_39604 = 1;
@@ -279,7 +279,7 @@ void fireMissile()
     c = -1;
     a = 8;
     do {
-        if (stru_335C4[a].field_E == 0) {
+        if (stru_335C4[a].ttl == 0) {
             c = a;
         }
         a++;
@@ -287,43 +287,43 @@ void fireMissile()
 
     if (c == -1) goto check_end;
 
-    stru_335C4[c].field_0 = word_3BEC0;
-    stru_335C4[c].field_2 = word_3BED0;
-    stru_335C4[c].field_4 = var_547 - 0x14;
+    stru_335C4[c].mapX = word_3BEC0;
+    stru_335C4[c].mapY = word_3BED0;
+    stru_335C4[c].alt = var_547 - 0x14;
     stru_335C4[c].field_6 = (unsigned int)word_3A944 >> 11;
     c = c;
-    stru_335C4[c].field_8 = var_542;
-    stru_335C4[c].field_A = var_544;
-    stru_335C4[c].field_C = var_545;
+    stru_335C4[c].worldX = var_542;
+    stru_335C4[c].worldY = var_544;
+    stru_335C4[c].worldZ = var_545;
 
-    stru_335C4[c].field_E = (int)(((long)sams[p].field_8 << (6 - (sams[p].field_C == 6 ? 3 : 2))) * (long)word_330C4 / (long)((sams[p].field_A >> 6) + 1)) + 6;
+    stru_335C4[c].ttl = (int)(((long)sams[p].field_8 << (6 - (sams[p].field_C == 6 ? 3 : 2))) * (long)word_330C4 / (long)((sams[p].field_A >> 6) + 1)) + 6;
 
     c = c;
-    if (stru_335C4[c].field_E <= 6) {
-        stru_335C4[c].field_E = 999;
+    if (stru_335C4[c].ttl <= 6) {
+        stru_335C4[c].ttl = 999;
     }
 
-    *(int16 *)&stru_335C4[c].field_10[0] = p;
-    *(int16 *)&stru_335C4[c].field_10[2] = b;
-    *(int16 *)&stru_335C4[c].field_10[4] = -1;
+    *(int16 *)&stru_335C4[c].state[0] = p;
+    *(int16 *)&stru_335C4[c].state[2] = b;
+    *(int16 *)&stru_335C4[c].state[4] = -1;
 
     if (p != 0x1e) {
-        stru_335C4[c].field_A -= 0x1000;
+        stru_335C4[c].worldY -= 0x1000;
     } else {
-        *(int16 *)&stru_335C4[c].field_10[6] = sub_1C82D() - 0x400;
+        *(int16 *)&stru_335C4[c].state[6] = sub_1C82D() - 0x400;
         word_3C020 = word_336F4;
     }
 
     if (word_336F4 >= 0 && sams[p].field_C == 6) {
-        *(int16 *)&stru_335C4[c].field_10[4] = word_336F4;
+        *(int16 *)&stru_335C4[c].state[4] = word_336F4;
     }
 
-    if (word_336F4 >= 0 && sams[p].field_C == 5 && (stru_3AA5E[word_336F4].field_6 & 8)) {
-        *(int16 *)&stru_335C4[c].field_10[4] = word_336F4;
+    if (word_336F4 >= 0 && sams[p].field_C == 5 && (stru_3AA5E[word_336F4].flags & 8)) {
+        *(int16 *)&stru_335C4[c].state[4] = word_336F4;
     }
 
     if (p == 0x1d) {
-        stru_335C4[c].field_A = (int16)0xc000;
+        stru_335C4[c].worldY = (int16)0xc000;
         stru_335C4[c].field_6 = 1;
     }
 
