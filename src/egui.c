@@ -17,7 +17,7 @@
 #include <memory.h>
 
 
-int sub_1A25C(char param_1)
+int drawTacticalMap(char param_1)
 {
     int p;
     int a;
@@ -32,9 +32,9 @@ int sub_1A25C(char param_1)
     int j;
 
     h = var_588 + 1;
-    sub_19E44(0);
+    setDrawColor(0);
     sub_21444(param_1 == 0 ? var_564 : var_565, 0x78, 0x68, 0xc7, 0xaf);
-    sub_19E44(8);
+    setDrawColor(8);
     j = 1;
     if (var_588 < 2 && word_38FDC != 0) {
         j = (1 << (2 - (unsigned char)var_588)) + 1;
@@ -44,31 +44,31 @@ int sub_1A25C(char param_1)
     g = word_3BED0 & 0xf800;
     f = i * 2;
     while (j * 2 >= f) {
-        sub_1A7C4(f * 0x400 + e, g + 0x1c00);
+        projectMapPoint(f * 0x400 + e, g + 0x1c00);
         p = var_279;
         b = var_282;
-        sub_1A7C4(f * 0x400 + e, g - 0x1800);
-        sub_19C84(p, b, var_279, var_282, 0x78, 0xc7, 0x68, 0xaf, 0);
+        projectMapPoint(f * 0x400 + e, g - 0x1800);
+        drawClippedLineRegion(p, b, var_279, var_282, 0x78, 0xc7, 0x68, 0xaf, 0);
         f += 2;
     }
     f = i * 2;
     while (j * 2 >= f) {
-        sub_1A7C4(e + 0x1c00, f * 0x400 + g);
+        projectMapPoint(e + 0x1c00, f * 0x400 + g);
         p = var_279;
         b = var_282;
-        sub_1A7C4(e - 0x1800, f * 0x400 + g);
-        sub_19C84(p, b, var_279, var_282, 0x78, 0xc7, 0x68, 0xaf, 0);
+        projectMapPoint(e - 0x1800, f * 0x400 + g);
+        drawClippedLineRegion(p, b, var_279, var_282, 0x78, 0xc7, 0x68, 0xaf, 0);
         f += 2;
     }
     for (f = 0; f < word_3C046; f++) {
         if ((stru_3B202[f].field_10[8] & 2) && *(int16 *)&stru_3B202[f].field_10[10] != 0) {
-            sub_1A7C4(stru_3B202[f].posX, stru_3B202[f].posY);
+            projectMapPoint(stru_3B202[f].posX, stru_3B202[f].posY);
             if (word_3C016 != -1) {
                 if (word_3C45C == 1 && f == word_336F2) {
-                    sub_1A740(var_279, var_282, 7);
+                    drawMapMarkerBox(var_279, var_282, 7);
                 }
                 if (word_336F8 > 0 && f == 0xffff - word_3BE96) {
-                    sub_1A740(var_279, var_282, word_38F72);
+                    drawMapMarkerBox(var_279, var_282, word_38F72);
                 }
                 a = *(int16 *)&stru_3B202[f].field_10[0] - var_542 + 0x800;
                 d = stru_3B202[f].field_0 - var_547;
@@ -79,39 +79,39 @@ int sub_1A25C(char param_1)
                 if (d > 1000) {
                     c = 2;
                 }
-                sub_1A872((a >> 12) & 0xf, c, var_279, var_282);
+                blitGaugeSprite((a >> 12) & 0xf, c, var_279, var_282);
             }
         }
     }
     for (f = 0; f < 12; f++) {
         if (*(int16 *)&stru_335C4[f].field_10[4] != 0) {
-            sub_1A7C4(stru_335C4[f].field_0, stru_335C4[f].field_2);
+            projectMapPoint(stru_335C4[f].field_0, stru_335C4[f].field_2);
             if (word_3C016 != -1) {
                 if (sams[*(int16 *)&stru_335C4[f].field_10[6]].field_C <= 0) {
-                    sub_19E44(0x0c);
+                    setDrawColor(0x0c);
                 } else {
-                    sub_19E44(0x0e);
+                    setDrawColor(0x0e);
                 }
                 if (sams[*(int16 *)&stru_335C4[f].field_10[6]].field_C == 3) {
-                    sub_19E44(*(char *)&gfxModeUnset != 0 ? 8 : 0x0d);
+                    setDrawColor(*(char *)&gfxModeUnset != 0 ? 8 : 0x0d);
                 }
                 if (!(stru_335C4[f].field_4 & 1)) {
-                    sub_19E44(7);
+                    setDrawColor(7);
                 }
                 if (f >= 8) {
-                    sub_19E44(0x0f);
+                    setDrawColor(0x0f);
                 }
                 a = stru_335C4[f].field_8 - var_542;
-                sub_19D86(var_279, var_282, var_279 - sub_1D178(a, h), sub_1D190(a, h) + var_282);
+                drawScreenLineOnePage(var_279, var_282, var_279 - sinMul(a, h), cosMul(a, h) + var_282);
             }
         }
     }
     for (f = 0; f < word_3BED2; f++) {
         if (!(stru_3AA5E[f].field_6 & 0x80)) {
-            sub_1A7C4(stru_3AA5E[f].field_0, stru_3AA5E[f].field_2);
+            projectMapPoint(stru_3AA5E[f].field_0, stru_3AA5E[f].field_2);
             if (word_3C016 != -1) {
                 if (word_3C45C == 2 && f == word_336F4) {
-                    sub_1A740(var_279, var_282, 7);
+                    drawMapMarkerBox(var_279, var_282, 7);
                 }
                 a = 5;
                 if (stru_3AA5E[f].field_6 & 0x201) {
@@ -126,24 +126,24 @@ int sub_1A25C(char param_1)
                 if (f == word_3B146 || f == word_3B158) {
                     a = 6;
                 }
-                sub_1A872(a, 3, var_279, var_282);
+                blitGaugeSprite(a, 3, var_279, var_282);
             }
         }
     }
-    sub_1A7C4(word_3BEC0, word_3BED0);
+    projectMapPoint(word_3BEC0, word_3BED0);
     if (word_3C016 != -1) {
-        sub_1A872(0, 3, var_279, var_282);
+        blitGaugeSprite(0, 3, var_279, var_282);
     }
     for (f = 0; f < 4; f++) {
         if ((&word_333DA)[f * 6] != 0) {
-            sub_1A7C4((&word_333D2)[f * 6], (&word_333D4)[f * 6]);
+            projectMapPoint((&word_333D2)[f * 6], (&word_333D4)[f * 6]);
             if (word_3C016 != -1) {
                 switch ((&word_333D8)[f * 6]) {
                 case 1:
-                    sub_1A872(2, 3, var_279, var_282);
+                    blitGaugeSprite(2, 3, var_279, var_282);
                     break;
                 case 2:
-                    sub_1A872(3, 3, var_279, var_282);
+                    blitGaugeSprite(3, 3, var_279, var_282);
                     break;
                 }
             }
@@ -152,17 +152,17 @@ int sub_1A25C(char param_1)
 }
 
 // ==== seg000:0xa740 ====
-void sub_1A740(int arg_0, int arg_2, int arg_4) {
-    sub_19E44(arg_4);
-    sub_19D86(var_279 - 4, var_282 - 3, var_279 + 4, var_282 - 3);
-    sub_19D86(var_279 + 4, var_282 - 3, var_279 + 4, var_282 + 3);
-    sub_19D86(var_279 + 4, var_282 + 3, var_279 - 4, var_282 + 3);
-    sub_19D86(var_279 - 4, var_282 + 3, var_279 - 4, var_282 - 3);
+void drawMapMarkerBox(int arg_0, int arg_2, int arg_4) {
+    setDrawColor(arg_4);
+    drawScreenLineOnePage(var_279 - 4, var_282 - 3, var_279 + 4, var_282 - 3);
+    drawScreenLineOnePage(var_279 + 4, var_282 - 3, var_279 + 4, var_282 + 3);
+    drawScreenLineOnePage(var_279 + 4, var_282 + 3, var_279 - 4, var_282 + 3);
+    drawScreenLineOnePage(var_279 - 4, var_282 + 3, var_279 - 4, var_282 - 3);
 }
 
 // ==== seg000:0xa7c4 ====
 
-void sub_1A7C4(int arg_0, int arg_2) {
+void projectMapPoint(int arg_0, int arg_2) {
     int p;
     int a;
     char b;
@@ -170,8 +170,8 @@ void sub_1A7C4(int arg_0, int arg_2) {
     b = 7 - (char)var_588;
     p = (arg_0 - word_3BEC0) >> b;
     a = (word_3BED0 - arg_2) >> b;
-    var_279 = sub_1D190(var_542, p) - sub_1D178(var_542, a);
-    var_282 = sub_1D190(var_542, a) + sub_1D178(var_542, p);
+    var_279 = cosMul(var_542, p) - sinMul(var_542, a);
+    var_282 = cosMul(var_542, a) + sinMul(var_542, p);
     var_279 += 0xa0;
     var_282 = -var_282 + 0x98;
     if (var_279 < 0x7c || var_279 > 0xc3) {
@@ -183,7 +183,7 @@ void sub_1A7C4(int arg_0, int arg_2) {
 }
 
 // ==== seg000:0xa872 ====
-void sub_1A872(int arg_0, int arg_2, int arg_4, int arg_6) {
+void blitGaugeSprite(int arg_0, int arg_2, int arg_4, int arg_6) {
     var_569 = gfxBufPtr;
     var_570 = arg_0 * 8 + 1;
     var_571 = arg_2 * 8 + 0x1f;
@@ -196,7 +196,7 @@ void sub_1A872(int arg_0, int arg_2, int arg_4, int arg_6) {
 }
 
 // ==== seg000:0xa8c8 ====
-void sub_1A8C8(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c) {
+void blitSprite(int arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c) {
     var_577 = gfxBufPtr;
     var_578 = arg_4;
     var_579 = arg_6;

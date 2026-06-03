@@ -22,7 +22,7 @@
 void selectMissile() {
     strcpy(strBuf, missiles[missleSpec[missileSpecIndex].weaponIdx].field_A);
     strcat(strBuf, (char *)(missleSpec[missileSpecIndex].ammo == 0 ? aNotAvailable : aArmed));
-    sub_11A88(missileSpecIndex);
+    drawWeaponSelectMarker(missileSpecIndex);
     tempStrcpy(strBuf);
 }
 
@@ -54,26 +54,26 @@ void sub_1DA8D(void) {
 }
 
 // ==== seg000:0xdaae ====
-void sub_1DAAE(void) {
+void recalcTimeScale(void) {
     if (word_330C4 > 15) {
-        var_595 = sub_1CF64((-(120 / word_330C4 - 9)) >> 1, 1, 4);
+        var_595 = clampRange((-(120 / word_330C4 - 9)) >> 1, 1, 4);
     } else {
         var_595 = 0;
     }
-    word_330C4 = sub_1CF64(word_330C4, 4 - word_3370A, 15);
-    word_3AFA4 = sub_1CF64(word_330C4 << 1, 3, 16);
+    word_330C4 = clampRange(word_330C4, 4 - word_3370A, 15);
+    word_3AFA4 = clampRange(word_330C4 << 1, 3, 16);
     word_3B0AC = 250 * word_330C4;
     word_3995C = 200 * word_330C4;
 }
 
 // ==== seg000:0xdb2b ====
-void sub_1DB2B(void) {
+void setupLodDistances(void) {
     int p;
     for (p = 0; p < 6; p++) {
         ((int *)(byte_3419F + 13))[p] = 0x20 << ((char)p + (char)(word_38FDC > 2 ? 2 : word_38FDC));
     }
     var_196 = var_195 + var_194;
-    var_197 = sub_1CF64(var_195 << 1, 0x1000, 9999);
+    var_197 = clampRange(var_195 << 1, 0x1000, 9999);
     var_198 = (word_38FDC > 2 ? 2 : word_38FDC) * 0xD05 + 0xD05;
 }
 
@@ -82,7 +82,7 @@ int sub_1DB9C() {
     if (word_3370A == 2) {
         word_3370A = 1;
         word_330C4 <<= 1;
-        sub_1DAAE();
+        recalcTimeScale();
     }
 }
 

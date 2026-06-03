@@ -3,14 +3,14 @@ DOSSEG
 .MODEL SMALL
 EXTRN _placeString:PROC
 EXTRN _process3dg:PROC
-EXTRN _sub_11F3E:PROC
-EXTRN _sub_15411:PROC
-EXTRN _sub_1543B:PROC
-EXTRN _sub_132BA:PROC
-EXTRN _sub_13224:PROC
-EXTRN _sub_13266:PROC
-EXTRN _sub_13816:PROC
-EXTRN _sub_139C0:PROC
+EXTRN _findWaypointFeatures:PROC
+EXTRN _rebuildOrientation:PROC
+EXTRN _signedRatio16:PROC
+EXTRN _drawNearestTileObject:PROC
+EXTRN _addTileEntry:PROC
+EXTRN _lookupTileEntry:PROC
+EXTRN _projectModelVertices:PROC
+EXTRN _setupViewport:PROC
 PUBLIC _byte_3B4E6
 PUBLIC _var_548
 PUBLIC _var_47
@@ -20,14 +20,14 @@ PUBLIC _var_810
 PUBLIC _var_811
 PUBLIC _var_727
 PUBLIC _var_732
-PUBLIC _sub_167B4
+PUBLIC _updateObjects
 PUBLIC _var_597
 
 PUBLIC _aAutomaticLandi
 PUBLIC _aSafeLanding
 PUBLIC _aWeaponsRepleni
-PUBLIC _sub_16172
-PUBLIC _sub_179EE
+PUBLIC _updateThreatSites
+PUBLIC _updateThreatTargeting
 PUBLIC _aReadyForTakeof
 PUBLIC _var_660
 PUBLIC _word_39402
@@ -98,22 +98,22 @@ PUBLIC word_37F5C
 PUBLIC word_37F5E
 PUBLIC word_37F60
 PUBLIC word_37F62
-_sub_167B4 equ sub_167B4
+_updateObjects equ updateObjects
 
 _aAutomaticLandi equ aAutomaticLandi
 _aSafeLanding equ aSafeLanding
 _aWeaponsRepleni equ aWeaponsRepleni
-_sub_16172 equ sub_16172
-_sub_179EE equ sub_179EE
+_updateThreatSites equ updateThreatSites
+_updateThreatTargeting equ updateThreatTargeting
 _aReadyForTakeof equ aReadyForTakeof
 EXTRN _sub_166BE:PROC
-EXTRN _routine_191:PROC
-EXTRN _sub_1660E:PROC
-EXTRN _sub_11C21:PROC
-EXTRN _sub_11D10:PROC
-EXTRN _sub_11A18:PROC
-EXTRN _sub_11A88:PROC
-EXTRN _sub_126B4:PROC
+EXTRN _computeThreatScore:PROC
+EXTRN _computeThreatRangeBearing:PROC
+EXTRN _generateRandomRadioMessage:PROC
+EXTRN _appendMapEvent:PROC
+EXTRN _drawWeaponAmmo:PROC
+EXTRN _drawWeaponSelectMarker:PROC
+EXTRN _scaleCoordToLod:PROC
 EXTRN _sub_11971:PROC
 EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC
@@ -122,72 +122,72 @@ EXTRN _sub_1DA5F:PROC
 EXTRN _sub_1DB9C:PROC
 EXTRN _makeSound:PROC
 EXTRN _sub_1DA8D:PROC
-EXTRN _sub_1613B:PROC
-EXTRN _sub_1DAAE:PROC
-EXTRN _sub_155AB:PROC
+EXTRN _waitForKeyPress:PROC
+EXTRN _recalcTimeScale:PROC
+EXTRN _renderFrame:PROC
 EXTRN _main:PROC
-EXTRN _sub_18E50:PROC
-EXTRN _sub_1D1C8:PROC
-EXTRN _sub_1D1E8:PROC
-EXTRN _sub_1D21E:PROC
+EXTRN _drawCockpitHud:PROC
+EXTRN _signOf:PROC
+EXTRN _seedRng:PROC
+EXTRN _readAxisInput:PROC
 EXTRN _sub_1C7A2:PROC
 EXTRN _sub_1C7C6:PROC
-EXTRN _sub_1C7EA:PROC
+EXTRN _computeTargetBearing:PROC
 EXTRN _sub_21A7A:PROC
-EXTRN _sub_13922:PROC
-EXTRN _sub_13932:PROC
+EXTRN _aspectScaleY:PROC
+EXTRN _setup3DTransform:PROC
 EXTRN _sub_1CF8E:PROC
-EXTRN _sub_1CF32:PROC
-EXTRN _sub_1CB42:PROC
-EXTRN _sub_1C9D2:PROC
+EXTRN _shapeDataOffset:PROC
+EXTRN _drawTargetView:PROC
+EXTRN _drawWorldObject:PROC
 EXTRN _sub_11BFD:PROC
-EXTRN _sub_11BC3:PROC
-EXTRN _sub_114E8:PROC
-EXTRN _sub_1C371:PROC
-EXTRN _sub_1C40B:PROC
-EXTRN _sub_1C8A4:PROC
-EXTRN _sub_1C864:PROC
+EXTRN _scheduleEventCheck:PROC
+EXTRN _dispatchKeyScancode:PROC
+EXTRN _drawTargetLabel:PROC
+EXTRN _buildRangeString:PROC
+EXTRN _isTargetOverWater:PROC
+EXTRN _getTargetSymbol:PROC
 EXTRN _sub_1C82D:PROC
-EXTRN _sub_198FA:PROC
-EXTRN _sub_19915:PROC
-EXTRN _sub_118D5:PROC
-EXTRN _sub_118F6:PROC
-EXTRN _sub_18DF4:PROC
+EXTRN _mapXToScreen:PROC
+EXTRN _mapYToScreen:PROC
+EXTRN _applyGravityFall:PROC
+EXTRN _initFrameRandom:PROC
+EXTRN _projectWorldPos:PROC
 EXTRN _sub_18E38:PROC
-EXTRN _sub_1957A:PROC
-EXTRN _sub_19595:PROC
-EXTRN _sub_13A90:PROC
+EXTRN _refreshActivePanel:PROC
+EXTRN _initTacMapView:PROC
+EXTRN _setViewPosition:PROC
 EXTRN _copySomeMem:PROC
-EXTRN _sub_1CF64:PROC
-EXTRN _sub_1CFA6:PROC
-EXTRN _sub_1D008:PROC
-EXTRN _sub_1D178:PROC
-EXTRN _sub_1D190:PROC
+EXTRN _clampRange:PROC
+EXTRN _rangeApprox:PROC
+EXTRN _computeBearing:PROC
+EXTRN _sinMul:PROC
+EXTRN _cosMul:PROC
 EXTRN _sub_1D200:PROC
 EXTRN _sub_121C6:PROC
-EXTRN _sub_154B7:PROC
-EXTRN _sub_15540:PROC
-EXTRN _sub_15557:PROC
-EXTRN _sub_19BE1:PROC
-EXTRN _sub_19C84:PROC
-EXTRN _sub_19D86:PROC
-EXTRN _sub_19FAD:PROC
-EXTRN _sub_19FCC:PROC
-EXTRN _sub_19E94:PROC
-EXTRN _sub_19E44:PROC
-EXTRN _sub_1A740:PROC
-EXTRN _sub_1A7C4:PROC
-EXTRN _sub_1606C:PROC
+EXTRN _valueToAngle:PROC
+EXTRN _complementAngle:PROC
+EXTRN _isqrt:PROC
+EXTRN _drawFullscreenLine:PROC
+EXTRN _drawClippedLineRegion:PROC
+EXTRN _drawScreenLineOnePage:PROC
+EXTRN _drawPanelText:PROC
+EXTRN _fillPanelBox:PROC
+EXTRN _drawColorPoint:PROC
+EXTRN _setDrawColor:PROC
+EXTRN _drawMapMarkerBox:PROC
+EXTRN _projectMapPoint:PROC
+EXTRN _drawFuelGauge:PROC
 EXTRN _sub_15FDB:PROC
-EXTRN _sub_19E5D:PROC
-EXTRN _sub_1A1B1:PROC
-EXTRN _sub_19A4D:PROC
-EXTRN _sub_19B98:PROC
-EXTRN _sub_1A204:PROC
-EXTRN _sub_1A183:PROC
-EXTRN _sub_1A25C:PROC
+EXTRN _fillRectBoth:PROC
+EXTRN _readScreenPixel:PROC
+EXTRN _readMapPixelColor:PROC
+EXTRN _drawMapLine:PROC
+EXTRN _setTimedMessage:PROC
+EXTRN _drawNumber:PROC
+EXTRN _drawTacticalMap:PROC
 EXTRN _setCommWorldbufPtr:PROC
-EXTRN _sub_12278:PROC
+EXTRN _waitFrameSync:PROC
 EXTRN _fopen:PROC
 EXTRN _fclose:PROC
 EXTRN _fread:PROC
@@ -223,46 +223,46 @@ EXTRN __aNlshr:PROC
 EXTRN _flushall:PROC
 EXTRN _stackavail:PROC
 EXTRN _remove:PROC
-EXTRN _sub_1DD5E:PROC
-EXTRN _sub_1DD7E:PROC
+EXTRN _createFileWrapper:PROC
+EXTRN _readFile1Wrapper:PROC
 EXTRN _sub_1DD92:PROC
 EXTRN _sub_1DDAA:PROC
-EXTRN _sub_13694:PROC
-EXTRN _sub_13638:PROC
+EXTRN _worldToTileIndex:PROC
+EXTRN _computeTileBounds:PROC
 EXTRN _tempStrcpy:PROC
 EXTRN _selectMissile:PROC
-EXTRN _sub_18A44:PROC
-EXTRN _sub_189AA:PROC
-EXTRN _sub_19DB0:PROC
-EXTRN _sub_19EB6:PROC
-EXTRN _sub_1C1B9:PROC
-EXTRN _sub_1C2F8:PROC
-EXTRN _sub_1C488:PROC
-EXTRN _sub_1C661:PROC
+EXTRN _bombTarget:PROC
+EXTRN _markTargetReached:PROC
+EXTRN _drawHudViewLine:PROC
+EXTRN _switchIndicatorColor:PROC
+EXTRN _drawTargetBox:PROC
+EXTRN _drawMissileLock:PROC
+EXTRN _projectWorldToHud:PROC
+EXTRN _rotateVectorComponent:PROC
 EXTRN _routine_328:PROC
 EXTRN _routine_260:PROC
-EXTRN _sub_1993A:PROC
-EXTRN _sub_199EC:PROC
-EXTRN _sub_1DB2B:PROC
-EXTRN _sub_11636:PROC
-EXTRN _sub_11676:PROC
-EXTRN _sub_11841:PROC
-EXTRN _sub_11B37:PROC
+EXTRN _plotMapObject:PROC
+EXTRN _objectToScreen:PROC
+EXTRN _setupLodDistances:PROC
+EXTRN _tickMessageTimers:PROC
+EXTRN _updateBulletsAndFire:PROC
+EXTRN _updateTracerParticles:PROC
+EXTRN _finalizeMission:PROC
 EXTRN _sub_10294:PROC
 EXTRN _sub_10297:PROC
 EXTRN _sub_13A6C:PROC
-EXTRN _sub_1345E:PROC
-EXTRN _sub_134AC:PROC
-EXTRN _sub_136D2:PROC
-EXTRN _sub_1378E:PROC
-EXTRN _sub_185BE:NEAR
-sub_185BE equ _sub_185BE
-EXTRN _sub_186F8:NEAR
-sub_186F8 equ _sub_186F8
-EXTRN _sub_1783A:NEAR
-sub_1783A equ _sub_1783A
-EXTRN _sub_194D0:near
-sub_194D0 equ _sub_194D0
+EXTRN _renderMapTerrain:PROC
+EXTRN _drawMapTiles:PROC
+EXTRN _drawMapTileObject:PROC
+EXTRN _buildVertexSignMask:PROC
+EXTRN _samCanAcquireTarget:NEAR
+samCanAcquireTarget equ _samCanAcquireTarget
+EXTRN _destroyAircraft:NEAR
+destroyAircraft equ _destroyAircraft
+EXTRN _spawnEnemyAircraft:NEAR
+spawnEnemyAircraft equ _spawnEnemyAircraft
+EXTRN _setActivePanel:near
+setActivePanel equ _setActivePanel
 
 PUBLIC _var_456
 PUBLIC _var_190
@@ -288,9 +288,9 @@ PUBLIC _var_261
 PUBLIC _var_315
 PUBLIC _var_316
 PUBLIC _origCBreakSeg
-PUBLIC _sub_10334
+PUBLIC _drawProjectionSphere
 PUBLIC _word_3C16C
-PUBLIC _sub_1374A
+PUBLIC _drawModelPoint
 PUBLIC _var_257
 PUBLIC _var_258
 PUBLIC _var_259
@@ -308,7 +308,7 @@ PUBLIC _var_143
 PUBLIC _word_3B146
 PUBLIC _word_33704
 PUBLIC _word_39808
-EXTRN _sub_12FDA:near
+EXTRN _findNearestTileObject:near
 PUBLIC _word_3B7E0
 PUBLIC _word_3B7E4
 PUBLIC _word_3B7E6
@@ -338,14 +338,14 @@ PUBLIC _var_349
 PUBLIC _var_350
 PUBLIC _var_134
 PUBLIC _var_135
-PUBLIC _sub_122B8
+PUBLIC _projectObjects
 PUBLIC _sub_1A9F8
 PUBLIC _sub_1B147
 PUBLIC _var_662
 PUBLIC _createFile
 PUBLIC _readFile1
 PUBLIC _readFile2
-PUBLIC _sub_1DF4F
+PUBLIC _writeFileAtRaw
 PUBLIC _commData
 
 PUBLIC _gameData
@@ -376,7 +376,7 @@ PUBLIC _audio_jump_6d
 PUBLIC _audio_jump_68
 PUBLIC _audio_jump_69
 PUBLIC _setTimerIrqHandler
-PUBLIC _sub_13C3B
+PUBLIC _runGameLoop
 EXTRN _setInt9Handler:FAR
 EXTRN sub_2265B:FAR
 EXTRN sub_2267E:FAR
@@ -571,8 +571,8 @@ PUBLIC _word_336E8
 PUBLIC _word_3C028
 PUBLIC _word_3C03A
 PUBLIC _word_330C4
-PUBLIC _sub_13B2F
-PUBLIC _sub_13B96
+PUBLIC _fixedMulQ14
+PUBLIC _sine
 PUBLIC _word_3419C
 PUBLIC _word_339B4
 PUBLIC _word_336F4
@@ -608,7 +608,7 @@ PUBLIC _word_37561
 PUBLIC _word_39604
 PUBLIC _word_37563
 PUBLIC _word_38126
-PUBLIC _sub_195C9
+PUBLIC _redrawTacMap
 PUBLIC _var_589
 PUBLIC _var_590
 PUBLIC _off_38364
@@ -621,7 +621,7 @@ PUBLIC _a256right_pic
 PUBLIC _a256rear_pic
 PUBLIC _gfx_setColor
 PUBLIC _gfx_resetBlitOffset2
-EXTRN _sub_121CA:PROC
+EXTRN _render3DView:PROC
 PUBLIC _aRight_pic
 PUBLIC _byte_3995A
 PUBLIC _aLeft_pic
@@ -789,71 +789,71 @@ PUBLIC _word_3C5A2
 PUBLIC _word_38FC8
 PUBLIC _word_38FCC
 
-sub_11D10 equ _sub_11D10
-sub_11F3E equ _sub_11F3E
-sub_126B4 equ _sub_126B4
-sub_13266 equ _sub_13266
-sub_13638 equ _sub_13638
-sub_13694 equ _sub_13694
-sub_136D2 equ _sub_136D2
-sub_13A90 equ _sub_13A90
-sub_151F9 equ _sub_151F9
-sub_15411 equ _sub_15411
-sub_1543B equ _sub_1543B
-sub_15557 equ _sub_15557
-sub_1606C equ _sub_1606C
-sub_1613B equ _sub_1613B
-sub_1660E equ _sub_1660E
+appendMapEvent equ _appendMapEvent
+findWaypointFeatures equ _findWaypointFeatures
+scaleCoordToLod equ _scaleCoordToLod
+lookupTileEntry equ _lookupTileEntry
+computeTileBounds equ _computeTileBounds
+worldToTileIndex equ _worldToTileIndex
+drawMapTileObject equ _drawMapTileObject
+setViewPosition equ _setViewPosition
+applyRotationDelta equ _applyRotationDelta
+rebuildOrientation equ _rebuildOrientation
+signedRatio16 equ _signedRatio16
+isqrt equ _isqrt
+drawFuelGauge equ _drawFuelGauge
+waitForKeyPress equ _waitForKeyPress
+computeThreatRangeBearing equ _computeThreatRangeBearing
 sub_166BE equ _sub_166BE
-routine_191 equ _routine_191
-sub_189AA equ _sub_189AA
-sub_18A44 equ _sub_18A44
-sub_1957A equ _sub_1957A
-sub_19595 equ _sub_19595
-sub_198FA equ _sub_198FA
-sub_19915 equ _sub_19915
-sub_1993A equ _sub_1993A
-sub_199EC equ _sub_199EC
-sub_19A4D equ _sub_19A4D
-EXTRN _sub_19ADB:near
-sub_19ADB equ _sub_19ADB
-sub_19B98 equ _sub_19B98
-sub_19FAD equ _sub_19FAD
-sub_1A1B1 equ _sub_1A1B1
+computeThreatScore equ _computeThreatScore
+markTargetReached equ _markTargetReached
+bombTarget equ _bombTarget
+refreshActivePanel equ _refreshActivePanel
+initTacMapView equ _initTacMapView
+mapXToScreen equ _mapXToScreen
+mapYToScreen equ _mapYToScreen
+plotMapObject equ _plotMapObject
+objectToScreen equ _objectToScreen
+readMapPixelColor equ _readMapPixelColor
+EXTRN _drawMapRangeArc:near
+drawMapRangeArc equ _drawMapRangeArc
+drawMapLine equ _drawMapLine
+drawPanelText equ _drawPanelText
+readScreenPixel equ _readScreenPixel
 tempStrcpy equ _tempStrcpy
-sub_1A204 equ _sub_1A204
-sub_1A224 equ _routine_260
-sub_1A740 equ _sub_1A740
-sub_1A7C4 equ _sub_1A7C4
-EXTRN _sub_1A872:PROC
-sub_1A872 equ _sub_1A872
-EXTRN _sub_1A8C8:PROC
-sub_1A8C8 equ _sub_1A8C8
-sub_1C1B9 equ _sub_1C1B9
-sub_1C2F8 equ _sub_1C2F8
-sub_1C371 equ _sub_1C371
-sub_1C40B equ _sub_1C40B
-sub_1C488 equ _sub_1C488
-sub_1C661 equ _sub_1C661
+setTimedMessage equ _setTimedMessage
+lookupTerrainModifier equ _routine_260
+drawMapMarkerBox equ _drawMapMarkerBox
+projectMapPoint equ _projectMapPoint
+EXTRN _blitGaugeSprite:PROC
+blitGaugeSprite equ _blitGaugeSprite
+EXTRN _blitSprite:PROC
+blitSprite equ _blitSprite
+drawTargetBox equ _drawTargetBox
+drawMissileLock equ _drawMissileLock
+drawTargetLabel equ _drawTargetLabel
+buildRangeString equ _buildRangeString
+projectWorldToHud equ _projectWorldToHud
+rotateVectorComponent equ _rotateVectorComponent
 sub_1C7A2 equ _sub_1C7A2
 sub_1C7C6 equ _sub_1C7C6
-sub_1C7EA equ _sub_1C7EA
+computeTargetBearing equ _computeTargetBearing
 sub_1C82D equ _sub_1C82D
-sub_1C864 equ _sub_1C864
-sub_1C8A4 equ _sub_1C8A4
-sub_1CF32 equ _sub_1CF32
+getTargetSymbol equ _getTargetSymbol
+isTargetOverWater equ _isTargetOverWater
+shapeDataOffset equ _shapeDataOffset
 forceRange equ _sub_1CF8E
 randlmul equ _sub_1D200
 selectMissile equ _selectMissile
 makeSound equ _makeSound
 sub_1DA5F equ _sub_1DA5F
 sub_1DA8D equ _sub_1DA8D
-sub_1DAAE equ _sub_1DAAE
-sub_1DB2B equ _sub_1DB2B
+recalcTimeScale equ _recalcTimeScale
+setupLodDistances equ _setupLodDistances
 sub_1DB9C equ _sub_1DB9C
 sub_1DBE0 equ _sub_1DBE0
-sub_1DD5E equ _sub_1DD5E
-sub_1DD7E equ _sub_1DD7E
+createFileWrapper equ _createFileWrapper
+readFile1Wrapper equ _readFile1Wrapper
 sub_1DD92 equ _sub_1DD92
 sub_1DDAA equ _sub_1DDAA
 
@@ -869,7 +869,7 @@ SREGS		ends
 
 ; ---------------------------------------------------------------------------
 
-struc_1		struc ;	(sizeof=0x10, mappedto_11) ; XREF: dseg:stru_3A95A/r
+ViewSnapshot		struc ;	(sizeof=0x10, mappedto_11) ; XREF: dseg:stru_3A95A/r
 field_0		dd ?			; XREF:	otherKeyDispatch+1198/w
 					; otherKeyDispatch+119C/w
 field_4		dd ?			; XREF:	otherKeyDispatch+11A7/w
@@ -880,7 +880,7 @@ field_A		dw ?			; XREF:	otherKeyDispatch+117F/w
 field_C		dw ?			; XREF:	otherKeyDispatch+1186/w
 					; otherKeyDispatch+1227/r
 field_E		dw ?			; XREF:	otherKeyDispatch+118D/w
-struc_1		ends
+ViewSnapshot		ends
 
 ; ---------------------------------------------------------------------------
 
@@ -898,25 +898,25 @@ struc_2		ends
 
 ; ---------------------------------------------------------------------------
 
-struc_3		struc ;	(sizeof=0x24, mappedto_13) ; XREF: dseg:stru_3B208/r
+SimObject		struc ;	(sizeof=0x24, mappedto_13) ; XREF: dseg:stru_3B208/r
 field_0		dw ?
 field_2		dd ?
 field_6		dd ?
-field_A		db 26 dup(?)		; XREF:	sub_10720+DA8/r	sub_10720+DB0/r	...
-struc_3		ends
+field_A		db 26 dup(?)		; XREF:	updateFrame+DA8/r	updateFrame+DB0/r	...
+SimObject		ends
 
 ; ---------------------------------------------------------------------------
 
-struc_4		struc ;	(sizeof=0x10, mappedto_14) ; XREF: dseg:stru_3AA5E/r
-field_0		dw ?			; XREF:	sub_11841+60/r sub_11F3E+60/r ...
-field_2		dw ?			; XREF:	sub_11841+68/r sub_11F3E+40/r ...
+MapTarget		struc ;	(sizeof=0x10, mappedto_14) ; XREF: dseg:stru_3AA5E/r
+field_0		dw ?			; XREF:	updateTracerParticles+60/r findWaypointFeatures+60/r ...
+field_2		dw ?			; XREF:	updateTracerParticles+68/r findWaypointFeatures+40/r ...
 field_4		dw ?
-field_6		dw ?			; XREF:	sub_10720+D7F/r
+field_6		dw ?			; XREF:	updateFrame+D7F/r
 					; otherKeyDispatch+6C/r	...
-field_8		db 4 dup(?)		; XREF:	sub_10720+D77/r
+field_8		db 4 dup(?)		; XREF:	updateFrame+D77/r
 field_C		dw ?			; XREF:	placeString+A/r	placeString+43/r ...
 field_E		dw ?
-struc_4		ends
+MapTarget		ends
 
 ; ---------------------------------------------------------------------------
 
@@ -1060,7 +1060,7 @@ loc_102F5:
 _loadF15DgtlBin endp
 ; ------------------------------seg000:0x333------------------------------
 ; ------------------------------seg000:0x334------------------------------
-sub_10334 proc near
+drawProjectionSphere proc near
     push BP
     mov BP,SP
     sub SP,0a6h
@@ -1126,12 +1126,12 @@ LAB_1000_03c2:
     push word ptr [_var_227]
     mov AX,0a7b8h
     push AX
-    call sub_13B2F
+    call fixedMulQ14
     add SP,4h
     mov SI,AX
     push word ptr [word_38FC6]
     push word ptr [BP + -9eh]
-    call sub_13B2F
+    call fixedMulQ14
     add SP,4h
     mov DI,AX
     mov AX,word ptr [BP + -4h]
@@ -1151,13 +1151,13 @@ LAB_1000_03c2:
     mov word ptr [BX + -6ah],AX
     push word ptr [_var_227]
     push word ptr [BP + -9eh]
-    call sub_13B2F
+    call fixedMulQ14
     add SP,4h
     mov SI,AX
     push word ptr [word_38FC6]
     mov AX,0a7b8h
     push AX
-    call sub_13B2F
+    call fixedMulQ14
     add SP,4h
     mov DI,AX
     mov AX,word ptr [BP + -4h]
@@ -1268,12 +1268,12 @@ LAB_1000_054a:
     push word ptr [_var_227]
     mov AX,0a7b8h
     push AX
-    call sub_13B2F
+    call fixedMulQ14
     add SP,4h
     mov SI,AX
     push word ptr [word_38FC6]
     push word ptr [BP + -9eh]
-    call sub_13B2F
+    call fixedMulQ14
     add SP,4h
     mov DI,AX
     mov AX,word ptr [BP + -4h]
@@ -1293,13 +1293,13 @@ LAB_1000_054a:
     mov word ptr [BX + -6ah],AX
     push word ptr [_var_227]
     push word ptr [BP + -9eh]
-    call sub_13B2F
+    call fixedMulQ14
     add SP,4h
     mov SI,AX
     push word ptr [word_38FC6]
     mov AX,0a7b8h
     push AX
-    call sub_13B2F
+    call fixedMulQ14
     add SP,4h
     mov DI,AX
     mov AX,word ptr [BP + -4h]
@@ -1384,8 +1384,8 @@ LAB_1000_0619:
     db 00h
     db 00h
     nop
-sub_10334 endp
-_sub_10334 equ sub_10334
+drawProjectionSphere endp
+_drawProjectionSphere equ drawProjectionSphere
 ; ------------------------------seg000:0x66e------------------------------
 ; ------------------------------seg000:0x688------------------------------
 _setupOverlaySlots proc near
@@ -1438,8 +1438,8 @@ _setupOverlaySlots endp ;sp-analysis failed
     nop
     nop
 ; ------------------------------seg000:0x720------------------------------
-EXTRN _sub_10720:NEAR
-sub_10720 equ _sub_10720
+EXTRN _updateFrame:NEAR
+updateFrame equ _updateFrame
 ; ------------------------------seg000:0x14e7------------------------------
 ; ------------------------------seg000:0x14e8------------------------------
 ; ------------------------------seg000:0x14fb------------------------------
@@ -1567,7 +1567,7 @@ LAB_1000_15b7:
     add SP,4h
     mov AX,offset strBuf
     push AX
-    call sub_1A204
+    call setTimedMessage
     add SP,2h
 LAB_1000_1623:
     mov AX,2h
@@ -1596,17 +1596,17 @@ countermeasures endp
 ; ------------------------------seg000:0x1971------------------------------
 ; ------------------------------seg000:0x19a2------------------------------
 ; ------------------------------seg000:0x19a3------------------------------
-EXTRN _sub_119A3:NEAR
+EXTRN _initWeaponLoadout:NEAR
 ; ------------------------------seg000:0x1a17------------------------------
 ; ------------------------------seg000:0x1a18------------------------------
-; sub_11A18 moved to egame1.c
+; drawWeaponAmmo moved to egame1.c
 ; ------------------------------seg000:0x1a87------------------------------
 ; ------------------------------seg000:0x1a88------------------------------
 ; ------------------------------seg000:0x1b36------------------------------
 ; ------------------------------seg000:0x1b37------------------------------
 ; ------------------------------seg000:0x1bc2------------------------------
 ; ------------------------------seg000:0x1bc3------------------------------
-sub_11BC3 equ _sub_11BC3
+scheduleEventCheck equ _scheduleEventCheck
 ; ------------------------------seg000:0x1bfc------------------------------
 ; ------------------------------seg000:0x1bfd------------------------------
 sub_11BFD equ _sub_11BFD
@@ -1626,7 +1626,7 @@ sub_11BFD equ _sub_11BFD
 ; ------------------------------seg000:0x21c6------------------------------
 callLoad3DAll equ _sub_121C6
 ; ------------------------------seg000:0x21c9------------------------------
-; _sub_121CA - now in C (egame2.c)
+; _render3DView - now in C (egame2.c)
 ; _copySomeMem - now in C (egame2.c)
 ; ------------------------------seg000:0x22b7------------------------------
 ; ------------------------------seg000:0x22b8------------------------------
@@ -1634,7 +1634,7 @@ IFDEF DEBUG
 EXTRN _trace_gameloop:NEAR
 EXTRN _trace_tile:NEAR
 ENDIF
-sub_122B8 proc near
+projectObjects proc near
     push BP
     mov BP,SP
     sub SP,1ch
@@ -1701,7 +1701,7 @@ LAB_1000_234e:
     push word ptr [BP + 0ah]
     push word ptr [BP + 8h]
     push word ptr [word_3C16C]
-    call sub_126B4
+    call scaleCoordToLod
     add SP,6h
     mov word ptr [BP + -18h],AX
     mov word ptr [BP + -16h],DX
@@ -1720,7 +1720,7 @@ LAB_1000_2370:
     push word ptr [BP + 0eh]
     push word ptr [BP + 0ch]
     push word ptr [word_3C16C]
-    call sub_126B4
+    call scaleCoordToLod
     add SP,6h
     mov word ptr [BP + -18h],AX
     mov word ptr [BP + -16h],DX
@@ -1739,7 +1739,7 @@ LAB_1000_239e:
     push word ptr [BP + 12h]
     push word ptr [BP + 10h]
     push word ptr [word_3C16C]
-    call sub_126B4
+    call scaleCoordToLod
     add SP,6h
     mov word ptr [BP + -18h],AX
     mov word ptr [BP + -16h],DX
@@ -1884,7 +1884,7 @@ LAB_1000_2515:
     push word ptr [_var_659]
     push word ptr [_var_658]
     push word ptr [_var_657]
-    call sub_13A90
+    call setViewPosition
     add SP,6h
     mov AX,word ptr [BP + -14h]
     add AX,word ptr [BP + -4h]
@@ -1955,7 +1955,7 @@ LAB_1000_25a5:
     push AX
     push word ptr [BP + -0ah]
     push word ptr [word_3C16C]
-    call sub_13266
+    call lookupTileEntry
     add SP,8h
     db 05h, 00h, 00h ; add AX,0h (force imm16 encoding)
     mov word ptr [_var_200],AX
@@ -2043,8 +2043,8 @@ LAB_1000_26af:
     mov SP,BP
     pop BP
     ret
-sub_122B8 endp
-_sub_122B8 equ sub_122B8
+projectObjects endp
+_projectObjects equ projectObjects
 ; ------------------------------seg000:0x26b3------------------------------
 ; ------------------------------seg000:0x26b4------------------------------
 ; ------------------------------seg000:0x273d------------------------------
@@ -2052,26 +2052,26 @@ _sub_122B8 equ sub_122B8
 process3dg equ _process3dg
 ; ------------------------------seg000:0x2872------------------------------
 ; ------------------------------seg000:0x2fda------------------------------
-sub_12FDA equ _sub_12FDA
+findNearestTileObject equ _findNearestTileObject
 ; ------------------------------seg000:0x3223------------------------------
 ; ------------------------------seg000:0x3224------------------------------
-sub_13224 equ _sub_13224
+addTileEntry equ _addTileEntry
 ; ------------------------------seg000:0x3264------------------------------
 ; ------------------------------seg000:0x3266------------------------------
 ; ------------------------------seg000:0x32b8------------------------------
 ; ------------------------------seg000:0x32ba------------------------------
-sub_132BA equ _sub_132BA
+drawNearestTileObject equ _drawNearestTileObject
 ; ------------------------------seg000:0x345d------------------------------
 ; ------------------------------seg000:0x345e------------------------------
-sub_1345E equ _sub_1345E
+renderMapTerrain equ _renderMapTerrain
     nop
 ; ------------------------------seg000:0x34aa------------------------------
 ; ------------------------------seg000:0x34ac------------------------------
-sub_134AC equ _sub_134AC
+drawMapTiles equ _drawMapTiles
 
 
 ; ------------------------------seg000:0x374a------------------------------
-sub_1374A proc near
+drawModelPoint proc near
     push BP
     mov BP,SP
     mov AX,word ptr [BP + 4h]
@@ -2095,20 +2095,20 @@ sub_1374A proc near
     call far ptr _sub_2152A
     pop BP
     ret
-sub_1374A endp
-_sub_1374A equ sub_1374A
+drawModelPoint endp
+_drawModelPoint equ drawModelPoint
 ; ------------------------------seg000:0x3815------------------------------
 ; ------------------------------seg000:0x3816------------------------------
-sub_13816 equ _sub_13816
+projectModelVertices equ _projectModelVertices
 ; ------------------------------seg000:0x3920------------------------------
 ; ------------------------------seg000:0x3932------------------------------
-sub_13932 equ _sub_13932
+setup3DTransform equ _setup3DTransform
 ; ------------------------------seg000:0x39a8------------------------------
 ; ------------------------------seg000:0x39aa------------------------------
 IFDEF DEBUG
 EXTRN _trace_gameloop:NEAR
 ENDIF
-sub_139AA proc near
+rasterize3DWorld proc near
 IFDEF DEBUG
     push ax
     mov ax, 100
@@ -2147,12 +2147,12 @@ ENDIF
     mov byte ptr [_var_316],0h
     ret
     nop
-sub_139AA endp
-    PUBLIC _sub_139AA
-_sub_139AA equ sub_139AA
+rasterize3DWorld endp
+    PUBLIC _rasterize3DWorld
+_rasterize3DWorld equ rasterize3DWorld
 ; ------------------------------seg000:0x39be------------------------------
 ; ------------------------------seg000:0x39c0------------------------------
-sub_139C0 equ _sub_139C0
+setupViewport equ _setupViewport
 ; ------------------------------seg000:0x3a6b------------------------------
 ; ------------------------------seg000:0x3a6c------------------------------
 sub_13A6C equ _sub_13A6C
@@ -2267,8 +2267,8 @@ loc_13B23:
 _setupDac endp
 ; ------------------------------seg000:0x3b2e------------------------------
 ; ------------------------------seg000:0x3b2f------------------------------
-sub_13B2F proc near
-_sub_13B2F:
+fixedMulQ14 proc near
+_fixedMulQ14:
     mov BX,SP
     mov AX,word ptr SS:[BX + 2h]
     imul word ptr SS:[BX + 4h]
@@ -2343,30 +2343,30 @@ _sub_13B2F:
     db 0F7h
     db 0D8h
     db 0C3h
-sub_13B2F endp
+fixedMulQ14 endp
 ; ------------------------------seg000:0x3b44------------------------------
 ; ------------------------------seg000:0x3b86------------------------------
-sub_13B86 proc near
+cosine proc near
     mov BX,SP
     mov BX,word ptr SS:[BX + 2h]
     add BX,4000h
-    call sub_13BA2
+    call sineLookup
     mov AX,BX
     ret
-sub_13B86 endp
+cosine endp
 ; ------------------------------seg000:0x3b95------------------------------
 ; ------------------------------seg000:0x3b96------------------------------
-sub_13B96 proc near
-_sub_13B96:
+sine proc near
+_sine:
     mov BX,SP
     mov BX,word ptr SS:[BX + 2h]
-    call sub_13BA2
+    call sineLookup
     mov AX,BX
     ret
-sub_13B96 endp
+sine endp
 ; ------------------------------seg000:0x3ba1------------------------------
 ; ------------------------------seg000:0x3ba2------------------------------
-sub_13BA2 proc near
+sineLookup proc near
     mov DL,BL
     sub DH,DH
     mov BL,BH
@@ -2381,29 +2381,29 @@ sub_13BA2 proc near
     shl AL,1h
     adc BX,DX
     ret
-sub_13BA2 endp
+sineLookup endp
 ; ------------------------------seg000:0x3bc0------------------------------
 ; ------------------------------seg000:0x3bc1------------------------------
-PUBLIC sub_13BC1
-PUBLIC sub_13BC5
-sub_13BC1 proc far
-    call sub_13BCD
+PUBLIC lookupSineFar
+PUBLIC lookupCosineFar
+lookupSineFar proc far
+    call lookupSine
     retf
-sub_13BC1 endp
+lookupSineFar endp
 ; ------------------------------seg000:0x3bc4------------------------------
 ; ------------------------------seg000:0x3bc5------------------------------
-sub_13BC5 proc far
-    call sub_13BC9
+lookupCosineFar proc far
+    call lookupCosine
     retf
-sub_13BC5 endp
+lookupCosineFar endp
 ; ------------------------------seg000:0x3bc8------------------------------
 ; ------------------------------seg000:0x3bc9------------------------------
-sub_13BC9 proc near
+lookupCosine proc near
     add BX,4000h
-sub_13BC9 endp
+lookupCosine endp
 ; ------------------------------seg000:0x3bc9------------------------------
 ; ------------------------------seg000:0x3bcd------------------------------
-sub_13BCD proc near
+lookupSine proc near
     mov DL,BL
     sub DH,DH
     mov BL,BH
@@ -2418,7 +2418,7 @@ sub_13BCD proc near
     shl AL,1h
     adc BX,DX
     ret
-sub_13BCD endp
+lookupSine endp
 ; ------------------------------seg000:0x3beb------------------------------
 ; ------------------------------seg000:0x3bec------------------------------
 _installCBreakHandler proc near
@@ -2482,26 +2482,26 @@ _getRowOffsetHelper endp
 ENDIF
 ; ------------------------------seg000:0x3c3a------------------------------
 ; ------------------------------seg000:0x3c3b------------------------------
-_sub_13C3B proc near
+_runGameLoop proc near
     push bp
     push si
     push di
     push es
-    call sub_13C47
+    call gameMainLoop
     pop es
     pop di
     pop si
     pop bp
     retn
-_sub_13C3B endp
+_runGameLoop endp
 ; ------------------------------seg000:0x3c46------------------------------
 ; ------------------------------seg000:0x3c47------------------------------
 IFDEF DEBUG
 EXTRN _trace_gameloop:NEAR
 ENDIF
-sub_13C47 proc near
-    call _sub_155AB
-    call _sub_18E50
+gameMainLoop proc near
+    call _renderFrame
+    call _drawCockpitHud
     cmp _keyValue, 0
     jnz short loc_13C59
 IFDEF DEBUG
@@ -2535,11 +2535,11 @@ IFDEF DEBUG
     call _trace_gameloop
     add sp, 2
 ENDIF
-    call sub_10720
+    call updateFrame
     cmp byte_3C8B0, 0
-    jz short sub_13C47
+    jz short gameMainLoop
     retn
-sub_13C47 endp
+gameMainLoop endp
 ; ------------------------------seg000:0x3c76------------------------------
 ; ------------------------------seg000:0x3c78------------------------------
 _setTimerIrqHandler proc near
@@ -2547,7 +2547,7 @@ _setTimerIrqHandler proc near
     mov word_37904, 1
     mov word_378F0, 0
     mov word_378F2, 0
-    call sub_13DF2
+    call calibrateGameSpeed
     mov ah, 35h
     mov al, 8
     int 21h ;DOS - 2+ - GET INTERRUPT VECTOR
@@ -2650,7 +2650,7 @@ sub_13D6B proc near
 sub_13D6B endp
 ; ------------------------------seg000:0x3df1------------------------------
 ; ------------------------------seg000:0x3df2------------------------------
-sub_13DF2 proc near
+calibrateGameSpeed proc near
     pushf ;identical to sub_119d4 in start.exe
     cli
     mov byte_378FC, 1
@@ -2712,7 +2712,7 @@ loc_13E76:
     mov word_378F4, ax
     popf
     retn
-sub_13DF2 endp
+calibrateGameSpeed endp
 ; ------------------------------seg000:0x3e86------------------------------
 ; ------------------------------seg000:0x3e87------------------------------
 manipulateTimer proc near
@@ -2887,7 +2887,7 @@ loc_13FD6:
     jz loc_13FEB
     add byte ptr [_word_380C8+1],04h
 loc_13FEB:
-    call sub_15411
+    call rebuildOrientation
     call _sub_15FDB
     mov word ptr [_sign3d3+2],01h
 loc_13FF7:
@@ -2926,7 +2926,7 @@ loc_1403A:
     mov AX,[word_380E0]
     db 02Dh, 0Ah, 00h ; sub AX,0Ah (force imm16 encoding)
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     mov [word_380E0],AX
     call _sub_15FDB
@@ -2945,7 +2945,7 @@ loc_1406A:
 loc_1406D:
     add AX,word ptr [word_380E0]
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     mov [word_380E0],AX
     call _sub_15FDB
@@ -2999,7 +2999,7 @@ loc_14103:
 loc_14106:
     mov AX,01h
     push AX
-    call _sub_11B37
+    call _finalizeMission
     add SP,02h
     mov byte ptr [_exitCode],00h
     jmp loc_1423E
@@ -3027,7 +3027,7 @@ loc_14118:
 loc_14149:
     sub AX,AX
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,02h
     mov AX,0C7h
     push AX
@@ -3036,7 +3036,7 @@ loc_14149:
     sub AX,AX
     push AX
     push AX
-    call _sub_19E5D
+    call _fillRectBoth
     add SP,08h
     sub AX,AX
     push AX
@@ -3051,9 +3051,9 @@ loc_14149:
     sub AX,AX
     push AX
     push AX
-    call _sub_1A8C8
+    call _blitSprite
     add SP,0Eh
-    call sub_1613B
+    call waitForKeyPress
     cmp word ptr [_word_330C2],00h
     jz loc_141E2
     mov AX,offset aNc_xxx
@@ -3096,7 +3096,7 @@ loc_14149:
 loc_141E2:
     jmp loc_1423E
 loc_141E4:
-    call sub_1613B
+    call waitForKeyPress
     jmp loc_1423E
     db 0EBh
     db 53h
@@ -3315,7 +3315,7 @@ loc_143C7:
     mov CL,06h
     sar AX,CL
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     neg AX
     mov [_word_3C00C+2],AX
@@ -3341,7 +3341,7 @@ loc_143C7:
     mov CL,07h
     sar AX,CL
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     mov word ptr [_byte_3C5A0+4],AX
     cmp word ptr [_waypointIndex],03h
@@ -3364,7 +3364,7 @@ loc_14450:
     test word ptr [SI+offset _stru_3AA5E + 6],0200h
     jnz loc_1448C
     push AX
-    call _sub_1D1C8
+    call _signOf
     add SP,02h
     neg AX
     mov word ptr [BP-3Eh],AX
@@ -3425,7 +3425,7 @@ loc_144DC:
     sub AX,DX
     add BX,AX
     push BX
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     mov word ptr [BP-14h],AX
     cmp AX,01000h
@@ -3482,7 +3482,7 @@ loc_14569:
     sub AX,DX
     add AX,BX
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     imul word ptr [BP-3Eh]
     add word ptr [BP-34h],AX
@@ -3517,7 +3517,7 @@ loc_145F4:
     mov AX,word ptr [BP-2Ah]
     sub AX,word ptr [_word_3BEC0]
     push AX
-    call _sub_1D008
+    call _computeBearing
     add SP,04h
     mov word ptr [BP-0Eh],AX
     mov AX,[_word_3AA5A]
@@ -3557,7 +3557,7 @@ loc_1464F:
     mov CL,06h
     sar AX,CL
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     neg AX
     mov [_word_3C00C+2],AX
@@ -3587,7 +3587,7 @@ loc_1464F:
     sub AX,DX
     add BX,AX
     push BX
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     mov [word_380E0],AX
     call _sub_15FDB
@@ -3617,7 +3617,7 @@ loc_1464F:
     sar DX,CL
     sub AX,DX
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     mov word ptr [_byte_3C5A0+4],AX
     cmp word ptr [_word_3AA5A],015Eh
@@ -3669,7 +3669,7 @@ loc_14758:
     mov CL,05h
     sar AX,CL
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     add word ptr [BP-24h],AX
 loc_1477A:
@@ -3727,7 +3727,7 @@ loc_147B3:
     sub AX,AX
     push AX
     push word ptr [BP-14h]
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     mov word ptr [_byte_3C5A0+4],AX
 loc_1481B:
@@ -3761,7 +3761,7 @@ loc_14842:
     db 2Dh, 20h, 00h ; sub AX,020h (force imm16 encoding)
     neg AX
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     add word ptr [_word_3C040],AX
     jns loc_14886
@@ -3770,7 +3770,7 @@ loc_14842:
     jnz loc_14886
     sub AX,AX
     push AX
-    call _sub_11B37
+    call _finalizeMission
     add SP,02h
 loc_14886:
     cmp word ptr [_word_380CE],00h
@@ -3903,7 +3903,7 @@ loc_149C0:
     idiv CX
     db 05h, 02h, 00h ; add AX,02h (force imm16 encoding)
     sub word ptr [word_33098],AX
-    call sub_1606C
+    call drawFuelGauge
 loc_149F4:
     cmp word ptr [word_33098],00h
     jg loc_14A07
@@ -3947,7 +3947,7 @@ loc_14A38:
     db 2Dh, 80h, 00h ; sub AX,080h (force imm16 encoding)
     neg AX
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     mov word ptr [_byte_3C5A0+4],AX
 loc_14A75:
@@ -4012,7 +4012,7 @@ loc_14A75:
     mov AX,050h
     push AX
     push word ptr [_word_380CA]
-    call _sub_1D178
+    call _sinMul
     add SP,04h
     mov CX,AX
     mov AX,word ptr [_buf3d3_1+98h]
@@ -4116,7 +4116,7 @@ loc_14BAD:
     shl AX,01h
     shl AX,01h
     push AX
-    call sub_15557
+    call isqrt
     add SP,02h
     cwd
     push DX
@@ -4150,7 +4150,7 @@ loc_14BF4:
     sub AX,AX
     push AX
     push word ptr [BP-32h]
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     mov CX,01Bh
     imul CX
@@ -4206,7 +4206,7 @@ loc_14C70:
     sub AX,0300h
     push AX
     push word ptr [_word_380CC]
-    call _sub_1D190
+    call _cosMul
     add SP,04h
     mov [_word_38FC4],AX
     test byte ptr [_planeFlags],08h
@@ -4248,7 +4248,7 @@ loc_14CE0:
 loc_14CEE:
     push word ptr [_word_3A940+4]
     push word ptr [_word_380CA]
-    call _sub_1D190
+    call _cosMul
     add SP,04h
     mov word ptr [BP-22h],AX
     mov AX,[_word_3A940+4]
@@ -4272,7 +4272,7 @@ loc_14CEE:
     shl AX,CL
     push AX
     push word ptr [_word_380CC]
-    call _sub_1D178
+    call _sinMul
     add SP,04h
     cwd
     mov CL,07h
@@ -4289,7 +4289,7 @@ loc_14D45:
     mov word ptr [BP-18h],AX
     push AX
     push word ptr [_word_380CA]
-    call _sub_1D190
+    call _cosMul
     add SP,04h
     mov word ptr [BP-18h],AX
     mov AX,[_word_380CE]
@@ -4336,12 +4336,12 @@ loc_14DB4:
     or AX,AX
     jz loc_14DEC
     push AX
-    call sub_13B86
+    call cosine
     add SP,02h
     mov word ptr [_unk_3806E+3Eh],AX
     mov word ptr [_unk_3806E+36h],AX
     push word ptr [BP-28h]
-    call sub_13B96
+    call sine
     add SP,02h
     mov word ptr [_unk_3806E+38h],AX
     neg AX
@@ -4350,7 +4350,7 @@ loc_14DB4:
     push AX
     mov AX,offset _unk_3806E
     push AX
-    call sub_151F9
+    call applyRotationDelta
     add SP,04h
 loc_14DEC:
     mov AX,word ptr [_byte_3C5A0+4]
@@ -4363,12 +4363,12 @@ loc_14DEC:
     or AX,AX
     jz loc_14E2D
     push AX
-    call sub_13B86
+    call cosine
     add SP,02h
     mov word ptr [_unk_3806E+34h],AX
     mov word ptr [_unk_3806E+2Ch],AX
     push word ptr [BP-20h]
-    call sub_13B96
+    call sine
     add SP,02h
     mov word ptr [_unk_3806E+32h],AX
     neg AX
@@ -4377,7 +4377,7 @@ loc_14DEC:
     push AX
     mov AX,offset _unk_3806E
     push AX
-    call sub_151F9
+    call applyRotationDelta
     add SP,04h
 loc_14E2D:
     mov AX,word ptr [BP-18h]
@@ -4388,12 +4388,12 @@ loc_14E2D:
     or AX,AX
     jz loc_14E6A
     push AX
-    call sub_13B86
+    call cosine
     add SP,02h
     mov word ptr [_unk_3806E+22h],AX
     mov word ptr [_unk_3806E+12h],AX
     push word ptr [BP-16h]
-    call sub_13B96
+    call sine
     add SP,02h
     mov word ptr [_unk_3806E+16h],AX
     neg AX
@@ -4402,10 +4402,10 @@ loc_14E2D:
     push AX
     mov AX,offset word_38080
     push AX
-    call sub_151F9
+    call applyRotationDelta
     add SP,04h
 loc_14E6A:
-    call sub_15237
+    call computeHudAttitude
     mov AX,[_word_3A940+4]
     cmp word ptr [word_3A8FE],AX
     jbe loc_14EC6
@@ -4483,14 +4483,14 @@ loc_14F33:
     mov byte ptr [_word_3C69E+2],AL
     cmp byte ptr [_word_380D0+0Dh],00h
     jz loc_14F40
-    call sub_15411
+    call rebuildOrientation
 loc_14F40:
     mov AX,[_word_380D0]
     mov word ptr [BP-0Ch],AX
     mov AX,word ptr [_word_380CA]
     sub AX,word ptr [_word_38FC4]
     push AX
-    call sub_13B96
+    call sine
     add SP,02h
     push AX
     mov AX,[_word_3A940+4]
@@ -4498,7 +4498,7 @@ loc_14F40:
     mov CX,0Ah
     div CX
     push AX
-    call sub_13B2F
+    call fixedMulQ14
     add SP,04h
     mov [_word_3C8B6],AX
     cmp word ptr [word_33712],00h
@@ -4508,11 +4508,11 @@ loc_14F40:
     idiv CX
     add word ptr [_word_380D0],AX
     push word ptr [_unk_3806E+5Ah]
-    call sub_13B96
+    call sine
     add SP,02h
     push AX
     push word ptr [BP-22h]
-    call sub_13B2F
+    call fixedMulQ14
     add SP,04h
     cwd
     mov CX,0Ah
@@ -4524,11 +4524,11 @@ loc_14F40:
     add word ptr [_dword_3B7DA],AX
     adc word ptr [_dword_3B7DA+2],DX
     push word ptr [_unk_3806E+5Ah]
-    call sub_13B86
+    call cosine
     add SP,02h
     push AX
     push word ptr [BP-22h]
-    call sub_13B2F
+    call fixedMulQ14
     add SP,04h
     cwd
     mov CX,0Ah
@@ -4641,11 +4641,11 @@ loc_150B8:
     add SP,04h
     mov AX,03Ch
     push AX
-    call _sub_12278
+    call _waitFrameSync
     add SP,02h
     mov AX,05h
     push AX
-    call _sub_11B37
+    call _finalizeMission
     add SP,02h
 loc_150D9:
     mov word ptr [_word_3C8B6],00h
@@ -4691,13 +4691,13 @@ loc_15132:
     mov AX,[_word_3BEC0]
     sub AX,word ptr [SI+offset word_3B204]
     push AX
-    call _sub_1CFA6
+    call _rangeApprox
     add SP,04h
     imul word ptr [_word_330C4]
     mov CL,08h
     sar AX,CL
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,06h
     mov word ptr [BP-38h],AX
     jmp loc_1517A
@@ -4723,7 +4723,7 @@ loc_1517A:
     sar AX,01h
     push AX
     push word ptr [_word_380CC]
-    call _sub_1D178
+    call _sinMul
     add SP,04h
     mov CX,word ptr [BP-2Ch]
     neg CX
@@ -4732,7 +4732,7 @@ loc_1517A:
     push CX
     push word ptr [_word_380CC]
     mov DI,AX
-    call _sub_1D190
+    call _cosMul
     add SP,04h
     add AX,DI
     mov [_word_3C6A4],AX
@@ -4740,7 +4740,7 @@ loc_1517A:
     sar AX,01h
     push AX
     push word ptr [_word_380CC]
-    call _sub_1D190
+    call _cosMul
     add SP,04h
     mov CX,word ptr [BP-2Ch]
     sar CX,01h
@@ -4748,7 +4748,7 @@ loc_1517A:
     push CX
     push word ptr [_word_380CC]
     mov DI,AX
-    call _sub_1D178
+    call _sinMul
     add SP,04h
     add AX,DI
     mov [_word_3C6AC],AX
@@ -4761,21 +4761,21 @@ loc_151F3:
 
 _otherKeyDispatch endp
 ; ------------------------------seg000:0x51f9------------------------------
-EXTRN _sub_151F9:NEAR
+EXTRN _applyRotationDelta:NEAR
 ; ------------------------------seg000:0x5236------------------------------
 ; ------------------------------seg000:0x5237------------------------------
-sub_15237 proc near
+computeHudAttitude proc near
     push BP
     mov BP,SP
     sub SP,2h
     mov AX,word ptr [_var_528]
     neg AX
     push AX
-    call _sub_154B7
+    call _valueToAngle
     add SP,2h
     mov word ptr [_var_544],AX
     push AX
-    call sub_13B86
+    call cosine
     add SP,2h
     mov word ptr [BP + -2h],AX
     or AX,AX
@@ -4789,26 +4789,26 @@ LAB_1000_525d:
     jge LAB_1000_528c
     push word ptr [BP + -2h]
     push word ptr [_var_525]
-    call sub_1543B
+    call signedRatio16
     add SP,4h
     push AX
     call _abs
     add SP,2h
     push AX
-    call _sub_154B7
+    call _valueToAngle
     add SP,2h
     mov word ptr [_var_542],AX
     jmp LAB_1000_52aa
 LAB_1000_528c:
     push word ptr [BP + -2h]
     push word ptr [_var_529]
-    call sub_1543B
+    call signedRatio16
     add SP,4h
     push AX
     call _abs
     add SP,2h
     push AX
-    call _sub_15540
+    call _complementAngle
     add SP,2h
     mov word ptr [_var_542],AX
 LAB_1000_52aa:
@@ -4841,26 +4841,26 @@ LAB_1000_52eb:
     jge LAB_1000_531a
     push word ptr [BP + -2h]
     push word ptr [_var_526]
-    call sub_1543B
+    call signedRatio16
     add SP,4h
     push AX
     call _abs
     add SP,2h
     push AX
-    call _sub_154B7
+    call _valueToAngle
     add SP,2h
     mov word ptr [_var_545],AX
     jmp LAB_1000_5338
 LAB_1000_531a:
     push word ptr [BP + -2h]
     push word ptr [_var_527]
-    call sub_1543B
+    call signedRatio16
     add SP,4h
     push AX
     call _abs
     add SP,2h
     push AX
-    call _sub_15540
+    call _complementAngle
     add SP,2h
     mov word ptr [_var_545],AX
 LAB_1000_5338:
@@ -4890,7 +4890,7 @@ LAB_1000_537a:
 LAB_1000_537c:
     mov word ptr [_var_545],0h
     push word ptr [_var_524]
-    call _sub_154B7
+    call _valueToAngle
     add SP,2h
     mov word ptr [_var_542],AX
     cmp word ptr [_var_526],0h
@@ -4936,22 +4936,22 @@ LAB_1000_540d:
     mov SP,BP
     pop BP
     ret
-sub_15237 endp
+computeHudAttitude endp
 ; ------------------------------seg000:0x5fdb------------------------------
 sub_15FDB equ _sub_15FDB
 ; ------------------------------seg000:0x606b------------------------------
 ; ------------------------------seg000:0x606c------------------------------
-sub_1606C equ _sub_1606C
+drawFuelGauge equ _drawFuelGauge
 ; ------------------------------seg000:0x60d2------------------------------
 ; ------------------------------seg000:0x60d3------------------------------
-EXTRN _sub_160D3:NEAR
-sub_160D3 equ _sub_160D3
+EXTRN _drawVectorShape:NEAR
+drawVectorShape equ _drawVectorShape
 ; ------------------------------seg000:0x613a------------------------------
 ; ------------------------------seg000:0x613b------------------------------
-sub_1613B equ _sub_1613B
+waitForKeyPress equ _waitForKeyPress
 ; ------------------------------seg000:0x6171------------------------------
 ; ------------------------------seg000:0x6172------------------------------
-sub_16172 proc near
+updateThreatSites proc near
     push BP
     mov BP,SP
     sub SP,0ch
@@ -4969,7 +4969,7 @@ LAB_1000_618a:
     jnz LAB_1000_61ae
     cmp word ptr [_word_3C09A],0h
     jnz LAB_1000_61ae
-    call sub_1A962
+    call restoreScopePanel
     mov word ptr [word_3BF3C],0h
     mov word ptr [word_3BF3E],100h
 LAB_1000_61ae:
@@ -5049,7 +5049,7 @@ LAB_1000_625a:
     jmp LAB_1000_61c2
 LAB_1000_6264:
     push word ptr [BP + -0ah]
-    call sub_16346
+    call fireGroundThreat
     add SP,2h
     mov BX,word ptr [BP + -0ah]
     mov CL,4h
@@ -5082,7 +5082,7 @@ LAB_1000_62b5:
     jz LAB_1000_62fc
     cmp word ptr ES:[BX + 78h],0h
     jz LAB_1000_62fc
-    call sub_1A9BC
+    call captureScopePanel
     mov AX,word ptr [_word_330C4]
     cwd
     push DX
@@ -5097,7 +5097,7 @@ LAB_1000_62b5:
     mov AX,word ptr [_word_330C4]
     sub AX,word ptr [word_336F8]
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     cwd
     push DX
@@ -5129,7 +5129,7 @@ LAB_1000_630c:
     push word ptr [BP + -4h]
     push word ptr [SI + offset _stru_3AA5E + 2]
     push word ptr [SI + offset _stru_3AA5E]
-    call sub_19ADB
+    call drawMapRangeArc
     add SP,0eh
 LAB_1000_633c:
     dec word ptr [word_336F8]
@@ -5138,10 +5138,10 @@ LAB_1000_633c:
     mov SP,BP
     pop BP
     ret
-sub_16172 endp
+updateThreatSites endp
 ; ------------------------------seg000:0x6345------------------------------
 ; ------------------------------seg000:0x6346------------------------------
-sub_16346 proc near
+fireGroundThreat proc near
     push BP
     mov BP,SP
     sub SP,2ah
@@ -5161,7 +5161,7 @@ sub_16346 proc near
     push AX
     push word ptr [SI + offset _stru_3AA5E + 2]
     push word ptr [SI + offset _stru_3AA5E]
-    call sub_1660E
+    call computeThreatRangeBearing
     add SP,0ch
     mov word ptr [BP + -2ah],AX
     mov word ptr [word_336FA],0h
@@ -5397,7 +5397,7 @@ LAB_1000_655c:
     mov AX,word ptr [BP + 4h]
     db 05h, 40h, 00h ; add AX,40h (force imm16 encoding)
     push AX
-    call sub_11BC3
+    call scheduleEventCheck
     add SP,4h
     les BX,dword ptr [_commData]
     inc word ptr ES:[BX + 2ch]
@@ -5426,9 +5426,9 @@ LAB_1000_6607:
     pop BP
     ret
     nop
-sub_16346 endp
+fireGroundThreat endp
 ; ------------------------------seg000:0x67b4------------------------------
-sub_167B4 proc near
+updateObjects proc near
     push BP
     mov BP,SP
     sub SP,40h
@@ -5481,7 +5481,7 @@ LAB_1000_6810:
     add AX,word ptr [SI + offset _stru_3B208 + 10]
     sub AX,1800h
     push AX
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     add AX,word ptr [SI + offset word_3B204]
     mov word ptr [BP + -30h],AX
@@ -5496,7 +5496,7 @@ LAB_1000_6810:
     add AX,word ptr [SI + offset _stru_3B208 + 10]
     sub AX,1800h
     push AX
-    call _sub_1D190
+    call _cosMul
     add SP,4h
     mov CX,word ptr [SI + offset word_3B206]
     sub CX,AX
@@ -5536,7 +5536,7 @@ LAB_1000_68c8:
     mov AX,word ptr [_word_3BEC0]
     sub AX,word ptr [SI + offset word_3B204]
     push AX
-    call _sub_1D008
+    call _computeBearing
     add SP,4h
     mov word ptr [BP + -8h],AX
     mov word ptr [BP + -26h],0h
@@ -5567,7 +5567,7 @@ LAB_1000_68fa:
     mov AX,word ptr [SI + offset _stru_3AA5E]
     sub AX,word ptr [DI + offset word_3B204]
     push AX
-    call _sub_1D008
+    call _computeBearing
     add SP,4h
     mov word ptr [BP + -4h],AX
     mov AX,word ptr [BP + -8h]
@@ -5606,7 +5606,7 @@ LAB_1000_697e:
     mov AX,word ptr [_word_3BEC0]
     sub AX,word ptr [SI + offset word_3B204]
     push AX
-    call _sub_1CFA6
+    call _rangeApprox
     add SP,4h
     mov CL,6h
     shr AX,CL
@@ -5640,7 +5640,7 @@ LAB_1000_69bf:
     add AX,3e8h
     push AX
 LAB_1000_69f1:
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
 LAB_1000_69f7:
     mov word ptr [BP + -3ah],AX
@@ -5696,7 +5696,7 @@ LAB_1000_6a56:
     mov AX,word ptr [SI + offset word_3B204]
     sub AX,word ptr [BP + -30h]
     push AX
-    call _sub_1CFA6
+    call _rangeApprox
     add SP,4h
     add AX,7d0h
 LAB_1000_6a8e:
@@ -5729,12 +5729,12 @@ LAB_1000_6abe:
     neg AX
     push AX
     push word ptr [BP + -2eh]
-    call _sub_1D008
+    call _computeBearing
     add SP,4h
     mov word ptr [BP + -0ch],AX
     push word ptr [BP + -34h]
     push word ptr [BP + -2eh]
-    call _sub_1CFA6
+    call _rangeApprox
     add SP,4h
     mov word ptr [BP + -1ah],AX
     push AX
@@ -5746,7 +5746,7 @@ LAB_1000_6abe:
     mov CL,5h
     sar AX,CL
     push AX
-    call _sub_1D008
+    call _computeBearing
     add SP,4h
     mov word ptr [BP + -2h],AX
     mov AX,1000h
@@ -5754,7 +5754,7 @@ LAB_1000_6abe:
     mov AX,0e000h
     push AX
     push word ptr [BP + -2h]
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     mov word ptr [BP + -2h],AX
     cmp word ptr [BP + -1eh],1h
@@ -5816,7 +5816,7 @@ LAB_1000_6b91:
     mov AX,word ptr [BX + offset _stru_3B208 + 12]
     neg AX
     push AX
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     mov CL,5h
     shl AX,CL
@@ -5832,7 +5832,7 @@ LAB_1000_6b91:
     imul word ptr [BP + -22h]
     mov BX,AX
     push word ptr [BX + offset _stru_3B208 + 12]
-    call _sub_1D190
+    call _cosMul
     add SP,4h
     mov word ptr [BP + -28h],AX
     push AX
@@ -5840,7 +5840,7 @@ LAB_1000_6b91:
     imul word ptr [BP + -22h]
     mov BX,AX
     push word ptr [BX + offset _stru_3B208 + 10]
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     mov BX,word ptr [BP + -2ah]
     mov CX,BX
@@ -5854,7 +5854,7 @@ LAB_1000_6b91:
     imul word ptr [BP + -22h]
     mov BX,AX
     push word ptr [BX + offset _stru_3B208 + 10]
-    call _sub_1D190
+    call _cosMul
     add SP,4h
     neg AX
     mov BX,word ptr [BP + -2ah]
@@ -5889,7 +5889,7 @@ LAB_1000_6c6d:
     db 25h, 03h, 00h ; and AX,3h (force imm16 encoding)
     add AX,word ptr [word_330B8]
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     mov word ptr [BP + -6h],AX
     cmp word ptr [BP + -22h],0h
@@ -6029,7 +6029,7 @@ LAB_1000_6dd6:
     mov AX,word ptr [BP + -0ch]
     sub AX,word ptr [BX + offset _stru_3B208 + 10]
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     shl AX,1h
     mov word ptr [BP + -32h],AX
@@ -6065,7 +6065,7 @@ LAB_1000_6e31:
     shl AX,CL
     push AX
     push word ptr [BP + -32h]
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     mov word ptr [BP + -32h],AX
     mov BX,word ptr [_var_667]
@@ -6087,7 +6087,7 @@ LAB_1000_6e31:
     mov AX,word ptr [BP + -32h]
     sub AX,word ptr [BX + offset _stru_3B208 + 14]
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     mov word ptr [BP + -32h],AX
     mov AX,24h
@@ -6149,7 +6149,7 @@ LAB_1000_6f11:
     push word ptr [SI + offset _stru_3B208]
     push word ptr [SI + offset word_3B206]
     push word ptr [SI + offset word_3B204]
-    call sub_18DF4
+    call projectWorldPos
     add SP,6h
     cmp byte ptr [_var_315],0h
     jz LAB_1000_6f52
@@ -6239,7 +6239,7 @@ LAB_1000_701d:
     mov AX,7d0h
     push AX
     push word ptr [SI + offset _stru_3B208 + 12]
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     db 2Dh, 0C8h, 00h ; sub AX,0c8h (force imm16 encoding)
     neg AX
@@ -6257,7 +6257,7 @@ LAB_1000_705a:
     mov AX,0fc00h
     push AX
     push word ptr [BP + -2ch]
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     mov word ptr [BP + -2ch],AX
     mov AX,24h
@@ -6312,7 +6312,7 @@ LAB_1000_70df:
     mov word ptr [BP + -20h],AX
     push AX
     push word ptr [SI + offset _stru_3B208 + 14]
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     push AX
     call _abs
@@ -6333,7 +6333,7 @@ LAB_1000_70df:
     imul word ptr [BP + -22h]
     mov BX,AX
     push word ptr [BX + offset _stru_3B208 + 12]
-    call _sub_1D190
+    call _cosMul
     add SP,4h
     mov word ptr [BP + -38h],AX
     mov AX,24h
@@ -6341,7 +6341,7 @@ LAB_1000_70df:
     mov SI,AX
     push word ptr [BP + -38h]
     push word ptr [SI + offset _stru_3B208 + 10]
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     cwd
     add word ptr [SI + offset _stru_3B208 + 2],AX
@@ -6351,7 +6351,7 @@ LAB_1000_70df:
     mov SI,AX
     push word ptr [BP + -38h]
     push word ptr [SI + offset _stru_3B208 + 10]
-    call _sub_1D190
+    call _cosMul
     add SP,4h
     cwd
     sub word ptr [SI + offset _stru_3B208 + 6],AX
@@ -6361,7 +6361,7 @@ LAB_1000_70df:
     mov SI,AX
     push word ptr [BP + -20h]
     push word ptr [SI + offset _stru_3B208 + 12]
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     add word ptr [SI + offset _stru_3B208],AX
     mov AX,24h
@@ -6521,7 +6521,7 @@ LAB_1000_730e:
     mov AX,word ptr [DI + offset word_3B204]
     sub AX,word ptr [SI + offset _stru_3AA5E]
     push AX
-    call _sub_1CFA6
+    call _rangeApprox
     add SP,4h
     mov word ptr [BP + -3ch],AX
     mov AX,word ptr [BP + -1ch]
@@ -6546,7 +6546,7 @@ LAB_1000_736c:
     mov SI,AX
     push word ptr [SI + offset word_3B206]
     push word ptr [SI + offset word_3B204]
-    call sub_19A4D
+    call readMapPixelColor
     add SP,4h
     mov word ptr [SI + offset _stru_3B208 + 26],AX
     mov AX,24h
@@ -6586,7 +6586,7 @@ LAB_1000_73d5:
     jmp LAB_1000_74eb
 LAB_1000_73de:
     push word ptr [BP + -22h]
-    call sub_17594
+    call fireAirThreat
     add SP,2h
     jmp LAB_1000_74eb
 LAB_1000_73ea:
@@ -6659,7 +6659,7 @@ LAB_1000_745a:
     mov word ptr [BP + -34h],AX
     push AX
     push word ptr [BP + -2eh]
-    call _sub_1CFA6
+    call _rangeApprox
     add SP,4h
     mov CL,6h
     shr AX,CL
@@ -6678,14 +6678,14 @@ LAB_1000_745a:
     mov word ptr [_var_556],AX
     push word ptr [BP + -10h]
     push word ptr [BP + -22h]
-    call sub_1783A
+    call spawnEnemyAircraft
     add SP,4h
     mov AX,2h
     push AX
     mov AX,word ptr [BP + -22h]
     db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
     push AX
-    call sub_11BC3
+    call scheduleEventCheck
     add SP,4h
 LAB_1000_74eb:
     inc word ptr [BP + -22h]
@@ -6755,10 +6755,10 @@ LAB_1000_758e:
     mov SP,BP
     pop BP
     ret
-sub_167B4 endp
+updateObjects endp
 ; ------------------------------seg000:0x7593------------------------------
 ; ------------------------------seg000:0x7594------------------------------
-sub_17594 proc near
+fireAirThreat proc near
     push BP
     mov BP,SP
     sub SP,20h
@@ -6780,7 +6780,7 @@ sub_17594 proc near
     push word ptr [SI + offset _stru_3B208]
     push word ptr [SI + offset word_3B206]
     push word ptr [SI + offset word_3B204]
-    call sub_1660E
+    call computeThreatRangeBearing
     add SP,0ch
     mov word ptr [BP + -1ch],AX
     mov word ptr [word_336FA],4h
@@ -6982,7 +6982,7 @@ LAB_1000_7744:
     mov AX,word ptr [BP + 4h]
     db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
     push AX
-    call sub_11BC3
+    call scheduleEventCheck
     add SP,4h
     mov AX,4h
     push AX
@@ -7016,7 +7016,7 @@ LAB_1000_7816:
     sub AX,AX
     push AX
     push word ptr [SI]
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     mov word ptr [SI],AX
     pop SI
@@ -7025,10 +7025,10 @@ LAB_1000_7816:
     pop BP
     ret
     nop
-sub_17594 endp
+fireAirThreat endp
 ; ------------------------------seg000:0x7838------------------------------
 ; ------------------------------seg000:0x783a------------------------------
-sub_179EE proc near
+updateThreatTargeting proc near
     push BP
     mov BP,SP
     sub SP,36h
@@ -7038,13 +7038,13 @@ sub_179EE proc near
     push AX
     sub AX,AX
     push AX
-    call sub_19EB6
+    call switchIndicatorColor
     add SP,4h
     mov AX,8h
     push AX
     mov AX,1h
     push AX
-    call sub_19EB6
+    call switchIndicatorColor
     add SP,4h
     cmp word ptr [word_333DA],0h
     jz LAB_1000_7a24
@@ -7082,7 +7082,7 @@ LAB_1000_7a4e:
     push word ptr [SI + offset word_3B206]
     push word ptr [SI + offset word_3B204]
     push word ptr [BP + -1ch]
-    call sub_185BE
+    call samCanAcquireTarget
     add SP,0ah
     mov word ptr [BP + -2h],AX
     mov AX,word ptr [_var_669]
@@ -7110,7 +7110,7 @@ LAB_1000_7a4e:
     mov AX,word ptr [BP + -20h]
     db 05h, 20h, 00h ; add AX,20h (force imm16 encoding)
     push AX
-    call sub_11BC3
+    call scheduleEventCheck
     add SP,4h
 LAB_1000_7ad0:
     inc word ptr [BP + -20h]
@@ -7200,7 +7200,7 @@ LAB_1000_7b92:
     push word ptr [SI + offset _stru_3AA5E + 2]
     push word ptr [SI + offset _stru_3AA5E]
     push word ptr [BP + -1ch]
-    call sub_185BE
+    call samCanAcquireTarget
     add SP,0ah
     mov word ptr [BP + -2h],AX
     mov AX,word ptr [_var_669]
@@ -7232,7 +7232,7 @@ LAB_1000_7be0:
     push word ptr [SI + offset _stru_3AA5E + 2]
     push word ptr [SI + offset _stru_3AA5E]
     push word ptr [BP + -1ch]
-    call sub_185BE
+    call samCanAcquireTarget
     add SP,0ah
     mov word ptr [BP + -2h],AX
     or AX,AX
@@ -7252,7 +7252,7 @@ LAB_1000_7be0:
     mov AX,word ptr [BP + -20h]
     db 05h, 40h, 00h ; add AX,40h (force imm16 encoding)
     push AX
-    call sub_11BC3
+    call scheduleEventCheck
     add SP,4h
 LAB_1000_7c47:
     cmp word ptr [BP + -4h],0h
@@ -7283,7 +7283,7 @@ LAB_1000_7c59:
     push AX
     mov AX,1h
     push AX
-    call sub_19EB6
+    call switchIndicatorColor
     add SP,4h
 LAB_1000_7c96:
     cmp word ptr [BP + -22h],0h
@@ -7294,7 +7294,7 @@ LAB_1000_7c96:
     push AX
     sub AX,AX
     push AX
-    call sub_19EB6
+    call switchIndicatorColor
     add SP,4h
 LAB_1000_7cb0:
     test byte ptr [_word_336E8],3h
@@ -7316,7 +7316,7 @@ LAB_1000_7cb0:
     mov AX,2h
     push AX
     push word ptr [BP + -1ch]
-    call sub_11BC3
+    call scheduleEventCheck
     add SP,4h
 LAB_1000_7ce7:
     cmp word ptr [BP + -6h],0h
@@ -7346,7 +7346,7 @@ LAB_1000_7cf9:
     sub CL,CL
     push CX
     push word ptr [BP + -1ah]
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     mov word ptr [BP + -1ah],AX
 LAB_1000_7d32:
@@ -7361,7 +7361,7 @@ LAB_1000_7d32:
     neg AX
     push AX
     push word ptr [BP + -1ah]
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     mov word ptr [BP + -1ah],AX
     mov AX,18h
@@ -7426,7 +7426,7 @@ LAB_1000_7dce:
     add AX,DX
 LAB_1000_7de7:
     push AX
-    call _sub_1D008
+    call _computeBearing
     add SP,4h
     mov word ptr [BP + -6h],AX
     mov AX,18h
@@ -7449,7 +7449,7 @@ LAB_1000_7de7:
     neg AX
     push AX
     push word ptr [BP + -24h]
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     mov word ptr [BP + -24h],AX
     mov AX,18h
@@ -7474,7 +7474,7 @@ LAB_1000_7e48:
     cmp word ptr [BP + -22h],1eh
     jz LAB_1000_7e74
     push word ptr [SI]
-    call _sub_1D1C8
+    call _signOf
     add SP,2h
     mov CL,0ch
     shl AX,CL
@@ -7519,7 +7519,7 @@ LAB_1000_7ec9:
     mov SI,AX
     push word ptr [SI + offset _stru_335C4 + 6]
     push word ptr [SI + offset _stru_335C4 + 10]
-    call _sub_1D190
+    call _cosMul
     add SP,4h
     mov CL,3h
     shl AX,CL
@@ -7552,7 +7552,7 @@ LAB_1000_7f1c:
     idiv CX
     push AX
     push word ptr [SI + offset _stru_335C4 + 10]
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     add word ptr [SI + offset _stru_335C4 + 4],AX
     mov AX,18h
@@ -7560,7 +7560,7 @@ LAB_1000_7f1c:
     mov SI,AX
     push word ptr [BP + -16h]
     push word ptr [SI + offset _stru_335C4 + 8]
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     add word ptr [SI + offset _stru_335C4],AX
     mov AX,18h
@@ -7568,7 +7568,7 @@ LAB_1000_7f1c:
     mov SI,AX
     push word ptr [BP + -16h]
     push word ptr [SI + offset _stru_335C4 + 8]
-    call _sub_1D190
+    call _cosMul
     add SP,4h
     sub word ptr [SI + offset _stru_335C4 + 2],AX
     mov AX,18h
@@ -7604,7 +7604,7 @@ LAB_1000_7f99:
     push word ptr [SI + offset _stru_335C4 + 4]
     push word ptr [SI + offset _stru_335C4 + 2]
     push word ptr [SI + offset _stru_335C4]
-    call sub_18DF4
+    call projectWorldPos
     add SP,6h
 LAB_1000_7fc8:
     mov AX,18h
@@ -7674,7 +7674,7 @@ LAB_1000_8043:
     mov AX,word ptr [word_3BEBC]
     sub AX,word ptr [SI + offset _stru_3AA5E]
     push AX
-    call _sub_1CFA6
+    call _rangeApprox
     add SP,4h
     mov word ptr [BP + -0eh],AX
     mov AX,100h
@@ -7692,7 +7692,7 @@ LAB_1000_8043:
 LAB_1000_80aa:
     push word ptr [word_3BEC8]
     push word ptr [word_3BEBC]
-    call sub_1C6BE
+    call findWaypointEntry
     add SP,4h
     mov word ptr [BP + -36h],AX
     db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
@@ -7734,7 +7734,7 @@ LAB_1000_80f6:
     mov AX,word ptr [word_3BEBC]
     sub AX,word ptr [BP + -26h]
     push AX
-    call _sub_1CFA6
+    call _rangeApprox
     add SP,4h
     mov word ptr [BP + -0eh],AX
     mov AX,180h
@@ -7865,7 +7865,7 @@ LAB_1000_823c:
     push AX
     call tempStrcpy
     add SP,2h
-    call sub_18A44
+    call bombTarget
     mov AX,word ptr [_word_336E8]
     sar AX,1h
     db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
@@ -7886,14 +7886,14 @@ LAB_1000_829c:
     push word ptr [BP + -12h]
     mov AX,5h
     push AX
-    call sub_11D10
+    call appendMapEvent
     add SP,4h
     jmp LAB_1000_83ac
 LAB_1000_82ac:
     cmp word ptr [BP + -22h],7h
     jnz LAB_1000_8306
     push word ptr [BP + -14h]
-    call sub_186F8
+    call destroyAircraft
     add SP,2h
     mov AX,word ptr [_word_336E8]
     sar AX,1h
@@ -7933,7 +7933,7 @@ LAB_1000_8306:
     mov BX,AX
     push word ptr [BX + offset _stru_335C4 + 18]
     mov SI,CX
-    call sub_1A224
+    call lookupTerrainModifier
     add SP,4h
     cmp AX,SI
     jg LAB_1000_8340
@@ -7999,7 +7999,7 @@ LAB_1000_83ac:
     jz LAB_1000_83f4
     push word ptr [SI + offset _stru_335C4 + 2]
     push word ptr [SI + offset _stru_335C4]
-    call sub_19A4D
+    call readMapPixelColor
     add SP,4h
     mov word ptr [SI + offset _stru_335C4 + 20],AX
     test byte ptr [_word_336E8],1h
@@ -8011,7 +8011,7 @@ LAB_1000_83ac:
     push AX
     push word ptr [SI + offset _stru_335C4 + 2]
     push word ptr [SI + offset _stru_335C4]
-    call sub_1993A
+    call plotMapObject
     add SP,6h
 LAB_1000_83f4:
     inc word ptr [BP + -1ch]
@@ -8044,7 +8044,7 @@ LAB_1000_8438:
     push word ptr [SI + offset _stru_335C4 + 20]
     push word ptr [SI + offset _stru_335C4 + 2]
     push word ptr [SI + offset _stru_335C4]
-    call sub_1993A
+    call plotMapObject
     add SP,6h
     mov AX,word ptr [_var_547]
     mov word ptr [BP + -32h],AX
@@ -8053,7 +8053,7 @@ LAB_1000_8438:
     push word ptr [BP + -30h]
     push word ptr [BP + -2ah]
     push word ptr [BP + -1ch]
-    call sub_185BE
+    call samCanAcquireTarget
     add SP,0ah
     mov word ptr [BP + -4h],AX
     mov AX,word ptr [_var_669]
@@ -8121,7 +8121,7 @@ LAB_1000_84f2:
     push word ptr [SI + offset word_333D4]
     push word ptr [SI + offset word_333D2]
     push word ptr [BP + -1ch]
-    call sub_185BE
+    call samCanAcquireTarget
     add SP,0ah
     mov word ptr [BP + -2h],AX
     or AX,AX
@@ -8191,9 +8191,9 @@ LAB_1000_85b8:
     mov SP,BP
     pop BP
     ret
-sub_179EE endp
+updateThreatTargeting endp
 ; ------------------------------seg000:0x86f8------------------------------
-; sub_186F8 - replaced by C implementation
+; destroyAircraft - replaced by C implementation
 ; ------------------------------seg000:0x87e8------------------------------
 ; ------------------------------seg000:0x87ea------------------------------
 sub_187EA proc near
@@ -8246,7 +8246,7 @@ LAB_1000_8849:
     jnz LAB_1000_8849
     push DX
     push AX
-    call sub_12FDA
+    call findNearestTileObject
     add SP,8h
     mov word ptr [word_39808],AX
     cmp word ptr [BP + 4h],0h
@@ -8293,7 +8293,7 @@ LAB_1000_88b2:
     cmp word ptr [BX + offset word_3B146],AX
     jnz LAB_1000_88af
     push word ptr [BP + -4h]
-    call sub_189AA
+    call markTargetReached
     add SP,2h
     cmp word ptr [BP + -4h],0h
     jz LAB_1000_8892
@@ -8303,16 +8303,16 @@ LAB_1000_88b2:
 LAB_1000_88de:
     push word ptr [BP + 4h]
     push word ptr [BP + -2h]
-    call sub_11D10
+    call appendMapEvent
     add SP,4h
     push word ptr [BP + 4h]
-    call sub_1C864
+    call getTargetSymbol
     add SP,2h
     mov word ptr [BP + -6h],AX
     jmp LAB_1000_8941
 LAB_1000_88f8:
     push word ptr [BP + 4h]
-    call sub_1C8A4
+    call isTargetOverWater
     add SP,2h
     or AX,AX
     jz LAB_1000_890a
@@ -8332,7 +8332,7 @@ LAB_1000_890d:
     push word ptr [BX]
     mov AX,2h
     push AX
-    call sub_11D10
+    call appendMapEvent
     add SP,4h
 LAB_1000_892f:
     or byte ptr [BP + -5h],1h
@@ -8346,11 +8346,11 @@ LAB_1000_8941:
     jz LAB_1000_895f
     push word ptr [BP + -6h]
     push word ptr [BP + -6h]
-    call sub_1CF32
+    call shapeDataOffset
     add SP,2h
     push AX
     push word ptr [word_39808]
-    call sub_13224
+    call addTileEntry
     add SP,6h
 LAB_1000_895f:
     mov AX,word ptr [BP + 4h]
@@ -8371,7 +8371,7 @@ LAB_1000_8985:
     jnz LAB_1000_899a
     push word ptr [_word_3BED0]
     push word ptr [_word_3BEC0]
-    call _sub_195C9
+    call _redrawTacMap
     add SP,4h
 LAB_1000_899a:
     cmp word ptr [word_330B8],2h
@@ -8387,16 +8387,16 @@ sub_187EA endp
 ; ------------------------------seg000:0x8aa4------------------------------
     nop
 ; ------------------------------seg000:0x8aa6------------------------------
-EXTRN _sub_18AA6:NEAR
-sub_18AA6 equ _sub_18AA6
+EXTRN _fireMissile:NEAR
+fireMissile equ _fireMissile
 ; ------------------------------seg000:0x8df3------------------------------
 ; ------------------------------seg000:0x8df4------------------------------
-sub_18DF4 equ _sub_18DF4
+projectWorldPos equ _projectWorldPos
 ; ------------------------------seg000:0x8e36------------------------------
 ; ------------------------------seg000:0x8e38------------------------------
 sub_18E38 equ _sub_18E38
 ; ------------------------------seg000:0x95c9------------------------------
-_sub_195C9 proc near
+_redrawTacMap proc near
     push BP
     mov BP,SP
     sub SP,10h
@@ -8412,7 +8412,7 @@ LAB_1000_95e0:
     push AX
     mov AX,1h
     push AX
-    call sub_19FAD
+    call drawPanelText
     add SP,6h
     mov AX,48h
     mov CL,9h
@@ -8428,11 +8428,11 @@ LAB_1000_95e0:
     sar AX,CL
     push AX
     push word ptr [_var_542]
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     add AX,word ptr [BP + 4h]
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     mov word ptr [_var_589],AX
     mov AX,38h
@@ -8454,12 +8454,12 @@ LAB_1000_95e0:
     sar AX,CL
     push AX
     push word ptr [_var_542]
-    call _sub_1D190
+    call _cosMul
     add SP,4h
     mov CX,word ptr [BP + 6h]
     sub CX,AX
     push CX
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     mov word ptr [_var_590],AX
     les BX,dword ptr [_commData]
@@ -8493,7 +8493,7 @@ LAB_1000_9681:
     sar AX,1h
     push AX
     push word ptr [_var_567]
-    call sub_1345E
+    call renderMapTerrain
     add SP,8h
     les BX,dword ptr [_gameData]
     cmp word ptr ES:[BX + 38h],2h
@@ -8537,7 +8537,7 @@ LAB_1000_9706:
     push AX
     push word ptr [SI + offset _stru_3AA5E + 2]
     push word ptr [SI + offset _stru_3AA5E]
-    call sub_199EC
+    call objectToScreen
     add SP,8h
     or AX,AX
     jz LAB_1000_9754
@@ -8556,7 +8556,7 @@ LAB_1000_9706:
     mov AX,word ptr [BP + -2h]
     dec AX
     push AX
-    call _sub_1A8C8
+    call _blitSprite
     add SP,0eh
 LAB_1000_9754:
     mov BX,word ptr [BP + -6h]
@@ -8579,7 +8579,7 @@ LAB_1000_976f:
     push AX
     push word ptr [SI + offset _stru_3AA5E + 2]
     push word ptr [SI + offset _stru_3AA5E]
-    call sub_199EC
+    call objectToScreen
     add SP,8h
     or AX,AX
     jz LAB_1000_97bb
@@ -8604,7 +8604,7 @@ LAB_1000_97aa:
     mov AX,word ptr [BP + -2h]
     dec AX
     push AX
-    call _sub_1A8C8
+    call _blitSprite
     add SP,0eh
 LAB_1000_97bb:
     jmp LAB_1000_96f8
@@ -8630,7 +8630,7 @@ LAB_1000_97c8:
     push AX
     push word ptr [SI + offset _waypointIndex + 6]
     push word ptr [SI + offset _waypointIndex + 4]
-    call sub_199EC
+    call objectToScreen
     add SP,8h
     or AX,AX
     jz LAB_1000_9828
@@ -8655,7 +8655,7 @@ LAB_1000_9817:
     mov AX,word ptr [BP + -2h]
     dec AX
     push AX
-    call _sub_1A8C8
+    call _blitSprite
     add SP,0eh
 LAB_1000_9828:
     jmp LAB_1000_97c5
@@ -8665,7 +8665,7 @@ LAB_1000_982a:
     call far ptr _gfx_getDisplayPage
     or AL,AL
     jnz LAB_1000_983e
-    call sub_1A934
+    call cacheScopePanel
     jmp LAB_1000_986a
 LAB_1000_983e:
     mov AX,38h
@@ -8687,46 +8687,46 @@ LAB_1000_983e:
     call far ptr _gfx_copyRect
     add SP,10h
 LAB_1000_986a:
-    call sub_1A962
+    call restoreScopePanel
     call _sub_11971
 LAB_1000_9870:
     pop SI
     mov SP,BP
     pop BP
     ret
-_sub_195C9 endp
+_redrawTacMap endp
 ; ------------------------------seg000:0x9874------------------------------
 ; ------------------------------seg000:0x9c0c------------------------------
 zoomIn equ _zoomIn
 ; ------------------------------seg000:0x98b3------------------------------
 zoomOut equ _zoomOut
 ; ------------------------------seg000:0x9c0c------------------------------
-EXTRN _sub_19C0C:near
-sub_19C0C equ _sub_19C0C
+EXTRN _drawViewportLine:near
+drawViewportLine equ _drawViewportLine
 ; ------------------------------seg000:0x9c83------------------------------
 
 ; ------------------------------seg000:0x9c84------------------------------
-EXTRN _sub_19C84:near
-EXTRN _sub_1C6BE:near
-sub_19C84 equ _sub_19C84
+EXTRN _drawClippedLineRegion:near
+EXTRN _findWaypointEntry:near
+drawClippedLineRegion equ _drawClippedLineRegion
 ; ------------------------------seg000:0x9d85------------------------------
 ; ------------------------------seg000:0x9d86------------------------------
-sub_19D86 equ _sub_19D86
+drawScreenLineOnePage equ _drawScreenLineOnePage
 ; ------------------------------seg000:0x9daf------------------------------
 ; ------------------------------seg000:0x9db0------------------------------
-sub_19DB0 equ _sub_19DB0
-; sub_19E44 moved to egame1.c
+drawHudViewLine equ _drawHudViewLine
+; setDrawColor moved to egame1.c
 
-; sub_19E5D moved to C
+; fillRectBoth moved to C
 
 routine_328 equ _routine_328
 
-; sub_19EB6 moved to C
+; switchIndicatorColor moved to C
 
-sub_19EB6 equ _sub_19EB6
+switchIndicatorColor equ _switchIndicatorColor
 ; ------------------------------seg000:0x9f46------------------------------
 ; ------------------------------seg000:0x9fcc------------------------------
-; _sub_19FCC - now in C (egame1.c)
+; _fillPanelBox - now in C (egame1.c)
 ; ------------------------------seg000:0xa02f------------------------------
 ; ------------------------------seg000:0xa030------------------------------
 sub_1A030 proc near
@@ -8916,11 +8916,11 @@ _drawStringCentered proc near
     pop BP
     ret
 _drawStringCentered endp
-; _sub_1A183 - now in C (egame1.c)
+; _drawNumber - now in C (egame1.c)
 ; ------------------------------seg000:0xa1b0------------------------------
-; _sub_1A25C - now in C (egame2.c)
+; _drawTacticalMap - now in C (egame2.c)
 ; ------------------------------seg000:0xa934------------------------------
-sub_1A934 proc near
+cacheScopePanel proc near
     mov AX,39h
     push AX
     mov AX,49h
@@ -8941,10 +8941,10 @@ sub_1A934 proc near
     add SP,10h
     ret
     nop
-sub_1A934 endp
+cacheScopePanel endp
 ; ------------------------------seg000:0xa961------------------------------
 ; ------------------------------seg000:0xa962------------------------------
-sub_1A962 proc near
+restoreScopePanel proc near
     mov AX,39h
     push AX
     mov AX,49h
@@ -8983,10 +8983,10 @@ sub_1A962 proc near
     add SP,10h
     ret
     nop
-sub_1A962 endp
+restoreScopePanel endp
 ; ------------------------------seg000:0xa9bb------------------------------
 ; ------------------------------seg000:0xa9bc------------------------------
-sub_1A9BC proc near
+captureScopePanel proc near
     mov AX,39h
     push AX
     mov AX,49h
@@ -9014,7 +9014,7 @@ LAB_1000_a9de:
     call far ptr _gfx_copyRect
     add SP,10h
     ret
-sub_1A9BC endp
+captureScopePanel endp
 ; ------------------------------seg000:0xa9f7------------------------------
 ; ------------------------------seg000:0xa9f8------------------------------
 sub_1A9F8 proc near
@@ -9044,7 +9044,7 @@ sub_1A9F8 proc near
     push word ptr [_dword_3B7DA]
     mov AX,6h
     push AX
-    call sub_1C9D2
+    call drawWorldObject
     add SP,14h
 LAB_1000_aa45:
     cmp word ptr [word_3B4D2],0h
@@ -9213,7 +9213,7 @@ LAB_1000_abe7:
     push word ptr [SI + offset stru_33402 + 4]
     push word ptr [SI + offset stru_33402 + 2]
     push word ptr [SI + offset stru_33402]
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     cmp word ptr [word_3C016],0h
     jge LAB_1000_ac6d
@@ -9263,7 +9263,7 @@ LAB_1000_ac63:
     mov AX,11h
 LAB_1000_ac66:
     push AX
-    call sub_1C9D2
+    call drawWorldObject
     add SP,14h
 LAB_1000_ac6d:
     jmp LAB_1000_abdb
@@ -9307,7 +9307,7 @@ LAB_1000_acb3:
     push AX
     push word ptr [SI + offset word_3B206]
     push word ptr [SI + offset word_3B204]
-    call sub_1C7EA
+    call computeTargetBearing
     add SP,6h
     mov word ptr [BP + -1eh],AX
     mov AX,word ptr [_var_542]
@@ -9369,7 +9369,7 @@ LAB_1000_ad4e:
     push AX
     push word ptr [SI + offset word_3B206]
     push word ptr [SI + offset word_3B204]
-    call sub_1C7EA
+    call computeTargetBearing
     add SP,6h
     mov AX,word ptr [_var_542]
     add AX,word ptr [_word_3C6AC+206h]
@@ -9390,7 +9390,7 @@ LAB_1000_adad:
     push word ptr [SI + offset _stru_3B208]
     push word ptr [SI + offset word_3B206]
     push word ptr [SI + offset word_3B204]
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     cmp word ptr [word_3C016],0h
     jl LAB_1000_add1
@@ -9456,7 +9456,7 @@ LAB_1000_ae6e:
     imul word ptr [BP + -20h]
     mov SI,AX
     push word ptr [BP + -24h]
-    call _sub_1D1C8
+    call _signOf
     add SP,2h
     db 2Dh, 02h, 00h ; sub AX,2h (force imm16 encoding)
     neg AX
@@ -9472,7 +9472,7 @@ LAB_1000_ae6e:
     push word ptr [SI + offset _stru_3B208 + 2]
     mov AX,5h
     push AX
-    call sub_1C9D2
+    call drawWorldObject
     add SP,14h
 LAB_1000_aeaa:
     mov AX,24h
@@ -9501,19 +9501,19 @@ LAB_1000_aee7:
     mov CL,5h
     shl BX,CL
     push word ptr [BX + DI + offset aFlogger + 18]
-    call sub_1C9D2
+    call drawWorldObject
     add SP,14h
     jmp LAB_1000_af1d
 LAB_1000_aefd:
     mov AX,0fh
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     push word ptr [_var_282]
     push word ptr [_var_279]
     push word ptr [_var_282]
     push word ptr [_var_279]
-    call _sub_19C0C
+    call _drawViewportLine
     add SP,8h
 LAB_1000_af1d:
     jmp LAB_1000_ad16
@@ -9547,7 +9547,7 @@ LAB_1000_af64:
     push word ptr [SI + offset _stru_335C4 + 4]
     push word ptr [SI + offset _stru_335C4 + 2]
     push word ptr [SI + offset _stru_335C4]
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     cmp word ptr [_var_279],-1h
     jnz LAB_1000_af80
@@ -9602,7 +9602,7 @@ LAB_1000_afe1:
     imul word ptr [SI + offset _stru_335C4 + 16]
     mov BX,AX
     push word ptr [BX + offset _sams + 16]
-    call sub_1C9D2
+    call drawWorldObject
     add SP,14h
     jmp LAB_1000_b023
 LAB_1000_aff8:
@@ -9614,13 +9614,13 @@ LAB_1000_b003:
     mov AX,0dh
 LAB_1000_b006:
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     push word ptr [_var_282]
     push word ptr [_var_279]
     push word ptr [_var_282]
     push word ptr [_var_279]
-    call _sub_19C0C
+    call _drawViewportLine
     add SP,8h
 LAB_1000_b023:
     jmp LAB_1000_af46
@@ -9630,7 +9630,7 @@ LAB_1000_b026:
     push word ptr [word_3BFA2]
     push word ptr [word_3BED6]
     push word ptr [word_3BEC2]
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     cmp word ptr [word_3C016],0h
     jge LAB_1000_b097
@@ -9675,7 +9675,7 @@ LAB_1000_b08b:
     push AX
     mov AX,0eh
     push AX
-    call sub_1C9D2
+    call drawWorldObject
     add SP,14h
 LAB_1000_b097:
     test byte ptr [_keyValue],80h
@@ -9716,7 +9716,7 @@ LAB_1000_b0bd:
     neg CX
     add CX,6h
     push CX
-    call sub_1C9D2
+    call drawWorldObject
     add SP,14h
     cmp word ptr [_var_547],3e8h
     jnc LAB_1000_b141
@@ -9738,7 +9738,7 @@ LAB_1000_b0bd:
     push word ptr [_dword_3B7DA]
     mov AX,15h
     push AX
-    call sub_1C9D2
+    call drawWorldObject
     add SP,14h
 LAB_1000_b141:
     pop SI
@@ -9774,7 +9774,7 @@ LAB_1000_b165:
     push word ptr [SI + offset _stru_335C4 + 4]
     push word ptr [SI + offset _stru_335C4 + 2]
     push word ptr [SI + offset _stru_335C4]
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     cmp word ptr [_var_279],-1h
     jz LAB_1000_b1bd
@@ -9786,7 +9786,7 @@ LAB_1000_b19e:
     mov AX,0ah
 LAB_1000_b1a1:
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     sub AX,AX
     push AX
@@ -9794,7 +9794,7 @@ LAB_1000_b1a1:
     push AX
     push word ptr [_var_282]
     push word ptr [_var_279]
-    call sub_1C1B9
+    call drawTargetBox
     add SP,8h
 LAB_1000_b1bd:
     jmp LAB_1000_b162
@@ -9804,7 +9804,7 @@ LAB_1000_b1bf:
     shl AX,1h
     db 05h, 08h, 00h ; add AX,8h (force imm16 encoding)
     push AX
-    call sub_15557
+    call isqrt
     add SP,2h
     mov CX,AX
     mov AX,200h
@@ -9836,7 +9836,7 @@ LAB_1000_b20c:
     push word ptr [SI + offset word_3C5B0]
     push word ptr [SI + offset word_3C5AE]
     push word ptr [SI + offset word_3C5AC]
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     mov AX,word ptr [_var_279]
     mov word ptr [BP + -2ch],AX
@@ -9863,7 +9863,7 @@ LAB_1000_b20c:
     sar AX,1h
     add AX,word ptr [SI + offset word_3C5AC]
     push AX
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     cmp word ptr [_var_279],-1h
     jnz LAB_1000_b270
@@ -9887,13 +9887,13 @@ LAB_1000_b294:
     mov AX,0ch
 LAB_1000_b297:
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     push word ptr [BP + -32h]
     push word ptr [BP + -2ch]
     push word ptr [_var_282]
     push word ptr [_var_279]
-    call _sub_19C0C
+    call _drawViewportLine
     add SP,8h
     mov word ptr [BP + -0eh],0h
     mov AX,word ptr [word_3AFA4]
@@ -9990,7 +9990,7 @@ LAB_1000_b2ec:
     cmp AX,SI
     jge LAB_1000_b3da
     push word ptr [BP + -20h]
-    call sub_186F8
+    call destroyAircraft
     add SP,2h
     mov AX,offset aDestroyedByGun
     push AX
@@ -10073,7 +10073,7 @@ LAB_1000_b3e0:
     idiv CX
     cmp AX,word ptr [BP + -2ah]
     jle LAB_1000_b476
-    call sub_18A44
+    call bombTarget
 LAB_1000_b476:
     cmp word ptr [BP + -0eh],0h
     jz LAB_1000_b4a6
@@ -10122,7 +10122,7 @@ LAB_1000_b4e1:
     mov word ptr [BX + offset word_3C5AC],0h
     push word ptr [word_3BEC8]
     push word ptr [word_3BEBC]
-    call sub_1C6BE
+    call findWaypointEntry
     add SP,4h
     mov word ptr [BP + -8h],AX
     db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
@@ -10168,7 +10168,7 @@ LAB_1000_b54c:
     mov AX,word ptr [word_3BEBC]
     sub AX,word ptr [BP + -24h]
     push AX
-    call _sub_1CFA6
+    call _rangeApprox
     add SP,4h
     mov CX,AX
     mov AX,18h
@@ -10210,7 +10210,7 @@ LAB_1000_b5c8:
     push word ptr [word_3BECE]
     push word ptr [word_3BEC8]
     push word ptr [word_3BEBC]
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     cmp word ptr [_var_279],-1h
     jnz LAB_1000_b5e4
@@ -10239,7 +10239,7 @@ LAB_1000_b60b:
     add SP,2h
     db 05h, 0Ch, 00h ; add AX,0ch (force imm16 encoding)
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     cmp word ptr [word_3BECE],0h
     jle LAB_1000_b65e
@@ -10261,7 +10261,7 @@ LAB_1000_b60b:
     push AX
     push word ptr [_var_282]
     push word ptr [_var_279]
-    call _sub_19C0C
+    call _drawViewportLine
     add SP,8h
     jmp LAB_1000_b6bf
 LAB_1000_b65e:
@@ -10282,13 +10282,13 @@ LAB_1000_b67b:
     mov word ptr [BP + -4h],AX
     push AX
     push word ptr [BP + -0ch]
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     add AX,word ptr [_var_279]
     mov word ptr [BP + -2ch],AX
     push word ptr [BP + -4h]
     push word ptr [BP + -0ch]
-    call _sub_1D190
+    call _cosMul
     add SP,4h
     mov CX,word ptr [_var_282]
     sub CX,AX
@@ -10297,13 +10297,13 @@ LAB_1000_b67b:
     push word ptr [BP + -2ch]
     push word ptr [_var_282]
     push word ptr [_var_279]
-    call _sub_19C0C
+    call _drawViewportLine
     add SP,8h
 LAB_1000_b6bf:
     jmp LAB_1000_b5ff
 LAB_1000_b6c2:
     push word ptr [word_39606]
-    call _sub_1D1C8
+    call _signOf
     add SP,2h
     sub word ptr [word_39606],AX
     jmp LAB_1000_b6d8
@@ -10330,7 +10330,7 @@ LAB_1000_b6fe:
     add SP,2h
     mov AX,0fh
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     mov AX,0c7h
     push AX
@@ -10340,7 +10340,7 @@ LAB_1000_b6fe:
     push AX
     mov AX,13fh
     push AX
-    call _sub_19BE1
+    call _drawFullscreenLine
     add SP,8h
     mov word ptr [_var_671],0h
     cmp word ptr [_word_3C45C],2h
@@ -10362,7 +10362,7 @@ LAB_1000_b749:
     push AX
     push word ptr [SI + offset _stru_3AA5E + 2]
     push word ptr [SI + offset _stru_3AA5E]
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     mov BX,word ptr [_missileSpecIndex]
     shl BX,1h
@@ -10402,7 +10402,7 @@ LAB_1000_b7c0:
     sub AX,AX
 LAB_1000_b7c2:
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     mov word ptr [BP + -6h],0h
     push word ptr [_word_336F4]
@@ -10410,7 +10410,7 @@ LAB_1000_b7c2:
     shl BX,1h
     shl BX,1h
     push word ptr [BX + offset _missileSpecIndex]
-    call sub_1A224
+    call lookupTerrainModifier
     add SP,4h
     or AX,AX
     jz LAB_1000_b7ed
@@ -10442,7 +10442,7 @@ LAB_1000_b811:
 LAB_1000_b823:
     mov AX,0fh
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     mov AX,word ptr [_var_282]
     db 2Dh, 38h, 00h ; sub AX,38h (force imm16 encoding)
@@ -10450,7 +10450,7 @@ LAB_1000_b823:
     mov AX,word ptr [_var_279]
     db 2Dh, 0A0h, 00h ; sub AX,0a0h (force imm16 encoding)
     push AX
-    call _sub_1CFA6
+    call _rangeApprox
     add SP,4h
     db 3Dh, 30h, 00h ; cmp AX,30h (force imm16 encoding)
     jl LAB_1000_b84d
@@ -10493,7 +10493,7 @@ LAB_1000_b8a7:
     mov AX,0ch
 LAB_1000_b8aa:
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
 LAB_1000_b8b1:
     jmp LAB_1000_b8b9
@@ -10512,7 +10512,7 @@ LAB_1000_b8cd:
     sub AX,AX
 LAB_1000_b8cf:
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
 LAB_1000_b8d6:
     mov word ptr [_var_671],0h
@@ -10529,7 +10529,7 @@ LAB_1000_b8f0:
     push AX
     push word ptr [_var_282]
     push word ptr [_var_279]
-    call sub_1C1B9
+    call drawTargetBox
     add SP,8h
 LAB_1000_b8ff:
     cmp word ptr [word_336F8],0h
@@ -10543,7 +10543,7 @@ LAB_1000_b8ff:
     push AX
     push word ptr [SI + offset _stru_3AA5E + 2]
     push word ptr [SI + offset _stru_3AA5E]
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     mov AX,word ptr [_word_330C4]
     sub AX,word ptr [word_336F8]
@@ -10555,7 +10555,7 @@ LAB_1000_b8ff:
     mov BX,word ptr [BX + offset _word_3AA5C]
     shl BX,1h
     push word ptr [BX + offset _word_3C0A2]
-    call sub_1C371
+    call drawTargetLabel
     add SP,6h
 LAB_1000_b94a:
     and byte ptr [_var_730],0fdh
@@ -10595,17 +10595,17 @@ LAB_1000_b986:
     push word ptr [SI + offset _stru_3AA5E + 2]
     push word ptr [SI + offset _stru_3AA5E]
     push word ptr [BP + -28h]
-    call sub_1C864
+    call getTargetSymbol
     add SP,2h
     push AX
-    call _sub_1CB42
+    call _drawTargetView
     add SP,12h
-    call sub_1C2F8
+    call drawMissileLock
     push word ptr [BP + -28h]
     call sub_1C7A2
     add SP,2h
     push AX
-    call sub_1C40B
+    call buildRangeString
     add SP,2h
     mov AX,0fh
     push AX
@@ -10711,11 +10711,11 @@ LAB_1000_bab1:
     push AX
     push word ptr [SI + offset _stru_3AA5E + 2]
     push word ptr [SI + offset _stru_3AA5E]
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     mov AX,0fh
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     sub AX,AX
     push AX
@@ -10723,7 +10723,7 @@ LAB_1000_bab1:
     push AX
     push word ptr [_var_282]
     push word ptr [_var_279]
-    call sub_1C1B9
+    call drawTargetBox
     add SP,8h
     jmp LAB_1000_bb99
 LAB_1000_baf3:
@@ -10808,7 +10808,7 @@ LAB_1000_bb99:
 LAB_1000_bbb6:
     mov AX,1h
     push AX
-    call sub_1D21E
+    call readAxisInput
     add SP,2h
     mov word ptr [_var_677],AX
     cmp word ptr [_word_3C45C],1h
@@ -10829,7 +10829,7 @@ LAB_1000_bbe1:
     push word ptr [SI + offset _stru_3B208]
     push word ptr [SI + offset word_3B206]
     push word ptr [SI + offset word_3B204]
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     cmp word ptr [_var_279],-1h
     jnz LAB_1000_bc06
@@ -10843,7 +10843,7 @@ LAB_1000_bc12:
     sub AX,AX
 LAB_1000_bc14:
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     mov word ptr [BP + -6h],0h
     mov SI,word ptr [_missileSpecIndex]
@@ -10863,7 +10863,7 @@ LAB_1000_bc14:
     jnz LAB_1000_bcb8
     mov AX,0fh
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     mov AX,word ptr [_var_282]
     db 2Dh, 38h, 00h ; sub AX,38h (force imm16 encoding)
@@ -10871,7 +10871,7 @@ LAB_1000_bc14:
     mov AX,word ptr [_var_279]
     db 2Dh, 0A0h, 00h ; sub AX,0a0h (force imm16 encoding)
     push AX
-    call _sub_1CFA6
+    call _rangeApprox
     add SP,4h
     db 3Dh, 30h, 00h ; cmp AX,30h (force imm16 encoding)
     jge LAB_1000_bcb8
@@ -10902,7 +10902,7 @@ LAB_1000_bcae:
     mov AX,0ch
 LAB_1000_bcb1:
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
 LAB_1000_bcb8:
     push word ptr [BP + -6h]
@@ -10910,7 +10910,7 @@ LAB_1000_bcb8:
     push AX
     push word ptr [_var_282]
     push word ptr [_var_279]
-    call sub_1C1B9
+    call drawTargetBox
     add SP,8h
 LAB_1000_bccd:
     cmp word ptr [_word_3C09E],13h
@@ -10944,9 +10944,9 @@ LAB_1000_bceb:
     mov CL,5h
     shl BX,CL
     push word ptr [BX + offset aFlogger + 18]
-    call _sub_1CB42
+    call _drawTargetView
     add SP,12h
-    call sub_1C2F8
+    call drawMissileLock
     mov AX,24h
     imul word ptr [BP + -28h]
     mov SI,AX
@@ -10956,10 +10956,10 @@ LAB_1000_bceb:
     mov AX,word ptr [_word_3BEC0]
     sub AX,word ptr [SI + offset word_3B204]
     push AX
-    call _sub_1CFA6
+    call _rangeApprox
     add SP,4h
     push AX
-    call sub_1C40B
+    call buildRangeString
     add SP,2h
     mov AX,0fh
     push AX
@@ -11049,7 +11049,7 @@ LAB_1000_be17:
     mov word ptr [_var_676],AX
     push AX
     push word ptr [SI + offset _stru_3B208 + 14]
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     push AX
     call _abs
@@ -11074,7 +11074,7 @@ LAB_1000_be32:
     push word ptr [SI + offset _stru_3B208]
     push word ptr [SI + offset word_3B206]
     push word ptr [SI + offset word_3B204]
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     mov AX,word ptr [_word_330C4]
     sub AX,word ptr [word_336F8]
@@ -11088,7 +11088,7 @@ LAB_1000_be32:
     shl AX,CL
     add AX,2c8h
     push AX
-    call sub_1C371
+    call drawTargetLabel
     add SP,6h
 LAB_1000_be9c:
     cmp word ptr [_word_3C45C],2h
@@ -11125,27 +11125,27 @@ LAB_1000_bee2:
     mov AX,word ptr [BP + -0ch]
     neg AX
     push AX
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     mov CX,AX
     inc CX
     push word ptr [_var_548]
     push word ptr [BP + -0ch]
     mov SI,CX
-    call _sub_1D190
+    call _cosMul
     add SP,4h
     cwd
     idiv SI
     mov word ptr [BP + -16h],AX
     push AX
     push word ptr [_var_542]
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     add AX,word ptr [_word_3BEC0]
     mov word ptr [BP + -24h],AX
     push word ptr [BP + -16h]
     push word ptr [_var_542]
-    call _sub_1D190
+    call _cosMul
     add SP,4h
     mov CX,word ptr [_word_3BED0]
     sub CX,AX
@@ -11154,7 +11154,7 @@ LAB_1000_bee2:
     push AX
     push CX
     push word ptr [BP + -24h]
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     cmp word ptr [_var_279],-1h
     jnz LAB_1000_bf76
@@ -11162,7 +11162,7 @@ LAB_1000_bee2:
     sub AX,word ptr [_word_3C008]
     push AX
     push word ptr [_var_545]
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     shl AX,1h
     shl AX,1h
@@ -11176,7 +11176,7 @@ LAB_1000_bee2:
 LAB_1000_bf76:
     mov AX,0ch
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     mov AX,1h
     push AX
@@ -11184,19 +11184,19 @@ LAB_1000_bf76:
     push AX
     push word ptr [_var_282]
     push word ptr [_var_279]
-    call sub_1C1B9
+    call drawTargetBox
     add SP,8h
 LAB_1000_bf96:
     mov AX,0fh
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     push word ptr [_var_282]
     push word ptr [_var_279]
     push word ptr [_word_3C008]
     mov AX,0a0h
     push AX
-    call sub_19DB0
+    call drawHudViewLine
     add SP,8h
 LAB_1000_bfb6:
     cmp word ptr [BP + -10h],1eh
@@ -11213,7 +11213,7 @@ LAB_1000_bfcf:
     mov AX,80h
     push AX
     push word ptr [_var_542]
-    call _sub_1D190
+    call _cosMul
     add SP,4h
     mov BX,word ptr [_word_336F4]
     mov CL,4h
@@ -11224,7 +11224,7 @@ LAB_1000_bfcf:
     mov AX,80h
     push AX
     push word ptr [_var_542]
-    call _sub_1D178
+    call _sinMul
     add SP,4h
     mov BX,word ptr [_word_336F4]
     mov CL,4h
@@ -11232,7 +11232,7 @@ LAB_1000_bfcf:
     mov CX,word ptr [BX + offset _stru_3AA5E]
     add CX,AX
     push CX
-    call sub_1C488
+    call projectWorldToHud
     add SP,6h
     cmp word ptr [_var_279],-1h
     jnz LAB_1000_c01d
@@ -11253,12 +11253,12 @@ LAB_1000_c01d:
     mov AX,word ptr [BP + -24h]
     sub AX,word ptr [SI + offset _stru_3AA5E]
     push AX
-    call _sub_1CFA6
+    call _rangeApprox
     add SP,4h
     mov CL,3h
     sar AX,CL
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     mov word ptr [word_3C016],AX
     jmp LAB_1000_c077
@@ -11273,13 +11273,13 @@ LAB_1000_c058:
     mov CL,3h
     sar AX,CL
     push AX
-    call _sub_1CF64
+    call _clampRange
     add SP,6h
     mov word ptr [word_3C016],AX
 LAB_1000_c077:
     mov AX,0ch
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     mov AX,9fh
     sub AX,word ptr [word_3C016]
@@ -11290,7 +11290,7 @@ LAB_1000_c077:
     mov AX,21h
     push AX
     push SI
-    call _sub_19C0C
+    call _drawViewportLine
     add SP,8h
     mov SI,word ptr [word_3C016]
     add SI,0a0h
@@ -11300,7 +11300,7 @@ LAB_1000_c077:
     mov AX,21h
     push AX
     push SI
-    call _sub_19C0C
+    call _drawViewportLine
     add SP,8h
     mov AX,1eh
     push AX
@@ -11312,11 +11312,11 @@ LAB_1000_c077:
     mov AX,9fh
     sub AX,word ptr [word_3C016]
     push AX
-    call _sub_19C0C
+    call _drawViewportLine
     add SP,8h
     mov AX,0fh
     push AX
-    call _sub_19E44
+    call _setDrawColor
     add SP,2h
     mov AX,word ptr [_var_282]
     db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
@@ -11326,7 +11326,7 @@ LAB_1000_c077:
     mov AX,word ptr [_var_279]
     db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     push AX
-    call sub_19DB0
+    call drawHudViewLine
     add SP,8h
     push word ptr [_var_282]
     mov AX,word ptr [_var_279]
@@ -11336,7 +11336,7 @@ LAB_1000_c077:
     db 2Dh, 04h, 00h ; sub AX,4h (force imm16 encoding)
     push AX
     push word ptr [_var_279]
-    call sub_19DB0
+    call drawHudViewLine
     add SP,8h
     mov AX,word ptr [_var_282]
     db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
@@ -11346,7 +11346,7 @@ LAB_1000_c077:
     mov AX,word ptr [_var_279]
     db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
     push AX
-    call sub_19DB0
+    call drawHudViewLine
     add SP,8h
     push word ptr [_var_282]
     mov AX,word ptr [_var_279]
@@ -11356,7 +11356,7 @@ LAB_1000_c077:
     db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
     push AX
     push word ptr [_var_279]
-    call sub_19DB0
+    call drawHudViewLine
     add SP,8h
 LAB_1000_c149:
     cmp word ptr [word_39606],0h
@@ -11386,7 +11386,7 @@ LAB_1000_c149:
     push AX
     mov AX,0fch
     push AX
-    call _sub_1A8C8
+    call _blitSprite
     add SP,0eh
 LAB_1000_c193:
     cmp word ptr [_word_3C09E],13h
@@ -11398,7 +11398,7 @@ LAB_1000_c193:
     mov AX,3h
     push AX
     push AX
-    call _sub_19FCC
+    call _fillPanelBox
     add SP,4h
 LAB_1000_c1b3:
     pop SI
@@ -11409,37 +11409,37 @@ LAB_1000_c1b3:
 sub_1B147 endp
 _sub_1B147 equ sub_1B147
 ; ------------------------------seg000:0xc6be------------------------------
-sub_1C6BE equ _sub_1C6BE
+findWaypointEntry equ _findWaypointEntry
 ; ------------------------------seg000:0xc9d2------------------------------
-sub_1C9D2 equ _sub_1C9D2
+drawWorldObject equ _drawWorldObject
 ; ------------------------------seg000:0xcb41------------------------------
 ; ------------------------------seg000:0xcb42------------------------------
 ; ------------------------------seg000:0xcf30------------------------------
 ; ------------------------------seg000:0xcf32------------------------------
 ; ------------------------------seg000:0xcf63------------------------------
 ; ------------------------------seg000:0xcf64------------------------------
-; _sub_1CF64 - now in C (egame2.c)
+; _clampRange - now in C (egame2.c)
 ; ------------------------------seg000:0xcf8d------------------------------
-; _sub_1CFA6 - now in C (egame2.c)
+; _rangeApprox - now in C (egame2.c)
 ; ------------------------------seg000:0xcfa6------------------------------
 ; ------------------------------seg000:0xd007------------------------------
 ; ------------------------------seg000:0xd008------------------------------
-; _sub_1D008 - now in C (egame1.c)
-sub_1D008 equ _sub_1D008
+; _computeBearing - now in C (egame1.c)
+computeBearing equ _computeBearing
 ; ------------------------------seg000:0xd177------------------------------
 ; ------------------------------seg000:0xd178------------------------------
-; _sub_1D178 - now in C (egame2.c)
+; _sinMul - now in C (egame2.c)
 ; ------------------------------seg000:0xd18f------------------------------
 ; ------------------------------seg000:0xd190------------------------------
-; _sub_1D190 - now in C (egame2.c)
+; _cosMul - now in C (egame2.c)
 ; ------------------------------seg000:0xd1a4------------------------------
     nop
     nop
 ; ------------------------------seg000:0xd1e8------------------------------
-sub_1D1E8 equ _sub_1D1E8
+seedRng equ _seedRng
 ; ------------------------------seg000:0xd1ff------------------------------
 ; ------------------------------seg000:0xd21e------------------------------
-sub_1D21E equ _sub_1D21E
+readAxisInput equ _readAxisInput
 ; ------------------------------seg000:0xd25e------------------------------
 ; ------------------------------seg000:0xd260------------------------------
 PUBLIC _keyDispatch
@@ -11587,7 +11587,7 @@ LAB_1000_d367:
     push AX
     call tempStrcpy
     add SP,2h
-    call sub_1DB2B
+    call setupLodDistances
     jmp LAB_1000_d88c
 LAB_1000_d3a2:
     inc word ptr [_var_596]
@@ -11677,7 +11677,7 @@ LAB_1000_d45c:
     cwd
     idiv CX
     mov word ptr [_word_330C4],AX
-    call sub_1DAAE
+    call recalcTimeScale
     jmp LAB_1000_d47d
 LAB_1000_d47a:
     call sub_1DB9C
@@ -11943,7 +11943,7 @@ LAB_1000_d6c0:
     jle LAB_1000_d71c
     mov AX,6h
     push AX
-    call _sub_11B37
+    call _finalizeMission
     add SP,2h
     jmp LAB_1000_d726
 LAB_1000_d71c:
@@ -12140,7 +12140,7 @@ LAB_1000_d897:
     mov AX,word ptr [BP + 4h]
     jmp LAB_1000_d92a
 LAB_1000_d89d:
-    call _sub_119A3
+    call _initWeaponLoadout
     jmp LAB_1000_d94b
 LAB_1000_d8a3:
     sub AX,AX
@@ -12235,13 +12235,13 @@ LAB_1000_d958:
 LAB_1000_d963:
     mov AX,1h
     push AX
-    call sub_1D21E
+    call readAxisInput
     add SP,2h
     or AX,AX
     jz LAB_1000_d981
     cmp word ptr [_var_597],0h
     jnz LAB_1000_d981
-    call sub_18AA6
+    call fireMissile
     mov word ptr [_var_597],4h
 LAB_1000_d981:
     test byte ptr [_planeFlags],1h
@@ -12262,7 +12262,7 @@ LAB_1000_d9a4:
     push AX
     mov AX,3h
     push AX
-    call sub_19EB6
+    call switchIndicatorColor
     add SP,4h
     test byte ptr [_planeFlags],8h
     jz LAB_1000_d9bb
@@ -12279,7 +12279,7 @@ LAB_1000_d9ca:
     push AX
     mov AX,2h
     push AX
-    call sub_19EB6
+    call switchIndicatorColor
     add SP,4h
     pop SI
     pop DI
@@ -12542,7 +12542,7 @@ read512FromFileIntoBuf endp
     nop
 ; ------------------------------seg000:0xdf36------------------------------
 ; ------------------------------seg000:0xdf4f------------------------------
-sub_1DF4F proc near
+writeFileAtRaw proc near
     arg_0 = word ptr 4
     arg_2 = word ptr 6
     arg_4 = word ptr 8
@@ -12607,8 +12607,8 @@ printString_1DF9B:
 loc_1DFB7:
     mov ax, 4C00h
     int 21h ;DOS - 2+ - QUIT WITH EXIT CODE (EXIT)
-sub_1DF4F endp ;AL = exit code
-_sub_1DF4F equ sub_1DF4F
+writeFileAtRaw endp ;AL = exit code
+_writeFileAtRaw equ writeFileAtRaw
     nop
 ; ------------------------------seg000:0xdfba------------------------------
 ; ------------------------------seg000:0xe0aa------------------------------
@@ -12637,7 +12637,7 @@ loc_1E0E0:
     mov di, word_389E0
     call far ptr gfx_getRowOffset
     mov rowOffset, ax
-    call sub_1E262
+    call decodePicRow
     mov di, rowOffset
     mov bp, offset picDecodedRowBuf
     mov bx, word_389E0
@@ -12678,7 +12678,7 @@ LAB_1000_e148:
     mov DI,word ptr [_var_609]
     call far ptr gfx_getRowOffset
     mov word ptr [_var_608],AX
-    call sub_1E262
+    call decodePicRow
     mov DI,word ptr [_var_608]
     mov BP,offset picDecodedRowBuf
     mov BX,word ptr [_var_609]
@@ -12719,7 +12719,7 @@ LAB_1000_e224:
     mov DI,word ptr [_var_609]
     call far ptr gfx_getRowOffset
     mov word ptr [_var_608],AX
-    call sub_1E262
+    call decodePicRow
     mov DI,word ptr [_var_608]
     mov BP,offset picDecodedRowBuf
     mov BX,word ptr [_var_609]
@@ -12744,7 +12744,7 @@ nullsub_1 proc near
 nullsub_1 endp
 ; ------------------------------seg000:0xe260------------------------------
 ; ------------------------------seg000:0xe262------------------------------
-sub_1E262 proc near
+decodePicRow proc near
     push es
     push ds
     pop es
@@ -12753,20 +12753,20 @@ sub_1E262 proc near
     add si, offset picBuf
     shr di, 1
     jnz short loc_1E275
-    call sub_1E28C
+    call picReadDataAndMakeDict
 loc_1E275:
     mov cx, 140h
     mov word ptr [_var_689], cx
     mov di, offset picDecodedRowBuf
-    call sub_1E309
+    call doPicDecode
     sub si, offset picBuf
     mov fileReadPos, si
     pop es
     retn
-sub_1E262 endp
+decodePicRow endp
 ; ------------------------------seg000:0xe28b------------------------------
 ; ------------------------------seg000:0xe28c------------------------------
-sub_1E28C proc near
+picReadDataAndMakeDict proc near
     mov AX,offset picBuf
     add AX,200h
     mov word ptr [_var_687],AX
@@ -12795,10 +12795,10 @@ LAB_1000_e2b8:
     neg AL
 LAB_1000_e2d0:
     mov byte ptr [word_38D5E],AL
-sub_1E28C endp
+picReadDataAndMakeDict endp
 ; ------------------------------seg000:0xe2d0------------------------------
 ; ------------------------------seg000:0xe2d3------------------------------
-sub_1E2D3 proc near
+picMakeDict proc near
     mov byte ptr [_var_692],9h
     mov word ptr [_var_694],1ffh
     mov DX,100h
@@ -12819,10 +12819,10 @@ LAB_1000_e2fd:
     add BX,3h
     loop LAB_1000_e2fd
     ret
-sub_1E2D3 endp
+picMakeDict endp
 ; ------------------------------seg000:0xe308------------------------------
 ; ------------------------------seg000:0xe309------------------------------
-sub_1E309 proc near
+doPicDecode proc near
     cmp byte ptr [word_38D66],0h
     jz LAB_1000_e314
     shr word ptr [_var_689],1h
@@ -12834,14 +12834,14 @@ LAB_1000_e314:
 LAB_1000_e321:
     cmp byte ptr [_var_690],0h
     jnz LAB_1000_e349
-    call sub_1E382
+    call dictionaryLookup
     cmp AL,90h
     jz LAB_1000_e335
     mov byte ptr [word_38D5C],AL
     jmp LAB_1000_e350
     db 90h
 LAB_1000_e335:
-    call sub_1E382
+    call dictionaryLookup
     or AL,AL
     jnz LAB_1000_e344
     mov AL,90h
@@ -12878,10 +12878,10 @@ LAB_1000_e374:
     mov word ptr [_var_688],SP
     mov SP,AX
     ret
-sub_1E309 endp
+doPicDecode endp
 ; ------------------------------seg000:0xe381------------------------------
 ; ------------------------------seg000:0xe382------------------------------
-sub_1E382 proc near
+dictionaryLookup proc near
     pop BP
     cmp SP,offset word_38F70 - 1
     jz LAB_1000_e38c
@@ -12958,11 +12958,11 @@ LAB_1000_e41e:
     mov AL,byte ptr [_var_692]
     cmp AL,byte ptr [word_38D5E]
     jle LAB_1000_e42a
-    call sub_1E2D3
+    call picMakeDict
 LAB_1000_e42a:
     mov word ptr [_var_699],CX
     jmp LAB_1000_e389
-sub_1E382 endp
+dictionaryLookup endp
 ; ------------------------------seg000:0xe42e------------------------------
 ; These are compiler helper wrappers called by game code
 unknown_libname_1 proc near
@@ -30171,10 +30171,10 @@ _unk_3A948 db ?
     db ?
     db ?
     db ?
-    _stru_3A95A struc_1 10h dup(<?>)
+    _stru_3A95A ViewSnapshot 10h dup(<?>)
 _word_3AA5A dw ?
 _word_3AA5C dw ?
-    _stru_3AA5E struc_4 4Ah dup(<?>)
+    _stru_3AA5E MapTarget 4Ah dup(<?>)
     db ?
     db ?
     db ?
@@ -30245,7 +30245,7 @@ _stru_3B202 db ?
     db ?
 word_3B204 dw ?
 word_3B206 dw ?
-    _stru_3B208 struc_3 <?>
+    _stru_3B208 SimObject <?>
 word_3B22C dw ?
 PUBLIC _word_3B22C
 _word_3B22C equ word_3B22C

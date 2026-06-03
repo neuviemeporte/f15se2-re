@@ -16,7 +16,7 @@
 
 // ==== seg000:0xc1b9 ====
 
-void sub_1C1B9(int arg_0, int arg_2, int arg_4, int arg_6) {
+void drawTargetBox(int arg_0, int arg_2, int arg_4, int arg_6) {
     int p;
     int a;
     int b;
@@ -35,45 +35,45 @@ void sub_1C1B9(int arg_0, int arg_2, int arg_4, int arg_6) {
     d = arg_2 + p;
     b = arg_2 - p;
     if (arg_6 == 0) {
-        sub_19DB0(a, b, a, d);
-        sub_19DB0(a, d, c, d);
-        sub_19DB0(c, d, c, b);
-        sub_19DB0(c, b, a, b);
+        drawHudViewLine(a, b, a, d);
+        drawHudViewLine(a, d, c, d);
+        drawHudViewLine(c, d, c, b);
+        drawHudViewLine(c, b, a, b);
     } else {
-        sub_19DB0(arg_0, b, c, arg_2 - (p >> 1));
-        sub_19DB0(c, arg_2 - (p >> 1), c, arg_2 + (p >> 1));
-        sub_19DB0(c, (p >> 1) + arg_2, arg_0, d);
-        sub_19DB0(arg_0, d, a, (p >> 1) + arg_2);
-        sub_19DB0(a, arg_2 + (p >> 1), a, arg_2 - (p >> 1));
-        sub_19DB0(a, arg_2 - (p >> 1), arg_0, b);
+        drawHudViewLine(arg_0, b, c, arg_2 - (p >> 1));
+        drawHudViewLine(c, arg_2 - (p >> 1), c, arg_2 + (p >> 1));
+        drawHudViewLine(c, (p >> 1) + arg_2, arg_0, d);
+        drawHudViewLine(arg_0, d, a, (p >> 1) + arg_2);
+        drawHudViewLine(a, arg_2 + (p >> 1), a, arg_2 - (p >> 1));
+        drawHudViewLine(a, arg_2 - (p >> 1), arg_0, b);
     }
 }
 
 // ==== seg000:0xC2F8 ====
-void sub_1C2F8(void) {
+void drawMissileLock(void) {
     int p;
     int a;
     if (var_671 != 0 && word_330C2 != 0) {
         if (byte_3C5A0 != 0) {
             draw2Strings(aMissileLock, 0xf4, 0x96, 14);
         }
-        sub_19E44(14);
+        setDrawColor(14);
         p = 0x10c;
         a = 0x9c;
-        sub_19BE1(0x102, 0x9c, 0x116, 0x9c);
-        sub_19BE1(p, a - 8, p, a + 8);
+        drawFullscreenLine(0x102, 0x9c, 0x116, 0x9c);
+        drawFullscreenLine(p, a - 8, p, a + 8);
     }
 }
 
 // ==== seg000:0xc371 ====
-void sub_1C371(char *arg_0, int arg_2, int arg_4) {
+void drawTargetLabel(char *arg_0, int arg_2, int arg_4) {
     if (var_279 == -1) {
         return;
     }
-    sub_19E44(arg_2);
+    setDrawColor(arg_2);
     if (arg_4 < var_279 && 0x13f - arg_4 > var_279 &&
         arg_4 < var_282 && 0x58 - arg_4 > var_282) {
-        sub_1C1B9(var_279, var_282, arg_4, 1);
+        drawTargetBox(var_279, var_282, arg_4, 1);
     }
     if (var_279 > 0x14 && var_279 < 0x118 &&
         var_282 > 0 && var_282 < 0x52) {
@@ -82,7 +82,7 @@ void sub_1C371(char *arg_0, int arg_2, int arg_4) {
 }
 
 // ==== seg000:0xc40b ====
-void sub_1C40B(int param_1) {
+void buildRangeString(int param_1) {
     int p;
     int a;
     int b;
@@ -97,7 +97,7 @@ void sub_1C40B(int param_1) {
 }
 
 // ==== seg000:0xc488 ====
-void sub_1C488(int param_1, int param_2, int param_3) {
+void projectWorldToHud(int param_1, int param_2, int param_3) {
     int p;
     long a;
     int c;
@@ -115,9 +115,9 @@ void sub_1C488(int param_1, int param_2, int param_3) {
         f -= (int)((-((long)(unsigned)var_547 - (long)word_3B4DE)) >> 5);
     }
 
-    a = sub_1C661(0, p, c, f);
-    d = sub_1C661(1, p, c, f);
-    g = sub_1C661(2, p, c, f);
+    a = rotateVectorComponent(0, p, c, f);
+    d = rotateVectorComponent(1, p, c, f);
+    g = rotateVectorComponent(2, p, c, f);
 
     if (g >= 0) {
         var_279 = -1;
@@ -152,12 +152,12 @@ void sub_1C488(int param_1, int param_2, int param_3) {
 }
 
 // ==== seg000:0xc661 ====
-long sub_1C661(int param_1, int param_2, int param_3, int param_4) {
+long rotateVectorComponent(int param_1, int param_2, int param_3, int param_4) {
     long p;
 
-    p = (long)sub_13B2F(unk_3A948[param_1], param_2);
-    p += (long)sub_13B2F(unk_3A948[3 + param_1], param_4);
-    p += (long)sub_13B2F(unk_3A948[6 + param_1], param_3);
+    p = (long)fixedMulQ14(unk_3A948[param_1], param_2);
+    p += (long)fixedMulQ14(unk_3A948[3 + param_1], param_4);
+    p += (long)fixedMulQ14(unk_3A948[6 + param_1], param_3);
     return p;
 }
 
@@ -165,11 +165,11 @@ long sub_1C661(int param_1, int param_2, int param_3, int param_4) {
 
 
 
-int sub_1C6BE(int param_1, int param_2)
+int findWaypointEntry(int param_1, int param_2)
 {
     int p;
 
-    if (word_39808 = sub_12FDA((int32)param_1 << 5, (0x8000L - (int32)param_2) << 5)) {
+    if (word_39808 = findNearestTileObject((int32)param_1 << 5, (0x8000L - (int32)param_2) << 5)) {
         param_1 = ((int32 *)word_39808)[1] >> 5;
         param_2 = -((int)(((int32 *)word_39808)[2] >> 5) - 0x8000);
         for (p = 1; p < word_3BED2; p++) {
@@ -191,24 +191,24 @@ int sub_1C6BE(int param_1, int param_2)
 
 // ==== seg000:0xc7a2 ====
 int sub_1C7A2(int arg_0) {
-    return sub_1C7EA(stru_3AA5E[arg_0].field_0, stru_3AA5E[arg_0].field_2, 1);
+    return computeTargetBearing(stru_3AA5E[arg_0].field_0, stru_3AA5E[arg_0].field_2, 1);
 }
 
 // ==== seg000:0xc7c6 ====
 int sub_1C7C6(int arg_0) {
-    return sub_1C7EA(stru_3B202[arg_0].posX, stru_3B202[arg_0].posY, 0);
+    return computeTargetBearing(stru_3B202[arg_0].posX, stru_3B202[arg_0].posY, 0);
 }
 
 // ==== seg000:0xc7ea ====
-void sub_1C7EA(int arg_0, int arg_1, int arg_2) {
+void computeTargetBearing(int arg_0, int arg_1, int arg_2) {
     int p;
     int a;
     p = word_3BEC0 - arg_0;
     a = word_3BED0 - arg_1;
     if (arg_2 != 0) {
-        var_674 = sub_1D008(-p, a);
+        var_674 = computeBearing(-p, a);
     }
-    var_672 = sub_1CFA6(p, a);
+    var_672 = rangeApprox(p, a);
     goto done;
 done:;
 }
@@ -219,15 +219,15 @@ int sub_1C82D() {
 }
 
 // ==== seg000:0xc864 ====
-int sub_1C864(int param_1) {
+int getTargetSymbol(int param_1) {
     if (stru_3AA5E[param_1].field_6 & 0x80) {
-        return (sub_1C8A4(param_1) ? (int)(char)byte_3BEC4[0] : (int)(char)byte_3C02A[0]) + 0x100;
+        return (isTargetOverWater(param_1) ? (int)(char)byte_3BEC4[0] : (int)(char)byte_3C02A[0]) + 0x100;
     }
     return stru_3AA5E[param_1].field_C;
 }
 
 // ==== seg000:0xc8a4 ====
-int sub_1C8A4(int param_1) {
+int isTargetOverWater(int param_1) {
     int p;
 
     p = ((char *)byte_3BFA4)[stru_3AA5E[param_1].field_C & 0x7f] & 0x0f;

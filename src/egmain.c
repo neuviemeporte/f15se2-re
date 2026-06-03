@@ -74,8 +74,8 @@ int main(void) {
     sub_21A7E();
     TRACE(("egame main: drawCockpit"));
     drawCockpit();
-    TRACE(("egame main: sub_10211"));
-    sub_10211();
+    TRACE(("egame main: runGameSession"));
+    runGameSession();
     if (commData->setupUseJoy == 1) {
         restoreJoystickData(commData->joyData);
     }
@@ -92,7 +92,7 @@ int main(void) {
 // ==== seg000:0x147 ====
 void drawCockpit() {
     TRACE_KEY(("drawCockpit: theater=%d regnStr=%s 38FDC=%d", gameData->theater, regnStr, word_38FDC));
-    sub_11E0E();
+    initMissionStrings();
     load15Flt3d3();
     TRACE(("drawCockpit: after load15Flt3d3, scenPlh0=%04x, scenarioPlh@%04x", (unsigned)scenarioPlh[0], (unsigned)&scenarioPlh[0]));
     strcpy(regnStr, scenarioPlh[gameData->theater]);
@@ -121,31 +121,31 @@ void drawCockpit() {
 }
 
 // ==== seg000:0x211 ====
-int sub_10211() {
-    TRACE(("sub_10211: enter"));
+int runGameSession() {
+    TRACE(("runGameSession: enter"));
     FP_OFF(dword_38FE2) = OFF_BDA_FLOPPYMOTOR; // floppy motor runtime in bda???
     FP_SEG(dword_38FE2) = 0;
     if (*dword_38FE2 > 1) {
         *dword_38FE2 = 1;
     }
-    TRACE(("sub_10211: audio_jump_65"));
+    TRACE(("runGameSession: audio_jump_65"));
     audio_jump_65();
-    TRACE(("sub_10211: audio_jump_64"));
+    TRACE(("runGameSession: audio_jump_64"));
     audio_jump_64(*(int16 FAR*)(OFF_IACA_UNK), f15DgtlResult);
-    TRACE(("sub_10211: setTimerIrqHandler"));
+    TRACE(("runGameSession: setTimerIrqHandler"));
     setTimerIrqHandler();
     if (commData->setupUseJoy == 0) {
-        TRACE(("sub_10211: setInt9Handler"));
+        TRACE(("runGameSession: setInt9Handler"));
         setInt9Handler();
     }
-    TRACE(("sub_10211: sub_13C3B (game loop)"));
-    sub_13C3B();
+    TRACE(("runGameSession: runGameLoop (game loop)"));
+    runGameLoop();
     moveDataFar();
     if (commData->setupUseJoy == 0) {
         restoreInt9Handler();
     }
     gfx_setDacAnimCount(1);
-    sub_12278(2);
+    waitFrameSync(2);
     restoreTimerIrqHandler();
     audio_jump_65();
 }
@@ -195,14 +195,14 @@ void trace_gameloop(int step) {
 #endif
 
 // ==== seg000:0x0720 ====
-void sub_10720(void) {
+void updateFrame(void) {
     int p;
     int a;
     int b;
     int c;
     int d;
     int e;
-    TRACE(("sub_10720: enter, word_3BECC=%d", word_3BECC));
+    TRACE(("updateFrame: enter, word_3BECC=%d", word_3BECC));
 #ifdef DEBUG
     {
         static int sig_was_ok = 1;
@@ -229,8 +229,8 @@ void sub_10720(void) {
         if (d == 0x69 || d == 0x49) {
             var_600 = 1;
         }
-        sub_11F3E();
-        TRACE(("sub_10720: past 11F3E"));
+        findWaypointFeatures();
+        TRACE(("updateFrame: past 11F3E"));
         word_336F0 = 0;
         word_336F8 = 1;
         word_336F4 = word_336F2 = -1;
@@ -242,10 +242,10 @@ void sub_10720(void) {
         word_3BF90 = 0;
         waypointIndex = 1;
         word_3C45C = 1;
-        sub_11A88(0);
+        drawWeaponSelectMarker(0);
         var_383 = 0x0c;
         word_330C4 = 4;
-        sub_1DAAE();
+        recalcTimeScale();
         byte_383E5 = 1;
         var_588 = 1;
         p = word_3AFA8 = (gameData->theater == 6) ? 1 :
@@ -257,22 +257,22 @@ void sub_10720(void) {
         } else {
             dword_3B7F8 -= (long)(0x708 * word_3AFA8);
         }
-        sub_118F6();
-        TRACE(("sub_10720: past 118F6"));
-        sub_11D10(8, 0);
-        TRACE(("sub_10720: past 11D10"));
-        sub_19595();
-        TRACE(("sub_10720: past 19595"));
-        sub_19EB6(3, 10);
-        TRACE(("sub_10720: past 19EB6"));
-        sub_194D0(0x13);
-        TRACE(("sub_10720: past 194D0"));
+        initFrameRandom();
+        TRACE(("updateFrame: past 118F6"));
+        appendMapEvent(8, 0);
+        TRACE(("updateFrame: past 11D10"));
+        initTacMapView();
+        TRACE(("updateFrame: past 19595"));
+        switchIndicatorColor(3, 10);
+        TRACE(("updateFrame: past 19EB6"));
+        setActivePanel(0x13);
+        TRACE(("updateFrame: past 194D0"));
         word_336F4 = word_336F2 = -1;
         word_330BA = 2;
         word_330B8 = gameData->difficulty;
         gameData->unk4 = 1;
         word_38FDC = *(int far *)((char far *)commData + 0x32);
-        sub_1DB2B();
+        setupLodDistances();
         *(int far *)((char far *)commData + 0x26) = 1;
         word_330B4 = 1000;
         if (word_330B8 == 0 || word_336EA != 0) {
@@ -311,49 +311,49 @@ void sub_10720(void) {
             word_3B236 = var_542;
         }
         p = word_3AFA8 = ((unsigned)(word_3BED0 - var_47) < 0x8000u) ? 1 : -1;
-        sub_119A3();
+        initWeaponLoadout();
         word_3BECC = 2;
         gfx_flipPage();
-        word_38FF6 = routine_191();
+        word_38FF6 = computeThreatScore();
     }
 
-    b = sub_1CF64(word_3BEC0, 0x100, 0x7e00);
+    b = clampRange(word_3BEC0, 0x100, 0x7e00);
     if (b != word_3BEC0) {
         word_3BEC0 = b;
         dword_3B7DA = (long)b << 5;
     }
-    b = sub_1CF64(word_3BED0, 0x200, 0x7d00);
+    b = clampRange(word_3BED0, 0x200, 0x7d00);
     if (b != word_3BED0) {
         word_3BED0 = b;
         dword_3B7F8 = (long)(0x8000 - word_3BED0) << 5;
     }
 
     *(char far *)0x00000417L &= 0x0f;
-    TRACE(("sub_10720: past init"));
-    sub_16172();
-    sub_167B4();
-    sub_179EE();
-    TRACE(("sub_10720: past 179EE"));
-    sub_11636();
-    TRACE(("sub_10720: past 11636"));
-    sub_11676();
-    TRACE(("sub_10720: past 11676"));
-    sub_11841();
-    TRACE(("sub_10720: past 11841"));
-    sub_118D5();
-    TRACE(("sub_10720: past 118D5"));
+    TRACE(("updateFrame: past init"));
+    updateThreatSites();
+    updateObjects();
+    updateThreatTargeting();
+    TRACE(("updateFrame: past 179EE"));
+    tickMessageTimers();
+    TRACE(("updateFrame: past 11636"));
+    updateBulletsAndFire();
+    TRACE(("updateFrame: past 11676"));
+    updateTracerParticles();
+    TRACE(("updateFrame: past 11841"));
+    applyGravityFall();
+    TRACE(("updateFrame: past 118D5"));
 
-    c = sub_199EC(word_3BEC0, word_3BED0, &b, &d);
+    c = objectToScreen(word_3BEC0, word_3BED0, &b, &d);
     if (c == 0) {
-        sub_195C9(word_3BEC0, word_3BED0);
+        redrawTacMap(word_3BEC0, word_3BED0);
     } else {
         byte_3C5A0 = -(gfx_getDisplayPage() - 1);
         gfx_copyRect(2, b - 3, d - 3, (int)byte_3C5A0, b - 3, d - 3, 6, 6);
-        sub_1A8C8(b - 1, d - 1, ((var_542 + 0x1000) >> 0xd & 7) * 4 + 0xa4, 4, 4, 4, 0);
+        blitSprite(b - 1, d - 1, ((var_542 + 0x1000) >> 0xd & 7) * 4 + 0xa4, 4, 4, 4, 0);
         byte_3C5A0 = 1 - byte_3C5A0;
         if ((b < 0x20 || b > 0x58 || d < 0x76 || d > 0xa2) && byte_383E5 > 2) {
             byte_383E5--;
-            sub_195C9(word_3BEC0, word_3BED0);
+            redrawTacMap(word_3BEC0, word_3BED0);
         }
     }
 
@@ -382,7 +382,7 @@ void sub_10720(void) {
         if ((stru_3AA5E[d].field_6 & 0x201) != 0 &&
             (stru_3AA5E[d].field_6 & 0x500) != 0 &&
             (stru_3AA5E[d].field_6 & 0x800) == 0) {
-            p = sub_1CFA6(word_3BEC0 - stru_3AA5E[d].field_0, word_3BED0 - stru_3AA5E[d].field_2);
+            p = rangeApprox(word_3BEC0 - stru_3AA5E[d].field_0, word_3BED0 - stru_3AA5E[d].field_2);
             if (p < word_38FEE) {
                 word_38FEE = p;
                 word_3C16A = d;
@@ -398,7 +398,7 @@ void sub_10720(void) {
     if ((char)word_336E8 == 0 && word_336E8 != 0) {
         if (*(int far *)((char far *)commData - 4) != (int)0xca01 ||
             *(int far *)((char far *)commData - 2) != 0x3b9a) {
-            sub_11B37(1);
+            finalizeMission(1);
             exitCode = 0;
         }
     }
@@ -455,7 +455,7 @@ void sub_10720(void) {
                 e = word_3C046 - 2;
             }
             if ((stru_3B202[e].field_10[8] & 2) == 0) {
-                sub_1783A(e, word_3C16A);
+                spawnEnemyAircraft(e, word_3C16A);
                 *(int *)&stru_3B202[e].field_10[8] = 0x207;
                 stru_3B202[e].field_0 = 1000;
                 *(int *)&stru_3B202[e].field_10[10] = 0xfa;
@@ -524,15 +524,15 @@ skip_target_section:
         }
         if ((planeFlags & 0x6000) == 0x6000) {
             if (word_33714 > word_330C4) {
-                sub_11B37(0);
+                finalizeMission(0);
             }
         } else {
             if (word_33714 == 2) {
                 word_33710++;
-                sub_11D10(10, (char)word_3C16A);
+                appendMapEvent(10, (char)word_3C16A);
             }
             if (word_33714 > word_330C4) {
-                sub_119A3();
+                initWeaponLoadout();
                 if (word_336E8 & 8) {
                     tempStrcpy(aReadyForTakeof);
                 } else {
@@ -573,17 +573,17 @@ end_landing_check:
     dword_3B7F8 -= (dword_3B7F8 - ((long)(0x8000 - stru_3AA5E[word_3C16A].field_2) << 5)) / (long)d;
 
 skip_autopilot:
-    TRACE(("sub_10720: skip_autopilot, w33702=%d var547=%d unk4=%d 3BF90=%d 33098=%d 3BE3C=%d 3AA5A=%d", word_33702, var_547, gameData->unk4, word_3BF90, word_33098, word_3BE3C, word_3AA5A));
+    TRACE(("updateFrame: skip_autopilot, w33702=%d var547=%d unk4=%d 3BF90=%d 33098=%d 3BE3C=%d 3AA5A=%d", word_33702, var_547, gameData->unk4, word_3BF90, word_33098, word_3BE3C, word_3AA5A));
     if (word_33702 == 0) {
         if (var_547 == 0) {
             if ((gameData->unk4 != 0 || word_3BF90 > 4 || word_33098 == 0) &&
                 word_3BE3C == 0 && word_3AA5A > 0x32) {
                 TRACE_KEY(("DEATH: altitude-zero crash, frame=%d var547=%d 3AA5A=%d", word_336E8, var_547, word_3AA5A));
                 makeSound(0, 2);
-                sub_19E44(0);
-                sub_19E5D(0, 0, 0x13f, 199);
-                sub_12278(0x78);
-                sub_11B37(1);
+                setDrawColor(0);
+                fillRectBoth(0, 0, 0x13f, 199);
+                waitFrameSync(0x78);
+                finalizeMission(1);
             }
         } else {
             word_33714 = 1;
@@ -595,8 +595,8 @@ skip_autopilot:
         if (gameData->unk4 != 0 && var_548 != 0) {
             makeSound(0, 2);
             gfx_waitRetrace();
-            sub_12278(0x78);
-            sub_11B37(2);
+            waitFrameSync(0x78);
+            finalizeMission(2);
         } else {
             var_548 += 500;
             word_330B6 = 0;
@@ -613,14 +613,14 @@ skip_autopilot:
     if (word_336E8 % word_330C4 == 0) {
         word_38FE0++;
         if ((word_38FE0 & 0x1f) == 0) {
-            sub_11D10(9, 0);
+            appendMapEvent(9, 0);
         }
         if (word_38FE0 == 1) {
             sub_1DA5F(0);
             sub_1DA8D();
         }
         if (word_336EA != 0 && (word_38FE0 & 3) == 0) {
-            sub_11C21();
+            generateRandomRadioMessage();
         }
     }
 
@@ -632,13 +632,13 @@ skip_autopilot:
         if (var_383 < 4) {
             var_383 = 4;
         }
-        b = sub_1CF64((int)((long)word_330C4 * 0x3c0 / (unsigned long)((unsigned)var_383 * (unsigned)word_3370A)), 1, 0xff);
+        b = clampRange((int)((long)word_330C4 * 0x3c0 / (unsigned long)((unsigned)var_383 * (unsigned)word_3370A)), 1, 0xff);
         var_383 = 0;
         word_33708 = 0;
         c = abs(word_330C4 * 4 - b);
         if (c > 3) {
             word_330C4 = (b + 2) >> 2;
-            sub_1DAAE();
+            recalcTimeScale();
         }
         word_3C09C = 0;
         for (d = 3; d < word_38FFA; d++) {
@@ -656,11 +656,11 @@ skip_autopilot:
             }
         }
     }
-    sub_114E8();
+    dispatchKeyScancode();
 }
 
 // ==== seg000:0x14e8 ====
-void sub_114E8(void) {
+void dispatchKeyScancode(void) {
     int p, a, b, c, d, e, f, g;
 #ifdef DEBUG
     if (keyScancode != 0)
@@ -671,7 +671,7 @@ void sub_114E8(void) {
 }
 
 // ==== seg000:0x1636 ====
-void sub_11636(void) {
+void tickMessageTimers(void) {
     int p;
     for (p = 0; p < 4; p++) {
         if (*((int16 *)((char *)&word_333DA + p * 12)) != 0) {
@@ -683,7 +683,7 @@ void sub_11636(void) {
     }
 }
 
-void sub_11676(void) {
+void updateBulletsAndFire(void) {
     register int p;
     int a;
     int b;
@@ -703,17 +703,17 @@ void sub_11676(void) {
         return;
     }
     e = (word_336E8 >> 1) % word_3AFA4;
-    a = sub_1D21E(0);
+    a = readAxisInput(0);
     if (!a) goto no_fire;
     if (word_330B4 <= 0) goto no_fire;
     if (word_3BE3C != 0) goto no_fire;
-    word_330B4 = sub_1CF64(word_330B4 - 40 / word_330C4, 0, 1000);
+    word_330B4 = clampRange(word_330B4 - 40 / word_330C4, 0, 1000);
     makeSound(4, 2);
     d = 186 / word_330C4;
-    *((int16 *)((char *)&word_3C5B6 + e * 12)) = sub_1D178(var_544, d) << 5;
-    d = sub_1D190(var_544, d);
-    *((int16 *)((char *)&word_3C5B2 + e * 12)) = sub_1D178(var_542, d);
-    *((int16 *)((char *)&word_3C5B4 + e * 12)) = -sub_1D190(var_542, d);
+    *((int16 *)((char *)&word_3C5B6 + e * 12)) = sinMul(var_544, d) << 5;
+    d = cosMul(var_544, d);
+    *((int16 *)((char *)&word_3C5B2 + e * 12)) = sinMul(var_542, d);
+    *((int16 *)((char *)&word_3C5B4 + e * 12)) = -cosMul(var_542, d);
     p = e * 12;
     *((int16 *)((char *)&word_3C5AC + p)) = *((int16 *)((char *)&word_3C5B2 + p)) + word_3BEC0;
     *((int16 *)((char *)&word_3C5AE + p)) = *((int16 *)((char *)&word_3C5B4 + p)) + word_3BED0;
@@ -727,12 +727,12 @@ done_fire:
     if (a) {
         strcpy(strBuf, aGun);
         strcat(strBuf, itoa(word_330B4, unk_3C030, 10));
-        sub_1A204(strBuf);
+        setTimedMessage(strBuf);
     }
 }
 
 // ==== seg000:0x1841 ====
-int sub_11841() {
+int updateTracerParticles() {
     int p;
     int a;
 
@@ -754,7 +754,7 @@ int sub_11841() {
 }
 
 // ==== seg000:0x18d5 ====
-int sub_118D5() {
+int applyGravityFall() {
     if (word_3BFA2 > 0) {
         if (word_3B4DC > -16) {
             word_3B4DC -= 12;
@@ -764,10 +764,10 @@ int sub_118D5() {
 }
 
 // ==== seg000:0x18f6 ====
-void sub_118F6(void) {
+void initFrameRandom(void) {
     int p, a, b, c;
 
-    sub_1D1E8();
+    seedRng();
     sub_18E38();
     word_336E8 = sub_1D200(0x1000) & 0x7ff8;
     p = word_3B14C + word_3B15E;
@@ -789,7 +789,7 @@ int sub_11971() {
 }
 
 // ==== seg000:0x19a3 ====
-void sub_119A3() {
+void initWeaponLoadout() {
     int p;
 
     p = word_3BF90 = word_33096 = 0;
@@ -801,13 +801,13 @@ void sub_119A3() {
     word_33098 = 0x2710;
     word_3309E = 0x12;
     word_3309C = 0x0c;
-    sub_11A18();
-    sub_1606C();
+    drawWeaponAmmo();
+    drawFuelGauge();
     sub_15FDB();
 }
 
 // ==== seg000:0x1a18 routine_131 ====
-void sub_11A18() {
+void drawWeaponAmmo() {
     int p;
     int a;
 
@@ -815,30 +815,30 @@ void sub_11A18() {
         return;
     }
     for (a = 0; a < 3; a++) {
-        sub_19E44(0);
+        setDrawColor(0);
         p = (&word_38202)[a];
-        sub_19E5D(p - 1, 0xbe, p + 2, (int)&allocSize);
-        sub_1A183(missleSpec[a].ammo, p, 0xbe, 0x0c);
+        fillRectBoth(p - 1, 0xbe, p + 2, (int)&allocSize);
+        drawNumber(missleSpec[a].ammo, p, 0xbe, 0x0c);
     }
 }
 
 // ==== seg000:0x1a88 ====
-void sub_11A88(int param_1) {
+void drawWeaponSelectMarker(int param_1) {
     if (word_330C2 == 0) return;
     var_564[2] = 0;
-    sub_19BE1(asc_33744[word_3374A], 0xc4, asc_33744[word_3374A] + 6, 0xc4);
+    drawFullscreenLine(asc_33744[word_3374A], 0xc4, asc_33744[word_3374A] + 6, 0xc4);
     var_564[2] = 7;
-    sub_19BE1(asc_33744[word_3374A], 0xc5, asc_33744[word_3374A] + 6, 0xc5);
+    drawFullscreenLine(asc_33744[word_3374A], 0xc5, asc_33744[word_3374A] + 6, 0xc5);
     var_564[2] = 0x0c;
-    sub_19BE1(asc_33744[param_1], 0xc4, asc_33744[param_1] + 6, 0xc4);
+    drawFullscreenLine(asc_33744[param_1], 0xc4, asc_33744[param_1] + 6, 0xc4);
     var_564[2] = 4;
-    sub_19BE1(asc_33744[param_1], 0xc5, asc_33744[param_1] + 6, 0xc5);
+    drawFullscreenLine(asc_33744[param_1], 0xc5, asc_33744[param_1] + 6, 0xc5);
     word_3374A = param_1;
 }
 
 // ==== seg000:0x1b37 routine_148 ====
-void sub_11B37(int arg_0) {
-    TRACE_KEY(("DEATH/END sub_11B37: arg_0=%d, word_3BE3C=%d, frame=%d", arg_0, word_3BE3C, word_336E8));
+void finalizeMission(int arg_0) {
+    TRACE_KEY(("DEATH/END finalizeMission: arg_0=%d, word_3BE3C=%d, frame=%d", arg_0, word_3BE3C, word_336E8));
     if (word_3BE3C != 0 && arg_0 != 0) {
         return;
     }
@@ -853,11 +853,11 @@ void sub_11B37(int arg_0) {
     *(int16 far *)((char far *)commData + 0x36) = word_3BF90;
     commData->weaponCount[0] = word_38FF6;
     commData->weaponCount[1] = word_33710;
-    sub_11D10(8, 0);
+    appendMapEvent(8, 0);
 }
 
 // ==== seg000:0x1bc3 ====
-void sub_11BC3(int arg_0, unsigned int arg_2) {
+void scheduleEventCheck(int arg_0, unsigned int arg_2) {
     if (arg_2 > (unsigned int)word_3370E) return;
     if (word_3370C != -1) return;
     word_3C02E = arg_0;
@@ -874,7 +874,7 @@ void sub_11BFD(int arg_0, int arg_2) {
 }
 
 // ==== seg000:0x1c21 routine_180 ====
-void sub_11C21(void) {
+void generateRandomRadioMessage(void) {
     int p;
 
     if (word_3370C != -1) {
@@ -908,7 +908,7 @@ void sub_11C21(void) {
 }
 
 // ==== seg000:0x1d10 ====
-void sub_11D10(int arg_0, int arg_2) {
+void appendMapEvent(int arg_0, int arg_2) {
     if (var_654 >= 255) {
         return;
     }
@@ -937,7 +937,7 @@ void placeString(int param_1) {
 }
 
 // ==== seg000:0x1e0e ====
-int sub_11E0E() {
+int initMissionStrings() {
     int var_2, var_4;
     setCommWorldbufPtr();
     flagFarToNear = 1;
@@ -962,21 +962,21 @@ int sub_11E0E() {
 }
 
 // ==== seg000:0x1f3e ====
-void sub_11F3E() {
+void findWaypointFeatures() {
     int a;
     int p;
 
     a = var_143;
     for (p = 0; p < 2; p++) {
         if (word_3B14A[p * 9] >> 8 != 0) {
-            word_39808 = sub_12FDA(
+            word_39808 = findNearestTileObject(
                 (unsigned long)(unsigned)stru_3AA5E[(&word_3B146)[p * 9]].field_0 << 5,
                 (0x8000L - (unsigned long)(unsigned)stru_3AA5E[(&word_3B146)[p * 9]].field_2) << 5);
             if (word_39808 != 0) {
                 byte_3BFA4[a] = byte_3BFA4[*word_39808];
                 strcpy(word_3C0A2[a], (char *)word_3C0A2[*word_39808]);
                 word_3C0A2[a + 1] = word_3C0A2[a] + strlen(word_3C0A2[a]) + 1;
-                sub_13224((char *)word_39808, sub_1CF32(a + 0x100), a + 0x100);
+                addTileEntry((char *)word_39808, shapeDataOffset(a + 0x100), a + 0x100);
             }
             stru_3AA5E[(&word_3B146)[p * 9]].field_C = a + 0x100;
             a++;

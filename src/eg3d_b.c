@@ -15,11 +15,11 @@
 #include <string.h>
 
 
-// TODO: sub_122B8 (seg000:22b8-26b3) - belongs in egame2.c
+// TODO: projectObjects (seg000:22b8-26b3) - belongs in egame2.c
 // Once implemented, try merging egame2.c + egame1e.c (if register spill doesn't affect codegen)
 
 // ==== seg000:0x26b4 ====
-uint32 sub_126B4(int level, uint32 coord) {
+uint32 scaleCoordToLod(int level, uint32 coord) {
     switch (level) {
     case 4:
         return (coord + 0x20) >> 6;

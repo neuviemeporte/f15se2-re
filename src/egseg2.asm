@@ -110,7 +110,7 @@ EXTRN gfx_setClipVal1:PROC
 
 ; External routines in other segments
 EXTRN sub_21526:PROC
-EXTRN sub_13BC1:PROC
+EXTRN lookupSineFar:PROC
 
 ; External data variables
 EXTRN _gfxBufPtr:WORD
@@ -827,11 +827,11 @@ loc_21a7_0741:
     mov BX,word ptr [_word_380CC]
     neg BX
     add BX,4000h
-    call far ptr sub_13BC1
+    call far ptr lookupSineFar
     mov BP,BX
     mov BX,word ptr [_word_380CC]
     neg BX
-    call far ptr sub_13BC1
+    call far ptr lookupSineFar
 loc_21a7_0764:
     mov AX,BP
     imul word ptr [DI+5526h]

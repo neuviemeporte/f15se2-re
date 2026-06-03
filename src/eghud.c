@@ -18,7 +18,7 @@
 // TODO: otherKeyDispatch (seg000:3f72-51f8) - large unimplemented function
 // Once implemented, try merging from preceding file (if register spill doesn't affect codegen)
 
-void sub_151F9(int param_1, int param_2) {
+void applyRotationDelta(int param_1, int param_2) {
     int p;
     int a;
 
@@ -31,16 +31,16 @@ void sub_151F9(int param_1, int param_2) {
 }
 
 // ==== seg000:0x5411 ====
-// TODO: sub_15237 (seg000:5237-5410) - unimplemented
+// TODO: computeHudAttitude (seg000:5237-5410) - unimplemented
 
-void sub_15411() {
+void rebuildOrientation() {
     sub_20BAE(unk_3806E, var_542, var_544, var_545);
     *(char *)&word_380D8 = 0;
     var_549 = 0;
 }
 
 // ==== seg000:0x543b ====
-unsigned sub_1543B(int param_1, int param_2) {
+unsigned signedRatio16(int param_1, int param_2) {
     char p = 1;
     char a = 1;
     long b;
@@ -56,7 +56,7 @@ done:
 }
 
 // ==== seg000:0x54b7 ====
-int sub_154B7(int param_1) {
+int valueToAngle(int param_1) {
     int p;
     int a;
     int b;
@@ -79,11 +79,11 @@ int sub_154B7(int param_1) {
 }
 
 // ==== seg000:0x5540 ====
-int sub_15540(int arg_0) {
-    return 0x4000 - sub_154B7(arg_0);
+int complementAngle(int arg_0) {
+    return 0x4000 - valueToAngle(arg_0);
 }
 
-int sub_15557(int arg_0) {
+int isqrt(int arg_0) {
     int p;
     int a;
     arg_0 = abs(arg_0);
@@ -103,7 +103,7 @@ int sub_15557(int arg_0) {
 #ifdef DEBUG
 extern unsigned int dbg_loc0a09_trips;
 #endif
-int sub_155AB() {
+int renderFrame() {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E;
 #ifdef DEBUG
     if (word_38FDC > 1) word_38FDC = 1; /* HACK: level-4 3D data traversal hangs */
@@ -114,15 +114,15 @@ int sub_155AB() {
             word_336E8, word_380CE, word_380D0, word_380C8, word_380CA, word_380CC,
             word_3A944, word_38FDC, word_3BECC, keyValue));
 #endif
-    TRACE(("sub_155AB: enter"));
+    TRACE(("renderFrame: enter"));
     dword_3B1FE = dword_3C01C = dword_3B7DA;
     dword_3B4D4 = dword_3B7F8;
     dword_3C024 = 0x100000 - dword_3B7F8;
-    TRACE(("sub_155AB: past assigns"));
+    TRACE(("renderFrame: past assigns"));
     word_3B4DE = word_380CE + 0x18;
     word_3C02C = word_380CE;
-    var_2 = word_336FE = sub_1CF64(word_336FE, 2, 8);
-    TRACE(("sub_155AB: past clamp, keyValue=%d", keyValue));
+    var_2 = word_336FE = clampRange(word_336FE, 2, 8);
+    TRACE(("renderFrame: past clamp, keyValue=%d", keyValue));
     switch(keyValue) {
     case 0:
     case 0x44:
@@ -158,8 +158,8 @@ int sub_155AB() {
         word_3C5AA = word_380C8 - 0x4000;
         word_3BE94 = 0;
         word_3B4E4 = 0;
-        dword_3B1FE = sub_1D178(word_380C8 + 0x4000, 0x18 << var_2) + dword_3B7DA;
-        dword_3B4D4 = sub_1D190(word_380C8 + 0x4000, 0x18 << var_2) + dword_3B7F8;
+        dword_3B1FE = sinMul(word_380C8 + 0x4000, 0x18 << var_2) + dword_3B7DA;
+        dword_3B4D4 = cosMul(word_380C8 + 0x4000, 0x18 << var_2) + dword_3B7F8;
         break;
     case 0x86:
         word_3C5AA = 0x8000;
@@ -171,8 +171,8 @@ int sub_155AB() {
         word_3C5AA = word_380C8;
         word_3BE94 = 0;
         word_3B4E4 = 0;
-        dword_3B1FE = sub_1D178(word_380C8 + 0x8000, 0x18 << var_2) + dword_3B7DA;
-        dword_3B4D4 = sub_1D190(word_380C8 + 0x8000, 0x18 << var_2) + dword_3B7F8;
+        dword_3B1FE = sinMul(word_380C8 + 0x8000, 0x18 << var_2) + dword_3B7DA;
+        dword_3B4D4 = cosMul(word_380C8 + 0x8000, 0x18 << var_2) + dword_3B7F8;
         word_3B4DE = (4 << var_2) + word_380CE;
         break;
     case 0x88:
@@ -223,22 +223,22 @@ int sub_155AB() {
         if (word_3370E == 0) var_2 = var_4;
         var_A = (dword_3C01C >> 5) - word_3BEC0;
         var_C = (dword_3C024 >> 5) - word_3BED0;
-        var_6 = sub_1CFA6(var_A, var_C);
-        word_3C5AA = sub_1D008(var_A, -var_C);
-        word_3BE94 = -sub_1D008((word_3C02C - word_380CE) >> 5, var_6);
+        var_6 = rangeApprox(var_A, var_C);
+        word_3C5AA = computeBearing(var_A, -var_C);
+        word_3BE94 = -computeBearing((word_3C02C - word_380CE) >> 5, var_6);
         word_3B4E4 = 0;
-        var_8 = sub_1D190(word_3BE94, 0x18 << var_2);
+        var_8 = cosMul(word_3BE94, 0x18 << var_2);
         if (word_3C02E & 0x60 || word_3370E != 0) {
             if (keyValue == 0x88) {
-                dword_3B1FE = sub_1D178(word_3C5AA + 0x8000, var_8) + dword_3B7DA;
-                dword_3B4D4 = sub_1D190(word_3C5AA + 0x8000, var_8) + dword_3B7F8;
-                word_3B4DE = sub_1D178(word_3BE94, 0x18 << var_2) + (4 << var_2) + word_380CE;
+                dword_3B1FE = sinMul(word_3C5AA + 0x8000, var_8) + dword_3B7DA;
+                dword_3B4D4 = cosMul(word_3C5AA + 0x8000, var_8) + dword_3B7F8;
+                word_3B4DE = sinMul(word_3BE94, 0x18 << var_2) + (4 << var_2) + word_380CE;
                 word_3BE94 = -word_3BE94;
             }
             else {
-                dword_3B1FE = sub_1D178(word_3C5AA, var_8) + dword_3C01C;
-                dword_3B4D4 = sub_1D190(word_3C5AA, var_8) - dword_3C024 + 0x100000;
-                word_3B4DE = (4 << var_2) - sub_1D178(word_3BE94, 0x18 << var_2) + word_3C02C;
+                dword_3B1FE = sinMul(word_3C5AA, var_8) + dword_3C01C;
+                dword_3B4D4 = cosMul(word_3C5AA, var_8) - dword_3C024 + 0x100000;
+                word_3B4DE = (4 << var_2) - sinMul(word_3BE94, 0x18 << var_2) + word_3C02C;
                 if (word_3C02E & 0x40 && stru_3AA5E[word_3C02E & 0x3f].field_6 & 0x200 && word_3B4DE < 0x84) {
                     word_3B4DE = 0x84;
                 }
@@ -248,10 +248,10 @@ int sub_155AB() {
         else {
             word_3C5AA = stru_335C4[word_3C02E].field_8;
             word_3BE94 = stru_335C4[word_3C02E].field_A - 0x400;
-            var_8 = sub_1D190(word_3BE94, 0x10 << var_2);
-            dword_3B1FE = dword_3C01C - sub_1D178(word_3C5AA, var_8);
-            dword_3B4D4 = 0x100000 - (sub_1D190(word_3C5AA, var_8) + dword_3C024);
-            word_3B4DE = word_3C02C - sub_1D178(word_3BE94, 0x10 << var_2);
+            var_8 = cosMul(word_3BE94, 0x10 << var_2);
+            dword_3B1FE = dword_3C01C - sinMul(word_3C5AA, var_8);
+            dword_3B4D4 = 0x100000 - (cosMul(word_3C5AA, var_8) + dword_3C024);
+            word_3B4DE = word_3C02C - sinMul(word_3BE94, 0x10 << var_2);
         }
         break;
     case 0x8c:
@@ -284,13 +284,13 @@ int sub_155AB() {
             gfx_copyRect(*off_38364, 0, 0x61, *off_38334, 0, 0x61, 0x140, 0x67);
             gfx_copyRect(*off_38364, 0, 0x61, *off_3834C, 0, 0x61, 0x140, 0x67);
             sub_15FDB();
-            sub_11A18();
-            sub_11A88(missileSpecIndex);
+            drawWeaponAmmo();
+            drawWeaponSelectMarker(missileSpecIndex);
             if (word_3C09A == 0) {
-                sub_195C9(word_3BEC0, word_3BED0);
+                redrawTacMap(word_3BEC0, word_3BED0);
             }
             word_336F4 = word_336F2 = 0xffff;
-            sub_19FCC(3, 3);
+            fillPanelBox(3, 3);
             word_39604 = 0;
         }
         else {
@@ -325,12 +325,12 @@ int sub_155AB() {
 #if defined(DEBUG) && defined(DISABLE_3D)
     /* Skip the whole 3D render (incl. sub_1B147 HUD) to get continuous frames. */
 #else
-    sub_121CA(-word_3C5AA, word_3BE94, word_3B4E4, dword_3B1FE, dword_3B4D4, (int32)word_3B4DE, 0, 0, 0x140, off_38334[0x10] + 1);
+    render3DView(-word_3C5AA, word_3BE94, word_3B4E4, dword_3B1FE, dword_3B4D4, (int32)word_3B4DE, 0, 0, 0x140, off_38334[0x10] + 1);
 #endif
     byte_3850E = 0;
     byte_3995A = word_36B86;
     if (keyValue == 0x41) {
-        sub_160D3(unk_38128);
+        drawVectorShape(unk_38128);
         gfx_setColor(0xf);
         word_3755D = 0xf1;
         word_37561 = 0x15;
@@ -345,45 +345,45 @@ int sub_155AB() {
         gfx_resetBlitOffset2();
         var_E = byte_3C5A0;
         byte_3C5A0 = gfx_getDisplayPage();
-        sub_1A8C8(0x6b, 0x30, 0xd1, 0, 0x6f, 0x2f, 0);
-        sub_1A8C8(0x41, 0x5f, 0x7d, 0x36, 0xc3, 2, 0);
+        blitSprite(0x6b, 0x30, 0xd1, 0, 0x6f, 0x2f, 0);
+        blitSprite(0x41, 0x5f, 0x7d, 0x36, 0xc3, 2, 0);
         byte_3C5A0 = var_E;
     }
     gfx_flipPage();
     word_38126 = (word_3C09E == 0x13 || word_3C09A == 1 || word_330C2 == 0) ? 0xc8 : 0x61;
-    TRACE(("sub_155AB: exit"));
+    TRACE(("renderFrame: exit"));
 }
 
 // ==== seg000:0x5fdb ====
 void sub_15FDB(void) {
     if (word_330C2 != 0) {
-        sub_19E44(0);
+        setDrawColor(0);
 #ifdef BUGFIX
-        sub_19E5D(0xd4, 0x7f, 0xde, 0xaf);
+        fillRectBoth(0xd4, 0x7f, 0xde, 0xaf);
 #else
-        sub_19E5D(0xd4, 0x7f, 0xde, 0xaf, 0xc4);
+        fillRectBoth(0xd4, 0x7f, 0xde, 0xaf, 0xc4);
 #endif
-        sub_19E44(0x0c);
-        sub_19E5D(0xd4, -(var_552 / 3 - 0xaf), 0xde, 0xaf);
+        setDrawColor(0x0c);
+        fillRectBoth(0xd4, -(var_552 / 3 - 0xaf), 0xde, 0xaf);
         if (100 < var_552) {
-            sub_19E44(0x0e);
-            sub_19E5D(0xd4, -(var_552 / 3 - 0xaf), 0xde, 0x8e);
+            setDrawColor(0x0e);
+            fillRectBoth(0xd4, -(var_552 / 3 - 0xaf), 0xde, 0x8e);
         }
     }
 }
 // ==== seg000:0x606c ====
-void sub_1606C(void) {
+void drawFuelGauge(void) {
     if (word_330C2 == 0) {
         return;
     }
-    sub_19E44(0);
-    sub_19E5D(5, 0x6d, 0x0a, 0x98);
-    sub_19E44(word_33098 > 2000 ? 2 : 14);
-    sub_19E5D(5, -(word_33098 / 250 - 0x98), 0x0a, 0x98);
+    setDrawColor(0);
+    fillRectBoth(5, 0x6d, 0x0a, 0x98);
+    setDrawColor(word_33098 > 2000 ? 2 : 14);
+    fillRectBoth(5, -(word_33098 / 250 - 0x98), 0x0a, 0x98);
 }
 
 // ==== seg000:0x60d3 ====
-void sub_160D3(int16 *arg_0) {
+void drawVectorShape(int16 *arg_0) {
     while (*arg_0 != -1) {
         gfx_setColor(((uint8 *)word_3419C)[*arg_0++]);
         sub_2171A();
@@ -401,7 +401,7 @@ void sub_160D3(int16 *arg_0) {
 }
 
 // ==== seg000:0x613b ====
-void sub_1613B(void) {
+void waitForKeyPress(void) {
     int p;
 
     audio_jump_69();
@@ -415,6 +415,6 @@ loop:
     var_383 = p;
 }
 
-// TODO: sub_16172 (seg000:6172-6345) - unimplemented
+// TODO: updateThreatSites (seg000:6172-6345) - unimplemented
 // Once implemented, try merging egame1g.c + egame2d.c (if register spill doesn't affect codegen)
 

@@ -16,10 +16,10 @@
 #include <string.h>
 
 
-// TODO: sub_16346 (seg000:6346-660d) - unimplemented
+// TODO: fireGroundThreat (seg000:6346-660d) - unimplemented
 
 // ==== seg000:0x660e routine_324 ====
-int sub_1660E(int arg_0, int arg_2, int arg_4, int arg_6, int *arg_8, int *arg_a) {
+int computeThreatRangeBearing(int arg_0, int arg_2, int arg_4, int arg_6, int *arg_8, int *arg_a) {
     int p;
     int a;
     int b;
@@ -33,8 +33,8 @@ int sub_1660E(int arg_0, int arg_2, int arg_4, int arg_6, int *arg_8, int *arg_a
     }
     d = word_3BEC0 - arg_0;
     e = word_3BED0 - arg_2;
-    c = (unsigned)sub_1CFA6(d, e) >> 6;
-    b = sub_1D008(d, -e);
+    c = (unsigned)rangeApprox(d, e) >> 6;
+    b = computeBearing(d, -e);
     f = (f = (*(int16 *)&aNone[arg_6 * 14 + 10] + word_330B8 * 2 + 3) * *(int16 *)&aNone[arg_6 * 14 + 8] / 16) * (((unsigned)var_547 >> 6) + 0x40) >> 7;
     *arg_8 = b;
     *arg_a = c;
@@ -57,13 +57,13 @@ void sub_166BE(void) {
     word_3BED4 = 0xFF;
     for (p = 0; p < word_3C69E; p++) {
         if (stru_3AA5E[p].field_4 != 0) {
-            *(int *)&stru_3AA5E[p].field_8 = sub_1CF64(*(int *)&stru_3AA5E[p].field_8, ((word_330B8 + word_330BA) << 4) - 16, 0xFF);
+            *(int *)&stru_3AA5E[p].field_8 = clampRange(*(int *)&stru_3AA5E[p].field_8, ((word_330B8 + word_330BA) << 4) - 16, 0xFF);
         }
     }
 }
 
 // ==== seg000:0x6742 ====
-int routine_191(void) {
+int computeThreatScore(void) {
     int p;
     int a;
     int b;
@@ -79,11 +79,11 @@ int routine_191(void) {
     return b;
 }
 
-// TODO: sub_167B4 (seg000:67b4-7593) - large unimplemented function
-// TODO: sub_17594 (seg000:7594-7839) - unimplemented
+// TODO: updateObjects (seg000:67b4-7593) - large unimplemented function
+// TODO: fireAirThreat (seg000:7594-7839) - unimplemented
 
 // ==== seg000:0x783A ====
-int sub_1783A(int arg_0, int arg_2)
+int spawnEnemyAircraft(int arg_0, int arg_2)
 {
     int p;
 
@@ -108,7 +108,7 @@ int sub_1783A(int arg_0, int arg_2)
     *(uint16 *)&stru_3B202[arg_0].field_10[8] |= 0x403;
     stru_3B202[arg_0].objType = arg_2;
     *(int16 *)&stru_3B202[arg_0].field_10[12] = (int16)(((long)*(int16 *)&aFlogger[p * 32 + 12] << 11) * (long)word_330C4 / (long)*(int16 *)&aFlogger[p * 32 + 10]);
-    *(int16 *)&stru_3B202[arg_0].field_10[16] = sub_19A4D(stru_3AA5E[arg_2].field_0, stru_3AA5E[arg_2].field_2);
+    *(int16 *)&stru_3B202[arg_0].field_10[16] = readMapPixelColor(stru_3AA5E[arg_2].field_0, stru_3AA5E[arg_2].field_2);
     if (word_336FC == -1) {
         stru_3B202[arg_0].field_10[9] &= 0xfe;
     }
@@ -121,7 +121,7 @@ int sub_1783A(int arg_0, int arg_2)
     }
 }
 // ==== seg000:0x85be ====
-int sub_185BE(int param_1, int param_2, int param_3, int param_4, int param_5) {
+int samCanAcquireTarget(int param_1, int param_2, int param_3, int param_4, int param_5) {
     int p;
     int a;
     int b;
@@ -129,8 +129,8 @@ int sub_185BE(int param_1, int param_2, int param_3, int param_4, int param_5) {
 
     b = param_2 - stru_335C4[param_1].field_0;
     c = param_3 - stru_335C4[param_1].field_2;
-    a = sub_1CFA6(b, c);
-    var_670 = sub_1D008(b, -c);
+    a = rangeApprox(b, c);
+    var_670 = computeBearing(b, -c);
     if (stru_335C4[param_1].field_6 * 24 / word_330C4 > a) {
         var_669 = a;
         return 1;
@@ -139,7 +139,7 @@ int sub_185BE(int param_1, int param_2, int param_3, int param_4, int param_5) {
     if (p > 0x1000 && param_5 != 3) {
         if (p > 0x6000 && param_1 < 8) {
             if ((stru_335C4[param_1].field_6 << 4) / word_330C4 < a) {
-                stru_335C4[param_1].field_E = sub_1CF64(stru_335C4[param_1].field_E, 0, word_330C4 << 4);
+                stru_335C4[param_1].field_E = clampRange(stru_335C4[param_1].field_E, 0, word_330C4 << 4);
             }
         }
         return 0;
@@ -162,7 +162,7 @@ int sub_185BE(int param_1, int param_2, int param_3, int param_4, int param_5) {
 }
 
 // ==== seg000:0x86f8 ====
-void sub_186F8(int param_1)
+void destroyAircraft(int param_1)
 {
     int p;
 
@@ -181,7 +181,7 @@ void sub_186F8(int param_1)
         word_3BFA2 = stru_3B202[param_1].field_0;
         word_3B4DC = 0x80;
         p = 3;
-        sub_11D10(p, (*(uint16 *)&stru_3B202[param_1].field_10[8] & 0x4000 ? 0x80 : 0) + *(int16 *)&stru_3B202[param_1].field_10[6]);
+        appendMapEvent(p, (*(uint16 *)&stru_3B202[param_1].field_10[8] & 0x4000 ? 0x80 : 0) + *(int16 *)&stru_3B202[param_1].field_10[6]);
         if (*(int16 *)&stru_3B202[param_1].field_10[10] != 0) goto done;
         *(uint16 *)&stru_3B202[param_1].field_10[8] &= 0x1c1;
     done:
@@ -197,12 +197,12 @@ void sub_186F8(int param_1)
 // TODO: sub_187EA (seg000:87ea-89a9) - unimplemented
 
 // ==== seg000:0x89aa ====
-int sub_189AA(int arg_0) {
+int markTargetReached(int arg_0) {
     if (planeFlags & (0x4000 >> arg_0)) {
         return 0;
     }
     if (*(&word_3B144 + 9 * arg_0) == 4 || *(&word_3B144 + 9 * arg_0) == 3) {
-        sub_11D10((arg_0 != 0 ? 0x40 : 0x80) + 0x0b, 0);
+        appendMapEvent((arg_0 != 0 ? 0x40 : 0x80) + 0x0b, 0);
     }
     if (arg_0 != 0) {
         strcpy(strBuf, aSecond_Target);
@@ -220,7 +220,7 @@ int sub_189AA(int arg_0) {
 }
 
 extern int sub_1D200(int);
-void sub_18A44(void) {
+void bombTarget(void) {
     int p;
     if (!(planeFlags & 0x1000) && word_336EA != -1) {
         p = 0;
@@ -231,7 +231,7 @@ void sub_18A44(void) {
             p++;
     check:;
         } while (p <= word_330B8);
-        sub_1957A(0x16);
+        refreshActivePanel(0x16);
         word_38FEA = 1;
         makeSound(0, 2);
     }
@@ -239,7 +239,7 @@ void sub_18A44(void) {
 
 // ==== seg000:0x8aa6 ====
 
-void sub_18AA6()
+void fireMissile()
 {
     int p;
     int a;
@@ -256,7 +256,7 @@ void sub_18AA6()
     if (missleSpec[missileSpecIndex].ammo == 0) {
         strcpy(strBuf, missiles[b].field_0);
         strcat(strBuf, a0);
-        sub_1A204(strBuf);
+        setTimedMessage(strBuf);
         goto end;
     }
 
@@ -266,14 +266,14 @@ void sub_18AA6()
     missleSpec[missileSpecIndex].ammo--;
 
     if (word_330C2 != 0) {
-        sub_19E44(0);
+        setDrawColor(0);
         a = ((int16 *)aA)[missileSpecIndex];
-        sub_19E5D(a - 1, 0xbe, a + 2, 0xc2);
-        sub_1A183(missleSpec[missileSpecIndex].ammo, a, 0xbe, 0x0c);
+        fillRectBoth(a - 1, 0xbe, a + 2, 0xc2);
+        drawNumber(missleSpec[missileSpecIndex].ammo, a, 0xbe, 0x0c);
         strcpy(strBuf, missiles[b].field_0);
         strcat(strBuf, aColon);
         strcat(strBuf, itoa(missleSpec[missileSpecIndex].ammo, unk_3C030, 0x0a));
-        sub_1A204(strBuf);
+        setTimedMessage(strBuf);
     }
 
     c = -1;
@@ -334,19 +334,19 @@ void sub_18AA6()
 
     makeSound(sams[p].field_8 != 0 ? 0x12 : 0x18, 2);
 
-    sub_11BC3(c, 1);
+    scheduleEventCheck(c, 1);
 
 check_end:
     if (word_3C09E == 0x15) {
-        sub_1957A(0x15);
+        refreshActivePanel(0x15);
     }
 end:
     ;
 }
 
 // ==== seg000:0x8df4 ====
-void sub_18DF4(int param_1, int param_2, int param_3) {
+void projectWorldPos(int param_1, int param_2, int param_3) {
     *(char *)&var_315 = 0;
-    sub_132BA((int32)param_1 << 5, -((int32)param_2 - 0x8000L) << 5, (int32)param_3);
+    drawNearestTileObject((int32)param_1 << 5, -((int32)param_2 - 0x8000L) << 5, (int32)param_3);
 }
 

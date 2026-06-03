@@ -11,8 +11,8 @@ EXTRN gfx_getCurPageSeg2:far
 EXTRN gfx_resetBlitOffset:far
 EXTRN gfx_setPage1:far
 EXTRN gfx_setPageDirect:far
-EXTRN sub_13BC1:far
-EXTRN sub_13BC5:far
+EXTRN lookupSineFar:far
+EXTRN lookupCosineFar:far
 EXTRN _byte_34197:byte
 EXTRN _byte_3419A:byte
 EXTRN _byte_37C24:byte
@@ -2535,22 +2535,22 @@ sub_20BAE endp
 sub_20BDF proc near
 loc_135F:
     MOV BX,CX
-    call far ptr sub_13BC1
+    call far ptr lookupSineFar
     MOV [word_3426A],BX
     MOV BX,CX
-    call far ptr sub_13BC5
+    call far ptr lookupCosineFar
     MOV [word_3426C],BX
     MOV BX,BP
-    call far ptr sub_13BC1
+    call far ptr lookupSineFar
     MOV [word_34272],BX
     MOV BX,BP
-    call far ptr sub_13BC5
+    call far ptr lookupCosineFar
     MOV [word_34274],BX
     MOV BX,SI
-    call far ptr sub_13BC1
+    call far ptr lookupSineFar
     MOV [word_3426E],BX
     MOV BX,SI
-    call far ptr sub_13BC5
+    call far ptr lookupCosineFar
     MOV [word_34270],BX
     MOV AX,[word_3426E]
     IMUL WORD PTR [word_34272]
@@ -2643,22 +2643,22 @@ sub_20BDF endp
 sub_20CFB proc near
 loc_147B:
     MOV BX,CX
-    call far ptr sub_13BC1
+    call far ptr lookupSineFar
     MOV [word_3426A],BX
     MOV BX,CX
-    call far ptr sub_13BC5
+    call far ptr lookupCosineFar
     MOV [word_3426C],BX
     MOV BX,BP
-    call far ptr sub_13BC1
+    call far ptr lookupSineFar
     MOV [word_34272],BX
     MOV BX,BP
-    call far ptr sub_13BC5
+    call far ptr lookupCosineFar
     MOV [word_34274],BX
     MOV BX,SI
-    call far ptr sub_13BC1
+    call far ptr lookupSineFar
     MOV [word_3426E],BX
     MOV BX,SI
-    call far ptr sub_13BC5
+    call far ptr lookupCosineFar
     MOV [word_34270],BX
     MOV AX,[word_3426E]
     IMUL WORD PTR [word_34272]

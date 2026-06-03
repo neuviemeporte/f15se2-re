@@ -45,7 +45,7 @@ void load15Flt3d3() {
     TRACE(("load15Flt3d3: done"));
 }
 
-void sub_1C9D2(int param_1, long param_2, long param_3, int param_4, int param_5, int param_6, int param_7, int param_8)
+void drawWorldObject(int param_1, long param_2, long param_3, int param_4, int param_5, int param_6, int param_7, int param_8)
 {
     int p;
     int a;
@@ -54,7 +54,7 @@ void sub_1C9D2(int param_1, long param_2, long param_3, int param_4, int param_5
     int f;
     int g;
 
-    a = sub_1CF32(param_1);
+    a = shapeDataOffset(param_1);
     p = (byte_3C5A0 == 0) ? (int)var_564 : (int)var_565;
     c = param_2 - dword_3B7DA;
     e = param_3 + dword_3B7F8 - 0x01000000L;
@@ -78,7 +78,7 @@ void sub_1C9D2(int param_1, long param_2, long param_3, int param_4, int param_5
     }
     if ((long)(int)labs(c) < (long)0x7FFF) {
         if ((long)(int)labs(e) < (long)0x7FFF) {
-            sub_13A90(0, 0, -f);
+            setViewPosition(0, 0, -f);
             word_3C16C = 1;
             sub_20104(byte_228D0 + a, -param_5, param_6, param_7, (int)c, -(int)e, param_4 != 0);
         }
@@ -86,7 +86,7 @@ void sub_1C9D2(int param_1, long param_2, long param_3, int param_4, int param_5
 }
 
 // ==== seg000:0xcb42 ====
-int sub_1CB42(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7, int param_8, int param_9)
+int drawTargetView(int param_1, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7, int param_8, int param_9)
 {
     int p;
     int a;
@@ -109,7 +109,7 @@ int sub_1CB42(int param_1, int param_2, int param_3, int param_4, int param_5, i
         return;
     }
 
-    g = sub_1CF32(param_1);
+    g = shapeDataOffset(param_1);
     if (byte_3C5A0 == 0) {
         *var_568 = 0;
     } else {
@@ -121,9 +121,9 @@ int sub_1CB42(int param_1, int param_2, int param_3, int param_4, int param_5, i
         k = param_2 - word_3BEC0;
         l = param_3 - word_3BED0;
         m = (param_4 - var_547) >> 5;
-        b = sub_1D008(k, -l);
-        f = sub_1D008(m, sub_1CFA6(k, l));
-        c = sub_1CFA6(m, sub_1CFA6(k, l));
+        b = computeBearing(k, -l);
+        f = computeBearing(m, rangeApprox(k, l));
+        c = rangeApprox(m, rangeApprox(k, l));
 
         if (param_8 == 1) {
             var_680 = c;
@@ -153,15 +153,15 @@ int sub_1CB42(int param_1, int param_2, int param_3, int param_4, int param_5, i
             c = (var_682 << 5) / var_683 << 2;
         }
 
-        i = sub_1D190(f, c);
+        i = cosMul(f, c);
         var_594 = 2;
         if (param_9 < 0) {
             var_594 = (uint8)(param_9 + 2);
             param_9 = 0;
         }
-        k = sub_1D178(b, i) >> (char)param_9;
-        l = -(sub_1D190(b, i)) >> (char)param_9;
-        m = sub_1D178(f, c) >> (char)param_9;
+        k = sinMul(b, i) >> (char)param_9;
+        l = -(cosMul(b, i)) >> (char)param_9;
+        m = sinMul(f, c) >> (char)param_9;
     } else {
         k = (param_2 - word_3BEC0) << 4;
         l = (param_3 - word_3BED0) << 4;
@@ -200,9 +200,9 @@ int sub_1CB42(int param_1, int param_2, int param_3, int param_4, int param_5, i
     }
 
     var_316 = 1;
-    sub_13932((char*)var_568, -var_681, var_684, var_685, 0, 0, 0, 0);
+    setup3DTransform((char*)var_568, -var_681, var_684, var_685, 0, 0, 0, 0);
     sub_20104(byte_228D0 + g, -param_5, param_6, param_7, k, -l, m);
-    sub_139AA();
+    rasterize3DWorld();
     var_316 = 0;
 
     if (param_8 == 1) {
@@ -214,7 +214,7 @@ int sub_1CB42(int param_1, int param_2, int param_3, int param_4, int param_5, i
 }
 
 // ==== seg000:0xcf32 ====
-int sub_1CF32(unsigned int param)
+int shapeDataOffset(unsigned int param)
 {
     if (param & 0x100) {
         return buf3d3[param & 0x7f];
@@ -223,7 +223,7 @@ int sub_1CF32(unsigned int param)
 }
 
 // ==== seg000:0xcf64 clamp ====
-int sub_1CF64(int arg_0, int arg_2, int arg_4) {
+int clampRange(int arg_0, int arg_2, int arg_4) {
     if (arg_0 > arg_4) {
         return arg_4;
     }
@@ -248,7 +248,7 @@ int sub_1CF8E(int arg_0, int arg_2, int arg_4) {
 }
 
 // ==== seg000:0xcfa6 ====
-int sub_1CFA6(int arg_0, int arg_1) {
+int rangeApprox(int arg_0, int arg_1) {
     long a;
     arg_0 = abs(arg_0);
     arg_1 = abs(arg_1);
@@ -261,7 +261,7 @@ int sub_1CFA6(int arg_0, int arg_1) {
 }
 
 // ==== seg000:0xd008 ====
-int sub_1D008(int param_1, int param_2) {
+int computeBearing(int param_1, int param_2) {
     int p, a;
     long b;
     int d, e, f;
@@ -301,17 +301,17 @@ int sub_1D008(int param_1, int param_2) {
 }
 
 // ==== seg000:0xd178 sinMul ====
-int sub_1D178(int arg_0, int arg_2) {
-    return sub_13B2F(sub_13B96(arg_0), arg_2);
+int sinMul(int arg_0, int arg_2) {
+    return fixedMulQ14(sine(arg_0), arg_2);
 }
 
 // ==== seg000:0xd190 cosMul ====
-int sub_1D190(int arg_0, int arg_2) {
-    return sub_1D178(arg_0 + 0x4000, arg_2);
+int cosMul(int arg_0, int arg_2) {
+    return sinMul(arg_0 + 0x4000, arg_2);
 }
 
 // ==== seg000:0xd1c8 ====
-int sub_1D1C8(int arg_0) {
+int signOf(int arg_0) {
     if (arg_0 == 0) {
         return 0;
     }
@@ -321,7 +321,7 @@ int sub_1D1C8(int arg_0) {
     return -1;
 }
 
-void sub_1D1E8(void) {
+void seedRng(void) {
     if (word_330BE == 0) {
         var_686 = getTimeOfDay();
     }
@@ -334,7 +334,7 @@ int sub_1D200(int arg_0) {
 }
 
 // ==== seg000:0xd21e ====
-int16 sub_1D21E(int16 arg_0)
+int16 readAxisInput(int16 arg_0)
 {
     int16 p;
 

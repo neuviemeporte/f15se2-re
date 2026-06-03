@@ -19,16 +19,16 @@
 
 // ==== seg000:0x2fda ====
 
-int16* sub_12FDA(uint32 param_0, uint32 param_1) {
+int16* findNearestTileObject(uint32 param_0, uint32 param_1) {
     int p, q, a, r, b, c, d, e, f, g, h, i, j, k, l, m, n, o;
 
     word_3B7E2 = 0x7fff;
     for (c = 1; c <= 2; c++) {
         for (e = 0; e < 9; e++) {
-            *(long *)&m = sub_126B4(c, param_0);
+            *(long *)&m = scaleCoordToLod(c, param_0);
             i = *(unsigned long *)&m >> 0xc;
             r = m & 0xfff;
-            *(long *)&m = sub_126B4(c, param_1);
+            *(long *)&m = scaleCoordToLod(c, param_1);
             k = *(unsigned long *)&m >> 0xc;
             d = m & 0xfff;
             a = (&word_33B74)[e];
@@ -51,7 +51,7 @@ int16* sub_12FDA(uint32 param_0, uint32 param_1) {
                         }
                         g = word_3C5A8->_0x06;
                         if ((word_3C5A8->_0x06 & 0x80) != 0 &&
-                            sub_13266(c, f, i, k) != 0) {
+                            lookupTileEntry(c, f, i, k) != 0) {
                             g = byte_3B4E6[var_660]._0x06;
                         }
                         if (q < word_3B7E2) {
@@ -82,7 +82,7 @@ int16* sub_12FDA(uint32 param_0, uint32 param_1) {
     return 0;
 }
 
-void sub_13224(char *a, int b, char c) {
+void addTileEntry(char *a, int b, char c) {
     *(int *)(a + 0x12) = b;
     *(a + 0x14) = c;
     memcpy((char *)&byte_3B4E6[word_38FF8++], a + 0x0e, 8);
@@ -90,7 +90,7 @@ void sub_13224(char *a, int b, char c) {
 }
 
 // ==== seg000:0x3266 ====
-int sub_13266(int p1, int p2, int p3, int p4) {
+int lookupTileEntry(int p1, int p2, int p3, int p4) {
     for (var_660 = word_38FF8 - 1; var_660 >= 0; var_660--) {
         if (byte_3B4E6[var_660]._0x00 == p1 &&
             byte_3B4E6[var_660]._0x01 == p2 &&
@@ -102,7 +102,7 @@ int sub_13266(int p1, int p2, int p3, int p4) {
     return 0;
 }
 
-int sub_132BA(uint32 coord1, uint32 coord2, uint32 coord3)
+int drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
 {
     int p;
     int a;
@@ -121,13 +121,13 @@ int sub_132BA(uint32 coord1, uint32 coord2, uint32 coord3)
     *(char *)&var_315 = 0;
     word_3B7E2 = 0x7fff;
     b = 4;
-    k = sub_126B4(b, coord1);
+    k = scaleCoordToLod(b, coord1);
     g = (int)(k >> 12);
     a = (int)k & 0xfff;
-    k = sub_126B4(b, coord2);
+    k = scaleCoordToLod(b, coord2);
     i = (int)(k >> 12);
     c = (int)k & 0xfff;
-    var_220 = (int)sub_126B4(b, coord3);
+    var_220 = (int)scaleCoordToLod(b, coord3);
     m = 0x800 - a;
     p = 0x800 - c;
     var_218 = a - 0x800;
@@ -164,18 +164,18 @@ int sub_132BA(uint32 coord1, uint32 coord2, uint32 coord3)
 }
 
 // ==== seg000:0x345e ====
-void sub_1345E(char *arg_0, int arg_2, int arg_4, int arg_6) {
+void renderMapTerrain(char *arg_0, int arg_2, int arg_4, int arg_6) {
     int p, a;
     var_190 = 0;
-    sub_13932(arg_0, 0, 0, 0, 0, 0, 0, 0);
+    setup3DTransform(arg_0, 0, 0, 0, 0, 0, 0, 0);
     gfx_setBlitOffset(gfx_calcRowAddr(*(int *)(arg_0 + 0x12), *(int *)(arg_0 + 0x0e)));
-    sub_134AC(arg_2, arg_4, arg_6);
-    sub_139AA();
+    drawMapTiles(arg_2, arg_4, arg_6);
+    rasterize3DWorld();
 }
 
 // ==== seg000:0x51f9 ====
 
-void sub_134AC(int param_1, int param_2, int param_3)
+void drawMapTiles(int param_1, int param_2, int param_3)
 {
     int p, a, b, c, d, e, f, g, h, i;
 
@@ -188,7 +188,7 @@ void sub_134AC(int param_1, int param_2, int param_3)
         var_661 = 0x1000 >> (char)word_3C042;
         if (var_661 > 16) {
             var_662 = 4 << (8 - (char)word_3C16C * 2);
-            sub_13638(&b, &h, &c, &p);
+            computeTileBounds(&b, &h, &c, &p);
             for (f = c; f <= p; f++) {
                 for (e = b; e <= h; e++) {
                     i = e * var_661 - var_663 + (var_661 >> 1);
@@ -199,7 +199,7 @@ void sub_134AC(int param_1, int param_2, int param_3)
                         for (d = 0; matrix3dt[word_3C16C][g] > (unsigned int)d; d++) {
                             if (word_3C5A8->_0x04 == 0) {
                                 var_200 = (char far *)(byte_228D0 + buf3d3[word_3C5A8->_0x06]);
-                                sub_136D2(var_200,
+                                drawMapTileObject(var_200,
                                     (word_3C5A8->_0x00 >> (char)word_3C042) + i,
                                     (word_3C5A8->_0x02 >> (char)word_3C042) + a);
                             }
@@ -213,15 +213,15 @@ void sub_134AC(int param_1, int param_2, int param_3)
 }
 
 // ==== seg000:0x3638 ====
-void sub_13638(int *arg_0, int *arg_1, int *arg_2, int *arg_3) {
-    sub_13694(0, 0, arg_0, arg_2);
+void computeTileBounds(int *arg_0, int *arg_1, int *arg_2, int *arg_3) {
+    worldToTileIndex(0, 0, arg_0, arg_2);
     if (*arg_0 < 0) {
         *arg_0 = 0;
     }
     if (*arg_2 < 0) {
         *arg_2 = 0;
     }
-    sub_13694(var_349, var_350, arg_1, arg_3);
+    worldToTileIndex(var_349, var_350, arg_1, arg_3);
     if (*arg_1 >= var_662) {
         *arg_1 = var_662 - 1;
     }
@@ -231,13 +231,13 @@ void sub_13638(int *arg_0, int *arg_1, int *arg_2, int *arg_3) {
 }
 
 // ==== seg000:0x3694 ====
-void sub_13694(int arg_0, int arg_1, int *arg_2, int *arg_3) {
+void worldToTileIndex(int arg_0, int arg_1, int *arg_2, int *arg_3) {
     *arg_2 = (arg_0 - word_3298C + var_663) / var_661;
     *arg_3 = ((arg_1 - word_3298E) * 4 / 3 + var_664) / var_661;
 }
 
 // ==== seg000:0x36d2 ====
-void sub_136D2(char far *param_1, int param_3, int param_4) {
+void drawMapTileObject(char far *param_1, int param_3, int param_4) {
     *(char far **)&var_200 = param_1;
     var_200++;
     var_216 = 0;
@@ -250,17 +250,17 @@ void sub_136D2(char far *param_1, int param_3, int param_4) {
     case 0x3e:
         return;
     case 0x3f:
-        sub_1374A();
+        drawModelPoint();
         return;
     }
-    sub_1378E(param_3, param_4);
-    sub_13816(param_3, param_4);
+    buildVertexSignMask(param_3, param_4);
+    projectModelVertices(param_3, param_4);
     sub_20A46();
     sub_20FDC();
 }
 
 // ==== seg000:0x378e ====
-void sub_1378E(int param_1, int param_2) {
+void buildVertexSignMask(int param_1, int param_2) {
     long p;
     int b;
 
@@ -284,7 +284,7 @@ void sub_1378E(int param_1, int param_2) {
 
 
 // ==== seg000:0x3816 ====
-void sub_13816(int arg_0, int arg_1) {
+void projectModelVertices(int arg_0, int arg_1) {
     int p;
     int a;
     int b;
@@ -307,20 +307,20 @@ void sub_13816(int arg_0, int arg_1) {
         (&word_34684)[p * 2] = 1;
         (&word_34686)[p * 2] = 1;
         *(long *)((char *)&word_34868 + p * 4) = (long)(c + word_3298C);
-        *(long *)((char *)&word_34A4C + p * 4) = (long)(-sub_13922(d) + word_3298E);
+        *(long *)((char *)&word_34A4C + p * 4) = (long)(-aspectScaleY(d) + word_3298E);
     }
 }
 
 // ==== seg000:0x3922 ====
-int sub_13922(int arg_0) {
+int aspectScaleY(int arg_0) {
     return arg_0 - (arg_0 >> 2);
 }
 
 // ==== seg000:0x3932 ====
-void sub_13932(char *arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c, int arg_e) {
-    sub_139C0((int)arg_0);
+void setup3DTransform(char *arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_a, int arg_c, int arg_e) {
+    setupViewport((int)arg_0);
     sub_13A6C(arg_2, arg_4, arg_6);
-    sub_13A90(arg_8, arg_a, arg_c);
+    setViewPosition(arg_8, arg_a, arg_c);
     if (arg_e != 0) {
         var_315 = 0;
         if (word_38FDC == 0) {
@@ -344,7 +344,7 @@ void sub_13932(char *arg_0, int arg_2, int arg_4, int arg_6, int arg_8, int arg_
         while (byte_378EE != 0)
             ;
 #endif
-        sub_10334(*(int *)(arg_0 + 4));
+        drawProjectionSphere(*(int *)(arg_0 + 4));
     }
     var_255 = 0;
     var_261 -= 0x3000 / word_330C4;

@@ -71,8 +71,8 @@ void load3D3(char *arg_0) {
     }
     fclose(fileHandle);
     while ((fileHandle = fopen(aPhoto_3d3, aRb_0)) == NULL) {
-        sub_19E44(0);
-        sub_19E5D(0, 0x28, 0x13f, 0x2d);
+        setDrawColor(0);
+        fillRectBoth(0, 0x28, 0x13f, 0x2d);
         drawSomeStrings(aPleaseInsertF15DiskB, 0x6c, 0x28, 0x0f);
         gfx_flipPage();
         misc_jump_5b_getkey();

@@ -2,7 +2,7 @@
 #include "slot.h"
 
 // ==== seg000:0x39c0 ====
-void sub_139C0(char *arg_0) {
+void setupViewport(char *arg_0) {
     int a, b;
     b = *(int *)(arg_0 + 0x14) - *(int *)(arg_0 + 0x12) + 1;
     a = *(int *)(arg_0 + 0x10) - *(int *)(arg_0 + 0x0e) + 1;

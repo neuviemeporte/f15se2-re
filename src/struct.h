@@ -146,8 +146,8 @@ STATIC_ASSERT(sizeof(struct TerrainPtrTable)==sizeof(uint8*)*32);
 
 #define TERRAINUNKSIZE 64
 
-// used in egame.exe sub_155AB, 16 bytes
-struct struc_1 {
+// used in egame.exe renderFrame, 16 bytes
+struct ViewSnapshot {
     int32 field_0;
     int32 field_4;
     int16 field_8;
@@ -155,9 +155,9 @@ struct struc_1 {
     int16 field_C;
     int16 field_E;
 };
-STATIC_ASSERT(sizeof(struct struc_1)==16);
+STATIC_ASSERT(sizeof(struct ViewSnapshot)==16);
 
-// used in egame.exe sub_155AB, 0x18 bytes
+// used in egame.exe renderFrame, 0x18 bytes
 struct struc_2 {
     uint16 field_0;
     uint16 field_2;
@@ -171,12 +171,12 @@ struct struc_2 {
 };
 STATIC_ASSERT(sizeof(struct struc_2)==0x18);
 
-// used in egame.exe sub_155AB, 0x24 bytes.
+// used in egame.exe renderFrame, 0x24 bytes.
 // Array based at 0x3B202 (symbol stru_3B202), stride 0x24, cleared in moveStuff().
 // The element really begins 6 bytes before the old stru_3B208 label; objType/posX/posY
 // are the leading members that earlier code reached via (char*)&stru_3B208[i] - 6/-4/-2.
 #pragma pack(1)
-struct struc_3 {
+struct SimObject {
     int16 objType;      // +0x00  spec index into stru_3AA5E (was -6)
     int16 posX;         // +0x02  world X seed; field_2 = posX << 5 (was -4)
     int16 posY;         // +0x04  world Y seed; field_6 = posY << 5 (was -2)
@@ -186,10 +186,10 @@ struct struc_3 {
     uint8 field_10[20]; // +0x10..0x24
 };
 #pragma pack()
-STATIC_ASSERT(sizeof(struct struc_3)==0x24);
+STATIC_ASSERT(sizeof(struct SimObject)==0x24);
 
 // used in egame.exe, 0x10 bytes
-struct struc_4 {
+struct MapTarget {
     uint16 field_0;
     uint16 field_2;
     int16 field_4;
@@ -198,7 +198,7 @@ struct struc_4 {
     int16 field_C;
     int16 field_E;
 };
-STATIC_ASSERT(sizeof(struct struc_4)==0x10);
+STATIC_ASSERT(sizeof(struct MapTarget)==0x10);
 
 // 8-byte struct used for stru_33402
 struct struc_9 {

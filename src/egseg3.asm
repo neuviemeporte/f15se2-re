@@ -15,7 +15,7 @@ _BSS ENDS
 ; (DGROUP 0x56e8/0x56e9), which setInt9Handler initializes to center (0x80).
 ; otherKeyDispatch's keyboard path reads them, scales by the gain (a15flt+0F2h),
 ; and writes the result to joyAxes (0x56e4/0x56e5), which the stick dot
-; (sub_18E50/egtacmap) displays. Writing 0x56e4/0x56e5 here directly let
+; (drawCockpitHud/egtacmap) displays. Writing 0x56e4/0x56e5 here directly let
 ; otherKeyDispatch overwrite the deflection with a centered value -> the stick
 ; only reacted intermittently. byte_37F98=Up/Down (pitch), byte_37F99=Left/Right.
 EXTRN _joyAxes:BYTE
