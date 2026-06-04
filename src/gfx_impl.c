@@ -308,8 +308,8 @@ int FAR CDECL gfx_drawString(int16 *pageNum, const char *string)
 }
 
 /* ---- Slot 0x2a: gfx_copyRect ---- */
-int FAR CDECL gfx_copyRect(int srcPage, int srcX, int srcY,
-                            int dstPage, int dstX, int dstY,
+int FAR CDECL gfx_copyRect(int srcPage, uint16 srcX, uint16 srcY,
+                            int dstPage, uint16 dstX, uint16 dstY,
                             int width, int height)
 {
     int row;
