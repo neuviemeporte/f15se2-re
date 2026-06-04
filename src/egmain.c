@@ -392,25 +392,9 @@ void updateFrame(void) {
         var_49 = stru_3AA5E[word_3C16A].mapY;
     }
 
-/*
-
-seg000:0CEA		    mov	    ax,	0FFFCh
-seg000:0CED		    cwd                               ; dx:ax = ffff fffc
-seg000:0CEE		    add	    ax,	word ptr commData     ; [commData] = 0
-seg000:0CF2		    adc	    dx,	0                     ; no change
-seg000:0CF5		    mov	    cx,	0Ch
-seg000:0CF8		    shl	    dx,	cl                    ; dx = f000
-seg000:0CFA		    add	    dx,	word ptr commData+2   ; [commData+2] = 1554, dx = 554
-seg000:0CFE		    mov	    es,	dx
-seg000:0D00		    mov	    bx,	ax
-seg000:0D02		    cmp	    word ptr es:[bx], 0CA01h  ; es:bx = 554:fffc
-
-*/
-
-    /* Magic signature check */
+    /* Magic signature check, only done when the plane is moving? */
     if ((char)word_336E8 == 0 && word_336E8 != 0) {
-        if (*(int far *)((char far *)commData - 4) != (int)0xca01 ||
-            *(int far *)((char far *)commData - 2) != 0x3b9a) {
+        if (*((int32 HUGE*)commData - 1) != COMM_MCB_VALUE_MAGIC) {
             finalizeMission(1);
             exitCode = 0;
         }
@@ -418,16 +402,10 @@ seg000:0D02		    cmp	    word ptr es:[bx], 0CA01h  ; es:bx = 554:fffc
 
     if (word_33700 != word_3C16A && (stru_3AA5E[word_3C16A].flags & 0x800) == 0) {
         for (d = 1; d <= 2; d++) {
-            e = word_3C046 - d;
-            stru_3B202[e].state[8] &= ~2;
-            c = stru_3AA5E[word_3C16A].flags;
-            if (c & 0x400) {
-                *(int *)&stru_3B202[e].state[6] = 0x0d;
-            } else {
-                *(int *)&stru_3B202[e].state[6] = 0;
-            }
-            if (c & 0x100) {
-                *(int *)&stru_3B202[e].state[6] = 0x12;
+            stru_3B202[word_3C046 - d].state[8] &= ~2;
+            *(int *)&stru_3B202[word_3C046 - d].state[6] = stru_3AA5E[word_3C16A].flags & 0x400 ? 0x0d : 0;
+            if (stru_3AA5E[word_3C16A].flags & 0x100) {
+                *(int *)&stru_3B202[word_3C046 - d].state[6] = 0x12;
             }
             stru_3B202[word_3C046 - d].objType = word_3C16A;
         }
@@ -448,13 +426,8 @@ seg000:0D02		    cmp	    word ptr es:[bx], 0CA01h  ; es:bx = 554:fffc
             stru_3B202[e].worldX = (long)stru_3B202[e].posX << 5;
             stru_3B202[e].worldY = (long)stru_3B202[e].posY << 5;
             *(int *)&stru_3B202[e].state[0] = -randomRange(0x4000);
-            c = stru_3AA5E[word_3C16A].flags;
-            if (c & 0x400) {
-                *(int *)&stru_3B202[e].state[6] = 8;
-            } else {
-                *(int *)&stru_3B202[e].state[6] = 0x0b;
-            }
-            if (c & 0x100) {
+            *(int *)&stru_3B202[e].state[6] = stru_3AA5E[word_3C16A].flags & 0x400 ? 8 : 0x0b;
+            if (stru_3AA5E[word_3C16A].flags & 0x100) {
                 *(int *)&stru_3B202[e].state[6] = 9;
             }
         }

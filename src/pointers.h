@@ -8,12 +8,13 @@
 #define NEAR near
 #define FAR far
 #define CDECL cdecl
-
+#define HUGE huge
 #define offsetof(st, m) ((size_t)&(((st*)0)->m))
 #else
 #define NEAR
 #define FAR
 #define CDECL
+#define HUGE
 #endif
 
 #define MK_FP(a,off) ((void FAR *) (((unsigned long)(a) << 16) | (unsigned long)(off)))
