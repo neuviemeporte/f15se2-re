@@ -308,7 +308,7 @@ void updateFrame(void) {
             word_3B232 = (long)var_811 * 32;
             word_3B236 = var_542;
         }
-        word_3AFA8 = p; // = ((unsigned)(word_3BED0 - var_47) < 0x8000u) ? 1 : -1;
+        word_3AFA8 = p;
         initWeaponLoadout();
         word_3BECC = 2;
         gfx_flipPage();
@@ -392,6 +392,22 @@ void updateFrame(void) {
         var_49 = stru_3AA5E[word_3C16A].mapY;
     }
 
+/*
+
+seg000:0CEA		    mov	    ax,	0FFFCh
+seg000:0CED		    cwd                               ; dx:ax = ffff fffc
+seg000:0CEE		    add	    ax,	word ptr commData     ; [commData] = 0
+seg000:0CF2		    adc	    dx,	0                     ; no change
+seg000:0CF5		    mov	    cx,	0Ch
+seg000:0CF8		    shl	    dx,	cl                    ; dx = f000
+seg000:0CFA		    add	    dx,	word ptr commData+2   ; [commData+2] = 1554, dx = 554
+seg000:0CFE		    mov	    es,	dx
+seg000:0D00		    mov	    bx,	ax
+seg000:0D02		    cmp	    word ptr es:[bx], 0CA01h  ; es:bx = 554:fffc
+
+*/
+
+    /* Magic signature check */
     if ((char)word_336E8 == 0 && word_336E8 != 0) {
         if (*(int far *)((char far *)commData - 4) != (int)0xca01 ||
             *(int far *)((char far *)commData - 2) != 0x3b9a) {
