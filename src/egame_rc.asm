@@ -1623,10 +1623,6 @@ callLoad3DAll equ _sub_121C6
 ; _copySomeMem - now in C (egame2.c)
 ; ------------------------------seg000:0x22b7------------------------------
 ; ------------------------------seg000:0x22b8------------------------------
-IFDEF DEBUG
-EXTRN _trace_gameloop:NEAR
-EXTRN _trace_tile:NEAR
-ENDIF
 projectObjects proc near
     push BP
     mov BP,SP
@@ -1674,13 +1670,6 @@ LAB_1000_232b:
 LAB_1000_2330:
     dec word ptr [word_3C16C]
 LAB_1000_2334:
-IFDEF DEBUG
-    push ax
-    push word ptr [word_3C16C]
-    call _trace_gameloop
-    add sp, 2
-    pop ax
-ENDIF
     cmp word ptr [word_3C16C],1h
     jge LAB_1000_233e
     jmp LAB_1000_26af
@@ -1889,13 +1878,6 @@ LAB_1000_2515:
     call process3dg
     add SP,6h
     mov word ptr [BP + -1ah],AX
-IFDEF DEBUG
-    push AX
-    push word ptr [BP + -0eh]
-    push word ptr [word_3C16C]
-    call _trace_tile
-    add sp, 6
-ENDIF
     db 3Dh, 0FFh, 0FFh ; cmp AX,0ffffh (force imm16 encoding)
     jnz LAB_1000_254a
     jmp LAB_1000_26a9
@@ -2098,45 +2080,10 @@ projectModelVertices equ _projectModelVertices
 setup3DTransform equ _setup3DTransform
 ; ------------------------------seg000:0x39a8------------------------------
 ; ------------------------------seg000:0x39aa------------------------------
-IFDEF DEBUG
-EXTRN _trace_gameloop:NEAR
-ENDIF
 rasterize3DWorld proc near
-IFDEF DEBUG
-    push ax
-    mov ax, 100
-    push ax
-    call _trace_gameloop
-    add sp, 2
-    pop ax
-ENDIF
     call far ptr sub_202F6
-IFDEF DEBUG
-    push ax
-    mov ax, 101
-    push ax
-    call _trace_gameloop
-    add sp, 2
-    pop ax
-ENDIF
     call far ptr gfx_setBlitOffset2
-IFDEF DEBUG
-    push ax
-    mov ax, 102
-    push ax
-    call _trace_gameloop
-    add sp, 2
-    pop ax
-ENDIF
     call far ptr _gfx_resetBlitOffset2
-IFDEF DEBUG
-    push ax
-    mov ax, 103
-    push ax
-    call _trace_gameloop
-    add sp, 2
-    pop ax
-ENDIF
     mov byte ptr [_var_316],0h
     ret
     nop
@@ -2489,45 +2436,18 @@ _runGameLoop proc near
 _runGameLoop endp
 ; ------------------------------seg000:0x3c46------------------------------
 ; ------------------------------seg000:0x3c47------------------------------
-IFDEF DEBUG
-EXTRN _trace_gameloop:NEAR
-ENDIF
 gameMainLoop proc near
     call _renderFrame
     call _drawCockpitHud
     cmp _keyValue, 0
     jnz short loc_13C59
-IFDEF DEBUG
-    mov ax, 1
-    push ax
-    call _trace_gameloop
-    add sp, 2
-ENDIF
     call far ptr _sub_21A7A ;call _sub_21A7A
 loc_13C59:
-IFDEF DEBUG
-    mov ax, 2
-    push ax
-    call _trace_gameloop
-    add sp, 2
-ENDIF
     mov bx, 0
     mov ax, _word_38126
     call far ptr gfx_dacAnimate
-IFDEF DEBUG
-    mov ax, 3
-    push ax
-    call _trace_gameloop
-    add sp, 2
-ENDIF
     mov byte_378EE, 1
     call _otherKeyDispatch
-IFDEF DEBUG
-    mov ax, 4
-    push ax
-    call _trace_gameloop
-    add sp, 2
-ENDIF
     call updateFrame
     cmp byte_3C8B0, 0
     jz short gameMainLoop
@@ -32866,10 +32786,6 @@ _size3d3_7 dw ?
     db ?
     db ?
 
-IFDEF DEBUG
-PUBLIC _dbg_loc0a09_trips
-_dbg_loc0a09_trips dw ?
-ENDIF
 
 __bss_end label byte
 

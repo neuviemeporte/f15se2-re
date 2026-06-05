@@ -1,10 +1,5 @@
 .MODEL large
 
-IFDEF DEBUG
-EXTRN _dbg_loc0a09_trips:word
-EXTRN _trace_obj:far
-EXTRN _trace_cull:far
-ENDIF
 EXTRN gfx_dirtyRect:far
 EXTRN gfx_dirtyRect2:far
 EXTRN gfx_drawLine:far
@@ -1466,11 +1461,6 @@ transformAndCullObject endp
 
 skipDisplayListByLod proc near
 loc_0A09:
-IFDEF DEBUG
-    push di
-    xor di, di
-ENDIF
-loc_0A09b:
     MOV AL,[ES:SI]
     TEST AL,80h
     JZ short loc_0A31
@@ -1483,28 +1473,11 @@ loc_0A09b:
     CMP AX,[BX+18FCh]
     JNG short loc_0A2C
     ADD SI,[ES:SI+1h]
-IFDEF DEBUG
-    inc di
-    cmp di, 4000h
-    jae short loc_0A30
-ENDIF
-    JMP short loc_0A09b
+    JMP short loc_0A09
 loc_0A2C:
     ADD SI,BYTE PTR +0x3
-IFDEF DEBUG
-    inc di
-    cmp di, 4000h
-    jae short loc_0A30
-ENDIF
-    JMP short loc_0A09b
-IFDEF DEBUG
-loc_0A30:
-    inc word ptr [_dbg_loc0a09_trips]
-ENDIF
+    JMP short loc_0A09
 loc_0A31:
-IFDEF DEBUG
-    pop di
-ENDIF
     RET
 skipDisplayListByLod endp
 
