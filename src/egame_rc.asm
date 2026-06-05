@@ -2694,50 +2694,31 @@ _getTimeOfDay equ getTimeOfDay
     int 1Ah
     mov AX,DX
     ret
-    db 0FFh
-    db 06h
-    db 5Ah
-    db 50h
-    db 0FEh
-    db 06h
-    db 5Ch
-    db 50h
-    db 9Ah
-    db 0A4h
-    db 0Fh
-    db 8Bh
-    db 32h
-    db 9Ah
-    db 0D5h
-    db 10h
-    db 8Bh
-    db 32h
-    db 0Bh
-    db 0C0h
-    db 74h
-    db 08h
-    db 78h
-    db 03h
-    db 0E9h
-    db 0D9h
-    db 0FDh
-    db 0E9h
-    db 0EEh
-    db 0FDh
-    db 0C3h
-    db 33h
-    db 0C0h
-    db 0E8h
-    db 4Dh
-    db 0A7h
-    db 9Ah
-    db 95h
-    db 0Fh
-    db 8Bh
-    db 32h
-    db 0C3h
-    db 90h
 getTimeOfDay endp
+
+; Unreachable byte-copy of the original timer routine at seg000:0x3ee3; the live
+; version is the simplified advanceFrameTick below. The two jmps and the chkstk
+; call are PC-relative to the original seg000 layout, so they are kept as raw
+; bytes -- in our layout they point at unrelated code, but nothing reaches them.
+deadFunction01 proc near
+    inc word ptr [_byte_3790C-2]            ; word_3790A
+    inc byte ptr [_byte_3790C]
+    call far ptr gfx_unknown2e
+    call far ptr audio_jump_6b
+    or ax, ax
+    jz short df01_ret
+    js short df01_jmp2
+    db 0E9h, 0D9h, 0FDh                      ; dead jmp, orig target 0x3cd7
+df01_jmp2:
+    db 0E9h, 0EEh, 0FDh                      ; dead jmp, orig target 0x3cef
+df01_ret:
+    ret
+    xor ax, ax
+    db 0E8h, 04Dh, 0A7h                      ; dead call, orig target chkstk
+    call far ptr gfx_unknown2b
+    ret
+    nop
+deadFunction01 endp
 ; ------------------------------seg000:0x3ee2------------------------------
 ; ------------------------------seg000:0x3ee3------------------------------
 advanceFrameTick proc near

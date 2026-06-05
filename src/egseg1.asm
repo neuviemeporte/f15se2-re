@@ -307,7 +307,16 @@ PUBLIC _clipAndRasterizeEdge
 PUBLIC clipAndRasterizeEdgeImpl
 PUBLIC _clipAndRasterizeEdgeImpl
 
-seg001 segment byte public 'CODE'
+; PARA alignment is required: the original seg001 is paragraph-aligned (load para
+; 0F88h), so symbol offsets are measured from a paragraph boundary. With BYTE
+; alignment the linker placed seg001 2 bytes into its paragraph, shifting every
+; frame-relative offset by +2. That desynced the INT 0 (divide-overflow) handler
+; vectors: installDivZeroHandler writes the hardcoded original offset of
+; divZeroStub (00FBh via unk_329AB) into 0000:0000, but the +2 shift moved the
+; real stub to 00FDh, so an IDIV overflow in projectVertexToScreen jumped 2 bytes
+; early -> garbage vertex -> ground objects projected as fixed-X full-height
+; columns. PARA alignment restores the original offsets so the vectors line up.
+seg001 segment para public 'CODE'
 
     ; 2 bytes padding to match original segment layout (first routine at offset 0x0002)
     db 2 dup(0)
@@ -3480,14 +3489,57 @@ fillSpanRect proc far
     RETF
 fillSpanRect endp
 
-    db 055h, 08Bh, 0ECh, 057h, 056h, 055h, 01Eh, 007h, 09Ah, 00Eh, 00Fh, 08Bh, 022h, 050h, 08Bh, 05Eh
-    db 006h, 08Bh, 007h, 09Ah, 0FFh, 00Eh, 08Bh, 022h, 08Ah, 067h, 006h, 09Ah, 05Eh, 00Fh, 08Bh, 022h
-    db 0E8h, 048h, 002h, 08Bh, 04Eh, 00Eh, 08Bh, 076h, 00Ah, 089h, 00Eh, 02Bh, 050h, 089h, 036h, 029h
-    db 050h, 02Bh, 0CEh, 041h, 08Dh, 03Eh, 0B5h, 04Ch, 0D1h, 0E6h, 003h, 0FEh, 08Bh, 046h, 008h, 08Bh
-    db 0D1h, 0F3h, 0ABh, 08Bh, 0CAh, 08Dh, 03Eh, 06Dh, 04Eh, 003h, 0FEh, 08Bh, 046h, 00Ch, 0F3h, 0ABh
-    db 0BBh, 0B5h, 04Ch, 0A1h, 029h, 050h, 08Bh, 00Eh, 02Bh, 050h, 09Ah, 086h, 00Fh, 08Bh, 022h, 09Ah
-    db 068h, 00Fh, 08Bh, 022h, 058h, 09Ah, 009h, 00Fh, 08Bh, 022h, 05Dh, 05Eh, 05Fh, 08Bh, 0E5h, 05Dh
-    db 0C3h
+; Unnamed fillSpanRect-variant (seg001 1c35-1ca5; absent from the map). Near-ret
+; sibling of fillSpanRect that draws into the second span buffer: identical body
+; except it reads the page byte at [BX+6] (vs [BX+4]) and returns near (RETN).
+; Decoded from raw bytes; the 6 overlay-trampoline far calls are now `call far
+; ptr` so the loader relocates their segment (the original had 228Bh baked in).
+fillSpanRectAlt:
+    PUSH BP
+    MOV BP,SP
+    PUSH DI
+    PUSH SI
+    PUSH BP
+    PUSH DS
+    POP ES
+    call far ptr gfx_getCurPageSeg2
+    PUSH AX
+    MOV BX,[BP+6h]
+    MOV AX,[BX]
+    call far ptr gfx_setPage1
+    MOV AH,[BX+6h]
+    call far ptr gfx_setPageDirect
+    CALL loc_1EA0
+    MOV CX,[BP+0Eh]
+    MOV SI,[BP+0Ah]
+    MOV [word_378DB],CX
+    MOV [word_378D9],SI
+    SUB CX,SI
+    INC CX
+    LEA DI,[unk_37565]
+    SHL SI,1
+    ADD DI,SI
+    MOV AX,[BP+8h]
+    MOV DX,CX
+    REP stosw
+    MOV CX,DX
+    LEA DI,[unk_3771D]
+    ADD DI,SI
+    MOV AX,[BP+0Ch]
+    REP stosw
+    MOV BX,4CB5h
+    MOV AX,[word_378D9]
+    MOV CX,[word_378DB]
+    call far ptr gfx_dirtyRect2
+    call far ptr gfx_resetBlitOffset
+    POP AX
+    call far ptr gfx_getCurPageSeg
+    POP BP
+    POP SI
+    POP DI
+    MOV SP,BP
+    POP BP
+    retn
 sub_21526 proc far
     CALL loc_1CB6
     RETF
@@ -3708,9 +3760,29 @@ loc_1E60:
     RET
 computeLineOutcode endp
 
-    db 055h, 08Bh, 0ECh, 081h, 07Eh, 002h, 0F4h, 01Dh, 0A1h, 0A1h, 04Ch, 074h, 003h, 0A1h, 09Fh, 04Ch
-    db 033h, 0D0h, 0B8h, 000h, 07Fh, 079h, 002h, 0F7h, 0D8h, 083h, 046h, 002h, 004h, 02Bh, 0D2h, 05Dh
-    db 0CFh
+; Divide-error (INT 0) handler for the near-plane line-clip IDIVs (seg001 0x1E63;
+; installed via unk_34713 by clipLineCohenSutherland). On an IDIV overflow it
+; saturates the quotient to +/-0x7F00 (sign from the dividend high word of
+; whichever IDIV faulted, selected by the saved IP), zeroes the remainder, skips
+; the 4-byte faulting IDIV, and returns. The 0x7F00 clamp is what makes a
+; near-plane edge project to an extreme coordinate ("long beam") rather than wrap.
+lineClipDivOverflowStub:
+    PUSH BP
+    MOV BP,SP
+    CMP WORD PTR [BP+2],1DF4h                ; which IDIV faulted, by saved IP
+    MOV AX,[word_37551]                      ; dividend hi for the IDIV at 1DF4
+    JZ short lcdz_signed
+    MOV AX,[word_3754F]                      ; dividend hi for the other IDIV
+lcdz_signed:
+    XOR DX,AX                                ; fold dividend sign into DX
+    MOV AX,7F00h                             ; saturated quotient magnitude
+    JNS short lcdz_store
+    NEG AX                                   ; negative quotient
+lcdz_store:
+    ADD WORD PTR [BP+2],4                     ; skip the 4-byte faulting IDIV
+    SUB DX,DX                                ; remainder = 0
+    POP BP
+    IRET
 flushSpanDirtyRect proc far
     PUSH DI
     PUSH SI
@@ -3737,7 +3809,7 @@ loc_1EA0:
     MOV DI,[word_378D9]
     OR DI,DI
     JS short loc_1ED5
-    MOV AX,@data    ; was literal 228Bh (original DGROUP@loadtime); must be relocatable
+    MOV AX,@data    ; relocatable DGROUP segment (loader fixes it up)
     MOV ES,AX
     MOV CX,[word_378DB]
     INC CX
@@ -3761,7 +3833,7 @@ resetScanlineSpansImpl endp
 
 clampScanlineSpan proc near
 loc_1ED6:
-    MOV AX,@data    ; was literal 228Bh (original DGROUP@loadtime); must be relocatable
+    MOV AX,@data    ; relocatable DGROUP segment (loader fixes it up)
     MOV ES,AX
     MOV CX,DI
     OR SI,SI
@@ -3917,9 +3989,9 @@ rasterizeEdgeSpan endp
 
     db 000h
 clipAndRasterizeEdge proc far
-    db 006h
-    db 056h
-    db 057h
+    PUSH ES                                  ; 06
+    PUSH SI                                  ; 56
+    PUSH DI                                  ; 57
     PUSH BP
     CALL loc_2028
     POP BP
@@ -4131,6 +4203,30 @@ loc_21C5:
     JMP near ptr loc_1F34
 clipAndRasterizeEdgeImpl endp
 
+; Divide-error (INT 0) handler for clipAndRasterizeEdge's near-plane IDIVs
+; (seg001 0x21D8; installed via unk_34A88 by clipAndRasterizeEdgeImpl). This stub
+; was MISSING from the reconstruction -- the segment ended at 0x21D8 and the
+; installed vector pointed at zero-fill past the segment, so an IDIV overflow
+; while rasterizing a near-plane edge (common when the ground is banked) jumped
+; into garbage and froze/crashed the game. Restored byte-for-byte from the
+; original. Same saturate-to-+/-0x7F00 recovery as lineClipDivOverflowStub.
+clipRasterDivOverflowStub:
+    PUSH BP
+    MOV BP,SP
+    CMP WORD PTR [BP+2],214Eh                ; which IDIV faulted, by saved IP
+    MOV AX,[word_378E1]                      ; dividend hi for the IDIV at 214E
+    JZ short crdz_signed
+    MOV AX,[word_378DF]                      ; dividend hi for the other IDIV
+crdz_signed:
+    XOR DX,AX                                ; fold dividend sign into DX
+    MOV AX,7F00h                             ; saturated quotient magnitude
+    JNS short crdz_store
+    NEG AX                                   ; negative quotient
+crdz_store:
+    ADD WORD PTR [BP+2],4                     ; skip the 4-byte faulting IDIV
+    SUB DX,DX                                ; remainder = 0
+    POP BP                                   ; 5D
+    IRET                                     ; CF
 
 seg001 ends
 
