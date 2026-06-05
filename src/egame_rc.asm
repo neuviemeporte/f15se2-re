@@ -99,14 +99,6 @@ PUBLIC word_37F5C
 PUBLIC word_37F5E
 PUBLIC word_37F60
 PUBLIC word_37F62
-_updateObjects equ updateObjects
-
-_aAutomaticLandi equ aAutomaticLandi
-_aSafeLanding equ aSafeLanding
-_aWeaponsRepleni equ aWeaponsRepleni
-_updateThreatSites equ updateThreatSites
-_updateThreatTargeting equ updateThreatTargeting
-_aReadyForTakeof equ aReadyForTakeof
 EXTRN _sub_166BE:PROC
 EXTRN _computeThreatScore:PROC
 EXTRN _computeThreatRangeBearing:PROC
@@ -5140,6 +5132,7 @@ LAB_1000_633c:
     pop BP
     ret
 updateThreatSites endp
+_updateThreatSites equ updateThreatSites
 ; ------------------------------seg000:0x6345------------------------------
 ; ------------------------------seg000:0x6346------------------------------
 fireGroundThreat proc near
@@ -6757,6 +6750,7 @@ LAB_1000_758e:
     pop BP
     ret
 updateObjects endp
+_updateObjects equ updateObjects
 ; ------------------------------seg000:0x7593------------------------------
 ; ------------------------------seg000:0x7594------------------------------
 fireAirThreat proc near
@@ -8193,6 +8187,7 @@ LAB_1000_85b8:
     pop BP
     ret
 updateThreatTargeting endp
+_updateThreatTargeting equ updateThreatTargeting
 ; ------------------------------seg000:0x86f8------------------------------
 ; destroyAircraft - replaced by C implementation
 ; ------------------------------seg000:0x87e8------------------------------
@@ -13104,9 +13099,13 @@ unk_329AB db 0
 ovlInsaneFlag db 0
 aErrorReleasingOverlay db 'Error releasing overlay memory$'
 aSafeLanding db 'Safe Landing',0
+_aSafeLanding equ aSafeLanding
 aReadyForTakeof db 'Ready for takeoff',0
+_aReadyForTakeof equ aReadyForTakeof
 aWeaponsRepleni db 'Weapons replenished',0
+_aWeaponsRepleni equ aWeaponsRepleni
 aAutomaticLandi db 'Automatic Landing Engaged',0
+_aAutomaticLandi equ aAutomaticLandi
     db 0
     _waypoints Waypoint 4 dup(<0>)
 _waypointIndex dw 0
@@ -14789,12 +14788,12 @@ gfx_setPageN endp
     PUBLIC _gfx_setPageN
     PUBLIC _gfx_getCurPageSeg
 _gfx_setPageN equ gfx_setPageN
-_gfx_getCurPageSeg equ gfx_getCurPageSeg
 PUBLIC gfx_getCurPageSeg
 PUBLIC gfx_getCurPageSeg2
 gfx_getCurPageSeg proc near                 ; slot 0x10
     db 0EAh ;jmp far ptr 0:0
     dd 0
+_gfx_getCurPageSeg equ gfx_getCurPageSeg
 gfx_getCurPageSeg endp
 gfx_getCurPageSeg2 proc near                ; slot 0x11
     db 0EAh ;jmp far ptr 0:0

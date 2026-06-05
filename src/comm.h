@@ -9,6 +9,7 @@
 #define COMM_SIZE_PARA 0x140
 #define COMM_MCB_OFFSET_MAGIC1 0xc /* magic values written into COMM's MCB by f15.com, later checked by egame.exe */
 #define COMM_MCB_OFFSET_MAGIC2 0xe
+#define COMM_MCB_VALUE_MAGIC  0x3b9aca01
 #define COMM_MCB_VALUE_MAGIC1 0xca01
 #define COMM_MCB_VALUE_MAGIC2 0x3b9a
 

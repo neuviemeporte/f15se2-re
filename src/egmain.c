@@ -416,25 +416,9 @@ void updateFrame(void) {
         var_49 = stru_3AA5E[word_3C16A].mapY;
     }
 
-/*
-
-seg000:0CEA		    mov	    ax,	0FFFCh
-seg000:0CED		    cwd                               ; dx:ax = ffff fffc
-seg000:0CEE		    add	    ax,	word ptr commData     ; [commData] = 0
-seg000:0CF2		    adc	    dx,	0                     ; no change
-seg000:0CF5		    mov	    cx,	0Ch
-seg000:0CF8		    shl	    dx,	cl                    ; dx = f000
-seg000:0CFA		    add	    dx,	word ptr commData+2   ; [commData+2] = 1554, dx = 554
-seg000:0CFE		    mov	    es,	dx
-seg000:0D00		    mov	    bx,	ax
-seg000:0D02		    cmp	    word ptr es:[bx], 0CA01h  ; es:bx = 554:fffc
-
-*/
-
-    /* Magic signature check */
+    /* Magic signature check, only done when the plane is moving? */
     if ((char)word_336E8 == 0 && word_336E8 != 0) {
-        if (*(int far *)((char far *)commData - 4) != (int)0xca01 ||
-            *(int far *)((char far *)commData - 2) != 0x3b9a) {
+        if (*((int32 HUGE*)commData - 1) != COMM_MCB_VALUE_MAGIC) {
             finalizeMission(1);
             exitCode = 0;
         }
@@ -442,16 +426,10 @@ seg000:0D02		    cmp	    word ptr es:[bx], 0CA01h  ; es:bx = 554:fffc
 
     if (word_33700 != word_3C16A && (stru_3AA5E[word_3C16A].flags & 0x800) == 0) {
         for (d = 1; d <= 2; d++) {
-            e = word_3C046 - d;
-            stru_3B202[e].state[8] &= ~2;
-            c = stru_3AA5E[word_3C16A].flags;
-            if (c & 0x400) {
-                *(int *)&stru_3B202[e].state[6] = 0x0d;
-            } else {
-                *(int *)&stru_3B202[e].state[6] = 0;
-            }
-            if (c & 0x100) {
-                *(int *)&stru_3B202[e].state[6] = 0x12;
+            stru_3B202[word_3C046 - d].state[8] &= ~2;
+            *(int *)&stru_3B202[word_3C046 - d].state[6] = stru_3AA5E[word_3C16A].flags & 0x400 ? 0x0d : 0;
+            if (stru_3AA5E[word_3C16A].flags & 0x100) {
+                *(int *)&stru_3B202[word_3C046 - d].state[6] = 0x12;
             }
             stru_3B202[word_3C046 - d].objType = word_3C16A;
         }
@@ -472,13 +450,8 @@ seg000:0D02		    cmp	    word ptr es:[bx], 0CA01h  ; es:bx = 554:fffc
             stru_3B202[e].worldX = (long)stru_3B202[e].posX << 5;
             stru_3B202[e].worldY = (long)stru_3B202[e].posY << 5;
             *(int *)&stru_3B202[e].state[0] = -randomRange(0x4000);
-            c = stru_3AA5E[word_3C16A].flags;
-            if (c & 0x400) {
-                *(int *)&stru_3B202[e].state[6] = 8;
-            } else {
-                *(int *)&stru_3B202[e].state[6] = 0x0b;
-            }
-            if (c & 0x100) {
+            *(int *)&stru_3B202[e].state[6] = stru_3AA5E[word_3C16A].flags & 0x400 ? 8 : 0x0b;
+            if (stru_3AA5E[word_3C16A].flags & 0x100) {
                 *(int *)&stru_3B202[e].state[6] = 9;
             }
         }
@@ -486,17 +459,13 @@ seg000:0D02		    cmp	    word ptr es:[bx], 0CA01h  ; es:bx = 554:fffc
 
     if ((word_336E8 & 0x7f) == 0) {
         if ((stru_3AA5E[word_3C16A].flags & 0x800) == 0) {
-            if (word_336E8 & 0x80) {
-                e = word_3C046 - 1;
-            } else {
-                e = word_3C046 - 2;
-            }
+            e = word_336E8 & 0x80 ? word_3C046 - 1 : word_3C046 - 2;
             if ((stru_3B202[e].state[8] & 2) == 0) {
                 spawnEnemyAircraft(e, word_3C16A);
                 *(int *)&stru_3B202[e].state[8] = 0x207;
                 stru_3B202[e].alt = 1000;
                 *(int *)&stru_3B202[e].state[10] = 0xfa;
-                stru_3B202[e].worldY += (long)word_3AFA8 * 0x3000;
+                stru_3B202[e].worldY += word_3AFA8 * 0x3000;
             }
         }
         word_3C014 = word_3BFA0;
@@ -505,109 +474,93 @@ seg000:0D02		    cmp	    word ptr es:[bx], 0CA01h  ; es:bx = 554:fffc
     }
 
 skip_target_section:
-    if (word_38FEE >= 0x200 && word_3BEBE != var_547) {
+    if (word_38FEE < 0x200 || word_3BEBE == var_547) {
+        word_3BEBE = 0;
+        word_38FFC = 0xa0;
+        word_39200 = 0x800;
+        if (stru_3AA5E[word_3C16A].flags & 0x800) {
+            word_39200 = 0x400;
+        }
+        if (stru_3AA5E[word_3C16A].flags & 0x200) {
+            word_3BEBE = 0x80;
+            word_38FFC = 0x100;
+            word_39200 = 0x3c0;
+            if (var_547 == 0x80 && word_3AA5A > 0x50) {
+                if ((unsigned)(word_3BED0 - stru_3AA5E[word_3C16A].mapY) * word_3AFA8 >= 0x10 && (unsigned)(word_3BED0 - stru_3AA5E[word_3C16A].mapY) * word_3AFA8 <= 0x14) {
+                    if (abs(var_542 - ((1 - word_3AFA8) << 0xe)) < 0x2000) {
+                        word_38FDE = 1;
+                        makeSound(0x16, 2);
+                    }
+                }
+            }
+        }
+        if (gameData->unk4 == 1) {
+            word_38FFC += 0x100;
+            word_39200 += 0x200;
+        }
+        if (abs(word_3BEC0 - stru_3AA5E[word_3C16A].mapX) > (word_38FFC >> 5) ||
+                (abs(word_3BED0 - stru_3AA5E[word_3C16A].mapY) > (word_39200 >> 5))) {
+            word_3BEBE = 0;
+            word_33702 = 0;
+        } else {
+            word_33702 = 1;
+            if ((word_3AA5A <= 1) && ((word_336E8 & 7) == 0) && stru_3AA5E[word_3C16A].flags & 0x500
+                    && word_33714 != 0 && !(stru_3AA5E[word_3C16A].flags & 0x800)) {
+                word_336EC = 1;
+                word_33706 = 1;
+                if (word_33714++ == 1) {
+                    tempStrcpy(aSafeLanding);
+                    word_330B6 = 0;
+                    word_33712 = 0;
+                    sub_1DA5F(4);
+                }
+                if ((planeFlags & 0x6000) == 0x6000) {
+                    if (word_33714 > word_330C4) {
+                        finalizeMission(0);
+                    }
+                } else {
+                    if (word_33714 == 2) {
+                        word_33710++;
+                        appendMapEvent(10, word_3C16A);
+                    }
+                    if (word_33714 > word_330C4) {
+                        initWeaponLoadout();
+                        if (word_336E8 & 8) {
+                            tempStrcpy(aReadyForTakeof);
+                        } else {
+                            tempStrcpy(aWeaponsRepleni);
+                        }
+                    }
+                }
+            }
+        }
+end_landing_check:
+        if ((word_33706 == 0) && (word_330B8 == 0) && planeFlags & 0x6000) {
+            if (abs(word_3BEC0 - stru_3AA5E[word_3C16A].mapX) < 0x10 && abs(word_3BED0 - stru_3AA5E[word_3C16A].mapY) < 0x10) {
+                var_552 = word_3A944 = var_548 = 0;
+                dword_3B7DA = (long)stru_3AA5E[word_3C16A].mapX << 5;
+                dword_3B7F8 = (long)(0x8000 - stru_3AA5E[word_3C16A].mapY) << 5;
+            } else {
+                tempStrcpy(aAutomaticLandi);
+                word_33712 = 1;
+                d = word_330C4 * 2;
+                if (d > 0x0e) {
+                    d = 0x0e;
+                }
+                word_3A944 = 0x1518;
+                var_548 -= (var_548 - word_3BEBE) / d;
+                if (var_548 < word_3BEBE + 5) {
+                    var_548 = word_3BEBE + 5;
+                }
+                dword_3B7DA -= (dword_3B7DA - ((long)stru_3AA5E[word_3C16A].mapX << 5)) / (long)d;
+                dword_3B7F8 -= (dword_3B7F8 - ((long)(0x8000 - stru_3AA5E[word_3C16A].mapY) << 5)) / (long)d;
+            }
+        }
+    }
+    else {
         word_33706 = 0;
         word_33702 = 0;
-        goto skip_autopilot;
     }
-
-    word_3BEBE = 0;
-    word_38FFC = 0xa0;
-    word_39200 = 0x800;
-    if (stru_3AA5E[word_3C16A].flags & 0x800) {
-        word_39200 = 0x400;
-    }
-    if (stru_3AA5E[word_3C16A].flags & 0x200) {
-        word_3BEBE = 0x80;
-        word_38FFC = 0x100;
-        word_39200 = 0x3c0;
-        if (var_547 == 0x80 && word_3AA5A > 0x50) {
-            c = (unsigned)(word_3BED0 - stru_3AA5E[word_3C16A].mapY) * word_3AFA8;
-            if (c >= 0x10 && c < 0x15) {
-                b = abs(var_542 + (1 - word_3AFA8) * (int)0x4000);
-                if (b < 0x2000) {
-                    word_38FDE = 1;
-                    makeSound(0x16, 2);
-                }
-            }
-        }
-    }
-    if (gameData->unk4 == 1) {
-        var_727 += 1;
-        var_732 += 2;
-    }
-    b = abs(word_3BEC0 - stru_3AA5E[word_3C16A].mapX);
-    if (b > (word_38FFC >> 5) ||
-        (b = abs(word_3BED0 - stru_3AA5E[word_3C16A].mapY), b > (word_39200 >> 5))) {
-        word_3BEBE = 0;
-        word_33702 = 0;
-    } else {
-        word_33702 = 1;
-        if (word_3AA5A > 1) goto end_landing_check;
-        if ((word_336E8 & 7) != 0) goto end_landing_check;
-        c = stru_3AA5E[word_3C16A].flags;
-        if ((c & 0x500) == 0) goto end_landing_check;
-        if (word_33714 == 0) goto end_landing_check;
-        if (c & 0x800) goto end_landing_check;
-        word_336EC = 1;
-        word_33706 = 1;
-        b = word_33714;
-        word_33714++;
-        if (b == 1) {
-            tempStrcpy(aSafeLanding);
-            word_330B6 = 0;
-            word_33712 = 0;
-            sub_1DA5F(4);
-        }
-        if ((planeFlags & 0x6000) == 0x6000) {
-            if (word_33714 > word_330C4) {
-                finalizeMission(0);
-            }
-        } else {
-            if (word_33714 == 2) {
-                word_33710++;
-                appendMapEvent(10, (char)word_3C16A);
-            }
-            if (word_33714 > word_330C4) {
-                initWeaponLoadout();
-                if (word_336E8 & 8) {
-                    tempStrcpy(aReadyForTakeof);
-                } else {
-                    tempStrcpy(aWeaponsRepleni);
-                }
-            }
-        }
-    }
-end_landing_check:
-    if (word_33706 != 0) goto skip_autopilot;
-    if (word_330B8 != 0) goto skip_autopilot;
-    if ((planeFlags & 0x6000) == 0) goto skip_autopilot;
-
-    b = abs(word_3BEC0 - stru_3AA5E[word_3C16A].mapX);
-    if (b < 0x10) {
-        b = abs(word_3BED0 - stru_3AA5E[word_3C16A].mapY);
-        if (b < 0x10) {
-            var_548 = 0;
-            word_3A944 = 0;
-            var_552 = 0;
-            dword_3B7DA = (long)stru_3AA5E[word_3C16A].mapX << 5;
-            dword_3B7F8 = (long)(0x8000 - stru_3AA5E[word_3C16A].mapY) << 5;
-            goto skip_autopilot;
-        }
-    }
-    tempStrcpy(aAutomaticLandi);
-    word_33712 = 1;
-    d = word_330C4 * 2;
-    if (d > 0x0e) {
-        d = 0x0e;
-    }
-    word_3A944 = 0x1518;
-    var_548 -= (unsigned)(var_548 - word_3BEBE) / (unsigned)d;
-    if (var_548 < (unsigned)(word_3BEBE + 5)) {
-        var_548 = word_3BEBE + 5;
-    }
-    dword_3B7DA -= (dword_3B7DA - ((long)stru_3AA5E[word_3C16A].mapX << 5)) / (long)d;
-    dword_3B7F8 -= (dword_3B7F8 - ((long)(0x8000 - stru_3AA5E[word_3C16A].mapY) << 5)) / (long)d;
 
 skip_autopilot:
     TRACE(("updateFrame: skip_autopilot, w33702=%d var547=%d unk4=%d 3BF90=%d 33098=%d 3BE3C=%d 3AA5A=%d", word_33702, var_547, gameData->unk4, word_3BF90, word_33098, word_3BE3C, word_3AA5A));
@@ -640,11 +593,7 @@ skip_autopilot:
         }
     }
 
-    if ((stru_3AA5E[word_3C16A].flags & 0x200) == 0 || word_38FEE >= 0x500) {
-        word_3C0A0 = 0;
-    } else {
-        word_3C0A0 = (int)((long)((int)(char)word_3AFA8 << 8) / (long)word_330C4) + word_3C0A0 & 0xfff;
-    }
+    word_3C0A0 = (stru_3AA5E[word_3C16A].flags & 0x200 && word_38FEE < 0x500) ? (((word_3AFA8 << 8) / word_330C4) + word_3C0A0) & 0xfff : 0;
 
     word_336E8++;
     if (word_336E8 % word_330C4 == 0) {
@@ -661,27 +610,23 @@ skip_autopilot:
         }
     }
 
-    b = word_330C4 * 4;
-    word_33708++;
-    if (word_33708 >= (unsigned)b) {
+    if (++word_33708 >= word_330C4 * 4) {
         word_3C6AE = var_383 / word_330C4;
         var_383 -= (var_595 * 2 - 1) * word_330C4 * 2;
         if (var_383 < 4) {
             var_383 = 4;
         }
-        b = clampRange((int)((long)word_330C4 * 0x3c0 / (unsigned long)((unsigned)var_383 * (unsigned)word_3370A)), 1, 0xff);
-        var_383 = 0;
-        word_33708 = 0;
-        c = abs(word_330C4 * 4 - b);
-        if (c > 3) {
-            word_330C4 = (b + 2) >> 2;
+        b = clampRange(((word_330C4 * 0x3c0) / (var_383 * word_3370A)), 1, 0xff);
+        word_33708 = var_383 = 0;
+        if (abs(word_330C4 * 4 - b) > 3) {
+            word_330C4 = (int16)(b + 2) >> 2;
             recalcTimeScale();
         }
         word_3C09C = 0;
         for (d = 3; d < word_38FFA; d++) {
             if (*(int *)((char *)&stru_3AA5E[d] + 6 + 0x50) > 0xc0 &&
                 (stru_3AA5E[d].flags & 0x80) == 0) {
-                word_3C09C = 1;
+                word_3C09C++;
                 break;
             }
         }
