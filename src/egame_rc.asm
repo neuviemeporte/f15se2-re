@@ -57,6 +57,7 @@ PUBLIC byte_37C2D
 PUBLIC byte_37C2E
 PUBLIC byte_37C35
 PUBLIC byte_37C3A
+PUBLIC var_468
 PUBLIC byte_37EEE
 PUBLIC byte_37EEF
 PUBLIC byte_3C6A0
@@ -16466,6 +16467,8 @@ word_34250 dw 0
 word_34252 dw 0
 word_34254 dw 0
 word_34256 dw 0
+PUBLIC _word_34256
+_word_34256 equ word_34256
 byte_34258 db 0
     db 0
     db 0
@@ -26200,7 +26203,13 @@ byte_37C35 db 0
 word_37C36 dw 0
     db 4Bh
     db 0
-byte_37C3A db 0
+; var_468 (DGROUP 0x538a): speed/altitude tape scale scratch buffer.
+; byte_37C3A (the heading/compass tape buffer) was wrongly labelled here, 0xB0
+; bytes too early, so byte_37C3A+132 (the "000 045 090 135 180 225 270 315"
+; cardinal labels) read garbage and the compass rendered as solid blocks.
+; The label now sits at its correct offset 0x543a below. Data bytes unchanged.
+; egseg2's tape code (which wrote/read this scratch) now references var_468.
+var_468 db 0
     db 30h
     db 30h
     db 0
@@ -26376,7 +26385,7 @@ byte_37C3A db 0
     db 32h
     db 20h
     db 33h
-    db 20h
+byte_37C3A db 20h                ; DGROUP 0x543a: heading/compass tape buffer
     db 34h
     db 20h
     db 35h

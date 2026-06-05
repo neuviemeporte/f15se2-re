@@ -19,6 +19,7 @@ EXTRN byte_37C2D:byte
 EXTRN byte_37C2E:byte
 EXTRN byte_37C35:byte
 EXTRN byte_37C3A:byte
+EXTRN var_468:byte
 EXTRN byte_37EEE:byte
 EXTRN byte_37EEF:byte
 EXTRN byte_3C6A0:byte
@@ -347,8 +348,8 @@ loc_21a7_01a1:
     jmp loc_21a7_01a1
 loc_21a7_01c2:
     mov AL,byte ptr [DI+5433h]
-    mov [byte_37C3A],AL
-    mov BX,offset byte_37C3A
+    mov [var_468],AL
+    mov BX,offset var_468
     push DI
     call far ptr gfx_fillDirty
     pop DI
@@ -374,7 +375,7 @@ loc_21a7_01f9:
     mov [word_37B2E],AX
     cmp DI,0h
     jnz loc_21a7_0211
-    mov BX,offset byte_37C3A+4
+    mov BX,offset var_468+4
     jmp loc_21a7_021b
     db 90h
 loc_21a7_0211:
