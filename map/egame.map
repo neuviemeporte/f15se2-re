@@ -188,7 +188,7 @@ sinMul: seg000 NEAR d178-d18f Rd178-d18f complete
 cosMul: seg000 NEAR d190-d1a5 Rd190-d1a5 complete
 signOf: seg000 NEAR d1c8-d1e7 Rd1c8-d1e7 complete
 seedRng: seg000 NEAR d1e8-d1ff Rd1e8-d1ff complete
-randlmul: seg000 NEAR d200-d21d Rd200-d21d complete
+randomRange: seg000 NEAR d200-d21d Rd200-d21d complete
 readAxisInput: seg000 NEAR d21e-d25f Rd21e-d25f complete
 keyDispatch: seg000 NEAR d260-d9da Rd260-d2c9 Ud2ca-d2cb Rd2cc-d523 Ud524-d529 Rd52a-d5ee Ud5ef-d5f0 Rd5f1-d743 Ud744-d746 Rd747-d927 Ud928-d929 Rd92a-d9da
 selectMissile: seg000 NEAR d9db-da34 Rd9db-da34 complete
@@ -541,13 +541,13 @@ word_33700: Data1 VAR 0e50
 word_33702: Data1 VAR 0e52
 word_33704: Data1 VAR 0e54
 var_124: Data1 VAR 0e56
-var_125: Data1 VAR 0e58
+word_33708: Data1 VAR 0e58
 word_3370A: Data1 VAR 0e5a
 word_3370C: Data1 VAR 0e5c
 word_3370E: Data1 VAR 0e5e
 word_33710: Data1 VAR 0e60
 var_130: Data1 VAR 0e62
-var_131: Data1 VAR 0e64
+word_33714: Data1 VAR 0e64
 asc_33744: Data1 VAR 0e94
 word_3374A: Data1 VAR 0e9a
 var_134: Data1 VAR 1100
@@ -1143,12 +1143,12 @@ word_38FF6: Data1 VAR 6746
 word_38FF8: Data1 VAR 6748
 word_38FFA: Data1 VAR 674a
 var_726: Data1 VAR 674c
-var_727: Data1 VAR 674d
+word_38FFC: Data1 VAR 674d
 buf4_3dg: Data1 VAR 674e
 planeFlags: Data1 VAR 694e
 var_730: Data1 VAR 694f
 var_731: Data1 VAR 6950
-var_732: Data1 VAR 6951
+word_39200: Data1 VAR 6951
 buf3_3dg: Data1 VAR 6952
 word_39402: Data1 VAR 6b52
 word_39604: Data1 VAR 6d54
@@ -1368,7 +1368,7 @@ commData: Data1 VAR 9df6
 var_950: Data1 VAR 9df8
 var_951: Data1 VAR 9dfa
 word_3C6AC: Data1 VAR 9dfc
-var_953: Data1 VAR 9dfe
+word_3C6AE: Data1 VAR 9dfe
 var_954: Data1 VAR a000
 var_955: Data1 VAR a002
 gfxBufPtr: Data1 VAR a004
