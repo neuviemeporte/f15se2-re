@@ -134,7 +134,7 @@ int renderFrame() {
         word_3B4E4 = -word_380CA;
         break;
     case 0x84:
-        var_E = (word_336E8 - ((word_330C4  + 1) / 2) - 1) & 0xf;
+        var_E = (frameTick - ((word_330C4  + 1) / 2) - 1) & 0xf;
         word_3C5AA = stru_3A95A[var_E].heading;
         word_3BE94 = stru_3A95A[var_E].pitch;
         word_3B4E4 = stru_3A95A[var_E].roll;

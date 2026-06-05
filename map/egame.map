@@ -525,7 +525,7 @@ var_105: Data1 VAR 0d28
 var_106: Data1 VAR 0d2a
 var_107: Data1 VAR 0e34
 word_336E6: Data1 VAR 0e36
-word_336E8: Data1 VAR 0e38
+frameTick: Data1 VAR 0e38
 word_336EA: Data1 VAR 0e3a
 var_111: Data1 VAR 0e3c
 var_112: Data1 VAR 0e3e

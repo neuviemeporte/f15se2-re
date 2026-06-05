@@ -73,14 +73,14 @@ int drawCockpitHud(int arg_0) {
             var_10 = clampRange((((word_3C5A6 - word_3AA5A) * 2) / 5) + 0x1d, 0, 0x3d);
             if (var_10) drawViewportLine(0x48, 0x55 - var_10, 0x48, 0x55);
             drawViewportLine(0xf7,  0x38, 0xf7, clampRange(-((word_3C8B6 >> 4) - 0x38), 0x14, 0x55));
-            if ((planeFlags & 1) == 0 && (word_336E8 & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) {
+            if ((planeFlags & 1) == 0 && (frameTick & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) {
                 var_2 = (((stru_3AA5E[word_3C16A].flags & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
                 setDrawColor(0xf);
                 drawViewportLine(0xf2, var_2 - 2, 0xf4, var_2);
                 drawViewportLine(0xf2, var_2 + 2, 0xf4, var_2);
             }
             // stall warning display
-            if (word_3AA5A < word_3C5A6 && word_3BEBE != word_380CE && word_336E8 & 1) {
+            if (word_3AA5A < word_3C5A6 && word_3BEBE != word_380CE && frameTick & 1) {
                 draw2Strings(aStallWarning, 0x84, 0x1e, 0xf);
             }
             if (word_3C45C == 0 || word_3C45C == 2) {
@@ -417,8 +417,8 @@ void setDrawColor(int color) {
 // ==== seg000:0x9e5d ====
 void fillRectBoth(int x1, int y1, int x2, int y2) {
 #ifdef DEBUG
-    if (word_336E8 < 80)
-        TRACE_KEY(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", word_336E8, x1, y1, x2, y2, x2-x1+1, y2-y1+1, (int)off_38334[2], (int)off_38334[0x10]));
+    if (frameTick < 80)
+        TRACE_KEY(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", frameTick, x1, y1, x2, y2, x2-x1+1, y2-y1+1, (int)off_38334[2], (int)off_38334[0x10]));
 #endif
     fillSpanRect(off_38334, x1, y1, x2, y2);
     fillSpanRect(off_3834C, x1, y1, x2, y2);

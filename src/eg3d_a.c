@@ -32,9 +32,9 @@ void render3DView(int camX, int camY, int camZ, long arg_6, long arg_a, long arg
     updateTargetLock();
     TRACE(("121CA:4"));
 #if defined(DEBUG) && defined(DISABLE_3D)
-    /* rasterize3DWorld renders the 3D world objects and hangs in loc_0BE7 on certain
-       geometry. Skip ONLY this; the surrounding calls set up the gfx clip/
-       viewport and draw the HUD, which must still run. */
+    /* Legacy debug switch to skip the 3D world renderer. The hang it worked
+       around was an unrelocated INT 0 (divide-error) vector segment in
+       installDivZeroHandler; fixed in egseg1.asm (divZeroStub / SEG). */
 #else
     rasterize3DWorld();
 #endif

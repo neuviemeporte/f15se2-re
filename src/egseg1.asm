@@ -420,8 +420,25 @@ loc_00E7:
     RET
 projectVertexToScreen endp
 
-    db 055h, 08Bh, 0ECh, 083h, 046h, 002h, 003h, 08Ah, 0C4h, 08Ah, 0E2h, 08Ah, 0D6h, 0F7h, 0F9h, 099h
-    db 08Ah, 0D4h, 08Ah, 0E0h, 02Ah, 0C0h, 05Dh, 0CFh
+; Divide-error (INT 0) handler stub, reached only via the INT 0 vector installed
+; by installDivZeroHandler, reached when projectVertexToScreen's IDIV overflows
+; (vertex too close to the camera). It advances the saved return IP past the
+; 3-byte faulting IDIV (so it does not re-fault), then recomputes an approximate,
+; overflow-safe quotient and IRETs. Lives at seg001 offset 0x00FB.
+divZeroStub:
+    PUSH BP
+    MOV BP,SP
+    ADD WORD PTR [BP+2],3   ; skip the 3-byte faulting IDIV in the interrupted code
+    MOV AL,AH               ; -+ shift dividend DX:AX right one byte (~ /256)
+    MOV AH,DL               ;  |   so the retried quotient fits in 16 bits
+    MOV DL,DH               ; -+
+    IDIV CX                 ; retry the divide with the scaled-down dividend
+    CWD
+    MOV DL,AH               ; -+ shift quotient left one byte (x256); low 8 bits dropped
+    MOV AH,AL               ;  |
+    SUB AL,AL               ; -+
+    POP BP
+    IRET
 installDivZeroHandler proc near
 loc_0113:
     PUSH ES
@@ -433,7 +450,7 @@ loc_0113:
     MOV [ES:0h],AX
     MOV AX,[ES:2h]
     MOV [word_34152],AX
-    MOV AX,0F88h
+    MOV AX,SEG divZeroStub  ; seg001 frame; SEG emits a relocation so the loader
     MOV [ES:2h],AX
     POP ES
     RET
@@ -1283,6 +1300,7 @@ loc_087E:
     call far ptr gfx_resetBlitOffset
     RET
 sub_1FEFE endp
+
 
 projectSceneObject proc far
     PUSH BP
@@ -3496,7 +3514,7 @@ loc_1CB6:
     PUSH WORD PTR [ES:2h]
     LEA AX,[unk_34713]
     MOV [ES:0h],AX
-    MOV WORD PTR [ES:2h],0F88h
+    MOV WORD PTR [ES:2h],SEG divZeroStub
     PUSH DS
     POP ES
     JMP short loc_1D3E
@@ -3919,7 +3937,7 @@ loc_2028:
     PUSH WORD PTR [ES:2h]
     LEA AX,[unk_34A88]
     MOV [ES:0h],AX
-    MOV WORD PTR [ES:2h],0F88h
+    MOV WORD PTR [ES:2h],SEG divZeroStub
     PUSH DS
     POP ES
     JMP short loc_2097

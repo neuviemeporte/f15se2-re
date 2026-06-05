@@ -85,7 +85,7 @@ int main(void) {
         regs.h.al = 3;
         int86(IRQ_VIDEO, &regs, &regs);
     }
-    TRACE_KEY(("egame main: EXITING with code %d, frame=%d", exitCode, word_336E8));
+    TRACE_KEY(("egame main: EXITING with code %d, tick=%d", exitCode, frameTick));
     exit(exitCode);
 }
 
@@ -186,7 +186,7 @@ void updateFrame(void) {
         int s4 = *(int far *)((char far *)commData - 4);
         if (sig_was_ok && (unsigned)s4 != 0xca01) {
             sig_was_ok = 0;
-            TRACE_KEY(("SIG CORRUPTED at frame %d: commData-4(MCB)=%04x", word_336E8, s4));
+            TRACE_KEY(("SIG CORRUPTED at frame %d: commData-4(MCB)=%04x", frameTick, s4));
         }
     }
 #endif
@@ -334,7 +334,7 @@ void updateFrame(void) {
     word_3AF0C = word_3BEC0;
     word_3AFAA = word_3BED0;
 
-    if (word_3370C == word_336E8) {
+    if (word_3370C == frameTick) {
         if (word_336EA == 0) {
             keyValue = 0;
         }
@@ -343,12 +343,12 @@ void updateFrame(void) {
     if (word_336F0 != 0) {
         word_336F0--;
     }
-    if (word_336EE != 0 && word_336E8 == word_336EE) {
+    if (word_336EE != 0 && frameTick == word_336EE) {
         word_336EE = 0;
         sub_1DA5F(2);
     }
 
-    if ((word_336E8 & 7) != 0) goto skip_target_section;
+    if ((frameTick & 7) != 0) goto skip_target_section;
 
     word_33700 = word_3C16A;
     word_38FEE = 0x7fff;
@@ -370,7 +370,7 @@ void updateFrame(void) {
     }
 
     /* Magic signature check, only done when the plane is moving? */
-    if ((char)word_336E8 == 0 && word_336E8 != 0) {
+    if ((char)frameTick == 0 && frameTick != 0) {
         if (*((int32 HUGE*)commData - 1) != COMM_MCB_VALUE_MAGIC) {
             finalizeMission(1);
             exitCode = 0;
@@ -410,9 +410,9 @@ void updateFrame(void) {
         }
     }
 
-    if ((word_336E8 & 0x7f) == 0) {
+    if ((frameTick & 0x7f) == 0) {
         if ((stru_3AA5E[word_3C16A].flags & 0x800) == 0) {
-            e = word_336E8 & 0x80 ? word_3C046 - 1 : word_3C046 - 2;
+            e = frameTick & 0x80 ? word_3C046 - 1 : word_3C046 - 2;
             if ((stru_3B202[e].state[8] & 2) == 0) {
                 spawnEnemyAircraft(e, word_3C16A);
                 *(int *)&stru_3B202[e].state[8] = 0x207;
@@ -457,7 +457,7 @@ skip_target_section:
             word_33702 = 0;
         } else {
             word_33702 = 1;
-            if ((word_3AA5A <= 1) && ((word_336E8 & 7) == 0) && stru_3AA5E[word_3C16A].flags & 0x500
+            if ((word_3AA5A <= 1) && ((frameTick & 7) == 0) && stru_3AA5E[word_3C16A].flags & 0x500
                     && word_33714 != 0 && !(stru_3AA5E[word_3C16A].flags & 0x800)) {
                 word_336EC = 1;
                 word_33706 = 1;
@@ -478,7 +478,7 @@ skip_target_section:
                     }
                     if (word_33714 > word_330C4) {
                         initWeaponLoadout();
-                        if (word_336E8 & 8) {
+                        if (frameTick & 8) {
                             tempStrcpy(aReadyForTakeof);
                         } else {
                             tempStrcpy(aWeaponsRepleni);
@@ -521,7 +521,7 @@ skip_autopilot:
         if (var_547 == 0) {
             if ((gameData->unk4 != 0 || word_3BF90 > 4 || word_33098 == 0) &&
                 word_3BE3C == 0 && word_3AA5A > 0x32) {
-                TRACE_KEY(("DEATH: altitude-zero crash, frame=%d var547=%d 3AA5A=%d", word_336E8, var_547, word_3AA5A));
+                TRACE_KEY(("DEATH: altitude-zero crash, tick=%d var547=%d 3AA5A=%d", frameTick, var_547, word_3AA5A));
                 makeSound(0, 2);
                 setDrawColor(0);
                 fillRectBoth(0, 0, 0x13f, 199);
@@ -534,7 +534,7 @@ skip_autopilot:
     }
 
     if (byte_3995A != 0 && (keyValue & 0x80) == 0) {
-        TRACE_KEY(("DEATH-path collision: byte_3995A=%d unk4=%d var548=%d frame=%d", byte_3995A, gameData->unk4, var_548, word_336E8));
+        TRACE_KEY(("DEATH-path collision: byte_3995A=%d unk4=%d var548=%d tick=%d", byte_3995A, gameData->unk4, var_548, frameTick));
         if (gameData->unk4 != 0 && var_548 != 0) {
             makeSound(0, 2);
             gfx_waitRetrace();
@@ -548,8 +548,8 @@ skip_autopilot:
 
     word_3C0A0 = (stru_3AA5E[word_3C16A].flags & 0x200 && word_38FEE < 0x500) ? (((word_3AFA8 << 8) / word_330C4) + word_3C0A0) & 0xfff : 0;
 
-    word_336E8++;
-    if (word_336E8 % word_330C4 == 0) {
+    frameTick++;
+    if (frameTick % word_330C4 == 0) {
         word_38FE0++;
         if ((word_38FE0 & 0x1f) == 0) {
             appendMapEvent(9, 0);
@@ -634,10 +634,10 @@ void updateBulletsAndFire(void) {
             *((int16 *)((char *)&word_3C5B0 + p)) += *((int16 *)((char *)&word_3C5B6 + p));
         }
     }
-    if (!(word_336E8 & 1)) {
+    if (!(frameTick & 1)) {
         return;
     }
-    e = (word_336E8 >> 1) % word_3AFA4;
+    e = (frameTick >> 1) % word_3AFA4;
     a = readAxisInput(0);
     if (!a) goto no_fire;
     if (word_330B4 <= 0) goto no_fire;
@@ -677,8 +677,8 @@ int updateTracerParticles() {
             ((struct struc_9 *)stru_33402)[p].field_2 += ((struct struc_9 *)stru_33402)[p].field_4 >> 9;
             *(((char *)&((struct struc_9 *)stru_33402)[p].field_6) + 1) += 6;
         }
-        if (!((char)word_336E8 & 0x0f)) {
-            a = (word_336E8 >> 4) & 7;
+        if (!((char)frameTick & 0x0f)) {
+            a = (frameTick >> 4) & 7;
             ((struct struc_9 *)stru_33402)[a].field_0 = *(int16 *)((char *)stru_3AA5E + word_336F6 * 16);
             ((struct struc_9 *)stru_33402)[a].field_2 = *(int16 *)((char *)stru_3AA5E + word_336F6 * 16 + 2);
             ((struct struc_9 *)stru_33402)[a].field_4 = 0x80;
@@ -704,7 +704,7 @@ void initFrameRandom(void) {
 
     seedRng();
     clearStatusPanel();
-    word_336E8 = randomRange(0x1000) & 0x7ff8;
+    frameTick = randomRange(0x1000) & 0x7ff8;
     p = word_3B14C + word_3B15E;
     word_330BC = (gameData->theater == 6 ? 5 : 9) < randomRange(0x10);
     if (word_330BC && byte_32933) {
@@ -773,7 +773,7 @@ void drawWeaponSelectMarker(int weaponIdx) {
 
 // ==== seg000:0x1b37 routine_148 ====
 void finalizeMission(int outcome) {
-    TRACE_KEY(("DEATH/END finalizeMission: outcome=%d, word_3BE3C=%d, frame=%d", outcome, word_3BE3C, word_336E8));
+    TRACE_KEY(("DEATH/END finalizeMission: outcome=%d, word_3BE3C=%d, tick=%d", outcome, word_3BE3C, frameTick));
     if (word_3BE3C != 0 && outcome != 0) {
         return;
     }
@@ -805,7 +805,7 @@ void scheduleTimedEvent(int keyVal, int delay) {
         return;
     }
     keyValue = keyVal;
-    word_3370C = delay * word_330C4 + word_336E8;
+    word_3370C = delay * word_330C4 + frameTick;
 }
 
 // ==== seg000:0x1c21 routine_180 ====

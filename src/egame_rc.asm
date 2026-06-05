@@ -560,7 +560,7 @@ PUBLIC _word_38FF6
 PUBLIC _word_33710
 PUBLIC _stru_3A95A
 PUBLIC _word_336E6
-PUBLIC _word_336E8
+PUBLIC _frameTick
 PUBLIC _word_3C028
 PUBLIC _word_3C03A
 PUBLIC _word_330C4
@@ -3714,12 +3714,12 @@ loc_148D1:
     and AL,0FCh
     db 3Dh, 10h, 00h ; cmp AX,010h (force imm16 encoding)
     jnz loc_14958
-    mov AL,byte ptr [_word_336E8]
+    mov AL,byte ptr [_frameTick]
     and AL,03h
     cmp AL,01h
     jnz loc_14958
     mov word ptr [word_336F6],0FFFFh
-    mov AX,word ptr [_word_336E8]
+    mov AX,word ptr [_frameTick]
     shr AX,01h
     db 25h, 07h, 00h ; and AX,07h (force imm16 encoding)
     mov word ptr [BP-38h],AX
@@ -3798,7 +3798,7 @@ loc_149B1:
     mov AX,[word_380E0]
     mov word ptr [_buf3d3_1+98h],AX
 loc_149C0:
-    mov AX,word ptr [_word_336E8]
+    mov AX,word ptr [_frameTick]
     sub DX,DX
     mov CX,word ptr [_word_330C4]
     shl CX,01h
@@ -4563,7 +4563,7 @@ loc_150B8:
 loc_150D9:
     mov word ptr [_word_3C8B6],00h
 loc_150DF:
-    mov AX,word ptr [_word_336E8]
+    mov AX,word ptr [_frameTick]
     db 25h, 0Fh, 00h ; and AX,0Fh (force imm16 encoding)
     mov word ptr [BP-38h],AX
     mov SI,AX
@@ -4619,7 +4619,7 @@ loc_15173:
     dec AX
     mov word ptr [BP-38h],AX
 loc_1517A:
-    mov AX,word ptr [_word_336E8]
+    mov AX,word ptr [_frameTick]
     sub AX,word ptr [BP-38h]
     db 25h, 0Fh, 00h ; and AX,0Fh (force imm16 encoding)
     mov word ptr [BP-38h],AX
@@ -4910,7 +4910,7 @@ LAB_1000_61d0:
     test byte ptr [SI + offset _stru_3AA5E + 6],80h
     jnz LAB_1000_61b6
     mov AX,word ptr [BP + -0ah]
-    mov BX,word ptr [_word_336E8]
+    mov BX,word ptr [_frameTick]
     mov CL,0ah
     sar BX,CL
     imul BX
@@ -5348,18 +5348,18 @@ updateObjects proc near
     sub SP,40h
     push DI
     push SI
-    test byte ptr [_word_336E8],1h
+    test byte ptr [_frameTick],1h
     jnz LAB_1000_67dd
     cmp word ptr [word_336F6],-1h
     jnz LAB_1000_67dd
-    mov BX,word ptr [_word_336E8]
+    mov BX,word ptr [_frameTick]
     sar BX,1h
     and BX,7h
     mov CL,3h
     shl BX,CL
     mov word ptr [BX + offset stru_33402],0h
 LAB_1000_67dd:
-    mov BX,word ptr [_word_336E8]
+    mov BX,word ptr [_frameTick]
     sar BX,1h
     sar BX,1h
     and BX,3h
@@ -5684,7 +5684,7 @@ LAB_1000_6b3d:
     jc LAB_1000_6b4b
     jmp LAB_1000_6c6d
 LAB_1000_6b4b:
-    test byte ptr [_word_336E8],3h
+    test byte ptr [_frameTick],3h
     jz LAB_1000_6b55
     jmp LAB_1000_6c6d
 LAB_1000_6b55:
@@ -5712,7 +5712,7 @@ LAB_1000_6b73:
     jl LAB_1000_6b91
     jmp LAB_1000_6c6d
 LAB_1000_6b91:
-    mov AX,word ptr [_word_336E8]
+    mov AX,word ptr [_frameTick]
     sar AX,1h
     sar AX,1h
     db 25h, 03h, 00h ; and AX,3h (force imm16 encoding)
@@ -5873,7 +5873,7 @@ LAB_1000_6cf1:
     cmp SI,100h
     jnz LAB_1000_6d51
     mov word ptr [BP + -2h],6000h
-    mov AX,word ptr [_word_336E8]
+    mov AX,word ptr [_frameTick]
     mov CL,8h
     sar AX,CL
     db 25h, 08h, 00h ; and AX,8h (force imm16 encoding)
@@ -5894,7 +5894,7 @@ LAB_1000_6d51:
     cmp word ptr [BX + SI + offset word_33442 + 2],200h
     jnz LAB_1000_6d89
     mov word ptr [BP + -2h],0a000h
-    mov AX,word ptr [_word_336E8]
+    mov AX,word ptr [_frameTick]
     mov CL,8h
     sar AX,CL
     db 25h, 08h, 00h ; and AX,8h (force imm16 encoding)
@@ -6053,7 +6053,7 @@ LAB_1000_6efd:
 LAB_1000_6f11:
     mov AL,byte ptr [BP + -22h]
     and AL,3h
-    mov CL,byte ptr [_word_336E8]
+    mov CL,byte ptr [_frameTick]
     and CL,3h
     cmp AL,CL
     jnz LAB_1000_6f5f
@@ -6115,9 +6115,9 @@ LAB_1000_6f80:
     test byte ptr [SI + offset _stru_3B208 + 18],20h
     jz LAB_1000_701d
     mov word ptr [BP + -2ch],0fe00h
-    test byte ptr [_word_336E8],3h
+    test byte ptr [_frameTick],3h
     jnz LAB_1000_701d
-    mov AX,word ptr [_word_336E8]
+    mov AX,word ptr [_frameTick]
     sar AX,1h
     db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov word ptr [BP + -3ch],AX
@@ -6482,7 +6482,7 @@ LAB_1000_739e:
     shl CX,1h
     add AX,CX
     mov word ptr [BP + -24h],AX
-    mov AX,word ptr [_word_336E8]
+    mov AX,word ptr [_frameTick]
     cwd
     mov BX,word ptr [_word_330C4]
     mov CL,4h
@@ -7046,7 +7046,7 @@ LAB_1000_7ade:
     sar AX,CL
     cmp AX,word ptr [SI + offset _stru_335C4 + 6]
     jle LAB_1000_7b0e
-    test byte ptr [_word_336E8],1h
+    test byte ptr [_frameTick],1h
     jz LAB_1000_7b0e
     inc word ptr [SI + offset _stru_335C4 + 6]
     mov AX,word ptr [SI + offset _stru_335C4 + 8]
@@ -7192,7 +7192,7 @@ LAB_1000_7c59:
     jnz LAB_1000_7ce7
     cmp word ptr [BP + -22h],0h
     jg LAB_1000_7c96
-    test byte ptr [_word_336E8],2h
+    test byte ptr [_frameTick],2h
     jz LAB_1000_7c96
     mov AX,0ch
     push AX
@@ -7203,7 +7203,7 @@ LAB_1000_7c59:
 LAB_1000_7c96:
     cmp word ptr [BP + -22h],0h
     jz LAB_1000_7cb0
-    test byte ptr [_word_336E8],2h
+    test byte ptr [_frameTick],2h
     jnz LAB_1000_7cb0
     mov AX,0eh
     push AX
@@ -7212,7 +7212,7 @@ LAB_1000_7c96:
     call switchIndicatorColor
     add SP,4h
 LAB_1000_7cb0:
-    test byte ptr [_word_336E8],3h
+    test byte ptr [_frameTick],3h
     jnz LAB_1000_7ce7
     mov AX,18h
     imul word ptr [BP + -1ch]
@@ -7509,7 +7509,7 @@ LAB_1000_7f99:
     mov byte ptr [_var_315],0h
     mov AL,byte ptr [BP + -1ch]
     and AL,3h
-    mov CL,byte ptr [_word_336E8]
+    mov CL,byte ptr [_frameTick]
     and CL,3h
     cmp AL,CL
     jnz LAB_1000_7fc8
@@ -7781,7 +7781,7 @@ LAB_1000_823c:
     call tempStrcpy
     add SP,2h
     call bombTarget
-    mov AX,word ptr [_word_336E8]
+    mov AX,word ptr [_frameTick]
     sar AX,1h
     db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov word ptr [BP + -34h],AX
@@ -7810,7 +7810,7 @@ LAB_1000_82ac:
     push word ptr [BP + -14h]
     call destroyAircraft
     add SP,2h
-    mov AX,word ptr [_word_336E8]
+    mov AX,word ptr [_frameTick]
     sar AX,1h
     db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
     mov word ptr [BP + -34h],AX
@@ -7917,7 +7917,7 @@ LAB_1000_83ac:
     call readMapPixelColor
     add SP,4h
     mov word ptr [SI + offset _stru_335C4 + 20],AX
-    test byte ptr [_word_336E8],1h
+    test byte ptr [_frameTick],1h
     jz LAB_1000_83f4
     mov AX,18h
     imul word ptr [BP + -1ch]
@@ -8093,7 +8093,7 @@ LAB_1000_8585:
     jg LAB_1000_85a8
     jmp LAB_1000_7c47
 LAB_1000_85a8:
-    test byte ptr [_word_336E8],1h
+    test byte ptr [_frameTick],1h
     jnz LAB_1000_85b2
     jmp LAB_1000_7c47
 LAB_1000_85b2:
@@ -8188,7 +8188,7 @@ LAB_1000_8892:
     mov AX,80h
 LAB_1000_8895:
     or word ptr [BP + -2h],AX
-    mov AX,word ptr [_word_336E8]
+    mov AX,word ptr [_frameTick]
     add AX,word ptr [_word_330C4]
     mov word ptr [word_336EE],AX
     mov AX,2h
@@ -8969,7 +8969,7 @@ LAB_1000_aa45:
 LAB_1000_aa50:
     test byte ptr [_word_336F4],80h
     jnz LAB_1000_aa6b
-    test byte ptr [_word_336E8],0fh
+    test byte ptr [_frameTick],0fh
     jz LAB_1000_aa61
     jmp LAB_1000_abd4
 LAB_1000_aa61:
@@ -9789,7 +9789,7 @@ LAB_1000_b270:
     jnz LAB_1000_b279
     jmp LAB_1000_b5bb
 LAB_1000_b279:
-    mov AX,word ptr [_word_336E8]
+    mov AX,word ptr [_frameTick]
     sar AX,1h
     sub AX,word ptr [BP + -1eh]
     db 25h, 07h, 00h ; and AX,7h (force imm16 encoding)
@@ -10673,7 +10673,7 @@ LAB_1000_bb15:
     add SP,8h
     jmp LAB_1000_bb99
 LAB_1000_bb36:
-    test byte ptr [_word_336E8],1h
+    test byte ptr [_frameTick],1h
     jnz LAB_1000_bb99
     cmp word ptr [word_330BA],2h
     jge LAB_1000_bb59
@@ -10924,7 +10924,7 @@ LAB_1000_bceb:
     shl BX,CL
     cmp word ptr [BX + offset aFlogger + 16],-1h
     jnz LAB_1000_bde0
-    test byte ptr [_word_336E8],1h
+    test byte ptr [_frameTick],1h
     jnz LAB_1000_bde0
     mov AX,0fh
     push AX
@@ -10939,7 +10939,7 @@ LAB_1000_bceb:
 LAB_1000_bde0:
     cmp word ptr [_word_38FDC],0h
     jz LAB_1000_be32
-    test byte ptr [_word_336E8],1h
+    test byte ptr [_frameTick],1h
     jz LAB_1000_be32
     mov AX,24h
     imul word ptr [BP + -28h]
@@ -12167,7 +12167,7 @@ LAB_1000_d981:
 LAB_1000_d98d:
     cmp word ptr [_word_3AA5A],0fah
     jl LAB_1000_d99c
-    test byte ptr [_word_336E8],1h
+    test byte ptr [_frameTick],1h
     jz LAB_1000_d9a1
 LAB_1000_d99c:
     mov AX,2h
@@ -14584,7 +14584,7 @@ _word_33442 equ word_33442
     _stru_335C4 Projectile 0Ch dup(<0>)
 word_336E4 dw 4
 _word_336E6 dw 0FFFFh
-_word_336E8 dw 0
+_frameTick dw 0
 _word_336EA dw 0
 word_336EC dw 1
 PUBLIC _word_336EC

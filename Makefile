@@ -209,9 +209,10 @@ EGAME_VRF_TGTEP := [558bec83ec??c746]
 # egame.exe debug build
 EGAME_DEBUG := $(DEBUGDIR)/egame.exe
 # Disable /Zi globally for debug egame to keep _TEXT under 64K
-# DBG_DEFS: extra debug-only defines. /DDISABLE_3D skips the broken 3D world
-# renderer (see sub_155AB) so 2D/HUD/radar render continuously. Remove to re-enable 3D.
-DBG_DEFS ?= /DDISABLE_3D
+# DBG_DEFS: extra debug-only defines. /DDISABLE_3D skips the 3D world
+# renderer (see sub_155AB) so 2D/HUD/radar render continuously.
+# Set DBG_DEFS=/DDISABLE_3D on the make command line to disable 3D.
+DBG_DEFS ?=
 $(EGAME_DEBUG): MSC_CFLAGS := /Gs /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
 EGAME_DBG_OBJ := $(call asmobj,$(DEBUGDIR),$(EGAME_ASM)) $(call cobj,$(DEBUGDIR),$(EGAME_SRC)) $(DEBUGDIR)/dbglite.obj $(DEBUGDIR)/dbgio.obj
 $(EGAME_DBG_OBJ): $(EGAME_BASEHDR)

@@ -761,7 +761,15 @@ extern int16 word_33442;
 extern struct Projectile stru_335C4[];
 extern int16 word_336E4;
 extern int16 word_336E6;
-extern int16 word_336E8;
+/* Free-running per-frame counter (DGROUP 0x336E8). Incremented once per
+ * gameMainLoop iteration in updateFrame(). NOT the RNG seed (that's the C
+ * lib rand()/srand via seedRng) and NOT a wall-clock/ms counter (real time
+ * is tracked by var_383 + the BIOS timer, which recalibrate the rate
+ * word_330C4). initFrameRandom() seeds it with a RANDOM phase
+ * (randomRange(0x1000) & 0x7ff8), so its absolute value is meaningless --
+ * only deltas, deadlines (word_3370C = delay*word_330C4 + frameTick) and low
+ * bits (& 7/& 0xf, % word_330C4) matter, e.g. animation/AI phase staggering. */
+extern int16 frameTick;
 extern int16 word_336EA;
 extern int16 word_336EC;
 extern int16 word_336EE;

@@ -105,7 +105,7 @@ int drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param_
     char n;
 
     word_39402 = 1;
-    if (mode == 1 && word_38FDC == 0 && *(char*)&gfxModeUnset != 0 && (word_336E8 & 3) != 0) {
+    if (mode == 1 && word_38FDC == 0 && *(char*)&gfxModeUnset != 0 && (frameTick & 3) != 0) {
         return;
     }
 
