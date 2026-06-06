@@ -18,6 +18,12 @@ EXTRN _size3d3_3:word
 EXTRN _size3d3_4:word
 EXTRN _size3d3_5:word
 EXTRN _size3d3_6:word
+EXTRN _buf3d3_1:byte
+EXTRN _buf3d3_2:byte
+EXTRN _buf3d3_3:byte
+EXTRN _byte_3B7FC:byte
+EXTRN _byte_3BE3E:byte
+EXTRN _byte_3BE80:byte
 EXTRN _var_198:word
 EXTRN _var_200:word
 EXTRN _var_200_seg:word
@@ -2050,7 +2056,7 @@ loc_0DFC:
     MOV DI,BX
     SHL DI,1
 loc_0E07:
-    MOV CX,[BX-6AB4h]
+    MOV CX,[BX + offset _byte_3B7FC + 600h]
     MOV AX,[word_34276]
     IMUL CX
     SHL AX,1
@@ -2078,7 +2084,7 @@ loc_0E07:
     MOV DI,BX
     SHL DI,1
 loc_0E51:
-    MOV CX,[BX-6A30h]
+    MOV CX,[BX + offset _byte_3BE80]
     MOV AX,[word_3427C]
     IMUL CX
     SHL AX,1
@@ -2106,7 +2112,7 @@ loc_0E51:
     MOV DI,BX
     SHL DI,1
 loc_0E9B:
-    MOV CX,[BX-6A72h]
+    MOV CX,[BX + offset _byte_3BE3E]
     MOV AX,[word_34282]
     IMUL CX
     SHL AX,1
@@ -2131,15 +2137,15 @@ loc_0E9B:
     MOV SI,[_size3d3_3]
     DEC SI
 loc_0EDF:
-    MOV BX,[SI-79A2h]
+    MOV BX,[SI + offset _buf3d3_1]
     AND BX,0FFh
     SHL BX,1
     SHL BX,1
-    MOV DI,[SI-7802h]
+    MOV DI,[SI + offset _buf3d3_2]
     AND DI,0FFh
     SHL DI,1
     SHL DI,1
-    MOV BP,[SI-7748h]
+    MOV BP,[SI + offset _buf3d3_3]
     AND BP,0FFh
     SHL BP,1
     SHL BP,1
@@ -2209,26 +2215,26 @@ loc_0F92:
     JZ short loc_0F88
     MOV BP,[ES:SI-1h]
     AND BP,0FFh
-    MOV AL,[BP-7748h]
+    MOV AL,[BP + offset _buf3d3_3]
     SUB AH,AH
     SHL AX,1
     MOV BP,AX
-    MOV CX,[BP-6A30h]
+    MOV CX,[BP + offset _byte_3BE80]
     MOV BP,[ES:SI-1h]
     AND BP,0FFh
-    MOV AL,[BP-7802h]
+    MOV AL,[BP + offset _buf3d3_2]
     SUB AH,AH
     SHL AX,1
     MOV BP,AX
-    MOV AX,[BP-6A72h]
+    MOV AX,[BP + offset _byte_3BE3E]
     MOV [word_36B8B],AX
     MOV BP,[ES:SI-1h]
     AND BP,0FFh
-    MOV AL,[BP-79A2h]
+    MOV AL,[BP + offset _buf3d3_1]
     SUB AH,AH
     SHL AX,1
     MOV BP,AX
-    MOV BP,[BP-6AB4h]
+    MOV BP,[BP + offset _byte_3B7FC + 600h]
     PUSH SI
     MOV AX,[word_36B8B]
     IMUL WORD PTR [word_342A6]
@@ -3344,19 +3350,19 @@ loc_19E8:
     LODSB
     SUB AH,AH
     MOV DI,AX
-    MOV BL,[DI-7748h]
+    MOV BL,[DI + offset _buf3d3_3]
     SUB BH,BH
     SHL BX,1
-    MOV CX,[BX-6A30h]
-    MOV BL,[DI-7802h]
+    MOV CX,[BX + offset _byte_3BE80]
+    MOV BL,[DI + offset _buf3d3_2]
     SUB BH,BH
     SHL BX,1
-    MOV AX,[BX-6A72h]
+    MOV AX,[BX + offset _byte_3BE3E]
     MOV [word_36C33],AX
-    MOV BL,[DI-79A2h]
+    MOV BL,[DI + offset _buf3d3_1]
     SUB BH,BH
     SHL BX,1
-    MOV BX,[BX-6AB4h]
+    MOV BX,[BX + offset _byte_3B7FC + 600h]
     PUSH SI
     MOV AX,[word_36C33]
     IMUL WORD PTR [word_342A6]

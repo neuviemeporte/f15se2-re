@@ -4797,7 +4797,7 @@ LAB_1000_640b:
     mov SI,word ptr [BP + 4h]
     mov CL,4h
     shl SI,CL
-    add SI,81b4h
+    add SI,offset _stru_3AA5E + 6
     test byte ptr [SI],4h
     jnz LAB_1000_6423
     or byte ptr [SI],CL
@@ -4810,7 +4810,7 @@ LAB_1000_642e:
     mov SI,word ptr [BP + 4h]
     mov CL,4h
     shl SI,CL
-    add SI,81b6h
+    add SI,offset _stru_3AA5E + 8
     mov AX,word ptr [word_330BA]
     add AX,word ptr [word_330B8]
     mov CL,5h
@@ -5685,7 +5685,7 @@ LAB_1000_6eb9:
     mov AX,24h
     imul word ptr [BP + -22h]
     mov SI,AX
-    add SI,896ch
+    add SI,offset _stru_3B202 + 1Ah
     mov BX,word ptr [_var_667]
     mov CL,5h
     shl BX,CL
@@ -5839,7 +5839,7 @@ LAB_1000_705a:
     mov AX,24h
     imul word ptr [BP + -22h]
     mov SI,AX
-    add SI,8964h
+    add SI,offset _stru_3B202 + 12h
     mov AX,word ptr [BP + -2ch]
     shl AX,1h
     shl AX,1h
@@ -6000,7 +6000,7 @@ LAB_1000_7217:
     mov AX,24h
     imul word ptr [BP + -22h]
     mov SI,AX
-    add SI,896ah
+    add SI,offset _stru_3B202 + 18h
     test word ptr [SI],200h
     jz LAB_1000_723c
     or byte ptr [SI + 1h],10h
@@ -6051,7 +6051,7 @@ LAB_1000_72a8:
     mov AX,24h
     imul word ptr [BP + -22h]
     mov SI,AX
-    add SI,896ah
+    add SI,offset _stru_3B202 + 18h
     and word ptr [SI],1c1h
     cmp word ptr [BP + -22h],0h
     jnz LAB_1000_72c9
@@ -6587,7 +6587,7 @@ LAB_1000_7816:
     mov AX,24h
     imul word ptr [BP + 4h]
     mov SI,AX
-    add SI,8974h
+    add SI,offset _stru_3B202 + 22h
     mov AX,0ffh
     push AX
     sub AX,AX
