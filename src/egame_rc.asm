@@ -790,7 +790,6 @@ PUBLIC _var_544
 PUBLIC _var_545
 PUBLIC _var_550
 PUBLIC _cosine
-_cosine equ cosine
 PUBLIC _var_547
 PUBLIC _var_549
 PUBLIC _var_552
@@ -1607,6 +1606,7 @@ cosine proc near
     mov AX,BX
     ret
 cosine endp
+_cosine equ cosine
 ; ------------------------------seg000:0x3b95------------------------------
 ; ------------------------------seg000:0x3b96------------------------------
 sine proc near
