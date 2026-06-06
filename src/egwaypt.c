@@ -202,7 +202,7 @@ void computeSimObjectRange(int objIdx) {
 }
 
 // ==== seg000:0xc7ea ====
-void computeTargetBearing(int targetX, int targetY, int wantBearing) {
+int computeTargetBearing(int targetX, int targetY, int wantBearing) {
     int p;
     int a;
     p = word_3BEC0 - targetX;

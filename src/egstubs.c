@@ -596,7 +596,6 @@ int far sub_2044A() { return 0; }
 int far sub_20658() { return 0; }
 void __cdecl __far sub_21A7E() {}
 int updateObjects() { return 0; }
-int updateTargetLock() { return 0; }
 int updateThreatTargeting() { return 0; }
 int writeFileAtRaw(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) { return 0; }
 
