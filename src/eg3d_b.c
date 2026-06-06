@@ -47,7 +47,7 @@ outer_test:
         if (word_3C16C < 1) {
             return;
         }
-        if (sizes3dt[word_3C16C] == 0) {
+        if ((&word_33BA2)[word_3C16C] == 0) {
             continue;
         }
         k = scaleCoordToLod(word_3C16C, param_2);
@@ -110,7 +110,7 @@ outer_test:
                         *(int *)word_3C5A8,
                         *((int *)word_3C5A8 + 1),
                         *((int *)word_3C5A8 + 2));
-                    word_3C5A8 += 7;
+                    word_3C5A8++;
                     var_141++;
                 }
             } else {

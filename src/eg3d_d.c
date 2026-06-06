@@ -84,7 +84,7 @@ void load3D3(char *fileName) {
             fread(&sign3d3, 2, 1, fileHandle);
             fread(&size3d3_7, 2, 1, fileHandle);
             fread(word_33DD0, 2, size3d3_7, fileHandle);
-            fread(&size3d3_7, 2, 1, fileHandle);
+            fread(&size3d3_2, 2, 1, fileHandle);
             word_33DD0[size3d3_7] = size3d3_2;
             for (var_12 = 0; var_12 <= var_18; var_12++) {
                 var_A = word_33DD0[var_12+1] - word_33DD0[var_12];

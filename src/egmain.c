@@ -577,7 +577,7 @@ skip_autopilot:
         }
         word_3C09C = 0;
         for (d = 3; d < word_38FFA; d++) {
-            if (*(int *)((char *)&stru_3AA5E[d] + 6 + 0x50) > 0xc0 &&
+            if (stru_3AA5E[d].field_8 > 0xc0 &&
                 (stru_3AA5E[d].flags & 0x80) == 0) {
                 word_3C09C++;
                 break;

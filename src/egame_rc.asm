@@ -323,6 +323,7 @@ PUBLIC _byte_3B7F1
 PUBLIC _word_33B74
 PUBLIC _word_33B86
 PUBLIC _word_33B9C
+PUBLIC _word_33BA2
 PUBLIC _byte_3B4EC
 PUBLIC _var_197
 PUBLIC _var_198
@@ -14445,6 +14446,7 @@ _word_33B9C equ word_33B9C
     db 0
     db 20h
 word_33BA2 dw 1
+_word_33BA2 equ word_33BA2
     db 1
     db 0
     db 1
