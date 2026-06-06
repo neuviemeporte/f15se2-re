@@ -113,7 +113,7 @@ spawnEnemyAircraft: seg000 NEAR 783a-79ed R783a-79ed complete
 updateThreatTargeting: seg000 NEAR 79ee-85bd R79ee-85bd external
 samCanAcquireTarget: seg000 NEAR 85be-86f7 R85be-86f7 complete
 destroyAircraft: seg000 NEAR 86f8-87e9 R86f8-87e9 complete
-processTargetReached: seg000 NEAR 87ea-89a9 R87ea-89a9
+processTargetReached: seg000 NEAR 87ea-89a9 R87ea-89a9 complete
 markTargetReached: seg000 NEAR 89aa-8a43 R89aa-8a43 complete
 bombTarget: seg000 NEAR 8a44-8aa4 R8a44-8aa4 complete
 fireMissile: seg000 NEAR 8aa6-8df3 R8aa6-8df3 complete

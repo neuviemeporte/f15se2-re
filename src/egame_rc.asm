@@ -256,6 +256,9 @@ EXTRN _spawnEnemyAircraft:NEAR
 spawnEnemyAircraft equ _spawnEnemyAircraft
 EXTRN _setActivePanel:near
 setActivePanel equ _setActivePanel
+EXTRN _sub_187EA:NEAR
+sub_187EA equ _sub_187EA
+processTargetReached equ _sub_187EA
 
 PUBLIC _var_456
 PUBLIC _var_190
@@ -7384,194 +7387,7 @@ _updateThreatTargeting equ updateThreatTargeting
 ; destroyAircraft - replaced by C implementation
 ; ------------------------------seg000:0x87e8------------------------------
 ; ------------------------------seg000:0x87ea------------------------------
-processTargetReached proc near
-    push BP
-    mov BP,SP
-    sub SP,6h
-    push SI
-    push word ptr [BP + 4h]
-    call _placeString
-    add SP,2h
-    mov word ptr [BP + -2h],1h
-    mov BX,word ptr [BP + 4h]
-    mov CL,4h
-    shl BX,CL
-    mov SI,word ptr [BX + offset _stru_3AA5E + 6]
-    mov AX,SI
-    test AL,80h
-    jz LAB_1000_8813
-    jmp LAB_1000_895f
-LAB_1000_8813:
-    test AX,1000h
-    jz LAB_1000_881c
-    dec word ptr [word_3C048]
-LAB_1000_881c:
-    mov SI,word ptr [BP + 4h]
-    mov CL,4h
-    shl SI,CL
-    mov AX,word ptr [SI + offset _stru_3AA5E + 2]
-    sub DX,DX
-    sub AX,8000h
-    sbb DX,DX
-    neg AX
-    adc DX,0h
-    neg DX
-    mov CL,5h
-LAB_1000_8837:
-    shl AX,1h
-    rcl DX,1h
-    dec CL
-    jnz LAB_1000_8837
-    push DX
-    push AX
-    mov AX,word ptr [SI + offset _stru_3AA5E]
-    sub DX,DX
-    mov CL,5h
-LAB_1000_8849:
-    shl AX,1h
-    rcl DX,1h
-    dec CL
-    jnz LAB_1000_8849
-    push DX
-    push AX
-    call findNearestTileObject
-    add SP,8h
-    mov word ptr [word_39808],AX
-    cmp word ptr [BP + 4h],0h
-    jnz LAB_1000_8865
-    jmp LAB_1000_88f8
-LAB_1000_8865:
-    mov BX,word ptr [BP + 4h]
-    mov CL,4h
-    shl BX,CL
-    cmp word ptr [BX + offset _stru_3AA5E + 4],0h
-    jnz LAB_1000_8878
-    mov word ptr [BP + -2h],0ch
-LAB_1000_8878:
-    mov SI,word ptr [BP + 4h]
-    mov CL,4h
-    shl SI,CL
-    or byte ptr [SI + offset _stru_3AA5E + 6],80h
-    mov word ptr [SI + offset _stru_3AA5E + 4],0h
-    mov word ptr [BP + -4h],0h
-    jmp LAB_1000_88b2
-    db 90h
-LAB_1000_8892:
-    mov AX,80h
-LAB_1000_8895:
-    or word ptr [BP + -2h],AX
-    mov AX,word ptr [_frameTick]
-    add AX,word ptr [_word_330C4]
-    mov word ptr [word_336EE],AX
-    mov AX,2h
-    push AX
-    sub AX,AX
-    push AX
-    call makeSound
-    add SP,4h
-LAB_1000_88af:
-    inc word ptr [BP + -4h]
-LAB_1000_88b2:
-    cmp word ptr [BP + -4h],2h
-    jge LAB_1000_88de
-    mov AX,12h
-    imul word ptr [BP + -4h]
-    mov BX,AX
-    mov AX,word ptr [BP + 4h]
-    cmp word ptr [BX + offset word_3B146],AX
-    jnz LAB_1000_88af
-    push word ptr [BP + -4h]
-    call markTargetReached
-    add SP,2h
-    cmp word ptr [BP + -4h],0h
-    jz LAB_1000_8892
-    mov AX,40h
-    jmp LAB_1000_8895
-    db 90h
-LAB_1000_88de:
-    push word ptr [BP + 4h]
-    push word ptr [BP + -2h]
-    call appendMapEvent
-    add SP,4h
-    push word ptr [BP + 4h]
-    call getTargetSymbol
-    add SP,2h
-    mov word ptr [BP + -6h],AX
-    jmp LAB_1000_8941
-LAB_1000_88f8:
-    push word ptr [BP + 4h]
-    call isTargetOverWater
-    add SP,2h
-    or AX,AX
-    jz LAB_1000_890a
-    mov AL,byte ptr [_byte_3BEC4]
-    jmp LAB_1000_890d
-LAB_1000_890a:
-    mov AL,byte ptr [_byte_3C02A]
-LAB_1000_890d:
-    cbw
-    mov word ptr [BP + -6h],AX
-    mov BX,word ptr [word_39808]
-    mov SI,word ptr [BX]
-    cmp AX,SI
-    jz LAB_1000_892f
-    inc byte ptr [SI + offset _byte_3BED8]
-    mov BX,word ptr [word_39808]
-    push word ptr [BX]
-    mov AX,2h
-    push AX
-    call appendMapEvent
-    add SP,4h
-LAB_1000_892f:
-    or byte ptr [BP + -5h],1h
-    mov BX,word ptr [BP + 4h]
-    mov CL,4h
-    shl BX,CL
-    mov AX,word ptr [BP + -6h]
-    mov word ptr [BX + offset _stru_3AA5E + 12],AX
-LAB_1000_8941:
-    cmp word ptr [word_39808],0h
-    jz LAB_1000_895f
-    push word ptr [BP + -6h]
-    push word ptr [BP + -6h]
-    call shapeDataOffset
-    add SP,2h
-    push AX
-    push word ptr [word_39808]
-    call addTileEntry
-    add SP,6h
-LAB_1000_895f:
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [word_336F6],AX
-    mov AX,2h
-    push AX
-    push AX
-    call makeSound
-    add SP,4h
-    cmp word ptr [_word_3C45C],2h
-    jnz LAB_1000_8985
-    mov AX,word ptr [_word_336F4]
-    cmp word ptr [BP + 4h],AX
-    jnz LAB_1000_8985
-    mov word ptr [_word_39604],1h
-LAB_1000_8985:
-    cmp word ptr [_word_3C09A],0h
-    jnz LAB_1000_899a
-    push word ptr [_word_3BED0]
-    push word ptr [_word_3BEC0]
-    call _redrawTacMap
-    add SP,4h
-LAB_1000_899a:
-    cmp word ptr [word_330B8],2h
-    jge LAB_1000_89a4
-    call sub_166BE
-LAB_1000_89a4:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-    nop
-processTargetReached endp
+; _sub_187EA - now in C (egflight.c)
 ; ------------------------------seg000:0x8aa4------------------------------
     nop
 ; ------------------------------seg000:0x8aa6------------------------------
@@ -31089,7 +30905,9 @@ _word_3C042 equ word_3C042
 word_3C044 dw ?
 _word_3C044 equ word_3C044
 _word_3C046 dw ?
+PUBLIC _word_3C048
 word_3C048 dw ?
+_word_3C048 equ word_3C048
 _string_3C04A db 50h dup(?)
 _word_3C09A dw ?
 word_3C09C dw ?
