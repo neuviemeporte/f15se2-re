@@ -1799,6 +1799,25 @@ loc_13CC2:
     mov timerHandlerInstalled, 0
     retn
 _restoreTimerIrqHandler endp
+; ------------------------------seg000:0x3cd7------------------------------
+setTimerRateFromCalibration proc near
+    mov bx, word_378FD
+    mov word_378FA, bx
+    mov ax, word_378FF
+    xor dx, dx
+    div bx
+    mov word_378F4, ax
+    mov byte_378FC, 1
+    retn
+setTimerRateFromCalibration endp
+
+setTimerRateSingle proc near
+    mov word_378FA, 1
+    mov ax, word_378FF
+    mov word_378F4, ax
+    mov byte_378FC, 1
+    retn
+setTimerRateSingle endp
 ; ------------------------------seg000:0x3cd6------------------------------
 timerIrqAddr dd timerIsr
 
@@ -1828,7 +1847,7 @@ timerIsr proc far
 @@tisr_skip:
     cmp word_378FA, 1
     jz short @@tisr_nochain
-    call far ptr timerIsrPtr
+    call far ptr audio_jump_6c
 @@tisr_nochain:
     cmp word_378F2, 0
     jnz short @@tisr_chain
@@ -1862,6 +1881,68 @@ timerIsr endp
 timerIsrPtr dd 0
 ; ------------------------------seg000:0x3d6b------------------------------
 sub_13D6B proc near
+    dec byte_378FC
+    jnz loc_13DF0
+    mov byte_378FC, 14h
+    cmp byte_37903, 0
+    jz short loc_13DBE
+    xor bl, bl
+    xor cx, cx
+    mov es, cx
+    mov dx, es:463h
+    add dx, 6
+    cmp dx, 3BAh
+    jz short loc_13DA5
+loc_13D91:
+    cli
+    in al, dx
+    test al, 8
+    jnz short loc_13DBE
+    sti
+    and al, 1
+    cmp al, bl
+    jz short loc_13D91
+    xor bl, 1
+    loop loc_13D91
+    jmp short loc_13DB7
+loc_13DA5:
+    cli
+    in al, dx
+    test al, 80h
+    jz short loc_13DBE
+    sti
+    and al, 1
+    cmp al, bl
+    jz short loc_13D91
+    xor bl, 1
+    loop loc_13DA5
+loc_13DB7:
+    mov byte_37903, 0
+    jmp short loc_13DF0
+loc_13DBE:
+    mov dx, word_378F6
+    cmp dx, word_378F4
+    jz short loc_13DD0
+    mov dx, word_378F4
+    mov word_378F6, dx
+loc_13DD0:
+    mov al, 36h
+    out PORT_PIT_CNTRL, al
+    jmp short $+2
+loc_13DD6:
+    mov al, dl
+    out PORT_PIT_TIME0, al
+    jmp short $+2
+loc_13DDC:
+    mov al, dh
+    out PORT_PIT_TIME0, al
+    inc word_378F8
+    neg cx
+    mov word_37906, cx
+    jz short loc_13DF0
+    inc word_37904
+loc_13DF0:
+    sti
     retn
 sub_13D6B endp
 ; ------------------------------seg000:0x3df1------------------------------
@@ -1999,10 +2080,9 @@ _getTimeOfDay equ getTimeOfDay
     ret
 getTimeOfDay endp
 
-; Unreachable byte-copy of the original timer routine at seg000:0x3ee3; the live
-; version is the simplified advanceFrameTick below. The two jmps and the chkstk
-; call are PC-relative to the original seg000 layout, so they are kept as raw
-; bytes -- in our layout they point at unrelated code, but nothing reaches them.
+; Unreachable byte-copy of the original timer routine at seg000:0x3ee3. The live
+; advanceFrameTick below implements the same control flow using relocatable labels
+; instead of the original PC-relative jump bytes.
 deadFunction01 proc near
     inc word ptr [_byte_3790C-2]            ; word_3790A
     inc byte ptr [_byte_3790C]
@@ -2027,6 +2107,15 @@ deadFunction01 endp
 advanceFrameTick proc near
     inc word ptr [_byte_3790C-2]  ; word_3790A
     inc byte ptr [_byte_3790C]    ; frame tick counter
+    call far ptr gfx_unknown2e    ; MGRAPHIC slot 0x2e: VGA DAC fire animation
+    call far ptr audio_jump_6b
+    or ax, ax
+    jz short advanceFrameTick_ret
+    js short advanceFrameTick_single
+    jmp setTimerRateFromCalibration
+advanceFrameTick_single:
+    jmp setTimerRateSingle
+advanceFrameTick_ret:
     retn
 advanceFrameTick endp
 ; ------------------------------seg000:0x3f01------------------------------
@@ -13913,7 +14002,10 @@ audio_jump_6b proc near                     ; slot 0x6C
     db 0EAh ;jmp far ptr 0:0
     dd 0
 audio_jump_6b endp
-    db 0EAh, 4 dup(0)                       ; slot 0x6D
+audio_jump_6c proc near                     ; slot 0x6D
+    db 0EAh ;jmp far ptr 0:0
+    dd 0
+audio_jump_6c endp
 _audio_jump_6d proc near                    ; slot 0x6E
     db 0EAh ;jmp far ptr 0:0
     dd 0
