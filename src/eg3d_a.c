@@ -9,6 +9,8 @@
 #include <dos.h>
 #include <memory.h>
 
+int projectObjects(int, int, int, int, int, int, int, int);
+
 
 void sub_121C6() {
     load3DAll();
