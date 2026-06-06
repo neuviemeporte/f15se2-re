@@ -770,7 +770,6 @@ PUBLIC _var_667
 PUBLIC _var_670
 PUBLIC _word_336FA
 PUBLIC _word_3A946
-PUBLIC _word_3C09C
 PUBLIC _aFiredBy
 PUBLIC _word_3B204
 PUBLIC _word_3B206
@@ -30408,7 +30407,6 @@ word_3C048 dw ?
 _word_3C048 equ word_3C048
 _string_3C04A db 50h dup(?)
 _word_3C09A dw ?
-_word_3C09C label byte
 word_3C09C dw ?
 PUBLIC _word_3C09C
 _word_3C09C equ word_3C09C

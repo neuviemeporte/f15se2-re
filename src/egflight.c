@@ -182,9 +182,9 @@ void sub_17594(int param_1)
     i = *(int16 *)&aFlogger[var_667 * 32 + 16];
 
     m = computeThreatRangeBearing(
-        *(int16 *)((char *)&word_3B204 + param_1 * 0x24),
-        *(int16 *)((char *)&word_3B206 + param_1 * 0x24),
-        stru_3B208[param_1].field_0,
+        stru_3B202[param_1].posX,
+        stru_3B202[param_1].posY,
+        stru_3B202[param_1].alt,
         i,
         &d, &g);
 
@@ -192,66 +192,65 @@ void sub_17594(int param_1)
 
     if ((unsigned)m > (unsigned)g) {
         /* close enough — increment heat */
-        *(int16 *)&stru_3B208[param_1].field_10[18] += ((word_330BA + word_330B8) * 16 + 0x20) >> ((planeFlags & 0x10) != 0);
+        *(int16 *)&stru_3B202[param_1].state[18] += ((word_330BA + word_330B8) * 16 + 0x20) >> ((planeFlags & 0x10) != 0);
 
-        if (*(int16 *)&stru_3B208[param_1].field_10[18] > 0xc0) {
+        if (*(int16 *)&stru_3B202[param_1].state[18] > 0xc0) {
             word_3C09C++;
-            stru_3B208[param_1].field_10[9] |= 0x40;
+            stru_3B202[param_1].state[9] |= 0x40;
             sub_166BE();
 
             j = param_1 % (word_330B8 + 1);
 
-            if (word_330B8 * 2 < word_3A946) goto end_launch;
-            if (stru_335C4[j].field_E != 0) goto end_launch;
-            if ((unsigned)g <= 8) goto end_launch;
+            if (word_330B8 * 2 >= word_3A946 &&
+                stru_335C4[j].ttl == 0 &&
+                (unsigned)g > 8 &&
+                abs(d - *(int16 *)&stru_3B202[param_1].state[0]) < 0x1800) {
 
-            if (abs(d - *(int16 *)&stru_3B208[param_1].field_10[0]) >= 0x1800) goto end_launch;
+                i = *(int16 *)&stru_3B202[param_1].state[14];
 
-            i = *(int16 *)&stru_3B208[param_1].field_10[14];
+                if ((unsigned)g >> 1 < (unsigned)sams[i].field_8 &&
+                    (unsigned)(-(word_330B8 * 3 - 0x10)) < (unsigned)g &&
+                    (unsigned)g < 0x1000 &&
+                    i != 0) {
 
-            if (sams[i].field_8 <= (unsigned)g >> 1) goto end_launch;
+                    /* launch missile into slot j */
+                    stru_335C4[j].mapX = stru_3B202[param_1].posX;
+                    stru_335C4[j].mapY = stru_3B202[param_1].posY;
+                    stru_335C4[j].alt = stru_3B202[param_1].alt - 0x19;
+                    stru_335C4[j].field_6 = sams[i].field_A >> 6;
+                    stru_335C4[j].worldX = *(int16 *)&stru_3B202[param_1].state[0];
+                    stru_335C4[j].worldY = *(int16 *)&stru_3B202[param_1].state[2] - 0x400;
+                    stru_335C4[j].worldZ = *(int16 *)&stru_3B202[param_1].state[4];
 
-            if ((unsigned)(-(word_330B8 * 3 - 0x10)) >= (unsigned)g) goto end_launch;
-            if ((unsigned)g >= 0x1000) goto end_launch;
-            if (i == 0) goto end_launch;
+                    n = stru_335C4[j].field_6;
+                    stru_335C4[j].ttl = (int)(((long)sams[i].field_8 * 8L * (long)word_330C4) / (long)n);
 
-            /* launch missile into slot j */
-            stru_335C4[j].field_0 = *(int16 *)((char *)&stru_3B208[param_1] - 4);
-            stru_335C4[j].field_2 = *(int16 *)((char *)&stru_3B208[param_1] - 2);
-            stru_335C4[j].field_4 = stru_3B208[param_1].field_0 - 0x19;
-            stru_335C4[j].field_6 = sams[i].field_A >> 6;
-            stru_335C4[j].field_8 = *(int16 *)&stru_3B208[param_1].field_10[0];
-            stru_335C4[j].field_A = *(int16 *)&stru_3B208[param_1].field_10[2] - 0x400;
-            stru_335C4[j].field_C = *(int16 *)&stru_3B208[param_1].field_10[4];
+                    *(int16 *)&stru_335C4[j].state[0] = i;
+                    *(int16 *)&stru_335C4[j].state[6] = -param_1;
 
-            n = stru_335C4[j].field_6;
-            stru_335C4[j].field_E = (int)(((long)sams[i].field_8 * 8L * (long)word_330C4) / (long)n);
+                    strcpy((char *)strBuf, (char *)&sams[i].field_0);
+                    strcat((char *)strBuf, (char *)aFiredBy);
+                    strcat((char *)strBuf, (char *)(var_667 * 32 + 0x2c8));
+                    tempStrcpy((char *)strBuf);
 
-            *(int16 *)&stru_335C4[j].field_10[0] = i;
-            *(int16 *)&stru_335C4[j].field_10[6] = -param_1;
+                    makeSound(6, 2);
+                    commData->restartFlag++;
+                    scheduleEventCheck(param_1 + 0x20, 2);
 
-            strcpy((char *)strBuf, (char *)&sams[i].field_0);
-            strcat((char *)strBuf, (char *)aFiredBy);
-            strcat((char *)strBuf, (char *)(var_667 * 32 + 0x2c8));
-            tempStrcpy((char *)strBuf);
-
-            makeSound(6, 2);
-            commData->restartFlag++;
-            scheduleEventCheck(param_1 + 0x20, 2);
-
-            if (randomRange(4) == 0) {
-                stru_3B208[param_1].field_10[8] |= 4;
+                    if (randomRange(4) == 0) {
+                        stru_3B202[param_1].state[8] |= 4;
+                    }
+                }
             }
-        end_launch:;
         }
-        stru_3B208[param_1].field_10[8] |= 8;
+        stru_3B202[param_1].state[8] |= 8;
     } else {
-        stru_3B208[param_1].field_10[8] &= 0xf7;
-        *(int16 *)&stru_3B208[param_1].field_10[18] -= 0x20;
+        stru_3B202[param_1].state[8] &= 0xf7;
+        *(int16 *)&stru_3B202[param_1].state[18] -= 0x20;
     }
 
-    *(int16 *)&stru_3B208[param_1].field_10[18] =
-        clampRange(*(int16 *)&stru_3B208[param_1].field_10[18], 0, 0xff);
+    *(int16 *)&stru_3B202[param_1].state[18] =
+        clampRange(*(int16 *)&stru_3B202[param_1].state[18], 0, 0xff);
 }
 
 // ==== seg000:0x783A ====
