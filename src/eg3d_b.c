@@ -51,13 +51,13 @@ outer_test:
         if (sizes3dt[word_3C16C] == 0) {
             continue;
         }
-        *(long *)&k = sub_126B4(word_3C16C, param_2);
+        *(long *)&k = scaleCoordToLod(word_3C16C, param_2);
         h = (unsigned long)*(long *)&k >> 12;
         c = k & 0xfff;
-        *(long *)&k = sub_126B4(word_3C16C, param_4);
+        *(long *)&k = scaleCoordToLod(word_3C16C, param_4);
         i = (unsigned long)*(long *)&k >> 12;
         e = k & 0xfff;
-        *(long *)&k = sub_126B4(word_3C16C, param_6);
+        *(long *)&k = scaleCoordToLod(word_3C16C, param_6);
         if (j != 0) {
             continue;
         }
@@ -100,7 +100,7 @@ outer_test:
                 var_658 = e - (a << 12) - 0x800;
             }
 do_process:
-            sub_13A90(var_657, var_658, var_659);
+            setViewPosition(var_657, var_658, var_659);
             l = process3dg(word_3C16C, h + p, i + a);
             if (l == -1) {
                 goto next_iter;
@@ -111,7 +111,7 @@ do_process:
                     FP_OFF(var_200) = buf3d3[*((unsigned char *)word_3C5A8 + 6)] + 0;
                     FP_SEG(var_200) = 0x228d;
                     var_141 = 0x400;
-                    sub_20104(FP_OFF(var_200), FP_SEG(var_200), 0, 0, 0,
+                    projectSceneObject(FP_OFF(var_200), FP_SEG(var_200), 0, 0, 0,
                         *(int *)word_3C5A8,
                         *((int *)word_3C5A8 + 1),
                         *((int *)word_3C5A8 + 2));
@@ -125,7 +125,7 @@ do_process:
                 word_3C5A8 = matrix3dt_2[word_3C16C][l];
                 for (d = 0; (unsigned int)d < matrix3dt[word_3C16C + 3][l + 3]; d++) {
                     if (*((unsigned char *)word_3C5A8 + 6) & 0x80) {
-                        FP_OFF(var_200) = sub_13266(word_3C16C, d, h + p, i + a) + 0;
+                        FP_OFF(var_200) = lookupTileEntry(word_3C16C, d, h + p, i + a) + 0;
                         FP_SEG(var_200) = 0x228d;
                         if (FP_OFF(var_200) == 0 && FP_SEG(var_200) == 0x228d) {
                             FP_OFF(var_200) = buf3d3[*((unsigned char *)word_3C5A8 + 6) & 0x7f] + 0;
@@ -135,7 +135,7 @@ do_process:
                         FP_OFF(var_200) = buf3d3[*((unsigned char *)word_3C5A8 + 6)] + 0;
                         FP_SEG(var_200) = 0x228d;
                     }
-                    sub_20104(FP_OFF(var_200), FP_SEG(var_200), 0, 0, 0,
+                    projectSceneObject(FP_OFF(var_200), FP_SEG(var_200), 0, 0, 0,
                         *(int *)word_3C5A8,
                         *((int *)word_3C5A8 + 1),
                         *((int *)word_3C5A8 + 2));
