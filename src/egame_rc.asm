@@ -27895,11 +27895,11 @@ word_38A7A dw 0
 ; ==============================================================================
 ; --- Symbolic labels for code references ---
 ORG 00178h
-_var_47 EQU word_32A28
+_var_47 EQU _waypoints + 6
 ORG 0017Eh
-_var_48 EQU word_32A2E
+_var_48 EQU _waypoints + 0Ch
 ORG 00180h
-_var_49 EQU word_32A30
+_var_49 EQU _waypoints + 0Eh
 ORG 00A1Eh
 _var_83 EQU word_332CE
 ORG 01100h
