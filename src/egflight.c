@@ -314,7 +314,7 @@ void fireMissile()
     if (word_3BE3C != 0) return;
 
     b = missleSpec[missileSpecIndex].weaponIdx;
-    p = *(int16 *)&missiles[b].field_A[2];
+    p = missiles[b].field_16;
 
     if (missleSpec[missileSpecIndex].ammo == 0) {
         strcpy(strBuf, missiles[b].field_0);
