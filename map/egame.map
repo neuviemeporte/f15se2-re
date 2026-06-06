@@ -43,7 +43,7 @@ callLoad3DAll: seg000 NEAR 21c6-21c9 R21c6-21c9 complete
 render3DView: seg000 NEAR 21ca-2277 R21ca-2277 complete
 waitFrameSync: seg000 NEAR 2278-2299 R2278-2299 complete
 copySomeMem: seg000 NEAR 229a-22b7 R229a-22b7 complete
-projectObjects: seg000 NEAR 22b8-26b3 R22b8-26b3
+projectObjects: seg000 NEAR 22b8-26b3 R22b8-26b3 complete
 scaleCoordToLod: seg000 NEAR 26b4-273d R26b4-271d U271e-271f R2720-273d complete
 process3dg: seg000 NEAR 273e-2873 R273e-2848 U2849-284a R284b-2873 complete
 load3DAll: seg000 NEAR 2874-2897 R2874-2897 complete
