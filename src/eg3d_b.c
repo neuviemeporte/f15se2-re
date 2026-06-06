@@ -97,7 +97,7 @@ outer_test:
             if (f >= 4 || word_38FDC >= 2) {
                 var_141 = (word_38FDC == 2) ? 0 : ((unsigned char)word_3C16C << 8);
                 word_3C5A8 = matrix3dt_2[word_3C16C][l];
-                for (d = 0; (unsigned int)d < matrix3dt[word_3C16C + 3][l + 3]; d++) {
+                for (d = 0; (unsigned int)d < matrix3dt[word_3C16C][l]; d++) {
                     if (*((unsigned char *)word_3C5A8 + 6) & 0x80) {
                         var_200 = byte_228D0 + lookupTileEntry(word_3C16C, d, h + p, i + a);
                         if (var_200 == (char far *)byte_228D0) {

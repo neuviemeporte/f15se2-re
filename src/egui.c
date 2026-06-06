@@ -84,15 +84,15 @@ int drawTacticalMap(char page)
         }
     }
     for (f = 0; f < 12; f++) {
-        if (*(int16 *)&stru_335C4[f].state[4] != 0) {
+        if (stru_335C4[f].ttl != 0) {
             projectMapPoint(stru_335C4[f].mapX, stru_335C4[f].mapY);
             if (word_3C016 != -1) {
-                if (sams[*(int16 *)&stru_335C4[f].state[6]].field_C <= 0) {
+                if (sams[*(int16 *)&stru_335C4[f].state[0]].field_C <= 0) {
                     setDrawColor(0x0c);
                 } else {
                     setDrawColor(0x0e);
                 }
-                if (sams[*(int16 *)&stru_335C4[f].state[6]].field_C == 3) {
+                if (sams[*(int16 *)&stru_335C4[f].state[0]].field_C == 3) {
                     setDrawColor(*(char *)&gfxModeUnset != 0 ? 8 : 0x0d);
                 }
                 if (!(stru_335C4[f].alt & 1)) {
