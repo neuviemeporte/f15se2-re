@@ -196,7 +196,8 @@ struct MapTarget {
     uint16 mapY;        // +0x02  map Y coord (worldY = mapY << 5)
     int16 field_4;
     int16 flags;        // +0x06  0x100 air / 0x200 ground / 0x8 ...
-    int32 field_8;
+    int16 field_8;      // +0x08
+    int16 field_A;      // +0x0A  threat-site countdown timer
     int16 field_C;
     int16 field_E;
 };
