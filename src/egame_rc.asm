@@ -26,7 +26,9 @@ PUBLIC _var_597
 PUBLIC _aAutomaticLandi
 PUBLIC _aSafeLanding
 PUBLIC _aWeaponsRepleni
-PUBLIC _updateThreatSites
+PUBLIC _fireGroundThreat
+PUBLIC _restoreScopePanel
+PUBLIC _captureScopePanel
 PUBLIC _updateThreatTargeting
 PUBLIC _aReadyForTakeof
 PUBLIC _var_660
@@ -739,6 +741,12 @@ PUBLIC _aAutopilot
 PUBLIC _word_38FEA
 PUBLIC _word_3BE92
 PUBLIC _word_336F8
+PUBLIC _word_336E4
+PUBLIC _word_3C03E
+PUBLIC _word_3BF3C
+PUBLIC _word_3BF3E
+PUBLIC _word_3BE7E
+PUBLIC _word_3C6AA
 PUBLIC _word_3B158
 PUBLIC _word_3BE96
 PUBLIC _word_3C16A
@@ -4139,195 +4147,7 @@ drawVectorShape equ _drawVectorShape
 waitForKeyPress equ _waitForKeyPress
 ; ------------------------------seg000:0x6171------------------------------
 ; ------------------------------seg000:0x6172------------------------------
-updateThreatSites proc near
-    push BP
-    mov BP,SP
-    sub SP,0ch
-    push DI
-    push SI
-    cmp word ptr [word_336F8],0h
-    jz LAB_1000_618a
-    mov AX,word ptr [word_336E4]
-    cmp word ptr [word_3C03E],AX
-    jz LAB_1000_61ae
-LAB_1000_618a:
-    cmp word ptr [_word_330C2],0h
-    jz LAB_1000_61ae
-    cmp word ptr [word_336F8],0h
-    jnz LAB_1000_61ae
-    cmp word ptr [_word_3C09A],0h
-    jnz LAB_1000_61ae
-    call restoreScopePanel
-    mov word ptr [word_3BF3C],0h
-    mov word ptr [word_3BF3E],100h
-LAB_1000_61ae:
-    mov word ptr [BP + -0ah],0h
-    jmp LAB_1000_61c5
-    db 90h
-LAB_1000_61b6:
-    mov BX,word ptr [BP + -0ah]
-    mov CL,4h
-    shl BX,CL
-    and byte ptr [BX + offset _stru_3AA5E + 6],0fdh
-LAB_1000_61c2:
-    inc word ptr [BP + -0ah]
-LAB_1000_61c5:
-    mov AX,word ptr [_word_38FFA]
-    cmp word ptr [BP + -0ah],AX
-    jl LAB_1000_61d0
-    jmp LAB_1000_627c
-LAB_1000_61d0:
-    mov SI,word ptr [BP + -0ah]
-    mov CL,4h
-    shl SI,CL
-    cmp word ptr [SI + offset _stru_3AA5E + 4],0h
-    jz LAB_1000_61b6
-    test byte ptr [SI + offset _stru_3AA5E + 6],80h
-    jnz LAB_1000_61b6
-    mov AX,word ptr [BP + -0ah]
-    mov BX,word ptr [_frameTick]
-    mov CL,0ah
-    sar BX,CL
-    imul BX
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    add AX,CX
-    and AL,7h
-    cmp AL,7h
-    jbe LAB_1000_6211
-    cmp word ptr [SI + offset _stru_3AA5E + 8],0h
-    jnz LAB_1000_6211
-    test word ptr [SI + offset _stru_3AA5E + 6],100h
-    jz LAB_1000_61b6
-LAB_1000_6211:
-    mov SI,word ptr [BP + -0ah]
-    mov CL,4h
-    shl SI,CL
-    dec word ptr [SI + offset _stru_3AA5E + 10]
-    cmp word ptr [SI + offset _stru_3AA5E + 10],0h
-    jg LAB_1000_6249
-    mov AX,word ptr [BP + -0ah]
-    cwd
-    sub AX,DX
-    sar AX,1h
-    mov CX,AX
-    mov AH,byte ptr [_word_330C4]
-    sub AL,AL
-    cwd
-    mov BX,word ptr [SI + offset _stru_3AA5E + 8]
-    mov DI,CX
-    mov CL,3h
-    sar BX,CL
-    add BX,20h
-    idiv BX
-    add AX,DI
-    mov word ptr [SI + offset _stru_3AA5E + 10],AX
-LAB_1000_6249:
-    mov BX,word ptr [BP + -0ah]
-    mov CL,4h
-    shl BX,CL
-    cmp word ptr [BX + offset _stru_3AA5E + 10],4h
-    jz LAB_1000_625a
-    jmp LAB_1000_61c2
-LAB_1000_625a:
-    cmp word ptr [word_336F8],0h
-    jl LAB_1000_6264
-    jmp LAB_1000_61c2
-LAB_1000_6264:
-    push word ptr [BP + -0ah]
-    call fireGroundThreat
-    add SP,2h
-    mov BX,word ptr [BP + -0ah]
-    mov CL,4h
-    shl BX,CL
-    or byte ptr [BX + offset _stru_3AA5E + 6],2h
-    jmp LAB_1000_61c2
-LAB_1000_627c:
-    les BX,dword ptr [_commData]
-    cmp word ptr ES:[BX + 78h],0h
-    jnz LAB_1000_628d
-    mov word ptr [word_38F72],0h
-LAB_1000_628d:
-    cmp word ptr [_word_3C09A],0h
-    jz LAB_1000_6297
-    jmp LAB_1000_633c
-LAB_1000_6297:
-    cmp word ptr [word_336F8],0h
-    jg LAB_1000_62a1
-    jmp LAB_1000_633c
-LAB_1000_62a1:
-    cmp word ptr [_word_330C2],0h
-    jnz LAB_1000_62ab
-    jmp LAB_1000_633c
-LAB_1000_62ab:
-    cmp word ptr [word_3BE7E],1h
-    jg LAB_1000_62b5
-    jmp LAB_1000_633c
-LAB_1000_62b5:
-    cmp word ptr [_word_38FDC],0h
-    jz LAB_1000_62fc
-    cmp word ptr ES:[BX + 78h],0h
-    jz LAB_1000_62fc
-    call captureScopePanel
-    mov AX,word ptr [_word_330C4]
-    cwd
-    push DX
-    push AX
-    mov AX,word ptr [word_3BE7E]
-    cwd
-    push DX
-    push AX
-    push word ptr [_word_330C4]
-    mov AX,1h
-    push AX
-    mov AX,word ptr [_word_330C4]
-    sub AX,word ptr [word_336F8]
-    push AX
-    call _clampRange
-    add SP,6h
-    cwd
-    push DX
-    push AX
-    call __aNlmul
-    push DX
-    push AX
-    call __aNldiv
-    mov CL,6h
-    shl AX,CL
-    mov word ptr [BP + -4h],AX
-    jmp LAB_1000_630c
-LAB_1000_62fc:
-    mov AX,word ptr [word_3BE7E]
-    mov CL,6h
-    shl AX,CL
-    mov word ptr [BP + -4h],AX
-    mov word ptr [word_3BE7E],0h
-LAB_1000_630c:
-    cmp word ptr [word_3BE96],0h
-    jl LAB_1000_633c
-    mov SI,word ptr [word_3BE96]
-    mov CL,4h
-    shl SI,CL
-    push word ptr [word_3BF3E]
-    push word ptr [word_3BF3C]
-    push word ptr [word_3C6AA]
-    push word ptr [word_38F72]
-    push word ptr [BP + -4h]
-    push word ptr [SI + offset _stru_3AA5E + 2]
-    push word ptr [SI + offset _stru_3AA5E]
-    call drawMapRangeArc
-    add SP,0eh
-LAB_1000_633c:
-    dec word ptr [word_336F8]
-    pop SI
-    pop DI
-    mov SP,BP
-    pop BP
-    ret
-updateThreatSites endp
-_updateThreatSites equ updateThreatSites
+; updateThreatSites - moved to eghud.c
 ; ------------------------------seg000:0x6345------------------------------
 ; ------------------------------seg000:0x6346------------------------------
 fireGroundThreat proc near
@@ -4616,6 +4436,7 @@ LAB_1000_6607:
     ret
     nop
 fireGroundThreat endp
+_fireGroundThreat equ fireGroundThreat
 ; ------------------------------seg000:0x67b4------------------------------
 updateObjects proc near
     push BP
@@ -7988,6 +7809,7 @@ restoreScopePanel proc near
     ret
     nop
 restoreScopePanel endp
+_restoreScopePanel equ restoreScopePanel
 ; ------------------------------seg000:0xa9bb------------------------------
 ; ------------------------------seg000:0xa9bc------------------------------
 captureScopePanel proc near
@@ -8019,6 +7841,7 @@ LAB_1000_a9de:
     add SP,10h
     ret
 captureScopePanel endp
+_captureScopePanel equ captureScopePanel
 ; ------------------------------seg000:0xa9f7------------------------------
 ; ------------------------------seg000:0xa9f8------------------------------
 updateTargetLock proc near
@@ -13674,6 +13497,7 @@ _word_33442 equ word_33442
     db 0FFh
     _stru_335C4 Projectile 0Ch dup(<0>)
 word_336E4 dw 4
+_word_336E4 equ word_336E4
 _word_336E6 dw 0FFFFh
 _frameTick dw 0
 _word_336EA dw 0
@@ -30761,6 +30585,7 @@ word_3BE3C dw ?
 _word_3BE3C equ word_3BE3C
 _byte_3BE3E db 40h dup(?)
 word_3BE7E dw ?
+_word_3BE7E equ word_3BE7E
 _byte_3BE80 db 10h dup(?)
 _keyValue dw ?
 _word_3BE92 dw ?
@@ -30825,7 +30650,9 @@ word_3BED6 dw ?
 _word_3BED6 equ word_3BED6
 _byte_3BED8 db 64h dup(?)
 word_3BF3C dw ?
+_word_3BF3C equ word_3BF3C
 word_3BF3E dw ?
+_word_3BF3E equ word_3BF3E
 _tempString db 50h dup(?)
 word_3BF90 dw ?
 _word_3BF90 equ word_3BF90
@@ -30899,6 +30726,7 @@ _word_3C03A dw ?
     db ?
     db ?
 word_3C03E dw ?
+_word_3C03E equ word_3C03E
 _word_3C040 dw ?
 word_3C042 dw ?
 _word_3C042 equ word_3C042
@@ -31187,6 +31015,7 @@ _word_3C6A2 equ word_3C6A2
 _word_3C6A4 dw ?
 _commData dd ?
 word_3C6AA dw ?
+_word_3C6AA equ word_3C6AA
 _word_3C6AC dw ?
 word_3C6AE dw ?
 PUBLIC _word_3C6AE

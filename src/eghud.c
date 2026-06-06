@@ -408,6 +408,6 @@ loop:
     var_383 = p;
 }
 
-// TODO: updateThreatSites (seg000:6172-6345) - unimplemented
-// Once implemented, try merging egame1g.c + egame2d.c (if register spill doesn't affect codegen)
+// updateThreatSites (seg000:0x6172) lives in eghud_g.c (/Gs without /Zi)
+// because its loop block scheduling only matches when compiled without /Zi.
 
