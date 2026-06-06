@@ -29,7 +29,7 @@ void fireGroundThreat(int param_1)
     int o;
 
     k = stru_3AA5E[param_1].field_4;
-    o = computeThreatRangeBearing(stru_3AA5E[param_1].field_0, stru_3AA5E[param_1].field_2, 0, k, p, a);
+    o = computeThreatRangeBearing(stru_3AA5E[param_1].mapX, stru_3AA5E[param_1].mapY, 0, k, p, a);
     word_336FA = 0;
     if (o > 0) {
         j = o;
@@ -52,8 +52,8 @@ void fireGroundThreat(int param_1)
             word_3BF3E = (p[0] >> 8) + 0x20;
         }
         word_38F72 = word_336FA;
-        if (!(*(uint8 *)&stru_3AA5E[param_1].field_6 & 4)) {
-            *(uint8 *)&stru_3AA5E[param_1].field_6 |= 4;
+        if (!(*(uint8 *)&stru_3AA5E[param_1].flags & 4)) {
+            *(uint8 *)&stru_3AA5E[param_1].flags |= 4;
         }
     }
     if (o > a[0]) {
@@ -61,7 +61,7 @@ void fireGroundThreat(int param_1)
         if (*(int16 *)&stru_3AA5E[param_1].field_8 > 255) {
             *(int16 *)&stru_3AA5E[param_1].field_8 = 255;
         }
-        if (!(stru_3AA5E[param_1].field_6 & 0x100) && word_333DA == 0 &&
+        if (!(stru_3AA5E[param_1].flags & 0x100) && word_333DA == 0 &&
             *(int16 *)&stru_3AA5E[param_1].field_8 > 0x7f) {
             sub_166BE();
         }
@@ -77,30 +77,30 @@ void fireGroundThreat(int param_1)
         } else {
             l = 0;
         }
-        if (stru_335C4[l].field_E != 0) goto end_fire;
+        if (stru_335C4[l].ttl != 0) goto end_fire;
         if (sams[k].field_8 <= (unsigned)a[0]) goto end_fire;
 
-        stru_335C4[l].field_0 = stru_3AA5E[param_1].field_0 + 8;
-        stru_335C4[l].field_2 = stru_3AA5E[param_1].field_2;
-        stru_335C4[l].field_4 = 0;
+        stru_335C4[l].mapX = stru_3AA5E[param_1].mapX + 8;
+        stru_335C4[l].mapY = stru_3AA5E[param_1].mapY;
+        stru_335C4[l].alt = 0;
         stru_335C4[l].field_6 = 1;
-        stru_335C4[l].field_8 = p[0];
-        stru_335C4[l].field_A = 0x4000;
-        stru_335C4[l].field_E = (int)((((long)sams[k].field_8 << 3) * (long)word_330C4) / (long)(sams[k].field_A >> 6));
-        *(int16 *)&stru_335C4[l].field_10[0] = k;
-        *(int16 *)&stru_335C4[l].field_10[6] = param_1;
+        stru_335C4[l].worldX = p[0];
+        stru_335C4[l].worldY = 0x4000;
+        stru_335C4[l].ttl = (int)((((long)sams[k].field_8 << 3) * (long)word_330C4) / (long)(sams[k].field_A >> 6));
+        *(int16 *)&stru_335C4[l].state[0] = k;
+        *(int16 *)&stru_335C4[l].state[6] = param_1;
 
         placeString(param_1);
         strcat((char *)strBuf, (char *)aFiring);
         strcat((char *)strBuf, (char *)&sams[k]);
         tempStrcpy((char *)strBuf);
         makeSound(6, 2);
-        sub_11BC3(param_1 + 0x40, 2);
+        scheduleEventCheck(param_1 + 0x40, 2);
         commData->restartFlag++;
 end_fire:
-        *(uint8 *)&stru_3AA5E[param_1].field_6 |= 0x10;
+        *(uint8 *)&stru_3AA5E[param_1].flags |= 0x10;
     } else {
-        *(uint8 *)&stru_3AA5E[param_1].field_6 &= 0xEF;
+        *(uint8 *)&stru_3AA5E[param_1].flags &= 0xEF;
         *(int16 *)&stru_3AA5E[param_1].field_8 -= 0x10;
         if (*(int16 *)&stru_3AA5E[param_1].field_8 < 0) {
             *(int16 *)&stru_3AA5E[param_1].field_8 = 0;
