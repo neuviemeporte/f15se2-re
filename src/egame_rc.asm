@@ -9285,7 +9285,7 @@ LAB_1000_b749:
     shl BX,1h
     shl BX,1h
     mov AX,1ah
-    imul word ptr [BX + offset _missileSpecIndex]
+    imul word ptr [BX + offset _missleSpec]
     mov BX,AX
     mov AX,word ptr [BX + offset _missiles + 22]
     mov word ptr [BP + -1ah],AX
@@ -9326,7 +9326,7 @@ LAB_1000_b7c2:
     mov BX,word ptr [_missileSpecIndex]
     shl BX,1h
     shl BX,1h
-    push word ptr [BX + offset _missileSpecIndex]
+    push word ptr [BX + offset _missleSpec]
     call lookupTerrainModifier
     add SP,4h
     or AX,AX
@@ -9353,7 +9353,7 @@ LAB_1000_b811:
     mov BX,word ptr [_missileSpecIndex]
     shl BX,1h
     shl BX,1h
-    cmp word ptr [BX + offset _missileSpecIndex + 2],0h
+    cmp word ptr [BX + offset _missleSpec + 2],0h
     jnz LAB_1000_b823
     jmp LAB_1000_b8b9
 LAB_1000_b823:
@@ -9767,11 +9767,11 @@ LAB_1000_bc14:
     mov CL,2h
     shl SI,CL
     mov AX,1ah
-    imul word ptr [SI + offset _missileSpecIndex]
+    imul word ptr [SI + offset _missleSpec]
     mov BX,AX
     mov AX,word ptr [BX + offset _missiles + 22]
     mov word ptr [BP + -1ah],AX
-    cmp word ptr [SI + offset _missileSpecIndex + 2],0h
+    cmp word ptr [SI + offset _missleSpec + 2],0h
     jz LAB_1000_bcb8
     mov AX,12h
     imul word ptr [BP + -1ah]
@@ -10020,7 +10020,7 @@ LAB_1000_beb0:
     shl BX,1h
     shl BX,1h
     mov AX,1ah
-    imul word ptr [BX + offset _missileSpecIndex]
+    imul word ptr [BX + offset _missleSpec]
     mov BX,AX
     mov AX,word ptr [BX + offset _missiles + 22]
     mov word ptr [BP + -10h],AX
