@@ -16194,7 +16194,6 @@ byte_34196 db 3
 _byte_34197 db 6
 word_34198 dw 0
 byte_3419A db 0
-_byte_3419A equ byte_3419A
     db 0
 byte_3419C db 0
 _byte_3419C equ byte_3419C
@@ -16203,6 +16202,7 @@ _word_3419C equ byte_3419C
     db 2
 byte_3419F db 3
 _byte_3419F equ byte_3419F
+_byte_3419A equ byte_3419F
     db 4
     db 5
     db 6
@@ -27197,11 +27197,12 @@ _word_380D0 dw 0
     db 0
     db 0
     db 0
-_word_380D8 dw 0
+var_549_stor dw 0
 byte_380DA db 0
     db 0
     db 1
 byte_380DD db 0
+_word_380D8 equ byte_380DD
     db 0
     db 0
 word_380E0 dw 0
@@ -29081,7 +29082,7 @@ _var_547 EQU _word_380CE
 ORG 05820h
 _var_548 EQU _word_380D0
 ORG 05828h
-_var_549 EQU _word_380D8
+_var_549 EQU var_549_stor
 ORG 0582Ah
 _var_550 EQU byte_380DA
 ORG 05830h

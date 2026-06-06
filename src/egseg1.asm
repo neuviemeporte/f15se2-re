@@ -11,7 +11,7 @@ EXTRN gfx_setPageDirect:far
 EXTRN lookupSineFar:far
 EXTRN lookupCosineFar:far
 EXTRN _byte_34197:byte
-EXTRN _byte_3419A:byte
+EXTRN _var_190:byte
 EXTRN _byte_37C24:byte
 EXTRN _byte_3850E:byte
 EXTRN _size3d3_3:word
@@ -371,8 +371,20 @@ loc_0025:
     RETF
 drawPolygonOutline endp
 
-    db 000h, 08Bh, 0DCh, 056h, 057h, 036h, 08Bh, 05Fh, 002h, 0D1h, 0E3h, 0D1h, 0E3h, 0E8h, 003h, 000h
-    db 05Fh, 05Eh, 0C3h
+    db 0                            ; padding
+projectVertexToScreenThunk proc near
+    MOV BX,SP
+    PUSH SI
+    PUSH DI
+    MOV BX,SS:[BX+2]                ; arg1 = vertex index (above near return addr)
+    SHL BX,1
+    SHL BX,1
+    CALL loc_0078
+    POP DI
+    POP SI
+    RET
+projectVertexToScreenThunk endp
+
 projectVertexToScreen proc near
 loc_0078:
     MOV CX,[BX+1DD6h]
@@ -478,8 +490,21 @@ loc_0137:
     RET
 installDivZeroVector endp
 
-    db 055h, 08Bh, 0ECh, 056h, 057h, 006h, 08Bh, 07Eh, 006h, 0E8h, 005h, 000h, 007h, 05Fh, 05Eh, 05Dh
-    db 0C3h
+clipLineSegmentThunk proc near
+    PUSH BP
+    MOV BP,SP
+    PUSH SI
+    PUSH DI
+    PUSH ES
+    MOV DI,[BP+6h]
+    CALL loc_015D
+    POP ES
+    POP DI
+    POP SI
+    POP BP
+    RET
+clipLineSegmentThunk endp
+
 clipLineSegment proc near
 loc_015D:
     MOV AX,[DI]
@@ -1010,8 +1035,22 @@ loc_05BB:
     MOV SI,DX
     POP DI
     RET
-    db 000h, 055h, 08Bh, 0ECh, 056h, 057h, 08Bh, 076h, 004h, 08Bh, 046h, 006h, 08Eh, 0C0h, 08Bh, 07Eh
-    db 008h, 08Bh, 05Eh, 00Ah, 0E8h, 004h, 000h, 05Fh, 05Eh, 05Dh, 0C3h
+    db 0                            ; padding
+sub_1FE5CThunk:
+    PUSH BP
+    MOV BP,SP
+    PUSH SI
+    PUSH DI
+    MOV SI,[BP+4h]
+    MOV AX,[BP+6h]
+    MOV ES,AX
+    MOV DI,[BP+8h]
+    MOV BX,[BP+0Ah]
+    CALL loc_05DC
+    POP DI
+    POP SI
+    POP BP
+    RET
 sub_1FE5C proc near
 loc_05DC:
     MOV [word_34190],BX
@@ -1508,7 +1547,8 @@ loc_0A31:
     RET
 skipDisplayListByLod endp
 
-    db 0C4h, 036h, 08Ch, 019h
+sub_202B2:
+    LES SI,DWORD PTR [_var_200]     ; far entry: load model far ptr, fall through into sub_202B6
 sub_202B6 proc near
 loc_0A36:
     db 026h
@@ -1543,7 +1583,18 @@ advanceModelPointerLod proc far
     RETF
 advanceModelPointerLod endp
 
-    db 055h, 056h, 057h, 0C4h, 036h, 08Ch, 019h, 0E8h, 00Eh, 000h, 05Fh, 05Eh, 05Dh, 0C3h
+insertSortedObjectThunk proc near
+    PUSH BP
+    PUSH SI
+    PUSH DI
+    LES SI,DWORD PTR [_var_200]
+    CALL loc_0A80
+    POP DI
+    POP SI
+    POP BP
+    RET
+insertSortedObjectThunk endp
+
 sub_202F6 proc far
     PUSH BP
     PUSH SI
@@ -1715,7 +1766,18 @@ loc_0BBB:
     RET
 renderSortedList endp
 
-    db 055h, 056h, 057h, 0C4h, 036h, 08Ch, 019h, 0E8h, 021h, 000h, 05Fh, 05Eh, 05Dh, 0C3h
+processSceneObjectThunk proc near
+    PUSH BP
+    PUSH SI
+    PUSH DI
+    LES SI,DWORD PTR [_var_200]
+    CALL loc_0BE7
+    POP DI
+    POP SI
+    POP BP
+    RET
+processSceneObjectThunk endp
+
 sub_2044A proc far
     PUSH BP
     PUSH SI
@@ -1758,7 +1820,7 @@ loc_0C0B:
     SHL AH,1
     ADD AH,80h
 loc_0C16:
-    MOV [_byte_3419A],AH
+    MOV [_var_190],AH
     MOV AL,[ES:SI]
     AND AL,3Fh
     CMP AL,3Eh
@@ -1963,8 +2025,19 @@ sub_20658 proc far
     RETF
 sub_20658 endp
 
-    db 055h, 056h, 057h, 0C4h, 036h, 08Ch, 019h, 0E8h, 004h, 003h, 089h, 036h, 08Ch, 019h, 05Fh, 05Eh
-    db 05Dh, 0C3h
+transformVertexListThunk proc near
+    PUSH BP
+    PUSH SI
+    PUSH DI
+    LES SI,DWORD PTR [_var_200]
+    CALL loc_10F0
+    MOV [_var_200],SI
+    POP DI
+    POP SI
+    POP BP
+    RET
+transformVertexListThunk endp
+
 transformModelVertices proc near
 loc_0DF4:
     CMP WORD PTR [_size3d3_3],BYTE PTR +0x0
@@ -2532,8 +2605,21 @@ buildRotationMatrixFar proc far
     RETF
 buildRotationMatrixFar endp
 
-    db 055h, 056h, 057h, 0BFh, 0D8h, 019h, 08Bh, 00Eh, 096h, 019h, 08Bh, 036h, 098h, 019h, 08Bh, 02Eh
-    db 09Ah, 019h, 0E8h, 020h, 001h, 05Fh, 05Eh, 05Dh, 0C3h
+buildOrientationFromAngles proc near
+    PUSH BP
+    PUSH SI
+    PUSH DI
+    MOV DI,19D8h
+    MOV CX,[word_34246]
+    MOV SI,[word_34248]
+    MOV BP,[word_3424A]
+    CALL loc_147B
+    POP DI
+    POP SI
+    POP BP
+    RET
+buildOrientationFromAngles endp
+
 buildRotationMatrix proc near
 loc_135F:
     MOV BX,CX
@@ -3072,7 +3158,7 @@ loc_1828:
     SUB AH,AH
     MOV DI,AX
     MOV AH,[DI+18ECh]
-    ADD AH,[_byte_3419A]
+    ADD AH,[_var_190]
     call far ptr gfx_setPageDirect
     MOV CX,[BX+8h]
     MOV DX,[BX+0Ch]
@@ -3116,7 +3202,7 @@ loc_1874:
 loc_1890:
     MOV DI,BX
     MOV AH,[DI+18ECh]
-    ADD AH,[_byte_3419A]
+    ADD AH,[_var_190]
     call far ptr gfx_setPageDirect
     CALL loc_1EA0
     MOV ES,[_var_200_seg]
@@ -3238,7 +3324,7 @@ loc_198A:
     SUB AH,AH
     MOV DI,AX
     MOV AH,[DI+18ECh]
-    ADD AH,[_byte_3419A]
+    ADD AH,[_var_190]
     call far ptr gfx_setPageDirect
     CALL loc_0113
     SUB BX,BX

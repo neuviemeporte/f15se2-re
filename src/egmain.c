@@ -901,7 +901,7 @@ void findWaypointFeatures() {
     int a;
     int p;
 
-    a = var_143;
+    a = size3d3;
     for (p = 0; p < 2; p++) {
         if (word_3B14A[p * 9] >> 8 != 0) {
             word_39808 = findNearestTileObject(
