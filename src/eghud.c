@@ -30,8 +30,67 @@ void applyRotationDelta(int param_1, int param_2) {
     memcpy(unk_3806E, unk_380B6, 0x12);
 }
 
+// ==== seg000:0x5237 ====
+void computeHudAttitude(void)
+{
+    int p;
+
+    var_544 = valueToAngle(-var_528);
+    p = cosine(var_544);
+    if (p != 0) {
+        if (abs(var_525) < 0x5a81) {
+            var_542 = valueToAngle(abs((int)signedRatio16(var_525, p)));
+        } else {
+            var_542 = complementAngle(abs((int)signedRatio16(var_529, p)));
+        }
+        if (var_525 <= 0 && var_529 < 0) {
+            var_543 += 0x80;
+        }
+        if (var_525 > 0 && var_529 < 0) {
+            var_542 = 0x8000 - var_542;
+        }
+        if (var_525 < 0 && var_529 > 0) {
+            var_542 = -var_542;
+        }
+        if (abs(var_526) < 0x5a81) {
+            var_545 = valueToAngle(abs((int)signedRatio16(var_526, p)));
+        } else {
+            var_545 = complementAngle(abs((int)signedRatio16(var_527, p)));
+        }
+        if (var_526 <= 0 && var_527 < 0) {
+            *((char *)&var_545 + 1) += 0x80;
+        }
+        if (var_526 > 0 && var_527 < 0) {
+            var_545 = 0x8000 - var_545;
+        }
+        if (var_526 < 0 && var_527 > 0) {
+            var_545 = -var_545;
+        }
+    } else {
+        var_545 = 0;
+        var_542 = valueToAngle(var_524);
+        if (var_526 <= 0 && var_527 < 0) {
+            var_543 += 0x80;
+        }
+        if (var_526 > 0 && var_527 < 0) {
+            var_542 = 0x8000 - var_542;
+        }
+        if (var_526 < 0 && var_527 > 0) {
+            var_542 = -var_542;
+        }
+    }
+    if (var_544 > 0x38e3 && var_544 < 0x4001) {
+        *(char *)&word_380D8 = 1;
+    }
+    if (var_544 < (int16)0xc71d && var_544 > (int16)0xbfff) {
+        *(char *)&word_380D8 = 1;
+    }
+    if (var_550 != 0 && var_545 == 0) {
+        *(char *)&word_380D8 = 1;
+    }
+}
+
 // ==== seg000:0x5411 ====
-// TODO: computeHudAttitude (seg000:5237-5410) - unimplemented
 
 void rebuildOrientation() {
     buildRotationMatrixFar(unk_3806E, var_542, var_544, var_545);

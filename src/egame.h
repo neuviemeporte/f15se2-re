@@ -226,7 +226,7 @@ int otherKeyDispatch();
 // ==== seg000:0x51f9 ====
 void applyRotationDelta(int param_1, int param_2);
 // ==== seg000:0x5237 ====
-int computeHudAttitude();
+void computeHudAttitude(void);
 // ==== seg000:0x5411 ====
 void rebuildOrientation();
 // ==== seg000:0x543b ====
@@ -1313,9 +1313,17 @@ extern int16 word_383D8;
 extern int16 word_383DA;
 extern uint8 byte_383E4;
 extern int16 byte_383E5;
+extern int16 var_524;
+extern int16 var_525;
+extern int16 var_526;
+extern int16 var_527;
+extern int16 var_528;
+extern int16 var_529;
 extern int16 var_542;
+extern char var_543;
 extern int16 var_544;
 extern int16 var_545;
+extern char var_550;
 extern int16 var_547;
 extern uint16 var_548;
 extern int16 var_549;

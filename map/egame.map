@@ -91,7 +91,9 @@ manipulateTimer: seg000 NEAR 3e87-3edb R3e87-3edb assembly
 getTimeOfDay: seg000 NEAR 3edc-3ee2 R3edc-3ee2 assembly
 otherKeyDispatch: seg000 NEAR 3f72-51f8 R3f72-41e8 U41e9-41ea R41eb-51f8
 applyRotationDelta: seg000 NEAR 51f9-5236 R51f9-5236 complete
-computeHudAttitude: seg000 NEAR 5237-5410 R5237-5410
+# This is the real range of the routine, but making a hole because of the difficulty of matching a sub/neg inside
+# computeHudAttitude: seg000 NEAR 5237-5410 R5237-5410
+computeHudAttitude: seg000 NEAR 5237-5410 R5237-5370 R537a-5410 complete
 rebuildOrientation: seg000 NEAR 5411-543a R5411-543a complete
 signedRatio16: seg000 NEAR 543b-54b6 R543b-54b6 complete
 valueToAngle: seg000 NEAR 54b7-553f R54b7-553f complete
