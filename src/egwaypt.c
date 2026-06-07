@@ -190,13 +190,15 @@ int findWaypointEntry(int mapX, int mapY)
 }
 
 // ==== seg000:0xc7a2 ====
-int computeMapTargetRange(int targetIdx) {
-    return computeTargetBearing(stru_3AA5E[targetIdx].mapX, stru_3AA5E[targetIdx].mapY, 1);
+void computeMapTargetRange(int targetIdx) {
+     computeTargetBearing(stru_3AA5E[targetIdx].mapX, stru_3AA5E[targetIdx].mapY, 1);
+     return;
 }
 
 // ==== seg000:0xc7c6 ====
-int computeSimObjectRange(int objIdx) {
-    return computeTargetBearing(stru_3B202[objIdx].posX, stru_3B202[objIdx].posY, 0);
+void computeSimObjectRange(int objIdx) {
+    computeTargetBearing(stru_3B202[objIdx].posX, stru_3B202[objIdx].posY, 0);
+    return;
 }
 
 // ==== seg000:0xc7ea ====
@@ -233,4 +235,3 @@ int isTargetOverWater(int wpIdx) {
     p = ((char *)byte_3BFA4)[stru_3AA5E[wpIdx].field_C & 0x7f] & 0x0f;
     return (p == 0x0c || p == 9 || p == 0x0b) ? 1 : 0;
 }
-

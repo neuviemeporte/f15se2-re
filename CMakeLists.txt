@@ -55,7 +55,8 @@ set(EGAME_SOURCES
     ${SRC_DIR}/egweap.c
     ${SRC_DIR}/egfileio.c
     ${SRC_DIR}/egpic.c
-    ${SRC_DIR}/egfarbuf.c
+    ${SRC_DIR}/egstubs.c
+    ${SRC_DIR}/gfx_impl.c
 )
 
 set(END_SOURCES
@@ -125,7 +126,6 @@ function(configure_f15_target target_name)
 
             -fpermissive
             -Wno-int-to-pointer-cast
-            -Wno-pointer-to-int-cast
             -Wno-narrowing
         )
 
