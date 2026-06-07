@@ -77,7 +77,7 @@ int FAR CDECL gfx_setOvlVal1(int val);                 /* slot 0x40: writes ds:0
 int FAR CDECL gfx_setOvlVal2(int val);                 /* slot 0x41: writes ds:0xce */
 int FAR CDECL gfx_getModeFlag2();                      /* slot 0x42: returns modeFlag */
 int FAR CDECL gfx_unknown43();                         /* slot 0x43: unknown */
-int FAR CDECL gfx_setDac(uint16 palIdx);               /* slot 0x44: set VGA DAC palette */
+void FAR CDECL gfx_setDac(uint16 palIdx);              /* slot 0x44: set VGA DAC palette */
 int FAR CDECL gfx_waitRetrace();                       /* slot 0x45: wait for vblank */
 int FAR CDECL gfx_flipPage();                          /* slot 0x46: vblank + flip to VGA */
 int FAR CDECL gfx_blitSpriteClipped(int16* ptr);       /* slot 0x47: sprite variant */

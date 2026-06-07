@@ -59,11 +59,5 @@ jobs:
       - name: Configure CMake
         run: cmake -S . -B build64
 
-      - name: Build f15
-        run: cmake --build build64 --target f15 -j$(nproc)
-
-      - name: Build start
-        run: cmake --build build64 --target start -j$(nproc)
-
-      - name: Build end
-        run: cmake --build build64 --target end -j$(nproc)
+      - name: Build
+        run: cmake --build build64 -j$(nproc)

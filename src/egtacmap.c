@@ -258,7 +258,7 @@ int plotMapObject(int mapX, int mapY, int color, int big) {
 }
 
 // ==== seg000:0x99ec ====
-int objectToScreen(int mapX, int mapY, int *outScreenX, int *outScreenY) {
+int objectToScreen(int mapX, int mapY, int16 *outScreenX, int16 *outScreenY) {
     if (word_330C2 == 0) {
         return 0;
     }
@@ -489,7 +489,11 @@ int drawStringCentered(int16* strStruct, const char *text, int screenX, int scre
     strStruct[4] = screenX;
     strStruct[5] = screenY;
     strStruct[2] = color;
+#ifdef BUGFIX
+    gfx_drawString(strStruct, strupr((char*)text));
+#else
     gfx_drawString(strStruct, strupr((char*)text), strlen(text));
+#endif
 }
 
 
@@ -526,4 +530,3 @@ void setTimedMessage(char *message) {
 int routine_260(int param_1, int objIdx) {
     return (int)(char)var_83[param_1 * 13 + ((int)(char)byte_3BFA4[stru_3AA5E[objIdx].field_C & 0x7f] & 0xf)];
 }
-

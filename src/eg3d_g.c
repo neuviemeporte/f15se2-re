@@ -9,9 +9,8 @@
 #include <dos.h>
 #include <memory.h>
 
-
 void setViewRotation(int rotX, int rotY, int rotZ) {
-    buildRotationMatrixFar((uint8*)&word_34276, -rotX, -rotY, -rotZ);
+    buildRotationMatrixFar(&word_34276, -rotX, -rotY, -rotZ);
 }
 
 // ==== seg000:0x3a90 ====
@@ -20,4 +19,3 @@ void setViewPosition(int posX, int posY, int posZ) {
     var_219 = posY;
     var_220 = posZ;
 }
-

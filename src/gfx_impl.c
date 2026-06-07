@@ -380,7 +380,7 @@ static uint8 g_palettes[5][48] = {
      0x3f,0x15,0x15, 0x3f,0x15,0x3f, 0x3f,0x3f,0x15, 0x3f,0x3f,0x3f}
 };
 
-int FAR CDECL gfx_setDac(uint16 palIdx)
+void FAR CDECL gfx_setDac(uint16 palIdx)
 {
     union REGS regs;
     struct SREGS sregs;
