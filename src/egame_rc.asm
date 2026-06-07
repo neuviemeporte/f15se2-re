@@ -7281,9 +7281,9 @@ LAB_1000_9706:
     mov SI,word ptr [BP + -6h]
     mov CL,4h
     shl SI,CL
-    db 83h, 0bch, 0b2h, 81h, 00h  ; CMP word ptr [SI + 0...,0x0                 ;= ??
+    cmp word ptr [SI + offset _stru_3AA5E + 4],0h
     jz LAB_1000_9754
-    db 0f6h, 84h, 0b4h, 81h, 80h  ; TEST byte ptr [SI + 0...,0x80                ;= ??
+    test byte ptr [SI + offset _stru_3AA5E + 6],80h
     jnz LAB_1000_9754
     lea AX,[BP + -4h]
     push AX
@@ -7310,7 +7310,7 @@ LAB_1000_9706:
     mov AX,word ptr [BP + -2h]
     dec AX
     push AX
-    call _blitSprite
+    call _blitSprite ; Render SAM radar sites
     add SP,0eh
 LAB_1000_9754:
     mov BX,word ptr [BP + -6h]
@@ -7409,7 +7409,7 @@ LAB_1000_9817:
     mov AX,word ptr [BP + -2h]
     dec AX
     push AX
-    call _blitSprite
+    call _blitSprite ; Draw targets
     add SP,0eh
 LAB_1000_9828:
     jmp LAB_1000_97c5
