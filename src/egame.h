@@ -1605,7 +1605,7 @@ extern int16 word_3B4DA;
 extern int16 word_3B4DC;
 extern int16 word_3B4DE;
 extern int16 word_3B4E0;
-extern char hercFlag;
+extern uint8 hercFlag;
 extern int16 word_3B4E4;
 extern struct Unknown3B4E6Record8 byte_3B4E6[]; // overlaps the following bytes with structs
 extern uint8 byte_3B4E7;

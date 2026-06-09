@@ -5,7 +5,7 @@
 #include "shared/util.h"
 #include "end.h"
 
-extern int menuItemUnused;
+extern int16 menuItemUnused;
 extern char animExitFlag;
 
 void debriefMainLoop(void)
