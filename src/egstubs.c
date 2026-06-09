@@ -645,7 +645,7 @@ int far resetScanlineSpans() { return 0; }
 int far restoreInt9Handler() { return 0; }
 int restoreScopePanel() { return 0; }
 int setTimerIrqHandler() { return 0; }
-int shapeDataOffset(int param_1) { return 0; }
+//int shapeDataOffset(int param_1) { return 0; }
 void pascal shiftLongLeftInPlace(int count, long *ptr) {}
 void pascal shiftLongRightInPlace(int count, long *ptr) {}
 int sine(int arg_0) { return 0; }
