@@ -159,7 +159,7 @@ int isqrt(int value) {
 
 // ==== seg000:0x55ab ====
 // something to do with view switching?
-int renderFrame() {
+void renderFrame() {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E;
     TRACE(("renderFrame: enter"));
     dword_3B1FE = dword_3C01C = dword_3B7DA;

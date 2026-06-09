@@ -242,7 +242,7 @@ int complementAngle(int arg_0);
 // ==== seg000:0x5557 ====
 int isqrt();
 // ==== seg000:0x55ab ====
-int renderFrame();
+void renderFrame();
 // ==== seg000:0x5fdb ====
 void sub_15FDB(void);
 // ==== seg000:0x606c ====
