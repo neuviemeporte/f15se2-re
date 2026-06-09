@@ -24,7 +24,11 @@ extern char far byte_228D0[];
 extern unsigned char far byte_228D0[];
 #endif
 extern unsigned char far byte_228FF[];
+#ifdef BUGFIX
+extern char far byte_2D6A4[];
+#else
 extern unsigned char far byte_2D6A4[];
+#endif
 #define DOS_SET_IRQH 0x25
 #define PORT_PIT_TIME0 0x40
 #define PORT_PIT_CNTRL 0x43

@@ -12,7 +12,11 @@ char far byte_228D0[] = { 0 };
 unsigned char far byte_228D0[] = { 0 };
 #endif
 unsigned char far byte_228FF[] = { 0 };
+#ifdef BUGFIX
+char far byte_2D6A4[] = { 0 };
+#else
 unsigned char far byte_2D6A4[] = { 0 };
+#endif
 int16 word_328B2 = 0;
 uint8 unk_328B6[] = { 0 };
 char aMsRunTimeLibraryCopyr[] = { 0 };
