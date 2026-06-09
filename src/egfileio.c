@@ -113,7 +113,11 @@ void drawProjectionSphere(int arg_0)
 }
 
 // ==== seg000:0xdd5e ====
+#ifdef BUGFIX
+int createFileWrapper(const char* filename, int attr) {
+#else
 int createFileWrapper(int filename, int attr) {
+#endif
     return createFile(filename, attr);
 }
 

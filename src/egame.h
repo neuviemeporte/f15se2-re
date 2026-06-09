@@ -451,7 +451,11 @@ void sub_1DBE0(void);
 // ==== seg000:0xdd4c ====
 int __cdecl openFileWrapper(const char *, int);
 // ==== seg000:0xdd5e ====
+#ifdef BUGFIX
+int createFileWrapper(const char* filename, int attr);
+#else
 int createFileWrapper();
+#endif
 // ==== seg000:0xdd70 ====
 void closeFileWrapper(int handle);
 // ==== seg000:0xdd7e ====
