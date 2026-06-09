@@ -25,13 +25,8 @@ void load3DAll() {
 
 // ==== seg000:0x2898 ====
 void load3D3(char *fileName) {
-#ifdef BUGFIX
     char FAR *var_E;
     char FAR *var_16;
-#else
-    uint8 FAR *var_E;
-    uint8 FAR *var_16;
-#endif
     struct SREGS var_8;
     int var_10, var_18, var_12;
     int var_A;
@@ -198,6 +193,3 @@ void strcpyFromDot(char *dst, char *src) {
     }
     strcpy(dst, src);
 }
-
-
-

@@ -469,4 +469,3 @@ loop:
 
 // updateThreatSites (seg000:0x6172) lives in eghud_g.c (/Gs without /Zi)
 // because its loop block scheduling only matches when compiled without /Zi.
-

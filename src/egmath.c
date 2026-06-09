@@ -15,11 +15,7 @@
 void load15Flt3d3() {
     int var_A, var_C;
     struct SREGS var_8;
-#ifdef BUGFIX
     char FAR *var_10;
-#else
-    uint8 FAR *var_10;
-#endif
     TRACE(("load15Flt3d3: a15flt_xxx=%s", a15flt_xxx));
     strcpyFromDot(a15flt_xxx, a_3d3_0);
     TRACE(("load15Flt3d3: after strcpyFromDot=%s", a15flt_xxx));
@@ -349,4 +345,3 @@ int16 readAxisInput(int16 axisIdx)
     }
     return p;
 }
-
