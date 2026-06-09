@@ -213,7 +213,7 @@ struct struc_9 {
 
 #pragma pack(1)
 struct TerrainTile {
-    int16 buf3;
+    uint16 buf3;
     int16 buf4;
     int16 buf5;
     uint8 idx;
