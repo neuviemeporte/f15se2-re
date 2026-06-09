@@ -307,7 +307,7 @@ int16 nightMissionFlag = 0;
 char bufCoordStr = 0;
 uint8 gridRefRow = 0;
 uint8 gridRefCol = 0;
-uint8 gridRefRowDigit = 0;
+uint8 gridRefRowDigit[1] = {0};
 
 /* Migrated from .DATA? */
 int16 escortMissionFlag;
@@ -320,7 +320,7 @@ int16 nearestTilePtr = 0;
 uint8 nearestLevel = 0;
 uint8 nearestCellIdx = 0;
 uint8 nearestGridX = 0;
-uint8 nearestGridY = 0;
+uint8 nearestGridY[1] = {0};
 int16 missionDistAccum;
 int16 playerStartLoc;
 uint32 baseYPrecise;

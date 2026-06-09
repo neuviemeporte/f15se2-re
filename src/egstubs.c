@@ -606,7 +606,7 @@ int16 terrainSignature;
 struct WorldObject worldObjects[1];
 uint8 gridRefRowDigit[1];
 uint8 missionStrTruncEnd[1];
-uint8 nearestGridY[1];
+uint8 nearestGridY[1] = {0};
 unsigned char weaponDataBlock;
 uint16 terrainBuf1[1];
 uint16 menuSprites = 0;
