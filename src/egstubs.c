@@ -564,9 +564,9 @@ uint8 quitFlag;
 char timerCounter2;
 char timerCounter3;
 uint8 timerHandlerInstalled;
-int blinkColors[1];
+int16 blinkColors[1];
 int flightTimeTable[1];
-int pilotNameInputColors[1];
+int16 pilotNameInputColors[1];
 int target1MiscBits[1];
 int target2MiscBits[1];
 int clipMaxX;
@@ -579,7 +579,7 @@ int hasVgaMode;
 //int lineY2;
 int menuItemUnused;
 int missionResult;
-int playerStartLoc;
+int16 playerStartLoc;
 int randSeed;
 int randState;
 int vgaBufSeg2;
@@ -605,7 +605,7 @@ uint8 missionStrTruncEnd[1];
 uint8 nearestGridY[1]; // something is wrong with this one
 unsigned char weaponDataBlock;
 unsigned int terrainBuf1[1];
-uint8* menuSprites = 0;
+uint16 menuSprites = 0;
 #endif
 
 /* --- functions declared in egame.h --- */

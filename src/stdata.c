@@ -154,7 +154,7 @@ char aWriteError[] = "Write error$";
 char str_allocError[] = "Insufficient system memory - AllocBuffer$";
 
 /* Mission selection state */
-int enableHighlight = 1;
+int16 enableHighlight = 1;
 
 /* Direction/level lookup tables */
 int dirDeltaX[] = {-1, 1, 1, -1, 0, 1, 0, -1, 0};
@@ -162,10 +162,10 @@ int dirDeltaY[] = {1, 1, -1, -1, 1, 0, -1, 0, 0, (int)0xE000, (int)0xF000};
 int gridLevelSize[] = {0, 0x1000, 0x2000, 0x400, 0x100, 0x40, 0x10, 4};
 
 /* === Group 6 (0x1632-0x1763): Terrain/grid file strings === */
-int gridSignature = 0x3232;
-int terrainSignature = 0x3131;
+int16 gridSignature = 0x3232;
+int16 terrainSignature = 0x3131;
 int16 terrainDirtyFlag = 0;
-int gridValidFlag = 0;
+int16 gridValidFlag = 0;
 
 char a_3dt[] = ".3dT";
 char aRb[] = "rb";
@@ -325,7 +325,7 @@ int16 missionDistAccum;
 int16 playerStartLoc;
 uint32 baseYPrecise;
 int16 tileDataPtr;
-int16 menuSprites;
+uint16 menuSprites;
 
 /* Joystick calibration arrays (4 words each, only first declared in header) */
 int16 joyMinValues[4] = {0};
