@@ -495,7 +495,7 @@ int picBlitOverlay1();
 // ==== seg000:0xe260 ====
 int nullsub_1();
 // ==== seg000:0xe262 ====
-int decodePicRow();
+void decodePicRow();
 // ==== seg000:0xe28c ====
 int picReadDataAndMakeDict();
 // ==== seg000:0xe2d3 ====

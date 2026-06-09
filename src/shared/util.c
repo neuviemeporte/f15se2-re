@@ -11,7 +11,7 @@
 #include <dos.h>
 
 /* extern declarations needed by these functions */
-extern void far gfx_drawString(int16 *pageNum, const char *string);
+extern int far gfx_drawString(int16 *pageNum, const char *string);
 extern int far gfx_setFont(uint16 ch, uint16 font);
 extern void far misc_jump_5e_clearKeyFlags(void);
 extern uint8 timerHandlerInstalled;

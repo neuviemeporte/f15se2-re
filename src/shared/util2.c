@@ -8,7 +8,7 @@
 
 int openFile(const char *name, int mode);
 int fileClose(int handle);
-int decodePic(int handle, int segment);
+void decodePic(int handle, int segment);
 
 int openFileWrapper(const char *filename, int mode)
 {

@@ -37,7 +37,7 @@ int far cdecl misc_jump_5b_getkey(void) {
     return regs.x.ax;
 }
 int far cdecl misc_jump_5d_readJoy(int16 param) { return 0; }
-int far cdecl misc_jump_5e_clearKeyFlags(void) { ovldbg("clearKeyFlags"); return 0; }
+void far cdecl misc_jump_5e_clearKeyFlags(void) { ovldbg("clearKeyFlags"); }
 
 /* Audio overlay slots */
 int far cdecl audio_jump_64(int16 a, int16 b) { return 0; }
