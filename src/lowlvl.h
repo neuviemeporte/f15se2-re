@@ -13,6 +13,6 @@ void setupPIT();
 uint8* dos_alloc(uint16 size);
 void dos_printstring(const char* str);
 
-int FAR copyJoystickData(uint8 FAR *ptr);
+void FAR copyJoystickData(uint8 FAR *ptr);
 
 #endif // F15_SE2_LL

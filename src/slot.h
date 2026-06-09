@@ -105,7 +105,7 @@ int FAR CDECL misc_jump_5a_keybuf(); /* returns 0xffff if no character, 0 if hav
 int FAR CDECL misc_jump_5b_getkey();
 int FAR CDECL misc_jump_5c();
 int FAR CDECL misc_jump_5d_readJoy(int16);
-int FAR CDECL misc_jump_5e_clearKeyFlags();
+void FAR CDECL misc_jump_5e_clearKeyFlags();
 int FAR CDECL misc_jump_5f();
 int FAR CDECL misc_jump_60();
 int FAR CDECL misc_jump_61();

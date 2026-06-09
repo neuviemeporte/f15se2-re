@@ -83,7 +83,7 @@ int computeThreatScore(void) {
 // TODO: fireAirThreat (seg000:7594-7839) - unimplemented
 
 // ==== seg000:0x783A ====
-int spawnEnemyAircraft(int slot, int objType)
+void spawnEnemyAircraft(int slot, int objType)
 {
     int p;
 

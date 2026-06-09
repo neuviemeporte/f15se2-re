@@ -6,9 +6,17 @@
 #include <stdio.h>
 #include <dos.h>
 
+#ifdef BUGFIX
+char far byte_228D0[] = { 0 };
+#else
 unsigned char far byte_228D0[] = { 0 };
+#endif
 unsigned char far byte_228FF[] = { 0 };
+#ifdef BUGFIX
+char far byte_2D6A4[] = { 0 };
+#else
 unsigned char far byte_2D6A4[] = { 0 };
+#endif
 int16 word_328B2 = 0;
 uint8 unk_328B6[] = { 0 };
 char aMsRunTimeLibraryCopyr[] = { 0 };
@@ -30,7 +38,7 @@ int readCalibratedJoystick() { return 0; }
 int readJoystickHardware() { return 0; }
 int computeJoystickAxis() { return 0; }
 int far restoreJoystickData(uint8 FAR *ptr) { return 0; }
-int far copyJoystickData(uint8 FAR *ptr) { return 0; }
+void far copyJoystickData(uint8 FAR *ptr) {}
 
 // === Interrupt/Handler Stubs ===
 void installCBreakHandler() {}
@@ -57,10 +65,10 @@ int getTimeOfDay(void)
 /* --- data globals --- */
 char a0[1];
 char a15flt_xxx[1];
-uint8 a256left_pic[1];
+char a256left_pic[1];
 char a256pit_pic[1];
-uint8 a256rear_pic[1];
-uint8 a256right_pic[1];
+char a256rear_pic[1];
+char a256right_pic[1];
 uint8 aA[1];
 char aAccel[1];
 char aAhead[1];
@@ -83,7 +91,7 @@ uint8 aFlogger[1];
 char aGun[1];
 char aKm[1];
 char aLeft[1];
-uint8 aLeft_pic[1];
+char aLeft_pic[1];
 uint8 aMig23[1];
 char aMissileLock[1];
 uint8 aNone[1];
@@ -108,9 +116,9 @@ char aRb_3[1];
 char aRb_4[1];
 char aReadyForTakeof[1];
 char aRear[1];
-uint8 aRear_pic[1];
+char aRear_pic[1];
 char aRight[1];
-uint8 aRight_pic[1];
+char aRight_pic[1];
 char aSafeLanding[1];
 char aSecond_Target[1];
 char aStallWarning[1];
@@ -165,7 +173,7 @@ uint8 byte_3BED8[1];
 uint8 byte_3BF93[1];
 uint8 byte_3BFA4[UNIT_STATE_COUNT];
 uint8 byte_3C02A[1];
-uint8 byte_3C16E[1];
+char byte_3C16E[1];
 char byte_3C5A0;
 uint8 far *dword_38FE2;
 int32 dword_3B1FE;
@@ -184,7 +192,7 @@ size_t flt15_size;
 int16 flt15_word1;
 int16 frameTick;
 int16 gfxBufPtr;
-char hercFlag;
+uint8 hercFlag;
 uint8 joyAxes[1];
 int16 keyScancode;
 int16 keyValue;
@@ -552,6 +560,58 @@ int16 word_3C6AC;
 int word_3C6AE;
 int16 word_3C8B6;
 
+#if !defined(__linux__)
+char* worldStrings[1];
+char animExitFlag;
+//char hercFlag;
+uint8 quitFlag;
+uint8 timerCounter2;
+uint8 timerCounter3;
+uint8 timerHandlerInstalled;
+int16 blinkColors[1];
+int16 flightTimeTable[1];
+int16 pilotNameInputColors[1];
+int target1MiscBits[1];
+int target2MiscBits[1];
+int16 clipMaxX;
+int16 clipMaxY;
+int16 gfxBufSeg;
+int hasVgaMode;
+//int lineX1;
+//int lineX2;
+//int lineY1;
+//int lineY2;
+int16 menuItemUnused;
+int missionResult;
+int16 playerStartLoc;
+int16 randSeed;
+int16 randState;
+int vgaBufSeg2;
+int waypointData;
+int16 worldGridSize;
+int worldMiscHeader;
+int worldObjectCount;
+int16 worldRouteCount;
+int worldRouteTable;
+int worldSamCount;
+int worldSamTable;
+int worldUnitFlags;
+int16 worldWaypointCount;
+int16 enableHighlight;
+int16 gridSignature;
+int16 gridValidFlag;
+int16 terrainDirtyFlag;
+int16 terrainSignature;
+//struct FlightRecord flightRecords[1];
+struct WorldObject worldObjects[1];
+uint8 gridRefRowDigit[1];
+uint8 missionStrTruncEnd[1] = {0};
+uint8 nearestGridY[1] = {0};
+unsigned char weaponDataBlock;
+uint16 terrainBuf1[1];
+uint16 menuSprites = 0;
+#endif
+
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }
 int far buildRotationMatrixFar(int16* param_1, int param_2, int param_3, int param_4) { return 0; }
@@ -572,7 +632,7 @@ int fixedMulQ14(int arg_0, int arg_2) { return 0; }
 int far flushSpanDirtyRect() { return 0; }
 int keyDispatch(int16 scanCode) { return 0; }
 int far multiplyMatrix3x3Far(int param_1, int param_2, int16* param_3) { return 0; }
-int __cdecl openFile(char *, int) { return 0; }
+int __cdecl openFile(const char *, int) { return 0; }
 void picBlit(int handle, int unk) {}
 int far projectModelEdgesFar() { return 0; }
 void far projectSceneObject(char *, int, int, int, int, int, int) {}
@@ -585,7 +645,6 @@ int far resetScanlineSpans() { return 0; }
 int far restoreInt9Handler() { return 0; }
 int restoreScopePanel() { return 0; }
 int setTimerIrqHandler() { return 0; }
-int shapeDataOffset(int param_1) { return 0; }
 void pascal shiftLongLeftInPlace(int count, long *ptr) {}
 void pascal shiftLongRightInPlace(int count, long *ptr) {}
 int sine(int arg_0) { return 0; }
@@ -611,4 +670,4 @@ int audio_jump_6d(int a) { return 0; }
 
 /* projectObjects: eg3d_a.c calls the 8-int form; eg3d_b.c defines a
    different (int,int,long,long,long) overload. Stub the called form. */
-int projectObjects(int a,int b,int c,int d,int e,int f,int g,int h) { return 0; }
+void projectObjects(int a,int b,int c,int d,int e,int f,int g,int h) {}

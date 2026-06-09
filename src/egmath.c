@@ -15,7 +15,11 @@
 void load15Flt3d3() {
     int var_A, var_C;
     struct SREGS var_8;
+#ifdef BUGFIX
+    char FAR *var_10;
+#else
     uint8 FAR *var_10;
+#endif
     TRACE(("load15Flt3d3: a15flt_xxx=%s", a15flt_xxx));
     strcpyFromDot(a15flt_xxx, a_3d3_0);
     TRACE(("load15Flt3d3: after strcpyFromDot=%s", a15flt_xxx));
@@ -86,7 +90,7 @@ void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int pa
 }
 
 // ==== seg000:0xcb42 ====
-int drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param_5, int param_6, int param_7, int mode, int shift)
+void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param_5, int param_6, int param_7, int mode, int shift)
 {
     int p;
     int a;
@@ -214,7 +218,7 @@ int drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param_
 }
 
 // ==== seg000:0xcf32 ====
-int shapeDataOffset(unsigned int param)
+int shapeDataOffset(int param)
 {
     if (param & 0x100) {
         return buf3d3[param & 0x7f];

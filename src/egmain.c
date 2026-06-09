@@ -121,7 +121,7 @@ void drawCockpit() {
 }
 
 // ==== seg000:0x211 ====
-int runGameSession() {
+void runGameSession() {
     TRACE(("runGameSession: enter"));
     FP_OFF(dword_38FE2) = OFF_BDA_FLOPPYMOTOR; // floppy motor runtime in bda???
     FP_SEG(dword_38FE2) = 0;
@@ -151,11 +151,11 @@ int runGameSession() {
 }
 
 // ==== seg000:0x0294 routine_6 ====
-int sub_10294() {
+void sub_10294() {
 }
 
 // ==== seg000:0x0297 routine_5 ====
-int sub_10297() {
+void sub_10297() {
 }
 
 // ==== seg000:0x29a ====
@@ -318,7 +318,7 @@ void updateFrame(void) {
     applyGravityFall();
     TRACE(("updateFrame: past 118D5"));
 
-    if (objectToScreen(word_3BEC0, word_3BED0, &b, &c) != 0) {
+    if (objectToScreen(word_3BEC0, word_3BED0, (int16*)&b, (int16*)&c) != 0) {
         byte_3C5A0 = -(gfx_getDisplayPage() - 1);
         gfx_copyRect(2, b - 3, c - 3, byte_3C5A0, b - 3, c - 3, 6, 6);
         blitSprite(b - 1, c - 1, ((var_542 + 0x1000) >> 0xd & 7) * 4 + 0xa4, 4, 4, 4, 0);
@@ -667,7 +667,7 @@ done_fire:
 }
 
 // ==== seg000:0x1841 ====
-int updateTracerParticles() {
+void updateTracerParticles() {
     int p;
     int a;
 
@@ -689,7 +689,7 @@ int updateTracerParticles() {
 }
 
 // ==== seg000:0x18d5 ====
-int applyGravityFall() {
+void applyGravityFall() {
     if (word_3BFA2 > 0) {
         if (word_3B4DC > -16) {
             word_3B4DC -= 12;
@@ -715,7 +715,7 @@ void initFrameRandom(void) {
 }
 
 // ==== seg000:0x1971 ====
-int sub_11971() {
+void sub_11971() {
     int p;
     for (p = 0; p < word_3C046; p++) {
         *(int *)&stru_3B202[p].state[16] = -1;
@@ -872,7 +872,7 @@ void placeString(int waypointIdx) {
 }
 
 // ==== seg000:0x1e0e ====
-int initMissionStrings() {
+void initMissionStrings() {
     int var_2, var_4;
     setCommWorldbufPtr();
     flagFarToNear = 1;
@@ -921,7 +921,7 @@ void findWaypointFeatures() {
 }
 
 // ==== seg000:0x2049 ====
-int moveDataFar() {
+void moveDataFar() {
     int unused1, unused2;
     setCommWorldbufPtr();
     flagFarToNear = 0;
@@ -930,7 +930,7 @@ int moveDataFar() {
 }
 
 // ==== seg000:0x206d ====
-int moveStuff() {
+void moveStuff() {
     moveNearFar(byte_3C02A, 1);
     moveNearFar(byte_3BEC4, 1);
     moveNearFar(&word_3BED2, 2);
@@ -950,7 +950,7 @@ int moveStuff() {
 }
 
 // ==== seg000:0x215c ====
-int moveNearFar(void *nearPtr, int count) {
+void moveNearFar(void *nearPtr, int count) {
     void FAR *farPtr = nearPtr;
     if (flagFarToNear != 0) {
         movedata(FP_SEG(farPointer), FP_OFF(farPointer), FP_SEG(farPtr), FP_OFF(farPtr), count);

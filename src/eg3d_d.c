@@ -16,7 +16,7 @@
 
 
 // ==== seg000:0x2874 ====
-int load3DAll() {
+void load3DAll() {
     load3DG();
     load3DT(regnStr);
     load3D3(regnStr);
@@ -25,8 +25,13 @@ int load3DAll() {
 
 // ==== seg000:0x2898 ====
 void load3D3(char *fileName) {
+#ifdef BUGFIX
+    char FAR *var_E;
+    char FAR *var_16;
+#else
     uint8 FAR *var_E;
     uint8 FAR *var_16;
+#endif
     struct SREGS var_8;
     int var_10, var_18, var_12;
     int var_A;
@@ -179,14 +184,14 @@ void load3DG() {
 }
 
 // ==== seg000:0x2f8c ====
-int printError(const char *msg) {
+void printError(const char *msg) {
     gfx_flipPage();
     drawSomeStrings(msg, 0, 0x60, 0xf);
     getch();
 }
 
 // ==== seg000:0x2faf ====
-int strcpyFromDot(char *dst, char *src) {
+void strcpyFromDot(char *dst, char *src) {
     char var_2;
     while ((var_2 = *dst) != '.' && var_2 != 0) {
         dst++;

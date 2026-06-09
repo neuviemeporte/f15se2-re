@@ -145,7 +145,12 @@ static int loadprog(const char* file, const uint16 segment, const uint8 type, co
     int err;
     rin.h.ah = DOSF_LOADPROG;
     rin.h.al = type;
+#ifdef BUGFIX
+    // just make it compile on clang - complete bullshit
+    rin.x.dx = 0; // (unsigned int)file;
+#else
     rin.x.dx = (unsigned int)file;
+#endif  
     switch (type)
     {
     case DOS_LOAD_EXEC:
@@ -158,7 +163,12 @@ static int loadprog(const char* file, const uint16 segment, const uint8 type, co
         exeLoadParams.fcb1Segment = _psp;
         exeLoadParams.fcb2Offset = 0x6c;
         exeLoadParams.fcb2Segment = _psp;
+#ifdef BUGFIX
+        // just make it compile on clang - complete bullshit
+        rin.x.bx = 0; // (unsigned int)&exeLoadParams;
+#else    
         rin.x.bx = (unsigned int)&exeLoadParams;
+#endif      
         if (DOS_LOAD_EXEC)
             DEBUG("dos_loadprog(): loading %s and executing with cmdline '%Fs'", file, cmdline);
         else
@@ -167,7 +177,12 @@ static int loadprog(const char* file, const uint16 segment, const uint8 type, co
     case DOS_LOAD_OVL:
         ovlLoadParams.segment = segment;
         ovlLoadParams.reloc = segment; // no idea, original does the same
+#ifdef BUGFIX        
+        // just make clang happy - bullshit code
+        rin.x.bx = 0; // (unsigned int)&ovlLoadParams;
+#else
         rin.x.bx = (unsigned int)&ovlLoadParams;
+#endif
         INFO("dos_loadprog(): loading %s at segment 0x%x as overlay", file, segment);
         break;
     default:
