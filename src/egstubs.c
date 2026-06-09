@@ -600,11 +600,11 @@ int16 terrainDirtyFlag;
 int16 terrainSignature;
 //struct FlightRecord flightRecords[1];
 struct WorldObject worldObjects[1];
-uint8 gridRefRowDigit[1]; // something is wrong with this one
+uint8 gridRefRowDigit[1];
 uint8 missionStrTruncEnd[1];
-uint8 nearestGridY[1]; // something is wrong with this one
+uint8 nearestGridY[1];
 unsigned char weaponDataBlock;
-unsigned int terrainBuf1[1];
+uint16 terrainBuf1[1];
 uint16 menuSprites = 0;
 #endif
 

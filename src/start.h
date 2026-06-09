@@ -600,7 +600,7 @@ extern int dirDeltaX[];
 extern int dirDeltaY[];
 extern int gridLevelSize[];
 extern int16 terrainSignature;
-extern unsigned int terrainBuf1[];
+extern uint16 terrainBuf1[];
 extern struct TerrainPtrTable terrainTileCounts[];
 extern int16 gridSignature;
 extern int16 terrainDirtyFlag;
