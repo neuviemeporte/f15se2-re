@@ -370,7 +370,7 @@ extern int worldUnitFlags;
 extern int worldGridSize;
 extern int worldMiscHeader;
 extern unsigned char weaponDataBlock;
-extern int worldObjectCount;
+extern uint16 worldObjectCount;
 extern int worldSamCount;
 extern int waypointData;
 extern int flightTimeTable[];

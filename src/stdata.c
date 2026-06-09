@@ -714,7 +714,7 @@ uint8 wldReadBuf7[0x64];
 char *wldOffsets[0x64];
 char wldReadBuf11[0x2EE];
 struct TerrainPtrTable terrainTilePtrs[5];
-unsigned int worldObjectCount;
+uint16 worldObjectCount;
 char scenarioFoundArr[6];
 struct WorldObject worldObjects[0x4B];
 char terrainGrid[256];
