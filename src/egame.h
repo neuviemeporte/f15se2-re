@@ -672,7 +672,7 @@ int computeJoystickAxis();
 // ==== seg002:0xcaa ====
 int far restoreJoystickData(uint8 FAR *ptr);
 // ==== seg002:0xcbe ====
-int far copyJoystickData(uint8 FAR *ptr);
+void far copyJoystickData(uint8 FAR *ptr);
 // ==== seg003:0x6 ====
 int far setInt9Handler();
 // ==== seg003:0x56 ====

@@ -27,15 +27,11 @@ void pollJoystick(void)
 {
 }
 
-int far copyJoystickData(uint8 *ptr)
-{
-    return 0;
-}
+void far copyJoystickData(uint8 *ptr){}
 
-int mystrcat(char *dst, char *src)
+void mystrcat(char *dst, char *src)
 {
     strcat(dst, src);
-    return 0;
 }
 
 void intDispatch(int intnum, uint8 *inreg, uint8 *outreg)
@@ -95,7 +91,7 @@ unsigned long scaleCoordByLevel(int level, unsigned long coord)
     return coord;
 }
 
-int dos_alloc(int size)
+uint16 dos_alloc(int size)
 {
     return 0;
 }

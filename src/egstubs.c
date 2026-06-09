@@ -38,7 +38,7 @@ int readCalibratedJoystick() { return 0; }
 int readJoystickHardware() { return 0; }
 int computeJoystickAxis() { return 0; }
 int far restoreJoystickData(uint8 FAR *ptr) { return 0; }
-int far copyJoystickData(uint8 FAR *ptr) { return 0; }
+void far copyJoystickData(uint8 FAR *ptr) {}
 
 // === Interrupt/Handler Stubs ===
 void installCBreakHandler() {}
