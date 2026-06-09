@@ -362,9 +362,9 @@ extern char str_pressNext[];
 /* Data symbols used by drawMenuItem */
 #define dat_4824 scoreString
 extern struct WorldObject worldObjects[];
-extern int worldWaypointCount;
+extern int16 worldWaypointCount;
 extern int worldRouteTable;
-extern int worldRouteCount;
+extern int16 worldRouteCount;
 extern int worldSamTable;
 extern int worldUnitFlags;
 extern int16 worldGridSize;
@@ -373,7 +373,7 @@ extern unsigned char weaponDataBlock;
 extern uint16 worldObjectCount;
 extern int worldSamCount;
 extern int waypointData;
-extern int flightTimeTable[];
+extern int16 flightTimeTable[];
 extern int totalFlightRecords;
 
 /* Data symbols used by showPostMissionAwards */
