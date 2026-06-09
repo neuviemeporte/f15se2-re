@@ -148,7 +148,7 @@ void addTileEntry(char *a, int b, char c);
 // ==== seg000:0x3266 ====
 int lookupTileEntry(int p1, int p2, int p3, int p4);
 // ==== seg000:0x32ba ====
-int drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3);
+void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3);
 // ==== seg000:0x345e ====
 void renderMapTerrain(char *, int, int, int);
 // ==== seg000:0x34ac ====

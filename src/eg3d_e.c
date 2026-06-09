@@ -102,7 +102,7 @@ int lookupTileEntry(int p1, int p2, int p3, int p4) {
     return 0;
 }
 
-int drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
+void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
 {
     int p;
     int a;
@@ -318,7 +318,7 @@ int aspectScaleY(int screenY) {
 
 // ==== seg000:0x3932 ====
 void setup3DTransform(char *model, int angleX, int angleY, int angleZ, int posX, int arg_a, int arg_c, int arg_e) {
-    setupViewport((int)model);
+    setupViewport(model);
     setViewRotation(angleX, angleY, angleZ);
     setViewPosition(posX, arg_a, arg_c);
     if (arg_e != 0) {
