@@ -16,7 +16,7 @@ void my_ltoa(int32 value, char *buf);
 void my_itoa(int value, char *buf);
 
 /* functions provided by util2.c */
-int openFileWrapper(char *filename, int mode);
+int openFileWrapper(const char *filename, int mode);
 void closeFileWrapper(int handle);
 void mystrcpy(char *dest, const char *source);
 void loadPic(const char *filename, int segment);

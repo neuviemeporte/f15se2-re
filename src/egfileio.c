@@ -10,7 +10,7 @@
 #include <memory.h>
 
 
-int openFileWrapper(char *path, int mode) {
+int openFileWrapper(const char *path, int mode) {
     TRACE(("openFileWrapper: path=%s mode=%d", path, mode));
     return openFile(path, mode);
 }

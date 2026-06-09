@@ -10,7 +10,7 @@ int openFile(const char *name, int mode);
 int fileClose(int handle);
 int decodePic(int handle, int segment);
 
-int openFileWrapper(char *filename, int mode)
+int openFileWrapper(const char *filename, int mode)
 {
     return openFile(filename, mode);
 }
