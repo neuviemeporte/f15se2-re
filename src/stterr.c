@@ -34,10 +34,11 @@ int16* findNearestTerrain(int32 worldX, int32 worldY) {
             cell = lookupGridCell(level, gridX += dx, y1);
             if (cell != 0xffff) {
                 tileDataPtr = (int16)terrainTilePtrs[level].entries[cell];
+#define GET_TILE(PTR)((struct TerrainTile*)PTR)                
                 for (cellIdx = 0; (uint16)terrainTileCounts[level].entries[cell] > cellIdx; cellIdx++) {
-                    if (objectTypeTable[((uint8*)(tileDataPtr))[6]] != 0) {
-                        ty = *((uint16*)tileDataPtr) + sy;
-                        offsetY = *((uint16*)tileDataPtr + 1) + tmp;
+                    if (objectTypeTable[GET_TILE(tileDataPtr)->idx] != 0) {
+                        ty = GET_TILE(tileDataPtr)->buf3 + sy;
+                        offsetY = GET_TILE(tileDataPtr)->buf4 + tmp;
                         dist = abs(ty) + abs(offsetY);
                         if (level == 1) {
                             dist >>= 2;
@@ -52,13 +53,13 @@ int16* findNearestTerrain(int32 worldX, int32 worldY) {
                             nearestGridX = (int8)gridX;
                             nearestGridY[0] = (int8)y1;
                             nearestTilePtr = tileDataPtr;
-                            nearestObjectType = ((uint8*)nearestTilePtr)[6];
+                            nearestObjectType = GET_TILE(nearestTilePtr)->idx;
                             nearestDist = dist;
                             nearestWorldX = ty + worldX;
                             nearestWorldY = offsetY + worldY;
                         }
                     }
-                    tileDataPtr += 7;
+                    tileDataPtr += sizeof(struct TerrainTile);
                 }
             }
         }

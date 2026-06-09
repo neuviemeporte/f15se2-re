@@ -36,18 +36,19 @@ void parseTerrain(char *filename) {
             tileOffset = 0;
             for (level = 0; level < 5; level = level + 1) {
                 for (entry = 0; terrainBuf1[level] > entry; entry++) {
-                    terrainTilePtrs[level].entries[entry] = (uint8*)terrainTileBlock + tileOffset;
+#define GET_TILE3()((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset) )               
+                    terrainTilePtrs[level].entries[entry] = (uint8*)GET_TILE3();
                     for (i = 0; i < (uint16)terrainTileCounts[level].entries[entry]; i++) {
                         if (tileOffset > 0xdac) {
                             showMsgWaitKey(aTooMuchTileDat);
                             return;
                         }
-                        fread((uint8*)terrainTileBlock + tileOffset,2,1,fileHandle);
-                        fread((uint8*)terrainTileBlock + 2 + tileOffset,2,1,fileHandle);
-                        fread((uint8*)terrainTileBlock + 4 + tileOffset,2,1,fileHandle);
+                        fread(&GET_TILE3()->buf3,2,1,fileHandle);
+                        fread(&GET_TILE3()->buf4,2,1,fileHandle);
+                        fread(&GET_TILE3()->buf5,2,1,fileHandle);
                         fread(&tmp,2,1,fileHandle);
-                        *((uint8*)terrainTileBlock + 6 + tileOffset) = tmp;
-                        tileOffset += 7;
+                        GET_TILE3()->idx = tmp;
+                        tileOffset += sizeof(struct TerrainTile);
                     }
                 }
             }
