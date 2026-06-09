@@ -42,7 +42,7 @@ void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStar
 }
 
 // 224a
-int selectMenuItem(MenuItem *items, int unused, int itemCount, int inputState, int16* gfxPage) {
+int selectMenuItem(MenuItem *items, int unused, int itemCount, int16* inputState, int16* gfxPage) {
     char p[2]; int a; int b; char c[2]; int d; char e[2]; int f;
     int g; char h[2]; int i; char j[12]; int k; int l; int m; int n; int o;
     (void)unused;

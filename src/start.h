@@ -900,9 +900,9 @@ extern char wldReadBuf11[];
 extern struct TerrainPtrTable terrainTilePtrs[];
 extern int16 tileDataPtr;
 extern uint8 byte_1E24C[];
-extern unsigned int worldObjectCount;
+extern uint16 worldObjectCount;
 extern struct GameComm far *commData;
 extern struct Pilot hallfameBuf[];
 extern uint8 libc_buferr[];
-extern unsigned int menuSprites;
+extern uint16 menuSprites;
 #endif // F15_SE2_START

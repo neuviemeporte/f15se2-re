@@ -164,7 +164,7 @@ int gridLevelSize[] = {0, 0x1000, 0x2000, 0x400, 0x100, 0x40, 0x10, 4};
 /* === Group 6 (0x1632-0x1763): Terrain/grid file strings === */
 int gridSignature = 0x3232;
 int terrainSignature = 0x3131;
-int terrainDirtyFlag = 0;
+int16 terrainDirtyFlag = 0;
 int gridValidFlag = 0;
 
 char a_3dt[] = ".3dT";

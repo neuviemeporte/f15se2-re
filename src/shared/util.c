@@ -14,7 +14,7 @@
 extern void far gfx_drawString(int16 *pageNum, const char *string);
 extern int far gfx_setFont(uint16 ch, uint16 font);
 extern void far misc_jump_5e_clearKeyFlags(void);
-extern char timerHandlerInstalled;
+extern uint8 timerHandlerInstalled;
 void restoreTimerIrqHandler(void);
 void intDispatch(int intNum, uint8 *inRegs, uint8 *outRegs);
 

@@ -556,6 +556,58 @@ int16 word_3C6AC;
 int word_3C6AE;
 int16 word_3C8B6;
 
+#if !defined(__linux__)
+char* worldStrings[1];
+char animExitFlag;
+//char hercFlag;
+uint8 quitFlag;
+char timerCounter2;
+char timerCounter3;
+uint8 timerHandlerInstalled;
+int blinkColors[1];
+int flightTimeTable[1];
+int pilotNameInputColors[1];
+int target1MiscBits[1];
+int target2MiscBits[1];
+int clipMaxX;
+int clipMaxY;
+int gfxBufSeg;
+int hasVgaMode;
+//int lineX1;
+//int lineX2;
+//int lineY1;
+//int lineY2;
+int menuItemUnused;
+int missionResult;
+int playerStartLoc;
+int randSeed;
+int randState;
+int vgaBufSeg2;
+int waypointData;
+int worldGridSize;
+int worldMiscHeader;
+int worldObjectCount;
+int worldRouteCount;
+int worldRouteTable;
+int worldSamCount;
+int worldSamTable;
+int worldUnitFlags;
+int worldWaypointCount;
+int16 enableHighlight;
+int16 gridSignature;
+int16 gridValidFlag;
+int16 terrainDirtyFlag;
+int16 terrainSignature;
+//struct FlightRecord flightRecords[1];
+struct WorldObject worldObjects[1];
+uint8 gridRefRowDigit[1]; // something is wrong with this one
+uint8 missionStrTruncEnd[1];
+uint8 nearestGridY[1]; // something is wrong with this one
+unsigned char weaponDataBlock;
+unsigned int terrainBuf1[1];
+uint8* menuSprites = 0;
+#endif
+
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }
 int far buildRotationMatrixFar(int16* param_1, int param_2, int param_3, int param_4) { return 0; }
