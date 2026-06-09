@@ -83,7 +83,12 @@ static void read512FromFile(void)
     r.h.ah = 0x3F;
     r.x.bx = picFileHandle;
     r.x.cx = 512;
+#ifdef BUGFIX
+    // make clang quiet
+    r.x.dx = 0; //(uint16)picFileReadBuf;
+#else  
     r.x.dx = (uint16)picFileReadBuf;
+#endif  
     intdos(&r, &r);
     picBufPos = 0;
 }

@@ -601,7 +601,11 @@ extern int dirDeltaY[];
 extern int gridLevelSize[];
 extern int16 terrainSignature;
 extern uint16 terrainBuf1[];
+#ifdef BUGFIX
+extern struct TerrainCountTable terrainTileCounts[];
+#else
 extern struct TerrainPtrTable terrainTileCounts[];
+#endif
 extern int16 gridSignature;
 extern int16 terrainDirtyFlag;
 extern int16 gridValidFlag;
@@ -875,7 +879,11 @@ extern int16 nearestObjectType;
 extern int16 nearestDist;
 extern uint32 nearestWorldX;
 extern uint32 nearestWorldY;
+#ifdef BUGFIX
+extern struct TerrainTile* nearestTilePtr;
+#else
 extern int16 nearestTilePtr;
+#endif
 extern uint8 nearestLevel;
 extern uint8 nearestCellIdx;
 extern uint8 nearestGridX;
@@ -898,7 +906,11 @@ extern uint8 joyReady[];
 extern char *wldOffsets[];
 extern char wldReadBuf11[];
 extern struct TerrainPtrTable terrainTilePtrs[];
+#ifdef BUGFIX
+extern struct TerrainTile* tileDataPtr;
+#else
 extern int16 tileDataPtr;
+#endif
 extern uint8 byte_1E24C[];
 extern uint16 worldObjectCount;
 extern struct GameComm far *commData;

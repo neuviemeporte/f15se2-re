@@ -33,9 +33,16 @@ int16* findNearestTerrain(int32 worldX, int32 worldY) {
             y1 += rowOff;
             cell = lookupGridCell(level, gridX += dx, y1);
             if (cell != 0xffff) {
+#ifdef BUGFIX              
+                tileDataPtr = terrainTilePtrs[level].entries[cell];
+#define GET_TILE(PTR)(PTR)       
+#define GET_COUNTS()(terrainTileCounts[level].entries[cell]) 
+#else
                 tileDataPtr = (int16)terrainTilePtrs[level].entries[cell];
 #define GET_TILE(PTR)((struct TerrainTile*)PTR)                
-                for (cellIdx = 0; (uint16)terrainTileCounts[level].entries[cell] > cellIdx; cellIdx++) {
+#define GET_COUNTS()((uint16)terrainTileCounts[level].entries[cell])         
+#endif  
+                for (cellIdx = 0; GET_COUNTS() > cellIdx; cellIdx++) {
                     if (objectTypeTable[GET_TILE(tileDataPtr)->idx] != 0) {
                         ty = GET_TILE(tileDataPtr)->buf3 + sy;
                         offsetY = GET_TILE(tileDataPtr)->buf4 + tmp;

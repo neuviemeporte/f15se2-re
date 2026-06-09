@@ -36,8 +36,12 @@ void parseTerrain(char *filename) {
             tileOffset = 0;
             for (level = 0; level < 5; level = level + 1) {
                 for (entry = 0; terrainBuf1[level] > entry; entry++) {
-#define GET_TILE3()((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset) )               
+#define GET_TILE3()((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset) )   
+#ifdef BUGFIX
+                    terrainTilePtrs[level].entries[entry] = GET_TILE3();
+#else
                     terrainTilePtrs[level].entries[entry] = (uint8*)GET_TILE3();
+#endif
                     for (i = 0; i < (uint16)terrainTileCounts[level].entries[entry]; i++) {
                         if (tileOffset > 0xdac) {
                             showMsgWaitKey(aTooMuchTileDat);

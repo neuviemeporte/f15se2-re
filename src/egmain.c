@@ -831,7 +831,7 @@ void generateRandomRadioMessage(void) {
         } while (*(int16 *)&stru_3B202[p].state[10] == 0);
         word_3C02E = p + 0x20;
         keyValue = 0x89;
-        strcpy(strBuf, (char *)(*(int16 *)&stru_3B202[p].state[6] * 32 + (int)aMig23)); /* 0x2c8: aircraft name table (32-byte records) */
+        strcpy(strBuf, (char *)(*(int16 *)&stru_3B202[p].state[6] * 32 + aMig23)); /* 0x2c8: aircraft name table (32-byte records) */
         strcat(strBuf, aOnPatrol);
         tempStrcpy(strBuf);
         break;

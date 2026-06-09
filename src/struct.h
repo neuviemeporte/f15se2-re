@@ -137,12 +137,23 @@ struct SamDataEntry {
 STATIC_ASSERT(sizeof(struct SamDataEntry)==32);
 
 struct TerrainPtrTable {
+#ifdef BUGFIX
+    struct TerrainTile *entries[32];
+#else  
     uint8 *entries[32];
+#endif  
 };
 STATIC_ASSERT(sizeof(struct TerrainPtrTable)==sizeof(uint8*)*32);
 // 64 with 16bit ptr
 // 128 with far/32bit ptr
 // 256 with 64bit ptr
+
+#ifdef BUGFIX
+struct TerrainCountTable {
+    uint16 entries[32];
+};
+STATIC_ASSERT(sizeof(struct TerrainCountTable)==sizeof(uint16)*32);
+#endif
 
 #define TERRAINUNKSIZE 64
 
