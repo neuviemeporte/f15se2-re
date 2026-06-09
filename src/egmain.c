@@ -318,7 +318,7 @@ void updateFrame(void) {
     applyGravityFall();
     TRACE(("updateFrame: past 118D5"));
 
-    if (objectToScreen(word_3BEC0, word_3BED0, &b, &c) != 0) {
+    if (objectToScreen(word_3BEC0, word_3BED0, (int16*)&b, (int16*)&c) != 0) {
         byte_3C5A0 = -(gfx_getDisplayPage() - 1);
         gfx_copyRect(2, b - 3, c - 3, byte_3C5A0, b - 3, c - 3, 6, 6);
         blitSprite(b - 1, c - 1, ((var_542 + 0x1000) >> 0xd & 7) * 4 + 0xa4, 4, 4, 4, 0);
