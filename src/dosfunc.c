@@ -67,8 +67,8 @@ int dos_free(const uint16 segment) {
     rin.h.ah = DOSF_FREEMEM;
     sreg.es = segment;
     err = intdosx(&rin, &rout, &sreg);
-    // RBIL: "Apparently [int 21/49hhj] never returns an error 07h, despite official docs; DOS 2.1+ code contains only an error 09h exit. 
-    // DOS 2.1-6.0 does not coalesce adjacent free blocks when a block is freed, only when a block is allocated or resized. 
+    // RBIL: "Apparently [int 21/49hhj] never returns an error 07h, despite official docs; DOS 2.1+ code contains only an error 09h exit.
+    // DOS 2.1-6.0 does not coalesce adjacent free blocks when a block is freed, only when a block is allocated or resized.
     // The code for this function is identical in DOS 2.1-6.0 except for calls to start/end a critical section in DOS 3.0+""
     if (rout.x.cflag != 0) {
         ERROR("dos_free: error freeing segment 0x%x: error 0x%x", segment, (int)err);
@@ -104,13 +104,13 @@ size_t dos_getfree(void) {
     return rout.x.bx;
 }
 
-// Format of EXEC parameter block for AL=00h,01h,04h: 
-// Offset Size Description (Table 01590) 
-// 00h WORD segment of environment to copy for child process (copy caller's environment if 0000h) 
-// 02h DWORD pointer to command tail to be copied into child's PSP 
-// 06h DWORD pointer to first FCB to be copied into child's PSP 
-// 0Ah DWORD pointer to second FCB to be copied into child's PSP 
-// 0Eh DWORD (AL=01h) will hold subprogram's initial SS:SP on return 
+// Format of EXEC parameter block for AL=00h,01h,04h:
+// Offset Size Description (Table 01590)
+// 00h WORD segment of environment to copy for child process (copy caller's environment if 0000h)
+// 02h DWORD pointer to command tail to be copied into child's PSP
+// 06h DWORD pointer to first FCB to be copied into child's PSP
+// 0Ah DWORD pointer to second FCB to be copied into child's PSP
+// 0Eh DWORD (AL=01h) will hold subprogram's initial SS:SP on return
 // 12h DWORD (AL=01h) will hold entry point (CS:IP) on return
 #pragma pack(1)
 struct {
@@ -145,12 +145,11 @@ static int loadprog(const char* file, const uint16 segment, const uint8 type, co
     int err;
     rin.h.ah = DOSF_LOADPROG;
     rin.h.al = type;
-#ifdef BUGFIX
-    // just make it compile on clang - complete bullshit
+#if !defined(MSDOS)
     rin.x.dx = 0; // (unsigned int)file;
 #else
     rin.x.dx = (unsigned int)file;
-#endif  
+#endif
     switch (type)
     {
     case DOS_LOAD_EXEC:
@@ -163,22 +162,20 @@ static int loadprog(const char* file, const uint16 segment, const uint8 type, co
         exeLoadParams.fcb1Segment = _psp;
         exeLoadParams.fcb2Offset = 0x6c;
         exeLoadParams.fcb2Segment = _psp;
-#ifdef BUGFIX
-        // just make it compile on clang - complete bullshit
+#if !defined(MSDOS)
         rin.x.bx = 0; // (unsigned int)&exeLoadParams;
-#else    
+#else
         rin.x.bx = (unsigned int)&exeLoadParams;
-#endif      
+#endif
         if (DOS_LOAD_EXEC)
             DEBUG("dos_loadprog(): loading %s and executing with cmdline '%Fs'", file, cmdline);
         else
-            DEBUG("dos_loadprog(): loading %s with cmdline '%Fs'", file, cmdline);            
+            DEBUG("dos_loadprog(): loading %s with cmdline '%Fs'", file, cmdline);
         break;
     case DOS_LOAD_OVL:
         ovlLoadParams.segment = segment;
         ovlLoadParams.reloc = segment; // no idea, original does the same
-#ifdef BUGFIX        
-        // just make clang happy - bullshit code
+#if !defined(MSDOS)
         rin.x.bx = 0; // (unsigned int)&ovlLoadParams;
 #else
         rin.x.bx = (unsigned int)&ovlLoadParams;
@@ -194,7 +191,7 @@ static int loadprog(const char* file, const uint16 segment, const uint8 type, co
         ERROR("dos_loadprog: unable to load %s at 0x%x, error 0x%x", file, segment, err);
         return err;
     }
-    DEBUG("dos_loadprog(): success, ax = 0x%x, cs:ip = %X:%X, ss:sp = %X:%X", rout.x.ax, 
+    DEBUG("dos_loadprog(): success, ax = 0x%x, cs:ip = %X:%X, ss:sp = %X:%X", rout.x.ax,
         exeLoadParams.cs, exeLoadParams.ip, exeLoadParams.ss, exeLoadParams.sp);
     return 0;
 }
@@ -241,7 +238,7 @@ struct MCB {
 STATIC_ASSERT(sizeof(struct MCB)==0x10);
 
 static uint8 FAR* dos_sysvars(void) {
-    rin.h.ah = DOSF_SYSVARS; 
+    rin.h.ah = DOSF_SYSVARS;
     intdosx(&rin, &rout, &sreg);
     return (uint8 FAR*)MK_FP(sreg.es, rout.x.bx);
 }

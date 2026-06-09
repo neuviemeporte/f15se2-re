@@ -384,8 +384,7 @@ void FAR CDECL gfx_setDac(uint16 palIdx)
 {
     union REGS regs;
     struct SREGS sregs;
-    if (palIdx > 4)
-      return;
+    if (palIdx > 4) return;
     /* INT 10h AX=1012h: set block of DAC color registers */
     regs.x.ax = 0x1012;
     regs.x.bx = 0;       /* first register */

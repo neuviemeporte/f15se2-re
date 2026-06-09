@@ -72,7 +72,7 @@ inline unsigned short _psp = 0;
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
-#if defined(__linux__)
+#if !defined(MSDOS) && !defined(_WIN32)
 #include <unistd.h>
 #else
 #include <io.h>

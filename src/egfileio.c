@@ -113,11 +113,7 @@ void drawProjectionSphere(int arg_0)
 }
 
 // ==== seg000:0xdd5e ====
-#ifdef BUGFIX
 int createFileWrapper(const char* filename, int attr) {
-#else
-int createFileWrapper(int filename, int attr) {
-#endif
     return createFile(filename, attr);
 }
 
@@ -140,5 +136,3 @@ int readFile2Wrapper(int arg_0, int arg_1, int arg_2, int arg_3) {
 int writeFileAtRawWrapper(int handle, int count, int bufOffset, int bufSegment, int offsetAddend) {
     return writeFileAtRaw(handle, count, bufOffset, bufSegment, offsetAddend);
 }
-
-
