@@ -17,7 +17,7 @@
 #include <memory.h>
 
 
-int drawTacticalMap(char page)
+void drawTacticalMap(char page)
 {
     int p;
     int a;

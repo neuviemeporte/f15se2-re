@@ -16,12 +16,12 @@
 
 // ==== seg000:0x8e38 ====
 
-int clearStatusPanel(void) {
+void clearStatusPanel(void) {
     drawPanelText(2, (char*)aEmpty_5950, 0);
 }
 
 // ==== seg000:0x8e50 ====
-int drawCockpitHud(int arg_0) {
+void drawCockpitHud(int arg_0) {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E, var_10, var_12, var_14, var_16, var_18, var_1A;
     char var_1C;
     TRACE(("drawCockpitHud: enter"));
@@ -333,12 +333,12 @@ void drawMapLine(int x1, int y1, int x2, int y2) {
 }
 
 // ==== seg000:0x9be1 ====
-int drawFullscreenLine(int x1, int y1, int x2, int y2) {
+void drawFullscreenLine(int x1, int y1, int x2, int y2) {
     drawClippedLineRegion(x1, y1, x2, y2, 0, 0x13f, 0, 199, 1);
 }
 
 // ==== seg000:0x9c0c ====
-int drawViewportLine(int x1, int y1, int x2, int y2) {
+void drawViewportLine(int x1, int y1, int x2, int y2) {
     int p, a;
 
     a = var_564[10] - var_564[9] + 1;
@@ -389,7 +389,7 @@ void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int arg
 }
 
 // ==== seg000:0x9d86 ====
-int drawScreenLineOnePage(int x1, int y1, int x2, int y2) {
+void drawScreenLineOnePage(int x1, int y1, int x2, int y2) {
     drawClippedLineRegion(x1, y1, x2, y2, 0, 0x13f, 0, 0xc7, 0);
 }
 
@@ -425,7 +425,7 @@ void fillRectBoth(int x1, int y1, int x2, int y2) {
 }
 
 // ==== seg000:0x9e94 ====
-int drawColorPoint(int screenX, int screenY, int color) {
+void drawColorPoint(int screenX, int screenY, int color) {
     setDrawColor(color);
     drawFullscreenLine(screenX, screenY, screenX, screenY);
 }
@@ -437,7 +437,7 @@ void drawMapPoint(int x, int y, int color) {
 }
 
 // ==== seg000:0x9eb6 ====
-int switchIndicatorColor(int indicatorIdx, int color) {
+void switchIndicatorColor(int indicatorIdx, int color) {
     if (word_330C2 == 0) goto done;
     if (*(&word_38202 + indicatorIdx * 5 + 7) != color) {
         gfx_switchColor(var_564, *(&word_38202 + indicatorIdx * 5 + 3), *(&word_38202 + indicatorIdx * 5 + 4), *(&word_38202 + indicatorIdx * 5 + 5), *(&word_38202 + indicatorIdx * 5 + 6), *(&word_38202 + indicatorIdx * 5 + 7), color);
@@ -449,7 +449,7 @@ done:
 }
 
 // ==== seg000:0x9fad ====
-int drawPanelText(int panel, char* text, int color) {
+void drawPanelText(int panel, char* text, int color) {
     fillPanelBox(panel, color);
     drawCenteredLabelBox(panel, text);
 }
@@ -469,7 +469,7 @@ void fillPanelBox(int panelId, int color) {
 }
 
 // ==== seg000:0xa0cb ====
-int drawSomeStrings(const char *text, int screenX, int screenY, int color) {
+void drawSomeStrings(const char *text, int screenX, int screenY, int color) {
     drawStringCentered(var_564, text, screenX, screenY, color);
     drawStringCentered(var_565, text, screenX, screenY, color);
 }
@@ -484,7 +484,7 @@ void draw2Strings(const char *text, int screenX, int screenY, int color) {
 }
 
 // ==== seg000:0xa13a ====
-int drawStringCentered(int16* strStruct, const char *text, int screenX, int screenY, int color) {
+void drawStringCentered(int16* strStruct, const char *text, int screenX, int screenY, int color) {
     strStruct[6] = 0;
     strStruct[4] = screenX;
     strStruct[5] = screenY;

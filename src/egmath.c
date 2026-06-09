@@ -86,7 +86,7 @@ void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int pa
 }
 
 // ==== seg000:0xcb42 ====
-int drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param_5, int param_6, int param_7, int mode, int shift)
+void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param_5, int param_6, int param_7, int mode, int shift)
 {
     int p;
     int a;

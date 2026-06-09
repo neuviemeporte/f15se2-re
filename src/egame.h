@@ -130,7 +130,7 @@ uint32 scaleCoordToLod(int level, uint32 coord);
 // ==== seg000:0x273e ====
 int process3dg(int lod, int col, int row);
 // ==== seg000:0x2874 ====
-int load3DAll();
+void load3DAll();
 // ==== seg000:0x2898 ====
 void __cdecl load3D3(char *);
 // ==== seg000:0x2c82 ====
@@ -138,9 +138,9 @@ void __cdecl load3DT(char *);
 // ==== seg000:0x2e54 ====
 void load3DG();
 // ==== seg000:0x2f8c ====
-int __cdecl printError(const char *);
+void __cdecl printError(const char *);
 // ==== seg000:0x2faf ====
-int __cdecl strcpyFromDot(char *dst, char *src);
+void __cdecl strcpyFromDot(char *dst, char *src);
 // ==== seg000:0x2fda ====
 int16* findNearestTileObject(uint32 worldX, uint32 worldY);
 // ==== seg000:0x3224 ====
@@ -248,7 +248,7 @@ void drawVectorShape(int16 *shapeData);
 // ==== seg000:0x613b ====
 void waitForKeyPress(void);
 // ==== seg000:0x6172 ====
-int updateThreatSites();
+void updateThreatSites();
 // ==== seg000:0x6346 ====
 int fireGroundThreat(int);
 // ==== seg000:0x660e ====
@@ -262,7 +262,7 @@ int updateObjects();
 // ==== seg000:0x7594 ====
 int fireAirThreat();
 // ==== seg000:0x783a ====
-int spawnEnemyAircraft(int slot, int objType);
+void spawnEnemyAircraft(int slot, int objType);
 // ==== seg000:0x79ee ====
 int updateThreatTargeting();
 // ==== seg000:0x85be ====
@@ -280,9 +280,9 @@ void fireMissile();
 // ==== seg000:0x8df4 ====
 void projectWorldPos(int worldX, int worldY, int worldZ);
 // ==== seg000:0x8e38 ====
-int clearStatusPanel();
+void clearStatusPanel();
 // ==== seg000:0x8e50 ====
-int drawCockpitHud();
+void drawCockpitHud();
 // ==== seg000:0x94d0 ====
 void __cdecl setActivePanel(int);
 // ==== seg000:0x957a ====
@@ -310,13 +310,13 @@ void __cdecl drawMapRangeArc(int, int, int, int, int, int, int);
 // ==== seg000:0x9b98 ====
 void drawMapLine(int x1, int y1, int x2, int y2);
 // ==== seg000:0x9be1 ====
-int drawFullscreenLine(int x1, int y1, int x2, int y2);
+void drawFullscreenLine(int x1, int y1, int x2, int y2);
 // ==== seg000:0x9c0c ====
-int drawViewportLine(int x1, int y1, int x2, int y2);
+void drawViewportLine(int x1, int y1, int x2, int y2);
 // ==== seg000:0x9c84 ====
 void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int arg_a, int arg_c, int arg_e, int drawBothPages);
 // ==== seg000:0x9d86 ====
-int drawScreenLineOnePage(int x1, int y1, int x2, int y2);
+void drawScreenLineOnePage(int x1, int y1, int x2, int y2);
 // ==== seg000:0x9db0 ====
 void __cdecl drawHudViewLine(int, int, int, int);
 // ==== seg000:0x9e44 ====
@@ -324,23 +324,23 @@ void __cdecl setDrawColor(int);
 // ==== seg000:0x9e5d ====
 void fillRectBoth(int x1, int y1, int x2, int y2);
 // ==== seg000:0x9e94 ====
-int drawColorPoint();
+void drawColorPoint();
 // ==== seg000:0x9ea0 ====
 void drawMapPoint(int, int, int);
 // ==== seg000:0x9eb6 ====
-int switchIndicatorColor(int indicatorIdx, int color);
+void switchIndicatorColor(int indicatorIdx, int color);
 // ==== seg000:0x9fad ====
-int __cdecl drawPanelText(int, char*, int);
+void __cdecl drawPanelText(int, char*, int);
 // ==== seg000:0x9fcc ====
 void __cdecl fillPanelBox(int, int);
 // ==== seg000:0xa030 ====
 int __cdecl drawCenteredLabelBox(int, char *);
 // ==== seg000:0xa0cb ====
-int __cdecl drawSomeStrings(const char *, int, int, int);
+void __cdecl drawSomeStrings(const char *, int, int, int);
 // ==== seg000:0xa0fe ====
 void draw2Strings(const char*, int, int, int);
 // ==== seg000:0xa13a ====
-int __cdecl drawStringCentered(int16 *, const char *, int, int, int);
+void __cdecl drawStringCentered(int16 *, const char *, int, int, int);
 // ==== seg000:0xa183 ====
 void drawNumber(int, int, int, int);
 // ==== seg000:0xa1b1 ====
@@ -352,7 +352,7 @@ void setTimedMessage(char *message);
 // ==== seg000:0xa224 ====
 int routine_260(int param_1, int objIdx);
 // ==== seg000:0xa25c ====
-int drawTacticalMap(char page);
+void drawTacticalMap(char page);
 // ==== seg000:0xa740 ====
 void drawMapMarkerBox(int arg_0, int arg_2, int color);
 // ==== seg000:0xa7c4 ====
@@ -402,7 +402,7 @@ void load15Flt3d3();
 // ==== seg000:0xc9d2 ====
 void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int param_5, int param_6, int param_7, int scaleShift);
 // ==== seg000:0xcb42 ====
-int drawTargetView();
+void drawTargetView();
 // ==== seg000:0xcf32 ====
 int shapeDataOffset(int param_1);
 // ==== seg000:0xcf64 ====
@@ -441,7 +441,7 @@ void recalcTimeScale(void);
 // ==== seg000:0xdb2b ====
 void setupLodDistances(void);
 // ==== seg000:0xdb9c ====
-int sub_1DB9C();
+void sub_1DB9C();
 // ==== seg000:0xdbe0 ====
 void sub_1DBE0(void);
 // ==== seg000:0xdd4c ====
@@ -1687,7 +1687,7 @@ extern int16 word_3C0A0;
 extern char* word_3C0A2[];
 extern int16 word_3C16A;
 extern int16 word_3C16C;
-extern uint8 byte_3C16E[];
+extern char byte_3C16E[];
 extern int16 word_3C45C;
 extern int16 word_3C45E;
 extern struct Matrix3dEntry7 *matrix3dt_2[5][32];

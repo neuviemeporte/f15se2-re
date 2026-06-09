@@ -165,7 +165,7 @@ uint8 byte_3BED8[1];
 uint8 byte_3BF93[1];
 uint8 byte_3BFA4[UNIT_STATE_COUNT];
 uint8 byte_3C02A[1];
-uint8 byte_3C16E[1];
+char byte_3C16E[1];
 char byte_3C5A0;
 uint8 far *dword_38FE2;
 int32 dword_3B1FE;
@@ -572,7 +572,7 @@ int fixedMulQ14(int arg_0, int arg_2) { return 0; }
 int far flushSpanDirtyRect() { return 0; }
 int keyDispatch(int16 scanCode) { return 0; }
 int far multiplyMatrix3x3Far(int param_1, int param_2, int16* param_3) { return 0; }
-int __cdecl openFile(char *, int) { return 0; }
+int __cdecl openFile(const char *, int) { return 0; }
 void picBlit(int handle, int unk) {}
 int far projectModelEdgesFar() { return 0; }
 void far projectSceneObject(char *, int, int, int, int, int, int) {}
@@ -611,4 +611,4 @@ int audio_jump_6d(int a) { return 0; }
 
 /* projectObjects: eg3d_a.c calls the 8-int form; eg3d_b.c defines a
    different (int,int,long,long,long) overload. Stub the called form. */
-int projectObjects(int a,int b,int c,int d,int e,int f,int g,int h) { return 0; }
+void projectObjects(int a,int b,int c,int d,int e,int f,int g,int h) {}

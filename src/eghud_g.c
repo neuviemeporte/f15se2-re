@@ -16,7 +16,7 @@
 #include <string.h>
 
 // ==== seg000:0x6172 ====
-int updateThreatSites()
+void updateThreatSites()
 {
     int p, a, b, c, d, e;
 

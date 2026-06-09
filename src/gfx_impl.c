@@ -384,7 +384,12 @@ void FAR CDECL gfx_setDac(uint16 palIdx)
 {
     union REGS regs;
     struct SREGS sregs;
-    if (palIdx > 4) return 0;
+    if (palIdx > 4)
+#ifdef BUGFIX
+      return;
+#else
+      return 0;
+#endif
     /* INT 10h AX=1012h: set block of DAC color registers */
     regs.x.ax = 0x1012;
     regs.x.bx = 0;       /* first register */
@@ -394,7 +399,11 @@ void FAR CDECL gfx_setDac(uint16 palIdx)
     sregs.es = sregs.ds;  /* ES:DX -> palette table */
     int86x(0x10, &regs, &regs, &sregs);
     gfx_waitRetrace();
+#ifdef BUGFIX
+    return;
+#else
     return 0;
+#endif
 }
 
 /* ---- Slot 0x21: gfx_setColor ---- */

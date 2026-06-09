@@ -15,7 +15,7 @@
 #include <string.h>
 
 
-int projectObjects(int param_0, int param_1, long param_2, long param_4, long param_6)
+void projectObjects(int param_0, int param_1, long param_2, long param_4, long param_6)
 {
     int p;
     int a;

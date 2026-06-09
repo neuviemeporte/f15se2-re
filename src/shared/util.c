@@ -61,7 +61,11 @@ int stringWidth(int16 *page, const char *str) {
 
 void my_ltoa(int32 value, char* buf) {
     int8 i, k;
+#ifdef BUGFIX
+    char *p;
+#else
     int8 *p;
+#endif
     int8 n[6];
     p = buf;
     if (value < 0) {

@@ -16,7 +16,7 @@
 
 
 // ==== seg000:0x2874 ====
-int load3DAll() {
+void load3DAll() {
     load3DG();
     load3DT(regnStr);
     load3D3(regnStr);
@@ -179,14 +179,14 @@ void load3DG() {
 }
 
 // ==== seg000:0x2f8c ====
-int printError(const char *msg) {
+void printError(const char *msg) {
     gfx_flipPage();
     drawSomeStrings(msg, 0, 0x60, 0xf);
     getch();
 }
 
 // ==== seg000:0x2faf ====
-int strcpyFromDot(char *dst, char *src) {
+void strcpyFromDot(char *dst, char *src) {
     char var_2;
     while ((var_2 = *dst) != '.' && var_2 != 0) {
         dst++;

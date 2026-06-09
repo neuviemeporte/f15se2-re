@@ -78,7 +78,7 @@ void setupLodDistances(void) {
 }
 
 // ==== seg000:0xdb9c ====
-int sub_1DB9C() {
+void sub_1DB9C() {
     if (word_3370A == 2) {
         word_3370A = 1;
         word_330C4 <<= 1;
