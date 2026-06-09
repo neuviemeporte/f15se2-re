@@ -18,7 +18,11 @@
 #define __int8 char
 #define __cdecl
 #define __far far
+#ifdef BUGFIX
+extern char far byte_228D0[];
+#else
 extern unsigned char far byte_228D0[];
+#endif
 extern unsigned char far byte_228FF[];
 extern unsigned char far byte_2D6A4[];
 #define DOS_SET_IRQH 0x25

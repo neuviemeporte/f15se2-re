@@ -6,7 +6,11 @@
 #include <stdio.h>
 #include <dos.h>
 
+#ifdef BUGFIX
+char far byte_228D0[] = { 0 };
+#else
 unsigned char far byte_228D0[] = { 0 };
+#endif
 unsigned char far byte_228FF[] = { 0 };
 unsigned char far byte_2D6A4[] = { 0 };
 int16 word_328B2 = 0;
