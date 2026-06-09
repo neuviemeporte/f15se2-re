@@ -66,7 +66,7 @@
 /* ASM functions called from C */
 void srandInit(int seed);
 void decodePic(int handle, int segment);
-int dos_alloc(int size);
+uint16 dos_alloc(int size);
 void dos_printstring(const char *str);
 int dos_free(int segment);
 int createFile(const char *name, int mode);
