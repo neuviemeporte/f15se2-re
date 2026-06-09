@@ -705,7 +705,7 @@ uint8 joyReady[4];
 uint8 intRegs[12];
 char todayMissStrBuf[0x1D];
 uint8 missionStrTrunc;
-uint8 missionStrTruncEnd;
+uint8 missionStrTruncEnd[1];
 uint8 exitCode[2];
 int16 *nearestTerrainResult;
 char objectTypeTable[0x64];
