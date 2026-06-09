@@ -6,17 +6,9 @@
 #include <stdio.h>
 #include <dos.h>
 
-#ifdef BUGFIX
 char far byte_228D0[] = { 0 };
-#else
-unsigned char far byte_228D0[] = { 0 };
-#endif
 unsigned char far byte_228FF[] = { 0 };
-#ifdef BUGFIX
 char far byte_2D6A4[] = { 0 };
-#else
-unsigned char far byte_2D6A4[] = { 0 };
-#endif
 int16 word_328B2 = 0;
 uint8 unk_328B6[] = { 0 };
 char aMsRunTimeLibraryCopyr[] = { 0 };
@@ -559,58 +551,6 @@ int16 word_3C6AA;
 int16 word_3C6AC;
 int word_3C6AE;
 int16 word_3C8B6;
-
-#if !defined(__linux__)
-char* worldStrings[1];
-char animExitFlag;
-//char hercFlag;
-uint8 quitFlag;
-uint8 timerCounter2;
-uint8 timerCounter3;
-uint8 timerHandlerInstalled;
-int16 blinkColors[1];
-int16 flightTimeTable[1];
-int16 pilotNameInputColors[1];
-int target1MiscBits[1];
-int target2MiscBits[1];
-int16 clipMaxX;
-int16 clipMaxY;
-int16 gfxBufSeg;
-int hasVgaMode;
-//int lineX1;
-//int lineX2;
-//int lineY1;
-//int lineY2;
-int16 menuItemUnused;
-int missionResult;
-int16 playerStartLoc;
-int16 randSeed;
-int16 randState;
-int vgaBufSeg2;
-int waypointData;
-int16 worldGridSize;
-int worldMiscHeader;
-int worldObjectCount;
-int16 worldRouteCount;
-int worldRouteTable;
-int worldSamCount;
-int worldSamTable;
-int worldUnitFlags;
-int16 worldWaypointCount;
-int16 enableHighlight;
-int16 gridSignature;
-int16 gridValidFlag;
-int16 terrainDirtyFlag;
-int16 terrainSignature;
-//struct FlightRecord flightRecords[1];
-struct WorldObject worldObjects[1];
-uint8 gridRefRowDigit[1];
-uint8 missionStrTruncEnd[1] = {0};
-uint8 nearestGridY[1] = {0};
-unsigned char weaponDataBlock;
-uint16 terrainBuf1[1];
-uint16 menuSprites = 0;
-#endif
 
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }
