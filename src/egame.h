@@ -457,7 +457,7 @@ int readFile2Wrapper();
 // ==== seg000:0xddaa ====
 int writeFileAtRawWrapper();
 // ==== seg000:0xddc4 ====
-int __cdecl openFile(char *, int);
+int __cdecl openFile(const char *, int);
 // ==== seg000:0xde1b ====
 int createFile(const char *arg_0, int arg_1);
 // ==== seg000:0xde72 ====
