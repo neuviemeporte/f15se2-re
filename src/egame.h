@@ -57,11 +57,11 @@ extern unsigned char far byte_2D6A4[];
 // ==== seg000:0x147 ====
 void __cdecl drawCockpit();
 // ==== seg000:0x211 ====
-int runGameSession();
+void runGameSession();
 // ==== seg000:0x294 ====
-int sub_10294();
+void sub_10294();
 // ==== seg000:0x297 ====
-int sub_10297();
+void sub_10297();
 // ==== seg000:0x29a ====
 void __cdecl gfxInit();
 // bytes outside routine, potential module boundary at 0x2e1
@@ -82,13 +82,13 @@ void tickMessageTimers();
 // ==== seg000:0x1676 ====
 void updateBulletsAndFire();
 // ==== seg000:0x1841 ====
-int updateTracerParticles();
+void updateTracerParticles();
 // ==== seg000:0x18d5 ====
-int applyGravityFall();
+void applyGravityFall();
 // ==== seg000:0x18f6 ====
 void initFrameRandom();
 // ==== seg000:0x1971 ====
-int sub_11971();
+void sub_11971();
 // ==== seg000:0x19a3 ====
 void initWeaponLoadout(void);
 // ==== seg000:0x1a18 ====
@@ -108,15 +108,15 @@ void appendMapEvent(int eventType, int arg_2);
 // ==== seg000:0x1d6e ====
 void placeString(int waypointIdx);
 // ==== seg000:0x1e0e ====
-int initMissionStrings();
+void initMissionStrings();
 // ==== seg000:0x1f3e ====
 void findWaypointFeatures();
 // ==== seg000:0x2049 ====
-int moveDataFar();
+void moveDataFar();
 // ==== seg000:0x206d ====
-int moveStuff();
+void moveStuff();
 // ==== seg000:0x215c ====
-int moveNearFar(void *nearPtr, int count);
+void moveNearFar(void *nearPtr, int count);
 // ==== seg000:0x21a9 ====
 int setCommWorldbufPtr();
 // ==== seg000:0x21c6 ====
