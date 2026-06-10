@@ -76,7 +76,7 @@ void updateFrame(void);
 // ==== seg000:0x14e8 ====
 void dispatchKeyScancode();
 // ==== seg000:0x14fc ====
-int countermeasures();
+int countermeasures(int kind);
 // ==== seg000:0x1636 ====
 void tickMessageTimers();
 // ==== seg000:0x1676 ====
@@ -431,7 +431,7 @@ int randomRange(int);
 // ==== seg000:0xd21e ====
 int readAxisInput(int param_1);
 // ==== seg000:0xd260 ====
-int keyDispatch(int16 scanCode);
+int keyDispatch(uint16 scanCode);
 // ==== seg000:0xd9db ====
 void selectMissile();
 // ==== seg000:0xda35 ====
@@ -1771,7 +1771,10 @@ extern int16 var_225;
 extern int16 var_226;
 extern int16 var_227;
 extern int16 var_595;
+extern int16 var_596;
 extern int16 var_597;
+extern int16 var_598;
+extern int16 var_599;
 extern uint8 var_594;
 extern int16 var_600;
 extern int16 var_349;

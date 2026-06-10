@@ -14,8 +14,273 @@
 #include <stdlib.h>
 #include <string.h>
 
-// TODO: keyDispatch (seg000:d260-d9da) - large unimplemented function
-// Once implemented, try merging egame2f.c + egame1k.c (if register spill doesn't affect codegen)
+// ==== seg000:0xd260 ====
+int keyDispatch(uint16 scanCode)
+{
+    char p[14]; /* local buffer at BP-0e, used by itoa for memory display */
+
+    var_598 = var_599 = 0;
+
+    if (scanCode == 0)
+        goto end_dispatch;
+
+    switch (scanCode) {
+    case 0x1500:
+        sub_1DBE0();
+        break;
+    case 0x1372:
+        var_588++;
+        if (var_588 > 2)
+            var_588 = 0;
+        switch (var_588) {
+        case 0:
+            strcpy(strBuf, (char *)aLong);
+            break;
+        case 1:
+            strcpy(strBuf, (char *)aMedium);
+            break;
+        case 2:
+            strcpy(strBuf, (char *)aShort);
+            break;
+        }
+        strcat(strBuf, (char *)aRangeRadar);
+        tempStrcpy(strBuf);
+        break;
+    case 0x2c7a:
+        zoomIn();
+        break;
+    case 0x2d78:
+        zoomOut();
+        break;
+    case 0x2166:
+        countermeasures(1);
+        break;
+    case 0x2e63:
+        countermeasures(2);
+        break;
+    case 0x266c:
+        if (var_547 != word_3BEBE) {
+            *(char *)&planeFlags ^= 1;
+            word_336EC = 0;
+            makeSound(0x20, 2);
+        }
+        if (!(*(char *)&planeFlags & 1)) {
+            sub_1DB9C();
+        }
+        break;
+    case 0x2000:
+        word_38FDC--;
+        if (word_38FDC < 0) {
+            word_38FDC = gfx_getModecode() == 3 ? 3 : 2;
+        }
+        strcpy(strBuf, (char *)aDetailLevel);
+        strcat(strBuf, itoa(word_38FDC, unk_3C030, 10));
+        tempStrcpy(strBuf);
+        setupLodDistances();
+        break;
+    case 0x2500:
+        var_596++;
+        if (var_596 > 2)
+            var_596 = 0;
+        strcpy(strBuf, (char *)aKybdSensitivit);
+        strcat(strBuf, itoa(var_596 + 1, unk_3C030, 10));
+        tempStrcpy(strBuf);
+        break;
+    case 0x3200:
+        strcpy(strBuf, (char *)aMemoryAvailabl);
+        strcat(strBuf, itoa(allocSize, p, 10));
+        tempStrcpy(strBuf);
+        break;
+    case 0x2100:
+        strcpy(strBuf, (char *)aJiffiesFrame);
+        strcat(strBuf, itoa(word_3C6AE, unk_3C030, 10));
+        tempStrcpy(strBuf);
+        break;
+    case 0x1e00:
+        if (word_3370A == 1) {
+            word_3370A = 2;
+            word_330C4 = word_330C4 / 2;
+            recalcTimeScale();
+        } else {
+            sub_1DB9C();
+        }
+        break;
+    case 0x2f00:
+        var_600 = ++var_600 & 3;
+        strcpy(strBuf, (char *)aSounds);
+        strcat(strBuf, itoa(3 - var_600, unk_3C030, 10));
+        tempStrcpy(strBuf);
+        sub_1DA8D();
+        break;
+    case 0x3100:
+        *(char *)&word_330BC ^= 1;
+        if (byte_32933 != 0)
+            setupDac();
+        break;
+    case 0x1400:
+        *(char *)&var_730 ^= 0x10;
+        if (planeFlags & 0x1000) {
+            *((char far *)commData + 0x30) |= 1;
+        }
+        break;
+    case 0x1f73:
+        missileSpecIndex = 0;
+        if (word_3C45C != 1)
+            word_39604 = 0;
+        word_3C45C = 1;
+        selectMissile();
+        break;
+    case 0x326d:
+        missileSpecIndex = 1;
+        word_3C45C = 1;
+        if (word_3C45C != 1)
+            word_39604 = 0;
+        selectMissile();
+        break;
+    case 0x2267:
+        missileSpecIndex = 2;
+        if (word_3C45C != 2)
+            word_39604 = 0;
+        word_3C45C = 2;
+        selectMissile();
+        break;
+    case 0x2064:
+        word_3370E++;
+        if (word_3370E > 2)
+            word_3370E = 0;
+        strcpy(strBuf, (char *)aDirector);
+        if (word_3370E != 0) {
+            strcat(strBuf, itoa(word_3370E, unk_3C030, 10));
+        } else {
+            strcat(strBuf, (char *)aOff);
+        }
+        tempStrcpy(strBuf);
+        break;
+    case 0x1177:
+        waypointIndex++;
+        if (waypointIndex > 3)
+            waypointIndex = 1;
+        switch (waypointIndex) {
+        case 1:
+            tempStrcpy((char *)aWaypointPrimar);
+            break;
+        case 2:
+            tempStrcpy((char *)aWaypointSecond);
+            break;
+        case 3:
+            tempStrcpy((char *)aWaypointFriend);
+            word_3B15A = word_3C16A;
+            break;
+        }
+        break;
+    case 0x1970:
+        if (word_330B6 != 0) {
+            word_330B6 = 0;
+            tempStrcpy((char *)aAutopilotOff);
+        } else {
+            word_330B6 = var_547 < 1000 ? 1000 : var_547;
+            tempStrcpy((char *)aAutopilotOn);
+        }
+        break;
+    case 0x1474:
+        *(char *)&word_336F4 |= 0x80;
+        break;
+    case 0xe08:
+        var_598 = 1;
+        break;
+    case 0x1c0d:
+        var_599 = 1;
+        break;
+    case 0x3920:
+        keyValue = 0;
+        break;
+    case 0x3b00:
+        keyValue = 0x44;
+        break;
+    case 0x3c00:
+        keyValue = 0x42;
+        break;
+    case 0x3d00:
+        keyValue = 0x43;
+        break;
+    case 0x3e00:
+        keyValue = 0x41;
+        break;
+    case 0x3f00:
+        keyValue = 0x87;
+        break;
+    case 0x4000:
+        keyValue = 0x84;
+        break;
+    case 0x4100:
+        keyValue = 0x85;
+        break;
+    case 0x4200:
+        keyValue = 0x89;
+        break;
+    case 0x4300:
+        keyValue = 0x88;
+        break;
+    case 0x4400:
+        keyValue = 0x8b;
+        break;
+    case 0x11b:
+        if (word_3BE3C == 0) {
+            makeSound(2, 2);
+            makeSound(0x22, 2);
+            if ((abs(var_545) >> 5) + (abs(var_544) >> 5) + word_3AA5A
+                    > randomRange(500) + 500) {
+                finalizeMission(6);
+            } else {
+                *(int far *)((char far *)commData + 0x26) = 2;
+            }
+            word_3BE3C = 1;
+            word_3C028 = word_3BEC0;
+            word_3C03A = word_3BED0;
+            word_3C040 = var_547 + 8;
+        }
+        break;
+    }
+
+    if (planeFlags & 0x1000) {
+        switch (scanCode) {
+        case 0x1300:
+            initWeaponLoadout();
+            break;
+        case 0x1f00:
+            dword_3B7F8 += 0x20000L >> byte_383E5;
+            break;
+        case 0x2d00:
+            dword_3B7F8 -= 0x20000L >> byte_383E5;
+            break;
+        case 0x2c00:
+            dword_3B7DA -= 0x20000L >> byte_383E5;
+            break;
+        case 0x2e00:
+            dword_3B7DA += 0x20000L >> byte_383E5;
+            break;
+        }
+    }
+
+    if (word_3BE3C != 0) {
+        keyValue = 0x8c;
+    }
+
+end_dispatch:
+    if (var_597 > 0)
+        var_597--;
+
+    if (readAxisInput(1) != 0 && var_597 == 0) {
+        fireMissile();
+        var_597 = 4;
+    }
+
+    switchIndicatorColor(3, (*(char *)&planeFlags & 1) ? 4
+        : (word_3AA5A < 250 || (*(char *)&frameTick & 1)) ? 2 : 10);
+
+    switchIndicatorColor(2, (*(char *)&planeFlags & 8) ? 14
+        : *(char *)&gfxModeUnset != 0 ? 3 : 2);
+}
 
 // ==== seg000:0xd9db ====
 

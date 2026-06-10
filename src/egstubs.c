@@ -20,7 +20,7 @@ char *regnStr = NULL;
 int16 word_330B4 = 0;
 int loadF15DgtlBin() { return 0; }
 int setupOverlaySlots(uint16 addr) { return 0; }
-int countermeasures() { return 0; }
+int countermeasures(int kind) { return 0; }
 int callLoad3DAll() { return 0; }
 
 // === Joystick/Input Stubs ===
@@ -233,6 +233,22 @@ uint8 aNoTarget[] = "No Target";
 uint8 aNoTarget_0[] = "No Target";
 uint8 aPrimaryTarget[] = "Primary Target";
 uint8 aSecondaryTarget[] = "Secondary Target";
+uint8 aLong[] = "Long";
+uint8 aMedium[] = "Medium";
+uint8 aShort[] = "Short";
+uint8 aRangeRadar[] = " range radar";
+uint8 aDetailLevel[] = "Detail Level ";
+uint8 aKybdSensitivit[] = "Kybd Sensitivity";
+uint8 aMemoryAvailabl[] = "Memory Available:";
+uint8 aJiffiesFrame[] = "Jiffies/Frame ";
+uint8 aSounds[] = "Sounds ";
+uint8 aDirector[] = "Director ";
+uint8 aOff[] = "off";
+uint8 aWaypointPrimar[] = "Waypoint: Primary Target";
+uint8 aWaypointSecond[] = "Waypoint: Secondary Target";
+uint8 aWaypointFriend[] = "Waypoint: Friendly Airbase";
+uint8 aAutopilotOff[] = "Autopilot off";
+uint8 aAutopilotOn[] = "Autopilot on";
 uint16 uvar_547;
 int16 var_593;
 int16 var_675;
@@ -337,7 +353,10 @@ int16 var_591;
 int16 var_592;
 uint8 var_594;
 int16 var_595;
+int16 var_596;
 int16 var_597;
+int16 var_598;
+int16 var_599;
 int16 var_600;
 int16 var_654;
 int16 var_657;
@@ -593,7 +612,6 @@ int far drawPolygonOutline(int, int, int*, int) { return 0; }
 int far fillSpanRect(int16* param_1, int param_2, int param_3, int param_4, int param_5) { return 0; }
 int fixedMulQ14(int arg_0, int arg_2) { return 0; }
 int far flushSpanDirtyRect() { return 0; }
-int keyDispatch(int16 scanCode) { return 0; }
 int far multiplyMatrix3x3Far(int param_1, int param_2, int16* param_3) { return 0; }
 int __cdecl openFile(const char *, int) { return 0; }
 void picBlit(int handle, int unk) {}
