@@ -554,6 +554,9 @@ int16 word_3C6AA;
 int16 word_3C6AC;
 int word_3C6AE;
 int16 word_3C8B6;
+int16 word_3B4D2;
+int16 word_3C00A;
+int16 word_3C8B2;
 
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }
@@ -596,7 +599,6 @@ int far sub_2044A() { return 0; }
 int far sub_20658() { return 0; }
 void __cdecl __far sub_21A7E() {}
 int updateObjects() { return 0; }
-int updateTargetLock() { return 0; }
 int updateThreatTargeting() { return 0; }
 int writeFileAtRaw(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) { return 0; }
 

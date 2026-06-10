@@ -214,7 +214,3 @@ void blitSprite(int destX, int destY, int srcX, int srcY, int spriteWidth, int a
     var_585 = 0x10;
     gfx_blitSpriteOpaque(&word_383CC);
 }
-
-// TODO: updateTargetLock (seg000:a9f8-b146) - unimplemented
-// TODO: drawHudWorldOverlay (seg000:b147-c1b8) - large unimplemented function
-// Once implemented, try merging egame2e.c + egame1j.c (if register spill doesn't affect codegen)

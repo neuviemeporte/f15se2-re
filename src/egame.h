@@ -372,7 +372,7 @@ int restoreScopePanel();
 // ==== seg000:0xa9bc ====
 int captureScopePanel();
 // ==== seg000:0xa9f8 ====
-int updateTargetLock();
+void updateTargetLock();
 // ==== seg000:0xb147 ====
 int drawHudWorldOverlay();
 // ==== seg000:0xc1b9 ====
@@ -390,11 +390,11 @@ long rotateVectorComponent(int axis, int vecX, int vecY, int vecZ);
 // ==== seg000:0xc6be ====
 int findWaypointEntry();
 // ==== seg000:0xc7a2 ====
-void computeMapTargetRange(int targetIdx);
+int computeMapTargetRange(int targetIdx);
 // ==== seg000:0xc7c6 ====
-void computeSimObjectRange();
+int computeSimObjectRange(int objIdx);
 // ==== seg000:0xc7ea ====
-void computeTargetBearing(int targetX, int targetY, int wantBearing);
+int computeTargetBearing(int targetX, int targetY, int wantBearing);
 // ==== seg000:0xc82d ====
 int sub_1C82D();
 // ==== seg000:0xc864 ====
@@ -422,7 +422,7 @@ int sinMul(int angle, int value);
 // ==== seg000:0xd190 ====
 int cosMul(int angle, int value);
 // ==== seg000:0xd1c8 ====
-int signOf();
+int signOf(int value);
 // ==== seg000:0xd1e8 ====
 void seedRng(void);
 // ==== seg000:0xd200 ====
@@ -1584,6 +1584,9 @@ extern int16 word_3B15E;
 extern uint8 buf3d3_3[];
 extern int32 dword_3B1FE;
 extern struct SimObject stru_3B202[];
+extern int16 word_3B204;
+extern int16 word_3B206;
+extern struct SimObject stru_3B208[];
 extern int16 word_3B22C;
 extern int32 word_3B22E;
 extern int32 word_3B232;
