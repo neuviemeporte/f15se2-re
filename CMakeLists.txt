@@ -6,6 +6,13 @@ set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Virtual-overlay gfx trampolines: start/end/egame far-call into f15.exe's
+# gfx_impl.c at runtime. f15 itself links gfx_impl.c directly instead.
+set(NOASM_GFX_SOURCES
+    ${SRC_DIR}/slottram.c
+    ${SRC_DIR}/ovlpatch.c
+)
+
 set(SHARED_SOURCES
     ${SRC_DIR}/shared/file_io.c
     ${SRC_DIR}/shared/gfxstub.c
@@ -32,8 +39,8 @@ set(START_SOURCES
     ${SRC_DIR}/stgrid.c
     ${SRC_DIR}/stgen.c
     ${SRC_DIR}/stdata.c
-    ${SRC_DIR}/gfx_impl.c
     ${SHARED_SOURCES}
+    ${NOASM_GFX_SOURCES}
 )
 
 set(EGAME_SOURCES
@@ -57,7 +64,7 @@ set(EGAME_SOURCES
     ${SRC_DIR}/egfileio.c
     ${SRC_DIR}/egpic.c
     ${SRC_DIR}/egstubs.c
-    ${SRC_DIR}/gfx_impl.c
+    ${NOASM_GFX_SOURCES}
 )
 
 set(END_SOURCES
@@ -70,8 +77,8 @@ set(END_SOURCES
     ${SRC_DIR}/endbrf.c
     ${SRC_DIR}/enfile.c
     ${SRC_DIR}/end_data.c
-    ${SRC_DIR}/gfx_impl.c
     ${SHARED_SOURCES}
+    ${NOASM_GFX_SOURCES}
 )
 
 set(F15_SOURCES
@@ -81,6 +88,8 @@ set(F15_SOURCES
     ${SRC_DIR}/output.c
     ${SRC_DIR}/overlay.c
     ${SRC_DIR}/f15util.c
+    ${SRC_DIR}/gfx_impl.c
+    ${SRC_DIR}/compat64/gfx_regshim.c
 )
 
 add_executable(f15 ${F15_SOURCES})

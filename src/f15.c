@@ -24,6 +24,10 @@
 #include "overlay.h"
 #include "f15util.h"
 #include "offsets.h"
+#ifdef NO_ASM
+#include "gfx_impl.h"
+#include "slot.h"
+#endif
 
 #include <stdio.h>
 #include <stddef.h>
@@ -46,6 +50,11 @@ enum { CMDLINE_LEN = 128 };
 char cmdlineBuf[CMDLINE_LEN] = "";
 const char FAR *CMDLINE = (const char FAR*)cmdlineBuf;
 uint16 commSegment = 0;
+#ifdef NO_ASM
+/* Satisfy linker for gfx_drawLine's extern refs when stdata.c is absent.
+ * At runtime these live in the calling exe's data segment (correct behavior). */
+int16 lineX1, lineX2, lineY1, lineY2;
+#endif
 
 uint16 load_driver(const char* filename, const uint16 commPtrOffset) {
     /* load driver overlay into memory */
@@ -64,18 +73,21 @@ uint16 load_driver(const char* filename, const uint16 commPtrOffset) {
 void game_init(void) {
     size_t freeMemory;
     int8 FAR *charPtr;
-    OverlayFunc gfxInit = NULL;
-    uint16 gfxDrvAddress, gfxBufAddress;
+    uint16 gfxBufAddress;
     int err;
-    
+#ifndef NO_ASM
+    OverlayFunc gfxInit = NULL;
+    uint16 gfxDrvAddress;
+#endif
+
     bios_clearkeyflags();
 
     /* get amount of free memory */
     freeMemory = dos_getfree();
-    if (freeMemory == 0) 
+    if (freeMemory == 0)
         FATAL("Unable to get amount of free memory!");
     INFO("free memory: %s", sizeString(freeMemory));
-    
+
     /* allocate memory for communication buffer between game executables */
     commSegment = dos_alloc(COMM_SIZE_PARA);
     if (commSegment == 0)
@@ -85,7 +97,7 @@ void game_init(void) {
     writeWordFar(commSegment - 1, COMM_MCB_OFFSET_MAGIC1, COMM_MCB_VALUE_MAGIC1);
     writeWordFar(commSegment - 1, COMM_MCB_OFFSET_MAGIC2, COMM_MCB_VALUE_MAGIC2);
 
-    /* put address of communication buffer into the Intra-Application Comunication Area in low memory 
+    /* put address of communication buffer into the Intra-Application Comunication Area in low memory
        so that all game executables can find out where it is */
     writeWordFar(SEG_LOWMEM, OFF_IACA_START, commSegment);
     writeWordFar(SEG_LOWMEM, OFF_IACA_NEEDSPLASH, 1);
@@ -97,11 +109,15 @@ void game_init(void) {
     writeWordFar(commSegment, COMM_SETUP2_OFFSET, 0);
     writeWordFar(commSegment, COMM_SETUP_DETAIL_OFFSET, 3); /* max detail */
     writeWordFar(commSegment, COMM_SETUP_USEJOY_OFFSET, 0);
+#ifndef NO_ASM
     strcpyFar(GFX_DRIVER, commSegment, COMM_GFXOVL_NAME_OFFSET, strlen(GFX_DRIVER));
+#endif
+    /* sound driver name is read by start.exe (PC-speaker check) in both builds */
     strcpyFar(SOUND_DRIVER, commSegment, COMM_SNDOVL_NAME_OFFSET, strlen(SOUND_DRIVER));
     writeWordFar(commSegment, COMM_SETUP_DONE_OFFSET, 1);
     writeWordFar(commSegment, COMM_SETUP_GFXMODE_OFFSET, (uint16)'M'); /* mcga */
 
+#ifndef NO_ASM
     /* load sound, misc and video driver overlays */
     load_driver(SOUND_DRIVER, COMM_SNDOVL_ADDR_OFFSET);
     load_driver(MISC_LIBRARY, COMM_MISCOVL_ADDR_OFFSET);
@@ -112,6 +128,35 @@ void game_init(void) {
     INFO("gfx init function at %p", gfxInit);
     gfxBufAddress = gfxInit(GFX_INIT_ARG);
     INFO("gfx init function returned 0x%x", gfxBufAddress);
+#else
+    {
+        uint16 ovlSeg = dos_alloc(80);
+        uint16 sndSeg, miscSeg;
+        if (ovlSeg == 0)
+            FATAL("Unable to allocate virtual gfx overlay");
+        gfx_buildVirtualOverlay(ovlSeg);
+        writeWordFar(commSegment, COMM_GFXOVL_ADDR_OFFSET, ovlSeg);
+        INFO("Virtual gfx overlay at 0x%x", ovlSeg);
+
+        /* Stub SOUND and MISC overlays provided by f15.exe itself — no
+         * NSOUND.EXE / MISC.EXE on disk. An ASM child still patches its
+         * audio/misc slots from these (otherwise the unpatched JMP FAR
+         * 0000:0000 stubs crash); NO_ASM children ignore them (their misc
+         * is direct C and the slot index range is out of their gfx table). */
+        sndSeg = dos_alloc(4);
+        miscSeg = dos_alloc(4);
+        if (sndSeg == 0 || miscSeg == 0)
+            FATAL("Unable to allocate stub misc/sound overlays");
+        gfx_buildSoundOverlay(sndSeg);
+        gfx_buildMiscOverlay(miscSeg);
+        writeWordFar(commSegment, COMM_SNDOVL_ADDR_OFFSET, sndSeg);
+        writeWordFar(commSegment, COMM_MISCOVL_ADDR_OFFSET, miscSeg);
+        INFO("Stub sound overlay at 0x%x, misc overlay at 0x%x", sndSeg, miscSeg);
+
+        gfxBufAddress = (uint16)gfx_allocPage((int)GFX_INIT_ARG);
+        INFO("gfx_allocPage returned 0x%x", gfxBufAddress);
+    }
+#endif
     writeWordFar(commSegment, COMM_GFXINIT_RESULT_OFFSET, gfxBufAddress);
 
     /* initialization done */

@@ -8,10 +8,10 @@
 #include "inttype.h"
 #include "pointers.h"
 #include <dos.h>
+#include <conio.h>
 
 extern int FAR CDECL gfx_setPageN(uint16 pageNum);
-extern int FAR CDECL gfx_clearPage(void);
-extern int FAR CDECL gfx_getCurPageSeg(void);
+extern int FAR CDECL gfx_getCurPageSeg2(void);
 
 void picdbg(const char *msg)
 {
@@ -72,7 +72,7 @@ static uint16 dictParent[2048];
 static uint8 dictChar[2048];
 
 /* LZW output buffer (coroutine simulation) */
-static uint8 lzwOutBuf[2048];
+static uint8 lzwOutBuf[4096];   /* must cover the stackTop<4096 traversal guard */
 static uint16 lzwOutPos;
 static uint16 lzwOutLen;
 static int lzwFirstCode; /* flag: first code after init/reset */
@@ -259,7 +259,18 @@ static void decodeRow(uint8 *outBuf, uint16 count)
     }
 }
 
-static void picDecodeToSegment(int handle, uint16 pageSeg)
+/* rowCount/rowStride select the layout: mode-13h (200, 320) for full-screen
+ * 320x200 pics, or the EGA-title layout (0x2BC, 0x28) used by picBlit (mirrors
+ * _picBlit in stcode.asm). decodePicRow always produces a 320-byte row
+ * (picRowLength=320); the stride is what differs between the two paths.
+ *
+ * planar != 0 selects EGA mode-0x10 output: each decoded row is 320 8bpp pixels
+ * (colour 0-15); they are written to the 4 EGA bit-planes (1 bit/pixel/plane)
+ * via the Sequencer Map Mask (port 0x3C4 index 2). The original game does this
+ * conversion inside EGRAPHIC.EXE's fillRow; the NO_ASM build has no overlay
+ * driver, so we do it here. (Mode-13h pics use planar=0: a plain linear copy.) */
+static void picDecodeToSegment(int handle, uint16 pageSeg, uint16 rowCount,
+                               uint16 rowStride, int planar)
 {
     uint16 row;
     uint16 i;
@@ -298,7 +309,7 @@ static void picDecodeToSegment(int handle, uint16 pageSeg)
     rlePrevByte = 0;
     rleProcessFlag = 0;
 
-    for (row = 0; row < 200; row++) {
+    for (row = 0; row < rowCount; row++) {
         if (!picSignedFlag) {
             /* picByteUnsignedFlag=1 (bit7 clear): NIBBLE mode */
             decodeRow(tempBuf, 160);
@@ -311,10 +322,33 @@ static void picDecodeToSegment(int handle, uint16 pageSeg)
             decodeRow(picDecodedRowBuf, 320);
         }
 
-        dst = (uint8 far *)MK_FP(pageSeg, (uint16)(row * 320));
-        for (i = 0; i < 320; i++) {
-            dst[i] = picDecodedRowBuf[i];
+        dst = (uint8 far *)MK_FP(pageSeg, (uint16)(row * rowStride));
+        if (planar) {
+            /* 320 8bpp pixels -> 40 packed bytes per plane (8 px/byte, MSB =
+             * leftmost). Map Mask selects one plane per pass so the four writes
+             * to the same 40 addresses land in separate bit-planes. */
+            int p;
+            for (p = 0; p < 4; p++) {
+                int k;
+                outp(0x3C4, 2);
+                outp(0x3C5, 1 << p);
+                for (k = 0; k < 40; k++) {
+                    uint8 b = 0;
+                    int j;
+                    for (j = 0; j < 8; j++)
+                        b = (uint8)((b << 1) | ((picDecodedRowBuf[k * 8 + j] >> p) & 1));
+                    dst[k] = b;
+                }
+            }
+        } else {
+            for (i = 0; i < 320; i++) {
+                dst[i] = picDecodedRowBuf[i];
+            }
         }
+    }
+    if (planar) {
+        outp(0x3C4, 2);
+        outp(0x3C5, 0x0F);   /* restore Map Mask = all planes */
     }
 }
 
@@ -325,25 +359,43 @@ void showPicFile(int handle, int page)
     if (handle < 0) return;
 
     gfx_setPageN((uint16)page);
-    gfx_clearPage();
-    pageSeg = (uint16)gfx_getCurPageSeg();
-    picDecodeToSegment(handle, pageSeg);
+    /* No gfx_clearPage(): that slot (0x3b) is register-called (target seg in ES)
+     * via regshim, so a C trampoline call clears 64000 bytes at a wild ES. The
+     * decoder below writes every byte of all 200 rows, so the clear is redundant. */
+    pageSeg = (uint16)gfx_getCurPageSeg2();
+    picDecodeToSegment(handle, pageSeg, 200, 320, 0);
 }
 
 void decodePic(int handle, int segment)
 {
-    gfx_clearPage();
-    picDecodeToSegment(handle, (uint16)segment);
+    /* See showPicFile: the full-page decode makes gfx_clearPage() redundant
+     * (and unsafe to call from C). */
+    picDecodeToSegment(handle, (uint16)segment, 200, 320, 0);
 }
 
 void decodePicRaw(int handle, int segment)
 {
-    /* Same as decodePic: clears page and decodes PIC row-by-row */
-    gfx_clearPage();
-    picDecodeToSegment(handle, (uint16)segment);
+    /* Same as decodePic: decodes PIC row-by-row, fully overwriting the page. */
+    picDecodeToSegment(handle, (uint16)segment, 200, 320, 0);
 }
 
-void picBlit(int handle, int segment)
+/* picBlit mirrors _picBlit (stcode.asm): the 2nd arg is a PAGE INDEX (not a
+ * segment); showPic640 passes 0 -> pageSegs[0] = 0xA000. The decode uses the
+ * EGA-title layout: 0x2BC (700) rows at a 0x28 (40) byte stride, written to the
+ * resolved page segment. (decodePic, by contrast, takes a real segment and the
+ * mode-13h 200x320 layout.) */
+void picBlit(int handle, int pageIndex)
 {
-    decodePic(handle, segment);
+    uint16 seg;
+    uint16 i;
+    uint8 far *p;
+
+    if (handle < 0) return;
+
+    gfx_setPageN((uint16)pageIndex);
+    seg = (uint16)gfx_getCurPageSeg2();
+    /* mirror the _gfx_clearPage that _picBlit issues before decoding */
+    p = (uint8 far *)MK_FP(seg, 0);
+    for (i = 0; i < 32000u; i++) ((uint16 far *)p)[i] = 0;
+    picDecodeToSegment(handle, seg, 0x2BC, 0x28, 1);
 }
