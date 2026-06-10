@@ -233,6 +233,7 @@ uint8 aNoTarget[] = "No Target";
 uint8 aNoTarget_0[] = "No Target";
 uint8 aPrimaryTarget[] = "Primary Target";
 uint8 aSecondaryTarget[] = "Secondary Target";
+uint16 uvar_547;
 int16 var_593;
 int16 var_675;
 int16 var_676;

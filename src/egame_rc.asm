@@ -843,6 +843,7 @@ PUBLIC _var_545
 PUBLIC _var_550
 PUBLIC _cosine
 PUBLIC _var_547
+PUBLIC _uvar_547
 PUBLIC _var_549
 PUBLIC _var_552
 PUBLIC _word_336F0
@@ -25330,6 +25331,7 @@ ORG 0581Ch
 _var_545 EQU _word_380CC
 ORG 0581Eh
 _var_547 EQU _word_380CE
+_uvar_547 EQU _word_380CE
 ORG 05820h
 _var_548 EQU _word_380D0
 ORG 05828h

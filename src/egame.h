@@ -1333,6 +1333,7 @@ extern int16 var_544;
 extern int16 var_545;
 extern char var_550;
 extern int16 var_547;
+extern uint16 uvar_547;    /* unsigned alias of var_547 (same address) */
 extern uint16 var_548;
 extern int16 var_549;
 extern int16 var_552;
