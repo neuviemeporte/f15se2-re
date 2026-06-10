@@ -291,7 +291,7 @@ void outportByte(int port, int value);
 void decodePicRaw(int handle, int segment);
 void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int16* gfxPage);
 int selectMenuItem(MenuItem *items, int unused, int itemCount, int16* inputState, int16* gfxPage);
-void loadWorldData(int destOffset, int size);
+void loadWorldData(char* destOffset, int size);
 void readFromWorldBuf(char *dest, int size, int count, int bufHandle);
 void readFromWorldFile(char *dest, int size, int count, int bufHandle);
 extern int worldDataReady;
