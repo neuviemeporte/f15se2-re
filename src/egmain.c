@@ -753,8 +753,7 @@ void drawWeaponAmmo() {
         setDrawColor(0);
         p = (&word_38202)[a];
 #if !defined(MSDOS)
-        // make clang quiet
-        fillRectBoth(p - 1, 0xbe, p + 2, 0/*(int)&allocSize*/);
+        fillRectBoth(p - 1, 0xbe, p + 2, allocSize);
 #else        
         fillRectBoth(p - 1, 0xbe, p + 2, (int)&allocSize);
 #endif      
