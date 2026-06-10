@@ -50,7 +50,6 @@ PUBLIC _var_810
 PUBLIC _var_811
 PUBLIC _var_727
 PUBLIC _var_732
-PUBLIC _updateObjects
 PUBLIC _var_597
 PUBLIC _word_33714
 PUBLIC _word_3AF0C
@@ -2545,6 +2544,8 @@ LAB_1000_7816:
     ret
     nop
 fireAirThreat endp
+PUBLIC _fireAirThreat
+_fireAirThreat equ fireAirThreat
 ; ------------------------------seg000:0x7838------------------------------
 ; ------------------------------seg000:0x783a------------------------------
 updateThreatTargeting proc near
