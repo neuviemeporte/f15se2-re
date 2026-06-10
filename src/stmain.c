@@ -101,7 +101,6 @@ int main(void)
         /* 0x17c */
         TRACE(("main: checking ega"));
 checkEga:
-#ifndef NO_ASM
         if (commData->gfxModeNum >= GFX_MODE_EGA && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & EGA_SWITCH_MASK) == EGA_SWITCH_VALUE) {
             TRACE(("main: switching to ega for title"));
             /* 0x19c */
@@ -115,7 +114,6 @@ checkEga:
         }
         /* 0x1c5 */
         else
-#endif
         {
             TRACE(("main: doing 16color title"));
             gfx_setFadeSteps(1);
@@ -138,7 +136,6 @@ checkEga:
         audio_jump_67();
         if (isPcSpeaker == 0) restoreTimerIrqHandler();
         /* 0x23c */
-#ifndef NO_ASM
         if (commData->gfxModeNum >= GFX_MODE_EGA && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & EGA_SWITCH_MASK) == EGA_SWITCH_VALUE) {
             TRACE(("main: restoring old overlay after title"));
             gfx_setDac(2);
@@ -152,7 +149,6 @@ checkEga:
         }
         /* 0x28c */
         else
-#endif
         {
             TRACE(("main: after 16 title"));
             gfx_setDac(0);

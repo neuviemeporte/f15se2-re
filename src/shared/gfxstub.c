@@ -23,12 +23,14 @@ void clearDirtyRects(void)
     /* Stub - dirty rect system not fully implemented yet */
 }
 
-/* gfx.inc: drawLineWrapper - clip and draw a line */
+/* gfx.inc: drawLineWrapper - draw a line.
+ * The original does Cohen-Sutherland clipping on the lineX1..lineY2 globals,
+ * then passes the (clipped) endpoints to slot 0x1f in registers. The C slot
+ * takes them by value, so marshal the globals here. (No clipping yet; the menu
+ * lines are already on-screen.) */
 void drawLineWrapper(void)
 {
-    /* Calls gfx_drawLine after Cohen-Sutherland clipping.
-       For stub: just call drawLine directly (no clipping) */
-    gfx_drawLine();
+    gfx_drawLine((uint16)lineX1, (uint16)lineY1, (uint16)lineX2, (uint16)lineY2);
 }
 
 /* gfx_clearrect.inc: clearRect - clear a rectangular region */
@@ -45,7 +47,8 @@ void clearRect(int16 *pageNum, int x1, int y1, int x2, int y2)
 
     color = (uint8)pageNum[3];
     gfx_setPageN(*pageNum);
-    pageSeg = (uint16)gfx_getCurPageSeg();
+    /* slot 0x10 (getCurPageSeg2) is the no-arg getter; slot 0x0f is a setter. */
+    pageSeg = (uint16)gfx_getCurPageSeg2();
     page = (uint8 far *)MK_FP(pageSeg, 0);
     if (x2 > 319) x2 = 319;
     if (y2 > 199) y2 = 199;

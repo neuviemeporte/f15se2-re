@@ -12,6 +12,47 @@
 #include "inttype.h"
 #include "pointers.h"
 
+/* Byte offset of GfxState within the virtual overlay block */
+#define GFX_STATE_OFFSET 0x2EC
+
+/* Shared gfx state stored in the virtual overlay block.
+ * gfx_impl.c functions will migrate to accessing this via far pointer in Phase 2.
+ */
+typedef struct {
+    uint16 rowOffsets[200]; /* replaces g_rowOffsets[] */
+    uint16 curPageSeg;      /* replaces g_curPageSeg  */
+    int16  blitOffset;      /* replaces g_blitOffset  */
+    uint8  modeFlag;        /* replaces g_modeFlag = 1 */
+    uint8  fillColor;       /* replaces g_fillColor   */
+    uint8  dacCounter;      /* replaces g_dacCounter  */
+    uint8  rowOffsetsReady; /* replaces g_rowOffsetsReady */
+    uint16 pageSegs[16];    /* replaces g_pageSegs[]  */
+    uint16 f15DataSeg;      /* FP_SEG of f15.exe's DGROUP — see Finding A.
+                             * Lets gfx functions reach their own const tables
+                             * (palettes, font tables) via far pointer when a
+                             * child far-calls in with DS = the child's DGROUP. */
+} GfxState;
+
+/* Near function pointer type for the gfx slot table */
+typedef int (*GfxSlotFn)(void);
+
+/* Far function pointer type for the slot trampoline table */
+typedef int (FAR *GfxFarFn)(void);
+
+/* 84-entry slot table used by f15.exe to call gfx functions directly and to
+ * fill the virtual overlay's slot_offsets[] array at startup */
+extern GfxSlotFn gfxSlotTable[0x54];
+
+/* Build the virtual overlay block at ovlSeg: write OvlHeader-compatible fields,
+ * fill slot_offsets[] with FP_OFF of each gfx function, init GfxState. */
+void gfx_buildVirtualOverlay(uint16 ovlSeg);
+
+/* Build stub MISC (slots 0x5a-0x5f) and SOUND (slots 0x64-0x6d) overlays from
+ * f15.exe — removes the dependency on MISC.EXE / NSOUND.EXE. Sound is a no-op
+ * (no DOS audio); misc is a placeholder (input reports nothing pending). */
+void gfx_buildMiscOverlay(uint16 ovlSeg);
+void gfx_buildSoundOverlay(uint16 ovlSeg);
+
 /*
  * Reference structures documenting how the overlay accesses caller data.
  * These CANNOT be used in the asm data segments (which must maintain exact

@@ -45,11 +45,6 @@ void intDispatch(int intnum, uint8 *inreg, uint8 *outreg)
     outreg[1] = r.h.ah;
 }
 
-void setupOverlaySlots(int param)
-{
-    miscdbg("setupOverlaySlots called");
-}
-
 int doNothing2(const char *msg, int a, int b, int c)
 {
     return 0;

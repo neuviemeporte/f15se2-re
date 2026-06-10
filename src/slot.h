@@ -38,7 +38,7 @@ int FAR CDECL gfx_getAuxSize();                        /* slot 0x1b: returns 0x1
 int FAR CDECL gfx_getBlitOffset();                     /* slot 0x1c: returns blitOffset */
 int FAR CDECL gfx_setClipVal1();                       /* slot 0x1d: writes ds:0xcc */
 int FAR CDECL gfx_setClipVal2();                       /* slot 0x1e: writes ds:0xce */
-int FAR CDECL gfx_drawLine();                          /* slot 0x1f: drawLine (Bresenham) */
+int FAR CDECL gfx_drawLine(uint16 x1, uint16 y1, uint16 x2, uint16 y2); /* slot 0x1f: drawLine (Bresenham) */
 int FAR CDECL gfx_setPageDirect();                     /* slot 0x20: set curPageSeg from AX */
 int FAR CDECL gfx_setColor(int color);                 /* slot 0x21: set fill/draw color */
 int FAR CDECL gfx_resetBlitOffset();                   /* slot 0x22: reset blitOffset=0 */

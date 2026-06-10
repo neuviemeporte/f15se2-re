@@ -46,7 +46,7 @@ HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
 cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-start debug-end debug-egame tools noasm-start
+.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-start debug-end debug-egame tools noasm-start noasm-f15
 all: f15-se2
 
 #
@@ -115,7 +115,7 @@ $(START_EXE): $(START_OBJ)
 # start.exe debug build
 START_DEBUG := $(DEBUGDIR)/start.exe
 $(START_DEBUG): MSC_CFLAGS += /DDEBUG
-$(DEBUGDIR)/stmain.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DDEBUG /DDEBUG_AUTOSTART
+$(DEBUGDIR)/stmain.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DDEBUG
 START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
 $(START_DBG_OBJ): $(START_BASEHDR)
 $(START_DBG_OBJ): ASMFLAGS += -DDEBUG
@@ -128,11 +128,11 @@ $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
 	fi
 
 #
-# start.exe NO_ASM build (pure C graphics, no overlay needed)
+# start.exe NO_ASM build
 #
 NOASMDIR := noasm_build
 START_NOASM := $(NOASMDIR)/start.exe
-NOASM_SRC := $(START_SRC) gfx_impl.c
+NOASM_SRC := $(START_SRC) slottram.c ovlpatch.c
 NOASM_SHARED_SRC := file_io.c timer.c miscstub.c gfxstub.c picstub.c ovlstub.c
 NOASM_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
 NOASM_OBJ := $(NOASM_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util2.obj
@@ -151,6 +151,21 @@ $(START_NOASM): $(NOASM_OBJ)
 		ls -l $(F15_TESTDIR)/start.exe; \
 	fi
 
+#
+# f15.exe NO_ASM build (virtual gfx overlay — no Mgraphic.exe required)
+#
+F15_NOASM := $(NOASMDIR)/f15.exe
+NOASM_F15_SRC := f15.c dosfunc.c biosfunc.c output.c overlay.c f15util.c gfx_impl.c
+NOASM_F15_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_F15_SRC))
+# regshim.asm: register-call ABI glue for the register-passed gfx slots
+NOASM_F15_OBJ := $(NOASM_F15_COBJ) $(NOASMDIR)/regshim.obj
+$(NOASM_F15_COBJ): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DNO_ASM /DBUGFIX
+$(F15_NOASM): | $(NOASMDIR)
+$(F15_NOASM): $(NOASM_F15_OBJ)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(NOASM_F15_OBJ) -o $@ -f "$(LINKFLAGS)"
+
+noasm-f15: $(F15_NOASM)
+
 $(NOASMDIR):
 	mkdir -p $@
 
@@ -162,6 +177,20 @@ $(NOASMDIR)/%.obj: $(SRCDIR)/shared/%.c $(HDRS) | $(NOASMDIR)
 
 $(NOASMDIR)/%.obj: $(SRCDIR)/%.asm | $(NOASMDIR)
 	$(ASM) $(ASMFLAGS) -Fo$@ $<
+
+#
+# egame.exe NO_ASM build (virtual gfx overlay - Phase 3 of plan)
+#
+EGAME_NOASM := $(NOASMDIR)/egame.exe
+NOASM_EGAME_SRC := egmain.c eg3d_a.c eg3d_b.c eg3d_c.c eg3d_d.c eg3d_e.c eg3d_f.c eg3d_g.c eghud.c eghud_g.c egflight.c egtacmap.c egui.c egwaypt.c egmath.c egweap.c egfileio.c egpic.c slottram.c ovlpatch.c
+EGAME_NOASM_COBJ := $(call cobj,$(NOASMDIR),$(EGAME_NOASM_SRC))
+EGAME_NOASM_OBJ := $(EGAME_NOASM_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util2.obj
+$(EGAME_NOASM_COBJ): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DNO_ASM /DBUGFIX
+$(EGAME_NOASM): | $(NOASMDIR)
+$(EGAME_NOASM): $(EGAME_NOASM_OBJ)
+	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_NOASM_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
+
+noasm-egame: $(EGAME_NOASM)
 
 noasm-start: $(START_NOASM)
 
@@ -276,10 +305,10 @@ $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
 	fi
 
 #
-# end.exe NO_ASM build (pure C graphics, no overlay needed)
+# end.exe NO_ASM build
 #
 END_NOASM := $(NOASMDIR)/end.exe
-NOASM_END_SRC := $(END_SRC) gfx_impl.c
+NOASM_END_SRC := $(END_SRC) slottram.c ovlpatch.c
 NOASM_END_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_END_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
 NOASM_END_OBJ := $(NOASM_END_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util2.obj
 $(NOASM_END_COBJ): $(END_BASEHDR)
