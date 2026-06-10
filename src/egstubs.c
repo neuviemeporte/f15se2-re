@@ -554,6 +554,9 @@ int16 word_3C6AA;
 int16 word_3C6AC;
 int word_3C6AE;
 int16 word_3C8B6;
+int16 word_3B4D2;
+int16 word_3C00A;
+int16 word_3C8B2;
 
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }

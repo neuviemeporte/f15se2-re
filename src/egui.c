@@ -218,7 +218,7 @@ void blitSprite(int destX, int destY, int srcX, int srcY, int spriteWidth, int a
 void updateTargetLock(void) {
     int p, a, b, c, d, e, f, g, h, i, j, k, l, m, n;
     int p0, a0, b0, c0, d0, e0, f0, g0, h0;
-    register int dk;
+    int dk;
 
     f0 = 0;
 
@@ -250,18 +250,18 @@ void updateTargetLock(void) {
     if (word_336F4 != -1) {
         g = word_336F4 - 0x80;
         g0 = computeMapTargetRange(g) - 1;
-        if (((int *)((char *)&stru_3AA5E[0] + (g << 4)))[9] != 0) {
+        if (stru_3AA5E[g].field_4 != 0) {
             g0 -= 0x280;
         }
         if (g < 3) {
             g0 -= 0x0a00;
         }
-        if (!(abs(var_542 + word_3C8B2 - var_674) > 0x2000)) goto lock_ok;
-        g0 = -32000;
-        goto after_lock;
-    lock_ok:
+        if (abs(var_542 + word_3C8B2 - var_674) > 0x2000) {
+            g0 = -32000;
+            goto after_lock;
+        }
         word_3C00A = 1;
-    after_lock:
+after_lock:
         ;
     } else {
         word_3C00A = 0;
@@ -269,26 +269,21 @@ void updateTargetLock(void) {
     }
 
     l = -1;
-    g = 1;
-    while (g < word_3BED2) {
+    for (g = 1; g < word_3BED2; g++) {
         computeMapTargetRange(g);
-        a = abs(var_542 + word_3C8B2 - var_674);
-        if (a < 0x1800 && (g + 0x80) != word_336F4) {
-            p = g << 4;
-            if (!(*(uint8 *)((char *)&stru_3AA5E[0] + p + 0x0b4 - (int)(char *)&stru_3AA5E[0]) & 0x80)) {
-                if (*(int *)((char *)&stru_3AA5E[0] + p + 0x0b2 - (int)(char *)&stru_3AA5E[0]) != 0) {
-                    var_672 -= 0x280;
-                }
-                if (g == word_3B146 || g == word_3B158) {
-                    var_672 -= 0x0a00;
-                }
-                if (var_672 < c && g0 < var_672) {
-                    l = g;
-                    c = var_672;
-                }
+        if (abs(var_542 + word_3C8B2 - var_674) < 0x1800 &&
+            g + 0x80 != word_336F4 && !(stru_3AA5E[g].flags & 0x80)) {
+            if (stru_3AA5E[g].field_4 != 0) {
+                var_672 -= 0x280;
+            }
+            if (g == word_3B146 || g == word_3B158) {
+                var_672 -= 0x0a00;
+            }
+            if (c > var_672 && g0 < var_672) {
+                l = g;
+                c = var_672;
             }
         }
-        g++;
     }
 
     if (l & 0x80) {
@@ -305,29 +300,17 @@ void updateTargetLock(void) {
 skip_aam:
     /* Missile/chaff loop (8 entries, stride 8) */
     for (g = 0; g < 8; g++) {
-        p = g << 3;
-        if (((int *)((char *)&stru_33402[0]))[p / 2] != 0) {
-            projectWorldToHud(
-                ((int *)((char *)&stru_33402[0]))[p / 2],
-                ((int *)((char *)&stru_33402[0]))[p / 2 + 1],
-                ((int *)((char *)&stru_33402[0]))[p / 2 + 2]);
-            if (word_3C016 < 0 && word_3C016 > (int)0xff00) {
-                p = g << 3;
-                a = ((unsigned int *)((char *)&stru_33402[0]))[p / 2 + 1];
-                b = 0;
-                c0 = 5; do { b = (b << 1) | ((unsigned)a >> 15); a <<= 1; } while (--c0);
-                d = ((unsigned int *)((char *)&stru_33402[0]))[p / 2];
-                e = 0;
-                c0 = 5; do { e = (e << 1) | ((unsigned)d >> 15); d <<= 1; } while (--c0);
-
-                if (((unsigned char)word_33442 - (unsigned char)g & 7) < 4)
-                    m = 3;
-                else
-                    m = 0x11;
-
-                drawWorldObject(m, d, e, a, b,
-                    ((int *)((char *)&stru_33402[0]))[p / 2 + 2], 0,
-                    ((int *)((char *)&stru_33402[0]))[p / 2 + 3], 0, 0);
+        if (((struct struc_9 *)stru_33402)[g].field_0 != 0) {
+            projectWorldToHud(((struct struc_9 *)stru_33402)[g].field_0,
+                ((struct struc_9 *)stru_33402)[g].field_2,
+                ((struct struc_9 *)stru_33402)[g].field_4);
+            if (word_3C016 < 0 && word_3C016 > -0x100) {
+                drawWorldObject(
+                    (unsigned char)(((unsigned char)word_33442 - (unsigned char)g) & 7) < 4 ? 3 : 0x11,
+                    (long)(unsigned)((struct struc_9 *)stru_33402)[g].field_0 << 5,
+                    (long)(unsigned)((struct struc_9 *)stru_33402)[g].field_2 << 5,
+                    ((struct struc_9 *)stru_33402)[g].field_4, 0,
+                    ((struct struc_9 *)stru_33402)[g].field_6, 0, 0);
             }
         }
     }
@@ -335,11 +318,7 @@ skip_aam:
     /* Air-to-ground targeting */
     c = 0x4b << (6 - (unsigned char)word_330BC);
 
-    if (word_330C2 != 0 && (unsigned int)(word_38FEE + var_547) > 0x5dc) {
-        h = 1;
-    } else {
-        h = 0;
-    }
+    h = (word_330C2 != 0 && (unsigned int)(word_38FEE + var_547) > 0x5dc) ? 1 : 0;
     if (word_330C2 != 0 && (unsigned int)(word_38FEE + var_547) > 0xfa0) {
         h = 2;
     }
@@ -347,13 +326,8 @@ skip_aam:
     /* A2G radar lock range */
     if ((word_336F2 & 0x80) && word_336F2 != -1) {
         g = word_336F2 - 0x80;
-        p = g * 0x24;
-        g0 = computeTargetBearing(
-            *(int *)((char *)&word_3B204 + p),
-            *(int *)((char *)&word_3B206 + p),
-            1);
-        a = abs(var_542 + word_3C8B2 - var_674);
-        if (a > 0x2000) {
+        g0 = computeTargetBearing(stru_3B202[g].posX, stru_3B202[g].posY, 1);
+        if (abs(var_542 + word_3C8B2 - var_674) > 0x2000) {
             g0 = 0;
         }
     } else {
@@ -362,94 +336,57 @@ skip_aam:
 
     l = -1;
     for (g = 0; g < word_3C046; g++) {
-        p = g * 0x24;
-        if (!(((uint8 *)((char *)&stru_3B208[0]))[p + 18] & 2))
-            continue;
+        if (!(stru_3B202[g].state[8] & 2))
+            goto next2;
 
-        a = computeSimObjectRange(g);
-        if (a >= 0x12c0 && word_3370E == 0)
-            continue;
+        if (computeSimObjectRange(g) >= 0x12c0 && word_3370E == 0)
+            goto next2;
 
-        if (var_672 < c && g0 < var_672 &&
-            !(keyValue & 0x80)) {
-            p = g * 0x24;
-            if (!(((uint8 *)((char *)&stru_3B208[0]))[p + 18] & 0x20) &&
-                *(int *)((char *)&stru_3B208[0] + p + 20) != 0) {
-                computeTargetBearing(
-                    *(int *)((char *)&word_3B204 + p),
-                    *(int *)((char *)&word_3B206 + p),
-                    1);
-                a = abs(var_542 + word_3C8B2 - var_674);
-                if (a < 0x2000) {
-                    c = var_672;
-                    l = g;
-                }
+        if (c > var_672 && g0 < var_672 && !(keyValue & 0x80) &&
+            !(stru_3B202[g].state[8] & 0x20) &&
+            *(int *)&stru_3B202[g].state[10] != 0) {
+            computeTargetBearing(stru_3B202[g].posX, stru_3B202[g].posY, 1);
+            if (abs(var_542 + word_3C8B2 - var_674) < 0x2000) {
+                c = var_672;
+                l = g;
             }
         }
 
-        /* Compute visual distance */
-        p = g * 0x24;
-        projectWorldToHud(
-            *(int *)((char *)&stru_3B208[0] + p),
-            *(int *)((char *)&word_3B204 + p),
-            *(int *)((char *)&word_3B206 + p));
+        projectWorldToHud(stru_3B202[g].posX, stru_3B202[g].posY, stru_3B202[g].alt);
 
         if (word_3C016 >= 0)
-            continue;
+            goto next2;
 
-        word_3C016 >>= (unsigned char)h;
+        word_3C016 >>= h;
 
-        if (word_3C016 <= -0x20) {
-            setDrawColor(0x0f);
-            drawViewportLine(var_279, var_282, var_279, var_282);
-        } else {
-            p = g * 0x24;
-            if (*(int *)((char *)&stru_3B208[0] + p) < 999 && word_330BC == 0) {
+        if (word_3C016 > -0x20) {
+            if (stru_3B202[g].alt < 999 && word_330BC == 0) {
                 f = 0;
-                b = word_3C16A << 4;
-                if (*(int *)((char *)&stru_3AA5E[0] + b + 6) & 0x200) {
-                    a = abs(*(int *)((char *)&word_3B204 + p) -
-                        *(int *)((char *)&stru_3AA5E[0] + b));
-                    d = word_38FFC >> 5;
-                    if (a < d) {
-                        a = abs(*(int *)((char *)&word_3B206 + p) -
-                            *(int *)((char *)&stru_3AA5E[0] + b + 2));
-                        d = word_39200 >> 5;
-                        if (a < d) {
-                            f = 0x80;
-                        }
-                    }
+                if ((stru_3AA5E[word_3C16A].flags & 0x200) &&
+                    abs(stru_3B202[g].posX - stru_3AA5E[word_3C16A].mapX) < word_38FFC >> 5 &&
+                    abs(stru_3B202[g].posY - stru_3AA5E[word_3C16A].mapY) < word_39200 >> 5) {
+                    f = 0x80;
                 }
                 if (var_547 != 0x80 || f == 0x80) {
-                    p = g * 0x24;
-                    a = signOf(h);
-                    drawWorldObject(5,
-                        *(int *)((char *)&stru_3B208[0] + p + 2),
-                        *(int *)((char *)&stru_3B208[0] + p + 4),
-                        *(int *)((char *)&stru_3B208[0] + p + 6),
-                        *(int *)((char *)&stru_3B208[0] + p + 8),
-                        f,
-                        *(int *)((char *)&stru_3B208[0] + p + 10),
-                        0, 0, -(a - 2));
+                    drawWorldObject(5, stru_3B202[g].worldX, stru_3B202[g].worldY,
+                        f, *(int *)&stru_3B202[g].state[0], 0, 0,
+                        -(signOf(h) - 2));
                 }
             }
 
             /* Draw the target */
-            p = g * 0x24;
-            dk = (word_3C016 <= -0x10) ? 1 : 0;
-            a = *(int *)((char *)&stru_3B208[0] + p + 16);
-            a = *(int *)((char *)&aFlogger[0] + a * 0x20 + dk * 2 + 18);
-            drawWorldObject(a,
-                *(int *)((char *)&stru_3B208[0] + p + 2),
-                *(int *)((char *)&stru_3B208[0] + p + 4),
-                *(int *)((char *)&stru_3B208[0] + p + 6),
-                *(int *)((char *)&stru_3B208[0] + p + 8),
-                *(int *)((char *)&stru_3B208[0] + p),
-                *(int *)((char *)&stru_3B208[0] + p + 10),
-                *(int *)((char *)&stru_3B208[0] + p + 12),
-                *(int *)((char *)&stru_3B208[0] + p + 14),
-                2 - h);
+            drawWorldObject(
+                *(int *)((char *)aFlogger + ((word_3C016 > -0x10) ? 0 : 1) * 2 +
+                    *(int *)&stru_3B202[g].state[6] * 0x20 + 18),
+                stru_3B202[g].worldX, stru_3B202[g].worldY, stru_3B202[g].alt,
+                *(int *)&stru_3B202[g].state[0], *(int *)&stru_3B202[g].state[2],
+                *(int *)&stru_3B202[g].state[4], 2 - h);
+        } else {
+            setDrawColor(0x0f);
+            drawViewportLine(var_279, var_282, var_279, var_282);
         }
+next2:
+        ;
     }
 
     if (l != -1) {
@@ -462,70 +399,38 @@ skip_aam:
 
     /* SAM/missile visual loop (12 entries, stride 0x18) */
     for (g = 0; g < 12; g++) {
-        p = g * 0x18;
-        if (*(int *)((char *)&stru_335C4[0] + p + 14) == 0)
-            continue;
+        if (stru_335C4[g].ttl != 0) {
+            projectWorldToHud(stru_335C4[g].mapX, stru_335C4[g].mapY, stru_335C4[g].alt);
 
-        projectWorldToHud(
-            *(int *)((char *)&stru_335C4[0] + p),
-            *(int *)((char *)&stru_335C4[0] + p + 2),
-            *(int *)((char *)&stru_335C4[0] + p + 4));
+            if (var_279 == -1)
+                goto next3;
 
-        if (var_279 == -1)
-            continue;
-
-        if (word_3C016 <= -0x20) {
-            if (g < 8)
-                a = 0x0c;
-            else
-                a = 0x0d;
-            setDrawColor(a);
-            drawViewportLine(var_279, var_282, var_279, var_282);
-        } else {
-            p = g * 0x18;
-            if (!(keyValue & 0x80) || keyValue == 0x8b)
-                m = 1;
-            else
-                m = 3;
-
-            a = *(unsigned int *)((char *)&stru_335C4[0] + p + 2);
-            b = 0;
-            c0 = 5; do { b = (b << 1) | ((unsigned)a >> 15); a <<= 1; } while (--c0);
-
-            d = *(unsigned int *)((char *)&stru_335C4[0] + p);
-            e = 0;
-            c0 = 5; do { e = (e << 1) | ((unsigned)d >> 15); d <<= 1; } while (--c0);
-
-            i = *(int *)((char *)&stru_335C4[0] + p + 16);
-            j = *(int *)((char *)&sams[0] + i * 0x12 + 16);
-            drawWorldObject(j, d, e, a, b,
-                *(int *)((char *)&stru_335C4[0] + p + 4),
-                *(int *)((char *)&stru_335C4[0] + p + 8),
-                *(int *)((char *)&stru_335C4[0] + p + 10),
-                *(int *)((char *)&stru_335C4[0] + p + 12) + 0x2000,
-                m);
+            if (word_3C016 > -0x20) {
+            drawWorldObject(sams[*(int *)&stru_335C4[g].state[0]].field_10,
+                (long)stru_335C4[g].mapX << 5,
+                (long)stru_335C4[g].mapY << 5,
+                stru_335C4[g].alt,
+                stru_335C4[g].worldX, stru_335C4[g].worldY,
+                stru_335C4[g].worldZ + 0x2000,
+                ((keyValue & 0x80) && keyValue != 0x8b) ? 3 : 1);
+            } else {
+                setDrawColor(g < 8 ? 0x0c : 0x0d);
+                drawViewportLine(var_279, var_282, var_279, var_282);
+            }
         }
+next3:
+        ;
     }
 
     /* Runway/base visual */
     if (word_3BFA2 > 0) {
         projectWorldToHud(word_3BEC2, word_3BED6, word_3BFA2);
-        if (word_3C016 < 0 && word_3C016 > (int)0xff00) {
-            if (word_3B4DC > 0)
-                m = 4;
-            else
-                m = 3;
-
-            a = (unsigned int)word_3BED6;
-            b = 0;
-            c0 = 5; do { b = (b << 1) | ((unsigned)a >> 15); a <<= 1; } while (--c0);
-
-            d = (unsigned int)word_3BEC2;
-            e = 0;
-            c0 = 5; do { e = (e << 1) | ((unsigned)d >> 15); d <<= 1; } while (--c0);
-
-            drawWorldObject(0x0e, d, e, a, b,
-                word_3BFA2, 0, 0, 0, m);
+        if (word_3C016 < 0 && word_3C016 > -0x100) {
+            drawWorldObject(0x0e,
+                (long)(unsigned)word_3BEC2 << 5,
+                (long)(unsigned)word_3BED6 << 5,
+                word_3BFA2, 0, 0, 0,
+                word_3B4DC > 0 ? 4 : 3);
         }
     }
 
@@ -534,19 +439,14 @@ skip_aam:
     if (keyValue == 0x8b) goto done;
     if (var_547 == 0 && word_3BE3C != 0) goto done;
 
-    if ((planeFlags & 1) == 1)
-        a = 6;
-    else
-        a = 7;
+    drawWorldObject(((planeFlags & 1) == 0) + 6, (long)dword_3B7DA,
+        0x01000000L - dword_3B7F8, var_547 + 0x10, var_542, var_544, var_545,
+        2 - h);
 
-    drawWorldObject(a, (long)dword_3B7DA, 0x01000000L - dword_3B7F8,
-        var_547 + 0x10, var_542, var_544, var_545, 2 - h);
-
-    if ((unsigned int)var_547 >= 0x3e8) goto done;
-    if (word_330BC != 0) goto done;
-
-    drawWorldObject(0x15, (long)dword_3B7DA, 0x01000000L - dword_3B7F8,
-        word_3BEBE, var_542, 0, 0, 2);
+    if ((unsigned int)var_547 < 0x3e8 && word_330BC == 0) {
+        drawWorldObject(0x15, (long)dword_3B7DA, 0x01000000L - dword_3B7F8,
+            word_3BEBE, var_542, 0, 0, 2);
+    }
 
 done:
     ;

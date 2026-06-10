@@ -190,15 +190,13 @@ int findWaypointEntry(int mapX, int mapY)
 }
 
 // ==== seg000:0xc7a2 ====
-void computeMapTargetRange(int targetIdx) {
-     computeTargetBearing(stru_3AA5E[targetIdx].mapX, stru_3AA5E[targetIdx].mapY, 1);
-     return;
+int computeMapTargetRange(int targetIdx) {
+     return computeTargetBearing(stru_3AA5E[targetIdx].mapX, stru_3AA5E[targetIdx].mapY, 1);
 }
 
 // ==== seg000:0xc7c6 ====
-void computeSimObjectRange(int objIdx) {
-    computeTargetBearing(stru_3B202[objIdx].posX, stru_3B202[objIdx].posY, 0);
-    return;
+int computeSimObjectRange(int objIdx) {
+    return computeTargetBearing(stru_3B202[objIdx].posX, stru_3B202[objIdx].posY, 0);
 }
 
 // ==== seg000:0xc7ea ====

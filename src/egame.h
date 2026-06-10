@@ -390,9 +390,9 @@ long rotateVectorComponent(int axis, int vecX, int vecY, int vecZ);
 // ==== seg000:0xc6be ====
 int findWaypointEntry();
 // ==== seg000:0xc7a2 ====
-void computeMapTargetRange(int targetIdx);
+int computeMapTargetRange(int targetIdx);
 // ==== seg000:0xc7c6 ====
-void computeSimObjectRange(int objIdx);
+int computeSimObjectRange(int objIdx);
 // ==== seg000:0xc7ea ====
 int computeTargetBearing(int targetX, int targetY, int wantBearing);
 // ==== seg000:0xc82d ====
@@ -422,7 +422,7 @@ int sinMul(int angle, int value);
 // ==== seg000:0xd190 ====
 int cosMul(int angle, int value);
 // ==== seg000:0xd1c8 ====
-int signOf();
+int signOf(int value);
 // ==== seg000:0xd1e8 ====
 void seedRng(void);
 // ==== seg000:0xd200 ====
