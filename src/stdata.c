@@ -324,11 +324,7 @@ uint8 nearestGridY[1] = {0};
 int16 missionDistAccum;
 int16 playerStartLoc;
 uint32 baseYPrecise;
-#if !defined(MSDOS)
 struct TerrainTile* tileDataPtr;
-#else
-int16 tileDataPtr;
-#endif
 uint16 menuSprites;
 
 /* Joystick calibration arrays (4 words each, only first declared in header) */
@@ -733,11 +729,7 @@ uint8 gridBuf4[0x200];
 uint8 gridBuf5[0x200];
 struct Target targets[2];
 uint16 terrainBuf1[5] = { 0x20, 0x20, 0x20, 0x20, 0x20 };
-#if !defined(MSDOS)
 struct TerrainCountTable terrainTileCounts[5] = {0};
-#else
-struct TerrainPtrTable terrainTileCounts[5] = {0};
-#endif
 
 /* terrainBuf3, terrainBuf4, terrainBuf5, terrainIdxBuf must be contiguous.
  * Code indexes them with stride 7: terrainBuf3+off(2), terrainBuf4+off(2),

@@ -84,11 +84,10 @@ static void read512FromFile(void)
     r.x.bx = picFileHandle;
     r.x.cx = 512;
 #if !defined(MSDOS)
-    // make clang quiet
     r.x.dx = 0; //(uint16)picFileReadBuf;
-#else  
+#else
     r.x.dx = (uint16)picFileReadBuf;
-#endif  
+#endif
     intdos(&r, &r);
     picBufPos = 0;
 }

@@ -390,9 +390,8 @@ void FAR CDECL gfx_setDac(uint16 palIdx)
     regs.x.bx = 0;       /* first register */
     regs.x.cx = 16;      /* number of registers */
 #if !defined(MSDOS)
-    // make clang quiet
     regs.x.dx = 0; //(uint16)g_palettes[palIdx];
-#else    
+#else
     regs.x.dx = (uint16)g_palettes[palIdx];
 #endif
     segread(&sregs);
@@ -443,12 +442,7 @@ int FAR CDECL gfx_blitSprite(struct SpriteParams *p)
             uint8 far *dst;
             srcOff = g_rowOffsets[p->srcY + row] + (uint16)p->srcX;
             dstOff = g_rowOffsets[p->dstY + row] + (uint16)p->dstX;
-#if !defined(MSDOS)
-            // make clang quiet
-            movedata(srcSeg, srcOff, dsSeg, 0/*(uint16)(void near *)rowBuf*/, (uint16)w);
-#else
             movedata(srcSeg, srcOff, dsSeg, (uint16)(void near *)rowBuf, (uint16)w);
-#endif          
             dst = (uint8 far *)MK_FP(dstSeg, dstOff);
             for (col = 0; col < w; col++) {
                 if (rowBuf[col] != 0) {

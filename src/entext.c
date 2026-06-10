@@ -9,7 +9,7 @@
 void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y, int lineHeight) {
     int p;
     char *a;
-#if !defined(MSDOS)
+#ifdef BUGFIX
     char *b;
 #else
     uint8 *b;

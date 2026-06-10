@@ -38,9 +38,8 @@ int openFile(const char *filename, int mode)
     r.h.al = (unsigned char)mode;
     segread(&s);
 #if !defined(MSDOS)
-    // make clang quiet
     r.x.dx = 0; // (uint16)filename;
-#else    
+#else
     r.x.dx = (uint16)filename;
 #endif
     intdosx(&r, &r, &s);
@@ -57,11 +56,10 @@ void dos_printstring(const char *str)
     r.h.ah = 0x09;
     segread(&s);
 #if !defined(MSDOS)
-    // make clang quiet  
     r.x.dx = 0; // (uint16)str;
-#else    
+#else
     r.x.dx = (uint16)str;
-#endif  
+#endif
     intdosx(&r, &r, &s);
 }
 
@@ -101,9 +99,8 @@ int createFile(const char *filename, int attr)
     r.x.cx = attr;
     segread(&s);
 #if !defined(MSDOS)
-    // make clang quiet    
     r.x.dx = 0; // (uint16)filename;
-#else    
+#else
     r.x.dx = (uint16)filename;
 #endif
     intdosx(&r, &r, &s);

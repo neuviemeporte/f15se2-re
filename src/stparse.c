@@ -36,22 +36,17 @@ void parseTerrain(char *filename) {
             tileOffset = 0;
             for (level = 0; level < 5; level = level + 1) {
                 for (entry = 0; terrainBuf1[level] > entry; entry++) {
-#define GET_TILE3()((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset) )   
-#if !defined(MSDOS)
-                    terrainTilePtrs[level].entries[entry] = GET_TILE3();
-#else
-                    terrainTilePtrs[level].entries[entry] = (uint8*)GET_TILE3();
-#endif
+                    terrainTilePtrs[level].entries[entry] = (struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset);
                     for (i = 0; i < (uint16)terrainTileCounts[level].entries[entry]; i++) {
                         if (tileOffset > 0xdac) {
                             showMsgWaitKey(aTooMuchTileDat);
                             return;
                         }
-                        fread(&GET_TILE3()->buf3,2,1,fileHandle);
-                        fread(&GET_TILE3()->buf4,2,1,fileHandle);
-                        fread(&GET_TILE3()->buf5,2,1,fileHandle);
+                        fread(&((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset))->buf3,2,1,fileHandle);
+                        fread(&((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset))->buf4,2,1,fileHandle);
+                        fread(&((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset))->buf5,2,1,fileHandle);
                         fread(&tmp,2,1,fileHandle);
-                        GET_TILE3()->idx = tmp;
+                        ((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset))->idx = tmp;
                         tileOffset += sizeof(struct TerrainTile);
                     }
                 }
