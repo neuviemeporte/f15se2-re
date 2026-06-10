@@ -177,7 +177,9 @@ int computeThreatScore(void) {
 // TODO: updateObjects (seg000:67b4-7593) - large unimplemented function
 void sub_17594(int param_1)
 {
-    int p, a, b, c, d, e, f, g, h, i, j, k, l, m, n;
+    int p, a, b, c, d, e, f;
+    unsigned g;
+    int h, i, j, k, l, m, n;
 
     i = *(int16 *)&aFlogger[var_667 * 32 + 16];
 
@@ -186,11 +188,11 @@ void sub_17594(int param_1)
         stru_3B202[param_1].posY,
         stru_3B202[param_1].alt,
         i,
-        &d, &g);
+        &d, (int *)&g);
 
     word_336FA = 4;
 
-    if ((unsigned)m > (unsigned)g) {
+    if ((unsigned)m > g) {
         /* close enough — increment heat */
         *(int16 *)&stru_3B202[param_1].state[18] += ((word_330BA + word_330B8) * 16 + 0x20) >> ((planeFlags & 0x10) != 0);
 
@@ -203,14 +205,14 @@ void sub_17594(int param_1)
 
             if (word_330B8 * 2 >= word_3A946 &&
                 stru_335C4[j].ttl == 0 &&
-                (unsigned)g > 8 &&
+                g > 8 &&
                 abs(d - *(int16 *)&stru_3B202[param_1].state[0]) < 0x1800) {
 
                 i = *(int16 *)&stru_3B202[param_1].state[14];
 
-                if ((unsigned)g >> 1 < (unsigned)sams[i].field_8 &&
-                    (unsigned)(-(word_330B8 * 3 - 0x10)) < (unsigned)g &&
-                    (unsigned)g < 0x1000 &&
+                if (g >> 1 < *(uint16 *)&sams[i].field_8 &&
+                    (unsigned)(-(word_330B8 * 3 - 0x10)) < g &&
+                    g < 0x1000 &&
                     i != 0) {
 
                     /* launch missile into slot j */
@@ -222,8 +224,7 @@ void sub_17594(int param_1)
                     stru_335C4[j].worldY = *(int16 *)&stru_3B202[param_1].state[2] - 0x400;
                     stru_335C4[j].worldZ = *(int16 *)&stru_3B202[param_1].state[4];
 
-                    n = stru_335C4[j].field_6;
-                    stru_335C4[j].ttl = (int)(((long)sams[i].field_8 * 8L * (long)word_330C4) / (long)n);
+                    stru_335C4[j].ttl = (int)((((long)sams[i].field_8 << 3) * (long)word_330C4) / (long)stru_335C4[j].field_6);
 
                     *(int16 *)&stru_335C4[j].state[0] = i;
                     *(int16 *)&stru_335C4[j].state[6] = -param_1;
