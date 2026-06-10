@@ -253,6 +253,401 @@ done:
     ;
 }
 
+void drawHudWorldOverlay(void) {
+    int p, q, a, r, b, s, c, t, d, u, e, v, f, w, g, x, h, y, i, z, j, k, l, m, n;
 
-// TODO: drawHudWorldOverlay (seg000:b147-c1b8) - large unimplemented function
-// Once implemented, try merging egame2e.c + egame1j.c (if register spill doesn't affect codegen)
+    var_675 = word_39402;
+    word_39402 = 0;
+
+    for (w = 0; w < 12; w++) {
+        if (stru_335C4[w].ttl != 0) {
+            projectWorldToHud(stru_335C4[w].mapX, stru_335C4[w].mapY, stru_335C4[w].alt);
+            if (var_279 != -1) {
+                setDrawColor(w < 8 ? 0x0e : 0x0a);
+                drawTargetBox(var_279, var_282, 6, 0);
+            }
+        }
+    }
+
+    l = 0x200 / isqrt(word_330C4 * 4 + 8);
+
+    for (w = 0; w < word_3AFA4 + 4; w++) {
+        if (*(int16 *)((char *)&word_3C5AC + w * 12) != 0) {
+
+        projectWorldToHud(*(int16 *)((char *)&word_3C5AC + w * 12),
+                  *(int16 *)((char *)&word_3C5AE + w * 12),
+                  *(int16 *)((char *)&word_3C5B0 + w * 12));
+        k = var_279;
+        n = var_282;
+        a = word_3C016;
+
+        projectWorldToHud((*(int16 *)((char *)&word_3C5B2 + w * 12) >> 1) + *(int16 *)((char *)&word_3C5AC + w * 12),
+                  (*(int16 *)((char *)&word_3C5B4 + w * 12) >> 1) + *(int16 *)((char *)&word_3C5AE + w * 12),
+                  (*(int16 *)((char *)&word_3C5B6 + w * 12) >> 1) + *(int16 *)((char *)&word_3C5B0 + w * 12));
+
+        if (var_279 != -1) {
+        if (k != -1) {
+
+        z = (frameTick >> 1) - w & 7;
+
+        setDrawColor(w < word_3AFA4 ? 0x0d : 0x0c);
+        drawViewportLine(var_279, var_282, k, n);
+
+        s = 0;
+
+        if (w < word_3AFA4) {
+            for (h = 0; h < word_3C046; h++) {
+                if ((stru_3B202[h].state[8] & 0x22) == 2) {
+
+                z = (abs(*(int16 *)((char *)&word_3C5B0 + w * 12) -
+                         stru_3B202[h].alt) >> 5)
+                  + abs(*(int16 *)((char *)&word_3C5AC + w * 12) -
+                        stru_3B202[h].posX)
+                  + abs(*(int16 *)((char *)&word_3C5AE + w * 12) -
+                        stru_3B202[h].posY);
+                z = abs(z);
+
+                if (z < l / (word_330B8 + 1)) {
+
+                s = 1;
+                stru_3B202[h].state[8] |= 0x10;
+                word_39606 = 1;
+
+                if (z * 2 < l / (word_330B8 + 1)) {
+                    destroyAircraft(h);
+                    strcat((char *)strBuf, (char *)aDestroyedByGun);
+                    tempStrcpy((char *)strBuf);
+                    word_39606 = 8;
+                    *(int16 *)((char *)&word_3C5AC + w * 12) = 0;
+                }
+                }
+                }
+            }
+        } else {
+            z = (abs(*(int16 *)((char *)&word_3C5B0 + w * 12) - var_547) >> 5)
+              + abs(*(int16 *)((char *)&word_3C5AC + w * 12) - word_3BEC0)
+              + abs(*(int16 *)((char *)&word_3C5AE + w * 12) - word_3BED0);
+            z = abs(z);
+            if (z < 0x20) {
+                s = 1;
+                tempStrcpy((char *)aHitByGunfire);
+                if (0x20 / (4 - word_330B8) > z) {
+                    bombTarget();
+                }
+            }
+        }
+
+        if (s) {
+            word_3BEBC = *(int16 *)((char *)&word_3C5AC + w * 12);
+            word_3BEC8 = *(int16 *)((char *)&word_3C5AE + w * 12);
+            word_3BECE = *(int16 *)((char *)&word_3C5B0 + w * 12);
+            word_39606 = -1;
+        }
+
+        if (*(int16 *)((char *)&word_3C5B0 + w * 12) < 0) {
+            if (word_39606 <= 0) {
+                word_3BEBC = *(int16 *)((char *)&word_3C5AC + w * 12);
+                word_3BEC8 = *(int16 *)((char *)&word_3C5AE + w * 12);
+                word_3BECE = *(int16 *)((char *)&word_3C5B0 + w * 12);
+                word_39606 = -1;
+            }
+            *(int16 *)((char *)&word_3C5AC + w * 12) = 0;
+
+            b = findWaypointEntry(word_3BEBC, word_3BEC8);
+            if (b != -1 && !(stru_3AA5E[b].flags & 0x80)) {
+                i = (int)(*(long *)&word_39808[2] >> 5);
+                y = 0x8000 - (int)(*(long *)&word_39808[4] >> 5);
+
+                if (rangeApprox(word_3BEBC - i, word_3BEC8 - y) < 0x18 / (word_330B8 + 2) &&
+                    (stru_3AA5E[b].field_C & 0x7f) != *(uint8 *)byte_3C02A) {
+                    sub_187EA(b);
+                    strcat((char *)strBuf, (char *)aDestroyedByG_0);
+                    tempStrcpy((char *)strBuf);
+                    word_39606 = 8;
+                    word_3BECE = 0;
+                }
+            }
+        }
+        }
+        }
+        }
+    }
+
+    if (word_39606 != 0) {
+        projectWorldToHud(word_3BEBC, word_3BEC8, word_3BECE);
+        if (var_279 != -1) {
+            x = abs(0x100 / word_3C016);
+            for (w = 0; w < 8; w++) {
+                setDrawColor(randomRange(4) + 0x0c);
+                if (word_3BECE > 0) {
+                    drawViewportLine(var_279, var_282,
+                              randomRange(x << 1) - x + var_279,
+                              randomRange(x << 1) - x + var_282);
+                } else {
+                    c = randomRange(0x6000) - 0x3000;
+                    if (word_330C2 != 0) {
+                        c -= var_545;
+                    }
+                    a = randomRange(x);
+                    k = sinMul(c, a) + var_279;
+                    n = var_282 - cosMul(c, a);
+                    drawViewportLine(var_279, var_282, k, n);
+                }
+            }
+        }
+        word_39606 -= signOf(word_39606);
+    } else {
+        word_39604 = 0;
+    }
+
+    if (word_330C2 == 0) return;
+
+    if (var_593 != 0) {
+        var_593 = 0;
+    }
+
+    copySomeMem(word_330BC != 0 ? 2 : word_330BC);
+    setDrawColor(0x0f);
+    drawFullscreenLine(0x13f, 199, 0x13f, 199);
+    var_671 = 0;
+
+    if (word_3C45C == 2) {
+    if (keyValue == 0) {
+    if ((int)word_336F4 >= 0) {
+
+    projectWorldToHud(stru_3AA5E[word_336F4].mapX, stru_3AA5E[word_336F4].mapY, 0);
+
+    v = missiles[missleSpec[missileSpecIndex].weaponIdx].field_16;
+
+    if (v == 0x1c && computeMapTargetRange(word_336F4) < (uvar_547 >> 5) * 5 && word_3C016 < 0) {
+        var_671 = 1;
+    }
+
+    if (var_279 != -1) {
+
+    setDrawColor(word_330BC != 0 ? 8 : 0);
+    q = 0;
+
+    m = routine_260(missleSpec[missileSpecIndex].weaponIdx, word_336F4) != 0 ? 4 : 0;
+
+    if (m != 0 && (v != 4 || stru_3AA5E[word_336F4].field_4 != 0)) {
+        if (missleSpec[missileSpecIndex].ammo != 0) {
+            setDrawColor(0x0f);
+            if ((rangeApprox(var_279 - 0xa0, var_282 - 0x38) < 0x30 || var_671 != 0) &&
+                -word_3C016 / 7 < sams[v].field_8 &&
+                sams[v].field_C != 7) {
+                if (sams[v].field_C != 0x1c || var_671 != 0) {
+                    var_671 = 1;
+                    q = 1;
+                    if (sams[v].field_8 > (-word_3C016 >> 1 >> 1)) {
+                        setDrawColor(*(char *)&gfxModeUnset != 0 ? 0 : 0x0c);
+                    }
+                }
+            } else {
+                var_671 = 0;
+            }
+        }
+    } else {
+        if (v != -1) {
+            setDrawColor(word_330BC != 0 ? 8 : 0);
+        }
+        var_671 = 0;
+    }
+
+    drawTargetBox(var_279, var_282, m != 0 ? m + 5 : 9, q);
+
+    }
+    }
+    }
+    }
+
+    if (word_336F8 > 0 && word_3BE96 >= 0) {
+        projectWorldToHud(stru_3AA5E[word_3BE96].mapX, stru_3AA5E[word_3BE96].mapY, 0);
+        drawTargetLabel((char *)word_3C0A2[(&word_3AA5C)[word_3BE96 * 8]], word_38F72, word_330C4 - word_336F8);
+    }
+
+    var_730 &= 0xfd;
+    var_564[1] = 4;
+    var_565[1] = 4;
+
+    if (word_3C09E == 0x13) {
+    if (word_3C45C == 2 || word_3C45C == 0) {
+    if (word_336F4 != -1) {
+
+    j = word_336F4 & 0x7f;
+
+    drawTargetView(getTargetSymbol(j), stru_3AA5E[j].mapX, stru_3AA5E[j].mapY,
+              0, 0, 0, 0, 1, -1);
+    drawMissileLock();
+    buildRangeString(computeMapTargetRange(j));
+    draw2Strings((char *)strBuf, 0xf4, 0xaa, 0x0f);
+
+    strcpy((char *)strBuf, (char *)word_3C0A2[stru_3AA5E[j].field_C & 0x7f]);
+    draw2Strings((char *)strBuf, -((int)strlen((char *)strBuf) * 2 - 0x10c), 0x82, 0x0f);
+
+    if ((int)strlen((char *)word_3C0A2[(&word_3AA5C)[j * 8]]) != 0) {
+        strcpy((char *)strBuf,
+               (char *)(strlen((char *)word_3C0A2[stru_3AA5E[j].field_C & 0x7f]) != 0 ? aAt_0 : aAt_0 + 5));
+        strcat((char *)strBuf, (char *)word_3C0A2[(&word_3AA5C)[j * 8]]);
+        draw2Strings((char *)strBuf, -((int)strlen((char *)strBuf) * 2 - 0x10c), 0x88, 0x0f);
+    }
+
+    if (word_3C45C == 0) {
+        projectWorldToHud(stru_3AA5E[word_336F4].mapX, stru_3AA5E[word_336F4].mapY, 0);
+        setDrawColor(0x0f);
+        drawTargetBox(var_279, var_282, 8, 0);
+    } else if (word_3B146 == word_336F4) {
+        draw2Strings((char *)aPrimaryTarget, 0xec, 0x8e, 0x0f);
+    } else if (word_3B158 == word_336F4) {
+        draw2Strings((char *)aSecondaryTarget, 0xec, 0x8e, 0x0f);
+    } else if (!(frameTick & 1) &&
+               ((word_330BA < 2 && (byte_3BFA4[stru_3AA5E[j].field_C & 0x7f] & 0xc0) != 0) ||
+                (stru_3AA5E[j].flags & 0x500) != 0 ||
+                (byte_3AFAC[((unsigned)stru_3AA5E[j].mapX >> 11) +
+                            ((unsigned)stru_3AA5E[j].mapY >> 11) * 16] & 1) != 0)) {
+        draw2Strings((char *)aNoTarget, 0xfc, 0x8e, 0x0f);
+    }
+
+    if (abs((var_542 + word_3C8B2) - var_674) > 0x2000) {
+        word_336F4 = -1;
+    }
+
+    }
+    }
+    }
+
+    var_677 = readAxisInput(1);
+
+    if (word_3C45C == 1) {
+    if (keyValue == 0) {
+    if (!(word_336F2 & 0x80)) {
+
+    projectWorldToHud(stru_3B202[word_336F2].posX,
+              stru_3B202[word_336F2].posY,
+              stru_3B202[word_336F2].alt);
+
+    if (var_279 != -1) {
+
+    setDrawColor(word_330BC != 0 ? 8 : 0);
+    q = 0;
+
+    v = missiles[missleSpec[missileSpecIndex].weaponIdx].field_16;
+
+    if (missleSpec[missileSpecIndex].ammo != 0 && sams[v].field_C == 7) {
+        setDrawColor(0x0f);
+        if (rangeApprox(var_279 - 0xa0, var_282 - 0x38) < 0x30) {
+            if (-word_3C016 >> 3 < sams[v].field_8) {
+                var_671 = 1;
+                q = 1;
+                if (-word_3C016 >> 1 >> 1 < sams[v].field_8) {
+                    setDrawColor(*(char *)&gfxModeUnset != 0 ? 0 : 0x0c);
+                }
+            }
+        }
+    }
+    drawTargetBox(var_279, var_282, 9, q);
+
+    }
+    }
+    }
+    }
+
+    if (word_3C09E == 0x13 && word_3C45C == 1 && word_336F2 != -1) {
+        j = word_336F2 & 0x7f;
+
+        drawTargetView(*(int16 *)((char *)aFlogger + *(int16 *)&stru_3B202[j].state[6] * 32 + 18),
+                  stru_3B202[j].posX,
+                  stru_3B202[j].posY,
+                  stru_3B202[j].alt,
+                  *(int16 *)&stru_3B202[j].state[0],
+                  *(int16 *)&stru_3B202[j].state[2],
+                  *(int16 *)&stru_3B202[j].state[4],
+                  1, 1);
+        drawMissileLock();
+        buildRangeString(rangeApprox(word_3BEC0 - stru_3B202[j].posX,
+                  word_3BED0 - stru_3B202[j].posY));
+        draw2Strings((char *)strBuf, 0xf4, 0xaa, 0x0f);
+
+        w = *(int16 *)&stru_3B202[j].state[6];
+        strcpy((char *)strBuf, (char *)(w * 32 + 0x2c8));
+        strcat((char *)strBuf, (char *)(w * 32 + 0x2cf));
+        draw2Strings((char *)strBuf, 0xf8, 0x86, 0x0f);
+
+        if (*(int16 *)((char *)aFlogger + w * 32 + 16) == -1 && !(frameTick & 1)) {
+            draw2Strings((char *)aNoTarget_0, 0xfc, 0x8c, 0x0f);
+        }
+
+        if (word_38FDC != 0 && (frameTick & 1)) {
+            var_676 = (int)(((unsigned long)(unsigned)(0x8000 - *(int16 *)&stru_3B202[j].state[2]) *
+                     (long)*(int16 *)&stru_3B202[j].state[10]) >> 15);
+            var_676 -= abs(sinMul(*(int16 *)&stru_3B202[j].state[4], var_676)) >> 1;
+        }
+    }
+
+    var_564[1] = 2;
+    var_565[1] = 2;
+
+    if (word_336F8 > 0 && word_3BE96 < 0) {
+        w = -1 - word_3BE96;
+        projectWorldToHud(stru_3B202[w].posX,
+                  stru_3B202[w].posY,
+                  stru_3B202[w].alt);
+        drawTargetLabel((char *)(*(int16 *)&stru_3B202[w].state[6] * 32 + 0x2c8),
+                  word_38F72, word_330C4 - word_336F8);
+    }
+
+    if (word_3C45C == 2 && keyValue == 0) {
+        d = missiles[missleSpec[missileSpecIndex].weaponIdx].field_16;
+
+        if (d == 0x1e && abs(var_545) < 0x2000) {
+            c = sub_1C82D();
+            u = cosMul(c, var_548) / (sinMul(-c, 0x20) + 1);
+            i = sinMul(var_542, u) + word_3BEC0;
+            y = word_3BED0 - cosMul(var_542, u);
+            projectWorldToHud(i, y, 0);
+            if (var_279 == -1) {
+                var_279 = (sinMul(var_545, 0x60 - word_3C008) << 2) / 3 + 0xa0;
+                var_282 = 0x60;
+            } else {
+                setDrawColor(0x0c);
+                drawTargetBox(var_279, var_282, 5, 1);
+            }
+            setDrawColor(0x0f);
+            drawHudViewLine(0xa0, word_3C008, var_279, var_282);
+        }
+
+        if ((d == 0x1e || d == 0x1d) && (int)word_336F4 >= 0) {
+            projectWorldToHud(stru_3AA5E[word_336F4].mapX + sinMul(var_542, 0x80),
+                      stru_3AA5E[word_336F4].mapY - cosMul(var_542, 0x80),
+                      var_547);
+
+            if (var_279 != -1) {
+                if (d == 0x1e) {
+                    word_3C016 = clampRange(
+                        rangeApprox(i - stru_3AA5E[word_336F4].mapX,
+                                  y - stru_3AA5E[word_336F4].mapY) >> 3,
+                        0x0000, 0x0040);
+                } else {
+                    word_3C016 = clampRange(computeMapTargetRange(word_336F4) >> 3, 0x0000, 0x0040);
+                }
+                setDrawColor(0x0c);
+                drawViewportLine(0x9f - word_3C016, 0x21, 0x9f - word_3C016, 0x1e);
+                drawViewportLine(word_3C016 + 0xa0, 0x21, word_3C016 + 0xa0, 0x1e);
+                drawViewportLine(0x9f - word_3C016, 0x1e, word_3C016 + 0xa0, 0x1e);
+                setDrawColor(0x0f);
+                drawHudViewLine(var_279 - 4, var_282, var_279, var_282 - 4);
+                drawHudViewLine(var_279, var_282 - 4, var_279 + 4, var_282);
+                drawHudViewLine(var_279 + 4, var_282, var_279, var_282 + 4);
+                drawHudViewLine(var_279, var_282 + 4, var_279 - 4, var_282);
+            }
+        }
+    }
+
+    if (word_39606 != 0 && word_3C09E == 0x13 && word_39604 != 0 && word_39402 != 0) {
+        blitSprite(0xfc, 0x8c, (abs(word_39606) - 8) * -0x20, 0x3f, 0x20, 0x20, 0);
+    }
+
+    if (word_3C09E == 0x13 && var_675 != 0 && word_39402 == 0) {
+        fillPanelBox(3, 3);
+    }
+}
