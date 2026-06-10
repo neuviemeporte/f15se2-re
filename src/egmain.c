@@ -752,7 +752,7 @@ void drawWeaponAmmo() {
     for (a = 0; a < 3; a++) {
         setDrawColor(0);
         p = (&word_38202)[a];
-        fillRectBoth(p - 1, 0xbe, p + 2, (int)&allocSize);
+        fillRectBoth(p - 1, 0xbe, p + 2, 0xc2);
         drawNumber(missleSpec[a].ammo, p, 0xbe, 0x0c);
     }
 }
@@ -966,4 +966,3 @@ int setCommWorldbufPtr() {
     farPointer = (uint8 FAR*)&commData->worldBuf;
     return 0;
 }
-
