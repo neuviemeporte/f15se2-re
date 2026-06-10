@@ -50,6 +50,7 @@ set(EGAME_SOURCES
     ${SRC_DIR}/egflight.c
     ${SRC_DIR}/egtacmap.c
     ${SRC_DIR}/egui.c
+    ${SRC_DIR}/egui_b.c
     ${SRC_DIR}/egwaypt.c
     ${SRC_DIR}/egmath.c
     ${SRC_DIR}/egweap.c

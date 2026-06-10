@@ -150,7 +150,7 @@ def main():
     name = args[0]
 
     routine_map = f'map/{exe_name}.map'
-    linker_map  = f'build/{exe_name.upper()}.MAP'
+    linker_map  = f'build/{exe_name}.map'
     ref_exe     = f'bin/{exe_name}.exe'
     built_exe   = f'build/{exe_name}.exe'
     mzdiff_bin  = 'mzretools/debug/mzdiff'

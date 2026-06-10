@@ -163,7 +163,7 @@ blitSprite: seg000 NEAR a8c8-a933 Ra8c8-a933 complete
 cacheScopePanel: seg000 NEAR a934-a961 Ra934-a961 assembly
 restoreScopePanel: seg000 NEAR a962-a9bb Ra962-a9bb assembly
 captureScopePanel: seg000 NEAR a9bc-a9f7 Ra9bc-a9f7 assembly
-updateTargetLock: seg000 NEAR a9f8-b146 Ra9f8-b146
+updateTargetLock: seg000 NEAR a9f8-b146 Ra9f8-b146 complete
 drawHudWorldOverlay: seg000 NEAR b147-c1b8 Rb147-c1b8
 drawTargetBox: seg000 NEAR c1b9-c2f7 Rc1b9-c2f7 complete
 drawMissileLock: seg000 NEAR c2f8-c370 Rc2f8-c370 complete
