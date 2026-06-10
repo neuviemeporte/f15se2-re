@@ -65,39 +65,44 @@ void fireGroundThreat(int param_1)
             *(int16 *)&stru_3AA5E[param_1].field_8 > 0x7f) {
             sub_166BE();
         }
-        if (word_3A946 > word_330B8) goto end_fire;
-        if (*(int16 *)&stru_3AA5E[param_1].field_8 <= 0xc0) goto end_fire;
-        if (k == 0x15) goto end_fire;
-        if (word_38FEE <= 0x500) goto end_fire;
-        if ((unsigned)-(word_330B8 * 3 - 20) >= a[0]) goto end_fire;
-        word_3C09C++;
-        if (*(int16 *)&stru_3AA5E[param_1].field_8 < 0xfa) goto end_fire;
-        if (word_330B8 != 0) {
-            l = param_1 % word_330B8;
-        } else {
-            l = 0;
+        if (word_3A946 <= word_330B8) {
+            if (*(int16 *)&stru_3AA5E[param_1].field_8 > 0xc0) {
+                if (k != 0x15) {
+                    if (word_38FEE > 0x500) {
+                        if ((unsigned)-(word_330B8 * 3 - 20) < a[0]) {
+                            word_3C09C++;
+                            if (*(int16 *)&stru_3AA5E[param_1].field_8 >= 0xfa) {
+                                l = (word_330B8 != 0) ? param_1 % word_330B8 : 0;
+                                if (stru_335C4[l].ttl == 0) {
+                                    if (sams[k].field_8 > (unsigned)a[0]) {
+                                        k = k;
+                                        stru_335C4[l].mapX = stru_3AA5E[param_1].mapX + 8;
+                                        l = l;
+                                        param_1 = param_1;
+                                        stru_335C4[l].mapY = stru_3AA5E[param_1].mapY;
+                                        stru_335C4[l].alt = 0;
+                                        stru_335C4[l].field_6 = 1;
+                                        stru_335C4[l].worldX = p[0];
+                                        stru_335C4[l].worldY = 0x4000;
+                                        stru_335C4[l].ttl = (int)((((long)sams[k].field_8 << 3) * (long)word_330C4) / (long)(sams[k].field_A >> 6));
+                                        *(int16 *)&stru_335C4[l].state[0] = k;
+                                        *(int16 *)&stru_335C4[l].state[6] = param_1;
+
+                                        placeString(param_1);
+                                        strcat((char *)strBuf, (char *)aFiring);
+                                        strcat((char *)strBuf, (char *)&sams[k]);
+                                        tempStrcpy((char *)strBuf);
+                                        makeSound(6, 2);
+                                        scheduleEventCheck(param_1 + 0x40, 2);
+                                        commData->restartFlag++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-        if (stru_335C4[l].ttl != 0) goto end_fire;
-        if (sams[k].field_8 <= (unsigned)a[0]) goto end_fire;
-
-        stru_335C4[l].mapX = stru_3AA5E[param_1].mapX + 8;
-        stru_335C4[l].mapY = stru_3AA5E[param_1].mapY;
-        stru_335C4[l].alt = 0;
-        stru_335C4[l].field_6 = 1;
-        stru_335C4[l].worldX = p[0];
-        stru_335C4[l].worldY = 0x4000;
-        stru_335C4[l].ttl = (int)((((long)sams[k].field_8 << 3) * (long)word_330C4) / (long)(sams[k].field_A >> 6));
-        *(int16 *)&stru_335C4[l].state[0] = k;
-        *(int16 *)&stru_335C4[l].state[6] = param_1;
-
-        placeString(param_1);
-        strcat((char *)strBuf, (char *)aFiring);
-        strcat((char *)strBuf, (char *)&sams[k]);
-        tempStrcpy((char *)strBuf);
-        makeSound(6, 2);
-        scheduleEventCheck(param_1 + 0x40, 2);
-        commData->restartFlag++;
-end_fire:
         *(uint8 *)&stru_3AA5E[param_1].flags |= 0x10;
     } else {
         *(uint8 *)&stru_3AA5E[param_1].flags &= 0xEF;

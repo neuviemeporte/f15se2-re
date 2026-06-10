@@ -105,7 +105,7 @@ drawFuelGauge: seg000 NEAR 606c-60d2 R606c-60d2 complete
 drawVectorShape: seg000 NEAR 60d3-613a R60d3-613a complete
 waitForKeyPress: seg000 NEAR 613b-6171 R613b-6171 complete
 updateThreatSites: seg000 NEAR 6172-6345 R6172-6345 complete
-fireGroundThreat: seg000 NEAR 6346-660d R6346-660d
+fireGroundThreat: seg000 NEAR 6346-660d R6346-660d complete
 computeThreatRangeBearing: seg000 NEAR 660e-66bd R660e-66bd complete
 sub_166BE: seg000 NEAR 66be-6741 R66be-6741 complete
 computeThreatScore: seg000 NEAR 6742-67b3 R6742-67b3 complete
