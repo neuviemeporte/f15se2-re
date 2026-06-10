@@ -37,7 +37,7 @@ int openFile(const char *filename, int mode)
     r.h.ah = 0x3D;
     r.h.al = (unsigned char)mode;
     segread(&s);
-#ifdef BUGFIX
+#if !defined(MSDOS)
     // make clang quiet
     r.x.dx = 0; // (uint16)filename;
 #else    
@@ -56,7 +56,7 @@ void dos_printstring(const char *str)
     struct SREGS s;
     r.h.ah = 0x09;
     segread(&s);
-#ifdef BUGFIX
+#if !defined(MSDOS)
     // make clang quiet  
     r.x.dx = 0; // (uint16)str;
 #else    
@@ -100,7 +100,7 @@ int createFile(const char *filename, int attr)
     r.h.ah = 0x3C;
     r.x.cx = attr;
     segread(&s);
-#ifdef BUGFIX
+#if !defined(MSDOS)
     // make clang quiet    
     r.x.dx = 0; // (uint16)filename;
 #else    

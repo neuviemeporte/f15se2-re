@@ -752,7 +752,12 @@ void drawWeaponAmmo() {
     for (a = 0; a < 3; a++) {
         setDrawColor(0);
         p = (&word_38202)[a];
+#if !defined(MSDOS)
+        // make clang quiet
+        fillRectBoth(p - 1, 0xbe, p + 2, 0/*(int)&allocSize*/);
+#else        
         fillRectBoth(p - 1, 0xbe, p + 2, (int)&allocSize);
+#endif      
         drawNumber(missleSpec[a].ammo, p, 0xbe, 0x0c);
     }
 }

@@ -324,7 +324,7 @@ uint8 nearestGridY[1] = {0};
 int16 missionDistAccum;
 int16 playerStartLoc;
 uint32 baseYPrecise;
-#ifdef BUGFIX
+#if !defined(MSDOS)
 struct TerrainTile* tileDataPtr;
 #else
 int16 tileDataPtr;
@@ -733,7 +733,7 @@ uint8 gridBuf4[0x200];
 uint8 gridBuf5[0x200];
 struct Target targets[2];
 uint16 terrainBuf1[5] = { 0x20, 0x20, 0x20, 0x20, 0x20 };
-#ifdef BUGFIX
+#if !defined(MSDOS)
 struct TerrainCountTable terrainTileCounts[5] = {0};
 #else
 struct TerrainPtrTable terrainTileCounts[5] = {0};

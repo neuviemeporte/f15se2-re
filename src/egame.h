@@ -18,7 +18,7 @@
 #define __int8 char
 #define __cdecl
 #define __far far
-#ifdef BUGFIX
+#if !defined(MSDOS)
 extern char far byte_228D0[];
 #else
 extern unsigned char far byte_228D0[];

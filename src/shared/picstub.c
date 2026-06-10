@@ -83,7 +83,7 @@ static void read512FromFile(void)
     r.h.ah = 0x3F;
     r.x.bx = picFileHandle;
     r.x.cx = 512;
-#ifdef BUGFIX
+#if !defined(MSDOS)
     // make clang quiet
     r.x.dx = 0; //(uint16)picFileReadBuf;
 #else  

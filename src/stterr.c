@@ -33,7 +33,7 @@ int16* findNearestTerrain(int32 worldX, int32 worldY) {
             y1 += rowOff;
             cell = lookupGridCell(level, gridX += dx, y1);
             if (cell != 0xffff) {
-#ifdef BUGFIX              
+#if !defined(MSDOS)             
                 tileDataPtr = terrainTilePtrs[level].entries[cell];
 #define GET_TILE(PTR)(PTR)       
 #define GET_COUNTS()(terrainTileCounts[level].entries[cell]) 

@@ -601,7 +601,7 @@ extern int dirDeltaY[];
 extern int gridLevelSize[];
 extern int16 terrainSignature;
 extern uint16 terrainBuf1[];
-#ifdef BUGFIX
+#if !defined(MSDOS)
 extern struct TerrainCountTable terrainTileCounts[];
 #else
 extern struct TerrainPtrTable terrainTileCounts[];
@@ -879,7 +879,7 @@ extern int16 nearestObjectType;
 extern int16 nearestDist;
 extern uint32 nearestWorldX;
 extern uint32 nearestWorldY;
-#ifdef BUGFIX
+#if !defined(MSDOS)
 extern struct TerrainTile* nearestTilePtr;
 #else
 extern int16 nearestTilePtr;
@@ -906,7 +906,7 @@ extern uint8 joyReady[];
 extern char *wldOffsets[];
 extern char wldReadBuf11[];
 extern struct TerrainPtrTable terrainTilePtrs[];
-#ifdef BUGFIX
+#if !defined(MSDOS)
 extern struct TerrainTile* tileDataPtr;
 #else
 extern int16 tileDataPtr;
