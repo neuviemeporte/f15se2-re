@@ -256,7 +256,7 @@ void updateThreatSites();
 // ==== seg000:0x6346 ====
 void fireGroundThreat(int param_1);
 // ==== seg000:0x660e ====
-int computeThreatRangeBearing();
+int computeThreatRangeBearing(int threatX, int threatY, int arg_4, int threatType, int *outBearing, int *arg_a);
 // ==== seg000:0x66be ====
 void sub_166BE();
 // ==== seg000:0x6742 ====

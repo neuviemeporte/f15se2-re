@@ -29,7 +29,7 @@ void fireGroundThreat(int param_1)
     int o;
 
     k = stru_3AA5E[param_1].field_4;
-    o = computeThreatRangeBearing(stru_3AA5E[param_1].mapX, stru_3AA5E[param_1].mapY, 0, k, p, a);
+    o = computeThreatRangeBearing(stru_3AA5E[param_1].mapX, stru_3AA5E[param_1].mapY, 0, k, p, (int *)a);
     word_336FA = 0;
     if (o > 0) {
         j = o;
