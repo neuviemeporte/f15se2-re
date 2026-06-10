@@ -431,7 +431,7 @@ int randomRange(int);
 // ==== seg000:0xd21e ====
 int readAxisInput(int param_1);
 // ==== seg000:0xd260 ====
-int keyDispatch(int16 scanCode);
+int keyDispatch(uint16 scanCode);
 // ==== seg000:0xd9db ====
 void selectMissile();
 // ==== seg000:0xda35 ====

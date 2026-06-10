@@ -803,27 +803,6 @@ PUBLIC _aMedium
 PUBLIC _aWaypointPrimar
 PUBLIC _aMemoryAvailabl
 
-_countermeasures equ countermeasures
-_word_336EC equ word_336EC
-_word_3C6AE equ word_3C6AE
-_word_3B15A equ word_3B15A
-_aAutopilotOn equ aAutopilotOn
-_aOff equ aOff
-_aJiffiesFrame equ aJiffiesFrame
-_aWaypointSecond equ aWaypointSecond
-_aRangeRadar equ aRangeRadar
-_aKybdSensitivit equ aKybdSensitivit
-_aDetailLevel equ aDetailLevel
-_aAutopilotOff equ aAutopilotOff
-_aDirector equ aDirector
-_aWaypointFriend equ aWaypointFriend
-_aSounds equ aSounds
-_aShort equ aShort
-_aLong equ aLong
-_aMedium equ aMedium
-_aWaypointPrimar equ aWaypointPrimar
-_aMemoryAvailabl equ aMemoryAvailabl
-
 
 PUBLIC _drawCenteredLabelBox
 PUBLIC _aStallWarning
@@ -1381,6 +1360,7 @@ LAB_1000_1631:
     pop BP
     ret
 countermeasures endp
+_countermeasures equ countermeasures
 ; ------------------------------seg000:0x1635------------------------------
 ; ------------------------------seg000:0x1636------------------------------
 ; ------------------------------seg000:0x1675------------------------------
@@ -10014,6 +9994,7 @@ _word_336E6 dw 0FFFFh
 _frameTick dw 0
 _word_336EA dw 0
 word_336EC dw 1
+_word_336EC equ word_336EC
 _word_336EC equ word_336EC
 word_336EE dw 0
 _word_336EE equ word_336EE
@@ -23274,6 +23255,22 @@ aWaypointSecond db 'Waypoint: Secondary Target',0
 aWaypointFriend db 'Waypoint: Friendly Airbase',0
 aAutopilotOff db 'Autopilot off',0
 aAutopilotOn db 'Autopilot on',0
+_aLong equ aLong
+_aMedium equ aMedium
+_aShort equ aShort
+_aRangeRadar equ aRangeRadar
+_aDetailLevel equ aDetailLevel
+_aKybdSensitivit equ aKybdSensitivit
+_aMemoryAvailabl equ aMemoryAvailabl
+_aJiffiesFrame equ aJiffiesFrame
+_aSounds equ aSounds
+_aDirector equ aDirector
+_aOff equ aOff
+_aWaypointPrimar equ aWaypointPrimar
+_aWaypointSecond equ aWaypointSecond
+_aWaypointFriend equ aWaypointFriend
+_aAutopilotOff equ aAutopilotOff
+_aAutopilotOn equ aAutopilotOn
     db 0 ;align 2
 word_38600 dw 0
 word_38602 dw 2
@@ -25588,6 +25585,7 @@ word_3B158 dw ?
 _word_3B158 equ word_3B158
 word_3B15A dw ?
 _word_3B15A equ word_3B15A
+_word_3B15A equ word_3B15A
     db ?
     db ?
 word_3B15E dw ?
@@ -27527,6 +27525,7 @@ word_3C6AA dw ?
 _word_3C6AA equ word_3C6AA
 _word_3C6AC dw ?
 word_3C6AE dw ?
+_word_3C6AE equ word_3C6AE
 PUBLIC _word_3C6AE
 PUBLIC byte_3416E
 PUBLIC byte_3416F

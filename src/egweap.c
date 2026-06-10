@@ -15,15 +15,11 @@
 #include <string.h>
 
 // ==== seg000:0xd260 ====
-int keyDispatch(int16 scanCode)
+int keyDispatch(uint16 scanCode)
 {
     char p[14]; /* local buffer at BP-0e, used by itoa for memory display */
-    int a;
-    unsigned int b, c;
-    char d;
 
-    var_599 = 0;
-    var_598 = 0;
+    var_598 = var_599 = 0;
 
     if (scanCode == 0)
         goto end_dispatch;
@@ -63,7 +59,7 @@ int keyDispatch(int16 scanCode)
         countermeasures(2);
         break;
     case 0x266c:
-        if (word_3BEBE != var_547) {
+        if (var_547 != word_3BEBE) {
             *(char *)&planeFlags ^= 1;
             word_336EC = 0;
             makeSound(0x20, 2);
@@ -75,10 +71,7 @@ int keyDispatch(int16 scanCode)
     case 0x2000:
         word_38FDC--;
         if (word_38FDC < 0) {
-            if (gfx_getModecode() == 3)
-                word_38FDC = 3;
-            else
-                word_38FDC = 2;
+            word_38FDC = gfx_getModecode() == 3 ? 3 : 2;
         }
         strcpy(strBuf, (char *)aDetailLevel);
         strcat(strBuf, itoa(word_38FDC, unk_3C030, 10));
@@ -113,8 +106,7 @@ int keyDispatch(int16 scanCode)
         }
         break;
     case 0x2f00:
-        var_600++;
-        var_600 &= 3;
+        var_600 = ++var_600 & 3;
         strcpy(strBuf, (char *)aSounds);
         strcat(strBuf, itoa(3 - var_600, unk_3C030, 10));
         tempStrcpy(strBuf);
@@ -141,6 +133,8 @@ int keyDispatch(int16 scanCode)
     case 0x326d:
         missileSpecIndex = 1;
         word_3C45C = 1;
+        if (word_3C45C != 1)
+            word_39604 = 0;
         selectMissile();
         break;
     case 0x2267:
@@ -155,10 +149,10 @@ int keyDispatch(int16 scanCode)
         if (word_3370E > 2)
             word_3370E = 0;
         strcpy(strBuf, (char *)aDirector);
-        if (word_3370E == 0) {
-            strcat(strBuf, (char *)aOff);
-        } else {
+        if (word_3370E != 0) {
             strcat(strBuf, itoa(word_3370E, unk_3C030, 10));
+        } else {
+            strcat(strBuf, (char *)aOff);
         }
         tempStrcpy(strBuf);
         break;
@@ -184,10 +178,7 @@ int keyDispatch(int16 scanCode)
             word_330B6 = 0;
             tempStrcpy((char *)aAutopilotOff);
         } else {
-            a = var_547;
-            if (a < 1000)
-                a = 1000;
-            word_330B6 = a;
+            word_330B6 = var_547 < 1000 ? 1000 : var_547;
             tempStrcpy((char *)aAutopilotOn);
         }
         break;
@@ -234,24 +225,20 @@ int keyDispatch(int16 scanCode)
         keyValue = 0x8b;
         break;
     case 0x11b:
-        if (word_3BE3C != 0)
-            break;
-        makeSound(2, 2);
-        makeSound(0x22, 2);
-        b = randomRange(500) + 500;
-        a = abs(var_544);
-        a >>= 5;
-        c = abs(var_545);
-        c >>= 5;
-        if ((int)(c + a + word_3AA5A) > (int)b) {
-            finalizeMission(6);
-        } else {
-            *(int far *)((char far *)commData + 0x26) = 2;
+        if (word_3BE3C == 0) {
+            makeSound(2, 2);
+            makeSound(0x22, 2);
+            if ((abs(var_545) >> 5) + (abs(var_544) >> 5) + word_3AA5A
+                    > randomRange(500) + 500) {
+                finalizeMission(6);
+            } else {
+                *(int far *)((char far *)commData + 0x26) = 2;
+            }
+            word_3BE3C = 1;
+            word_3C028 = word_3BEC0;
+            word_3C03A = word_3BED0;
+            word_3C040 = var_547 + 8;
         }
-        word_3BE3C = 1;
-        word_3C028 = word_3BEC0;
-        word_3C03A = word_3BED0;
-        word_3C040 = var_547 + 8;
         break;
     }
 
@@ -261,48 +248,16 @@ int keyDispatch(int16 scanCode)
             initWeaponLoadout();
             break;
         case 0x1f00:
-            b = 0;
-            c = 2;
-            for (d = (char)byte_383E5; d != 0; d--) {
-                a = c & 1;
-                c >>= 1;
-                b = (b >> 1) | (a ? 0x8000u : 0);
-            }
-            *(int *)&dword_3B7F8 += b;
-            *((int *)&dword_3B7F8 + 1) += c + (*(unsigned int *)&dword_3B7F8 < b ? 1 : 0);
+            dword_3B7F8 += 0x20000L >> byte_383E5;
             break;
         case 0x2d00:
-            b = 0;
-            c = 2;
-            for (d = (char)byte_383E5; d != 0; d--) {
-                a = c & 1;
-                c >>= 1;
-                b = (b >> 1) | (a ? 0x8000u : 0);
-            }
-            *(unsigned int *)&dword_3B7F8 -= b;
-            *((int *)&dword_3B7F8 + 1) -= c + (*(unsigned int *)&dword_3B7F8 > (unsigned int)(*(unsigned int *)&dword_3B7F8 + b) ? 1 : 0);
+            dword_3B7F8 -= 0x20000L >> byte_383E5;
             break;
         case 0x2c00:
-            b = 0;
-            c = 2;
-            for (d = (char)byte_383E5; d != 0; d--) {
-                a = c & 1;
-                c >>= 1;
-                b = (b >> 1) | (a ? 0x8000u : 0);
-            }
-            *(unsigned int *)&dword_3B7DA -= b;
-            *((int *)&dword_3B7DA + 1) -= c + (*(unsigned int *)&dword_3B7DA > (unsigned int)(*(unsigned int *)&dword_3B7DA + b) ? 1 : 0);
+            dword_3B7DA -= 0x20000L >> byte_383E5;
             break;
         case 0x2e00:
-            b = 0;
-            c = 2;
-            for (d = (char)byte_383E5; d != 0; d--) {
-                a = c & 1;
-                c >>= 1;
-                b = (b >> 1) | (a ? 0x8000u : 0);
-            }
-            *(int *)&dword_3B7DA += b;
-            *((int *)&dword_3B7DA + 1) += c + (*(unsigned int *)&dword_3B7DA < b ? 1 : 0);
+            dword_3B7DA += 0x20000L >> byte_383E5;
             break;
         }
     }
@@ -315,31 +270,16 @@ end_dispatch:
     if (var_597 > 0)
         var_597--;
 
-    a = readAxisInput(1);
-    if (a != 0 && var_597 == 0) {
+    if (readAxisInput(1) != 0 && var_597 == 0) {
         fireMissile();
         var_597 = 4;
     }
 
-    if (*(char *)&planeFlags & 1) {
-        a = 4;
-    } else if (word_3AA5A < 250 || (*(char *)&frameTick & 1)) {
-        a = 2;
-    } else {
-        a = 10;
-    }
-    switchIndicatorColor(3, a);
+    switchIndicatorColor(3, (*(char *)&planeFlags & 1) ? 4
+        : (word_3AA5A < 250 || (*(char *)&frameTick & 1)) ? 2 : 10);
 
-    if (*(char *)&planeFlags & 8) {
-        a = 14;
-    } else if (gfxModeUnset != 0) {
-        a = 3;
-    } else {
-        a = 2;
-    }
-    switchIndicatorColor(2, a);
-
-    return 0;
+    switchIndicatorColor(2, (*(char *)&planeFlags & 8) ? 14
+        : *(char *)&gfxModeUnset != 0 ? 3 : 2);
 }
 
 // ==== seg000:0xd9db ====

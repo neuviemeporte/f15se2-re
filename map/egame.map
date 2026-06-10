@@ -192,7 +192,7 @@ signOf: seg000 NEAR d1c8-d1e7 Rd1c8-d1e7 complete
 seedRng: seg000 NEAR d1e8-d1ff Rd1e8-d1ff complete
 randomRange: seg000 NEAR d200-d21d Rd200-d21d complete
 readAxisInput: seg000 NEAR d21e-d25f Rd21e-d25f complete
-keyDispatch: seg000 NEAR d260-d9da Rd260-d2c9 Ud2ca-d2cb Rd2cc-d523 Ud524-d529 Rd52a-d5ee Ud5ef-d5f0 Rd5f1-d743 Ud744-d746 Rd747-d927 Ud928-d929 Rd92a-d9da
+keyDispatch: seg000 NEAR d260-d9da Rd260-d2c9 Ud2ca-d2cb Rd2cc-d523 Ud524-d529 Rd52a-d5ee Ud5ef-d5f0 Rd5f1-d743 Ud744-d746 Rd747-d927 Ud928-d929 Rd92a-d9da complete
 selectMissile: seg000 NEAR d9db-da34 Rd9db-da34 complete
 makeSound: seg000 NEAR da35-da5e Rda35-da5e complete
 sub_1DA5F: seg000 NEAR da5f-da8c Rda5f-da8c complete
