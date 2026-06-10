@@ -114,7 +114,7 @@ void spawnEnemyAircraft(int slot, int objType)
     }
     placeString(objType);
     strcat(strBuf, aDash);
-    strcat(strBuf, (char *)(*(int16 *)&stru_3B202[slot].state[6] * 32 + (int)aMig23));
+    strcat(strBuf, (char *)(*(int16 *)&stru_3B202[slot].state[6] * 32 + aMig23));
     strcat(strBuf, aTakingOff);
     if (slot < word_3C046 - 4) {
         tempStrcpy(strBuf);
@@ -187,7 +187,7 @@ void destroyAircraft(int objIdx)
     done:
         ;
     }
-    strcpy(strBuf, (char *)(*(int16 *)&stru_3B202[objIdx].state[6] * 32 + (int)aMig23));
+    strcpy(strBuf, (char *)(*(int16 *)&stru_3B202[objIdx].state[6] * 32 + aMig23));
     makeSound(2, 2);
     if (word_3C45C == 1 && objIdx == word_336F2) {
         word_39604 = 1;

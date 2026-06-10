@@ -389,7 +389,11 @@ void FAR CDECL gfx_setDac(uint16 palIdx)
     regs.x.ax = 0x1012;
     regs.x.bx = 0;       /* first register */
     regs.x.cx = 16;      /* number of registers */
+#if !defined(MSDOS)
+    regs.x.dx = 0; //(uint16)g_palettes[palIdx];
+#else
     regs.x.dx = (uint16)g_palettes[palIdx];
+#endif
     segread(&sregs);
     sregs.es = sregs.ds;  /* ES:DX -> palette table */
     int86x(0x10, &regs, &regs, &sregs);

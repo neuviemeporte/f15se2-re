@@ -84,7 +84,7 @@ char aGun[1];
 char aKm[1];
 char aLeft[1];
 char aLeft_pic[1];
-uint8 aMig23[1];
+char aMig23[1];
 char aMissileLock[1];
 uint8 aNone[1];
 uint8 aNotAvailable[1];

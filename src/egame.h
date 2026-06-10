@@ -729,7 +729,7 @@ extern uint8 aRapier[];
 extern uint8 aTiger[];
 extern uint8 aSeacat[];
 extern uint8 aIl76[];
-extern uint8 aMig23[];
+extern char aMig23[];
 extern uint8 aFlogger[];
 extern uint8 aMig25[];
 extern uint8 aFoxbat[];
