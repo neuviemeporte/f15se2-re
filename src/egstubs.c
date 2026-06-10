@@ -79,6 +79,7 @@ char aDot[1];
 uint8 aEmpty_5950[1];
 char aF15StrikeEagle[1];
 char aFired[1];
+uint8 aFiring[] = " firing ";
 uint8 aFlogger[1];
 char aGun[1];
 char aKm[1];
@@ -380,6 +381,7 @@ int16 word_336F2;
 int16 word_336F4;
 int16 word_336F6;
 int16 word_336F8;
+int16 word_336FA;
 int16 word_336FC;
 int16 word_336FE;
 int16 word_33700;
@@ -456,6 +458,7 @@ int16* word_39808;
 int16 word_3995C;
 int16 word_3A940;
 int word_3A944;
+int16 word_3A946;
 int16 word_3AA5A;
 int16 word_3AA5C;
 int16 word_3AF0C;
@@ -567,7 +570,6 @@ int far drawModelDisplayList() { return 0; }
 int drawModelPoint() { return 0; }
 int far drawPolygonOutline(int, int, int*, int) { return 0; }
 int far fillSpanRect(int16* param_1, int param_2, int param_3, int param_4, int param_5) { return 0; }
-int fireGroundThreat(int) { return 0; }
 int fixedMulQ14(int arg_0, int arg_2) { return 0; }
 int far flushSpanDirtyRect() { return 0; }
 int keyDispatch(int16 scanCode) { return 0; }
