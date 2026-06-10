@@ -768,8 +768,6 @@ PUBLIC _word_330B8
 PUBLIC _var_669
 PUBLIC _var_667
 PUBLIC _var_670
-PUBLIC _word_336FA
-PUBLIC _word_3A946
 PUBLIC _aFiredBy
 PUBLIC _word_3B204
 PUBLIC _word_3B206
@@ -12901,7 +12899,6 @@ word_336F6 dw 0FFFFh
 _word_336F6 equ word_336F6
 word_336F8 dw 1
 _word_336F8 equ word_336F8
-_word_336FA label byte
 word_336FA dw 0
 _word_336FA equ word_336FA
 _word_336FC dw 0FFFFh
@@ -28392,7 +28389,6 @@ _word_3A940 dw ?
 word_3A944 dw ?
 PUBLIC _word_3A944
 _word_3A944 equ word_3A944
-_word_3A946 label byte
 word_3A946 dw ?
 _word_3A946 equ word_3A946
 _unk_3A948 db ?
