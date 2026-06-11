@@ -1,0 +1,1229 @@
+;	Static Name Aliases
+;
+	TITLE   stpinp.c
+	NAME    stpinp
+
+	.8087
+_TEXT	SEGMENT  WORD PUBLIC 'CODE'
+_TEXT	ENDS
+_DATA	SEGMENT  WORD PUBLIC 'DATA'
+_DATA	ENDS
+CONST	SEGMENT  WORD PUBLIC 'CONST'
+CONST	ENDS
+_BSS	SEGMENT  WORD PUBLIC 'BSS'
+_BSS	ENDS
+DGROUP	GROUP	CONST, _BSS, _DATA
+	ASSUME  CS: _TEXT, DS: DGROUP, SS: DGROUP
+EXTRN	__acrtused:ABS
+EXTRN	_fopen:NEAR
+EXTRN	_cleanup:NEAR
+EXTRN	_fread:NEAR
+EXTRN	_waitMdaCgaStatus:NEAR
+EXTRN	_drawStringAt:NEAR
+EXTRN	_fwrite:NEAR
+EXTRN	_drawStringCentered:NEAR
+EXTRN	_stringWidth:NEAR
+EXTRN	_exit:NEAR
+EXTRN	_processStoreInput:NEAR
+EXTRN	_gfx_switchColor:FAR
+EXTRN	_clearRect:NEAR
+EXTRN	_putch:NEAR
+EXTRN	_doFcbSearch:NEAR
+EXTRN	_misc_jump_5a_keybuf:FAR
+EXTRN	_misc_jump_5d_readJoy:FAR
+EXTRN	_misc_jump_5e_clearKeyFlags:FAR
+EXTRN	_displayPilots:NEAR
+EXTRN	_restoreCbreakHandler:NEAR
+EXTRN	_setTimerIrqHandler:NEAR
+EXTRN	_fclose:NEAR
+EXTRN	_restoreTimerIrqHandler:NEAR
+EXTRN	_readInputKey:NEAR
+EXTRN	_screenBuf:WORD
+EXTRN	_pageNumPtr:WORD
+EXTRN	_ranks:BYTE
+EXTRN	_blinkColors:BYTE
+EXTRN	_blinkColorIdx:WORD
+EXTRN	_aMenterYourName:BYTE
+EXTRN	_pilotNameInputColors:BYTE
+EXTRN	_aRb_3:BYTE
+EXTRN	_aHallfame:BYTE
+EXTRN	_aWb:BYTE
+EXTRN	_aHallfame_0:BYTE
+EXTRN	_cbreakHit:BYTE
+EXTRN	_selectedPilotIdx:WORD
+EXTRN	_commData:DWORD
+EXTRN	_hallfameBuf:BYTE
+EXTRN	_gameData:DWORD
+EXTRN	_pilotSelectFlag:BYTE
+_TEXT      SEGMENT
+	ASSUME	CS: _TEXT
+;|*** /* Pilot input handling */
+;|*** #include "start.h"
+;|*** #include "const.h"
+;|*** #include "gfx.h"
+;|*** #include "slot.h"
+;|*** #include "comm.h"
+;|*** #include "offsets.h"
+;|*** #include "shared/util.h"
+;|*** #include "debug.h"
+;|*** 
+;|*** #include <stdio.h>
+;|*** #include <dos.h>
+;|*** #include <string.h>
+;|*** 
+;|*** // XXX: non-linear execution due to optimization
+;|*** void processPilotInput() {
+; Line 16
+	PUBLIC	_processPilotInput
+_processPilotInput	PROC NEAR
+	*** 000000	55 			push	bp
+	*** 000001	8b ec 			mov	bp,sp
+	*** 000003	83 ec 08 		sub	sp,8
+	*** 000006	57 			push	di
+	*** 000007	56 			push	si
+;	pilot = -6
+;	x = -4
+;	counter = -2
+;	y = -8
+;|***     int pilot;
+;|***     int x;
+;|***     int counter;
+;|***     int y;
+;|***     pilotSelectFlag = 1;
+; Line 21
+	*** 000008	c6 06 00 00 01 		mov	BYTE PTR _pilotSelectFlag,1
+;|***     setTimerIrqHandler();
+; Line 22
+	*** 00000d	e8 00 00 		call	_setTimerIrqHandler
+;|***     TRACE(("processPilotInput(): set timer irq"));
+;|***     while (pilot = selectedPilotIdx, true) switch (processStoreInput()) {
+; Line 24
+	*** 000010	eb 25 			jmp	SHORT $L20015
+					$FC1693:
+	*** 000012	3d 1b 00 		cmp	ax,27
+	*** 000015	74 57 			je	$SC1702
+	*** 000017	3d 00 48 		cmp	ax,18432
+	*** 00001a	75 03 			jne	$JCC26
+	*** 00001c	e9 ef 00 		jmp	$SC1707
+					$JCC26:
+	*** 00001f	3d 00 4b 		cmp	ax,19200
+	*** 000022	75 03 			jne	$JCC34
+	*** 000024	e9 f3 00 		jmp	$SC1710
+					$JCC34:
+	*** 000027	3d 00 4d 		cmp	ax,19712
+	*** 00002a	75 03 			jne	$JCC42
+	*** 00002c	e9 f3 00 		jmp	$SC1711
+					$JCC42:
+	*** 00002f	3d 00 50 		cmp	ax,20480
+	*** 000032	75 03 			jne	$JCC50
+	*** 000034	e9 dd 00 		jmp	$SC1709
+					$JCC50:
+					$L20015:
+	*** 000037	a1 00 00 		mov	ax,_selectedPilotIdx
+	*** 00003a	89 46 fa 		mov	WORD PTR [bp-6],ax	;pilot
+	*** 00003d	e8 00 00 		call	_processStoreInput
+	*** 000040	3d 0d 00 		cmp	ax,13
+	*** 000043	75 cd 			jne	$FC1693
+;|***     case KEYCODE_ENTER:
+;|***         TRACE(("processPilotInput(): enter"));
+;|***         if ((hallfameBuf[selectedPilotIdx].medals & 0x60) == 0) {
+; Line 27
+	*** 000045	8b 1e 00 00 		mov	bx,_selectedPilotIdx
+	*** 000049	b1 05 			mov	cl,5
+	*** 00004b	d3 e3 			shl	bx,cl
+	*** 00004d	f6 87 1d 00 60 		test	BYTE PTR _hallfameBuf[bx+29],96
+	*** 000052	75 0e 			jne	$I1700
+;|***             restoreTimerIrqHandler();
+; Line 28
+	*** 000054	e8 00 00 		call	_restoreTimerIrqHandler
+;|***             pilotSelectFlag = 0;
+; Line 29
+	*** 000057	c6 06 00 00 00 		mov	BYTE PTR _pilotSelectFlag,0
+;|***             TRACE(("processPilotInput(): accepted %d", selectedPilotIdx));
+;|***             return;
+; Line 31
+	*** 00005c	5e 			pop	si
+	*** 00005d	5f 			pop	di
+	*** 00005e	8b e5 			mov	sp,bp
+	*** 000060	5d 			pop	bp
+	*** 000061	c3 			ret	
+					$I1700:
+	*** 000062	b8 07 00 		mov	ax,7
+	*** 000065	50 			push	ax
+	*** 000066	e8 00 00 		call	_putch
+	*** 000069	83 c4 02 		add	sp,2
+;|***         }
+;|***         putch(CHAR_BELL);
+;|***         continue;
+; Line 34
+	*** 00006c	eb c9 			jmp	SHORT $L20015
+					$SC1702:
+;|***     case KEYCODE_ESC:
+;|***         TRACE(("processPilotInput(): esc"));
+;|***         hallfameBuf[selectedPilotIdx].theater
+;|***             = hallfameBuf[selectedPilotIdx].difficulty
+;|***             = hallfameBuf[selectedPilotIdx].total_score
+;|***             = hallfameBuf[selectedPilotIdx].last_score
+;|***             = hallfameBuf[selectedPilotIdx].medals
+;|***             = hallfameBuf[selectedPilotIdx].rank
+;|***             = 0;
+; Line 43
+	*** 00006e	8b 36 00 00 		mov	si,_selectedPilotIdx
+	*** 000072	b1 05 			mov	cl,5
+	*** 000074	d3 e6 			shl	si,cl
+	*** 000076	2a c0 			sub	al,al
+	*** 000078	88 84 1c 00 		mov	BYTE PTR _hallfameBuf[si+28],al
+	*** 00007c	88 84 1d 00 		mov	BYTE PTR _hallfameBuf[si+29],al
+	*** 000080	2a e4 			sub	ah,ah
+	*** 000082	89 84 1a 00 		mov	WORD PTR _hallfameBuf[si+26],ax
+	*** 000086	2b d2 			sub	dx,dx
+	*** 000088	89 84 16 00 		mov	WORD PTR _hallfameBuf[si+22],ax
+	*** 00008c	89 94 18 00 		mov	WORD PTR _hallfameBuf[si+24],dx
+	*** 000090	88 84 1f 00 		mov	BYTE PTR _hallfameBuf[si+31],al
+	*** 000094	88 84 1e 00 		mov	BYTE PTR _hallfameBuf[si+30],al
+;|***         pilotNameInput(screenBuf, MAX_PILOT_NAME_LEN, PILOT_NAME_HEIGHT, PILOT_NAME_HEIGHT, &hallfameBuf[selectedPilotIdx]);
+; Line 44
+	*** 000098	8b c6 			mov	ax,si
+	*** 00009a	05 00 00 		add	ax,OFFSET _hallfameBuf
+	*** 00009d	50 			push	ax
+	*** 00009e	b8 08 00 		mov	ax,8
+	*** 0000a1	50 			push	ax
+	*** 0000a2	50 			push	ax
+	*** 0000a3	b8 14 00 		mov	ax,20
+	*** 0000a6	50 			push	ax
+	*** 0000a7	ff 36 00 00 		push	WORD PTR _screenBuf
+	*** 0000ab	e8 00 00 		call	_pilotNameInput
+	*** 0000ae	83 c4 0a 		add	sp,10
+;|***         pilotToGameData((uint8*)&hallfameBuf[selectedPilotIdx]);
+; Line 45
+	*** 0000b1	a1 00 00 		mov	ax,_selectedPilotIdx
+	*** 0000b4	b1 05 			mov	cl,5
+	*** 0000b6	d3 e0 			shl	ax,cl
+	*** 0000b8	05 00 00 		add	ax,OFFSET _hallfameBuf
+	*** 0000bb	50 			push	ax
+	*** 0000bc	e8 00 00 		call	_pilotToGameData
+	*** 0000bf	83 c4 02 		add	sp,2
+;|***         counter = selectedPilotIdx;
+; Line 46
+	*** 0000c2	a1 00 00 		mov	ax,_selectedPilotIdx
+	*** 0000c5	89 46 fe 		mov	WORD PTR [bp-2],ax	;counter
+;|***         while (counter < HALLFAME_SLOTS - 1) {
+; Line 47
+	*** 0000c8	eb 1b 			jmp	SHORT $L20014
+					$FC1704:
+;|***             hallfameBuf[counter] = hallfameBuf[counter + 1];
+; Line 48
+	*** 0000ca	8b 76 fe 		mov	si,WORD PTR [bp-2]	;counter
+	*** 0000cd	b1 05 			mov	cl,5
+	*** 0000cf	d3 e6 			shl	si,cl
+	*** 0000d1	56 			push	si
+	*** 0000d2	8d bc 00 00 		lea	di,WORD PTR _hallfameBuf[si]
+	*** 0000d6	8d b4 20 00 		lea	si,WORD PTR _hallfameBuf[si+32]
+	*** 0000da	1e 			push	ds
+	*** 0000db	07 			pop	es
+	*** 0000dc	b9 10 00 		mov	cx,16
+	*** 0000df	f2 			rep
+	*** 0000e0	a5 			movsw
+	*** 0000e1	5e 			pop	si
+;|***             counter++;
+; Line 49
+	*** 0000e2	ff 46 fe 		inc	WORD PTR [bp-2]	;counter
+;|***         }
+; Line 50
+					$L20014:
+	*** 0000e5	83 7e fe 07 		cmp	WORD PTR [bp-2],7	;counter
+	*** 0000e9	7c df 			jl	$FC1704
+;|***         gameDataToPilot(&hallfameBuf[HALLFAME_SLOTS - 1]);
+; Line 51
+	*** 0000eb	b8 e0 00 		mov	ax,OFFSET _hallfameBuf+224
+	*** 0000ee	50 			push	ax
+	*** 0000ef	e8 00 00 		call	_gameDataToPilot
+	*** 0000f2	83 c4 02 		add	sp,2
+;|***         selectedPilotIdx = HALLFAME_SLOTS - 1;
+; Line 52
+	*** 0000f5	c7 06 00 00 07 00 	mov	WORD PTR _selectedPilotIdx,7
+;|***         displayPilots();
+; Line 53
+	*** 0000fb	e8 00 00 		call	_displayPilots
+;|***         if (doFcbSearch() != 0) {
+; Line 54
+	*** 0000fe	e8 00 00 		call	_doFcbSearch
+	*** 000101	0b c0 			or	ax,ax
+	*** 000103	75 03 			jne	$JCC259
+	*** 000105	e9 2f ff 		jmp	$L20015
+					$JCC259:
+;|***             saveHallfame();
+; Line 55
+	*** 000108	e8 00 00 		call	_saveHallfame
+;|***         }
+; Line 56
+;|***         continue;
+; Line 57
+	*** 00010b	e9 29 ff 		jmp	$L20015
+					$SC1707:
+;|***     case KEYCODE_UPARROW:
+;|***         TRACE(("processPilotInput(): up"));
+;|***         selectedPilotIdx--;
+; Line 60
+	*** 00010e	ff 0e 00 00 		dec	WORD PTR _selectedPilotIdx
+;|***         goto handleArrow;
+; Line 61
+	*** 000112	eb 13 			jmp	SHORT $handleArrow1708
+					$SC1709:
+;|***     case KEYCODE_DNARROW:
+;|***         TRACE(("processPilotInput(): down"));
+;|***         selectedPilotIdx++;
+; Line 64
+	*** 000114	ff 06 00 00 		inc	WORD PTR _selectedPilotIdx
+;|***         goto handleArrow;
+; Line 65
+	*** 000118	eb 0d 			jmp	SHORT $handleArrow1708
+					$SC1710:
+;|***     case KEYCODE_LEFTARROW:
+;|***         TRACE(("processPilotInput(): left"));
+;|***         selectedPilotIdx -= PILOTS_PER_COLUMN;
+; Line 68
+	*** 00011a	83 2e 00 00 04 		sub	WORD PTR _selectedPilotIdx,4
+;|***         goto handleArrow;
+; Line 69
+	*** 00011f	eb 06 			jmp	SHORT $handleArrow1708
+	*** 000121	90 			nop	
+					$SC1711:
+;|***     case KEYCODE_RIGHTARROW:
+;|***         TRACE(("processPilotInput(): right"));
+;|***         selectedPilotIdx += PILOTS_PER_COLUMN;
+; Line 72
+	*** 000122	83 06 00 00 04 		add	WORD PTR _selectedPilotIdx,4
+;|*** handleArrow:
+; Line 73
+					$handleArrow1708:
+;|***         selectedPilotIdx &= HALLFAME_SLOTS - 1;
+; Line 74
+	*** 000127	83 26 00 00 07 		and	WORD PTR _selectedPilotIdx,7
+;|***         x = (pilot < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
+; Line 75
+	*** 00012c	83 7e fa 04 		cmp	WORD PTR [bp-6],4	;pilot
+	*** 000130	7d 06 			jge	$L20000
+	*** 000132	b8 10 00 		mov	ax,16
+	*** 000135	eb 04 			jmp	SHORT $L20001
+	*** 000137	90 			nop	
+					$L20000:
+	*** 000138	b8 a0 00 		mov	ax,160
+					$L20001:
+	*** 00013b	89 46 fc 		mov	WORD PTR [bp-4],ax	;x
+;|***         y = ((pilot & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
+; Line 76
+	*** 00013e	8b 46 fa 		mov	ax,WORD PTR [bp-6]	;pilot
+	*** 000141	25 03 00 		and	ax,3
+	*** 000144	b9 2c 00 		mov	cx,44
+	*** 000147	f7 e9 			imul	cx
+	*** 000149	05 14 00 		add	ax,20
+	*** 00014c	89 46 f8 		mov	WORD PTR [bp-8],ax	;y
+;|***         // looks like ChangeColor() from library.h?
+;|***         gfx_switchColor(screenBuf, x, y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, COLOR_WHITE, COLOR_GRAY);
+; Line 78
+	*** 00014f	b8 07 00 		mov	ax,7
+	*** 000152	50 			push	ax
+	*** 000153	b8 0f 00 		mov	ax,15
+	*** 000156	50 			push	ax
+	*** 000157	8b 46 f8 		mov	ax,WORD PTR [bp-8]	;y
+	*** 00015a	05 08 00 		add	ax,8
+	*** 00015d	50 			push	ax
+	*** 00015e	8b 46 fc 		mov	ax,WORD PTR [bp-4]	;x
+	*** 000161	05 8f 00 		add	ax,143
+	*** 000164	50 			push	ax
+	*** 000165	ff 76 f8 		push	WORD PTR [bp-8]	;y
+	*** 000168	ff 76 fc 		push	WORD PTR [bp-4]	;x
+	*** 00016b	ff 36 00 00 		push	WORD PTR _screenBuf
+	*** 00016f	9a 00 00 00 00 		call	FAR PTR _gfx_switchColor
+	*** 000174	83 c4 0e 		add	sp,14
+;|***         x = (selectedPilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
+; Line 79
+	*** 000177	83 3e 00 00 04 		cmp	WORD PTR _selectedPilotIdx,4
+	*** 00017c	7d 06 			jge	$L20002
+	*** 00017e	b8 10 00 		mov	ax,16
+	*** 000181	eb 04 			jmp	SHORT $L20003
+	*** 000183	90 			nop	
+					$L20002:
+	*** 000184	b8 a0 00 		mov	ax,160
+					$L20003:
+	*** 000187	89 46 fc 		mov	WORD PTR [bp-4],ax	;x
+;|***         y = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
+; Line 80
+	*** 00018a	a1 00 00 		mov	ax,_selectedPilotIdx
+	*** 00018d	25 03 00 		and	ax,3
+	*** 000190	b9 2c 00 		mov	cx,44
+	*** 000193	f7 e9 			imul	cx
+	*** 000195	05 14 00 		add	ax,20
+	*** 000198	89 46 f8 		mov	WORD PTR [bp-8],ax	;y
+;|***         gfx_switchColor(screenBuf, x, y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, COLOR_GRAY, COLOR_WHITE);
+; Line 81
+	*** 00019b	b8 0f 00 		mov	ax,15
+	*** 00019e	50 			push	ax
+	*** 00019f	b8 07 00 		mov	ax,7
+	*** 0001a2	50 			push	ax
+	*** 0001a3	8b 46 f8 		mov	ax,WORD PTR [bp-8]	;y
+	*** 0001a6	05 08 00 		add	ax,8
+	*** 0001a9	50 			push	ax
+	*** 0001aa	8b 46 fc 		mov	ax,WORD PTR [bp-4]	;x
+	*** 0001ad	05 8f 00 		add	ax,143
+	*** 0001b0	50 			push	ax
+	*** 0001b1	ff 76 f8 		push	WORD PTR [bp-8]	;y
+	*** 0001b4	ff 76 fc 		push	WORD PTR [bp-4]	;x
+	*** 0001b7	ff 36 00 00 		push	WORD PTR _screenBuf
+	*** 0001bb	9a 00 00 00 00 		call	FAR PTR _gfx_switchColor
+	*** 0001c0	83 c4 0e 		add	sp,14
+;|***     }
+; Line 82
+	*** 0001c3	e9 71 fe 		jmp	$L20015
+
+_processPilotInput	ENDP
+;|***     TRACE(("processPilotInput(): returning, selected %d", selectedPilotIdx));
+;|*** }
+;|*** 
+;|*** void blinkPilot() {
+; Line 86
+	PUBLIC	_blinkPilot
+_blinkPilot	PROC NEAR
+	*** 0001c6	55 			push	bp
+	*** 0001c7	8b ec 			mov	bp,sp
+	*** 0001c9	83 ec 04 		sub	sp,4
+;	x = -2
+;	y = -4
+;|***     int16 x, y;
+;|***     if (pilotSelectFlag == 0) return;
+; Line 88
+	*** 0001cc	80 3e 00 00 00 		cmp	BYTE PTR _pilotSelectFlag,0
+	*** 0001d1	74 67 			je	$EX1712
+	*** 0001d3	b8 06 00 		mov	ax,6
+	*** 0001d6	50 			push	ax
+	*** 0001d7	e8 00 00 		call	_waitMdaCgaStatus
+	*** 0001da	83 c4 02 		add	sp,2
+;|***     waitMdaCgaStatus(6);
+;|***     x = selectedPilotIdx < PILOTS_PER_COLUMN ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
+; Line 90
+	*** 0001dd	83 3e 00 00 04 		cmp	WORD PTR _selectedPilotIdx,4
+	*** 0001e2	7d 06 			jge	$L20004
+	*** 0001e4	b8 10 00 		mov	ax,16
+	*** 0001e7	eb 04 			jmp	SHORT $L20005
+	*** 0001e9	90 			nop	
+					$L20004:
+	*** 0001ea	b8 a0 00 		mov	ax,160
+					$L20005:
+	*** 0001ed	89 46 fe 		mov	WORD PTR [bp-2],ax	;x
+;|***     y = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
+; Line 91
+	*** 0001f0	a1 00 00 		mov	ax,_selectedPilotIdx
+	*** 0001f3	25 03 00 		and	ax,3
+	*** 0001f6	b9 2c 00 		mov	cx,44
+	*** 0001f9	f7 e9 			imul	cx
+	*** 0001fb	05 14 00 		add	ax,20
+	*** 0001fe	89 46 fc 		mov	WORD PTR [bp-4],ax	;y
+;|***     gfx_switchColor(screenBuf, x , y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, blinkColors[blinkColorIdx], blinkColors[blinkColorIdx ^ 1]);
+; Line 92
+	*** 000201	8b 1e 00 00 		mov	bx,_blinkColorIdx
+	*** 000205	80 f3 01 		xor	bl,1
+	*** 000208	d1 e3 			shl	bx,1
+	*** 00020a	ff b7 00 00 		push	WORD PTR _blinkColors[bx]
+	*** 00020e	8b 1e 00 00 		mov	bx,_blinkColorIdx
+	*** 000212	d1 e3 			shl	bx,1
+	*** 000214	ff b7 00 00 		push	WORD PTR _blinkColors[bx]
+	*** 000218	05 08 00 		add	ax,8
+	*** 00021b	50 			push	ax
+	*** 00021c	8b 46 fe 		mov	ax,WORD PTR [bp-2]	;x
+	*** 00021f	05 8f 00 		add	ax,143
+	*** 000222	50 			push	ax
+	*** 000223	ff 76 fc 		push	WORD PTR [bp-4]	;y
+	*** 000226	ff 76 fe 		push	WORD PTR [bp-2]	;x
+	*** 000229	ff 36 00 00 		push	WORD PTR _screenBuf
+	*** 00022d	9a 00 00 00 00 		call	FAR PTR _gfx_switchColor
+	*** 000232	83 c4 0e 		add	sp,14
+;|***     blinkColorIdx ^= 1;
+; Line 93
+	*** 000235	80 36 00 00 01 		xor	BYTE PTR _blinkColorIdx,1
+;|*** }
+; Line 94
+					$EX1712:
+	*** 00023a	8b e5 			mov	sp,bp
+	*** 00023c	5d 			pop	bp
+	*** 00023d	c3 			ret	
+
+_blinkPilot	ENDP
+;|*** 
+;|*** void gameDataToPilot(struct Pilot *pilot) {
+; Line 96
+	PUBLIC	_gameDataToPilot
+_gameDataToPilot	PROC NEAR
+	*** 00023e	55 			push	bp
+	*** 00023f	8b ec 			mov	bp,sp
+	*** 000241	83 ec 04 		sub	sp,4
+	*** 000244	56 			push	si
+;	pilot = 4
+;	j = -2
+;|***     //uint16 var_4;
+;|***     int j;
+;|***     for (j = 0; pilot->name[j] = gameData->pilotName[j]; j++) {
+; Line 99
+	*** 000245	c7 46 fe 00 00 		mov	WORD PTR [bp-2],0	;j
+	*** 00024a	eb 03 			jmp	SHORT $F1719
+					$FC1720:
+	*** 00024c	ff 46 fe 		inc	WORD PTR [bp-2]	;j
+					$F1719:
+	*** 00024f	8b 76 fe 		mov	si,WORD PTR [bp-2]	;j
+	*** 000252	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 000256	26 8a 40 02 		mov	al,es:[bx+2][si]
+	*** 00025a	8b de 			mov	bx,si
+	*** 00025c	8b 76 04 		mov	si,WORD PTR [bp+4]	;pilot
+	*** 00025f	88 00 			mov	[bx][si],al
+	*** 000261	0a c0 			or	al,al
+	*** 000263	75 e7 			jne	$FC1720
+;|***     }
+; Line 100
+;|***     pilot->total_score = gameData->totalScore;
+; Line 101
+	*** 000265	8b 5e 04 		mov	bx,WORD PTR [bp+4]	;pilot
+	*** 000268	c4 36 00 00 		les	si,DWORD PTR _gameData
+	*** 00026c	26 8b 44 32 		mov	ax,WORD PTR es:[si+50]
+	*** 000270	26 8b 54 34 		mov	dx,WORD PTR es:[si+52]
+	*** 000274	89 47 16 		mov	WORD PTR [bx+22],ax
+	*** 000277	89 57 18 		mov	WORD PTR [bx+24],dx
+;|***     pilot->last_score = gameData->lastScore;
+; Line 102
+	*** 00027a	8b 5e 04 		mov	bx,WORD PTR [bp+4]	;pilot
+	*** 00027d	c4 36 00 00 		les	si,DWORD PTR _gameData
+	*** 000281	26 8b 44 2e 		mov	ax,WORD PTR es:[si+46]
+	*** 000285	89 47 1a 		mov	WORD PTR [bx+26],ax
+;|***     pilot->theater = gameData->theater;
+; Line 103
+	*** 000288	8b 5e 04 		mov	bx,WORD PTR [bp+4]	;pilot
+	*** 00028b	c4 36 00 00 		les	si,DWORD PTR _gameData
+	*** 00028f	26 8a 44 38 		mov	al,BYTE PTR es:[si+56]
+	*** 000293	88 47 1e 		mov	BYTE PTR [bx+30],al
+;|***     pilot->difficulty = gameData->difficulty;
+; Line 104
+	*** 000296	8b 5e 04 		mov	bx,WORD PTR [bp+4]	;pilot
+	*** 000299	c4 36 00 00 		les	si,DWORD PTR _gameData
+	*** 00029d	26 8a 44 3e 		mov	al,BYTE PTR es:[si+62]
+	*** 0002a1	88 47 1f 		mov	BYTE PTR [bx+31],al
+;|***     pilot->rank = (gameData->rankHigh * 64) + gameData->rank;
+; Line 105
+	*** 0002a4	8b 5e 04 		mov	bx,WORD PTR [bp+4]	;pilot
+	*** 0002a7	c4 36 00 00 		les	si,DWORD PTR _gameData
+	*** 0002ab	26 8a 44 30 		mov	al,BYTE PTR es:[si+48]
+	*** 0002af	b1 06 			mov	cl,6
+	*** 0002b1	d2 e0 			shl	al,cl
+	*** 0002b3	26 02 44 20 		add	al,BYTE PTR es:[si+32]
+	*** 0002b7	88 47 1c 		mov	BYTE PTR [bx+28],al
+;|***     pilot->medals = (uint8)((gameData->campaignProgress == 2) ? 0x20 : 0) + (uint8)((gameData->campaignProgress == 1) ? 0x40 : 0) + gameData->medals;
+; Line 106
+	*** 0002ba	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 0002be	26 83 7f 4e 01 		cmp	WORD PTR es:[bx+78],1
+	*** 0002c3	75 05 			jne	$L20008
+	*** 0002c5	b0 40 			mov	al,64
+	*** 0002c7	eb 03 			jmp	SHORT $L20009
+	*** 0002c9	90 			nop	
+					$L20008:
+	*** 0002ca	2a c0 			sub	al,al
+					$L20009:
+	*** 0002cc	89 46 fc 		mov	WORD PTR [bp-4],ax
+	*** 0002cf	26 83 7f 4e 02 		cmp	WORD PTR es:[bx+78],2
+	*** 0002d4	75 04 			jne	$L20006
+	*** 0002d6	b0 20 			mov	al,32
+	*** 0002d8	eb 02 			jmp	SHORT $L20007
+					$L20006:
+	*** 0002da	2a c0 			sub	al,al
+					$L20007:
+	*** 0002dc	02 46 fc 		add	al,BYTE PTR [bp-4]
+	*** 0002df	26 02 47 22 		add	al,BYTE PTR es:[bx+34]
+	*** 0002e3	8b 5e 04 		mov	bx,WORD PTR [bp+4]	;pilot
+	*** 0002e6	88 47 1d 		mov	BYTE PTR [bx+29],al
+;|*** }
+; Line 107
+	*** 0002e9	5e 			pop	si
+	*** 0002ea	8b e5 			mov	sp,bp
+	*** 0002ec	5d 			pop	bp
+	*** 0002ed	c3 			ret	
+
+_gameDataToPilot	ENDP
+;|*** 
+;|*** // TODO: change argument to struct Pilot
+;|*** void pilotToGameData(uint8 *pilotData)
+;|*** {
+; Line 111
+	PUBLIC	_pilotToGameData
+_pilotToGameData	PROC NEAR
+	*** 0002ee	55 			push	bp
+	*** 0002ef	8b ec 			mov	bp,sp
+	*** 0002f1	83 ec 02 		sub	sp,2
+	*** 0002f4	56 			push	si
+;	pilotData = 4
+;	counter = -2
+;|***     int counter;
+;|***     for (counter = 0; 1; counter++) {
+; Line 113
+	*** 0002f5	c7 46 fe 00 00 		mov	WORD PTR [bp-2],0	;counter
+	*** 0002fa	eb 03 			jmp	SHORT $F1725
+					$FC1726:
+	*** 0002fc	ff 46 fe 		inc	WORD PTR [bp-2]	;counter
+					$F1725:
+;|***         if ((gameData->pilotName[counter] = pilotData[counter]) == '\0') break;
+; Line 114
+	*** 0002ff	8b 5e fe 		mov	bx,WORD PTR [bp-2]	;counter
+	*** 000302	8b 76 04 		mov	si,WORD PTR [bp+4]	;pilotData
+	*** 000305	8a 00 			mov	al,[bx][si]
+	*** 000307	8b f3 			mov	si,bx
+	*** 000309	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 00030d	26 88 40 02 		mov	es:[bx+2][si],al
+	*** 000311	0a c0 			or	al,al
+	*** 000313	75 e7 			jne	$FC1726
+;|***     }
+;|***     gameData->totalScore = *(uint32*)(pilotData + ROSTER_SCORE_LO);
+; Line 116
+	*** 000315	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 000319	8b 76 04 		mov	si,WORD PTR [bp+4]	;pilotData
+	*** 00031c	8b 44 16 		mov	ax,WORD PTR [si+22]
+	*** 00031f	8b 54 18 		mov	dx,WORD PTR [si+24]
+	*** 000322	26 89 47 32 		mov	WORD PTR es:[bx+50],ax
+	*** 000326	26 89 57 34 		mov	WORD PTR es:[bx+52],dx
+;|***     gameData->lastScore = *(uint16*)(pilotData + ROSTER_LASTSCORE);
+; Line 117
+	*** 00032a	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 00032e	8b 76 04 		mov	si,WORD PTR [bp+4]	;pilotData
+	*** 000331	8b 44 1a 		mov	ax,WORD PTR [si+26]
+	*** 000334	26 89 47 2e 		mov	WORD PTR es:[bx+46],ax
+;|***     gameData->theater = *(uint8*)(pilotData + ROSTER_THEATER);
+; Line 118
+	*** 000338	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 00033c	8b 76 04 		mov	si,WORD PTR [bp+4]	;pilotData
+	*** 00033f	8a 44 1e 		mov	al,BYTE PTR [si+30]
+	*** 000342	2a e4 			sub	ah,ah
+	*** 000344	26 89 47 38 		mov	WORD PTR es:[bx+56],ax
+;|***     gameData->difficulty = *(uint8*)(pilotData + ROSTER_DIFFICULTY);
+; Line 119
+	*** 000348	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 00034c	8b 76 04 		mov	si,WORD PTR [bp+4]	;pilotData
+	*** 00034f	8a 44 1f 		mov	al,BYTE PTR [si+31]
+	*** 000352	26 89 47 3e 		mov	WORD PTR es:[bx+62],ax
+;|***     gameData->rank = *(uint8*)(pilotData + ROSTER_UNK1) & 0xf;
+; Line 120
+	*** 000356	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 00035a	8b 76 04 		mov	si,WORD PTR [bp+4]	;pilotData
+	*** 00035d	8a 44 1c 		mov	al,BYTE PTR [si+28]
+	*** 000360	25 0f 00 		and	ax,15
+	*** 000363	26 89 47 20 		mov	WORD PTR es:[bx+32],ax
+;|***     gameData->medals = *(uint8*)(pilotData + ROSTER_UNK2) & 0x1f;
+; Line 121
+	*** 000367	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 00036b	8b 76 04 		mov	si,WORD PTR [bp+4]	;pilotData
+	*** 00036e	8a 44 1d 		mov	al,BYTE PTR [si+29]
+	*** 000371	2a e4 			sub	ah,ah
+	*** 000373	25 1f 00 		and	ax,31
+	*** 000376	26 89 47 22 		mov	WORD PTR es:[bx+34],ax
+;|***     gameData->rankHigh = *(uint8*)(pilotData + ROSTER_UNK1) >> 6;
+; Line 122
+	*** 00037a	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 00037e	8b 76 04 		mov	si,WORD PTR [bp+4]	;pilotData
+	*** 000381	8a 44 1c 		mov	al,BYTE PTR [si+28]
+	*** 000384	2a e4 			sub	ah,ah
+	*** 000386	b1 06 			mov	cl,6
+	*** 000388	d3 e8 			shr	ax,cl
+	*** 00038a	26 89 47 30 		mov	WORD PTR es:[bx+48],ax
+;|***     gameData->campaignProgress = 0;
+; Line 123
+	*** 00038e	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 000392	26 c7 47 4e 00 00 	mov	WORD PTR es:[bx+78],0
+;|***     gameData->pilotIdx = selectedPilotIdx;
+; Line 124
+	*** 000398	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 00039c	a1 00 00 		mov	ax,_selectedPilotIdx
+	*** 00039f	26 89 07 		mov	WORD PTR es:[bx],ax
+;|*** }
+; Line 125
+	*** 0003a2	5e 			pop	si
+	*** 0003a3	8b e5 			mov	sp,bp
+	*** 0003a5	5d 			pop	bp
+	*** 0003a6	c3 			ret	
+	*** 0003a7	90 			nop	
+
+_pilotToGameData	ENDP
+;|*** 
+;|*** void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
+; Line 127
+	PUBLIC	_pilotNameInput
+_pilotNameInput	PROC NEAR
+	*** 0003a8	55 			push	bp
+	*** 0003a9	8b ec 			mov	bp,sp
+	*** 0003ab	83 ec 0e 		sub	sp,14
+	*** 0003ae	56 			push	si
+;	page = 4
+;	a = 6
+;	b = 8
+;	c = 10
+;	pilot = 12
+;	blinkToggle = -4
+;	x = -10
+;	y = -12
+;	nameLen = -2
+;	cursorX = -8
+;	keyCode = -6
+;	rankWidth = -14
+;|***     int blinkToggle;
+;|***     int x, y;
+;|***     int nameLen;
+;|***     int cursorX;
+;|***     uint16 keyCode;
+;|***     int rankWidth;
+;|***     blinkToggle = 0;
+; Line 134
+	*** 0003af	c7 46 fc 00 00 		mov	WORD PTR [bp-4],0	;blinkToggle
+;|***     TRACE(("pilotNameInput(): entering with page = %d, abc = %d/%d/%d, pilot: %s", *page, a,b,c, pilot->name));
+;|***     x = (selectedPilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
+; Line 136
+	*** 0003b4	83 3e 00 00 04 		cmp	WORD PTR _selectedPilotIdx,4
+	*** 0003b9	7d 05 			jge	$L20010
+	*** 0003bb	b8 10 00 		mov	ax,16
+	*** 0003be	eb 03 			jmp	SHORT $L20011
+					$L20010:
+	*** 0003c0	b8 a0 00 		mov	ax,160
+					$L20011:
+	*** 0003c3	89 46 f6 		mov	WORD PTR [bp-10],ax	;x
+;|***     y = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
+; Line 137
+	*** 0003c6	a1 00 00 		mov	ax,_selectedPilotIdx
+	*** 0003c9	25 03 00 		and	ax,3
+	*** 0003cc	b9 2c 00 		mov	cx,44
+	*** 0003cf	f7 e9 			imul	cx
+	*** 0003d1	05 14 00 		add	ax,20
+	*** 0003d4	89 46 f4 		mov	WORD PTR [bp-12],ax	;y
+;|***     clearRect(page, x, y, x + PILOT_ENTRY_WIDTH, y + 35);
+; Line 138
+	*** 0003d7	05 23 00 		add	ax,35
+	*** 0003da	50 			push	ax
+	*** 0003db	8b 46 f6 		mov	ax,WORD PTR [bp-10]	;x
+	*** 0003de	05 8f 00 		add	ax,143
+	*** 0003e1	50 			push	ax
+	*** 0003e2	ff 76 f4 		push	WORD PTR [bp-12]	;y
+	*** 0003e5	ff 76 f6 		push	WORD PTR [bp-10]	;x
+	*** 0003e8	ff 76 04 		push	WORD PTR [bp+4]	;page
+	*** 0003eb	e8 00 00 		call	_clearRect
+	*** 0003ee	83 c4 0a 		add	sp,10
+;|***     drawStringAt(page, ranks[0], x, y);
+; Line 139
+	*** 0003f1	ff 76 f4 		push	WORD PTR [bp-12]	;y
+	*** 0003f4	ff 76 f6 		push	WORD PTR [bp-10]	;x
+	*** 0003f7	ff 36 00 00 		push	WORD PTR _ranks
+	*** 0003fb	ff 76 04 		push	WORD PTR [bp+4]	;page
+	*** 0003fe	e8 00 00 		call	_drawStringAt
+	*** 000401	83 c4 08 		add	sp,8
+;|***     x += (rankWidth = stringWidth(page, ranks[0]));
+; Line 140
+	*** 000404	ff 36 00 00 		push	WORD PTR _ranks
+	*** 000408	ff 76 04 		push	WORD PTR [bp+4]	;page
+	*** 00040b	e8 00 00 		call	_stringWidth
+	*** 00040e	83 c4 04 		add	sp,4
+	*** 000411	89 46 f2 		mov	WORD PTR [bp-14],ax	;rankWidth
+	*** 000414	01 46 f6 		add	WORD PTR [bp-10],ax	;x
+;|***     rankWidth = PILOT_ENTRY_WIDTH - rankWidth;
+; Line 141
+	*** 000417	b8 8f 00 		mov	ax,143
+	*** 00041a	2b 46 f2 		sub	ax,WORD PTR [bp-14]	;rankWidth
+	*** 00041d	89 46 f2 		mov	WORD PTR [bp-14],ax	;rankWidth
+;|***     screenBuf[3] = 0;
+; Line 142
+	*** 000420	8b 1e 00 00 		mov	bx,_screenBuf
+	*** 000424	c7 47 06 00 00 		mov	WORD PTR [bx+6],0
+;|***     clearRect(page, 15, 192, 303, 197);
+; Line 143
+	*** 000429	b8 c5 00 		mov	ax,197
+	*** 00042c	50 			push	ax
+	*** 00042d	b8 2f 01 		mov	ax,303
+	*** 000430	50 			push	ax
+	*** 000431	b8 c0 00 		mov	ax,192
+	*** 000434	50 			push	ax
+	*** 000435	b8 0f 00 		mov	ax,15
+	*** 000438	50 			push	ax
+	*** 000439	ff 76 04 		push	WORD PTR [bp+4]	;page
+	*** 00043c	e8 00 00 		call	_clearRect
+	*** 00043f	83 c4 0a 		add	sp,10
+;|***     drawStringCentered(pageNumPtr, aMenterYourName, 0xf, 0xc0, 0x121);
+; Line 144
+	*** 000442	b8 21 01 		mov	ax,289
+	*** 000445	50 			push	ax
+	*** 000446	b8 c0 00 		mov	ax,192
+	*** 000449	50 			push	ax
+	*** 00044a	b8 0f 00 		mov	ax,15
+	*** 00044d	50 			push	ax
+	*** 00044e	b8 00 00 		mov	ax,OFFSET _aMenterYourName
+	*** 000451	50 			push	ax
+	*** 000452	ff 36 00 00 		push	WORD PTR _pageNumPtr
+	*** 000456	e8 00 00 		call	_drawStringCentered
+	*** 000459	83 c4 0a 		add	sp,10
+;|***     misc_jump_5e_clearKeyFlags();
+; Line 145
+	*** 00045c	9a 00 00 00 00 		call	FAR PTR _misc_jump_5e_clearKeyFlags
+;|***     keyCode = KEYCODE_CTRLX;
+; Line 146
+	*** 000461	c7 46 fa 18 00 		mov	WORD PTR [bp-6],24	;keyCode
+;|***     TRACE(("pilotNameInput(): before loop"));
+;|***     do {
+; Line 148
+					$D1742:
+;|***         TRACE(("pilotNameInput(): loop iter, keyCode = 0x%x", keyCode));
+;|***         switch(keyCode) {
+; Line 150
+	*** 000466	8b 46 fa 		mov	ax,WORD PTR [bp-6]	;keyCode
+	*** 000469	3d 08 00 		cmp	ax,8
+	*** 00046c	75 03 			jne	$JCC1132
+	*** 00046e	e9 e3 00 		jmp	$SC1750
+					$JCC1132:
+	*** 000471	3d 18 00 		cmp	ax,24
+	*** 000474	74 3e 			je	$SC1749
+;|***         case KEYCODE_CTRLX:
+;|***             TRACE(("pilotNameInput(): case 0x18"));
+;|***             nameLen = 0;
+;|***             pilot->name[0] = '\0';
+;|***             clearRect(page, x, y, x + rankWidth, y + c);
+;|***             drawStringAt(page, pilot->name, x, y);
+;|***             cursorX = page[4];
+;|***             break;
+;|***         case 8: // backspace
+;|***             TRACE(("pilotNameInput(): case 8"));
+;|***             if (nameLen > 0) {
+;|***                 nameLen--;
+;|***                 pilot->name[nameLen] = '\0';
+;|***                 // 2403 - duplicate code block coalesced with above
+;|***                 clearRect(page, x, y, x + rankWidth, y + c);
+;|***                 drawStringAt(page, pilot->name, x, y);
+;|***                 cursorX = page[4];
+;|***             }
+;|***             break;
+;|***         default:
+;|***             TRACE(("pilotNameInput(): case default"));
+;|***             if (keyCode >= 0x20 && keyCode <= 0x7f && nameLen < a && stringWidth(page, pilot->name) <= 0x90) {
+; Line 172
+	*** 000476	3d 20 00 		cmp	ax,32
+	*** 000479	72 7c 			jb	$SB1746
+	*** 00047b	3d 7f 00 		cmp	ax,127
+	*** 00047e	77 77 			ja	$SB1746
+	*** 000480	8b 46 06 		mov	ax,WORD PTR [bp+6]	;a
+	*** 000483	39 46 fe 		cmp	WORD PTR [bp-2],ax	;nameLen
+	*** 000486	7d 6f 			jge	$SB1746
+	*** 000488	ff 76 0c 		push	WORD PTR [bp+12]	;pilot
+	*** 00048b	ff 76 04 		push	WORD PTR [bp+4]	;page
+	*** 00048e	e8 00 00 		call	_stringWidth
+	*** 000491	83 c4 04 		add	sp,4
+	*** 000494	3d 90 00 		cmp	ax,144
+	*** 000497	7f 5e 			jg	$SB1746
+;|***                 TRACE(("pilotNameInput(): case default condition true, nameLen = %d", nameLen));
+;|***                 pilot->name[nameLen++] = keyCode;
+; Line 174
+	*** 000499	8b 5e fe 		mov	bx,WORD PTR [bp-2]	;nameLen
+	*** 00049c	ff 46 fe 		inc	WORD PTR [bp-2]	;nameLen
+	*** 00049f	8b 76 0c 		mov	si,WORD PTR [bp+12]	;pilot
+	*** 0004a2	8a 46 fa 		mov	al,BYTE PTR [bp-6]	;keyCode
+	*** 0004a5	88 00 			mov	[bx][si],al
+;|***                 pilot->name[nameLen] = '\0';
+; Line 175
+					$L20018:
+	*** 0004a7	8b 5e fe 		mov	bx,WORD PTR [bp-2]	;nameLen
+	*** 0004aa	8b 76 0c 		mov	si,WORD PTR [bp+12]	;pilot
+	*** 0004ad	c6 00 00 		mov	BYTE PTR [bx][si],0
+	*** 0004b0	eb 0d 			jmp	SHORT $L20016
+	*** 0004b2	90 			nop	
+	*** 0004b3	90 			nop	
+					$SC1749:
+;|***             nameLen = 0;
+; Line 153
+	*** 0004b4	c7 46 fe 00 00 		mov	WORD PTR [bp-2],0	;nameLen
+;|***             pilot->name[0] = '\0';
+; Line 154
+	*** 0004b9	8b 5e 0c 		mov	bx,WORD PTR [bp+12]	;pilot
+	*** 0004bc	c6 07 00 		mov	BYTE PTR [bx],0
+;|***             clearRect(page, x, y, x + rankWidth, y + c);
+; Line 155
+					$L20016:
+	*** 0004bf	8b 46 f4 		mov	ax,WORD PTR [bp-12]	;y
+	*** 0004c2	03 46 0a 		add	ax,WORD PTR [bp+10]	;c
+	*** 0004c5	50 			push	ax
+	*** 0004c6	8b 46 f6 		mov	ax,WORD PTR [bp-10]	;x
+	*** 0004c9	03 46 f2 		add	ax,WORD PTR [bp-14]	;rankWidth
+	*** 0004cc	50 			push	ax
+	*** 0004cd	ff 76 f4 		push	WORD PTR [bp-12]	;y
+	*** 0004d0	ff 76 f6 		push	WORD PTR [bp-10]	;x
+	*** 0004d3	ff 76 04 		push	WORD PTR [bp+4]	;page
+	*** 0004d6	e8 00 00 		call	_clearRect
+	*** 0004d9	83 c4 0a 		add	sp,10
+;|***             drawStringAt(page, pilot->name, x, y);
+; Line 156
+	*** 0004dc	ff 76 f4 		push	WORD PTR [bp-12]	;y
+	*** 0004df	ff 76 f6 		push	WORD PTR [bp-10]	;x
+	*** 0004e2	ff 76 0c 		push	WORD PTR [bp+12]	;pilot
+	*** 0004e5	ff 76 04 		push	WORD PTR [bp+4]	;page
+	*** 0004e8	e8 00 00 		call	_drawStringAt
+	*** 0004eb	83 c4 08 		add	sp,8
+;|***             cursorX = page[4];
+; Line 157
+	*** 0004ee	8b 5e 04 		mov	bx,WORD PTR [bp+4]	;page
+	*** 0004f1	8b 47 08 		mov	ax,WORD PTR [bx+8]
+	*** 0004f4	89 46 f8 		mov	WORD PTR [bp-8],ax	;cursorX
+;|***             break;
+; Line 158
+					$SB1746:
+;|***         case 8: // backspace
+;|***             TRACE(("pilotNameInput(): case 8"));
+;|***             if (nameLen > 0) {
+;|***                 nameLen--;
+;|***                 pilot->name[nameLen] = '\0';
+;|***                 // 2403 - duplicate code block coalesced with above
+;|***                 clearRect(page, x, y, x + rankWidth, y + c);
+;|***                 drawStringAt(page, pilot->name, x, y);
+;|***                 cursorX = page[4];
+;|***             }
+;|***             break;
+;|***         default:
+;|***             TRACE(("pilotNameInput(): case default"));
+;|***             if (keyCode >= 0x20 && keyCode <= 0x7f && nameLen < a && stringWidth(page, pilot->name) <= 0x90) {
+;|***                 TRACE(("pilotNameInput(): case default condition true, nameLen = %d", nameLen));
+;|***                 pilot->name[nameLen++] = keyCode;
+;|***                 pilot->name[nameLen] = '\0';
+;|***                 clearRect(page, x, y, x + rankWidth, y + c);
+;|***                 drawStringAt(page, pilot->name, x, y);
+;|***                 cursorX = page[4];
+;|***             }
+;|***             break;
+;|***         }
+;|***         TRACE(("pilotNameInput(): before input loop"));
+;|***         while (getJoyKey() == 0) {
+; Line 183
+	*** 0004f7	e8 00 00 		call	_getJoyKey
+	*** 0004fa	0b c0 			or	ax,ax
+	*** 0004fc	75 62 			jne	$FB1756
+;|***             waitMdaCgaStatus(3);
+; Line 184
+	*** 0004fe	b8 03 00 		mov	ax,3
+	*** 000501	50 			push	ax
+	*** 000502	e8 00 00 		call	_waitMdaCgaStatus
+	*** 000505	83 c4 02 		add	sp,2
+;|***             gfx_switchColor(page, x, y - 1, x + rankWidth, y + c,
+;|***                 pilotNameInputColors[blinkToggle], pilotNameInputColors[blinkToggle ^ 1]);
+; Line 186
+	*** 000508	8b 5e fc 		mov	bx,WORD PTR [bp-4]	;blinkToggle
+	*** 00050b	80 f3 01 		xor	bl,1
+	*** 00050e	d1 e3 			shl	bx,1
+	*** 000510	ff b7 00 00 		push	WORD PTR _pilotNameInputColors[bx]
+	*** 000514	8b 5e fc 		mov	bx,WORD PTR [bp-4]	;blinkToggle
+	*** 000517	d1 e3 			shl	bx,1
+	*** 000519	ff b7 00 00 		push	WORD PTR _pilotNameInputColors[bx]
+	*** 00051d	8b 46 f4 		mov	ax,WORD PTR [bp-12]	;y
+	*** 000520	03 46 0a 		add	ax,WORD PTR [bp+10]	;c
+	*** 000523	50 			push	ax
+	*** 000524	8b 46 f6 		mov	ax,WORD PTR [bp-10]	;x
+	*** 000527	03 46 f2 		add	ax,WORD PTR [bp-14]	;rankWidth
+	*** 00052a	50 			push	ax
+	*** 00052b	8b 46 f4 		mov	ax,WORD PTR [bp-12]	;y
+	*** 00052e	48 			dec	ax
+	*** 00052f	50 			push	ax
+	*** 000530	ff 76 f6 		push	WORD PTR [bp-10]	;x
+	*** 000533	ff 76 04 		push	WORD PTR [bp+4]	;page
+	*** 000536	9a 00 00 00 00 		call	FAR PTR _gfx_switchColor
+	*** 00053b	83 c4 0e 		add	sp,14
+;|***             blinkToggle ^= 1;
+; Line 187
+	*** 00053e	80 76 fc 01 		xor	BYTE PTR [bp-4],1	;blinkToggle
+;|***             page[3] = pilotNameInputColors[blinkToggle];
+; Line 188
+	*** 000542	8b 5e 04 		mov	bx,WORD PTR [bp+4]	;page
+	*** 000545	8b 76 fc 		mov	si,WORD PTR [bp-4]	;blinkToggle
+	*** 000548	d1 e6 			shl	si,1
+	*** 00054a	8b 84 00 00 		mov	ax,WORD PTR _pilotNameInputColors[si]
+	*** 00054e	89 47 06 		mov	WORD PTR [bx+6],ax
+;|***         }
+; Line 189
+	*** 000551	eb a4 			jmp	SHORT $SB1746
+	*** 000553	90 			nop	
+					$SC1750:
+;|***             if (nameLen > 0) {
+; Line 161
+	*** 000554	83 7e fe 00 		cmp	WORD PTR [bp-2],0	;nameLen
+	*** 000558	7e 9d 			jle	$SB1746
+;|***                 nameLen--;
+; Line 162
+	*** 00055a	ff 4e fe 		dec	WORD PTR [bp-2]	;nameLen
+	*** 00055d	e9 47 ff 		jmp	$L20018
+					$FB1756:
+;|***                 pilot->name[nameLen] = '\0';
+;|***                 // 2403 - duplicate code block coalesced with above
+;|***                 clearRect(page, x, y, x + rankWidth, y + c);
+;|***                 drawStringAt(page, pilot->name, x, y);
+;|***                 cursorX = page[4];
+;|***             }
+;|***             break;
+;|***         default:
+;|***             TRACE(("pilotNameInput(): case default"));
+;|***             if (keyCode >= 0x20 && keyCode <= 0x7f && nameLen < a && stringWidth(page, pilot->name) <= 0x90) {
+;|***                 TRACE(("pilotNameInput(): case default condition true, nameLen = %d", nameLen));
+;|***                 pilot->name[nameLen++] = keyCode;
+;|***                 pilot->name[nameLen] = '\0';
+;|***                 clearRect(page, x, y, x + rankWidth, y + c);
+;|***                 drawStringAt(page, pilot->name, x, y);
+;|***                 cursorX = page[4];
+;|***             }
+;|***             break;
+;|***         }
+;|***         TRACE(("pilotNameInput(): before input loop"));
+;|***         while (getJoyKey() == 0) {
+;|***             waitMdaCgaStatus(3);
+;|***             gfx_switchColor(page, x, y - 1, x + rankWidth, y + c,
+;|***                 pilotNameInputColors[blinkToggle], pilotNameInputColors[blinkToggle ^ 1]);
+;|***             blinkToggle ^= 1;
+;|***             page[3] = pilotNameInputColors[blinkToggle];
+;|***         }
+;|***         TRACE(("pilotNameInput(): after input loop"));
+;|***         keyCode = readInputKey();
+; Line 191
+	*** 000560	e8 00 00 		call	_readInputKey
+	*** 000563	89 46 fa 		mov	WORD PTR [bp-6],ax	;keyCode
+;|***         if ((keyCode & 0xff) != 0) {
+; Line 192
+	*** 000566	80 7e fa 00 		cmp	BYTE PTR [bp-6],0	;keyCode
+	*** 00056a	74 04 			je	$I1757
+;|***             keyCode &= 0xff;
+; Line 193
+	*** 00056c	c6 46 fb 00 		mov	BYTE PTR [bp-5],0
+;|***         }
+; Line 194
+;|***         TRACE(("pilotNameInput(): after sub_125e4, keyCode = 0x%x", keyCode));
+; Line 195
+					$I1757:
+;|***         if (keyCode == KEYCODE_ENTER) {
+; Line 196
+	*** 000570	83 7e fa 0d 		cmp	WORD PTR [bp-6],13	;keyCode
+	*** 000574	74 03 			je	$JCC1396
+	*** 000576	e9 ed fe 		jmp	$D1742
+					$JCC1396:
+;|***             screenBuf[3] = 0;
+; Line 197
+	*** 000579	8b 1e 00 00 		mov	bx,_screenBuf
+	*** 00057d	c7 47 06 00 00 		mov	WORD PTR [bx+6],0
+;|***             clearRect(page, 0xf, 0xc0, 0x12f, 0xc5);
+; Line 198
+	*** 000582	b8 c5 00 		mov	ax,197
+	*** 000585	50 			push	ax
+	*** 000586	b8 2f 01 		mov	ax,303
+	*** 000589	50 			push	ax
+	*** 00058a	b8 c0 00 		mov	ax,192
+	*** 00058d	50 			push	ax
+	*** 00058e	b8 0f 00 		mov	ax,15
+	*** 000591	50 			push	ax
+	*** 000592	ff 76 04 		push	WORD PTR [bp+4]	;page
+	*** 000595	e8 00 00 		call	_clearRect
+	*** 000598	83 c4 0a 		add	sp,10
+;|***             return;
+; Line 199
+	*** 00059b	5e 			pop	si
+	*** 00059c	8b e5 			mov	sp,bp
+	*** 00059e	5d 			pop	bp
+	*** 00059f	c3 			ret	
+
+_pilotNameInput	ENDP
+;|***         }
+;|***     } while( true );
+;|***     TRACE(("pilotNameInput(): exiting"));
+;|*** }
+;|*** 
+;|*** 
+;|*** void loadHallfame(void)
+;|*** {
+; Line 207
+	PUBLIC	_loadHallfame
+_loadHallfame	PROC NEAR
+	*** 0005a0	55 			push	bp
+	*** 0005a1	8b ec 			mov	bp,sp
+	*** 0005a3	83 ec 04 		sub	sp,4
+;	counter = -2
+;	handle = -4
+;|***     int counter;
+;|***     FILE *handle;
+;|***     TRACE(("loadHallfame(): reading from %s", aHallfame));
+;|***     handle = fopen(aHallfame, aRb_3);
+; Line 211
+	*** 0005a6	b8 00 00 		mov	ax,OFFSET _aRb_3
+	*** 0005a9	50 			push	ax
+	*** 0005aa	b8 00 00 		mov	ax,OFFSET _aHallfame
+	*** 0005ad	50 			push	ax
+	*** 0005ae	e8 00 00 		call	_fopen
+	*** 0005b1	83 c4 04 		add	sp,4
+	*** 0005b4	89 46 fc 		mov	WORD PTR [bp-4],ax	;handle
+;|***     fread(&selectedPilotIdx, 2, 1, handle);
+; Line 212
+	*** 0005b7	50 			push	ax
+	*** 0005b8	b8 01 00 		mov	ax,1
+	*** 0005bb	50 			push	ax
+	*** 0005bc	b8 02 00 		mov	ax,2
+	*** 0005bf	50 			push	ax
+	*** 0005c0	b8 00 00 		mov	ax,OFFSET _selectedPilotIdx
+	*** 0005c3	50 			push	ax
+	*** 0005c4	e8 00 00 		call	_fread
+	*** 0005c7	83 c4 08 		add	sp,8
+;|***     TRACE(("loadHallfame(): count = %d", selectedPilotIdx));
+;|***     counter = 0;
+; Line 214
+	*** 0005ca	c7 46 fe 00 00 		mov	WORD PTR [bp-2],0	;counter
+;|***     do {
+; Line 215
+					$D1762:
+;|***         fread(hallfameBuf + counter, HALLFAME_RECORDSZ, 1, handle);
+; Line 216
+	*** 0005cf	ff 76 fc 		push	WORD PTR [bp-4]	;handle
+	*** 0005d2	b8 01 00 		mov	ax,1
+	*** 0005d5	50 			push	ax
+	*** 0005d6	b8 20 00 		mov	ax,32
+	*** 0005d9	50 			push	ax
+	*** 0005da	8b 46 fe 		mov	ax,WORD PTR [bp-2]	;counter
+	*** 0005dd	b1 05 			mov	cl,5
+	*** 0005df	d3 e0 			shl	ax,cl
+	*** 0005e1	05 00 00 		add	ax,OFFSET _hallfameBuf
+	*** 0005e4	50 			push	ax
+	*** 0005e5	e8 00 00 		call	_fread
+	*** 0005e8	83 c4 08 		add	sp,8
+;|***         counter++;
+; Line 217
+	*** 0005eb	ff 46 fe 		inc	WORD PTR [bp-2]	;counter
+;|***     } while (counter < HALLFAME_SLOTS);
+; Line 218
+	*** 0005ee	83 7e fe 08 		cmp	WORD PTR [bp-2],8	;counter
+	*** 0005f2	7c db 			jl	$D1762
+;|***     fclose(handle);
+; Line 219
+	*** 0005f4	ff 76 fc 		push	WORD PTR [bp-4]	;handle
+	*** 0005f7	e8 00 00 		call	_fclose
+;|*** }
+; Line 220
+	*** 0005fa	8b e5 			mov	sp,bp
+	*** 0005fc	5d 			pop	bp
+	*** 0005fd	c3 			ret	
+
+_loadHallfame	ENDP
+;|*** 
+;|*** void saveHallfame() {
+; Line 222
+	PUBLIC	_saveHallfame
+_saveHallfame	PROC NEAR
+	*** 0005fe	55 			push	bp
+	*** 0005ff	8b ec 			mov	bp,sp
+	*** 000601	83 ec 04 		sub	sp,4
+;	fp = -4
+;	idx = -2
+;|***     FILE *fp;
+;|***     int idx;
+;|***     fp = fopen(aHallfame_0, aWb);
+; Line 225
+	*** 000604	b8 00 00 		mov	ax,OFFSET _aWb
+	*** 000607	50 			push	ax
+	*** 000608	b8 00 00 		mov	ax,OFFSET _aHallfame_0
+	*** 00060b	50 			push	ax
+	*** 00060c	e8 00 00 		call	_fopen
+	*** 00060f	83 c4 04 		add	sp,4
+	*** 000612	89 46 fc 		mov	WORD PTR [bp-4],ax	;fp
+;|***     fwrite(&selectedPilotIdx, 2, 1, fp);
+; Line 226
+	*** 000615	50 			push	ax
+	*** 000616	b8 01 00 		mov	ax,1
+	*** 000619	50 			push	ax
+	*** 00061a	b8 02 00 		mov	ax,2
+	*** 00061d	50 			push	ax
+	*** 00061e	b8 00 00 		mov	ax,OFFSET _selectedPilotIdx
+	*** 000621	50 			push	ax
+	*** 000622	e8 00 00 		call	_fwrite
+	*** 000625	83 c4 08 		add	sp,8
+;|***     idx = 0;
+; Line 227
+	*** 000628	c7 46 fe 00 00 		mov	WORD PTR [bp-2],0	;idx
+;|***     do {
+; Line 228
+					$D1768:
+;|***         fwrite(&hallfameBuf[idx], HALLFAME_RECORDSZ, 1, fp);
+; Line 229
+	*** 00062d	ff 76 fc 		push	WORD PTR [bp-4]	;fp
+	*** 000630	b8 01 00 		mov	ax,1
+	*** 000633	50 			push	ax
+	*** 000634	b8 20 00 		mov	ax,32
+	*** 000637	50 			push	ax
+	*** 000638	8b 46 fe 		mov	ax,WORD PTR [bp-2]	;idx
+	*** 00063b	b1 05 			mov	cl,5
+	*** 00063d	d3 e0 			shl	ax,cl
+	*** 00063f	05 00 00 		add	ax,OFFSET _hallfameBuf
+	*** 000642	50 			push	ax
+	*** 000643	e8 00 00 		call	_fwrite
+	*** 000646	83 c4 08 		add	sp,8
+;|***     } while (++idx < HALLFAME_SLOTS);
+; Line 230
+	*** 000649	ff 46 fe 		inc	WORD PTR [bp-2]	;idx
+	*** 00064c	83 7e fe 08 		cmp	WORD PTR [bp-2],8	;idx
+	*** 000650	7c db 			jl	$D1768
+;|***     fclose(fp);
+; Line 231
+	*** 000652	ff 76 fc 		push	WORD PTR [bp-4]	;fp
+	*** 000655	e8 00 00 		call	_fclose
+;|*** }
+; Line 232
+	*** 000658	8b e5 			mov	sp,bp
+	*** 00065a	5d 			pop	bp
+	*** 00065b	c3 			ret	
+
+_saveHallfame	ENDP
+;|*** 
+;|*** int getJoyKey() {
+; Line 234
+	PUBLIC	_getJoyKey
+_getJoyKey	PROC NEAR
+;|***     if (commData->setupUseJoy == 1) {
+; Line 235
+	*** 00065c	c4 1e 00 00 		les	bx,DWORD PTR _commData
+	*** 000660	26 83 7f 72 01 		cmp	WORD PTR es:[bx+114],1
+	*** 000665	75 13 			jne	$I1773
+;|***         if (misc_jump_5d_readJoy(0) != 0) return 1;
+; Line 236
+	*** 000667	2b c0 			sub	ax,ax
+	*** 000669	50 			push	ax
+	*** 00066a	9a 00 00 00 00 		call	FAR PTR _misc_jump_5d_readJoy
+	*** 00066f	83 c4 02 		add	sp,2
+	*** 000672	0b c0 			or	ax,ax
+	*** 000674	74 04 			je	$I1773
+	*** 000676	b8 01 00 		mov	ax,1
+	*** 000679	c3 			ret	
+					$I1773:
+;|***     }
+;|***     if (cbreakHit != 0) {
+; Line 238
+	*** 00067a	80 3e 00 00 00 		cmp	BYTE PTR _cbreakHit,0
+	*** 00067f	74 0f 			je	$I1774
+;|***         cleanup();
+; Line 239
+	*** 000681	e8 00 00 		call	_cleanup
+;|***         restoreCbreakHandler();
+; Line 240
+	*** 000684	e8 00 00 		call	_restoreCbreakHandler
+;|***         exit(0);
+; Line 241
+	*** 000687	2b c0 			sub	ax,ax
+	*** 000689	50 			push	ax
+	*** 00068a	e8 00 00 		call	_exit
+	*** 00068d	83 c4 02 		add	sp,2
+;|***     }
+; Line 242
+;|***     return misc_jump_5a_keybuf() == 0;
+; Line 243
+					$I1774:
+	*** 000690	9a 00 00 00 00 		call	FAR PTR _misc_jump_5a_keybuf
+	*** 000695	8b c8 			mov	cx,ax
+	*** 000697	83 f9 01 		cmp	cx,1
+	*** 00069a	1b c0 			sbb	ax,ax
+	*** 00069c	f7 d8 			neg	ax
+	*** 00069e	c3 			ret	
+	*** 00069f	90 			nop	
+
+_getJoyKey	ENDP
+_TEXT	ENDS
+END
+;|*** }

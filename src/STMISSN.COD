@@ -1,0 +1,1987 @@
+;	Static Name Aliases
+;
+	TITLE   stmissn.c
+	NAME    stmissn
+
+	.8087
+_TEXT	SEGMENT  WORD PUBLIC 'CODE'
+_TEXT	ENDS
+_DATA	SEGMENT  WORD PUBLIC 'DATA'
+_DATA	ENDS
+CONST	SEGMENT  WORD PUBLIC 'CONST'
+CONST	ENDS
+_BSS	SEGMENT  WORD PUBLIC 'BSS'
+_BSS	ENDS
+$$SYMBOLS	SEGMENT  BYTE PUBLIC 'DEBSYM'
+$$SYMBOLS	ENDS
+$$TYPES	SEGMENT  BYTE PUBLIC 'DEBTYP'
+$$TYPES	ENDS
+DGROUP	GROUP	CONST, _BSS, _DATA
+	ASSUME  CS: _TEXT, DS: DGROUP, SS: DGROUP
+EXTRN	__acrtused:ABS
+EXTRN	_blinkPilot:NEAR
+EXTRN	_fclose:NEAR
+EXTRN	_gfx_switchColor:FAR
+EXTRN	_restoreCbreakHandler:NEAR
+EXTRN	_gfx_setMonoFlag:FAR
+EXTRN	_exit:NEAR
+EXTRN	_fopen:NEAR
+EXTRN	_getItemCoordStr:NEAR
+EXTRN	_setTimerIrqHandler:NEAR
+EXTRN	_waitJoyKey:NEAR
+EXTRN	_joyOrKey:NEAR
+EXTRN	_restoreTimerIrqHandler:NEAR
+EXTRN	_waitMdaCgaStatus:NEAR
+EXTRN	_mystrcat:NEAR
+EXTRN	_gfx_copyRect:FAR
+EXTRN	_misc_jump_5a_keybuf:FAR
+EXTRN	_placeString:NEAR
+EXTRN	_misc_jump_5b_getkey:FAR
+EXTRN	_misc_jump_5d_readJoy:FAR
+EXTRN	_nearmemset:NEAR
+EXTRN	_drawLine:NEAR
+EXTRN	_pollJoystick:FAR
+EXTRN	_cleanup:NEAR
+EXTRN	_gfx_blitToCurrent:FAR
+EXTRN	_drawStringAt:NEAR
+EXTRN	_gfx_setPageN:FAR
+EXTRN	_drawStringCentered:NEAR
+EXTRN	_showSprite:NEAR
+EXTRN	_gfx_setFadeSteps:FAR
+EXTRN	_clearRect:NEAR
+EXTRN	_gfx_setDac:FAR
+EXTRN	_mystrcpy:NEAR
+EXTRN	_openShowPic:NEAR
+EXTRN	_missTheaNames:BYTE
+EXTRN	_missTheaDesc:BYTE
+EXTRN	_missDiffLevels:BYTE
+EXTRN	_missDiffDesc:BYTE
+EXTRN	_scenarioFoundArr:BYTE
+EXTRN	_scenarioCodePtr:BYTE
+EXTRN	_missScenarioNames:BYTE
+EXTRN	_missScenarioDesc:BYTE
+EXTRN	_missTypeNames:BYTE
+EXTRN	_missTypeDesc:BYTE
+EXTRN	_armPosition:WORD
+EXTRN	_missHistorical1Names:BYTE
+EXTRN	_spriteBlitX:WORD
+EXTRN	_missHistorical1Desc:BYTE
+EXTRN	_spriteBlitY:WORD
+EXTRN	_missHistorical2Names:BYTE
+EXTRN	_joyAxes:BYTE
+EXTRN	_targets:BYTE
+EXTRN	_spriteBlitW:WORD
+EXTRN	_missHistorical2Desc:BYTE
+EXTRN	_spriteBlitH:WORD
+EXTRN	_missionStr:WORD
+EXTRN	_armSrcX:BYTE
+EXTRN	_armSrcY:BYTE
+EXTRN	_armBlitX:BYTE
+EXTRN	_armBlitY:BYTE
+EXTRN	_armBlitW:BYTE
+EXTRN	_armBlitH:BYTE
+EXTRN	_enableHighlight:WORD
+EXTRN	_plh3d3Ptr:WORD
+EXTRN	_missionPick:WORD
+EXTRN	_armSpriteIndex:BYTE
+EXTRN	_aRepeatLastMiss:BYTE
+EXTRN	_aRb_2:BYTE
+EXTRN	_aF15_spr_1:BYTE
+EXTRN	_aPleaseReinsert:BYTE
+EXTRN	_aPressSelectorW:BYTE
+EXTRN	_aDecodingMissio:BYTE
+EXTRN	_aTodaySMission:BYTE
+EXTRN	_aTakeoffFrom:BYTE
+EXTRN	_aOnc_2:BYTE
+EXTRN	_aPrimaryTarget:BYTE
+EXTRN	_aOnc_0:BYTE
+EXTRN	_aSecondaryTarge:BYTE
+EXTRN	_cbreakHit:BYTE
+EXTRN	_aOnc_1:BYTE
+EXTRN	_joyRepeatFlag:WORD
+EXTRN	_todayMissStrBuf:BYTE
+EXTRN	_commData:DWORD
+EXTRN	_aWall_pic:BYTE
+EXTRN	_aDifficulty:BYTE
+EXTRN	_aTheater:BYTE
+EXTRN	_aRb_1:BYTE
+EXTRN	_aNoScenarioFile:BYTE
+EXTRN	_fileHandle:WORD
+EXTRN	_timerCounter:BYTE
+EXTRN	_gameData:DWORD
+EXTRN	_aSeeTechnicalSu:BYTE
+EXTRN	_aMissionType:BYTE
+EXTRN	_timerCounter3:BYTE
+EXTRN	_page1Desc:BYTE
+EXTRN	_page1NumPtr:WORD
+EXTRN	_page1Ptr:WORD
+EXTRN	_page2NumPtr:WORD
+_TEXT      SEGMENT
+	ASSUME	CS: _TEXT
+;|*** #include "inttype.h"
+;|*** #include "offsets.h"
+;|*** #include "pointers.h"
+;|*** #include "comm.h"
+;|*** #include "shared/util.h"
+;|*** #include "gfx.h"
+;|*** #include "slot.h"
+;|*** #include "const.h"
+;|*** 
+;|*** #include "debug.h"
+;|*** #include "start.h"
+;|*** 
+;|*** #include <stdio.h>
+;|*** #include <dos.h>
+;|*** 
+;|*** void missionSelect()
+;|*** {
+; Line 17
+	PUBLIC	_missionSelect
+_missionSelect	PROC NEAR
+	*** 000000	55 			push	bp
+	*** 000001	8b ec 			mov	bp,sp
+	*** 000003	83 ec 04 		sub	sp,4
+	*** 000006	56 			push	si
+;	index = -2
+;	count = -4
+;|***     int index, count;
+;|***     TRACE(("missionSelect(): entering"));
+;|***     gfx_setDac(1);
+; Line 20
+	*** 000007	b8 01 00 		mov	ax,1
+	*** 00000a	50 			push	ax
+	*** 00000b	9a 00 00 00 00 		call	FAR PTR _gfx_setDac
+	*** 000010	83 c4 02 		add	sp,2
+;|***     gfx_setFadeSteps(0);
+; Line 21
+	*** 000013	2b c0 			sub	ax,ax
+	*** 000015	50 			push	ax
+	*** 000016	9a 00 00 00 00 		call	FAR PTR _gfx_setFadeSteps
+	*** 00001b	83 c4 02 		add	sp,2
+;|***     openShowPic(aWall_pic, *page1NumPtr);
+; Line 22
+	*** 00001e	8b 1e 00 00 		mov	bx,_page1NumPtr
+	*** 000022	ff 37 			push	WORD PTR [bx]
+	*** 000024	b8 00 00 		mov	ax,OFFSET _aWall_pic
+	*** 000027	50 			push	ax
+	*** 000028	e8 00 00 		call	_openShowPic
+	*** 00002b	83 c4 04 		add	sp,4
+;|***     TRACE(("missionSelect(): shown wall"));
+;|***     clearBriefing();
+; Line 24
+	*** 00002e	e8 00 00 		call	_clearBriefing
+;|***     TRACE(("missionSelect(): cleared briefing"));
+;|***     nearmemset(scenarioFoundArr, 0, 5);
+; Line 26
+	*** 000031	b8 05 00 		mov	ax,5
+	*** 000034	50 			push	ax
+	*** 000035	2b c0 			sub	ax,ax
+	*** 000037	50 			push	ax
+	*** 000038	b8 00 00 		mov	ax,OFFSET _scenarioFoundArr
+	*** 00003b	50 			push	ax
+	*** 00003c	e8 00 00 		call	_nearmemset
+	*** 00003f	83 c4 06 		add	sp,6
+;|***     gameData->difficulty = missionMenuSelect(missDiffLevels, missDiffDesc, aDifficulty, gameData->difficulty);
+; Line 27
+	*** 000042	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 000046	26 ff 77 3e 		push	WORD PTR es:[bx+62]
+	*** 00004a	b8 00 00 		mov	ax,OFFSET _aDifficulty
+	*** 00004d	50 			push	ax
+	*** 00004e	b8 00 00 		mov	ax,OFFSET _missDiffDesc
+	*** 000051	50 			push	ax
+	*** 000052	b8 00 00 		mov	ax,OFFSET _missDiffLevels
+	*** 000055	50 			push	ax
+	*** 000056	e8 00 00 		call	_missionMenuSelect
+	*** 000059	83 c4 08 		add	sp,8
+	*** 00005c	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 000060	26 89 47 3e 		mov	WORD PTR es:[bx+62],ax
+;|***     TRACE(("missionSelect(): selected difficulty: %d", gameData->difficulty));
+;|*** selectTheater:
+; Line 29
+					$selectTheater1657:
+;|***     if (gameData->theater > 4)
+; Line 30
+	*** 000064	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 000068	26 83 7f 38 04 		cmp	WORD PTR es:[bx+56],4
+	*** 00006d	76 06 			jbe	$I1658
+;|***         gameData->theater = 4;
+; Line 31
+	*** 00006f	26 c7 47 38 04 00 	mov	WORD PTR es:[bx+56],4
+;|***     checkDiskA();
+; Line 32
+					$I1658:
+	*** 000075	e8 00 00 		call	_checkDiskA
+;|***     nearmemset(scenarioFoundArr, 0, 5);
+; Line 33
+	*** 000078	b8 05 00 		mov	ax,5
+	*** 00007b	50 			push	ax
+	*** 00007c	2b c0 			sub	ax,ax
+	*** 00007e	50 			push	ax
+	*** 00007f	b8 00 00 		mov	ax,OFFSET _scenarioFoundArr
+	*** 000082	50 			push	ax
+	*** 000083	e8 00 00 		call	_nearmemset
+	*** 000086	83 c4 06 		add	sp,6
+;|***     gameData->theater = missionMenuSelect(missTheaNames, missTheaDesc, aTheater, gameData->theater);
+; Line 34
+	*** 000089	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 00008d	26 ff 77 38 		push	WORD PTR es:[bx+56]
+	*** 000091	b8 00 00 		mov	ax,OFFSET _aTheater
+	*** 000094	50 			push	ax
+	*** 000095	b8 00 00 		mov	ax,OFFSET _missTheaDesc
+	*** 000098	50 			push	ax
+	*** 000099	b8 00 00 		mov	ax,OFFSET _missTheaNames
+	*** 00009c	50 			push	ax
+	*** 00009d	e8 00 00 		call	_missionMenuSelect
+	*** 0000a0	83 c4 08 		add	sp,8
+	*** 0000a3	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 0000a7	26 89 47 38 		mov	WORD PTR es:[bx+56],ax
+;|***     if (gameData->theater == THEATER_OTHER) { // other scenario selected
+; Line 35
+	*** 0000ab	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 0000af	26 83 7f 38 04 		cmp	WORD PTR es:[bx+56],4
+	*** 0000b4	74 03 			je	$JCC180
+	*** 0000b6	e9 f5 00 		jmp	$I1665
+					$JCC180:
+;|***         for (count = 4, index = 0; index < 4; index++) { // find extra scenarios
+; Line 36
+	*** 0000b9	c7 46 fc 04 00 		mov	WORD PTR [bp-4],4	;count
+	*** 0000be	c7 46 fe 00 00 		mov	WORD PTR [bp-2],0	;index
+	*** 0000c3	eb 03 			jmp	SHORT $F1660
+					$FC1661:
+	*** 0000c5	ff 46 fe 		inc	WORD PTR [bp-2]	;index
+					$F1660:
+	*** 0000c8	83 7e fe 04 		cmp	WORD PTR [bp-2],4	;index
+	*** 0000cc	7d 56 			jge	$FB1662
+;|***             plh3d3Ptr[0] = *scenarioCodePtr[index];
+; Line 37
+	*** 0000ce	8b 1e 00 00 		mov	bx,_plh3d3Ptr
+	*** 0000d2	8b 76 fe 		mov	si,WORD PTR [bp-2]	;index
+	*** 0000d5	d1 e6 			shl	si,1
+	*** 0000d7	8b b4 00 00 		mov	si,WORD PTR _scenarioCodePtr[si]
+	*** 0000db	8a 04 			mov	al,BYTE PTR [si]
+	*** 0000dd	88 07 			mov	BYTE PTR [bx],al
+;|***             plh3d3Ptr[1] = *(scenarioCodePtr[index] + 1);
+; Line 38
+	*** 0000df	8b 1e 00 00 		mov	bx,_plh3d3Ptr
+	*** 0000e3	8b 76 fe 		mov	si,WORD PTR [bp-2]	;index
+	*** 0000e6	d1 e6 			shl	si,1
+	*** 0000e8	8b b4 00 00 		mov	si,WORD PTR _scenarioCodePtr[si]
+	*** 0000ec	8a 44 01 		mov	al,BYTE PTR [si+1]
+	*** 0000ef	88 47 01 		mov	BYTE PTR [bx+1],al
+;|*** 
+;|***             if ((scenarioFoundArr[index] = ((fileHandle = fopen(plh3d3Ptr, aRb_1)) == NULL))) count--;
+; Line 40
+	*** 0000f2	b8 00 00 		mov	ax,OFFSET _aRb_1
+	*** 0000f5	50 			push	ax
+	*** 0000f6	ff 36 00 00 		push	WORD PTR _plh3d3Ptr
+	*** 0000fa	e8 00 00 		call	_fopen
+	*** 0000fd	83 c4 04 		add	sp,4
+	*** 000100	a3 00 00 		mov	_fileHandle,ax
+	*** 000103	3d 01 00 		cmp	ax,1
+	*** 000106	1b c9 			sbb	cx,cx
+	*** 000108	f7 d9 			neg	cx
+	*** 00010a	8b 5e fe 		mov	bx,WORD PTR [bp-2]	;index
+	*** 00010d	88 8f 00 00 		mov	BYTE PTR _scenarioFoundArr[bx],cl
+	*** 000111	0a c9 			or	cl,cl
+	*** 000113	74 03 			je	$I1663
+	*** 000115	ff 4e fc 		dec	WORD PTR [bp-4]	;count
+;|***             fclose(fileHandle);
+; Line 41
+					$I1663:
+	*** 000118	ff 36 00 00 		push	WORD PTR _fileHandle
+	*** 00011c	e8 00 00 		call	_fclose
+	*** 00011f	83 c4 02 		add	sp,2
+;|***         }
+; Line 42
+	*** 000122	eb a1 			jmp	SHORT $FC1661
+					$FB1662:
+;|***         if (count == 0) { // no scenarios found, print message and go back to previous screen
+; Line 43
+	*** 000124	83 7e fc 00 		cmp	WORD PTR [bp-4],0	;count
+	*** 000128	75 56 			jne	$I1664
+;|***             clearBriefing();
+; Line 44
+	*** 00012a	e8 00 00 		call	_clearBriefing
+;|***             drawStringCentered(page1NumPtr, aNoScenarioFile, 0x71, 0x3c, 0xb9);
+; Line 45
+	*** 00012d	b8 b9 00 		mov	ax,185
+	*** 000130	50 			push	ax
+	*** 000131	b8 3c 00 		mov	ax,60
+	*** 000134	50 			push	ax
+	*** 000135	b8 71 00 		mov	ax,113
+	*** 000138	50 			push	ax
+	*** 000139	b8 00 00 		mov	ax,OFFSET _aNoScenarioFile
+	*** 00013c	50 			push	ax
+	*** 00013d	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 000141	e8 00 00 		call	_drawStringCentered
+	*** 000144	83 c4 0a 		add	sp,10
+;|***             drawStringCentered(page1NumPtr, aSeeTechnicalSu, 0x71, 0x48, 0xb9);
+; Line 46
+	*** 000147	b8 b9 00 		mov	ax,185
+	*** 00014a	50 			push	ax
+	*** 00014b	b8 48 00 		mov	ax,72
+	*** 00014e	50 			push	ax
+	*** 00014f	b8 71 00 		mov	ax,113
+	*** 000152	50 			push	ax
+	*** 000153	b8 00 00 		mov	ax,OFFSET _aSeeTechnicalSu
+	*** 000156	50 			push	ax
+	*** 000157	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 00015b	e8 00 00 		call	_drawStringCentered
+	*** 00015e	83 c4 0a 		add	sp,10
+;|***             enableHighlight = 0;
+; Line 47
+	*** 000161	c7 06 00 00 00 00 	mov	WORD PTR _enableHighlight,0
+;|***             timerCounter3 = 6;
+; Line 48
+	*** 000167	c6 06 00 00 06 		mov	BYTE PTR _timerCounter3,6
+;|***             animateArm(armPosition, armPosition);
+; Line 49
+	*** 00016c	ff 36 00 00 		push	WORD PTR _armPosition
+	*** 000170	ff 36 00 00 		push	WORD PTR _armPosition
+	*** 000174	e8 00 00 		call	_animateArm
+	*** 000177	83 c4 04 		add	sp,4
+;|***             waitJoyKey();
+; Line 50
+	*** 00017a	e8 00 00 		call	_waitJoyKey
+;|***             goto selectTheater;
+; Line 51
+	*** 00017d	e9 e4 fe 		jmp	$selectTheater1657
+;|***         }
+; Line 52
+;|***         gameData->theater = missionMenuSelect(missScenarioNames, missScenarioDesc, aTheater, 0) + 4;
+; Line 53
+					$I1664:
+	*** 000180	2b c0 			sub	ax,ax
+	*** 000182	50 			push	ax
+	*** 000183	b8 00 00 		mov	ax,OFFSET _aTheater
+	*** 000186	50 			push	ax
+	*** 000187	b8 00 00 		mov	ax,OFFSET _missScenarioDesc
+	*** 00018a	50 			push	ax
+	*** 00018b	b8 00 00 		mov	ax,OFFSET _missScenarioNames
+	*** 00018e	50 			push	ax
+	*** 00018f	e8 00 00 		call	_missionMenuSelect
+	*** 000192	83 c4 08 		add	sp,8
+	*** 000195	05 04 00 		add	ax,4
+	*** 000198	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 00019c	26 89 47 38 		mov	WORD PTR es:[bx+56],ax
+;|***         if (gameData->theater == 8) {
+; Line 54
+	*** 0001a0	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 0001a4	26 83 7f 38 08 		cmp	WORD PTR es:[bx+56],8
+	*** 0001a9	75 03 			jne	$I1665
+;|***             goto selectTheater;
+; Line 55
+	*** 0001ab	e9 b6 fe 		jmp	$selectTheater1657
+;|***         }
+; Line 56
+;|***     }
+; Line 57
+					$I1665:
+;|*** 
+;|***     // show mission type dialog for desert storm
+;|***     if (gameData->theater == THEATER_DS && gameData->difficulty != DIFFICULTY_DEMO) {
+; Line 60
+	*** 0001ae	c4 1e 00 00 		les	bx,DWORD PTR _gameData
+	*** 0001b2	26 83 7f 38 06 		cmp	WORD PTR es:[bx+56],6
+	*** 0001b7	74 03 			je	$JCC439
+	*** 0001b9	e9 85 00 		jmp	$DB1670
+					$JCC439:
+	*** 0001bc	26 83 7f 3e 04 		cmp	WORD PTR es:[bx+62],4
+	*** 0001c1	74 7e 			je	$DB1670
+;|***         scenarioFoundArr[0] = scenarioFoundArr[1] = 0;
+; Line 61
+	*** 0001c3	2a c0 			sub	al,al
+	*** 0001c5	a2 01 00 		mov	BYTE PTR _scenarioFoundArr+1,al
+	*** 0001c8	a2 00 00 		mov	BYTE PTR _scenarioFoundArr,al
+;|***         scenarioFoundArr[2] = scenarioFoundArr[3] = scenarioFoundArr[4] = 1;
+; Line 62
+	*** 0001cb	b0 01 			mov	al,1
+	*** 0001cd	a2 04 00 		mov	BYTE PTR _scenarioFoundArr+4,al
+	*** 0001d0	a2 03 00 		mov	BYTE PTR _scenarioFoundArr+3,al
+	*** 0001d3	a2 02 00 		mov	BYTE PTR _scenarioFoundArr+2,al
+;|***         if (missionMenuSelect(missTypeNames, missTypeDesc, aMissionType, 0) == 0) {
+; Line 63
+	*** 0001d6	2b c0 			sub	ax,ax
+	*** 0001d8	50 			push	ax
+	*** 0001d9	b8 00 00 		mov	ax,OFFSET _aMissionType
+	*** 0001dc	50 			push	ax
+	*** 0001dd	b8 00 00 		mov	ax,OFFSET _missTypeDesc
+	*** 0001e0	50 			push	ax
+	*** 0001e1	b8 00 00 		mov	ax,OFFSET _missTypeNames
+	*** 0001e4	50 			push	ax
+	*** 0001e5	e8 00 00 		call	_missionMenuSelect
+	*** 0001e8	83 c4 08 		add	sp,8
+	*** 0001eb	0b c0 			or	ax,ax
+	*** 0001ed	75 52 			jne	$DB1670
+;|***             nearmemset(scenarioFoundArr, 0, 5);
+; Line 64
+	*** 0001ef	b8 05 00 		mov	ax,5
+	*** 0001f2	50 			push	ax
+	*** 0001f3	2b c0 			sub	ax,ax
+	*** 0001f5	50 			push	ax
+	*** 0001f6	b8 00 00 		mov	ax,OFFSET _scenarioFoundArr
+	*** 0001f9	50 			push	ax
+	*** 0001fa	e8 00 00 		call	_nearmemset
+	*** 0001fd	83 c4 06 		add	sp,6
+;|*** 
+;|***             do {
+; Line 66
+					$D1668:
+;|***                 if ((missionPick = missionMenuSelect(missHistorical1Names, missHistorical1Desc, missionStr, 4)) != 4) break;
+; Line 67
+	*** 000200	b8 04 00 		mov	ax,4
+	*** 000203	50 			push	ax
+	*** 000204	ff 36 00 00 		push	WORD PTR _missionStr
+	*** 000208	b8 00 00 		mov	ax,OFFSET _missHistorical1Desc
+	*** 00020b	50 			push	ax
+	*** 00020c	b8 00 00 		mov	ax,OFFSET _missHistorical1Names
+	*** 00020f	50 			push	ax
+	*** 000210	e8 00 00 		call	_missionMenuSelect
+	*** 000213	83 c4 08 		add	sp,8
+	*** 000216	a3 00 00 		mov	_missionPick,ax
+	*** 000219	3d 04 00 		cmp	ax,4
+	*** 00021c	74 02 			je	$I1671
+	*** 00021e	eb 21 			jmp	SHORT $DB1670
+;|***             } while ((missionPick = missionMenuSelect(missHistorical2Names, missHistorical2Desc, missionStr, 4) + 4) == 8);
+; Line 68
+					$I1671:
+	*** 000220	b8 04 00 		mov	ax,4
+	*** 000223	50 			push	ax
+	*** 000224	ff 36 00 00 		push	WORD PTR _missionStr
+	*** 000228	b8 00 00 		mov	ax,OFFSET _missHistorical2Desc
+	*** 00022b	50 			push	ax
+	*** 00022c	b8 00 00 		mov	ax,OFFSET _missHistorical2Names
+	*** 00022f	50 			push	ax
+	*** 000230	e8 00 00 		call	_missionMenuSelect
+	*** 000233	83 c4 08 		add	sp,8
+	*** 000236	05 04 00 		add	ax,4
+	*** 000239	a3 00 00 		mov	_missionPick,ax
+	*** 00023c	3d 08 00 		cmp	ax,8
+	*** 00023f	74 bf 			je	$D1668
+					$DB1670:
+;|***         }
+; Line 69
+;|***     }
+; Line 70
+;|***     // 909-0x90d
+;|*** }
+; Line 72
+	*** 000241	5e 			pop	si
+	*** 000242	8b e5 			mov	sp,bp
+	*** 000244	5d 			pop	bp
+	*** 000245	c3 			ret	
+
+_missionSelect	ENDP
+;|*** 
+;|*** int missionMenuSelect(char **names, char **desc, char *title, int selection)
+;|*** {
+; Line 75
+	PUBLIC	_missionMenuSelect
+_missionMenuSelect	PROC NEAR
+	*** 000246	55 			push	bp
+	*** 000247	8b ec 			mov	bp,sp
+	*** 000249	83 ec 06 		sub	sp,6
+	*** 00024c	56 			push	si
+;	names = 4
+;	desc = 6
+;	title = 8
+;	selection = 10
+;	a = -2
+;	row = -6
+;	act = -4
+;|***     int a, row, act;
+;|***     TRACE(("missionMenuSelect(): entering, selection %d", selection));
+;|***     enableHighlight = 1;
+; Line 78
+	*** 00024d	c7 06 00 00 01 00 	mov	WORD PTR _enableHighlight,1
+;|***     page1Desc.color = COLOR_TITLE;
+; Line 79
+	*** 000253	c7 06 04 00 01 00 	mov	WORD PTR _page1Desc+4,1
+;|***     drawStringCentered(page1NumPtr, title, 113, 14, 185);
+; Line 80
+	*** 000259	b8 b9 00 		mov	ax,185
+	*** 00025c	50 			push	ax
+	*** 00025d	b8 0e 00 		mov	ax,14
+	*** 000260	50 			push	ax
+	*** 000261	b8 71 00 		mov	ax,113
+	*** 000264	50 			push	ax
+	*** 000265	ff 76 08 		push	WORD PTR [bp+8]	;title
+	*** 000268	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 00026c	e8 00 00 		call	_drawStringCentered
+	*** 00026f	83 c4 0a 		add	sp,10
+;|***     drawLine(page1NumPtr, 173, 22, 235, 22, 1);
+; Line 81
+	*** 000272	b8 01 00 		mov	ax,1
+	*** 000275	50 			push	ax
+	*** 000276	b8 16 00 		mov	ax,22
+	*** 000279	50 			push	ax
+	*** 00027a	b8 eb 00 		mov	ax,235
+	*** 00027d	50 			push	ax
+	*** 00027e	b8 16 00 		mov	ax,22
+	*** 000281	50 			push	ax
+	*** 000282	b8 ad 00 		mov	ax,173
+	*** 000285	50 			push	ax
+	*** 000286	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 00028a	e8 00 00 		call	_drawLine
+	*** 00028d	83 c4 0c 		add	sp,12
+;|***     TRACE(("missionMenuSelect(): drawn title %s", title));
+;|***     a = 26;
+; Line 83
+	*** 000290	c7 46 fe 1a 00 		mov	WORD PTR [bp-2],26	;a
+;|***     for (row = 0; row < 5; row++) {
+; Line 84
+	*** 000295	c7 46 fa 00 00 		mov	WORD PTR [bp-6],0	;row
+	*** 00029a	eb 03 			jmp	SHORT $F1680
+					$FC1681:
+	*** 00029c	ff 46 fa 		inc	WORD PTR [bp-6]	;row
+					$F1680:
+	*** 00029f	83 7e fa 05 		cmp	WORD PTR [bp-6],5	;row
+	*** 0002a3	7d 67 			jge	$FB1682
+;|***         if (scenarioFoundArr[row] == 0) {
+; Line 85
+	*** 0002a5	8b 5e fa 		mov	bx,WORD PTR [bp-6]	;row
+	*** 0002a8	80 bf 00 00 00 		cmp	BYTE PTR _scenarioFoundArr[bx],0
+	*** 0002ad	75 57 			jne	$I1683
+;|***             page1Desc.color = COLOR_TITLE;
+; Line 86
+	*** 0002af	c7 06 04 00 01 00 	mov	WORD PTR _page1Desc+4,1
+;|***             drawStringCentered(page1NumPtr, names[row], 113, a, 185);
+; Line 87
+	*** 0002b5	b8 b9 00 		mov	ax,185
+	*** 0002b8	50 			push	ax
+	*** 0002b9	ff 76 fe 		push	WORD PTR [bp-2]	;a
+	*** 0002bc	b8 71 00 		mov	ax,113
+	*** 0002bf	50 			push	ax
+	*** 0002c0	d1 e3 			shl	bx,1
+	*** 0002c2	8b 76 04 		mov	si,WORD PTR [bp+4]	;names
+	*** 0002c5	ff 30 			push	WORD PTR [bx][si]
+	*** 0002c7	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 0002cb	e8 00 00 		call	_drawStringCentered
+	*** 0002ce	83 c4 0a 		add	sp,10
+;|***             page1Desc.font = FONT_SMALL;
+; Line 88
+	*** 0002d1	c7 06 0c 00 04 00 	mov	WORD PTR _page1Desc+12,4
+;|***             page1Desc.color = COLOR_BRIEF_DESC_NORMAL;
+; Line 89
+	*** 0002d7	c7 06 04 00 07 00 	mov	WORD PTR _page1Desc+4,7
+;|***             drawStringCentered(page1NumPtr, desc[row], 113, a + 8, 185);
+; Line 90
+	*** 0002dd	b8 b9 00 		mov	ax,185
+	*** 0002e0	50 			push	ax
+	*** 0002e1	8b 46 fe 		mov	ax,WORD PTR [bp-2]	;a
+	*** 0002e4	05 08 00 		add	ax,8
+	*** 0002e7	50 			push	ax
+	*** 0002e8	b8 71 00 		mov	ax,113
+	*** 0002eb	50 			push	ax
+	*** 0002ec	8b 5e fa 		mov	bx,WORD PTR [bp-6]	;row
+	*** 0002ef	d1 e3 			shl	bx,1
+	*** 0002f1	8b 76 06 		mov	si,WORD PTR [bp+6]	;desc
+	*** 0002f4	ff 30 			push	WORD PTR [bx][si]
+	*** 0002f6	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 0002fa	e8 00 00 		call	_drawStringCentered
+	*** 0002fd	83 c4 0a 		add	sp,10
+;|***             TRACE(("missionMenuSelect(): drawn item %s/%s", names[row], desc[row]));
+;|***             page1Desc.font = FONT_NORMAL;
+; Line 92
+	*** 000300	c7 06 0c 00 01 00 	mov	WORD PTR _page1Desc+12,1
+;|***         }
+; Line 93
+;|***         a += 21;
+; Line 94
+					$I1683:
+	*** 000306	83 46 fe 15 		add	WORD PTR [bp-2],21	;a
+;|***     }
+; Line 95
+	*** 00030a	eb 90 			jmp	SHORT $FC1681
+					$FB1682:
+;|***     TRACE(("missionMenuSelect(): items drawn: %d", row));
+;|***     setTimerIrqHandler();
+; Line 97
+	*** 00030c	e8 00 00 		call	_setTimerIrqHandler
+;|***     timerCounter3 = 6;
+; Line 98
+	*** 00030f	c6 06 00 00 06 		mov	BYTE PTR _timerCounter3,6
+;|***     animateArm(-1, 6);
+; Line 99
+	*** 000314	b8 06 00 		mov	ax,6
+	*** 000317	50 			push	ax
+	*** 000318	b8 ff ff 		mov	ax,-1
+	*** 00031b	50 			push	ax
+	*** 00031c	e8 00 00 		call	_animateArm
+	*** 00031f	83 c4 04 		add	sp,4
+;|***     for (row = 5; row >= selection; row--) {
+; Line 100
+	*** 000322	c7 46 fa 05 00 		mov	WORD PTR [bp-6],5	;row
+	*** 000327	eb 03 			jmp	SHORT $F1684
+					$FC1685:
+	*** 000329	ff 4e fa 		dec	WORD PTR [bp-6]	;row
+					$F1684:
+	*** 00032c	8b 46 0a 		mov	ax,WORD PTR [bp+10]	;selection
+	*** 00032f	39 46 fa 		cmp	WORD PTR [bp-6],ax	;row
+	*** 000332	7c 10 			jl	$FB1686
+;|***         animateArm(row + 1, row);
+; Line 101
+	*** 000334	ff 76 fa 		push	WORD PTR [bp-6]	;row
+	*** 000337	8b 46 fa 		mov	ax,WORD PTR [bp-6]	;row
+	*** 00033a	40 			inc	ax
+	*** 00033b	50 			push	ax
+	*** 00033c	e8 00 00 		call	_animateArm
+	*** 00033f	83 c4 04 		add	sp,4
+;|***     }
+; Line 102
+	*** 000342	eb e5 			jmp	SHORT $FC1685
+					$FB1686:
+;|***     TRACE(("missionMenuSelect(): animated arm"));
+;|***     do {
+; Line 104
+;|*** again:
+;|***         if ((act = processStoreInput()) != KEYCODE_ENTER) {
+; Line 106
+	*** 000344	e8 00 00 		call	_processStoreInput
+	*** 000347	89 46 fc 		mov	WORD PTR [bp-4],ax	;act
+	*** 00034a	3d 0d 00 		cmp	ax,13
+	*** 00034d	74 48 			je	$I1691
+;|***             if (act == KEYCODE_UPARROW) {
+; Line 107
+	*** 00034f	3d 00 48 		cmp	ax,18432
+	*** 000352	75 1e 			jne	$I1692
+;|***                 if (selection > 0) {
+; Line 108
+	*** 000354	83 7e 0a 00 		cmp	WORD PTR [bp+10],0	;selection
+	*** 000358	7e 16 			jle	$I1693
+;|***                     timerCounter3 = 6;
+; Line 109
+	*** 00035a	c6 06 00 00 06 		mov	BYTE PTR _timerCounter3,6
+;|***                     animateArm(selection, selection - 1);
+; Line 110
+	*** 00035f	8b 46 0a 		mov	ax,WORD PTR [bp+10]	;selection
+	*** 000362	48 			dec	ax
+	*** 000363	50 			push	ax
+	*** 000364	ff 76 0a 		push	WORD PTR [bp+10]	;selection
+	*** 000367	e8 00 00 		call	_animateArm
+	*** 00036a	83 c4 04 		add	sp,4
+;|***                     selection--;
+; Line 111
+	*** 00036d	ff 4e 0a 		dec	WORD PTR [bp+10]	;selection
+;|***                 }
+; Line 112
+;|***             }
+; Line 113
+					$I1693:
+;|***             else if (act == KEYCODE_DNARROW && selection < 4) {
+; Line 114
+	*** 000370	eb 23 			jmp	SHORT $I1695
+					$I1692:
+	*** 000372	81 7e fc 00 50 		cmp	WORD PTR [bp-4],20480	;act
+	*** 000377	75 1c 			jne	$I1695
+	*** 000379	83 7e 0a 04 		cmp	WORD PTR [bp+10],4	;selection
+	*** 00037d	7d 16 			jge	$I1695
+;|***                 timerCounter3 = 6;
+; Line 115
+	*** 00037f	c6 06 00 00 06 		mov	BYTE PTR _timerCounter3,6
+;|***                 animateArm(selection, selection + 1);
+; Line 116
+	*** 000384	8b 46 0a 		mov	ax,WORD PTR [bp+10]	;selection
+	*** 000387	40 			inc	ax
+	*** 000388	50 			push	ax
+	*** 000389	ff 76 0a 		push	WORD PTR [bp+10]	;selection
+	*** 00038c	e8 00 00 		call	_animateArm
+	*** 00038f	83 c4 04 		add	sp,4
+;|***                 selection++;
+; Line 117
+	*** 000392	ff 46 0a 		inc	WORD PTR [bp+10]	;selection
+;|***             }
+; Line 118
+;|***             goto again;
+; Line 119
+					$I1695:
+	*** 000395	eb ad 			jmp	SHORT $FB1686
+;|***         }
+; Line 120
+;|***     } while (scenarioFoundArr[selection] != 0);
+; Line 121
+					$I1691:
+	*** 000397	8b 5e 0a 		mov	bx,WORD PTR [bp+10]	;selection
+	*** 00039a	80 bf 00 00 00 		cmp	BYTE PTR _scenarioFoundArr[bx],0
+	*** 00039f	75 a3 			jne	$FB1686
+;|***     timerCounter3 = 6;
+; Line 122
+	*** 0003a1	c6 06 00 00 06 		mov	BYTE PTR _timerCounter3,6
+;|***     // animation to lower the arm after accepting?
+;|***     for (row = selection + 1; row <= 6; row++) {
+; Line 124
+	*** 0003a6	8b c3 			mov	ax,bx
+	*** 0003a8	40 			inc	ax
+	*** 0003a9	89 46 fa 		mov	WORD PTR [bp-6],ax	;row
+	*** 0003ac	eb 03 			jmp	SHORT $F1696
+					$FC1697:
+	*** 0003ae	ff 46 fa 		inc	WORD PTR [bp-6]	;row
+					$F1696:
+	*** 0003b1	83 7e fa 06 		cmp	WORD PTR [bp-6],6	;row
+	*** 0003b5	7f 10 			jg	$FB1698
+;|***         animateArm(row - 1, row);
+; Line 125
+	*** 0003b7	ff 76 fa 		push	WORD PTR [bp-6]	;row
+	*** 0003ba	8b 46 fa 		mov	ax,WORD PTR [bp-6]	;row
+	*** 0003bd	48 			dec	ax
+	*** 0003be	50 			push	ax
+	*** 0003bf	e8 00 00 		call	_animateArm
+	*** 0003c2	83 c4 04 		add	sp,4
+;|***     }
+; Line 126
+	*** 0003c5	eb e7 			jmp	SHORT $FC1697
+					$FB1698:
+;|***     restoreTimerIrqHandler();
+; Line 127
+	*** 0003c7	e8 00 00 		call	_restoreTimerIrqHandler
+;|***     clearBriefing();
+; Line 128
+	*** 0003ca	e8 00 00 		call	_clearBriefing
+;|***     return selection;
+; Line 129
+	*** 0003cd	8b 46 0a 		mov	ax,WORD PTR [bp+10]	;selection
+	*** 0003d0	eb 00 			jmp	SHORT $EX1676
+;|*** }
+; Line 130
+					$EX1676:
+	*** 0003d2	5e 			pop	si
+	*** 0003d3	8b e5 			mov	sp,bp
+	*** 0003d5	5d 			pop	bp
+	*** 0003d6	c3 			ret	
+
+_missionMenuSelect	ENDP
+;|*** 
+;|*** void animateArm(int a, int b)
+;|*** {
+; Line 133
+	PUBLIC	_animateArm
+_animateArm	PROC NEAR
+	*** 0003d7	55 			push	bp
+	*** 0003d8	8b ec 			mov	bp,sp
+	*** 0003da	83 ec 02 		sub	sp,2
+	*** 0003dd	56 			push	si
+;	a = 4
+;	b = 6
+;	j = -2
+;|***     int j;
+;|***     while (timerCounter3 < 6) {}
+; Line 135
+					$FC1704:
+	*** 0003de	80 3e 00 00 06 		cmp	BYTE PTR _timerCounter3,6
+	*** 0003e3	73 02 			jae	$FB1705
+	*** 0003e5	eb f7 			jmp	SHORT $FC1704
+					$FB1705:
+;|***     timerCounter3 = 0;
+; Line 136
+	*** 0003e7	c6 06 00 00 00 		mov	BYTE PTR _timerCounter3,0
+;|***     armPosition = b;
+; Line 137
+	*** 0003ec	8b 46 06 		mov	ax,WORD PTR [bp+6]	;b
+	*** 0003ef	a3 00 00 		mov	_armPosition,ax
+;|***     j = armSpriteIndex[b];
+; Line 138
+	*** 0003f2	8b d8 			mov	bx,ax
+	*** 0003f4	d1 e3 			shl	bx,1
+	*** 0003f6	8b 87 00 00 		mov	ax,WORD PTR _armSpriteIndex[bx]
+	*** 0003fa	89 46 fe 		mov	WORD PTR [bp-2],ax	;j
+;|***     if (a == -1) {
+; Line 139
+	*** 0003fd	83 7e 04 ff 		cmp	WORD PTR [bp+4],-1	;a
+	*** 000401	75 22 			jne	$I1706
+;|***         gfx_copyRect(*page1NumPtr, 0, 0, *page2NumPtr, 0, 0 , SCREEN_WIDTH, SCREEN_HEIGHT);
+; Line 140
+	*** 000403	b8 c8 00 		mov	ax,200
+	*** 000406	50 			push	ax
+	*** 000407	b8 40 01 		mov	ax,320
+	*** 00040a	50 			push	ax
+	*** 00040b	2b c0 			sub	ax,ax
+	*** 00040d	50 			push	ax
+	*** 00040e	50 			push	ax
+	*** 00040f	8b 1e 00 00 		mov	bx,_page2NumPtr
+	*** 000413	ff 37 			push	WORD PTR [bx]
+	*** 000415	50 			push	ax
+	*** 000416	50 			push	ax
+	*** 000417	8b 1e 00 00 		mov	bx,_page1NumPtr
+	*** 00041b	ff 37 			push	WORD PTR [bx]
+	*** 00041d	9a 00 00 00 00 		call	FAR PTR _gfx_copyRect
+	*** 000422	83 c4 10 		add	sp,16
+;|***     }
+; Line 141
+;|***     if (b != -1) {
+; Line 142
+					$I1706:
+	*** 000425	83 7e 06 ff 		cmp	WORD PTR [bp+6],-1	;b
+	*** 000429	74 62 			je	$I1707
+;|***         if (b < 5 && enableHighlight != 0) {
+; Line 143
+	*** 00042b	83 7e 06 05 		cmp	WORD PTR [bp+6],5	;b
+	*** 00042f	7d 33 			jge	$I1708
+	*** 000431	83 3e 00 00 00 		cmp	WORD PTR _enableHighlight,0
+	*** 000436	74 2c 			je	$I1708
+;|***             gfx_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
+; Line 144
+	*** 000438	b8 15 00 		mov	ax,21
+	*** 00043b	f7 6e 06 		imul	WORD PTR [bp+6]	;b
+	*** 00043e	8b f0 			mov	si,ax
+	*** 000440	b8 08 00 		mov	ax,8
+	*** 000443	50 			push	ax
+	*** 000444	b8 07 00 		mov	ax,7
+	*** 000447	50 			push	ax
+	*** 000448	8d 44 2a 		lea	ax,WORD PTR [si+42]
+	*** 00044b	50 			push	ax
+	*** 00044c	b8 29 01 		mov	ax,297
+	*** 00044f	50 			push	ax
+	*** 000450	8d 44 22 		lea	ax,WORD PTR [si+34]
+	*** 000453	50 			push	ax
+	*** 000454	b8 71 00 		mov	ax,113
+	*** 000457	50 			push	ax
+	*** 000458	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 00045c	9a 00 00 00 00 		call	FAR PTR _gfx_switchColor
+	*** 000461	83 c4 0e 		add	sp,14
+;|***         }
+; Line 145
+;|***         showSprite(*page1NumPtr, armBlitX[j], armBlitY[j], armSrcX[j], armSrcY[j], armBlitW[j], armBlitH[j]);
+; Line 146
+					$I1708:
+	*** 000464	8b 76 fe 		mov	si,WORD PTR [bp-2]	;j
+	*** 000467	d1 e6 			shl	si,1
+	*** 000469	ff b4 00 00 		push	WORD PTR _armBlitH[si]
+	*** 00046d	ff b4 00 00 		push	WORD PTR _armBlitW[si]
+	*** 000471	ff b4 00 00 		push	WORD PTR _armSrcY[si]
+	*** 000475	ff b4 00 00 		push	WORD PTR _armSrcX[si]
+	*** 000479	ff b4 00 00 		push	WORD PTR _armBlitY[si]
+	*** 00047d	ff b4 00 00 		push	WORD PTR _armBlitX[si]
+	*** 000481	8b 1e 00 00 		mov	bx,_page1NumPtr
+	*** 000485	ff 37 			push	WORD PTR [bx]
+	*** 000487	e8 00 00 		call	_showSprite
+	*** 00048a	83 c4 0e 		add	sp,14
+;|***     }
+; Line 147
+;|***     if (commData->gfxModeNum == GFX_MODE_MDA || commData->gfxModeNum == GFX_MODE_EGA) { // mda or cga?
+; Line 148
+					$I1707:
+	*** 00048d	c4 1e 00 00 		les	bx,DWORD PTR _commData
+	*** 000491	26 83 7f 78 01 		cmp	WORD PTR es:[bx+120],1
+	*** 000496	74 0a 			je	$I1710
+	*** 000498	26 83 7f 78 02 		cmp	WORD PTR es:[bx+120],2
+	*** 00049d	74 03 			je	$JCC1181
+	*** 00049f	e9 d2 00 		jmp	$I1709
+					$JCC1181:
+					$I1710:
+;|***         gfx_setMonoFlag(*page1NumPtr);
+; Line 149
+	*** 0004a2	8b 1e 00 00 		mov	bx,_page1NumPtr
+	*** 0004a6	ff 37 			push	WORD PTR [bx]
+	*** 0004a8	9a 00 00 00 00 		call	FAR PTR _gfx_setMonoFlag
+	*** 0004ad	83 c4 02 		add	sp,2
+;|***         waitMdaCgaStatus(1);
+; Line 150
+	*** 0004b0	b8 01 00 		mov	ax,1
+	*** 0004b3	50 			push	ax
+	*** 0004b4	e8 00 00 		call	_waitMdaCgaStatus
+	*** 0004b7	83 c4 02 		add	sp,2
+;|***         *page1NumPtr ^= 1;
+; Line 151
+	*** 0004ba	8b 1e 00 00 		mov	bx,_page1NumPtr
+	*** 0004be	80 37 01 		xor	BYTE PTR [bx],1
+;|***         if (a == -1) {
+; Line 152
+	*** 0004c1	83 7e 04 ff 		cmp	WORD PTR [bp+4],-1	;a
+	*** 0004c5	75 24 			jne	$I1711
+;|***             gfx_copyRect(*page2NumPtr, 0, 0, *page1NumPtr, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+; Line 153
+	*** 0004c7	b8 c8 00 		mov	ax,200
+	*** 0004ca	50 			push	ax
+	*** 0004cb	b8 40 01 		mov	ax,320
+	*** 0004ce	50 			push	ax
+	*** 0004cf	2b c0 			sub	ax,ax
+	*** 0004d1	50 			push	ax
+	*** 0004d2	50 			push	ax
+	*** 0004d3	8b 1e 00 00 		mov	bx,_page1NumPtr
+	*** 0004d7	ff 37 			push	WORD PTR [bx]
+	*** 0004d9	50 			push	ax
+	*** 0004da	50 			push	ax
+	*** 0004db	8b 1e 00 00 		mov	bx,_page2NumPtr
+	*** 0004df	ff 37 			push	WORD PTR [bx]
+	*** 0004e1	9a 00 00 00 00 		call	FAR PTR _gfx_copyRect
+	*** 0004e6	83 c4 10 		add	sp,16
+;|***         } else {
+; Line 154
+	*** 0004e9	eb 65 			jmp	SHORT $I1713
+					$I1711:
+;|***             gfx_copyRect(*page2NumPtr, spriteBlitX, spriteBlitY, *page1NumPtr, spriteBlitX, spriteBlitY, spriteBlitW, spriteBlitH);
+; Line 155
+	*** 0004eb	ff 36 00 00 		push	WORD PTR _spriteBlitH
+	*** 0004ef	ff 36 00 00 		push	WORD PTR _spriteBlitW
+	*** 0004f3	ff 36 00 00 		push	WORD PTR _spriteBlitY
+	*** 0004f7	ff 36 00 00 		push	WORD PTR _spriteBlitX
+	*** 0004fb	8b 1e 00 00 		mov	bx,_page1NumPtr
+	*** 0004ff	ff 37 			push	WORD PTR [bx]
+	*** 000501	ff 36 00 00 		push	WORD PTR _spriteBlitY
+	*** 000505	ff 36 00 00 		push	WORD PTR _spriteBlitX
+	*** 000509	8b 1e 00 00 		mov	bx,_page2NumPtr
+	*** 00050d	ff 37 			push	WORD PTR [bx]
+	*** 00050f	9a 00 00 00 00 		call	FAR PTR _gfx_copyRect
+	*** 000514	83 c4 10 		add	sp,16
+;|***             if (a < 5 && enableHighlight != 0) {
+; Line 156
+	*** 000517	83 7e 04 05 		cmp	WORD PTR [bp+4],5	;a
+	*** 00051b	7d 33 			jge	$I1713
+	*** 00051d	83 3e 00 00 00 		cmp	WORD PTR _enableHighlight,0
+	*** 000522	74 2c 			je	$I1713
+;|***                 gfx_switchColor(page1NumPtr, 113, (21 * a) + 0x22, 297, (21 * a) + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
+; Line 157
+	*** 000524	b8 15 00 		mov	ax,21
+	*** 000527	f7 6e 04 		imul	WORD PTR [bp+4]	;a
+	*** 00052a	8b f0 			mov	si,ax
+	*** 00052c	b8 07 00 		mov	ax,7
+	*** 00052f	50 			push	ax
+	*** 000530	b8 08 00 		mov	ax,8
+	*** 000533	50 			push	ax
+	*** 000534	8d 44 2a 		lea	ax,WORD PTR [si+42]
+	*** 000537	50 			push	ax
+	*** 000538	b8 29 01 		mov	ax,297
+	*** 00053b	50 			push	ax
+	*** 00053c	8d 44 22 		lea	ax,WORD PTR [si+34]
+	*** 00053f	50 			push	ax
+	*** 000540	b8 71 00 		mov	ax,113
+	*** 000543	50 			push	ax
+	*** 000544	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 000548	9a 00 00 00 00 		call	FAR PTR _gfx_switchColor
+	*** 00054d	83 c4 0e 		add	sp,14
+;|***             }
+; Line 158
+;|***         }
+; Line 159
+					$I1713:
+;|***         spriteBlitX = armBlitX[j];
+; Line 160
+	*** 000550	8b 76 fe 		mov	si,WORD PTR [bp-2]	;j
+	*** 000553	d1 e6 			shl	si,1
+	*** 000555	8b 84 00 00 		mov	ax,WORD PTR _armBlitX[si]
+	*** 000559	a3 00 00 		mov	_spriteBlitX,ax
+;|***         spriteBlitY = armBlitY[j];
+; Line 161
+	*** 00055c	8b 84 00 00 		mov	ax,WORD PTR _armBlitY[si]
+	*** 000560	a3 00 00 		mov	_spriteBlitY,ax
+;|***         spriteBlitW = armBlitW[j];
+; Line 162
+	*** 000563	8b 84 00 00 		mov	ax,WORD PTR _armBlitW[si]
+	*** 000567	a3 00 00 		mov	_spriteBlitW,ax
+;|***         spriteBlitH = armBlitH[j];
+; Line 163
+	*** 00056a	8b 84 00 00 		mov	ax,WORD PTR _armBlitH[si]
+	*** 00056e	a3 00 00 		mov	_spriteBlitH,ax
+;|***     }
+; Line 164
+;|***     else {
+; Line 165
+	*** 000571	e9 9a 00 		jmp	$I1715
+					$I1709:
+;|***         gfx_setPageN(0);
+; Line 166
+	*** 000574	2b c0 			sub	ax,ax
+	*** 000576	50 			push	ax
+	*** 000577	9a 00 00 00 00 		call	FAR PTR _gfx_setPageN
+	*** 00057c	83 c4 02 		add	sp,2
+;|***         gfx_blitToCurrent(page1Ptr);
+; Line 167
+	*** 00057f	ff 36 00 00 		push	WORD PTR _page1Ptr
+	*** 000583	9a 00 00 00 00 		call	FAR PTR _gfx_blitToCurrent
+	*** 000588	83 c4 02 		add	sp,2
+;|***         spriteBlitX = armBlitX[j];
+; Line 168
+	*** 00058b	8b 76 fe 		mov	si,WORD PTR [bp-2]	;j
+	*** 00058e	d1 e6 			shl	si,1
+	*** 000590	8b 84 00 00 		mov	ax,WORD PTR _armBlitX[si]
+	*** 000594	a3 00 00 		mov	_spriteBlitX,ax
+;|***         spriteBlitY = armBlitY[j];
+; Line 169
+	*** 000597	8b 84 00 00 		mov	ax,WORD PTR _armBlitY[si]
+	*** 00059b	a3 00 00 		mov	_spriteBlitY,ax
+;|***         spriteBlitW = armBlitW[j];
+; Line 170
+	*** 00059e	8b 84 00 00 		mov	ax,WORD PTR _armBlitW[si]
+	*** 0005a2	a3 00 00 		mov	_spriteBlitW,ax
+;|***         spriteBlitH = armBlitH[j];
+; Line 171
+	*** 0005a5	8b 84 00 00 		mov	ax,WORD PTR _armBlitH[si]
+	*** 0005a9	a3 00 00 		mov	_spriteBlitH,ax
+;|***         gfx_copyRect(*page2NumPtr, spriteBlitX, spriteBlitY, *page1NumPtr, spriteBlitX, spriteBlitY, spriteBlitW, spriteBlitH);
+; Line 172
+	*** 0005ac	50 			push	ax
+	*** 0005ad	ff 36 00 00 		push	WORD PTR _spriteBlitW
+	*** 0005b1	ff 36 00 00 		push	WORD PTR _spriteBlitY
+	*** 0005b5	ff 36 00 00 		push	WORD PTR _spriteBlitX
+	*** 0005b9	8b 1e 00 00 		mov	bx,_page1NumPtr
+	*** 0005bd	ff 37 			push	WORD PTR [bx]
+	*** 0005bf	ff 36 00 00 		push	WORD PTR _spriteBlitY
+	*** 0005c3	ff 36 00 00 		push	WORD PTR _spriteBlitX
+	*** 0005c7	8b 1e 00 00 		mov	bx,_page2NumPtr
+	*** 0005cb	ff 37 			push	WORD PTR [bx]
+	*** 0005cd	9a 00 00 00 00 		call	FAR PTR _gfx_copyRect
+	*** 0005d2	83 c4 10 		add	sp,16
+;|***         if (b < 5 && enableHighlight != 0) {
+; Line 173
+	*** 0005d5	83 7e 06 05 		cmp	WORD PTR [bp+6],5	;b
+	*** 0005d9	7d 33 			jge	$I1715
+	*** 0005db	83 3e 00 00 00 		cmp	WORD PTR _enableHighlight,0
+	*** 0005e0	74 2c 			je	$I1715
+;|***             gfx_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
+; Line 174
+	*** 0005e2	b8 15 00 		mov	ax,21
+	*** 0005e5	f7 6e 06 		imul	WORD PTR [bp+6]	;b
+	*** 0005e8	8b f0 			mov	si,ax
+	*** 0005ea	b8 07 00 		mov	ax,7
+	*** 0005ed	50 			push	ax
+	*** 0005ee	b8 08 00 		mov	ax,8
+	*** 0005f1	50 			push	ax
+	*** 0005f2	8d 44 2a 		lea	ax,WORD PTR [si+42]
+	*** 0005f5	50 			push	ax
+	*** 0005f6	b8 29 01 		mov	ax,297
+	*** 0005f9	50 			push	ax
+	*** 0005fa	8d 44 22 		lea	ax,WORD PTR [si+34]
+	*** 0005fd	50 			push	ax
+	*** 0005fe	b8 71 00 		mov	ax,113
+	*** 000601	50 			push	ax
+	*** 000602	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 000606	9a 00 00 00 00 		call	FAR PTR _gfx_switchColor
+	*** 00060b	83 c4 0e 		add	sp,14
+;|***         } //cd9
+; Line 175
+;|***     }
+; Line 176
+					$I1715:
+;|*** }
+; Line 177
+	*** 00060e	5e 			pop	si
+	*** 00060f	8b e5 			mov	sp,bp
+	*** 000611	5d 			pop	bp
+	*** 000612	c3 			ret	
+
+_animateArm	ENDP
+;|*** 
+;|*** int askRepeatMission() {
+; Line 179
+	PUBLIC	_askRepeatMission
+_askRepeatMission	PROC NEAR
+	*** 000613	55 			push	bp
+	*** 000614	8b ec 			mov	bp,sp
+	*** 000616	83 ec 02 		sub	sp,2
+;	keycode = -2
+;|***     char keycode;
+;|***     page1Desc.color = COLOR_BRIEF_DESC_HL;
+; Line 181
+	*** 000619	c7 06 04 00 08 00 	mov	WORD PTR _page1Desc+4,8
+;|***     drawStringCentered(page1NumPtr, aRepeatLastMiss, 0x71, 0x42, 0xb9);
+; Line 182
+	*** 00061f	b8 b9 00 		mov	ax,185
+	*** 000622	50 			push	ax
+	*** 000623	b8 42 00 		mov	ax,66
+	*** 000626	50 			push	ax
+	*** 000627	b8 71 00 		mov	ax,113
+	*** 00062a	50 			push	ax
+	*** 00062b	b8 00 00 		mov	ax,OFFSET _aRepeatLastMiss
+	*** 00062e	50 			push	ax
+	*** 00062f	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 000633	e8 00 00 		call	_drawStringCentered
+	*** 000636	83 c4 0a 		add	sp,10
+;|***     enableHighlight = 0;
+; Line 183
+	*** 000639	c7 06 00 00 00 00 	mov	WORD PTR _enableHighlight,0
+;|***     timerCounter3 = 6;
+; Line 184
+	*** 00063f	c6 06 00 00 06 		mov	BYTE PTR _timerCounter3,6
+;|***     animateArm(armPosition, armPosition);
+; Line 185
+	*** 000644	ff 36 00 00 		push	WORD PTR _armPosition
+	*** 000648	ff 36 00 00 		push	WORD PTR _armPosition
+	*** 00064c	e8 88 fd 		call	_animateArm
+	*** 00064f	83 c4 04 		add	sp,4
+;|***     clearBriefing();
+; Line 186
+	*** 000652	e8 00 00 		call	_clearBriefing
+;|***     keycode = misc_jump_5b_getkey();
+; Line 187
+	*** 000655	9a 00 00 00 00 		call	FAR PTR _misc_jump_5b_getkey
+	*** 00065a	88 46 fe 		mov	BYTE PTR [bp-2],al	;keycode
+;|***     if (keycode == 'Y' || keycode == 'y') {
+; Line 188
+	*** 00065d	3c 59 			cmp	al,89
+	*** 00065f	74 04 			je	$I1719
+	*** 000661	3c 79 			cmp	al,121
+	*** 000663	75 05 			jne	$I1718
+					$I1719:
+;|***         return 1;
+; Line 189
+	*** 000665	b8 01 00 		mov	ax,1
+	*** 000668	eb 04 			jmp	SHORT $EX1716
+;|***     }
+; Line 190
+;|***     return 0;
+; Line 191
+					$I1718:
+	*** 00066a	2b c0 			sub	ax,ax
+	*** 00066c	eb 00 			jmp	SHORT $EX1716
+;|*** }
+; Line 192
+					$EX1716:
+	*** 00066e	8b e5 			mov	sp,bp
+	*** 000670	5d 			pop	bp
+	*** 000671	c3 			ret	
+
+_askRepeatMission	ENDP
+;|*** 
+;|*** void checkDiskA() {
+; Line 194
+	PUBLIC	_checkDiskA
+_checkDiskA	PROC NEAR
+	*** 000672	55 			push	bp
+	*** 000673	8b ec 			mov	bp,sp
+;|***     while ((fileHandle = fopen(aF15_spr_1, aRb_2)) == NULL) {
+; Line 195
+					$FC1722:
+	*** 000675	b8 00 00 		mov	ax,OFFSET _aRb_2
+	*** 000678	50 			push	ax
+	*** 000679	b8 00 00 		mov	ax,OFFSET _aF15_spr_1
+	*** 00067c	50 			push	ax
+	*** 00067d	e8 00 00 		call	_fopen
+	*** 000680	83 c4 04 		add	sp,4
+	*** 000683	a3 00 00 		mov	_fileHandle,ax
+	*** 000686	0b c0 			or	ax,ax
+	*** 000688	75 67 			jne	$FB1723
+;|***         clearBriefing();
+; Line 196
+	*** 00068a	e8 00 00 		call	_clearBriefing
+;|***         drawStringCentered(page1NumPtr, aPleaseReinsert, 0x71, 0x3d, 0xb9);
+; Line 197
+	*** 00068d	b8 b9 00 		mov	ax,185
+	*** 000690	50 			push	ax
+	*** 000691	b8 3d 00 		mov	ax,61
+	*** 000694	50 			push	ax
+	*** 000695	b8 71 00 		mov	ax,113
+	*** 000698	50 			push	ax
+	*** 000699	b8 00 00 		mov	ax,OFFSET _aPleaseReinsert
+	*** 00069c	50 			push	ax
+	*** 00069d	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 0006a1	e8 00 00 		call	_drawStringCentered
+	*** 0006a4	83 c4 0a 		add	sp,10
+;|***         page1NumPtr[6] = FONT_SMALL; // page1Desc.font?
+; Line 198
+	*** 0006a7	8b 1e 00 00 		mov	bx,_page1NumPtr
+	*** 0006ab	c7 47 0c 04 00 		mov	WORD PTR [bx+12],4
+;|***         drawStringCentered(page1NumPtr, aPressSelectorW, 0x71, 0x49, 0xb9);
+; Line 199
+	*** 0006b0	b8 b9 00 		mov	ax,185
+	*** 0006b3	50 			push	ax
+	*** 0006b4	b8 49 00 		mov	ax,73
+	*** 0006b7	50 			push	ax
+	*** 0006b8	b8 71 00 		mov	ax,113
+	*** 0006bb	50 			push	ax
+	*** 0006bc	b8 00 00 		mov	ax,OFFSET _aPressSelectorW
+	*** 0006bf	50 			push	ax
+	*** 0006c0	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 0006c4	e8 00 00 		call	_drawStringCentered
+	*** 0006c7	83 c4 0a 		add	sp,10
+;|***         page1NumPtr[6] = FONT_NORMAL;
+; Line 200
+	*** 0006ca	8b 1e 00 00 		mov	bx,_page1NumPtr
+	*** 0006ce	c7 47 0c 01 00 		mov	WORD PTR [bx+12],1
+;|***         enableHighlight = 0;
+; Line 201
+	*** 0006d3	c7 06 00 00 00 00 	mov	WORD PTR _enableHighlight,0
+;|***         timerCounter3 = 6;
+; Line 202
+	*** 0006d9	c6 06 00 00 06 		mov	BYTE PTR _timerCounter3,6
+;|***         animateArm(armPosition, armPosition);
+; Line 203
+	*** 0006de	ff 36 00 00 		push	WORD PTR _armPosition
+	*** 0006e2	ff 36 00 00 		push	WORD PTR _armPosition
+	*** 0006e6	e8 ee fc 		call	_animateArm
+	*** 0006e9	83 c4 04 		add	sp,4
+;|***         waitJoyKey();
+; Line 204
+	*** 0006ec	e8 00 00 		call	_waitJoyKey
+;|***     }
+; Line 205
+	*** 0006ef	eb 84 			jmp	SHORT $FC1722
+					$FB1723:
+;|***     fclose(fileHandle);
+; Line 206
+	*** 0006f1	ff 36 00 00 		push	WORD PTR _fileHandle
+	*** 0006f5	e8 00 00 		call	_fclose
+	*** 0006f8	83 c4 02 		add	sp,2
+;|***     clearBriefing();
+; Line 207
+	*** 0006fb	e8 00 00 		call	_clearBriefing
+;|*** }
+; Line 208
+	*** 0006fe	8b e5 			mov	sp,bp
+	*** 000700	5d 			pop	bp
+	*** 000701	c3 			ret	
+
+_checkDiskA	ENDP
+;|*** 
+;|*** void missionDecode() {
+; Line 210
+	PUBLIC	_missionDecode
+_missionDecode	PROC NEAR
+	*** 000702	55 			push	bp
+	*** 000703	8b ec 			mov	bp,sp
+;|***     page1Desc.color = COLOR_BRIEF_DESC_NORMAL;
+; Line 211
+	*** 000705	c7 06 04 00 07 00 	mov	WORD PTR _page1Desc+4,7
+;|***     drawStringCentered(page1NumPtr, aDecodingMissio, 0x71, 0x42, 0xb9);
+; Line 212
+	*** 00070b	b8 b9 00 		mov	ax,185
+	*** 00070e	50 			push	ax
+	*** 00070f	b8 42 00 		mov	ax,66
+	*** 000712	50 			push	ax
+	*** 000713	b8 71 00 		mov	ax,113
+	*** 000716	50 			push	ax
+	*** 000717	b8 00 00 		mov	ax,OFFSET _aDecodingMissio
+	*** 00071a	50 			push	ax
+	*** 00071b	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 00071f	e8 00 00 		call	_drawStringCentered
+	*** 000722	83 c4 0a 		add	sp,10
+;|***     enableHighlight = 0;
+; Line 213
+	*** 000725	c7 06 00 00 00 00 	mov	WORD PTR _enableHighlight,0
+;|***     timerCounter3 = 6;
+; Line 214
+	*** 00072b	c6 06 00 00 06 		mov	BYTE PTR _timerCounter3,6
+;|***     animateArm(armPosition, armPosition);
+; Line 215
+	*** 000730	ff 36 00 00 		push	WORD PTR _armPosition
+	*** 000734	ff 36 00 00 		push	WORD PTR _armPosition
+	*** 000738	e8 9c fc 		call	_animateArm
+	*** 00073b	83 c4 04 		add	sp,4
+;|*** }
+; Line 216
+	*** 00073e	8b e5 			mov	sp,bp
+	*** 000740	5d 			pop	bp
+	*** 000741	c3 			ret	
+
+_missionDecode	ENDP
+;|*** 
+;|*** void printMission() {
+; Line 218
+	PUBLIC	_printMission
+_printMission	PROC NEAR
+	*** 000742	55 			push	bp
+	*** 000743	8b ec 			mov	bp,sp
+	*** 000745	83 ec 02 		sub	sp,2
+;	j = -2
+;|***     int j;
+;|***     clearBriefing();
+; Line 220
+	*** 000748	e8 00 00 		call	_clearBriefing
+;|***     page1Desc.color = COLOR_TITLE;
+; Line 221
+	*** 00074b	c7 06 04 00 01 00 	mov	WORD PTR _page1Desc+4,1
+;|***     drawStringCentered(page1NumPtr, aTodaySMission, 0x71, 0x0e, 0xb9);
+; Line 222
+	*** 000751	b8 b9 00 		mov	ax,185
+	*** 000754	50 			push	ax
+	*** 000755	b8 0e 00 		mov	ax,14
+	*** 000758	50 			push	ax
+	*** 000759	b8 71 00 		mov	ax,113
+	*** 00075c	50 			push	ax
+	*** 00075d	b8 00 00 		mov	ax,OFFSET _aTodaySMission
+	*** 000760	50 			push	ax
+	*** 000761	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 000765	e8 00 00 		call	_drawStringCentered
+	*** 000768	83 c4 0a 		add	sp,10
+;|***     drawLine(page1NumPtr, 0xa0, 0x16, 0xf9, 0x16, 1);
+; Line 223
+	*** 00076b	b8 01 00 		mov	ax,1
+	*** 00076e	50 			push	ax
+	*** 00076f	b8 16 00 		mov	ax,22
+	*** 000772	50 			push	ax
+	*** 000773	b8 f9 00 		mov	ax,249
+	*** 000776	50 			push	ax
+	*** 000777	b8 16 00 		mov	ax,22
+	*** 00077a	50 			push	ax
+	*** 00077b	b8 a0 00 		mov	ax,160
+	*** 00077e	50 			push	ax
+	*** 00077f	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 000783	e8 00 00 		call	_drawLine
+	*** 000786	83 c4 0c 		add	sp,12
+;|***     drawStringAt(page1NumPtr, aTakeoffFrom, 0x82, 0x20);
+; Line 224
+	*** 000789	b8 20 00 		mov	ax,32
+	*** 00078c	50 			push	ax
+	*** 00078d	b8 82 00 		mov	ax,130
+	*** 000790	50 			push	ax
+	*** 000791	b8 00 00 		mov	ax,OFFSET _aTakeoffFrom
+	*** 000794	50 			push	ax
+	*** 000795	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 000799	e8 00 00 		call	_drawStringAt
+	*** 00079c	83 c4 08 		add	sp,8
+;|***     page1Desc.color = COLOR_BRIEF_DESC_HL;
+; Line 225
+	*** 00079f	c7 06 04 00 08 00 	mov	WORD PTR _page1Desc+4,8
+;|***     placeString(targets[0].baseIdx);
+; Line 226
+	*** 0007a5	ff 36 04 00 		push	WORD PTR _targets+4
+	*** 0007a9	e8 00 00 		call	_placeString
+	*** 0007ac	83 c4 02 		add	sp,2
+;|***     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x2a, 0xb9);
+; Line 227
+	*** 0007af	b8 b9 00 		mov	ax,185
+	*** 0007b2	50 			push	ax
+	*** 0007b3	b8 2a 00 		mov	ax,42
+	*** 0007b6	50 			push	ax
+	*** 0007b7	b8 71 00 		mov	ax,113
+	*** 0007ba	50 			push	ax
+	*** 0007bb	b8 00 00 		mov	ax,OFFSET _todayMissStrBuf
+	*** 0007be	50 			push	ax
+	*** 0007bf	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 0007c3	e8 00 00 		call	_drawStringCentered
+	*** 0007c6	83 c4 0a 		add	sp,10
+;|***     mystrcpy(todayMissStrBuf, aOnc_2);
+; Line 228
+	*** 0007c9	b8 00 00 		mov	ax,OFFSET _aOnc_2
+	*** 0007cc	50 			push	ax
+	*** 0007cd	b8 00 00 		mov	ax,OFFSET _todayMissStrBuf
+	*** 0007d0	50 			push	ax
+	*** 0007d1	e8 00 00 		call	_mystrcpy
+	*** 0007d4	83 c4 04 		add	sp,4
+;|***     mystrcat(todayMissStrBuf, getItemCoordStr(targets[0].baseIdx));
+; Line 229
+	*** 0007d7	ff 36 04 00 		push	WORD PTR _targets+4
+	*** 0007db	e8 00 00 		call	_getItemCoordStr
+	*** 0007de	83 c4 02 		add	sp,2
+	*** 0007e1	50 			push	ax
+	*** 0007e2	b8 00 00 		mov	ax,OFFSET _todayMissStrBuf
+	*** 0007e5	50 			push	ax
+	*** 0007e6	e8 00 00 		call	_mystrcat
+	*** 0007e9	83 c4 04 		add	sp,4
+;|***     page1Desc.font = FONT_SMALL;
+; Line 230
+	*** 0007ec	c7 06 0c 00 04 00 	mov	WORD PTR _page1Desc+12,4
+;|***     page1Desc.color = COLOR_COORDS;
+; Line 231
+	*** 0007f2	c7 06 04 00 03 00 	mov	WORD PTR _page1Desc+4,3
+;|***     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x34, 0xb9);
+; Line 232
+	*** 0007f8	b8 b9 00 		mov	ax,185
+	*** 0007fb	50 			push	ax
+	*** 0007fc	b8 34 00 		mov	ax,52
+	*** 0007ff	50 			push	ax
+	*** 000800	b8 71 00 		mov	ax,113
+	*** 000803	50 			push	ax
+	*** 000804	b8 00 00 		mov	ax,OFFSET _todayMissStrBuf
+	*** 000807	50 			push	ax
+	*** 000808	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 00080c	e8 00 00 		call	_drawStringCentered
+	*** 00080f	83 c4 0a 		add	sp,10
+;|***     page1Desc.font = FONT_NORMAL;
+; Line 233
+	*** 000812	c7 06 0c 00 01 00 	mov	WORD PTR _page1Desc+12,1
+;|***     page1Desc.color = COLOR_TITLE;
+; Line 234
+	*** 000818	c7 06 04 00 01 00 	mov	WORD PTR _page1Desc+4,1
+;|***     drawStringAt(page1NumPtr, aPrimaryTarget, 0x82, 0x40);
+; Line 235
+	*** 00081e	b8 40 00 		mov	ax,64
+	*** 000821	50 			push	ax
+	*** 000822	b8 82 00 		mov	ax,130
+	*** 000825	50 			push	ax
+	*** 000826	b8 00 00 		mov	ax,OFFSET _aPrimaryTarget
+	*** 000829	50 			push	ax
+	*** 00082a	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 00082e	e8 00 00 		call	_drawStringAt
+	*** 000831	83 c4 08 		add	sp,8
+;|***     page1Desc.color = COLOR_BRIEF_DESC_HL;
+; Line 236
+	*** 000834	c7 06 04 00 08 00 	mov	WORD PTR _page1Desc+4,8
+;|***     placeString(targets[0].targetIdx);
+; Line 237
+	*** 00083a	ff 36 02 00 		push	WORD PTR _targets+2
+	*** 00083e	e8 00 00 		call	_placeString
+	*** 000841	83 c4 02 		add	sp,2
+;|***     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x4a, 0xb9);
+; Line 238
+	*** 000844	b8 b9 00 		mov	ax,185
+	*** 000847	50 			push	ax
+	*** 000848	b8 4a 00 		mov	ax,74
+	*** 00084b	50 			push	ax
+	*** 00084c	b8 71 00 		mov	ax,113
+	*** 00084f	50 			push	ax
+	*** 000850	b8 00 00 		mov	ax,OFFSET _todayMissStrBuf
+	*** 000853	50 			push	ax
+	*** 000854	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 000858	e8 00 00 		call	_drawStringCentered
+	*** 00085b	83 c4 0a 		add	sp,10
+;|***     page1Desc.font = FONT_SMALL;
+; Line 239
+	*** 00085e	c7 06 0c 00 04 00 	mov	WORD PTR _page1Desc+12,4
+;|***     page1Desc.color = COLOR_COORDS;
+; Line 240
+	*** 000864	c7 06 04 00 03 00 	mov	WORD PTR _page1Desc+4,3
+;|***     mystrcpy(todayMissStrBuf, aOnc_0);
+; Line 241
+	*** 00086a	b8 00 00 		mov	ax,OFFSET _aOnc_0
+	*** 00086d	50 			push	ax
+	*** 00086e	b8 00 00 		mov	ax,OFFSET _todayMissStrBuf
+	*** 000871	50 			push	ax
+	*** 000872	e8 00 00 		call	_mystrcpy
+	*** 000875	83 c4 04 		add	sp,4
+;|***     mystrcat(todayMissStrBuf, targets[0].coord);
+; Line 242
+	*** 000878	b8 0a 00 		mov	ax,OFFSET _targets+10
+	*** 00087b	50 			push	ax
+	*** 00087c	b8 00 00 		mov	ax,OFFSET _todayMissStrBuf
+	*** 00087f	50 			push	ax
+	*** 000880	e8 00 00 		call	_mystrcat
+	*** 000883	83 c4 04 		add	sp,4
+;|***     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x54, 0xb9);
+; Line 243
+	*** 000886	b8 b9 00 		mov	ax,185
+	*** 000889	50 			push	ax
+	*** 00088a	b8 54 00 		mov	ax,84
+	*** 00088d	50 			push	ax
+	*** 00088e	b8 71 00 		mov	ax,113
+	*** 000891	50 			push	ax
+	*** 000892	b8 00 00 		mov	ax,OFFSET _todayMissStrBuf
+	*** 000895	50 			push	ax
+	*** 000896	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 00089a	e8 00 00 		call	_drawStringCentered
+	*** 00089d	83 c4 0a 		add	sp,10
+;|***     page1Desc.font = FONT_NORMAL;
+; Line 244
+	*** 0008a0	c7 06 0c 00 01 00 	mov	WORD PTR _page1Desc+12,1
+;|***     page1Desc.color = COLOR_TITLE;
+; Line 245
+	*** 0008a6	c7 06 04 00 01 00 	mov	WORD PTR _page1Desc+4,1
+;|***     drawStringAt(page1NumPtr, aSecondaryTarge, 0x82, 0x60);
+; Line 246
+	*** 0008ac	b8 60 00 		mov	ax,96
+	*** 0008af	50 			push	ax
+	*** 0008b0	b8 82 00 		mov	ax,130
+	*** 0008b3	50 			push	ax
+	*** 0008b4	b8 00 00 		mov	ax,OFFSET _aSecondaryTarge
+	*** 0008b7	50 			push	ax
+	*** 0008b8	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 0008bc	e8 00 00 		call	_drawStringAt
+	*** 0008bf	83 c4 08 		add	sp,8
+;|***     page1Desc.color = COLOR_BRIEF_DESC_HL;
+; Line 247
+	*** 0008c2	c7 06 04 00 08 00 	mov	WORD PTR _page1Desc+4,8
+;|***     placeString(targets[1].targetIdx);
+; Line 248
+	*** 0008c8	ff 36 14 00 		push	WORD PTR _targets+20
+	*** 0008cc	e8 00 00 		call	_placeString
+	*** 0008cf	83 c4 02 		add	sp,2
+;|***     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x6a, 0xb9);
+; Line 249
+	*** 0008d2	b8 b9 00 		mov	ax,185
+	*** 0008d5	50 			push	ax
+	*** 0008d6	b8 6a 00 		mov	ax,106
+	*** 0008d9	50 			push	ax
+	*** 0008da	b8 71 00 		mov	ax,113
+	*** 0008dd	50 			push	ax
+	*** 0008de	b8 00 00 		mov	ax,OFFSET _todayMissStrBuf
+	*** 0008e1	50 			push	ax
+	*** 0008e2	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 0008e6	e8 00 00 		call	_drawStringCentered
+	*** 0008e9	83 c4 0a 		add	sp,10
+;|***     page1Desc.font = FONT_SMALL;
+; Line 250
+	*** 0008ec	c7 06 0c 00 04 00 	mov	WORD PTR _page1Desc+12,4
+;|***     page1Desc.color = COLOR_COORDS;
+; Line 251
+	*** 0008f2	c7 06 04 00 03 00 	mov	WORD PTR _page1Desc+4,3
+;|***     mystrcpy(todayMissStrBuf, aOnc_1);
+; Line 252
+	*** 0008f8	b8 00 00 		mov	ax,OFFSET _aOnc_1
+	*** 0008fb	50 			push	ax
+	*** 0008fc	b8 00 00 		mov	ax,OFFSET _todayMissStrBuf
+	*** 0008ff	50 			push	ax
+	*** 000900	e8 00 00 		call	_mystrcpy
+	*** 000903	83 c4 04 		add	sp,4
+;|***     mystrcat(todayMissStrBuf, targets[1].coord);
+; Line 253
+	*** 000906	b8 1c 00 		mov	ax,OFFSET _targets+28
+	*** 000909	50 			push	ax
+	*** 00090a	b8 00 00 		mov	ax,OFFSET _todayMissStrBuf
+	*** 00090d	50 			push	ax
+	*** 00090e	e8 00 00 		call	_mystrcat
+	*** 000911	83 c4 04 		add	sp,4
+;|***     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x74, 0xb9);
+; Line 254
+	*** 000914	b8 b9 00 		mov	ax,185
+	*** 000917	50 			push	ax
+	*** 000918	b8 74 00 		mov	ax,116
+	*** 00091b	50 			push	ax
+	*** 00091c	b8 71 00 		mov	ax,113
+	*** 00091f	50 			push	ax
+	*** 000920	b8 00 00 		mov	ax,OFFSET _todayMissStrBuf
+	*** 000923	50 			push	ax
+	*** 000924	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 000928	e8 00 00 		call	_drawStringCentered
+	*** 00092b	83 c4 0a 		add	sp,10
+;|***     page1Desc.font = FONT_NORMAL;
+; Line 255
+	*** 00092e	c7 06 0c 00 01 00 	mov	WORD PTR _page1Desc+12,1
+;|***     enableHighlight = 0;
+; Line 256
+	*** 000934	c7 06 00 00 00 00 	mov	WORD PTR _enableHighlight,0
+;|***     setTimerIrqHandler();
+; Line 257
+	*** 00093a	e8 00 00 		call	_setTimerIrqHandler
+;|***     timerCounter3 = 6;
+; Line 258
+	*** 00093d	c6 06 00 00 06 		mov	BYTE PTR _timerCounter3,6
+;|***     animateArm(-1, 6);
+; Line 259
+	*** 000942	b8 06 00 		mov	ax,6
+	*** 000945	50 			push	ax
+	*** 000946	b8 ff ff 		mov	ax,-1
+	*** 000949	50 			push	ax
+	*** 00094a	e8 8a fa 		call	_animateArm
+	*** 00094d	83 c4 04 		add	sp,4
+;|***     for (j = 5; j >= 0; j--) {
+; Line 260
+	*** 000950	c7 46 fe 05 00 		mov	WORD PTR [bp-2],5	;j
+	*** 000955	eb 03 			jmp	SHORT $F1727
+					$FC1728:
+	*** 000957	ff 4e fe 		dec	WORD PTR [bp-2]	;j
+					$F1727:
+	*** 00095a	83 7e fe 00 		cmp	WORD PTR [bp-2],0	;j
+	*** 00095e	7c 10 			jl	$FB1729
+;|***         animateArm(j + 1, j);
+; Line 261
+	*** 000960	ff 76 fe 		push	WORD PTR [bp-2]	;j
+	*** 000963	8b 46 fe 		mov	ax,WORD PTR [bp-2]	;j
+	*** 000966	40 			inc	ax
+	*** 000967	50 			push	ax
+	*** 000968	e8 6c fa 		call	_animateArm
+	*** 00096b	83 c4 04 		add	sp,4
+;|***     }
+; Line 262
+	*** 00096e	eb e7 			jmp	SHORT $FC1728
+					$FB1729:
+;|***     timerCounter = 0;
+; Line 263
+	*** 000970	c6 06 00 00 00 		mov	BYTE PTR _timerCounter,0
+;|***     j++;
+; Line 264
+	*** 000975	ff 46 fe 		inc	WORD PTR [bp-2]	;j
+;|*** printMissionAgain:
+; Line 265
+					$printMissionAgain1730:
+;|***     if (joyOrKey() == 0) {
+; Line 266
+	*** 000978	e8 00 00 		call	_joyOrKey
+	*** 00097b	0b c0 			or	ax,ax
+	*** 00097d	75 3c 			jne	$I1731
+;|***         if (timerCounter >= PRINTMISS_TIMESTEP) {
+; Line 267
+	*** 00097f	80 3e 00 00 64 		cmp	BYTE PTR _timerCounter,100
+	*** 000984	72 33 			jb	$I1733
+;|***             timerCounter = 0;
+; Line 268
+	*** 000986	c6 06 00 00 00 		mov	BYTE PTR _timerCounter,0
+;|***             if (j < 5) {
+; Line 269
+	*** 00098b	83 7e fe 05 		cmp	WORD PTR [bp-2],5	;j
+	*** 00098f	7d 28 			jge	$I1733
+;|***                 animateArm(j, j + 1);
+; Line 270
+	*** 000991	8b 46 fe 		mov	ax,WORD PTR [bp-2]	;j
+	*** 000994	40 			inc	ax
+	*** 000995	50 			push	ax
+	*** 000996	ff 76 fe 		push	WORD PTR [bp-2]	;j
+	*** 000999	e8 3b fa 		call	_animateArm
+	*** 00099c	83 c4 04 		add	sp,4
+;|***                 if (++j != 3) {
+; Line 271
+	*** 00099f	ff 46 fe 		inc	WORD PTR [bp-2]	;j
+	*** 0009a2	83 7e fe 03 		cmp	WORD PTR [bp-2],3	;j
+	*** 0009a6	74 0e 			je	$I1734
+;|***                     animateArm(j, j + 1);
+; Line 272
+	*** 0009a8	8b 46 fe 		mov	ax,WORD PTR [bp-2]	;j
+	*** 0009ab	40 			inc	ax
+	*** 0009ac	50 			push	ax
+	*** 0009ad	ff 76 fe 		push	WORD PTR [bp-2]	;j
+	*** 0009b0	e8 24 fa 		call	_animateArm
+	*** 0009b3	83 c4 04 		add	sp,4
+;|***                 }
+; Line 273
+;|***                 j++;
+; Line 274
+					$I1734:
+	*** 0009b6	ff 46 fe 		inc	WORD PTR [bp-2]	;j
+;|***             }
+; Line 275
+;|***         }
+; Line 276
+					$I1733:
+;|***         goto printMissionAgain;
+; Line 277
+	*** 0009b9	eb bd 			jmp	SHORT $printMissionAgain1730
+;|***     }
+; Line 278
+;|***     for (;j <= 5; j++) {
+; Line 279
+					$I1731:
+	*** 0009bb	eb 03 			jmp	SHORT $F1735
+					$FC1736:
+	*** 0009bd	ff 46 fe 		inc	WORD PTR [bp-2]	;j
+					$F1735:
+	*** 0009c0	83 7e fe 05 		cmp	WORD PTR [bp-2],5	;j
+	*** 0009c4	7f 10 			jg	$FB1737
+;|***         animateArm(j, j + 1);
+; Line 280
+	*** 0009c6	8b 46 fe 		mov	ax,WORD PTR [bp-2]	;j
+	*** 0009c9	40 			inc	ax
+	*** 0009ca	50 			push	ax
+	*** 0009cb	ff 76 fe 		push	WORD PTR [bp-2]	;j
+	*** 0009ce	e8 06 fa 		call	_animateArm
+	*** 0009d1	83 c4 04 		add	sp,4
+;|***     }
+; Line 281
+	*** 0009d4	eb e7 			jmp	SHORT $FC1736
+					$FB1737:
+;|*** 
+;|***     restoreTimerIrqHandler();
+; Line 283
+	*** 0009d6	e8 00 00 		call	_restoreTimerIrqHandler
+;|***     enableHighlight = 1;
+; Line 284
+	*** 0009d9	c7 06 00 00 01 00 	mov	WORD PTR _enableHighlight,1
+;|*** }
+; Line 285
+	*** 0009df	8b e5 			mov	sp,bp
+	*** 0009e1	5d 			pop	bp
+	*** 0009e2	c3 			ret	
+
+_printMission	ENDP
+;|*** 
+;|*** int processStoreInput() {
+; Line 287
+	PUBLIC	_processStoreInput
+_processStoreInput	PROC NEAR
+	*** 0009e3	55 			push	bp
+	*** 0009e4	8b ec 			mov	bp,sp
+	*** 0009e6	83 ec 08 		sub	sp,8
+;	key = -2
+;	n = -8
+;	l = -6
+;	j = -4
+;|***     uint16 key;
+;|***     char n;
+;|***     int l;
+;|***     int j;
+;|***     j = l = 0;
+; Line 292
+	*** 0009e9	2b c0 			sub	ax,ax
+	*** 0009eb	89 46 fa 		mov	WORD PTR [bp-6],ax	;l
+	*** 0009ee	89 46 fc 		mov	WORD PTR [bp-4],ax	;j
+;|***     n = 0;
+; Line 293
+	*** 0009f1	c6 46 f8 00 		mov	BYTE PTR [bp-8],0	;n
+;|***     TRACE(("processStoreInput(): entering"));
+;|***     if (joyRepeatFlag == 1) {
+; Line 295
+	*** 0009f5	83 3e 00 00 01 		cmp	WORD PTR _joyRepeatFlag,1
+	*** 0009fa	75 09 			jne	$I1743
+;|***         timerCounter = 0;
+; Line 296
+	*** 0009fc	c6 06 00 00 00 		mov	BYTE PTR _timerCounter,0
+;|***         n = 1;
+; Line 297
+	*** 000a01	c6 46 f8 01 		mov	BYTE PTR [bp-8],1	;n
+;|***     }
+; Line 298
+;|***     if (commData->setupUseJoy == 1) { //10d8
+; Line 299
+					$I1743:
+	*** 000a05	c4 1e 00 00 		les	bx,DWORD PTR _commData
+	*** 000a09	26 83 7f 72 01 		cmp	WORD PTR es:[bx+114],1
+	*** 000a0e	75 22 			jne	$I1744
+;|***         TRACE(("processStoreInput(): use joy 1"));
+;|***         j = misc_jump_5d_readJoy(0);
+; Line 301
+	*** 000a10	2b c0 			sub	ax,ax
+	*** 000a12	50 			push	ax
+	*** 000a13	9a 00 00 00 00 		call	FAR PTR _misc_jump_5d_readJoy
+	*** 000a18	83 c4 02 		add	sp,2
+	*** 000a1b	89 46 fc 		mov	WORD PTR [bp-4],ax	;j
+;|***         l = misc_jump_5d_readJoy(1);
+; Line 302
+	*** 000a1e	b8 01 00 		mov	ax,1
+	*** 000a21	50 			push	ax
+	*** 000a22	9a 00 00 00 00 		call	FAR PTR _misc_jump_5d_readJoy
+	*** 000a27	83 c4 02 		add	sp,2
+	*** 000a2a	89 46 fa 		mov	WORD PTR [bp-6],ax	;l
+;|***         pollJoystick();
+; Line 303
+	*** 000a2d	9a 00 00 00 00 		call	FAR PTR _pollJoystick
+;|***     }
+; Line 304
+;|***     while ((misc_jump_5a_keybuf() != 0 && j == 0 && l == 0
+; Line 305
+					$I1744:
+;|***         && joyAxes[0] >= JOY_DEADZONE_LO && joyAxes[0] <= JOY_DEADZONE_HI
+;|***         && joyAxes[1] >= JOY_DEADZONE_LO && joyAxes[1] <= JOY_DEADZONE_HI)
+;|***         || n == 1) {
+; Line 308
+	*** 000a32	9a 00 00 00 00 		call	FAR PTR _misc_jump_5a_keybuf
+	*** 000a37	0b c0 			or	ax,ax
+	*** 000a39	74 28 			je	$FB1749
+	*** 000a3b	83 7e fc 00 		cmp	WORD PTR [bp-4],0	;j
+	*** 000a3f	75 22 			jne	$FB1749
+	*** 000a41	83 7e fa 00 		cmp	WORD PTR [bp-6],0	;l
+	*** 000a45	75 1c 			jne	$FB1749
+	*** 000a47	80 3e 00 00 4e 		cmp	BYTE PTR _joyAxes,78
+	*** 000a4c	72 15 			jb	$FB1749
+	*** 000a4e	80 3e 00 00 b2 		cmp	BYTE PTR _joyAxes,178
+	*** 000a53	77 0e 			ja	$FB1749
+	*** 000a55	80 3e 01 00 4e 		cmp	BYTE PTR _joyAxes+1,78
+	*** 000a5a	72 07 			jb	$FB1749
+	*** 000a5c	80 3e 01 00 b2 		cmp	BYTE PTR _joyAxes+1,178
+	*** 000a61	76 06 			jbe	$FB1748
+					$FB1749:
+	*** 000a63	80 7e f8 01 		cmp	BYTE PTR [bp-8],1	;n
+	*** 000a67	75 61 			jne	$FB1747
+					$FB1748:
+;|***         // XXX: case study for instruction skipping in mzdiff, change above while condition to true and uncomment, run mzdiff with refskip 1 tgtskip 2 to repro
+;|***         // if ((((((misc_jump_5a_keybuf() == 0) || (var_2 != 0)) || (var_4 != 0)) ||
+;|***         //     ((joyAxes[0] < 0x4e || (joyAxes[0] > 0xb2)))) ||
+;|***         //     ((joyAxes[1] < 0x4e || (joyAxes[1] > 0xb2)))) && (var_6 != 1)) break;
+;|***         if ((joyRepeatFlag == 1) && (0xf < timerCounter)) { //113f
+; Line 313
+	*** 000a69	83 3e 00 00 01 		cmp	WORD PTR _joyRepeatFlag,1
+	*** 000a6e	75 11 			jne	$I1750
+	*** 000a70	80 3e 00 00 0f 		cmp	BYTE PTR _timerCounter,15
+	*** 000a75	76 0a 			jbe	$I1750
+;|***             TRACE(("processStoreInput(): cond 1"));
+;|***             n = 0;
+; Line 315
+	*** 000a77	c6 46 f8 00 		mov	BYTE PTR [bp-8],0	;n
+;|***             joyRepeatFlag = 0;
+; Line 316
+	*** 000a7b	c7 06 00 00 00 00 	mov	WORD PTR _joyRepeatFlag,0
+;|***         }
+; Line 317
+;|***         if (commData->setupUseJoy == 1) {
+; Line 318
+					$I1750:
+	*** 000a81	c4 1e 00 00 		les	bx,DWORD PTR _commData
+	*** 000a85	26 83 7f 72 01 		cmp	WORD PTR es:[bx+114],1
+	*** 000a8a	75 22 			jne	$I1751
+;|***             TRACE(("processStoreInput(): use joy 2"));
+;|***             j = misc_jump_5d_readJoy(0);
+; Line 320
+	*** 000a8c	2b c0 			sub	ax,ax
+	*** 000a8e	50 			push	ax
+	*** 000a8f	9a 00 00 00 00 		call	FAR PTR _misc_jump_5d_readJoy
+	*** 000a94	83 c4 02 		add	sp,2
+	*** 000a97	89 46 fc 		mov	WORD PTR [bp-4],ax	;j
+;|***             l = misc_jump_5d_readJoy(1);
+; Line 321
+	*** 000a9a	b8 01 00 		mov	ax,1
+	*** 000a9d	50 			push	ax
+	*** 000a9e	9a 00 00 00 00 		call	FAR PTR _misc_jump_5d_readJoy
+	*** 000aa3	83 c4 02 		add	sp,2
+	*** 000aa6	89 46 fa 		mov	WORD PTR [bp-6],ax	;l
+;|***             pollJoystick();
+; Line 322
+	*** 000aa9	9a 00 00 00 00 		call	FAR PTR _pollJoystick
+;|***         }
+; Line 323
+;|***         if (cbreakHit != 0) {
+; Line 324
+					$I1751:
+	*** 000aae	80 3e 00 00 00 		cmp	BYTE PTR _cbreakHit,0
+	*** 000ab3	74 0f 			je	$I1752
+;|***             TRACE(("processStoreInput(): cbreak"));
+;|***             cleanup();
+; Line 326
+	*** 000ab5	e8 00 00 		call	_cleanup
+;|***             restoreCbreakHandler();
+; Line 327
+	*** 000ab8	e8 00 00 		call	_restoreCbreakHandler
+;|***             exit(0);
+; Line 328
+	*** 000abb	2b c0 			sub	ax,ax
+	*** 000abd	50 			push	ax
+	*** 000abe	e8 00 00 		call	_exit
+	*** 000ac1	83 c4 02 		add	sp,2
+;|***         }
+; Line 329
+;|***         // blink cursor on top of current pilot selection
+;|***         blinkPilot();
+; Line 331
+					$I1752:
+	*** 000ac4	e8 00 00 		call	_blinkPilot
+;|***     }
+; Line 332
+	*** 000ac7	e9 68 ff 		jmp	$I1744
+					$FB1747:
+;|***     TRACE(("processStoreInput(): out of while"));
+;|***     if (misc_jump_5a_keybuf() == 0) {
+; Line 334
+	*** 000aca	9a 00 00 00 00 		call	FAR PTR _misc_jump_5a_keybuf
+	*** 000acf	0b c0 			or	ax,ax
+	*** 000ad1	75 0a 			jne	$I1753
+;|***         key = misc_jump_5b_getkey();
+; Line 335
+	*** 000ad3	9a 00 00 00 00 		call	FAR PTR _misc_jump_5b_getkey
+	*** 000ad8	89 46 fe 		mov	WORD PTR [bp-2],ax	;key
+;|***         TRACE(("processStoreInput(): got key 0x%x", key));
+;|***     }
+; Line 337
+;|***     else if (j == 1) {
+; Line 338
+	*** 000adb	eb 5b 			jmp	SHORT $I1763
+					$I1753:
+	*** 000add	83 7e fc 01 		cmp	WORD PTR [bp-4],1	;j
+	*** 000ae1	75 07 			jne	$I1755
+;|***         TRACE(("processStoreInput(): setting enter"));
+;|***         key = KEYCODE_ENTER;
+; Line 340
+	*** 000ae3	c7 46 fe 0d 00 		mov	WORD PTR [bp-2],13	;key
+;|***     }
+; Line 341
+;|***     else if (joyAxes[1] < JOY_DEADZONE_LO) {
+; Line 342
+	*** 000ae8	eb 4e 			jmp	SHORT $I1763
+					$I1755:
+	*** 000aea	80 3e 01 00 4e 		cmp	BYTE PTR _joyAxes+1,78
+	*** 000aef	73 0d 			jae	$I1757
+;|***         TRACE(("processStoreInput(): joy up"));
+;|***         key = KEYCODE_UPARROW;
+; Line 344
+	*** 000af1	c7 46 fe 00 48 		mov	WORD PTR [bp-2],18432	;key
+;|***         joyRepeatFlag = 1;
+; Line 345
+	*** 000af6	c7 06 00 00 01 00 	mov	WORD PTR _joyRepeatFlag,1
+;|***     }
+; Line 346
+;|***     else if (joyAxes[1] > JOY_DEADZONE_HI) {
+; Line 347
+	*** 000afc	eb 3a 			jmp	SHORT $I1763
+					$I1757:
+	*** 000afe	80 3e 01 00 b2 		cmp	BYTE PTR _joyAxes+1,178
+	*** 000b03	76 0d 			jbe	$I1759
+;|***         TRACE(("processStoreInput(): joy dn"));
+;|***         key = KEYCODE_DNARROW;
+; Line 349
+	*** 000b05	c7 46 fe 00 50 		mov	WORD PTR [bp-2],20480	;key
+;|***         joyRepeatFlag = 1;
+; Line 350
+	*** 000b0a	c7 06 00 00 01 00 	mov	WORD PTR _joyRepeatFlag,1
+;|***     }
+; Line 351
+;|***     else if (joyAxes[0] < JOY_DEADZONE_LO) {
+; Line 352
+	*** 000b10	eb 26 			jmp	SHORT $I1763
+					$I1759:
+	*** 000b12	80 3e 00 00 4e 		cmp	BYTE PTR _joyAxes,78
+	*** 000b17	73 0d 			jae	$I1761
+;|***         TRACE(("processStoreInput(): joy left"));
+;|***         key = KEYCODE_LEFTARROW;
+; Line 354
+	*** 000b19	c7 46 fe 00 4b 		mov	WORD PTR [bp-2],19200	;key
+;|***         joyRepeatFlag = 1;
+; Line 355
+	*** 000b1e	c7 06 00 00 01 00 	mov	WORD PTR _joyRepeatFlag,1
+;|***     }
+; Line 356
+;|***     else if (joyAxes[0] > JOY_DEADZONE_HI) {
+; Line 357
+	*** 000b24	eb 12 			jmp	SHORT $I1763
+					$I1761:
+	*** 000b26	80 3e 00 00 b2 		cmp	BYTE PTR _joyAxes,178
+	*** 000b2b	76 0b 			jbe	$I1763
+;|***         TRACE(("processStoreInput(): joy right"));
+;|***         key = KEYCODE_RIGHTARROW;
+; Line 359
+	*** 000b2d	c7 46 fe 00 4d 		mov	WORD PTR [bp-2],19712	;key
+;|***         joyRepeatFlag = 1;
+; Line 360
+	*** 000b32	c7 06 00 00 01 00 	mov	WORD PTR _joyRepeatFlag,1
+;|***     }
+; Line 361
+;|***     if (((uint8*)&key)[0]) {
+; Line 362
+					$I1763:
+	*** 000b38	80 7e fe 00 		cmp	BYTE PTR [bp-2],0	;key
+	*** 000b3c	74 04 			je	$I1764
+;|***         key = key & 0xff;
+; Line 363
+	*** 000b3e	c6 46 ff 00 		mov	BYTE PTR [bp-1],0
+;|***         TRACE(("processStoreInput(): anded to %u", key));
+;|***     }
+; Line 365
+;|***     if (key == KEYCODE_ALTQ) {
+; Line 366
+					$I1764:
+	*** 000b42	81 7e fe 00 10 		cmp	WORD PTR [bp-2],4096	;key
+	*** 000b47	75 0f 			jne	$I1765
+;|***         TRACE(("processStoreInput(): exiting"));
+;|***         cleanup();
+; Line 368
+	*** 000b49	e8 00 00 		call	_cleanup
+;|***         restoreCbreakHandler();
+; Line 369
+	*** 000b4c	e8 00 00 		call	_restoreCbreakHandler
+;|***         exit(0);
+; Line 370
+	*** 000b4f	2b c0 			sub	ax,ax
+	*** 000b51	50 			push	ax
+	*** 000b52	e8 00 00 		call	_exit
+	*** 000b55	83 c4 02 		add	sp,2
+;|***     }
+; Line 371
+;|***     TRACE(("processStoreInput(): tail returning 0x%x", key));
+; Line 372
+					$I1765:
+;|***     return key;
+; Line 373
+	*** 000b58	8b 46 fe 		mov	ax,WORD PTR [bp-2]	;key
+	*** 000b5b	eb 00 			jmp	SHORT $EX1738
+;|*** }
+; Line 374
+					$EX1738:
+	*** 000b5d	8b e5 			mov	sp,bp
+	*** 000b5f	5d 			pop	bp
+	*** 000b60	c3 			ret	
+
+_processStoreInput	ENDP
+;|*** 
+;|*** void clearBriefing(void)
+;|*** {
+; Line 377
+	PUBLIC	_clearBriefing
+_clearBriefing	PROC NEAR
+	*** 000b61	55 			push	bp
+	*** 000b62	8b ec 			mov	bp,sp
+;|***     // clear briefing board
+;|***     clearRect(page1NumPtr, 113, 13, 297, 126);
+; Line 379
+	*** 000b64	b8 7e 00 		mov	ax,126
+	*** 000b67	50 			push	ax
+	*** 000b68	b8 29 01 		mov	ax,297
+	*** 000b6b	50 			push	ax
+	*** 000b6c	b8 0d 00 		mov	ax,13
+	*** 000b6f	50 			push	ax
+	*** 000b70	b8 71 00 		mov	ax,113
+	*** 000b73	50 			push	ax
+	*** 000b74	ff 36 00 00 		push	WORD PTR _page1NumPtr
+	*** 000b78	e8 00 00 		call	_clearRect
+	*** 000b7b	83 c4 0a 		add	sp,10
+;|*** }
+; Line 380
+	*** 000b7e	8b e5 			mov	sp,bp
+	*** 000b80	5d 			pop	bp
+	*** 000b81	c3 			ret	
+
+_clearBriefing	ENDP
+_TEXT	ENDS
+END
