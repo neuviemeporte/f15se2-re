@@ -210,14 +210,17 @@ void sub_17594(int param_1)
 
                 i = *(int16 *)&stru_3B202[param_1].state[14];
 
-                if (g >> 1 < *(uint16 *)&sams[i].field_8 &&
-                    (unsigned)(-(word_330B8 * 3 - 0x10)) < g &&
-                    g < 0x1000 &&
-                    i != 0) {
+                if (sams[i].field_8 > (g >> 1)) {
+                if ((unsigned)(-(word_330B8 * 3 - 0x10)) < g) {
+                if (g < 0x1000) {
+                if (i != 0) {
 
                     /* launch missile into slot j */
+                    i = i;
                     stru_335C4[j].mapX = stru_3B202[param_1].posX;
                     stru_335C4[j].mapY = stru_3B202[param_1].posY;
+                    j = j;
+                    param_1 = param_1;
                     stru_335C4[j].alt = stru_3B202[param_1].alt - 0x19;
                     stru_335C4[j].field_6 = sams[i].field_A >> 6;
                     stru_335C4[j].worldX = *(int16 *)&stru_3B202[param_1].state[0];
@@ -227,8 +230,10 @@ void sub_17594(int param_1)
                     stru_335C4[j].ttl = (int)((((long)sams[i].field_8 << 3) * (long)word_330C4) / (long)stru_335C4[j].field_6);
 
                     *(int16 *)&stru_335C4[j].state[0] = i;
+                    j = j;
                     *(int16 *)&stru_335C4[j].state[6] = -param_1;
 
+                    i = i;
                     strcpy((char *)strBuf, (char *)&sams[i].field_0);
                     strcat((char *)strBuf, (char *)aFiredBy);
                     strcat((char *)strBuf, (char *)(var_667 * 32 + 0x2c8));
@@ -241,6 +246,9 @@ void sub_17594(int param_1)
                     if (randomRange(4) == 0) {
                         stru_3B202[param_1].state[8] |= 4;
                     }
+                }
+                }
+                }
                 }
             }
         }
