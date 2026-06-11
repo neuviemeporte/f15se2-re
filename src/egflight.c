@@ -587,6 +587,372 @@ end:
     ;
 }
 
+// ==== seg000:0x67b4 ====
+#define ENT_FLAGS(v) (*(uint16 *)&stru_3B202[(v)].state[14])
+void updateObjects(void)
+{
+    int p0, p, pa, a, b, r, s, c, d, t, u0, e0, f, e1, u2, w, x, h, v3, y, j, g3, k, aj, z2, l, m0, m, ma, n;
+
+    if ((frameTick & 1) == 0 && word_336F6 == -1) {
+        *(int16 *)((char *)stru_33402 + ((frameTick >> 1) & 7) * 8) = 0;
+    }
+
+    *(int16 *)((char *)&word_3C5AC + (((frameTick >> 2) & 3) + word_3AFA4) * 12) = 0;
+
+    word_3A946 = var_668;
+    var_668 = 0;
+    for (h = 0; h < word_3C046; h++) {
+    if (*(uint8 *)&stru_3B202[h].state[14] & 1) {
+    var_667 = *(int16 *)&stru_3B202[h].state[12];
+    if ((*(uint8 *)&stru_3B202[h].state[14] & 2) && *(int16 *)&stru_3B202[h].state[16] != 0) {
+    w = 0;
+    if (!(*(uint8 *)&stru_3B202[h].state[14] & 4)) {
+    if (word_336F0 != 0 && (!(ENT_FLAGS(h) & 0x140) || word_336F0 > word_3995C)) {
+        k = word_3B4D8;
+        m = word_3B4E0;
+        n = word_3B5D6;
+        w = 1;
+        if (word_333DA != 0) goto padlock_target;
+        goto got_target;
+    }
+
+    w = 3;
+    if (ENT_FLAGS(h) & 0x100) {
+    if (word_336FC != -1) {
+        k = sinMul((h & 7) * 0x800 + *(int16 *)&stru_3B202[word_336FC].state[6] - 0x1800,
+                      *(int16 *)&stru_3B202[word_336FC].state[16])
+            + stru_3B202[word_336FC].posX;
+
+        m = stru_3B202[word_336FC].posY -
+            cosMul((h & 7) * 0x800 + *(int16 *)&stru_3B202[word_336FC].state[6] - 0x1800,
+                      *(int16 *)&stru_3B202[word_336FC].state[16]);
+
+        n = stru_3B202[word_336FC].alt + (h & 7) * 0x40;
+        goto set_target_alt;
+    }
+    }
+
+    if (((uint8)h * 8 + (uint8)word_38FE0) & 0xbf) goto after_retarget;
+    if (!(*(uint8 *)&stru_3B202[h].state[14] & 0x40)) {
+    f = 0x7fff;
+    pa = computeBearing(word_3BEC0 - stru_3B202[h].posX,
+                   stru_3B202[h].posY - word_3BED0);
+    for (y = 0; y < 8; y++) {
+        s = randomRange(word_3BED2) + 1;
+        if (!(stru_3AA5E[s].flags & 0x400)) {
+            p0 = computeBearing(stru_3AA5E[s].mapX - stru_3B202[h].posX,
+                          stru_3B202[h].posY - stru_3AA5E[s].mapY);
+            if (abs(pa - p0) < f) {
+                f = abs(pa - p0);
+                stru_3B202[h].objType = s;
+                if (-(word_330B8 * 0x1000 - 0x4000) > (int)f) break;
+            }
+        }
+    }
+    if ((unsigned)rangeApprox(word_3BEC0 - stru_3B202[h].posX,
+                  word_3BED0 - stru_3B202[h].posY) >> 6 > 0x15e && h != 0) {
+        ENT_FLAGS(h) &= 0x1c1;
+        *(int16 *)&stru_3B202[h].state[18] = 0;
+    }
+    }
+
+after_retarget:
+    s = *(int16 *)&stru_3B202[h].objType;
+    k = stru_3AA5E[s].mapX;
+    m = stru_3AA5E[s].mapY;
+    n = clampRange(var_547 + 1000, 5000, 20000);
+set_target_alt:
+    n = n;
+    goto got_target;
+padlock_target:
+    k = word_333D2;
+    m = word_333D4;
+    n = clampRange(var_547, 1000, 30000);
+    goto got_target;
+    }
+
+    k = stru_3AA5E[*(int16 *)&stru_3B202[h].objType].mapX;
+    if (ENT_FLAGS(h) & 0x200) {
+        n = stru_3B202[h].posX - k;
+        m = stru_3AA5E[*(int16 *)&stru_3B202[h].objType].mapY;
+        k = k - n * 2;
+        n = ((stru_3AA5E[*(int16 *)&stru_3B202[h].objType].flags + abs(n)) & 0x200)
+            ? 0x8c : 0x0c;
+    } else {
+        m = stru_3AA5E[*(int16 *)&stru_3B202[h].objType].mapY + word_3AFA8 * 0x500;
+        n = rangeApprox(stru_3B202[h].posX - k,
+                      stru_3B202[h].posY - m) + 2000;
+    }
+    w = 2;
+
+got_target:
+    if (w == 3 && (*(uint8 *)&stru_3B202[h].state[14] & 8)) {
+        k = word_3BEC0;
+        m = word_3BED0;
+        n = stru_3B202[h].alt;
+    }
+    aj = k - stru_3B202[h].posX;
+    z2 = m - stru_3B202[h].posY;
+    b = computeBearing(aj, -z2);
+    e1 = rangeApprox(aj, z2);
+    p = computeBearing((n - stru_3B202[h].alt) >> 5, e1);
+    p = clampRange(p, -0x2000, 0x1000);
+    if (w == 1 && (unsigned)e1 < 0x600) {
+    var_668++;
+    if ((unsigned)e1 >= 0x400) goto after_missile_table;
+    if (frameTick & 3) goto after_missile_table;
+    if (abs(*(int16 *)&stru_3B202[h].state[6] - b) >= 0x800) goto after_missile_table;
+    if (abs(*(int16 *)&stru_3B202[h].state[8] - p) >= 0x800) goto after_missile_table;
+
+    g3 = ((frameTick >> 2) & 3) + word_3AFA4;
+    v3 = 0x138 / word_330C4;
+    *(int16 *)((char *)&word_3C5B6 + g3 * 12) = sinMul(-*(int16 *)&stru_3B202[h].state[8], v3) << 5;
+    v3 = cosMul(*(int16 *)&stru_3B202[h].state[8], v3);
+    *(int16 *)((char *)&word_3C5B2 + g3 * 12) = sinMul(*(int16 *)&stru_3B202[h].state[6], v3);
+    *(int16 *)((char *)&word_3C5B4 + g3 * 12) = -cosMul(*(int16 *)&stru_3B202[h].state[6], v3);
+    *(int16 *)((char *)&word_3C5AC + g3 * 12) = stru_3B202[h].posX;
+    *(int16 *)((char *)&word_3C5AE + g3 * 12) = stru_3B202[h].posY;
+    *(int16 *)((char *)&word_3C5B0 + g3 * 12) = stru_3B202[h].alt;
+
+after_missile_table:
+    a = clampRange((h & 3) + word_330B8, 0, 2);
+    if (h == 0) a = 1;
+    d = *(int16 *)&stru_3B202[h].state[6];
+    if (abs(*(int16 *)&stru_3B202[h].state[10]) < 0x4000) {
+        d += *(int16 *)&stru_3B202[h].state[10] >> 2;
+    }
+    r = (int)(b - d) >> 13 & 7;
+    d = var_542;
+    if (abs(var_545) < 0x4000) {
+        d += var_545 >> 1;
+    }
+    t = ((*(int16 *)&stru_3B202[h].state[6] - d) >> 13) + 4 & 7;
+    {
+        register int ak;
+        ak = *(int16 *)((char *)&word_33442 + 2 + a * 128 + r * 16 + t * 2);
+        l = (ak & 0xf) << 12;
+        if (ak == 0x100) {
+            p = 0x6000;
+            l = ((frameTick >> 8) & 8) * 0x1000 - 0x4000;
+        }
+    }
+    if (*(int16 *)((char *)&word_33442 + 2 + a * 128 + r * 16 + t * 2) == 0x200) {
+        p = (int16)0xa000;
+        l = (((frameTick >> 8) & 8) - 4) * -0x1000;
+    }
+    if (p == (int16)0xa000) {
+        if (-((*(int16 *)&stru_3B202[h].state[8] >> 3) - 3000) > stru_3B202[h].alt) {
+            p = *(int16 *)&stru_3B202[h].state[8] + 0x1000;
+        }
+    }
+    if (abs(*(int16 *)&stru_3B202[h].state[10]) > 0x4000) {
+        p = l = 0;
+    }
+    goto after_accel;
+    }
+
+    l = clampRange(b - *(int16 *)&stru_3B202[h].state[6], -0x3000, 0x3000) << 1;
+    if (w == 1 && word_330B8 + 1 <= word_3A946) {
+        l = 0x3000;
+    }
+
+after_accel:
+    if (w == 1 && (stru_3AA5E[word_3C16A].flags & 0x400) && word_38FEE < 0x780) {
+        l = 0x3000;
+    }
+
+    l = clampRange(l, -*(int16 *)(aFlogger + var_667 * 32 + 14) * 0x1000,
+                  *(int16 *)(aFlogger + var_667 * 32 + 14) * 0x1000);
+    l = clampRange(l - *(int16 *)&stru_3B202[h].state[10],
+                  -*(int16 *)(aFlogger + var_667 * 32 + 14) * 256,
+                  *(int16 *)(aFlogger + var_667 * 32 + 14) * 256);
+
+    if (ENT_FLAGS(h) & 0x400) {
+        if (*(int16 *)&stru_3B202[h].state[16] < 0x96) {
+            *(int16 *)&stru_3B202[h].state[8] = 0;
+        } else {
+            *(int16 *)&stru_3B202[h].state[8] += 0x100;
+        }
+        l = 0;
+        if (*(int16 *)&stru_3B202[h].state[16] < *(int16 *)(aFlogger + var_667 * 32 + 10)) {
+            *(int16 *)&stru_3B202[h].state[16] += 0x3c / word_330C4;
+        } else if (stru_3B202[h].alt > 300) {
+            stru_3B202[h].state[15] &= 0xfb;
+        }
+    }
+
+    if (*(uint8 *)&stru_3B202[h].state[14] & 0x30) {
+        l = 0x400;
+    }
+
+    if (((uint8)h & 3) == (frameTick & 3)) {
+        projectWorldPos(stru_3B202[h].posX,
+                  stru_3B202[h].posY,
+                  stru_3B202[h].alt);
+        if (*(int8 *)&var_315 != 0) {
+            stru_3B202[h].state[15] |= 0x20;
+        } else {
+            stru_3B202[h].state[15] &= 0xdf;
+        }
+    }
+
+    if (ENT_FLAGS(h) & 0x2000) {
+        p = 0x3000;
+    }
+
+    if (word_38FE0 < 10) {
+        l >>= 2;
+    }
+
+    {
+    register int u = h * 0x24;
+    *(int16 *)&stru_3B202[h].state[10] += (l * (word_330B8 + 2)) / word_330C4;
+    *(int16 *)&stru_3B202[h].state[6] += (*(int16 *)&stru_3B202[h].state[10] >> 3) / word_330C4;
+
+    j = p - *(int16 *)&stru_3B202[h].state[8];
+    if (!(*(uint8 *)&stru_3B202[h].state[14] & 0x20)) goto no_smoke;
+    j = -0x200;
+    if (frameTick & 3) goto no_smoke;
+    ma = (frameTick >> 1) & 7;
+    ((struct struc_9 *)stru_33402)[ma].field_0 = *(int16 *)((char *)stru_3B202 + u + 2);
+    }
+    {
+    register int t = ma * 8;
+    register int v = h * 0x24;
+    *(int16 *)((char *)stru_33402 + t + 2) = *(int16 *)((char *)stru_3B202 + v + 4);
+    *(int16 *)((char *)stru_33402 + t + 4) = *(int16 *)((char *)stru_3B202 + v + 6);
+    *(int16 *)((char *)stru_33402 + t + 6) = randomRange(0x20) << 11;
+    word_33442 = ma;
+    }
+no_smoke:
+
+    if (*(int16 *)&stru_3B202[h].state[8] < 0 &&
+        -(sinMul(*(int16 *)&stru_3B202[h].state[8], 2000) - 200) > stru_3B202[h].alt &&
+        (ENT_FLAGS(h) & 0x220) == 0) {
+        j = 0x400;
+    }
+
+    j = clampRange(j, -0x400, 0x400);
+    *(int16 *)&stru_3B202[h].state[8] += (j << 2) / word_330C4;
+    if (abs(*(int16 *)&stru_3B202[h].state[8]) > 0x4000) {
+        *(int8 *)((char *)&stru_3B202[h].state[6] + 1) += (char)0x80;
+        *(int8 *)((char *)&stru_3B202[h].state[10] + 1) += (char)0x80;
+        *(int16 *)&stru_3B202[h].state[8] = (int16)0x8000 - *(int16 *)&stru_3B202[h].state[8];
+    }
+
+    *(uint8 *)&stru_3B202[h].state[14] &= 0xef;
+
+    u2 = (int)((unsigned long)(unsigned)(-(*(int16 *)&stru_3B202[h].state[8] / 2 + (int16)0x8000))
+            * (long)*(int16 *)&stru_3B202[h].state[16] >> 14);
+    u2 -= abs(sinMul(*(int16 *)&stru_3B202[h].state[10], u2)) >> 1;
+    u2 = u2 * 4 / word_330C4;
+    u2 >>= 2;
+
+    m0 = cosMul(*(int16 *)&stru_3B202[h].state[8], u2);
+
+    stru_3B202[h].worldX += (long)sinMul(*(int16 *)&stru_3B202[h].state[6], m0);
+    stru_3B202[h].worldY -= (long)cosMul(*(int16 *)&stru_3B202[h].state[6], m0);
+
+    stru_3B202[h].alt += sinMul(*(int16 *)&stru_3B202[h].state[8], u2);
+
+    stru_3B202[h].posX = (int16)(stru_3B202[h].worldX >> 5);
+    stru_3B202[h].posY = (int16)(stru_3B202[h].worldY >> 5);
+
+    if (stru_3B202[h].alt <= 30000) goto alt_ok;
+    *(int16 *)&stru_3B202[h].state[8] = 0;
+alt_ok:
+
+    if (stru_3B202[h].alt < 0) {
+        ENT_FLAGS(h) &= (h != 0) ? 0x1c1 : 0;
+        word_3BEBC = stru_3B202[h].posX;
+        word_3BEC8 = stru_3B202[h].posY;
+        word_3BECE = stru_3B202[h].alt;
+        word_39606 = -8;
+        if (h == word_336F2) {
+            word_336F2 = -1;
+        }
+    }
+
+    if ((unsigned)e1 < 0x10 && w == 2) {
+        if (ENT_FLAGS(h) & 0x200) {
+            ENT_FLAGS(h) |= 0x1000;
+        } else {
+            ENT_FLAGS(h) |= 0x200;
+        }
+    }
+
+    if (ENT_FLAGS(h) & 0x1000) {
+        *(int16 *)&stru_3B202[h].state[10] = *(int16 *)&stru_3B202[h].state[8] = 0;        *(int16 *)&stru_3B202[h].state[6] = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
+        stru_3B202[h].alt = (stru_3AA5E[word_3C16A].flags & 0x200) ? 0x8c : 0x0c;
+        if (*(int16 *)&stru_3B202[h].state[16] > 0) {
+            *(int16 *)&stru_3B202[h].state[16] -= 0x78 / word_330C4;
+        } else {
+            ENT_FLAGS(h) &= 0x1c1;
+            if (h == 0 && word_3B144 >= 5) {
+                ENT_FLAGS(h) = 0;
+            }
+        }
+        if (h >= word_3C046 - 4 && *(int16 *)&stru_3B202[h].state[16] < 100) {
+            ENT_FLAGS(h) &= 0x1c1;
+            ENT_FLAGS(h) |= 0x406;
+        }
+    }
+
+    if (--*(int16 *)&stru_3B202[h].state[18] == 0) {
+        *(uint8 *)&stru_3B202[h].state[14] |= 4;
+        f = 0x7fff;
+        for (y = 3; y < word_3C69E; y++) {
+            if ((stru_3AA5E[y].flags & 0x101) == 1) {
+                ma = rangeApprox(stru_3B202[h].posX - stru_3AA5E[y].mapX,
+                              stru_3B202[h].posY - stru_3AA5E[y].mapY);
+                if (ma < f) {
+                    *(int16 *)&stru_3B202[h].objType = y;
+                    f = ma;
+                }
+            }
+        }
+    }
+
+    *(int16 *)&stru_3B202[h].state[22] = readMapPixelColor(
+        stru_3B202[h].posX,
+        stru_3B202[h].posY);
+
+    {
+    register char o;
+    o = *(uint8 *)&stru_3B202[h].state[14];
+    if ((o & 2) &&
+        (x = (((uint8)h & 8) >> 3) + (h & 7) * 2,
+         frameTick % (word_330C4 << 4) == x * word_330C4) &&
+        !(o & 0x20)) {
+        fireAirThreat(h);
+    }
+    }
+    } else {
+    if (((uint8)h & 7) == (((uint8)(word_38FE0 >> 4)) & 7)) {
+    if (h < word_3C046 - 4) {
+    if (h != 0) {
+    if (0xe0 / (word_330B8 + 2) < word_38FE0 - var_556) {
+    s = randomRange(word_3C69E);
+    if (word_336F0 != 0 || (*(uint8 *)&stru_3B202[h].state[14] & 0x80)) {
+    if ((stru_3AA5E[s].flags & 0x181) == 1) {
+    if (*(int16 *)&stru_3B202[h].state[12] == stru_3AA5E[s].field_8) {
+    if (word_330B8 * 2 >= word_3A946) {
+    aj = word_3B4D8 - stru_3AA5E[s].mapX;
+    z2 = word_3B4E0 - stru_3AA5E[s].mapY;
+    e1 = (unsigned)rangeApprox(aj, z2) >> 6;
+    c = *(int16 *)(aFlogger + var_667 * 32 + 12);
+    if ((unsigned)(c / 2) > (unsigned)e1) {
+        var_556 = word_38FE0;
+        spawnEnemyAircraft(h, s);
+        scheduleEventCheck(h + 0x20, 2);
+    }
+    }}}}}}}}
+    }
+    }
+    }
+}
+#undef ENT_FLAGS
+
 // ==== seg000:0x8df4 ====
 void projectWorldPos(int worldX, int worldY, int worldZ) {
     *(char *)&var_315 = 0;

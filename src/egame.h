@@ -262,7 +262,7 @@ void sub_166BE();
 // ==== seg000:0x6742 ====
 int computeThreatScore();
 // ==== seg000:0x67b4 ====
-int updateObjects();
+void updateObjects(void);
 // ==== seg000:0x7594 ====
 void fireAirThreat(int param_1);
 // ==== seg000:0x783a ====
@@ -1338,6 +1338,7 @@ extern uint16 uvar_547;    /* unsigned alias of var_547 (same address) */
 extern uint16 var_548;
 extern int16 var_549;
 extern int16 var_552;
+extern int16 var_556;
 extern int16 var_588;
 extern int16 var_589;
 extern int16 var_590;
@@ -1795,6 +1796,7 @@ extern int16 var_662;
 extern int16 var_663;
 extern int16 var_664;
 extern int16 var_667;
+extern int16 var_668;
 extern int16 var_669;
 extern int16 var_670;
 extern int16 var_671;
