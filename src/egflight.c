@@ -175,7 +175,7 @@ int computeThreatScore(void) {
 }
 
 // TODO: updateObjects (seg000:67b4-7593) - large unimplemented function
-void sub_17594(int param_1)
+void fireAirThreat(int param_1)
 {
     int p, a, b, c, d, e, f;
     unsigned g;
@@ -592,4 +592,3 @@ void projectWorldPos(int worldX, int worldY, int worldZ) {
     *(char *)&var_315 = 0;
     drawNearestTileObject((int32)worldX << 5, -((int32)worldY - 0x8000L) << 5, (int32)worldZ);
 }
-

@@ -182,9 +182,8 @@ EXTRN _appendMapEvent:PROC
 EXTRN _drawWeaponAmmo:PROC
 EXTRN _drawWeaponSelectMarker:PROC
 EXTRN _scaleCoordToLod:PROC
-EXTRN _sub_17594:NEAR
-sub_17594 equ _sub_17594
-fireAirThreat equ _sub_17594
+EXTRN _fireAirThreat:NEAR
+fireAirThreat equ _fireAirThreat
 EXTRN _sub_11971:PROC
 EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC

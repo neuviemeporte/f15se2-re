@@ -264,7 +264,7 @@ int computeThreatScore();
 // ==== seg000:0x67b4 ====
 int updateObjects();
 // ==== seg000:0x7594 ====
-void sub_17594(int param_1);
+void fireAirThreat(int param_1);
 // ==== seg000:0x783a ====
 void spawnEnemyAircraft(int slot, int objType);
 // ==== seg000:0x79ee ====
