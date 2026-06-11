@@ -118,7 +118,7 @@ int FAR CDECL audio_jump_66(int param);
 int FAR CDECL audio_jump_67(); /* intro music? */
 int FAR CDECL audio_jump_68();
 int FAR CDECL audio_jump_69();
-int FAR CDECL audio_jump_6a();
+int FAR CDECL audio_jump_6a(int knots, int thrust);
 int FAR CDECL audio_jump_6b();
 int FAR CDECL audio_jump_6c();
 int FAR CDECL audio_jump_6d(int param_1);

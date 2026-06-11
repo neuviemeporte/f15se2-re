@@ -651,3 +651,40 @@ int audio_jump_6d(int a) { return 0; }
 /* projectObjects: eg3d_a.c calls the 8-int form; eg3d_b.c defines a
    different (int,int,long,long,long) overload. Stub the called form. */
 void projectObjects(int a,int b,int c,int d,int e,int f,int g,int h) {}
+
+/* --- Data symbols referenced by otherKeyDispatch (moved from egame_rc.asm
+   to C in eghud.c). The DOS build defines these in egame_rc.asm's DATA
+   segment; the 64-bit stub build needs C definitions to link. --- */
+uint8 byte_37F98;
+uint8 byte_37F99;
+uint8 byte_37FEC[128];     /* indexed by (roll>>8)&0x7f */
+char  byte_380DD;
+uint8 byte_3C6A0[1];
+uint8 joyAxes_2[1];
+uint8 unk_38092[64];
+uint8 unk_38FD0[32];       /* g-meter string buffer */
+int16 word_38080;
+int16 word_38084;
+int16 word_3808C;
+int16 word_38090;
+int16 word_3809A;
+int16 word_3809C;
+int16 word_380A0;
+int16 word_380A2;
+int16 word_380A4;
+int16 word_380A6;
+int16 word_380AA;
+int16 word_380AC;
+int16 word_380E0;
+int16 word_380E2;
+int16 word_38602;
+int   word_38FDA;
+int16 word_3A8FE;
+int16 word_3AFA6;
+int16 word_3B204;
+int16 word_3B206;
+int16 word_3B4DA;
+int   word_3C00E;
+int16 word_3C5A4;
+
+int audio_jump_6a(int knots, int thrust) { return 0; }

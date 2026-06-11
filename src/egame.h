@@ -413,6 +413,7 @@ int shapeDataOffset(int param_1);
 int clampRange(int value, int minVal, int maxVal);
 // ==== seg000:0xcf8e ====
 int forceRange();
+int sub_1CF8E(int value, int min, int max);
 // ==== seg000:0xcfa6 ====
 int rangeApprox(int dx, int dy);
 // ==== seg000:0xd008 ====
