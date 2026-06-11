@@ -1107,7 +1107,8 @@ void computeHudAttitude(void)
             var_545 = 0x8000 - var_545;
         }
         if (var_526 < 0 && var_527 > 0) {
-            var_545 = -var_545;
+            /* Force MSC to emit sub ax, ax; sub ax, var_545. */
+            var_545 = 0x10000 - var_545;
         }
     } else {
         var_545 = 0;
