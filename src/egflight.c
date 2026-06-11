@@ -175,7 +175,92 @@ int computeThreatScore(void) {
 }
 
 // TODO: updateObjects (seg000:67b4-7593) - large unimplemented function
-// TODO: fireAirThreat (seg000:7594-7839) - unimplemented
+void fireAirThreat(int param_1)
+{
+    int p, a, b, c, d, e, f;
+    unsigned g;
+    int h, i, j, k, l, m, n;
+
+    i = *(int16 *)&aFlogger[var_667 * 32 + 16];
+
+    m = computeThreatRangeBearing(
+        stru_3B202[param_1].posX,
+        stru_3B202[param_1].posY,
+        stru_3B202[param_1].alt,
+        i,
+        &d, (int *)&g);
+
+    word_336FA = 4;
+
+    if ((unsigned)m > g) {
+        /* close enough — increment heat */
+        *(int16 *)&stru_3B202[param_1].state[18] += ((word_330BA + word_330B8) * 16 + 0x20) >> ((planeFlags & 0x10) != 0);
+
+        if (*(int16 *)&stru_3B202[param_1].state[18] > 0xc0) {
+            word_3C09C++;
+            stru_3B202[param_1].state[9] |= 0x40;
+            sub_166BE();
+
+            j = param_1 % (word_330B8 + 1);
+
+            if (word_330B8 * 2 >= word_3A946 &&
+                stru_335C4[j].ttl == 0 &&
+                g > 8 &&
+                abs(d - *(int16 *)&stru_3B202[param_1].state[0]) < 0x1800) {
+
+                i = *(int16 *)&stru_3B202[param_1].state[14];
+
+                if (sams[i].field_8 > (g >> 1)) {
+                if ((unsigned)(-(word_330B8 * 3 - 0x10)) < g) {
+                if (g < 0x1000) {
+                if (i != 0) {
+
+                    /* launch missile into slot j */
+                    i = i;
+                    stru_335C4[j].mapX = stru_3B202[param_1].posX;
+                    stru_335C4[j].mapY = stru_3B202[param_1].posY;
+                    j = j;
+                    param_1 = param_1;
+                    stru_335C4[j].alt = stru_3B202[param_1].alt - 0x19;
+                    stru_335C4[j].field_6 = sams[i].field_A >> 6;
+                    stru_335C4[j].worldX = *(int16 *)&stru_3B202[param_1].state[0];
+                    stru_335C4[j].worldY = *(int16 *)&stru_3B202[param_1].state[2] - 0x400;
+                    stru_335C4[j].worldZ = *(int16 *)&stru_3B202[param_1].state[4];
+
+                    stru_335C4[j].ttl = (int)((((long)sams[i].field_8 << 3) * (long)word_330C4) / (long)stru_335C4[j].field_6);
+
+                    *(int16 *)&stru_335C4[j].state[0] = i;
+                    j = j;
+                    *(int16 *)&stru_335C4[j].state[6] = -param_1;
+
+                    i = i;
+                    strcpy((char *)strBuf, (char *)&sams[i].field_0);
+                    strcat((char *)strBuf, (char *)aFiredBy);
+                    strcat((char *)strBuf, (char *)(var_667 * 32 + 0x2c8));
+                    tempStrcpy((char *)strBuf);
+
+                    makeSound(6, 2);
+                    commData->restartFlag++;
+                    scheduleEventCheck(param_1 + 0x20, 2);
+
+                    if (randomRange(4) == 0) {
+                        stru_3B202[param_1].state[8] |= 4;
+                    }
+                }
+                }
+                }
+                }
+            }
+        }
+        stru_3B202[param_1].state[8] |= 8;
+    } else {
+        stru_3B202[param_1].state[8] &= 0xf7;
+        *(int16 *)&stru_3B202[param_1].state[18] -= 0x20;
+    }
+
+    *(int16 *)&stru_3B202[param_1].state[18] =
+        clampRange(*(int16 *)&stru_3B202[param_1].state[18], 0, 0xff);
+}
 
 // ==== seg000:0x783A ====
 void spawnEnemyAircraft(int slot, int objType)
@@ -507,4 +592,3 @@ void projectWorldPos(int worldX, int worldY, int worldZ) {
     *(char *)&var_315 = 0;
     drawNearestTileObject((int32)worldX << 5, -((int32)worldY - 0x8000L) << 5, (int32)worldZ);
 }
-

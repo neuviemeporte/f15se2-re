@@ -264,7 +264,7 @@ int computeThreatScore();
 // ==== seg000:0x67b4 ====
 int updateObjects();
 // ==== seg000:0x7594 ====
-int fireAirThreat();
+void fireAirThreat(int param_1);
 // ==== seg000:0x783a ====
 void spawnEnemyAircraft(int slot, int objType);
 // ==== seg000:0x79ee ====
@@ -1794,6 +1794,7 @@ extern int16 var_661;
 extern int16 var_662;
 extern int16 var_663;
 extern int16 var_664;
+extern int16 var_667;
 extern int16 var_669;
 extern int16 var_670;
 extern int16 var_671;
