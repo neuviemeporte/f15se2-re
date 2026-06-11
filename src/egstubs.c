@@ -20,7 +20,7 @@ char *regnStr = NULL;
 int16 word_330B4 = 0;
 int loadF15DgtlBin() { return 0; }
 int setupOverlaySlots(uint16 addr) { return 0; }
-int countermeasures() { return 0; }
+int countermeasures(int kind) { return 0; }
 int callLoad3DAll() { return 0; }
 
 // === Joystick/Input Stubs ===
@@ -223,6 +223,41 @@ struct Projectile stru_335C4[1];
 struct ViewSnapshot stru_3A95A[1];
 struct MapTarget stru_3AA5E[1];
 struct SimObject stru_3B202[1];
+struct SimObject stru_3B208[1];
+/* --- data referenced by drawHudWorldOverlay (egui.c) --- */
+char aAt_0[] = " at ";
+uint8 aDestroyedByGun[] = " destroyed by gunfire";
+uint8 aDestroyedByG_0[] = " destroyed by gunfire";
+uint8 aHitByGunfire[] = "Hit by gunfire";
+uint8 aNoTarget[] = "No Target";
+uint8 aNoTarget_0[] = "No Target";
+uint8 aPrimaryTarget[] = "Primary Target";
+uint8 aSecondaryTarget[] = "Secondary Target";
+uint8 aLong[] = "Long";
+uint8 aMedium[] = "Medium";
+uint8 aShort[] = "Short";
+uint8 aRangeRadar[] = " range radar";
+uint8 aDetailLevel[] = "Detail Level ";
+uint8 aKybdSensitivit[] = "Kybd Sensitivity";
+uint8 aMemoryAvailabl[] = "Memory Available:";
+uint8 aJiffiesFrame[] = "Jiffies/Frame ";
+uint8 aSounds[] = "Sounds ";
+uint8 aDirector[] = "Director ";
+uint8 aOff[] = "off";
+uint8 aWaypointPrimar[] = "Waypoint: Primary Target";
+uint8 aWaypointSecond[] = "Waypoint: Secondary Target";
+uint8 aWaypointFriend[] = "Waypoint: Friendly Airbase";
+uint8 aAutopilotOff[] = "Autopilot off";
+uint8 aAutopilotOn[] = "Autopilot on";
+uint16 uvar_547;
+int16 var_593;
+int16 var_675;
+int16 var_676;
+int16 var_677;
+int word_39606;
+int16 word_3BEBC;
+int16 word_3BEC8;
+int16 word_3BECE;
 char tempString[80];
 uint8 unk_33E1A[1];
 char unk_34121[1];
@@ -318,7 +353,10 @@ int16 var_591;
 int16 var_592;
 uint8 var_594;
 int16 var_595;
+int16 var_596;
 int16 var_597;
+int16 var_598;
+int16 var_599;
 int16 var_600;
 int16 var_654;
 int16 var_657;
@@ -554,6 +592,9 @@ int16 word_3C6AA;
 int16 word_3C6AC;
 int word_3C6AE;
 int16 word_3C8B6;
+int16 word_3B4D2;
+int16 word_3C00A;
+int16 word_3C8B2;
 
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }
@@ -565,14 +606,12 @@ int cosine(int) { return 0; }
 int createFile(const char *arg_0, int arg_1) { return 0; }
 int __cdecl drawCenteredLabelBox(int, char *) { return 0; }
 int far drawClipLineGlobal() { return 0; }
-int drawHudWorldOverlay() { return 0; }
 int far drawModelDisplayList() { return 0; }
 int drawModelPoint() { return 0; }
 int far drawPolygonOutline(int, int, int*, int) { return 0; }
 int far fillSpanRect(int16* param_1, int param_2, int param_3, int param_4, int param_5) { return 0; }
 int fixedMulQ14(int arg_0, int arg_2) { return 0; }
 int far flushSpanDirtyRect() { return 0; }
-int keyDispatch(int16 scanCode) { return 0; }
 int far multiplyMatrix3x3Far(int param_1, int param_2, int16* param_3) { return 0; }
 int __cdecl openFile(const char *, int) { return 0; }
 void picBlit(int handle, int unk) {}
@@ -596,7 +635,6 @@ int far sub_2044A() { return 0; }
 int far sub_20658() { return 0; }
 void __cdecl __far sub_21A7E() {}
 int updateObjects() { return 0; }
-int updateTargetLock() { return 0; }
 int updateThreatTargeting() { return 0; }
 int writeFileAtRaw(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) { return 0; }
 
@@ -613,3 +651,40 @@ int audio_jump_6d(int a) { return 0; }
 /* projectObjects: eg3d_a.c calls the 8-int form; eg3d_b.c defines a
    different (int,int,long,long,long) overload. Stub the called form. */
 void projectObjects(int a,int b,int c,int d,int e,int f,int g,int h) {}
+
+/* --- Data symbols referenced by otherKeyDispatch (moved from egame_rc.asm
+   to C in eghud.c). The DOS build defines these in egame_rc.asm's DATA
+   segment; the 64-bit stub build needs C definitions to link. --- */
+uint8 byte_37F98;
+uint8 byte_37F99;
+uint8 byte_37FEC[128];     /* indexed by (roll>>8)&0x7f */
+char  byte_380DD;
+uint8 byte_3C6A0[1];
+uint8 joyAxes_2[1];
+uint8 unk_38092[64];
+uint8 unk_38FD0[32];       /* g-meter string buffer */
+int16 word_38080;
+int16 word_38084;
+int16 word_3808C;
+int16 word_38090;
+int16 word_3809A;
+int16 word_3809C;
+int16 word_380A0;
+int16 word_380A2;
+int16 word_380A4;
+int16 word_380A6;
+int16 word_380AA;
+int16 word_380AC;
+int16 word_380E0;
+int16 word_380E2;
+int16 word_38602;
+int   word_38FDA;
+int16 word_3A8FE;
+int16 word_3AFA6;
+int16 word_3B204;
+int16 word_3B206;
+int16 word_3B4DA;
+int   word_3C00E;
+int16 word_3C5A4;
+
+int audio_jump_6a(int knots, int thrust) { return 0; }

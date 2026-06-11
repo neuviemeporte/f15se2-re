@@ -76,7 +76,7 @@ void updateFrame(void);
 // ==== seg000:0x14e8 ====
 void dispatchKeyScancode();
 // ==== seg000:0x14fc ====
-int countermeasures();
+int countermeasures(int kind);
 // ==== seg000:0x1636 ====
 void tickMessageTimers();
 // ==== seg000:0x1676 ====
@@ -240,7 +240,7 @@ int valueToAngle(int value);
 // ==== seg000:0x5540 ====
 int complementAngle(int arg_0);
 // ==== seg000:0x5557 ====
-int isqrt();
+int isqrt(int value);
 // ==== seg000:0x55ab ====
 void renderFrame();
 // ==== seg000:0x5fdb ====
@@ -372,9 +372,9 @@ int restoreScopePanel();
 // ==== seg000:0xa9bc ====
 int captureScopePanel();
 // ==== seg000:0xa9f8 ====
-int updateTargetLock();
+void updateTargetLock();
 // ==== seg000:0xb147 ====
-int drawHudWorldOverlay();
+void drawHudWorldOverlay(void);
 // ==== seg000:0xc1b9 ====
 void drawTargetBox(int, int, int, int);
 // ==== seg000:0xc2f8 ====
@@ -388,13 +388,13 @@ void projectWorldToHud(int worldX, int worldY, int worldZ);
 // ==== seg000:0xc661 ====
 long rotateVectorComponent(int axis, int vecX, int vecY, int vecZ);
 // ==== seg000:0xc6be ====
-int findWaypointEntry();
+int findWaypointEntry(int mapX, int mapY);
 // ==== seg000:0xc7a2 ====
-void computeMapTargetRange(int targetIdx);
+int computeMapTargetRange(int targetIdx);
 // ==== seg000:0xc7c6 ====
-void computeSimObjectRange();
+int computeSimObjectRange(int objIdx);
 // ==== seg000:0xc7ea ====
-void computeTargetBearing(int targetX, int targetY, int wantBearing);
+int computeTargetBearing(int targetX, int targetY, int wantBearing);
 // ==== seg000:0xc82d ====
 int sub_1C82D();
 // ==== seg000:0xc864 ====
@@ -406,13 +406,14 @@ void load15Flt3d3();
 // ==== seg000:0xc9d2 ====
 void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int param_5, int param_6, int param_7, int scaleShift);
 // ==== seg000:0xcb42 ====
-void drawTargetView();
+void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param_5, int param_6, int param_7, int mode, int shift);
 // ==== seg000:0xcf32 ====
 int shapeDataOffset(int param_1);
 // ==== seg000:0xcf64 ====
 int clampRange(int value, int minVal, int maxVal);
 // ==== seg000:0xcf8e ====
 int forceRange();
+int sub_1CF8E(int value, int min, int max);
 // ==== seg000:0xcfa6 ====
 int rangeApprox(int dx, int dy);
 // ==== seg000:0xd008 ====
@@ -422,7 +423,7 @@ int sinMul(int angle, int value);
 // ==== seg000:0xd190 ====
 int cosMul(int angle, int value);
 // ==== seg000:0xd1c8 ====
-int signOf();
+int signOf(int value);
 // ==== seg000:0xd1e8 ====
 void seedRng(void);
 // ==== seg000:0xd200 ====
@@ -431,7 +432,7 @@ int randomRange(int);
 // ==== seg000:0xd21e ====
 int readAxisInput(int param_1);
 // ==== seg000:0xd260 ====
-int keyDispatch(int16 scanCode);
+int keyDispatch(uint16 scanCode);
 // ==== seg000:0xd9db ====
 void selectMissile();
 // ==== seg000:0xda35 ====
@@ -1333,6 +1334,7 @@ extern int16 var_544;
 extern int16 var_545;
 extern char var_550;
 extern int16 var_547;
+extern uint16 uvar_547;    /* unsigned alias of var_547 (same address) */
 extern uint16 var_548;
 extern int16 var_549;
 extern int16 var_552;
@@ -1584,6 +1586,9 @@ extern int16 word_3B15E;
 extern uint8 buf3d3_3[];
 extern int32 dword_3B1FE;
 extern struct SimObject stru_3B202[];
+extern int16 word_3B204;
+extern int16 word_3B206;
+extern struct SimObject stru_3B208[];
 extern int16 word_3B22C;
 extern int32 word_3B22E;
 extern int32 word_3B232;
@@ -1767,7 +1772,10 @@ extern int16 var_225;
 extern int16 var_226;
 extern int16 var_227;
 extern int16 var_595;
+extern int16 var_596;
 extern int16 var_597;
+extern int16 var_598;
+extern int16 var_599;
 extern uint8 var_594;
 extern int16 var_600;
 extern int16 var_349;
@@ -1791,7 +1799,11 @@ extern int16 var_669;
 extern int16 var_670;
 extern int16 var_671;
 extern int16 var_672;
+extern int16 var_593;
 extern int16 var_674;
+extern int16 var_675;
+extern int16 var_676;
+extern int16 var_677;
 extern int16 *var_568;
 extern int16 var_680;
 extern int16 var_681;
