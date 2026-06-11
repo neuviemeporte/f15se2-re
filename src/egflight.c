@@ -469,7 +469,7 @@ alt_ok:
     }
 
     if (ENT_FLAGS(h) & 0x1000) {
-        *(int16 *)&stru_3B202[h].state[8] = *(int16 *)&stru_3B202[h].state[10] = 0;
+        *(int16 *)&stru_3B202[h].state[10] = *(int16 *)&stru_3B202[h].state[8] = 0;
         *(int16 *)&stru_3B202[h].state[6] = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
         stru_3B202[h].alt = (stru_3AA5E[word_3C16A].flags & 0x200) ? 0x8c : 0x0c;
         if (*(int16 *)&stru_3B202[h].state[16] > 0) {
