@@ -178,7 +178,7 @@ int computeThreatScore(void) {
 #define ENT_FLAGS(v) (*(uint16 *)&stru_3B202[(v)].state[14])
 void updateObjects(void)
 {
-    int p0, p, pa, a, b, r, s, c, d, t, u0, e0, f, e1, u2, w, x, h, v3, y, j, g3, k, aj, z2, l, m0, m, ma, n, o0;
+    int p0, p, pa, a, b, r, s, c, d, t, u0, e0, f, e1, u2, w, x, h, v3, y, j, g3, k, aj, z2, l, m0, m, ma, n;
 
     if ((frameTick & 1) == 0 && word_336F6 == -1) {
         *(int16 *)((char *)stru_33402 + ((frameTick >> 1) & 7) * 8) = 0;
@@ -204,7 +204,8 @@ void updateObjects(void)
     }
 
     w = 3;
-    if ((ENT_FLAGS(h) & 0x100) != 0 && word_336FC != -1) {
+    if (ENT_FLAGS(h) & 0x100) {
+    if (word_336FC != -1) {
         k = sinMul((h & 7) * 0x800 + *(int16 *)&stru_3B202[word_336FC].state[6] - 0x1800,
                       *(int16 *)&stru_3B202[word_336FC].state[16])
             + stru_3B202[word_336FC].posX;
@@ -214,7 +215,9 @@ void updateObjects(void)
                       *(int16 *)&stru_3B202[word_336FC].state[16]);
 
         n = stru_3B202[word_336FC].alt + (h & 7) * 0x40;
-    } else {
+        goto set_target_alt;
+    }
+    }
 
     if (((uint8)h * 8 + (uint8)word_38FE0) & 0xbf) goto after_retarget;
     if (!(*(uint8 *)&stru_3B202[h].state[14] & 0x40)) {
@@ -245,7 +248,8 @@ after_retarget:
     k = stru_3AA5E[s].mapX;
     m = stru_3AA5E[s].mapY;
     n = clampRange(var_547 + 1000, 5000, 20000);
-    }
+set_target_alt:
+    n = n;
     goto got_target;
 padlock_target:
     k = word_333D2;
