@@ -79,7 +79,7 @@ char aDot[1];
 uint8 aEmpty_5950[1];
 char aF15StrikeEagle[1];
 char aFired[1];
-char aFiredBy[1];
+uint8 aFiredBy[1];
 uint8 aFiring[] = " firing ";
 uint8 aFlogger[1];
 char aGun[1];
