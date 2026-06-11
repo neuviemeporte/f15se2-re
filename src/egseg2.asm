@@ -1273,6 +1273,8 @@ initJoystickCalibration proc far
     call routine_248
     retf
 initJoystickCalibration endp
+    PUBLIC _initJoystickCalibration
+_initJoystickCalibration equ initJoystickCalibration
 
 ; routine_248 - joystick data init helper
 routine_248 proc near
@@ -1295,6 +1297,8 @@ readCalibratedJoystick proc far
     mov AX,word ptr [_joyAxes]
     retf
 readCalibratedJoystick endp
+    PUBLIC _readCalibratedJoystick
+_readCalibratedJoystick equ readCalibratedJoystick
 
 ; routine_246 - joystick read (hardware port 201h)
 routine_246 proc near
