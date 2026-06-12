@@ -20,13 +20,12 @@ uint16 dos_alloc(uint16 size)
 }
 
 /* file_close.inc: Close file handle */
-int fileClose(int handle)
+void fileClose(int handle)
 {
     union REGS r;
     r.h.ah = 0x3E;
     r.x.bx = handle;
     intdos(&r, &r);
-    return 0;
 }
 
 /* file_open.inc: Open file, returns handle or -1 on error */

@@ -70,13 +70,13 @@ int loadF15DgtlBin();
 // ==== seg000:0x334 ====
 void drawProjectionSphere(int arg_0);
 // ==== seg000:0x688 ====
-int setupOverlaySlots(uint16 addr);
+void setupOverlaySlots(uint16 addr);
 // ==== seg000:0x720 ====
 void updateFrame(void);
 // ==== seg000:0x14e8 ====
 void dispatchKeyScancode();
 // ==== seg000:0x14fc ====
-int countermeasures(int kind);
+void countermeasures(int kind);
 // ==== seg000:0x1636 ====
 void tickMessageTimers();
 // ==== seg000:0x1676 ====
@@ -120,7 +120,7 @@ void moveNearFar(void *nearPtr, int count);
 // ==== seg000:0x21a9 ====
 int setCommWorldbufPtr();
 // ==== seg000:0x21c6 ====
-int callLoad3DAll();
+void callLoad3DAll();
 void sub_121C6();
 // ==== seg000:0x21ca ====
 void render3DView(int, int, int, long, long, long, int, int, int, int);
@@ -164,7 +164,7 @@ void worldToTileIndex(int, int, int *, int *);
 // ==== seg000:0x36d2 ====
 void drawMapTileObject(char far *, int, int);
 // ==== seg000:0x374a ====
-int drawModelPoint();
+void drawModelPoint();
 // ==== seg000:0x378e ====
 void buildVertexSignMask(int, int);
 // ==== seg000:0x3816 ====
@@ -174,7 +174,7 @@ int aspectScaleY(int screenY);
 // ==== seg000:0x3932 ====
 void setup3DTransform(char*, int, int, int, int, int, int, int);
 // ==== seg000:0x39aa ====
-int rasterize3DWorld();
+void rasterize3DWorld();
 // ==== seg000:0x39c0 ====
 void setupViewport(char *rect);
 // ==== seg000:0x3a6c ====
@@ -202,31 +202,31 @@ int lookupSine();
 // ==== seg000:0x3bec ====
 void installCBreakHandler();
 // ==== seg000:0x3c0f ====
-int restoreCBreakHandler();
+void restoreCBreakHandler();
 // ==== seg000:0x3c20 ====
 int getInterruptHandler();
 // ==== seg000:0x3c2c ====
 int far cbreakHandler();
 // ==== seg000:0x3c3b ====
-int runGameLoop();
+void runGameLoop();
 // ==== seg000:0x3c47 ====
-int gameMainLoop();
+void gameMainLoop();
 // ==== seg000:0x3c78 ====
-int setTimerIrqHandler();
+void setTimerIrqHandler();
 // ==== seg000:0x3cb6 ====
-int restoreTimerIrqHandler();
+void restoreTimerIrqHandler();
 // ==== seg000:0x3d6b ====
-int sub_13D6B();
+void sub_13D6B();
 // ==== seg000:0x3df2 ====
-int calibrateGameSpeed();
+void calibrateGameSpeed();
 // ==== seg000:0x3e87 ====
 int manipulateTimer();
 // ==== seg000:0x3edc ====
 int getTimeOfDay();
 // ==== seg000:0x3ee3 ====
-int advanceFrameTick();
+void advanceFrameTick();
 // ==== seg000:0x3f72 ====
-int otherKeyDispatch();
+void otherKeyDispatch();
 // ==== seg000:0x51f9 ====
 void applyRotationDelta(int param_1, int param_2);
 // ==== seg000:0x5237 ====
@@ -268,7 +268,7 @@ void fireAirThreat(int param_1);
 // ==== seg000:0x783a ====
 void spawnEnemyAircraft(int slot, int objType);
 // ==== seg000:0x79ee ====
-int updateThreatTargeting();
+void updateThreatTargeting();
 // ==== seg000:0x85be ====
 int samCanAcquireTarget();
 // ==== seg000:0x86f8 ====
@@ -294,7 +294,7 @@ void refreshActivePanel(int panelId);
 // ==== seg000:0x9595 ====
 void initTacMapView(void);
 // ==== seg000:0x95c9 ====
-int redrawTacMap(int, int);
+void redrawTacMap(int, int);
 // ==== seg000:0x9875 ====
 void zoomIn(void);
 // ==== seg000:0x98b4 ====
@@ -366,11 +366,11 @@ void blitGaugeSprite(int srcCol, int srcRow, int destX, int destY);
 // ==== seg000:0xa8c8 ====
 void blitSprite(int destX, int destY, int srcX, int srcY, int spriteWidth, int arg_a, int arg_c);
 // ==== seg000:0xa934 ====
-int cacheScopePanel();
+void cacheScopePanel();
 // ==== seg000:0xa962 ====
-int restoreScopePanel();
+void restoreScopePanel();
 // ==== seg000:0xa9bc ====
-int captureScopePanel();
+void captureScopePanel();
 // ==== seg000:0xa9f8 ====
 void updateTargetLock();
 // ==== seg000:0xb147 ====
@@ -466,7 +466,7 @@ int __cdecl openFile(const char *, int);
 // ==== seg000:0xde1b ====
 int createFile(const char *arg_0, int arg_1);
 // ==== seg000:0xde72 ====
-int closeFile(int arg_0);
+void closeFile(int arg_0);
 // ==== seg000:0xde94 ====
 int readFile1(int arg_0, int arg_1, int arg_2);
 // ==== seg000:0xdebf ====
@@ -482,25 +482,25 @@ void openBlitClosePic(char* path, int arg_2);
  // 2 parameters correct
 void picBlit(int handle, int unk);
 // ==== seg000:0xe11c ====
-int picBlitOverlay2();
+void picBlitOverlay2();
 // ==== seg000:0xe1f8 ====
-int picBlitOverlay1();
+void picBlitOverlay1();
 // ==== seg000:0xe260 ====
-int nullsub_1();
+void nullsub_1();
 // ==== seg000:0xe262 ====
 void decodePicRow();
 // ==== seg000:0xe28c ====
-int picReadDataAndMakeDict();
+void picReadDataAndMakeDict();
 // ==== seg000:0xe2d3 ====
-int picMakeDict();
+void picMakeDict();
 // ==== seg000:0xe309 ====
-int doPicDecode();
+void doPicDecode();
 // ==== seg000:0xe382 ====
 int dictionaryLookup();
 // ==== seg000:0xe631 ====
-int callNearTermTable();
+void callNearTermTable();
 // ==== seg000:0xe640 ====
-int callFarTermTable();
+void callFarTermTable();
 // ==== seg000:0xece4 ====
 void pascal shiftLongLeftInPlace(int count, long *ptr);
 // ==== seg000:0xed04 ====
@@ -518,21 +518,21 @@ int sub_1F82C();
 // ==== seg001:0x2 ====
 int far drawPolygonOutline(int, int, int*, int);
 // ==== seg001:0x78 ====
-int projectVertexToScreen();
+void projectVertexToScreen();
 // ==== seg001:0x113 ====
-int installDivZeroHandler();
+void installDivZeroHandler();
 // ==== seg001:0x137 ====
-int installDivZeroVector();
+void installDivZeroVector();
 // ==== seg001:0x15d ====
 int clipLineSegment();
 // ==== seg001:0x23f ====
-int sub_1FABF();
+void sub_1FABF();
 // ==== seg001:0x29d ====
-int writeClippedStart();
+void writeClippedStart();
 // ==== seg001:0x2d2 ====
-int writeClippedEnd();
+void writeClippedEnd();
 // ==== seg001:0x308 ====
-int rejectClippedLine();
+void rejectClippedLine();
 // ==== seg001:0x334 ====
 int clipPointInside();
 // ==== seg001:0x383 ====
@@ -548,11 +548,11 @@ int pointOnClipEdge();
 // ==== seg001:0x52d ====
 int computeClipOutcode();
 // ==== seg001:0x5dc ====
-int sub_1FE5C();
+void sub_1FE5C();
 // ==== seg001:0x66c ====
 int far sub_1FEEC(int);
 // ==== seg001:0x67e ====
-int sub_1FEFE();
+void sub_1FEFE();
 // ==== seg001:0x884 ====
 #ifdef NO_ASM
 void far projectSceneObject(char *, int, int, int, int, int, int);
@@ -562,9 +562,9 @@ void far projectSceneObject();
 // ==== seg001:0x908 ====
 int transformAndCullObject();
 // ==== seg001:0xa09 ====
-int skipDisplayListByLod();
+void skipDisplayListByLod();
 // ==== seg001:0xa36 ====
-int sub_202B6();
+void sub_202B6();
 // ==== seg001:0xa47 ====
 int far sub_202C7(int, int, int);
 // ==== seg001:0xa5a ====
@@ -572,49 +572,49 @@ int far advanceModelPointerLod();
 // ==== seg001:0xa76 ====
 int far sub_202F6();
 // ==== seg001:0xa80 ====
-int insertSortedObject();
+void insertSortedObject();
 // ==== seg001:0xb60 ====
-int renderSortedList();
+void renderSortedList();
 // ==== seg001:0xbca ====
 int far sub_2044A();
 // ==== seg001:0xbe7 ====
-int processSceneObject();
+void processSceneObject();
 // ==== seg001:0xcb4 ====
-int rotatePoint3d();
+void rotatePoint3d();
 // ==== seg001:0xdd8 ====
 int far sub_20658();
 // ==== seg001:0xdf4 ====
-int transformModelVertices();
+void transformModelVertices();
 // ==== seg001:0x10f0 ====
-int transformVertexList();
+void transformVertexList();
 // ==== seg001:0x11c6 ====
 int far projectModelEdgesFar();
 // ==== seg001:0x11d8 ====
-int projectModelEdges();
+void projectModelEdges();
 // ==== seg001:0x1282 ====
-int clipEdgeNearPlane();
+void clipEdgeNearPlane();
 // ==== seg001:0x132e ====
 int far buildRotationMatrixFar(int16* param_1, int param_2, int param_3, int param_4);
 // ==== seg001:0x135f ====
-int buildRotationMatrix();
+void buildRotationMatrix();
 // ==== seg001:0x147b ====
-int buildInverseRotationMatrix();
+void buildInverseRotationMatrix();
 // ==== seg001:0x1599 ====
-int transposeOrientationMatrix();
+void transposeOrientationMatrix();
 // ==== seg001:0x15b8 ====
 int far multiplyMatrix3x3Far(int param_1, int param_2, int16* param_3);
 // ==== seg001:0x15cd ====
-int multiplyMatrix3x3();
+void multiplyMatrix3x3();
 // ==== seg001:0x175c ====
 int far drawModelDisplayList();
 // ==== seg001:0x176a ====
-int renderPrimitiveList();
+void renderPrimitiveList();
 // ==== seg001:0x17f5 ====
-int renderPrimitiveCommand();
+void renderPrimitiveCommand();
 // ==== seg001:0x193a ====
-int drawPrimitiveEdges();
+void drawPrimitiveEdges();
 // ==== seg001:0x19e7 ====
-int nullsub_2();
+void nullsub_2();
 // ==== seg001:0x1ba2 ====
 int testVisibilityMask();
 // ==== seg001:0x1bc4 ====
@@ -632,15 +632,15 @@ int far flushSpanDirtyRect();
 // ==== seg001:0x1e9a ====
 int far resetScanlineSpans();
 // ==== seg001:0x1ea0 ====
-int resetScanlineSpansImpl();
+void resetScanlineSpansImpl();
 // ==== seg001:0x1ed6 ====
-int clampScanlineSpan();
+void clampScanlineSpan();
 // ==== seg001:0x1f34 ====
-int rasterizeEdgeSpan();
+void rasterizeEdgeSpan();
 // ==== seg001:0x201c ====
 int far clipAndRasterizeEdge();
 // ==== seg001:0x2028 ====
-int clipAndRasterizeEdgeImpl();
+void clipAndRasterizeEdgeImpl();
 // bytes outside routine, potential module boundary at 0x9
 // ==== seg002:0xa ====
 void far sub_21A7A();
@@ -649,19 +649,19 @@ void __cdecl __far sub_21A7E();
 // ==== seg002:0x12 ====
 int far sub_21A82();
 // ==== seg002:0x16 ====
-int sub_21A86();
+void sub_21A86();
 // ==== seg002:0x9a1 ====
 void __cdecl sub_22411();
 // ==== seg002:0xbeb ====
 int far initJoystickCalibration();
 // ==== seg002:0xbfb ====
-int seedJoystickBaseline();
+void seedJoystickBaseline();
 // ==== seg002:0xc0e ====
 int far readCalibratedJoystick();
 // ==== seg002:0xc21 ====
-int readJoystickHardware();
+void readJoystickHardware();
 // ==== seg002:0xc4e ====
-int computeJoystickAxis();
+void computeJoystickAxis();
 // ==== seg002:0xcaa ====
 int far restoreJoystickData(uint8 FAR *ptr);
 // ==== seg002:0xcbe ====

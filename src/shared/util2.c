@@ -7,7 +7,7 @@
 #include "../debug.h"
 
 int openFile(const char *name, int mode);
-int fileClose(int handle);
+void fileClose(int handle);
 void decodePic(int handle, int segment);
 
 int openFileWrapper(const char *filename, int mode)
