@@ -75,7 +75,7 @@ int FAR CDECL gfx_allocPage(int n)
 }
 
 /* ---- Slot 0x3c: gfx_setMode13 ---- */
-int FAR CDECL gfx_setMode13(int16 monoFlag)
+void FAR CDECL gfx_setMode13(int16 monoFlag)
 {
     union REGS regs;
     GfxState FAR *s; /* Declare at function level for MSC small model */
@@ -101,7 +101,7 @@ int FAR CDECL gfx_setMode13(int16 monoFlag)
     /* Verify */
     regs.h.ah = 0x0F;
     int86(0x10, &regs, &regs);
-    if (regs.h.al != 0x13) return -1;
+    if (regs.h.al != 0x13) return;
 
     /* Clear page 0 (VGA framebuffer) */
     s = gfx_getState();
@@ -109,21 +109,21 @@ int FAR CDECL gfx_setMode13(int16 monoFlag)
     s->curPageSeg = s->pageSegs[1]; /* default to back buffer */
     s->modeFlag = 1;
 
-    return 0;
+    return;
 }
 
 /* ---- Slot 0x45: gfx_waitRetrace ---- */
-int FAR CDECL gfx_waitRetrace(void)
+void FAR CDECL gfx_waitRetrace(void)
 {
     /* Wait until not in retrace */
     while (inp(0x3DA) & 0x08) {}
     /* Wait until retrace starts */
     while (!(inp(0x3DA) & 0x08)) {}
-    return 0;
+    return;
 }
 
 /* ---- Slot 0x46: gfx_flipPage ---- */
-int FAR CDECL gfx_flipPage(void)
+void FAR CDECL gfx_flipPage(void)
 {
     /* The original MGRAPHIC slot 0x46 waits for retrace then un-blanks the
      * display (sequencer reg 1 bit 5 cleared); the companion gfx_waitRetrace
@@ -133,17 +133,17 @@ int FAR CDECL gfx_flipPage(void)
      * whenever curPageSeg was left pointing at an off-screen work buffer by a
      * preceding sprite blit. Just sync to retrace. */
     gfx_waitRetrace();
-    return 0;
+    return;
 }
 
 /* ---- Slot 0x4b: gfx_storeBufPtr ---- */
-int FAR CDECL gfx_storeBufPtr(uint16 seg, int pageIdx)
+void FAR CDECL gfx_storeBufPtr(uint16 seg, int pageIdx)
 {
     GfxState FAR *s = gfx_getState();
     if (pageIdx >= 0 && pageIdx < 16) {
         s->pageSegs[pageIdx] = seg;
     }
-    return 0;
+    return;
 }
 
 /* ---- Slot 0x3b: gfx_clearPage ----
@@ -166,13 +166,13 @@ void gfx_clearPage_impl(uint16 seg)
 }
 
 /* ---- Slot 0x0e: gfx_setPageN ---- */
-int FAR CDECL gfx_setPageN(uint16 pageNum)
+void FAR CDECL gfx_setPageN(uint16 pageNum)
 {
     GfxState FAR *s = gfx_getState();
     /* Don't re-init mode if page 0 is VGA framebuffer */
     if (s->pageSegs[0] == 0xA000) {
         s->curPageSeg = s->pageSegs[pageNum];
-        return 0;
+        return;
     }
     initRowOffsets();
     /* Bootstrap mode 13h for first use */
@@ -180,7 +180,7 @@ int FAR CDECL gfx_setPageN(uint16 pageNum)
         gfx_setMode13(0);
     }
     s->curPageSeg = s->pageSegs[pageNum];
-    return 0;
+    return;
 }
 
 /* ---- Slot 0x0f: gfx_setCurPageSeg ---- */
@@ -251,24 +251,24 @@ int FAR CDECL gfx_getModecode(void)
 }
 
 /* ---- Slot 0x22: gfx_nop22 ---- */
-int FAR CDECL gfx_nop22(void)
+void FAR CDECL gfx_nop22(void)
 {
-    return 0; /* bare RETF in MGRAPHIC — does NOT reset blitOffset */
+    return; /* bare RETF in MGRAPHIC — does NOT reset blitOffset */
 }
 
 /* ---- Slot 0x1a: gfx_setBlitOffset ---- */
-int FAR CDECL gfx_setBlitOffset(int offset)
+void FAR CDECL gfx_setBlitOffset(int offset)
 {
     GfxState FAR *s = gfx_getState();
     s->blitOffset = (uint16)offset;
-    return 0;
+    return;
 }
 
 /* ---- Slot 0x25: gfx_dirtyRect ---- */
-int FAR CDECL gfx_dirtyRect(void)
+void FAR CDECL gfx_dirtyRect(void)
 {
     /* Register-called in overlay — stub for now */
-    return 0;
+    return;
 }
 
 /* Slot 0x01 (gfx_fillDirty), 0x02 (gfx_blitTransparent), 0x03 (gfx_blitVariant),
@@ -418,10 +418,10 @@ static void drawStringCore(int16 *params, const char *string,
 }
 
 /* ---- Slot 0x05: gfx_drawString (cdecl, unclipped) ---- */
-int FAR CDECL gfx_drawString(int16 *pageNum, const char *string)
+void FAR CDECL gfx_drawString(int16 *pageNum, const char *string)
 {
     drawStringCore(pageNum, string, 0, 319, 0, 199);
-    return 0;
+    return;
 }
 
 /* Register-called glyph slots (0x01/0x02/0x03/0x06) — entered via regshim.asm
@@ -451,7 +451,7 @@ void gfx_drawStringClipped_impl(int16 *params, const char *string, int mode)
 }
 
 /* ---- Slot 0x2a: gfx_copyRect ---- */
-int FAR CDECL gfx_copyRect(int srcPage, uint16 srcX, uint16 srcY,
+void FAR CDECL gfx_copyRect(int srcPage, uint16 srcX, uint16 srcY,
                             int dstPage, uint16 dstX, uint16 dstY,
                             int width, int height)
 {
@@ -463,11 +463,11 @@ int FAR CDECL gfx_copyRect(int srcPage, uint16 srcX, uint16 srcY,
         uint16 dOff = s->rowOffsets[dstY + row] + (uint16)dstX;
         movedata(s->pageSegs[srcPage], sOff, s->pageSegs[dstPage], dOff, (uint16)width);
     }
-    return 0;
+    return;
 }
 
 /* ---- Slot 0x29: gfx_switchColor ---- */
-int FAR CDECL gfx_switchColor(int16 *pageDesc, int x1, int y1,
+void FAR CDECL gfx_switchColor(int16 *pageDesc, int x1, int y1,
                                int x2, int y2, int oldColor, int newColor)
 {
     GfxState FAR *s = gfx_getState();
@@ -485,7 +485,7 @@ int FAR CDECL gfx_switchColor(int16 *pageDesc, int x1, int y1,
                 page[off + col] = (uint8)newColor;
         }
     }
-    return 0;
+    return;
 }
 
 /* ---- Slot 0x44: gfx_setDac ---- */
@@ -546,21 +546,21 @@ void FAR CDECL gfx_setDac(uint16 palIdx)
 }
 
 /* ---- Slot 0x21: gfx_setColor ---- */
-int FAR CDECL gfx_setColor(int color)
+void FAR CDECL gfx_setColor(int color)
 {
     GfxState FAR *s = gfx_getState();
     s->fillColor = (uint8)color;
-    return 0;
+    return;
 }
 
 /* ---- Slot 0x0c: gfx_initOverlay ----
  * MGRAPHIC: `mov ax,[cs:pageSegTable+2]; mov [cs:curPageSeg],ax` — sets the
  * current draw page to page 1 (the back buffer). Called once at egame startup. */
-int FAR CDECL gfx_initOverlay(void)
+void FAR CDECL gfx_initOverlay(void)
 {
     GfxState FAR *s = gfx_getState();
     s->curPageSeg = s->pageSegs[1];
-    return 0;
+    return;
 }
 /* Slot 0x0d: register-called via the _gfx_setPage1 shim (regshim.asm) — AX = a
  * page index; curPageSeg = pageSegs[AX]. MGRAPHIC's slot 0x0d takes the index in
@@ -579,10 +579,10 @@ int gfx_getCurPageSeg_impl(void)
     GfxState FAR *s = gfx_getState();
     return (int)s->curPageSeg;
 }
-int FAR CDECL gfx_getCurPage(int page)
+void FAR CDECL gfx_getCurPage(int page)
 {
     GfxState FAR *s = gfx_getState();
-    return (int)s->pageSegs[page];
+    return;
 }
 /* Slot 0x11 (≡0x49): thunk to the sprite core (MGRAPHIC @0x7ca -> @0x7db). The
  * core is UNCONDITIONALLY transparent — `lodsb; or al,al; jz skip; mov [es:di],al`
@@ -696,7 +696,7 @@ void gfx_setFillColor_impl(uint16 color)
 {
     gfx_getState()->fillColor = (uint8)color;
 }
-int FAR CDECL gfx_nop23(void) { return 0; }
+void FAR CDECL gfx_nop23(void) { return; }
 /* Slot 0x25/0x28: register-called via the _gfx_dirtyRect2 shim — BX = near offset
  * of the per-row dirtyMinBuf (in the caller's DS), AX = yMin, CX = yMax. The
  * matching dirtyMaxBuf sits 0x1b8 bytes after dirtyMinBuf. For each row y in
@@ -790,15 +790,15 @@ int FAR CDECL gfx_getFreeMem(void)
  * `rep movsw` the decoded row to ES:DI), so slot 0x34 points at the same
  * gfx_fillRow shim — decodePic (pic_decodepic.inc) uses it to fill the
  * caller's sprite buffer. This unused stub is kept only for legacy linkage. */
-int FAR CDECL gfx_fillRow2(uint16 x, uint16 y)
+void FAR CDECL gfx_fillRow2(uint16 x, uint16 y)
 {
     (void)x;
     (void)y;
-    return 0;
+    return;
 }
-int FAR CDECL gfx_nop36(void) { return 0; }
-int FAR CDECL gfx_nop37(void) { return 0; }
-int FAR CDECL gfx_setFadeSteps(int steps) { (void)steps; return 0; }
+void FAR CDECL gfx_nop36(void) { return; }
+void FAR CDECL gfx_nop37(void) { return; }
+void FAR CDECL gfx_setFadeSteps(int steps) { (void)steps; return; }
 /* Slot 0x3e: linear byte offset of pixel (col,row) = col + rowTable[row].
  * MGRAPHIC's arg order is col FIRST ([ss:bx+4]), row SECOND ([ss:bx+6]) — the
  * opposite of the natural (y,x). egame computes every MFD viewport origin via
@@ -815,15 +815,15 @@ int FAR CDECL gfx_calcRowAddr(int col, int row)
 /* Slots 0x40/0x41: MGRAPHIC stores the arg to absolute 0000:0x00CC / 0x00CE — a
  * 4-byte scratch (the unused INT 0x33 vector) the overlay's clip/draw paths read
  * back as the active clip rectangle. setupViewport calls setOvlVal2(width-1). */
-int FAR CDECL gfx_setOvlVal1(int val)
+void FAR CDECL gfx_setOvlVal1(int val)
 {
     *(uint16 FAR *)MK_FP(0, 0xCC) = (uint16)val;
-    return 0;
+    return;
 }
-int FAR CDECL gfx_setOvlVal2(int val)
+void FAR CDECL gfx_setOvlVal2(int val)
 {
     *(uint16 FAR *)MK_FP(0, 0xCE) = (uint16)val;
-    return 0;
+    return;
 }
 int FAR CDECL gfx_getPresetOffset1(void)
 {
@@ -841,13 +841,13 @@ int FAR CDECL gfx_getModeFlag2(void)
 }
 int FAR CDECL gfx_getVal(uint16 val) { return (int)val; }
 int FAR CDECL gfx_getVal2(uint16 val) { return (int)val; }
-int FAR CDECL gfx_setDacAnimCount(uint16 count)
+void FAR CDECL gfx_setDacAnimCount(uint16 count)
 {
     GfxState FAR *s = gfx_getState();
     s->dacCounter = (uint8)count;
-    return 0;
+    return;
 }
-int FAR CDECL gfx_commitPage(void)
+void FAR CDECL gfx_commitPage(void)
 {
     GfxState FAR *s = gfx_getState();
     /* Original slot 0x50 is RETF (no-op) - end.exe draws directly to VGA.
@@ -855,21 +855,21 @@ int FAR CDECL gfx_commitPage(void)
     if (s->pageSegs[0] != 0xA000 && s->pageSegs[0] != 0) {
         movedata(s->pageSegs[0], 0, 0xA000, 0, 64000u);
     }
-    return 0;
+    return;
 }
-int FAR CDECL gfx_nop51(void) { return 0; }
-int FAR CDECL gfx_setMonoFlag(uint16 mono) { (void)mono; return 0; }
-int FAR CDECL gfx_blitSpriteClipped(int16 *ptr) { return gfx_blitSprite((struct SpriteParams *)ptr); }
-int FAR CDECL gfx_blitSpriteClipped2(void) { return 0; }
-int FAR CDECL gfx_blitSpriteOpaque(int16 *ptr) { return gfx_blitSprite((struct SpriteParams *)ptr); }
-int FAR CDECL gfx_blitSpriteOpaque2(void) { return 0; }
+void FAR CDECL gfx_nop51(void) { return; }
+void FAR CDECL gfx_setMonoFlag(uint16 mono) { (void)mono; return; }
+void FAR CDECL gfx_blitSpriteClipped(int16 *ptr) { gfx_blitSprite((struct SpriteParams *)ptr); }
+void FAR CDECL gfx_blitSpriteClipped2(void) { return; }
+void FAR CDECL gfx_blitSpriteOpaque(int16 *ptr) { gfx_blitSprite((struct SpriteParams *)ptr); }
+void FAR CDECL gfx_blitSpriteOpaque2(void) { return; }
 
 /* ---- Slot 0x30: gfx_blitToCurrent ---- */
-int FAR CDECL gfx_blitToCurrent(int16 pagePtr)
+void FAR CDECL gfx_blitToCurrent(int16 pagePtr)
 {
     GfxState FAR *s = gfx_getState();
     movedata((uint16)pagePtr, 0, s->curPageSeg, 0, 64000u);
-    return 0;
+    return;
 }
 
 /* ---- Slot 0x12/0x4a: gfx_blitCore — transparent sprite core ----
@@ -910,10 +910,10 @@ void gfx_blitCore_impl(int16 *blk)
 /* ---- Stubs for declared-but-unimplemented slots ---- */
 /* gfx_blitVariant (0x03), gfx_copyBlock (0x04), gfx_drawStringUnclipped (0x06):
  * register-called glyph slots — provided by regshim.asm shims (see above). */
-int FAR CDECL gfx_clipRight(void)           { return 0; }
-int FAR CDECL gfx_clipTop(void)             { return 0; }
-int FAR CDECL gfx_clipLeft(void)            { return 0; }
-int FAR CDECL gfx_clipBottom(void)          { return 0; }
+void FAR CDECL gfx_clipRight(void)           { return; }
+void FAR CDECL gfx_clipTop(void)             { return; }
+void FAR CDECL gfx_clipLeft(void)            { return; }
+void FAR CDECL gfx_clipBottom(void)          { return; }
 
 /* ---- Slot 0x0b: gfx_complexRender — HUD pitch-ladder renderer ----
  * MGRAPHIC code @0x615. Register-called (via the _gfx_complexRender shim in
@@ -1008,29 +1008,29 @@ void gfx_complexRender_impl(int bxArg, int dxArg, int cxArg, int siArg)
         bx -= 2;
     }
 }
-int FAR CDECL gfx_spriteVariant1(void)      { return 0; }
-int FAR CDECL gfx_spriteVariant2(void)      { return 0; }
-int FAR CDECL gfx_nop15(void)              { return 0; }
-int FAR CDECL gfx_nop16(void)              { return 0; }
-int FAR CDECL gfx_setBlitOffset2(void)      { GfxState FAR *s=gfx_getState(); s->blitOffset=0; return 0; }
-int FAR CDECL gfx_setBlitOffset3(void)      { GfxState FAR *s=gfx_getState(); s->blitOffset=0; return 0; }
-int FAR CDECL gfx_setBlitOffsetReg(void)          { return 0; } /* reg-called stub: blitOffset=AX, no shim yet */
+void FAR CDECL gfx_spriteVariant1(void)      { return; }
+void FAR CDECL gfx_spriteVariant2(void)      { return; }
+void FAR CDECL gfx_nop15(void)              { return; }
+void FAR CDECL gfx_nop16(void)              { return; }
+void FAR CDECL gfx_setBlitOffset2(void)      { GfxState FAR *s=gfx_getState(); s->blitOffset=0; return; }
+void FAR CDECL gfx_setBlitOffset3(void)      { GfxState FAR *s=gfx_getState(); s->blitOffset=0; return; }
+void FAR CDECL gfx_setBlitOffsetReg(void)          { return; } /* reg-called stub: blitOffset=AX, no shim yet */
 int FAR CDECL gfx_getPresetOffset2(void)         { return 0x1950; } /* baked constant 0x1950 */
 int FAR CDECL gfx_getBlitOffset(void)         { GfxState FAR *s=gfx_getState(); return (int)s->blitOffset; }
-int FAR CDECL gfx_plotPixel(void)              { return 0; } /* stub: real 0x24 plots one pixel at cached [0x1b6e]/[0x1b70] */
-int FAR CDECL gfx_storePageSeg(void)        { return 0; }
-int FAR CDECL gfx_setPageSeg(void)          { return 0; }
+void FAR CDECL gfx_plotPixel(void)              { return; } /* stub: real 0x24 plots one pixel at cached [0x1b6e]/[0x1b70] */
+void FAR CDECL gfx_storePageSeg(void)        { return; }
+void FAR CDECL gfx_setPageSeg(void)          { return; }
 /* Slot 0x2b: zero-fill the PHYSICAL VGA buffer (0xA000), 64000 bytes — MGRAPHIC
  * sets ES=0xA000 and `rep stosw` 0x7d00 words. Independent of the page table, so
  * it always clears the visible framebuffer. (egame only calls this from a dead
  * path, but start/end use it; implement faithfully.) */
-int FAR CDECL gfx_clearVga(void)
+void FAR CDECL gfx_clearVga(void)
 {
     uint16 far *p = (uint16 far *)MK_FP(0xA000, 0);
     uint16 i;
     for (i = 0; i < 32000u; i++)
         p[i] = 0;
-    return 0;
+    return;
 }
 /* Slot 0x2c: present the composited back buffer to the visible page.
  * MGRAPHIC's slot 0x2c copies the full 64000-byte page from pageSegs[1] (the
@@ -1039,12 +1039,12 @@ int FAR CDECL gfx_clearVga(void)
  * called once per frame from gameMainLoop (egame_rc.asm). Args (AX/BX) ignored.
  * Without this the dynamic frame never reaches the screen — only the static
  * cockpit copied to page 0 at startup, plus direct-to-page-0 draws, show. */
-int FAR CDECL gfx_dacAnimate(void)
+void FAR CDECL gfx_dacAnimate(void)
 {
     GfxState FAR *s = gfx_getState();
     movedata(s->pageSegs[1], 0, s->pageSegs[0], 0, 64000u);
     s->displayPage = 1;
-    return 0;
+    return;
 }
 /* ---- Slot 0x2e: gfx_dacCycle — DAC fire/target colour-cycle ----
  * MGRAPHIC code @0x9be. Per frame it advances a phase counter (LCG x*5+1) at
@@ -1066,7 +1066,7 @@ static const uint8 g_dacFirePalette[16][3] = {
 };
 static const uint8 g_dacFireIndex[4] = {0x0c, 0x04, 0x0c, 0x0e};
 
-int FAR CDECL gfx_dacCycle(void)
+void FAR CDECL gfx_dacCycle(void)
 {
     GfxState FAR *s = gfx_getState();
     uint16 phase;
@@ -1110,9 +1110,9 @@ int FAR CDECL gfx_dacCycle(void)
         outp(0x3D4, 0x0D);
         outp(0x3D5, jitter);
     }
-    return 0;
+    return;
 }
-int FAR CDECL gfx_setPageBuf(void)          { return 0; }
+void FAR CDECL gfx_setPageBuf(void)          { return; }
 int FAR CDECL gfx_getConst1(void)           { return 1; } /* baked constant 1 (cs:0x1d8 in MGRAPHIC) */
 
 /* ---- Slot function pointer table (84 entries, slots 0x00–0x53) ---- */
