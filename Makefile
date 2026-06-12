@@ -137,7 +137,9 @@ NOASM_SHARED_SRC := file_io.c timer.c miscstub.c gfxstub.c picstub.c ovlstub.c
 NOASM_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
 NOASM_OBJ := $(NOASM_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util2.obj
 $(NOASM_COBJ): $(START_BASEHDR)
-$(NOASM_COBJ): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DNO_ASM /DBUGFIX
+# /Ox breaks the timer-polled busy-waits (MSC 5.1 hoists the non-volatile poll
+# out of the loop and its `volatile` is non-functional), so stay at /Gs.
+$(NOASM_COBJ): MSC_CFLAGS := /Gs /Id:\f15-se2 /DNO_ASM /DBUGFIX
 $(NOASMDIR)/util.obj: $(SRCDIR)/shared/util.c $(HDRS) | $(NOASMDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /I.. /Id:\f15-se2 /DNO_ASM /DBUGFIX"
 $(NOASMDIR)/util2.obj: $(SRCDIR)/shared/util2.c $(HDRS) | $(NOASMDIR)
@@ -175,7 +177,7 @@ $(NOASMDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(NOASMDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 
 $(NOASMDIR)/%.obj: $(SRCDIR)/shared/%.c $(HDRS) | $(NOASMDIR)
-	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /Zi /I.. /Id:\f15-se2 /DNO_ASM /DBUGFIX"
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Ox /I.. /Id:\f15-se2 /DNO_ASM /DBUGFIX"
 
 $(NOASMDIR)/%.obj: $(SRCDIR)/%.asm | $(NOASMDIR)
 	$(ASM) $(ASMFLAGS) -Fo$@ $<
@@ -315,7 +317,9 @@ NOASM_END_SRC := $(END_SRC) slottram.c ovlpatch.c
 NOASM_END_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_END_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
 NOASM_END_OBJ := $(NOASM_END_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util2.obj
 $(NOASM_END_COBJ): $(END_BASEHDR)
-$(NOASM_END_COBJ): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DNO_ASM /DBUGFIX
+# /Ox breaks the timer-polled busy-waits (MSC 5.1 hoists the non-volatile poll
+# out of the loop and its `volatile` is non-functional), so stay at /Gs.
+$(NOASM_END_COBJ): MSC_CFLAGS := /Gs /Id:\f15-se2 /DNO_ASM /DBUGFIX
 $(END_NOASM): | $(NOASMDIR)
 $(END_NOASM): $(NOASM_END_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(NOASM_END_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
