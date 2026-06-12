@@ -102,14 +102,14 @@ int FAR CDECL gfx_setPageN(uint16 pageNum)
     return ((int(FAR*)(uint16))gfxFarTableExported[14])(pageNum);
 }
 
-/* Slot 0x0f: gfx_getCurPageSeg */
-int FAR CDECL gfx_getCurPageSeg(void)
+/* Slot 0x0f: gfx_setCurPageSeg */
+int FAR CDECL gfx_setCurPageSeg(void)
 {
     return ((int(FAR*)(void))gfxFarTableExported[15])();
 }
 
-/* Slot 0x10: gfx_getCurPageSeg2 */
-int FAR CDECL gfx_getCurPageSeg2(void)
+/* Slot 0x10: gfx_getCurPageSeg */
+int FAR CDECL gfx_getCurPageSeg(void)
 {
     return ((int(FAR*)(void))gfxFarTableExported[16])();
 }
@@ -174,26 +174,26 @@ int FAR CDECL gfx_setBlitOffset(int offset)
     return ((int(FAR*)(int))gfxFarTableExported[26])(offset);
 }
 
-/* Slot 0x1b: gfx_getAuxSize */
-int FAR CDECL gfx_getAuxSize(void)
+/* Slot 0x1b: gfx_setBlitOffsetReg */
+int FAR CDECL gfx_setBlitOffsetReg(void)
 {
     return ((int(FAR*)(void))gfxFarTableExported[27])();
 }
 
-/* Slot 0x1c: gfx_getBlitOffset */
-int FAR CDECL gfx_getBlitOffset(void)
+/* Slot 0x1c: gfx_getPresetOffset1 */
+int FAR CDECL gfx_getPresetOffset1(void)
 {
     return ((int(FAR*)(void))gfxFarTableExported[28])();
 }
 
-/* Slot 0x1d: gfx_setClipVal1 */
-int FAR CDECL gfx_setClipVal1(void)
+/* Slot 0x1d: gfx_getPresetOffset2 */
+int FAR CDECL gfx_getPresetOffset2(void)
 {
     return ((int(FAR*)(void))gfxFarTableExported[29])();
 }
 
-/* Slot 0x1e: gfx_setClipVal2 */
-int FAR CDECL gfx_setClipVal2(void)
+/* Slot 0x1e: gfx_getBlitOffset */
+int FAR CDECL gfx_getBlitOffset(void)
 {
     return ((int(FAR*)(void))gfxFarTableExported[30])();
 }
@@ -205,8 +205,8 @@ int FAR CDECL gfx_drawLine(uint16 x1, uint16 y1, uint16 x2, uint16 y2)
     return ((int(FAR*)(uint16,uint16,uint16,uint16))gfxFarTableExported[31])(x1, y1, x2, y2);
 }
 
-/* Slot 0x20: gfx_setPageDirect */
-int FAR CDECL gfx_setPageDirect(void)
+/* Slot 0x20: gfx_setDrawColor */
+int FAR CDECL gfx_setDrawColor(void)
 {
     return ((int(FAR*)(void))gfxFarTableExported[32])();
 }
@@ -217,20 +217,20 @@ int FAR CDECL gfx_setColor(int color)
     return ((int(FAR*)(uint8))gfxFarTableExported[33])(color);
 }
 
-/* Slot 0x22: gfx_resetBlitOffset */
-int FAR CDECL gfx_resetBlitOffset(void)
+/* Slot 0x22: gfx_nop22 */
+int FAR CDECL gfx_nop22(void)
 {
     return ((int(FAR*)(void))gfxFarTableExported[34])();
 }
 
-/* Slot 0x23: gfx_resetBlitOffset2 */
-int FAR CDECL gfx_resetBlitOffset2(void)
+/* Slot 0x23: gfx_nop23 */
+int FAR CDECL gfx_nop23(void)
 {
     return ((int(FAR*)(void))gfxFarTableExported[35])();
 }
 
-/* Slot 0x24: gfx_nop24 */
-int FAR CDECL gfx_nop24(void)
+/* Slot 0x24: gfx_plotPixel */
+int FAR CDECL gfx_plotPixel(void)
 {
     return ((int(FAR*)(void))gfxFarTableExported[36])();
 }
@@ -271,8 +271,8 @@ int FAR CDECL gfx_copyRect(int srcPage, uint16 srcX, uint16 srcY, int dstPage, u
     return ((int(FAR*)(int,uint16,uint16,int,uint16,uint16,int,int))gfxFarTableExported[42])(srcPage, srcX, srcY, dstPage, dstX, dstY, width, height);
 }
 
-/* Slot 0x2b: gfx_unknown2b */
-int FAR CDECL gfx_unknown2b(void)
+/* Slot 0x2b: gfx_clearVga */
+int FAR CDECL gfx_clearVga(void)
 {
     return ((int(FAR*)(void))gfxFarTableExported[43])();
 }
@@ -289,8 +289,8 @@ int FAR CDECL gfx_getDisplayPage(void)
     return ((int(FAR*)(uint16))gfxFarTableExported[45])(0);
 }
 
-/* Slot 0x2e: gfx_unknown2e */
-int FAR CDECL gfx_unknown2e(void)
+/* Slot 0x2e: gfx_dacCycle */
+int FAR CDECL gfx_dacCycle(void)
 {
     return ((int(FAR*)(void))gfxFarTableExported[46])();
 }
@@ -313,8 +313,8 @@ int FAR CDECL gfx_getAuxBufSize(void)
     return ((int(FAR*)(void))gfxFarTableExported[49])();
 }
 
-/* Slot 0x32: gfx_fontSetup */
-int FAR CDECL gfx_fontSetup(uint16 ch, uint16 fontIdx)
+/* Slot 0x32: gfx_getFreeMem */
+int FAR CDECL gfx_getFreeMem(uint16 ch, uint16 fontIdx)
 {
     return ((int(FAR*)(uint16,uint16))gfxFarTableExported[50])(ch, fontIdx);
 }
@@ -415,8 +415,8 @@ int FAR CDECL gfx_getModeFlag2(void)
     return ((int(FAR*)(void))gfxFarTableExported[66])();
 }
 
-/* Slot 0x43: gfx_unknown43 */
-int FAR CDECL gfx_unknown43(void)
+/* Slot 0x43: gfx_getConst1 */
+int FAR CDECL gfx_getConst1(void)
 {
     return ((int(FAR*)(void))gfxFarTableExported[67])();
 }

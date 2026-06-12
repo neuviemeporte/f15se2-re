@@ -159,7 +159,9 @@ NOASM_F15_SRC := f15.c dosfunc.c biosfunc.c output.c overlay.c f15util.c gfx_imp
 NOASM_F15_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_F15_SRC))
 # regshim.asm: register-call ABI glue for the register-passed gfx slots
 NOASM_F15_OBJ := $(NOASM_F15_COBJ) $(NOASMDIR)/regshim.obj
-$(NOASM_F15_COBJ): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DNO_ASM /DBUGFIX
+# Not byte-matched against an original (no verify target), so build for
+# maximum optimization. /Ox = max opt favoring speed (implies /Gs).
+$(NOASM_F15_COBJ): MSC_CFLAGS := /Ox /Id:\f15-se2 /DNO_ASM /DBUGFIX
 $(F15_NOASM): | $(NOASMDIR)
 $(F15_NOASM): $(NOASM_F15_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(NOASM_F15_OBJ) -o $@ -f "$(LINKFLAGS)"

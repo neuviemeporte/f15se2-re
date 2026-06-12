@@ -96,18 +96,18 @@ EXTRN _joyAxes:byte
 EXTRN _gfx_getDisplayPage:PROC
 EXTRN gfx_fillDirty:PROC
 EXTRN gfx_complexRender:PROC
-EXTRN gfx_setPageDirect:PROC
+EXTRN gfx_setDrawColor:PROC
 EXTRN gfx_drawLine:PROC
-EXTRN gfx_resetBlitOffset:PROC
+EXTRN gfx_nop22:PROC
 EXTRN gfx_blitTransparent:PROC
 EXTRN gfx_copyBlock:PROC
 EXTRN gfx_blitVariant:PROC
 EXTRN gfx_blitCore:PROC
-EXTRN gfx_getAuxSize:PROC
+EXTRN gfx_setBlitOffsetReg:PROC
 EXTRN gfx_drawStringUnclipped:PROC
 EXTRN gfx_setBlitOffset3:PROC
-EXTRN gfx_getBlitOffset:PROC
-EXTRN gfx_setClipVal1:PROC
+EXTRN gfx_getPresetOffset1:PROC
+EXTRN gfx_getPresetOffset2:PROC
 
 ; External routines in other segments
 EXTRN sub_21526:PROC
@@ -258,7 +258,7 @@ loc_21a7_008f:
     mov DL,byte ptr [byte_37C35]
     call far ptr gfx_complexRender
     mov AH,0Fh
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     cmp byte ptr [_byte_37C24],0h
     jz loc_21a7_0107
     mov AX,7Ah
@@ -295,7 +295,7 @@ loc_21a7_0107:
     mov DX,16h
     call far ptr gfx_drawLine
 loc_21a7_013a:
-    call far ptr gfx_resetBlitOffset
+    call far ptr gfx_nop22
     mov AX,[_word_380D0]
     sub DX,DX
     mov CX,3E8h
@@ -504,7 +504,7 @@ loc_21a7_035b:
     mov DX,0Fh
     call far ptr gfx_drawLine
     mov AH,8h
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     mov AX,2Dh
     mov CX,2Dh
     mov BX,60h
@@ -544,7 +544,7 @@ loc_21a7_03dc:
     mov DX,3Fh
     call far ptr gfx_drawLine
     mov AH,8h
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     mov AX,66h
     mov CX,66h
     mov BX,60h
@@ -571,7 +571,7 @@ loc_21a7_03dc:
     mov DX,3Fh
     call far ptr gfx_drawLine
 loc_21a7_045a:
-    call far ptr gfx_resetBlitOffset
+    call far ptr gfx_nop22
     cmp byte ptr [_byte_37C2F],0h
     jz loc_21a7_046e
     mov BP,offset word_37B9C
@@ -887,9 +887,9 @@ loc_21a7_07cf:
     jz loc_21a7_07da
     mov AH,0h
 loc_21a7_07da:
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     mov AX,[word_37C1C]
-    call far ptr gfx_getAuxSize
+    call far ptr gfx_setBlitOffsetReg
     mov AX,[word_37C1E]
     mov [word_37557],AX
     mov AX,[word_37C20]
@@ -928,7 +928,7 @@ loc_21a7_084b:
     mov BL,byte ptr [byte_37EEF]
     cmp byte ptr [byte_37EEE],BL
     jl loc_21a7_07fd
-    call far ptr gfx_resetBlitOffset
+    call far ptr gfx_nop22
     add word ptr [word_37EF0],0Bh
     mov SI,0h
     mov word ptr [word_37EF2],5h
@@ -1107,7 +1107,7 @@ loc_2242F:
     mov word_37C18, ax
     mov ax, 9Fh
     mov word_37C1A, ax
-    call far ptr gfx_getBlitOffset
+    call far ptr gfx_getPresetOffset1
     mov word_37C1C, ax
     mov ax, 42h
     mov word_37C1E, ax
@@ -1207,7 +1207,7 @@ loc_22599:
     mov ax, 9Fh
     mov word_37C1A, ax
 loc_225BF:
-    call far ptr gfx_setClipVal1
+    call far ptr gfx_getPresetOffset2
 loc_225C4:
     mov word_37C1C, ax
 loc_225C7:

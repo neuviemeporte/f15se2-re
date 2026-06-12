@@ -35,6 +35,9 @@ typedef struct {
                              * returned by getDisplayPage (slot 0x2d). The frame
                              * is composited here (page 1) then presented to the
                              * visible page 0 by gfx_dacAnimate (slot 0x2c). */
+    uint16 dacPhase;        /* MGRAPHIC data-seg 0x1ccc — the DAC fire-cycle phase
+                             * counter advanced by gfx_dacCycle (slot 0x2e) each
+                             * frame (LCG x*5+1); seeded 0x4d2 in gfx_buildVirtualOverlay. */
 } GfxState;
 
 /* Near function pointer type for the gfx slot table */

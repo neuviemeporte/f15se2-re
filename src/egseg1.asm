@@ -3,11 +3,11 @@
 EXTRN gfx_dirtyRect:far
 EXTRN gfx_dirtyRect2:far
 EXTRN gfx_drawLine:far
+EXTRN gfx_setCurPageSeg:far
 EXTRN gfx_getCurPageSeg:far
-EXTRN gfx_getCurPageSeg2:far
-EXTRN gfx_resetBlitOffset:far
+EXTRN gfx_nop22:far
 EXTRN gfx_setPage1:far
-EXTRN gfx_setPageDirect:far
+EXTRN gfx_setDrawColor:far
 EXTRN lookupSineFar:far
 EXTRN lookupCosineFar:far
 EXTRN _byte_34197:byte
@@ -335,7 +335,7 @@ drawPolygonOutline proc far
     PUSH SI
     PUSH DI
     MOV AH,[BP+0Ch]
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     CALL loc_1EA0
     MOV SI,[BP+0Ah]
     MOV CX,[BP+8h]
@@ -368,7 +368,7 @@ loc_0025:
     MOV CX,[word_378DB]
     MOV BX,4CB5h
     call far ptr gfx_dirtyRect
-    call far ptr gfx_resetBlitOffset
+    call far ptr gfx_nop22
     POP DI
     POP SI
     POP DS
@@ -1256,7 +1256,7 @@ loc_06D4:
     MOV [_word_37561],DX
     MOV WORD PTR [word_34198],0h
     MOV AH,[byte_34196]
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     CALL loc_1EA0
     CALL loc_1CB6
     JNC short loc_07C2
@@ -1264,7 +1264,7 @@ loc_077E:
     CMP WORD PTR [word_3426E],BYTE PTR +0x0
     JS short loc_0798
     MOV AH,[_byte_34197]
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     CMP BYTE PTR [_word_38FDC],2h
     JNZ short loc_0798
     JMP near ptr loc_087E
@@ -1347,11 +1347,11 @@ loc_0852:
     XOR WORD PTR [word_34198],BYTE PTR -0x1
     JZ short loc_087E
     MOV AH,[_byte_34197]
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     CALL loc_1EA0
     JMP near ptr loc_07D5
 loc_087E:
-    call far ptr gfx_resetBlitOffset
+    call far ptr gfx_nop22
     RET
 sub_1FEFE endp
 
@@ -3165,7 +3165,7 @@ loc_1828:
     MOV DI,AX
     MOV AH,[DI+18ECh]
     ADD AH,[_var_190]
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     MOV CX,[BX+8h]
     MOV DX,[BX+0Ch]
     MOV AX,[BX]
@@ -3209,7 +3209,7 @@ loc_1890:
     MOV DI,BX
     MOV AH,[DI+18ECh]
     ADD AH,[_var_190]
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     CALL loc_1EA0
     MOV ES,[_var_200_seg]
     MOV BYTE PTR [byte_36C18],0h
@@ -3331,7 +3331,7 @@ loc_198A:
     MOV DI,AX
     MOV AH,[DI+18ECh]
     ADD AH,[_var_190]
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     CALL loc_0113
     SUB BX,BX
     CALL loc_0078
@@ -3427,7 +3427,7 @@ loc_19E8:
     MOV BX,0Fh
 loc_1ABC:
     MOV AH,[BX+18ECh]
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     SUB BX,BX
     CALL loc_0078
     MOV AX,[_var_279]
@@ -3492,7 +3492,7 @@ loc_1B06:
     MOV BX,0Fh
 loc_1B6C:
     MOV AH,[BX+18ECh]
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     PUSH SI
     SUB BX,BX
     CALL loc_0078
@@ -3541,13 +3541,13 @@ fillSpanRect proc far
     PUSH BP
     PUSH DS
     POP ES
-    call far ptr gfx_getCurPageSeg2
+    call far ptr gfx_getCurPageSeg
     PUSH AX
     MOV BX,[BP+6h]
     MOV AX,[BX]
     call far ptr gfx_setPage1
     MOV AH,[BX+4h]
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     CALL loc_1EA0
     MOV CX,[BP+0Eh]
     MOV SI,[BP+0Ah]
@@ -3570,9 +3570,9 @@ fillSpanRect proc far
     MOV AX,[word_378D9]
     MOV CX,[word_378DB]
     call far ptr gfx_dirtyRect2
-    call far ptr gfx_resetBlitOffset
+    call far ptr gfx_nop22
     POP AX
-    call far ptr gfx_getCurPageSeg
+    call far ptr gfx_setCurPageSeg
     POP BP
     POP SI
     POP DI
@@ -3594,13 +3594,13 @@ fillSpanRectAlt:
     PUSH BP
     PUSH DS
     POP ES
-    call far ptr gfx_getCurPageSeg2
+    call far ptr gfx_getCurPageSeg
     PUSH AX
     MOV BX,[BP+6h]
     MOV AX,[BX]
     call far ptr gfx_setPage1
     MOV AH,[BX+6h]
-    call far ptr gfx_setPageDirect
+    call far ptr gfx_setDrawColor
     CALL loc_1EA0
     MOV CX,[BP+0Eh]
     MOV SI,[BP+0Ah]
@@ -3623,9 +3623,9 @@ fillSpanRectAlt:
     MOV AX,[word_378D9]
     MOV CX,[word_378DB]
     call far ptr gfx_dirtyRect2
-    call far ptr gfx_resetBlitOffset
+    call far ptr gfx_nop22
     POP AX
-    call far ptr gfx_getCurPageSeg
+    call far ptr gfx_setCurPageSeg
     POP BP
     POP SI
     POP DI

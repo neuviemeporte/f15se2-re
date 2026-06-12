@@ -352,7 +352,7 @@ void drawViewportLine(int x1, int y1, int x2, int y2) {
     var_352 = x2;
     var_354 = y2;
     drawClipLineGlobal();
-    gfx_resetBlitOffset2();
+    gfx_nop23();
 }
 
 // ==== seg000:0x9c84 ====
@@ -370,7 +370,7 @@ void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int arg
     var_352 = x2 - clipLeft;
     var_354 = y2 - arg_c;
     drawClipLineGlobal();
-    gfx_resetBlitOffset2();
+    gfx_nop23();
     if (drawBothPages != 0) {
         byte_3C5A0 = gfx_getDisplayPage();
         gfx_setPageN(byte_3C5A0 == 0);
@@ -381,7 +381,7 @@ void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int arg
         var_354 = y2 - arg_c;
         drawClipLineGlobal();
         gfx_setPageN(byte_3C5A0 != 0);
-        gfx_resetBlitOffset2();
+        gfx_nop23();
     }
     var_349 = 0x13f;
     var_350 = 0xc7;

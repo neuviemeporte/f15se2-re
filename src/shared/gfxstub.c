@@ -48,7 +48,7 @@ void clearRect(int16 *pageNum, int x1, int y1, int x2, int y2)
     color = (uint8)pageNum[3];
     gfx_setPageN(*pageNum);
     /* slot 0x10 (getCurPageSeg2) is the no-arg getter; slot 0x0f is a setter. */
-    pageSeg = (uint16)gfx_getCurPageSeg2();
+    pageSeg = (uint16)gfx_getCurPageSeg();
     page = (uint8 far *)MK_FP(pageSeg, 0);
     if (x2 > 319) x2 = 319;
     if (y2 > 199) y2 = 199;

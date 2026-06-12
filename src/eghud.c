@@ -1370,7 +1370,7 @@ void renderFrame() {
     if (var_E != word_330C2) {
         gfx_waitRetrace();
         if (word_330C2 != 0) {
-            gfx_resetBlitOffset2();
+            gfx_nop23();
             // the pointer arguments are probably rastports, RectCopy?
             gfx_copyRect(*off_38364, 0, 0x61, *off_38334, 0, 0x61, 0x140, 0x67);
             gfx_copyRect(*off_38364, 0, 0x61, *off_3834C, 0, 0x61, 0x140, 0x67);
@@ -1438,7 +1438,7 @@ void renderFrame() {
         word_3755F = 0x49;
         word_37563 = 0x5e;
         drawClipLineGlobal();
-        gfx_resetBlitOffset2();
+        gfx_nop23();
         var_E = byte_3C5A0;
         byte_3C5A0 = gfx_getDisplayPage();
         blitSprite(0x6b, 0x30, 0xd1, 0, 0x6f, 0x2f, 0);

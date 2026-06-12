@@ -22,42 +22,42 @@ int FAR CDECL gfx_initOverlay();                       /* slot 0x0c: initOverlay
 int FAR CDECL gfx_setPage1();                          /* slot 0x0d: curPage = pageSegs[1] */
 /* dseg:0xafe */
 int FAR CDECL gfx_setPageN(uint16 pageNum);            /* slot 0x0e: curPage = pageSegs[n] */
-int FAR CDECL gfx_getCurPageSeg();                     /* slot 0x0f: returns curPageSeg */
-int FAR CDECL gfx_getCurPageSeg2();                    /* slot 0x10: returns curPageSeg */
+int FAR CDECL gfx_setCurPageSeg();                     /* slot 0x0f: SETTER curPageSeg = AX (register-called) */
+int FAR CDECL gfx_getCurPageSeg();                    /* slot 0x10: GETTER returns curPageSeg in AX */
 int FAR CDECL gfx_blitSprite(struct SpriteParams* spritePtr); /* slot 0x11: sprite blit */
 int FAR CDECL gfx_blitCore();                          /* slot 0x12: blit core (internal) */
 int FAR CDECL gfx_spriteVariant1();                    /* slot 0x13: sprite variant */
 int FAR CDECL gfx_spriteVariant2();                    /* slot 0x14: sprite variant */
 int FAR CDECL gfx_nop15();                             /* slot 0x15: retf stub */
 int FAR CDECL gfx_nop16();                             /* slot 0x16: retf stub */
-int FAR CDECL gfx_getBufSize();                        /* slot 0x17: returns 0x5580 */
+int FAR CDECL gfx_getBufSize();                        /* slot 0x17: returns baked constant 64000 (0xFA00) */
 int FAR CDECL gfx_setBlitOffset2();                    /* slot 0x18: setBlitOffset */
 int FAR CDECL gfx_setBlitOffset3();                    /* slot 0x19: setBlitOffset (=0x18) */
 int FAR CDECL gfx_setBlitOffset(int offset);           /* slot 0x1a: setBlitOffset */
-int FAR CDECL gfx_getAuxSize();                        /* slot 0x1b: returns 0x1950 */
-int FAR CDECL gfx_getBlitOffset();                     /* slot 0x1c: returns blitOffset */
-int FAR CDECL gfx_setClipVal1();                       /* slot 0x1d: writes ds:0xcc */
-int FAR CDECL gfx_setClipVal2();                       /* slot 0x1e: writes ds:0xce */
+int FAR CDECL gfx_setBlitOffsetReg();                        /* slot 0x1b: register-call tail: blitOffset = AX */
+int FAR CDECL gfx_getPresetOffset1();                     /* slot 0x1c: returns baked constant 0x5580 */
+int FAR CDECL gfx_getPresetOffset2();                       /* slot 0x1d: returns baked constant 0x1950 */
+int FAR CDECL gfx_getBlitOffset();                       /* slot 0x1e: returns live blitOffset (cs:0x1a0) */
 int FAR CDECL gfx_drawLine(uint16 x1, uint16 y1, uint16 x2, uint16 y2); /* slot 0x1f: drawLine (Bresenham) */
-int FAR CDECL gfx_setPageDirect();                     /* slot 0x20: set curPageSeg from AX */
+int FAR CDECL gfx_setDrawColor();                     /* slot 0x20: set draw colour from AH (register-called) */
 int FAR CDECL gfx_setColor(int color);                 /* slot 0x21: set fill/draw color */
-int FAR CDECL gfx_resetBlitOffset();                   /* slot 0x22: reset blitOffset=0 */
-int FAR CDECL gfx_resetBlitOffset2();                  /* slot 0x23: reset blitOffset=0 */
-int FAR CDECL gfx_nop24();                             /* slot 0x24: retf (no-op) */
+int FAR CDECL gfx_nop22();                   /* slot 0x22: bare RETF no-op (does NOT reset blitOffset) */
+int FAR CDECL gfx_nop23();                  /* slot 0x23: bare RETF no-op */
+int FAR CDECL gfx_plotPixel();                             /* slot 0x24: plot pixel at cached position */
 int FAR CDECL gfx_dirtyRect();                         /* slot 0x25: dirtyRect (reg-called) */
 int FAR CDECL gfx_storePageSeg();                      /* slot 0x26: store page seg */
 int FAR CDECL gfx_setPageSeg();                        /* slot 0x27: pageSegs[idx]=seg */
 int FAR CDECL gfx_dirtyRect2();                        /* slot 0x28: dirtyRect2 (=0x25) */
 int FAR CDECL gfx_switchColor(int16* pageDesc, int x1, int y1, int x2, int y2, int oldColor, int newColor); /* slot 0x29: replace color in rect */
 int FAR CDECL gfx_copyRect(int srcPage, uint16 srcX, uint16 srcY, int dstPage, uint16 dstX, uint16 dstY, int width, int height); /* slot 0x2a: copyRect between pages */
-int FAR CDECL gfx_unknown2b();                         /* slot 0x2b: unknown */
+int FAR CDECL gfx_clearVga();                         /* slot 0x2b: clear physical VGA 0xA000 */
 int FAR CDECL gfx_dacAnimate();                        /* slot 0x2c: DAC palette animation */
 int FAR CDECL gfx_getDisplayPage();                    /* slot 0x2d: getDisplayPage */
-int FAR CDECL gfx_unknown2e();                         /* slot 0x2e: unknown */
+int FAR CDECL gfx_dacCycle();                         /* slot 0x2e: DAC fire/colour-cycle animation */
 int FAR CDECL gfx_setFont(uint16 ch, uint16 fontIdx);  /* slot 0x2f: setup font metrics */
 int FAR CDECL gfx_blitToCurrent(int16 pagePtr);        /* slot 0x30: copy to curPage */
 int FAR CDECL gfx_getAuxBufSize();                     /* slot 0x31: getAuxBufSize */
-int FAR CDECL gfx_fontSetup();                         /* slot 0x32: font setup */
+int FAR CDECL gfx_getFreeMem();                         /* slot 0x32: DOS free-memory probe */
 int FAR CDECL gfx_fillRow();                           /* slot 0x33: no-op in MCGA */
 int FAR CDECL gfx_fillRow2();                          /* slot 0x34: no-op in MCGA */
 int FAR CDECL gfx_copyRow();                           /* slot 0x35: retf */
@@ -76,7 +76,7 @@ int FAR CDECL gfx_getModecode();                       /* slot 0x3f: returns 3 (
 int FAR CDECL gfx_setOvlVal1(int val);                 /* slot 0x40: writes ds:0xcc */
 int FAR CDECL gfx_setOvlVal2(int val);                 /* slot 0x41: writes ds:0xce */
 int FAR CDECL gfx_getModeFlag2();                      /* slot 0x42: returns modeFlag */
-int FAR CDECL gfx_unknown43();                         /* slot 0x43: unknown */
+int FAR CDECL gfx_getConst1();                         /* slot 0x43: returns baked constant 1 (cs:0x1d8) */
 void FAR CDECL gfx_setDac(uint16 palIdx);              /* slot 0x44: set VGA DAC palette */
 int FAR CDECL gfx_waitRetrace();                       /* slot 0x45: wait for vblank */
 int FAR CDECL gfx_flipPage();                          /* slot 0x46: vblank + flip to VGA */

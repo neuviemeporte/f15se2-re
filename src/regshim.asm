@@ -21,11 +21,18 @@ PUBLIC _gfx_fillRow
 PUBLIC _gfx_copyRow
 PUBLIC _gfx_clearPage
 PUBLIC _gfx_setPage1
+PUBLIC _gfx_setCurPageSeg
 PUBLIC _gfx_getCurPageSeg
-PUBLIC _gfx_getCurPageSeg2
-PUBLIC _gfx_setPageDirect
+PUBLIC _gfx_setDrawColor
 PUBLIC _gfx_dirtyRect2
 PUBLIC _gfx_drawLine
+PUBLIC _gfx_blitCore
+PUBLIC _gfx_fillDirty
+PUBLIC _gfx_blitTransparent
+PUBLIC _gfx_blitVariant
+PUBLIC _gfx_copyBlock
+PUBLIC _gfx_drawStringUnclipped
+PUBLIC _gfx_complexRender
 
 EXTRN _gfx_getRowOffset_impl:NEAR
 EXTRN _gfx_getPageSeg_impl:NEAR
@@ -34,10 +41,13 @@ EXTRN _gfx_copyRow_impl:NEAR
 EXTRN _gfx_clearPage_impl:NEAR
 EXTRN _gfx_setPage1_impl:NEAR
 EXTRN _gfx_setCurPageSeg_impl:NEAR
-EXTRN _gfx_getCurPageSeg2_impl:NEAR
+EXTRN _gfx_getCurPageSeg_impl:NEAR
 EXTRN _gfx_setFillColor_impl:NEAR
 EXTRN _gfx_dirtyRectFill_impl:NEAR
 EXTRN _gfx_drawLine_impl:NEAR
+EXTRN _gfx_blitCore_impl:NEAR
+EXTRN _gfx_drawStringClipped_impl:NEAR
+EXTRN _gfx_complexRender_impl:NEAR
 
 .CODE
 
@@ -122,23 +132,23 @@ _gfx_setPage1 proc far
 _gfx_setPage1 endp
 
 ; Slot 0x10 — returns curPageSeg in AX (clearRect saves it). Preserve ES.
-_gfx_getCurPageSeg2 proc far
+_gfx_getCurPageSeg proc far
     push es
-    call _gfx_getCurPageSeg2_impl   ; returns AX = curPageSeg
+    call _gfx_getCurPageSeg_impl   ; returns AX = curPageSeg
     pop es
     retf
-_gfx_getCurPageSeg2 endp
+_gfx_getCurPageSeg endp
 
 ; Slot 0x0f — AX = segment; curPageSeg = AX (clearRect's restore; a SETTER).
-_gfx_getCurPageSeg proc far
+_gfx_setCurPageSeg proc far
     push ax                         ; arg: segment
     call _gfx_setCurPageSeg_impl
     add sp, 2
     retf
-_gfx_getCurPageSeg endp
+_gfx_setCurPageSeg endp
 
 ; Slot 0x20 — AH = fill colour; store it for the next clear/fill. Preserve ES.
-_gfx_setPageDirect proc far
+_gfx_setDrawColor proc far
     push es                         ; preserve caller's ES (clearRect's stosw seg)
     mov al, ah                      ; arg: colour (AH -> low byte)
     xor ah, ah
@@ -147,16 +157,26 @@ _gfx_setPageDirect proc far
     add sp, 2
     pop es
     retf
-_gfx_setPageDirect endp
+_gfx_setDrawColor endp
 
 ; Slot 0x25/0x28 — BX = &dirtyMinBuf (caller DS near), AX = yMin, CX = yMax.
 ; cdecl args right-to-left: yMax, yMin, minBufOff.
+; Preserve ES: MGRAPHIC's slot is hand-asm that leaves ES untouched, but the C
+; body loads ES (gfx_getState + the per-row page writes leave ES=curPageSeg).
+; The 3D polygon rasterizer (egseg1.asm renderPrimitiveCommand loc_1929) calls
+; this as its last act and then RETs into renderPrimitiveList, which reads the
+; next primitive's command bytes via ES:SI (the model far ptr). If ES is left
+; pointing at the page buffer, the next vertex-count byte is read from the wrong
+; segment -> garbage count -> the loc_18AB edge loop runs on garbage and the
+; flight hangs from frame 2 on. Preserving ES keeps the model segment intact.
 _gfx_dirtyRect2 proc far
+    push es                         ; preserve caller's ES (model far-ptr seg)
     push cx                         ; arg3: yMax
     push ax                         ; arg2: yMin
     push bx                         ; arg1: minBufOff
     call _gfx_dirtyRectFill_impl
     add sp, 6
+    pop es
     retf
 _gfx_dirtyRect2 endp
 
@@ -179,5 +199,87 @@ _gfx_drawLine proc far
     pop ds
     retf
 _gfx_drawLine endp
+
+; Slot 0x12/0x4a — BP = near pointer (caller DS) to an 8-word sprite param block.
+; MGRAPHIC's slot 0x12 is register-called (egame loads BP=offset block then
+; `call far ptr gfx_blitCore`), so the C body cannot read the block as a cdecl
+; arg directly — push BP as the single cdecl arg. MGRAPHIC's slot wraps its body
+; in push ds/es .. pop es/ds, preserving both across the blit; mirror that.
+_gfx_blitCore proc far
+    push ds
+    push es
+    push bp                         ; arg1: block pointer (caller DS near)
+    call _gfx_blitCore_impl
+    add sp, 2
+    pop es
+    pop ds
+    retf
+_gfx_blitCore endp
+
+; --- Register-called glyph slots (0x01/0x02/0x03/0x04/0x06) ---
+; The egame HUD/label code (egseg2.asm) sets BP = param block (kept across the
+; loop) and BX = string, then `call far ptr gfx_xxx`. The MGRAPHIC originals
+; enter the shared glyph engine with BP/BX already in registers. Marshal them
+; into gfx_drawStringClipped_impl(params, string, mode) — args right-to-left:
+; mode, string, params. `mode` selects clip stages: 1=horizontal, 2=vertical,
+; 3=both, 0=none. .8086 has no `push imm`, so stage mode through AX. MGRAPHIC's
+; engine brackets its body with push ds/es .. pop es/ds; mirror that (the label
+; loop continues to read its model via the caller's ES/DS after the call).
+
+_gfx_glyphCall macro modeval
+    push ds
+    push es
+    mov ax, modeval
+    push ax                         ; arg3: mode
+    push bx                         ; arg2: string
+    push bp                         ; arg1: param block (caller DS near)
+    call _gfx_drawStringClipped_impl
+    add sp, 6
+    pop es
+    pop ds
+    retf
+endm
+
+_gfx_fillDirty proc far             ; slot 0x01 — vertical clip
+    _gfx_glyphCall 2
+_gfx_fillDirty endp
+
+_gfx_blitTransparent proc far       ; slot 0x02 — horizontal clip (right edge)
+    _gfx_glyphCall 1
+_gfx_blitTransparent endp
+
+_gfx_blitVariant proc far           ; slot 0x03 — horizontal clip (left edge)
+    _gfx_glyphCall 1
+_gfx_blitVariant endp
+
+_gfx_copyBlock proc far             ; slot 0x04 — core, no clip
+    _gfx_glyphCall 0
+_gfx_copyBlock endp
+
+_gfx_drawStringUnclipped proc far   ; slot 0x06 — full clip chain
+    _gfx_glyphCall 3
+_gfx_drawStringUnclipped endp
+
+; Slot 0x0b — BX=row, DX=orientation, CX=mode-gate, SI=ladder variant; the HUD
+; pitch-ladder renderer (egseg2.asm drawInstrumentGauges loads BX/DX/CX/SI then
+; `call far ptr gfx_complexRender`). MGRAPHIC's slot is register-called and reads
+; its geometry table via a relocated `mov ds,<dataseg>`; our C body carries the
+; baked table, so just marshal the registers into the cdecl impl. Args pushed
+; right-to-left: si, cx, dx, bx. MGRAPHIC brackets its body with push ds/es ..
+; pop es/ds (it sets DS=dataseg, ES=curPageSeg internally); mirror that so the
+; caller's DS/ES survive (drawInstrumentGauges keeps BP/model regs across calls).
+_gfx_complexRender proc far
+    push ds
+    push es
+    push si                         ; arg4: si
+    push cx                         ; arg3: cx
+    push dx                         ; arg2: dx
+    push bx                         ; arg1: bx
+    call _gfx_complexRender_impl
+    add sp, 8
+    pop es
+    pop ds
+    retf
+_gfx_complexRender endp
 
 END

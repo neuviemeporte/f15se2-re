@@ -100,7 +100,7 @@ void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
     lineX2 = x2;
     lineY2 = y2;
     drawLineWrapper();
-    gfx_resetBlitOffset2();
+    gfx_nop23();
 }
 
 /* 0x674 */

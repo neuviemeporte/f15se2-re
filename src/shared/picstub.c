@@ -11,7 +11,7 @@
 #include <conio.h>
 
 extern int FAR CDECL gfx_setPageN(uint16 pageNum);
-extern int FAR CDECL gfx_getCurPageSeg2(void);
+extern int FAR CDECL gfx_getCurPageSeg(void);
 
 void picdbg(const char *msg)
 {
@@ -362,7 +362,7 @@ void showPicFile(int handle, int page)
     /* No gfx_clearPage(): that slot (0x3b) is register-called (target seg in ES)
      * via regshim, so a C trampoline call clears 64000 bytes at a wild ES. The
      * decoder below writes every byte of all 200 rows, so the clear is redundant. */
-    pageSeg = (uint16)gfx_getCurPageSeg2();
+    pageSeg = (uint16)gfx_getCurPageSeg();
     picDecodeToSegment(handle, pageSeg, 200, 320, 0);
 }
 
@@ -393,7 +393,7 @@ void picBlit(int handle, int pageIndex)
     if (handle < 0) return;
 
     gfx_setPageN((uint16)pageIndex);
-    seg = (uint16)gfx_getCurPageSeg2();
+    seg = (uint16)gfx_getCurPageSeg();
     /* mirror the _gfx_clearPage that _picBlit issues before decoding */
     p = (uint8 far *)MK_FP(seg, 0);
     for (i = 0; i < 32000u; i++) ((uint16 far *)p)[i] = 0;
