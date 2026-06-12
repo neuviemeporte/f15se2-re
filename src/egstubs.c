@@ -370,7 +370,9 @@ int16 var_663;
 int16 var_664;
 int16 var_665;
 int16 var_666;
+int16 var_556;
 int16 var_667;
+int16 var_668;
 int16 var_669;
 int16 var_670;
 int16 var_671;
@@ -636,7 +638,6 @@ int far sub_202C7(int, int, int) { return 0; }
 int far sub_2044A() { return 0; }
 int far sub_20658() { return 0; }
 void __cdecl __far sub_21A7E() {}
-int updateObjects() { return 0; }
 int updateThreatTargeting() { return 0; }
 int writeFileAtRaw(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) { return 0; }
 
