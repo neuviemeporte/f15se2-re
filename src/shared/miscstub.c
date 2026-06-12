@@ -45,9 +45,8 @@ void intDispatch(int intnum, uint8 *inreg, uint8 *outreg)
     outreg[1] = r.h.ah;
 }
 
-int doNothing2(const char *msg, int a, int b, int c)
+void doNothing2(const char *msg, int a, int b, int c)
 {
-    return 0;
 }
 
 int getTimeOfDay(void)

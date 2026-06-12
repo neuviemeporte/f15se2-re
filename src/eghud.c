@@ -73,7 +73,7 @@
 #define sub_2265B initJoystickCalibration
 #define sub_2267E readCalibratedJoystick
 
-int otherKeyDispatch(void) {
+void otherKeyDispatch(void) {
     // Local variables - names chosen to match MSC 5.1 hash-based stack layout
     // Within same hash bucket: first declared → highest BP offset (LIFO)
     // Dummies fill gaps to achieve sub sp, 0x3E (31 word slots)

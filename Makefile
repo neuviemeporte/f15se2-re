@@ -177,7 +177,7 @@ $(NOASMDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(NOASMDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 
 $(NOASMDIR)/%.obj: $(SRCDIR)/shared/%.c $(HDRS) | $(NOASMDIR)
-	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Ox /I.. /Id:\f15-se2 /DNO_ASM /DBUGFIX"
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /I.. /Id:\f15-se2 /DNO_ASM /DBUGFIX"
 
 $(NOASMDIR)/%.obj: $(SRCDIR)/%.asm | $(NOASMDIR)
 	$(ASM) $(ASMFLAGS) -Fo$@ $<
