@@ -25,6 +25,7 @@ PUBLIC _gfx_getCurPageSeg
 PUBLIC _gfx_getCurPageSeg2
 PUBLIC _gfx_setPageDirect
 PUBLIC _gfx_dirtyRect2
+PUBLIC _gfx_drawLine
 
 EXTRN _gfx_getRowOffset_impl:NEAR
 EXTRN _gfx_getPageSeg_impl:NEAR
@@ -36,6 +37,7 @@ EXTRN _gfx_setCurPageSeg_impl:NEAR
 EXTRN _gfx_getCurPageSeg2_impl:NEAR
 EXTRN _gfx_setFillColor_impl:NEAR
 EXTRN _gfx_dirtyRectFill_impl:NEAR
+EXTRN _gfx_drawLine_impl:NEAR
 
 .CODE
 
@@ -157,5 +159,25 @@ _gfx_dirtyRect2 proc far
     add sp, 6
     retf
 _gfx_dirtyRect2 endp
+
+; Slot 0x1f — AX=x1, BX=y1, CX=x2, DX=y2; draw a line into the current page
+; with the stored fill colour. MGRAPHIC's slot 0x1f is register-called (the
+; egame 3D/HUD asm in egseg1.asm loc_1CD8 loads AX/BX/CX/DX then calls with no
+; stack args), so the C body cannot read these as cdecl args directly. Marshal
+; them onto the stack (right-to-left: y2, x2, y1, x1) and call the C impl.
+; MGRAPHIC's slot preserves DS/ES across the call; mirror that.
+_gfx_drawLine proc far
+    push ds
+    push es
+    push dx                         ; arg4: y2
+    push cx                         ; arg3: x2
+    push bx                         ; arg2: y1
+    push ax                         ; arg1: x1
+    call _gfx_drawLine_impl
+    add sp, 8
+    pop es
+    pop ds
+    retf
+_gfx_drawLine endp
 
 END
