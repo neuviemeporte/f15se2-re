@@ -707,7 +707,7 @@ PUBLIC _a256left_pic
 PUBLIC _a256right_pic
 PUBLIC _a256rear_pic
 PUBLIC _gfx_setColor
-PUBLIC _gfx_resetBlitOffset2
+PUBLIC _gfx_nop23
 EXTRN _render3DView:PROC
 PUBLIC _aRight_pic
 PUBLIC _byte_3995A
@@ -1167,7 +1167,7 @@ sub_10297 equ _sub_10297
     nop
 ; ------------------------------seg000:0x2e2------------------------------
 _loadF15DgtlBin proc near
-    call far ptr gfx_fontSetup
+    call far ptr gfx_getFreeMem
     mov bx, ax
     sub bx, 2
     cmp bx, 0FFFh
@@ -1516,7 +1516,7 @@ setup3DTransform equ _setup3DTransform
 rasterize3DWorld proc near
     call far ptr sub_202F6
     call far ptr gfx_setBlitOffset2
-    call far ptr _gfx_resetBlitOffset2
+    call far ptr _gfx_nop23
     mov byte ptr [_var_316],0h
     ret
     nop
@@ -2217,7 +2217,7 @@ getTimeOfDay endp
 deadFunction01 proc near
     inc word ptr [_byte_3790C-2]            ; word_3790A
     inc byte ptr [_byte_3790C]
-    call far ptr gfx_unknown2e
+    call far ptr gfx_dacCycle
     call far ptr audio_jump_6b
     or ax, ax
     jz short df01_ret
@@ -2229,7 +2229,7 @@ df01_ret:
     ret
     xor ax, ax
     db 0E8h, 04Dh, 0A7h                      ; dead call, orig target chkstk
-    call far ptr gfx_unknown2b
+    call far ptr gfx_clearVga
     ret
     nop
 deadFunction01 endp
@@ -2238,7 +2238,7 @@ deadFunction01 endp
 advanceFrameTick proc near
     inc word ptr [_byte_3790C-2]  ; word_3790A
     inc byte ptr [_byte_3790C]    ; frame tick counter
-    call far ptr gfx_unknown2e    ; MGRAPHIC slot 0x2e: VGA DAC fire animation
+    call far ptr gfx_dacCycle    ; MGRAPHIC slot 0x2e: VGA DAC fire animation
     call far ptr audio_jump_6b
     or ax, ax
     jz short advanceFrameTick_ret
@@ -6630,19 +6630,19 @@ gfx_setPageN proc near                      ; slot 0x0F
     dd 0
 gfx_setPageN endp
     PUBLIC _gfx_setPageN
-    PUBLIC _gfx_getCurPageSeg
+    PUBLIC _gfx_setCurPageSeg
 _gfx_setPageN equ gfx_setPageN
+PUBLIC gfx_setCurPageSeg
 PUBLIC gfx_getCurPageSeg
-PUBLIC gfx_getCurPageSeg2
-gfx_getCurPageSeg proc near                 ; slot 0x10
+gfx_setCurPageSeg proc near                 ; slot 0x10
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_getCurPageSeg equ gfx_getCurPageSeg
+_gfx_setCurPageSeg equ gfx_setCurPageSeg
+gfx_setCurPageSeg endp
+gfx_getCurPageSeg proc near                ; slot 0x11
+    db 0EAh ;jmp far ptr 0:0
+    dd 0
 gfx_getCurPageSeg endp
-gfx_getCurPageSeg2 proc near                ; slot 0x11
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
-gfx_getCurPageSeg2 endp
     db 0EAh, 4 dup(0)                       ; slot 0x12
 PUBLIC gfx_blitCore
 gfx_blitCore proc near                      ; slot 0x13
@@ -6669,49 +6669,49 @@ gfx_setBlitOffset proc near                 ; slot 0x1B
 gfx_setBlitOffset endp
     PUBLIC _gfx_setBlitOffset
 _gfx_setBlitOffset equ gfx_setBlitOffset
-PUBLIC gfx_getAuxSize
-gfx_getAuxSize proc near                    ; slot 0x1C
+PUBLIC gfx_setBlitOffsetReg
+gfx_setBlitOffsetReg proc near                    ; slot 0x1C
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_getAuxSize endp
-PUBLIC gfx_getBlitOffset
-gfx_getBlitOffset proc near                 ; slot 0x1D
+gfx_setBlitOffsetReg endp
+PUBLIC gfx_getPresetOffset1
+gfx_getPresetOffset1 proc near                 ; slot 0x1D
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_getBlitOffset endp
-PUBLIC gfx_setClipVal1
-gfx_setClipVal1 proc near                   ; slot 0x1E
+gfx_getPresetOffset1 endp
+PUBLIC gfx_getPresetOffset2
+gfx_getPresetOffset2 proc near                   ; slot 0x1E
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_setClipVal1 endp
+gfx_getPresetOffset2 endp
     db 0EAh, 4 dup(0)                       ; slot 0x1F
 PUBLIC gfx_drawLine
 gfx_drawLine proc near                      ; slot 0x20
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_drawLine endp
-PUBLIC gfx_setPageDirect
-gfx_setPageDirect proc near                 ; slot 0x21
+PUBLIC gfx_setDrawColor
+gfx_setDrawColor proc near                 ; slot 0x21
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_setPageDirect endp
+gfx_setDrawColor endp
 _gfx_setColor proc near                     ; slot 0x22
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_setColor endp
-PUBLIC gfx_resetBlitOffset
-gfx_resetBlitOffset proc near               ; slot 0x23
+PUBLIC gfx_nop22
+gfx_nop22 proc near               ; slot 0x23
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_resetBlitOffset endp
-_gfx_resetBlitOffset2 proc near             ; slot 0x24
+gfx_nop22 endp
+_gfx_nop23 proc near             ; slot 0x24
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_gfx_resetBlitOffset2 endp
-gfx_nop24 proc near                         ; slot 0x25
+_gfx_nop23 endp
+gfx_plotPixel proc near                         ; slot 0x25
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_nop24 endp
+gfx_plotPixel endp
 PUBLIC gfx_dirtyRect
 gfx_dirtyRect proc near                     ; slot 0x26
     db 0EAh ;jmp far ptr 0:0
@@ -6733,10 +6733,10 @@ _gfx_copyRect proc near                     ; slot 0x2B
     db 0EAh ;jmp far ptr 0:0
     dd 0
 _gfx_copyRect endp
-gfx_unknown2b proc near                     ; slot 0x2C
+gfx_clearVga proc near                     ; slot 0x2C
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_unknown2b endp
+gfx_clearVga endp
 gfx_dacAnimate proc near                    ; slot 0x2D
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -6747,17 +6747,17 @@ gfx_getDisplayPage proc near               ; slot 0x2E
 gfx_getDisplayPage endp
 PUBLIC gfx_getDisplayPage
 _gfx_getDisplayPage equ gfx_getDisplayPage
-gfx_unknown2e proc near                     ; slot 0x2F
+gfx_dacCycle proc near                     ; slot 0x2F
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_unknown2e endp
+gfx_dacCycle endp
     db 0EAh, 4 dup(0)                       ; slot 0x30
     db 0EAh, 4 dup(0)                       ; slot 0x31
     db 0EAh, 4 dup(0)                       ; slot 0x32
-gfx_fontSetup proc near                     ; slot 0x33
+gfx_getFreeMem proc near                     ; slot 0x33
     db 0EAh ;jmp far ptr 0:0
     dd 0
-gfx_fontSetup endp
+gfx_getFreeMem endp
 gfx_fillRow proc near                       ; slot 0x34
     db 0EAh ;jmp far ptr 0:0
     dd 0

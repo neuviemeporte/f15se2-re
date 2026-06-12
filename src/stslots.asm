@@ -9,16 +9,16 @@ PUBLIC _gfx_allocPage
 PUBLIC _gfx_drawString
 PUBLIC _gfx_setPage1
 PUBLIC _gfx_setPageN
+PUBLIC _gfx_setCurPageSeg
 PUBLIC _gfx_getCurPageSeg
-PUBLIC _gfx_getCurPageSeg2
 PUBLIC _gfx_blitSprite
 PUBLIC _gfx_getBufSize
 PUBLIC _gfx_setBlitOffset
 PUBLIC _gfx_drawLine
-PUBLIC _gfx_setPageDirect
+PUBLIC _gfx_setDrawColor
 PUBLIC _gfx_setColor
-PUBLIC _gfx_resetBlitOffset
-PUBLIC _gfx_resetBlitOffset2
+PUBLIC _gfx_nop22
+PUBLIC _gfx_nop23
 PUBLIC _gfx_dirtyRect
 PUBLIC _gfx_dirtyRect2
 PUBLIC _gfx_switchColor
@@ -98,12 +98,12 @@ _gfx_setPage1 endp
 _gfx_setPageN proc far               ; slot 0e
     db 0EAh, 4 dup(0)
 _gfx_setPageN endp
-_gfx_getCurPageSeg proc far          ; slot 0f
+_gfx_setCurPageSeg proc far          ; slot 0f
+    db 0EAh, 4 dup(0)
+_gfx_setCurPageSeg endp
+_gfx_getCurPageSeg proc far         ; slot 10
     db 0EAh, 4 dup(0)
 _gfx_getCurPageSeg endp
-_gfx_getCurPageSeg2 proc far         ; slot 10
-    db 0EAh, 4 dup(0)
-_gfx_getCurPageSeg2 endp
 _gfx_blitSprite proc far             ; slot 11
     db 0EAh, 4 dup(0)
 _gfx_blitSprite endp
@@ -127,18 +127,18 @@ _gfx_setBlitOffset endp
 _gfx_drawLine proc far               ; slot 1f
     db 0EAh, 4 dup(0)
 _gfx_drawLine endp
-_gfx_setPageDirect proc far          ; slot 20
+_gfx_setDrawColor proc far          ; slot 20
     db 0EAh, 4 dup(0)
-_gfx_setPageDirect endp
+_gfx_setDrawColor endp
 _gfx_setColor proc far               ; slot 21
     db 0EAh, 4 dup(0)
 _gfx_setColor endp
-_gfx_resetBlitOffset proc far        ; slot 22
+_gfx_nop22 proc far        ; slot 22
     db 0EAh, 4 dup(0)
-_gfx_resetBlitOffset endp
-_gfx_resetBlitOffset2 proc far       ; slot 23
+_gfx_nop22 endp
+_gfx_nop23 proc far       ; slot 23
     db 0EAh, 4 dup(0)
-_gfx_resetBlitOffset2 endp
+_gfx_nop23 endp
     db 0EAh, 4 dup(0)               ; slot 24
 _gfx_dirtyRect proc far              ; slot 25
     db 0EAh, 4 dup(0)

@@ -787,7 +787,7 @@ void drawClippedLineEx(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2
     lineX2 = x2;
     lineY2 = y2;
     drawLineWrapper();
-    gfx_resetBlitOffset2();
+    gfx_nop23();
     clipMaxX = 0x13f;
     clipMaxY = 0xc7;
     gfx_setOvlVal1(0xc7);

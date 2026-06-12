@@ -9,11 +9,11 @@ a equ 2h
 ; --- External overlay jump table procs (in endslots.asm .DATA segment) ---
 EXTRN _gfx_allocPage:FAR
 EXTRN _gfx_setPage1:FAR
+EXTRN _gfx_setCurPageSeg:FAR
 EXTRN _gfx_getCurPageSeg:FAR
-EXTRN _gfx_getCurPageSeg2:FAR
 EXTRN _gfx_drawLine:FAR
-EXTRN _gfx_setPageDirect:FAR
-EXTRN _gfx_resetBlitOffset:FAR
+EXTRN _gfx_setDrawColor:FAR
+EXTRN _gfx_nop22:FAR
 EXTRN _gfx_dirtyRect2:FAR
 EXTRN _gfx_fillRow:FAR
 EXTRN _gfx_getRowOffset:FAR
@@ -188,13 +188,13 @@ ovlJumpTable     EQU _gfx_allocPage
 INCLUDE shared/overlay_slots.inc
 
 ; --- shared clearRect
-clearRectGetCurBuf EQU _gfx_getCurPageSeg2
+clearRectGetCurBuf EQU _gfx_getCurPageSeg
 clearRectSetCurBuf EQU _gfx_setPage1
-clearRectSetVal    EQU _gfx_setPageDirect
+clearRectSetVal    EQU _gfx_setDrawColor
 clearRectJump28    EQU _gfx_dirtyRect2
-clearRectJump22    EQU _gfx_resetBlitOffset
+clearRectJump22    EQU _gfx_nop22
 clearRectNull      EQU _gfx_nop51
-clearRectGetBufPtr EQU _gfx_getCurPageSeg
+clearRectGetBufPtr EQU _gfx_setCurPageSeg
 clearRectX     EQU _clearRectX
 clearRectY     EQU _clearRectY
 clearRectWidth     EQU _clearRectWidth
