@@ -31,6 +31,10 @@ typedef struct {
                              * Lets gfx functions reach their own const tables
                              * (palettes, font tables) via far pointer when a
                              * child far-calls in with DS = the child's DGROUP. */
+    uint8  displayPage;     /* MGRAPHIC cs:0x1a2 — the back-buffer page index
+                             * returned by getDisplayPage (slot 0x2d). The frame
+                             * is composited here (page 1) then presented to the
+                             * visible page 0 by gfx_dacAnimate (slot 0x2c). */
 } GfxState;
 
 /* Near function pointer type for the gfx slot table */

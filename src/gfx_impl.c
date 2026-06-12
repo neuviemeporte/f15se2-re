@@ -229,9 +229,10 @@ void gfx_fillRow_impl(uint16 rowOffset, uint16 srcBuf, uint16 rowNum)
 {
     GfxState FAR *s = gfx_getState();
     const uint8 *src = (const uint8 *)srcBuf;          /* near ptr, caller's DS */
-    uint8 FAR *dst = (uint8 FAR *)MK_FP(s->curPageSeg, rowOffset);
+    uint8 FAR *dst;
     int i;
     (void)rowNum;
+    dst = (uint8 FAR *)MK_FP(s->curPageSeg, rowOffset);
     for (i = 0; i < 320; i++)
         dst[i] = src[i];
 }
@@ -299,19 +300,27 @@ static uint8 g_font5_widths[96] = {
     5,5,5,5,5,5,5,5,5,2,5,5,5,6,5,5,5,5,5,5,4,5,6,6,6,6,6,3,6,3,4,5,
     2,4,4,4,4,4,3,4,4,2,3,4,2,6,4,4,4,4,4,4,4,4,4,6,4,4,4,4,2,3,3,5};
 
+/* Font index 0 is the small in-flight HUD font (height 5). Its glyph bitmaps
+ * were never extracted into this table (only fonts 1,3,4,5 were), so egame's
+ * HUD/cockpit text — which all uses font 0 — rendered as nothing: drawString's
+ * `if (bitmaps && ...)` guard was false for a NULL font-0 entry. As a stopgap so
+ * the text is visible, font 0 falls back to font 5 (height 6, narrow widths —
+ * the closest available). TODO: extract the real height-5 font-0 glyphs (the
+ * original registers them at runtime via the low-memory pointer tables MGRAPHIC
+ * reads at 0:0xE2 width / 0:0xEE glyph / 0:0xFA rowsize) and drop the fallback. */
 static uint8 *g_fontWidthTables[8] = {
-    NULL, g_font1_widths, NULL, g_font3_widths,
+    g_font5_widths, g_font1_widths, NULL, g_font3_widths,
     g_font4_widths, g_font5_widths, NULL, NULL
 };
-static uint8 g_fontHeightsArr[8] = {5, 8, 7, 6, 7, 6, 4, 0};
-static uint8 g_fontMaxWidths[8] = {8, 8, 6, 6, 8, 6, 0, 0};
+static uint8 g_fontHeightsArr[8] = {6, 8, 7, 6, 7, 6, 4, 0};
+static uint8 g_fontMaxWidths[8] = {6, 8, 6, 6, 8, 6, 0, 0};
 
 /* Bitmap pointers per font index — NULL means no bitmap available */
 static uint8 *g_fontBitmapPtrs[8] = {
-    NULL, (uint8 *)g_font1_bitmaps, NULL, (uint8 *)g_font3_bitmaps,
+    (uint8 *)g_font5_bitmaps, (uint8 *)g_font1_bitmaps, NULL, (uint8 *)g_font3_bitmaps,
     (uint8 *)g_font4_bitmaps, (uint8 *)g_font5_bitmaps, NULL, NULL
 };
-static uint8 g_fontBitmapRowSize[8] = {0, 8, 0, 6, 7, 6, 0, 0};
+static uint8 g_fontBitmapRowSize[8] = {6, 8, 0, 6, 7, 6, 0, 0};
 
 /* ---- Slot 0x05: gfx_drawString ---- */
 int FAR CDECL gfx_drawString(int16 *pageNum, const char *string)
@@ -504,8 +513,15 @@ int FAR CDECL gfx_setColor(int color)
     return 0;
 }
 
-/* ---- Stubs for remaining slots ---- */
-int FAR CDECL gfx_initOverlay(void)              { return 0; }
+/* ---- Slot 0x0c: gfx_initOverlay ----
+ * MGRAPHIC: `mov ax,[cs:pageSegTable+2]; mov [cs:curPageSeg],ax` — sets the
+ * current draw page to page 1 (the back buffer). Called once at egame startup. */
+int FAR CDECL gfx_initOverlay(void)
+{
+    GfxState FAR *s = gfx_getState();
+    s->curPageSeg = s->pageSegs[1];
+    return 0;
+}
 /* Slot 0x0d: register-called via the _gfx_setPage1 shim (regshim.asm) — AX = a
  * page index; curPageSeg = pageSegs[AX]. MGRAPHIC's slot 0x0d takes the index in
  * AX (the name is a misnomer); clearRect uses it to select the page to clear. */
@@ -570,29 +586,79 @@ int FAR CDECL gfx_blitSprite(struct SpriteParams *p)
     }
     return 0;
 }
-int FAR CDECL gfx_drawLine(uint16 x1, uint16 y1, uint16 x2, uint16 y2)
+/* Slot 0x1f: register-called via the _gfx_drawLine shim (regshim.asm).
+ * MGRAPHIC's slot 0x1f takes its endpoints in registers: AX=x1, BX=y1,
+ * CX=x2, DX=y2 (verified by disassembly), drawing to the current page with
+ * the stored fill colour. The shim marshals those registers into these cdecl
+ * stack args. (Calling this body directly with cdecl stack args — as the
+ * noasm child trampolines do — also works.) */
+/* Cohen-Sutherland region code against the 320x200 page. */
+static int gfx_lineOutcode(int x, int y)
+{
+    int c = 0;
+    if (x < 0) c |= 1; else if (x > 319) c |= 2;
+    if (y < 0) c |= 4; else if (y > 199) c |= 8;
+    return c;
+}
+
+void gfx_drawLine_impl(uint16 ux1, uint16 uy1, uint16 ux2, uint16 uy2)
 {
     GfxState FAR *s = gfx_getState();
-    /* Bresenham line algorithm drawing to current page */
-    uint8 far *page = (uint8 far *)MK_FP(s->curPageSeg, 0);
-    int x0 = x1, y0 = y1, x1_target = x2, y1_target = y2;
-    int dx = x1_target - x0;
-    int dy = y1_target - y0;
-    int sx = dx >= 0 ? 1 : -1;
-    int sy = dy >= 0 ? 1 : -1;
-    int err, e2;
-    if (dx < 0) dx = -dx;
-    if (dy < 0) dy = -dy;
+    uint8 far *page;
+    uint8 color = s->fillColor;
+    int vx, vy;          /* blitOffset decomposed into a viewport origin */
+    int x1, y1, x2, y2;  /* endpoints translated into absolute page coords */
+    int c1, c2;
+    int dx, dy, sx, sy, err, e2;
+
+    /* MGRAPHIC slot 0x1f adds the blitOffset ([cs:0x1a0]) viewport base to the
+     * start offset and is loop-counter-bounded; for off-screen endpoints it
+     * just wraps writes inside the 64K page. Our earlier position-based loop
+     * (while x0!=x2) infinite-looped once a delta overflowed a 16-bit int —
+     * the 3D projection emits clamped near-plane coords like (13618,28486),
+     * which hung the game on the first terrain frame. Rather than reproduce
+     * MGRAPHIC's wrapping (~28000 useless writes per off-screen line, which is
+     * far too slow in C and paints on-screen garbage), clip the segment to the
+     * page with Cohen-Sutherland and draw only the visible part. The blitOffset
+     * is folded in as a viewport origin so the radar/MFD lines land in their
+     * sub-window instead of the main viewport. */
+    vx = (int)((uint16)s->blitOffset % 320u);
+    vy = (int)((uint16)s->blitOffset / 320u);
+    x1 = (int)(int16)ux1 + vx; y1 = (int)(int16)uy1 + vy;
+    x2 = (int)(int16)ux2 + vx; y2 = (int)(int16)uy2 + vy;
+
+    /* Clip the segment to [0,319]x[0,199]. */
+    c1 = gfx_lineOutcode(x1, y1);
+    c2 = gfx_lineOutcode(x2, y2);
+    for (;;) {
+        if ((c1 | c2) == 0) break;          /* trivially inside */
+        if ((c1 & c2) != 0) return;          /* trivially outside */
+        {
+            int co = c1 ? c1 : c2;
+            int x = 0, y = 0;
+            if (co & 8) { x = x1 + (long)(x2 - x1) * (199 - y1) / (y2 - y1); y = 199; }
+            else if (co & 4) { x = x1 + (long)(x2 - x1) * (0 - y1) / (y2 - y1); y = 0; }
+            else if (co & 2) { y = y1 + (long)(y2 - y1) * (319 - x1) / (x2 - x1); x = 319; }
+            else { y = y1 + (long)(y2 - y1) * (0 - x1) / (x2 - x1); x = 0; }
+            if (co == c1) { x1 = x; y1 = y; c1 = gfx_lineOutcode(x1, y1); }
+            else          { x2 = x; y2 = y; c2 = gfx_lineOutcode(x2, y2); }
+        }
+    }
+
+    /* Bresenham over the now-on-screen segment (deltas <= 320, no overflow). */
+    page = (uint8 far *)MK_FP(s->curPageSeg, 0);
+    dx = x2 - x1; if (dx < 0) dx = -dx;
+    dy = y2 - y1; if (dy < 0) dy = -dy;
+    sx = x1 < x2 ? 1 : -1;
+    sy = y1 < y2 ? 1 : -1;
     err = dx - dy;
     for (;;) {
-        if ((unsigned)x0 < 320 && (unsigned)y0 < 200)
-            page[s->rowOffsets[y0] + x0] = s->fillColor;
-        if (x0 == x1_target && y0 == y1_target) break;
-        e2 = err * 2;
-        if (e2 > -dy) { err -= dy; x0 += sx; }
-        if (e2 < dx)  { err += dx; y0 += sy; }
+        page[(uint16)(y1 * 320 + x1)] = color;
+        if (x1 == x2 && y1 == y2) break;
+        e2 = err + err;
+        if (e2 > -dy) { err -= dy; x1 += sx; }
+        if (e2 <  dx) { err += dx; y1 += sy; }
     }
-    return 0;
 }
 /* Slot 0x20: register-called via the _gfx_setPageDirect shim — AH = fill colour.
  * Stores the clearRect/fill colour (MGRAPHIC slot 0x20 = `mov [fillColor],ah`). */
@@ -611,29 +677,45 @@ int FAR CDECL gfx_resetBlitOffset2(void) { return 0; }
 void gfx_dirtyRectFill_impl(uint16 minBufOff, uint16 yMin, uint16 yMax)
 {
     GfxState FAR *s = gfx_getState();
-    const uint16 *minBuf = (const uint16 *)minBufOff;            /* caller's DS */
-    const uint16 *maxBuf = (const uint16 *)(minBufOff + 0x1b8);
+    const int16 *minBuf = (const int16 *)minBufOff;             /* caller's DS */
+    const int16 *maxBuf = (const int16 *)(minBufOff + 0x1b8);
     uint8 fill = s->fillColor;
     uint16 seg = s->curPageSeg;
+    int16 ymin = (int16)yMin, ymax = (int16)yMax;
     int y;
-    if ((int16)yMin < 0) return;
-    for (y = (int)yMax; y >= (int)yMin; y--) {
-        uint16 minx = minBuf[y];
-        uint16 maxx = maxBuf[y];
+    /* Clamp the row range to the screen. The 3D rasterizer's filled polygons
+     * can have off-screen spans (the projection emits clamped near-plane coords,
+     * e.g. y in the tens of thousands); without clamping this loops over tens of
+     * thousands of rows, each filling thousands of wrapped bytes — finite but so
+     * slow it never finishes a frame. MGRAPHIC's asm wraps cheaply; we clip. */
+    if (ymax < ymin) return;
+    if (ymin < 0) ymin = 0;
+    if (ymax > 199) ymax = 199;
+    for (y = (int)ymax; y >= (int)ymin; y--) {
+        int16 minx = minBuf[y];
+        int16 maxx = maxBuf[y];
         uint16 width, col;
         uint8 far *dst;
         if (maxx < minx) continue;
-        if (maxx == minx && (maxx == 0 || maxx == 0x13f)) continue;
-        width = maxx - minx + 1;
-        dst = (uint8 far *)MK_FP(seg, s->rowOffsets[y] + s->blitOffset + minx);
+        if (maxx == minx && (maxx == 0 || maxx == 0x13f)) continue;  /* empty row */
+        if (minx < 0) minx = 0;
+        if (maxx > 319) maxx = 319;
+        if (maxx < minx) continue;
+        width = (uint16)(maxx - minx + 1);
+        dst = (uint8 far *)MK_FP(seg, s->rowOffsets[y] + (uint16)s->blitOffset + (uint16)minx);
         for (col = 0; col < width; col++)
             dst[col] = fill;
     }
 }
-int FAR CDECL gfx_getDisplayPage(uint16 page)
+/* Slot 0x2d: getDisplayPage — returns the back-buffer page index (no args).
+ * MGRAPHIC's slot 0x2d is `mov al,[cs:0x1a2]; retf` — it returns the stored
+ * display-page byte (the page the frame is composited into), NOT a segment.
+ * The renderer (render3DView / drawCockpitHud / tac map) targets this page,
+ * and gfx_dacAnimate (slot 0x2c) presents it to the visible page 0. */
+int FAR CDECL gfx_getDisplayPage(void)
 {
     GfxState FAR *s = gfx_getState();
-    return (int)s->pageSegs[page];
+    return (int)s->displayPage;
 }
 
 int FAR CDECL gfx_setFont(uint16 ch, uint16 fontIdx)
@@ -686,8 +768,19 @@ int FAR CDECL gfx_calcRowAddr(int y, int x)
     if (!s->rowOffsetsReady) return (int)(y * 320 + x);
     return (int)(s->rowOffsets[y] + x);
 }
-int FAR CDECL gfx_setOvlVal1(int val) { (void)val; return 0; }
-int FAR CDECL gfx_setOvlVal2(int val) { (void)val; return 0; }
+/* Slots 0x40/0x41: MGRAPHIC stores the arg to absolute 0000:0x00CC / 0x00CE — a
+ * 4-byte scratch (the unused INT 0x33 vector) the overlay's clip/draw paths read
+ * back as the active clip rectangle. setupViewport calls setOvlVal2(width-1). */
+int FAR CDECL gfx_setOvlVal1(int val)
+{
+    *(uint16 FAR *)MK_FP(0, 0xCC) = (uint16)val;
+    return 0;
+}
+int FAR CDECL gfx_setOvlVal2(int val)
+{
+    *(uint16 FAR *)MK_FP(0, 0xCE) = (uint16)val;
+    return 0;
+}
 int FAR CDECL gfx_getBlitOffset(void)
 {
     GfxState FAR *s = gfx_getState();
@@ -759,7 +852,20 @@ int FAR CDECL gfx_nop24(void)              { return 0; }
 int FAR CDECL gfx_storePageSeg(void)        { return 0; }
 int FAR CDECL gfx_setPageSeg(void)          { return 0; }
 int FAR CDECL gfx_unknown2b(void)           { return 0; }
-int FAR CDECL gfx_dacAnimate(void)          { GfxState FAR *s=gfx_getState(); return 0; }
+/* Slot 0x2c: present the composited back buffer to the visible page.
+ * MGRAPHIC's slot 0x2c copies the full 64000-byte page from pageSegs[1] (the
+ * back buffer, where gameMainLoop's renderFrame/drawCockpitHud composite the
+ * frame) to pageSegs[0] (the visible page), then sets displayPage=1. It is
+ * called once per frame from gameMainLoop (egame_rc.asm). Args (AX/BX) ignored.
+ * Without this the dynamic frame never reaches the screen — only the static
+ * cockpit copied to page 0 at startup, plus direct-to-page-0 draws, show. */
+int FAR CDECL gfx_dacAnimate(void)
+{
+    GfxState FAR *s = gfx_getState();
+    movedata(s->pageSegs[1], 0, s->pageSegs[0], 0, 64000u);
+    s->displayPage = 1;
+    return 0;
+}
 int FAR CDECL gfx_unknown2e(void)           { return 0; }
 int FAR CDECL gfx_setPageBuf(void)          { return 0; }
 int FAR CDECL gfx_unknown43(void)           { return 0; }
@@ -899,6 +1005,7 @@ void gfx_buildVirtualOverlay(uint16 ovlSeg)
     s = (GfxState FAR *)MK_FP(ovlSeg, GFX_STATE_OFFSET);
     s->modeFlag = 1;
     s->rowOffsetsReady = 0;
+    s->displayPage = 1; /* MGRAPHIC cs:0x1a2 default; back buffer = page 1 */
     for (i = 0; i < 16; i++) {
         s->pageSegs[i] = 0;
     }
