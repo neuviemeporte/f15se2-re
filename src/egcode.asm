@@ -2902,148 +2902,59 @@ drawCenteredLabelBox proc near
     mov BP,SP
     sub SP,6h
     jmp LAB_1000_a0c7
-    db 0FFh
-    db 76h
-    db 06h
-    db 0E8h
-    db 0DFh
-    db 49h
-    db 83h
-    db 0C4h
-    db 02h
-    db 0Bh
-    db 0C0h
-    db 74h
-    db 07h
-    db 83h
-    db 3Eh
-    db 12h
-    db 08h
-    db 00h
-    db 75h
-    db 02h
-    db 0EBh
-    db 78h
-    db 83h
-    db 7Eh
-    db 04h
-    db 01h
-    db 75h
-    db 11h
-    db 0C7h
-    db 46h
-    db 0FEh
-    db 18h
-    db 00h
-    db 0C7h
-    db 46h
-    db 0FAh
-    db 60h
-    db 00h
-    db 0C7h
-    db 46h
-    db 0FCh
-    db 70h
-    db 00h
-    db 0EBh
-    db 0Fh
-    db 0C7h
-    db 46h
-    db 0FEh
-    db 78h
-    db 00h
-    db 0C7h
-    db 46h
-    db 0FAh
-    db 0C7h
-    db 00h
-    db 0C7h
-    db 46h
-    db 0FCh
-    db 68h
-    db 00h
-    db 83h
-    db 6Eh
-    db 0FCh
-    db 08h
-    db 0B8h
-    db 08h
-    db 00h
-    db 50h
-    db 0E8h
-    db 0C4h
-    db 0FDh
-    db 83h
-    db 0C4h
-    db 02h
-    db 8Bh
-    db 46h
-    db 0FCh
-    db 05h
-    db 04h
-    db 00h
-    db 50h
-    db 8Bh
-    db 46h
-    db 0FAh
-    db 2Dh
-    db 05h
-    db 00h
-    db 50h
-    db 0FFh
-    db 76h
-    db 0FCh
-    db 8Bh
-    db 46h
-    db 0FEh
-    db 05h
-    db 05h
-    db 00h
-    db 50h
-    db 0E8h
-    db 0BFh
-    db 0FDh
-    db 83h
-    db 0C4h
-    db 08h
-    db 0B8h
-    db 0Bh
-    db 00h
-    db 50h
-    db 0FFh
-    db 76h
-    db 0FCh
-    db 0FFh
-    db 76h
-    db 06h
-    db 0E8h
-    db 70h
-    db 49h
-    db 83h
-    db 0C4h
-    db 02h
-    db 0D1h
-    db 0E0h
-    db 8Bh
-    db 4Eh
-    db 0FEh
-    db 03h
-    db 4Eh
-    db 0FAh
-    db 0D1h
-    db 0F9h
-    db 2Bh
-    db 0C8h
-    db 51h
-    db 0FFh
-    db 76h
-    db 06h
-    db 0E8h
-    db 07h
-    db 00h
-    db 83h
-    db 0C4h
-    db 08h
+    push word ptr [BP + 6h]
+    call _strlen
+    add SP,2h
+    or AX,AX
+    jz LAB_1000_a04d
+    cmp word ptr [_word_330C2],0h
+    jnz LAB_1000_a04f
+LAB_1000_a04d:
+    jmp LAB_1000_a0c7
+LAB_1000_a04f:
+    cmp word ptr [BP + 4h],1h
+    jnz LAB_1000_a066
+    mov word ptr [BP + -2h],18h
+    mov word ptr [BP + -6h],60h
+    mov word ptr [BP + -4h],70h
+    jmp LAB_1000_a075
+LAB_1000_a066:
+    mov word ptr [BP + -2h],78h
+    mov word ptr [BP + -6h],0c7h
+    mov word ptr [BP + -4h],68h
+LAB_1000_a075:
+    sub word ptr [BP + -4h],8h
+    mov AX,8h
+    push AX
+    call _setDrawColor
+    add SP,2h
+    mov AX,word ptr [BP + -4h]
+    db 05h, 04h, 00h ; add AX,4h (force imm16 encoding)
+    push AX
+    mov AX,word ptr [BP + -6h]
+    db 2Dh, 05h, 00h ; sub AX,5h (force imm16 encoding)
+    push AX
+    push word ptr [BP + -4h]
+    mov AX,word ptr [BP + -2h]
+    db 05h, 05h, 00h ; add AX,5h (force imm16 encoding)
+    push AX
+    call _fillRectBoth
+    add SP,8h
+    mov AX,0bh
+    push AX
+    push word ptr [BP + -4h]
+    push word ptr [BP + 6h]
+    call _strlen
+    add SP,2h
+    shl AX,1h
+    mov CX,word ptr [BP + -2h]
+    add CX,word ptr [BP + -6h]
+    sar CX,1h
+    sub CX,AX
+    push CX
+    push word ptr [BP + 6h]
+    call _drawStringBothPages
+    add SP,8h
 LAB_1000_a0c7:
     mov SP,BP
     pop BP
