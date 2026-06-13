@@ -22,10 +22,10 @@ int loadFileSection(char *name, int b, int c) {
 }
 
 
-int loadFileSectionEx(char *name, int b, int c, int d, int e) {
+int writeFileSection(char *name, int b, int c, int d, int e) {
     int handle;
     int result;
-    TRACE(("loadFileSectionEx"));
+    TRACE(("writeFileSection"));
     handle = createFile(name, 0);
     result = writeFile(handle, e, b, c, d);
     closeFileWrapper(handle);

@@ -25,7 +25,7 @@ void loadWorldData(char* destOffset, int size) {
     if (worldDataReady != 0) {
         readFromWorldBuf((char *)destOffset, size, 1, worldBufHandle);
     } else {
-        readFromWorldFile((char *)destOffset, size, 1, worldBufHandle);
+        writeToWorldBuf((char *)destOffset, size, 1, worldBufHandle);
     }
 }
 
@@ -38,7 +38,7 @@ void readFromWorldBuf(char *dest, int size, int count, int bufHandle) {
     worldBufOffset += totalSize;
 }
 
-void readFromWorldFile(char *dest, int size, int count, int bufHandle) {
+void writeToWorldBuf(char *dest, int size, int count, int bufHandle) {
     char far *farDest;
     register int totalSize;
     farDest = (char far *)dest;

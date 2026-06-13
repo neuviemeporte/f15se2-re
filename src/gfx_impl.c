@@ -748,7 +748,7 @@ void gfx_dirtyRectFill_impl(uint16 minBufOff, uint16 yMin, uint16 yMax)
 /* Slot 0x2d: getDisplayPage — returns the back-buffer page index (no args).
  * MGRAPHIC's slot 0x2d is `mov al,[cs:0x1a2]; retf` — it returns the stored
  * display-page byte (the page the frame is composited into), NOT a segment.
- * The renderer (render3DView / drawCockpitHud / tac map) targets this page,
+ * The renderer (render3DView / renderHudFrame / tac map) targets this page,
  * and gfx_dacAnimate (slot 0x2c) presents it to the visible page 0. */
 int FAR CDECL gfx_getDisplayPage(void)
 {
@@ -1034,7 +1034,7 @@ void FAR CDECL gfx_clearVga(void)
 }
 /* Slot 0x2c: present the composited back buffer to the visible page.
  * MGRAPHIC's slot 0x2c copies the full 64000-byte page from pageSegs[1] (the
- * back buffer, where gameMainLoop's renderFrame/drawCockpitHud composite the
+ * back buffer, where gameMainLoop's renderFrame/renderHudFrame composite the
  * frame) to pageSegs[0] (the visible page), then sets displayPage=1. It is
  * called once per frame from gameMainLoop (egame_rc.asm). Args (AX/BX) ignored.
  * Without this the dynamic frame never reaches the screen — only the static
@@ -1290,7 +1290,7 @@ int FAR CDECL ovl_nop(void)            { return 0; }
  *   0x5a keybuf: mov ah,1; int 16h; jz empty; sub ax,ax; retf  (0 = key avail)
  *                empty: sub ax,ax; not ax; retf                (0xFFFF = empty)
  *   0x5b getkey: sub ah,ah; int 16h; retf  (raw BIOS AX: AH=scan, AL=ascii;
- *                callers in processStoreInput mask &0xff when AL!=0)
+ *                callers in pollMenuInput mask &0xff when AL!=0)
  *   0x5e clearKeyFlags: zero the low nibble of BDA 0040:0417 (shift state) */
 
 /* Slot 0x5a: 0 if a key is waiting, 0xFFFF if the buffer is empty. INT 16h

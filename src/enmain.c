@@ -47,7 +47,7 @@ int main(void) {
     spriteBufSeg = allocBuffer(p);
     missionResult = 3;
     if (commData->setupDone == 2) {
-        loadTheaterIndex();
+        computeMissionResult();
     }
     clearKeybuf();
     debriefMainLoop();

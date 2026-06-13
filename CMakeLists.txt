@@ -21,6 +21,8 @@ set(SHARED_SOURCES
     ${SRC_DIR}/shared/picstub.c
     ${SRC_DIR}/shared/timer.c
     ${SRC_DIR}/shared/util.c
+    ${SRC_DIR}/shared/util_b.c
+    ${SRC_DIR}/shared/util_c.c
     ${SRC_DIR}/shared/util2.c
 )
 
@@ -31,12 +33,9 @@ set(START_SOURCES
     ${SRC_DIR}/stsprit.c
     ${SRC_DIR}/strand.c
     ${SRC_DIR}/stpilot.c
-    ${SRC_DIR}/stpinp.c
-    ${SRC_DIR}/stinkey.c
     ${SRC_DIR}/stalloc.c
     ${SRC_DIR}/stterr.c
     ${SRC_DIR}/stparse.c
-    ${SRC_DIR}/stgrid.c
     ${SRC_DIR}/stgen.c
     ${SRC_DIR}/stdata.c
     ${SHARED_SOURCES}
@@ -45,23 +44,23 @@ set(START_SOURCES
 
 set(EGAME_SOURCES
     ${SRC_DIR}/egmain.c
-    ${SRC_DIR}/eg3d_a.c
-    ${SRC_DIR}/eg3d_b.c
-    ${SRC_DIR}/eg3d_c.c
-    ${SRC_DIR}/eg3d_d.c
-    ${SRC_DIR}/eg3d_e.c
-    ${SRC_DIR}/eg3d_f.c
-    ${SRC_DIR}/eg3d_g.c
-    ${SRC_DIR}/eghud.c
-    ${SRC_DIR}/eghud_g.c
-    ${SRC_DIR}/egflt.c
-    ${SRC_DIR}/egflt_b.c
+    ${SRC_DIR}/egsphere.c
+    ${SRC_DIR}/egframe.c
+    ${SRC_DIR}/eg3dview.c
+    ${SRC_DIR}/eg3dproj.c
+    ${SRC_DIR}/eg3dgrid.c
+    ${SRC_DIR}/eg3dload.c
+    ${SRC_DIR}/eg3dmap.c
+    ${SRC_DIR}/eg3dvp.c
+    ${SRC_DIR}/eg3dcam.c
+    ${SRC_DIR}/egflight.c
+    ${SRC_DIR}/egthreat.c
+    ${SRC_DIR}/egcombat.c
     ${SRC_DIR}/egtacmap.c
     ${SRC_DIR}/egui.c
-    ${SRC_DIR}/egui_b.c
-    ${SRC_DIR}/egwaypt.c
+    ${SRC_DIR}/egtarget.c
     ${SRC_DIR}/egmath.c
-    ${SRC_DIR}/egweap.c
+    ${SRC_DIR}/egkeys.c
     ${SRC_DIR}/egfileio.c
     ${SRC_DIR}/egpic.c
     ${SRC_DIR}/egstubs.c
@@ -70,14 +69,16 @@ set(EGAME_SOURCES
 
 set(END_SOURCES
     ${SRC_DIR}/enmain.c
+    ${SRC_DIR}/enmisc.c
     ${SRC_DIR}/enworld.c
     ${SRC_DIR}/eninput.c
     ${SRC_DIR}/entext.c
+    ${SRC_DIR}/enrand.c
     ${SRC_DIR}/enaward.c
     ${SRC_DIR}/enbrief.c
     ${SRC_DIR}/endbrf.c
     ${SRC_DIR}/enfile.c
-    ${SRC_DIR}/end_data.c
+    ${SRC_DIR}/endata.c
     ${SHARED_SOURCES}
     ${NOASM_GFX_SOURCES}
 )

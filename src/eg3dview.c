@@ -12,7 +12,7 @@
 void projectObjects(int, int, int, int, int, int, int, int);
 
 
-void sub_121C6() {
+void loadRegion3D() {
     load3DAll();
 }
 
@@ -69,7 +69,7 @@ void waitFrameSync(int frames) {
 }
 
 // ==== seg000:0x229a loadColorPalette ====
-void copySomeMem(int idx) {
+void loadColorPalette(int idx) {
     memcpy(word_3419C, (char *)word_339B4 + idx * 0x10, 0x10);
 }
 

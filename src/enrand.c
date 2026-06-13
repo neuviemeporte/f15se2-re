@@ -1,4 +1,4 @@
-/* entext_b.c — split from entext.c (seedRandom), compiled with /Gs /Zi */
+/* enrand.c — split from entext.c (seedRandom), compiled with /Gs /Zi */
 #include <string.h>
 #include "offsets.h"
 #include "pointers.h"

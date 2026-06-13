@@ -5,7 +5,7 @@
 #include "shared/util.h"
 #include "end.h"
 
-void loadTheaterIndex(void)
+void computeMissionResult(void)
 {
     unsigned int x, y;
 

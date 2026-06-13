@@ -73,7 +73,7 @@ void load3D3(char *fileName) {
     while ((fileHandle = fopen(aPhoto_3d3, aRb_0)) == NULL) {
         setDrawColor(0);
         fillRectBoth(0, 0x28, 0x13f, 0x2d);
-        drawSomeStrings(aPleaseInsertF15DiskB, 0x6c, 0x28, 0x0f);
+        drawStringBothPages(aPleaseInsertF15DiskB, 0x6c, 0x28, 0x0f);
         gfx_flipPage();
         misc_jump_5b_getkey();
     }
@@ -157,8 +157,8 @@ void load3DG() {
     int unused_1, unused_2, unused_3;
     strcpyFromDot(regnStr, a_3dg);
     while ((fileHandle = fopen(regnStr, aRb_3)) == NULL) {
-        drawSomeStrings(aPleaseInsertF15DiskB, 0x68, 0x28, 0x0f);
-        drawSomeStrings(unk_34121, 0x68, 0x32, 0x0f);
+        drawStringBothPages(aPleaseInsertF15DiskB, 0x68, 0x28, 0x0f);
+        drawStringBothPages(unk_34121, 0x68, 0x32, 0x0f);
         gfx_flipPage();
         misc_jump_5b_getkey();
     }
@@ -181,7 +181,7 @@ void load3DG() {
 // ==== seg000:0x2f8c ====
 void printError(const char *msg) {
     gfx_flipPage();
-    drawSomeStrings(msg, 0, 0x60, 0xf);
+    drawStringBothPages(msg, 0, 0x60, 0xf);
     getch();
 }
 

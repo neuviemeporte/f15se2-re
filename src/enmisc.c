@@ -1,4 +1,4 @@
-/* enmain_b.c — split from enmain.c (loadWorldStrings + helpers), compiled with /Gs */
+/* enmisc.c — split from enmain.c (loadWorldStrings + helpers), compiled with /Gs */
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"

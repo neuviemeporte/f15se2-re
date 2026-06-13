@@ -148,7 +148,7 @@ void processPilotInput() {
     pilotSelectFlag = 1;
     setTimerIrqHandler();
     TRACE(("processPilotInput(): set timer irq"));
-    while (pilot = selectedPilotIdx, true) switch (processStoreInput()) {
+    while (pilot = selectedPilotIdx, true) switch (pollMenuInput()) {
     case KEYCODE_ENTER:
         TRACE(("processPilotInput(): enter"));
         if ((hallfameBuf[selectedPilotIdx].medals & 0x60) == 0) {

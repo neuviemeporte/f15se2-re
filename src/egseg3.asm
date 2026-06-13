@@ -13,10 +13,10 @@ _BSS ENDS
 
 ; int9Handler writes the keyboard virtual-stick RAW axes to byte_37F98/byte_37F99
 ; (DGROUP 0x56e8/0x56e9), which setInt9Handler initializes to center (0x80).
-; otherKeyDispatch's keyboard path reads them, scales by the gain (a15flt+0F2h),
+; stepFlightModel's keyboard path reads them, scales by the gain (a15flt+0F2h),
 ; and writes the result to joyAxes (0x56e4/0x56e5), which the stick dot
-; (drawCockpitHud/egtacmap) displays. Writing 0x56e4/0x56e5 here directly let
-; otherKeyDispatch overwrite the deflection with a centered value -> the stick
+; (renderHudFrame/egtacmap) displays. Writing 0x56e4/0x56e5 here directly let
+; stepFlightModel overwrite the deflection with a centered value -> the stick
 ; only reacted intermittently. byte_37F98=Up/Down (pitch), byte_37F99=Left/Right.
 EXTRN _joyAxes:BYTE
 EXTRN byte_37F98:BYTE

@@ -424,7 +424,7 @@ void parseWorld(const char *filename) {
     }
 }
 
-void writeWorld(const char *filename) {
+void exportWorldToComm(const char *filename) {
     int unused;
     if ((fileHandle = (FILE*)setMoveDstComm7A(filename, aWb_0)) == NULL) return;
     memAppend(wldReadBuf1, 2, 1, fileHandle);
@@ -571,7 +571,7 @@ int clampValue(int val, int lo, int hi) {
     return hi;
 }
 
-void placeString(int idx) {
+void buildTargetLabel(int idx) {
     mystrcpy(todayMissStrBuf, wldOffsets[worldObjects[idx].objectIdx & 0x7f]);
     if (mystrlen(wldOffsets[worldObjects[idx].unitRef]) != 0) {
         if (mystrlen(wldOffsets[worldObjects[idx].objectIdx & 0x7f]) != 0) {

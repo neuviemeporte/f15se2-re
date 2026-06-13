@@ -208,7 +208,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param
     if (mode == 1) {
         strcpy(strBuf, (char*)aBrg);
         strcat(strBuf, itoa((unsigned int)var_681 / 0xb6, unk_3C030, 10));
-        draw2Strings(strBuf, 0xf8, 0xb0, 0xf);
+        drawStringActivePage(strBuf, 0xf8, 0xb0, 0xf);
     }
     var_594 = 0;
 }
@@ -237,7 +237,7 @@ int clampRange(int value, int minVal, int maxVal) {
 }
 
 // ==== seg000:0xcf8e ====
-int sub_1CF8E(int value, int min, int max) {
+int clampValue(int value, int min, int max) {
     if (value > max) {
         return max;
     }

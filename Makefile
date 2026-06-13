@@ -79,13 +79,13 @@ COMMON_OBJ_B := $(BUILDDIR)/util_b.obj
 COMMON_OBJ_C := $(BUILDDIR)/util_c.obj
 COMMON_OBJ2 := $(BUILDDIR)/util2.obj
 COMMON_UTIL := $(COMMON_OBJ) $(COMMON_OBJ_B) $(COMMON_OBJ_C)
-START_SRC := stmain.c stinit.c stinit_b.c stsprit.c strand.c stpilot.c stalloc.c stterr.c stparse.c stgen.c stdata.c
+START_SRC := stmain.c stinit.c stmissn.c stsprit.c strand.c stpilot.c stalloc.c stterr.c stparse.c stgen.c stdata.c
 START_BASEHDR = $(SRCDIR)/start.h
 START_COBJ := $(call cobj,$(BUILDDIR),$(START_SRC))
 # Explicit link order interleaves the shared util pieces between the per-module
 # objs to match the original layout in map/start.map.
 START_OBJ := $(BUILDDIR)/stmain.obj $(BUILDDIR)/stinit.obj $(COMMON_OBJ) \
-	$(BUILDDIR)/stinit_b.obj $(BUILDDIR)/stsprit.obj \
+	$(BUILDDIR)/stmissn.obj $(BUILDDIR)/stsprit.obj \
 	$(COMMON_OBJ_B) $(COMMON_OBJ_C) $(BUILDDIR)/strand.obj $(BUILDDIR)/stpilot.obj \
 	$(COMMON_OBJ2) \
 	$(BUILDDIR)/stalloc.obj $(BUILDDIR)/stterr.obj $(BUILDDIR)/stparse.obj \
@@ -205,7 +205,7 @@ $(NOASMDIR)/%.obj: $(SRCDIR)/%.asm | $(NOASMDIR)
 # egame.exe NO_ASM build (virtual gfx overlay - Phase 3 of plan)
 #
 EGAME_NOASM := $(NOASMDIR)/egame.exe
-NOASM_EGAME_SRC := egmain.c egproj.c egmain_b.c eg3d_a.c eg3d_b.c eg3d_c.c eg3d_d.c eg3d_e.c eg3d_f.c eg3d_g.c eghud.c eghud_g.c egflt_b.c egtacmap.c egui.c egmath.c egweap.c egfileio.c egpic.c slottram.c ovlpatch.c
+NOASM_EGAME_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egmath.c egkeys.c egfileio.c egpic.c slottram.c ovlpatch.c
 EGAME_NOASM_COBJ := $(call cobj,$(NOASMDIR),$(EGAME_NOASM_SRC))
 EGAME_NOASM_OBJ := $(EGAME_NOASM_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util_b.obj $(NOASMDIR)/util_c.obj $(NOASMDIR)/util2.obj
 $(EGAME_NOASM_COBJ): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DNO_ASM /DBUGFIX
@@ -225,9 +225,9 @@ EGAME_MAP := $(MAPDIR)/egame.map
 EGAME_LINKMAP := $(BUILDDIR)/egame.map:link
 EGAME_BASE := egame_rc.asm
 EGAME_ASM := $(EGAME_BASE) egfarbu2.asm egseg3.asm egseg2.asm egseg1.asm
-# egmain.c split after gfxInit so drawProjectionSphere (egproj.c) links between
+# egmain.c split after gfxInit so drawProjectionSphere (egsphere.c) links between
 # gfxInit and updateFrame, matching its early position in map/egame.map.
-EGAME_SRC := egmain.c egproj.c egmain_b.c eg3d_a.c eg3d_b.c eg3d_c.c eg3d_d.c eg3d_e.c eg3d_f.c eg3d_g.c eghud.c eghud_g.c egflt_b.c egtacmap.c egui.c egui_b.c egmath.c egweap.c egfileio.c egpic.c
+EGAME_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egtarget.c egmath.c egkeys.c egfileio.c egpic.c
 EGAME_BASEHDR = $(SRCDIR)/egame.h
 EGAME_COBJ := $(call cobj,$(BUILDDIR),$(EGAME_SRC))
 EGAME_OBJ := $(EGAME_COBJ) $(call asmobj,$(BUILDDIR),$(EGAME_ASM))
@@ -237,22 +237,22 @@ $(EGAME_EXE): $(EGAME_OBJ)
 
 $(EGAME_COBJ): $(EGAME_BASEHDR)
 $(BUILDDIR)/egmain.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
-$(BUILDDIR)/egmain_b.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
-$(BUILDDIR)/egproj.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/eg3d_b.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
-$(BUILDDIR)/eg3d_c.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
-$(BUILDDIR)/eg3d_d.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
-$(BUILDDIR)/eg3d_f.obj: MSC_CFLAGS := /Gs /Zi /Ot /Id:\f15-se2
-$(BUILDDIR)/eghud.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
-$(BUILDDIR)/eghud_g.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/egframe.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/egsphere.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/eg3dproj.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/eg3dgrid.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/eg3dload.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/eg3dvp.obj: MSC_CFLAGS := /Gs /Zi /Ot /Id:\f15-se2
+$(BUILDDIR)/egflight.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/egthreat.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egtacmap.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
-$(BUILDDIR)/egweap.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
-$(BUILDDIR)/eg3d_a.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/eg3d_e.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/eg3d_g.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/egflt_b.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/egkeys.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/eg3dview.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/eg3dmap.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/eg3dcam.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/egcombat.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egui.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/egui_b.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/egtarget.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/egmath.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egfileio.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egpic.obj: MSC_CFLAGS := /Od /Id:\f15-se2
@@ -275,8 +275,8 @@ EGAME_DBG_OBJ := $(call asmobj,$(DEBUGDIR),$(EGAME_ASM)) $(call cobj,$(DEBUGDIR)
 $(EGAME_DBG_OBJ): $(EGAME_BASEHDR)
 $(EGAME_DBG_OBJ): ASMFLAGS += -DDEBUG
 # Compile largest C files with /Os in debug to stay under 64K _TEXT limit
-$(DEBUGDIR)/eghud.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
-$(DEBUGDIR)/egweap.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
+$(DEBUGDIR)/egflight.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
+$(DEBUGDIR)/egkeys.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
 $(DEBUGDIR)/egmain.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
 $(EGAME_DEBUG): $(DEBUGDIR) $(EGAME_DBG_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
@@ -294,18 +294,18 @@ END_MAP := $(MAPDIR)/end.map
 END_LINKMAP := $(BUILDDIR)/end.map:link
 END_BASE := endslots.asm
 END_ASM := endcode.asm $(END_BASE)
-END_SRC := enmain.c enmain_b.c enworld.c eninput.c entext.c entext_b.c enaward.c enbrief.c endbrf.c enfile.c end_data.c
+END_SRC := enmain.c enmisc.c enworld.c eninput.c entext.c enrand.c enaward.c enbrief.c endbrf.c enfile.c endata.c
 END_BASEHDR = $(SRCDIR)/end.h
 END_COBJ := $(call cobj,$(BUILDDIR),$(END_SRC))
 # Explicit link order interleaves the shared util pieces between the per-module
 # objs to match the original layout in map/end.map (C functions only; ASM-base
 # routines fall at the end of _TEXT). util.obj=cleanup, util_b=drawStringAt,
 # util_c=string/number helpers, util2=file/strcpy helpers.
-END_OBJ := $(BUILDDIR)/enmain.obj $(COMMON_OBJ) $(BUILDDIR)/enmain_b.obj \
+END_OBJ := $(BUILDDIR)/enmain.obj $(COMMON_OBJ) $(BUILDDIR)/enmisc.obj \
 	$(BUILDDIR)/enworld.obj $(BUILDDIR)/eninput.obj $(COMMON_OBJ_B) \
-	$(BUILDDIR)/entext.obj $(COMMON_OBJ_C) $(BUILDDIR)/entext_b.obj \
+	$(BUILDDIR)/entext.obj $(COMMON_OBJ_C) $(BUILDDIR)/enrand.obj \
 	$(COMMON_OBJ2) $(BUILDDIR)/enaward.obj $(BUILDDIR)/enbrief.obj \
-	$(BUILDDIR)/endbrf.obj $(BUILDDIR)/enfile.obj $(BUILDDIR)/end_data.obj \
+	$(BUILDDIR)/endbrf.obj $(BUILDDIR)/enfile.obj $(BUILDDIR)/endata.obj \
 	$(call asmobj,$(BUILDDIR),$(END_ASM))
 $(END_COBJ): $(END_BASEHDR)
 $(END_EXE): | $(BUILDDIR)
@@ -314,7 +314,7 @@ $(END_EXE): $(END_OBJ)
 
 $(END_COBJ): $(END_BASEHDR)
 $(BUILDDIR)/enmain.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/enmain_b.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/enmisc.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/enbrief.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/endbrf.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/eninput.obj: MSC_CFLAGS := /Gs /Id:\f15-se2

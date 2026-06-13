@@ -11,7 +11,7 @@ EXTRN _addTileEntry:PROC
 EXTRN _lookupTileEntry:PROC
 EXTRN _projectModelVertices:PROC
 EXTRN _setupViewport:PROC
-EXTRN _computeHudAttitude:PROC
+EXTRN _computeAttitudeAngles:PROC
 PUBLIC _byte_37F98
 PUBLIC _byte_37F99
 PUBLIC _byte_37FEC
@@ -173,7 +173,7 @@ PUBLIC word_37F5C
 PUBLIC word_37F5E
 PUBLIC word_37F60
 PUBLIC word_37F62
-EXTRN _sub_166BE:PROC
+EXTRN _updateThreatAlert:PROC
 EXTRN _computeThreatScore:PROC
 EXTRN _computeThreatRangeBearing:PROC
 EXTRN _generateRandomRadioMessage:PROC
@@ -183,19 +183,19 @@ EXTRN _drawWeaponSelectMarker:PROC
 EXTRN _scaleCoordToLod:PROC
 EXTRN _fireAirThreat:NEAR
 fireAirThreat equ _fireAirThreat
-EXTRN _sub_11971:PROC
+EXTRN _resetSimObjectLocks:PROC
 EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC
-EXTRN _sub_1DBE0:PROC
-EXTRN _sub_1DA5F:PROC
-EXTRN _sub_1DB9C:PROC
+EXTRN _disableTextBlink:PROC
+EXTRN _playVoiceCue:PROC
+EXTRN _exitSlowMotion:PROC
 EXTRN _makeSound:PROC
-EXTRN _sub_1DA8D:PROC
+EXTRN _updateEngineSound:PROC
 EXTRN _waitForKeyPress:PROC
 EXTRN _recalcTimeScale:PROC
 EXTRN _renderFrame:PROC
 EXTRN _main:PROC
-EXTRN _drawCockpitHud:PROC
+EXTRN _renderHudFrame:PROC
 EXTRN _signOf:PROC
 EXTRN _seedRng:PROC
 EXTRN _readAxisInput:PROC
@@ -205,7 +205,7 @@ EXTRN _computeTargetBearing:PROC
 EXTRN _sub_21A7A:PROC
 EXTRN _aspectScaleY:PROC
 EXTRN _setup3DTransform:PROC
-EXTRN _sub_1CF8E:PROC
+EXTRN _clampValue:PROC
 EXTRN _shapeDataOffset:PROC
 EXTRN _drawTargetView:PROC
 EXTRN _drawWorldObject:PROC
@@ -216,24 +216,24 @@ EXTRN _drawTargetLabel:PROC
 EXTRN _buildRangeString:PROC
 EXTRN _isTargetOverWater:PROC
 EXTRN _getTargetSymbol:PROC
-EXTRN _sub_1C82D:PROC
+EXTRN _computeLoftAngle:PROC
 EXTRN _mapXToScreen:PROC
 EXTRN _mapYToScreen:PROC
 EXTRN _applyGravityFall:PROC
 EXTRN _initFrameRandom:PROC
-EXTRN _projectWorldPos:PROC
+EXTRN _testWorldPosVisible:PROC
 EXTRN _clearStatusPanel:PROC
 EXTRN _refreshActivePanel:PROC
 EXTRN _initTacMapView:PROC
 EXTRN _setViewPosition:PROC
-EXTRN _copySomeMem:PROC
+EXTRN _loadColorPalette:PROC
 EXTRN _clampRange:PROC
 EXTRN _rangeApprox:PROC
 EXTRN _computeBearing:PROC
 EXTRN _sinMul:PROC
 EXTRN _cosMul:PROC
 EXTRN _randomRange:PROC
-EXTRN _sub_121C6:PROC
+EXTRN _loadRegion3D:PROC
 EXTRN _valueToAngle:PROC
 EXTRN _complementAngle:PROC
 EXTRN _isqrt:PROC
@@ -309,7 +309,7 @@ EXTRN _drawMissileLock:PROC
 EXTRN _projectWorldToHud:PROC
 EXTRN _rotateVectorComponent:PROC
 EXTRN _drawMapPoint:PROC
-EXTRN _routine_260:PROC
+EXTRN _missileTargetCompat:PROC
 EXTRN _plotMapObject:PROC
 EXTRN _objectToScreen:PROC
 EXTRN _setupLodDistances:PROC
@@ -317,8 +317,8 @@ EXTRN _tickMessageTimers:PROC
 EXTRN _updateBulletsAndFire:PROC
 EXTRN _updateTracerParticles:PROC
 EXTRN _finalizeMission:PROC
-EXTRN _sub_10294:PROC
-EXTRN _sub_10297:PROC
+EXTRN _doNothing3:PROC
+EXTRN _doNothing4:PROC
 EXTRN _setViewRotation:PROC
 EXTRN _renderMapTerrain:PROC
 EXTRN _drawMapTiles:PROC
@@ -332,9 +332,9 @@ EXTRN _spawnEnemyAircraft:NEAR
 spawnEnemyAircraft equ _spawnEnemyAircraft
 EXTRN _setActivePanel:near
 setActivePanel equ _setActivePanel
-EXTRN _sub_187EA:NEAR
-sub_187EA equ _sub_187EA
-processTargetReached equ _sub_187EA
+EXTRN _destroyGroundTarget:NEAR
+destroyGroundTarget equ _destroyGroundTarget
+processTargetReached equ _destroyGroundTarget
 
 PUBLIC _var_456
 PUBLIC _var_190
@@ -775,8 +775,8 @@ PUBLIC _word_3C008
 PUBLIC _g_playerPlaneFlags
 PUBLIC _byte_37C24
 PUBLIC _string_3C04A
-EXTRN _draw2Strings:PROC
-EXTRN _drawSomeStrings:PROC
+EXTRN _drawStringActivePage:PROC
+EXTRN _drawStringBothPages:PROC
 PUBLIC _var_564
 PUBLIC _var_565
 PUBLIC _var_569
@@ -950,7 +950,7 @@ isqrt equ _isqrt
 drawFuelGauge equ _drawFuelGauge
 waitForKeyPress equ _waitForKeyPress
 computeThreatRangeBearing equ _computeThreatRangeBearing
-sub_166BE equ _sub_166BE
+updateThreatAlert equ _updateThreatAlert
 computeThreatScore equ _computeThreatScore
 markTargetReached equ _markTargetReached
 bombTarget equ _bombTarget
@@ -968,7 +968,7 @@ drawPanelText equ _drawPanelText
 readScreenPixel equ _readScreenPixel
 tempStrcpy equ _tempStrcpy
 setTimedMessage equ _setTimedMessage
-lookupTerrainModifier equ _routine_260
+lookupTerrainModifier equ _missileTargetCompat
 drawMapMarkerBox equ _drawMapMarkerBox
 projectMapPoint equ _projectMapPoint
 EXTRN _blitGaugeSprite:PROC
@@ -984,20 +984,20 @@ rotateVectorComponent equ _rotateVectorComponent
 computeMapTargetRange equ _computeMapTargetRange
 computeSimObjectRange equ _computeSimObjectRange
 computeTargetBearing equ _computeTargetBearing
-sub_1C82D equ _sub_1C82D
+computeLoftAngle equ _computeLoftAngle
 getTargetSymbol equ _getTargetSymbol
 isTargetOverWater equ _isTargetOverWater
 shapeDataOffset equ _shapeDataOffset
-forceRange equ _sub_1CF8E
+forceRange equ _clampValue
 randlmul equ _randomRange
 selectMissile equ _selectMissile
 makeSound equ _makeSound
-sub_1DA5F equ _sub_1DA5F
-sub_1DA8D equ _sub_1DA8D
+playVoiceCue equ _playVoiceCue
+updateEngineSound equ _updateEngineSound
 recalcTimeScale equ _recalcTimeScale
 setupLodDistances equ _setupLodDistances
-sub_1DB9C equ _sub_1DB9C
-sub_1DBE0 equ _sub_1DBE0
+exitSlowMotion equ _exitSlowMotion
+disableTextBlink equ _disableTextBlink
 createFileWrapper equ _createFileWrapper
 readFile1Wrapper equ _readFile1Wrapper
 readFile2Wrapper equ _readFile2Wrapper
@@ -1016,16 +1016,16 @@ SREGS		ends
 ; ---------------------------------------------------------------------------
 
 ViewSnapshot		struc ;	(sizeof=0x10, mappedto_11) ; XREF: dseg:stru_3A95A/r
-field_0		dd ?			; XREF:	otherKeyDispatch+1198/w
-					; otherKeyDispatch+119C/w
-field_4		dd ?			; XREF:	otherKeyDispatch+11A7/w
-					; otherKeyDispatch+11AB/w
-field_8		dw ?			; XREF:	otherKeyDispatch+11B2/w
-field_A		dw ?			; XREF:	otherKeyDispatch+117F/w
-					; otherKeyDispatch+121D/r
-field_C		dw ?			; XREF:	otherKeyDispatch+1186/w
-					; otherKeyDispatch+1227/r
-field_E		dw ?			; XREF:	otherKeyDispatch+118D/w
+field_0		dd ?			; XREF:	stepFlightModel+1198/w
+					; stepFlightModel+119C/w
+field_4		dd ?			; XREF:	stepFlightModel+11A7/w
+					; stepFlightModel+11AB/w
+field_8		dw ?			; XREF:	stepFlightModel+11B2/w
+field_A		dw ?			; XREF:	stepFlightModel+117F/w
+					; stepFlightModel+121D/r
+field_C		dw ?			; XREF:	stepFlightModel+1186/w
+					; stepFlightModel+1227/r
+field_E		dw ?			; XREF:	stepFlightModel+118D/w
 ViewSnapshot		ends
 
 ; ---------------------------------------------------------------------------
@@ -1058,7 +1058,7 @@ field_0		dw ?			; XREF:	updateTracerParticles+60/r findWaypointFeatures+60/r ...
 field_2		dw ?			; XREF:	updateTracerParticles+68/r findWaypointFeatures+40/r ...
 field_4		dw ?
 field_6		dw ?			; XREF:	updateFrame+D7F/r
-					; otherKeyDispatch+6C/r	...
+					; stepFlightModel+6C/r	...
 field_8		db 4 dup(?)		; XREF:	updateFrame+D77/r
 field_C		dw ?			; XREF:	placeString+A/r	placeString+43/r ...
 field_E		dw ?
@@ -1159,10 +1159,10 @@ OVL_HDR_FIRSTPTR  = 24h
 ; ==============================================================================
 .CODE ;seg000 segment byte public 'CODE' use16
 ; ------------------------------seg000:0x294------------------------------
-sub_10294 equ _sub_10294
+doNothing3 equ _doNothing3
 ; ------------------------------seg000:0x296------------------------------
 ; ------------------------------seg000:0x297------------------------------
-sub_10297 equ _sub_10297
+doNothing4 equ _doNothing4
 ; ------------------------------seg000:0x299------------------------------
     nop
 ; ------------------------------seg000:0x2e2------------------------------
@@ -1446,10 +1446,10 @@ scheduleTimedEvent equ _scheduleTimedEvent
 ; ------------------------------seg000:0x21c4------------------------------
     nop
 ; ------------------------------seg000:0x21c6------------------------------
-callLoad3DAll equ _sub_121C6
+callLoad3DAll equ _loadRegion3D
 ; ------------------------------seg000:0x21c9------------------------------
 ; _render3DView - now in C (egame2.c)
-; _copySomeMem - now in C (egame2.c)
+; _loadColorPalette - now in C (egame2.c)
 ; ------------------------------seg000:0x22b7------------------------------
 ; ------------------------------seg000:0x22b8------------------------------
 projectObjects equ _projectObjects
@@ -1872,7 +1872,7 @@ _runGameLoop endp
 ; ------------------------------seg000:0x3c47------------------------------
 gameMainLoop proc near
     call _renderFrame
-    call _drawCockpitHud
+    call _renderHudFrame
     cmp _keyValue, 0
     jnz short loc_13C59
     call far ptr _sub_21A7A ;call _sub_21A7A
@@ -1881,7 +1881,7 @@ loc_13C59:
     mov ax, _word_38126
     call far ptr gfx_dacAnimate
     mov byte_378EE, 1
-    call _otherKeyDispatch
+    call _stepFlightModel
     call updateFrame
     cmp byte_3C8B0, 0
     jz short gameMainLoop
@@ -2252,12 +2252,12 @@ advanceFrameTick endp
 ; ------------------------------seg000:0x3f01------------------------------
     nop
 ; ------------------------------seg000:0x3f72------------------------------
-EXTRN _otherKeyDispatch:NEAR
+EXTRN _stepFlightModel:NEAR
 ; ------------------------------seg000:0x51f9------------------------------
 EXTRN _applyRotationDelta:NEAR
 ; ------------------------------seg000:0x5236------------------------------
 ; ------------------------------seg000:0x5237------------------------------
-computeHudAttitude equ _computeHudAttitude
+computeAttitudeAngles equ _computeAttitudeAngles
 ; ------------------------------seg000:0x5fdb------------------------------
 UpdateThrottleState equ _UpdateThrottleState
 ; ------------------------------seg000:0x606b------------------------------
@@ -2272,7 +2272,7 @@ drawVectorShape equ _drawVectorShape
 waitForKeyPress equ _waitForKeyPress
 ; ------------------------------seg000:0x6171------------------------------
 ; ------------------------------seg000:0x6172------------------------------
-; updateThreatSites - moved to eghud.c
+; updateThreatSites - now in C (egthreat.c)
 ; ------------------------------seg000:0x6345------------------------------
 ; ------------------------------seg000:0x6346------------------------------
 EXTRN _fireGroundThreat:NEAR
@@ -2858,7 +2858,7 @@ LAB_1000_7f99:
     push word ptr [SI + offset _stru_335C4 + 4]
     push word ptr [SI + offset _stru_335C4 + 2]
     push word ptr [SI + offset _stru_335C4]
-    call projectWorldPos
+    call testWorldPosVisible
     add SP,6h
 LAB_1000_7fc8:
     mov AX,18h
@@ -3451,7 +3451,7 @@ _updateThreatTargeting equ updateThreatTargeting
 ; destroyAircraft - replaced by C implementation
 ; ------------------------------seg000:0x87e8------------------------------
 ; ------------------------------seg000:0x87ea------------------------------
-; _sub_187EA - now in C (egflt_b.c)
+; _destroyGroundTarget - now in C (egcombat.c)
 ; ------------------------------seg000:0x8aa4------------------------------
     nop
 ; ------------------------------seg000:0x8aa6------------------------------
@@ -3459,7 +3459,7 @@ EXTRN _fireMissile:NEAR
 fireMissile equ _fireMissile
 ; ------------------------------seg000:0x8df3------------------------------
 ; ------------------------------seg000:0x8df4------------------------------
-projectWorldPos equ _projectWorldPos
+testWorldPosVisible equ _testWorldPosVisible
 ; ------------------------------seg000:0x8e36------------------------------
 ; ------------------------------seg000:0x8e38------------------------------
 clearStatusPanel equ _clearStatusPanel
@@ -3539,7 +3539,7 @@ LAB_1000_967e:
     mov AX,3h
 LAB_1000_9681:
     push AX
-    call _copySomeMem
+    call _loadColorPalette
     add SP,2h
     mov AX,13h
     push AX
@@ -3756,7 +3756,7 @@ LAB_1000_983e:
     add SP,10h
 LAB_1000_986a:
     call restoreScopePanel
-    call _sub_11971
+    call _resetSimObjectLocks
 LAB_1000_9870:
     pop SI
     mov SP,BP
@@ -3951,9 +3951,9 @@ LAB_1000_a0c7:
 drawCenteredLabelBox endp
 _drawCenteredLabelBox equ drawCenteredLabelBox
 ; ------------------------------seg000:0xa0ca------------------------------
-; _drawSomeStrings - now in C (egame1.c)
+; _drawStringBothPages - now in C (egame1.c)
 ; ------------------------------seg000:0xa0fe------------------------------
-; _draw2Strings - now in C (egame1.c)
+; _drawStringActivePage - now in C (egame1.c)
 ; ------------------------------seg000:0xa139------------------------------
 _drawStringCentered proc near
     push BP

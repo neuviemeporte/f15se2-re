@@ -188,7 +188,7 @@ void updateFrame(void) {
     }
     if (word_336EE != 0 && frameTick == word_336EE) {
         word_336EE = 0;
-        sub_1DA5F(2);
+        playVoiceCue(2);
     }
 
     if ((frameTick & 7) != 0) goto skip_target_section;
@@ -308,7 +308,7 @@ skip_target_section:
                     tempStrcpy(aSafeLanding);
                     g_autopilotAltitude = 0;
                     word_33712 = 0;
-                    sub_1DA5F(4);
+                    playVoiceCue(4);
                 }
                 if ((g_playerPlaneFlags & 0x6000) == 0x6000) {
                     if (word_33714 > g_frameRateScaling) {
@@ -398,8 +398,8 @@ skip_autopilot:
             appendMapEvent(9, 0);
         }
         if (word_38FE0 == 1) {
-            sub_1DA5F(0);
-            sub_1DA8D();
+            playVoiceCue(0);
+            updateEngineSound();
         }
         if (word_336EA != 0 && (word_38FE0 & 3) == 0) {
             generateRandomRadioMessage();
@@ -558,7 +558,7 @@ void initFrameRandom(void) {
 }
 
 // ==== seg000:0x1971 ====
-void sub_11971() {
+void resetSimObjectLocks() {
     int p;
     for (p = 0; p < word_3C046; p++) {
         *(int *)&stru_3B202[p].state[16] = -1;

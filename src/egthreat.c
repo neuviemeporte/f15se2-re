@@ -119,7 +119,7 @@ void fireGroundThreat(int param_1)
         }
         if (!(g_planes[param_1].flags & 0x100) && word_333DA == 0 &&
             *(int16 *)&g_planes[param_1].field_8 > 0x7f) {
-            sub_166BE();
+            updateThreatAlert();
         }
         if (word_3A946 <= g_missionStatus) {
             if (*(int16 *)&g_planes[param_1].field_8 > 0xc0) {
@@ -193,7 +193,7 @@ int computeThreatRangeBearing(int threatX, int threatY, int arg_4, int threatTyp
 }
 
 // ==== seg000:0x66be ====
-void sub_166BE(void) {
+void updateThreatAlert(void) {
     int p;
     word_336F0 = word_3B0AC;
     if (word_333DA != 0) {
@@ -428,7 +428,7 @@ after_accel:
     }
 
     if (((uint8)h & 3) == (frameTick & 3)) {
-        projectWorldPos(stru_3B202[h].posX,
+        testWorldPosVisible(stru_3B202[h].posX,
                   stru_3B202[h].posY,
                   stru_3B202[h].alt);
         if (*(int8 *)&var_315 != 0) {

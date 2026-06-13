@@ -97,7 +97,7 @@ void drawCockpit() {
     TRACE(("drawCockpit: after load15Flt3d3, scenPlh0=%04x, scenarioPlh@%04x", (unsigned)scenarioPlh[0], (unsigned)&scenarioPlh[0]));
     strcpy(regnStr, scenarioPlh[gameData->theater]);
     TRACE_KEY(("drawCockpit: regnStr=%s theater=%d", regnStr, gameData->theater));
-    sub_121C6();
+    loadRegion3D();
     TRACE_KEY(("drawCockpit: after load3D, 38FDC=%d sizes3dt=%d/%d/%d/%d/%d", word_38FDC, sizes3dt[0], sizes3dt[1], sizes3dt[2], sizes3dt[3], sizes3dt[4]));
     f15DgtlResult = loadF15DgtlBin();
     TRACE(("drawCockpit: f15DgtlResult=%d", f15DgtlResult));
@@ -151,11 +151,11 @@ void runGameSession() {
 }
 
 // ==== seg000:0x0294 routine_6 ====
-void sub_10294() {
+void doNothing3() {
 }
 
 // ==== seg000:0x0297 routine_5 ====
-void sub_10297() {
+void doNothing4() {
 }
 
 // ==== seg000:0x29a ====

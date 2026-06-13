@@ -40,7 +40,7 @@ void fireAirThreat(int param_1)
         if (*(int16 *)&stru_3B202[param_1].state[18] > 0xc0) {
             word_3C09C++;
             stru_3B202[param_1].state[9] |= 0x40;
-            sub_166BE();
+            updateThreatAlert();
 
             j = param_1 % (g_missionStatus + 1);
 
@@ -215,7 +215,7 @@ void destroyAircraft(int objIdx)
     }
 }
 
-void sub_187EA(int param_1)
+void destroyGroundTarget(int param_1)
 {
     int p;
     int a;
@@ -276,7 +276,7 @@ void sub_187EA(int param_1)
         redrawTacMap(g_viewX_, g_viewY_);
     }
     if (g_missionStatus < 2) {
-        sub_166BE();
+        updateThreatAlert();
     }
 }
 
@@ -394,7 +394,7 @@ void fireMissile()
     if (p != 0x1e) {
         stru_335C4[c].worldY -= 0x1000;
     } else {
-        *(int16 *)&stru_335C4[c].state[6] = sub_1C82D() - 0x400;
+        *(int16 *)&stru_335C4[c].state[6] = computeLoftAngle() - 0x400;
         word_3C020 = word_336F4;
     }
 
@@ -429,7 +429,7 @@ end:
 }
 
 // ==== seg000:0x8df4 ====
-void projectWorldPos(int worldX, int worldY, int worldZ) {
+void testWorldPosVisible(int worldX, int worldY, int worldZ) {
     *(char *)&var_315 = 0;
     drawNearestTileObject((int32)worldX << 5, -((int32)worldY - 0x8000L) << 5, (int32)worldZ);
 }
