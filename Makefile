@@ -224,8 +224,8 @@ noasm-start: $(START_NOASM)
 EGAME_EXE := $(BUILDDIR)/egame.exe
 EGAME_MAP := $(MAPDIR)/egame.map
 EGAME_LINKMAP := $(BUILDDIR)/egame.map:link
-EGAME_BASE := egame_rc.asm
-EGAME_ASM := $(EGAME_BASE) egfarbu2.asm egseg3.asm egseg2.asm egseg1.asm
+EGAME_BASE := egslots.asm
+EGAME_ASM := egcode.asm $(EGAME_BASE) egfarbu2.asm egseg3.asm egseg2.asm egseg1.asm
 # egmain.c split after gfxInit so drawProjectionSphere (egsphere.c) links between
 # gfxInit and updateFrame, matching its early position in map/egame.map.
 EGAME_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egtarget.c egmath.c egkeys.c egfileio.c egpic.c
