@@ -796,6 +796,14 @@ PUBLIC _var_699
 PUBLIC _var_700
 PUBLIC aDestroyedBy
 PUBLIC aDestroyedBy_0
+PUBLIC _aDestroyedBy
+PUBLIC _aDestroyedBy_0
+PUBLIC _aGroundImpact
+PUBLIC _aHitBy
+PUBLIC _aHitBy_0
+PUBLIC _aIneffective
+PUBLIC _aMisses
+PUBLIC _word_3B7DE
 PUBLIC aF15dgtl_bin
 PUBLIC aFileClosingError
 PUBLIC aFileNotFound
@@ -6310,12 +6318,19 @@ _aTakingOff label byte
 aTakingOff db ' taking off',0
     db 0 ;align 2
 aMisses db ' misses ',0
+_aMisses equ aMisses
 aDestroyedBy db ' destroyed by ',0
+_aDestroyedBy equ aDestroyedBy
 aDestroyedBy_0 db ' destroyed by ',0
+_aDestroyedBy_0 equ aDestroyedBy_0
 aGroundImpact db ' ground impact',0
+_aGroundImpact equ aGroundImpact
 aHitBy db 'Hit by ',0
+_aHitBy equ aHitBy
 aIneffective db 'Ineffective',0
+_aIneffective equ aIneffective
 aHitBy_0 db ' hit by ',0
+_aHitBy_0 equ aHitBy_0
     db 0 ;align 2
 PUBLIC _aA
 aA db 'A',0
@@ -7648,6 +7663,7 @@ _word_3B5D6 equ word_3B5D6
     db 514 dup(?)
 _g_ViewX dd ?
 word_3B7DE dw ?
+_word_3B7DE equ word_3B7DE
 word_3B7E0 dw ?
 _word_3B7E0 equ word_3B7E0
 word_3B7E2 dw ?

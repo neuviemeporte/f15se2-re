@@ -220,6 +220,16 @@ struct ViewSnapshot stru_3A95A[1];
 struct MapTarget g_planes[1];
 struct SimObject stru_3B202[1];
 struct SimObject stru_3B208[1];
+/* --- data referenced by updateThreatTargeting (egcombat.c) --- */
+uint8 aMisses[] = " misses ";
+uint8 aDestroyedBy[] = " destroyed by ";
+uint8 aDestroyedBy_0[] = " destroyed by ";
+uint8 aGroundImpact[] = " ground impact";
+uint8 aHitBy[] = "Hit by ";
+uint8 aHitBy_0[] = " hit by ";
+uint8 aIneffective[] = "Ineffective";
+int16 word_3B7DE;
+
 /* --- data referenced by drawHudWorldOverlay (egui.c) --- */
 char aAt_0[] = " at ";
 uint8 aDestroyedByGun[] = " destroyed by gunfire";
@@ -617,7 +627,6 @@ int far sub_202C7(int, int, int) { return 0; }
 int far sub_2044A() { return 0; }
 int far sub_20658() { return 0; }
 void __cdecl __far sub_21A7E() {}
-void updateThreatTargeting() { }
 int writeFileAtRaw(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) { return 0; }
 int far sub_202F6() { return 0; }
 

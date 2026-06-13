@@ -141,6 +141,311 @@ void spawnEnemyAircraft(int slot, int objType)
         tempStrcpy(strBuf);
     }
 }
+// ==== seg000:0x79ee ====
+void updateThreatTargeting(void)
+{
+    int i, j, mode, spec, locked, aimY, bestIdx, step, delta;
+    int viewX, viewY, alt0, bear, wpX, wpY, ring, acq, wp;
+    unsigned best, dist;
+    char *src;
+
+    switchIndicatorColor(0, 8);
+    switchIndicatorColor(1, 8);
+    if (word_333DA != 0) {
+        viewX = word_333D2;
+        viewY = word_333D4;
+    } else {
+        viewX = g_viewX_;
+        viewY = g_viewY_;
+    }
+
+    for (i = 0; i < 12; i++) {
+        if (stru_335C4[i].ttl == 0)
+            continue;
+        spec = *(int16 *)&stru_335C4[i].state[0];
+        locked = 0;
+        aimY = 0;
+        mode = sams[spec].field_C;
+
+        if (i < 8) {
+#ifdef BUGFIX
+            plotMapObject(stru_335C4[i].mapX, stru_335C4[i].mapY, *(int16 *)&stru_335C4[i].state[4], 0);
+#else
+            plotMapObject(stru_335C4[i].mapX, stru_335C4[i].mapY, *(int16 *)&stru_335C4[i].state[4]);
+#endif
+            alt0 = var_547;
+            locked = samCanAcquireTarget(i, viewX, viewY, var_547, mode);
+            best = var_669;
+            aimY = var_670;
+            j = 1;
+            do {
+                if (((&word_333D8)[j * 6] == 1 && mode <= 0) ||
+                    ((&word_333D8)[j * 6] == 2 &&
+                     (mode == 1 || mode == 2 ||
+                      (mode == 3 &&
+                       -(g_missionStatus * 12 - 0x40) >
+                           abs(abs((aimY - var_542) >> 8) - 0x40))))) {
+                    acq = samCanAcquireTarget(i, (&word_333D2)[j * 6],
+                                              (&word_333D4)[j * 6], var_547, mode);
+                    if (acq != 0) {
+                        aimY = acq;
+                        locked = 0;
+                    }
+                }
+                j++;
+            } while (j < 4);
+
+            if (best > 0x200) {
+                if (*(int16 *)&stru_335C4[i].state[6] > 2 &&
+                    !(g_planes[*(int16 *)&stru_335C4[i].state[6]].flags & 0x10))
+                    locked = 0;
+                if (*(int16 *)&stru_335C4[i].state[6] <= 0 &&
+                    !(stru_3B202[-*(int16 *)&stru_335C4[i].state[6]].state[8] & 8))
+                    locked = 0;
+            }
+            if (stru_335C4[i].field_6 < (sams[spec].field_A >> 6) && (frameTick & 1))
+                stru_335C4[i].field_6++;
+        } else {
+            best = 0x7fff;
+            if (mode == 7) {
+                for (j = 0; j < word_3C046; j++) {
+                    if ((stru_3B202[j].state[8] & 2) &&
+                        *(int16 *)&stru_3B202[j].state[10] != 0) {
+                        acq = samCanAcquireTarget(i, stru_3B202[j].posX,
+                                                  stru_3B202[j].posY,
+                                                  stru_3B202[j].alt, mode);
+                        if (var_669 < best && acq != 0) {
+                            aimY = var_670;
+                            best = var_669;
+                            bestIdx = j;
+                            alt0 = stru_3B202[j].alt;
+                            locked = 1;
+                            if (best < 0x180) {
+                                stru_3B202[j].state[8] |= 0x10;
+                                scheduleEventCheck(j + 0x20, 1);
+                            }
+                        }
+                    }
+                }
+            }
+            if (stru_335C4[i].field_6 < (sams[spec].field_A >> 6) && (frameTick & 1)) {
+                stru_335C4[i].field_6++;
+                aimY = stru_335C4[i].worldX;
+            }
+            if (mode == 4 || mode == 6 || mode == 5 || mode == 0x1c) {
+                if (*(int16 *)&stru_335C4[i].state[4] == -1) {
+                    for (j = 0; j < word_3BED2; j++) {
+                        if ((mode != 4 || g_planes[j].field_4 != 0) &&
+                            (((mode == 5 || mode == 6) && (g_planes[j].flags & 8)) ||
+                             (mode != 5 && !(g_planes[j].flags & 8))) &&
+                            (acq = samCanAcquireTarget(i, g_planes[j].mapX,
+                                                       g_planes[j].mapY, 0, mode),
+                             var_669 < best && acq != 0)) {
+                            aimY = var_670;
+                            best = var_669;
+                            bestIdx = j;
+                            alt0 = 0;
+                            locked = 1;
+                        }
+                    }
+                } else {
+                    j = *(int16 *)&stru_335C4[i].state[4];
+                    acq = samCanAcquireTarget(i, g_planes[j].mapX,
+                                              g_planes[j].mapY, 0, mode);
+                    if (acq != 0) {
+                        aimY = var_670;
+                        best = var_669;
+                        bestIdx = j;
+                        alt0 = 0;
+                        locked = 1;
+                        if (best < 0xc0)
+                            scheduleEventCheck(j + 0x40, 1);
+                    }
+                }
+            }
+        }
+
+        if (locked != 0 && i < 8 &&
+            abs(var_670 - stru_335C4[i].worldX) < 0x1000 && word_333DA == 0) {
+            if (mode <= 0 && (frameTick & 2))
+                switchIndicatorColor(1, 0xc);
+            if (mode != 0 && !(frameTick & 2))
+                switchIndicatorColor(0, 0xe);
+            if ((frameTick & 3) == 0 && best < (unsigned)(stru_335C4[i].field_6 << 5)) {
+                makeSound(10, 1);
+                scheduleEventCheck(i, 2);
+            }
+        }
+
+        if (aimY != 0 && locked != 0) {
+            delta = aimY - stru_335C4[i].worldX;
+            if (i < 8)
+                delta = clampRange(delta, -(g_missionStatus + 1) << 8,
+                                   (g_missionStatus + 1) << 8);
+            delta = clampRange(delta, -(sams[spec].field_E * 0x80),
+                               sams[spec].field_E * 0x80);
+            stru_335C4[i].worldX += (delta << 2) / g_frameRateScaling;
+            stru_335C4[i].worldZ = delta << 1;
+            if (i < 8 && best < 0x400) {
+                aimY = computeBearing((alt0 - stru_335C4[i].alt) >> 4, abs((int)best));
+            } else {
+                aimY = computeBearing(((alt0 - stru_335C4[i].alt) >> 5) +
+                                          (abs((int)best) > 0x140 ? abs((int)best) >> 3 : 0),
+                                      abs((int)best));
+            }
+            bear = aimY - stru_335C4[i].worldY;
+            bear = clampRange(bear, -(sams[spec].field_E << 0xb),
+                              sams[spec].field_E << 9);
+            stru_335C4[i].worldY += (bear << 2) / g_frameRateScaling;
+        } else {
+            if (stru_335C4[i].worldY > 0 && mode != 0x1e)
+                stru_335C4[i].worldY -=
+                    (signOf(stru_335C4[i].worldY) << 0xc) / g_frameRateScaling;
+        }
+
+        if (mode == 0x1c && stru_335C4[i].worldY > -0x800)
+            stru_335C4[i].worldY = -0x800;
+        if (mode == 0x1e || stru_335C4[i].alt == 1) {
+            stru_335C4[i].worldY -= 0x800 / g_frameRateScaling;
+            if (stru_335C4[i].worldY < *(int16 *)&stru_335C4[i].state[6])
+                stru_335C4[i].worldY = *(int16 *)&stru_335C4[i].state[6];
+        }
+
+        step = (cosMul(stru_335C4[i].worldY, stru_335C4[i].field_6) << 3) / g_frameRateScaling;
+        if (mode == 0x1e) {
+            step /= 2;
+            stru_335C4[i].alt += sinMul(stru_335C4[i].worldY,
+                                        (stru_335C4[i].field_6 << 7) / g_frameRateScaling);
+        } else {
+            stru_335C4[i].alt += sinMul(stru_335C4[i].worldY,
+                                        (int)(*(uint8 *)&stru_335C4[i].field_6 << 8) / g_frameRateScaling);
+        }
+        stru_335C4[i].mapX += sinMul(stru_335C4[i].worldX, step);
+        stru_335C4[i].mapY -= cosMul(stru_335C4[i].worldX, step);
+        stru_335C4[i].ttl--;
+        if (i < 8) {
+            if (locked == 0)
+                *(uint8 *)&stru_335C4[i].alt &= 0xfe;
+            else
+                *(uint8 *)&stru_335C4[i].alt |= 1;
+        }
+        *(char *)&var_315 = 0;
+        if ((i & 3) == (frameTick & 3))
+            testWorldPosVisible(stru_335C4[i].mapX, stru_335C4[i].mapY, stru_335C4[i].alt);
+
+        if (stru_335C4[i].alt < 0 || *(int8 *)&var_315 != 0) {
+            word_3BEBC = stru_335C4[i].mapX;
+            word_3BEC8 = stru_335C4[i].mapY;
+            word_3BECE = stru_335C4[i].alt;
+            word_39606 = 0xfffd;
+            word_3B7DE = stru_335C4[i].ttl;
+            stru_335C4[i].ttl = 0;
+            strcpy((char *)strBuf,
+                   (char *)missiles[*(int16 *)&stru_335C4[i].state[2]].field_0);
+            if (mode == 0x1e || mode == 0x1d || mode == 0x1c) {
+                scheduleTimedEvent(0, 1);
+                makeSound(2, 2);
+                strcat((char *)strBuf, (char *)aMisses);
+                dist = rangeApprox(word_3BEBC - g_planes[word_3C020].mapX,
+                                   word_3BEC8 - g_planes[word_3C020].mapY);
+                if (dist < (unsigned)(0x100 / (g_missionStatus + 1))) {
+                    destroyGroundTarget(word_3C020);
+                    src = (char *)aDestroyedBy;
+                    goto target_hit;
+                } else {
+                    wp = findWaypointEntry(word_3BEBC, word_3BEC8);
+                    if (wp != -1 && !(g_planes[wp].flags & 0x80)) {
+                        wpX = (int)(*(int32 *)((char *)word_39808 + 4) >> 5);
+                        wpY = -((int)(*(int32 *)((char *)word_39808 + 8) >> 5) - 0x8000);
+                        dist = rangeApprox(word_3BEBC - wpX, word_3BEC8 - wpY);
+                        if (dist < (unsigned)(0x180 / (g_missionStatus + 2))) {
+                            destroyGroundTarget(wp);
+                            src = (char *)aDestroyedBy_0;
+                            goto target_hit;
+                        }
+                    }
+                }
+                goto msg_done;
+target_hit:
+                strcat((char *)strBuf, src);
+                strcat((char *)strBuf,
+                       (char *)missiles[*(int16 *)&stru_335C4[i].state[2]].field_0);
+                word_39606 = 8;
+                word_3BECE = 0;
+msg_done:
+                tempStrcpy((char *)strBuf);
+            } else if (i >= 8 && stru_335C4[i].ttl > g_frameRateScaling * 2) {
+                strcat((char *)strBuf, (char *)aGroundImpact);
+                tempStrcpy((char *)strBuf);
+            }
+        }
+
+        if ((unsigned)((abs(alt0 - stru_335C4[i].alt) >> 5) + best) <
+                (unsigned)((stru_335C4[i].field_6 << 4) / g_frameRateScaling) &&
+            locked != 0) {
+            word_3BEBC = stru_335C4[i].mapX;
+            word_3BEC8 = stru_335C4[i].mapY;
+            word_3BECE = stru_335C4[i].alt;
+            word_39606 = 8;
+            if (stru_335C4[i].ttl != 0)
+                word_3B7DE = stru_335C4[i].ttl;
+            stru_335C4[i].ttl = 0;
+            if (i < 8) {
+                if (word_333DA == 0) {
+                    strcpy((char *)strBuf, (char *)aHitBy);
+                    strcat((char *)strBuf, (char *)&sams[spec].field_0);
+                    tempStrcpy((char *)strBuf);
+                    bombTarget();
+                    ring = (frameTick >> 1) & 7;
+                    ((struct struc_9 *)stru_33402)[ring].field_0 = word_3BEBC;
+                    ((struct struc_9 *)stru_33402)[ring].field_2 = word_3BEC8;
+                    ((struct struc_9 *)stru_33402)[ring].field_4 = word_3BECE;
+                    if (!(g_playerPlaneFlags & 0x1000))
+                        appendMapEvent(5, spec);
+                }
+            } else {
+                if (mode == 7) {
+                    destroyAircraft(bestIdx);
+                    ring = (frameTick >> 1) & 7;
+                    word_3BEBC = stru_3B202[bestIdx].posX;
+                    ((struct struc_9 *)stru_33402)[ring].field_0 = word_3BEBC;
+                    word_3BEC8 = stru_3B202[bestIdx].posY;
+                    ((struct struc_9 *)stru_33402)[ring].field_2 = word_3BEC8;
+                    word_3BECE = stru_3B202[bestIdx].alt;
+                    ((struct struc_9 *)stru_33402)[ring].field_4 = word_3BECE;
+                } else {
+                    if ((int)randomRange(4) <
+                            missileTargetCompat(*(int16 *)&stru_335C4[i].state[2], bestIdx) ||
+                        (unsigned)(g_frameRateScaling * 10) <= word_3B7DE) {
+                        destroyGroundTarget(bestIdx);
+                    } else {
+                        strcpy((char *)strBuf, (char *)aIneffective);
+                    }
+                    stru_335C4[i].ttl = 0;
+                    word_336F0 = word_3B0AC;
+                    word_3B4D8 = word_3BEBC;
+                    word_3B4E0 = word_3BEC8;
+                    word_3B5D6 = 3000;
+                }
+                strcat((char *)strBuf, (char *)aHitBy_0);
+                strcat((char *)strBuf, (char *)&sams[spec].field_0);
+                tempStrcpy((char *)strBuf);
+            }
+        }
+
+        if (i < 8 && stru_335C4[i].ttl != 0) {
+            *(int16 *)&stru_335C4[i].state[4] =
+                readMapPixelColor(stru_335C4[i].mapX, stru_335C4[i].mapY);
+            if (frameTick & 1)
+#ifdef BUGFIX
+                plotMapObject(stru_335C4[i].mapX, stru_335C4[i].mapY, 0xe, 0);
+#else
+                plotMapObject(stru_335C4[i].mapX, stru_335C4[i].mapY, 0xe);
+#endif
+        }
+    }
+}
+
 // ==== seg000:0x85be ====
 int samCanAcquireTarget(int slot, int targetX, int targetY, int param_4, int mode) {
     int p;
