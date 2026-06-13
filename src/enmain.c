@@ -6,34 +6,6 @@
 #include <stdlib.h>
 #include "end.h"
 
-#ifdef NO_ASM
-void clearKeybuf(void) {
-    while (misc_jump_5a_keybuf() == 0) {
-        misc_jump_5b_getkey();
-    }
-}
-
-void setupWorldBufPtr(void) {
-    uint16 seg = FP_SEG(commData);
-    uint16 off = FP_OFF(commData);
-    worldBufOffset = off + 0x7A;
-    worldBufSegment = seg;
-}
-#endif
-
-void initGraphics(void) {
-    int a, b, c, d, e, f, g, h;
-    (void)a; (void)b; (void)c; (void)d;
-    (void)e; (void)f; (void)g; (void)h;
-    seedRandom();
-    gfx_setPageN(0);
-    gfx_allocPage(0);
-    gfx_getCurPage(0);
-    gfx_setMonoFlag(commData->setupMono);
-    gfx_setDac(1);
-    gfx_storeBufPtr(commData->gfxInitResult, 1);
-}
-
 int main(void) {
     int p;
     int a;
@@ -86,25 +58,6 @@ int main(void) {
     exit(EXIT_DEBRIEF);
 }
 
-void drawStringAtPos(int16 *s, char far *str, int x, int y) {
-    TRACE(("drawStringAtPos"));
-    s[4] = x;
-    s[5] = y;
-    drawFarString(s, str);
-}
-
-void farStrcpy(char *dst, char far *src) {
-    while ((*dst++ = *src++) != '\0')
-        ;
-}
-
-void drawFarString(int16* s, char far *str) {
-    char buf[200];
-    TRACE(("drawFarString"));
-    farStrcpy(buf, str);
-    gfx_drawString(s, buf);
-}
-
 void checkQuitFlag(void) {
     TRACE(("checkQuitFlag"));
     if (quitFlag != 0) {
@@ -114,18 +67,17 @@ void checkQuitFlag(void) {
     }
 }
 
-
-void restoreVideoMode(void) {
-}
-
-
-void restoreInterrupts(void) {
-}
-
-
-void outportByte(int port, int value) {
-    TRACE(("outportByte"));
-    outp(port, value);
+void initGraphics(void) {
+    int a, b, c, d, e, f, g, h;
+    (void)a; (void)b; (void)c; (void)d;
+    (void)e; (void)f; (void)g; (void)h;
+    seedRandom();
+    gfx_setPageN(0);
+    gfx_allocPage(0);
+    gfx_getCurPage(0);
+    gfx_setMonoFlag(commData->setupMono);
+    gfx_setDac(1);
+    gfx_storeBufPtr(commData->gfxInitResult, 1);
 }
 
 void loadWorldStrings(void) {
@@ -145,3 +97,50 @@ void loadWorldStrings(void) {
         a++;
     }
 }
+
+void drawStringAtPos(int16 *s, char far *str, int x, int y) {
+    TRACE(("drawStringAtPos"));
+    s[4] = x;
+    s[5] = y;
+    drawFarString(s, str);
+}
+
+void farStrcpy(char *dst, char far *src) {
+    while ((*dst++ = *src++) != '\0')
+        ;
+}
+
+void drawFarString(int16* s, char far *str) {
+    char buf[200];
+    TRACE(("drawFarString"));
+    farStrcpy(buf, str);
+    gfx_drawString(s, buf);
+}
+
+void restoreVideoMode(void) {
+}
+
+
+void restoreInterrupts(void) {
+}
+
+
+void outportByte(int port, int value) {
+    TRACE(("outportByte"));
+    outp(port, value);
+}
+
+#ifdef NO_ASM
+void setupWorldBufPtr(void) {
+    uint16 seg = FP_SEG(commData);
+    uint16 off = FP_OFF(commData);
+    worldBufOffset = off + 0x7A;
+    worldBufSegment = seg;
+}
+
+void clearKeybuf(void) {
+    while (misc_jump_5a_keybuf() == 0) {
+        misc_jump_5b_getkey();
+    }
+}
+#endif

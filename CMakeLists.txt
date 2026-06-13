@@ -54,7 +54,8 @@ set(EGAME_SOURCES
     ${SRC_DIR}/eg3d_g.c
     ${SRC_DIR}/eghud.c
     ${SRC_DIR}/eghud_g.c
-    ${SRC_DIR}/egflight.c
+    ${SRC_DIR}/egflt.c
+    ${SRC_DIR}/egflt_b.c
     ${SRC_DIR}/egtacmap.c
     ${SRC_DIR}/egui.c
     ${SRC_DIR}/egui_b.c

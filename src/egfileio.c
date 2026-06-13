@@ -10,11 +10,6 @@
 #include <memory.h>
 
 
-int openFileWrapper(const char *path, int mode) {
-    TRACE(("openFileWrapper: path=%s mode=%d", path, mode));
-    return openFile(path, mode);
-}
-
 // ==== seg000:0x0334 ====
 void drawProjectionSphere(int arg_0)
 {
@@ -119,6 +114,11 @@ void drawProjectionSphere(int arg_0)
         drawPolygonOutline(word_3298A, 4, f, a + 0x70);
         a++;
     } while (a < 16);
+}
+
+int openFileWrapper(const char *path, int mode) {
+    TRACE(("openFileWrapper: path=%s mode=%d", path, mode));
+    return openFile(path, mode);
 }
 
 // ==== seg000:0xdd5e ====

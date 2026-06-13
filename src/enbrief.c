@@ -771,6 +771,11 @@ void drawFlightLine(int p1, int p2, int p3, int p4)
     drawClippedLineEx(mapToScreenX(p1), mapToScreenY(p2), mapToScreenX(p3), mapToScreenY(p4), mapViewX1, mapViewX2, mapViewY1, mapViewY2, 1);
 }
 
+void drawClippedLine(int x1, int y1, int x2, int y2) {
+    TRACE(("drawClippedLine"));
+    drawClippedLineEx(x1, y1, x2, y2, mapViewX1, mapViewX2, mapViewY1, mapViewY2, 1);
+}
+
 void drawClippedLineEx(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2, int cy2, int flag) {
     int w, h;
     (void)flag;
@@ -793,11 +798,6 @@ void drawClippedLineEx(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2
     gfx_setOvlVal1(0xc7);
     gfx_setOvlVal2(clipMaxX);
     gfx_setBlitOffset(0);
-}
-
-void drawClippedLine(int x1, int y1, int x2, int y2) {
-    TRACE(("drawClippedLine"));
-    drawClippedLineEx(x1, y1, x2, y2, mapViewX1, mapViewX2, mapViewY1, mapViewY2, 1);
 }
 
 void drawMapPixel(int x, int y, int color) {
