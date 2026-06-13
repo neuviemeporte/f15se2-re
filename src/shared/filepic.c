@@ -1,9 +1,9 @@
 /*
- * util2.c - Utility functions shared between start.exe and end.exe
- * Compiled with /Gs (no /Zi)
+ * filepic.c - file/picture open-close wrappers, loadPic, and mystrcpy
+ * Compiled with /Gs (no /Zi). Shared between start.exe and end.exe.
  */
 
-#include "util.h"
+#include "common.h"
 #include "../debug.h"
 
 int openFile(const char *name, int mode);

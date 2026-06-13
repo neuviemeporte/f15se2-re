@@ -1,8 +1,8 @@
 /*
- * util_b.c - shared between start.exe and end.exe (split from util.c)
+ * drawstr.c - drawStringAt(); shared string drawing (split for link order)
  */
 
-#include "util.h"
+#include "common.h"
 
 #include "../pointers.h"
 #include <dos.h>

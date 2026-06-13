@@ -1,11 +1,9 @@
 /*
- * util.c - Utility functions shared between start.exe and end.exe
- *
- * These functions appear identically in both executables and are
- * extracted here to avoid duplication.
+ * cleanup.c - program teardown (video mode, timer IRQ, key flags),
+ *           shared between start.exe and end.exe.
  */
 
-#include "util.h"
+#include "common.h"
 
 #include "../pointers.h"
 #include <dos.h>

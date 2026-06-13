@@ -68,21 +68,22 @@ START_MAP := $(MAPDIR)/start.map
 START_LINKMAP := $(BUILDDIR)/start.map:link
 START_BASE := stslots.asm
 START_ASM := stcode.asm $(START_BASE)
-COMMON_SRC := shared/util.c
-COMMON_SRC2 := shared/util2.c
-# util.c was split into byte-identical pieces (util.c=cleanup, util_b.c=drawStringAt,
-# util_c.c=string/number helpers) so the shared utility functions can be interleaved
-# into each program's link order to match the original module layout. All three keep
-# util.c's /Gs /Zi flags. util2.c stays a single TU.
-COMMON_OBJ := $(BUILDDIR)/util.obj
-COMMON_OBJ_B := $(BUILDDIR)/util_b.obj
-COMMON_OBJ_C := $(BUILDDIR)/util_c.obj
-COMMON_OBJ2 := $(BUILDDIR)/util2.obj
+COMMON_SRC := shared/cleanup.c
+COMMON_SRC2 := shared/filepic.c
+# The shared string/cleanup helpers were split into byte-identical pieces
+# (cleanup.c=cleanup, drawstr.c=drawStringAt, textfmt.c=string/number helpers)
+# so they can be interleaved into each program's link order to match the
+# original module layout. All three keep /Gs /Zi flags. filepic.c (file/pic
+# wrappers + strcpy) stays a single TU.
+COMMON_OBJ := $(BUILDDIR)/cleanup.obj
+COMMON_OBJ_B := $(BUILDDIR)/drawstr.obj
+COMMON_OBJ_C := $(BUILDDIR)/textfmt.obj
+COMMON_OBJ2 := $(BUILDDIR)/filepic.obj
 COMMON_UTIL := $(COMMON_OBJ) $(COMMON_OBJ_B) $(COMMON_OBJ_C)
 START_SRC := stmain.c stinit.c stmissn.c stsprit.c strand.c stpilot.c stalloc.c stterr.c stparse.c stgen.c stdata.c
 START_BASEHDR = $(SRCDIR)/start.h
 START_COBJ := $(call cobj,$(BUILDDIR),$(START_SRC))
-# Explicit link order interleaves the shared util pieces between the per-module
+# Explicit link order interleaves the shared helper pieces between the per-module
 # objs to match the original layout in map/start.map.
 START_OBJ := $(BUILDDIR)/stmain.obj $(BUILDDIR)/stinit.obj $(COMMON_OBJ) \
 	$(BUILDDIR)/stmissn.obj $(BUILDDIR)/stsprit.obj \
@@ -98,27 +99,27 @@ START_VRF_REFEP := 0x10
 START_VRF_TGTEP := [558bec83ec1c56c706]
 
 $(START_COBJ): $(START_BASEHDR)
-$(COMMON_OBJ) $(COMMON_OBJ_B) $(COMMON_OBJ_C) $(COMMON_OBJ2): $(SRCDIR)/shared/util.h
-$(BUILDDIR)/util.obj: $(SRCDIR)/shared/util.c $(HDRS) | $(BUILDDIR)
+$(COMMON_OBJ) $(COMMON_OBJ_B) $(COMMON_OBJ_C) $(COMMON_OBJ2): $(SRCDIR)/shared/common.h
+$(BUILDDIR)/cleanup.obj: $(SRCDIR)/shared/cleanup.c $(HDRS) | $(BUILDDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(BUILDDIR)/util_b.obj: $(SRCDIR)/shared/util_b.c $(HDRS) | $(BUILDDIR)
+$(BUILDDIR)/drawstr.obj: $(SRCDIR)/shared/drawstr.c $(HDRS) | $(BUILDDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(BUILDDIR)/util_c.obj: $(SRCDIR)/shared/util_c.c $(HDRS) | $(BUILDDIR)
+$(BUILDDIR)/textfmt.obj: $(SRCDIR)/shared/textfmt.c $(HDRS) | $(BUILDDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(BUILDDIR)/util2.obj: $(SRCDIR)/shared/util2.c $(HDRS) | $(BUILDDIR)
+$(BUILDDIR)/filepic.obj: $(SRCDIR)/shared/filepic.c $(HDRS) | $(BUILDDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(DEBUGDIR)/util.obj: $(SRCDIR)/shared/util.c $(HDRS) | $(DEBUGDIR)
+$(DEBUGDIR)/cleanup.obj: $(SRCDIR)/shared/cleanup.c $(HDRS) | $(DEBUGDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(DEBUGDIR)/util_b.obj: $(SRCDIR)/shared/util_b.c $(HDRS) | $(DEBUGDIR)
+$(DEBUGDIR)/drawstr.obj: $(SRCDIR)/shared/drawstr.c $(HDRS) | $(DEBUGDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(DEBUGDIR)/util_c.obj: $(SRCDIR)/shared/util_c.c $(HDRS) | $(DEBUGDIR)
+$(DEBUGDIR)/textfmt.obj: $(SRCDIR)/shared/textfmt.c $(HDRS) | $(DEBUGDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(DEBUGDIR)/util2.obj: $(SRCDIR)/shared/util2.c $(HDRS) | $(DEBUGDIR)
+$(DEBUGDIR)/filepic.obj: $(SRCDIR)/shared/filepic.c $(HDRS) | $(DEBUGDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(BUILDDIR)/util2.obj: MSC_CFLAGS := /Gs /I.. /Id:\f15-se2
-$(BUILDDIR)/util.obj $(BUILDDIR)/util_b.obj $(BUILDDIR)/util_c.obj: MSC_CFLAGS := /Gs /Zi /I.. /Id:\f15-se2
-$(DEBUGDIR)/util2.obj: MSC_CFLAGS := /Gs /w /I.. /Id:\f15-se2 /DDEBUG
-$(DEBUGDIR)/util.obj $(DEBUGDIR)/util_b.obj $(DEBUGDIR)/util_c.obj: MSC_CFLAGS := /Gs /Zi /I.. /Id:\f15-se2 /DDEBUG
+$(BUILDDIR)/filepic.obj: MSC_CFLAGS := /Gs /I.. /Id:\f15-se2
+$(BUILDDIR)/cleanup.obj $(BUILDDIR)/drawstr.obj $(BUILDDIR)/textfmt.obj: MSC_CFLAGS := /Gs /Zi /I.. /Id:\f15-se2
+$(DEBUGDIR)/filepic.obj: MSC_CFLAGS := /Gs /w /I.. /Id:\f15-se2 /DDEBUG
+$(DEBUGDIR)/cleanup.obj $(DEBUGDIR)/drawstr.obj $(DEBUGDIR)/textfmt.obj: MSC_CFLAGS := /Gs /Zi /I.. /Id:\f15-se2 /DDEBUG
 $(BUILDDIR)/stpilot.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/stalloc.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/stterr.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
@@ -135,7 +136,7 @@ $(START_EXE): $(START_OBJ)
 START_DEBUG := $(DEBUGDIR)/start.exe
 $(START_DEBUG): MSC_CFLAGS += /DDEBUG
 $(DEBUGDIR)/stmain.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DDEBUG
-START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util_b.obj $(DEBUGDIR)/util_c.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
+START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(DEBUGDIR)/cleanup.obj $(DEBUGDIR)/drawstr.obj $(DEBUGDIR)/textfmt.obj $(DEBUGDIR)/filepic.obj $(DEBUGDIR)/debug.obj
 $(START_DBG_OBJ): $(START_BASEHDR)
 $(START_DBG_OBJ): ASMFLAGS += -DDEBUG
 $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
@@ -154,14 +155,14 @@ START_NOASM := $(NOASMDIR)/start.exe
 NOASM_SRC := $(START_SRC) slottram.c ovlpatch.c
 NOASM_SHARED_SRC := file_io.c timer.c miscstub.c gfxstub.c picstub.c ovlstub.c
 NOASM_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
-NOASM_OBJ := $(NOASM_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util_b.obj $(NOASMDIR)/util_c.obj $(NOASMDIR)/util2.obj
+NOASM_OBJ := $(NOASM_COBJ) $(NOASMDIR)/cleanup.obj $(NOASMDIR)/drawstr.obj $(NOASMDIR)/textfmt.obj $(NOASMDIR)/filepic.obj
 $(NOASM_COBJ): $(START_BASEHDR)
 # /Ox breaks the timer-polled busy-waits (MSC 5.1 hoists the non-volatile poll
 # out of the loop and its `volatile` is non-functional), so stay at /Gs.
 $(NOASM_COBJ): MSC_CFLAGS := /Gs /Id:\f15-se2 /DNO_ASM /DBUGFIX
-$(NOASMDIR)/util.obj: $(SRCDIR)/shared/util.c $(HDRS) | $(NOASMDIR)
+$(NOASMDIR)/cleanup.obj: $(SRCDIR)/shared/cleanup.c $(HDRS) | $(NOASMDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /I.. /Id:\f15-se2 /DNO_ASM /DBUGFIX"
-$(NOASMDIR)/util2.obj: $(SRCDIR)/shared/util2.c $(HDRS) | $(NOASMDIR)
+$(NOASMDIR)/filepic.obj: $(SRCDIR)/shared/filepic.c $(HDRS) | $(NOASMDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /I.. /Id:\f15-se2 /DNO_ASM /DBUGFIX"
 $(START_NOASM): | $(NOASMDIR)
 $(START_NOASM): $(NOASM_OBJ)
@@ -207,7 +208,7 @@ $(NOASMDIR)/%.obj: $(SRCDIR)/%.asm | $(NOASMDIR)
 EGAME_NOASM := $(NOASMDIR)/egame.exe
 NOASM_EGAME_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egmath.c egkeys.c egfileio.c egpic.c slottram.c ovlpatch.c
 EGAME_NOASM_COBJ := $(call cobj,$(NOASMDIR),$(EGAME_NOASM_SRC))
-EGAME_NOASM_OBJ := $(EGAME_NOASM_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util_b.obj $(NOASMDIR)/util_c.obj $(NOASMDIR)/util2.obj
+EGAME_NOASM_OBJ := $(EGAME_NOASM_COBJ) $(NOASMDIR)/cleanup.obj $(NOASMDIR)/drawstr.obj $(NOASMDIR)/textfmt.obj $(NOASMDIR)/filepic.obj
 $(EGAME_NOASM_COBJ): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DNO_ASM /DBUGFIX
 $(EGAME_NOASM): | $(NOASMDIR)
 $(EGAME_NOASM): $(EGAME_NOASM_OBJ)
@@ -297,10 +298,10 @@ END_ASM := endcode.asm $(END_BASE)
 END_SRC := enmain.c enmisc.c enworld.c eninput.c entext.c enrand.c enaward.c enbrief.c endbrf.c enfile.c endata.c
 END_BASEHDR = $(SRCDIR)/end.h
 END_COBJ := $(call cobj,$(BUILDDIR),$(END_SRC))
-# Explicit link order interleaves the shared util pieces between the per-module
+# Explicit link order interleaves the shared helper pieces between the per-module
 # objs to match the original layout in map/end.map (C functions only; ASM-base
-# routines fall at the end of _TEXT). util.obj=cleanup, util_b=drawStringAt,
-# util_c=string/number helpers, util2=file/strcpy helpers.
+# routines fall at the end of _TEXT). cleanup.obj=cleanup, drawstr=drawStringAt,
+# textfmt=string/number helpers, filepic=file/strcpy helpers.
 END_OBJ := $(BUILDDIR)/enmain.obj $(COMMON_OBJ) $(BUILDDIR)/enmisc.obj \
 	$(BUILDDIR)/enworld.obj $(BUILDDIR)/eninput.obj $(COMMON_OBJ_B) \
 	$(BUILDDIR)/entext.obj $(COMMON_OBJ_C) $(BUILDDIR)/enrand.obj \
@@ -330,7 +331,7 @@ END_VRF_TGTEP := [558bec83ec0e56c746]
 # end.exe debug build
 END_DEBUG := $(DEBUGDIR)/end.exe
 $(END_DEBUG): MSC_CFLAGS += /DDEBUG
-END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util_b.obj $(DEBUGDIR)/util_c.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
+END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(DEBUGDIR)/cleanup.obj $(DEBUGDIR)/drawstr.obj $(DEBUGDIR)/textfmt.obj $(DEBUGDIR)/filepic.obj $(DEBUGDIR)/debug.obj
 $(END_DBG_OBJ): $(END_BASEHDR)
 $(END_DBG_OBJ): ASMFLAGS += -DDEBUG
 $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
@@ -347,7 +348,7 @@ $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
 END_NOASM := $(NOASMDIR)/end.exe
 NOASM_END_SRC := $(END_SRC) slottram.c ovlpatch.c
 NOASM_END_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_END_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
-NOASM_END_OBJ := $(NOASM_END_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util_b.obj $(NOASMDIR)/util_c.obj $(NOASMDIR)/util2.obj
+NOASM_END_OBJ := $(NOASM_END_COBJ) $(NOASMDIR)/cleanup.obj $(NOASMDIR)/drawstr.obj $(NOASMDIR)/textfmt.obj $(NOASMDIR)/filepic.obj
 $(NOASM_END_COBJ): $(END_BASEHDR)
 # /Ox breaks the timer-polled busy-waits (MSC 5.1 hoists the non-volatile poll
 # out of the loop and its `volatile` is non-functional), so stay at /Gs.
@@ -369,7 +370,7 @@ noasm-end: $(END_NOASM)
 TEST_EXE := $(DEBUGDIR)/test.exe
 TEST_SRCS := test.c stinit.c stsprit.c strand.c stpilot.c stalloc.c stterr.c stparse.c stgen.c stdata.c
 TEST_ASMS := stcode.asm stslots.asm
-TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util_b.obj $(DEBUGDIR)/util_c.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
+TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(DEBUGDIR)/cleanup.obj $(DEBUGDIR)/drawstr.obj $(DEBUGDIR)/textfmt.obj $(DEBUGDIR)/filepic.obj $(DEBUGDIR)/debug.obj
 TEST_LIBS := slibce.lib
 
 $(TEST_EXE): MSC_CFLAGS := /Gs /w /Id:\f15-se2 /DDEBUG

@@ -5,7 +5,7 @@
 #include "slot.h"
 #include "comm.h"
 #include "offsets.h"
-#include "shared/util.h"
+#include "shared/common.h"
 #include "debug.h"
 
 #include <stdio.h>

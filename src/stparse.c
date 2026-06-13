@@ -1,7 +1,7 @@
 /* Grid/terrain parsing entry point */
 #include "start.h"
 #include "const.h"
-#include "shared/util.h"
+#include "shared/common.h"
 #include "debug.h"
 
 #include <stdio.h>

@@ -20,10 +20,10 @@ set(SHARED_SOURCES
     ${SRC_DIR}/shared/ovlstub.c
     ${SRC_DIR}/shared/picstub.c
     ${SRC_DIR}/shared/timer.c
-    ${SRC_DIR}/shared/util.c
-    ${SRC_DIR}/shared/util_b.c
-    ${SRC_DIR}/shared/util_c.c
-    ${SRC_DIR}/shared/util2.c
+    ${SRC_DIR}/shared/cleanup.c
+    ${SRC_DIR}/shared/drawstr.c
+    ${SRC_DIR}/shared/textfmt.c
+    ${SRC_DIR}/shared/filepic.c
 )
 
 set(START_SOURCES

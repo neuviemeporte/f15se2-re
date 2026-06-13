@@ -1,8 +1,8 @@
 /*
- * util_c.c - shared between start.exe and end.exe (split from util.c)
+ * textfmt.c - centered text, string width, and integer-to-string (my_ltoa/my_itoa)
  */
 
-#include "util.h"
+#include "common.h"
 
 #include "../pointers.h"
 #include <dos.h>

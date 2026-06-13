@@ -2,7 +2,7 @@
 #include "offsets.h"
 #include "pointers.h"
 #include "comm.h"
-#include "shared/util.h"
+#include "shared/common.h"
 #include "gfx.h"
 #include "slot.h"
 #include "const.h"

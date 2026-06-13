@@ -2,7 +2,7 @@
 #include "pointers.h"
 #include "debug.h"
 #include "end.h"
-#include "shared/util.h"
+#include "shared/common.h"
 
 void srandInit(int seed) {
     TRACE(("srandInit"));
