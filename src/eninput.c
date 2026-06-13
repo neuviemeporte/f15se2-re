@@ -4,6 +4,12 @@
 #include "end.h"
 #include "shared/common.h"
 
+void clearKeybuf(void) {
+    while (misc_jump_5a_keybuf() == 0) {
+        misc_jump_5b_getkey();
+    }
+}
+
 void waitForKeyOrJoy(void) {
     int key;
     TRACE(("waitForKeyOrJoy"));
