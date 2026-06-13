@@ -269,6 +269,7 @@ EXTRN _segread:PROC
 EXTRN _memcpy:PROC
 EXTRN _getch:PROC
 EXTRN _exit:PROC
+EXTRN __exit:PROC
 EXTRN _strlen:PROC
 EXTRN _int86:PROC
 EXTRN _open:PROC
@@ -6867,12 +6868,12 @@ _gfx_setMonoFlag proc near                  ; slot 0x53
     dd 0
 _gfx_setMonoFlag endp
     db 0EAh, 4 dup(0)                       ; slot 0x54
-    db 0EAh, 4 dup(0)                       ; slot 0x55
-    db 0EAh, 4 dup(0)                       ; slot 0x56
-    db 0EAh, 4 dup(0)                       ; slot 0x57
-    db 0EAh, 4 dup(0)                       ; slot 0x58
-    db 0EAh, 4 dup(0)                       ; slot 0x59
-    db 0EAh, 4 dup(0)                       ; slot 0x5A
+    db 5 dup(0)                             ; slot 0x55
+    db 5 dup(0)                             ; slot 0x56
+    db 5 dup(0)                             ; slot 0x57
+    db 5 dup(0)                             ; slot 0x58
+    db 5 dup(0)                             ; slot 0x59
+    db 5 dup(0)                             ; slot 0x5A
     db 0EAh, 4 dup(0)                       ; slot 0x5B
 _misc_jump_5b_getkey proc near              ; slot 0x5C
     db 0EAh ;jmp far ptr 0:0
@@ -6887,10 +6888,10 @@ misc_jump_5d_readJoy endp
 _misc_jump_5d_readJoy equ misc_jump_5d_readJoy
     db 0EAh, 4 dup(0)                       ; slot 0x5F
     db 0EAh, 4 dup(0)                       ; slot 0x60
-    db 0EAh, 4 dup(0)                       ; slot 0x61
-    db 0EAh, 4 dup(0)                       ; slot 0x62
-    db 0EAh, 4 dup(0)                       ; slot 0x63
-    db 0EAh, 4 dup(0)                       ; slot 0x64
+    db 5 dup(0)                             ; slot 0x61
+    db 5 dup(0)                             ; slot 0x62
+    db 5 dup(0)                             ; slot 0x63
+    db 5 dup(0)                             ; slot 0x64
 _audio_jump_64 proc near                    ; slot 0x65
     db 0EAh ;jmp far ptr 0:0
     dd 0
@@ -19826,7 +19827,7 @@ _aWaypointFriend equ aWaypointFriend
 _aAutopilotOff equ aAutopilotOff
 _aAutopilotOn equ aAutopilotOn
     db 0 ;align 2
-word_38600 dw 0
+word_38600 dw 1
 word_38602 dw 2
 _word_38602 equ word_38602
 word_38604 dw 0
@@ -19870,22 +19871,11 @@ rowOffset dw 0
     db 0
 word_389E0 dw 0
 readFromFilePtr dw 0
-; --- LZW decoder state (EQU targets for _var_687 through _var_700) ---
-lzw_readBufEndPtr dw 0     ; _var_687
-lzw_workDataPtr dw 0       ; _var_688
-lzw_rowLength dw 0         ; _var_689
-lzw_processFlag dw 0       ; _var_690
-lzw_bitWidth dw 0          ; _var_692
-lzw_maxCode dw 0           ; _var_694
-lzw_bitsLeft dw 0          ; _var_697
-lzw_slotCounter dw 0       ; _var_699
-lzw_dictIndex dw 0         ; _var_700
-; --- end LZW state ---
 word_389E4 dw 0
 word_389E6 dw 0
-off_389E8 dw 0 ;off_389E8 dw offset __exit
+off_389E8 dw offset __exit
 word_389EA dw 0
-    dw 0 ;dw seg dseg
+    dw seg word_389EA ;dw seg dseg
     db 0
     db 0
     db 0
@@ -19962,7 +19952,7 @@ word_389EA dw 0
     db 0
     db 0
     db 0
-word_38A3A dw offset lzw_processFlag
+word_38A3A dw offset word_389EA
 aC_file_info db ';C_FILE_INFO',0
 dword_38A49 dd 0
     db 0
@@ -20325,7 +20315,7 @@ buf6data_3 db 0
     db 0
     db 0
     db 0
-word_38BC6 dw offset buf6data_3
+word_38BC6 dw offset buf6data_3 + 012h
 word_38BC8 dw 0
 word_38BCA dw 0
 word_38BCC dw 0
@@ -20354,9 +20344,9 @@ dword_38BE8 dd 0
 dword_38BEC dd 0
 byte_38BF0 db 18h
     db 0F6h
-    dw 0 ;seg_38BF2 dw seg seg004
-    dw 0 ;seg_38BF4 dw seg seg004
-seg_38BF6 dw 0 ;seg_38BF6 dw seg seg004
+    dw seg _byte_228D0 ;seg_38BF2 dw seg Data3
+    dw seg _byte_228D0 ;seg_38BF4 dw seg Data3
+seg_38BF6 dw seg _byte_228D0 ;seg_38BF6 dw seg Data3
 aNmsg db '<<NMSG>>',0
     db 0 ;align 2
 aR6000StackOver db 'R6000',0Dh,0Ah
@@ -20948,19 +20938,8 @@ byte_38D6E db 0
     db 0
     db 0
     db 0
-; --- Variables created for ORG-based _var_* labels whose targets didn't exist ---
-word_32A28 dw 0
-word_32A2E dw 0
-word_32A30 dw 0
-word_332CE dw 0
-word_33BB8 dw 0
-word_383EC dw 0
-word_38896 dw 0
-word_389DC dw 0
-byte_38A4B db 0
-    db 0 ;align
-word_38A78 dw 0
-word_38A7A dw 0
+; Original dseg has six final zero bytes before BSS starts at 66C0h.
+    db 6 dup(0)
 ; ==============================================================================
 ; --- Symbolic labels for code references ---
 ORG 00178h
@@ -20970,7 +20949,7 @@ _var_48 EQU _waypoints + 0Ch
 ORG 00180h
 _var_49 EQU _waypoints + 0Eh
 ORG 00A1Eh
-_var_83 EQU word_332CE
+_var_83 EQU _missiles + 0208h
 ORG 01100h
 _var_134 EQU word_339B0
 ORG 01102h
@@ -20978,7 +20957,7 @@ _var_135 EQU byte_339B2
 ORG 012FCh
 _var_141 EQU word_33BAC
 ORG 01308h
-_var_143 EQU word_33BB8
+_var_143 EQU _size3d3
 ORG 018EAh
 _var_190 EQU byte_3419A
 ORG 01904h
@@ -21169,11 +21148,11 @@ _var_599 EQU word_38608
 ORG 05D5Ah
 _var_600 EQU word_3860A
 ORG 05FE6h
-_var_605 EQU word_38896
+_var_605 EQU tmpFileHandle
 ORG 06128h
 _var_606 EQU word_389D8
 ORG 0612Ch
-_var_608 EQU word_389DC
+_var_608 EQU rowOffset
 ORG 06130h
 _var_609 EQU word_389E0
 ORG 06132h
@@ -21187,7 +21166,7 @@ _var_615 EQU word_38A3A
 ORG 06199h
 _var_616 EQU dword_38A49
 ORG 0619Bh
-_var_617 EQU byte_38A4B
+_var_617 EQU dword_38A49 + 2
 ORG 061A5h
 _var_618 EQU word_38A55
 ORG 061A7h
@@ -21197,9 +21176,9 @@ _var_620 EQU word_38A5B
 ORG 061ADh
 _var_621 EQU word_38A5D
 ORG 061C8h
-_var_625 EQU word_38A78
+_var_625 EQU argc
 ORG 061CAh
-_var_626 EQU word_38A7A
+_var_626 EQU argv
 ORG 061CCh
 _var_627 EQU word_38A7C
 ORG 061D6h
@@ -21295,45 +21274,50 @@ _var_685 EQU word_38D56
 ORG 064A8h
 _var_686 EQU word_38D58
 ORG 064AAh
-_var_687 EQU lzw_readBufEndPtr
+_var_687 EQU word_38D5A
 ORG 064ACh
-_var_688 EQU lzw_workDataPtr
+_var_688 EQU word_38D5C
 ORG 064AEh
-_var_689 EQU lzw_rowLength
+_var_689 EQU word_38D5E
 ORG 064B0h
-_var_690 EQU lzw_processFlag
+_var_690 EQU byte_38D60
 ORG 064B2h
-_var_692 EQU lzw_bitWidth
+_var_692 EQU byte_38D62
 ORG 064B4h
-_var_694 EQU lzw_maxCode
+_var_694 EQU word_38D64
 ORG 064BAh
-_var_697 EQU lzw_bitsLeft
+_var_697 EQU byte_38D6A
 ORG 064BCh
-_var_699 EQU lzw_slotCounter
+_var_699 EQU word_38D6C
 ORG 064BEh
-_var_700 EQU lzw_dictIndex
+_var_700 EQU byte_38D6E
 
-.DATA?
+; Continue in _DATA here. The original egame.exe has these game globals at
+; Data1:66C0 and clears Data1:6422..A020 during startup; keeping them here gives
+; the unit-test harness original-compatible addresses even though the linked CRT
+; still carries its private data block later.
+ORG 0667Eh
 IFDEF DEBUG
 PUBLIC __bss_start
 ENDIF
 __bss_start label byte
-; --- BSS-region symbolic labels (offsets relative to _BSS start) ---
-ORG 0008Dh
+; Sparse labels inside the original zero-cleared game data tail. ORG operands
+; here are _DATA segment offsets, i.e. DGROUP offset minus the 42h NULL segment.
+ORG 0670Bh
 _var_727 label byte
-ORG 0028Fh
+ORG 0690Dh
 _var_730 label byte
-ORG 00291h
+ORG 0690Fh
 _var_732 label byte
-ORG 01AF0h
+ORG 0816Eh
 _var_762 label byte
-ORG 01AFAh
+ORG 08178h
 _var_767 label byte
-ORG 022B8h
+ORG 08936h
 _var_810 label byte
-ORG 022BAh
+ORG 08938h
 _var_811 label byte
-ORG 00000h
+ORG 0667Eh
 word_38F70 dw ?
 _word_38F70 equ word_38F70
 word_38F72 dw ?
@@ -23744,6 +23728,10 @@ unk_3BF98 db ?
     db ?
     db ?
     db ?
+    db ?
+    db ?
+    db ?
+    db ?
 word_3BFA0 dw ?
 _word_3BFA0 equ word_3BFA0
 word_3BFA2 dw ?
@@ -24229,7 +24217,6 @@ PUBLIC word_38BC6
 PUBLIC buf6data_0
 PUBLIC buf6data_1
 PUBLIC buf6data_3
-PUBLIC lzw_processFlag
 PUBLIC buf6data_4
 PUBLIC aDash
 PUBLIC aColon
