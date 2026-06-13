@@ -169,6 +169,7 @@ EXTRN word_37B64:WORD
 EXTRN word_37B66:WORD
 EXTRN word_37B72:WORD
 EXTRN joyData:BYTE
+EXTRN _byte_3790C:byte
 
 seg002 SEGMENT BYTE PUBLIC 'CODE'
 ASSUME CS:seg002, DS:DGROUP, SS:DGROUP
@@ -240,9 +241,9 @@ loc_21a7_006e:
     sub word ptr [word_37C2B],AX
     jmp loc_21a7_006e
 loc_21a7_008f:
-    mov AX,word ptr [DI+5392h]
+    mov AX,word ptr [DI+offset var_468+8h]
     mov [word_37C30],AX
-    mov AX,word ptr [DI+53E2h]
+    mov AX,word ptr [DI+offset var_468+58h]
     mov [word_37C32],AX
     mov BX,offset word_37C30
     push DI
@@ -347,7 +348,7 @@ loc_21a7_01a1:
     sub word ptr [word_37C2B],AX
     jmp loc_21a7_01a1
 loc_21a7_01c2:
-    mov AL,byte ptr [DI+5433h]
+    mov AL,byte ptr [DI+offset var_468+0A9h]
     mov [var_468],AL
     mov BX,offset var_468
     push DI
@@ -379,7 +380,7 @@ loc_21a7_01f9:
     jmp loc_21a7_021b
     db 90h
 loc_21a7_0211:
-    mov AX,word ptr [DI+5432h]
+    mov AX,word ptr [DI+offset var_468+0A8h]
     mov [word_37C36],AX
     mov BX,offset word_37C36
 loc_21a7_021b:
@@ -479,11 +480,11 @@ loc_21a7_0330:
     shl DI,1h
     cmp byte ptr [_byte_37C24],1h
     jnz loc_21a7_0342
-    mov AX,word ptr [DI+5512h]
+    mov AX,word ptr [DI+offset byte_37C3A+0D8h]
     jmp loc_21a7_0346
     db 90h
 loc_21a7_0342:
-    mov AX,word ptr [DI+54FEh]
+    mov AX,word ptr [DI+offset byte_37C3A+0C4h]
 loc_21a7_0346:
     mov [word_37B82],AX
     mov BP,offset word_37B7E
@@ -649,22 +650,22 @@ loc_21a7_050a:
     jmp loc_21a7_0660
 loc_21a7_050d:
     mov AX,[word_37C09]
-    mov word ptr [DI+5526h],AX
+    mov word ptr [DI+offset byte_37C3A+0ECh],AX
     mov AX,[word_37C0B]
-    mov word ptr [DI+5528h],AX
+    mov word ptr [DI+offset byte_37C3A+0EEh],AX
     mov AX,[word_37C0D]
-    mov word ptr [DI+552Ah],AX
+    mov word ptr [DI+offset byte_37C3A+0F0h],AX
     mov AX,[word_37C0F]
-    mov word ptr [DI+552Ch],AX
-    mov word ptr [DI+5596h],BX
-    mov word ptr [DI+5598h],BX
-    mov word ptr [DI+559Ah],BX
-    mov word ptr [DI+559Ch],BX
-    mov byte ptr [SI+5606h],1h
-    mov byte ptr [SI+5607h],1h
-    mov word ptr [SI+5622h],DI
+    mov word ptr [DI+offset byte_37C3A+0F2h],AX
+    mov word ptr [DI+offset byte_37C3A+15Ch],BX
+    mov word ptr [DI+offset byte_37C3A+15Eh],BX
+    mov word ptr [DI+offset byte_37C3A+160h],BX
+    mov word ptr [DI+offset byte_37C3A+162h],BX
+    mov byte ptr [SI+offset byte_37C3A+1CCh],1h
+    mov byte ptr [SI+offset byte_37C3A+1CDh],1h
+    mov word ptr [SI+offset byte_37C3A+1E8h],DI
     add DI,6h
-    mov word ptr [SI+5623h],DI
+    mov word ptr [SI+offset byte_37C3A+1E9h],DI
     add DI,2h
     add SI,2h
     sub BX,word ptr [word_37C11]
@@ -675,23 +676,23 @@ loc_21a7_050d:
     jmp loc_21a7_0741
 loc_21a7_0564:
     mov AX,[word_37C09]
-    mov word ptr [DI+5526h],AX
-    mov word ptr [DI+5528h],AX
+    mov word ptr [DI+offset byte_37C3A+0ECh],AX
+    mov word ptr [DI+offset byte_37C3A+0EEh],AX
     mov AX,[word_37C0F]
-    mov word ptr [DI+552Ah],AX
-    mov word ptr [DI+552Ch],AX
-    mov word ptr [DI+5598h],BX
-    mov word ptr [DI+559Ah],BX
+    mov word ptr [DI+offset byte_37C3A+0F0h],AX
+    mov word ptr [DI+offset byte_37C3A+0F2h],AX
+    mov word ptr [DI+offset byte_37C3A+15Eh],BX
+    mov word ptr [DI+offset byte_37C3A+160h],BX
     mov AX,BX
     db 005h, 005h, 000h ; add AX,5 (force imm16 encoding)
-    mov word ptr [DI+5596h],AX
-    mov word ptr [DI+559Ch],AX
-    mov byte ptr [SI+5606h],3h
-    mov byte ptr [SI+5607h],0h
+    mov word ptr [DI+offset byte_37C3A+15Ch],AX
+    mov word ptr [DI+offset byte_37C3A+162h],AX
+    mov byte ptr [SI+offset byte_37C3A+1CCh],3h
+    mov byte ptr [SI+offset byte_37C3A+1CDh],0h
     add DI,2h
-    mov word ptr [SI+5622h],DI
+    mov word ptr [SI+offset byte_37C3A+1E8h],DI
     add DI,2h
-    mov word ptr [SI+5623h],DI
+    mov word ptr [SI+offset byte_37C3A+1E9h],DI
     add DI,4h
     add SI,2h
     sub BX,word ptr [word_37C11]
@@ -704,23 +705,23 @@ loc_21a7_05bd:
     jmp loc_21a7_04ec
 loc_21a7_05c0:
     mov AX,[word_37C09]
-    mov word ptr [DI+5526h],AX
-    mov word ptr [DI+5528h],AX
+    mov word ptr [DI+offset byte_37C3A+0ECh],AX
+    mov word ptr [DI+offset byte_37C3A+0EEh],AX
     mov AX,[word_37C0F]
-    mov word ptr [DI+552Ah],AX
-    mov word ptr [DI+552Ch],AX
-    mov word ptr [DI+5598h],BX
-    mov word ptr [DI+559Ah],BX
+    mov word ptr [DI+offset byte_37C3A+0F0h],AX
+    mov word ptr [DI+offset byte_37C3A+0F2h],AX
+    mov word ptr [DI+offset byte_37C3A+15Eh],BX
+    mov word ptr [DI+offset byte_37C3A+160h],BX
     mov AX,BX
     db 02Dh, 005h, 000h ; sub AX,5 (force imm16 encoding)
-    mov word ptr [DI+5596h],AX
-    mov word ptr [DI+559Ch],AX
-    mov byte ptr [SI+5606h],3h
-    mov byte ptr [SI+5607h],0h
+    mov word ptr [DI+offset byte_37C3A+15Ch],AX
+    mov word ptr [DI+offset byte_37C3A+162h],AX
+    mov byte ptr [SI+offset byte_37C3A+1CCh],3h
+    mov byte ptr [SI+offset byte_37C3A+1CDh],0h
     add DI,2h
-    mov word ptr [SI+5622h],DI
+    mov word ptr [SI+offset byte_37C3A+1E8h],DI
     add DI,2h
-    mov word ptr [SI+5623h],DI
+    mov word ptr [SI+offset byte_37C3A+1E9h],DI
     add DI,4h
     add SI,2h
     sub BX,word ptr [word_37C11]
@@ -733,16 +734,16 @@ loc_21a7_0619:
     jmp loc_21a7_04ec
 loc_21a7_061c:
     mov AX,[word_37C09]
-    mov word ptr [DI+5526h],AX
+    mov word ptr [DI+offset byte_37C3A+0ECh],AX
     mov AX,[word_37C0F]
-    mov word ptr [DI+5528h],AX
-    mov word ptr [DI+5596h],BX
-    mov word ptr [DI+5598h],BX
-    mov byte ptr [SI+5606h],1h
-    mov byte ptr [SI+5607h],0h
-    mov word ptr [SI+5622h],DI
+    mov word ptr [DI+offset byte_37C3A+0EEh],AX
+    mov word ptr [DI+offset byte_37C3A+15Ch],BX
+    mov word ptr [DI+offset byte_37C3A+15Eh],BX
+    mov byte ptr [SI+offset byte_37C3A+1CCh],1h
+    mov byte ptr [SI+offset byte_37C3A+1CDh],0h
+    mov word ptr [SI+offset byte_37C3A+1E8h],DI
     add DI,2h
-    mov word ptr [SI+5623h],DI
+    mov word ptr [SI+offset byte_37C3A+1E9h],DI
     add DI,2h
     add SI,2h
     sub BX,word ptr [word_37C11]
@@ -755,29 +756,29 @@ loc_21a7_065d:
     jmp loc_21a7_04ec
 loc_21a7_0660:
     mov AX,[word_37C09]
-    mov word ptr [DI+5526h],AX
-    mov word ptr [DI+5528h],AX
+    mov word ptr [DI+offset byte_37C3A+0ECh],AX
+    mov word ptr [DI+offset byte_37C3A+0EEh],AX
     mov AX,[word_37C0B]
-    mov word ptr [DI+552Ah],AX
+    mov word ptr [DI+offset byte_37C3A+0F0h],AX
     mov AX,[word_37C0D]
-    mov word ptr [DI+552Ch],AX
+    mov word ptr [DI+offset byte_37C3A+0F2h],AX
     mov AX,[word_37C0F]
-    mov word ptr [DI+552Eh],AX
-    mov word ptr [DI+5530h],AX
-    mov word ptr [DI+5598h],BX
-    mov word ptr [DI+559Ah],BX
-    mov word ptr [DI+559Ch],BX
-    mov word ptr [DI+559Eh],BX
+    mov word ptr [DI+offset byte_37C3A+0F4h],AX
+    mov word ptr [DI+offset byte_37C3A+0F6h],AX
+    mov word ptr [DI+offset byte_37C3A+15Eh],BX
+    mov word ptr [DI+offset byte_37C3A+160h],BX
+    mov word ptr [DI+offset byte_37C3A+162h],BX
+    mov word ptr [DI+offset byte_37C3A+164h],BX
     mov AX,BX
     db 005h, 005h, 000h ; add AX,5 (force imm16 encoding)
-    mov word ptr [DI+5596h],AX
-    mov word ptr [DI+55A0h],AX
-    mov byte ptr [SI+5606h],2h
-    mov byte ptr [SI+5607h],2h
+    mov word ptr [DI+offset byte_37C3A+15Ch],AX
+    mov word ptr [DI+offset byte_37C3A+166h],AX
+    mov byte ptr [SI+offset byte_37C3A+1CCh],2h
+    mov byte ptr [SI+offset byte_37C3A+1CDh],2h
     add DI,2h
-    mov word ptr [SI+5622h],DI
+    mov word ptr [SI+offset byte_37C3A+1E8h],DI
     add DI,6h
-    mov word ptr [SI+5623h],DI
+    mov word ptr [SI+offset byte_37C3A+1E9h],DI
     add DI,4h
     add SI,2h
     sub BX,word ptr [word_37C11]
@@ -791,29 +792,29 @@ loc_21a7_06cf:
     jmp loc_21a7_04ec
 loc_21a7_06d2:
     mov AX,[word_37C09]
-    mov word ptr [DI+5526h],AX
-    mov word ptr [DI+5528h],AX
+    mov word ptr [DI+offset byte_37C3A+0ECh],AX
+    mov word ptr [DI+offset byte_37C3A+0EEh],AX
     mov AX,[word_37C0B]
-    mov word ptr [DI+552Ah],AX
+    mov word ptr [DI+offset byte_37C3A+0F0h],AX
     mov AX,[word_37C0D]
-    mov word ptr [DI+552Ch],AX
+    mov word ptr [DI+offset byte_37C3A+0F2h],AX
     mov AX,[word_37C0F]
-    mov word ptr [DI+552Eh],AX
-    mov word ptr [DI+5530h],AX
-    mov word ptr [DI+5598h],BX
-    mov word ptr [DI+559Ah],BX
-    mov word ptr [DI+559Ch],BX
-    mov word ptr [DI+559Eh],BX
+    mov word ptr [DI+offset byte_37C3A+0F4h],AX
+    mov word ptr [DI+offset byte_37C3A+0F6h],AX
+    mov word ptr [DI+offset byte_37C3A+15Eh],BX
+    mov word ptr [DI+offset byte_37C3A+160h],BX
+    mov word ptr [DI+offset byte_37C3A+162h],BX
+    mov word ptr [DI+offset byte_37C3A+164h],BX
     mov AX,BX
     db 02Dh, 005h, 000h ; sub AX,5 (force imm16 encoding)
-    mov word ptr [DI+5596h],AX
-    mov word ptr [DI+55A0h],AX
-    mov byte ptr [SI+5606h],2h
-    mov byte ptr [SI+5607h],2h
+    mov word ptr [DI+offset byte_37C3A+15Ch],AX
+    mov word ptr [DI+offset byte_37C3A+166h],AX
+    mov byte ptr [SI+offset byte_37C3A+1CCh],2h
+    mov byte ptr [SI+offset byte_37C3A+1CDh],2h
     add DI,2h
-    mov word ptr [SI+5622h],DI
+    mov word ptr [SI+offset byte_37C3A+1E8h],DI
     add DI,6h
-    mov word ptr [SI+5623h],DI
+    mov word ptr [SI+offset byte_37C3A+1E9h],DI
     add DI,4h
     add SI,2h
     sub BX,word ptr [word_37C11]
@@ -835,12 +836,12 @@ loc_21a7_0741:
     call far ptr lookupSineFar
 loc_21a7_0764:
     mov AX,BP
-    imul word ptr [DI+5526h]
+    imul word ptr [DI+offset byte_37C3A+0ECh]
     shl AX,1h
     rcl DX,1h
     mov SI,DX
     mov AX,BP
-    imul word ptr [DI+5596h]
+    imul word ptr [DI+offset byte_37C3A+15Ch]
     push BX
     push CX
     mov BX,AX
@@ -854,12 +855,12 @@ loc_21a7_0764:
     pop BX
     mov CX,DX
     mov AX,BX
-    imul word ptr [DI+5596h]
+    imul word ptr [DI+offset byte_37C3A+15Ch]
     shl AX,1h
     rcl DX,1h
     sub SI,DX
     mov AX,BX
-    imul word ptr [DI+5526h]
+    imul word ptr [DI+offset byte_37C3A+0ECh]
     push BX
     push CX
     mov BX,AX
@@ -872,8 +873,8 @@ loc_21a7_0764:
     pop CX
     pop BX
     add CX,DX
-    mov word ptr [DI+5526h],SI
-    mov word ptr [DI+5596h],CX
+    mov word ptr [DI+offset byte_37C3A+0ECh],SI
+    mov word ptr [DI+offset byte_37C3A+15Ch],CX
     sub DI,2h
     jns loc_21a7_0764
     push word ptr [word_37557]
@@ -898,16 +899,16 @@ loc_21a7_07da:
     mov SI,DI
     mov byte ptr [byte_37EEE],0h
 loc_21a7_07fd:
-    mov AX,word ptr [DI+5526h]
+    mov AX,word ptr [DI+offset byte_37C3A+0ECh]
     add AX,word ptr [word_37C14]
     mov [word_37559+4],AX
-    mov AX,word ptr [DI+5596h]
+    mov AX,word ptr [DI+offset byte_37C3A+15Ch]
     add AX,word ptr [word_37C16]
     mov word ptr [unk_37565-4],AX
-    mov AX,word ptr [DI+5528h]
+    mov AX,word ptr [DI+offset byte_37C3A+0EEh]
     add AX,word ptr [word_37C14]
     mov [word_37559+6],AX
-    mov AX,word ptr [DI+5598h]
+    mov AX,word ptr [DI+offset byte_37C3A+15Eh]
     add AX,word ptr [word_37C16]
     mov word ptr [unk_37565-2],AX
     push DI
@@ -917,11 +918,11 @@ loc_21a7_07fd:
     pop DI
     add DI,2h
     inc byte ptr [byte_37EEE]
-    dec byte ptr [SI+5606h]
+    dec byte ptr [SI+offset byte_37C3A+1CCh]
     jnz loc_21a7_07fd
     add DI,2h
     inc SI
-    cmp byte ptr [SI+5606h],0h
+    cmp byte ptr [SI+offset byte_37C3A+1CCh],0h
     jnz loc_21a7_084b
     inc SI
 loc_21a7_084b:
@@ -940,13 +941,13 @@ loc_21a7_084b:
     sub AH,AH
     mov DI,AX
     shl DI,1h
-    mov AX,word ptr [DI+5076h]
+    mov AX,word ptr [DI+offset _byte_3790C+1Ah]
     mov [word_37F5C],AX
-    mov AX,word ptr [DI+50F6h]
+    mov AX,word ptr [DI+offset _byte_3790C+9Ah]
     mov [word_37F5E],AX
-    mov AX,word ptr [DI+5176h]
+    mov AX,word ptr [DI+offset _byte_3790C+11Ah]
     mov [word_37F60],AX
-    mov AX,word ptr [DI+51F6h]
+    mov AX,word ptr [DI+offset _byte_3790C+19Ah]
     mov [word_37F62],AX
     mov AX,[_g_ourRoll]
     add AH,80h
@@ -956,26 +957,26 @@ loc_21a7_084b:
     sub AH,AH
     mov DI,AX
     shl DI,1h
-    mov AX,word ptr [DI+5076h]
+    mov AX,word ptr [DI+offset _byte_3790C+1Ah]
     mov [word_37F54],AX
-    mov AX,word ptr [DI+50F6h]
+    mov AX,word ptr [DI+offset _byte_3790C+9Ah]
     mov [word_37F56],AX
-    mov AX,word ptr [DI+5176h]
+    mov AX,word ptr [DI+offset _byte_3790C+11Ah]
     mov [word_37F58],AX
-    mov AX,word ptr [DI+51F6h]
+    mov AX,word ptr [DI+offset _byte_3790C+19Ah]
     mov [word_37F5A],AX
 loc_21a7_08c4:
     mov DI,word ptr [word_37EF0]
     shl DI,1h
     shl DI,1h
-    mov AX,word ptr [DI+5644h]
+    mov AX,word ptr [DI+offset word_37EF2+2h]
     mov [word_37F50],AX
-    mov AX,word ptr [DI+5646h]
+    mov AX,word ptr [DI+offset word_37EF2+4h]
     mov [word_37F52],AX
     mov BX,DI
-    mov DI,word ptr [SI+5622h]
+    mov DI,word ptr [SI+offset byte_37C3A+1E8h]
     and DI,0FFh
-    mov AX,word ptr [DI+5526h]
+    mov AX,word ptr [DI+offset byte_37C3A+0ECh]
     cmp BX,2Ch
     jge loc_21a7_08f4
     add AX,word ptr [word_37F58]
@@ -986,7 +987,7 @@ loc_21a7_08f4:
 loc_21a7_08f8:
     add AX,word ptr [word_37C1A]
     mov [word_37B5A],AX
-    mov AX,word ptr [DI+5596h]
+    mov AX,word ptr [DI+offset byte_37C3A+15Ch]
     cmp DI,2Ch
     jge loc_21a7_090f
     add AX,word ptr [word_37F5A]
@@ -1005,14 +1006,14 @@ loc_21a7_0913:
     mov DI,word ptr [word_37EF0]
     shl DI,1h
     shl DI,1h
-    mov AX,word ptr [DI+5644h]
+    mov AX,word ptr [DI+offset word_37EF2+2h]
     mov [word_37F50],AX
-    mov AX,word ptr [DI+5646h]
+    mov AX,word ptr [DI+offset word_37EF2+4h]
     mov [word_37F52],AX
     mov BX,DI
-    mov DI,word ptr [SI+5622h]
+    mov DI,word ptr [SI+offset byte_37C3A+1E8h]
     and DI,0FFh
-    mov AX,word ptr [DI+5526h]
+    mov AX,word ptr [DI+offset byte_37C3A+0ECh]
     cmp BX,2Ch
     jge loc_21a7_0955
     add AX,word ptr [word_37F60]
@@ -1023,7 +1024,7 @@ loc_21a7_0955:
 loc_21a7_0959:
     add AX,word ptr [word_37C1A]
     mov [word_37B5A],AX
-    mov AX,word ptr [DI+5596h]
+    mov AX,word ptr [DI+offset byte_37C3A+15Ch]
     cmp DI,2Ch
     jge loc_21a7_0970
     add AX,word ptr [word_37F62]

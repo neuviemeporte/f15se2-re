@@ -133,7 +133,7 @@ int9Handler proc near
     ja short @@flushKbd
     sub al, 29h
     jb short @@flushKbd
-    mov bx, 56F0h
+    mov bx, offset byte_37F9F+1h
     xlat
     or al, al
     jz short @@flushKbd

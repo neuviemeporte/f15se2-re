@@ -449,6 +449,10 @@ EXTRN _sams:BYTE
 EXTRN _stru_335C4:BYTE
 EXTRN _stru_3B208:BYTE
 EXTRN _var_200:WORD
+EXTRN _var_200_seg:WORD
+EXTRN _var_258:BYTE
+EXTRN _var_259:WORD
+EXTRN _var_260:WORD
 EXTRN _var_201:WORD
 EXTRN _var_315:WORD
 EXTRN _var_316:BYTE
@@ -759,7 +763,7 @@ LAB_1000_1534:
     add BX,AX
     shl BX,1h
     shl BX,1h
-    db 83h, 0bfh, 2ah, 0bh, 00h  ; CMP word ptr [BX + 0...,0x0                 ;= ??
+    cmp word ptr [BX + offset word_333DA], 0
     jnz LAB_1000_1551
     mov word ptr [BP + -6h],AX
 LAB_1000_1551:
@@ -951,76 +955,34 @@ setViewRotation equ _setViewRotation
 ; ------------------------------seg000:0x3a8e------------------------------
 ; ------------------------------seg000:0x3a90------------------------------
 ; raw bytes for unlabeled code between 0x3aa1 and 0x3aee
-    db 80h
-    db 3Eh
-    db 04h
-    db 1Ah
-    db 00h
-    db 74h
-    db 29h
-    db 8Bh
-    db 1Eh
-    db 8Ch
-    db 19h
-    db 83h
-    db 06h
-    db 8Ch
-    db 19h
-    db 04h
-    db 8Eh
-    db 06h
-    db 8Eh
-    db 19h
-    db 26h
-    db 8Bh
-    db 07h
-    db 26h
-    db 8Bh
-    db 57h
-    db 02h
-    db 23h
-    db 06h
-    db 06h
-    db 1Ah
-    db 23h
-    db 16h
-    db 08h
-    db 1Ah
-    db 0Bh
-    db 0D0h
-    db 74h
-    db 05h
-    db 0B8h
-    db 01h
-    db 00h
-    db 0C3h
-    db 90h
-    db 2Bh
-    db 0C0h
-    db 0C3h
-    db 90h
-    db 8Bh
-    db 1Eh
-    db 8Ch
-    db 19h
-    db 83h
-    db 06h
-    db 8Ch
-    db 19h
-    db 02h
-    db 8Eh
-    db 06h
-    db 8Eh
-    db 19h
-    db 26h
-    db 8Bh
-    db 07h
-    db 23h
-    db 06h
-    db 06h
-    db 1Ah
-    db 0C3h
-    db 90h
+; --- two far-pointer readers (decoded from raw bytes; originally @0x3aa1) ---
+loc_3aa1:                       ; dword reader, advances _var_200 by 4
+    cmp byte ptr [_var_258], 0
+    jz  short loc_3ad1
+    mov bx, [_var_200]
+    add word ptr [_var_200], 4
+    mov es, [_var_200_seg]
+    mov ax, es:[bx]
+    mov dx, es:[bx+2h]
+    and ax, [_var_259]
+    and dx, [_var_260]
+    or  dx, ax
+    jz  short loc_3acd
+    mov ax, 1
+    retn
+    nop
+loc_3acd:
+    sub ax, ax
+    retn
+    nop
+loc_3ad1:                       ; word reader, advances _var_200 by 2
+    mov bx, [_var_200]
+    add word ptr [_var_200], 2
+    mov es, [_var_200_seg]
+    mov ax, es:[bx]
+    and ax, [_var_259]
+    retn
+    nop
 
 ; ------------------------------seg000:0x3aa6------------------------------
     nop
@@ -2474,7 +2436,7 @@ LAB_1000_847f:
     add BX,AX
     shl BX,1h
     shl BX,1h
-    db 83h, 0bfh, 28h, 0bh, 01h  ; CMP word ptr [BX + 0...,0x1                 ;= ??
+    cmp word ptr [BX + offset word_333D8], 1
     jnz LAB_1000_8499
     cmp word ptr [BP + -22h],0h
     jle LAB_1000_84f2
@@ -2485,7 +2447,7 @@ LAB_1000_8499:
     add BX,AX
     shl BX,1h
     shl BX,1h
-    db 83h, 0bfh, 28h, 0bh, 02h  ; CMP word ptr [BX + 0...,0x2                 ;= ??
+    cmp word ptr [BX + offset word_333D8], 2
     jnz LAB_1000_8528
     cmp word ptr [BP + -22h],1h
     jz LAB_1000_84f2
