@@ -505,6 +505,14 @@ PUBLIC _var_694
 PUBLIC _var_697
 PUBLIC _var_699
 PUBLIC _var_700
+PUBLIC _aDestroyedBy
+PUBLIC _aDestroyedBy_0
+PUBLIC _aGroundImpact
+PUBLIC _aHitBy
+PUBLIC _aHitBy_0
+PUBLIC _aIneffective
+PUBLIC _aMisses
+PUBLIC _word_3B7DE
 PUBLIC aF15dgtl_bin
 PUBLIC aFileClosingError
 PUBLIC aFileNotFound
@@ -5170,18 +5178,25 @@ word_3815E dw 0
     db 0 ;align 2
 PUBLIC aMisses
 aMisses db ' misses ',0
+_aMisses equ aMisses
 PUBLIC aDestroyedBy
 aDestroyedBy db ' destroyed by ',0
+_aDestroyedBy equ aDestroyedBy
 PUBLIC aDestroyedBy_0
 aDestroyedBy_0 db ' destroyed by ',0
+_aDestroyedBy_0 equ aDestroyedBy_0
 PUBLIC aGroundImpact
 aGroundImpact db ' ground impact',0
+_aGroundImpact equ aGroundImpact
 PUBLIC aHitBy
 aHitBy db 'Hit by ',0
+_aHitBy equ aHitBy
 PUBLIC aIneffective
 aIneffective db 'Ineffective',0
+_aIneffective equ aIneffective
 PUBLIC aHitBy_0
 aHitBy_0 db ' hit by ',0
+_aHitBy_0 equ aHitBy_0
     db 0 ;align 2
 PUBLIC _aA
 aA db 'A',0
@@ -6236,6 +6251,7 @@ word_3B5D6 dw ?
 _word_3B5D6 equ word_3B5D6
     db 514 dup(?)
 word_3B7DE dw ?
+_word_3B7DE equ word_3B7DE
 word_3B7E0 dw ?
 _word_3B7E0 equ word_3B7E0
 word_3B7E2 dw ?
