@@ -6,11 +6,11 @@
 EXTRN _byte_37C24:byte
 EXTRN _byte_37C2F:byte
 EXTRN _gfxModeUnset:word
-EXTRN _word_380C8:word
-EXTRN _word_380CA:word
-EXTRN _word_380CC:word
+EXTRN _g_ourHead:word
+EXTRN _g_ourPitch:word
+EXTRN _g_ourRoll:word
 EXTRN _word_380D0:word
-EXTRN _word_3AA5A:word
+EXTRN _g_knots:word
 EXTRN byte_37BF6:byte
 EXTRN byte_37BF9:byte
 EXTRN byte_37BFC:byte
@@ -207,7 +207,7 @@ drawInstrumentGauges proc near
     mov [word_37BDE],AX
     mov [word_37BC0],AX
     mov BP,offset word_37B26
-    mov AX,[_word_3AA5A]
+    mov AX,[_g_knots]
     mov DH,32h
     div DH
     mov DL,AL
@@ -396,7 +396,7 @@ loc_21a7_022a:
     mov CL,byte ptr [_byte_37C24]
     mov DL,byte ptr [byte_37C35]
     call far ptr gfx_complexRender
-    mov AX,[_word_380C8]
+    mov AX,[_g_ourHead]
     sub AX,2000h
     mov DL,AH
     and AX,1F80h
@@ -467,7 +467,7 @@ loc_21a7_022a:
     div DL
     db 086h, 0C4h ; xchg al,ah
     sub AH,AH
-    test word ptr [_word_380C8],2000h
+    test word ptr [_g_ourHead],2000h
     jz loc_21a7_0326
     add AX,word ptr [word_37C07]
 loc_21a7_0326:
@@ -582,7 +582,7 @@ loc_21a7_046e:
     mov AX,[word_37C22]
     mov [word_37B70],AX
     call far ptr gfx_copyBlock
-    mov AX,[_word_380CA]
+    mov AX,[_g_ourPitch]
     db 03Dh, 000h, 000h ; cmp AX,0 (force imm16 encoding)
     jge loc_21a7_0489
     neg AX
@@ -607,7 +607,7 @@ loc_21a7_0489:
     mov BX,28h
     mov DX,0h
     div BX
-    cmp word ptr [_word_380CA],0h
+    cmp word ptr [_g_ourPitch],0h
     jge loc_21a7_04c5
     mov AH,byte ptr [word_37C11]
     sub AH,AL
@@ -616,7 +616,7 @@ loc_21a7_04c5:
     add AL,byte ptr [byte_37C13]
     sub AH,AH
     mov BX,AX
-    cmp word ptr [_word_380CA],0h
+    cmp word ptr [_g_ourPitch],0h
     jge loc_21a7_04d8
     neg CH
     dec CH
@@ -825,12 +825,12 @@ loc_21a7_06d2:
 loc_21a7_0741:
     mov byte ptr [byte_37EEF],CH
     sub DI,2h
-    mov BX,word ptr [_word_380CC]
+    mov BX,word ptr [_g_ourRoll]
     neg BX
     add BX,4000h
     call far ptr lookupSineFar
     mov BP,BX
-    mov BX,word ptr [_word_380CC]
+    mov BX,word ptr [_g_ourRoll]
     neg BX
     call far ptr lookupSineFar
 loc_21a7_0764:
@@ -933,7 +933,7 @@ loc_21a7_084b:
     mov SI,0h
     mov word ptr [word_37EF2],5h
     mov BP,offset word_37B52
-    mov AX,[_word_380CC]
+    mov AX,[_g_ourRoll]
     shr AH,1h
     shr AH,1h
     db 086h, 0E0h ; xchg ah,al
@@ -948,7 +948,7 @@ loc_21a7_084b:
     mov [word_37F60],AX
     mov AX,word ptr [DI+51F6h]
     mov [word_37F62],AX
-    mov AX,[_word_380CC]
+    mov AX,[_g_ourRoll]
     add AH,80h
     shr AH,1h
     shr AH,1h

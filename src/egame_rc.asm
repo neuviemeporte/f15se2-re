@@ -32,12 +32,12 @@ PUBLIC _word_380A4
 PUBLIC _word_380A6
 PUBLIC _word_380AA
 PUBLIC _word_380AC
-PUBLIC _word_380E0
+PUBLIC _g_setThrust
 PUBLIC _word_380E2
 PUBLIC _word_38602
-PUBLIC _word_38FDA
+PUBLIC _g_gees
 PUBLIC _word_3A8FE
-PUBLIC _word_3AFA6
+PUBLIC _g_thrust
 PUBLIC _word_3B4DA
 PUBLIC _word_3C00E
 PUBLIC _word_3C5A4
@@ -247,7 +247,7 @@ EXTRN _setDrawColor:PROC
 EXTRN _drawMapMarkerBox:PROC
 EXTRN _projectMapPoint:PROC
 EXTRN _drawFuelGauge:PROC
-EXTRN _sub_15FDB:PROC
+EXTRN _UpdateThrottleState:PROC
 EXTRN _fillRectBoth:PROC
 EXTRN _readScreenPixel:PROC
 EXTRN _readMapPixelColor:PROC
@@ -540,11 +540,11 @@ PUBLIC _word_3BEC2
 PUBLIC _word_3BED6
 PUBLIC _aFlogger
 PUBLIC _byte_3C16E
-PUBLIC _word_3BEC0
-PUBLIC _word_3BED0
-PUBLIC _dword_3B7F8
-PUBLIC _word_3B148
-PUBLIC _dword_3B7DA
+PUBLIC _g_viewX_
+PUBLIC _g_viewY_
+PUBLIC _g_ViewY
+PUBLIC _g_playerTargetIndex
+PUBLIC _g_ViewX
 PUBLIC _flt15_buf1
 PUBLIC _flt15_word1
 PUBLIC _flt15_buf2
@@ -636,16 +636,16 @@ PUBLIC _word_3B14A
 PUBLIC _dword_3C01C
 PUBLIC _dword_3B4D4
 PUBLIC _keyValue
-PUBLIC _word_380CE
+PUBLIC _g_viewZ
 PUBLIC _dword_3B1FE
 PUBLIC _word_336FE
 PUBLIC _dword_3C024
 PUBLIC _word_3B4DE
 PUBLIC _word_3C02C
-PUBLIC _word_380C8
+PUBLIC _g_ourHead
 PUBLIC _word_3B4E4
-PUBLIC _word_380CA
-PUBLIC _word_380CC
+PUBLIC _g_ourPitch
+PUBLIC _g_ourRoll
 PUBLIC _word_3C5AA
 PUBLIC _word_3BE94
 PUBLIC _word_3BE3C
@@ -656,7 +656,7 @@ PUBLIC _word_336E6
 PUBLIC _frameTick
 PUBLIC _word_3C028
 PUBLIC _word_3C03A
-PUBLIC _word_330C4
+PUBLIC _g_frameRateScaling
 PUBLIC _fixedMulQ14
 PUBLIC _sine
 PUBLIC _word_34186
@@ -681,10 +681,10 @@ PUBLIC _word_3A940
 PUBLIC _word_3370E
 
 PUBLIC _word_3C02E
-PUBLIC _word_3C45C
+PUBLIC _g_currentWeaponType
 PUBLIC _word_336F2
 PUBLIC _word_336EA
-PUBLIC _stru_3AA5E
+PUBLIC _g_planes
 PUBLIC _word_3370C
 PUBLIC _stru_3B208
 PUBLIC _unk_3A948
@@ -762,7 +762,7 @@ PUBLIC _word_3BEBE
 PUBLIC _word_3C6A4
 PUBLIC _byte_37C2F
 PUBLIC _sams
-PUBLIC _word_3AA5A
+PUBLIC _g_knots
 PUBLIC _word_3C5A6
 PUBLIC _missleSpec
 PUBLIC _word_3C8B6
@@ -772,7 +772,7 @@ PUBLIC _aTraining
 PUBLIC _word_38FC4
 PUBLIC _waypoints
 PUBLIC _word_3C008
-PUBLIC _planeFlags
+PUBLIC _g_playerPlaneFlags
 PUBLIC _byte_37C24
 PUBLIC _string_3C04A
 EXTRN _draw2Strings:PROC
@@ -865,21 +865,21 @@ PUBLIC _word_336FA
 PUBLIC _word_3A946
 PUBLIC _word_3C09C
 PUBLIC _word_3BE96
-PUBLIC _word_3C16A
+PUBLIC _g_closestThreatIndex
 PUBLIC _word_380D0
 PUBLIC _word_380D8
 PUBLIC _tempString
 PUBLIC _word_383F2
-PUBLIC _word_330B6
+PUBLIC _g_autopilotAltitude
 PUBLIC _word_33096
-PUBLIC _word_330B8
+PUBLIC _g_missionStatus
 PUBLIC _var_669
 PUBLIC _var_667
 PUBLIC _var_670
 PUBLIC _aFiredBy
 PUBLIC _word_3B204
 PUBLIC _word_3B206
-PUBLIC _word_3BF90
+PUBLIC _g_gunHits
 
 PUBLIC _missileSpecIndex
 PUBLIC _gfx_allocPage
@@ -1053,7 +1053,7 @@ SimObject		ends
 
 ; ---------------------------------------------------------------------------
 
-MapTarget		struc ;	(sizeof=0x10, mappedto_14) ; XREF: dseg:stru_3AA5E/r
+MapTarget		struc ;	(sizeof=0x10, mappedto_14) ; XREF: dseg:g_planes/r
 field_0		dw ?			; XREF:	updateTracerParticles+60/r findWaypointFeatures+60/r ...
 field_2		dw ?			; XREF:	updateTracerParticles+68/r findWaypointFeatures+40/r ...
 field_4		dw ?
@@ -1315,19 +1315,19 @@ LAB_1000_155c:
     shl AX,1h
     shl AX,1h
     mov SI,AX
-    mov AX,word ptr [_word_3BEC0]
+    mov AX,word ptr [_g_viewX_]
     mov word ptr [SI + offset word_333D2], AX
-    mov AX,word ptr [_word_3BED0]
+    mov AX,word ptr [_g_viewY_]
     mov word ptr [SI + offset word_333D4], AX
     mov AX,word ptr [BP + 4h]
     mov word ptr [SI + offset word_333D8], AX
-    mov AX,word ptr [word_330B8]
+    mov AX,word ptr [g_missionStatus]
     mov CX,AX
     shl AX,1h
     add AX,CX
     db 2Dh, 0Fh, 00h ; sub AX,0fh (force imm16 encoding)
     neg AX
-    imul word ptr [_word_330C4]
+    imul word ptr [_g_frameRateScaling]
     mov word ptr [SI + offset word_333DA], AX
     mov AX,word ptr [BP + 4h]
     jmp LAB_1000_15ab
@@ -2259,7 +2259,7 @@ EXTRN _applyRotationDelta:NEAR
 ; ------------------------------seg000:0x5237------------------------------
 computeHudAttitude equ _computeHudAttitude
 ; ------------------------------seg000:0x5fdb------------------------------
-sub_15FDB equ _sub_15FDB
+UpdateThrottleState equ _UpdateThrottleState
 ; ------------------------------seg000:0x606b------------------------------
 ; ------------------------------seg000:0x606c------------------------------
 drawFuelGauge equ _drawFuelGauge
@@ -2308,9 +2308,9 @@ updateThreatTargeting proc near
     jmp LAB_1000_7a2d
     db 90h
 LAB_1000_7a24:
-    mov AX,word ptr [_word_3BEC0]
+    mov AX,word ptr [_g_viewX_]
     mov word ptr [BP + -2ah],AX
-    mov AX,word ptr [_word_3BED0]
+    mov AX,word ptr [_g_viewY_]
 LAB_1000_7a2d:
     mov word ptr [BP + -30h],AX
     mov word ptr [BP + -1ch],0h
@@ -2423,7 +2423,7 @@ LAB_1000_7b50:
     mov BX,word ptr [BP + -20h]
     mov CL,4h
     shl BX,CL
-    cmp word ptr [BX + offset _stru_3AA5E + 4],0h
+    cmp word ptr [BX + offset _g_planes + 4],0h
     jz LAB_1000_7b42
 LAB_1000_7b64:
     cmp word ptr [BP + -22h],5h
@@ -2434,7 +2434,7 @@ LAB_1000_7b70:
     mov BX,word ptr [BP + -20h]
     mov CL,4h
     shl BX,CL
-    test byte ptr [BX + offset _stru_3AA5E + 6],8h
+    test byte ptr [BX + offset _g_planes + 6],8h
     jnz LAB_1000_7b92
 LAB_1000_7b7e:
     cmp word ptr [BP + -22h],5h
@@ -2442,7 +2442,7 @@ LAB_1000_7b7e:
     mov BX,word ptr [BP + -20h]
     mov CL,4h
     shl BX,CL
-    test byte ptr [BX + offset _stru_3AA5E + 6],8h
+    test byte ptr [BX + offset _g_planes + 6],8h
     jnz LAB_1000_7b42
 LAB_1000_7b92:
     mov SI,word ptr [BP + -20h]
@@ -2451,8 +2451,8 @@ LAB_1000_7b92:
     push word ptr [BP + -22h]
     sub AX,AX
     push AX
-    push word ptr [SI + offset _stru_3AA5E + 2]
-    push word ptr [SI + offset _stru_3AA5E]
+    push word ptr [SI + offset _g_planes + 2]
+    push word ptr [SI + offset _g_planes]
     push word ptr [BP + -1ch]
     call samCanAcquireTarget
     add SP,0ah
@@ -2483,8 +2483,8 @@ LAB_1000_7be0:
     push word ptr [BP + -22h]
     sub AX,AX
     push AX
-    push word ptr [SI + offset _stru_3AA5E + 2]
-    push word ptr [SI + offset _stru_3AA5E]
+    push word ptr [SI + offset _g_planes + 2]
+    push word ptr [SI + offset _g_planes]
     push word ptr [BP + -1ch]
     call samCanAcquireTarget
     add SP,0ah
@@ -2589,11 +2589,11 @@ LAB_1000_7cf9:
     mov word ptr [BP + -1ah],AX
     cmp word ptr [BP + -1ch],8h
     jge LAB_1000_7d32
-    mov AH,byte ptr [word_330B8]
+    mov AH,byte ptr [g_missionStatus]
     sub AL,AL
     add AH,1h
     push AX
-    mov AX,word ptr [word_330B8]
+    mov AX,word ptr [g_missionStatus]
     inc AX
     neg AX
     mov CH,AL
@@ -2625,7 +2625,7 @@ LAB_1000_7d32:
     shl AX,1h
     shl AX,1h
     cwd
-    mov CX,word ptr [_word_330C4]
+    mov CX,word ptr [_g_frameRateScaling]
     idiv CX
     add word ptr [SI + offset _stru_335C4 + 8],AX
     mov AX,word ptr [BP + -1ah]
@@ -2713,7 +2713,7 @@ LAB_1000_7de7:
     shl AX,1h
     shl AX,1h
     cwd
-    mov CX,word ptr [_word_330C4]
+    mov CX,word ptr [_g_frameRateScaling]
     idiv CX
     add word ptr [BX + offset _stru_335C4 + 10],AX
     jmp LAB_1000_7e74
@@ -2733,7 +2733,7 @@ LAB_1000_7e48:
     mov CL,0ch
     shl AX,CL
     cwd
-    mov CX,word ptr [_word_330C4]
+    mov CX,word ptr [_g_frameRateScaling]
     idiv CX
     sub word ptr [SI],AX
 LAB_1000_7e74:
@@ -2760,7 +2760,7 @@ LAB_1000_7ea5:
     mov SI,AX
     mov AX,800h
     cwd
-    mov CX,word ptr [_word_330C4]
+    mov CX,word ptr [_g_frameRateScaling]
     idiv CX
     sub word ptr [SI + offset _stru_335C4 + 10],AX
     mov AX,word ptr [SI + offset _stru_335C4 + 22]
@@ -2778,7 +2778,7 @@ LAB_1000_7ec9:
     mov CL,3h
     shl AX,CL
     cwd
-    mov CX,word ptr [_word_330C4]
+    mov CX,word ptr [_g_frameRateScaling]
     idiv CX
     mov word ptr [BP + -16h],AX
     cmp word ptr [BP + -22h],1eh
@@ -2802,7 +2802,7 @@ LAB_1000_7f0e:
     sub AL,AL
 LAB_1000_7f1c:
     cwd
-    mov CX,word ptr [_word_330C4]
+    mov CX,word ptr [_g_frameRateScaling]
     idiv CX
     push AX
     push word ptr [SI + offset _stru_335C4 + 10]
@@ -2923,17 +2923,17 @@ LAB_1000_8043:
     mov CL,4h
     shl SI,CL
     mov AX,word ptr [word_3BEC8]
-    sub AX,word ptr [SI + offset _stru_3AA5E + 2]
+    sub AX,word ptr [SI + offset _g_planes + 2]
     push AX
     mov AX,word ptr [word_3BEBC]
-    sub AX,word ptr [SI + offset _stru_3AA5E]
+    sub AX,word ptr [SI + offset _g_planes]
     push AX
     call _rangeApprox
     add SP,4h
     mov word ptr [BP + -0eh],AX
     mov AX,100h
     cwd
-    mov CX,word ptr [word_330B8]
+    mov CX,word ptr [g_missionStatus]
     inc CX
     idiv CX
     cmp AX,word ptr [BP + -0eh]
@@ -2956,7 +2956,7 @@ LAB_1000_80c3:
     mov BX,AX
     mov CL,4h
     shl BX,CL
-    test byte ptr [BX + offset _stru_3AA5E + 6],80h
+    test byte ptr [BX + offset _g_planes + 6],80h
     jz LAB_1000_80d3
     jmp LAB_1000_8199
 LAB_1000_80d3:
@@ -2993,7 +2993,7 @@ LAB_1000_80f6:
     mov word ptr [BP + -0eh],AX
     mov AX,180h
     cwd
-    mov CX,word ptr [word_330B8]
+    mov CX,word ptr [g_missionStatus]
     add CX,2h
     idiv CX
     cmp AX,word ptr [BP + -0eh]
@@ -3029,7 +3029,7 @@ LAB_1000_8172:
     mov AX,18h
     imul word ptr [BP + -1ch]
     mov BX,AX
-    mov AX,word ptr [_word_330C4]
+    mov AX,word ptr [_g_frameRateScaling]
     shl AX,1h
     cmp word ptr [BX + offset _stru_335C4 + 14],AX
     jle LAB_1000_81a3
@@ -3063,7 +3063,7 @@ LAB_1000_81a3:
     shl AX,CL
     mov CX,DX
     cwd
-    mov BX,word ptr [_word_330C4]
+    mov BX,word ptr [_g_frameRateScaling]
     idiv BX
     cmp CX,AX
     jc LAB_1000_81dc
@@ -3133,7 +3133,7 @@ LAB_1000_823c:
     mov word ptr [SI + offset stru_33402 + 2],AX
     mov AX,word ptr [word_3BECE]
     mov word ptr [SI + offset stru_33402 + 4],AX
-    test word ptr [_planeFlags],1000h
+    test word ptr [_g_playerPlaneFlags],1000h
     jz LAB_1000_829c
     jmp LAB_1000_83ac
 LAB_1000_829c:
@@ -3191,7 +3191,7 @@ LAB_1000_8306:
     add SP,4h
     cmp AX,SI
     jg LAB_1000_8340
-    mov AX,word ptr [_word_330C4]
+    mov AX,word ptr [_g_frameRateScaling]
     mov CX,AX
     shl AX,1h
     shl AX,1h
@@ -3352,7 +3352,7 @@ LAB_1000_8499:
     push AX
     call _abs
     add SP,2h
-    mov CX,word ptr [word_330B8]
+    mov CX,word ptr [g_missionStatus]
     mov DX,CX
     shl CX,1h
     add CX,DX
@@ -3399,7 +3399,7 @@ LAB_1000_8534:
     mov BX,SI
     mov CL,4h
     shl BX,CL
-    test byte ptr [BX + offset _stru_3AA5E + 6],10h
+    test byte ptr [BX + offset _g_planes + 6],10h
     jnz LAB_1000_855e
     mov word ptr [BP + -4h],0h
 LAB_1000_855e:
@@ -3595,16 +3595,16 @@ LAB_1000_9706:
     mov SI,word ptr [BP + -6h]
     mov CL,4h
     shl SI,CL
-    cmp word ptr [SI + offset _stru_3AA5E + 4],0h
+    cmp word ptr [SI + offset _g_planes + 4],0h
     jz LAB_1000_9754
-    test byte ptr [SI + offset _stru_3AA5E + 6],80h
+    test byte ptr [SI + offset _g_planes + 6],80h
     jnz LAB_1000_9754
     lea AX,[BP + -4h]
     push AX
     lea AX,[BP + -2h]
     push AX
-    push word ptr [SI + offset _stru_3AA5E + 2]
-    push word ptr [SI + offset _stru_3AA5E]
+    push word ptr [SI + offset _g_planes + 2]
+    push word ptr [SI + offset _g_planes]
     call objectToScreen
     add SP,8h
     or AX,AX
@@ -3630,7 +3630,7 @@ LAB_1000_9754:
     mov BX,word ptr [BP + -6h]
     mov CL,4h
     shl BX,CL
-    mov SI,word ptr [BX + offset _stru_3AA5E + 6]
+    mov SI,word ptr [BX + offset _g_planes + 6]
     mov AX,SI
     and AX,481h
     cmp AX,401h
@@ -3645,8 +3645,8 @@ LAB_1000_976f:
     push AX
     lea AX,[BP + -2h]
     push AX
-    push word ptr [SI + offset _stru_3AA5E + 2]
-    push word ptr [SI + offset _stru_3AA5E]
+    push word ptr [SI + offset _g_planes + 2]
+    push word ptr [SI + offset _g_planes]
     call objectToScreen
     add SP,8h
     or AX,AX
@@ -3687,7 +3687,7 @@ LAB_1000_97c8:
     mov AX,4000h
     mov CL,byte ptr [BP + -6h]
     sar AX,CL
-    test word ptr [_planeFlags],AX
+    test word ptr [_g_playerPlaneFlags],AX
     jnz LAB_1000_9828
     mov SI,word ptr [BP + -6h]
     mov CL,2h
@@ -5781,9 +5781,9 @@ _word_3309E equ word_3309E
 _missileSpecIndex dw 0
 word_330B4 dw 28Ah
 _word_330B4 equ word_330B4
-_word_330B6 dw 0
-word_330B8 dw 1
-_word_330B8 equ word_330B8
+_g_autopilotAltitude dw 0
+g_missionStatus dw 1
+_g_missionStatus equ g_missionStatus
 word_330BA dw 1
 _word_330BA equ word_330BA
 _word_330BC dw 0
@@ -5792,7 +5792,7 @@ _word_330BE equ word_330BE
     db 1
     db 0
 _word_330C2 dw 1
-_word_330C4 dw 4
+_g_frameRateScaling dw 4
     _missiles Missile <'AIM-9M', 'Sidewinder', 17h, 4>
     Missile <'AIM-120', 'AMRAAM ', 16h, 4>
     Missile <'AGM-88A', 'HARM', 18h, 4>
@@ -19152,10 +19152,10 @@ _unk_380B6 db 0
     db 0
     db 0
     db 0
-_word_380C8 dw 0
-_word_380CA dw 0
-_word_380CC dw 0
-_word_380CE dw 0
+_g_ourHead dw 0
+_g_ourPitch dw 0
+_g_ourRoll dw 0
+_g_viewZ dw 0
 _word_380D0 dw 0
     db 0Ch
     db 0
@@ -19172,8 +19172,8 @@ _byte_380DD equ byte_380DD
 _word_380D8 equ byte_380DD
     db 0
     db 0
-word_380E0 dw 0
-_word_380E0 equ word_380E0
+g_setThrust dw 0
+_g_setThrust equ g_setThrust
 word_380E2 dw 0
 _word_380E2 equ word_380E2
 _a256left_pic db '256Left.Pic',0
@@ -21066,16 +21066,16 @@ _var_528 EQU word_38078
 ORG 057CEh
 _var_529 EQU word_3807E
 ORG 05818h
-_var_542 EQU _word_380C8
+_var_542 EQU _g_ourHead
 ORG 05819h
-_var_543 EQU _word_380C8 + 1
+_var_543 EQU _g_ourHead + 1
 ORG 0581Ah
-_var_544 EQU _word_380CA
+_var_544 EQU _g_ourPitch
 ORG 0581Ch
-_var_545 EQU _word_380CC
+_var_545 EQU _g_ourRoll
 ORG 0581Eh
-_var_547 EQU _word_380CE
-_uvar_547 EQU _word_380CE
+_var_547 EQU _g_viewZ
+_uvar_547 EQU _g_viewZ
 ORG 05820h
 _var_548 EQU _word_380D0
 ORG 05828h
@@ -21083,7 +21083,7 @@ _var_549 EQU var_549_stor
 ORG 0582Ah
 _var_550 EQU byte_380DA
 ORG 05830h
-_var_552 EQU word_380E0
+_var_552 EQU g_setThrust
 ORG 058AEh
 _var_556 EQU word_3815E
 ORG 05A84h
@@ -21410,8 +21410,8 @@ _unk_38FD0 equ unk_38FD0
     db ?
     db ?
     db ?
-word_38FDA dw ?
-_word_38FDA equ word_38FDA
+g_gees dw ?
+_g_gees equ g_gees
 _word_38FDC dw ?
 word_38FDE dw ?
 _word_38FDE equ word_38FDE
@@ -21437,7 +21437,7 @@ _word_38FFA dw ?
 word_38FFC dw ?
 _word_38FFC equ word_38FFC
 _buf4_3dg db 200h dup(?)
-_planeFlags dw ?
+_g_playerPlaneFlags dw ?
 word_39200 dw ?
 _word_39200 equ word_39200
 _buf3_3dg db 200h dup(?)
@@ -22057,9 +22057,9 @@ _byte_3A900 db 40h dup(?)
 _word_3A940 dw ?
     db ? ;align 4
     db ?
-word_3A944 dw ?
-PUBLIC _word_3A944
-_word_3A944 equ word_3A944
+g_velocity dw ?
+PUBLIC _g_velocity
+_g_velocity equ g_velocity
 word_3A946 dw ?
 _word_3A946 equ word_3A946
 _unk_3A948 db ?
@@ -22081,9 +22081,9 @@ _unk_3A948 db ?
     db ?
     db ?
     _stru_3A95A ViewSnapshot 10h dup(<?>)
-_word_3AA5A dw ?
+_g_knots dw ?
 _word_3AA5C dw ?
-    _stru_3AA5E MapTarget 4Ah dup(<?>)
+    _g_planes MapTarget 4Ah dup(<?>)
     db ?
     db ?
     db ?
@@ -22103,8 +22103,8 @@ _word_3AF0C equ word_3AF0C
 _buf3d3_1 db 96h dup(?)
 word_3AFA4 dw ?
 _word_3AFA4 equ word_3AFA4
-word_3AFA6 dw ?
-_word_3AFA6 equ word_3AFA6
+g_thrust dw ?
+_g_thrust equ g_thrust
 _word_3AFA8 label word
 word_3AFA8 dw ?
 word_3AFAA dw ?
@@ -22116,7 +22116,7 @@ _buf3d3_2 db 96h dup(?)
 _word_3B144 dw ?
 word_3B146 dw ?
 _word_3B146 equ word_3B146
-_word_3B148 dw ?
+_g_playerTargetIndex dw ?
 _word_3B14A dw ?
 word_3B14C dw ?
 _word_3B14C equ word_3B14C
@@ -23607,7 +23607,7 @@ _word_3B5D6 equ word_3B5D6
     db ?
     db ?
     db ?
-_dword_3B7DA dd ?
+_g_ViewX dd ?
 word_3B7DE dw ?
 word_3B7E0 dw ?
 _word_3B7E0 equ word_3B7E0
@@ -23637,7 +23637,7 @@ _byte_3B7F1 equ byte_3B7F1
     db ?
     db ?
     db ?
-_dword_3B7F8 dd ?
+_g_ViewY dd ?
 _byte_3B7FC db 640h dup(?)
 word_3BE3C dw ?
 _word_3BE3C equ word_3BE3C
@@ -23688,7 +23688,7 @@ word_3BE9C dw ?
 word_3BEBC dw ?
 _word_3BEBC equ word_3BEBC
 _word_3BEBE dw ?
-_word_3BEC0 dw ?
+_g_viewX_ dw ?
 word_3BEC2 dw ?
 _word_3BEC2 equ word_3BEC2
 _byte_3BEC4 db ?
@@ -23702,7 +23702,7 @@ word_3BECC dw ?
 _word_3BECC equ word_3BECC
 word_3BECE dw ?
 _word_3BECE equ word_3BECE
-_word_3BED0 dw ?
+_g_viewY_ dw ?
 _word_3BED2 dw ?
 word_3BED4 dw ?
 _word_3BED4 equ word_3BED4
@@ -23714,8 +23714,8 @@ _word_3BF3C equ word_3BF3C
 word_3BF3E dw ?
 _word_3BF3E equ word_3BF3E
 _tempString db 50h dup(?)
-word_3BF90 dw ?
-_word_3BF90 equ word_3BF90
+g_gunHits dw ?
+_g_gunHits equ g_gunHits
 _regs db ?
 PUBLIC _byte_3BF93
 _byte_3BF93 label byte
@@ -23804,11 +23804,11 @@ _word_3C09E dw ?
 word_3C0A0 dw ?
 _word_3C0A0 equ word_3C0A0
 _word_3C0A2 dw 64h dup(?)
-_word_3C16A dw ?
+_g_closestThreatIndex dw ?
 word_3C16C dw ?
 _word_3C16C equ word_3C16C
 _byte_3C16E db 2EEh dup(?)
-_word_3C45C dw ?
+_g_currentWeaponType dw ?
 word_3C45E dw ?
 _word_3C45E equ word_3C45E
 _matrix3dt_2 dw 0A0h dup(?)

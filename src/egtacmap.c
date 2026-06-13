@@ -28,8 +28,8 @@ void drawCockpitHud(int arg_0) {
     byte_3C5A0 = gfx_getDisplayPage();
     TRACE(("drawCockpitHud: after getDisplayPage=%d"));
     // probably x,y
-    var_16 = waypoints[waypointIndex].mapX - word_3BEC0;
-    var_1A = waypoints[waypointIndex].mapY - word_3BED0;
+    var_16 = waypoints[waypointIndex].mapX - g_viewX_;
+    var_1A = waypoints[waypointIndex].mapY - g_viewY_;
     TRACE(("drawCockpitHud: after waypoints, word_330C2=%d", word_330C2));
     word_3BE92 = computeBearing(var_16, -var_1A);
     TRACE(("drawCockpitHud: after computeBearing"));
@@ -64,33 +64,33 @@ void drawCockpitHud(int arg_0) {
                 drawViewportLine(var_14 - 1, var_18, var_14 + 1, var_18);
                 drawViewportLine(var_14, var_18 + 1, var_14, var_18 - 1);
             }
-            if (planeFlags & 0x200) {
+            if (g_playerPlaneFlags & 0x200) {
                 setDrawColor(0xf);
                 drawViewportLine(0x9c, 0x59, 0xa4, 0x59);
                 drawViewportLine(0xa0, 0x56, 0xa0, 0x5c);
             }
             setDrawColor(word_330BC != 0 ? 4 : 0);
-            var_10 = clampRange((((word_3C5A6 - word_3AA5A) * 2) / 5) + 0x1d, 0, 0x3d);
+            var_10 = clampRange((((word_3C5A6 - g_knots) * 2) / 5) + 0x1d, 0, 0x3d);
             if (var_10) drawViewportLine(0x48, 0x55 - var_10, 0x48, 0x55);
             drawViewportLine(0xf7,  0x38, 0xf7, clampRange(-((word_3C8B6 >> 4) - 0x38), 0x14, 0x55));
-            if ((planeFlags & 1) == 0 && (frameTick & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) {
-                var_2 = (((stru_3AA5E[word_3C16A].flags & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
+            if ((g_playerPlaneFlags & 1) == 0 && (frameTick & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) {
+                var_2 = (((g_planes[g_closestThreatIndex].flags & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
                 setDrawColor(0xf);
                 drawViewportLine(0xf2, var_2 - 2, 0xf4, var_2);
                 drawViewportLine(0xf2, var_2 + 2, 0xf4, var_2);
             }
             // stall warning display
-            if (word_3AA5A < word_3C5A6 && word_3BEBE != word_380CE && frameTick & 1) {
+            if (g_knots < word_3C5A6 && word_3BEBE != g_viewZ && frameTick & 1) {
                 draw2Strings(aStallWarning, 0x84, 0x1e, 0xf);
             }
-            if (word_3C45C == 0 || word_3C45C == 2) {
+            if (g_currentWeaponType == 0 || g_currentWeaponType == 2) {
                 setDrawColor(7);
                 word_3C008 = (word_38FC4 >> 6) + 0x38;
                 if (word_3C008 > 0xa && word_3C008 < 0x6f) {
                     blitSprite(0x9a, word_3C008 - 4, 0x94, 0x15, 0x0b, 7, 0xf);
                 }
             }
-            if (word_3C45C == 1) {
+            if (g_currentWeaponType == 1) {
                 var_1C = byte_37C24 + 4;
                 var_14 = (word_3C6A4 >> var_1C) + 0x9f;
                 var_18 = (word_3C6AC >> var_1C) + 0x38;
@@ -110,20 +110,20 @@ void drawCockpitHud(int arg_0) {
                     }
                 }
             }
-            drawNumber(word_3AA5A, 0x50, 0x36, 0xf);
+            drawNumber(g_knots, 0x50, 0x36, 0xf);
             if (word_380D0 <= 0x4e20) {
                 drawNumber(word_380D0 < 0x64 ? word_380D0 : (word_380D0 / 5) * 5, 0xe4, 0x36, 0xf);
             }
             if (word_3370A > 1) {
                 drawSomeStrings(aAccel, 0x96, 0x4, 0xf);
             }
-            if (planeFlags & 0x1000) {
+            if (g_playerPlaneFlags & 0x1000) {
                 drawSomeStrings(aTraining, 0xea, 0x10, 0xf);
             }
-            if (word_330B6 != 0) {
+            if (g_autopilotAltitude != 0) {
                 drawSomeStrings(aAutopilot, 0xec, 0x5a, 0xf);
             }
-            var_6 = clampRange((((word_3BE92 - word_380C8) >> 6) / 3) + 0x9f, 0x59, 0xe5);
+            var_6 = clampRange((((word_3BE92 - g_ourHead) >> 6) / 3) + 0x9f, 0x59, 0xe5);
             setDrawColor(0x0b);
             drawViewportLine(var_6 - 2, 0xf, var_6, 0x11);
             drawViewportLine(var_6, 0x11, var_6 + 2, 0xf);
@@ -202,7 +202,7 @@ void zoomIn(void) {
     } else {
         if (word_3C09A == 0 && byte_383E5 < 9) {
             byte_383E5++;
-            redrawTacMap(word_3BEC0, word_3BED0);
+            redrawTacMap(g_viewX_, g_viewY_);
         }
         if (word_3C09A == 1) {
             var_588++;
@@ -217,7 +217,7 @@ void zoomOut(void) {
     } else {
         if (word_3C09A == 0 && byte_383E5 > 2) {
             byte_383E5--;
-            redrawTacMap(word_3BEC0, word_3BED0);
+            redrawTacMap(g_viewX_, g_viewY_);
         }
         if (word_3C09A == 1 && var_588 != 0) {
             var_588--;
@@ -401,7 +401,7 @@ void drawHudViewLine(int x1, int y1, int x2, int y2) {
         } else {
             drawClippedLineRegion(x1, y1, x2, y2, 0x68, 0xd8, 0x3e, 0x60, 0);
         }
-    } else if (word_330B8 != 0) {
+    } else if (g_missionStatus != 0) {
         drawClippedLineRegion(x1, y1, x2, y2, 0x30, 0x10f, 0x0f, 0x60, 0);
     } else {
         drawViewportLine(x1, y1, x2, y2);
@@ -517,16 +517,16 @@ int readScreenPixel(int screenX, int screenY) {
 // ==== seg000:0xa1e4 ====
 void tempStrcpy(char *src) {
     strcpy(tempString, src);
-    var_591 = word_330C4 * 3;
+    var_591 = g_frameRateScaling * 3;
 }
 
 // ==== seg000:0xa204 ====
 void setTimedMessage(char *message) {
     strcpy(string_3C04A, message);
-    var_592 = word_330C4 * 3;
+    var_592 = g_frameRateScaling * 3;
 }
 
 // ==== seg000:0xa224 ====
 int routine_260(int param_1, int objIdx) {
-    return (int)(char)var_83[param_1 * 13 + ((int)(char)byte_3BFA4[stru_3AA5E[objIdx].field_C & 0x7f] & 0xf)];
+    return (int)(char)var_83[param_1 * 13 + ((int)(char)byte_3BFA4[g_planes[objIdx].field_C & 0x7f] & 0xf)];
 }

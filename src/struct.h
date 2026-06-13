@@ -184,7 +184,7 @@ STATIC_ASSERT(sizeof(struct Projectile)==0x18);
 // are the leading members that earlier code reached via (char*)&stru_3B208[i] - 6/-4/-2.
 #pragma pack(1)
 struct SimObject {
-    int16 objType;      // +0x00  spec index into stru_3AA5E (was -6)
+    int16 objType;      // +0x00  spec index into g_planes (was -6)
     uint16 posX;         // +0x02  world X seed; worldX = posX << 5 (was -4)
     uint16 posY;         // +0x04  world Y seed; worldY = posY << 5 (was -2)
     int16 alt;          // +0x06  altitude

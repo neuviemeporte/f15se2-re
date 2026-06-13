@@ -38,29 +38,29 @@ void otherKeyDispatch(void) {
     if (word_3BECC == 0) {
         // (MSC stores chained assignments right-to-left:
         // ref store order is thrust, setThrust, velocity, 380D0, viewZ, roll, pitch)
-        word_380CA =
-        word_380CC =
-        word_380CE =
+        g_ourPitch =
+        g_ourRoll =
+        g_viewZ =
         word_380D0 =
-        word_3A944 =
-        word_380E0 =
-        word_3AFA6 = 0;
+        g_velocity =
+        g_setThrust =
+        g_thrust = 0;
 
         if (gameData->difficulty == 0) {
             
-            word_380C8 = ((word_3BED0 - (waypoints[1].mapY)) < 0x8000) ? 0 : 0x8000;
+            g_ourHead = ((g_viewY_ - (waypoints[1].mapY)) < 0x8000) ? 0 : 0x8000;
         } else {
-            word_380C8 = (gameData->theater == 6)
+            g_ourHead = (gameData->theater == 6)
                ? 0  // If true, the result is 0
                : ((gameData->theater & 1) ? 0 : 0x8000); // Else, evaluate the second condition
         }
 
-        if (stru_3AA5E[word_3B148].flags & 0x200) {
-            *((unsigned char*)&word_380C8 + 1) += 4;
+        if (g_planes[g_playerTargetIndex].flags & 0x200) {
+            *((unsigned char*)&g_ourHead + 1) += 4;
         }
 
         rebuildOrientation();
-        sub_15FDB();
+        UpdateThrottleState();
         word_3BECC = 1;
     }
 
@@ -81,34 +81,34 @@ void otherKeyDispatch(void) {
     // Main key dispatch logic
     switch ((unsigned)keyScancode) {
         case 0x0C2D: // Minus
-            word_380E0 = clampRange(word_380E0 - 10, 0, 100);
-            sub_15FDB();
+            g_setThrust = clampRange(g_setThrust - 10, 0, 100);
+            UpdateThrottleState();
             goto switch_break;
         case 0x0D3D: // Equal
-            word_380E0 = clampRange(word_380E0 + ((word_380E0 < 10) ? 5 : 10), 0, 100);
-            sub_15FDB();
-            *((unsigned char*)&planeFlags) &= 0xF7; // ~8
+            g_setThrust = clampRange(g_setThrust + ((g_setThrust < 10) ? 5 : 10), 0, 100);
+            UpdateThrottleState();
+            *((unsigned char*)&g_playerPlaneFlags) &= 0xF7; // ~8
             goto switch_break;
         case 0x1E61: // A
-            word_380E0 = 0x90;
-            sub_15FDB();
-            *((unsigned char*)&planeFlags) &= 0xF7; // ~8
+            g_setThrust = 0x90;
+            UpdateThrottleState();
+            *((unsigned char*)&g_playerPlaneFlags) &= 0xF7; // ~8
             goto switch_break;
         case 0x0D2B: // Shift-Equal
-            word_380E0 = 100;
-            sub_15FDB();
-            *((unsigned char*)&planeFlags) &= 0xF7; // ~8
+            g_setThrust = 100;
+            UpdateThrottleState();
+            *((unsigned char*)&g_playerPlaneFlags) &= 0xF7; // ~8
             goto post_key_B_check;
         case 0x0C5F: // Shift-Minus
-            word_380E0 = 0;
+            g_setThrust = 0;
             makeSound(0x10, 0);
-            sub_15FDB();
+            UpdateThrottleState();
             goto switch_break;
         case 0x3062: // B
-            *((unsigned char*)&planeFlags) ^= 8;
+            *((unsigned char*)&g_playerPlaneFlags) ^= 8;
         post_key_B_check:
-            if (!(*((unsigned char*)&planeFlags) & 8) && word_3BEBE != 0 && word_380E0 == 100) {
-                word_3A944 = 0x546;
+            if (!(*((unsigned char*)&g_playerPlaneFlags) & 8) && word_3BEBE != 0 && g_setThrust == 100) {
+                g_velocity = 0x546;
                 makeSound(0x1C, 2);
             }
             goto switch_break;
@@ -133,7 +133,7 @@ void otherKeyDispatch(void) {
             if (word_330C2 != 0) {
                 gfx_copyRect(*off_38364, 0, 0x61, *var_564, 0, 0x61, 0x140, 0x67);
                 gfx_copyRect(*off_38364, 0, 0x61, *var_565, 0, 0x61, 0x140, 0x67);
-                sub_15FDB();
+                UpdateThrottleState();
             }
             goto switch_break;
         case 0x1900: // Alt-P
@@ -146,7 +146,7 @@ switch_break:
         word_380E2--;
     }
 
-    if (word_380E0 != 0 && word_3AFA6 == 0) {
+    if (g_setThrust != 0 && g_thrust == 0) {
         makeSound(0x0E, 2);
     }
 
@@ -177,60 +177,60 @@ switch_break:
         word_3C5A4 /= 2;
     }
     
-    if (word_3BEBE == word_380CE && word_3C5A4 < 0 && word_380CA <= 0) {
+    if (word_3BEBE == g_viewZ && word_3C5A4 < 0 && g_ourPitch <= 0) {
         word_3C5A4 = 0;
     }
 
-    if (word_3AA5A > 0x15E && !(*((unsigned char*)&planeFlags) & 1) && word_336EC != 0) {
+    if (g_knots > 0x15E && !(*((unsigned char*)&g_playerPlaneFlags) & 1) && word_336EC != 0) {
         word_336EC = 0;
-        *((unsigned char*)&planeFlags) |= 1;
+        *((unsigned char*)&g_playerPlaneFlags) |= 1;
         tempStrcpy("Landing gear raised");
         makeSound(0x20, 2);
     }
     
-    if (word_3BEBE == word_380CE && word_380E0 == 0 && !(*((unsigned char*)&planeFlags) & 8)) {
-        *((unsigned char*)&planeFlags) |= 8;
+    if (word_3BEBE == g_viewZ && g_setThrust == 0 && !(*((unsigned char*)&g_playerPlaneFlags) & 8)) {
+        *((unsigned char*)&g_playerPlaneFlags) |= 8;
         tempStrcpy("Brakes on");
     }
 
     if (word_3C00E != 0 || word_3C5A4 != 0) {
-        word_330B6 = 0;
+        g_autopilotAltitude = 0;
     }
     
-    if (word_330B6 != 0)
+    if (g_autopilotAltitude != 0)
     {
         x = (word_336EA != 0) ? (int16)((word_38FE0 & 0xF) << 8) - 0x800
                                    : 0;
 
-        x = sub_1CF8E(x - word_380C8 + word_3BE92, 0xEC00, 0x1400) * 2;
+        x = sub_1CF8E(x - g_ourHead + word_3BE92, 0xEC00, 0x1400) * 2;
 
-        word_3C00E = -clampRange((x - word_380CC) >> 6, -24, 24);
+        word_3C00E = -clampRange((x - g_ourRoll) >> 6, -24, 24);
 
-        d = sub_1CF8E(((word_330B6 - word_380CE) << 4) - word_38FC4, 0xEC00, 0xC00);
+        d = sub_1CF8E(((g_autopilotAltitude - g_viewZ) << 4) - word_38FC4, 0xEC00, 0xC00);
 
-        word_3C5A4 = clampRange((d - word_380CA) >> 7, -8, 8);
+        word_3C5A4 = clampRange((d - g_ourPitch) >> 7, -8, 8);
 
         if (waypointIndex == 3)
         {
             o = word_3AFA8;
             s = word_3B15A;
 
-            h = stru_3AA5E[s].mapX - word_3BEC0;
-            z = stru_3AA5E[s].mapY - word_3BED0;
+            h = g_planes[s].mapX - g_viewX_;
+            z = g_planes[s].mapY - g_viewY_;
 
-            if (!(stru_3AA5E[s].flags & 0x200))
+            if (!(g_planes[s].flags & 0x200))
             {
                 o = -signOf(z);
             }
 
-            z += ((stru_3AA5E[s].flags & 0x200) ? 0x1E : 0x40) * o;
+            z += ((g_planes[s].flags & 0x200) ? 0x1E : 0x40) * o;
 
-            x = abs(word_380C8);
+            x = abs(g_ourHead);
             if (o == -1)
             {
                 h = -h;
                 z = -z;
-                x = abs(word_380C8 - 0x8000);
+                x = abs(g_ourHead - 0x8000);
             }
 
             d = clampRange((abs(h) + abs(z)) * 2 + x / 32, 50, 0x1000);
@@ -239,7 +239,7 @@ switch_break:
                 sub_1DB9C();
             }
 
-            if (stru_3AA5E[s].flags & 0x200)
+            if (g_planes[s].flags & 0x200)
             {
                 d += 100;
             }
@@ -249,76 +249,76 @@ switch_break:
                 d = -20;
             }
 
-            z = stru_3AA5E[s].mapY + (((stru_3AA5E[s].flags & 0x200) ? 0x1C : 0x38) * o);
+            z = g_planes[s].mapY + (((g_planes[s].flags & 0x200) ? 0x1C : 0x38) * o);
 
             z += clampRange((abs(h) * 4) + (x / 16), 0, 0xC00) * o;
 
-            *((unsigned char *)&planeFlags) &= 0xF7;
+            *((unsigned char *)&g_playerPlaneFlags) &= 0xF7;
 
             if (x > 0x4000)
             {
-                h = stru_3AA5E[s].mapX;
+                h = g_planes[s].mapX;
                 d = 0x1000;
             }
             else
             {
-                h = stru_3AA5E[s].mapX + (o * h * 2);
-                if (word_380E0 * 80 < word_3AA5A)
+                h = g_planes[s].mapX + (o * h * 2);
+                if (g_setThrust * 80 < g_knots)
                 {
-                    *((unsigned char *)&planeFlags) |= 8;
+                    *((unsigned char *)&g_playerPlaneFlags) |= 8;
                 }
             }
 
-            c = computeBearing(h - word_3BEC0, word_3BED0 - z);
-            n = (int16)word_3AA5A / 16;
+            c = computeBearing(h - g_viewX_, g_viewY_ - z);
+            n = (int16)g_knots / 16;
 
-            x = sub_1CF8E(c - word_380C8, (-n) << 8, n << 8) * 2;
+            x = sub_1CF8E(c - g_ourHead, (-n) << 8, n << 8) * 2;
 
             if (word_33702 != 0)
             {
                 x = 0;
             }
 
-            word_3C00E = -clampRange((x - word_380CC) >> 6, -32, 32);
+            word_3C00E = -clampRange((x - g_ourRoll) >> 6, -32, 32);
 
-            word_380E0 = clampRange((abs(x) / 256) + (d / 64), 35, 80);
-            sub_15FDB();
+            g_setThrust = clampRange((abs(x) / 256) + (d / 64), 35, 80);
+            UpdateThrottleState();
 
-            d = sub_1CF8E(((d - word_380CE) >> 3) + (word_38FC4 >> 7), -24, 24);
+            d = sub_1CF8E(((d - g_viewZ) >> 3) + (word_38FC4 >> 7), -24, 24);
 
-            word_3C5A4 = clampRange(d - (word_380CA >> 7), -16, 16);
+            word_3C5A4 = clampRange(d - (g_ourPitch >> 7), -16, 16);
 
-            if (word_3AA5A < 0x15E)
+            if (g_knots < 0x15E)
             {
-                *((unsigned char *)&planeFlags) &= 0xFE;
+                *((unsigned char *)&g_playerPlaneFlags) &= 0xFE;
             }
 
-            if (word_3BEBE == word_380CE)
+            if (word_3BEBE == g_viewZ)
             {
-                word_380E0 = 0;
+                g_setThrust = 0;
                 word_3C00E = 0;
-                planeFlags |= 8;
+                g_playerPlaneFlags |= 8;
                 word_3C5A4 = 0;
             }
         }
     }
     if (gameData->unk4 != 0) {
-        ae = ((int32)word_3AA5A * (1000 - word_380CE)) >> 15;
+        ae = ((int32)g_knots * (1000 - g_viewZ)) >> 15;
     } else {
         ae = 0;
     }
     
-    if (!((planeFlags) & 1)) {
-        ae += clampRange((word_3AA5A - 200) >> 5, 0, 32);
+    if (!((g_playerPlaneFlags) & 1)) {
+        ae += clampRange((g_knots - 200) >> 5, 0, 32);
     }
     
-    if (ae > 0 && ((uint16)word_3BEBE) < ((uint16)word_380CE)) {
+    if (ae > 0 && ((uint16)word_3BEBE) < ((uint16)g_viewZ)) {
         word_3C00E += randomRange(ae) - (ae >> 1);
         word_3C5A4 += (randomRange(ae) - (ae >> 1)) >> 1;
     }
     
-    if ((planeFlags & 1) && word_3C5A4 <= 0 && ((uint16)word_3A8FE) < ((uint16)word_3A944) && gameData->unk4 < 2 && abs(word_380CC) < 0x3000 && word_38FE8 == 0) {
-        d = ((((word_38FC4) - (word_380CA)) >> 2) - word_380CE + 300) >> 2;
+    if ((g_playerPlaneFlags & 1) && word_3C5A4 <= 0 && ((uint16)word_3A8FE) < ((uint16)g_velocity) && gameData->unk4 < 2 && abs(g_ourRoll) < 0x3000 && word_38FE8 == 0) {
+        d = ((((word_38FC4) - (g_ourPitch)) >> 2) - g_viewZ + 300) >> 2;
         if (d > 0) {
             word_3C5A4 = clampRange(d, 0, 32);
         }
@@ -327,13 +327,13 @@ switch_break:
     if (word_3BE3C != 0) {
         word_3C00E = 0x40;
 
-        word_3C5A4 = (abs(word_380CC) > 0x4000) ? 0x10 : -8; // pitch_input_modifier
+        word_3C5A4 = (abs(g_ourRoll) > 0x4000) ? 0x10 : -8; // pitch_input_modifier
         
         //word_3BE3C++;
         word_3C040 += clampRange(
             - (++word_3BE3C - 0x20),
-            (int16)0xFF00 / word_330C4,
-            (int16)0x80 / word_330C4
+            (int16)0xFF00 / g_frameRateScaling,
+            (int16)0x80 / g_frameRateScaling
         );
         //word_3C040 += stall_decay_effect;
 
@@ -344,17 +344,17 @@ switch_break:
             }
         }
 
-        if (word_380CE == 0 && word_336F6 == -1) {
+        if (g_viewZ == 0 && word_336F6 == -1) {
             word_336F6 = 0;
-            stru_3AA5E[0].mapX = word_3BEC0;
-            stru_3AA5E[0].mapY = word_3BED0;
-            word_3BEBC = word_3BEC0;
-            word_3BEC8 = word_3BED0;
+            g_planes[0].mapX = g_viewX_;
+            g_planes[0].mapY = g_viewY_;
+            word_3BEBC = g_viewX_;
+            word_3BEC8 = g_viewY_;
             word_3BECE = 0;
             word_39606 = -8;
             makeSound(2, 2);
-            word_3A944 = 
-            word_380E0 = 0;
+            g_velocity = 
+            g_setThrust = 0;
         }
 
         if ((word_3BE3C & 0xFFFC) == 0x10 && (frameTick & 3) == 1) {
@@ -362,130 +362,130 @@ switch_break:
 
             l = ((uint16)frameTick / 2) & 7;
 
-            ((struct struc_9*)stru_33402)[l].field_0 = word_3BEC0;
-            ((struct struc_9*)stru_33402)[l].field_2 = word_3BED0;
-            ((struct struc_9*)stru_33402)[l].field_4 = word_380CE;
+            ((struct struc_9*)stru_33402)[l].field_0 = g_viewX_;
+            ((struct struc_9*)stru_33402)[l].field_2 = g_viewY_;
+            ((struct struc_9*)stru_33402)[l].field_4 = g_viewZ;
 
             ((struct struc_9*)stru_33402)[l].field_6 = randomRange(0x20) << 11;
 
             word_33442 = l;
-            word_3BEBC = word_3BEC0;
-            word_3BEC8 = word_3BED0;
-            word_3BECE = word_380CE;
+            word_3BEBC = g_viewX_;
+            word_3BEC8 = g_viewY_;
+            word_3BECE = g_viewZ;
             word_39606 = -8;
             makeSound(0, 2);
 
-            word_380CA = -0x4000;
+            g_ourPitch = -0x4000;
             byte_380DD = 1;
         }
     }
     
-    if (word_3BF90 != 0) {
-        if (word_380E0 > -((word_3BF90 * 4) - 0x90)) {
-            word_380E0 = -((word_3BF90 * 4) - 0x90);
-            if (word_380E0 < 0)
-                word_380E0 = 0;
-            sub_15FDB();
+    if (g_gunHits != 0) {
+        if (g_setThrust > -((g_gunHits * 4) - 0x90)) {
+            g_setThrust = -((g_gunHits * 4) - 0x90);
+            if (g_setThrust < 0)
+                g_setThrust = 0;
+            UpdateThrottleState();
         }
     }
     
-    word_3AFA6 += ((word_380E0 - word_3AFA6) / 4) / ((int16)word_330C4);
-    if (word_380E0 > word_3AFA6) word_3AFA6++;
-    if (word_380E0 < word_3AFA6) word_3AFA6 = word_380E0;
+    g_thrust += ((g_setThrust - g_thrust) / 4) / ((int16)g_frameRateScaling);
+    if (g_setThrust > g_thrust) g_thrust++;
+    if (g_setThrust < g_thrust) g_thrust = g_setThrust;
 
-    if ((((uint16)frameTick) % ((uint16)(word_330C4 << 1))) == 0 && word_380E0 != 0 && word_336EA == 0) {
-        word_33098 -= ((word_380E0 * word_380E0) / 750) + 2;
+    if ((((uint16)frameTick) % ((uint16)(g_frameRateScaling << 1))) == 0 && g_setThrust != 0 && word_336EA == 0) {
+        word_33098 -= ((g_setThrust * g_setThrust) / 750) + 2;
         drawFuelGauge();
     }
     
     if (word_33098 <= 0) {
-        word_3AFA6 = 0;
+        g_thrust = 0;
         word_33098 = 0;
     }
 
-    word_38FDA = byte_37FEC[(abs(word_380CC) >> 8) & 0x7f];
-    if (((uint16)word_3BEBE) < ((uint16)word_380CE)) {
-        word_38FDA += word_3C5A4 / 2;
+    g_gees = byte_37FEC[(abs(g_ourRoll) >> 8) & 0x7f];
+    if (((uint16)word_3BEBE) < ((uint16)g_viewZ)) {
+        g_gees += word_3C5A4 / 2;
     }
     
-    if (word_38FDA > 0x80) {
-        word_38FDA = 0x80;
-        word_3C5A4 = clampRange(0x80 - byte_37FEC[(abs(word_380CC) >> 8) & 0x7f], 0, word_3C5A4);
+    if (g_gees > 0x80) {
+        g_gees = 0x80;
+        word_3C5A4 = clampRange(0x80 - byte_37FEC[(abs(g_ourRoll) >> 8) & 0x7f], 0, word_3C5A4);
     }
     
     
-    strcpy(unk_38FD0, itoa(word_38FDA / 16, strBuf, 10));
+    strcpy(unk_38FD0, itoa(g_gees / 16, strBuf, 10));
     strcat(unk_38FD0, ".");
     
-    strcat(unk_38FD0, itoa((abs(word_38FDA) & 0xF) >> 1, strBuf, 10));
+    strcat(unk_38FD0, itoa((abs(g_gees) & 0xF) >> 1, strBuf, 10));
     strcat(unk_38FD0, "G");
 
-    j = ((long)(word_3AFA6 - sinMul(word_380CA, 80)) * 800L) / 100L;
+    j = ((long)(g_thrust - sinMul(g_ourPitch, 80)) * 800L) / 100L;
     
     word_3C5A6 = 100;
-    j = ((((uint16)word_380CE >> 7) + 0x0400) * (int32)(j & j)) >> 10; // j & j folds to a plain load but ranks the operand "heavy", so the shift-expr is evaluated/pushed first like the ref
+    j = ((((uint16)g_viewZ >> 7) + 0x0400) * (int32)(j & j)) >> 10; // j & j folds to a plain load but ranks the operand "heavy", so the shift-expr is evaluated/pushed first like the ref
 
     word_3C5A6 = ((int32)100 * (uint32)((word_380D0 >> 6) + 0x0400)) >> 10;
     
     j = ((int32)j) * ((int32)(-((word_33098 >> 9) - 100))) / (int32)90;
     
-    j = (((int32)j) * ((int32)(128 - word_38FDA))) >> 7;
+    j = (((int32)j) * ((int32)(128 - g_gees))) >> 7;
     
-    word_3C5A6 = ((int32)isqrt(word_38FDA * 4) * (int32)word_3C5A6) >> 3;
+    word_3C5A6 = ((int32)isqrt(g_gees * 4) * (int32)word_3C5A6) >> 3;
     word_3C5A6 = abs(word_3C5A6);
 
-    if (!(*((unsigned char*)&planeFlags) & 1)) {
+    if (!(*((unsigned char*)&g_playerPlaneFlags) & 1)) {
         j -= j >> 3;
     }
     
     word_3A8FE = word_3C5A6 * 27;
     e = clampRange(j, 0, 899) * 27;
     
-    word_3A944 += ((((int32)e - word_3A944) / 16) / (int32)word_330C4);
+    g_velocity += ((((int32)e - g_velocity) / 16) / (int32)g_frameRateScaling);
     
-    word_3B4DA = ((int32)word_3A8FE * 3072) / (abs(word_3A944) + 1);
+    word_3B4DA = ((int32)word_3A8FE * 3072) / (abs(g_velocity) + 1);
     if ((uint16)word_3B4DA > 0x2000) word_3B4DA = 0x2000;
     
-    word_38FC4 = cosMul(word_380CC, word_3B4DA - 0x300);
+    word_38FC4 = cosMul(g_ourRoll, word_3B4DA - 0x300);
     
-    if (*((unsigned char*)&planeFlags) & 8) {
-        if (word_3BEBE == word_380CE) {
-            word_3A944 -= (-((gameData->unk4 * 8) - 32) * 27) / word_330C4;
-            if (word_3BEBE != 0 && (uint16)word_3A944 < 0x1B0) {
-                 word_3A944 = 0;
+    if (*((unsigned char*)&g_playerPlaneFlags) & 8) {
+        if (word_3BEBE == g_viewZ) {
+            g_velocity -= (-((gameData->unk4 * 8) - 32) * 27) / g_frameRateScaling;
+            if (word_3BEBE != 0 && (uint16)g_velocity < 0x1B0) {
+                 g_velocity = 0;
             }
         } else {
-             word_3A944 -= ((uint16)word_3A944 >> 4) / word_330C4;
+             g_velocity -= ((uint16)g_velocity >> 4) / g_frameRateScaling;
         }
     }
     
-    if ((uint16)word_3A944 > 0xAFC8) word_3A944 = 0;
+    if ((uint16)g_velocity > 0xAFC8) g_velocity = 0;
     
-    v = cosMul(word_380CA, word_3A944);
-    word_3AA5A = (uint16)word_3A944 / 27;
+    v = cosMul(g_ourPitch, g_velocity);
+    g_knots = (uint16)g_velocity / 27;
     
-    audio_jump_6a(word_3AA5A, word_3AFA6);
+    audio_jump_6a(g_knots, g_thrust);
     
-    ac = (((int32)sinMul(word_380CC, word_38FDA << 4)) << 7) / ((int32)((int16)((uint16)word_3A944 >> 9) + 0x20));
+    ac = (((int32)sinMul(g_ourRoll, g_gees << 4)) << 7) / ((int32)((int16)((uint16)g_velocity >> 9) + 0x20));
 
-    ac = cosMul(word_380CA, ac);
+    ac = cosMul(g_ourPitch, ac);
     
-    if (word_3BEBE == word_380CE) {
+    if (word_3BEBE == g_viewZ) {
         ac = (word_3C00E * -1) << 6;
         word_3C00E = 0;
-        if (word_3AA5A < word_3C5A6) {
+        if (g_knots < word_3C5A6) {
             word_3C5A4 = 0;
         }
     }
     
     if (word_38FDE != 0) {
-        word_3C5A4 = -0x400 - word_380CA;
+        word_3C5A4 = -0x400 - g_ourPitch;
         // (ref stores velocity then setThrust; chains store right-to-left)
-        word_380E0 =
-        word_3A944 = 0;
+        g_setThrust =
+        g_velocity = 0;
     }
     
-    g = (((int32)word_3C00E) << 7) / ((int32)word_330C4);
+    g = (((int32)word_3C00E) << 7) / ((int32)g_frameRateScaling);
     if (g != 0) {
         word_380AC = word_380A4 = cosine(g);
         word_380A6 = sine(g);
@@ -493,7 +493,7 @@ switch_break:
         applyRotationDelta(unk_3806E, &word_380A4);
     }
     
-    f = (int16)((int32)word_3C5A4 << 7) / word_330C4;
+    f = (int16)((int32)word_3C5A4 << 7) / g_frameRateScaling;
     if (f != 0) {
         word_380A2 = word_3809A = cosine(f);
         word_380A0 = sine(f);
@@ -501,7 +501,7 @@ switch_break:
         applyRotationDelta(unk_3806E, unk_38092);
     }
     
-    t = (int16)ac / word_330C4;
+    t = (int16)ac / g_frameRateScaling;
     if (t != 0) {
         word_38090 = word_38080 = cosine(t);
         word_38084 = sine(t);
@@ -511,22 +511,22 @@ switch_break:
     
     computeHudAttitude();
 
-    if ((uint16)word_3A8FE > (uint16)word_3A944 && (uint16)word_3BEBE < (uint16)word_380CE) {
-        word_380CA -= ((uint16)word_3A8FE - (uint16)word_3A944) >> ((gameData->unk4 == 2 || word_3BF90 > 8) ? 1 : 2);
+    if ((uint16)word_3A8FE > (uint16)g_velocity && (uint16)word_3BEBE < (uint16)g_viewZ) {
+        g_ourPitch -= ((uint16)word_3A8FE - (uint16)g_velocity) >> ((gameData->unk4 == 2 || g_gunHits > 8) ? 1 : 2);
         byte_380DD = 1;
-        if (word_380CA < 0 || (uint16)word_380CE < 200) {
+        if (g_ourPitch < 0 || (uint16)g_viewZ < 200) {
             makeSound(0x14, 1);
         }
     }
 
-    if (word_3BEBE == word_380CE) {
-        if (word_380CC != 0) {
-            word_380CC = 0;
+    if (word_3BEBE == g_viewZ) {
+        if (g_ourRoll != 0) {
+            g_ourRoll = 0;
             byte_380DD = 1;
         }
-        if (word_380CA < 0 || (word_380CA > 0 && word_3AA5A < word_3C5A6)) {
+        if (g_ourPitch < 0 || (g_ourPitch > 0 && g_knots < word_3C5A6)) {
             if (word_38FDE == 0) {
-                word_380CA = 0;
+                g_ourPitch = 0;
             }
             byte_380DD = 1;
         }
@@ -534,21 +534,21 @@ switch_break:
 
     word_38FDE = 0;
 
-    byte_3C6A0[0] = ( (abs(word_380CA)) - (abs(word_380CC) / 2) > 0x1000) ? 1 : 0;
+    byte_3C6A0[0] = ( (abs(g_ourPitch)) - (abs(g_ourRoll) / 2) > 0x1000) ? 1 : 0;
     
     if (byte_380DD) {
         rebuildOrientation();
     }
     
     b = word_380D0;
-    word_3C8B6 = fixedMulQ14((((uint16)word_3A944) / 10), sine(word_380CA - word_38FC4));
+    word_3C8B6 = fixedMulQ14((((uint16)g_velocity) / 10), sine(g_ourPitch - word_38FC4));
 
     if (word_33712 == 0) {
-        word_380D0 += (word_3C8B6 / word_330C4);
+        word_380D0 += (word_3C8B6 / g_frameRateScaling);
         
-        dword_3B7DA += fixedMulQ14(v, sine(word_380C8)) / 10 / word_330C4;
+        g_ViewX += fixedMulQ14(v, sine(g_ourHead)) / 10 / g_frameRateScaling;
 
-        dword_3B7F8 += fixedMulQ14(v, cosine(word_380C8)) / 10 / word_330C4;
+        g_ViewY += fixedMulQ14(v, cosine(g_ourHead)) / 10 / g_frameRateScaling;
     }
     
     if ((uint16)word_380D0 > 0xf230 || (uint16)word_380D0 < (uint16)word_3BEBE) {
@@ -557,23 +557,23 @@ switch_break:
     if (word_380D0 > 0xEA60) word_380D0 = 0xEA60;
     
     if (word_380D0 < 0x2000) {
-        word_380CE = word_380D0;
+        g_viewZ = word_380D0;
     } else if (word_380D0 < 0x4000) {
-        word_380CE = ((word_380D0 - 0x2000) >> 1) + 0x2000;
+        g_viewZ = ((word_380D0 - 0x2000) >> 1) + 0x2000;
     } else {
-        word_380CE = ((word_380D0 - 0x4000) >> 2) + 0x3000;
+        g_viewZ = ((word_380D0 - 0x4000) >> 2) + 0x3000;
     }
 
-    if (word_3BEBE == word_380CE) {
+    if (word_3BEBE == g_viewZ) {
         if (b > word_3BEBE && word_33702 != 0) {
             makeSound(0xC, 2);
-            //temp_bx = word_3C16A << 4;
+            //temp_bx = g_closestThreatIndex << 4;
 
-            if ((( ((stru_3AA5E[word_3C16A].flags & 0x200) ? 0x100 : 0x80) 
-                < ((int16)(-word_3C8B6 * word_330B8) / 2))) || 
+            if ((( ((g_planes[g_closestThreatIndex].flags & 0x200) ? 0x100 : 0x80) 
+                < ((int16)(-word_3C8B6 * g_missionStatus) / 2))) || 
                 ((gameData->unk4 != 0 && 
-                    (((planeFlags & 1)!=0) || 
-                        (((int16)abs(word_380CC)) > (int16)((0x30 / (word_330B8 + 1)) << 8))) ))) {
+                    (((g_playerPlaneFlags & 1)!=0) || 
+                        (((int16)abs(g_ourRoll)) > (int16)((0x30 / (g_missionStatus + 1)) << 8))) ))) {
                             makeSound(0, 2);
                             waitFrameSync(0x3C);
                             finalizeMission(5);
@@ -583,30 +583,30 @@ switch_break:
     }
     
     l = frameTick & 0xF;
-    stru_3A95A[l].heading = word_380C8;
-    stru_3A95A[l].pitch = word_380CA;
-    stru_3A95A[l].roll = word_380CC;
-    *(int32*)&stru_3A95A[l].worldX = dword_3B7DA;
-    *(int32*)&stru_3A95A[l].worldY = dword_3B7F8;
-    stru_3A95A[l].alt = word_380CE;
+    stru_3A95A[l].heading = g_ourHead;
+    stru_3A95A[l].pitch = g_ourPitch;
+    stru_3A95A[l].roll = g_ourRoll;
+    *(int32*)&stru_3A95A[l].worldX = g_ViewX;
+    *(int32*)&stru_3A95A[l].worldY = g_ViewY;
+    stru_3A95A[l].alt = g_viewZ;
 
-    if (word_3C45C == 1) {
+    if (g_currentWeaponType == 1) {
         if (word_336F2 >= 0) {
             // TODO struct
-            l = clampRange((rangeApprox(word_3BEC0 - (&word_3B204)[word_336F2 * 0x12], word_3BED0 - (&word_3B206)[word_336F2 * 0x12]) * word_330C4) >> 8, 0, 12);
+            l = clampRange((rangeApprox(g_viewX_ - (&word_3B204)[word_336F2 * 0x12], g_viewY_ - (&word_3B206)[word_336F2 * 0x12]) * g_frameRateScaling) >> 8, 0, 12);
 
         } else {
-            l = word_330C4 - 1;
+            l = g_frameRateScaling - 1;
         }
 
         l = (frameTick - l) & 0xF;
         
-        x = word_380C8 - stru_3A95A[l].heading;
-        d = word_380CA - stru_3A95A[l].pitch;
+        x = g_ourHead - stru_3A95A[l].heading;
+        d = g_ourPitch - stru_3A95A[l].pitch;
  
-        word_3C6A4 = cosMul(word_380CC, ((-x) >> 2)) + sinMul(word_380CC, (d >> 2));
+        word_3C6A4 = cosMul(g_ourRoll, ((-x) >> 2)) + sinMul(g_ourRoll, (d >> 2));
 
-        word_3C6AC = sinMul(word_380CC, (x >> 2)) + cosMul(word_380CC, (d >> 1));
+        word_3C6AC = sinMul(g_ourRoll, (x >> 2)) + cosMul(g_ourRoll, (d >> 1));
     }
 
 }
@@ -751,38 +751,38 @@ int isqrt(int value) {
 void renderFrame() {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E;
     TRACE(("renderFrame: enter"));
-    dword_3B1FE = dword_3C01C = dword_3B7DA;
-    dword_3B4D4 = dword_3B7F8;
-    dword_3C024 = 0x100000 - dword_3B7F8;
+    dword_3B1FE = dword_3C01C = g_ViewX;
+    dword_3B4D4 = g_ViewY;
+    dword_3C024 = 0x100000 - g_ViewY;
     TRACE(("renderFrame: past assigns"));
-    word_3B4DE = word_380CE + 0x18;
-    word_3C02C = word_380CE;
+    word_3B4DE = g_viewZ + 0x18;
+    word_3C02C = g_viewZ;
     var_2 = word_336FE = clampRange(word_336FE, 2, 8);
     TRACE(("renderFrame: past clamp, keyValue=%d", keyValue));
     switch(keyValue) {
     case 0:
     case 0x44:
-        word_3C5AA = word_380C8;
-        word_3BE94 = word_380CA;
-        word_3B4E4 = word_380CC;
+        word_3C5AA = g_ourHead;
+        word_3BE94 = g_ourPitch;
+        word_3B4E4 = g_ourRoll;
         break;
     case 0x41:
-        word_3C5AA = word_380C8 + 0x8000;
-        word_3BE94 = -word_380CA;
-        word_3B4E4 = -word_380CC;
+        word_3C5AA = g_ourHead + 0x8000;
+        word_3BE94 = -g_ourPitch;
+        word_3B4E4 = -g_ourRoll;
         break;
     case 0x43:
-        word_3C5AA = word_380C8 + 0x4000;
-        word_3BE94 = -word_380CC;
-        word_3B4E4 = word_380CA;
+        word_3C5AA = g_ourHead + 0x4000;
+        word_3BE94 = -g_ourRoll;
+        word_3B4E4 = g_ourPitch;
         break;
     case 0x42:
-        word_3C5AA = word_380C8 - 0x4000;
-        word_3BE94 = word_380CC;
-        word_3B4E4 = -word_380CA;
+        word_3C5AA = g_ourHead - 0x4000;
+        word_3BE94 = g_ourRoll;
+        word_3B4E4 = -g_ourPitch;
         break;
     case 0x84:
-        var_E = (frameTick - ((word_330C4  + 1) / 2) - 1) & 0xf;
+        var_E = (frameTick - ((g_frameRateScaling  + 1) / 2) - 1) & 0xf;
         word_3C5AA = stru_3A95A[var_E].heading;
         word_3BE94 = stru_3A95A[var_E].pitch;
         word_3B4E4 = stru_3A95A[var_E].roll;
@@ -791,31 +791,31 @@ void renderFrame() {
         word_3B4DE = stru_3A95A[var_E].alt;
         break;
     case 0x85:
-        word_3C5AA = word_380C8 - 0x4000;
+        word_3C5AA = g_ourHead - 0x4000;
         word_3BE94 = 0;
         word_3B4E4 = 0;
-        dword_3B1FE = sinMul(word_380C8 + 0x4000, 0x18 << var_2) + dword_3B7DA;
-        dword_3B4D4 = cosMul(word_380C8 + 0x4000, 0x18 << var_2) + dword_3B7F8;
+        dword_3B1FE = sinMul(g_ourHead + 0x4000, 0x18 << var_2) + g_ViewX;
+        dword_3B4D4 = cosMul(g_ourHead + 0x4000, 0x18 << var_2) + g_ViewY;
         break;
     case 0x86:
         word_3C5AA = 0x8000;
         word_3BE94 = 0;
         word_3B4E4 = 0;
-        dword_3B4D4 = (0x18 << var_2) + dword_3B7F8;
+        dword_3B4D4 = (0x18 << var_2) + g_ViewY;
         break;
     case 0x87:
-        word_3C5AA = word_380C8;
+        word_3C5AA = g_ourHead;
         word_3BE94 = 0;
         word_3B4E4 = 0;
-        dword_3B1FE = sinMul(word_380C8 + 0x8000, 0x18 << var_2) + dword_3B7DA;
-        dword_3B4D4 = cosMul(word_380C8 + 0x8000, 0x18 << var_2) + dword_3B7F8;
-        word_3B4DE = (4 << var_2) + word_380CE;
+        dword_3B1FE = sinMul(g_ourHead + 0x8000, 0x18 << var_2) + g_ViewX;
+        dword_3B4D4 = cosMul(g_ourHead + 0x8000, 0x18 << var_2) + g_ViewY;
+        word_3B4DE = (4 << var_2) + g_viewZ;
         break;
     case 0x88:
     case 0x89:
     case 0x8b:
         if (keyValue != 0x89) {
-            if (word_3C45C == 1) {
+            if (g_currentWeaponType == 1) {
                 // XXX: test byte ptr word_336F2, 80h -> check which byte is tested, other byte ptr instructions in this routine
                 if (!(word_336F2 & 0x80)) word_3C02E = word_336F2 + 0x20;
             }
@@ -835,8 +835,8 @@ void renderFrame() {
                     word_3C02C = stru_335C4[word_3C02E].alt;
                 }
                 else {
-                    stru_335C4[word_3C02E].worldX = word_380C8;
-                    stru_335C4[word_3C02E].worldY = word_380CA;
+                    stru_335C4[word_3C02E].worldX = g_ourHead;
+                    stru_335C4[word_3C02E].worldY = g_ourPitch;
                     if (word_3370E != 0) keyValue = 0x87;
                 }
                 var_2 = 5;
@@ -850,32 +850,32 @@ void renderFrame() {
             }
         }
         else {
-            dword_3C01C = (uint32)stru_3AA5E[word_3C02E & 0x3f].mapX << 5;
-            dword_3C024 = (uint32)stru_3AA5E[word_3C02E & 0x3f].mapY << 5;
-            word_3C02C = stru_3AA5E[word_3C02E & 0x3f].flags & 0x200 ? 0xc8 : 0x32;
+            dword_3C01C = (uint32)g_planes[word_3C02E & 0x3f].mapX << 5;
+            dword_3C024 = (uint32)g_planes[word_3C02E & 0x3f].mapY << 5;
+            word_3C02C = g_planes[word_3C02E & 0x3f].flags & 0x200 ? 0xc8 : 0x32;
             var_2 = 7;
             if (word_336EA != 0 && word_3370C == -1) var_2 = 6;
         }
         if (word_3370E == 0) var_2 = var_4;
-        var_A = (dword_3C01C >> 5) - word_3BEC0;
-        var_C = (dword_3C024 >> 5) - word_3BED0;
+        var_A = (dword_3C01C >> 5) - g_viewX_;
+        var_C = (dword_3C024 >> 5) - g_viewY_;
         var_6 = rangeApprox(var_A, var_C);
         word_3C5AA = computeBearing(var_A, -var_C);
-        word_3BE94 = -computeBearing((word_3C02C - word_380CE) >> 5, var_6);
+        word_3BE94 = -computeBearing((word_3C02C - g_viewZ) >> 5, var_6);
         word_3B4E4 = 0;
         var_8 = cosMul(word_3BE94, 0x18 << var_2);
         if (word_3C02E & 0x60 || word_3370E != 0) {
             if (keyValue == 0x88) {
-                dword_3B1FE = sinMul(word_3C5AA + 0x8000, var_8) + dword_3B7DA;
-                dword_3B4D4 = cosMul(word_3C5AA + 0x8000, var_8) + dword_3B7F8;
-                word_3B4DE = sinMul(word_3BE94, 0x18 << var_2) + (4 << var_2) + word_380CE;
+                dword_3B1FE = sinMul(word_3C5AA + 0x8000, var_8) + g_ViewX;
+                dword_3B4D4 = cosMul(word_3C5AA + 0x8000, var_8) + g_ViewY;
+                word_3B4DE = sinMul(word_3BE94, 0x18 << var_2) + (4 << var_2) + g_viewZ;
                 word_3BE94 = -word_3BE94;
             }
             else {
                 dword_3B1FE = sinMul(word_3C5AA, var_8) + dword_3C01C;
                 dword_3B4D4 = cosMul(word_3C5AA, var_8) - dword_3C024 + 0x100000;
                 word_3B4DE = (4 << var_2) - sinMul(word_3BE94, 0x18 << var_2) + word_3C02C;
-                if (word_3C02E & 0x40 && stru_3AA5E[word_3C02E & 0x3f].flags & 0x200 && word_3B4DE < 0x84) {
+                if (word_3C02E & 0x40 && g_planes[word_3C02E & 0x3f].flags & 0x200 && word_3B4DE < 0x84) {
                     word_3B4DE = 0x84;
                 }
                 word_3C5AA += 0x8000;
@@ -919,11 +919,11 @@ void renderFrame() {
             // the pointer arguments are probably rastports, RectCopy?
             gfx_copyRect(*off_38364, 0, 0x61, *off_38334, 0, 0x61, 0x140, 0x67);
             gfx_copyRect(*off_38364, 0, 0x61, *off_3834C, 0, 0x61, 0x140, 0x67);
-            sub_15FDB();
+            UpdateThrottleState();
             drawWeaponAmmo();
             drawWeaponSelectMarker(missileSpecIndex);
             if (word_3C09A == 0) {
-                redrawTacMap(word_3BEC0, word_3BED0);
+                redrawTacMap(g_viewX_, g_viewY_);
             }
             word_336F4 = word_336F2 = 0xffff;
             fillPanelBox(3, 3);
@@ -995,7 +995,7 @@ void renderFrame() {
     TRACE(("renderFrame: exit"));
 }
 
-void sub_15FDB(void) {
+void UpdateThrottleState(void) {
     if (word_330C2 != 0) {
         setDrawColor(0);
 #ifdef BUGFIX

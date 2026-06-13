@@ -40,8 +40,8 @@ void drawTacticalMap(char page)
         j = (1 << (2 - (unsigned char)var_588)) + 1;
     }
     i = 1 - j;
-    e = word_3BEC0 & 0xf800;
-    g = word_3BED0 & 0xf800;
+    e = g_viewX_ & 0xf800;
+    g = g_viewY_ & 0xf800;
     f = i * 2;
     while (j * 2 >= f) {
         projectMapPoint(f * 0x400 + e, g + 0x1c00);
@@ -64,7 +64,7 @@ void drawTacticalMap(char page)
         if ((stru_3B202[f].state[8] & 2) && *(int16 *)&stru_3B202[f].state[10] != 0) {
             projectMapPoint(stru_3B202[f].posX, stru_3B202[f].posY);
             if (word_3C016 != -1) {
-                if (word_3C45C == 1 && f == word_336F2) {
+                if (g_currentWeaponType == 1 && f == word_336F2) {
                     drawMapMarkerBox(var_279, var_282, 7);
                 }
                 if (word_336F8 > 0 && f == 0xffff - word_3BE96) {
@@ -107,20 +107,20 @@ void drawTacticalMap(char page)
         }
     }
     for (f = 0; f < word_3BED2; f++) {
-        if (!(stru_3AA5E[f].flags & 0x80)) {
-            projectMapPoint(stru_3AA5E[f].mapX, stru_3AA5E[f].mapY);
+        if (!(g_planes[f].flags & 0x80)) {
+            projectMapPoint(g_planes[f].mapX, g_planes[f].mapY);
             if (word_3C016 != -1) {
-                if (word_3C45C == 2 && f == word_336F4) {
+                if (g_currentWeaponType == 2 && f == word_336F4) {
                     drawMapMarkerBox(var_279, var_282, 7);
                 }
                 a = 5;
-                if (stru_3AA5E[f].flags & 0x201) {
+                if (g_planes[f].flags & 0x201) {
                     a = (((-var_542 + 0x1000) >> 13) & 3) + 8;
                 }
-                if (stru_3AA5E[f].field_4 != 0) {
+                if (g_planes[f].field_4 != 0) {
                     a = 1;
                 }
-                if (stru_3AA5E[f].flags & 8) {
+                if (g_planes[f].flags & 8) {
                     a = 7;
                 }
                 if (f == word_3B146 || f == word_3B158) {
@@ -130,7 +130,7 @@ void drawTacticalMap(char page)
             }
         }
     }
-    projectMapPoint(word_3BEC0, word_3BED0);
+    projectMapPoint(g_viewX_, g_viewY_);
     if (word_3C016 != -1) {
         blitGaugeSprite(0, 3, var_279, var_282);
     }
@@ -168,8 +168,8 @@ void projectMapPoint(int mapX, int mapY) {
     char b;
     word_3C016 = 0;
     b = 7 - (char)var_588;
-    p = (mapX - word_3BEC0) >> b;
-    a = (word_3BED0 - mapY) >> b;
+    p = (mapX - g_viewX_) >> b;
+    a = (g_viewY_ - mapY) >> b;
     var_279 = cosMul(var_542, p) - sinMul(var_542, a);
     var_282 = cosMul(var_542, a) + sinMul(var_542, p);
     var_279 += 0xa0;

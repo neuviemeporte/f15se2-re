@@ -347,7 +347,7 @@ void setup3DTransform(char *model, int angleX, int angleY, int angleZ, int posX,
         drawProjectionSphere(*(int *)(model + 4));
     }
     var_255 = 0;
-    var_261 -= 0x3000 / word_330C4;
+    var_261 -= 0x3000 / g_frameRateScaling;
 }
 
 // ==== seg000:0x3a6c ====

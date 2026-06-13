@@ -60,11 +60,11 @@ int keyDispatch(uint16 scanCode)
         break;
     case 0x266c:
         if (var_547 != word_3BEBE) {
-            *(char *)&planeFlags ^= 1;
+            *(char *)&g_playerPlaneFlags ^= 1;
             word_336EC = 0;
             makeSound(0x20, 2);
         }
-        if (!(*(char *)&planeFlags & 1)) {
+        if (!(*(char *)&g_playerPlaneFlags & 1)) {
             sub_1DB9C();
         }
         break;
@@ -99,7 +99,7 @@ int keyDispatch(uint16 scanCode)
     case 0x1e00:
         if (word_3370A == 1) {
             word_3370A = 2;
-            word_330C4 = word_330C4 / 2;
+            g_frameRateScaling = g_frameRateScaling / 2;
             recalcTimeScale();
         } else {
             sub_1DB9C();
@@ -119,29 +119,29 @@ int keyDispatch(uint16 scanCode)
         break;
     case 0x1400:
         *(char *)&var_730 ^= 0x10;
-        if (planeFlags & 0x1000) {
+        if (g_playerPlaneFlags & 0x1000) {
             *((char far *)commData + 0x30) |= 1;
         }
         break;
     case 0x1f73:
         missileSpecIndex = 0;
-        if (word_3C45C != 1)
+        if (g_currentWeaponType != 1)
             word_39604 = 0;
-        word_3C45C = 1;
+        g_currentWeaponType = 1;
         selectMissile();
         break;
     case 0x326d:
         missileSpecIndex = 1;
-        word_3C45C = 1;
-        if (word_3C45C != 1)
+        g_currentWeaponType = 1;
+        if (g_currentWeaponType != 1)
             word_39604 = 0;
         selectMissile();
         break;
     case 0x2267:
         missileSpecIndex = 2;
-        if (word_3C45C != 2)
+        if (g_currentWeaponType != 2)
             word_39604 = 0;
-        word_3C45C = 2;
+        g_currentWeaponType = 2;
         selectMissile();
         break;
     case 0x2064:
@@ -169,16 +169,16 @@ int keyDispatch(uint16 scanCode)
             break;
         case 3:
             tempStrcpy((char *)aWaypointFriend);
-            word_3B15A = word_3C16A;
+            word_3B15A = g_closestThreatIndex;
             break;
         }
         break;
     case 0x1970:
-        if (word_330B6 != 0) {
-            word_330B6 = 0;
+        if (g_autopilotAltitude != 0) {
+            g_autopilotAltitude = 0;
             tempStrcpy((char *)aAutopilotOff);
         } else {
-            word_330B6 = var_547 < 1000 ? 1000 : var_547;
+            g_autopilotAltitude = var_547 < 1000 ? 1000 : var_547;
             tempStrcpy((char *)aAutopilotOn);
         }
         break;
@@ -228,36 +228,36 @@ int keyDispatch(uint16 scanCode)
         if (word_3BE3C == 0) {
             makeSound(2, 2);
             makeSound(0x22, 2);
-            if ((abs(var_545) >> 5) + (abs(var_544) >> 5) + word_3AA5A
+            if ((abs(var_545) >> 5) + (abs(var_544) >> 5) + g_knots
                     > randomRange(500) + 500) {
                 finalizeMission(6);
             } else {
                 *(int far *)((char far *)commData + 0x26) = 2;
             }
             word_3BE3C = 1;
-            word_3C028 = word_3BEC0;
-            word_3C03A = word_3BED0;
+            word_3C028 = g_viewX_;
+            word_3C03A = g_viewY_;
             word_3C040 = var_547 + 8;
         }
         break;
     }
 
-    if (planeFlags & 0x1000) {
+    if (g_playerPlaneFlags & 0x1000) {
         switch (scanCode) {
         case 0x1300:
             initWeaponLoadout();
             break;
         case 0x1f00:
-            dword_3B7F8 += 0x20000L >> byte_383E5;
+            g_ViewY += 0x20000L >> byte_383E5;
             break;
         case 0x2d00:
-            dword_3B7F8 -= 0x20000L >> byte_383E5;
+            g_ViewY -= 0x20000L >> byte_383E5;
             break;
         case 0x2c00:
-            dword_3B7DA -= 0x20000L >> byte_383E5;
+            g_ViewX -= 0x20000L >> byte_383E5;
             break;
         case 0x2e00:
-            dword_3B7DA += 0x20000L >> byte_383E5;
+            g_ViewX += 0x20000L >> byte_383E5;
             break;
         }
     }
@@ -275,10 +275,10 @@ end_dispatch:
         var_597 = 4;
     }
 
-    switchIndicatorColor(3, (*(char *)&planeFlags & 1) ? 4
-        : (word_3AA5A < 250 || (*(char *)&frameTick & 1)) ? 2 : 10);
+    switchIndicatorColor(3, (*(char *)&g_playerPlaneFlags & 1) ? 4
+        : (g_knots < 250 || (*(char *)&frameTick & 1)) ? 2 : 10);
 
-    switchIndicatorColor(2, (*(char *)&planeFlags & 8) ? 14
+    switchIndicatorColor(2, (*(char *)&g_playerPlaneFlags & 8) ? 14
         : *(char *)&gfxModeUnset != 0 ? 3 : 2);
 }
 
@@ -320,15 +320,15 @@ void sub_1DA8D(void) {
 
 // ==== seg000:0xdaae ====
 void recalcTimeScale(void) {
-    if (word_330C4 > 15) {
-        var_595 = clampRange((-(120 / word_330C4 - 9)) >> 1, 1, 4);
+    if (g_frameRateScaling > 15) {
+        var_595 = clampRange((-(120 / g_frameRateScaling - 9)) >> 1, 1, 4);
     } else {
         var_595 = 0;
     }
-    word_330C4 = clampRange(word_330C4, 4 - word_3370A, 15);
-    word_3AFA4 = clampRange(word_330C4 << 1, 3, 16);
-    word_3B0AC = 250 * word_330C4;
-    word_3995C = 200 * word_330C4;
+    g_frameRateScaling = clampRange(g_frameRateScaling, 4 - word_3370A, 15);
+    word_3AFA4 = clampRange(g_frameRateScaling << 1, 3, 16);
+    word_3B0AC = 250 * g_frameRateScaling;
+    word_3995C = 200 * g_frameRateScaling;
 }
 
 // ==== seg000:0xdb2b ====
@@ -346,7 +346,7 @@ void setupLodDistances(void) {
 void sub_1DB9C() {
     if (word_3370A == 2) {
         word_3370A = 1;
-        word_330C4 <<= 1;
+        g_frameRateScaling <<= 1;
         recalcTimeScale();
     }
 }

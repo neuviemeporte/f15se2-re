@@ -98,7 +98,7 @@ valueToAngle: seg000 NEAR 54b7-553f R54b7-553f complete
 complementAngle: seg000 NEAR 5540-5556 R5540-5556 complete
 isqrt: seg000 NEAR 5557-55aa R5557-55aa complete
 renderFrame: seg000 NEAR 55ab-5fda R55ab-5c22 U5c23-5c32 R5c33-5fda complete
-sub_15FDB: seg000 NEAR 5fdb-606b R5fdb-606b complete
+UpdateThrottleState: seg000 NEAR 5fdb-606b R5fdb-606b complete
 drawFuelGauge: seg000 NEAR 606c-60d2 R606c-60d2 complete
 drawVectorShape: seg000 NEAR 60d3-613a R60d3-613a complete
 waitForKeyPress: seg000 NEAR 613b-6171 R613b-6171 complete
@@ -491,13 +491,13 @@ missileSpecIndex: Data1 VAR 07f2
 word_330B4: Data1 VAR 07f4
 missileSpecIndex: Data1 VAR 0802
 word_330B4: Data1 VAR 0804
-word_330B6: Data1 VAR 0806
-word_330B8: Data1 VAR 0808
+g_autopilotAltitude: Data1 VAR 0806
+g_missionStatus: Data1 VAR 0808
 word_330BA: Data1 VAR 080a
 word_330BC: Data1 VAR 080c
 word_330BE: Data1 VAR 080e
 word_330C2: Data1 VAR 0812
-word_330C4: Data1 VAR 0814
+g_frameRateScaling: Data1 VAR 0814
 var_82: Data1 VAR 082c
 var_83: Data1 VAR 0a1e
 word_333D2: Data1 VAR 0b22
@@ -958,12 +958,12 @@ var_538: Data1 VAR 57f4
 var_539: Data1 VAR 57f6
 var_540: Data1 VAR 57fa
 var_541: Data1 VAR 57fc
-word_380C8: Data1 VAR 5818
+g_ourHead: Data1 VAR 5818
 var_543: Data1 VAR 5819
-word_380CA: Data1 VAR 581a
-word_380CC: Data1 VAR 581c
-word_380C8: Data1 VAR 581d
-word_380CE: Data1 VAR 581e
+g_ourPitch: Data1 VAR 581a
+g_ourRoll: Data1 VAR 581c
+g_ourHead: Data1 VAR 581d
+g_viewZ: Data1 VAR 581e
 word_380D0: Data1 VAR 5820
 var_549: Data1 VAR 5828
 var_550: Data1 VAR 582a
@@ -1145,7 +1145,7 @@ word_38FFA: Data1 VAR 674a
 var_726: Data1 VAR 674c
 word_38FFC: Data1 VAR 674d
 buf4_3dg: Data1 VAR 674e
-planeFlags: Data1 VAR 694e
+g_playerPlaneFlags: Data1 VAR 694e
 var_730: Data1 VAR 694f
 var_731: Data1 VAR 6950
 word_39200: Data1 VAR 6951
@@ -1162,7 +1162,7 @@ val_3dt: Data1 VAR 70b4
 var_743: Data1 VAR 804e
 byte_3A900: Data1 VAR 8050
 word_3A940: Data1 VAR 8090
-word_3A944: Data1 VAR 8094
+g_velocity: Data1 VAR 8094
 var_747: Data1 VAR 8096
 unk_3A948: Data1 VAR 8098
 var_749: Data1 VAR 809e
@@ -1175,9 +1175,9 @@ var_755: Data1 VAR 80b2
 var_756: Data1 VAR 80b4
 var_757: Data1 VAR 80b6
 var_758: Data1 VAR 80b8
-word_3AA5A: Data1 VAR 81aa
+g_knots: Data1 VAR 81aa
 word_3AA5C: Data1 VAR 81ac
-stru_3AA5E: Data1 VAR 81ae
+g_planes: Data1 VAR 81ae
 var_762: Data1 VAR 81b0
 var_763: Data1 VAR 81b2
 var_764: Data1 VAR 81b4
@@ -1195,7 +1195,7 @@ word_3B0AC: Data1 VAR 87fc
 buf3d3_2: Data1 VAR 87fe
 word_3B144: Data1 VAR 8894
 word_3B146: Data1 VAR 8896
-word_3B148: Data1 VAR 8898
+g_playerTargetIndex: Data1 VAR 8898
 word_3B14A: Data1 VAR 889a
 word_3B14C: Data1 VAR 889c
 word_3B158: Data1 VAR 88a8
@@ -1252,7 +1252,7 @@ var_833: Data1 VAR 8c39
 var_834: Data1 VAR 8c3a
 byte_3B4EC: Data1 VAR 8c3c
 word_3B5D6: Data1 VAR 8d26
-dword_3B7DA: Data1 VAR 8f2a
+g_ViewX: Data1 VAR 8f2a
 var_838: Data1 VAR 8f2c
 var_839: Data1 VAR 8f2e
 word_3B7E0: Data1 VAR 8f30
@@ -1266,7 +1266,7 @@ byte_3B7EE: Data1 VAR 8f3e
 byte_3B7EF: Data1 VAR 8f3f
 byte_3B7F0: Data1 VAR 8f40
 byte_3B7F1: Data1 VAR 8f41
-dword_3B7F8: Data1 VAR 8f48
+g_ViewY: Data1 VAR 8f48
 var_852: Data1 VAR 8f4a
 byte_3B7FC: Data1 VAR 8f4c
 var_854: Data1 VAR 8f4e
@@ -1286,21 +1286,21 @@ word_3BE98: Data1 VAR 95e8
 var_868: Data1 VAR 95ec
 var_869: Data1 VAR 960c
 word_3BEBE: Data1 VAR 960e
-word_3BEC0: Data1 VAR 9610
+g_viewX_: Data1 VAR 9610
 word_3BEC2: Data1 VAR 9612
 byte_3BEC4: Data1 VAR 9614
 var_874: Data1 VAR 9618
 sign3d3: Data1 VAR 961a
 var_876: Data1 VAR 961c
 var_877: Data1 VAR 961e
-word_3BED0: Data1 VAR 9620
+g_viewY_: Data1 VAR 9620
 word_3BED2: Data1 VAR 9622
 word_3BED4: Data1 VAR 9624
 word_3BED6: Data1 VAR 9626
 byte_3BED8: Data1 VAR 9628
 var_883: Data1 VAR 968c
 var_884: Data1 VAR 968e
-word_3BF90: Data1 VAR 96e0
+g_gunHits: Data1 VAR 96e0
 regs: Data1 VAR 96e2
 byte_3BF93: Data1 VAR 96e3
 unk_3BF95: Data1 VAR 96e5
@@ -1340,10 +1340,10 @@ word_3C09E: Data1 VAR 97ee
 var_922: Data1 VAR 97f0
 word_3C0A2: Data1 VAR 97f2
 var_924: Data1 VAR 97f4
-word_3C16A: Data1 VAR 98ba
+g_closestThreatIndex: Data1 VAR 98ba
 word_3C16C: Data1 VAR 98bc
 byte_3C16E: Data1 VAR 98be
-word_3C45C: Data1 VAR 9bac
+g_currentWeaponType: Data1 VAR 9bac
 word_3C45E: Data1 VAR 9bae
 matrix3dt_2: Data1 VAR 9bb0
 byte_3C5A0: Data1 VAR 9cf0
