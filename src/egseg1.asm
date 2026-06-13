@@ -194,6 +194,7 @@ EXTRN word_3C69C:word
 EXTRN word_3C6A2:word
 EXTRN _byte_3419A:byte
 EXTRN _byte_3419C:byte
+EXTRN _flt15_buf2:byte
 
 PUBLIC drawPolygonOutline
 PUBLIC _drawPolygonOutline
@@ -1710,9 +1711,9 @@ loc_0B2A:
 loc_0B3E:
     SUB CX,BYTE PTR +0x2
     MOV DI,CX
-    ADD DI,324Ah
+    ADD DI, offset word_35AF8 + 2
     MOV SI,CX
-    ADD SI,3248h
+    ADD SI, offset word_35AF8
     SUB CX,BX
     JNG short loc_0B59
     SHR CX,1
@@ -2455,7 +2456,7 @@ loc_11D8:
     JZ short loc_11F5
     MOV CX,AX
     SUB DI,DI
-    ADD DI,328Eh
+    ADD DI, offset _flt15_buf2
 loc_11E8:
     CALL loc_1BA2
     JNZ short loc_11F6
@@ -3156,7 +3157,7 @@ loc_1808:
     SHL CX,1
     ADD BX,CX
     ADD BX,AX
-    ADD BX,328Eh
+    ADD BX, offset _flt15_buf2
     TEST BYTE PTR [BX+18h],80h
     JZ short loc_1828
     INC SI
@@ -3228,7 +3229,7 @@ loc_18AB:
     SHL CX,1
     ADD BX,CX
     ADD BX,AX
-    ADD BX,328Eh
+    ADD BX, offset _flt15_buf2
     TEST BYTE PTR [BX+18h],40h
     JZ short loc_1901
     MOV AX,[BX+10h]
@@ -3912,13 +3913,13 @@ loc_1EA0:
     SHL DI,1
     MOV BX,CX
     MOV DX,DI
-    ADD DI,4CB5h
+    ADD DI, offset unk_37565
     MOV AX,0FFFFh
     REP stosw
     MOV [word_378D9],AX
     MOV CX,BX
     MOV DI,DX
-    ADD DI,4E6Dh
+    ADD DI, offset unk_3771D
     SUB AX,AX
     REP stosw
     MOV [word_378DB],AX

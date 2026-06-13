@@ -935,6 +935,8 @@ PUBLIC word_3C020
 
 .DATA ;dseg segment para public 'DATA' use16
 
+_layout_pad_probe db 40h dup(0CCh)
+
 aRegn_xxx db 'regn.xxx',0
 aLb_xxx db 'lb.xxx',0
 aPg_xxx db 'pg.xxx',0

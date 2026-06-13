@@ -871,46 +871,6 @@ _fixedMulQ14:
     adc DX,0h
     mov AX,DX
     ret
-; fixedMulQ14Long: Q14 multiply of two stack args returning the full 32-bit
-; product shifted left 1 (DX:AX), i.e. without folding down to a single word.
-fixedMulQ14Long:
-    mov BX,SP
-    mov AX,word ptr SS:[BX + 2h]
-    imul word ptr SS:[BX + 4h]
-    shl AX,1h
-    rcl DX,1h
-    ret
-; fixedDivSat: signed fixed-point divide of stack args, saturating the result to
-; +/-7FFFh on overflow or divide-by-(<=0). Arg1 is treated as a Q-value scaled
-; into DX:AX (DL=hi byte, AH:AL split); arg2 is the divisor.
-fixedDivSat:
-    mov BX,SP
-    mov AX,word ptr SS:[BX + 2h]
-    cwd
-    mov DL,AH
-    mov AH,AL
-    sub AL,AL
-    mov BX,word ptr SS:[BX + 4h]
-    or BX,BX
-    jle short fixedDivSat_ovf
-    mov CX,DX
-    or CX,CX
-    jns short fixedDivSat_pos
-    neg CX
-fixedDivSat_pos:
-    shr BX,1h
-    cmp CX,BX
-    jnb short fixedDivSat_ovf
-    rcl BX,1h
-    idiv BX
-    ret
-fixedDivSat_ovf:
-    mov AX,7FFFh
-    or DX,DX
-    jns short fixedDivSat_ret
-    neg AX
-fixedDivSat_ret:
-    ret
 fixedMulQ14 endp
 ; ------------------------------seg000:0x3b44------------------------------
 ; ------------------------------seg000:0x3b86------------------------------
@@ -1650,7 +1610,7 @@ LAB_1000_7e48:
     mov AX,18h
     imul word ptr [BP + -1ch]
     mov SI,AX
-    add SI,0d1eh
+    add SI, offset _stru_335C4 + 0Ah
     cmp word ptr [SI],0h
     jle LAB_1000_7e74
     cmp word ptr [BP + -22h],1eh
@@ -1670,7 +1630,7 @@ LAB_1000_7e74:
     mov AX,18h
     imul word ptr [BP + -1ch]
     mov SI,AX
-    add SI,0d1eh
+    add SI, offset _stru_335C4 + 0Ah
     cmp word ptr [SI],0f800h
     jle LAB_1000_7e90
     mov word ptr [SI],0f800h
@@ -2349,7 +2309,7 @@ LAB_1000_8585:
     mov AX,18h
     imul word ptr [BP + -1ch]
     mov SI,AX
-    add SI,0d1ah
+    add SI, offset _stru_335C4 + 6
     mov AX,12h
     imul word ptr [BP + -12h]
     mov BX,AX
@@ -2718,28 +2678,6 @@ LAB_1000_dee5:
     pop DI
     mov SP,BP
     pop BP
-    ret
-; read512FromMemBuf: copy 512 bytes from the in-memory source far pointer
-; (word_3888E:word_38890) into picBuf, then advance the source offset by 512.
-; Hardcoded DGROUP offsets symbolized so data can be relocated (was raw db dump).
-read512FromMemBuf:
-    push ds
-    push es
-    push si
-    push di
-    mov ax, ds
-    mov es, ax
-    mov ds, word ptr ss:[word_3888E]
-    mov cx, 100h
-    mov si, word ptr ss:[word_38890]
-    mov di, offset picBuf
-    rep movsw
-    add word ptr ss:[word_38890], 200h
-    mov ax, 200h
-    pop di
-    pop si
-    pop es
-    pop ds
     ret
 readFile2 endp
 _readFile2 equ readFile2
