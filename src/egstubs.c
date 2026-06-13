@@ -19,25 +19,25 @@ int16 f15DgtlResult = 0;
 char *regnStr = NULL;
 int16 word_330B4 = 0;
 int loadF15DgtlBin() { return 0; }
-int setupOverlaySlots(uint16 addr) { return 0; }
-int countermeasures(int kind) { return 0; }
-int callLoad3DAll() { return 0; }
+void setupOverlaySlots(uint16 addr) { }
+void countermeasures(int kind) { }
+void callLoad3DAll() { }
 
 // === Joystick/Input Stubs ===
 int initJoystickCalibration() { return 0; }
-int seedJoystickBaseline() { return 0; }
+void seedJoystickBaseline() { }
 int readCalibratedJoystick() { return 0; }
-int readJoystickHardware() { return 0; }
-int computeJoystickAxis() { return 0; }
+void readJoystickHardware() { }
+void computeJoystickAxis() { }
 int far restoreJoystickData(uint8 FAR *ptr) { return 0; }
 void far copyJoystickData(uint8 FAR *ptr) {}
 
 // === Interrupt/Handler Stubs ===
 void installCBreakHandler() {}
-int restoreCBreakHandler() { return 0; }
+void restoreCBreakHandler() { }
 int setInt9Handler() { return 0; }
-int runGameLoop() { return 0; }
-int restoreTimerIrqHandler() { return 0; }
+void runGameLoop() { }
+void restoreTimerIrqHandler() { }
 
 // Stubs matching undefined references from egmain.c
 void setupDac() {}
@@ -603,15 +603,15 @@ int16 word_3C8B2;
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }
 int far buildRotationMatrixFar(int16* param_1, int param_2, int param_3, int param_4) { return 0; }
-int captureScopePanel() { return 0; }
+void captureScopePanel() { }
 int far clipAndRasterizeEdge() { return 0; }
-int closeFile(int arg_0) { return 0; }
+void closeFile(int arg_0) { }
 int cosine(int) { return 0; }
 int createFile(const char *arg_0, int arg_1) { return 0; }
 int __cdecl drawCenteredLabelBox(int, char *) { return 0; }
 int far drawClipLineGlobal() { return 0; }
 int far drawModelDisplayList() { return 0; }
-int drawModelPoint() { return 0; }
+void drawModelPoint() { }
 int far drawPolygonOutline(int, int, int*, int) { return 0; }
 int far fillSpanRect(int16* param_1, int param_2, int param_3, int param_4, int param_5) { return 0; }
 int fixedMulQ14(int arg_0, int arg_2) { return 0; }
@@ -621,15 +621,15 @@ int __cdecl openFile(const char *, int) { return 0; }
 void picBlit(int handle, int unk) {}
 int far projectModelEdgesFar() { return 0; }
 void far projectSceneObject(char *, int, int, int, int, int, int) {}
-int rasterize3DWorld() { return 0; }
+void rasterize3DWorld() { }
 int readAxisInput(int param_1) { return 0; }
 int readFile1(int arg_0, int arg_1, int arg_2) { return 0; }
 int readFile2(int arg_0, int arg_1, int arg_2, int arg_3) { return 0; }
-int redrawTacMap(int, int) { return 0; }
+void redrawTacMap(int, int) { }
 int far resetScanlineSpans() { return 0; }
 int far restoreInt9Handler() { return 0; }
-int restoreScopePanel() { return 0; }
-int setTimerIrqHandler() { return 0; }
+void restoreScopePanel() { }
+void setTimerIrqHandler() { }
 void pascal shiftLongLeftInPlace(int count, long *ptr) {}
 void pascal shiftLongRightInPlace(int count, long *ptr) {}
 int sine(int arg_0) { return 0; }
@@ -638,7 +638,7 @@ int far sub_202C7(int, int, int) { return 0; }
 int far sub_2044A() { return 0; }
 int far sub_20658() { return 0; }
 void __cdecl __far sub_21A7E() {}
-int updateThreatTargeting() { return 0; }
+void updateThreatTargeting() { }
 int writeFileAtRaw(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) { return 0; }
 
 /* --- slot.h overlay jump stubs (egame doesn't link shared/ovlstub.c) --- */

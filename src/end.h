@@ -277,6 +277,7 @@ void mystrcat(char *dst, char *src);
 char *formatFlightTime(int timeValue, char *buffer);
 long calcMissionScore(int param);
 void waitForKeyOrJoy(void);
+void initGraphics(void);
 void checkQuitFlag(void);
 void restoreVideoMode(void);
 void restoreInterrupts(void);

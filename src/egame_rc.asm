@@ -3451,7 +3451,7 @@ _updateThreatTargeting equ updateThreatTargeting
 ; destroyAircraft - replaced by C implementation
 ; ------------------------------seg000:0x87e8------------------------------
 ; ------------------------------seg000:0x87ea------------------------------
-; _sub_187EA - now in C (egflight.c)
+; _sub_187EA - now in C (egflt_b.c)
 ; ------------------------------seg000:0x8aa4------------------------------
     nop
 ; ------------------------------seg000:0x8aa6------------------------------
