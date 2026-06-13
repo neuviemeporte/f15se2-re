@@ -250,13 +250,26 @@ void drawMapTileObject(char far *modelData, int screenX, int screenY) {
     case 0x3e:
         return;
     case 0x3f:
+#ifdef BUGFIX
+        drawModelPoint(screenX, screenY);
+#else
         drawModelPoint();
+#endif
         return;
     }
     buildVertexSignMask(screenX, screenY);
     projectModelVertices(screenX, screenY);
     projectModelEdgesFar();
     drawModelDisplayList();
+}
+
+// ==== seg000:0x374a ====
+void drawModelPoint(int param_1, int param_2) {
+    var_352 = var_351 = param_1 + word_3298C;
+    var_354 = var_353 = -param_2 + word_3298E;
+    ++var_200;
+    gfx_setColor((unsigned char)*var_200++);
+    drawClipLineGlobal();
 }
 
 // ==== seg000:0x378e ====
