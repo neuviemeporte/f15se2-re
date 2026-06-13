@@ -110,7 +110,7 @@ void drawMapTiles(int originX, int originY, int zoomShift);
 void computeTileBounds(int *, int *, int *, int *);
 void worldToTileIndex(int, int, int *, int *);
 void drawMapTileObject(char far *, int, int);
-void drawModelPoint();
+void drawModelPoint(int, int);
 void buildVertexSignMask(int, int);
 void projectModelVertices(int screenX, int screenY);
 int aspectScaleY(int screenY);

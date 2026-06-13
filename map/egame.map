@@ -61,7 +61,7 @@ drawMapTiles: seg000 NEAR 34ac-3637 R34ac-3637 complete
 computeTileBounds: seg000 NEAR 3638-3693 R3638-3693 complete
 worldToTileIndex: seg000 NEAR 3694-36d1 R3694-36d1 complete
 drawMapTileObject: seg000 NEAR 36d2-3749 R36d2-3749 complete
-drawModelPoint: seg000 NEAR 374a-378d R374a-378d
+drawModelPoint: seg000 NEAR 374a-378d R374a-378d complete
 buildVertexSignMask: seg000 NEAR 378e-3815 R378e-3815 complete
 projectModelVertices: seg000 NEAR 3816-3921 R3816-3921 complete
 aspectScaleY: seg000 NEAR 3922-3931 R3922-3931 complete

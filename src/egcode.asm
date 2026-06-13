@@ -599,7 +599,6 @@ EXTRN word_3BECE:WORD
 EXTRN word_3C020:WORD
 
 PUBLIC _updateThreatTargeting
-PUBLIC _drawModelPoint
 PUBLIC _createFile
 PUBLIC _readFile1
 PUBLIC _readFile2
@@ -911,32 +910,8 @@ drawMapTiles equ _drawMapTiles
 
 
 ; ------------------------------seg000:0x374a------------------------------
-drawModelPoint proc near
-    push BP
-    mov BP,SP
-    mov AX,word ptr [BP + 4h]
-    add AX,word ptr [word_3298C]
-    mov word ptr [_var_351],AX
-    mov word ptr [_var_352],AX
-    mov AX,word ptr [BP + 6h]
-    neg AX
-    add AX,word ptr [word_3298E]
-    mov word ptr [_var_353],AX
-    mov word ptr [_var_354],AX
-    inc word ptr [_var_200]
-    mov BX,word ptr [_var_200]
-    inc word ptr [_var_200]
-    mov ES,word ptr [_var_201]
-    mov AL,byte ptr ES:[BX]
-    sub AH,AH
-    push AX
-    call far ptr _gfx_setColor
-    add SP,2h
-    call far ptr _drawClipLineGlobal
-    pop BP
-    ret
-drawModelPoint endp
-_drawModelPoint equ drawModelPoint
+EXTRN _drawModelPoint:PROC
+drawModelPoint equ _drawModelPoint
 ; ------------------------------seg000:0x3815------------------------------
 ; ------------------------------seg000:0x3816------------------------------
 projectModelVertices equ _projectModelVertices
