@@ -477,7 +477,7 @@ loc_0113:
     MOV ES,AX
     MOV AX,[ES:0h]
     MOV [word_34150],AX
-    LEA AX,[unk_329AB]
+    LEA AX,[divZeroStub]    ; INT 0 IP = seg001 offset of the stub
     MOV [ES:0h],AX
     MOV AX,[ES:2h]
     MOV [word_34152],AX
@@ -3660,7 +3660,7 @@ loc_1CB6:
     MOV ES,AX
     PUSH WORD PTR [ES:0h]
     PUSH WORD PTR [ES:2h]
-    LEA AX,[unk_34713]
+    LEA AX,[lineClipDivOverflowStub]    ; INT 0 IP = seg001 offset of the stub
     MOV [ES:0h],AX
     MOV WORD PTR [ES:2h],SEG divZeroStub
     PUSH DS
@@ -4103,7 +4103,7 @@ loc_2028:
     MOV ES,AX
     PUSH WORD PTR [ES:0h]
     PUSH WORD PTR [ES:2h]
-    LEA AX,[unk_34A88]
+    LEA AX,[clipRasterDivOverflowStub]    ; INT 0 IP = seg001 offset of the stub
     MOV [ES:0h],AX
     MOV WORD PTR [ES:2h],SEG divZeroStub
     PUSH DS
