@@ -52,7 +52,7 @@ load3DT: seg000 NEAR 2c82-2e53 R2c82-2e53 complete
 load3DG: seg000 NEAR 2e54-2f8b R2e54-2f8b complete
 printError: seg000 NEAR 2f8c-2fae R2f8c-2fae complete
 strcpyFromDot: seg000 NEAR 2faf-2fd9 R2faf-2fd9 complete
-findNearestTileObject: seg000 NEAR 2fda-3223 R2fda-3223
+findNearestTileObject: seg000 NEAR 2fda-3223 R2fda-3223 complete
 addTileEntry: seg000 NEAR 3224-3265 R3224-3265 complete
 lookupTileEntry: seg000 NEAR 3266-32b9 R3266-32b9 complete
 drawNearestTileObject: seg000 NEAR 32ba-345d R32ba-345d complete
@@ -89,7 +89,7 @@ restoreTimerIrqHandler: seg000 NEAR 3cb6-3cd6 R3cb6-3cd6 assembly
 calibrateGameSpeed: seg000 NEAR 3df2-3e86 R3df2-3e86 assembly
 manipulateTimer: seg000 NEAR 3e87-3edb R3e87-3edb assembly
 getTimeOfDay: seg000 NEAR 3edc-3ee2 R3edc-3ee2 assembly
-stepFlightModel: seg000 NEAR 3f72-51f8 R3f72-41e8 U41e9-41ea R41eb-51f8
+stepFlightModel: seg000 NEAR 3f72-51f8 R3f72-41e8 U41e9-41ea R41eb-51f8 complete
 applyRotationDelta: seg000 NEAR 51f9-5236 R51f9-5236 complete
 computeAttitudeAngles: seg000 NEAR 5237-5410 R5237-5410 complete
 rebuildOrientation: seg000 NEAR 5411-543a R5411-543a complete
@@ -107,10 +107,10 @@ fireGroundThreat: seg000 NEAR 6346-660d R6346-660d complete
 computeThreatRangeBearing: seg000 NEAR 660e-66bd R660e-66bd complete
 updateThreatAlert: seg000 NEAR 66be-6741 R66be-6741 complete
 computeThreatScore: seg000 NEAR 6742-67b3 R6742-67b3 complete
-updateObjects: seg000 NEAR 67b4-7593 R67b4-7593
-fireAirThreat: seg000 NEAR 7594-7839 R7594-7839
+updateObjects: seg000 NEAR 67b4-7593 R67b4-7593 complete
+fireAirThreat: seg000 NEAR 7594-7839 R7594-7839 complete
 spawnEnemyAircraft: seg000 NEAR 783a-79ed R783a-79ed complete
-updateThreatTargeting: seg000 NEAR 79ee-85bd R79ee-85bd external
+updateThreatTargeting: seg000 NEAR 79ee-85bd R79ee-85bd
 samCanAcquireTarget: seg000 NEAR 85be-86f7 R85be-86f7 complete
 destroyAircraft: seg000 NEAR 86f8-87e9 R86f8-87e9 complete
 processTargetReached: seg000 NEAR 87ea-89a9 R87ea-89a9 complete
@@ -144,7 +144,7 @@ drawColorPoint: seg000 NEAR 9e94-9eb5 R9e94-9eb5 complete
 switchIndicatorColor: seg000 NEAR 9eb6-9f46 R9eb6-9f46 complete
 drawPanelText: seg000 NEAR 9fad-9fcb R9fad-9fcb complete
 fillPanelBox: seg000 NEAR 9fcc-a02f R9fcc-a02f complete
-drawCenteredLabelBox: seg000 NEAR a030-a0ca Ra030-a038 Ua039-a0c6 Ra0c7-a0ca assembly
+drawCenteredLabelBox: seg000 NEAR a030-a0ca Ra030-a038 Ua039-a0c6 Ra0c7-a0ca
 drawStringBothPages: seg000 NEAR a0cb-a0fd Ra0cb-a0fd complete
 drawStringActivePage: seg000 NEAR a0fe-a139 Ra0fe-a139 complete
 drawStringCentered: seg000 NEAR a13a-a182 Ra13a-a182 complete
@@ -213,7 +213,7 @@ readFile1: seg000 NEAR de94-debd Rde94-debd assembly
 readFile2: seg000 NEAR debf-deeb Rdebf-deeb assembly
 openBlitClosePic: seg000 NEAR dfbc-dff4 Rdfbc-dff4 complete
 picBlit: seg000 NEAR e0aa-e11b Re0aa-e11b assembly
-nullsub_1: seg000 NEAR e260-e260 Re260-e260
+nullsub_1: seg000 NEAR e260-e260 Re260-e260 assembly
 decodePicRow: seg000 NEAR e262-e28b Re262-e28b assembly
 picReadDataAndMakeDict: seg000 NEAR e28c-e2d2 Re28c-e2d2 assembly
 picMakeDict: seg000 NEAR e2d3-e308 Re2d3-e308 assembly
