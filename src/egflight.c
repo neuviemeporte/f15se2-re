@@ -124,15 +124,15 @@ void stepFlightModel(void) {
             goto switch_break;
         case 0x3000: // Alt-B
             if (word_330C2 != 0) {
-                gfx_copyRect(*var_564, 0, 0x61, *off_38364, 0, 0x61, 0x140, 0x67);
+                gfx_copyRect(*var_564, 0, 0x61, *off_38364, 0, 0x61, 0x140, (int)aNc_xxx);
             }
             setDrawColor(0);
             fillRectBoth(0, 0, 0x13F, 0xC7);
             blitSprite(0, 0, 0x71, 0x37, 0x0C, 7, 0);
             waitForKeyPress();
             if (word_330C2 != 0) {
-                gfx_copyRect(*off_38364, 0, 0x61, *var_564, 0, 0x61, 0x140, 0x67);
-                gfx_copyRect(*off_38364, 0, 0x61, *var_565, 0, 0x61, 0x140, 0x67);
+                gfx_copyRect(*off_38364, 0, 0x61, *var_564, 0, 0x61, 0x140, (int)aNc_xxx);
+                gfx_copyRect(*off_38364, 0, 0x61, *var_565, 0, 0x61, 0x140, (int)aNc_xxx);
                 UpdateThrottleState();
             }
             goto switch_break;
@@ -184,13 +184,13 @@ switch_break:
     if (g_knots > 0x15E && !(*((unsigned char*)&g_playerPlaneFlags) & 1) && word_336EC != 0) {
         word_336EC = 0;
         *((unsigned char*)&g_playerPlaneFlags) |= 1;
-        tempStrcpy("Landing gear raised");
+        tempStrcpy((char *)aLandingGearRaised);
         makeSound(0x20, 2);
     }
     
     if (word_3BEBE == g_viewZ && g_setThrust == 0 && !(*((unsigned char*)&g_playerPlaneFlags) & 8)) {
         *((unsigned char*)&g_playerPlaneFlags) |= 8;
-        tempStrcpy("Brakes on");
+        tempStrcpy((char *)aBrakesOn);
     }
 
     if (word_3C00E != 0 || word_3C5A4 != 0) {
@@ -415,10 +415,10 @@ switch_break:
     
     
     strcpy(unk_38FD0, itoa(g_gees / 16, strBuf, 10));
-    strcat(unk_38FD0, ".");
+    strcat(unk_38FD0, (char *)a_);
     
     strcat(unk_38FD0, itoa((abs(g_gees) & 0xF) >> 1, strBuf, 10));
-    strcat(unk_38FD0, "G");
+    strcat(unk_38FD0, (char *)aG);
 
     j = ((long)(g_thrust - sinMul(g_ourPitch, 80)) * 800L) / 100L;
     

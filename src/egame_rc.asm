@@ -4856,6 +4856,8 @@ aPg_xxx db 'pg.xxx',0
 aVn_xxx db 'vn.xxx',0
 aMe_xxx db 'me.xxx',0
 aNc_xxx db 'nc.xxx',0
+PUBLIC _aNc_xxx
+_aNc_xxx equ aNc_xxx
 aCe_xxx db 'ce.xxx',0
 aJp_xxx db 'jp.xxx',0
 aNa_xxx db 'na.xxx',0
@@ -18933,9 +18935,17 @@ byte_37F9F db 0
     db 0Ah
     db 0
 aLandingGearRaised db 'Landing gear raised',0
+PUBLIC _aLandingGearRaised
+_aLandingGearRaised equ aLandingGearRaised
 aBrakesOn db 'Brakes on',0
+PUBLIC _aBrakesOn
+_aBrakesOn equ aBrakesOn
 a_ db '.',0
+PUBLIC _a_
+_a_ equ a_
 aG db 'G',0
+PUBLIC _aG
+_aG equ aG
 byte_37FEC db 10h
 _byte_37FEC equ byte_37FEC
     db 10h
