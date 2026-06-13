@@ -616,7 +616,6 @@ PUBLIC _openFile
 PUBLIC _closeFile
 PUBLIC _fixedMulQ14
 PUBLIC _sine
-PUBLIC _countermeasures
 PUBLIC _drawCenteredLabelBox
 PUBLIC _cosine
 PUBLIC _getTimeOfDay
@@ -729,145 +728,8 @@ updateFrame equ _updateFrame
 ; ------------------------------seg000:0x14e8------------------------------
 ; ------------------------------seg000:0x14fb------------------------------
 ; ------------------------------seg000:0x14fc------------------------------
-countermeasures proc near
-    push BP
-    mov BP,SP
-    sub SP,6h
-    push SI
-    mov word ptr [BP + -6h],0ffffh
-    mov SI,word ptr [BP + 4h]
-    shl SI,1h
-    add SI,7eah
-    mov AX,word ptr [SI]
-    dec word ptr [SI]
-    or AX,AX
-    jg LAB_1000_152a
-    mov word ptr [SI],0h
-    mov AX,offset aStoresExhauste
-    push AX
-    call tempStrcpy
-    add SP,2h
-    jmp LAB_1000_1631
-LAB_1000_152a:
-    mov word ptr [BP + -4h],1h
-    jmp LAB_1000_1534
-LAB_1000_1531:
-    inc word ptr [BP + -4h]
-LAB_1000_1534:
-    cmp word ptr [BP + -4h],4h
-    jge LAB_1000_1553
-    mov BX,word ptr [BP + -4h]
-    mov AX,BX
-    shl BX,1h
-    add BX,AX
-    shl BX,1h
-    shl BX,1h
-    cmp word ptr [BX + offset word_333DA], 0
-    jnz LAB_1000_1551
-    mov word ptr [BP + -6h],AX
-LAB_1000_1551:
-    jmp LAB_1000_1531
-LAB_1000_1553:
-    cmp word ptr [BP + -6h],-1h
-    jnz LAB_1000_155c
-    jmp LAB_1000_1623
-LAB_1000_155c:
-    mov AX,word ptr [BP + -6h]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    shl AX,1h
-    shl AX,1h
-    mov SI,AX
-    mov AX,word ptr [_g_viewX_]
-    mov word ptr [SI + offset word_333D2], AX
-    mov AX,word ptr [_g_viewY_]
-    mov word ptr [SI + offset word_333D4], AX
-    mov AX,word ptr [BP + 4h]
-    mov word ptr [SI + offset word_333D8], AX
-    mov AX,word ptr [g_missionStatus]
-    mov CX,AX
-    shl AX,1h
-    add AX,CX
-    db 2Dh, 0Fh, 00h ; sub AX,0fh (force imm16 encoding)
-    neg AX
-    imul word ptr [_g_frameRateScaling]
-    mov word ptr [SI + offset word_333DA], AX
-    mov AX,word ptr [BP + 4h]
-    jmp LAB_1000_15ab
-LAB_1000_159b:
-    mov word ptr [BP + -2h],0e77h
-    jmp LAB_1000_15b7
-LAB_1000_15a2:
-    mov word ptr [BP + -2h],0e7dh
-    jmp LAB_1000_15b7
-    db 0EBh
-    db 0Ch
-LAB_1000_15ab:
-    db 3Dh, 01h, 00h ; cmp AX,1h (force imm16 encoding)
-    jz LAB_1000_159b
-    db 3Dh, 02h, 00h ; cmp AX,2h (force imm16 encoding)
-    jz LAB_1000_15a2
-    jmp LAB_1000_15b7
-LAB_1000_15b7:
-    push word ptr [BP + -2h]
-    mov AX,offset strBuf
-    push AX
-    call _strcpy
-    add SP,4h
-    mov AX,offset aReleased
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-    mov AX,offset strBuf
-    push AX
-    call tempStrcpy
-    add SP,2h
-    push word ptr [BP + -2h]
-    mov AX,offset strBuf
-    push AX
-    call _strcpy
-    add SP,4h
-    mov AX,offset asc_3373D
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-    mov AX,0ah
-    push AX
-    mov AX,offset unk_3C030
-    push AX
-    mov BX,word ptr [BP + 4h]
-    shl BX,1h
-    push word ptr [BX + offset word_3309A]
-    call _itoa
-    add SP,6h
-    push AX
-    mov AX,offset strBuf
-    push AX
-    call _strcat
-    add SP,4h
-    mov AX,offset strBuf
-    push AX
-    call setTimedMessage
-    add SP,2h
-LAB_1000_1623:
-    mov AX,2h
-    push AX
-    mov AX,16h
-    push AX
-    call makeSound
-    add SP,4h
-LAB_1000_1631:
-    pop SI
-    mov SP,BP
-    pop BP
-    ret
-countermeasures endp
-_countermeasures equ countermeasures
+EXTRN _countermeasures:NEAR
+countermeasures equ _countermeasures
 ; ------------------------------seg000:0x1635------------------------------
 ; ------------------------------seg000:0x19a3------------------------------
 EXTRN _initWeaponLoadout:NEAR

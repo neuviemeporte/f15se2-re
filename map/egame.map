@@ -17,7 +17,7 @@ drawProjectionSphere: seg000 NEAR 0334-0685 R0334-0685 complete
 setupOverlaySlots: seg000 NEAR 0688-06e0 R0688-069a U069b-069f R06a0-06e0 assembly
 updateFrame: seg000 NEAR 0720-14e7 R0720-14e7 complete
 dispatchKeyScancode: seg000 NEAR 14e8-14fb R14e8-14fb complete
-countermeasures: seg000 NEAR 14fc-1635 R14fc-15a8 U15a9-15aa R15ab-1635
+countermeasures: seg000 NEAR 14fc-1635 R14fc-15a8 U15a9-15aa R15ab-1635 complete
 tickMessageTimers: seg000 NEAR 1636-1675 R1636-1675 complete
 updateBulletsAndFire: seg000 NEAR 1676-1840 R1676-1840 complete
 updateTracerParticles: seg000 NEAR 1841-18d4 R1841-18d4 complete

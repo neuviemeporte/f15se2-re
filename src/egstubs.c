@@ -18,9 +18,14 @@ int16 gfxModeUnset = 0;
 int16 f15DgtlResult = 0;
 char *regnStr = NULL;
 int16 word_330B4 = 0;
+int16 word_3309A = 0;
+uint8 aStoresExhauste[] = "Stores exhausted";
+uint8 aFlare[] = "Flare";
+uint8 aChaff[] = "Chaff";
+uint8 aReleased[] = " released";
+uint8 asc_3373D[] = ":";
 int loadF15DgtlBin() { return 0; }
 void setupOverlaySlots(uint16 addr) { }
-void countermeasures(int kind) { }
 void callLoad3DAll() { }
 
 // === Joystick/Input Stubs ===
