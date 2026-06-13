@@ -41,13 +41,13 @@ _setInt9Handler proc far
     mov ds, ax
     and byte ptr ds:17h, 0DFh
     xor ax, ax
-    mov ss:56EAh, al
-    mov ss:56EBh, ax
-    mov ss:56EDh, al
-    mov ss:56EEh, al
-    mov ss:56EFh, al
-    mov byte ptr ss:56E8h, 80h
-    mov byte ptr ss:56E9h, 80h
+    mov ss:byte_37F9A, al
+    mov ss:word_37F9B, ax
+    mov ss:byte_37F9D, al
+    mov ss:byte_37F9E, al
+    mov ss:byte_37F9F, al
+    mov byte ptr ss:byte_37F98, 80h
+    mov byte ptr ss:byte_37F99, 80h
     xor ax, ax
     mov ds, ax
     mov bx, 24h

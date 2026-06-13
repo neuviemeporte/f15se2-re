@@ -105,6 +105,7 @@ EXTRN word_3424A:word
 EXTRN word_3424C:word
 EXTRN word_3424E:word
 EXTRN word_34250:word
+EXTRN _byte_32933:byte
 EXTRN word_34252:word
 EXTRN word_34254:word
 EXTRN word_34256:word
@@ -1804,7 +1805,7 @@ sub_2044A endp
 
 processSceneObject proc near
 loc_0BE7:
-    MOV AH,[83h]
+    MOV AH,[_byte_32933]
     OR AH,AH
     JZ short loc_0C16
 MOV AL, byte ptr [word_34256 + 1]
