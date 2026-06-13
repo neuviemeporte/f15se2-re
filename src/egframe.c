@@ -448,6 +448,48 @@ void dispatchKeyScancode(void) {
     keyDispatch(keyScancode);
 }
 
+// ==== seg000:0x14fc ====
+void countermeasures(int param_1) {
+    char *p;
+    int a;
+    int b;
+
+    b = -1;
+    if ((*(int16 *)((char *)&word_3309A + param_1 * 2))-- <= 0) {
+        *(int16 *)((char *)&word_3309A + param_1 * 2) = 0;
+        tempStrcpy((char *)aStoresExhauste);
+    } else {
+        for (a = 1; a < 4; a++) {
+            if (*((int16 *)((char *)&word_333DA + a * 12)) == 0)
+                b = a;
+        }
+        if (b != -1) {
+            *((int16 *)((char *)&word_333D2 + b * 12)) = g_viewX_;
+            *((int16 *)((char *)&word_333D4 + b * 12)) = g_viewY_;
+            *((int16 *)((char *)&word_333D8 + b * 12)) = param_1;
+            *((int16 *)((char *)&word_333DA + b * 12)) =
+                -(g_missionStatus * 3 - 0xf) * g_frameRateScaling;
+            switch (param_1) {
+            case 1:
+                p = (char *)aFlare;
+                break;
+            case 2:
+                p = (char *)aChaff;
+                break;
+            }
+            strcpy(strBuf, p);
+            strcat(strBuf, (char *)aReleased);
+            tempStrcpy(strBuf);
+            strcpy(strBuf, p);
+            strcat(strBuf, (char *)asc_3373D);
+            strcat(strBuf, itoa(*(int16 *)((char *)&word_3309A + param_1 * 2),
+                                unk_3C030, 10));
+            setTimedMessage(strBuf);
+        }
+        makeSound(0x16, 2);
+    }
+}
+
 // ==== seg000:0x1636 ====
 void tickMessageTimers(void) {
     int p;

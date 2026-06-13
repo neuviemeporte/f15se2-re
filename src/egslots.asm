@@ -836,9 +836,16 @@ PUBLIC aMap
 PUBLIC aMisses
 PUBLIC aNoFileBuffersAvailabl
 PUBLIC aOpenError
+PUBLIC aChaff
+PUBLIC _aChaff
+PUBLIC aFlare
+PUBLIC _aFlare
 PUBLIC aReleased
+PUBLIC _aReleased
 PUBLIC aStoresExhauste
+PUBLIC _aStoresExhauste
 PUBLIC asc_3373D
+PUBLIC _asc_3373D
 PUBLIC audio_jump_6b
 PUBLIC audio_jump_6c
 PUBLIC byte_36D86
@@ -885,6 +892,7 @@ PUBLIC unk_3C030
 PUBLIC word_3298C
 PUBLIC word_3298E
 PUBLIC word_3309A
+PUBLIC _word_3309A
 PUBLIC word_333D2
 PUBLIC word_333D4
 PUBLIC word_333D8
@@ -1612,6 +1620,7 @@ _word_33096 equ word_33096
 word_33098 dw 1388h
 _word_33098 equ word_33098
 word_3309A dw 0
+_word_3309A equ word_3309A
 word_3309C dw 0Ch
 _word_3309C equ word_3309C
 word_3309E dw 12h
@@ -2187,10 +2196,15 @@ _word_33712 equ word_33712
 word_33714 dw 0
 _word_33714 equ word_33714
 aStoresExhauste db 'Stores exhausted',0
+_aStoresExhauste equ aStoresExhauste
 aFlare db 'Flare',0
+_aFlare equ aFlare
 aChaff db 'Chaff',0
+_aChaff equ aChaff
 aReleased db ' released',0
+_aReleased equ aReleased
 asc_3373D db ':',0
+_asc_3373D equ asc_3373D
 aGun db 'GUN:',0
 _aGun equ aGun
 asc_33744 db 'L',0
