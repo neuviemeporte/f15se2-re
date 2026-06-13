@@ -64,10 +64,3 @@ void setupWorldBufPtr(void) {
     worldBufSegment = seg;
 }
 #endif
-
-/* Unused in the shipped binary (no callers); kept as a faithful C reconstruction. */
-void setTimerMode2(void) {
-    timerReload = 1;
-    timerTarget = timerCalSumLo;
-    timerDivider = 1;
-}
