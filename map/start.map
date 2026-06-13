@@ -128,7 +128,7 @@ loadPicAt: Code1 NEAR 3392-33ce U3392-33ce detached
 showPicFile: Code1 NEAR 33d0-3441 R33d0-3441 assembly
 unreach_3442: Code1 NEAR 3442-351d U3442-351d detached
 decodePic: Code1 NEAR 351e-3585 R351e-3585 assembly
-nullsub_1: Code1 NEAR 3586-3586 R3586-3586 ignore
+nullsub_1: Code1 NEAR 3586-3586 R3586-3586 assembly
 decodePicRow: Code1 NEAR 3588-35b1 R3588-35b1 assembly
 picReadDataAndMakeDict: Code1 NEAR 35b2-35f8 R35b2-35f8 assembly
 picMakeDict: Code1 NEAR 35f9-362e R35f9-362e assembly
