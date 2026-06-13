@@ -6908,7 +6908,9 @@ aFileClosingError db 'File closing error$'
 PUBLIC aReadError
 aReadError db 'Read error$'
 aWriteError db 'Write error$'
+PUBLIC word_3888E
 word_3888E dw 0
+PUBLIC word_38890
 word_38890 dw 0
     db 0 ;align 4
     db 0
