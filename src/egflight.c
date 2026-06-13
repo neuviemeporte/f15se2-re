@@ -588,7 +588,6 @@ end:
 }
 
 // ==== seg000:0x67b4 ====
-#define ENT_FLAGS(v) (*(uint16 *)&stru_3B202[(v)].state[14])
 void updateObjects(void)
 {
     int p0, p, pa, a, b, r, s, c, d, t, u0, e0, f, e1, u2, w, x, h, v3, y, j, g3, k, aj, z2, l, m0, m, ma, n;
@@ -607,7 +606,7 @@ void updateObjects(void)
     if ((*(uint8 *)&stru_3B202[h].state[14] & 2) && *(int16 *)&stru_3B202[h].state[16] != 0) {
     w = 0;
     if (!(*(uint8 *)&stru_3B202[h].state[14] & 4)) {
-    if (word_336F0 != 0 && (!(ENT_FLAGS(h) & 0x140) || word_336F0 > word_3995C)) {
+    if (word_336F0 != 0 && (!((*(uint16 *)&stru_3B202[h].state[14]) & 0x140) || word_336F0 > word_3995C)) {
         k = word_3B4D8;
         m = word_3B4E0;
         n = word_3B5D6;
@@ -617,7 +616,7 @@ void updateObjects(void)
     }
 
     w = 3;
-    if (ENT_FLAGS(h) & 0x100) {
+    if ((*(uint16 *)&stru_3B202[h].state[14]) & 0x100) {
     if (word_336FC != -1) {
         k = sinMul((h & 7) * 0x800 + *(int16 *)&stru_3B202[word_336FC].state[6] - 0x1800,
                       *(int16 *)&stru_3B202[word_336FC].state[16])
@@ -651,7 +650,7 @@ void updateObjects(void)
     }
     if ((unsigned)rangeApprox(word_3BEC0 - stru_3B202[h].posX,
                   word_3BED0 - stru_3B202[h].posY) >> 6 > 0x15e && h != 0) {
-        ENT_FLAGS(h) &= 0x1c1;
+        (*(uint16 *)&stru_3B202[h].state[14]) &= 0x1c1;
         *(int16 *)&stru_3B202[h].state[18] = 0;
     }
     }
@@ -672,7 +671,7 @@ padlock_target:
     }
 
     k = stru_3AA5E[*(int16 *)&stru_3B202[h].objType].mapX;
-    if (ENT_FLAGS(h) & 0x200) {
+    if ((*(uint16 *)&stru_3B202[h].state[14]) & 0x200) {
         n = stru_3B202[h].posX - k;
         m = stru_3AA5E[*(int16 *)&stru_3B202[h].objType].mapY;
         k = k - n * 2;
@@ -767,7 +766,7 @@ after_accel:
                   -*(int16 *)(aFlogger + var_667 * 32 + 14) * 256,
                   *(int16 *)(aFlogger + var_667 * 32 + 14) * 256);
 
-    if (ENT_FLAGS(h) & 0x400) {
+    if ((*(uint16 *)&stru_3B202[h].state[14]) & 0x400) {
         if (*(int16 *)&stru_3B202[h].state[16] < 0x96) {
             *(int16 *)&stru_3B202[h].state[8] = 0;
         } else {
@@ -796,7 +795,7 @@ after_accel:
         }
     }
 
-    if (ENT_FLAGS(h) & 0x2000) {
+    if ((*(uint16 *)&stru_3B202[h].state[14]) & 0x2000) {
         p = 0x3000;
     }
 
@@ -828,7 +827,7 @@ no_smoke:
 
     if (*(int16 *)&stru_3B202[h].state[8] < 0 &&
         -(sinMul(*(int16 *)&stru_3B202[h].state[8], 2000) - 200) > stru_3B202[h].alt &&
-        (ENT_FLAGS(h) & 0x220) == 0) {
+        ((*(uint16 *)&stru_3B202[h].state[14]) & 0x220) == 0) {
         j = 0x400;
     }
 
@@ -863,7 +862,7 @@ no_smoke:
 alt_ok:
 
     if (stru_3B202[h].alt < 0) {
-        ENT_FLAGS(h) &= (h != 0) ? 0x1c1 : 0;
+        (*(uint16 *)&stru_3B202[h].state[14]) &= (h != 0) ? 0x1c1 : 0;
         word_3BEBC = stru_3B202[h].posX;
         word_3BEC8 = stru_3B202[h].posY;
         word_3BECE = stru_3B202[h].alt;
@@ -874,27 +873,27 @@ alt_ok:
     }
 
     if ((unsigned)e1 < 0x10 && w == 2) {
-        if (ENT_FLAGS(h) & 0x200) {
-            ENT_FLAGS(h) |= 0x1000;
+        if ((*(uint16 *)&stru_3B202[h].state[14]) & 0x200) {
+            (*(uint16 *)&stru_3B202[h].state[14]) |= 0x1000;
         } else {
-            ENT_FLAGS(h) |= 0x200;
+            (*(uint16 *)&stru_3B202[h].state[14]) |= 0x200;
         }
     }
 
-    if (ENT_FLAGS(h) & 0x1000) {
+    if ((*(uint16 *)&stru_3B202[h].state[14]) & 0x1000) {
         *(int16 *)&stru_3B202[h].state[10] = *(int16 *)&stru_3B202[h].state[8] = 0;        *(int16 *)&stru_3B202[h].state[6] = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
         stru_3B202[h].alt = (stru_3AA5E[word_3C16A].flags & 0x200) ? 0x8c : 0x0c;
         if (*(int16 *)&stru_3B202[h].state[16] > 0) {
             *(int16 *)&stru_3B202[h].state[16] -= 0x78 / word_330C4;
         } else {
-            ENT_FLAGS(h) &= 0x1c1;
+            (*(uint16 *)&stru_3B202[h].state[14]) &= 0x1c1;
             if (h == 0 && word_3B144 >= 5) {
-                ENT_FLAGS(h) = 0;
+                (*(uint16 *)&stru_3B202[h].state[14]) = 0;
             }
         }
         if (h >= word_3C046 - 4 && *(int16 *)&stru_3B202[h].state[16] < 100) {
-            ENT_FLAGS(h) &= 0x1c1;
-            ENT_FLAGS(h) |= 0x406;
+            (*(uint16 *)&stru_3B202[h].state[14]) &= 0x1c1;
+            (*(uint16 *)&stru_3B202[h].state[14]) |= 0x406;
         }
     }
 
@@ -951,7 +950,6 @@ alt_ok:
     }
     }
 }
-#undef ENT_FLAGS
 
 // ==== seg000:0x8df4 ====
 void projectWorldPos(int worldX, int worldY, int worldZ) {
