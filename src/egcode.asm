@@ -939,16 +939,7 @@ projectModelVertices equ _projectModelVertices
 setup3DTransform equ _setup3DTransform
 ; ------------------------------seg000:0x39a8------------------------------
 ; ------------------------------seg000:0x39aa------------------------------
-rasterize3DWorld proc near
-    call far ptr sub_202F6
-    call far ptr gfx_setBlitOffset2
-    call far ptr _gfx_nop23
-    mov byte ptr [_var_316],0h
-    ret
-    nop
-rasterize3DWorld endp
-    PUBLIC _rasterize3DWorld
-_rasterize3DWorld equ rasterize3DWorld
+; rasterize3DWorld reconstructed in C (eg3dmap.c)
 ; ------------------------------seg000:0x39be------------------------------
 ; ------------------------------seg000:0x39c0------------------------------
 setupViewport equ _setupViewport
@@ -1393,28 +1384,8 @@ _getTimeOfDay equ getTimeOfDay
     ret
 getTimeOfDay endp
 
-; Unreachable byte-copy of the original timer routine at seg000:0x3ee3. The live
-; advanceFrameTick below implements the same control flow using relocatable labels
-; instead of the original PC-relative jump bytes.
-deadFunction01 proc near
-    inc word ptr [_byte_3790C-2]            ; word_3790A
-    inc byte ptr [_byte_3790C]
-    call far ptr gfx_dacCycle
-    call far ptr audio_jump_6b
-    or ax, ax
-    jz short df01_ret
-    js short df01_jmp2
-    db 0E9h, 0D9h, 0FDh                      ; dead jmp, orig target 0x3cd7
-df01_jmp2:
-    db 0E9h, 0EEh, 0FDh                      ; dead jmp, orig target 0x3cef
-df01_ret:
-    ret
-    xor ax, ax
-    db 0E8h, 04Dh, 0A7h                      ; dead call, orig target chkstk
-    call far ptr gfx_clearVga
-    ret
-    nop
-deadFunction01 endp
+; (deadFunction01 pruned: an unreferenced, never-traced byte-copy of the timer
+;  routine. advanceFrameTick below is the live version. Verified dead by verify-egame.)
 ; ------------------------------seg000:0x3ee2------------------------------
 ; ------------------------------seg000:0x3ee3------------------------------
 advanceFrameTick proc near
