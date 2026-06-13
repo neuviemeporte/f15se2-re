@@ -350,4 +350,12 @@ void setup3DTransform(char *model, int angleX, int angleY, int angleZ, int posX,
     var_261 -= 0x3000 / g_frameRateScaling;
 }
 
+// ==== seg000:0x39aa ====
+void rasterize3DWorld(void) {
+    sub_202F6();
+    gfx_setBlitOffset2();
+    gfx_nop23();
+    var_316 = 0;
+}
+
 // ==== seg000:0x3a6c ====

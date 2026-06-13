@@ -236,6 +236,10 @@ EXTRN _blitGaugeSprite:PROC
 blitGaugeSprite equ _blitGaugeSprite
 EXTRN _blitSprite:PROC
 blitSprite equ _blitSprite
+EXTRN _cacheScopePanel:PROC
+cacheScopePanel equ _cacheScopePanel
+EXTRN _restoreScopePanel:PROC
+restoreScopePanel equ _restoreScopePanel
 drawTargetBox equ _drawTargetBox
 drawMissileLock equ _drawMissileLock
 drawTargetLabel equ _drawTargetLabel
@@ -589,8 +593,6 @@ EXTRN word_3BEC8:WORD
 EXTRN word_3BECE:WORD
 EXTRN word_3C020:WORD
 
-PUBLIC _restoreScopePanel
-PUBLIC _captureScopePanel
 PUBLIC _updateThreatTargeting
 PUBLIC _drawModelPoint
 PUBLIC _createFile
@@ -939,16 +941,7 @@ projectModelVertices equ _projectModelVertices
 setup3DTransform equ _setup3DTransform
 ; ------------------------------seg000:0x39a8------------------------------
 ; ------------------------------seg000:0x39aa------------------------------
-rasterize3DWorld proc near
-    call far ptr sub_202F6
-    call far ptr gfx_setBlitOffset2
-    call far ptr _gfx_nop23
-    mov byte ptr [_var_316],0h
-    ret
-    nop
-rasterize3DWorld endp
-    PUBLIC _rasterize3DWorld
-_rasterize3DWorld equ rasterize3DWorld
+; rasterize3DWorld reconstructed in C (eg3dmap.c)
 ; ------------------------------seg000:0x39be------------------------------
 ; ------------------------------seg000:0x39c0------------------------------
 setupViewport equ _setupViewport
@@ -1393,28 +1386,8 @@ _getTimeOfDay equ getTimeOfDay
     ret
 getTimeOfDay endp
 
-; Unreachable byte-copy of the original timer routine at seg000:0x3ee3. The live
-; advanceFrameTick below implements the same control flow using relocatable labels
-; instead of the original PC-relative jump bytes.
-deadFunction01 proc near
-    inc word ptr [_byte_3790C-2]            ; word_3790A
-    inc byte ptr [_byte_3790C]
-    call far ptr gfx_dacCycle
-    call far ptr audio_jump_6b
-    or ax, ax
-    jz short df01_ret
-    js short df01_jmp2
-    db 0E9h, 0D9h, 0FDh                      ; dead jmp, orig target 0x3cd7
-df01_jmp2:
-    db 0E9h, 0EEh, 0FDh                      ; dead jmp, orig target 0x3cef
-df01_ret:
-    ret
-    xor ax, ax
-    db 0E8h, 04Dh, 0A7h                      ; dead call, orig target chkstk
-    call far ptr gfx_clearVga
-    ret
-    nop
-deadFunction01 endp
+; (deadFunction01 pruned: an unreferenced, never-traced byte-copy of the timer
+;  routine. advanceFrameTick below is the live version. Verified dead by verify-egame.)
 ; ------------------------------seg000:0x3ee2------------------------------
 ; ------------------------------seg000:0x3ee3------------------------------
 advanceFrameTick proc near
@@ -3148,103 +3121,13 @@ _drawStringCentered proc near
 _drawStringCentered endp
 ; ------------------------------seg000:0xa1b0------------------------------
 ; ------------------------------seg000:0xa934------------------------------
-cacheScopePanel proc near
-    mov AX,39h
-    push AX
-    mov AX,49h
-    push AX
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_566]
-    push word ptr [BX]
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_564]
-    push word ptr [BX]
-    call far ptr _gfx_copyRect
-    add SP,10h
-    ret
-    nop
-cacheScopePanel endp
+; cacheScopePanel reconstructed in C (egui.c)
 ; ------------------------------seg000:0xa961------------------------------
 ; ------------------------------seg000:0xa962------------------------------
-restoreScopePanel proc near
-    mov AX,39h
-    push AX
-    mov AX,49h
-    push AX
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_564]
-    push word ptr [BX]
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_566]
-    push word ptr [BX]
-    call far ptr _gfx_copyRect
-    add SP,10h
-    mov AX,39h
-    push AX
-    mov AX,49h
-    push AX
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_565]
-    push word ptr [BX]
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_564]
-    push word ptr [BX]
-    call far ptr _gfx_copyRect
-    add SP,10h
-    ret
-    nop
-restoreScopePanel endp
-_restoreScopePanel equ restoreScopePanel
+; restoreScopePanel reconstructed in C (egui.c)
 ; ------------------------------seg000:0xa9bb------------------------------
 ; ------------------------------seg000:0xa9bc------------------------------
-captureScopePanel proc near
-    mov AX,39h
-    push AX
-    mov AX,49h
-    push AX
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    cmp byte ptr [_byte_3C5A0],0h
-    jz LAB_1000_a9da
-    mov BX,word ptr [_var_565]
-    jmp LAB_1000_a9de
-    db 90h
-LAB_1000_a9da:
-    mov BX,word ptr [_var_564]
-LAB_1000_a9de:
-    mov AX,word ptr [BX]
-    push AX
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_566]
-    push word ptr [BX]
-    call far ptr _gfx_copyRect
-    add SP,10h
-    ret
-captureScopePanel endp
-_captureScopePanel equ captureScopePanel
+; captureScopePanel reconstructed in C (egui.c)
 ; ------------------------------seg000:0xa9f7------------------------------
 ; ------------------------------seg000:0xa9f8------------------------------
 updateTargetLock equ _updateTargetLock

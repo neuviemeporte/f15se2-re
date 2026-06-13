@@ -17,7 +17,7 @@ drawProjectionSphere: seg000 NEAR 0334-0685 R0334-0685 complete
 setupOverlaySlots: seg000 NEAR 0688-06e0 R0688-069a U069b-069f R06a0-06e0 assembly
 updateFrame: seg000 NEAR 0720-14e7 R0720-14e7 complete
 dispatchKeyScancode: seg000 NEAR 14e8-14fb R14e8-14fb complete
-countermeasures: seg000 NEAR 14fc-1635 R14fc-15a8 U15a9-15aa R15ab-1635 assembly
+countermeasures: seg000 NEAR 14fc-1635 R14fc-15a8 U15a9-15aa R15ab-1635
 tickMessageTimers: seg000 NEAR 1636-1675 R1636-1675 complete
 updateBulletsAndFire: seg000 NEAR 1676-1840 R1676-1840 complete
 updateTracerParticles: seg000 NEAR 1841-18d4 R1841-18d4 complete
@@ -61,12 +61,12 @@ drawMapTiles: seg000 NEAR 34ac-3637 R34ac-3637 complete
 computeTileBounds: seg000 NEAR 3638-3693 R3638-3693 complete
 worldToTileIndex: seg000 NEAR 3694-36d1 R3694-36d1 complete
 drawMapTileObject: seg000 NEAR 36d2-3749 R36d2-3749 complete
-drawModelPoint: seg000 NEAR 374a-378d R374a-378d assembly
+drawModelPoint: seg000 NEAR 374a-378d R374a-378d
 buildVertexSignMask: seg000 NEAR 378e-3815 R378e-3815 complete
 projectModelVertices: seg000 NEAR 3816-3921 R3816-3921 complete
 aspectScaleY: seg000 NEAR 3922-3931 R3922-3931 complete
 setup3DTransform: seg000 NEAR 3932-39a9 R3932-39a9 complete
-rasterize3DWorld: seg000 NEAR 39aa-39bf R39aa-39bf assembly
+rasterize3DWorld: seg000 NEAR 39aa-39bf R39aa-39bf complete
 setupViewport: seg000 NEAR 39c0-3a6b R39c0-3a6b complete
 setViewRotation: seg000 NEAR 3a6c-3a8f R3a6c-3a8f complete
 setViewPosition: seg000 NEAR 3a90-3aa7 R3a90-3aa7 complete
@@ -123,7 +123,7 @@ renderHudFrame: seg000 NEAR 8e50-9484 R8e50-9484 complete
 setActivePanel: seg000 NEAR 94d0-9579 R94d0-9538 U9539-953a R953b-9563 U9564-9565 R9566-9579 complete
 refreshActivePanel: seg000 NEAR 957a-9594 R957a-9594 complete
 initTacMapView: seg000 NEAR 9595-95c8 R9595-95c8 complete
-redrawTacMap: seg000 NEAR 95c9-9874 R95c9-9874 assembly
+redrawTacMap: seg000 NEAR 95c9-9874 R95c9-9874
 zoomIn: seg000 NEAR 9875-98b3 R9875-98b3 complete
 zoomOut: seg000 NEAR 98b4-98f9 R98b4-98f9 complete
 mapXToScreen: seg000 NEAR 98fa-9914 R98fa-9914 complete
@@ -158,9 +158,9 @@ drawMapMarkerBox: seg000 NEAR a740-a7c3 Ra740-a7c3 complete
 projectMapPoint: seg000 NEAR a7c4-a871 Ra7c4-a870 complete
 blitGaugeSprite: seg000 NEAR a872-a8c7 Ra872-a8c7 complete
 blitSprite: seg000 NEAR a8c8-a933 Ra8c8-a933 complete
-cacheScopePanel: seg000 NEAR a934-a961 Ra934-a961 assembly
-restoreScopePanel: seg000 NEAR a962-a9bb Ra962-a9bb assembly
-captureScopePanel: seg000 NEAR a9bc-a9f7 Ra9bc-a9f7 assembly
+cacheScopePanel: seg000 NEAR a934-a961 Ra934-a961 complete
+restoreScopePanel: seg000 NEAR a962-a9bb Ra962-a9bb complete
+captureScopePanel: seg000 NEAR a9bc-a9f7 Ra9bc-a9f7 complete
 updateTargetLock: seg000 NEAR a9f8-b146 Ra9f8-b146 complete
 drawHudWorldOverlay: seg000 NEAR b147-c1b8 Rb147-c1b8 complete
 drawTargetBox: seg000 NEAR c1b9-c2f7 Rc1b9-c2f7 complete
@@ -213,7 +213,7 @@ readFile1: seg000 NEAR de94-debd Rde94-debd assembly
 readFile2: seg000 NEAR debf-deeb Rdebf-deeb assembly
 openBlitClosePic: seg000 NEAR dfbc-dff4 Rdfbc-dff4 complete
 picBlit: seg000 NEAR e0aa-e11b Re0aa-e11b assembly
-nullsub_1: seg000 NEAR e260-e260 Re260-e260 assembly
+nullsub_1: seg000 NEAR e260-e260 Re260-e260
 decodePicRow: seg000 NEAR e262-e28b Re262-e28b assembly
 picReadDataAndMakeDict: seg000 NEAR e28c-e2d2 Re28c-e2d2 assembly
 picMakeDict: seg000 NEAR e2d3-e308 Re2d3-e308 assembly

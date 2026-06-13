@@ -151,21 +151,6 @@ setupWorldBufPtr proc near
     ret
 setupWorldBufPtr endp
 
-PUBLIC _clearKeybuf
-_clearKeybuf:
-clearKeybuf proc near
-    jmp pollKeyBuffer
-LAB_1000_03a8:
-    call far ptr _misc_jump_5b_getkey
-clearKeybuf endp
-
-pollKeyBuffer proc near
-    call far ptr _misc_jump_5a_keybuf
-    or AX,AX
-    jz LAB_1000_03a8
-    ret
-pollKeyBuffer endp
-
 ; --- shared strcat
 INCLUDE shared/str_strcat.inc
 _mystrcat equ mystrcat
@@ -681,24 +666,6 @@ setTimerIrqHandler EQU _setTimerIrqHandler
 PUBLIC _restoreTimerIrqHandler
 INCLUDE shared/timer_restore.inc
 restoreTimerIrqHandler EQU _restoreTimerIrqHandler
-
-setTimerMode1 proc near
-    mov BX,word ptr [_timerMode]
-    mov word ptr [_timerReload],BX
-    mov AX,word ptr [_timerCalSumLo]
-    xor DX,DX
-    div BX
-    mov word ptr [_timerTarget],AX
-    mov byte ptr [_timerDivider],1h
-    ret
-setTimerMode1 endp
-setTimerMode2 proc near
-    mov word ptr [_timerReload],1h
-    mov AX,word ptr [_timerCalSumLo]
-    mov word ptr [_timerTarget],AX
-    mov byte ptr [_timerDivider],1h
-    ret
-setTimerMode2 endp
 
 var_1:
     dw offset timerIrqHandler

@@ -63,10 +63,4 @@ void setupWorldBufPtr(void) {
     worldBufOffset = off + 0x7A;
     worldBufSegment = seg;
 }
-
-void clearKeybuf(void) {
-    while (misc_jump_5a_keybuf() == 0) {
-        misc_jump_5b_getkey();
-    }
-}
 #endif

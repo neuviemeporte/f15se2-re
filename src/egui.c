@@ -214,3 +214,19 @@ void blitSprite(int destX, int destY, int srcX, int srcY, int spriteWidth, int a
     var_585 = 0x10;
     gfx_blitSpriteOpaque(&word_383CC);
 }
+
+// ==== seg000:0xa934 ====
+void cacheScopePanel(void) {
+    gfx_copyRect(*var_564, 0x18, 0x70, *var_566, 0x18, 0x70, 0x49, 0x39);
+}
+
+// ==== seg000:0xa962 ====
+void restoreScopePanel(void) {
+    gfx_copyRect(*var_566, 0x18, 0x70, *var_564, 0x18, 0x70, 0x49, 0x39);
+    gfx_copyRect(*var_564, 0x18, 0x70, *var_565, 0x18, 0x70, 0x49, 0x39);
+}
+
+// ==== seg000:0xa9bc ====
+void captureScopePanel(void) {
+    gfx_copyRect(*var_566, 0x18, 0x70, byte_3C5A0 ? *var_565 : *var_564, 0x18, 0x70, 0x49, 0x39);
+}

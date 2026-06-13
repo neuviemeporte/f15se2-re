@@ -2292,6 +2292,8 @@ gfx_setBlitOffset2 proc near                ; slot 0x19
     db 0EAh ;jmp far ptr 0:0
     dd 0
 gfx_setBlitOffset2 endp
+PUBLIC _gfx_setBlitOffset2
+_gfx_setBlitOffset2 equ gfx_setBlitOffset2   ; underscore alias for C caller (rasterize3DWorld)
 PUBLIC gfx_setBlitOffset3
 gfx_setBlitOffset3 proc near                ; slot 0x1A
     db 0EAh ;jmp far ptr 0:0
