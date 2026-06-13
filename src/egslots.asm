@@ -350,18 +350,14 @@ PUBLIC _var_662
 PUBLIC _commData
 PUBLIC _gameData
 PUBLIC _hercFlag
-PUBLIC _gfxModeUnset
 PUBLIC _joyAxes
 PUBLIC _gfxBufPtr
 PUBLIC _regs
-PUBLIC _exitCode
 PUBLIC _scenarioPlh
 PUBLIC _regnStr
-PUBLIC _f15DgtlResult
 PUBLIC _byte_34197
 PUBLIC _aCockpit_pic
 PUBLIC _a256pit_pic
-PUBLIC _byte_32933
 PUBLIC _audio_jump_6a
 PUBLIC _audio_jump_64
 PUBLIC _audio_jump_65
@@ -459,7 +455,6 @@ PUBLIC _word_3C69E
 PUBLIC _word_3B144
 PUBLIC _word_3C046
 PUBLIC _word_3BED2
-PUBLIC _word_336FC
 PUBLIC _byte_3BFA4
 PUBLIC _byte_3BEC4
 PUBLIC _byte_3BED8
@@ -483,7 +478,6 @@ PUBLIC _misc_jump_5b_getkey
 PUBLIC _unk_33E1A
 PUBLIC _unk_34121
 PUBLIC _aPleaseInsertF15DiskB
-PUBLIC _sign3dg
 PUBLIC _word_33BAE
 PUBLIC _buf1_3dg
 PUBLIC _buf2_3dg
@@ -494,7 +488,6 @@ PUBLIC _aBadTileFileFormat_
 PUBLIC _aRb_2
 PUBLIC _a_3dt
 PUBLIC _aTooManyTiles_
-PUBLIC _sign3dt
 PUBLIC _aOpenErrorOn_3dt
 PUBLIC _sizes3dt
 PUBLIC _matrix3dt
@@ -504,18 +497,12 @@ PUBLIC _buf3d3_1
 PUBLIC _buf3d3_2
 PUBLIC _buf3d3_3
 PUBLIC _buf3d3
-PUBLIC _size3d3_2
 PUBLIC _a_3d3
 PUBLIC _aBadObjFileFormat_
-PUBLIC _size3d3_3
 PUBLIC _byte_3BE3E
-PUBLIC _size3d3_4
-PUBLIC _size3d3_5
-PUBLIC _size3d3_6
 PUBLIC _aOpenErrorOn_3d3
 PUBLIC _aRb
 PUBLIC _sign3d3
-PUBLIC _size3d3
 PUBLIC _aObjectDataTooBig_
 PUBLIC _byte_3BE80
 PUBLIC _aObjdataOverflow
@@ -531,7 +518,6 @@ PUBLIC _dword_3B4D4
 PUBLIC _keyValue
 PUBLIC _g_viewZ
 PUBLIC _dword_3B1FE
-PUBLIC _word_336FE
 PUBLIC _dword_3C024
 PUBLIC _word_3B4DE
 PUBLIC _word_3C02C
@@ -545,15 +531,11 @@ PUBLIC _word_3BE3C
 PUBLIC _word_38FF6
 PUBLIC _word_33710
 PUBLIC _stru_3A95A
-PUBLIC _word_336E6
-PUBLIC _frameTick
 PUBLIC _word_3C028
 PUBLIC _word_3C03A
-PUBLIC _g_frameRateScaling
 PUBLIC _word_34186
 PUBLIC _word_3419C
 PUBLIC _word_339B4
-PUBLIC _word_336F4
 PUBLIC _word_336F6
 PUBLIC _stru_33402
 PUBLIC _word_33442
@@ -567,13 +549,9 @@ PUBLIC _aKm
 PUBLIC _unk_3C030
 PUBLIC _var_674
 PUBLIC _word_3A940
-PUBLIC _word_3370E
 PUBLIC _word_3C02E
 PUBLIC _g_currentWeaponType
-PUBLIC _word_336F2
-PUBLIC _word_336EA
 PUBLIC _g_planes
-PUBLIC _word_3370C
 PUBLIC _stru_3B208
 PUBLIC _unk_3A948
 PUBLIC _word_38152
@@ -584,7 +562,6 @@ PUBLIC _word_38126
 PUBLIC _var_589
 PUBLIC _var_590
 PUBLIC _off_38364
-PUBLIC _word_330BC
 PUBLIC _unk_3806E
 PUBLIC _unk_380B6
 PUBLIC _a256left_pic
@@ -600,12 +577,10 @@ PUBLIC _byte_3850E
 PUBLIC _unk_38128
 PUBLIC _word_3755D
 PUBLIC _word_3755F
-PUBLIC _allocSize
 PUBLIC _word_38202
 PUBLIC _aRear_pic
 PUBLIC _word_38FDC
 PUBLIC _word_3C09A
-PUBLIC _word_330C2
 PUBLIC _word_33098
 PUBLIC _word_330B4
 PUBLIC _word_3309C
@@ -677,7 +652,6 @@ PUBLIC _var_585
 PUBLIC _var_586
 PUBLIC _word_383CC
 PUBLIC _word_383AE
-PUBLIC _word_3370A
 PUBLIC _word_3C6AC
 PUBLIC _word_333D8
 PUBLIC _word_333DA
@@ -721,7 +695,6 @@ PUBLIC _aStallWarning
 PUBLIC _aSecond_Target
 PUBLIC _aPrimaryTarget_0
 PUBLIC _var_730
-PUBLIC _waypointIndex
 PUBLIC _aAutopilot
 PUBLIC _word_38FEA
 PUBLIC _word_3BE92
@@ -743,7 +716,6 @@ PUBLIC _word_380D0
 PUBLIC _word_380D8
 PUBLIC _tempString
 PUBLIC _word_383F2
-PUBLIC _g_autopilotAltitude
 PUBLIC _word_33096
 PUBLIC _g_missionStatus
 PUBLIC _var_669
@@ -753,7 +725,6 @@ PUBLIC _aFiredBy
 PUBLIC _word_3B204
 PUBLIC _word_3B206
 PUBLIC _g_gunHits
-PUBLIC _missileSpecIndex
 PUBLIC _gfx_allocPage
 PUBLIC _gfx_drawString
 PUBLIC _gfx_initOverlay
@@ -946,11 +917,7 @@ _aNc_xxx equ aNc_xxx
 aCe_xxx db 'ce.xxx',0
 aJp_xxx db 'jp.xxx',0
 aNa_xxx db 'na.xxx',0
-_byte_32933 db 0
-_exitCode db 81h
     db 0
-_gfxModeUnset dw 0
-_f15DgtlResult dw 0
 _regnStr dw offset aRegn_xxx
 _scenarioPlh dw offset aLb_xxx
     dw offset aPg_xxx ;"pg.xxx"
@@ -965,7 +932,6 @@ _aCockpit_pic db 'cockpit.PIC',0
     db 0
 aF15dgtl_bin db 'F15DGTL.BIN',0
 f15dgtlAddr dw 0
-_allocSize dw 0
     db 1
     db 2 dup(0)
 unk_32977 db 0
@@ -1029,7 +995,6 @@ aAutomaticLandi db 'Automatic Landing Engaged',0
 _aAutomaticLandi equ aAutomaticLandi
     db 0
     _waypoints Waypoint 4 dup(<0>)
-_waypointIndex dw 0
 word_32A34 dw 0
 _word_32A34 equ word_32A34
 _aNone db 'None',0
@@ -1631,21 +1596,16 @@ _word_3309E equ word_3309E
     MissileSpec <1, 4>
     MissileSpec <5, 6>
     MissileSpec <0>
-_missileSpecIndex dw 0
 word_330B4 dw 28Ah
 _word_330B4 equ word_330B4
-_g_autopilotAltitude dw 0
 g_missionStatus dw 1
 _g_missionStatus equ g_missionStatus
 word_330BA dw 1
 _word_330BA equ word_330BA
-_word_330BC dw 0
 word_330BE dw 0
 _word_330BE equ word_330BE
     db 1
     db 0
-_word_330C2 dw 1
-_g_frameRateScaling dw 4
     _missiles Missile <'AIM-9M', 'Sidewinder', 17h, 4>
     Missile <'AIM-120', 'AMRAAM ', 16h, 4>
     Missile <'AGM-88A', 'HARM', 18h, 4>
@@ -2155,9 +2115,6 @@ _word_33442 equ word_33442
     _stru_335C4 Projectile 0Ch dup(<0>)
 word_336E4 dw 4
 _word_336E4 equ word_336E4
-_word_336E6 dw 0FFFFh
-_frameTick dw 0
-_word_336EA dw 0
 word_336EC dw 1
 _word_336EC equ word_336EC
 _word_336EC equ word_336EC
@@ -2165,16 +2122,12 @@ word_336EE dw 0
 _word_336EE equ word_336EE
 word_336F0 dw 0
 _word_336F0 equ word_336F0
-_word_336F2 dw 0FFFFh
-_word_336F4 dw 0FFFFh
 word_336F6 dw 0FFFFh
 _word_336F6 equ word_336F6
 word_336F8 dw 1
 _word_336F8 equ word_336F8
 word_336FA dw 0
 _word_336FA equ word_336FA
-_word_336FC dw 0FFFFh
-_word_336FE dw 4
 word_33700 dw 0FFFFh
 _word_33700 equ word_33700
 word_33702 dw 1
@@ -2186,9 +2139,6 @@ word_33706 dw 1
 _word_33706 equ word_33706
 word_33708 dw 0
 _word_33708 equ word_33708
-_word_3370A dw 1
-_word_3370C dw 0FFFFh
-_word_3370E dw 0
 word_33710 dw 1
 _word_33710 equ word_33710
 word_33712 dw 0
@@ -2939,10 +2889,7 @@ word_33BAE dw 400h
     db 0
     db 8
     db 0
-_size3d3 dw 1
 _buf3d3 dw 64h dup(0)
-_size3d3_2 dw 0
-_sign3dt dw 3131h
 _sizes3dt dw 20h
     dw 20h
     dw 20h
@@ -2952,11 +2899,6 @@ _matrix3dt dw 0A0h dup(0)
 _word_33DD0 dw 0
 word_33DD2 dw 0
     db 60 dup(0)
-_size3d3_4 dw 0
-_size3d3_5 dw 0
-_size3d3_6 dw 0
-_size3d3_3 dw 0
-_sign3dg dw 3232h
 _unk_33E1A db 10h
     db 17 dup(10h)
     db 0

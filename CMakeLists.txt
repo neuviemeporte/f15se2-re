@@ -63,6 +63,7 @@ set(EGAME_SOURCES
     ${SRC_DIR}/egkeys.c
     ${SRC_DIR}/egfileio.c
     ${SRC_DIR}/egpic.c
+    ${SRC_DIR}/egdata.c
     ${SRC_DIR}/egstubs.c
     ${NOASM_GFX_SOURCES}
 )
