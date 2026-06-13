@@ -1,21 +1,25 @@
 /*
- * util.h - Declarations for functions shared between start.exe and end.exe
+ * common.h - Declarations for functions shared between start.exe and end.exe
  */
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef COMMON_H
+#define COMMON_H
 
 #include "../inttype.h"
 #include "../const.h"
 
-/* functions provided by util.c */
+/* program teardown - cleanup.c */
 void cleanup(void);
+
+/* string drawing - drawstr.c */
 void drawStringAt(int16 *pageNum, const char *string, int x, int y);
+
+/* text layout & number formatting - textfmt.c */
 void drawStringCentered(int16 *page, const char *str, int startx, int y, int endx);
 int stringWidth(int16 *page, const char *str);
 void my_ltoa(int32 value, char *buf);
 void my_itoa(int value, char *buf);
 
-/* functions provided by util2.c */
+/* file/picture wrappers & strcpy - filepic.c */
 int openFileWrapper(const char *filename, int mode);
 void closeFileWrapper(int handle);
 void mystrcpy(char *dest, const char *source);
@@ -42,4 +46,4 @@ int getTimeOfDay(void);
 void setTimerIrqHandler(void);
 void restoreTimerIrqHandler(void);
 
-#endif /* UTIL_H */
+#endif /* COMMON_H */

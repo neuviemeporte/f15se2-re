@@ -287,14 +287,14 @@ void drawStringAtPos(int16 *s, char far *str, int x, int y);
 void drawFarString(int16 *s, char far *str);
 void farStrcpy(char *dst, char far *src);
 int loadFileSection(char *name, int b, int c);
-int loadFileSectionEx(char *name, int b, int c, int d, int e);
+int writeFileSection(char *name, int b, int c, int d, int e);
 void outportByte(int port, int value);
 void decodePicRaw(int handle, int segment);
 void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int16* gfxPage);
 int selectMenuItem(MenuItem *items, int unused, int itemCount, int16* inputState, int16* gfxPage);
 void loadWorldData(char* destOffset, int size);
 void readFromWorldBuf(char *dest, int size, int count, int bufHandle);
-void readFromWorldFile(char *dest, int size, int count, int bufHandle);
+void writeToWorldBuf(char *dest, int size, int count, int bufHandle);
 extern int worldDataReady;
 extern char *worldStrings[];
 extern char worldStringBuf[];
@@ -434,7 +434,7 @@ void clearKeybuf(void);
 void loadWorldStrings(void);
 void setupWorldBufPtr(void);
 void readWorldData(void);
-void loadTheaterIndex(void);
+void computeMissionResult(void);
 void debriefMainLoop(void);
 void showPostMissionAwards(void);
 extern void far copyJoystickData(uint8 far *data);
@@ -464,7 +464,7 @@ extern int16 picRowPad;
 extern int16 picRow;
 extern int16 picReadFromFilePtr;
 
-/* Pic decoder state (BSS, moved to end_data.c) */
+/* Pic decoder state (BSS, moved to endata.c) */
 extern int16 worldBufOffset;
 extern int16 worldBufSegment;
 extern int16 picReadBufEndPtr;

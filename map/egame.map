@@ -9,8 +9,8 @@ padding: seg000 NEAR 0000-000f R0000-000f detached
 main: seg000 NEAR 0010-0146 R0010-0146 complete
 drawCockpit: seg000 NEAR 0147-0210 R0147-0210 complete
 runGameSession: seg000 NEAR 0211-0293 R0211-0293 complete
-sub_10294: seg000 NEAR 0294-0296 R0294-0296 assembly
-sub_10297: seg000 NEAR 0297-0299 R0297-0299 assembly
+doNothing3: seg000 NEAR 0294-0296 R0294-0296 assembly
+doNothing4: seg000 NEAR 0297-0299 R0297-0299 assembly
 gfxInit: seg000 NEAR 029a-02e0 R029a-02e0 complete
 loadF15DgtlBin: seg000 NEAR 02e2-0333 R02e2-0333 assembly
 drawProjectionSphere: seg000 NEAR 0334-0685 R0334-0685 complete
@@ -23,7 +23,7 @@ updateBulletsAndFire: seg000 NEAR 1676-1840 R1676-1840 complete
 updateTracerParticles: seg000 NEAR 1841-18d4 R1841-18d4 complete
 applyGravityFall: seg000 NEAR 18d5-18f5 R18d5-18f5 complete
 initFrameRandom: seg000 NEAR 18f6-1970 R18f6-1970 complete
-sub_11971: seg000 NEAR 1971-19a2 R1971-19a2 complete
+resetSimObjectLocks: seg000 NEAR 1971-19a2 R1971-19a2 complete
 initWeaponLoadout: seg000 NEAR 19a3-1a17 R19a3-1a17 complete
 drawWeaponAmmo: seg000 NEAR 1a18-1a87 R1a18-1a87 complete
 drawWeaponSelectMarker: seg000 NEAR 1a88-1b36 R1a88-1b36 complete
@@ -42,7 +42,7 @@ setCommWorldbufPtr: seg000 NEAR 21a9-21c4 R21a9-21c4 complete
 callLoad3DAll: seg000 NEAR 21c6-21c9 R21c6-21c9 complete
 render3DView: seg000 NEAR 21ca-2277 R21ca-2277 complete
 waitFrameSync: seg000 NEAR 2278-2299 R2278-2299 complete
-copySomeMem: seg000 NEAR 229a-22b7 R229a-22b7 complete
+loadColorPalette: seg000 NEAR 229a-22b7 R229a-22b7 complete
 projectObjects: seg000 NEAR 22b8-26b3 R22b8-26b3 complete
 scaleCoordToLod: seg000 NEAR 26b4-273d R26b4-271d U271e-271f R2720-273d complete
 process3dg: seg000 NEAR 273e-2873 R273e-2848 U2849-284a R284b-2873 complete
@@ -89,9 +89,9 @@ restoreTimerIrqHandler: seg000 NEAR 3cb6-3cd6 R3cb6-3cd6 assembly
 calibrateGameSpeed: seg000 NEAR 3df2-3e86 R3df2-3e86 assembly
 manipulateTimer: seg000 NEAR 3e87-3edb R3e87-3edb assembly
 getTimeOfDay: seg000 NEAR 3edc-3ee2 R3edc-3ee2 assembly
-otherKeyDispatch: seg000 NEAR 3f72-51f8 R3f72-41e8 U41e9-41ea R41eb-51f8
+stepFlightModel: seg000 NEAR 3f72-51f8 R3f72-41e8 U41e9-41ea R41eb-51f8
 applyRotationDelta: seg000 NEAR 51f9-5236 R51f9-5236 complete
-computeHudAttitude: seg000 NEAR 5237-5410 R5237-5410 complete
+computeAttitudeAngles: seg000 NEAR 5237-5410 R5237-5410 complete
 rebuildOrientation: seg000 NEAR 5411-543a R5411-543a complete
 signedRatio16: seg000 NEAR 543b-54b6 R543b-54b6 complete
 valueToAngle: seg000 NEAR 54b7-553f R54b7-553f complete
@@ -105,7 +105,7 @@ waitForKeyPress: seg000 NEAR 613b-6171 R613b-6171 complete
 updateThreatSites: seg000 NEAR 6172-6345 R6172-6345 complete
 fireGroundThreat: seg000 NEAR 6346-660d R6346-660d complete
 computeThreatRangeBearing: seg000 NEAR 660e-66bd R660e-66bd complete
-sub_166BE: seg000 NEAR 66be-6741 R66be-6741 complete
+updateThreatAlert: seg000 NEAR 66be-6741 R66be-6741 complete
 computeThreatScore: seg000 NEAR 6742-67b3 R6742-67b3 complete
 updateObjects: seg000 NEAR 67b4-7593 R67b4-7593
 fireAirThreat: seg000 NEAR 7594-7839 R7594-7839
@@ -117,9 +117,9 @@ processTargetReached: seg000 NEAR 87ea-89a9 R87ea-89a9 complete
 markTargetReached: seg000 NEAR 89aa-8a43 R89aa-8a43 complete
 bombTarget: seg000 NEAR 8a44-8aa4 R8a44-8aa4 complete
 fireMissile: seg000 NEAR 8aa6-8df3 R8aa6-8df3 complete
-projectWorldPos: seg000 NEAR 8df4-8e37 R8df4-8e37 complete
+testWorldPosVisible: seg000 NEAR 8df4-8e37 R8df4-8e37 complete
 clearStatusPanel: seg000 NEAR 8e38-8e4f R8e38-8e4f complete
-drawCockpitHud: seg000 NEAR 8e50-9484 R8e50-9484 complete
+renderHudFrame: seg000 NEAR 8e50-9484 R8e50-9484 complete
 setActivePanel: seg000 NEAR 94d0-9579 R94d0-9538 U9539-953a R953b-9563 U9564-9565 R9566-9579 complete
 refreshActivePanel: seg000 NEAR 957a-9594 R957a-9594 complete
 initTacMapView: seg000 NEAR 9595-95c8 R9595-95c8 complete
@@ -145,8 +145,8 @@ switchIndicatorColor: seg000 NEAR 9eb6-9f46 R9eb6-9f46 complete
 drawPanelText: seg000 NEAR 9fad-9fcb R9fad-9fcb complete
 fillPanelBox: seg000 NEAR 9fcc-a02f R9fcc-a02f complete
 drawCenteredLabelBox: seg000 NEAR a030-a0ca Ra030-a038 Ua039-a0c6 Ra0c7-a0ca assembly
-drawSomeStrings: seg000 NEAR a0cb-a0fd Ra0cb-a0fd complete
-draw2Strings: seg000 NEAR a0fe-a139 Ra0fe-a139 complete
+drawStringBothPages: seg000 NEAR a0cb-a0fd Ra0cb-a0fd complete
+drawStringActivePage: seg000 NEAR a0fe-a139 Ra0fe-a139 complete
 drawStringCentered: seg000 NEAR a13a-a182 Ra13a-a182 complete
 drawNumber: seg000 NEAR a183-a1b0 Ra183-a1b0 complete
 readScreenPixel: seg000 NEAR a1b1-a1e3 Ra1b1-a1e3 complete
@@ -173,7 +173,7 @@ findWaypointEntry: seg000 NEAR c6be-c7a1 Rc6be-c795 Uc796-c797 Rc798-c7a1 comple
 computeMapTargetRange: seg000 NEAR c7a2-c7c5 Rc7a2-c7c5 complete
 computeSimObjectRange: seg000 NEAR c7c6-c7e9 Rc7c6-c7e9 complete
 computeTargetBearing: seg000 NEAR c7ea-c82c Rc7ea-c82c complete
-sub_1C82D: seg000 NEAR c82d-c863 Rc82d-c863 complete
+computeLoftAngle: seg000 NEAR c82d-c863 Rc82d-c863 complete
 getTargetSymbol: seg000 NEAR c864-c8a3 Rc864-c890 Uc891-c892 Rc893-c8a3 complete
 isTargetOverWater: seg000 NEAR c8a4-c8dd Rc8a4-c8dd complete
 load15Flt3d3: seg000 NEAR c8de-c9d1 Rc8de-c9d1 complete
@@ -193,12 +193,12 @@ readAxisInput: seg000 NEAR d21e-d25f Rd21e-d25f complete
 keyDispatch: seg000 NEAR d260-d9da Rd260-d2c9 Ud2ca-d2cb Rd2cc-d523 Ud524-d529 Rd52a-d5ee Ud5ef-d5f0 Rd5f1-d743 Ud744-d746 Rd747-d927 Ud928-d929 Rd92a-d9da complete
 selectMissile: seg000 NEAR d9db-da34 Rd9db-da34 complete
 makeSound: seg000 NEAR da35-da5e Rda35-da5e complete
-sub_1DA5F: seg000 NEAR da5f-da8c Rda5f-da8c complete
-sub_1DA8D: seg000 NEAR da8d-daad Rda8d-daad complete
+playVoiceCue: seg000 NEAR da5f-da8c Rda5f-da8c complete
+updateEngineSound: seg000 NEAR da8d-daad Rda8d-daad complete
 recalcTimeScale: seg000 NEAR daae-db2a Rdaae-db2a complete
 setupLodDistances: seg000 NEAR db2b-db9b Rdb2b-db9b complete
-sub_1DB9C: seg000 NEAR db9c-dbb6 Rdb9c-dbb6 complete
-sub_1DBE0: seg000 NEAR dbe0-dbff Rdbe0-dbff complete
+exitSlowMotion: seg000 NEAR db9c-dbb6 Rdb9c-dbb6 complete
+disableTextBlink: seg000 NEAR dbe0-dbff Rdbe0-dbff complete
 openFileWrapper: seg000 NEAR dd4c-dd5d Rdd4c-dd5d complete
 closeFileWrapper: seg000 NEAR dd70-dd7d Rdd70-dd7d complete
 createFileWrapper: seg000 NEAR dd5e-dd6d Rdd5e-dd6d complete

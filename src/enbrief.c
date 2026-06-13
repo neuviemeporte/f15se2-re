@@ -2,10 +2,10 @@
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
-#include "shared/util.h"
+#include "shared/common.h"
 #include "end.h"
 
-void loadTheaterIndex(void)
+void computeMissionResult(void)
 {
     unsigned int x, y;
 

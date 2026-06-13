@@ -651,12 +651,12 @@ int audio_jump_68() { return 0; }
 int audio_jump_69() { return 0; }
 int audio_jump_6d(int a) { return 0; }
 
-/* projectObjects: eg3d_a.c calls the 8-int form; eg3d_b.c defines a
+/* projectObjects: eg3dview.c calls the 8-int form; eg3dproj.c defines a
    different (int,int,long,long,long) overload. Stub the called form. */
 void projectObjects(int a,int b,int c,int d,int e,int f,int g,int h) {}
 
-/* --- Data symbols referenced by otherKeyDispatch (moved from egame_rc.asm
-   to C in eghud.c). The DOS build defines these in egame_rc.asm's DATA
+/* --- Data symbols referenced by stepFlightModel (moved from egame_rc.asm
+   to C in egflight.c). The DOS build defines these in egame_rc.asm's DATA
    segment; the 64-bit stub build needs C definitions to link. --- */
 uint8 byte_37F98;
 uint8 byte_37F99;

@@ -7,7 +7,7 @@
 #include "const.h"
 #include "debug.h"
 #include "start.h"
-#include "shared/util.h"
+#include "shared/common.h"
 
 #include <dos.h>
 
@@ -250,7 +250,7 @@ doSrand:
         loadPic(aF15_spr_0, commData->gfxInitResult);
     }
     TRACE(("main: DEBUG_AUTOSTART - write world"));
-    writeWorld(aTemp_wld);
+    exportWorldToComm(aTemp_wld);
     commData->setupDone = 3;
     commData->continueFlag = 0;
     commData->restartFlag = 0;
@@ -294,7 +294,7 @@ doSrand:
     }
     // 403
     TRACE(("main: write world"));
-    writeWorld(aTemp_wld);
+    exportWorldToComm(aTemp_wld);
     commData->setupDone = 3;
     commData->continueFlag = 0;
     commData->restartFlag = 0;

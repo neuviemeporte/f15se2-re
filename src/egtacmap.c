@@ -21,38 +21,38 @@ void clearStatusPanel(void) {
 }
 
 // ==== seg000:0x8e50 ====
-void drawCockpitHud(int arg_0) {
+void renderHudFrame(int arg_0) {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E, var_10, var_12, var_14, var_16, var_18, var_1A;
     char var_1C;
-    TRACE(("drawCockpitHud: enter"));
+    TRACE(("renderHudFrame: enter"));
     byte_3C5A0 = gfx_getDisplayPage();
-    TRACE(("drawCockpitHud: after getDisplayPage=%d"));
+    TRACE(("renderHudFrame: after getDisplayPage=%d"));
     // probably x,y
     var_16 = waypoints[waypointIndex].mapX - g_viewX_;
     var_1A = waypoints[waypointIndex].mapY - g_viewY_;
-    TRACE(("drawCockpitHud: after waypoints, word_330C2=%d", word_330C2));
+    TRACE(("renderHudFrame: after waypoints, word_330C2=%d", word_330C2));
     word_3BE92 = computeBearing(var_16, -var_1A);
-    TRACE(("drawCockpitHud: after computeBearing"));
+    TRACE(("renderHudFrame: after computeBearing"));
     if (word_330C2 != 0) {
-        TRACE(("drawCockpitHud: word_330C2 branch, word_38FEA=%d", word_38FEA));
+        TRACE(("renderHudFrame: word_330C2 branch, word_38FEA=%d", word_38FEA));
         if (word_38FEA != 0) {
             word_38FEA = 0;
             if (!(keyValue & 0x80)) {
-                TRACE(("drawCockpitHud: calling setDrawColor(0xd)"));
+                TRACE(("renderHudFrame: calling setDrawColor(0xd)"));
                 setDrawColor(0xd);
-                TRACE(("drawCockpitHud: calling fillRectBoth"));
+                TRACE(("renderHudFrame: calling fillRectBoth"));
                 fillRectBoth(0, 0, 0x13f, 0x60);
                 gfx_setDacAnimCount(0x3c);
             }
         }
-        TRACE(("drawCockpitHud: past 8ed2, keyValue=%d byte_37C24=%d", keyValue, byte_37C24));
+        TRACE(("renderHudFrame: past 8ed2, keyValue=%d byte_37C24=%d", keyValue, byte_37C24));
         byte_37C2F = 1;
         if (keyValue == 0 && byte_37C24 == 0) {
-            TRACE(("drawCockpitHud: entering keyValue==0 branch, setupUseJoy=%d", commData->setupUseJoy));
+            TRACE(("renderHudFrame: entering keyValue==0 branch, setupUseJoy=%d", commData->setupUseJoy));
             if (!commData->setupUseJoy) {
-                TRACE(("drawCockpitHud: calling setDrawColor(0)"));
+                TRACE(("renderHudFrame: calling setDrawColor(0)"));
                 setDrawColor(0);
-                TRACE(("drawCockpitHud: calling drawViewportLine"));
+                TRACE(("renderHudFrame: calling drawViewportLine"));
                 drawViewportLine(0x115, 0x53, 0x125, 0x53);
                 drawViewportLine(0x125, 0x53, 0x125, 0x5f);
                 drawViewportLine(0x125, 0x5f, 0x115, 0x5f);
@@ -81,7 +81,7 @@ void drawCockpitHud(int arg_0) {
             }
             // stall warning display
             if (g_knots < word_3C5A6 && word_3BEBE != g_viewZ && frameTick & 1) {
-                draw2Strings(aStallWarning, 0x84, 0x1e, 0xf);
+                drawStringActivePage(aStallWarning, 0x84, 0x1e, 0xf);
             }
             if (g_currentWeaponType == 0 || g_currentWeaponType == 2) {
                 setDrawColor(7);
@@ -115,13 +115,13 @@ void drawCockpitHud(int arg_0) {
                 drawNumber(word_380D0 < 0x64 ? word_380D0 : (word_380D0 / 5) * 5, 0xe4, 0x36, 0xf);
             }
             if (word_3370A > 1) {
-                drawSomeStrings(aAccel, 0x96, 0x4, 0xf);
+                drawStringBothPages(aAccel, 0x96, 0x4, 0xf);
             }
             if (g_playerPlaneFlags & 0x1000) {
-                drawSomeStrings(aTraining, 0xea, 0x10, 0xf);
+                drawStringBothPages(aTraining, 0xea, 0x10, 0xf);
             }
             if (g_autopilotAltitude != 0) {
-                drawSomeStrings(aAutopilot, 0xec, 0x5a, 0xf);
+                drawStringBothPages(aAutopilot, 0xec, 0x5a, 0xf);
             }
             var_6 = clampRange((((word_3BE92 - g_ourHead) >> 6) / 3) + 0x9f, 0x59, 0xe5);
             setDrawColor(0x0b);
@@ -134,14 +134,14 @@ somewhere:
         drawTacticalMap(byte_3C5A0);
     }
     if (word_383F2 != 0 && ((keyValue == 0 && byte_37C24 == 0) || (word_3370E != 0))) {
-        draw2Strings(tempString, -(((int16)strlen(tempString) >> 1) - 0x28) * 4, 0x18, 0xf);
+        drawStringActivePage(tempString, -(((int16)strlen(tempString) >> 1) - 0x28) * 4, 0x18, 0xf);
         word_383F2--;
         if (word_336EA == 1) {
-            draw2Strings(aPressAnyKeyToP, 0x78, 1, word_330BC != 0 ? 0xe : 0);
+            drawStringActivePage(aPressAnyKeyToP, 0x78, 1, word_330BC != 0 ? 0xe : 0);
         }
     }
     if (word_383F4 != 0 && keyValue == 0 && byte_37C24 == 0) {
-        draw2Strings(string_3C04A, -(((int16)strlen(string_3C04A) >> 1) - 0x28) * 4, 0x5a, 0xf);
+        drawStringActivePage(string_3C04A, -(((int16)strlen(string_3C04A) >> 1) - 0x28) * 4, 0x5a, 0xf);
         word_383F4--;
     }
 }
@@ -469,13 +469,13 @@ void fillPanelBox(int panelId, int color) {
 }
 
 // ==== seg000:0xa0cb ====
-void drawSomeStrings(const char *text, int screenX, int screenY, int color) {
+void drawStringBothPages(const char *text, int screenX, int screenY, int color) {
     drawStringCentered(var_564, text, screenX, screenY, color);
     drawStringCentered(var_565, text, screenX, screenY, color);
 }
 
 // ==== seg000:0xa0fe ====
-void draw2Strings(const char *text, int screenX, int screenY, int color) {
+void drawStringActivePage(const char *text, int screenX, int screenY, int color) {
     if (byte_3C5A0 == 0) {
         drawStringCentered(var_564, text, screenX, screenY, color);
     } else {
@@ -501,7 +501,7 @@ void drawStringCentered(int16* strStruct, const char *text, int screenX, int scr
 void drawNumber(int value, int x, int y, int color) {
     char buf[20];
     itoa(value, buf, 10);
-    drawSomeStrings(buf, x, y, color);
+    drawStringBothPages(buf, x, y, color);
 }
 
 // ==== seg000:0xa1b1 ====
@@ -527,6 +527,6 @@ void setTimedMessage(char *message) {
 }
 
 // ==== seg000:0xa224 ====
-int routine_260(int param_1, int objIdx) {
+int missileTargetCompat(int param_1, int objIdx) {
     return (int)(char)var_83[param_1 * 13 + ((int)(char)byte_3BFA4[g_planes[objIdx].field_C & 0x7f] & 0xf)];
 }

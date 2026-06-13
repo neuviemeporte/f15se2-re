@@ -26,7 +26,7 @@ int keyDispatch(uint16 scanCode)
 
     switch (scanCode) {
     case 0x1500:
-        sub_1DBE0();
+        disableTextBlink();
         break;
     case 0x1372:
         var_588++;
@@ -65,7 +65,7 @@ int keyDispatch(uint16 scanCode)
             makeSound(0x20, 2);
         }
         if (!(*(char *)&g_playerPlaneFlags & 1)) {
-            sub_1DB9C();
+            exitSlowMotion();
         }
         break;
     case 0x2000:
@@ -102,7 +102,7 @@ int keyDispatch(uint16 scanCode)
             g_frameRateScaling = g_frameRateScaling / 2;
             recalcTimeScale();
         } else {
-            sub_1DB9C();
+            exitSlowMotion();
         }
         break;
     case 0x2f00:
@@ -110,7 +110,7 @@ int keyDispatch(uint16 scanCode)
         strcpy(strBuf, (char *)aSounds);
         strcat(strBuf, itoa(3 - var_600, unk_3C030, 10));
         tempStrcpy(strBuf);
-        sub_1DA8D();
+        updateEngineSound();
         break;
     case 0x3100:
         *(char *)&word_330BC ^= 1;
@@ -298,11 +298,11 @@ void makeSound(int soundId, int priority) {
             audio_jump_66(soundId);
         }
     }
-    sub_1DA8D();
+    updateEngineSound();
 }
 
 // ==== seg000:0xda5f ====
-void sub_1DA5F(int weaponIdx) {
+void playVoiceCue(int weaponIdx) {
     if (var_600 < 2 && word_3BE3C == 0 &&
         (unsigned)((int16 *)(aArmed + 7))[weaponIdx] < (unsigned)f15DgtlResult) {
         audio_jump_6d(weaponIdx);
@@ -310,7 +310,7 @@ void sub_1DA5F(int weaponIdx) {
 }
 
 // ==== seg000:0xda8d ====
-void sub_1DA8D(void) {
+void updateEngineSound(void) {
     if (var_600 != 0 || word_3BE3C != 0) {
         audio_jump_69();
     } else {
@@ -343,7 +343,7 @@ void setupLodDistances(void) {
 }
 
 // ==== seg000:0xdb9c ====
-void sub_1DB9C() {
+void exitSlowMotion() {
     if (word_3370A == 2) {
         word_3370A = 1;
         g_frameRateScaling <<= 1;
@@ -352,7 +352,7 @@ void sub_1DB9C() {
 }
 
 // ==== seg000:0xdbe0 ====
-void sub_1DBE0(void) {
+void disableTextBlink(void) {
     byte_3BF93[0] = 0;
     regs.h.al = 0x8D;
     int86(0x10, &regs, &regs);

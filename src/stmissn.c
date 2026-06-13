@@ -2,7 +2,7 @@
 #include "offsets.h"
 #include "pointers.h"
 #include "comm.h"
-#include "shared/util.h"
+#include "shared/common.h"
 #include "gfx.h"
 #include "slot.h"
 #include "const.h"
@@ -13,6 +13,88 @@
 #include <stdio.h>
 #include <dos.h>
 
+
+/* stmissn.c - split from stinit.c (mission select), compiled /Gs /Zi */
+
+void clearKeybuf()
+{
+    while (misc_jump_5a_keybuf() == 0) {
+        misc_jump_5b_getkey();
+    }
+}
+
+void waitJoyKey(void)
+{
+    while (joyOrKey() == 0) {}
+}
+
+int joyOrKey() {
+    if (commData->setupUseJoy == 1) {
+        if (misc_jump_5d_readJoy(0) != 0) {
+            return 1;
+        }
+    }
+    if (cbreakHit != 0) {
+        cleanup();
+        restoreCbreakHandler();
+        exit(0);
+    }
+    if (misc_jump_5a_keybuf() != 0) {
+        return 0;
+    }
+    // 5b6, alt-q hit check
+    if (misc_jump_5b_getkey() == KEYCODE_ALTQ) {
+        cleanup();
+        exit(0);
+    }
+    return 1;
+}
+
+/* 0x5d5 */
+void waitMdaCgaStatus(int16 iter)
+{
+    /* 0x5e0 */
+    while (iter-- != 0) {
+        /* 0x5e2 */
+        if (commData->setupMono != 0) {
+            while ((inp(PORT_MDA_STATUS) & MDA_STATUS_RETRACE) == 0) {}
+            while ((inp(PORT_MDA_STATUS) & MDA_STATUS_RETRACE) != 0) {}
+        /* 0x60f */
+        }
+        else {
+            while ((inp(PORT_CGA_STATUS) & CGA_STATUS_RETRACE) == 0) {}
+            while ((inp(PORT_CGA_STATUS) & CGA_STATUS_RETRACE) != 0) {}
+        }
+    /* 0x62f */
+    }
+    /* 0x634 */
+}
+
+void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
+    gfx_setPageN(*pageNum);
+    gfx_setColor(color);
+    lineX1 = x1;
+    lineY1 = y1;
+    lineX2 = x2;
+    lineY2 = y2;
+    drawLineWrapper();
+    gfx_nop23();
+}
+
+/* 0x674 */
+void showPic640(char* filename)
+{
+    int fileHandle;
+    intRegs[1] = INT_VID_MODESET;
+    intRegs[0] = MODE_640_350;
+    intDispatch(IRQ_VIDEO, intRegs, intRegs);
+    gfx_setDac(4);
+    fileHandle = openFileWrapper(filename, 0);
+    picBlit(fileHandle, 0);
+    closeFileWrapper(fileHandle);
+}
+
+/* ---- merged from stmissn.c ---- */
 void missionSelect()
 {
     int index, count;
@@ -103,7 +185,7 @@ int missionMenuSelect(char **names, char **desc, char *title, int selection)
     TRACE(("missionMenuSelect(): animated arm"));
     do {
 again:
-        if ((act = processStoreInput()) != KEYCODE_ENTER) {
+        if ((act = pollMenuInput()) != KEYCODE_ENTER) {
             if (act == KEYCODE_UPARROW) {
                 if (selection > 0) {
                     timerCounter3 = 6;
@@ -223,7 +305,7 @@ void printMission() {
     drawLine(page1NumPtr, 0xa0, 0x16, 0xf9, 0x16, 1);
     drawStringAt(page1NumPtr, aTakeoffFrom, 0x82, 0x20);
     page1Desc.color = COLOR_BRIEF_DESC_HL;
-    placeString(targets[0].baseIdx);
+    buildTargetLabel(targets[0].baseIdx);
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x2a, 0xb9);
     mystrcpy(todayMissStrBuf, aOnc_2);
     mystrcat(todayMissStrBuf, getItemCoordStr(targets[0].baseIdx));
@@ -234,7 +316,7 @@ void printMission() {
     page1Desc.color = COLOR_TITLE;
     drawStringAt(page1NumPtr, aPrimaryTarget, 0x82, 0x40);
     page1Desc.color = COLOR_BRIEF_DESC_HL;
-    placeString(targets[0].targetIdx);
+    buildTargetLabel(targets[0].targetIdx);
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x4a, 0xb9);
     page1Desc.font = FONT_SMALL;
     page1Desc.color = COLOR_COORDS;
@@ -245,7 +327,7 @@ void printMission() {
     page1Desc.color = COLOR_TITLE;
     drawStringAt(page1NumPtr, aSecondaryTarge, 0x82, 0x60);
     page1Desc.color = COLOR_BRIEF_DESC_HL;
-    placeString(targets[1].targetIdx);
+    buildTargetLabel(targets[1].targetIdx);
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x6a, 0xb9);
     page1Desc.font = FONT_SMALL;
     page1Desc.color = COLOR_COORDS;
@@ -284,20 +366,20 @@ printMissionAgain:
     enableHighlight = 1;
 }
 
-int processStoreInput() {
+int pollMenuInput() {
     uint16 key;
     char n;
     int l;
     int j;
     j = l = 0;
     n = 0;
-    TRACE(("processStoreInput(): entering"));
+    TRACE(("pollMenuInput(): entering"));
     if (joyRepeatFlag == 1) {
         timerCounter = 0;
         n = 1;
     }
     if (commData->setupUseJoy == 1) { //10d8
-        TRACE(("processStoreInput(): use joy 1"));
+        TRACE(("pollMenuInput(): use joy 1"));
         j = misc_jump_5d_readJoy(0);
         l = misc_jump_5d_readJoy(1);
         pollJoystick();
@@ -311,18 +393,18 @@ int processStoreInput() {
         //     ((joyAxes[0] < 0x4e || (joyAxes[0] > 0xb2)))) ||
         //     ((joyAxes[1] < 0x4e || (joyAxes[1] > 0xb2)))) && (var_6 != 1)) break;
         if ((joyRepeatFlag == 1) && (0xf < timerCounter)) { //113f
-            TRACE(("processStoreInput(): cond 1"));
+            TRACE(("pollMenuInput(): cond 1"));
             n = 0;
             joyRepeatFlag = 0;
         }
         if (commData->setupUseJoy == 1) {
-            TRACE(("processStoreInput(): use joy 2"));
+            TRACE(("pollMenuInput(): use joy 2"));
             j = misc_jump_5d_readJoy(0);
             l = misc_jump_5d_readJoy(1);
             pollJoystick();
         }
         if (cbreakHit != 0) {
-            TRACE(("processStoreInput(): cbreak"));
+            TRACE(("pollMenuInput(): cbreak"));
             cleanup();
             restoreCbreakHandler();
             exit(0);
@@ -330,46 +412,46 @@ int processStoreInput() {
         // blink cursor on top of current pilot selection
         blinkPilot();
     }
-    TRACE(("processStoreInput(): out of while"));
+    TRACE(("pollMenuInput(): out of while"));
     if (misc_jump_5a_keybuf() == 0) {
         key = misc_jump_5b_getkey();
-        TRACE(("processStoreInput(): got key 0x%x", key));
+        TRACE(("pollMenuInput(): got key 0x%x", key));
     }
     else if (j == 1) {
-        TRACE(("processStoreInput(): setting enter"));
+        TRACE(("pollMenuInput(): setting enter"));
         key = KEYCODE_ENTER;
     }
     else if (joyAxes[1] < JOY_DEADZONE_LO) {
-        TRACE(("processStoreInput(): joy up"));
+        TRACE(("pollMenuInput(): joy up"));
         key = KEYCODE_UPARROW;
         joyRepeatFlag = 1;
     }
     else if (joyAxes[1] > JOY_DEADZONE_HI) {
-        TRACE(("processStoreInput(): joy dn"));
+        TRACE(("pollMenuInput(): joy dn"));
         key = KEYCODE_DNARROW;
         joyRepeatFlag = 1;
     }
     else if (joyAxes[0] < JOY_DEADZONE_LO) {
-        TRACE(("processStoreInput(): joy left"));
+        TRACE(("pollMenuInput(): joy left"));
         key = KEYCODE_LEFTARROW;
         joyRepeatFlag = 1;
     }
     else if (joyAxes[0] > JOY_DEADZONE_HI) {
-        TRACE(("processStoreInput(): joy right"));
+        TRACE(("pollMenuInput(): joy right"));
         key = KEYCODE_RIGHTARROW;
         joyRepeatFlag = 1;
     }
     if (((uint8*)&key)[0]) {
         key = key & 0xff;
-        TRACE(("processStoreInput(): anded to %u", key));
+        TRACE(("pollMenuInput(): anded to %u", key));
     }
     if (key == KEYCODE_ALTQ) {
-        TRACE(("processStoreInput(): exiting"));
+        TRACE(("pollMenuInput(): exiting"));
         cleanup();
         restoreCbreakHandler();
         exit(0);
     }
-    TRACE(("processStoreInput(): tail returning 0x%x", key));
+    TRACE(("pollMenuInput(): tail returning 0x%x", key));
     return key;
 }
 

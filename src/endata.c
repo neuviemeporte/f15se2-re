@@ -1,4 +1,4 @@
-/* end_data.c — Data definitions migrated from.DATA segment
+/* endata.c — Data definitions migrated from.DATA segment
  */
 #include "inttype.h"
 #include "struct.h"

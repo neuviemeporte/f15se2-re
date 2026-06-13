@@ -1,37 +1,29 @@
 /*
- * util2.c - Utility functions shared between start.exe and end.exe
- * Compiled with /Gs (no /Zi)
+ * filepic.c - file/picture open-close wrappers, loadPic, and mystrcpy
+ * Compiled with /Gs (no /Zi). Shared between start.exe and end.exe.
  */
 
-#include "util.h"
+#include "common.h"
 #include "../debug.h"
 
 int openFile(const char *name, int mode);
 void fileClose(int handle);
 void decodePic(int handle, int segment);
 
-int openFileWrapper(const char *filename, int mode)
-{
-    return openFile(filename, mode);
-}
-
 void mystrcpy(char *dest, const char *source) {
     do {
     } while ((*dest++ = *source++) != '\0');
+}
+
+int openFileWrapper(const char *filename, int mode)
+{
+    return openFile(filename, mode);
 }
 
 void closeFileWrapper(int handle)
 {
     TRACE(("closeFileWrapper"));
     fileClose(handle);
-}
-
-void loadPic(const char *filename, int segment) {
-    int handle;
-    handle = openFileWrapper(filename, 0);
-    TRACE(("loadPic(): opened %s, loading into segment 0x%x", filename, segment));
-    decodePic(handle, segment);
-    closeFileWrapper(handle);
 }
 
 #ifdef BUGFIX
@@ -51,4 +43,12 @@ void openShowPic(char *name, int page, int garbage)
 #endif
     closeFileWrapper(fileHandle);
     TRACE(("openShowPic: file closed, returning"));
+}
+
+void loadPic(const char *filename, int segment) {
+    int handle;
+    handle = openFileWrapper(filename, 0);
+    TRACE(("loadPic(): opened %s, loading into segment 0x%x", filename, segment));
+    decodePic(handle, segment);
+    closeFileWrapper(handle);
 }

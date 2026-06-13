@@ -14,7 +14,7 @@
 #include <string.h>
 
 
-void otherKeyDispatch(void) {
+void stepFlightModel(void) {
     // Local variables - names chosen to match MSC 5.1 hash-based stack layout
     // Within same hash bucket: first declared → highest BP offset (LIFO)
     // Dummies fill gaps to achieve sub sp, 0x3E (31 word slots)
@@ -202,11 +202,11 @@ switch_break:
         x = (word_336EA != 0) ? (int16)((word_38FE0 & 0xF) << 8) - 0x800
                                    : 0;
 
-        x = sub_1CF8E(x - g_ourHead + word_3BE92, 0xEC00, 0x1400) * 2;
+        x = clampValue(x - g_ourHead + word_3BE92, 0xEC00, 0x1400) * 2;
 
         word_3C00E = -clampRange((x - g_ourRoll) >> 6, -24, 24);
 
-        d = sub_1CF8E(((g_autopilotAltitude - g_viewZ) << 4) - word_38FC4, 0xEC00, 0xC00);
+        d = clampValue(((g_autopilotAltitude - g_viewZ) << 4) - word_38FC4, 0xEC00, 0xC00);
 
         word_3C5A4 = clampRange((d - g_ourPitch) >> 7, -8, 8);
 
@@ -236,7 +236,7 @@ switch_break:
             d = clampRange((abs(h) + abs(z)) * 2 + x / 32, 50, 0x1000);
             if (d < 0x1000)
             {
-                sub_1DB9C();
+                exitSlowMotion();
             }
 
             if (g_planes[s].flags & 0x200)
@@ -272,7 +272,7 @@ switch_break:
             c = computeBearing(h - g_viewX_, g_viewY_ - z);
             n = (int16)g_knots / 16;
 
-            x = sub_1CF8E(c - g_ourHead, (-n) << 8, n << 8) * 2;
+            x = clampValue(c - g_ourHead, (-n) << 8, n << 8) * 2;
 
             if (word_33702 != 0)
             {
@@ -284,7 +284,7 @@ switch_break:
             g_setThrust = clampRange((abs(x) / 256) + (d / 64), 35, 80);
             UpdateThrottleState();
 
-            d = sub_1CF8E(((d - g_viewZ) >> 3) + (word_38FC4 >> 7), -24, 24);
+            d = clampValue(((d - g_viewZ) >> 3) + (word_38FC4 >> 7), -24, 24);
 
             word_3C5A4 = clampRange(d - (g_ourPitch >> 7), -16, 16);
 
@@ -509,7 +509,7 @@ switch_break:
         applyRotationDelta(&word_38080, unk_3806E);
     }
     
-    computeHudAttitude();
+    computeAttitudeAngles();
 
     if ((uint16)word_3A8FE > (uint16)g_velocity && (uint16)word_3BEBE < (uint16)g_viewZ) {
         g_ourPitch -= ((uint16)word_3A8FE - (uint16)g_velocity) >> ((gameData->unk4 == 2 || g_gunHits > 8) ? 1 : 2);
@@ -624,7 +624,7 @@ void applyRotationDelta(int param_1, int param_2) {
     memcpy(unk_3806E, unk_380B6, 0x12);
 }
 
-void computeHudAttitude(void)
+void computeAttitudeAngles(void)
 {
     int p;
 
@@ -956,7 +956,7 @@ void renderFrame() {
         byte_34197 = 3;
         *(uint8*)(&word_3BE98) = 0x0b;
     }
-    copySomeMem(word_330BC);
+    loadColorPalette(word_330BC);
     *(uint8*)(&word_36B86) = 0;
 #if defined(DEBUG) && defined(DISABLE_3D)
     /* Skip the whole 3D render (incl. drawHudWorldOverlay HUD) to get continuous frames. */
@@ -1048,7 +1048,7 @@ loop:
         ;
     if (_bios_keybrd(0) == 0x1900)
         goto loop;
-    sub_1DA8D();
+    updateEngineSound();
     var_383 = p;
 }
 

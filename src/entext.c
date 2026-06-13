@@ -3,7 +3,7 @@
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
-#include "shared/util.h"
+#include "shared/common.h"
 #include "end.h"
 
 void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y, int lineHeight) {
@@ -65,9 +65,4 @@ void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y
         b++;
         a = b;
     } while (1);
-}
-
-void seedRandom(void) {
-    TRACE(("seedRandom"));
-    srandInit(getTimeOfDay());
 }
