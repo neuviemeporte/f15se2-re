@@ -66,8 +66,3 @@ void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y
         a = b;
     } while (1);
 }
-
-void seedRandom(void) {
-    TRACE(("seedRandom"));
-    srandInit(getTimeOfDay());
-}

@@ -70,12 +70,27 @@ START_BASE := stslots.asm
 START_ASM := stcode.asm $(START_BASE)
 COMMON_SRC := shared/util.c
 COMMON_SRC2 := shared/util2.c
+# util.c was split into byte-identical pieces (util.c=cleanup, util_b.c=drawStringAt,
+# util_c.c=string/number helpers) so the shared utility functions can be interleaved
+# into each program's link order to match the original module layout. All three keep
+# util.c's /Gs /Zi flags. util2.c stays a single TU.
 COMMON_OBJ := $(BUILDDIR)/util.obj
+COMMON_OBJ_B := $(BUILDDIR)/util_b.obj
+COMMON_OBJ_C := $(BUILDDIR)/util_c.obj
 COMMON_OBJ2 := $(BUILDDIR)/util2.obj
-START_SRC := stmain.c stinit.c stmissn.c stsprit.c strand.c stpilot.c stpinp.c stinkey.c stalloc.c stterr.c stparse.c stgrid.c stgen.c stdata.c
+COMMON_UTIL := $(COMMON_OBJ) $(COMMON_OBJ_B) $(COMMON_OBJ_C)
+START_SRC := stmain.c stinit.c stinit_b.c stsprit.c strand.c stpilot.c stalloc.c stterr.c stparse.c stgen.c stdata.c
 START_BASEHDR = $(SRCDIR)/start.h
 START_COBJ := $(call cobj,$(BUILDDIR),$(START_SRC))
-START_OBJ := $(START_COBJ) $(COMMON_OBJ) $(COMMON_OBJ2) $(call asmobj,$(BUILDDIR),$(START_ASM))
+# Explicit link order interleaves the shared util pieces between the per-module
+# objs to match the original layout in map/start.map.
+START_OBJ := $(BUILDDIR)/stmain.obj $(BUILDDIR)/stinit.obj $(COMMON_OBJ) \
+	$(BUILDDIR)/stinit_b.obj $(BUILDDIR)/stsprit.obj \
+	$(COMMON_OBJ_B) $(COMMON_OBJ_C) $(BUILDDIR)/strand.obj $(BUILDDIR)/stpilot.obj \
+	$(COMMON_OBJ2) \
+	$(BUILDDIR)/stalloc.obj $(BUILDDIR)/stterr.obj $(BUILDDIR)/stparse.obj \
+	$(BUILDDIR)/stgen.obj $(BUILDDIR)/stdata.obj \
+	$(call asmobj,$(BUILDDIR),$(START_ASM))
 
 # reference and target entrypoints (offset of main()) for binary comparison
 START_VRF_REF := bin/start.exe
@@ -83,27 +98,31 @@ START_VRF_REFEP := 0x10
 START_VRF_TGTEP := [558bec83ec1c56c706]
 
 $(START_COBJ): $(START_BASEHDR)
-$(COMMON_OBJ) $(COMMON_OBJ2): $(SRCDIR)/shared/util.h
+$(COMMON_OBJ) $(COMMON_OBJ_B) $(COMMON_OBJ_C) $(COMMON_OBJ2): $(SRCDIR)/shared/util.h
 $(BUILDDIR)/util.obj: $(SRCDIR)/shared/util.c $(HDRS) | $(BUILDDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
+$(BUILDDIR)/util_b.obj: $(SRCDIR)/shared/util_b.c $(HDRS) | $(BUILDDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
+$(BUILDDIR)/util_c.obj: $(SRCDIR)/shared/util_c.c $(HDRS) | $(BUILDDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 $(BUILDDIR)/util2.obj: $(SRCDIR)/shared/util2.c $(HDRS) | $(BUILDDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 $(DEBUGDIR)/util.obj: $(SRCDIR)/shared/util.c $(HDRS) | $(DEBUGDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
+$(DEBUGDIR)/util_b.obj: $(SRCDIR)/shared/util_b.c $(HDRS) | $(DEBUGDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
+$(DEBUGDIR)/util_c.obj: $(SRCDIR)/shared/util_c.c $(HDRS) | $(DEBUGDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 $(DEBUGDIR)/util2.obj: $(SRCDIR)/shared/util2.c $(HDRS) | $(DEBUGDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 $(BUILDDIR)/util2.obj: MSC_CFLAGS := /Gs /I.. /Id:\f15-se2
-$(BUILDDIR)/util.obj: MSC_CFLAGS := /Gs /Zi /I.. /Id:\f15-se2
+$(BUILDDIR)/util.obj $(BUILDDIR)/util_b.obj $(BUILDDIR)/util_c.obj: MSC_CFLAGS := /Gs /Zi /I.. /Id:\f15-se2
 $(DEBUGDIR)/util2.obj: MSC_CFLAGS := /Gs /w /I.. /Id:\f15-se2 /DDEBUG
-$(DEBUGDIR)/util.obj: MSC_CFLAGS := /Gs /Zi /I.. /Id:\f15-se2 /DDEBUG
+$(DEBUGDIR)/util.obj $(DEBUGDIR)/util_b.obj $(DEBUGDIR)/util_c.obj: MSC_CFLAGS := /Gs /Zi /I.. /Id:\f15-se2 /DDEBUG
 $(BUILDDIR)/stpilot.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/stpinp.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/stinkey.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/stalloc.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/stterr.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/stparse.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/stgrid.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/stmissn.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/stsprit.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/stgen.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/stcode.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
@@ -116,7 +135,7 @@ $(START_EXE): $(START_OBJ)
 START_DEBUG := $(DEBUGDIR)/start.exe
 $(START_DEBUG): MSC_CFLAGS += /DDEBUG
 $(DEBUGDIR)/stmain.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DDEBUG
-START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
+START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util_b.obj $(DEBUGDIR)/util_c.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
 $(START_DBG_OBJ): $(START_BASEHDR)
 $(START_DBG_OBJ): ASMFLAGS += -DDEBUG
 $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
@@ -135,7 +154,7 @@ START_NOASM := $(NOASMDIR)/start.exe
 NOASM_SRC := $(START_SRC) slottram.c ovlpatch.c
 NOASM_SHARED_SRC := file_io.c timer.c miscstub.c gfxstub.c picstub.c ovlstub.c
 NOASM_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
-NOASM_OBJ := $(NOASM_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util2.obj
+NOASM_OBJ := $(NOASM_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util_b.obj $(NOASMDIR)/util_c.obj $(NOASMDIR)/util2.obj
 $(NOASM_COBJ): $(START_BASEHDR)
 # /Ox breaks the timer-polled busy-waits (MSC 5.1 hoists the non-volatile poll
 # out of the loop and its `volatile` is non-functional), so stay at /Gs.
@@ -186,9 +205,9 @@ $(NOASMDIR)/%.obj: $(SRCDIR)/%.asm | $(NOASMDIR)
 # egame.exe NO_ASM build (virtual gfx overlay - Phase 3 of plan)
 #
 EGAME_NOASM := $(NOASMDIR)/egame.exe
-NOASM_EGAME_SRC := egmain.c eg3d_a.c eg3d_b.c eg3d_c.c eg3d_d.c eg3d_e.c eg3d_f.c eg3d_g.c eghud.c eghud_g.c egflt.c egflt_b.c egtacmap.c egui.c egwaypt.c egmath.c egweap.c egfileio.c egpic.c slottram.c ovlpatch.c
+NOASM_EGAME_SRC := egmain.c egproj.c egmain_b.c eg3d_a.c eg3d_b.c eg3d_c.c eg3d_d.c eg3d_e.c eg3d_f.c eg3d_g.c eghud.c eghud_g.c egflt_b.c egtacmap.c egui.c egmath.c egweap.c egfileio.c egpic.c slottram.c ovlpatch.c
 EGAME_NOASM_COBJ := $(call cobj,$(NOASMDIR),$(EGAME_NOASM_SRC))
-EGAME_NOASM_OBJ := $(EGAME_NOASM_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util2.obj
+EGAME_NOASM_OBJ := $(EGAME_NOASM_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util_b.obj $(NOASMDIR)/util_c.obj $(NOASMDIR)/util2.obj
 $(EGAME_NOASM_COBJ): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DNO_ASM /DBUGFIX
 $(EGAME_NOASM): | $(NOASMDIR)
 $(EGAME_NOASM): $(EGAME_NOASM_OBJ)
@@ -206,7 +225,9 @@ EGAME_MAP := $(MAPDIR)/egame.map
 EGAME_LINKMAP := $(BUILDDIR)/egame.map:link
 EGAME_BASE := egame_rc.asm
 EGAME_ASM := $(EGAME_BASE) egfarbu2.asm egseg3.asm egseg2.asm egseg1.asm
-EGAME_SRC := egmain.c eg3d_a.c eg3d_b.c eg3d_c.c eg3d_d.c eg3d_e.c eg3d_f.c eg3d_g.c eghud.c eghud_g.c egflt.c egflt_b.c egtacmap.c egui.c egui_b.c egwaypt.c egmath.c egweap.c egfileio.c egpic.c
+# egmain.c split after gfxInit so drawProjectionSphere (egproj.c) links between
+# gfxInit and updateFrame, matching its early position in map/egame.map.
+EGAME_SRC := egmain.c egproj.c egmain_b.c eg3d_a.c eg3d_b.c eg3d_c.c eg3d_d.c eg3d_e.c eg3d_f.c eg3d_g.c eghud.c eghud_g.c egflt_b.c egtacmap.c egui.c egui_b.c egmath.c egweap.c egfileio.c egpic.c
 EGAME_BASEHDR = $(SRCDIR)/egame.h
 EGAME_COBJ := $(call cobj,$(BUILDDIR),$(EGAME_SRC))
 EGAME_OBJ := $(EGAME_COBJ) $(call asmobj,$(BUILDDIR),$(EGAME_ASM))
@@ -216,6 +237,8 @@ $(EGAME_EXE): $(EGAME_OBJ)
 
 $(EGAME_COBJ): $(EGAME_BASEHDR)
 $(BUILDDIR)/egmain.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/egmain_b.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/egproj.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/eg3d_b.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/eg3d_c.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/eg3d_d.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
@@ -223,12 +246,10 @@ $(BUILDDIR)/eg3d_f.obj: MSC_CFLAGS := /Gs /Zi /Ot /Id:\f15-se2
 $(BUILDDIR)/eghud.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/eghud_g.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egtacmap.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
-$(BUILDDIR)/egwaypt.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/egweap.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/eg3d_a.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/eg3d_e.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/eg3d_g.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
-$(BUILDDIR)/egflt.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egflt_b.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egui.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egui_b.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
@@ -273,10 +294,19 @@ END_MAP := $(MAPDIR)/end.map
 END_LINKMAP := $(BUILDDIR)/end.map:link
 END_BASE := endslots.asm
 END_ASM := endcode.asm $(END_BASE)
-END_SRC := enmain.c enworld.c eninput.c entext.c enaward.c enbrief.c endbrf.c enfile.c end_data.c
+END_SRC := enmain.c enmain_b.c enworld.c eninput.c entext.c entext_b.c enaward.c enbrief.c endbrf.c enfile.c end_data.c
 END_BASEHDR = $(SRCDIR)/end.h
 END_COBJ := $(call cobj,$(BUILDDIR),$(END_SRC))
-END_OBJ := $(END_COBJ) $(COMMON_OBJ) $(COMMON_OBJ2) $(call asmobj,$(BUILDDIR),$(END_ASM))
+# Explicit link order interleaves the shared util pieces between the per-module
+# objs to match the original layout in map/end.map (C functions only; ASM-base
+# routines fall at the end of _TEXT). util.obj=cleanup, util_b=drawStringAt,
+# util_c=string/number helpers, util2=file/strcpy helpers.
+END_OBJ := $(BUILDDIR)/enmain.obj $(COMMON_OBJ) $(BUILDDIR)/enmain_b.obj \
+	$(BUILDDIR)/enworld.obj $(BUILDDIR)/eninput.obj $(COMMON_OBJ_B) \
+	$(BUILDDIR)/entext.obj $(COMMON_OBJ_C) $(BUILDDIR)/entext_b.obj \
+	$(COMMON_OBJ2) $(BUILDDIR)/enaward.obj $(BUILDDIR)/enbrief.obj \
+	$(BUILDDIR)/endbrf.obj $(BUILDDIR)/enfile.obj $(BUILDDIR)/end_data.obj \
+	$(call asmobj,$(BUILDDIR),$(END_ASM))
 $(END_COBJ): $(END_BASEHDR)
 $(END_EXE): | $(BUILDDIR)
 $(END_EXE): $(END_OBJ)
@@ -284,6 +314,7 @@ $(END_EXE): $(END_OBJ)
 
 $(END_COBJ): $(END_BASEHDR)
 $(BUILDDIR)/enmain.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
+$(BUILDDIR)/enmain_b.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/enbrief.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/endbrf.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/eninput.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
@@ -299,7 +330,7 @@ END_VRF_TGTEP := [558bec83ec0e56c746]
 # end.exe debug build
 END_DEBUG := $(DEBUGDIR)/end.exe
 $(END_DEBUG): MSC_CFLAGS += /DDEBUG
-END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
+END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util_b.obj $(DEBUGDIR)/util_c.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
 $(END_DBG_OBJ): $(END_BASEHDR)
 $(END_DBG_OBJ): ASMFLAGS += -DDEBUG
 $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
@@ -316,7 +347,7 @@ $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
 END_NOASM := $(NOASMDIR)/end.exe
 NOASM_END_SRC := $(END_SRC) slottram.c ovlpatch.c
 NOASM_END_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_END_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
-NOASM_END_OBJ := $(NOASM_END_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util2.obj
+NOASM_END_OBJ := $(NOASM_END_COBJ) $(NOASMDIR)/util.obj $(NOASMDIR)/util_b.obj $(NOASMDIR)/util_c.obj $(NOASMDIR)/util2.obj
 $(NOASM_END_COBJ): $(END_BASEHDR)
 # /Ox breaks the timer-polled busy-waits (MSC 5.1 hoists the non-volatile poll
 # out of the loop and its `volatile` is non-functional), so stay at /Gs.
@@ -336,9 +367,9 @@ noasm-end: $(END_NOASM)
 # unit test executable
 #
 TEST_EXE := $(DEBUGDIR)/test.exe
-TEST_SRCS := test.c stinit.c stmissn.c stsprit.c strand.c stpilot.c stpinp.c stinkey.c stalloc.c stterr.c stparse.c stgrid.c stgen.c stdata.c
+TEST_SRCS := test.c stinit.c stsprit.c strand.c stpilot.c stalloc.c stterr.c stparse.c stgen.c stdata.c
 TEST_ASMS := stcode.asm stslots.asm
-TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
+TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(DEBUGDIR)/util.obj $(DEBUGDIR)/util_b.obj $(DEBUGDIR)/util_c.obj $(DEBUGDIR)/util2.obj $(DEBUGDIR)/debug.obj
 TEST_LIBS := slibce.lib
 
 $(TEST_EXE): MSC_CFLAGS := /Gs /w /Id:\f15-se2 /DDEBUG

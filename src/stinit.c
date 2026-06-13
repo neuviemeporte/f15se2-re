@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <dos.h>
 
+
 /* 0x4a0 */
 void initGraphics()
 {
@@ -35,83 +36,4 @@ void initGraphics()
     /* 0x4fb */
     commData->gfxModeNum = gfx_getModecode();
     misc_jump_5e_clearKeyFlags();
-}
-
-
-void clearKeybuf()
-{
-    while (misc_jump_5a_keybuf() == 0) {
-        misc_jump_5b_getkey();
-    }
-}
-
-void waitJoyKey(void)
-{
-    while (joyOrKey() == 0) {}
-}
-
-int joyOrKey() {
-    if (commData->setupUseJoy == 1) {
-        if (misc_jump_5d_readJoy(0) != 0) {
-            return 1;
-        }
-    }
-    if (cbreakHit != 0) {
-        cleanup();
-        restoreCbreakHandler();
-        exit(0);
-    }
-    if (misc_jump_5a_keybuf() != 0) {
-        return 0;
-    }
-    // 5b6, alt-q hit check
-    if (misc_jump_5b_getkey() == KEYCODE_ALTQ) {
-        cleanup();
-        exit(0);
-    }
-    return 1;
-}
-
-/* 0x5d5 */
-void waitMdaCgaStatus(int16 iter)
-{
-    /* 0x5e0 */
-    while (iter-- != 0) {
-        /* 0x5e2 */
-        if (commData->setupMono != 0) {
-            while ((inp(PORT_MDA_STATUS) & MDA_STATUS_RETRACE) == 0) {}
-            while ((inp(PORT_MDA_STATUS) & MDA_STATUS_RETRACE) != 0) {}
-        /* 0x60f */
-        }
-        else {
-            while ((inp(PORT_CGA_STATUS) & CGA_STATUS_RETRACE) == 0) {}
-            while ((inp(PORT_CGA_STATUS) & CGA_STATUS_RETRACE) != 0) {}
-        }
-    /* 0x62f */
-    }
-    /* 0x634 */
-}
-
-void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
-    gfx_setPageN(*pageNum);
-    gfx_setColor(color);
-    lineX1 = x1;
-    lineY1 = y1;
-    lineX2 = x2;
-    lineY2 = y2;
-    drawLineWrapper();
-    gfx_nop23();
-}
-
-/* 0x674 */
-void showPic640(char* filename)
-{
-    int fileHandle;
-    intRegs[1] = INT_VID_MODESET;
-    intRegs[0] = MODE_640_350;
-    intDispatch(IRQ_VIDEO, intRegs, intRegs);
-    gfx_setDac(4);
-    fileHandle = openFileWrapper(filename, 0);
-    picBlit(fileHandle, 0);
-    closeFileWrapper(fileHandle);
 }
