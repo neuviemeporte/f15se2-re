@@ -33,13 +33,7 @@ void render3DView(int camX, int camY, int camZ, long arg_6, long arg_a, long arg
     TRACE(("121CA:3"));
     updateTargetLock();
     TRACE(("121CA:4"));
-#if defined(DEBUG) && defined(DISABLE_3D)
-    /* Legacy debug switch to skip the 3D world renderer. The hang it worked
-       around was an unrelocated INT 0 (divide-error) vector segment in
-       installDivZeroHandler; fixed in egseg1.asm (divZeroStub / SEG). */
-#else
     rasterize3DWorld();
-#endif
     TRACE(("121CA:5"));
     drawHudWorldOverlay();
     TRACE(("121CA:6"));

@@ -236,6 +236,10 @@ EXTRN _blitGaugeSprite:PROC
 blitGaugeSprite equ _blitGaugeSprite
 EXTRN _blitSprite:PROC
 blitSprite equ _blitSprite
+EXTRN _cacheScopePanel:PROC
+cacheScopePanel equ _cacheScopePanel
+EXTRN _restoreScopePanel:PROC
+restoreScopePanel equ _restoreScopePanel
 drawTargetBox equ _drawTargetBox
 drawMissileLock equ _drawMissileLock
 drawTargetLabel equ _drawTargetLabel
@@ -589,8 +593,6 @@ EXTRN word_3BEC8:WORD
 EXTRN word_3BECE:WORD
 EXTRN word_3C020:WORD
 
-PUBLIC _restoreScopePanel
-PUBLIC _captureScopePanel
 PUBLIC _updateThreatTargeting
 PUBLIC _drawModelPoint
 PUBLIC _createFile
@@ -3119,103 +3121,13 @@ _drawStringCentered proc near
 _drawStringCentered endp
 ; ------------------------------seg000:0xa1b0------------------------------
 ; ------------------------------seg000:0xa934------------------------------
-cacheScopePanel proc near
-    mov AX,39h
-    push AX
-    mov AX,49h
-    push AX
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_566]
-    push word ptr [BX]
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_564]
-    push word ptr [BX]
-    call far ptr _gfx_copyRect
-    add SP,10h
-    ret
-    nop
-cacheScopePanel endp
+; cacheScopePanel reconstructed in C (egui.c)
 ; ------------------------------seg000:0xa961------------------------------
 ; ------------------------------seg000:0xa962------------------------------
-restoreScopePanel proc near
-    mov AX,39h
-    push AX
-    mov AX,49h
-    push AX
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_564]
-    push word ptr [BX]
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_566]
-    push word ptr [BX]
-    call far ptr _gfx_copyRect
-    add SP,10h
-    mov AX,39h
-    push AX
-    mov AX,49h
-    push AX
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_565]
-    push word ptr [BX]
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_564]
-    push word ptr [BX]
-    call far ptr _gfx_copyRect
-    add SP,10h
-    ret
-    nop
-restoreScopePanel endp
-_restoreScopePanel equ restoreScopePanel
+; restoreScopePanel reconstructed in C (egui.c)
 ; ------------------------------seg000:0xa9bb------------------------------
 ; ------------------------------seg000:0xa9bc------------------------------
-captureScopePanel proc near
-    mov AX,39h
-    push AX
-    mov AX,49h
-    push AX
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    cmp byte ptr [_byte_3C5A0],0h
-    jz LAB_1000_a9da
-    mov BX,word ptr [_var_565]
-    jmp LAB_1000_a9de
-    db 90h
-LAB_1000_a9da:
-    mov BX,word ptr [_var_564]
-LAB_1000_a9de:
-    mov AX,word ptr [BX]
-    push AX
-    mov AX,70h
-    push AX
-    mov AX,18h
-    push AX
-    mov BX,word ptr [_var_566]
-    push word ptr [BX]
-    call far ptr _gfx_copyRect
-    add SP,10h
-    ret
-captureScopePanel endp
-_captureScopePanel equ captureScopePanel
+; captureScopePanel reconstructed in C (egui.c)
 ; ------------------------------seg000:0xa9f7------------------------------
 ; ------------------------------seg000:0xa9f8------------------------------
 updateTargetLock equ _updateTargetLock

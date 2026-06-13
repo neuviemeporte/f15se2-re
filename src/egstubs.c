@@ -333,6 +333,7 @@ char var_550;
 int16 var_552;
 int16 *var_564;
 int16 *var_565;
+int16 *var_566;
 int16 *var_568;
 int16 var_569;
 int16 var_570;
@@ -608,7 +609,6 @@ int16 word_3C8B2;
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }
 int far buildRotationMatrixFar(int16* param_1, int param_2, int param_3, int param_4) { return 0; }
-void captureScopePanel() { }
 int far clipAndRasterizeEdge() { return 0; }
 void closeFile(int arg_0) { }
 int cosine(int) { return 0; }
@@ -626,14 +626,12 @@ int __cdecl openFile(const char *, int) { return 0; }
 void picBlit(int handle, int unk) {}
 int far projectModelEdgesFar() { return 0; }
 void far projectSceneObject(char *, int, int, int, int, int, int) {}
-void rasterize3DWorld() { }
 int readAxisInput(int param_1) { return 0; }
 int readFile1(int arg_0, int arg_1, int arg_2) { return 0; }
 int readFile2(int arg_0, int arg_1, int arg_2, int arg_3) { return 0; }
 void redrawTacMap(int, int) { }
 int far resetScanlineSpans() { return 0; }
 int far restoreInt9Handler() { return 0; }
-void restoreScopePanel() { }
 void setTimerIrqHandler() { }
 void pascal shiftLongLeftInPlace(int count, long *ptr) {}
 void pascal shiftLongRightInPlace(int count, long *ptr) {}
@@ -645,6 +643,7 @@ int far sub_20658() { return 0; }
 void __cdecl __far sub_21A7E() {}
 void updateThreatTargeting() { }
 int writeFileAtRaw(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) { return 0; }
+int far sub_202F6() { return 0; }
 
 /* --- slot.h overlay jump stubs (egame doesn't link shared/ovlstub.c) --- */
 int misc_jump_5b_getkey() { return 0; }
