@@ -959,27 +959,17 @@ aF15dgtl_bin db 'F15DGTL.BIN',0
 f15dgtlAddr dw 0
 _allocSize dw 0
     db 1
-    db 0
-    db 0
+    db 2 dup(0)
 unk_32977 db 0
-    db 0
-    db 0
+    db 2 dup(0)
     db 3Fh
     db 1
     db 0C7h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0Fh
     db 0
     db 4
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
 _word_3298A label byte
 word_3298A dw 0C4h
 _word_3298C label byte
@@ -988,8 +978,7 @@ _word_3298E label byte
 word_3298E dw 64h
 PUBLIC _word_32990
 _word_32990 label byte
-    db 0
-    db 0
+    db 2 dup(0)
     db 2
     db 0
     db 3
@@ -1019,11 +1008,7 @@ unk_329AB db 0
     db 77h
     db 0
     db 0A4h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
 ovlInsaneFlag db 0
 aErrorReleasingOverlay db 'Error releasing overlay memory$'
 aSafeLanding db 'Safe Landing',0
@@ -1040,47 +1025,27 @@ _waypointIndex dw 0
 word_32A34 dw 0
 _word_32A34 equ word_32A34
 _aNone db 'None',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
 aSa2 db 'SA-2',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0C8h
     db 0
     db 3
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSa5 db 'SA-5',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 5Eh
     db 1
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSa8b db 'SA-8B',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 7Dh
     db 0
     db 5
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSa10 db 'SA-10',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 40h
     db 1
     db 7
@@ -1088,17 +1053,13 @@ aSa10 db 'SA-10',0
     db 1
     db 0
 aSa11 db 'SA-11',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 0C8h
     db 0
     db 5
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSa12 db 'SA-12',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 22h
     db 1
     db 6
@@ -1106,14 +1067,11 @@ aSa12 db 'SA-12',0
     db 1
     db 0
 aSa13 db 'SA-13',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 7Dh
     db 0
     db 3
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSaN4 db 'SA-N-4',0
     db 0
     db 0C8h
@@ -1127,9 +1085,7 @@ aSaN5 db 'SA-N-5',0
     db 96h
     db 0
     db 3
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSaN6 db 'SA-N-6',0
     db 0
     db 40h
@@ -1143,13 +1099,9 @@ aSaN7 db 'SA-N-7',0
     db 0C8h
     db 0
     db 5
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aHawk db 'Hawk',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0AFh
     db 0
     db 6
@@ -1161,86 +1113,41 @@ aRapier db 'Rapier',0
     db 4Bh
     db 0
     db 8
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aTiger db 'Tiger',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 41h
     db 0
     db 4
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSeacat db 'Seacat',0
     db 0
     db 0C8h
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aIl76 db 'IL76',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0C8h
     db 0
     db 8
     db 0
     db 3
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
     db 32h
     db 0
     db 5
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 11 dup(0)
     db 46h
     db 0
     db 6
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 11 dup(0)
     db 50h
     db 0
     db 7
     db 0
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
     db 64h
     db 0
     db 8
@@ -1250,37 +1157,22 @@ aIl76 db 'IL76',0
     db 4Fh
     db 54h
     db 48h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
     db 0F4h
     db 1
     db 5
     db 0
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
     db 28h
     db 0
     db 3
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aMig23 db 'MIG-23',0
     db 20h
 aFlogger db 'Flogger',0
 _aFlogger equ aFlogger
-    db 0
-    db 0
+    db 2 dup(0)
     db 0E4h
     db 2
     db 30h
@@ -1292,34 +1184,24 @@ _aFlogger equ aFlogger
     db 0Ah
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aMig25 db 'MIG-25',0
     db 20h
 aFoxbat db 'Foxbat',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 3Ah
     db 2
     db 0BCh
-    db 2
-    db 2
+    db 2 dup(2)
     db 0
     db 12h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aMig29 db 'MIG-29',0
     db 20h
 aFulcrum db 'Fulcrum',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 0BCh
     db 2
     db 90h
@@ -1331,38 +1213,26 @@ aFulcrum db 'Fulcrum',0
     db 14h
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aF1 db 'F-1',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 20h
 aMirage db 'Mirage',0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 16h
     db 3
     db 0A2h
-    db 3
-    db 3
+    db 2 dup(3)
     db 0
     db 14h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aSu27 db 'Su-27',0
     db 0
     db 20h
 aFlanker db 'Flanker',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 0D5h
     db 2
     db 0CBh
@@ -1374,9 +1244,7 @@ aFlanker db 'Flanker',0
     db 14h
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aIl76_0 db 'IL-76',0
     db 0
     db 20h
@@ -1393,12 +1261,9 @@ aMainstay db 'Mainstay',0
     db 0Ch
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aF4e db 'F-4E',0
-    db 0
-    db 0
+    db 2 dup(0)
     db 20h
     db 50h
     db 68h
@@ -1407,9 +1272,7 @@ aF4e db 'F-4E',0
     db 74h
     db 6Fh
     db 6Dh
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 20h
     db 3
     db 8
@@ -1421,16 +1284,12 @@ aF4e db 'F-4E',0
     db 0Bh
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 46h
     db 2Dh
     db 31h
     db 34h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 20h
     db 54h
     db 6Fh
@@ -1438,10 +1297,7 @@ aF4e db 'F-4E',0
     db 63h
     db 61h
     db 74h
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 20h
     db 3
     db 20h
@@ -1453,16 +1309,12 @@ aF4e db 'F-4E',0
     db 8
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 46h
     db 2Dh
     db 31h
     db 38h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 20h
     db 48h
     db 6Fh
@@ -1470,24 +1322,17 @@ aF4e db 'F-4E',0
     db 6Eh
     db 65h
     db 74h
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 94h
     db 2
     db 0CDh
     db 1
     db 5
     db 0
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
+    db 2 dup(0FFh)
+    db 2 dup(0)
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 aAn72 db 'An-72',0
     db 0
     db 20h
@@ -1497,31 +1342,21 @@ aAn72 db 'An-72',0
     db 6Ch
     db 65h
     db 72h
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 5Eh
     db 1
     db 6Ch
-    db 2
-    db 2
-    db 0
-    db 0
-    db 0
+    db 2 dup(2)
+    db 3 dup(0)
     db 9
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 46h
     db 2Dh
     db 31h
     db 38h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 20h
     db 48h
     db 6Fh
@@ -1529,24 +1364,18 @@ aAn72 db 'An-72',0
     db 6Eh
     db 65h
     db 74h
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 94h
     db 2
     db 0CDh
     db 1
     db 5
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 4
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 4Dh
     db 49h
     db 47h
@@ -1558,34 +1387,25 @@ aAn72 db 'An-72',0
     db 46h
     db 6Ch
     db 6Fh
-    db 67h
-    db 67h
+    db 2 dup(67h)
     db 65h
     db 72h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0E4h
     db 2
     db 30h
     db 2
     db 3
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 4
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 46h
     db 2Dh
     db 31h
     db 34h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 20h
     db 54h
     db 6Fh
@@ -1593,31 +1413,23 @@ aAn72 db 'An-72',0
     db 63h
     db 61h
     db 74h
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 20h
     db 3
     db 20h
     db 3
     db 4
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 8
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 46h
     db 2Dh
     db 34h
     db 45h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 20h
     db 50h
     db 68h
@@ -1626,23 +1438,18 @@ aAn72 db 'An-72',0
     db 74h
     db 6Fh
     db 6Dh
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 20h
     db 3
     db 8
     db 2
     db 4
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 0Bh
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 4Dh
     db 49h
     db 47h
@@ -1657,10 +1464,7 @@ aAn72 db 'An-72',0
     db 73h
     db 63h
     db 6Fh
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 26h
     db 2
     db 2Ch
@@ -1672,91 +1476,63 @@ aAn72 db 'An-72',0
     db 10h
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 54h
     db 75h
     db 2Dh
     db 39h
     db 35h
-    db 0
-    db 0
+    db 2 dup(0)
     db 20h
     db 42h
     db 65h
     db 61h
     db 72h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
     db 9Ah
     db 1
     db 0ECh
     db 13h
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 12h
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 4Dh
     db 69h
     db 2Dh
     db 32h
     db 34h
-    db 0
-    db 0
+    db 2 dup(0)
     db 20h
     db 48h
     db 69h
     db 6Eh
     db 64h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
     db 0C8h
     db 0
     db 2Ch
-    db 1
-    db 1
+    db 2 dup(1)
     db 0
     db 11h
     db 0
     db 13h
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 46h
     db 2Dh
     db 35h
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 20h
     db 54h
     db 69h
     db 67h
     db 65h
     db 72h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
     db 0F4h
     db 1
     db 0FAh
@@ -1768,16 +1544,11 @@ aAn72 db 'An-72',0
     db 16h
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 37h
     db 36h
     db 37h
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 20h
     db 42h
     db 6Fh
@@ -1785,24 +1556,18 @@ aAn72 db 'An-72',0
     db 69h
     db 6Eh
     db 67h
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
     db 90h
     db 1
     db 0E8h
     db 3
     db 1
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 12h
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     _sams Sam <'None', 0, 0, 0, 1, 13h>
     Sam <'SA-2', 7Dh, 7D0h, 1, 4, 13h>
     Sam <'SA-5', 96h, 708h, 1, 1, 13h>
@@ -1892,184 +1657,92 @@ _g_frameRateScaling dw 4
     Missile <'1900lbs', 'Extra Fuel', 0FFFEh, 1>
     Missile <'20 mm', 'Guns', 0, 1>
     Missile <'Special', 'Equip', 26h, 1>
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 33 dup(0)
     db 2
     db 6
     db 2
     db 0
     db 2
     db 5
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 25 dup(0)
     db 6
     db 2
     db 1
-    db 2
-    db 2
+    db 2 dup(2)
     db 3
     db 4
-    db 3
-    db 3
-    db 4
-    db 4
-    db 4
+    db 2 dup(3)
+    db 3 dup(4)
     db 1
     db 2
     db 4
     db 1
     db 2
     db 4
+    db 2 dup(5)
+    db 2 dup(4)
     db 5
-    db 5
-    db 4
-    db 4
-    db 5
-    db 4
-    db 4
+    db 2 dup(4)
     db 1
     db 3
-    db 0
-    db 0
-    db 4
-    db 4
-    db 0
-    db 0
-    db 5
-    db 5
-    db 4
-    db 4
+    db 2 dup(0)
+    db 2 dup(4)
+    db 2 dup(0)
+    db 2 dup(5)
+    db 2 dup(4)
     db 5
     db 0
     db 4
     db 0
     db 8
-    db 0
-    db 0
+    db 2 dup(0)
     db 2
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 3
     db 1
     db 3
     db 4
-    db 1
-    db 1
+    db 2 dup(1)
     db 4
     db 2
-    db 3
-    db 3
+    db 2 dup(3)
     db 4
     db 0
     db 3
     db 0
     db 1
-    db 4
-    db 4
-    db 0
-    db 0
+    db 2 dup(4)
+    db 2 dup(0)
     db 4
     db 0
     db 2
     db 0
     db 4
-    db 0
-    db 0
-    db 1
-    db 1
-    db 4
-    db 4
-    db 1
-    db 1
-    db 4
-    db 4
-    db 4
-    db 4
-    db 4
+    db 2 dup(0)
+    db 2 dup(1)
+    db 2 dup(4)
+    db 2 dup(1)
+    db 5 dup(4)
     db 1
     db 3
     db 2
     db 0
-    db 4
-    db 4
+    db 2 dup(4)
     db 0
     db 2
     db 5
-    db 3
-    db 3
+    db 2 dup(3)
     db 2
     db 5
     db 1
     db 3
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 6
     db 0
     db 5
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 4
     db 0
     db 5
@@ -2078,128 +1751,44 @@ _g_frameRateScaling dw 4
     db 0
     db 6
     db 4
-    db 0
-    db 0
-    db 6
-    db 6
+    db 2 dup(0)
+    db 2 dup(6)
     db 3
-    db 6
-    db 6
+    db 2 dup(6)
     db 0
     db 3
     db 0
     db 6
     db 0
     db 3
-    db 0
-    db 0
+    db 2 dup(0)
     db 2
     db 3
-    db 0
-    db 0
+    db 2 dup(0)
+    db 3
+    db 28 dup(0)
     db 3
     db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 3
-    db 0
-    db 4
-    db 4
+    db 2 dup(4)
     db 0
     db 2
-    db 4
-    db 4
+    db 2 dup(4)
     db 3
     db 4
     db 5
     db 0
     db 3
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 13 dup(0)
 word_333D2 dw 0
 _word_333D2 equ word_333D2
 word_333D4 dw 0
 _word_333D4 equ word_333D4
-    db 0
-    db 0
+    db 2 dup(0)
 word_333D8 dw 0
 _word_333D8 equ word_333D8
 word_333DA dw 0
 _word_333DA equ word_333DA
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 38 dup(0)
     stru_33402 struc_9 8 dup(<0>)
 _stru_33402 equ stru_33402
 word_33442 dw 0
@@ -2211,15 +1800,10 @@ _word_33442 equ word_33442
     db 2
     db 0
     db 1
-    db 0
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
+    db 3 dup(0)
+    db 2 dup(0FFh)
     db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 3 dup(0FFh)
     db 3
     db 0
     db 2
@@ -2301,13 +1885,7 @@ _word_33442 equ word_33442
     db 0FDh
     db 0FFh
     db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 7 dup(0FFh)
     db 0FEh
     db 0FFh
     db 0FEh
@@ -2321,11 +1899,8 @@ _word_33442 equ word_33442
     db 2
     db 0
     db 1
-    db 0
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
+    db 3 dup(0)
+    db 2 dup(0FFh)
     db 0FEh
     db 0FFh
     db 0FDh
@@ -2433,9 +2008,7 @@ _word_33442 equ word_33442
     db 0FCh
     db 0FFh
     db 0FCh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 3 dup(0FFh)
     db 0FDh
     db 0FFh
     db 0FCh
@@ -2446,20 +2019,13 @@ _word_33442 equ word_33442
     db 0FFh
     db 2
     db 0
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 6 dup(0FFh)
     db 0FEh
     db 0FFh
     db 0FEh
     db 0FFh
     db 0FDh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 3 dup(0FFh)
     db 2
     db 0
     db 3
@@ -2472,8 +2038,7 @@ _word_33442 equ word_33442
     db 0
     db 1
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 0FEh
     db 0FFh
     db 4
@@ -2499,12 +2064,10 @@ _word_33442 equ word_33442
     db 4
     db 0
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 1
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 1
     db 0
     db 1
@@ -2519,8 +2082,7 @@ _word_33442 equ word_33442
     db 0
     db 2
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 1
     db 0
     db 1
@@ -2559,11 +2121,9 @@ _word_33442 equ word_33442
     db 0FCh
     db 0FFh
     db 4
-    db 0
-    db 0
+    db 2 dup(0)
     db 1
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 0FDh
     db 0FFh
     db 0FCh
@@ -2576,18 +2136,13 @@ _word_33442 equ word_33442
     db 0
     db 1
     db 0
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 4 dup(0FFh)
     db 0FEh
     db 0FFh
     db 0FEh
     db 0FFh
     db 0FDh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 3 dup(0FFh)
     _stru_335C4 Projectile 0Ch dup(<0>)
 word_336E4 dw 4
 _word_336E4 equ word_336E4
@@ -3010,32 +2565,17 @@ _audio_jump_6d proc near                    ; slot 0x6E
     dd 0
 _audio_jump_6d endp
 audio_jump_6d equ _audio_jump_6d
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
 buf6data_4 db 0
     db 0
     db 2
     db 0
     db 2
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 6Fh
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 3Fh
     db 1
 word_339B0 dw offset buf6data_4
@@ -3057,20 +2597,15 @@ _word_339B4 equ unk_339B4
     db 0Ch
     db 0Dh
     db 0Eh
-    db 0Fh
-    db 0Fh
+    db 2 dup(0Fh)
     db 1
     db 8
-    db 0
-    db 0
+    db 2 dup(0)
     db 3
     db 0
-    db 8
-    db 8
+    db 2 dup(8)
     db 9
-    db 7
-    db 7
-    db 7
+    db 3 dup(7)
     db 0Dh
     db 7
     db 3
@@ -3081,67 +2616,38 @@ _word_339B4 equ unk_339B4
     db 4
     db 0
     db 4
-    db 6
-    db 6
+    db 2 dup(6)
     db 0
-    db 0Ch
-    db 0Ch
-    db 0Ch
+    db 3 dup(0Ch)
     db 0Dh
-    db 0Ch
-    db 0Ch
+    db 2 dup(0Ch)
     db 4
     db 3
-    db 4
-    db 4
-    db 4
-    db 4
-    db 4
-    db 4
-    db 4
-    db 4
+    db 8 dup(4)
     db 3
-    db 4
-    db 4
-    db 4
-    db 4
-    db 4
+    db 5 dup(4)
 word_339F4 dw 0FFFFh
 _word_339F4 equ word_339F4
     db 1
-    db 0
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
+    db 3 dup(0)
+    db 2 dup(0FFh)
     db 1
-    db 0
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
+    db 3 dup(0)
+    db 2 dup(0FFh)
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 2
     db 0
     db 1
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 2
     db 0
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 2
     db 0
     db 2
@@ -3153,13 +2659,7 @@ _word_339F4 equ word_339F4
     db 1
     db 0
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 2
     db 0
     db 2
@@ -3167,149 +2667,92 @@ _word_339F4 equ word_339F4
     db 1
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 1
     db 0
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
     db 1
     db 0
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
+    db 2 dup(0FFh)
+    db 2 dup(0)
     db 1
     db 0
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
+    db 2 dup(0FFh)
+    db 2 dup(0)
     db 1
     db 0
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
+    db 2 dup(0FFh)
+    db 2 dup(0)
+    db 0FEh
+    db 3 dup(0FFh)
     db 0FEh
     db 0FFh
-    db 0FFh
-    db 0FFh
+    db 2 dup(0)
     db 0FEh
-    db 0FFh
-    db 0
-    db 0
-    db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
+    db 3 dup(0FFh)
+    db 2 dup(0)
+    db 2 dup(0FFh)
+    db 2 dup(0)
     db 0FEh
     db 0FFh
     db 0FEh
     db 0FFh
     db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0FFh)
+    db 6 dup(0)
     db 0FEh
     db 0FFh
     db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 3 dup(0FFh)
     db 0FEh
     db 0FFh
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
-    db 0
-    db 0
+    db 2 dup(0)
+    db 4 dup(0FFh)
+    db 4 dup(0)
     db 0FEh
     db 0FFh
     db 2
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0FEh
     db 0FFh
     db 2
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0FEh
     db 0FFh
     db 2
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 2
     db 0
     db 1
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 2
     db 0
     db 1
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 1
     db 0
     db 0FEh
     db 0FFh
     db 2
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 2
     db 0
     db 2
@@ -3329,17 +2772,7 @@ _word_339F4 equ word_339F4
     db 1
     db 0
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 11 dup(0)
     db 2
     db 0
     db 2
@@ -3347,89 +2780,67 @@ _word_339F4 equ word_339F4
     db 1
     db 0
     db 2
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 1
     db 0
     db 2
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 2
     db 0
     db 0FEh
     db 0FFh
     db 1
     db 0
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
+    db 2 dup(0FFh)
+    db 2 dup(0)
     db 2
     db 0
     db 0FEh
     db 0FFh
     db 1
     db 0
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
+    db 2 dup(0FFh)
+    db 2 dup(0)
     db 2
     db 0
     db 0FEh
     db 0FFh
     db 1
     db 0
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
+    db 2 dup(0FFh)
+    db 2 dup(0)
     db 2
     db 0
     db 0FEh
     db 0FFh
     db 1
     db 0
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
+    db 2 dup(0FFh)
+    db 2 dup(0)
+    db 0FEh
+    db 3 dup(0FFh)
     db 0FEh
     db 0FFh
-    db 0FFh
-    db 0FFh
+    db 2 dup(0)
     db 0FEh
-    db 0FFh
-    db 0
-    db 0
-    db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 3 dup(0FFh)
     db 1
     db 0
     db 0FEh
     db 0FFh
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0)
+    db 2 dup(0FFh)
     db 2
     db 0
     db 0FEh
     db 0FFh
     db 1
     db 0
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
+    db 2 dup(0FFh)
+    db 2 dup(0)
     db 0FEh
     db 0FFh
     db 0FEh
@@ -3439,94 +2850,49 @@ _word_339F4 equ word_339F4
     db 0FEh
     db 0FFh
     db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 11 dup(0FFh)
+    db 10 dup(0)
     db 0FEh
     db 0FFh
     db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 3 dup(0FFh)
     db 0FEh
     db 0FFh
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0)
+    db 2 dup(0FFh)
     db 0FEh
     db 0FFh
     db 1
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 0FEh
     db 0FFh
     db 2
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
 word_33B74 dw 0FFFFh
 _word_33B74 equ word_33B74
     db 1
     db 0
     db 1
     db 0
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
+    db 2 dup(0FFh)
+    db 2 dup(0)
     db 1
-    db 0
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
+    db 3 dup(0)
+    db 2 dup(0FFh)
+    db 2 dup(0)
 word_33B86 dw 1
 _word_33B86 equ word_33B86
     db 1
     db 0
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 4 dup(0FFh)
     db 1
-    db 0
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
+    db 2 dup(0FFh)
+    db 5 dup(0)
     db 0E0h
     db 0
     db 0F0h
@@ -3569,223 +2935,70 @@ _sizes3dt dw 20h
 _matrix3dt dw 0A0h dup(0)
 _word_33DD0 dw 0
 word_33DD2 dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 60 dup(0)
 _size3d3_4 dw 0
 _size3d3_5 dw 0
 _size3d3_6 dw 0
 _size3d3_3 dw 0
 _sign3dg dw 3232h
 _unk_33E1A db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 17 dup(10h)
     db 0
     db 1
     db 2
     db 3
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 4 dup(10h)
     db 4
     db 5
     db 6
     db 7
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 4 dup(10h)
     db 8
     db 9
     db 0Ah
     db 0Bh
-    db 11h
-    db 11h
-    db 11h
-    db 11h
+    db 4 dup(11h)
     db 0Ch
     db 0Dh
     db 0Eh
     db 0Fh
+    db 7 dup(11h)
+    db 3 dup(10h)
     db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 10h
-    db 10h
-    db 10h
-    db 11h
-    db 10h
-    db 10h
-    db 11h
-    db 11h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 11h
-    db 11h
-    db 11h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 11h
-    db 11h
-    db 10h
-    db 10h
+    db 2 dup(10h)
+    db 2 dup(11h)
+    db 8 dup(10h)
+    db 3 dup(11h)
+    db 6 dup(10h)
+    db 2 dup(11h)
+    db 2 dup(10h)
     db 0
     db 1
     db 2
     db 3
-    db 11h
-    db 11h
-    db 10h
-    db 10h
+    db 2 dup(11h)
+    db 2 dup(10h)
     db 4
     db 5
     db 6
     db 7
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 4 dup(10h)
     db 8
     db 9
     db 0Ah
     db 0Bh
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 4 dup(10h)
     db 0Ch
     db 0Dh
     db 0Eh
     db 0Fh
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
+    db 18 dup(10h)
+    db 18 dup(11h)
     db 0
     db 1
     db 2
     db 3
-    db 11h
-    db 11h
+    db 2 dup(11h)
     db 10h
     db 11h
     db 4
@@ -3793,362 +3006,171 @@ _unk_33E1A db 10h
     db 6
     db 7
     db 11h
-    db 10h
-    db 10h
+    db 2 dup(10h)
     db 11h
     db 8
     db 9
     db 0Ah
     db 0Bh
-    db 11h
-    db 11h
-    db 10h
-    db 10h
+    db 2 dup(11h)
+    db 2 dup(10h)
     db 0Ch
     db 0Dh
     db 0Eh
     db 0Fh
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
+    db 18 dup(10h)
+    db 5 dup(11h)
     db 10h
     db 11h
     db 10h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 4 dup(11h)
+    db 5 dup(10h)
     db 11h
     db 0
     db 1
     db 2
     db 3
-    db 10h
-    db 10h
-    db 10h
+    db 3 dup(10h)
     db 11h
     db 4
     db 5
     db 6
     db 7
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 4 dup(10h)
     db 8
     db 9
     db 0Ah
     db 0Bh
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 4 dup(10h)
     db 0Ch
     db 0Dh
     db 0Eh
     db 0Fh
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 18 dup(10h)
+    db 2 dup(11h)
+    db 7 dup(10h)
     db 11h
-    db 11h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 11h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 8 dup(10h)
     db 0
     db 1
     db 2
     db 3
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 4 dup(10h)
     db 4
     db 5
     db 6
     db 7
-    db 10h
-    db 10h
+    db 2 dup(10h)
     db 11h
     db 10h
     db 8
     db 9
     db 0Ah
     db 0Bh
-    db 11h
-    db 11h
-    db 11h
-    db 11h
+    db 4 dup(11h)
     db 0Ch
     db 0Dh
     db 0Eh
     db 0Fh
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 18 dup(11h)
+    db 18 dup(10h)
     db 0
     db 1
     db 2
     db 3
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 4 dup(10h)
     db 4
     db 5
     db 6
     db 7
-    db 10h
-    db 10h
-    db 11h
-    db 11h
+    db 2 dup(10h)
+    db 2 dup(11h)
     db 8
     db 9
     db 0Ah
     db 0Bh
-    db 10h
-    db 10h
-    db 11h
-    db 11h
+    db 2 dup(10h)
+    db 2 dup(11h)
     db 0Ch
     db 0Dh
     db 0Eh
     db 0Fh
+    db 3 dup(10h)
+    db 2 dup(11h)
     db 10h
-    db 10h
-    db 10h
+    db 3 dup(11h)
+    db 6 dup(10h)
     db 11h
-    db 11h
-    db 10h
-    db 11h
-    db 11h
-    db 11h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 11h
-    db 10h
-    db 10h
-    db 10h
-    db 11h
-    db 11h
-    db 11h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 11h
-    db 11h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 3 dup(10h)
+    db 3 dup(11h)
+    db 4 dup(10h)
+    db 2 dup(11h)
+    db 6 dup(10h)
     db 11h
     db 10h
     db 0
     db 1
     db 2
     db 3
-    db 10h
-    db 10h
+    db 2 dup(10h)
     db 11h
     db 10h
     db 4
     db 5
     db 6
     db 7
-    db 11h
-    db 11h
-    db 10h
-    db 10h
+    db 2 dup(11h)
+    db 2 dup(10h)
     db 8
     db 9
     db 0Ah
     db 0Bh
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 4 dup(10h)
     db 0Ch
     db 0Dh
     db 0Eh
     db 0Fh
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 10 dup(10h)
     db 11h
+    db 2 dup(10h)
+    db 2 dup(11h)
+    db 3 dup(10h)
+    db 3 dup(11h)
+    db 2 dup(10h)
+    db 2 dup(11h)
     db 10h
+    db 4 dup(11h)
     db 10h
-    db 11h
-    db 11h
-    db 10h
-    db 10h
-    db 10h
-    db 11h
-    db 11h
-    db 11h
-    db 10h
-    db 10h
-    db 11h
-    db 11h
-    db 10h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 10h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
+    db 5 dup(11h)
     db 0
     db 1
     db 2
     db 3
-    db 11h
-    db 11h
-    db 11h
-    db 11h
+    db 4 dup(11h)
     db 4
     db 5
     db 6
     db 7
-    db 10h
-    db 10h
+    db 2 dup(10h)
     db 11h
     db 10h
     db 8
     db 9
     db 0Ah
     db 0Bh
-    db 10h
-    db 10h
-    db 11h
-    db 11h
+    db 2 dup(10h)
+    db 2 dup(11h)
     db 0Ch
     db 0Dh
     db 0Eh
     db 0Fh
-    db 10h
-    db 10h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 10h
-    db 10h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
+    db 2 dup(10h)
+    db 6 dup(11h)
+    db 2 dup(10h)
+    db 7 dup(11h)
     db 10h
 _word_3401A dw 0
-    db 0
-    db 0
+    db 2 dup(0)
 _a_3d3 db '.3D3',0
 _aRb db 'rb',0
 _aOpenErrorOn_3d3 db 'Open Error on *.3D3',0
@@ -4175,8 +3197,7 @@ aPressAKeyWhenReady db 'Press a key when ready',0
 _aBadGridFileFormat_ db 'Bad Grid file format.',0
 word_34150 dw 0
 word_34152 dw 0
-    db 0
-    db 0
+    db 2 dup(0)
 word_34156 dw 0
 word_34158 dw 0
 word_3415A dw 0
@@ -4202,9 +3223,7 @@ word_3417D dw 0
 word_3417F dw 0
     db 0
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 word_34186 dw 3
 _word_34186 equ word_34186
     db 4
@@ -4244,8 +3263,7 @@ _byte_3419A equ byte_3419F
     db 0Eh
     db 0Fh
     db 80h
-    db 0
-    db 0
+    db 2 dup(0)
     db 1
     db 0
     db 2
@@ -4270,8 +3288,7 @@ word_341BC dw 2710h
     db 27h
     db 10h
     db 27h
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 0E9h
     db 0FFh
     db 0A5h
@@ -4399,13 +3416,7 @@ word_34256 dw 0
 PUBLIC _word_34256
 _word_34256 equ word_34256
 byte_34258 db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
 word_34260 dw 0
 word_34262 dw 0
 word_34264 dw 0
@@ -4447,8 +3458,7 @@ word_342AA dw 0
 word_342AC dw 0
 word_342AE dw 0
 word_342B0 dw 0
-    db 0
-    db 0
+    db 2 dup(0)
 byte_342B4 db 0
     db 0
 word_342B6 dw 0
@@ -4456,6259 +3466,38 @@ word_342B8 dw 0
 word_342BA dw 0
 word_342BC dw 0
 word_342BE dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 476 dup(0)
 word_3449C dw 0
 word_3449E dw 0
 word_344A0 dw 0
 word_344A2 dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 476 dup(0)
 word_34680 dw 0
 word_34682 dw 0
 word_34684 dw 0
 _word_34684 equ word_34684
 word_34686 dw 0
 _word_34686 equ word_34686
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 139 dup(0)
 unk_34713 db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 336 dup(0)
 word_34864 dw 0
 word_34866 dw 0
 word_34868 dw 0
 _word_34868 equ word_34868
 word_3486A dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 476 dup(0)
 dword_34A48 dd 0
 word_34A4C dw 0
 _word_34A4C equ word_34A4C
 word_34A4E dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 56 dup(0)
 unk_34A88 db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 419 dup(0)
 dword_34C2C dd 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 3784 dup(0)
 word_35AF8 dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 68 dup(0)
 _flt15_buf2 db 1040h dup(0)
 word_36B7E dw 0
 word_36B80 dw 0
@@ -10734,8 +3523,7 @@ word_36B8B dw 0
     db 40h
     db 0
     db 80h
-    db 0
-    db 0
+    db 2 dup(0)
     db 1
     db 0
     db 2
@@ -10752,103 +3540,7 @@ word_36B8B dw 0
     db 0
     db 80h
 byte_36BAE db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 97 dup(0)
 word_36C10 dw 0
 word_36C12 dw 0
 word_36C14 dw 0
@@ -10863,66 +3555,35 @@ word_36C21 dw 0
 word_36C23 dw 0
 word_36C25 dw 0
 word_36C27 dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 8 dup(0)
 byte_36C31 db 0
 byte_36C32 db 0
 word_36C33 dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
     db 2Ah
     db 0
     db 2Ah
-    db 0
-    db 0
-    db 2Ah
-    db 2Ah
-    db 2Ah
-    db 0
-    db 0
+    db 2 dup(0)
+    db 3 dup(2Ah)
+    db 2 dup(0)
     db 2Ah
     db 0
-    db 2Ah
-    db 2Ah
+    db 2 dup(2Ah)
     db 15h
     db 0
-    db 2Ah
-    db 2Ah
-    db 2Ah
-    db 15h
-    db 15h
-    db 15h
-    db 15h
-    db 15h
+    db 3 dup(2Ah)
+    db 5 dup(15h)
     db 3Fh
     db 15h
     db 3Fh
-    db 15h
-    db 15h
-    db 3Fh
-    db 3Fh
-    db 3Fh
-    db 15h
-    db 15h
+    db 2 dup(15h)
+    db 3 dup(3Fh)
+    db 2 dup(15h)
     db 3Fh
     db 15h
-    db 3Fh
-    db 3Fh
-    db 3Fh
+    db 3 dup(3Fh)
     db 15h
-    db 3Fh
-    db 3Fh
-    db 3Fh
+    db 3 dup(3Fh)
 dacValues1 db 3 dup(0), 3 dup(4), 3 dup(8), 3 dup(0Ch), 3 dup(10h)
     db 3 dup(14h), 3 dup(18h), 3 dup(1Ch), 3 dup(20h), 3 dup(24h) ;f0/240 bytes of 80 rgb triplets
     db 3 dup(28h), 3 dup(2Ch), 3 dup(30h), 3 dup(34h), 3 dup(38h)
@@ -10944,8 +3605,7 @@ dacValues1 db 3 dup(0), 3 dup(4), 3 dup(8), 3 dup(0Ch), 3 dup(10h)
     db 1Eh, 31h, 21h, 1Ch, 2Ch, 1Fh, 19h, 28h, 1Bh, 16h, 23h
     db 18h, 14h, 1Eh, 15h, 11h
 dacValues db 34h
-    db 34h
-    db 34h
+    db 2 dup(34h)
     db 31h
     db 33h
     db 34h
@@ -10995,60 +3655,33 @@ byte_36D86 db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
     db 27h, 24h, 30h, 23h, 20h, 2Fh, 20h, 1Dh, 2Fh, 1Ch, 19h
     db 2Eh, 18h, 16h, 2Dh, 15h, 12h, 2Ch, 11h, 0Fh, 2Bh, 0Eh
     db 0Ch, 2Ah, 0Bh, 9, 29h, 8, 6, 28h, 5, 4, 28h, 3, 1, 27h
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
     db 2Ah
     db 0
     db 2Ah
-    db 0
-    db 0
-    db 2Ah
-    db 2Ah
-    db 2Ah
-    db 0
-    db 0
+    db 2 dup(0)
+    db 3 dup(2Ah)
+    db 2 dup(0)
     db 2Ah
     db 0
-    db 2Ah
-    db 2Ah
+    db 2 dup(2Ah)
     db 15h
     db 0
-    db 2Ah
-    db 2Ah
-    db 2Ah
-    db 15h
-    db 15h
-    db 15h
-    db 15h
-    db 15h
+    db 3 dup(2Ah)
+    db 5 dup(15h)
     db 3Fh
     db 15h
     db 3Fh
-    db 15h
-    db 15h
-    db 3Fh
-    db 3Fh
-    db 3Fh
-    db 15h
-    db 15h
+    db 2 dup(15h)
+    db 3 dup(3Fh)
+    db 2 dup(15h)
     db 3Fh
     db 15h
-    db 3Fh
-    db 3Fh
-    db 3Fh
+    db 3 dup(3Fh)
     db 15h
-    db 3Fh
-    db 3Fh
-    db 3Fh
-    db 3
-    db 3
-    db 3
-    db 5
-    db 5
+    db 3 dup(3Fh)
+    db 3 dup(3)
+    db 2 dup(5)
     db 2Ah
     db 5
     db 2Ah
@@ -11057,94 +3690,65 @@ byte_36D86 db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
     db 2Ah
     db 29h
     db 2Ah
-    db 5
-    db 5
+    db 2 dup(5)
     db 29h
     db 5
-    db 2Ah
-    db 2Ah
+    db 2 dup(2Ah)
     db 17h
     db 5
-    db 29h
-    db 29h
-    db 29h
-    db 17h
-    db 17h
-    db 17h
-    db 19h
-    db 19h
+    db 3 dup(29h)
+    db 3 dup(17h)
+    db 2 dup(19h)
     db 3Dh
     db 19h
     db 3Dh
-    db 19h
-    db 19h
+    db 2 dup(19h)
     db 3Dh
     db 3Ch
     db 3Dh
-    db 18h
-    db 18h
+    db 2 dup(18h)
     db 3Dh
     db 19h
-    db 3Dh
-    db 3Dh
+    db 2 dup(3Dh)
     db 3Ch
     db 18h
-    db 3Bh
-    db 3Bh
-    db 3Bh
-    db 6
-    db 6
-    db 6
+    db 3 dup(3Bh)
+    db 3 dup(6)
     db 9
     db 0Ah
     db 2Ah
     db 9
     db 2Ah
-    db 9
-    db 9
+    db 2 dup(9)
     db 2Ah
     db 29h
     db 2Ah
-    db 9
-    db 9
+    db 2 dup(9)
     db 29h
     db 0Ah
-    db 2Ah
-    db 2Ah
+    db 2 dup(2Ah)
     db 1Ah
     db 0Ah
-    db 27h
-    db 27h
-    db 27h
-    db 19h
-    db 19h
-    db 19h
+    db 3 dup(27h)
+    db 3 dup(19h)
     db 1Ch
     db 1Dh
     db 3Bh
     db 1Dh
     db 3Bh
-    db 1Ch
-    db 1Ch
+    db 2 dup(1Ch)
     db 3Bh
     db 3Ah
     db 3Bh
-    db 1Ch
-    db 1Ch
+    db 2 dup(1Ch)
     db 3Bh
     db 1Dh
-    db 3Bh
-    db 3Bh
+    db 2 dup(3Bh)
     db 3Ah
     db 1Ch
-    db 37h
-    db 37h
-    db 37h
-    db 9
-    db 9
-    db 9
-    db 0Eh
-    db 0Eh
+    db 3 dup(37h)
+    db 3 dup(9)
+    db 2 dup(0Eh)
     db 2Ah
     db 0Eh
     db 2Ah
@@ -11153,22 +3757,15 @@ byte_36D86 db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
     db 2Ah
     db 29h
     db 2Ah
-    db 0Eh
-    db 0Eh
+    db 2 dup(0Eh)
     db 29h
     db 0Fh
-    db 2Ah
-    db 2Ah
+    db 2 dup(2Ah)
     db 1Dh
     db 10h
-    db 26h
-    db 26h
-    db 26h
-    db 1Ah
-    db 1Ah
-    db 1Ah
-    db 1Fh
-    db 1Fh
+    db 3 dup(26h)
+    db 3 dup(1Ah)
+    db 2 dup(1Fh)
     db 39h
     db 20h
     db 3Ah
@@ -11177,20 +3774,15 @@ byte_36D86 db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
     db 39h
     db 38h
     db 3Ah
-    db 1Fh
-    db 1Fh
+    db 2 dup(1Fh)
     db 3Ah
     db 20h
     db 3Ah
     db 39h
     db 38h
     db 1Eh
-    db 32h
-    db 32h
-    db 32h
-    db 0Ch
-    db 0Ch
-    db 0Ch
+    db 3 dup(32h)
+    db 3 dup(0Ch)
     db 12h
     db 13h
     db 2Ah
@@ -11201,22 +3793,15 @@ byte_36D86 db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
     db 2Ah
     db 29h
     db 2Ah
-    db 12h
-    db 12h
+    db 2 dup(12h)
     db 29h
     db 14h
-    db 2Ah
-    db 2Ah
+    db 2 dup(2Ah)
     db 1Fh
     db 15h
-    db 25h
-    db 25h
-    db 25h
-    db 1Ch
-    db 1Ch
-    db 1Ch
-    db 22h
-    db 22h
+    db 3 dup(25h)
+    db 3 dup(1Ch)
+    db 2 dup(22h)
     db 37h
     db 23h
     db 38h
@@ -11225,22 +3810,16 @@ byte_36D86 db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
     db 37h
     db 36h
     db 38h
-    db 21h
-    db 21h
+    db 2 dup(21h)
     db 38h
     db 24h
     db 38h
     db 37h
     db 36h
     db 21h
-    db 2Fh
-    db 2Fh
-    db 2Fh
-    db 0Fh
-    db 0Fh
-    db 0Fh
-    db 17h
-    db 17h
+    db 3 dup(2Fh)
+    db 3 dup(0Fh)
+    db 2 dup(17h)
     db 2Ah
     db 16h
     db 2Ah
@@ -11249,20 +3828,14 @@ byte_36D86 db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
     db 2Ah
     db 29h
     db 2Ah
-    db 17h
-    db 17h
+    db 2 dup(17h)
     db 2Ah
     db 19h
-    db 2Ah
-    db 2Ah
+    db 2 dup(2Ah)
     db 22h
     db 1Ah
-    db 24h
-    db 24h
-    db 24h
-    db 1Eh
-    db 1Eh
-    db 1Eh
+    db 3 dup(24h)
+    db 3 dup(1Eh)
     db 24h
     db 25h
     db 35h
@@ -11273,22 +3846,16 @@ byte_36D86 db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
     db 35h
     db 34h
     db 36h
-    db 24h
-    db 24h
+    db 2 dup(24h)
     db 36h
     db 27h
     db 36h
     db 35h
     db 34h
     db 23h
-    db 2Ah
-    db 2Ah
-    db 2Ah
-    db 11h
-    db 11h
-    db 11h
-    db 1Ch
-    db 1Ch
+    db 3 dup(2Ah)
+    db 3 dup(11h)
+    db 2 dup(1Ch)
     db 2Ah
     db 1Ah
     db 2Ah
@@ -11297,46 +3864,31 @@ byte_36D86 db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
     db 2Ah
     db 29h
     db 2Ah
-    db 1Ch
-    db 1Ch
+    db 2 dup(1Ch)
     db 2Ah
     db 1Eh
-    db 2Ah
-    db 2Ah
+    db 2 dup(2Ah)
     db 24h
     db 1Fh
-    db 23h
-    db 23h
-    db 23h
-    db 20h
-    db 20h
-    db 20h
-    db 27h
-    db 27h
+    db 3 dup(23h)
+    db 3 dup(20h)
+    db 2 dup(27h)
     db 34h
     db 28h
     db 34h
     db 28h
     db 27h
-    db 32h
-    db 32h
+    db 2 dup(32h)
     db 34h
-    db 27h
-    db 27h
+    db 2 dup(27h)
     db 34h
     db 29h
     db 34h
-    db 32h
-    db 32h
+    db 2 dup(32h)
     db 25h
-    db 26h
-    db 26h
-    db 26h
-    db 14h
-    db 14h
-    db 14h
-    db 20h
-    db 20h
+    db 3 dup(26h)
+    db 3 dup(14h)
+    db 2 dup(20h)
     db 2Ah
     db 1Fh
     db 2Ah
@@ -11345,41 +3897,28 @@ byte_36D86 db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
     db 2Ah
     db 29h
     db 2Ah
-    db 20h
-    db 20h
+    db 2 dup(20h)
     db 2Ah
     db 23h
-    db 2Ah
-    db 2Ah
+    db 2 dup(2Ah)
     db 27h
     db 24h
-    db 22h
-    db 22h
-    db 22h
-    db 22h
-    db 22h
-    db 22h
-    db 29h
-    db 29h
+    db 6 dup(22h)
+    db 2 dup(29h)
     db 32h
     db 2Ah
     db 32h
     db 2Ah
     db 29h
-    db 30h
-    db 30h
+    db 2 dup(30h)
     db 32h
-    db 29h
-    db 29h
+    db 2 dup(29h)
     db 32h
     db 2Ch
     db 32h
-    db 30h
-    db 30h
+    db 2 dup(30h)
     db 27h
-    db 22h
-    db 22h
-    db 22h
+    db 3 dup(22h)
 otherDacValues db 1Fh, 10h, 1Eh, 1Dh, 0Fh, 1Eh, 1Bh, 0Fh, 1Dh, 19h, 0Eh
     db 1Ch, 17h, 0Dh, 1Bh, 15h, 0Dh, 1Ah, 13h, 0Ch, 19h, 11h ;1e0/480 bytes of 160 rgb triplets
     db 0Ch, 18h, 0Fh, 0Bh, 17h, 0Dh, 0Bh, 16h, 0Ch, 0Ah, 15h
@@ -11656,8 +4195,7 @@ word_37148 dw 324h
     db 1Fh
     db 2Bh
     db 27h
-    db 28h
-    db 28h
+    db 2 dup(28h)
     db 25h
     db 24h
     db 22h
@@ -11681,8 +4219,7 @@ word_37148 dw 324h
     db 6
     db 24h
     db 3
-    db 0
-    db 0
+    db 2 dup(0)
     db 0DCh
     db 0FCh
     db 0B8h
@@ -11937,8 +4474,7 @@ word_37148 dw 324h
     db 0F9h
     db 0DCh
     db 0FCh
-    db 0
-    db 0
+    db 2 dup(0)
 word_37348 dw 0
 _word_37348 equ word_37348
 PUBLIC _word_37348
@@ -12172,8 +4708,7 @@ PUBLIC _word_3734A
     db 1Fh
     db 2Bh
     db 27h
-    db 28h
-    db 28h
+    db 2 dup(28h)
     db 25h
     db 24h
     db 22h
@@ -12197,8 +4732,7 @@ PUBLIC _word_3734A
     db 6
     db 24h
     db 3
-    db 0
-    db 0
+    db 2 dup(0)
     db 0DCh
     db 0FCh
     db 0B8h
@@ -12453,12 +4987,7 @@ PUBLIC _word_3734A
     db 0F9h
     db 0DCh
     db 0FCh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
 byte_3754E db 0
 word_3754F dw 0
 word_37551 dw 0
@@ -12466,892 +4995,15 @@ word_37553 dw 0
 word_37555 dw 0
 word_37557 dw 13Fh
 word_37559 dw 6Fh
-    db 0
-    db 0
+    db 2 dup(0)
 _word_3755D dw 0
 _word_3755F dw 0
 _word_37561 dw 0
 _word_37563 dw 0
 unk_37565 db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 439 dup(0FFh)
 unk_3771D db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 439 dup(0)
 word_378D5 dw 0
 word_378D7 dw 0
 word_378D9 dw 0FFFFh
@@ -13386,33 +5038,15 @@ word_37901 dw 0
 byte_37903 db 0
 word_37904 dw 0
 word_37906 dw 0
-    db 0
-    db 0
+    db 2 dup(0)
 word_3790A dw 0
 _byte_3790C db 0
-    db 0
-    db 0
+    db 2 dup(0)
     db 0A0h
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0Fh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 15 dup(0)
     db 5Eh
     db 50h
     db 2
@@ -13430,19 +5064,8 @@ _byte_3790C db 0
     db 1
     db 0
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 9 dup(0)
+    db 4 dup(0FFh)
     db 0FEh
     db 0FFh
     db 0FEh
@@ -13516,19 +5139,8 @@ _byte_3790C db 0
     db 0FEh
     db 0FFh
     db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0FFh)
+    db 8 dup(0)
     db 1
     db 0
     db 1
@@ -13543,8 +5155,7 @@ _byte_3790C db 0
     db 0
     db 2
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 0FEh
     db 0FFh
     db 0FEh
@@ -13606,17 +5217,8 @@ _byte_3790C db 0
     db 0FEh
     db 0FFh
     db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0FFh)
+    db 8 dup(0)
     db 1
     db 0
     db 1
@@ -13662,35 +5264,8 @@ _byte_3790C db 0
     db 1
     db 0
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 25 dup(0)
+    db 4 dup(0FFh)
     db 0FEh
     db 0FFh
     db 0FEh
@@ -13780,27 +5355,9 @@ _byte_3790C db 0
     db 0FEh
     db 0FFh
     db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0FFh
-    db 0FFh
+    db 5 dup(0FFh)
+    db 14 dup(0)
+    db 2 dup(0FFh)
     db 0FEh
     db 0FFh
     db 0FEh
@@ -13862,17 +5419,8 @@ _byte_3790C db 0
     db 0FEh
     db 0FFh
     db 0FEh
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0FFh)
+    db 8 dup(0)
     db 1
     db 0
     db 1
@@ -13918,38 +5466,25 @@ _byte_3790C db 0
     db 1
     db 0
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 9 dup(0)
 word_37B26 dw 0
     db 2
     db 0
     db 0Fh
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 word_37B2E dw 0
 word_37B30 dw 0
 word_37B32 dw 0
 word_37B34 dw 40h
 word_37B36 dw 5Eh
-    db 0
-    db 0
+    db 2 dup(0)
     db 40h
     db 1
 word_37B3C dw 0
     db 2
     db 0
     db 0Fh
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 word_37B44 dw 0
 word_37B46 dw 0Ah
 word_37B48 dw 0
@@ -13963,9 +5498,7 @@ word_37B52 dw 0
     db 2
     db 0
     db 7
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 word_37B5A dw 0
 word_37B5C dw 0
 word_37B5E dw 0
@@ -13978,9 +5511,7 @@ word_37B68 dw 0
     db 2
     db 0
     db 0Fh
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 word_37B70 dw 0
 word_37B72 dw 10h
 word_37B74 dw 0
@@ -13993,8 +5524,7 @@ word_37B74 dw 0
     db 86h
     db 1
 word_37B7E dw 0
-    db 0
-    db 0
+    db 2 dup(0)
 word_37B82 dw 0
 word_37B84 dw 0
 word_37B86 dw 5Ah
@@ -14004,12 +5534,9 @@ word_37B8C dw 3
     db 0 ;align 4
     db 0
     db 0C7h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 36h
-    db 1
-    db 1
+    db 2 dup(1)
     db 0Fh
     db 7
     db 0
@@ -14023,15 +5550,11 @@ word_37BA4 dw 93h
 word_37BA6 dw 2Eh
 word_37BA8 dw 19h
 word_37BAA dw 11h
-    db 0
-    db 0
+    db 2 dup(0)
     db 0C7h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 36h
-    db 1
-    db 1
+    db 2 dup(1)
     db 0Fh
     db 7
     db 0
@@ -14050,13 +5573,9 @@ word_37BC0 dw 0
     db 18h
     db 0
     db 10h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0C7h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 3Fh
     db 1
     db 9
@@ -14078,13 +5597,9 @@ word_37BDE dw 0
     db 18h
     db 0
     db 10h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 0C7h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 3Fh
     db 1
     db 9
@@ -14140,12 +5655,10 @@ word_37C36 dw 0
 ; The label now sits at its correct offset 0x543a below. Data bytes unchanged.
 ; egseg2's tape code (which wrote/read this scratch) now references var_468.
 var_468 db 0
-    db 30h
-    db 30h
+    db 2 dup(30h)
     db 0
     db 39h
-    db 30h
-    db 30h
+    db 2 dup(30h)
     db 0
     db 20h
     db 30h
@@ -14191,11 +5704,7 @@ var_468 db 0
     db 30h
     db 31h
     db 30h
-    db 31h
-    db 31h
-    db 31h
-    db 31h
-    db 31h
+    db 5 dup(31h)
     db 32h
     db 31h
     db 32h
@@ -14227,84 +5736,45 @@ var_468 db 0
     db 39h
     db 31h
     db 39h
-    db 30h
-    db 30h
+    db 2 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 35h
     db 30h
     db 20h
@@ -14329,9 +5799,7 @@ byte_37C3A db 20h                ; DGROUP 0x543a: heading/compass tape buffer
     db 39h
     db 31h
     db 30h
-    db 31h
-    db 31h
-    db 31h
+    db 3 dup(31h)
     db 32h
     db 31h
     db 33h
@@ -14351,9 +5819,7 @@ byte_37C3A db 20h                ; DGROUP 0x543a: heading/compass tape buffer
     db 30h
     db 32h
     db 31h
-    db 32h
-    db 32h
-    db 32h
+    db 3 dup(32h)
     db 33h
     db 32h
     db 34h
@@ -14373,9 +5839,7 @@ byte_37C3A db 20h                ; DGROUP 0x543a: heading/compass tape buffer
     db 31h
     db 33h
     db 32h
-    db 33h
-    db 33h
-    db 33h
+    db 3 dup(33h)
     db 34h
     db 33h
     db 35h
@@ -14395,9 +5859,7 @@ byte_37C3A db 20h                ; DGROUP 0x543a: heading/compass tape buffer
     db 32h
     db 34h
     db 33h
-    db 34h
-    db 34h
-    db 34h
+    db 3 dup(34h)
     db 35h
     db 34h
     db 36h
@@ -14417,9 +5879,7 @@ byte_37C3A db 20h                ; DGROUP 0x543a: heading/compass tape buffer
     db 33h
     db 35h
     db 34h
-    db 35h
-    db 35h
-    db 35h
+    db 3 dup(35h)
     db 36h
     db 35h
     db 37h
@@ -14439,77 +5899,56 @@ byte_37C3A db 20h                ; DGROUP 0x543a: heading/compass tape buffer
     db 34h
     db 36h
     db 35h
-    db 36h
-    db 36h
-    db 36h
+    db 3 dup(36h)
     db 37h
     db 36h
     db 38h
     db 36h
     db 39h
-    db 30h
-    db 30h
-    db 30h
+    db 3 dup(30h)
     db 0
-    db 20h
-    db 20h
-    db 20h
+    db 3 dup(20h)
     db 0
     db 30h
     db 34h
     db 35h
     db 0
-    db 20h
-    db 20h
-    db 20h
+    db 3 dup(20h)
     db 0
     db 30h
     db 39h
     db 30h
     db 0
-    db 20h
-    db 20h
-    db 20h
+    db 3 dup(20h)
     db 0
     db 31h
     db 33h
     db 35h
     db 0
-    db 20h
-    db 20h
-    db 20h
+    db 3 dup(20h)
     db 0
     db 31h
     db 38h
     db 30h
     db 0
-    db 20h
-    db 20h
-    db 20h
+    db 3 dup(20h)
     db 0
-    db 32h
-    db 32h
+    db 2 dup(32h)
     db 35h
     db 0
-    db 20h
-    db 20h
-    db 20h
+    db 3 dup(20h)
     db 0
     db 32h
     db 37h
     db 30h
     db 0
-    db 20h
-    db 20h
-    db 20h
+    db 3 dup(20h)
     db 0
     db 33h
     db 31h
     db 35h
     db 0
-    db 20h
-    db 20h
-    db 20h
+    db 3 dup(20h)
     db 0
     db 1Bh
     db 0
@@ -14528,9 +5967,7 @@ byte_37C3A db 20h                ; DGROUP 0x543a: heading/compass tape buffer
     db 6
     db 0
     db 3
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 20h
     db 0
     db 1Eh
@@ -14548,289 +5985,7 @@ byte_37C3A db 20h                ; DGROUP 0x543a: heading/compass tape buffer
     db 6
     db 0
     db 3
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 283 dup(0)
 byte_37EEE db 0
 byte_37EEF db 0
 word_37EF0 dw 0
@@ -14879,54 +6034,41 @@ word_37EF2 dw 0
     db 31h
     db 30h
     db 0
-    db 30h
-    db 30h
-    db 0
-    db 0
+    db 2 dup(30h)
+    db 2 dup(0)
     db 31h
     db 30h
-    db 0
-    db 0
+    db 2 dup(0)
     db 32h
     db 30h
-    db 0
-    db 0
+    db 2 dup(0)
     db 33h
     db 30h
-    db 0
-    db 0
+    db 2 dup(0)
     db 34h
     db 30h
-    db 0
-    db 0
+    db 2 dup(0)
     db 35h
     db 30h
-    db 0
-    db 0
+    db 2 dup(0)
     db 36h
     db 30h
-    db 0
-    db 0
+    db 2 dup(0)
     db 37h
     db 30h
-    db 0
-    db 0
+    db 2 dup(0)
     db 38h
     db 30h
-    db 0
-    db 0
+    db 2 dup(0)
     db 39h
     db 30h
-    db 0
-    db 0
+    db 2 dup(0)
     db 38h
     db 30h
-    db 0
-    db 0
+    db 2 dup(0)
     db 37h
     db 30h
-    db 0
-    db 0
+    db 2 dup(0)
 word_37F50 dw 0
 word_37F52 dw 0
 word_37F54 dw 0
@@ -14959,8 +6101,7 @@ word_37F8E dw 0
 _joyAxes db 0
 joyAxes_2 db 0
 _joyAxes_2 equ joyAxes_2
-    db 0
-    db 0
+    db 2 dup(0)
 byte_37F98 db 0
 _byte_37F98 equ byte_37F98
 byte_37F99 db 0
@@ -14973,41 +6114,14 @@ byte_37F9F db 0
     db 1
     db 0
     db 4
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 27 dup(0)
     db 5
     db 1
     db 9
     db 2
     db 4
     db 80h
-    db 8
-    db 8
+    db 2 dup(8)
     db 6
     db 2
     db 0Ah
@@ -15026,46 +6140,22 @@ PUBLIC _aG
 _aG equ aG
 byte_37FEC db 10h
 _byte_37FEC equ byte_37FEC
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 12h
-    db 12h
-    db 12h
-    db 12h
-    db 12h
-    db 12h
-    db 12h
-    db 13h
-    db 13h
-    db 14h
-    db 14h
+    db 5 dup(10h)
+    db 8 dup(11h)
+    db 7 dup(12h)
+    db 2 dup(13h)
+    db 2 dup(14h)
     db 15h
-    db 16h
-    db 16h
+    db 2 dup(16h)
     db 17h
     db 18h
-    db 19h
-    db 19h
+    db 2 dup(19h)
     db 1Ah
-    db 1Bh
-    db 1Bh
+    db 2 dup(1Bh)
     db 1Ch
-    db 1Dh
-    db 1Dh
+    db 2 dup(1Dh)
     db 1Eh
-    db 1Fh
-    db 1Fh
+    db 2 dup(1Fh)
     db 20h
     db 22h
     db 24h
@@ -15113,46 +6203,22 @@ _byte_37FEC equ byte_37FEC
     db 24h
     db 22h
     db 20h
-    db 1Fh
-    db 1Fh
+    db 2 dup(1Fh)
     db 1Eh
-    db 1Dh
-    db 1Dh
+    db 2 dup(1Dh)
     db 1Ch
-    db 1Bh
-    db 1Bh
+    db 2 dup(1Bh)
     db 1Ah
-    db 19h
-    db 19h
+    db 2 dup(19h)
     db 18h
     db 17h
-    db 16h
-    db 16h
+    db 2 dup(16h)
     db 15h
-    db 14h
-    db 14h
-    db 13h
-    db 13h
-    db 12h
-    db 12h
-    db 12h
-    db 12h
-    db 12h
-    db 12h
-    db 12h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 11h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
-    db 10h
+    db 2 dup(14h)
+    db 2 dup(13h)
+    db 7 dup(12h)
+    db 8 dup(11h)
+    db 5 dup(10h)
     db 8
     db 0
 _unk_3806E db 0FFh
@@ -15162,10 +6228,7 @@ word_38072 dw 0
 word_38074 dw 0
 word_38076 dw 7FFFh
 word_38078 dw 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 4 dup(0)
 word_3807E dw 7FFFh
 word_38080 dw 0
 _word_38080 equ word_38080
@@ -15177,8 +6240,7 @@ _word_38084 equ word_38084
     db 0
     db 0FFh
     db 7Fh
-    db 0
-    db 0
+    db 2 dup(0)
 word_3808C dw 0
 _word_3808C equ word_3808C
     db 0 ;align 4
@@ -15188,12 +6250,7 @@ _word_38090 equ word_38090
 unk_38092 db 0FFh
 _unk_38092 equ unk_38092
     db 7Fh
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
 word_3809A dw 0
 _word_3809A equ word_3809A
 word_3809C dw 0
@@ -15208,49 +6265,23 @@ word_380A4 dw 0
 _word_380A4 equ word_380A4
 word_380A6 dw 0
 _word_380A6 equ word_380A6
-    db 0
-    db 0
+    db 2 dup(0)
 word_380AA dw 0
 _word_380AA equ word_380AA
 word_380AC dw 0
 _word_380AC equ word_380AC
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
     db 0FFh
     db 7Fh
 _unk_380B6 db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 17 dup(0)
 _g_ourHead dw 0
 _g_ourPitch dw 0
 _g_ourRoll dw 0
 _g_viewZ dw 0
 _word_380D0 dw 0
     db 0Ch
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
 var_549_stor dw 0
 byte_380DA db 0
     db 0
@@ -15258,8 +6289,7 @@ byte_380DA db 0
 byte_380DD db 0
 _byte_380DD equ byte_380DD
 _word_380D8 equ byte_380DD
-    db 0
-    db 0
+    db 2 dup(0)
 g_setThrust dw 0
 _g_setThrust equ g_setThrust
 word_380E2 dw 0
@@ -15290,8 +6320,7 @@ _unk_38128 db 7
     db 0
     db 15h
     db 0
-    db 0FFh
-    db 0FFh
+    db 2 dup(0FFh)
     db 8
     db 0
     db 0F1h
@@ -15310,10 +6339,7 @@ _unk_38128 db 7
     db 0
     db 15h
     db 0
-    db 0FFh
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 4 dup(0FFh)
 _word_38152 dw 0
 aFiring db ' firing ',0
 _aFiring equ aFiring
@@ -15403,9 +6429,7 @@ _word_38202 dw 41h
     db 10h
     db 0
     db 8Ah
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 1Fh
     db 1
     db 85h
@@ -15413,9 +6437,7 @@ _word_38202 dw 41h
     db 29h
     db 1
     db 8Ah
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 1Fh
     db 1
     db 90h
@@ -15423,9 +6445,7 @@ _word_38202 dw 41h
     db 29h
     db 1
     db 95h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 1Fh
     db 1
     db 9Bh
@@ -15433,9 +6453,7 @@ _word_38202 dw 41h
     db 29h
     db 1
     db 0A0h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 98h
     db 0
     db 72h
@@ -15639,21 +6657,11 @@ unk_3831E db 0
     db 2
     db 0
     db 2
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 60h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 3Fh
     db 1
 _off_38334 dw offset unk_3831E
@@ -15662,21 +6670,11 @@ unk_38336 db 1
     db 2
     db 0
     db 2
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 1
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 60h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 3Fh
     db 1
 _off_3834C dw offset unk_38336
@@ -15697,13 +6695,7 @@ buf6data_0 db 0 ;align 4
     db 2
     db 0
     db 2
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 1
     db 0
     db 70h
@@ -15720,13 +6712,7 @@ word_3837C dw offset buf6data_0
     db 2
     db 0
     db 2
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 1
     db 0
     db 7Ch
@@ -15744,13 +6730,7 @@ buf6data_1 db 0
     db 2
     db 0
     db 2
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 1
     db 0
     db 80h
@@ -15779,8 +6759,7 @@ word_383BC dw 7
     db 0C7h
     db 0
     db 10h
-    db 1
-    db 1
+    db 2 dup(1)
     db 0
     db 1
     db 0
@@ -15792,12 +6771,9 @@ word_383D4 dw 0
 word_383D6 dw 0
 word_383D8 dw 0
 word_383DA dw 0
-    db 0
-    db 0
+    db 2 dup(0)
     db 61h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
     db 3Fh
     db 1
 byte_383E4 db 1
@@ -15830,11 +6806,7 @@ _aRight db 'Right',0
 PUBLIC _aLeft
 _aLeft db 'Left',0
 aMap db 'Map',0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 5 dup(0)
 word_38460 dw 0
 aDestroyedByGun db ' destroyed by gunfire',0
 _aDestroyedByGun equ aDestroyedByGun
@@ -15913,8 +6885,7 @@ PUBLIC _word_38606
 _word_38606 equ word_38606
 word_38608 dw 0
 word_3860A dw 0
-    db 0
-    db 0
+    db 2 dup(0)
 aNotAvailable db ' not available',0
 _aNotAvailable equ aNotAvailable
 aArmed db ' armed',0
@@ -15965,123 +6936,23 @@ word_389E6 dw 0
 off_389E8 dw 0 ;off_389E8 dw offset __exit
 word_389EA dw 0
     dw 0 ;dw seg dseg
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 76 dup(0)
 word_38A3A dw offset lzw_processFlag
 aC_file_info db ';C_FILE_INFO',0
 dword_38A49 dd 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 8 dup(0)
 word_38A55 dw 0
 word_38A57 dw 0
-    db 0
-    db 0
+    db 2 dup(0)
 word_38A5B dw 0
 word_38A5D dw 0
     db 0 ;align 2
 byte_38A60 db 0
     db 0 ;align 2
 word_38A62 dw 14h
-    db 81h
-    db 81h
-    db 81h
-    db 1
-    db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 3 dup(81h)
+    db 2 dup(1)
+    db 15 dup(0)
 argc dw 0
 argv dw 0
 word_38A7C dw 0
@@ -16089,9 +6960,7 @@ word_38A7C dw 0
     db 61h
     dw seg @data ;dw seg dseg
     db 43h
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 byte_38A86 db 0
 byte_38A87 db 0
 dword_38A88 dd 0
@@ -16106,18 +6975,14 @@ word_38A96 dw 0
 word_38A98 dw 0
     db 0
     db 16h
-    db 2
-    db 2
+    db 2 dup(2)
     db 18h
     db 0Dh
     db 9
-    db 0Ch
-    db 0Ch
-    db 0Ch
+    db 3 dup(0Ch)
     db 7
     db 8
-    db 16h
-    db 16h
+    db 2 dup(16h)
     db 0FFh
     db 12h
     db 0Dh
@@ -16126,284 +6991,28 @@ word_38A98 dw 0
     db 0FFh
     db 2Ah
     db 8Dh
-    db 0
-    db 0
+    db 2 dup(0)
     db 2Ah
     db 8Dh
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 7 dup(0)
     db 2
     db 1
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 2
-    db 2
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
+    db 2 dup(2)
+    db 6 dup(0)
     db 84h
     db 3
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
     db 2
     db 4
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 94 dup(0)
 buf6data_3 db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 25 dup(0)
     db 1
-    db 0
-    db 0
+    db 2 dup(0)
     db 2
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 116 dup(0)
 word_38BC6 dw offset buf6data_3
 word_38BC8 dw 0
 word_38BCA dw 0
@@ -16411,21 +7020,17 @@ word_38BCC dw 0
     db 0 ;align 4
     db 0
 word_38BD0 dw 0
-    db 0
-    db 0
-    db 0
+    db 3 dup(0)
 byte_38BD5 db 0
 word_38BD6 dw 0
-    db 0
-    db 0
+    db 2 dup(0)
 word_38BDA dw 0
 word_38BDC dw 2000h
     db 0 ;align 4
     db 0
 byte_38BE0 db 0
     db 0 ;align 4
-    db 0
-    db 0
+    db 2 dup(0)
 unk_38BE4 db 0
     db 0
 word_38BE6 dw 0
@@ -16464,9 +7069,7 @@ aR6002FloatingPointNot db 'R6002',0Dh,0Ah
     db 0
 aR6001NullPointerAssig db 'R6001',0Dh,0Ah
     db '- null pointer assignment',0Dh,0Ah,0
-    db 0FFh
-    db 0FFh
-    db 0FFh
+    db 3 dup(0FFh)
     db 0
 word_38CD2 dw 0
 _farPointer dd 0
@@ -16484,12 +7087,7 @@ word_38CEC dw 0
 word_38CEE dw 0
 word_38CF0 dw 0
 word_38CF2 dw 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 6 dup(0)
 word_38CFA dw 0
 word_38CFC dw 0
 word_38CFE dw 0
@@ -16521,512 +7119,7 @@ byte_38D6A db 0
 byte_38D6B db 0
 word_38D6C dw 0
 byte_38D6E db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
-    db 0
+    db 506 dup(0)
 ; --- Variables created for ORG-based _var_* labels whose targets didn't exist ---
 word_32A28 dw 0
 word_32A2E dw 0
@@ -17423,60 +7516,7 @@ byte_38F8C db ?
 _byte_38F8C equ byte_38F8C
 byte_38F8D db ?
 _byte_38F8D equ byte_38F8D
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 54 dup(?)
 _word_38FC4 dw ?
 _word_38FC6 label byte
 word_38FC6 dw ?
@@ -17490,15 +7530,7 @@ word_38FCE dw ?
 _word_38FCE equ word_38FCE
 unk_38FD0 db ?
 _unk_38FD0 equ unk_38FD0
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 9 dup(?)
 g_gees dw ?
 _g_gees equ g_gees
 _word_38FDC dw ?
@@ -17516,8 +7548,7 @@ _word_38FEC equ word_38FEC
 word_38FEE dw ?
 _word_38FEE equ word_38FEE
 _gameData dd ?
-    db ?
-    db ?
+    db 2 dup(?)
 word_38FF6 dw ?
 _word_38FF6 equ word_38FF6
 word_38FF8 dw ?
@@ -17532,604 +7563,14 @@ _word_39200 equ word_39200
 _buf3_3dg db 200h dup(?)
 word_39402 dw ?
 _word_39402 equ word_39402
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 512 dup(?)
 _word_39604 dw ?
 word_39606 dw ?
 _word_39606 equ word_39606
 _buf2_3dg db 200h dup(?)
 word_39808 dw ?
 _word_39808 equ word_39808
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 80 dup(?)
 _buf1_3dg db 100h dup(?)
 _byte_3995A db ?
     db ?
@@ -18152,41 +7593,12 @@ _g_velocity equ g_velocity
 word_3A946 dw ?
 _word_3A946 equ word_3A946
 _unk_3A948 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 17 dup(?)
     _stru_3A95A ViewSnapshot 10h dup(<?>)
 _g_knots dw ?
 _word_3AA5C dw ?
     _g_planes MapTarget 4Ah dup(<?>)
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 14 dup(?)
 word_3AF0C dw ?
 _word_3AF0C equ word_3AF0C
 _buf3d3_1 db 96h dup(?)
@@ -18209,33 +7621,16 @@ _g_playerTargetIndex dw ?
 _word_3B14A dw ?
 word_3B14C dw ?
 _word_3B14C equ word_3B14C
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 10 dup(?)
 word_3B158 dw ?
 _word_3B158 equ word_3B158
 word_3B15A dw ?
 _word_3B15A equ word_3B15A
 _word_3B15A equ word_3B15A
-    db ?
-    db ?
+    db 2 dup(?)
 word_3B15E dw ?
 _word_3B15E equ word_3B15E
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 8 dup(?)
 _buf3d3_3 db 96h dup(?)
 _dword_3B1FE dd ?
 _stru_3B202 db ?
@@ -18257,673 +7652,13 @@ word_3B234 dw ?
 _word_3B234 equ word_3B234
 word_3B236 dw ?
 _word_3B236 equ word_3B236
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 6 dup(?)
 byte_3B23E db ?
 _byte_3B23E equ byte_3B23E
     db ? ;align 2
 word_3B240 dw ?
 _word_3B240 equ word_3B240
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 656 dup(?)
 word_3B4D2 dw ?
 _word_3B4D2 equ word_3B4D2
 _dword_3B4D4 dd ?
@@ -18947,755 +7682,10 @@ byte_3B4E9 db ?
 word_3B4EA dw ?
 byte_3B4EC db ?
 _byte_3B4EC equ byte_3B4EC
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 233 dup(?)
 word_3B5D6 dw ?
 _word_3B5D6 equ word_3B5D6
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 514 dup(?)
 _g_ViewX dd ?
 word_3B7DE dw ?
 word_3B7E0 dw ?
@@ -19721,11 +7711,7 @@ _byte_3B7F0 equ byte_3B7F0
 byte_3B7F1 db ?
 _byte_3B7F1 equ byte_3B7F1
     db ? ;align 8
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 5 dup(?)
 _g_ViewY dd ?
 _byte_3B7FC db 640h dup(?)
 word_3BE3C dw ?
@@ -19744,36 +7730,7 @@ _word_3BE98 dw ?
     db ?
 _word_3BE9C label byte
 word_3BE9C dw ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 30 dup(?)
 word_3BEBC dw ?
 _word_3BEBC equ word_3BEBC
 _word_3BEBE dw ?
@@ -19782,8 +7739,7 @@ word_3BEC2 dw ?
 _word_3BEC2 equ word_3BEC2
 _byte_3BEC4 db ?
     db ? ;align 4
-    db ?
-    db ?
+    db 2 dup(?)
 word_3BEC8 dw ?
 _word_3BEC8 equ word_3BEC8
 _sign3d3 dw ?
@@ -19820,9 +7776,7 @@ unk_3BF96 db ?
 PUBLIC _unk_3BF98
 _unk_3BF98 label byte
 unk_3BF98 db ?
-    db ?
-    db ?
-    db ?
+    db 3 dup(?)
 word_3BFA0 dw ?
 _word_3BFA0 equ word_3BFA0
 word_3BFA2 dw ?
@@ -19862,18 +7816,9 @@ _word_3C02C dw ?
 _word_3C02E dw ?
 _unk_3C030 label byte
 unk_3C030 db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 9 dup(?)
 _word_3C03A dw ?
-    db ?
-    db ?
+    db 2 dup(?)
 word_3C03E dw ?
 _word_3C03E equ word_3C03E
 _word_3C040 dw ?
@@ -19923,234 +7868,7 @@ word_3C5B4 dw ?
 _word_3C5B4 equ word_3C5B4
 word_3C5B6 dw ?
 _word_3C5B6 equ word_3C5B6
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 228 dup(?)
     PUBLIC _word_3C69C
 word_3C69C dw ?
 _word_3C69C equ word_3C69C
@@ -20326,517 +8044,7 @@ PUBLIC _word_34276
 _word_34276 equ word_34276
 _word_3C6AE equ word_3C6AE
     db ? ;align 400h
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 511 dup(?)
     PUBLIC _byte_3C8B0
 _byte_3C8B0 label byte
 byte_3C8B0 db ?
@@ -20852,16 +8060,7 @@ word_3C8BE dw ?
 word_3C8C0 dw ?
 word_3C8C2 dw ?
 _size3d3_7 dw ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
-    db ?
+    db 10 dup(?)
 
 __bss_end label byte
 
