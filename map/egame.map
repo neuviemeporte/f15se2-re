@@ -123,7 +123,7 @@ renderHudFrame: seg000 NEAR 8e50-9484 R8e50-9484 complete
 setActivePanel: seg000 NEAR 94d0-9579 R94d0-9538 U9539-953a R953b-9563 U9564-9565 R9566-9579 complete
 refreshActivePanel: seg000 NEAR 957a-9594 R957a-9594 complete
 initTacMapView: seg000 NEAR 9595-95c8 R9595-95c8 complete
-redrawTacMap: seg000 NEAR 95c9-9874 R95c9-9874
+redrawTacMap: seg000 NEAR 95c9-9874 R95c9-9874 complete
 zoomIn: seg000 NEAR 9875-98b3 R9875-98b3 complete
 zoomOut: seg000 NEAR 98b4-98f9 R98b4-98f9 complete
 mapXToScreen: seg000 NEAR 98fa-9914 R98fa-9914 complete
@@ -144,7 +144,7 @@ drawColorPoint: seg000 NEAR 9e94-9eb5 R9e94-9eb5 complete
 switchIndicatorColor: seg000 NEAR 9eb6-9f46 R9eb6-9f46 complete
 drawPanelText: seg000 NEAR 9fad-9fcb R9fad-9fcb complete
 fillPanelBox: seg000 NEAR 9fcc-a02f R9fcc-a02f complete
-drawCenteredLabelBox: seg000 NEAR a030-a0ca Ra030-a038 Ua039-a0c6 Ra0c7-a0ca
+drawCenteredLabelBox: seg000 NEAR a030-a0ca Ra030-a038 Ua039-a0c6 Ra0c7-a0ca assembly
 drawStringBothPages: seg000 NEAR a0cb-a0fd Ra0cb-a0fd complete
 drawStringActivePage: seg000 NEAR a0fe-a139 Ra0fe-a139 complete
 drawStringCentered: seg000 NEAR a13a-a182 Ra13a-a182 complete

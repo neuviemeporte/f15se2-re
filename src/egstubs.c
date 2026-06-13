@@ -255,6 +255,7 @@ uint8 aWaypointSecond[] = "Waypoint: Secondary Target";
 uint8 aWaypointFriend[] = "Waypoint: Friendly Airbase";
 uint8 aAutopilotOff[] = "Autopilot off";
 uint8 aAutopilotOn[] = "Autopilot on";
+char aMap[1];
 uint16 uvar_547;
 int16 var_593;
 int16 var_675;
@@ -334,6 +335,7 @@ int16 var_552;
 int16 *var_564;
 int16 *var_565;
 int16 *var_566;
+char *var_567;
 int16 *var_568;
 int16 var_569;
 int16 var_570;
@@ -629,7 +631,6 @@ void far projectSceneObject(char *, int, int, int, int, int, int) {}
 int readAxisInput(int param_1) { return 0; }
 int readFile1(int arg_0, int arg_1, int arg_2) { return 0; }
 int readFile2(int arg_0, int arg_1, int arg_2, int arg_3) { return 0; }
-void redrawTacMap(int, int) { }
 int far resetScanlineSpans() { return 0; }
 int far restoreInt9Handler() { return 0; }
 void setTimerIrqHandler() { }

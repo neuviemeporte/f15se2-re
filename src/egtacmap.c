@@ -195,6 +195,55 @@ void initTacMapView(void) {
     zoomIn();
 }
 
+// ==== seg000:0x95c9 ====
+void redrawTacMap(int centerX, int centerY) {
+    int16 p, a, b, c, d;
+
+    word_3C09A = 0;
+    if (word_330C2 == 0) {
+        return;
+    }
+    drawPanelText(1, aMap, 0);
+    b = 0x48 << (9 - byte_383E5);
+    var_589 = clampRange(sinMul(var_542, 0x4000 >> byte_383E5) + centerX, b, 0x7fff - b);
+    b = (0x38 << (9 - byte_383E5)) / 3 * 4;
+    var_590 = clampRange(centerY - cosMul(var_542, 0x4000 >> byte_383E5), b, 0x7fff - b);
+    loadColorPalette(commData->gfxModeNum != 0 ? 0 : 3);
+    gfx_setFadeSteps(0x13);
+    renderMapTerrain(var_567, var_589 / 2, -(var_590 / 2 - 0x4000), 9 - byte_383E5);
+    if (gameData->theater < 2) {
+        gfx_setFadeSteps(0xc);
+    } else {
+        gfx_setFadeSteps(0x10);
+    }
+    d = byte_3C5A0;
+    byte_3C5A0 = gfx_getDisplayPage();
+    for (b = 1; b < word_3BED2; b++) {
+        if (g_planes[b].field_4 != 0 && !(g_planes[b].flags & 0x80) &&
+            objectToScreen(g_planes[b].mapX, g_planes[b].mapY, &p, &a)) {
+            blitSprite(p - 1, a - 1, 0xa4, 0, 4, 4, 0);
+        }
+        if (((g_planes[b].flags & 0x481) == 0x401 || (g_planes[b].flags & 0x200)) &&
+            objectToScreen(g_planes[b].mapX, g_planes[b].mapY, &p, &a)) {
+            blitSprite(p - 1, a - 1, (uint8)gfxModeUnset != 0 ? 0xac : 0xb0, 0, 4, 4, 0);
+        }
+    }
+    for (b = 0; b < 2; b++) {
+        if (!(g_playerPlaneFlags & (0x4000 >> b)) &&
+            objectToScreen(waypoints[b + 1].mapX, waypoints[b + 1].mapY, &p, &a)) {
+            blitSprite(p - 1, a - 1, (uint8)gfxModeUnset != 0 ? 0xb4 : 0xa8, 0, 4, 4, 0);
+        }
+    }
+    byte_3C5A0 = d;
+    if ((char)gfx_getDisplayPage() == 0) {
+        cacheScopePanel();
+    } else {
+        gfx_copyRect(*var_565, 0x18, 0x70, *var_566, 0x18, 0x70, 0x48, 0x38);
+    }
+    restoreScopePanel();
+    resetSimObjectLocks();
+}
+
 // ==== seg000:0x9875 ====
 void zoomIn(void) {
     if (keyValue & 0x80) {

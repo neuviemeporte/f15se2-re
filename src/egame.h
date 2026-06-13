@@ -1441,6 +1441,7 @@ extern int16 var_220;
 extern int16 *var_564;
 extern int16 *var_565;
 extern int16 *var_566;
+extern char *var_567;
 extern int16 var_569;
 extern int16 var_570;
 extern int16 var_571;
