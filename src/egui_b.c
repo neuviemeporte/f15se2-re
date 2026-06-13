@@ -25,7 +25,7 @@ void updateTargetLock(void) {
 
     /* Fire at keyValue == 0x8b (sidewinder lock) */
     if (keyValue == 0x8b) {
-        drawWorldObject(6, (long)dword_3B7DA, 0x01000000L - dword_3B7F8,
+        drawWorldObject(6, (long)g_ViewX, 0x01000000L - g_ViewY,
             var_547 + 0x10, var_542, var_544, var_545, 2);
     }
 
@@ -39,7 +39,7 @@ void updateTargetLock(void) {
     }
     if (word_3C09E != 0x13) goto skip_aam;
     if (word_3B4D2 != 0) goto skip_aam;
-    if (word_3C45C == 1) goto skip_aam;
+    if (g_currentWeaponType == 1) goto skip_aam;
     if (keyValue & 0x80) goto skip_aam;
 
     if (!(word_336F4 & 0x80)) {
@@ -51,7 +51,7 @@ void updateTargetLock(void) {
     if (word_336F4 != -1) {
         g = word_336F4 - 0x80;
         g0 = computeMapTargetRange(g) - 1;
-        if (stru_3AA5E[g].field_4 != 0) {
+        if (g_planes[g].field_4 != 0) {
             g0 -= 0x280;
         }
         if (g < 3) {
@@ -73,8 +73,8 @@ after_lock:
     for (g = 1; g < word_3BED2; g++) {
         computeMapTargetRange(g);
         if (abs(var_542 + word_3C8B2 - var_674) < 0x1800 &&
-            g + 0x80 != word_336F4 && !(stru_3AA5E[g].flags & 0x80)) {
-            if (stru_3AA5E[g].field_4 != 0) {
+            g + 0x80 != word_336F4 && !(g_planes[g].flags & 0x80)) {
+            if (g_planes[g].field_4 != 0) {
                 var_672 -= 0x280;
             }
             if (g == word_3B146 || g == word_3B158) {
@@ -163,9 +163,9 @@ skip_aam:
         if (word_3C016 > -0x20) {
             if (stru_3B202[g].alt < 999 && word_330BC == 0) {
                 f = 0;
-                if ((stru_3AA5E[word_3C16A].flags & 0x200) &&
-                    abs(stru_3B202[g].posX - stru_3AA5E[word_3C16A].mapX) < word_38FFC >> 5 &&
-                    abs(stru_3B202[g].posY - stru_3AA5E[word_3C16A].mapY) < word_39200 >> 5) {
+                if ((g_planes[g_closestThreatIndex].flags & 0x200) &&
+                    abs(stru_3B202[g].posX - g_planes[g_closestThreatIndex].mapX) < word_38FFC >> 5 &&
+                    abs(stru_3B202[g].posY - g_planes[g_closestThreatIndex].mapY) < word_39200 >> 5) {
                     f = 0x80;
                 }
                 if (var_547 != 0x80 || f == 0x80) {
@@ -240,12 +240,12 @@ next3:
     if (keyValue == 0x8b) goto done;
     if (var_547 == 0 && word_3BE3C != 0) goto done;
 
-    drawWorldObject(((planeFlags & 1) == 0) + 6, (long)dword_3B7DA,
-        0x01000000L - dword_3B7F8, var_547 + 0x10, var_542, var_544, var_545,
+    drawWorldObject(((g_playerPlaneFlags & 1) == 0) + 6, (long)g_ViewX,
+        0x01000000L - g_ViewY, var_547 + 0x10, var_542, var_544, var_545,
         2 - h);
 
     if ((unsigned int)var_547 < 0x3e8 && word_330BC == 0) {
-        drawWorldObject(0x15, (long)dword_3B7DA, 0x01000000L - dword_3B7F8,
+        drawWorldObject(0x15, (long)g_ViewX, 0x01000000L - g_ViewY,
             word_3BEBE, var_542, 0, 0, 2);
     }
 
@@ -269,7 +269,7 @@ void drawHudWorldOverlay(void) {
         }
     }
 
-    l = 0x200 / isqrt(word_330C4 * 4 + 8);
+    l = 0x200 / isqrt(g_frameRateScaling * 4 + 8);
 
     for (w = 0; w < word_3AFA4 + 4; w++) {
         if (*(int16 *)((char *)&word_3C5AC + w * 12) != 0) {
@@ -307,13 +307,13 @@ void drawHudWorldOverlay(void) {
                         stru_3B202[h].posY);
                 z = abs(z);
 
-                if (z < l / (word_330B8 + 1)) {
+                if (z < l / (g_missionStatus + 1)) {
 
                 s = 1;
                 stru_3B202[h].state[8] |= 0x10;
                 word_39606 = 1;
 
-                if (z * 2 < l / (word_330B8 + 1)) {
+                if (z * 2 < l / (g_missionStatus + 1)) {
                     destroyAircraft(h);
                     strcat((char *)strBuf, (char *)aDestroyedByGun);
                     tempStrcpy((char *)strBuf);
@@ -325,13 +325,13 @@ void drawHudWorldOverlay(void) {
             }
         } else {
             z = (abs(*(int16 *)((char *)&word_3C5B0 + w * 12) - var_547) >> 5)
-              + abs(*(int16 *)((char *)&word_3C5AC + w * 12) - word_3BEC0)
-              + abs(*(int16 *)((char *)&word_3C5AE + w * 12) - word_3BED0);
+              + abs(*(int16 *)((char *)&word_3C5AC + w * 12) - g_viewX_)
+              + abs(*(int16 *)((char *)&word_3C5AE + w * 12) - g_viewY_);
             z = abs(z);
             if (z < 0x20) {
                 s = 1;
                 tempStrcpy((char *)aHitByGunfire);
-                if (0x20 / (4 - word_330B8) > z) {
+                if (0x20 / (4 - g_missionStatus) > z) {
                     bombTarget();
                 }
             }
@@ -354,12 +354,12 @@ void drawHudWorldOverlay(void) {
             *(int16 *)((char *)&word_3C5AC + w * 12) = 0;
 
             b = findWaypointEntry(word_3BEBC, word_3BEC8);
-            if (b != -1 && !(stru_3AA5E[b].flags & 0x80)) {
+            if (b != -1 && !(g_planes[b].flags & 0x80)) {
                 i = (int)(*(long *)&word_39808[2] >> 5);
                 y = 0x8000 - (int)(*(long *)&word_39808[4] >> 5);
 
-                if (rangeApprox(word_3BEBC - i, word_3BEC8 - y) < 0x18 / (word_330B8 + 2) &&
-                    (stru_3AA5E[b].field_C & 0x7f) != *(uint8 *)byte_3C02A) {
+                if (rangeApprox(word_3BEBC - i, word_3BEC8 - y) < 0x18 / (g_missionStatus + 2) &&
+                    (g_planes[b].field_C & 0x7f) != *(uint8 *)byte_3C02A) {
                     sub_187EA(b);
                     strcat((char *)strBuf, (char *)aDestroyedByG_0);
                     tempStrcpy((char *)strBuf);
@@ -411,11 +411,11 @@ void drawHudWorldOverlay(void) {
     drawFullscreenLine(0x13f, 199, 0x13f, 199);
     var_671 = 0;
 
-    if (word_3C45C == 2) {
+    if (g_currentWeaponType == 2) {
     if (keyValue == 0) {
     if ((int)word_336F4 >= 0) {
 
-    projectWorldToHud(stru_3AA5E[word_336F4].mapX, stru_3AA5E[word_336F4].mapY, 0);
+    projectWorldToHud(g_planes[word_336F4].mapX, g_planes[word_336F4].mapY, 0);
 
     v = missiles[missleSpec[missileSpecIndex].weaponIdx].field_16;
 
@@ -430,7 +430,7 @@ void drawHudWorldOverlay(void) {
 
     m = routine_260(missleSpec[missileSpecIndex].weaponIdx, word_336F4) != 0 ? 4 : 0;
 
-    if (m != 0 && (v != 4 || stru_3AA5E[word_336F4].field_4 != 0)) {
+    if (m != 0 && (v != 4 || g_planes[word_336F4].field_4 != 0)) {
         if (missleSpec[missileSpecIndex].ammo != 0) {
             setDrawColor(0x0f);
             if ((rangeApprox(var_279 - 0xa0, var_282 - 0x38) < 0x30 || var_671 != 0) &&
@@ -462,8 +462,8 @@ void drawHudWorldOverlay(void) {
     }
 
     if (word_336F8 > 0 && word_3BE96 >= 0) {
-        projectWorldToHud(stru_3AA5E[word_3BE96].mapX, stru_3AA5E[word_3BE96].mapY, 0);
-        drawTargetLabel((char *)word_3C0A2[(&word_3AA5C)[word_3BE96 * 8]], word_38F72, word_330C4 - word_336F8);
+        projectWorldToHud(g_planes[word_3BE96].mapX, g_planes[word_3BE96].mapY, 0);
+        drawTargetLabel((char *)word_3C0A2[(&word_3AA5C)[word_3BE96 * 8]], word_38F72, g_frameRateScaling - word_336F8);
     }
 
     var_730 &= 0xfd;
@@ -471,29 +471,29 @@ void drawHudWorldOverlay(void) {
     var_565[1] = 4;
 
     if (word_3C09E == 0x13) {
-    if (word_3C45C == 2 || word_3C45C == 0) {
+    if (g_currentWeaponType == 2 || g_currentWeaponType == 0) {
     if (word_336F4 != -1) {
 
     j = word_336F4 & 0x7f;
 
-    drawTargetView(getTargetSymbol(j), stru_3AA5E[j].mapX, stru_3AA5E[j].mapY,
+    drawTargetView(getTargetSymbol(j), g_planes[j].mapX, g_planes[j].mapY,
               0, 0, 0, 0, 1, -1);
     drawMissileLock();
     buildRangeString(computeMapTargetRange(j));
     draw2Strings((char *)strBuf, 0xf4, 0xaa, 0x0f);
 
-    strcpy((char *)strBuf, (char *)word_3C0A2[stru_3AA5E[j].field_C & 0x7f]);
+    strcpy((char *)strBuf, (char *)word_3C0A2[g_planes[j].field_C & 0x7f]);
     draw2Strings((char *)strBuf, -((int)strlen((char *)strBuf) * 2 - 0x10c), 0x82, 0x0f);
 
     if ((int)strlen((char *)word_3C0A2[(&word_3AA5C)[j * 8]]) != 0) {
         strcpy((char *)strBuf,
-               (char *)(strlen((char *)word_3C0A2[stru_3AA5E[j].field_C & 0x7f]) != 0 ? aAt_0 : aAt_0 + 5));
+               (char *)(strlen((char *)word_3C0A2[g_planes[j].field_C & 0x7f]) != 0 ? aAt_0 : aAt_0 + 5));
         strcat((char *)strBuf, (char *)word_3C0A2[(&word_3AA5C)[j * 8]]);
         draw2Strings((char *)strBuf, -((int)strlen((char *)strBuf) * 2 - 0x10c), 0x88, 0x0f);
     }
 
-    if (word_3C45C == 0) {
-        projectWorldToHud(stru_3AA5E[word_336F4].mapX, stru_3AA5E[word_336F4].mapY, 0);
+    if (g_currentWeaponType == 0) {
+        projectWorldToHud(g_planes[word_336F4].mapX, g_planes[word_336F4].mapY, 0);
         setDrawColor(0x0f);
         drawTargetBox(var_279, var_282, 8, 0);
     } else if (word_3B146 == word_336F4) {
@@ -501,10 +501,10 @@ void drawHudWorldOverlay(void) {
     } else if (word_3B158 == word_336F4) {
         draw2Strings((char *)aSecondaryTarget, 0xec, 0x8e, 0x0f);
     } else if (!(frameTick & 1) &&
-               ((word_330BA < 2 && (byte_3BFA4[stru_3AA5E[j].field_C & 0x7f] & 0xc0) != 0) ||
-                (stru_3AA5E[j].flags & 0x500) != 0 ||
-                (byte_3AFAC[((unsigned)stru_3AA5E[j].mapX >> 11) +
-                            ((unsigned)stru_3AA5E[j].mapY >> 11) * 16] & 1) != 0)) {
+               ((word_330BA < 2 && (byte_3BFA4[g_planes[j].field_C & 0x7f] & 0xc0) != 0) ||
+                (g_planes[j].flags & 0x500) != 0 ||
+                (byte_3AFAC[((unsigned)g_planes[j].mapX >> 11) +
+                            ((unsigned)g_planes[j].mapY >> 11) * 16] & 1) != 0)) {
         draw2Strings((char *)aNoTarget, 0xfc, 0x8e, 0x0f);
     }
 
@@ -518,7 +518,7 @@ void drawHudWorldOverlay(void) {
 
     var_677 = readAxisInput(1);
 
-    if (word_3C45C == 1) {
+    if (g_currentWeaponType == 1) {
     if (keyValue == 0) {
     if (!(word_336F2 & 0x80)) {
 
@@ -552,7 +552,7 @@ void drawHudWorldOverlay(void) {
     }
     }
 
-    if (word_3C09E == 0x13 && word_3C45C == 1 && word_336F2 != -1) {
+    if (word_3C09E == 0x13 && g_currentWeaponType == 1 && word_336F2 != -1) {
         j = word_336F2 & 0x7f;
 
         drawTargetView(*(int16 *)((char *)aFlogger + *(int16 *)&stru_3B202[j].state[6] * 32 + 18),
@@ -564,8 +564,8 @@ void drawHudWorldOverlay(void) {
                   *(int16 *)&stru_3B202[j].state[4],
                   1, 1);
         drawMissileLock();
-        buildRangeString(rangeApprox(word_3BEC0 - stru_3B202[j].posX,
-                  word_3BED0 - stru_3B202[j].posY));
+        buildRangeString(rangeApprox(g_viewX_ - stru_3B202[j].posX,
+                  g_viewY_ - stru_3B202[j].posY));
         draw2Strings((char *)strBuf, 0xf4, 0xaa, 0x0f);
 
         w = *(int16 *)&stru_3B202[j].state[6];
@@ -593,17 +593,17 @@ void drawHudWorldOverlay(void) {
                   stru_3B202[w].posY,
                   stru_3B202[w].alt);
         drawTargetLabel((char *)(*(int16 *)&stru_3B202[w].state[6] * 32 + 0x2c8),
-                  word_38F72, word_330C4 - word_336F8);
+                  word_38F72, g_frameRateScaling - word_336F8);
     }
 
-    if (word_3C45C == 2 && keyValue == 0) {
+    if (g_currentWeaponType == 2 && keyValue == 0) {
         d = missiles[missleSpec[missileSpecIndex].weaponIdx].field_16;
 
         if (d == 0x1e && abs(var_545) < 0x2000) {
             c = sub_1C82D();
             u = cosMul(c, var_548) / (sinMul(-c, 0x20) + 1);
-            i = sinMul(var_542, u) + word_3BEC0;
-            y = word_3BED0 - cosMul(var_542, u);
+            i = sinMul(var_542, u) + g_viewX_;
+            y = g_viewY_ - cosMul(var_542, u);
             projectWorldToHud(i, y, 0);
             if (var_279 == -1) {
                 var_279 = (sinMul(var_545, 0x60 - word_3C008) << 2) / 3 + 0xa0;
@@ -617,15 +617,15 @@ void drawHudWorldOverlay(void) {
         }
 
         if ((d == 0x1e || d == 0x1d) && (int)word_336F4 >= 0) {
-            projectWorldToHud(stru_3AA5E[word_336F4].mapX + sinMul(var_542, 0x80),
-                      stru_3AA5E[word_336F4].mapY - cosMul(var_542, 0x80),
+            projectWorldToHud(g_planes[word_336F4].mapX + sinMul(var_542, 0x80),
+                      g_planes[word_336F4].mapY - cosMul(var_542, 0x80),
                       var_547);
 
             if (var_279 != -1) {
                 if (d == 0x1e) {
                     word_3C016 = clampRange(
-                        rangeApprox(i - stru_3AA5E[word_336F4].mapX,
-                                  y - stru_3AA5E[word_336F4].mapY) >> 3,
+                        rangeApprox(i - g_planes[word_336F4].mapX,
+                                  y - g_planes[word_336F4].mapY) >> 3,
                         0x0000, 0x0040);
                 } else {
                     word_3C016 = clampRange(computeMapTargetRange(word_336F4) >> 3, 0x0000, 0x0040);

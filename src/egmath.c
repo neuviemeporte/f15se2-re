@@ -56,12 +56,12 @@ void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int pa
 
     a = shapeDataOffset(shapeId);
     p = (byte_3C5A0 == 0) ? (int)var_564 : (int)var_565;
-    c = worldX - dword_3B7DA;
-    e = worldY + dword_3B7F8 - 0x01000000L;
+    c = worldX - g_ViewX;
+    e = worldY + g_ViewY - 0x01000000L;
     f = altitude - var_547;
     if ((keyValue & 0x80) != 0) {
-        c += dword_3B7DA - dword_3B1FE;
-        e += dword_3B4D4 - dword_3B7F8;
+        c += g_ViewX - dword_3B1FE;
+        e += dword_3B4D4 - g_ViewY;
         f += var_547 - word_3B4DE;
     }
     scaleShift = (var_456 != 0) ? (scaleShift - 2) : (scaleShift - 3);
@@ -118,8 +118,8 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param
 
     if (mode < 2) {
         var_685 = 0;
-        k = worldX - word_3BEC0;
-        l = worldY - word_3BED0;
+        k = worldX - g_viewX_;
+        l = worldY - g_viewY_;
         m = (altitude - var_547) >> 5;
         b = computeBearing(k, -l);
         f = computeBearing(m, rangeApprox(k, l));
@@ -163,8 +163,8 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param
         l = -(cosMul(b, i)) >> (char)shift;
         m = sinMul(f, c) >> (char)shift;
     } else {
-        k = (worldX - word_3BEC0) << 4;
-        l = (worldY - word_3BED0) << 4;
+        k = (worldX - g_viewX_) << 4;
+        l = (worldY - g_viewY_) << 4;
         m = (altitude - var_547) >> 1;
         var_681 = var_542;
         var_684 = word_38FCE;

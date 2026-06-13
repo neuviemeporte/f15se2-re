@@ -105,13 +105,13 @@ void projectWorldToHud(int worldX, int worldY, int worldZ) {
     int f;
     long g;
 
-    p = word_3BEC0 - worldX;
-    c = worldY - word_3BED0;
+    p = g_viewX_ - worldX;
+    c = worldY - g_viewY_;
     f = (worldZ - var_547) >> 5;
 
     if (keyValue & 0x80) {
-        p -= (int)((dword_3B7DA - dword_3B1FE) >> 5);
-        c -= (int)((dword_3B7F8 - dword_3B4D4) >> 5);
+        p -= (int)((g_ViewX - dword_3B1FE) >> 5);
+        c -= (int)((g_ViewY - dword_3B4D4) >> 5);
         f -= (int)((-((long)(unsigned)var_547 - (long)word_3B4DE)) >> 5);
     }
 
@@ -173,13 +173,13 @@ int findWaypointEntry(int mapX, int mapY)
         mapX = ((int32 *)word_39808)[1] >> 5;
         mapY = -((int)(((int32 *)word_39808)[2] >> 5) - 0x8000);
         for (p = 1; p < word_3BED2; p++) {
-            if (stru_3AA5E[p].mapX == mapX && stru_3AA5E[p].mapY == mapY) {
+            if (g_planes[p].mapX == mapX && g_planes[p].mapY == mapY) {
                 return p;
             }
         }
-        stru_3AA5E[0].mapX = mapX;
-        stru_3AA5E[0].mapY = mapY;
-        stru_3AA5E[0].field_C = *word_39808 + 0x100;
+        g_planes[0].mapX = mapX;
+        g_planes[0].mapY = mapY;
+        g_planes[0].field_C = *word_39808 + 0x100;
         if (word_336F6 == 0) {
             word_336F6 = -1;
         }
@@ -191,7 +191,7 @@ int findWaypointEntry(int mapX, int mapY)
 
 // ==== seg000:0xc7a2 ====
 int computeMapTargetRange(int targetIdx) {
-     return computeTargetBearing(stru_3AA5E[targetIdx].mapX, stru_3AA5E[targetIdx].mapY, 1);
+     return computeTargetBearing(g_planes[targetIdx].mapX, g_planes[targetIdx].mapY, 1);
 }
 
 // ==== seg000:0xc7c6 ====
@@ -203,8 +203,8 @@ int computeSimObjectRange(int objIdx) {
 int computeTargetBearing(int targetX, int targetY, int wantBearing) {
     int p;
     int a;
-    p = word_3BEC0 - targetX;
-    a = word_3BED0 - targetY;
+    p = g_viewX_ - targetX;
+    a = g_viewY_ - targetY;
     if (wantBearing != 0) {
         var_674 = computeBearing(-p, a);
     }
@@ -220,16 +220,16 @@ int sub_1C82D() {
 
 // ==== seg000:0xc864 ====
 int getTargetSymbol(int wpIdx) {
-    if (stru_3AA5E[wpIdx].flags & 0x80) {
+    if (g_planes[wpIdx].flags & 0x80) {
         return (isTargetOverWater(wpIdx) ? (int)(char)byte_3BEC4[0] : (int)(char)byte_3C02A[0]) + 0x100;
     }
-    return stru_3AA5E[wpIdx].field_C;
+    return g_planes[wpIdx].field_C;
 }
 
 // ==== seg000:0xc8a4 ====
 int isTargetOverWater(int wpIdx) {
     int p;
 
-    p = ((char *)byte_3BFA4)[stru_3AA5E[wpIdx].field_C & 0x7f] & 0x0f;
+    p = ((char *)byte_3BFA4)[g_planes[wpIdx].field_C & 0x7f] & 0x0f;
     return (p == 0x0c || p == 9 || p == 0x0b) ? 1 : 0;
 }
