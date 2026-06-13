@@ -8042,6 +8042,8 @@ PUBLIC _aColon
 _aColon equ aColon
 PUBLIC _aEmpty_5950
 _aEmpty_5950 equ aEmpty_5950
+PUBLIC _aMap
+_aMap equ aMap
 PUBLIC _word_34276
 _word_34276 equ word_34276
 _word_3C6AE equ word_3C6AE
