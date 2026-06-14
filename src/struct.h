@@ -346,4 +346,34 @@ struct Unknown3B4E6Record8 {
 #pragma pack()
 STATIC_ASSERT(sizeof(struct Unknown3B4E6Record8)==8);
 
+/* Enemy aircraft type table (head = aMig23). 32-byte records, one per type. */
+#pragma pack(1)
+struct AircraftType {
+    char name[7];      /* +0x00 primary name, e.g. "MIG-23" */
+    char altName[9];   /* +0x07 " "+NATO name appended after the primary, e.g. " Flogger" */
+    int16 field_10;    /* +0x10 */
+    int16 field_12;    /* +0x12 */
+    int16 field_14;    /* +0x14 */
+    int16 field_16;    /* +0x16 */
+    int16 field_18;    /* +0x18  -1 = no 3D model */
+    int16 field_1A;    /* +0x1A */
+    int16 field_1C;    /* +0x1C */
+    int16 field_1E;    /* +0x1E */
+};
+#pragma pack()
+STATIC_ASSERT(sizeof(struct AircraftType)==32);
+
+/* Countermeasure/map-event markers (head = word_333D2). 12-byte records. */
+#pragma pack(1)
+struct MapEvent {
+    int16 mapX;     /* +0x00 word_333D2 */
+    int16 mapY;     /* +0x02 word_333D4 */
+    int16 field_4;  /* +0x04 */
+    int16 type;     /* +0x06 word_333D8 (marker type) */
+    int16 ttl;      /* +0x08 word_333DA (countdown; 0 = slot free) */
+    int16 field_A;  /* +0x0A */
+};
+#pragma pack()
+STATIC_ASSERT(sizeof(struct MapEvent)==12);
+
 #endif // STRUCT_H

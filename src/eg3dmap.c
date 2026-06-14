@@ -31,10 +31,10 @@ int16* findNearestTileObject(uint32 worldX, uint32 worldY) {
             *(long *)&m = scaleCoordToLod(c, worldY);
             k = *(unsigned long *)&m >> 0xc;
             d = m & 0xfff;
-            a = (&word_33B74)[e];
-            b = (&word_33B86)[e];
-            o = (&word_33B9C)[a] - r + 0x800;
-            p = (&word_33B9C)[b] - d + 0x800;
+            a = word_33B74[e];
+            b = word_33B86[e];
+            o = word_33B9C[a] - r + 0x800;
+            p = word_33B9C[b] - d + 0x800;
             n = process3dg(c, i += a, k += b);
             if (n != -1) {
                 word_3C5A8 = matrix3dt_2[c][n];
@@ -182,7 +182,7 @@ void drawMapTiles(int originX, int originY, int zoomShift)
     var_663 = originX >> (char)zoomShift;
     var_664 = originY >> (char)zoomShift;
     for (var_666 = 4; var_666 >= 0; var_666--) {
-        word_3C16C = (&word_34186)[var_666];
+        word_3C16C = word_34186[var_666];
         var_665 = (var_666 <= 1) ? 0x40 : 0;
         word_3C042 = zoomShift - word_3C16C * 2 + 8;
         var_661 = 0x1000 >> (char)word_3C042;
@@ -317,8 +317,8 @@ void projectModelVertices(int screenX, int screenY) {
             d = (*(*(int far **)&var_200)++ >> word_3C042) + screenY;
             var_200 += 2;
         }
-        (&word_34684)[p * 2] = 1;
-        (&word_34686)[p * 2] = 1;
+        word_34684[p * 2] = 1;
+        word_34686[p * 2] = 1;
         *(long *)((char *)&word_34868 + p * 4) = (long)(c + word_3298C);
         *(long *)((char *)&word_34A4C + p * 4) = (long)(-aspectScaleY(d) + word_3298E);
     }

@@ -8,7 +8,7 @@ int process3dg(int lod, int col, int row)
         col += 2;
         row += 2;
     }
-    if (col < 0 || row < 0 || col >= (&word_33BAE)[lod] || row >= (&word_33BAE)[lod]) {
+    if (col < 0 || row < 0 || col >= word_33BAE[lod] || row >= word_33BAE[lod]) {
         return 0;
     }
     switch (lod) {

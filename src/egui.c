@@ -135,10 +135,10 @@ void drawTacticalMap(char page)
         blitGaugeSprite(0, 3, var_279, var_282);
     }
     for (f = 0; f < 4; f++) {
-        if ((&word_333DA)[f * 6] != 0) {
-            projectMapPoint((&word_333D2)[f * 6], (&word_333D4)[f * 6]);
+        if (mapEvents[f].ttl != 0) {
+            projectMapPoint(mapEvents[f].mapX, mapEvents[f].mapY);
             if (word_3C016 != -1) {
-                switch ((&word_333D8)[f * 6]) {
+                switch (mapEvents[f].type) {
                 case 1:
                     blitGaugeSprite(2, 3, var_279, var_282);
                     break;

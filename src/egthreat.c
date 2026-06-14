@@ -102,7 +102,7 @@ void fireGroundThreat(int param_1)
         word_3BE7E = o;
         word_336F8 = g_frameRateScaling;
         word_3BE96 = param_1;
-        word_3C6AA = *(int16 *)&aNone[k * 14 + 12] & 1;
+        word_3C6AA = aNone[k].field_C & 1;
         if (*(int16 *)&g_planes[param_1].field_8 != 0) {
             word_3BF3C = (p[0] >> 8) - 0x20;
             word_3BF3E = (p[0] >> 8) + 0x20;
@@ -117,7 +117,7 @@ void fireGroundThreat(int param_1)
         if (*(int16 *)&g_planes[param_1].field_8 > 255) {
             *(int16 *)&g_planes[param_1].field_8 = 255;
         }
-        if (!(g_planes[param_1].flags & 0x100) && word_333DA == 0 &&
+        if (!(g_planes[param_1].flags & 0x100) && mapEvents[0].ttl == 0 &&
             *(int16 *)&g_planes[param_1].field_8 > 0x7f) {
             updateThreatAlert();
         }
@@ -186,7 +186,7 @@ int computeThreatRangeBearing(int threatX, int threatY, int arg_4, int threatTyp
     e = g_viewY_ - threatY;
     c = (unsigned)rangeApprox(d, e) >> 6;
     b = computeBearing(d, -e);
-    f = (f = (*(int16 *)&aNone[threatType * 14 + 10] + g_missionStatus * 2 + 3) * *(int16 *)&aNone[threatType * 14 + 8] / 16) * (((unsigned)var_547 >> 6) + 0x40) >> 7;
+    f = (f = (aNone[threatType].field_A + g_missionStatus * 2 + 3) * aNone[threatType].field_8 / 16) * (((unsigned)var_547 >> 6) + 0x40) >> 7;
     *outBearing = b;
     *arg_a = c;
     return f;
@@ -196,9 +196,9 @@ int computeThreatRangeBearing(int threatX, int threatY, int arg_4, int threatTyp
 void updateThreatAlert(void) {
     int p;
     word_336F0 = word_3B0AC;
-    if (word_333DA != 0) {
-        word_3B4D8 = word_333D2;
-        word_3B4E0 = word_333D4;
+    if (mapEvents[0].ttl != 0) {
+        word_3B4D8 = mapEvents[0].mapX;
+        word_3B4E0 = mapEvents[0].mapY;
     } else {
         word_3B4D8 = g_viewX_;
         word_3B4E0 = g_viewY_;
@@ -223,7 +223,7 @@ int computeThreatScore(void) {
     for (a = 0; a < word_38FFA; a++) {
         p = g_planes[a].field_4;
         if (p != 0) {
-            b += *(int *)((char *)aNone + p * 14 + 8) * *(int *)((char *)aNone + p * 14 + 10) * (g_missionStatus + 2) / 64;
+            b += aNone[p].field_8 * aNone[p].field_A * (g_missionStatus + 2) / 64;
         }
     }
     b /= 100;
@@ -254,7 +254,7 @@ void updateObjects(void)
         m = word_3B4E0;
         n = word_3B5D6;
         w = 1;
-        if (word_333DA != 0) goto padlock_target;
+        if (mapEvents[0].ttl != 0) goto padlock_target;
         goto got_target;
     }
 
@@ -307,8 +307,8 @@ set_target_alt:
     n = n;
     goto got_target;
 padlock_target:
-    k = word_333D2;
-    m = word_333D4;
+    k = mapEvents[0].mapX;
+    m = mapEvents[0].mapY;
     n = clampRange(var_547, 1000, 30000);
     goto got_target;
     }
@@ -403,11 +403,11 @@ after_accel:
         l = 0x3000;
     }
 
-    l = clampRange(l, -*(int16 *)(aFlogger + var_667 * 32 + 14) * 0x1000,
-                  *(int16 *)(aFlogger + var_667 * 32 + 14) * 0x1000);
+    l = clampRange(l, -aircraftTypes[var_667].field_16 * 0x1000,
+                  aircraftTypes[var_667].field_16 * 0x1000);
     l = clampRange(l - *(int16 *)&stru_3B202[h].state[4],
-                  -*(int16 *)(aFlogger + var_667 * 32 + 14) * 256,
-                  *(int16 *)(aFlogger + var_667 * 32 + 14) * 256);
+                  -aircraftTypes[var_667].field_16 * 256,
+                  aircraftTypes[var_667].field_16 * 256);
 
     if ((*(uint16 *)&stru_3B202[h].state[8]) & 0x400) {
         if (*(int16 *)&stru_3B202[h].state[10] < 0x96) {
@@ -416,7 +416,7 @@ after_accel:
             *(int16 *)&stru_3B202[h].state[2] += 0x100;
         }
         l = 0;
-        if (*(int16 *)&stru_3B202[h].state[10] < *(int16 *)(aFlogger + var_667 * 32 + 10)) {
+        if (*(int16 *)&stru_3B202[h].state[10] < aircraftTypes[var_667].field_12) {
             *(int16 *)&stru_3B202[h].state[10] += 0x3c / g_frameRateScaling;
         } else if (stru_3B202[h].alt > 300) {
             stru_3B202[h].state[9] &= 0xfb;
@@ -582,7 +582,7 @@ alt_ok:
     aj = word_3B4D8 - g_planes[s].mapX;
     z2 = word_3B4E0 - g_planes[s].mapY;
     e1 = (unsigned)rangeApprox(aj, z2) >> 6;
-    c = *(int16 *)(aFlogger + var_667 * 32 + 12);
+    c = aircraftTypes[var_667].field_14;
     if ((unsigned)(c / 2) > (unsigned)e1) {
         var_556 = word_38FE0;
         spawnEnemyAircraft(h, s);

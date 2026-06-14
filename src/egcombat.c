@@ -22,7 +22,7 @@ void fireAirThreat(int param_1)
     unsigned g;
     int h, i, j, k, l, m, n;
 
-    i = *(int16 *)&aFlogger[var_667 * 32 + 16];
+    i = aircraftTypes[var_667].field_18;
 
     m = computeThreatRangeBearing(
         stru_3B202[param_1].posX,
@@ -77,7 +77,7 @@ void fireAirThreat(int param_1)
                     i = i;
                     strcpy((char *)strBuf, (char *)&sams[i].field_0);
                     strcat((char *)strBuf, (char *)aFiredBy);
-                    strcat((char *)strBuf, (char *)(var_667 * 32 + aMig23)); /* 0x2c8: aircraft name table */
+                    strcat((char *)strBuf, aircraftTypes[var_667].name);
                     tempStrcpy((char *)strBuf);
 
                     makeSound(6, 2);
@@ -128,14 +128,14 @@ void spawnEnemyAircraft(int slot, int objType)
     *(int16 *)&stru_3B202[slot].state[4] = 0;
     *(uint16 *)&stru_3B202[slot].state[8] |= 0x403;
     stru_3B202[slot].objType = objType;
-    *(int16 *)&stru_3B202[slot].state[12] = (int16)(((long)*(int16 *)&aFlogger[p * 32 + 12] << 11) * (long)g_frameRateScaling / (long)*(int16 *)&aFlogger[p * 32 + 10]);
+    *(int16 *)&stru_3B202[slot].state[12] = (int16)(((long)aircraftTypes[p].field_14 << 11) * (long)g_frameRateScaling / (long)aircraftTypes[p].field_12);
     *(int16 *)&stru_3B202[slot].state[16] = readMapPixelColor(g_planes[objType].mapX, g_planes[objType].mapY);
     if (word_336FC == -1) {
         stru_3B202[slot].state[9] &= 0xfe;
     }
     placeString(objType);
     strcat(strBuf, aDash);
-    strcat(strBuf, (char *)(*(int16 *)&stru_3B202[slot].state[6] * 32 + aMig23));
+    strcat(strBuf, aircraftTypes[*(int16 *)&stru_3B202[slot].state[6]].name);
     strcat(strBuf, aTakingOff);
     if (slot < word_3C046 - 4) {
         tempStrcpy(strBuf);
@@ -188,7 +188,7 @@ void destroyAircraft(int objIdx)
     int p;
 
     if (!(stru_3B202[objIdx].state[8] & 0x20)) {
-        *(int16 *)&aFlogger[*(int16 *)&stru_3B202[objIdx].state[6] * 32 + 22] += 1;
+        aircraftTypes[*(int16 *)&stru_3B202[objIdx].state[6]].field_1E += 1;
         if (*(uint16 *)&stru_3B202[objIdx].state[8] & 0x800) {
             word_3C044--;
         }
@@ -208,7 +208,7 @@ void destroyAircraft(int objIdx)
     done:
         ;
     }
-    strcpy(strBuf, (char *)(*(int16 *)&stru_3B202[objIdx].state[6] * 32 + aMig23));
+    strcpy(strBuf, aircraftTypes[*(int16 *)&stru_3B202[objIdx].state[6]].name);
     makeSound(2, 2);
     if (g_currentWeaponType == 1 && objIdx == word_336F2) {
         word_39604 = 1;

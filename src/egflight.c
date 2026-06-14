@@ -593,7 +593,7 @@ switch_break:
     if (g_currentWeaponType == 1) {
         if (word_336F2 >= 0) {
             // TODO struct
-            l = clampRange((rangeApprox(g_viewX_ - (&word_3B204)[word_336F2 * 0x12], g_viewY_ - (&word_3B206)[word_336F2 * 0x12]) * g_frameRateScaling) >> 8, 0, 12);
+            l = clampRange((rangeApprox(g_viewX_ - word_3B204[word_336F2 * 0x12], g_viewY_ - word_3B206[word_336F2 * 0x12]) * g_frameRateScaling) >> 8, 0, 12);
 
         } else {
             l = g_frameRateScaling - 1;
@@ -716,9 +716,9 @@ int valueToAngle(int value) {
     a = abs(value);
     b = (a >> 9) + 1;
     for (; b >= 0; b--) {
-        if ((&word_37348)[b] <= a) {
-            c = (&word_3734A)[b] - (&word_37348)[b];
-            p = (int)((long)(a - (&word_37348)[b]) * 256L / (long)c) + b * 256;
+        if (word_37348[b] <= a) {
+            c = word_3734A[b] - word_37348[b];
+            p = (int)((long)(a - word_37348[b]) * 256L / (long)c) + b * 256;
             break;
         }
     }

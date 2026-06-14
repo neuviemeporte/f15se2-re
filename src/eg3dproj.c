@@ -47,7 +47,7 @@ outer_test:
         if (word_3C16C < 1) {
             return;
         }
-        if ((&word_33BA2)[word_3C16C] == 0) {
+        if (word_33BA2[word_3C16C] == 0) {
             continue;
         }
         k = scaleCoordToLod(word_3C16C, param_2);
@@ -80,8 +80,8 @@ outer_test:
                     goto next_iter;
                 }
                 if (param_1 < (int)0xd555) {
-                    p = (&word_33B74)[f];
-                    a = (&word_33B86)[f];
+                    p = word_33B74[f];
+                    a = word_33B86[f];
                 } else {
                     p = *(int *)((char *)&word_339F4 + f * 2 + (unsigned)18 * (unsigned)b);
                     a = *(int *)((char *)&word_339F4 + f * 2 + (unsigned)18 * (unsigned)((b + 2) & 7));

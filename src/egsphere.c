@@ -30,7 +30,7 @@ void drawProjectionSphere(int arg_0)
         a = 0;
         do {
             i = a + a;
-            *((int *)((char *)&word_3BE9C + i)) = *((int *)((char *)&word_32990 + i));
+            *((int *)((char *)word_3BE9C + i)) = *((int *)((char *)&word_32990 + i));
             a++;
         } while (a < 16);
     }
@@ -47,7 +47,7 @@ void drawProjectionSphere(int arg_0)
         register int j;
         for (a = 0; a < 17; a++) {
             if (a < 16) {
-                g = (&word_3BE9C)[a] + p;
+                g = word_3BE9C[a] + p;
             } else {
                 g = 0x5848;
             }
@@ -74,19 +74,19 @@ void drawProjectionSphere(int arg_0)
         drawPolygonOutline(word_3298A, 4, f, a + 0x60);
         a++;
     } while (a < 16);
-    word_3BE9C = var_220 / 0x200;
+    word_3BE9C[0] = var_220 / 0x200;
     a = 1;
     do {
-        (&word_3BE9C)[a] = var_220 / ((16 - a) * 0x20) - word_3BE9C;
+        word_3BE9C[a] = var_220 / ((16 - a) * 0x20) - word_3BE9C[0];
         a++;
     } while (a < 16);
-    word_3BE9C = 0;
+    word_3BE9C[0] = 0;
     {
         register int i;
         register int j;
         for (a = 0; a < 17; a++) {
             if (a < 16) {
-                g = p - (&word_3BE9C)[a];
+                g = p - word_3BE9C[a];
             } else {
                 g = -0x5848;
             }

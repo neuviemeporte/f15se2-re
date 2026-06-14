@@ -725,6 +725,7 @@ PUBLIC _var_549
 PUBLIC _var_552
 PUBLIC _word_336F0
 PUBLIC _word_333D2
+PUBLIC _mapEvents
 PUBLIC _word_333D4
 PUBLIC _word_3B4D8
 PUBLIC _word_3B4E0
@@ -1108,7 +1109,9 @@ aIl76 db 'IL76',0
     db 0
     db 3
     db 3 dup(0)
-aMig23 db 'MIG-23',0
+aMig23 label byte
+_aircraftTypes equ aMig23
+    db 'MIG-23',0
     db 20h
 aFlogger db 'Flogger',0
 _aFlogger equ aFlogger
@@ -1715,7 +1718,9 @@ _word_330BE equ word_330BE
     db 0
     db 3
     db 13 dup(0)
-word_333D2 dw 0
+word_333D2 label word
+_mapEvents equ word_333D2
+    dw 0
 _word_333D2 equ word_333D2
 word_333D4 dw 0
 _word_333D4 equ word_333D4
@@ -7916,6 +7921,7 @@ PUBLIC aColon
 PUBLIC aEmpty_5950
 PUBLIC aMig23
 PUBLIC _aMig23
+PUBLIC _aircraftTypes
 _aMig23 equ aMig23
 PUBLIC _aDash
 _aDash equ aDash

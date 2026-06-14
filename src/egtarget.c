@@ -177,8 +177,7 @@ skip_aam:
 
             /* Draw the target */
             drawWorldObject(
-                *(int *)((char *)aFlogger + ((word_3C016 > -0x10) ? 0 : 1) * 2 +
-                    *(int *)&stru_3B202[g].state[6] * 0x20 + 18),
+                (&aircraftTypes[*(int *)&stru_3B202[g].state[6]].field_1A)[(word_3C016 > -0x10) ? 0 : 1],
                 stru_3B202[g].worldX, stru_3B202[g].worldY, stru_3B202[g].alt,
                 *(int *)&stru_3B202[g].state[0], *(int *)&stru_3B202[g].state[2],
                 *(int *)&stru_3B202[g].state[4], 2 - h);
@@ -463,7 +462,7 @@ void drawHudWorldOverlay(void) {
 
     if (word_336F8 > 0 && word_3BE96 >= 0) {
         projectWorldToHud(g_planes[word_3BE96].mapX, g_planes[word_3BE96].mapY, 0);
-        drawTargetLabel((char *)word_3C0A2[(&word_3AA5C)[word_3BE96 * 8]], word_38F72, g_frameRateScaling - word_336F8);
+        drawTargetLabel((char *)word_3C0A2[word_3AA5C[word_3BE96 * 8]], word_38F72, g_frameRateScaling - word_336F8);
     }
 
     var_730 &= 0xfd;
@@ -485,10 +484,10 @@ void drawHudWorldOverlay(void) {
     strcpy((char *)strBuf, (char *)word_3C0A2[g_planes[j].field_C & 0x7f]);
     drawStringActivePage((char *)strBuf, -((int)strlen((char *)strBuf) * 2 - 0x10c), 0x82, 0x0f);
 
-    if ((int)strlen((char *)word_3C0A2[(&word_3AA5C)[j * 8]]) != 0) {
+    if ((int)strlen((char *)word_3C0A2[word_3AA5C[j * 8]]) != 0) {
         strcpy((char *)strBuf,
                (char *)(strlen((char *)word_3C0A2[g_planes[j].field_C & 0x7f]) != 0 ? aAt_0 : aAt_0 + 5));
-        strcat((char *)strBuf, (char *)word_3C0A2[(&word_3AA5C)[j * 8]]);
+        strcat((char *)strBuf, (char *)word_3C0A2[word_3AA5C[j * 8]]);
         drawStringActivePage((char *)strBuf, -((int)strlen((char *)strBuf) * 2 - 0x10c), 0x88, 0x0f);
     }
 
@@ -555,7 +554,7 @@ void drawHudWorldOverlay(void) {
     if (word_3C09E == 0x13 && g_currentWeaponType == 1 && word_336F2 != -1) {
         j = word_336F2 & 0x7f;
 
-        drawTargetView(*(int16 *)((char *)aFlogger + *(int16 *)&stru_3B202[j].state[6] * 32 + 18),
+        drawTargetView(aircraftTypes[*(int16 *)&stru_3B202[j].state[6]].field_1A,
                   stru_3B202[j].posX,
                   stru_3B202[j].posY,
                   stru_3B202[j].alt,
@@ -569,11 +568,11 @@ void drawHudWorldOverlay(void) {
         drawStringActivePage((char *)strBuf, 0xf4, 0xaa, 0x0f);
 
         w = *(int16 *)&stru_3B202[j].state[6];
-        strcpy((char *)strBuf, (char *)(w * 32 + aMig23));     /* 0x2c8: aircraft name table */
-        strcat((char *)strBuf, (char *)(w * 32 + aMig23 + 7)); /* 0x2cf: +7 into the record */
+        strcpy((char *)strBuf, aircraftTypes[w].name);
+        strcat((char *)strBuf, aircraftTypes[w].altName);
         drawStringActivePage((char *)strBuf, 0xf8, 0x86, 0x0f);
 
-        if (*(int16 *)((char *)aFlogger + w * 32 + 16) == -1 && !(frameTick & 1)) {
+        if (aircraftTypes[w].field_18 == -1 && !(frameTick & 1)) {
             drawStringActivePage((char *)aNoTarget_0, 0xfc, 0x8c, 0x0f);
         }
 
@@ -592,7 +591,7 @@ void drawHudWorldOverlay(void) {
         projectWorldToHud(stru_3B202[w].posX,
                   stru_3B202[w].posY,
                   stru_3B202[w].alt);
-        drawTargetLabel((char *)(*(int16 *)&stru_3B202[w].state[6] * 32 + aMig23),
+        drawTargetLabel(aircraftTypes[*(int16 *)&stru_3B202[w].state[6]].name,
                   word_38F72, g_frameRateScaling - word_336F8);
     }
 

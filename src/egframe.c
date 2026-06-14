@@ -460,14 +460,14 @@ void countermeasures(int param_1) {
         tempStrcpy((char *)aStoresExhauste);
     } else {
         for (a = 1; a < 4; a++) {
-            if (*((int16 *)((char *)&word_333DA + a * 12)) == 0)
+            if (mapEvents[a].ttl == 0)
                 b = a;
         }
         if (b != -1) {
-            *((int16 *)((char *)&word_333D2 + b * 12)) = g_viewX_;
-            *((int16 *)((char *)&word_333D4 + b * 12)) = g_viewY_;
-            *((int16 *)((char *)&word_333D8 + b * 12)) = param_1;
-            *((int16 *)((char *)&word_333DA + b * 12)) =
+            mapEvents[b].mapX = g_viewX_;
+            mapEvents[b].mapY = g_viewY_;
+            mapEvents[b].type = param_1;
+            mapEvents[b].ttl =
                 -(g_missionStatus * 3 - 0xf) * g_frameRateScaling;
             switch (param_1) {
             case 1:
@@ -494,10 +494,10 @@ void countermeasures(int param_1) {
 void tickMessageTimers(void) {
     int p;
     for (p = 0; p < 4; p++) {
-        if (*((int16 *)((char *)&word_333DA + p * 12)) != 0) {
-            (*((int16 *)((char *)&word_333DA + p * 12)))--;
-            if (*((int16 *)((char *)&word_333DA + p * 12)) == 0) {
-                *((int16 *)((char *)&word_333D8 + p * 12)) = 0;
+        if (mapEvents[p].ttl != 0) {
+            (mapEvents[p].ttl)--;
+            if (mapEvents[p].ttl == 0) {
+                mapEvents[p].type = 0;
             }
         }
     }
@@ -716,7 +716,7 @@ void generateRandomRadioMessage(void) {
         } while (*(int16 *)&stru_3B202[p].state[10] == 0);
         word_3C02E = p + 0x20;
         keyValue = 0x89;
-        strcpy(strBuf, (char *)(*(int16 *)&stru_3B202[p].state[6] * 32 + aMig23)); /* 0x2c8: aircraft name table (32-byte records) */
+        strcpy(strBuf, aircraftTypes[*(int16 *)&stru_3B202[p].state[6]].name);
         strcat(strBuf, aOnPatrol);
         tempStrcpy(strBuf);
         break;
@@ -744,11 +744,11 @@ void appendMapEvent(int eventType, int arg_2) {
 // ==== seg000:0x1d6e placeString ====
 void placeString(int waypointIdx) {
     strcpy(strBuf, word_3C0A2[(g_planes[waypointIdx].field_C) & 0x7f]);
-    if (strlen(word_3C0A2[(&word_3AA5C)[waypointIdx * 8]])) {
+    if (strlen(word_3C0A2[word_3AA5C[waypointIdx * 8]])) {
         if (strlen(word_3C0A2[(g_planes[waypointIdx].field_C) & 0x7f])) {
             strcat(strBuf, aAt);
         }
-        strcat(strBuf, word_3C0A2[(&word_3AA5C)[waypointIdx * 8]]);
+        strcat(strBuf, word_3C0A2[word_3AA5C[waypointIdx * 8]]);
     }
     if ((int)strlen(strBuf) > 25) {
         byte_38F8C = '.';
@@ -821,7 +821,7 @@ void moveStuff() {
     moveNearFar(&word_3BED2, 2);
     moveNearFar(&word_38FFA, 2);
     moveNearFar(&word_3C69E, 2);
-    moveNearFar(&word_3AA5C, word_3BED2 * 16);
+    moveNearFar(word_3AA5C, word_3BED2 * 16);
     moveNearFar(&word_3C046, 2);
     moveNearFar(stru_3B202, word_3C046 * 0x24);
     moveNearFar(byte_3BFA4, 0x64);
