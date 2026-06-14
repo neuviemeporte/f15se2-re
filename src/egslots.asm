@@ -535,6 +535,8 @@ PUBLIC _word_3C028
 PUBLIC _word_3C03A
 PUBLIC _word_34186
 PUBLIC _word_3419C
+PUBLIC _word_341DC
+PUBLIC _word_341FC
 PUBLIC _word_339B4
 PUBLIC _word_336F6
 PUBLIC _stru_33402
@@ -3261,7 +3263,8 @@ word_341BC dw 2710h
     db 0FAh
     db 0ACh
     db 0F4h
-    db 2
+word_341DC db 2
+_word_341DC equ word_341DC
     db 0
     db 2Ch
     db 0
@@ -3293,7 +3296,8 @@ word_341BC dw 2710h
     db 7
     db 82h
     db 0Eh
-    db 3
+word_341FC db 3
+_word_341FC equ word_341FC
     db 0
     db 32h
     db 0
