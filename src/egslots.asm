@@ -561,6 +561,9 @@ PUBLIC _word_3C09E
 PUBLIC _word_3B4D2
 PUBLIC _word_3C00A
 PUBLIC _word_3C8B2
+PUBLIC _word_3C8B8
+PUBLIC _word_3C8BC
+PUBLIC _word_3C8C0
 PUBLIC _keyScancode
 PUBLIC _var_217
 PUBLIC _var_218
@@ -7936,10 +7939,13 @@ _word_3C8B2 equ word_3C8B2
 _gfxBufPtr dw ?
 _word_3C8B6 dw ?
 word_3C8B8 dw ?
+_word_3C8B8 equ word_3C8B8
 word_3C8BA dw ?
 word_3C8BC dw ?
+_word_3C8BC equ word_3C8BC
 word_3C8BE dw ?
 word_3C8C0 dw ?
+_word_3C8C0 equ word_3C8C0
 word_3C8C2 dw ?
 _size3d3_7 dw ?
     db 10 dup(?)

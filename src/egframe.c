@@ -662,7 +662,7 @@ void finalizeMission(int outcome) {
     if (word_3BE3C != 0 && outcome != 0) {
         return;
     }
-    *((uint8 *)&word_3C6AC + 0x204) = 1;
+    byte_3C8B0[0] = 1;
     commData->continueFlag = outcome;
     if (outcome == 0 && word_3BE3C == 0) {
         commData->setupDone = 3;

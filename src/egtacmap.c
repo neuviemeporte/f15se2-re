@@ -155,7 +155,7 @@ void setActivePanel(int panelId) {
     switch (panelId) {
     case 0x13:
         strcpy(strBuf, aTrackcam);
-        switch (*(int16 *)((char *)&word_3C6AC + 0x206)) {
+        switch (word_3C8B2) {
         case 0:
             strcat(strBuf, aAhead);
             break;

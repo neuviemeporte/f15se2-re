@@ -32,12 +32,12 @@ void projectObjects(int param_0, int param_1, long param_2, long param_4, long p
     int l;
 
 
-    *(long *)(&word_3C8B6 + 1) = param_2;
-    *(long *)(&word_3C8B6 + 3) = param_4;
-    *(long *)(&word_3C8B6 + 5) = param_6;
-    param_2 = *(long *)(&word_3C8B6 + 1);
-    param_4 = *(long *)(&word_3C8B6 + 3);
-    param_6 = *(long *)(&word_3C8B6 + 5);
+    *(long *)&word_3C8B8 = param_2;
+    *(long *)&word_3C8BC = param_4;
+    *(long *)&word_3C8C0 = param_6;
+    param_2 = *(long *)&word_3C8B8;
+    param_4 = *(long *)&word_3C8BC;
+    param_6 = *(long *)&word_3C8C0;
     b = (unsigned)(-param_0 + 0x1000) >> 13;
     word_3C16C = (word_38FDC != 0) ? 4 : 3;
     goto outer_test;
