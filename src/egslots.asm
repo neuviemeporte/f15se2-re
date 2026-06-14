@@ -357,7 +357,6 @@ PUBLIC _scenarioPlh
 PUBLIC _regnStr
 PUBLIC _byte_34197
 PUBLIC _aCockpit_pic
-PUBLIC _a256pit_pic
 PUBLIC _audio_jump_6a
 PUBLIC _audio_jump_64
 PUBLIC _audio_jump_65
@@ -442,11 +441,7 @@ PUBLIC _g_ViewX
 PUBLIC _flt15_buf1
 PUBLIC _flt15_word1
 PUBLIC _flt15_buf2
-PUBLIC _aRb_4
-PUBLIC _a_3d3_0
-PUBLIC _a15flt_xxx
 PUBLIC _fileHandle
-PUBLIC _aOpenErrorOn_3d3_0
 PUBLIC _flt15_size
 PUBLIC _byte_3B7FC
 PUBLIC _byte_3790C
@@ -470,25 +465,15 @@ PUBLIC _byte_3AFAC
 PUBLIC _word_3401A
 PUBLIC _off_38334
 PUBLIC _off_3834C
-PUBLIC _a_3dg
 PUBLIC _byte_3A900
-PUBLIC _aBadGridFileFormat_
-PUBLIC _aRb_3
 PUBLIC _misc_jump_5b_getkey
 PUBLIC _unk_33E1A
 PUBLIC _unk_34121
-PUBLIC _aPleaseInsertF15DiskB
 PUBLIC _word_33BAE
 PUBLIC _buf1_3dg
 PUBLIC _buf2_3dg
 PUBLIC _buf3_3dg
 PUBLIC _buf4_3dg
-PUBLIC _aTooMuchTileData
-PUBLIC _aBadTileFileFormat_
-PUBLIC _aRb_2
-PUBLIC _a_3dt
-PUBLIC _aTooManyTiles_
-PUBLIC _aOpenErrorOn_3dt
 PUBLIC _sizes3dt
 PUBLIC _matrix3dt
 PUBLIC _matrix3dt_2
@@ -497,21 +482,11 @@ PUBLIC _buf3d3_1
 PUBLIC _buf3d3_2
 PUBLIC _buf3d3_3
 PUBLIC _buf3d3
-PUBLIC _a_3d3
-PUBLIC _aBadObjFileFormat_
 PUBLIC _byte_3BE3E
-PUBLIC _aOpenErrorOn_3d3
-PUBLIC _aRb
 PUBLIC _sign3d3
-PUBLIC _aObjectDataTooBig_
 PUBLIC _byte_3BE80
-PUBLIC _aObjdataOverflow
 PUBLIC _word_33DD0
-PUBLIC _aRb_0
-PUBLIC _aRb_1
 PUBLIC _size3d3_7
-PUBLIC _aPhoto_3d3_0
-PUBLIC _aPhoto_3d3
 PUBLIC _word_3B14A
 PUBLIC _dword_3C01C
 PUBLIC _dword_3B4D4
@@ -566,14 +541,9 @@ PUBLIC _var_590
 PUBLIC _off_38364
 PUBLIC _unk_3806E
 PUBLIC _unk_380B6
-PUBLIC _a256left_pic
-PUBLIC _a256right_pic
-PUBLIC _a256rear_pic
 PUBLIC _gfx_setColor
 PUBLIC _gfx_nop23
-PUBLIC _aRight_pic
 PUBLIC _byte_3995A
-PUBLIC _aLeft_pic
 PUBLIC _word_36B86
 PUBLIC _byte_3850E
 PUBLIC _unk_38128
@@ -623,9 +593,7 @@ PUBLIC _g_knots
 PUBLIC _word_3C5A6
 PUBLIC _missleSpec
 PUBLIC _word_3C8B6
-PUBLIC _aPressAnyKeyToP
 PUBLIC _word_3AA5C
-PUBLIC _aTraining
 PUBLIC _word_38FC4
 PUBLIC _waypoints
 PUBLIC _word_3C008
@@ -673,7 +641,6 @@ PUBLIC _var_596
 PUBLIC _var_598
 PUBLIC _var_599
 PUBLIC _missiles
-PUBLIC _aAccel
 PUBLIC _aAutopilotOn
 PUBLIC _aOff
 PUBLIC _aJiffiesFrame
@@ -693,11 +660,7 @@ PUBLIC _aLong
 PUBLIC _aMedium
 PUBLIC _aWaypointPrimar
 PUBLIC _aMemoryAvailabl
-PUBLIC _aStallWarning
-PUBLIC _aSecond_Target
-PUBLIC _aPrimaryTarget_0
 PUBLIC _var_730
-PUBLIC _aAutopilot
 PUBLIC _word_38FEA
 PUBLIC _word_3BE92
 PUBLIC _word_336F8
@@ -929,7 +892,6 @@ _scenarioPlh dw offset aLb_xxx
     dw offset aCe_xxx ;"ce.xxx"
     dw offset aJp_xxx ;"jp.xxx"
     dw offset aNa_xxx ;"na.xxx"
-_a256pit_pic db '256pit.PIC',0
 _aCockpit_pic db 'cockpit.PIC',0
     db 0
 aF15dgtl_bin db 'F15DGTL.BIN',0
@@ -3131,30 +3093,10 @@ _unk_33E1A db 10h
     db 10h
 _word_3401A dw 0
     db 2 dup(0)
-_a_3d3 db '.3D3',0
-_aRb db 'rb',0
-_aOpenErrorOn_3d3 db 'Open Error on *.3D3',0
-_aBadObjFileFormat_ db 'Bad Obj file format.',0
-_aObjectDataTooBig_ db 'Object data too big.',0
-_aRb_0 db 'rb',0
-_aPhoto_3d3 db 'photo.3d3',0
-_aPleaseInsertF15DiskB db 'Please insert F15 Disk B',0
-_aRb_1 db 'rb',0
-_aPhoto_3d3_0 db 'photo.3d3',0
-_aObjdataOverflow db 'ObjData overflow',0
-_a_3dt db '.3dT',0
-_aRb_2 db 'rb',0
-_aOpenErrorOn_3dt db 'Open Error on *.3DT',0
-_aBadTileFileFormat_ db 'Bad Tile file format.',0
-_aTooManyTiles_ db 'Too many tiles.',0
-_aTooMuchTileData db 'Too much tile data',0
-_a_3dg db '.3dG',0
-_aRb_3 db 'rb',0
 aPleaseInsertScenarioD db 'Please insert scenario disk',0
 _unk_34121 db 20h
     db 20h
 aPressAKeyWhenReady db 'Press a key when ready',0
-_aBadGridFileFormat_ db 'Bad Grid file format.',0
 word_34150 dw 0
 word_34152 dw 0
     db 2 dup(0)
@@ -6256,11 +6198,6 @@ g_setThrust dw 0
 _g_setThrust equ g_setThrust
 word_380E2 dw 0
 _word_380E2 equ word_380E2
-_a256left_pic db '256Left.Pic',0
-_a256right_pic db '256Right.Pic',0
-_a256rear_pic db '256Rear.Pic',0
-_aLeft_pic db 'Left.Pic',0
-_aRight_pic db 'Right.Pic',0
 _aRear_pic db 'Rear.Pic',0
     db 0
 _word_38126 dw 6Ch
@@ -6328,8 +6265,6 @@ _aA equ aA
     db 0
     db 65h
     db 0
-_aSecond_Target db 'Second. target',0
-_aPrimaryTarget_0 db 'Primary target',0
 PUBLIC _a0
 a0 db ':0',0
 _a0 equ a0
@@ -6751,22 +6686,7 @@ word_383EE dw 0
 word_383F0 dw 0
 _word_383F2 dw 0
 _word_383F4 dw 0
-_aStallWarning db 'stall warning',0
-_aAccel db 'ACCEL',0
-_aTraining db 'TRAINING',0
-_aAutopilot db 'AUTOPILOT',0
-_aPressAnyKeyToP db 'Press any key to play',0
 aTac db 'Tac',0
-PUBLIC _aTrackcam
-_aTrackcam db 'TrackCam ',0
-PUBLIC _aAhead
-_aAhead db 'Ahead',0
-PUBLIC _aRear
-_aRear db 'Rear',0
-PUBLIC _aRight
-_aRight db 'Right',0
-PUBLIC _aLeft
-_aLeft db 'Left',0
 aMap db 'Map',0
     db 5 dup(0)
 word_38460 dw 0
@@ -6796,12 +6716,8 @@ aDot db 2Eh,0
 _aKm label byte
 aKm db ' km',0
     db 0
-_a_3d3_0 db '.3D3',0
-_aRb_4 db 'rb',0
-_aOpenErrorOn_3d3_0 db 'Open Error on *.3D3',0
 _byte_3850E db 0
     db 0
-_a15flt_xxx db '15FLT.xxx',0
 aBrg db 'BRG ',0
 _aBrg equ aBrg
     db 0 ;align 2
