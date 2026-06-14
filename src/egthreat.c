@@ -244,12 +244,12 @@ void updateObjects(void)
     word_3A946 = var_668;
     var_668 = 0;
     for (h = 0; h < word_3C046; h++) {
-    if (*(uint8 *)&stru_3B202[h].state[14] & 1) {
-    var_667 = *(int16 *)&stru_3B202[h].state[12];
-    if ((*(uint8 *)&stru_3B202[h].state[14] & 2) && *(int16 *)&stru_3B202[h].state[16] != 0) {
+    if (*(uint8 *)&stru_3B202[h].state[8] & 1) {
+    var_667 = *(int16 *)&stru_3B202[h].state[6];
+    if ((*(uint8 *)&stru_3B202[h].state[8] & 2) && *(int16 *)&stru_3B202[h].state[10] != 0) {
     w = 0;
-    if (!(*(uint8 *)&stru_3B202[h].state[14] & 4)) {
-    if (word_336F0 != 0 && (!((*(uint16 *)&stru_3B202[h].state[14]) & 0x140) || word_336F0 > word_3995C)) {
+    if (!(*(uint8 *)&stru_3B202[h].state[8] & 4)) {
+    if (word_336F0 != 0 && (!((*(uint16 *)&stru_3B202[h].state[8]) & 0x140) || word_336F0 > word_3995C)) {
         k = word_3B4D8;
         m = word_3B4E0;
         n = word_3B5D6;
@@ -259,15 +259,15 @@ void updateObjects(void)
     }
 
     w = 3;
-    if ((*(uint16 *)&stru_3B202[h].state[14]) & 0x100) {
+    if ((*(uint16 *)&stru_3B202[h].state[8]) & 0x100) {
     if (word_336FC != -1) {
-        k = sinMul((h & 7) * 0x800 + *(int16 *)&stru_3B202[word_336FC].state[6] - 0x1800,
-                      *(int16 *)&stru_3B202[word_336FC].state[16])
+        k = sinMul((h & 7) * 0x800 + *(int16 *)&stru_3B202[word_336FC].state[0] - 0x1800,
+                      *(int16 *)&stru_3B202[word_336FC].state[10])
             + stru_3B202[word_336FC].posX;
 
         m = stru_3B202[word_336FC].posY -
-            cosMul((h & 7) * 0x800 + *(int16 *)&stru_3B202[word_336FC].state[6] - 0x1800,
-                      *(int16 *)&stru_3B202[word_336FC].state[16]);
+            cosMul((h & 7) * 0x800 + *(int16 *)&stru_3B202[word_336FC].state[0] - 0x1800,
+                      *(int16 *)&stru_3B202[word_336FC].state[10]);
 
         n = stru_3B202[word_336FC].alt + (h & 7) * 0x40;
         goto set_target_alt;
@@ -275,7 +275,7 @@ void updateObjects(void)
     }
 
     if (((uint8)h * 8 + (uint8)word_38FE0) & 0xbf) goto after_retarget;
-    if (!(*(uint8 *)&stru_3B202[h].state[14] & 0x40)) {
+    if (!(*(uint8 *)&stru_3B202[h].state[8] & 0x40)) {
     f = 0x7fff;
     pa = computeBearing(g_viewX_ - stru_3B202[h].posX,
                    stru_3B202[h].posY - g_viewY_);
@@ -293,8 +293,8 @@ void updateObjects(void)
     }
     if ((unsigned)rangeApprox(g_viewX_ - stru_3B202[h].posX,
                   g_viewY_ - stru_3B202[h].posY) >> 6 > 0x15e && h != 0) {
-        (*(uint16 *)&stru_3B202[h].state[14]) &= 0x1c1;
-        *(int16 *)&stru_3B202[h].state[18] = 0;
+        (*(uint16 *)&stru_3B202[h].state[8]) &= 0x1c1;
+        *(int16 *)&stru_3B202[h].state[12] = 0;
     }
     }
 
@@ -314,7 +314,7 @@ padlock_target:
     }
 
     k = g_planes[*(int16 *)&stru_3B202[h].objType].mapX;
-    if ((*(uint16 *)&stru_3B202[h].state[14]) & 0x200) {
+    if ((*(uint16 *)&stru_3B202[h].state[8]) & 0x200) {
         n = stru_3B202[h].posX - k;
         m = g_planes[*(int16 *)&stru_3B202[h].objType].mapY;
         k = k - n * 2;
@@ -328,7 +328,7 @@ padlock_target:
     w = 2;
 
 got_target:
-    if (w == 3 && (*(uint8 *)&stru_3B202[h].state[14] & 8)) {
+    if (w == 3 && (*(uint8 *)&stru_3B202[h].state[8] & 8)) {
         k = g_viewX_;
         m = g_viewY_;
         n = stru_3B202[h].alt;
@@ -343,15 +343,15 @@ got_target:
     var_668++;
     if ((unsigned)e1 >= 0x400) goto after_missile_table;
     if (frameTick & 3) goto after_missile_table;
-    if (abs(*(int16 *)&stru_3B202[h].state[6] - b) >= 0x800) goto after_missile_table;
-    if (abs(*(int16 *)&stru_3B202[h].state[8] - p) >= 0x800) goto after_missile_table;
+    if (abs(*(int16 *)&stru_3B202[h].state[0] - b) >= 0x800) goto after_missile_table;
+    if (abs(*(int16 *)&stru_3B202[h].state[2] - p) >= 0x800) goto after_missile_table;
 
     g3 = ((frameTick >> 2) & 3) + word_3AFA4;
     v3 = 0x138 / g_frameRateScaling;
-    *(int16 *)((char *)&word_3C5B6 + g3 * 12) = sinMul(-*(int16 *)&stru_3B202[h].state[8], v3) << 5;
-    v3 = cosMul(*(int16 *)&stru_3B202[h].state[8], v3);
-    *(int16 *)((char *)&word_3C5B2 + g3 * 12) = sinMul(*(int16 *)&stru_3B202[h].state[6], v3);
-    *(int16 *)((char *)&word_3C5B4 + g3 * 12) = -cosMul(*(int16 *)&stru_3B202[h].state[6], v3);
+    *(int16 *)((char *)&word_3C5B6 + g3 * 12) = sinMul(-*(int16 *)&stru_3B202[h].state[2], v3) << 5;
+    v3 = cosMul(*(int16 *)&stru_3B202[h].state[2], v3);
+    *(int16 *)((char *)&word_3C5B2 + g3 * 12) = sinMul(*(int16 *)&stru_3B202[h].state[0], v3);
+    *(int16 *)((char *)&word_3C5B4 + g3 * 12) = -cosMul(*(int16 *)&stru_3B202[h].state[0], v3);
     *(int16 *)((char *)&word_3C5AC + g3 * 12) = stru_3B202[h].posX;
     *(int16 *)((char *)&word_3C5AE + g3 * 12) = stru_3B202[h].posY;
     *(int16 *)((char *)&word_3C5B0 + g3 * 12) = stru_3B202[h].alt;
@@ -359,16 +359,16 @@ got_target:
 after_missile_table:
     a = clampRange((h & 3) + g_missionStatus, 0, 2);
     if (h == 0) a = 1;
-    d = *(int16 *)&stru_3B202[h].state[6];
-    if (abs(*(int16 *)&stru_3B202[h].state[10]) < 0x4000) {
-        d += *(int16 *)&stru_3B202[h].state[10] >> 2;
+    d = *(int16 *)&stru_3B202[h].state[0];
+    if (abs(*(int16 *)&stru_3B202[h].state[4]) < 0x4000) {
+        d += *(int16 *)&stru_3B202[h].state[4] >> 2;
     }
     r = (int)(b - d) >> 13 & 7;
     d = var_542;
     if (abs(var_545) < 0x4000) {
         d += var_545 >> 1;
     }
-    t = ((*(int16 *)&stru_3B202[h].state[6] - d) >> 13) + 4 & 7;
+    t = ((*(int16 *)&stru_3B202[h].state[0] - d) >> 13) + 4 & 7;
     {
         register int ak;
         ak = *(int16 *)((char *)&word_33442 + 2 + a * 128 + r * 16 + t * 2);
@@ -383,17 +383,17 @@ after_missile_table:
         l = (((frameTick >> 8) & 8) - 4) * -0x1000;
     }
     if (p == (int16)0xa000) {
-        if (-((*(int16 *)&stru_3B202[h].state[8] >> 3) - 3000) > stru_3B202[h].alt) {
-            p = *(int16 *)&stru_3B202[h].state[8] + 0x1000;
+        if (-((*(int16 *)&stru_3B202[h].state[2] >> 3) - 3000) > stru_3B202[h].alt) {
+            p = *(int16 *)&stru_3B202[h].state[2] + 0x1000;
         }
     }
-    if (abs(*(int16 *)&stru_3B202[h].state[10]) > 0x4000) {
+    if (abs(*(int16 *)&stru_3B202[h].state[4]) > 0x4000) {
         p = l = 0;
     }
     goto after_accel;
     }
 
-    l = clampRange(b - *(int16 *)&stru_3B202[h].state[6], -0x3000, 0x3000) << 1;
+    l = clampRange(b - *(int16 *)&stru_3B202[h].state[0], -0x3000, 0x3000) << 1;
     if (w == 1 && g_missionStatus + 1 <= word_3A946) {
         l = 0x3000;
     }
@@ -405,25 +405,25 @@ after_accel:
 
     l = clampRange(l, -*(int16 *)(aFlogger + var_667 * 32 + 14) * 0x1000,
                   *(int16 *)(aFlogger + var_667 * 32 + 14) * 0x1000);
-    l = clampRange(l - *(int16 *)&stru_3B202[h].state[10],
+    l = clampRange(l - *(int16 *)&stru_3B202[h].state[4],
                   -*(int16 *)(aFlogger + var_667 * 32 + 14) * 256,
                   *(int16 *)(aFlogger + var_667 * 32 + 14) * 256);
 
-    if ((*(uint16 *)&stru_3B202[h].state[14]) & 0x400) {
-        if (*(int16 *)&stru_3B202[h].state[16] < 0x96) {
-            *(int16 *)&stru_3B202[h].state[8] = 0;
+    if ((*(uint16 *)&stru_3B202[h].state[8]) & 0x400) {
+        if (*(int16 *)&stru_3B202[h].state[10] < 0x96) {
+            *(int16 *)&stru_3B202[h].state[2] = 0;
         } else {
-            *(int16 *)&stru_3B202[h].state[8] += 0x100;
+            *(int16 *)&stru_3B202[h].state[2] += 0x100;
         }
         l = 0;
-        if (*(int16 *)&stru_3B202[h].state[16] < *(int16 *)(aFlogger + var_667 * 32 + 10)) {
-            *(int16 *)&stru_3B202[h].state[16] += 0x3c / g_frameRateScaling;
+        if (*(int16 *)&stru_3B202[h].state[10] < *(int16 *)(aFlogger + var_667 * 32 + 10)) {
+            *(int16 *)&stru_3B202[h].state[10] += 0x3c / g_frameRateScaling;
         } else if (stru_3B202[h].alt > 300) {
-            stru_3B202[h].state[15] &= 0xfb;
+            stru_3B202[h].state[9] &= 0xfb;
         }
     }
 
-    if (*(uint8 *)&stru_3B202[h].state[14] & 0x30) {
+    if (*(uint8 *)&stru_3B202[h].state[8] & 0x30) {
         l = 0x400;
     }
 
@@ -432,13 +432,13 @@ after_accel:
                   stru_3B202[h].posY,
                   stru_3B202[h].alt);
         if (*(int8 *)&var_315 != 0) {
-            stru_3B202[h].state[15] |= 0x20;
+            stru_3B202[h].state[9] |= 0x20;
         } else {
-            stru_3B202[h].state[15] &= 0xdf;
+            stru_3B202[h].state[9] &= 0xdf;
         }
     }
 
-    if ((*(uint16 *)&stru_3B202[h].state[14]) & 0x2000) {
+    if ((*(uint16 *)&stru_3B202[h].state[8]) & 0x2000) {
         p = 0x3000;
     }
 
@@ -448,11 +448,11 @@ after_accel:
 
     {
     register int u = h * 0x24;
-    *(int16 *)&stru_3B202[h].state[10] += (l * (g_missionStatus + 2)) / g_frameRateScaling;
-    *(int16 *)&stru_3B202[h].state[6] += (*(int16 *)&stru_3B202[h].state[10] >> 3) / g_frameRateScaling;
+    *(int16 *)&stru_3B202[h].state[4] += (l * (g_missionStatus + 2)) / g_frameRateScaling;
+    *(int16 *)&stru_3B202[h].state[0] += (*(int16 *)&stru_3B202[h].state[4] >> 3) / g_frameRateScaling;
 
-    j = p - *(int16 *)&stru_3B202[h].state[8];
-    if (!(*(uint8 *)&stru_3B202[h].state[14] & 0x20)) goto no_smoke;
+    j = p - *(int16 *)&stru_3B202[h].state[2];
+    if (!(*(uint8 *)&stru_3B202[h].state[8] & 0x20)) goto no_smoke;
     j = -0x200;
     if (frameTick & 3) goto no_smoke;
     ma = (frameTick >> 1) & 7;
@@ -468,44 +468,44 @@ after_accel:
     }
 no_smoke:
 
-    if (*(int16 *)&stru_3B202[h].state[8] < 0 &&
-        -(sinMul(*(int16 *)&stru_3B202[h].state[8], 2000) - 200) > stru_3B202[h].alt &&
-        ((*(uint16 *)&stru_3B202[h].state[14]) & 0x220) == 0) {
+    if (*(int16 *)&stru_3B202[h].state[2] < 0 &&
+        -(sinMul(*(int16 *)&stru_3B202[h].state[2], 2000) - 200) > stru_3B202[h].alt &&
+        ((*(uint16 *)&stru_3B202[h].state[8]) & 0x220) == 0) {
         j = 0x400;
     }
 
     j = clampRange(j, -0x400, 0x400);
-    *(int16 *)&stru_3B202[h].state[8] += (j << 2) / g_frameRateScaling;
-    if (abs(*(int16 *)&stru_3B202[h].state[8]) > 0x4000) {
-        *(int8 *)((char *)&stru_3B202[h].state[6] + 1) += (char)0x80;
-        *(int8 *)((char *)&stru_3B202[h].state[10] + 1) += (char)0x80;
-        *(int16 *)&stru_3B202[h].state[8] = (int16)0x8000 - *(int16 *)&stru_3B202[h].state[8];
+    *(int16 *)&stru_3B202[h].state[2] += (j << 2) / g_frameRateScaling;
+    if (abs(*(int16 *)&stru_3B202[h].state[2]) > 0x4000) {
+        *(int8 *)((char *)&stru_3B202[h].state[0] + 1) += (char)0x80;
+        *(int8 *)((char *)&stru_3B202[h].state[4] + 1) += (char)0x80;
+        *(int16 *)&stru_3B202[h].state[2] = (int16)0x8000 - *(int16 *)&stru_3B202[h].state[2];
     }
 
-    *(uint8 *)&stru_3B202[h].state[14] &= 0xef;
+    *(uint8 *)&stru_3B202[h].state[8] &= 0xef;
 
-    u2 = (int)((unsigned long)(unsigned)(-(*(int16 *)&stru_3B202[h].state[8] / 2 + (int16)0x8000))
-            * (long)*(int16 *)&stru_3B202[h].state[16] >> 14);
-    u2 -= abs(sinMul(*(int16 *)&stru_3B202[h].state[10], u2)) >> 1;
+    u2 = (int)((unsigned long)(unsigned)(-(*(int16 *)&stru_3B202[h].state[2] / 2 + (int16)0x8000))
+            * (long)*(int16 *)&stru_3B202[h].state[10] >> 14);
+    u2 -= abs(sinMul(*(int16 *)&stru_3B202[h].state[4], u2)) >> 1;
     u2 = u2 * 4 / g_frameRateScaling;
     u2 >>= 2;
 
-    m0 = cosMul(*(int16 *)&stru_3B202[h].state[8], u2);
+    m0 = cosMul(*(int16 *)&stru_3B202[h].state[2], u2);
 
-    stru_3B202[h].worldX += (long)sinMul(*(int16 *)&stru_3B202[h].state[6], m0);
-    stru_3B202[h].worldY -= (long)cosMul(*(int16 *)&stru_3B202[h].state[6], m0);
+    stru_3B202[h].worldX += (long)sinMul(*(int16 *)&stru_3B202[h].state[0], m0);
+    stru_3B202[h].worldY -= (long)cosMul(*(int16 *)&stru_3B202[h].state[0], m0);
 
-    stru_3B202[h].alt += sinMul(*(int16 *)&stru_3B202[h].state[8], u2);
+    stru_3B202[h].alt += sinMul(*(int16 *)&stru_3B202[h].state[2], u2);
 
     stru_3B202[h].posX = (int16)(stru_3B202[h].worldX >> 5);
     stru_3B202[h].posY = (int16)(stru_3B202[h].worldY >> 5);
 
     if (stru_3B202[h].alt <= 30000) goto alt_ok;
-    *(int16 *)&stru_3B202[h].state[8] = 0;
+    *(int16 *)&stru_3B202[h].state[2] = 0;
 alt_ok:
 
     if (stru_3B202[h].alt < 0) {
-        (*(uint16 *)&stru_3B202[h].state[14]) &= (h != 0) ? 0x1c1 : 0;
+        (*(uint16 *)&stru_3B202[h].state[8]) &= (h != 0) ? 0x1c1 : 0;
         word_3BEBC = stru_3B202[h].posX;
         word_3BEC8 = stru_3B202[h].posY;
         word_3BECE = stru_3B202[h].alt;
@@ -516,32 +516,32 @@ alt_ok:
     }
 
     if ((unsigned)e1 < 0x10 && w == 2) {
-        if ((*(uint16 *)&stru_3B202[h].state[14]) & 0x200) {
-            (*(uint16 *)&stru_3B202[h].state[14]) |= 0x1000;
+        if ((*(uint16 *)&stru_3B202[h].state[8]) & 0x200) {
+            (*(uint16 *)&stru_3B202[h].state[8]) |= 0x1000;
         } else {
-            (*(uint16 *)&stru_3B202[h].state[14]) |= 0x200;
+            (*(uint16 *)&stru_3B202[h].state[8]) |= 0x200;
         }
     }
 
-    if ((*(uint16 *)&stru_3B202[h].state[14]) & 0x1000) {
-        *(int16 *)&stru_3B202[h].state[10] = *(int16 *)&stru_3B202[h].state[8] = 0;        *(int16 *)&stru_3B202[h].state[6] = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
+    if ((*(uint16 *)&stru_3B202[h].state[8]) & 0x1000) {
+        *(int16 *)&stru_3B202[h].state[4] = *(int16 *)&stru_3B202[h].state[2] = 0;        *(int16 *)&stru_3B202[h].state[0] = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
         stru_3B202[h].alt = (g_planes[g_closestThreatIndex].flags & 0x200) ? 0x8c : 0x0c;
-        if (*(int16 *)&stru_3B202[h].state[16] > 0) {
-            *(int16 *)&stru_3B202[h].state[16] -= 0x78 / g_frameRateScaling;
+        if (*(int16 *)&stru_3B202[h].state[10] > 0) {
+            *(int16 *)&stru_3B202[h].state[10] -= 0x78 / g_frameRateScaling;
         } else {
-            (*(uint16 *)&stru_3B202[h].state[14]) &= 0x1c1;
+            (*(uint16 *)&stru_3B202[h].state[8]) &= 0x1c1;
             if (h == 0 && word_3B144 >= 5) {
-                (*(uint16 *)&stru_3B202[h].state[14]) = 0;
+                (*(uint16 *)&stru_3B202[h].state[8]) = 0;
             }
         }
-        if (h >= word_3C046 - 4 && *(int16 *)&stru_3B202[h].state[16] < 100) {
-            (*(uint16 *)&stru_3B202[h].state[14]) &= 0x1c1;
-            (*(uint16 *)&stru_3B202[h].state[14]) |= 0x406;
+        if (h >= word_3C046 - 4 && *(int16 *)&stru_3B202[h].state[10] < 100) {
+            (*(uint16 *)&stru_3B202[h].state[8]) &= 0x1c1;
+            (*(uint16 *)&stru_3B202[h].state[8]) |= 0x406;
         }
     }
 
-    if (--*(int16 *)&stru_3B202[h].state[18] == 0) {
-        *(uint8 *)&stru_3B202[h].state[14] |= 4;
+    if (--*(int16 *)&stru_3B202[h].state[12] == 0) {
+        *(uint8 *)&stru_3B202[h].state[8] |= 4;
         f = 0x7fff;
         for (y = 3; y < word_3C69E; y++) {
             if ((g_planes[y].flags & 0x101) == 1) {
@@ -555,13 +555,13 @@ alt_ok:
         }
     }
 
-    *(int16 *)&stru_3B202[h].state[22] = readMapPixelColor(
+    *(int16 *)&stru_3B202[h].state[16] = readMapPixelColor(
         stru_3B202[h].posX,
         stru_3B202[h].posY);
 
     {
     register char o;
-    o = *(uint8 *)&stru_3B202[h].state[14];
+    o = *(uint8 *)&stru_3B202[h].state[8];
     if ((o & 2) &&
         (x = (((uint8)h & 8) >> 3) + (h & 7) * 2,
          frameTick % (g_frameRateScaling << 4) == x * g_frameRateScaling) &&
@@ -575,9 +575,9 @@ alt_ok:
     if (h != 0) {
     if (0xe0 / (g_missionStatus + 2) < word_38FE0 - var_556) {
     s = randomRange(word_3C69E);
-    if (word_336F0 != 0 || (*(uint8 *)&stru_3B202[h].state[14] & 0x80)) {
+    if (word_336F0 != 0 || (*(uint8 *)&stru_3B202[h].state[8] & 0x80)) {
     if ((g_planes[s].flags & 0x181) == 1) {
-    if (*(int16 *)&stru_3B202[h].state[12] == g_planes[s].field_8) {
+    if (*(int16 *)&stru_3B202[h].state[6] == g_planes[s].field_8) {
     if (g_missionStatus * 2 >= word_3A946) {
     aj = word_3B4D8 - g_planes[s].mapX;
     z2 = word_3B4E0 - g_planes[s].mapY;
