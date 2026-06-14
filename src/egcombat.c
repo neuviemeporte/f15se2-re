@@ -77,7 +77,7 @@ void fireAirThreat(int param_1)
                     i = i;
                     strcpy((char *)strBuf, (char *)&sams[i].field_0);
                     strcat((char *)strBuf, (char *)aFiredBy);
-                    strcat((char *)strBuf, (char *)(var_667 * 32 + 0x2c8));
+                    strcat((char *)strBuf, (char *)(var_667 * 32 + aMig23)); /* 0x2c8: aircraft name table */
                     tempStrcpy((char *)strBuf);
 
                     makeSound(6, 2);
