@@ -553,6 +553,7 @@ EXTRN tmpFileHandle:WORD
 EXTRN word_3888E:WORD
 EXTRN word_38890:WORD
 EXTRN aReadError:BYTE
+EXTRN aWriteError:BYTE
 EXTRN tmpPageIndex:WORD
 EXTRN unk_3C030:BYTE
 EXTRN word_3298C:WORD
@@ -2582,7 +2583,7 @@ createFile proc near
     jnz short loc_1DE43
 loc_1DE37:
     mov bx, [bp+arg_0]
-    mov ax, 5F7Ch
+    mov ax, offset aFileNotFound ;":File not found$"
     mov cx, 0FFFFh
     jmp loc_1DF80
 loc_1DE43:
@@ -2594,11 +2595,11 @@ loc_1DE43:
     jnz short loc_1DE59
     mov cx, 0FFFFh
     mov bx, [bp+arg_0]
-    mov ax, 5F8Ch
+    mov ax, offset aNoFileBuffersAvailabl ;":No file buffers available$"
     jmp loc_1DF80
 loc_1DE59:
     mov cx, ax
-    mov ax, 5FA7h
+    mov ax, offset aOpenError ;":Open error $"
     mov bx, [bp+arg_0]
     jmp loc_1DF80
 loc_1DE64:
@@ -2636,7 +2637,7 @@ readFile1 proc near
     mov DX,word ptr [BP + 8h]
     int 21h
     jnc LAB_1000_deb7
-    mov DX,5fc7h
+    mov DX, offset aReadError ;"Read error$"
     mov CX,0ffffh
     jmp printString_1DF9B
 LAB_1000_deb7:
@@ -2668,7 +2669,7 @@ readFile2 proc near
     int 21h
     pop DS
     jnc LAB_1000_dee5
-    mov DX,5fc7h
+    mov DX, offset aReadError ;"Read error$"
     mov CX,0ffffh
     jmp printString_1DF9B
 LAB_1000_dee5:
@@ -2715,7 +2716,7 @@ writeFileAtRaw proc near
     int 21h ;DOS - 2+ - WRITE TO FILE WITH HANDLE
     pop ds
     jnb short loc_1DF78
-    mov dx, 5FD2h
+    mov dx, offset aWriteError ;"Write error$"
     mov cx, 0FFFFh
     jmp short printString_1DF9B
     nop ;align 2

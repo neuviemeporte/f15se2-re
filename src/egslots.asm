@@ -6794,6 +6794,7 @@ aOpenError db ':Open error $'
 aFileClosingError db 'File closing error$'
 PUBLIC aReadError
 aReadError db 'Read error$'
+PUBLIC aWriteError
 aWriteError db 'Write error$'
 PUBLIC word_3888E
 word_3888E dw 0
