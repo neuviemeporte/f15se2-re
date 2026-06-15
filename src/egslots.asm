@@ -159,17 +159,12 @@ PUBLIC _word_3B236
 PUBLIC _word_336EC
 PUBLIC _word_336EE
 PUBLIC _word_32A34
-PUBLIC _aAutomaticLandi
-PUBLIC _aSafeLanding
-PUBLIC _aWeaponsRepleni
-PUBLIC _aReadyForTakeof
 PUBLIC _word_3BECC
 PUBLIC _var_660
 PUBLIC _word_39402
 PUBLIC _word_38FCE
 PUBLIC _byte_3419A
 PUBLIC _byte_3419C
-PUBLIC _aBrg
 PUBLIC _var_568
 PUBLIC _var_680
 PUBLIC _var_681
@@ -186,14 +181,6 @@ PUBLIC _word_39606
 PUBLIC _word_3BEBC
 PUBLIC _word_3BEC8
 PUBLIC _word_3BECE
-PUBLIC _aNoTarget
-PUBLIC _aNoTarget_0
-PUBLIC _aDestroyedByGun
-PUBLIC _aDestroyedByG_0
-PUBLIC _aHitByGunfire
-PUBLIC _aPrimaryTarget
-PUBLIC _aSecondaryTarget
-PUBLIC _aAt_0
 PUBLIC _byte_3B23E
 PUBLIC _word_33700
 PUBLIC _word_33712
@@ -208,13 +195,10 @@ PUBLIC _word_3B22E
 PUBLIC _word_3C0A0
 PUBLIC _word_38FF8
 PUBLIC _strBuf
-PUBLIC _aAt
 PUBLIC _aNotAvailable
 PUBLIC _aArmed
 PUBLIC _byte_38F8C
 PUBLIC _byte_38F8D
-PUBLIC _aOnPatrol
-PUBLIC _aF15StrikeEagle
 PUBLIC _aNone
 PUBLIC byte_37C2D
 PUBLIC byte_37C2E
@@ -356,7 +340,6 @@ PUBLIC _regs
 PUBLIC _scenarioPlh
 PUBLIC _regnStr
 PUBLIC _byte_34197
-PUBLIC _aCockpit_pic
 PUBLIC _audio_jump_6a
 PUBLIC _audio_jump_64
 PUBLIC _audio_jump_65
@@ -423,7 +406,6 @@ PUBLIC word_37F9B
 PUBLIC byte_37F9D
 PUBLIC byte_37F9E
 PUBLIC byte_37F9F
-PUBLIC _dword_38FE2
 PUBLIC _word_3C0A2
 PUBLIC _flagFarToNear
 PUBLIC _word_3BFA2
@@ -433,15 +415,10 @@ PUBLIC _word_3BEC2
 PUBLIC _word_3BED6
 PUBLIC _aFlogger
 PUBLIC _byte_3C16E
-PUBLIC _g_viewX_
-PUBLIC _g_viewY_
-PUBLIC _g_ViewY
 PUBLIC _g_playerTargetIndex
-PUBLIC _g_ViewX
 PUBLIC _flt15_buf1
 PUBLIC _flt15_word1
 PUBLIC _flt15_buf2
-PUBLIC _fileHandle
 PUBLIC _flt15_size
 PUBLIC _byte_3B7FC
 PUBLIC _byte_3790C
@@ -449,15 +426,12 @@ PUBLIC _farPointer
 PUBLIC _word_3C69E
 PUBLIC _word_3B144
 PUBLIC _word_3C046
-PUBLIC _word_3BED2
 PUBLIC _byte_3BFA4
 PUBLIC _byte_3BEC4
 PUBLIC _byte_3BED8
 PUBLIC _byte_3C02A
 PUBLIC _word_3C00C
-PUBLIC _word_38FFA
 PUBLIC _word_3AFA8
-PUBLIC _aTakingOff
 PUBLIC _stru_3B202
 PUBLIC _word_3B204
 PUBLIC _word_3B206
@@ -483,25 +457,18 @@ PUBLIC _buf3d3_2
 PUBLIC _buf3d3_3
 PUBLIC _buf3d3
 PUBLIC _byte_3BE3E
-PUBLIC _sign3d3
 PUBLIC _byte_3BE80
 PUBLIC _word_33DD0
 PUBLIC _size3d3_7
 PUBLIC _word_3B14A
 PUBLIC _dword_3C01C
-PUBLIC _dword_3B4D4
-PUBLIC _keyValue
 PUBLIC _g_viewZ
-PUBLIC _dword_3B1FE
 PUBLIC _dword_3C024
-PUBLIC _word_3B4DE
 PUBLIC _word_3C02C
 PUBLIC _g_ourHead
-PUBLIC _word_3B4E4
 PUBLIC _g_ourPitch
 PUBLIC _g_ourRoll
 PUBLIC _word_3C5AA
-PUBLIC _word_3BE94
 PUBLIC _word_3BE3C
 PUBLIC _word_38FF6
 PUBLIC _word_33710
@@ -520,10 +487,6 @@ PUBLIC _word_33444
 PUBLIC _stru_335C4
 PUBLIC _var_672
 PUBLIC _var_671
-PUBLIC _aMissileLock
-PUBLIC _aDot
-PUBLIC _aRange
-PUBLIC _aKm
 PUBLIC _unk_3C030
 PUBLIC _var_674
 PUBLIC _word_3A940
@@ -534,7 +497,6 @@ PUBLIC _stru_3B208
 PUBLIC _unk_3A948
 PUBLIC _word_38152
 PUBLIC _word_37561
-PUBLIC _word_39604
 PUBLIC _word_37563
 PUBLIC _word_38126
 PUBLIC _var_589
@@ -551,8 +513,6 @@ PUBLIC _unk_38128
 PUBLIC _word_3755D
 PUBLIC _word_3755F
 PUBLIC _word_38202
-PUBLIC _aRear_pic
-PUBLIC _word_38FDC
 PUBLIC _word_3C09A
 PUBLIC _word_33098
 PUBLIC _word_330B4
@@ -585,23 +545,18 @@ PUBLIC _word_3C5B2
 PUBLIC _word_3C5B4
 PUBLIC _word_3C5B6
 PUBLIC _word_38FE8
-PUBLIC _aGun
 PUBLIC _byte_3C5A0
 PUBLIC _word_3C040
 PUBLIC _word_383F4
-PUBLIC _word_3BEBE
 PUBLIC _word_3C6A4
 PUBLIC _byte_37C2F
 PUBLIC _sams
-PUBLIC _g_knots
 PUBLIC _word_3C5A6
 PUBLIC _missleSpec
 PUBLIC _word_3C8B6
 PUBLIC _word_3AA5C
-PUBLIC _word_38FC4
 PUBLIC _waypoints
 PUBLIC _word_3C008
-PUBLIC _g_playerPlaneFlags
 PUBLIC _byte_37C24
 PUBLIC _string_3C04A
 PUBLIC _var_564
@@ -645,28 +600,10 @@ PUBLIC _var_596
 PUBLIC _var_598
 PUBLIC _var_599
 PUBLIC _missiles
-PUBLIC _aAutopilotOn
-PUBLIC _aOff
-PUBLIC _aJiffiesFrame
-PUBLIC _aWaypointSecond
-PUBLIC _aRangeRadar
 PUBLIC _word_336EC
-PUBLIC _aKybdSensitivit
-PUBLIC _aDetailLevel
-PUBLIC _aAutopilotOff
 PUBLIC _word_3C6AE
-PUBLIC _aDirector
-PUBLIC _aWaypointFriend
-PUBLIC _aSounds
 PUBLIC _word_3B15A
-PUBLIC _aShort
-PUBLIC _aLong
-PUBLIC _aMedium
-PUBLIC _aWaypointPrimar
-PUBLIC _aMemoryAvailabl
 PUBLIC _var_730
-PUBLIC _word_38FEA
-PUBLIC _word_3BE92
 PUBLIC _word_336F8
 PUBLIC _word_336E4
 PUBLIC _word_3C03E
@@ -674,7 +611,6 @@ PUBLIC _word_3BF3C
 PUBLIC _word_3BF3E
 PUBLIC _word_3BE7E
 PUBLIC _word_3C6AA
-PUBLIC _aFiring
 PUBLIC _word_3B158
 PUBLIC _word_336FA
 PUBLIC _word_3A946
@@ -690,7 +626,6 @@ PUBLIC _g_missionStatus
 PUBLIC _var_669
 PUBLIC _var_667
 PUBLIC _var_670
-PUBLIC _aFiredBy
 PUBLIC _word_3B204
 PUBLIC _word_3B206
 PUBLIC _g_gunHits
@@ -764,29 +699,12 @@ PUBLIC _var_694
 PUBLIC _var_697
 PUBLIC _var_699
 PUBLIC _var_700
-PUBLIC aDestroyedBy
-PUBLIC aDestroyedBy_0
 PUBLIC aF15dgtl_bin
 PUBLIC aFileClosingError
 PUBLIC aFileNotFound
-PUBLIC aGroundImpact
-PUBLIC aHitBy
-PUBLIC aHitBy_0
-PUBLIC aIneffective
 PUBLIC aMap
-PUBLIC aMisses
 PUBLIC aNoFileBuffersAvailabl
 PUBLIC aOpenError
-PUBLIC aChaff
-PUBLIC _aChaff
-PUBLIC aFlare
-PUBLIC _aFlare
-PUBLIC aReleased
-PUBLIC _aReleased
-PUBLIC aStoresExhauste
-PUBLIC _aStoresExhauste
-PUBLIC asc_3373D
-PUBLIC _asc_3373D
 PUBLIC audio_jump_6b
 PUBLIC audio_jump_6c
 PUBLIC byte_36D86
@@ -897,7 +815,6 @@ _scenarioPlh dw offset aLb_xxx
     dw offset aCe_xxx ;"ce.xxx"
     dw offset aJp_xxx ;"jp.xxx"
     dw offset aNa_xxx ;"na.xxx"
-_aCockpit_pic db 'cockpit.PIC',0
     db 0
 aF15dgtl_bin db 'F15DGTL.BIN',0
 f15dgtlAddr dw 0
@@ -954,14 +871,6 @@ unk_329AB db 0
     db 5 dup(0)
 ovlInsaneFlag db 0
 aErrorReleasingOverlay db 'Error releasing overlay memory$'
-aSafeLanding db 'Safe Landing',0
-_aSafeLanding equ aSafeLanding
-aReadyForTakeof db 'Ready for takeoff',0
-_aReadyForTakeof equ aReadyForTakeof
-aWeaponsRepleni db 'Weapons replenished',0
-_aWeaponsRepleni equ aWeaponsRepleni
-aAutomaticLandi db 'Automatic Landing Engaged',0
-_aAutomaticLandi equ aAutomaticLandi
     db 0
     _waypoints Waypoint 4 dup(<0>)
 word_32A34 dw 0
@@ -2124,18 +2033,6 @@ word_33712 dw 0
 _word_33712 equ word_33712
 word_33714 dw 0
 _word_33714 equ word_33714
-aStoresExhauste db 'Stores exhausted',0
-_aStoresExhauste equ aStoresExhauste
-aFlare db 'Flare',0
-_aFlare equ aFlare
-aChaff db 'Chaff',0
-_aChaff equ aChaff
-aReleased db ' released',0
-_aReleased equ aReleased
-asc_3373D db ':',0
-_asc_3373D equ asc_3373D
-aGun db 'GUN:',0
-_aGun equ aGun
 asc_33744 db 'L',0
     db '(',0
 aS db 's',0
@@ -2144,12 +2041,6 @@ PUBLIC _word_3374A
 _word_3374A equ word_3374A
 PUBLIC _asc_33744
 _asc_33744 equ asc_33744
-aOnPatrol db ' on patrol',0
-_aOnPatrol equ aOnPatrol
-aF15StrikeEagle db 'F15 Strike Eagle',0
-_aF15StrikeEagle equ aF15StrikeEagle
-aAt db ' at ',0
-_aAt equ aAt
     db 0
 _gfx_allocPage proc near                    ; slot 0x00
     db 0EAh ;jmp far ptr 0:0
@@ -6045,18 +5936,6 @@ byte_37F9F db 0
     db 2
     db 0Ah
     db 0
-aLandingGearRaised db 'Landing gear raised',0
-PUBLIC _aLandingGearRaised
-_aLandingGearRaised equ aLandingGearRaised
-aBrakesOn db 'Brakes on',0
-PUBLIC _aBrakesOn
-_aBrakesOn equ aBrakesOn
-a_ db '.',0
-PUBLIC _a_
-_a_ equ a_
-aG db 'G',0
-PUBLIC _aG
-_aG equ aG
 byte_37FEC db 10h
 _byte_37FEC equ byte_37FEC
     db 5 dup(10h)
@@ -6213,7 +6092,6 @@ g_setThrust dw 0
 _g_setThrust equ g_setThrust
 word_380E2 dw 0
 _word_380E2 equ word_380E2
-_aRear_pic db 'Rear.Pic',0
     db 0
 _word_38126 dw 6Ch
 _unk_38128 db 7
@@ -6255,22 +6133,22 @@ _unk_38128 db 7
     db 0
     db 4 dup(0FFh)
 _word_38152 dw 0
-aFiring db ' firing ',0
-_aFiring equ aFiring
     db 0 ;align 2
 word_3815E dw 0
-_aFiredBy label byte
-aFiredBy db ' fired by ',0
-aDash db ' - ',0
-_aTakingOff label byte
-aTakingOff db ' taking off',0
     db 0 ;align 2
+PUBLIC aMisses
 aMisses db ' misses ',0
+PUBLIC aDestroyedBy
 aDestroyedBy db ' destroyed by ',0
+PUBLIC aDestroyedBy_0
 aDestroyedBy_0 db ' destroyed by ',0
+PUBLIC aGroundImpact
 aGroundImpact db ' ground impact',0
+PUBLIC aHitBy
 aHitBy db 'Hit by ',0
+PUBLIC aIneffective
 aIneffective db 'Ineffective',0
+PUBLIC aHitBy_0
 aHitBy_0 db ' hit by ',0
     db 0 ;align 2
 PUBLIC _aA
@@ -6280,13 +6158,6 @@ _aA equ aA
     db 0
     db 65h
     db 0
-PUBLIC _a0
-a0 db ':0',0
-_a0 equ a0
-aColon db ':',0
-PUBLIC _aFired
-aFired db ' fired',0
-_aFired equ aFired
 aEmpty_5950 db 0
     db 0
 _word_38202 dw 41h
@@ -6705,69 +6576,11 @@ aTac db 'Tac',0
 aMap db 'Map',0
     db 5 dup(0)
 word_38460 dw 0
-aDestroyedByGun db ' destroyed by gunfire',0
-_aDestroyedByGun equ aDestroyedByGun
-aHitByGunfire db 'Hit by gunfire',0
-_aHitByGunfire equ aHitByGunfire
-aDestroyedByG_0 db ' destroyed by gunfire',0
-_aDestroyedByG_0 equ aDestroyedByG_0
-aAt_0 db ' at ',0
-_aAt_0 equ aAt_0
     db 0
-aPrimaryTarget db 'Primary Target',0
-_aPrimaryTarget equ aPrimaryTarget
-aSecondaryTarget db 'Secondary Target',0
-_aSecondaryTarget equ aSecondaryTarget
-aNoTarget db 'No Target',0
-_aNoTarget equ aNoTarget
-aNoTarget_0 db 'No Target',0
-_aNoTarget_0 equ aNoTarget_0
-_aMissileLock label byte
-aMissileLock db 'Missile Lock',0
-_aRange label byte
-aRange db 'Range ',0
-_aDot label byte
-aDot db 2Eh,0
-_aKm label byte
-aKm db ' km',0
     db 0
 _byte_3850E db 0
     db 0
-aBrg db 'BRG ',0
-_aBrg equ aBrg
     db 0 ;align 2
-aLong db 'Long',0
-aMedium db 'Medium',0
-aShort db 'Short',0
-aRangeRadar db ' range radar',0
-aDetailLevel db 'Detail Level ',0
-aKybdSensitivit db 'Kybd Sensitivity',0
-aMemoryAvailabl db 'Memory Available:',0
-aJiffiesFrame db 'Jiffies/Frame ',0
-aSounds db 'Sounds ',0
-aDirector db 'Director ',0
-aOff db 'off',0
-aWaypointPrimar db 'Waypoint: Primary Target',0
-aWaypointSecond db 'Waypoint: Secondary Target',0
-aWaypointFriend db 'Waypoint: Friendly Airbase',0
-aAutopilotOff db 'Autopilot off',0
-aAutopilotOn db 'Autopilot on',0
-_aLong equ aLong
-_aMedium equ aMedium
-_aShort equ aShort
-_aRangeRadar equ aRangeRadar
-_aDetailLevel equ aDetailLevel
-_aKybdSensitivit equ aKybdSensitivit
-_aMemoryAvailabl equ aMemoryAvailabl
-_aJiffiesFrame equ aJiffiesFrame
-_aSounds equ aSounds
-_aDirector equ aDirector
-_aOff equ aOff
-_aWaypointPrimar equ aWaypointPrimar
-_aWaypointSecond equ aWaypointSecond
-_aWaypointFriend equ aWaypointFriend
-_aAutopilotOff equ aAutopilotOff
-_aAutopilotOn equ aAutopilotOn
     db 0 ;align 2
 word_38600 dw 0
 word_38602 dw 2
@@ -7412,7 +7225,6 @@ _byte_38F8C equ byte_38F8C
 byte_38F8D db ?
 _byte_38F8D equ byte_38F8D
     db 54 dup(?)
-_word_38FC4 dw ?
 _word_38FC6 label byte
 word_38FC6 dw ?
 word_38FC8 dw ?
@@ -7428,16 +7240,12 @@ _unk_38FD0 equ unk_38FD0
     db 9 dup(?)
 g_gees dw ?
 _g_gees equ g_gees
-_word_38FDC dw ?
 word_38FDE dw ?
 _word_38FDE equ word_38FDE
 word_38FE0 dw ?
 _word_38FE0 equ word_38FE0
-_dword_38FE2 dd ?
-_fileHandle dw ?
 word_38FE8 dw ?
 _word_38FE8 equ word_38FE8
-_word_38FEA dw ?
 word_38FEC dw ?
 _word_38FEC equ word_38FEC
 word_38FEE dw ?
@@ -7448,18 +7256,15 @@ word_38FF6 dw ?
 _word_38FF6 equ word_38FF6
 word_38FF8 dw ?
 _word_38FF8 equ word_38FF8
-_word_38FFA dw ?
 word_38FFC dw ?
 _word_38FFC equ word_38FFC
 _buf4_3dg db 200h dup(?)
-_g_playerPlaneFlags dw ?
 word_39200 dw ?
 _word_39200 equ word_39200
 _buf3_3dg db 200h dup(?)
 word_39402 dw ?
 _word_39402 equ word_39402
     db 512 dup(?)
-_word_39604 dw ?
 word_39606 dw ?
 _word_39606 equ word_39606
 _buf2_3dg db 200h dup(?)
@@ -7490,7 +7295,6 @@ _word_3A946 equ word_3A946
 _unk_3A948 db ?
     db 17 dup(?)
     _stru_3A95A ViewSnapshot 10h dup(<?>)
-_g_knots dw ?
 _word_3AA5C dw ?
     _g_planes MapTarget 4Ah dup(<?>)
     db 14 dup(?)
@@ -7527,7 +7331,6 @@ word_3B15E dw ?
 _word_3B15E equ word_3B15E
     db 8 dup(?)
 _buf3d3_3 db 96h dup(?)
-_dword_3B1FE dd ?
 _stru_3B202 db ?
     db ?
 _word_3B204 label byte
@@ -7556,19 +7359,16 @@ _word_3B240 equ word_3B240
     db 656 dup(?)
 word_3B4D2 dw ?
 _word_3B4D2 equ word_3B4D2
-_dword_3B4D4 dd ?
 word_3B4D8 dw ?
 _word_3B4D8 equ word_3B4D8
 word_3B4DA dw ?
 _word_3B4DA equ word_3B4DA
 word_3B4DC dw ?
 _word_3B4DC equ word_3B4DC
-_word_3B4DE dw ?
 word_3B4E0 dw ?
 _word_3B4E0 equ word_3B4E0
 _hercFlag db ?
     db ?
-_word_3B4E4 dw ?
 byte_3B4E6 db ?
 _byte_3B4E6 equ byte_3B4E6
 byte_3B4E7 db ?
@@ -7581,7 +7381,6 @@ _byte_3B4EC equ byte_3B4EC
 word_3B5D6 dw ?
 _word_3B5D6 equ word_3B5D6
     db 514 dup(?)
-_g_ViewX dd ?
 word_3B7DE dw ?
 word_3B7E0 dw ?
 _word_3B7E0 equ word_3B7E0
@@ -7607,7 +7406,6 @@ byte_3B7F1 db ?
 _byte_3B7F1 equ byte_3B7F1
     db ? ;align 8
     db 5 dup(?)
-_g_ViewY dd ?
 _byte_3B7FC db 640h dup(?)
 word_3BE3C dw ?
 _word_3BE3C equ word_3BE3C
@@ -7615,9 +7413,6 @@ _byte_3BE3E db 40h dup(?)
 word_3BE7E dw ?
 _word_3BE7E equ word_3BE7E
 _byte_3BE80 db 10h dup(?)
-_keyValue dw ?
-_word_3BE92 dw ?
-_word_3BE94 dw ?
 word_3BE96 dw ?
 _word_3BE96 equ word_3BE96
 _word_3BE98 dw ?
@@ -7628,8 +7423,6 @@ word_3BE9C dw ?
     db 30 dup(?)
 word_3BEBC dw ?
 _word_3BEBC equ word_3BEBC
-_word_3BEBE dw ?
-_g_viewX_ dw ?
 word_3BEC2 dw ?
 _word_3BEC2 equ word_3BEC2
 _byte_3BEC4 db ?
@@ -7637,13 +7430,10 @@ _byte_3BEC4 db ?
     db 2 dup(?)
 word_3BEC8 dw ?
 _word_3BEC8 equ word_3BEC8
-_sign3d3 dw ?
 word_3BECC dw ?
 _word_3BECC equ word_3BECC
 word_3BECE dw ?
 _word_3BECE equ word_3BECE
-_g_viewY_ dw ?
-_word_3BED2 dw ?
 word_3BED4 dw ?
 _word_3BED4 equ word_3BED4
 word_3BED6 dw ?
@@ -7923,17 +7713,11 @@ PUBLIC buf6data_1
 PUBLIC buf6data_3
 PUBLIC lzw_processFlag
 PUBLIC buf6data_4
-PUBLIC aDash
-PUBLIC aColon
 PUBLIC aEmpty_5950
 PUBLIC aMig23
 PUBLIC _aMig23
 PUBLIC _aircraftTypes
 _aMig23 equ aMig23
-PUBLIC _aDash
-_aDash equ aDash
-PUBLIC _aColon
-_aColon equ aColon
 PUBLIC _aEmpty_5950
 _aEmpty_5950 equ aEmpty_5950
 PUBLIC _aMap

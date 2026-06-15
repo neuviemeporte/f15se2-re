@@ -505,9 +505,9 @@ EXTRN aMap:BYTE
 EXTRN aMisses:BYTE
 EXTRN aNoFileBuffersAvailabl:BYTE
 EXTRN aOpenError:BYTE
-EXTRN aReleased:BYTE
-EXTRN aStoresExhauste:BYTE
-EXTRN asc_3373D:BYTE
+EXTRN _aReleased:BYTE
+EXTRN _aStoresExhauste:BYTE
+EXTRN _asc_3373D:BYTE
 EXTRN audio_jump_6b:PROC
 EXTRN audio_jump_6c:PROC
 EXTRN byte_36D86:BYTE
