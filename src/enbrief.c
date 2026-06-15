@@ -15,11 +15,8 @@ void computeMissionResult(void)
 }
 
 void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int16* gfxPage) {
-    char p[2]; char a[2]; int b; char c[2]; int d; int e; char f[2];
-    int g; int h; int i; int j; int k; int l; int m; int n; int o;
+    char p[2]; char a[2]; char c[2]; int d; char f[2];
     (void)unused;
-    (void)b; (void)e; (void)g; (void)h; (void)i; (void)j;
-    (void)k; (void)l; (void)m; (void)n; (void)o;
     p[0] = 0x0d; p[1] = 0;
     c[0] = 0x89; c[1] = 0;
     a[0] = 0x8d; a[1] = 0;
@@ -43,10 +40,9 @@ void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStar
 
 // 224a
 int selectMenuItem(MenuItem *items, int unused, int itemCount, int16* inputState, int16* gfxPage) {
-    char p[2]; int a; int b; char c[2]; int d; char e[2]; int f;
-    int g; char h[2]; int i; char j[12]; int k; int l; int m; int n; int o;
+    char p[2]; int a; int b; char c[2]; char e[2]; int f;
+    char h[2]; int i;
     (void)unused;
-    (void)d; (void)g; (void)j; (void)k; (void)l; (void)m; (void)n; (void)o;
     p[0] = 0x0d; p[1] = 0;
     e[0] = 0x89; e[1] = 0;
     c[0] = 0x8d; c[1] = 0;
@@ -128,12 +124,8 @@ done:
 
 void blinkWidget(MenuItem *item, int16* gfxPage) {
     int p;
-    int a;
     int b;
-    int c;
     TRACE(("blinkWidget"));
-    (void)a;
-    (void)c;
     if (item->state == 0) {
         item->state = 1;
         b = (unsigned)item->colorPair >> 4;
@@ -161,19 +153,13 @@ int isPointInRect(MenuItem *p)
 }
 
 /*static*/ void processDebriefInput(int *cursorBounds, MenuItem *menuItem, int16* gfxPage) {
-    int a;
     int b;
     int c;
     int d;
     int e;
     char f;
-    int g;
     int h;
-    int i;
     TRACE(("processDebriefInput"));
-    (void)a;
-    (void)g;
-    (void)i;
 
     colorTablePtr = menuItem->colorTableIdx * 14 + (int)colorStyleTable;
     timerCounter2 = 0;
@@ -362,11 +348,9 @@ skip_sprite:
 
 // 2bd1
 void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
-    char p[2]; char a[2]; char b[2]; int c; char d[2]; int e; int f;
-    int g; int h; int i; int j; int k; int l; int m;
+    char p[2]; char a[2]; char b[2]; char d[2];
+    int m;
     char n[4]; unsigned int o;
-    (void)c; (void)e; (void)f; (void)g; (void)h; (void)i;
-    (void)j; (void)k; (void)l;
     p[0] = 0x0a; p[1] = 0;
     b[0] = 0x89; b[1] = 0;
     a[0] = 0x8d; a[1] = 0;
@@ -474,10 +458,9 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             }
             break;
         case EVENT_SAM_KILL:
-            /* 0x198: aircraft name field in samDataTable (32-byte records) */
-            mystrcpy(dat_4824, ((struct SamDataEntry*)((unsigned char*)&weaponDataBlock + 0x156))[o].name);
+            mystrcpy(dat_4824, planeArray[o].name);
             mystrcat(dat_4824, str_shotDown2);
-            mystrcat(dat_4824, &((struct SamDataEntry*)((unsigned char*)&weaponDataBlock + 0x156))[o].name[7]);
+            mystrcat(dat_4824, &planeArray[o].name[7]);
             mystrcat(dat_4824, str_shotDown);
             break;
         case EVENT_GROUND_KILL:
@@ -497,8 +480,7 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             break;
         case EVENT_BOMB_HIT:
             mystrcpy(dat_4824, str_hitBy);
-            /* 0x3f8: missile name field in weapon table (18-byte records) */
-            mystrcat(dat_4824, ((struct Sam*)((unsigned char*)&weaponDataBlock + 0x3B6))[o].field_0);
+            mystrcat(dat_4824, samWeaponTable[o].field_0);
             mystrcat(dat_4824, str_missile);
             break;
         case EVENT_EJECTED:
@@ -665,18 +647,6 @@ unsigned int drawFlightPath(int16 *gfxPage, unsigned int maxRecord) {
     int b;
     int c;
     int d;
-    int e;
-    int f;
-    int g;
-    int h;
-    int i;
-    int j;
-    int k;
-    int l;
-    int m;
-    int n;
-    (void)e; (void)f; (void)g; (void)h; (void)i;
-    (void)j; (void)k; (void)l; (void)m; (void)n; (void)p;
     a = -1;
     while (++a, (flightRecords[a].status & STATUS_TYPE_MASK) != 0 && (unsigned)a <= maxRecord) {
         gfx_setColor(0);
@@ -709,17 +679,17 @@ char *formatFlightTime(int timeValue, char *buffer) {
     int c;
 
     a = target1MiscBits[0] + target2MiscBits[0];
-    (*(int16*)((unsigned char*)&weaponDataBlock + 0x6DA)) = ((char)a & 3) == 0;
+    nightMission = ((char)a & 3) == 0;
     if (target1Type[0] == 1 || target2Type[0] == 1) {
-        (*(int16*)((unsigned char*)&weaponDataBlock + 0x6DA)) = 0;
+        nightMission = 0;
     }
     if (target1Type[0] == 4 || target2Type[0] == 4) {
-        (*(int16*)((unsigned char*)&weaponDataBlock + 0x6DA)) = 1;
+        nightMission = 1;
     }
     timeValue += (a & 0xF) << 8;
     mystrcpy(buffer, str_timeFormat);
     p = (unsigned)timeValue / 0x708;
-    buffer[0] += (*(int16*)((unsigned char*)&weaponDataBlock + 0x6DA)) + 1;
+    buffer[0] += nightMission + 1;
     buffer[1] += p % 10;
     b = ((unsigned)timeValue / 30) % 60;
     buffer[3] += b / 10;
@@ -743,7 +713,7 @@ int mapToScreenY(unsigned char mapCoord) {
 void plotMapPoint(int x, int y, int color, int unused) {
     int sx;
     int sy;
-    (void*)unused;
+    (void)unused;
     TRACE(("plotMapPoint"));
     sx = mapToScreenX(x);
     sy = mapToScreenY(y);
@@ -854,7 +824,7 @@ long calcMissionScore(int param) {
             } else if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_SECONDARY_HIT) {
                 secondaryHit = 1;
                 samKilled++;
-            } else if (((struct SamDataEntry*)((unsigned char*)&weaponDataBlock + 0x156))[(f & UNIT_ID_MASK) + 1].field_0 == -1) {
+            } else if (planeArray[(f & UNIT_ID_MASK) + 1].field_0 == -1) {
                 samMissed++;
             } else {
                 samKilled++;
@@ -909,10 +879,7 @@ long calcMissionScore(int param) {
 }
 
 void showEventPopup(void) {
-    int p;
     int a;
-
-    (void)p;
 
     if (popupVisible == 1) {
         gfx_copyRect(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);

@@ -371,6 +371,14 @@ extern int worldUnitFlags;
 extern int16 worldGridSize;
 extern int worldMiscHeader;
 extern unsigned char weaponDataBlock;
+/* Named views into weaponDataBlock[] (offsets documented in endata.c):
+ *   planeArray     +0x156  SamDataEntry[] — enemy aircraft specs
+ *   samWeaponTable +0x3B6  Sam[]          — SAM/missile entries
+ *   nightMission   +0x6DA  int16          — night-mission flag
+ */
+#define planeArray     ((struct SamDataEntry *)((unsigned char *)&weaponDataBlock + 0x156))
+#define samWeaponTable ((struct Sam *)((unsigned char *)&weaponDataBlock + 0x3B6))
+#define nightMission   (*(int16 *)((unsigned char *)&weaponDataBlock + 0x6DA))
 extern uint16 worldObjectCount;
 extern int worldSamCount;
 extern int waypointData;
