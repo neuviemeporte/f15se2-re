@@ -103,7 +103,7 @@ void __cdecl printError(const char *);
 void __cdecl strcpyFromDot(char *dst, char *src);
 int16* findNearestTileObject(uint32 worldX, uint32 worldY);
 void addTileEntry(char *a, int b, char c);
-int lookupTileEntry(int p1, int p2, int p3, int p4);
+int lookupTileEntry(int lod, int subIndex, int tileX, int tileY);
 void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3);
 void renderMapTerrain(char *, int, int, int);
 void drawMapTiles(int originX, int originY, int zoomShift);

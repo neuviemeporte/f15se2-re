@@ -39,9 +39,9 @@ int16* findNearestTileObject(uint32 worldX, uint32 worldY) {
             if (n != -1) {
                 word_3C5A8 = matrix3dt_2[c][n];
                 for (f = 0; matrix3dt[c][n] > (unsigned int)f; f++) {
-                    if (byte_3BFA4[word_3C5A8->_0x06 & 0x7f] != 0) {
-                        h = o + word_3C5A8->_0x00;
-                        j = word_3C5A8->_0x02 + p;
+                    if (byte_3BFA4[word_3C5A8->shape & 0x7f] != 0) {
+                        h = o + word_3C5A8->x;
+                        j = word_3C5A8->y + p;
                         q = abs(h) + abs(j);
                         if (c == 1) {
                             q >>= 2;
@@ -49,10 +49,10 @@ int16* findNearestTileObject(uint32 worldX, uint32 worldY) {
                             h <<= 2;
                             j <<= 2;
                         }
-                        g = word_3C5A8->_0x06;
-                        if ((word_3C5A8->_0x06 & 0x80) != 0 &&
+                        g = word_3C5A8->shape;
+                        if ((word_3C5A8->shape & 0x80) != 0 &&
                             lookupTileEntry(c, f, i, k) != 0) {
-                            g = byte_3B4E6[var_660]._0x06;
+                            g = byte_3B4E6[var_660].shape;
                         }
                         if (q < word_3B7E2) {
                             var_200 = (char far *)(byte_228D0 + buf3d3[g]);
@@ -90,13 +90,13 @@ void addTileEntry(char *a, int b, char c) {
 }
 
 // ==== seg000:0x3266 ====
-int lookupTileEntry(int p1, int p2, int p3, int p4) {
+int lookupTileEntry(int lod, int subIndex, int tileX, int tileY) {
     for (var_660 = word_38FF8 - 1; var_660 >= 0; var_660--) {
-        if (byte_3B4E6[var_660]._0x00 == p1 &&
-            byte_3B4E6[var_660]._0x01 == p2 &&
-            byte_3B4E6[var_660]._0x02 == p3 &&
-            byte_3B4E6[var_660]._0x03 == p4) {
-            return byte_3B4E6[var_660]._0x04;
+        if (byte_3B4E6[var_660].lod == lod &&
+            byte_3B4E6[var_660].subIndex == subIndex &&
+            byte_3B4E6[var_660].tileX == tileX &&
+            byte_3B4E6[var_660].tileY == tileY) {
+            return byte_3B4E6[var_660].value;
         }
     }
     return 0;
@@ -136,8 +136,8 @@ void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
     if (l != -1) {
         word_3C5A8 = matrix3dt_2[b][l];
         for (e = 1; (unsigned int)e < matrix3dt[b][l]; e++) {
-            f = word_3C5A8->_0x00 + m;
-            h = word_3C5A8->_0x02 + p;
+            f = word_3C5A8->x + m;
+            h = word_3C5A8->y + p;
             var_216 = abs(f) + abs(h);
             if (word_3B7E2 > var_216) {
                 word_3B7EC = word_3C5A8;
@@ -148,10 +148,10 @@ void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
     }
     if (word_3B7E2 != 0x7fff) {
         word_3C5A8 = word_3B7EC;
-        var_200 = (char far *)(byte_228D0 + buf3d3[word_3B7EC->_0x06]);
-        var_202 = word_3C5A8->_0x00 - var_218;
-        var_203 = word_3C5A8->_0x02 - var_219;
-        var_204 = word_3C5A8->_0x04 - var_220;
+        var_200 = (char far *)(byte_228D0 + buf3d3[word_3B7EC->shape]);
+        var_202 = word_3C5A8->x - var_218;
+        var_203 = word_3C5A8->y - var_219;
+        var_204 = word_3C5A8->z - var_220;
         FP_OFF(var_200)++;
         var_217 = 0;
         var_216 = 0;
@@ -197,11 +197,11 @@ void drawMapTiles(int originX, int originY, int zoomShift)
                     if (g != -1) {
                         word_3C5A8 = matrix3dt_2[word_3C16C][g];
                         for (d = 0; matrix3dt[word_3C16C][g] > (unsigned int)d; d++) {
-                            if (word_3C5A8->_0x04 == 0) {
-                                var_200 = (char far *)(byte_228D0 + buf3d3[word_3C5A8->_0x06]);
+                            if (word_3C5A8->z == 0) {
+                                var_200 = (char far *)(byte_228D0 + buf3d3[word_3C5A8->shape]);
                                 drawMapTileObject(var_200,
-                                    (word_3C5A8->_0x00 >> (char)word_3C042) + i,
-                                    (word_3C5A8->_0x02 >> (char)word_3C042) + a);
+                                    (word_3C5A8->x >> (char)word_3C042) + i,
+                                    (word_3C5A8->y >> (char)word_3C042) + a);
                             }
                             word_3C5A8++;
                         }

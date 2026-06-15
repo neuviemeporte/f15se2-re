@@ -326,21 +326,21 @@ STATIC_ASSERT(sizeof(struct PageDesc) == 22 + sizeof(void*));
 
 #pragma pack(1)
 struct Matrix3dEntry7 {
-    int16 _0x00;
-    int16 _0x02;
-    int16 _0x04;
-    uint8 _0x06;
+    int16 x;        /* +0x00 object position X */
+    int16 y;        /* +0x02 object position Y */
+    int16 z;        /* +0x04 object position Z */
+    uint8 shape;    /* +0x06 shape id (bit7 = needs tile lookup, low 7 bits = buf3d3 index) */
 };
 #pragma pack()
 
 #pragma pack(1)
 struct Unknown3B4E6Record8 {
-    uint8 _0x00;  /* compared with p1 */
-    uint8 _0x01;  /* compared with p2 */
-    uint8 _0x02;  /* compared with p3 */
-    uint8 _0x03;  /* compared with p4 */
-    int16 _0x04;  /* returned if first 4 bytes match */
-    uint8 _0x06;
+    uint8 lod;       /* +0x00 LOD level (matched against lookup arg 1) */
+    uint8 subIndex;  /* +0x01 sub-object index (matched against lookup arg 2) */
+    uint8 tileX;     /* +0x02 tile column (matched against lookup arg 3) */
+    uint8 tileY;     /* +0x03 tile row (matched against lookup arg 4) */
+    int16 value;     /* +0x04 returned when the four key bytes match */
+    uint8 shape;     /* +0x06 shape id override */
     uint8 _0x07;
 };
 #pragma pack()

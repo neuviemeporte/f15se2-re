@@ -98,30 +98,30 @@ outer_test:
                 var_141 = (word_38FDC == 2) ? 0 : ((unsigned char)word_3C16C << 8);
                 word_3C5A8 = matrix3dt_2[word_3C16C][l];
                 for (d = 0; (unsigned int)d < matrix3dt[word_3C16C][l]; d++) {
-                    if (*((unsigned char *)word_3C5A8 + 6) & 0x80) {
+                    if (word_3C5A8->shape & 0x80) {
                         var_200 = byte_228D0 + lookupTileEntry(word_3C16C, d, h + p, i + a);
                         if (var_200 == (char far *)byte_228D0) {
-                            var_200 = byte_228D0 + buf3d3[*((unsigned char *)word_3C5A8 + 6) & 0x7f];
+                            var_200 = byte_228D0 + buf3d3[word_3C5A8->shape & 0x7f];
                         }
                     } else {
-                        var_200 = byte_228D0 + buf3d3[*((unsigned char *)word_3C5A8 + 6)];
+                        var_200 = byte_228D0 + buf3d3[word_3C5A8->shape];
                     }
                     projectSceneObject(var_200, 0, 0, 0,
-                        *(int *)word_3C5A8,
-                        *((int *)word_3C5A8 + 1),
-                        *((int *)word_3C5A8 + 2));
+                        word_3C5A8->x,
+                        word_3C5A8->y,
+                        word_3C5A8->z);
                     word_3C5A8++;
                     var_141++;
                 }
             } else {
                 if (word_3C16C == 4) {
                     word_3C5A8 = matrix3dt_2[word_3C16C][l];
-                    var_200 = byte_228D0 + buf3d3[*((unsigned char *)word_3C5A8 + 6)];
+                    var_200 = byte_228D0 + buf3d3[word_3C5A8->shape];
                     var_141 = 0x400;
                     projectSceneObject(var_200, 0, 0, 0,
-                        *(int *)word_3C5A8,
-                        *((int *)word_3C5A8 + 1),
-                        *((int *)word_3C5A8 + 2));
+                        word_3C5A8->x,
+                        word_3C5A8->y,
+                        word_3C5A8->z);
                 }
             }
 next_iter:

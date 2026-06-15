@@ -140,11 +140,11 @@ void load3DT(char *fileName) {
                     printError(aTooMuchTileData);
                     return;
                 }
-                fread(&GET_MATRIX(var_6)->_0x00, 2, 1, fileHandle);
-                fread(&GET_MATRIX(var_6)->_0x02, 2, 1, fileHandle);
-                fread(&GET_MATRIX(var_6)->_0x04, 2, 1, fileHandle);
+                fread(&GET_MATRIX(var_6)->x, 2, 1, fileHandle);
+                fread(&GET_MATRIX(var_6)->y, 2, 1, fileHandle);
+                fread(&GET_MATRIX(var_6)->z, 2, 1, fileHandle);
                 fread(&var_2, 2, 1, fileHandle);
-                GET_MATRIX(var_6)->_0x06 = (uint8)var_2;
+                GET_MATRIX(var_6)->shape = (uint8)var_2;
                 var_6 += sizeof(struct Matrix3dEntry7);
             }
         }
