@@ -77,7 +77,7 @@ after_lock:
             if (g_planes[g].field_4 != 0) {
                 var_672 -= 0x280;
             }
-            if (g == word_3B146 || g == word_3B158) {
+            if (g == g_targetSlots[0].planeIndex || g == g_targetSlots[1].planeIndex) {
                 var_672 -= 0x0a00;
             }
             if (c > var_672 && g0 < var_672) {
@@ -495,9 +495,9 @@ void drawHudWorldOverlay(void) {
         projectWorldToHud(g_planes[word_336F4].mapX, g_planes[word_336F4].mapY, 0);
         setDrawColor(0x0f);
         drawTargetBox(var_279, var_282, 8, 0);
-    } else if (word_3B146 == word_336F4) {
+    } else if (g_targetSlots[0].planeIndex == word_336F4) {
         drawStringActivePage((char *)aPrimaryTarget, 0xec, 0x8e, 0x0f);
-    } else if (word_3B158 == word_336F4) {
+    } else if (g_targetSlots[1].planeIndex == word_336F4) {
         drawStringActivePage((char *)aSecondaryTarget, 0xec, 0x8e, 0x0f);
     } else if (!(frameTick & 1) &&
                ((word_330BA < 2 && (byte_3BFA4[g_planes[j].field_C & 0x7f] & 0xc0) != 0) ||

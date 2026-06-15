@@ -71,7 +71,7 @@ void updateFrame(void) {
         p = word_3AFA8 = (gameData->theater == 6) ? 1 :
             (*((char far *)gameData + 0x38) & 1) ? 1 : -1;
 
-        if (((g_planes[g_playerTargetIndex].flags) & 0x200) != 0) {
+        if (((g_planes[g_targetSlots[0].viewIndex].flags) & 0x200) != 0) {
             g_ViewX -= (long)(p * 0x80);
             *(char *)&g_playerPlaneFlags |= 8;
         } else {
@@ -207,7 +207,7 @@ void updateFrame(void) {
         }
     }
     if (word_33700 != g_closestThreatIndex) {
-        word_3B15A = g_closestThreatIndex;
+        g_targetSlots[1].viewIndex = g_closestThreatIndex;
         var_48 = g_planes[g_closestThreatIndex].mapX;
         var_49 = g_planes[g_closestThreatIndex].mapY;
     }
@@ -589,7 +589,7 @@ void initFrameRandom(void) {
     seedRng();
     clearStatusPanel();
     frameTick = randomRange(0x1000) & 0x7ff8;
-    p = word_3B14C + word_3B15E;
+    p = g_targetSlots[0].word_8 + g_targetSlots[1].word_8;
     word_330BC = (gameData->theater == 6 ? 5 : 9) < randomRange(0x10);
     if (word_330BC && byte_32933) {
         setupDac();
@@ -769,8 +769,8 @@ void initMissionStrings() {
         }
     }
     if (gameData->difficulty != 0) { //1e6c
-        g_ViewX = ((int32)(g_planes[g_playerTargetIndex].mapX) << 5) + 2;
-        g_ViewY = (0x8000 - (int32)(g_planes[g_playerTargetIndex].mapY)) << 5;
+        g_ViewX = ((int32)(g_planes[g_targetSlots[0].viewIndex].mapX) << 5) + 2;
+        g_ViewY = (0x8000 - (int32)(g_planes[g_targetSlots[0].viewIndex].mapY)) << 5;
     }
     else {
         g_ViewX = ((int32)waypoints[0].mapX << 5) + 2;
@@ -787,17 +787,17 @@ void findWaypointFeatures() {
 
     a = size3d3;
     for (p = 0; p < 2; p++) {
-        if (word_3B14A[p * 9] >> 8 != 0) {
+        if (g_targetSlots[p].flags >> 8 != 0) {
             word_39808 = findNearestTileObject(
-                (unsigned long)(unsigned)g_planes[(&word_3B146)[p * 9]].mapX << 5,
-                (0x8000L - (unsigned long)(unsigned)g_planes[(&word_3B146)[p * 9]].mapY) << 5);
+                (unsigned long)(unsigned)g_planes[g_targetSlots[p].planeIndex].mapX << 5,
+                (0x8000L - (unsigned long)(unsigned)g_planes[g_targetSlots[p].planeIndex].mapY) << 5);
             if (word_39808 != 0) {
                 byte_3BFA4[a] = byte_3BFA4[*word_39808];
                 strcpy(word_3C0A2[a], (char *)word_3C0A2[*word_39808]);
                 word_3C0A2[a + 1] = word_3C0A2[a] + strlen(word_3C0A2[a]) + 1;
                 addTileEntry((char *)word_39808, shapeDataOffset(a + 0x100), a + 0x100);
             }
-            g_planes[(&word_3B146)[p * 9]].field_C = a + 0x100;
+            g_planes[g_targetSlots[p].planeIndex].field_C = a + 0x100;
             a++;
         }
     }
@@ -830,7 +830,7 @@ void moveStuff() {
     moveNearFar(&word_3C00C, 2);
     moveNearFar(&word_336FC, 2);
     moveNearFar(waypoints, 0x10);
-    moveNearFar(&word_3B144, 0x24);
+    moveNearFar(g_targetSlots, 0x24);
 }
 
 // ==== seg000:0x215c ====

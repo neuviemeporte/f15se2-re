@@ -79,7 +79,7 @@ void load3D3(char *fileName) {
     }
     gfx_waitRetrace();
     for (var_10 = 0; var_10 < 2; var_10++) {
-        if ((var_18 = word_3B14A[var_10 * 0x9] >> 8) != 0) {
+        if ((var_18 = g_targetSlots[var_10].flags >> 8) != 0) {
             fileHandle = fopen(aPhoto_3d3_0, aRb_1);
             fread(&sign3d3, 2, 1, fileHandle);
             fread(&size3d3_7, 2, 1, fileHandle);

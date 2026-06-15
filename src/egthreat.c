@@ -530,7 +530,7 @@ alt_ok:
             *(int16 *)&stru_3B202[h].state[10] -= 0x78 / g_frameRateScaling;
         } else {
             (*(uint16 *)&stru_3B202[h].state[8]) &= 0x1c1;
-            if (h == 0 && word_3B144 >= 5) {
+            if (h == 0 && g_targetSlots[0].state >= 5) {
                 (*(uint16 *)&stru_3B202[h].state[8]) = 0;
             }
         }

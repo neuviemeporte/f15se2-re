@@ -123,7 +123,7 @@ void drawTacticalMap(char page)
                 if (g_planes[f].flags & 8) {
                     a = 7;
                 }
-                if (f == word_3B146 || f == word_3B158) {
+                if (f == g_targetSlots[0].planeIndex || f == g_targetSlots[1].planeIndex) {
                     a = 6;
                 }
                 blitGaugeSprite(a, 3, var_279, var_282);

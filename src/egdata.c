@@ -150,6 +150,7 @@ int16 word_38FFA;
 int16 g_playerPlaneFlags;
 int16 word_39604;
 int16 g_knots;
+struct TargetSlot g_targetSlots[2];
 int32 dword_3B1FE;
 int32 dword_3B4D4;
 int16 word_3B4DE;

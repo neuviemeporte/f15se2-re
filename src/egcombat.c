@@ -239,7 +239,7 @@ void destroyGroundTarget(int param_1)
             *((uint8 *)&g_planes[param_1].flags) |= 0x80;
             g_planes[param_1].field_4 = 0;
             for (a = 0; a < 2; a++) {
-                if ((&word_3B146)[a * 9] == param_1) {
+                if (g_targetSlots[a].planeIndex == param_1) {
                     markTargetReached(a);
                     p |= (a != 0 ? 0x40 : 0x80);
                     word_336EE = frameTick + g_frameRateScaling;
@@ -285,7 +285,7 @@ int markTargetReached(int targetIdx) {
     if (g_playerPlaneFlags & (0x4000 >> targetIdx)) {
         return 0;
     }
-    if (*(&word_3B144 + 9 * targetIdx) == 4 || *(&word_3B144 + 9 * targetIdx) == 3) {
+    if (g_targetSlots[targetIdx].state == 4 || g_targetSlots[targetIdx].state == 3) {
         appendMapEvent((targetIdx != 0 ? 0x40 : 0x80) + 0x0b, 0);
     }
     if (targetIdx != 0) {

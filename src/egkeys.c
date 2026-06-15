@@ -169,7 +169,7 @@ int keyDispatch(uint16 scanCode)
             break;
         case 3:
             tempStrcpy((char *)aWaypointFriend);
-            word_3B15A = g_closestThreatIndex;
+            g_targetSlots[1].viewIndex = g_closestThreatIndex;
             break;
         }
         break;

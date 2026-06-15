@@ -55,7 +55,7 @@ void stepFlightModel(void) {
                : ((gameData->theater & 1) ? 0 : 0x8000); // Else, evaluate the second condition
         }
 
-        if (g_planes[g_playerTargetIndex].flags & 0x200) {
+        if (g_planes[g_targetSlots[0].viewIndex].flags & 0x200) {
             *((unsigned char*)&g_ourHead + 1) += 4;
         }
 
@@ -213,7 +213,7 @@ switch_break:
         if (waypointIndex == 3)
         {
             o = word_3AFA8;
-            s = word_3B15A;
+            s = g_targetSlots[1].viewIndex;
 
             h = g_planes[s].mapX - g_viewX_;
             z = g_planes[s].mapY - g_viewY_;

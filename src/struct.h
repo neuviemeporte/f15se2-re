@@ -178,10 +178,6 @@ struct Projectile {
 };
 STATIC_ASSERT(sizeof(struct Projectile)==0x18);
 
-// used in egame.exe renderFrame, 0x24 bytes.
-// Array based at 0x3B202 (symbol stru_3B202), stride 0x24, cleared in moveStuff().
-// The element really begins 6 bytes before the old stru_3B208 label; objType/posX/posY
-// are the leading members that earlier code reached via (char*)&stru_3B208[i] - 6/-4/-2.
 #pragma pack(1)
 struct SimObject {
     int16 objType;      // +0x00  spec index into g_planes (was -6)
@@ -195,7 +191,6 @@ struct SimObject {
 #pragma pack()
 STATIC_ASSERT(sizeof(struct SimObject)==0x24);
 
-// used in egame.exe, 0x10 bytes
 struct MapTarget {
     uint16 mapX;        // +0x00  map X coord (worldX = mapX << 5)
     uint16 mapY;        // +0x02  map Y coord (worldY = mapY << 5)
@@ -207,6 +202,16 @@ struct MapTarget {
     int16 field_E;
 };
 STATIC_ASSERT(sizeof(struct MapTarget)==0x10);
+
+struct TargetSlot {
+    int16 state;        // +0x00  word_3B144         lock state (3/4/>=5)
+    int16 planeIndex;   // +0x02  word_3B146 / word_3B158   index into g_planes
+    int16 viewIndex;    // +0x04  g_playerTargetIndex / word_3B15A   index into g_planes
+    int16 flags;        // +0x06  word_3B14A         (high byte = active)
+    int16 word_8;       // +0x08  word_3B14C / word_3B15E
+    int16 unused[4];    // +0x0A..0x11
+};
+STATIC_ASSERT(sizeof(struct TargetSlot)==0x12);
 
 // 8-byte struct used for stru_33402
 struct struc_9 {

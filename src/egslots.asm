@@ -189,7 +189,6 @@ PUBLIC _word_38FEE
 PUBLIC _word_38FFC
 PUBLIC _word_39200
 PUBLIC _word_3AFAA
-PUBLIC _word_3B15A
 PUBLIC _word_3B22C
 PUBLIC _word_3B22E
 PUBLIC _word_3C0A0
@@ -296,7 +295,6 @@ PUBLIC _var_194
 PUBLIC _var_195
 PUBLIC _var_196
 PUBLIC _var_143
-PUBLIC _word_3B146
 PUBLIC _word_33704
 PUBLIC _word_39808
 PUBLIC _word_3B7E0
@@ -323,8 +321,6 @@ PUBLIC _var_279
 PUBLIC _var_282
 PUBLIC _word_38F72
 PUBLIC _word_38F70
-PUBLIC _word_3B14C
-PUBLIC _word_3B15E
 PUBLIC _word_38FE0
 PUBLIC _var_349
 PUBLIC _var_350
@@ -415,7 +411,6 @@ PUBLIC _word_3BEC2
 PUBLIC _word_3BED6
 PUBLIC _aFlogger
 PUBLIC _byte_3C16E
-PUBLIC _g_playerTargetIndex
 PUBLIC _flt15_buf1
 PUBLIC _flt15_word1
 PUBLIC _flt15_buf2
@@ -424,7 +419,6 @@ PUBLIC _byte_3B7FC
 PUBLIC _byte_3790C
 PUBLIC _farPointer
 PUBLIC _word_3C69E
-PUBLIC _word_3B144
 PUBLIC _word_3C046
 PUBLIC _byte_3BFA4
 PUBLIC _byte_3BEC4
@@ -460,7 +454,6 @@ PUBLIC _byte_3BE3E
 PUBLIC _byte_3BE80
 PUBLIC _word_33DD0
 PUBLIC _size3d3_7
-PUBLIC _word_3B14A
 PUBLIC _dword_3C01C
 PUBLIC _g_viewZ
 PUBLIC _dword_3C024
@@ -602,7 +595,6 @@ PUBLIC _var_599
 PUBLIC _missiles
 PUBLIC _word_336EC
 PUBLIC _word_3C6AE
-PUBLIC _word_3B15A
 PUBLIC _var_730
 PUBLIC _word_336F8
 PUBLIC _word_336E4
@@ -611,7 +603,6 @@ PUBLIC _word_3BF3C
 PUBLIC _word_3BF3E
 PUBLIC _word_3BE7E
 PUBLIC _word_3C6AA
-PUBLIC _word_3B158
 PUBLIC _word_336FA
 PUBLIC _word_3A946
 PUBLIC _word_3C09C
@@ -7313,23 +7304,6 @@ _byte_3AFAC db 100h dup(?)
 word_3B0AC dw ?
 _word_3B0AC equ word_3B0AC
 _buf3d3_2 db 96h dup(?)
-_word_3B144 dw ?
-word_3B146 dw ?
-_word_3B146 equ word_3B146
-_g_playerTargetIndex dw ?
-_word_3B14A dw ?
-word_3B14C dw ?
-_word_3B14C equ word_3B14C
-    db 10 dup(?)
-word_3B158 dw ?
-_word_3B158 equ word_3B158
-word_3B15A dw ?
-_word_3B15A equ word_3B15A
-_word_3B15A equ word_3B15A
-    db 2 dup(?)
-word_3B15E dw ?
-_word_3B15E equ word_3B15E
-    db 8 dup(?)
 _buf3d3_3 db 96h dup(?)
 _stru_3B202 db ?
     db ?
