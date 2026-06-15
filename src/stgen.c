@@ -508,7 +508,7 @@ char* getItemCoordStr(int16 idx) {
 
 char* formatGridRef(int16 wx, int16 wy, int16 theater) {
     int gridOffX, gridOffY;
-    (void*)theater;
+    (void)theater;
     switch (gameData->theater) {
     case 0:
         mystrcpy(&bufCoordStr, aTd00);
