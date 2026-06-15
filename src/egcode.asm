@@ -448,7 +448,7 @@ EXTRN _gfx_setFadeSteps:PROC
 EXTRN _keyValue:WORD
 EXTRN _sams:BYTE
 EXTRN _stru_335C4:BYTE
-EXTRN _stru_3B208:BYTE
+EXTRN _stru_3B202:BYTE
 EXTRN _var_200:WORD
 EXTRN _var_200_seg:WORD
 EXTRN _var_258:BYTE
@@ -590,8 +590,6 @@ EXTRN word_38F70:WORD
 EXTRN word_39606:WORD
 EXTRN word_39808:WORD
 EXTRN word_3B0AC:WORD
-EXTRN word_3B204:WORD
-EXTRN word_3B206:WORD
 EXTRN word_3B4D8:WORD
 EXTRN word_3B4E0:WORD
 EXTRN word_3B5D6:WORD
@@ -1216,14 +1214,14 @@ LAB_1000_7a4e:
     mov AX,24h
     imul word ptr [BP + -20h]
     mov SI,AX
-    test byte ptr [SI + offset _stru_3B208 + 18],2h
+    test byte ptr [SI + offset _stru_3B202 + 24],2h
     jz LAB_1000_7ad0
-    cmp word ptr [SI + offset _stru_3B208 + 20],0h
+    cmp word ptr [SI + offset _stru_3B202 + 26],0h
     jz LAB_1000_7ad0
     push word ptr [BP + -22h]
-    push word ptr [SI + offset _stru_3B208]
-    push word ptr [SI + offset word_3B206]
-    push word ptr [SI + offset word_3B204]
+    push word ptr [SI + offset _stru_3B202 + 6]
+    push word ptr [SI + offset _stru_3B202 + 4]
+    push word ptr [SI + offset _stru_3B202 + 2]
     push word ptr [BP + -1ch]
     call samCanAcquireTarget
     add SP,0ah
@@ -1242,12 +1240,12 @@ LAB_1000_7a4e:
     mov AX,24h
     imul word ptr [BP + -20h]
     mov SI,AX
-    mov AX,word ptr [SI + offset _stru_3B208]
+    mov AX,word ptr [SI + offset _stru_3B202 + 6]
     mov word ptr [BP + -32h],AX
     mov word ptr [BP + -4h],1h
     cmp word ptr [BP + -10h],180h
     jnc LAB_1000_7ad0
-    or byte ptr [SI + offset _stru_3B208 + 18],10h
+    or byte ptr [SI + offset _stru_3B202 + 24],10h
     mov AX,1h
     push AX
     mov AX,word ptr [BP + -20h]
@@ -2048,16 +2046,16 @@ LAB_1000_82ac:
     mov DI,word ptr [BP + -34h]
     mov CL,3h
     shl DI,CL
-    mov AX,word ptr [SI + offset word_3B204]
+    mov AX,word ptr [SI + offset _stru_3B202 + 2]
     mov word ptr [word_3BEBC],AX
     mov word ptr [DI + offset stru_33402],AX
-    mov AX,word ptr [SI + offset word_3B206]
+    mov AX,word ptr [SI + offset _stru_3B202 + 4]
     mov word ptr [word_3BEC8],AX
     mov word ptr [DI + offset stru_33402 + 2],AX
     mov AX,24h
     imul word ptr [BP + -14h]
     mov BX,AX
-    mov AX,word ptr [BX + offset _stru_3B208]
+    mov AX,word ptr [BX + offset _stru_3B202 + 6]
     mov word ptr [word_3BECE],AX
     mov BX,word ptr [BP + -34h]
     shl BX,CL
@@ -2303,7 +2301,7 @@ LAB_1000_855e:
     mov CX,24h
     imul CX
     mov BX,AX
-    test byte ptr [BX + offset _stru_3B208 + 18],8h
+    test byte ptr [BX + offset _stru_3B202 + 24],8h
     jnz LAB_1000_8585
     mov word ptr [BP + -4h],0h
 LAB_1000_8585:

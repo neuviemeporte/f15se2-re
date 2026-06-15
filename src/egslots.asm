@@ -148,14 +148,9 @@ PUBLIC _var_597
 PUBLIC _word_33714
 PUBLIC _word_3AF0C
 PUBLIC _word_33706
-PUBLIC _word_3B230
-PUBLIC _word_3B240
 PUBLIC _word_33708
-PUBLIC _word_3B232
 PUBLIC _word_3C014
 PUBLIC _word_3BFA0
-PUBLIC _word_3B234
-PUBLIC _word_3B236
 PUBLIC _word_336EC
 PUBLIC _word_336EE
 PUBLIC _word_32A34
@@ -181,7 +176,6 @@ PUBLIC _word_39606
 PUBLIC _word_3BEBC
 PUBLIC _word_3BEC8
 PUBLIC _word_3BECE
-PUBLIC _byte_3B23E
 PUBLIC _word_33700
 PUBLIC _word_33712
 PUBLIC _word_38FDE
@@ -189,8 +183,6 @@ PUBLIC _word_38FEE
 PUBLIC _word_38FFC
 PUBLIC _word_39200
 PUBLIC _word_3AFAA
-PUBLIC _word_3B22C
-PUBLIC _word_3B22E
 PUBLIC _word_3C0A0
 PUBLIC _word_38FF8
 PUBLIC _strBuf
@@ -419,16 +411,12 @@ PUBLIC _byte_3B7FC
 PUBLIC _byte_3790C
 PUBLIC _farPointer
 PUBLIC _word_3C69E
-PUBLIC _word_3C046
 PUBLIC _byte_3BFA4
 PUBLIC _byte_3BEC4
 PUBLIC _byte_3BED8
 PUBLIC _byte_3C02A
 PUBLIC _word_3C00C
 PUBLIC _word_3AFA8
-PUBLIC _stru_3B202
-PUBLIC _word_3B204
-PUBLIC _word_3B206
 PUBLIC _byte_3AFAC
 PUBLIC _word_3401A
 PUBLIC _off_38334
@@ -486,7 +474,6 @@ PUBLIC _word_3A940
 PUBLIC _word_3C02E
 PUBLIC _g_currentWeaponType
 PUBLIC _g_planes
-PUBLIC _stru_3B208
 PUBLIC _unk_3A948
 PUBLIC _word_38152
 PUBLIC _word_37561
@@ -617,8 +604,6 @@ PUBLIC _g_missionStatus
 PUBLIC _var_669
 PUBLIC _var_667
 PUBLIC _var_670
-PUBLIC _word_3B204
-PUBLIC _word_3B206
 PUBLIC _g_gunHits
 PUBLIC _gfx_allocPage
 PUBLIC _gfx_drawString
@@ -772,8 +757,6 @@ PUBLIC word_38F70
 PUBLIC word_39606
 PUBLIC word_39808
 PUBLIC word_3B0AC
-PUBLIC word_3B204
-PUBLIC word_3B206
 PUBLIC word_3B4D8
 PUBLIC word_3B4E0
 PUBLIC word_3B5D6
@@ -7305,32 +7288,6 @@ word_3B0AC dw ?
 _word_3B0AC equ word_3B0AC
 _buf3d3_2 db 96h dup(?)
 _buf3d3_3 db 96h dup(?)
-_stru_3B202 db ?
-    db ?
-_word_3B204 label byte
-word_3B204 dw ?
-word_3B206 dw ?
-_word_3B206 equ word_3B206
-    _stru_3B208 SimObject <?>
-word_3B22C dw ?
-_word_3B22C equ word_3B22C
-word_3B22E dw ?
-_word_3B22E equ word_3B22E
-word_3B230 dw ?
-_word_3B230 equ word_3B230
-word_3B232 dw ?
-_word_3B232 equ word_3B232
-word_3B234 dw ?
-_word_3B234 equ word_3B234
-word_3B236 dw ?
-_word_3B236 equ word_3B236
-    db 6 dup(?)
-byte_3B23E db ?
-_byte_3B23E equ byte_3B23E
-    db ? ;align 2
-word_3B240 dw ?
-_word_3B240 equ word_3B240
-    db 656 dup(?)
 word_3B4D2 dw ?
 _word_3B4D2 equ word_3B4D2
 word_3B4D8 dw ?
@@ -7485,7 +7442,6 @@ word_3C042 dw ?
 _word_3C042 equ word_3C042
 word_3C044 dw ?
 _word_3C044 equ word_3C044
-_word_3C046 dw ?
 PUBLIC _word_3C048
 word_3C048 dw ?
 _word_3C048 equ word_3C048

@@ -592,8 +592,7 @@ switch_break:
 
     if (g_currentWeaponType == 1) {
         if (word_336F2 >= 0) {
-            // TODO struct
-            l = clampRange((rangeApprox(g_viewX_ - word_3B204[word_336F2 * 0x12], g_viewY_ - word_3B206[word_336F2 * 0x12]) * g_frameRateScaling) >> 8, 0, 12);
+            l = clampRange((rangeApprox(g_viewX_ - stru_3B202[word_336F2].posX, g_viewY_ - stru_3B202[word_336F2].posY) * g_frameRateScaling) >> 8, 0, 12);
 
         } else {
             l = g_frameRateScaling - 1;

@@ -119,14 +119,14 @@ void updateFrame(void) {
             }
         }
         if (gameData->theater != 6) {
-            *(char *)&byte_3B23E[0] |= 2;
-            word_3B22C = 0x834;
-            word_3B240 = 700;
+            stru_3B202[1].state[8] |= 2;
+            stru_3B202[1].alt = 0x834;
+            *(int16 *)&stru_3B202[1].state[10] = 700;
             var_810 = g_viewX_;
             var_811 = 0x50 * word_3AFA8 + g_viewY_;
-            word_3B22E = (long)var_810 * 32;
-            word_3B232 = (long)var_811 * 32;
-            word_3B236 = var_542;
+            stru_3B202[1].worldX = (long)var_810 * 32;
+            stru_3B202[1].worldY = (long)var_811 * 32;
+            *(int16 *)&stru_3B202[1].state[0] = var_542;
         }
         word_3AFA8 = p;
         initWeaponLoadout();
