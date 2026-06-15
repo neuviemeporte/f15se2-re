@@ -1597,6 +1597,10 @@ _word_330BE equ word_330BE
     Missile <'1900lbs', 'Extra Fuel', 0FFFEh, 1>
     Missile <'20 mm', 'Guns', 0, 1>
     Missile <'Special', 'Equip', 26h, 1>
+; var_83: weapon/target compatibility matrix, var_83[weaponIdx*13 + (byte_3BFA4[..]&0xf)]
+; (missileTargetCompat, egtacmap.c). 20 weapons x 13 target categories, 260 bytes, ending at
+; word_333D2. Rows w0/w1 (Sidewinder/AMRAAM) and w16/w17/w19 are zero; type-1 weapons don't use it.
+word_332CE label byte
     db 33 dup(0)
     db 2
     db 6
@@ -7016,7 +7020,6 @@ byte_38D6E db 0
 word_32A28 dw 0
 word_32A2E dw 0
 word_32A30 dw 0
-word_332CE dw 0
 word_33BB8 dw 0
 word_383EC dw 0
 word_38896 dw 0
