@@ -371,14 +371,14 @@ after_missile_table:
     t = ((*(int16 *)&stru_3B202[h].state[0] - d) >> 13) + 4 & 7;
     {
         register int ak;
-        ak = *(int16 *)((char *)&word_33442 + 2 + a * 128 + r * 16 + t * 2);
+        ak = word_33444[a][r][t];
         l = (ak & 0xf) << 12;
         if (ak == 0x100) {
             p = 0x6000;
             l = ((frameTick >> 8) & 8) * 0x1000 - 0x4000;
         }
     }
-    if (*(int16 *)((char *)&word_33442 + 2 + a * 128 + r * 16 + t * 2) == 0x200) {
+    if (word_33444[a][r][t] == 0x200) {
         p = (int16)0xa000;
         l = (((frameTick >> 8) & 8) - 4) * -0x1000;
     }

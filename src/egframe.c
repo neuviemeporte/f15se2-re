@@ -455,8 +455,8 @@ void countermeasures(int param_1) {
     int b;
 
     b = -1;
-    if ((*(int16 *)((char *)&word_3309A + param_1 * 2))-- <= 0) {
-        *(int16 *)((char *)&word_3309A + param_1 * 2) = 0;
+    if ((word_3309A[param_1])-- <= 0) {
+        word_3309A[param_1] = 0;
         tempStrcpy((char *)aStoresExhauste);
     } else {
         for (a = 1; a < 4; a++) {
@@ -482,8 +482,7 @@ void countermeasures(int param_1) {
             tempStrcpy(strBuf);
             strcpy(strBuf, p);
             strcat(strBuf, (char *)asc_3373D);
-            strcat(strBuf, itoa(*(int16 *)((char *)&word_3309A + param_1 * 2),
-                                unk_3C030, 10));
+            strcat(strBuf, itoa(word_3309A[param_1], unk_3C030, 10));
             setTimedMessage(strBuf);
         }
         makeSound(0x16, 2);

@@ -516,6 +516,7 @@ PUBLIC _word_339B4
 PUBLIC _word_336F6
 PUBLIC _stru_33402
 PUBLIC _word_33442
+PUBLIC _word_33444
 PUBLIC _stru_335C4
 PUBLIC _var_672
 PUBLIC _var_671
@@ -1734,6 +1735,8 @@ _word_333DA equ word_333DA
 _stru_33402 equ stru_33402
 word_33442 dw 0
 _word_33442 equ word_33442
+word_33444 label word
+_word_33444 equ word_33444
     db 3
     db 0
     db 3
