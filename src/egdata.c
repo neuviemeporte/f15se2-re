@@ -250,3 +250,60 @@ int16 word_3C028;
 int16 word_3C02C;
 int16 word_3C02E;
 int16 word_3C03E;
+
+/* --- migrated scalars from egslots.asm (clean standalone, no EQU alias) --- */
+int16 word_3401A = 0;
+int16 word_38126 = 0x6C;
+int16 word_38152 = 0;
+char byte_3995A;
+int16 word_3A940;
+uint8 hercFlag;
+int16 word_3C03A;
+int16 word_3C040;
+int16 word_3C09A;
+int16 word_3C09E;
+char byte_3C5A0;
+int16 word_3C5A6;
+int16 word_3C5AA;
+int16 word_3C6A4;
+int16 word_3C6AC;
+int16 word_3C8B6;
+
+/* --- migrated buffers/strings from egslots.asm (clean fixed-size runs) --- */
+int16 word_3BE98;
+uint8 buf2_3dg[0x200];
+uint8 buf3_3dg[0x200];
+uint8 buf4_3dg[0x200];
+uint8 buf_3dt[4000];
+uint8 byte_3BE3E[0x40];
+uint8 byte_3BE80[0x10];
+uint8 byte_3BED8[0x64];
+char tempString[80];
+char string_3C04A[80];
+
+/* --- migrated standalone scalars from egslots.asm (2026-06-16 batch) ---
+ * Each verified CLEAN: no &sym pointer-arithmetic dependency, no EQU alias
+ * group, no bare PUBLIC, no cross-module bare EXTRN. */
+int16 word_33096 = 4;
+int16 word_33098 = 0x1388;
+int16 word_3309C = 0x0C;
+int16 word_3309E = 0x12;
+int16 word_330BA = 1;
+int16 word_330BE = 0;
+int16 word_3C042;
+int16 word_3C044;
+int16 word_3C048;
+int16 word_3C09C;
+int16 word_3C0A0;
+int16 word_3C45E;
+int16 word_3C5A2;
+int16 word_3C5A4;
+int16 word_3C6AA;
+int word_3C6AE;
+int16 word_38FC8;
+int16 word_3C8B2;
+
+/* BSS arrays: word_3BE9C is a 16-word run (orig 2+30 bytes); word_3C0A2 is a
+ * 100-entry near-pointer table (orig dw 64h dup). */
+int16 word_3BE9C[16];
+char *word_3C0A2[100];

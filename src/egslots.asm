@@ -129,7 +129,6 @@ PUBLIC _word_380AC
 PUBLIC _g_setThrust
 PUBLIC _word_380E2
 PUBLIC _word_38602
-PUBLIC _word_3C5A4
 PUBLIC _byte_3B4E6
 PUBLIC _var_548
 PUBLIC _var_47
@@ -160,7 +159,6 @@ PUBLIC _word_39606
 PUBLIC _word_3BEBC
 PUBLIC _word_3BEC8
 PUBLIC _word_3BECE
-PUBLIC _word_3C0A0
 PUBLIC _strBuf
 PUBLIC _aNotAvailable
 PUBLIC _aArmed
@@ -255,7 +253,6 @@ PUBLIC _word_34684
 PUBLIC _word_34686
 PUBLIC _word_34868
 PUBLIC _word_34A4C
-PUBLIC _word_3C042
 PUBLIC _var_194
 PUBLIC _var_195
 PUBLIC _var_196
@@ -291,7 +288,6 @@ PUBLIC _var_135
 PUBLIC _var_662
 PUBLIC _commData
 PUBLIC _gameData
-PUBLIC _hercFlag
 PUBLIC _joyAxes
 PUBLIC _regs
 PUBLIC _scenarioPlh
@@ -362,8 +358,6 @@ PUBLIC word_37F9B
 PUBLIC byte_37F9D
 PUBLIC byte_37F9E
 PUBLIC byte_37F9F
-PUBLIC _word_3C0A2
-PUBLIC _word_3C044
 PUBLIC _aFlogger
 PUBLIC _byte_3C16E
 PUBLIC _flt15_buf1
@@ -374,10 +368,8 @@ PUBLIC _farPointer
 PUBLIC _word_3C69E
 PUBLIC _byte_3BFA4
 PUBLIC _byte_3BEC4
-PUBLIC _byte_3BED8
 PUBLIC _byte_3C02A
 PUBLIC _byte_3AFAC
-PUBLIC _word_3401A
 PUBLIC _off_38334
 PUBLIC _off_3834C
 PUBLIC _byte_3A900
@@ -386,28 +378,16 @@ PUBLIC _unk_33E1A
 PUBLIC _unk_34121
 PUBLIC _word_33BAE
 PUBLIC _buf1_3dg
-PUBLIC _buf2_3dg
-PUBLIC _buf3_3dg
-PUBLIC _buf4_3dg
 PUBLIC _sizes3dt
 PUBLIC _matrix3dt
 PUBLIC _matrix3dt_2
-PUBLIC _buf_3dt
 PUBLIC _buf3d3_1
 PUBLIC _buf3d3_2
 PUBLIC _buf3d3_3
 PUBLIC _buf3d3
-PUBLIC _byte_3BE3E
-PUBLIC _byte_3BE80
 PUBLIC _word_33DD0
 PUBLIC _size3d3_7
-PUBLIC _g_viewZ
-PUBLIC _g_ourHead
-PUBLIC _g_ourPitch
-PUBLIC _g_ourRoll
-PUBLIC _word_3C5AA
 PUBLIC _stru_3A95A
-PUBLIC _word_3C03A
 PUBLIC _word_34186
 PUBLIC _word_3419C
 PUBLIC _word_341DC
@@ -420,13 +400,10 @@ PUBLIC _var_672
 PUBLIC _var_671
 PUBLIC _unk_3C030
 PUBLIC _var_674
-PUBLIC _word_3A940
 PUBLIC _g_planes
 PUBLIC _unk_3A948
-PUBLIC _word_38152
 PUBLIC _word_37561
 PUBLIC _word_37563
-PUBLIC _word_38126
 PUBLIC _var_589
 PUBLIC _var_590
 PUBLIC _off_38364
@@ -434,20 +411,13 @@ PUBLIC _unk_3806E
 PUBLIC _unk_380B6
 PUBLIC _gfx_setColor
 PUBLIC _gfx_nop23
-PUBLIC _byte_3995A
 PUBLIC _word_36B86
 PUBLIC _byte_3850E
 PUBLIC _unk_38128
 PUBLIC _word_3755D
 PUBLIC _word_3755F
 PUBLIC _word_38202
-PUBLIC _word_3C09A
-PUBLIC _word_33098
 PUBLIC _word_330B4
-PUBLIC _word_3309C
-PUBLIC _word_3309E
-PUBLIC _word_3C09E
-PUBLIC _word_3C8B2
 PUBLIC _word_3C8B8
 PUBLIC _word_3C8BC
 PUBLIC _word_3C8C0
@@ -460,25 +430,16 @@ PUBLIC _var_592
 PUBLIC _var_595
 PUBLIC _var_600
 PUBLIC _word_3B0AC
-PUBLIC _word_3BE98
 PUBLIC _word_3C5AC
 PUBLIC _word_3C5AE
 PUBLIC _word_3C5B0
 PUBLIC _word_3C5B2
 PUBLIC _word_3C5B4
 PUBLIC _word_3C5B6
-PUBLIC _byte_3C5A0
-PUBLIC _word_3C040
-PUBLIC _word_383F4
-PUBLIC _word_3C6A4
 PUBLIC _sams
-PUBLIC _word_3C5A6
 PUBLIC _missleSpec
-PUBLIC _word_3C8B6
 PUBLIC _word_3AA5C
 PUBLIC _waypoints
-PUBLIC _byte_37C24
-PUBLIC _string_3C04A
 PUBLIC _var_564
 PUBLIC _var_565
 PUBLIC _var_569
@@ -501,7 +462,6 @@ PUBLIC _var_585
 PUBLIC _var_586
 PUBLIC _word_383CC
 PUBLIC _word_383AE
-PUBLIC _word_3C6AC
 PUBLIC _word_333D8
 PUBLIC _word_333DA
 PUBLIC _var_661
@@ -509,7 +469,6 @@ PUBLIC _var_663
 PUBLIC _var_664
 PUBLIC _word_3298C
 PUBLIC _word_3298E
-PUBLIC _word_3BE9C
 PUBLIC _var_224
 PUBLIC _var_225
 PUBLIC _var_226
@@ -518,15 +477,16 @@ PUBLIC _var_596
 PUBLIC _var_598
 PUBLIC _var_599
 PUBLIC _missiles
-PUBLIC _word_3C6AE
 PUBLIC _var_730
-PUBLIC _word_3C6AA
-PUBLIC _word_3C09C
 PUBLIC _word_380D0
-PUBLIC _word_380D8
-PUBLIC _tempString
+PUBLIC _byte_37C24
+PUBLIC _g_ourHead
+PUBLIC _g_ourPitch
+PUBLIC _g_ourRoll
+PUBLIC _g_viewZ
 PUBLIC _word_383F2
-PUBLIC _word_33096
+PUBLIC _word_383F4
+PUBLIC _word_380D8
 PUBLIC _g_missionStatus
 PUBLIC _var_669
 PUBLIC _var_667
@@ -568,13 +528,8 @@ PUBLIC _word_333D4
 PUBLIC _word_3B4D8
 PUBLIC _word_3B4E0
 PUBLIC _word_3B5D6
-PUBLIC _word_330BA
 PUBLIC _var_588
-PUBLIC _word_330BE
 PUBLIC _var_686
-PUBLIC _word_3C45E
-PUBLIC _word_3C5A2
-PUBLIC _word_38FC8
 PUBLIC _var_351
 PUBLIC _var_352
 PUBLIC _var_353
@@ -1351,16 +1306,8 @@ aAn72 db 'An-72',0
     Sam <'AA-9', 52h, 7D0h, 0FFFFh, 3, 13h>
     Sam <'AA-10', 40h, 7D0h, 0, 4, 13h>
     Sam <'Equip.', 0, 0, 1Dh, 0, 0Eh>
-word_33096 dw 4
-_word_33096 equ word_33096
-word_33098 dw 1388h
-_word_33098 equ word_33098
 word_3309A dw 0
 _word_3309A equ word_3309A
-word_3309C dw 0Ch
-_word_3309C equ word_3309C
-word_3309E dw 12h
-_word_3309E equ word_3309E
     db 3
     db 0
     _missleSpec MissileSpec <0, 4>
@@ -1371,10 +1318,6 @@ word_330B4 dw 28Ah
 _word_330B4 equ word_330B4
 g_missionStatus dw 1
 _g_missionStatus equ g_missionStatus
-word_330BA dw 1
-_word_330BA equ word_330BA
-word_330BE dw 0
-_word_330BE equ word_330BE
     db 1
     db 0
     _missiles Missile <'AIM-9M', 'Sidewinder', 17h, 4>
@@ -2853,7 +2796,6 @@ _unk_33E1A db 10h
     db 2 dup(10h)
     db 7 dup(11h)
     db 10h
-_word_3401A dw 0
     db 2 dup(0)
 aPleaseInsertScenarioD db 'Please insert scenario disk',0
 _unk_34121 db 20h
@@ -5947,7 +5889,6 @@ _g_setThrust equ g_setThrust
 word_380E2 dw 0
 _word_380E2 equ word_380E2
     db 0
-_word_38126 dw 6Ch
 _unk_38128 db 7
     db 0
     db 53h
@@ -5986,7 +5927,6 @@ _unk_38128 db 7
     db 15h
     db 0
     db 4 dup(0FFh)
-_word_38152 dw 0
     db 0 ;align 2
 word_3815E dw 0
     db 0 ;align 2
@@ -7074,8 +7014,6 @@ byte_38F8D db ?
 _byte_38F8D equ byte_38F8D
     db 54 dup(?)
 _word_38FC6 label byte
-word_38FC8 dw ?
-_word_38FC8 equ word_38FC8
     db ? ;align 4
     db ?
 unk_38FD0 db ?
@@ -7083,27 +7021,21 @@ _unk_38FD0 equ unk_38FD0
     db 9 dup(?)
 _gameData dd ?
     db 2 dup(?)
-_buf4_3dg db 200h dup(?)
-_buf3_3dg db 200h dup(?)
 word_39402 dw ?
 _word_39402 equ word_39402
     db 512 dup(?)
 word_39606 dw ?
 _word_39606 equ word_39606
-_buf2_3dg db 200h dup(?)
 word_39808 dw ?
 _word_39808 equ word_39808
     db 80 dup(?)
 _buf1_3dg db 100h dup(?)
-_byte_3995A db ?
     db ?
 
 ; Matrix3dEntry7 storage.
 ; 571 full records * 7 bytes + 3 spare bytes = 4000 bytes. => #define MAX_TILE_DATA 4000
-_buf_3dt db 4000 dup(?)
 
 _byte_3A900 db 40h dup(?)
-_word_3A940 dw ?
     db ? ;align 4
     db ?
 _unk_3A948 db ?
@@ -7123,7 +7055,6 @@ word_3B4D8 dw ?
 _word_3B4D8 equ word_3B4D8
 word_3B4E0 dw ?
 _word_3B4E0 equ word_3B4E0
-_hercFlag db ?
     db ?
 byte_3B4E6 db ?
 _byte_3B4E6 equ byte_3B4E6
@@ -7163,14 +7094,8 @@ _byte_3B7F1 equ byte_3B7F1
     db ? ;align 8
     db 5 dup(?)
 _byte_3B7FC db 640h dup(?)
-_byte_3BE3E db 40h dup(?)
-_byte_3BE80 db 10h dup(?)
-_word_3BE98 dw ?
     db ? ;align 4
     db ?
-_word_3BE9C label byte
-word_3BE9C dw ?
-    db 30 dup(?)
 word_3BEBC dw ?
 _word_3BEBC equ word_3BEBC
 _byte_3BEC4 db ?
@@ -7180,8 +7105,6 @@ word_3BEC8 dw ?
 _word_3BEC8 equ word_3BEC8
 word_3BECE dw ?
 _word_3BECE equ word_3BECE
-_byte_3BED8 db 64h dup(?)
-_tempString db 50h dup(?)
 _regs db ?
 PUBLIC _byte_3BF93
 _byte_3BF93 label byte
@@ -7210,40 +7133,14 @@ _byte_3C02A db ?
 _unk_3C030 label byte
 unk_3C030 db ?
     db 9 dup(?)
-_word_3C03A dw ?
     db 2 dup(?)
-_word_3C040 dw ?
-word_3C042 dw ?
-_word_3C042 equ word_3C042
-word_3C044 dw ?
-_word_3C044 equ word_3C044
-PUBLIC _word_3C048
-word_3C048 dw ?
-_word_3C048 equ word_3C048
-_string_3C04A db 50h dup(?)
-_word_3C09A dw ?
-word_3C09C dw ?
-_word_3C09C equ word_3C09C
-_word_3C09E dw ?
-word_3C0A0 dw ?
-_word_3C0A0 equ word_3C0A0
-_word_3C0A2 dw 64h dup(?)
 word_3C16C dw ?
 _word_3C16C equ word_3C16C
 _byte_3C16E db 2EEh dup(?)
-word_3C45E dw ?
-_word_3C45E equ word_3C45E
 _matrix3dt_2 dw 0A0h dup(?)
-_byte_3C5A0 db ?
     db ?
-word_3C5A2 dw ?
-_word_3C5A2 equ word_3C5A2
-word_3C5A4 dw ?
-_word_3C5A4 equ word_3C5A4
-_word_3C5A6 dw ?
 word_3C5A8 dw ?
 _word_3C5A8 equ word_3C5A8
-_word_3C5AA dw ?
 word_3C5AC dw ?
 _word_3C5AC equ word_3C5AC
 word_3C5AE dw ?
@@ -7267,14 +7164,7 @@ _byte_3C6A0 equ byte_3C6A0
     PUBLIC _word_3C6A2
 word_3C6A2 dw ?
 _word_3C6A2 equ word_3C6A2
-_word_3C6A4 dw ?
 _commData dd ?
-word_3C6AA dw ?
-_word_3C6AA equ word_3C6AA
-_word_3C6AC dw ?
-word_3C6AE dw ?
-_word_3C6AE equ word_3C6AE
-PUBLIC _word_3C6AE
 PUBLIC byte_3416E
 PUBLIC byte_3416F
 PUBLIC byte_34170
@@ -7427,16 +7317,12 @@ PUBLIC _aMap
 _aMap equ aMap
 PUBLIC _word_34276
 _word_34276 equ word_34276
-_word_3C6AE equ word_3C6AE
     db ? ;align 400h
     db 511 dup(?)
     PUBLIC _byte_3C8B0
 _byte_3C8B0 label byte
 byte_3C8B0 db ?
     db ? ;align 2
-word_3C8B2 dw ?
-_word_3C8B2 equ word_3C8B2
-_word_3C8B6 dw ?
 word_3C8B8 dw ?
 _word_3C8B8 equ word_3C8B8
 word_3C8BA dw ?
