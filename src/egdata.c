@@ -439,3 +439,69 @@ int16 var_255 = 0;
 int16 var_256 = 0;
 int16 var_259 = 0;
 int16 var_260 = 0;
+
+/* var_588: radar range. var_589/590: standalone int16 scalars.
+ * word_383F2/word_383F4: tacmap blink/dwell countdown timers. */
+int16 var_588 = 1;
+int16 var_589 = 0;
+int16 var_590 = 0;
+int16 word_383F2 = 0;
+int16 word_383F4 = 0;
+
+/* var_595/597: standalone int16 scalars (word_38606 axis array stays in asm).
+ * var_596: detail-level counter (0..2), also a joystick-scaling factor. */
+int16 var_595 = 0;
+int16 var_596 = 2;
+int16 var_597 = 0;
+int16 var_669 = 0;
+int16 var_670 = 0;
+int16 var_673 = 0;
+int16 var_674 = 0;
+int16 var_675 = 0;
+int16 var_676 = 0;
+int16 var_677 = 0;
+int16 var_680 = 0;
+int16 var_681 = 0;
+int16 var_682 = 0;
+int16 var_683 = 0;
+int16 var_684 = 0;
+int16 var_685 = 0;
+int16 var_686 = 0;
+
+/* Collapsed _var_N EQU aliases: plain scalars (no address-coupling), storage moved from egslots.asm. */
+int16 var_194 = 0x800;
+int16 var_195 = 0x1000;
+int16 var_196 = 0x2000;
+int16 var_197 = 0x4000;
+int16 var_202 = 0;
+int16 var_203 = 0;
+int16 var_204 = 0;
+int16 var_216 = 0;
+int16 var_218 = 0;
+int16 var_219 = 0;
+int16 var_261 = 0;
+int16 var_556 = 0;
+
+/* g_setThrust: player thrust setting (was also aliased _var_552). word_380E2: a frame timer. */
+int16 g_setThrust = 0;
+int16 word_380E2 = 0;
+
+/* blitSprite() sprite descriptor (was word_383CC..var_586, an asm SpriteParams). */
+struct SpriteParams blitSpriteParams = {
+    0, 0, 0, 0, 0, 0, 0, 0,   /* bufPtr,srcX,srcY,page,dstX,dstY,width,height */
+    {0, 0}, 0x61, {0, 0, 0}, 0x3F, 0x01,   /* +0x10..0x17 config bytes */
+    0x01,                     /* flags (byte_383E4 init) */
+    {0x01, 0x01, 0x00}        /* pad19[0]=var_586 init */
+};
+
+/* blitGaugeSprite() sprite descriptor (was word_383AE.., an asm SpriteParams). */
+struct SpriteParams gaugeSpriteParams = {
+    0, 0, 0, 0, 0, 0, 7, 7,   /* bufPtr,srcX,srcY,page,dstX,dstY,width,height */
+    {0x68, 0}, 0xAF, {0, 0x78, 0}, 0xC7, 0x00,   /* +0x10..0x17 config bytes */
+    0x10,                     /* flags */
+    {0x01, 0x01, 0x00}        /* pad19 */
+};
+
+/* unk_3806E: current 3x3 orientation matrix (Q15 identity init); was var_524-529
+   element aliases + block-memcpy target in egslots.asm. */
+int16 unk_3806E[9] = {0x7FFF, 0, 0, 0, 0x7FFF, 0, 0, 0, 0x7FFF};

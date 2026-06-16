@@ -126,9 +126,6 @@ PUBLIC _word_380A4
 PUBLIC _word_380A6
 PUBLIC _word_380AA
 PUBLIC _word_380AC
-PUBLIC _g_setThrust
-PUBLIC _word_380E2
-PUBLIC _word_38602
 PUBLIC _byte_3B4E6
 PUBLIC _var_548
 PUBLIC _var_47
@@ -138,21 +135,11 @@ PUBLIC _var_810
 PUBLIC _var_811
 PUBLIC _var_727
 PUBLIC _var_732
-PUBLIC _var_597
 PUBLIC _byte_3419A
 PUBLIC _byte_3419C
 PUBLIC _var_568
-PUBLIC _var_680
-PUBLIC _var_681
-PUBLIC _var_682
-PUBLIC _var_683
-PUBLIC _var_684
-PUBLIC _var_685
 PUBLIC _var_594
 PUBLIC _var_593
-PUBLIC _var_675
-PUBLIC _var_676
-PUBLIC _var_677
 PUBLIC _word_39606
 PUBLIC _word_3BEBC
 PUBLIC _word_3BEC8
@@ -214,22 +201,15 @@ PUBLIC _var_383
 PUBLIC _var_200
 PUBLIC _var_201
 PUBLIC _var_141
-PUBLIC _var_202
-PUBLIC _var_203
-PUBLIC _var_204
 PUBLIC _var_215
-PUBLIC _var_216
 PUBLIC _var_217
 PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
 PUBLIC _word_3C5A8
-PUBLIC _var_556
-PUBLIC _var_673
 PUBLIC _word_3BECE
 PUBLIC _word_39606
 PUBLIC _word_3BEC8
 PUBLIC _word_3BEBC
-PUBLIC _var_261
 PUBLIC _var_316
 PUBLIC _origCBreakSeg
 PUBLIC _word_3C16C
@@ -239,9 +219,6 @@ PUBLIC _word_34684
 PUBLIC _word_34686
 PUBLIC _word_34868
 PUBLIC _word_34A4C
-PUBLIC _var_194
-PUBLIC _var_195
-PUBLIC _var_196
 PUBLIC _var_143
 PUBLIC _word_39808
 PUBLIC _word_3B7E0
@@ -257,7 +234,6 @@ PUBLIC _byte_3B7F1
 PUBLIC _word_33B9C
 PUBLIC _word_33BA2
 PUBLIC _byte_3B4EC
-PUBLIC _var_197
 PUBLIC _var_198
 PUBLIC _byte_3419F
 PUBLIC _var_83
@@ -362,14 +338,10 @@ PUBLIC _word_339B4
 PUBLIC _stru_33402
 PUBLIC _stru_335C4
 PUBLIC _unk_3C030
-PUBLIC _var_674
 PUBLIC _g_planes
 PUBLIC _word_37561
 PUBLIC _word_37563
-PUBLIC _var_589
-PUBLIC _var_590
 PUBLIC _off_38364
-PUBLIC _unk_3806E
 PUBLIC _gfx_setColor
 PUBLIC _gfx_nop23
 PUBLIC _byte_3850E
@@ -381,12 +353,7 @@ PUBLIC _word_3C8B8
 PUBLIC _word_3C8BC
 PUBLIC _word_3C8C0
 PUBLIC _var_217
-PUBLIC _var_218
-PUBLIC _var_219
 PUBLIC _var_220
-PUBLIC _var_591
-PUBLIC _var_592
-PUBLIC _var_595
 PUBLIC _var_600
 PUBLIC _word_3B0AC
 PUBLIC _word_3C5AC
@@ -401,26 +368,6 @@ PUBLIC _word_3AA5C
 PUBLIC _waypoints
 PUBLIC _var_564
 PUBLIC _var_565
-PUBLIC _var_569
-PUBLIC _var_570
-PUBLIC _var_571
-PUBLIC _var_572
-PUBLIC _var_573
-PUBLIC _var_574
-PUBLIC _var_575
-PUBLIC _var_576
-PUBLIC _var_577
-PUBLIC _var_578
-PUBLIC _var_579
-PUBLIC _var_580
-PUBLIC _var_581
-PUBLIC _var_582
-PUBLIC _var_583
-PUBLIC _var_584
-PUBLIC _var_585
-PUBLIC _var_586
-PUBLIC _word_383CC
-PUBLIC _word_383AE
 PUBLIC _word_333D8
 PUBLIC _word_333DA
 PUBLIC _word_3298C
@@ -429,7 +376,6 @@ PUBLIC _var_224
 PUBLIC _var_225
 PUBLIC _var_226
 PUBLIC _var_227
-PUBLIC _var_596
 PUBLIC _var_598
 PUBLIC _var_599
 PUBLIC _missiles
@@ -440,12 +386,8 @@ PUBLIC _g_ourHead
 PUBLIC _g_ourPitch
 PUBLIC _g_ourRoll
 PUBLIC _g_viewZ
-PUBLIC _word_383F2
-PUBLIC _word_383F4
 PUBLIC _word_380D8
 PUBLIC _g_missionStatus
-PUBLIC _var_669
-PUBLIC _var_670
 PUBLIC _gfx_allocPage
 PUBLIC _gfx_drawString
 PUBLIC _gfx_initOverlay
@@ -461,12 +403,6 @@ PUBLIC _gfx_getModeFlag
 PUBLIC _gfx_setDacAnimCount
 PUBLIC _gfx_setMonoFlag
 PUBLIC _byte_383E5
-PUBLIC _var_524
-PUBLIC _var_525
-PUBLIC _var_526
-PUBLIC _var_527
-PUBLIC _var_528
-PUBLIC _var_529
 PUBLIC _var_542
 PUBLIC _var_543
 PUBLIC _var_544
@@ -475,7 +411,6 @@ PUBLIC _var_550
 PUBLIC _var_547
 PUBLIC _uvar_547
 PUBLIC _var_549
-PUBLIC _var_552
 PUBLIC _word_336F0
 PUBLIC _word_333D2
 PUBLIC _mapEvents
@@ -483,8 +418,6 @@ PUBLIC _word_333D4
 PUBLIC _word_3B4D8
 PUBLIC _word_3B4E0
 PUBLIC _word_3B5D6
-PUBLIC _var_588
-PUBLIC _var_686
 PUBLIC _var_351
 PUBLIC _var_352
 PUBLIC _var_353
@@ -2226,10 +2159,6 @@ _byte_3419A equ byte_3419F
     db 2
     db 0
     db 4
-word_341B4 dw 800h
-word_341B6 dw 1000h
-word_341B8 dw 2000h
-word_341BA dw 4000h
 word_341BC dw 2710h
     db 10h
     db 27h
@@ -2262,9 +2191,6 @@ word_341BC dw 2710h
     db 0F4h
 dword_3423C dw 0
 word_3423E dw 0
-word_34240 dw 0
-word_34242 dw 0
-word_34244 dw 0
 word_34246 dw 0
 word_34248 dw 0
 word_3424A dw 0
@@ -2278,10 +2204,7 @@ PUBLIC _word_34256
 _word_34256 equ word_34256
 byte_34258 db 0
     db 7 dup(0)
-word_34260 dw 0
 word_34262 dw 0
-word_34264 dw 0
-word_34266 dw 0
 word_34268 dw 0
 word_3426A dw 0
 word_3426C dw 0
@@ -2320,7 +2243,6 @@ word_342B0 dw 0
     db 2 dup(0)
 byte_342B4 db 0
     db 0
-word_342BA dw 0
 word_342BC dw 0
 word_342BE dw 0
     db 476 dup(0)
@@ -5063,15 +4985,6 @@ _byte_37FEC equ byte_37FEC
     db 5 dup(10h)
     db 8
     db 0
-_unk_3806E db 0FFh
-    db 7Fh
-word_38070 dw 0
-word_38072 dw 0
-word_38074 dw 0
-word_38076 dw 7FFFh
-word_38078 dw 0
-    db 4 dup(0)
-word_3807E dw 7FFFh
 word_38080 dw 0
 _word_38080 equ word_38080
     db 0 ;align 4
@@ -5130,10 +5043,6 @@ byte_380DD db 0
 _byte_380DD equ byte_380DD
 _word_380D8 equ byte_380DD
     db 2 dup(0)
-g_setThrust dw 0
-_g_setThrust equ g_setThrust
-word_380E2 dw 0
-_word_380E2 equ word_380E2
     db 0
 _unk_38128 db 7
     db 0
@@ -5174,7 +5083,6 @@ _unk_38128 db 7
     db 0
     db 4 dup(0FFh)
     db 0 ;align 2
-word_3815E dw 0
     db 0 ;align 2
 PUBLIC aMisses
 aMisses db ' misses ',0
@@ -5572,53 +5480,12 @@ buf6data_1 db 0
     db 30h
     db 1
 word_383AC dw offset buf6data_1
-_word_383AE dw 0
-word_383B0 dw 0
-word_383B2 dw 0
-word_383B4 dw 0
-word_383B6 dw 0
-word_383B8 dw 0
-word_383BA dw 7
-word_383BC dw 7
-    db 68h
-    db 0
-    db 0AFh
-    db 0
-    db 78h
-    db 0
-    db 0C7h
-    db 0
-    db 10h
-    db 2 dup(1)
-    db 0
-    db 1
-    db 0
-_word_383CC dw 0
-word_383CE dw 0
-word_383D0 dw 0
-word_383D2 dw 0
-word_383D4 dw 0
-word_383D6 dw 0
-word_383D8 dw 0
-word_383DA dw 0
-    db 2 dup(0)
-    db 61h
-    db 3 dup(0)
-    db 3Fh
-    db 1
-byte_383E4 db 1
-var_586 db 1
     db 1
     db 0
     db 1
     db 0
 byte_383E5 dw 8
 _byte_383E5 equ byte_383E5
-radarRange dw 1
-word_383EE dw 0
-word_383F0 dw 0
-_word_383F2 dw 0
-_word_383F4 dw 0
 aTac db 'Tac',0
 aMap db 'Map',0
     db 5 dup(0)
@@ -5629,10 +5496,6 @@ _byte_3850E db 0
     db 0
     db 0 ;align 2
     db 0 ;align 2
-word_38600 dw 0
-word_38602 dw 2
-_word_38602 equ word_38602
-word_38604 dw 0
 word_38606 dw 0
 PUBLIC _word_38606
 _word_38606 equ word_38606
@@ -5827,21 +5690,7 @@ aR6001NullPointerAssig db 'R6001',0Dh,0Ah
     db '- null pointer assignment',0Dh,0Ah,0
     db 3 dup(0FFh)
     db 0
-word_38CF0 dw 0
-word_38CF2 dw 0
     db 6 dup(0)
-word_38CFE dw 0
-word_38D00 dw 0
-word_38D02 dw 0
-word_38D04 dw 0
-word_38D06 dw 0
-word_38D4C dw 0
-word_38D4E dw 0
-word_38D50 dw 0
-word_38D52 dw 0
-word_38D54 dw 0
-word_38D56 dw 0
-word_38D58 dw 0
 word_38D5A dw 0
 word_38D5C dw 0
 word_38D5E dw 0
@@ -5890,13 +5739,9 @@ _var_143 EQU word_33BB8
 ORG 018EAh
 _var_190 EQU byte_3419A
 ORG 01904h
-_var_194 EQU word_341B4
 ORG 01906h
-_var_195 EQU word_341B6
 ORG 01908h
-_var_196 EQU word_341B8
 ORG 0190Ah
-_var_197 EQU word_341BA
 ORG 0190Ch
 _var_198 EQU word_341BC
 ORG 0198Ch
@@ -5908,21 +5753,15 @@ _var_201 EQU word_3423E
 PUBLIC _var_200_seg
 _var_200_seg EQU word_3423E
 ORG 01990h
-_var_202 EQU word_34240
 ORG 01992h
-_var_203 EQU word_34242
 ORG 01994h
-_var_204 EQU word_34244
 ORG 019A8h
 _var_215 EQU byte_34258
 ORG 019B0h
-_var_216 EQU word_34260
 ORG 019B2h
 _var_217 EQU word_34262
 ORG 019B4h
-_var_218 EQU word_34264
 ORG 019B6h
-_var_219 EQU word_34266
 ORG 019B8h
 _var_220 EQU word_34268
 ORG 019BEh
@@ -5938,7 +5777,6 @@ _var_257 EQU word_342B0
 ORG 01A04h
 _var_258 EQU byte_342B4
 ORG 01A0Ah
-_var_261 EQU word_342BA
 ORG 01FB8h
 _var_279 EQU word_34868
 ORG 0219Ch
@@ -5962,17 +5800,11 @@ _var_383 EQU word_3790A
 ORG 05374h
 _var_456 EQU _byte_37C24
 ORG 057C0h
-_var_524 EQU word_38070
 ORG 057C2h
-_var_525 EQU word_38072
 ORG 057C4h
-_var_526 EQU word_38074
 ORG 057C6h
-_var_527 EQU word_38076
 ORG 057C8h
-_var_528 EQU word_38078
 ORG 057CEh
-_var_529 EQU word_3807E
 ORG 05818h
 _var_542 EQU _g_ourHead
 ORG 05819h
@@ -5991,9 +5823,7 @@ _var_549 EQU var_549_stor
 ORG 0582Ah
 _var_550 EQU byte_380DA
 ORG 05830h
-_var_552 EQU g_setThrust
 ORG 058AEh
-_var_556 EQU word_3815E
 ORG 05A84h
 _var_564 EQU _off_38334
 ORG 05A9Ch
@@ -6005,61 +5835,27 @@ _var_567 EQU word_3837C
 ORG 05AFCh
 _var_568 EQU word_383AC
 ORG 05AFEh
-_var_569 EQU _word_383AE
 ORG 05B00h
-_var_570 EQU word_383B0
 ORG 05B02h
-_var_571 EQU word_383B2
 ORG 05B04h
-_var_572 EQU word_383B4
 ORG 05B06h
-_var_573 EQU word_383B6
 ORG 05B08h
-_var_574 EQU word_383B8
 ORG 05B0Ah
-_var_575 EQU word_383BA
 ORG 05B0Ch
-_var_576 EQU word_383BC
 ORG 05B1Ch
-_var_577 EQU _word_383CC
 ORG 05B1Eh
-_var_578 EQU word_383CE
 ORG 05B20h
-_var_579 EQU word_383D0
 ORG 05B22h
-_var_580 EQU word_383D2
 ORG 05B24h
-_var_581 EQU word_383D4
 ORG 05B26h
-_var_582 EQU word_383D6
 ORG 05B28h
-_var_583 EQU word_383D8
 ORG 05B2Ah
-_var_584 EQU word_383DA
 ORG 05B34h
-_var_585 EQU byte_383E4
 ORG 05B35h
-_var_586 EQU var_586
-ORG 05B3Ch
-_var_588 EQU radarRange
-ORG 05B3Eh
-_var_589 EQU word_383EE
-ORG 05B40h
-_var_590 EQU word_383F0
-ORG 05B42h
-_var_591 EQU _word_383F2
-ORG 05B44h
-_var_592 EQU _word_383F4
 ORG 05BB0h
 _var_593 EQU word_38460
 ORG 05C5Eh
 _var_594 EQU _byte_3850E
-ORG 05D50h
-_var_595 EQU word_38600
-ORG 05D52h
-_var_596 EQU word_38602
-ORG 05D54h
-_var_597 EQU word_38604
 ORG 05D56h
 _var_598 EQU word_38606
 ORG 05D58h
@@ -6134,34 +5930,6 @@ ORG 0633Ch
 _var_650 EQU dword_38BEC
 ORG 06346h
 _var_653 EQU seg_38BF6
-ORG 06440h
-_var_669 EQU word_38CF0
-ORG 06442h
-_var_670 EQU word_38CF2
-ORG 0644Eh
-_var_673 EQU word_38CFE
-ORG 06450h
-_var_674 EQU word_38D00
-ORG 06452h
-_var_675 EQU word_38D02
-ORG 06454h
-_var_676 EQU word_38D04
-ORG 06456h
-_var_677 EQU word_38D06
-ORG 0649Ch
-_var_680 EQU word_38D4C
-ORG 0649Eh
-_var_681 EQU word_38D4E
-ORG 064A0h
-_var_682 EQU word_38D50
-ORG 064A2h
-_var_683 EQU word_38D52
-ORG 064A4h
-_var_684 EQU word_38D54
-ORG 064A6h
-_var_685 EQU word_38D56
-ORG 064A8h
-_var_686 EQU word_38D58
 ORG 064AAh
 _var_687 EQU lzw_readBufEndPtr
 ORG 064ACh

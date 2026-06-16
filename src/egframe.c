@@ -99,7 +99,7 @@ void updateFrame(void) {
             word_3AFA8 = ((unsigned)(g_viewY_ - var_47) < 0x8000u) ? 1 : -1;
             var_548 = 2000;
             g_velocity = 0x1fa4;
-            var_552 = 100;
+            g_setThrust = 100;
             UpdateThrottleState();
             *(char *)&g_playerPlaneFlags |= 1;
             *(char *)&g_playerPlaneFlags &= ~8;
@@ -333,7 +333,7 @@ skip_target_section:
 end_landing_check:
         if ((word_33706 == 0) && (g_missionStatus == 0) && g_playerPlaneFlags & 0x6000) {
             if (abs(g_viewX_ - g_planes[g_closestThreatIndex].mapX) < 0x10 && abs(g_viewY_ - g_planes[g_closestThreatIndex].mapY) < 0x10) {
-                var_552 = g_velocity = var_548 = 0;
+                g_setThrust = g_velocity = var_548 = 0;
                 g_ViewX = (long)g_planes[g_closestThreatIndex].mapX << 5;
                 g_ViewY = (long)(0x8000 - g_planes[g_closestThreatIndex].mapY) << 5;
             } else {

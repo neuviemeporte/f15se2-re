@@ -566,13 +566,13 @@ int readScreenPixel(int screenX, int screenY) {
 // ==== seg000:0xa1e4 ====
 void tempStrcpy(char *src) {
     strcpy(tempString, src);
-    var_591 = g_frameRateScaling * 3;
+    word_383F2 = g_frameRateScaling * 3;
 }
 
 // ==== seg000:0xa204 ====
 void setTimedMessage(char *message) {
     strcpy(string_3C04A, message);
-    var_592 = g_frameRateScaling * 3;
+    word_383F4 = g_frameRateScaling * 3;
 }
 
 // ==== seg000:0xa224 ====

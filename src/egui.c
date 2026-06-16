@@ -184,35 +184,35 @@ void projectMapPoint(int mapX, int mapY) {
 
 // ==== seg000:0xa872 ====
 void blitGaugeSprite(int srcCol, int srcRow, int destX, int destY) {
-    var_569 = gfxBufPtr;
-    var_570 = srcCol * 8 + 1;
-    var_571 = srcRow * 8 + 0x1f;
-    var_572 = (byte_3C5A0 != 0);
-    var_573 = destX - 3;
-    var_574 = destY - 3;
-    var_575 = 7;
-    var_576 = 7;
-    gfx_blitSpriteClipped(&word_383AE);
+    gaugeSpriteParams.bufPtr = gfxBufPtr;
+    gaugeSpriteParams.srcX = srcCol * 8 + 1;
+    gaugeSpriteParams.srcY = srcRow * 8 + 0x1f;
+    gaugeSpriteParams.page = (byte_3C5A0 != 0);
+    gaugeSpriteParams.dstX = destX - 3;
+    gaugeSpriteParams.dstY = destY - 3;
+    gaugeSpriteParams.width = 7;
+    gaugeSpriteParams.height = 7;
+    gfx_blitSpriteClipped((int16 *)&gaugeSpriteParams);
 }
 
 // ==== seg000:0xa8c8 ====
 void blitSprite(int destX, int destY, int srcX, int srcY, int spriteWidth, int arg_a, int arg_c) {
-    var_577 = gfxBufPtr;
-    var_578 = srcX;
-    var_579 = srcY;
-    var_580 = (byte_3C5A0 != 0);
-    var_581 = destX;
-    var_582 = destY;
-    var_583 = spriteWidth;
-    var_584 = arg_a;
-    var_586 = (char)arg_c;
+    blitSpriteParams.bufPtr = gfxBufPtr;
+    blitSpriteParams.srcX = srcX;
+    blitSpriteParams.srcY = srcY;
+    blitSpriteParams.page = (byte_3C5A0 != 0);
+    blitSpriteParams.dstX = destX;
+    blitSpriteParams.dstY = destY;
+    blitSpriteParams.width = spriteWidth;
+    blitSpriteParams.height = arg_a;
+    blitSpriteParams.pad19[0] = (char)arg_c;
     if (arg_c != 0) {
-        var_585 = 1;
-        gfx_blitSpriteClipped(&word_383CC);
+        blitSpriteParams.flags = 1;
+        gfx_blitSpriteClipped((int16 *)&blitSpriteParams);
         return;
     }
-    var_585 = 0x10;
-    gfx_blitSpriteOpaque(&word_383CC);
+    blitSpriteParams.flags = 0x10;
+    gfx_blitSpriteOpaque((int16 *)&blitSpriteParams);
 }
 
 // ==== seg000:0xa934 ====

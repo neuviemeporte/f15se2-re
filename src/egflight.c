@@ -158,10 +158,10 @@ switch_break:
             readCalibratedJoystick();
         } else {
 
-            //temp_si = word_38602 + 1;
-            joyAxes[0] = (unsigned char)(((int)((unsigned char)byte_37F98 - 0x80) * (word_38602 + 1)) / 3) - 0x80;
+            //temp_si = var_596 + 1;
+            joyAxes[0] = (unsigned char)(((int)((unsigned char)byte_37F98 - 0x80) * (var_596 + 1)) / 3) - 0x80;
 
-            joyAxes_2[0] = (unsigned char)(((int)((unsigned char)byte_37F99 - 0x80) * (word_38602 + 1)) / 3) - 0x80;
+            joyAxes_2[0] = (unsigned char)(((int)((unsigned char)byte_37F99 - 0x80) * (var_596 + 1)) / 3) - 0x80;
         }
     }
 
@@ -627,48 +627,48 @@ void computeAttitudeAngles(void)
 {
     int p;
 
-    var_544 = valueToAngle(-var_528);
+    var_544 = valueToAngle(-unk_3806E[5]);
     p = cosine(var_544);
     if (p != 0) {
-        if (abs(var_525) < 0x5a81) {
-            var_542 = valueToAngle(abs((int)signedRatio16(var_525, p)));
+        if (abs(unk_3806E[2]) < 0x5a81) {
+            var_542 = valueToAngle(abs((int)signedRatio16(unk_3806E[2], p)));
         } else {
-            var_542 = complementAngle(abs((int)signedRatio16(var_529, p)));
+            var_542 = complementAngle(abs((int)signedRatio16(unk_3806E[8], p)));
         }
-        if (var_525 <= 0 && var_529 < 0) {
+        if (unk_3806E[2] <= 0 && unk_3806E[8] < 0) {
             var_543 += 0x80;
         }
-        if (var_525 > 0 && var_529 < 0) {
+        if (unk_3806E[2] > 0 && unk_3806E[8] < 0) {
             var_542 = 0x8000 - var_542;
         }
-        if (var_525 < 0 && var_529 > 0) {
+        if (unk_3806E[2] < 0 && unk_3806E[8] > 0) {
             var_542 = -var_542;
         }
-        if (abs(var_526) < 0x5a81) {
-            var_545 = valueToAngle(abs((int)signedRatio16(var_526, p)));
+        if (abs(unk_3806E[3]) < 0x5a81) {
+            var_545 = valueToAngle(abs((int)signedRatio16(unk_3806E[3], p)));
         } else {
-            var_545 = complementAngle(abs((int)signedRatio16(var_527, p)));
+            var_545 = complementAngle(abs((int)signedRatio16(unk_3806E[4], p)));
         }
-        if (var_526 <= 0 && var_527 < 0) {
+        if (unk_3806E[3] <= 0 && unk_3806E[4] < 0) {
             *((char *)&var_545 + 1) += 0x80;
         }
-        if (var_526 > 0 && var_527 < 0) {
+        if (unk_3806E[3] > 0 && unk_3806E[4] < 0) {
             var_545 = 0x8000 - var_545;
         }
-        if (var_526 < 0 && var_527 > 0) {
+        if (unk_3806E[3] < 0 && unk_3806E[4] > 0) {
             /* Force MSC to emit sub ax, ax; sub ax, var_545. */
             var_545 = 0x10000 - var_545;
         }
     } else {
         var_545 = 0;
-        var_542 = valueToAngle(var_524);
-        if (var_526 <= 0 && var_527 < 0) {
+        var_542 = valueToAngle(unk_3806E[1]);
+        if (unk_3806E[3] <= 0 && unk_3806E[4] < 0) {
             var_543 += 0x80;
         }
-        if (var_526 > 0 && var_527 < 0) {
+        if (unk_3806E[3] > 0 && unk_3806E[4] < 0) {
             var_542 = 0x8000 - var_542;
         }
-        if (var_526 < 0 && var_527 > 0) {
+        if (unk_3806E[3] < 0 && unk_3806E[4] > 0) {
             var_542 = -var_542;
         }
     }
@@ -994,10 +994,10 @@ void UpdateThrottleState(void) {
         fillRectBoth(0xd4, 0x7f, 0xde, 0xaf, 0xc4);
 #endif
         setDrawColor(0x0c);
-        fillRectBoth(0xd4, -(var_552 / 3 - 0xaf), 0xde, 0xaf);
-        if (100 < var_552) {
+        fillRectBoth(0xd4, -(g_setThrust / 3 - 0xaf), 0xde, 0xaf);
+        if (100 < g_setThrust) {
             setDrawColor(0x0e);
-            fillRectBoth(0xd4, -(var_552 / 3 - 0xaf), 0xde, 0x8e);
+            fillRectBoth(0xd4, -(g_setThrust / 3 - 0xaf), 0xde, 0x8e);
         }
     }
 }
