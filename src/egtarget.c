@@ -271,18 +271,18 @@ void drawHudWorldOverlay(void) {
     l = 0x200 / isqrt(g_frameRateScaling * 4 + 8);
 
     for (w = 0; w < word_3AFA4 + 4; w++) {
-        if (*(int16 *)((char *)&word_3C5AC + w * 12) != 0) {
+        if (bulletTracks[w].posX != 0) {
 
-        projectWorldToHud(*(int16 *)((char *)&word_3C5AC + w * 12),
-                  *(int16 *)((char *)&word_3C5AE + w * 12),
-                  *(int16 *)((char *)&word_3C5B0 + w * 12));
+        projectWorldToHud(bulletTracks[w].posX,
+                  bulletTracks[w].posY,
+                  bulletTracks[w].alt);
         k = var_279;
         n = var_282;
         a = word_3C016;
 
-        projectWorldToHud((*(int16 *)((char *)&word_3C5B2 + w * 12) >> 1) + *(int16 *)((char *)&word_3C5AC + w * 12),
-                  (*(int16 *)((char *)&word_3C5B4 + w * 12) >> 1) + *(int16 *)((char *)&word_3C5AE + w * 12),
-                  (*(int16 *)((char *)&word_3C5B6 + w * 12) >> 1) + *(int16 *)((char *)&word_3C5B0 + w * 12));
+        projectWorldToHud((bulletTracks[w].velX >> 1) + bulletTracks[w].posX,
+                  (bulletTracks[w].velY >> 1) + bulletTracks[w].posY,
+                  (bulletTracks[w].velZ >> 1) + bulletTracks[w].alt);
 
         if (var_279 != -1) {
         if (k != -1) {
@@ -298,11 +298,11 @@ void drawHudWorldOverlay(void) {
             for (h = 0; h < word_3C046; h++) {
                 if ((stru_3B202[h].state[8] & 0x22) == 2) {
 
-                z = (abs(*(int16 *)((char *)&word_3C5B0 + w * 12) -
+                z = (abs(bulletTracks[w].alt -
                          stru_3B202[h].alt) >> 5)
-                  + abs(*(int16 *)((char *)&word_3C5AC + w * 12) -
+                  + abs(bulletTracks[w].posX -
                         stru_3B202[h].posX)
-                  + abs(*(int16 *)((char *)&word_3C5AE + w * 12) -
+                  + abs(bulletTracks[w].posY -
                         stru_3B202[h].posY);
                 z = abs(z);
 
@@ -317,15 +317,15 @@ void drawHudWorldOverlay(void) {
                     strcat((char *)strBuf, (char *)aDestroyedByGun);
                     tempStrcpy((char *)strBuf);
                     word_39606 = 8;
-                    *(int16 *)((char *)&word_3C5AC + w * 12) = 0;
+                    bulletTracks[w].posX = 0;
                 }
                 }
                 }
             }
         } else {
-            z = (abs(*(int16 *)((char *)&word_3C5B0 + w * 12) - var_547) >> 5)
-              + abs(*(int16 *)((char *)&word_3C5AC + w * 12) - g_viewX_)
-              + abs(*(int16 *)((char *)&word_3C5AE + w * 12) - g_viewY_);
+            z = (abs(bulletTracks[w].alt - var_547) >> 5)
+              + abs(bulletTracks[w].posX - g_viewX_)
+              + abs(bulletTracks[w].posY - g_viewY_);
             z = abs(z);
             if (z < 0x20) {
                 s = 1;
@@ -337,20 +337,20 @@ void drawHudWorldOverlay(void) {
         }
 
         if (s) {
-            word_3BEBC = *(int16 *)((char *)&word_3C5AC + w * 12);
-            word_3BEC8 = *(int16 *)((char *)&word_3C5AE + w * 12);
-            word_3BECE = *(int16 *)((char *)&word_3C5B0 + w * 12);
+            word_3BEBC = bulletTracks[w].posX;
+            word_3BEC8 = bulletTracks[w].posY;
+            word_3BECE = bulletTracks[w].alt;
             word_39606 = -1;
         }
 
-        if (*(int16 *)((char *)&word_3C5B0 + w * 12) < 0) {
+        if (bulletTracks[w].alt < 0) {
             if (word_39606 <= 0) {
-                word_3BEBC = *(int16 *)((char *)&word_3C5AC + w * 12);
-                word_3BEC8 = *(int16 *)((char *)&word_3C5AE + w * 12);
-                word_3BECE = *(int16 *)((char *)&word_3C5B0 + w * 12);
+                word_3BEBC = bulletTracks[w].posX;
+                word_3BEC8 = bulletTracks[w].posY;
+                word_3BECE = bulletTracks[w].alt;
                 word_39606 = -1;
             }
-            *(int16 *)((char *)&word_3C5AC + w * 12) = 0;
+            bulletTracks[w].posX = 0;
 
             b = findWaypointEntry(word_3BEBC, word_3BEC8);
             if (b != -1 && !(g_planes[b].flags & 0x80)) {

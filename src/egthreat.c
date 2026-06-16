@@ -239,7 +239,7 @@ void updateObjects(void)
         *(int16 *)((char *)stru_33402 + ((frameTick >> 1) & 7) * 8) = 0;
     }
 
-    *(int16 *)((char *)&word_3C5AC + (((frameTick >> 2) & 3) + word_3AFA4) * 12) = 0;
+    bulletTracks[((frameTick >> 2) & 3) + word_3AFA4].posX = 0;
 
     word_3A946 = var_668;
     var_668 = 0;
@@ -348,13 +348,13 @@ got_target:
 
     g3 = ((frameTick >> 2) & 3) + word_3AFA4;
     v3 = 0x138 / g_frameRateScaling;
-    *(int16 *)((char *)&word_3C5B6 + g3 * 12) = sinMul(-*(int16 *)&stru_3B202[h].state[2], v3) << 5;
+    bulletTracks[g3].velZ = sinMul(-*(int16 *)&stru_3B202[h].state[2], v3) << 5;
     v3 = cosMul(*(int16 *)&stru_3B202[h].state[2], v3);
-    *(int16 *)((char *)&word_3C5B2 + g3 * 12) = sinMul(*(int16 *)&stru_3B202[h].state[0], v3);
-    *(int16 *)((char *)&word_3C5B4 + g3 * 12) = -cosMul(*(int16 *)&stru_3B202[h].state[0], v3);
-    *(int16 *)((char *)&word_3C5AC + g3 * 12) = stru_3B202[h].posX;
-    *(int16 *)((char *)&word_3C5AE + g3 * 12) = stru_3B202[h].posY;
-    *(int16 *)((char *)&word_3C5B0 + g3 * 12) = stru_3B202[h].alt;
+    bulletTracks[g3].velX = sinMul(*(int16 *)&stru_3B202[h].state[0], v3);
+    bulletTracks[g3].velY = -cosMul(*(int16 *)&stru_3B202[h].state[0], v3);
+    bulletTracks[g3].posX = stru_3B202[h].posX;
+    bulletTracks[g3].posY = stru_3B202[h].posY;
+    bulletTracks[g3].alt = stru_3B202[h].alt;
 
 after_missile_table:
     a = clampRange((h & 3) + g_missionStatus, 0, 2);

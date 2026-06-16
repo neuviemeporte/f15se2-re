@@ -512,10 +512,10 @@ void updateBulletsAndFire(void) {
 
     for (c = 0; c < word_3AFA4 + 4; c++) {
         p = c * 12;
-        if (*((int16 *)((char *)&word_3C5AC + p)) != 0) {
-            *((int16 *)((char *)&word_3C5AC + p)) += *((int16 *)((char *)&word_3C5B2 + p));
-            *((int16 *)((char *)&word_3C5AE + p)) += *((int16 *)((char *)&word_3C5B4 + p));
-            *((int16 *)((char *)&word_3C5B0 + p)) += *((int16 *)((char *)&word_3C5B6 + p));
+        if (*((int16 *)((char *)&bulletTracks[0].posX + p)) != 0) {
+            *((int16 *)((char *)&bulletTracks[0].posX + p)) += *((int16 *)((char *)&bulletTracks[0].velX + p));
+            *((int16 *)((char *)&bulletTracks[0].posY + p)) += *((int16 *)((char *)&bulletTracks[0].velY + p));
+            *((int16 *)((char *)&bulletTracks[0].alt + p)) += *((int16 *)((char *)&bulletTracks[0].velZ + p));
         }
     }
     if (!(frameTick & 1)) {
@@ -529,18 +529,18 @@ void updateBulletsAndFire(void) {
     word_330B4 = clampRange(word_330B4 - 40 / g_frameRateScaling, 0, 1000);
     makeSound(4, 2);
     d = 186 / g_frameRateScaling;
-    *((int16 *)((char *)&word_3C5B6 + e * 12)) = sinMul(var_544, d) << 5;
+    *((int16 *)((char *)&bulletTracks[0].velZ + e * 12)) = sinMul(var_544, d) << 5;
     d = cosMul(var_544, d);
-    *((int16 *)((char *)&word_3C5B2 + e * 12)) = sinMul(var_542, d);
-    *((int16 *)((char *)&word_3C5B4 + e * 12)) = -cosMul(var_542, d);
+    *((int16 *)((char *)&bulletTracks[0].velX + e * 12)) = sinMul(var_542, d);
+    *((int16 *)((char *)&bulletTracks[0].velY + e * 12)) = -cosMul(var_542, d);
     p = e * 12;
-    *((int16 *)((char *)&word_3C5AC + p)) = *((int16 *)((char *)&word_3C5B2 + p)) + g_viewX_;
-    *((int16 *)((char *)&word_3C5AE + p)) = *((int16 *)((char *)&word_3C5B4 + p)) + g_viewY_;
-    *((int16 *)((char *)&word_3C5B0 + p)) = *((int16 *)((char *)&word_3C5B6 + p)) + var_547 - 2;
+    *((int16 *)((char *)&bulletTracks[0].posX + p)) = *((int16 *)((char *)&bulletTracks[0].velX + p)) + g_viewX_;
+    *((int16 *)((char *)&bulletTracks[0].posY + p)) = *((int16 *)((char *)&bulletTracks[0].velY + p)) + g_viewY_;
+    *((int16 *)((char *)&bulletTracks[0].alt + p)) = *((int16 *)((char *)&bulletTracks[0].velZ + p)) + var_547 - 2;
     word_38FE8 = 1;
     goto done_fire;
 no_fire:
-    *((int16 *)((char *)&word_3C5AC + e * 12)) = 0;
+    *((int16 *)((char *)&bulletTracks[0].posX + e * 12)) = 0;
     word_38FE8 = 0;
 done_fire:
     if (a) {

@@ -178,6 +178,21 @@ struct Projectile {
 };
 STATIC_ASSERT(sizeof(struct Projectile)==0x18);
 
+/* BulletTrack: a 3D moving point (player gun rounds + threat shots) tracked for HUD
+ * projection. 20-entry table, stride 12. Each frame the position is advanced by the
+ * velocity (updateBulletsAndFire) and projected to the HUD (projectWorldToHud). */
+#pragma pack(1)
+struct BulletTrack {
+    int16 posX;         // +0x00  world X
+    int16 posY;         // +0x02  world Y
+    int16 alt;          // +0x04  world Z / altitude
+    int16 velX;         // +0x06  velocity X
+    int16 velY;         // +0x08  velocity Y
+    int16 velZ;         // +0x0A  velocity Z
+};
+#pragma pack()
+STATIC_ASSERT(sizeof(struct BulletTrack)==12);
+
 #pragma pack(1)
 struct SimObject {
     int16 objType;      // +0x00  spec index into g_planes (was -6)

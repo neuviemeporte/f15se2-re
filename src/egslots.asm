@@ -356,12 +356,6 @@ PUBLIC _var_217
 PUBLIC _var_220
 PUBLIC _var_600
 PUBLIC _word_3B0AC
-PUBLIC _word_3C5AC
-PUBLIC _word_3C5AE
-PUBLIC _word_3C5B0
-PUBLIC _word_3C5B2
-PUBLIC _word_3C5B4
-PUBLIC _word_3C5B6
 PUBLIC _sams
 PUBLIC _missleSpec
 PUBLIC _word_3AA5C
@@ -6079,19 +6073,6 @@ _matrix3dt_2 dw 0A0h dup(?)
     db ?
 word_3C5A8 dw ?
 _word_3C5A8 equ word_3C5A8
-word_3C5AC dw ?
-_word_3C5AC equ word_3C5AC
-word_3C5AE dw ?
-_word_3C5AE equ word_3C5AE
-word_3C5B0 dw ?
-_word_3C5B0 equ word_3C5B0
-word_3C5B2 dw ?
-_word_3C5B2 equ word_3C5B2
-word_3C5B4 dw ?
-_word_3C5B4 equ word_3C5B4
-word_3C5B6 dw ?
-_word_3C5B6 equ word_3C5B6
-    db 228 dup(?)
     PUBLIC _word_3C69C
 word_3C69C dw ?
 _word_3C69C equ word_3C69C

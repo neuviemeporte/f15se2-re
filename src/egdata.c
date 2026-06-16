@@ -505,3 +505,7 @@ struct SpriteParams gaugeSpriteParams = {
 /* unk_3806E: current 3x3 orientation matrix (Q15 identity init); was var_524-529
    element aliases + block-memcpy target in egslots.asm. */
 int16 unk_3806E[9] = {0x7FFF, 0, 0, 0, 0x7FFF, 0, 0, 0, 0x7FFF};
+
+/* bulletTracks: 3D projectile table (player rounds + threat shots), HUD-projected.
+   Was word_3C5AC.. (stride-12) in egslots.asm. */
+struct BulletTrack bulletTracks[20];
