@@ -22,7 +22,7 @@ EXTRN byte_37C3A:byte
 EXTRN var_468:byte
 EXTRN byte_37EEE:byte
 EXTRN byte_37EEF:byte
-EXTRN byte_3C6A0:byte
+EXTRN _byte_3C6A0:byte
 EXTRN unk_37565:byte
 EXTRN unk_38FD0:byte
 EXTRN word_37557:word
@@ -879,7 +879,7 @@ loc_21a7_0764:
     jns loc_21a7_0764
     push word ptr [word_37557]
     push word ptr [word_37559]
-    cmp byte ptr [byte_3C6A0],0h
+    cmp byte ptr [_byte_3C6A0],0h
     jnz loc_21a7_07cf
     jmp loc_21a7_0993
 loc_21a7_07cf:

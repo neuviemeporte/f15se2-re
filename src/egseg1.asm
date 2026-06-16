@@ -186,9 +186,9 @@ EXTRN word_378E1:word
 EXTRN word_378E3:word
 EXTRN word_378E5:word
 EXTRN _word_38FDC:word
-EXTRN word_3C16C:word
-EXTRN word_3C69C:word
-EXTRN word_3C6A2:word
+EXTRN _word_3C16C:word
+EXTRN _word_3C69C:word
+EXTRN _word_3C6A2:word
 EXTRN _byte_3419A:byte
 EXTRN _byte_3419C:byte
 EXTRN _flt15_buf2:byte
@@ -1473,8 +1473,8 @@ loc_0908:
     SHL BX,1
     CMP DI,[BX+offset _var_198+10h]
     JL short loc_0A02
-    MOV SI,[word_3C69C]
-    MOV BP,[word_3C6A2]
+    MOV SI,[_word_3C69C]
+    MOV BP,[_word_3C6A2]
     ADD SI,BX
     ADD BP,BX
     MOV CL,[_byte_37C24]
@@ -1640,7 +1640,7 @@ loc_0AAC:
 loc_0AB5:
     MOV AX,[word_34254]
     MOV DX,[word_34256]
-    MOV CX,[word_3C16C]
+    MOV CX,[_word_3C16C]
     MOV BX,CX
     SHL CX,1
     NEG CX

@@ -18,8 +18,8 @@ _BSS ENDS
 ; (renderHudFrame/egtacmap) displays. Writing 0x56e4/0x56e5 here directly let
 ; stepFlightModel overwrite the deflection with a centered value -> the stick
 ; only reacted intermittently. byte_37F98=Up/Down (pitch), byte_37F99=Left/Right.
-EXTRN byte_37F98:BYTE
-EXTRN byte_37F99:BYTE
+EXTRN _byte_37F98:BYTE
+EXTRN _byte_37F99:BYTE
 EXTRN byte_37F9A:BYTE
 EXTRN word_37F9B:WORD
 EXTRN byte_37F9D:BYTE
@@ -45,8 +45,8 @@ _setInt9Handler proc far
     mov ss:byte_37F9D, al
     mov ss:byte_37F9E, al
     mov ss:byte_37F9F, al
-    mov byte ptr ss:byte_37F98, 80h
-    mov byte ptr ss:byte_37F99, 80h
+    mov byte ptr ss:_byte_37F98, 80h
+    mov byte ptr ss:_byte_37F99, 80h
     xor ax, ax
     mov ds, ax
     mov bx, 24h
@@ -157,19 +157,19 @@ int9Handler proc near
     add bh, 80h
     test al, 1
     jz short @@noLeft
-    mov byte ptr [byte_37F99], bl
+    mov byte ptr [_byte_37F99], bl
 @@noLeft:
     test al, 2
     jz short @@noRight
-    mov byte ptr [byte_37F99], bh
+    mov byte ptr [_byte_37F99], bh
 @@noRight:
     test al, 4
     jz short @@noUp
-    mov byte ptr [byte_37F98], bl
+    mov byte ptr [_byte_37F98], bl
 @@noUp:
     test al, 8
     jz short @@noDown
-    mov byte ptr [byte_37F98], bh
+    mov byte ptr [_byte_37F98], bh
 @@noDown:
     mov bx, es:6Ch
     mov word_37F9B, bx
@@ -178,8 +178,8 @@ int9Handler proc near
     cmp byte_37F9A, al
     jnz short @@flushKbd
     mov byte_37F9A, 0
-    mov byte ptr [byte_37F98], 80h
-    mov byte ptr [byte_37F99], 80h
+    mov byte ptr [_byte_37F98], 80h
+    mov byte ptr [_byte_37F99], 80h
 @@flushKbd:
     mov bx, es:1Ah
     cmp bx, es:1Ch

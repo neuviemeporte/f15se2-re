@@ -64,7 +64,6 @@ unsigned int buf3d3[1];
 uint8 byte_3419A[1];
 uint8 byte_3419C[1];
 uint8 byte_3419F[1];
-uint8 byte_378EE;
 uint8 byte_37C24;
 uint8 byte_3790C[1];
 int g_ourHead;
@@ -112,16 +111,11 @@ uint8 aGroundImpact[] = " ground impact";
 uint8 aHitBy[] = "Hit by ";
 uint8 aHitBy_0[] = " hit by ";
 uint8 aIneffective[] = "Ineffective";
-int16 word_3B7DE;
 
 /* --- data referenced by drawHudWorldOverlay (egui.c) --- */
 char aMap[1];
 uint16 uvar_547;
 int16 var_593;
-int word_39606;
-int16 word_3BEBC;
-int16 word_3BEC8;
-int16 word_3BECE;
 char unk_34121[1];
 int16 unk_38128[1];
 char unk_3C030[1];
@@ -181,7 +175,6 @@ struct MapEvent mapEvents[1];
 int16 word_333D4;
 int16 word_333D8;
 int16 word_333DA;
-int16 word_336F0;
 int16 word_339B4[1];
 int16 word_339F4;
 int16 word_33B9C[64];
@@ -205,25 +198,15 @@ unsigned int word_380D0;
 int16 word_380D8;
 int16 word_38202;
 int16 word_38606[64];
-int16 word_38F70;
 int16* word_39808;
 int16 word_3AA5C[64];
-int16 word_3B0AC;
-int16 word_3B4D8;
-int16 word_3B4E0;
-int16 word_3B5D6;
 int16 word_3B7E0;
 int16 word_3B7E2;
 int16 word_3B7E4;
 int16 word_3B7E8;
 struct Matrix3dEntry7 *word_3B7EC;
-int16 word_3C020;
-int16 word_3C16C;
 struct Matrix3dEntry7 *word_3C5A8;
-int16 *word_3C69C;
 int16 word_3C69E;
-int16 *word_3C6A2;
-uint8 byte_3C8B0[2];
 int16 word_3C8B8;
 int16 word_3C8BC;
 int16 word_3C8C0;
@@ -281,11 +264,8 @@ void projectObjects(int a,int b,int c,int d,int e,int f,int g,int h) {}
 /* --- Data symbols referenced by stepFlightModel (moved from egame_rc.asm
    to C in egflight.c). The DOS build defines these in egame_rc.asm's DATA
    segment; the 64-bit stub build needs C definitions to link. --- */
-uint8 byte_37F98;
-uint8 byte_37F99;
 uint8 byte_37FEC[128];     /* indexed by (roll>>8)&0x7f */
 char  byte_380DD;
-uint8 byte_3C6A0[1];
 uint8 joyAxes_2[1];
 uint8 unk_38092[64];
 uint8 unk_38FD0[32];       /* g-meter string buffer */

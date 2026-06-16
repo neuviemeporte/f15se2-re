@@ -416,14 +416,14 @@ EXTRN audio_jump_6b:PROC
 EXTRN audio_jump_6c:PROC
 EXTRN byte_36D86:BYTE
 EXTRN byte_37116:BYTE
-EXTRN byte_378EE:BYTE
+EXTRN _byte_378EE:BYTE
 EXTRN byte_378FC:BYTE
 EXTRN byte_37903:BYTE
 EXTRN byte_3862A:BYTE
 EXTRN byte_3862B:BYTE
 EXTRN byte_38D61:BYTE
 EXTRN byte_38D63:BYTE
-EXTRN byte_3C8B0:BYTE
+EXTRN _byte_3C8B0:BYTE
 EXTRN dacValues:BYTE
 EXTRN dacValues1:BYTE
 EXTRN f15dgtlAddr:WORD
@@ -458,7 +458,7 @@ EXTRN word_333D2:WORD
 EXTRN word_333D4:WORD
 EXTRN word_333D8:WORD
 EXTRN word_333DA:WORD
-EXTRN word_336F0:WORD
+EXTRN _word_336F0:WORD
 EXTRN word_3424C:WORD
 EXTRN word_3424E:WORD
 EXTRN word_37146:WORD
@@ -481,18 +481,18 @@ EXTRN word_389E0:WORD
 EXTRN word_38D5C:WORD
 EXTRN word_38D5E:WORD
 EXTRN word_38D66:WORD
-EXTRN word_38F70:WORD
-EXTRN word_39606:WORD
+EXTRN _word_38F70:WORD
+EXTRN _word_39606:WORD
 EXTRN word_39808:WORD
-EXTRN word_3B0AC:WORD
-EXTRN word_3B4D8:WORD
-EXTRN word_3B4E0:WORD
-EXTRN word_3B5D6:WORD
-EXTRN word_3B7DE:WORD
-EXTRN word_3BEBC:WORD
-EXTRN word_3BEC8:WORD
-EXTRN word_3BECE:WORD
-EXTRN word_3C020:WORD
+EXTRN _word_3B0AC:WORD
+EXTRN _word_3B4D8:WORD
+EXTRN _word_3B4E0:WORD
+EXTRN _word_3B5D6:WORD
+EXTRN _word_3B7DE:WORD
+EXTRN _word_3BEBC:WORD
+EXTRN _word_3BEC8:WORD
+EXTRN _word_3BECE:WORD
+EXTRN _word_3C020:WORD
 
 PUBLIC _createFile
 PUBLIC _readFile1
@@ -883,10 +883,10 @@ loc_13C59:
     mov bx, 0
     mov ax, _word_38126
     call far ptr gfx_dacAnimate
-    mov byte_378EE, 1
+    mov _byte_378EE, 1
     call _stepFlightModel
     call updateFrame
-    cmp byte_3C8B0, 0
+    cmp _byte_3C8B0, 0
     jz short gameMainLoop
     retn
 gameMainLoop endp
@@ -945,7 +945,7 @@ timerIsr proc far
     mov AX, word_378FA
     mov word_37904, AX
     call timerIrqCallback
-    mov byte_378EE, 0
+    mov _byte_378EE, 0
     call advanceFrameTick
 @@tisr_skip:
     cmp word_378FA, 1
@@ -1627,7 +1627,7 @@ picFileReadPos EQU <fileReadPos>
 picFileReadBuf EQU <picBuf>
 picRowLength EQU <_var_689>
 picReadBufEndPtr EQU <_var_687>
-picWorkData EQU <word_38F70 - 1>
+picWorkData EQU <_word_38F70 - 1>
 picWorkDataPtr EQU <_var_688>
 picProcessFlag EQU <_var_690>
 picLookupResult EQU <word_38D5C>

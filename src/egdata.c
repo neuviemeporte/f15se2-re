@@ -509,3 +509,27 @@ int16 unk_3806E[9] = {0x7FFF, 0, 0, 0, 0x7FFF, 0, 0, 0, 0x7FFF};
 /* bulletTracks: 3D projectile table (player rounds + threat shots), HUD-projected.
    Was word_3C5AC.. (stride-12) in egslots.asm. */
 struct BulletTrack bulletTracks[20];
+
+/* Flat scalars/pointers migrated out of egslots.asm (bare-EXTRN repoints). Kept in
+   egslots.asm address order. The hand-written asm routines now reference these by their
+   mangled (_-prefixed) names. */
+int16 word_336F0 = 0;
+uint8 byte_378EE = 0;
+uint8 byte_37F98 = 0;   /* keyboard virtual-stick raw pitch axis (int9Handler) */
+uint8 byte_37F99 = 0;   /* keyboard virtual-stick raw roll axis (int9Handler) */
+int16 word_38F70;
+int word_39606;
+int16 word_3B0AC;
+int16 word_3B4D8;
+int16 word_3B4E0;
+int16 word_3B5D6;
+int16 word_3B7DE;
+int16 word_3BEBC;
+int16 word_3BEC8;
+int16 word_3BECE;
+int16 word_3C020;
+int16 word_3C16C;
+int16 *word_3C69C;
+int16 *word_3C6A2;
+uint8 byte_3C6A0[1];
+uint8 byte_3C8B0[2];

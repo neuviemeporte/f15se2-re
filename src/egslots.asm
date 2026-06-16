@@ -106,11 +106,8 @@ OVL_HDR_FIRSTIDX  = 1Ch
 OVL_HDR_SLOTCOUNT  = 22h
 OVL_HDR_FIRSTPTR  = 24h
 
-PUBLIC _byte_37F98
-PUBLIC _byte_37F99
 PUBLIC _byte_37FEC
 PUBLIC _byte_380DD
-PUBLIC _byte_3C6A0
 PUBLIC _joyAxes_2
 PUBLIC _unk_38092
 PUBLIC _unk_38FD0
@@ -140,10 +137,6 @@ PUBLIC _byte_3419C
 PUBLIC _var_568
 PUBLIC _var_594
 PUBLIC _var_593
-PUBLIC _word_39606
-PUBLIC _word_3BEBC
-PUBLIC _word_3BEC8
-PUBLIC _word_3BECE
 PUBLIC _strBuf
 PUBLIC _aNotAvailable
 PUBLIC _aArmed
@@ -156,7 +149,6 @@ PUBLIC byte_37C3A
 PUBLIC var_468
 PUBLIC byte_37EEE
 PUBLIC byte_37EEF
-PUBLIC byte_3C6A0
 PUBLIC unk_37565
 PUBLIC unk_38FD0
 PUBLIC word_37557
@@ -206,13 +198,8 @@ PUBLIC _var_217
 PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
 PUBLIC _word_3C5A8
-PUBLIC _word_3BECE
-PUBLIC _word_39606
-PUBLIC _word_3BEC8
-PUBLIC _word_3BEBC
 PUBLIC _var_316
 PUBLIC _origCBreakSeg
-PUBLIC _word_3C16C
 PUBLIC _var_257
 PUBLIC _var_258
 PUBLIC _word_34684
@@ -239,7 +226,6 @@ PUBLIC _byte_3419F
 PUBLIC _var_83
 PUBLIC _var_279
 PUBLIC _var_282
-PUBLIC _word_38F70
 PUBLIC _var_349
 PUBLIC _var_350
 PUBLIC _var_134
@@ -308,8 +294,6 @@ PUBLIC word_37B60
 PUBLIC word_37B64
 PUBLIC word_37B66
 PUBLIC word_37B72
-PUBLIC byte_37F98
-PUBLIC byte_37F99
 PUBLIC byte_37F9A
 PUBLIC word_37F9B
 PUBLIC byte_37F9D
@@ -355,7 +339,6 @@ PUBLIC _word_3C8C0
 PUBLIC _var_217
 PUBLIC _var_220
 PUBLIC _var_600
-PUBLIC _word_3B0AC
 PUBLIC _sams
 PUBLIC _missleSpec
 PUBLIC _word_3AA5C
@@ -405,13 +388,9 @@ PUBLIC _var_550
 PUBLIC _var_547
 PUBLIC _uvar_547
 PUBLIC _var_549
-PUBLIC _word_336F0
 PUBLIC _word_333D2
 PUBLIC _mapEvents
 PUBLIC _word_333D4
-PUBLIC _word_3B4D8
-PUBLIC _word_3B4E0
-PUBLIC _word_3B5D6
 PUBLIC _var_351
 PUBLIC _var_352
 PUBLIC _var_353
@@ -439,7 +418,6 @@ PUBLIC _aHitBy
 PUBLIC _aHitBy_0
 PUBLIC _aIneffective
 PUBLIC _aMisses
-PUBLIC _word_3B7DE
 PUBLIC aF15dgtl_bin
 PUBLIC aFileClosingError
 PUBLIC aFileNotFound
@@ -450,7 +428,6 @@ PUBLIC audio_jump_6b
 PUBLIC audio_jump_6c
 PUBLIC byte_36D86
 PUBLIC byte_37116
-PUBLIC byte_378EE
 PUBLIC byte_378FC
 PUBLIC byte_37903
 PUBLIC byte_383E5
@@ -458,7 +435,6 @@ PUBLIC byte_3862A
 PUBLIC byte_3862B
 PUBLIC byte_38D61
 PUBLIC byte_38D63
-PUBLIC byte_3C8B0
 PUBLIC dacValues
 PUBLIC dacValues1
 PUBLIC f15dgtlAddr
@@ -495,7 +471,6 @@ PUBLIC word_333D2
 PUBLIC word_333D4
 PUBLIC word_333D8
 PUBLIC word_333DA
-PUBLIC word_336F0
 PUBLIC word_37146
 PUBLIC word_37148
 PUBLIC word_37348
@@ -516,18 +491,7 @@ PUBLIC word_389E0
 PUBLIC word_38D5C
 PUBLIC word_38D5E
 PUBLIC word_38D66
-PUBLIC word_38F70
-PUBLIC word_39606
 PUBLIC word_39808
-PUBLIC word_3B0AC
-PUBLIC word_3B4D8
-PUBLIC word_3B4E0
-PUBLIC word_3B5D6
-PUBLIC word_3B7DE
-PUBLIC word_3BEBC
-PUBLIC word_3BEC8
-PUBLIC word_3BECE
-PUBLIC word_3C020
 
 .DATA ;dseg segment para public 'DATA' use16
 
@@ -1365,8 +1329,6 @@ _word_333DA equ word_333DA
     stru_33402 struc_9 8 dup(<0>)
 _stru_33402 equ stru_33402
     _stru_335C4 Projectile 0Ch dup(<0>)
-word_336F0 dw 0
-_word_336F0 equ word_336F0
 asc_33744 db 'L',0
     db '(',0
 aS db 's',0
@@ -3792,9 +3754,6 @@ origCBreakSeg dw 0
 _origCBreakSeg equ origCBreakSeg
 origCBreakOfs dw 0
     db 0 ;align 2
-byte_378EE db 0
-PUBLIC _byte_378EE
-_byte_378EE equ byte_378EE
 timerHandlerInstalled db 0
 word_378F0 dw 0
 word_378F2 dw 0
@@ -4872,10 +4831,6 @@ _joyAxes db 0
 joyAxes_2 db 0
 _joyAxes_2 equ joyAxes_2
     db 2 dup(0)
-byte_37F98 db 0
-_byte_37F98 equ byte_37F98
-byte_37F99 db 0
-_byte_37F99 equ byte_37F99
 byte_37F9A db 0
 word_37F9B dw 0
 byte_37F9D db 0
@@ -5964,8 +5919,6 @@ _var_810 label byte
 ORG 022BAh
 _var_811 label byte
 ORG 00000h
-word_38F70 dw ?
-_word_38F70 equ word_38F70
 strBuf db 18h dup(?)
 _strBuf equ strBuf
 byte_38F8D db ?
@@ -5979,8 +5932,6 @@ _unk_38FD0 equ unk_38FD0
     db 9 dup(?)
     db 2 dup(?)
     db 512 dup(?)
-word_39606 dw ?
-_word_39606 equ word_39606
 word_39808 dw ?
 _word_39808 equ word_39808
     db 80 dup(?)
@@ -5993,12 +5944,6 @@ _word_39808 equ word_39808
 _word_3AA5C dw ?
     _g_planes MapTarget 4Ah dup(<?>)
     db 14 dup(?)
-word_3B0AC dw ?
-_word_3B0AC equ word_3B0AC
-word_3B4D8 dw ?
-_word_3B4D8 equ word_3B4D8
-word_3B4E0 dw ?
-_word_3B4E0 equ word_3B4E0
     db ?
 byte_3B4E6 db ?
 _byte_3B4E6 equ byte_3B4E6
@@ -6009,11 +5954,7 @@ word_3B4EA dw ?
 byte_3B4EC db ?
 _byte_3B4EC equ byte_3B4EC
     db 233 dup(?)
-word_3B5D6 dw ?
-_word_3B5D6 equ word_3B5D6
     db 514 dup(?)
-word_3B7DE dw ?
-_word_3B7DE equ word_3B7DE
 word_3B7E0 dw ?
 _word_3B7E0 equ word_3B7E0
 word_3B7E2 dw ?
@@ -6041,12 +5982,6 @@ _byte_3B7F1 equ byte_3B7F1
 _byte_3B7FC db 640h dup(?)
     db ? ;align 4
     db ?
-word_3BEBC dw ?
-_word_3BEBC equ word_3BEBC
-word_3BEC8 dw ?
-_word_3BEC8 equ word_3BEC8
-word_3BECE dw ?
-_word_3BECE equ word_3BECE
 _regs db ?
 PUBLIC _byte_3BF93
 _byte_3BF93 label byte
@@ -6054,35 +5989,22 @@ byte_3BF93 db ?
     db ?
 _unk_3BF95 label byte
     db 3 dup(?)
-word_3C020 dw ?
-PUBLIC _word_3C020
 PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
 PUBLIC _word_3C5A8
-_word_3C020 equ word_3C020
     db ? ;align 4
     db ?
 _unk_3C030 label byte
 unk_3C030 db ?
     db 9 dup(?)
     db 2 dup(?)
-word_3C16C dw ?
-_word_3C16C equ word_3C16C
 _byte_3C16E db 2EEh dup(?)
 _matrix3dt_2 dw 0A0h dup(?)
     db ?
 word_3C5A8 dw ?
 _word_3C5A8 equ word_3C5A8
-    PUBLIC _word_3C69C
-word_3C69C dw ?
-_word_3C69C equ word_3C69C
 _word_3C69E dw ?
-byte_3C6A0 db ?
-_byte_3C6A0 equ byte_3C6A0
     db ? ;align 2
-    PUBLIC _word_3C6A2
-word_3C6A2 dw ?
-_word_3C6A2 equ word_3C6A2
 _commData dd ?
 PUBLIC byte_3416E
 PUBLIC byte_3416F
@@ -6213,9 +6135,6 @@ PUBLIC word_378DF
 PUBLIC word_378E1
 PUBLIC word_378E3
 PUBLIC word_378E5
-PUBLIC word_3C16C
-PUBLIC word_3C69C
-PUBLIC word_3C6A2
 PUBLIC word_3837C
 PUBLIC word_383AC
 PUBLIC word_38A3A
@@ -6238,9 +6157,6 @@ PUBLIC _word_34276
 _word_34276 equ word_34276
     db ? ;align 400h
     db 511 dup(?)
-    PUBLIC _byte_3C8B0
-_byte_3C8B0 label byte
-byte_3C8B0 db ?
     db ? ;align 2
 word_3C8B8 dw ?
 _word_3C8B8 equ word_3C8B8
