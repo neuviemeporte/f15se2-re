@@ -5889,6 +5889,9 @@ _var_810 label byte
 ORG 022BAh
 _var_811 label byte
 ORG 00000h
+PUBLIC _word_38F70
+word_38F70 dw ?
+_word_38F70 equ word_38F70
 strBuf db 18h dup(?)
 _strBuf equ strBuf
 byte_38F8D db ?

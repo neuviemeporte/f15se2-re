@@ -525,7 +525,6 @@ int16 word_336F0 = 0;
 uint8 byte_378EE = 0;
 uint8 byte_37F98 = 0;   /* keyboard virtual-stick raw pitch axis (int9Handler) */
 uint8 byte_37F99 = 0;   /* keyboard virtual-stick raw roll axis (int9Handler) */
-int16 word_38F70;
 int word_39606;
 /* word_39808: nearest-tile-object pointer; result of findNearestTileObject(),
    aliasing the word_3B7E0 scratch block. */

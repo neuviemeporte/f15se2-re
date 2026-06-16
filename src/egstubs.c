@@ -194,6 +194,7 @@ int16 word_37563;
 unsigned int word_380D0;
 int16 word_380D8;
 int16 word_38202;
+int16 word_38F70;   /* PIC/LZW decoder workspace head — must stay in egslots.asm */
 int16 word_38606[64];
 int16 word_3AA5C[64];
 int16 word_3B7E0;
