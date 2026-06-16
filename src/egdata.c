@@ -449,3 +449,30 @@ int16 word_341FC[32] = { 3, 0x32, 0xC5, 0x18A, 0x312, 0x622, 0xC43, 0x1886,
                          2, 0x1A, 0x65, 0xCA, 0x193, 0x325, 0x649, 0xC91,
                          4, 0x53, 0x145, 0x28A, 0x511, 0xA1E, 0x143B, 0x2876,
                          2, 0x1F, 0x78, 0xF0, 0x1DE, 0x3BB, 0x776, 0xEEC };
+
+/* var_315 (aka word_36B86): scalar flag, byte[0] written/read only. */
+int16 var_315 = 0;
+
+/* var_654 / var_657..672: standalone int16 flags, collapsed from
+ * word_38CD2/word_38CD8.. EQU aliases (canonical = var_N). */
+int16 var_654 = 0;
+int16 var_657 = 0;
+int16 var_658 = 0;
+int16 var_659 = 0;
+int16 var_660 = 0;
+int16 var_661 = 0;
+int16 var_662 = 0;
+int16 var_663 = 0;
+int16 var_664 = 0;
+int16 var_665 = 0;
+int16 var_666 = 0;
+int16 var_667 = 0;
+int16 var_668 = 0;
+int16 var_671 = 0;
+int16 var_672 = 0;
+
+/* EQU-alias collapse (canonical var_N), batch [10:14] */
+int16 var_255 = 0;
+int16 var_256 = 0;
+int16 var_259 = 0;
+int16 var_260 = 0;

@@ -956,10 +956,10 @@ void renderFrame() {
         *(uint8*)(&word_3BE98) = 0x0b;
     }
     loadColorPalette(word_330BC);
-    *(uint8*)(&word_36B86) = 0;
+    *(uint8*)(&var_315) = 0;
     render3DView(-word_3C5AA, word_3BE94, word_3B4E4, dword_3B1FE, dword_3B4D4, (int32)word_3B4DE, 0, 0, 0x140, off_38334[8] + 1);
     byte_3850E = 0;
-    byte_3995A = word_36B86;
+    byte_3995A = var_315;
     if (keyValue == 0x41) {
         drawVectorShape(unk_38128);
         gfx_setColor(0xf);

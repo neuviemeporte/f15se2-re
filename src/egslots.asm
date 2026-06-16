@@ -139,7 +139,6 @@ PUBLIC _var_811
 PUBLIC _var_727
 PUBLIC _var_732
 PUBLIC _var_597
-PUBLIC _var_660
 PUBLIC _byte_3419A
 PUBLIC _byte_3419C
 PUBLIC _var_568
@@ -215,9 +214,6 @@ PUBLIC _var_383
 PUBLIC _var_200
 PUBLIC _var_201
 PUBLIC _var_141
-PUBLIC _var_657
-PUBLIC _var_658
-PUBLIC _var_659
 PUBLIC _var_202
 PUBLIC _var_203
 PUBLIC _var_204
@@ -227,27 +223,18 @@ PUBLIC _var_217
 PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
 PUBLIC _word_3C5A8
-PUBLIC _var_665
-PUBLIC _var_666
-PUBLIC _var_667
-PUBLIC _var_668
 PUBLIC _var_556
 PUBLIC _var_673
 PUBLIC _word_3BECE
 PUBLIC _word_39606
 PUBLIC _word_3BEC8
 PUBLIC _word_3BEBC
-PUBLIC _var_255
 PUBLIC _var_261
-PUBLIC _var_315
 PUBLIC _var_316
 PUBLIC _origCBreakSeg
 PUBLIC _word_3C16C
 PUBLIC _var_257
 PUBLIC _var_258
-PUBLIC _var_259
-PUBLIC _var_260
-PUBLIC _var_256
 PUBLIC _word_34684
 PUBLIC _word_34686
 PUBLIC _word_34868
@@ -273,7 +260,6 @@ PUBLIC _byte_3B4EC
 PUBLIC _var_197
 PUBLIC _var_198
 PUBLIC _byte_3419F
-PUBLIC _var_654
 PUBLIC _var_83
 PUBLIC _var_279
 PUBLIC _var_282
@@ -282,7 +268,6 @@ PUBLIC _var_349
 PUBLIC _var_350
 PUBLIC _var_134
 PUBLIC _var_135
-PUBLIC _var_662
 PUBLIC _commData
 PUBLIC _joyAxes
 PUBLIC _regs
@@ -376,8 +361,6 @@ PUBLIC _word_3419C
 PUBLIC _word_339B4
 PUBLIC _stru_33402
 PUBLIC _stru_335C4
-PUBLIC _var_672
-PUBLIC _var_671
 PUBLIC _unk_3C030
 PUBLIC _var_674
 PUBLIC _g_planes
@@ -389,7 +372,6 @@ PUBLIC _off_38364
 PUBLIC _unk_3806E
 PUBLIC _gfx_setColor
 PUBLIC _gfx_nop23
-PUBLIC _word_36B86
 PUBLIC _byte_3850E
 PUBLIC _unk_38128
 PUBLIC _word_3755D
@@ -441,9 +423,6 @@ PUBLIC _word_383CC
 PUBLIC _word_383AE
 PUBLIC _word_333D8
 PUBLIC _word_333DA
-PUBLIC _var_661
-PUBLIC _var_663
-PUBLIC _var_664
 PUBLIC _word_3298C
 PUBLIC _word_3298E
 PUBLIC _var_224
@@ -466,7 +445,6 @@ PUBLIC _word_383F4
 PUBLIC _word_380D8
 PUBLIC _g_missionStatus
 PUBLIC _var_669
-PUBLIC _var_667
 PUBLIC _var_670
 PUBLIC _gfx_allocPage
 PUBLIC _gfx_drawString
@@ -2334,14 +2312,10 @@ word_342A4 dw 0
 word_342A6 dw 0
 word_342A8 dw 0
 word_342AA dw 0
-word_342AC dw 0
-word_342AE dw 0
 word_342B0 dw 0
     db 2 dup(0)
 byte_342B4 db 0
     db 0
-word_342B6 dw 0
-word_342B8 dw 0
 word_342BA dw 0
 word_342BC dw 0
 word_342BE dw 0
@@ -2381,7 +2355,6 @@ word_36B7E dw 0
 word_36B80 dw 0
 word_36B82 dw 0
 word_36B84 dw 0
-_word_36B86 dw 0
 byte_36B88 db 0
 word_36B89 dw 0
 word_36B8B dw 0
@@ -5843,24 +5816,9 @@ aR6001NullPointerAssig db 'R6001',0Dh,0Ah
     db '- null pointer assignment',0Dh,0Ah,0
     db 3 dup(0FFh)
     db 0
-word_38CD2 dw 0
-word_38CD8 dw 0
-word_38CDA dw 0
-word_38CDC dw 0
-word_38CDE dw 0
-word_38CE0 dw 0
-word_38CE2 dw 0
-word_38CE4 dw 0
-word_38CE6 dw 0
-word_38CE8 dw 0
-word_38CEA dw 0
-word_38CEC dw 0
-word_38CEE dw 0
 word_38CF0 dw 0
 word_38CF2 dw 0
     db 6 dup(0)
-word_38CFA dw 0
-word_38CFC dw 0
 word_38CFE dw 0
 word_38D00 dw 0
 word_38D02 dw 0
@@ -5964,26 +5922,16 @@ ORG 019C2h
 _var_226 EQU word_34272
 ORG 019C4h
 _var_227 EQU word_34274
-ORG 019FCh
-_var_255 EQU word_342AC
-ORG 019FEh
-_var_256 EQU word_342AE
 ORG 01A00h
 _var_257 EQU word_342B0
 ORG 01A04h
 _var_258 EQU byte_342B4
-ORG 01A06h
-_var_259 EQU word_342B6
-ORG 01A08h
-_var_260 EQU word_342B8
 ORG 01A0Ah
 _var_261 EQU word_342BA
 ORG 01FB8h
 _var_279 EQU word_34868
 ORG 0219Ch
 _var_282 EQU word_34A4C
-ORG 042D6h
-_var_315 EQU _word_36B86
 ORG 042D8h
 _var_316 EQU byte_36B88
 ORG 04CA7h
@@ -6175,40 +6123,10 @@ ORG 0633Ch
 _var_650 EQU dword_38BEC
 ORG 06346h
 _var_653 EQU seg_38BF6
-ORG 06422h
-_var_654 EQU word_38CD2
-ORG 06428h
-_var_657 EQU word_38CD8
-ORG 0642Ah
-_var_658 EQU word_38CDA
-ORG 0642Ch
-_var_659 EQU word_38CDC
-ORG 0642Eh
-_var_660 EQU word_38CDE
-ORG 06430h
-_var_661 EQU word_38CE0
-ORG 06432h
-_var_662 EQU word_38CE2
-ORG 06434h
-_var_663 EQU word_38CE4
-ORG 06436h
-_var_664 EQU word_38CE6
-ORG 06438h
-_var_665 EQU word_38CE8
-ORG 0643Ah
-_var_666 EQU word_38CEA
-ORG 0643Ch
-_var_667 EQU word_38CEC
-ORG 0643Eh
-_var_668 EQU word_38CEE
 ORG 06440h
 _var_669 EQU word_38CF0
 ORG 06442h
 _var_670 EQU word_38CF2
-ORG 0644Ah
-_var_671 EQU word_38CFA
-ORG 0644Ch
-_var_672 EQU word_38CFC
 ORG 0644Eh
 _var_673 EQU word_38CFE
 ORG 06450h
