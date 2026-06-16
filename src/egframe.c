@@ -618,8 +618,8 @@ void initWeaponLoadout() {
     }
     word_330B4 = 0x3e8;
     word_33098 = 0x2710;
-    word_3309E = 0x12;
-    word_3309C = 0x0c;
+    word_3309A[2] = 0x12;
+    word_3309A[1] = 0x0c;
     drawWeaponAmmo();
     drawFuelGauge();
     UpdateThrottleState();

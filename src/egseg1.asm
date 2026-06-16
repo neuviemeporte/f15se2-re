@@ -67,9 +67,6 @@ EXTRN byte_36C31:byte
 EXTRN byte_36C32:byte
 EXTRN byte_3754E:byte
 EXTRN byte_378DE:byte
-EXTRN unk_329AB:byte
-EXTRN unk_34713:byte
-EXTRN unk_34A88:byte
 EXTRN unk_37565:byte
 EXTRN unk_3771D:byte
 EXTRN word_33BAC:word

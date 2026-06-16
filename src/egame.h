@@ -446,8 +446,6 @@ extern struct Sam sams[39];
 extern int16 word_33096;
 extern int16 word_33098;
 extern int16 word_3309A[];
-extern int16 word_3309C;
-extern int16 word_3309E;
 extern struct MissileSpec missleSpec[];
 extern int16 missileSpecIndex;
 extern int16 word_330B4;

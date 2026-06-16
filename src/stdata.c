@@ -158,7 +158,7 @@ int16 enableHighlight = 1;
 
 /* Direction/level lookup tables */
 int dirDeltaX[] = {-1, 1, 1, -1, 0, 1, 0, -1, 0};
-int dirDeltaY[] = {1, 1, -1, -1, 1, 0, -1, 0, 0, (int)0xE000, (int)0xF000};
+int dirDeltaY[] = {1, 1, -1, -1, 1, 0, -1, 0, 0, -8192, -4096};
 int gridLevelSize[] = {0, 0x1000, 0x2000, 0x400, 0x100, 0x40, 0x10, 4};
 
 /* === Group 6 (0x1632-0x1763): Terrain/grid file strings === */
@@ -651,10 +651,10 @@ struct MissionTableEntry missionTable[56] = {
     {7, 0x15, 0, 0, 3, 3},
     {7, 0x15, 0, 0, 0x0B, 1},
     {7, 0x15, 0, 0, 0x0F, 3},
-    {6, 0x15, 0, (int16)0xFFF1, 0x0C, 6},
-    {8, 0x15, 0, (int16)0xFFF1, 0x0D, 6},
-    {8, 0x15, 0, (int16)0xFFFB, 0x0F, 7},
-    {8, 0x15, 0, (int16)0xFFFE, 0, 0},
+    {6, 0x15, 0, -15, 0x0C, 6},
+    {8, 0x15, 0, -15, 0x0D, 6},
+    {8, 0x15, 0, -5, 0x0F, 7},
+    {8, 0x15, 0, -2, 0, 0},
 };
 
 /* Target coordinate arrays per mission pick type */

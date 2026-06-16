@@ -19,9 +19,6 @@ EXTRN _gfx_fillRow:FAR
 EXTRN _gfx_getRowOffset:FAR
 EXTRN _gfx_clearPage:FAR
 EXTRN _gfx_nop51:FAR
-EXTRN _gfx_getCurPage:FAR
-EXTRN _misc_jump_5a_keybuf:FAR
-EXTRN _misc_jump_5b_getkey:FAR
 EXTRN _gfx_nop37:FAR
 EXTRN _gfx_fillRow2:FAR
 EXTRN _gfx_copyRow:FAR

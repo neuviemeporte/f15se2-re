@@ -15,7 +15,6 @@ char aMsRunTimeLibraryCopyr[] = { 0 };
 uint8 unk_328F0[] = { 0 };
 uint8 aRegn_xxx[] = { 0 };
 char *regnStr = NULL;
-int16 word_3309A[3] = {0};
 int loadF15DgtlBin() { return 0; }
 void setupOverlaySlots(uint16 addr) { }
 void callLoad3DAll() { }

@@ -556,8 +556,6 @@ PUBLIC tmpPageIndex
 PUBLIC unk_3C030
 PUBLIC word_3298C
 PUBLIC word_3298E
-PUBLIC word_3309A
-PUBLIC _word_3309A
 PUBLIC word_333D2
 PUBLIC word_333D4
 PUBLIC word_333D8
@@ -1261,8 +1259,6 @@ aAn72 db 'An-72',0
     Sam <'AA-9', 52h, 7D0h, 0FFFFh, 3, 13h>
     Sam <'AA-10', 40h, 7D0h, 0, 4, 13h>
     Sam <'Equip.', 0, 0, 1Dh, 0, 0Eh>
-word_3309A dw 0
-_word_3309A equ word_3309A
     db 3
     db 0
     _missleSpec MissileSpec <0, 4>

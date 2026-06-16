@@ -1,7 +1,6 @@
 /*
- * Variables are kept in the SAME ORDER as they appear in egslots.asm so the
- * produced binary stays close to the original layout and is easy to align
- * later.
+ * Variables are kept in the same order as in egslots.asm so the produced
+ * binary stays close to the original memory layout.
  */
 #include "egame.h"
 #include "inttype.h"
@@ -17,25 +16,25 @@ int16 g_autopilotAltitude = 0;
 int16 word_330BC = 0;
 int16 word_330C2 = 1;
 int16 g_frameRateScaling = 4;
-int16 word_336E6 = (int16)0xFFFF;
+int16 word_336E6 = -1;
 int16 frameTick = 0;
 int16 word_336EA = 0;
-int16 word_336F2 = (int16)0xFFFF;
-int16 word_336F4 = (int16)0xFFFF;
-int16 word_336FC = (int16)0xFFFF;
+int16 word_336F2 = -1;
+int16 word_336F4 = -1;
+int16 word_336FC = -1;
 int16 word_336FE = 4;
 int16 word_3370A = 1;
-int16 word_3370C = (int16)0xFFFF;
+int16 word_3370C = -1;
 int word_3370E = 0;
 int16 word_32A34 = 0;
 int16 word_33442 = 0;
 int16 word_336E4 = 4;
 int16 word_336EC = 1;
 int16 word_336EE = 0;
-int16 word_336F6 = (int16)0xFFFF;
+int16 word_336F6 = -1;
 int16 word_336F8 = 1;
 int16 word_336FA = 0;
-int16 word_33700 = (int16)0xFFFF;
+int16 word_33700 = -1;
 int16 word_33702 = 1;
 int16 word_33704 = 1;
 int16 word_33706 = 1;
@@ -45,8 +44,7 @@ int16 word_33712 = 0;
 int16 word_33714 = 0;
 int16 word_3374A = 0;
 
-/* 3D loader size/sign scalars (separated by buf/matrix arrays that
- * stay in asm). word_33DD0 and sizes3dt are arrays - left in asm. */
+/* 3D loader size/sign scalars. */
 
 size_t size3d3 = 1;
 unsigned int size3d3_2 = 0;
@@ -183,9 +181,6 @@ int16 g_viewY_;
 int16 word_3BED2;
 int16 word_3C046;
 
-/* Standalone scalars recovered from egslots.asm (2026-06-15 batches 1-3,
- * minus the word_3B7E0 nearest-tile struct). Each verified via grep '&sym'
- * to have no cross-symbol pointer-arithmetic dependency. */
 uint8 byte_34197 = 6;
 uint8 byte_37C2F = 0;
 uint8 byte_38F8C;
@@ -251,7 +246,6 @@ int16 word_3C02C;
 int16 word_3C02E;
 int16 word_3C03E;
 
-/* --- migrated scalars from egslots.asm (clean standalone, no EQU alias) --- */
 int16 word_3401A = 0;
 int16 word_38126 = 0x6C;
 int16 word_38152 = 0;
@@ -269,7 +263,6 @@ int16 word_3C6A4;
 int16 word_3C6AC;
 int16 word_3C8B6;
 
-/* --- migrated buffers/strings from egslots.asm (clean fixed-size runs) --- */
 int16 word_3BE98;
 uint8 buf2_3dg[0x200];
 uint8 buf3_3dg[0x200];
@@ -281,13 +274,11 @@ uint8 byte_3BED8[0x64];
 char tempString[80];
 char string_3C04A[80];
 
-/* --- migrated standalone scalars from egslots.asm (2026-06-16 batch) ---
- * Each verified CLEAN: no &sym pointer-arithmetic dependency, no EQU alias
- * group, no bare PUBLIC, no cross-module bare EXTRN. */
 int16 word_33096 = 4;
 int16 word_33098 = 0x1388;
-int16 word_3309C = 0x0C;
-int16 word_3309E = 0x12;
+/* Countermeasure ammo counters, indexed by kind in countermeasures():
+ * [1] = flare, [2] = chaff. word_3309A[0] is unused. */
+int16 word_3309A[3] = {0, 0x0C, 0x12};
 int16 word_330BA = 1;
 int16 word_330BE = 0;
 int16 word_3C042;
@@ -303,33 +294,16 @@ int word_3C6AE;
 int16 word_38FC8;
 int16 word_3C8B2;
 
-/* BSS arrays: word_3BE9C is a 16-word run (orig 2+30 bytes); word_3C0A2 is a
- * 100-entry near-pointer table (orig dw 64h dup). */
 int16 word_3BE9C[16];
 char *word_3C0A2[100];
 
-/* --- migrated standalone scalars from egslots.asm (2026-06-16 batch 4) ---
- * Verified CLEAN: scalar reads/writes only (no &sym, no bare array-decay
- * pass-by-address), no foreign EQU alias, single mangled PUBLIC, no
- * cross-module bare EXTRN. */
 int16 word_330B4 = 0x28A;
 uint8 far *farPointer = 0;
 
-/* --- migrated whole arrays from egslots.asm (2026-06-16 batch 4) ---
- * Contiguous fixed-size arrays (asm head + unlabelled tail bytes), sizes
- * match the address gap to the next symbol exactly. word_341DC/word_341FC
- * decay to word_3C69C/word_3C6A2 but the pointer walks stay bounded within
- * each array (max offset 8 and 24 of 16/32). Bytes reconstructed LE from the
- * asm db stream. */
-int16 word_33B74[9] = { 0xFFFF, 1, 1, 0xFFFF, 0, 1, 0, 0xFFFF, 0 };
-int16 word_33B86[11] = { 1, 1, 0xFFFF, 0xFFFF, 1, 0, 0xFFFF, 0, 0, 0xE000, 0xF000 };
+int16 word_33B74[9] = { -1, 1, 1, -1, 0, 1, 0, -1, 0 };
+int16 word_33B86[11] = { 1, 1, -1, -1, 1, 0, -1, 0, 0, -8192, -4096 };
 
-/* --- migrated BSS scratch buffers from egslots.asm (2026-06-16 batch 5) ---
- * Self-contained `db N dup` runs (uninitialised / zero-filled). Each is used
- * only as a size-respecting fread/moveNearFar/indexed buffer (e.g.
- * moveNearFar(byte_3AFAC,0x100) matches its 0x100 dup). word_3AFA8's dead asm
- * `label word` alias was removed with byte_3AFAC (word_3AFA8 already lives in
- * C above). */
+/* Scratch buffers (fread / moveNearFar / indexed scratch). */
 uint8 flt15_buf1[0x40];
 uint8 flt15_buf2[0x1040];
 uint8 buf3d3_1[0x96];
@@ -337,76 +311,67 @@ uint8 byte_3AFAC[0x100];
 uint8 buf3d3_2[0x96];
 uint8 buf3d3_3[0x96];
 
-/* buf1_3dg: 16x16 grid, indexed col+(row<<4) (0..255), fread'd 0x100 — exactly
- * 0x100, the trailing asm `db ?` orphan byte stays in asm. byte_3BFA4: pinned
- * to [UNIT_STATE_COUNT] by egame.h, moveNearFar(,0x64) matches its 0x64 dup. */
+/* buf1_3dg: 16x16 grid, indexed col+(row<<4) (0..255). */
 uint8 buf1_3dg[0x100];
 uint8 byte_3BFA4[UNIT_STATE_COUNT];
 
-/* 3x3 rotation matrix scratch buffers (9 words, 0x12 bytes): written by
- * multiplyMatrix3x3Far/buildRotationMatrixFar, copied via memcpy(,0x12),
- * read as [axis]/[3+axis]/[6+axis]. Self-contained zero-filled runs (no
- * internal labels, no adjacency dependency). NB: unk_3806E stays in asm —
- * it overlays separately-labelled words word_38070..word_3807E. */
+/* 3x3 rotation matrix scratch buffers (9 words): written by
+ * multiplyMatrix3x3Far/buildRotationMatrixFar, read as [axis]/[3+axis]/[6+axis]. */
 int16 unk_380B6[9];
 int16 unk_3A948[9];
 
-/* Single-byte values read only at [0] and saved via moveNearFar(,1 byte).
- * Migrated as their full self-contained runs to the next labelled symbol
- * (byte_3BEC4: 1 byte + align/pad to word_3BEC8; byte_3C02A: 1 byte + align
- * to unk_3C030). */
+/* Single-byte values (only [0] is used); the extra bytes are trailing pad
+ * up to the next symbol. */
 uint8 byte_3BEC4[4];
 uint8 byte_3C02A[2];
 
-/* byte_3A900: 8x8 theater terrain grid, memcpy dest (64B) read as
- * [col+(row<<3)] (0..63). Whole 66B run (64 + 2 align pad) to stru_3A95A. */
+/* byte_3A900: 8x8 theater terrain grid, read as [col+(row<<3)] (0..63);
+ * [66] = 64 grid bytes + 2 pad. */
 uint8 byte_3A900[66];
 
-/* gameData: far pointer to the shared Game struct, set at startup; egcode.asm
- * references it via mangled `EXTRN _gameData:DWORD` (resolves to this def).
- * unk_3BF96/unk_3BF98: int16 scalars (tacmap screenX/screenY scratch). */
+/* gameData: far pointer to the shared Game struct, set at startup.
+ * unk_3BF96/unk_3BF98: tacmap screenX/screenY scratch. */
 struct Game far *gameData = 0;
 int16 unk_3BF96;
 int16 unk_3BF98;
 
-/* word_33444[3][8][8]: terrain/threat lookup, read as [a][r][t]. Exact 384B
- * run ending at stru_335C4. word_39402: scalar flag (=0/=1, compared); its
- * anonymous 512-byte asm tail is unreferenced and stays in asm. */
+/* word_33444[3][8][8]: terrain/threat lookup, read as [a][r][t].
+ * word_39402: scalar flag (compared against 0/1). */
 int16 word_33444[3][8][8] = {
     {
-        { 3, 3, 2, 1, 0, 0xFFFF, 0xFFFE, 0xFFFF },
+        { 3, 3, 2, 1, 0, -1, -2, -1 },
         { 3, 2, 2, 2, 1, 1, 1, 2 },
         { 3, 3, 3, 2, 2, 2, 3, 3 },
-        { 3, 3, 3, 3, 3, 0xFFFD, 0xFFFD, 0xFFFD },
-        { 3, 3, 3, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD },
-        { 0xFFFD, 0xFFFD, 0xFFFE, 0xFFFE, 0xFFFE, 0xFFFD, 0xFFFD, 0xFFFD },
-        { 0xFFFE, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFE, 0xFFFE, 0xFFFE, 0xFFFD },
-        { 1, 2, 1, 0, 0xFFFF, 0xFFFE, 0xFFFD, 0xFFFD },
+        { 3, 3, 3, 3, 3, -3, -3, -3 },
+        { 3, 3, 3, -3, -3, -3, -3, -3 },
+        { -3, -3, -2, -2, -2, -3, -3, -3 },
+        { -2, -1, -1, -1, -2, -2, -2, -3 },
+        { 1, 2, 1, 0, -1, -2, -3, -3 },
     },
     {
-        { 2, 3, 2, 2, 1, 1, 1, 0xFFFE },
+        { 2, 3, 2, 2, 1, 1, 1, -2 },
         { 4, 4, 3, 2, 1, 4, 4, 4 },
-        { 4, 4, 4, 4, 0xFFFE, 4, 4, 4 },
-        { 4, 4, 0xFFFC, 0xFFFC, 4, 4, 4, 4 },
-        { 0xFFFC, 0xFFFC, 0xFFFC, 0xFFFC, 4, 4, 0xFFFC, 0xFFFC },
-        { 0xFFFC, 0xFFFC, 0xFFFC, 2, 0xFFFC, 0xFFFC, 0xFFFC, 0xFFFC },
-        { 0xFFFC, 0xFFFC, 0xFFFC, 0xFFFF, 0xFFFD, 0xFFFC, 0xFFFC, 0xFFFC },
-        { 2, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFE, 0xFFFE, 0xFFFD, 0xFFFF },
+        { 4, 4, 4, 4, -2, 4, 4, 4 },
+        { 4, 4, -4, -4, 4, 4, 4, 4 },
+        { -4, -4, -4, -4, 4, 4, -4, -4 },
+        { -4, -4, -4, 2, -4, -4, -4, -4 },
+        { -4, -4, -4, -1, -3, -4, -4, -4 },
+        { 2, -1, -1, -1, -2, -2, -3, -1 },
     },
     {
-        { 2, 3, 2, 2, 1, 1, 0xFFFF, 0xFFFE },
-        { 4, 4, 3, 2, 1, 4, 0xFFFC, 4 },
+        { 2, 3, 2, 2, 1, 1, -1, -2 },
+        { 4, 4, 3, 2, 1, 4, -4, 4 },
         { 4, 4, 4, 4, 0x0100, 4, 0x0100, 0x0100 },
-        { 0x0100, 4, 0xFFFC, 0xFFFC, 0x0200, 4, 0x0100, 0x0100 },
-        { 0x0100, 0x0100, 0xFFFC, 0x0200, 4, 4, 0xFFFC, 0x0100 },
-        { 0x0100, 0x0100, 0xFFFC, 4, 0xFFFC, 0xFFFC, 0xFFFC, 0xFFFC },
-        { 0xFFFC, 4, 0x0100, 0xFFFF, 0xFFFD, 0xFFFC, 0xFFFC, 0xFFFC },
-        { 2, 1, 0xFFFF, 0xFFFF, 0xFFFE, 0xFFFE, 0xFFFD, 0xFFFF },
+        { 0x0100, 4, -4, -4, 0x0200, 4, 0x0100, 0x0100 },
+        { 0x0100, 0x0100, -4, 0x0200, 4, 4, -4, 0x0100 },
+        { 0x0100, 0x0100, -4, 4, -4, -4, -4, -4 },
+        { -4, 4, 0x0100, -1, -3, -4, -4, -4 },
+        { 2, 1, -1, -1, -2, -2, -3, -1 },
     },
 };int16 word_39402;
 
-/* unk_33E1A: 8-theater terrain-type table (8*64 + 2 pad = 514B), read only
- * via memcpy(byte_3A900, unk_33E1A + (theater&7)*64, 64). Self-contained. */
+/* unk_33E1A: 8-theater terrain-type table ([514] = 8*64 + 2 pad), read via
+ * memcpy(byte_3A900, unk_33E1A + (theater&7)*64, 64). */
 uint8 unk_33E1A[514] = {
     0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10,
     0x10, 0x10, 0x00, 0x01, 0x02, 0x03, 0x10, 0x10, 0x10, 0x10, 0x04, 0x05, 0x06, 0x07, 0x10, 0x10,
@@ -450,11 +415,10 @@ int16 word_341FC[32] = { 3, 0x32, 0xC5, 0x18A, 0x312, 0x622, 0xC43, 0x1886,
                          4, 0x53, 0x145, 0x28A, 0x511, 0xA1E, 0x143B, 0x2876,
                          2, 0x1F, 0x78, 0xF0, 0x1DE, 0x3BB, 0x776, 0xEEC };
 
-/* var_315 (aka word_36B86): scalar flag, byte[0] written/read only. */
+/* var_315: scalar flag, only byte[0] is used. */
 int16 var_315 = 0;
 
-/* var_654 / var_657..672: standalone int16 flags, collapsed from
- * word_38CD2/word_38CD8.. EQU aliases (canonical = var_N). */
+/* var_654, var_657..672: standalone int16 flags. */
 int16 var_654 = 0;
 int16 var_657 = 0;
 int16 var_658 = 0;
@@ -471,7 +435,6 @@ int16 var_668 = 0;
 int16 var_671 = 0;
 int16 var_672 = 0;
 
-/* EQU-alias collapse (canonical var_N), batch [10:14] */
 int16 var_255 = 0;
 int16 var_256 = 0;
 int16 var_259 = 0;

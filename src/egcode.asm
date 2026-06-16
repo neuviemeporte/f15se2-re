@@ -2,7 +2,6 @@
 DOSSEG
 .MODEL SMALL
 
-EXTRN _placeString:PROC
 EXTRN _process3dg:PROC
 EXTRN _findWaypointFeatures:PROC
 EXTRN _rebuildOrientation:PROC
@@ -16,14 +15,10 @@ EXTRN _computeAttitudeAngles:PROC
 EXTRN _updateThreatAlert:PROC
 EXTRN _computeThreatScore:PROC
 EXTRN _computeThreatRangeBearing:PROC
-EXTRN _generateRandomRadioMessage:PROC
 EXTRN _appendMapEvent:PROC
-EXTRN _drawWeaponAmmo:PROC
-EXTRN _drawWeaponSelectMarker:PROC
 EXTRN _scaleCoordToLod:PROC
 EXTRN _fireAirThreat:NEAR
 fireAirThreat equ _fireAirThreat
-EXTRN _resetSimObjectLocks:PROC
 EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC
 EXTRN _disableTextBlink:PROC
@@ -34,7 +29,6 @@ EXTRN _updateEngineSound:PROC
 EXTRN _waitForKeyPress:PROC
 EXTRN _recalcTimeScale:PROC
 EXTRN _renderFrame:PROC
-EXTRN _main:PROC
 EXTRN _renderHudFrame:PROC
 EXTRN _signOf:PROC
 EXTRN _seedRng:PROC
@@ -43,15 +37,12 @@ EXTRN _computeMapTargetRange:PROC
 EXTRN _computeSimObjectRange:PROC
 EXTRN _computeTargetBearing:PROC
 EXTRN _sub_21A7A:PROC
-EXTRN _aspectScaleY:PROC
 EXTRN _setup3DTransform:PROC
 EXTRN _clampValue:PROC
 EXTRN _shapeDataOffset:PROC
-EXTRN _drawTargetView:PROC
 EXTRN _drawWorldObject:PROC
 EXTRN _scheduleTimedEvent:PROC
 EXTRN _scheduleEventCheck:PROC
-EXTRN _dispatchKeyScancode:PROC
 EXTRN _drawTargetLabel:PROC
 EXTRN _buildRangeString:PROC
 EXTRN _isTargetOverWater:PROC
@@ -59,14 +50,11 @@ EXTRN _getTargetSymbol:PROC
 EXTRN _computeLoftAngle:PROC
 EXTRN _mapXToScreen:PROC
 EXTRN _mapYToScreen:PROC
-EXTRN _applyGravityFall:PROC
-EXTRN _initFrameRandom:PROC
 EXTRN _testWorldPosVisible:PROC
 EXTRN _clearStatusPanel:PROC
 EXTRN _refreshActivePanel:PROC
 EXTRN _initTacMapView:PROC
 EXTRN _setViewPosition:PROC
-EXTRN _loadColorPalette:PROC
 EXTRN _clampRange:PROC
 EXTRN _rangeApprox:PROC
 EXTRN _computeBearing:PROC
@@ -74,15 +62,10 @@ EXTRN _sinMul:PROC
 EXTRN _cosMul:PROC
 EXTRN _randomRange:PROC
 EXTRN _loadRegion3D:PROC
-EXTRN _valueToAngle:PROC
-EXTRN _complementAngle:PROC
 EXTRN _isqrt:PROC
-EXTRN _drawFullscreenLine:PROC
 EXTRN _drawClippedLineRegion:PROC
 EXTRN _drawScreenLineOnePage:PROC
 EXTRN _drawPanelText:PROC
-EXTRN _fillPanelBox:PROC
-EXTRN _drawColorPoint:PROC
 EXTRN _setDrawColor:PROC
 EXTRN _drawMapMarkerBox:PROC
 EXTRN _projectMapPoint:PROC
@@ -93,45 +76,13 @@ EXTRN _readScreenPixel:PROC
 EXTRN _readMapPixelColor:PROC
 EXTRN _drawMapLine:PROC
 EXTRN _setTimedMessage:PROC
-EXTRN _drawNumber:PROC
-EXTRN _drawTacticalMap:PROC
-EXTRN _setCommWorldbufPtr:PROC
-EXTRN _waitFrameSync:PROC
-EXTRN _fopen:PROC
-EXTRN _fclose:PROC
-EXTRN _fread:PROC
 EXTRN _abs:PROC
 EXTRN _strupr:PROC
-EXTRN __chkstk:PROC
 EXTRN _strcpy:PROC
-EXTRN _movedata:PROC
-EXTRN _segread:PROC
-EXTRN _memcpy:PROC
-EXTRN _getch:PROC
-EXTRN _exit:PROC
 EXTRN _strlen:PROC
-EXTRN _int86:PROC
-EXTRN _open:PROC
-EXTRN _close:PROC
-EXTRN _write:PROC
-EXTRN _read:PROC
-EXTRN _lseek:PROC
 EXTRN _strcat:PROC
-EXTRN _byte_228D0:BYTE
-EXTRN _itoa:PROC
-EXTRN _kbhit:PROC
-EXTRN __bios_keybrd:PROC
-EXTRN _labs:PROC
-EXTRN _srand:PROC
-EXTRN _rand:PROC
-EXTRN __aNldiv:PROC
-EXTRN __aNlmul:PROC
-EXTRN __aNuldiv:PROC
 EXTRN __aNlshl:PROC
 EXTRN __aNlshr:PROC
-EXTRN _flushall:PROC
-EXTRN _stackavail:PROC
-EXTRN _remove:PROC
 EXTRN _createFileWrapper:PROC
 EXTRN _readFile1Wrapper:PROC
 EXTRN _readFile2Wrapper:PROC
@@ -152,19 +103,13 @@ EXTRN _drawMapPoint:PROC
 EXTRN _missileTargetCompat:PROC
 EXTRN _plotMapObject:PROC
 EXTRN _objectToScreen:PROC
-EXTRN _redrawTacMap:PROC
 EXTRN _setupLodDistances:PROC
-EXTRN _tickMessageTimers:PROC
-EXTRN _updateBulletsAndFire:PROC
-EXTRN _updateTracerParticles:PROC
-EXTRN _finalizeMission:PROC
 EXTRN _doNothing3:PROC
 EXTRN _doNothing4:PROC
 EXTRN _setViewRotation:PROC
 EXTRN _renderMapTerrain:PROC
 EXTRN _drawMapTiles:PROC
 EXTRN _drawMapTileObject:PROC
-EXTRN _buildVertexSignMask:PROC
 EXTRN _samCanAcquireTarget:NEAR
 samCanAcquireTarget equ _samCanAcquireTarget
 EXTRN _destroyAircraft:NEAR
@@ -180,21 +125,7 @@ processTargetReached equ _destroyGroundTarget
 EXTRN _findNearestTileObject:near
 EXTRN _projectObjects:near
 EXTRN _updateTargetLock:near
-EXTRN _copyJoystickData:FAR
-EXTRN _restoreJoystickData:FAR
-EXTRN _setInt9Handler:FAR
-EXTRN initJoystickCalibration:FAR
-EXTRN readCalibratedJoystick:FAR
-EXTRN drawPolygonOutline:FAR
-EXTRN sub_1FEEC:FAR
-EXTRN projectSceneObject:FAR
-EXTRN sub_202C7:FAR
-EXTRN sub_202F6:FAR
-EXTRN _drawClipLineGlobal:FAR
-EXTRN _restoreInt9Handler:FAR
 
-EXTRN _render3DView:PROC
-EXTRN _drawStringActivePage:PROC
 EXTRN _drawStringBothPages:PROC
 
 appendMapEvent equ _appendMapEvent
@@ -428,23 +359,14 @@ OVL_HDR_FIRSTPTR  = 24h
 EXTRN _allocSize:WORD
 EXTRN _byte_34197:BYTE
 EXTRN _byte_3790C:BYTE
-EXTRN _byte_3C5A0:BYTE
-EXTRN _commData:DWORD
 EXTRN _frameTick:WORD
 EXTRN _g_frameRateScaling:WORD
 EXTRN _g_planes:BYTE
 EXTRN _g_playerPlaneFlags:WORD
 EXTRN _g_viewX_:WORD
 EXTRN _g_viewY_:WORD
-EXTRN _gameData:DWORD
-EXTRN _gfxModeUnset:WORD
 EXTRN _gfx_allocPage:PROC
-EXTRN _gfx_copyRect:PROC
 EXTRN _gfx_drawString:PROC
-EXTRN _gfx_getDisplayPage:PROC
-EXTRN _gfx_nop23:PROC
-EXTRN _gfx_setColor:PROC
-EXTRN _gfx_setFadeSteps:PROC
 EXTRN _keyValue:WORD
 EXTRN _sams:BYTE
 EXTRN _stru_335C4:BYTE
@@ -454,21 +376,9 @@ EXTRN _var_200_seg:WORD
 EXTRN _var_258:BYTE
 EXTRN _var_259:WORD
 EXTRN _var_260:WORD
-EXTRN _var_201:WORD
 EXTRN _var_315:WORD
-EXTRN _var_316:BYTE
-EXTRN _var_351:WORD
-EXTRN _var_352:WORD
-EXTRN _var_353:WORD
-EXTRN _var_354:WORD
 EXTRN _var_542:WORD
 EXTRN _var_547:WORD
-EXTRN _var_564:WORD
-EXTRN _var_565:WORD
-EXTRN _var_566:WORD
-EXTRN _var_567:WORD
-EXTRN _var_589:WORD
-EXTRN _var_590:WORD
 EXTRN _var_605:WORD
 EXTRN _var_606:WORD
 EXTRN _var_608:WORD
@@ -485,13 +395,11 @@ EXTRN _var_694:WORD
 EXTRN _var_697:WORD
 EXTRN _var_699:WORD
 EXTRN _var_700:WORD
-EXTRN _waypointIndex:WORD
 EXTRN _word_330BC:WORD
 EXTRN _word_330C2:WORD
 EXTRN _word_38126:WORD
 EXTRN _word_3BED2:WORD
 EXTRN _word_3C046:WORD
-EXTRN _word_3C09A:WORD
 EXTRN aDestroyedBy:BYTE
 EXTRN aDestroyedBy_0:BYTE
 EXTRN aF15dgtl_bin:BYTE
@@ -501,13 +409,9 @@ EXTRN aGroundImpact:BYTE
 EXTRN aHitBy:BYTE
 EXTRN aHitBy_0:BYTE
 EXTRN aIneffective:BYTE
-EXTRN aMap:BYTE
 EXTRN aMisses:BYTE
 EXTRN aNoFileBuffersAvailabl:BYTE
 EXTRN aOpenError:BYTE
-EXTRN _aReleased:BYTE
-EXTRN _aStoresExhauste:BYTE
-EXTRN _asc_3373D:BYTE
 EXTRN audio_jump_6b:PROC
 EXTRN audio_jump_6c:PROC
 EXTRN byte_36D86:BYTE
@@ -515,7 +419,6 @@ EXTRN byte_37116:BYTE
 EXTRN byte_378EE:BYTE
 EXTRN byte_378FC:BYTE
 EXTRN byte_37903:BYTE
-EXTRN byte_383E5:WORD
 EXTRN byte_3862A:BYTE
 EXTRN byte_3862B:BYTE
 EXTRN byte_38D61:BYTE
@@ -527,7 +430,6 @@ EXTRN f15dgtlAddr:WORD
 EXTRN fileReadPos:WORD
 EXTRN g_missionStatus:WORD
 EXTRN gfx_clearPage:PROC
-EXTRN gfx_clearVga:PROC
 EXTRN gfx_copyRow:PROC
 EXTRN gfx_dacAnimate:PROC
 EXTRN gfx_dacCycle:PROC
@@ -535,7 +437,6 @@ EXTRN gfx_fillRow:PROC
 EXTRN gfx_getFreeMem:PROC
 EXTRN gfx_getPageSeg:PROC
 EXTRN gfx_getRowOffset:PROC
-EXTRN gfx_setBlitOffset2:PROC
 EXTRN gfx_setOvlVal1:PROC
 EXTRN gfx_setOvlVal2:PROC
 EXTRN cbreakHit:BYTE
@@ -550,15 +451,9 @@ EXTRN strBuf:BYTE
 EXTRN stru_33402:BYTE
 EXTRN timerHandlerInstalled:BYTE
 EXTRN tmpFileHandle:WORD
-EXTRN word_3888E:WORD
-EXTRN word_38890:WORD
 EXTRN aReadError:BYTE
 EXTRN aWriteError:BYTE
 EXTRN tmpPageIndex:WORD
-EXTRN unk_3C030:BYTE
-EXTRN word_3298C:WORD
-EXTRN word_3298E:WORD
-EXTRN word_3309A:WORD
 EXTRN word_333D2:WORD
 EXTRN word_333D4:WORD
 EXTRN word_333D8:WORD
@@ -670,7 +565,6 @@ loc_102F5:
 _loadF15DgtlBin endp
 ; ------------------------------seg000:0x333------------------------------
 ; ------------------------------seg000:0x334------------------------------
-EXTRN _drawProjectionSphere:NEAR
 ; ------------------------------seg000:0x66e------------------------------
 ; ------------------------------seg000:0x688------------------------------
 _setupOverlaySlots proc near
@@ -733,7 +627,6 @@ EXTRN _countermeasures:NEAR
 countermeasures equ _countermeasures
 ; ------------------------------seg000:0x1635------------------------------
 ; ------------------------------seg000:0x19a3------------------------------
-EXTRN _initWeaponLoadout:NEAR
 ; ------------------------------seg000:0x1a17------------------------------
 ; ------------------------------seg000:0x1bc3------------------------------
 scheduleEventCheck equ _scheduleEventCheck

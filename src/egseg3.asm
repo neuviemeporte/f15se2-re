@@ -18,7 +18,6 @@ _BSS ENDS
 ; (renderHudFrame/egtacmap) displays. Writing 0x56e4/0x56e5 here directly let
 ; stepFlightModel overwrite the deflection with a centered value -> the stick
 ; only reacted intermittently. byte_37F98=Up/Down (pitch), byte_37F99=Left/Right.
-EXTRN _joyAxes:BYTE
 EXTRN byte_37F98:BYTE
 EXTRN byte_37F99:BYTE
 EXTRN byte_37F9A:BYTE
