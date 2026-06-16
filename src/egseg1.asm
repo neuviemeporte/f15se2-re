@@ -96,9 +96,6 @@ EXTRN word_34190:word
 EXTRN word_34192:word
 EXTRN word_34194:word
 EXTRN word_34198:word
-EXTRN word_34246:word
-EXTRN word_34248:word
-EXTRN word_3424A:word
 EXTRN word_3424C:word
 EXTRN word_3424E:word
 EXTRN word_34250:word
@@ -1363,11 +1360,11 @@ projectSceneObject proc far
     PUSH SI
     PUSH DI
     MOV AX,[BP+0Ah]
-    MOV [word_34246],AX
+    MOV [_var_204+2],AX
     MOV AX,[BP+0Ch]
-    MOV [word_34248],AX
+    MOV [_var_204+4],AX
     MOV AX,[BP+0Eh]
-    MOV [word_3424A],AX
+    MOV [_var_204+6],AX
     LES SI,DWORD PTR [BP+6h]
     MOV [_var_200],SI
     MOV [_var_200_seg],ES
@@ -1673,11 +1670,11 @@ loc_0AE0:
     STOSW
     MOV AX,[_var_204]
     STOSW
-    MOV AX,[word_34246]
+    MOV AX,[_var_204+2]
     STOSW
-    MOV AX,[word_34248]
+    MOV AX,[_var_204+4]
     STOSW
-    MOV AX,[word_3424A]
+    MOV AX,[_var_204+6]
     STOSW
     MOV AX,[word_3424C]
     STOSW
@@ -1746,11 +1743,11 @@ loc_0B6A:
     LODSW
     MOV [_var_204],AX
     LODSW
-    MOV [word_34246],AX
+    MOV [_var_204+2],AX
     LODSW
-    MOV [word_34248],AX
+    MOV [_var_204+4],AX
     LODSW
-    MOV [word_3424A],AX
+    MOV [_var_204+6],AX
     LODSW
     MOV [word_3424C],AX
     LODSW
@@ -1837,17 +1834,17 @@ loc_0C16:
 loc_0C28:
     JMP near ptr loc_1AF4
 loc_0C2B:
-    MOV AX,[word_34246]
-    OR AX,[word_34248]
-    OR AX,[word_3424A]
+    MOV AX,[_var_204+2]
+    OR AX,[_var_204+4]
+    OR AX,[_var_204+6]
     OR AL,AH
 MOV byte ptr [_var_215], AL
     JZ short loc_0C60
     PUSH SI
     MOV DI,offset word_34288
-    MOV CX,[word_34246]
-    MOV SI,[word_34248]
-    MOV BP,[word_3424A]
+    MOV CX,[_var_204+2]
+    MOV SI,[_var_204+4]
+    MOV BP,[_var_204+6]
     CALL loc_147B
     MOV BX,offset word_34288
     MOV SI,offset _word_34276
@@ -2617,9 +2614,9 @@ buildOrientationFromAngles proc near
     PUSH SI
     PUSH DI
     MOV DI,offset word_34288
-    MOV CX,[word_34246]
-    MOV SI,[word_34248]
-    MOV BP,[word_3424A]
+    MOV CX,[_var_204+2]
+    MOV SI,[_var_204+4]
+    MOV BP,[_var_204+6]
     CALL loc_147B
     POP DI
     POP SI

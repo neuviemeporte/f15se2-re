@@ -2122,9 +2122,6 @@ word_341BC dw 2710h
     db 0F4h
 dword_3423C dw 0
 word_3423E dw 0
-word_34246 dw 0
-word_34248 dw 0
-word_3424A dw 0
 word_3424C dw 0
 word_3424E dw 0
 word_34250 dw 0
@@ -6021,9 +6018,6 @@ PUBLIC word_34190
 PUBLIC word_34192
 PUBLIC word_34194
 PUBLIC word_34198
-PUBLIC word_34246
-PUBLIC word_34248
-PUBLIC word_3424A
 PUBLIC word_3424C
 PUBLIC word_3424E
 PUBLIC word_34250

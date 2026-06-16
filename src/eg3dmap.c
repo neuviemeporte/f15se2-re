@@ -151,7 +151,7 @@ void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
         var_200 = (char far *)(byte_228D0 + buf3d3[word_3B7EC->shape]);
         var_202 = word_3C5A8->x - var_218;
         var_203 = word_3C5A8->y - var_219;
-        var_204 = word_3C5A8->z - var_220;
+        var_204[0] = word_3C5A8->z - var_220;
         FP_OFF(var_200)++;
         var_217 = 0;
         var_216 = 0;

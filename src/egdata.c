@@ -478,7 +478,12 @@ int16 var_196 = 0x2000;
 int16 var_197 = 0x4000;
 int16 var_202 = 0;
 int16 var_203 = 0;
-int16 var_204 = 0;
+/* var_204 is the head of a 4-word run {var_204, word_34246, word_34248,
+ * word_3424A} that egseg1.asm's sub_202B6 indexes by a model opcode as
+ * [BX+offset _var_204] (BX in {0,2,4,6}); the tail words are reached as
+ * _var_204+2/+4/+6. Keep it one contiguous C array so the index stays valid
+ * (was word_34244..word_3424A in egslots.asm). C uses element 0 as the scalar. */
+int16 var_204[4] = {0, 0, 0, 0};
 int16 var_216 = 0;
 int16 var_218 = 0;
 int16 var_219 = 0;
