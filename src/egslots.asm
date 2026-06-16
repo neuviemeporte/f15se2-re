@@ -140,7 +140,6 @@ PUBLIC _var_727
 PUBLIC _var_732
 PUBLIC _var_597
 PUBLIC _var_660
-PUBLIC _word_39402
 PUBLIC _byte_3419A
 PUBLIC _byte_3419C
 PUBLIC _var_568
@@ -268,8 +267,6 @@ PUBLIC _byte_3B7EF
 PUBLIC _byte_3B7F0
 PUBLIC _word_339F4
 PUBLIC _byte_3B7F1
-PUBLIC _word_33B74
-PUBLIC _word_33B86
 PUBLIC _word_33B9C
 PUBLIC _word_33BA2
 PUBLIC _byte_3B4EC
@@ -287,7 +284,6 @@ PUBLIC _var_134
 PUBLIC _var_135
 PUBLIC _var_662
 PUBLIC _commData
-PUBLIC _gameData
 PUBLIC _joyAxes
 PUBLIC _regs
 PUBLIC _scenarioPlh
@@ -360,55 +356,37 @@ PUBLIC byte_37F9E
 PUBLIC byte_37F9F
 PUBLIC _aFlogger
 PUBLIC _byte_3C16E
-PUBLIC _flt15_buf1
-PUBLIC _flt15_buf2
 PUBLIC _byte_3B7FC
 PUBLIC _byte_3790C
-PUBLIC _farPointer
 PUBLIC _word_3C69E
-PUBLIC _byte_3BFA4
-PUBLIC _byte_3BEC4
-PUBLIC _byte_3C02A
-PUBLIC _byte_3AFAC
 PUBLIC _off_38334
 PUBLIC _off_3834C
-PUBLIC _byte_3A900
 PUBLIC _misc_jump_5b_getkey
-PUBLIC _unk_33E1A
 PUBLIC _unk_34121
 PUBLIC _word_33BAE
-PUBLIC _buf1_3dg
 PUBLIC _sizes3dt
 PUBLIC _matrix3dt
 PUBLIC _matrix3dt_2
-PUBLIC _buf3d3_1
-PUBLIC _buf3d3_2
-PUBLIC _buf3d3_3
 PUBLIC _buf3d3
 PUBLIC _word_33DD0
 PUBLIC _size3d3_7
 PUBLIC _stru_3A95A
 PUBLIC _word_34186
 PUBLIC _word_3419C
-PUBLIC _word_341DC
-PUBLIC _word_341FC
 PUBLIC _word_339B4
 PUBLIC _stru_33402
-PUBLIC _word_33444
 PUBLIC _stru_335C4
 PUBLIC _var_672
 PUBLIC _var_671
 PUBLIC _unk_3C030
 PUBLIC _var_674
 PUBLIC _g_planes
-PUBLIC _unk_3A948
 PUBLIC _word_37561
 PUBLIC _word_37563
 PUBLIC _var_589
 PUBLIC _var_590
 PUBLIC _off_38364
 PUBLIC _unk_3806E
-PUBLIC _unk_380B6
 PUBLIC _gfx_setColor
 PUBLIC _gfx_nop23
 PUBLIC _word_36B86
@@ -417,7 +395,6 @@ PUBLIC _unk_38128
 PUBLIC _word_3755D
 PUBLIC _word_3755F
 PUBLIC _word_38202
-PUBLIC _word_330B4
 PUBLIC _word_3C8B8
 PUBLIC _word_3C8BC
 PUBLIC _word_3C8C0
@@ -1314,8 +1291,6 @@ _word_3309A equ word_3309A
     MissileSpec <1, 4>
     MissileSpec <5, 6>
     MissileSpec <0>
-word_330B4 dw 28Ah
-_word_330B4 equ word_330B4
 g_missionStatus dw 1
 _g_missionStatus equ g_missionStatus
     db 1
@@ -1480,358 +1455,6 @@ _word_333DA equ word_333DA
     db 38 dup(0)
     stru_33402 struc_9 8 dup(<0>)
 _stru_33402 equ stru_33402
-word_33444 label word
-_word_33444 equ word_33444
-    db 3
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 1
-    db 3 dup(0)
-    db 2 dup(0FFh)
-    db 0FEh
-    db 3 dup(0FFh)
-    db 3
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 2
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FEh
-    db 7 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 1
-    db 0
-    db 2
-    db 0
-    db 1
-    db 3 dup(0)
-    db 2 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 2
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 0FEh
-    db 0FFh
-    db 4
-    db 0
-    db 4
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 0FEh
-    db 0FFh
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 4
-    db 0
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 2
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 3 dup(0FFh)
-    db 0FDh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 2
-    db 0
-    db 6 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 3 dup(0FFh)
-    db 2
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 2 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 4
-    db 0
-    db 4
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 2 dup(0)
-    db 1
-    db 4
-    db 2 dup(0)
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0
-    db 2
-    db 4
-    db 2 dup(0)
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0FCh
-    db 0FFh
-    db 0
-    db 2
-    db 4
-    db 0
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0FCh
-    db 0FFh
-    db 4
-    db 0
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 4
-    db 2 dup(0)
-    db 1
-    db 2 dup(0FFh)
-    db 0FDh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 2
-    db 0
-    db 1
-    db 0
-    db 4 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 3 dup(0FFh)
     _stru_335C4 Projectile 0Ch dup(<0>)
 word_336F0 dw 0
 _word_336F0 equ word_336F0
@@ -2507,30 +2130,6 @@ _word_339F4 equ word_339F4
     db 2 dup(0FFh)
     db 1
     db 5 dup(0)
-word_33B74 dw 0FFFFh
-_word_33B74 equ word_33B74
-    db 1
-    db 0
-    db 1
-    db 0
-    db 2 dup(0FFh)
-    db 2 dup(0)
-    db 1
-    db 3 dup(0)
-    db 2 dup(0FFh)
-    db 2 dup(0)
-word_33B86 dw 1
-_word_33B86 equ word_33B86
-    db 1
-    db 0
-    db 4 dup(0FFh)
-    db 1
-    db 3 dup(0)
-    db 2 dup(0FFh)
-    db 5 dup(0)
-    db 0E0h
-    db 0
-    db 0F0h
 word_33B9C dw 0
 _word_33B9C equ word_33B9C
     db 0
@@ -2568,235 +2167,6 @@ _matrix3dt dw 0A0h dup(0)
 _word_33DD0 dw 0
 word_33DD2 dw 0
     db 60 dup(0)
-_unk_33E1A db 10h
-    db 17 dup(10h)
-    db 0
-    db 1
-    db 2
-    db 3
-    db 4 dup(10h)
-    db 4
-    db 5
-    db 6
-    db 7
-    db 4 dup(10h)
-    db 8
-    db 9
-    db 0Ah
-    db 0Bh
-    db 4 dup(11h)
-    db 0Ch
-    db 0Dh
-    db 0Eh
-    db 0Fh
-    db 7 dup(11h)
-    db 3 dup(10h)
-    db 11h
-    db 2 dup(10h)
-    db 2 dup(11h)
-    db 8 dup(10h)
-    db 3 dup(11h)
-    db 6 dup(10h)
-    db 2 dup(11h)
-    db 2 dup(10h)
-    db 0
-    db 1
-    db 2
-    db 3
-    db 2 dup(11h)
-    db 2 dup(10h)
-    db 4
-    db 5
-    db 6
-    db 7
-    db 4 dup(10h)
-    db 8
-    db 9
-    db 0Ah
-    db 0Bh
-    db 4 dup(10h)
-    db 0Ch
-    db 0Dh
-    db 0Eh
-    db 0Fh
-    db 18 dup(10h)
-    db 18 dup(11h)
-    db 0
-    db 1
-    db 2
-    db 3
-    db 2 dup(11h)
-    db 10h
-    db 11h
-    db 4
-    db 5
-    db 6
-    db 7
-    db 11h
-    db 2 dup(10h)
-    db 11h
-    db 8
-    db 9
-    db 0Ah
-    db 0Bh
-    db 2 dup(11h)
-    db 2 dup(10h)
-    db 0Ch
-    db 0Dh
-    db 0Eh
-    db 0Fh
-    db 18 dup(10h)
-    db 5 dup(11h)
-    db 10h
-    db 11h
-    db 10h
-    db 4 dup(11h)
-    db 5 dup(10h)
-    db 11h
-    db 0
-    db 1
-    db 2
-    db 3
-    db 3 dup(10h)
-    db 11h
-    db 4
-    db 5
-    db 6
-    db 7
-    db 4 dup(10h)
-    db 8
-    db 9
-    db 0Ah
-    db 0Bh
-    db 4 dup(10h)
-    db 0Ch
-    db 0Dh
-    db 0Eh
-    db 0Fh
-    db 18 dup(10h)
-    db 2 dup(11h)
-    db 7 dup(10h)
-    db 11h
-    db 8 dup(10h)
-    db 0
-    db 1
-    db 2
-    db 3
-    db 4 dup(10h)
-    db 4
-    db 5
-    db 6
-    db 7
-    db 2 dup(10h)
-    db 11h
-    db 10h
-    db 8
-    db 9
-    db 0Ah
-    db 0Bh
-    db 4 dup(11h)
-    db 0Ch
-    db 0Dh
-    db 0Eh
-    db 0Fh
-    db 18 dup(11h)
-    db 18 dup(10h)
-    db 0
-    db 1
-    db 2
-    db 3
-    db 4 dup(10h)
-    db 4
-    db 5
-    db 6
-    db 7
-    db 2 dup(10h)
-    db 2 dup(11h)
-    db 8
-    db 9
-    db 0Ah
-    db 0Bh
-    db 2 dup(10h)
-    db 2 dup(11h)
-    db 0Ch
-    db 0Dh
-    db 0Eh
-    db 0Fh
-    db 3 dup(10h)
-    db 2 dup(11h)
-    db 10h
-    db 3 dup(11h)
-    db 6 dup(10h)
-    db 11h
-    db 3 dup(10h)
-    db 3 dup(11h)
-    db 4 dup(10h)
-    db 2 dup(11h)
-    db 6 dup(10h)
-    db 11h
-    db 10h
-    db 0
-    db 1
-    db 2
-    db 3
-    db 2 dup(10h)
-    db 11h
-    db 10h
-    db 4
-    db 5
-    db 6
-    db 7
-    db 2 dup(11h)
-    db 2 dup(10h)
-    db 8
-    db 9
-    db 0Ah
-    db 0Bh
-    db 4 dup(10h)
-    db 0Ch
-    db 0Dh
-    db 0Eh
-    db 0Fh
-    db 10 dup(10h)
-    db 11h
-    db 2 dup(10h)
-    db 2 dup(11h)
-    db 3 dup(10h)
-    db 3 dup(11h)
-    db 2 dup(10h)
-    db 2 dup(11h)
-    db 10h
-    db 4 dup(11h)
-    db 10h
-    db 5 dup(11h)
-    db 0
-    db 1
-    db 2
-    db 3
-    db 4 dup(11h)
-    db 4
-    db 5
-    db 6
-    db 7
-    db 2 dup(10h)
-    db 11h
-    db 10h
-    db 8
-    db 9
-    db 0Ah
-    db 0Bh
-    db 2 dup(10h)
-    db 2 dup(11h)
-    db 0Ch
-    db 0Dh
-    db 0Eh
-    db 0Fh
-    db 2 dup(10h)
-    db 6 dup(11h)
-    db 2 dup(10h)
-    db 7 dup(11h)
-    db 10h
-    db 2 dup(0)
 aPleaseInsertScenarioD db 'Please insert scenario disk',0
 _unk_34121 db 20h
     db 20h
@@ -2908,104 +2278,6 @@ word_341BC dw 2710h
     db 0FAh
     db 0ACh
     db 0F4h
-word_341DC db 2
-_word_341DC equ word_341DC
-    db 0
-    db 2Ch
-    db 0
-    db 0ACh
-    db 0
-    db 58h
-    db 1
-    db 0ADh
-    db 2
-    db 58h
-    db 5
-    db 0B0h
-    db 0Ah
-    db 60h
-    db 15h
-    db 2
-    db 0
-    db 1Eh
-    db 0
-    db 75h
-    db 0
-    db 0E9h
-    db 0
-    db 0D1h
-    db 1
-    db 0A1h
-    db 3
-    db 41h
-    db 7
-    db 82h
-    db 0Eh
-word_341FC db 3
-_word_341FC equ word_341FC
-    db 0
-    db 32h
-    db 0
-    db 0C5h
-    db 0
-    db 8Ah
-    db 1
-    db 12h
-    db 3
-    db 22h
-    db 6
-    db 43h
-    db 0Ch
-    db 86h
-    db 18h
-    db 2
-    db 0
-    db 1Ah
-    db 0
-    db 65h
-    db 0
-    db 0CAh
-    db 0
-    db 93h
-    db 1
-    db 25h
-    db 3
-    db 49h
-    db 6
-    db 91h
-    db 0Ch
-    db 4
-    db 0
-    db 53h
-    db 0
-    db 45h
-    db 1
-    db 8Ah
-    db 2
-    db 11h
-    db 5
-    db 1Eh
-    db 0Ah
-    db 3Bh
-    db 14h
-    db 76h
-    db 28h
-    db 2
-    db 0
-    db 1Fh
-    db 0
-    db 78h
-    db 0
-    db 0F0h
-    db 0
-    db 0DEh
-    db 1
-    db 0BBh
-    db 3
-    db 76h
-    db 7
-    db 0ECh
-    db 0Eh
 dword_3423C dw 0
 word_3423E dw 0
 word_34240 dw 0
@@ -3105,7 +2377,6 @@ dword_34C2C dd 0
     db 3784 dup(0)
 word_35AF8 dw 0
     db 68 dup(0)
-_flt15_buf2 db 1040h dup(0)
 word_36B7E dw 0
 word_36B80 dw 0
 word_36B82 dw 0
@@ -5867,8 +5138,6 @@ _word_380AC equ word_380AC
     db 6 dup(0)
     db 0FFh
     db 7Fh
-_unk_380B6 db 0
-    db 17 dup(0)
 _g_ourHead dw 0
 _g_ourPitch dw 0
 _g_ourRoll dw 0
@@ -6575,7 +5844,6 @@ aR6001NullPointerAssig db 'R6001',0Dh,0Ah
     db 3 dup(0FFh)
     db 0
 word_38CD2 dw 0
-_farPointer dd 0
 word_38CD8 dw 0
 word_38CDA dw 0
 word_38CDC dw 0
@@ -6598,7 +5866,6 @@ word_38D00 dw 0
 word_38D02 dw 0
 word_38D04 dw 0
 word_38D06 dw 0
-_flt15_buf1 db 40h dup(0)
 word_38D4C dw 0
 word_38D4E dw 0
 word_38D50 dw 0
@@ -7019,38 +6286,24 @@ _word_38FC6 label byte
 unk_38FD0 db ?
 _unk_38FD0 equ unk_38FD0
     db 9 dup(?)
-_gameData dd ?
     db 2 dup(?)
-word_39402 dw ?
-_word_39402 equ word_39402
     db 512 dup(?)
 word_39606 dw ?
 _word_39606 equ word_39606
 word_39808 dw ?
 _word_39808 equ word_39808
     db 80 dup(?)
-_buf1_3dg db 100h dup(?)
     db ?
 
 ; Matrix3dEntry7 storage.
 ; 571 full records * 7 bytes + 3 spare bytes = 4000 bytes. => #define MAX_TILE_DATA 4000
 
-_byte_3A900 db 40h dup(?)
-    db ? ;align 4
-    db ?
-_unk_3A948 db ?
-    db 17 dup(?)
     _stru_3A95A ViewSnapshot 10h dup(<?>)
 _word_3AA5C dw ?
     _g_planes MapTarget 4Ah dup(<?>)
     db 14 dup(?)
-_buf3d3_1 db 96h dup(?)
-_word_3AFA8 label word
-_byte_3AFAC db 100h dup(?)
 word_3B0AC dw ?
 _word_3B0AC equ word_3B0AC
-_buf3d3_2 db 96h dup(?)
-_buf3d3_3 db 96h dup(?)
 word_3B4D8 dw ?
 _word_3B4D8 equ word_3B4D8
 word_3B4E0 dw ?
@@ -7098,9 +6351,6 @@ _byte_3B7FC db 640h dup(?)
     db ?
 word_3BEBC dw ?
 _word_3BEBC equ word_3BEBC
-_byte_3BEC4 db ?
-    db ? ;align 4
-    db 2 dup(?)
 word_3BEC8 dw ?
 _word_3BEC8 equ word_3BEC8
 word_3BECE dw ?
@@ -7111,15 +6361,7 @@ _byte_3BF93 label byte
 byte_3BF93 db ?
     db ?
 _unk_3BF95 label byte
-PUBLIC _unk_3BF96
-_unk_3BF96 label byte
-unk_3BF96 db ?
-    db ?
-PUBLIC _unk_3BF98
-_unk_3BF98 label byte
-unk_3BF98 db ?
     db 3 dup(?)
-_byte_3BFA4 db 64h dup(?)
 word_3C020 dw ?
 PUBLIC _word_3C020
 PUBLIC _word_3B7E2
@@ -7128,8 +6370,6 @@ PUBLIC _word_3C5A8
 _word_3C020 equ word_3C020
     db ? ;align 4
     db ?
-_byte_3C02A db ?
-    db ? ;align 2
 _unk_3C030 label byte
 unk_3C030 db ?
     db 9 dup(?)
