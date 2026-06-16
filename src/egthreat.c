@@ -236,7 +236,7 @@ void updateObjects(void)
     int p0, p, pa, a, b, r, s, c, d, t, u0, e0, f, e1, u2, w, x, h, v3, y, j, g3, k, aj, z2, l, m0, m, ma, n;
 
     if ((frameTick & 1) == 0 && word_336F6 == -1) {
-        *(int16 *)((char *)stru_33402 + ((frameTick >> 1) & 7) * 8) = 0;
+        stru_33402[(frameTick >> 1) & 7].field_0 = 0;
     }
 
     bulletTracks[((frameTick >> 2) & 3) + word_3AFA4].posX = 0;
@@ -244,12 +244,12 @@ void updateObjects(void)
     word_3A946 = var_668;
     var_668 = 0;
     for (h = 0; h < word_3C046; h++) {
-    if (*(uint8 *)&stru_3B202[h].state[8] & 1) {
-    var_667 = *(int16 *)&stru_3B202[h].state[6];
-    if ((*(uint8 *)&stru_3B202[h].state[8] & 2) && *(int16 *)&stru_3B202[h].state[10] != 0) {
+    if (stru_3B202[h].flags.b[0] & 1) {
+    var_667 = stru_3B202[h].spec;
+    if ((stru_3B202[h].flags.b[0] & 2) && stru_3B202[h].speed != 0) {
     w = 0;
-    if (!(*(uint8 *)&stru_3B202[h].state[8] & 4)) {
-    if (word_336F0 != 0 && (!((*(uint16 *)&stru_3B202[h].state[8]) & 0x140) || word_336F0 > word_3995C)) {
+    if (!(stru_3B202[h].flags.b[0] & 4)) {
+    if (word_336F0 != 0 && (!((stru_3B202[h].flags.w) & 0x140) || word_336F0 > word_3995C)) {
         k = word_3B4D8;
         m = word_3B4E0;
         n = word_3B5D6;
@@ -259,15 +259,15 @@ void updateObjects(void)
     }
 
     w = 3;
-    if ((*(uint16 *)&stru_3B202[h].state[8]) & 0x100) {
+    if ((stru_3B202[h].flags.w) & 0x100) {
     if (word_336FC != -1) {
-        k = sinMul((h & 7) * 0x800 + *(int16 *)&stru_3B202[word_336FC].state[0] - 0x1800,
-                      *(int16 *)&stru_3B202[word_336FC].state[10])
+        k = sinMul((h & 7) * 0x800 + stru_3B202[word_336FC].heading.w - 0x1800,
+                      stru_3B202[word_336FC].speed)
             + stru_3B202[word_336FC].posX;
 
         m = stru_3B202[word_336FC].posY -
-            cosMul((h & 7) * 0x800 + *(int16 *)&stru_3B202[word_336FC].state[0] - 0x1800,
-                      *(int16 *)&stru_3B202[word_336FC].state[10]);
+            cosMul((h & 7) * 0x800 + stru_3B202[word_336FC].heading.w - 0x1800,
+                      stru_3B202[word_336FC].speed);
 
         n = stru_3B202[word_336FC].alt + (h & 7) * 0x40;
         goto set_target_alt;
@@ -275,7 +275,7 @@ void updateObjects(void)
     }
 
     if (((uint8)h * 8 + (uint8)word_38FE0) & 0xbf) goto after_retarget;
-    if (!(*(uint8 *)&stru_3B202[h].state[8] & 0x40)) {
+    if (!(stru_3B202[h].flags.b[0] & 0x40)) {
     f = 0x7fff;
     pa = computeBearing(g_viewX_ - stru_3B202[h].posX,
                    stru_3B202[h].posY - g_viewY_);
@@ -293,8 +293,8 @@ void updateObjects(void)
     }
     if ((unsigned)rangeApprox(g_viewX_ - stru_3B202[h].posX,
                   g_viewY_ - stru_3B202[h].posY) >> 6 > 0x15e && h != 0) {
-        (*(uint16 *)&stru_3B202[h].state[8]) &= 0x1c1;
-        *(int16 *)&stru_3B202[h].state[12] = 0;
+        (stru_3B202[h].flags.w) &= 0x1c1;
+        stru_3B202[h].timer = 0;
     }
     }
 
@@ -314,7 +314,7 @@ padlock_target:
     }
 
     k = g_planes[*(int16 *)&stru_3B202[h].objType].mapX;
-    if ((*(uint16 *)&stru_3B202[h].state[8]) & 0x200) {
+    if ((stru_3B202[h].flags.w) & 0x200) {
         n = stru_3B202[h].posX - k;
         m = g_planes[*(int16 *)&stru_3B202[h].objType].mapY;
         k = k - n * 2;
@@ -328,7 +328,7 @@ padlock_target:
     w = 2;
 
 got_target:
-    if (w == 3 && (*(uint8 *)&stru_3B202[h].state[8] & 8)) {
+    if (w == 3 && (stru_3B202[h].flags.b[0] & 8)) {
         k = g_viewX_;
         m = g_viewY_;
         n = stru_3B202[h].alt;
@@ -343,15 +343,15 @@ got_target:
     var_668++;
     if ((unsigned)e1 >= 0x400) goto after_missile_table;
     if (frameTick & 3) goto after_missile_table;
-    if (abs(*(int16 *)&stru_3B202[h].state[0] - b) >= 0x800) goto after_missile_table;
-    if (abs(*(int16 *)&stru_3B202[h].state[2] - p) >= 0x800) goto after_missile_table;
+    if (abs(stru_3B202[h].heading.w - b) >= 0x800) goto after_missile_table;
+    if (abs(stru_3B202[h].pitch - p) >= 0x800) goto after_missile_table;
 
     g3 = ((frameTick >> 2) & 3) + word_3AFA4;
     v3 = 0x138 / g_frameRateScaling;
-    bulletTracks[g3].velZ = sinMul(-*(int16 *)&stru_3B202[h].state[2], v3) << 5;
-    v3 = cosMul(*(int16 *)&stru_3B202[h].state[2], v3);
-    bulletTracks[g3].velX = sinMul(*(int16 *)&stru_3B202[h].state[0], v3);
-    bulletTracks[g3].velY = -cosMul(*(int16 *)&stru_3B202[h].state[0], v3);
+    bulletTracks[g3].velZ = sinMul(-stru_3B202[h].pitch, v3) << 5;
+    v3 = cosMul(stru_3B202[h].pitch, v3);
+    bulletTracks[g3].velX = sinMul(stru_3B202[h].heading.w, v3);
+    bulletTracks[g3].velY = -cosMul(stru_3B202[h].heading.w, v3);
     bulletTracks[g3].posX = stru_3B202[h].posX;
     bulletTracks[g3].posY = stru_3B202[h].posY;
     bulletTracks[g3].alt = stru_3B202[h].alt;
@@ -359,16 +359,16 @@ got_target:
 after_missile_table:
     a = clampRange((h & 3) + g_missionStatus, 0, 2);
     if (h == 0) a = 1;
-    d = *(int16 *)&stru_3B202[h].state[0];
-    if (abs(*(int16 *)&stru_3B202[h].state[4]) < 0x4000) {
-        d += *(int16 *)&stru_3B202[h].state[4] >> 2;
+    d = stru_3B202[h].heading.w;
+    if (abs(stru_3B202[h].field_4.w) < 0x4000) {
+        d += stru_3B202[h].field_4.w >> 2;
     }
     r = (int)(b - d) >> 13 & 7;
     d = var_542;
     if (abs(var_545) < 0x4000) {
         d += var_545 >> 1;
     }
-    t = ((*(int16 *)&stru_3B202[h].state[0] - d) >> 13) + 4 & 7;
+    t = ((stru_3B202[h].heading.w - d) >> 13) + 4 & 7;
     {
         register int ak;
         ak = word_33444[a][r][t];
@@ -383,17 +383,17 @@ after_missile_table:
         l = (((frameTick >> 8) & 8) - 4) * -0x1000;
     }
     if (p == (int16)0xa000) {
-        if (-((*(int16 *)&stru_3B202[h].state[2] >> 3) - 3000) > stru_3B202[h].alt) {
-            p = *(int16 *)&stru_3B202[h].state[2] + 0x1000;
+        if (-((stru_3B202[h].pitch >> 3) - 3000) > stru_3B202[h].alt) {
+            p = stru_3B202[h].pitch + 0x1000;
         }
     }
-    if (abs(*(int16 *)&stru_3B202[h].state[4]) > 0x4000) {
+    if (abs(stru_3B202[h].field_4.w) > 0x4000) {
         p = l = 0;
     }
     goto after_accel;
     }
 
-    l = clampRange(b - *(int16 *)&stru_3B202[h].state[0], -0x3000, 0x3000) << 1;
+    l = clampRange(b - stru_3B202[h].heading.w, -0x3000, 0x3000) << 1;
     if (w == 1 && g_missionStatus + 1 <= word_3A946) {
         l = 0x3000;
     }
@@ -405,25 +405,25 @@ after_accel:
 
     l = clampRange(l, -aircraftTypes[var_667].field_16 * 0x1000,
                   aircraftTypes[var_667].field_16 * 0x1000);
-    l = clampRange(l - *(int16 *)&stru_3B202[h].state[4],
+    l = clampRange(l - stru_3B202[h].field_4.w,
                   -aircraftTypes[var_667].field_16 * 256,
                   aircraftTypes[var_667].field_16 * 256);
 
-    if ((*(uint16 *)&stru_3B202[h].state[8]) & 0x400) {
-        if (*(int16 *)&stru_3B202[h].state[10] < 0x96) {
-            *(int16 *)&stru_3B202[h].state[2] = 0;
+    if ((stru_3B202[h].flags.w) & 0x400) {
+        if (stru_3B202[h].speed < 0x96) {
+            stru_3B202[h].pitch = 0;
         } else {
-            *(int16 *)&stru_3B202[h].state[2] += 0x100;
+            stru_3B202[h].pitch += 0x100;
         }
         l = 0;
-        if (*(int16 *)&stru_3B202[h].state[10] < aircraftTypes[var_667].field_12) {
-            *(int16 *)&stru_3B202[h].state[10] += 0x3c / g_frameRateScaling;
+        if (stru_3B202[h].speed < aircraftTypes[var_667].field_12) {
+            stru_3B202[h].speed += 0x3c / g_frameRateScaling;
         } else if (stru_3B202[h].alt > 300) {
-            stru_3B202[h].state[9] &= 0xfb;
+            stru_3B202[h].flags.b[1] &= 0xfb;
         }
     }
 
-    if (*(uint8 *)&stru_3B202[h].state[8] & 0x30) {
+    if (stru_3B202[h].flags.b[0] & 0x30) {
         l = 0x400;
     }
 
@@ -432,13 +432,13 @@ after_accel:
                   stru_3B202[h].posY,
                   stru_3B202[h].alt);
         if (*(int8 *)&var_315 != 0) {
-            stru_3B202[h].state[9] |= 0x20;
+            stru_3B202[h].flags.b[1] |= 0x20;
         } else {
-            stru_3B202[h].state[9] &= 0xdf;
+            stru_3B202[h].flags.b[1] &= 0xdf;
         }
     }
 
-    if ((*(uint16 *)&stru_3B202[h].state[8]) & 0x2000) {
+    if ((stru_3B202[h].flags.w) & 0x2000) {
         p = 0x3000;
     }
 
@@ -448,19 +448,21 @@ after_accel:
 
     {
     register int u = h * 0x24;
-    *(int16 *)&stru_3B202[h].state[4] += (l * (g_missionStatus + 2)) / g_frameRateScaling;
-    *(int16 *)&stru_3B202[h].state[0] += (*(int16 *)&stru_3B202[h].state[4] >> 3) / g_frameRateScaling;
+    stru_3B202[h].field_4.w += (l * (g_missionStatus + 2)) / g_frameRateScaling;
+    stru_3B202[h].heading.w += (stru_3B202[h].field_4.w >> 3) / g_frameRateScaling;
 
-    j = p - *(int16 *)&stru_3B202[h].state[2];
-    if (!(*(uint8 *)&stru_3B202[h].state[8] & 0x20)) goto no_smoke;
+    j = p - stru_3B202[h].pitch;
+    if (!(stru_3B202[h].flags.b[0] & 0x20)) goto no_smoke;
     j = -0x200;
     if (frameTick & 3) goto no_smoke;
     ma = (frameTick >> 1) & 7;
-    ((struct struc_9 *)stru_33402)[ma].field_0 = *(int16 *)((char *)stru_3B202 + u + 2);
+    stru_33402[ma].field_0 = *(int16 *)((char *)stru_3B202 + u + 2);
     }
     {
     register int t = ma * 8;
     register int v = h * 0x24;
+    /* stru_33402[ma] via register offset t: idiomatic stru_33402[ma].field_N
+       recomputes ma*8 and shifts register allocation (verify mismatch). */
     *(int16 *)((char *)stru_33402 + t + 2) = *(int16 *)((char *)stru_3B202 + v + 4);
     *(int16 *)((char *)stru_33402 + t + 4) = *(int16 *)((char *)stru_3B202 + v + 6);
     *(int16 *)((char *)stru_33402 + t + 6) = randomRange(0x20) << 11;
@@ -468,44 +470,44 @@ after_accel:
     }
 no_smoke:
 
-    if (*(int16 *)&stru_3B202[h].state[2] < 0 &&
-        -(sinMul(*(int16 *)&stru_3B202[h].state[2], 2000) - 200) > stru_3B202[h].alt &&
-        ((*(uint16 *)&stru_3B202[h].state[8]) & 0x220) == 0) {
+    if (stru_3B202[h].pitch < 0 &&
+        -(sinMul(stru_3B202[h].pitch, 2000) - 200) > stru_3B202[h].alt &&
+        ((stru_3B202[h].flags.w) & 0x220) == 0) {
         j = 0x400;
     }
 
     j = clampRange(j, -0x400, 0x400);
-    *(int16 *)&stru_3B202[h].state[2] += (j << 2) / g_frameRateScaling;
-    if (abs(*(int16 *)&stru_3B202[h].state[2]) > 0x4000) {
-        *(int8 *)((char *)&stru_3B202[h].state[0] + 1) += (char)0x80;
-        *(int8 *)((char *)&stru_3B202[h].state[4] + 1) += (char)0x80;
-        *(int16 *)&stru_3B202[h].state[2] = (int16)0x8000 - *(int16 *)&stru_3B202[h].state[2];
+    stru_3B202[h].pitch += (j << 2) / g_frameRateScaling;
+    if (abs(stru_3B202[h].pitch) > 0x4000) {
+        stru_3B202[h].heading.b[1] += (char)0x80;
+        stru_3B202[h].field_4.b[1] += (char)0x80;
+        stru_3B202[h].pitch = (int16)0x8000 - stru_3B202[h].pitch;
     }
 
-    *(uint8 *)&stru_3B202[h].state[8] &= 0xef;
+    stru_3B202[h].flags.b[0] &= 0xef;
 
-    u2 = (int)((unsigned long)(unsigned)(-(*(int16 *)&stru_3B202[h].state[2] / 2 + (int16)0x8000))
-            * (long)*(int16 *)&stru_3B202[h].state[10] >> 14);
-    u2 -= abs(sinMul(*(int16 *)&stru_3B202[h].state[4], u2)) >> 1;
+    u2 = (int)((unsigned long)(unsigned)(-(stru_3B202[h].pitch / 2 + (int16)0x8000))
+            * (long)stru_3B202[h].speed >> 14);
+    u2 -= abs(sinMul(stru_3B202[h].field_4.w, u2)) >> 1;
     u2 = u2 * 4 / g_frameRateScaling;
     u2 >>= 2;
 
-    m0 = cosMul(*(int16 *)&stru_3B202[h].state[2], u2);
+    m0 = cosMul(stru_3B202[h].pitch, u2);
 
-    stru_3B202[h].worldX += (long)sinMul(*(int16 *)&stru_3B202[h].state[0], m0);
-    stru_3B202[h].worldY -= (long)cosMul(*(int16 *)&stru_3B202[h].state[0], m0);
+    stru_3B202[h].worldX += (long)sinMul(stru_3B202[h].heading.w, m0);
+    stru_3B202[h].worldY -= (long)cosMul(stru_3B202[h].heading.w, m0);
 
-    stru_3B202[h].alt += sinMul(*(int16 *)&stru_3B202[h].state[2], u2);
+    stru_3B202[h].alt += sinMul(stru_3B202[h].pitch, u2);
 
     stru_3B202[h].posX = (int16)(stru_3B202[h].worldX >> 5);
     stru_3B202[h].posY = (int16)(stru_3B202[h].worldY >> 5);
 
     if (stru_3B202[h].alt <= 30000) goto alt_ok;
-    *(int16 *)&stru_3B202[h].state[2] = 0;
+    stru_3B202[h].pitch = 0;
 alt_ok:
 
     if (stru_3B202[h].alt < 0) {
-        (*(uint16 *)&stru_3B202[h].state[8]) &= (h != 0) ? 0x1c1 : 0;
+        (stru_3B202[h].flags.w) &= (h != 0) ? 0x1c1 : 0;
         word_3BEBC = stru_3B202[h].posX;
         word_3BEC8 = stru_3B202[h].posY;
         word_3BECE = stru_3B202[h].alt;
@@ -516,32 +518,32 @@ alt_ok:
     }
 
     if ((unsigned)e1 < 0x10 && w == 2) {
-        if ((*(uint16 *)&stru_3B202[h].state[8]) & 0x200) {
-            (*(uint16 *)&stru_3B202[h].state[8]) |= 0x1000;
+        if ((stru_3B202[h].flags.w) & 0x200) {
+            (stru_3B202[h].flags.w) |= 0x1000;
         } else {
-            (*(uint16 *)&stru_3B202[h].state[8]) |= 0x200;
+            (stru_3B202[h].flags.w) |= 0x200;
         }
     }
 
-    if ((*(uint16 *)&stru_3B202[h].state[8]) & 0x1000) {
-        *(int16 *)&stru_3B202[h].state[4] = *(int16 *)&stru_3B202[h].state[2] = 0;        *(int16 *)&stru_3B202[h].state[0] = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
+    if ((stru_3B202[h].flags.w) & 0x1000) {
+        stru_3B202[h].field_4.w = stru_3B202[h].pitch = 0;        stru_3B202[h].heading.w = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
         stru_3B202[h].alt = (g_planes[g_closestThreatIndex].flags & 0x200) ? 0x8c : 0x0c;
-        if (*(int16 *)&stru_3B202[h].state[10] > 0) {
-            *(int16 *)&stru_3B202[h].state[10] -= 0x78 / g_frameRateScaling;
+        if (stru_3B202[h].speed > 0) {
+            stru_3B202[h].speed -= 0x78 / g_frameRateScaling;
         } else {
-            (*(uint16 *)&stru_3B202[h].state[8]) &= 0x1c1;
+            (stru_3B202[h].flags.w) &= 0x1c1;
             if (h == 0 && g_targetSlots[0].state >= 5) {
-                (*(uint16 *)&stru_3B202[h].state[8]) = 0;
+                (stru_3B202[h].flags.w) = 0;
             }
         }
-        if (h >= word_3C046 - 4 && *(int16 *)&stru_3B202[h].state[10] < 100) {
-            (*(uint16 *)&stru_3B202[h].state[8]) &= 0x1c1;
-            (*(uint16 *)&stru_3B202[h].state[8]) |= 0x406;
+        if (h >= word_3C046 - 4 && stru_3B202[h].speed < 100) {
+            (stru_3B202[h].flags.w) &= 0x1c1;
+            (stru_3B202[h].flags.w) |= 0x406;
         }
     }
 
-    if (--*(int16 *)&stru_3B202[h].state[12] == 0) {
-        *(uint8 *)&stru_3B202[h].state[8] |= 4;
+    if (--stru_3B202[h].timer == 0) {
+        stru_3B202[h].flags.b[0] |= 4;
         f = 0x7fff;
         for (y = 3; y < word_3C69E; y++) {
             if ((g_planes[y].flags & 0x101) == 1) {
@@ -555,13 +557,13 @@ alt_ok:
         }
     }
 
-    *(int16 *)&stru_3B202[h].state[16] = readMapPixelColor(
+    stru_3B202[h].terrainColor = readMapPixelColor(
         stru_3B202[h].posX,
         stru_3B202[h].posY);
 
     {
     register char o;
-    o = *(uint8 *)&stru_3B202[h].state[8];
+    o = stru_3B202[h].flags.b[0];
     if ((o & 2) &&
         (x = (((uint8)h & 8) >> 3) + (h & 7) * 2,
          frameTick % (g_frameRateScaling << 4) == x * g_frameRateScaling) &&
@@ -575,9 +577,9 @@ alt_ok:
     if (h != 0) {
     if (0xe0 / (g_missionStatus + 2) < word_38FE0 - var_556) {
     s = randomRange(word_3C69E);
-    if (word_336F0 != 0 || (*(uint8 *)&stru_3B202[h].state[8] & 0x80)) {
+    if (word_336F0 != 0 || (stru_3B202[h].flags.b[0] & 0x80)) {
     if ((g_planes[s].flags & 0x181) == 1) {
-    if (*(int16 *)&stru_3B202[h].state[6] == g_planes[s].field_8) {
+    if (stru_3B202[h].spec == g_planes[s].field_8) {
     if (g_missionStatus * 2 >= word_3A946) {
     aj = word_3B4D8 - g_planes[s].mapX;
     z2 = word_3B4E0 - g_planes[s].mapY;

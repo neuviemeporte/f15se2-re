@@ -61,7 +61,7 @@ void drawTacticalMap(char page)
         f += 2;
     }
     for (f = 0; f < word_3C046; f++) {
-        if ((stru_3B202[f].state[8] & 2) && *(int16 *)&stru_3B202[f].state[10] != 0) {
+        if ((stru_3B202[f].flags.b[0] & 2) && stru_3B202[f].speed != 0) {
             projectMapPoint(stru_3B202[f].posX, stru_3B202[f].posY);
             if (word_3C016 != -1) {
                 if (g_currentWeaponType == 1 && f == word_336F2) {
@@ -70,7 +70,7 @@ void drawTacticalMap(char page)
                 if (word_336F8 > 0 && f == 0xffff - word_3BE96) {
                     drawMapMarkerBox(var_279, var_282, word_38F72);
                 }
-                a = *(int16 *)&stru_3B202[f].state[0] - var_542 + 0x800;
+                a = stru_3B202[f].heading.w - var_542 + 0x800;
                 d = stru_3B202[f].alt - var_547;
                 c = 0;
                 if (d < -1000) {

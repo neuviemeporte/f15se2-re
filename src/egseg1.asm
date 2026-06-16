@@ -113,7 +113,7 @@ EXTRN word_3426E:word
 EXTRN word_34270:word
 EXTRN word_34272:word
 EXTRN word_34274:word
-EXTRN word_34276:word
+EXTRN _word_34276:word
 EXTRN word_34278:word
 EXTRN word_3427A:word
 EXTRN word_3427C:word
@@ -1427,7 +1427,7 @@ loc_0908:
     IMUL CX
     ADD SI,AX
     ADC DI,DX
-    MOV AX,[word_34276]
+    MOV AX,[_word_34276]
     IMUL BP
     ADD SI,AX
     ADC DI,DX
@@ -1850,14 +1850,14 @@ MOV byte ptr [_var_215], AL
     MOV BP,[word_3424A]
     CALL loc_147B
     MOV BX,offset word_34288
-    MOV SI,offset word_34276
+    MOV SI,offset _word_34276
     MOV DI,offset word_3429A
     CALL loc_15CD
     POP SI
     JMP short loc_0C96
     NOP
 loc_0C60:
-    MOV AX,[word_34276]
+    MOV AX,[_word_34276]
     MOV [word_3429A],AX
     MOV AX,[word_34278]
     MOV [word_3429C],AX
@@ -2058,7 +2058,7 @@ loc_0DFC:
     SHL DI,1
 loc_0E07:
     MOV CX,[BX + offset _byte_3B7FC + 600h]
-    MOV AX,[word_34276]
+    MOV AX,[_word_34276]
     IMUL CX
     SHL AX,1
     RCL DX,1

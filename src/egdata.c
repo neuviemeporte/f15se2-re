@@ -44,6 +44,9 @@ int16 word_33712 = 0;
 int16 word_33714 = 0;
 int16 word_3374A = 0;
 
+/* stru_33402: 8-entry smoke/marker ring table (struc_9 records, stride 8). */
+struct struc_9 stru_33402[8];
+
 /* 3D loader size/sign scalars. */
 
 size_t size3d3 = 1;
@@ -519,6 +522,9 @@ uint8 byte_37F98 = 0;   /* keyboard virtual-stick raw pitch axis (int9Handler) *
 uint8 byte_37F99 = 0;   /* keyboard virtual-stick raw roll axis (int9Handler) */
 int16 word_38F70;
 int word_39606;
+/* word_39808: nearest-tile-object pointer; result of findNearestTileObject(),
+   aliasing the word_3B7E0 scratch block. */
+struct TileObject *word_39808;
 int16 word_3B0AC;
 int16 word_3B4D8;
 int16 word_3B4E0;
@@ -533,3 +539,12 @@ int16 *word_3C69C;
 int16 *word_3C6A2;
 uint8 byte_3C6A0[1];
 uint8 byte_3C8B0[2];
+
+/* g_proj3d: projectObjects() world-space projection origin.
+   Was word_3C8B8/BC/C0 (each a long; high halves 3C8BA/BE/C2) in egslots.asm. */
+struct Proj3d g_proj3d;
+
+/* byte_3B7FC: tactical-replay event log (events[0..0x600]) + 3D model vertex-X table
+   (vertexX[] at +0x600). One 0x640-byte buffer; egseg1.asm reaches vertexX at the fixed
+   offset _byte_3B7FC+0x600. Was _byte_3B7FC db 640h dup in egslots.asm. */
+struct ReplayLog byte_3B7FC;

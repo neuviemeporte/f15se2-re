@@ -63,7 +63,7 @@ void load3D3(char *fileName) {
         fread(buf3d3_2, 1, size3d3_3, fileHandle);
         fread(buf3d3_3, 1, size3d3_3, fileHandle);
         fread(&size3d3_4, 1, 1, fileHandle);
-        fread(&byte_3B7FC[0x600], 2, size3d3_4, fileHandle);
+        fread(byte_3B7FC.vertexX, 2, size3d3_4, fileHandle);
         fread(&size3d3_5, 1, 1, fileHandle);
         fread(byte_3BE3E, 2, size3d3_5, fileHandle);
         fread(&size3d3_6, 1, 1, fileHandle);

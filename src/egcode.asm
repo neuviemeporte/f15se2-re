@@ -448,23 +448,18 @@ EXTRN picBuf:BYTE
 EXTRN picDecodedRowBuf:BYTE
 EXTRN rowOffset:WORD
 EXTRN strBuf:BYTE
-EXTRN stru_33402:BYTE
 EXTRN timerHandlerInstalled:BYTE
 EXTRN tmpFileHandle:WORD
 EXTRN aReadError:BYTE
 EXTRN aWriteError:BYTE
 EXTRN tmpPageIndex:WORD
-EXTRN word_333D2:WORD
-EXTRN word_333D4:WORD
-EXTRN word_333D8:WORD
-EXTRN word_333DA:WORD
 EXTRN _word_336F0:WORD
 EXTRN word_3424C:WORD
 EXTRN word_3424E:WORD
 EXTRN word_37146:WORD
 EXTRN word_37148:WORD
-EXTRN word_37348:WORD
-EXTRN word_3734A:WORD
+EXTRN _word_37348:WORD
+EXTRN _word_3734A:WORD
 EXTRN word_378F0:WORD
 EXTRN word_378F2:WORD
 EXTRN word_378F4:WORD
@@ -483,7 +478,6 @@ EXTRN word_38D5E:WORD
 EXTRN word_38D66:WORD
 EXTRN _word_38F70:WORD
 EXTRN _word_39606:WORD
-EXTRN word_39808:WORD
 EXTRN _word_3B0AC:WORD
 EXTRN _word_3B4D8:WORD
 EXTRN _word_3B4E0:WORD
@@ -829,8 +823,8 @@ lookupSine proc near
     mov BL,BH
     mov BH,DH
     shl BX,1h
-    mov AX,word ptr [BX + offset word_3734A]
-    mov BX,word ptr [BX + offset word_37348]
+    mov AX,word ptr [BX + offset _word_3734A]
+    mov BX,word ptr [BX + offset _word_37348]
     sub AX,BX
     imul DX
     mov DH,DL

@@ -150,7 +150,6 @@ PUBLIC var_468
 PUBLIC byte_37EEE
 PUBLIC byte_37EEF
 PUBLIC unk_37565
-PUBLIC unk_38FD0
 PUBLIC word_37557
 PUBLIC word_37559
 PUBLIC word_37B26
@@ -207,7 +206,6 @@ PUBLIC _word_34686
 PUBLIC _word_34868
 PUBLIC _word_34A4C
 PUBLIC _var_143
-PUBLIC _word_39808
 PUBLIC _word_3B7E0
 PUBLIC _word_3B7E4
 PUBLIC _word_3B7E6
@@ -301,7 +299,6 @@ PUBLIC byte_37F9E
 PUBLIC byte_37F9F
 PUBLIC _aFlogger
 PUBLIC _byte_3C16E
-PUBLIC _byte_3B7FC
 PUBLIC _byte_3790C
 PUBLIC _word_3C69E
 PUBLIC _off_38334
@@ -319,7 +316,6 @@ PUBLIC _stru_3A95A
 PUBLIC _word_34186
 PUBLIC _word_3419C
 PUBLIC _word_339B4
-PUBLIC _stru_33402
 PUBLIC _stru_335C4
 PUBLIC _unk_3C030
 PUBLIC _g_planes
@@ -333,9 +329,6 @@ PUBLIC _unk_38128
 PUBLIC _word_3755D
 PUBLIC _word_3755F
 PUBLIC _word_38202
-PUBLIC _word_3C8B8
-PUBLIC _word_3C8BC
-PUBLIC _word_3C8C0
 PUBLIC _var_217
 PUBLIC _var_220
 PUBLIC _var_600
@@ -345,8 +338,6 @@ PUBLIC _word_3AA5C
 PUBLIC _waypoints
 PUBLIC _var_564
 PUBLIC _var_565
-PUBLIC _word_333D8
-PUBLIC _word_333DA
 PUBLIC _word_3298C
 PUBLIC _word_3298E
 PUBLIC _var_224
@@ -388,9 +379,7 @@ PUBLIC _var_550
 PUBLIC _var_547
 PUBLIC _uvar_547
 PUBLIC _var_549
-PUBLIC _word_333D2
 PUBLIC _mapEvents
-PUBLIC _word_333D4
 PUBLIC _var_351
 PUBLIC _var_352
 PUBLIC _var_353
@@ -460,21 +449,14 @@ PUBLIC picBuf
 PUBLIC picDecodedRowBuf
 PUBLIC rowOffset
 PUBLIC strBuf
-PUBLIC stru_33402
 PUBLIC timerHandlerInstalled
 PUBLIC tmpFileHandle
 PUBLIC tmpPageIndex
 PUBLIC unk_3C030
 PUBLIC word_3298C
 PUBLIC word_3298E
-PUBLIC word_333D2
-PUBLIC word_333D4
-PUBLIC word_333D8
-PUBLIC word_333DA
 PUBLIC word_37146
 PUBLIC word_37148
-PUBLIC word_37348
-PUBLIC word_3734A
 PUBLIC word_378F0
 PUBLIC word_378F2
 PUBLIC word_378F4
@@ -491,7 +473,6 @@ PUBLIC word_389E0
 PUBLIC word_38D5C
 PUBLIC word_38D5E
 PUBLIC word_38D66
-PUBLIC word_39808
 
 .DATA ;dseg segment para public 'DATA' use16
 
@@ -1191,7 +1172,7 @@ _g_missionStatus equ g_missionStatus
 ; var_83: weapon/target compatibility matrix, var_83[weaponIdx*13 + (byte_3BFA4[..]&0xf)]
 ; (missileTargetCompat, egtacmap.c). 20 weapons x 13 target categories, 260 bytes, ending at
 ; word_333D2. Rows w0/w1 (Sidewinder/AMRAAM) and w16/w17/w19 are zero; type-1 weapons don't use it.
-word_332CE label byte
+_var_83 label byte
     db 33 dup(0)
     db 2
     db 6
@@ -1316,18 +1297,12 @@ word_332CE label byte
     db 13 dup(0)
 word_333D2 label word
 _mapEvents equ word_333D2
-    dw 0
-_word_333D2 equ word_333D2
-word_333D4 dw 0
-_word_333D4 equ word_333D4
-    db 2 dup(0)
-word_333D8 dw 0
-_word_333D8 equ word_333D8
-word_333DA dw 0
-_word_333DA equ word_333DA
+    dw 0                ; mapEvents[0].mapX
+    dw 0                ; mapEvents[0].mapY (was word_333D4)
+    db 2 dup(0)         ; mapEvents[0].field_4
+    dw 0                ; mapEvents[0].type (was word_333D8)
+    dw 0                ; mapEvents[0].ttl  (was word_333DA)
     db 38 dup(0)
-    stru_33402 struc_9 8 dup(<0>)
-_stru_33402 equ stru_33402
     _stru_335C4 Projectile 0Ch dup(<0>)
 asc_33744 db 'L',0
     db '(',0
@@ -5675,8 +5650,6 @@ ORG 0017Eh
 _var_48 EQU _waypoints + 0Ch
 ORG 00180h
 _var_49 EQU _waypoints + 0Eh
-ORG 00A1Eh
-_var_83 EQU word_332CE
 ORG 01100h
 _var_134 EQU word_339B0
 ORG 01102h
@@ -5932,8 +5905,6 @@ _unk_38FD0 equ unk_38FD0
     db 9 dup(?)
     db 2 dup(?)
     db 512 dup(?)
-word_39808 dw ?
-_word_39808 equ word_39808
     db 80 dup(?)
     db ?
 
@@ -5979,7 +5950,6 @@ byte_3B7F1 db ?
 _byte_3B7F1 equ byte_3B7F1
     db ? ;align 8
     db 5 dup(?)
-_byte_3B7FC db 640h dup(?)
     db ? ;align 4
     db ?
 _regs db ?
@@ -6067,7 +6037,6 @@ PUBLIC word_3426E
 PUBLIC word_34270
 PUBLIC word_34272
 PUBLIC word_34274
-PUBLIC word_34276
 PUBLIC word_34278
 PUBLIC word_3427A
 PUBLIC word_3427C
@@ -6158,15 +6127,6 @@ _word_34276 equ word_34276
     db ? ;align 400h
     db 511 dup(?)
     db ? ;align 2
-word_3C8B8 dw ?
-_word_3C8B8 equ word_3C8B8
-word_3C8BA dw ?
-word_3C8BC dw ?
-_word_3C8BC equ word_3C8BC
-word_3C8BE dw ?
-word_3C8C0 dw ?
-_word_3C8C0 equ word_3C8C0
-word_3C8C2 dw ?
 _size3d3_7 dw ?
     db 10 dup(?)
 

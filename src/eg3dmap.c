@@ -19,7 +19,7 @@
 
 // ==== seg000:0x2fda ====
 
-int16* findNearestTileObject(uint32 worldX, uint32 worldY) {
+struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
     int p, q, a, r, b, c, d, e, f, g, h, i, j, k, l, m, n, o;
 
     word_3B7E2 = 0x7fff;
@@ -77,7 +77,7 @@ int16* findNearestTileObject(uint32 worldX, uint32 worldY) {
         }
     }
     if (word_3B7E2 != 0x7fff) {
-        return &word_3B7E0;
+        return (struct TileObject *)&word_3B7E0;
     }
     return 0;
 }
@@ -310,7 +310,7 @@ void projectModelVertices(int screenX, int screenY) {
         var_200 += (unsigned char)var_258 * 2 + 2;
         if (b != 0) {
             a = (int)(unsigned char)(*(*(char far **)&var_200)++);
-            c = (((int16 *)&byte_3B7FC[0x600])[buf3d3_1[a]] >> word_3C042) + screenX;
+            c = (byte_3B7FC.vertexX[buf3d3_1[a]] >> word_3C042) + screenX;
             d = (((int16 *)byte_3BE3E)[buf3d3_2[a]] >> word_3C042) + screenY;
         } else {
             c = (*(*(int far **)&var_200)++ >> word_3C042) + screenX;

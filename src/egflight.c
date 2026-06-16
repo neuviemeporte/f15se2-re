@@ -362,11 +362,11 @@ switch_break:
 
             l = ((uint16)frameTick / 2) & 7;
 
-            ((struct struc_9*)stru_33402)[l].field_0 = g_viewX_;
-            ((struct struc_9*)stru_33402)[l].field_2 = g_viewY_;
-            ((struct struc_9*)stru_33402)[l].field_4 = g_viewZ;
+            stru_33402[l].field_0 = g_viewX_;
+            stru_33402[l].field_2 = g_viewY_;
+            stru_33402[l].field_4 = g_viewZ;
 
-            ((struct struc_9*)stru_33402)[l].field_6 = randomRange(0x20) << 11;
+            stru_33402[l].field_6 = randomRange(0x20) << 11;
 
             word_33442 = l;
             word_3BEBC = g_viewX_;

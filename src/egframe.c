@@ -106,27 +106,27 @@ void updateFrame(void) {
             if ((*(int far *)((char far *)gameData + 0x32) | *(int far *)((char far *)gameData + 0x34)) == 0 && gameData->theater != 6) {
                 for (d = 0; d < word_3C046 - 4; d++) {
                     if ((d & 1) == 0) {
-                        stru_3B202[d].state[8] |= 2;
+                        stru_3B202[d].flags.b[0] |= 2;
                         stru_3B202[d].alt = 0x898;
-                        *(int *)&stru_3B202[d].state[10] = 300;
+                        stru_3B202[d].speed = 300;
                         stru_3B202[d].posX = d * 12 + g_viewX_ - 0x24;
                         stru_3B202[d].posY = g_viewY_ - (d * 0x20 + 0x96) * word_3AFA8;
                         stru_3B202[d].worldX = (long)stru_3B202[d].posX * 32;
                         stru_3B202[d].worldY = (long)stru_3B202[d].posY * 32;
-                        *(int *)&stru_3B202[d].state[0] = var_542 + 0x8000;
+                        stru_3B202[d].heading.w = var_542 + 0x8000;
                     }
                 }
             }
         }
         if (gameData->theater != 6) {
-            stru_3B202[1].state[8] |= 2;
+            stru_3B202[1].flags.b[0] |= 2;
             stru_3B202[1].alt = 0x834;
-            *(int16 *)&stru_3B202[1].state[10] = 700;
+            stru_3B202[1].speed = 700;
             var_810 = g_viewX_;
             var_811 = 0x50 * word_3AFA8 + g_viewY_;
             stru_3B202[1].worldX = (long)var_810 * 32;
             stru_3B202[1].worldY = (long)var_811 * 32;
-            *(int16 *)&stru_3B202[1].state[0] = var_542;
+            stru_3B202[1].heading.w = var_542;
         }
         word_3AFA8 = p;
         initWeaponLoadout();
@@ -222,16 +222,16 @@ void updateFrame(void) {
 
     if (word_33700 != g_closestThreatIndex && (g_planes[g_closestThreatIndex].flags & 0x800) == 0) {
         for (d = 1; d <= 2; d++) {
-            stru_3B202[word_3C046 - d].state[8] &= ~2;
-            *(int *)&stru_3B202[word_3C046 - d].state[6] = g_planes[g_closestThreatIndex].flags & 0x400 ? 0x0d : 0;
+            stru_3B202[word_3C046 - d].flags.b[0] &= ~2;
+            stru_3B202[word_3C046 - d].spec = g_planes[g_closestThreatIndex].flags & 0x400 ? 0x0d : 0;
             if (g_planes[g_closestThreatIndex].flags & 0x100) {
-                *(int *)&stru_3B202[word_3C046 - d].state[6] = 0x12;
+                stru_3B202[word_3C046 - d].spec = 0x12;
             }
             stru_3B202[word_3C046 - d].objType = g_closestThreatIndex;
         }
         for (d = 3; d <= 4; d++) {
             e = word_3C046 - d;
-            stru_3B202[e].state[8] |= 2;
+            stru_3B202[e].flags.b[0] |= 2;
             stru_3B202[e].posX = g_planes[g_closestThreatIndex].mapX;
             stru_3B202[e].posY = g_planes[g_closestThreatIndex].mapY;
             if ((g_planes[g_closestThreatIndex].flags & 0x200) != 0) {
@@ -245,10 +245,10 @@ void updateFrame(void) {
             }
             stru_3B202[e].worldX = (long)stru_3B202[e].posX << 5;
             stru_3B202[e].worldY = (long)stru_3B202[e].posY << 5;
-            *(int *)&stru_3B202[e].state[0] = -randomRange(0x4000);
-            *(int *)&stru_3B202[e].state[6] = g_planes[g_closestThreatIndex].flags & 0x400 ? 8 : 0x0b;
+            stru_3B202[e].heading.w = -randomRange(0x4000);
+            stru_3B202[e].spec = g_planes[g_closestThreatIndex].flags & 0x400 ? 8 : 0x0b;
             if (g_planes[g_closestThreatIndex].flags & 0x100) {
-                *(int *)&stru_3B202[e].state[6] = 9;
+                stru_3B202[e].spec = 9;
             }
         }
     }
@@ -256,11 +256,11 @@ void updateFrame(void) {
     if ((frameTick & 0x7f) == 0) {
         if ((g_planes[g_closestThreatIndex].flags & 0x800) == 0) {
             e = frameTick & 0x80 ? word_3C046 - 1 : word_3C046 - 2;
-            if ((stru_3B202[e].state[8] & 2) == 0) {
+            if ((stru_3B202[e].flags.b[0] & 2) == 0) {
                 spawnEnemyAircraft(e, g_closestThreatIndex);
-                *(int *)&stru_3B202[e].state[8] = 0x207;
+                stru_3B202[e].flags.w = 0x207;
                 stru_3B202[e].alt = 1000;
-                *(int *)&stru_3B202[e].state[10] = 0xfa;
+                stru_3B202[e].speed = 0xfa;
                 stru_3B202[e].worldY += word_3AFA8 * 0x3000;
             }
         }
@@ -427,8 +427,8 @@ skip_autopilot:
             }
         }
         for (d = 0; d < word_3C046; d++) {
-            if (*(int *)&stru_3B202[d].state[18] > 0xc0 &&
-                (stru_3B202[d].state[8] & 2) != 0) {
+            if (stru_3B202[d].damage > 0xc0 &&
+                (stru_3B202[d].flags.b[0] & 2) != 0) {
                 word_3C09C++;
                 break;
             }
@@ -557,16 +557,16 @@ void updateTracerParticles() {
 
     if (word_336F6 != -1) {
         for (p = 0; p < 8; p++) {
-            ((struct struc_9 *)stru_33402)[p].field_4 += 0x0a;
-            ((struct struc_9 *)stru_33402)[p].field_2 += ((struct struc_9 *)stru_33402)[p].field_4 >> 9;
-            *(((char *)&((struct struc_9 *)stru_33402)[p].field_6) + 1) += 6;
+            stru_33402[p].field_4 += 0x0a;
+            stru_33402[p].field_2 += stru_33402[p].field_4 >> 9;
+            *(((char *)&stru_33402[p].field_6) + 1) += 6;
         }
         if (!((char)frameTick & 0x0f)) {
             a = (frameTick >> 4) & 7;
-            ((struct struc_9 *)stru_33402)[a].field_0 = *(int16 *)((char *)g_planes + word_336F6 * 16);
-            ((struct struc_9 *)stru_33402)[a].field_2 = *(int16 *)((char *)g_planes + word_336F6 * 16 + 2);
-            ((struct struc_9 *)stru_33402)[a].field_4 = 0x80;
-            ((struct struc_9 *)stru_33402)[a].field_6 = randomRange(0x100) << 8;
+            stru_33402[a].field_0 = g_planes[word_336F6].mapX;
+            stru_33402[a].field_2 = g_planes[word_336F6].mapY;
+            stru_33402[a].field_4 = 0x80;
+            stru_33402[a].field_6 = randomRange(0x100) << 8;
             word_33442 = a;
         }
     }
@@ -602,7 +602,7 @@ void initFrameRandom(void) {
 void resetSimObjectLocks() {
     int p;
     for (p = 0; p < word_3C046; p++) {
-        *(int *)&stru_3B202[p].state[16] = -1;
+        stru_3B202[p].terrainColor = -1;
     }
     word_336E6 = -1;
 }
@@ -712,10 +712,10 @@ void generateRandomRadioMessage(void) {
     case 1:
         do {
             p = randomRange(word_3C046);
-        } while (*(int16 *)&stru_3B202[p].state[10] == 0);
+        } while (stru_3B202[p].speed == 0);
         word_3C02E = p + 0x20;
         keyValue = 0x89;
-        strcpy(strBuf, aircraftTypes[*(int16 *)&stru_3B202[p].state[6]].name);
+        strcpy(strBuf, aircraftTypes[stru_3B202[p].spec].name);
         strcat(strBuf, aOnPatrol);
         tempStrcpy(strBuf);
         break;
@@ -731,13 +731,13 @@ void appendMapEvent(int eventType, int arg_2) {
     if (var_654 >= 255) {
         return;
     }
-    *(int *)&byte_3B7FC[var_654 * 6] = word_38FE0;
-    byte_3B7FC[var_654 * 6 + 2] = (unsigned)g_viewX_ >> 7;
-    byte_3B7FC[var_654 * 6 + 3] = (unsigned)g_viewY_ >> 7;
-    byte_3B7FC[var_654 * 6 + 4] = eventType;
-    byte_3B7FC[var_654 * 6 + 5] = arg_2;
+    byte_3B7FC.events[var_654].coord = word_38FE0;
+    byte_3B7FC.events[var_654].screenX = (unsigned)g_viewX_ >> 7;
+    byte_3B7FC.events[var_654].screenY = (unsigned)g_viewY_ >> 7;
+    byte_3B7FC.events[var_654].type = eventType;
+    byte_3B7FC.events[var_654].arg = arg_2;
     var_654++;
-    byte_3B7FC[var_654 * 6 + 4] = 0;
+    byte_3B7FC.events[var_654].type = 0;
 }
 
 // ==== seg000:0x1d6e placeString ====
@@ -792,8 +792,8 @@ void findWaypointFeatures() {
                 (unsigned long)(unsigned)g_planes[g_targetSlots[p].planeIndex].mapX << 5,
                 (0x8000L - (unsigned long)(unsigned)g_planes[g_targetSlots[p].planeIndex].mapY) << 5);
             if (word_39808 != 0) {
-                byte_3BFA4[a] = byte_3BFA4[*word_39808];
-                strcpy(word_3C0A2[a], (char *)word_3C0A2[*word_39808]);
+                byte_3BFA4[a] = byte_3BFA4[word_39808->id];
+                strcpy(word_3C0A2[a], (char *)word_3C0A2[word_39808->id]);
                 word_3C0A2[a + 1] = word_3C0A2[a] + strlen(word_3C0A2[a]) + 1;
                 addTileEntry((char *)word_39808, shapeDataOffset(a + 0x100), a + 0x100);
             }
@@ -810,7 +810,7 @@ void moveDataFar() {
     setCommWorldbufPtr();
     flagFarToNear = 0;
     moveStuff();
-    moveNearFar(byte_3B7FC, 0x600);
+    moveNearFar(byte_3B7FC.events, 0x600);
 }
 
 // ==== seg000:0x206d ====

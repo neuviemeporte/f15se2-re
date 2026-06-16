@@ -178,6 +178,15 @@ struct Projectile {
 };
 STATIC_ASSERT(sizeof(struct Projectile)==0x18);
 
+/* g_proj3d: the world-space origin (x,y,z) projectObjects() projects the 3D scene
+ * relative to. Three int32 written from the routine's long parameters. */
+struct Proj3d {
+    int32 x;            // +0x00  was word_3C8B8/3C8BA
+    int32 y;            // +0x04  was word_3C8BC/3C8BE
+    int32 z;            // +0x08  was word_3C8C0/3C8C2
+};
+STATIC_ASSERT(sizeof(struct Proj3d)==12);
+
 /* BulletTrack: a 3D moving point (player gun rounds + threat shots) tracked for HUD
  * projection. 20-entry table, stride 12. Each frame the position is advanced by the
  * velocity (updateBulletsAndFire) and projected to the HUD (projectWorldToHud). */
@@ -201,7 +210,17 @@ struct SimObject {
     int16 alt;          // +0x06  altitude
     int32 worldX;       // +0x08  world X position (integrated each frame)
     int32 worldY;       // +0x0C  world Y position
-    uint8 state[20];    // +0x10..0x24  per-object motion/AI state
+    // +0x10..0x24  per-object motion/AI state (was uint8 state[20])
+    union { int16 w; uint8 b[2]; } heading; // +0x10  yaw; b[1] high byte = 180deg flip
+    int16 pitch;        // +0x12
+    union { int16 w; uint8 b[2]; } field_4; // +0x14  pitch/turn rate; b[1] high-byte flip
+    int16 spec;         // +0x16  index into aircraftTypes
+    union { uint16 w; uint8 b[2]; } flags;  // +0x18  b[0] low byte, b[1] high byte
+    int16 speed;        // +0x1A  velocity magnitude / fuel
+    int16 timer;        // +0x1C  countdown
+    int16 field_e;      // +0x1E
+    int16 terrainColor; // +0x20  readMapPixelColor under object
+    int16 damage;       // +0x22  damage accumulator (clamp 0..0xff)
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct SimObject)==0x24);
@@ -217,6 +236,29 @@ struct MapTarget {
     int16 field_E;
 };
 STATIC_ASSERT(sizeof(struct MapTarget)==0x10);
+
+/* ReplayEvent: one entry in the tactical-replay event log (appendMapEvent). */
+#pragma pack(1)
+struct ReplayEvent {
+    int16 coord;        // +0x00  world frame coord (word_38FE0)
+    uint8 screenX;      // +0x02  map X (viewX >> 7)
+    uint8 screenY;      // +0x03  map Y (viewY >> 7)
+    uint8 type;         // +0x04  event type (0 = end-of-log terminator)
+    uint8 arg;          // +0x05  type-specific argument
+};
+#pragma pack()
+STATIC_ASSERT(sizeof(struct ReplayEvent)==6);
+
+/* byte_3B7FC: a single 0x640-byte buffer with two unrelated roles packed together
+ * (the original reuses one allocation). egseg1.asm reaches the vertexX table at the
+ * fixed offset _byte_3B7FC+0x600, so the layout split is a hard contract. */
+#pragma pack(1)
+struct ReplayLog {
+    struct ReplayEvent events[256]; // +0x000  event log (moveNearFar saves this 0x600 region)
+    int16 vertexX[32];              // +0x600  3D model vertex X table (fread; parallel to byte_3BE3E Y)
+};
+#pragma pack()
+STATIC_ASSERT(sizeof(struct ReplayLog)==0x640);
 
 struct TargetSlot {
     int16 state;        // +0x00  word_3B144         lock state (3/4/>=5)
@@ -235,6 +277,16 @@ struct struc_9 {
     int16 field_4;
     int16 field_6;
 };
+
+/* TileObject: nearest-tile-object record returned by findNearestTileObject().
+ * Overlays the word_3B7E0 scratch block (id, dist, world x/y). */
+struct TileObject {
+    int16 id;       // object/shape id
+    int16 dist;     // distance metric
+    int32 x;        // world X
+    int32 y;        // world Y
+};
+STATIC_ASSERT(sizeof(struct TileObject)==12);
 
 #pragma pack(1)
 struct TerrainTile {

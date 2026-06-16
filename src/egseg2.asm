@@ -24,7 +24,7 @@ EXTRN byte_37EEE:byte
 EXTRN byte_37EEF:byte
 EXTRN _byte_3C6A0:byte
 EXTRN unk_37565:byte
-EXTRN unk_38FD0:byte
+EXTRN _unk_38FD0:byte
 EXTRN word_37557:word
 EXTRN word_37559:word
 EXTRN word_37B26:word
@@ -578,7 +578,7 @@ loc_21a7_045a:
     mov BP,offset word_37B9C
     call far ptr gfx_blitCore
 loc_21a7_046e:
-    mov BX,offset unk_38FD0
+    mov BX,offset _unk_38FD0
     mov BP,offset word_37B68
     mov AX,[word_37C22]
     mov [word_37B70],AX
