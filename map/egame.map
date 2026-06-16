@@ -110,7 +110,7 @@ computeThreatScore: seg000 NEAR 6742-67b3 R6742-67b3 complete
 updateObjects: seg000 NEAR 67b4-7593 R67b4-7593 complete
 fireAirThreat: seg000 NEAR 7594-7839 R7594-7839 complete
 spawnEnemyAircraft: seg000 NEAR 783a-79ed R783a-79ed complete
-updateThreatTargeting: seg000 NEAR 79ee-85bd R79ee-85bd
+updateThreatTargeting: seg000 NEAR 79ee-85bd R79ee-85bd complete
 samCanAcquireTarget: seg000 NEAR 85be-86f7 R85be-86f7 complete
 destroyAircraft: seg000 NEAR 86f8-87e9 R86f8-87e9 complete
 processTargetReached: seg000 NEAR 87ea-89a9 R87ea-89a9 complete
