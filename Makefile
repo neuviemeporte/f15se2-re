@@ -33,7 +33,7 @@ LINK_TOOLCHAIN ?= msc510
 LINKFLAGS := /M /I
 DOSDIR := dos
 TOOLCHAIN_DIR := $(DOSDIR)/$(C_TOOLCHAIN)
-VERIFY_FLAGS := --verbose --loose --ctx 20 --asm
+VERIFY_FLAGS := --loose --ctx 20 --asm
 
 SRCTOP := src
 SRCDIR := $(SRCTOP)
@@ -95,8 +95,8 @@ START_OBJ := $(BUILDDIR)/stmain.obj $(BUILDDIR)/stinit.obj $(COMMON_OBJ) \
 
 # reference and target entrypoints (offset of main()) for binary comparison
 START_VRF_REF := bin/start.exe
-START_VRF_REFEP := 0x10
-START_VRF_TGTEP := [558bec83ec1c56c706]
+START_VRF_REFEP := main
+START_VRF_TGTEP := main
 
 $(START_COBJ): $(START_BASEHDR)
 $(COMMON_OBJ) $(COMMON_OBJ_B) $(COMMON_OBJ_C) $(COMMON_OBJ2): $(SRCDIR)/shared/common.h
@@ -265,8 +265,8 @@ $(DEBUGDIR)/egpic.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG
 
 # reference and target entrypoints (offset of main()) for binary comparison
 EGAME_VRF_REF := bin/egame.exe
-EGAME_VRF_REFEP := 0x10
-EGAME_VRF_TGTEP := [558bec83ec??c746]
+EGAME_VRF_REFEP := main
+EGAME_VRF_TGTEP := main
 
 # egame.exe debug build
 EGAME_DEBUG := $(DEBUGDIR)/egame.exe
@@ -329,8 +329,8 @@ $(BUILDDIR)/enworld.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2
 
 # reference and target entrypoints for binary comparison
 END_VRF_REF := bin/end.exe
-END_VRF_REFEP := 0x10
-END_VRF_TGTEP := [558bec83ec0e56c746]
+END_VRF_REFEP := main
+END_VRF_TGTEP := main
 
 # end.exe debug build
 END_DEBUG := $(DEBUGDIR)/end.exe
@@ -461,7 +461,7 @@ $(START_VRF_REF):
 	@exit 1
 
 verify-start: $(MZDIFF) $(START_EXE) $(START_VRF_REF)
-	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map $(START_MAP) --tmap $(START_LINKMAP) --asm
+	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map $(START_MAP) --tmap $(START_LINKMAP)
 
 $(EGAME_VRF_REF):
 	@echo "---> Place egame.exe (unpacked with tools/unp) with md5sum ffc191b1caeafc3b6f435795f8ea868e into bin/"
