@@ -26,7 +26,7 @@ void updateTargetLock(void) {
     /* Fire at keyValue == 0x8b (sidewinder lock) */
     if (keyValue == 0x8b) {
         drawWorldObject(6, (long)g_ViewX, 0x01000000L - g_ViewY,
-            var_547 + 0x10, var_542, var_544, var_545, 2);
+            g_viewZ + 0x10, g_ourHead, g_ourPitch, g_ourRoll, 2);
     }
 
     if (word_3B4D2 != 0) {
@@ -57,7 +57,7 @@ void updateTargetLock(void) {
         if (g < 3) {
             g0 -= 0x0a00;
         }
-        if (abs(var_542 + word_3C8B2 - var_674) > 0x2000) {
+        if (abs(g_ourHead + word_3C8B2 - var_674) > 0x2000) {
             g0 = -32000;
             goto after_lock;
         }
@@ -72,7 +72,7 @@ after_lock:
     l = -1;
     for (g = 1; g < word_3BED2; g++) {
         computeMapTargetRange(g);
-        if (abs(var_542 + word_3C8B2 - var_674) < 0x1800 &&
+        if (abs(g_ourHead + word_3C8B2 - var_674) < 0x1800 &&
             g + 0x80 != word_336F4 && !(g_planes[g].flags & 0x80)) {
             if (g_planes[g].field_4 != 0) {
                 var_672 -= 0x280;
@@ -119,8 +119,8 @@ skip_aam:
     /* Air-to-ground targeting */
     c = 0x4b << (6 - (unsigned char)word_330BC);
 
-    h = (word_330C2 != 0 && (unsigned int)(word_38FEE + var_547) > 0x5dc) ? 1 : 0;
-    if (word_330C2 != 0 && (unsigned int)(word_38FEE + var_547) > 0xfa0) {
+    h = (word_330C2 != 0 && (unsigned int)(word_38FEE + g_viewZ) > 0x5dc) ? 1 : 0;
+    if (word_330C2 != 0 && (unsigned int)(word_38FEE + g_viewZ) > 0xfa0) {
         h = 2;
     }
 
@@ -128,7 +128,7 @@ skip_aam:
     if ((word_336F2 & 0x80) && word_336F2 != -1) {
         g = word_336F2 - 0x80;
         g0 = computeTargetBearing(stru_3B202[g].posX, stru_3B202[g].posY, 1);
-        if (abs(var_542 + word_3C8B2 - var_674) > 0x2000) {
+        if (abs(g_ourHead + word_3C8B2 - var_674) > 0x2000) {
             g0 = 0;
         }
     } else {
@@ -147,7 +147,7 @@ skip_aam:
             !(stru_3B202[g].flags.b[0] & 0x20) &&
             stru_3B202[g].speed != 0) {
             computeTargetBearing(stru_3B202[g].posX, stru_3B202[g].posY, 1);
-            if (abs(var_542 + word_3C8B2 - var_674) < 0x2000) {
+            if (abs(g_ourHead + word_3C8B2 - var_674) < 0x2000) {
                 c = var_672;
                 l = g;
             }
@@ -168,7 +168,7 @@ skip_aam:
                     abs(stru_3B202[g].posY - g_planes[g_closestThreatIndex].mapY) < word_39200 >> 5) {
                     f = 0x80;
                 }
-                if (var_547 != 0x80 || f == 0x80) {
+                if (g_viewZ != 0x80 || f == 0x80) {
                     drawWorldObject(5, stru_3B202[g].worldX, stru_3B202[g].worldY,
                         f, stru_3B202[g].heading.w, 0, 0,
                         -(signOf(h) - 2));
@@ -237,15 +237,15 @@ next3:
     /* Player's own aircraft fire */
     if (!(keyValue & 0x80)) goto done;
     if (keyValue == 0x8b) goto done;
-    if (var_547 == 0 && word_3BE3C != 0) goto done;
+    if (g_viewZ == 0 && word_3BE3C != 0) goto done;
 
     drawWorldObject(((g_playerPlaneFlags & 1) == 0) + 6, (long)g_ViewX,
-        0x01000000L - g_ViewY, var_547 + 0x10, var_542, var_544, var_545,
+        0x01000000L - g_ViewY, g_viewZ + 0x10, g_ourHead, g_ourPitch, g_ourRoll,
         2 - h);
 
-    if ((unsigned int)var_547 < 0x3e8 && word_330BC == 0) {
+    if ((unsigned int)g_viewZ < 0x3e8 && word_330BC == 0) {
         drawWorldObject(0x15, (long)g_ViewX, 0x01000000L - g_ViewY,
-            word_3BEBE, var_542, 0, 0, 2);
+            word_3BEBE, g_ourHead, 0, 0, 2);
     }
 
 done:
@@ -323,7 +323,7 @@ void drawHudWorldOverlay(void) {
                 }
             }
         } else {
-            z = (abs(bulletTracks[w].alt - var_547) >> 5)
+            z = (abs(bulletTracks[w].alt - g_viewZ) >> 5)
               + abs(bulletTracks[w].posX - g_viewX_)
               + abs(bulletTracks[w].posY - g_viewY_);
             z = abs(z);
@@ -385,7 +385,7 @@ void drawHudWorldOverlay(void) {
                 } else {
                     c = randomRange(0x6000) - 0x3000;
                     if (word_330C2 != 0) {
-                        c -= var_545;
+                        c -= g_ourRoll;
                     }
                     a = randomRange(x);
                     k = sinMul(c, a) + var_279;
@@ -466,8 +466,8 @@ void drawHudWorldOverlay(void) {
     }
 
     g_playerPlaneFlags &= ~0x200;
-    var_564[1] = 4;
-    var_565[1] = 4;
+    off_38334[1] = 4;
+    off_3834C[1] = 4;
 
     if (word_3C09E == 0x13) {
     if (g_currentWeaponType == 2 || g_currentWeaponType == 0) {
@@ -507,7 +507,7 @@ void drawHudWorldOverlay(void) {
         drawStringActivePage((char *)aNoTarget, 0xfc, 0x8e, 0x0f);
     }
 
-    if (abs((var_542 + word_3C8B2) - var_674) > 0x2000) {
+    if (abs((g_ourHead + word_3C8B2) - var_674) > 0x2000) {
         word_336F4 = -1;
     }
 
@@ -583,8 +583,8 @@ void drawHudWorldOverlay(void) {
         }
     }
 
-    var_564[1] = 2;
-    var_565[1] = 2;
+    off_38334[1] = 2;
+    off_3834C[1] = 2;
 
     if (word_336F8 > 0 && word_3BE96 < 0) {
         w = -1 - word_3BE96;
@@ -598,14 +598,14 @@ void drawHudWorldOverlay(void) {
     if (g_currentWeaponType == 2 && keyValue == 0) {
         d = missiles[missleSpec[missileSpecIndex].weaponIdx].field_16;
 
-        if (d == 0x1e && abs(var_545) < 0x2000) {
+        if (d == 0x1e && abs(g_ourRoll) < 0x2000) {
             c = computeLoftAngle();
-            u = cosMul(c, var_548) / (sinMul(-c, 0x20) + 1);
-            i = sinMul(var_542, u) + g_viewX_;
-            y = g_viewY_ - cosMul(var_542, u);
+            u = cosMul(c, word_380D0) / (sinMul(-c, 0x20) + 1);
+            i = sinMul(g_ourHead, u) + g_viewX_;
+            y = g_viewY_ - cosMul(g_ourHead, u);
             projectWorldToHud(i, y, 0);
             if (var_279 == -1) {
-                var_279 = (sinMul(var_545, 0x60 - word_3C008) << 2) / 3 + 0xa0;
+                var_279 = (sinMul(g_ourRoll, 0x60 - word_3C008) << 2) / 3 + 0xa0;
                 var_282 = 0x60;
             } else {
                 setDrawColor(0x0c);
@@ -616,9 +616,9 @@ void drawHudWorldOverlay(void) {
         }
 
         if ((d == 0x1e || d == 0x1d) && (int)word_336F4 >= 0) {
-            projectWorldToHud(g_planes[word_336F4].mapX + sinMul(var_542, 0x80),
-                      g_planes[word_336F4].mapY - cosMul(var_542, 0x80),
-                      var_547);
+            projectWorldToHud(g_planes[word_336F4].mapX + sinMul(g_ourHead, 0x80),
+                      g_planes[word_336F4].mapY - cosMul(g_ourHead, 0x80),
+                      g_viewZ);
 
             if (var_279 != -1) {
                 if (d == 0x1e) {
@@ -743,12 +743,12 @@ void projectWorldToHud(int worldX, int worldY, int worldZ) {
 
     p = g_viewX_ - worldX;
     c = worldY - g_viewY_;
-    f = (worldZ - var_547) >> 5;
+    f = (worldZ - g_viewZ) >> 5;
 
     if (keyValue & 0x80) {
         p -= (int)((g_ViewX - dword_3B1FE) >> 5);
         c -= (int)((g_ViewY - dword_3B4D4) >> 5);
-        f -= (int)((-((long)(unsigned)var_547 - (long)word_3B4DE)) >> 5);
+        f -= (int)((-((long)(unsigned)g_viewZ - (long)word_3B4DE)) >> 5);
     }
 
     a = rotateVectorComponent(0, p, c, f);
@@ -773,7 +773,7 @@ void projectWorldToHud(int worldX, int worldY, int worldZ) {
     var_279 = (int)((a << 8) / g) + 0xa0;
     var_282 = (int)((d << 8) / g);
     var_282 -= var_282 >> 1 >> 1;
-    var_282 += (var_564[8] == 0xc7) ? 0x64 : 0x38;
+    var_282 += (off_38334[8] == 0xc7) ? 0x64 : 0x38;
 
     word_3C016 = (int)(g >> 3);
 
@@ -781,7 +781,7 @@ void projectWorldToHud(int worldX, int worldY, int worldZ) {
         var_673 = var_279;
         var_279 = -1;
     }
-    if (var_282 < 0 || var_564[8] < var_282) {
+    if (var_282 < 0 || off_38334[8] < var_282) {
         var_673 = var_279;
         var_279 = -1;
     }
@@ -851,7 +851,7 @@ done:;
 
 // ==== seg000:0xc82d ====
 int computeLoftAngle() {
-    return (int)((unsigned long)((long)(0x4000 - abs(var_544)) << 12) / (unsigned long)(unsigned int)(var_547 + 0x1000)) - 0x4000;
+    return (int)((unsigned long)((long)(0x4000 - abs(g_ourPitch)) << 12) / (unsigned long)(unsigned int)(g_viewZ + 0x1000)) - 0x4000;
 }
 
 // ==== seg000:0xc864 ====

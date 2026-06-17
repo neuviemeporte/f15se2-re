@@ -36,8 +36,8 @@ void drawProjectionSphere(int arg_0)
     }
     word_38FC6 = -var_226;
     p = (int)(((long)var_224 << 8) / (long)(var_225 < 0x200 ? 0x200 : var_225));
-    if (var_594 != 0) {
-        p <<= var_594;
+    if (byte_3850E != 0) {
+        p <<= byte_3850E;
     }
     if (var_456 != 0) {
         p >>= 1;

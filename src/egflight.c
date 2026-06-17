@@ -124,15 +124,15 @@ void stepFlightModel(void) {
             goto switch_break;
         case 0x3000: // Alt-B
             if (word_330C2 != 0) {
-                gfx_copyRect(*var_564, 0, 0x61, *off_38364, 0, 0x61, 0x140, (int)aNc_xxx);
+                gfx_copyRect(*off_38334, 0, 0x61, *off_38364, 0, 0x61, 0x140, (int)aNc_xxx);
             }
             setDrawColor(0);
             fillRectBoth(0, 0, 0x13F, 0xC7);
             blitSprite(0, 0, 0x71, 0x37, 0x0C, 7, 0);
             waitForKeyPress();
             if (word_330C2 != 0) {
-                gfx_copyRect(*off_38364, 0, 0x61, *var_564, 0, 0x61, 0x140, (int)aNc_xxx);
-                gfx_copyRect(*off_38364, 0, 0x61, *var_565, 0, 0x61, 0x140, (int)aNc_xxx);
+                gfx_copyRect(*off_38364, 0, 0x61, *off_38334, 0, 0x61, 0x140, (int)aNc_xxx);
+                gfx_copyRect(*off_38364, 0, 0x61, *off_3834C, 0, 0x61, 0x140, (int)aNc_xxx);
                 UpdateThrottleState();
             }
             goto switch_break;
@@ -617,7 +617,7 @@ void applyRotationDelta(int param_1, int param_2) {
 
     var_549++;
     if (!(*(char *)&var_549 & 7)) {
-        *(char *)&word_380D8 = 1;
+        *(char *)&byte_380DD = 1;
     }
     multiplyMatrix3x3Far(param_1, param_2, unk_380B6);
     memcpy(unk_3806E, unk_380B6, 0x12);
@@ -627,66 +627,66 @@ void computeAttitudeAngles(void)
 {
     int p;
 
-    var_544 = valueToAngle(-unk_3806E[5]);
-    p = cosine(var_544);
+    g_ourPitch = valueToAngle(-unk_3806E[5]);
+    p = cosine(g_ourPitch);
     if (p != 0) {
         if (abs(unk_3806E[2]) < 0x5a81) {
-            var_542 = valueToAngle(abs((int)signedRatio16(unk_3806E[2], p)));
+            g_ourHead = valueToAngle(abs((int)signedRatio16(unk_3806E[2], p)));
         } else {
-            var_542 = complementAngle(abs((int)signedRatio16(unk_3806E[8], p)));
+            g_ourHead = complementAngle(abs((int)signedRatio16(unk_3806E[8], p)));
         }
         if (unk_3806E[2] <= 0 && unk_3806E[8] < 0) {
-            var_543 += 0x80;
+            (*((char *)&g_ourHead + 1)) += 0x80;
         }
         if (unk_3806E[2] > 0 && unk_3806E[8] < 0) {
-            var_542 = 0x8000 - var_542;
+            g_ourHead = 0x8000 - g_ourHead;
         }
         if (unk_3806E[2] < 0 && unk_3806E[8] > 0) {
-            var_542 = -var_542;
+            g_ourHead = -g_ourHead;
         }
         if (abs(unk_3806E[3]) < 0x5a81) {
-            var_545 = valueToAngle(abs((int)signedRatio16(unk_3806E[3], p)));
+            g_ourRoll = valueToAngle(abs((int)signedRatio16(unk_3806E[3], p)));
         } else {
-            var_545 = complementAngle(abs((int)signedRatio16(unk_3806E[4], p)));
+            g_ourRoll = complementAngle(abs((int)signedRatio16(unk_3806E[4], p)));
         }
         if (unk_3806E[3] <= 0 && unk_3806E[4] < 0) {
-            *((char *)&var_545 + 1) += 0x80;
+            *((char *)&g_ourRoll + 1) += 0x80;
         }
         if (unk_3806E[3] > 0 && unk_3806E[4] < 0) {
-            var_545 = 0x8000 - var_545;
+            g_ourRoll = 0x8000 - g_ourRoll;
         }
         if (unk_3806E[3] < 0 && unk_3806E[4] > 0) {
-            /* Force MSC to emit sub ax, ax; sub ax, var_545. */
-            var_545 = 0x10000 - var_545;
+            /* Force MSC to emit sub ax, ax; sub ax, g_ourRoll. */
+            g_ourRoll = 0x10000 - g_ourRoll;
         }
     } else {
-        var_545 = 0;
-        var_542 = valueToAngle(unk_3806E[1]);
+        g_ourRoll = 0;
+        g_ourHead = valueToAngle(unk_3806E[1]);
         if (unk_3806E[3] <= 0 && unk_3806E[4] < 0) {
-            var_543 += 0x80;
+            (*((char *)&g_ourHead + 1)) += 0x80;
         }
         if (unk_3806E[3] > 0 && unk_3806E[4] < 0) {
-            var_542 = 0x8000 - var_542;
+            g_ourHead = 0x8000 - g_ourHead;
         }
         if (unk_3806E[3] < 0 && unk_3806E[4] > 0) {
-            var_542 = -var_542;
+            g_ourHead = -g_ourHead;
         }
     }
-    if (var_544 > 0x38e3 && var_544 < 0x4001) {
-        *(char *)&word_380D8 = 1;
+    if (g_ourPitch > 0x38e3 && g_ourPitch < 0x4001) {
+        *(char *)&byte_380DD = 1;
     }
-    if (var_544 < (int16)0xc71d && var_544 > (int16)0xbfff) {
-        *(char *)&word_380D8 = 1;
+    if (g_ourPitch < (int16)0xc71d && g_ourPitch > (int16)0xbfff) {
+        *(char *)&byte_380DD = 1;
     }
-    if (var_550 != 0 && var_545 == 0) {
-        *(char *)&word_380D8 = 1;
+    if (var_550 != 0 && g_ourRoll == 0) {
+        *(char *)&byte_380DD = 1;
     }
 }
 
 
 void rebuildOrientation() {
-    buildRotationMatrixFar(unk_3806E, var_542, var_544, var_545);
-    *(char *)&word_380D8 = 0;
+    buildRotationMatrixFar(unk_3806E, g_ourHead, g_ourPitch, g_ourRoll);
+    *(char *)&byte_380DD = 0;
     var_549 = 0;
 }
 

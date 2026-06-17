@@ -124,7 +124,6 @@ PUBLIC _word_380A6
 PUBLIC _word_380AA
 PUBLIC _word_380AC
 PUBLIC _byte_3B4E6
-PUBLIC _var_548
 PUBLIC _var_47
 PUBLIC _var_48
 PUBLIC _var_49
@@ -135,10 +134,7 @@ PUBLIC _var_732
 PUBLIC _byte_3419A
 PUBLIC _byte_3419C
 PUBLIC _var_568
-PUBLIC _var_594
-PUBLIC _var_593
 PUBLIC _strBuf
-PUBLIC _aNotAvailable
 PUBLIC _aArmed
 PUBLIC _byte_38F8D
 PUBLIC _aNone
@@ -186,20 +182,19 @@ PUBLIC word_37F5C
 PUBLIC word_37F5E
 PUBLIC word_37F60
 PUBLIC word_37F62
-PUBLIC _var_456
 PUBLIC _var_190
 PUBLIC _var_383
+PUBLIC _var_456
+PUBLIC _byte_37C24
+PUBLIC _g_viewZ
+PUBLIC _uvar_547
 PUBLIC _var_200
 PUBLIC _var_201
-PUBLIC _var_141
-PUBLIC _var_215
 PUBLIC _var_217
 PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
 PUBLIC _word_3C5A8
-PUBLIC _var_316
 PUBLIC _origCBreakSeg
-PUBLIC _var_257
 PUBLIC _var_258
 PUBLIC _word_34684
 PUBLIC _word_34686
@@ -317,44 +312,26 @@ PUBLIC _word_34186
 PUBLIC _word_3419C
 PUBLIC _word_339B4
 PUBLIC _stru_335C4
-PUBLIC _unk_3C030
 PUBLIC _g_planes
-PUBLIC _word_37561
-PUBLIC _word_37563
 PUBLIC _off_38364
 PUBLIC _gfx_setColor
 PUBLIC _gfx_nop23
-PUBLIC _byte_3850E
 PUBLIC _unk_38128
+PUBLIC _word_38202
 PUBLIC _word_3755D
 PUBLIC _word_3755F
-PUBLIC _word_38202
+PUBLIC _word_37561
+PUBLIC _word_37563
 PUBLIC _var_217
-PUBLIC _var_220
 PUBLIC _var_600
 PUBLIC _sams
 PUBLIC _missleSpec
 PUBLIC _word_3AA5C
 PUBLIC _waypoints
-PUBLIC _var_564
-PUBLIC _var_565
-PUBLIC _word_3298C
-PUBLIC _word_3298E
-PUBLIC _var_224
-PUBLIC _var_225
-PUBLIC _var_226
-PUBLIC _var_227
 PUBLIC _var_598
 PUBLIC _var_599
 PUBLIC _missiles
 PUBLIC _word_380D0
-PUBLIC _byte_37C24
-PUBLIC _g_ourHead
-PUBLIC _g_ourPitch
-PUBLIC _g_ourRoll
-PUBLIC _g_viewZ
-PUBLIC _word_380D8
-PUBLIC _g_missionStatus
 PUBLIC _gfx_allocPage
 PUBLIC _gfx_drawString
 PUBLIC _gfx_initOverlay
@@ -369,21 +346,11 @@ PUBLIC _gfx_storeBufPtr
 PUBLIC _gfx_getModeFlag
 PUBLIC _gfx_setDacAnimCount
 PUBLIC _gfx_setMonoFlag
-PUBLIC _byte_383E5
-PUBLIC _var_542
-PUBLIC _var_543
-PUBLIC _var_544
-PUBLIC _var_545
-PUBLIC _var_550
-PUBLIC _var_547
-PUBLIC _uvar_547
-PUBLIC _var_549
 PUBLIC _mapEvents
 PUBLIC _var_351
 PUBLIC _var_352
 PUBLIC _var_353
 PUBLIC _var_354
-PUBLIC _var_566
 PUBLIC _var_567
 PUBLIC _var_605
 PUBLIC _var_606
@@ -399,17 +366,9 @@ PUBLIC _var_694
 PUBLIC _var_697
 PUBLIC _var_699
 PUBLIC _var_700
-PUBLIC _aDestroyedBy
-PUBLIC _aDestroyedBy_0
-PUBLIC _aGroundImpact
-PUBLIC _aHitBy
-PUBLIC _aHitBy_0
-PUBLIC _aIneffective
-PUBLIC _aMisses
 PUBLIC aF15dgtl_bin
 PUBLIC aFileClosingError
 PUBLIC aFileNotFound
-PUBLIC aMap
 PUBLIC aNoFileBuffersAvailabl
 PUBLIC aOpenError
 PUBLIC audio_jump_6b
@@ -418,7 +377,6 @@ PUBLIC byte_36D86
 PUBLIC byte_37116
 PUBLIC byte_378FC
 PUBLIC byte_37903
-PUBLIC byte_383E5
 PUBLIC byte_3862A
 PUBLIC byte_3862B
 PUBLIC byte_38D61
@@ -427,7 +385,6 @@ PUBLIC dacValues
 PUBLIC dacValues1
 PUBLIC f15dgtlAddr
 PUBLIC fileReadPos
-PUBLIC g_missionStatus
 PUBLIC gfx_clearPage
 PUBLIC gfx_clearVga
 PUBLIC gfx_copyRow
@@ -451,9 +408,6 @@ PUBLIC strBuf
 PUBLIC timerHandlerInstalled
 PUBLIC tmpFileHandle
 PUBLIC tmpPageIndex
-PUBLIC unk_3C030
-PUBLIC word_3298C
-PUBLIC word_3298E
 PUBLIC word_37146
 PUBLIC word_37148
 PUBLIC word_378F0
@@ -512,10 +466,6 @@ unk_32977 db 0
     db 4
     db 7 dup(0)
 _word_3298A label byte
-_word_3298C label byte
-word_3298C dw 0A0h
-_word_3298E label byte
-word_3298E dw 64h
 PUBLIC _word_32990
 _word_32990 label byte
     db 2 dup(0)
@@ -1144,8 +1094,6 @@ aAn72 db 'An-72',0
     MissileSpec <1, 4>
     MissileSpec <5, 6>
     MissileSpec <0>
-g_missionStatus dw 1
-_g_missionStatus equ g_missionStatus
     db 1
     db 0
     _missiles Missile <'AIM-9M', 'Sidewinder', 17h, 4>
@@ -1991,7 +1939,6 @@ _word_33BA2 equ word_33BA2
     db 0
     db 1
     db 0
-word_33BAC dw 0
 _word_33BAE label word
 word_33BAE dw 400h
     db 0
@@ -2129,16 +2076,11 @@ word_34254 dw 0
 word_34256 dw 0
 PUBLIC _word_34256
 _word_34256 equ word_34256
-byte_34258 db 0
-    db 7 dup(0)
+    db 8 dup(0)
 word_34262 dw 0
-word_34268 dw 0
 word_3426A dw 0
 word_3426C dw 0
-word_3426E dw 0
-word_34270 dw 0
-word_34272 dw 0
-word_34274 dw 0
+    db 8 dup(0)
 word_34276 dw 0
 word_34278 dw 0
 word_3427A dw 0
@@ -2166,8 +2108,7 @@ word_342A4 dw 0
 word_342A6 dw 0
 word_342A8 dw 0
 word_342AA dw 0
-word_342B0 dw 0
-    db 2 dup(0)
+    db 4 dup(0)
 byte_342B4 db 0
     db 0
 word_342BC dw 0
@@ -2208,7 +2149,6 @@ word_36B7E dw 0
 word_36B80 dw 0
 word_36B82 dw 0
 word_36B84 dw 0
-byte_36B88 db 0
 word_36B89 dw 0
 word_36B8B dw 0
     db 0 ;align 2
@@ -4948,20 +4888,15 @@ _word_380AC equ word_380AC
     db 6 dup(0)
     db 0FFh
     db 7Fh
-_g_ourHead dw 0
-_g_ourPitch dw 0
-_g_ourRoll dw 0
 _g_viewZ dw 0
 _word_380D0 dw 0
     db 0Ch
     db 5 dup(0)
-var_549_stor dw 0
-byte_380DA db 0
+    db 3 dup(0)
     db 0
     db 1
 byte_380DD db 0
 _byte_380DD equ byte_380DD
-_word_380D8 equ byte_380DD
     db 2 dup(0)
     db 0
 _unk_38128 db 7
@@ -5004,27 +4939,6 @@ _unk_38128 db 7
     db 4 dup(0FFh)
     db 0 ;align 2
     db 0 ;align 2
-PUBLIC aMisses
-aMisses db ' misses ',0
-_aMisses equ aMisses
-PUBLIC aDestroyedBy
-aDestroyedBy db ' destroyed by ',0
-_aDestroyedBy equ aDestroyedBy
-PUBLIC aDestroyedBy_0
-aDestroyedBy_0 db ' destroyed by ',0
-_aDestroyedBy_0 equ aDestroyedBy_0
-PUBLIC aGroundImpact
-aGroundImpact db ' ground impact',0
-_aGroundImpact equ aGroundImpact
-PUBLIC aHitBy
-aHitBy db 'Hit by ',0
-_aHitBy equ aHitBy
-PUBLIC aIneffective
-aIneffective db 'Ineffective',0
-_aIneffective equ aIneffective
-PUBLIC aHitBy_0
-aHitBy_0 db ' hit by ',0
-_aHitBy_0 equ aHitBy_0
     db 0 ;align 2
 PUBLIC _aA
 aA db 'A',0
@@ -5404,15 +5318,10 @@ word_383AC dw offset buf6data_1
     db 0
     db 1
     db 0
-byte_383E5 dw 8
-_byte_383E5 equ byte_383E5
 aTac db 'Tac',0
-aMap db 'Map',0
     db 5 dup(0)
-word_38460 dw 0
     db 0
     db 0
-_byte_3850E db 0
     db 0
     db 0 ;align 2
     db 0 ;align 2
@@ -5422,8 +5331,6 @@ _word_38606 equ word_38606
 word_38608 dw 0
 word_3860A dw 0
     db 2 dup(0)
-aNotAvailable db ' not available',0
-_aNotAvailable equ aNotAvailable
 aArmed db ' armed',0
 _aArmed equ aArmed
     db 0F3h
@@ -5650,8 +5557,6 @@ ORG 01100h
 _var_134 EQU word_339B0
 ORG 01102h
 _var_135 EQU byte_339B2
-ORG 012FCh
-_var_141 EQU word_33BAC
 ORG 01308h
 _var_143 EQU word_33BB8
 ORG 018EAh
@@ -5673,25 +5578,11 @@ _var_200_seg EQU word_3423E
 ORG 01990h
 ORG 01992h
 ORG 01994h
-ORG 019A8h
-_var_215 EQU byte_34258
 ORG 019B0h
 ORG 019B2h
 _var_217 EQU word_34262
 ORG 019B4h
 ORG 019B6h
-ORG 019B8h
-_var_220 EQU word_34268
-ORG 019BEh
-_var_224 EQU word_3426E
-ORG 019C0h
-_var_225 EQU word_34270
-ORG 019C2h
-_var_226 EQU word_34272
-ORG 019C4h
-_var_227 EQU word_34274
-ORG 01A00h
-_var_257 EQU word_342B0
 ORG 01A04h
 _var_258 EQU byte_342B4
 ORG 01A0Ah
@@ -5699,8 +5590,6 @@ ORG 01FB8h
 _var_279 EQU word_34868
 ORG 0219Ch
 _var_282 EQU word_34A4C
-ORG 042D8h
-_var_316 EQU byte_36B88
 ORG 04CA7h
 _var_349 EQU word_37557
 ORG 04CA9h
@@ -5724,30 +5613,12 @@ ORG 057C6h
 ORG 057C8h
 ORG 057CEh
 ORG 05818h
-_var_542 EQU _g_ourHead
 ORG 05819h
-_var_543 EQU _g_ourHead + 1
 ORG 0581Ah
-_var_544 EQU _g_ourPitch
-ORG 0581Ch
-_var_545 EQU _g_ourRoll
 ORG 0581Eh
-_var_547 EQU _g_viewZ
 _uvar_547 EQU _g_viewZ
-ORG 05820h
-_var_548 EQU _word_380D0
-ORG 05828h
-_var_549 EQU var_549_stor
-ORG 0582Ah
-_var_550 EQU byte_380DA
 ORG 05830h
 ORG 058AEh
-ORG 05A84h
-_var_564 EQU _off_38334
-ORG 05A9Ch
-_var_565 EQU _off_3834C
-ORG 05AB4h
-_var_566 EQU _off_38364
 ORG 05ACCh
 _var_567 EQU word_3837C
 ORG 05AFCh
@@ -5770,10 +5641,7 @@ ORG 05B28h
 ORG 05B2Ah
 ORG 05B34h
 ORG 05B35h
-ORG 05BB0h
-_var_593 EQU word_38460
 ORG 05C5Eh
-_var_594 EQU _byte_3850E
 ORG 05D56h
 _var_598 EQU word_38606
 ORG 05D58h
@@ -5950,9 +5818,7 @@ _byte_3B7F1 equ byte_3B7F1
     db ? ;align 4
     db ?
 _regs db ?
-PUBLIC _byte_3BF93
-_byte_3BF93 label byte
-byte_3BF93 db ?
+    db ?
     db ?
 _unk_3BF95 label byte
     db 3 dup(?)
@@ -5961,10 +5827,6 @@ PUBLIC _word_3B7EC
 PUBLIC _word_3C5A8
     db ? ;align 4
     db ?
-_unk_3C030 label byte
-unk_3C030 db ?
-    db 9 dup(?)
-    db 2 dup(?)
 _byte_3C16E db 2EEh dup(?)
 _matrix3dt_2 dw 0A0h dup(?)
     db ?
@@ -5991,7 +5853,6 @@ PUBLIC unk_329AB
 PUBLIC unk_34713
 PUBLIC unk_34A88
 PUBLIC unk_3771D
-PUBLIC word_33BAC
 PUBLIC word_34150
 PUBLIC word_34152
 PUBLIC word_34156
@@ -6024,13 +5885,8 @@ PUBLIC word_34250
 PUBLIC word_34252
 PUBLIC word_34254
 PUBLIC word_34256
-PUBLIC word_34268
 PUBLIC word_3426A
 PUBLIC word_3426C
-PUBLIC word_3426E
-PUBLIC word_34270
-PUBLIC word_34272
-PUBLIC word_34274
 PUBLIC word_34278
 PUBLIC word_3427A
 PUBLIC word_3427C
@@ -6114,8 +5970,6 @@ PUBLIC _aircraftTypes
 _aMig23 equ aMig23
 PUBLIC _aEmpty_5950
 _aEmpty_5950 equ aEmpty_5950
-PUBLIC _aMap
-_aMap equ aMap
 PUBLIC _word_34276
 _word_34276 equ word_34276
     db ? ;align 400h

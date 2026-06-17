@@ -59,7 +59,7 @@ int keyDispatch(uint16 scanCode)
         countermeasures(2);
         break;
     case 0x266c:
-        if (var_547 != word_3BEBE) {
+        if (g_viewZ != word_3BEBE) {
             *(char *)&g_playerPlaneFlags ^= 1;
             word_336EC = 0;
             makeSound(0x20, 2);
@@ -178,7 +178,7 @@ int keyDispatch(uint16 scanCode)
             g_autopilotAltitude = 0;
             tempStrcpy((char *)aAutopilotOff);
         } else {
-            g_autopilotAltitude = var_547 < 1000 ? 1000 : var_547;
+            g_autopilotAltitude = g_viewZ < 1000 ? 1000 : g_viewZ;
             tempStrcpy((char *)aAutopilotOn);
         }
         break;
@@ -228,7 +228,7 @@ int keyDispatch(uint16 scanCode)
         if (word_3BE3C == 0) {
             makeSound(2, 2);
             makeSound(0x22, 2);
-            if ((abs(var_545) >> 5) + (abs(var_544) >> 5) + g_knots
+            if ((abs(g_ourRoll) >> 5) + (abs(g_ourPitch) >> 5) + g_knots
                     > randomRange(500) + 500) {
                 finalizeMission(6);
             } else {
@@ -237,7 +237,7 @@ int keyDispatch(uint16 scanCode)
             word_3BE3C = 1;
             word_3C028 = g_viewX_;
             word_3C03A = g_viewY_;
-            word_3C040 = var_547 + 8;
+            word_3C040 = g_viewZ + 8;
         }
         break;
     }
@@ -353,7 +353,7 @@ void exitSlowMotion() {
 
 // ==== seg000:0xdbe0 ====
 void disableTextBlink(void) {
-    byte_3BF93[0] = 0;
+    regs.h.ah = 0;
     regs.h.al = 0x8D;
     int86(0x10, &regs, &regs);
 }

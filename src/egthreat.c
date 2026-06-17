@@ -186,7 +186,7 @@ int computeThreatRangeBearing(int threatX, int threatY, int arg_4, int threatTyp
     e = g_viewY_ - threatY;
     c = (unsigned)rangeApprox(d, e) >> 6;
     b = computeBearing(d, -e);
-    f = (f = (aNone[threatType].field_A + g_missionStatus * 2 + 3) * aNone[threatType].field_8 / 16) * (((unsigned)var_547 >> 6) + 0x40) >> 7;
+    f = (f = (aNone[threatType].field_A + g_missionStatus * 2 + 3) * aNone[threatType].field_8 / 16) * (((unsigned)g_viewZ >> 6) + 0x40) >> 7;
     *outBearing = b;
     *arg_a = c;
     return f;
@@ -203,8 +203,8 @@ void updateThreatAlert(void) {
         word_3B4D8 = g_viewX_;
         word_3B4E0 = g_viewY_;
     }
-    word_3B5D6 = var_547;
-    word_38FEC = var_542;
+    word_3B5D6 = g_viewZ;
+    word_38FEC = g_ourHead;
     word_3BED4 = 0xFF;
     for (p = 0; p < word_3C69E; p++) {
         if (g_planes[p].field_4 != 0) {
@@ -302,14 +302,14 @@ after_retarget:
     s = *(int16 *)&stru_3B202[h].objType;
     k = g_planes[s].mapX;
     m = g_planes[s].mapY;
-    n = clampRange(var_547 + 1000, 5000, 20000);
+    n = clampRange(g_viewZ + 1000, 5000, 20000);
 set_target_alt:
     n = n;
     goto got_target;
 padlock_target:
     k = mapEvents[0].mapX;
     m = mapEvents[0].mapY;
-    n = clampRange(var_547, 1000, 30000);
+    n = clampRange(g_viewZ, 1000, 30000);
     goto got_target;
     }
 
@@ -364,9 +364,9 @@ after_missile_table:
         d += stru_3B202[h].field_4.w >> 2;
     }
     r = (int)(b - d) >> 13 & 7;
-    d = var_542;
-    if (abs(var_545) < 0x4000) {
-        d += var_545 >> 1;
+    d = g_ourHead;
+    if (abs(g_ourRoll) < 0x4000) {
+        d += g_ourRoll >> 1;
     }
     t = ((stru_3B202[h].heading.w - d) >> 13) + 4 & 7;
     {

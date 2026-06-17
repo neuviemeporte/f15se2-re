@@ -33,7 +33,7 @@ void drawTacticalMap(char page)
 
     h = var_588 + 1;
     setDrawColor(0);
-    fillSpanRect(page == 0 ? var_564 : var_565, 0x78, 0x68, 0xc7, 0xaf);
+    fillSpanRect(page == 0 ? off_38334 : off_3834C, 0x78, 0x68, 0xc7, 0xaf);
     setDrawColor(8);
     j = 1;
     if (var_588 < 2 && word_38FDC != 0) {
@@ -70,8 +70,8 @@ void drawTacticalMap(char page)
                 if (word_336F8 > 0 && f == 0xffff - word_3BE96) {
                     drawMapMarkerBox(var_279, var_282, word_38F72);
                 }
-                a = stru_3B202[f].heading.w - var_542 + 0x800;
-                d = stru_3B202[f].alt - var_547;
+                a = stru_3B202[f].heading.w - g_ourHead + 0x800;
+                d = stru_3B202[f].alt - g_viewZ;
                 c = 0;
                 if (d < -1000) {
                     c = 1;
@@ -101,7 +101,7 @@ void drawTacticalMap(char page)
                 if (f >= 8) {
                     setDrawColor(0x0f);
                 }
-                a = stru_335C4[f].worldX - var_542;
+                a = stru_335C4[f].worldX - g_ourHead;
                 drawScreenLineOnePage(var_279, var_282, var_279 - sinMul(a, h), cosMul(a, h) + var_282);
             }
         }
@@ -115,7 +115,7 @@ void drawTacticalMap(char page)
                 }
                 a = 5;
                 if (g_planes[f].flags & 0x201) {
-                    a = (((-var_542 + 0x1000) >> 13) & 3) + 8;
+                    a = (((-g_ourHead + 0x1000) >> 13) & 3) + 8;
                 }
                 if (g_planes[f].field_4 != 0) {
                     a = 1;
@@ -170,8 +170,8 @@ void projectMapPoint(int mapX, int mapY) {
     b = 7 - (char)var_588;
     p = (mapX - g_viewX_) >> b;
     a = (g_viewY_ - mapY) >> b;
-    var_279 = cosMul(var_542, p) - sinMul(var_542, a);
-    var_282 = cosMul(var_542, a) + sinMul(var_542, p);
+    var_279 = cosMul(g_ourHead, p) - sinMul(g_ourHead, a);
+    var_282 = cosMul(g_ourHead, a) + sinMul(g_ourHead, p);
     var_279 += 0xa0;
     var_282 = -var_282 + 0x98;
     if (var_279 < 0x7c || var_279 > 0xc3) {
@@ -217,16 +217,16 @@ void blitSprite(int destX, int destY, int srcX, int srcY, int spriteWidth, int a
 
 // ==== seg000:0xa934 ====
 void cacheScopePanel(void) {
-    gfx_copyRect(*var_564, 0x18, 0x70, *var_566, 0x18, 0x70, 0x49, 0x39);
+    gfx_copyRect(*off_38334, 0x18, 0x70, *off_38364, 0x18, 0x70, 0x49, 0x39);
 }
 
 // ==== seg000:0xa962 ====
 void restoreScopePanel(void) {
-    gfx_copyRect(*var_566, 0x18, 0x70, *var_564, 0x18, 0x70, 0x49, 0x39);
-    gfx_copyRect(*var_564, 0x18, 0x70, *var_565, 0x18, 0x70, 0x49, 0x39);
+    gfx_copyRect(*off_38364, 0x18, 0x70, *off_38334, 0x18, 0x70, 0x49, 0x39);
+    gfx_copyRect(*off_38334, 0x18, 0x70, *off_3834C, 0x18, 0x70, 0x49, 0x39);
 }
 
 // ==== seg000:0xa9bc ====
 void captureScopePanel(void) {
-    gfx_copyRect(*var_566, 0x18, 0x70, byte_3C5A0 ? *var_565 : *var_564, 0x18, 0x70, 0x49, 0x39);
+    gfx_copyRect(*off_38364, 0x18, 0x70, byte_3C5A0 ? *off_3834C : *off_38334, 0x18, 0x70, 0x49, 0x39);
 }

@@ -69,7 +69,7 @@ EXTRN byte_3754E:byte
 EXTRN byte_378DE:byte
 EXTRN unk_37565:byte
 EXTRN unk_3771D:byte
-EXTRN word_33BAC:word
+EXTRN _var_141:word
 EXTRN word_34150:word
 EXTRN word_34152:word
 EXTRN word_34156:word
@@ -103,13 +103,13 @@ EXTRN _byte_32933:byte
 EXTRN word_34252:word
 EXTRN word_34254:word
 EXTRN word_34256:word
-EXTRN word_34268:word
+EXTRN _var_220:word
 EXTRN word_3426A:word
 EXTRN word_3426C:word
-EXTRN word_3426E:word
-EXTRN word_34270:word
-EXTRN word_34272:word
-EXTRN word_34274:word
+EXTRN _var_224:word
+EXTRN _var_225:word
+EXTRN _var_226:word
+EXTRN _var_227:word
 EXTRN _word_34276:word
 EXTRN word_34278:word
 EXTRN word_3427A:word
@@ -1156,15 +1156,15 @@ sub_1FEEC endp
 
 sub_1FEFE proc near
 loc_067E:
-    MOV AX,[word_34272]
+    MOV AX,[_var_226]
     NEG AX
     MOV [word_34194],AX
-    MOV AX,[word_3426E]
+    MOV AX,[_var_224]
     CWD
     MOV DL,AH
     MOV AH,AL
     SUB AL,AL
-    MOV CX,[word_34270]
+    MOV CX,[_var_225]
     CMP CX,1F0Bh
     JG short loc_06A0
     MOV AX,3FFh
@@ -1174,7 +1174,7 @@ loc_06A0:
     IDIV CX
     CMP BYTE PTR [_word_38FDC],2h
     JNZ short loc_06BE
-MOV DL, byte ptr [word_34268 + 1]
+MOV DL, byte ptr [_var_220 + 1]
     SUB DH,DH
     MOV CX,DX
     SHR CX,1
@@ -1201,7 +1201,7 @@ loc_06D4:
     MOV CX,DX
     MOV AX,[_word_3298C]
     SHL AX,1
-    IMUL WORD PTR [word_34274]
+    IMUL WORD PTR [_var_227]
     SHL AX,1
     RCL DX,1
     MOV SI,AX
@@ -1219,7 +1219,7 @@ loc_06D4:
     SUB DX,CX
     MOV [_word_3755F],DX
     MOV AX,BP
-    IMUL WORD PTR [word_34274]
+    IMUL WORD PTR [_var_227]
     SHL AX,1
     RCL DX,1
     MOV SI,AX
@@ -1259,7 +1259,7 @@ loc_06D4:
     CALL loc_1CB6
     JNC short loc_07C2
 loc_077E:
-    CMP WORD PTR [word_3426E],BYTE PTR +0x0
+    CMP WORD PTR [_var_224],BYTE PTR +0x0
     JS short loc_0798
     MOV AH,[_byte_34197]
     call far ptr gfx_setDrawColor
@@ -1308,7 +1308,7 @@ loc_0807:
     SUB BX,BX
     MOV BP,[word_37559]
     MOV SI,[word_34198]
-    XOR SI,[word_34274]
+    XOR SI,[_var_227]
     JNS short loc_081C
     db 087h, 0DDh
 loc_081C:
@@ -2634,18 +2634,18 @@ loc_135F:
     MOV [word_3426C],BX
     MOV BX,BP
     call far ptr lookupSineFar
-    MOV [word_34272],BX
+    MOV [_var_226],BX
     MOV BX,BP
     call far ptr lookupCosineFar
-    MOV [word_34274],BX
+    MOV [_var_227],BX
     MOV BX,SI
     call far ptr lookupSineFar
-    MOV [word_3426E],BX
+    MOV [_var_224],BX
     MOV BX,SI
     call far ptr lookupCosineFar
-    MOV [word_34270],BX
-    MOV AX,[word_3426E]
-    IMUL WORD PTR [word_34272]
+    MOV [_var_225],BX
+    MOV AX,[_var_224]
+    IMUL WORD PTR [_var_226]
     SHL AX,1
     RCL DX,1
     MOV SI,DX
@@ -2656,14 +2656,14 @@ loc_135F:
     MOV BX,AX
     MOV CX,DX
     MOV AX,[word_3426C]
-    IMUL WORD PTR [word_34274]
+    IMUL WORD PTR [_var_227]
     SHL AX,1
     RCL DX,1
     ADD AX,BX
     ADC DX,CX
     MOV [DI],DX
-    MOV AX,[word_3426E]
-    IMUL WORD PTR [word_34274]
+    MOV AX,[_var_224]
+    IMUL WORD PTR [_var_227]
     SHL AX,1
     RCL DX,1
     MOV BP,DX
@@ -2674,28 +2674,28 @@ loc_135F:
     MOV BX,AX
     MOV CX,DX
     MOV AX,[word_3426C]
-    IMUL WORD PTR [word_34272]
+    IMUL WORD PTR [_var_226]
     SHL AX,1
     RCL DX,1
     SUB BX,AX
     SBB CX,DX
     MOV [DI+2h],CX
     MOV AX,[word_3426A]
-    IMUL WORD PTR [word_34270]
+    IMUL WORD PTR [_var_225]
     SHL AX,1
     RCL DX,1
     MOV [DI+4h],DX
-    MOV AX,[word_34272]
-    IMUL WORD PTR [word_34270]
+    MOV AX,[_var_226]
+    IMUL WORD PTR [_var_225]
     SHL AX,1
     RCL DX,1
     MOV [DI+6h],DX
-    MOV AX,[word_34274]
-    IMUL WORD PTR [word_34270]
+    MOV AX,[_var_227]
+    IMUL WORD PTR [_var_225]
     SHL AX,1
     RCL DX,1
     MOV [DI+8h],DX
-    MOV AX,[word_3426E]
+    MOV AX,[_var_224]
     NEG AX
     MOV [DI+0Ah],AX
     MOV AX,SI
@@ -2705,7 +2705,7 @@ loc_135F:
     MOV BX,AX
     MOV CX,DX
     MOV AX,[word_3426A]
-    IMUL WORD PTR [word_34274]
+    IMUL WORD PTR [_var_227]
     SHL AX,1
     RCL DX,1
     SUB BX,AX
@@ -2718,14 +2718,14 @@ loc_135F:
     MOV BX,AX
     MOV CX,DX
     MOV AX,[word_3426A]
-    IMUL WORD PTR [word_34272]
+    IMUL WORD PTR [_var_226]
     SHL AX,1
     RCL DX,1
     ADD AX,BX
     ADC DX,CX
     MOV [DI+0Eh],DX
     MOV AX,[word_3426C]
-    IMUL WORD PTR [word_34270]
+    IMUL WORD PTR [_var_225]
     SHL AX,1
     RCL DX,1
     MOV [DI+10h],DX
@@ -2742,18 +2742,18 @@ loc_147B:
     MOV [word_3426C],BX
     MOV BX,BP
     call far ptr lookupSineFar
-    MOV [word_34272],BX
+    MOV [_var_226],BX
     MOV BX,BP
     call far ptr lookupCosineFar
-    MOV [word_34274],BX
+    MOV [_var_227],BX
     MOV BX,SI
     call far ptr lookupSineFar
-    MOV [word_3426E],BX
+    MOV [_var_224],BX
     MOV BX,SI
     call far ptr lookupCosineFar
-    MOV [word_34270],BX
-    MOV AX,[word_3426E]
-    IMUL WORD PTR [word_34272]
+    MOV [_var_225],BX
+    MOV AX,[_var_224]
+    IMUL WORD PTR [_var_226]
     SHL AX,1
     RCL DX,1
     MOV SI,DX
@@ -2764,14 +2764,14 @@ loc_147B:
     MOV BX,AX
     MOV CX,DX
     MOV AX,[word_3426C]
-    IMUL WORD PTR [word_34274]
+    IMUL WORD PTR [_var_227]
     SHL AX,1
     RCL DX,1
     SUB AX,BX
     SBB DX,CX
     MOV [DI],DX
-    MOV AX,[word_3426E]
-    IMUL WORD PTR [word_34274]
+    MOV AX,[_var_224]
+    IMUL WORD PTR [_var_227]
     SHL AX,1
     RCL DX,1
     MOV BP,DX
@@ -2782,30 +2782,30 @@ loc_147B:
     MOV BX,AX
     MOV CX,DX
     MOV AX,[word_3426C]
-    IMUL WORD PTR [word_34272]
+    IMUL WORD PTR [_var_226]
     SHL AX,1
     RCL DX,1
     ADD BX,AX
     ADC CX,DX
     MOV [DI+6h],CX
     MOV AX,[word_3426A]
-    IMUL WORD PTR [word_34270]
+    IMUL WORD PTR [_var_225]
     SHL AX,1
     RCL DX,1
     NEG DX
     MOV [DI+0Ch],DX
-    MOV AX,[word_34272]
-    IMUL WORD PTR [word_34270]
+    MOV AX,[_var_226]
+    IMUL WORD PTR [_var_225]
     SHL AX,1
     RCL DX,1
     NEG DX
     MOV [DI+2h],DX
-    MOV AX,[word_34274]
-    IMUL WORD PTR [word_34270]
+    MOV AX,[_var_227]
+    IMUL WORD PTR [_var_225]
     SHL AX,1
     RCL DX,1
     MOV [DI+8h],DX
-    MOV AX,[word_3426E]
+    MOV AX,[_var_224]
     MOV [DI+0Eh],AX
     MOV AX,SI
     IMUL WORD PTR [word_3426C]
@@ -2814,7 +2814,7 @@ loc_147B:
     MOV BX,AX
     MOV CX,DX
     MOV AX,[word_3426A]
-    IMUL WORD PTR [word_34274]
+    IMUL WORD PTR [_var_227]
     SHL AX,1
     RCL DX,1
     ADD BX,AX
@@ -2827,14 +2827,14 @@ loc_147B:
     MOV BX,AX
     MOV CX,DX
     MOV AX,[word_3426A]
-    IMUL WORD PTR [word_34272]
+    IMUL WORD PTR [_var_226]
     SHL AX,1
     RCL DX,1
     SUB AX,BX
     SBB DX,CX
     MOV [DI+0Ah],DX
     MOV AX,[word_3426C]
-    IMUL WORD PTR [word_34270]
+    IMUL WORD PTR [_var_225]
     SHL AX,1
     RCL DX,1
     MOV [DI+10h],DX
@@ -3199,7 +3199,7 @@ loc_1874:
     MOV BL,[ES:BX+SI]
     CMP BL,0FFh
     JZ short loc_1868
-    CMP WORD PTR [word_33BAC],400h
+    CMP WORD PTR [_var_141],400h
     JNZ short loc_1890
     CMP BL,1h
     JNZ short loc_1868

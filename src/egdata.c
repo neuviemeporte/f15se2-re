@@ -202,6 +202,8 @@ int g_velocity;
 int16 keyScancode;
 uint8 unk_3BF95;
 int16 word_3298A = 0xC4;
+int16 word_3298C = 0xA0;
+int16 word_3298E = 0x64;
 int word_38F72;
 int16 word_38FC6;
 int16 word_38FCC;
@@ -275,6 +277,8 @@ uint8 byte_3BE3E[0x40];
 uint8 byte_3BE80[0x10];
 uint8 byte_3BED8[0x64];
 char tempString[80];
+/* unk_3C030: itoa scratch buffer for assembling HUD/MFD numeric strings. */
+char unk_3C030[12];
 char string_3C04A[80];
 
 int16 word_33096 = 4;
@@ -282,6 +286,7 @@ int16 word_33098 = 0x1388;
 /* Countermeasure ammo counters, indexed by kind in countermeasures():
  * [1] = flare, [2] = chaff. word_3309A[0] is unused. */
 int16 word_3309A[3] = {0, 0x0C, 0x12};
+int16 g_missionStatus = 1;
 int16 word_330BA = 1;
 int16 word_330BE = 0;
 int16 word_3C042;
@@ -421,6 +426,9 @@ int16 word_341FC[32] = { 3, 0x32, 0xC5, 0x18A, 0x312, 0x622, 0xC43, 0x1886,
 /* var_315: scalar flag, only byte[0] is used. */
 int16 var_315 = 0;
 
+/* var_316: standalone byte flag. */
+uint8 var_316 = 0;
+
 /* var_654, var_657..672: standalone int16 flags. */
 int16 var_654 = 0;
 int16 var_657 = 0;
@@ -484,10 +492,19 @@ int16 var_203 = 0;
  * _var_204+2/+4/+6. Keep it one contiguous C array so the index stays valid
  * (was word_34244..word_3424A in egslots.asm). C uses element 0 as the scalar. */
 int16 var_204[4] = {0, 0, 0, 0};
+uint8 var_215 = 0;
 int16 var_216 = 0;
 int16 var_218 = 0;
 int16 var_219 = 0;
+/* var_224-227: sphere/horizon projection scalars. */
+int16 var_224 = 0;
+int16 var_225 = 0;
+int16 var_226 = 0;
+int16 var_227 = 0;
+int16 var_257 = 0;
 int16 var_261 = 0;
+int16 var_549 = 0;
+char var_550 = 0;
 int16 var_556 = 0;
 
 /* g_setThrust: player thrust setting (was also aliased _var_552). word_380E2: a frame timer. */
@@ -501,6 +518,9 @@ struct SpriteParams blitSpriteParams = {
     0x01,                     /* flags (byte_383E4 init) */
     {0x01, 0x01, 0x00}        /* pad19[0]=var_586 init */
 };
+
+/* byte_383E5: tactical-map zoom level (declared dw, used as a small int). */
+int16 byte_383E5 = 8;
 
 /* blitGaugeSprite() sprite descriptor (was word_383AE.., an asm SpriteParams). */
 struct SpriteParams gaugeSpriteParams = {
@@ -522,9 +542,17 @@ struct BulletTrack bulletTracks[20];
    egslots.asm address order. The hand-written asm routines now reference these by their
    mangled (_-prefixed) names. */
 int16 word_336F0 = 0;
+int16 var_141 = 0;
+int16 var_220 = 0;
 uint8 byte_378EE = 0;
 uint8 byte_37F98 = 0;   /* keyboard virtual-stick raw pitch axis (int9Handler) */
 uint8 byte_37F99 = 0;   /* keyboard virtual-stick raw roll axis (int9Handler) */
+/* player orientation/altitude view state, shared with egseg2 projection. */
+int g_ourHead = 0;
+int g_ourPitch = 0;
+int g_ourRoll = 0;
+int16 var_593 = 0;
+uint8 byte_3850E = 0;
 int word_39606;
 /* word_39808: nearest-tile-object pointer; result of findNearestTileObject(),
    aliasing the word_3B7E0 scratch block. */
@@ -552,3 +580,16 @@ struct Proj3d g_proj3d;
    (vertexX[] at +0x600). One 0x640-byte buffer; egseg1.asm reaches vertexX at the fixed
    offset _byte_3B7FC+0x600. Was _byte_3B7FC db 640h dup in egslots.asm. */
 struct ReplayLog byte_3B7FC;
+
+/* Combat-event message fragments assembled into strBuf by updateThreatTargeting. */
+uint8 aMisses[] = " misses ";
+uint8 aDestroyedBy[] = " destroyed by ";
+uint8 aDestroyedBy_0[] = " destroyed by ";
+uint8 aGroundImpact[] = " ground impact";
+uint8 aHitBy[] = "Hit by ";
+uint8 aIneffective[] = "Ineffective";
+uint8 aHitBy_0[] = " hit by ";
+
+/* aMap: tactical-map panel label. aNotAvailable: store-status text. */
+char aMap[] = "Map";
+uint8 aNotAvailable[] = " not available";

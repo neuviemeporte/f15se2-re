@@ -377,8 +377,6 @@ EXTRN _var_258:BYTE
 EXTRN _var_259:WORD
 EXTRN _var_260:WORD
 EXTRN _var_315:WORD
-EXTRN _var_542:WORD
-EXTRN _var_547:WORD
 EXTRN _var_605:WORD
 EXTRN _var_606:WORD
 EXTRN _var_608:WORD
@@ -400,16 +398,9 @@ EXTRN _word_330C2:WORD
 EXTRN _word_38126:WORD
 EXTRN _word_3BED2:WORD
 EXTRN _word_3C046:WORD
-EXTRN aDestroyedBy:BYTE
-EXTRN aDestroyedBy_0:BYTE
 EXTRN aF15dgtl_bin:BYTE
 EXTRN aFileClosingError:BYTE
 EXTRN aFileNotFound:BYTE
-EXTRN aGroundImpact:BYTE
-EXTRN aHitBy:BYTE
-EXTRN aHitBy_0:BYTE
-EXTRN aIneffective:BYTE
-EXTRN aMisses:BYTE
 EXTRN aNoFileBuffersAvailabl:BYTE
 EXTRN aOpenError:BYTE
 EXTRN audio_jump_6b:PROC
@@ -428,7 +419,7 @@ EXTRN dacValues:BYTE
 EXTRN dacValues1:BYTE
 EXTRN f15dgtlAddr:WORD
 EXTRN fileReadPos:WORD
-EXTRN g_missionStatus:WORD
+EXTRN _g_missionStatus:WORD
 EXTRN gfx_clearPage:PROC
 EXTRN gfx_copyRow:PROC
 EXTRN gfx_dacAnimate:PROC

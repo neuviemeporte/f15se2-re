@@ -205,9 +205,9 @@ void redrawTacMap(int centerX, int centerY) {
     }
     drawPanelText(1, aMap, 0);
     b = 0x48 << (9 - byte_383E5);
-    var_589 = clampRange(sinMul(var_542, 0x4000 >> byte_383E5) + centerX, b, 0x7fff - b);
+    var_589 = clampRange(sinMul(g_ourHead, 0x4000 >> byte_383E5) + centerX, b, 0x7fff - b);
     b = (0x38 << (9 - byte_383E5)) / 3 * 4;
-    var_590 = clampRange(centerY - cosMul(var_542, 0x4000 >> byte_383E5), b, 0x7fff - b);
+    var_590 = clampRange(centerY - cosMul(g_ourHead, 0x4000 >> byte_383E5), b, 0x7fff - b);
     loadColorPalette(commData->gfxModeNum != 0 ? 0 : 3);
     gfx_setFadeSteps(0x13);
     renderMapTerrain(var_567, var_589 / 2, -(var_590 / 2 - 0x4000), 9 - byte_383E5);
@@ -238,7 +238,7 @@ void redrawTacMap(int centerX, int centerY) {
     if ((char)gfx_getDisplayPage() == 0) {
         cacheScopePanel();
     } else {
-        gfx_copyRect(*var_565, 0x18, 0x70, *var_566, 0x18, 0x70, 0x48, 0x38);
+        gfx_copyRect(*off_3834C, 0x18, 0x70, *off_38364, 0x18, 0x70, 0x48, 0x38);
     }
     restoreScopePanel();
     resetSimObjectLocks();
@@ -390,12 +390,12 @@ void drawFullscreenLine(int x1, int y1, int x2, int y2) {
 void drawViewportLine(int x1, int y1, int x2, int y2) {
     int p, a;
 
-    a = var_564[10] - var_564[9] + 1;
-    p = var_564[8] - var_564[7] + 1;
-    gfx_setBlitOffset(gfx_calcRowAddr(var_564[9], var_564[7]));
+    a = off_38334[10] - off_38334[9] + 1;
+    p = off_38334[8] - off_38334[7] + 1;
+    gfx_setBlitOffset(gfx_calcRowAddr(off_38334[9], off_38334[7]));
     var_349 = a - 1;
     var_350 = p - 1;
-    gfx_setColor(var_564[2]);
+    gfx_setColor(off_38334[2]);
     var_351 = x1;
     var_353 = y1;
     var_352 = x2;
@@ -413,7 +413,7 @@ void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int arg
     gfx_setBlitOffset(gfx_calcRowAddr(clipLeft, arg_c));
     var_349 = a - 1;
     var_350 = p - 1;
-    gfx_setColor(var_564[2]);
+    gfx_setColor(off_38334[2]);
     var_351 = x1 - clipLeft;
     var_353 = y1 - arg_c;
     var_352 = x2 - clipLeft;
@@ -423,7 +423,7 @@ void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int arg
     if (drawBothPages != 0) {
         byte_3C5A0 = gfx_getDisplayPage();
         gfx_setPageN(byte_3C5A0 == 0);
-        gfx_setColor(var_564[2]);
+        gfx_setColor(off_38334[2]);
         var_351 = x1 - clipLeft;
         var_353 = y1 - arg_c;
         var_352 = x2 - clipLeft;
@@ -444,7 +444,7 @@ void drawScreenLineOnePage(int x1, int y1, int x2, int y2) {
 
 // ==== seg000:0x9db0 ====
 void drawHudViewLine(int x1, int y1, int x2, int y2) {
-    if (var_456 != 0) {
+    if (byte_37C24 != 0) {
         if (gameData->unk4 < 2) {
             drawViewportLine(x1, y1, x2, y2);
         } else {
@@ -489,8 +489,8 @@ void drawMapPoint(int x, int y, int color) {
 void switchIndicatorColor(int indicatorIdx, int color) {
     if (word_330C2 == 0) goto done;
     if (*(&word_38202 + indicatorIdx * 5 + 7) != color) {
-        gfx_switchColor(var_564, *(&word_38202 + indicatorIdx * 5 + 3), *(&word_38202 + indicatorIdx * 5 + 4), *(&word_38202 + indicatorIdx * 5 + 5), *(&word_38202 + indicatorIdx * 5 + 6), *(&word_38202 + indicatorIdx * 5 + 7), color);
-        gfx_switchColor(var_565, *(&word_38202 + indicatorIdx * 5 + 3), *(&word_38202 + indicatorIdx * 5 + 4), *(&word_38202 + indicatorIdx * 5 + 5), *(&word_38202 + indicatorIdx * 5 + 6), *(&word_38202 + indicatorIdx * 5 + 7), color);
+        gfx_switchColor(off_38334, *(&word_38202 + indicatorIdx * 5 + 3), *(&word_38202 + indicatorIdx * 5 + 4), *(&word_38202 + indicatorIdx * 5 + 5), *(&word_38202 + indicatorIdx * 5 + 6), *(&word_38202 + indicatorIdx * 5 + 7), color);
+        gfx_switchColor(off_3834C, *(&word_38202 + indicatorIdx * 5 + 3), *(&word_38202 + indicatorIdx * 5 + 4), *(&word_38202 + indicatorIdx * 5 + 5), *(&word_38202 + indicatorIdx * 5 + 6), *(&word_38202 + indicatorIdx * 5 + 7), color);
         *(&word_38202 + indicatorIdx * 5 + 7) = color;
     }
 done:
@@ -519,16 +519,16 @@ void fillPanelBox(int panelId, int color) {
 
 // ==== seg000:0xa0cb ====
 void drawStringBothPages(const char *text, int screenX, int screenY, int color) {
-    drawStringCentered(var_564, text, screenX, screenY, color);
-    drawStringCentered(var_565, text, screenX, screenY, color);
+    drawStringCentered(off_38334, text, screenX, screenY, color);
+    drawStringCentered(off_3834C, text, screenX, screenY, color);
 }
 
 // ==== seg000:0xa0fe ====
 void drawStringActivePage(const char *text, int screenX, int screenY, int color) {
     if (byte_3C5A0 == 0) {
-        drawStringCentered(var_564, text, screenX, screenY, color);
+        drawStringCentered(off_38334, text, screenX, screenY, color);
     } else {
-        drawStringCentered(var_565, text, screenX, screenY, color);
+        drawStringCentered(off_3834C, text, screenX, screenY, color);
     }
 }
 
@@ -555,7 +555,7 @@ void drawNumber(int value, int x, int y, int color) {
 
 // ==== seg000:0xa1b1 ====
 int readScreenPixel(int screenX, int screenY) {
-    byte_3BF93[0] = 0x0D;
+    regs.h.ah = 0x0D;
     unk_3BF96 = screenX;
     unk_3BF98 = screenY;
     unk_3BF95 = 0;

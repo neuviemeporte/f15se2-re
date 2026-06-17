@@ -97,7 +97,7 @@ void updateFrame(void) {
         word_330B4 = 1000;
         if (g_missionStatus == 0 || word_336EA != 0) {
             word_3AFA8 = ((unsigned)(g_viewY_ - var_47) < 0x8000u) ? 1 : -1;
-            var_548 = 2000;
+            word_380D0 = 2000;
             g_velocity = 0x1fa4;
             g_setThrust = 100;
             UpdateThrottleState();
@@ -113,7 +113,7 @@ void updateFrame(void) {
                         stru_3B202[d].posY = g_viewY_ - (d * 0x20 + 0x96) * word_3AFA8;
                         stru_3B202[d].worldX = (long)stru_3B202[d].posX * 32;
                         stru_3B202[d].worldY = (long)stru_3B202[d].posY * 32;
-                        stru_3B202[d].heading.w = var_542 + 0x8000;
+                        stru_3B202[d].heading.w = g_ourHead + 0x8000;
                     }
                 }
             }
@@ -126,7 +126,7 @@ void updateFrame(void) {
             var_811 = 0x50 * word_3AFA8 + g_viewY_;
             stru_3B202[1].worldX = (long)var_810 * 32;
             stru_3B202[1].worldY = (long)var_811 * 32;
-            stru_3B202[1].heading.w = var_542;
+            stru_3B202[1].heading.w = g_ourHead;
         }
         word_3AFA8 = p;
         initWeaponLoadout();
@@ -164,7 +164,7 @@ void updateFrame(void) {
     if (objectToScreen(g_viewX_, g_viewY_, (int16*)&b, (int16*)&c) != 0) {
         byte_3C5A0 = -(gfx_getDisplayPage() - 1);
         gfx_copyRect(2, b - 3, c - 3, byte_3C5A0, b - 3, c - 3, 6, 6);
-        blitSprite(b - 1, c - 1, ((var_542 + 0x1000) >> 0xd & 7) * 4 + 0xa4, 4, 4, 4, 0);
+        blitSprite(b - 1, c - 1, ((g_ourHead + 0x1000) >> 0xd & 7) * 4 + 0xa4, 4, 4, 4, 0);
         byte_3C5A0 = 1 - byte_3C5A0;
         if (((int16)b < 0x20 || (int16)b > 0x58 || (int16)c < 0x76 || (int16)c > 0xa2) && byte_383E5 > 2) {
             byte_383E5--;
@@ -270,7 +270,7 @@ void updateFrame(void) {
     }
 
 skip_target_section:
-    if (word_38FEE < 0x200 || word_3BEBE == var_547) {
+    if (word_38FEE < 0x200 || word_3BEBE == g_viewZ) {
         word_3BEBE = 0;
         word_38FFC = 0xa0;
         word_39200 = 0x800;
@@ -281,9 +281,9 @@ skip_target_section:
             word_3BEBE = 0x80;
             word_38FFC = 0x100;
             word_39200 = 0x3c0;
-            if (var_547 == 0x80 && g_knots > 0x50) {
+            if (g_viewZ == 0x80 && g_knots > 0x50) {
                 if ((unsigned)(g_viewY_ - g_planes[g_closestThreatIndex].mapY) * word_3AFA8 >= 0x10 && (unsigned)(g_viewY_ - g_planes[g_closestThreatIndex].mapY) * word_3AFA8 <= 0x14) {
-                    if (abs(var_542 - ((1 - word_3AFA8) << 0xe)) < 0x2000) {
+                    if (abs(g_ourHead - ((1 - word_3AFA8) << 0xe)) < 0x2000) {
                         word_38FDE = 1;
                         makeSound(0x16, 2);
                     }
@@ -333,7 +333,7 @@ skip_target_section:
 end_landing_check:
         if ((word_33706 == 0) && (g_missionStatus == 0) && g_playerPlaneFlags & 0x6000) {
             if (abs(g_viewX_ - g_planes[g_closestThreatIndex].mapX) < 0x10 && abs(g_viewY_ - g_planes[g_closestThreatIndex].mapY) < 0x10) {
-                g_setThrust = g_velocity = var_548 = 0;
+                g_setThrust = g_velocity = word_380D0 = 0;
                 g_ViewX = (long)g_planes[g_closestThreatIndex].mapX << 5;
                 g_ViewY = (long)(0x8000 - g_planes[g_closestThreatIndex].mapY) << 5;
             } else {
@@ -344,9 +344,9 @@ end_landing_check:
                     d = 0x0e;
                 }
                 g_velocity = 0x1518;
-                var_548 -= (var_548 - word_3BEBE) / d;
-                if (var_548 < word_3BEBE + 5) {
-                    var_548 = word_3BEBE + 5;
+                word_380D0 -= (word_380D0 - word_3BEBE) / d;
+                if (word_380D0 < word_3BEBE + 5) {
+                    word_380D0 = word_3BEBE + 5;
                 }
                 g_ViewX -= (g_ViewX - ((long)g_planes[g_closestThreatIndex].mapX << 5)) / (long)d;
                 g_ViewY -= (g_ViewY - ((long)(0x8000 - g_planes[g_closestThreatIndex].mapY) << 5)) / (long)d;
@@ -359,12 +359,12 @@ end_landing_check:
     }
 
 skip_autopilot:
-    TRACE(("updateFrame: skip_autopilot, w33702=%d var547=%d unk4=%d 3BF90=%d 33098=%d 3BE3C=%d 3AA5A=%d", word_33702, var_547, gameData->unk4, g_gunHits, word_33098, word_3BE3C, g_knots));
+    TRACE(("updateFrame: skip_autopilot, w33702=%d var547=%d unk4=%d 3BF90=%d 33098=%d 3BE3C=%d 3AA5A=%d", word_33702, g_viewZ, gameData->unk4, g_gunHits, word_33098, word_3BE3C, g_knots));
     if (word_33702 == 0) {
-        if (var_547 == 0) {
+        if (g_viewZ == 0) {
             if ((gameData->unk4 != 0 || g_gunHits > 4 || word_33098 == 0) &&
                 word_3BE3C == 0 && g_knots > 0x32) {
-                TRACE_KEY(("DEATH: altitude-zero crash, tick=%d var547=%d 3AA5A=%d", frameTick, var_547, g_knots));
+                TRACE_KEY(("DEATH: altitude-zero crash, tick=%d var547=%d 3AA5A=%d", frameTick, g_viewZ, g_knots));
                 makeSound(0, 2);
                 setDrawColor(0);
                 fillRectBoth(0, 0, 0x13f, 199);
@@ -377,14 +377,14 @@ skip_autopilot:
     }
 
     if (byte_3995A != 0 && (keyValue & 0x80) == 0) {
-        TRACE_KEY(("DEATH-path collision: byte_3995A=%d unk4=%d var548=%d tick=%d", byte_3995A, gameData->unk4, var_548, frameTick));
-        if (gameData->unk4 != 0 && var_548 != 0) {
+        TRACE_KEY(("DEATH-path collision: byte_3995A=%d unk4=%d var548=%d tick=%d", byte_3995A, gameData->unk4, word_380D0, frameTick));
+        if (gameData->unk4 != 0 && word_380D0 != 0) {
             makeSound(0, 2);
             gfx_waitRetrace();
             waitFrameSync(0x78);
             finalizeMission(2);
         } else {
-            var_548 += 500;
+            word_380D0 += 500;
             g_autopilotAltitude = 0;
         }
     }
@@ -529,14 +529,14 @@ void updateBulletsAndFire(void) {
     word_330B4 = clampRange(word_330B4 - 40 / g_frameRateScaling, 0, 1000);
     makeSound(4, 2);
     d = 186 / g_frameRateScaling;
-    *((int16 *)((char *)&bulletTracks[0].velZ + e * 12)) = sinMul(var_544, d) << 5;
-    d = cosMul(var_544, d);
-    *((int16 *)((char *)&bulletTracks[0].velX + e * 12)) = sinMul(var_542, d);
-    *((int16 *)((char *)&bulletTracks[0].velY + e * 12)) = -cosMul(var_542, d);
+    *((int16 *)((char *)&bulletTracks[0].velZ + e * 12)) = sinMul(g_ourPitch, d) << 5;
+    d = cosMul(g_ourPitch, d);
+    *((int16 *)((char *)&bulletTracks[0].velX + e * 12)) = sinMul(g_ourHead, d);
+    *((int16 *)((char *)&bulletTracks[0].velY + e * 12)) = -cosMul(g_ourHead, d);
     p = e * 12;
     *((int16 *)((char *)&bulletTracks[0].posX + p)) = *((int16 *)((char *)&bulletTracks[0].velX + p)) + g_viewX_;
     *((int16 *)((char *)&bulletTracks[0].posY + p)) = *((int16 *)((char *)&bulletTracks[0].velY + p)) + g_viewY_;
-    *((int16 *)((char *)&bulletTracks[0].alt + p)) = *((int16 *)((char *)&bulletTracks[0].velZ + p)) + var_547 - 2;
+    *((int16 *)((char *)&bulletTracks[0].alt + p)) = *((int16 *)((char *)&bulletTracks[0].velZ + p)) + g_viewZ - 2;
     word_38FE8 = 1;
     goto done_fire;
 no_fire:
@@ -644,13 +644,13 @@ void drawWeaponAmmo() {
 // ==== seg000:0x1a88 ====
 void drawWeaponSelectMarker(int weaponIdx) {
     if (word_330C2 == 0) return;
-    var_564[2] = 0;
+    off_38334[2] = 0;
     drawFullscreenLine(asc_33744[word_3374A], 0xc4, asc_33744[word_3374A] + 6, 0xc4);
-    var_564[2] = 7;
+    off_38334[2] = 7;
     drawFullscreenLine(asc_33744[word_3374A], 0xc5, asc_33744[word_3374A] + 6, 0xc5);
-    var_564[2] = 0x0c;
+    off_38334[2] = 0x0c;
     drawFullscreenLine(asc_33744[weaponIdx], 0xc4, asc_33744[weaponIdx] + 6, 0xc4);
-    var_564[2] = 4;
+    off_38334[2] = 4;
     drawFullscreenLine(asc_33744[weaponIdx], 0xc5, asc_33744[weaponIdx] + 6, 0xc5);
     word_3374A = weaponIdx;
 }

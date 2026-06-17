@@ -173,8 +173,8 @@ void updateThreatTargeting(void)
 #else
             plotMapObject(stru_335C4[i].mapX, stru_335C4[i].mapY, *(int16 *)&stru_335C4[i].state[4]);
 #endif
-            alt0 = var_547;
-            locked = samCanAcquireTarget(i, viewX, viewY, var_547, mode);
+            alt0 = g_viewZ;
+            locked = samCanAcquireTarget(i, viewX, viewY, g_viewZ, mode);
             best = var_669;
             aimY = var_670;
             j = 1;
@@ -184,9 +184,9 @@ void updateThreatTargeting(void)
                      (mode == 1 || mode == 2 ||
                       (mode == 3 &&
                        -(g_missionStatus * 12 - 0x40) >
-                           abs(abs((aimY - var_542) >> 8) - 0x40))))) {
+                           abs(abs((aimY - g_ourHead) >> 8) - 0x40))))) {
                     acq = samCanAcquireTarget(i, mapEvents[j].mapX,
-                                              mapEvents[j].mapY, var_547, mode);
+                                              mapEvents[j].mapY, g_viewZ, mode);
                     if (acq != 0) {
                         aimY = acq;
                         locked = 0;
@@ -474,7 +474,7 @@ int samCanAcquireTarget(int slot, int targetX, int targetY, int param_4, int mod
         return 0;
     }
     if (mode == 0) {
-        if (abs(stru_335C4[slot].worldX - var_542) > 0x2000) {
+        if (abs(stru_335C4[slot].worldX - g_ourHead) > 0x2000) {
             return 0;
         }
     }
@@ -482,7 +482,7 @@ int samCanAcquireTarget(int slot, int targetX, int targetY, int param_4, int mod
         var_669 = a;
         return 1;
     }
-    p = abs(stru_335C4[slot].worldX - var_542);
+    p = abs(stru_335C4[slot].worldX - g_ourHead);
     if (abs(p - 0x4000) >= 0x2000 - g_missionStatus * 2048) {
         var_669 = a;
         return 1;
@@ -638,7 +638,7 @@ void fireMissile()
     int b;
     int c;
 
-    if (abs(var_545) > 0x3000) return;
+    if (abs(g_ourRoll) > 0x3000) return;
     if (word_33702 != 0) return;
     if (word_3BE3C != 0) return;
 
@@ -681,12 +681,12 @@ void fireMissile()
 
     stru_335C4[c].mapX = g_viewX_;
     stru_335C4[c].mapY = g_viewY_;
-    stru_335C4[c].alt = var_547 - 0x14;
+    stru_335C4[c].alt = g_viewZ - 0x14;
     stru_335C4[c].field_6 = (unsigned int)g_velocity >> 11;
     c = c;
-    stru_335C4[c].worldX = var_542;
-    stru_335C4[c].worldY = var_544;
-    stru_335C4[c].worldZ = var_545;
+    stru_335C4[c].worldX = g_ourHead;
+    stru_335C4[c].worldY = g_ourPitch;
+    stru_335C4[c].worldZ = g_ourRoll;
 
     stru_335C4[c].ttl = (int)(((long)sams[p].field_8 << (6 - (sams[p].field_C == 6 ? 3 : 2))) * (long)g_frameRateScaling / (long)((sams[p].field_A >> 6) + 1)) + 6;
 
