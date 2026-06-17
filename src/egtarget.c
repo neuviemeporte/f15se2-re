@@ -465,7 +465,7 @@ void drawHudWorldOverlay(void) {
         drawTargetLabel((char *)word_3C0A2[word_3AA5C[word_3BE96 * 8]], word_38F72, g_frameRateScaling - word_336F8);
     }
 
-    var_730 &= 0xfd;
+    g_playerPlaneFlags &= ~0x200;
     var_564[1] = 4;
     var_565[1] = 4;
 

@@ -159,7 +159,6 @@ uint8 var_594;
 int16 var_598;
 int16 var_599;
 int16 var_600;
-uint8 var_730;
 uint16 var_810;
 uint16 var_811;
 int8 var_83[1];

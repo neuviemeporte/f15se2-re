@@ -118,7 +118,7 @@ int keyDispatch(uint16 scanCode)
             setupDac();
         break;
     case 0x1400:
-        *(char *)&var_730 ^= 0x10;
+        g_playerPlaneFlags ^= 0x1000;
         if (g_playerPlaneFlags & 0x1000) {
             *((char far *)commData + 0x30) |= 1;
         }
@@ -357,4 +357,3 @@ void disableTextBlink(void) {
     regs.h.al = 0x8D;
     int86(0x10, &regs, &regs);
 }
-

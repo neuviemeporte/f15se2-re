@@ -599,11 +599,11 @@ int markTargetReached(int targetIdx) {
     if (targetIdx != 0) {
         strcpy(strBuf, aSecond_Target);
         waypointIndex = 1;
-        var_730 |= 0x20;
+        g_playerPlaneFlags |= 0x2000;
     } else {
         strcpy(strBuf, aPrimaryTarget_0);
         waypointIndex = 2;
-        var_730 |= 0x40;
+        g_playerPlaneFlags |= 0x4000;
     }
     if ((g_playerPlaneFlags & 0x6000) == 0x6000) {
         waypointIndex = 3;

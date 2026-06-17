@@ -42,7 +42,7 @@ void updateFrame(void) {
         if (gameData->difficulty == 4) {
             gameData->difficulty = 2;
             word_336EA = 1;
-            var_730 |= 0x10;
+            g_playerPlaneFlags |= 0x1000;
             *(char far *)((char far *)commData + 0x30) |= 1;
         }
         d = (unsigned char)*((char far *)commData + 0x0d);

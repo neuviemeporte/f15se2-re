@@ -347,7 +347,6 @@ PUBLIC _var_227
 PUBLIC _var_598
 PUBLIC _var_599
 PUBLIC _missiles
-PUBLIC _var_730
 PUBLIC _word_380D0
 PUBLIC _byte_37C24
 PUBLIC _g_ourHead
@@ -5876,8 +5875,6 @@ __bss_start label byte
 ; --- BSS-region symbolic labels (offsets relative to _BSS start) ---
 ORG 0008Dh
 _var_727 label byte
-ORG 0028Fh
-_var_730 label byte
 ORG 00291h
 _var_732 label byte
 ORG 01AF0h
