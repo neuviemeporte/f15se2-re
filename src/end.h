@@ -32,9 +32,6 @@
 #define MAP_SCALE_X         0x92  /* horizontal: (coord << 7) / 0x92 */
 #define MAP_SCALE_Y         0xC3  /* vertical:   (coord << 7) / 0xC3 */
 
-/* Kill record offset in flight record array */
-#define KILL_RECORD_OFFSET  207
-
 /* Unit ID / slot index mask */
 #define UNIT_ID_MASK        0x7F
 

@@ -793,9 +793,9 @@ long calcMissionScore(int param) {
         p = 15;
     }
 
-    for (b = 0; (unsigned)b <= (unsigned)param && flightRecords[KILL_RECORD_OFFSET + b].status; b++) {
-        f = flightRecords[KILL_RECORD_OFFSET + b].unitId;
-        switch (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_TYPE_MASK) {
+    for (b = 0; (unsigned)b <= (unsigned)param && flightRecords[b].status; b++) {
+        f = flightRecords[b].unitId;
+        switch (flightRecords[b].status & STATUS_TYPE_MASK) {
         case EVENT_EJECTED:
             if (b != 0) {
                 c = 1;
@@ -803,10 +803,10 @@ long calcMissionScore(int param) {
             break;
         case EVENT_AIR_KILL:
         case EVENT_AIR_KILL2:
-            if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_PRIMARY_HIT) {
+            if (flightRecords[b].status & STATUS_PRIMARY_HIT) {
                 primaryHit = 1;
                 airKilled++;
-            } else if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_SECONDARY_HIT) {
+            } else if (flightRecords[b].status & STATUS_SECONDARY_HIT) {
                 secondaryHit = 1;
                 airKilled++;
             } else if (unitTypeTable[f & UNIT_ID_MASK] & 0x40) {
@@ -818,10 +818,10 @@ long calcMissionScore(int param) {
             }
             break;
         case EVENT_SAM_KILL:
-            if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_PRIMARY_HIT) {
+            if (flightRecords[b].status & STATUS_PRIMARY_HIT) {
                 primaryHit = 1;
                 samKilled++;
-            } else if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_SECONDARY_HIT) {
+            } else if (flightRecords[b].status & STATUS_SECONDARY_HIT) {
                 secondaryHit = 1;
                 samKilled++;
             } else if (planeArray[(f & UNIT_ID_MASK) + 1].field_0 == -1) {
@@ -831,16 +831,16 @@ long calcMissionScore(int param) {
             }
             break;
         case EVENT_GROUND_KILL:
-            if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_PRIMARY_HIT) {
+            if (flightRecords[b].status & STATUS_PRIMARY_HIT) {
                 primaryHit = 1;
                 groundKilled++;
-            } else if (flightRecords[KILL_RECORD_OFFSET + b].status & STATUS_SECONDARY_HIT) {
+            } else if (flightRecords[b].status & STATUS_SECONDARY_HIT) {
                 secondaryHit = 1;
                 groundKilled++;
             } else if (unitTypeTable[f & UNIT_ID_MASK] & 0x40) {
                 groundMissed++;
             } else {
-                if (!((gridFlags[(((flightRecords[KILL_RECORD_OFFSET + b].mapY & 0xff) >> 4) << 4) + ((unsigned char)flightRecords[KILL_RECORD_OFFSET + b].mapX >> 4)]) & 3)) {
+                if (!((gridFlags[(((flightRecords[b].mapY & 0xff) >> 4) << 4) + ((unsigned char)flightRecords[b].mapX >> 4)]) & 3)) {
                     groundKilled++;
                 } else {
                     groundMissed++;
