@@ -894,13 +894,13 @@ void showEventPopup(void) {
             a = 0;
         }
         break;
-    case EVENT_GROUND_KILL:
+    case EVENT_AIR_KILL2:
         a = 2;
         break;
-    case EVENT_AIR_KILL2:
+    case EVENT_SAM_KILL:
         a = 1;
         break;
-    case EVENT_SAM_KILL:
+    case EVENT_GROUND_KILL:
         a = 2;
         break;
     case EVENT_BOMB_HIT:
