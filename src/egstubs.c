@@ -50,13 +50,8 @@ uint8 byte_3419F[1];
 uint8 byte_37C24;
 uint8 byte_3790C[1];
 int16 g_viewZ;
-uint8 byte_38F8D[1];
 struct Unknown3B4E6Record8 byte_3B4E6[1];
-char byte_3C16E[1];
 uint8 joyAxes[1];
-int16 *off_38334;
-int16 *off_3834C;
-int16 *off_38364;
 union REGS regs;
 char strBuf[1];
 struct MapTarget g_planes[1];
@@ -85,8 +80,6 @@ int16 *var_568;
 int16 var_598;
 int16 var_599;
 int16 var_600;
-uint16 var_810;
-uint16 var_811;
 int8 var_83[1];
 struct Waypoint waypoints[1];
 int16 word_32990;
@@ -120,7 +113,6 @@ int16 word_3B7E2;
 int16 word_3B7E4;
 int16 word_3B7E8;
 struct Matrix3dEntry7 *word_3B7EC;
-int16 word_3C69E;
 
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }

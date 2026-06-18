@@ -365,6 +365,7 @@ int16 word_3C046;
 uint8 byte_34197 = 6;
 uint8 byte_37C2F = 0;
 uint8 byte_38F8C;
+uint8 byte_38F8D[1];
 int32 dword_3C01C;
 int32 dword_3C024;
 int16 flagFarToNear;
@@ -430,6 +431,13 @@ int16 word_3C02E;
 int16 word_3C03E;
 
 int16 word_3401A = 0;
+/* off_38334/3834C/38364: near-pointers to the three gfx page/viewport descriptors
+   (unk_3831E, unk_38336, word_3834E). Read through the
+   pointer as an int16[] descriptor (clip rect, color, page base) and dereferenced
+   for the page base address. */
+int16 *off_38334 = unk_3831E;
+int16 *off_3834C = unk_38336;
+int16 *off_38364 = word_3834E;
 int16 word_38126 = 0x6C;
 int16 word_38152 = 0;
 char byte_3995A;
@@ -657,6 +665,10 @@ int16 var_684 = 0;
 int16 var_685 = 0;
 int16 var_686 = 0;
 
+/* var_810/811: viewX/viewY scratch for the player tile-object world pos. */
+uint16 var_810 = 0;
+uint16 var_811 = 0;
+
 /* Collapsed _var_N EQU aliases: plain scalars (no address-coupling), storage moved from egslots.asm. */
 int16 var_194 = 0x800;
 int16 var_195 = 0x1000;
@@ -751,8 +763,12 @@ int16 word_3BEC8;
 int16 word_3BECE;
 int16 word_3C020;
 int16 word_3C16C;
+/* byte_3C16E: 0x2ee-byte buffer holding the region label strings; word_3C0A2[]
+   entries point into it (parsed by the loader, read back via moveNearFar). */
+char byte_3C16E[0x2EE];
 struct Matrix3dEntry7 *word_3C5A8;
 int16 *word_3C69C;
+int16 word_3C69E;
 int16 *word_3C6A2;
 uint8 byte_3C6A0[1];
 uint8 byte_3C8B0[2];

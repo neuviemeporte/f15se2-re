@@ -127,15 +127,10 @@ PUBLIC _byte_3B4E6
 PUBLIC _var_47
 PUBLIC _var_48
 PUBLIC _var_49
-PUBLIC _var_810
-PUBLIC _var_811
-PUBLIC _var_727
-PUBLIC _var_732
 PUBLIC _byte_3419A
 PUBLIC _byte_3419C
 PUBLIC _var_568
 PUBLIC _strBuf
-PUBLIC _byte_38F8D
 PUBLIC byte_37C2D
 PUBLIC byte_37C2E
 PUBLIC byte_37C35
@@ -283,11 +278,7 @@ PUBLIC word_37F9B
 PUBLIC byte_37F9D
 PUBLIC byte_37F9E
 PUBLIC byte_37F9F
-PUBLIC _byte_3C16E
 PUBLIC _byte_3790C
-PUBLIC _word_3C69E
-PUBLIC _off_38334
-PUBLIC _off_3834C
 PUBLIC _misc_jump_5b_getkey
 PUBLIC _unk_34121
 PUBLIC _word_33BAE
@@ -296,7 +287,6 @@ PUBLIC _word_34186
 PUBLIC _word_3419C
 PUBLIC _word_339B4
 PUBLIC _g_planes
-PUBLIC _off_38364
 PUBLIC _gfx_setColor
 PUBLIC _gfx_nop23
 PUBLIC _unk_38128
@@ -4572,7 +4562,8 @@ unk_3831E db 0
     db 3 dup(0)
     db 3Fh
     db 1
-_off_38334 dw offset unk_3831E
+_unk_3831E equ unk_3831E
+PUBLIC _unk_3831E
 unk_38336 db 1
     db 0
     db 2
@@ -4585,7 +4576,8 @@ unk_38336 db 1
     db 3 dup(0)
     db 3Fh
     db 1
-_off_3834C dw offset unk_38336
+_unk_38336 equ unk_38336
+PUBLIC _unk_38336
 word_3834E dw 2
     dw 2
     dw 2
@@ -4597,7 +4589,8 @@ word_3834E dw 2
     dw 0C7h
     dw 0
     dw 13Fh
-_off_38364 dw offset word_3834E
+_word_3834E equ word_3834E
+PUBLIC _word_3834E
 buf6data_0 db 0 ;align 4
     db 0
     db 2
@@ -5065,27 +5058,12 @@ IFDEF DEBUG
 PUBLIC __bss_start
 ENDIF
 __bss_start label byte
-; --- BSS-region symbolic labels (offsets relative to _BSS start) ---
-ORG 0008Dh
-_var_727 label byte
-ORG 00291h
-_var_732 label byte
-ORG 01AF0h
-_var_762 label byte
-ORG 01AFAh
-_var_767 label byte
-ORG 022B8h
-_var_810 label byte
-ORG 022BAh
-_var_811 label byte
 ORG 00000h
 PUBLIC _word_38F70
 word_38F70 dw ?
 _word_38F70 equ word_38F70
 strBuf db 18h dup(?)
 _strBuf equ strBuf
-byte_38F8D db ?
-_byte_38F8D equ byte_38F8D
     db 54 dup(?)
 _word_38FC6 label byte
     db ? ;align 4
@@ -5142,9 +5120,8 @@ PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
     db ? ;align 4
     db ?
-_byte_3C16E db 2EEh dup(?)
+    db 2EEh dup(?)
     db ?
-_word_3C69E dw ?
     db ? ;align 2
 _commData dd ?
 PUBLIC byte_3416E
