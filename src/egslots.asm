@@ -285,13 +285,8 @@ PUBLIC _gfx_setColor
 PUBLIC _gfx_nop23
 PUBLIC _unk_38128
 PUBLIC _word_38202
-PUBLIC _word_3755D
-PUBLIC _word_3755F
-PUBLIC _word_37561
-PUBLIC _word_37563
 PUBLIC _word_3AA5C
 PUBLIC _waypoints
-PUBLIC _word_380D0
 PUBLIC _gfx_allocPage
 PUBLIC _gfx_drawString
 PUBLIC _gfx_initOverlay
@@ -307,10 +302,6 @@ PUBLIC _gfx_getModeFlag
 PUBLIC _gfx_setDacAnimCount
 PUBLIC _gfx_setMonoFlag
 PUBLIC _mapEvents
-PUBLIC _var_351
-PUBLIC _var_352
-PUBLIC _var_353
-PUBLIC _var_354
 PUBLIC _var_567
 PUBLIC _var_605
 PUBLIC _var_606
@@ -2952,10 +2943,6 @@ word_37555 dw 0
 word_37557 dw 13Fh
 word_37559 dw 6Fh
     db 2 dup(0)
-_word_3755D dw 0
-_word_3755F dw 0
-_word_37561 dw 0
-_word_37563 dw 0
 unk_37565 db 0FFh
     db 439 dup(0FFh)
 unk_3771D db 0
@@ -4201,7 +4188,6 @@ _word_380AC equ word_380AC
     db 0FFh
     db 7Fh
 _g_viewZ dw 0
-_word_380D0 dw 0
     db 0Ch
     db 5 dup(0)
     db 3 dup(0)
@@ -4886,14 +4872,6 @@ ORG 04CA7h
 _var_349 EQU word_37557
 ORG 04CA9h
 _var_350 EQU word_37559
-ORG 04CADh
-_var_351 EQU _word_3755D
-ORG 04CAFh
-_var_352 EQU _word_3755F
-ORG 04CB1h
-_var_353 EQU _word_37561
-ORG 04CB3h
-_var_354 EQU _word_37563
 ORG 0505Ah
 _var_383 EQU word_3790A
 ORG 05374h

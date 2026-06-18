@@ -1359,10 +1359,6 @@ extern int16 var_596;
 extern int16 var_597;
 extern int16 var_349;
 extern int16 var_350;
-#define var_351 (*(int16 *)((char *)&var_349 + 6))
-#define var_352 (*(int16 *)((char *)&var_349 + 8))
-#define var_353 (*(int16 *)((char *)&var_349 + 10))
-#define var_354 (*(int16 *)((char *)&var_349 + 12))
 extern int16 var_141;
 extern int16 var_654;
 extern int16 var_657;

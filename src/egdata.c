@@ -1,6 +1,7 @@
 /*
- * Variables are kept in the same order as in egslots.asm so the produced
- * binary stays close to the original memory layout.
+ * Variables are kept roughly in egslots.asm address order as a convenience for
+ * a possible future binary-exact-match effort. The order is not load-bearing:
+ * the binary relocates, so data may move freely.
  */
 #include "egame.h"
 #include "inttype.h"
@@ -214,9 +215,9 @@ size_t size3d3_6 = 0;
 size_t size3d3_3 = 0;
 int16 sign3dg = 0x3232;
 
-/* 3D-loader buffers/sizes (was _buf3d3/_sizes3dt/_matrix3dt in egslots.asm).
- * buf3d3: shape->offset table, fread up to size3d3 words. sizes3dt: per-LOD
- * vertex counts (5 entries, each <=0x20). matrix3dt: 5 LODs x 32 vertex words. */
+/* 3D-loader buffers/sizes. buf3d3: shape->offset table, fread up to size3d3
+ * words. sizes3dt: per-LOD vertex counts (5 entries, each <=0x20). matrix3dt:
+ * 5 LODs x 32 vertex words. */
 unsigned int buf3d3[100] = { 0 };
 unsigned int sizes3dt[5] = { 0x20, 0x20, 0x20, 0x20, 0x20 };
 unsigned int matrix3dt[5][32] = { 0 };
@@ -685,18 +686,15 @@ int16 var_686 = 0;
 uint16 var_810 = 0;
 uint16 var_811 = 0;
 
-/* Collapsed _var_N EQU aliases: plain scalars (no address-coupling), storage moved from egslots.asm. */
 int16 var_194 = 0x800;
 int16 var_195 = 0x1000;
 int16 var_196 = 0x2000;
 int16 var_197 = 0x4000;
 int16 var_202 = 0;
 int16 var_203 = 0;
-/* var_204 is the head of a 4-word run {var_204, word_34246, word_34248,
- * word_3424A} that sub_202B6 indexes by a model opcode as
- * [BX+offset _var_204] (BX in {0,2,4,6}); the tail words are reached as
- * _var_204+2/+4/+6. Keep it one contiguous C array so the index stays valid
- * (was word_34244..word_3424A in egslots.asm). C uses element 0 as the scalar. */
+/* var_204: head of a 4-word run that sub_202B6 indexes by a model opcode
+ * (BX in {0,2,4,6}). One contiguous C array so the index stays valid; element
+ * 0 is also used as the scalar var_204. */
 int16 var_204[4] = {0, 0, 0, 0};
 uint8 var_215 = 0;
 int16 var_216 = 0;
@@ -716,11 +714,11 @@ int16 var_549 = 0;
 char var_550 = 0;
 int16 var_556 = 0;
 
-/* g_setThrust: player thrust setting (was also aliased _var_552). word_380E2: a frame timer. */
+/* g_setThrust: player thrust setting. word_380E2: a frame timer. */
 int16 g_setThrust = 0;
 int16 word_380E2 = 0;
 
-/* blitSprite() sprite descriptor (was word_383CC..var_586, an asm SpriteParams). */
+/* blitSprite() sprite descriptor. */
 struct SpriteParams blitSpriteParams = {
     0, 0, 0, 0, 0, 0, 0, 0,   /* bufPtr,srcX,srcY,page,dstX,dstY,width,height */
     {0, 0}, 0x61, {0, 0, 0}, 0x3F, 0x01,   /* +0x10..0x17 config bytes */
@@ -731,7 +729,7 @@ struct SpriteParams blitSpriteParams = {
 /* byte_383E5: tactical-map zoom level (declared dw, used as a small int). */
 int16 byte_383E5 = 8;
 
-/* blitGaugeSprite() sprite descriptor (was word_383AE.., an asm SpriteParams). */
+/* blitGaugeSprite() sprite descriptor. */
 struct SpriteParams gaugeSpriteParams = {
     0, 0, 0, 0, 0, 0, 7, 7,   /* bufPtr,srcX,srcY,page,dstX,dstY,width,height */
     {0x68, 0}, 0xAF, {0, 0x78, 0}, 0xC7, 0x00,   /* +0x10..0x17 config bytes */
@@ -739,20 +737,21 @@ struct SpriteParams gaugeSpriteParams = {
     {0x01, 0x01, 0x00}        /* pad19 */
 };
 
-/* unk_3806E: current 3x3 orientation matrix (Q15 identity init); was var_524-529
-   element aliases + block-memcpy target in egslots.asm. */
+/* unk_3806E: current 3x3 orientation matrix (Q15 identity init). */
 int16 unk_3806E[9] = {0x7FFF, 0, 0, 0, 0x7FFF, 0, 0, 0, 0x7FFF};
 
-/* bulletTracks: 3D projectile table (player rounds + threat shots), HUD-projected.
-   Was word_3C5AC.. (stride-12) in egslots.asm. */
+/* bulletTracks: 3D projectile table (player rounds + threat shots), HUD-projected. */
 struct BulletTrack bulletTracks[20];
 
-/* Flat scalars/pointers migrated out of egslots.asm (bare-EXTRN repoints). Kept in
-   egslots.asm address order. The hand-written asm routines now reference these by their
-   mangled (_-prefixed) names. */
 int16 word_336F0 = 0;
 int16 var_141 = 0;
 int16 var_220 = 0;
+/* Clip rectangle for the 3D line/polygon rasterizer
+   (word_3755D/3755F/37561/37563 = left/right/top/bottom). */
+int16 word_3755D = 0;
+int16 word_3755F = 0;
+int16 word_37561 = 0;
+int16 word_37563 = 0;
 uint8 byte_378EE = 0;
 uint8 byte_37F98 = 0;   /* keyboard virtual-stick raw pitch axis (int9Handler) */
 uint8 byte_37F99 = 0;   /* keyboard virtual-stick raw roll axis (int9Handler) */
@@ -760,6 +759,8 @@ uint8 byte_37F99 = 0;   /* keyboard virtual-stick raw roll axis (int9Handler) */
 int g_ourHead = 0;
 int g_ourPitch = 0;
 int g_ourRoll = 0;
+/* word_380D0: airspeed/velocity magnitude. */
+unsigned int word_380D0 = 0;
 int16 var_593 = 0;
 uint8 byte_3850E = 0;
 int word_39606;
@@ -792,13 +793,12 @@ int16 *word_3C6A2;
 uint8 byte_3C6A0[1];
 uint8 byte_3C8B0[2];
 
-/* g_proj3d: projectObjects() world-space projection origin.
-   Was word_3C8B8/BC/C0 (each a long; high halves 3C8BA/BE/C2) in egslots.asm. */
+/* g_proj3d: projectObjects() world-space projection origin (three longs). */
 struct Proj3d g_proj3d;
 
-/* byte_3B7FC: tactical-replay event log (events[0..0x600]) + 3D model vertex-X table
-   (vertexX[] at +0x600). One 0x640-byte buffer; egseg1.asm reaches vertexX at the fixed
-   offset _byte_3B7FC+0x600. Was _byte_3B7FC db 640h dup in egslots.asm. */
+/* byte_3B7FC: tactical-replay event log (events[0..0x600]) + 3D model vertex-X
+   table (vertexX[] at +0x600). One 0x640-byte buffer; egseg1.asm reaches
+   vertexX at the fixed offset _byte_3B7FC+0x600, so it must stay contiguous. */
 struct ReplayLog byte_3B7FC;
 
 /* Combat-event message fragments assembled into strBuf by updateThreatTargeting. */

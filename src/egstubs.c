@@ -91,12 +91,14 @@ int16 word_34868;
 int16 word_34A4C;
 int16 word_37348[64];
 int16 word_3734A[64];
-int16 word_3755D;
-int16 word_3755F;
-int16 word_37561;
-int16 word_37563;
-unsigned int word_380D0;
 int16 word_38202;
+/* gfx page/viewport descriptors still defined in egslots.asm; off_38334/3834C/38364
+   in egdata.c decay these arrays into near-pointers. build64 doesn't link the asm,
+   so it needs these stubs. unk_3831E/unk_38336 are 24-byte (12 int16) descriptors;
+   word_3834E is an 11-word descriptor. */
+int16 unk_3831E[12];
+int16 unk_38336[12];
+int16 word_3834E[11];
 int16 word_38F70;   /* PIC/LZW decoder workspace head — must stay in egslots.asm */
 int16 word_3AA5C[64];
 int16 word_3B7E0;

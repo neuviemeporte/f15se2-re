@@ -1017,10 +1017,10 @@ void drawVectorShape(int16 *shapeData) {
         resetScanlineSpans();
         shapeData += 2;
         while (*shapeData != -1) {
-            var_351 = shapeData[-2];
-            var_353 = shapeData[-1];
-            var_352 = *shapeData++;
-            var_354 = *shapeData++;
+            word_3755D = shapeData[-2];
+            word_37561 = shapeData[-1];
+            word_3755F = *shapeData++;
+            word_37563 = *shapeData++;
             clipAndRasterizeEdge();
         }
         flushSpanDirtyRect();

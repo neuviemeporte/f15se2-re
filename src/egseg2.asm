@@ -27,6 +27,10 @@ EXTRN unk_37565:byte
 EXTRN _unk_38FD0:byte
 EXTRN word_37557:word
 EXTRN word_37559:word
+EXTRN _word_3755D:word
+EXTRN _word_3755F:word
+EXTRN _word_37561:word
+EXTRN _word_37563:word
 EXTRN word_37B26:word
 EXTRN word_37B2E:word
 EXTRN word_37B30:word
@@ -901,16 +905,16 @@ loc_21a7_07da:
 loc_21a7_07fd:
     mov AX,word ptr [DI+offset byte_37C3A+0ECh]
     add AX,word ptr [word_37C14]
-    mov [word_37559+4],AX
+    mov [_word_3755D],AX
     mov AX,word ptr [DI+offset byte_37C3A+15Ch]
     add AX,word ptr [word_37C16]
-    mov word ptr [unk_37565-4],AX
+    mov word ptr [_word_37561],AX
     mov AX,word ptr [DI+offset byte_37C3A+0EEh]
     add AX,word ptr [word_37C14]
-    mov [word_37559+6],AX
+    mov [_word_3755F],AX
     mov AX,word ptr [DI+offset byte_37C3A+15Eh]
     add AX,word ptr [word_37C16]
-    mov word ptr [unk_37565-2],AX
+    mov word ptr [_word_37563],AX
     push DI
     push SI
     call far ptr sub_21526

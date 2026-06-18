@@ -265,8 +265,8 @@ void drawMapTileObject(char far *modelData, int screenX, int screenY) {
 
 // ==== seg000:0x374a ====
 void drawModelPoint(int param_1, int param_2) {
-    var_352 = var_351 = param_1 + word_3298C;
-    var_354 = var_353 = -param_2 + word_3298E;
+    word_3755F = word_3755D = param_1 + word_3298C;
+    word_37563 = word_37561 = -param_2 + word_3298E;
     ++var_200;
     gfx_setColor((unsigned char)*var_200++);
     drawClipLineGlobal();

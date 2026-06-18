@@ -396,10 +396,10 @@ void drawViewportLine(int x1, int y1, int x2, int y2) {
     var_349 = a - 1;
     var_350 = p - 1;
     gfx_setColor(off_38334[2]);
-    var_351 = x1;
-    var_353 = y1;
-    var_352 = x2;
-    var_354 = y2;
+    word_3755D = x1;
+    word_37561 = y1;
+    word_3755F = x2;
+    word_37563 = y2;
     drawClipLineGlobal();
     gfx_nop23();
 }
@@ -414,20 +414,20 @@ void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int arg
     var_349 = a - 1;
     var_350 = p - 1;
     gfx_setColor(off_38334[2]);
-    var_351 = x1 - clipLeft;
-    var_353 = y1 - arg_c;
-    var_352 = x2 - clipLeft;
-    var_354 = y2 - arg_c;
+    word_3755D = x1 - clipLeft;
+    word_37561 = y1 - arg_c;
+    word_3755F = x2 - clipLeft;
+    word_37563 = y2 - arg_c;
     drawClipLineGlobal();
     gfx_nop23();
     if (drawBothPages != 0) {
         byte_3C5A0 = gfx_getDisplayPage();
         gfx_setPageN(byte_3C5A0 == 0);
         gfx_setColor(off_38334[2]);
-        var_351 = x1 - clipLeft;
-        var_353 = y1 - arg_c;
-        var_352 = x2 - clipLeft;
-        var_354 = y2 - arg_c;
+        word_3755D = x1 - clipLeft;
+        word_37561 = y1 - arg_c;
+        word_3755F = x2 - clipLeft;
+        word_37563 = y2 - arg_c;
         drawClipLineGlobal();
         gfx_setPageN(byte_3C5A0 != 0);
         gfx_nop23();
