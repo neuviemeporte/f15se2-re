@@ -62,7 +62,7 @@ struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
                                 byte_3B7EE = (uint8)c;
                                 byte_3B7EF = (uint8)f;
                                 byte_3B7F0 = (uint8)i;
-                                byte_3B7F1[0] = (uint8)k;
+                                byte_3B7F1 = (uint8)k;
                                 word_3B7EC = word_3C5A8;
                                 word_3B7E0 = g;
                                 word_3B7E2 = q;

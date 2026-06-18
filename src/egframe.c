@@ -96,7 +96,7 @@ void updateFrame(void) {
         *(int far *)((char far *)commData + 0x26) = 1;
         word_330B4 = 1000;
         if (g_missionStatus == 0 || word_336EA != 0) {
-            word_3AFA8 = ((unsigned)(g_viewY_ - var_47) < 0x8000u) ? 1 : -1;
+            word_3AFA8 = ((unsigned)(g_viewY_ - waypoints[1].mapY) < 0x8000u) ? 1 : -1;
             word_380D0 = 2000;
             g_velocity = 0x1fa4;
             g_setThrust = 100;
@@ -208,8 +208,8 @@ void updateFrame(void) {
     }
     if (word_33700 != g_closestThreatIndex) {
         g_targetSlots[1].viewIndex = g_closestThreatIndex;
-        var_48 = g_planes[g_closestThreatIndex].mapX;
-        var_49 = g_planes[g_closestThreatIndex].mapY;
+        waypoints[3].mapX = g_planes[g_closestThreatIndex].mapX;
+        waypoints[3].mapY = g_planes[g_closestThreatIndex].mapY;
     }
 
     /* Magic signature check, only done when the plane is moving? */

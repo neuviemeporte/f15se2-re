@@ -191,7 +191,6 @@ PUBLIC _var_201
 PUBLIC _var_217
 PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
-PUBLIC _word_3C5A8
 PUBLIC _origCBreakSeg
 PUBLIC _var_258
 PUBLIC _word_34684
@@ -204,11 +203,7 @@ PUBLIC _word_3B7E4
 PUBLIC _word_3B7E6
 PUBLIC _word_3B7E8
 PUBLIC _word_3B7EA
-PUBLIC _byte_3B7EE
-PUBLIC _byte_3B7EF
-PUBLIC _byte_3B7F0
 PUBLIC _word_339F4
-PUBLIC _byte_3B7F1
 PUBLIC _word_33B9C
 PUBLIC _word_33BA2
 PUBLIC _byte_3B4EC
@@ -5134,14 +5129,6 @@ word_3B7EA dw ?
 _word_3B7EA equ word_3B7EA
 word_3B7EC dw ?
 _word_3B7EC equ word_3B7EC
-byte_3B7EE db ?
-_byte_3B7EE equ byte_3B7EE
-byte_3B7EF db ?
-_byte_3B7EF equ byte_3B7EF
-byte_3B7F0 db ?
-_byte_3B7F0 equ byte_3B7F0
-byte_3B7F1 db ?
-_byte_3B7F1 equ byte_3B7F1
     db ? ;align 8
     db 5 dup(?)
     db ? ;align 4
@@ -5153,13 +5140,10 @@ _unk_3BF95 label byte
     db 3 dup(?)
 PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
-PUBLIC _word_3C5A8
     db ? ;align 4
     db ?
 _byte_3C16E db 2EEh dup(?)
     db ?
-word_3C5A8 dw ?
-_word_3C5A8 equ word_3C5A8
 _word_3C69E dw ?
     db ? ;align 2
 _commData dd ?

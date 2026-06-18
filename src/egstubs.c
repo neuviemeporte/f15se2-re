@@ -52,10 +52,6 @@ uint8 byte_3790C[1];
 int16 g_viewZ;
 uint8 byte_38F8D[1];
 struct Unknown3B4E6Record8 byte_3B4E6[1];
-uint8 byte_3B7EE;
-uint8 byte_3B7EF;
-uint8 byte_3B7F0;
-uint8 byte_3B7F1[1];
 char byte_3C16E[1];
 uint8 joyAxes[1];
 int16 *off_38334;
@@ -124,7 +120,6 @@ int16 word_3B7E2;
 int16 word_3B7E4;
 int16 word_3B7E8;
 struct Matrix3dEntry7 *word_3B7EC;
-struct Matrix3dEntry7 *word_3C5A8;
 int16 word_3C69E;
 
 /* --- functions declared in egame.h --- */

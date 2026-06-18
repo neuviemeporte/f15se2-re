@@ -740,11 +740,18 @@ int16 word_3B4D8;
 int16 word_3B4E0;
 int16 word_3B5D6;
 int16 word_3B7DE;
+/* byte_3B7EE..F1: nearest-object scan result (row/col/index/depth), written
+   together by the display-list walk in eg3dmap.c. */
+uint8 byte_3B7EE;
+uint8 byte_3B7EF;
+uint8 byte_3B7F0;
+uint8 byte_3B7F1;
 int16 word_3BEBC;
 int16 word_3BEC8;
 int16 word_3BECE;
 int16 word_3C020;
 int16 word_3C16C;
+struct Matrix3dEntry7 *word_3C5A8;
 int16 *word_3C69C;
 int16 *word_3C6A2;
 uint8 byte_3C6A0[1];
