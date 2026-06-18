@@ -32,7 +32,7 @@ EXTRN _var_203:word
 EXTRN _var_204:word
 EXTRN _var_215:word
 EXTRN _var_216:word
-EXTRN _var_217:word
+EXTRN _word_34262:word
 EXTRN _var_218:word
 EXTRN _var_219:word
 EXTRN _var_220:word
@@ -1370,7 +1370,7 @@ projectSceneObject proc far
     MOV [_var_200_seg],ES
     db 026h
     LODSB
-MOV byte ptr [_var_217], AL
+MOV byte ptr [_word_34262], AL
     MOV BX,[BP+12h]
     SUB BX,[_var_219]
     MOV [_var_203],BX
@@ -1466,7 +1466,7 @@ loc_0908:
     MOV [word_34256],DI
     CMP DI,[_var_198]
     JG short loc_0A02
-    MOV BX,[_var_217]
+    MOV BX,[_word_34262]
     SHL BX,1
     CMP DI,[BX+offset _var_198+10h]
     JL short loc_0A02
@@ -1650,7 +1650,7 @@ loc_0ACB:
 loc_0AD1:
     CMP BX,BYTE PTR +0x2
     JNZ short loc_0AE0
-    CMP WORD PTR [_var_217],BYTE PTR +0x5
+    CMP WORD PTR [_word_34262],BYTE PTR +0x5
     JNZ short loc_0AE0
     ADD DX,BYTE PTR +0x20
 loc_0AE0:

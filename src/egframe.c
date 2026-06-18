@@ -47,7 +47,7 @@ void updateFrame(void) {
         }
         d = (unsigned char)*((char far *)commData + 0x0d);
         if (d == 0x69 || d == 0x49) {
-            var_600 = 1;
+            word_38606[2] = 1;
         }
         findWaypointFeatures();
         TRACE(("updateFrame: past 11F3E"));

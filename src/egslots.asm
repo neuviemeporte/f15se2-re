@@ -123,7 +123,6 @@ PUBLIC _word_380A4
 PUBLIC _word_380A6
 PUBLIC _word_380AA
 PUBLIC _word_380AC
-PUBLIC _byte_3B4E6
 PUBLIC _var_47
 PUBLIC _var_48
 PUBLIC _var_49
@@ -183,11 +182,9 @@ PUBLIC _g_viewZ
 PUBLIC _uvar_547
 PUBLIC _var_200
 PUBLIC _var_201
-PUBLIC _var_217
 PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
 PUBLIC _origCBreakSeg
-PUBLIC _var_258
 PUBLIC _word_34684
 PUBLIC _word_34686
 PUBLIC _word_34868
@@ -201,7 +198,6 @@ PUBLIC _word_3B7EA
 PUBLIC _word_339F4
 PUBLIC _word_33B9C
 PUBLIC _word_33BA2
-PUBLIC _byte_3B4EC
 PUBLIC _var_198
 PUBLIC _byte_3419F
 PUBLIC _var_83
@@ -210,7 +206,6 @@ PUBLIC _var_282
 PUBLIC _var_349
 PUBLIC _var_350
 PUBLIC _var_134
-PUBLIC _var_135
 PUBLIC _commData
 PUBLIC _joyAxes
 PUBLIC _audio_jump_6a
@@ -294,12 +289,8 @@ PUBLIC _word_3755D
 PUBLIC _word_3755F
 PUBLIC _word_37561
 PUBLIC _word_37563
-PUBLIC _var_217
-PUBLIC _var_600
 PUBLIC _word_3AA5C
 PUBLIC _waypoints
-PUBLIC _var_598
-PUBLIC _var_599
 PUBLIC _word_380D0
 PUBLIC _gfx_allocPage
 PUBLIC _gfx_drawString
@@ -962,7 +953,6 @@ buf6data_4 db 0
     db 3Fh
     db 1
 word_339B0 dw offset buf6data_4
-byte_339B2 db 0
     db 0
 unk_339B4 db 0
 _word_339B4 equ unk_339B4
@@ -1402,7 +1392,6 @@ word_34256 dw 0
 PUBLIC _word_34256
 _word_34256 equ word_34256
     db 8 dup(0)
-word_34262 dw 0
 word_3426A dw 0
 word_3426C dw 0
     db 8 dup(0)
@@ -1434,8 +1423,6 @@ word_342A6 dw 0
 word_342A8 dw 0
 word_342AA dw 0
     db 4 dup(0)
-byte_342B4 db 0
-    db 0
 word_342BC dw 0
 word_342BE dw 0
     db 476 dup(0)
@@ -4653,12 +4640,6 @@ aTac db 'Tac',0
     db 0
     db 0 ;align 2
     db 0 ;align 2
-word_38606 dw 0
-PUBLIC _word_38606
-_word_38606 equ word_38606
-word_38608 dw 0
-word_3860A dw 0
-    db 2 dup(0)
 aFileNotFound db ':File not found$'
 aNoFileBuffersAvailabl db ':No file buffers available$'
 aOpenError db ':Open error $'
@@ -4872,8 +4853,6 @@ ORG 00180h
 _var_49 EQU _waypoints + 0Eh
 ORG 01100h
 _var_134 EQU word_339B0
-ORG 01102h
-_var_135 EQU byte_339B2
 ORG 01308h
 _var_143 EQU word_33BB8
 ORG 018EAh
@@ -4896,12 +4875,8 @@ ORG 01990h
 ORG 01992h
 ORG 01994h
 ORG 019B0h
-ORG 019B2h
-_var_217 EQU word_34262
 ORG 019B4h
 ORG 019B6h
-ORG 01A04h
-_var_258 EQU byte_342B4
 ORG 01A0Ah
 ORG 01FB8h
 _var_279 EQU word_34868
@@ -4959,12 +4934,6 @@ ORG 05B2Ah
 ORG 05B34h
 ORG 05B35h
 ORG 05C5Eh
-ORG 05D56h
-_var_598 EQU word_38606
-ORG 05D58h
-_var_599 EQU word_38608
-ORG 05D5Ah
-_var_600 EQU word_3860A
 ORG 05FE6h
 _var_605 EQU word_38896
 ORG 06128h
@@ -5082,16 +5051,6 @@ _word_3AA5C dw ?
     _g_planes MapTarget 4Ah dup(<?>)
     db 14 dup(?)
     db ?
-byte_3B4E6 db ?
-_byte_3B4E6 equ byte_3B4E6
-byte_3B4E7 db ?
-byte_3B4E8 db ?
-byte_3B4E9 db ?
-word_3B4EA dw ?
-byte_3B4EC db ?
-_byte_3B4EC equ byte_3B4EC
-    db 233 dup(?)
-    db 514 dup(?)
 word_3B7E0 dw ?
 _word_3B7E0 equ word_3B7E0
 word_3B7E2 dw ?

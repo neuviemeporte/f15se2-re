@@ -353,6 +353,10 @@ struct SimObject stru_3B202[20];
 int32 dword_3B4D4;
 int16 word_3B4DE;
 int16 word_3B4E4;
+/* Model/shape LOD cache (754 reserved bytes = 94 8-byte records). eg3dmap
+ * appends entries with memcpy (word_38FF8 is the live count) and scans
+ * backwards for a key match. */
+struct Unknown3B4E6Record8 byte_3B4E6[94];
 int16 keyValue;
 int16 word_3BE92;
 int word_3BE94;
@@ -497,6 +501,9 @@ char *word_3C0A2[100];
 int16 word_330B4 = 0x28A;
 uint8 far *farPointer = 0;
 
+/* byte_339B2: a one-byte toggle flag (eg3dview flips it each call). */
+uint8 byte_339B2 = 0;
+
 int16 word_33B74[9] = { -1, 1, 1, -1, 0, 1, 0, -1, 0 };
 int16 word_33B86[11] = { 1, 1, -1, -1, 1, 0, -1, 0, 0, -8192, -4096 };
 
@@ -637,6 +644,8 @@ int16 var_672 = 0;
 
 int16 var_255 = 0;
 int16 var_256 = 0;
+/* var_258: a flag, accessed only by byte (eg3dmap), in a 16-bit slot. */
+int16 var_258 = 0;
 int16 var_259 = 0;
 int16 var_260 = 0;
 
@@ -648,11 +657,15 @@ int16 var_590 = 0;
 int16 word_383F2 = 0;
 int16 word_383F4 = 0;
 
-/* var_595/597: standalone int16 scalars (word_38606 axis array stays in asm).
+/* var_595/597: standalone int16 scalars.
  * var_596: detail-level counter (0..2), also a joystick-scaling factor. */
 int16 var_595 = 0;
 int16 var_596 = 2;
 int16 var_597 = 0;
+
+/* Per-axis joystick read accumulator, indexed by axis in readAxisInput.
+ * The key handler reuses slots [0]/[1]/[2] as scratch state (egkeys.c). */
+int16 word_38606[4] = { 0, 0, 0, 0 };
 int16 var_669 = 0;
 int16 var_670 = 0;
 int16 var_673 = 0;
@@ -687,6 +700,9 @@ int16 var_203 = 0;
 int16 var_204[4] = {0, 0, 0, 0};
 uint8 var_215 = 0;
 int16 var_216 = 0;
+/* word_34262: a flag slot accessed both as a byte (eg3dmap clears the low
+ * byte) and as a word (eg3dproj writes 7 via *(int16 *)&word_34262). */
+int16 word_34262 = 0;
 int16 var_218 = 0;
 int16 var_219 = 0;
 /* var_224-227: sphere/horizon projection scalars. */

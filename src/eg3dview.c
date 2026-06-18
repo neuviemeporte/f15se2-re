@@ -37,7 +37,7 @@ void render3DView(int camX, int camY, int camZ, long arg_6, long arg_a, long arg
     TRACE(("121CA:5"));
     drawHudWorldOverlay();
     TRACE(("121CA:6"));
-    *(char *)&var_135 ^= 1;
+    byte_339B2 ^= 1;
 }
 
 // ==== seg000:0x2278 ====

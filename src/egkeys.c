@@ -19,7 +19,7 @@ int keyDispatch(uint16 scanCode)
 {
     char p[14]; /* local buffer at BP-0e, used by itoa for memory display */
 
-    var_598 = var_599 = 0;
+    word_38606[0] = word_38606[1] = 0;
 
     if (scanCode == 0)
         goto end_dispatch;
@@ -106,9 +106,9 @@ int keyDispatch(uint16 scanCode)
         }
         break;
     case 0x2f00:
-        var_600 = ++var_600 & 3;
+        word_38606[2] = ++word_38606[2] & 3;
         strcpy(strBuf, (char *)aSounds);
-        strcat(strBuf, itoa(3 - var_600, unk_3C030, 10));
+        strcat(strBuf, itoa(3 - word_38606[2], unk_3C030, 10));
         tempStrcpy(strBuf);
         updateEngineSound();
         break;
@@ -186,10 +186,10 @@ int keyDispatch(uint16 scanCode)
         *(char *)&word_336F4 |= 0x80;
         break;
     case 0xe08:
-        var_598 = 1;
+        word_38606[0] = 1;
         break;
     case 0x1c0d:
-        var_599 = 1;
+        word_38606[1] = 1;
         break;
     case 0x3920:
         keyValue = 0;
@@ -293,7 +293,7 @@ void selectMissile() {
 
 // ==== seg000:0xda35 ====
 void makeSound(int soundId, int priority) {
-    if (priority >= var_600) {
+    if (priority >= word_38606[2]) {
         if (word_3BE3C == 0 || priority > 1) {
             audio_jump_66(soundId);
         }
@@ -303,7 +303,7 @@ void makeSound(int soundId, int priority) {
 
 // ==== seg000:0xda5f ====
 void playVoiceCue(int weaponIdx) {
-    if (var_600 < 2 && word_3BE3C == 0 &&
+    if (word_38606[2] < 2 && word_3BE3C == 0 &&
         (unsigned)voiceCueThresholds[weaponIdx] < (unsigned)f15DgtlResult) {
         audio_jump_6d(weaponIdx);
     }
@@ -311,7 +311,7 @@ void playVoiceCue(int weaponIdx) {
 
 // ==== seg000:0xda8d ====
 void updateEngineSound(void) {
-    if (var_600 != 0 || word_3BE3C != 0) {
+    if (word_38606[2] != 0 || word_3BE3C != 0) {
         audio_jump_69();
     } else {
         audio_jump_68();

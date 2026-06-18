@@ -153,7 +153,7 @@ void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
         var_203 = word_3C5A8->y - var_219;
         var_204[0] = word_3C5A8->z - var_220;
         FP_OFF(var_200)++;
-        var_217 = 0;
+        *(uint8 *)&word_34262 = 0;
         var_216 = 0;
         advanceModelPointerLod();
         if (*var_200 & 0x40) {

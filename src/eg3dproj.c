@@ -68,7 +68,7 @@ outer_test:
                 a = *(int *)((char *)&word_339F4 + f * 2 + (unsigned)18 * (unsigned)((b + 2) & 7));
                 var_657 = c - (p << 12) - 0x800;
                 var_658 = e - (a << 12) - 0x800;
-                *(int16 *)&var_217 = 7;
+                *(int16 *)&word_34262 = 7;
                 if (sub_202C7(-var_657, -var_658, -var_659) != 0) {
                     goto next_iter;
                 }
