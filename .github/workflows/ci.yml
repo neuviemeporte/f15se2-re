@@ -7,6 +7,27 @@ on:
     branches: [master, main]
 
 jobs:
+  greenfield:
+    runs-on: ubuntu-latest
+    container:
+      image: ajenbo/iskukotka:latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup toolchain and reference binaries
+        run: ln -s /opt/f15se2/dos
+
+      - name: Build main target
+        run: make -j
+
+      - name: Build debug
+        run: make -j$(nproc) debug
+
+      - name: Build noasm
+        run: make -j$(nproc) noasm-start noasm-end        
+
   verify:
     runs-on: ubuntu-latest
     container:
@@ -32,9 +53,6 @@ jobs:
       - name: Build reconstruction
         run: make -j$(nproc) start egame end
 
-      - name: Build debug
-        run: make -j$(nproc) debug
-
       - name: Verify start.exe
         run: make verify-start
 
@@ -43,9 +61,6 @@ jobs:
 
       - name: Verify end.exe
         run: make verify-end
-
-      - name: Build noasm
-        run: make -j$(nproc) noasm-start noasm-end
 
   build-64bit:
     runs-on: ubuntu-latest
