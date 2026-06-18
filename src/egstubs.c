@@ -52,7 +52,6 @@ uint8 byte_3790C[1];
 int16 g_viewZ;
 struct Unknown3B4E6Record8 byte_3B4E6[1];
 uint8 joyAxes[1];
-union REGS regs;
 char strBuf[1];
 struct MapTarget g_planes[1];
 /* --- data referenced by drawHudWorldOverlay (egui.c) --- */

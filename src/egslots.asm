@@ -213,7 +213,6 @@ PUBLIC _var_134
 PUBLIC _var_135
 PUBLIC _commData
 PUBLIC _joyAxes
-PUBLIC _regs
 PUBLIC _audio_jump_6a
 PUBLIC _audio_jump_64
 PUBLIC _audio_jump_65
@@ -5111,17 +5110,8 @@ _word_3B7EC equ word_3B7EC
     db 5 dup(?)
     db ? ;align 4
     db ?
-_regs db ?
-    db ?
-    db ?
-_unk_3BF95 label byte
-    db 3 dup(?)
 PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
-    db ? ;align 4
-    db ?
-    db 2EEh dup(?)
-    db ?
     db ? ;align 2
 _commData dd ?
 PUBLIC byte_3416E

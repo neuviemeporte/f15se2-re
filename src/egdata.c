@@ -4,6 +4,7 @@
  */
 #include "egame.h"
 #include "inttype.h"
+#include <dos.h>
 
 /* Scenario region-data filenames (head of the original .DATA segment).
  * regnStr points at the regn.xxx buffer (the strcpy/fopen target that gets
@@ -379,6 +380,8 @@ int16 g_gunHits;
 int16 g_thrust;
 int g_velocity;
 int16 keyScancode;
+/* regs: shared int86/int86x register union for INT 10h/16h calls. */
+union REGS regs;
 uint8 unk_3BF95;
 int16 word_3298A = 0xC4;
 int16 word_3298C = 0xA0;
