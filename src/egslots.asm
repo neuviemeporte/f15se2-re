@@ -136,7 +136,6 @@ PUBLIC _byte_3419C
 PUBLIC _var_568
 PUBLIC _strBuf
 PUBLIC _byte_38F8D
-PUBLIC _aNone
 PUBLIC byte_37C2D
 PUBLIC byte_37C2E
 PUBLIC byte_37C35
@@ -225,8 +224,6 @@ PUBLIC _var_135
 PUBLIC _commData
 PUBLIC _joyAxes
 PUBLIC _regs
-PUBLIC _scenarioPlh
-PUBLIC _regnStr
 PUBLIC _audio_jump_6a
 PUBLIC _audio_jump_64
 PUBLIC _audio_jump_65
@@ -291,7 +288,6 @@ PUBLIC word_37F9B
 PUBLIC byte_37F9D
 PUBLIC byte_37F9E
 PUBLIC byte_37F9F
-PUBLIC _aFlogger
 PUBLIC _byte_3C16E
 PUBLIC _byte_3790C
 PUBLIC _word_3C69E
@@ -300,17 +296,10 @@ PUBLIC _off_3834C
 PUBLIC _misc_jump_5b_getkey
 PUBLIC _unk_34121
 PUBLIC _word_33BAE
-PUBLIC _sizes3dt
-PUBLIC _matrix3dt
-PUBLIC _matrix3dt_2
-PUBLIC _buf3d3
 PUBLIC _word_33DD0
-PUBLIC _size3d3_7
-PUBLIC _stru_3A95A
 PUBLIC _word_34186
 PUBLIC _word_3419C
 PUBLIC _word_339B4
-PUBLIC _stru_335C4
 PUBLIC _g_planes
 PUBLIC _off_38364
 PUBLIC _gfx_setColor
@@ -323,13 +312,10 @@ PUBLIC _word_37561
 PUBLIC _word_37563
 PUBLIC _var_217
 PUBLIC _var_600
-PUBLIC _sams
-PUBLIC _missleSpec
 PUBLIC _word_3AA5C
 PUBLIC _waypoints
 PUBLIC _var_598
 PUBLIC _var_599
-PUBLIC _missiles
 PUBLIC _word_380D0
 PUBLIC _gfx_allocPage
 PUBLIC _gfx_drawString
@@ -425,28 +411,6 @@ PUBLIC word_38D66
 
 .DATA ;dseg segment para public 'DATA' use16
 
-aRegn_xxx db 'regn.xxx',0
-aLb_xxx db 'lb.xxx',0
-aPg_xxx db 'pg.xxx',0
-aVn_xxx db 'vn.xxx',0
-aMe_xxx db 'me.xxx',0
-aNc_xxx db 'nc.xxx',0
-PUBLIC _aNc_xxx
-_aNc_xxx equ aNc_xxx
-aCe_xxx db 'ce.xxx',0
-aJp_xxx db 'jp.xxx',0
-aNa_xxx db 'na.xxx',0
-    db 0
-_regnStr dw offset aRegn_xxx
-_scenarioPlh dw offset aLb_xxx
-    dw offset aPg_xxx ;"pg.xxx"
-    dw offset aVn_xxx ;"vn.xxx"
-    dw offset aMe_xxx ;"me.xxx"
-    dw offset aNc_xxx ;"nc.xxx"
-    dw offset aCe_xxx ;"ce.xxx"
-    dw offset aJp_xxx ;"jp.xxx"
-    dw offset aNa_xxx ;"na.xxx"
-    db 0
 aF15dgtl_bin db 'F15DGTL.BIN',0
 f15dgtlAddr dw 0
     db 1
@@ -499,619 +463,13 @@ ovlInsaneFlag db 0
 aErrorReleasingOverlay db 'Error releasing overlay memory$'
     db 0
     _waypoints Waypoint 4 dup(<0>)
-_aNone db 'None',0
-    db 9 dup(0)
-aSa2 db 'SA-2',0
-    db 3 dup(0)
-    db 0C8h
-    db 0
-    db 3
-    db 3 dup(0)
-aSa5 db 'SA-5',0
-    db 3 dup(0)
-    db 5Eh
-    db 1
-    db 2
-    db 3 dup(0)
-aSa8b db 'SA-8B',0
-    db 2 dup(0)
-    db 7Dh
-    db 0
-    db 5
-    db 3 dup(0)
-aSa10 db 'SA-10',0
-    db 2 dup(0)
-    db 40h
-    db 1
-    db 7
-    db 0
-    db 1
-    db 0
-aSa11 db 'SA-11',0
-    db 2 dup(0)
-    db 0C8h
-    db 0
-    db 5
-    db 3 dup(0)
-aSa12 db 'SA-12',0
-    db 2 dup(0)
-    db 22h
-    db 1
-    db 6
-    db 0
-    db 1
-    db 0
-aSa13 db 'SA-13',0
-    db 2 dup(0)
-    db 7Dh
-    db 0
-    db 3
-    db 3 dup(0)
-aSaN4 db 'SA-N-4',0
-    db 0
-    db 0C8h
-    db 0
-    db 4
-    db 0
-    db 1
-    db 0
-aSaN5 db 'SA-N-5',0
-    db 0
-    db 96h
-    db 0
-    db 3
-    db 3 dup(0)
-aSaN6 db 'SA-N-6',0
-    db 0
-    db 40h
-    db 1
-    db 6
-    db 0
-    db 1
-    db 0
-aSaN7 db 'SA-N-7',0
-    db 0
-    db 0C8h
-    db 0
-    db 5
-    db 3 dup(0)
-aHawk db 'Hawk',0
-    db 3 dup(0)
-    db 0AFh
-    db 0
-    db 6
-    db 0
-    db 1
-    db 0
-aRapier db 'Rapier',0
-    db 0
-    db 4Bh
-    db 0
-    db 8
-    db 3 dup(0)
-aTiger db 'Tiger',0
-    db 2 dup(0)
-    db 41h
-    db 0
-    db 4
-    db 3 dup(0)
-aSeacat db 'Seacat',0
-    db 0
-    db 0C8h
-    db 0
-    db 2
-    db 3 dup(0)
-aIl76 db 'IL76',0
-    db 3 dup(0)
-    db 0C8h
-    db 0
-    db 8
-    db 0
-    db 3
-    db 9 dup(0)
-    db 32h
-    db 0
-    db 5
-    db 11 dup(0)
-    db 46h
-    db 0
-    db 6
-    db 11 dup(0)
-    db 50h
-    db 0
-    db 7
-    db 0
-    db 1
-    db 9 dup(0)
-    db 64h
-    db 0
-    db 8
-    db 0
-    db 1
-    db 0
-    db 4Fh
-    db 54h
-    db 48h
-    db 5 dup(0)
-    db 0F4h
-    db 1
-    db 5
-    db 0
-    db 1
-    db 9 dup(0)
-    db 28h
-    db 0
-    db 3
-    db 3 dup(0)
-aMig23 label byte
-_aircraftTypes equ aMig23
-    db 'MIG-23',0
-    db 20h
-aFlogger db 'Flogger',0
-_aFlogger equ aFlogger
-    db 2 dup(0)
-    db 0E4h
-    db 2
-    db 30h
-    db 2
+; residual inter-table padding bytes from the original layout; the
+; aNone/aircraftTypes/sams/missleSpec/missiles arrays that surrounded them are
+; now defined in egdata.c.
     db 3
     db 0
-    db 11h
-    db 0
-    db 0Ah
-    db 0
-    db 2
-    db 3 dup(0)
-aMig25 db 'MIG-25',0
-    db 20h
-aFoxbat db 'Foxbat',0
-    db 3 dup(0)
-    db 3Ah
-    db 2
-    db 0BCh
-    db 2 dup(2)
-    db 0
-    db 12h
-    db 3 dup(0)
-    db 2
-    db 3 dup(0)
-aMig29 db 'MIG-29',0
-    db 20h
-aFulcrum db 'Fulcrum',0
-    db 2 dup(0)
-    db 0BCh
-    db 2
-    db 90h
-    db 1
-    db 5
-    db 0
-    db 13h
-    db 0
-    db 14h
-    db 0
-    db 2
-    db 3 dup(0)
-aF1 db 'F-1',0
-    db 3 dup(0)
-    db 20h
-aMirage db 'Mirage',0
-    db 3 dup(0)
-    db 16h
-    db 3
-    db 0A2h
-    db 2 dup(3)
-    db 0
-    db 14h
-    db 3 dup(0)
-    db 2
-    db 3 dup(0)
-aSu27 db 'Su-27',0
-    db 0
-    db 20h
-aFlanker db 'Flanker',0
-    db 2 dup(0)
-    db 0D5h
-    db 2
-    db 0CBh
-    db 2
-    db 4
-    db 0
-    db 13h
-    db 0
-    db 14h
-    db 0
-    db 2
-    db 3 dup(0)
-aIl76_0 db 'IL-76',0
-    db 0
-    db 20h
-aMainstay db 'Mainstay',0
-    db 0
-    db 90h
-    db 1
-    db 0A0h
-    db 0Fh
     db 1
     db 0
-    db 10h
-    db 0
-    db 0Ch
-    db 0
-    db 2
-    db 3 dup(0)
-aF4e db 'F-4E',0
-    db 2 dup(0)
-    db 20h
-    db 50h
-    db 68h
-    db 61h
-    db 6Eh
-    db 74h
-    db 6Fh
-    db 6Dh
-    db 3 dup(0)
-    db 20h
-    db 3
-    db 8
-    db 2
-    db 4
-    db 0
-    db 12h
-    db 0
-    db 0Bh
-    db 0
-    db 2
-    db 3 dup(0)
-    db 46h
-    db 2Dh
-    db 31h
-    db 34h
-    db 3 dup(0)
-    db 20h
-    db 54h
-    db 6Fh
-    db 6Dh
-    db 63h
-    db 61h
-    db 74h
-    db 4 dup(0)
-    db 20h
-    db 3
-    db 20h
-    db 3
-    db 4
-    db 0
-    db 13h
-    db 0
-    db 8
-    db 0
-    db 2
-    db 3 dup(0)
-    db 46h
-    db 2Dh
-    db 31h
-    db 38h
-    db 3 dup(0)
-    db 20h
-    db 48h
-    db 6Fh
-    db 72h
-    db 6Eh
-    db 65h
-    db 74h
-    db 4 dup(0)
-    db 94h
-    db 2
-    db 0CDh
-    db 1
-    db 5
-    db 0
-    db 2 dup(0FFh)
-    db 2 dup(0)
-    db 2
-    db 3 dup(0)
-aAn72 db 'An-72',0
-    db 0
-    db 20h
-    db 43h
-    db 6Fh
-    db 61h
-    db 6Ch
-    db 65h
-    db 72h
-    db 4 dup(0)
-    db 5Eh
-    db 1
-    db 6Ch
-    db 2 dup(2)
-    db 3 dup(0)
-    db 9
-    db 0
-    db 2
-    db 3 dup(0)
-    db 46h
-    db 2Dh
-    db 31h
-    db 38h
-    db 3 dup(0)
-    db 20h
-    db 48h
-    db 6Fh
-    db 72h
-    db 6Eh
-    db 65h
-    db 74h
-    db 4 dup(0)
-    db 94h
-    db 2
-    db 0CDh
-    db 1
-    db 5
-    db 0
-    db 2 dup(0FFh)
-    db 4
-    db 0
-    db 2
-    db 3 dup(0)
-    db 4Dh
-    db 49h
-    db 47h
-    db 2Dh
-    db 32h
-    db 33h
-    db 0
-    db 20h
-    db 46h
-    db 6Ch
-    db 6Fh
-    db 2 dup(67h)
-    db 65h
-    db 72h
-    db 3 dup(0)
-    db 0E4h
-    db 2
-    db 30h
-    db 2
-    db 3
-    db 3 dup(0)
-    db 4
-    db 0
-    db 2
-    db 3 dup(0)
-    db 46h
-    db 2Dh
-    db 31h
-    db 34h
-    db 3 dup(0)
-    db 20h
-    db 54h
-    db 6Fh
-    db 6Dh
-    db 63h
-    db 61h
-    db 74h
-    db 4 dup(0)
-    db 20h
-    db 3
-    db 20h
-    db 3
-    db 4
-    db 0
-    db 2 dup(0FFh)
-    db 8
-    db 0
-    db 2
-    db 3 dup(0)
-    db 46h
-    db 2Dh
-    db 34h
-    db 45h
-    db 3 dup(0)
-    db 20h
-    db 50h
-    db 68h
-    db 61h
-    db 6Eh
-    db 74h
-    db 6Fh
-    db 6Dh
-    db 3 dup(0)
-    db 20h
-    db 3
-    db 8
-    db 2
-    db 4
-    db 0
-    db 2 dup(0FFh)
-    db 0Bh
-    db 0
-    db 2
-    db 3 dup(0)
-    db 4Dh
-    db 49h
-    db 47h
-    db 2Dh
-    db 31h
-    db 37h
-    db 0
-    db 20h
-    db 46h
-    db 72h
-    db 65h
-    db 73h
-    db 63h
-    db 6Fh
-    db 4 dup(0)
-    db 26h
-    db 2
-    db 2Ch
-    db 1
-    db 3
-    db 0
-    db 11h
-    db 0
-    db 10h
-    db 0
-    db 2
-    db 3 dup(0)
-    db 54h
-    db 75h
-    db 2Dh
-    db 39h
-    db 35h
-    db 2 dup(0)
-    db 20h
-    db 42h
-    db 65h
-    db 61h
-    db 72h
-    db 6 dup(0)
-    db 9Ah
-    db 1
-    db 0ECh
-    db 13h
-    db 1
-    db 3 dup(0)
-    db 12h
-    db 0
-    db 2
-    db 3 dup(0)
-    db 4Dh
-    db 69h
-    db 2Dh
-    db 32h
-    db 34h
-    db 2 dup(0)
-    db 20h
-    db 48h
-    db 69h
-    db 6Eh
-    db 64h
-    db 6 dup(0)
-    db 0C8h
-    db 0
-    db 2Ch
-    db 2 dup(1)
-    db 0
-    db 11h
-    db 0
-    db 13h
-    db 0
-    db 2
-    db 3 dup(0)
-    db 46h
-    db 2Dh
-    db 35h
-    db 4 dup(0)
-    db 20h
-    db 54h
-    db 69h
-    db 67h
-    db 65h
-    db 72h
-    db 5 dup(0)
-    db 0F4h
-    db 1
-    db 0FAh
-    db 0
-    db 3
-    db 0
-    db 16h
-    db 0
-    db 16h
-    db 0
-    db 2
-    db 3 dup(0)
-    db 37h
-    db 36h
-    db 37h
-    db 4 dup(0)
-    db 20h
-    db 42h
-    db 6Fh
-    db 65h
-    db 69h
-    db 6Eh
-    db 67h
-    db 4 dup(0)
-    db 90h
-    db 1
-    db 0E8h
-    db 3
-    db 1
-    db 0
-    db 2 dup(0FFh)
-    db 12h
-    db 0
-    db 2
-    db 3 dup(0)
-    _sams Sam <'None', 0, 0, 0, 1, 13h>
-    Sam <'SA-2', 7Dh, 7D0h, 1, 4, 13h>
-    Sam <'SA-5', 96h, 708h, 1, 1, 13h>
-    Sam <'SA-8B', 41h, 4B0h, 2, 3, 13h>
-    Sam <'SA-10', 7Dh, 708h, 3, 2, 13h>
-    Sam <'SA-11', 64h, 5DCh, 2, 3, 13h>
-    Sam <'SA-12', 96h, 7D0h, 3, 2, 13h>
-    Sam <'SA-13', 41h, 384h, 0, 4, 13h>
-    Sam <'SA-N-4', 1Eh, 4B0h, 2, 3, 13h>
-    Sam <'SA-N-5', 1Eh, 384h, 0FFFFh, 4, 13h>
-    Sam <'SA-N-6', 7Dh, 708h, 3, 2, 13h>
-    Sam <'SA-N-7', 64h, 5DCh, 2, 3, 13h>
-    Sam <'Hawk', 7Dh, 384h, 2, 3, 13h>
-    Sam <'Rapier', 41h, 4B0h, 2, 4, 13h>
-    Sam <'Tiger', 1Eh, 384h, 1, 3, 13h>
-    Sam <'Seacat', 1Eh, 384h, 1, 3, 13h>
-    Sam <'AA-2', 0Eh, 5DCh, 0FFFFh, 4, 13h>
-    Sam <'AA-8', 0Ch, 708h, 0, 5, 13h>
-    Sam <'AA-6', 32h, 960h, 2, 2, 13h>
-    Sam <'AA-7', 22h, 708h, 2, 2, 13h>
-    Sam <'AA-9', 52h, 7D0h, 2, 3, 13h>
-    Sam <'AA-10', 40h, 7D0h, 3, 4, 13h>
-    Sam <'AIM120', 20h, 960h, 7, 4, 1>
-    Sam <'AIM-9', 11h, 7D0h, 7, 8, 1>
-    Sam <'HARM', 14h, 4B0h, 4, 2, 1>
-    Sam <'Penguin', 20h, 1F4h, 5, 2, 13h>
-    Sam <'Harpoon', 3Ch, 1F4h, 5, 2, 13h>
-    Sam <'AGM-65', 20h, 320h, 6, 2, 0Dh>
-    Sam <'LGBOMB', 0Ah, 0, 1Ch, 2, 0Fh>
-    Sam <'RTBOMB', 0, 0, 1Dh, 2, 0Fh>
-    Sam <'FFBOMB', 0, 0, 1Eh, 2, 0Fh>
-    Sam <'AIM-7W', 2Ch, 960h, 2, 4, 1>
-    Sam <'AIM-9W', 0Ch, 7D0h, 0, 5, 1>
-    Sam <'SA-14', 10h, 384h, 0, 5, 1>
-    Sam <'AA-6', 32h, 960h, 0FFFFh, 2, 13h>
-    Sam <'AA-7', 22h, 708h, 0FFFFh, 2, 13h>
-    Sam <'AA-9', 52h, 7D0h, 0FFFFh, 3, 13h>
-    Sam <'AA-10', 40h, 7D0h, 0, 4, 13h>
-    Sam <'Equip.', 0, 0, 1Dh, 0, 0Eh>
-    db 3
-    db 0
-    _missleSpec MissileSpec <0, 4>
-    MissileSpec <1, 4>
-    MissileSpec <5, 6>
-    MissileSpec <0>
-    db 1
-    db 0
-    _missiles Missile <'AIM-9M', 'Sidewinder', 17h, 4>
-    Missile <'AIM-120', 'AMRAAM ', 16h, 4>
-    Missile <'AGM-88A', 'HARM', 18h, 4>
-    Missile <'AIM-7M', 'Sparrow', 16h, 4>
-    Missile <'AGM-86A', 'Harpoon', 1Ah, 1>
-    Missile <'AGM-65D', 'Maverick', 1Bh, 6>
-    Missile <'GBU-12', 'Paveway', 1Ch, 8>
-    Missile <'Mk 20', 'Rockeye', 1Dh, 2>
-    Missile <'Dndl', 'Durandal', 1Dh, 2>
-    Missile <'Mk 82-0', 'Slick', 1Eh, 3>
-    Missile <'Mk 82-1', 'Snakeye', 1Dh, 3>
-    Missile <'Mk 20', 'Rockeye II', 1Ch, 4>
-    Missile <'Mk 122', 'Fireeye', 1Eh, 2>
-    Missile <'CBU-72', 'Fuel-Air', 1Ch, 2>
-    Missile <'Mk 35', 'IN Cluster', 1Dh, 2>
-    Missile <'ISC B-1', 'Minelets', 1Dh, 1>
-    Missile <'135 mm', 'Camera', 0FFFFh, 1>
-    Missile <'1900lbs', 'Extra Fuel', 0FFFEh, 1>
-    Missile <'20 mm', 'Guns', 0, 1>
-    Missile <'Special', 'Equip', 26h, 1>
 ; var_83: weapon/target compatibility matrix, var_83[weaponIdx*13 + (byte_3BFA4[..]&0xf)]
 ; (missileTargetCompat, egtacmap.c). 20 weapons x 13 target categories, 260 bytes, ending at
 ; word_333D2. Rows w0/w1 (Sidewinder/AMRAAM) and w16/w17/w19 are zero; type-1 weapons don't use it.
@@ -1246,7 +604,6 @@ _mapEvents equ word_333D2
     dw 0                ; mapEvents[0].type (was word_333D8)
     dw 0                ; mapEvents[0].ttl  (was word_333DA)
     db 38 dup(0)
-    _stru_335C4 Projectile 0Ch dup(<0>)
     db 0
 _gfx_allocPage proc near                    ; slot 0x00
     db 0EAh ;jmp far ptr 0:0
@@ -1940,13 +1297,6 @@ word_33BAE dw 400h
     db 0
     db 8
     db 0
-_buf3d3 dw 64h dup(0)
-_sizes3dt dw 20h
-    dw 20h
-    dw 20h
-    dw 20h
-    dw 20h
-_matrix3dt dw 0A0h dup(0)
 _word_33DD0 dw 0
 word_33DD2 dw 0
     db 60 dup(0)
@@ -4938,7 +4288,7 @@ _aA equ aA
     db 0
     db 65h
     db 0
-aEmpty_5950 db 0
+    db 0    ; was aEmpty_5950 (empty string, now in egdata.c)
     db 0
 _word_38202 dw 41h
     db 1Ah
@@ -5756,7 +5106,6 @@ _unk_38FD0 equ unk_38FD0
 ; Matrix3dEntry7 storage.
 ; 571 full records * 7 bytes + 3 spare bytes = 4000 bytes. => #define MAX_TILE_DATA 4000
 
-    _stru_3A95A ViewSnapshot 10h dup(<?>)
 _word_3AA5C dw ?
     _g_planes MapTarget 4Ah dup(<?>)
     db 14 dup(?)
@@ -5808,7 +5157,6 @@ PUBLIC _word_3C5A8
     db ? ;align 4
     db ?
 _byte_3C16E db 2EEh dup(?)
-_matrix3dt_2 dw 0A0h dup(?)
     db ?
 word_3C5A8 dw ?
 _word_3C5A8 equ word_3C5A8
@@ -5943,20 +5291,12 @@ PUBLIC buf6data_1
 PUBLIC buf6data_3
 PUBLIC lzw_processFlag
 PUBLIC buf6data_4
-PUBLIC aEmpty_5950
-PUBLIC aMig23
-PUBLIC _aMig23
-PUBLIC _aircraftTypes
-_aMig23 equ aMig23
-PUBLIC _aEmpty_5950
-_aEmpty_5950 equ aEmpty_5950
 PUBLIC _word_34276
 _word_34276 equ word_34276
     db ? ;align 400h
     db 511 dup(?)
     db ? ;align 2
-_size3d3_7 dw ?
-    db 10 dup(?)
+    db 12 dup(?)
 
 __bss_end label byte
 

@@ -8,7 +8,6 @@
 
 char far byte_228D0[] = { 0 };
 char far byte_2D6A4[] = { 0 };
-char *regnStr = NULL;
 int loadF15DgtlBin() { return 0; }
 void setupOverlaySlots(uint16 addr) { }
 void callLoad3DAll() { }
@@ -45,11 +44,6 @@ int getTimeOfDay(void)
 
 /* --- data globals --- */
 uint8 aA[1];
-uint8 aEmpty_5950[1];
-struct AircraftType aircraftTypes[1];
-uint8 aNc_xxx[] = "nc.xxx";
-struct Weapon aNone[1];
-unsigned int buf3d3[1];
 uint8 byte_3419A[1];
 uint8 byte_3419C[1];
 uint8 byte_3419F[1];
@@ -64,21 +58,11 @@ uint8 byte_3B7F0;
 uint8 byte_3B7F1[1];
 char byte_3C16E[1];
 uint8 joyAxes[1];
-unsigned int matrix3dt[5][32];
-struct Matrix3dEntry7 *matrix3dt_2[5][32];
-struct Missile missiles[20];
-struct MissileSpec missleSpec[1];
 int16 *off_38334;
 int16 *off_3834C;
 int16 *off_38364;
 union REGS regs;
-struct Sam sams[39];
-char *scenarioPlh[1];
-size_t size3d3_7;
-unsigned int sizes3dt[1];
 char strBuf[1];
-struct Projectile stru_335C4[1];
-struct ViewSnapshot stru_3A95A[1];
 struct MapTarget g_planes[1];
 /* --- data referenced by drawHudWorldOverlay (egui.c) --- */
 char unk_34121[1];

@@ -5,6 +5,29 @@
 #include "egame.h"
 #include "inttype.h"
 
+/* Scenario region-data filenames (head of the original .DATA segment).
+ * regnStr points at the regn.xxx buffer (the strcpy/fopen target that gets
+ * overwritten with the per-theater region file). scenarioPlh[theater] selects
+ * the per-theater .xxx region file; aNc_xxx is also passed (cast to int) to
+ * gfx_copyRect by egflight.c. */
+uint8 aRegn_xxx[] = "regn.xxx";
+uint8 aLb_xxx[] = "lb.xxx";
+uint8 aPg_xxx[] = "pg.xxx";
+uint8 aVn_xxx[] = "vn.xxx";
+uint8 aMe_xxx[] = "me.xxx";
+uint8 aNc_xxx[] = "nc.xxx";
+uint8 aCe_xxx[] = "ce.xxx";
+uint8 aJp_xxx[] = "jp.xxx";
+uint8 aNa_xxx[] = "na.xxx";
+char *regnStr = (char *)aRegn_xxx;
+char *scenarioPlh[8] = {
+    (char *)aLb_xxx, (char *)aPg_xxx, (char *)aVn_xxx, (char *)aMe_xxx,
+    (char *)aNc_xxx, (char *)aCe_xxx, (char *)aJp_xxx, (char *)aNa_xxx
+};
+
+/* aEmpty_5950: empty string passed to drawPanelText to clear a panel label. */
+uint8 aEmpty_5950[] = "";
+
 int16 gfxModeUnset = 0;
 int16 f15DgtlResult = 0;
 uint8 byte_32933 = 0;
@@ -50,6 +73,135 @@ int16 asc_33744[3] = { 76, 40, 115 };
 /* stru_33402: 8-entry smoke/marker ring table (struc_9 records, stride 8). */
 struct struc_9 stru_33402[8];
 
+/* sams[39]: threat/weapon spec table — name, field_8 (radar/detect range),
+ * field_A (engagement range), field_C (signed target-class index, -1 = none),
+ * field_E, field_10 (category). Indexed by threat/weapon id. */
+struct Sam sams[39] = {
+    { "None",    0,    0,     0,  1, 0x13 },
+    { "SA-2",    0x7D, 0x7D0,  1,  4, 0x13 },
+    { "SA-5",    0x96, 0x708,  1,  1, 0x13 },
+    { "SA-8B",   0x41, 0x4B0,  2,  3, 0x13 },
+    { "SA-10",   0x7D, 0x708,  3,  2, 0x13 },
+    { "SA-11",   0x64, 0x5DC,  2,  3, 0x13 },
+    { "SA-12",   0x96, 0x7D0,  3,  2, 0x13 },
+    { "SA-13",   0x41, 0x384,  0,  4, 0x13 },
+    { "SA-N-4",  0x1E, 0x4B0,  2,  3, 0x13 },
+    { "SA-N-5",  0x1E, 0x384, -1,  4, 0x13 },
+    { "SA-N-6",  0x7D, 0x708,  3,  2, 0x13 },
+    { "SA-N-7",  0x64, 0x5DC,  2,  3, 0x13 },
+    { "Hawk",    0x7D, 0x384,  2,  3, 0x13 },
+    { "Rapier",  0x41, 0x4B0,  2,  4, 0x13 },
+    { "Tiger",   0x1E, 0x384,  1,  3, 0x13 },
+    { "Seacat",  0x1E, 0x384,  1,  3, 0x13 },
+    { "AA-2",    0x0E, 0x5DC, -1,  4, 0x13 },
+    { "AA-8",    0x0C, 0x708,  0,  5, 0x13 },
+    { "AA-6",    0x32, 0x960,  2,  2, 0x13 },
+    { "AA-7",    0x22, 0x708,  2,  2, 0x13 },
+    { "AA-9",    0x52, 0x7D0,  2,  3, 0x13 },
+    { "AA-10",   0x40, 0x7D0,  3,  4, 0x13 },
+    { "AIM120",  0x20, 0x960,  7,  4, 1    },
+    { "AIM-9",   0x11, 0x7D0,  7,  8, 1    },
+    { "HARM",    0x14, 0x4B0,  4,  2, 1    },
+    { "Penguin", 0x20, 0x1F4,  5,  2, 0x13 },
+    { "Harpoon", 0x3C, 0x1F4,  5,  2, 0x13 },
+    { "AGM-65",  0x20, 0x320,  6,  2, 0x0D },
+    { "LGBOMB",  0x0A, 0,     0x1C, 2, 0x0F },
+    { "RTBOMB",  0,    0,     0x1D, 2, 0x0F },
+    { "FFBOMB",  0,    0,     0x1E, 2, 0x0F },
+    { "AIM-7W",  0x2C, 0x960,  2,  4, 1    },
+    { "AIM-9W",  0x0C, 0x7D0,  0,  5, 1    },
+    { "SA-14",   0x10, 0x384,  0,  5, 1    },
+    { "AA-6",    0x32, 0x960, -1,  2, 0x13 },
+    { "AA-7",    0x22, 0x708, -1,  2, 0x13 },
+    { "AA-9",    0x52, 0x7D0, -1,  3, 0x13 },
+    { "AA-10",   0x40, 0x7D0,  0,  4, 0x13 },
+    { "Equip.",  0,    0,     0x1D, 0, 0x0E },
+};
+
+/* aircraftTypes[19]: enemy/AI aircraft catalogue indexed by SimObject.spec —
+ * name (+0), altName (" "+NATO reporting name, +7), then speed/turn/model fields.
+ * field_18 == -1 marks a type with no 3D model; field_1A/field_1C are read as a
+ * 2-element pair (egtarget.c). */
+struct AircraftType aircraftTypes[19] = {
+    { "MIG-23", " Flogger", 0, 740, 560, 3, 17, 10, 2, 0 },
+    { "MIG-25", " Foxbat", 0, 570, 700, 2, 18, 0, 2, 0 },
+    { "MIG-29", " Fulcrum", 0, 700, 400, 5, 19, 20, 2, 0 },
+    { "F-1", " Mirage", 0, 790, 930, 3, 20, 0, 2, 0 },
+    { "Su-27", " Flanker", 0, 725, 715, 4, 19, 20, 2, 0 },
+    { "IL-76", " Mainstay", 0, 400, 4000, 1, 16, 12, 2, 0 },
+    { "F-4E", " Phantom", 0, 800, 520, 4, 18, 11, 2, 0 },
+    { "F-14", " Tomcat", 0, 800, 800, 4, 19, 8, 2, 0 },
+    { "F-18", " Hornet", 0, 660, 461, 5, -1, 0, 2, 0 },
+    { "An-72", " Coaler", 0, 350, 620, 2, 0, 9, 2, 0 },
+    { "F-18", " Hornet", 0, 660, 461, 5, -1, 4, 2, 0 },
+    { "MIG-23", " Flogger", 0, 740, 560, 3, 0, 4, 2, 0 },
+    { "F-14", " Tomcat", 0, 800, 800, 4, -1, 8, 2, 0 },
+    { "F-4E", " Phantom", 0, 800, 520, 4, -1, 11, 2, 0 },
+    { "MIG-17", " Fresco", 0, 550, 300, 3, 17, 16, 2, 0 },
+    { "Tu-95", " Bear", 0, 410, 5100, 1, 0, 18, 2, 0 },
+    { "Mi-24", " Hind", 0, 200, 300, 1, 17, 19, 2, 0 },
+    { "F-5", " Tiger", 0, 500, 250, 3, 22, 22, 2, 0 },
+    { "767", " Boeing", 0, 400, 1000, 1, -1, 18, 2, 0 },
+};
+
+/* aNone[23]: threat/weapon lethality table indexed by threat type — name,
+ * field_8 (base lethality/range), field_A (damage tier), field_C (flags;
+ * bit 0 read by egthreat.c). Used to score incoming-threat danger. */
+struct Weapon aNone[23] = {
+    { "None",   0,   0, 0 },
+    { "SA-2",   200, 3, 0 },
+    { "SA-5",   350, 2, 0 },
+    { "SA-8B",  125, 5, 0 },
+    { "SA-10",  320, 7, 1 },
+    { "SA-11",  200, 5, 0 },
+    { "SA-12",  290, 6, 1 },
+    { "SA-13",  125, 3, 0 },
+    { "SA-N-4", 200, 4, 1 },
+    { "SA-N-5", 150, 3, 0 },
+    { "SA-N-6", 320, 6, 1 },
+    { "SA-N-7", 200, 5, 0 },
+    { "Hawk",   175, 6, 1 },
+    { "Rapier", 75,  8, 0 },
+    { "Tiger",  65,  4, 0 },
+    { "Seacat", 200, 2, 0 },
+    { "IL76",   200, 8, 3 },
+    { "",       50,  5, 0 },
+    { "",       70,  6, 0 },
+    { "",       80,  7, 1 },
+    { "",       100, 8, 1 },
+    { "OTH",    500, 5, 1 },
+    { "",       40,  3, 0 },
+};
+
+/* missleSpec[4]: per-loadout-slot {weaponIdx, ammo}; populated at mission start
+ * from commData, indexed by missileSpecIndex. */
+struct MissileSpec missleSpec[4] = { {0, 4}, {1, 4}, {5, 6}, {0, 0} };
+
+/* missiles[20]: player weapon catalogue — short name, long name, field_16
+ * (signed sams[] index, -1/-2 = non-threat stores), field_18 (category). */
+struct Missile missiles[20] = {
+    { "AIM-9M",  "Sidewinder", 0x17, 4 },
+    { "AIM-120", "AMRAAM ",    0x16, 4 },
+    { "AGM-88A", "HARM",       0x18, 4 },
+    { "AIM-7M",  "Sparrow",    0x16, 4 },
+    { "AGM-86A", "Harpoon",    0x1A, 1 },
+    { "AGM-65D", "Maverick",   0x1B, 6 },
+    { "GBU-12",  "Paveway",    0x1C, 8 },
+    { "Mk 20",   "Rockeye",    0x1D, 2 },
+    { "Dndl",    "Durandal",   0x1D, 2 },
+    { "Mk 82-0", "Slick",      0x1E, 3 },
+    { "Mk 82-1", "Snakeye",    0x1D, 3 },
+    { "Mk 20",   "Rockeye II", 0x1C, 4 },
+    { "Mk 122",  "Fireeye",    0x1E, 2 },
+    { "CBU-72",  "Fuel-Air",   0x1C, 2 },
+    { "Mk 35",   "IN Cluster", 0x1D, 2 },
+    { "ISC B-1", "Minelets",   0x1D, 1 },
+    { "135 mm",  "Camera",     -1,   1 },
+    { "1900lbs", "Extra Fuel", -2,   1 },
+    { "20 mm",   "Guns",       0,    1 },
+    { "Special", "Equip",      0x26, 1 },
+};
+
 /* 3D loader size/sign scalars. */
 
 size_t size3d3 = 1;
@@ -60,6 +212,17 @@ size_t size3d3_5 = 0;
 size_t size3d3_6 = 0;
 size_t size3d3_3 = 0;
 int16 sign3dg = 0x3232;
+
+/* 3D-loader buffers/sizes (was _buf3d3/_sizes3dt/_matrix3dt in egslots.asm).
+ * buf3d3: shape->offset table, fread up to size3d3 words. sizes3dt: per-LOD
+ * vertex counts (5 entries, each <=0x20). matrix3dt: 5 LODs x 32 vertex words. */
+unsigned int buf3d3[100] = { 0 };
+unsigned int sizes3dt[5] = { 0x20, 0x20, 0x20, 0x20, 0x20 };
+unsigned int matrix3dt[5][32] = { 0 };
+/* matrix3dt_2: per-LOD x per-vertex model-data pointers (parallels matrix3dt). */
+struct Matrix3dEntry7 *matrix3dt_2[5][32];
+/* size3d3_7: vertex count for the secondary (word_33DD0) loader buffer. */
+size_t size3d3_7;
 
 char a_3d3[] = ".3D3";
 char aRb[] = "rb";
@@ -180,6 +343,10 @@ int16 g_playerPlaneFlags;
 int16 word_39604;
 int16 g_knots;
 struct TargetSlot g_targetSlots[2];
+/* stru_335C4: in-flight projectile/missile table (player rounds + threat
+ * shots), 12 entries. stru_3A95A: 16-entry camera/view replay snapshot ring. */
+struct Projectile stru_335C4[12];
+struct ViewSnapshot stru_3A95A[16];
 int32 dword_3B1FE;
 struct SimObject stru_3B202[20];
 int32 dword_3B4D4;
