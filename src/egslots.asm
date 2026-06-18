@@ -135,7 +135,6 @@ PUBLIC _byte_3419A
 PUBLIC _byte_3419C
 PUBLIC _var_568
 PUBLIC _strBuf
-PUBLIC _aArmed
 PUBLIC _byte_38F8D
 PUBLIC _aNone
 PUBLIC byte_37C2D
@@ -377,8 +376,6 @@ PUBLIC byte_36D86
 PUBLIC byte_37116
 PUBLIC byte_378FC
 PUBLIC byte_37903
-PUBLIC byte_3862A
-PUBLIC byte_3862B
 PUBLIC byte_38D61
 PUBLIC byte_38D63
 PUBLIC dacValues
@@ -401,7 +398,6 @@ PUBLIC origCBreakOfs
 PUBLIC origCBreakSeg
 PUBLIC otherDacValues
 PUBLIC ovlInsaneFlag
-PUBLIC picBuf
 PUBLIC picDecodedRowBuf
 PUBLIC rowOffset
 PUBLIC strBuf
@@ -1251,11 +1247,6 @@ _mapEvents equ word_333D2
     dw 0                ; mapEvents[0].ttl  (was word_333DA)
     db 38 dup(0)
     _stru_335C4 Projectile 0Ch dup(<0>)
-asc_33744 db 'L',0
-    db '(',0
-aS db 's',0
-PUBLIC _asc_33744
-_asc_33744 equ asc_33744
     db 0
 _gfx_allocPage proc near                    ; slot 0x00
     db 0EAh ;jmp far ptr 0:0
@@ -5331,17 +5322,6 @@ _word_38606 equ word_38606
 word_38608 dw 0
 word_3860A dw 0
     db 2 dup(0)
-aArmed db ' armed',0
-_aArmed equ aArmed
-    db 0F3h
-    db 31h
-    db 96h
-    db 47h
-    db 92h
-    db 5Ch
-byte_3862A db 0
-byte_3862B db 0
-picBuf db 200h dup(0)
 aFileNotFound db ':File not found$'
 aNoFileBuffersAvailabl db ':No file buffers available$'
 aOpenError db ':Open error $'

@@ -1051,6 +1051,7 @@ extern int16 word_38608;
 extern int16 word_3860A;
 extern uint8 aNotAvailable[];
 extern uint8 aArmed[];
+extern int16 voiceCueThresholds[];
 extern uint8 byte_3862A;
 extern uint8 byte_3862B;
 extern uint8 picBuf[];

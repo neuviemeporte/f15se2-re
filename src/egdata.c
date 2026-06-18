@@ -44,6 +44,9 @@ int16 word_33712 = 0;
 int16 word_33714 = 0;
 int16 word_3374A = 0;
 
+/* asc_33744: 3 weapon-indicator box X-coordinates, read as asc_33744[weaponIdx]. */
+int16 asc_33744[3] = { 76, 40, 115 };
+
 /* stru_33402: 8-entry smoke/marker ring table (struc_9 records, stride 8). */
 struct struc_9 stru_33402[8];
 
@@ -158,6 +161,14 @@ char aColon[] = ":";
 char aFired[] = " fired";
 char aCockpit_pic[] = "cockpit.PIC";
 char aRear_pic[] = "Rear.Pic";
+uint8 aArmed[] = " armed";
+
+/* voiceCueThresholds[0..2]: per-weapon digital-voice-cue thresholds (vs f15DgtlResult).
+   playVoiceCue also indexes [4] (weaponIdx can be 4), an over-read. */
+int16 voiceCueThresholds[3] = { 0x31F3, 0x4796, 0x5C92 };
+uint8 byte_3862A = 0;
+uint8 byte_3862B = 0;
+uint8 picBuf[0x200] = { 0 };
 
 int16 word_38FC4;
 int word_38FDC;
@@ -487,7 +498,7 @@ int16 var_197 = 0x4000;
 int16 var_202 = 0;
 int16 var_203 = 0;
 /* var_204 is the head of a 4-word run {var_204, word_34246, word_34248,
- * word_3424A} that egseg1.asm's sub_202B6 indexes by a model opcode as
+ * word_3424A} that sub_202B6 indexes by a model opcode as
  * [BX+offset _var_204] (BX in {0,2,4,6}); the tail words are reached as
  * _var_204+2/+4/+6. Keep it one contiguous C array so the index stays valid
  * (was word_34244..word_3424A in egslots.asm). C uses element 0 as the scalar. */

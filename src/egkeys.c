@@ -304,7 +304,7 @@ void makeSound(int soundId, int priority) {
 // ==== seg000:0xda5f ====
 void playVoiceCue(int weaponIdx) {
     if (var_600 < 2 && word_3BE3C == 0 &&
-        (unsigned)((int16 *)(aArmed + 7))[weaponIdx] < (unsigned)f15DgtlResult) {
+        (unsigned)voiceCueThresholds[weaponIdx] < (unsigned)f15DgtlResult) {
         audio_jump_6d(weaponIdx);
     }
 }

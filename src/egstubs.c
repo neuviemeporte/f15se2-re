@@ -45,12 +45,10 @@ int getTimeOfDay(void)
 
 /* --- data globals --- */
 uint8 aA[1];
-uint8 aArmed[1];
 uint8 aEmpty_5950[1];
 struct AircraftType aircraftTypes[1];
 uint8 aNc_xxx[] = "nc.xxx";
 struct Weapon aNone[1];
-int16 asc_33744[1];
 unsigned int buf3d3[1];
 uint8 byte_3419A[1];
 uint8 byte_3419C[1];
