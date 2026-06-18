@@ -104,6 +104,9 @@ int16 word_3B7E2;
 int16 word_3B7E4;
 int16 word_3B7E8;
 struct Matrix3dEntry7 *word_3B7EC;
+int16 unk_3831E[1];
+int16 unk_38336[1];
+int16 word_3834E[1];
 
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }

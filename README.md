@@ -24,53 +24,53 @@ The game contains multiple executables, but only these are targets for source co
 * `egame.exe` - the second stage of the game, the actual 3D flight engine
 * `end.exe` - the third stage of the game with the mission debriefing, loader goes back to `start.exe` afterwards
 * `mgraphic.exe` - the MCGA/VGA video driver overlay, dynamically loaded assembly routines for graphics handling
+* `misc.exe` - utility overlay, several tiny assembly routines mostly for handling keyboard input
 
-The remaining executables are ignored in this project, see the development journal for rationale.
+The remaining executables (including sound) are ignored in this project, see the [development journal](https://neuviemeporte.github.io/f15-se2/2022/12/08/firstlook.html) for rationale.
 
 # Status
 
 As of the time of writing this, the status of the reconstruction is as follows:
 
 ## `f15.com`/`su.exe`
-
 * fully reconstructed into a minimal, functionally equivalent loader executable (`f15.exe`) that works as a drop-in replacement with the original game.
 
 ## `start.exe` 
-
 * all C code has been reconstructed, the executable works with the original game
-* assembly routines need porting into C
+* porting of assembly routines into C in progress
 * the data segment is still generated from assembly, all variables need to be moved to C
 * code still contains placeholder names for routines and variables, needs experimentation, refactoring and comments to document the purpose of the code, especially around the mission generator. Work has begun on it already, but some routine/var/struct names are obtained from LLMs, so need to be take with a grain of salt.
 
 ## `egame.exe` 
-
-* reconstruction of C code in progress, about 95% done as of 27.05.2026
-* assembly routines need porting into C
-* the data segment is still generated from assembly, all variables need to be moved to C
+* all C code has been reconstructed, the executable works with the original game
+* porting of assembly routines into C in progress
+* moving all variables into C in progress
 * likewise refactoring needed
 
 ## `end.exe`
-
 * all C code has been reconstructed, the executable works with the original game
-* assembly routines need porting into C, part of it is shared with `start/egame`
+* porting of assembly routines into C in progress, part of it is shared with `start/egame`
 * the data segment is still generated from assembly, all variables need to be moved to C
 * likewise refactoring needed
 
 ## `mgraphic.exe` 
-
 * overlay header and overall layout understood
-* some research done into the purpose of individual routines inside
-* reconstruction not started yet
+* minimal functional reimplementation in C completed, needs more testing
+
+## `misc.exe`
+* minimal functional reimplementation in C completed
+
+## `asound.exe`
+* some experimentation done on reconstruction, nothing workable yet
+* will probably be ignored as it won't be useful in a modern port
 
 # Building
 
 Prerequisites:
-
 * a copy of the MS C v5.1 compiler placed in the `dos/msc510` directory
-* the `dosbox` emulator has been installed
-* relatively recent (3.8-ish) Python installed
+* the `dosbox` emulator has been installed (vanilla dosbox v0.74 works best as it supports headless mode)
 
-Clone the project and run `make` inside. It will download and build the `mzretools` and `UASM` repositories as part of the build process.
+Clone the project and run `make` or `make -j` for parallel build inside. It will download and build the `mzretools` and `UASM` repositories as part of the build process.
 
 # Verification
 
