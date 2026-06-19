@@ -34,6 +34,8 @@ LINKFLAGS := /M /I
 DOSDIR := dos
 TOOLCHAIN_DIR := $(DOSDIR)/$(C_TOOLCHAIN)
 VERIFY_FLAGS := --loose --ctx 20 --asm
+# optional verbosity parameter (--verbose/--debug etc.)
+V ?=
 
 SRCTOP := src
 SRCDIR := $(SRCTOP)
@@ -203,7 +205,7 @@ $(NOASMDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(NOASMDIR)
 $(NOASMDIR)/%.obj: $(SRCDIR)/shared/%.c $(HDRS) | $(NOASMDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /I.. /Id:\f15-se2 /DNO_ASM /DBUGFIX"
 
-$(NOASMDIR)/%.obj: $(SRCDIR)/%.asm | $(NOASMDIR)
+$(NOASMDIR)/%.obj: $(SRCDIR)/%.asm | $(NOASMDIR) $(ASM)
 	$(ASM) $(ASMFLAGS) -Fo$@ $<
 
 #
@@ -427,12 +429,8 @@ $(BUILDDIR) $(DEBUGDIR) $(TOOLDIR):
 $(TOOLCHAIN_DIR):
 	@echo "Place a copy of the Microsoft C 5.1 compiler in $(TOOLCHAIN_DIR) to build" && exit 1
 
-$(ASM): $(ASMDIR)/Makefile
+$(ASM):
 	cd $(ASMDIR) && $(ASM_BUILD_CMD)
-
-$(ASMDIR)/Makefile:
-	git submodule init
-	git submodule update
 
 $(MZDIFF):
 	cd $(MZRE) && ./build.sh
@@ -443,10 +441,10 @@ $(BUILDDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(BUILDDIR)
 $(DEBUGDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(DEBUGDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 
-$(BUILDDIR)/%.obj: $(SRCDIR)/%.asm | $(BUILDDIR)
+$(BUILDDIR)/%.obj: $(SRCDIR)/%.asm | $(BUILDDIR) $(ASM)
 	$(ASM) $(ASMFLAGS) -Fo$@ $<
 
-$(DEBUGDIR)/%.obj: $(SRCDIR)/%.asm | $(DEBUGDIR)
+$(DEBUGDIR)/%.obj: $(SRCDIR)/%.asm | $(DEBUGDIR) $(ASM)
 	$(ASM) $(ASMFLAGS) -Fo$@ $<
 #	@$(DOSBUILD) as $(ASM_TOOLCHAIN) -i $< -o $@ -f "$(ASFLAGS)"
 
@@ -461,21 +459,21 @@ $(START_VRF_REF):
 	@exit 1
 
 verify-start: $(MZDIFF) $(START_EXE) $(START_VRF_REF)
-	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --map $(START_MAP) --tmap $(START_LINKMAP)
+	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) $(V) --map $(START_MAP) --tmap $(START_LINKMAP)
 
 $(EGAME_VRF_REF):
 	@echo "---> Place egame.exe (unpacked with tools/unp) with md5sum ffc191b1caeafc3b6f435795f8ea868e into bin/"
 	@exit 1
 
 verify-egame: $(MZDIFF) $(EGAME_EXE) $(EGAME_VRF_REF)
-	$(MZDIFF) $(EGAME_VRF_REF):$(EGAME_VRF_REFEP) $(EGAME_EXE):$(EGAME_VRF_TGTEP) $(VERIFY_FLAGS) --map $(EGAME_MAP) --tmap $(EGAME_LINKMAP)
+	$(MZDIFF) $(EGAME_VRF_REF):$(EGAME_VRF_REFEP) $(EGAME_EXE):$(EGAME_VRF_TGTEP) $(VERIFY_FLAGS) $(V) --map $(EGAME_MAP) --tmap $(EGAME_LINKMAP)
 
 $(END_VRF_REF):
 	@echo "---> Place end.exe (unpacked with tools/unlzexe) with md5sum 3b7aac9c52ca3fedefff3a8db54b5799 into bin/"
 	@exit 1
 
 verify-end: $(MZDIFF) $(END_EXE) $(END_VRF_REF)
-	$(MZDIFF) $(END_VRF_REF):$(END_VRF_REFEP) $(END_EXE):$(END_VRF_TGTEP) $(VERIFY_FLAGS) --map $(END_MAP) --tmap $(END_LINKMAP)
+	$(MZDIFF) $(END_VRF_REF):$(END_VRF_REFEP) $(END_EXE):$(END_VRF_TGTEP) $(VERIFY_FLAGS) $(V) --map $(END_MAP) --tmap $(END_LINKMAP)
 
 TOOLS := $(TOOLDIR)/ovltool $(TOOLDIR)/vgapal $(TOOLDIR)/wldparse
 f15-tools: $(TOOLDIR) $(TOOLS)

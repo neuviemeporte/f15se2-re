@@ -8,6 +8,7 @@ ragdb/
 src/merged/
 *.log
 *.err
+*.zip
 src/LOG.TXT
 src/log.txt
 *.visited
@@ -17,3 +18,4 @@ src/log.txt
 /*.xxd
 /*.c
 /*.grc
+build64/

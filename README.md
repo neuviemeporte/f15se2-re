@@ -24,60 +24,64 @@ The game contains multiple executables, but only these are targets for source co
 * `egame.exe` - the second stage of the game, the actual 3D flight engine
 * `end.exe` - the third stage of the game with the mission debriefing, loader goes back to `start.exe` afterwards
 * `mgraphic.exe` - the MCGA/VGA video driver overlay, dynamically loaded assembly routines for graphics handling
+* `misc.exe` - utility overlay, several tiny assembly routines mostly for handling keyboard input
 
-The remaining executables are ignored in this project, see the development journal for rationale.
+The remaining executables (including sound) are ignored in this project, see the [development journal](https://neuviemeporte.github.io/f15-se2/2022/12/08/firstlook.html) for rationale.
 
 # Status
 
 As of the time of writing this, the status of the reconstruction is as follows:
 
 ## `f15.com`/`su.exe`
-
 * fully reconstructed into a minimal, functionally equivalent loader executable (`f15.exe`) that works as a drop-in replacement with the original game.
 
 ## `start.exe` 
-
 * all C code has been reconstructed, the executable works with the original game
-* assembly routines need porting into C
+* porting of assembly routines into C in progress
 * the data segment is still generated from assembly, all variables need to be moved to C
 * code still contains placeholder names for routines and variables, needs experimentation, refactoring and comments to document the purpose of the code, especially around the mission generator. Work has begun on it already, but some routine/var/struct names are obtained from LLMs, so need to be take with a grain of salt.
 
 ## `egame.exe` 
-
-* reconstruction of C code in progress, about 95% done as of 27.05.2026
-* assembly routines need porting into C
-* the data segment is still generated from assembly, all variables need to be moved to C
+* all C code has been reconstructed, the executable works with the original game
+* porting of assembly routines into C in progress, some are shared with `start`
+* moving all variables into C in progress
 * likewise refactoring needed
 
 ## `end.exe`
-
 * all C code has been reconstructed, the executable works with the original game
-* assembly routines need porting into C, part of it is shared with `start/egame`
+* porting of assembly routines into C in progress, some are shared with `start/egame`
 * the data segment is still generated from assembly, all variables need to be moved to C
 * likewise refactoring needed
 
 ## `mgraphic.exe` 
-
 * overlay header and overall layout understood
-* some research done into the purpose of individual routines inside
-* reconstruction not started yet
+* minimal functional reimplementation in C completed, needs more testing
+
+## `misc.exe`
+* minimal functional reimplementation in C completed
 
 # Building
 
 Prerequisites:
 
-* a copy of the MS C v5.1 compiler placed in the `dos/msc510` directory
-* the `dosbox` emulator has been installed
-* relatively recent (3.8-ish) Python installed
+* you should run the build on Linux or WSL
+* a copy of the MS C v5.1 compiler needs to be placed in the `dos/msc510` directory
+* the `dosbox` emulator must be installed (vanilla dosbox v0.74 works best as it supports headless mode)
 
-Clone the project and run `make` inside. It will download and build the `mzretools` and `UASM` repositories as part of the build process.
+Clone the project and run the `build.sh` script. It will download and build additional git submodules as part of the build process.
+
+There is an experimental, non-functional CMake-based 64bit build present, which is mostly used for finding compile-time bugs that are missed by the ancient DOS compiler. You can play with it by running the `build64.sh` script, but mind that the result is not expected to run. A 64bit port is *NOT* in this project's scope.
 
 # Verification
 
-The Makefile contains a target for automatically comparing the reconstruction with the original using the `mzdiff` tool, run `make verify` to perform the comparison and make sure any changes to the reconstructed source code did not make it divergent. This repo is a place to host a version of the game that is as close to the original as possible, so any contributions, while deeply welcome, need to make sure that consistency is not broken using this mechanism.
+The Makefile contains a target for automatically comparing the reconstruction with the original using the `mzdiff` tool, run `make [-j] verify` to perform the comparison and make sure any changes to the reconstructed source code did not make it divergent. This repo is a place to host a version of the game that is as close to the original as possible, so any contributions, while deeply welcome, need to make sure that consistency is not broken using this mechanism.
 
 For reference, I'm using original binaries with the following MD5 sums to compare against:
 
 * `start.exe`: packed: 320bc386921add664e4c18e86c9d6f90, unpacked: cf6e997ed4582cf82db6ec37d2b1a6fd
 * `egame.exe`: packed: 9466f65ef34ede3e3533db42ab5b06dc, unpacked: ffc191b1caeafc3b6f435795f8ea868e
 * `end.exe`: packed: f1401198c3a5b951dad0387ee3f73e7d, unpacked: e87480263bff1555f59709ce8eca2949
+
+You will need to put these into the `bin` directory before being able to run the verification.
+
+Depending on the unpacker used, the unpacked md5s might not match, but it should not matter if the packed original was the right one.
