@@ -15,7 +15,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+        with:
+          submodules: recursive
+          
       - name: Fix git safe directory
         run: git config --global --add safe.directory /__w/f15se2-re/f15se2-re
 

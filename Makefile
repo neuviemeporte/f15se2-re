@@ -48,7 +48,7 @@ HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
 cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-start debug-end debug-egame tools noasm-start noasm-f15 f15_64
+.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-start debug-end debug-egame tools noasm-start noasm-f15
 all: f15-se2
 
 #
@@ -395,7 +395,7 @@ $(HELLO_EXE): LINKFLAGS := /M /I
 $(HELLO_EXE): $(HELLO_OBJ) | $(DOSBUILD)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)" -l "$(HELLO_LIB)"
 
-f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(ASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE) f15_64
+f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(ASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE)
 
 start: $(START_EXE)
 egame: $(EGAME_EXE)
@@ -405,9 +405,6 @@ debug: $(DEBUGDIR) $(START_DEBUG) $(END_DEBUG) $(EGAME_DEBUG)
 debug-start: $(DEBUGDIR) $(START_DEBUG)
 debug-end: $(DEBUGDIR) $(END_DEBUG)
 debug-egame: $(DEBUGDIR) $(EGAME_DEBUG)
-
-f15_64:
-	@./build64.sh
 
 clean:
 	-rm -rf $(BUILDDIR)
