@@ -73,9 +73,6 @@ jobs:
         with:
           submodules: recursive
 
-      - name: debug egstubs
-        run: cat src/egstubs.c
-        
       - name: Configure CMake
         run: cmake -S . -B build64
 
