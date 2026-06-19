@@ -58,7 +58,7 @@ MAIN_EXE := $(BUILDDIR)/f15.exe
 MAIN_SRCS := f15.c dosfunc.c biosfunc.c output.c overlay.c f15util.c
 MAIN_OBJS := $(call cobj,$(BUILDDIR),$(MAIN_SRCS))
 
-$(MAIN_EXE): | $(BUILDDIR) $(DOSBUILD)
+$(MAIN_EXE): | $(BUILDDIR)
 $(MAIN_EXE): $(MAIN_OBJS)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(MAIN_OBJS) -o $@ -f "$(LINKFLAGS)"
 
@@ -102,21 +102,21 @@ START_VRF_TGTEP := main
 
 $(START_COBJ): $(START_BASEHDR)
 $(COMMON_OBJ) $(COMMON_OBJ_B) $(COMMON_OBJ_C) $(COMMON_OBJ2): $(SRCDIR)/shared/common.h
-$(BUILDDIR)/cleanup.obj: $(SRCDIR)/shared/cleanup.c $(HDRS) | $(BUILDDIR) $(DOSBUILD)
+$(BUILDDIR)/cleanup.obj: $(SRCDIR)/shared/cleanup.c $(HDRS) | $(BUILDDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(BUILDDIR)/drawstr.obj: $(SRCDIR)/shared/drawstr.c $(HDRS) | $(BUILDDIR) $(DOSBUILD)
+$(BUILDDIR)/drawstr.obj: $(SRCDIR)/shared/drawstr.c $(HDRS) | $(BUILDDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(BUILDDIR)/textfmt.obj: $(SRCDIR)/shared/textfmt.c $(HDRS) | $(BUILDDIR) $(DOSBUILD)
+$(BUILDDIR)/textfmt.obj: $(SRCDIR)/shared/textfmt.c $(HDRS) | $(BUILDDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(BUILDDIR)/filepic.obj: $(SRCDIR)/shared/filepic.c $(HDRS) | $(BUILDDIR) $(DOSBUILD)
+$(BUILDDIR)/filepic.obj: $(SRCDIR)/shared/filepic.c $(HDRS) | $(BUILDDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(DEBUGDIR)/cleanup.obj: $(SRCDIR)/shared/cleanup.c $(HDRS) | $(DEBUGDIR) $(DOSBUILD)
+$(DEBUGDIR)/cleanup.obj: $(SRCDIR)/shared/cleanup.c $(HDRS) | $(DEBUGDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(DEBUGDIR)/drawstr.obj: $(SRCDIR)/shared/drawstr.c $(HDRS) | $(DEBUGDIR) $(DOSBUILD)
+$(DEBUGDIR)/drawstr.obj: $(SRCDIR)/shared/drawstr.c $(HDRS) | $(DEBUGDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(DEBUGDIR)/textfmt.obj: $(SRCDIR)/shared/textfmt.c $(HDRS) | $(DEBUGDIR) $(DOSBUILD)
+$(DEBUGDIR)/textfmt.obj: $(SRCDIR)/shared/textfmt.c $(HDRS) | $(DEBUGDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
-$(DEBUGDIR)/filepic.obj: $(SRCDIR)/shared/filepic.c $(HDRS) | $(DEBUGDIR) $(DOSBUILD)
+$(DEBUGDIR)/filepic.obj: $(SRCDIR)/shared/filepic.c $(HDRS) | $(DEBUGDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 $(BUILDDIR)/filepic.obj: MSC_CFLAGS := /Gs /I.. /Id:\f15-se2
 $(BUILDDIR)/cleanup.obj $(BUILDDIR)/drawstr.obj $(BUILDDIR)/textfmt.obj: MSC_CFLAGS := /Gs /Zi /I.. /Id:\f15-se2
@@ -130,7 +130,7 @@ $(BUILDDIR)/stsprit.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/stgen.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/stcode.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 
-$(START_EXE): | $(BUILDDIR) $(DOSBUILD)
+$(START_EXE): | $(BUILDDIR)
 $(START_EXE): $(START_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(START_OBJ) -o $@ -f "$(LINKFLAGS)"
 
@@ -145,7 +145,7 @@ $(DEBUGDIR)/stmain.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DDEBUG $(if $(AUTOST
 START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(DEBUGDIR)/cleanup.obj $(DEBUGDIR)/drawstr.obj $(DEBUGDIR)/textfmt.obj $(DEBUGDIR)/filepic.obj $(DEBUGDIR)/debug.obj
 $(START_DBG_OBJ): $(START_BASEHDR)
 $(START_DBG_OBJ): ASMFLAGS += -DDEBUG
-$(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ) | $(DOSBUILD)
+$(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(START_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 	@if [ -n "$(F15_TESTDIR)" ]; then \
 	    echo "Copying $@ to $(F15_TESTDIR)"; \
@@ -170,7 +170,7 @@ $(NOASMDIR)/cleanup.obj: $(SRCDIR)/shared/cleanup.c $(HDRS) | $(NOASMDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /I.. /Id:\f15-se2 /DNO_ASM /DBUGFIX"
 $(NOASMDIR)/filepic.obj: $(SRCDIR)/shared/filepic.c $(HDRS) | $(NOASMDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /I.. /Id:\f15-se2 /DNO_ASM /DBUGFIX"
-$(START_NOASM): | $(NOASMDIR) $(DOSBUILD)
+$(START_NOASM): | $(NOASMDIR)
 $(START_NOASM): $(NOASM_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(NOASM_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 	@if [ -n "$(F15_TESTDIR)" ]; then \
@@ -190,7 +190,7 @@ NOASM_F15_OBJ := $(NOASM_F15_COBJ) $(NOASMDIR)/regshim.obj
 # Not byte-matched against an original (no verify target), so build for
 # maximum optimization. /Ox = max opt favoring speed (implies /Gs).
 $(NOASM_F15_COBJ): MSC_CFLAGS := /Ox /Id:\f15-se2 /DNO_ASM /DBUGFIX
-$(F15_NOASM): | $(NOASMDIR) $(DOSBUILD)
+$(F15_NOASM): | $(NOASMDIR)
 $(F15_NOASM): $(NOASM_F15_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(NOASM_F15_OBJ) -o $@ -f "$(LINKFLAGS)"
 
@@ -199,10 +199,10 @@ noasm-f15: $(F15_NOASM)
 $(NOASMDIR):
 	mkdir -p $@
 
-$(NOASMDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(NOASMDIR) $(DOSBUILD)
+$(NOASMDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(NOASMDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 
-$(NOASMDIR)/%.obj: $(SRCDIR)/shared/%.c $(HDRS) | $(NOASMDIR) $(DOSBUILD)
+$(NOASMDIR)/%.obj: $(SRCDIR)/shared/%.c $(HDRS) | $(NOASMDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "/Gs /I.. /Id:\f15-se2 /DNO_ASM /DBUGFIX"
 
 $(NOASMDIR)/%.obj: $(SRCDIR)/%.asm | $(NOASMDIR) $(ASM)
@@ -216,7 +216,7 @@ NOASM_EGAME_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.
 EGAME_NOASM_COBJ := $(call cobj,$(NOASMDIR),$(EGAME_NOASM_SRC))
 EGAME_NOASM_OBJ := $(EGAME_NOASM_COBJ) $(NOASMDIR)/cleanup.obj $(NOASMDIR)/drawstr.obj $(NOASMDIR)/textfmt.obj $(NOASMDIR)/filepic.obj
 $(EGAME_NOASM_COBJ): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DNO_ASM /DBUGFIX
-$(EGAME_NOASM): | $(NOASMDIR) $(DOSBUILD)
+$(EGAME_NOASM): | $(NOASMDIR)
 $(EGAME_NOASM): $(EGAME_NOASM_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_NOASM_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 
@@ -239,7 +239,7 @@ EGAME_BASEHDR = $(SRCDIR)/egame.h
 EGAME_COBJ := $(call cobj,$(BUILDDIR),$(EGAME_SRC))
 EGAME_OBJ := $(EGAME_COBJ) $(call asmobj,$(BUILDDIR),$(EGAME_ASM))
 $(EGAME_EXE): | $(BUILDDIR)
-$(EGAME_EXE): $(EGAME_OBJ) | $(DOSBUILD)
+$(EGAME_EXE): $(EGAME_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 
 $(EGAME_COBJ): $(EGAME_BASEHDR)
@@ -285,7 +285,7 @@ $(EGAME_DBG_OBJ): ASMFLAGS += -DDEBUG
 $(DEBUGDIR)/egflight.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
 $(DEBUGDIR)/egkeys.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
 $(DEBUGDIR)/egmain.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
-$(EGAME_DEBUG): $(DEBUGDIR) $(EGAME_DBG_OBJ) | $(DOSBUILD)
+$(EGAME_DEBUG): $(DEBUGDIR) $(EGAME_DBG_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 	@if [ -n "$(F15_TESTDIR)" ]; then \
 	    echo "Copying $@ to $(F15_TESTDIR)"; \
@@ -315,7 +315,7 @@ END_OBJ := $(BUILDDIR)/enmain.obj $(COMMON_OBJ) $(BUILDDIR)/enmisc.obj \
 	$(BUILDDIR)/endbrf.obj $(BUILDDIR)/enfile.obj $(BUILDDIR)/endata.obj \
 	$(call asmobj,$(BUILDDIR),$(END_ASM))
 $(END_COBJ): $(END_BASEHDR)
-$(END_EXE): | $(BUILDDIR) $(DOSBUILD)
+$(END_EXE): | $(BUILDDIR)
 $(END_EXE): $(END_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(END_OBJ) -o $@ -f "$(LINKFLAGS)"
 
@@ -340,7 +340,7 @@ $(END_DEBUG): MSC_CFLAGS += /DDEBUG
 END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(DEBUGDIR)/cleanup.obj $(DEBUGDIR)/drawstr.obj $(DEBUGDIR)/textfmt.obj $(DEBUGDIR)/filepic.obj $(DEBUGDIR)/debug.obj
 $(END_DBG_OBJ): $(END_BASEHDR)
 $(END_DBG_OBJ): ASMFLAGS += -DDEBUG
-$(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ) | $(DOSBUILD)
+$(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(END_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 	@if [ -n "$(F15_TESTDIR)" ]; then \
 	    echo "Copying $@ to $(F15_TESTDIR)"; \
@@ -359,7 +359,7 @@ $(NOASM_END_COBJ): $(END_BASEHDR)
 # /Ox breaks the timer-polled busy-waits (MSC 5.1 hoists the non-volatile poll
 # out of the loop and its `volatile` is non-functional), so stay at /Gs.
 $(NOASM_END_COBJ): MSC_CFLAGS := /Gs /Id:\f15-se2 /DNO_ASM /DBUGFIX
-$(END_NOASM): | $(NOASMDIR) $(DOSBUILD)
+$(END_NOASM): | $(NOASMDIR)
 $(END_NOASM): $(NOASM_END_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(NOASM_END_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 	@if [ -n "$(F15_TESTDIR)" ]; then \
@@ -380,7 +380,7 @@ TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(T
 TEST_LIBS := slibce.lib
 
 $(TEST_EXE): MSC_CFLAGS := /Gs /w /Id:\f15-se2 /DDEBUG
-$(TEST_EXE): $(DEBUGDIR) $(TEST_OBJS) $(HDRS) | $(DOSBUILD)
+$(TEST_EXE): $(DEBUGDIR) $(TEST_OBJS) $(HDRS)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(TEST_OBJS) -o $@ -f "$(LINKFLAGS)" -l "$(TEST_LIBS)"
 
 #
@@ -392,7 +392,7 @@ HELLO_LIB := slibce.lib
 
 $(HELLO_OBJ): MSC_CFLAGS := /Gs /Zi
 $(HELLO_EXE): LINKFLAGS := /M /I
-$(HELLO_EXE): $(HELLO_OBJ) | $(DOSBUILD)
+$(HELLO_EXE): $(HELLO_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)" -l "$(HELLO_LIB)"
 
 f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(ASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE)
@@ -411,7 +411,7 @@ clean:
 	-rm -rf $(DEBUGDIR)
 	-rm -rf $(NOASMDIR)
 
-test: $(TEST_EXE) | $(DOSBUILD)
+test: $(TEST_EXE)
 	@$(DOSBUILD) test -i $<
 
 hello: $(HELLO_EXE)
@@ -429,24 +429,16 @@ $(BUILDDIR) $(DEBUGDIR) $(TOOLDIR):
 $(TOOLCHAIN_DIR):
 	@echo "Place a copy of the Microsoft C 5.1 compiler in $(TOOLCHAIN_DIR) to build" && exit 1
 
-$(ASM): $(ASMDIR)/Makefile
+$(ASM):
 	cd $(ASMDIR) && $(ASM_BUILD_CMD)
-
-$(ASMDIR)/Makefile:
-	git submodule init
-	git submodule update
-
-$(DOSBUILD):
-	git submodule init
-	git submodule update
 
 $(MZDIFF):
 	cd $(MZRE) && ./build.sh
 
-$(BUILDDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(BUILDDIR) $(DOSBUILD)
+$(BUILDDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(BUILDDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 
-$(DEBUGDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(DEBUGDIR) $(DOSBUILD)
+$(DEBUGDIR)/%.obj: $(SRCDIR)/%.c $(HDRS) | $(DEBUGDIR)
 	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 
 $(BUILDDIR)/%.obj: $(SRCDIR)/%.asm | $(BUILDDIR) $(ASM)

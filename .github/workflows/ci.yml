@@ -7,7 +7,7 @@ on:
     branches: [master, main]
 
 jobs:
-  greenfield:
+  build-16bit:
     runs-on: ubuntu-latest
     container:
       image: ajenbo/iskukotka:latest
@@ -17,9 +17,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          
-      - name: Fix git safe directory
-        run: git config --global --add safe.directory /__w/f15se2-re/f15se2-re
 
       - name: Setup toolchain and reference binaries
         run: ln -s /opt/f15se2/dos
@@ -43,9 +40,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-
-      - name: Fix git safe directory
-        run: git config --global --add safe.directory /__w/f15se2-re/f15se2-re
 
       - name: Setup toolchain and reference binaries
         run: |
