@@ -48,15 +48,15 @@ PUBLIC _gfx_getVal
 PUBLIC _gfx_commitPage
 PUBLIC _gfx_nop51
 PUBLIC _gfx_setMonoFlag
-PUBLIC _misc_jump_5a_keybuf
-PUBLIC _misc_jump_5b_getkey
-PUBLIC _misc_jump_5d_readJoy
-PUBLIC _misc_jump_5e_clearKeyFlags
-PUBLIC _audio_jump_64
-PUBLIC _audio_jump_65
-PUBLIC _audio_jump_67
-PUBLIC _audio_jump_6b
-PUBLIC _audio_jump_6c
+PUBLIC _misc_checkKeyBuf
+PUBLIC _misc_getKey
+PUBLIC _misc_readJoystick
+PUBLIC _misc_clearKeyFlags
+PUBLIC _audio_setup
+PUBLIC _audio_shutdown
+PUBLIC _audio_playIntro
+PUBLIC _audio_timerTick
+PUBLIC _audio_noiseTick
 
 ; Dirty rect buffers - MUST be contiguous (overlay hardcodes offset +0x1B8)
 PUBLIC _dirtyMinBuf
@@ -250,44 +250,44 @@ _gfx_setMonoFlag endp
     db 30 dup(0)
 
 ; Misc/input slots 5a-5f
-_misc_jump_5a_keybuf proc far        ; slot 5a
+_misc_checkKeyBuf proc far        ; slot 5a
     db 0EAh, 4 dup(0)
-_misc_jump_5a_keybuf endp
-_misc_jump_5b_getkey proc far        ; slot 5b
+_misc_checkKeyBuf endp
+_misc_getKey proc far        ; slot 5b
     db 0EAh, 4 dup(0)
-_misc_jump_5b_getkey endp
+_misc_getKey endp
     db 0EAh, 4 dup(0)               ; slot 5c
-_misc_jump_5d_readJoy proc far       ; slot 5d
+_misc_readJoystick proc far       ; slot 5d
     db 0EAh, 4 dup(0)
-_misc_jump_5d_readJoy endp
-_misc_jump_5e_clearKeyFlags proc far  ; slot 5e
+_misc_readJoystick endp
+_misc_clearKeyFlags proc far  ; slot 5e
     db 0EAh, 4 dup(0)
-_misc_jump_5e_clearKeyFlags endp
+_misc_clearKeyFlags endp
     db 0EAh, 4 dup(0)               ; slot 5f
 
 ; Slots 60-63 (unused padding)
     db 20 dup(0)
 
 ; Audio slots 64-6d
-_audio_jump_64 proc far              ; slot 64
+_audio_setup proc far              ; slot 64
     db 0EAh, 4 dup(0)
-_audio_jump_64 endp
-_audio_jump_65 proc far              ; slot 65
+_audio_setup endp
+_audio_shutdown proc far              ; slot 65
     db 0EAh, 4 dup(0)
-_audio_jump_65 endp
+_audio_shutdown endp
     db 0EAh, 4 dup(0)               ; slot 66
-_audio_jump_67 proc far              ; slot 67
+_audio_playIntro proc far              ; slot 67
     db 0EAh, 4 dup(0)
-_audio_jump_67 endp
+_audio_playIntro endp
     db 0EAh, 4 dup(0)               ; slot 68
     db 0EAh, 4 dup(0)               ; slot 69
     db 0EAh, 4 dup(0)               ; slot 6a
-_audio_jump_6b proc far              ; slot 6b
+_audio_timerTick proc far              ; slot 6b
     db 0EAh, 4 dup(0)
-_audio_jump_6b endp
-_audio_jump_6c proc far              ; slot 6c
+_audio_timerTick endp
+_audio_noiseTick proc far              ; slot 6c
     db 0EAh, 4 dup(0)
-_audio_jump_6c endp
+_audio_noiseTick endp
     db 0EAh, 4 dup(0)               ; slot 6d
 
 ; === Dirty rect buffers (MUST be contiguous) ===

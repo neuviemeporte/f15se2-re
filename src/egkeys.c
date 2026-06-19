@@ -295,7 +295,7 @@ void selectMissile() {
 void makeSound(int soundId, int priority) {
     if (priority >= word_38606[2]) {
         if (word_3BE3C == 0 || priority > 1) {
-            audio_jump_66(soundId);
+            audio_playSound(soundId);
         }
     }
     updateEngineSound();
@@ -305,16 +305,16 @@ void makeSound(int soundId, int priority) {
 void playVoiceCue(int weaponIdx) {
     if (word_38606[2] < 2 && word_3BE3C == 0 &&
         (unsigned)voiceCueThresholds[weaponIdx] < (unsigned)f15DgtlResult) {
-        audio_jump_6d(weaponIdx);
+        audio_playSample(weaponIdx);
     }
 }
 
 // ==== seg000:0xda8d ====
 void updateEngineSound(void) {
     if (word_38606[2] != 0 || word_3BE3C != 0) {
-        audio_jump_69();
+        audio_engineDroneOff();
     } else {
-        audio_jump_68();
+        audio_engineDroneOn();
     }
 }
 

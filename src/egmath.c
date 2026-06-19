@@ -341,7 +341,7 @@ int16 readAxisInput(int16 axisIdx)
     if (word_330BE) {
         p = 0;
     } else {
-        p = ((commData->setupUseJoy) ? misc_jump_5d_readJoy(axisIdx) : 0) + word_38606[axisIdx];
+        p = ((commData->setupUseJoy) ? misc_readJoystick(axisIdx) : 0) + word_38606[axisIdx];
     }
     return p;
 }

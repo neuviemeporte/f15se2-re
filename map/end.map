@@ -191,10 +191,10 @@ gfx_commitPage: Data1 FAR 1198-119c R1198-119c assembly
 gfx_nop51: Data1 FAR 119d-11a1 R119d-11a1 assembly
 gfx_setMonoFlag: Data1 FAR 11a2-11a6 R11a2-11a6 assembly
 gfx_getCurPage: Data1 FAR 11a7-11ab R11a7-11ab assembly
-misc_jump_5a_keybuf: Data1 FAR 11ca-11ce R11ca-11ce assembly
-misc_jump_5b_getkey: Data1 FAR 11cf-11d3 R11cf-11d3 assembly
-misc_jump_5d_readJoy: Data1 FAR 11d9-11dd R11d9-11dd assembly
-misc_jump_5e_clearKeyFlags: Data1 FAR 11de-11e2 R11de-11e2 assembly
+misc_checkKeyBuf: Data1 FAR 11ca-11ce R11ca-11ce assembly
+misc_getKey: Data1 FAR 11cf-11d3 R11cf-11d3 assembly
+misc_readJoystick: Data1 FAR 11d9-11dd R11d9-11dd assembly
+misc_clearKeyFlags: Data1 FAR 11de-11e2 R11de-11e2 assembly
 #
 # Discovered variables, one per line, syntax is "VariableName: Segment VAR OffsetWithinSegment"
 #

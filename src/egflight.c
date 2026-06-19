@@ -464,7 +464,7 @@ switch_break:
     v = cosMul(g_ourPitch, g_velocity);
     g_knots = (uint16)g_velocity / 27;
 
-    audio_jump_6a(g_knots, g_thrust);
+    audio_setEnginePitch(g_knots, g_thrust);
 
     ac = (((int32)sinMul(g_ourRoll, g_gees << 4)) << 7) / ((int32)((int16)((uint16)g_velocity >> 9) + 0x20));
 
@@ -1031,7 +1031,7 @@ void drawVectorShape(int16 *shapeData) {
 void waitForKeyPress(void) {
     int p;
 
-    audio_jump_69();
+    audio_engineDroneOff();
     p = var_383;
 loop:
     while (kbhit() == 0)

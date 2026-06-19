@@ -49,8 +49,8 @@ int main(void)
     initGraphics();
     /* 0xa3 */
     TRACE(("main: init audio"));
-    audio_jump_65();
-    audio_jump_64(0, 0);
+    audio_shutdown();
+    audio_setup(0, 0);
     /* 0xb4 */
 #ifndef DEBUG_AUTOSTART
     if (*needSplash == 1) {
@@ -72,8 +72,8 @@ int main(void)
         setTimerIrqHandler();
         /* 0x100 */
         for (timerCounter = 0; timerCounter < MPS_TIMEOUT;) {
-            if (misc_jump_5a_keybuf() == 0) {
-                misc_jump_5b_getkey();
+            if (misc_checkKeyBuf() == 0) {
+                misc_getKey();
                 break;
             }
         }
@@ -90,8 +90,8 @@ int main(void)
             /* 0x14d */
             for (introStage = 0; introStage < 2; introStage++) {
                 for (timerCounter = 0; timerCounter < ADV_TIMEOUT;) {
-                    if (misc_jump_5a_keybuf() == 0) {
-                        misc_jump_5b_getkey();
+                    if (misc_checkKeyBuf() == 0) {
+                        misc_getKey();
                         goto checkEga;
                     }
                 }
@@ -133,7 +133,7 @@ checkEga:
         if (isPcSpeaker != 0) restoreTimerIrqHandler();
         /* 0x230 */
         TRACE(("main: doing audio thing"));
-        audio_jump_67();
+        audio_playIntro();
         if (isPcSpeaker == 0) restoreTimerIrqHandler();
         /* 0x23c */
         if (commData->gfxModeNum >= GFX_MODE_EGA && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & EGA_SWITCH_MASK) == EGA_SWITCH_VALUE) {
@@ -260,7 +260,7 @@ doSrand:
     else {
         commData->gfxModeChar = 0;
     }
-    misc_jump_5e_clearKeyFlags();
+    misc_clearKeyFlags();
     clearRect(bufPtr, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
     gfx_setMonoFlag(0);
     TRACE(("main: DEBUG_AUTOSTART - exiting with code %hd", exitCode[0]));
@@ -309,7 +309,7 @@ doSrand:
     }
     /* 0x44c */
     TRACE(("main: clearing keyflags and screen"));
-    misc_jump_5e_clearKeyFlags();
+    misc_clearKeyFlags();
     // 461
     clearRect(bufPtr, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
     gfx_setMonoFlag(0);

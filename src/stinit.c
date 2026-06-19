@@ -35,5 +35,5 @@ void initGraphics()
     }
     /* 0x4fb */
     commData->gfxModeNum = gfx_getModecode();
-    misc_jump_5e_clearKeyFlags();
+    misc_clearKeyFlags();
 }

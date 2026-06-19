@@ -407,15 +407,15 @@ gfx_storeBufPtr: Data1 FAR 1035-1039 R1035-1039 ignore
 gfx_getModeFlag: Data1 FAR 103a-103e R103a-103e ignore
 gfx_setDacAnimCount: Data1 FAR 1049-104d R1049-104d ignore
 gfx_setMonoFlag: Data1 FAR 1058-105c R1058-105c ignore
-misc_jump_5b_getkey: Data1 FAR 1085-1089 R1085-1089 ignore
-misc_jump_5d_readJoy: Data1 FAR 108f-1093 R108f-1093 ignore
-audio_jump_64: Data1 FAR 10b2-10b6 R10b2-10b6 ignore
-audio_jump_65: Data1 FAR 10b7-10bb R10b7-10bb ignore
-audio_jump_66: Data1 FAR 10bc-10c0 R10bc-10c0 ignore
-audio_jump_68: Data1 FAR 10c6-10ca R10c6-10ca ignore
-audio_jump_69: Data1 FAR 10cb-10cf R10cb-10cf ignore
-audio_jump_6a: Data1 FAR 10d0-10d4 R10d0-10d4 ignore
-audio_jump_6d: Data1 FAR 10df-10e3 R10df-10e3 ignore
+misc_getKey: Data1 FAR 1085-1089 R1085-1089 ignore
+misc_readJoystick: Data1 FAR 108f-1093 R108f-1093 ignore
+audio_setup: Data1 FAR 10b2-10b6 R10b2-10b6 ignore
+audio_shutdown: Data1 FAR 10b7-10bb R10b7-10bb ignore
+audio_playSound: Data1 FAR 10bc-10c0 R10bc-10c0 ignore
+audio_engineDroneOn: Data1 FAR 10c6-10ca R10c6-10ca ignore
+audio_engineDroneOff: Data1 FAR 10cb-10cf R10cb-10cf ignore
+audio_setEnginePitch: Data1 FAR 10d0-10d4 R10d0-10d4 ignore
+audio_playSample: Data1 FAR 10df-10e3 R10df-10e3 ignore
 #
 # Discovered variables, one per line, syntax is "VariableName: Segment VAR OffsetWithinSegment"
 #

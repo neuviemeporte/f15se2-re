@@ -72,7 +72,7 @@ void updateHallfame()
     drawStringCentered(screenBuf, aPressAKeyToCon, 0, 0x96, 0x140);
     screenBuf[2] = COLOR_GRAY;
     gfx_flipPage();
-    misc_jump_5b_getkey();
+    misc_getKey();
     gfx_waitRetrace();
 }
 
@@ -269,7 +269,7 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
     screenBuf[3] = 0;
     clearRect(page, 15, 192, 303, 197);
     drawStringCentered(pageNumPtr, aMenterYourName, 0xf, 0xc0, 0x121);
-    misc_jump_5e_clearKeyFlags();
+    misc_clearKeyFlags();
     keyCode = KEYCODE_CTRLX;
     TRACE(("pilotNameInput(): before loop"));
     do {
@@ -360,14 +360,14 @@ void saveHallfame() {
 
 int getJoyKey() {
     if (commData->setupUseJoy == 1) {
-        if (misc_jump_5d_readJoy(0) != 0) return 1;
+        if (misc_readJoystick(0) != 0) return 1;
     }
     if (cbreakHit != 0) {
         cleanup();
         restoreCbreakHandler();
         exit(0);
     }
-    return misc_jump_5a_keybuf() == 0;
+    return misc_checkKeyBuf() == 0;
 }
 
 /* ---- merged from stinkey.c ---- */
@@ -375,14 +375,14 @@ int readInputKey() {
     int key;
     if (commData->setupUseJoy == 1) {
         do {
-            if (misc_jump_5a_keybuf() == 0) break;
-        } while (misc_jump_5d_readJoy(0) == 0);
-        if (misc_jump_5a_keybuf() != 0) {
+            if (misc_checkKeyBuf() == 0) break;
+        } while (misc_readJoystick(0) == 0);
+        if (misc_checkKeyBuf() != 0) {
             key = KEYCODE_ENTER;
             goto checkKey;
         }
     }
-    key = misc_jump_5b_getkey();
+    key = misc_getKey();
 checkKey:
     if (key == KEYCODE_ALTQ || cbreakHit != 0) {
         cleanup();

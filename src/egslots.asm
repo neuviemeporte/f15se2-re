@@ -208,13 +208,13 @@ PUBLIC _var_350
 PUBLIC _var_134
 PUBLIC _commData
 PUBLIC _joyAxes
-PUBLIC _audio_jump_6a
-PUBLIC _audio_jump_64
-PUBLIC _audio_jump_65
-PUBLIC _audio_jump_66
-PUBLIC _audio_jump_6d
-PUBLIC _audio_jump_68
-PUBLIC _audio_jump_69
+PUBLIC _audio_setEnginePitch
+PUBLIC _audio_setup
+PUBLIC _audio_shutdown
+PUBLIC _audio_playSound
+PUBLIC _audio_playSample
+PUBLIC _audio_engineDroneOn
+PUBLIC _audio_engineDroneOff
 PUBLIC word_37B7E
 PUBLIC word_37B9C
 PUBLIC word_37BBA
@@ -273,7 +273,7 @@ PUBLIC byte_37F9D
 PUBLIC byte_37F9E
 PUBLIC byte_37F9F
 PUBLIC _byte_3790C
-PUBLIC _misc_jump_5b_getkey
+PUBLIC _misc_getKey
 PUBLIC _unk_34121
 PUBLIC _word_33BAE
 PUBLIC _word_33DD0
@@ -331,8 +331,8 @@ PUBLIC aFileClosingError
 PUBLIC aFileNotFound
 PUBLIC aNoFileBuffersAvailabl
 PUBLIC aOpenError
-PUBLIC audio_jump_6b
-PUBLIC audio_jump_6c
+PUBLIC audio_timerTick
+PUBLIC audio_noiseTick
 PUBLIC byte_36D86
 PUBLIC byte_37116
 PUBLIC byte_378FC
@@ -880,65 +880,65 @@ _gfx_setMonoFlag endp
     db 0EAh, 4 dup(0)                       ; slot 0x59
     db 0EAh, 4 dup(0)                       ; slot 0x5A
     db 0EAh, 4 dup(0)                       ; slot 0x5B
-_misc_jump_5b_getkey proc near              ; slot 0x5C
+_misc_getKey proc near              ; slot 0x5C
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_misc_jump_5b_getkey endp
+_misc_getKey endp
     db 0EAh, 4 dup(0)                       ; slot 0x5D
-PUBLIC _misc_jump_5d_readJoy
-misc_jump_5d_readJoy proc near              ; slot 0x5E
+PUBLIC _misc_readJoystick
+misc_readJoystick proc near              ; slot 0x5E
     db 0EAh ;jmp far ptr 0:0
     dd 0
-misc_jump_5d_readJoy endp
-_misc_jump_5d_readJoy equ misc_jump_5d_readJoy
+misc_readJoystick endp
+_misc_readJoystick equ misc_readJoystick
     db 0EAh, 4 dup(0)                       ; slot 0x5F
     db 0EAh, 4 dup(0)                       ; slot 0x60
     db 0EAh, 4 dup(0)                       ; slot 0x61
     db 0EAh, 4 dup(0)                       ; slot 0x62
     db 0EAh, 4 dup(0)                       ; slot 0x63
     db 0EAh, 4 dup(0)                       ; slot 0x64
-_audio_jump_64 proc near                    ; slot 0x65
+_audio_setup proc near                    ; slot 0x65
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_audio_jump_64 endp
-_audio_jump_65 proc near                    ; slot 0x66
+_audio_setup endp
+_audio_shutdown proc near                    ; slot 0x66
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_audio_jump_65 endp
-_audio_jump_66 proc near                    ; slot 0x67
+_audio_shutdown endp
+_audio_playSound proc near                    ; slot 0x67
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_audio_jump_66 endp
-audio_jump_66 equ _audio_jump_66
+_audio_playSound endp
+audio_playSound equ _audio_playSound
     db 0EAh, 4 dup(0)                       ; slot 0x68
-_audio_jump_68 proc near                    ; slot 0x69
+_audio_engineDroneOn proc near                    ; slot 0x69
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_audio_jump_68 endp
-audio_jump_68 equ _audio_jump_68
-_audio_jump_69 proc near                    ; slot 0x6A
+_audio_engineDroneOn endp
+audio_engineDroneOn equ _audio_engineDroneOn
+_audio_engineDroneOff proc near                    ; slot 0x6A
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_audio_jump_69 endp
-audio_jump_69 equ _audio_jump_69
-audio_jump_6a proc near                     ; slot 0x6B
+_audio_engineDroneOff endp
+audio_engineDroneOff equ _audio_engineDroneOff
+audio_setEnginePitch proc near                     ; slot 0x6B
     db 0EAh ;jmp far ptr 0:0
     dd 0
-audio_jump_6a endp
-_audio_jump_6a equ audio_jump_6a
-audio_jump_6b proc near                     ; slot 0x6C
+audio_setEnginePitch endp
+_audio_setEnginePitch equ audio_setEnginePitch
+audio_timerTick proc near                     ; slot 0x6C
     db 0EAh ;jmp far ptr 0:0
     dd 0
-audio_jump_6b endp
-audio_jump_6c proc near                     ; slot 0x6D
+audio_timerTick endp
+audio_noiseTick proc near                     ; slot 0x6D
     db 0EAh ;jmp far ptr 0:0
     dd 0
-audio_jump_6c endp
-_audio_jump_6d proc near                    ; slot 0x6E
+audio_noiseTick endp
+_audio_playSample proc near                    ; slot 0x6E
     db 0EAh ;jmp far ptr 0:0
     dd 0
-_audio_jump_6d endp
-audio_jump_6d equ _audio_jump_6d
+_audio_playSample endp
+audio_playSample equ _audio_playSample
     db 6 dup(0)
 buf6data_4 db 0
     db 0

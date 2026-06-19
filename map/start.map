@@ -274,15 +274,15 @@ gfx_getVal: Data1 FAR 0c3e-0c42 R0c3e-0c42 ignore
 gfx_commitPage: Data1 FAR 0c48-0c4c R0c48-0c4c ignore
 gfx_nop51: Data1 FAR 0c4d-0c51 R0c4d-0c51 ignore
 gfx_setMonoFlag: Data1 FAR 0c57-0c5b R0c57-0c5b ignore
-misc_jump_5a_keybuf: Data1 FAR 0c7a-0c7e R0c7a-0c7e ignore
-misc_jump_5b_getkey: Data1 FAR 0c7f-0c83 R0c7f-0c83 ignore
-misc_jump_5d_readJoy: Data1 FAR 0c89-0c8d R0c89-0c8d ignore
-misc_jump_5e_clearKeyFlags: Data1 FAR 0c8e-0c92 R0c8e-0c92 ignore
-audio_jump_64: Data1 FAR 0cac-0cb0 R0cac-0cb0 ignore
-audio_jump_65: Data1 FAR 0cb1-0cb5 R0cb1-0cb5 ignore
-audio_jump_67: Data1 FAR 0cbb-0cbf R0cbb-0cbf ignore
-audio_jump_6b: Data1 FAR 0ccf-0cd3 R0ccf-0cd3 ignore
-audio_jump_6c: Data1 FAR 0cd4-0cd8 R0cd4-0cd8 ignore
+misc_checkKeyBuf: Data1 FAR 0c7a-0c7e R0c7a-0c7e ignore
+misc_getKey: Data1 FAR 0c7f-0c83 R0c7f-0c83 ignore
+misc_readJoystick: Data1 FAR 0c89-0c8d R0c89-0c8d ignore
+misc_clearKeyFlags: Data1 FAR 0c8e-0c92 R0c8e-0c92 ignore
+audio_setup: Data1 FAR 0cac-0cb0 R0cac-0cb0 ignore
+audio_shutdown: Data1 FAR 0cb1-0cb5 R0cb1-0cb5 ignore
+audio_playIntro: Data1 FAR 0cbb-0cbf R0cbb-0cbf ignore
+audio_timerTick: Data1 FAR 0ccf-0cd3 R0ccf-0cd3 ignore
+audio_noiseTick: Data1 FAR 0cd4-0cd8 R0cd4-0cd8 ignore
 #
 # Discovered variables, one per line, syntax is "VariableName: Segment VAR OffsetWithinSegment"
 #

@@ -142,14 +142,14 @@ int writeFileAtRaw(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) { retu
 int far sub_202F6() { return 0; }
 
 /* --- slot.h overlay jump stubs (egame doesn't link shared/ovlstub.c) --- */
-int misc_jump_5b_getkey() { return 0; }
-int misc_jump_5d_readJoy(int16 a) { return 0; }
-int audio_jump_64(int16 a, int16 b) { return 0; }
-int audio_jump_65(void) { return 0; }
-int audio_jump_66(int a) { return 0; }
-int audio_jump_68() { return 0; }
-int audio_jump_69() { return 0; }
-int audio_jump_6d(int a) { return 0; }
+int misc_getKey() { return 0; }
+int misc_readJoystick(int16 a) { return 0; }
+int audio_setup(int16 a, int16 b) { return 0; }
+int audio_shutdown(void) { return 0; }
+int audio_playSound(int a) { return 0; }
+int audio_engineDroneOn() { return 0; }
+int audio_engineDroneOff() { return 0; }
+int audio_playSample(int a) { return 0; }
 
 /* projectObjects: eg3dview.c calls the 8-int form; eg3dproj.c defines a
    different (int,int,long,long,long) overload. Stub the called form. */
@@ -176,4 +176,4 @@ int16 word_380A6;
 int16 word_380AA;
 int16 word_380AC;
 
-int audio_jump_6a(int knots, int thrust) { return 0; }
+int audio_setEnginePitch(int knots, int thrust) { return 0; }

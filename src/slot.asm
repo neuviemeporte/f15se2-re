@@ -98,27 +98,27 @@ overlay_slot gfx_slot_57
 overlay_slot gfx_slot_58
 overlay_slot gfx_slot_59
 ; misc (first slot 0x5a, 6 used)
-overlay_slot misc_slot_5a_checkkbuf
-overlay_slot misc_slot_5b_getkey
+overlay_slot misc_slot_5a_checkKeyBuf
+overlay_slot misc_slot_5b_getKey
 overlay_slot misc_slot_5c
-overlay_slot misc_slot_5d
-overlay_slot misc_slot_5e_clearkeyflags
+overlay_slot misc_slot_5d_readJoystick
+overlay_slot misc_slot_5e_clearKeyFlags
 overlay_slot misc_slot_5f
 overlay_slot misc_slot_60
 overlay_slot misc_slot_61
 overlay_slot misc_slot_62
 overlay_slot misc_slot_63
 ; sound (first slot 0x64, 10 used)
-overlay_slot audio_slot_64
-overlay_slot audio_slot_65
-overlay_slot audio_slot_66
-overlay_slot audio_slot_67
-overlay_slot audio_slot_68
-overlay_slot audio_slot_69
-overlay_slot audio_slot_6a
-overlay_slot audio_slot_6b
-overlay_slot audio_slot_6c
-overlay_slot audio_slot_6d
+overlay_slot audio_slot_64_setup
+overlay_slot audio_slot_65_shutdown
+overlay_slot audio_slot_66_playSound
+overlay_slot audio_slot_67_playIntro
+overlay_slot audio_slot_68_droneOn
+overlay_slot audio_slot_69_droneOff
+overlay_slot audio_slot_6a_enginePitch
+overlay_slot audio_slot_6b_timerTick
+overlay_slot audio_slot_6c_noiseTick
+overlay_slot audio_slot_6d_playSample
 ; 110 slots in total
 ; this is not a real slot, just temporary location to force far call to a function in another code segment
 overlay_slot tmp_slot_copyJoystickData

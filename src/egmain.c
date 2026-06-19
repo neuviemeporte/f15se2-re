@@ -128,10 +128,10 @@ void runGameSession() {
     if (*dword_38FE2 > 1) {
         *dword_38FE2 = 1;
     }
-    TRACE(("runGameSession: audio_jump_65"));
-    audio_jump_65();
-    TRACE(("runGameSession: audio_jump_64"));
-    audio_jump_64(*(int16 FAR*)(OFF_IACA_UNK), f15DgtlResult);
+    TRACE(("runGameSession: audio_shutdown"));
+    audio_shutdown();
+    TRACE(("runGameSession: audio_setup"));
+    audio_setup(*(int16 FAR*)(OFF_IACA_UNK), f15DgtlResult);
     TRACE(("runGameSession: setTimerIrqHandler"));
     setTimerIrqHandler();
     if (commData->setupUseJoy == 0) {
@@ -147,7 +147,7 @@ void runGameSession() {
     gfx_setDacAnimCount(1);
     waitFrameSync(2);
     restoreTimerIrqHandler();
-    audio_jump_65();
+    audio_shutdown();
 }
 
 // ==== seg000:0x0294 routine_6 ====

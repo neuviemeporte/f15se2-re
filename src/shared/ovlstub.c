@@ -22,7 +22,7 @@ extern uint8  exitCode;
 extern int16  fileHandle;
 
 /* Misc input overlay slots - real DOS keyboard I/O */
-int far cdecl misc_jump_5a_keybuf(void) {
+int far cdecl misc_checkKeyBuf(void) {
     /* Return 0 if a key is waiting, 0xFFFF if the buffer is empty.
      * Read the BIOS keyboard buffer head/tail (0040:001A / 0040:001C)
      * directly, matching the original MISC.EXE slot 0x5a. The C runtime's
@@ -35,7 +35,7 @@ int far cdecl misc_jump_5a_keybuf(void) {
         return 0;
     return 0xFFFF;
 }
-int far cdecl misc_jump_5b_getkey(void) {
+int far cdecl misc_getKey(void) {
     /* INT 16h AH=00h: read key from buffer.
        Returns scan code in AH, ASCII in AL. */
     union REGS regs;
@@ -43,10 +43,10 @@ int far cdecl misc_jump_5b_getkey(void) {
     int86(0x16, &regs, &regs);
     return regs.x.ax;
 }
-int far cdecl misc_jump_5d_readJoy(int16 param) { return 0; }
-void far cdecl misc_jump_5e_clearKeyFlags(void) { ovldbg("clearKeyFlags"); }
+int far cdecl misc_readJoystick(int16 param) { return 0; }
+void far cdecl misc_clearKeyFlags(void) { ovldbg("clearKeyFlags"); }
 
 /* Audio overlay slots */
-int far cdecl audio_jump_64(int16 a, int16 b) { return 0; }
-int far cdecl audio_jump_65(void) { return 0; }
-int far cdecl audio_jump_67(void) { return 0; }
+int far cdecl audio_setup(int16 a, int16 b) { return 0; }
+int far cdecl audio_shutdown(void) { return 0; }
+int far cdecl audio_playIntro(void) { return 0; }

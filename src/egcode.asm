@@ -403,8 +403,8 @@ EXTRN aFileClosingError:BYTE
 EXTRN aFileNotFound:BYTE
 EXTRN aNoFileBuffersAvailabl:BYTE
 EXTRN aOpenError:BYTE
-EXTRN audio_jump_6b:PROC
-EXTRN audio_jump_6c:PROC
+EXTRN audio_timerTick:PROC
+EXTRN audio_noiseTick:PROC
 EXTRN byte_36D86:BYTE
 EXTRN byte_37116:BYTE
 EXTRN _byte_378EE:BYTE
@@ -938,7 +938,7 @@ timerIsr proc far
 @@tisr_skip:
     cmp word_378FA, 1
     jz short @@tisr_nochain
-    call far ptr audio_jump_6c
+    call far ptr audio_noiseTick
 @@tisr_nochain:
     cmp word_378F2, 0
     jnz short @@tisr_chain
@@ -1009,7 +1009,7 @@ advanceFrameTick proc near
     inc word ptr [_byte_3790C-2]  ; word_3790A
     inc byte ptr [_byte_3790C]    ; frame tick counter
     call far ptr gfx_dacCycle    ; MGRAPHIC slot 0x2e: VGA DAC fire animation
-    call far ptr audio_jump_6b
+    call far ptr audio_timerTick
     or ax, ax
     jz short advanceFrameTick_ret
     js short advanceFrameTick_single

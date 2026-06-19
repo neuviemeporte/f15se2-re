@@ -18,8 +18,8 @@
 
 void clearKeybuf()
 {
-    while (misc_jump_5a_keybuf() == 0) {
-        misc_jump_5b_getkey();
+    while (misc_checkKeyBuf() == 0) {
+        misc_getKey();
     }
 }
 
@@ -30,7 +30,7 @@ void waitJoyKey(void)
 
 int joyOrKey() {
     if (commData->setupUseJoy == 1) {
-        if (misc_jump_5d_readJoy(0) != 0) {
+        if (misc_readJoystick(0) != 0) {
             return 1;
         }
     }
@@ -39,11 +39,11 @@ int joyOrKey() {
         restoreCbreakHandler();
         exit(0);
     }
-    if (misc_jump_5a_keybuf() != 0) {
+    if (misc_checkKeyBuf() != 0) {
         return 0;
     }
     // 5b6, alt-q hit check
-    if (misc_jump_5b_getkey() == KEYCODE_ALTQ) {
+    if (misc_getKey() == KEYCODE_ALTQ) {
         cleanup();
         exit(0);
     }
@@ -266,7 +266,7 @@ int askRepeatMission() {
     timerCounter3 = 6;
     animateArm(armPosition, armPosition);
     clearBriefing();
-    keycode = misc_jump_5b_getkey();
+    keycode = misc_getKey();
     if (keycode == 'Y' || keycode == 'y') {
         return 1;
     }
@@ -380,16 +380,16 @@ int pollMenuInput() {
     }
     if (commData->setupUseJoy == 1) { //10d8
         TRACE(("pollMenuInput(): use joy 1"));
-        j = misc_jump_5d_readJoy(0);
-        l = misc_jump_5d_readJoy(1);
+        j = misc_readJoystick(0);
+        l = misc_readJoystick(1);
         pollJoystick();
     }
-    while ((misc_jump_5a_keybuf() != 0 && j == 0 && l == 0
+    while ((misc_checkKeyBuf() != 0 && j == 0 && l == 0
         && joyAxes[0] >= JOY_DEADZONE_LO && joyAxes[0] <= JOY_DEADZONE_HI
         && joyAxes[1] >= JOY_DEADZONE_LO && joyAxes[1] <= JOY_DEADZONE_HI)
         || n == 1) {
         // XXX: case study for instruction skipping in mzdiff, change above while condition to true and uncomment, run mzdiff with refskip 1 tgtskip 2 to repro
-        // if ((((((misc_jump_5a_keybuf() == 0) || (var_2 != 0)) || (var_4 != 0)) ||
+        // if ((((((misc_checkKeyBuf() == 0) || (var_2 != 0)) || (var_4 != 0)) ||
         //     ((joyAxes[0] < 0x4e || (joyAxes[0] > 0xb2)))) ||
         //     ((joyAxes[1] < 0x4e || (joyAxes[1] > 0xb2)))) && (var_6 != 1)) break;
         if ((joyRepeatFlag == 1) && (0xf < timerCounter)) { //113f
@@ -399,8 +399,8 @@ int pollMenuInput() {
         }
         if (commData->setupUseJoy == 1) {
             TRACE(("pollMenuInput(): use joy 2"));
-            j = misc_jump_5d_readJoy(0);
-            l = misc_jump_5d_readJoy(1);
+            j = misc_readJoystick(0);
+            l = misc_readJoystick(1);
             pollJoystick();
         }
         if (cbreakHit != 0) {
@@ -413,8 +413,8 @@ int pollMenuInput() {
         blinkPilot();
     }
     TRACE(("pollMenuInput(): out of while"));
-    if (misc_jump_5a_keybuf() == 0) {
-        key = misc_jump_5b_getkey();
+    if (misc_checkKeyBuf() == 0) {
+        key = misc_getKey();
         TRACE(("pollMenuInput(): got key 0x%x", key));
     }
     else if (j == 1) {
