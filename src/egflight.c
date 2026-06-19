@@ -487,26 +487,26 @@ switch_break:
 
     g = (((int32)word_3C00E) << 7) / ((int32)g_frameRateScaling);
     if (g != 0) {
-        word_380AC = word_380A4 = cosine(g);
-        word_380A6 = sine(g);
-        word_380AA = -word_380A6;
-        applyRotationDelta(unk_3806E, &word_380A4);
+        word_380A4[4] = word_380A4[0] = cosine(g);
+        word_380A4[1] = sine(g);
+        word_380A4[3] = -word_380A4[1];
+        applyRotationDelta(unk_3806E, word_380A4);
     }
 
     f = (int16)((int32)word_3C5A4 << 7) / g_frameRateScaling;
     if (f != 0) {
-        word_380A2 = word_3809A = cosine(f);
-        word_380A0 = sine(f);
-        word_3809C = -word_380A0;
+        unk_38092[8] = unk_38092[4] = cosine(f);
+        unk_38092[7] = sine(f);
+        unk_38092[5] = -unk_38092[7];
         applyRotationDelta(unk_3806E, unk_38092);
     }
 
     t = (int16)ac / g_frameRateScaling;
     if (t != 0) {
-        word_38090 = word_38080 = cosine(t);
-        word_38084 = sine(t);
-        word_3808C = -word_38084;
-        applyRotationDelta(&word_38080, unk_3806E);
+        word_38080[8] = word_38080[0] = cosine(t);
+        word_38080[2] = sine(t);
+        word_38080[6] = -word_38080[2];
+        applyRotationDelta(word_38080, unk_3806E);
     }
 
     computeAttitudeAngles();

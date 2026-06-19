@@ -69,6 +69,53 @@ int16 word_33712 = 0;
 int16 word_33714 = 0;
 int16 word_3374A = 0;
 
+/* mapEvents: 4 tactical-map marker slots (flare/chaff/lock markers). A slot is
+   free when ttl == 0; entries are aged down by tickMessageTimers. */
+struct MapEvent mapEvents[4];
+
+/* commData: far pointer to the shared inter-process game-state record. */
+struct GameComm far *commData = 0;
+
+/* var_83: weapon/target compatibility matrix, 20 weapons x 13 target
+   categories, read as var_83[weaponIdx*13 + (byte_3BFA4[..] & 0xf)] by
+   missileTargetCompat (egtacmap.c). Rows w0/w1 (Sidewinder/AMRAAM) and
+   w16/w17/w19 are all zero; type-1 weapons do not use it. */
+int8 var_83[260] = {
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 2, 6, 2, 0, 2, 5,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6,
+    2, 1, 2, 2, 3, 4, 3, 3, 4, 4, 4, 1, 2,
+    4, 1, 2, 4, 5, 5, 4, 4, 5, 4, 4, 1, 3,
+    0, 0, 4, 4, 0, 0, 5, 5, 4, 4, 5, 0, 4,
+    0, 8, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0,
+    3, 1, 3, 4, 1, 1, 4, 2, 3, 3, 4, 0, 3,
+    0, 1, 4, 4, 0, 0, 4, 0, 2, 0, 4, 0, 0,
+    1, 1, 4, 4, 1, 1, 4, 4, 4, 4, 4, 1, 3,
+    2, 0, 4, 4, 0, 2, 5, 3, 3, 2, 5, 1, 3,
+    4, 0, 0, 6, 0, 5, 0, 0, 0, 4, 0, 5, 2,
+    1, 0, 6, 4, 0, 0, 6, 6, 3, 6, 6, 0, 3,
+    0, 6, 0, 3, 0, 0, 2, 3, 0, 0, 3, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    3, 0, 4, 4, 0, 2, 4, 4, 3, 4, 5, 0, 3,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+};
+
+/* word_33BA2: per-LOD enable flag for the secondary 3D grid, indexed by LOD
+   level (0..4); every level is enabled. */
+int16 word_33BA2[5] = { 1, 1, 1, 1, 1 };
+/* word_33BAE: per-LOD grid dimension (cells per side) used as the process3dg
+   bounds check, indexed by LOD level (0..4). */
+int16 word_33BAE[5] = { 0x400, 0x100, 0x40, 0x10, 8 };
+
+/* word_33DD0: 32-word scratch buffer for the secondary photo/3D model loader
+   (eg3dload.c). fread fills word_33DD0[0..size3d3_7-1] with per-section offsets,
+   then word_33DD0[size3d3_7] gets the terminating size; section sizes are the
+   successive differences word_33DD0[i+1] - word_33DD0[i]. */
+int16 word_33DD0[32];
+
 /* asc_33744: 3 weapon-indicator box X-coordinates, read as asc_33744[weaponIdx]. */
 int16 asc_33744[3] = { 76, 40, 115 };
 
@@ -391,6 +438,11 @@ uint8 unk_3BF95;
 int16 word_3298A = 0xC4;
 int16 word_3298C = 0xA0;
 int16 word_3298E = 0x64;
+/* word_32990: 16-entry seed table copied into word_3BE9C and then offset to
+   drive the 3D-sphere/horizon ring radii (egsphere.c). */
+int16 word_32990[16] = {
+    0, 2, 3, 4, 6, 8, 0x0B, 0x0F, 0x14, 0x1B, 0x24, 0x30, 0x40, 0x57, 0x77, 0xA4
+};
 int word_38F72;
 int16 word_38FC6;
 int16 word_38FCC;
@@ -439,13 +491,33 @@ int16 word_3C02E;
 int16 word_3C03E;
 
 int16 word_3401A = 0;
-/* off_38334/3834C/38364: near-pointers to the three gfx page/viewport descriptors
-   (unk_3831E, unk_38336, word_3834E). Read through the
-   pointer as an int16[] descriptor (clip rect, color, page base) and dereferenced
-   for the page base address. */
+/* The three gfx page/viewport descriptors (11-word records): [0]=page id,
+   [1]=color/mode, [2]=fill color, [7..10]=clip rect, [8]=page base/height
+   select. off_38334/3834C/38364 are the near-pointers the rendering code reads
+   them through. */
+int16 unk_3831E[11] = { 0, 2, 2, 0, 0, 0, 1, 0, 0x60, 0, 0x13F };
+int16 unk_38336[11] = { 1, 2, 2, 0, 0, 0, 1, 0, 0x60, 0, 0x13F };
+int16 word_3834E[11] = { 2, 2, 2, 0, 0, 0, 0, 0, 0xC7, 0, 0x13F };
 int16 *off_38334 = unk_3831E;
 int16 *off_3834C = unk_38336;
 int16 *off_38364 = word_3834E;
+
+/* Three more 11-word page/viewport descriptors (sub-window regions) reached
+   through the var_134/567/568 near-pointers; same field layout as the off_38334
+   descriptors ([1]=mode, [2]=fill color, [7..10]=clip rect / page base). */
+int16 buf6data_4[11] = { 0, 2, 2, 0, 0, 0, 1, 0, 0x6F, 0, 0x13F };
+int16 buf6data_0[11] = { 0, 2, 2, 0, 0, 0, 1, 0x70, 0xA8, 0x18, 0x60 };
+int16 buf6data_1[11] = { 0, 2, 2, 0, 0, 0, 1, 0x80, 0xB8, 0xE8, 0x130 };
+int16 *var_134 = buf6data_4;
+char  *var_567 = (char *)buf6data_0;
+int16 *var_568 = buf6data_1;
+/* unk_38128: vector-shape display list for drawVectorShape (two outlined boxes,
+   colors 7 and 8). Each sub-shape is a color word, then x,y point pairs, ended
+   by -1; a trailing -1 terminates the list. */
+int16 unk_38128[21] = {
+    7, 0x53, 0x15, 0x49, 0x5E, 0x53, 0x5E, 0x53, 0x15, -1,
+    8, 0xF1, 0x15, 0xFB, 0x5E, 0xF1, 0x5E, 0xF1, 0x15, -1, -1
+};
 int16 word_38126 = 0x6C;
 int16 word_38152 = 0;
 char byte_3995A;
@@ -672,6 +744,10 @@ int16 word_34194 = 0;
 uint8 byte_34196 = 3;
 int16 word_34198 = 0;
 
+/* word_34186: LOD level selected per object pass, indexed by var_666 (0..4) in
+   the tile-object draw loop; feeds word_3C16C / process3dg. */
+int16 word_34186[5] = { 3, 4, 2, 3, 4 };
+
 /* egseg1 fixed-point projection accumulators. word_34250/word_34252 and
  * word_34254/word_34256 are each the low/high words of a 32-bit value;
  * word_3426A/word_3426C are 16-bit multiplicands. */
@@ -809,6 +885,14 @@ struct SpriteParams gaugeSpriteParams = {
 /* unk_3806E: current 3x3 orientation matrix (Q15 identity init). */
 int16 unk_3806E[9] = {0x7FFF, 0, 0, 0, 0x7FFF, 0, 0, 0, 0x7FFF};
 
+/* Per-axis delta rotation matrices rebuilt each frame from sin/cos of the
+   heading/pitch/roll change and composited into unk_3806E by applyRotationDelta.
+   word_38080 = yaw (Y axis), unk_38092 = pitch (X axis), word_380A4 = roll
+   (Z axis); the fixed 0x7FFF entry is the unchanged on-axis component. */
+int16 word_38080[9] = {0, 0, 0, 0, 0x7FFF, 0, 0, 0, 0};
+int16 unk_38092[9]  = {0x7FFF, 0, 0, 0, 0, 0, 0, 0, 0};
+int16 word_380A4[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0x7FFF};
+
 /* bulletTracks: 3D projectile table (player rounds + threat shots), HUD-projected. */
 struct BulletTrack bulletTracks[20];
 
@@ -831,8 +915,24 @@ uint8 byte_37F99 = 0;   /* keyboard virtual-stick raw roll axis (int9Handler) */
 int g_ourHead = 0;
 int g_ourPitch = 0;
 int g_ourRoll = 0;
+/* byte_37FEC: g-load lookup indexed by (abs(roll) >> 8) & 0x7f. Lowest near
+   wings-level, peaking past 90 degrees of bank where lift bleeds off. */
+uint8 byte_37FEC[128] = {
+    0x10, 0x10, 0x10, 0x10, 0x10, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x12, 0x12, 0x12,
+    0x12, 0x12, 0x12, 0x12, 0x13, 0x13, 0x14, 0x14, 0x15, 0x16, 0x16, 0x17, 0x18, 0x19, 0x19, 0x1a,
+    0x1b, 0x1b, 0x1c, 0x1d, 0x1d, 0x1e, 0x1f, 0x1f, 0x20, 0x22, 0x24, 0x25, 0x27, 0x29, 0x2b, 0x2c,
+    0x2e, 0x30, 0x34, 0x38, 0x3c, 0x40, 0x48, 0x50, 0x60, 0x70, 0x80, 0x90, 0xa0, 0xb0, 0xc0, 0xd0,
+    0xc0, 0xb0, 0xa0, 0x90, 0x80, 0x70, 0x60, 0x50, 0x48, 0x40, 0x3c, 0x38, 0x34, 0x30, 0x2e, 0x2c,
+    0x2b, 0x29, 0x27, 0x25, 0x24, 0x22, 0x20, 0x1f, 0x1f, 0x1e, 0x1d, 0x1d, 0x1c, 0x1b, 0x1b, 0x1a,
+    0x19, 0x19, 0x18, 0x17, 0x16, 0x16, 0x15, 0x14, 0x14, 0x13, 0x13, 0x12, 0x12, 0x12, 0x12, 0x12,
+    0x12, 0x12, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x10, 0x10, 0x10, 0x10, 0x10, 0x08,
+};
+
 /* word_380D0: airspeed/velocity magnitude. */
 unsigned int word_380D0 = 0;
+/* byte_380DD: orientation-dirty flag. Set when heading/pitch/roll change so the
+   next frame rebuilds the rotation matrix; cleared by rebuildOrientation(). */
+char byte_380DD = 0;
 int16 var_593 = 0;
 uint8 byte_3850E = 0;
 int word_39606;

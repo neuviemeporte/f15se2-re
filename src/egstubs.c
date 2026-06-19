@@ -32,9 +32,6 @@ void restoreTimerIrqHandler() { }
 void setupDac() {}
 int gfx_getModeflag() { return 0; }
 
-// Dummy global data placeholders to satisfy linker references
-struct GameComm far *commData = 0;
-
 int getTimeOfDay(void)
 {
     return 0;
@@ -55,8 +52,6 @@ char strBuf[1];
 struct MapTarget g_planes[1];
 /* --- data referenced by drawHudWorldOverlay (egui.c) --- */
 char unk_34121[1];
-int16 unk_38128[1];
-int16 *var_134;
 uint8 var_190;
 int16 var_198;
 char far *var_200;
@@ -65,18 +60,9 @@ int16 var_282;
 uint16 var_383;
 int8 var_456;
 uint16 uvar_547;
-char *var_567;
-int16 *var_568;
-int8 var_83[1];
 struct Waypoint waypoints[1];
-int16 word_32990;
-struct MapEvent mapEvents[1];
 int16 word_339B4[1];
 int16 word_33B9C[64];
-int16 word_33BA2[64];
-int16 word_33BAE[64];
-int word_33DD0[1];
-int16 word_34186[64];
 int16 word_3419C[1];
 int16 word_34276;
 int16 word_34684[64];
@@ -86,13 +72,6 @@ int32 word_34A4C[121];
 int16 word_37348[64];
 int16 word_3734A[64];
 int16 word_38202;
-/* gfx page/viewport descriptors still defined in egslots.asm; off_38334/3834C/38364
-   in egdata.c decay these arrays into near-pointers. build64 doesn't link the asm,
-   so it needs these stubs. unk_3831E/unk_38336 are 24-byte (12 int16) descriptors;
-   word_3834E is an 11-word descriptor. */
-int16 unk_3831E[12];
-int16 unk_38336[12];
-int16 word_3834E[11];
 int16 word_38F70;   /* PIC/LZW decoder workspace head — must stay in egslots.asm */
 int16 word_3AA5C[64];
 int16 word_3B7E0;
@@ -154,22 +133,7 @@ void projectObjects(int a,int b,int c,int d,int e,int f,int g,int h) {}
 /* --- Data symbols referenced by stepFlightModel (moved from egame_rc.asm
    to C in egflight.c). The DOS build defines these in egame_rc.asm's DATA
    segment; the 64-bit stub build needs C definitions to link. --- */
-uint8 byte_37FEC[128];     /* indexed by (roll>>8)&0x7f */
-char  byte_380DD;
 uint8 joyAxes_2[1];
-uint8 unk_38092[64];
 uint8 unk_38FD0[32];       /* g-meter string buffer */
-int16 word_38080;
-int16 word_38084;
-int16 word_3808C;
-int16 word_38090;
-int16 word_3809A;
-int16 word_3809C;
-int16 word_380A0;
-int16 word_380A2;
-int16 word_380A4;
-int16 word_380A6;
-int16 word_380AA;
-int16 word_380AC;
 
 int audio_setEnginePitch(int knots, int thrust) { return 0; }

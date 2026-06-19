@@ -106,26 +106,10 @@ OVL_HDR_FIRSTIDX  = 1Ch
 OVL_HDR_SLOTCOUNT  = 22h
 OVL_HDR_FIRSTPTR  = 24h
 
-PUBLIC _byte_37FEC
-PUBLIC _byte_380DD
 PUBLIC _joyAxes_2
-PUBLIC _unk_38092
 PUBLIC _unk_38FD0
-PUBLIC _word_38080
-PUBLIC _word_38084
-PUBLIC _word_3808C
-PUBLIC _word_38090
-PUBLIC _word_3809A
-PUBLIC _word_3809C
-PUBLIC _word_380A0
-PUBLIC _word_380A2
-PUBLIC _word_380A4
-PUBLIC _word_380A6
-PUBLIC _word_380AA
-PUBLIC _word_380AC
 PUBLIC _byte_3419A
 PUBLIC _byte_3419C
-PUBLIC _var_568
 PUBLIC _strBuf
 PUBLIC byte_37C2D
 PUBLIC byte_37C2E
@@ -191,14 +175,10 @@ PUBLIC _word_3B7E6
 PUBLIC _word_3B7E8
 PUBLIC _word_3B7EA
 PUBLIC _word_33B9C
-PUBLIC _word_33BA2
 PUBLIC _var_198
 PUBLIC _byte_3419F
-PUBLIC _var_83
 PUBLIC _var_279
 PUBLIC _var_282
-PUBLIC _var_134
-PUBLIC _commData
 PUBLIC _joyAxes
 PUBLIC _audio_setEnginePitch
 PUBLIC _audio_setup
@@ -267,15 +247,11 @@ PUBLIC byte_37F9F
 PUBLIC _byte_3790C
 PUBLIC _misc_getKey
 PUBLIC _unk_34121
-PUBLIC _word_33BAE
-PUBLIC _word_33DD0
-PUBLIC _word_34186
 PUBLIC _word_3419C
 PUBLIC _word_339B4
 PUBLIC _g_planes
 PUBLIC _gfx_setColor
 PUBLIC _gfx_nop23
-PUBLIC _unk_38128
 PUBLIC _word_38202
 PUBLIC _word_3AA5C
 PUBLIC _waypoints
@@ -293,8 +269,6 @@ PUBLIC _gfx_storeBufPtr
 PUBLIC _gfx_getModeFlag
 PUBLIC _gfx_setDacAnimCount
 PUBLIC _gfx_setMonoFlag
-PUBLIC _mapEvents
-PUBLIC _var_567
 PUBLIC _var_605
 PUBLIC _var_606
 PUBLIC _var_608
@@ -383,40 +357,6 @@ unk_32977 db 0
     db 0
     db 4
     db 7 dup(0)
-_word_3298A label byte
-PUBLIC _word_32990
-_word_32990 label byte
-    db 2 dup(0)
-    db 2
-    db 0
-    db 3
-    db 0
-    db 4
-    db 0
-    db 6
-    db 0
-    db 8
-    db 0
-    db 0Bh
-    db 0
-    db 0Fh
-    db 0
-    db 14h
-    db 0
-    db 1Bh
-    db 0
-    db 24h
-    db 0
-    db 30h
-    db 0
-    db 40h
-    db 0
-    db 57h
-unk_329AB db 0
-    db 77h
-    db 0
-    db 0A4h
-    db 5 dup(0)
 ovlInsaneFlag db 0
 aErrorReleasingOverlay db 'Error releasing overlay memory$'
     db 0
@@ -427,141 +367,6 @@ aErrorReleasingOverlay db 'Error releasing overlay memory$'
     db 3
     db 0
     db 1
-    db 0
-; var_83: weapon/target compatibility matrix, var_83[weaponIdx*13 + (byte_3BFA4[..]&0xf)]
-; (missileTargetCompat, egtacmap.c). 20 weapons x 13 target categories, 260 bytes, ending at
-; word_333D2. Rows w0/w1 (Sidewinder/AMRAAM) and w16/w17/w19 are zero; type-1 weapons don't use it.
-_var_83 label byte
-    db 33 dup(0)
-    db 2
-    db 6
-    db 2
-    db 0
-    db 2
-    db 5
-    db 25 dup(0)
-    db 6
-    db 2
-    db 1
-    db 2 dup(2)
-    db 3
-    db 4
-    db 2 dup(3)
-    db 3 dup(4)
-    db 1
-    db 2
-    db 4
-    db 1
-    db 2
-    db 4
-    db 2 dup(5)
-    db 2 dup(4)
-    db 5
-    db 2 dup(4)
-    db 1
-    db 3
-    db 2 dup(0)
-    db 2 dup(4)
-    db 2 dup(0)
-    db 2 dup(5)
-    db 2 dup(4)
-    db 5
-    db 0
-    db 4
-    db 0
-    db 8
-    db 2 dup(0)
-    db 2
-    db 1
-    db 7 dup(0)
-    db 3
-    db 1
-    db 3
-    db 4
-    db 2 dup(1)
-    db 4
-    db 2
-    db 2 dup(3)
-    db 4
-    db 0
-    db 3
-    db 0
-    db 1
-    db 2 dup(4)
-    db 2 dup(0)
-    db 4
-    db 0
-    db 2
-    db 0
-    db 4
-    db 2 dup(0)
-    db 2 dup(1)
-    db 2 dup(4)
-    db 2 dup(1)
-    db 5 dup(4)
-    db 1
-    db 3
-    db 2
-    db 0
-    db 2 dup(4)
-    db 0
-    db 2
-    db 5
-    db 2 dup(3)
-    db 2
-    db 5
-    db 1
-    db 3
-    db 4
-    db 2 dup(0)
-    db 6
-    db 0
-    db 5
-    db 3 dup(0)
-    db 4
-    db 0
-    db 5
-    db 2
-    db 1
-    db 0
-    db 6
-    db 4
-    db 2 dup(0)
-    db 2 dup(6)
-    db 3
-    db 2 dup(6)
-    db 0
-    db 3
-    db 0
-    db 6
-    db 0
-    db 3
-    db 2 dup(0)
-    db 2
-    db 3
-    db 2 dup(0)
-    db 3
-    db 28 dup(0)
-    db 3
-    db 0
-    db 2 dup(4)
-    db 0
-    db 2
-    db 2 dup(4)
-    db 3
-    db 4
-    db 5
-    db 0
-    db 3
-    db 13 dup(0)
-word_333D2 label word
-_mapEvents equ word_333D2
-    dw 0                ; mapEvents[0].mapX
-    dw 0                ; mapEvents[0].mapY (was word_333D4)
-    db 2 dup(0)         ; mapEvents[0].field_4
-    dw 0                ; mapEvents[0].type (was word_333D8)
-    dw 0                ; mapEvents[0].ttl  (was word_333DA)
-    db 38 dup(0)
     db 0
 _gfx_allocPage proc near                    ; slot 0x00
     db 0EAh ;jmp far ptr 0:0
@@ -923,19 +728,6 @@ _audio_playSample proc near                    ; slot 0x6E
 _audio_playSample endp
 audio_playSample equ _audio_playSample
     db 6 dup(0)
-buf6data_4 db 0
-    db 0
-    db 2
-    db 0
-    db 2
-    db 7 dup(0)
-    db 1
-    db 3 dup(0)
-    db 6Fh
-    db 3 dup(0)
-    db 3Fh
-    db 1
-word_339B0 dw offset buf6data_4
     db 0
 unk_339B4 db 0
 _word_339B4 equ unk_339B4
@@ -988,29 +780,6 @@ _word_33B9C equ word_33B9C
     db 10h
     db 0
     db 20h
-word_33BA2 dw 1
-_word_33BA2 equ word_33BA2
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-_word_33BAE label word
-word_33BAE dw 400h
-    db 0
-    db 1
-    db 40h
-    db 0
-    db 10h
-    db 0
-    db 8
-    db 0
-_word_33DD0 dw 0
-word_33DD2 dw 0
-    db 60 dup(0)
 aPleaseInsertScenarioD db 'Please insert scenario disk',0
 _unk_34121 db 20h
     db 20h
@@ -1019,16 +788,6 @@ aPressAKeyWhenReady db 'Press a key when ready',0
     db 0
     db 1
     db 3 dup(0)
-word_34186 dw 3
-_word_34186 equ word_34186
-    db 4
-    db 0
-    db 2
-    db 0
-    db 3
-    db 0
-    db 4
-    db 0
 byte_3419A db 0
     db 0
 byte_3419C db 0
@@ -3767,180 +3526,16 @@ byte_37F9F db 0
     db 2
     db 0Ah
     db 0
-byte_37FEC db 10h
-_byte_37FEC equ byte_37FEC
-    db 5 dup(10h)
-    db 8 dup(11h)
-    db 7 dup(12h)
-    db 2 dup(13h)
-    db 2 dup(14h)
-    db 15h
-    db 2 dup(16h)
-    db 17h
-    db 18h
-    db 2 dup(19h)
-    db 1Ah
-    db 2 dup(1Bh)
-    db 1Ch
-    db 2 dup(1Dh)
-    db 1Eh
-    db 2 dup(1Fh)
-    db 20h
-    db 22h
-    db 24h
-    db 25h
-    db 27h
-    db 29h
-    db 2Bh
-    db 2Ch
-    db 2Eh
-    db 30h
-    db 34h
-    db 38h
-    db 3Ch
-    db 40h
-    db 48h
-    db 50h
-    db 60h
-    db 70h
-    db 80h
-    db 90h
-    db 0A0h
-    db 0B0h
-    db 0C0h
-    db 0D0h
-    db 0C0h
-    db 0B0h
-    db 0A0h
-    db 90h
-    db 80h
-    db 70h
-    db 60h
-    db 50h
-    db 48h
-    db 40h
-    db 3Ch
-    db 38h
-    db 34h
-    db 30h
-    db 2Eh
-    db 2Ch
-    db 2Bh
-    db 29h
-    db 27h
-    db 25h
-    db 24h
-    db 22h
-    db 20h
-    db 2 dup(1Fh)
-    db 1Eh
-    db 2 dup(1Dh)
-    db 1Ch
-    db 2 dup(1Bh)
-    db 1Ah
-    db 2 dup(19h)
-    db 18h
-    db 17h
-    db 2 dup(16h)
-    db 15h
-    db 2 dup(14h)
-    db 2 dup(13h)
-    db 7 dup(12h)
-    db 8 dup(11h)
-    db 5 dup(10h)
-    db 8
     db 0
-word_38080 dw 0
-_word_38080 equ word_38080
-    db 0 ;align 4
-    db 0
-word_38084 dw 0
-_word_38084 equ word_38084
-    db 0 ;align 4
-    db 0
-    db 0FFh
-    db 7Fh
-    db 2 dup(0)
-word_3808C dw 0
-_word_3808C equ word_3808C
-    db 0 ;align 4
-    db 0
-word_38090 dw 0
-_word_38090 equ word_38090
-unk_38092 db 0FFh
-_unk_38092 equ unk_38092
-    db 7Fh
-    db 6 dup(0)
-word_3809A dw 0
-_word_3809A equ word_3809A
-word_3809C dw 0
-_word_3809C equ word_3809C
-    db 0 ;align 4
-    db 0
-word_380A0 dw 0
-_word_380A0 equ word_380A0
-word_380A2 dw 0
-_word_380A2 equ word_380A2
-word_380A4 dw 0
-_word_380A4 equ word_380A4
-word_380A6 dw 0
-_word_380A6 equ word_380A6
-    db 2 dup(0)
-word_380AA dw 0
-_word_380AA equ word_380AA
-word_380AC dw 0
-_word_380AC equ word_380AC
-    db 6 dup(0)
-    db 0FFh
-    db 7Fh
 _g_viewZ dw 0
     db 0Ch
     db 5 dup(0)
     db 3 dup(0)
     db 0
     db 1
-byte_380DD db 0
-_byte_380DD equ byte_380DD
+    db 0
     db 2 dup(0)
     db 0
-_unk_38128 db 7
-    db 0
-    db 53h
-    db 0
-    db 15h
-    db 0
-    db 49h
-    db 0
-    db 5Eh
-    db 0
-    db 53h
-    db 0
-    db 5Eh
-    db 0
-    db 53h
-    db 0
-    db 15h
-    db 0
-    db 2 dup(0FFh)
-    db 8
-    db 0
-    db 0F1h
-    db 0
-    db 15h
-    db 0
-    db 0FBh
-    db 0
-    db 5Eh
-    db 0
-    db 0F1h
-    db 0
-    db 5Eh
-    db 0
-    db 0F1h
-    db 0
-    db 15h
-    db 0
-    db 4 dup(0FFh)
     db 0 ;align 2
     db 0 ;align 2
     db 0 ;align 2
@@ -4228,64 +3823,6 @@ _word_38202 dw 41h
     db 0
     db 14h
     db 0
-unk_3831E db 0
-    db 0
-    db 2
-    db 0
-    db 2
-    db 7 dup(0)
-    db 1
-    db 3 dup(0)
-    db 60h
-    db 3 dup(0)
-    db 3Fh
-    db 1
-_unk_3831E equ unk_3831E
-PUBLIC _unk_3831E
-unk_38336 db 1
-    db 0
-    db 2
-    db 0
-    db 2
-    db 7 dup(0)
-    db 1
-    db 3 dup(0)
-    db 60h
-    db 3 dup(0)
-    db 3Fh
-    db 1
-_unk_38336 equ unk_38336
-PUBLIC _unk_38336
-word_3834E dw 2
-    dw 2
-    dw 2
-    dw 0
-    dw 0
-    dw 0
-    dw 0
-    dw 0
-    dw 0C7h
-    dw 0
-    dw 13Fh
-_word_3834E equ word_3834E
-PUBLIC _word_3834E
-buf6data_0 db 0 ;align 4
-    db 0
-    db 2
-    db 0
-    db 2
-    db 7 dup(0)
-    db 1
-    db 0
-    db 70h
-    db 0
-    db 0A8h
-    db 0
-    db 18h
-    db 0
-    db 60h
-    db 0
-word_3837C dw offset buf6data_0
     db 0 ;align 4
     db 0
     db 2
@@ -4304,23 +3841,6 @@ word_3837C dw offset buf6data_0
     db 1
     db 0CEh
     db 5Ah
-buf6data_1 db 0
-    db 0
-    db 2
-    db 0
-    db 2
-    db 7 dup(0)
-    db 1
-    db 0
-    db 80h
-    db 0
-    db 0B8h
-    db 0
-    db 0E8h
-    db 0
-    db 30h
-    db 1
-word_383AC dw offset buf6data_1
     db 1
     db 0
     db 1
@@ -4538,7 +4058,6 @@ word_38A7A dw 0
 ; ==============================================================================
 ; --- Symbolic labels for code references ---
 ORG 01100h
-_var_134 EQU word_339B0
 ORG 01308h
 _var_143 EQU word_33BB8
 ORG 018EAh
@@ -4586,9 +4105,7 @@ _uvar_547 EQU _g_viewZ
 ORG 05830h
 ORG 058AEh
 ORG 05ACCh
-_var_567 EQU word_3837C
 ORG 05AFCh
-_var_568 EQU word_383AC
 ORG 05AFEh
 ORG 05B00h
 ORG 05B02h
@@ -4746,7 +4263,6 @@ _word_3B7EC equ word_3B7EC
 PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
     db ? ;align 2
-_commData dd ?
 PUBLIC byte_36BAE
 PUBLIC byte_36C16
 PUBLIC byte_36C17
@@ -4757,7 +4273,6 @@ PUBLIC byte_3754E
 PUBLIC byte_378DE
 PUBLIC dword_34A48
 PUBLIC dword_34C2C
-PUBLIC unk_329AB
 PUBLIC unk_34713
 PUBLIC unk_34A88
 PUBLIC unk_3771D
@@ -4830,15 +4345,10 @@ PUBLIC word_378DF
 PUBLIC word_378E1
 PUBLIC word_378E3
 PUBLIC word_378E5
-PUBLIC word_3837C
-PUBLIC word_383AC
 PUBLIC word_38A3A
 PUBLIC word_38BC6
-PUBLIC buf6data_0
-PUBLIC buf6data_1
 PUBLIC buf6data_3
 PUBLIC lzw_processFlag
-PUBLIC buf6data_4
 PUBLIC _word_34276
 _word_34276 equ word_34276
     db ? ;align 400h
