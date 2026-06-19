@@ -26,7 +26,7 @@ void render3DView(int camX, int camY, int camZ, long arg_6, long arg_a, long arg
     *var_134 = gfx_getDisplayPage() & 0xFF;
     waitFrameSync(var_595);
     TRACE(("121CA:1"));
-    var_134[2] = (unsigned char)((char *)word_3419C)[word_3BE98 & 0xFF];
+    var_134[2] = (unsigned char)((char *)colorLut)[word_3BE98 & 0xFF];
     setup3DTransform((char *)var_134, camX, camY, camZ, 0, 0, (int)arg_e, 1);
     TRACE(("121CA:2"));
     projectObjects(camX, camY, (int)arg_6, (int)(arg_6 >> 16), (int)arg_a, (int)(arg_a >> 16), (int)arg_e, (int)(arg_e >> 16));
@@ -64,7 +64,7 @@ void waitFrameSync(int frames) {
 
 // ==== seg000:0x229a loadColorPalette ====
 void loadColorPalette(int idx) {
-    memcpy(word_3419C, (char *)word_339B4 + idx * 0x10, 0x10);
+    memcpy(colorLut, (char *)word_339B4 + idx * 0x10, 0x10);
 }
 
 // ==== seg000:0x3224 ====

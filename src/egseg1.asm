@@ -24,9 +24,8 @@ EXTRN _buf3d3_3:byte
 EXTRN _byte_3B7FC:byte
 EXTRN _byte_3BE3E:byte
 EXTRN _byte_3BE80:byte
-EXTRN _var_198:word
+EXTRN _colorLut:byte
 EXTRN _var_200:word
-EXTRN _var_200_seg:word
 EXTRN _var_202:word
 EXTRN _var_203:word
 EXTRN _var_204:word
@@ -111,14 +110,6 @@ EXTRN _var_225:word
 EXTRN _var_226:word
 EXTRN _var_227:word
 EXTRN _word_34276:word
-EXTRN word_34278:word
-EXTRN word_3427A:word
-EXTRN word_3427C:word
-EXTRN word_3427E:word
-EXTRN word_34280:word
-EXTRN word_34282:word
-EXTRN word_34284:word
-EXTRN word_34286:word
 EXTRN word_34288:word
 EXTRN word_3428A:word
 EXTRN word_3428C:word
@@ -186,8 +177,6 @@ EXTRN _word_38FDC:word
 EXTRN _word_3C16C:word
 EXTRN _word_3C69C:word
 EXTRN _word_3C6A2:word
-EXTRN _byte_3419A:byte
-EXTRN _byte_3419C:byte
 EXTRN _flt15_buf2:byte
 
 PUBLIC drawPolygonOutline
@@ -1367,7 +1356,7 @@ projectSceneObject proc far
     MOV [_var_204+6],AX
     LES SI,DWORD PTR [BP+6h]
     MOV [_var_200],SI
-    MOV [_var_200_seg],ES
+    MOV [_var_200+2],ES
     db 026h
     LODSB
 MOV byte ptr [_word_34262], AL
@@ -1416,11 +1405,11 @@ projectSceneObject endp
 transformAndCullObject proc near
 loc_0908:
     PUSH SI
-    MOV AX,[word_34282]
+    MOV AX,[_word_34276+0Ch]
     IMUL BX
     MOV DI,DX
     MOV SI,AX
-    MOV AX,[word_3427C]
+    MOV AX,[_word_34276+6]
     IMUL CX
     ADD SI,AX
     ADC DI,DX
@@ -1432,15 +1421,15 @@ loc_0908:
     RCL DI,1
     MOV [word_3424C],SI
     MOV [word_3424E],DI
-    MOV AX,[word_34284]
+    MOV AX,[_word_34276+0Eh]
     IMUL BX
     MOV DI,DX
     MOV SI,AX
-    MOV AX,[word_3427E]
+    MOV AX,[_word_34276+8]
     IMUL CX
     ADD SI,AX
     ADC DI,DX
-    MOV AX,[word_34278]
+    MOV AX,[_word_34276+2]
     IMUL BP
     ADD SI,AX
     ADC DI,DX
@@ -1448,15 +1437,15 @@ loc_0908:
     RCL DI,1
     MOV [_word_34250],SI
     MOV [_word_34252],DI
-    MOV AX,[word_34286]
+    MOV AX,[_word_34276+10h]
     IMUL BX
     MOV DI,DX
     MOV SI,AX
-    MOV AX,[word_34280]
+    MOV AX,[_word_34276+0Ah]
     IMUL CX
     ADD SI,AX
     ADC DI,DX
-    MOV AX,[word_3427A]
+    MOV AX,[_word_34276+4]
     IMUL BP
     ADD SI,AX
     ADC DI,DX
@@ -1464,11 +1453,11 @@ loc_0908:
     RCL DI,1
     MOV [_word_34254],SI
     MOV [_word_34256],DI
-    CMP DI,[_var_198]
+    CMP DI,WORD PTR [_colorLut+20h]
     JG short loc_0A02
     MOV BX,[_word_34262]
     SHL BX,1
-    CMP DI,[BX+offset _var_198+10h]
+    CMP DI,[BX+offset _colorLut+30h]
     JL short loc_0A02
     MOV SI,[_word_3C69C]
     MOV BP,[_word_3C6A2]
@@ -1517,7 +1506,7 @@ loc_09E0:
     SAR SI,1
     ADD SI,DI
     MOV [_var_216],SI
-    CMP SI,[_var_198]
+    CMP SI,WORD PTR [_colorLut+20h]
     JG short loc_0A02
     SUB AX,AX
     POP SI
@@ -1540,7 +1529,7 @@ loc_0A09:
     MOV AX,[_var_216]
     MOV CL,[_byte_3850E]
     SAR AX,CL
-    CMP AX,[BX+offset _byte_3419A+0Dh]
+    CMP AX,[BX+offset _colorLut+10h]
     JNG short loc_0A2C
     ADD SI,[ES:SI+1h]
     JMP short loc_0A09
@@ -1613,7 +1602,7 @@ sub_202F6 endp
 insertSortedObject proc near
 loc_0A80:
     MOV [_var_200],SI
-    MOV [_var_200_seg],ES
+    MOV [_var_200+2],ES
     MOV AX,DS
     MOV ES,AX
     MOV AX,[_var_255]
@@ -1662,7 +1651,7 @@ loc_0AE0:
     STOSW
     MOV AX,[_var_200]
     STOSW
-    MOV AX,[_var_200_seg]
+    MOV AX,[_var_200+2]
     STOSW
     MOV AX,[_var_202]
     STOSW
@@ -1735,7 +1724,7 @@ loc_0B6A:
     LODSW
     MOV [_var_200],AX
     LODSW
-    MOV [_var_200_seg],AX
+    MOV [_var_200+2],AX
     LODSW
     MOV [_var_202],AX
     LODSW
@@ -1856,21 +1845,21 @@ MOV byte ptr [_var_215], AL
 loc_0C60:
     MOV AX,[_word_34276]
     MOV [word_3429A],AX
-    MOV AX,[word_34278]
+    MOV AX,[_word_34276+2]
     MOV [word_3429C],AX
-    MOV AX,[word_3427A]
+    MOV AX,[_word_34276+4]
     MOV [word_3429E],AX
-    MOV AX,[word_3427C]
+    MOV AX,[_word_34276+6]
     MOV [word_342A0],AX
-    MOV AX,[word_3427E]
+    MOV AX,[_word_34276+8]
     MOV [word_342A2],AX
-    MOV AX,[word_34280]
+    MOV AX,[_word_34276+0Ah]
     MOV [word_342A4],AX
-    MOV AX,[word_34282]
+    MOV AX,[_word_34276+0Ch]
     MOV [word_342A6],AX
-    MOV AX,[word_34284]
+    MOV AX,[_word_34276+0Eh]
     MOV [word_342A8],AX
-    MOV AX,[word_34286]
+    MOV AX,[_word_34276+10h]
     MOV [word_342AA],AX
 loc_0C96:
     MOV CX,[_var_204]
@@ -2061,13 +2050,13 @@ loc_0E07:
     RCL DX,1
     MOV [DI+offset dword_34C2C+70Ch],AX
     MOV [DI+offset dword_34C2C+70Eh],DX
-    MOV AX,[word_34278]
+    MOV AX,[_word_34276+2]
     IMUL CX
     SHL AX,1
     RCL DX,1
     MOV [DI+offset dword_34C2C+78Ch],AX
     MOV [DI+offset dword_34C2C+78Eh],DX
-    MOV AX,[word_3427A]
+    MOV AX,[_word_34276+4]
     IMUL CX
     SHL AX,1
     RCL DX,1
@@ -2083,19 +2072,19 @@ loc_0E07:
     SHL DI,1
 loc_0E51:
     MOV CX,[BX + offset _byte_3BE80]
-    MOV AX,[word_3427C]
+    MOV AX,[_word_34276+6]
     IMUL CX
     SHL AX,1
     RCL DX,1
     MOV [DI+offset dword_34C2C+88Ch],AX
     MOV [DI+offset dword_34C2C+88Eh],DX
-    MOV AX,[word_3427E]
+    MOV AX,[_word_34276+8]
     IMUL CX
     SHL AX,1
     RCL DX,1
     MOV [DI+offset dword_34C2C+8ACh],AX
     MOV [DI+offset dword_34C2C+8AEh],DX
-    MOV AX,[word_34280]
+    MOV AX,[_word_34276+0Ah]
     IMUL CX
     SHL AX,1
     RCL DX,1
@@ -2111,19 +2100,19 @@ loc_0E51:
     SHL DI,1
 loc_0E9B:
     MOV CX,[BX + offset _byte_3BE3E]
-    MOV AX,[word_34282]
+    MOV AX,[_word_34276+0Ch]
     IMUL CX
     SHL AX,1
     RCL DX,1
     MOV [DI+offset dword_34C2C+8ECh],AX
     MOV [DI+offset dword_34C2C+8EEh],DX
-    MOV AX,[word_34284]
+    MOV AX,[_word_34276+0Eh]
     IMUL CX
     SHL AX,1
     RCL DX,1
     MOV [DI+offset dword_34C2C+96Ch],AX
     MOV [DI+offset dword_34C2C+96Eh],DX
-    MOV AX,[word_34286]
+    MOV AX,[_word_34276+10h]
     IMUL CX
     SHL AX,1
     RCL DX,1
@@ -2511,7 +2500,7 @@ loc_1251:
     PUSH CX
     PUSH SI
     CALL loc_015D
-    MOV ES,[_var_200_seg]
+    MOV ES,[_var_200+2]
     POP SI
     POP CX
 loc_1278:
@@ -3161,7 +3150,7 @@ loc_1828:
     LODSB
     SUB AH,AH
     MOV DI,AX
-    MOV AH,[DI+offset _byte_3419C]
+    MOV AH,[DI+offset _colorLut]
     ADD AH,[_var_190]
     call far ptr gfx_setDrawColor
     MOV CX,[BX+8h]
@@ -3205,11 +3194,11 @@ loc_1874:
     JNZ short loc_1868
 loc_1890:
     MOV DI,BX
-    MOV AH,[DI+offset _byte_3419C]
+    MOV AH,[DI+offset _colorLut]
     ADD AH,[_var_190]
     call far ptr gfx_setDrawColor
     CALL loc_1EA0
-    MOV ES,[_var_200_seg]
+    MOV ES,[_var_200+2]
     MOV BYTE PTR [_byte_36C18],0h
 loc_18AB:
     db 026h
@@ -3258,7 +3247,7 @@ loc_1901:
     MOV BYTE PTR [_byte_36C31],0h
     MOV DI,offset word_36C19
     CALL loc_015D
-    MOV ES,[_var_200_seg]
+    MOV ES,[_var_200+2]
     MOV BX,DI
     CALL loc_193A
 loc_1929:
@@ -3293,7 +3282,7 @@ loc_195C:
     MOV DX,[BX+6h]
     PUSH BX
     CALL loc_1ED6
-    MOV ES,[_var_200_seg]
+    MOV ES,[_var_200+2]
     POP BX
 loc_1973:
     TEST BYTE PTR [BX+18h],10h
@@ -3302,7 +3291,7 @@ loc_1973:
     MOV DI,[BX+0Ch]
     MOV DX,[BX+0Eh]
     CALL loc_1ED6
-    MOV ES,[_var_200_seg]
+    MOV ES,[_var_200+2]
 loc_1989:
     RET
 drawPrimitiveEdges endp
@@ -3327,7 +3316,7 @@ loc_198A:
     LODSB
     SUB AH,AH
     MOV DI,AX
-    MOV AH,[DI+offset _byte_3419C]
+    MOV AH,[DI+offset _colorLut]
     ADD AH,[_var_190]
     call far ptr gfx_setDrawColor
     CALL loc_0113
@@ -3424,7 +3413,7 @@ loc_19E8:
     JG short loc_1ABC
     MOV BX,0Fh
 loc_1ABC:
-    MOV AH,[BX+offset _byte_3419C]
+    MOV AH,[BX+offset _colorLut]
     call far ptr gfx_setDrawColor
     SUB BX,BX
     CALL loc_0078
@@ -3436,7 +3425,7 @@ loc_1ABC:
     MOV [_word_37563],AX
     CALL loc_1CB6
     POP SI
-    MOV ES,[_var_200_seg]
+    MOV ES,[_var_200+2]
     DEC BYTE PTR [_byte_36C32]
     JZ short loc_1AED
     JMP near ptr loc_19E8
@@ -3489,7 +3478,7 @@ loc_1B06:
     JG short loc_1B6C
     MOV BX,0Fh
 loc_1B6C:
-    MOV AH,[BX+offset _byte_3419C]
+    MOV AH,[BX+offset _colorLut]
     call far ptr gfx_setDrawColor
     PUSH SI
     SUB BX,BX
@@ -3502,7 +3491,7 @@ loc_1B6C:
     MOV [_word_37563],AX
     CALL loc_1CB6
     POP SI
-    MOV ES,[_var_200_seg]
+    MOV ES,[_var_200+2]
 loc_1B95:
     DEC BYTE PTR [_byte_36C32]
     JZ short loc_1B9E

@@ -38,28 +38,14 @@ int getTimeOfDay(void)
 /* === Auto-generated link stubs (undefined references in egame build) === */
 
 /* --- data globals --- */
-uint8 byte_3419A[1];
-uint8 byte_3419C[1];
-uint8 byte_3419F[1];
-uint8 byte_3790C[1];
 int16 g_viewZ;
-uint8 joyAxes[1];
-char strBuf[1];
 /* --- data referenced by drawHudWorldOverlay (egui.c) --- */
-uint8 var_190;
-int16 var_198;
-char far *var_200;
 int16 var_279;
 int16 var_282;
-uint16 var_383;
-int16 word_3419C[1];
-int16 word_34276;
 int16 word_34684[64];
 int16 word_34686[64];
 int32 word_34868[121];
 int32 word_34A4C[121];
-int16 word_37348[64];
-int16 word_3734A[64];
 
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }
@@ -114,7 +100,5 @@ void projectObjects(int a,int b,int c,int d,int e,int f,int g,int h) {}
 /* --- Data symbols referenced by stepFlightModel (moved from egame_rc.asm
    to C in egflight.c). The DOS build defines these in egame_rc.asm's DATA
    segment; the 64-bit stub build needs C definitions to link. --- */
-uint8 joyAxes_2[1];
-uint8 unk_38FD0[32];       /* g-meter string buffer */
 
 int audio_setEnginePitch(int knots, int thrust) { return 0; }

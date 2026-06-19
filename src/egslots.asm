@@ -106,11 +106,6 @@ OVL_HDR_FIRSTIDX  = 1Ch
 OVL_HDR_SLOTCOUNT  = 22h
 OVL_HDR_FIRSTPTR  = 24h
 
-PUBLIC _joyAxes_2
-PUBLIC _unk_38FD0
-PUBLIC _byte_3419A
-PUBLIC _byte_3419C
-PUBLIC _strBuf
 PUBLIC byte_37C2D
 PUBLIC byte_37C2E
 PUBLIC byte_37C35
@@ -150,23 +145,16 @@ PUBLIC word_37F5C
 PUBLIC word_37F5E
 PUBLIC word_37F60
 PUBLIC word_37F62
-PUBLIC _var_190
-PUBLIC _var_383
 PUBLIC _g_viewZ
 PUBLIC _uvar_547
-PUBLIC _var_200
-PUBLIC _var_201
 PUBLIC _origCBreakSeg
 PUBLIC _word_34684
 PUBLIC _word_34686
 PUBLIC _word_34868
 PUBLIC _word_34A4C
 PUBLIC _var_143
-PUBLIC _var_198
-PUBLIC _byte_3419F
 PUBLIC _var_279
 PUBLIC _var_282
-PUBLIC _joyAxes
 PUBLIC _audio_setEnginePitch
 PUBLIC _audio_setup
 PUBLIC _audio_shutdown
@@ -231,9 +219,7 @@ PUBLIC word_37F9B
 PUBLIC byte_37F9D
 PUBLIC byte_37F9E
 PUBLIC byte_37F9F
-PUBLIC _byte_3790C
 PUBLIC _misc_getKey
-PUBLIC _word_3419C
 PUBLIC _gfx_setColor
 PUBLIC _gfx_nop23
 PUBLIC _gfx_allocPage
@@ -297,7 +283,6 @@ PUBLIC otherDacValues
 PUBLIC ovlInsaneFlag
 PUBLIC picDecodedRowBuf
 PUBLIC rowOffset
-PUBLIC strBuf
 PUBLIC timerHandlerInstalled
 PUBLIC tmpFileHandle
 PUBLIC tmpPageIndex
@@ -701,80 +686,10 @@ aPleaseInsertScenarioD db 'Please insert scenario disk',0
     db 0
     db 1
     db 3 dup(0)
-byte_3419A db 0
-    db 0
-byte_3419C db 0
-_byte_3419C equ byte_3419C
-_word_3419C equ byte_3419C
-    db 1
-    db 2
-byte_3419F db 3
-_byte_3419F equ byte_3419F
-_byte_3419A equ byte_3419F
-    db 4
-    db 5
-    db 6
-    db 7
-    db 8
-    db 9
-    db 0Ah
-    db 0Bh
-    db 0Ch
-    db 0Dh
-    db 0Eh
-    db 0Fh
-    db 80h
-    db 2 dup(0)
-    db 1
-    db 0
-    db 2
-    db 0
-    db 4
-word_341BC dw 2710h
-    db 10h
-    db 27h
-    db 10h
-    db 27h
-    db 10h
-    db 27h
-    db 10h
-    db 27h
-    db 10h
-    db 27h
-    db 10h
-    db 27h
-    db 10h
-    db 27h
-    db 2 dup(0FFh)
-    db 0E9h
-    db 0FFh
-    db 0A5h
-    db 0FFh
-    db 4Ah
-    db 0FFh
-    db 95h
-    db 0FEh
-    db 2Bh
-    db 0FDh
-    db 56h
-    db 0FAh
-    db 0ACh
-    db 0F4h
-dword_3423C dw 0
-word_3423E dw 0
 word_3424C dw 0
 word_3424E dw 0
     db 8 dup(0)
     db 8 dup(0)
-word_34276 dw 0
-word_34278 dw 0
-word_3427A dw 0
-word_3427C dw 0
-word_3427E dw 0
-word_34280 dw 0
-word_34282 dw 0
-word_34284 dw 0
-word_34286 dw 0
 word_34288 dw 0
 word_3428A dw 0
 word_3428C dw 0
@@ -1788,520 +1703,6 @@ word_37148 dw 324h
     db 0DCh
     db 0FCh
     db 2 dup(0)
-word_37348 dw 0
-_word_37348 equ word_37348
-PUBLIC _word_37348
-word_3734A dw 324h
-_word_3734A equ word_3734A
-PUBLIC _word_3734A
-    db 48h
-    db 6
-    db 6Bh
-    db 9
-    db 8Ch
-    db 0Ch
-    db 0ABh
-    db 0Fh
-    db 0C8h
-    db 12h
-    db 0E2h
-    db 15h
-    db 0F9h
-    db 18h
-    db 0Ch
-    db 1Ch
-    db 1Ah
-    db 1Fh
-    db 24h
-    db 22h
-    db 28h
-    db 25h
-    db 27h
-    db 28h
-    db 1Fh
-    db 2Bh
-    db 11h
-    db 2Eh
-    db 0FCh
-    db 30h
-    db 0DFh
-    db 33h
-    db 0BAh
-    db 36h
-    db 8Dh
-    db 39h
-    db 57h
-    db 3Ch
-    db 17h
-    db 3Fh
-    db 0CEh
-    db 41h
-    db 7Bh
-    db 44h
-    db 1Dh
-    db 47h
-    db 0B4h
-    db 49h
-    db 40h
-    db 4Ch
-    db 0C0h
-    db 4Eh
-    db 34h
-    db 51h
-    db 9Bh
-    db 53h
-    db 0F6h
-    db 55h
-    db 43h
-    db 58h
-    db 82h
-    db 5Ah
-    db 0B4h
-    db 5Ch
-    db 0D7h
-    db 5Eh
-    db 0ECh
-    db 60h
-    db 0F2h
-    db 62h
-    db 0E9h
-    db 64h
-    db 0D0h
-    db 66h
-    db 0A7h
-    db 68h
-    db 6Eh
-    db 6Ah
-    db 24h
-    db 6Ch
-    db 0CAh
-    db 6Dh
-    db 5Fh
-    db 6Fh
-    db 0E3h
-    db 70h
-    db 55h
-    db 72h
-    db 0B6h
-    db 73h
-    db 5
-    db 75h
-    db 42h
-    db 76h
-    db 6Ch
-    db 77h
-    db 85h
-    db 78h
-    db 8Ah
-    db 79h
-    db 7Dh
-    db 7Ah
-    db 5Dh
-    db 7Bh
-    db 2Ah
-    db 7Ch
-    db 0E4h
-    db 7Ch
-    db 8Ah
-    db 7Dh
-    db 1Eh
-    db 7Eh
-    db 9Dh
-    db 7Eh
-    db 0Ah
-    db 7Fh
-    db 62h
-    db 7Fh
-    db 0A7h
-    db 7Fh
-    db 0D9h
-    db 7Fh
-    db 0F6h
-    db 7Fh
-    db 0FFh
-    db 7Fh
-    db 0F6h
-    db 7Fh
-    db 0D9h
-    db 7Fh
-    db 0A7h
-    db 7Fh
-    db 62h
-    db 7Fh
-    db 0Ah
-    db 7Fh
-    db 9Dh
-    db 7Eh
-    db 1Eh
-    db 7Eh
-    db 8Ah
-    db 7Dh
-    db 0E4h
-    db 7Ch
-    db 2Ah
-    db 7Ch
-    db 5Dh
-    db 7Bh
-    db 7Dh
-    db 7Ah
-    db 8Ah
-    db 79h
-    db 85h
-    db 78h
-    db 6Ch
-    db 77h
-    db 42h
-    db 76h
-    db 5
-    db 75h
-    db 0B6h
-    db 73h
-    db 55h
-    db 72h
-    db 0E3h
-    db 70h
-    db 5Fh
-    db 6Fh
-    db 0CAh
-    db 6Dh
-    db 24h
-    db 6Ch
-    db 6Eh
-    db 6Ah
-    db 0A7h
-    db 68h
-    db 0D0h
-    db 66h
-    db 0E9h
-    db 64h
-    db 0F2h
-    db 62h
-    db 0ECh
-    db 60h
-    db 0D7h
-    db 5Eh
-    db 0B4h
-    db 5Ch
-    db 82h
-    db 5Ah
-    db 43h
-    db 58h
-    db 0F6h
-    db 55h
-    db 9Bh
-    db 53h
-    db 34h
-    db 51h
-    db 0C0h
-    db 4Eh
-    db 40h
-    db 4Ch
-    db 0B4h
-    db 49h
-    db 1Dh
-    db 47h
-    db 7Bh
-    db 44h
-    db 0CEh
-    db 41h
-    db 17h
-    db 3Fh
-    db 57h
-    db 3Ch
-    db 8Dh
-    db 39h
-    db 0BAh
-    db 36h
-    db 0DFh
-    db 33h
-    db 0FCh
-    db 30h
-    db 11h
-    db 2Eh
-    db 1Fh
-    db 2Bh
-    db 27h
-    db 2 dup(28h)
-    db 25h
-    db 24h
-    db 22h
-    db 1Ah
-    db 1Fh
-    db 0Ch
-    db 1Ch
-    db 0F9h
-    db 18h
-    db 0E2h
-    db 15h
-    db 0C8h
-    db 12h
-    db 0ABh
-    db 0Fh
-    db 8Ch
-    db 0Ch
-    db 6Bh
-    db 9
-    db 48h
-    db 6
-    db 24h
-    db 3
-    db 2 dup(0)
-    db 0DCh
-    db 0FCh
-    db 0B8h
-    db 0F9h
-    db 95h
-    db 0F6h
-    db 74h
-    db 0F3h
-    db 55h
-    db 0F0h
-    db 38h
-    db 0EDh
-    db 1Eh
-    db 0EAh
-    db 7
-    db 0E7h
-    db 0F4h
-    db 0E3h
-    db 0E6h
-    db 0E0h
-    db 0DCh
-    db 0DDh
-    db 0D8h
-    db 0DAh
-    db 0D9h
-    db 0D7h
-    db 0E1h
-    db 0D4h
-    db 0EFh
-    db 0D1h
-    db 4
-    db 0CFh
-    db 21h
-    db 0CCh
-    db 46h
-    db 0C9h
-    db 73h
-    db 0C6h
-    db 0A9h
-    db 0C3h
-    db 0E9h
-    db 0C0h
-    db 32h
-    db 0BEh
-    db 85h
-    db 0BBh
-    db 0E3h
-    db 0B8h
-    db 4Ch
-    db 0B6h
-    db 0C0h
-    db 0B3h
-    db 40h
-    db 0B1h
-    db 0CCh
-    db 0AEh
-    db 65h
-    db 0ACh
-    db 0Ah
-    db 0AAh
-    db 0BDh
-    db 0A7h
-    db 7Eh
-    db 0A5h
-    db 4Ch
-    db 0A3h
-    db 29h
-    db 0A1h
-    db 14h
-    db 9Fh
-    db 0Eh
-    db 9Dh
-    db 17h
-    db 9Bh
-    db 30h
-    db 99h
-    db 59h
-    db 97h
-    db 92h
-    db 95h
-    db 0DCh
-    db 93h
-    db 36h
-    db 92h
-    db 0A1h
-    db 90h
-    db 1Dh
-    db 8Fh
-    db 0ABh
-    db 8Dh
-    db 4Ah
-    db 8Ch
-    db 0FBh
-    db 8Ah
-    db 0BEh
-    db 89h
-    db 94h
-    db 88h
-    db 7Bh
-    db 87h
-    db 76h
-    db 86h
-    db 83h
-    db 85h
-    db 0A3h
-    db 84h
-    db 0D6h
-    db 83h
-    db 1Ch
-    db 83h
-    db 76h
-    db 82h
-    db 0E2h
-    db 81h
-    db 63h
-    db 81h
-    db 0F6h
-    db 80h
-    db 9Eh
-    db 80h
-    db 59h
-    db 80h
-    db 27h
-    db 80h
-    db 0Ah
-    db 80h
-    db 1
-    db 80h
-    db 0Ah
-    db 80h
-    db 27h
-    db 80h
-    db 59h
-    db 80h
-    db 9Eh
-    db 80h
-    db 0F6h
-    db 80h
-    db 63h
-    db 81h
-    db 0E2h
-    db 81h
-    db 76h
-    db 82h
-    db 1Ch
-    db 83h
-    db 0D6h
-    db 83h
-    db 0A3h
-    db 84h
-    db 83h
-    db 85h
-    db 76h
-    db 86h
-    db 7Bh
-    db 87h
-    db 94h
-    db 88h
-    db 0BEh
-    db 89h
-    db 0FBh
-    db 8Ah
-    db 4Ah
-    db 8Ch
-    db 0ABh
-    db 8Dh
-    db 1Dh
-    db 8Fh
-    db 0A1h
-    db 90h
-    db 36h
-    db 92h
-    db 0DCh
-    db 93h
-    db 92h
-    db 95h
-    db 59h
-    db 97h
-    db 30h
-    db 99h
-    db 17h
-    db 9Bh
-    db 0Eh
-    db 9Dh
-    db 14h
-    db 9Fh
-    db 29h
-    db 0A1h
-    db 4Ch
-    db 0A3h
-    db 7Eh
-    db 0A5h
-    db 0BDh
-    db 0A7h
-    db 0Ah
-    db 0AAh
-    db 65h
-    db 0ACh
-    db 0CCh
-    db 0AEh
-    db 40h
-    db 0B1h
-    db 0C0h
-    db 0B3h
-    db 4Ch
-    db 0B6h
-    db 0E3h
-    db 0B8h
-    db 85h
-    db 0BBh
-    db 32h
-    db 0BEh
-    db 0E9h
-    db 0C0h
-    db 0A9h
-    db 0C3h
-    db 73h
-    db 0C6h
-    db 46h
-    db 0C9h
-    db 21h
-    db 0CCh
-    db 4
-    db 0CFh
-    db 0EFh
-    db 0D1h
-    db 0E1h
-    db 0D4h
-    db 0D9h
-    db 0D7h
-    db 0D8h
-    db 0DAh
-    db 0DCh
-    db 0DDh
-    db 0E6h
-    db 0E0h
-    db 0F4h
-    db 0E3h
-    db 7
-    db 0E7h
-    db 1Eh
-    db 0EAh
-    db 38h
-    db 0EDh
-    db 55h
-    db 0F0h
-    db 74h
-    db 0F3h
-    db 95h
-    db 0F6h
-    db 0B8h
-    db 0F9h
-    db 0DCh
-    db 0FCh
-    db 6 dup(0)
-    db 2 dup(0)
 unk_37565 db 0FFh
     db 439 dup(0FFh)
 unk_3771D db 0
@@ -2315,434 +1716,6 @@ origCBreakOfs dw 0
     db 0 ;align 2
 timerHandlerInstalled db 0
     db 2 dup(0)
-word_3790A dw 0
-_byte_3790C db 0
-    db 2 dup(0)
-    db 0A0h
-    db 1
-    db 3 dup(0)
-    db 0Fh
-    db 15 dup(0)
-    db 5Eh
-    db 50h
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 9 dup(0)
-    db 4 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F8h
-    db 0FFh
-    db 0F8h
-    db 0FFh
-    db 0F8h
-    db 0FFh
-    db 0F7h
-    db 0FFh
-    db 0F7h
-    db 0FFh
-    db 0F7h
-    db 0FFh
-    db 0F7h
-    db 0FFh
-    db 0F7h
-    db 0FFh
-    db 0F7h
-    db 0FFh
-    db 0F7h
-    db 0FFh
-    db 0F7h
-    db 0FFh
-    db 0F7h
-    db 0FFh
-    db 0F8h
-    db 0FFh
-    db 0F8h
-    db 0FFh
-    db 0F8h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 5 dup(0FFh)
-    db 8 dup(0)
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 3 dup(0FFh)
-    db 8 dup(0)
-    db 1
-    db 0
-    db 1
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 1
-    db 25 dup(0)
-    db 4 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F8h
-    db 0FFh
-    db 0F8h
-    db 0FFh
-    db 0F7h
-    db 0FFh
-    db 0F7h
-    db 0FFh
-    db 0F6h
-    db 0FFh
-    db 0F6h
-    db 0FFh
-    db 0F6h
-    db 0FFh
-    db 0F5h
-    db 0FFh
-    db 0F5h
-    db 0FFh
-    db 0F5h
-    db 0FFh
-    db 0F5h
-    db 0FFh
-    db 0F5h
-    db 0FFh
-    db 0F5h
-    db 0FFh
-    db 0F5h
-    db 0FFh
-    db 0F5h
-    db 0FFh
-    db 0F5h
-    db 0FFh
-    db 0F6h
-    db 0FFh
-    db 0F6h
-    db 0FFh
-    db 0F6h
-    db 0FFh
-    db 0F7h
-    db 0FFh
-    db 0F7h
-    db 0FFh
-    db 0F8h
-    db 0FFh
-    db 0F8h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 5 dup(0FFh)
-    db 14 dup(0)
-    db 2 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0F9h
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FAh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FBh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FCh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FDh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 3 dup(0FFh)
-    db 8 dup(0)
-    db 1
-    db 0
-    db 1
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 4
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 1
-    db 9 dup(0)
 word_37B26 dw 0
     db 2
     db 0
@@ -3369,9 +2342,6 @@ word_37F84 dw 0
 word_37F8C dw 0
 word_37F8E dw 0
     db 4 dup(0)
-_joyAxes db 0
-joyAxes_2 db 0
-_joyAxes_2 equ joyAxes_2
     db 2 dup(0)
 byte_37F9A db 0
 word_37F9B dw 0
@@ -3620,157 +2590,52 @@ word_38A78 dw 0
 word_38A7A dw 0
 ; ==============================================================================
 ; --- Symbolic labels for code references ---
-ORG 01100h
-ORG 01308h
 _var_143 EQU word_33BB8
-ORG 018EAh
-_var_190 EQU byte_3419A
-ORG 01904h
-ORG 01906h
-ORG 01908h
-ORG 0190Ah
-ORG 0190Ch
-_var_198 EQU word_341BC
-ORG 0198Ch
-_var_200 EQU dword_3423C
-PUBLIC _var_200_off
-_var_200_off EQU dword_3423C
-ORG 0198Eh
-_var_201 EQU word_3423E
-PUBLIC _var_200_seg
-_var_200_seg EQU word_3423E
-ORG 01990h
-ORG 01992h
-ORG 01994h
-ORG 019B0h
-ORG 019B4h
-ORG 019B6h
-ORG 01A0Ah
-ORG 01FB8h
 _var_279 EQU word_34868
-ORG 0219Ch
 _var_282 EQU word_34A4C
-ORG 0505Ah
-_var_383 EQU word_3790A
-ORG 057C0h
-ORG 057C2h
-ORG 057C4h
-ORG 057C6h
-ORG 057C8h
-ORG 057CEh
-ORG 05818h
-ORG 05819h
-ORG 0581Ah
-ORG 0581Eh
 _uvar_547 EQU _g_viewZ
-ORG 05830h
-ORG 058AEh
-ORG 05ACCh
-ORG 05AFCh
-ORG 05AFEh
-ORG 05B00h
-ORG 05B02h
-ORG 05B04h
-ORG 05B06h
-ORG 05B08h
-ORG 05B0Ah
-ORG 05B0Ch
-ORG 05B1Ch
-ORG 05B1Eh
-ORG 05B20h
-ORG 05B22h
-ORG 05B24h
-ORG 05B26h
-ORG 05B28h
-ORG 05B2Ah
-ORG 05B34h
-ORG 05B35h
-ORG 05C5Eh
-ORG 05FE6h
 _var_605 EQU word_38896
-ORG 06128h
 _var_606 EQU word_389D8
-ORG 0612Ch
 _var_608 EQU word_389DC
-ORG 06130h
 _var_609 EQU word_389E0
-ORG 06132h
 _var_610 EQU readFromFilePtr
-ORG 06134h
 _var_611 EQU word_389E4
-ORG 06138h
 _var_613 EQU off_389E8
-ORG 0618Ah
 _var_615 EQU word_38A3A
-ORG 06199h
 _var_616 EQU dword_38A49
-ORG 0619Bh
 _var_617 EQU byte_38A4B
-ORG 061A5h
 _var_618 EQU word_38A55
-ORG 061A7h
 _var_619 EQU word_38A57
-ORG 061ABh
 _var_620 EQU word_38A5B
-ORG 061ADh
 _var_621 EQU word_38A5D
-ORG 061C8h
 _var_625 EQU word_38A78
-ORG 061CAh
 _var_626 EQU word_38A7A
-ORG 061CCh
 _var_627 EQU word_38A7C
-ORG 061D6h
 _var_628 EQU byte_38A86
-ORG 061D7h
 _var_629 EQU byte_38A87
-ORG 061D8h
 _var_630 EQU dword_38A88
-ORG 061E2h
 _var_632 EQU word_38A92
-ORG 061E4h
 _var_633 EQU word_38A94
-ORG 061E6h
 _var_634 EQU word_38A96
-ORG 061E8h
 _var_635 EQU word_38A98
-ORG 06316h
 _var_638 EQU word_38BC6
-ORG 06318h
 _var_639 EQU word_38BC8
-ORG 0631Ah
 _var_640 EQU word_38BCA
-ORG 0631Ch
 _var_641 EQU word_38BCC
-ORG 06320h
 _var_642 EQU word_38BD0
-ORG 06334h
 _var_647 EQU unk_38BE4
-ORG 06336h
 _var_648 EQU word_38BE6
-ORG 06338h
 _var_649 EQU dword_38BE8
-ORG 0633Ch
 _var_650 EQU dword_38BEC
-ORG 06346h
 _var_653 EQU seg_38BF6
-ORG 064AAh
 _var_687 EQU lzw_readBufEndPtr
-ORG 064ACh
 _var_688 EQU lzw_workDataPtr
-ORG 064AEh
 _var_689 EQU lzw_rowLength
-ORG 064B0h
 _var_690 EQU lzw_processFlag
-ORG 064B2h
 _var_692 EQU lzw_bitWidth
-ORG 064B4h
 _var_694 EQU lzw_maxCode
-ORG 064BAh
 _var_697 EQU lzw_bitsLeft
-ORG 064BCh
 _var_699 EQU lzw_slotCounter
-ORG 064BEh
 _var_700 EQU lzw_dictIndex
 
 .DATA?
@@ -3786,18 +2651,8 @@ ORG 00000h
     db 201h dup(?)
 PUBLIC _picWorkData
 _picWorkData label byte
-strBuf db 18h dup(?)
-_strBuf equ strBuf
-    db 54 dup(?)
 _word_38FC6 label byte
     db ? ;align 4
-    db ?
-unk_38FD0 db ?
-_unk_38FD0 equ unk_38FD0
-    db 9 dup(?)
-    db 2 dup(?)
-    db 512 dup(?)
-    db 80 dup(?)
     db ?
 
 ; Matrix3dEntry7 storage.
@@ -3812,14 +2667,6 @@ PUBLIC unk_34A88
 PUBLIC unk_3771D
 PUBLIC word_3424C
 PUBLIC word_3424E
-PUBLIC word_34278
-PUBLIC word_3427A
-PUBLIC word_3427C
-PUBLIC word_3427E
-PUBLIC word_34280
-PUBLIC word_34282
-PUBLIC word_34284
-PUBLIC word_34286
 PUBLIC word_34288
 PUBLIC word_3428A
 PUBLIC word_3428C
@@ -3862,8 +2709,6 @@ PUBLIC word_38A3A
 PUBLIC word_38BC6
 PUBLIC buf6data_3
 PUBLIC lzw_processFlag
-PUBLIC _word_34276
-_word_34276 equ word_34276
     db ? ;align 400h
     db 511 dup(?)
     db ? ;align 2

@@ -180,7 +180,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param
         if (a > 0xb8 || (int)var_684 > 0x1800) {
             a = 0xb8;
         }
-        *(var_568 + 2) = (int)byte_3419A[0];
+        *(var_568 + 2) = (int)colorLut[3];
         if (a != 0x80) {
             fillSpanRect(var_568, 0xe8, 0x80, 0x130, a);
         }
@@ -193,7 +193,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param
         if (n == 0xc || n == 9 || n == 0xb) {
             h = 1;
         }
-        *(var_568 + 2) = (int)byte_3419C[h];
+        *(var_568 + 2) = (int)colorLut[h];
         if (a != 0xb8) {
             fillSpanRect(var_568, 0xe8, a, 0x130, 0xb8);
         }

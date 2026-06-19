@@ -335,11 +335,11 @@ void recalcTimeScale(void) {
 void setupLodDistances(void) {
     int p;
     for (p = 0; p < 6; p++) {
-        ((int *)(byte_3419F + 13))[p] = 0x20 << ((char)p + (char)(word_38FDC > 2 ? 2 : word_38FDC));
+        ((int *)(colorLut + 0x10))[p] = 0x20 << ((char)p + (char)(word_38FDC > 2 ? 2 : word_38FDC));
     }
     var_196 = var_195 + var_194;
     var_197 = clampRange(var_195 << 1, 0x1000, 9999);
-    var_198 = (word_38FDC > 2 ? 2 : word_38FDC) * 0xD05 + 0xD05;
+    *(int16 *)(colorLut + 0x20) = (word_38FDC > 2 ? 2 : word_38FDC) * 0xD05 + 0xD05;
 }
 
 // ==== seg000:0xdb9c ====

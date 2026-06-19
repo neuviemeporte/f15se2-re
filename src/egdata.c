@@ -148,6 +148,51 @@ uint8 byte_37903 = 0;
 int16 word_37904 = 0;
 int16 word_37906 = 0;
 
+/* var_383: frame-rate timing accumulator (incremented per frame tick by
+ * advanceFrameTick, recalibrated against the BIOS timer by the frame pacer). */
+uint16 var_383 = 0;
+
+/* byte_3790C: [0] is the per-frame tick counter (incremented by
+ * advanceFrameTick, spun on by the frame sync). The rest is a read-only
+ * lookup table of four 64-entry signed-word animation curves at offsets
+ * 0x1A/0x9A/0x11A/0x19A, sampled by the egseg2 cockpit-tape renderer. */
+uint8 byte_3790C[0x21A] = {
+    0, 0, 0, 160, 1, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 94, 80, 2, 0, 2, 0, 2, 0,
+    2, 0, 2, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 255, 255, 255, 255, 254, 255, 254, 255, 253, 255, 252, 255, 252, 255,
+    251, 255, 251, 255, 250, 255, 250, 255, 249, 255, 249, 255, 248, 255, 248, 255,
+    248, 255, 247, 255, 247, 255, 247, 255, 247, 255, 247, 255, 247, 255, 247, 255,
+    247, 255, 247, 255, 248, 255, 248, 255, 248, 255, 249, 255, 249, 255, 250, 255,
+    250, 255, 251, 255, 251, 255, 252, 255, 252, 255, 253, 255, 254, 255, 254, 255,
+    255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0,
+    1, 0, 2, 0, 2, 0, 2, 0, 2, 0, 255, 255, 254, 255, 254, 255,
+    253, 255, 253, 255, 252, 255, 252, 255, 251, 255, 251, 255, 250, 255, 250, 255,
+    250, 255, 249, 255, 249, 255, 249, 255, 249, 255, 249, 255, 249, 255, 249, 255,
+    249, 255, 249, 255, 250, 255, 250, 255, 250, 255, 251, 255, 251, 255, 252, 255,
+    252, 255, 253, 255, 253, 255, 254, 255, 254, 255, 255, 255, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0, 1, 0, 2, 0, 2, 0, 3, 0, 3, 0,
+    3, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0,
+    4, 0, 4, 0, 3, 0, 3, 0, 3, 0, 2, 0, 2, 0, 1, 0,
+    1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 254, 255,
+    254, 255, 253, 255, 253, 255, 252, 255, 252, 255, 251, 255, 250, 255, 250, 255,
+    249, 255, 249, 255, 248, 255, 248, 255, 247, 255, 247, 255, 246, 255, 246, 255,
+    246, 255, 245, 255, 245, 255, 245, 255, 245, 255, 245, 255, 245, 255, 245, 255,
+    245, 255, 245, 255, 246, 255, 246, 255, 246, 255, 247, 255, 247, 255, 248, 255,
+    248, 255, 249, 255, 249, 255, 250, 255, 250, 255, 251, 255, 252, 255, 252, 255,
+    253, 255, 253, 255, 254, 255, 254, 255, 255, 255, 255, 255, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 254, 255, 254, 255,
+    253, 255, 253, 255, 252, 255, 252, 255, 251, 255, 251, 255, 250, 255, 250, 255,
+    250, 255, 249, 255, 249, 255, 249, 255, 249, 255, 249, 255, 249, 255, 249, 255,
+    249, 255, 249, 255, 250, 255, 250, 255, 250, 255, 251, 255, 251, 255, 252, 255,
+    252, 255, 253, 255, 253, 255, 254, 255, 254, 255, 255, 255, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0, 1, 0, 2, 0, 2, 0, 3, 0, 3, 0,
+    3, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0, 4, 0,
+    4, 0, 4, 0, 3, 0, 3, 0, 3, 0, 2, 0, 2, 0, 1, 0,
+    1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+};
+
 /* byte_37EEE: column counter for the egseg2 heading/compass tape renderer.
    byte_37EEF: the current tape character/digit being drawn. word_37EF0: the
    running screen X offset (DI cursor) advanced as each tape cell is emitted. */
@@ -543,9 +588,16 @@ int16 word_32990[16] = {
    counts ((p & 0xF) << 8). */
 int16 word_38F70;
 int word_38F72;
+/* strBuf: scratch buffer for building status/event message strings (assembled
+   with strcpy/strcat/itoa, then drawn or queued). 24 labelled bytes plus the
+   slack run up to word_38FC6 give it 78 bytes of capacity. */
+char strBuf[78];
 int16 word_38FC6;
 int16 word_38FCC;
 int16 word_38FCE;
+/* unk_38FD0: g-meter readout string ("<g>.<tenths>G") built by drawGMeter and
+   drawn by the HUD string-blit (egseg2). */
+uint8 unk_38FD0[12];
 int16 word_38FDE;
 int16 word_38FE0;
 int16 word_38FE8;
@@ -722,7 +774,7 @@ int16 word_339F4[192] = {
     -2, 0, -1, -2, 1, -1, -2, 2, -1, 1, 0, 0
 };
 /* word_339B4: four 16-entry colour-remap palettes; loadColorPalette(idx) copies
-   the idx'th 16-byte record into word_3419C. */
+   the idx'th 16-byte record into colorLut[0..15]. */
 uint8 word_339B4[64] = {
     0x0,0x1,0x2,0x3,0x4,0x0,0x6,0x7,0x8,0x9,0xA,0xB,0xC,0xD,0xE,0xF,
     0xF,0x1,0x8,0x0,0x0,0x3,0x0,0x8,0x8,0x9,0x7,0x7,0x7,0xD,0x7,0x3,
@@ -751,6 +803,11 @@ uint8 byte_3BFA4[UNIT_STATE_COUNT];
  * multiplyMatrix3x3Far/buildRotationMatrixFar, read as [axis]/[3+axis]/[6+axis]. */
 int16 unk_380B6[9];
 int16 unk_3A948[9];
+
+/* word_34276: 3x3 (9-word) camera/world rotation matrix, filled by
+ * buildRotationMatrixFar and consumed element-by-element by the egseg1
+ * projection routines. */
+int16 word_34276[9];
 
 /* Single-byte values (only [0] is used); the extra bytes are trailing pad
  * up to the next symbol. */
@@ -883,6 +940,11 @@ int16 word_34198 = 0;
    the tile-object draw loop; feeds word_3C16C / process3dg. */
 int16 word_34186[5] = { 3, 4, 2, 3, 4 };
 
+/* var_200: model-data read cursor (far pointer into the loaded 3D model data).
+ * egseg1/egcode advance it through the model byte stream as they decode shapes;
+ * eg3dmap.c/eg3dproj.c walk it the same way. */
+char far *var_200 = 0;
+
 /* egseg1 fixed-point projection accumulators. word_34250/word_34252 and
  * word_34254/word_34256 are each the low/high words of a 32-bit value;
  * word_3426A/word_3426C are 16-bit multiplicands. */
@@ -892,6 +954,25 @@ int16 word_34254 = 0;
 int16 word_34256 = 0;
 int16 word_3426A = 0;
 int16 word_3426C = 0;
+
+/* var_190: object-shading flag, written by the 3D shape renderer. */
+uint8 var_190 = 0;
+
+/* colorLut: 256-entry colour-remap table for 3D shape rendering, indexed by a
+ * shape/display-list colour byte (egflight.c drawVectorShape, eg3dview.c,
+ * egmath.c, egseg1). The low entries double as the LOD/clip control words the
+ * projection code reads, and several are overwritten at runtime:
+ *   [0x00..0x0F] colour palette (loadColorPalette copies word_339B4[idx] here)
+ *   [0x10..0x1F] LOD distance-threshold table (setupLodDistances writes [0..5])
+ *   [0x20..0x21] var_198 object-cull distance (setupLodDistances writes it)
+ *   [0x30..0x3F] near-clip distance table (read as word[BX] by the clipper)
+ * Entries 0x40+ are unused colour slots (kept zero). */
+uint8 colorLut[0x100] = {
+    0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F,
+    0x80,0x00,0x00,0x01,0x00,0x02,0x00,0x04,0x00,0x08,0x00,0x10,0x00,0x20,0x00,0x40,
+    0x10,0x27,0x10,0x27,0x10,0x27,0x10,0x27,0x10,0x27,0x10,0x27,0x10,0x27,0x10,0x27,
+    0xFF,0xFF,0xE9,0xFF,0xA5,0xFF,0x4A,0xFF,0x95,0xFE,0x2B,0xFD,0x56,0xFA,0xAC,0xF4
+};
 
 int16 word_341DC[16] = { 2, 0x2C, 0xAC, 0x158, 0x2AD, 0x558, 0xAB0, 0x1560,
                          2, 0x1E, 0x75, 0xE9, 0x1D1, 0x3A1, 0x741, 0xE82 };
@@ -1034,6 +1115,36 @@ struct BulletTrack bulletTracks[20];
 int16 word_336F0 = 0;
 int16 var_141 = 0;
 int16 var_220 = 0;
+/* word_37348: 256-entry signed sine table (sin(i*2*pi/256) scaled to +-0x7FFF),
+ * with 3-4 trailing zero slots so the +1 look-ahead read stays in bounds.
+ * valueToAngle() does an arcsin by searching this table and interpolating
+ * between word_37348[b] and word_37348[b+1] (the latter named word_3734A in
+ * the asm consumers, which read it as offset _word_37348+2). */
+int16 word_37348[260] = {
+    0x0000, 0x0324, 0x0648, 0x096B, 0x0C8C, 0x0FAB, 0x12C8, 0x15E2, 0x18F9, 0x1C0C, 0x1F1A, 0x2224,
+    0x2528, 0x2827, 0x2B1F, 0x2E11, 0x30FC, 0x33DF, 0x36BA, 0x398D, 0x3C57, 0x3F17, 0x41CE, 0x447B,
+    0x471D, 0x49B4, 0x4C40, 0x4EC0, 0x5134, 0x539B, 0x55F6, 0x5843, 0x5A82, 0x5CB4, 0x5ED7, 0x60EC,
+    0x62F2, 0x64E9, 0x66D0, 0x68A7, 0x6A6E, 0x6C24, 0x6DCA, 0x6F5F, 0x70E3, 0x7255, 0x73B6, 0x7505,
+    0x7642, 0x776C, 0x7885, 0x798A, 0x7A7D, 0x7B5D, 0x7C2A, 0x7CE4, 0x7D8A, 0x7E1E, 0x7E9D, 0x7F0A,
+    0x7F62, 0x7FA7, 0x7FD9, 0x7FF6, 0x7FFF, 0x7FF6, 0x7FD9, 0x7FA7, 0x7F62, 0x7F0A, 0x7E9D, 0x7E1E,
+    0x7D8A, 0x7CE4, 0x7C2A, 0x7B5D, 0x7A7D, 0x798A, 0x7885, 0x776C, 0x7642, 0x7505, 0x73B6, 0x7255,
+    0x70E3, 0x6F5F, 0x6DCA, 0x6C24, 0x6A6E, 0x68A7, 0x66D0, 0x64E9, 0x62F2, 0x60EC, 0x5ED7, 0x5CB4,
+    0x5A82, 0x5843, 0x55F6, 0x539B, 0x5134, 0x4EC0, 0x4C40, 0x49B4, 0x471D, 0x447B, 0x41CE, 0x3F17,
+    0x3C57, 0x398D, 0x36BA, 0x33DF, 0x30FC, 0x2E11, 0x2B1F, 0x2827, 0x2528, 0x2224, 0x1F1A, 0x1C0C,
+    0x18F9, 0x15E2, 0x12C8, 0x0FAB, 0x0C8C, 0x096B, 0x0648, 0x0324, 0x0000, 0xFCDC, 0xF9B8, 0xF695,
+    0xF374, 0xF055, 0xED38, 0xEA1E, 0xE707, 0xE3F4, 0xE0E6, 0xDDDC, 0xDAD8, 0xD7D9, 0xD4E1, 0xD1EF,
+    0xCF04, 0xCC21, 0xC946, 0xC673, 0xC3A9, 0xC0E9, 0xBE32, 0xBB85, 0xB8E3, 0xB64C, 0xB3C0, 0xB140,
+    0xAECC, 0xAC65, 0xAA0A, 0xA7BD, 0xA57E, 0xA34C, 0xA129, 0x9F14, 0x9D0E, 0x9B17, 0x9930, 0x9759,
+    0x9592, 0x93DC, 0x9236, 0x90A1, 0x8F1D, 0x8DAB, 0x8C4A, 0x8AFB, 0x89BE, 0x8894, 0x877B, 0x8676,
+    0x8583, 0x84A3, 0x83D6, 0x831C, 0x8276, 0x81E2, 0x8163, 0x80F6, 0x809E, 0x8059, 0x8027, 0x800A,
+    0x8001, 0x800A, 0x8027, 0x8059, 0x809E, 0x80F6, 0x8163, 0x81E2, 0x8276, 0x831C, 0x83D6, 0x84A3,
+    0x8583, 0x8676, 0x877B, 0x8894, 0x89BE, 0x8AFB, 0x8C4A, 0x8DAB, 0x8F1D, 0x90A1, 0x9236, 0x93DC,
+    0x9592, 0x9759, 0x9930, 0x9B17, 0x9D0E, 0x9F14, 0xA129, 0xA34C, 0xA57E, 0xA7BD, 0xAA0A, 0xAC65,
+    0xAECC, 0xB140, 0xB3C0, 0xB64C, 0xB8E3, 0xBB85, 0xBE32, 0xC0E9, 0xC3A9, 0xC673, 0xC946, 0xCC21,
+    0xCF04, 0xD1EF, 0xD4E1, 0xD7D9, 0xDAD8, 0xDDDC, 0xE0E6, 0xE3F4, 0xE707, 0xEA1E, 0xED38, 0xF055,
+    0xF374, 0xF695, 0xF9B8, 0xFCDC, 0x0000, 0x0000, 0x0000, 0x0000,
+};
+
 /* Default full-screen clip bounds for the 3D rasterizer (right/bottom). */
 int16 word_37557 = 0x13F;
 int16 word_37559 = 0x6F;
@@ -1046,6 +1157,10 @@ int16 word_37563 = 0;
 uint8 byte_378EE = 0;
 uint8 byte_37F98 = 0;   /* keyboard virtual-stick raw pitch axis (int9Handler) */
 uint8 byte_37F99 = 0;   /* keyboard virtual-stick raw roll axis (int9Handler) */
+/* Normalized/calibrated stick deflection: [0] = pitch, [1] = roll.
+   Produced by readCalibratedJoystick (egseg2) or scaled from the keyboard
+   raw axes; read by the stick dot and tac map. */
+uint8 joyAxes[2] = {0};
 /* player orientation/altitude view state, shared with egseg2 projection. */
 int g_ourHead = 0;
 int g_ourPitch = 0;

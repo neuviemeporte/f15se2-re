@@ -359,6 +359,7 @@ OVL_HDR_FIRSTPTR  = 24h
 EXTRN _allocSize:WORD
 EXTRN _byte_34197:BYTE
 EXTRN _byte_3790C:BYTE
+EXTRN _var_383:WORD
 EXTRN _frameTick:WORD
 EXTRN _g_frameRateScaling:WORD
 EXTRN _g_playerPlaneFlags:WORD
@@ -371,7 +372,6 @@ EXTRN _sams:BYTE
 EXTRN _stru_335C4:BYTE
 EXTRN _stru_3B202:BYTE
 EXTRN _var_200:WORD
-EXTRN _var_200_seg:WORD
 EXTRN _var_258:BYTE
 EXTRN _var_259:WORD
 EXTRN _var_260:WORD
@@ -440,7 +440,6 @@ EXTRN _picBuf:BYTE
 picBuf EQU _picBuf
 EXTRN picDecodedRowBuf:BYTE
 EXTRN rowOffset:WORD
-EXTRN strBuf:BYTE
 EXTRN timerHandlerInstalled:BYTE
 EXTRN tmpFileHandle:WORD
 EXTRN aReadError:BYTE
@@ -452,7 +451,6 @@ EXTRN word_3424E:WORD
 EXTRN word_37146:WORD
 EXTRN word_37148:WORD
 EXTRN _word_37348:WORD
-EXTRN _word_3734A:WORD
 EXTRN _word_378F0:WORD
 EXTRN _word_378F2:WORD
 EXTRN _word_378F4:WORD
@@ -678,7 +676,7 @@ loc_3aa1:                       ; dword reader, advances _var_200 by 4
     jz  short loc_3ad1
     mov bx, [_var_200]
     add word ptr [_var_200], 4
-    mov es, [_var_200_seg]
+    mov es, [_var_200+2]
     mov ax, es:[bx]
     mov dx, es:[bx+2h]
     and ax, [_var_259]
@@ -695,7 +693,7 @@ loc_3acd:
 loc_3ad1:                       ; word reader, advances _var_200 by 2
     mov bx, [_var_200]
     add word ptr [_var_200], 2
-    mov es, [_var_200_seg]
+    mov es, [_var_200+2]
     mov ax, es:[bx]
     and ax, [_var_259]
     retn
@@ -816,7 +814,7 @@ lookupSine proc near
     mov BL,BH
     mov BH,DH
     shl BX,1h
-    mov AX,word ptr [BX + offset _word_3734A]
+    mov AX,word ptr [BX + offset _word_37348+2]
     mov BX,word ptr [BX + offset _word_37348]
     sub AX,BX
     imul DX
@@ -1005,7 +1003,7 @@ getTimeOfDay endp
 ; ------------------------------seg000:0x3ee2------------------------------
 ; ------------------------------seg000:0x3ee3------------------------------
 advanceFrameTick proc near
-    inc word ptr [_byte_3790C-2]  ; word_3790A
+    inc word ptr [_var_383]       ; frame-rate timing accumulator
     inc byte ptr [_byte_3790C]    ; frame tick counter
     call far ptr gfx_dacCycle    ; MGRAPHIC slot 0x2e: VGA DAC fire animation
     call far ptr audio_timerTick

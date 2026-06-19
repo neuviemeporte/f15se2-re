@@ -10,7 +10,7 @@
 #include <memory.h>
 
 void setViewRotation(int rotX, int rotY, int rotZ) {
-    buildRotationMatrixFar(&word_34276, -rotX, -rotY, -rotZ);
+    buildRotationMatrixFar(word_34276, -rotX, -rotY, -rotZ);
 }
 
 // ==== seg000:0x3a90 ====

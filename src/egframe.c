@@ -442,8 +442,8 @@ void dispatchKeyScancode(void) {
     int p, a, b, c, d, e, f, g;
 #ifdef DEBUG
     if (keyScancode != 0)
-        TRACE_KEY(("KEY scancode=%04x  dot joyAxes[0/1]=%d/%d  ISR stick(joyAxes[4/5])=%d/%d",
-            (unsigned)keyScancode, (int)joyAxes[0], (int)joyAxes[1], (int)joyAxes[4], (int)joyAxes[5]));
+        TRACE_KEY(("KEY scancode=%04x  dot joyAxes[0/1]=%d/%d  ISR raw axes=%d/%d",
+            (unsigned)keyScancode, (int)joyAxes[0], (int)joyAxes[1], (int)byte_37F98, (int)byte_37F99));
 #endif
     keyDispatch(keyScancode);
 }

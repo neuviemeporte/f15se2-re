@@ -152,7 +152,7 @@ switch_break:
 
     if (word_330BE != 0) {
         joyAxes[0] = 0;
-        joyAxes_2[0] = 0;
+        joyAxes[1] = 0;
     } else {
         if (commData->setupUseJoy != 0) {
             readCalibratedJoystick();
@@ -161,14 +161,14 @@ switch_break:
             //temp_si = var_596 + 1;
             joyAxes[0] = (unsigned char)(((int)((unsigned char)byte_37F98 - 0x80) * (var_596 + 1)) / 3) - 0x80;
 
-            joyAxes_2[0] = (unsigned char)(((int)((unsigned char)byte_37F99 - 0x80) * (var_596 + 1)) / 3) - 0x80;
+            joyAxes[1] = (unsigned char)(((int)((unsigned char)byte_37F99 - 0x80) * (var_596 + 1)) / 3) - 0x80;
         }
     }
 
     word_3C00E = ((uint16)joyAxes[0] >> 4) - 8;
     if (word_3C00E < 0) word_3C00E++;
 
-    word_3C5A4 = ((uint16)joyAxes_2[0] >> 4) - 8;
+    word_3C5A4 = ((uint16)joyAxes[1] >> 4) - 8;
     if (word_3C5A4 < 0) word_3C5A4++;
 
     word_3C00E = -((abs(word_3C00E) + 2) * word_3C00E) * 2;
@@ -716,7 +716,7 @@ int valueToAngle(int value) {
     b = (a >> 9) + 1;
     for (; b >= 0; b--) {
         if (word_37348[b] <= a) {
-            c = word_3734A[b] - word_37348[b];
+            c = word_37348[b + 1] - word_37348[b];
             p = (int)((long)(a - word_37348[b]) * 256L / (long)c) + b * 256;
             break;
         }
@@ -1013,7 +1013,7 @@ void drawFuelGauge(void) {
 
 void drawVectorShape(int16 *shapeData) {
     while (*shapeData != -1) {
-        gfx_setColor(((uint8 *)word_3419C)[*shapeData++]);
+        gfx_setColor(((uint8 *)colorLut)[*shapeData++]);
         resetScanlineSpans();
         shapeData += 2;
         while (*shapeData != -1) {
