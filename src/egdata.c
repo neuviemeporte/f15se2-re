@@ -529,6 +529,9 @@ int16 word_3298E = 0x64;
 int16 word_32990[16] = {
     0, 2, 3, 4, 6, 8, 0x0B, 0x0F, 0x14, 0x1B, 0x24, 0x30, 0x40, 0x57, 0x77, 0xA4
 };
+/* word_38F70: frame-init scalar seeded in initFrameRandom from the target-slot
+   counts ((p & 0xF) << 8). */
+int16 word_38F70;
 int word_38F72;
 int16 word_38FC6;
 int16 word_38FCC;

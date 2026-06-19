@@ -4161,9 +4161,13 @@ PUBLIC __bss_start
 ENDIF
 __bss_start label byte
 ORG 00000h
-PUBLIC _word_38F70
-word_38F70 dw ?
-_word_38F70 equ word_38F70
+; LZW pic decoder traversal scratch. shared/pic_lzw.inc (bound in egcode.asm)
+; runs the dictionary chain as a coroutine on the CPU stack seeded at
+; picWorkData; pushes grow downward into the bytes below the label. Mirrors the
+; _picWorkData scratch in stslots.asm / endslots.asm.
+    db 201h dup(?)
+PUBLIC _picWorkData
+_picWorkData label byte
 strBuf db 18h dup(?)
 _strBuf equ strBuf
     db 54 dup(?)

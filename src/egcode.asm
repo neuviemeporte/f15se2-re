@@ -470,7 +470,7 @@ EXTRN word_389E0:WORD
 EXTRN word_38D5C:WORD
 EXTRN word_38D5E:WORD
 EXTRN word_38D66:WORD
-EXTRN _word_38F70:WORD
+EXTRN _picWorkData:BYTE
 EXTRN _word_39606:WORD
 EXTRN _word_3B0AC:WORD
 EXTRN _word_3B4D8:WORD
@@ -1615,7 +1615,7 @@ picFileReadPos EQU <fileReadPos>
 picFileReadBuf EQU <picBuf>
 picRowLength EQU <_var_689>
 picReadBufEndPtr EQU <_var_687>
-picWorkData EQU <_word_38F70 - 1>
+picWorkData EQU <_picWorkData>
 picWorkDataPtr EQU <_var_688>
 picProcessFlag EQU <_var_690>
 picLookupResult EQU <word_38D5C>
