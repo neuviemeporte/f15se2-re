@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <dos.h>
 
-char far byte_228D0[] = { 0 };
-char far byte_2D6A4[] = { 0 };
 int loadF15DgtlBin() { return 0; }
 void setupOverlaySlots(uint16 addr) { }
 void callLoad3DAll() { }
