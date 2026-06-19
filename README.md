@@ -43,13 +43,13 @@ As of the time of writing this, the status of the reconstruction is as follows:
 
 ## `egame.exe` 
 * all C code has been reconstructed, the executable works with the original game
-* porting of assembly routines into C in progress
+* porting of assembly routines into C in progress, some are shared with `start`
 * moving all variables into C in progress
 * likewise refactoring needed
 
 ## `end.exe`
 * all C code has been reconstructed, the executable works with the original game
-* porting of assembly routines into C in progress, part of it is shared with `start/egame`
+* porting of assembly routines into C in progress, some are shared with `start/egame`
 * the data segment is still generated from assembly, all variables need to be moved to C
 * likewise refactoring needed
 
@@ -60,24 +60,28 @@ As of the time of writing this, the status of the reconstruction is as follows:
 ## `misc.exe`
 * minimal functional reimplementation in C completed
 
-## `asound.exe`
-* some experimentation done on reconstruction, nothing workable yet
-* will probably be ignored as it won't be useful in a modern port
-
 # Building
 
 Prerequisites:
-* a copy of the MS C v5.1 compiler placed in the `dos/msc510` directory
-* the `dosbox` emulator has been installed (vanilla dosbox v0.74 works best as it supports headless mode)
 
-Clone the project and run `make` or `make -j` for parallel build inside. It will download and build the `mzretools` and `UASM` repositories as part of the build process.
+* you should run the build on Linux or WSL
+* a copy of the MS C v5.1 compiler needs to be placed in the `dos/msc510` directory
+* the `dosbox` emulator must be installed (vanilla dosbox v0.74 works best as it supports headless mode)
+
+Clone the project and run the `build.sh` script. It will download and build additional git submodules as part of the build process.
+
+There is an experimental, non-functional CMake-based 64bit build present, which is mostly used for finding compile-time bugs that are missed by the ancient DOS compiler. You can play with it by running the `build64.sh` script, but mind that the result is not expected to run. A 64bit port is *NOT* in this project's scope.
 
 # Verification
 
-The Makefile contains a target for automatically comparing the reconstruction with the original using the `mzdiff` tool, run `make verify` to perform the comparison and make sure any changes to the reconstructed source code did not make it divergent. This repo is a place to host a version of the game that is as close to the original as possible, so any contributions, while deeply welcome, need to make sure that consistency is not broken using this mechanism.
+The Makefile contains a target for automatically comparing the reconstruction with the original using the `mzdiff` tool, run `make [-j] verify` to perform the comparison and make sure any changes to the reconstructed source code did not make it divergent. This repo is a place to host a version of the game that is as close to the original as possible, so any contributions, while deeply welcome, need to make sure that consistency is not broken using this mechanism.
 
 For reference, I'm using original binaries with the following MD5 sums to compare against:
 
 * `start.exe`: packed: 320bc386921add664e4c18e86c9d6f90, unpacked: cf6e997ed4582cf82db6ec37d2b1a6fd
 * `egame.exe`: packed: 9466f65ef34ede3e3533db42ab5b06dc, unpacked: ffc191b1caeafc3b6f435795f8ea868e
 * `end.exe`: packed: f1401198c3a5b951dad0387ee3f73e7d, unpacked: e87480263bff1555f59709ce8eca2949
+
+You will need to put these into the `bin` directory before being able to run the verification.
+
+Depending on the unpacker used, the unpacked md5s might not match, but it should not matter if the packed original was the right one.
