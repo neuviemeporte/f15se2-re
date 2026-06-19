@@ -52,7 +52,6 @@ char far *var_200;
 int16 var_279;
 int16 var_282;
 uint16 var_383;
-uint16 uvar_547;
 int16 word_3419C[1];
 int16 word_34276;
 int16 word_34684[64];

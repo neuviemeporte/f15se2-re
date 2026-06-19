@@ -993,7 +993,14 @@ extern int16 word_383D8;
 extern int16 word_383DA;
 extern uint8 byte_383E4;
 extern int16 byte_383E5;
-extern uint16 uvar_547;    /* unsigned alias of g_viewZ (same address) */
+/* uvar_547: unsigned view of g_viewZ (same storage). In the asm build this is
+   the linker alias _uvar_547 EQU _g_viewZ; with NO_ASM there is no asm to carry
+   the alias, so reinterpret g_viewZ's bytes directly. */
+#ifdef NO_ASM
+#define uvar_547 (*(uint16 *)&g_viewZ)
+#else
+extern uint16 uvar_547;
+#endif
 extern char var_550;
 extern int16 var_549;
 extern int16 var_556;
