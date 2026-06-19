@@ -41,7 +41,7 @@ DOSSEG
     origCBreakSeg DW 0
     origCBreakOfs DW 0
 
-    EXTRN _gfx_slot_00_alloc:BYTE, _audio_slot_6b:BYTE, _audio_slot_6c:BYTE, _timerCounter:BYTE
+    EXTRN _gfx_slot_00_alloc:BYTE, _audio_slot_6b_timerTick:BYTE, _audio_slot_6c_noiseTick:BYTE, _timerCounter:BYTE
 .CODE
     EXTRN _cbreakHandler:PROC
     PUBLIC _installCBreakHandler, _setupOverlaySlots, _setTimerIrqHandler, _loadOverlay, _setupPIT, _copyJoystickData, _dos_alloc, _dos_printstring
@@ -141,7 +141,7 @@ timerIrqHandler:
 loc_11919:
                 cmp     word_172AE, 1
                 jz      short loc_11925
-                call    far ptr _audio_slot_6c
+                call    far ptr _audio_slot_6c_noiseTick
 loc_11925:
                 cmp     word_172A6, 0
                 jnz     short loc_1193A
@@ -364,7 +364,7 @@ increaseTimerCounters proc near
                 inc     byte_172C0
                 inc     _timerCounter
                 inc     byte_172C1
-                call    far ptr _audio_slot_6b
+                call    far ptr _audio_slot_6b_timerTick
                 retn
 increaseTimerCounters endp
 

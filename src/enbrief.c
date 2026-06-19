@@ -172,14 +172,14 @@ int isPointInRect(MenuItem *p)
 
     /* pre-loop joystick read */
     if (commData->setupUseJoy == 1) {
-        d = misc_jump_5d_readJoy(0);
-        e = misc_jump_5d_readJoy(1);
+        d = misc_readJoystick(0);
+        e = misc_readJoystick(1);
         pollJoystick();
     }
 
     /* main loop */
     for (;;) {
-        if ((char)misc_jump_5a_keybuf() == 0
+        if ((char)misc_checkKeyBuf() == 0
             || d != 0
             || e != 0
             || (unsigned char)joyAxisX < JOY_DEADZONE_LO
@@ -199,8 +199,8 @@ int isPointInRect(MenuItem *p)
 
         /* re-read joystick */
         if (commData->setupUseJoy == 1) {
-            d = misc_jump_5d_readJoy(0);
-            e = misc_jump_5d_readJoy(1);
+            d = misc_readJoystick(0);
+            e = misc_readJoystick(1);
             pollJoystick();
         }
 
@@ -276,8 +276,8 @@ skip_sprite:
     }
 
     /* post-loop input handling */
-    if ((char)misc_jump_5a_keybuf() == 0) {
-        h = misc_jump_5b_getkey();
+    if ((char)misc_checkKeyBuf() == 0) {
+        h = misc_getKey();
     } else {
         if (d == 1) {
             h = KEYCODE_ENTER;

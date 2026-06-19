@@ -5,8 +5,8 @@
 #include "shared/common.h"
 
 void clearKeybuf(void) {
-    while (misc_jump_5a_keybuf() == 0) {
-        misc_jump_5b_getkey();
+    while (misc_checkKeyBuf() == 0) {
+        misc_getKey();
     }
 }
 
@@ -15,15 +15,15 @@ void waitForKeyOrJoy(void) {
     TRACE(("waitForKeyOrJoy"));
     if (commData->setupUseJoy == 1) {
         do {
-            if (misc_jump_5a_keybuf() == 0) {
+            if (misc_checkKeyBuf() == 0) {
                 break;
             }
-        } while (misc_jump_5d_readJoy(0) == 0);
-        if (misc_jump_5a_keybuf() != 0) {
+        } while (misc_readJoystick(0) == 0);
+        if (misc_checkKeyBuf() != 0) {
             goto done;
         }
     }
-    key = misc_jump_5b_getkey();
+    key = misc_getKey();
 done:
     if (key == KEYCODE_ALTQ || quitFlag != 0) {
         cleanup();

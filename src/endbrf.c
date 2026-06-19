@@ -26,7 +26,7 @@ insert_scenario:
     drawStringCentered(debriefPage, str_pressKey1, 0, 0x64, 0x13f);
     debriefPage[6] = 1;
     gfx_flipPage();
-    misc_jump_5b_getkey();
+    misc_getKey();
 
 open_theater:
     worldBufHandle = (int)fopen(theaterSprFiles[gameData->theater], str_modeRb1);
@@ -49,7 +49,7 @@ insert_diska:
     drawStringCentered(debriefPage, str_pressKey2, 0, 0x64, 0x13f);
     debriefPage[6] = 1;
     gfx_flipPage();
-    misc_jump_5b_getkey();
+    misc_getKey();
 
 open_dbicons:
     worldBufHandle = (int)fopen(str_dbicons1, str_modeRb2);
@@ -117,12 +117,12 @@ open_dbicons:
         }
 
         if (commData->setupUseJoy == 1) {
-            while (misc_jump_5d_readJoy(0))
+            while (misc_readJoystick(0))
                 ;
             timerCounter = 0;
             while (timerCounter <= 5)
                 ;
-            while (misc_jump_5d_readJoy(0))
+            while (misc_readJoystick(0))
                 ;
         }
     } while (b);

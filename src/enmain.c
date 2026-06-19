@@ -25,7 +25,7 @@ int main(void) {
     FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
     setupOverlaySlots(commData->gfxOvlAddr);
     setupOverlaySlots(commData->miscOvlAddr);
-    misc_jump_5e_clearKeyFlags();
+    misc_clearKeyFlags();
     clearKeybuf();
     hercFlag = (char)commData->setupMono;
     installCBreakHandler();

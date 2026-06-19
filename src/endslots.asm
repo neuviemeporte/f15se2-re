@@ -28,10 +28,10 @@ PUBLIC _gfx_storeBufPtr
 PUBLIC _gfx_commitPage
 PUBLIC _gfx_setMonoFlag
 PUBLIC _gfx_getCurPage
-PUBLIC _misc_jump_5a_keybuf
-PUBLIC _misc_jump_5b_getkey
-PUBLIC _misc_jump_5d_readJoy
-PUBLIC _misc_jump_5e_clearKeyFlags
+PUBLIC _misc_checkKeyBuf
+PUBLIC _misc_getKey
+PUBLIC _misc_readJoystick
+PUBLIC _misc_clearKeyFlags
 PUBLIC _gfx_nop37
 PUBLIC _gfx_setPage1
 PUBLIC _gfx_setCurPageSeg
@@ -227,19 +227,19 @@ _gfx_getCurPage proc far             ; slot 53
     db 0EAh, 4 dup(0)
 _gfx_getCurPage endp
     db 30 dup(0)
-_misc_jump_5a_keybuf proc far             ; slot 5a
+_misc_checkKeyBuf proc far             ; slot 5a
     db 0EAh, 4 dup(0)
-_misc_jump_5a_keybuf endp
-_misc_jump_5b_getkey proc far             ; slot 5b
+_misc_checkKeyBuf endp
+_misc_getKey proc far             ; slot 5b
     db 0EAh, 4 dup(0)
-_misc_jump_5b_getkey endp
+_misc_getKey endp
     db 0EAh, 4 dup(0)               ; slot 5c
-_misc_jump_5d_readJoy proc far             ; slot 5d
+_misc_readJoystick proc far             ; slot 5d
     db 0EAh, 4 dup(0)
-_misc_jump_5d_readJoy endp
-_misc_jump_5e_clearKeyFlags proc far             ; slot 5e
+_misc_readJoystick endp
+_misc_clearKeyFlags proc far             ; slot 5e
     db 0EAh, 4 dup(0)
-_misc_jump_5e_clearKeyFlags endp
+_misc_clearKeyFlags endp
     db 0EAh, 4 dup(0)               ; slot 5f
     db 20 dup(0)
     db 0EAh, 4 dup(0)               ; slot 64

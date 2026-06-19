@@ -75,7 +75,7 @@ void load3D3(char *fileName) {
         fillRectBoth(0, 0x28, 0x13f, 0x2d);
         drawStringBothPages(aPleaseInsertF15DiskB, 0x6c, 0x28, 0x0f);
         gfx_flipPage();
-        misc_jump_5b_getkey();
+        misc_getKey();
     }
     gfx_waitRetrace();
     for (var_10 = 0; var_10 < 2; var_10++) {
@@ -160,7 +160,7 @@ void load3DG() {
         drawStringBothPages(aPleaseInsertF15DiskB, 0x68, 0x28, 0x0f);
         drawStringBothPages(unk_34121, 0x68, 0x32, 0x0f);
         gfx_flipPage();
-        misc_jump_5b_getkey();
+        misc_getKey();
     }
     gfx_waitRetrace();
     fread(&sign3dg, 2, 1, fileHandle);

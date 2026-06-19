@@ -90,11 +90,11 @@ EXTRN _gfx_nop22:FAR
 EXTRN _gfx_nop51:FAR
 EXTRN _gfx_setCurPageSeg:FAR
 EXTRN _gfx_drawLine:FAR
-EXTRN _audio_jump_6b:FAR
+EXTRN _audio_timerTick:FAR
 EXTRN _gfx_getRowOffset:FAR
 EXTRN _gfx_fillRow2:FAR
 EXTRN _gfx_nop36:FAR
-EXTRN _audio_jump_6c:FAR
+EXTRN _audio_noiseTick:FAR
 EXTRN _timerReload:WORD
 EXTRN _timerTick:WORD
 EXTRN _timerCountLo:WORD
@@ -261,7 +261,7 @@ TIMER_VAR_CALSUM_HI EQU <word ptr _timerCalSumHi>
 TIMER_VAR_MODE EQU <word ptr _timerMode>
 TIMER_INC_COUNTERS EQU <increaseTimerCounters>
 TIMER_CALLBACK EQU <timerIrqCallback>
-TIMER_AUDIO_6C_CALL EQU <call far ptr _audio_jump_6c>
+TIMER_AUDIO_6C_CALL EQU <call far ptr _audio_noiseTick>
 INCLUDE shared/timer_isr.inc
 INCLUDE shared/timer_callback.inc
 INCLUDE shared/timer_calibrate.inc
@@ -277,7 +277,7 @@ increaseTimerCounters proc near
     inc _timerCounter3
     inc _timerCounter
     inc _timerCounter4
-    call far ptr _audio_jump_6b
+    call far ptr _audio_timerTick
     retn
 increaseTimerCounters endp
 _doFcbSearch proc near
