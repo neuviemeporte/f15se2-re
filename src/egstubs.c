@@ -38,7 +38,6 @@ int getTimeOfDay(void)
 /* === Auto-generated link stubs (undefined references in egame build) === */
 
 /* --- data globals --- */
-uint8 aA[1];
 uint8 byte_3419A[1];
 uint8 byte_3419C[1];
 uint8 byte_3419F[1];
@@ -53,7 +52,6 @@ uint8 joyAxes[1];
 char strBuf[1];
 struct MapTarget g_planes[1];
 /* --- data referenced by drawHudWorldOverlay (egui.c) --- */
-char unk_34121[1];
 uint8 var_190;
 int16 var_198;
 char far *var_200;

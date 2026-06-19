@@ -247,7 +247,6 @@ PUBLIC byte_37F9E
 PUBLIC byte_37F9F
 PUBLIC _byte_3790C
 PUBLIC _misc_getKey
-PUBLIC _unk_34121
 PUBLIC _word_3419C
 PUBLIC _word_339B4
 PUBLIC _g_planes
@@ -769,9 +768,6 @@ _word_33B9C equ word_33B9C
     db 0
     db 20h
 aPleaseInsertScenarioD db 'Please insert scenario disk',0
-_unk_34121 db 20h
-    db 20h
-aPressAKeyWhenReady db 'Press a key when ready',0
     db 2 dup(0)
     db 0
     db 1
@@ -3482,13 +3478,6 @@ _g_viewZ dw 0
     db 0 ;align 2
     db 0 ;align 2
     db 0 ;align 2
-PUBLIC _aA
-aA db 'A',0
-_aA equ aA
-    db 1Ah
-    db 0
-    db 65h
-    db 0
     db 0    ; was aEmpty_5950 (empty string, now in egdata.c)
     db 0
 _word_38202 dw 41h

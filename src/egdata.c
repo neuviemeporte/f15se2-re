@@ -312,6 +312,10 @@ struct Weapon aNone[23] = {
  * from commData, indexed by missileSpecIndex. */
 struct MissileSpec missleSpec[4] = { {0, 4}, {1, 4}, {5, 6}, {0, 0} };
 
+/* ammoNumX[3]: screen x-coordinate of the ammo-count readout for each
+ * missileSpecIndex (0..2). */
+int16 aA[3] = { 65, 26, 101 };
+
 /* missiles[20]: player weapon catalogue — short name, long name, field_16
  * (signed sams[] index, -1/-2 = non-threat stores), field_18 (category). */
 struct Missile missiles[20] = {
@@ -379,6 +383,7 @@ char aTooMuchTileData[] = "Too much tile data";
 char a_3dg[] = ".3dG";
 char aRb_3[] = "rb";
 char aBadGridFileFormat_[] = "Bad Grid file format.";
+char unk_34121[] = "  Press a key when ready";
 char a256pit_pic[] = "256pit.PIC";
 char a256left_pic[] = "256Left.Pic";
 char a256right_pic[] = "256Right.Pic";
