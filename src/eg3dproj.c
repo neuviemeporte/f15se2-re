@@ -80,8 +80,8 @@ outer_test:
                     goto next_iter;
                 }
                 if (param_1 < (int)0xd555) {
-                    p = word_33B74[f];
-                    a = word_33B86[f];
+                    p = g_neighborSampling.gridX[f];
+                    a = g_neighborSampling.gridY[f];
                 } else {
                     p = *(int *)((char *)&word_339F4 + f * 2 + (unsigned)18 * (unsigned)b);
                     a = *(int *)((char *)&word_339F4 + f * 2 + (unsigned)18 * (unsigned)((b + 2) & 7));

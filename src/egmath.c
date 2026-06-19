@@ -64,7 +64,7 @@ void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int pa
         e += dword_3B4D4 - g_ViewY;
         f += g_viewZ - word_3B4DE;
     }
-    scaleShift = (var_456 != 0) ? (scaleShift - 2) : (scaleShift - 3);
+    scaleShift = (byte_37C24 != 0) ? (scaleShift - 2) : (scaleShift - 3);
     if (scaleShift > 0) {
         shiftLongLeftInPlace(scaleShift, &c);
         shiftLongLeftInPlace(scaleShift, &e);

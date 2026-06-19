@@ -22,7 +22,7 @@
 struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
     int p, q, a, r, b, c, d, e, f, g, h, i, j, k, l, m, n, o;
 
-    word_3B7E2 = 0x7fff;
+    nearestTile.dist = 0x7fff;
     for (c = 1; c <= 2; c++) {
         for (e = 0; e < 9; e++) {
             *(long *)&m = scaleCoordToLod(c, worldX);
@@ -31,10 +31,10 @@ struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
             *(long *)&m = scaleCoordToLod(c, worldY);
             k = *(unsigned long *)&m >> 0xc;
             d = m & 0xfff;
-            a = word_33B74[e];
-            b = word_33B86[e];
-            o = word_33B9C[a] - r + 0x800;
-            p = word_33B9C[b] - d + 0x800;
+            a = g_neighborSampling.gridX[e];
+            b = g_neighborSampling.gridY[e];
+            o = g_neighborSampling.lut[a] - r + 0x800;
+            p = g_neighborSampling.lut[b] - d + 0x800;
             n = process3dg(c, i += a, k += b);
             if (n != -1) {
                 word_3C5A8 = matrix3dt_2[c][n];
@@ -54,20 +54,20 @@ struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
                             lookupTileEntry(c, f, i, k) != 0) {
                             g = byte_3B4E6[var_660].shape;
                         }
-                        if (q < word_3B7E2) {
+                        if (q < nearestTile.dist) {
                             var_200 = (char far *)(byte_228D0 + buf3d3[g]);
                             if (*(int far *)var_200 != 0 ||
                                 *((char far *)var_200 + 2) != 0 ||
                                 word_33704 != 0) {
-                                byte_3B7EE = (uint8)c;
-                                byte_3B7EF = (uint8)f;
-                                byte_3B7F0 = (uint8)i;
-                                byte_3B7F1[0] = (uint8)k;
-                                word_3B7EC = word_3C5A8;
-                                word_3B7E0 = g;
-                                word_3B7E2 = q;
-                                *(long *)&word_3B7E4 = worldX + (long)h;
-                                *(long *)&word_3B7E8 = worldY + (long)j;
+                                nearestTile.lod = (uint8)c;
+                                nearestTile.subIndex = (uint8)f;
+                                nearestTile.tileX = (uint8)i;
+                                nearestTile.tileY = (uint8)k;
+                                nearestTile.entry = word_3C5A8;
+                                nearestTile.id = g;
+                                nearestTile.dist = q;
+                                nearestTile.x = worldX + (long)h;
+                                nearestTile.y = worldY + (long)j;
                             }
                         }
                     }
@@ -76,8 +76,8 @@ struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
             }
         }
     }
-    if (word_3B7E2 != 0x7fff) {
-        return (struct TileObject *)&word_3B7E0;
+    if (nearestTile.dist != 0x7fff) {
+        return &nearestTile;
     }
     return 0;
 }
@@ -119,7 +119,7 @@ void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
     int m;
 
     *(char *)&var_315 = 0;
-    word_3B7E2 = 0x7fff;
+    nearestTile.dist = 0x7fff;
     b = 4;
     k = scaleCoordToLod(b, coord1);
     g = (int)(k >> 12);
@@ -139,16 +139,16 @@ void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
             f = word_3C5A8->x + m;
             h = word_3C5A8->y + p;
             var_216 = abs(f) + abs(h);
-            if (word_3B7E2 > var_216) {
-                word_3B7EC = word_3C5A8;
-                word_3B7E2 = var_216;
+            if (nearestTile.dist > var_216) {
+                nearestTile.entry = word_3C5A8;
+                nearestTile.dist = var_216;
             }
             word_3C5A8++;
         }
     }
-    if (word_3B7E2 != 0x7fff) {
-        word_3C5A8 = word_3B7EC;
-        var_200 = (char far *)(byte_228D0 + buf3d3[word_3B7EC->shape]);
+    if (nearestTile.dist != 0x7fff) {
+        word_3C5A8 = nearestTile.entry;
+        var_200 = (char far *)(byte_228D0 + buf3d3[nearestTile.entry->shape]);
         var_202 = word_3C5A8->x - var_218;
         var_203 = word_3C5A8->y - var_219;
         var_204[0] = word_3C5A8->z - var_220;

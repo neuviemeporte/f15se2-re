@@ -361,7 +361,6 @@ EXTRN _byte_34197:BYTE
 EXTRN _byte_3790C:BYTE
 EXTRN _frameTick:WORD
 EXTRN _g_frameRateScaling:WORD
-EXTRN _g_planes:BYTE
 EXTRN _g_playerPlaneFlags:WORD
 EXTRN _g_viewX_:WORD
 EXTRN _g_viewY_:WORD

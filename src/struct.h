@@ -237,6 +237,19 @@ struct MapTarget {
 };
 STATIC_ASSERT(sizeof(struct MapTarget)==0x10);
 
+/* GroundTargetTable: the in-mission target table. The 16-bit name-index column
+ * is read as `((int16*)&g_planeTable)[idx*8]` — a stride-16 view that, thanks to
+ * the 2-byte lead word before planes[], yields planes[idx-1].field_E (and the
+ * lead sentinel at idx 0). planes[] and the lead word are therefore one
+ * contiguous object; the mission loader deserialises it as a unit. */
+#pragma pack(1)
+struct GroundTargetTable {
+    int16 nameIndexLead;          /* word_3AA5C: leading name-index sentinel */
+    struct MapTarget planes[74];  /* g_planes */
+};
+#pragma pack()
+STATIC_ASSERT(sizeof(struct GroundTargetTable) == 2 + 74 * 0x10);
+
 /* ReplayEvent: one entry in the tactical-replay event log (appendMapEvent). */
 #pragma pack(1)
 struct ReplayEvent {
@@ -278,15 +291,46 @@ struct struc_9 {
     int16 field_6;
 };
 
+struct Matrix3dEntry7; /* defined below; TileObject holds a pointer to one */
+
 /* TileObject: nearest-tile-object record returned by findNearestTileObject().
- * Overlays the word_3B7E0 scratch block (id, dist, world x/y). */
+ * The same record is the scratch block addTileEntry() walks: it reads the
+ * entry pointer at +0x0C, copies the 8-byte tile-entry tail (+0x0E..+0x15)
+ * into byte_3B4E6, and writes shapeOff/flag at +0x12/+0x14. */
+#pragma pack(1)
 struct TileObject {
-    int16 id;       // object/shape id
-    int16 dist;     // distance metric
-    int32 x;        // world X
-    int32 y;        // world Y
+    int16 id;       /* +0x00 object/shape id */
+    int16 dist;     /* +0x02 distance metric */
+    int32 x;        /* +0x04 world X */
+    int32 y;        /* +0x08 world Y */
+    struct Matrix3dEntry7 *entry; /* +0x0C nearest matrix entry */
+    uint8 lod;      /* +0x0E LOD level */
+    uint8 subIndex; /* +0x0F sub-object index */
+    uint8 tileX;    /* +0x10 tile column */
+    uint8 tileY;    /* +0x11 tile row */
+    int16 shapeOff; /* +0x12 shape-data offset (addTileEntry arg) */
+    uint8 flag;     /* +0x14 entry flag (addTileEntry arg) */
+    uint8 _0x15;    /* +0x15 trailing scratch byte (part of the 8-byte tail) */
 };
-STATIC_ASSERT(sizeof(struct TileObject)==12);
+#pragma pack()
+/* 20 fixed bytes + a near pointer (2 in DOS, wider in the 64-bit lint). */
+STATIC_ASSERT(sizeof(struct TileObject) == 20 + sizeof(void*));
+
+/* Neighbour-sampling tables used by findNearestTileObject()/projectModelEdges()
+ * to scan the 3x3 grid of tiles around a position. The three arrays are laid
+ * out contiguously so the sub-tile offset LUT can be indexed about its centre:
+ * lut[-1]/lut[-2] read gridY[10]/gridY[9] (= -4096/-8192), the negative half of
+ * the symmetric offset table {-0x2000,-0x1000,0,+0x1000,+0x2000}. */
+#pragma pack(1)
+struct NeighborSampling {
+    int16 gridX[9];   /* per-cell tile-X delta (-1/0/+1) */
+    int16 gridY[11];  /* [0..8] per-cell tile-Y delta; [9]/[10] also serve as
+                         lut[-2]/lut[-1] */
+    int16 lut[3];     /* sub-tile pixel offset per grid delta about the centre:
+                         {0,+0x1000,+0x2000}; lut[-1]=gridY[10], lut[-2]=gridY[9] */
+};
+#pragma pack()
+STATIC_ASSERT(sizeof(struct NeighborSampling) == 46);
 
 #pragma pack(1)
 struct TerrainTile {

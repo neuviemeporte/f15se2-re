@@ -55,7 +55,7 @@ void stepFlightModel(void) {
                : ((gameData->theater & 1) ? 0 : 0x8000); // Else, evaluate the second condition
         }
 
-        if (g_planes[g_targetSlots[0].viewIndex].flags & 0x200) {
+        if (g_planeTable.planes[g_targetSlots[0].viewIndex].flags & 0x200) {
             *((unsigned char*)&g_ourHead + 1) += 4;
         }
 
@@ -215,15 +215,15 @@ switch_break:
             o = word_3AFA8;
             s = g_targetSlots[1].viewIndex;
 
-            h = g_planes[s].mapX - g_viewX_;
-            z = g_planes[s].mapY - g_viewY_;
+            h = g_planeTable.planes[s].mapX - g_viewX_;
+            z = g_planeTable.planes[s].mapY - g_viewY_;
 
-            if (!(g_planes[s].flags & 0x200))
+            if (!(g_planeTable.planes[s].flags & 0x200))
             {
                 o = -signOf(z);
             }
 
-            z += ((g_planes[s].flags & 0x200) ? 0x1E : 0x40) * o;
+            z += ((g_planeTable.planes[s].flags & 0x200) ? 0x1E : 0x40) * o;
 
             x = abs(g_ourHead);
             if (o == -1)
@@ -239,7 +239,7 @@ switch_break:
                 exitSlowMotion();
             }
 
-            if (g_planes[s].flags & 0x200)
+            if (g_planeTable.planes[s].flags & 0x200)
             {
                 d += 100;
             }
@@ -249,7 +249,7 @@ switch_break:
                 d = -20;
             }
 
-            z = g_planes[s].mapY + (((g_planes[s].flags & 0x200) ? 0x1C : 0x38) * o);
+            z = g_planeTable.planes[s].mapY + (((g_planeTable.planes[s].flags & 0x200) ? 0x1C : 0x38) * o);
 
             z += clampRange((abs(h) * 4) + (x / 16), 0, 0xC00) * o;
 
@@ -257,12 +257,12 @@ switch_break:
 
             if (x > 0x4000)
             {
-                h = g_planes[s].mapX;
+                h = g_planeTable.planes[s].mapX;
                 d = 0x1000;
             }
             else
             {
-                h = g_planes[s].mapX + (o * h * 2);
+                h = g_planeTable.planes[s].mapX + (o * h * 2);
                 if (g_setThrust * 80 < g_knots)
                 {
                     *((unsigned char *)&g_playerPlaneFlags) |= 8;
@@ -346,8 +346,8 @@ switch_break:
 
         if (g_viewZ == 0 && word_336F6 == -1) {
             word_336F6 = 0;
-            g_planes[0].mapX = g_viewX_;
-            g_planes[0].mapY = g_viewY_;
+            g_planeTable.planes[0].mapX = g_viewX_;
+            g_planeTable.planes[0].mapY = g_viewY_;
             word_3BEBC = g_viewX_;
             word_3BEC8 = g_viewY_;
             word_3BECE = 0;
@@ -569,7 +569,7 @@ switch_break:
             makeSound(0xC, 2);
             //temp_bx = g_closestThreatIndex << 4;
 
-            if ((( ((g_planes[g_closestThreatIndex].flags & 0x200) ? 0x100 : 0x80)
+            if ((( ((g_planeTable.planes[g_closestThreatIndex].flags & 0x200) ? 0x100 : 0x80)
                 < ((int16)(-word_3C8B6 * g_missionStatus) / 2))) ||
                 ((gameData->unk4 != 0 &&
                     (((g_playerPlaneFlags & 1)!=0) ||
@@ -849,9 +849,9 @@ void renderFrame() {
             }
         }
         else {
-            dword_3C01C = (uint32)g_planes[word_3C02E & 0x3f].mapX << 5;
-            dword_3C024 = (uint32)g_planes[word_3C02E & 0x3f].mapY << 5;
-            word_3C02C = g_planes[word_3C02E & 0x3f].flags & 0x200 ? 0xc8 : 0x32;
+            dword_3C01C = (uint32)g_planeTable.planes[word_3C02E & 0x3f].mapX << 5;
+            dword_3C024 = (uint32)g_planeTable.planes[word_3C02E & 0x3f].mapY << 5;
+            word_3C02C = g_planeTable.planes[word_3C02E & 0x3f].flags & 0x200 ? 0xc8 : 0x32;
             var_2 = 7;
             if (word_336EA != 0 && word_3370C == -1) var_2 = 6;
         }
@@ -874,7 +874,7 @@ void renderFrame() {
                 dword_3B1FE = sinMul(word_3C5AA, var_8) + dword_3C01C;
                 dword_3B4D4 = cosMul(word_3C5AA, var_8) - dword_3C024 + 0x100000;
                 word_3B4DE = (4 << var_2) - sinMul(word_3BE94, 0x18 << var_2) + word_3C02C;
-                if (word_3C02E & 0x40 && g_planes[word_3C02E & 0x3f].flags & 0x200 && word_3B4DE < 0x84) {
+                if (word_3C02E & 0x40 && g_planeTable.planes[word_3C02E & 0x3f].flags & 0x200 && word_3B4DE < 0x84) {
                     word_3B4DE = 0x84;
                 }
                 word_3C5AA += 0x8000;

@@ -152,30 +152,16 @@ PUBLIC word_37F60
 PUBLIC word_37F62
 PUBLIC _var_190
 PUBLIC _var_383
-PUBLIC _var_456
-PUBLIC _byte_37C24
 PUBLIC _g_viewZ
 PUBLIC _uvar_547
 PUBLIC _var_200
 PUBLIC _var_201
-PUBLIC _word_3B7E2
-PUBLIC _word_3B7EC
 PUBLIC _origCBreakSeg
 PUBLIC _word_34684
 PUBLIC _word_34686
 PUBLIC _word_34868
 PUBLIC _word_34A4C
 PUBLIC _var_143
-PUBLIC _word_3B7E0
-PUBLIC _word_3B7E4
-PUBLIC _word_3B7E6
-PUBLIC _word_3B7E8
-PUBLIC _word_3B7EA
-PUBLIC _byte_3B7EE
-PUBLIC _byte_3B7EF
-PUBLIC _byte_3B7F0
-PUBLIC _byte_3B7F1
-PUBLIC _word_33B9C
 PUBLIC _var_198
 PUBLIC _byte_3419F
 PUBLIC _var_279
@@ -248,13 +234,8 @@ PUBLIC byte_37F9F
 PUBLIC _byte_3790C
 PUBLIC _misc_getKey
 PUBLIC _word_3419C
-PUBLIC _word_339B4
-PUBLIC _g_planes
 PUBLIC _gfx_setColor
 PUBLIC _gfx_nop23
-PUBLIC _word_38202
-PUBLIC _word_3AA5C
-PUBLIC _waypoints
 PUBLIC _gfx_allocPage
 PUBLIC _gfx_drawString
 PUBLIC _gfx_initOverlay
@@ -347,7 +328,6 @@ unk_32977 db 0
 ovlInsaneFlag db 0
 aErrorReleasingOverlay db 'Error releasing overlay memory$'
     db 0
-    _waypoints Waypoint 4 dup(<0>)
 ; residual inter-table padding bytes from the original layout; the
 ; aNone/aircraftTypes/sams/missleSpec/missiles arrays that surrounded them are
 ; now defined in egdata.c.
@@ -716,57 +696,6 @@ _audio_playSample endp
 audio_playSample equ _audio_playSample
     db 6 dup(0)
     db 0
-unk_339B4 db 0
-_word_339B4 equ unk_339B4
-    db 1
-    db 2
-    db 3
-    db 4
-    db 0
-    db 6
-    db 7
-    db 8
-    db 9
-    db 0Ah
-    db 0Bh
-    db 0Ch
-    db 0Dh
-    db 0Eh
-    db 2 dup(0Fh)
-    db 1
-    db 8
-    db 2 dup(0)
-    db 3
-    db 0
-    db 2 dup(8)
-    db 9
-    db 3 dup(7)
-    db 0Dh
-    db 7
-    db 3
-    db 0Ch
-    db 0
-    db 6
-    db 0
-    db 4
-    db 0
-    db 4
-    db 2 dup(6)
-    db 0
-    db 3 dup(0Ch)
-    db 0Dh
-    db 2 dup(0Ch)
-    db 4
-    db 3
-    db 8 dup(4)
-    db 3
-    db 5 dup(4)
-word_33B9C dw 0
-_word_33B9C equ word_33B9C
-    db 0
-    db 10h
-    db 0
-    db 20h
 aPleaseInsertScenarioD db 'Please insert scenario disk',0
     db 2 dup(0)
     db 0
@@ -2980,7 +2909,6 @@ word_37C1C dw 0
 word_37C1E dw 0
 word_37C20 dw 0
 word_37C22 dw 0
-_byte_37C24 db 0
 word_37C25 dw 0
 word_37C27 dw 0
 word_37C29 dw 0
@@ -3480,303 +3408,6 @@ _g_viewZ dw 0
     db 0 ;align 2
     db 0    ; was aEmpty_5950 (empty string, now in egdata.c)
     db 0
-_word_38202 dw 41h
-    db 1Ah
-    db 0
-    db 65h
-    db 0
-    db 0A3h
-    db 0
-    db 0BFh
-    db 0
-    db 0A9h
-    db 0
-    db 0C5h
-    db 0
-    db 3
-    db 0
-    db 0B4h
-    db 0
-    db 0BFh
-    db 0
-    db 0BAh
-    db 0
-    db 0C5h
-    db 0
-    db 3
-    db 0
-    db 0D6h
-    db 0
-    db 0BFh
-    db 0
-    db 0DCh
-    db 0
-    db 0C5h
-    db 0
-    db 3
-    db 0
-    db 0C5h
-    db 0
-    db 0BFh
-    db 0
-    db 0CBh
-    db 0
-    db 0C5h
-    db 0
-    db 3
-    db 0
-    db 2
-    db 0
-    db 85h
-    db 0
-    db 10h
-    db 0
-    db 8Ah
-    db 3 dup(0)
-    db 1Fh
-    db 1
-    db 85h
-    db 0
-    db 29h
-    db 1
-    db 8Ah
-    db 3 dup(0)
-    db 1Fh
-    db 1
-    db 90h
-    db 0
-    db 29h
-    db 1
-    db 95h
-    db 3 dup(0)
-    db 1Fh
-    db 1
-    db 9Bh
-    db 0
-    db 29h
-    db 1
-    db 0A0h
-    db 3 dup(0)
-    db 98h
-    db 0
-    db 72h
-    db 0
-    db 0A8h
-    db 0
-    db 75h
-    db 0
-    db 3
-    db 0
-    db 98h
-    db 0
-    db 0B4h
-    db 0
-    db 0A8h
-    db 0
-    db 0B7h
-    db 0
-    db 3
-    db 0
-    db 0Ah
-    db 0
-    db 74h
-    db 0
-    db 10h
-    db 0
-    db 78h
-    db 0
-    db 0Ah
-    db 0
-    db 13h
-    db 0
-    db 74h
-    db 0
-    db 19h
-    db 0
-    db 78h
-    db 0
-    db 0Ah
-    db 0
-    db 1Ch
-    db 0
-    db 74h
-    db 0
-    db 23h
-    db 0
-    db 78h
-    db 0
-    db 0Ah
-    db 0
-    db 0Ah
-    db 0
-    db 79h
-    db 0
-    db 10h
-    db 0
-    db 7Ch
-    db 0
-    db 0Ah
-    db 0
-    db 13h
-    db 0
-    db 79h
-    db 0
-    db 19h
-    db 0
-    db 7Ch
-    db 0
-    db 0Ah
-    db 0
-    db 1Ch
-    db 0
-    db 79h
-    db 0
-    db 23h
-    db 0
-    db 7Ch
-    db 0
-    db 0Ah
-    db 0
-    db 0Ah
-    db 0
-    db 7Dh
-    db 0
-    db 10h
-    db 0
-    db 80h
-    db 0
-    db 0Ah
-    db 0
-    db 13h
-    db 0
-    db 7Dh
-    db 0
-    db 19h
-    db 0
-    db 80h
-    db 0
-    db 0Ah
-    db 0
-    db 1Ch
-    db 0
-    db 7Dh
-    db 0
-    db 23h
-    db 0
-    db 80h
-    db 0
-    db 0Ah
-    db 0
-    db 4
-    db 0
-    db 2
-    db 0
-    db 1Eh
-    db 0
-    db 15h
-    db 0
-    db 0Dh
-    db 0
-    db 7
-    db 0
-    db 37h
-    db 0
-    db 23h
-    db 0
-    db 3Bh
-    db 0
-    db 7
-    db 0
-    db 59h
-    db 0
-    db 23h
-    db 0
-    db 50h
-    db 0
-    db 25h
-    db 0
-    db 65h
-    db 0
-    db 39h
-    db 0
-    db 2Fh
-    db 0
-    db 26h
-    db 0
-    db 4Ah
-    db 0
-    db 36h
-    db 0
-    db 11h
-    db 0
-    db 2Eh
-    db 0
-    db 36h
-    db 0
-    db 42h
-    db 0
-    db 5
-    db 0
-    db 36h
-    db 0
-    db 1Fh
-    db 0
-    db 47h
-    db 0
-    db 16h
-    db 0
-    db 1Dh
-    db 0
-    db 4Ah
-    db 0
-    db 21h
-    db 0
-    db 3
-    db 0
-    db 19h
-    db 0
-    db 6
-    db 0
-    db 1Ah
-    db 0
-    db 34h
-    db 0
-    db 1Ah
-    db 0
-    db 41h
-    db 0
-    db 1Bh
-    db 0
-    db 4
-    db 0
-    db 10h
-    db 0
-    db 8
-    db 0
-    db 14h
-    db 0
-    db 0 ;align 4
-    db 0
-    db 2
-    db 0
-    db 2
-    db 7 dup(0)
-    db 1
-    db 0
-    db 7Ch
-    db 0
-    db 0C4h
-    db 0
-    db 0B0h
-    db 0
-    db 18h
-    db 1
-    db 0CEh
-    db 5Ah
-    db 1
-    db 0
-    db 1
-    db 0
 aTac db 'Tac',0
     db 5 dup(0)
     db 0
@@ -4021,8 +3652,6 @@ ORG 0219Ch
 _var_282 EQU word_34A4C
 ORG 0505Ah
 _var_383 EQU word_3790A
-ORG 05374h
-_var_456 EQU _byte_37C24
 ORG 057C0h
 ORG 057C2h
 ORG 057C4h
@@ -4174,38 +3803,6 @@ _unk_38FD0 equ unk_38FD0
 ; Matrix3dEntry7 storage.
 ; 571 full records * 7 bytes + 3 spare bytes = 4000 bytes. => #define MAX_TILE_DATA 4000
 
-_word_3AA5C dw ?
-    _g_planes MapTarget 4Ah dup(<?>)
-    db 14 dup(?)
-    db ?
-word_3B7E0 dw ?
-_word_3B7E0 equ word_3B7E0
-word_3B7E2 dw ?
-_word_3B7E2 equ word_3B7E2
-word_3B7E4 dw ?
-_word_3B7E4 equ word_3B7E4
-word_3B7E6 dw ?
-_word_3B7E6 equ word_3B7E6
-word_3B7E8 dw ?
-_word_3B7E8 equ word_3B7E8
-word_3B7EA dw ?
-_word_3B7EA equ word_3B7EA
-word_3B7EC dw ?
-_word_3B7EC equ word_3B7EC
-byte_3B7EE db ?
-_byte_3B7EE equ byte_3B7EE
-byte_3B7EF db ?
-_byte_3B7EF equ byte_3B7EF
-byte_3B7F0 db ?
-_byte_3B7F0 equ byte_3B7F0
-byte_3B7F1 db ?
-_byte_3B7F1 equ byte_3B7F1
-    db ? ;align 8
-    db 5 dup(?)
-    db ? ;align 4
-    db ?
-PUBLIC _word_3B7E2
-PUBLIC _word_3B7EC
     db ? ;align 2
 PUBLIC byte_36BAE
 PUBLIC dword_34A48

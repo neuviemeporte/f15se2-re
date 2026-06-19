@@ -41,16 +41,10 @@ int getTimeOfDay(void)
 uint8 byte_3419A[1];
 uint8 byte_3419C[1];
 uint8 byte_3419F[1];
-uint8 byte_37C24;
 uint8 byte_3790C[1];
-uint8 byte_3B7EE;
-uint8 byte_3B7EF;
-uint8 byte_3B7F0;
-uint8 byte_3B7F1[1];
 int16 g_viewZ;
 uint8 joyAxes[1];
 char strBuf[1];
-struct MapTarget g_planes[1];
 /* --- data referenced by drawHudWorldOverlay (egui.c) --- */
 uint8 var_190;
 int16 var_198;
@@ -58,11 +52,7 @@ char far *var_200;
 int16 var_279;
 int16 var_282;
 uint16 var_383;
-int8 var_456;
 uint16 uvar_547;
-struct Waypoint waypoints[1];
-int16 word_339B4[1];
-int16 word_33B9C[64];
 int16 word_3419C[1];
 int16 word_34276;
 int16 word_34684[64];
@@ -71,13 +61,6 @@ int32 word_34868[121];
 int32 word_34A4C[121];
 int16 word_37348[64];
 int16 word_3734A[64];
-int16 word_38202;
-int16 word_3AA5C[64];
-int16 word_3B7E0;
-int16 word_3B7E2;
-int16 word_3B7E4;
-int16 word_3B7E8;
-struct Matrix3dEntry7 *word_3B7EC;
 
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }

@@ -39,7 +39,7 @@ void drawProjectionSphere(int arg_0)
     if (byte_3850E != 0) {
         p <<= byte_3850E;
     }
-    if (var_456 != 0) {
+    if (byte_37C24 != 0) {
         p >>= 1;
     }
     {

@@ -110,15 +110,15 @@ void spawnEnemyAircraft(int slot, int objType)
 
     p = stru_3B202[slot].spec;
     stru_3B202[slot].heading.w = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
-    if (g_planes[objType].flags & 0x200) {
-        stru_3B202[slot].posX = word_3AFA8 * 3 + g_planes[objType].mapX;
-        stru_3B202[slot].posY = g_planes[objType].mapY - word_3AFA8 * 12;
+    if (g_planeTable.planes[objType].flags & 0x200) {
+        stru_3B202[slot].posX = word_3AFA8 * 3 + g_planeTable.planes[objType].mapX;
+        stru_3B202[slot].posY = g_planeTable.planes[objType].mapY - word_3AFA8 * 12;
         stru_3B202[slot].alt = 0x8c;
         stru_3B202[slot].speed = 100;
         stru_3B202[slot].heading.b[1] += 0xfc;
     } else {
-        stru_3B202[slot].posX = g_planes[objType].mapX;
-        stru_3B202[slot].posY = 0x1e * word_3AFA8 + g_planes[objType].mapY;
+        stru_3B202[slot].posX = g_planeTable.planes[objType].mapX;
+        stru_3B202[slot].posY = 0x1e * word_3AFA8 + g_planeTable.planes[objType].mapY;
         stru_3B202[slot].alt = 0x0c;
         stru_3B202[slot].speed = 10;
     }
@@ -129,7 +129,7 @@ void spawnEnemyAircraft(int slot, int objType)
     stru_3B202[slot].flags.w |= 0x403;
     stru_3B202[slot].objType = objType;
     stru_3B202[slot].timer = (int16)(((long)aircraftTypes[p].field_14 << 11) * (long)g_frameRateScaling / (long)aircraftTypes[p].field_12);
-    stru_3B202[slot].terrainColor = readMapPixelColor(g_planes[objType].mapX, g_planes[objType].mapY);
+    stru_3B202[slot].terrainColor = readMapPixelColor(g_planeTable.planes[objType].mapX, g_planeTable.planes[objType].mapY);
     if (word_336FC == -1) {
         stru_3B202[slot].flags.b[1] &= 0xfe;
     }
@@ -197,7 +197,7 @@ void updateThreatTargeting(void)
 
             if (best > 0x200) {
                 if (*(int16 *)&stru_335C4[i].state[6] > 2 &&
-                    !(g_planes[*(int16 *)&stru_335C4[i].state[6]].flags & 0x10))
+                    !(g_planeTable.planes[*(int16 *)&stru_335C4[i].state[6]].flags & 0x10))
                     locked = 0;
                 if (*(int16 *)&stru_335C4[i].state[6] <= 0 &&
                     !(stru_3B202[-*(int16 *)&stru_335C4[i].state[6]].flags.b[0] & 8))
@@ -235,11 +235,11 @@ void updateThreatTargeting(void)
             if (mode == 4 || mode == 6 || mode == 5 || mode == 0x1c) {
                 if (*(int16 *)&stru_335C4[i].state[4] == -1) {
                     for (j = 0; j < word_3BED2; j++) {
-                        if ((mode != 4 || g_planes[j].field_4 != 0) &&
-                            (((mode == 5 || mode == 6) && (g_planes[j].flags & 8)) ||
-                             (mode != 5 && !(g_planes[j].flags & 8))) &&
-                            (acq = samCanAcquireTarget(i, g_planes[j].mapX,
-                                                       g_planes[j].mapY, 0, mode),
+                        if ((mode != 4 || g_planeTable.planes[j].field_4 != 0) &&
+                            (((mode == 5 || mode == 6) && (g_planeTable.planes[j].flags & 8)) ||
+                             (mode != 5 && !(g_planeTable.planes[j].flags & 8))) &&
+                            (acq = samCanAcquireTarget(i, g_planeTable.planes[j].mapX,
+                                                       g_planeTable.planes[j].mapY, 0, mode),
                              var_669 < best && acq != 0)) {
                             aimY = var_670;
                             best = var_669;
@@ -250,8 +250,8 @@ void updateThreatTargeting(void)
                     }
                 } else {
                     j = *(int16 *)&stru_335C4[i].state[4];
-                    acq = samCanAcquireTarget(i, g_planes[j].mapX,
-                                              g_planes[j].mapY, 0, mode);
+                    acq = samCanAcquireTarget(i, g_planeTable.planes[j].mapX,
+                                              g_planeTable.planes[j].mapY, 0, mode);
                     if (acq != 0) {
                         aimY = var_670;
                         best = var_669;
@@ -346,8 +346,8 @@ void updateThreatTargeting(void)
                 scheduleTimedEvent(0, 1);
                 makeSound(2, 2);
                 strcat((char *)strBuf, (char *)aMisses);
-                dist = rangeApprox(word_3BEBC - g_planes[word_3C020].mapX,
-                                   word_3BEC8 - g_planes[word_3C020].mapY);
+                dist = rangeApprox(word_3BEBC - g_planeTable.planes[word_3C020].mapX,
+                                   word_3BEC8 - g_planeTable.planes[word_3C020].mapY);
                 if (dist < (unsigned)(0x100 / (g_missionStatus + 1))) {
                     destroyGroundTarget(word_3C020);
                     strcat((char *)strBuf, (char *)aDestroyedBy);
@@ -357,7 +357,7 @@ void updateThreatTargeting(void)
                     word_3BECE = 0;
                 } else {
                     wp = findWaypointEntry(word_3BEBC, word_3BEC8);
-                    if (wp == -1 || (g_planes[wp].flags & 0x80))
+                    if (wp == -1 || (g_planeTable.planes[wp].flags & 0x80))
                         goto msg_done;
                     wpX = (int)(word_39808->x >> 5);
                     wpY = -((int)(word_39808->y >> 5) - 0x8000);
@@ -531,21 +531,21 @@ void destroyGroundTarget(int param_1)
 
     placeString(param_1);
     p = 1;
-    if ((g_planes[param_1].flags & 0x80) == 0) {
-        if (g_planes[param_1].flags & 0x1000) {
+    if ((g_planeTable.planes[param_1].flags & 0x80) == 0) {
+        if (g_planeTable.planes[param_1].flags & 0x1000) {
             word_3C048--;
         }
 
         word_39808 = findNearestTileObject(
-            (long)g_planes[param_1].mapX << 5,
-            (0x8000L - (long)g_planes[param_1].mapY) << 5);
+            (long)g_planeTable.planes[param_1].mapX << 5,
+            (0x8000L - (long)g_planeTable.planes[param_1].mapY) << 5);
 
         if (param_1 != 0) {
-            if (g_planes[param_1].field_4 == 0) {
+            if (g_planeTable.planes[param_1].field_4 == 0) {
                 p = 0x0c;
             }
-            *((uint8 *)&g_planes[param_1].flags) |= 0x80;
-            g_planes[param_1].field_4 = 0;
+            *((uint8 *)&g_planeTable.planes[param_1].flags) |= 0x80;
+            g_planeTable.planes[param_1].field_4 = 0;
             for (a = 0; a < 2; a++) {
                 if (g_targetSlots[a].planeIndex == param_1) {
                     markTargetReached(a);
@@ -567,7 +567,7 @@ void destroyGroundTarget(int param_1)
                 appendMapEvent(2, word_39808->id);
             }
             *(((uint8 *)&b) + 1) |= 1;
-            g_planes[param_1].field_C = b;
+            g_planeTable.planes[param_1].field_C = b;
         }
 
         if (word_39808 != 0) {
@@ -710,7 +710,7 @@ void fireMissile()
         *(int16 *)&stru_335C4[c].state[4] = word_336F4;
     }
 
-    if (word_336F4 >= 0 && sams[p].field_C == 5 && (g_planes[word_336F4].flags & 8)) {
+    if (word_336F4 >= 0 && sams[p].field_C == 5 && (g_planeTable.planes[word_336F4].flags & 8)) {
         *(int16 *)&stru_335C4[c].state[4] = word_336F4;
     }
 

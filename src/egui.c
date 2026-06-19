@@ -107,20 +107,20 @@ void drawTacticalMap(char page)
         }
     }
     for (f = 0; f < word_3BED2; f++) {
-        if (!(g_planes[f].flags & 0x80)) {
-            projectMapPoint(g_planes[f].mapX, g_planes[f].mapY);
+        if (!(g_planeTable.planes[f].flags & 0x80)) {
+            projectMapPoint(g_planeTable.planes[f].mapX, g_planeTable.planes[f].mapY);
             if (word_3C016 != -1) {
                 if (g_currentWeaponType == 2 && f == word_336F4) {
                     drawMapMarkerBox(var_279, var_282, 7);
                 }
                 a = 5;
-                if (g_planes[f].flags & 0x201) {
+                if (g_planeTable.planes[f].flags & 0x201) {
                     a = (((-g_ourHead + 0x1000) >> 13) & 3) + 8;
                 }
-                if (g_planes[f].field_4 != 0) {
+                if (g_planeTable.planes[f].field_4 != 0) {
                     a = 1;
                 }
-                if (g_planes[f].flags & 8) {
+                if (g_planeTable.planes[f].flags & 8) {
                     a = 7;
                 }
                 if (f == g_targetSlots[0].planeIndex || f == g_targetSlots[1].planeIndex) {

@@ -74,7 +74,7 @@ void renderHudFrame(int arg_0) {
             if (var_10) drawViewportLine(0x48, 0x55 - var_10, 0x48, 0x55);
             drawViewportLine(0xf7,  0x38, 0xf7, clampRange(-((word_3C8B6 >> 4) - 0x38), 0x14, 0x55));
             if ((g_playerPlaneFlags & 1) == 0 && (frameTick & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) {
-                var_2 = (((g_planes[g_closestThreatIndex].flags & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
+                var_2 = (((g_planeTable.planes[g_closestThreatIndex].flags & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
                 setDrawColor(0xf);
                 drawViewportLine(0xf2, var_2 - 2, 0xf4, var_2);
                 drawViewportLine(0xf2, var_2 + 2, 0xf4, var_2);
@@ -219,12 +219,12 @@ void redrawTacMap(int centerX, int centerY) {
     d = byte_3C5A0;
     byte_3C5A0 = gfx_getDisplayPage();
     for (b = 1; b < word_3BED2; b++) {
-        if (g_planes[b].field_4 != 0 && !(g_planes[b].flags & 0x80) &&
-            objectToScreen(g_planes[b].mapX, g_planes[b].mapY, &p, &a)) {
+        if (g_planeTable.planes[b].field_4 != 0 && !(g_planeTable.planes[b].flags & 0x80) &&
+            objectToScreen(g_planeTable.planes[b].mapX, g_planeTable.planes[b].mapY, &p, &a)) {
             blitSprite(p - 1, a - 1, 0xa4, 0, 4, 4, 0);
         }
-        if (((g_planes[b].flags & 0x481) == 0x401 || (g_planes[b].flags & 0x200)) &&
-            objectToScreen(g_planes[b].mapX, g_planes[b].mapY, &p, &a)) {
+        if (((g_planeTable.planes[b].flags & 0x481) == 0x401 || (g_planeTable.planes[b].flags & 0x200)) &&
+            objectToScreen(g_planeTable.planes[b].mapX, g_planeTable.planes[b].mapY, &p, &a)) {
             blitSprite(p - 1, a - 1, (uint8)gfxModeUnset != 0 ? 0xac : 0xb0, 0, 4, 4, 0);
         }
     }
@@ -488,10 +488,10 @@ void drawMapPoint(int x, int y, int color) {
 // ==== seg000:0x9eb6 ====
 void switchIndicatorColor(int indicatorIdx, int color) {
     if (word_330C2 == 0) goto done;
-    if (*(&word_38202 + indicatorIdx * 5 + 7) != color) {
-        gfx_switchColor(off_38334, *(&word_38202 + indicatorIdx * 5 + 3), *(&word_38202 + indicatorIdx * 5 + 4), *(&word_38202 + indicatorIdx * 5 + 5), *(&word_38202 + indicatorIdx * 5 + 6), *(&word_38202 + indicatorIdx * 5 + 7), color);
-        gfx_switchColor(off_3834C, *(&word_38202 + indicatorIdx * 5 + 3), *(&word_38202 + indicatorIdx * 5 + 4), *(&word_38202 + indicatorIdx * 5 + 5), *(&word_38202 + indicatorIdx * 5 + 6), *(&word_38202 + indicatorIdx * 5 + 7), color);
-        *(&word_38202 + indicatorIdx * 5 + 7) = color;
+    if (*(word_38202 + indicatorIdx * 5 + 7) != color) {
+        gfx_switchColor(off_38334, *(word_38202 + indicatorIdx * 5 + 3), *(word_38202 + indicatorIdx * 5 + 4), *(word_38202 + indicatorIdx * 5 + 5), *(word_38202 + indicatorIdx * 5 + 6), *(word_38202 + indicatorIdx * 5 + 7), color);
+        gfx_switchColor(off_3834C, *(word_38202 + indicatorIdx * 5 + 3), *(word_38202 + indicatorIdx * 5 + 4), *(word_38202 + indicatorIdx * 5 + 5), *(word_38202 + indicatorIdx * 5 + 6), *(word_38202 + indicatorIdx * 5 + 7), color);
+        *(word_38202 + indicatorIdx * 5 + 7) = color;
     }
 done:
     ;
@@ -577,5 +577,5 @@ void setTimedMessage(char *message) {
 
 // ==== seg000:0xa224 ====
 int missileTargetCompat(int param_1, int objIdx) {
-    return (int)(char)var_83[param_1 * 13 + ((int)(char)byte_3BFA4[g_planes[objIdx].field_C & 0x7f] & 0xf)];
+    return (int)(char)var_83[param_1 * 13 + ((int)(char)byte_3BFA4[g_planeTable.planes[objIdx].field_C & 0x7f] & 0xf)];
 }

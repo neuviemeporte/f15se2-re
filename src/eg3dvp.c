@@ -17,7 +17,7 @@ void setupViewport(char *rect) {
     word_37559 = a - 1;
     word_3C69C = word_341DC;
     word_3C6A2 = word_341FC;
-    if (var_456 != 0) {
+    if (byte_37C24 != 0) {
         word_3C69C += 8;
         word_3C6A2 += 8;
     }
