@@ -1715,7 +1715,7 @@ renderSortedList proc near
 loc_0B60:
     CMP WORD PTR [_var_255],BYTE PTR +0x0
     JZ short loc_0BBB
-    MOV SI,offset dword_34C2C+0ECAh
+    MOV SI,offset word_35AF8-2h
 loc_0B6A:
     ADD SI,BYTE PTR +0x2
     PUSH SI
