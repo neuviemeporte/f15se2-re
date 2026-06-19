@@ -171,6 +171,10 @@ PUBLIC _word_3B7E4
 PUBLIC _word_3B7E6
 PUBLIC _word_3B7E8
 PUBLIC _word_3B7EA
+PUBLIC _byte_3B7EE
+PUBLIC _byte_3B7EF
+PUBLIC _byte_3B7F0
+PUBLIC _byte_3B7F1
 PUBLIC _word_33B9C
 PUBLIC _var_198
 PUBLIC _byte_3419F
@@ -4195,6 +4199,14 @@ word_3B7EA dw ?
 _word_3B7EA equ word_3B7EA
 word_3B7EC dw ?
 _word_3B7EC equ word_3B7EC
+byte_3B7EE db ?
+_byte_3B7EE equ byte_3B7EE
+byte_3B7EF db ?
+_byte_3B7EF equ byte_3B7EF
+byte_3B7F0 db ?
+_byte_3B7F0 equ byte_3B7F0
+byte_3B7F1 db ?
+_byte_3B7F1 equ byte_3B7F1
     db ? ;align 8
     db 5 dup(?)
     db ? ;align 4

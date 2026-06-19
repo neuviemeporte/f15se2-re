@@ -1230,7 +1230,7 @@ extern struct Matrix3dEntry7 *word_3B7EC;
 extern uint8 byte_3B7EE;
 extern uint8 byte_3B7EF;
 extern uint8 byte_3B7F0;
-extern uint8 byte_3B7F1;
+extern uint8 byte_3B7F1[];
 extern int32 g_ViewY;
 extern struct ReplayLog byte_3B7FC;
 extern int16 word_3BE3C;
