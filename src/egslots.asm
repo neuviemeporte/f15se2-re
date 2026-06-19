@@ -116,8 +116,6 @@ PUBLIC byte_37C2E
 PUBLIC byte_37C35
 PUBLIC byte_37C3A
 PUBLIC var_468
-PUBLIC byte_37EEE
-PUBLIC byte_37EEF
 PUBLIC unk_37565
 PUBLIC word_37B26
 PUBLIC word_37B2E
@@ -141,7 +139,6 @@ PUBLIC word_37C2B
 PUBLIC word_37C30
 PUBLIC word_37C32
 PUBLIC word_37C36
-PUBLIC word_37EF0
 PUBLIC word_37EF2
 PUBLIC word_37F50
 PUBLIC word_37F52
@@ -292,8 +289,6 @@ PUBLIC audio_timerTick
 PUBLIC audio_noiseTick
 PUBLIC byte_36D86
 PUBLIC byte_37116
-PUBLIC byte_378FC
-PUBLIC byte_37903
 PUBLIC byte_38D61
 PUBLIC byte_38D63
 PUBLIC dacValues
@@ -324,17 +319,6 @@ PUBLIC tmpFileHandle
 PUBLIC tmpPageIndex
 PUBLIC word_37146
 PUBLIC word_37148
-PUBLIC word_378F0
-PUBLIC word_378F2
-PUBLIC word_378F4
-PUBLIC word_378F6
-PUBLIC word_378F8
-PUBLIC word_378FA
-PUBLIC word_378FD
-PUBLIC word_378FF
-PUBLIC word_37901
-PUBLIC word_37904
-PUBLIC word_37906
 PUBLIC word_389D8
 PUBLIC word_389E0
 PUBLIC word_38D5C
@@ -915,11 +899,6 @@ dword_34C2C dd 0
     db 3784 dup(0)
 word_35AF8 dw 0
     db 68 dup(0)
-word_36B7E dw 0
-word_36B80 dw 0
-word_36B82 dw 0
-word_36B84 dw 0
-word_36B89 dw 0
 word_36B8B dw 0
     db 0 ;align 2
     db 1
@@ -955,12 +934,6 @@ word_36B8B dw 0
     db 80h
 byte_36BAE db 0
     db 97 dup(0)
-word_36C10 dw 0
-word_36C12 dw 0
-word_36C14 dw 0
-byte_36C16 db 0
-byte_36C17 db 0
-byte_36C18 db 0
 word_36C19 dw 0
 word_36C1B dw 0
 word_36C1D dw 0
@@ -970,9 +943,6 @@ word_36C23 dw 0
 word_36C25 dw 0
 word_36C27 dw 0
     db 8 dup(0)
-byte_36C31 db 0
-byte_36C32 db 0
-word_36C33 dw 0
     db 6 dup(0)
     db 2Ah
     db 0
@@ -2402,26 +2372,11 @@ PUBLIC _word_3734A
     db 0DCh
     db 0FCh
     db 6 dup(0)
-byte_3754E db 0
-word_3754F dw 0
-word_37551 dw 0
-word_37553 dw 0
-word_37555 dw 0
     db 2 dup(0)
 unk_37565 db 0FFh
     db 439 dup(0FFh)
 unk_3771D db 0
     db 439 dup(0)
-word_378D5 dw 0
-word_378D7 dw 0
-word_378D9 dw 0FFFFh
-word_378DB dw 0
-    db 0 ;align 2
-byte_378DE db 0
-word_378DF dw 0
-word_378E1 dw 0
-word_378E3 dw 0
-word_378E5 dw 0
     db 0
 PUBLIC cbreakHit
 cbreakHit db 0
@@ -2430,19 +2385,6 @@ _origCBreakSeg equ origCBreakSeg
 origCBreakOfs dw 0
     db 0 ;align 2
 timerHandlerInstalled db 0
-word_378F0 dw 0
-word_378F2 dw 0
-word_378F4 dw 0
-word_378F6 dw 0
-word_378F8 dw 0
-word_378FA dw 0
-byte_378FC db 0
-word_378FD dw 0
-word_378FF dw 0
-word_37901 dw 0
-byte_37903 db 0
-word_37904 dw 0
-word_37906 dw 0
     db 2 dup(0)
 word_3790A dw 0
 _byte_3790C db 0
@@ -3390,9 +3332,6 @@ byte_37C3A db 20h                ; DGROUP 0x543a: heading/compass tape buffer
     db 0
     db 3
     db 283 dup(0)
-byte_37EEE db 0
-byte_37EEF db 0
-word_37EF0 dw 0
 word_37EF2 dw 0
     db 2Dh
     db 37h
@@ -4264,13 +4203,6 @@ PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
     db ? ;align 2
 PUBLIC byte_36BAE
-PUBLIC byte_36C16
-PUBLIC byte_36C17
-PUBLIC byte_36C18
-PUBLIC byte_36C31
-PUBLIC byte_36C32
-PUBLIC byte_3754E
-PUBLIC byte_378DE
 PUBLIC dword_34A48
 PUBLIC dword_34C2C
 PUBLIC unk_34713
@@ -4315,15 +4247,7 @@ PUBLIC word_34682
 PUBLIC word_34864
 PUBLIC word_34866
 PUBLIC word_35AF8
-PUBLIC word_36B7E
-PUBLIC word_36B80
-PUBLIC word_36B82
-PUBLIC word_36B84
-PUBLIC word_36B89
 PUBLIC word_36B8B
-PUBLIC word_36C10
-PUBLIC word_36C12
-PUBLIC word_36C14
 PUBLIC word_36C19
 PUBLIC word_36C1B
 PUBLIC word_36C1D
@@ -4332,19 +4256,6 @@ PUBLIC word_36C21
 PUBLIC word_36C23
 PUBLIC word_36C25
 PUBLIC word_36C27
-PUBLIC word_36C33
-PUBLIC word_3754F
-PUBLIC word_37551
-PUBLIC word_37553
-PUBLIC word_37555
-PUBLIC word_378D5
-PUBLIC word_378D7
-PUBLIC word_378D9
-PUBLIC word_378DB
-PUBLIC word_378DF
-PUBLIC word_378E1
-PUBLIC word_378E3
-PUBLIC word_378E5
 PUBLIC word_38A3A
 PUBLIC word_38BC6
 PUBLIC buf6data_3

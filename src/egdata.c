@@ -69,6 +69,92 @@ int16 word_33712 = 0;
 int16 word_33714 = 0;
 int16 word_3374A = 0;
 
+/* word_36B7E/word_36B80/word_36B82: rotated 3D point coordinate components
+   (X/Y/Z) produced by rotatePoint3d (egseg1) and consumed by the subsequent
+   per-vertex projection scan. word_36B84: the point component temp held across
+   the rotation-matrix multiplies. */
+int16 word_36B7E = 0;
+int16 word_36B80 = 0;
+int16 word_36B82 = 0;
+int16 word_36B84 = 0;
+
+/* word_36B89: loop bound (vertex/element count << 2) for the per-vertex scan
+   in egseg1. */
+int16 word_36B89 = 0;
+
+/* word_36C10/word_36C12/word_36C14: byte-offset cursors into the current model
+   primitive buffer (index, attribute, and base spans) set up by the egseg1
+   primitive renderer. byte_36C16/byte_36C17: per-run element countdown counters
+   driving the inner draw loops. byte_36C18: 0..2 phase counter selecting which
+   of the two saved coordinate sets the next primitive writes. */
+int16 word_36C10 = 0;
+int16 word_36C12 = 0;
+int16 word_36C14 = 0;
+uint8 byte_36C16 = 0;
+uint8 byte_36C17 = 0;
+uint8 byte_36C18 = 0;
+
+/* byte_36C31: flag cleared before the final clipped-primitive emit pass in the
+   egseg1 renderer. byte_36C32: element countdown counter for the secondary draw
+   loop. word_36C33: saved primitive coordinate/accumulator carried across that
+   loop. */
+uint8 byte_36C31 = 0;
+uint8 byte_36C32 = 0;
+int16 word_36C33 = 0;
+
+/* byte_3754E: swap/sign flag in the egseg1 edge interpolator (toggled per edge,
+   tested to decide step direction). word_3754F/word_37551/word_37553/word_37555:
+   the edge-stepping working registers (midpoint accumulators, IMUL/IDIV divisor,
+   and subtrahend) used while rasterizing a clipped line/edge. */
+uint8 byte_3754E = 0;
+int16 word_3754F = 0;
+int16 word_37551 = 0;
+int16 word_37553 = 0;
+int16 word_37555 = 0;
+
+/* word_378D5/word_378D7: working screen coordinates for the second egseg1 edge
+   rasterizer. word_378D9/word_378DB: the accumulated dirty-rectangle X/Y bounds
+   handed to gfx_dirtyRect after a primitive is drawn. byte_378DE: this
+   rasterizer's swap/sign flag. word_378DF/word_378E1/word_378E3/word_378E5: its
+   edge-stepping working registers (midpoint accumulators, IMUL/IDIV divisor and
+   subtrahend). */
+int16 word_378D5 = 0;
+int16 word_378D7 = 0;
+int16 word_378D9 = -1;
+int16 word_378DB = 0;
+uint8 byte_378DE = 0;
+int16 word_378DF = 0;
+int16 word_378E1 = 0;
+int16 word_378E3 = 0;
+int16 word_378E5 = 0;
+
+/* Timer-ISR state block (egcode.asm). word_378F0/word_378F2: 32-bit elapsed
+   tick count (lo/hi). word_378F4: countdown target. word_378F6: PIT reload
+   divisor. word_378F8: accumulated tick count. word_378FA: timer-running flag.
+   byte_378FC: PIT clock divider. word_378FD: timer mode. word_378FF/word_37901:
+   32-bit calibration sum (lo/hi). byte_37903: vsync flag. word_37904: per-frame
+   tick counter. word_37906: retrace-wait counter. */
+int16 word_378F0 = 0;
+int16 word_378F2 = 0;
+int16 word_378F4 = 0;
+int16 word_378F6 = 0;
+int16 word_378F8 = 0;
+int16 word_378FA = 0;
+uint8 byte_378FC = 0;
+int16 word_378FD = 0;
+int16 word_378FF = 0;
+int16 word_37901 = 0;
+uint8 byte_37903 = 0;
+int16 word_37904 = 0;
+int16 word_37906 = 0;
+
+/* byte_37EEE: column counter for the egseg2 heading/compass tape renderer.
+   byte_37EEF: the current tape character/digit being drawn. word_37EF0: the
+   running screen X offset (DI cursor) advanced as each tape cell is emitted. */
+uint8 byte_37EEE = 0;
+uint8 byte_37EEF = 0;
+int16 word_37EF0 = 0;
+
 /* mapEvents: 4 tactical-map marker slots (flare/chaff/lock markers). A slot is
    free when ttl == 0; entries are aged down by tickMessageTimers. */
 struct MapEvent mapEvents[4];

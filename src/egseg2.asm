@@ -20,8 +20,8 @@ EXTRN byte_37C2E:byte
 EXTRN byte_37C35:byte
 EXTRN byte_37C3A:byte
 EXTRN var_468:byte
-EXTRN byte_37EEE:byte
-EXTRN byte_37EEF:byte
+EXTRN _byte_37EEE:byte
+EXTRN _byte_37EEF:byte
 EXTRN _byte_3C6A0:byte
 EXTRN unk_37565:byte
 EXTRN _unk_38FD0:byte
@@ -76,7 +76,7 @@ EXTRN word_37C2B:word
 EXTRN word_37C30:word
 EXTRN word_37C32:word
 EXTRN word_37C36:word
-EXTRN word_37EF0:word
+EXTRN _word_37EF0:word
 EXTRN word_37EF2:word
 EXTRN word_37F50:word
 EXTRN word_37F52:word
@@ -629,7 +629,7 @@ loc_21a7_04d8:
     mov AL,CH
     cbw
     db 02Dh, 002h, 000h ; sub AX,2 (force imm16 encoding)
-    mov [word_37EF0],AX
+    mov [_word_37EF0],AX
     mov DX,AX
     mov CL,5h
     mov DI,0h
@@ -828,7 +828,7 @@ loc_21a7_06d2:
     jz loc_21a7_0741
     jmp loc_21a7_04ec
 loc_21a7_0741:
-    mov byte ptr [byte_37EEF],CH
+    mov byte ptr [_byte_37EEF],CH
     sub DI,2h
     mov BX,word ptr [_g_ourRoll]
     neg BX
@@ -901,7 +901,7 @@ loc_21a7_07da:
     mov [_word_37559],AX
     mov DI,0h
     mov SI,DI
-    mov byte ptr [byte_37EEE],0h
+    mov byte ptr [_byte_37EEE],0h
 loc_21a7_07fd:
     mov AX,word ptr [DI+offset byte_37C3A+0ECh]
     add AX,word ptr [word_37C14]
@@ -921,7 +921,7 @@ loc_21a7_07fd:
     pop SI
     pop DI
     add DI,2h
-    inc byte ptr [byte_37EEE]
+    inc byte ptr [_byte_37EEE]
     dec byte ptr [SI+offset byte_37C3A+1CCh]
     jnz loc_21a7_07fd
     add DI,2h
@@ -930,11 +930,11 @@ loc_21a7_07fd:
     jnz loc_21a7_084b
     inc SI
 loc_21a7_084b:
-    mov BL,byte ptr [byte_37EEF]
-    cmp byte ptr [byte_37EEE],BL
+    mov BL,byte ptr [_byte_37EEF]
+    cmp byte ptr [_byte_37EEE],BL
     jl loc_21a7_07fd
     call far ptr gfx_nop22
-    add word ptr [word_37EF0],0Bh
+    add word ptr [_word_37EF0],0Bh
     mov SI,0h
     mov word ptr [word_37EF2],5h
     mov BP,offset word_37B52
@@ -970,7 +970,7 @@ loc_21a7_084b:
     mov AX,word ptr [DI+offset _byte_3790C+19Ah]
     mov [word_37F5A],AX
 loc_21a7_08c4:
-    mov DI,word ptr [word_37EF0]
+    mov DI,word ptr [_word_37EF0]
     shl DI,1h
     shl DI,1h
     mov AX,word ptr [DI+offset word_37EF2+2h]
@@ -1007,7 +1007,7 @@ loc_21a7_0913:
     call far ptr gfx_drawStringUnclipped
     pop SI
     inc SI
-    mov DI,word ptr [word_37EF0]
+    mov DI,word ptr [_word_37EF0]
     shl DI,1h
     shl DI,1h
     mov AX,word ptr [DI+offset word_37EF2+2h]
@@ -1044,7 +1044,7 @@ loc_21a7_0974:
     call far ptr gfx_drawStringUnclipped
     pop SI
     inc SI
-    inc word ptr [word_37EF0]
+    inc word ptr [_word_37EF0]
     dec word ptr [word_37EF2]
     jz loc_21a7_0993
     jmp loc_21a7_08c4

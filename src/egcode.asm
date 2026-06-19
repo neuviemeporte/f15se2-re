@@ -408,8 +408,8 @@ EXTRN audio_noiseTick:PROC
 EXTRN byte_36D86:BYTE
 EXTRN byte_37116:BYTE
 EXTRN _byte_378EE:BYTE
-EXTRN byte_378FC:BYTE
-EXTRN byte_37903:BYTE
+EXTRN _byte_378FC:BYTE
+EXTRN _byte_37903:BYTE
 EXTRN _byte_3862A:BYTE
 byte_3862A EQU _byte_3862A
 EXTRN _byte_3862B:BYTE
@@ -454,17 +454,17 @@ EXTRN word_37146:WORD
 EXTRN word_37148:WORD
 EXTRN _word_37348:WORD
 EXTRN _word_3734A:WORD
-EXTRN word_378F0:WORD
-EXTRN word_378F2:WORD
-EXTRN word_378F4:WORD
-EXTRN word_378F6:WORD
-EXTRN word_378F8:WORD
-EXTRN word_378FA:WORD
-EXTRN word_378FD:WORD
-EXTRN word_378FF:WORD
-EXTRN word_37901:WORD
-EXTRN word_37904:WORD
-EXTRN word_37906:WORD
+EXTRN _word_378F0:WORD
+EXTRN _word_378F2:WORD
+EXTRN _word_378F4:WORD
+EXTRN _word_378F6:WORD
+EXTRN _word_378F8:WORD
+EXTRN _word_378FA:WORD
+EXTRN _word_378FD:WORD
+EXTRN _word_378FF:WORD
+EXTRN _word_37901:WORD
+EXTRN _word_37904:WORD
+EXTRN _word_37906:WORD
 EXTRN word_389D8:WORD
 EXTRN word_389E0:WORD
 EXTRN word_38D5C:WORD
@@ -880,10 +880,10 @@ loc_13C59:
 gameMainLoop endp
 ; ------------------------------seg000:0x3c76------------------------------
 ; ------------------------------seg000:0x3c78------------------------------
-TIMER_VAR_74 EQU <word ptr [word_378FA]>
-TIMER_VAR_80 EQU <word ptr [word_37904]>
-TIMER_VAR_70 EQU <word ptr [word_378F0]>
-TIMER_VAR_71 EQU <word ptr [word_378F2]>
+TIMER_VAR_74 EQU <word ptr [_word_378FA]>
+TIMER_VAR_80 EQU <word ptr [_word_37904]>
+TIMER_VAR_70 EQU <word ptr [_word_378F0]>
+TIMER_VAR_71 EQU <word ptr [_word_378F2]>
 TIMER_CALIBRATE EQU <calibrateTimerSpeed>
 TIMER_ISR_PTR EQU <timerIsrPtr>
 TIMER_IRQ_ADDR EQU <timerIrqAddr>
@@ -892,21 +892,21 @@ INCLUDE shared/timer_setHandler.inc
 INCLUDE shared/timer_restore.inc
 ; ------------------------------seg000:0x3cd7------------------------------
 setTimerRateFromCalibration proc near
-    mov bx, word_378FD
-    mov word_378FA, bx
-    mov ax, word_378FF
+    mov bx, _word_378FD
+    mov _word_378FA, bx
+    mov ax, _word_378FF
     xor dx, dx
     div bx
-    mov word_378F4, ax
-    mov byte_378FC, 1
+    mov _word_378F4, ax
+    mov _byte_378FC, 1
     retn
 setTimerRateFromCalibration endp
 
 setTimerRateSingle proc near
-    mov word_378FA, 1
-    mov ax, word_378FF
-    mov word_378F4, ax
-    mov byte_378FC, 1
+    mov _word_378FA, 1
+    mov ax, _word_378FF
+    mov _word_378F4, ax
+    mov _byte_378FC, 1
     retn
 setTimerRateSingle endp
 ; ------------------------------seg000:0x3cd6------------------------------
@@ -925,22 +925,22 @@ timerIsr proc far
     push ES
     mov AX, @data
     mov DS, AX
-    mov AX, word_378F6
-    add word_378F0, AX
-    adc word_378F2, 0
-    dec word_37904
+    mov AX, _word_378F6
+    add _word_378F0, AX
+    adc _word_378F2, 0
+    dec _word_37904
     jnz short @@tisr_skip
-    mov AX, word_378FA
-    mov word_37904, AX
+    mov AX, _word_378FA
+    mov _word_37904, AX
     call timerIrqCallback
     mov _byte_378EE, 0
     call advanceFrameTick
 @@tisr_skip:
-    cmp word_378FA, 1
+    cmp _word_378FA, 1
     jz short @@tisr_nochain
     call far ptr audio_noiseTick
 @@tisr_nochain:
-    cmp word_378F2, 0
+    cmp _word_378F2, 0
     jnz short @@tisr_chain
     mov AL, 20h
     out 20h, AL
@@ -955,7 +955,7 @@ timerIsr proc far
     pop AX
     iret
 @@tisr_chain:
-    dec word_378F2
+    dec _word_378F2
     pop ES
     pop DS
     pop BP
@@ -972,18 +972,18 @@ timerIsr endp
 timerIsrPtr dd 0
 ; ------------------------------seg000:0x3d6b------------------------------
 ; --- timer callback/calibrate: egame TIMER_VAR bindings ---
-TIMER_VAR_CALSUM_HI EQU <word ptr [word_37901]>
-TIMER_VAR_CALSUM_LO EQU <word ptr [word_378FF]>
-TIMER_VAR_COUNT_HI EQU <word ptr [word_378F2]>
-TIMER_VAR_COUNT_LO EQU <word ptr [word_378F0]>
-TIMER_VAR_DIVIDER EQU <byte ptr [byte_378FC]>
-TIMER_VAR_DIVISOR EQU <word ptr [word_378F6]>
-TIMER_VAR_MODE EQU <word ptr [word_378FD]>
-TIMER_VAR_SYNC EQU <byte ptr [byte_37903]>
-TIMER_VAR_TARGET EQU <word ptr [word_378F4]>
-TIMER_VAR_RETRACE EQU <word ptr [word_37906]>
-TIMER_VAR_TICK EQU <word ptr [word_37904]>
-TIMER_VAR_TICKCNT EQU <word ptr [word_378F8]>
+TIMER_VAR_CALSUM_HI EQU <word ptr [_word_37901]>
+TIMER_VAR_CALSUM_LO EQU <word ptr [_word_378FF]>
+TIMER_VAR_COUNT_HI EQU <word ptr [_word_378F2]>
+TIMER_VAR_COUNT_LO EQU <word ptr [_word_378F0]>
+TIMER_VAR_DIVIDER EQU <byte ptr [_byte_378FC]>
+TIMER_VAR_DIVISOR EQU <word ptr [_word_378F6]>
+TIMER_VAR_MODE EQU <word ptr [_word_378FD]>
+TIMER_VAR_SYNC EQU <byte ptr [_byte_37903]>
+TIMER_VAR_TARGET EQU <word ptr [_word_378F4]>
+TIMER_VAR_RETRACE EQU <word ptr [_word_37906]>
+TIMER_VAR_TICK EQU <word ptr [_word_37904]>
+TIMER_VAR_TICKCNT EQU <word ptr [_word_378F8]>
 INCLUDE shared/timer_callback.inc
 ; ------------------------------seg000:0x3df1------------------------------
 ; ------------------------------seg000:0x3df2------------------------------
