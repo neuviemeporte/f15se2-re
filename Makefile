@@ -212,7 +212,7 @@ $(NOASMDIR)/%.obj: $(SRCDIR)/%.asm | $(NOASMDIR) $(ASM)
 # egame.exe NO_ASM build (virtual gfx overlay - Phase 3 of plan)
 #
 EGAME_NOASM := $(NOASMDIR)/egame.exe
-NOASM_EGAME_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egmath.c egkeys.c egfileio.c egpic.c egfarbu2.c slottram.c ovlpatch.c
+NOASM_EGAME_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egmath.c egkeys.c egfileio.c egpic.c egfarbuf.c slottram.c ovlpatch.c
 EGAME_NOASM_COBJ := $(call cobj,$(NOASMDIR),$(EGAME_NOASM_SRC))
 EGAME_NOASM_OBJ := $(EGAME_NOASM_COBJ) $(NOASMDIR)/cleanup.obj $(NOASMDIR)/drawstr.obj $(NOASMDIR)/textfmt.obj $(NOASMDIR)/filepic.obj
 $(EGAME_NOASM_COBJ): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DNO_ASM /DBUGFIX
@@ -231,10 +231,12 @@ EGAME_EXE := $(BUILDDIR)/egame.exe
 EGAME_MAP := $(MAPDIR)/egame.map
 EGAME_LINKMAP := $(BUILDDIR)/egame.map:link
 EGAME_BASE := egslots.asm
-EGAME_ASM := egcode.asm $(EGAME_BASE) egseg3.asm egseg2.asm egseg1.asm
+EGAME_ASM := egcode.asm $(EGAME_BASE) egfarbu2.asm egseg3.asm egseg2.asm egseg1.asm
 # egmain.c split after gfxInit so drawProjectionSphere (egsphere.c) links between
 # gfxInit and updateFrame, matching its early position in map/egame.map.
-EGAME_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egtarget.c egmath.c egkeys.c egfileio.c egpic.c egdata.c egfarbu2.c
+# The reference build gets byte_228D0/byte_2D6A4 from egfarbu2.asm (two distinct
+# symbols at fixed offsets); the NO_ASM build uses egfarbuf.c (single buffer) instead.
+EGAME_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egtarget.c egmath.c egkeys.c egfileio.c egpic.c egdata.c
 EGAME_BASEHDR = $(SRCDIR)/egame.h
 EGAME_COBJ := $(call cobj,$(BUILDDIR),$(EGAME_SRC))
 EGAME_OBJ := $(EGAME_COBJ) $(call asmobj,$(BUILDDIR),$(EGAME_ASM))

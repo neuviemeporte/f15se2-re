@@ -18,12 +18,33 @@
 #define __int8 char
 #define __cdecl
 #define __far far
+/*
+ * The 3D world data lives in one contiguous far buffer. The aircraft-model region
+ * (byte_2D6A4) sits AIRCRAFT_MODELS_OFFSET bytes into the region/object buffer
+ * (byte_228D0): shapeDataOffset() (egmath.c) addresses models as the offset
+ * difference &byte_2D6A4[off] - byte_228D0 and drawWorldObject() re-adds it, so the
+ * round-trip only resolves at that exact spacing.
+ *
+ * Reference build (asm): byte_228D0 and byte_2D6A4 are two distinct symbols pinned
+ * at the right offsets by egfarbu2.asm, matching the original's codegen (which loads
+ * the model segment dynamically because the two symbols are independent).
+ *
+ * Asm-free builds (NO_ASM / 64-bit): byte_228D0 is a single contiguous buffer
+ * (egfarbuf.c) and byte_2D6A4 is a view into it at the fixed offset. The spacing is
+ * then guaranteed by construction and is correct under both the 16-bit far model and
+ * the flat 64-bit layout, with no dependence on linker placement.
+ */
+#define AIRCRAFT_MODELS_OFFSET 0xADD4
 #ifdef BUGFIX
 extern char far byte_228D0[];
 #else
 extern unsigned char far byte_228D0[];
 #endif
+#ifdef NO_ASM
+#define byte_2D6A4 (byte_228D0 + AIRCRAFT_MODELS_OFFSET)
+#else
 extern char far byte_2D6A4[];
+#endif
 #define DOS_SET_IRQH 0x25
 #define PORT_PIT_TIME0 0x40
 #define PORT_PIT_CNTRL 0x43
