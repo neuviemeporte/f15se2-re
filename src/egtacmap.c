@@ -393,8 +393,8 @@ void drawViewportLine(int x1, int y1, int x2, int y2) {
     a = off_38334[10] - off_38334[9] + 1;
     p = off_38334[8] - off_38334[7] + 1;
     gfx_setBlitOffset(gfx_calcRowAddr(off_38334[9], off_38334[7]));
-    var_349 = a - 1;
-    var_350 = p - 1;
+    word_37557 = a - 1;
+    word_37559 = p - 1;
     gfx_setColor(off_38334[2]);
     word_3755D = x1;
     word_37561 = y1;
@@ -411,8 +411,8 @@ void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int arg
     a = arg_a - clipLeft + 1;
     p = arg_e - arg_c + 1;
     gfx_setBlitOffset(gfx_calcRowAddr(clipLeft, arg_c));
-    var_349 = a - 1;
-    var_350 = p - 1;
+    word_37557 = a - 1;
+    word_37559 = p - 1;
     gfx_setColor(off_38334[2]);
     word_3755D = x1 - clipLeft;
     word_37561 = y1 - arg_c;
@@ -432,8 +432,8 @@ void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int arg
         gfx_setPageN(byte_3C5A0 != 0);
         gfx_nop23();
     }
-    var_349 = 0x13f;
-    var_350 = 0xc7;
+    word_37557 = 0x13f;
+    word_37559 = 0xc7;
     gfx_setBlitOffset(0);
 }
 

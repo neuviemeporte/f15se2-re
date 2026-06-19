@@ -13,8 +13,8 @@ void setupViewport(char *rect) {
     }
     gfx_setOvlVal2(b - 1);
     gfx_setBlitOffset(gfx_calcRowAddr(*(int *)(rect + 0x12), *(int *)(rect + 0x0e)));
-    var_349 = b - 1;
-    var_350 = a - 1;
+    word_37557 = b - 1;
+    word_37559 = a - 1;
     word_3C69C = word_341DC;
     word_3C6A2 = word_341FC;
     if (var_456 != 0) {

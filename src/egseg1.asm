@@ -55,10 +55,10 @@ EXTRN _word_3755D:word
 EXTRN _word_3755F:word
 EXTRN _word_37561:word
 EXTRN _word_37563:word
-EXTRN byte_3416E:byte
-EXTRN byte_3416F:byte
-EXTRN byte_34170:byte
-EXTRN byte_34196:byte
+EXTRN _byte_3416E:byte
+EXTRN _byte_3416F:byte
+EXTRN _byte_34170:byte
+EXTRN _byte_34196:byte
 EXTRN byte_36BAE:byte
 EXTRN byte_36C16:byte
 EXTRN byte_36C17:byte
@@ -70,42 +70,42 @@ EXTRN byte_378DE:byte
 EXTRN unk_37565:byte
 EXTRN unk_3771D:byte
 EXTRN _var_141:word
-EXTRN word_34150:word
-EXTRN word_34152:word
-EXTRN word_34156:word
-EXTRN word_34158:word
-EXTRN word_3415A:word
-EXTRN word_3415C:word
-EXTRN word_3415E:word
-EXTRN word_34160:word
-EXTRN word_34162:word
-EXTRN word_34164:word
-EXTRN word_34166:word
-EXTRN word_34168:word
-EXTRN word_3416A:word
-EXTRN word_3416C:word
-EXTRN word_34171:word
-EXTRN word_34173:word
-EXTRN word_34175:word
-EXTRN word_34177:word
-EXTRN word_34179:word
-EXTRN word_3417B:word
-EXTRN word_3417D:word
-EXTRN word_3417F:word
-EXTRN word_34190:word
-EXTRN word_34192:word
-EXTRN word_34194:word
-EXTRN word_34198:word
+EXTRN _word_34150:word
+EXTRN _word_34152:word
+EXTRN _word_34156:word
+EXTRN _word_34158:word
+EXTRN _word_3415A:word
+EXTRN _word_3415C:word
+EXTRN _word_3415E:word
+EXTRN _word_34160:word
+EXTRN _word_34162:word
+EXTRN _word_34164:word
+EXTRN _word_34166:word
+EXTRN _word_34168:word
+EXTRN _word_3416A:word
+EXTRN _word_3416C:word
+EXTRN _word_34171:word
+EXTRN _word_34173:word
+EXTRN _word_34175:word
+EXTRN _word_34177:word
+EXTRN _word_34179:word
+EXTRN _word_3417B:word
+EXTRN _word_3417D:word
+EXTRN _word_3417F:word
+EXTRN _word_34190:word
+EXTRN _word_34192:word
+EXTRN _word_34194:word
+EXTRN _word_34198:word
 EXTRN word_3424C:word
 EXTRN word_3424E:word
-EXTRN word_34250:word
+EXTRN _word_34250:word
 EXTRN _byte_32933:byte
-EXTRN word_34252:word
-EXTRN word_34254:word
-EXTRN word_34256:word
+EXTRN _word_34252:word
+EXTRN _word_34254:word
+EXTRN _word_34256:word
 EXTRN _var_220:word
-EXTRN word_3426A:word
-EXTRN word_3426C:word
+EXTRN _word_3426A:word
+EXTRN _word_3426C:word
 EXTRN _var_224:word
 EXTRN _var_225:word
 EXTRN _var_226:word
@@ -172,8 +172,8 @@ EXTRN word_3754F:word
 EXTRN word_37551:word
 EXTRN word_37553:word
 EXTRN word_37555:word
-EXTRN word_37557:word
-EXTRN word_37559:word
+EXTRN _word_37557:word
+EXTRN _word_37559:word
 EXTRN word_378D5:word
 EXTRN word_378D7:word
 EXTRN word_378D9:word
@@ -470,11 +470,11 @@ loc_0113:
     SUB AX,AX
     MOV ES,AX
     MOV AX,[ES:0h]
-    MOV [word_34150],AX
+    MOV [_word_34150],AX
     LEA AX,[divZeroStub]    ; INT 0 IP = seg001 offset of the stub
     MOV [ES:0h],AX
     MOV AX,[ES:2h]
-    MOV [word_34152],AX
+    MOV [_word_34152],AX
     MOV AX,SEG divZeroStub  ; seg001 frame; SEG emits a relocation so the loader
     MOV [ES:2h],AX
     POP ES
@@ -486,9 +486,9 @@ loc_0137:
     PUSH ES
     SUB AX,AX
     MOV ES,AX
-    MOV AX,[word_34150]
+    MOV AX,[_word_34150]
     MOV [ES:0h],AX
-    MOV AX,[word_34152]
+    MOV AX,[_word_34152]
     MOV [ES:2h],AX
     POP ES
     RET
@@ -535,12 +535,12 @@ loc_015D:
     CMP DX,BX
     JNZ short loc_01A7
     MOV DX,AX
-    MOV AX,[word_37557]
+    MOV AX,[_word_37557]
     CMP SI,AX
     JA short loc_01A7
     CMP BP,AX
     JA short loc_01A7
-    MOV AX,[word_37559]
+    MOV AX,[_word_37559]
     CMP CX,AX
     JA short loc_01A7
     CMP DX,AX
@@ -548,45 +548,45 @@ loc_015D:
     RET
 loc_01A7:
     SUB AL,AL
-    MOV [byte_34170],AL
+    MOV [_byte_34170],AL
     MOV BX,[DI]
-    MOV [word_34156],BX
+    MOV [_word_34156],BX
     MOV CX,[DI+2h]
-    MOV [word_34158],CX
+    MOV [_word_34158],CX
     MOV SI,[DI+4h]
-    MOV [word_3415A],SI
+    MOV [_word_3415A],SI
     MOV DX,[DI+6h]
-    MOV [word_3415C],DX
+    MOV [_word_3415C],DX
     CALL loc_0383
-    MOV [byte_3416E],AL
+    MOV [_byte_3416E],AL
     JZ short loc_01D8
     CALL loc_03BA
     MOV [DI+2h],AX
     MOV [DI+6h],BP
 loc_01D8:
     MOV BX,[DI+8h]
-    MOV [word_3415E],BX
+    MOV [_word_3415E],BX
     MOV CX,[DI+0Ah]
-    MOV [word_34160],CX
+    MOV [_word_34160],CX
     MOV SI,[DI+0Ch]
-    MOV [word_34162],SI
+    MOV [_word_34162],SI
     MOV DX,[DI+0Eh]
-    MOV [word_34164],DX
+    MOV [_word_34164],DX
     CALL loc_0383
-    MOV [byte_3416F],AL
+    MOV [_byte_3416F],AL
     JZ short loc_0205
     CALL loc_03BA
     MOV [DI+0Ah],AX
     MOV [DI+0Eh],BP
 loc_0205:
-    MOV AH,[byte_3416E]
-    MOV AL,[byte_3416F]
+    MOV AH,[_byte_3416E]
+    MOV AL,[_byte_3416F]
     OR AH,AL
-    TEST [byte_3416E],AL
+    TEST [_byte_3416E],AL
     JNZ short loc_023B
     OR AL,AL
     JZ short loc_0223
-    MOV AL,[byte_3416E]
+    MOV AL,[_byte_3416E]
     OR AL,AL
     JZ short loc_0227
     CALL loc_023F
@@ -595,10 +595,10 @@ loc_0223:
     CALL loc_029D
     RET
 loc_0227:
-    MOV BX,[word_34156]
-    MOV CX,[word_34158]
-    MOV SI,[word_3415A]
-    MOV DX,[word_3415C]
+    MOV BX,[_word_34156]
+    MOV CX,[_word_34158]
+    MOV SI,[_word_3415A]
+    MOV DX,[_word_3415C]
     CALL loc_02D2
     RET
 loc_023B:
@@ -608,18 +608,18 @@ clipLineSegment endp
 
 sub_1FABF proc near
 loc_023F:
-    MOV AX,[word_34156]
-    MOV [word_34166],AX
-    MOV AX,[word_34158]
-    MOV [word_34168],AX
-    MOV AX,[word_3415A]
-    MOV [word_3416A],AX
-    MOV AX,[word_3415C]
-    MOV [word_3416C],AX
-    MOV BX,[word_3415E]
-    MOV CX,[word_34160]
-    MOV SI,[word_34162]
-    MOV DX,[word_34164]
+    MOV AX,[_word_34156]
+    MOV [_word_34166],AX
+    MOV AX,[_word_34158]
+    MOV [_word_34168],AX
+    MOV AX,[_word_3415A]
+    MOV [_word_3416A],AX
+    MOV AX,[_word_3415C]
+    MOV [_word_3416C],AX
+    MOV BX,[_word_3415E]
+    MOV CX,[_word_34160]
+    MOV SI,[_word_34162]
+    MOV DX,[_word_34164]
     CALL loc_0484
     JZ short loc_0276
     MOV DX,[DI+0Eh]
@@ -627,29 +627,29 @@ loc_023F:
     CALL loc_0308
     RET
 loc_0276:
-    MOV [word_34179],BX
-    MOV [word_3417B],CX
-    MOV [word_3417D],SI
-    MOV [word_3417F],DX
+    MOV [_word_34179],BX
+    MOV [_word_3417B],CX
+    MOV [_word_3417D],SI
+    MOV [_word_3417F],DX
     CALL loc_029D
-    MOV BX,[word_34179]
-    MOV CX,[word_3417B]
-    MOV SI,[word_3417D]
-    MOV DX,[word_3417F]
+    MOV BX,[_word_34179]
+    MOV CX,[_word_3417B]
+    MOV SI,[_word_3417D]
+    MOV DX,[_word_3417F]
     CALL loc_02D2
     RET
 sub_1FABF endp
 
 writeClippedStart proc near
 loc_029D:
-    MOV [word_34166],BX
-    MOV [word_34168],CX
-    MOV [word_3416A],SI
-    MOV [word_3416C],DX
-    MOV BX,[word_34156]
-    MOV CX,[word_34158]
-    MOV SI,[word_3415A]
-    MOV DX,[word_3415C]
+    MOV [_word_34166],BX
+    MOV [_word_34168],CX
+    MOV [_word_3416A],SI
+    MOV [_word_3416C],DX
+    MOV BX,[_word_34156]
+    MOV CX,[_word_34158]
+    MOV SI,[_word_3415A]
+    MOV DX,[_word_3415C]
     CALL loc_040E
     MOV [DI],BX
     MOV [DI+4h],SI
@@ -663,14 +663,14 @@ writeClippedStart endp
 
 writeClippedEnd proc near
 loc_02D2:
-    MOV [word_34166],BX
-    MOV [word_34168],CX
-    MOV [word_3416A],SI
-    MOV [word_3416C],DX
-    MOV BX,[word_3415E]
-    MOV CX,[word_34160]
-    MOV SI,[word_34162]
-    MOV DX,[word_34164]
+    MOV [_word_34166],BX
+    MOV [_word_34168],CX
+    MOV [_word_3416A],SI
+    MOV [_word_3416C],DX
+    MOV BX,[_word_3415E]
+    MOV CX,[_word_34160]
+    MOV SI,[_word_34162]
+    MOV DX,[_word_34164]
     CALL loc_040E
     MOV [DI+8h],BX
     MOV [DI+0Ch],SI
@@ -693,7 +693,7 @@ loc_0308:
     MOV DX,0h
     TEST AL,8h
     JNZ short loc_0323
-    MOV DX,[word_37557]
+    MOV DX,[_word_37557]
 loc_0323:
     MOV [DI],DX
     MOV AX,[DI+4h]
@@ -711,14 +711,14 @@ loc_0334:
     JNZ short loc_0343
     CMP BX,BYTE PTR +0x0
     JZ short loc_0355
-    CMP BX,[word_37557]
+    CMP BX,[_word_37557]
     JZ short loc_0355
 loc_0343:
     OR DX,DX
     JNZ short loc_0352
     CMP SI,BYTE PTR +0x0
     JZ short loc_036C
-    CMP SI,[word_37559]
+    CMP SI,[_word_37559]
     JZ short loc_036C
 loc_0352:
     SUB AX,AX
@@ -730,7 +730,7 @@ loc_0355:
     JNZ short loc_0369
     CMP SI,BYTE PTR +0x0
     JC short loc_0369
-    CMP SI,[word_37559]
+    CMP SI,[_word_37559]
     JA short loc_0369
     INC AX
 loc_0369:
@@ -743,7 +743,7 @@ loc_036C:
     JNZ short loc_0380
     CMP BX,BYTE PTR +0x0
     JC short loc_0380
-    CMP BX,[word_37557]
+    CMP BX,[_word_37557]
     JA short loc_0380
     INC AX
 loc_0380:
@@ -763,7 +763,7 @@ loc_0390:
     XOR AL,9h
     OR CX,CX
     JNZ short loc_039E
-    CMP BX,[word_37557]
+    CMP BX,[_word_37557]
     JA short loc_039E
     XOR AL,1h
 loc_039E:
@@ -776,7 +776,7 @@ loc_03A9:
     XOR AL,6h
     OR DX,DX
     JNZ short loc_03B7
-    CMP SI,[word_37559]
+    CMP SI,[_word_37559]
     JA short loc_03B7
     XOR AL,2h
 loc_03B7:
@@ -807,7 +807,7 @@ loc_03BA:
     JNZ short loc_03E6
     SUB AH,AH
 loc_03E6:
-    OR [byte_34170],AH
+    OR [_byte_34170],AH
     MOV BP,SI
     TEST AL,4h
     JZ short loc_03F3
@@ -815,7 +815,7 @@ loc_03E6:
 loc_03F3:
     TEST AL,2h
     JZ short loc_03FB
-    MOV BP,[word_37559]
+    MOV BP,[_word_37559]
 loc_03FB:
     TEST AL,8h
     JZ short loc_0403
@@ -824,7 +824,7 @@ loc_03FB:
 loc_0403:
     TEST AL,1h
     JZ short loc_040B
-    MOV AX,[word_37557]
+    MOV AX,[_word_37557]
     RET
 loc_040B:
     MOV AX,BX
@@ -833,24 +833,24 @@ clampToClipEdge endp
 
 clipMidpointSubdivide proc near
 loc_040E:
-    MOV AL,[byte_34170]
+    MOV AL,[_byte_34170]
     OR AL,AL
     JNZ short loc_0418
     JMP near ptr loc_058A
 loc_0418:
     MOV BP,20h
 loc_041B:
-    MOV [word_34171],BX
-    MOV [word_34173],CX
-    MOV [word_34175],SI
-    MOV [word_34177],DX
+    MOV [_word_34171],BX
+    MOV [_word_34173],CX
+    MOV [_word_34175],SI
+    MOV [_word_34177],DX
 loc_042B:
-    ADD BX,[word_34166]
-    ADC CX,[word_34168]
+    ADD BX,[_word_34166]
+    ADC CX,[_word_34168]
     SAR CX,1
     RCR BX,1
-    ADD SI,[word_3416A]
-    ADC DX,[word_3416C]
+    ADD SI,[_word_3416A]
+    ADC DX,[_word_3416C]
     SAR DX,1
     RCR SI,1
     CALL loc_0334
@@ -859,63 +859,63 @@ loc_042B:
     JZ short loc_0473
     CALL loc_0383
     JNZ short loc_041B
-    MOV [word_34166],BX
-    MOV [word_34168],CX
-    MOV [word_3416A],SI
-    MOV [word_3416C],DX
-    MOV BX,[word_34171]
-    MOV CX,[word_34173]
-    MOV SI,[word_34175]
-    MOV DX,[word_34177]
+    MOV [_word_34166],BX
+    MOV [_word_34168],CX
+    MOV [_word_3416A],SI
+    MOV [_word_3416C],DX
+    MOV BX,[_word_34171]
+    MOV CX,[_word_34173]
+    MOV SI,[_word_34175]
+    MOV DX,[_word_34177]
     JMP short loc_042B
 loc_0472:
     RET
 loc_0473:
-    MOV BX,[word_34166]
-    MOV CX,[word_34168]
-    MOV SI,[word_3416A]
-    MOV DX,[word_3416C]
+    MOV BX,[_word_34166]
+    MOV CX,[_word_34168]
+    MOV SI,[_word_3416A]
+    MOV DX,[_word_3416C]
     RET
 clipMidpointSubdivide endp
 
 clipLineMidpoint proc near
 loc_0484:
-    MOV AL,[byte_34170]
+    MOV AL,[_byte_34170]
     OR AL,AL
     JNZ short loc_048E
     JMP near ptr loc_0550
 loc_048E:
     MOV BP,20h
 loc_0491:
-    MOV [word_34171],BX
-    MOV [word_34173],CX
-    MOV [word_34175],SI
-    MOV [word_34177],DX
+    MOV [_word_34171],BX
+    MOV [_word_34173],CX
+    MOV [_word_34175],SI
+    MOV [_word_34177],DX
 loc_04A1:
-    ADD BX,[word_34166]
-    ADC CX,[word_34168]
+    ADD BX,[_word_34166]
+    ADC CX,[_word_34168]
     SAR CX,1
     RCR BX,1
-    ADD SI,[word_3416A]
-    ADC DX,[word_3416C]
+    ADD SI,[_word_3416A]
+    ADC DX,[_word_3416C]
     SAR DX,1
     RCR SI,1
     CALL loc_0383
     JZ short loc_04EF
     DEC BP
     JZ short loc_04EF
-    TEST [byte_3416E],AL
+    TEST [_byte_3416E],AL
     JZ short loc_0491
-    TEST [byte_3416F],AL
+    TEST [_byte_3416F],AL
     JNZ short loc_04EF
-    MOV [word_34166],BX
-    MOV [word_34168],CX
-    MOV [word_3416A],SI
-    MOV [word_3416C],DX
-    MOV BX,[word_34171]
-    MOV CX,[word_34173]
-    MOV SI,[word_34175]
-    MOV DX,[word_34177]
+    MOV [_word_34166],BX
+    MOV [_word_34168],CX
+    MOV [_word_3416A],SI
+    MOV [_word_3416C],DX
+    MOV BX,[_word_34171]
+    MOV CX,[_word_34173]
+    MOV SI,[_word_34175]
+    MOV DX,[_word_34177]
     JMP short loc_04A1
 loc_04EF:
     OR AL,AL
@@ -926,11 +926,11 @@ pointOnClipEdge proc near
 loc_04F2:
     CMP BX,BYTE PTR +0x0
     JZ short loc_050B
-    CMP BX,[word_37557]
+    CMP BX,[_word_37557]
     JZ short loc_050B
     CMP SI,BYTE PTR +0x0
     JZ short loc_051C
-    CMP SI,[word_37559]
+    CMP SI,[_word_37559]
     JZ short loc_051C
     SUB AX,AX
     RET
@@ -938,7 +938,7 @@ loc_050B:
     SUB AX,AX
     CMP SI,BYTE PTR +0x0
     JL short loc_0519
-    CMP SI,[word_37559]
+    CMP SI,[_word_37559]
     JG short loc_0519
     INC AX
 loc_0519:
@@ -948,7 +948,7 @@ loc_051C:
     SUB AX,AX
     CMP BX,BYTE PTR +0x0
     JL short loc_052A
-    CMP BX,[word_37557]
+    CMP BX,[_word_37557]
     JG short loc_052A
     INC AX
 loc_052A:
@@ -962,14 +962,14 @@ loc_052D:
     CMP BX,BYTE PTR +0x0
     JL short loc_053E
     XOR AL,9h
-    CMP BX,[word_37557]
+    CMP BX,[_word_37557]
     JG short loc_053E
     XOR AL,1h
 loc_053E:
     CMP SI,BYTE PTR +0x0
     JL short loc_054D
     XOR AL,6h
-    CMP SI,[word_37559]
+    CMP SI,[_word_37559]
     JG short loc_054D
     XOR AL,2h
 loc_054D:
@@ -979,8 +979,8 @@ computeClipOutcode endp
 
 loc_0550:
     PUSH DI
-    MOV CX,[word_34166]
-    MOV DX,[word_3416A]
+    MOV CX,[_word_34166]
+    MOV DX,[_word_3416A]
     MOV BP,10h
 loc_055C:
     MOV DI,BX
@@ -994,9 +994,9 @@ loc_0560:
     JZ short loc_0586
     DEC BP
     JZ short loc_0586
-    TEST [byte_3416E],AL
+    TEST [_byte_3416E],AL
     JZ short loc_055C
-    TEST [byte_3416F],AL
+    TEST [_byte_3416F],AL
     JNZ short loc_0586
     MOV CX,BX
     MOV DX,SI
@@ -1009,8 +1009,8 @@ loc_0586:
     RET
 loc_058A:
     PUSH DI
-    MOV CX,[word_34166]
-    MOV DX,[word_3416A]
+    MOV CX,[_word_34166]
+    MOV DX,[_word_3416A]
     MOV BP,10h
 loc_0596:
     MOV DI,BX
@@ -1057,14 +1057,14 @@ sub_1FE5CThunk:
     RET
 sub_1FE5C proc near
 loc_05DC:
-    MOV [word_34190],BX
+    MOV [_word_34190],BX
     SUB BP,BP
     MOV AL,[ES:SI]
     INC SI
     SUB AH,AH
     MOV CX,AX
 loc_05EA:
-    MOV BX,[word_34190]
+    MOV BX,[_word_34190]
     ADD BX,CX
     MOV AL,[BX]
     MOV BX,CX
@@ -1144,7 +1144,7 @@ sub_1FEEC proc far
     PUSH BP
     MOV BP,SP
     MOV AL,[BP+6h]
-    MOV [byte_34196],AL
+    MOV [_byte_34196],AL
     PUSH SI
     PUSH DI
     CALL loc_067E
@@ -1158,7 +1158,7 @@ sub_1FEFE proc near
 loc_067E:
     MOV AX,[_var_226]
     NEG AX
-    MOV [word_34194],AX
+    MOV [_word_34194],AX
     MOV AX,[_var_224]
     CWD
     MOV DL,AH
@@ -1194,7 +1194,7 @@ loc_06CB:
     SAR AX,1
 loc_06D4:
     MOV BP,AX
-    IMUL WORD PTR [word_34194]
+    IMUL WORD PTR [_word_34194]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
@@ -1226,7 +1226,7 @@ loc_06D4:
     MOV DI,DX
     MOV AX,[_word_3298C]
     SHL AX,1
-    IMUL WORD PTR [word_34194]
+    IMUL WORD PTR [_word_34194]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
@@ -1252,8 +1252,8 @@ loc_06D4:
     MOV DX,[_word_3298E]
     SUB DX,DI
     MOV [_word_37561],DX
-    MOV WORD PTR [word_34198],0h
-    MOV AH,[byte_34196]
+    MOV WORD PTR [_word_34198],0h
+    MOV AH,[_byte_34196]
     call far ptr gfx_setDrawColor
     CALL loc_1EA0
     CALL loc_1CB6
@@ -1269,11 +1269,11 @@ loc_077E:
 loc_0798:
     SUB SI,SI
     MOV DI,SI
-    MOV DX,[word_37559]
+    MOV DX,[_word_37559]
     CALL loc_1ED6
-    MOV SI,[word_37557]
+    MOV SI,[_word_37557]
     SUB DI,DI
-    MOV DX,[word_37559]
+    MOV DX,[_word_37559]
     CALL loc_1ED6
     MOV AX,[word_378D9]
     MOV CX,[word_378DB]
@@ -1286,7 +1286,7 @@ loc_07C2:
     JNZ short loc_07D5
     OR AX,AX
     JZ short loc_077E
-    CMP AX,[word_37559]
+    CMP AX,[_word_37559]
     JZ short loc_077E
 loc_07D5:
     PUSH WORD PTR [_word_3755D]
@@ -1299,15 +1299,15 @@ loc_07D5:
     POP WORD PTR [_word_37561]
     POP WORD PTR [_word_3755D]
     SUB AX,AX
-    MOV SI,[word_34198]
-    XOR SI,[word_34194]
+    MOV SI,[_word_34198]
+    XOR SI,[_word_34194]
     JNS short loc_0807
-    MOV AX,[word_37557]
+    MOV AX,[_word_37557]
 loc_0807:
-    MOV [word_34192],AX
+    MOV [_word_34192],AX
     SUB BX,BX
-    MOV BP,[word_37559]
-    MOV SI,[word_34198]
+    MOV BP,[_word_37559]
+    MOV SI,[_word_34198]
     XOR SI,[_var_227]
     JNS short loc_081C
     db 087h, 0DDh
@@ -1319,7 +1319,7 @@ loc_081C:
     CMP DI,BP
     JNZ short loc_0832
     MOV DI,BP
-    MOV SI,[word_34192]
+    MOV SI,[_word_34192]
 loc_0832:
     MOV DX,BX
     CALL loc_1ED6
@@ -1331,7 +1331,7 @@ loc_0837:
     CMP DI,BP
     JNZ short loc_084D
     MOV DI,BP
-    MOV SI,[word_34192]
+    MOV SI,[_word_34192]
 loc_084D:
     MOV DX,BX
     CALL loc_1ED6
@@ -1342,7 +1342,7 @@ loc_0852:
     call far ptr gfx_dirtyRect
     CMP BYTE PTR [_word_38FDC],2h
     JZ short loc_087E
-    XOR WORD PTR [word_34198],BYTE PTR -0x1
+    XOR WORD PTR [_word_34198],BYTE PTR -0x1
     JZ short loc_087E
     MOV AH,[_byte_34197]
     call far ptr gfx_setDrawColor
@@ -1446,8 +1446,8 @@ loc_0908:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    MOV [word_34250],SI
-    MOV [word_34252],DI
+    MOV [_word_34250],SI
+    MOV [_word_34252],DI
     MOV AX,[word_34286]
     IMUL BX
     MOV DI,DX
@@ -1462,8 +1462,8 @@ loc_0908:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    MOV [word_34254],SI
-    MOV [word_34256],DI
+    MOV [_word_34254],SI
+    MOV [_word_34256],DI
     CMP DI,[_var_198]
     JG short loc_0A02
     MOV BX,[_word_34262]
@@ -1506,7 +1506,7 @@ loc_0908:
     ADD BX,AX
     SAR BX,1
 loc_09E0:
-    MOV AX,[word_34252]
+    MOV AX,[_word_34252]
     CWD
     XOR AX,DX
     SUB AX,DX
@@ -1635,8 +1635,8 @@ loc_0AAC:
     SHL AX,CL
     ADD DI,AX
 loc_0AB5:
-    MOV AX,[word_34254]
-    MOV DX,[word_34256]
+    MOV AX,[_word_34254]
+    MOV DX,[_word_34256]
     MOV CX,[_word_3C16C]
     MOV BX,CX
     SHL CX,1
@@ -1680,13 +1680,13 @@ loc_0AE0:
     STOSW
     MOV AX,[word_3424E]
     STOSW
-    MOV AX,[word_34250]
+    MOV AX,[_word_34250]
     STOSW
-    MOV AX,[word_34252]
+    MOV AX,[_word_34252]
     STOSW
-    MOV AX,[word_34254]
+    MOV AX,[_word_34254]
     STOSW
-    MOV AX,[word_34256]
+    MOV AX,[_word_34256]
     STOSW
     POP DX
     POP AX
@@ -1753,13 +1753,13 @@ loc_0B6A:
     LODSW
     MOV [word_3424E],AX
     LODSW
-    MOV [word_34250],AX
+    MOV [_word_34250],AX
     LODSW
-    MOV [word_34252],AX
+    MOV [_word_34252],AX
     LODSW
-    MOV [word_34254],AX
+    MOV [_word_34254],AX
     LODSW
-    MOV [word_34256],AX
+    MOV [_word_34256],AX
     LES SI,DWORD PTR [_var_200]
     CALL loc_0BE7
     POP SI
@@ -1803,7 +1803,7 @@ loc_0BE7:
     MOV AH,[_byte_32933]
     OR AH,AH
     JZ short loc_0C16
-MOV AL, byte ptr [word_34256 + 1]
+MOV AL, byte ptr [_word_34256 + 1]
     CBW
     NOT AH
     AND AL,AH
@@ -2266,8 +2266,8 @@ loc_0F92:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    ADD SI,[word_34250]
-    ADC DI,[word_34252]
+    ADD SI,[_word_34250]
+    ADC DI,[_word_34252]
     MOV [BX+offset word_344A0],SI
     MOV [BX+offset word_344A2],DI
     MOV AX,[word_36B8B]
@@ -2284,8 +2284,8 @@ loc_0F92:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    ADD SI,[word_34254]
-    ADC DI,[word_34256]
+    ADD SI,[_word_34254]
+    ADC DI,[_word_34256]
     MOV [BX+offset _word_34684],SI
     MOV [BX+offset _word_34686],DI
     CALL loc_0078
@@ -2319,16 +2319,16 @@ loc_1097:
     MOV AX,[word_3424E]
     ADC AX,[DI+offset dword_34C2C+6h]
     MOV [BX+offset word_342BE],AX
-    MOV AX,[word_34250]
+    MOV AX,[_word_34250]
     ADD AX,[DI+offset dword_34C2C+25Ch]
     MOV [BX+offset word_344A0],AX
-    MOV AX,[word_34252]
+    MOV AX,[_word_34252]
     ADC AX,[DI+offset dword_34C2C+25Eh]
     MOV [BX+offset word_344A2],AX
-    MOV AX,[word_34254]
+    MOV AX,[_word_34254]
     ADD AX,[DI+offset dword_34C2C+4B4h]
     MOV [BX+offset _word_34684],AX
-    MOV AX,[word_34256]
+    MOV AX,[_word_34256]
     ADC AX,[DI+offset dword_34C2C+4B6h]
     MOV [BX+offset _word_34686],AX
     PUSH CX
@@ -2400,8 +2400,8 @@ loc_1114:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    ADD SI,[word_34250]
-    ADC DI,[word_34252]
+    ADD SI,[_word_34250]
+    ADC DI,[_word_34252]
     MOV [BX+offset word_344A0],SI
     MOV [BX+offset word_344A2],DI
     MOV AX,[word_36B8B]
@@ -2418,8 +2418,8 @@ loc_1114:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    ADD SI,[word_34254]
-    ADC DI,[word_34256]
+    ADD SI,[_word_34254]
+    ADC DI,[_word_34256]
     MOV [BX+offset _word_34684],SI
     MOV [BX+offset _word_34686],DI
     CALL loc_0078
@@ -2628,10 +2628,10 @@ buildRotationMatrix proc near
 loc_135F:
     MOV BX,CX
     call far ptr lookupSineFar
-    MOV [word_3426A],BX
+    MOV [_word_3426A],BX
     MOV BX,CX
     call far ptr lookupCosineFar
-    MOV [word_3426C],BX
+    MOV [_word_3426C],BX
     MOV BX,BP
     call far ptr lookupSineFar
     MOV [_var_226],BX
@@ -2650,12 +2650,12 @@ loc_135F:
     RCL DX,1
     MOV SI,DX
     MOV AX,DX
-    IMUL WORD PTR [word_3426A]
+    IMUL WORD PTR [_word_3426A]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[word_3426C]
+    MOV AX,[_word_3426C]
     IMUL WORD PTR [_var_227]
     SHL AX,1
     RCL DX,1
@@ -2668,19 +2668,19 @@ loc_135F:
     RCL DX,1
     MOV BP,DX
     MOV AX,DX
-    IMUL WORD PTR [word_3426A]
+    IMUL WORD PTR [_word_3426A]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[word_3426C]
+    MOV AX,[_word_3426C]
     IMUL WORD PTR [_var_226]
     SHL AX,1
     RCL DX,1
     SUB BX,AX
     SBB CX,DX
     MOV [DI+2h],CX
-    MOV AX,[word_3426A]
+    MOV AX,[_word_3426A]
     IMUL WORD PTR [_var_225]
     SHL AX,1
     RCL DX,1
@@ -2699,12 +2699,12 @@ loc_135F:
     NEG AX
     MOV [DI+0Ah],AX
     MOV AX,SI
-    IMUL WORD PTR [word_3426C]
+    IMUL WORD PTR [_word_3426C]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[word_3426A]
+    MOV AX,[_word_3426A]
     IMUL WORD PTR [_var_227]
     SHL AX,1
     RCL DX,1
@@ -2712,19 +2712,19 @@ loc_135F:
     SBB CX,DX
     MOV [DI+0Ch],CX
     MOV AX,BP
-    IMUL WORD PTR [word_3426C]
+    IMUL WORD PTR [_word_3426C]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[word_3426A]
+    MOV AX,[_word_3426A]
     IMUL WORD PTR [_var_226]
     SHL AX,1
     RCL DX,1
     ADD AX,BX
     ADC DX,CX
     MOV [DI+0Eh],DX
-    MOV AX,[word_3426C]
+    MOV AX,[_word_3426C]
     IMUL WORD PTR [_var_225]
     SHL AX,1
     RCL DX,1
@@ -2736,10 +2736,10 @@ buildInverseRotationMatrix proc near
 loc_147B:
     MOV BX,CX
     call far ptr lookupSineFar
-    MOV [word_3426A],BX
+    MOV [_word_3426A],BX
     MOV BX,CX
     call far ptr lookupCosineFar
-    MOV [word_3426C],BX
+    MOV [_word_3426C],BX
     MOV BX,BP
     call far ptr lookupSineFar
     MOV [_var_226],BX
@@ -2758,12 +2758,12 @@ loc_147B:
     RCL DX,1
     MOV SI,DX
     MOV AX,DX
-    IMUL WORD PTR [word_3426A]
+    IMUL WORD PTR [_word_3426A]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[word_3426C]
+    MOV AX,[_word_3426C]
     IMUL WORD PTR [_var_227]
     SHL AX,1
     RCL DX,1
@@ -2776,19 +2776,19 @@ loc_147B:
     RCL DX,1
     MOV BP,DX
     MOV AX,DX
-    IMUL WORD PTR [word_3426A]
+    IMUL WORD PTR [_word_3426A]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[word_3426C]
+    MOV AX,[_word_3426C]
     IMUL WORD PTR [_var_226]
     SHL AX,1
     RCL DX,1
     ADD BX,AX
     ADC CX,DX
     MOV [DI+6h],CX
-    MOV AX,[word_3426A]
+    MOV AX,[_word_3426A]
     IMUL WORD PTR [_var_225]
     SHL AX,1
     RCL DX,1
@@ -2808,12 +2808,12 @@ loc_147B:
     MOV AX,[_var_224]
     MOV [DI+0Eh],AX
     MOV AX,SI
-    IMUL WORD PTR [word_3426C]
+    IMUL WORD PTR [_word_3426C]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[word_3426A]
+    MOV AX,[_word_3426A]
     IMUL WORD PTR [_var_227]
     SHL AX,1
     RCL DX,1
@@ -2821,19 +2821,19 @@ loc_147B:
     ADC CX,DX
     MOV [DI+4h],CX
     MOV AX,BP
-    IMUL WORD PTR [word_3426C]
+    IMUL WORD PTR [_word_3426C]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[word_3426A]
+    MOV AX,[_word_3426A]
     IMUL WORD PTR [_var_226]
     SHL AX,1
     RCL DX,1
     SUB AX,BX
     SBB DX,CX
     MOV [DI+0Ah],DX
-    MOV AX,[word_3426C]
+    MOV AX,[_word_3426C]
     IMUL WORD PTR [_var_225]
     SHL AX,1
     RCL DX,1
@@ -3308,19 +3308,19 @@ loc_1989:
 drawPrimitiveEdges endp
 
 loc_198A:
-    MOV AX,[word_34256]
+    MOV AX,[_word_34256]
     db 03Dh, 001h, 000h
     JL short loc_19E7
     MOV [_word_34686],AX
-    MOV AX,[word_34254]
+    MOV AX,[_word_34254]
     MOV [_word_34684],AX
     MOV AX,[word_3424C]
     MOV [word_342BC],AX
     MOV AX,[word_3424E]
     MOV [word_342BE],AX
-    MOV AX,[word_34250]
+    MOV AX,[_word_34250]
     MOV [word_344A0],AX
-    MOV AX,[word_34252]
+    MOV AX,[_word_34252]
     MOV [word_344A2],AX
     INC SI
     db 026h
@@ -3394,8 +3394,8 @@ loc_19E8:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    ADD SI,[word_34250]
-    ADC DI,[word_34252]
+    ADD SI,[_word_34250]
+    ADC DI,[_word_34252]
     MOV [word_344A0],SI
     MOV [word_344A2],DI
     MOV AX,[word_36C33]
@@ -3412,8 +3412,8 @@ loc_19E8:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    ADD SI,[word_34254]
-    ADC DI,[word_34256]
+    ADD SI,[_word_34254]
+    ADC DI,[_word_34256]
     MOV [_word_34684],SI
     MOV [_word_34686],DI
     MOV BX,8h
@@ -3461,10 +3461,10 @@ loc_1B06:
     SHL AX,1
     MOV DI,AX
     MOV AX,[DI+offset dword_34C2C+4B4h]
-    ADD AX,[word_34254]
+    ADD AX,[_word_34254]
     MOV [_word_34684],AX
     MOV AX,[DI+offset dword_34C2C+4B6h]
-    ADC AX,[word_34256]
+    ADC AX,[_word_34256]
     db 03Dh, 001h, 000h
     JL short loc_1B95
     MOV [_word_34686],AX
@@ -3476,10 +3476,10 @@ loc_1B06:
     ADC AX,[word_3424E]
     MOV [word_342BE],AX
     MOV AX,[DI+offset dword_34C2C+25Ch]
-    ADD AX,[word_34250]
+    ADD AX,[_word_34250]
     MOV [word_344A0],AX
     MOV AX,[DI+offset dword_34C2C+25Eh]
-    ADC AX,[word_34252]
+    ADC AX,[_word_34252]
     MOV [word_344A2],AX
     MOV BX,8h
     CMP DX,1388h
@@ -3755,7 +3755,7 @@ loc_1DA3:
     SUB BX,BX
     OR SI,SI
     JS short loc_1DB1
-    MOV BX,[word_37557]
+    MOV BX,[_word_37557]
 loc_1DB1:
     MOV AX,BX
     SUB AX,CX
@@ -3777,10 +3777,10 @@ loc_1DD4:
     POP BX
     ADD AX,BP
     JS short loc_1DE7
-    CMP AX,[word_37559]
+    CMP AX,[_word_37559]
     JNG short loc_1E18
 loc_1DDF:
-    MOV BX,[word_37559]
+    MOV BX,[_word_37559]
     CMP DI,BX
     JG short loc_1DE9
 loc_1DE7:
@@ -3806,7 +3806,7 @@ loc_1E0C:
     POP BX
     ADD AX,CX
     JS short loc_1E29
-    CMP AX,[word_37557]
+    CMP AX,[_word_37557]
     JG short loc_1E29
     XCHG AX,BX
 loc_1E18:
@@ -3834,7 +3834,7 @@ loc_1E42:
     JS short loc_1E4A
     AND AL,0F7h
 loc_1E4A:
-    CMP BX,[word_37557]
+    CMP BX,[_word_37557]
     JG short loc_1E52
     AND AL,0FEh
 loc_1E52:
@@ -3842,7 +3842,7 @@ loc_1E52:
     JS short loc_1E58
     AND AL,0FBh
 loc_1E58:
-    CMP BP,[word_37559]
+    CMP BP,[_word_37559]
     JG short loc_1E60
     AND AL,0FDh
 loc_1E60:
@@ -3929,7 +3929,7 @@ loc_1ED6:
     OR SI,SI
     LEA DI,[unk_37565]
     JZ short loc_1EEF
-    CMP SI,[word_37557]
+    CMP SI,[_word_37557]
     JNZ short loc_1F24
     LEA DI,[unk_3771D]
 loc_1EEF:
@@ -3941,9 +3941,9 @@ loc_1EF5:
     JNS short loc_1EFB
     SUB DX,DX
 loc_1EFB:
-    CMP CX,[word_37559]
+    CMP CX,[_word_37559]
     JNG short loc_1F05
-    MOV CX,[word_37559]
+    MOV CX,[_word_37559]
 loc_1F05:
     CMP CX,[word_378DB]
     JNA short loc_1F0F
@@ -3967,7 +3967,7 @@ loc_1F25:
     SUB SI,SI
     OR BX,BX
     JS short loc_1ED6
-    MOV SI,[word_37557]
+    MOV SI,[_word_37557]
     CMP BX,SI
     JG short loc_1ED6
     RET
@@ -4187,7 +4187,7 @@ loc_20F9:
     SUB BX,BX
     OR SI,SI
     JS short loc_2107
-    MOV BX,[word_37557]
+    MOV BX,[_word_37557]
 loc_2107:
     MOV AX,BX
     SUB AX,CX
@@ -4211,10 +4211,10 @@ loc_212E:
     POP BX
     ADD AX,BP
     JS short loc_2141
-    CMP AX,[word_37559]
+    CMP AX,[_word_37559]
     JNG short loc_2176
 loc_2139:
-    MOV BX,[word_37559]
+    MOV BX,[_word_37559]
     CMP DI,BX
     JG short loc_2143
 loc_2141:
@@ -4243,7 +4243,7 @@ loc_216A:
     ADD AX,CX
     XCHG AX,BX
     JS short loc_219A
-    CMP BX,[word_37557]
+    CMP BX,[_word_37557]
     JG short loc_219A
 loc_2176:
     PUSH AX

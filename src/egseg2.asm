@@ -25,8 +25,8 @@ EXTRN byte_37EEF:byte
 EXTRN _byte_3C6A0:byte
 EXTRN unk_37565:byte
 EXTRN _unk_38FD0:byte
-EXTRN word_37557:word
-EXTRN word_37559:word
+EXTRN _word_37557:word
+EXTRN _word_37559:word
 EXTRN _word_3755D:word
 EXTRN _word_3755F:word
 EXTRN _word_37561:word
@@ -881,8 +881,8 @@ loc_21a7_0764:
     mov word ptr [DI+offset byte_37C3A+15Ch],CX
     sub DI,2h
     jns loc_21a7_0764
-    push word ptr [word_37557]
-    push word ptr [word_37559]
+    push word ptr [_word_37557]
+    push word ptr [_word_37559]
     cmp byte ptr [_byte_3C6A0],0h
     jnz loc_21a7_07cf
     jmp loc_21a7_0993
@@ -896,9 +896,9 @@ loc_21a7_07da:
     mov AX,[word_37C1C]
     call far ptr gfx_setBlitOffsetReg
     mov AX,[word_37C1E]
-    mov [word_37557],AX
+    mov [_word_37557],AX
     mov AX,[word_37C20]
-    mov [word_37559],AX
+    mov [_word_37559],AX
     mov DI,0h
     mov SI,DI
     mov byte ptr [byte_37EEE],0h
@@ -1049,8 +1049,8 @@ loc_21a7_0974:
     jz loc_21a7_0993
     jmp loc_21a7_08c4
 loc_21a7_0993:
-    pop word ptr [word_37559]
-    pop word ptr [word_37557]
+    pop word ptr [_word_37559]
+    pop word ptr [_word_37557]
     call far ptr gfx_setBlitOffset3
     ret
 

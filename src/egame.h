@@ -571,7 +571,7 @@ extern uint8 jmp_65[];
 extern int16 word_339B0;
 extern uint8 byte_339B2;
 extern uint8 unk_339B4[];
-extern int16 word_339F4;
+extern int16 word_339F4[];
 extern int16 word_33B74[];
 extern int16 word_33B86[];
 extern int16 word_33B9C[];
@@ -708,10 +708,12 @@ extern int16 word_34686[];
 extern uint8 unk_34713[];
 extern int16 word_34864;
 extern int16 word_34866;
-extern int16 word_34868;
+/* Per-vertex projected screen X, one int32 per model vertex. */
+extern int32 word_34868[];
 extern int16 word_3486A;
 extern int32 dword_34A48;
-extern int16 word_34A4C;
+/* Per-vertex projected screen Y, one int32 per model vertex. */
+extern int32 word_34A4C[];
 extern int16 word_34A4E;
 extern uint8 unk_34A88[];
 extern int32 dword_34C2C;
@@ -1357,8 +1359,6 @@ extern int16 var_227;
 extern int16 var_595;
 extern int16 var_596;
 extern int16 var_597;
-extern int16 var_349;
-extern int16 var_350;
 extern int16 var_141;
 extern int16 var_654;
 extern int16 var_657;
@@ -1419,9 +1419,5 @@ extern int16 var_666;
 extern int rand();
 #endif
 extern long _aNlmul(long, long);
-
-extern int16 var_47;
-extern int16 var_48;
-extern int16 var_49;
 
 #endif // F15_SE2_EGAME

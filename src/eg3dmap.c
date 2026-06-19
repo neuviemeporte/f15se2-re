@@ -221,7 +221,7 @@ void computeTileBounds(int *minTileX, int *maxTileX, int *minTileY, int *maxTile
     if (*minTileY < 0) {
         *minTileY = 0;
     }
-    worldToTileIndex(var_349, var_350, maxTileX, maxTileY);
+    worldToTileIndex(word_37557, word_37559, maxTileX, maxTileY);
     if (*maxTileX >= var_662) {
         *maxTileX = var_662 - 1;
     }
@@ -319,8 +319,8 @@ void projectModelVertices(int screenX, int screenY) {
         }
         word_34684[p * 2] = 1;
         word_34686[p * 2] = 1;
-        *(long *)((char *)&word_34868 + p * 4) = (long)(c + word_3298C);
-        *(long *)((char *)&word_34A4C + p * 4) = (long)(-aspectScaleY(d) + word_3298E);
+        word_34868[p] = c + word_3298C;
+        word_34A4C[p] = -aspectScaleY(d) + word_3298E;
     }
 }
 

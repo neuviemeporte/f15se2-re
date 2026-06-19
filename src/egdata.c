@@ -505,6 +505,26 @@ uint8 far *farPointer = 0;
 /* byte_339B2: a one-byte toggle flag (eg3dview flips it each call). */
 uint8 byte_339B2 = 0;
 
+/* Projection vertex-offset table for process3dg LOD expansion (eg3dproj),
+   indexed (char*)&word_339F4 + f*2 + 18*row. */
+int16 word_339F4[192] = {
+    -1, 1, 0, -1, 1, 0, -1, 1, 0, 2, 1, 2,
+    0, 2, 1, 0, 1, 0, 2, 2, 2, 1, 1, 1,
+    0, 0, 0, 2, 2, 1, 2, 0, 1, 1, 0, 0,
+    1, -1, 0, 1, -1, 0, 1, -1, 0, -2, -1, -2,
+    0, -2, -1, 0, -1, 0, -2, -2, -2, -1, -1, -1,
+    0, 0, 0, -2, -2, -1, -2, 0, -1, -1, 0, 0,
+    -2, 2, -1, 1, 0, -2, 2, -1, 1, 0, -2, 2,
+    -1, 1, 0, 2, 1, 2, 0, 2, 1, -1, 2, 0,
+    1, -2, 2, -1, 1, 0, 2, 2, 2, 2, 2, 1,
+    1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 2, 1,
+    2, 0, 1, 2, -1, 1, 0, 2, -2, 1, -1, 0,
+    2, -2, 1, -1, 0, 2, -2, 1, -1, 0, 2, -2,
+    1, -1, 0, -2, -1, -2, 0, -2, -1, 1, -2, 0,
+    -1, 2, -2, 1, -1, 0, -2, -2, -2, -2, -2, -1,
+    -1, -1, -1, -1, 0, 0, 0, 0, 0, -2, -2, -1,
+    -2, 0, -1, -2, 1, -1, -2, 2, -1, 1, 0, 0
+};
 int16 word_33B74[9] = { -1, 1, 1, -1, 0, 1, 0, -1, 0 };
 int16 word_33B86[11] = { 1, 1, -1, -1, 1, 0, -1, 0, 0, -8192, -4096 };
 
@@ -612,6 +632,55 @@ uint8 unk_33E1A[514] = {
     0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x10, 0x10, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x10,
     0x00, 0x00
 };
+
+/* Saved original INT 0 (divide-by-zero) interrupt vector: offset in
+ * word_34150, segment in word_34152. installDivZeroHandler records it before
+ * pointing the vector at the in-game stub; installDivZeroVector restores it. */
+int16 word_34150 = 0;
+int16 word_34152 = 0;
+
+/* Working state for the egseg1 coordinate-transform / line-clipping routines.
+ * word_3416A/word_3416C hold the low/high words of a 32-bit accumulator. */
+int16 word_34156 = 0;
+int16 word_34158 = 0;
+int16 word_3415A = 0;
+int16 word_3415C = 0;
+int16 word_3415E = 0;
+int16 word_34160 = 0;
+int16 word_34162 = 0;
+int16 word_34164 = 0;
+int16 word_34166 = 0;
+int16 word_34168 = 0;
+int16 word_3416A = 0;
+int16 word_3416C = 0;
+uint8 byte_3416E = 0;
+uint8 byte_3416F = 0;
+uint8 byte_34170 = 0;
+int16 word_34171 = 0;
+int16 word_34173 = 0;
+int16 word_34175 = 0;
+int16 word_34177 = 0;
+int16 word_34179 = 0;
+int16 word_3417B = 0;
+int16 word_3417D = 0;
+int16 word_3417F = 0;
+
+/* More egseg1 scratch state. byte_34196 selects an active count/mode. */
+int16 word_34190 = 0;
+int16 word_34192 = 0;
+int16 word_34194 = 0;
+uint8 byte_34196 = 3;
+int16 word_34198 = 0;
+
+/* egseg1 fixed-point projection accumulators. word_34250/word_34252 and
+ * word_34254/word_34256 are each the low/high words of a 32-bit value;
+ * word_3426A/word_3426C are 16-bit multiplicands. */
+int16 word_34250 = 0;
+int16 word_34252 = 0;
+int16 word_34254 = 0;
+int16 word_34256 = 0;
+int16 word_3426A = 0;
+int16 word_3426C = 0;
 
 int16 word_341DC[16] = { 2, 0x2C, 0xAC, 0x158, 0x2AD, 0x558, 0xAB0, 0x1560,
                          2, 0x1E, 0x75, 0xE9, 0x1D1, 0x3A1, 0x741, 0xE82 };
@@ -746,6 +815,9 @@ struct BulletTrack bulletTracks[20];
 int16 word_336F0 = 0;
 int16 var_141 = 0;
 int16 var_220 = 0;
+/* Default full-screen clip bounds for the 3D rasterizer (right/bottom). */
+int16 word_37557 = 0x13F;
+int16 word_37559 = 0x6F;
 /* Clip rectangle for the 3D line/polygon rasterizer
    (word_3755D/3755F/37561/37563 = left/right/top/bottom). */
 int16 word_3755D = 0;

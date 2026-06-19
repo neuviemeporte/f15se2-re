@@ -123,9 +123,6 @@ PUBLIC _word_380A4
 PUBLIC _word_380A6
 PUBLIC _word_380AA
 PUBLIC _word_380AC
-PUBLIC _var_47
-PUBLIC _var_48
-PUBLIC _var_49
 PUBLIC _byte_3419A
 PUBLIC _byte_3419C
 PUBLIC _var_568
@@ -138,8 +135,6 @@ PUBLIC var_468
 PUBLIC byte_37EEE
 PUBLIC byte_37EEF
 PUBLIC unk_37565
-PUBLIC word_37557
-PUBLIC word_37559
 PUBLIC word_37B26
 PUBLIC word_37B2E
 PUBLIC word_37B30
@@ -195,7 +190,6 @@ PUBLIC _word_3B7E4
 PUBLIC _word_3B7E6
 PUBLIC _word_3B7E8
 PUBLIC _word_3B7EA
-PUBLIC _word_339F4
 PUBLIC _word_33B9C
 PUBLIC _word_33BA2
 PUBLIC _var_198
@@ -203,8 +197,6 @@ PUBLIC _byte_3419F
 PUBLIC _var_83
 PUBLIC _var_279
 PUBLIC _var_282
-PUBLIC _var_349
-PUBLIC _var_350
 PUBLIC _var_134
 PUBLIC _commData
 PUBLIC _joyAxes
@@ -990,252 +982,6 @@ _word_339B4 equ unk_339B4
     db 8 dup(4)
     db 3
     db 5 dup(4)
-word_339F4 dw 0FFFFh
-_word_339F4 equ word_339F4
-    db 1
-    db 3 dup(0)
-    db 2 dup(0FFh)
-    db 1
-    db 3 dup(0)
-    db 2 dup(0FFh)
-    db 1
-    db 3 dup(0)
-    db 2
-    db 0
-    db 1
-    db 0
-    db 2
-    db 3 dup(0)
-    db 2
-    db 0
-    db 1
-    db 3 dup(0)
-    db 1
-    db 3 dup(0)
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 7 dup(0)
-    db 2
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 2
-    db 3 dup(0)
-    db 1
-    db 0
-    db 1
-    db 5 dup(0)
-    db 1
-    db 0
-    db 2 dup(0FFh)
-    db 2 dup(0)
-    db 1
-    db 0
-    db 2 dup(0FFh)
-    db 2 dup(0)
-    db 1
-    db 0
-    db 2 dup(0FFh)
-    db 2 dup(0)
-    db 0FEh
-    db 3 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 2 dup(0)
-    db 0FEh
-    db 3 dup(0FFh)
-    db 2 dup(0)
-    db 2 dup(0FFh)
-    db 2 dup(0)
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 7 dup(0FFh)
-    db 6 dup(0)
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 3 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 2 dup(0)
-    db 4 dup(0FFh)
-    db 4 dup(0)
-    db 0FEh
-    db 0FFh
-    db 2
-    db 0
-    db 2 dup(0FFh)
-    db 1
-    db 3 dup(0)
-    db 0FEh
-    db 0FFh
-    db 2
-    db 0
-    db 2 dup(0FFh)
-    db 1
-    db 3 dup(0)
-    db 0FEh
-    db 0FFh
-    db 2
-    db 0
-    db 2 dup(0FFh)
-    db 1
-    db 3 dup(0)
-    db 2
-    db 0
-    db 1
-    db 0
-    db 2
-    db 3 dup(0)
-    db 2
-    db 0
-    db 1
-    db 0
-    db 2 dup(0FFh)
-    db 2
-    db 3 dup(0)
-    db 1
-    db 0
-    db 0FEh
-    db 0FFh
-    db 2
-    db 0
-    db 2 dup(0FFh)
-    db 1
-    db 3 dup(0)
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 0
-    db 1
-    db 11 dup(0)
-    db 2
-    db 0
-    db 2
-    db 0
-    db 1
-    db 0
-    db 2
-    db 3 dup(0)
-    db 1
-    db 0
-    db 2
-    db 0
-    db 2 dup(0FFh)
-    db 1
-    db 3 dup(0)
-    db 2
-    db 0
-    db 0FEh
-    db 0FFh
-    db 1
-    db 0
-    db 2 dup(0FFh)
-    db 2 dup(0)
-    db 2
-    db 0
-    db 0FEh
-    db 0FFh
-    db 1
-    db 0
-    db 2 dup(0FFh)
-    db 2 dup(0)
-    db 2
-    db 0
-    db 0FEh
-    db 0FFh
-    db 1
-    db 0
-    db 2 dup(0FFh)
-    db 2 dup(0)
-    db 2
-    db 0
-    db 0FEh
-    db 0FFh
-    db 1
-    db 0
-    db 2 dup(0FFh)
-    db 2 dup(0)
-    db 0FEh
-    db 3 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 2 dup(0)
-    db 0FEh
-    db 3 dup(0FFh)
-    db 1
-    db 0
-    db 0FEh
-    db 0FFh
-    db 2 dup(0)
-    db 2 dup(0FFh)
-    db 2
-    db 0
-    db 0FEh
-    db 0FFh
-    db 1
-    db 0
-    db 2 dup(0FFh)
-    db 2 dup(0)
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 11 dup(0FFh)
-    db 10 dup(0)
-    db 0FEh
-    db 0FFh
-    db 0FEh
-    db 3 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 2 dup(0)
-    db 2 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 1
-    db 0
-    db 2 dup(0FFh)
-    db 0FEh
-    db 0FFh
-    db 2
-    db 0
-    db 2 dup(0FFh)
-    db 1
-    db 5 dup(0)
 word_33B9C dw 0
 _word_33B9C equ word_33B9C
     db 0
@@ -1269,32 +1015,7 @@ aPleaseInsertScenarioD db 'Please insert scenario disk',0
 _unk_34121 db 20h
     db 20h
 aPressAKeyWhenReady db 'Press a key when ready',0
-word_34150 dw 0
-word_34152 dw 0
     db 2 dup(0)
-word_34156 dw 0
-word_34158 dw 0
-word_3415A dw 0
-word_3415C dw 0
-word_3415E dw 0
-word_34160 dw 0
-word_34162 dw 0
-word_34164 dw 0
-word_34166 dw 0
-word_34168 dw 0
-word_3416A dw 0
-word_3416C dw 0
-byte_3416E db 0
-byte_3416F db 0
-byte_34170 db 0
-word_34171 dw 0
-word_34173 dw 0
-word_34175 dw 0
-word_34177 dw 0
-word_34179 dw 0
-word_3417B dw 0
-word_3417D dw 0
-word_3417F dw 0
     db 0
     db 1
     db 3 dup(0)
@@ -1308,11 +1029,6 @@ _word_34186 equ word_34186
     db 0
     db 4
     db 0
-word_34190 dw 0
-word_34192 dw 0
-word_34194 dw 0
-byte_34196 db 3
-word_34198 dw 0
 byte_3419A db 0
     db 0
 byte_3419C db 0
@@ -1376,15 +1092,7 @@ dword_3423C dw 0
 word_3423E dw 0
 word_3424C dw 0
 word_3424E dw 0
-word_34250 dw 0
-word_34252 dw 0
-word_34254 dw 0
-word_34256 dw 0
-PUBLIC _word_34256
-_word_34256 equ word_34256
     db 8 dup(0)
-word_3426A dw 0
-word_3426C dw 0
     db 8 dup(0)
 word_34276 dw 0
 word_34278 dw 0
@@ -2940,8 +2648,6 @@ word_3754F dw 0
 word_37551 dw 0
 word_37553 dw 0
 word_37555 dw 0
-word_37557 dw 13Fh
-word_37559 dw 6Fh
     db 2 dup(0)
 unk_37565 db 0FFh
     db 439 dup(0FFh)
@@ -4831,12 +4537,6 @@ word_38A78 dw 0
 word_38A7A dw 0
 ; ==============================================================================
 ; --- Symbolic labels for code references ---
-ORG 00178h
-_var_47 EQU _waypoints + 6
-ORG 0017Eh
-_var_48 EQU _waypoints + 0Ch
-ORG 00180h
-_var_49 EQU _waypoints + 0Eh
 ORG 01100h
 _var_134 EQU word_339B0
 ORG 01308h
@@ -4868,10 +4568,6 @@ ORG 01FB8h
 _var_279 EQU word_34868
 ORG 0219Ch
 _var_282 EQU word_34A4C
-ORG 04CA7h
-_var_349 EQU word_37557
-ORG 04CA9h
-_var_350 EQU word_37559
 ORG 0505Ah
 _var_383 EQU word_3790A
 ORG 05374h
@@ -5051,10 +4747,6 @@ PUBLIC _word_3B7E2
 PUBLIC _word_3B7EC
     db ? ;align 2
 _commData dd ?
-PUBLIC byte_3416E
-PUBLIC byte_3416F
-PUBLIC byte_34170
-PUBLIC byte_34196
 PUBLIC byte_36BAE
 PUBLIC byte_36C16
 PUBLIC byte_36C17
@@ -5069,40 +4761,8 @@ PUBLIC unk_329AB
 PUBLIC unk_34713
 PUBLIC unk_34A88
 PUBLIC unk_3771D
-PUBLIC word_34150
-PUBLIC word_34152
-PUBLIC word_34156
-PUBLIC word_34158
-PUBLIC word_3415A
-PUBLIC word_3415C
-PUBLIC word_3415E
-PUBLIC word_34160
-PUBLIC word_34162
-PUBLIC word_34164
-PUBLIC word_34166
-PUBLIC word_34168
-PUBLIC word_3416A
-PUBLIC word_3416C
-PUBLIC word_34171
-PUBLIC word_34173
-PUBLIC word_34175
-PUBLIC word_34177
-PUBLIC word_34179
-PUBLIC word_3417B
-PUBLIC word_3417D
-PUBLIC word_3417F
-PUBLIC word_34190
-PUBLIC word_34192
-PUBLIC word_34194
-PUBLIC word_34198
 PUBLIC word_3424C
 PUBLIC word_3424E
-PUBLIC word_34250
-PUBLIC word_34252
-PUBLIC word_34254
-PUBLIC word_34256
-PUBLIC word_3426A
-PUBLIC word_3426C
 PUBLIC word_34278
 PUBLIC word_3427A
 PUBLIC word_3427C
