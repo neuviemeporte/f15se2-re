@@ -43,9 +43,8 @@ PUBLIC g_tapeRollOfsA1
 PUBLIC g_tapeRollOfsA2
 PUBLIC g_tapeRollOfsA3
 PUBLIC _g_viewZ
-PUBLIC _uvar_547
+PUBLIC _g_viewZU
 PUBLIC _origCBreakSeg
-PUBLIC _var_143
 PUBLIC _audio_setEnginePitch
 PUBLIC _audio_setup
 PUBLIC _audio_shutdown
@@ -127,20 +126,18 @@ PUBLIC _gfx_storeBufPtr
 PUBLIC _gfx_getModeFlag
 PUBLIC _gfx_setDacAnimCount
 PUBLIC _gfx_setMonoFlag
-PUBLIC _var_605
-PUBLIC _var_606
-PUBLIC _var_608
-PUBLIC _var_609
-PUBLIC _var_610
-PUBLIC _var_687
-PUBLIC _var_688
-PUBLIC _var_689
-PUBLIC _var_690
-PUBLIC _var_692
-PUBLIC _var_694
-PUBLIC _var_697
-PUBLIC _var_699
-PUBLIC _var_700
+PUBLIC picOvlPageIndex
+PUBLIC picOvlRowOffset
+PUBLIC readFromFilePtr
+PUBLIC lzw_readBufEndPtr
+PUBLIC lzw_workDataPtr
+PUBLIC lzw_rowLength
+PUBLIC lzw_processFlag
+PUBLIC lzw_bitWidth
+PUBLIC lzw_maxCode
+PUBLIC lzw_bitsLeft
+PUBLIC lzw_slotCounter
+PUBLIC lzw_dictIndex
 PUBLIC aF15dgtl_bin
 PUBLIC aFileClosingError
 PUBLIC aFileNotFound
@@ -2180,16 +2177,16 @@ rowOffset dw 0
     db 0
 g_picBlitCurrentRow dw 0
 readFromFilePtr dw 0
-; --- LZW decoder state (EQU targets for _var_687 through _var_700) ---
-lzw_readBufEndPtr dw 0     ; _var_687
-lzw_workDataPtr dw 0       ; _var_688
-lzw_rowLength dw 0         ; _var_689
-lzw_processFlag dw 0       ; _var_690
-lzw_bitWidth dw 0          ; _var_692
-lzw_maxCode dw 0           ; _var_694
-lzw_bitsLeft dw 0          ; _var_697
-lzw_slotCounter dw 0       ; _var_699
-lzw_dictIndex dw 0         ; _var_700
+; --- LZW decoder state ---
+lzw_readBufEndPtr dw 0
+lzw_workDataPtr dw 0
+lzw_rowLength dw 0
+lzw_processFlag dw 0
+lzw_bitWidth dw 0
+lzw_maxCode dw 0
+lzw_bitsLeft dw 0
+lzw_slotCounter dw 0
+lzw_dictIndex dw 0
 ; --- end LZW state ---
 word_38A3A dw offset lzw_processFlag
 buf6data_3 db 0
@@ -2214,28 +2211,12 @@ byte_38D6B db 0
 word_38D6C dw 0
 byte_38D6E db 0
     db 506 dup(0)
-; --- Backing storage for _var_* labels whose original targets didn't exist ---
-word_33BB8 dw 0     ; _var_143
-word_38896 dw 0     ; _var_605
-word_389DC dw 0     ; _var_608
+; --- Pic-overlay blit temps (page index / row offset) + reserved word ---
+reservedPicWord dw 0     ; unused
+picOvlPageIndex dw 0
+picOvlRowOffset dw 0
 ; ==============================================================================
-; --- Symbolic labels for code references ---
-_var_143 EQU word_33BB8
-_uvar_547 EQU _g_viewZ
-_var_605 EQU word_38896
-_var_606 EQU g_picBlitBytesRemaining
-_var_608 EQU word_389DC
-_var_609 EQU g_picBlitCurrentRow
-_var_610 EQU readFromFilePtr
-_var_687 EQU lzw_readBufEndPtr
-_var_688 EQU lzw_workDataPtr
-_var_689 EQU lzw_rowLength
-_var_690 EQU lzw_processFlag
-_var_692 EQU lzw_bitWidth
-_var_694 EQU lzw_maxCode
-_var_697 EQU lzw_bitsLeft
-_var_699 EQU lzw_slotCounter
-_var_700 EQU lzw_dictIndex
+_g_viewZU EQU _g_viewZ
 
 .DATA?
 IFDEF DEBUG

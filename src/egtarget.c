@@ -418,7 +418,7 @@ void drawHudWorldOverlay(void) {
 
     v = missiles[missleSpec[missileSpecIndex].weaponIdx].specIndex;
 
-    if (v == 0x1c && computeMapTargetRange(g_groundTargetLock) < (uvar_547 >> 5) * 5 && g_projDepth < 0) {
+    if (v == 0x1c && computeMapTargetRange(g_groundTargetLock) < (g_viewZU >> 5) * 5 && g_projDepth < 0) {
         g_lockToneFlag = 1;
     }
 

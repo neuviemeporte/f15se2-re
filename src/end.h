@@ -67,7 +67,6 @@ uint16 dos_alloc(int size);
 void dos_printstring(const char *str);
 int dos_free(int segment);
 int createFile(const char *name, int mode);
-int readFile(int handle, int buf, int size);
 int readFileAt(int handle, int a, int b, int c);
 int writeFile(int handle, int a, int b, int c, int d);
 
@@ -190,7 +189,7 @@ typedef struct MenuItem {
     struct SpriteParams *spriteNormal; /* 0x28 */
     struct SpriteParams *spriteBlink;  /* 0x2A */
 
-    int16  unk_2c;         /* 0x2c */
+    int16  groupId;        /* 0x2c: items sharing a groupId blink together */
     int16  state;          /* 0x2e */
     MenuItemFlags flags; /* 0x30 */
 } MenuItem;

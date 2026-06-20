@@ -54,8 +54,8 @@ char aAutomaticLandi[] = "Automatic Landing Engaged";
 struct Waypoint waypoints[4];
 
 /* aNone[23]: threat/weapon lethality table indexed by threat type — name,
- * field_8 (base lethality/range), field_A (damage tier), field_C (flags;
- * bit 0 read by egthreat.c). Used to score incoming-threat danger. */
+ * lethality (base lethality/range), dangerTier (damage tier), flags
+ * (bit 0 read by egthreat.c). Used to score incoming-threat danger. */
 struct Weapon aNone[23] = {
     { "None",   0,   0, 0 },
     { "SA-2",   200, 3, 0 },
@@ -86,12 +86,8 @@ struct Weapon aNone[23] = {
  * from commData, indexed by missileSpecIndex. */
 struct MissileSpec missleSpec[4] = { {0, 4}, {1, 4}, {5, 6}, {0, 0} };
 int16 waypointIndex = 0;
-/* g_unusedWaypointTail: a standalone word that sits just past waypointIndex and is
-   only ever zeroed (dead — Ghidra whole-binary XREF). Ghidra mislabels it as
-   "enemyPosCopy.field_6": it fabricated a 4-field struc_9 starting at &waypoints[3]
-   (whose mapX/mapY are field_0/field_2) that runs through waypointIndex (field_4)
-   into this word (field_6). There is no real struct here — these are independent
-   variables that happen to be adjacent. */
+/* g_unusedWaypointTail: a standalone word just past waypointIndex; only ever
+   zeroed, never read. */
 int16 g_unusedWaypointTail = 0;
 
 int16 g_bombDamageMask = 4;
@@ -138,13 +134,12 @@ int8 g_targetCompatTable[260] = {
 };
 
 /* g_particles: 8-entry ring of short-lived world effect markers (smoke trails,
- * weapon-hit sparks, flight markers); see struct Particle. Ghidra calls this
- * struc_9 (and shows it as 0xc bytes, an over-read); ours is the real 8 bytes. */
+ * weapon-hit sparks, flight markers); see struct Particle (8-byte record). */
 struct Particle g_particles[8];
 
-/* sams[39]: threat/weapon spec table — name, field_8 (radar/detect range),
- * field_A (engagement range), field_C (signed target-class index, -1 = none),
- * field_E, field_10 (category). Indexed by threat/weapon id. */
+/* sams[39]: threat/weapon spec table — name, lockRange (radar/detect range),
+ * maxSpeed (projectile speed term), weaponClass (signed target-class index,
+ * -1 = none), turnRate, modelId (category). Indexed by threat/weapon id. */
 struct Sam sams[39] = {
     { "None",    0,    0,     0,  1, 0x13 },
     { "SA-2",    0x7D, 0x7D0,  1,  4, 0x13 },
@@ -189,8 +184,8 @@ struct Sam sams[39] = {
 
 /* aircraftTypes[19]: enemy/AI aircraft catalogue indexed by SimObject.spec —
  * name (+0), altName (" "+NATO reporting name, +7), then speed/turn/model fields.
- * field_18 == -1 marks a type with no 3D model; field_1A/field_1C are read as a
- * 2-element pair (egtarget.c). */
+ * modelId == -1 marks a type with no 3D model; viewModelId/viewModelIdFar are
+ * read as a 2-element pair (egtarget.c). */
 struct AircraftType aircraftTypes[19] = {
     { "MIG-23", " Flogger", 740, 560, 3, 17, 10, 2, 0 },
     { "MIG-25", " Foxbat", 570, 700, 2, 18, 0, 2, 0 },
@@ -405,7 +400,7 @@ uint8 g_theaterGrids[514] = {
     0x00, 0x00
 };
 
-/* g_unusedLoadDoneFlag: cleared to 0 at the end of load3DAll; never read (dead — Ghidra XREF). */
+/* g_unusedLoadDoneFlag: cleared to 0 at the end of load3DAll; never read (dead). */
 int16 g_unusedLoadDoneFlag = 0;
 char aOpenErrorOn_3d3[] = "Open Error on *.3D3";
 char aOpenErrorOn_3d3_0[] = "Open Error on *.3D3";
@@ -528,8 +523,8 @@ int16 g_objRelY = 0;
  * (BX in {0,2,4,6}). One contiguous C array so the index stays valid; element
  * 0 is also used as the scalar g_objTransform. */
 int16 g_objTransform[4] = {0, 0, 0, 0};
-/* Overlaid LZW-dict / vertex-projection scratch (was word_3424C..0x35AF7 in
- * egslots.asm). egcode.asm (pic dict) and egseg1.asm (render/numerator scratch +
+/* Overlaid LZW-dict / vertex-projection scratch. egcode.asm (pic dict) and
+ * egseg1.asm (render/numerator scratch +
  * vertex cluster) reach the sub-objects via _vtxScratch EQUs; the C flight code
  * uses vtxScratch.vproj. See struct VtxScratch. */
 struct VtxScratch vtxScratch;
@@ -609,8 +604,8 @@ int16 g_savedPrimVtxScale = 0;
 /* g_angleLut: 256-entry signed sine table (sin(i*2*pi/256) scaled to +-0x7FFF),
  * with 3-4 trailing zero slots so the +1 look-ahead read stays in bounds.
  * valueToAngle() does an arcsin by searching this table and interpolating
- * between g_angleLut[b] and g_angleLut[b+1] (the latter named word_3734A in
- * the asm consumers, which read it as offset _g_angleLut+2). */
+ * between g_angleLut[b] and g_angleLut[b+1] (the asm consumers read the latter
+ * as offset _g_angleLut+2). */
 int16 g_angleLut[260] = {
     0x0000, 0x0324, 0x0648, 0x096B, 0x0C8C, 0x0FAB, 0x12C8, 0x15E2, 0x18F9, 0x1C0C, 0x1F1A, 0x2224,
     0x2528, 0x2827, 0x2B1F, 0x2E11, 0x30FC, 0x33DF, 0x36BA, 0x398D, 0x3C57, 0x3F17, 0x41CE, 0x447B,
@@ -864,9 +859,9 @@ uint8 aNotAvailable[] = " not available";
 
 /* ammoNumX[3]: screen x-coordinate of the ammo-count readout for each
  * missileSpecIndex (0..2). */
-int16 aA[3] = { 65, 26, 101 };
+int16 ammoNumX[3] = { 65, 26, 101 };
 
-/* missiles[20]: player weapon catalogue — short name, long name, field_16
+/* missiles[20]: player weapon catalogue — shortName, longName, specIndex
  * (signed sams[] index, -1/-2 = non-threat stores), weaponCategory. */
 struct Missile missiles[20] = {
     { "AIM-9M",  "Sidewinder", 0x17, 4 },
@@ -1007,7 +1002,7 @@ int16 g_axisInput1 = 0;
 uint8 flt15_buf1[0x40];
 uint8 flt15_buf2[0x1040];
 size_t flt15_size = 0;
-int16 flt15_word1 = 0;
+int16 flt15HeaderWord = 0;  /* first word of 15FLT.3D3; read past, then discarded */
 int16 g_trkRange = 0;
 int16 g_trkBearing = 0;
 int16 g_trkSize = 0;
@@ -1016,7 +1011,7 @@ int16 g_trkPitch = 0;
 int16 g_trkRoll = 0;
 int16 g_rngSeed = 0;
 /* g_unusedFrameVal: frame-init scalar seeded in initFrameRandom from the target-slot
-   counts ((p & 0xF) << 8); written but never read (dead — Ghidra whole-binary XREF). */
+   counts ((p & 0xF) << 8); written but never read (dead). */
 int16 g_unusedFrameVal;
 int g_scopeArcColor;
 /* strBuf: scratch buffer for building status/event message strings (assembled
@@ -1084,7 +1079,7 @@ struct TargetSlot g_targetSlots[2];
    (g_planes), one contiguous block loaded from the mission file. */
 struct GroundTargetTable g_planeTable;
 /* g_unusedViewXSnap/g_unusedViewYSnap: per-frame snapshots of g_viewX_/g_viewY_;
-   written but never read (dead — Ghidra whole-binary XREF). */
+   written but never read (dead). */
 int16 g_unusedViewXSnap;
 uint8 buf3d3_1[0x96];
 int16 g_bulletTrackCount;
@@ -1183,7 +1178,7 @@ int16 g_viewY_;
 int16 g_planeCount;
 /* g_unusedEventHist0..2: 3-stage event-history shift register (egframe stepFlightModel);
    head captures an event flag (0xff in asm) and shifts down each frame, but no stage is
-   ever read — dead in the original (Ghidra whole-binary XREF). */
+   ever read — dead in the original. */
 int16 g_unusedEventHist0;
 int16 g_wreckY;
 uint8 g_tileKillTally[0x64];

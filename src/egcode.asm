@@ -376,22 +376,20 @@ EXTRN _g_modelWideVtxFlag:BYTE
 EXTRN _g_vtxSignMaskLo:WORD
 EXTRN _g_vtxSignMaskHi:WORD
 EXTRN _g_posVisibleFlag:WORD
-EXTRN _var_605:WORD
-EXTRN _var_606:WORD
-EXTRN _var_608:WORD
-EXTRN _var_609:WORD
-EXTRN _var_610:WORD
+EXTRN picOvlPageIndex:WORD
+EXTRN picOvlRowOffset:WORD
+EXTRN readFromFilePtr:WORD
 EXTRN _g_acqRange:WORD
 EXTRN _g_acqAimY:WORD
-EXTRN _var_687:WORD
-EXTRN _var_688:WORD
-EXTRN _var_689:WORD
-EXTRN _var_690:WORD
-EXTRN _var_692:WORD
-EXTRN _var_694:WORD
-EXTRN _var_697:WORD
-EXTRN _var_699:WORD
-EXTRN _var_700:WORD
+EXTRN lzw_readBufEndPtr:WORD
+EXTRN lzw_workDataPtr:WORD
+EXTRN lzw_rowLength:WORD
+EXTRN lzw_processFlag:WORD
+EXTRN lzw_bitWidth:WORD
+EXTRN lzw_maxCode:WORD
+EXTRN lzw_bitsLeft:WORD
+EXTRN lzw_slotCounter:WORD
+EXTRN lzw_dictIndex:WORD
 EXTRN _g_nightMode:WORD
 EXTRN _g_hudVisible:WORD
 EXTRN _g_hudBottomY:WORD
@@ -1489,7 +1487,7 @@ _picBlit proc near
     push es
     push bp
     mov ax, offset read512FromFileIntoBuf
-    mov word ptr [_var_610], ax
+    mov word ptr [readFromFilePtr], ax
     mov ax, [bp+arg_0]
     mov tmpFileHandle, ax
     mov ax, [bp+arg_2]
@@ -1532,28 +1530,28 @@ picBlitOverlay2 proc near
     push ES
     push BP
     mov AX,offset read512FromFileIntoBuf
-    mov word ptr [_var_610],AX
+    mov word ptr [readFromFilePtr],AX
     mov AX,word ptr [BP + 4h]
-    mov word ptr [_var_605],AX
+    mov word ptr [picOvlPageIndex],AX
     mov AX,word ptr [BP + 6h]
     mov ES,AX
     call far ptr gfx_clearPage
     call nullsub_1
-    mov word ptr [_var_609],0h
-    mov word ptr [_var_606],0fa00h
+    mov word ptr [g_picBlitCurrentRow],0h
+    mov word ptr [g_picBlitBytesRemaining],0fa00h
 LAB_1000_e148:
-    mov DI,word ptr [_var_609]
+    mov DI,word ptr [g_picBlitCurrentRow]
     call far ptr gfx_getRowOffset
-    mov word ptr [_var_608],AX
+    mov word ptr [picOvlRowOffset],AX
     call decodePicRow
-    mov DI,word ptr [_var_608]
+    mov DI,word ptr [picOvlRowOffset]
     mov BP,offset picDecodedRowBuf
-    mov BX,word ptr [_var_609]
+    mov BX,word ptr [g_picBlitCurrentRow]
     call far ptr gfx_fillRow
-    mov DI,word ptr [_var_608]
+    mov DI,word ptr [picOvlRowOffset]
     call far ptr gfx_setOvlVal2
-    inc word ptr [_var_609]
-    sub word ptr [_var_606],140h
+    inc word ptr [g_picBlitCurrentRow]
+    sub word ptr [g_picBlitBytesRemaining],140h
     jnz LAB_1000_e148
     pop BP
     pop ES
@@ -1573,28 +1571,28 @@ picBlitOverlay1 proc near
     push ES
     push BP
     mov AX,offset read512FromFileIntoBuf
-    mov word ptr [_var_610],AX
+    mov word ptr [readFromFilePtr],AX
     mov AX,word ptr [BP + 4h]
-    mov word ptr [_var_605],AX
+    mov word ptr [picOvlPageIndex],AX
     mov AX,word ptr [BP + 6h]
     mov ES,AX
     call far ptr gfx_clearPage
     call nullsub_1
-    mov word ptr [_var_609],0h
-    mov word ptr [_var_606],0fa00h
+    mov word ptr [g_picBlitCurrentRow],0h
+    mov word ptr [g_picBlitBytesRemaining],0fa00h
 LAB_1000_e224:
-    mov DI,word ptr [_var_609]
+    mov DI,word ptr [g_picBlitCurrentRow]
     call far ptr gfx_getRowOffset
-    mov word ptr [_var_608],AX
+    mov word ptr [picOvlRowOffset],AX
     call decodePicRow
-    mov DI,word ptr [_var_608]
+    mov DI,word ptr [picOvlRowOffset]
     mov BP,offset picDecodedRowBuf
-    mov BX,word ptr [_var_609]
+    mov BX,word ptr [g_picBlitCurrentRow]
     call far ptr gfx_getPageSeg
-    mov DI,word ptr [_var_608]
+    mov DI,word ptr [picOvlRowOffset]
     call far ptr gfx_setOvlVal1
-    inc word ptr [_var_609]
-    sub word ptr [_var_606],140h
+    inc word ptr [g_picBlitCurrentRow]
+    sub word ptr [g_picBlitBytesRemaining],140h
     jnz LAB_1000_e224
     pop BP
     pop ES
@@ -1614,24 +1612,24 @@ nullsub_1 endp
 ; --- LZW pic decoder: egame symbol bindings for shared/pic_lzw.inc ---
 picFileReadPos EQU <fileReadPos>
 picFileReadBuf EQU <picBuf>
-picRowLength EQU <_var_689>
-picReadBufEndPtr EQU <_var_687>
+picRowLength EQU <lzw_rowLength>
+picReadBufEndPtr EQU <lzw_readBufEndPtr>
 picWorkData EQU <_picWorkData>
-picWorkDataPtr EQU <_var_688>
-picProcessFlag EQU <_var_690>
+picWorkDataPtr EQU <lzw_workDataPtr>
+picProcessFlag EQU <lzw_processFlag>
 picLookupResult EQU <g_picLookupResult>
 picFileWord EQU <g_picFileWord>
-picRemainingBitCount EQU <_var_697>
+picRemainingBitCount EQU <lzw_bitsLeft>
 picByteUnsignedFlag EQU <g_picByteUnsignedFlag>
 picByte EQU <g_picByte>
-picTmp9BitCount EQU <_var_692>
-picFileReadBufEnd EQU <_var_694>
+picTmp9BitCount EQU <lzw_bitWidth>
+picFileReadBufEnd EQU <lzw_maxCode>
 picNumberDictSlots EQU <g_picNumberDictSlots>
 picDecodeDictionary EQU <word_3424C>
 picDecodeIncrement EQU <word_3424E>
-picReadFromFilePtr EQU <_var_610>
-picSlotCounter EQU <_var_699>
-picDictionaryIndex EQU <_var_700>
+picReadFromFilePtr EQU <readFromFilePtr>
+picSlotCounter EQU <lzw_slotCounter>
+picDictionaryIndex EQU <lzw_dictIndex>
 INCLUDE shared/pic_lzw.inc
 ; ------------------------------seg000:0xe42e------------------------------
 ; These are compiler helper wrappers called by game code

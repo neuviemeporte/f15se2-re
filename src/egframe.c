@@ -589,7 +589,7 @@ void initFrameRandom(void) {
     seedRng();
     clearStatusPanel();
     frameTick = randomRange(0x1000) & 0x7ff8;
-    p = g_targetSlots[0].word_8 + g_targetSlots[1].word_8;
+    p = g_targetSlots[0].seedNoise + g_targetSlots[1].seedNoise;
     g_nightMode = (gameData->theater == 6 ? 5 : 9) < randomRange(0x10);
     if (g_nightMode && g_dacSupported) {
         setupDac();

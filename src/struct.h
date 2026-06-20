@@ -24,7 +24,7 @@ struct FlightUnit {
     int16 flags;
     int16 maxSpeed;
     uint16 fuel;
-    uint8 field_1E[6];
+    uint8 reserved[6];  /* +0x1E loaded/saved with the record but unused by start/egame */
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct FlightUnit)==36);
@@ -122,17 +122,21 @@ STATIC_ASSERT(sizeof(struct Plane)==32);
 #define PLANESIZE 0x20
 
 /* SamDataEntry: 32-byte record in end.exe's planeArray/samDataTable.
- * Unlike struct Plane (start.exe), this has 8 prefix bytes before the name. */
+ * Unlike struct Plane (start.exe), this has 8 prefix bytes before the name.
+ * These records are the shared enemy-aircraft table read with an 8-byte phase
+ * shift, so a record's prefix words actually hold the PRECEDING entry's
+ * model/view/kill fields (compare struct AircraftType). end.exe only reads the
+ * name and the validFlag sentinel; the other columns are unused here. */
 struct SamDataEntry {
-    int16 validFlag;    /* -1 = sentinel/invalid entry */
-    int16 field_2;
-    int16 field_4;
-    int16 field_6;
-    char name[8];       /* "MIG-23\0 " - null-terminated, space at [7] precedes nickname */
-    char nickname[10];  /* "Flogger\0\0\0" */
+    int16 validFlag;        /* +0x00 preceding entry's modelId; -1 = no-3D-model sentinel */
+    int16 prevViewModelId;  /* +0x02 preceding entry's viewModelId (unused in end.exe) */
+    int16 prevViewModelFar; /* +0x04 preceding entry's viewModelIdFar (unused) */
+    int16 prevKillCount;    /* +0x06 preceding entry's killCount (unused) */
+    char name[8];           /* "MIG-23\0 " - null-terminated, space at [7] precedes nickname */
+    char nickname[10];      /* "Flogger\0\0\0" */
     int16 maxSpeed;
     int16 range;
-    int16 field_1E;
+    int16 maneuverability;  /* +0x1e turn/agility rating (unused in end.exe) */
 };
 STATIC_ASSERT(sizeof(struct SamDataEntry)==32);
 
@@ -233,13 +237,14 @@ struct MapTarget {
     int16 alertLevel;   // +0x08  SAM radar-alert accumulator (clamp 255)
     int16 threatTimer;  // +0x0A  threat-site countdown timer
     int16 nameIndex;    // +0x0C  g_targetNameTable index (&0x7f); bit8 = identified
-    int16 field_E;
+    int16 secondaryNameIndex; // +0x0E  "at <base>" name index, read through the
+                              //        GroundTargetTable stride-8 alias (see below)
 };
 STATIC_ASSERT(sizeof(struct MapTarget)==0x10);
 
 /* GroundTargetTable: the in-mission target table. The 16-bit name-index column
  * is read as `((int16*)&g_planeTable)[idx*8]` — a stride-16 view that, thanks to
- * the 2-byte lead word before planes[], yields planes[idx-1].field_E (and the
+ * the 2-byte lead word before planes[], yields planes[idx-1].secondaryNameIndex (and the
  * lead sentinel at idx 0). planes[] and the lead word are therefore one
  * contiguous object; the mission loader deserialises it as a unit. */
 #pragma pack(1)
@@ -278,7 +283,7 @@ struct TargetSlot {
     int16 planeIndex;   // +0x02  index into g_planes
     int16 viewIndex;    // +0x04  index into g_planes (g_playerTargetIndex for slot 0)
     int16 flags;        // +0x06  (high byte = active)
-    int16 word_8;       // +0x08
+    int16 seedNoise;    // +0x08  never written; low 4 bits sampled as RNG noise in initFrameRandom()
     int16 unused[4];    // +0x0A..0x11
 };
 STATIC_ASSERT(sizeof(struct TargetSlot)==0x12);
@@ -487,10 +492,10 @@ STATIC_ASSERT(sizeof(struct AircraftType)==32);
 struct MapEvent {
     int16 mapX;     /* +0x00 */
     int16 mapY;     /* +0x02 */
-    int16 field_4;  /* +0x04 */
+    int16 unused4;  /* +0x04 never written/read */
     int16 type;     /* +0x06 marker type */
     int16 ttl;      /* +0x08 countdown; 0 = slot free */
-    int16 field_A;  /* +0x0A */
+    int16 unusedA;  /* +0x0A never written/read */
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct MapEvent)==12);

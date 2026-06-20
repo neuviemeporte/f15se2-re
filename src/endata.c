@@ -367,7 +367,7 @@ typedef struct MenuItem {
     int16  labelData2[4];
     struct SpriteParams *spriteNormal;
     struct SpriteParams *spriteBlink;
-    int16  unk_2c;
+    int16  groupId;
     int16  state;
     MenuItemFlags flags;
 } MenuItem;
@@ -753,7 +753,7 @@ MenuItem debriefMenuItems[2] = {
         {0x1A, 7, 0xFA, 0x3C},         /* labelData2 */
         &spriteAirDef,                        /* spriteNormal */
         &spriteAirBlinkDef,                        /* spriteBlink */
-        0,                              /* unk_2c */
+        0,                              /* groupId */
         0,                              /* state */
         0x1808                          /* flags */
     },
@@ -766,7 +766,7 @@ MenuItem debriefMenuItems[2] = {
         {0x1A, 7, 0xFA, 0x3C},         /* labelData2 */
         &spriteAirDef,                        /* spriteNormal */
         &spriteAirBlinkDef,                        /* spriteBlink */
-        0,                              /* unk_2c */
+        0,                              /* groupId */
         0,                              /* state */
         0x080F                          /* flags */
     }

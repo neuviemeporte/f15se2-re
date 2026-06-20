@@ -143,21 +143,12 @@ void setupDac();
 int fixedMulQ14(int arg_0, int arg_2);
 int cosine(int);
 int sine(int arg_0);
-int sineLookup();
-int far lookupSineFar();
-int far lookupCosineFar();
-int lookupCosine();
-int lookupSine();
 void installCBreakHandler();
 void restoreCBreakHandler();
-int getInterruptHandler();
-int far cbreakHandler();
 void runGameLoop();
 void gameMainLoop();
 void setTimerIrqHandler();
 void restoreTimerIrqHandler();
-void calibrateGameSpeed();
-int manipulateTimer();
 int getTimeOfDay();
 void advanceFrameTick();
 void stepFlightModel();
@@ -256,7 +247,6 @@ void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int pa
 void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param_5, int param_6, int param_7, int mode, int shift);
 int shapeDataOffset(int param_1);
 int clampRange(int value, int minVal, int maxVal);
-int forceRange();
 int clampValue(int value, int min, int max);
 int rangeApprox(int dx, int dy);
 int computeBearing(int arg_0, int arg_1);
@@ -264,7 +254,6 @@ int sinMul(int angle, int value);
 int cosMul(int angle, int value);
 int signOf(int value);
 void seedRng(void);
-int randlmul();
 int randomRange(int);
 int readAxisInput(int param_1);
 int keyDispatch(uint16 scanCode);
@@ -287,41 +276,16 @@ int createFile(const char *arg_0, int arg_1);
 void closeFile(int arg_0);
 int readFile1(int arg_0, int arg_1, int arg_2);
 int readFile2(int arg_0, int arg_1, int arg_2, int arg_3);
-int read512FromFileIntoBuf();
 int writeFileAtRaw(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4);
  // 2 parameters correct
 void openBlitClosePic(char* path, int arg_2);
  // 2 parameters correct
 void picBlit(int handle, int unk);
-void picBlitOverlay2();
-void picBlitOverlay1();
-void nullsub_1();
-void decodePicRow();
-void picReadDataAndMakeDict();
-void picMakeDict();
-void doPicDecode();
-int dictionaryLookup();
-void callNearTermTable();
-void callFarTermTable();
 void pascal shiftLongLeftInPlace(int count, long *ptr);
 void pascal shiftLongRightInPlace(int count, long *ptr);
 int far drawPolygonOutline(int, int, int*, int);
-void projectVertexToScreen();
 void installDivZeroHandler();
 void installDivZeroVector();
-int clipLineSegment();
-void clipLineSubdivP1Outside();
-void writeClippedStart();
-void writeClippedEnd();
-void rejectClippedLine();
-int clipPointInside();
-int clipComputeOutcode();
-int clampToClipEdge();
-int clipMidpointSubdivide();
-int clipLineMidpoint();
-int pointOnClipEdge();
-int computeClipOutcode();
-void decodeRleEdgeRow();
 int far drawFlatHorizon(int);
 void renderHorizonSky();
 #ifdef NO_ASM
@@ -329,48 +293,23 @@ void far projectSceneObject(char *, int, int, int, int, int, int);
 #else
 void far projectSceneObject();
 #endif
-int transformAndCullObject();
-void skipDisplayListByLod();
 void storeObjTransformByOpcode();
 int far transformAndCullObjectFar(int, int, int);
 int far advanceModelPointerLod();
 int far renderSortedListFar();
-void insertSortedObject();
-void renderSortedList();
 int far rotatePoint3dFar();
-void processSceneObject();
 void rotatePoint3d();
 int far transformModelVerticesFar();
-void transformModelVertices();
-void transformVertexList();
 int far projectModelEdgesFar();
-void projectModelEdges();
-void clipEdgeNearPlane();
 int far buildRotationMatrixFar(int16* param_1, int param_2, int param_3, int param_4);
-void buildRotationMatrix();
-void buildInverseRotationMatrix();
-void transposeOrientationMatrix();
 int far multiplyMatrix3x3Far(int param_1, int param_2, int16* param_3);
-void multiplyMatrix3x3();
 int far drawModelDisplayList();
-void renderPrimitiveList();
-void renderPrimitiveCommand();
-void drawPrimitiveEdges();
-int testVisibilityMask();
 int far fillSpanRect(int16* param_1, int param_2, int param_3, int param_4, int param_5);
-int far clipLineFar();
 int far drawClipLineGlobal();
-int clipLineCohenSutherland();
-int computeLineOutcode();
 int far flushSpanDirtyRect();
 int far resetScanlineSpans();
-void resetScanlineSpansImpl();
-void clampScanlineSpan();
-void rasterizeEdgeSpan();
 int far clipAndRasterizeEdge();
-void clipAndRasterizeEdgeImpl();
 // bytes outside routine, potential module boundary at 0x9
-void far drawInstrumentGaugesFar();
 void __cdecl __far setupInstrumentLayoutFar();
 int far initJoystickCalibration();
 void seedJoystickBaseline();
@@ -651,15 +590,12 @@ extern uint8 g_horizonSkyColor;
 extern uint8 g_horizonGroundColor;
 extern int16 g_horizonSideFlag;
 /* colorLut: 256-entry 3D-shape colour-remap table; its low entries double as
- * the LOD/clip control words (threshold table, var_198 cull distance, near-clip
+ * the LOD/clip control words (threshold table, cull distance, near-clip
  * table) read by the projection code. See egdata.c. */
 extern uint8 colorLut[];
 /* Object-cull scale tables (word rows). */
 extern int16 g_overlayBaseX[];
 extern int16 g_overlayBaseY[];
-/* word_34246/word_34248/word_3424A are now g_objTransform[1..3] (egdata.c).
- * word_3424C/word_3424E are the LZW-dict/render-header base in struct VtxScratch
- * (egdata.c vtxScratch); asm reaches them via EQU. See word_35AF8 below. */
 extern int16 g_camTransXLo;
 extern int16 g_camTransXHi;
 extern int16 g_camTransYLo;
@@ -668,10 +604,8 @@ extern int16 g_objRenderMode;
 extern int16 g_rotSinYaw;
 extern int16 g_rotCosYaw;
 extern int16 g_viewRotMatrix[9];
-/* word_34288..word_342AA are vtxScratch members (asm via EQU). */
-/* word_342BC..word_344A2, word_34680/82 are vtxScratch members (asm via EQU). */
-/* Overlaid LZW-dict / vertex-projection scratch region (was word_3424C..0x35AF7);
- * see struct VtxScratch. C flight code uses vtxScratch.vproj. */
+/* Overlaid LZW-dict / vertex-projection scratch region; see struct VtxScratch.
+ * C flight code uses vtxScratch.vproj. */
 extern struct VtxScratch vtxScratch;
 extern uint8 flt15_buf2[];
 extern int16 g_objDirX;
@@ -873,7 +807,7 @@ extern uint8 aGroundImpact[];
 extern uint8 aHitBy[];
 extern uint8 aIneffective[];
 extern uint8 aHitBy_0[];
-extern int16 aA[];
+extern int16 ammoNumX[];
 extern char aSecond_Target[];
 extern char aPrimaryTarget_0[];
 extern char a0[];
@@ -886,13 +820,13 @@ extern int16 *g_pageBack;
 extern int16 g_viewportDescBack[];
 extern int16 *g_pageOffscreen;
 extern int16 g_mapZoomLevel;
-/* uvar_547: unsigned view of g_viewZ (same storage). In the asm build this is
-   the linker alias _uvar_547 EQU _g_viewZ; with NO_ASM there is no asm to carry
+/* g_viewZU: unsigned view of g_viewZ (same storage). In the asm build this is
+   the linker alias _g_viewZU EQU _g_viewZ; with NO_ASM there is no asm to carry
    the alias, so reinterpret g_viewZ's bytes directly. */
 #ifdef NO_ASM
-#define uvar_547 (*(uint16 *)&g_viewZ)
+#define g_viewZU (*(uint16 *)&g_viewZ)
 #else
-extern uint16 uvar_547;
+extern uint16 g_viewZU;
 #endif
 extern char g_rollWasNonzero;
 extern int16 g_rotationCounter;
@@ -971,7 +905,7 @@ extern int16 picRowOffset;
 extern int16 g_picBlitCurrentRow;
 extern int16 picReadFromFilePtr;
 extern uint8 far *farPointer;
-extern int16 flt15_word1;
+extern int16 flt15HeaderWord;
 extern uint8 flt15_buf1[];
 extern size_t flt15_size;
 extern int16 g_picLookupResult;

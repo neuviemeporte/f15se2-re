@@ -91,7 +91,7 @@ int selectMenuItem(MenuItem *items, int unused, int itemCount, int16* inputState
             if ((items[i].flags & MENUITEM_SELECTABLE) != 0) {
                 for (f = 0; f < itemCount; f++) {
                     if (items[f].state != 0 &&
-                        items[i].unk_2c == items[f].unk_2c) {
+                        items[i].groupId == items[f].groupId) {
                         blinkWidget(&items[f], gfxPage);
                     }
                 }

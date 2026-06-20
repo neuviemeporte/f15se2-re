@@ -25,7 +25,7 @@ void load15Flt3d3() {
         printError(aOpenErrorOn_3d3_0);
         return;
     }
-    fread(&flt15_word1, 2, 1, fileHandle);
+    fread(&flt15HeaderWord, 2, 1, fileHandle);
     fread(&flt15_size, 2, 1, fileHandle);
     fread(flt15_buf1, 2, flt15_size, fileHandle);
     fread(&var_A, 2, 1, fileHandle);

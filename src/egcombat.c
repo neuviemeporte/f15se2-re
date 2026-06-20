@@ -659,7 +659,7 @@ void fireMissile()
 
     if (g_hudVisible != 0) {
         setDrawColor(0);
-        a = ((int16 *)aA)[missileSpecIndex];
+        a = ((int16 *)ammoNumX)[missileSpecIndex];
         fillRectBoth(a - 1, 0xbe, a + 2, 0xc2);
         drawNumber(missleSpec[missileSpecIndex].ammo, a, 0xbe, 0x0c);
         strcpy(strBuf, missiles[b].shortName);
