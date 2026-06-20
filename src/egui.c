@@ -45,19 +45,19 @@ void drawTacticalMap(char page)
     f = i * 2;
     while (j * 2 >= f) {
         projectMapPoint(f * 0x400 + e, g + 0x1c00);
-        p = var_279;
-        b = var_282;
+        p = vtxScratch.vproj.x.lo;
+        b = vtxScratch.vproj.y.lo;
         projectMapPoint(f * 0x400 + e, g - 0x1800);
-        drawClippedLineRegion(p, b, var_279, var_282, 0x78, 0xc7, 0x68, 0xaf, 0);
+        drawClippedLineRegion(p, b, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 0x78, 0xc7, 0x68, 0xaf, 0);
         f += 2;
     }
     f = i * 2;
     while (j * 2 >= f) {
         projectMapPoint(e + 0x1c00, f * 0x400 + g);
-        p = var_279;
-        b = var_282;
+        p = vtxScratch.vproj.x.lo;
+        b = vtxScratch.vproj.y.lo;
         projectMapPoint(e - 0x1800, f * 0x400 + g);
-        drawClippedLineRegion(p, b, var_279, var_282, 0x78, 0xc7, 0x68, 0xaf, 0);
+        drawClippedLineRegion(p, b, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 0x78, 0xc7, 0x68, 0xaf, 0);
         f += 2;
     }
     for (f = 0; f < word_3C046; f++) {
@@ -65,10 +65,10 @@ void drawTacticalMap(char page)
             projectMapPoint(stru_3B202[f].posX, stru_3B202[f].posY);
             if (word_3C016 != -1) {
                 if (g_currentWeaponType == 1 && f == word_336F2) {
-                    drawMapMarkerBox(var_279, var_282, 7);
+                    drawMapMarkerBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 7);
                 }
                 if (word_336F8 > 0 && f == 0xffff - word_3BE96) {
-                    drawMapMarkerBox(var_279, var_282, word_38F72);
+                    drawMapMarkerBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, word_38F72);
                 }
                 a = stru_3B202[f].heading.w - g_ourHead + 0x800;
                 d = stru_3B202[f].alt - g_viewZ;
@@ -79,7 +79,7 @@ void drawTacticalMap(char page)
                 if (d > 1000) {
                     c = 2;
                 }
-                blitGaugeSprite((a >> 12) & 0xf, c, var_279, var_282);
+                blitGaugeSprite((a >> 12) & 0xf, c, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
             }
         }
     }
@@ -102,7 +102,7 @@ void drawTacticalMap(char page)
                     setDrawColor(0x0f);
                 }
                 a = stru_335C4[f].worldX - g_ourHead;
-                drawScreenLineOnePage(var_279, var_282, var_279 - sinMul(a, h), cosMul(a, h) + var_282);
+                drawScreenLineOnePage(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, vtxScratch.vproj.x.lo - sinMul(a, h), cosMul(a, h) + vtxScratch.vproj.y.lo);
             }
         }
     }
@@ -111,7 +111,7 @@ void drawTacticalMap(char page)
             projectMapPoint(g_planeTable.planes[f].mapX, g_planeTable.planes[f].mapY);
             if (word_3C016 != -1) {
                 if (g_currentWeaponType == 2 && f == word_336F4) {
-                    drawMapMarkerBox(var_279, var_282, 7);
+                    drawMapMarkerBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 7);
                 }
                 a = 5;
                 if (g_planeTable.planes[f].flags & 0x201) {
@@ -126,13 +126,13 @@ void drawTacticalMap(char page)
                 if (f == g_targetSlots[0].planeIndex || f == g_targetSlots[1].planeIndex) {
                     a = 6;
                 }
-                blitGaugeSprite(a, 3, var_279, var_282);
+                blitGaugeSprite(a, 3, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
             }
         }
     }
     projectMapPoint(g_viewX_, g_viewY_);
     if (word_3C016 != -1) {
-        blitGaugeSprite(0, 3, var_279, var_282);
+        blitGaugeSprite(0, 3, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
     }
     for (f = 0; f < 4; f++) {
         if (mapEvents[f].ttl != 0) {
@@ -140,10 +140,10 @@ void drawTacticalMap(char page)
             if (word_3C016 != -1) {
                 switch (mapEvents[f].type) {
                 case 1:
-                    blitGaugeSprite(2, 3, var_279, var_282);
+                    blitGaugeSprite(2, 3, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
                     break;
                 case 2:
-                    blitGaugeSprite(3, 3, var_279, var_282);
+                    blitGaugeSprite(3, 3, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
                     break;
                 }
             }
@@ -154,10 +154,10 @@ void drawTacticalMap(char page)
 // ==== seg000:0xa740 ====
 void drawMapMarkerBox(int arg_0, int arg_2, int color) {
     setDrawColor(color);
-    drawScreenLineOnePage(var_279 - 4, var_282 - 3, var_279 + 4, var_282 - 3);
-    drawScreenLineOnePage(var_279 + 4, var_282 - 3, var_279 + 4, var_282 + 3);
-    drawScreenLineOnePage(var_279 + 4, var_282 + 3, var_279 - 4, var_282 + 3);
-    drawScreenLineOnePage(var_279 - 4, var_282 + 3, var_279 - 4, var_282 - 3);
+    drawScreenLineOnePage(vtxScratch.vproj.x.lo - 4, vtxScratch.vproj.y.lo - 3, vtxScratch.vproj.x.lo + 4, vtxScratch.vproj.y.lo - 3);
+    drawScreenLineOnePage(vtxScratch.vproj.x.lo + 4, vtxScratch.vproj.y.lo - 3, vtxScratch.vproj.x.lo + 4, vtxScratch.vproj.y.lo + 3);
+    drawScreenLineOnePage(vtxScratch.vproj.x.lo + 4, vtxScratch.vproj.y.lo + 3, vtxScratch.vproj.x.lo - 4, vtxScratch.vproj.y.lo + 3);
+    drawScreenLineOnePage(vtxScratch.vproj.x.lo - 4, vtxScratch.vproj.y.lo + 3, vtxScratch.vproj.x.lo - 4, vtxScratch.vproj.y.lo - 3);
 }
 
 // ==== seg000:0xa7c4 ====
@@ -170,14 +170,14 @@ void projectMapPoint(int mapX, int mapY) {
     b = 7 - (char)var_588;
     p = (mapX - g_viewX_) >> b;
     a = (g_viewY_ - mapY) >> b;
-    var_279 = cosMul(g_ourHead, p) - sinMul(g_ourHead, a);
-    var_282 = cosMul(g_ourHead, a) + sinMul(g_ourHead, p);
-    var_279 += 0xa0;
-    var_282 = -var_282 + 0x98;
-    if (var_279 < 0x7c || var_279 > 0xc3) {
+    vtxScratch.vproj.x.lo = cosMul(g_ourHead, p) - sinMul(g_ourHead, a);
+    vtxScratch.vproj.y.lo = cosMul(g_ourHead, a) + sinMul(g_ourHead, p);
+    vtxScratch.vproj.x.lo += 0xa0;
+    vtxScratch.vproj.y.lo = -vtxScratch.vproj.y.lo + 0x98;
+    if (vtxScratch.vproj.x.lo < 0x7c || vtxScratch.vproj.x.lo > 0xc3) {
         word_3C016 = -1;
     }
-    if (var_282 < 0x6b || var_282 > 0xac) {
+    if (vtxScratch.vproj.y.lo < 0x6b || vtxScratch.vproj.y.lo > 0xac) {
         word_3C016 = -1;
     }
 }

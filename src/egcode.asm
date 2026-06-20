@@ -446,8 +446,12 @@ EXTRN aReadError:BYTE
 EXTRN aWriteError:BYTE
 EXTRN tmpPageIndex:WORD
 EXTRN _word_336F0:WORD
-EXTRN word_3424C:WORD
-EXTRN word_3424E:WORD
+; LZW pic dictionary base: overlaid scratch region migrated to egdata.c
+; (struct VtxScratch vtxScratch). word_3424C/3424E are the dict value/increment
+; fields at the region base; see struct.h and egseg1.asm.
+EXTRN _vtxScratch:word
+word_3424C equ _vtxScratch
+word_3424E equ _vtxScratch+2h
 EXTRN word_37146:WORD
 EXTRN word_37148:WORD
 EXTRN _word_37348:WORD

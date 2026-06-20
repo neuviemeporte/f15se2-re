@@ -492,4 +492,37 @@ struct MapEvent {
 #pragma pack()
 STATIC_ASSERT(sizeof(struct MapEvent)==12);
 
+/* Vertex-projection cluster (head = word_34684, block 0x34684..0x35AF7).
+ * One contiguous block consumed by the egseg1.asm 3D pipeline plus the C
+ * HUD/targeting code. The genuine member overlaps (var_279 == low word of
+ * x.v[0]; dword_34C2C == y.v[120] == start of the depth-sort scratch) are
+ * intrinsic to the original data, hence the unions. */
+#pragma pack(1)
+struct VertexProj {
+    struct { int16 num; int16 div; } in[121]; /* word_34684/word_34686 input pairs (stride 4) */
+    union { int32 v[121]; int16 lo; } x;      /* word_34868 projected screen X; .lo = var_279 (HUD X) */
+    union { int32 v[121]; int16 lo; } y;      /* word_34A4C projected screen Y; .lo = var_282 (HUD Y) */
+    uint8 scratch[3784];                      /* dword_34C2C near-clip / depth-sort transform scratch */
+};
+#pragma pack()
+STATIC_ASSERT(sizeof(struct VertexProj)==0x1474);
+
+/* VtxScratch: the full overlaid scratch region (was word_3424C..word_35AF7 in
+ * egslots.asm). The original deliberately time-shares this memory: the LZW
+ * pic-decoder dictionary (egcode.asm picMakeDict writes 6144 bytes from the
+ * base) during cockpit-PIC load, and the render-header / per-vertex numerator
+ * arrays + the vertex-projection cluster during flight. They never overlap in
+ * time, so one allocation serves both. The egseg1.asm / egcode.asm consumers
+ * reach the individual sub-objects via offset EQUs off the _vtxScratch base;
+ * the C flight code uses the typed vproj member. dictHead covers the pre-cluster
+ * portion (dict base + scattered asm scratch; vacated already-migrated symbols
+ * survive as gaps, harmlessly overlaid by the dict). */
+#pragma pack(1)
+struct VtxScratch {
+    uint8 dictHead[0x404];    /* word_3424C..word_34682: LZW dict base + asm scratch (asm via EQU) */
+    struct VertexProj vproj;  /* +0x404 vertex cluster (word_34684..word_35AF8) */
+};
+#pragma pack()
+STATIC_ASSERT(sizeof(struct VtxScratch)==0x1878);
+
 #endif // STRUCT_H

@@ -183,7 +183,7 @@ skip_aam:
                 stru_3B202[g].field_4.w, 2 - h);
         } else {
             setDrawColor(0x0f);
-            drawViewportLine(var_279, var_282, var_279, var_282);
+            drawViewportLine(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
         }
 next2:
         ;
@@ -202,7 +202,7 @@ next2:
         if (stru_335C4[g].ttl != 0) {
             projectWorldToHud(stru_335C4[g].mapX, stru_335C4[g].mapY, stru_335C4[g].alt);
 
-            if (var_279 == -1)
+            if (vtxScratch.vproj.x.lo == -1)
                 goto next3;
 
             if (word_3C016 > -0x20) {
@@ -215,7 +215,7 @@ next2:
                 ((keyValue & 0x80) && keyValue != 0x8b) ? 3 : 1);
             } else {
                 setDrawColor(g < 8 ? 0x0c : 0x0d);
-                drawViewportLine(var_279, var_282, var_279, var_282);
+                drawViewportLine(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
             }
         }
 next3:
@@ -261,9 +261,9 @@ void drawHudWorldOverlay(void) {
     for (w = 0; w < 12; w++) {
         if (stru_335C4[w].ttl != 0) {
             projectWorldToHud(stru_335C4[w].mapX, stru_335C4[w].mapY, stru_335C4[w].alt);
-            if (var_279 != -1) {
+            if (vtxScratch.vproj.x.lo != -1) {
                 setDrawColor(w < 8 ? 0x0e : 0x0a);
-                drawTargetBox(var_279, var_282, 6, 0);
+                drawTargetBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 6, 0);
             }
         }
     }
@@ -276,21 +276,21 @@ void drawHudWorldOverlay(void) {
         projectWorldToHud(bulletTracks[w].posX,
                   bulletTracks[w].posY,
                   bulletTracks[w].alt);
-        k = var_279;
-        n = var_282;
+        k = vtxScratch.vproj.x.lo;
+        n = vtxScratch.vproj.y.lo;
         a = word_3C016;
 
         projectWorldToHud((bulletTracks[w].velX >> 1) + bulletTracks[w].posX,
                   (bulletTracks[w].velY >> 1) + bulletTracks[w].posY,
                   (bulletTracks[w].velZ >> 1) + bulletTracks[w].alt);
 
-        if (var_279 != -1) {
+        if (vtxScratch.vproj.x.lo != -1) {
         if (k != -1) {
 
         z = (frameTick >> 1) - w & 7;
 
         setDrawColor(w < word_3AFA4 ? 0x0d : 0x0c);
-        drawViewportLine(var_279, var_282, k, n);
+        drawViewportLine(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, k, n);
 
         s = 0;
 
@@ -374,23 +374,23 @@ void drawHudWorldOverlay(void) {
 
     if (word_39606 != 0) {
         projectWorldToHud(word_3BEBC, word_3BEC8, word_3BECE);
-        if (var_279 != -1) {
+        if (vtxScratch.vproj.x.lo != -1) {
             x = abs(0x100 / word_3C016);
             for (w = 0; w < 8; w++) {
                 setDrawColor(randomRange(4) + 0x0c);
                 if (word_3BECE > 0) {
-                    drawViewportLine(var_279, var_282,
-                              randomRange(x << 1) - x + var_279,
-                              randomRange(x << 1) - x + var_282);
+                    drawViewportLine(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo,
+                              randomRange(x << 1) - x + vtxScratch.vproj.x.lo,
+                              randomRange(x << 1) - x + vtxScratch.vproj.y.lo);
                 } else {
                     c = randomRange(0x6000) - 0x3000;
                     if (word_330C2 != 0) {
                         c -= g_ourRoll;
                     }
                     a = randomRange(x);
-                    k = sinMul(c, a) + var_279;
-                    n = var_282 - cosMul(c, a);
-                    drawViewportLine(var_279, var_282, k, n);
+                    k = sinMul(c, a) + vtxScratch.vproj.x.lo;
+                    n = vtxScratch.vproj.y.lo - cosMul(c, a);
+                    drawViewportLine(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, k, n);
                 }
             }
         }
@@ -422,7 +422,7 @@ void drawHudWorldOverlay(void) {
         var_671 = 1;
     }
 
-    if (var_279 != -1) {
+    if (vtxScratch.vproj.x.lo != -1) {
 
     setDrawColor(word_330BC != 0 ? 8 : 0);
     q = 0;
@@ -432,7 +432,7 @@ void drawHudWorldOverlay(void) {
     if (m != 0 && (v != 4 || g_planeTable.planes[word_336F4].field_4 != 0)) {
         if (missleSpec[missileSpecIndex].ammo != 0) {
             setDrawColor(0x0f);
-            if ((rangeApprox(var_279 - 0xa0, var_282 - 0x38) < 0x30 || var_671 != 0) &&
+            if ((rangeApprox(vtxScratch.vproj.x.lo - 0xa0, vtxScratch.vproj.y.lo - 0x38) < 0x30 || var_671 != 0) &&
                 -word_3C016 / 7 < sams[v].field_8 &&
                 sams[v].field_C != 7) {
                 if (sams[v].field_C != 0x1c || var_671 != 0) {
@@ -453,7 +453,7 @@ void drawHudWorldOverlay(void) {
         var_671 = 0;
     }
 
-    drawTargetBox(var_279, var_282, m != 0 ? m + 5 : 9, q);
+    drawTargetBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, m != 0 ? m + 5 : 9, q);
 
     }
     }
@@ -494,7 +494,7 @@ void drawHudWorldOverlay(void) {
     if (g_currentWeaponType == 0) {
         projectWorldToHud(g_planeTable.planes[word_336F4].mapX, g_planeTable.planes[word_336F4].mapY, 0);
         setDrawColor(0x0f);
-        drawTargetBox(var_279, var_282, 8, 0);
+        drawTargetBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 8, 0);
     } else if (g_targetSlots[0].planeIndex == word_336F4) {
         drawStringActivePage((char *)aPrimaryTarget, 0xec, 0x8e, 0x0f);
     } else if (g_targetSlots[1].planeIndex == word_336F4) {
@@ -525,7 +525,7 @@ void drawHudWorldOverlay(void) {
               stru_3B202[word_336F2].posY,
               stru_3B202[word_336F2].alt);
 
-    if (var_279 != -1) {
+    if (vtxScratch.vproj.x.lo != -1) {
 
     setDrawColor(word_330BC != 0 ? 8 : 0);
     q = 0;
@@ -534,7 +534,7 @@ void drawHudWorldOverlay(void) {
 
     if (missleSpec[missileSpecIndex].ammo != 0 && sams[v].field_C == 7) {
         setDrawColor(0x0f);
-        if (rangeApprox(var_279 - 0xa0, var_282 - 0x38) < 0x30) {
+        if (rangeApprox(vtxScratch.vproj.x.lo - 0xa0, vtxScratch.vproj.y.lo - 0x38) < 0x30) {
             if (-word_3C016 >> 3 < sams[v].field_8) {
                 var_671 = 1;
                 q = 1;
@@ -544,7 +544,7 @@ void drawHudWorldOverlay(void) {
             }
         }
     }
-    drawTargetBox(var_279, var_282, 9, q);
+    drawTargetBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 9, q);
 
     }
     }
@@ -604,15 +604,15 @@ void drawHudWorldOverlay(void) {
             i = sinMul(g_ourHead, u) + g_viewX_;
             y = g_viewY_ - cosMul(g_ourHead, u);
             projectWorldToHud(i, y, 0);
-            if (var_279 == -1) {
-                var_279 = (sinMul(g_ourRoll, 0x60 - word_3C008) << 2) / 3 + 0xa0;
-                var_282 = 0x60;
+            if (vtxScratch.vproj.x.lo == -1) {
+                vtxScratch.vproj.x.lo = (sinMul(g_ourRoll, 0x60 - word_3C008) << 2) / 3 + 0xa0;
+                vtxScratch.vproj.y.lo = 0x60;
             } else {
                 setDrawColor(0x0c);
-                drawTargetBox(var_279, var_282, 5, 1);
+                drawTargetBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 5, 1);
             }
             setDrawColor(0x0f);
-            drawHudViewLine(0xa0, word_3C008, var_279, var_282);
+            drawHudViewLine(0xa0, word_3C008, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
         }
 
         if ((d == 0x1e || d == 0x1d) && (int)word_336F4 >= 0) {
@@ -620,7 +620,7 @@ void drawHudWorldOverlay(void) {
                       g_planeTable.planes[word_336F4].mapY - cosMul(g_ourHead, 0x80),
                       g_viewZ);
 
-            if (var_279 != -1) {
+            if (vtxScratch.vproj.x.lo != -1) {
                 if (d == 0x1e) {
                     word_3C016 = clampRange(
                         rangeApprox(i - g_planeTable.planes[word_336F4].mapX,
@@ -634,10 +634,10 @@ void drawHudWorldOverlay(void) {
                 drawViewportLine(word_3C016 + 0xa0, 0x21, word_3C016 + 0xa0, 0x1e);
                 drawViewportLine(0x9f - word_3C016, 0x1e, word_3C016 + 0xa0, 0x1e);
                 setDrawColor(0x0f);
-                drawHudViewLine(var_279 - 4, var_282, var_279, var_282 - 4);
-                drawHudViewLine(var_279, var_282 - 4, var_279 + 4, var_282);
-                drawHudViewLine(var_279 + 4, var_282, var_279, var_282 + 4);
-                drawHudViewLine(var_279, var_282 + 4, var_279 - 4, var_282);
+                drawHudViewLine(vtxScratch.vproj.x.lo - 4, vtxScratch.vproj.y.lo, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo - 4);
+                drawHudViewLine(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo - 4, vtxScratch.vproj.x.lo + 4, vtxScratch.vproj.y.lo);
+                drawHudViewLine(vtxScratch.vproj.x.lo + 4, vtxScratch.vproj.y.lo, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo + 4);
+                drawHudViewLine(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo + 4, vtxScratch.vproj.x.lo - 4, vtxScratch.vproj.y.lo);
             }
         }
     }
@@ -703,17 +703,17 @@ void drawMissileLock(void) {
 
 // ==== seg000:0xc371 ====
 void drawTargetLabel(char *text, int color, int size) {
-    if (var_279 == -1) {
+    if (vtxScratch.vproj.x.lo == -1) {
         return;
     }
     setDrawColor(color);
-    if (size < var_279 && 0x13f - size > var_279 &&
-        size < var_282 && 0x58 - size > var_282) {
-        drawTargetBox(var_279, var_282, size, 1);
+    if (size < vtxScratch.vproj.x.lo && 0x13f - size > vtxScratch.vproj.x.lo &&
+        size < vtxScratch.vproj.y.lo && 0x58 - size > vtxScratch.vproj.y.lo) {
+        drawTargetBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, size, 1);
     }
-    if (var_279 > 0x14 && var_279 < 0x118 &&
-        var_282 > 0 && var_282 < 0x52) {
-        drawStringActivePage(text, var_279 - (int)strlen(text) * 2, var_282 + 5, word_38F72);
+    if (vtxScratch.vproj.x.lo > 0x14 && vtxScratch.vproj.x.lo < 0x118 &&
+        vtxScratch.vproj.y.lo > 0 && vtxScratch.vproj.y.lo < 0x52) {
+        drawStringActivePage(text, vtxScratch.vproj.x.lo - (int)strlen(text) * 2, vtxScratch.vproj.y.lo + 5, word_38F72);
     }
 }
 
@@ -756,7 +756,7 @@ void projectWorldToHud(int worldX, int worldY, int worldZ) {
     g = rotateVectorComponent(2, p, c, f);
 
     if (g >= 0) {
-        var_279 = -1;
+        vtxScratch.vproj.x.lo = -1;
         return;
     }
 
@@ -766,24 +766,24 @@ void projectWorldToHud(int worldX, int worldY, int worldZ) {
     }
 
     if (-g < a || a < g) {
-        var_279 = -1;
+        vtxScratch.vproj.x.lo = -1;
         return;
     }
 
-    var_279 = (int)((a << 8) / g) + 0xa0;
-    var_282 = (int)((d << 8) / g);
-    var_282 -= var_282 >> 1 >> 1;
-    var_282 += (off_38334[8] == 0xc7) ? 0x64 : 0x38;
+    vtxScratch.vproj.x.lo = (int)((a << 8) / g) + 0xa0;
+    vtxScratch.vproj.y.lo = (int)((d << 8) / g);
+    vtxScratch.vproj.y.lo -= vtxScratch.vproj.y.lo >> 1 >> 1;
+    vtxScratch.vproj.y.lo += (off_38334[8] == 0xc7) ? 0x64 : 0x38;
 
     word_3C016 = (int)(g >> 3);
 
-    if (var_279 < 0 || var_279 > 0x13f) {
-        var_673 = var_279;
-        var_279 = -1;
+    if (vtxScratch.vproj.x.lo < 0 || vtxScratch.vproj.x.lo > 0x13f) {
+        var_673 = vtxScratch.vproj.x.lo;
+        vtxScratch.vproj.x.lo = -1;
     }
-    if (var_282 < 0 || off_38334[8] < var_282) {
-        var_673 = var_279;
-        var_279 = -1;
+    if (vtxScratch.vproj.y.lo < 0 || off_38334[8] < vtxScratch.vproj.y.lo) {
+        var_673 = vtxScratch.vproj.x.lo;
+        vtxScratch.vproj.x.lo = -1;
     }
 }
 

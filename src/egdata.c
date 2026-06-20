@@ -528,6 +528,11 @@ int16 g_playerPlaneFlags;
 int16 word_39604;
 int16 g_knots;
 struct TargetSlot g_targetSlots[2];
+/* Overlaid LZW-dict / vertex-projection scratch (was word_3424C..0x35AF7 in
+ * egslots.asm). egcode.asm (pic dict) and egseg1.asm (render/numerator scratch +
+ * vertex cluster) reach the sub-objects via _vtxScratch EQUs; the C flight code
+ * uses vtxScratch.vproj. See struct VtxScratch. */
+struct VtxScratch vtxScratch;
 /* stru_335C4: in-flight projectile/missile table (player rounds + threat
  * shots), 12 entries. stru_3A95A: 16-entry camera/view replay snapshot ring. */
 struct Projectile stru_335C4[12];

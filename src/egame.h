@@ -670,9 +670,9 @@ extern uint8 colorLut[];
 /* Object-cull scale tables (word rows). */
 extern int16 word_341DC[];
 extern int16 word_341FC[];
-/* word_34246/word_34248/word_3424A are now var_204[1..3] (egdata.c). */
-extern int16 word_3424C;
-extern int16 word_3424E;
+/* word_34246/word_34248/word_3424A are now var_204[1..3] (egdata.c).
+ * word_3424C/word_3424E are the LZW-dict/render-header base in struct VtxScratch
+ * (egdata.c vtxScratch); asm reaches them via EQU. See word_35AF8 below. */
 extern int16 word_34250;
 extern int16 word_34252;
 extern int16 word_34254;
@@ -682,48 +682,13 @@ extern int16 word_34262;
 extern int16 word_3426A;
 extern int16 word_3426C;
 extern int16 word_34276[9];
-extern int16 word_34288;
-extern int16 word_3428A;
-extern int16 word_3428C;
-extern int16 word_3428E;
-extern int16 word_34290;
-extern int16 word_34292;
-extern int16 word_34294;
-extern int16 word_34296;
-extern int16 word_34298;
-extern int16 word_3429A;
-extern int16 word_3429C;
-extern int16 word_3429E;
-extern int16 word_342A0;
-extern int16 word_342A2;
-extern int16 word_342A4;
-extern int16 word_342A6;
-extern int16 word_342A8;
-extern int16 word_342AA;
+/* word_34288..word_342AA are vtxScratch members (asm via EQU). */
 extern int16 word_342B0;
 extern uint8 byte_342B4[];
-extern int16 word_342BC;
-extern int16 word_342BE;
-extern int16 word_3449C;
-extern int16 word_3449E;
-extern int16 word_344A0;
-extern int16 word_344A2;
-extern int16 word_34680;
-extern int16 word_34682;
-extern int16 word_34684[];
-extern int16 word_34686[];
-extern uint8 unk_34713[];
-extern int16 word_34864;
-extern int16 word_34866;
-/* Per-vertex projected screen X, one int32 per model vertex. */
-extern int32 word_34868[];
-extern int16 word_3486A;
-extern int32 dword_34A48;
-/* Per-vertex projected screen Y, one int32 per model vertex. */
-extern int32 word_34A4C[];
-extern int16 word_34A4E;
-extern uint8 unk_34A88[];
-extern int32 dword_34C2C;
+/* word_342BC..word_344A2, word_34680/82 are vtxScratch members (asm via EQU). */
+/* Overlaid LZW-dict / vertex-projection scratch region (was word_3424C..0x35AF7);
+ * see struct VtxScratch. C flight code uses vtxScratch.vproj. */
+extern struct VtxScratch vtxScratch;
 extern int16 word_35AF8;
 extern uint8 flt15_buf2[];
 extern int16 word_36B7E;
@@ -1332,9 +1297,7 @@ extern struct Proj3d g_proj3d;
 extern size_t size3d3_7;
 extern int16 var_218;
 extern int16 var_219;
-extern int16 var_279;
 extern int8 var_83[];
-extern int16 var_282;
 extern int16 var_220;
 extern char *var_567;
 extern uint16 var_383;

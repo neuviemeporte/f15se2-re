@@ -148,13 +148,7 @@ PUBLIC word_37F62
 PUBLIC _g_viewZ
 PUBLIC _uvar_547
 PUBLIC _origCBreakSeg
-PUBLIC _word_34684
-PUBLIC _word_34686
-PUBLIC _word_34868
-PUBLIC _word_34A4C
 PUBLIC _var_143
-PUBLIC _var_279
-PUBLIC _var_282
 PUBLIC _audio_setEnginePitch
 PUBLIC _audio_setup
 PUBLIC _audio_shutdown
@@ -686,61 +680,10 @@ aPleaseInsertScenarioD db 'Please insert scenario disk',0
     db 0
     db 1
     db 3 dup(0)
-word_3424C dw 0
-word_3424E dw 0
-    db 8 dup(0)
-    db 8 dup(0)
-word_34288 dw 0
-word_3428A dw 0
-word_3428C dw 0
-word_3428E dw 0
-word_34290 dw 0
-word_34292 dw 0
-word_34294 dw 0
-word_34296 dw 0
-word_34298 dw 0
-word_3429A dw 0
-word_3429C dw 0
-word_3429E dw 0
-word_342A0 dw 0
-word_342A2 dw 0
-word_342A4 dw 0
-word_342A6 dw 0
-word_342A8 dw 0
-word_342AA dw 0
-    db 4 dup(0)
-word_342BC dw 0
-word_342BE dw 0
-    db 476 dup(0)
-word_3449C dw 0
-word_3449E dw 0
-word_344A0 dw 0
-word_344A2 dw 0
-    db 476 dup(0)
-word_34680 dw 0
-word_34682 dw 0
-word_34684 dw 0
-_word_34684 equ word_34684
-word_34686 dw 0
-_word_34686 equ word_34686
-    db 139 dup(0)
-unk_34713 db 0
-    db 336 dup(0)
-word_34864 dw 0
-word_34866 dw 0
-word_34868 dw 0
-_word_34868 equ word_34868
-word_3486A dw 0
-    db 476 dup(0)
-dword_34A48 dd 0
-word_34A4C dw 0
-_word_34A4C equ word_34A4C
-word_34A4E dw 0
-    db 56 dup(0)
-unk_34A88 db 0
-    db 419 dup(0)
-dword_34C2C dd 0
-    db 3784 dup(0)
+; Overlaid scratch region (word_3424C..0x35AF7, 0x1878 bytes) migrated to
+; egdata.c as struct VtxScratch vtxScratch: the LZW pic dictionary time-shares
+; this memory with the render/numerator scratch and the vertex-projection
+; cluster. egseg1.asm/egcode.asm reach the sub-objects via _vtxScratch EQUs.
 word_35AF8 dw 0
     db 68 dup(0)
 word_36B8B dw 0
@@ -2591,8 +2534,6 @@ word_38A7A dw 0
 ; ==============================================================================
 ; --- Symbolic labels for code references ---
 _var_143 EQU word_33BB8
-_var_279 EQU word_34868
-_var_282 EQU word_34A4C
 _uvar_547 EQU _g_viewZ
 _var_605 EQU word_38896
 _var_606 EQU word_389D8
@@ -2660,41 +2601,7 @@ _word_38FC6 label byte
 
     db ? ;align 2
 PUBLIC byte_36BAE
-PUBLIC dword_34A48
-PUBLIC dword_34C2C
-PUBLIC unk_34713
-PUBLIC unk_34A88
 PUBLIC unk_3771D
-PUBLIC word_3424C
-PUBLIC word_3424E
-PUBLIC word_34288
-PUBLIC word_3428A
-PUBLIC word_3428C
-PUBLIC word_3428E
-PUBLIC word_34290
-PUBLIC word_34292
-PUBLIC word_34294
-PUBLIC word_34296
-PUBLIC word_34298
-PUBLIC word_3429A
-PUBLIC word_3429C
-PUBLIC word_3429E
-PUBLIC word_342A0
-PUBLIC word_342A2
-PUBLIC word_342A4
-PUBLIC word_342A6
-PUBLIC word_342A8
-PUBLIC word_342AA
-PUBLIC word_342BC
-PUBLIC word_342BE
-PUBLIC word_3449C
-PUBLIC word_3449E
-PUBLIC word_344A0
-PUBLIC word_344A2
-PUBLIC word_34680
-PUBLIC word_34682
-PUBLIC word_34864
-PUBLIC word_34866
 PUBLIC word_35AF8
 PUBLIC word_36B8B
 PUBLIC word_36C19

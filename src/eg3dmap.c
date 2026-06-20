@@ -317,10 +317,10 @@ void projectModelVertices(int screenX, int screenY) {
             d = (*(*(int far **)&var_200)++ >> word_3C042) + screenY;
             var_200 += 2;
         }
-        word_34684[p * 2] = 1;
-        word_34686[p * 2] = 1;
-        word_34868[p] = c + word_3298C;
-        word_34A4C[p] = -aspectScaleY(d) + word_3298E;
+        vtxScratch.vproj.in[p].num = 1;
+        vtxScratch.vproj.in[p].div = 1;
+        vtxScratch.vproj.x.v[p] = c + word_3298C;
+        vtxScratch.vproj.y.v[p] = -aspectScaleY(d) + word_3298E;
     }
 }
 

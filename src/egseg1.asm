@@ -41,15 +41,11 @@ EXTRN _var_258:word
 EXTRN _var_259:word
 EXTRN _var_260:word
 EXTRN _var_261:word
-EXTRN _var_279:word
-EXTRN _var_282:word
 EXTRN _var_315:word
 EXTRN _var_316:word
 EXTRN _word_3298C:word
 EXTRN _word_3298E:word
 EXTRN _word_330C2:word
-EXTRN _word_34684:word
-EXTRN _word_34686:word
 EXTRN _word_3755D:word
 EXTRN _word_3755F:word
 EXTRN _word_37561:word
@@ -95,8 +91,6 @@ EXTRN _word_34190:word
 EXTRN _word_34192:word
 EXTRN _word_34194:word
 EXTRN _word_34198:word
-EXTRN word_3424C:word
-EXTRN word_3424E:word
 EXTRN _word_34250:word
 EXTRN _byte_32933:byte
 EXTRN _word_34252:word
@@ -110,36 +104,47 @@ EXTRN _var_225:word
 EXTRN _var_226:word
 EXTRN _var_227:word
 EXTRN _word_34276:word
-EXTRN word_34288:word
-EXTRN word_3428A:word
-EXTRN word_3428C:word
-EXTRN word_3428E:word
-EXTRN word_34290:word
-EXTRN word_34292:word
-EXTRN word_34294:word
-EXTRN word_34296:word
-EXTRN word_34298:word
-EXTRN word_3429A:word
-EXTRN word_3429C:word
-EXTRN word_3429E:word
-EXTRN word_342A0:word
-EXTRN word_342A2:word
-EXTRN word_342A4:word
-EXTRN word_342A6:word
-EXTRN word_342A8:word
-EXTRN word_342AA:word
-EXTRN word_342BC:word
-EXTRN word_342BE:word
-EXTRN word_3449C:word
-EXTRN word_3449E:word
-EXTRN word_344A0:word
-EXTRN word_344A2:word
-EXTRN word_34680:word
-EXTRN word_34682:word
-EXTRN word_34864:word
-EXTRN word_34866:word
-EXTRN dword_34A48:dword
-EXTRN dword_34C2C:dword
+; Overlaid scratch region (egdata.c struct VtxScratch vtxScratch): LZW pic
+; dictionary at cockpit load, render/numerator scratch + vertex cluster during
+; flight. All reached via offset aliases off the single C base. See struct.h.
+EXTRN _vtxScratch:word
+word_3424C  equ _vtxScratch         ; dict value base / render header
+word_3424E  equ _vtxScratch+2h      ; dict increment base
+word_34288  equ _vtxScratch+14h
+word_3428A  equ _vtxScratch+16h
+word_3428C  equ _vtxScratch+18h
+word_3428E  equ _vtxScratch+1Ah
+word_34290  equ _vtxScratch+1Ch
+word_34292  equ _vtxScratch+1Eh
+word_34294  equ _vtxScratch+20h
+word_34296  equ _vtxScratch+22h
+word_34298  equ _vtxScratch+24h
+word_3429A  equ _vtxScratch+26h
+word_3429C  equ _vtxScratch+28h
+word_3429E  equ _vtxScratch+2Ah
+word_342A0  equ _vtxScratch+2Ch
+word_342A2  equ _vtxScratch+2Eh
+word_342A4  equ _vtxScratch+30h
+word_342A6  equ _vtxScratch+32h
+word_342A8  equ _vtxScratch+34h
+word_342AA  equ _vtxScratch+36h
+word_342BC  equ _vtxScratch+3Ch
+word_342BE  equ _vtxScratch+3Eh
+word_3449C  equ _vtxScratch+21Ch
+word_3449E  equ _vtxScratch+21Eh
+word_344A0  equ _vtxScratch+220h
+word_344A2  equ _vtxScratch+222h
+word_34680  equ _vtxScratch+400h
+word_34682  equ _vtxScratch+402h
+_vproj      equ _vtxScratch+404h    ; vertex cluster base
+_word_34684 equ _vproj          ; in[].num
+_word_34686 equ _vproj+2        ; in[].div
+word_34864  equ _vproj+1E0h     ; in[120].num
+word_34866  equ _vproj+1E2h     ; in[120].div
+_var_279    equ _vproj+1E4h     ; x.v[] / x.lo
+dword_34A48 equ _vproj+3C4h     ; x.v[120]
+_var_282    equ _vproj+3C8h     ; y.v[] / y.lo
+dword_34C2C equ _vproj+5A8h     ; y.v[120] / scratch base
 EXTRN word_35AF8:word
 EXTRN _word_36B7E:word
 EXTRN _word_36B80:word

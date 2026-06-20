@@ -39,13 +39,6 @@ int getTimeOfDay(void)
 
 /* --- data globals --- */
 int16 g_viewZ;
-/* --- data referenced by drawHudWorldOverlay (egui.c) --- */
-int16 var_279;
-int16 var_282;
-int16 word_34684[64];
-int16 word_34686[64];
-int32 word_34868[121];
-int32 word_34A4C[121];
 
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }
