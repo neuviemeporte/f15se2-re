@@ -25,6 +25,7 @@ EXTRN g_kbdLastTick:WORD
 EXTRN g_kbdPrevScan:BYTE
 EXTRN g_kbdLastDirKey:BYTE
 EXTRN g_kbdDelayCounter:BYTE
+EXTRN g_kbdDirKeyTable:BYTE
 
 seg003 SEGMENT PARA PUBLIC 'CODE'
 ASSUME CS:seg003, DS:DGROUP, SS:DGROUP
@@ -132,7 +133,7 @@ int9Handler proc near
     ja short @@flushKbd
     sub al, 29h
     jb short @@flushKbd
-    mov bx, offset g_kbdDelayCounter+1h
+    mov bx, offset g_kbdDirKeyTable
     xlat
     or al, al
     jz short @@flushKbd

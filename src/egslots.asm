@@ -107,6 +107,7 @@ PUBLIC g_kbdLastTick
 PUBLIC g_kbdPrevScan
 PUBLIC g_kbdLastDirKey
 PUBLIC g_kbdDelayCounter
+PUBLIC g_kbdDirKeyTable
 PUBLIC _misc_getKey
 PUBLIC _gfx_setColor
 PUBLIC _gfx_nop23
@@ -179,32 +180,38 @@ PUBLIC g_picLookupResult
 PUBLIC g_picByte
 PUBLIC g_picByteUnsignedFlag
 
+; --- data symbols (definitions in .DATA / .DATA? below) ---
+PUBLIC cbreakHit
+PUBLIC joyData
+PUBLIC word_37F6C
+PUBLIC word_37F74
+PUBLIC word_37F7C
+PUBLIC word_37F84
+PUBLIC g_joyCountX
+PUBLIC g_joyCountY
+PUBLIC aReadError
+PUBLIC aWriteError
+PUBLIC byte_36BAE
+PUBLIC g_spanMaxX
+PUBLIC word_35AF8
+PUBLIC g_vtxScale
+PUBLIC g_clipVtxA0
+PUBLIC g_clipVtxA1
+PUBLIC g_clipVtxA2
+PUBLIC g_clipVtxA3
+PUBLIC g_clipVtxB0
+PUBLIC g_clipVtxB1
+PUBLIC g_clipVtxB2
+PUBLIC g_clipVtxB3
+PUBLIC word_38A3A
+PUBLIC word_38BC6
+PUBLIC _picWorkData
+
 .DATA ;dseg segment para public 'DATA' use16
 
 aF15dgtl_bin db 'F15DGTL.BIN',0
 f15dgtlAddr dw 0
-    db 1
-    db 2 dup(0)
-unk_32977 db 0
-    db 2 dup(0)
-    db 3Fh
-    db 1
-    db 0C7h
-    db 3 dup(0)
-    db 0Fh
-    db 0
-    db 4
-    db 7 dup(0)
 ovlInsaneFlag db 0
-aErrorReleasingOverlay db 'Error releasing overlay memory$'
-    db 0
-; residual inter-table padding bytes from the original layout; the
-; aNone/aircraftTypes/sams/missleSpec/missiles arrays that surrounded them are
-; now defined in egdata.c.
-    db 3
-    db 0
-    db 1
-    db 0
 _gfx_allocPage proc near                    ; slot 0x00
     db 0EAh, 4 dup(0)
 _gfx_allocPage endp
@@ -498,11 +505,6 @@ _audio_playSample endp
 audio_playSample equ _audio_playSample
     db 6 dup(0)
     db 0
-aPleaseInsertScenarioD db 'Please insert scenario disk',0
-    db 2 dup(0)
-    db 0
-    db 1
-    db 3 dup(0)
 ; Overlaid scratch region (word_3424C..0x35AF7, 0x1878 bytes) migrated to
 ; egdata.c as struct VtxScratch vtxScratch: the LZW pic dictionary time-shares
 ; this memory with the render/numerator scratch and the vertex-projection
@@ -1474,7 +1476,6 @@ g_spanMinX db 0FFh
 g_spanMaxX db 0
     db 439 dup(0)
     db 0
-PUBLIC cbreakHit
 cbreakHit db 0
 origCBreakSeg dw 0
 _origCBreakSeg equ origCBreakSeg
@@ -2089,13 +2090,6 @@ g_tapeRollOfsA0 dw 0
 g_tapeRollOfsA1 dw 0
 g_tapeRollOfsA2 dw 0
 g_tapeRollOfsA3 dw 0
-PUBLIC joyData
-PUBLIC word_37F6C
-PUBLIC word_37F74
-PUBLIC word_37F7C
-PUBLIC word_37F84
-PUBLIC g_joyCountX
-PUBLIC g_joyCountY
 joyData db 8 dup(0)
 word_37F6C dw 0
     db 6 dup(0)
@@ -2114,7 +2108,9 @@ g_kbdLastTick dw 0
 g_kbdPrevScan db 0
 g_kbdLastDirKey db 0
 g_kbdDelayCounter db 0
-    db 1
+; keyboard scancode -> direction-key bitmask table; egseg3 indexes it by
+; (scancode - 29h), range 0..28h, via xlat on offset g_kbdDirKeyTable.
+g_kbdDirKeyTable db 1
     db 0
     db 4
     db 27 dup(0)
@@ -2128,41 +2124,12 @@ g_kbdDelayCounter db 0
     db 6
     db 2
     db 0Ah
-    db 0
-    db 0
-    dw 0
-    db 0Ch
-    db 5 dup(0)
-    db 3 dup(0)
-    db 0
-    db 1
-    db 0
-    db 2 dup(0)
-    db 0
-    db 0 ;align 2
-    db 0 ;align 2
-    db 0 ;align 2
-    db 0    ; was aEmpty_5950 (empty string, now in egdata.c)
-    db 0
-aTac db 'Tac',0
-    db 5 dup(0)
-    db 0
-    db 0
-    db 0
-    db 0 ;align 2
-    db 0 ;align 2
 aFileNotFound db ':File not found$'
 aNoFileBuffersAvailabl db ':No file buffers available$'
 aOpenError db ':Open error $'
 aFileClosingError db 'File closing error$'
-PUBLIC aReadError
 aReadError db 'Read error$'
-PUBLIC aWriteError
 aWriteError db 'Write error$'
-PUBLIC word_3888E
-word_3888E dw 0
-PUBLIC word_38890
-word_38890 dw 0
     db 0 ;align 4
     db 0
 fileReadPos dw 0
@@ -2208,9 +2175,7 @@ byte_38D6A db 0
 byte_38D6B db 0
 word_38D6C dw 0
 byte_38D6E db 0
-    db 506 dup(0)
-; --- Pic-overlay blit temps (page index / row offset) + reserved word ---
-reservedPicWord dw 0     ; unused
+; --- Pic-overlay blit temps (page index / row offset) ---
 picOvlPageIndex dw 0
 picOvlRowOffset dw 0
 ; ==============================================================================
@@ -2220,40 +2185,12 @@ IFDEF DEBUG
 PUBLIC __bss_start
 ENDIF
 __bss_start label byte
-ORG 00000h
 ; LZW pic decoder traversal scratch. shared/pic_lzw.inc (bound in egcode.asm)
 ; runs the dictionary chain as a coroutine on the CPU stack seeded at
 ; picWorkData; pushes grow downward into the bytes below the label. Mirrors the
 ; _picWorkData scratch in stslots.asm / endslots.asm.
     db 201h dup(?)
-PUBLIC _picWorkData
 _picWorkData label byte
-_g_sphereTiltZ label byte
-    db ? ;align 4
-    db ?
-
-; TileSceneObject storage.
-; 571 full records * 7 bytes + 3 spare bytes = 4000 bytes. => #define MAX_TILE_DATA 4000
-
-    db ? ;align 2
-PUBLIC byte_36BAE
-PUBLIC g_spanMaxX
-PUBLIC word_35AF8
-PUBLIC g_vtxScale
-PUBLIC g_clipVtxA0
-PUBLIC g_clipVtxA1
-PUBLIC g_clipVtxA2
-PUBLIC g_clipVtxA3
-PUBLIC g_clipVtxB0
-PUBLIC g_clipVtxB1
-PUBLIC g_clipVtxB2
-PUBLIC g_clipVtxB3
-PUBLIC word_38A3A
-PUBLIC word_38BC6
-    db ? ;align 400h
-    db 511 dup(?)
-    db ? ;align 2
-    db 12 dup(?)
 
 __bss_end label byte
 
