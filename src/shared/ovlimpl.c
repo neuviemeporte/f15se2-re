@@ -1,5 +1,5 @@
 /*
- * ovlstub.c - Overlay slot stubs for misc/audio overlays (NO_ASM build).
+ * ovlimpl.c - Overlay slot implementations for misc/audio overlays (NO_ASM build).
  * These replace the 5-byte far-jump entries that get patched by setupOverlaySlots.
  */
 

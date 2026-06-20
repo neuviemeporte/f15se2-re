@@ -1,5 +1,5 @@
 /*
- * misc_noasm.c - C stub implementations for shared miscellaneous routines.
+ * miscimpl.c - C implementations of shared miscellaneous routines.
  * Only compiled for the NO_ASM build.
  */
 

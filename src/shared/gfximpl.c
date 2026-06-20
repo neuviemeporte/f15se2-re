@@ -1,6 +1,6 @@
 /*
- * gfx_noasm.c - C stub implementations for shared graphics helper routines
- *               from gfx.inc and gfx_clearrect.inc (NO_ASM build only)
+ * gfximpl.c - C implementations of shared graphics helper routines
+ *             from gfx.inc and gfx_clearrect.inc (NO_ASM build only)
  */
 
 #include "inttype.h"

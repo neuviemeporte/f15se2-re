@@ -1,5 +1,5 @@
 /*
- * picstub.c - PIC image LZW decoder.
+ * picimpl.c - PIC image LZW decoder.
  * Replaces: pic_decodepic.inc, pic_lzw.inc, pic_showpicfile.inc
  *
  * Two-phase decode: LZW produces raw bytes, then RLE (0x90 escape) is applied.

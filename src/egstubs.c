@@ -67,7 +67,7 @@ void __cdecl __far setupInstrumentLayoutFar() {}
 int writeFileAtRaw(int handle, int count, int bufOffset, int bufSegment, int offsetAddend) { return 0; }
 int far renderSortedListFar() { return 0; }
 
-/* --- slot.h overlay jump stubs (egame doesn't link shared/ovlstub.c) --- */
+/* --- slot.h overlay jump stubs (egame doesn't link shared/ovlimpl.c) --- */
 int misc_getKey() { return 0; }
 int misc_readJoystick(int16 a) { return 0; }
 int audio_setup(int16 a, int16 b) { return 0; }

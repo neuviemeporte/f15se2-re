@@ -159,7 +159,7 @@ $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
 NOASMDIR := noasm_build
 START_NOASM := $(NOASMDIR)/start.exe
 NOASM_SRC := $(START_SRC) slottram.c ovlpatch.c
-NOASM_SHARED_SRC := file_io.c timer.c miscstub.c gfxstub.c picstub.c ovlstub.c
+NOASM_SHARED_SRC := file_io.c timer.c miscimpl.c gfximpl.c picimpl.c ovlimpl.c
 NOASM_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
 NOASM_OBJ := $(NOASM_COBJ) $(NOASMDIR)/cleanup.obj $(NOASMDIR)/drawstr.obj $(NOASMDIR)/textfmt.obj $(NOASMDIR)/filepic.obj
 $(NOASM_COBJ): $(START_BASEHDR)

@@ -35,7 +35,7 @@ void showPicFile(int handle, int pageNum, int garbage);
 /* functions provided by file_io.c / file_*.inc */
 int openFile(const char *filename, int mode);
 
-/* functions provided by miscstub.c / overlay_dispatch.inc */
+/* functions provided by miscimpl.c / overlay_dispatch.inc */
 void intDispatch(int intNum, uint8 *inRegs, uint8 *outRegs);
 void restoreCbreakHandler(void);
 void installCBreakHandler(void);

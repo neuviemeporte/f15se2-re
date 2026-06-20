@@ -15,10 +15,10 @@ set(NOASM_GFX_SOURCES
 
 set(SHARED_SOURCES
     ${SRC_DIR}/shared/file_io.c
-    ${SRC_DIR}/shared/gfxstub.c
-    ${SRC_DIR}/shared/miscstub.c
-    ${SRC_DIR}/shared/ovlstub.c
-    ${SRC_DIR}/shared/picstub.c
+    ${SRC_DIR}/shared/gfximpl.c
+    ${SRC_DIR}/shared/miscimpl.c
+    ${SRC_DIR}/shared/ovlimpl.c
+    ${SRC_DIR}/shared/picimpl.c
     ${SRC_DIR}/shared/timer.c
     ${SRC_DIR}/shared/cleanup.c
     ${SRC_DIR}/shared/drawstr.c
