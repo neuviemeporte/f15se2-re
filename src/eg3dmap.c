@@ -20,6 +20,21 @@
 // ==== seg000:0x2fda ====
 
 struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
+    // These locals keep single-letter names on purpose: MSC 5.1 hashes each
+    // name to a fixed stack-frame slot, and this frame (18 scalars, with two
+    // hash collisions and an int-aliased-as-long scratch) only byte-matches the
+    // original with this exact layout. Renaming to descriptive names shifts the
+    // slots and breaks the match. See drawNearestTileObject() below for the same
+    // algorithm with readable names. Legend:
+    //   c = lod (detail level 1..2)      e = neighbour sample index 0..8
+    //   m = scratch, aliased as long for scaleCoordToLod() (m & n hold the long)
+    //   i = tileX     k = tileY          r = fracX     d = fracY  (query point)
+    //   a = neighbour col delta          b = neighbour row delta
+    //   o = baseDx    p = baseDy         (query point -> neighbour cell offset)
+    //   n = tile block index (process3dg)    f = entry index within the block
+    //   g = shape id/bits
+    //   h = objDx     j = objDy          (query point -> candidate object)
+    //   q = distance metric (best-so-far compare)    l = unused frame padding
     int p, q, a, r, b, c, d, e, f, g, h, i, j, k, l, m, n, o;
 
     nearestTile.dist = 0x7fff;
