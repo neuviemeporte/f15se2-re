@@ -1,11 +1,19 @@
 /* Grid/terrain parsing entry point */
-#include "start.h"
+#include "stcode.h"
+#include "stdata.h"
+#include "stparse.h"
 #include "const.h"
 #include "shared/common.h"
 #include "debug.h"
 
 #include <stdio.h>
 #include <conio.h>
+
+/* Private helpers for this translation unit. */
+void parseTerrain(char *dest);
+void parseGrid();
+int showMsgWaitKey(const char *);
+void replaceExtension(char *dest, char *source);
 
 void parseGridTerrain(void) {
     parseGrid();

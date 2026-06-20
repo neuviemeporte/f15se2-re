@@ -1,4 +1,6 @@
-#include "egame.h"
+#include "eg3dvp.h"
+#include "egdata.h"
+#include "egtypes.h"
 #include "slot.h"
 
 // ==== seg000:0x39c0 ====

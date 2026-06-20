@@ -1,4 +1,6 @@
-#include "egame.h"
+#include "egtypes.h"
+#include "egcode.h"
+#include "egdata.h"
 #include "inttype.h"
 #include "struct.h"
 #include "comm.h"
@@ -31,7 +33,7 @@ void setupDac() {}
 int gfx_getModeflag() { return 0; }
 int getTimeOfDay(void) { return 0; }
 
-/* --- functions declared in egame.h --- */
+/* --- functions declared in egcode.h --- */
 int far advanceModelPointerLod() { return 0; }
 int far buildRotationMatrixFar(int16* matrix, int angleX, int angleY, int angleZ) { return 0; }
 int far clipAndRasterizeEdge() { return 0; }

@@ -1,5 +1,11 @@
 // seg000 optimized code (/Ot)
-#include "egame.h"
+#include "egcode.h"
+#include "egdata.h"
+#include "egmath.h"
+#include "egtacmap.h"
+#include "egthreat.h"
+#include "egtypes.h"
+#include "egui.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -15,6 +21,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <memory.h>
+
+/* Private helpers for this translation unit. */
+void drawMapMarkerBox(int centerX, int centerY, int color);
+void projectMapPoint(int mapX, int mapY);
+void blitGaugeSprite(int srcCol, int srcRow, int destX, int destY);
 
 
 void drawTacticalMap(char page)

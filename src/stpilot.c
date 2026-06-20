@@ -1,5 +1,11 @@
 /* Pilot selection and display */
-#include "start.h"
+#include "stcode.h"
+#include "stdata.h"
+#include "stgen.h"
+#include "stmissn.h"
+#include "stpilot.h"
+#include "stsprit.h"
+#include "sttypes.h"
 #include "const.h"
 #include "gfx.h"
 #include "slot.h"
@@ -11,6 +17,20 @@
 #include <stdio.h>
 #include <dos.h>
 #include <string.h>
+
+/* Private helpers for this translation unit. */
+int doFcbSearch();
+void updateHallfame();
+void displayPilots(void);
+void printPilot(int);
+void processPilotInput();
+void gameDataToPilot(struct Pilot *pilot);
+void pilotToGameData(uint8 *pilotData);
+void pilotNameInput(int16 *, int, int, int, struct Pilot *);
+void loadHallfame(void);
+void saveHallfame();
+int getJoyKey();
+int readInputKey();
 
 void pilotSelect(int16 needSplash)
 {

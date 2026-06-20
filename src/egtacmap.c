@@ -1,5 +1,15 @@
 // seg000 debug code (/Zi)
-#include "egame.h"
+#include "eg3dmap.h"
+#include "eg3dview.h"
+#include "egcode.h"
+#include "egcombat.h"
+#include "egdata.h"
+#include "egframe.h"
+#include "egmath.h"
+#include "egtacmap.h"
+#include "egthreat.h"
+#include "egtypes.h"
+#include "egui.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -13,6 +23,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Private helpers for this translation unit. */
+void __cdecl drawStringCentered(int16 *, const char *, int, int, int);
+void renderHudFrame();
+int mapXToScreen();
+int mapYToScreen();
+void drawMapLine(int x1, int y1, int x2, int y2);
+void drawColorPoint();
+void drawMapPoint(int, int, int);
+void __cdecl drawPanelText(int, char*, int);
+int readScreenPixel(int screenX, int screenY);
 
 // ==== seg000:0x8e38 ====
 

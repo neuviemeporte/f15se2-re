@@ -1,0 +1,72 @@
+#ifndef F15_SE2_STTYPES
+#define F15_SE2_STTYPES
+/* start.exe hardware / comm-block / overlay constants. */
+
+#define F15_SE2_START
+#define COMM_SNDOVL_NAME 0xd
+#define ROSTER_SCORE_LO 0x16
+#define OVL_HDR_CODESEG 0x18
+#define ROSTER_SCORE_HI 0x18
+#define COMM_GVXOVL_SEG 0x1a
+#define ROSTER_LASTSCORE 0x1a
+#define COMM_SNDOVL_SEG 0x1c
+#define OVL_HDR_FIRSTIDX 0x1c
+#define ROSTER_UNK1 0x1c
+#define ROSTER_UNK2 0x1d
+#define COMM_MISCOVL_SEG 0x1e
+#define OVL_HDR_SIZE1 0x1e
+#define ROSTER_THEATER 0x1e
+#define ROSTER_DIFFICULTY 0x1f
+#define COMM_GFXBUF_PTR 0x20
+#define OVL_HDR_SIZE2 0x20
+#define GAMEDATA_UNK2 0x20
+#define OVL_HDR_SLOTCOUNT 0x22
+#define COMM_SETUP1 0x22
+#define GAMEDATA_UNK3 0x22
+#define OVL_HDR_FIRSTPTR 0x24
+#define COMM_HERC_FLAG 0x24
+#define COMM_SETUPDONE 0x26
+#define COMM_UNK2 0x28
+#define COMM_UNK3 0x2c
+#define GAMEDATA_LASTSCORE 0x2e
+#define COMM_SETUP_GFXMODE 0x30
+#define COMM_BUFFER_FLAG2 0x30
+#define GAMEDATA_SCORE_LO 0x32
+#define GAMEDATA_SCORE_HI 0x34
+#define GAMEDATA_THEATER 0x38
+#define COMM_UNK7 0x38  /* weaponType */
+#define GAMEDATA_FLAG4 0x3a
+#define COMM_UNK5 0x3a
+#define GAMEDATA_FLAG3 0x3c
+#define COMM_UNK6 0x3c
+#define COMM_BUFFER_DIFFICULTY 0x3e
+#define SEGMENT_BDA 0x40
+#define COMM_UNK8 0x40  /* weaponCount */
+#define COMM_BUFFER_RAND 0x42
+#define GAMEDATA_UNK1 0x44
+#define COMM_JOYDATA_OFF 0x48
+#define COMM_BUFFER_FLAG1 0x4e
+#define COMM_USEJOY_OFF 0x72
+#define COMM_GFXMODE_OFFSET 0x78
+#define TIMEOUT_MPS 0x78
+#define BDA_EGASW 0x88
+#define TIMEOUT_ADV 0xb4
+#define BDA_CRTC 0x463
+#define DOS_PRINT_STR 0x9
+#define DOS_ERROR_RMDIR 0x10
+#define DOS_SET_IRQH 0x25
+#define DOS_ALLOC_MEM 0x48
+#define IRQ_PIT 0x8
+#define IRQ_VIDEO 0x10
+#define IRQ_KBD 0x16
+#define IRQ_TIME 0x1a
+#define IRQ_CBREAK 0x1b
+#define HALLFAME_RECORDSZ 0x20
+#define IRQ_DOS 0x21
+#define PORT_PIT_TIME0 0x40
+#define PORT_PIT_CNTRL 0x43
+#define SCREEN_MAXY 0xc7
+#define SCREEN_MAXX 0x13f
+#define FILE_READBUF_SIZE 0x200
+
+#endif /* F15_SE2_STTYPES */

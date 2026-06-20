@@ -1,5 +1,17 @@
 // seg000 debug code (/Zi) - split from egmain.c
-#include "egame.h"
+#include "eg3dmap.h"
+#include "eg3dview.h"
+#include "egcode.h"
+#include "egcombat.h"
+#include "egdata.h"
+#include "egflight.h"
+#include "egframe.h"
+#include "egkeys.h"
+#include "egmath.h"
+#include "egtacmap.h"
+#include "egthreat.h"
+#include "egtypes.h"
+#include "egui.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -13,6 +25,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Private helpers for this translation unit. */
+void updateFrame(void);
+void dispatchKeyScancode();
+void tickMessageTimers();
+void updateBulletsAndFire();
+void updateTracerParticles();
+void applyGravityFall();
+void initFrameRandom();
+void generateRandomRadioMessage();
+void findWaypointFeatures();
+void moveStuff();
+void moveNearFar(void *nearPtr, int count);
+int setCommWorldbufPtr();
 
 // ==== seg000:0x0720 ====
 void updateFrame(void) {

@@ -1,8 +1,14 @@
 /* enfile.c — file I/O helpers, compiled with /Gs */
 #include "pointers.h"
 #include "debug.h"
-#include "end.h"
+#include "endata.h"
+#include "endcode.h"
+#include "enfile.h"
 #include "shared/common.h"
+
+/* Private helpers for this translation unit. */
+int loadFileSection(char *name, int b, int c);
+int writeFileSection(char *name, int b, int c, int d, int e);
 
 void srandInit(int seed) {
     TRACE(("srandInit"));

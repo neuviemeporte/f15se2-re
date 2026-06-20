@@ -1,5 +1,11 @@
 // seg000 debug code (/Zi)
-#include "egame.h"
+#include "eg3dview.h"
+#include "egcode.h"
+#include "egdata.h"
+#include "egframe.h"
+#include "egmath.h"
+#include "egpic.h"
+#include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -13,6 +19,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Private helpers for this translation unit. */
+void __cdecl drawCockpit();
+void runGameSession();
+void doNothing3();
+void doNothing4();
+void __cdecl gfxInit();
 
 // ==== seg000:0x10 ====
 int main(void) {

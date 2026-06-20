@@ -1,5 +1,14 @@
 // seg000 optimized code (/Ot)
-#include "egame.h"
+#include "eg3dmap.h"
+#include "egcombat.h"
+#include "egdata.h"
+#include "egframe.h"
+#include "egkeys.h"
+#include "egmath.h"
+#include "egtacmap.h"
+#include "egtarget.h"
+#include "egthreat.h"
+#include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -14,6 +23,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Private helpers for this translation unit. */
+int samCanAcquireTarget(int slot, int targetX, int targetY, int targetAlt, int mode);
+int markTargetReached(int targetIdx);
 
 
 void fireAirThreat(int objIdx)

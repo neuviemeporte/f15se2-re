@@ -1,5 +1,6 @@
 /* Sprite display */
-#include "start.h"
+#include "stdata.h"
+#include "stsprit.h"
 #include "gfx.h"
 #include "slot.h"
 #include "debug.h"

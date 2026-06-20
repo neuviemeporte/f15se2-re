@@ -1,5 +1,11 @@
 // seg000 debug code (/Zi)
-#include "egame.h"
+#include "eg3dcam.h"
+#include "eg3dgrid.h"
+#include "eg3dmap.h"
+#include "eg3dproj.h"
+#include "egcode.h"
+#include "egdata.h"
+#include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -13,6 +19,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Private helpers for this translation unit. */
+int far transformAndCullObjectFar(int, int, int);
 
 
 void projectObjects(int heading, int rangeGate, long worldX, long worldY, long worldZ)

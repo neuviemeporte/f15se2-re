@@ -1,6 +1,14 @@
 // seg000 non-debug code (/Gs, no /Zi)
 // Functions whose block scheduling only matches when compiled without /Zi.
-#include "egame.h"
+#include "egcombat.h"
+#include "egdata.h"
+#include "egframe.h"
+#include "egkeys.h"
+#include "egmath.h"
+#include "egtacmap.h"
+#include "egthreat.h"
+#include "egtypes.h"
+#include "egui.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -14,6 +22,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Private helpers for this translation unit. */
+void fireGroundThreat(int planeIdx);
 
 // ==== seg000:0x6172 ====
 void updateThreatSites()

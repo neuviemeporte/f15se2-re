@@ -1,5 +1,10 @@
 // seg000 optimized code (/Ot)
-#include "egame.h"
+#include "eg3dload.h"
+#include "eg3dmap.h"
+#include "eg3dview.h"
+#include "egdata.h"
+#include "egtarget.h"
+#include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"

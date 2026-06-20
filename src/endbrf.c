@@ -1,9 +1,15 @@
 /* endebrief.c — debrief main loop, compiled with /Gs */
+#include "slot.h"
+#include <stdio.h>
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
 #include "shared/common.h"
-#include "end.h"
+#include "endata.h"
+#include "endcode.h"
+#include "enaward.h"
+#include "enbrief.h"
+#include "endbrf.h"
 
 extern int16 menuItemUnused;
 extern char animExitFlag;

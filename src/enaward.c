@@ -1,8 +1,17 @@
 /* enaward.c — memory/pics/awards, compiled with /Gs */
+#include "slot.h"
 #include "pointers.h"
 #include "debug.h"
-#include "end.h"
+#include "endata.h"
+#include "endcode.h"
+#include "enaward.h"
+#include "eninput.h"
 #include "shared/common.h"
+
+/* Private helpers for this translation unit. */
+int dos_free(int segment);
+void loadPicFromFile(char *name, int segment);
+void loadPicFromFileAt(char *name, int segment, int off, int whence);
 
 uint16 allocBuffer(int size) {
     int segment;

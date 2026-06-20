@@ -1,10 +1,23 @@
 /* enmisc.c — split from enmain.c (loadWorldStrings + helpers), compiled with /Gs */
+#include "slot.h"
+#include <dos.h>
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
 #include "shared/common.h"
 #include <stdlib.h>
-#include "end.h"
+#include "endata.h"
+#include "enmisc.h"
+#include "enworld.h"
+
+/* Private helpers for this translation unit. */
+void drawStringAtPos(int16 *s, char far *str, int x, int y);
+void drawFarString(int16 *s, char far *str);
+void farStrcpy(char *dst, char far *src);
+void outportByte(int port, int value);
+void restoreVideoMode(void);
+void restoreInterrupts(void);
+void setupWorldBufPtr(void);
 
 void loadWorldStrings(void) {
     int strIdx;

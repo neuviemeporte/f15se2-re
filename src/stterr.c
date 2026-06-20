@@ -1,7 +1,8 @@
 /* Terrain parsing */
 // offsets based on F-15 SE2 v451.03 start.exe (unpacked) MD5: cf6e997ed4582cf82db6ec37d2b1a6fd
 #include "struct.h"
-#include "start.h"
+#include "stdata.h"
+#include "stterr.h"
 #include "pointers.h"
 #include "comm.h"
 #include "debug.h"
@@ -11,6 +12,10 @@
 #include <dos.h>
 #include <string.h>
 #include <stdio.h>
+
+/* Private helpers for this translation unit. */
+unsigned long scaleCoordByLevel(int, unsigned long);
+int lookupGridCell(int16, int16, int16);
 
 int16* findNearestTerrain(int32 worldX, int32 worldY) {
     int16 tmp, dx, dist, rowOff, x1, level, dy, i, cellIdx, gridX, offsetY, y1, cell;

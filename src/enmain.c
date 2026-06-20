@@ -1,10 +1,24 @@
 /* enmain.c — main/init, compiled with /Gs */
+#include "slot.h"
+#include <dos.h>
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
 #include "shared/common.h"
 #include <stdlib.h>
-#include "end.h"
+#include "endtypes.h"
+#include "endata.h"
+#include "endcode.h"
+#include "enaward.h"
+#include "enbrief.h"
+#include "endbrf.h"
+#include "eninput.h"
+#include "enmisc.h"
+#include "enrand.h"
+
+/* Private helpers for this translation unit. */
+void initGraphics(void);
+void checkQuitFlag(void);
 
 int main(void) {
     int spriteBufSize;

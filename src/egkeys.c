@@ -1,5 +1,12 @@
 // seg000 debug code (/Zi)
-#include "egame.h"
+#include "egcode.h"
+#include "egcombat.h"
+#include "egdata.h"
+#include "egframe.h"
+#include "egkeys.h"
+#include "egmath.h"
+#include "egtacmap.h"
+#include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -13,6 +20,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Private helpers for this translation unit. */
+void selectMissile();
+void disableTextBlink(void);
 
 // ==== seg000:0xd260 ====
 int keyDispatch(uint16 scanCode)

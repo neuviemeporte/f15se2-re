@@ -8,7 +8,9 @@
 #include "const.h"
 
 #include "debug.h"
-#include "start.h"
+#include "stdata.h"
+#include "stinit.h"
+#include "strand.h"
 
 #include <stdio.h>
 #include <dos.h>

@@ -1,0 +1,49 @@
+#ifndef F15_SE2_EGTYPES
+#define F15_SE2_EGTYPES
+/* egame.exe compat macros + hardware/comm/overlay constants. */
+
+#if !defined(MSDOS)
+#define far
+#ifndef pascal
+#define pascal
+#endif
+#endif
+
+#define __int32 long
+#define __int8 char
+#define __cdecl
+#define __far far
+
+#define AIRCRAFT_MODELS_OFFSET 0xADD4
+#define DOS_SET_IRQH 0x25
+#define PORT_PIT_TIME0 0x40
+#define PORT_PIT_CNTRL 0x43
+#define COMM_GFXOVL_SEG 0x1a
+#define COMM_SNDOVL_SEG 0x1c
+#define COMM_MISCOVL_SEG 0x1e
+#define COMM_GFXBUF_PTR 0x20
+#define COMM_HERC_FLAG 0x24
+#define COMM_SETUP_DONE_OFFSET 0x26
+#define COMM_SETUP_GFXMODE_OFFSET 0x30
+#define COMM_UNK7 0x38  /* weaponType */
+#define COMM_JOYDATA_OFF 0x48
+#define COMM_USEJOY_OFF 0x72
+#define COMM_GFXMODE_OFFSET 0x78
+#define COMM_WORLDBUF 0x7a
+#define OFF_IACA_START 0x4f0
+#define COMM_GAMEDATA_OFFSET 0x120e
+#define IRQ_CBREAK 0x1b
+#define GAMEDATA_THEATER 0x38
+#define GAMEDATA_DIFFICULTY 0x3e
+#define GAMEDATA_UNK4 0x40
+#define WAYPT_PRIMARY 0x1
+#define WAYPT_SECONDARY 0x2
+#define WAYPT_BASE 0x3
+#define IRQ_VIDEO 0x10
+#define OVL_HDR_CODESEG 0x18
+#define OVL_HDR_FIRSTIDX 0x1c
+#define OVL_HDR_SLOTCOUNT 0x22
+#define OVL_HDR_FIRSTPTR 0x24
+#define UNIT_STATE_COUNT 0x64
+
+#endif /* F15_SE2_EGTYPES */

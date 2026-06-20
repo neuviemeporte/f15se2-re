@@ -1,5 +1,5 @@
 /* Random number utilities */
-#include "start.h"
+#include "strand.h"
 #include "shared/common.h"
 
 #include <dos.h>

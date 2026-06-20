@@ -1,5 +1,13 @@
 // seg000 optimized code (/Ot)
-#include "egame.h"
+#include "eg3dcam.h"
+#include "eg3dgrid.h"
+#include "eg3dmap.h"
+#include "eg3dproj.h"
+#include "eg3dvp.h"
+#include "egcode.h"
+#include "egdata.h"
+#include "egsphere.h"
+#include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -15,6 +23,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Private helpers for this translation unit. */
+void drawMapTiles(int originX, int originY, int zoomShift);
+void computeTileBounds(int *, int *, int *, int *);
+void worldToTileIndex(int, int, int *, int *);
+void drawMapTileObject(char far *, int, int);
+void drawModelPoint(int x, int y);
+void buildVertexSignMask(int screenX, int screenY);
+void projectModelVertices(int screenX, int screenY);
+int aspectScaleY(int screenY);
 
 
 // ==== seg000:0x2fda ====

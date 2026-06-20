@@ -13,7 +13,6 @@
  *   samWeaponTable: +0x3B6 (950)
  *   nightMission:   +0x6DA (1754)
  */
-#include "inttype.h"
 
 #pragma pack(1)
 struct WeaponDataBlock {
@@ -509,7 +508,7 @@ char target1MiscBits[10];
 int target2Type[4];
 char target2MiscBits[10];
 
-/* Score string buffer (also aliased as dat_4824 via #define in end.h) */
+/* Score string buffer */
 char scoreString[512];
 
 /* Kill/miss counters */

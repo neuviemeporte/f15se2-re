@@ -1,6 +1,13 @@
 /* enworld.c — world data reading, compiled with /Gs /Os */
+#include <dos.h>
 #include <memory.h>
-#include "end.h"
+#include "endata.h"
+#include "enworld.h"
+
+/* Private helpers for this translation unit. */
+void loadWorldData(char* destOffset, int size);
+void readFromWorldBuf(char *dest, int size, int count, int bufHandle);
+void writeToWorldBuf(char *dest, int size, int count, int bufHandle);
 
 void readWorldData(void) {
     loadWorldData((char*)&worldWaypointCount, 2);

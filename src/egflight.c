@@ -1,4 +1,15 @@
-#include "egame.h"
+#include "eg3dview.h"
+#include "egcode.h"
+#include "egdata.h"
+#include "egflight.h"
+#include "egframe.h"
+#include "egkeys.h"
+#include "egmath.h"
+#include "egpic.h"
+#include "egtacmap.h"
+#include "egthreat.h"
+#include "egtypes.h"
+#include "egui.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -12,6 +23,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Private helpers for this translation unit. */
+void stepFlightModel();
+void applyRotationDelta(int matA, int matB);
+void computeAttitudeAngles(void);
+void rebuildOrientation();
+unsigned signedRatio16(int, int);
+int valueToAngle(int value);
+int complementAngle(int value);
+void renderFrame();
+void drawVectorShape(int16 *shapeData);
+void waitForKeyPress(void);
 
 
 void stepFlightModel(void) {

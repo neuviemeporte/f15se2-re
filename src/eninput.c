@@ -1,7 +1,10 @@
 /* eninput.c — input handling, compiled with /Gs */
+#include "slot.h"
+#include <dos.h>
 #include "pointers.h"
 #include "debug.h"
-#include "end.h"
+#include "endata.h"
+#include "eninput.h"
 #include "shared/common.h"
 
 void clearKeybuf(void) {

@@ -1,5 +1,8 @@
 // seg000 optimization disabled (/Od) code
-#include "egame.h"
+#include "egfileio.h"
+#include "egcode.h"
+#include "egpic.h"
+#include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"

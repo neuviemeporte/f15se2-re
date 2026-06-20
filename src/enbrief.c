@@ -1,9 +1,34 @@
 /* enbrief.c — debrief UI, compiled with /Gs /Zi */
+#include "slot.h"
+#include <dos.h>
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
 #include "shared/common.h"
-#include "end.h"
+#include "endtypes.h"
+#include "endata.h"
+#include "endcode.h"
+#include "enbrief.h"
+#include "eninput.h"
+#include "entext.h"
+
+/* Private helpers for this translation unit. */
+int mapToScreenY(unsigned char mapCoord);
+int mapToScreenX(unsigned char mapCoord);
+void drawClippedLineEx(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2, int cy2, int flag);
+void drawClippedLine(int x1, int y1, int x2, int y2);
+int drawEventSprite(int recordIdx);
+void drawMapPixel(int x, int y, int color);
+int isPointInRect(struct MenuItem *p);
+void blinkWidget(MenuItem *item, int16* gfxPage);
+unsigned int drawFlightPath(int16 *gfxPage, unsigned int maxRecord);
+void showEventPopup(void);
+void drawFlightLine(int p1, int p2, int p3, int p4);
+char *formatFlightTime(int timeValue, char *buffer);
+void plotMapPoint(int x, int y, int color, int unused);
+void timerWait(unsigned int ticks);
+void processDebriefInput(int *cursorBounds, MenuItem *menuItem, int16* gfxPage);
+void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage);
 
 void computeMissionResult(void)
 {
@@ -362,9 +387,9 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         /* Section 1: mission complete display */
         clearRect(gfxPage, 0xeb, 0x0a, 0x13f, 0x95);
         ((int *)gfxPage)[2] = 0;
-        mystrcpy(dat_4824, prefix);
-        mystrcat(dat_4824, str_pressExit);
-        drawWrappedText(gfxPage, dat_4824, 0x50, 0xf0, 0x82, 8);
+        mystrcpy(scoreString, prefix);
+        mystrcat(scoreString, str_pressExit);
+        drawWrappedText(gfxPage, scoreString, 0x50, 0xf0, 0x82, 8);
         clearRect(gfxPage, 0xf0, 0x64, 0x12c, 0x7e);
         if (popupVisible == 1) {
             gfx_copyRect(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
@@ -373,47 +398,47 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         curRecordIdx = 0;
         totalFlightRecords = drawFlightPath(gfxPage, ALL_RECORDS);
         *(long *)&missionScore = calcMissionScore(totalFlightRecords);
-        mystrcpy(dat_4824, str_dot1);
-        mystrcat(dat_4824, str_overall1);
-        drawStringCentered(gfxPage, dat_4824, 0xe8, 0x46, 0x57);
-        mystrcpy(dat_4824, str_missionRating1);
-        drawStringCentered(gfxPage, dat_4824, 0xe8, 0x4e, 0x57);
-        mystrcpy(dat_4824, str_dot2);
+        mystrcpy(scoreString, str_dot1);
+        mystrcat(scoreString, str_overall1);
+        drawStringCentered(gfxPage, scoreString, 0xe8, 0x46, 0x57);
+        mystrcpy(scoreString, str_missionRating1);
+        drawStringCentered(gfxPage, scoreString, 0xe8, 0x4e, 0x57);
+        mystrcpy(scoreString, str_dot2);
         my_ltoa(*(long *)&missionScore, numBuf);
-        mystrcat(dat_4824, numBuf);
-        drawStringCentered(gfxPage, dat_4824, 0xe8, 0x56, 0x57);
+        mystrcat(scoreString, numBuf);
+        drawStringCentered(gfxPage, scoreString, 0xe8, 0x56, 0x57);
         if (commData->trainingFlag != 0) {
             drawStringCentered(gfxPage, str_trainingScore, 0xe8, 0x60, 0x57);
             drawStringCentered(gfxPage, str_notRecorded, 0xe8, 0x68, 0x57);
         } else {
-            mystrcpy(dat_4824, str_dot3);
-            mystrcat(dat_4824, str_careerTotal);
-            drawStringCentered(gfxPage, dat_4824, 0xe8, 0x6c, 0x57);
-            mystrcpy(dat_4824, str_dot4);
+            mystrcpy(scoreString, str_dot3);
+            mystrcat(scoreString, str_careerTotal);
+            drawStringCentered(gfxPage, scoreString, 0xe8, 0x6c, 0x57);
+            mystrcpy(scoreString, str_dot4);
             my_ltoa(gameData->totalScore + *(long *)&missionScore, numBuf);
-            mystrcat(dat_4824, numBuf);
-            drawStringCentered(gfxPage, dat_4824, 0xe8, 0x74, 0x57);
+            mystrcat(scoreString, numBuf);
+            drawStringCentered(gfxPage, scoreString, 0xe8, 0x74, 0x57);
         }
         gfxPage[2] = FONT_TITLE;
-        mystrcpy(dat_4824, str_missionSummary);
-        drawStringCentered(gfxPage, dat_4824, 0xe8, 0x14, 0x57);
+        mystrcpy(scoreString, str_missionSummary);
+        drawStringCentered(gfxPage, scoreString, 0xe8, 0x14, 0x57);
         gfxPage[2] = 0;
-        mystrcpy(dat_4824, str_priSecTargets);
-        drawStringAt(gfxPage, dat_4824, 0xf0, 0x1e);
-        my_itoa(primaryHit + secondaryHit, dat_4824);
-        drawStringAt(gfxPage, dat_4824, 0x131, 0x1e);
-        mystrcpy(dat_4824, str_otherTargets);
-        drawStringAt(gfxPage, dat_4824, 0xf0, 0x26);
-        my_itoa(groundKilled + airKilled - primaryHit - secondaryHit, dat_4824);
-        drawStringAt(gfxPage, dat_4824, 0x131, 0x26);
-        mystrcpy(dat_4824, str_enemyPlanes);
-        drawStringAt(gfxPage, dat_4824, 0xf0, 0x2e);
-        my_itoa(samKilled, dat_4824);
-        drawStringAt(gfxPage, dat_4824, 0x131, 0x2e);
-        mystrcpy(dat_4824, str_friendlyTargets);
-        drawStringAt(gfxPage, dat_4824, 0xf0, 0x36);
-        my_itoa(groundMissed + airMissed + samMissed, dat_4824);
-        drawStringAt(gfxPage, dat_4824, 0x131, 0x36);
+        mystrcpy(scoreString, str_priSecTargets);
+        drawStringAt(gfxPage, scoreString, 0xf0, 0x1e);
+        my_itoa(primaryHit + secondaryHit, scoreString);
+        drawStringAt(gfxPage, scoreString, 0x131, 0x1e);
+        mystrcpy(scoreString, str_otherTargets);
+        drawStringAt(gfxPage, scoreString, 0xf0, 0x26);
+        my_itoa(groundKilled + airKilled - primaryHit - secondaryHit, scoreString);
+        drawStringAt(gfxPage, scoreString, 0x131, 0x26);
+        mystrcpy(scoreString, str_enemyPlanes);
+        drawStringAt(gfxPage, scoreString, 0xf0, 0x2e);
+        my_itoa(samKilled, scoreString);
+        drawStringAt(gfxPage, scoreString, 0x131, 0x2e);
+        mystrcpy(scoreString, str_friendlyTargets);
+        drawStringAt(gfxPage, scoreString, 0xf0, 0x36);
+        my_itoa(groundMissed + airMissed + samMissed, scoreString);
+        drawStringAt(gfxPage, scoreString, 0x131, 0x36);
         ejectedFlag = 1;
         } // 2fbf
         // 2fca
@@ -426,116 +451,116 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             curRecordIdx = prevDrawX = prevDrawY = 0;
             clearRect(gfxPage, 0xeb, 0x0a, 0x13f, 0x95);
             *(long *)&missionScore = calcMissionScore(SCORE_ALL_EVENTS);
-            mystrcpy(dat_4824, str_dot5);
-            mystrcat(dat_4824, str_overall2);
-            drawStringCentered(gfxPage, dat_4824, 0xe8, 0x64, 0x57);
-            mystrcpy(dat_4824, str_missionRating2);
-            drawStringCentered(gfxPage, dat_4824, 0xe8, 0x6c, 0x57);
-            mystrcpy(dat_4824, str_dot6);
+            mystrcpy(scoreString, str_dot5);
+            mystrcat(scoreString, str_overall2);
+            drawStringCentered(gfxPage, scoreString, 0xe8, 0x64, 0x57);
+            mystrcpy(scoreString, str_missionRating2);
+            drawStringCentered(gfxPage, scoreString, 0xe8, 0x6c, 0x57);
+            mystrcpy(scoreString, str_dot6);
             my_ltoa(*(long *)&missionScore, numBuf);
-            mystrcat(dat_4824, numBuf);
-            drawStringCentered(gfxPage, dat_4824, 0xe8, 0x74, 0x57);
+            mystrcat(scoreString, numBuf);
+            drawStringCentered(gfxPage, scoreString, 0xe8, 0x74, 0x57);
         }
         clearRect(gfxPage, 0xeb, 0x0a, 0x13f, 0x63);
         gfxPage[2] = FONT_TITLE;
-        mystrcpy(dat_4824, str_missionEvent);
-        drawStringCentered(gfxPage, dat_4824, 0xe8, 0x14, 0x57);
-        mystrcpy(dat_4824, str_time);
-        mystrcat(dat_4824, formatFlightTime(flightTimeTable[curRecordIdx * 3], numBuf));
-        drawStringAt(gfxPage, dat_4824, 0xf0, 0x1e);
+        mystrcpy(scoreString, str_missionEvent);
+        drawStringCentered(gfxPage, scoreString, 0xe8, 0x14, 0x57);
+        mystrcpy(scoreString, str_time);
+        mystrcat(scoreString, formatFlightTime(flightTimeTable[curRecordIdx * 3], numBuf));
+        drawStringAt(gfxPage, scoreString, 0xf0, 0x1e);
         unitIdx = flightRecords[curRecordIdx].unitId & UNIT_ID_MASK;
         switch (flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) {
         case EVENT_AIR_KILL:
         case EVENT_AIR_KILL2:
             if (worldObjects[unitIdx].unitRef != 0) {
-                mystrcpy(dat_4824, worldStrings[worldObjects[unitIdx].unitRef]);
-                mystrcat(dat_4824, str_destroyed4);
-                mystrcat(dat_4824, worldStrings[worldObjects[unitIdx].objectIdx & UNIT_ID_MASK]);
-                mystrcat(dat_4824, str_destroyed1);
+                mystrcpy(scoreString, worldStrings[worldObjects[unitIdx].unitRef]);
+                mystrcat(scoreString, str_destroyed4);
+                mystrcat(scoreString, worldStrings[worldObjects[unitIdx].objectIdx & UNIT_ID_MASK]);
+                mystrcat(scoreString, str_destroyed1);
             } else {
-                mystrcpy(dat_4824, worldStrings[worldObjects[unitIdx].objectIdx & UNIT_ID_MASK]);
-                mystrcat(dat_4824, str_destroyed2);
+                mystrcpy(scoreString, worldStrings[worldObjects[unitIdx].objectIdx & UNIT_ID_MASK]);
+                mystrcat(scoreString, str_destroyed2);
             }
             break;
         case EVENT_SAM_KILL:
-            mystrcpy(dat_4824, planeArray[unitIdx].name);
-            mystrcat(dat_4824, str_shotDown2);
-            mystrcat(dat_4824, &planeArray[unitIdx].name[7]);
-            mystrcat(dat_4824, str_shotDown);
+            mystrcpy(scoreString, planeArray[unitIdx].name);
+            mystrcat(scoreString, str_shotDown2);
+            mystrcat(scoreString, &planeArray[unitIdx].name[7]);
+            mystrcat(scoreString, str_shotDown);
             break;
         case EVENT_GROUND_KILL:
-            mystrcpy(dat_4824, worldStrings[unitIdx]);
-            mystrcat(dat_4824, str_destroyed3);
+            mystrcpy(scoreString, worldStrings[unitIdx]);
+            mystrcat(scoreString, str_destroyed3);
             break;
         case EVENT_WAYPOINT:
             if (worldObjects[unitIdx].unitRef != 0) {
-                mystrcpy(dat_4824, worldStrings[worldObjects[unitIdx].unitRef]);
-                mystrcat(dat_4824, str_rearmed3);
-                mystrcat(dat_4824, worldStrings[worldObjects[unitIdx].objectIdx & UNIT_ID_MASK]);
-                mystrcat(dat_4824, str_rearmed1);
+                mystrcpy(scoreString, worldStrings[worldObjects[unitIdx].unitRef]);
+                mystrcat(scoreString, str_rearmed3);
+                mystrcat(scoreString, worldStrings[worldObjects[unitIdx].objectIdx & UNIT_ID_MASK]);
+                mystrcat(scoreString, str_rearmed1);
             } else {
-                mystrcpy(dat_4824, worldStrings[worldObjects[unitIdx].objectIdx & UNIT_ID_MASK]);
-                mystrcat(dat_4824, str_rearmed2);
+                mystrcpy(scoreString, worldStrings[worldObjects[unitIdx].objectIdx & UNIT_ID_MASK]);
+                mystrcat(scoreString, str_rearmed2);
             }
             break;
         case EVENT_BOMB_HIT:
-            mystrcpy(dat_4824, str_hitBy);
-            mystrcat(dat_4824, samWeaponTable[unitIdx].name);
-            mystrcat(dat_4824, str_missile);
+            mystrcpy(scoreString, str_hitBy);
+            mystrcat(scoreString, samWeaponTable[unitIdx].name);
+            mystrcat(scoreString, str_missile);
             break;
         case EVENT_EJECTED:
             if (curRecordIdx == 0) {
-                mystrcpy(dat_4824, str_takeoffPoint);
+                mystrcpy(scoreString, str_takeoffPoint);
                 if (worldObjects[waypointData].unitRef != 0) {
-                    mystrcat(dat_4824, worldStrings[worldObjects[waypointData].unitRef]);
+                    mystrcat(scoreString, worldStrings[worldObjects[waypointData].unitRef]);
                 } else {
-                    mystrcat(dat_4824, worldStrings[(unsigned char)worldObjects[waypointData].objectIdx]);
+                    mystrcat(scoreString, worldStrings[(unsigned char)worldObjects[waypointData].objectIdx]);
                 }
             } else {
-                mystrcpy(dat_4824, str_missionEnd);
+                mystrcpy(scoreString, str_missionEnd);
                 switch (commData->landingType) {
                 case LANDING_CRASHED:
-                    mystrcat(dat_4824, str_crashed);
+                    mystrcat(scoreString, str_crashed);
                     break;
                 case LANDING_EJECTED:
                     if (commData->bailoutSurvived == 0 && missionResult != 0) {
-                        mystrcat(dat_4824, str_goodBailout);
+                        mystrcat(scoreString, str_goodBailout);
                     } else if (commData->bailoutSurvived == 0 && missionResult == 0) {
-                        mystrcat(dat_4824, str_captured);
+                        mystrcat(scoreString, str_captured);
                     } else {
-                        mystrcat(dat_4824, str_bailedDied);
+                        mystrcat(scoreString, str_bailedDied);
                     }
                     break;
                 case LANDING_SAFE:
-                    mystrcat(dat_4824, str_goodLanding);
+                    mystrcat(scoreString, str_goodLanding);
                     break;
                 }
             }
             break;
         }
-        drawWrappedText(gfxPage, dat_4824, 0x50, 0xf0, 0x26, 8);
+        drawWrappedText(gfxPage, scoreString, 0x50, 0xf0, 0x26, 8);
         if ((unsigned char)flightRecords[curRecordIdx].status & STATUS_PRIMARY_HIT) {
-            mystrcpy(dat_4824, str_primaryObj);
-            drawStringCentered(gfxPage, dat_4824, 0xe8, gfxPage[5], 0x57);
+            mystrcpy(scoreString, str_primaryObj);
+            drawStringCentered(gfxPage, scoreString, 0xe8, gfxPage[5], 0x57);
         }
         if ((unsigned char)flightRecords[curRecordIdx].status & STATUS_SECONDARY_HIT) {
-            mystrcpy(dat_4824, str_secndryObj);
-            drawStringCentered(gfxPage, dat_4824, 0xe8, gfxPage[5], 0x57);
+            mystrcpy(scoreString, str_secndryObj);
+            drawStringCentered(gfxPage, scoreString, 0xe8, gfxPage[5], 0x57);
         }
         *(long *)&missionScore = calcMissionScore(curRecordIdx);
-        mystrcpy(dat_4824, str_cumulative2);
-        mystrcat(dat_4824, str_cumulative);
-        drawStringCentered(gfxPage, dat_4824, 0xe8, 0x46, 0x57);
-        mystrcpy(dat_4824, str_missionRating3);
-        drawStringCentered(gfxPage, dat_4824, 0xe8, 0x4e, 0x57);
-        mystrcpy(dat_4824, str_pressSelect);
+        mystrcpy(scoreString, str_cumulative2);
+        mystrcat(scoreString, str_cumulative);
+        drawStringCentered(gfxPage, scoreString, 0xe8, 0x46, 0x57);
+        mystrcpy(scoreString, str_missionRating3);
+        drawStringCentered(gfxPage, scoreString, 0xe8, 0x4e, 0x57);
+        mystrcpy(scoreString, str_pressSelect);
         my_ltoa(*(long *)&missionScore, numBuf);
-        mystrcat(dat_4824, numBuf);
-        drawStringCentered(gfxPage, dat_4824, 0xe8, 0x56, 0x57);
+        mystrcat(scoreString, numBuf);
+        drawStringCentered(gfxPage, scoreString, 0xe8, 0x56, 0x57);
         showEventPopup();
-        mystrcpy(dat_4824, prefix);
-        mystrcat(dat_4824, str_pressNext);
-        drawWrappedText(gfxPage, dat_4824, 0x50, 0xf0, 0x82, 8);
+        mystrcpy(scoreString, prefix);
+        mystrcat(scoreString, str_pressNext);
+        drawWrappedText(gfxPage, scoreString, 0x50, 0xf0, 0x82, 8);
     } // 35db
 }
 

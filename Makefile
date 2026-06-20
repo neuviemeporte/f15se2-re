@@ -42,7 +42,7 @@ SRCDIR := $(SRCTOP)
 BUILDDIR := build
 MAPDIR := map
 DEBUGDIR := debug_build
-HDRFILES := dosfunc.h output.h pointers.h offsets.h biosfunc.h comm.h overlay.h f15util.h start.h slot.h const.h struct.h debug.h
+HDRFILES := dosfunc.h output.h pointers.h offsets.h biosfunc.h comm.h overlay.h f15util.h slot.h const.h struct.h debug.h
 HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
@@ -83,7 +83,7 @@ COMMON_OBJ_C := $(BUILDDIR)/textfmt.obj
 COMMON_OBJ2 := $(BUILDDIR)/filepic.obj
 COMMON_UTIL := $(COMMON_OBJ) $(COMMON_OBJ_B) $(COMMON_OBJ_C)
 START_SRC := stmain.c stinit.c stmissn.c stsprit.c strand.c stpilot.c stalloc.c stterr.c stparse.c stgen.c stdata.c
-START_BASEHDR = $(SRCDIR)/start.h
+START_BASEHDR = $(addprefix $(SRCDIR)/,sttypes.h stdata.h stcode.h stinit.h stmissn.h stsprit.h strand.h stpilot.h stalloc.h stterr.h stparse.h stgen.h)
 START_COBJ := $(call cobj,$(BUILDDIR),$(START_SRC))
 # Explicit link order interleaves the shared helper pieces between the per-module
 # objs to match the original layout in map/start.map.
@@ -237,7 +237,7 @@ EGAME_ASM := egcode.asm $(EGAME_BASE) egfarbu2.asm egseg3.asm egseg2.asm egseg1.
 # The reference build gets byte_228D0/byte_2D6A4 from egfarbu2.asm (two distinct
 # symbols at fixed offsets); the NO_ASM build uses egfarbuf.c (single buffer) instead.
 EGAME_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egtarget.c egmath.c egkeys.c egfileio.c egpic.c egdata.c
-EGAME_BASEHDR = $(SRCDIR)/egame.h
+EGAME_BASEHDR = $(addprefix $(SRCDIR)/,egtypes.h egdata.h egcode.h eg3dcam.h eg3dgrid.h eg3dload.h eg3dmap.h eg3dproj.h eg3dview.h eg3dvp.h egcombat.h egfileio.h egflight.h egframe.h egkeys.h egmath.h egpic.h egsphere.h egtacmap.h egtarget.h egthreat.h egui.h)
 EGAME_COBJ := $(call cobj,$(BUILDDIR),$(EGAME_SRC))
 EGAME_OBJ := $(EGAME_COBJ) $(call asmobj,$(BUILDDIR),$(EGAME_ASM))
 $(EGAME_EXE): | $(BUILDDIR)
@@ -304,7 +304,7 @@ END_LINKMAP := $(BUILDDIR)/end.map:link
 END_BASE := endslots.asm
 END_ASM := endcode.asm $(END_BASE)
 END_SRC := enmain.c enmisc.c enworld.c eninput.c entext.c enrand.c enaward.c enbrief.c endbrf.c enfile.c endata.c
-END_BASEHDR = $(SRCDIR)/end.h
+END_BASEHDR = $(addprefix $(SRCDIR)/,endtypes.h endata.h endcode.h enaward.h enbrief.h endbrf.h enfile.h eninput.h enmisc.h enrand.h entext.h enworld.h)
 END_COBJ := $(call cobj,$(BUILDDIR),$(END_SRC))
 # Explicit link order interleaves the shared helper pieces between the per-module
 # objs to match the original layout in map/end.map (C functions only; ASM-base

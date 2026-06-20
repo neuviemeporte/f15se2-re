@@ -6,8 +6,11 @@
  * address, so they are placed approximately, adjacent to a known neighbour.
  * The order is not load-bearing: the binary relocates, so data may move freely.
  */
-#include "egame.h"
+#include "egtypes.h"
 #include "inttype.h"
+#include "struct.h"
+#include "comm.h"
+#include <stdio.h>
 #include <dos.h>
 
 /* Scenario region-data filenames (head of the original .DATA segment).

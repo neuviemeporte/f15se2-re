@@ -8,10 +8,24 @@
 #include "const.h"
 
 #include "debug.h"
-#include "start.h"
+#include "stcode.h"
+#include "stdata.h"
+#include "stgen.h"
+#include "stmissn.h"
+#include "stpilot.h"
+#include "stsprit.h"
+#include "sttypes.h"
 
 #include <stdio.h>
 #include <dos.h>
+
+/* Private helpers for this translation unit. */
+void waitJoyKey(void);
+int joyOrKey();
+void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color);
+int missionMenuSelect(char **names, char **desc, char *title, int s);
+void animateArm(int, int);
+void clearBriefing(void);
 
 
 /* stmissn.c - split from stinit.c (mission select), compiled /Gs /Zi */

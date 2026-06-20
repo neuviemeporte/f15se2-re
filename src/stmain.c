@@ -6,7 +6,14 @@
 #include "slot.h"
 #include "const.h"
 #include "debug.h"
-#include "start.h"
+#include "stalloc.h"
+#include "stcode.h"
+#include "stdata.h"
+#include "stgen.h"
+#include "stinit.h"
+#include "stmissn.h"
+#include "stpilot.h"
+#include "sttypes.h"
 #include "shared/common.h"
 
 #include <dos.h>

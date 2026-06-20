@@ -4,7 +4,8 @@
 #include "pointers.h"
 #include "debug.h"
 #include "shared/common.h"
-#include "end.h"
+#include "enfile.h"
+#include "enrand.h"
 
 void seedRandom(void) {
     TRACE(("seedRandom"));

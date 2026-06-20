@@ -1,5 +1,7 @@
 // seg000 optimized code (/Ot)
-#include "egame.h"
+#include "egfileio.h"
+#include "egcode.h"
+#include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -8,6 +10,12 @@
 
 #include <dos.h>
 #include <memory.h>
+
+/* Private helpers for this translation unit. */
+int createFileWrapper(const char* filename, int attr);
+int readFile1Wrapper(int handle, int count, int bufOffset);
+int readFile2Wrapper(int handle, int count, int bufOffset, int bufSegment);
+int writeFileAtRawWrapper(int handle, int count, int bufOffset, int bufSegment, int offsetAddend);
 
 int openFileWrapper(const char *path, int mode) {
     TRACE(("openFileWrapper: path=%s mode=%d", path, mode));

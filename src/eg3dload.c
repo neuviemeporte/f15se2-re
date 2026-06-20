@@ -1,5 +1,8 @@
 // seg000 debug code (/Zi)
-#include "egame.h"
+#include "eg3dload.h"
+#include "egdata.h"
+#include "egtacmap.h"
+#include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -13,6 +16,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Private helpers for this translation unit. */
+void __cdecl load3D3(char *);
+void __cdecl load3DT(char *);
+void load3DG();
 
 
 // ==== seg000:0x2874 ====

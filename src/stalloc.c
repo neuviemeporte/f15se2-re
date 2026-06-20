@@ -1,9 +1,15 @@
 /* Memory allocation */
-#include "start.h"
+#include "stalloc.h"
+#include "stcode.h"
+#include "stdata.h"
+#include "sttypes.h"
 #include "shared/common.h"
 #include "debug.h"
 
 #include <dos.h>
+
+/* Private helpers for this translation unit. */
+uint16 dos_alloc(int sz);
 
 uint16 allocBuffer(int size) {
     uint16 segment;

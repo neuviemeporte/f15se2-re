@@ -1,5 +1,17 @@
 // seg000 optimized code (/Ot)
-#include "egame.h"
+#include "eg3dmap.h"
+#include "eg3dview.h"
+#include "egcode.h"
+#include "egcombat.h"
+#include "egdata.h"
+#include "egflight.h"
+#include "egframe.h"
+#include "egmath.h"
+#include "egtacmap.h"
+#include "egtarget.h"
+#include "egthreat.h"
+#include "egtypes.h"
+#include "egui.h"
 #include "offsets.h"
 #include "pointers.h"
 #include "debug.h"
@@ -15,6 +27,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <memory.h>
+
+/* Private helpers for this translation unit. */
+void drawTargetBox(int, int, int, int);
+void drawMissileLock(void);
+void __cdecl drawTargetLabel(char *, int, int);
+void buildRangeString(int rangeRaw);
+void projectWorldToHud(int worldX, int worldY, int worldZ);
+long rotateVectorComponent(int axis, int vecX, int vecY, int vecZ);
+int computeMapTargetRange(int targetIdx);
+int computeSimObjectRange(int objIdx);
+int computeTargetBearing(int targetX, int targetY, int wantBearing);
 
 void updateTargetLock(void) {
     int p, a, b, range, d, e, marker, idx, depthShift, i, j, k, best, m, n;

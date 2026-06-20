@@ -1,5 +1,7 @@
 // seg000 debug code (/Zi)
-#include "egame.h"
+#include "eg3dgrid.h"
+#include "egdata.h"
+#include "egtypes.h"
 #include "offsets.h"
 
 int process3dg(int lod, int col, int row)

@@ -1,7 +1,12 @@
 /* Mission generation */
 // offsets based on F-15 SE2 v451.03 start.exe (unpacked) MD5: cf6e997ed4582cf82db6ec37d2b1a6fd
 #include "struct.h"
-#include "start.h"
+#include "stcode.h"
+#include "stdata.h"
+#include "stgen.h"
+#include "stparse.h"
+#include "strand.h"
+#include "stterr.h"
 #include "pointers.h"
 #include "comm.h"
 #include "debug.h"
@@ -14,6 +19,20 @@
 #include <time.h>
 #include <string.h>
 #include <stdio.h>
+
+/* Private helpers for this translation unit. */
+void runGenerator();
+int findOrPlaceItem(int, int, int);
+int itemDistance(int, int);
+void positionUnit(int, int);
+int approxDistance(int, int);
+void parseWorld(const char *);
+int calcBearing(int, int);
+int setMoveDstComm7A(const char *filename, const char* mode);
+void memAppend(void *ptr, int itemsz, int count, FILE* unused);
+void doNothing(FILE*);
+char *formatGridRef(int16, int16, int16);
+int clampValue(int, int, int);
 
 void missionGenerate() {
     TRACE(("missionGenerate(): entering"));
