@@ -397,7 +397,15 @@ $(HELLO_EXE): LINKFLAGS := /M /I
 $(HELLO_EXE): $(HELLO_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $^ -o $@ -f "$(LINKFLAGS)" -l "$(HELLO_LIB)"
 
-f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(ASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE)
+#
+# release zipfile for upload
+#
+VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo "unknown")
+RELEASE := f15_se2-$(VERSION).zip
+$(RELEASE): $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE)
+	zip $@ $^
+
+f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(ASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE) $(RELEASE)
 
 start: $(START_EXE)
 egame: $(EGAME_EXE)
