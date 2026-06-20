@@ -480,7 +480,7 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             break;
         case EVENT_BOMB_HIT:
             mystrcpy(dat_4824, str_hitBy);
-            mystrcat(dat_4824, samWeaponTable[o].field_0);
+            mystrcat(dat_4824, samWeaponTable[o].name);
             mystrcat(dat_4824, str_missile);
             break;
         case EVENT_EJECTED:
@@ -824,7 +824,7 @@ long calcMissionScore(int param) {
             } else if (flightRecords[b].status & STATUS_SECONDARY_HIT) {
                 secondaryHit = 1;
                 samKilled++;
-            } else if (planeArray[(f & UNIT_ID_MASK) + 1].field_0 == -1) {
+            } else if (planeArray[(f & UNIT_ID_MASK) + 1].validFlag == -1) {
                 samMissed++;
             } else {
                 samKilled++;

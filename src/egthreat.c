@@ -20,27 +20,27 @@ void updateThreatSites()
 {
     int p, a, b, c, d, e;
 
-    if ((word_336F8 == 0 || word_3C03E != word_336E4) && word_330C2 != 0) {
-        if (word_336F8 == 0 && word_3C09A == 0) {
+    if ((g_scopeSweepTimer == 0 || g_prevScopeRange != g_threatScopeRange) && g_hudVisible != 0) {
+        if (g_scopeSweepTimer == 0 && g_mapMode == 0) {
             restoreScopePanel();
-            word_3BF3C = 0;
-            word_3BF3E = 0x100;
+            g_scopeArcStart = 0;
+            g_scopeArcEnd = 0x100;
         }
     }
 
-    for (d = 0; d < word_38FFA; d++) {
-        if (g_planeTable.planes[d].field_4 != 0 &&
+    for (d = 0; d < g_targetEntityCount; d++) {
+        if (g_planeTable.planes[d].active != 0 &&
             !(g_planeTable.planes[d].flags & 0x80) &&
             ((d * (frameTick >> 10) * 7 & 7) <= 7 ||
-            g_planeTable.planes[d].field_8 != 0 ||
+            g_planeTable.planes[d].alertLevel != 0 ||
             (g_planeTable.planes[d].flags & 0x100) != 0)) {
-            g_planeTable.planes[d].field_A -= 1;
-            if (g_planeTable.planes[d].field_A <= 0) {
-                g_planeTable.planes[d].field_A =
+            g_planeTable.planes[d].threatTimer -= 1;
+            if (g_planeTable.planes[d].threatTimer <= 0) {
+                g_planeTable.planes[d].threatTimer =
                     ((int)(char)g_frameRateScaling << 8) /
-                    ((g_planeTable.planes[d].field_8 >> 3) + 0x20) + d / 2;
+                    ((g_planeTable.planes[d].alertLevel >> 3) + 0x20) + d / 2;
             }
-            if (g_planeTable.planes[d].field_A == 4 && word_336F8 < 0) {
+            if (g_planeTable.planes[d].threatTimer == 4 && g_scopeSweepTimer < 0) {
                 fireGroundThreat(d);
                 g_planeTable.planes[d].flags |= 0x02;
             }
@@ -50,26 +50,26 @@ void updateThreatSites()
     }
 
     if (commData->gfxModeNum == 0) {
-        word_38F72 = 0;
+        g_scopeArcColor = 0;
     }
 
-    if (word_3C09A == 0 && word_336F8 > 0 && word_330C2 != 0 && word_3BE7E > 1) {
-        if (word_38FDC != 0 && commData->gfxModeNum != 0) {
+    if (g_mapMode == 0 && g_scopeSweepTimer > 0 && g_hudVisible != 0 && g_scopeArcRange > 1) {
+        if (g_detailLevel != 0 && commData->gfxModeNum != 0) {
             captureScopePanel();
-            a = (int)((long)clampRange(g_frameRateScaling - word_336F8, 1, g_frameRateScaling) * (long)word_3BE7E / (long)g_frameRateScaling) << 6;
+            a = (int)((long)clampRange(g_frameRateScaling - g_scopeSweepTimer, 1, g_frameRateScaling) * (long)g_scopeArcRange / (long)g_frameRateScaling) << 6;
         } else {
-            a = word_3BE7E << 6;
-            word_3BE7E = 0;
+            a = g_scopeArcRange << 6;
+            g_scopeArcRange = 0;
         }
-        if (word_3BE96 >= 0) {
-            drawMapRangeArc(g_planeTable.planes[word_3BE96].mapX,
-                      g_planeTable.planes[word_3BE96].mapY,
-                      a, word_38F72, word_3C6AA,
-                      word_3BF3C, word_3BF3E);
+        if (g_threatLabelTarget >= 0) {
+            drawMapRangeArc(g_planeTable.planes[g_threatLabelTarget].mapX,
+                      g_planeTable.planes[g_threatLabelTarget].mapY,
+                      a, g_scopeArcColor, g_threatRadarFlag,
+                      g_scopeArcStart, g_scopeArcEnd);
         }
     }
 
-    word_336F8--;
+    g_scopeSweepTimer--;
 }
 
 /* ---- merged from egflt.c ---- */
@@ -84,65 +84,65 @@ void fireGroundThreat(int param_1)
     int n;
     int o;
 
-    k = g_planeTable.planes[param_1].field_4;
+    k = g_planeTable.planes[param_1].active;
     o = computeThreatRangeBearing(g_planeTable.planes[param_1].mapX, g_planeTable.planes[param_1].mapY, 0, k, p, (int *)a);
-    word_336FA = 0;
+    g_threatToneLevel = 0;
     if (o > 0) {
         j = o;
         if (j > 99) {
             j = 99;
         }
-        word_336FA = 4;
-        if (o + word_336E4 > 50) {
-            word_336FA = 0x0c;
+        g_threatToneLevel = 4;
+        if (o + g_threatScopeRange > 50) {
+            g_threatToneLevel = 0x0c;
         }
-        if (o + word_336E4 > 100) {
-            word_336FA = 0x0e;
+        if (o + g_threatScopeRange > 100) {
+            g_threatToneLevel = 0x0e;
         }
-        word_3BE7E = o;
-        word_336F8 = g_frameRateScaling;
-        word_3BE96 = param_1;
-        word_3C6AA = aNone[k].field_C & 1;
-        if (*(int16 *)&g_planeTable.planes[param_1].field_8 != 0) {
-            word_3BF3C = (p[0] >> 8) - 0x20;
-            word_3BF3E = (p[0] >> 8) + 0x20;
+        g_scopeArcRange = o;
+        g_scopeSweepTimer = g_frameRateScaling;
+        g_threatLabelTarget = param_1;
+        g_threatRadarFlag = aNone[k].flags & 1;
+        if (*(int16 *)&g_planeTable.planes[param_1].alertLevel != 0) {
+            g_scopeArcStart = (p[0] >> 8) - 0x20;
+            g_scopeArcEnd = (p[0] >> 8) + 0x20;
         }
-        word_38F72 = word_336FA;
+        g_scopeArcColor = g_threatToneLevel;
         if (!(*(uint8 *)&g_planeTable.planes[param_1].flags & 4)) {
             *(uint8 *)&g_planeTable.planes[param_1].flags |= 4;
         }
     }
     if (o > a[0]) {
-        *(int16 *)&g_planeTable.planes[param_1].field_8 += (word_330BA + g_missionStatus) * 32 + 32;
-        if (*(int16 *)&g_planeTable.planes[param_1].field_8 > 255) {
-            *(int16 *)&g_planeTable.planes[param_1].field_8 = 255;
+        *(int16 *)&g_planeTable.planes[param_1].alertLevel += (g_difficultyTier + g_missionStatus) * 32 + 32;
+        if (*(int16 *)&g_planeTable.planes[param_1].alertLevel > 255) {
+            *(int16 *)&g_planeTable.planes[param_1].alertLevel = 255;
         }
         if (!(g_planeTable.planes[param_1].flags & 0x100) && mapEvents[0].ttl == 0 &&
-            *(int16 *)&g_planeTable.planes[param_1].field_8 > 0x7f) {
+            *(int16 *)&g_planeTable.planes[param_1].alertLevel > 0x7f) {
             updateThreatAlert();
         }
-        if (word_3A946 <= g_missionStatus) {
-            if (*(int16 *)&g_planeTable.planes[param_1].field_8 > 0xc0) {
+        if (g_enemyThreatCount <= g_missionStatus) {
+            if (*(int16 *)&g_planeTable.planes[param_1].alertLevel > 0xc0) {
                 if (k != 0x15) {
-                    if (word_38FEE > 0x500) {
+                    if (g_nearestThreatRange > 0x500) {
                         if ((unsigned)-(g_missionStatus * 3 - 20) < a[0]) {
-                            word_3C09C++;
-                            if (*(int16 *)&g_planeTable.planes[param_1].field_8 >= 0xfa) {
+                            g_enemyAlertFlag++;
+                            if (*(int16 *)&g_planeTable.planes[param_1].alertLevel >= 0xfa) {
                                 l = (g_missionStatus != 0) ? param_1 % g_missionStatus : 0;
-                                if (stru_335C4[l].ttl == 0) {
-                                    if (sams[k].field_8 > (unsigned)a[0]) {
+                                if (g_projectiles[l].ttl == 0) {
+                                    if (sams[k].lockRange > (unsigned)a[0]) {
                                         k = k;
-                                        stru_335C4[l].mapX = g_planeTable.planes[param_1].mapX + 8;
+                                        g_projectiles[l].mapX = g_planeTable.planes[param_1].mapX + 8;
                                         l = l;
                                         param_1 = param_1;
-                                        stru_335C4[l].mapY = g_planeTable.planes[param_1].mapY;
-                                        stru_335C4[l].alt = 0;
-                                        stru_335C4[l].field_6 = 1;
-                                        stru_335C4[l].worldX = p[0];
-                                        stru_335C4[l].worldY = 0x4000;
-                                        stru_335C4[l].ttl = (int)((((long)sams[k].field_8 << 3) * (long)g_frameRateScaling) / (long)(sams[k].field_A >> 6));
-                                        *(int16 *)&stru_335C4[l].state[0] = k;
-                                        *(int16 *)&stru_335C4[l].state[6] = param_1;
+                                        g_projectiles[l].mapY = g_planeTable.planes[param_1].mapY;
+                                        g_projectiles[l].alt = 0;
+                                        g_projectiles[l].speed = 1;
+                                        g_projectiles[l].worldX = p[0];
+                                        g_projectiles[l].worldY = 0x4000;
+                                        g_projectiles[l].ttl = (int)((((long)sams[k].lockRange << 3) * (long)g_frameRateScaling) / (long)(sams[k].maxSpeed >> 6));
+                                        *(int16 *)&g_projectiles[l].state[0] = k;
+                                        *(int16 *)&g_projectiles[l].state[6] = param_1;
 
                                         placeString(param_1);
                                         strcat((char *)strBuf, (char *)aFiring);
@@ -162,9 +162,9 @@ void fireGroundThreat(int param_1)
         *(uint8 *)&g_planeTable.planes[param_1].flags |= 0x10;
     } else {
         *(uint8 *)&g_planeTable.planes[param_1].flags &= 0xEF;
-        *(int16 *)&g_planeTable.planes[param_1].field_8 -= 0x10;
-        if (*(int16 *)&g_planeTable.planes[param_1].field_8 < 0) {
-            *(int16 *)&g_planeTable.planes[param_1].field_8 = 0;
+        *(int16 *)&g_planeTable.planes[param_1].alertLevel -= 0x10;
+        if (*(int16 *)&g_planeTable.planes[param_1].alertLevel < 0) {
+            *(int16 *)&g_planeTable.planes[param_1].alertLevel = 0;
         }
     }
 }
@@ -186,7 +186,7 @@ int computeThreatRangeBearing(int threatX, int threatY, int arg_4, int threatTyp
     e = g_viewY_ - threatY;
     c = (unsigned)rangeApprox(d, e) >> 6;
     b = computeBearing(d, -e);
-    f = (f = (aNone[threatType].field_A + g_missionStatus * 2 + 3) * aNone[threatType].field_8 / 16) * (((unsigned)g_viewZ >> 6) + 0x40) >> 7;
+    f = (f = (aNone[threatType].dangerTier + g_missionStatus * 2 + 3) * aNone[threatType].lethality / 16) * (((unsigned)g_viewZ >> 6) + 0x40) >> 7;
     *outBearing = b;
     *arg_a = c;
     return f;
@@ -195,20 +195,20 @@ int computeThreatRangeBearing(int threatX, int threatY, int arg_4, int threatTyp
 // ==== seg000:0x66be ====
 void updateThreatAlert(void) {
     int p;
-    word_336F0 = word_3B0AC;
+    g_threatActiveTimer = g_threatTimerInit;
     if (mapEvents[0].ttl != 0) {
-        word_3B4D8 = mapEvents[0].mapX;
-        word_3B4E0 = mapEvents[0].mapY;
+        g_threatRefX = mapEvents[0].mapX;
+        g_threatRefY = mapEvents[0].mapY;
     } else {
-        word_3B4D8 = g_viewX_;
-        word_3B4E0 = g_viewY_;
+        g_threatRefX = g_viewX_;
+        g_threatRefY = g_viewY_;
     }
-    word_3B5D6 = g_viewZ;
-    word_38FEC = g_ourHead;
-    word_3BED4 = 0xFF;
-    for (p = 0; p < word_3C69E; p++) {
-        if (g_planeTable.planes[p].field_4 != 0) {
-            *(int *)&g_planeTable.planes[p].field_8 = clampRange(*(int *)&g_planeTable.planes[p].field_8, ((g_missionStatus + word_330BA) << 4) - 16, 0xFF);
+    g_threatRefZ = g_viewZ;
+    g_threatRefHead = g_ourHead;
+    g_unusedEventHist0 = 0xFF;
+    for (p = 0; p < g_planeScanCount; p++) {
+        if (g_planeTable.planes[p].active != 0) {
+            *(int *)&g_planeTable.planes[p].alertLevel = clampRange(*(int *)&g_planeTable.planes[p].alertLevel, ((g_missionStatus + g_difficultyTier) << 4) - 16, 0xFF);
         }
     }
 }
@@ -220,10 +220,10 @@ int computeThreatScore(void) {
     int b;
 
     b = 0;
-    for (a = 0; a < word_38FFA; a++) {
-        p = g_planeTable.planes[a].field_4;
+    for (a = 0; a < g_targetEntityCount; a++) {
+        p = g_planeTable.planes[a].active;
         if (p != 0) {
-            b += aNone[p].field_8 * aNone[p].field_A * (g_missionStatus + 2) / 64;
+            b += aNone[p].lethality * aNone[p].dangerTier * (g_missionStatus + 2) / 64;
         }
     }
     b /= 100;
@@ -235,71 +235,71 @@ void updateObjects(void)
 {
     int p0, p, pa, a, b, r, s, c, d, t, u0, e0, f, e1, u2, w, x, h, v3, y, j, g3, k, aj, z2, l, m0, m, ma, n;
 
-    if ((frameTick & 1) == 0 && word_336F6 == -1) {
-        stru_33402[(frameTick >> 1) & 7].field_0 = 0;
+    if ((frameTick & 1) == 0 && g_smokeSourceIdx == -1) {
+        g_particles[(frameTick >> 1) & 7].posX = 0;
     }
 
-    bulletTracks[((frameTick >> 2) & 3) + word_3AFA4].posX = 0;
+    bulletTracks[((frameTick >> 2) & 3) + g_bulletTrackCount].posX = 0;
 
-    word_3A946 = var_668;
-    var_668 = 0;
-    for (h = 0; h < word_3C046; h++) {
-    if (stru_3B202[h].flags.b[0] & 1) {
-    var_667 = stru_3B202[h].spec;
-    if ((stru_3B202[h].flags.b[0] & 2) && stru_3B202[h].speed != 0) {
+    g_enemyThreatCount = g_activeThreatCount;
+    g_activeThreatCount = 0;
+    for (h = 0; h < g_groundUnitCount; h++) {
+    if (g_simObjects[h].flags.b[0] & 1) {
+    g_threatSpec = g_simObjects[h].spec;
+    if ((g_simObjects[h].flags.b[0] & 2) && g_simObjects[h].speed != 0) {
     w = 0;
-    if (!(stru_3B202[h].flags.b[0] & 4)) {
-    if (word_336F0 != 0 && (!((stru_3B202[h].flags.w) & 0x140) || word_336F0 > word_3995C)) {
-        k = word_3B4D8;
-        m = word_3B4E0;
-        n = word_3B5D6;
+    if (!(g_simObjects[h].flags.b[0] & 4)) {
+    if (g_threatActiveTimer != 0 && (!((g_simObjects[h].flags.w) & 0x140) || g_threatActiveTimer > g_threatDisplayTtl)) {
+        k = g_threatRefX;
+        m = g_threatRefY;
+        n = g_threatRefZ;
         w = 1;
         if (mapEvents[0].ttl != 0) goto padlock_target;
         goto got_target;
     }
 
     w = 3;
-    if ((stru_3B202[h].flags.w) & 0x100) {
-    if (word_336FC != -1) {
-        k = sinMul((h & 7) * 0x800 + stru_3B202[word_336FC].heading.w - 0x1800,
-                      stru_3B202[word_336FC].speed)
-            + stru_3B202[word_336FC].posX;
+    if ((g_simObjects[h].flags.w) & 0x100) {
+    if (g_padlockAircraft != -1) {
+        k = sinMul((h & 7) * 0x800 + g_simObjects[g_padlockAircraft].heading.w - 0x1800,
+                      g_simObjects[g_padlockAircraft].speed)
+            + g_simObjects[g_padlockAircraft].posX;
 
-        m = stru_3B202[word_336FC].posY -
-            cosMul((h & 7) * 0x800 + stru_3B202[word_336FC].heading.w - 0x1800,
-                      stru_3B202[word_336FC].speed);
+        m = g_simObjects[g_padlockAircraft].posY -
+            cosMul((h & 7) * 0x800 + g_simObjects[g_padlockAircraft].heading.w - 0x1800,
+                      g_simObjects[g_padlockAircraft].speed);
 
-        n = stru_3B202[word_336FC].alt + (h & 7) * 0x40;
+        n = g_simObjects[g_padlockAircraft].alt + (h & 7) * 0x40;
         goto set_target_alt;
     }
     }
 
-    if (((uint8)h * 8 + (uint8)word_38FE0) & 0xbf) goto after_retarget;
-    if (!(stru_3B202[h].flags.b[0] & 0x40)) {
+    if (((uint8)h * 8 + (uint8)g_missionTick) & 0xbf) goto after_retarget;
+    if (!(g_simObjects[h].flags.b[0] & 0x40)) {
     f = 0x7fff;
-    pa = computeBearing(g_viewX_ - stru_3B202[h].posX,
-                   stru_3B202[h].posY - g_viewY_);
+    pa = computeBearing(g_viewX_ - g_simObjects[h].posX,
+                   g_simObjects[h].posY - g_viewY_);
     for (y = 0; y < 8; y++) {
-        s = randomRange(word_3BED2) + 1;
+        s = randomRange(g_planeCount) + 1;
         if (!(g_planeTable.planes[s].flags & 0x400)) {
-            p0 = computeBearing(g_planeTable.planes[s].mapX - stru_3B202[h].posX,
-                          stru_3B202[h].posY - g_planeTable.planes[s].mapY);
+            p0 = computeBearing(g_planeTable.planes[s].mapX - g_simObjects[h].posX,
+                          g_simObjects[h].posY - g_planeTable.planes[s].mapY);
             if (abs(pa - p0) < f) {
                 f = abs(pa - p0);
-                stru_3B202[h].objType = s;
+                g_simObjects[h].objType = s;
                 if (-(g_missionStatus * 0x1000 - 0x4000) > (int)f) break;
             }
         }
     }
-    if ((unsigned)rangeApprox(g_viewX_ - stru_3B202[h].posX,
-                  g_viewY_ - stru_3B202[h].posY) >> 6 > 0x15e && h != 0) {
-        (stru_3B202[h].flags.w) &= 0x1c1;
-        stru_3B202[h].timer = 0;
+    if ((unsigned)rangeApprox(g_viewX_ - g_simObjects[h].posX,
+                  g_viewY_ - g_simObjects[h].posY) >> 6 > 0x15e && h != 0) {
+        (g_simObjects[h].flags.w) &= 0x1c1;
+        g_simObjects[h].timer = 0;
     }
     }
 
 after_retarget:
-    s = *(int16 *)&stru_3B202[h].objType;
+    s = *(int16 *)&g_simObjects[h].objType;
     k = g_planeTable.planes[s].mapX;
     m = g_planeTable.planes[s].mapY;
     n = clampRange(g_viewZ + 1000, 5000, 20000);
@@ -313,257 +313,257 @@ padlock_target:
     goto got_target;
     }
 
-    k = g_planeTable.planes[*(int16 *)&stru_3B202[h].objType].mapX;
-    if ((stru_3B202[h].flags.w) & 0x200) {
-        n = stru_3B202[h].posX - k;
-        m = g_planeTable.planes[*(int16 *)&stru_3B202[h].objType].mapY;
+    k = g_planeTable.planes[*(int16 *)&g_simObjects[h].objType].mapX;
+    if ((g_simObjects[h].flags.w) & 0x200) {
+        n = g_simObjects[h].posX - k;
+        m = g_planeTable.planes[*(int16 *)&g_simObjects[h].objType].mapY;
         k = k - n * 2;
-        n = ((g_planeTable.planes[*(int16 *)&stru_3B202[h].objType].flags + abs(n)) & 0x200)
+        n = ((g_planeTable.planes[*(int16 *)&g_simObjects[h].objType].flags + abs(n)) & 0x200)
             ? 0x8c : 0x0c;
     } else {
-        m = g_planeTable.planes[*(int16 *)&stru_3B202[h].objType].mapY + word_3AFA8 * 0x500;
-        n = rangeApprox(stru_3B202[h].posX - k,
-                      stru_3B202[h].posY - m) + 2000;
+        m = g_planeTable.planes[*(int16 *)&g_simObjects[h].objType].mapY + g_northSouthSign * 0x500;
+        n = rangeApprox(g_simObjects[h].posX - k,
+                      g_simObjects[h].posY - m) + 2000;
     }
     w = 2;
 
 got_target:
-    if (w == 3 && (stru_3B202[h].flags.b[0] & 8)) {
+    if (w == 3 && (g_simObjects[h].flags.b[0] & 8)) {
         k = g_viewX_;
         m = g_viewY_;
-        n = stru_3B202[h].alt;
+        n = g_simObjects[h].alt;
     }
-    aj = k - stru_3B202[h].posX;
-    z2 = m - stru_3B202[h].posY;
+    aj = k - g_simObjects[h].posX;
+    z2 = m - g_simObjects[h].posY;
     b = computeBearing(aj, -z2);
     e1 = rangeApprox(aj, z2);
-    p = computeBearing((n - stru_3B202[h].alt) >> 5, e1);
+    p = computeBearing((n - g_simObjects[h].alt) >> 5, e1);
     p = clampRange(p, -0x2000, 0x1000);
     if (w == 1 && (unsigned)e1 < 0x600) {
-    var_668++;
+    g_activeThreatCount++;
     if ((unsigned)e1 >= 0x400) goto after_missile_table;
     if (frameTick & 3) goto after_missile_table;
-    if (abs(stru_3B202[h].heading.w - b) >= 0x800) goto after_missile_table;
-    if (abs(stru_3B202[h].pitch - p) >= 0x800) goto after_missile_table;
+    if (abs(g_simObjects[h].heading.w - b) >= 0x800) goto after_missile_table;
+    if (abs(g_simObjects[h].pitch - p) >= 0x800) goto after_missile_table;
 
-    g3 = ((frameTick >> 2) & 3) + word_3AFA4;
+    g3 = ((frameTick >> 2) & 3) + g_bulletTrackCount;
     v3 = 0x138 / g_frameRateScaling;
-    bulletTracks[g3].velZ = sinMul(-stru_3B202[h].pitch, v3) << 5;
-    v3 = cosMul(stru_3B202[h].pitch, v3);
-    bulletTracks[g3].velX = sinMul(stru_3B202[h].heading.w, v3);
-    bulletTracks[g3].velY = -cosMul(stru_3B202[h].heading.w, v3);
-    bulletTracks[g3].posX = stru_3B202[h].posX;
-    bulletTracks[g3].posY = stru_3B202[h].posY;
-    bulletTracks[g3].alt = stru_3B202[h].alt;
+    bulletTracks[g3].velZ = sinMul(-g_simObjects[h].pitch, v3) << 5;
+    v3 = cosMul(g_simObjects[h].pitch, v3);
+    bulletTracks[g3].velX = sinMul(g_simObjects[h].heading.w, v3);
+    bulletTracks[g3].velY = -cosMul(g_simObjects[h].heading.w, v3);
+    bulletTracks[g3].posX = g_simObjects[h].posX;
+    bulletTracks[g3].posY = g_simObjects[h].posY;
+    bulletTracks[g3].alt = g_simObjects[h].alt;
 
 after_missile_table:
     a = clampRange((h & 3) + g_missionStatus, 0, 2);
     if (h == 0) a = 1;
-    d = stru_3B202[h].heading.w;
-    if (abs(stru_3B202[h].field_4.w) < 0x4000) {
-        d += stru_3B202[h].field_4.w >> 2;
+    d = g_simObjects[h].heading.w;
+    if (abs(g_simObjects[h].bank.w) < 0x4000) {
+        d += g_simObjects[h].bank.w >> 2;
     }
     r = (int)(b - d) >> 13 & 7;
     d = g_ourHead;
     if (abs(g_ourRoll) < 0x4000) {
         d += g_ourRoll >> 1;
     }
-    t = ((stru_3B202[h].heading.w - d) >> 13) + 4 & 7;
+    t = ((g_simObjects[h].heading.w - d) >> 13) + 4 & 7;
     {
         register int ak;
-        ak = word_33444[a][r][t];
+        ak = g_maneuverTable[a][r][t];
         l = (ak & 0xf) << 12;
         if (ak == 0x100) {
             p = 0x6000;
             l = ((frameTick >> 8) & 8) * 0x1000 - 0x4000;
         }
     }
-    if (word_33444[a][r][t] == 0x200) {
+    if (g_maneuverTable[a][r][t] == 0x200) {
         p = (int16)0xa000;
         l = (((frameTick >> 8) & 8) - 4) * -0x1000;
     }
     if (p == (int16)0xa000) {
-        if (-((stru_3B202[h].pitch >> 3) - 3000) > stru_3B202[h].alt) {
-            p = stru_3B202[h].pitch + 0x1000;
+        if (-((g_simObjects[h].pitch >> 3) - 3000) > g_simObjects[h].alt) {
+            p = g_simObjects[h].pitch + 0x1000;
         }
     }
-    if (abs(stru_3B202[h].field_4.w) > 0x4000) {
+    if (abs(g_simObjects[h].bank.w) > 0x4000) {
         p = l = 0;
     }
     goto after_accel;
     }
 
-    l = clampRange(b - stru_3B202[h].heading.w, -0x3000, 0x3000) << 1;
-    if (w == 1 && g_missionStatus + 1 <= word_3A946) {
+    l = clampRange(b - g_simObjects[h].heading.w, -0x3000, 0x3000) << 1;
+    if (w == 1 && g_missionStatus + 1 <= g_enemyThreatCount) {
         l = 0x3000;
     }
 
 after_accel:
-    if (w == 1 && (g_planeTable.planes[g_closestThreatIndex].flags & 0x400) && word_38FEE < 0x780) {
+    if (w == 1 && (g_planeTable.planes[g_closestThreatIndex].flags & 0x400) && g_nearestThreatRange < 0x780) {
         l = 0x3000;
     }
 
-    l = clampRange(l, -aircraftTypes[var_667].field_16 * 0x1000,
-                  aircraftTypes[var_667].field_16 * 0x1000);
-    l = clampRange(l - stru_3B202[h].field_4.w,
-                  -aircraftTypes[var_667].field_16 * 256,
-                  aircraftTypes[var_667].field_16 * 256);
+    l = clampRange(l, -aircraftTypes[g_threatSpec].maneuverability * 0x1000,
+                  aircraftTypes[g_threatSpec].maneuverability * 0x1000);
+    l = clampRange(l - g_simObjects[h].bank.w,
+                  -aircraftTypes[g_threatSpec].maneuverability * 256,
+                  aircraftTypes[g_threatSpec].maneuverability * 256);
 
-    if ((stru_3B202[h].flags.w) & 0x400) {
-        if (stru_3B202[h].speed < 0x96) {
-            stru_3B202[h].pitch = 0;
+    if ((g_simObjects[h].flags.w) & 0x400) {
+        if (g_simObjects[h].speed < 0x96) {
+            g_simObjects[h].pitch = 0;
         } else {
-            stru_3B202[h].pitch += 0x100;
+            g_simObjects[h].pitch += 0x100;
         }
         l = 0;
-        if (stru_3B202[h].speed < aircraftTypes[var_667].field_12) {
-            stru_3B202[h].speed += 0x3c / g_frameRateScaling;
-        } else if (stru_3B202[h].alt > 300) {
-            stru_3B202[h].flags.b[1] &= 0xfb;
+        if (g_simObjects[h].speed < aircraftTypes[g_threatSpec].maxSpeed) {
+            g_simObjects[h].speed += 0x3c / g_frameRateScaling;
+        } else if (g_simObjects[h].alt > 300) {
+            g_simObjects[h].flags.b[1] &= 0xfb;
         }
     }
 
-    if (stru_3B202[h].flags.b[0] & 0x30) {
+    if (g_simObjects[h].flags.b[0] & 0x30) {
         l = 0x400;
     }
 
     if (((uint8)h & 3) == (frameTick & 3)) {
-        testWorldPosVisible(stru_3B202[h].posX,
-                  stru_3B202[h].posY,
-                  stru_3B202[h].alt);
-        if (*(int8 *)&var_315 != 0) {
-            stru_3B202[h].flags.b[1] |= 0x20;
+        testWorldPosVisible(g_simObjects[h].posX,
+                  g_simObjects[h].posY,
+                  g_simObjects[h].alt);
+        if (*(int8 *)&g_posVisibleFlag != 0) {
+            g_simObjects[h].flags.b[1] |= 0x20;
         } else {
-            stru_3B202[h].flags.b[1] &= 0xdf;
+            g_simObjects[h].flags.b[1] &= 0xdf;
         }
     }
 
-    if ((stru_3B202[h].flags.w) & 0x2000) {
+    if ((g_simObjects[h].flags.w) & 0x2000) {
         p = 0x3000;
     }
 
-    if (word_38FE0 < 10) {
+    if (g_missionTick < 10) {
         l >>= 2;
     }
 
     {
     register int u = h * 0x24;
-    stru_3B202[h].field_4.w += (l * (g_missionStatus + 2)) / g_frameRateScaling;
-    stru_3B202[h].heading.w += (stru_3B202[h].field_4.w >> 3) / g_frameRateScaling;
+    g_simObjects[h].bank.w += (l * (g_missionStatus + 2)) / g_frameRateScaling;
+    g_simObjects[h].heading.w += (g_simObjects[h].bank.w >> 3) / g_frameRateScaling;
 
-    j = p - stru_3B202[h].pitch;
-    if (!(stru_3B202[h].flags.b[0] & 0x20)) goto no_smoke;
+    j = p - g_simObjects[h].pitch;
+    if (!(g_simObjects[h].flags.b[0] & 0x20)) goto no_smoke;
     j = -0x200;
     if (frameTick & 3) goto no_smoke;
     ma = (frameTick >> 1) & 7;
-    stru_33402[ma].field_0 = *(int16 *)((char *)stru_3B202 + u + 2);
+    g_particles[ma].posX = *(int16 *)((char *)g_simObjects + u + 2);
     }
     {
     register int t = ma * 8;
     register int v = h * 0x24;
-    /* stru_33402[ma] via register offset t: idiomatic stru_33402[ma].field_N
+    /* g_particles[ma] via register offset t: idiomatic g_particles[ma].field_N
        recomputes ma*8 and shifts register allocation (verify mismatch). */
-    *(int16 *)((char *)stru_33402 + t + 2) = *(int16 *)((char *)stru_3B202 + v + 4);
-    *(int16 *)((char *)stru_33402 + t + 4) = *(int16 *)((char *)stru_3B202 + v + 6);
-    *(int16 *)((char *)stru_33402 + t + 6) = randomRange(0x20) << 11;
-    word_33442 = ma;
+    *(int16 *)((char *)g_particles + t + 2) = *(int16 *)((char *)g_simObjects + v + 4);
+    *(int16 *)((char *)g_particles + t + 4) = *(int16 *)((char *)g_simObjects + v + 6);
+    *(int16 *)((char *)g_particles + t + 6) = randomRange(0x20) << 11;
+    g_smokeParticleSlot = ma;
     }
 no_smoke:
 
-    if (stru_3B202[h].pitch < 0 &&
-        -(sinMul(stru_3B202[h].pitch, 2000) - 200) > stru_3B202[h].alt &&
-        ((stru_3B202[h].flags.w) & 0x220) == 0) {
+    if (g_simObjects[h].pitch < 0 &&
+        -(sinMul(g_simObjects[h].pitch, 2000) - 200) > g_simObjects[h].alt &&
+        ((g_simObjects[h].flags.w) & 0x220) == 0) {
         j = 0x400;
     }
 
     j = clampRange(j, -0x400, 0x400);
-    stru_3B202[h].pitch += (j << 2) / g_frameRateScaling;
-    if (abs(stru_3B202[h].pitch) > 0x4000) {
-        stru_3B202[h].heading.b[1] += (char)0x80;
-        stru_3B202[h].field_4.b[1] += (char)0x80;
-        stru_3B202[h].pitch = (int16)0x8000 - stru_3B202[h].pitch;
+    g_simObjects[h].pitch += (j << 2) / g_frameRateScaling;
+    if (abs(g_simObjects[h].pitch) > 0x4000) {
+        g_simObjects[h].heading.b[1] += (char)0x80;
+        g_simObjects[h].bank.b[1] += (char)0x80;
+        g_simObjects[h].pitch = (int16)0x8000 - g_simObjects[h].pitch;
     }
 
-    stru_3B202[h].flags.b[0] &= 0xef;
+    g_simObjects[h].flags.b[0] &= 0xef;
 
-    u2 = (int)((unsigned long)(unsigned)(-(stru_3B202[h].pitch / 2 + (int16)0x8000))
-            * (long)stru_3B202[h].speed >> 14);
-    u2 -= abs(sinMul(stru_3B202[h].field_4.w, u2)) >> 1;
+    u2 = (int)((unsigned long)(unsigned)(-(g_simObjects[h].pitch / 2 + (int16)0x8000))
+            * (long)g_simObjects[h].speed >> 14);
+    u2 -= abs(sinMul(g_simObjects[h].bank.w, u2)) >> 1;
     u2 = u2 * 4 / g_frameRateScaling;
     u2 >>= 2;
 
-    m0 = cosMul(stru_3B202[h].pitch, u2);
+    m0 = cosMul(g_simObjects[h].pitch, u2);
 
-    stru_3B202[h].worldX += (long)sinMul(stru_3B202[h].heading.w, m0);
-    stru_3B202[h].worldY -= (long)cosMul(stru_3B202[h].heading.w, m0);
+    g_simObjects[h].worldX += (long)sinMul(g_simObjects[h].heading.w, m0);
+    g_simObjects[h].worldY -= (long)cosMul(g_simObjects[h].heading.w, m0);
 
-    stru_3B202[h].alt += sinMul(stru_3B202[h].pitch, u2);
+    g_simObjects[h].alt += sinMul(g_simObjects[h].pitch, u2);
 
-    stru_3B202[h].posX = (int16)(stru_3B202[h].worldX >> 5);
-    stru_3B202[h].posY = (int16)(stru_3B202[h].worldY >> 5);
+    g_simObjects[h].posX = (int16)(g_simObjects[h].worldX >> 5);
+    g_simObjects[h].posY = (int16)(g_simObjects[h].worldY >> 5);
 
-    if (stru_3B202[h].alt <= 30000) goto alt_ok;
-    stru_3B202[h].pitch = 0;
+    if (g_simObjects[h].alt <= 30000) goto alt_ok;
+    g_simObjects[h].pitch = 0;
 alt_ok:
 
-    if (stru_3B202[h].alt < 0) {
-        (stru_3B202[h].flags.w) &= (h != 0) ? 0x1c1 : 0;
-        word_3BEBC = stru_3B202[h].posX;
-        word_3BEC8 = stru_3B202[h].posY;
-        word_3BECE = stru_3B202[h].alt;
-        word_39606 = -8;
-        if (h == word_336F2) {
-            word_336F2 = -1;
+    if (g_simObjects[h].alt < 0) {
+        (g_simObjects[h].flags.w) &= (h != 0) ? 0x1c1 : 0;
+        g_hitMapX = g_simObjects[h].posX;
+        g_hitMapY = g_simObjects[h].posY;
+        g_hitAlt = g_simObjects[h].alt;
+        g_hitEffectTimer = -8;
+        if (h == g_airTargetLock) {
+            g_airTargetLock = -1;
         }
     }
 
     if ((unsigned)e1 < 0x10 && w == 2) {
-        if ((stru_3B202[h].flags.w) & 0x200) {
-            (stru_3B202[h].flags.w) |= 0x1000;
+        if ((g_simObjects[h].flags.w) & 0x200) {
+            (g_simObjects[h].flags.w) |= 0x1000;
         } else {
-            (stru_3B202[h].flags.w) |= 0x200;
+            (g_simObjects[h].flags.w) |= 0x200;
         }
     }
 
-    if ((stru_3B202[h].flags.w) & 0x1000) {
-        stru_3B202[h].field_4.w = stru_3B202[h].pitch = 0;        stru_3B202[h].heading.w = (word_3AFA8 == 1) ? 0 : (int16)0x8000;
-        stru_3B202[h].alt = (g_planeTable.planes[g_closestThreatIndex].flags & 0x200) ? 0x8c : 0x0c;
-        if (stru_3B202[h].speed > 0) {
-            stru_3B202[h].speed -= 0x78 / g_frameRateScaling;
+    if ((g_simObjects[h].flags.w) & 0x1000) {
+        g_simObjects[h].bank.w = g_simObjects[h].pitch = 0;        g_simObjects[h].heading.w = (g_northSouthSign == 1) ? 0 : (int16)0x8000;
+        g_simObjects[h].alt = (g_planeTable.planes[g_closestThreatIndex].flags & 0x200) ? 0x8c : 0x0c;
+        if (g_simObjects[h].speed > 0) {
+            g_simObjects[h].speed -= 0x78 / g_frameRateScaling;
         } else {
-            (stru_3B202[h].flags.w) &= 0x1c1;
+            (g_simObjects[h].flags.w) &= 0x1c1;
             if (h == 0 && g_targetSlots[0].state >= 5) {
-                (stru_3B202[h].flags.w) = 0;
+                (g_simObjects[h].flags.w) = 0;
             }
         }
-        if (h >= word_3C046 - 4 && stru_3B202[h].speed < 100) {
-            (stru_3B202[h].flags.w) &= 0x1c1;
-            (stru_3B202[h].flags.w) |= 0x406;
+        if (h >= g_groundUnitCount - 4 && g_simObjects[h].speed < 100) {
+            (g_simObjects[h].flags.w) &= 0x1c1;
+            (g_simObjects[h].flags.w) |= 0x406;
         }
     }
 
-    if (--stru_3B202[h].timer == 0) {
-        stru_3B202[h].flags.b[0] |= 4;
+    if (--g_simObjects[h].timer == 0) {
+        g_simObjects[h].flags.b[0] |= 4;
         f = 0x7fff;
-        for (y = 3; y < word_3C69E; y++) {
+        for (y = 3; y < g_planeScanCount; y++) {
             if ((g_planeTable.planes[y].flags & 0x101) == 1) {
-                ma = rangeApprox(stru_3B202[h].posX - g_planeTable.planes[y].mapX,
-                              stru_3B202[h].posY - g_planeTable.planes[y].mapY);
+                ma = rangeApprox(g_simObjects[h].posX - g_planeTable.planes[y].mapX,
+                              g_simObjects[h].posY - g_planeTable.planes[y].mapY);
                 if (ma < f) {
-                    *(int16 *)&stru_3B202[h].objType = y;
+                    *(int16 *)&g_simObjects[h].objType = y;
                     f = ma;
                 }
             }
         }
     }
 
-    stru_3B202[h].terrainColor = readMapPixelColor(
-        stru_3B202[h].posX,
-        stru_3B202[h].posY);
+    g_simObjects[h].terrainColor = readMapPixelColor(
+        g_simObjects[h].posX,
+        g_simObjects[h].posY);
 
     {
     register char o;
-    o = stru_3B202[h].flags.b[0];
+    o = g_simObjects[h].flags.b[0];
     if ((o & 2) &&
         (x = (((uint8)h & 8) >> 3) + (h & 7) * 2,
          frameTick % (g_frameRateScaling << 4) == x * g_frameRateScaling) &&
@@ -572,21 +572,21 @@ alt_ok:
     }
     }
     } else {
-    if (((uint8)h & 7) == (((uint8)(word_38FE0 >> 4)) & 7)) {
-    if (h < word_3C046 - 4) {
+    if (((uint8)h & 7) == (((uint8)(g_missionTick >> 4)) & 7)) {
+    if (h < g_groundUnitCount - 4) {
     if (h != 0) {
-    if (0xe0 / (g_missionStatus + 2) < word_38FE0 - var_556) {
-    s = randomRange(word_3C69E);
-    if (word_336F0 != 0 || (stru_3B202[h].flags.b[0] & 0x80)) {
+    if (0xe0 / (g_missionStatus + 2) < g_missionTick - g_lastSpawnTick) {
+    s = randomRange(g_planeScanCount);
+    if (g_threatActiveTimer != 0 || (g_simObjects[h].flags.b[0] & 0x80)) {
     if ((g_planeTable.planes[s].flags & 0x181) == 1) {
-    if (stru_3B202[h].spec == g_planeTable.planes[s].field_8) {
-    if (g_missionStatus * 2 >= word_3A946) {
-    aj = word_3B4D8 - g_planeTable.planes[s].mapX;
-    z2 = word_3B4E0 - g_planeTable.planes[s].mapY;
+    if (g_simObjects[h].spec == g_planeTable.planes[s].alertLevel) {
+    if (g_missionStatus * 2 >= g_enemyThreatCount) {
+    aj = g_threatRefX - g_planeTable.planes[s].mapX;
+    z2 = g_threatRefY - g_planeTable.planes[s].mapY;
     e1 = (unsigned)rangeApprox(aj, z2) >> 6;
-    c = aircraftTypes[var_667].field_14;
+    c = aircraftTypes[g_threatSpec].range;
     if ((unsigned)(c / 2) > (unsigned)e1) {
-        var_556 = word_38FE0;
+        g_lastSpawnTick = g_missionTick;
         spawnEnemyAircraft(h, s);
         scheduleEventCheck(h + 0x20, 2);
     }

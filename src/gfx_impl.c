@@ -928,7 +928,7 @@ void FAR CDECL gfx_clipBottom(void)          { return; }
  * left (SI==0) or right (SI!=0). egame's drawInstrumentGauges calls it twice
  * (SI=0 and SI=2).
  *
- * Performance note: egame computes BX via `sub word [word_37C2B],AX` (egseg2.asm
+ * Performance note: egame computes BX via `sub word [g_tapeRenderX],AX` (egseg2.asm
  * :240) which can underflow to a large unsigned value, so BX may start far above
  * hiY. The original asm then burns up to ~32k cheap skip iterations decrementing
  * BX by 2 until it reaches the loY..hiY window — negligible in hand-asm, but slow

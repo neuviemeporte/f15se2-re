@@ -71,7 +71,7 @@ int main(void) {
         gfx_setFadeSteps(0x10);
     }
     gfxBufPtr = commData->gfxInitResult;
-    sub_21A7E();
+    setupInstrumentLayoutFar();
     TRACE(("egame main: drawCockpit"));
     drawCockpit();
     TRACE(("egame main: runGameSession"));
@@ -91,18 +91,18 @@ int main(void) {
 
 // ==== seg000:0x147 ====
 void drawCockpit() {
-    TRACE_KEY(("drawCockpit: theater=%d regnStr=%s 38FDC=%d", gameData->theater, regnStr, word_38FDC));
+    TRACE_KEY(("drawCockpit: theater=%d regnStr=%s 38FDC=%d", gameData->theater, regnStr, g_detailLevel));
     initMissionStrings();
     load15Flt3d3();
     TRACE(("drawCockpit: after load15Flt3d3, scenPlh0=%04x, scenarioPlh@%04x", (unsigned)scenarioPlh[0], (unsigned)&scenarioPlh[0]));
     strcpy(regnStr, scenarioPlh[gameData->theater]);
     TRACE_KEY(("drawCockpit: regnStr=%s theater=%d", regnStr, gameData->theater));
     loadRegion3D();
-    TRACE_KEY(("drawCockpit: after load3D, 38FDC=%d sizes3dt=%d/%d/%d/%d/%d", word_38FDC, sizes3dt[0], sizes3dt[1], sizes3dt[2], sizes3dt[3], sizes3dt[4]));
+    TRACE_KEY(("drawCockpit: after load3D, 38FDC=%d sizes3dt=%d/%d/%d/%d/%d", g_detailLevel, sizes3dt[0], sizes3dt[1], sizes3dt[2], sizes3dt[3], sizes3dt[4]));
     f15DgtlResult = loadF15DgtlBin();
     TRACE(("drawCockpit: f15DgtlResult=%d", f15DgtlResult));
-    byte_34197 = byte_228D0[0x2f];
-    if ((byte_32933 = gfx_getModeFlag()) != 0) {
+    g_horizonGroundColor = byte_228D0[0x2f];
+    if ((g_dacSupported = gfx_getModeFlag()) != 0) {
         setupDac();
     }
      gfx_setDac(1);
@@ -123,10 +123,10 @@ void drawCockpit() {
 // ==== seg000:0x211 ====
 void runGameSession() {
     TRACE(("runGameSession: enter"));
-    FP_OFF(dword_38FE2) = OFF_BDA_FLOPPYMOTOR; // floppy motor runtime in bda???
-    FP_SEG(dword_38FE2) = 0;
-    if (*dword_38FE2 > 1) {
-        *dword_38FE2 = 1;
+    FP_OFF(g_floppyMotorPtr) = OFF_BDA_FLOPPYMOTOR; // floppy motor runtime in bda???
+    FP_SEG(g_floppyMotorPtr) = 0;
+    if (*g_floppyMotorPtr > 1) {
+        *g_floppyMotorPtr = 1;
     }
     TRACE(("runGameSession: audio_shutdown"));
     audio_shutdown();

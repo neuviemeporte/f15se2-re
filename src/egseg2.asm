@@ -1,36 +1,36 @@
 ; seg002 - HUD rendering and joystick routines
-; Contains _sub_21A7A, _sub_21A7E, drawInstrumentGauges, setupInstrumentLayout, joystick routines
+; Contains _drawInstrumentGaugesFar, _setupInstrumentLayoutFar, drawInstrumentGauges, setupInstrumentLayout, joystick routines
 
 .MODEL large
 
-EXTRN _byte_37C24:byte
-EXTRN _byte_37C2F:byte
+EXTRN _g_halfScaleRender:byte
+EXTRN _g_hudDrawnFlag:byte
 EXTRN _gfxModeUnset:word
 EXTRN _g_ourHead:word
 EXTRN _g_ourPitch:word
 EXTRN _g_ourRoll:word
-EXTRN _word_380D0:word
+EXTRN _g_altitude:word
 EXTRN _g_knots:word
-EXTRN byte_37BF6:byte
-EXTRN byte_37BF9:byte
-EXTRN byte_37BFC:byte
+EXTRN g_headingBase:byte
+EXTRN g_tapeCursorBackShift:byte
+EXTRN g_tapeScaleShift:byte
 EXTRN byte_37C13:byte
 EXTRN byte_37C2D:byte
-EXTRN byte_37C2E:byte
-EXTRN byte_37C35:byte
-EXTRN byte_37C3A:byte
+EXTRN g_tapePageCounter:byte
+EXTRN g_tapeRenderMode:byte
+EXTRN g_compassTapeBuf:byte
 EXTRN var_468:byte
-EXTRN _byte_37EEE:byte
-EXTRN _byte_37EEF:byte
-EXTRN _byte_3C6A0:byte
-EXTRN unk_37565:byte
-EXTRN _unk_38FD0:byte
-EXTRN _word_37557:word
-EXTRN _word_37559:word
-EXTRN _word_3755D:word
-EXTRN _word_3755F:word
-EXTRN _word_37561:word
-EXTRN _word_37563:word
+EXTRN _g_tapeColumn:byte
+EXTRN _g_tapeChar:byte
+EXTRN _g_highGeeFlag:byte
+EXTRN g_spanMinX:byte
+EXTRN _g_geeStringBuf:byte
+EXTRN _g_clipMaxX:word
+EXTRN _g_clipMaxY:word
+EXTRN _g_lineX1:word
+EXTRN _g_lineX2:word
+EXTRN _g_lineY1:word
+EXTRN _g_lineY2:word
 EXTRN word_37B26:word
 EXTRN word_37B2E:word
 EXTRN word_37B30:word
@@ -48,14 +48,14 @@ EXTRN word_37B9C:word
 EXTRN word_37BA2:word
 EXTRN word_37BC0:word
 EXTRN word_37BDE:word
-EXTRN word_37BF7:word
-EXTRN word_37BFA:word
-EXTRN word_37BFD:word
-EXTRN word_37BFF:word
-EXTRN word_37C01:word
-EXTRN word_37C03:word
-EXTRN word_37C05:word
-EXTRN word_37C07:word
+EXTRN g_tapeOriginX:word
+EXTRN g_tapeTickPitch:word
+EXTRN g_speedTapeTickStep:word
+EXTRN g_altTapeTickStep:word
+EXTRN g_headingPixPerDeg:word
+EXTRN g_compassWrapLimit:word
+EXTRN g_headingModulus:word
+EXTRN g_headingWrapOffset:word
 EXTRN word_37C09:word
 EXTRN word_37C0B:word
 EXTRN word_37C0D:word
@@ -69,17 +69,17 @@ EXTRN word_37C1C:word
 EXTRN word_37C1E:word
 EXTRN word_37C20:word
 EXTRN word_37C22:word
-EXTRN word_37C25:word
-EXTRN word_37C27:word
-EXTRN word_37C29:word
-EXTRN word_37C2B:word
+EXTRN g_altRemainder:word
+EXTRN g_compassScrollIdx:word
+EXTRN g_compassDrawX:word
+EXTRN g_tapeRenderX:word
 EXTRN word_37C30:word
 EXTRN word_37C32:word
 EXTRN word_37C36:word
-EXTRN _word_37EF0:word
-EXTRN word_37EF2:word
-EXTRN word_37F50:word
-EXTRN word_37F52:word
+EXTRN _g_tapeCursorX:word
+EXTRN g_tapeSegmentCount:word
+EXTRN g_tapeDrawStr:word
+EXTRN g_tapeDrawStrY:word
 EXTRN word_37F54:word
 EXTRN word_37F56:word
 EXTRN word_37F58:word
@@ -92,8 +92,8 @@ EXTRN word_37F6C:word
 EXTRN word_37F74:word
 EXTRN word_37F7C:word
 EXTRN word_37F84:word
-EXTRN word_37F8C:word
-EXTRN word_37F8E:word
+EXTRN g_joyCountX:word
+EXTRN g_joyCountY:word
 EXTRN _joyAxes:byte
 
 ; External overlay slot calls (far)
@@ -114,7 +114,7 @@ EXTRN gfx_getPresetOffset1:PROC
 EXTRN gfx_getPresetOffset2:PROC
 
 ; External routines in other segments
-EXTRN sub_21526:PROC
+EXTRN clipLineFar:PROC
 EXTRN lookupSineFar:PROC
 
 ; External data variables
@@ -123,18 +123,18 @@ EXTRN word_37B7E:WORD
 EXTRN word_37B9C:WORD
 EXTRN word_37BBA:WORD
 EXTRN word_37BD8:WORD
-EXTRN _byte_37C24:BYTE
-EXTRN word_37BF7:WORD
-EXTRN byte_37BF9:BYTE
-EXTRN word_37BFA:WORD
-EXTRN byte_37BFC:BYTE
-EXTRN word_37BFD:WORD
-EXTRN word_37BFF:WORD
-EXTRN byte_37BF6:BYTE
-EXTRN word_37C01:WORD
-EXTRN word_37C03:WORD
-EXTRN word_37C05:WORD
-EXTRN word_37C07:WORD
+EXTRN _g_halfScaleRender:BYTE
+EXTRN g_tapeOriginX:WORD
+EXTRN g_tapeCursorBackShift:BYTE
+EXTRN g_tapeTickPitch:WORD
+EXTRN g_tapeScaleShift:BYTE
+EXTRN g_speedTapeTickStep:WORD
+EXTRN g_altTapeTickStep:WORD
+EXTRN g_headingBase:BYTE
+EXTRN g_headingPixPerDeg:WORD
+EXTRN g_compassWrapLimit:WORD
+EXTRN g_headingModulus:WORD
+EXTRN g_headingWrapOffset:WORD
 EXTRN word_37C09:WORD
 EXTRN word_37C0B:WORD
 EXTRN word_37C0D:WORD
@@ -173,7 +173,7 @@ EXTRN word_37B64:WORD
 EXTRN word_37B66:WORD
 EXTRN word_37B72:WORD
 EXTRN joyData:BYTE
-EXTRN _byte_3790C:byte
+EXTRN _g_timerTickByte:byte
 
 seg002 SEGMENT BYTE PUBLIC 'CODE'
 ASSUME CS:seg002, DS:DGROUP, SS:DGROUP
@@ -182,18 +182,18 @@ ASSUME CS:seg002, DS:DGROUP, SS:DGROUP
     db 10 dup(0)
 
 ; offset 0x000A
-    PUBLIC _sub_21A7A
-_sub_21A7A proc far
+    PUBLIC _drawInstrumentGaugesFar
+_drawInstrumentGaugesFar proc far
     call drawInstrumentGauges
     retf
-_sub_21A7A endp
+_drawInstrumentGaugesFar endp
 
 ; offset 0x000E
-    PUBLIC _sub_21A7E
-_sub_21A7E proc far
+    PUBLIC _setupInstrumentLayoutFar
+_setupInstrumentLayoutFar proc far
     call setupInstrumentLayout
     retf
-_sub_21A7E endp
+_setupInstrumentLayoutFar endp
 
     ; 4 bytes padding (offsets 0x0012-0x0015)
     db 4 dup(0)
@@ -217,32 +217,32 @@ drawInstrumentGauges proc near
     div DH
     mov DL,AL
     dec DL
-    mov CL,byte ptr [byte_37BFC]
+    mov CL,byte ptr [g_tapeScaleShift]
     db 086h, 0C4h ; xchg al,ah
     sub AH,AH
     shl AX,CL
     mov DH,5h
     div DH
-    add AL,byte ptr [word_37BF7]
+    add AL,byte ptr [g_tapeOriginX]
     mov byte ptr [word_37B30],AL
-    mov byte ptr [byte_37C35],DL
-    sub AL,byte ptr [byte_37BF9]
-    mov byte ptr [word_37C2B],AL
+    mov byte ptr [g_tapeRenderMode],DL
+    sub AL,byte ptr [g_tapeCursorBackShift]
+    mov byte ptr [g_tapeRenderX],AL
     shl DL,1h
     sub DH,DH
     mov DI,DX
-    mov byte ptr [byte_37C2E],4h
+    mov byte ptr [g_tapePageCounter],4h
 loc_21a7_006e:
-    mov AL,byte ptr [word_37BFA]
+    mov AL,byte ptr [g_tapeTickPitch]
     sub byte ptr [word_37B30],AL
-    mov AX,[word_37BFD]
+    mov AX,[g_speedTapeTickStep]
     mov [word_37B2E],AX
     cmp DI,28h
     jc loc_21a7_008f
     sub DI,DI
-    dec byte ptr [byte_37C2E]
-    mov AX,[word_37BFA]
-    sub word ptr [word_37C2B],AX
+    dec byte ptr [g_tapePageCounter]
+    mov AX,[g_tapeTickPitch]
+    sub word ptr [g_tapeRenderX],AX
     jmp loc_21a7_006e
 loc_21a7_008f:
     mov AX,word ptr [DI+offset var_468+8h]
@@ -255,16 +255,16 @@ loc_21a7_008f:
     pop DI
     inc DI
     inc DI
-    dec byte ptr [byte_37C2E]
+    dec byte ptr [g_tapePageCounter]
     jnz loc_21a7_006e
     mov SI,0h
-    mov BX,word ptr [word_37C2B]
-    mov CL,byte ptr [_byte_37C24]
-    mov DL,byte ptr [byte_37C35]
+    mov BX,word ptr [g_tapeRenderX]
+    mov CL,byte ptr [_g_halfScaleRender]
+    mov DL,byte ptr [g_tapeRenderMode]
     call far ptr gfx_complexRender
     mov AH,0Fh
     call far ptr gfx_setDrawColor
-    cmp byte ptr [_byte_37C24],0h
+    cmp byte ptr [_g_halfScaleRender],0h
     jz loc_21a7_0107
     mov AX,7Ah
     mov CX,7Ch
@@ -301,55 +301,55 @@ loc_21a7_0107:
     call far ptr gfx_drawLine
 loc_21a7_013a:
     call far ptr gfx_nop22
-    mov AX,[_word_380D0]
+    mov AX,[_g_altitude]
     sub DX,DX
     mov CX,3E8h
     div CX
     mov BX,AX
     dec BX
     mov AX,DX
-    mov word ptr [word_37C25],DX
+    mov word ptr [g_altRemainder],DX
     sub DX,DX
-    mov CL,byte ptr [byte_37BFC]
+    mov CL,byte ptr [g_tapeScaleShift]
     shl AX,CL
     mov CX,64h
     div CX
     shl BX,1h
     mov DI,BX
     mov BP,offset word_37B26
-    mov byte ptr [byte_37C2E],4h
+    mov byte ptr [g_tapePageCounter],4h
     cmp DI,0h
     jge loc_21a7_01e6
-    mov AX,[word_37C25]
+    mov AX,[g_altRemainder]
     mov DH,64h
     div DH
     mov DL,AL
     dec DL
-    mov CL,byte ptr [byte_37BFC]
+    mov CL,byte ptr [g_tapeScaleShift]
     db 086h, 0C4h ; xchg al,ah
     sub AH,AH
     shl AX,CL
     mov DH,0Ah
     div DH
-    add AL,byte ptr [word_37BF7]
+    add AL,byte ptr [g_tapeOriginX]
     mov byte ptr [word_37B30],AL
-    mov byte ptr [byte_37C35],DL
-    sub AL,byte ptr [byte_37BF9]
-    mov byte ptr [word_37C2B],AL
+    mov byte ptr [g_tapeRenderMode],DL
+    sub AL,byte ptr [g_tapeCursorBackShift]
+    mov byte ptr [g_tapeRenderX],AL
     shl DL,1h
     sub DH,DH
     mov DI,DX
 loc_21a7_01a1:
-    mov AL,byte ptr [word_37BFA]
+    mov AL,byte ptr [g_tapeTickPitch]
     sub byte ptr [word_37B30],AL
-    mov AX,[word_37BFF]
+    mov AX,[g_altTapeTickStep]
     mov [word_37B2E],AX
     cmp DI,28h
     jc loc_21a7_01c2
     sub DI,DI
-    dec byte ptr [byte_37C2E]
-    mov AX,[word_37BFA]
-    sub word ptr [word_37C2B],AX
+    dec byte ptr [g_tapePageCounter]
+    mov AX,[g_tapeTickPitch]
+    sub word ptr [g_tapeRenderX],AX
     jmp loc_21a7_01a1
 loc_21a7_01c2:
     mov AL,byte ptr [DI+offset var_468+0A9h]
@@ -360,7 +360,7 @@ loc_21a7_01c2:
     pop DI
     inc DI
     inc DI
-    dec byte ptr [byte_37C2E]
+    dec byte ptr [g_tapePageCounter]
     jz loc_21a7_022a
     cmp DI,14h
     jc loc_21a7_01a1
@@ -368,15 +368,15 @@ loc_21a7_01c2:
     jmp loc_21a7_01f9
     db 90h
 loc_21a7_01e6:
-    add AX,word ptr [word_37BF7]
+    add AX,word ptr [g_tapeOriginX]
     mov [word_37B30],AX
-    mov byte ptr [byte_37C35],2h
-    sub AL,byte ptr [byte_37BF9]
-    mov byte ptr [word_37C2B],AL
+    mov byte ptr [g_tapeRenderMode],2h
+    sub AL,byte ptr [g_tapeCursorBackShift]
+    mov byte ptr [g_tapeRenderX],AL
 loc_21a7_01f9:
-    mov AL,byte ptr [word_37BFA]
+    mov AL,byte ptr [g_tapeTickPitch]
     sub byte ptr [word_37B30],AL
-    mov AX,[word_37BFF]
+    mov AX,[g_altTapeTickStep]
     mov [word_37B2E],AX
     cmp DI,0h
     jnz loc_21a7_0211
@@ -393,13 +393,13 @@ loc_21a7_021b:
     pop DI
     inc DI
     inc DI
-    dec byte ptr [byte_37C2E]
+    dec byte ptr [g_tapePageCounter]
     jnz loc_21a7_01f9
 loc_21a7_022a:
     mov SI,2h
-    mov BX,word ptr [word_37C2B]
-    mov CL,byte ptr [_byte_37C24]
-    mov DL,byte ptr [byte_37C35]
+    mov BX,word ptr [g_tapeRenderX]
+    mov CL,byte ptr [_g_halfScaleRender]
+    mov DL,byte ptr [g_tapeRenderMode]
     call far ptr gfx_complexRender
     mov AX,[_g_ourHead]
     sub AX,2000h
@@ -407,7 +407,7 @@ loc_21a7_022a:
     and AX,1F80h
     shl AX,1h
     db 086h, 0C4h ; xchg al,ah
-    mov DH,byte ptr [word_37C01]
+    mov DH,byte ptr [g_headingPixPerDeg]
     mul DH
     shr AX,1h
     shr AX,1h
@@ -417,84 +417,84 @@ loc_21a7_022a:
     shr AX,1h
     mov [byte_37C2D],AL
     db 086h, 0C4h ; xchg al,ah
-    mov AL,[byte_37BF6]
+    mov AL,[g_headingBase]
     sub AL,AH
     sub AH,AH
-    mov [word_37C29],AX
+    mov [g_compassDrawX],AX
     mov [word_37B44],AX
     sub DH,DH
     shr DX,1h
     shr DX,1h
     and DX,38h
-    mov word ptr [word_37C27],DX
-    mov BX,offset byte_37C3A+132
+    mov word ptr [g_compassScrollIdx],DX
+    mov BX,offset g_compassTapeBuf+132
     add BX,DX
     mov BP,offset word_37B3C
     call far ptr gfx_blitTransparent
-    mov BX,offset byte_37C3A+132
-    add word ptr [word_37C27],8h
-    and word ptr [word_37C27],3Fh
-    add BX,word ptr [word_37C27]
-    mov AX,[word_37C29]
-    add AX,word ptr [word_37C01]
-    mov [word_37C29],AX
+    mov BX,offset g_compassTapeBuf+132
+    add word ptr [g_compassScrollIdx],8h
+    and word ptr [g_compassScrollIdx],3Fh
+    add BX,word ptr [g_compassScrollIdx]
+    mov AX,[g_compassDrawX]
+    add AX,word ptr [g_headingPixPerDeg]
+    mov [g_compassDrawX],AX
     mov [word_37B44],AX
     call far ptr gfx_copyBlock
-    mov BX,offset byte_37C3A+132
-    add word ptr [word_37C27],8h
-    and word ptr [word_37C27],3Fh
-    add BX,word ptr [word_37C27]
-    mov AX,[word_37C29]
-    add AX,word ptr [word_37C01]
-    mov [word_37C29],AX
+    mov BX,offset g_compassTapeBuf+132
+    add word ptr [g_compassScrollIdx],8h
+    and word ptr [g_compassScrollIdx],3Fh
+    add BX,word ptr [g_compassScrollIdx]
+    mov AX,[g_compassDrawX]
+    add AX,word ptr [g_headingPixPerDeg]
+    mov [g_compassDrawX],AX
     mov [word_37B44],AX
     call far ptr gfx_copyBlock
-    mov AX,[word_37C03]
-    cmp word ptr [word_37C29],AX
+    mov AX,[g_compassWrapLimit]
+    cmp word ptr [g_compassDrawX],AX
     jnc loc_21a7_0351
-    mov BX,offset byte_37C3A+132
-    add word ptr [word_37C27],8h
-    and word ptr [word_37C27],3Fh
-    add BX,word ptr [word_37C27]
+    mov BX,offset g_compassTapeBuf+132
+    add word ptr [g_compassScrollIdx],8h
+    and word ptr [g_compassScrollIdx],3Fh
+    add BX,word ptr [g_compassScrollIdx]
     mov AX,word ptr [BX]
     mov word ptr [BX+4h],AX
     mov AX,word ptr [BX+2h]
     mov word ptr [BX+6h],AX
     add BX,4h
-    mov AX,[word_37C29]
-    add AX,word ptr [word_37C01]
-    mov [word_37C29],AX
+    mov AX,[g_compassDrawX]
+    add AX,word ptr [g_headingPixPerDeg]
+    mov [g_compassDrawX],AX
     mov [word_37B44],AX
     call far ptr gfx_blitVariant
     mov AL,[byte_37C2D]
     sub AH,AH
-    mov DL,byte ptr [word_37C05]
+    mov DL,byte ptr [g_headingModulus]
     div DL
     db 086h, 0C4h ; xchg al,ah
     sub AH,AH
     test word ptr [_g_ourHead],2000h
     jz loc_21a7_0326
-    add AX,word ptr [word_37C07]
+    add AX,word ptr [g_headingWrapOffset]
 loc_21a7_0326:
-    cmp AX,word ptr [word_37C05]
+    cmp AX,word ptr [g_headingModulus]
     jl loc_21a7_0330
-    sub AX,word ptr [word_37C05]
+    sub AX,word ptr [g_headingModulus]
 loc_21a7_0330:
     mov DI,AX
     shl DI,1h
-    cmp byte ptr [_byte_37C24],1h
+    cmp byte ptr [_g_halfScaleRender],1h
     jnz loc_21a7_0342
-    mov AX,word ptr [DI+offset byte_37C3A+0D8h]
+    mov AX,word ptr [DI+offset g_compassTapeBuf+0D8h]
     jmp loc_21a7_0346
     db 90h
 loc_21a7_0342:
-    mov AX,word ptr [DI+offset byte_37C3A+0C4h]
+    mov AX,word ptr [DI+offset g_compassTapeBuf+0C4h]
 loc_21a7_0346:
     mov [word_37B82],AX
     mov BP,offset word_37B7E
     call far ptr gfx_blitCore
 loc_21a7_0351:
-    cmp byte ptr [_byte_37C24],0h
+    cmp byte ptr [_g_halfScaleRender],0h
     jz loc_21a7_035b
     jmp loc_21a7_03dc
 loc_21a7_035b:
@@ -577,12 +577,12 @@ loc_21a7_03dc:
     call far ptr gfx_drawLine
 loc_21a7_045a:
     call far ptr gfx_nop22
-    cmp byte ptr [_byte_37C2F],0h
+    cmp byte ptr [_g_hudDrawnFlag],0h
     jz loc_21a7_046e
     mov BP,offset word_37B9C
     call far ptr gfx_blitCore
 loc_21a7_046e:
-    mov BX,offset _unk_38FD0
+    mov BX,offset _g_geeStringBuf
     mov BP,offset word_37B68
     mov AX,[word_37C22]
     mov [word_37B70],AX
@@ -629,7 +629,7 @@ loc_21a7_04d8:
     mov AL,CH
     cbw
     db 02Dh, 002h, 000h ; sub AX,2 (force imm16 encoding)
-    mov [_word_37EF0],AX
+    mov [_g_tapeCursorX],AX
     mov DX,AX
     mov CL,5h
     mov DI,0h
@@ -654,22 +654,22 @@ loc_21a7_050a:
     jmp loc_21a7_0660
 loc_21a7_050d:
     mov AX,[word_37C09]
-    mov word ptr [DI+offset byte_37C3A+0ECh],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0ECh],AX
     mov AX,[word_37C0B]
-    mov word ptr [DI+offset byte_37C3A+0EEh],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0EEh],AX
     mov AX,[word_37C0D]
-    mov word ptr [DI+offset byte_37C3A+0F0h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0F0h],AX
     mov AX,[word_37C0F]
-    mov word ptr [DI+offset byte_37C3A+0F2h],AX
-    mov word ptr [DI+offset byte_37C3A+15Ch],BX
-    mov word ptr [DI+offset byte_37C3A+15Eh],BX
-    mov word ptr [DI+offset byte_37C3A+160h],BX
-    mov word ptr [DI+offset byte_37C3A+162h],BX
-    mov byte ptr [SI+offset byte_37C3A+1CCh],1h
-    mov byte ptr [SI+offset byte_37C3A+1CDh],1h
-    mov word ptr [SI+offset byte_37C3A+1E8h],DI
+    mov word ptr [DI+offset g_compassTapeBuf+0F2h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+15Ch],BX
+    mov word ptr [DI+offset g_compassTapeBuf+15Eh],BX
+    mov word ptr [DI+offset g_compassTapeBuf+160h],BX
+    mov word ptr [DI+offset g_compassTapeBuf+162h],BX
+    mov byte ptr [SI+offset g_compassTapeBuf+1CCh],1h
+    mov byte ptr [SI+offset g_compassTapeBuf+1CDh],1h
+    mov word ptr [SI+offset g_compassTapeBuf+1E8h],DI
     add DI,6h
-    mov word ptr [SI+offset byte_37C3A+1E9h],DI
+    mov word ptr [SI+offset g_compassTapeBuf+1E9h],DI
     add DI,2h
     add SI,2h
     sub BX,word ptr [word_37C11]
@@ -680,23 +680,23 @@ loc_21a7_050d:
     jmp loc_21a7_0741
 loc_21a7_0564:
     mov AX,[word_37C09]
-    mov word ptr [DI+offset byte_37C3A+0ECh],AX
-    mov word ptr [DI+offset byte_37C3A+0EEh],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0ECh],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0EEh],AX
     mov AX,[word_37C0F]
-    mov word ptr [DI+offset byte_37C3A+0F0h],AX
-    mov word ptr [DI+offset byte_37C3A+0F2h],AX
-    mov word ptr [DI+offset byte_37C3A+15Eh],BX
-    mov word ptr [DI+offset byte_37C3A+160h],BX
+    mov word ptr [DI+offset g_compassTapeBuf+0F0h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0F2h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+15Eh],BX
+    mov word ptr [DI+offset g_compassTapeBuf+160h],BX
     mov AX,BX
     db 005h, 005h, 000h ; add AX,5 (force imm16 encoding)
-    mov word ptr [DI+offset byte_37C3A+15Ch],AX
-    mov word ptr [DI+offset byte_37C3A+162h],AX
-    mov byte ptr [SI+offset byte_37C3A+1CCh],3h
-    mov byte ptr [SI+offset byte_37C3A+1CDh],0h
+    mov word ptr [DI+offset g_compassTapeBuf+15Ch],AX
+    mov word ptr [DI+offset g_compassTapeBuf+162h],AX
+    mov byte ptr [SI+offset g_compassTapeBuf+1CCh],3h
+    mov byte ptr [SI+offset g_compassTapeBuf+1CDh],0h
     add DI,2h
-    mov word ptr [SI+offset byte_37C3A+1E8h],DI
+    mov word ptr [SI+offset g_compassTapeBuf+1E8h],DI
     add DI,2h
-    mov word ptr [SI+offset byte_37C3A+1E9h],DI
+    mov word ptr [SI+offset g_compassTapeBuf+1E9h],DI
     add DI,4h
     add SI,2h
     sub BX,word ptr [word_37C11]
@@ -709,23 +709,23 @@ loc_21a7_05bd:
     jmp loc_21a7_04ec
 loc_21a7_05c0:
     mov AX,[word_37C09]
-    mov word ptr [DI+offset byte_37C3A+0ECh],AX
-    mov word ptr [DI+offset byte_37C3A+0EEh],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0ECh],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0EEh],AX
     mov AX,[word_37C0F]
-    mov word ptr [DI+offset byte_37C3A+0F0h],AX
-    mov word ptr [DI+offset byte_37C3A+0F2h],AX
-    mov word ptr [DI+offset byte_37C3A+15Eh],BX
-    mov word ptr [DI+offset byte_37C3A+160h],BX
+    mov word ptr [DI+offset g_compassTapeBuf+0F0h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0F2h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+15Eh],BX
+    mov word ptr [DI+offset g_compassTapeBuf+160h],BX
     mov AX,BX
     db 02Dh, 005h, 000h ; sub AX,5 (force imm16 encoding)
-    mov word ptr [DI+offset byte_37C3A+15Ch],AX
-    mov word ptr [DI+offset byte_37C3A+162h],AX
-    mov byte ptr [SI+offset byte_37C3A+1CCh],3h
-    mov byte ptr [SI+offset byte_37C3A+1CDh],0h
+    mov word ptr [DI+offset g_compassTapeBuf+15Ch],AX
+    mov word ptr [DI+offset g_compassTapeBuf+162h],AX
+    mov byte ptr [SI+offset g_compassTapeBuf+1CCh],3h
+    mov byte ptr [SI+offset g_compassTapeBuf+1CDh],0h
     add DI,2h
-    mov word ptr [SI+offset byte_37C3A+1E8h],DI
+    mov word ptr [SI+offset g_compassTapeBuf+1E8h],DI
     add DI,2h
-    mov word ptr [SI+offset byte_37C3A+1E9h],DI
+    mov word ptr [SI+offset g_compassTapeBuf+1E9h],DI
     add DI,4h
     add SI,2h
     sub BX,word ptr [word_37C11]
@@ -738,16 +738,16 @@ loc_21a7_0619:
     jmp loc_21a7_04ec
 loc_21a7_061c:
     mov AX,[word_37C09]
-    mov word ptr [DI+offset byte_37C3A+0ECh],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0ECh],AX
     mov AX,[word_37C0F]
-    mov word ptr [DI+offset byte_37C3A+0EEh],AX
-    mov word ptr [DI+offset byte_37C3A+15Ch],BX
-    mov word ptr [DI+offset byte_37C3A+15Eh],BX
-    mov byte ptr [SI+offset byte_37C3A+1CCh],1h
-    mov byte ptr [SI+offset byte_37C3A+1CDh],0h
-    mov word ptr [SI+offset byte_37C3A+1E8h],DI
+    mov word ptr [DI+offset g_compassTapeBuf+0EEh],AX
+    mov word ptr [DI+offset g_compassTapeBuf+15Ch],BX
+    mov word ptr [DI+offset g_compassTapeBuf+15Eh],BX
+    mov byte ptr [SI+offset g_compassTapeBuf+1CCh],1h
+    mov byte ptr [SI+offset g_compassTapeBuf+1CDh],0h
+    mov word ptr [SI+offset g_compassTapeBuf+1E8h],DI
     add DI,2h
-    mov word ptr [SI+offset byte_37C3A+1E9h],DI
+    mov word ptr [SI+offset g_compassTapeBuf+1E9h],DI
     add DI,2h
     add SI,2h
     sub BX,word ptr [word_37C11]
@@ -760,29 +760,29 @@ loc_21a7_065d:
     jmp loc_21a7_04ec
 loc_21a7_0660:
     mov AX,[word_37C09]
-    mov word ptr [DI+offset byte_37C3A+0ECh],AX
-    mov word ptr [DI+offset byte_37C3A+0EEh],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0ECh],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0EEh],AX
     mov AX,[word_37C0B]
-    mov word ptr [DI+offset byte_37C3A+0F0h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0F0h],AX
     mov AX,[word_37C0D]
-    mov word ptr [DI+offset byte_37C3A+0F2h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0F2h],AX
     mov AX,[word_37C0F]
-    mov word ptr [DI+offset byte_37C3A+0F4h],AX
-    mov word ptr [DI+offset byte_37C3A+0F6h],AX
-    mov word ptr [DI+offset byte_37C3A+15Eh],BX
-    mov word ptr [DI+offset byte_37C3A+160h],BX
-    mov word ptr [DI+offset byte_37C3A+162h],BX
-    mov word ptr [DI+offset byte_37C3A+164h],BX
+    mov word ptr [DI+offset g_compassTapeBuf+0F4h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0F6h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+15Eh],BX
+    mov word ptr [DI+offset g_compassTapeBuf+160h],BX
+    mov word ptr [DI+offset g_compassTapeBuf+162h],BX
+    mov word ptr [DI+offset g_compassTapeBuf+164h],BX
     mov AX,BX
     db 005h, 005h, 000h ; add AX,5 (force imm16 encoding)
-    mov word ptr [DI+offset byte_37C3A+15Ch],AX
-    mov word ptr [DI+offset byte_37C3A+166h],AX
-    mov byte ptr [SI+offset byte_37C3A+1CCh],2h
-    mov byte ptr [SI+offset byte_37C3A+1CDh],2h
+    mov word ptr [DI+offset g_compassTapeBuf+15Ch],AX
+    mov word ptr [DI+offset g_compassTapeBuf+166h],AX
+    mov byte ptr [SI+offset g_compassTapeBuf+1CCh],2h
+    mov byte ptr [SI+offset g_compassTapeBuf+1CDh],2h
     add DI,2h
-    mov word ptr [SI+offset byte_37C3A+1E8h],DI
+    mov word ptr [SI+offset g_compassTapeBuf+1E8h],DI
     add DI,6h
-    mov word ptr [SI+offset byte_37C3A+1E9h],DI
+    mov word ptr [SI+offset g_compassTapeBuf+1E9h],DI
     add DI,4h
     add SI,2h
     sub BX,word ptr [word_37C11]
@@ -796,29 +796,29 @@ loc_21a7_06cf:
     jmp loc_21a7_04ec
 loc_21a7_06d2:
     mov AX,[word_37C09]
-    mov word ptr [DI+offset byte_37C3A+0ECh],AX
-    mov word ptr [DI+offset byte_37C3A+0EEh],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0ECh],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0EEh],AX
     mov AX,[word_37C0B]
-    mov word ptr [DI+offset byte_37C3A+0F0h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0F0h],AX
     mov AX,[word_37C0D]
-    mov word ptr [DI+offset byte_37C3A+0F2h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0F2h],AX
     mov AX,[word_37C0F]
-    mov word ptr [DI+offset byte_37C3A+0F4h],AX
-    mov word ptr [DI+offset byte_37C3A+0F6h],AX
-    mov word ptr [DI+offset byte_37C3A+15Eh],BX
-    mov word ptr [DI+offset byte_37C3A+160h],BX
-    mov word ptr [DI+offset byte_37C3A+162h],BX
-    mov word ptr [DI+offset byte_37C3A+164h],BX
+    mov word ptr [DI+offset g_compassTapeBuf+0F4h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+0F6h],AX
+    mov word ptr [DI+offset g_compassTapeBuf+15Eh],BX
+    mov word ptr [DI+offset g_compassTapeBuf+160h],BX
+    mov word ptr [DI+offset g_compassTapeBuf+162h],BX
+    mov word ptr [DI+offset g_compassTapeBuf+164h],BX
     mov AX,BX
     db 02Dh, 005h, 000h ; sub AX,5 (force imm16 encoding)
-    mov word ptr [DI+offset byte_37C3A+15Ch],AX
-    mov word ptr [DI+offset byte_37C3A+166h],AX
-    mov byte ptr [SI+offset byte_37C3A+1CCh],2h
-    mov byte ptr [SI+offset byte_37C3A+1CDh],2h
+    mov word ptr [DI+offset g_compassTapeBuf+15Ch],AX
+    mov word ptr [DI+offset g_compassTapeBuf+166h],AX
+    mov byte ptr [SI+offset g_compassTapeBuf+1CCh],2h
+    mov byte ptr [SI+offset g_compassTapeBuf+1CDh],2h
     add DI,2h
-    mov word ptr [SI+offset byte_37C3A+1E8h],DI
+    mov word ptr [SI+offset g_compassTapeBuf+1E8h],DI
     add DI,6h
-    mov word ptr [SI+offset byte_37C3A+1E9h],DI
+    mov word ptr [SI+offset g_compassTapeBuf+1E9h],DI
     add DI,4h
     add SI,2h
     sub BX,word ptr [word_37C11]
@@ -828,7 +828,7 @@ loc_21a7_06d2:
     jz loc_21a7_0741
     jmp loc_21a7_04ec
 loc_21a7_0741:
-    mov byte ptr [_byte_37EEF],CH
+    mov byte ptr [_g_tapeChar],CH
     sub DI,2h
     mov BX,word ptr [_g_ourRoll]
     neg BX
@@ -840,12 +840,12 @@ loc_21a7_0741:
     call far ptr lookupSineFar
 loc_21a7_0764:
     mov AX,BP
-    imul word ptr [DI+offset byte_37C3A+0ECh]
+    imul word ptr [DI+offset g_compassTapeBuf+0ECh]
     shl AX,1h
     rcl DX,1h
     mov SI,DX
     mov AX,BP
-    imul word ptr [DI+offset byte_37C3A+15Ch]
+    imul word ptr [DI+offset g_compassTapeBuf+15Ch]
     push BX
     push CX
     mov BX,AX
@@ -859,12 +859,12 @@ loc_21a7_0764:
     pop BX
     mov CX,DX
     mov AX,BX
-    imul word ptr [DI+offset byte_37C3A+15Ch]
+    imul word ptr [DI+offset g_compassTapeBuf+15Ch]
     shl AX,1h
     rcl DX,1h
     sub SI,DX
     mov AX,BX
-    imul word ptr [DI+offset byte_37C3A+0ECh]
+    imul word ptr [DI+offset g_compassTapeBuf+0ECh]
     push BX
     push CX
     mov BX,AX
@@ -877,13 +877,13 @@ loc_21a7_0764:
     pop CX
     pop BX
     add CX,DX
-    mov word ptr [DI+offset byte_37C3A+0ECh],SI
-    mov word ptr [DI+offset byte_37C3A+15Ch],CX
+    mov word ptr [DI+offset g_compassTapeBuf+0ECh],SI
+    mov word ptr [DI+offset g_compassTapeBuf+15Ch],CX
     sub DI,2h
     jns loc_21a7_0764
-    push word ptr [_word_37557]
-    push word ptr [_word_37559]
-    cmp byte ptr [_byte_3C6A0],0h
+    push word ptr [_g_clipMaxX]
+    push word ptr [_g_clipMaxY]
+    cmp byte ptr [_g_highGeeFlag],0h
     jnz loc_21a7_07cf
     jmp loc_21a7_0993
 loc_21a7_07cf:
@@ -896,47 +896,47 @@ loc_21a7_07da:
     mov AX,[word_37C1C]
     call far ptr gfx_setBlitOffsetReg
     mov AX,[word_37C1E]
-    mov [_word_37557],AX
+    mov [_g_clipMaxX],AX
     mov AX,[word_37C20]
-    mov [_word_37559],AX
+    mov [_g_clipMaxY],AX
     mov DI,0h
     mov SI,DI
-    mov byte ptr [_byte_37EEE],0h
+    mov byte ptr [_g_tapeColumn],0h
 loc_21a7_07fd:
-    mov AX,word ptr [DI+offset byte_37C3A+0ECh]
+    mov AX,word ptr [DI+offset g_compassTapeBuf+0ECh]
     add AX,word ptr [word_37C14]
-    mov [_word_3755D],AX
-    mov AX,word ptr [DI+offset byte_37C3A+15Ch]
+    mov [_g_lineX1],AX
+    mov AX,word ptr [DI+offset g_compassTapeBuf+15Ch]
     add AX,word ptr [word_37C16]
-    mov word ptr [_word_37561],AX
-    mov AX,word ptr [DI+offset byte_37C3A+0EEh]
+    mov word ptr [_g_lineY1],AX
+    mov AX,word ptr [DI+offset g_compassTapeBuf+0EEh]
     add AX,word ptr [word_37C14]
-    mov [_word_3755F],AX
-    mov AX,word ptr [DI+offset byte_37C3A+15Eh]
+    mov [_g_lineX2],AX
+    mov AX,word ptr [DI+offset g_compassTapeBuf+15Eh]
     add AX,word ptr [word_37C16]
-    mov word ptr [_word_37563],AX
+    mov word ptr [_g_lineY2],AX
     push DI
     push SI
-    call far ptr sub_21526
+    call far ptr clipLineFar
     pop SI
     pop DI
     add DI,2h
-    inc byte ptr [_byte_37EEE]
-    dec byte ptr [SI+offset byte_37C3A+1CCh]
+    inc byte ptr [_g_tapeColumn]
+    dec byte ptr [SI+offset g_compassTapeBuf+1CCh]
     jnz loc_21a7_07fd
     add DI,2h
     inc SI
-    cmp byte ptr [SI+offset byte_37C3A+1CCh],0h
+    cmp byte ptr [SI+offset g_compassTapeBuf+1CCh],0h
     jnz loc_21a7_084b
     inc SI
 loc_21a7_084b:
-    mov BL,byte ptr [_byte_37EEF]
-    cmp byte ptr [_byte_37EEE],BL
+    mov BL,byte ptr [_g_tapeChar]
+    cmp byte ptr [_g_tapeColumn],BL
     jl loc_21a7_07fd
     call far ptr gfx_nop22
-    add word ptr [_word_37EF0],0Bh
+    add word ptr [_g_tapeCursorX],0Bh
     mov SI,0h
-    mov word ptr [word_37EF2],5h
+    mov word ptr [g_tapeSegmentCount],5h
     mov BP,offset word_37B52
     mov AX,[_g_ourRoll]
     shr AH,1h
@@ -945,13 +945,13 @@ loc_21a7_084b:
     sub AH,AH
     mov DI,AX
     shl DI,1h
-    mov AX,word ptr [DI+offset _byte_3790C+1Ah]
+    mov AX,word ptr [DI+offset _g_timerTickByte+1Ah]
     mov [word_37F5C],AX
-    mov AX,word ptr [DI+offset _byte_3790C+9Ah]
+    mov AX,word ptr [DI+offset _g_timerTickByte+9Ah]
     mov [word_37F5E],AX
-    mov AX,word ptr [DI+offset _byte_3790C+11Ah]
+    mov AX,word ptr [DI+offset _g_timerTickByte+11Ah]
     mov [word_37F60],AX
-    mov AX,word ptr [DI+offset _byte_3790C+19Ah]
+    mov AX,word ptr [DI+offset _g_timerTickByte+19Ah]
     mov [word_37F62],AX
     mov AX,[_g_ourRoll]
     add AH,80h
@@ -961,26 +961,26 @@ loc_21a7_084b:
     sub AH,AH
     mov DI,AX
     shl DI,1h
-    mov AX,word ptr [DI+offset _byte_3790C+1Ah]
+    mov AX,word ptr [DI+offset _g_timerTickByte+1Ah]
     mov [word_37F54],AX
-    mov AX,word ptr [DI+offset _byte_3790C+9Ah]
+    mov AX,word ptr [DI+offset _g_timerTickByte+9Ah]
     mov [word_37F56],AX
-    mov AX,word ptr [DI+offset _byte_3790C+11Ah]
+    mov AX,word ptr [DI+offset _g_timerTickByte+11Ah]
     mov [word_37F58],AX
-    mov AX,word ptr [DI+offset _byte_3790C+19Ah]
+    mov AX,word ptr [DI+offset _g_timerTickByte+19Ah]
     mov [word_37F5A],AX
 loc_21a7_08c4:
-    mov DI,word ptr [_word_37EF0]
+    mov DI,word ptr [_g_tapeCursorX]
     shl DI,1h
     shl DI,1h
-    mov AX,word ptr [DI+offset word_37EF2+2h]
-    mov [word_37F50],AX
-    mov AX,word ptr [DI+offset word_37EF2+4h]
-    mov [word_37F52],AX
+    mov AX,word ptr [DI+offset g_tapeSegmentCount+2h]
+    mov [g_tapeDrawStr],AX
+    mov AX,word ptr [DI+offset g_tapeSegmentCount+4h]
+    mov [g_tapeDrawStrY],AX
     mov BX,DI
-    mov DI,word ptr [SI+offset byte_37C3A+1E8h]
+    mov DI,word ptr [SI+offset g_compassTapeBuf+1E8h]
     and DI,0FFh
-    mov AX,word ptr [DI+offset byte_37C3A+0ECh]
+    mov AX,word ptr [DI+offset g_compassTapeBuf+0ECh]
     cmp BX,2Ch
     jge loc_21a7_08f4
     add AX,word ptr [word_37F58]
@@ -991,7 +991,7 @@ loc_21a7_08f4:
 loc_21a7_08f8:
     add AX,word ptr [word_37C1A]
     mov [word_37B5A],AX
-    mov AX,word ptr [DI+offset byte_37C3A+15Ch]
+    mov AX,word ptr [DI+offset g_compassTapeBuf+15Ch]
     cmp DI,2Ch
     jge loc_21a7_090f
     add AX,word ptr [word_37F5A]
@@ -1002,22 +1002,22 @@ loc_21a7_090f:
 loc_21a7_0913:
     add AX,word ptr [word_37C18]
     mov [word_37B5C],AX
-    mov BX,offset word_37F50
+    mov BX,offset g_tapeDrawStr
     push SI
     call far ptr gfx_drawStringUnclipped
     pop SI
     inc SI
-    mov DI,word ptr [_word_37EF0]
+    mov DI,word ptr [_g_tapeCursorX]
     shl DI,1h
     shl DI,1h
-    mov AX,word ptr [DI+offset word_37EF2+2h]
-    mov [word_37F50],AX
-    mov AX,word ptr [DI+offset word_37EF2+4h]
-    mov [word_37F52],AX
+    mov AX,word ptr [DI+offset g_tapeSegmentCount+2h]
+    mov [g_tapeDrawStr],AX
+    mov AX,word ptr [DI+offset g_tapeSegmentCount+4h]
+    mov [g_tapeDrawStrY],AX
     mov BX,DI
-    mov DI,word ptr [SI+offset byte_37C3A+1E8h]
+    mov DI,word ptr [SI+offset g_compassTapeBuf+1E8h]
     and DI,0FFh
-    mov AX,word ptr [DI+offset byte_37C3A+0ECh]
+    mov AX,word ptr [DI+offset g_compassTapeBuf+0ECh]
     cmp BX,2Ch
     jge loc_21a7_0955
     add AX,word ptr [word_37F60]
@@ -1028,7 +1028,7 @@ loc_21a7_0955:
 loc_21a7_0959:
     add AX,word ptr [word_37C1A]
     mov [word_37B5A],AX
-    mov AX,word ptr [DI+offset byte_37C3A+15Ch]
+    mov AX,word ptr [DI+offset g_compassTapeBuf+15Ch]
     cmp DI,2Ch
     jge loc_21a7_0970
     add AX,word ptr [word_37F62]
@@ -1039,18 +1039,18 @@ loc_21a7_0970:
 loc_21a7_0974:
     add AX,word ptr [word_37C18]
     mov [word_37B5C],AX
-    mov BX,offset word_37F50
+    mov BX,offset g_tapeDrawStr
     push SI
     call far ptr gfx_drawStringUnclipped
     pop SI
     inc SI
-    inc word ptr [_word_37EF0]
-    dec word ptr [word_37EF2]
+    inc word ptr [_g_tapeCursorX]
+    dec word ptr [g_tapeSegmentCount]
     jz loc_21a7_0993
     jmp loc_21a7_08c4
 loc_21a7_0993:
-    pop word ptr [_word_37559]
-    pop word ptr [_word_37557]
+    pop word ptr [_g_clipMaxY]
+    pop word ptr [_g_clipMaxX]
     call far ptr gfx_setBlitOffset3
     ret
 
@@ -1064,34 +1064,34 @@ setupInstrumentLayout proc near
     mov word_37B9C, ax
     mov word_37BBA, ax
     mov word_37BD8, ax
-    mov _byte_37C24, 0
+    mov _g_halfScaleRender, 0
 loc_22425:
-    cmp _byte_37C24, 1
+    cmp _g_halfScaleRender, 1
     jz short loc_2242F
     jmp loc_22545
 loc_2242F:
     mov ax, 64h
-    mov word_37BF7, ax
+    mov g_tapeOriginX, ax
     mov al, 8
-    mov byte_37BF9, al
+    mov g_tapeCursorBackShift, al
     mov ax, 0Ah
-    mov word_37BFA, ax
+    mov g_tapeTickPitch, ax
     mov al, 0
-    mov byte_37BFC, al
+    mov g_tapeScaleShift, al
     mov ax, 66h
-    mov word_37BFD, ax
+    mov g_speedTapeTickStep, ax
     mov ax, 0CCh
-    mov word_37BFF, ax
+    mov g_altTapeTickStep, ax
     mov al, 88h
-    mov byte_37BF6, al
+    mov g_headingBase, al
     mov ax, 12h
-    mov word_37C01, ax
+    mov g_headingPixPerDeg, ax
     mov ax, 0AFh
-    mov word_37C03, ax
+    mov g_compassWrapLimit, ax
     mov ax, 4
-    mov word_37C05, ax
+    mov g_headingModulus, ax
     mov ax, 2
-    mov word_37C07, ax
+    mov g_headingWrapOffset, ax
     mov ax, 0FFE9h
     mov word_37C09, ax
     mov ax, 0FFF8h
@@ -1166,27 +1166,27 @@ loc_2242F:
     retn
 loc_22545:
     mov ax, 5Eh
-    mov word_37BF7, ax
+    mov g_tapeOriginX, ax
     mov al, 11h
-    mov byte_37BF9, al
+    mov g_tapeCursorBackShift, al
     mov ax, 14h
-    mov word_37BFA, ax
+    mov g_tapeTickPitch, ax
     mov al, 1
-    mov byte_37BFC, al
+    mov g_tapeScaleShift, al
     mov ax, 31h
-    mov word_37BFD, ax
+    mov g_speedTapeTickStep, ax
     mov ax, 0FFh
-    mov word_37BFF, ax
+    mov g_altTapeTickStep, ax
     mov al, 6Dh
-    mov byte_37BF6, al
+    mov g_headingBase, al
     mov ax, 2Dh
-    mov word_37C01, ax
+    mov g_headingPixPerDeg, ax
     mov ax, 0F8h
-    mov word_37C03, ax
+    mov g_compassWrapLimit, ax
     mov ax, 0Ah
-    mov word_37C05, ax
+    mov g_headingModulus, ax
     mov ax, 5
-    mov word_37C07, ax
+    mov g_headingWrapOffset, ax
     mov ax, 0FFC4h
     mov word_37C09, ax
     mov ax, 0FFF1h
@@ -1284,7 +1284,7 @@ _initJoystickCalibration equ initJoystickCalibration
 ; routine_248 - joystick data init helper
 routine_248 proc near
     shl BX,1
-    mov AX,[BX+word_37F8C]
+    mov AX,[BX+g_joyCountX]
     mov [BX+word_37F74],AX
     mov word ptr [BX+joyData],AX
     mov [BX+word_37F6C],AX
@@ -1327,8 +1327,8 @@ loc_246_loop:
     loop loc_246_loop
 loc_246_done:
     sti
-    mov [word_37F8C],BX
-    mov [word_37F8E],BP
+    mov [g_joyCountX],BX
+    mov [g_joyCountY],BP
     pop BP
     ret
 routine_246 endp
@@ -1336,7 +1336,7 @@ routine_246 endp
 ; routine_247 - joystick calibration compute
 routine_247 proc near
     shl BX,1
-    mov AX,[BX+word_37F8C]
+    mov AX,[BX+g_joyCountX]
     mov DX,AX
     sub DX,[BX+word_37F74]
     jc loc_247_neg

@@ -31,13 +31,13 @@ void drawTacticalMap(char page)
     int i;
     int j;
 
-    h = var_588 + 1;
+    h = g_radarScopeRange + 1;
     setDrawColor(0);
-    fillSpanRect(page == 0 ? off_38334 : off_3834C, 0x78, 0x68, 0xc7, 0xaf);
+    fillSpanRect(page == 0 ? g_pageFront : g_pageBack, 0x78, 0x68, 0xc7, 0xaf);
     setDrawColor(8);
     j = 1;
-    if (var_588 < 2 && word_38FDC != 0) {
-        j = (1 << (2 - (unsigned char)var_588)) + 1;
+    if (g_radarScopeRange < 2 && g_detailLevel != 0) {
+        j = (1 << (2 - (unsigned char)g_radarScopeRange)) + 1;
     }
     i = 1 - j;
     e = g_viewX_ & 0xf800;
@@ -60,18 +60,18 @@ void drawTacticalMap(char page)
         drawClippedLineRegion(p, b, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 0x78, 0xc7, 0x68, 0xaf, 0);
         f += 2;
     }
-    for (f = 0; f < word_3C046; f++) {
-        if ((stru_3B202[f].flags.b[0] & 2) && stru_3B202[f].speed != 0) {
-            projectMapPoint(stru_3B202[f].posX, stru_3B202[f].posY);
-            if (word_3C016 != -1) {
-                if (g_currentWeaponType == 1 && f == word_336F2) {
+    for (f = 0; f < g_groundUnitCount; f++) {
+        if ((g_simObjects[f].flags.b[0] & 2) && g_simObjects[f].speed != 0) {
+            projectMapPoint(g_simObjects[f].posX, g_simObjects[f].posY);
+            if (g_projDepth != -1) {
+                if (g_currentWeaponType == 1 && f == g_airTargetLock) {
                     drawMapMarkerBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 7);
                 }
-                if (word_336F8 > 0 && f == 0xffff - word_3BE96) {
-                    drawMapMarkerBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, word_38F72);
+                if (g_scopeSweepTimer > 0 && f == 0xffff - g_threatLabelTarget) {
+                    drawMapMarkerBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, g_scopeArcColor);
                 }
-                a = stru_3B202[f].heading.w - g_ourHead + 0x800;
-                d = stru_3B202[f].alt - g_viewZ;
+                a = g_simObjects[f].heading.w - g_ourHead + 0x800;
+                d = g_simObjects[f].alt - g_viewZ;
                 c = 0;
                 if (d < -1000) {
                     c = 1;
@@ -84,40 +84,40 @@ void drawTacticalMap(char page)
         }
     }
     for (f = 0; f < 12; f++) {
-        if (stru_335C4[f].ttl != 0) {
-            projectMapPoint(stru_335C4[f].mapX, stru_335C4[f].mapY);
-            if (word_3C016 != -1) {
-                if (sams[*(int16 *)&stru_335C4[f].state[0]].field_C <= 0) {
+        if (g_projectiles[f].ttl != 0) {
+            projectMapPoint(g_projectiles[f].mapX, g_projectiles[f].mapY);
+            if (g_projDepth != -1) {
+                if (sams[*(int16 *)&g_projectiles[f].state[0]].weaponClass <= 0) {
                     setDrawColor(0x0c);
                 } else {
                     setDrawColor(0x0e);
                 }
-                if (sams[*(int16 *)&stru_335C4[f].state[0]].field_C == 3) {
+                if (sams[*(int16 *)&g_projectiles[f].state[0]].weaponClass == 3) {
                     setDrawColor(*(char *)&gfxModeUnset != 0 ? 8 : 0x0d);
                 }
-                if (!(stru_335C4[f].alt & 1)) {
+                if (!(g_projectiles[f].alt & 1)) {
                     setDrawColor(7);
                 }
                 if (f >= 8) {
                     setDrawColor(0x0f);
                 }
-                a = stru_335C4[f].worldX - g_ourHead;
+                a = g_projectiles[f].worldX - g_ourHead;
                 drawScreenLineOnePage(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, vtxScratch.vproj.x.lo - sinMul(a, h), cosMul(a, h) + vtxScratch.vproj.y.lo);
             }
         }
     }
-    for (f = 0; f < word_3BED2; f++) {
+    for (f = 0; f < g_planeCount; f++) {
         if (!(g_planeTable.planes[f].flags & 0x80)) {
             projectMapPoint(g_planeTable.planes[f].mapX, g_planeTable.planes[f].mapY);
-            if (word_3C016 != -1) {
-                if (g_currentWeaponType == 2 && f == word_336F4) {
+            if (g_projDepth != -1) {
+                if (g_currentWeaponType == 2 && f == g_groundTargetLock) {
                     drawMapMarkerBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 7);
                 }
                 a = 5;
                 if (g_planeTable.planes[f].flags & 0x201) {
                     a = (((-g_ourHead + 0x1000) >> 13) & 3) + 8;
                 }
-                if (g_planeTable.planes[f].field_4 != 0) {
+                if (g_planeTable.planes[f].active != 0) {
                     a = 1;
                 }
                 if (g_planeTable.planes[f].flags & 8) {
@@ -131,13 +131,13 @@ void drawTacticalMap(char page)
         }
     }
     projectMapPoint(g_viewX_, g_viewY_);
-    if (word_3C016 != -1) {
+    if (g_projDepth != -1) {
         blitGaugeSprite(0, 3, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
     }
     for (f = 0; f < 4; f++) {
         if (mapEvents[f].ttl != 0) {
             projectMapPoint(mapEvents[f].mapX, mapEvents[f].mapY);
-            if (word_3C016 != -1) {
+            if (g_projDepth != -1) {
                 switch (mapEvents[f].type) {
                 case 1:
                     blitGaugeSprite(2, 3, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
@@ -166,8 +166,8 @@ void projectMapPoint(int mapX, int mapY) {
     int p;
     int a;
     char b;
-    word_3C016 = 0;
-    b = 7 - (char)var_588;
+    g_projDepth = 0;
+    b = 7 - (char)g_radarScopeRange;
     p = (mapX - g_viewX_) >> b;
     a = (g_viewY_ - mapY) >> b;
     vtxScratch.vproj.x.lo = cosMul(g_ourHead, p) - sinMul(g_ourHead, a);
@@ -175,10 +175,10 @@ void projectMapPoint(int mapX, int mapY) {
     vtxScratch.vproj.x.lo += 0xa0;
     vtxScratch.vproj.y.lo = -vtxScratch.vproj.y.lo + 0x98;
     if (vtxScratch.vproj.x.lo < 0x7c || vtxScratch.vproj.x.lo > 0xc3) {
-        word_3C016 = -1;
+        g_projDepth = -1;
     }
     if (vtxScratch.vproj.y.lo < 0x6b || vtxScratch.vproj.y.lo > 0xac) {
-        word_3C016 = -1;
+        g_projDepth = -1;
     }
 }
 
@@ -187,7 +187,7 @@ void blitGaugeSprite(int srcCol, int srcRow, int destX, int destY) {
     gaugeSpriteParams.bufPtr = gfxBufPtr;
     gaugeSpriteParams.srcX = srcCol * 8 + 1;
     gaugeSpriteParams.srcY = srcRow * 8 + 0x1f;
-    gaugeSpriteParams.page = (byte_3C5A0 != 0);
+    gaugeSpriteParams.page = (g_drawPage != 0);
     gaugeSpriteParams.dstX = destX - 3;
     gaugeSpriteParams.dstY = destY - 3;
     gaugeSpriteParams.width = 7;
@@ -200,7 +200,7 @@ void blitSprite(int destX, int destY, int srcX, int srcY, int spriteWidth, int a
     blitSpriteParams.bufPtr = gfxBufPtr;
     blitSpriteParams.srcX = srcX;
     blitSpriteParams.srcY = srcY;
-    blitSpriteParams.page = (byte_3C5A0 != 0);
+    blitSpriteParams.page = (g_drawPage != 0);
     blitSpriteParams.dstX = destX;
     blitSpriteParams.dstY = destY;
     blitSpriteParams.width = spriteWidth;
@@ -217,16 +217,16 @@ void blitSprite(int destX, int destY, int srcX, int srcY, int spriteWidth, int a
 
 // ==== seg000:0xa934 ====
 void cacheScopePanel(void) {
-    gfx_copyRect(*off_38334, 0x18, 0x70, *off_38364, 0x18, 0x70, 0x49, 0x39);
+    gfx_copyRect(*g_pageFront, 0x18, 0x70, *g_pageOffscreen, 0x18, 0x70, 0x49, 0x39);
 }
 
 // ==== seg000:0xa962 ====
 void restoreScopePanel(void) {
-    gfx_copyRect(*off_38364, 0x18, 0x70, *off_38334, 0x18, 0x70, 0x49, 0x39);
-    gfx_copyRect(*off_38334, 0x18, 0x70, *off_3834C, 0x18, 0x70, 0x49, 0x39);
+    gfx_copyRect(*g_pageOffscreen, 0x18, 0x70, *g_pageFront, 0x18, 0x70, 0x49, 0x39);
+    gfx_copyRect(*g_pageFront, 0x18, 0x70, *g_pageBack, 0x18, 0x70, 0x49, 0x39);
 }
 
 // ==== seg000:0xa9bc ====
 void captureScopePanel(void) {
-    gfx_copyRect(*off_38364, 0x18, 0x70, byte_3C5A0 ? *off_3834C : *off_38334, 0x18, 0x70, 0x49, 0x39);
+    gfx_copyRect(*g_pageOffscreen, 0x18, 0x70, g_drawPage ? *g_pageBack : *g_pageFront, 0x18, 0x70, 0x49, 0x39);
 }

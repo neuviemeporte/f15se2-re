@@ -37,11 +37,11 @@ struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
             p = g_neighborSampling.lut[b] - d + 0x800;
             n = process3dg(c, i += a, k += b);
             if (n != -1) {
-                word_3C5A8 = matrix3dt_2[c][n];
+                g_curTileEntry = matrix3dt_2[c][n];
                 for (f = 0; matrix3dt[c][n] > (unsigned int)f; f++) {
-                    if (byte_3BFA4[word_3C5A8->shape & 0x7f] != 0) {
-                        h = o + word_3C5A8->x;
-                        j = word_3C5A8->y + p;
+                    if (g_shapeTargetCategory[g_curTileEntry->shape & 0x7f] != 0) {
+                        h = o + g_curTileEntry->x;
+                        j = g_curTileEntry->y + p;
                         q = abs(h) + abs(j);
                         if (c == 1) {
                             q >>= 2;
@@ -49,21 +49,21 @@ struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
                             h <<= 2;
                             j <<= 2;
                         }
-                        g = word_3C5A8->shape;
-                        if ((word_3C5A8->shape & 0x80) != 0 &&
+                        g = g_curTileEntry->shape;
+                        if ((g_curTileEntry->shape & 0x80) != 0 &&
                             lookupTileEntry(c, f, i, k) != 0) {
-                            g = byte_3B4E6[var_660].shape;
+                            g = g_dynTileEntries[g_tileEntryIdx].shape;
                         }
                         if (q < nearestTile.dist) {
-                            var_200 = (char far *)(byte_228D0 + buf3d3[g]);
-                            if (*(int far *)var_200 != 0 ||
-                                *((char far *)var_200 + 2) != 0 ||
-                                word_33704 != 0) {
+                            g_modelStreamPtr = (char far *)(byte_228D0 + buf3d3[g]);
+                            if (*(int far *)g_modelStreamPtr != 0 ||
+                                *((char far *)g_modelStreamPtr + 2) != 0 ||
+                                g_render3DTiles != 0) {
                                 nearestTile.lod = (uint8)c;
                                 nearestTile.subIndex = (uint8)f;
                                 nearestTile.tileX = (uint8)i;
                                 nearestTile.tileY = (uint8)k;
-                                nearestTile.entry = word_3C5A8;
+                                nearestTile.entry = g_curTileEntry;
                                 nearestTile.id = g;
                                 nearestTile.dist = q;
                                 nearestTile.x = worldX + (long)h;
@@ -71,7 +71,7 @@ struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
                             }
                         }
                     }
-                    word_3C5A8++;
+                    g_curTileEntry++;
                 }
             }
         }
@@ -85,18 +85,18 @@ struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
 void addTileEntry(char *a, int b, char c) {
     *(int *)(a + 0x12) = b;
     *(a + 0x14) = c;
-    memcpy((char *)&byte_3B4E6[word_38FF8++], a + 0x0e, 8);
+    memcpy((char *)&g_dynTileEntries[g_tileEntryCount++], a + 0x0e, 8);
     *(*(char **)(a + 0x0c) + 6) |= 0x80;
 }
 
 // ==== seg000:0x3266 ====
 int lookupTileEntry(int lod, int subIndex, int tileX, int tileY) {
-    for (var_660 = word_38FF8 - 1; var_660 >= 0; var_660--) {
-        if (byte_3B4E6[var_660].lod == lod &&
-            byte_3B4E6[var_660].subIndex == subIndex &&
-            byte_3B4E6[var_660].tileX == tileX &&
-            byte_3B4E6[var_660].tileY == tileY) {
-            return byte_3B4E6[var_660].value;
+    for (g_tileEntryIdx = g_tileEntryCount - 1; g_tileEntryIdx >= 0; g_tileEntryIdx--) {
+        if (g_dynTileEntries[g_tileEntryIdx].lod == lod &&
+            g_dynTileEntries[g_tileEntryIdx].subIndex == subIndex &&
+            g_dynTileEntries[g_tileEntryIdx].tileX == tileX &&
+            g_dynTileEntries[g_tileEntryIdx].tileY == tileY) {
+            return g_dynTileEntries[g_tileEntryIdx].value;
         }
     }
     return 0;
@@ -118,7 +118,7 @@ void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
     int l;
     int m;
 
-    *(char *)&var_315 = 0;
+    *(char *)&g_posVisibleFlag = 0;
     nearestTile.dist = 0x7fff;
     b = 4;
     k = scaleCoordToLod(b, coord1);
@@ -127,38 +127,38 @@ void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
     k = scaleCoordToLod(b, coord2);
     i = (int)(k >> 12);
     c = (int)k & 0xfff;
-    var_220 = (int)scaleCoordToLod(b, coord3);
+    g_viewPosZ = (int)scaleCoordToLod(b, coord3);
     m = 0x800 - a;
     p = 0x800 - c;
-    var_218 = a - 0x800;
-    var_219 = c - 0x800;
+    g_viewPosX = a - 0x800;
+    g_viewPosY = c - 0x800;
     l = process3dg(b, g, i);
     if (l != -1) {
-        word_3C5A8 = matrix3dt_2[b][l];
+        g_curTileEntry = matrix3dt_2[b][l];
         for (e = 1; (unsigned int)e < matrix3dt[b][l]; e++) {
-            f = word_3C5A8->x + m;
-            h = word_3C5A8->y + p;
-            var_216 = abs(f) + abs(h);
-            if (nearestTile.dist > var_216) {
-                nearestTile.entry = word_3C5A8;
-                nearestTile.dist = var_216;
+            f = g_curTileEntry->x + m;
+            h = g_curTileEntry->y + p;
+            g_objDistance = abs(f) + abs(h);
+            if (nearestTile.dist > g_objDistance) {
+                nearestTile.entry = g_curTileEntry;
+                nearestTile.dist = g_objDistance;
             }
-            word_3C5A8++;
+            g_curTileEntry++;
         }
     }
     if (nearestTile.dist != 0x7fff) {
-        word_3C5A8 = nearestTile.entry;
-        var_200 = (char far *)(byte_228D0 + buf3d3[nearestTile.entry->shape]);
-        var_202 = word_3C5A8->x - var_218;
-        var_203 = word_3C5A8->y - var_219;
-        var_204[0] = word_3C5A8->z - var_220;
-        FP_OFF(var_200)++;
+        g_curTileEntry = nearestTile.entry;
+        g_modelStreamPtr = (char far *)(byte_228D0 + buf3d3[nearestTile.entry->shape]);
+        g_objRelX = g_curTileEntry->x - g_viewPosX;
+        g_objRelY = g_curTileEntry->y - g_viewPosY;
+        g_objTransform[0] = g_curTileEntry->z - g_viewPosZ;
+        FP_OFF(g_modelStreamPtr)++;
         *(uint8 *)&word_34262 = 0;
-        var_216 = 0;
+        g_objDistance = 0;
         advanceModelPointerLod();
-        if (*var_200 & 0x40) {
-            var_215 = 0;
-            sub_2044A();
+        if (*g_modelStreamPtr & 0x40) {
+            g_objHasRotation = 0;
+            rotatePoint3dFar();
         }
     }
 }
@@ -166,7 +166,7 @@ void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
 // ==== seg000:0x345e ====
 void renderMapTerrain(char *transform, int mapX, int mapY, int zoomShift) {
     int p, a;
-    var_190 = 0;
+    g_objShade = 0;
     setup3DTransform(transform, 0, 0, 0, 0, 0, 0, 0);
     gfx_setBlitOffset(gfx_calcRowAddr(*(int *)(transform + 0x12), *(int *)(transform + 0x0e)));
     drawMapTiles(mapX, mapY, zoomShift);
@@ -179,31 +179,31 @@ void drawMapTiles(int originX, int originY, int zoomShift)
 {
     int p, a, b, c, d, e, f, g, h, i;
 
-    var_663 = originX >> (char)zoomShift;
-    var_664 = originY >> (char)zoomShift;
-    for (var_666 = 4; var_666 >= 0; var_666--) {
-        word_3C16C = word_34186[var_666];
-        var_665 = (var_666 <= 1) ? 0x40 : 0;
-        word_3C042 = zoomShift - word_3C16C * 2 + 8;
-        var_661 = 0x1000 >> (char)word_3C042;
-        if (var_661 > 16) {
-            var_662 = 4 << (8 - (char)word_3C16C * 2);
+    g_mapOriginX = originX >> (char)zoomShift;
+    g_mapOriginY = originY >> (char)zoomShift;
+    for (g_mapLodIndex = 4; g_mapLodIndex >= 0; g_mapLodIndex--) {
+        g_curLod = g_mapTileLodTable[g_mapLodIndex];
+        g_modelEvenOddBit = (g_mapLodIndex <= 1) ? 0x40 : 0;
+        g_tileZoomShift = zoomShift - g_curLod * 2 + 8;
+        g_tileWorldSize = 0x1000 >> (char)g_tileZoomShift;
+        if (g_tileWorldSize > 16) {
+            g_tileGridDim = 4 << (8 - (char)g_curLod * 2);
             computeTileBounds(&b, &h, &c, &p);
             for (f = c; f <= p; f++) {
                 for (e = b; e <= h; e++) {
-                    i = e * var_661 - var_663 + (var_661 >> 1);
-                    a = f * var_661 - var_664 + (var_661 >> 1);
-                    g = process3dg(word_3C16C, e, f);
+                    i = e * g_tileWorldSize - g_mapOriginX + (g_tileWorldSize >> 1);
+                    a = f * g_tileWorldSize - g_mapOriginY + (g_tileWorldSize >> 1);
+                    g = process3dg(g_curLod, e, f);
                     if (g != -1) {
-                        word_3C5A8 = matrix3dt_2[word_3C16C][g];
-                        for (d = 0; matrix3dt[word_3C16C][g] > (unsigned int)d; d++) {
-                            if (word_3C5A8->z == 0) {
-                                var_200 = (char far *)(byte_228D0 + buf3d3[word_3C5A8->shape]);
-                                drawMapTileObject(var_200,
-                                    (word_3C5A8->x >> (char)word_3C042) + i,
-                                    (word_3C5A8->y >> (char)word_3C042) + a);
+                        g_curTileEntry = matrix3dt_2[g_curLod][g];
+                        for (d = 0; matrix3dt[g_curLod][g] > (unsigned int)d; d++) {
+                            if (g_curTileEntry->z == 0) {
+                                g_modelStreamPtr = (char far *)(byte_228D0 + buf3d3[g_curTileEntry->shape]);
+                                drawMapTileObject(g_modelStreamPtr,
+                                    (g_curTileEntry->x >> (char)g_tileZoomShift) + i,
+                                    (g_curTileEntry->y >> (char)g_tileZoomShift) + a);
                             }
-                            word_3C5A8++;
+                            g_curTileEntry++;
                         }
                     }
                 }
@@ -221,32 +221,32 @@ void computeTileBounds(int *minTileX, int *maxTileX, int *minTileY, int *maxTile
     if (*minTileY < 0) {
         *minTileY = 0;
     }
-    worldToTileIndex(word_37557, word_37559, maxTileX, maxTileY);
-    if (*maxTileX >= var_662) {
-        *maxTileX = var_662 - 1;
+    worldToTileIndex(g_clipMaxX, g_clipMaxY, maxTileX, maxTileY);
+    if (*maxTileX >= g_tileGridDim) {
+        *maxTileX = g_tileGridDim - 1;
     }
-    if (*maxTileY >= var_662) {
-        *maxTileY = var_662 - 1;
+    if (*maxTileY >= g_tileGridDim) {
+        *maxTileY = g_tileGridDim - 1;
     }
 }
 
 // ==== seg000:0x3694 ====
 void worldToTileIndex(int worldX, int worldY, int *outCol, int *outRow) {
-    *outCol = (worldX - word_3298C + var_663) / var_661;
-    *outRow = ((worldY - word_3298E) * 4 / 3 + var_664) / var_661;
+    *outCol = (worldX - g_viewCenterX + g_mapOriginX) / g_tileWorldSize;
+    *outRow = ((worldY - g_viewCenterY) * 4 / 3 + g_mapOriginY) / g_tileWorldSize;
 }
 
 // ==== seg000:0x36d2 ====
 void drawMapTileObject(char far *modelData, int screenX, int screenY) {
-    *(char far **)&var_200 = modelData;
-    var_200++;
-    var_216 = 0;
+    *(char far **)&g_modelStreamPtr = modelData;
+    g_modelStreamPtr++;
+    g_objDistance = 0;
     advanceModelPointerLod();
-    if (word_3C16C >= 3) {
-        if ((**(char far **)&var_200 & 0x40) != var_665)
+    if (g_curLod >= 3) {
+        if ((**(char far **)&g_modelStreamPtr & 0x40) != g_modelEvenOddBit)
             return;
     }
-    switch ((unsigned)(unsigned char)**(char far **)&var_200 & 0x3f) {
+    switch ((unsigned)(unsigned char)**(char far **)&g_modelStreamPtr & 0x3f) {
     case 0x3e:
         return;
     case 0x3f:
@@ -265,10 +265,10 @@ void drawMapTileObject(char far *modelData, int screenX, int screenY) {
 
 // ==== seg000:0x374a ====
 void drawModelPoint(int param_1, int param_2) {
-    word_3755F = word_3755D = param_1 + word_3298C;
-    word_37563 = word_37561 = -param_2 + word_3298E;
-    ++var_200;
-    gfx_setColor((unsigned char)*var_200++);
+    g_lineX2 = g_lineX1 = param_1 + g_viewCenterX;
+    g_lineY2 = g_lineY1 = -param_2 + g_viewCenterY;
+    ++g_modelStreamPtr;
+    gfx_setColor((unsigned char)*g_modelStreamPtr++);
     drawClipLineGlobal();
 }
 
@@ -278,17 +278,17 @@ void buildVertexSignMask(int param_1, int param_2) {
     int b;
 
     p = 1L;
-    var_257 = (int)(unsigned char)(*((*(char far **)&var_200)++)) & 0x1f;
-    var_259 = -1;
-    var_260 = -1;
-    *(char *)&var_258 = (var_257 > 0x10) ? 1 : 0;
+    g_modelEdgeCount = (int)(unsigned char)(*((*(char far **)&g_modelStreamPtr)++)) & 0x1f;
+    g_vtxSignMaskLo = -1;
+    g_vtxSignMaskHi = -1;
+    *(char *)&g_modelWideVtxFlag = (g_modelEdgeCount > 0x10) ? 1 : 0;
     b = 0;
-    while (b < var_257) {
-        var_200 += 4;
-        if (*(*(int far **)&var_200)++ < 0) {
-            *(long *)&var_259 ^= p;
+    while (b < g_modelEdgeCount) {
+        g_modelStreamPtr += 4;
+        if (*(*(int far **)&g_modelStreamPtr)++ < 0) {
+            *(long *)&g_vtxSignMaskLo ^= p;
         }
-        var_200 += 2;
+        g_modelStreamPtr += 2;
         p <<= 1;
         b++;
     }
@@ -304,23 +304,23 @@ void projectModelVertices(int screenX, int screenY) {
     int c;
     int d;
 
-    b = (int)(unsigned char)**(char far **)&var_200 & 0x80;
-    var_256 = (int)(unsigned char)(*(*(char far **)&var_200)++) & 0x7F;
-    for (p = 0; p < var_256; p++) {
-        var_200 += (unsigned char)var_258 * 2 + 2;
+    b = (int)(unsigned char)**(char far **)&g_modelStreamPtr & 0x80;
+    g_modelVtxCount = (int)(unsigned char)(*(*(char far **)&g_modelStreamPtr)++) & 0x7F;
+    for (p = 0; p < g_modelVtxCount; p++) {
+        g_modelStreamPtr += (unsigned char)g_modelWideVtxFlag * 2 + 2;
         if (b != 0) {
-            a = (int)(unsigned char)(*(*(char far **)&var_200)++);
-            c = (byte_3B7FC.vertexX[buf3d3_1[a]] >> word_3C042) + screenX;
-            d = (((int16 *)byte_3BE3E)[buf3d3_2[a]] >> word_3C042) + screenY;
+            a = (int)(unsigned char)(*(*(char far **)&g_modelStreamPtr)++);
+            c = (g_replayLog.vertexX[buf3d3_1[a]] >> g_tileZoomShift) + screenX;
+            d = (((int16 *)g_modelVertY)[buf3d3_2[a]] >> g_tileZoomShift) + screenY;
         } else {
-            c = (*(*(int far **)&var_200)++ >> word_3C042) + screenX;
-            d = (*(*(int far **)&var_200)++ >> word_3C042) + screenY;
-            var_200 += 2;
+            c = (*(*(int far **)&g_modelStreamPtr)++ >> g_tileZoomShift) + screenX;
+            d = (*(*(int far **)&g_modelStreamPtr)++ >> g_tileZoomShift) + screenY;
+            g_modelStreamPtr += 2;
         }
         vtxScratch.vproj.in[p].num = 1;
         vtxScratch.vproj.in[p].div = 1;
-        vtxScratch.vproj.x.v[p] = c + word_3298C;
-        vtxScratch.vproj.y.v[p] = -aspectScaleY(d) + word_3298E;
+        vtxScratch.vproj.x.v[p] = c + g_viewCenterX;
+        vtxScratch.vproj.y.v[p] = -aspectScaleY(d) + g_viewCenterY;
     }
 }
 
@@ -335,40 +335,40 @@ void setup3DTransform(char *model, int angleX, int angleY, int angleZ, int posX,
     setViewRotation(angleX, angleY, angleZ);
     setViewPosition(posX, arg_a, arg_c);
     if (arg_e != 0) {
-        var_315 = 0;
-        if (word_38FDC == 0) {
-            *(uint8 *)&var_316 = 1;
+        g_posVisibleFlag = 0;
+        if (g_detailLevel == 0) {
+            *(uint8 *)&g_offscreenRender = 1;
         }
-        if (*(uint8 *)&var_316 == 0) {
-            sub_20658();
+        if (*(uint8 *)&g_offscreenRender == 0) {
+            transformModelVerticesFar();
         }
 #ifdef DEBUG
         {
             unsigned long spins = 0;
-            while (byte_378EE != 0) {
+            while (g_frameSyncPending != 0) {
                 if (++spins > 3000000UL) {
                     TRACE_KEY(("13932: SPIN TIMEOUT - timer ISR not clearing 378EE"));
-                    byte_378EE = 0;
+                    g_frameSyncPending = 0;
                     break;
                 }
             }
         }
 #else
-        while (byte_378EE != 0)
+        while (g_frameSyncPending != 0)
             ;
 #endif
         drawProjectionSphere(*(int *)(model + 4));
     }
-    var_255 = 0;
-    var_261 -= 0x3000 / g_frameRateScaling;
+    g_sortedObjCount = 0;
+    g_spinAngle -= 0x3000 / g_frameRateScaling;
 }
 
 // ==== seg000:0x39aa ====
 void rasterize3DWorld(void) {
-    sub_202F6();
+    renderSortedListFar();
     gfx_setBlitOffset2();
     gfx_nop23();
-    var_316 = 0;
+    g_offscreenRender = 0;
 }
 
 // ==== seg000:0x3a6c ====

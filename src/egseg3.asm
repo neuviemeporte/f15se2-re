@@ -11,20 +11,20 @@ _DATA ENDS
 _BSS SEGMENT WORD PUBLIC 'BSS'
 _BSS ENDS
 
-; int9Handler writes the keyboard virtual-stick RAW axes to byte_37F98/byte_37F99
+; int9Handler writes the keyboard virtual-stick RAW axes to g_joyRawX/g_joyRawY
 ; (DGROUP 0x56e8/0x56e9), which setInt9Handler initializes to center (0x80).
 ; stepFlightModel's keyboard path reads them, scales by the gain (a15flt+0F2h),
 ; and writes the result to joyAxes (0x56e4/0x56e5), which the stick dot
 ; (renderHudFrame/egtacmap) displays. Writing 0x56e4/0x56e5 here directly let
 ; stepFlightModel overwrite the deflection with a centered value -> the stick
-; only reacted intermittently. byte_37F98=Up/Down (pitch), byte_37F99=Left/Right.
-EXTRN _byte_37F98:BYTE
-EXTRN _byte_37F99:BYTE
-EXTRN byte_37F9A:BYTE
-EXTRN word_37F9B:WORD
-EXTRN byte_37F9D:BYTE
-EXTRN byte_37F9E:BYTE
-EXTRN byte_37F9F:BYTE
+; only reacted intermittently. g_joyRawX=Up/Down (pitch), g_joyRawY=Left/Right.
+EXTRN _g_joyRawX:BYTE
+EXTRN _g_joyRawY:BYTE
+EXTRN g_kbdActiveScan:BYTE
+EXTRN g_kbdLastTick:WORD
+EXTRN g_kbdPrevScan:BYTE
+EXTRN g_kbdLastDirKey:BYTE
+EXTRN g_kbdDelayCounter:BYTE
 
 seg003 SEGMENT PARA PUBLIC 'CODE'
 ASSUME CS:seg003, DS:DGROUP, SS:DGROUP
@@ -40,13 +40,13 @@ _setInt9Handler proc far
     mov ds, ax
     and byte ptr ds:17h, 0DFh
     xor ax, ax
-    mov ss:byte_37F9A, al
-    mov ss:word_37F9B, ax
-    mov ss:byte_37F9D, al
-    mov ss:byte_37F9E, al
-    mov ss:byte_37F9F, al
-    mov byte ptr ss:_byte_37F98, 80h
-    mov byte ptr ss:_byte_37F99, 80h
+    mov ss:g_kbdActiveScan, al
+    mov ss:g_kbdLastTick, ax
+    mov ss:g_kbdPrevScan, al
+    mov ss:g_kbdLastDirKey, al
+    mov ss:g_kbdDelayCounter, al
+    mov byte ptr ss:_g_joyRawX, 80h
+    mov byte ptr ss:_g_joyRawY, 80h
     xor ax, ax
     mov ds, ax
     mov bx, 24h
@@ -94,17 +94,17 @@ int9Handler proc near
     mov ds, ax
     mov ax, 40h
     mov es, ax
-    mov ah, byte_37F9F
+    mov ah, g_kbdDelayCounter
     or ah, ah
     jz short @@checkScan
 @@delayKey:
     dec ah
-    mov byte_37F9F, ah
+    mov g_kbdDelayCounter, ah
     jmp @@flushKbd
 @@checkScan:
     in al, 60h
-    cmp byte_37F9D, 0E0h
-    mov byte_37F9D, al
+    cmp g_kbdPrevScan, 0E0h
+    mov g_kbdPrevScan, al
     jz short @@processKey
     cmp al, 0E0h
     mov ah, 1
@@ -132,20 +132,20 @@ int9Handler proc near
     ja short @@flushKbd
     sub al, 29h
     jb short @@flushKbd
-    mov bx, offset byte_37F9F+1h
+    mov bx, offset g_kbdDelayCounter+1h
     xlat
     or al, al
     jz short @@flushKbd
     test ah, 80h
     jnz short @@keyRelease
-    cmp byte_37F9A, 0
+    cmp g_kbdActiveScan, 0
     jnz short @@flushKbd
-    mov byte_37F9A, al
-    cmp byte_37F9E, al
-    mov byte_37F9E, al
+    mov g_kbdActiveScan, al
+    cmp g_kbdLastDirKey, al
+    mov g_kbdLastDirKey, al
     jnz short @@newKey
     mov bx, es:6Ch
-    sub bx, word_37F9B
+    sub bx, g_kbdLastTick
     cmp bx, 5
     mov bh, 7Fh
     jb short @@setSpeed
@@ -157,29 +157,29 @@ int9Handler proc near
     add bh, 80h
     test al, 1
     jz short @@noLeft
-    mov byte ptr [_byte_37F99], bl
+    mov byte ptr [_g_joyRawY], bl
 @@noLeft:
     test al, 2
     jz short @@noRight
-    mov byte ptr [_byte_37F99], bh
+    mov byte ptr [_g_joyRawY], bh
 @@noRight:
     test al, 4
     jz short @@noUp
-    mov byte ptr [_byte_37F98], bl
+    mov byte ptr [_g_joyRawX], bl
 @@noUp:
     test al, 8
     jz short @@noDown
-    mov byte ptr [_byte_37F98], bh
+    mov byte ptr [_g_joyRawX], bh
 @@noDown:
     mov bx, es:6Ch
-    mov word_37F9B, bx
+    mov g_kbdLastTick, bx
     jmp short @@flushKbd
 @@keyRelease:
-    cmp byte_37F9A, al
+    cmp g_kbdActiveScan, al
     jnz short @@flushKbd
-    mov byte_37F9A, 0
-    mov byte ptr [_byte_37F98], 80h
-    mov byte ptr [_byte_37F99], 80h
+    mov g_kbdActiveScan, 0
+    mov byte ptr [_g_joyRawX], 80h
+    mov byte ptr [_g_joyRawY], 80h
 @@flushKbd:
     mov bx, es:1Ah
     cmp bx, es:1Ch

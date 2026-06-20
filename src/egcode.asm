@@ -36,7 +36,7 @@ EXTRN _readAxisInput:PROC
 EXTRN _computeMapTargetRange:PROC
 EXTRN _computeSimObjectRange:PROC
 EXTRN _computeTargetBearing:PROC
-EXTRN _sub_21A7A:PROC
+EXTRN _drawInstrumentGaugesFar:PROC
 EXTRN _setup3DTransform:PROC
 EXTRN _clampValue:PROC
 EXTRN _shapeDataOffset:PROC
@@ -212,7 +212,7 @@ SREGS		ends
 
 ; ---------------------------------------------------------------------------
 
-ViewSnapshot		struc ;	(sizeof=0x10, mappedto_11) ; XREF: dseg:stru_3A95A/r
+ViewSnapshot		struc ;	(sizeof=0x10, mappedto_11) ; XREF: dseg:g_viewSnapshotRing/r
 field_0		dd ?			; XREF:	stepFlightModel+1198/w
 					; stepFlightModel+119C/w
 field_4		dd ?			; XREF:	stepFlightModel+11A7/w
@@ -227,7 +227,7 @@ ViewSnapshot		ends
 
 ; ---------------------------------------------------------------------------
 
-Projectile		struc ;	(sizeof=0x18, mappedto_12) ; XREF: dseg:stru_335C4/r
+Projectile		struc ;	(sizeof=0x18, mappedto_12) ; XREF: dseg:g_projectiles/r
 field_0		dw ?
 field_2		dw ?
 field_4		dw ?
@@ -357,9 +357,9 @@ OVL_HDR_FIRSTPTR  = 24h
 
 ; --- data symbols referenced by code (defined in egslots.asm) ---
 EXTRN _allocSize:WORD
-EXTRN _byte_34197:BYTE
-EXTRN _byte_3790C:BYTE
-EXTRN _var_383:WORD
+EXTRN _g_horizonGroundColor:BYTE
+EXTRN _g_timerTickByte:BYTE
+EXTRN _g_frameTimingAccum:WORD
 EXTRN _frameTick:WORD
 EXTRN _g_frameRateScaling:WORD
 EXTRN _g_playerPlaneFlags:WORD
@@ -369,20 +369,20 @@ EXTRN _gfx_allocPage:PROC
 EXTRN _gfx_drawString:PROC
 EXTRN _keyValue:WORD
 EXTRN _sams:BYTE
-EXTRN _stru_335C4:BYTE
-EXTRN _stru_3B202:BYTE
-EXTRN _var_200:WORD
-EXTRN _var_258:BYTE
-EXTRN _var_259:WORD
-EXTRN _var_260:WORD
-EXTRN _var_315:WORD
+EXTRN _g_projectiles:BYTE
+EXTRN _g_simObjects:BYTE
+EXTRN _g_modelStreamPtr:WORD
+EXTRN _g_modelWideVtxFlag:BYTE
+EXTRN _g_vtxSignMaskLo:WORD
+EXTRN _g_vtxSignMaskHi:WORD
+EXTRN _g_posVisibleFlag:WORD
 EXTRN _var_605:WORD
 EXTRN _var_606:WORD
 EXTRN _var_608:WORD
 EXTRN _var_609:WORD
 EXTRN _var_610:WORD
-EXTRN _var_669:WORD
-EXTRN _var_670:WORD
+EXTRN _g_acqRange:WORD
+EXTRN _g_acqAimY:WORD
 EXTRN _var_687:WORD
 EXTRN _var_688:WORD
 EXTRN _var_689:WORD
@@ -392,11 +392,11 @@ EXTRN _var_694:WORD
 EXTRN _var_697:WORD
 EXTRN _var_699:WORD
 EXTRN _var_700:WORD
-EXTRN _word_330BC:WORD
-EXTRN _word_330C2:WORD
-EXTRN _word_38126:WORD
-EXTRN _word_3BED2:WORD
-EXTRN _word_3C046:WORD
+EXTRN _g_nightMode:WORD
+EXTRN _g_hudVisible:WORD
+EXTRN _g_hudBottomY:WORD
+EXTRN _g_planeCount:WORD
+EXTRN _g_groundUnitCount:WORD
 EXTRN aF15dgtl_bin:BYTE
 EXTRN aFileClosingError:BYTE
 EXTRN aFileNotFound:BYTE
@@ -404,18 +404,18 @@ EXTRN aNoFileBuffersAvailabl:BYTE
 EXTRN aOpenError:BYTE
 EXTRN audio_timerTick:PROC
 EXTRN audio_noiseTick:PROC
-EXTRN byte_36D86:BYTE
-EXTRN byte_37116:BYTE
-EXTRN _byte_378EE:BYTE
-EXTRN _byte_378FC:BYTE
-EXTRN _byte_37903:BYTE
-EXTRN _byte_3862A:BYTE
-byte_3862A EQU _byte_3862A
-EXTRN _byte_3862B:BYTE
-byte_3862B EQU _byte_3862B
-EXTRN byte_38D61:BYTE
-EXTRN byte_38D63:BYTE
-EXTRN _byte_3C8B0:BYTE
+EXTRN g_dacGroundPalette:BYTE
+EXTRN g_dacGroundPaletteSrc:BYTE
+EXTRN _g_frameSyncPending:BYTE
+EXTRN _g_timerDividerCounter:BYTE
+EXTRN _g_timerSyncToRetrace:BYTE
+EXTRN _g_exitMsgDigit:BYTE
+g_exitMsgDigit EQU _g_exitMsgDigit
+EXTRN _g_exitMsgTerm:BYTE
+g_exitMsgTerm EQU _g_exitMsgTerm
+EXTRN g_picNumberDictSlots:BYTE
+EXTRN g_picFileWord:BYTE
+EXTRN _g_missionEndedFlag:BYTE
 EXTRN dacValues:BYTE
 EXTRN dacValues1:BYTE
 EXTRN f15dgtlAddr:WORD
@@ -445,43 +445,43 @@ EXTRN tmpFileHandle:WORD
 EXTRN aReadError:BYTE
 EXTRN aWriteError:BYTE
 EXTRN tmpPageIndex:WORD
-EXTRN _word_336F0:WORD
+EXTRN _g_threatActiveTimer:WORD
 ; LZW pic dictionary base: overlaid scratch region migrated to egdata.c
 ; (struct VtxScratch vtxScratch). word_3424C/3424E are the dict value/increment
 ; fields at the region base; see struct.h and egseg1.asm.
 EXTRN _vtxScratch:word
 word_3424C equ _vtxScratch
 word_3424E equ _vtxScratch+2h
-EXTRN word_37146:WORD
-EXTRN word_37148:WORD
-EXTRN _word_37348:WORD
-EXTRN _word_378F0:WORD
-EXTRN _word_378F2:WORD
-EXTRN _word_378F4:WORD
-EXTRN _word_378F6:WORD
-EXTRN _word_378F8:WORD
-EXTRN _word_378FA:WORD
-EXTRN _word_378FD:WORD
-EXTRN _word_378FF:WORD
-EXTRN _word_37901:WORD
-EXTRN _word_37904:WORD
-EXTRN _word_37906:WORD
-EXTRN word_389D8:WORD
-EXTRN word_389E0:WORD
-EXTRN word_38D5C:WORD
-EXTRN word_38D5E:WORD
-EXTRN word_38D66:WORD
+EXTRN g_sineTableBase:WORD
+EXTRN g_sineTableDelta:WORD
+EXTRN _g_angleLut:WORD
+EXTRN _g_timerElapsedLo:WORD
+EXTRN _g_timerElapsedHi:WORD
+EXTRN _g_timerCountdownTarget:WORD
+EXTRN _g_timerReloadDivisor:WORD
+EXTRN _g_timerTickCount:WORD
+EXTRN _g_timerRunDivider:WORD
+EXTRN _g_timerMode:WORD
+EXTRN _g_timerCalSumLo:WORD
+EXTRN _g_timerCalSumHi:WORD
+EXTRN _g_timerTickCountdown:WORD
+EXTRN _g_timerRetraceResult:WORD
+EXTRN g_picBlitBytesRemaining:WORD
+EXTRN g_picBlitCurrentRow:WORD
+EXTRN g_picLookupResult:WORD
+EXTRN g_picByte:WORD
+EXTRN g_picByteUnsignedFlag:WORD
 EXTRN _picWorkData:BYTE
-EXTRN _word_39606:WORD
-EXTRN _word_3B0AC:WORD
-EXTRN _word_3B4D8:WORD
-EXTRN _word_3B4E0:WORD
-EXTRN _word_3B5D6:WORD
-EXTRN _word_3B7DE:WORD
-EXTRN _word_3BEBC:WORD
-EXTRN _word_3BEC8:WORD
-EXTRN _word_3BECE:WORD
-EXTRN _word_3C020:WORD
+EXTRN _g_hitEffectTimer:WORD
+EXTRN _g_threatTimerInit:WORD
+EXTRN _g_threatRefX:WORD
+EXTRN _g_threatRefY:WORD
+EXTRN _g_threatRefZ:WORD
+EXTRN _g_savedSamTtl:WORD
+EXTRN _g_hitMapX:WORD
+EXTRN _g_hitMapY:WORD
+EXTRN _g_hitAlt:WORD
+EXTRN _g_loftTargetIdx:WORD
 
 PUBLIC _createFile
 PUBLIC _readFile1
@@ -675,16 +675,16 @@ setViewRotation equ _setViewRotation
 ; ------------------------------seg000:0x3a90------------------------------
 ; raw bytes for unlabeled code between 0x3aa1 and 0x3aee
 ; --- two far-pointer readers (decoded from raw bytes; originally @0x3aa1) ---
-loc_3aa1:                       ; dword reader, advances _var_200 by 4
-    cmp byte ptr [_var_258], 0
+loc_3aa1:                       ; dword reader, advances _g_modelStreamPtr by 4
+    cmp byte ptr [_g_modelWideVtxFlag], 0
     jz  short loc_3ad1
-    mov bx, [_var_200]
-    add word ptr [_var_200], 4
-    mov es, [_var_200+2]
+    mov bx, [_g_modelStreamPtr]
+    add word ptr [_g_modelStreamPtr], 4
+    mov es, [_g_modelStreamPtr+2]
     mov ax, es:[bx]
     mov dx, es:[bx+2h]
-    and ax, [_var_259]
-    and dx, [_var_260]
+    and ax, [_g_vtxSignMaskLo]
+    and dx, [_g_vtxSignMaskHi]
     or  dx, ax
     jz  short loc_3acd
     mov ax, 1
@@ -694,12 +694,12 @@ loc_3acd:
     sub ax, ax
     retn
     nop
-loc_3ad1:                       ; word reader, advances _var_200 by 2
-    mov bx, [_var_200]
-    add word ptr [_var_200], 2
-    mov es, [_var_200+2]
+loc_3ad1:                       ; word reader, advances _g_modelStreamPtr by 2
+    mov bx, [_g_modelStreamPtr]
+    add word ptr [_g_modelStreamPtr], 2
+    mov es, [_g_modelStreamPtr+2]
     mov ax, es:[bx]
-    and ax, [_var_259]
+    and ax, [_g_vtxSignMaskLo]
     retn
     nop
 
@@ -716,19 +716,19 @@ _setupDac proc near
     mov dx, offset dacValues1
     mov ax, 1012h
     int 10h ;- VIDEO - SET BLOCK OF DAC REGISTERS (EGA, VGA/MCGA)
-    cmp _byte_34197, 2
+    cmp _g_horizonGroundColor, 2
     jz short loc_13B16
     mov cx, 30h
     push si
     push di
-    mov si, offset byte_37116
-    mov di, offset byte_36D86
+    mov si, offset g_dacGroundPaletteSrc
+    mov di, offset g_dacGroundPalette
     rep movsb
     pop di
     pop si
 loc_13B16:
     mov dx, offset dacValues
-    cmp _word_330BC, 0
+    cmp _g_nightMode, 0
     jz short loc_13B23
     mov dx, offset otherDacValues
 loc_13B23:
@@ -781,8 +781,8 @@ sineLookup proc near
     mov BL,BH
     mov BH,DH
     shl BX,1h
-    mov AX,word ptr [BX + offset word_37148]
-    mov BX,word ptr [BX + offset word_37146]
+    mov AX,word ptr [BX + offset g_sineTableDelta]
+    mov BX,word ptr [BX + offset g_sineTableBase]
     sub AX,BX
     imul DX
     mov DH,DL
@@ -818,8 +818,8 @@ lookupSine proc near
     mov BL,BH
     mov BH,DH
     shl BX,1h
-    mov AX,word ptr [BX + offset _word_37348+2]
-    mov BX,word ptr [BX + offset _word_37348]
+    mov AX,word ptr [BX + offset _g_angleLut+2]
+    mov BX,word ptr [BX + offset _g_angleLut]
     sub AX,BX
     imul DX
     mov DH,DL
@@ -867,24 +867,24 @@ gameMainLoop proc near
     call _renderHudFrame
     cmp _keyValue, 0
     jnz short loc_13C59
-    call far ptr _sub_21A7A ;call _sub_21A7A
+    call far ptr _drawInstrumentGaugesFar ;call _drawInstrumentGaugesFar
 loc_13C59:
     mov bx, 0
-    mov ax, _word_38126
+    mov ax, _g_hudBottomY
     call far ptr gfx_dacAnimate
-    mov _byte_378EE, 1
+    mov _g_frameSyncPending, 1
     call _stepFlightModel
     call updateFrame
-    cmp _byte_3C8B0, 0
+    cmp _g_missionEndedFlag, 0
     jz short gameMainLoop
     retn
 gameMainLoop endp
 ; ------------------------------seg000:0x3c76------------------------------
 ; ------------------------------seg000:0x3c78------------------------------
-TIMER_VAR_74 EQU <word ptr [_word_378FA]>
-TIMER_VAR_80 EQU <word ptr [_word_37904]>
-TIMER_VAR_70 EQU <word ptr [_word_378F0]>
-TIMER_VAR_71 EQU <word ptr [_word_378F2]>
+TIMER_VAR_74 EQU <word ptr [_g_timerRunDivider]>
+TIMER_VAR_80 EQU <word ptr [_g_timerTickCountdown]>
+TIMER_VAR_70 EQU <word ptr [_g_timerElapsedLo]>
+TIMER_VAR_71 EQU <word ptr [_g_timerElapsedHi]>
 TIMER_CALIBRATE EQU <calibrateTimerSpeed>
 TIMER_ISR_PTR EQU <timerIsrPtr>
 TIMER_IRQ_ADDR EQU <timerIrqAddr>
@@ -893,21 +893,21 @@ INCLUDE shared/timer_setHandler.inc
 INCLUDE shared/timer_restore.inc
 ; ------------------------------seg000:0x3cd7------------------------------
 setTimerRateFromCalibration proc near
-    mov bx, _word_378FD
-    mov _word_378FA, bx
-    mov ax, _word_378FF
+    mov bx, _g_timerMode
+    mov _g_timerRunDivider, bx
+    mov ax, _g_timerCalSumLo
     xor dx, dx
     div bx
-    mov _word_378F4, ax
-    mov _byte_378FC, 1
+    mov _g_timerCountdownTarget, ax
+    mov _g_timerDividerCounter, 1
     retn
 setTimerRateFromCalibration endp
 
 setTimerRateSingle proc near
-    mov _word_378FA, 1
-    mov ax, _word_378FF
-    mov _word_378F4, ax
-    mov _byte_378FC, 1
+    mov _g_timerRunDivider, 1
+    mov ax, _g_timerCalSumLo
+    mov _g_timerCountdownTarget, ax
+    mov _g_timerDividerCounter, 1
     retn
 setTimerRateSingle endp
 ; ------------------------------seg000:0x3cd6------------------------------
@@ -926,22 +926,22 @@ timerIsr proc far
     push ES
     mov AX, @data
     mov DS, AX
-    mov AX, _word_378F6
-    add _word_378F0, AX
-    adc _word_378F2, 0
-    dec _word_37904
+    mov AX, _g_timerReloadDivisor
+    add _g_timerElapsedLo, AX
+    adc _g_timerElapsedHi, 0
+    dec _g_timerTickCountdown
     jnz short @@tisr_skip
-    mov AX, _word_378FA
-    mov _word_37904, AX
+    mov AX, _g_timerRunDivider
+    mov _g_timerTickCountdown, AX
     call timerIrqCallback
-    mov _byte_378EE, 0
+    mov _g_frameSyncPending, 0
     call advanceFrameTick
 @@tisr_skip:
-    cmp _word_378FA, 1
+    cmp _g_timerRunDivider, 1
     jz short @@tisr_nochain
     call far ptr audio_noiseTick
 @@tisr_nochain:
-    cmp _word_378F2, 0
+    cmp _g_timerElapsedHi, 0
     jnz short @@tisr_chain
     mov AL, 20h
     out 20h, AL
@@ -956,7 +956,7 @@ timerIsr proc far
     pop AX
     iret
 @@tisr_chain:
-    dec _word_378F2
+    dec _g_timerElapsedHi
     pop ES
     pop DS
     pop BP
@@ -973,18 +973,18 @@ timerIsr endp
 timerIsrPtr dd 0
 ; ------------------------------seg000:0x3d6b------------------------------
 ; --- timer callback/calibrate: egame TIMER_VAR bindings ---
-TIMER_VAR_CALSUM_HI EQU <word ptr [_word_37901]>
-TIMER_VAR_CALSUM_LO EQU <word ptr [_word_378FF]>
-TIMER_VAR_COUNT_HI EQU <word ptr [_word_378F2]>
-TIMER_VAR_COUNT_LO EQU <word ptr [_word_378F0]>
-TIMER_VAR_DIVIDER EQU <byte ptr [_byte_378FC]>
-TIMER_VAR_DIVISOR EQU <word ptr [_word_378F6]>
-TIMER_VAR_MODE EQU <word ptr [_word_378FD]>
-TIMER_VAR_SYNC EQU <byte ptr [_byte_37903]>
-TIMER_VAR_TARGET EQU <word ptr [_word_378F4]>
-TIMER_VAR_RETRACE EQU <word ptr [_word_37906]>
-TIMER_VAR_TICK EQU <word ptr [_word_37904]>
-TIMER_VAR_TICKCNT EQU <word ptr [_word_378F8]>
+TIMER_VAR_CALSUM_HI EQU <word ptr [_g_timerCalSumHi]>
+TIMER_VAR_CALSUM_LO EQU <word ptr [_g_timerCalSumLo]>
+TIMER_VAR_COUNT_HI EQU <word ptr [_g_timerElapsedHi]>
+TIMER_VAR_COUNT_LO EQU <word ptr [_g_timerElapsedLo]>
+TIMER_VAR_DIVIDER EQU <byte ptr [_g_timerDividerCounter]>
+TIMER_VAR_DIVISOR EQU <word ptr [_g_timerReloadDivisor]>
+TIMER_VAR_MODE EQU <word ptr [_g_timerMode]>
+TIMER_VAR_SYNC EQU <byte ptr [_g_timerSyncToRetrace]>
+TIMER_VAR_TARGET EQU <word ptr [_g_timerCountdownTarget]>
+TIMER_VAR_RETRACE EQU <word ptr [_g_timerRetraceResult]>
+TIMER_VAR_TICK EQU <word ptr [_g_timerTickCountdown]>
+TIMER_VAR_TICKCNT EQU <word ptr [_g_timerTickCount]>
 INCLUDE shared/timer_callback.inc
 ; ------------------------------seg000:0x3df1------------------------------
 ; ------------------------------seg000:0x3df2------------------------------
@@ -1007,8 +1007,8 @@ getTimeOfDay endp
 ; ------------------------------seg000:0x3ee2------------------------------
 ; ------------------------------seg000:0x3ee3------------------------------
 advanceFrameTick proc near
-    inc word ptr [_var_383]       ; frame-rate timing accumulator
-    inc byte ptr [_byte_3790C]    ; frame tick counter
+    inc word ptr [_g_frameTimingAccum]       ; frame-rate timing accumulator
+    inc byte ptr [_g_timerTickByte]    ; frame tick counter
     call far ptr gfx_dacCycle    ; MGRAPHIC slot 0x2e: VGA DAC fire animation
     call far ptr audio_timerTick
     or ax, ax
@@ -1099,7 +1099,7 @@ drawCenteredLabelBox proc near
     add SP,2h
     or AX,AX
     jz LAB_1000_a04d
-    cmp word ptr [_word_330C2],0h
+    cmp word ptr [_g_hudVisible],0h
     jnz LAB_1000_a04f
 LAB_1000_a04d:
     jmp LAB_1000_a0c7
@@ -1466,9 +1466,9 @@ printString_1DF9B:
     cmp cx, 0FFFFh
     jz short loc_1DFB7
     add cx, 30h
-    mov byte_3862A, cl
-    mov byte_3862B, 24h
-    mov dx, offset byte_3862A
+    mov g_exitMsgDigit, cl
+    mov g_exitMsgTerm, 24h
+    mov dx, offset g_exitMsgDigit
     mov ah, 9
     int 21h ;DOS - PRINT STRING
 loc_1DFB7:
@@ -1498,21 +1498,21 @@ _picBlit proc near
     mov si, tmpPageIndex
     call far ptr gfx_getPageSeg
     call far ptr gfx_clearPage
-    mov word_389E0, 0
-    mov word_389D8, 0FA00h
+    mov g_picBlitCurrentRow, 0
+    mov g_picBlitBytesRemaining, 0FA00h
 loc_1E0E0:
-    mov di, word_389E0
+    mov di, g_picBlitCurrentRow
     call far ptr gfx_getRowOffset
     mov rowOffset, ax
     call decodePicRow
     mov di, rowOffset
     mov bp, offset picDecodedRowBuf
-    mov bx, word_389E0
+    mov bx, g_picBlitCurrentRow
     call far ptr gfx_fillRow
     mov di, rowOffset
     call far ptr gfx_copyRow
-    inc word_389E0
-    sub word_389D8, 140h
+    inc g_picBlitCurrentRow
+    sub g_picBlitBytesRemaining, 140h
     jnz short loc_1E0E0
     pop bp
     pop es
@@ -1619,14 +1619,14 @@ picReadBufEndPtr EQU <_var_687>
 picWorkData EQU <_picWorkData>
 picWorkDataPtr EQU <_var_688>
 picProcessFlag EQU <_var_690>
-picLookupResult EQU <word_38D5C>
-picFileWord EQU <byte_38D63>
+picLookupResult EQU <g_picLookupResult>
+picFileWord EQU <g_picFileWord>
 picRemainingBitCount EQU <_var_697>
-picByteUnsignedFlag EQU <word_38D66>
-picByte EQU <word_38D5E>
+picByteUnsignedFlag EQU <g_picByteUnsignedFlag>
+picByte EQU <g_picByte>
 picTmp9BitCount EQU <_var_692>
 picFileReadBufEnd EQU <_var_694>
-picNumberDictSlots EQU <byte_38D61>
+picNumberDictSlots EQU <g_picNumberDictSlots>
 picDecodeDictionary EQU <word_3424C>
 picDecodeIncrement EQU <word_3424E>
 picReadFromFilePtr EQU <_var_610>

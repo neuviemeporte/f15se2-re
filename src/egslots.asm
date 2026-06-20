@@ -4,11 +4,11 @@ DOSSEG
 
 
 PUBLIC byte_37C2D
-PUBLIC byte_37C2E
-PUBLIC byte_37C35
-PUBLIC byte_37C3A
+PUBLIC g_tapePageCounter
+PUBLIC g_tapeRenderMode
+PUBLIC g_compassTapeBuf
 PUBLIC var_468
-PUBLIC unk_37565
+PUBLIC g_spanMinX
 PUBLIC word_37B26
 PUBLIC word_37B2E
 PUBLIC word_37B30
@@ -24,16 +24,16 @@ PUBLIC word_37B84
 PUBLIC word_37BA2
 PUBLIC word_37BC0
 PUBLIC word_37BDE
-PUBLIC word_37C25
-PUBLIC word_37C27
-PUBLIC word_37C29
-PUBLIC word_37C2B
+PUBLIC g_altRemainder
+PUBLIC g_compassScrollIdx
+PUBLIC g_compassDrawX
+PUBLIC g_tapeRenderX
 PUBLIC word_37C30
 PUBLIC word_37C32
 PUBLIC word_37C36
-PUBLIC word_37EF2
-PUBLIC word_37F50
-PUBLIC word_37F52
+PUBLIC g_tapeSegmentCount
+PUBLIC g_tapeDrawStr
+PUBLIC g_tapeDrawStrY
 PUBLIC word_37F54
 PUBLIC word_37F56
 PUBLIC word_37F58
@@ -57,17 +57,17 @@ PUBLIC word_37B7E
 PUBLIC word_37B9C
 PUBLIC word_37BBA
 PUBLIC word_37BD8
-PUBLIC word_37BF7
-PUBLIC byte_37BF9
-PUBLIC word_37BFA
-PUBLIC byte_37BFC
-PUBLIC word_37BFD
-PUBLIC word_37BFF
-PUBLIC byte_37BF6
-PUBLIC word_37C01
-PUBLIC word_37C03
-PUBLIC word_37C05
-PUBLIC word_37C07
+PUBLIC g_tapeOriginX
+PUBLIC g_tapeCursorBackShift
+PUBLIC g_tapeTickPitch
+PUBLIC g_tapeScaleShift
+PUBLIC g_speedTapeTickStep
+PUBLIC g_altTapeTickStep
+PUBLIC g_headingBase
+PUBLIC g_headingPixPerDeg
+PUBLIC g_compassWrapLimit
+PUBLIC g_headingModulus
+PUBLIC g_headingWrapOffset
 PUBLIC word_37C09
 PUBLIC word_37C0B
 PUBLIC word_37C0D
@@ -105,11 +105,11 @@ PUBLIC word_37B60
 PUBLIC word_37B64
 PUBLIC word_37B66
 PUBLIC word_37B72
-PUBLIC byte_37F9A
-PUBLIC word_37F9B
-PUBLIC byte_37F9D
-PUBLIC byte_37F9E
-PUBLIC byte_37F9F
+PUBLIC g_kbdActiveScan
+PUBLIC g_kbdLastTick
+PUBLIC g_kbdPrevScan
+PUBLIC g_kbdLastDirKey
+PUBLIC g_kbdDelayCounter
 PUBLIC _misc_getKey
 PUBLIC _gfx_setColor
 PUBLIC _gfx_nop23
@@ -148,10 +148,10 @@ PUBLIC aNoFileBuffersAvailabl
 PUBLIC aOpenError
 PUBLIC audio_timerTick
 PUBLIC audio_noiseTick
-PUBLIC byte_36D86
-PUBLIC byte_37116
-PUBLIC byte_38D61
-PUBLIC byte_38D63
+PUBLIC g_dacGroundPalette
+PUBLIC g_dacGroundPaletteSrc
+PUBLIC g_picNumberDictSlots
+PUBLIC g_picFileWord
 PUBLIC dacValues
 PUBLIC dacValues1
 PUBLIC f15dgtlAddr
@@ -176,13 +176,13 @@ PUBLIC rowOffset
 PUBLIC timerHandlerInstalled
 PUBLIC tmpFileHandle
 PUBLIC tmpPageIndex
-PUBLIC word_37146
-PUBLIC word_37148
-PUBLIC word_389D8
-PUBLIC word_389E0
-PUBLIC word_38D5C
-PUBLIC word_38D5E
-PUBLIC word_38D66
+PUBLIC g_sineTableBase
+PUBLIC g_sineTableDelta
+PUBLIC g_picBlitBytesRemaining
+PUBLIC g_picBlitCurrentRow
+PUBLIC g_picLookupResult
+PUBLIC g_picByte
+PUBLIC g_picByteUnsignedFlag
 
 .DATA ;dseg segment para public 'DATA' use16
 
@@ -514,7 +514,7 @@ aPleaseInsertScenarioD db 'Please insert scenario disk',0
 ; cluster. egseg1.asm/egcode.asm reach the sub-objects via _vtxScratch EQUs.
 word_35AF8 dw 0
     db 68 dup(0)
-word_36B8B dw 0
+g_vtxScale dw 0
     db 0 ;align 2
     db 1
     db 0
@@ -549,14 +549,14 @@ word_36B8B dw 0
     db 80h
 byte_36BAE db 0
     db 97 dup(0)
-word_36C19 dw 0
-word_36C1B dw 0
-word_36C1D dw 0
-word_36C1F dw 0
-word_36C21 dw 0
-word_36C23 dw 0
-word_36C25 dw 0
-word_36C27 dw 0
+g_clipVtxA0 dw 0
+g_clipVtxA1 dw 0
+g_clipVtxA2 dw 0
+g_clipVtxA3 dw 0
+g_clipVtxB0 dw 0
+g_clipVtxB1 dw 0
+g_clipVtxB2 dw 0
+g_clipVtxB3 dw 0
     db 8 dup(0)
     db 6 dup(0)
     db 2Ah
@@ -650,7 +650,7 @@ dacValues db 34h
     db 0
     db 27h
     db 3Fh
-byte_36D86 db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
+g_dacGroundPalette db 3 dup(34h), 2Fh, 33h, 2Fh, 2Ch, 32h, 2Bh, 27h, 31h
     db 27h, 24h, 30h, 23h, 20h, 2Fh, 20h, 1Dh, 2Fh, 1Ch, 19h
     db 2Eh, 18h, 16h, 2Dh, 15h, 12h, 2Ch, 11h, 0Fh, 2Bh, 0Eh
     db 0Ch, 2Ah, 0Bh, 9, 29h, 8, 6, 28h, 5, 4, 28h, 3, 1, 27h
@@ -960,13 +960,13 @@ otherDacValues db 1Fh, 10h, 1Eh, 1Dh, 0Fh, 1Eh, 1Bh, 0Fh, 1Dh, 19h, 0Eh
     db 3 dup(16h), 0Bh, 0Fh, 12h, 1Fh, 20h, 26h, 19h, 1Eh
     db 19h, 20h, 2 dup(26h), 20h, 2 dup(1Ah), 2Ah, 2 dup(0)
     db 2 dup(26h), 1Fh, 3 dup(1Eh)
-byte_37116 db 3 dup(34h), 33h, 31h, 2Fh, 32h, 2Fh, 2Ch, 32h, 2Dh
+g_dacGroundPaletteSrc db 3 dup(34h), 33h, 31h, 2Fh, 32h, 2Fh, 2Ch, 32h, 2Dh
     db 28h, 31h, 2Ah, 24h, 30h, 28h, 20h, 30h, 26h, 1Dh, 2Fh
     db 24h, 19h, 2Eh, 22h, 16h, 2Eh, 20h, 12h, 2Dh, 1Eh, 0Fh
     db 2Ch, 1Ch, 0Ch, 2Ch, 1Ah, 9, 2Bh, 18h, 6, 2Ah, 16h, 3
     db 2Ah, 15h, 0
-word_37146 dw 0
-word_37148 dw 324h
+g_sineTableBase dw 0
+g_sineTableDelta dw 324h
     db 48h
     db 6
     db 6Bh
@@ -1474,9 +1474,9 @@ word_37148 dw 324h
     db 0DCh
     db 0FCh
     db 2 dup(0)
-unk_37565 db 0FFh
+g_spanMinX db 0FFh
     db 439 dup(0FFh)
-unk_3771D db 0
+g_spanMaxX db 0
     db 439 dup(0)
     db 0
 PUBLIC cbreakHit
@@ -1628,17 +1628,17 @@ word_37BDE dw 0
     db 0
     db 7
     db 0
-byte_37BF6 db 6Dh
-word_37BF7 dw 61h
-byte_37BF9 db 8
-word_37BFA dw 0Ah
-byte_37BFC db 0
-word_37BFD dw 62h
-word_37BFF dw 0FFh
-word_37C01 dw 2Dh
-word_37C03 dw 0F8h
-word_37C05 dw 0
-word_37C07 dw 0
+g_headingBase db 6Dh
+g_tapeOriginX dw 61h
+g_tapeCursorBackShift db 8
+g_tapeTickPitch dw 0Ah
+g_tapeScaleShift db 0
+g_speedTapeTickStep dw 62h
+g_altTapeTickStep dw 0FFh
+g_headingPixPerDeg dw 2Dh
+g_compassWrapLimit dw 0F8h
+g_headingModulus dw 0
+g_headingWrapOffset dw 0
 word_37C09 dw 0FFC4h
 word_37C0B dw 0FFF1h
 word_37C0D dw 10h
@@ -1653,22 +1653,22 @@ word_37C1C dw 0
 word_37C1E dw 0
 word_37C20 dw 0
 word_37C22 dw 0
-word_37C25 dw 0
-word_37C27 dw 0
-word_37C29 dw 0
-word_37C2B dw 0
+g_altRemainder dw 0
+g_compassScrollIdx dw 0
+g_compassDrawX dw 0
+g_tapeRenderX dw 0
 byte_37C2D db 0
-byte_37C2E db 0
+g_tapePageCounter db 0
 word_37C30 dw 0
 word_37C32 dw 3030h
     db 0
-byte_37C35 db 0
+g_tapeRenderMode db 0
 word_37C36 dw 0
     db 4Bh
     db 0
 ; var_468 (DGROUP 0x538a): speed/altitude tape scale scratch buffer.
-; byte_37C3A (the heading/compass tape buffer) was wrongly labelled here, 0xB0
-; bytes too early, so byte_37C3A+132 (the "000 045 090 135 180 225 270 315"
+; g_compassTapeBuf (the heading/compass tape buffer) was wrongly labelled here, 0xB0
+; bytes too early, so g_compassTapeBuf+132 (the "000 045 090 135 180 225 270 315"
 ; cardinal labels) read garbage and the compass rendered as solid blocks.
 ; The label now sits at its correct offset 0x543a below. Data bytes unchanged.
 ; egseg2's tape code (which wrote/read this scratch) now references var_468.
@@ -1803,7 +1803,7 @@ var_468 db 0
     db 32h
     db 20h
     db 33h
-byte_37C3A db 20h                ; DGROUP 0x543a: heading/compass tape buffer
+g_compassTapeBuf db 20h                ; DGROUP 0x543a: heading/compass tape buffer
     db 34h
     db 20h
     db 35h
@@ -2004,7 +2004,7 @@ byte_37C3A db 20h                ; DGROUP 0x543a: heading/compass tape buffer
     db 0
     db 3
     db 283 dup(0)
-word_37EF2 dw 0
+g_tapeSegmentCount dw 0
     db 2Dh
     db 37h
     db 30h
@@ -2084,8 +2084,8 @@ word_37EF2 dw 0
     db 37h
     db 30h
     db 2 dup(0)
-word_37F50 dw 0
-word_37F52 dw 0
+g_tapeDrawStr dw 0
+g_tapeDrawStrY dw 0
 word_37F54 dw 0
 word_37F56 dw 0
 word_37F58 dw 0
@@ -2099,8 +2099,8 @@ PUBLIC word_37F6C
 PUBLIC word_37F74
 PUBLIC word_37F7C
 PUBLIC word_37F84
-PUBLIC word_37F8C
-PUBLIC word_37F8E
+PUBLIC g_joyCountX
+PUBLIC g_joyCountY
 joyData db 8 dup(0)
 word_37F6C dw 0
     db 6 dup(0)
@@ -2110,15 +2110,15 @@ word_37F7C dw 0
     db 6 dup(0)
 word_37F84 dw 0
     db 6 dup(0)
-word_37F8C dw 0
-word_37F8E dw 0
+g_joyCountX dw 0
+g_joyCountY dw 0
     db 4 dup(0)
     db 2 dup(0)
-byte_37F9A db 0
-word_37F9B dw 0
-byte_37F9D db 0
-byte_37F9E db 0
-byte_37F9F db 0
+g_kbdActiveScan db 0
+g_kbdLastTick dw 0
+g_kbdPrevScan db 0
+g_kbdLastDirKey db 0
+g_kbdDelayCounter db 0
     db 1
     db 0
     db 4
@@ -2173,12 +2173,12 @@ word_38890 dw 0
 fileReadPos dw 0
 tmpFileHandle dw 0
 picDecodedRowBuf db 140h dup(0)
-word_389D8 dw 0
+g_picBlitBytesRemaining dw 0
 tmpPageIndex dw 0
 rowOffset dw 0
     db 0 ;align 4
     db 0
-word_389E0 dw 0
+g_picBlitCurrentRow dw 0
 readFromFilePtr dw 0
 ; --- LZW decoder state (EQU targets for _var_687 through _var_700) ---
 lzw_readBufEndPtr dw 0     ; _var_687
@@ -2200,14 +2200,14 @@ buf6data_3 db 0
     db 116 dup(0)
 word_38BC6 dw offset buf6data_3
 word_38D5A dw 0
-word_38D5C dw 0
-word_38D5E dw 0
+g_picLookupResult dw 0
+g_picByte dw 0
 byte_38D60 db 0
-byte_38D61 db 0
+g_picNumberDictSlots db 0
 byte_38D62 db 0
-byte_38D63 db 0
+g_picFileWord db 0
 word_38D64 dw 0
-word_38D66 dw 0
+g_picByteUnsignedFlag dw 0
 word_38D68 dw 0
 byte_38D6A db 0
 byte_38D6B db 0
@@ -2223,9 +2223,9 @@ word_389DC dw 0     ; _var_608
 _var_143 EQU word_33BB8
 _uvar_547 EQU _g_viewZ
 _var_605 EQU word_38896
-_var_606 EQU word_389D8
+_var_606 EQU g_picBlitBytesRemaining
 _var_608 EQU word_389DC
-_var_609 EQU word_389E0
+_var_609 EQU g_picBlitCurrentRow
 _var_610 EQU readFromFilePtr
 _var_687 EQU lzw_readBufEndPtr
 _var_688 EQU lzw_workDataPtr
@@ -2250,26 +2250,26 @@ ORG 00000h
     db 201h dup(?)
 PUBLIC _picWorkData
 _picWorkData label byte
-_word_38FC6 label byte
+_g_sphereTiltZ label byte
     db ? ;align 4
     db ?
 
-; Matrix3dEntry7 storage.
+; TileSceneObject storage.
 ; 571 full records * 7 bytes + 3 spare bytes = 4000 bytes. => #define MAX_TILE_DATA 4000
 
     db ? ;align 2
 PUBLIC byte_36BAE
-PUBLIC unk_3771D
+PUBLIC g_spanMaxX
 PUBLIC word_35AF8
-PUBLIC word_36B8B
-PUBLIC word_36C19
-PUBLIC word_36C1B
-PUBLIC word_36C1D
-PUBLIC word_36C1F
-PUBLIC word_36C21
-PUBLIC word_36C23
-PUBLIC word_36C25
-PUBLIC word_36C27
+PUBLIC g_vtxScale
+PUBLIC g_clipVtxA0
+PUBLIC g_clipVtxA1
+PUBLIC g_clipVtxA2
+PUBLIC g_clipVtxA3
+PUBLIC g_clipVtxB0
+PUBLIC g_clipVtxB1
+PUBLIC g_clipVtxB2
+PUBLIC g_clipVtxB3
 PUBLIC word_38A3A
 PUBLIC word_38BC6
     db ? ;align 400h

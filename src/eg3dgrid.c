@@ -8,12 +8,12 @@ int process3dg(int lod, int col, int row)
         col += 2;
         row += 2;
     }
-    if (col < 0 || row < 0 || col >= word_33BAE[lod] || row >= word_33BAE[lod]) {
+    if (col < 0 || row < 0 || col >= g_lodGridDim[lod] || row >= g_lodGridDim[lod]) {
         return 0;
     }
     switch (lod) {
     case 4:
-        return byte_3A900[col + (row << 3)];
+        return g_topLodGrid[col + (row << 3)];
     case 3:
         return buf1_3dg[col + (row << 4)];
     case 2:

@@ -288,7 +288,7 @@ projectVertexToScreen: seg001 NEAR 0078-00fa R0078-00fa assembly
 installDivZeroHandler: seg001 NEAR 0113-0136 R0113-0136 assembly
 installDivZeroVector: seg001 NEAR 0137-014b R0137-014b assembly
 clipLineSegment: seg001 NEAR 015d-023e R015d-023e assembly
-sub_1FABF: seg001 NEAR 023f-029c R023f-029c assembly
+clipLineSubdivP1Outside: seg001 NEAR 023f-029c R023f-029c assembly
 writeClippedStart: seg001 NEAR 029d-02d1 R029d-02d1 assembly
 writeClippedEnd: seg001 NEAR 02d2-0307 R02d2-0307 assembly
 rejectClippedLine: seg001 NEAR 0308-0333 R0308-0333 assembly
@@ -299,22 +299,22 @@ clipMidpointSubdivide: seg001 NEAR 040e-0483 R040e-0483 R058a-05c0 assembly
 clipLineMidpoint: seg001 NEAR 0484-04f1 R0484-04f1 R0550-0589 assembly
 pointOnClipEdge: seg001 NEAR 04f2-052c R04f2-052c assembly
 computeClipOutcode: seg001 NEAR 052d-054f R052d-054f assembly
-sub_1FE5C: seg001 NEAR 05dc-066b R05dc-066b assembly
-sub_1FEEC: seg001 FAR 066c-067d R066c-067d assembly
-sub_1FEFE: seg001 NEAR 067e-0883 R067e-0883 assembly
+decodeRleEdgeRow: seg001 NEAR 05dc-066b R05dc-066b assembly
+drawFlatHorizon: seg001 FAR 066c-067d R066c-067d assembly
+renderHorizonSky: seg001 NEAR 067e-0883 R067e-0883 assembly
 projectSceneObject: seg001 FAR 0884-0907 R0884-0907 assembly
 transformAndCullObject: seg001 NEAR 0908-0a08 R0908-0a08 assembly
 skipDisplayListByLod: seg001 NEAR 0a09-0a31 R0a09-0a31 assembly
-sub_202B6: seg001 NEAR 0a36-0a46 R0a36-0a46 assembly
-sub_202C7: seg001 FAR 0a47-0a59 R0a47-0a59 assembly
+storeObjTransformByOpcode: seg001 NEAR 0a36-0a46 R0a36-0a46 assembly
+transformAndCullObjectFar: seg001 FAR 0a47-0a59 R0a47-0a59 assembly
 advanceModelPointerLod: seg001 FAR 0a5a-0a67 R0a5a-0a67 assembly
-sub_202F6: seg001 FAR 0a76-0a7f R0a76-0a7f assembly
+renderSortedListFar: seg001 FAR 0a76-0a7f R0a76-0a7f assembly
 insertSortedObject: seg001 NEAR 0a80-0b5f R0a80-0b5f assembly
 renderSortedList: seg001 NEAR 0b60-0bbb R0b60-0bbb assembly
-sub_2044A: seg001 FAR 0bca-0be6 R0bca-0be6 assembly
+rotatePoint3dFar: seg001 FAR 0bca-0be6 R0bca-0be6 assembly
 processSceneObject: seg001 NEAR 0be7-0cb3 R0be7-0cb3 R198a-1ba1 assembly
 rotatePoint3d: seg001 NEAR 0cb4-0dd6 R0cb4-0dd6 assembly
-sub_20658: seg001 FAR 0dd8-0de1 R0dd8-0de1 assembly
+transformModelVerticesFar: seg001 FAR 0dd8-0de1 R0dd8-0de1 assembly
 transformModelVertices: seg001 NEAR 0df4-0f77 R0df4-0f77 assembly
 transformVertexList: seg001 NEAR 10f0-11c4 R0f78-10ef R10f0-11c4 assembly
 projectModelEdgesFar: seg001 FAR 11c6-11d7 R11c6-11d7 assembly
@@ -332,7 +332,7 @@ renderPrimitiveCommand: seg001 NEAR 17f5-1939 R17f5-1939 assembly
 drawPrimitiveEdges: seg001 NEAR 193a-1989 R193a-1989 assembly
 testVisibilityMask: seg001 NEAR 1ba2-1bc2 R1ba2-1bc2 assembly
 fillSpanRect: seg001 FAR 1bc4-1c34 R1bc4-1c34 assembly
-sub_21526: seg001 FAR 1ca6-1ca9 R1ca6-1ca9 assembly
+clipLineFar: seg001 FAR 1ca6-1ca9 R1ca6-1ca9 assembly
 drawClipLineGlobal: seg001 FAR 1caa-1cb5 R1caa-1cb5 assembly
 clipLineCohenSutherland: seg001 NEAR 1cb6-1e41 R1cb6-1e41 assembly
 computeLineOutcode: seg001 NEAR 1e42-1e62 R1e42-1e62 assembly
@@ -343,10 +343,10 @@ clampScanlineSpan: seg001 NEAR 1ed6-1f24 R1ed6-1f24 assembly
 rasterizeEdgeSpan: seg001 NEAR 1f34-201a R1f34-201a assembly
 clipAndRasterizeEdge: seg001 FAR 201c-2027 R201c-2027 assembly
 clipAndRasterizeEdgeImpl: seg001 NEAR 2028-21d7 R1f25-1f33 R2028-21d7 assembly
-sub_21A7A: seg002 FAR 000a-000d R000a-000d assembly
-sub_21A7E: seg002 FAR 000e-0011 R000e-0011 assembly
-sub_21A86: seg002 NEAR 0016-09a0 R0016-09a0 assembly
-sub_22411: seg002 NEAR 09a1-0bea R09a1-0bea assembly
+drawInstrumentGaugesFar: seg002 FAR 000a-000d R000a-000d assembly
+setupInstrumentLayoutFar: seg002 FAR 000e-0011 R000e-0011 assembly
+drawInstrumentGauges: seg002 NEAR 0016-09a0 R0016-09a0 assembly
+setupInstrumentLayout: seg002 NEAR 09a1-0bea R09a1-0bea assembly
 initJoystickCalibration: seg002 FAR 0beb-0bfa R0beb-0bfa assembly
 seedJoystickBaseline: seg002 NEAR 0bfb-0c0d R0bfb-0c0d assembly
 readCalibratedJoystick: seg002 FAR 0c0e-0c20 R0c0e-0c20 assembly
@@ -455,8 +455,8 @@ scenarioPlh: Data1 VAR 008c
 var_36: Data1 VAR 00c0
 allocSize: Data1 VAR 00c2
 var_38: Data1 VAR 00da
-word_3298C: Data1 VAR 00dc
-word_3298E: Data1 VAR 00de
+g_viewCenterX: Data1 VAR 00dc
+g_viewCenterY: Data1 VAR 00de
 var_41: Data1 VAR 00e0
 var_42: Data1 VAR 00fb
 var_43: Data1 VAR 0104
@@ -483,28 +483,28 @@ var_63: Data1 VAR 0534
 var_64: Data1 VAR 0536
 var_65: Data1 VAR 0538
 word_33096: Data1 VAR 07e6
-word_33098: Data1 VAR 07e8
+g_fuelRemaining: Data1 VAR 07e8
 var_68: Data1 VAR 07ea
 word_3309C: Data1 VAR 07ec
 word_3309E: Data1 VAR 07ee
 missileSpecIndex: Data1 VAR 07f2
-word_330B4: Data1 VAR 07f4
+g_gunAmmo: Data1 VAR 07f4
 missileSpecIndex: Data1 VAR 0802
-word_330B4: Data1 VAR 0804
+g_gunAmmo: Data1 VAR 0804
 g_autopilotAltitude: Data1 VAR 0806
 g_missionStatus: Data1 VAR 0808
-word_330BA: Data1 VAR 080a
+g_difficultyTier: Data1 VAR 080a
 word_330BC: Data1 VAR 080c
 word_330BE: Data1 VAR 080e
-word_330C2: Data1 VAR 0812
+g_hudVisible: Data1 VAR 0812
 g_frameRateScaling: Data1 VAR 0814
 var_82: Data1 VAR 082c
-var_83: Data1 VAR 0a1e
+g_targetCompatTable: Data1 VAR 0a1e
 word_333D2: Data1 VAR 0b22
 word_333D4: Data1 VAR 0b24
 word_333D8: Data1 VAR 0b28
 word_333DA: Data1 VAR 0b2a
-stru_33402: Data1 VAR 0b52
+g_particles: Data1 VAR 0b52
 var_89: Data1 VAR 0b54
 var_90: Data1 VAR 0b56
 var_91: Data1 VAR 0b58
@@ -524,41 +524,41 @@ var_104: Data1 VAR 0d26
 var_105: Data1 VAR 0d28
 var_106: Data1 VAR 0d2a
 var_107: Data1 VAR 0e34
-word_336E6: Data1 VAR 0e36
+g_trackedEnemyIdx: Data1 VAR 0e36
 frameTick: Data1 VAR 0e38
 word_336EA: Data1 VAR 0e3a
 var_111: Data1 VAR 0e3c
 var_112: Data1 VAR 0e3e
-word_336F0: Data1 VAR 0e40
-word_336F2: Data1 VAR 0e42
-word_336F4: Data1 VAR 0e44
-word_336F6: Data1 VAR 0e46
+g_threatActiveTimer: Data1 VAR 0e40
+g_airTargetLock: Data1 VAR 0e42
+g_groundTargetLock: Data1 VAR 0e44
+g_smokeSourceIdx: Data1 VAR 0e46
 word_336F8: Data1 VAR 0e48
 var_118: Data1 VAR 0e4a
-word_336FC: Data1 VAR 0e4c
+g_padlockAircraft: Data1 VAR 0e4c
 word_336FE: Data1 VAR 0e4e
-word_33700: Data1 VAR 0e50
+g_prevThreatIndex: Data1 VAR 0e50
 word_33702: Data1 VAR 0e52
 word_33704: Data1 VAR 0e54
 var_124: Data1 VAR 0e56
-word_33708: Data1 VAR 0e58
+g_frameRateAccum: Data1 VAR 0e58
 word_3370A: Data1 VAR 0e5a
 word_3370C: Data1 VAR 0e5c
 word_3370E: Data1 VAR 0e5e
-word_33710: Data1 VAR 0e60
+g_resupplyCount: Data1 VAR 0e60
 var_130: Data1 VAR 0e62
-word_33714: Data1 VAR 0e64
+g_landingTimer: Data1 VAR 0e64
 asc_33744: Data1 VAR 0e94
-word_3374A: Data1 VAR 0e9a
-var_134: Data1 VAR 1100
+g_weaponMarkerSel: Data1 VAR 0e9a
+g_viewParams: Data1 VAR 1100
 var_135: Data1 VAR 1102
 var_136: Data1 VAR 1144
 word_33B74: Data1 VAR 12c4
 word_33B86: Data1 VAR 12d6
 word_33B9C: Data1 VAR 12ec
 var_140: Data1 VAR 12f2
-var_141: Data1 VAR 12fc
-word_33BAE: Data1 VAR 12fe
+g_objColorBase: Data1 VAR 12fc
+g_lodGridDim: Data1 VAR 12fe
 size3d3: Data1 VAR 1308
 buf3d3: Data1 VAR 130a
 var_145: Data1 VAR 130c
@@ -566,14 +566,14 @@ size3d3_2: Data1 VAR 13d2
 sign3dt: Data1 VAR 13d4
 sizes3dt: Data1 VAR 13d6
 matrix3dt: Data1 VAR 13e0
-word_33DD0: Data1 VAR 1520
+g_modelOffsetTable: Data1 VAR 1520
 var_151: Data1 VAR 1522
 size3d3_4: Data1 VAR 1560
 size3d3_5: Data1 VAR 1562
 size3d3_6: Data1 VAR 1564
 size3d3_3: Data1 VAR 1566
 sign3dg: Data1 VAR 1568
-word_3401A: Data1 VAR 176a
+g_unusedLoadDoneFlag: Data1 VAR 176a
 var_158: Data1 VAR 18a0
 var_159: Data1 VAR 18a2
 var_160: Data1 VAR 18a6
@@ -599,28 +599,28 @@ var_179: Data1 VAR 18c9
 var_180: Data1 VAR 18cb
 var_181: Data1 VAR 18cd
 var_182: Data1 VAR 18cf
-word_34186: Data1 VAR 18d6
+g_mapTileLodTable: Data1 VAR 18d6
 var_184: Data1 VAR 18e0
 var_185: Data1 VAR 18e2
 var_186: Data1 VAR 18e4
 var_187: Data1 VAR 18e6
-byte_34197: Data1 VAR 18e7
+g_horizonGroundColor: Data1 VAR 18e7
 var_189: Data1 VAR 18e8
-var_190: Data1 VAR 18ea
+g_objShade: Data1 VAR 18ea
 word_3419C: Data1 VAR 18ec
 byte_3419A: Data1 VAR 18ef
 var_193: Data1 VAR 18fc
-var_194: Data1 VAR 1904
-var_195: Data1 VAR 1906
-var_196: Data1 VAR 1908
-var_197: Data1 VAR 190a
+g_lodDistBase: Data1 VAR 1904
+g_lodDistScale: Data1 VAR 1906
+g_lodDistNear: Data1 VAR 1908
+g_lodDistFar: Data1 VAR 190a
 var_198: Data1 VAR 190c
 var_199: Data1 VAR 191c
-var_200: Data1 VAR 198c
+g_modelStreamPtr: Data1 VAR 198c
 var_201: Data1 VAR 198e
-var_202: Data1 VAR 1990
-var_203: Data1 VAR 1992
-var_204: Data1 VAR 1994
+g_objRelX: Data1 VAR 1990
+g_objRelY: Data1 VAR 1992
+g_objTransform: Data1 VAR 1994
 var_205: Data1 VAR 1996
 var_206: Data1 VAR 1998
 var_207: Data1 VAR 199a
@@ -631,19 +631,19 @@ var_211: Data1 VAR 19a2
 var_212: Data1 VAR 19a4
 var_213: Data1 VAR 19a6
 var_214: Data1 VAR 19a7
-var_215: Data1 VAR 19a8
-var_216: Data1 VAR 19b0
+g_objHasRotation: Data1 VAR 19a8
+g_objDistance: Data1 VAR 19b0
 var_217: Data1 VAR 19b2
-var_218: Data1 VAR 19b4
-var_219: Data1 VAR 19b6
-var_220: Data1 VAR 19b8
+g_viewPosX: Data1 VAR 19b4
+g_viewPosY: Data1 VAR 19b6
+g_viewPosZ: Data1 VAR 19b8
 var_221: Data1 VAR 19b9
 var_222: Data1 VAR 19ba
 var_223: Data1 VAR 19bc
-var_224: Data1 VAR 19be
-var_225: Data1 VAR 19c0
-var_226: Data1 VAR 19c2
-var_227: Data1 VAR 19c4
+g_sphereRadius: Data1 VAR 19be
+g_sphereDistZ: Data1 VAR 19c0
+g_spherePitch: Data1 VAR 19c2
+g_sphereRoll: Data1 VAR 19c4
 var_228: Data1 VAR 19c6
 var_229: Data1 VAR 19c8
 var_230: Data1 VAR 19ca
@@ -671,12 +671,12 @@ var_251: Data1 VAR 19f4
 var_252: Data1 VAR 19f6
 var_253: Data1 VAR 19f8
 var_254: Data1 VAR 19fa
-var_255: Data1 VAR 19fc
-var_256: Data1 VAR 19fe
-var_257: Data1 VAR 1a00
-var_258: Data1 VAR 1a04
-var_259: Data1 VAR 1a06
-var_260: Data1 VAR 1a08
+g_sortedObjCount: Data1 VAR 19fc
+g_modelVtxCount: Data1 VAR 19fe
+g_modelEdgeCount: Data1 VAR 1a00
+g_modelWideVtxFlag: Data1 VAR 1a04
+g_vtxSignMaskLo: Data1 VAR 1a06
+g_vtxSignMaskHi: Data1 VAR 1a08
 var_261: Data1 VAR 1a0a
 var_262: Data1 VAR 1a0c
 var_263: Data1 VAR 1a0d
@@ -756,7 +756,7 @@ var_336: Data1 VAR 4382
 var_337: Data1 VAR 4383
 var_338: Data1 VAR 4896
 var_339: Data1 VAR 4898
-word_37348: Data1 VAR 4a98
+g_angleLut: Data1 VAR 4a98
 word_3734A: Data1 VAR 4a9a
 var_342: Data1 VAR 4c9e
 var_343: Data1 VAR 4c9f
@@ -767,10 +767,10 @@ var_347: Data1 VAR 4ca3
 var_348: Data1 VAR 4ca5
 var_349: Data1 VAR 4ca7
 var_350: Data1 VAR 4ca9
-word_3755D: Data1 VAR 4cad
-word_3755F: Data1 VAR 4caf
-word_37561: Data1 VAR 4cb1
-word_37563: Data1 VAR 4cb3
+g_lineX1: Data1 VAR 4cad
+g_lineX2: Data1 VAR 4caf
+g_lineY1: Data1 VAR 4cb1
+g_lineY2: Data1 VAR 4cb3
 var_355: Data1 VAR 4cb5
 var_356: Data1 VAR 4e6d
 var_357: Data1 VAR 5025
@@ -799,8 +799,8 @@ var_379: Data1 VAR 504f
 var_380: Data1 VAR 5051
 var_381: Data1 VAR 5053
 var_382: Data1 VAR 5054
-var_383: Data1 VAR 505a
-byte_3790C: Data1 VAR 505c
+g_frameTimingAccum: Data1 VAR 505a
+g_timerTickByte: Data1 VAR 505c
 var_385: Data1 VAR 5076
 var_386: Data1 VAR 50f6
 var_387: Data1 VAR 5176
@@ -872,14 +872,14 @@ var_452: Data1 VAR 536c
 var_453: Data1 VAR 536e
 var_454: Data1 VAR 5370
 var_455: Data1 VAR 5372
-byte_37C24: Data1 VAR 5374
+g_halfScaleRender: Data1 VAR 5374
 var_457: Data1 VAR 5375
 var_458: Data1 VAR 5377
 var_459: Data1 VAR 5379
 var_460: Data1 VAR 537b
 var_461: Data1 VAR 537d
 var_462: Data1 VAR 537e
-byte_37C2F: Data1 VAR 537f
+g_hudDrawnFlag: Data1 VAR 537f
 var_464: Data1 VAR 5380
 var_465: Data1 VAR 5382
 var_466: Data1 VAR 5385
@@ -964,15 +964,15 @@ g_ourPitch: Data1 VAR 581a
 g_ourRoll: Data1 VAR 581c
 g_ourHead: Data1 VAR 581d
 g_viewZ: Data1 VAR 581e
-word_380D0: Data1 VAR 5820
-var_549: Data1 VAR 5828
-var_550: Data1 VAR 582a
+g_altitude: Data1 VAR 5820
+g_rotationCounter: Data1 VAR 5828
+g_rollWasNonzero: Data1 VAR 582a
 word_380D8: Data1 VAR 582d
 var_552: Data1 VAR 5830
 var_553: Data1 VAR 5832
-word_38126: Data1 VAR 5876
-word_38152: Data1 VAR 58a2
-var_556: Data1 VAR 58ae
+g_hudBottomY: Data1 VAR 5876
+g_lastViewKey: Data1 VAR 58a2
+g_lastSpawnTick: Data1 VAR 58ae
 aA: Data1 VAR 5920
 word_38202: Data1 VAR 5952
 var_559: Data1 VAR 5958
@@ -983,8 +983,8 @@ var_563: Data1 VAR 5960
 off_38334: Data1 VAR 5a84
 off_3834C: Data1 VAR 5a9c
 off_38364: Data1 VAR 5ab4
-var_567: Data1 VAR 5acc
-var_568: Data1 VAR 5afc
+g_mapTerrainMode: Data1 VAR 5acc
+g_targetViewParams: Data1 VAR 5afc
 var_569: Data1 VAR 5afe
 var_570: Data1 VAR 5b00
 var_571: Data1 VAR 5b02
@@ -1005,12 +1005,12 @@ var_585: Data1 VAR 5b34
 var_586: Data1 VAR 5b35
 byte_383E5: Data1 VAR 5b3a
 var_588: Data1 VAR 5b3c
-var_589: Data1 VAR 5b3e
-var_590: Data1 VAR 5b40
-word_383F2: Data1 VAR 5b42
-word_383F4: Data1 VAR 5b44
+g_mapCenterX: Data1 VAR 5b3e
+g_mapCenterY: Data1 VAR 5b40
+g_hudMsgTimer: Data1 VAR 5b42
+g_dirMsgTimer: Data1 VAR 5b44
 var_593: Data1 VAR 5bb0
-byte_3850E: Data1 VAR 5c5e
+g_extraScaleShift: Data1 VAR 5c5e
 var_595: Data1 VAR 5d50
 var_596: Data1 VAR 5d52
 var_597: Data1 VAR 5d54
@@ -1070,39 +1070,39 @@ var_650: Data1 VAR 633c
 var_651: Data1 VAR 6342
 var_652: Data1 VAR 6344
 var_653: Data1 VAR 6346
-var_654: Data1 VAR 6422
+g_eventLogCount: Data1 VAR 6422
 farPointer: Data1 VAR 6424
 var_656: Data1 VAR 6426
-var_657: Data1 VAR 6428
-var_658: Data1 VAR 642a
-var_659: Data1 VAR 642c
-var_660: Data1 VAR 642e
-var_661: Data1 VAR 6430
-var_662: Data1 VAR 6432
-var_663: Data1 VAR 6434
-var_664: Data1 VAR 6436
+g_objLocalX: Data1 VAR 6428
+g_objLocalY: Data1 VAR 642a
+g_objLocalZ: Data1 VAR 642c
+g_tileEntryIdx: Data1 VAR 642e
+g_tileWorldSize: Data1 VAR 6430
+g_tileGridDim: Data1 VAR 6432
+g_mapOriginX: Data1 VAR 6434
+g_mapOriginY: Data1 VAR 6436
 var_665: Data1 VAR 6438
-var_666: Data1 VAR 643a
+g_mapLodIndex: Data1 VAR 643a
 var_667: Data1 VAR 643c
-var_668: Data1 VAR 643e
-var_669: Data1 VAR 6440
-var_670: Data1 VAR 6442
-var_671: Data1 VAR 644a
-var_672: Data1 VAR 644c
-var_673: Data1 VAR 644e
-var_674: Data1 VAR 6450
-var_675: Data1 VAR 6452
-var_676: Data1 VAR 6454
-var_677: Data1 VAR 6456
+g_activeThreatCount: Data1 VAR 643e
+g_acqRange: Data1 VAR 6440
+g_acqAimY: Data1 VAR 6442
+g_lockToneFlag: Data1 VAR 644a
+g_targetRange: Data1 VAR 644c
+g_offscreenProjX: Data1 VAR 644e
+g_targetBearing: Data1 VAR 6450
+g_prevKillMarker: Data1 VAR 6452
+g_aamLeadDist: Data1 VAR 6454
+g_axisInput1: Data1 VAR 6456
 flt15_buf1: Data1 VAR 645a
 flt15_size: Data1 VAR 649a
-var_680: Data1 VAR 649c
-var_681: Data1 VAR 649e
-var_682: Data1 VAR 64a0
-var_683: Data1 VAR 64a2
-var_684: Data1 VAR 64a4
-var_685: Data1 VAR 64a6
-var_686: Data1 VAR 64a8
+g_trkRange: Data1 VAR 649c
+g_trkBearing: Data1 VAR 649e
+g_trkSize: Data1 VAR 64a0
+g_trkScale: Data1 VAR 64a2
+g_trkPitch: Data1 VAR 64a4
+g_trkRoll: Data1 VAR 64a6
+g_rngSeed: Data1 VAR 64a8
 var_687: Data1 VAR 64aa
 var_688: Data1 VAR 64ac
 var_689: Data1 VAR 64ae
@@ -1117,30 +1117,30 @@ var_697: Data1 VAR 64ba
 var_698: Data1 VAR 64bb
 var_699: Data1 VAR 64bc
 var_700: Data1 VAR 64be
-word_38F70: Data1 VAR 66c0
+g_unusedFrameVal: Data1 VAR 66c0
 word_38F72: Data1 VAR 66c2
-byte_38F8C: Data1 VAR 66dc
+g_strTruncDot: Data1 VAR 66dc
 byte_38F8D: Data1 VAR 66dd
 word_38FC4: Data1 VAR 6714
 var_706: Data1 VAR 6716
-word_38FC8: Data1 VAR 6718
-word_38FCC: Data1 VAR 671c
-word_38FCE: Data1 VAR 671e
+g_scopeCenterX: Data1 VAR 6718
+g_scopeCenterY: Data1 VAR 671c
+g_extViewPitch: Data1 VAR 671e
 var_710: Data1 VAR 672a
 word_38FDC: Data1 VAR 672c
 var_712: Data1 VAR 672e
 word_38FE0: Data1 VAR 6730
-dword_38FE2: Data1 VAR 6732
+g_floppyMotorPtr: Data1 VAR 6732
 var_715: Data1 VAR 6734
 fileHandle: Data1 VAR 6736
 word_38FE8: Data1 VAR 6738
 word_38FEA: Data1 VAR 673a
-word_38FEC: Data1 VAR 673c
-word_38FEE: Data1 VAR 673e
+g_threatRefHead: Data1 VAR 673c
+g_nearestThreatRange: Data1 VAR 673e
 gameData: Data1 VAR 6740
 var_722: Data1 VAR 6742
-word_38FF6: Data1 VAR 6746
-word_38FF8: Data1 VAR 6748
+g_finalThreatScore: Data1 VAR 6746
+g_tileEntryCount: Data1 VAR 6748
 word_38FFA: Data1 VAR 674a
 var_726: Data1 VAR 674c
 word_38FFC: Data1 VAR 674d
@@ -1160,11 +1160,11 @@ byte_3995A: Data1 VAR 70aa
 word_3995C: Data1 VAR 70ac
 val_3dt: Data1 VAR 70b4
 var_743: Data1 VAR 804e
-byte_3A900: Data1 VAR 8050
+g_topLodGrid: Data1 VAR 8050
 word_3A940: Data1 VAR 8090
 g_velocity: Data1 VAR 8094
 var_747: Data1 VAR 8096
-unk_3A948: Data1 VAR 8098
+g_camRotMatrix: Data1 VAR 8098
 var_749: Data1 VAR 809e
 var_750: Data1 VAR 80a4
 stru_3A95A: Data1 VAR 80aa
@@ -1188,10 +1188,10 @@ var_768: Data1 VAR 865c
 buf3d3_1: Data1 VAR 865e
 word_3AFA4: Data1 VAR 86f4
 var_771: Data1 VAR 86f6
-word_3AFA8: Data1 VAR 86f8
+g_northSouthSign: Data1 VAR 86f8
 var_773: Data1 VAR 86fa
 byte_3AFAC: Data1 VAR 86fc
-word_3B0AC: Data1 VAR 87fc
+g_threatTimerInit: Data1 VAR 87fc
 buf3d3_2: Data1 VAR 87fe
 word_3B144: Data1 VAR 8894
 word_3B146: Data1 VAR 8896
@@ -1226,8 +1226,8 @@ var_806: Data1 VAR 896e
 var_807: Data1 VAR 8970
 var_808: Data1 VAR 8972
 var_809: Data1 VAR 8974
-var_810: Data1 VAR 8978
-var_811: Data1 VAR 897a
+g_wingmanX: Data1 VAR 8978
+g_wingmanY: Data1 VAR 897a
 word_3B22C: Data1 VAR 897c
 word_3B22E: Data1 VAR 897e
 word_3B232: Data1 VAR 8982
@@ -1238,20 +1238,20 @@ var_819: Data1 VAR 8990
 var_820: Data1 VAR 8c22
 dword_3B4D4: Data1 VAR 8c24
 var_822: Data1 VAR 8c26
-word_3B4D8: Data1 VAR 8c28
+g_threatRefX: Data1 VAR 8c28
 var_824: Data1 VAR 8c2a
 word_3B4DC: Data1 VAR 8c2c
 word_3B4DE: Data1 VAR 8c2e
-word_3B4E0: Data1 VAR 8c30
+g_threatRefY: Data1 VAR 8c30
 hercFlag: Data1 VAR 8c32
-word_3B4E4: Data1 VAR 8c34
-byte_3B4E6: Data1 VAR 8c36
+g_viewRoll: Data1 VAR 8c34
+g_dynTileEntries: Data1 VAR 8c36
 var_831: Data1 VAR 8c37
 var_832: Data1 VAR 8c38
 var_833: Data1 VAR 8c39
 var_834: Data1 VAR 8c3a
 byte_3B4EC: Data1 VAR 8c3c
-word_3B5D6: Data1 VAR 8d26
+g_threatRefZ: Data1 VAR 8d26
 g_ViewX: Data1 VAR 8f2a
 var_838: Data1 VAR 8f2c
 var_839: Data1 VAR 8f2e
@@ -1268,24 +1268,24 @@ byte_3B7F0: Data1 VAR 8f40
 byte_3B7F1: Data1 VAR 8f41
 g_ViewY: Data1 VAR 8f48
 var_852: Data1 VAR 8f4a
-byte_3B7FC: Data1 VAR 8f4c
+g_replayLog: Data1 VAR 8f4c
 var_854: Data1 VAR 8f4e
 var_855: Data1 VAR 8f4f
 var_856: Data1 VAR 8f50
 var_857: Data1 VAR 8f51
 var_858: Data1 VAR 954c
 word_3BE3C: Data1 VAR 958c
-byte_3BE3E: Data1 VAR 958e
+g_modelVertY: Data1 VAR 958e
 var_861: Data1 VAR 95ce
 var_862: Data1 VAR 95d0
 keyValue: Data1 VAR 95e0
 word_3BE92: Data1 VAR 95e2
-word_3BE94: Data1 VAR 95e4
+g_viewPitch: Data1 VAR 95e4
 word_3BE96: Data1 VAR 95e6
 word_3BE98: Data1 VAR 95e8
 var_868: Data1 VAR 95ec
 var_869: Data1 VAR 960c
-word_3BEBE: Data1 VAR 960e
+g_groundAltitude: Data1 VAR 960e
 g_viewX_: Data1 VAR 9610
 word_3BEC2: Data1 VAR 9612
 byte_3BEC4: Data1 VAR 9614
@@ -1294,8 +1294,8 @@ sign3d3: Data1 VAR 961a
 var_876: Data1 VAR 961c
 var_877: Data1 VAR 961e
 g_viewY_: Data1 VAR 9620
-word_3BED2: Data1 VAR 9622
-word_3BED4: Data1 VAR 9624
+g_planeCount: Data1 VAR 9622
+g_unusedEventHist0: Data1 VAR 9624
 word_3BED6: Data1 VAR 9626
 byte_3BED8: Data1 VAR 9628
 var_883: Data1 VAR 968c
@@ -1303,9 +1303,9 @@ var_884: Data1 VAR 968e
 g_gunHits: Data1 VAR 96e0
 regs: Data1 VAR 96e2
 byte_3BF93: Data1 VAR 96e3
-unk_3BF95: Data1 VAR 96e5
-unk_3BF96: Data1 VAR 96e6
-unk_3BF98: Data1 VAR 96e8
+g_biosPixelPage: Data1 VAR 96e5
+g_biosPixelX: Data1 VAR 96e6
+g_biosPixelY: Data1 VAR 96e8
 var_891: Data1 VAR 96f0
 word_3BFA2: Data1 VAR 96f2
 byte_3BFA4: Data1 VAR 96f4
@@ -1316,42 +1316,42 @@ flagFarToNear: Data1 VAR 9760
 keyScancode: Data1 VAR 9762
 var_899: Data1 VAR 9764
 word_3C016: Data1 VAR 9766
-word_3C018: Data1 VAR 9768
-word_3C01A: Data1 VAR 976a
-dword_3C01C: Data1 VAR 976c
+g_scopeClipLeft: Data1 VAR 9768
+g_scopeClipTop: Data1 VAR 976a
+g_viewTargetX: Data1 VAR 976c
 var_904: Data1 VAR 976e
-word_3C020: Data1 VAR 9770
-dword_3C024: Data1 VAR 9774
+g_loftTargetIdx: Data1 VAR 9770
+g_viewTargetY: Data1 VAR 9774
 var_907: Data1 VAR 9776
 word_3C028: Data1 VAR 9778
 byte_3C02A: Data1 VAR 977a
-word_3C02C: Data1 VAR 977c
+g_viewTargetAlt: Data1 VAR 977c
 word_3C02E: Data1 VAR 977e
 word_3C03A: Data1 VAR 978a
 var_913: Data1 VAR 978e
 word_3C040: Data1 VAR 9790
-word_3C042: Data1 VAR 9792
+g_tileZoomShift: Data1 VAR 9792
 word_3C044: Data1 VAR 9794
-word_3C046: Data1 VAR 9796
+g_groundUnitCount: Data1 VAR 9796
 var_918: Data1 VAR 9798
-word_3C09A: Data1 VAR 97ea
+g_mapMode: Data1 VAR 97ea
 var_920: Data1 VAR 97ec
-word_3C09E: Data1 VAR 97ee
+g_activePanelMode: Data1 VAR 97ee
 var_922: Data1 VAR 97f0
-word_3C0A2: Data1 VAR 97f2
+g_targetNameTable: Data1 VAR 97f2
 var_924: Data1 VAR 97f4
 g_closestThreatIndex: Data1 VAR 98ba
-word_3C16C: Data1 VAR 98bc
-byte_3C16E: Data1 VAR 98be
+g_curLod: Data1 VAR 98bc
+g_stringPool: Data1 VAR 98be
 g_currentWeaponType: Data1 VAR 9bac
-word_3C45E: Data1 VAR 9bae
+g_scopeClipRight: Data1 VAR 9bae
 matrix3dt_2: Data1 VAR 9bb0
 byte_3C5A0: Data1 VAR 9cf0
-word_3C5A2: Data1 VAR 9cf2
+g_scopeClipBottom: Data1 VAR 9cf2
 var_933: Data1 VAR 9cf4
 word_3C5A6: Data1 VAR 9cf6
-word_3C5A8: Data1 VAR 9cf8
-word_3C5AA: Data1 VAR 9cfa
+g_curTileEntry: Data1 VAR 9cf8
+g_viewHeading: Data1 VAR 9cfa
 var_937: Data1 VAR 9cfb
 word_3C5AC: Data1 VAR 9cfc
 word_3C5AE: Data1 VAR 9cfe
@@ -1359,10 +1359,10 @@ word_3C5B0: Data1 VAR 9d00
 word_3C5B2: Data1 VAR 9d02
 word_3C5B4: Data1 VAR 9d04
 word_3C5B6: Data1 VAR 9d06
-word_3C69C: Data1 VAR 9dec
+g_overlayCenterX: Data1 VAR 9dec
 word_3C69E: Data1 VAR 9dee
 var_946: Data1 VAR 9df0
-word_3C6A2: Data1 VAR 9df2
+g_overlayCenterY: Data1 VAR 9df2
 word_3C6A4: Data1 VAR 9df4
 commData: Data1 VAR 9df6
 var_950: Data1 VAR 9df8
@@ -1372,7 +1372,7 @@ word_3C6AE: Data1 VAR 9dfe
 var_954: Data1 VAR a000
 var_955: Data1 VAR a002
 gfxBufPtr: Data1 VAR a004
-word_3C8B6: Data1 VAR a006
+g_climbRate: Data1 VAR a006
 var_958: Data1 VAR a008
 var_959: Data1 VAR a00a
 var_960: Data1 VAR a00c

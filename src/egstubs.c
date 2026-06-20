@@ -59,13 +59,13 @@ void setTimerIrqHandler() { }
 void pascal shiftLongLeftInPlace(int count, long *ptr) {}
 void pascal shiftLongRightInPlace(int count, long *ptr) {}
 int sine(int arg_0) { return 0; }
-int far sub_1FEEC(int) { return 0; }
-int far sub_202C7(int, int, int) { return 0; }
-int far sub_2044A() { return 0; }
-int far sub_20658() { return 0; }
-void __cdecl __far sub_21A7E() {}
+int far drawFlatHorizon(int) { return 0; }
+int far transformAndCullObjectFar(int, int, int) { return 0; }
+int far rotatePoint3dFar() { return 0; }
+int far transformModelVerticesFar() { return 0; }
+void __cdecl __far setupInstrumentLayoutFar() {}
 int writeFileAtRaw(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) { return 0; }
-int far sub_202F6() { return 0; }
+int far renderSortedListFar() { return 0; }
 
 /* --- slot.h overlay jump stubs (egame doesn't link shared/ovlstub.c) --- */
 int misc_getKey() { return 0; }

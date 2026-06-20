@@ -25,18 +25,18 @@ void renderHudFrame(int arg_0) {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E, var_10, var_12, var_14, var_16, var_18, var_1A;
     char var_1C;
     TRACE(("renderHudFrame: enter"));
-    byte_3C5A0 = gfx_getDisplayPage();
+    g_drawPage = gfx_getDisplayPage();
     TRACE(("renderHudFrame: after getDisplayPage=%d"));
     // probably x,y
     var_16 = waypoints[waypointIndex].mapX - g_viewX_;
     var_1A = waypoints[waypointIndex].mapY - g_viewY_;
-    TRACE(("renderHudFrame: after waypoints, word_330C2=%d", word_330C2));
-    word_3BE92 = computeBearing(var_16, -var_1A);
+    TRACE(("renderHudFrame: after waypoints, g_hudVisible=%d", g_hudVisible));
+    g_waypointBearing = computeBearing(var_16, -var_1A);
     TRACE(("renderHudFrame: after computeBearing"));
-    if (word_330C2 != 0) {
-        TRACE(("renderHudFrame: word_330C2 branch, word_38FEA=%d", word_38FEA));
-        if (word_38FEA != 0) {
-            word_38FEA = 0;
+    if (g_hudVisible != 0) {
+        TRACE(("renderHudFrame: g_hudVisible branch, g_damageTakenFlag=%d", g_damageTakenFlag));
+        if (g_damageTakenFlag != 0) {
+            g_damageTakenFlag = 0;
             if (!(keyValue & 0x80)) {
                 TRACE(("renderHudFrame: calling setDrawColor(0xd)"));
                 setDrawColor(0xd);
@@ -45,9 +45,9 @@ void renderHudFrame(int arg_0) {
                 gfx_setDacAnimCount(0x3c);
             }
         }
-        TRACE(("renderHudFrame: past 8ed2, keyValue=%d byte_37C24=%d", keyValue, byte_37C24));
-        byte_37C2F = 1;
-        if (keyValue == 0 && byte_37C24 == 0) {
+        TRACE(("renderHudFrame: past 8ed2, keyValue=%d g_halfScaleRender=%d", keyValue, g_halfScaleRender));
+        g_hudDrawnFlag = 1;
+        if (keyValue == 0 && g_halfScaleRender == 0) {
             TRACE(("renderHudFrame: entering keyValue==0 branch, setupUseJoy=%d", commData->setupUseJoy));
             if (!commData->setupUseJoy) {
                 TRACE(("renderHudFrame: calling setDrawColor(0)"));
@@ -69,36 +69,36 @@ void renderHudFrame(int arg_0) {
                 drawViewportLine(0x9c, 0x59, 0xa4, 0x59);
                 drawViewportLine(0xa0, 0x56, 0xa0, 0x5c);
             }
-            setDrawColor(word_330BC != 0 ? 4 : 0);
-            var_10 = clampRange((((word_3C5A6 - g_knots) * 2) / 5) + 0x1d, 0, 0x3d);
+            setDrawColor(g_nightMode != 0 ? 4 : 0);
+            var_10 = clampRange((((g_cornerSpeed - g_knots) * 2) / 5) + 0x1d, 0, 0x3d);
             if (var_10) drawViewportLine(0x48, 0x55 - var_10, 0x48, 0x55);
-            drawViewportLine(0xf7,  0x38, 0xf7, clampRange(-((word_3C8B6 >> 4) - 0x38), 0x14, 0x55));
-            if ((g_playerPlaneFlags & 1) == 0 && (frameTick & 1) != 0 && gameData->unk4 != 0 && word_3C8B6 < 0) {
+            drawViewportLine(0xf7,  0x38, 0xf7, clampRange(-((g_climbRate >> 4) - 0x38), 0x14, 0x55));
+            if ((g_playerPlaneFlags & 1) == 0 && (frameTick & 1) != 0 && gameData->unk4 != 0 && g_climbRate < 0) {
                 var_2 = (((g_planeTable.planes[g_closestThreatIndex].flags & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
                 setDrawColor(0xf);
                 drawViewportLine(0xf2, var_2 - 2, 0xf4, var_2);
                 drawViewportLine(0xf2, var_2 + 2, 0xf4, var_2);
             }
             // stall warning display
-            if (g_knots < word_3C5A6 && word_3BEBE != g_viewZ && frameTick & 1) {
+            if (g_knots < g_cornerSpeed && g_groundAltitude != g_viewZ && frameTick & 1) {
                 drawStringActivePage(aStallWarning, 0x84, 0x1e, 0xf);
             }
             if (g_currentWeaponType == 0 || g_currentWeaponType == 2) {
                 setDrawColor(7);
-                word_3C008 = (word_38FC4 >> 6) + 0x38;
-                if (word_3C008 > 0xa && word_3C008 < 0x6f) {
-                    blitSprite(0x9a, word_3C008 - 4, 0x94, 0x15, 0x0b, 7, 0xf);
+                g_flightPathMarkerY = (g_rollPitchTrim >> 6) + 0x38;
+                if (g_flightPathMarkerY > 0xa && g_flightPathMarkerY < 0x6f) {
+                    blitSprite(0x9a, g_flightPathMarkerY - 4, 0x94, 0x15, 0x0b, 7, 0xf);
                 }
             }
             if (g_currentWeaponType == 1) {
-                var_1C = byte_37C24 + 4;
-                var_14 = (word_3C6A4 >> var_1C) + 0x9f;
-                var_18 = (word_3C6AC >> var_1C) + 0x38;
+                var_1C = g_halfScaleRender + 4;
+                var_14 = (g_aamSeekerX >> var_1C) + 0x9f;
+                var_18 = (g_aamSeekerY >> var_1C) + 0x38;
                 if (var_14 > 0xa && var_14 < 0x135 && var_18 > 8 && var_18 < 0x5b) {
                     blitSprite(var_14 - 6, var_18 - 5, 0x91, 0x4, 0xd, 0xb, 0xe);
                 }
                 // 7 = air to air? Only Sidewinder and Amraam have it
-                if (sams[missiles[missleSpec[missileSpecIndex].weaponIdx].field_16].field_C == 7) {
+                if (sams[missiles[missleSpec[missileSpecIndex].weaponIdx].specIndex].weaponClass == 7) {
                     setDrawColor((uint8)gfxModeUnset != 0 ? 0xf : 7);
                     for (var_A = 0; var_A <= 0x100; var_A += 0x10) {
                         var_4 = var_A << 8;
@@ -111,10 +111,10 @@ void renderHudFrame(int arg_0) {
                 }
             }
             drawNumber(g_knots, 0x50, 0x36, 0xf);
-            if (word_380D0 <= 0x4e20) {
-                drawNumber(word_380D0 < 0x64 ? word_380D0 : (word_380D0 / 5) * 5, 0xe4, 0x36, 0xf);
+            if (g_altitude <= 0x4e20) {
+                drawNumber(g_altitude < 0x64 ? g_altitude : (g_altitude / 5) * 5, 0xe4, 0x36, 0xf);
             }
-            if (word_3370A > 1) {
+            if (g_slowMotionMode > 1) {
                 drawStringBothPages(aAccel, 0x96, 0x4, 0xf);
             }
             if (g_playerPlaneFlags & 0x1000) {
@@ -123,7 +123,7 @@ void renderHudFrame(int arg_0) {
             if (g_autopilotAltitude != 0) {
                 drawStringBothPages(aAutopilot, 0xec, 0x5a, 0xf);
             }
-            var_6 = clampRange((((word_3BE92 - g_ourHead) >> 6) / 3) + 0x9f, 0x59, 0xe5);
+            var_6 = clampRange((((g_waypointBearing - g_ourHead) >> 6) / 3) + 0x9f, 0x59, 0xe5);
             setDrawColor(0x0b);
             drawViewportLine(var_6 - 2, 0xf, var_6, 0x11);
             drawViewportLine(var_6, 0x11, var_6 + 2, 0xf);
@@ -131,31 +131,31 @@ void renderHudFrame(int arg_0) {
             goto somewhere;
         }
 somewhere:
-        drawTacticalMap(byte_3C5A0);
+        drawTacticalMap(g_drawPage);
     }
-    if (word_383F2 != 0 && ((keyValue == 0 && byte_37C24 == 0) || (word_3370E != 0))) {
+    if (g_hudMsgTimer != 0 && ((keyValue == 0 && g_halfScaleRender == 0) || (g_directorMode != 0))) {
         drawStringActivePage(tempString, -(((int16)strlen(tempString) >> 1) - 0x28) * 4, 0x18, 0xf);
-        word_383F2--;
-        if (word_336EA == 1) {
-            drawStringActivePage(aPressAnyKeyToP, 0x78, 1, word_330BC != 0 ? 0xe : 0);
+        g_hudMsgTimer--;
+        if (g_autopilotEngaged == 1) {
+            drawStringActivePage(aPressAnyKeyToP, 0x78, 1, g_nightMode != 0 ? 0xe : 0);
         }
     }
-    if (word_383F4 != 0 && keyValue == 0 && byte_37C24 == 0) {
+    if (g_dirMsgTimer != 0 && keyValue == 0 && g_halfScaleRender == 0) {
         drawStringActivePage(string_3C04A, -(((int16)strlen(string_3C04A) >> 1) - 0x28) * 4, 0x5a, 0xf);
-        word_383F4--;
+        g_dirMsgTimer--;
     }
 }
 
 // ==== seg000:0x94d0 routine_189 ====
 void setActivePanel(int panelId) {
     int p, a, b, c, d, e, f, g, h, i;
-    if (word_330C2 == 0) {
+    if (g_hudVisible == 0) {
         return;
     }
     switch (panelId) {
     case 0x13:
         strcpy(strBuf, aTrackcam);
-        switch (word_3C8B2) {
+        switch (g_viewHeadingOffset) {
         case 0:
             strcat(strBuf, aAhead);
             break;
@@ -172,26 +172,26 @@ void setActivePanel(int panelId) {
         drawPanelText(2, strBuf, 3);
         break;
     }
-    word_3C09E = panelId;
+    g_activePanelMode = panelId;
 }
 
 // ==== seg000:0x957a ====
 void refreshActivePanel(int panelId) {
     int p;
-    if (panelId == word_3C09E) {
+    if (panelId == g_activePanelMode) {
         setActivePanel(panelId);
     }
 }
 
 // ==== seg000:0x9595 ====
 void initTacMapView(void) {
-    word_3C09A = 0;
-    word_3C018 = 0x18;
-    word_3C45E = 0x60;
-    word_3C01A = 0x70;
-    word_3C5A2 = 0xa8;
-    word_38FC8 = 0x48;
-    word_38FCC = 0x38;
+    g_mapMode = 0;
+    g_scopeClipLeft = 0x18;
+    g_scopeClipRight = 0x60;
+    g_scopeClipTop = 0x70;
+    g_scopeClipBottom = 0xa8;
+    g_scopeCenterX = 0x48;
+    g_scopeCenterY = 0x38;
     zoomIn();
 }
 
@@ -199,27 +199,27 @@ void initTacMapView(void) {
 void redrawTacMap(int centerX, int centerY) {
     int16 p, a, b, c, d;
 
-    word_3C09A = 0;
-    if (word_330C2 == 0) {
+    g_mapMode = 0;
+    if (g_hudVisible == 0) {
         return;
     }
     drawPanelText(1, aMap, 0);
-    b = 0x48 << (9 - byte_383E5);
-    var_589 = clampRange(sinMul(g_ourHead, 0x4000 >> byte_383E5) + centerX, b, 0x7fff - b);
-    b = (0x38 << (9 - byte_383E5)) / 3 * 4;
-    var_590 = clampRange(centerY - cosMul(g_ourHead, 0x4000 >> byte_383E5), b, 0x7fff - b);
+    b = 0x48 << (9 - g_mapZoomLevel);
+    g_mapCenterX = clampRange(sinMul(g_ourHead, 0x4000 >> g_mapZoomLevel) + centerX, b, 0x7fff - b);
+    b = (0x38 << (9 - g_mapZoomLevel)) / 3 * 4;
+    g_mapCenterY = clampRange(centerY - cosMul(g_ourHead, 0x4000 >> g_mapZoomLevel), b, 0x7fff - b);
     loadColorPalette(commData->gfxModeNum != 0 ? 0 : 3);
     gfx_setFadeSteps(0x13);
-    renderMapTerrain(var_567, var_589 / 2, -(var_590 / 2 - 0x4000), 9 - byte_383E5);
+    renderMapTerrain(g_mapTerrainMode, g_mapCenterX / 2, -(g_mapCenterY / 2 - 0x4000), 9 - g_mapZoomLevel);
     if (gameData->theater < 2) {
         gfx_setFadeSteps(0xc);
     } else {
         gfx_setFadeSteps(0x10);
     }
-    d = byte_3C5A0;
-    byte_3C5A0 = gfx_getDisplayPage();
-    for (b = 1; b < word_3BED2; b++) {
-        if (g_planeTable.planes[b].field_4 != 0 && !(g_planeTable.planes[b].flags & 0x80) &&
+    d = g_drawPage;
+    g_drawPage = gfx_getDisplayPage();
+    for (b = 1; b < g_planeCount; b++) {
+        if (g_planeTable.planes[b].active != 0 && !(g_planeTable.planes[b].flags & 0x80) &&
             objectToScreen(g_planeTable.planes[b].mapX, g_planeTable.planes[b].mapY, &p, &a)) {
             blitSprite(p - 1, a - 1, 0xa4, 0, 4, 4, 0);
         }
@@ -234,11 +234,11 @@ void redrawTacMap(int centerX, int centerY) {
             blitSprite(p - 1, a - 1, (uint8)gfxModeUnset != 0 ? 0xb4 : 0xa8, 0, 4, 4, 0);
         }
     }
-    byte_3C5A0 = d;
+    g_drawPage = d;
     if ((char)gfx_getDisplayPage() == 0) {
         cacheScopePanel();
     } else {
-        gfx_copyRect(*off_3834C, 0x18, 0x70, *off_38364, 0x18, 0x70, 0x48, 0x38);
+        gfx_copyRect(*g_pageBack, 0x18, 0x70, *g_pageOffscreen, 0x18, 0x70, 0x48, 0x38);
     }
     restoreScopePanel();
     resetSimObjectLocks();
@@ -247,14 +247,14 @@ void redrawTacMap(int centerX, int centerY) {
 // ==== seg000:0x9875 ====
 void zoomIn(void) {
     if (keyValue & 0x80) {
-        word_336FE--;
+        g_externalCamDist--;
     } else {
-        if (word_3C09A == 0 && byte_383E5 < 9) {
-            byte_383E5++;
+        if (g_mapMode == 0 && g_mapZoomLevel < 9) {
+            g_mapZoomLevel++;
             redrawTacMap(g_viewX_, g_viewY_);
         }
-        if (word_3C09A == 1) {
-            var_588++;
+        if (g_mapMode == 1) {
+            g_radarScopeRange++;
         }
     }
 }
@@ -262,38 +262,38 @@ void zoomIn(void) {
 // ==== seg000:0x98b1 ====
 void zoomOut(void) {
     if (keyValue & 0x80) {
-        word_336FE++;
+        g_externalCamDist++;
     } else {
-        if (word_3C09A == 0 && byte_383E5 > 2) {
-            byte_383E5--;
+        if (g_mapMode == 0 && g_mapZoomLevel > 2) {
+            g_mapZoomLevel--;
             redrawTacMap(g_viewX_, g_viewY_);
         }
-        if (word_3C09A == 1 && var_588 != 0) {
-            var_588--;
+        if (g_mapMode == 1 && g_radarScopeRange != 0) {
+            g_radarScopeRange--;
         }
     }
 }
 
 // ==== seg000:0x98fa ====
 int mapXToScreen(int mapX) {
-    return ((mapX - var_589) >> (10 - (int)byte_383E5)) + 0x3C;
+    return ((mapX - g_mapCenterX) >> (10 - (int)g_mapZoomLevel)) + 0x3C;
 }
 
 // ==== seg000:0x9915 ====
 int mapYToScreen(int mapY) {
-    return (((mapY - var_590) >> (10 - (int)byte_383E5)) * 3 >> 1 >> 1) + 0x8C;
+    return (((mapY - g_mapCenterY) >> (10 - (int)g_mapZoomLevel)) * 3 >> 1 >> 1) + 0x8C;
 }
 
 // ==== seg000:0x993a ====
 int plotMapObject(int mapX, int mapY, int color, int big) {
     int p;
     int a;
-    if (word_3C09A != 0 || word_330C2 == 0) {
+    if (g_mapMode != 0 || g_hudVisible == 0) {
         return 0;
     }
     p = mapXToScreen(mapX);
     a = mapYToScreen(mapY);
-    if (color != -1 && p >= word_3C018 && p < word_3C45E - 1 && a >= word_3C01A && a < word_3C5A2 - 1) {
+    if (color != -1 && p >= g_scopeClipLeft && p < g_scopeClipRight - 1 && a >= g_scopeClipTop && a < g_scopeClipBottom - 1) {
         drawMapPoint(p, a, color);
         if (big != 0) {
             drawMapPoint(p + 1, a, color);
@@ -308,13 +308,13 @@ int plotMapObject(int mapX, int mapY, int color, int big) {
 
 // ==== seg000:0x99ec ====
 int objectToScreen(int mapX, int mapY, int16 *outScreenX, int16 *outScreenY) {
-    if (word_330C2 == 0) {
+    if (g_hudVisible == 0) {
         return 0;
     }
     *outScreenX = mapXToScreen(mapX);
     *outScreenY = mapYToScreen(mapY);
-    if (word_3C018 < *outScreenX && word_3C45E - 1 > *outScreenX &&
-        word_3C01A < *outScreenY && word_3C5A2 - 1 > *outScreenY) {
+    if (g_scopeClipLeft < *outScreenX && g_scopeClipRight - 1 > *outScreenX &&
+        g_scopeClipTop < *outScreenY && g_scopeClipBottom - 1 > *outScreenY) {
         return 1;
     } else {
         return 0;
@@ -329,13 +329,13 @@ int readMapPixelColor(int mapX, int mapY) {
     int p;
     int a;
     int b;
-    if (word_3C09A != 0) return 0;
+    if (g_mapMode != 0) return 0;
     p = mapXToScreen(mapX);
     a = mapYToScreen(mapY);
-    p = clampRange(p, word_3C018, word_3C45E);
-    a = clampRange(a, word_3C01A, word_3C5A2);
+    p = clampRange(p, g_scopeClipLeft, g_scopeClipRight);
+    a = clampRange(a, g_scopeClipTop, g_scopeClipBottom);
     b = -1;
-    if (p > word_3C018 && p < word_3C45E && a > word_3C01A && a < word_3C5A2) {
+    if (p > g_scopeClipLeft && p < g_scopeClipRight && a > g_scopeClipTop && a < g_scopeClipBottom) {
         b = readScreenPixel(p, a);
     }
     return b;
@@ -378,7 +378,7 @@ void drawMapRangeArc(int centerX, int centerY, int radius, int color, int connec
 
 // ==== seg000:0x9b98 ====
 void drawMapLine(int x1, int y1, int x2, int y2) {
-    drawClippedLineRegion(mapXToScreen(x1), mapYToScreen(y1), mapXToScreen(x2), mapYToScreen(y2), word_3C018, word_3C45E, word_3C01A, word_3C5A2, 1);
+    drawClippedLineRegion(mapXToScreen(x1), mapYToScreen(y1), mapXToScreen(x2), mapYToScreen(y2), g_scopeClipLeft, g_scopeClipRight, g_scopeClipTop, g_scopeClipBottom, 1);
 }
 
 // ==== seg000:0x9be1 ====
@@ -390,16 +390,16 @@ void drawFullscreenLine(int x1, int y1, int x2, int y2) {
 void drawViewportLine(int x1, int y1, int x2, int y2) {
     int p, a;
 
-    a = off_38334[10] - off_38334[9] + 1;
-    p = off_38334[8] - off_38334[7] + 1;
-    gfx_setBlitOffset(gfx_calcRowAddr(off_38334[9], off_38334[7]));
-    word_37557 = a - 1;
-    word_37559 = p - 1;
-    gfx_setColor(off_38334[2]);
-    word_3755D = x1;
-    word_37561 = y1;
-    word_3755F = x2;
-    word_37563 = y2;
+    a = g_pageFront[10] - g_pageFront[9] + 1;
+    p = g_pageFront[8] - g_pageFront[7] + 1;
+    gfx_setBlitOffset(gfx_calcRowAddr(g_pageFront[9], g_pageFront[7]));
+    g_clipMaxX = a - 1;
+    g_clipMaxY = p - 1;
+    gfx_setColor(g_pageFront[2]);
+    g_lineX1 = x1;
+    g_lineY1 = y1;
+    g_lineX2 = x2;
+    g_lineY2 = y2;
     drawClipLineGlobal();
     gfx_nop23();
 }
@@ -411,29 +411,29 @@ void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int arg
     a = arg_a - clipLeft + 1;
     p = arg_e - arg_c + 1;
     gfx_setBlitOffset(gfx_calcRowAddr(clipLeft, arg_c));
-    word_37557 = a - 1;
-    word_37559 = p - 1;
-    gfx_setColor(off_38334[2]);
-    word_3755D = x1 - clipLeft;
-    word_37561 = y1 - arg_c;
-    word_3755F = x2 - clipLeft;
-    word_37563 = y2 - arg_c;
+    g_clipMaxX = a - 1;
+    g_clipMaxY = p - 1;
+    gfx_setColor(g_pageFront[2]);
+    g_lineX1 = x1 - clipLeft;
+    g_lineY1 = y1 - arg_c;
+    g_lineX2 = x2 - clipLeft;
+    g_lineY2 = y2 - arg_c;
     drawClipLineGlobal();
     gfx_nop23();
     if (drawBothPages != 0) {
-        byte_3C5A0 = gfx_getDisplayPage();
-        gfx_setPageN(byte_3C5A0 == 0);
-        gfx_setColor(off_38334[2]);
-        word_3755D = x1 - clipLeft;
-        word_37561 = y1 - arg_c;
-        word_3755F = x2 - clipLeft;
-        word_37563 = y2 - arg_c;
+        g_drawPage = gfx_getDisplayPage();
+        gfx_setPageN(g_drawPage == 0);
+        gfx_setColor(g_pageFront[2]);
+        g_lineX1 = x1 - clipLeft;
+        g_lineY1 = y1 - arg_c;
+        g_lineX2 = x2 - clipLeft;
+        g_lineY2 = y2 - arg_c;
         drawClipLineGlobal();
-        gfx_setPageN(byte_3C5A0 != 0);
+        gfx_setPageN(g_drawPage != 0);
         gfx_nop23();
     }
-    word_37557 = 0x13f;
-    word_37559 = 0xc7;
+    g_clipMaxX = 0x13f;
+    g_clipMaxY = 0xc7;
     gfx_setBlitOffset(0);
 }
 
@@ -444,7 +444,7 @@ void drawScreenLineOnePage(int x1, int y1, int x2, int y2) {
 
 // ==== seg000:0x9db0 ====
 void drawHudViewLine(int x1, int y1, int x2, int y2) {
-    if (byte_37C24 != 0) {
+    if (g_halfScaleRender != 0) {
         if (gameData->unk4 < 2) {
             drawViewportLine(x1, y1, x2, y2);
         } else {
@@ -459,18 +459,18 @@ void drawHudViewLine(int x1, int y1, int x2, int y2) {
 
 // ==== seg000:0x9e44 ====
 void setDrawColor(int color) {
-    off_38334[2] = color;
-    off_3834C[2] = color;
+    g_pageFront[2] = color;
+    g_pageBack[2] = color;
 }
 
 // ==== seg000:0x9e5d ====
 void fillRectBoth(int x1, int y1, int x2, int y2) {
 #ifdef DEBUG
     if (frameTick < 80)
-        TRACE_KEY(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", frameTick, x1, y1, x2, y2, x2-x1+1, y2-y1+1, (int)off_38334[2], (int)off_38334[0x10]));
+        TRACE_KEY(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", frameTick, x1, y1, x2, y2, x2-x1+1, y2-y1+1, (int)g_pageFront[2], (int)g_pageFront[0x10]));
 #endif
-    fillSpanRect(off_38334, x1, y1, x2, y2);
-    fillSpanRect(off_3834C, x1, y1, x2, y2);
+    fillSpanRect(g_pageFront, x1, y1, x2, y2);
+    fillSpanRect(g_pageBack, x1, y1, x2, y2);
 }
 
 // ==== seg000:0x9e94 ====
@@ -487,11 +487,11 @@ void drawMapPoint(int x, int y, int color) {
 
 // ==== seg000:0x9eb6 ====
 void switchIndicatorColor(int indicatorIdx, int color) {
-    if (word_330C2 == 0) goto done;
-    if (*(word_38202 + indicatorIdx * 5 + 7) != color) {
-        gfx_switchColor(off_38334, *(word_38202 + indicatorIdx * 5 + 3), *(word_38202 + indicatorIdx * 5 + 4), *(word_38202 + indicatorIdx * 5 + 5), *(word_38202 + indicatorIdx * 5 + 6), *(word_38202 + indicatorIdx * 5 + 7), color);
-        gfx_switchColor(off_3834C, *(word_38202 + indicatorIdx * 5 + 3), *(word_38202 + indicatorIdx * 5 + 4), *(word_38202 + indicatorIdx * 5 + 5), *(word_38202 + indicatorIdx * 5 + 6), *(word_38202 + indicatorIdx * 5 + 7), color);
-        *(word_38202 + indicatorIdx * 5 + 7) = color;
+    if (g_hudVisible == 0) goto done;
+    if (*(g_tacmapIndicators + indicatorIdx * 5 + 7) != color) {
+        gfx_switchColor(g_pageFront, *(g_tacmapIndicators + indicatorIdx * 5 + 3), *(g_tacmapIndicators + indicatorIdx * 5 + 4), *(g_tacmapIndicators + indicatorIdx * 5 + 5), *(g_tacmapIndicators + indicatorIdx * 5 + 6), *(g_tacmapIndicators + indicatorIdx * 5 + 7), color);
+        gfx_switchColor(g_pageBack, *(g_tacmapIndicators + indicatorIdx * 5 + 3), *(g_tacmapIndicators + indicatorIdx * 5 + 4), *(g_tacmapIndicators + indicatorIdx * 5 + 5), *(g_tacmapIndicators + indicatorIdx * 5 + 6), *(g_tacmapIndicators + indicatorIdx * 5 + 7), color);
+        *(g_tacmapIndicators + indicatorIdx * 5 + 7) = color;
     }
 done:
     ;
@@ -519,16 +519,16 @@ void fillPanelBox(int panelId, int color) {
 
 // ==== seg000:0xa0cb ====
 void drawStringBothPages(const char *text, int screenX, int screenY, int color) {
-    drawStringCentered(off_38334, text, screenX, screenY, color);
-    drawStringCentered(off_3834C, text, screenX, screenY, color);
+    drawStringCentered(g_pageFront, text, screenX, screenY, color);
+    drawStringCentered(g_pageBack, text, screenX, screenY, color);
 }
 
 // ==== seg000:0xa0fe ====
 void drawStringActivePage(const char *text, int screenX, int screenY, int color) {
-    if (byte_3C5A0 == 0) {
-        drawStringCentered(off_38334, text, screenX, screenY, color);
+    if (g_drawPage == 0) {
+        drawStringCentered(g_pageFront, text, screenX, screenY, color);
     } else {
-        drawStringCentered(off_3834C, text, screenX, screenY, color);
+        drawStringCentered(g_pageBack, text, screenX, screenY, color);
     }
 }
 
@@ -556,9 +556,9 @@ void drawNumber(int value, int x, int y, int color) {
 // ==== seg000:0xa1b1 ====
 int readScreenPixel(int screenX, int screenY) {
     regs.h.ah = 0x0D;
-    unk_3BF96 = screenX;
-    unk_3BF98 = screenY;
-    unk_3BF95 = 0;
+    g_biosPixelX = screenX;
+    g_biosPixelY = screenY;
+    g_biosPixelPage = 0;
     int86(0x10, &regs, &regs);
     return regs.h.al;
 }
@@ -566,16 +566,16 @@ int readScreenPixel(int screenX, int screenY) {
 // ==== seg000:0xa1e4 ====
 void tempStrcpy(char *src) {
     strcpy(tempString, src);
-    word_383F2 = g_frameRateScaling * 3;
+    g_hudMsgTimer = g_frameRateScaling * 3;
 }
 
 // ==== seg000:0xa204 ====
 void setTimedMessage(char *message) {
     strcpy(string_3C04A, message);
-    word_383F4 = g_frameRateScaling * 3;
+    g_dirMsgTimer = g_frameRateScaling * 3;
 }
 
 // ==== seg000:0xa224 ====
 int missileTargetCompat(int param_1, int objIdx) {
-    return (int)(char)var_83[param_1 * 13 + ((int)(char)byte_3BFA4[g_planeTable.planes[objIdx].field_C & 0x7f] & 0xf)];
+    return (int)(char)g_targetCompatTable[param_1 * 13 + ((int)(char)g_shapeTargetCategory[g_planeTable.planes[objIdx].nameIndex & 0x7f] & 0xf)];
 }

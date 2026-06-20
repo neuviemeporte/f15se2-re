@@ -35,13 +35,13 @@ void stepFlightModel(void) {
     int16 n;                    // var_3C: bp-0x3c (bucket 14)
     int16 o;                    // var_3E: bp-0x3e (bucket 15)
 
-    if (word_3BECC == 0) {
+    if (g_initPhase == 0) {
         // (MSC stores chained assignments right-to-left:
         // ref store order is thrust, setThrust, velocity, 380D0, viewZ, roll, pitch)
         g_ourPitch =
         g_ourRoll =
         g_viewZ =
-        word_380D0 =
+        g_altitude =
         g_velocity =
         g_setThrust =
         g_thrust = 0;
@@ -61,15 +61,15 @@ void stepFlightModel(void) {
 
         rebuildOrientation();
         UpdateThrottleState();
-        word_3BECC = 1;
+        g_initPhase = 1;
     }
 
     keyScancode = 0;
     if (kbhit()) {
         keyScancode = _bios_keybrd(0);
-        if (word_336EA == 1) {
-            word_3370E =
-            word_336EA =
+        if (g_autopilotEngaged == 1) {
+            g_directorMode =
+            g_autopilotEngaged =
             keyValue = 0;
         }
     }
@@ -107,15 +107,15 @@ void stepFlightModel(void) {
         case 0x3062: // B
             *((unsigned char*)&g_playerPlaneFlags) ^= 8;
         post_key_B_check:
-            if (!(*((unsigned char*)&g_playerPlaneFlags) & 8) && word_3BEBE != 0 && g_setThrust == 100) {
+            if (!(*((unsigned char*)&g_playerPlaneFlags) & 8) && g_groundAltitude != 0 && g_setThrust == 100) {
                 g_velocity = 0x546;
                 makeSound(0x1C, 2);
             }
             goto switch_break;
         case 0x2400: // Alt-J
-            if (word_380E2 == 0) {
+            if (g_joyCalibTimer == 0) {
                 initJoystickCalibration();
-                word_380E2 = 40;
+                g_joyCalibTimer = 40;
             }
             goto switch_break;
         case 0x1000: // Alt-Q
@@ -123,16 +123,16 @@ void stepFlightModel(void) {
             exitCode = 0;
             goto switch_break;
         case 0x3000: // Alt-B
-            if (word_330C2 != 0) {
-                gfx_copyRect(*off_38334, 0, 0x61, *off_38364, 0, 0x61, 0x140, (int)aNc_xxx);
+            if (g_hudVisible != 0) {
+                gfx_copyRect(*g_pageFront, 0, 0x61, *g_pageOffscreen, 0, 0x61, 0x140, (int)aNc_xxx);
             }
             setDrawColor(0);
             fillRectBoth(0, 0, 0x13F, 0xC7);
             blitSprite(0, 0, 0x71, 0x37, 0x0C, 7, 0);
             waitForKeyPress();
-            if (word_330C2 != 0) {
-                gfx_copyRect(*off_38364, 0, 0x61, *off_38334, 0, 0x61, 0x140, (int)aNc_xxx);
-                gfx_copyRect(*off_38364, 0, 0x61, *off_3834C, 0, 0x61, 0x140, (int)aNc_xxx);
+            if (g_hudVisible != 0) {
+                gfx_copyRect(*g_pageOffscreen, 0, 0x61, *g_pageFront, 0, 0x61, 0x140, (int)aNc_xxx);
+                gfx_copyRect(*g_pageOffscreen, 0, 0x61, *g_pageBack, 0, 0x61, 0x140, (int)aNc_xxx);
                 UpdateThrottleState();
             }
             goto switch_break;
@@ -142,15 +142,15 @@ void stepFlightModel(void) {
     }
 
 switch_break:
-    if (word_380E2 != 0) {
-        word_380E2--;
+    if (g_joyCalibTimer != 0) {
+        g_joyCalibTimer--;
     }
 
     if (g_setThrust != 0 && g_thrust == 0) {
         makeSound(0x0E, 2);
     }
 
-    if (word_330BE != 0) {
+    if (g_inputDisabled != 0) {
         joyAxes[0] = 0;
         joyAxes[1] = 0;
     } else {
@@ -158,61 +158,61 @@ switch_break:
             readCalibratedJoystick();
         } else {
 
-            //temp_si = var_596 + 1;
-            joyAxes[0] = (unsigned char)(((int)((unsigned char)byte_37F98 - 0x80) * (var_596 + 1)) / 3) - 0x80;
+            //temp_si = g_kbdSensitivity + 1;
+            joyAxes[0] = (unsigned char)(((int)((unsigned char)g_joyRawX - 0x80) * (g_kbdSensitivity + 1)) / 3) - 0x80;
 
-            joyAxes[1] = (unsigned char)(((int)((unsigned char)byte_37F99 - 0x80) * (var_596 + 1)) / 3) - 0x80;
+            joyAxes[1] = (unsigned char)(((int)((unsigned char)g_joyRawY - 0x80) * (g_kbdSensitivity + 1)) / 3) - 0x80;
         }
     }
 
-    word_3C00E = ((uint16)joyAxes[0] >> 4) - 8;
-    if (word_3C00E < 0) word_3C00E++;
+    g_rollInput = ((uint16)joyAxes[0] >> 4) - 8;
+    if (g_rollInput < 0) g_rollInput++;
 
-    word_3C5A4 = ((uint16)joyAxes[1] >> 4) - 8;
-    if (word_3C5A4 < 0) word_3C5A4++;
+    g_pitchInput = ((uint16)joyAxes[1] >> 4) - 8;
+    if (g_pitchInput < 0) g_pitchInput++;
 
-    word_3C00E = -((abs(word_3C00E) + 2) * word_3C00E) * 2;
-    word_3C5A4 *= 6;
-    if (word_3C5A4 < 0) {
-        word_3C5A4 /= 2;
+    g_rollInput = -((abs(g_rollInput) + 2) * g_rollInput) * 2;
+    g_pitchInput *= 6;
+    if (g_pitchInput < 0) {
+        g_pitchInput /= 2;
     }
 
-    if (word_3BEBE == g_viewZ && word_3C5A4 < 0 && g_ourPitch <= 0) {
-        word_3C5A4 = 0;
+    if (g_groundAltitude == g_viewZ && g_pitchInput < 0 && g_ourPitch <= 0) {
+        g_pitchInput = 0;
     }
 
-    if (g_knots > 0x15E && !(*((unsigned char*)&g_playerPlaneFlags) & 1) && word_336EC != 0) {
-        word_336EC = 0;
+    if (g_knots > 0x15E && !(*((unsigned char*)&g_playerPlaneFlags) & 1) && g_gearDownArmed != 0) {
+        g_gearDownArmed = 0;
         *((unsigned char*)&g_playerPlaneFlags) |= 1;
         tempStrcpy((char *)aLandingGearRaised);
         makeSound(0x20, 2);
     }
 
-    if (word_3BEBE == g_viewZ && g_setThrust == 0 && !(*((unsigned char*)&g_playerPlaneFlags) & 8)) {
+    if (g_groundAltitude == g_viewZ && g_setThrust == 0 && !(*((unsigned char*)&g_playerPlaneFlags) & 8)) {
         *((unsigned char*)&g_playerPlaneFlags) |= 8;
         tempStrcpy((char *)aBrakesOn);
     }
 
-    if (word_3C00E != 0 || word_3C5A4 != 0) {
+    if (g_rollInput != 0 || g_pitchInput != 0) {
         g_autopilotAltitude = 0;
     }
 
     if (g_autopilotAltitude != 0)
     {
-        x = (word_336EA != 0) ? (int16)((word_38FE0 & 0xF) << 8) - 0x800
+        x = (g_autopilotEngaged != 0) ? (int16)((g_missionTick & 0xF) << 8) - 0x800
                                    : 0;
 
-        x = clampValue(x - g_ourHead + word_3BE92, 0xEC00, 0x1400) * 2;
+        x = clampValue(x - g_ourHead + g_waypointBearing, 0xEC00, 0x1400) * 2;
 
-        word_3C00E = -clampRange((x - g_ourRoll) >> 6, -24, 24);
+        g_rollInput = -clampRange((x - g_ourRoll) >> 6, -24, 24);
 
-        d = clampValue(((g_autopilotAltitude - g_viewZ) << 4) - word_38FC4, 0xEC00, 0xC00);
+        d = clampValue(((g_autopilotAltitude - g_viewZ) << 4) - g_rollPitchTrim, 0xEC00, 0xC00);
 
-        word_3C5A4 = clampRange((d - g_ourPitch) >> 7, -8, 8);
+        g_pitchInput = clampRange((d - g_ourPitch) >> 7, -8, 8);
 
         if (waypointIndex == 3)
         {
-            o = word_3AFA8;
+            o = g_northSouthSign;
             s = g_targetSlots[1].viewIndex;
 
             h = g_planeTable.planes[s].mapX - g_viewX_;
@@ -244,7 +244,7 @@ switch_break:
                 d += 100;
             }
 
-            if (word_33702 != 0 && abs(x) < 0x200)
+            if (g_inLandingCorridor != 0 && abs(x) < 0x200)
             {
                 d = -20;
             }
@@ -274,31 +274,31 @@ switch_break:
 
             x = clampValue(c - g_ourHead, (-n) << 8, n << 8) * 2;
 
-            if (word_33702 != 0)
+            if (g_inLandingCorridor != 0)
             {
                 x = 0;
             }
 
-            word_3C00E = -clampRange((x - g_ourRoll) >> 6, -32, 32);
+            g_rollInput = -clampRange((x - g_ourRoll) >> 6, -32, 32);
 
             g_setThrust = clampRange((abs(x) / 256) + (d / 64), 35, 80);
             UpdateThrottleState();
 
-            d = clampValue(((d - g_viewZ) >> 3) + (word_38FC4 >> 7), -24, 24);
+            d = clampValue(((d - g_viewZ) >> 3) + (g_rollPitchTrim >> 7), -24, 24);
 
-            word_3C5A4 = clampRange(d - (g_ourPitch >> 7), -16, 16);
+            g_pitchInput = clampRange(d - (g_ourPitch >> 7), -16, 16);
 
             if (g_knots < 0x15E)
             {
                 *((unsigned char *)&g_playerPlaneFlags) &= 0xFE;
             }
 
-            if (word_3BEBE == g_viewZ)
+            if (g_groundAltitude == g_viewZ)
             {
                 g_setThrust = 0;
-                word_3C00E = 0;
+                g_rollInput = 0;
                 g_playerPlaneFlags |= 8;
-                word_3C5A4 = 0;
+                g_pitchInput = 0;
             }
         }
     }
@@ -312,71 +312,71 @@ switch_break:
         ae += clampRange((g_knots - 200) >> 5, 0, 32);
     }
 
-    if (ae > 0 && ((uint16)word_3BEBE) < ((uint16)g_viewZ)) {
-        word_3C00E += randomRange(ae) - (ae >> 1);
-        word_3C5A4 += (randomRange(ae) - (ae >> 1)) >> 1;
+    if (ae > 0 && ((uint16)g_groundAltitude) < ((uint16)g_viewZ)) {
+        g_rollInput += randomRange(ae) - (ae >> 1);
+        g_pitchInput += (randomRange(ae) - (ae >> 1)) >> 1;
     }
 
-    if ((g_playerPlaneFlags & 1) && word_3C5A4 <= 0 && ((uint16)word_3A8FE) < ((uint16)g_velocity) && gameData->unk4 < 2 && abs(g_ourRoll) < 0x3000 && word_38FE8 == 0) {
-        d = ((((word_38FC4) - (g_ourPitch)) >> 2) - g_viewZ + 300) >> 2;
+    if ((g_playerPlaneFlags & 1) && g_pitchInput <= 0 && ((uint16)g_stallSpeed) < ((uint16)g_velocity) && gameData->unk4 < 2 && abs(g_ourRoll) < 0x3000 && g_gunFiredFlag == 0) {
+        d = ((((g_rollPitchTrim) - (g_ourPitch)) >> 2) - g_viewZ + 300) >> 2;
         if (d > 0) {
-            word_3C5A4 = clampRange(d, 0, 32);
+            g_pitchInput = clampRange(d, 0, 32);
         }
     }
 
-    if (word_3BE3C != 0) {
-        word_3C00E = 0x40;
+    if (g_ejectState != 0) {
+        g_rollInput = 0x40;
 
-        word_3C5A4 = (abs(g_ourRoll) > 0x4000) ? 0x10 : -8; // pitch_input_modifier
+        g_pitchInput = (abs(g_ourRoll) > 0x4000) ? 0x10 : -8; // pitch_input_modifier
 
-        //word_3BE3C++;
-        word_3C040 += clampRange(
-            - (++word_3BE3C - 0x20),
+        //g_ejectState++;
+        g_crashCamZ += clampRange(
+            - (++g_ejectState - 0x20),
             (int16)0xFF00 / g_frameRateScaling,
             (int16)0x80 / g_frameRateScaling
         );
-        //word_3C040 += stall_decay_effect;
+        //g_crashCamZ += stall_decay_effect;
 
-        if (word_3C040 < 0) {
-            word_3C040 = 0;
-            if ((word_38FE0 & 7) == 0) {
+        if (g_crashCamZ < 0) {
+            g_crashCamZ = 0;
+            if ((g_missionTick & 7) == 0) {
                 finalizeMission(0);
             }
         }
 
-        if (g_viewZ == 0 && word_336F6 == -1) {
-            word_336F6 = 0;
+        if (g_viewZ == 0 && g_smokeSourceIdx == -1) {
+            g_smokeSourceIdx = 0;
             g_planeTable.planes[0].mapX = g_viewX_;
             g_planeTable.planes[0].mapY = g_viewY_;
-            word_3BEBC = g_viewX_;
-            word_3BEC8 = g_viewY_;
-            word_3BECE = 0;
-            word_39606 = -8;
+            g_hitMapX = g_viewX_;
+            g_hitMapY = g_viewY_;
+            g_hitAlt = 0;
+            g_hitEffectTimer = -8;
             makeSound(2, 2);
             g_velocity =
             g_setThrust = 0;
         }
 
-        if ((word_3BE3C & 0xFFFC) == 0x10 && (frameTick & 3) == 1) {
-            word_336F6 = -1;
+        if ((g_ejectState & 0xFFFC) == 0x10 && (frameTick & 3) == 1) {
+            g_smokeSourceIdx = -1;
 
             l = ((uint16)frameTick / 2) & 7;
 
-            stru_33402[l].field_0 = g_viewX_;
-            stru_33402[l].field_2 = g_viewY_;
-            stru_33402[l].field_4 = g_viewZ;
+            g_particles[l].posX = g_viewX_;
+            g_particles[l].posY = g_viewY_;
+            g_particles[l].alt = g_viewZ;
 
-            stru_33402[l].field_6 = randomRange(0x20) << 11;
+            g_particles[l].spin = randomRange(0x20) << 11;
 
-            word_33442 = l;
-            word_3BEBC = g_viewX_;
-            word_3BEC8 = g_viewY_;
-            word_3BECE = g_viewZ;
-            word_39606 = -8;
+            g_smokeParticleSlot = l;
+            g_hitMapX = g_viewX_;
+            g_hitMapY = g_viewY_;
+            g_hitAlt = g_viewZ;
+            g_hitEffectTimer = -8;
             makeSound(0, 2);
 
             g_ourPitch = -0x4000;
-            byte_380DD = 1;
+            g_orientationDirty = 1;
         }
     }
 
@@ -393,65 +393,65 @@ switch_break:
     if (g_setThrust > g_thrust) g_thrust++;
     if (g_setThrust < g_thrust) g_thrust = g_setThrust;
 
-    if ((((uint16)frameTick) % ((uint16)(g_frameRateScaling << 1))) == 0 && g_setThrust != 0 && word_336EA == 0) {
-        word_33098 -= ((g_setThrust * g_setThrust) / 750) + 2;
+    if ((((uint16)frameTick) % ((uint16)(g_frameRateScaling << 1))) == 0 && g_setThrust != 0 && g_autopilotEngaged == 0) {
+        g_fuelRemaining -= ((g_setThrust * g_setThrust) / 750) + 2;
         drawFuelGauge();
     }
 
-    if (word_33098 <= 0) {
+    if (g_fuelRemaining <= 0) {
         g_thrust = 0;
-        word_33098 = 0;
+        g_fuelRemaining = 0;
     }
 
-    g_gees = byte_37FEC[(abs(g_ourRoll) >> 8) & 0x7f];
-    if (((uint16)word_3BEBE) < ((uint16)g_viewZ)) {
-        g_gees += word_3C5A4 / 2;
+    g_gees = g_rollGeeTable[(abs(g_ourRoll) >> 8) & 0x7f];
+    if (((uint16)g_groundAltitude) < ((uint16)g_viewZ)) {
+        g_gees += g_pitchInput / 2;
     }
 
     if (g_gees > 0x80) {
         g_gees = 0x80;
-        word_3C5A4 = clampRange(0x80 - byte_37FEC[(abs(g_ourRoll) >> 8) & 0x7f], 0, word_3C5A4);
+        g_pitchInput = clampRange(0x80 - g_rollGeeTable[(abs(g_ourRoll) >> 8) & 0x7f], 0, g_pitchInput);
     }
 
 
-    strcpy(unk_38FD0, itoa(g_gees / 16, strBuf, 10));
-    strcat(unk_38FD0, (char *)a_);
+    strcpy(g_geeStringBuf, itoa(g_gees / 16, strBuf, 10));
+    strcat(g_geeStringBuf, (char *)a_);
 
-    strcat(unk_38FD0, itoa((abs(g_gees) & 0xF) >> 1, strBuf, 10));
-    strcat(unk_38FD0, (char *)aG);
+    strcat(g_geeStringBuf, itoa((abs(g_gees) & 0xF) >> 1, strBuf, 10));
+    strcat(g_geeStringBuf, (char *)aG);
 
     j = ((long)(g_thrust - sinMul(g_ourPitch, 80)) * 800L) / 100L;
 
-    word_3C5A6 = 100;
+    g_cornerSpeed = 100;
     j = ((((uint16)g_viewZ >> 7) + 0x0400) * (int32)(j & j)) >> 10; // j & j folds to a plain load but ranks the operand "heavy", so the shift-expr is evaluated/pushed first like the ref
 
-    word_3C5A6 = ((int32)100 * (uint32)((word_380D0 >> 6) + 0x0400)) >> 10;
+    g_cornerSpeed = ((int32)100 * (uint32)((g_altitude >> 6) + 0x0400)) >> 10;
 
-    j = ((int32)j) * ((int32)(-((word_33098 >> 9) - 100))) / (int32)90;
+    j = ((int32)j) * ((int32)(-((g_fuelRemaining >> 9) - 100))) / (int32)90;
 
     j = (((int32)j) * ((int32)(128 - g_gees))) >> 7;
 
-    word_3C5A6 = ((int32)isqrt(g_gees * 4) * (int32)word_3C5A6) >> 3;
-    word_3C5A6 = abs(word_3C5A6);
+    g_cornerSpeed = ((int32)isqrt(g_gees * 4) * (int32)g_cornerSpeed) >> 3;
+    g_cornerSpeed = abs(g_cornerSpeed);
 
     if (!(*((unsigned char*)&g_playerPlaneFlags) & 1)) {
         j -= j >> 3;
     }
 
-    word_3A8FE = word_3C5A6 * 27;
+    g_stallSpeed = g_cornerSpeed * 27;
     e = clampRange(j, 0, 899) * 27;
 
     g_velocity += ((((int32)e - g_velocity) / 16) / (int32)g_frameRateScaling);
 
-    word_3B4DA = ((int32)word_3A8FE * 3072) / (abs(g_velocity) + 1);
-    if ((uint16)word_3B4DA > 0x2000) word_3B4DA = 0x2000;
+    g_liftForce = ((int32)g_stallSpeed * 3072) / (abs(g_velocity) + 1);
+    if ((uint16)g_liftForce > 0x2000) g_liftForce = 0x2000;
 
-    word_38FC4 = cosMul(g_ourRoll, word_3B4DA - 0x300);
+    g_rollPitchTrim = cosMul(g_ourRoll, g_liftForce - 0x300);
 
     if (*((unsigned char*)&g_playerPlaneFlags) & 8) {
-        if (word_3BEBE == g_viewZ) {
+        if (g_groundAltitude == g_viewZ) {
             g_velocity -= (-((gameData->unk4 * 8) - 32) * 27) / g_frameRateScaling;
-            if (word_3BEBE != 0 && (uint16)g_velocity < 0x1B0) {
+            if (g_groundAltitude != 0 && (uint16)g_velocity < 0x1B0) {
                  g_velocity = 0;
             }
         } else {
@@ -470,107 +470,107 @@ switch_break:
 
     ac = cosMul(g_ourPitch, ac);
 
-    if (word_3BEBE == g_viewZ) {
-        ac = (word_3C00E * -1) << 6;
-        word_3C00E = 0;
-        if (g_knots < word_3C5A6) {
-            word_3C5A4 = 0;
+    if (g_groundAltitude == g_viewZ) {
+        ac = (g_rollInput * -1) << 6;
+        g_rollInput = 0;
+        if (g_knots < g_cornerSpeed) {
+            g_pitchInput = 0;
         }
     }
 
-    if (word_38FDE != 0) {
-        word_3C5A4 = -0x400 - g_ourPitch;
+    if (g_autoCrashDive != 0) {
+        g_pitchInput = -0x400 - g_ourPitch;
         // (ref stores velocity then setThrust; chains store right-to-left)
         g_setThrust =
         g_velocity = 0;
     }
 
-    g = (((int32)word_3C00E) << 7) / ((int32)g_frameRateScaling);
+    g = (((int32)g_rollInput) << 7) / ((int32)g_frameRateScaling);
     if (g != 0) {
-        word_380A4[4] = word_380A4[0] = cosine(g);
-        word_380A4[1] = sine(g);
-        word_380A4[3] = -word_380A4[1];
-        applyRotationDelta(unk_3806E, word_380A4);
+        g_rollMatrix[4] = g_rollMatrix[0] = cosine(g);
+        g_rollMatrix[1] = sine(g);
+        g_rollMatrix[3] = -g_rollMatrix[1];
+        applyRotationDelta(g_orientMatrix, g_rollMatrix);
     }
 
-    f = (int16)((int32)word_3C5A4 << 7) / g_frameRateScaling;
+    f = (int16)((int32)g_pitchInput << 7) / g_frameRateScaling;
     if (f != 0) {
-        unk_38092[8] = unk_38092[4] = cosine(f);
-        unk_38092[7] = sine(f);
-        unk_38092[5] = -unk_38092[7];
-        applyRotationDelta(unk_3806E, unk_38092);
+        g_pitchMatrix[8] = g_pitchMatrix[4] = cosine(f);
+        g_pitchMatrix[7] = sine(f);
+        g_pitchMatrix[5] = -g_pitchMatrix[7];
+        applyRotationDelta(g_orientMatrix, g_pitchMatrix);
     }
 
     t = (int16)ac / g_frameRateScaling;
     if (t != 0) {
-        word_38080[8] = word_38080[0] = cosine(t);
-        word_38080[2] = sine(t);
-        word_38080[6] = -word_38080[2];
-        applyRotationDelta(word_38080, unk_3806E);
+        g_yawMatrix[8] = g_yawMatrix[0] = cosine(t);
+        g_yawMatrix[2] = sine(t);
+        g_yawMatrix[6] = -g_yawMatrix[2];
+        applyRotationDelta(g_yawMatrix, g_orientMatrix);
     }
 
     computeAttitudeAngles();
 
-    if ((uint16)word_3A8FE > (uint16)g_velocity && (uint16)word_3BEBE < (uint16)g_viewZ) {
-        g_ourPitch -= ((uint16)word_3A8FE - (uint16)g_velocity) >> ((gameData->unk4 == 2 || g_gunHits > 8) ? 1 : 2);
-        byte_380DD = 1;
+    if ((uint16)g_stallSpeed > (uint16)g_velocity && (uint16)g_groundAltitude < (uint16)g_viewZ) {
+        g_ourPitch -= ((uint16)g_stallSpeed - (uint16)g_velocity) >> ((gameData->unk4 == 2 || g_gunHits > 8) ? 1 : 2);
+        g_orientationDirty = 1;
         if (g_ourPitch < 0 || (uint16)g_viewZ < 200) {
             makeSound(0x14, 1);
         }
     }
 
-    if (word_3BEBE == g_viewZ) {
+    if (g_groundAltitude == g_viewZ) {
         if (g_ourRoll != 0) {
             g_ourRoll = 0;
-            byte_380DD = 1;
+            g_orientationDirty = 1;
         }
-        if (g_ourPitch < 0 || (g_ourPitch > 0 && g_knots < word_3C5A6)) {
-            if (word_38FDE == 0) {
+        if (g_ourPitch < 0 || (g_ourPitch > 0 && g_knots < g_cornerSpeed)) {
+            if (g_autoCrashDive == 0) {
                 g_ourPitch = 0;
             }
-            byte_380DD = 1;
+            g_orientationDirty = 1;
         }
     }
 
-    word_38FDE = 0;
+    g_autoCrashDive = 0;
 
-    byte_3C6A0[0] = ( (abs(g_ourPitch)) - (abs(g_ourRoll) / 2) > 0x1000) ? 1 : 0;
+    g_highGeeFlag[0] = ( (abs(g_ourPitch)) - (abs(g_ourRoll) / 2) > 0x1000) ? 1 : 0;
 
-    if (byte_380DD) {
+    if (g_orientationDirty) {
         rebuildOrientation();
     }
 
-    b = word_380D0;
-    word_3C8B6 = fixedMulQ14((((uint16)g_velocity) / 10), sine(g_ourPitch - word_38FC4));
+    b = g_altitude;
+    g_climbRate = fixedMulQ14((((uint16)g_velocity) / 10), sine(g_ourPitch - g_rollPitchTrim));
 
-    if (word_33712 == 0) {
-        word_380D0 += (word_3C8B6 / g_frameRateScaling);
+    if (g_autoLandingActive == 0) {
+        g_altitude += (g_climbRate / g_frameRateScaling);
 
         g_ViewX += fixedMulQ14(v, sine(g_ourHead)) / 10 / g_frameRateScaling;
 
         g_ViewY += fixedMulQ14(v, cosine(g_ourHead)) / 10 / g_frameRateScaling;
     }
 
-    if ((uint16)word_380D0 > 0xf230 || (uint16)word_380D0 < (uint16)word_3BEBE) {
-        word_380D0 = word_3BEBE;
+    if ((uint16)g_altitude > 0xf230 || (uint16)g_altitude < (uint16)g_groundAltitude) {
+        g_altitude = g_groundAltitude;
     }
-    if (word_380D0 > 0xEA60) word_380D0 = 0xEA60;
+    if (g_altitude > 0xEA60) g_altitude = 0xEA60;
 
-    if (word_380D0 < 0x2000) {
-        g_viewZ = word_380D0;
-    } else if (word_380D0 < 0x4000) {
-        g_viewZ = ((word_380D0 - 0x2000) >> 1) + 0x2000;
+    if (g_altitude < 0x2000) {
+        g_viewZ = g_altitude;
+    } else if (g_altitude < 0x4000) {
+        g_viewZ = ((g_altitude - 0x2000) >> 1) + 0x2000;
     } else {
-        g_viewZ = ((word_380D0 - 0x4000) >> 2) + 0x3000;
+        g_viewZ = ((g_altitude - 0x4000) >> 2) + 0x3000;
     }
 
-    if (word_3BEBE == g_viewZ) {
-        if (b > word_3BEBE && word_33702 != 0) {
+    if (g_groundAltitude == g_viewZ) {
+        if (b > g_groundAltitude && g_inLandingCorridor != 0) {
             makeSound(0xC, 2);
             //temp_bx = g_closestThreatIndex << 4;
 
             if ((( ((g_planeTable.planes[g_closestThreatIndex].flags & 0x200) ? 0x100 : 0x80)
-                < ((int16)(-word_3C8B6 * g_missionStatus) / 2))) ||
+                < ((int16)(-g_climbRate * g_missionStatus) / 2))) ||
                 ((gameData->unk4 != 0 &&
                     (((g_playerPlaneFlags & 1)!=0) ||
                         (((int16)abs(g_ourRoll)) > (int16)((0x30 / (g_missionStatus + 1)) << 8))) ))) {
@@ -579,20 +579,20 @@ switch_break:
                             finalizeMission(5);
             }
         }
-        word_3C8B6 = 0;
+        g_climbRate = 0;
     }
 
     l = frameTick & 0xF;
-    stru_3A95A[l].heading = g_ourHead;
-    stru_3A95A[l].pitch = g_ourPitch;
-    stru_3A95A[l].roll = g_ourRoll;
-    *(int32*)&stru_3A95A[l].worldX = g_ViewX;
-    *(int32*)&stru_3A95A[l].worldY = g_ViewY;
-    stru_3A95A[l].alt = g_viewZ;
+    g_viewSnapshotRing[l].heading = g_ourHead;
+    g_viewSnapshotRing[l].pitch = g_ourPitch;
+    g_viewSnapshotRing[l].roll = g_ourRoll;
+    *(int32*)&g_viewSnapshotRing[l].worldX = g_ViewX;
+    *(int32*)&g_viewSnapshotRing[l].worldY = g_ViewY;
+    g_viewSnapshotRing[l].alt = g_viewZ;
 
     if (g_currentWeaponType == 1) {
-        if (word_336F2 >= 0) {
-            l = clampRange((rangeApprox(g_viewX_ - stru_3B202[word_336F2].posX, g_viewY_ - stru_3B202[word_336F2].posY) * g_frameRateScaling) >> 8, 0, 12);
+        if (g_airTargetLock >= 0) {
+            l = clampRange((rangeApprox(g_viewX_ - g_simObjects[g_airTargetLock].posX, g_viewY_ - g_simObjects[g_airTargetLock].posY) * g_frameRateScaling) >> 8, 0, 12);
 
         } else {
             l = g_frameRateScaling - 1;
@@ -600,12 +600,12 @@ switch_break:
 
         l = (frameTick - l) & 0xF;
 
-        x = g_ourHead - stru_3A95A[l].heading;
-        d = g_ourPitch - stru_3A95A[l].pitch;
+        x = g_ourHead - g_viewSnapshotRing[l].heading;
+        d = g_ourPitch - g_viewSnapshotRing[l].pitch;
 
-        word_3C6A4 = cosMul(g_ourRoll, ((-x) >> 2)) + sinMul(g_ourRoll, (d >> 2));
+        g_aamSeekerX = cosMul(g_ourRoll, ((-x) >> 2)) + sinMul(g_ourRoll, (d >> 2));
 
-        word_3C6AC = sinMul(g_ourRoll, (x >> 2)) + cosMul(g_ourRoll, (d >> 1));
+        g_aamSeekerY = sinMul(g_ourRoll, (x >> 2)) + cosMul(g_ourRoll, (d >> 1));
     }
 
 }
@@ -615,79 +615,79 @@ void applyRotationDelta(int param_1, int param_2) {
     int p;
     int a;
 
-    var_549++;
-    if (!(*(char *)&var_549 & 7)) {
-        *(char *)&byte_380DD = 1;
+    g_rotationCounter++;
+    if (!(*(char *)&g_rotationCounter & 7)) {
+        *(char *)&g_orientationDirty = 1;
     }
-    multiplyMatrix3x3Far(param_1, param_2, unk_380B6);
-    memcpy(unk_3806E, unk_380B6, 0x12);
+    multiplyMatrix3x3Far(param_1, param_2, g_matrixScratch);
+    memcpy(g_orientMatrix, g_matrixScratch, 0x12);
 }
 
 void computeAttitudeAngles(void)
 {
     int p;
 
-    g_ourPitch = valueToAngle(-unk_3806E[5]);
+    g_ourPitch = valueToAngle(-g_orientMatrix[5]);
     p = cosine(g_ourPitch);
     if (p != 0) {
-        if (abs(unk_3806E[2]) < 0x5a81) {
-            g_ourHead = valueToAngle(abs((int)signedRatio16(unk_3806E[2], p)));
+        if (abs(g_orientMatrix[2]) < 0x5a81) {
+            g_ourHead = valueToAngle(abs((int)signedRatio16(g_orientMatrix[2], p)));
         } else {
-            g_ourHead = complementAngle(abs((int)signedRatio16(unk_3806E[8], p)));
+            g_ourHead = complementAngle(abs((int)signedRatio16(g_orientMatrix[8], p)));
         }
-        if (unk_3806E[2] <= 0 && unk_3806E[8] < 0) {
+        if (g_orientMatrix[2] <= 0 && g_orientMatrix[8] < 0) {
             (*((char *)&g_ourHead + 1)) += 0x80;
         }
-        if (unk_3806E[2] > 0 && unk_3806E[8] < 0) {
+        if (g_orientMatrix[2] > 0 && g_orientMatrix[8] < 0) {
             g_ourHead = 0x8000 - g_ourHead;
         }
-        if (unk_3806E[2] < 0 && unk_3806E[8] > 0) {
+        if (g_orientMatrix[2] < 0 && g_orientMatrix[8] > 0) {
             g_ourHead = -g_ourHead;
         }
-        if (abs(unk_3806E[3]) < 0x5a81) {
-            g_ourRoll = valueToAngle(abs((int)signedRatio16(unk_3806E[3], p)));
+        if (abs(g_orientMatrix[3]) < 0x5a81) {
+            g_ourRoll = valueToAngle(abs((int)signedRatio16(g_orientMatrix[3], p)));
         } else {
-            g_ourRoll = complementAngle(abs((int)signedRatio16(unk_3806E[4], p)));
+            g_ourRoll = complementAngle(abs((int)signedRatio16(g_orientMatrix[4], p)));
         }
-        if (unk_3806E[3] <= 0 && unk_3806E[4] < 0) {
+        if (g_orientMatrix[3] <= 0 && g_orientMatrix[4] < 0) {
             *((char *)&g_ourRoll + 1) += 0x80;
         }
-        if (unk_3806E[3] > 0 && unk_3806E[4] < 0) {
+        if (g_orientMatrix[3] > 0 && g_orientMatrix[4] < 0) {
             g_ourRoll = 0x8000 - g_ourRoll;
         }
-        if (unk_3806E[3] < 0 && unk_3806E[4] > 0) {
+        if (g_orientMatrix[3] < 0 && g_orientMatrix[4] > 0) {
             /* Force MSC to emit sub ax, ax; sub ax, g_ourRoll. */
             g_ourRoll = 0x10000 - g_ourRoll;
         }
     } else {
         g_ourRoll = 0;
-        g_ourHead = valueToAngle(unk_3806E[1]);
-        if (unk_3806E[3] <= 0 && unk_3806E[4] < 0) {
+        g_ourHead = valueToAngle(g_orientMatrix[1]);
+        if (g_orientMatrix[3] <= 0 && g_orientMatrix[4] < 0) {
             (*((char *)&g_ourHead + 1)) += 0x80;
         }
-        if (unk_3806E[3] > 0 && unk_3806E[4] < 0) {
+        if (g_orientMatrix[3] > 0 && g_orientMatrix[4] < 0) {
             g_ourHead = 0x8000 - g_ourHead;
         }
-        if (unk_3806E[3] < 0 && unk_3806E[4] > 0) {
+        if (g_orientMatrix[3] < 0 && g_orientMatrix[4] > 0) {
             g_ourHead = -g_ourHead;
         }
     }
     if (g_ourPitch > 0x38e3 && g_ourPitch < 0x4001) {
-        *(char *)&byte_380DD = 1;
+        *(char *)&g_orientationDirty = 1;
     }
     if (g_ourPitch < (int16)0xc71d && g_ourPitch > (int16)0xbfff) {
-        *(char *)&byte_380DD = 1;
+        *(char *)&g_orientationDirty = 1;
     }
-    if (var_550 != 0 && g_ourRoll == 0) {
-        *(char *)&byte_380DD = 1;
+    if (g_rollWasNonzero != 0 && g_ourRoll == 0) {
+        *(char *)&g_orientationDirty = 1;
     }
 }
 
 
 void rebuildOrientation() {
-    buildRotationMatrixFar(unk_3806E, g_ourHead, g_ourPitch, g_ourRoll);
-    *(char *)&byte_380DD = 0;
-    var_549 = 0;
+    buildRotationMatrixFar(g_orientMatrix, g_ourHead, g_ourPitch, g_ourRoll);
+    *(char *)&g_orientationDirty = 0;
+    g_rotationCounter = 0;
 }
 
 unsigned signedRatio16(int numerator, int denominator) {
@@ -715,9 +715,9 @@ int valueToAngle(int value) {
     a = abs(value);
     b = (a >> 9) + 1;
     for (; b >= 0; b--) {
-        if (word_37348[b] <= a) {
-            c = word_37348[b + 1] - word_37348[b];
-            p = (int)((long)(a - word_37348[b]) * 256L / (long)c) + b * 256;
+        if (g_angleLut[b] <= a) {
+            c = g_angleLut[b + 1] - g_angleLut[b];
+            p = (int)((long)(a - g_angleLut[b]) * 256L / (long)c) + b * 256;
             break;
         }
     }
@@ -750,243 +750,243 @@ int isqrt(int value) {
 void renderFrame() {
     int var_2, var_4, var_6, var_8, var_A, var_C, var_E;
     TRACE(("renderFrame: enter"));
-    dword_3B1FE = dword_3C01C = g_ViewX;
-    dword_3B4D4 = g_ViewY;
-    dword_3C024 = 0x100000 - g_ViewY;
+    g_camEyeX = g_viewTargetX = g_ViewX;
+    g_camEyeY = g_ViewY;
+    g_viewTargetY = 0x100000 - g_ViewY;
     TRACE(("renderFrame: past assigns"));
-    word_3B4DE = g_viewZ + 0x18;
-    word_3C02C = g_viewZ;
-    var_2 = word_336FE = clampRange(word_336FE, 2, 8);
+    g_camEyeZ = g_viewZ + 0x18;
+    g_viewTargetAlt = g_viewZ;
+    var_2 = g_externalCamDist = clampRange(g_externalCamDist, 2, 8);
     TRACE(("renderFrame: past clamp, keyValue=%d", keyValue));
     switch(keyValue) {
     case 0:
     case 0x44:
-        word_3C5AA = g_ourHead;
-        word_3BE94 = g_ourPitch;
-        word_3B4E4 = g_ourRoll;
+        g_viewHeading = g_ourHead;
+        g_viewPitch = g_ourPitch;
+        g_viewRoll = g_ourRoll;
         break;
     case 0x41:
-        word_3C5AA = g_ourHead + 0x8000;
-        word_3BE94 = -g_ourPitch;
-        word_3B4E4 = -g_ourRoll;
+        g_viewHeading = g_ourHead + 0x8000;
+        g_viewPitch = -g_ourPitch;
+        g_viewRoll = -g_ourRoll;
         break;
     case 0x43:
-        word_3C5AA = g_ourHead + 0x4000;
-        word_3BE94 = -g_ourRoll;
-        word_3B4E4 = g_ourPitch;
+        g_viewHeading = g_ourHead + 0x4000;
+        g_viewPitch = -g_ourRoll;
+        g_viewRoll = g_ourPitch;
         break;
     case 0x42:
-        word_3C5AA = g_ourHead - 0x4000;
-        word_3BE94 = g_ourRoll;
-        word_3B4E4 = -g_ourPitch;
+        g_viewHeading = g_ourHead - 0x4000;
+        g_viewPitch = g_ourRoll;
+        g_viewRoll = -g_ourPitch;
         break;
     case 0x84:
         var_E = (frameTick - ((g_frameRateScaling  + 1) / 2) - 1) & 0xf;
-        word_3C5AA = stru_3A95A[var_E].heading;
-        word_3BE94 = stru_3A95A[var_E].pitch;
-        word_3B4E4 = stru_3A95A[var_E].roll;
-        dword_3B1FE = stru_3A95A[var_E].worldX;
-        dword_3B4D4 = stru_3A95A[var_E].worldY;
-        word_3B4DE = stru_3A95A[var_E].alt;
+        g_viewHeading = g_viewSnapshotRing[var_E].heading;
+        g_viewPitch = g_viewSnapshotRing[var_E].pitch;
+        g_viewRoll = g_viewSnapshotRing[var_E].roll;
+        g_camEyeX = g_viewSnapshotRing[var_E].worldX;
+        g_camEyeY = g_viewSnapshotRing[var_E].worldY;
+        g_camEyeZ = g_viewSnapshotRing[var_E].alt;
         break;
     case 0x85:
-        word_3C5AA = g_ourHead - 0x4000;
-        word_3BE94 = 0;
-        word_3B4E4 = 0;
-        dword_3B1FE = sinMul(g_ourHead + 0x4000, 0x18 << var_2) + g_ViewX;
-        dword_3B4D4 = cosMul(g_ourHead + 0x4000, 0x18 << var_2) + g_ViewY;
+        g_viewHeading = g_ourHead - 0x4000;
+        g_viewPitch = 0;
+        g_viewRoll = 0;
+        g_camEyeX = sinMul(g_ourHead + 0x4000, 0x18 << var_2) + g_ViewX;
+        g_camEyeY = cosMul(g_ourHead + 0x4000, 0x18 << var_2) + g_ViewY;
         break;
     case 0x86:
-        word_3C5AA = 0x8000;
-        word_3BE94 = 0;
-        word_3B4E4 = 0;
-        dword_3B4D4 = (0x18 << var_2) + g_ViewY;
+        g_viewHeading = 0x8000;
+        g_viewPitch = 0;
+        g_viewRoll = 0;
+        g_camEyeY = (0x18 << var_2) + g_ViewY;
         break;
     case 0x87:
-        word_3C5AA = g_ourHead;
-        word_3BE94 = 0;
-        word_3B4E4 = 0;
-        dword_3B1FE = sinMul(g_ourHead + 0x8000, 0x18 << var_2) + g_ViewX;
-        dword_3B4D4 = cosMul(g_ourHead + 0x8000, 0x18 << var_2) + g_ViewY;
-        word_3B4DE = (4 << var_2) + g_viewZ;
+        g_viewHeading = g_ourHead;
+        g_viewPitch = 0;
+        g_viewRoll = 0;
+        g_camEyeX = sinMul(g_ourHead + 0x8000, 0x18 << var_2) + g_ViewX;
+        g_camEyeY = cosMul(g_ourHead + 0x8000, 0x18 << var_2) + g_ViewY;
+        g_camEyeZ = (4 << var_2) + g_viewZ;
         break;
     case 0x88:
     case 0x89:
     case 0x8b:
         if (keyValue != 0x89) {
             if (g_currentWeaponType == 1) {
-                // XXX: test byte ptr word_336F2, 80h -> check which byte is tested, other byte ptr instructions in this routine
-                if (!(word_336F2 & 0x80)) word_3C02E = word_336F2 + 0x20;
+                // XXX: test byte ptr g_airTargetLock, 80h -> check which byte is tested, other byte ptr instructions in this routine
+                if (!(g_airTargetLock & 0x80)) g_viewTargetObj = g_airTargetLock + 0x20;
             }
             else {
-                if (!(word_336F4 & 0x80)) word_3C02E = word_336F4 + 0x40;
+                if (!(g_groundTargetLock & 0x80)) g_viewTargetObj = g_groundTargetLock + 0x40;
             }
         }
         else {
-            if (word_3370E == 0) word_3C02E = word_3A940;
+            if (g_directorMode == 0) g_viewTargetObj = g_lastMissileSlot;
         }
         var_4 = var_2;
-        if (!(word_3C02E & 0x40)) {
-            if (!(word_3C02E & 0x20)) {
-                if (stru_335C4[word_3C02E].ttl != 0) {
-                    dword_3C01C = (uint32)(stru_335C4[word_3C02E].mapX) << 5;
-                    dword_3C024 = (uint32)(stru_335C4[word_3C02E].mapY) << 5;
-                    word_3C02C = stru_335C4[word_3C02E].alt;
+        if (!(g_viewTargetObj & 0x40)) {
+            if (!(g_viewTargetObj & 0x20)) {
+                if (g_projectiles[g_viewTargetObj].ttl != 0) {
+                    g_viewTargetX = (uint32)(g_projectiles[g_viewTargetObj].mapX) << 5;
+                    g_viewTargetY = (uint32)(g_projectiles[g_viewTargetObj].mapY) << 5;
+                    g_viewTargetAlt = g_projectiles[g_viewTargetObj].alt;
                 }
                 else {
-                    stru_335C4[word_3C02E].worldX = g_ourHead;
-                    stru_335C4[word_3C02E].worldY = g_ourPitch;
-                    if (word_3370E != 0) keyValue = 0x87;
+                    g_projectiles[g_viewTargetObj].worldX = g_ourHead;
+                    g_projectiles[g_viewTargetObj].worldY = g_ourPitch;
+                    if (g_directorMode != 0) keyValue = 0x87;
                 }
                 var_2 = 5;
             }
             else {
-                // .... word_3C02E & 0x1f
-                dword_3C01C = stru_3B202[word_3C02E & 0x1f].worldX;
-                dword_3C024 = stru_3B202[word_3C02E & 0x1f].worldY;
-                word_3C02C = stru_3B202[word_3C02E & 0x1f].alt;
+                // .... g_viewTargetObj & 0x1f
+                g_viewTargetX = g_simObjects[g_viewTargetObj & 0x1f].worldX;
+                g_viewTargetY = g_simObjects[g_viewTargetObj & 0x1f].worldY;
+                g_viewTargetAlt = g_simObjects[g_viewTargetObj & 0x1f].alt;
                 var_2 = 5;
             }
         }
         else {
-            dword_3C01C = (uint32)g_planeTable.planes[word_3C02E & 0x3f].mapX << 5;
-            dword_3C024 = (uint32)g_planeTable.planes[word_3C02E & 0x3f].mapY << 5;
-            word_3C02C = g_planeTable.planes[word_3C02E & 0x3f].flags & 0x200 ? 0xc8 : 0x32;
+            g_viewTargetX = (uint32)g_planeTable.planes[g_viewTargetObj & 0x3f].mapX << 5;
+            g_viewTargetY = (uint32)g_planeTable.planes[g_viewTargetObj & 0x3f].mapY << 5;
+            g_viewTargetAlt = g_planeTable.planes[g_viewTargetObj & 0x3f].flags & 0x200 ? 0xc8 : 0x32;
             var_2 = 7;
-            if (word_336EA != 0 && word_3370C == -1) var_2 = 6;
+            if (g_autopilotEngaged != 0 && g_directorEventDeadline == -1) var_2 = 6;
         }
-        if (word_3370E == 0) var_2 = var_4;
-        var_A = (dword_3C01C >> 5) - g_viewX_;
-        var_C = (dword_3C024 >> 5) - g_viewY_;
+        if (g_directorMode == 0) var_2 = var_4;
+        var_A = (g_viewTargetX >> 5) - g_viewX_;
+        var_C = (g_viewTargetY >> 5) - g_viewY_;
         var_6 = rangeApprox(var_A, var_C);
-        word_3C5AA = computeBearing(var_A, -var_C);
-        word_3BE94 = -computeBearing((word_3C02C - g_viewZ) >> 5, var_6);
-        word_3B4E4 = 0;
-        var_8 = cosMul(word_3BE94, 0x18 << var_2);
-        if (word_3C02E & 0x60 || word_3370E != 0) {
+        g_viewHeading = computeBearing(var_A, -var_C);
+        g_viewPitch = -computeBearing((g_viewTargetAlt - g_viewZ) >> 5, var_6);
+        g_viewRoll = 0;
+        var_8 = cosMul(g_viewPitch, 0x18 << var_2);
+        if (g_viewTargetObj & 0x60 || g_directorMode != 0) {
             if (keyValue == 0x88) {
-                dword_3B1FE = sinMul(word_3C5AA + 0x8000, var_8) + g_ViewX;
-                dword_3B4D4 = cosMul(word_3C5AA + 0x8000, var_8) + g_ViewY;
-                word_3B4DE = sinMul(word_3BE94, 0x18 << var_2) + (4 << var_2) + g_viewZ;
-                word_3BE94 = -word_3BE94;
+                g_camEyeX = sinMul(g_viewHeading + 0x8000, var_8) + g_ViewX;
+                g_camEyeY = cosMul(g_viewHeading + 0x8000, var_8) + g_ViewY;
+                g_camEyeZ = sinMul(g_viewPitch, 0x18 << var_2) + (4 << var_2) + g_viewZ;
+                g_viewPitch = -g_viewPitch;
             }
             else {
-                dword_3B1FE = sinMul(word_3C5AA, var_8) + dword_3C01C;
-                dword_3B4D4 = cosMul(word_3C5AA, var_8) - dword_3C024 + 0x100000;
-                word_3B4DE = (4 << var_2) - sinMul(word_3BE94, 0x18 << var_2) + word_3C02C;
-                if (word_3C02E & 0x40 && g_planeTable.planes[word_3C02E & 0x3f].flags & 0x200 && word_3B4DE < 0x84) {
-                    word_3B4DE = 0x84;
+                g_camEyeX = sinMul(g_viewHeading, var_8) + g_viewTargetX;
+                g_camEyeY = cosMul(g_viewHeading, var_8) - g_viewTargetY + 0x100000;
+                g_camEyeZ = (4 << var_2) - sinMul(g_viewPitch, 0x18 << var_2) + g_viewTargetAlt;
+                if (g_viewTargetObj & 0x40 && g_planeTable.planes[g_viewTargetObj & 0x3f].flags & 0x200 && g_camEyeZ < 0x84) {
+                    g_camEyeZ = 0x84;
                 }
-                word_3C5AA += 0x8000;
+                g_viewHeading += 0x8000;
             }
         }
         else {
-            word_3C5AA = stru_335C4[word_3C02E].worldX;
-            word_3BE94 = stru_335C4[word_3C02E].worldY - 0x400;
-            var_8 = cosMul(word_3BE94, 0x10 << var_2);
-            dword_3B1FE = dword_3C01C - sinMul(word_3C5AA, var_8);
-            dword_3B4D4 = 0x100000 - (cosMul(word_3C5AA, var_8) + dword_3C024);
-            word_3B4DE = word_3C02C - sinMul(word_3BE94, 0x10 << var_2);
+            g_viewHeading = g_projectiles[g_viewTargetObj].worldX;
+            g_viewPitch = g_projectiles[g_viewTargetObj].worldY - 0x400;
+            var_8 = cosMul(g_viewPitch, 0x10 << var_2);
+            g_camEyeX = g_viewTargetX - sinMul(g_viewHeading, var_8);
+            g_camEyeY = 0x100000 - (cosMul(g_viewHeading, var_8) + g_viewTargetY);
+            g_camEyeZ = g_viewTargetAlt - sinMul(g_viewPitch, 0x10 << var_2);
         }
         break;
     case 0x8c:
-        word_3BE94 = 0xf400;
-        word_3B4E4 = 0;
-        dword_3B1FE = (int32)word_3C028 << 5;
-        dword_3B4D4 = (0x8000 - (int32)word_3C03A) << 5;
-        word_3B4DE = word_3C040;
+        g_viewPitch = 0xf400;
+        g_viewRoll = 0;
+        g_camEyeX = (int32)g_crashCamX << 5;
+        g_camEyeY = (0x8000 - (int32)g_crashCamY) << 5;
+        g_camEyeZ = g_crashCamZ;
         break;
     }
-    if (abs(word_3BE94) > 0x4000 || word_3BE94 == 0x8000) {
-        word_3BE94 = 0x8000 - word_3BE94;
-        word_3C5AA += 0x8000;
-        word_3B4E4 = 0x8000 - word_3B4E4;
+    if (abs(g_viewPitch) > 0x4000 || g_viewPitch == 0x8000) {
+        g_viewPitch = 0x8000 - g_viewPitch;
+        g_viewHeading += 0x8000;
+        g_viewRoll = 0x8000 - g_viewRoll;
     }
     if (keyValue == 0) {
-        memcpy(unk_3A948, unk_3806E, 0x12);
+        memcpy(g_camRotMatrix, g_orientMatrix, 0x12);
     }
     else {
-        buildRotationMatrixFar(unk_3A948, word_3C5AA, word_3BE94, word_3B4E4);
+        buildRotationMatrixFar(g_camRotMatrix, g_viewHeading, g_viewPitch, g_viewRoll);
     }
-    word_3B4DE = word_3B4DE < 0x10 ? 0x10 : word_3B4DE;
-    var_E = word_330C2;
-    word_330C2 = (keyValue & 0xc0) == 0;
-    if (var_E != word_330C2) {
+    g_camEyeZ = g_camEyeZ < 0x10 ? 0x10 : g_camEyeZ;
+    var_E = g_hudVisible;
+    g_hudVisible = (keyValue & 0xc0) == 0;
+    if (var_E != g_hudVisible) {
         gfx_waitRetrace();
-        if (word_330C2 != 0) {
+        if (g_hudVisible != 0) {
             gfx_nop23();
             // the pointer arguments are probably rastports, RectCopy?
-            gfx_copyRect(*off_38364, 0, 0x61, *off_38334, 0, 0x61, 0x140, 0x67);
-            gfx_copyRect(*off_38364, 0, 0x61, *off_3834C, 0, 0x61, 0x140, 0x67);
+            gfx_copyRect(*g_pageOffscreen, 0, 0x61, *g_pageFront, 0, 0x61, 0x140, 0x67);
+            gfx_copyRect(*g_pageOffscreen, 0, 0x61, *g_pageBack, 0, 0x61, 0x140, 0x67);
             UpdateThrottleState();
             drawWeaponAmmo();
             drawWeaponSelectMarker(missileSpecIndex);
-            if (word_3C09A == 0) {
+            if (g_mapMode == 0) {
                 redrawTacMap(g_viewX_, g_viewY_);
             }
-            word_336F4 = word_336F2 = 0xffff;
+            g_groundTargetLock = g_airTargetLock = 0xffff;
             fillPanelBox(3, 3);
-            word_39604 = 0;
+            g_lockedTargetKilled = 0;
         }
         else {
-            gfx_copyRect(*off_38334, 0, 0x61, *off_38364, 0, 0x61, 0x140, 0x67);
+            gfx_copyRect(*g_pageFront, 0, 0x61, *g_pageOffscreen, 0, 0x61, 0x140, 0x67);
         }
     }
-    if (keyValue != word_38152) {
+    if (keyValue != g_lastViewKey) {
         if (keyValue == 0x42 || keyValue == 0x43 || keyValue == 0x41) {
             gfx_waitRetrace();
             if (gfx_getModecode() == 3) {
-                openBlitClosePic(keyValue == 0x42 ? a256left_pic : keyValue == 0x43 ? a256right_pic : a256rear_pic, *off_38334);
+                openBlitClosePic(keyValue == 0x42 ? a256left_pic : keyValue == 0x43 ? a256right_pic : a256rear_pic, *g_pageFront);
             }
             else {
-                openBlitClosePic(keyValue == 0x42 ? aLeft_pic : keyValue == 0x43 ? aRight_pic : aRear_pic, *off_38334);
+                openBlitClosePic(keyValue == 0x42 ? aLeft_pic : keyValue == 0x43 ? aRight_pic : aRear_pic, *g_pageFront);
             }
-            gfx_copyRect(*off_38334, 0, 0x61, *off_3834C, 0, 0x61, 0x140, 0x67);
-            off_38334[8] = off_3834C[8] = 0x60;
+            gfx_copyRect(*g_pageFront, 0, 0x61, *g_pageBack, 0, 0x61, 0x140, 0x67);
+            g_pageFront[8] = g_pageBack[8] = 0x60;
         }
         else {
-            off_38334[8] = off_3834C[8] = word_330C2 != 0 ? 0x60 : 0xc7;
+            g_pageFront[8] = g_pageBack[8] = g_hudVisible != 0 ? 0x60 : 0xc7;
         }
-        word_38152 = keyValue;
+        g_lastViewKey = keyValue;
     }
-    byte_34197 = byte_228D0[0x2f];
-    *(uint8*)(&word_3BE98) = 3;
-    if (word_38FDC == 0 && commData->gfxModeNum != 0) {
-        byte_34197 = 3;
-        *(uint8*)(&word_3BE98) = 0x0b;
+    g_horizonGroundColor = byte_228D0[0x2f];
+    *(uint8*)(&g_skyColorIndex) = 3;
+    if (g_detailLevel == 0 && commData->gfxModeNum != 0) {
+        g_horizonGroundColor = 3;
+        *(uint8*)(&g_skyColorIndex) = 0x0b;
     }
-    loadColorPalette(word_330BC);
-    *(uint8*)(&var_315) = 0;
-    render3DView(-word_3C5AA, word_3BE94, word_3B4E4, dword_3B1FE, dword_3B4D4, (int32)word_3B4DE, 0, 0, 0x140, off_38334[8] + 1);
-    byte_3850E = 0;
-    byte_3995A = var_315;
+    loadColorPalette(g_nightMode);
+    *(uint8*)(&g_posVisibleFlag) = 0;
+    render3DView(-g_viewHeading, g_viewPitch, g_viewRoll, g_camEyeX, g_camEyeY, (int32)g_camEyeZ, 0, 0, 0x140, g_pageFront[8] + 1);
+    g_extraScaleShift = 0;
+    g_savedPosVisible = g_posVisibleFlag;
     if (keyValue == 0x41) {
-        drawVectorShape(unk_38128);
+        drawVectorShape(g_rearViewShape);
         gfx_setColor(0xf);
-        word_3755D = 0xf1;
-        word_37561 = 0x15;
-        word_3755F = 0xfb;
-        word_37563 = 0x5e;
+        g_lineX1 = 0xf1;
+        g_lineY1 = 0x15;
+        g_lineX2 = 0xfb;
+        g_lineY2 = 0x5e;
         drawClipLineGlobal();
-        word_3755D = 0x53;
-        word_37561 = 0x15;
-        word_3755F = 0x49;
-        word_37563 = 0x5e;
+        g_lineX1 = 0x53;
+        g_lineY1 = 0x15;
+        g_lineX2 = 0x49;
+        g_lineY2 = 0x5e;
         drawClipLineGlobal();
         gfx_nop23();
-        var_E = byte_3C5A0;
-        byte_3C5A0 = gfx_getDisplayPage();
+        var_E = g_drawPage;
+        g_drawPage = gfx_getDisplayPage();
         blitSprite(0x6b, 0x30, 0xd1, 0, 0x6f, 0x2f, 0);
         blitSprite(0x41, 0x5f, 0x7d, 0x36, 0xc3, 2, 0);
-        byte_3C5A0 = var_E;
+        g_drawPage = var_E;
     }
     gfx_flipPage();
-    word_38126 = (word_3C09E == 0x13 || word_3C09A == 1 || word_330C2 == 0) ? 0xc8 : 0x61;
+    g_hudBottomY = (g_activePanelMode == 0x13 || g_mapMode == 1 || g_hudVisible == 0) ? 0xc8 : 0x61;
     TRACE(("renderFrame: exit"));
 }
 
 void UpdateThrottleState(void) {
-    if (word_330C2 != 0) {
+    if (g_hudVisible != 0) {
         setDrawColor(0);
 #ifdef BUGFIX
         fillRectBoth(0xd4, 0x7f, 0xde, 0xaf);
@@ -1002,13 +1002,13 @@ void UpdateThrottleState(void) {
     }
 }
 void drawFuelGauge(void) {
-    if (word_330C2 == 0) {
+    if (g_hudVisible == 0) {
         return;
     }
     setDrawColor(0);
     fillRectBoth(5, 0x6d, 0x0a, 0x98);
-    setDrawColor(word_33098 > 2000 ? 2 : 14);
-    fillRectBoth(5, -(word_33098 / 250 - 0x98), 0x0a, 0x98);
+    setDrawColor(g_fuelRemaining > 2000 ? 2 : 14);
+    fillRectBoth(5, -(g_fuelRemaining / 250 - 0x98), 0x0a, 0x98);
 }
 
 void drawVectorShape(int16 *shapeData) {
@@ -1017,10 +1017,10 @@ void drawVectorShape(int16 *shapeData) {
         resetScanlineSpans();
         shapeData += 2;
         while (*shapeData != -1) {
-            word_3755D = shapeData[-2];
-            word_37561 = shapeData[-1];
-            word_3755F = *shapeData++;
-            word_37563 = *shapeData++;
+            g_lineX1 = shapeData[-2];
+            g_lineY1 = shapeData[-1];
+            g_lineX2 = *shapeData++;
+            g_lineY2 = *shapeData++;
             clipAndRasterizeEdge();
         }
         flushSpanDirtyRect();
@@ -1032,12 +1032,12 @@ void waitForKeyPress(void) {
     int p;
 
     audio_engineDroneOff();
-    p = var_383;
+    p = g_frameTimingAccum;
 loop:
     while (kbhit() == 0)
         ;
     if (_bios_keybrd(0) == 0x1900)
         goto loop;
     updateEngineSound();
-    var_383 = p;
+    g_frameTimingAccum = p;
 }

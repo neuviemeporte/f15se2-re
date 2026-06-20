@@ -61,7 +61,7 @@ struct Target {
     int16 targetIdx;     /* target index into worldObjects[] world data */
     int16 baseIdx;       /* takeoff base (primary) or landing base (secondary) index */
     int16 missionCode;   /* bit flags for mission completion detection */
-    int16 missionNum;    /* index into mission lookup table (missionTable/stru_33402) */
+    int16 missionNum;    /* index into mission lookup table (missionTable/g_particles) */
     char coord[6];      /* grid reference string (e.g. "A3B2") */
     int16 distance;      /* distance metric */
 };
@@ -72,7 +72,7 @@ STATIC_ASSERT(sizeof(struct Target)==18);
 
 /* MissionTableEntry: 0x0C-byte mission lookup table entry.
  * Array of ~56 entries defining possible mission types per theater/tension.
- * Used by missionTable[] (start.exe) and stru_33402[] (egame.exe). */
+ * Used by missionTable[] (start.exe) and g_particles[] (egame.exe). */
 #pragma pack(1)
 struct MissionTableEntry {
     int16 theaterMask;   /* bitmask of which theaters support this mission */
@@ -124,7 +124,7 @@ STATIC_ASSERT(sizeof(struct Plane)==32);
 /* SamDataEntry: 32-byte record in end.exe's planeArray/samDataTable.
  * Unlike struct Plane (start.exe), this has 8 prefix bytes before the name. */
 struct SamDataEntry {
-    int16 field_0;      /* -1 = sentinel/invalid entry */
+    int16 validFlag;    /* -1 = sentinel/invalid entry */
     int16 field_2;
     int16 field_4;
     int16 field_6;
@@ -162,14 +162,14 @@ struct ViewSnapshot {
 };
 STATIC_ASSERT(sizeof(struct ViewSnapshot)==16);
 
-// In-flight guided-weapon tracking (stru_335C4[12]): slots 0-7 = SAM/ground
+// In-flight guided-weapon tracking (g_projectiles[12]): slots 0-7 = SAM/ground
 // threat shots, 8-11 = player-fired missiles. fireMissile() claims a slot whose
 // ttl == 0 and seeds the launch position; ttl counts down the flight time. 0x18 bytes.
 struct Projectile {
     uint16 mapX;        // +0x00  launch map X coord
     uint16 mapY;        // +0x02  launch map Y coord
     int16 alt;          // +0x04  altitude (render target)
-    int16 field_6;      // +0x06  speed/range term
+    int16 speed;        // +0x06  speed/range term
     int16 worldX;       // +0x08  launch world X
     int16 worldY;       // +0x0A  launch world Y
     int16 worldZ;       // +0x0C  launch world Z
@@ -213,12 +213,12 @@ struct SimObject {
     // +0x10..0x24  per-object motion/AI state (was uint8 state[20])
     union { int16 w; uint8 b[2]; } heading; // +0x10  yaw; b[1] high byte = 180deg flip
     int16 pitch;        // +0x12
-    union { int16 w; uint8 b[2]; } field_4; // +0x14  pitch/turn rate; b[1] high-byte flip
+    union { int16 w; uint8 b[2]; } bank; // +0x14  roll/bank (3rd Euler arg); b[1] high-byte flip
     int16 spec;         // +0x16  index into aircraftTypes
     union { uint16 w; uint8 b[2]; } flags;  // +0x18  b[0] low byte, b[1] high byte
     int16 speed;        // +0x1A  velocity magnitude / fuel
     int16 timer;        // +0x1C  countdown
-    int16 field_e;      // +0x1E
+    int16 weaponType;   // +0x1E  AI weapon index (sams[] lookup)
     int16 terrainColor; // +0x20  readMapPixelColor under object
     int16 damage;       // +0x22  damage accumulator (clamp 0..0xff)
 };
@@ -228,11 +228,11 @@ STATIC_ASSERT(sizeof(struct SimObject)==0x24);
 struct MapTarget {
     uint16 mapX;        // +0x00  map X coord (worldX = mapX << 5)
     uint16 mapY;        // +0x02  map Y coord (worldY = mapY << 5)
-    int16 field_4;
+    int16 active;       // +0x04  alive/valid gate (0 = empty slot)
     int16 flags;        // +0x06  0x100 air / 0x200 ground / 0x8 ...
-    int16 field_8;      // +0x08
-    int16 field_A;      // +0x0A  threat-site countdown timer
-    int16 field_C;
+    int16 alertLevel;   // +0x08  SAM radar-alert accumulator (clamp 255)
+    int16 threatTimer;  // +0x0A  threat-site countdown timer
+    int16 nameIndex;    // +0x0C  g_targetNameTable index (&0x7f); bit8 = identified
     int16 field_E;
 };
 STATIC_ASSERT(sizeof(struct MapTarget)==0x10);
@@ -253,7 +253,7 @@ STATIC_ASSERT(sizeof(struct GroundTargetTable) == 2 + 74 * 0x10);
 /* ReplayEvent: one entry in the tactical-replay event log (appendMapEvent). */
 #pragma pack(1)
 struct ReplayEvent {
-    int16 coord;        // +0x00  world frame coord (word_38FE0)
+    int16 coord;        // +0x00  world frame coord (g_missionTick)
     uint8 screenX;      // +0x02  map X (viewX >> 7)
     uint8 screenY;      // +0x03  map Y (viewY >> 7)
     uint8 type;         // +0x04  event type (0 = end-of-log terminator)
@@ -283,15 +283,19 @@ struct TargetSlot {
 };
 STATIC_ASSERT(sizeof(struct TargetSlot)==0x12);
 
-// 8-byte struct used for stru_33402
-struct struc_9 {
-    int16 field_0;
-    int16 field_2;
-    int16 field_4;
-    int16 field_6;
+/* Particle: one short-lived world effect marker (smoke-trail puff, weapon-hit
+ * spark, or flight marker) in the g_particles[8] ring. posX/posY/alt are the
+ * world position; alt rises (+0x0A/frame) while posY drifts by alt>>9, and spin
+ * is an orientation angle whose high byte advances each frame (passed where
+ * drawWorldObject() takes its pitch argument). 8-byte record, stride 8. */
+struct Particle {
+    int16 posX;
+    int16 posY;
+    int16 alt;
+    int16 spin;
 };
 
-struct Matrix3dEntry7; /* defined below; TileObject holds a pointer to one */
+struct TileSceneObject; /* defined below; TileObject holds a pointer to one */
 
 /* TileObject: nearest-tile-object record returned by findNearestTileObject().
  * The same record is the scratch block addTileEntry() walks: it reads the
@@ -303,14 +307,14 @@ struct TileObject {
     int16 dist;     /* +0x02 distance metric */
     int32 x;        /* +0x04 world X */
     int32 y;        /* +0x08 world Y */
-    struct Matrix3dEntry7 *entry; /* +0x0C nearest matrix entry */
+    struct TileSceneObject *entry; /* +0x0C nearest matrix entry */
     uint8 lod;      /* +0x0E LOD level */
     uint8 subIndex; /* +0x0F sub-object index */
     uint8 tileX;    /* +0x10 tile column */
     uint8 tileY;    /* +0x11 tile row */
     int16 shapeOff; /* +0x12 shape-data offset (addTileEntry arg) */
     uint8 flag;     /* +0x14 entry flag (addTileEntry arg) */
-    uint8 _0x15;    /* +0x15 trailing scratch byte (part of the 8-byte tail) */
+    uint8 pad15;    /* +0x15 trailing scratch byte (part of the 8-byte tail) */
 };
 #pragma pack()
 /* 20 fixed bytes + a near pointer (2 in DOS, wider in the 64-bit lint). */
@@ -351,31 +355,31 @@ STATIC_ASSERT(sizeof(struct Waypoint)==4);
 
 // 0x1a bytes
 struct Missile {
-    char field_0[10];
-    char field_A[12];
-    int16 field_16;
-    int16 field_18;
+    char shortName[10]; /* +0x00 short display name, e.g. "AIM-9M" */
+    char longName[12];  /* +0x0A long display name, e.g. "Sidewinder" */
+    int16 specIndex;    /* +0x16 sams[] index; -1 = camera, -2 = fuel */
+    int16 field_18;     /* +0x18 weapon category */
 };
 STATIC_ASSERT(sizeof(struct Missile)==26);
 
 // 0x12 bytes
 struct Sam {
-    char field_0[8];
-    int16 field_8;
-    int16 field_A;
-    int16 field_C;
-    int16 field_E;
-    int16 field_10;
+    char name[8];       /* +0x00 weapon/SAM name string */
+    int16 lockRange;    /* +0x08 engagement range */
+    int16 maxSpeed;     /* +0x0A projectile speed = maxSpeed >> 6 */
+    int16 weaponClass;  /* +0x0C firing-mode class (7 = A2A) */
+    int16 turnRate;     /* +0x0E maneuver clamp = +/- turnRate*0x80 */
+    int16 modelId;      /* +0x10 3D model id */
 };
 STATIC_ASSERT(sizeof(struct Sam)==18);
 
 // 0x0E bytes - weapon/SAM entry (first table, accessed with stride 14)
 #pragma pack(1)
 struct Weapon {
-    char name[8];     /* null-terminated, zero-padded to 8 */
-    int16 field_8;    /* range or speed */
-    int16 field_A;    /* damage or type */
-    int16 field_C;    /* flags */
+    char name[8];      /* null-terminated, zero-padded to 8 */
+    int16 lethality;   /* +0x08 dominant threat-score term (0..500) */
+    int16 dangerTier;  /* +0x0A small 0..8 threat-score multiplier */
+    int16 flags;       /* +0x0C bit0 = radar-guided */
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct Weapon)==14);
@@ -441,7 +445,7 @@ struct PageDesc {
 STATIC_ASSERT(sizeof(struct PageDesc) == 22 + sizeof(void*));
 
 #pragma pack(1)
-struct Matrix3dEntry7 {
+struct TileSceneObject {
     int16 x;        /* +0x00 object position X */
     int16 y;        /* +0x02 object position Y */
     int16 z;        /* +0x04 object position Z */
@@ -450,30 +454,30 @@ struct Matrix3dEntry7 {
 #pragma pack()
 
 #pragma pack(1)
-struct Unknown3B4E6Record8 {
+struct DynTileOverride {
     uint8 lod;       /* +0x00 LOD level (matched against lookup arg 1) */
     uint8 subIndex;  /* +0x01 sub-object index (matched against lookup arg 2) */
     uint8 tileX;     /* +0x02 tile column (matched against lookup arg 3) */
     uint8 tileY;     /* +0x03 tile row (matched against lookup arg 4) */
     int16 value;     /* +0x04 returned when the four key bytes match */
     uint8 shape;     /* +0x06 shape id override */
-    uint8 _0x07;
+    uint8 pad7;
 };
 #pragma pack()
-STATIC_ASSERT(sizeof(struct Unknown3B4E6Record8)==8);
+STATIC_ASSERT(sizeof(struct DynTileOverride)==8);
 
 /* Enemy aircraft type table (head = aMig23). 32-byte records, one per type. */
 #pragma pack(1)
 struct AircraftType {
     char name[7];      /* +0x00 primary name, e.g. "MIG-23" */
     char altName[11];   /* +0x07 " "+NATO name appended after the primary, e.g. " Flogger" */
-    int16 field_12;    /* +0x12 */
-    int16 field_14;    /* +0x14 */
-    int16 field_16;    /* +0x16 */
-    int16 field_18;    /* +0x18  -1 = no 3D model */
-    int16 field_1A;    /* +0x1A */
-    int16 field_1C;    /* +0x1C */
-    int16 field_1E;    /* +0x1E */
+    int16 maxSpeed;        /* +0x12 speed cap / turn-timer divisor */
+    int16 range;           /* +0x14 spawn/engage range */
+    int16 maneuverability; /* +0x16 turn-command clamp = +/- field*0x1000 */
+    int16 modelId;         /* +0x18  -1 = no 3D model */
+    int16 viewModelId;     /* +0x1A near/far view model pair [0] */
+    int16 viewModelIdFar;  /* +0x1C view model pair [1] */
+    int16 killCount;       /* +0x1E kills tally (+=1 on a kill) */
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct AircraftType)==32);

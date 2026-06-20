@@ -29,106 +29,106 @@ void updateTargetLock(void) {
             g_viewZ + 0x10, g_ourHead, g_ourPitch, g_ourRoll, 2);
     }
 
-    if (word_3B4D2 != 0) {
-        word_3B4D2--;
+    if (g_aamLockCooldown != 0) {
+        g_aamLockCooldown--;
     }
 
-    if (!(word_336F4 & 0x80)) {
+    if (!(g_groundTargetLock & 0x80)) {
         if (frameTick & 0x0f) goto skip_aam;
-        if (word_3C00A != 0) goto skip_aam;
+        if (g_aamLockActive != 0) goto skip_aam;
     }
-    if (word_3C09E != 0x13) goto skip_aam;
-    if (word_3B4D2 != 0) goto skip_aam;
+    if (g_activePanelMode != 0x13) goto skip_aam;
+    if (g_aamLockCooldown != 0) goto skip_aam;
     if (g_currentWeaponType == 1) goto skip_aam;
     if (keyValue & 0x80) goto skip_aam;
 
-    if (!(word_336F4 & 0x80)) {
-        word_336F4 = l = -1;
+    if (!(g_groundTargetLock & 0x80)) {
+        g_groundTargetLock = l = -1;
     }
 
-    c = 100 << (6 - (unsigned char)word_330BC);
+    c = 100 << (6 - (unsigned char)g_nightMode);
 
-    if (word_336F4 != -1) {
-        g = word_336F4 - 0x80;
+    if (g_groundTargetLock != -1) {
+        g = g_groundTargetLock - 0x80;
         g0 = computeMapTargetRange(g) - 1;
-        if (g_planeTable.planes[g].field_4 != 0) {
+        if (g_planeTable.planes[g].active != 0) {
             g0 -= 0x280;
         }
         if (g < 3) {
             g0 -= 0x0a00;
         }
-        if (abs(g_ourHead + word_3C8B2 - var_674) > 0x2000) {
+        if (abs(g_ourHead + g_viewHeadingOffset - g_targetBearing) > 0x2000) {
             g0 = -32000;
             goto after_lock;
         }
-        word_3C00A = 1;
+        g_aamLockActive = 1;
 after_lock:
         ;
     } else {
-        word_3C00A = 0;
+        g_aamLockActive = 0;
         g0 = -32000;
     }
 
     l = -1;
-    for (g = 1; g < word_3BED2; g++) {
+    for (g = 1; g < g_planeCount; g++) {
         computeMapTargetRange(g);
-        if (abs(g_ourHead + word_3C8B2 - var_674) < 0x1800 &&
-            g + 0x80 != word_336F4 && !(g_planeTable.planes[g].flags & 0x80)) {
-            if (g_planeTable.planes[g].field_4 != 0) {
-                var_672 -= 0x280;
+        if (abs(g_ourHead + g_viewHeadingOffset - g_targetBearing) < 0x1800 &&
+            g + 0x80 != g_groundTargetLock && !(g_planeTable.planes[g].flags & 0x80)) {
+            if (g_planeTable.planes[g].active != 0) {
+                g_targetRange -= 0x280;
             }
             if (g == g_targetSlots[0].planeIndex || g == g_targetSlots[1].planeIndex) {
-                var_672 -= 0x0a00;
+                g_targetRange -= 0x0a00;
             }
-            if (c > var_672 && g0 < var_672) {
+            if (c > g_targetRange && g0 < g_targetRange) {
                 l = g;
-                c = var_672;
+                c = g_targetRange;
             }
         }
     }
 
     if (l & 0x80) {
-        if (word_336F4 == -1) {
-            word_3B4D2 = 4;
+        if (g_groundTargetLock == -1) {
+            g_aamLockCooldown = 4;
         } else {
-            word_336F4 = -1;
+            g_groundTargetLock = -1;
         }
     } else {
-        word_336F4 = l;
-        word_39604 = 0;
+        g_groundTargetLock = l;
+        g_lockedTargetKilled = 0;
     }
 
 skip_aam:
     /* Missile/chaff loop (8 entries, stride 8) */
     for (g = 0; g < 8; g++) {
-        if (stru_33402[g].field_0 != 0) {
-            projectWorldToHud(stru_33402[g].field_0,
-                stru_33402[g].field_2,
-                stru_33402[g].field_4);
-            if (word_3C016 < 0 && word_3C016 > -0x100) {
+        if (g_particles[g].posX != 0) {
+            projectWorldToHud(g_particles[g].posX,
+                g_particles[g].posY,
+                g_particles[g].alt);
+            if (g_projDepth < 0 && g_projDepth > -0x100) {
                 drawWorldObject(
-                    (unsigned char)(((unsigned char)word_33442 - (unsigned char)g) & 7) < 4 ? 3 : 0x11,
-                    (long)(unsigned)stru_33402[g].field_0 << 5,
-                    (long)(unsigned)stru_33402[g].field_2 << 5,
-                    stru_33402[g].field_4, 0,
-                    stru_33402[g].field_6, 0, 0);
+                    (unsigned char)(((unsigned char)g_smokeParticleSlot - (unsigned char)g) & 7) < 4 ? 3 : 0x11,
+                    (long)(unsigned)g_particles[g].posX << 5,
+                    (long)(unsigned)g_particles[g].posY << 5,
+                    g_particles[g].alt, 0,
+                    g_particles[g].spin, 0, 0);
             }
         }
     }
 
     /* Air-to-ground targeting */
-    c = 0x4b << (6 - (unsigned char)word_330BC);
+    c = 0x4b << (6 - (unsigned char)g_nightMode);
 
-    h = (word_330C2 != 0 && (unsigned int)(word_38FEE + g_viewZ) > 0x5dc) ? 1 : 0;
-    if (word_330C2 != 0 && (unsigned int)(word_38FEE + g_viewZ) > 0xfa0) {
+    h = (g_hudVisible != 0 && (unsigned int)(g_nearestThreatRange + g_viewZ) > 0x5dc) ? 1 : 0;
+    if (g_hudVisible != 0 && (unsigned int)(g_nearestThreatRange + g_viewZ) > 0xfa0) {
         h = 2;
     }
 
     /* A2G radar lock range */
-    if ((word_336F2 & 0x80) && word_336F2 != -1) {
-        g = word_336F2 - 0x80;
-        g0 = computeTargetBearing(stru_3B202[g].posX, stru_3B202[g].posY, 1);
-        if (abs(g_ourHead + word_3C8B2 - var_674) > 0x2000) {
+    if ((g_airTargetLock & 0x80) && g_airTargetLock != -1) {
+        g = g_airTargetLock - 0x80;
+        g0 = computeTargetBearing(g_simObjects[g].posX, g_simObjects[g].posY, 1);
+        if (abs(g_ourHead + g_viewHeadingOffset - g_targetBearing) > 0x2000) {
             g0 = 0;
         }
     } else {
@@ -136,51 +136,51 @@ skip_aam:
     }
 
     l = -1;
-    for (g = 0; g < word_3C046; g++) {
-        if (!(stru_3B202[g].flags.b[0] & 2))
+    for (g = 0; g < g_groundUnitCount; g++) {
+        if (!(g_simObjects[g].flags.b[0] & 2))
             goto next2;
 
-        if (computeSimObjectRange(g) >= 0x12c0 && word_3370E == 0)
+        if (computeSimObjectRange(g) >= 0x12c0 && g_directorMode == 0)
             goto next2;
 
-        if (c > var_672 && g0 < var_672 && !(keyValue & 0x80) &&
-            !(stru_3B202[g].flags.b[0] & 0x20) &&
-            stru_3B202[g].speed != 0) {
-            computeTargetBearing(stru_3B202[g].posX, stru_3B202[g].posY, 1);
-            if (abs(g_ourHead + word_3C8B2 - var_674) < 0x2000) {
-                c = var_672;
+        if (c > g_targetRange && g0 < g_targetRange && !(keyValue & 0x80) &&
+            !(g_simObjects[g].flags.b[0] & 0x20) &&
+            g_simObjects[g].speed != 0) {
+            computeTargetBearing(g_simObjects[g].posX, g_simObjects[g].posY, 1);
+            if (abs(g_ourHead + g_viewHeadingOffset - g_targetBearing) < 0x2000) {
+                c = g_targetRange;
                 l = g;
             }
         }
 
-        projectWorldToHud(stru_3B202[g].posX, stru_3B202[g].posY, stru_3B202[g].alt);
+        projectWorldToHud(g_simObjects[g].posX, g_simObjects[g].posY, g_simObjects[g].alt);
 
-        if (word_3C016 >= 0)
+        if (g_projDepth >= 0)
             goto next2;
 
-        word_3C016 >>= h;
+        g_projDepth >>= h;
 
-        if (word_3C016 > -0x20) {
-            if (stru_3B202[g].alt < 999 && word_330BC == 0) {
+        if (g_projDepth > -0x20) {
+            if (g_simObjects[g].alt < 999 && g_nightMode == 0) {
                 f = 0;
                 if ((g_planeTable.planes[g_closestThreatIndex].flags & 0x200) &&
-                    abs(stru_3B202[g].posX - g_planeTable.planes[g_closestThreatIndex].mapX) < word_38FFC >> 5 &&
-                    abs(stru_3B202[g].posY - g_planeTable.planes[g_closestThreatIndex].mapY) < word_39200 >> 5) {
+                    abs(g_simObjects[g].posX - g_planeTable.planes[g_closestThreatIndex].mapX) < g_attackRangeX >> 5 &&
+                    abs(g_simObjects[g].posY - g_planeTable.planes[g_closestThreatIndex].mapY) < g_attackRangeY >> 5) {
                     f = 0x80;
                 }
                 if (g_viewZ != 0x80 || f == 0x80) {
-                    drawWorldObject(5, stru_3B202[g].worldX, stru_3B202[g].worldY,
-                        f, stru_3B202[g].heading.w, 0, 0,
+                    drawWorldObject(5, g_simObjects[g].worldX, g_simObjects[g].worldY,
+                        f, g_simObjects[g].heading.w, 0, 0,
                         -(signOf(h) - 2));
                 }
             }
 
             /* Draw the target */
             drawWorldObject(
-                (&aircraftTypes[stru_3B202[g].spec].field_1A)[(word_3C016 > -0x10) ? 0 : 1],
-                stru_3B202[g].worldX, stru_3B202[g].worldY, stru_3B202[g].alt,
-                stru_3B202[g].heading.w, stru_3B202[g].pitch,
-                stru_3B202[g].field_4.w, 2 - h);
+                (&aircraftTypes[g_simObjects[g].spec].viewModelId)[(g_projDepth > -0x10) ? 0 : 1],
+                g_simObjects[g].worldX, g_simObjects[g].worldY, g_simObjects[g].alt,
+                g_simObjects[g].heading.w, g_simObjects[g].pitch,
+                g_simObjects[g].bank.w, 2 - h);
         } else {
             setDrawColor(0x0f);
             drawViewportLine(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
@@ -190,28 +190,28 @@ next2:
     }
 
     if (l != -1) {
-        word_336F2 = l;
-        word_39604 = 0;
+        g_airTargetLock = l;
+        g_lockedTargetKilled = 0;
     }
-    if (word_336F2 & 0x80) {
-        word_336F2 = -1;
+    if (g_airTargetLock & 0x80) {
+        g_airTargetLock = -1;
     }
 
     /* SAM/missile visual loop (12 entries, stride 0x18) */
     for (g = 0; g < 12; g++) {
-        if (stru_335C4[g].ttl != 0) {
-            projectWorldToHud(stru_335C4[g].mapX, stru_335C4[g].mapY, stru_335C4[g].alt);
+        if (g_projectiles[g].ttl != 0) {
+            projectWorldToHud(g_projectiles[g].mapX, g_projectiles[g].mapY, g_projectiles[g].alt);
 
             if (vtxScratch.vproj.x.lo == -1)
                 goto next3;
 
-            if (word_3C016 > -0x20) {
-            drawWorldObject(sams[*(int *)&stru_335C4[g].state[0]].field_10,
-                (long)stru_335C4[g].mapX << 5,
-                (long)stru_335C4[g].mapY << 5,
-                stru_335C4[g].alt,
-                stru_335C4[g].worldX, stru_335C4[g].worldY,
-                stru_335C4[g].worldZ + 0x2000,
+            if (g_projDepth > -0x20) {
+            drawWorldObject(sams[*(int *)&g_projectiles[g].state[0]].modelId,
+                (long)g_projectiles[g].mapX << 5,
+                (long)g_projectiles[g].mapY << 5,
+                g_projectiles[g].alt,
+                g_projectiles[g].worldX, g_projectiles[g].worldY,
+                g_projectiles[g].worldZ + 0x2000,
                 ((keyValue & 0x80) && keyValue != 0x8b) ? 3 : 1);
             } else {
                 setDrawColor(g < 8 ? 0x0c : 0x0d);
@@ -223,29 +223,29 @@ next3:
     }
 
     /* Runway/base visual */
-    if (word_3BFA2 > 0) {
-        projectWorldToHud(word_3BEC2, word_3BED6, word_3BFA2);
-        if (word_3C016 < 0 && word_3C016 > -0x100) {
+    if (g_wreckAlt > 0) {
+        projectWorldToHud(g_wreckX, g_wreckY, g_wreckAlt);
+        if (g_projDepth < 0 && g_projDepth > -0x100) {
             drawWorldObject(0x0e,
-                (long)(unsigned)word_3BEC2 << 5,
-                (long)(unsigned)word_3BED6 << 5,
-                word_3BFA2, 0, 0, 0,
-                word_3B4DC > 0 ? 4 : 3);
+                (long)(unsigned)g_wreckX << 5,
+                (long)(unsigned)g_wreckY << 5,
+                g_wreckAlt, 0, 0, 0,
+                g_wreckFallVel > 0 ? 4 : 3);
         }
     }
 
     /* Player's own aircraft fire */
     if (!(keyValue & 0x80)) goto done;
     if (keyValue == 0x8b) goto done;
-    if (g_viewZ == 0 && word_3BE3C != 0) goto done;
+    if (g_viewZ == 0 && g_ejectState != 0) goto done;
 
     drawWorldObject(((g_playerPlaneFlags & 1) == 0) + 6, (long)g_ViewX,
         0x01000000L - g_ViewY, g_viewZ + 0x10, g_ourHead, g_ourPitch, g_ourRoll,
         2 - h);
 
-    if ((unsigned int)g_viewZ < 0x3e8 && word_330BC == 0) {
+    if ((unsigned int)g_viewZ < 0x3e8 && g_nightMode == 0) {
         drawWorldObject(0x15, (long)g_ViewX, 0x01000000L - g_ViewY,
-            word_3BEBE, g_ourHead, 0, 0, 2);
+            g_groundAltitude, g_ourHead, 0, 0, 2);
     }
 
 done:
@@ -255,12 +255,12 @@ done:
 void drawHudWorldOverlay(void) {
     int p, q, a, r, b, s, c, t, d, u, e, v, f, w, g, x, h, y, i, z, j, k, l, m, n;
 
-    var_675 = word_39402;
-    word_39402 = 0;
+    g_prevKillMarker = g_targetInHudFlag;
+    g_targetInHudFlag = 0;
 
     for (w = 0; w < 12; w++) {
-        if (stru_335C4[w].ttl != 0) {
-            projectWorldToHud(stru_335C4[w].mapX, stru_335C4[w].mapY, stru_335C4[w].alt);
+        if (g_projectiles[w].ttl != 0) {
+            projectWorldToHud(g_projectiles[w].mapX, g_projectiles[w].mapY, g_projectiles[w].alt);
             if (vtxScratch.vproj.x.lo != -1) {
                 setDrawColor(w < 8 ? 0x0e : 0x0a);
                 drawTargetBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 6, 0);
@@ -270,7 +270,7 @@ void drawHudWorldOverlay(void) {
 
     l = 0x200 / isqrt(g_frameRateScaling * 4 + 8);
 
-    for (w = 0; w < word_3AFA4 + 4; w++) {
+    for (w = 0; w < g_bulletTrackCount + 4; w++) {
         if (bulletTracks[w].posX != 0) {
 
         projectWorldToHud(bulletTracks[w].posX,
@@ -278,7 +278,7 @@ void drawHudWorldOverlay(void) {
                   bulletTracks[w].alt);
         k = vtxScratch.vproj.x.lo;
         n = vtxScratch.vproj.y.lo;
-        a = word_3C016;
+        a = g_projDepth;
 
         projectWorldToHud((bulletTracks[w].velX >> 1) + bulletTracks[w].posX,
                   (bulletTracks[w].velY >> 1) + bulletTracks[w].posY,
@@ -289,34 +289,34 @@ void drawHudWorldOverlay(void) {
 
         z = (frameTick >> 1) - w & 7;
 
-        setDrawColor(w < word_3AFA4 ? 0x0d : 0x0c);
+        setDrawColor(w < g_bulletTrackCount ? 0x0d : 0x0c);
         drawViewportLine(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, k, n);
 
         s = 0;
 
-        if (w < word_3AFA4) {
-            for (h = 0; h < word_3C046; h++) {
-                if ((stru_3B202[h].flags.b[0] & 0x22) == 2) {
+        if (w < g_bulletTrackCount) {
+            for (h = 0; h < g_groundUnitCount; h++) {
+                if ((g_simObjects[h].flags.b[0] & 0x22) == 2) {
 
                 z = (abs(bulletTracks[w].alt -
-                         stru_3B202[h].alt) >> 5)
+                         g_simObjects[h].alt) >> 5)
                   + abs(bulletTracks[w].posX -
-                        stru_3B202[h].posX)
+                        g_simObjects[h].posX)
                   + abs(bulletTracks[w].posY -
-                        stru_3B202[h].posY);
+                        g_simObjects[h].posY);
                 z = abs(z);
 
                 if (z < l / (g_missionStatus + 1)) {
 
                 s = 1;
-                stru_3B202[h].flags.b[0] |= 0x10;
-                word_39606 = 1;
+                g_simObjects[h].flags.b[0] |= 0x10;
+                g_hitEffectTimer = 1;
 
                 if (z * 2 < l / (g_missionStatus + 1)) {
                     destroyAircraft(h);
                     strcat((char *)strBuf, (char *)aDestroyedByGun);
                     tempStrcpy((char *)strBuf);
-                    word_39606 = 8;
+                    g_hitEffectTimer = 8;
                     bulletTracks[w].posX = 0;
                 }
                 }
@@ -337,33 +337,33 @@ void drawHudWorldOverlay(void) {
         }
 
         if (s) {
-            word_3BEBC = bulletTracks[w].posX;
-            word_3BEC8 = bulletTracks[w].posY;
-            word_3BECE = bulletTracks[w].alt;
-            word_39606 = -1;
+            g_hitMapX = bulletTracks[w].posX;
+            g_hitMapY = bulletTracks[w].posY;
+            g_hitAlt = bulletTracks[w].alt;
+            g_hitEffectTimer = -1;
         }
 
         if (bulletTracks[w].alt < 0) {
-            if (word_39606 <= 0) {
-                word_3BEBC = bulletTracks[w].posX;
-                word_3BEC8 = bulletTracks[w].posY;
-                word_3BECE = bulletTracks[w].alt;
-                word_39606 = -1;
+            if (g_hitEffectTimer <= 0) {
+                g_hitMapX = bulletTracks[w].posX;
+                g_hitMapY = bulletTracks[w].posY;
+                g_hitAlt = bulletTracks[w].alt;
+                g_hitEffectTimer = -1;
             }
             bulletTracks[w].posX = 0;
 
-            b = findWaypointEntry(word_3BEBC, word_3BEC8);
+            b = findWaypointEntry(g_hitMapX, g_hitMapY);
             if (b != -1 && !(g_planeTable.planes[b].flags & 0x80)) {
-                i = (int)(word_39808->x >> 5);
-                y = 0x8000 - (int)(word_39808->y >> 5);
+                i = (int)(g_nearestTileObj->x >> 5);
+                y = 0x8000 - (int)(g_nearestTileObj->y >> 5);
 
-                if (rangeApprox(word_3BEBC - i, word_3BEC8 - y) < 0x18 / (g_missionStatus + 2) &&
-                    (g_planeTable.planes[b].field_C & 0x7f) != *(uint8 *)byte_3C02A) {
+                if (rangeApprox(g_hitMapX - i, g_hitMapY - y) < 0x18 / (g_missionStatus + 2) &&
+                    (g_planeTable.planes[b].nameIndex & 0x7f) != *(uint8 *)g_landTargetId) {
                     destroyGroundTarget(b);
                     strcat((char *)strBuf, (char *)aDestroyedByG_0);
                     tempStrcpy((char *)strBuf);
-                    word_39606 = 8;
-                    word_3BECE = 0;
+                    g_hitEffectTimer = 8;
+                    g_hitAlt = 0;
                 }
             }
         }
@@ -372,19 +372,19 @@ void drawHudWorldOverlay(void) {
         }
     }
 
-    if (word_39606 != 0) {
-        projectWorldToHud(word_3BEBC, word_3BEC8, word_3BECE);
+    if (g_hitEffectTimer != 0) {
+        projectWorldToHud(g_hitMapX, g_hitMapY, g_hitAlt);
         if (vtxScratch.vproj.x.lo != -1) {
-            x = abs(0x100 / word_3C016);
+            x = abs(0x100 / g_projDepth);
             for (w = 0; w < 8; w++) {
                 setDrawColor(randomRange(4) + 0x0c);
-                if (word_3BECE > 0) {
+                if (g_hitAlt > 0) {
                     drawViewportLine(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo,
                               randomRange(x << 1) - x + vtxScratch.vproj.x.lo,
                               randomRange(x << 1) - x + vtxScratch.vproj.y.lo);
                 } else {
                     c = randomRange(0x6000) - 0x3000;
-                    if (word_330C2 != 0) {
+                    if (g_hudVisible != 0) {
                         c -= g_ourRoll;
                     }
                     a = randomRange(x);
@@ -394,63 +394,63 @@ void drawHudWorldOverlay(void) {
                 }
             }
         }
-        word_39606 -= signOf(word_39606);
+        g_hitEffectTimer -= signOf(g_hitEffectTimer);
     } else {
-        word_39604 = 0;
+        g_lockedTargetKilled = 0;
     }
 
-    if (word_330C2 == 0) return;
+    if (g_hudVisible == 0) return;
 
     if (var_593 != 0) {
         var_593 = 0;
     }
 
-    loadColorPalette(word_330BC != 0 ? 2 : word_330BC);
+    loadColorPalette(g_nightMode != 0 ? 2 : g_nightMode);
     setDrawColor(0x0f);
     drawFullscreenLine(0x13f, 199, 0x13f, 199);
-    var_671 = 0;
+    g_lockToneFlag = 0;
 
     if (g_currentWeaponType == 2) {
     if (keyValue == 0) {
-    if ((int)word_336F4 >= 0) {
+    if ((int)g_groundTargetLock >= 0) {
 
-    projectWorldToHud(g_planeTable.planes[word_336F4].mapX, g_planeTable.planes[word_336F4].mapY, 0);
+    projectWorldToHud(g_planeTable.planes[g_groundTargetLock].mapX, g_planeTable.planes[g_groundTargetLock].mapY, 0);
 
-    v = missiles[missleSpec[missileSpecIndex].weaponIdx].field_16;
+    v = missiles[missleSpec[missileSpecIndex].weaponIdx].specIndex;
 
-    if (v == 0x1c && computeMapTargetRange(word_336F4) < (uvar_547 >> 5) * 5 && word_3C016 < 0) {
-        var_671 = 1;
+    if (v == 0x1c && computeMapTargetRange(g_groundTargetLock) < (uvar_547 >> 5) * 5 && g_projDepth < 0) {
+        g_lockToneFlag = 1;
     }
 
     if (vtxScratch.vproj.x.lo != -1) {
 
-    setDrawColor(word_330BC != 0 ? 8 : 0);
+    setDrawColor(g_nightMode != 0 ? 8 : 0);
     q = 0;
 
-    m = missileTargetCompat(missleSpec[missileSpecIndex].weaponIdx, word_336F4) != 0 ? 4 : 0;
+    m = missileTargetCompat(missleSpec[missileSpecIndex].weaponIdx, g_groundTargetLock) != 0 ? 4 : 0;
 
-    if (m != 0 && (v != 4 || g_planeTable.planes[word_336F4].field_4 != 0)) {
+    if (m != 0 && (v != 4 || g_planeTable.planes[g_groundTargetLock].active != 0)) {
         if (missleSpec[missileSpecIndex].ammo != 0) {
             setDrawColor(0x0f);
-            if ((rangeApprox(vtxScratch.vproj.x.lo - 0xa0, vtxScratch.vproj.y.lo - 0x38) < 0x30 || var_671 != 0) &&
-                -word_3C016 / 7 < sams[v].field_8 &&
-                sams[v].field_C != 7) {
-                if (sams[v].field_C != 0x1c || var_671 != 0) {
-                    var_671 = 1;
+            if ((rangeApprox(vtxScratch.vproj.x.lo - 0xa0, vtxScratch.vproj.y.lo - 0x38) < 0x30 || g_lockToneFlag != 0) &&
+                -g_projDepth / 7 < sams[v].lockRange &&
+                sams[v].weaponClass != 7) {
+                if (sams[v].weaponClass != 0x1c || g_lockToneFlag != 0) {
+                    g_lockToneFlag = 1;
                     q = 1;
-                    if (sams[v].field_8 > (-word_3C016 >> 1 >> 1)) {
+                    if (sams[v].lockRange > (-g_projDepth >> 1 >> 1)) {
                         setDrawColor(*(char *)&gfxModeUnset != 0 ? 0 : 0x0c);
                     }
                 }
             } else {
-                var_671 = 0;
+                g_lockToneFlag = 0;
             }
         }
     } else {
         if (v != -1) {
-            setDrawColor(word_330BC != 0 ? 8 : 0);
+            setDrawColor(g_nightMode != 0 ? 8 : 0);
         }
-        var_671 = 0;
+        g_lockToneFlag = 0;
     }
 
     drawTargetBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, m != 0 ? m + 5 : 9, q);
@@ -460,20 +460,20 @@ void drawHudWorldOverlay(void) {
     }
     }
 
-    if (word_336F8 > 0 && word_3BE96 >= 0) {
-        projectWorldToHud(g_planeTable.planes[word_3BE96].mapX, g_planeTable.planes[word_3BE96].mapY, 0);
-        drawTargetLabel((char *)word_3C0A2[((int16 *)&g_planeTable)[word_3BE96 * 8]], word_38F72, g_frameRateScaling - word_336F8);
+    if (g_scopeSweepTimer > 0 && g_threatLabelTarget >= 0) {
+        projectWorldToHud(g_planeTable.planes[g_threatLabelTarget].mapX, g_planeTable.planes[g_threatLabelTarget].mapY, 0);
+        drawTargetLabel((char *)g_targetNameTable[((int16 *)&g_planeTable)[g_threatLabelTarget * 8]], g_scopeArcColor, g_frameRateScaling - g_scopeSweepTimer);
     }
 
     g_playerPlaneFlags &= ~0x200;
-    off_38334[1] = 4;
-    off_3834C[1] = 4;
+    g_pageFront[1] = 4;
+    g_pageBack[1] = 4;
 
-    if (word_3C09E == 0x13) {
+    if (g_activePanelMode == 0x13) {
     if (g_currentWeaponType == 2 || g_currentWeaponType == 0) {
-    if (word_336F4 != -1) {
+    if (g_groundTargetLock != -1) {
 
-    j = word_336F4 & 0x7f;
+    j = g_groundTargetLock & 0x7f;
 
     drawTargetView(getTargetSymbol(j), g_planeTable.planes[j].mapX, g_planeTable.planes[j].mapY,
               0, 0, 0, 0, 1, -1);
@@ -481,64 +481,64 @@ void drawHudWorldOverlay(void) {
     buildRangeString(computeMapTargetRange(j));
     drawStringActivePage((char *)strBuf, 0xf4, 0xaa, 0x0f);
 
-    strcpy((char *)strBuf, (char *)word_3C0A2[g_planeTable.planes[j].field_C & 0x7f]);
+    strcpy((char *)strBuf, (char *)g_targetNameTable[g_planeTable.planes[j].nameIndex & 0x7f]);
     drawStringActivePage((char *)strBuf, -((int)strlen((char *)strBuf) * 2 - 0x10c), 0x82, 0x0f);
 
-    if ((int)strlen((char *)word_3C0A2[((int16 *)&g_planeTable)[j * 8]]) != 0) {
+    if ((int)strlen((char *)g_targetNameTable[((int16 *)&g_planeTable)[j * 8]]) != 0) {
         strcpy((char *)strBuf,
-               (char *)(strlen((char *)word_3C0A2[g_planeTable.planes[j].field_C & 0x7f]) != 0 ? aAt_0 : aAt_0 + 5));
-        strcat((char *)strBuf, (char *)word_3C0A2[((int16 *)&g_planeTable)[j * 8]]);
+               (char *)(strlen((char *)g_targetNameTable[g_planeTable.planes[j].nameIndex & 0x7f]) != 0 ? aAt_0 : aAt_0 + 5));
+        strcat((char *)strBuf, (char *)g_targetNameTable[((int16 *)&g_planeTable)[j * 8]]);
         drawStringActivePage((char *)strBuf, -((int)strlen((char *)strBuf) * 2 - 0x10c), 0x88, 0x0f);
     }
 
     if (g_currentWeaponType == 0) {
-        projectWorldToHud(g_planeTable.planes[word_336F4].mapX, g_planeTable.planes[word_336F4].mapY, 0);
+        projectWorldToHud(g_planeTable.planes[g_groundTargetLock].mapX, g_planeTable.planes[g_groundTargetLock].mapY, 0);
         setDrawColor(0x0f);
         drawTargetBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 8, 0);
-    } else if (g_targetSlots[0].planeIndex == word_336F4) {
+    } else if (g_targetSlots[0].planeIndex == g_groundTargetLock) {
         drawStringActivePage((char *)aPrimaryTarget, 0xec, 0x8e, 0x0f);
-    } else if (g_targetSlots[1].planeIndex == word_336F4) {
+    } else if (g_targetSlots[1].planeIndex == g_groundTargetLock) {
         drawStringActivePage((char *)aSecondaryTarget, 0xec, 0x8e, 0x0f);
     } else if (!(frameTick & 1) &&
-               ((word_330BA < 2 && (byte_3BFA4[g_planeTable.planes[j].field_C & 0x7f] & 0xc0) != 0) ||
+               ((g_difficultyTier < 2 && (g_shapeTargetCategory[g_planeTable.planes[j].nameIndex & 0x7f] & 0xc0) != 0) ||
                 (g_planeTable.planes[j].flags & 0x500) != 0 ||
-                (byte_3AFAC[((unsigned)g_planeTable.planes[j].mapX >> 11) +
+                (g_mapCellFlags[((unsigned)g_planeTable.planes[j].mapX >> 11) +
                             ((unsigned)g_planeTable.planes[j].mapY >> 11) * 16] & 1) != 0)) {
         drawStringActivePage((char *)aNoTarget, 0xfc, 0x8e, 0x0f);
     }
 
-    if (abs((g_ourHead + word_3C8B2) - var_674) > 0x2000) {
-        word_336F4 = -1;
+    if (abs((g_ourHead + g_viewHeadingOffset) - g_targetBearing) > 0x2000) {
+        g_groundTargetLock = -1;
     }
 
     }
     }
     }
 
-    var_677 = readAxisInput(1);
+    g_axisInput1 = readAxisInput(1);
 
     if (g_currentWeaponType == 1) {
     if (keyValue == 0) {
-    if (!(word_336F2 & 0x80)) {
+    if (!(g_airTargetLock & 0x80)) {
 
-    projectWorldToHud(stru_3B202[word_336F2].posX,
-              stru_3B202[word_336F2].posY,
-              stru_3B202[word_336F2].alt);
+    projectWorldToHud(g_simObjects[g_airTargetLock].posX,
+              g_simObjects[g_airTargetLock].posY,
+              g_simObjects[g_airTargetLock].alt);
 
     if (vtxScratch.vproj.x.lo != -1) {
 
-    setDrawColor(word_330BC != 0 ? 8 : 0);
+    setDrawColor(g_nightMode != 0 ? 8 : 0);
     q = 0;
 
-    v = missiles[missleSpec[missileSpecIndex].weaponIdx].field_16;
+    v = missiles[missleSpec[missileSpecIndex].weaponIdx].specIndex;
 
-    if (missleSpec[missileSpecIndex].ammo != 0 && sams[v].field_C == 7) {
+    if (missleSpec[missileSpecIndex].ammo != 0 && sams[v].weaponClass == 7) {
         setDrawColor(0x0f);
         if (rangeApprox(vtxScratch.vproj.x.lo - 0xa0, vtxScratch.vproj.y.lo - 0x38) < 0x30) {
-            if (-word_3C016 >> 3 < sams[v].field_8) {
-                var_671 = 1;
+            if (-g_projDepth >> 3 < sams[v].lockRange) {
+                g_lockToneFlag = 1;
                 q = 1;
-                if (-word_3C016 >> 1 >> 1 < sams[v].field_8) {
+                if (-g_projDepth >> 1 >> 1 < sams[v].lockRange) {
                     setDrawColor(*(char *)&gfxModeUnset != 0 ? 0 : 0x0c);
                 }
             }
@@ -551,88 +551,88 @@ void drawHudWorldOverlay(void) {
     }
     }
 
-    if (word_3C09E == 0x13 && g_currentWeaponType == 1 && word_336F2 != -1) {
-        j = word_336F2 & 0x7f;
+    if (g_activePanelMode == 0x13 && g_currentWeaponType == 1 && g_airTargetLock != -1) {
+        j = g_airTargetLock & 0x7f;
 
-        drawTargetView(aircraftTypes[stru_3B202[j].spec].field_1A,
-                  stru_3B202[j].posX,
-                  stru_3B202[j].posY,
-                  stru_3B202[j].alt,
-                  stru_3B202[j].heading.w,
-                  stru_3B202[j].pitch,
-                  stru_3B202[j].field_4.w,
+        drawTargetView(aircraftTypes[g_simObjects[j].spec].viewModelId,
+                  g_simObjects[j].posX,
+                  g_simObjects[j].posY,
+                  g_simObjects[j].alt,
+                  g_simObjects[j].heading.w,
+                  g_simObjects[j].pitch,
+                  g_simObjects[j].bank.w,
                   1, 1);
         drawMissileLock();
-        buildRangeString(rangeApprox(g_viewX_ - stru_3B202[j].posX,
-                  g_viewY_ - stru_3B202[j].posY));
+        buildRangeString(rangeApprox(g_viewX_ - g_simObjects[j].posX,
+                  g_viewY_ - g_simObjects[j].posY));
         drawStringActivePage((char *)strBuf, 0xf4, 0xaa, 0x0f);
 
-        w = stru_3B202[j].spec;
+        w = g_simObjects[j].spec;
         strcpy((char *)strBuf, aircraftTypes[w].name);
         strcat((char *)strBuf, aircraftTypes[w].altName);
         drawStringActivePage((char *)strBuf, 0xf8, 0x86, 0x0f);
 
-        if (aircraftTypes[w].field_18 == -1 && !(frameTick & 1)) {
+        if (aircraftTypes[w].modelId == -1 && !(frameTick & 1)) {
             drawStringActivePage((char *)aNoTarget_0, 0xfc, 0x8c, 0x0f);
         }
 
-        if (word_38FDC != 0 && (frameTick & 1)) {
-            var_676 = (int)(((unsigned long)(unsigned)(0x8000 - stru_3B202[j].pitch) *
-                     (long)stru_3B202[j].speed) >> 15);
-            var_676 -= abs(sinMul(stru_3B202[j].field_4.w, var_676)) >> 1;
+        if (g_detailLevel != 0 && (frameTick & 1)) {
+            g_aamLeadDist = (int)(((unsigned long)(unsigned)(0x8000 - g_simObjects[j].pitch) *
+                     (long)g_simObjects[j].speed) >> 15);
+            g_aamLeadDist -= abs(sinMul(g_simObjects[j].bank.w, g_aamLeadDist)) >> 1;
         }
     }
 
-    off_38334[1] = 2;
-    off_3834C[1] = 2;
+    g_pageFront[1] = 2;
+    g_pageBack[1] = 2;
 
-    if (word_336F8 > 0 && word_3BE96 < 0) {
-        w = -1 - word_3BE96;
-        projectWorldToHud(stru_3B202[w].posX,
-                  stru_3B202[w].posY,
-                  stru_3B202[w].alt);
-        drawTargetLabel(aircraftTypes[stru_3B202[w].spec].name,
-                  word_38F72, g_frameRateScaling - word_336F8);
+    if (g_scopeSweepTimer > 0 && g_threatLabelTarget < 0) {
+        w = -1 - g_threatLabelTarget;
+        projectWorldToHud(g_simObjects[w].posX,
+                  g_simObjects[w].posY,
+                  g_simObjects[w].alt);
+        drawTargetLabel(aircraftTypes[g_simObjects[w].spec].name,
+                  g_scopeArcColor, g_frameRateScaling - g_scopeSweepTimer);
     }
 
     if (g_currentWeaponType == 2 && keyValue == 0) {
-        d = missiles[missleSpec[missileSpecIndex].weaponIdx].field_16;
+        d = missiles[missleSpec[missileSpecIndex].weaponIdx].specIndex;
 
         if (d == 0x1e && abs(g_ourRoll) < 0x2000) {
             c = computeLoftAngle();
-            u = cosMul(c, word_380D0) / (sinMul(-c, 0x20) + 1);
+            u = cosMul(c, g_altitude) / (sinMul(-c, 0x20) + 1);
             i = sinMul(g_ourHead, u) + g_viewX_;
             y = g_viewY_ - cosMul(g_ourHead, u);
             projectWorldToHud(i, y, 0);
             if (vtxScratch.vproj.x.lo == -1) {
-                vtxScratch.vproj.x.lo = (sinMul(g_ourRoll, 0x60 - word_3C008) << 2) / 3 + 0xa0;
+                vtxScratch.vproj.x.lo = (sinMul(g_ourRoll, 0x60 - g_flightPathMarkerY) << 2) / 3 + 0xa0;
                 vtxScratch.vproj.y.lo = 0x60;
             } else {
                 setDrawColor(0x0c);
                 drawTargetBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 5, 1);
             }
             setDrawColor(0x0f);
-            drawHudViewLine(0xa0, word_3C008, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
+            drawHudViewLine(0xa0, g_flightPathMarkerY, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
         }
 
-        if ((d == 0x1e || d == 0x1d) && (int)word_336F4 >= 0) {
-            projectWorldToHud(g_planeTable.planes[word_336F4].mapX + sinMul(g_ourHead, 0x80),
-                      g_planeTable.planes[word_336F4].mapY - cosMul(g_ourHead, 0x80),
+        if ((d == 0x1e || d == 0x1d) && (int)g_groundTargetLock >= 0) {
+            projectWorldToHud(g_planeTable.planes[g_groundTargetLock].mapX + sinMul(g_ourHead, 0x80),
+                      g_planeTable.planes[g_groundTargetLock].mapY - cosMul(g_ourHead, 0x80),
                       g_viewZ);
 
             if (vtxScratch.vproj.x.lo != -1) {
                 if (d == 0x1e) {
-                    word_3C016 = clampRange(
-                        rangeApprox(i - g_planeTable.planes[word_336F4].mapX,
-                                  y - g_planeTable.planes[word_336F4].mapY) >> 3,
+                    g_projDepth = clampRange(
+                        rangeApprox(i - g_planeTable.planes[g_groundTargetLock].mapX,
+                                  y - g_planeTable.planes[g_groundTargetLock].mapY) >> 3,
                         0x0000, 0x0040);
                 } else {
-                    word_3C016 = clampRange(computeMapTargetRange(word_336F4) >> 3, 0x0000, 0x0040);
+                    g_projDepth = clampRange(computeMapTargetRange(g_groundTargetLock) >> 3, 0x0000, 0x0040);
                 }
                 setDrawColor(0x0c);
-                drawViewportLine(0x9f - word_3C016, 0x21, 0x9f - word_3C016, 0x1e);
-                drawViewportLine(word_3C016 + 0xa0, 0x21, word_3C016 + 0xa0, 0x1e);
-                drawViewportLine(0x9f - word_3C016, 0x1e, word_3C016 + 0xa0, 0x1e);
+                drawViewportLine(0x9f - g_projDepth, 0x21, 0x9f - g_projDepth, 0x1e);
+                drawViewportLine(g_projDepth + 0xa0, 0x21, g_projDepth + 0xa0, 0x1e);
+                drawViewportLine(0x9f - g_projDepth, 0x1e, g_projDepth + 0xa0, 0x1e);
                 setDrawColor(0x0f);
                 drawHudViewLine(vtxScratch.vproj.x.lo - 4, vtxScratch.vproj.y.lo, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo - 4);
                 drawHudViewLine(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo - 4, vtxScratch.vproj.x.lo + 4, vtxScratch.vproj.y.lo);
@@ -642,11 +642,11 @@ void drawHudWorldOverlay(void) {
         }
     }
 
-    if (word_39606 != 0 && word_3C09E == 0x13 && word_39604 != 0 && word_39402 != 0) {
-        blitSprite(0xfc, 0x8c, (abs(word_39606) - 8) * -0x20, 0x3f, 0x20, 0x20, 0);
+    if (g_hitEffectTimer != 0 && g_activePanelMode == 0x13 && g_lockedTargetKilled != 0 && g_targetInHudFlag != 0) {
+        blitSprite(0xfc, 0x8c, (abs(g_hitEffectTimer) - 8) * -0x20, 0x3f, 0x20, 0x20, 0);
     }
 
-    if (word_3C09E == 0x13 && var_675 != 0 && word_39402 == 0) {
+    if (g_activePanelMode == 0x13 && g_prevKillMarker != 0 && g_targetInHudFlag == 0) {
         fillPanelBox(3, 3);
     }
 }
@@ -659,10 +659,10 @@ void drawTargetBox(int centerX, int centerY, int size, int mode) {
     int c;
     int d;
 
-    if (word_330C2 == 0) {
+    if (g_hudVisible == 0) {
         return;
     }
-    if (byte_37C24 != 0) {
+    if (g_halfScaleRender != 0) {
         size >>= 1;
     }
     p = size - (size >> 2);
@@ -689,8 +689,8 @@ void drawTargetBox(int centerX, int centerY, int size, int mode) {
 void drawMissileLock(void) {
     int p;
     int a;
-    if (var_671 != 0 && word_330C2 != 0) {
-        if (byte_3C5A0 != 0) {
+    if (g_lockToneFlag != 0 && g_hudVisible != 0) {
+        if (g_drawPage != 0) {
             drawStringActivePage(aMissileLock, 0xf4, 0x96, 14);
         }
         setDrawColor(14);
@@ -713,7 +713,7 @@ void drawTargetLabel(char *text, int color, int size) {
     }
     if (vtxScratch.vproj.x.lo > 0x14 && vtxScratch.vproj.x.lo < 0x118 &&
         vtxScratch.vproj.y.lo > 0 && vtxScratch.vproj.y.lo < 0x52) {
-        drawStringActivePage(text, vtxScratch.vproj.x.lo - (int)strlen(text) * 2, vtxScratch.vproj.y.lo + 5, word_38F72);
+        drawStringActivePage(text, vtxScratch.vproj.x.lo - (int)strlen(text) * 2, vtxScratch.vproj.y.lo + 5, g_scopeArcColor);
     }
 }
 
@@ -726,9 +726,9 @@ void buildRangeString(int rangeRaw) {
     int d;
 
     strcpy(strBuf, aRange);
-    strcat(strBuf, itoa(rangeRaw >> 6, unk_3C030, 10));
+    strcat(strBuf, itoa(rangeRaw >> 6, g_itoaScratch, 10));
     strcat(strBuf, aDot);
-    strcat(strBuf, itoa((rangeRaw & 0x3f) * 2 / 13, unk_3C030, 10));
+    strcat(strBuf, itoa((rangeRaw & 0x3f) * 2 / 13, g_itoaScratch, 10));
     strcat(strBuf, aKm);
 }
 
@@ -746,9 +746,9 @@ void projectWorldToHud(int worldX, int worldY, int worldZ) {
     f = (worldZ - g_viewZ) >> 5;
 
     if (keyValue & 0x80) {
-        p -= (int)((g_ViewX - dword_3B1FE) >> 5);
-        c -= (int)((g_ViewY - dword_3B4D4) >> 5);
-        f -= (int)((-((long)(unsigned)g_viewZ - (long)word_3B4DE)) >> 5);
+        p -= (int)((g_ViewX - g_camEyeX) >> 5);
+        c -= (int)((g_ViewY - g_camEyeY) >> 5);
+        f -= (int)((-((long)(unsigned)g_viewZ - (long)g_camEyeZ)) >> 5);
     }
 
     a = rotateVectorComponent(0, p, c, f);
@@ -760,7 +760,7 @@ void projectWorldToHud(int worldX, int worldY, int worldZ) {
         return;
     }
 
-    if (byte_37C24) {
+    if (g_halfScaleRender) {
         a >>= 1;
         d >>= 1;
     }
@@ -773,16 +773,16 @@ void projectWorldToHud(int worldX, int worldY, int worldZ) {
     vtxScratch.vproj.x.lo = (int)((a << 8) / g) + 0xa0;
     vtxScratch.vproj.y.lo = (int)((d << 8) / g);
     vtxScratch.vproj.y.lo -= vtxScratch.vproj.y.lo >> 1 >> 1;
-    vtxScratch.vproj.y.lo += (off_38334[8] == 0xc7) ? 0x64 : 0x38;
+    vtxScratch.vproj.y.lo += (g_pageFront[8] == 0xc7) ? 0x64 : 0x38;
 
-    word_3C016 = (int)(g >> 3);
+    g_projDepth = (int)(g >> 3);
 
     if (vtxScratch.vproj.x.lo < 0 || vtxScratch.vproj.x.lo > 0x13f) {
-        var_673 = vtxScratch.vproj.x.lo;
+        g_offscreenProjX = vtxScratch.vproj.x.lo;
         vtxScratch.vproj.x.lo = -1;
     }
-    if (vtxScratch.vproj.y.lo < 0 || off_38334[8] < vtxScratch.vproj.y.lo) {
-        var_673 = vtxScratch.vproj.x.lo;
+    if (vtxScratch.vproj.y.lo < 0 || g_pageFront[8] < vtxScratch.vproj.y.lo) {
+        g_offscreenProjX = vtxScratch.vproj.x.lo;
         vtxScratch.vproj.x.lo = -1;
     }
 }
@@ -791,9 +791,9 @@ void projectWorldToHud(int worldX, int worldY, int worldZ) {
 long rotateVectorComponent(int axis, int vecX, int vecY, int vecZ) {
     long p;
 
-    p = (long)fixedMulQ14(unk_3A948[axis], vecX);
-    p += (long)fixedMulQ14(unk_3A948[3 + axis], vecZ);
-    p += (long)fixedMulQ14(unk_3A948[6 + axis], vecY);
+    p = (long)fixedMulQ14(g_camRotMatrix[axis], vecX);
+    p += (long)fixedMulQ14(g_camRotMatrix[3 + axis], vecZ);
+    p += (long)fixedMulQ14(g_camRotMatrix[6 + axis], vecY);
     return p;
 }
 
@@ -805,19 +805,19 @@ int findWaypointEntry(int mapX, int mapY)
 {
     int p;
 
-    if (word_39808 = findNearestTileObject((int32)mapX << 5, (0x8000L - (int32)mapY) << 5)) {
-        mapX = word_39808->x >> 5;
-        mapY = -((int)(word_39808->y >> 5) - 0x8000);
-        for (p = 1; p < word_3BED2; p++) {
+    if (g_nearestTileObj = findNearestTileObject((int32)mapX << 5, (0x8000L - (int32)mapY) << 5)) {
+        mapX = g_nearestTileObj->x >> 5;
+        mapY = -((int)(g_nearestTileObj->y >> 5) - 0x8000);
+        for (p = 1; p < g_planeCount; p++) {
             if (g_planeTable.planes[p].mapX == mapX && g_planeTable.planes[p].mapY == mapY) {
                 return p;
             }
         }
         g_planeTable.planes[0].mapX = mapX;
         g_planeTable.planes[0].mapY = mapY;
-        g_planeTable.planes[0].field_C = word_39808->id + 0x100;
-        if (word_336F6 == 0) {
-            word_336F6 = -1;
+        g_planeTable.planes[0].nameIndex = g_nearestTileObj->id + 0x100;
+        if (g_smokeSourceIdx == 0) {
+            g_smokeSourceIdx = -1;
         }
         return 0;
     } else {
@@ -832,7 +832,7 @@ int computeMapTargetRange(int targetIdx) {
 
 // ==== seg000:0xc7c6 ====
 int computeSimObjectRange(int objIdx) {
-    return computeTargetBearing(stru_3B202[objIdx].posX, stru_3B202[objIdx].posY, 0);
+    return computeTargetBearing(g_simObjects[objIdx].posX, g_simObjects[objIdx].posY, 0);
 }
 
 // ==== seg000:0xc7ea ====
@@ -842,9 +842,9 @@ int computeTargetBearing(int targetX, int targetY, int wantBearing) {
     p = g_viewX_ - targetX;
     a = g_viewY_ - targetY;
     if (wantBearing != 0) {
-        var_674 = computeBearing(-p, a);
+        g_targetBearing = computeBearing(-p, a);
     }
-    var_672 = rangeApprox(p, a);
+    g_targetRange = rangeApprox(p, a);
     goto done;
 done:;
 }
@@ -857,15 +857,15 @@ int computeLoftAngle() {
 // ==== seg000:0xc864 ====
 int getTargetSymbol(int wpIdx) {
     if (g_planeTable.planes[wpIdx].flags & 0x80) {
-        return (isTargetOverWater(wpIdx) ? (int)(char)byte_3BEC4[0] : (int)(char)byte_3C02A[0]) + 0x100;
+        return (isTargetOverWater(wpIdx) ? (int)(char)g_waterTargetId[0] : (int)(char)g_landTargetId[0]) + 0x100;
     }
-    return g_planeTable.planes[wpIdx].field_C;
+    return g_planeTable.planes[wpIdx].nameIndex;
 }
 
 // ==== seg000:0xc8a4 ====
 int isTargetOverWater(int wpIdx) {
     int p;
 
-    p = ((char *)byte_3BFA4)[g_planeTable.planes[wpIdx].field_C & 0x7f] & 0x0f;
+    p = ((char *)g_shapeTargetCategory)[g_planeTable.planes[wpIdx].nameIndex & 0x7f] & 0x0f;
     return (p == 0x0c || p == 9 || p == 0x0b) ? 1 : 0;
 }

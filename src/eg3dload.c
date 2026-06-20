@@ -20,7 +20,7 @@ void load3DAll() {
     load3DG();
     load3DT(regnStr);
     load3D3(regnStr);
-    word_3401A = 0;
+    g_unusedLoadDoneFlag = 0;
 }
 
 // ==== seg000:0x2898 ====
@@ -63,11 +63,11 @@ void load3D3(char *fileName) {
         fread(buf3d3_2, 1, size3d3_3, fileHandle);
         fread(buf3d3_3, 1, size3d3_3, fileHandle);
         fread(&size3d3_4, 1, 1, fileHandle);
-        fread(byte_3B7FC.vertexX, 2, size3d3_4, fileHandle);
+        fread(g_replayLog.vertexX, 2, size3d3_4, fileHandle);
         fread(&size3d3_5, 1, 1, fileHandle);
-        fread(byte_3BE3E, 2, size3d3_5, fileHandle);
+        fread(g_modelVertY, 2, size3d3_5, fileHandle);
         fread(&size3d3_6, 1, 1, fileHandle);
-        fread(byte_3BE80, 2, size3d3_6, fileHandle);
+        fread(g_modelVertZ, 2, size3d3_6, fileHandle);
     }
     fclose(fileHandle);
     while ((fileHandle = fopen(aPhoto_3d3, aRb_0)) == NULL) {
@@ -83,11 +83,11 @@ void load3D3(char *fileName) {
             fileHandle = fopen(aPhoto_3d3_0, aRb_1);
             fread(&sign3d3, 2, 1, fileHandle);
             fread(&size3d3_7, 2, 1, fileHandle);
-            fread(word_33DD0, 2, size3d3_7, fileHandle);
+            fread(g_modelOffsetTable, 2, size3d3_7, fileHandle);
             fread(&size3d3_2, 2, 1, fileHandle);
-            word_33DD0[size3d3_7] = size3d3_2;
+            g_modelOffsetTable[size3d3_7] = size3d3_2;
             for (var_12 = 0; var_12 <= var_18; var_12++) {
-                var_A = word_33DD0[var_12+1] - word_33DD0[var_12];
+                var_A = g_modelOffsetTable[var_12+1] - g_modelOffsetTable[var_12];
                 while (var_A > 0x800) {
                     fread(flt15_buf2, 1, 0x800, fileHandle);
                     var_A -= 0x800;
@@ -131,7 +131,7 @@ void load3DT(char *fileName) {
         fread(matrix3dt[var_4], 2, sizes3dt[var_4], fileHandle);
     }
     var_6 = 0;
-#define GET_MATRIX(BYTE_OFFSET)((struct Matrix3dEntry7*)(buf_3dt + BYTE_OFFSET))
+#define GET_MATRIX(BYTE_OFFSET)((struct TileSceneObject*)(buf_3dt + BYTE_OFFSET))
     for (var_4 = 0; var_4 < 5; var_4++) {
         for (var_8 = 0; sizes3dt[var_4] > var_8; var_8++) {
             matrix3dt_2[var_4][var_8] = GET_MATRIX(var_6);
@@ -145,7 +145,7 @@ void load3DT(char *fileName) {
                 fread(&GET_MATRIX(var_6)->z, 2, 1, fileHandle);
                 fread(&var_2, 2, 1, fileHandle);
                 GET_MATRIX(var_6)->shape = (uint8)var_2;
-                var_6 += sizeof(struct Matrix3dEntry7);
+                var_6 += sizeof(struct TileSceneObject);
             }
         }
     }
@@ -158,7 +158,7 @@ void load3DG() {
     strcpyFromDot(regnStr, a_3dg);
     while ((fileHandle = fopen(regnStr, aRb_3)) == NULL) {
         drawStringBothPages(aPleaseInsertF15DiskB, 0x68, 0x28, 0x0f);
-        drawStringBothPages(unk_34121, 0x68, 0x32, 0x0f);
+        drawStringBothPages(aPressKeyWhenReady, 0x68, 0x32, 0x0f);
         gfx_flipPage();
         misc_getKey();
     }
@@ -175,7 +175,7 @@ void load3DG() {
     fread(buf3_3dg, 1, 0x200, fileHandle);
     fread(buf4_3dg, 1, 0x200, fileHandle);
     fclose(fileHandle);
-    memcpy(byte_3A900, unk_33E1A + ((gameData->theater & 7) * 64), 64);
+    memcpy(g_topLodGrid, g_theaterGrids + ((gameData->theater & 7) * 64), 64);
 }
 
 // ==== seg000:0x2f8c ====

@@ -19,7 +19,7 @@ int keyDispatch(uint16 scanCode)
 {
     char p[14]; /* local buffer at BP-0e, used by itoa for memory display */
 
-    word_38606[0] = word_38606[1] = 0;
+    g_axisInputAccum[0] = g_axisInputAccum[1] = 0;
 
     if (scanCode == 0)
         goto end_dispatch;
@@ -29,10 +29,10 @@ int keyDispatch(uint16 scanCode)
         disableTextBlink();
         break;
     case 0x1372:
-        var_588++;
-        if (var_588 > 2)
-            var_588 = 0;
-        switch (var_588) {
+        g_radarScopeRange++;
+        if (g_radarScopeRange > 2)
+            g_radarScopeRange = 0;
+        switch (g_radarScopeRange) {
         case 0:
             strcpy(strBuf, (char *)aLong);
             break;
@@ -59,9 +59,9 @@ int keyDispatch(uint16 scanCode)
         countermeasures(2);
         break;
     case 0x266c:
-        if (g_viewZ != word_3BEBE) {
+        if (g_viewZ != g_groundAltitude) {
             *(char *)&g_playerPlaneFlags ^= 1;
-            word_336EC = 0;
+            g_gearDownArmed = 0;
             makeSound(0x20, 2);
         }
         if (!(*(char *)&g_playerPlaneFlags & 1)) {
@@ -69,21 +69,21 @@ int keyDispatch(uint16 scanCode)
         }
         break;
     case 0x2000:
-        word_38FDC--;
-        if (word_38FDC < 0) {
-            word_38FDC = gfx_getModecode() == 3 ? 3 : 2;
+        g_detailLevel--;
+        if (g_detailLevel < 0) {
+            g_detailLevel = gfx_getModecode() == 3 ? 3 : 2;
         }
         strcpy(strBuf, (char *)aDetailLevel);
-        strcat(strBuf, itoa(word_38FDC, unk_3C030, 10));
+        strcat(strBuf, itoa(g_detailLevel, g_itoaScratch, 10));
         tempStrcpy(strBuf);
         setupLodDistances();
         break;
     case 0x2500:
-        var_596++;
-        if (var_596 > 2)
-            var_596 = 0;
+        g_kbdSensitivity++;
+        if (g_kbdSensitivity > 2)
+            g_kbdSensitivity = 0;
         strcpy(strBuf, (char *)aKybdSensitivit);
-        strcat(strBuf, itoa(var_596 + 1, unk_3C030, 10));
+        strcat(strBuf, itoa(g_kbdSensitivity + 1, g_itoaScratch, 10));
         tempStrcpy(strBuf);
         break;
     case 0x3200:
@@ -93,12 +93,12 @@ int keyDispatch(uint16 scanCode)
         break;
     case 0x2100:
         strcpy(strBuf, (char *)aJiffiesFrame);
-        strcat(strBuf, itoa(word_3C6AE, unk_3C030, 10));
+        strcat(strBuf, itoa(g_jiffiesPerFrame, g_itoaScratch, 10));
         tempStrcpy(strBuf);
         break;
     case 0x1e00:
-        if (word_3370A == 1) {
-            word_3370A = 2;
+        if (g_slowMotionMode == 1) {
+            g_slowMotionMode = 2;
             g_frameRateScaling = g_frameRateScaling / 2;
             recalcTimeScale();
         } else {
@@ -106,15 +106,15 @@ int keyDispatch(uint16 scanCode)
         }
         break;
     case 0x2f00:
-        word_38606[2] = ++word_38606[2] & 3;
+        g_axisInputAccum[2] = ++g_axisInputAccum[2] & 3;
         strcpy(strBuf, (char *)aSounds);
-        strcat(strBuf, itoa(3 - word_38606[2], unk_3C030, 10));
+        strcat(strBuf, itoa(3 - g_axisInputAccum[2], g_itoaScratch, 10));
         tempStrcpy(strBuf);
         updateEngineSound();
         break;
     case 0x3100:
-        *(char *)&word_330BC ^= 1;
-        if (byte_32933 != 0)
+        *(char *)&g_nightMode ^= 1;
+        if (g_dacSupported != 0)
             setupDac();
         break;
     case 0x1400:
@@ -126,7 +126,7 @@ int keyDispatch(uint16 scanCode)
     case 0x1f73:
         missileSpecIndex = 0;
         if (g_currentWeaponType != 1)
-            word_39604 = 0;
+            g_lockedTargetKilled = 0;
         g_currentWeaponType = 1;
         selectMissile();
         break;
@@ -134,23 +134,23 @@ int keyDispatch(uint16 scanCode)
         missileSpecIndex = 1;
         g_currentWeaponType = 1;
         if (g_currentWeaponType != 1)
-            word_39604 = 0;
+            g_lockedTargetKilled = 0;
         selectMissile();
         break;
     case 0x2267:
         missileSpecIndex = 2;
         if (g_currentWeaponType != 2)
-            word_39604 = 0;
+            g_lockedTargetKilled = 0;
         g_currentWeaponType = 2;
         selectMissile();
         break;
     case 0x2064:
-        word_3370E++;
-        if (word_3370E > 2)
-            word_3370E = 0;
+        g_directorMode++;
+        if (g_directorMode > 2)
+            g_directorMode = 0;
         strcpy(strBuf, (char *)aDirector);
-        if (word_3370E != 0) {
-            strcat(strBuf, itoa(word_3370E, unk_3C030, 10));
+        if (g_directorMode != 0) {
+            strcat(strBuf, itoa(g_directorMode, g_itoaScratch, 10));
         } else {
             strcat(strBuf, (char *)aOff);
         }
@@ -183,13 +183,13 @@ int keyDispatch(uint16 scanCode)
         }
         break;
     case 0x1474:
-        *(char *)&word_336F4 |= 0x80;
+        *(char *)&g_groundTargetLock |= 0x80;
         break;
     case 0xe08:
-        word_38606[0] = 1;
+        g_axisInputAccum[0] = 1;
         break;
     case 0x1c0d:
-        word_38606[1] = 1;
+        g_axisInputAccum[1] = 1;
         break;
     case 0x3920:
         keyValue = 0;
@@ -225,7 +225,7 @@ int keyDispatch(uint16 scanCode)
         keyValue = 0x8b;
         break;
     case 0x11b:
-        if (word_3BE3C == 0) {
+        if (g_ejectState == 0) {
             makeSound(2, 2);
             makeSound(0x22, 2);
             if ((abs(g_ourRoll) >> 5) + (abs(g_ourPitch) >> 5) + g_knots
@@ -234,10 +234,10 @@ int keyDispatch(uint16 scanCode)
             } else {
                 *(int far *)((char far *)commData + 0x26) = 2;
             }
-            word_3BE3C = 1;
-            word_3C028 = g_viewX_;
-            word_3C03A = g_viewY_;
-            word_3C040 = g_viewZ + 8;
+            g_ejectState = 1;
+            g_crashCamX = g_viewX_;
+            g_crashCamY = g_viewY_;
+            g_crashCamZ = g_viewZ + 8;
         }
         break;
     }
@@ -248,31 +248,31 @@ int keyDispatch(uint16 scanCode)
             initWeaponLoadout();
             break;
         case 0x1f00:
-            g_ViewY += 0x20000L >> byte_383E5;
+            g_ViewY += 0x20000L >> g_mapZoomLevel;
             break;
         case 0x2d00:
-            g_ViewY -= 0x20000L >> byte_383E5;
+            g_ViewY -= 0x20000L >> g_mapZoomLevel;
             break;
         case 0x2c00:
-            g_ViewX -= 0x20000L >> byte_383E5;
+            g_ViewX -= 0x20000L >> g_mapZoomLevel;
             break;
         case 0x2e00:
-            g_ViewX += 0x20000L >> byte_383E5;
+            g_ViewX += 0x20000L >> g_mapZoomLevel;
             break;
         }
     }
 
-    if (word_3BE3C != 0) {
+    if (g_ejectState != 0) {
         keyValue = 0x8c;
     }
 
 end_dispatch:
-    if (var_597 > 0)
-        var_597--;
+    if (g_fireCooldown > 0)
+        g_fireCooldown--;
 
-    if (readAxisInput(1) != 0 && var_597 == 0) {
+    if (readAxisInput(1) != 0 && g_fireCooldown == 0) {
         fireMissile();
-        var_597 = 4;
+        g_fireCooldown = 4;
     }
 
     switchIndicatorColor(3, (*(char *)&g_playerPlaneFlags & 1) ? 4
@@ -285,7 +285,7 @@ end_dispatch:
 // ==== seg000:0xd9db ====
 
 void selectMissile() {
-    strcpy(strBuf, missiles[missleSpec[missileSpecIndex].weaponIdx].field_A);
+    strcpy(strBuf, missiles[missleSpec[missileSpecIndex].weaponIdx].longName);
     strcat(strBuf, (char *)(missleSpec[missileSpecIndex].ammo == 0 ? aNotAvailable : aArmed));
     drawWeaponSelectMarker(missileSpecIndex);
     tempStrcpy(strBuf);
@@ -293,8 +293,8 @@ void selectMissile() {
 
 // ==== seg000:0xda35 ====
 void makeSound(int soundId, int priority) {
-    if (priority >= word_38606[2]) {
-        if (word_3BE3C == 0 || priority > 1) {
+    if (priority >= g_axisInputAccum[2]) {
+        if (g_ejectState == 0 || priority > 1) {
             audio_playSound(soundId);
         }
     }
@@ -303,7 +303,7 @@ void makeSound(int soundId, int priority) {
 
 // ==== seg000:0xda5f ====
 void playVoiceCue(int weaponIdx) {
-    if (word_38606[2] < 2 && word_3BE3C == 0 &&
+    if (g_axisInputAccum[2] < 2 && g_ejectState == 0 &&
         (unsigned)voiceCueThresholds[weaponIdx] < (unsigned)f15DgtlResult) {
         audio_playSample(weaponIdx);
     }
@@ -311,7 +311,7 @@ void playVoiceCue(int weaponIdx) {
 
 // ==== seg000:0xda8d ====
 void updateEngineSound(void) {
-    if (word_38606[2] != 0 || word_3BE3C != 0) {
+    if (g_axisInputAccum[2] != 0 || g_ejectState != 0) {
         audio_engineDroneOff();
     } else {
         audio_engineDroneOn();
@@ -321,31 +321,31 @@ void updateEngineSound(void) {
 // ==== seg000:0xdaae ====
 void recalcTimeScale(void) {
     if (g_frameRateScaling > 15) {
-        var_595 = clampRange((-(120 / g_frameRateScaling - 9)) >> 1, 1, 4);
+        g_frameSyncWait = clampRange((-(120 / g_frameRateScaling - 9)) >> 1, 1, 4);
     } else {
-        var_595 = 0;
+        g_frameSyncWait = 0;
     }
-    g_frameRateScaling = clampRange(g_frameRateScaling, 4 - word_3370A, 15);
-    word_3AFA4 = clampRange(g_frameRateScaling << 1, 3, 16);
-    word_3B0AC = 250 * g_frameRateScaling;
-    word_3995C = 200 * g_frameRateScaling;
+    g_frameRateScaling = clampRange(g_frameRateScaling, 4 - g_slowMotionMode, 15);
+    g_bulletTrackCount = clampRange(g_frameRateScaling << 1, 3, 16);
+    g_threatTimerInit = 250 * g_frameRateScaling;
+    g_threatDisplayTtl = 200 * g_frameRateScaling;
 }
 
 // ==== seg000:0xdb2b ====
 void setupLodDistances(void) {
     int p;
     for (p = 0; p < 6; p++) {
-        ((int *)(colorLut + 0x10))[p] = 0x20 << ((char)p + (char)(word_38FDC > 2 ? 2 : word_38FDC));
+        ((int *)(colorLut + 0x10))[p] = 0x20 << ((char)p + (char)(g_detailLevel > 2 ? 2 : g_detailLevel));
     }
-    var_196 = var_195 + var_194;
-    var_197 = clampRange(var_195 << 1, 0x1000, 9999);
-    *(int16 *)(colorLut + 0x20) = (word_38FDC > 2 ? 2 : word_38FDC) * 0xD05 + 0xD05;
+    g_lodDistNear = g_lodDistScale + g_lodDistBase;
+    g_lodDistFar = clampRange(g_lodDistScale << 1, 0x1000, 9999);
+    *(int16 *)(colorLut + 0x20) = (g_detailLevel > 2 ? 2 : g_detailLevel) * 0xD05 + 0xD05;
 }
 
 // ==== seg000:0xdb9c ====
 void exitSlowMotion() {
-    if (word_3370A == 2) {
-        word_3370A = 1;
+    if (g_slowMotionMode == 2) {
+        g_slowMotionMode = 1;
         g_frameRateScaling <<= 1;
         recalcTimeScale();
     }

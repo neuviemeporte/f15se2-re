@@ -55,16 +55,16 @@ void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int pa
     int g;
 
     a = shapeDataOffset(shapeId);
-    p = (byte_3C5A0 == 0) ? (int)off_38334 : (int)off_3834C;
+    p = (g_drawPage == 0) ? (int)g_pageFront : (int)g_pageBack;
     c = worldX - g_ViewX;
     e = worldY + g_ViewY - 0x01000000L;
     f = altitude - g_viewZ;
     if ((keyValue & 0x80) != 0) {
-        c += g_ViewX - dword_3B1FE;
-        e += dword_3B4D4 - g_ViewY;
-        f += g_viewZ - word_3B4DE;
+        c += g_ViewX - g_camEyeX;
+        e += g_camEyeY - g_ViewY;
+        f += g_viewZ - g_camEyeZ;
     }
-    scaleShift = (byte_37C24 != 0) ? (scaleShift - 2) : (scaleShift - 3);
+    scaleShift = (g_halfScaleRender != 0) ? (scaleShift - 2) : (scaleShift - 3);
     if (scaleShift > 0) {
         shiftLongLeftInPlace(scaleShift, &c);
         shiftLongLeftInPlace(scaleShift, &e);
@@ -79,7 +79,7 @@ void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int pa
     if ((long)(int)labs(c) < (long)0x7FFF) {
         if ((long)(int)labs(e) < (long)0x7FFF) {
             setViewPosition(0, 0, -f);
-            word_3C16C = 1;
+            g_curLod = 1;
             projectSceneObject(byte_228D0 + a, -param_5, param_6, param_7, (int)c, -(int)e, altitude != 0);
         }
     }
@@ -104,20 +104,20 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param
     int m;
     char n;
 
-    word_39402 = 1;
-    if (mode == 1 && word_38FDC == 0 && *(char*)&gfxModeUnset != 0 && (frameTick & 3) != 0) {
+    g_targetInHudFlag = 1;
+    if (mode == 1 && g_detailLevel == 0 && *(char*)&gfxModeUnset != 0 && (frameTick & 3) != 0) {
         return;
     }
 
     g = shapeDataOffset(shapeId);
-    if (byte_3C5A0 == 0) {
-        *var_568 = 0;
+    if (g_drawPage == 0) {
+        *g_targetViewParams = 0;
     } else {
-        *var_568 = 1;
+        *g_targetViewParams = 1;
     }
 
     if (mode < 2) {
-        var_685 = 0;
+        g_trkRoll = 0;
         k = worldX - g_viewX_;
         l = worldY - g_viewY_;
         m = (altitude - g_viewZ) >> 5;
@@ -126,37 +126,37 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param
         c = rangeApprox(m, rangeApprox(k, l));
 
         if (mode == 1) {
-            var_680 = c;
-            var_682 = (c >> 4) + 0x190;
-            var_683 = (var_682 << 5) / (c + 1);
-            c = var_682 << 2;
-            var_681 = b;
-            var_684 = f;
+            g_trkRange = c;
+            g_trkSize = (c >> 4) + 0x190;
+            g_trkScale = (g_trkSize << 5) / (c + 1);
+            c = g_trkSize << 2;
+            g_trkBearing = b;
+            g_trkPitch = f;
         } else {
-            var_683 = (var_680 << 5) / (c + 1);
-            if (var_683 > 0x100) {
-                var_683 = 0x100;
+            g_trkScale = (g_trkRange << 5) / (c + 1);
+            if (g_trkScale > 0x100) {
+                g_trkScale = 0x100;
             }
-            if (var_683 < 4) {
-                var_683 = 4;
+            if (g_trkScale < 4) {
+                g_trkScale = 4;
             }
-            j = ((b - var_681) >> 5) * var_683;
-            d = ((f - var_684) >> 5) * var_683;
+            j = ((b - g_trkBearing) >> 5) * g_trkScale;
+            d = ((f - g_trkPitch) >> 5) * g_trkScale;
             if (abs(j) > 0x1000) {
                 return;
             }
             if (abs(d) > 0x1000) {
                 return;
             }
-            b = (j << 2) + var_681;
-            f = (d << 2) + var_684;
-            c = (var_682 << 5) / var_683 << 2;
+            b = (j << 2) + g_trkBearing;
+            f = (d << 2) + g_trkPitch;
+            c = (g_trkSize << 5) / g_trkScale << 2;
         }
 
         i = cosMul(f, c);
-        byte_3850E = 2;
+        g_extraScaleShift = 2;
         if (shift < 0) {
-            byte_3850E = (uint8)(shift + 2);
+            g_extraScaleShift = (uint8)(shift + 2);
             shift = 0;
         }
         k = sinMul(b, i) >> (char)shift;
@@ -166,26 +166,26 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param
         k = (worldX - g_viewX_) << 4;
         l = (worldY - g_viewY_) << 4;
         m = (altitude - g_viewZ) >> 1;
-        var_681 = g_ourHead;
-        var_684 = word_38FCE;
-        var_685 = g_ourRoll;
-        var_683 = 0x20;
-        byte_3850E = 2;
+        g_trkBearing = g_ourHead;
+        g_trkPitch = g_extViewPitch;
+        g_trkRoll = g_ourRoll;
+        g_trkScale = 0x20;
+        g_extraScaleShift = 2;
     }
     if (mode == 1 || mode == 3) {
-        a = (int)((long)var_683 * (long)((int)var_684 >> 2) >> 5) + 0x9c;
-        if (a < 0x80 || (int)var_684 < (int)0xe800) {
+        a = (int)((long)g_trkScale * (long)((int)g_trkPitch >> 2) >> 5) + 0x9c;
+        if (a < 0x80 || (int)g_trkPitch < (int)0xe800) {
             a = 0x80;
         }
-        if (a > 0xb8 || (int)var_684 > 0x1800) {
+        if (a > 0xb8 || (int)g_trkPitch > 0x1800) {
             a = 0xb8;
         }
-        *(var_568 + 2) = (int)colorLut[3];
+        *(g_targetViewParams + 2) = (int)colorLut[3];
         if (a != 0x80) {
-            fillSpanRect(var_568, 0xe8, 0x80, 0x130, a);
+            fillSpanRect(g_targetViewParams, 0xe8, 0x80, 0x130, a);
         }
         h = byte_228D0[0x2f];
-        e = (int)(signed char)byte_3BFA4[shapeId & 0x7f];
+        e = (int)(signed char)g_shapeTargetCategory[shapeId & 0x7f];
         if (e & 0x10) {
             h = 8;
         }
@@ -193,24 +193,24 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param
         if (n == 0xc || n == 9 || n == 0xb) {
             h = 1;
         }
-        *(var_568 + 2) = (int)colorLut[h];
+        *(g_targetViewParams + 2) = (int)colorLut[h];
         if (a != 0xb8) {
-            fillSpanRect(var_568, 0xe8, a, 0x130, 0xb8);
+            fillSpanRect(g_targetViewParams, 0xe8, a, 0x130, 0xb8);
         }
     }
 
-    var_316 = 1;
-    setup3DTransform((char*)var_568, -var_681, var_684, var_685, 0, 0, 0, 0);
+    g_offscreenRender = 1;
+    setup3DTransform((char*)g_targetViewParams, -g_trkBearing, g_trkPitch, g_trkRoll, 0, 0, 0, 0);
     projectSceneObject(byte_228D0 + g, -param_5, param_6, param_7, k, -l, m);
     rasterize3DWorld();
-    var_316 = 0;
+    g_offscreenRender = 0;
 
     if (mode == 1) {
         strcpy(strBuf, (char*)aBrg);
-        strcat(strBuf, itoa((unsigned int)var_681 / 0xb6, unk_3C030, 10));
+        strcat(strBuf, itoa((unsigned int)g_trkBearing / 0xb6, g_itoaScratch, 10));
         drawStringActivePage(strBuf, 0xf8, 0xb0, 0xf);
     }
-    byte_3850E = 0;
+    g_extraScaleShift = 0;
 }
 
 // ==== seg000:0xcf32 ====
@@ -322,10 +322,10 @@ int signOf(int value) {
 }
 
 void seedRng(void) {
-    if (word_330BE == 0) {
-        var_686 = getTimeOfDay();
+    if (g_inputDisabled == 0) {
+        g_rngSeed = getTimeOfDay();
     }
-    srand(var_686);
+    srand(g_rngSeed);
 }
 
 // ==== seg000:0xd200 randomRange ====
@@ -338,10 +338,10 @@ int16 readAxisInput(int16 axisIdx)
 {
     int16 p;
 
-    if (word_330BE) {
+    if (g_inputDisabled) {
         p = 0;
     } else {
-        p = ((commData->setupUseJoy) ? misc_readJoystick(axisIdx) : 0) + word_38606[axisIdx];
+        p = ((commData->setupUseJoy) ? misc_readJoystick(axisIdx) : 0) + g_axisInputAccum[axisIdx];
     }
     return p;
 }

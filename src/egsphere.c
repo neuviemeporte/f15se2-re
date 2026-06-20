@@ -21,8 +21,8 @@ void drawProjectionSphere(int arg_0)
     int f[8];
     int g;
 
-    if (*(char *)&word_38FDC < 3) {
-        sub_1FEEC(arg_0);
+    if (*(char *)&g_detailLevel < 3) {
+        drawFlatHorizon(arg_0);
         return;
     }
     {
@@ -30,16 +30,16 @@ void drawProjectionSphere(int arg_0)
         a = 0;
         do {
             i = a + a;
-            *((int *)((char *)word_3BE9C + i)) = *((int *)((char *)&word_32990 + i));
+            *((int *)((char *)g_sphereRingRadii + i)) = *((int *)((char *)&g_sphereRingTable + i));
             a++;
         } while (a < 16);
     }
-    word_38FC6 = -var_226;
-    p = (int)(((long)var_224 << 8) / (long)(var_225 < 0x200 ? 0x200 : var_225));
-    if (byte_3850E != 0) {
-        p <<= byte_3850E;
+    g_sphereTiltZ = -g_spherePitch;
+    p = (int)(((long)g_sphereRadius << 8) / (long)(g_sphereDistZ < 0x200 ? 0x200 : g_sphereDistZ));
+    if (g_extraScaleShift != 0) {
+        p <<= g_extraScaleShift;
     }
-    if (byte_37C24 != 0) {
+    if (g_halfScaleRender != 0) {
         p >>= 1;
     }
     {
@@ -47,18 +47,18 @@ void drawProjectionSphere(int arg_0)
         register int j;
         for (a = 0; a < 17; a++) {
             if (a < 16) {
-                g = word_3BE9C[a] + p;
+                g = g_sphereRingRadii[a] + p;
             } else {
                 g = 0x5848;
             }
-            i = fixedMulQ14(-0x5848, var_227);
-            j = fixedMulQ14(g, word_38FC6);
-            b[a] = (word_3298C + i) - j;
-            d[a] = -i + word_3298C - j;
-            i = fixedMulQ14(g, var_227);
-            j = fixedMulQ14(-0x5848, word_38FC6);
-            c[a] = -(-((i + j >> 2) - i) + j) + word_3298E;
-            e[a] = ((i - j >> 2) + word_3298E) - i + j;
+            i = fixedMulQ14(-0x5848, g_sphereRoll);
+            j = fixedMulQ14(g, g_sphereTiltZ);
+            b[a] = (g_viewCenterX + i) - j;
+            d[a] = -i + g_viewCenterX - j;
+            i = fixedMulQ14(g, g_sphereRoll);
+            j = fixedMulQ14(-0x5848, g_sphereTiltZ);
+            c[a] = -(-((i + j >> 2) - i) + j) + g_viewCenterY;
+            e[a] = ((i - j >> 2) + g_viewCenterY) - i + j;
         }
     }
     a = 0;
@@ -71,33 +71,33 @@ void drawProjectionSphere(int arg_0)
         f[5] = e[a + 1];
         f[6] = b[a + 1];
         f[7] = c[a + 1];
-        drawPolygonOutline(word_3298A, 4, f, a + 0x60);
+        drawPolygonOutline(g_sphereColor, 4, f, a + 0x60);
         a++;
     } while (a < 16);
-    word_3BE9C[0] = var_220 / 0x200;
+    g_sphereRingRadii[0] = g_viewPosZ / 0x200;
     a = 1;
     do {
-        word_3BE9C[a] = var_220 / ((16 - a) * 0x20) - word_3BE9C[0];
+        g_sphereRingRadii[a] = g_viewPosZ / ((16 - a) * 0x20) - g_sphereRingRadii[0];
         a++;
     } while (a < 16);
-    word_3BE9C[0] = 0;
+    g_sphereRingRadii[0] = 0;
     {
         register int i;
         register int j;
         for (a = 0; a < 17; a++) {
             if (a < 16) {
-                g = p - word_3BE9C[a];
+                g = p - g_sphereRingRadii[a];
             } else {
                 g = -0x5848;
             }
-            i = fixedMulQ14(-0x5848, var_227);
-            j = fixedMulQ14(g, word_38FC6);
-            b[a] = (word_3298C + i) - j;
-            d[a] = -i + word_3298C - j;
-            i = fixedMulQ14(g, var_227);
-            j = fixedMulQ14(-0x5848, word_38FC6);
-            c[a] = -(-((i + j >> 2) - i) + j) + word_3298E;
-            e[a] = ((i - j >> 2) + word_3298E) - i + j;
+            i = fixedMulQ14(-0x5848, g_sphereRoll);
+            j = fixedMulQ14(g, g_sphereTiltZ);
+            b[a] = (g_viewCenterX + i) - j;
+            d[a] = -i + g_viewCenterX - j;
+            i = fixedMulQ14(g, g_sphereRoll);
+            j = fixedMulQ14(-0x5848, g_sphereTiltZ);
+            c[a] = -(-((i + j >> 2) - i) + j) + g_viewCenterY;
+            e[a] = ((i - j >> 2) + g_viewCenterY) - i + j;
         }
     }
     a = 0;
@@ -110,7 +110,7 @@ void drawProjectionSphere(int arg_0)
         f[5] = e[a + 1];
         f[6] = b[a + 1];
         f[7] = c[a + 1];
-        drawPolygonOutline(word_3298A, 4, f, a + 0x70);
+        drawPolygonOutline(g_sphereColor, 4, f, a + 0x70);
         a++;
     } while (a < 16);
 }

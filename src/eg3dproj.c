@@ -39,89 +39,89 @@ void projectObjects(int param_0, int param_1, long param_2, long param_4, long p
     param_4 = g_proj3d.y;
     param_6 = g_proj3d.z;
     b = (unsigned)(-param_0 + 0x1000) >> 13;
-    word_3C16C = (word_38FDC != 0) ? 4 : 3;
+    g_curLod = (g_detailLevel != 0) ? 4 : 3;
     goto outer_test;
     do {
-        word_3C16C--;
+        g_curLod--;
 outer_test:
-        if (word_3C16C < 1) {
+        if (g_curLod < 1) {
             return;
         }
-        if (word_33BA2[word_3C16C] == 0) {
+        if (g_lodObjectCount[g_curLod] == 0) {
             continue;
         }
-        k = scaleCoordToLod(word_3C16C, param_2);
+        k = scaleCoordToLod(g_curLod, param_2);
         h = (unsigned long)k >> 12;
         c = (int)k & 0xfff;
-        k = scaleCoordToLod(word_3C16C, param_4);
+        k = scaleCoordToLod(g_curLod, param_4);
         i = (unsigned long)k >> 12;
         e = (int)k & 0xfff;
-        k = scaleCoordToLod(word_3C16C, param_6);
+        k = scaleCoordToLod(g_curLod, param_6);
         if ((unsigned long)k < 0x7FFFUL) {
-        var_659 = (int)(((unsigned long)k < 2UL) ? 2UL : (unsigned long)k);
+        g_objLocalZ = (int)(((unsigned long)k < 2UL) ? 2UL : (unsigned long)k);
         for (f = 0; ;f++) {
-            if (word_3C16C == 4 && word_38FDC >= 2) {
+            if (g_curLod == 4 && g_detailLevel >= 2) {
                 if (f == 15) {
                     break;
                 }
-                p = *(int *)((char *)&word_339F4 + f * 2 + (unsigned)18 * (unsigned)b);
-                a = *(int *)((char *)&word_339F4 + f * 2 + (unsigned)18 * (unsigned)((b + 2) & 7));
-                var_657 = c - (p << 12) - 0x800;
-                var_658 = e - (a << 12) - 0x800;
+                p = *(int *)((char *)&g_dirGridOffsets + f * 2 + (unsigned)18 * (unsigned)b);
+                a = *(int *)((char *)&g_dirGridOffsets + f * 2 + (unsigned)18 * (unsigned)((b + 2) & 7));
+                g_objLocalX = c - (p << 12) - 0x800;
+                g_objLocalY = e - (a << 12) - 0x800;
                 *(int16 *)&word_34262 = 7;
-                if (sub_202C7(-var_657, -var_658, -var_659) != 0) {
+                if (transformAndCullObjectFar(-g_objLocalX, -g_objLocalY, -g_objLocalZ) != 0) {
                     goto next_iter;
                 }
             } else {
                 if (f == 9) {
                     break;
                 }
-                if (word_3C16C != 4 && word_38FDC < 2 && f < 4) {
+                if (g_curLod != 4 && g_detailLevel < 2 && f < 4) {
                     goto next_iter;
                 }
                 if (param_1 < (int)0xd555) {
                     p = g_neighborSampling.gridX[f];
                     a = g_neighborSampling.gridY[f];
                 } else {
-                    p = *(int *)((char *)&word_339F4 + f * 2 + (unsigned)18 * (unsigned)b);
-                    a = *(int *)((char *)&word_339F4 + f * 2 + (unsigned)18 * (unsigned)((b + 2) & 7));
+                    p = *(int *)((char *)&g_dirGridOffsets + f * 2 + (unsigned)18 * (unsigned)b);
+                    a = *(int *)((char *)&g_dirGridOffsets + f * 2 + (unsigned)18 * (unsigned)((b + 2) & 7));
                 }
-                var_657 = c - (p << 12) - 0x800;
-                var_658 = e - (a << 12) - 0x800;
+                g_objLocalX = c - (p << 12) - 0x800;
+                g_objLocalY = e - (a << 12) - 0x800;
             }
-            setViewPosition(var_657, var_658, var_659);
-            l = process3dg(word_3C16C, h + p, i + a);
+            setViewPosition(g_objLocalX, g_objLocalY, g_objLocalZ);
+            l = process3dg(g_curLod, h + p, i + a);
             if (l == -1) {
                 goto next_iter;
             }
-            if (f >= 4 || word_38FDC >= 2) {
-                var_141 = (word_38FDC == 2) ? 0 : ((unsigned char)word_3C16C << 8);
-                word_3C5A8 = matrix3dt_2[word_3C16C][l];
-                for (d = 0; (unsigned int)d < matrix3dt[word_3C16C][l]; d++) {
-                    if (word_3C5A8->shape & 0x80) {
-                        var_200 = byte_228D0 + lookupTileEntry(word_3C16C, d, h + p, i + a);
-                        if (var_200 == (char far *)byte_228D0) {
-                            var_200 = byte_228D0 + buf3d3[word_3C5A8->shape & 0x7f];
+            if (f >= 4 || g_detailLevel >= 2) {
+                g_objColorBase = (g_detailLevel == 2) ? 0 : ((unsigned char)g_curLod << 8);
+                g_curTileEntry = matrix3dt_2[g_curLod][l];
+                for (d = 0; (unsigned int)d < matrix3dt[g_curLod][l]; d++) {
+                    if (g_curTileEntry->shape & 0x80) {
+                        g_modelStreamPtr = byte_228D0 + lookupTileEntry(g_curLod, d, h + p, i + a);
+                        if (g_modelStreamPtr == (char far *)byte_228D0) {
+                            g_modelStreamPtr = byte_228D0 + buf3d3[g_curTileEntry->shape & 0x7f];
                         }
                     } else {
-                        var_200 = byte_228D0 + buf3d3[word_3C5A8->shape];
+                        g_modelStreamPtr = byte_228D0 + buf3d3[g_curTileEntry->shape];
                     }
-                    projectSceneObject(var_200, 0, 0, 0,
-                        word_3C5A8->x,
-                        word_3C5A8->y,
-                        word_3C5A8->z);
-                    word_3C5A8++;
-                    var_141++;
+                    projectSceneObject(g_modelStreamPtr, 0, 0, 0,
+                        g_curTileEntry->x,
+                        g_curTileEntry->y,
+                        g_curTileEntry->z);
+                    g_curTileEntry++;
+                    g_objColorBase++;
                 }
             } else {
-                if (word_3C16C == 4) {
-                    word_3C5A8 = matrix3dt_2[word_3C16C][l];
-                    var_200 = byte_228D0 + buf3d3[word_3C5A8->shape];
-                    var_141 = 0x400;
-                    projectSceneObject(var_200, 0, 0, 0,
-                        word_3C5A8->x,
-                        word_3C5A8->y,
-                        word_3C5A8->z);
+                if (g_curLod == 4) {
+                    g_curTileEntry = matrix3dt_2[g_curLod][l];
+                    g_modelStreamPtr = byte_228D0 + buf3d3[g_curTileEntry->shape];
+                    g_objColorBase = 0x400;
+                    projectSceneObject(g_modelStreamPtr, 0, 0, 0,
+                        g_curTileEntry->x,
+                        g_curTileEntry->y,
+                        g_curTileEntry->z);
                 }
             }
 next_iter:

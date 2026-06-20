@@ -10,10 +10,10 @@ EXTRN gfx_setPage1:far
 EXTRN gfx_setDrawColor:far
 EXTRN lookupSineFar:far
 EXTRN lookupCosineFar:far
-EXTRN _byte_34197:byte
-EXTRN _var_190:byte
-EXTRN _byte_37C24:byte
-EXTRN _byte_3850E:byte
+EXTRN _g_horizonGroundColor:byte
+EXTRN _g_objShade:byte
+EXTRN _g_halfScaleRender:byte
+EXTRN _g_extraScaleShift:byte
 EXTRN _size3d3_3:word
 EXTRN _size3d3_4:word
 EXTRN _size3d3_5:word
@@ -21,89 +21,89 @@ EXTRN _size3d3_6:word
 EXTRN _buf3d3_1:byte
 EXTRN _buf3d3_2:byte
 EXTRN _buf3d3_3:byte
-EXTRN _byte_3B7FC:byte
-EXTRN _byte_3BE3E:byte
-EXTRN _byte_3BE80:byte
+EXTRN _g_replayLog:byte
+EXTRN _g_modelVertY:byte
+EXTRN _g_modelVertZ:byte
 EXTRN _colorLut:byte
-EXTRN _var_200:word
-EXTRN _var_202:word
-EXTRN _var_203:word
-EXTRN _var_204:word
-EXTRN _var_215:word
-EXTRN _var_216:word
+EXTRN _g_modelStreamPtr:word
+EXTRN _g_objRelX:word
+EXTRN _g_objRelY:word
+EXTRN _g_objTransform:word
+EXTRN _g_objHasRotation:word
+EXTRN _g_objDistance:word
 EXTRN _word_34262:word
-EXTRN _var_218:word
-EXTRN _var_219:word
-EXTRN _var_220:word
-EXTRN _var_255:word
-EXTRN _var_257:word
-EXTRN _var_258:word
-EXTRN _var_259:word
-EXTRN _var_260:word
-EXTRN _var_261:word
-EXTRN _var_315:word
-EXTRN _var_316:word
-EXTRN _word_3298C:word
-EXTRN _word_3298E:word
-EXTRN _word_330C2:word
-EXTRN _word_3755D:word
-EXTRN _word_3755F:word
-EXTRN _word_37561:word
-EXTRN _word_37563:word
-EXTRN _byte_3416E:byte
-EXTRN _byte_3416F:byte
-EXTRN _byte_34170:byte
-EXTRN _byte_34196:byte
+EXTRN _g_viewPosX:word
+EXTRN _g_viewPosY:word
+EXTRN _g_viewPosZ:word
+EXTRN _g_sortedObjCount:word
+EXTRN _g_modelEdgeCount:word
+EXTRN _g_modelWideVtxFlag:word
+EXTRN _g_vtxSignMaskLo:word
+EXTRN _g_vtxSignMaskHi:word
+EXTRN _g_spinAngle:word
+EXTRN _g_posVisibleFlag:word
+EXTRN _g_offscreenRender:word
+EXTRN _g_viewCenterX:word
+EXTRN _g_viewCenterY:word
+EXTRN _g_hudVisible:word
+EXTRN _g_lineX1:word
+EXTRN _g_lineX2:word
+EXTRN _g_lineY1:word
+EXTRN _g_lineY2:word
+EXTRN _g_clipOutcode1:byte
+EXTRN _g_clipOutcode2:byte
+EXTRN _g_clipNeedsSubdiv:byte
+EXTRN _g_horizonSkyColor:byte
 EXTRN byte_36BAE:byte
-EXTRN _byte_36C16:byte
-EXTRN _byte_36C17:byte
-EXTRN _byte_36C18:byte
+EXTRN _g_primRunCount:byte
+EXTRN _g_faceVtxCount:byte
+EXTRN _g_vtxSlotPhase:byte
 EXTRN _byte_36C31:byte
-EXTRN _byte_36C32:byte
-EXTRN _byte_3754E:byte
-EXTRN _byte_378DE:byte
-EXTRN unk_37565:byte
-EXTRN unk_3771D:byte
-EXTRN _var_141:word
-EXTRN _word_34150:word
-EXTRN _word_34152:word
-EXTRN _word_34156:word
-EXTRN _word_34158:word
-EXTRN _word_3415A:word
-EXTRN _word_3415C:word
-EXTRN _word_3415E:word
-EXTRN _word_34160:word
-EXTRN _word_34162:word
-EXTRN _word_34164:word
-EXTRN _word_34166:word
-EXTRN _word_34168:word
-EXTRN _word_3416A:word
-EXTRN _word_3416C:word
-EXTRN _word_34171:word
-EXTRN _word_34173:word
-EXTRN _word_34175:word
-EXTRN _word_34177:word
-EXTRN _word_34179:word
-EXTRN _word_3417B:word
-EXTRN _word_3417D:word
-EXTRN _word_3417F:word
-EXTRN _word_34190:word
-EXTRN _word_34192:word
-EXTRN _word_34194:word
-EXTRN _word_34198:word
-EXTRN _word_34250:word
-EXTRN _byte_32933:byte
-EXTRN _word_34252:word
-EXTRN _word_34254:word
-EXTRN _word_34256:word
-EXTRN _var_220:word
-EXTRN _word_3426A:word
-EXTRN _word_3426C:word
-EXTRN _var_224:word
-EXTRN _var_225:word
-EXTRN _var_226:word
-EXTRN _var_227:word
-EXTRN _word_34276:word
+EXTRN _g_edgeRunCount:byte
+EXTRN _g_clipSwapFlag:byte
+EXTRN _g_rasterClipFlags:byte
+EXTRN g_spanMinX:byte
+EXTRN g_spanMaxX:byte
+EXTRN _g_objColorBase:word
+EXTRN _g_savedDivZeroVecOff:word
+EXTRN _g_savedDivZeroVecSeg:word
+EXTRN _g_clipP1xLo:word
+EXTRN _g_clipP1xHi:word
+EXTRN _g_clipP1yLo:word
+EXTRN _g_clipP1yHi:word
+EXTRN _g_clipP2xLo:word
+EXTRN _g_clipP2xHi:word
+EXTRN _g_clipP2yLo:word
+EXTRN _g_clipP2yHi:word
+EXTRN _g_clipMidxLo:word
+EXTRN _g_clipMidxHi:word
+EXTRN _g_clipMidyLo:word
+EXTRN _g_clipMidyHi:word
+EXTRN _g_clipSavedxLo:word
+EXTRN _g_clipSavedxHi:word
+EXTRN _g_clipSavedyLo:word
+EXTRN _g_clipSavedyHi:word
+EXTRN _g_clipSaved2xLo:word
+EXTRN _g_clipSaved2xHi:word
+EXTRN _g_clipSaved2yLo:word
+EXTRN _g_clipSaved2yHi:word
+EXTRN _g_rleRowBase:word
+EXTRN _g_horizonEdgeX:word
+EXTRN _g_horizonNegPitch:word
+EXTRN _g_horizonSideFlag:word
+EXTRN _g_camTransXLo:word
+EXTRN _g_dacSupported:byte
+EXTRN _g_camTransXHi:word
+EXTRN _g_camTransYLo:word
+EXTRN _g_camTransYHi:word
+EXTRN _g_viewPosZ:word
+EXTRN _g_rotSinYaw:word
+EXTRN _g_rotCosYaw:word
+EXTRN _g_sphereRadius:word
+EXTRN _g_sphereDistZ:word
+EXTRN _g_spherePitch:word
+EXTRN _g_sphereRoll:word
+EXTRN _g_viewRotMatrix:word
 ; Overlaid scratch region (egdata.c struct VtxScratch vtxScratch): LZW pic
 ; dictionary at cockpit load, render/numerator scratch + vertex cluster during
 ; flight. All reached via offset aliases off the single C base. See struct.h.
@@ -146,42 +146,42 @@ dword_34A48 equ _vproj+3C4h     ; x.v[120]
 _var_282    equ _vproj+3C8h     ; y.v[] / y.lo
 dword_34C2C equ _vproj+5A8h     ; y.v[120] / scratch base
 EXTRN word_35AF8:word
-EXTRN _word_36B7E:word
-EXTRN _word_36B80:word
-EXTRN _word_36B82:word
-EXTRN _word_36B84:word
-EXTRN _word_36B89:word
-EXTRN word_36B8B:word
-EXTRN _word_36C10:word
-EXTRN _word_36C12:word
-EXTRN _word_36C14:word
-EXTRN word_36C19:word
-EXTRN word_36C1B:word
-EXTRN word_36C1D:word
-EXTRN word_36C1F:word
-EXTRN word_36C21:word
-EXTRN word_36C23:word
-EXTRN word_36C25:word
-EXTRN word_36C27:word
-EXTRN _word_36C33:word
-EXTRN _word_3754F:word
-EXTRN _word_37551:word
-EXTRN _word_37553:word
-EXTRN _word_37555:word
-EXTRN _word_37557:word
-EXTRN _word_37559:word
-EXTRN _word_378D5:word
-EXTRN _word_378D7:word
-EXTRN _word_378D9:word
-EXTRN _word_378DB:word
-EXTRN _word_378DF:word
-EXTRN _word_378E1:word
-EXTRN _word_378E3:word
-EXTRN _word_378E5:word
-EXTRN _word_38FDC:word
-EXTRN _word_3C16C:word
-EXTRN _word_3C69C:word
-EXTRN _word_3C6A2:word
+EXTRN _g_objDirX:word
+EXTRN _g_objDirY:word
+EXTRN _g_objDirZ:word
+EXTRN _g_rotInputX:word
+EXTRN _g_vtxLoopEnd:word
+EXTRN g_vtxScale:word
+EXTRN _g_primCoordPtr:word
+EXTRN _g_primCountPtr:word
+EXTRN _g_primDataBase:word
+EXTRN g_clipVtxA0:word
+EXTRN g_clipVtxA1:word
+EXTRN g_clipVtxA2:word
+EXTRN g_clipVtxA3:word
+EXTRN g_clipVtxB0:word
+EXTRN g_clipVtxB1:word
+EXTRN g_clipVtxB2:word
+EXTRN g_clipVtxB3:word
+EXTRN _g_savedPrimVtxScale:word
+EXTRN _g_clipDeltaX:word
+EXTRN _g_clipDeltaY:word
+EXTRN _g_clipHalfDeltaX:word
+EXTRN _g_clipHalfDeltaY:word
+EXTRN _g_clipMaxX:word
+EXTRN _g_clipMaxY:word
+EXTRN _g_rasterDeltaX:word
+EXTRN _g_rasterDeltaY:word
+EXTRN _g_dirtyRectMinY:word
+EXTRN _g_dirtyRectMaxY:word
+EXTRN _g_clipDivisorX:word
+EXTRN _g_clipDivisorY:word
+EXTRN _g_clipMidpointX:word
+EXTRN _g_clipMidpointY:word
+EXTRN _g_detailLevel:word
+EXTRN _g_curLod:word
+EXTRN _g_overlayCenterX:word
+EXTRN _g_overlayCenterY:word
 EXTRN _flt15_buf2:byte
 
 PUBLIC drawPolygonOutline
@@ -194,8 +194,8 @@ PUBLIC installDivZeroVector
 PUBLIC _installDivZeroVector
 PUBLIC clipLineSegment
 PUBLIC _clipLineSegment
-PUBLIC sub_1FABF
-PUBLIC _sub_1FABF
+PUBLIC clipLineSubdivP1Outside
+PUBLIC _clipLineSubdivP1Outside
 PUBLIC writeClippedStart
 PUBLIC _writeClippedStart
 PUBLIC writeClippedEnd
@@ -216,38 +216,38 @@ PUBLIC pointOnClipEdge
 PUBLIC _pointOnClipEdge
 PUBLIC computeClipOutcode
 PUBLIC _computeClipOutcode
-PUBLIC sub_1FE5C
-PUBLIC _sub_1FE5C
-PUBLIC sub_1FEEC
-PUBLIC _sub_1FEEC
-PUBLIC sub_1FEFE
-PUBLIC _sub_1FEFE
+PUBLIC decodeRleEdgeRow
+PUBLIC _decodeRleEdgeRow
+PUBLIC drawFlatHorizon
+PUBLIC _drawFlatHorizon
+PUBLIC renderHorizonSky
+PUBLIC _renderHorizonSky
 PUBLIC projectSceneObject
 PUBLIC _projectSceneObject
 PUBLIC transformAndCullObject
 PUBLIC _transformAndCullObject
 PUBLIC skipDisplayListByLod
 PUBLIC _skipDisplayListByLod
-PUBLIC sub_202B6
-PUBLIC _sub_202B6
-PUBLIC sub_202C7
-PUBLIC _sub_202C7
+PUBLIC storeObjTransformByOpcode
+PUBLIC _storeObjTransformByOpcode
+PUBLIC transformAndCullObjectFar
+PUBLIC _transformAndCullObjectFar
 PUBLIC advanceModelPointerLod
 PUBLIC _advanceModelPointerLod
-PUBLIC sub_202F6
-PUBLIC _sub_202F6
+PUBLIC renderSortedListFar
+PUBLIC _renderSortedListFar
 PUBLIC insertSortedObject
 PUBLIC _insertSortedObject
 PUBLIC renderSortedList
 PUBLIC _renderSortedList
-PUBLIC sub_2044A
-PUBLIC _sub_2044A
+PUBLIC rotatePoint3dFar
+PUBLIC _rotatePoint3dFar
 PUBLIC processSceneObject
 PUBLIC _processSceneObject
 PUBLIC rotatePoint3d
 PUBLIC _rotatePoint3d
-PUBLIC sub_20658
-PUBLIC _sub_20658
+PUBLIC transformModelVerticesFar
+PUBLIC _transformModelVerticesFar
 PUBLIC transformModelVertices
 PUBLIC _transformModelVertices
 PUBLIC transformVertexList
@@ -282,8 +282,8 @@ PUBLIC testVisibilityMask
 PUBLIC _testVisibilityMask
 PUBLIC fillSpanRect
 PUBLIC _fillSpanRect
-PUBLIC sub_21526
-PUBLIC _sub_21526
+PUBLIC clipLineFar
+PUBLIC _clipLineFar
 PUBLIC drawClipLineGlobal
 PUBLIC _drawClipLineGlobal
 PUBLIC clipLineCohenSutherland
@@ -333,32 +333,32 @@ drawPolygonOutline proc far
     MOV CX,[BP+8h]
     DEC CX
     LODSW
-    MOV [_word_3755D],AX
+    MOV [_g_lineX1],AX
     PUSH AX
     LODSW
-    MOV [_word_37561],AX
+    MOV [_g_lineY1],AX
     PUSH AX
 loc_0025:
     PUSH CX
     LODSW
-    MOV [_word_3755F],AX
+    MOV [_g_lineX2],AX
     PUSH AX
     LODSW
-    MOV [_word_37563],AX
+    MOV [_g_lineY2],AX
     PUSH AX
     PUSH SI
     CALL loc_2028
     POP SI
-    POP WORD PTR [_word_37561]
-    POP WORD PTR [_word_3755D]
+    POP WORD PTR [_g_lineY1]
+    POP WORD PTR [_g_lineX1]
     POP CX
     LOOP short loc_0025
-    POP WORD PTR [_word_37563]
-    POP WORD PTR [_word_3755F]
+    POP WORD PTR [_g_lineY2]
+    POP WORD PTR [_g_lineX2]
     CALL loc_2028
-    MOV AX,[_word_378D9]
-    MOV CX,[_word_378DB]
-    MOV BX,offset unk_37565
+    MOV AX,[_g_dirtyRectMinY]
+    MOV CX,[_g_dirtyRectMaxY]
+    MOV BX,offset g_spanMinX
     call far ptr gfx_dirtyRect
     call far ptr gfx_nop22
     POP DI
@@ -386,14 +386,14 @@ projectVertexToScreenThunk endp
 projectVertexToScreen proc near
 loc_0078:
     MOV CX,[BX+offset _word_34686]
-    CMP BYTE PTR [_byte_37C24],0h
+    CMP BYTE PTR [_g_halfScaleRender],0h
     JZ short loc_0085
     SHL CX,1
 loc_0085:
-    CMP BYTE PTR [_byte_3850E],0h
+    CMP BYTE PTR [_g_extraScaleShift],0h
     JZ short loc_0096
     db 087h, 0D1h
-    MOV CL,[_byte_3850E]
+    MOV CL,[_g_extraScaleShift]
     SAR DX,CL
     db 087h, 0D1h
 loc_0096:
@@ -406,7 +406,7 @@ loc_0096:
     IDIV CX
     CWD
     OR AX,AX
-    ADD AX,[_word_3298C]
+    ADD AX,[_g_viewCenterX]
     ADC DX,BYTE PTR +0x0
     MOV [BX+offset _var_279+2h],DX
     MOV [BX+offset _var_279],AX
@@ -425,7 +425,7 @@ loc_0096:
     IDIV CX
     CWD
     OR AX,AX
-    ADD AX,[_word_3298E]
+    ADD AX,[_g_viewCenterY]
     ADC DX,BYTE PTR +0x0
     MOV [BX+offset _var_282+2h],DX
     MOV [BX+offset _var_282],AX
@@ -464,11 +464,11 @@ loc_0113:
     SUB AX,AX
     MOV ES,AX
     MOV AX,[ES:0h]
-    MOV [_word_34150],AX
+    MOV [_g_savedDivZeroVecOff],AX
     LEA AX,[divZeroStub]    ; INT 0 IP = seg001 offset of the stub
     MOV [ES:0h],AX
     MOV AX,[ES:2h]
-    MOV [_word_34152],AX
+    MOV [_g_savedDivZeroVecSeg],AX
     MOV AX,SEG divZeroStub  ; seg001 frame; SEG emits a relocation so the loader
     MOV [ES:2h],AX
     POP ES
@@ -480,9 +480,9 @@ loc_0137:
     PUSH ES
     SUB AX,AX
     MOV ES,AX
-    MOV AX,[_word_34150]
+    MOV AX,[_g_savedDivZeroVecOff]
     MOV [ES:0h],AX
-    MOV AX,[_word_34152]
+    MOV AX,[_g_savedDivZeroVecSeg]
     MOV [ES:2h],AX
     POP ES
     RET
@@ -529,12 +529,12 @@ loc_015D:
     CMP DX,BX
     JNZ short loc_01A7
     MOV DX,AX
-    MOV AX,[_word_37557]
+    MOV AX,[_g_clipMaxX]
     CMP SI,AX
     JA short loc_01A7
     CMP BP,AX
     JA short loc_01A7
-    MOV AX,[_word_37559]
+    MOV AX,[_g_clipMaxY]
     CMP CX,AX
     JA short loc_01A7
     CMP DX,AX
@@ -542,45 +542,45 @@ loc_015D:
     RET
 loc_01A7:
     SUB AL,AL
-    MOV [_byte_34170],AL
+    MOV [_g_clipNeedsSubdiv],AL
     MOV BX,[DI]
-    MOV [_word_34156],BX
+    MOV [_g_clipP1xLo],BX
     MOV CX,[DI+2h]
-    MOV [_word_34158],CX
+    MOV [_g_clipP1xHi],CX
     MOV SI,[DI+4h]
-    MOV [_word_3415A],SI
+    MOV [_g_clipP1yLo],SI
     MOV DX,[DI+6h]
-    MOV [_word_3415C],DX
+    MOV [_g_clipP1yHi],DX
     CALL loc_0383
-    MOV [_byte_3416E],AL
+    MOV [_g_clipOutcode1],AL
     JZ short loc_01D8
     CALL loc_03BA
     MOV [DI+2h],AX
     MOV [DI+6h],BP
 loc_01D8:
     MOV BX,[DI+8h]
-    MOV [_word_3415E],BX
+    MOV [_g_clipP2xLo],BX
     MOV CX,[DI+0Ah]
-    MOV [_word_34160],CX
+    MOV [_g_clipP2xHi],CX
     MOV SI,[DI+0Ch]
-    MOV [_word_34162],SI
+    MOV [_g_clipP2yLo],SI
     MOV DX,[DI+0Eh]
-    MOV [_word_34164],DX
+    MOV [_g_clipP2yHi],DX
     CALL loc_0383
-    MOV [_byte_3416F],AL
+    MOV [_g_clipOutcode2],AL
     JZ short loc_0205
     CALL loc_03BA
     MOV [DI+0Ah],AX
     MOV [DI+0Eh],BP
 loc_0205:
-    MOV AH,[_byte_3416E]
-    MOV AL,[_byte_3416F]
+    MOV AH,[_g_clipOutcode1]
+    MOV AL,[_g_clipOutcode2]
     OR AH,AL
-    TEST [_byte_3416E],AL
+    TEST [_g_clipOutcode1],AL
     JNZ short loc_023B
     OR AL,AL
     JZ short loc_0223
-    MOV AL,[_byte_3416E]
+    MOV AL,[_g_clipOutcode1]
     OR AL,AL
     JZ short loc_0227
     CALL loc_023F
@@ -589,10 +589,10 @@ loc_0223:
     CALL loc_029D
     RET
 loc_0227:
-    MOV BX,[_word_34156]
-    MOV CX,[_word_34158]
-    MOV SI,[_word_3415A]
-    MOV DX,[_word_3415C]
+    MOV BX,[_g_clipP1xLo]
+    MOV CX,[_g_clipP1xHi]
+    MOV SI,[_g_clipP1yLo]
+    MOV DX,[_g_clipP1yHi]
     CALL loc_02D2
     RET
 loc_023B:
@@ -600,20 +600,20 @@ loc_023B:
     RET
 clipLineSegment endp
 
-sub_1FABF proc near
+clipLineSubdivP1Outside proc near
 loc_023F:
-    MOV AX,[_word_34156]
-    MOV [_word_34166],AX
-    MOV AX,[_word_34158]
-    MOV [_word_34168],AX
-    MOV AX,[_word_3415A]
-    MOV [_word_3416A],AX
-    MOV AX,[_word_3415C]
-    MOV [_word_3416C],AX
-    MOV BX,[_word_3415E]
-    MOV CX,[_word_34160]
-    MOV SI,[_word_34162]
-    MOV DX,[_word_34164]
+    MOV AX,[_g_clipP1xLo]
+    MOV [_g_clipMidxLo],AX
+    MOV AX,[_g_clipP1xHi]
+    MOV [_g_clipMidxHi],AX
+    MOV AX,[_g_clipP1yLo]
+    MOV [_g_clipMidyLo],AX
+    MOV AX,[_g_clipP1yHi]
+    MOV [_g_clipMidyHi],AX
+    MOV BX,[_g_clipP2xLo]
+    MOV CX,[_g_clipP2xHi]
+    MOV SI,[_g_clipP2yLo]
+    MOV DX,[_g_clipP2yHi]
     CALL loc_0484
     JZ short loc_0276
     MOV DX,[DI+0Eh]
@@ -621,29 +621,29 @@ loc_023F:
     CALL loc_0308
     RET
 loc_0276:
-    MOV [_word_34179],BX
-    MOV [_word_3417B],CX
-    MOV [_word_3417D],SI
-    MOV [_word_3417F],DX
+    MOV [_g_clipSaved2xLo],BX
+    MOV [_g_clipSaved2xHi],CX
+    MOV [_g_clipSaved2yLo],SI
+    MOV [_g_clipSaved2yHi],DX
     CALL loc_029D
-    MOV BX,[_word_34179]
-    MOV CX,[_word_3417B]
-    MOV SI,[_word_3417D]
-    MOV DX,[_word_3417F]
+    MOV BX,[_g_clipSaved2xLo]
+    MOV CX,[_g_clipSaved2xHi]
+    MOV SI,[_g_clipSaved2yLo]
+    MOV DX,[_g_clipSaved2yHi]
     CALL loc_02D2
     RET
-sub_1FABF endp
+clipLineSubdivP1Outside endp
 
 writeClippedStart proc near
 loc_029D:
-    MOV [_word_34166],BX
-    MOV [_word_34168],CX
-    MOV [_word_3416A],SI
-    MOV [_word_3416C],DX
-    MOV BX,[_word_34156]
-    MOV CX,[_word_34158]
-    MOV SI,[_word_3415A]
-    MOV DX,[_word_3415C]
+    MOV [_g_clipMidxLo],BX
+    MOV [_g_clipMidxHi],CX
+    MOV [_g_clipMidyLo],SI
+    MOV [_g_clipMidyHi],DX
+    MOV BX,[_g_clipP1xLo]
+    MOV CX,[_g_clipP1xHi]
+    MOV SI,[_g_clipP1yLo]
+    MOV DX,[_g_clipP1yHi]
     CALL loc_040E
     MOV [DI],BX
     MOV [DI+4h],SI
@@ -657,14 +657,14 @@ writeClippedStart endp
 
 writeClippedEnd proc near
 loc_02D2:
-    MOV [_word_34166],BX
-    MOV [_word_34168],CX
-    MOV [_word_3416A],SI
-    MOV [_word_3416C],DX
-    MOV BX,[_word_3415E]
-    MOV CX,[_word_34160]
-    MOV SI,[_word_34162]
-    MOV DX,[_word_34164]
+    MOV [_g_clipMidxLo],BX
+    MOV [_g_clipMidxHi],CX
+    MOV [_g_clipMidyLo],SI
+    MOV [_g_clipMidyHi],DX
+    MOV BX,[_g_clipP2xLo]
+    MOV CX,[_g_clipP2xHi]
+    MOV SI,[_g_clipP2yLo]
+    MOV DX,[_g_clipP2yHi]
     CALL loc_040E
     MOV [DI+8h],BX
     MOV [DI+0Ch],SI
@@ -687,7 +687,7 @@ loc_0308:
     MOV DX,0h
     TEST AL,8h
     JNZ short loc_0323
-    MOV DX,[_word_37557]
+    MOV DX,[_g_clipMaxX]
 loc_0323:
     MOV [DI],DX
     MOV AX,[DI+4h]
@@ -705,14 +705,14 @@ loc_0334:
     JNZ short loc_0343
     CMP BX,BYTE PTR +0x0
     JZ short loc_0355
-    CMP BX,[_word_37557]
+    CMP BX,[_g_clipMaxX]
     JZ short loc_0355
 loc_0343:
     OR DX,DX
     JNZ short loc_0352
     CMP SI,BYTE PTR +0x0
     JZ short loc_036C
-    CMP SI,[_word_37559]
+    CMP SI,[_g_clipMaxY]
     JZ short loc_036C
 loc_0352:
     SUB AX,AX
@@ -724,7 +724,7 @@ loc_0355:
     JNZ short loc_0369
     CMP SI,BYTE PTR +0x0
     JC short loc_0369
-    CMP SI,[_word_37559]
+    CMP SI,[_g_clipMaxY]
     JA short loc_0369
     INC AX
 loc_0369:
@@ -737,7 +737,7 @@ loc_036C:
     JNZ short loc_0380
     CMP BX,BYTE PTR +0x0
     JC short loc_0380
-    CMP BX,[_word_37557]
+    CMP BX,[_g_clipMaxX]
     JA short loc_0380
     INC AX
 loc_0380:
@@ -757,7 +757,7 @@ loc_0390:
     XOR AL,9h
     OR CX,CX
     JNZ short loc_039E
-    CMP BX,[_word_37557]
+    CMP BX,[_g_clipMaxX]
     JA short loc_039E
     XOR AL,1h
 loc_039E:
@@ -770,7 +770,7 @@ loc_03A9:
     XOR AL,6h
     OR DX,DX
     JNZ short loc_03B7
-    CMP SI,[_word_37559]
+    CMP SI,[_g_clipMaxY]
     JA short loc_03B7
     XOR AL,2h
 loc_03B7:
@@ -801,7 +801,7 @@ loc_03BA:
     JNZ short loc_03E6
     SUB AH,AH
 loc_03E6:
-    OR [_byte_34170],AH
+    OR [_g_clipNeedsSubdiv],AH
     MOV BP,SI
     TEST AL,4h
     JZ short loc_03F3
@@ -809,7 +809,7 @@ loc_03E6:
 loc_03F3:
     TEST AL,2h
     JZ short loc_03FB
-    MOV BP,[_word_37559]
+    MOV BP,[_g_clipMaxY]
 loc_03FB:
     TEST AL,8h
     JZ short loc_0403
@@ -818,7 +818,7 @@ loc_03FB:
 loc_0403:
     TEST AL,1h
     JZ short loc_040B
-    MOV AX,[_word_37557]
+    MOV AX,[_g_clipMaxX]
     RET
 loc_040B:
     MOV AX,BX
@@ -827,24 +827,24 @@ clampToClipEdge endp
 
 clipMidpointSubdivide proc near
 loc_040E:
-    MOV AL,[_byte_34170]
+    MOV AL,[_g_clipNeedsSubdiv]
     OR AL,AL
     JNZ short loc_0418
     JMP near ptr loc_058A
 loc_0418:
     MOV BP,20h
 loc_041B:
-    MOV [_word_34171],BX
-    MOV [_word_34173],CX
-    MOV [_word_34175],SI
-    MOV [_word_34177],DX
+    MOV [_g_clipSavedxLo],BX
+    MOV [_g_clipSavedxHi],CX
+    MOV [_g_clipSavedyLo],SI
+    MOV [_g_clipSavedyHi],DX
 loc_042B:
-    ADD BX,[_word_34166]
-    ADC CX,[_word_34168]
+    ADD BX,[_g_clipMidxLo]
+    ADC CX,[_g_clipMidxHi]
     SAR CX,1
     RCR BX,1
-    ADD SI,[_word_3416A]
-    ADC DX,[_word_3416C]
+    ADD SI,[_g_clipMidyLo]
+    ADC DX,[_g_clipMidyHi]
     SAR DX,1
     RCR SI,1
     CALL loc_0334
@@ -853,63 +853,63 @@ loc_042B:
     JZ short loc_0473
     CALL loc_0383
     JNZ short loc_041B
-    MOV [_word_34166],BX
-    MOV [_word_34168],CX
-    MOV [_word_3416A],SI
-    MOV [_word_3416C],DX
-    MOV BX,[_word_34171]
-    MOV CX,[_word_34173]
-    MOV SI,[_word_34175]
-    MOV DX,[_word_34177]
+    MOV [_g_clipMidxLo],BX
+    MOV [_g_clipMidxHi],CX
+    MOV [_g_clipMidyLo],SI
+    MOV [_g_clipMidyHi],DX
+    MOV BX,[_g_clipSavedxLo]
+    MOV CX,[_g_clipSavedxHi]
+    MOV SI,[_g_clipSavedyLo]
+    MOV DX,[_g_clipSavedyHi]
     JMP short loc_042B
 loc_0472:
     RET
 loc_0473:
-    MOV BX,[_word_34166]
-    MOV CX,[_word_34168]
-    MOV SI,[_word_3416A]
-    MOV DX,[_word_3416C]
+    MOV BX,[_g_clipMidxLo]
+    MOV CX,[_g_clipMidxHi]
+    MOV SI,[_g_clipMidyLo]
+    MOV DX,[_g_clipMidyHi]
     RET
 clipMidpointSubdivide endp
 
 clipLineMidpoint proc near
 loc_0484:
-    MOV AL,[_byte_34170]
+    MOV AL,[_g_clipNeedsSubdiv]
     OR AL,AL
     JNZ short loc_048E
     JMP near ptr loc_0550
 loc_048E:
     MOV BP,20h
 loc_0491:
-    MOV [_word_34171],BX
-    MOV [_word_34173],CX
-    MOV [_word_34175],SI
-    MOV [_word_34177],DX
+    MOV [_g_clipSavedxLo],BX
+    MOV [_g_clipSavedxHi],CX
+    MOV [_g_clipSavedyLo],SI
+    MOV [_g_clipSavedyHi],DX
 loc_04A1:
-    ADD BX,[_word_34166]
-    ADC CX,[_word_34168]
+    ADD BX,[_g_clipMidxLo]
+    ADC CX,[_g_clipMidxHi]
     SAR CX,1
     RCR BX,1
-    ADD SI,[_word_3416A]
-    ADC DX,[_word_3416C]
+    ADD SI,[_g_clipMidyLo]
+    ADC DX,[_g_clipMidyHi]
     SAR DX,1
     RCR SI,1
     CALL loc_0383
     JZ short loc_04EF
     DEC BP
     JZ short loc_04EF
-    TEST [_byte_3416E],AL
+    TEST [_g_clipOutcode1],AL
     JZ short loc_0491
-    TEST [_byte_3416F],AL
+    TEST [_g_clipOutcode2],AL
     JNZ short loc_04EF
-    MOV [_word_34166],BX
-    MOV [_word_34168],CX
-    MOV [_word_3416A],SI
-    MOV [_word_3416C],DX
-    MOV BX,[_word_34171]
-    MOV CX,[_word_34173]
-    MOV SI,[_word_34175]
-    MOV DX,[_word_34177]
+    MOV [_g_clipMidxLo],BX
+    MOV [_g_clipMidxHi],CX
+    MOV [_g_clipMidyLo],SI
+    MOV [_g_clipMidyHi],DX
+    MOV BX,[_g_clipSavedxLo]
+    MOV CX,[_g_clipSavedxHi]
+    MOV SI,[_g_clipSavedyLo]
+    MOV DX,[_g_clipSavedyHi]
     JMP short loc_04A1
 loc_04EF:
     OR AL,AL
@@ -920,11 +920,11 @@ pointOnClipEdge proc near
 loc_04F2:
     CMP BX,BYTE PTR +0x0
     JZ short loc_050B
-    CMP BX,[_word_37557]
+    CMP BX,[_g_clipMaxX]
     JZ short loc_050B
     CMP SI,BYTE PTR +0x0
     JZ short loc_051C
-    CMP SI,[_word_37559]
+    CMP SI,[_g_clipMaxY]
     JZ short loc_051C
     SUB AX,AX
     RET
@@ -932,7 +932,7 @@ loc_050B:
     SUB AX,AX
     CMP SI,BYTE PTR +0x0
     JL short loc_0519
-    CMP SI,[_word_37559]
+    CMP SI,[_g_clipMaxY]
     JG short loc_0519
     INC AX
 loc_0519:
@@ -942,7 +942,7 @@ loc_051C:
     SUB AX,AX
     CMP BX,BYTE PTR +0x0
     JL short loc_052A
-    CMP BX,[_word_37557]
+    CMP BX,[_g_clipMaxX]
     JG short loc_052A
     INC AX
 loc_052A:
@@ -956,14 +956,14 @@ loc_052D:
     CMP BX,BYTE PTR +0x0
     JL short loc_053E
     XOR AL,9h
-    CMP BX,[_word_37557]
+    CMP BX,[_g_clipMaxX]
     JG short loc_053E
     XOR AL,1h
 loc_053E:
     CMP SI,BYTE PTR +0x0
     JL short loc_054D
     XOR AL,6h
-    CMP SI,[_word_37559]
+    CMP SI,[_g_clipMaxY]
     JG short loc_054D
     XOR AL,2h
 loc_054D:
@@ -973,8 +973,8 @@ computeClipOutcode endp
 
 loc_0550:
     PUSH DI
-    MOV CX,[_word_34166]
-    MOV DX,[_word_3416A]
+    MOV CX,[_g_clipMidxLo]
+    MOV DX,[_g_clipMidyLo]
     MOV BP,10h
 loc_055C:
     MOV DI,BX
@@ -988,9 +988,9 @@ loc_0560:
     JZ short loc_0586
     DEC BP
     JZ short loc_0586
-    TEST [_byte_3416E],AL
+    TEST [_g_clipOutcode1],AL
     JZ short loc_055C
-    TEST [_byte_3416F],AL
+    TEST [_g_clipOutcode2],AL
     JNZ short loc_0586
     MOV CX,BX
     MOV DX,SI
@@ -1003,8 +1003,8 @@ loc_0586:
     RET
 loc_058A:
     PUSH DI
-    MOV CX,[_word_34166]
-    MOV DX,[_word_3416A]
+    MOV CX,[_g_clipMidxLo]
+    MOV DX,[_g_clipMidyLo]
     MOV BP,10h
 loc_0596:
     MOV DI,BX
@@ -1049,16 +1049,16 @@ sub_1FE5CThunk:
     POP SI
     POP BP
     RET
-sub_1FE5C proc near
+decodeRleEdgeRow proc near
 loc_05DC:
-    MOV [_word_34190],BX
+    MOV [_g_rleRowBase],BX
     SUB BP,BP
     MOV AL,[ES:SI]
     INC SI
     SUB AH,AH
     MOV CX,AX
 loc_05EA:
-    MOV BX,[_word_34190]
+    MOV BX,[_g_rleRowBase]
     ADD BX,CX
     MOV AL,[BX]
     MOV BX,CX
@@ -1132,13 +1132,13 @@ loc_0660:
     PUSH AX
     INC BP
     JMP near ptr loc_05EA
-sub_1FE5C endp
+decodeRleEdgeRow endp
 
-sub_1FEEC proc far
+drawFlatHorizon proc far
     PUSH BP
     MOV BP,SP
     MOV AL,[BP+6h]
-    MOV [_byte_34196],AL
+    MOV [_g_horizonSkyColor],AL
     PUSH SI
     PUSH DI
     CALL loc_067E
@@ -1146,19 +1146,19 @@ sub_1FEEC proc far
     POP SI
     POP BP
     RETF
-sub_1FEEC endp
+drawFlatHorizon endp
 
-sub_1FEFE proc near
+renderHorizonSky proc near
 loc_067E:
-    MOV AX,[_var_226]
+    MOV AX,[_g_spherePitch]
     NEG AX
-    MOV [_word_34194],AX
-    MOV AX,[_var_224]
+    MOV [_g_horizonNegPitch],AX
+    MOV AX,[_g_sphereRadius]
     CWD
     MOV DL,AH
     MOV AH,AL
     SUB AL,AL
-    MOV CX,[_var_225]
+    MOV CX,[_g_sphereDistZ]
     CMP CX,1F0Bh
     JG short loc_06A0
     MOV AX,3FFh
@@ -1166,9 +1166,9 @@ loc_067E:
     NOP
 loc_06A0:
     IDIV CX
-    CMP BYTE PTR [_word_38FDC],2h
+    CMP BYTE PTR [_g_detailLevel],2h
     JNZ short loc_06BE
-MOV DL, byte ptr [_var_220 + 1]
+MOV DL, byte ptr [_g_viewPosZ + 1]
     SUB DH,DH
     MOV CX,DX
     SHR CX,1
@@ -1178,24 +1178,24 @@ MOV DL, byte ptr [_var_220 + 1]
     ADD DX,BYTE PTR +0x4
     SUB AX,DX
 loc_06BE:
-    CMP BYTE PTR [_byte_3850E],0h
+    CMP BYTE PTR [_g_extraScaleShift],0h
     JZ short loc_06CB
-    MOV CL,[_byte_3850E]
+    MOV CL,[_g_extraScaleShift]
     SHL AX,CL
 loc_06CB:
-    CMP BYTE PTR [_byte_37C24],0h
+    CMP BYTE PTR [_g_halfScaleRender],0h
     JZ short loc_06D4
     SAR AX,1
 loc_06D4:
     MOV BP,AX
-    IMUL WORD PTR [_word_34194]
+    IMUL WORD PTR [_g_horizonNegPitch]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[_word_3298C]
+    MOV AX,[_g_viewCenterX]
     SHL AX,1
-    IMUL WORD PTR [_var_227]
+    IMUL WORD PTR [_g_sphereRoll]
     SHL AX,1
     RCL DX,1
     MOV SI,AX
@@ -1203,24 +1203,24 @@ loc_06D4:
     SUB AX,BX
     SBB DX,CX
     SHL AX,1
-    ADC DX,[_word_3298C]
-    MOV [_word_3755D],DX
+    ADC DX,[_g_viewCenterX]
+    MOV [_g_lineX1],DX
     ADD BX,SI
     ADC CX,DI
     SHL BX,1
     ADC CX,BYTE PTR +0x0
-    MOV DX,[_word_3298C]
+    MOV DX,[_g_viewCenterX]
     SUB DX,CX
-    MOV [_word_3755F],DX
+    MOV [_g_lineX2],DX
     MOV AX,BP
-    IMUL WORD PTR [_var_227]
+    IMUL WORD PTR [_g_sphereRoll]
     SHL AX,1
     RCL DX,1
     MOV SI,AX
     MOV DI,DX
-    MOV AX,[_word_3298C]
+    MOV AX,[_g_viewCenterX]
     SHL AX,1
-    IMUL WORD PTR [_word_34194]
+    IMUL WORD PTR [_g_horizonNegPitch]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
@@ -1233,8 +1233,8 @@ loc_06D4:
     SAR AX,1
     SAR AX,1
     SUB DX,AX
-    ADD DX,[_word_3298E]
-    MOV [_word_37563],DX
+    ADD DX,[_g_viewCenterY]
+    MOV [_g_lineY2],DX
     ADD SI,BX
     ADC DI,CX
     SHL SI,1
@@ -1243,109 +1243,109 @@ loc_06D4:
     SAR SI,1
     SAR SI,1
     SUB DI,SI
-    MOV DX,[_word_3298E]
+    MOV DX,[_g_viewCenterY]
     SUB DX,DI
-    MOV [_word_37561],DX
-    MOV WORD PTR [_word_34198],0h
-    MOV AH,[_byte_34196]
+    MOV [_g_lineY1],DX
+    MOV WORD PTR [_g_horizonSideFlag],0h
+    MOV AH,[_g_horizonSkyColor]
     call far ptr gfx_setDrawColor
     CALL loc_1EA0
     CALL loc_1CB6
     JNC short loc_07C2
 loc_077E:
-    CMP WORD PTR [_var_224],BYTE PTR +0x0
+    CMP WORD PTR [_g_sphereRadius],BYTE PTR +0x0
     JS short loc_0798
-    MOV AH,[_byte_34197]
+    MOV AH,[_g_horizonGroundColor]
     call far ptr gfx_setDrawColor
-    CMP BYTE PTR [_word_38FDC],2h
+    CMP BYTE PTR [_g_detailLevel],2h
     JNZ short loc_0798
     JMP near ptr loc_087E
 loc_0798:
     SUB SI,SI
     MOV DI,SI
-    MOV DX,[_word_37559]
+    MOV DX,[_g_clipMaxY]
     CALL loc_1ED6
-    MOV SI,[_word_37557]
+    MOV SI,[_g_clipMaxX]
     SUB DI,DI
-    MOV DX,[_word_37559]
+    MOV DX,[_g_clipMaxY]
     CALL loc_1ED6
-    MOV AX,[_word_378D9]
-    MOV CX,[_word_378DB]
-    MOV BX,offset unk_37565
+    MOV AX,[_g_dirtyRectMinY]
+    MOV CX,[_g_dirtyRectMaxY]
+    MOV BX,offset g_spanMinX
     call far ptr gfx_dirtyRect
     JMP near ptr loc_087E
 loc_07C2:
-    MOV AX,[_word_37561]
-    CMP AX,[_word_37563]
+    MOV AX,[_g_lineY1]
+    CMP AX,[_g_lineY2]
     JNZ short loc_07D5
     OR AX,AX
     JZ short loc_077E
-    CMP AX,[_word_37559]
+    CMP AX,[_g_clipMaxY]
     JZ short loc_077E
 loc_07D5:
-    PUSH WORD PTR [_word_3755D]
-    PUSH WORD PTR [_word_37561]
-    PUSH WORD PTR [_word_3755F]
-    PUSH WORD PTR [_word_37563]
+    PUSH WORD PTR [_g_lineX1]
+    PUSH WORD PTR [_g_lineY1]
+    PUSH WORD PTR [_g_lineX2]
+    PUSH WORD PTR [_g_lineY2]
     CALL loc_2028
-    POP WORD PTR [_word_37563]
-    POP WORD PTR [_word_3755F]
-    POP WORD PTR [_word_37561]
-    POP WORD PTR [_word_3755D]
+    POP WORD PTR [_g_lineY2]
+    POP WORD PTR [_g_lineX2]
+    POP WORD PTR [_g_lineY1]
+    POP WORD PTR [_g_lineX1]
     SUB AX,AX
-    MOV SI,[_word_34198]
-    XOR SI,[_word_34194]
+    MOV SI,[_g_horizonSideFlag]
+    XOR SI,[_g_horizonNegPitch]
     JNS short loc_0807
-    MOV AX,[_word_37557]
+    MOV AX,[_g_clipMaxX]
 loc_0807:
-    MOV [_word_34192],AX
+    MOV [_g_horizonEdgeX],AX
     SUB BX,BX
-    MOV BP,[_word_37559]
-    MOV SI,[_word_34198]
-    XOR SI,[_var_227]
+    MOV BP,[_g_clipMaxY]
+    MOV SI,[_g_horizonSideFlag]
+    XOR SI,[_g_sphereRoll]
     JNS short loc_081C
     db 087h, 0DDh
 loc_081C:
-    MOV SI,[_word_3755D]
-    MOV DI,[_word_37561]
+    MOV SI,[_g_lineX1]
+    MOV DI,[_g_lineY1]
     CMP DI,BX
     JZ short loc_0837
     CMP DI,BP
     JNZ short loc_0832
     MOV DI,BP
-    MOV SI,[_word_34192]
+    MOV SI,[_g_horizonEdgeX]
 loc_0832:
     MOV DX,BX
     CALL loc_1ED6
 loc_0837:
-    MOV SI,[_word_3755F]
-    MOV DI,[_word_37563]
+    MOV SI,[_g_lineX2]
+    MOV DI,[_g_lineY2]
     CMP DI,BX
     JZ short loc_0852
     CMP DI,BP
     JNZ short loc_084D
     MOV DI,BP
-    MOV SI,[_word_34192]
+    MOV SI,[_g_horizonEdgeX]
 loc_084D:
     MOV DX,BX
     CALL loc_1ED6
 loc_0852:
-    MOV AX,[_word_378D9]
-    MOV CX,[_word_378DB]
-    MOV BX,offset unk_37565
+    MOV AX,[_g_dirtyRectMinY]
+    MOV CX,[_g_dirtyRectMaxY]
+    MOV BX,offset g_spanMinX
     call far ptr gfx_dirtyRect
-    CMP BYTE PTR [_word_38FDC],2h
+    CMP BYTE PTR [_g_detailLevel],2h
     JZ short loc_087E
-    XOR WORD PTR [_word_34198],BYTE PTR -0x1
+    XOR WORD PTR [_g_horizonSideFlag],BYTE PTR -0x1
     JZ short loc_087E
-    MOV AH,[_byte_34197]
+    MOV AH,[_g_horizonGroundColor]
     call far ptr gfx_setDrawColor
     CALL loc_1EA0
     JMP near ptr loc_07D5
 loc_087E:
     call far ptr gfx_nop22
     RET
-sub_1FEFE endp
+renderHorizonSky endp
 
 
 projectSceneObject proc far
@@ -1354,32 +1354,32 @@ projectSceneObject proc far
     PUSH SI
     PUSH DI
     MOV AX,[BP+0Ah]
-    MOV [_var_204+2],AX
+    MOV [_g_objTransform+2],AX
     MOV AX,[BP+0Ch]
-    MOV [_var_204+4],AX
+    MOV [_g_objTransform+4],AX
     MOV AX,[BP+0Eh]
-    MOV [_var_204+6],AX
+    MOV [_g_objTransform+6],AX
     LES SI,DWORD PTR [BP+6h]
-    MOV [_var_200],SI
-    MOV [_var_200+2],ES
+    MOV [_g_modelStreamPtr],SI
+    MOV [_g_modelStreamPtr+2],ES
     db 026h
     LODSB
 MOV byte ptr [_word_34262], AL
     MOV BX,[BP+12h]
-    SUB BX,[_var_219]
-    MOV [_var_203],BX
+    SUB BX,[_g_viewPosY]
+    MOV [_g_objRelY],BX
     MOV CX,[BP+14h]
-    SUB CX,[_var_220]
-    MOV [_var_204],CX
+    SUB CX,[_g_viewPosZ]
+    MOV [_g_objTransform],CX
     MOV BP,[BP+10h]
-    SUB BP,[_var_218]
-    MOV [_var_202],BP
+    SUB BP,[_g_viewPosX]
+    MOV [_g_objRelX],BP
     CALL loc_0908
         JNZ short loc_0904
         CALL loc_0A09
     CMP SI,BYTE PTR +0x1
     JNZ short loc_08E0
-    CMP WORD PTR [_word_38FDC],BYTE PTR +0x2
+    CMP WORD PTR [_g_detailLevel],BYTE PTR +0x2
     JNZ short loc_0904
 loc_08E0:
     MOV CL,AL
@@ -1390,9 +1390,9 @@ loc_08E0:
 loc_08EB:
     TEST CL,40h
     JNZ short loc_08FB
-    MOV AX,[_var_220]
+    MOV AX,[_g_viewPosZ]
     NEG AX
-    CMP AX,[_var_204]
+    CMP AX,[_g_objTransform]
     JZ short loc_0901
 loc_08FB:
     CALL loc_0A80
@@ -1410,15 +1410,15 @@ projectSceneObject endp
 transformAndCullObject proc near
 loc_0908:
     PUSH SI
-    MOV AX,[_word_34276+0Ch]
+    MOV AX,[_g_viewRotMatrix+0Ch]
     IMUL BX
     MOV DI,DX
     MOV SI,AX
-    MOV AX,[_word_34276+6]
+    MOV AX,[_g_viewRotMatrix+6]
     IMUL CX
     ADD SI,AX
     ADC DI,DX
-    MOV AX,[_word_34276]
+    MOV AX,[_g_viewRotMatrix]
     IMUL BP
     ADD SI,AX
     ADC DI,DX
@@ -1426,49 +1426,49 @@ loc_0908:
     RCL DI,1
     MOV [word_3424C],SI
     MOV [word_3424E],DI
-    MOV AX,[_word_34276+0Eh]
+    MOV AX,[_g_viewRotMatrix+0Eh]
     IMUL BX
     MOV DI,DX
     MOV SI,AX
-    MOV AX,[_word_34276+8]
+    MOV AX,[_g_viewRotMatrix+8]
     IMUL CX
     ADD SI,AX
     ADC DI,DX
-    MOV AX,[_word_34276+2]
+    MOV AX,[_g_viewRotMatrix+2]
     IMUL BP
     ADD SI,AX
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    MOV [_word_34250],SI
-    MOV [_word_34252],DI
-    MOV AX,[_word_34276+10h]
+    MOV [_g_camTransXLo],SI
+    MOV [_g_camTransXHi],DI
+    MOV AX,[_g_viewRotMatrix+10h]
     IMUL BX
     MOV DI,DX
     MOV SI,AX
-    MOV AX,[_word_34276+0Ah]
+    MOV AX,[_g_viewRotMatrix+0Ah]
     IMUL CX
     ADD SI,AX
     ADC DI,DX
-    MOV AX,[_word_34276+4]
+    MOV AX,[_g_viewRotMatrix+4]
     IMUL BP
     ADD SI,AX
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    MOV [_word_34254],SI
-    MOV [_word_34256],DI
+    MOV [_g_camTransYLo],SI
+    MOV [_g_camTransYHi],DI
     CMP DI,WORD PTR [_colorLut+20h]
     JG short loc_0A02
     MOV BX,[_word_34262]
     SHL BX,1
     CMP DI,[BX+offset _colorLut+30h]
     JL short loc_0A02
-    MOV SI,[_word_3C69C]
-    MOV BP,[_word_3C6A2]
+    MOV SI,[_g_overlayCenterX]
+    MOV BP,[_g_overlayCenterY]
     ADD SI,BX
     ADD BP,BX
-    MOV CL,[_byte_37C24]
+    MOV CL,[_g_halfScaleRender]
     XOR CL,1h
     MOV AX,DI
     CWD
@@ -1492,7 +1492,7 @@ loc_0908:
     ADD AX,[BP+0h]
     SAR AX,CL
     MOV BX,AX
-    CMP BYTE PTR [_word_330C2],0h
+    CMP BYTE PTR [_g_hudVisible],0h
     JZ short loc_09E0
     SAR BX,1
     SAR BX,1
@@ -1500,7 +1500,7 @@ loc_0908:
     ADD BX,AX
     SAR BX,1
 loc_09E0:
-    MOV AX,[_word_34252]
+    MOV AX,[_g_camTransXHi]
     CWD
     XOR AX,DX
     SUB AX,DX
@@ -1510,7 +1510,7 @@ loc_09E0:
     SAR SI,1
     SAR SI,1
     ADD SI,DI
-    MOV [_var_216],SI
+    MOV [_g_objDistance],SI
     CMP SI,WORD PTR [_colorLut+20h]
     JG short loc_0A02
     SUB AX,AX
@@ -1531,8 +1531,8 @@ loc_0A09:
     db 025h, 007h, 000h
     SHL AX,1
     MOV BX,AX
-    MOV AX,[_var_216]
-    MOV CL,[_byte_3850E]
+    MOV AX,[_g_objDistance]
+    MOV CL,[_g_extraScaleShift]
     SAR AX,CL
     CMP AX,[BX+offset _colorLut+10h]
     JNG short loc_0A2C
@@ -1546,20 +1546,20 @@ loc_0A31:
 skipDisplayListByLod endp
 
 sub_202B2:
-    LES SI,DWORD PTR [_var_200]     ; far entry: load model far ptr, fall through into sub_202B6
-sub_202B6 proc near
+    LES SI,DWORD PTR [_g_modelStreamPtr]     ; far entry: load model far ptr, fall through into storeObjTransformByOpcode
+storeObjTransformByOpcode proc near
 loc_0A36:
     db 026h
     LODSB
     db 025h, 003h, 000h
     SHL AX,1
     MOV BX,AX
-    MOV AX,[_var_261]
-    MOV [BX+offset _var_204],AX
+    MOV AX,[_g_spinAngle]
+    MOV [BX+offset _g_objTransform],AX
     RET
-sub_202B6 endp
+storeObjTransformByOpcode endp
 
-sub_202C7 proc far
+transformAndCullObjectFar proc far
     PUSH BP
     MOV BP,SP
     PUSH DI
@@ -1570,13 +1570,13 @@ sub_202C7 proc far
     POP DI
     POP BP
     RETF
-sub_202C7 endp
+transformAndCullObjectFar endp
 
 advanceModelPointerLod proc far
     PUSH SI
-    LES SI,DWORD PTR [_var_200]
+    LES SI,DWORD PTR [_g_modelStreamPtr]
     CALL loc_0A09
-    MOV [_var_200],SI
+    MOV [_g_modelStreamPtr],SI
     POP SI
     RETF
 advanceModelPointerLod endp
@@ -1585,7 +1585,7 @@ insertSortedObjectThunk proc near
     PUSH BP
     PUSH SI
     PUSH DI
-    LES SI,DWORD PTR [_var_200]
+    LES SI,DWORD PTR [_g_modelStreamPtr]
     CALL loc_0A80
     POP DI
     POP SI
@@ -1593,7 +1593,7 @@ insertSortedObjectThunk proc near
     RET
 insertSortedObjectThunk endp
 
-sub_202F6 proc far
+renderSortedListFar proc far
     PUSH BP
     PUSH SI
     PUSH DI
@@ -1602,15 +1602,15 @@ sub_202F6 proc far
     POP SI
     POP BP
     RETF
-sub_202F6 endp
+renderSortedListFar endp
 
 insertSortedObject proc near
 loc_0A80:
-    MOV [_var_200],SI
-    MOV [_var_200+2],ES
+    MOV [_g_modelStreamPtr],SI
+    MOV [_g_modelStreamPtr+2],ES
     MOV AX,DS
     MOV ES,AX
-    MOV AX,[_var_255]
+    MOV AX,[_g_sortedObjCount]
     db 03Dh, 023h, 000h
     JL short loc_0AAC
     MOV BX,[word_35AF8]
@@ -1620,7 +1620,7 @@ loc_0A80:
     REP movsw
     MOV DI,BX
     DEC AX
-    MOV [_var_255],AX
+    MOV [_g_sortedObjCount],AX
     JMP short loc_0AB5
     NOP
 loc_0AAC:
@@ -1629,9 +1629,9 @@ loc_0AAC:
     SHL AX,CL
     ADD DI,AX
 loc_0AB5:
-    MOV AX,[_word_34254]
-    MOV DX,[_word_34256]
-    MOV CX,[_word_3C16C]
+    MOV AX,[_g_camTransYLo]
+    MOV DX,[_g_camTransYHi]
+    MOV CX,[_g_curLod]
     MOV BX,CX
     SHL CX,1
     NEG CX
@@ -1654,37 +1654,37 @@ loc_0AE0:
     STOSW
     MOV AX,DX
     STOSW
-    MOV AX,[_var_200]
+    MOV AX,[_g_modelStreamPtr]
     STOSW
-    MOV AX,[_var_200+2]
+    MOV AX,[_g_modelStreamPtr+2]
     STOSW
-    MOV AX,[_var_202]
+    MOV AX,[_g_objRelX]
     STOSW
-    MOV AX,[_var_203]
+    MOV AX,[_g_objRelY]
     STOSW
-    MOV AX,[_var_204]
+    MOV AX,[_g_objTransform]
     STOSW
-    MOV AX,[_var_204+2]
+    MOV AX,[_g_objTransform+2]
     STOSW
-    MOV AX,[_var_204+4]
+    MOV AX,[_g_objTransform+4]
     STOSW
-    MOV AX,[_var_204+6]
+    MOV AX,[_g_objTransform+6]
     STOSW
     MOV AX,[word_3424C]
     STOSW
     MOV AX,[word_3424E]
     STOSW
-    MOV AX,[_word_34250]
+    MOV AX,[_g_camTransXLo]
     STOSW
-    MOV AX,[_word_34252]
+    MOV AX,[_g_camTransXHi]
     STOSW
-    MOV AX,[_word_34254]
+    MOV AX,[_g_camTransYLo]
     STOSW
-    MOV AX,[_word_34256]
+    MOV AX,[_g_camTransYHi]
     STOSW
     POP DX
     POP AX
-    MOV BX,[_var_255]
+    MOV BX,[_g_sortedObjCount]
     SHL BX,1
     MOV CX,BX
 loc_0B2A:
@@ -1712,13 +1712,13 @@ loc_0B3E:
     STI
 loc_0B59:
     MOV [DI],BP
-    INC WORD PTR [_var_255]
+    INC WORD PTR [_g_sortedObjCount]
     RET
 insertSortedObject endp
 
 renderSortedList proc near
 loc_0B60:
-    CMP WORD PTR [_var_255],BYTE PTR +0x0
+    CMP WORD PTR [_g_sortedObjCount],BYTE PTR +0x0
     JZ short loc_0BBB
     MOV SI,offset word_35AF8-2h
 loc_0B6A:
@@ -1727,37 +1727,37 @@ loc_0B6A:
     MOV SI,[SI]
     ADD SI,BYTE PTR +0x4
     LODSW
-    MOV [_var_200],AX
+    MOV [_g_modelStreamPtr],AX
     LODSW
-    MOV [_var_200+2],AX
+    MOV [_g_modelStreamPtr+2],AX
     LODSW
-    MOV [_var_202],AX
+    MOV [_g_objRelX],AX
     LODSW
-    MOV [_var_203],AX
+    MOV [_g_objRelY],AX
     LODSW
-    MOV [_var_204],AX
+    MOV [_g_objTransform],AX
     LODSW
-    MOV [_var_204+2],AX
+    MOV [_g_objTransform+2],AX
     LODSW
-    MOV [_var_204+4],AX
+    MOV [_g_objTransform+4],AX
     LODSW
-    MOV [_var_204+6],AX
+    MOV [_g_objTransform+6],AX
     LODSW
     MOV [word_3424C],AX
     LODSW
     MOV [word_3424E],AX
     LODSW
-    MOV [_word_34250],AX
+    MOV [_g_camTransXLo],AX
     LODSW
-    MOV [_word_34252],AX
+    MOV [_g_camTransXHi],AX
     LODSW
-    MOV [_word_34254],AX
+    MOV [_g_camTransYLo],AX
     LODSW
-    MOV [_word_34256],AX
-    LES SI,DWORD PTR [_var_200]
+    MOV [_g_camTransYHi],AX
+    LES SI,DWORD PTR [_g_modelStreamPtr]
     CALL loc_0BE7
     POP SI
-    DEC WORD PTR [_var_255]
+    DEC WORD PTR [_g_sortedObjCount]
     JZ short loc_0BBB
     JMP short loc_0B6A
 loc_0BBB:
@@ -1768,7 +1768,7 @@ processSceneObjectThunk proc near
     PUSH BP
     PUSH SI
     PUSH DI
-    LES SI,DWORD PTR [_var_200]
+    LES SI,DWORD PTR [_g_modelStreamPtr]
     CALL loc_0BE7
     POP DI
     POP SI
@@ -1776,28 +1776,28 @@ processSceneObjectThunk proc near
     RET
 processSceneObjectThunk endp
 
-sub_2044A proc far
+rotatePoint3dFar proc far
     PUSH BP
     PUSH SI
     PUSH DI
-    MOV CX,[_var_204]
-    MOV AX,[_var_203]
-    MOV BP,[_var_202]
-    LES SI,DWORD PTR [_var_200]
+    MOV CX,[_g_objTransform]
+    MOV AX,[_g_objRelY]
+    MOV BP,[_g_objRelX]
+    LES SI,DWORD PTR [_g_modelStreamPtr]
     CALL loc_0CB4
-    MOV [_var_200],SI
+    MOV [_g_modelStreamPtr],SI
     POP DI
     POP SI
     POP BP
     RETF
-sub_2044A endp
+rotatePoint3dFar endp
 
 processSceneObject proc near
 loc_0BE7:
-    MOV AH,[_byte_32933]
+    MOV AH,[_g_dacSupported]
     OR AH,AH
     JZ short loc_0C16
-MOV AL, byte ptr [_word_34256 + 1]
+MOV AL, byte ptr [_g_camTransYHi + 1]
     CBW
     NOT AH
     AND AL,AH
@@ -1818,7 +1818,7 @@ loc_0C0B:
     SHL AH,1
     ADD AH,80h
 loc_0C16:
-    MOV [_var_190],AH
+    MOV [_g_objShade],AH
     MOV AL,[ES:SI]
     AND AL,3Fh
     CMP AL,3Eh
@@ -1828,48 +1828,48 @@ loc_0C16:
 loc_0C28:
     JMP near ptr loc_1AF4
 loc_0C2B:
-    MOV AX,[_var_204+2]
-    OR AX,[_var_204+4]
-    OR AX,[_var_204+6]
+    MOV AX,[_g_objTransform+2]
+    OR AX,[_g_objTransform+4]
+    OR AX,[_g_objTransform+6]
     OR AL,AH
-MOV byte ptr [_var_215], AL
+MOV byte ptr [_g_objHasRotation], AL
     JZ short loc_0C60
     PUSH SI
     MOV DI,offset word_34288
-    MOV CX,[_var_204+2]
-    MOV SI,[_var_204+4]
-    MOV BP,[_var_204+6]
+    MOV CX,[_g_objTransform+2]
+    MOV SI,[_g_objTransform+4]
+    MOV BP,[_g_objTransform+6]
     CALL loc_147B
     MOV BX,offset word_34288
-    MOV SI,offset _word_34276
+    MOV SI,offset _g_viewRotMatrix
     MOV DI,offset word_3429A
     CALL loc_15CD
     POP SI
     JMP short loc_0C96
     NOP
 loc_0C60:
-    MOV AX,[_word_34276]
+    MOV AX,[_g_viewRotMatrix]
     MOV [word_3429A],AX
-    MOV AX,[_word_34276+2]
+    MOV AX,[_g_viewRotMatrix+2]
     MOV [word_3429C],AX
-    MOV AX,[_word_34276+4]
+    MOV AX,[_g_viewRotMatrix+4]
     MOV [word_3429E],AX
-    MOV AX,[_word_34276+6]
+    MOV AX,[_g_viewRotMatrix+6]
     MOV [word_342A0],AX
-    MOV AX,[_word_34276+8]
+    MOV AX,[_g_viewRotMatrix+8]
     MOV [word_342A2],AX
-    MOV AX,[_word_34276+0Ah]
+    MOV AX,[_g_viewRotMatrix+0Ah]
     MOV [word_342A4],AX
-    MOV AX,[_word_34276+0Ch]
+    MOV AX,[_g_viewRotMatrix+0Ch]
     MOV [word_342A6],AX
-    MOV AX,[_word_34276+0Eh]
+    MOV AX,[_g_viewRotMatrix+0Eh]
     MOV [word_342A8],AX
-    MOV AX,[_word_34276+10h]
+    MOV AX,[_g_viewRotMatrix+10h]
     MOV [word_342AA],AX
 loc_0C96:
-    MOV CX,[_var_204]
-    MOV AX,[_var_203]
-    MOV BP,[_var_202]
+    MOV CX,[_g_objTransform]
+    MOV AX,[_g_objRelY]
+    MOV BP,[_g_objRelX]
     CALL loc_0CB4
     CALL loc_0113
     CALL loc_10F0
@@ -1884,17 +1884,17 @@ loc_0CB4:
     NEG BP
     NEG AX
     NEG CX
-    CMP BYTE PTR [_var_215],0h
+    CMP BYTE PTR [_g_objHasRotation],0h
     JNZ short loc_0CCF
-    MOV [_word_36B7E],BP
-    MOV [_word_36B80],CX
-    MOV [_word_36B82],AX
+    MOV [_g_objDirX],BP
+    MOV [_g_objDirY],CX
+    MOV [_g_objDirZ],AX
     JMP near ptr loc_0D5E
 loc_0CCF:
-    MOV [_word_36B84],AX
+    MOV [_g_rotInputX],AX
     CALL loc_1599
     PUSH SI
-    MOV AX,[_word_36B84]
+    MOV AX,[_g_rotInputX]
     IMUL WORD PTR [word_34294]
     MOV DI,DX
     MOV SI,AX
@@ -1910,8 +1910,8 @@ loc_0CCF:
     RCL DI,1
     SHL SI,1
     ADC DI,BYTE PTR +0x0
-    MOV [_word_36B7E],DI
-    MOV AX,[_word_36B84]
+    MOV [_g_objDirX],DI
+    MOV AX,[_g_rotInputX]
     IMUL WORD PTR [word_34296]
     MOV DI,DX
     MOV SI,AX
@@ -1927,8 +1927,8 @@ loc_0CCF:
     RCL DI,1
     SHL SI,1
     ADC DI,BYTE PTR +0x0
-    MOV [_word_36B80],DI
-    MOV AX,[_word_36B84]
+    MOV [_g_objDirY],DI
+    MOV AX,[_g_rotInputX]
     IMUL WORD PTR [word_34298]
     MOV DI,DX
     MOV SI,AX
@@ -1944,23 +1944,23 @@ loc_0CCF:
     RCL DI,1
     SHL SI,1
     ADC DI,BYTE PTR +0x0
-    MOV [_word_36B82],DI
+    MOV [_g_objDirZ],DI
     POP SI
     CALL loc_1599
 loc_0D5E:
     db 026h
     LODSB
     db 025h, 01Fh, 000h
-    MOV [_var_257],AX
+    MOV [_g_modelEdgeCount],AX
     MOV CX,AX
     SUB AX,AX
     CMP CX,BYTE PTR +0x10
     JNG short loc_0D70
     INC AX
 loc_0D70:
-MOV byte ptr [_var_258], AL
-    MOV WORD PTR [_var_259],0FFFFh
-    MOV WORD PTR [_var_260],0FFFFh
+MOV byte ptr [_g_modelWideVtxFlag], AL
+    MOV WORD PTR [_g_vtxSignMaskLo],0FFFFh
+    MOV WORD PTR [_g_vtxSignMaskHi],0FFFFh
     OR CX,CX
     JZ short loc_0DC7
     MOV BX,1h
@@ -1969,17 +1969,17 @@ loc_0D88:
     PUSH BX
     db 026h
     LODSW
-    IMUL WORD PTR [_word_36B7E]
+    IMUL WORD PTR [_g_objDirX]
     MOV BP,AX
     MOV BX,DX
     db 026h
     LODSW
-    IMUL WORD PTR [_word_36B82]
+    IMUL WORD PTR [_g_objDirZ]
     ADD BP,AX
     ADC BX,DX
     db 026h
     LODSW
-    IMUL WORD PTR [_word_36B80]
+    IMUL WORD PTR [_g_objDirY]
     ADD BP,AX
     ADC BX,DX
     db 026h
@@ -1992,8 +1992,8 @@ loc_0D88:
     CMP BP,AX
     JNC short loc_0DBF
 loc_0DB5:
-    XOR [_var_259],BX
-    XOR [_var_260],DI
+    XOR [_g_vtxSignMaskLo],BX
+    XOR [_g_vtxSignMaskHi],DI
     INC CH
 loc_0DBF:
     SHL BX,1
@@ -2001,18 +2001,18 @@ loc_0DBF:
     DEC CL
     JNZ short loc_0D88
 loc_0DC7:
-MOV AL, byte ptr [_var_257]
+MOV AL, byte ptr [_g_modelEdgeCount]
     CMP AL,4h
     JL short loc_0DD6
     CMP AL,CH
     JNZ short loc_0DD6
-    INC WORD PTR [_var_315]
+    INC WORD PTR [_g_posVisibleFlag]
 loc_0DD6:
     RET
 rotatePoint3d endp
 
     db 0C3h
-sub_20658 proc far
+transformModelVerticesFar proc far
     PUSH BP
     PUSH SI
     PUSH DI
@@ -2021,15 +2021,15 @@ sub_20658 proc far
     POP SI
     POP BP
     RETF
-sub_20658 endp
+transformModelVerticesFar endp
 
 transformVertexListThunk proc near
     PUSH BP
     PUSH SI
     PUSH DI
-    LES SI,DWORD PTR [_var_200]
+    LES SI,DWORD PTR [_g_modelStreamPtr]
     CALL loc_10F0
-    MOV [_var_200],SI
+    MOV [_g_modelStreamPtr],SI
     POP DI
     POP SI
     POP BP
@@ -2048,20 +2048,20 @@ loc_0DFC:
     MOV DI,BX
     SHL DI,1
 loc_0E07:
-    MOV CX,[BX + offset _byte_3B7FC + 600h]
-    MOV AX,[_word_34276]
+    MOV CX,[BX + offset _g_replayLog + 600h]
+    MOV AX,[_g_viewRotMatrix]
     IMUL CX
     SHL AX,1
     RCL DX,1
     MOV [DI+offset dword_34C2C+70Ch],AX
     MOV [DI+offset dword_34C2C+70Eh],DX
-    MOV AX,[_word_34276+2]
+    MOV AX,[_g_viewRotMatrix+2]
     IMUL CX
     SHL AX,1
     RCL DX,1
     MOV [DI+offset dword_34C2C+78Ch],AX
     MOV [DI+offset dword_34C2C+78Eh],DX
-    MOV AX,[_word_34276+4]
+    MOV AX,[_g_viewRotMatrix+4]
     IMUL CX
     SHL AX,1
     RCL DX,1
@@ -2076,20 +2076,20 @@ loc_0E07:
     MOV DI,BX
     SHL DI,1
 loc_0E51:
-    MOV CX,[BX + offset _byte_3BE80]
-    MOV AX,[_word_34276+6]
+    MOV CX,[BX + offset _g_modelVertZ]
+    MOV AX,[_g_viewRotMatrix+6]
     IMUL CX
     SHL AX,1
     RCL DX,1
     MOV [DI+offset dword_34C2C+88Ch],AX
     MOV [DI+offset dword_34C2C+88Eh],DX
-    MOV AX,[_word_34276+8]
+    MOV AX,[_g_viewRotMatrix+8]
     IMUL CX
     SHL AX,1
     RCL DX,1
     MOV [DI+offset dword_34C2C+8ACh],AX
     MOV [DI+offset dword_34C2C+8AEh],DX
-    MOV AX,[_word_34276+0Ah]
+    MOV AX,[_g_viewRotMatrix+0Ah]
     IMUL CX
     SHL AX,1
     RCL DX,1
@@ -2104,20 +2104,20 @@ loc_0E51:
     MOV DI,BX
     SHL DI,1
 loc_0E9B:
-    MOV CX,[BX + offset _byte_3BE3E]
-    MOV AX,[_word_34276+0Ch]
+    MOV CX,[BX + offset _g_modelVertY]
+    MOV AX,[_g_viewRotMatrix+0Ch]
     IMUL CX
     SHL AX,1
     RCL DX,1
     MOV [DI+offset dword_34C2C+8ECh],AX
     MOV [DI+offset dword_34C2C+8EEh],DX
-    MOV AX,[_word_34276+0Eh]
+    MOV AX,[_g_viewRotMatrix+0Eh]
     IMUL CX
     SHL AX,1
     RCL DX,1
     MOV [DI+offset dword_34C2C+96Ch],AX
     MOV [DI+offset dword_34C2C+96Eh],DX
-    MOV AX,[_word_34276+10h]
+    MOV AX,[_g_viewRotMatrix+10h]
     IMUL CX
     SHL AX,1
     RCL DX,1
@@ -2193,11 +2193,11 @@ loc_0F78:
     AND BX,BYTE PTR +0x7f
     SHL BX,1
     SHL BX,1
-    MOV [_word_36B89],BX
+    MOV [_g_vtxLoopEnd],BX
     MOV BX,0FFFCh
 loc_0F88:
     ADD BX,BYTE PTR +0x4
-    CMP BX,[_word_36B89]
+    CMP BX,[_g_vtxLoopEnd]
     JL short loc_0F92
     RET
 loc_0F92:
@@ -2211,24 +2211,24 @@ loc_0F92:
     SUB AH,AH
     SHL AX,1
     MOV BP,AX
-    MOV CX,[BP + offset _byte_3BE80]
+    MOV CX,[BP + offset _g_modelVertZ]
     MOV BP,[ES:SI-1h]
     AND BP,0FFh
     MOV AL,[BP + offset _buf3d3_2]
     SUB AH,AH
     SHL AX,1
     MOV BP,AX
-    MOV AX,[BP + offset _byte_3BE3E]
-    MOV [word_36B8B],AX
+    MOV AX,[BP + offset _g_modelVertY]
+    MOV [g_vtxScale],AX
     MOV BP,[ES:SI-1h]
     AND BP,0FFh
     MOV AL,[BP + offset _buf3d3_1]
     SUB AH,AH
     SHL AX,1
     MOV BP,AX
-    MOV BP,[BP + offset _byte_3B7FC + 600h]
+    MOV BP,[BP + offset _g_replayLog + 600h]
     PUSH SI
-    MOV AX,[word_36B8B]
+    MOV AX,[g_vtxScale]
     IMUL WORD PTR [word_342A6]
     MOV DI,DX
     MOV SI,AX
@@ -2246,7 +2246,7 @@ loc_0F92:
     ADC DI,[word_3424E]
     MOV [BX+offset word_342BC],SI
     MOV [BX+offset word_342BE],DI
-    MOV AX,[word_36B8B]
+    MOV AX,[g_vtxScale]
     IMUL WORD PTR [word_342A8]
     MOV DI,DX
     MOV SI,AX
@@ -2260,11 +2260,11 @@ loc_0F92:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    ADD SI,[_word_34250]
-    ADC DI,[_word_34252]
+    ADD SI,[_g_camTransXLo]
+    ADC DI,[_g_camTransXHi]
     MOV [BX+offset word_344A0],SI
     MOV [BX+offset word_344A2],DI
-    MOV AX,[word_36B8B]
+    MOV AX,[g_vtxScale]
     IMUL WORD PTR [word_342AA]
     MOV DI,DX
     MOV SI,AX
@@ -2278,8 +2278,8 @@ loc_0F92:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    ADD SI,[_word_34254]
-    ADC DI,[_word_34256]
+    ADD SI,[_g_camTransYLo]
+    ADC DI,[_g_camTransYHi]
     MOV [BX+offset _word_34684],SI
     MOV [BX+offset _word_34686],DI
     CALL loc_0078
@@ -2288,7 +2288,7 @@ loc_0F92:
 loc_107A:
     JMP near ptr loc_0F78
 loc_107D:
-    CMP BYTE PTR [_var_316],0h
+    CMP BYTE PTR [_g_offscreenRender],0h
     JNZ short loc_107A
     MOV CL,AL
     AND CX,BYTE PTR +0x7f
@@ -2313,16 +2313,16 @@ loc_1097:
     MOV AX,[word_3424E]
     ADC AX,[DI+offset dword_34C2C+6h]
     MOV [BX+offset word_342BE],AX
-    MOV AX,[_word_34250]
+    MOV AX,[_g_camTransXLo]
     ADD AX,[DI+offset dword_34C2C+25Ch]
     MOV [BX+offset word_344A0],AX
-    MOV AX,[_word_34252]
+    MOV AX,[_g_camTransXHi]
     ADC AX,[DI+offset dword_34C2C+25Eh]
     MOV [BX+offset word_344A2],AX
-    MOV AX,[_word_34254]
+    MOV AX,[_g_camTransYLo]
     ADD AX,[DI+offset dword_34C2C+4B4h]
     MOV [BX+offset _word_34684],AX
-    MOV AX,[_word_34256]
+    MOV AX,[_g_camTransYHi]
     ADC AX,[DI+offset dword_34C2C+4B6h]
     MOV [BX+offset _word_34686],AX
     PUSH CX
@@ -2345,11 +2345,11 @@ loc_10F0:
     AND BX,BYTE PTR +0x7f
     SHL BX,1
     SHL BX,1
-    MOV [_word_36B89],BX
+    MOV [_g_vtxLoopEnd],BX
     MOV BX,0FFFCh
 loc_110A:
     ADD BX,BYTE PTR +0x4
-    CMP BX,[_word_36B89]
+    CMP BX,[_g_vtxLoopEnd]
     JL short loc_1114
 loc_1113:
     RET
@@ -2361,7 +2361,7 @@ loc_1114:
     MOV BP,[ES:SI-6h]
     MOV CX,[ES:SI-2h]
     MOV AX,[ES:SI-4h]
-    MOV [word_36B8B],AX
+    MOV [g_vtxScale],AX
     PUSH SI
     IMUL WORD PTR [word_342A6]
     MOV DI,DX
@@ -2380,7 +2380,7 @@ loc_1114:
     ADC DI,[word_3424E]
     MOV [BX+offset word_342BC],SI
     MOV [BX+offset word_342BE],DI
-    MOV AX,[word_36B8B]
+    MOV AX,[g_vtxScale]
     IMUL WORD PTR [word_342A8]
     MOV DI,DX
     MOV SI,AX
@@ -2394,11 +2394,11 @@ loc_1114:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    ADD SI,[_word_34250]
-    ADC DI,[_word_34252]
+    ADD SI,[_g_camTransXLo]
+    ADC DI,[_g_camTransXHi]
     MOV [BX+offset word_344A0],SI
     MOV [BX+offset word_344A2],DI
-    MOV AX,[word_36B8B]
+    MOV AX,[g_vtxScale]
     IMUL WORD PTR [word_342AA]
     MOV DI,DX
     MOV SI,AX
@@ -2412,8 +2412,8 @@ loc_1114:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    ADD SI,[_word_34254]
-    ADC DI,[_word_34256]
+    ADD SI,[_g_camTransYLo]
+    ADC DI,[_g_camTransYHi]
     MOV [BX+offset _word_34684],SI
     MOV [BX+offset _word_34686],DI
     CALL loc_0078
@@ -2426,9 +2426,9 @@ projectModelEdgesFar proc far
     db 055h
     db 056h
     PUSH DI
-    LES SI,DWORD PTR [_var_200]
+    LES SI,DWORD PTR [_g_modelStreamPtr]
     CALL loc_11D8
-    MOV [_var_200],SI
+    MOV [_g_modelStreamPtr],SI
     POP DI
     POP SI
     POP BP
@@ -2505,7 +2505,7 @@ loc_1251:
     PUSH CX
     PUSH SI
     CALL loc_015D
-    MOV ES,[_var_200+2]
+    MOV ES,[_g_modelStreamPtr+2]
     POP SI
     POP CX
 loc_1278:
@@ -2608,9 +2608,9 @@ buildOrientationFromAngles proc near
     PUSH SI
     PUSH DI
     MOV DI,offset word_34288
-    MOV CX,[_var_204+2]
-    MOV SI,[_var_204+4]
-    MOV BP,[_var_204+6]
+    MOV CX,[_g_objTransform+2]
+    MOV SI,[_g_objTransform+4]
+    MOV BP,[_g_objTransform+6]
     CALL loc_147B
     POP DI
     POP SI
@@ -2622,104 +2622,104 @@ buildRotationMatrix proc near
 loc_135F:
     MOV BX,CX
     call far ptr lookupSineFar
-    MOV [_word_3426A],BX
+    MOV [_g_rotSinYaw],BX
     MOV BX,CX
     call far ptr lookupCosineFar
-    MOV [_word_3426C],BX
+    MOV [_g_rotCosYaw],BX
     MOV BX,BP
     call far ptr lookupSineFar
-    MOV [_var_226],BX
+    MOV [_g_spherePitch],BX
     MOV BX,BP
     call far ptr lookupCosineFar
-    MOV [_var_227],BX
+    MOV [_g_sphereRoll],BX
     MOV BX,SI
     call far ptr lookupSineFar
-    MOV [_var_224],BX
+    MOV [_g_sphereRadius],BX
     MOV BX,SI
     call far ptr lookupCosineFar
-    MOV [_var_225],BX
-    MOV AX,[_var_224]
-    IMUL WORD PTR [_var_226]
+    MOV [_g_sphereDistZ],BX
+    MOV AX,[_g_sphereRadius]
+    IMUL WORD PTR [_g_spherePitch]
     SHL AX,1
     RCL DX,1
     MOV SI,DX
     MOV AX,DX
-    IMUL WORD PTR [_word_3426A]
+    IMUL WORD PTR [_g_rotSinYaw]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[_word_3426C]
-    IMUL WORD PTR [_var_227]
+    MOV AX,[_g_rotCosYaw]
+    IMUL WORD PTR [_g_sphereRoll]
     SHL AX,1
     RCL DX,1
     ADD AX,BX
     ADC DX,CX
     MOV [DI],DX
-    MOV AX,[_var_224]
-    IMUL WORD PTR [_var_227]
+    MOV AX,[_g_sphereRadius]
+    IMUL WORD PTR [_g_sphereRoll]
     SHL AX,1
     RCL DX,1
     MOV BP,DX
     MOV AX,DX
-    IMUL WORD PTR [_word_3426A]
+    IMUL WORD PTR [_g_rotSinYaw]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[_word_3426C]
-    IMUL WORD PTR [_var_226]
+    MOV AX,[_g_rotCosYaw]
+    IMUL WORD PTR [_g_spherePitch]
     SHL AX,1
     RCL DX,1
     SUB BX,AX
     SBB CX,DX
     MOV [DI+2h],CX
-    MOV AX,[_word_3426A]
-    IMUL WORD PTR [_var_225]
+    MOV AX,[_g_rotSinYaw]
+    IMUL WORD PTR [_g_sphereDistZ]
     SHL AX,1
     RCL DX,1
     MOV [DI+4h],DX
-    MOV AX,[_var_226]
-    IMUL WORD PTR [_var_225]
+    MOV AX,[_g_spherePitch]
+    IMUL WORD PTR [_g_sphereDistZ]
     SHL AX,1
     RCL DX,1
     MOV [DI+6h],DX
-    MOV AX,[_var_227]
-    IMUL WORD PTR [_var_225]
+    MOV AX,[_g_sphereRoll]
+    IMUL WORD PTR [_g_sphereDistZ]
     SHL AX,1
     RCL DX,1
     MOV [DI+8h],DX
-    MOV AX,[_var_224]
+    MOV AX,[_g_sphereRadius]
     NEG AX
     MOV [DI+0Ah],AX
     MOV AX,SI
-    IMUL WORD PTR [_word_3426C]
+    IMUL WORD PTR [_g_rotCosYaw]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[_word_3426A]
-    IMUL WORD PTR [_var_227]
+    MOV AX,[_g_rotSinYaw]
+    IMUL WORD PTR [_g_sphereRoll]
     SHL AX,1
     RCL DX,1
     SUB BX,AX
     SBB CX,DX
     MOV [DI+0Ch],CX
     MOV AX,BP
-    IMUL WORD PTR [_word_3426C]
+    IMUL WORD PTR [_g_rotCosYaw]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[_word_3426A]
-    IMUL WORD PTR [_var_226]
+    MOV AX,[_g_rotSinYaw]
+    IMUL WORD PTR [_g_spherePitch]
     SHL AX,1
     RCL DX,1
     ADD AX,BX
     ADC DX,CX
     MOV [DI+0Eh],DX
-    MOV AX,[_word_3426C]
-    IMUL WORD PTR [_var_225]
+    MOV AX,[_g_rotCosYaw]
+    IMUL WORD PTR [_g_sphereDistZ]
     SHL AX,1
     RCL DX,1
     MOV [DI+10h],DX
@@ -2730,105 +2730,105 @@ buildInverseRotationMatrix proc near
 loc_147B:
     MOV BX,CX
     call far ptr lookupSineFar
-    MOV [_word_3426A],BX
+    MOV [_g_rotSinYaw],BX
     MOV BX,CX
     call far ptr lookupCosineFar
-    MOV [_word_3426C],BX
+    MOV [_g_rotCosYaw],BX
     MOV BX,BP
     call far ptr lookupSineFar
-    MOV [_var_226],BX
+    MOV [_g_spherePitch],BX
     MOV BX,BP
     call far ptr lookupCosineFar
-    MOV [_var_227],BX
+    MOV [_g_sphereRoll],BX
     MOV BX,SI
     call far ptr lookupSineFar
-    MOV [_var_224],BX
+    MOV [_g_sphereRadius],BX
     MOV BX,SI
     call far ptr lookupCosineFar
-    MOV [_var_225],BX
-    MOV AX,[_var_224]
-    IMUL WORD PTR [_var_226]
+    MOV [_g_sphereDistZ],BX
+    MOV AX,[_g_sphereRadius]
+    IMUL WORD PTR [_g_spherePitch]
     SHL AX,1
     RCL DX,1
     MOV SI,DX
     MOV AX,DX
-    IMUL WORD PTR [_word_3426A]
+    IMUL WORD PTR [_g_rotSinYaw]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[_word_3426C]
-    IMUL WORD PTR [_var_227]
+    MOV AX,[_g_rotCosYaw]
+    IMUL WORD PTR [_g_sphereRoll]
     SHL AX,1
     RCL DX,1
     SUB AX,BX
     SBB DX,CX
     MOV [DI],DX
-    MOV AX,[_var_224]
-    IMUL WORD PTR [_var_227]
+    MOV AX,[_g_sphereRadius]
+    IMUL WORD PTR [_g_sphereRoll]
     SHL AX,1
     RCL DX,1
     MOV BP,DX
     MOV AX,DX
-    IMUL WORD PTR [_word_3426A]
+    IMUL WORD PTR [_g_rotSinYaw]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[_word_3426C]
-    IMUL WORD PTR [_var_226]
+    MOV AX,[_g_rotCosYaw]
+    IMUL WORD PTR [_g_spherePitch]
     SHL AX,1
     RCL DX,1
     ADD BX,AX
     ADC CX,DX
     MOV [DI+6h],CX
-    MOV AX,[_word_3426A]
-    IMUL WORD PTR [_var_225]
+    MOV AX,[_g_rotSinYaw]
+    IMUL WORD PTR [_g_sphereDistZ]
     SHL AX,1
     RCL DX,1
     NEG DX
     MOV [DI+0Ch],DX
-    MOV AX,[_var_226]
-    IMUL WORD PTR [_var_225]
+    MOV AX,[_g_spherePitch]
+    IMUL WORD PTR [_g_sphereDistZ]
     SHL AX,1
     RCL DX,1
     NEG DX
     MOV [DI+2h],DX
-    MOV AX,[_var_227]
-    IMUL WORD PTR [_var_225]
+    MOV AX,[_g_sphereRoll]
+    IMUL WORD PTR [_g_sphereDistZ]
     SHL AX,1
     RCL DX,1
     MOV [DI+8h],DX
-    MOV AX,[_var_224]
+    MOV AX,[_g_sphereRadius]
     MOV [DI+0Eh],AX
     MOV AX,SI
-    IMUL WORD PTR [_word_3426C]
+    IMUL WORD PTR [_g_rotCosYaw]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[_word_3426A]
-    IMUL WORD PTR [_var_227]
+    MOV AX,[_g_rotSinYaw]
+    IMUL WORD PTR [_g_sphereRoll]
     SHL AX,1
     RCL DX,1
     ADD BX,AX
     ADC CX,DX
     MOV [DI+4h],CX
     MOV AX,BP
-    IMUL WORD PTR [_word_3426C]
+    IMUL WORD PTR [_g_rotCosYaw]
     SHL AX,1
     RCL DX,1
     MOV BX,AX
     MOV CX,DX
-    MOV AX,[_word_3426A]
-    IMUL WORD PTR [_var_226]
+    MOV AX,[_g_rotSinYaw]
+    IMUL WORD PTR [_g_spherePitch]
     SHL AX,1
     RCL DX,1
     SUB AX,BX
     SBB DX,CX
     MOV [DI+0Ah],DX
-    MOV AX,[_word_3426C]
-    IMUL WORD PTR [_var_225]
+    MOV AX,[_g_rotCosYaw]
+    IMUL WORD PTR [_g_sphereDistZ]
     SHL AX,1
     RCL DX,1
     MOV [DI+10h],DX
@@ -3045,7 +3045,7 @@ drawModelDisplayList proc far
     PUSH BP
     PUSH SI
     PUSH DI
-    LES SI,DWORD PTR [_var_200]
+    LES SI,DWORD PTR [_g_modelStreamPtr]
     CALL loc_176A
     POP DI
     POP SI
@@ -3069,9 +3069,9 @@ loc_1777:
 loc_1780:
     RET
 loc_1781:
-    MOV AX,[_var_259]
-    MOV BP,[_var_260]
-    MOV CX,[_var_257]
+    MOV AX,[_g_vtxSignMaskLo]
+    MOV BP,[_g_vtxSignMaskHi]
+    MOV CX,[_g_modelEdgeCount]
     MOV DI,offset byte_36BAE+42h
     MOV BX,DI
 loc_1791:
@@ -3086,33 +3086,33 @@ loc_1791:
     PUSH SI
     CALL loc_05DC
     POP SI
-    MOV BX,[_var_257]
+    MOV BX,[_g_modelEdgeCount]
     MOV AX,BX
     SHL AX,1
     ADD SI,AX
     INC SI
-    MOV [_word_36C10],SI
+    MOV [_g_primCoordPtr],SI
     ADD SI,AX
-    MOV [_word_36C12],SI
+    MOV [_g_primCountPtr],SI
     ADD SI,BX
-    MOV [_word_36C14],SI
+    MOV [_g_primDataBase],SI
     MOV SI,offset byte_36BAE+1h
     LODSB
 loc_17C6:
     SUB AH,AH
     PUSH SI
-    MOV DI,[_word_36C12]
+    MOV DI,[_g_primCountPtr]
     ADD DI,AX
     MOV BL,[ES:DI]
-    MOV [_byte_36C16],BL
-    MOV SI,[_word_36C10]
+    MOV [_g_primRunCount],BL
+    MOV SI,[_g_primCoordPtr]
     SHL AX,1
     ADD SI,AX
     MOV SI,[ES:SI]
-    ADD SI,[_word_36C14]
+    ADD SI,[_g_primDataBase]
 loc_17E5:
     CALL loc_17F5
-    DEC BYTE PTR [_byte_36C16]
+    DEC BYTE PTR [_g_primRunCount]
     JNZ short loc_17E5
     POP SI
     LODSB
@@ -3156,7 +3156,7 @@ loc_1828:
     SUB AH,AH
     MOV DI,AX
     MOV AH,[DI+offset _colorLut]
-    ADD AH,[_var_190]
+    ADD AH,[_g_objShade]
     call far ptr gfx_setDrawColor
     MOV CX,[BX+8h]
     MOV DX,[BX+0Ch]
@@ -3173,10 +3173,10 @@ loc_184E:
     SHR BL,1
     MOV CL,BL
     AND BX,BYTE PTR +0x1e
-    MOV BX,[BX+offset word_36B8B+3h]
+    MOV BX,[BX+offset g_vtxScale+3h]
     TEST CL,20h
     JNZ short loc_186E
-    TEST [_var_259],BX
+    TEST [_g_vtxSignMaskLo],BX
     JNZ short loc_1874
 loc_1868:
     SUB AH,AH
@@ -3184,27 +3184,27 @@ loc_1868:
     INC SI
     RET
 loc_186E:
-    TEST [_var_260],BX
+    TEST [_g_vtxSignMaskHi],BX
     JZ short loc_1868
 loc_1874:
-    MOV [_byte_36C17],AL
+    MOV [_g_faceVtxCount],AL
     MOV BL,AL
     SUB BH,BH
     MOV BL,[ES:BX+SI]
     CMP BL,0FFh
     JZ short loc_1868
-    CMP WORD PTR [_var_141],400h
+    CMP WORD PTR [_g_objColorBase],400h
     JNZ short loc_1890
     CMP BL,1h
     JNZ short loc_1868
 loc_1890:
     MOV DI,BX
     MOV AH,[DI+offset _colorLut]
-    ADD AH,[_var_190]
+    ADD AH,[_g_objShade]
     call far ptr gfx_setDrawColor
     CALL loc_1EA0
-    MOV ES,[_var_200+2]
-    MOV BYTE PTR [_byte_36C18],0h
+    MOV ES,[_g_modelStreamPtr+2]
+    MOV BYTE PTR [_g_vtxSlotPhase],0h
 loc_18AB:
     db 026h
     LODSB
@@ -3224,41 +3224,41 @@ loc_18AB:
     MOV DX,[BX+12h]
     MOV CX,[BX+14h]
     MOV DI,[BX+16h]
-    CMP BYTE PTR [_byte_36C18],0h
+    CMP BYTE PTR [_g_vtxSlotPhase],0h
     JNZ short loc_18EE
-    MOV [word_36C19],AX
-    MOV [word_36C1B],DX
-    MOV [word_36C1D],CX
-    MOV [word_36C1F],DI
+    MOV [g_clipVtxA0],AX
+    MOV [g_clipVtxA1],DX
+    MOV [g_clipVtxA2],CX
+    MOV [g_clipVtxA3],DI
     JMP short loc_18FD
     NOP
 loc_18EE:
-    MOV [word_36C21],AX
-    MOV [word_36C23],DX
-    MOV [word_36C25],CX
-    MOV [word_36C27],DI
+    MOV [g_clipVtxB0],AX
+    MOV [g_clipVtxB1],DX
+    MOV [g_clipVtxB2],CX
+    MOV [g_clipVtxB3],DI
 loc_18FD:
-    INC BYTE PTR [_byte_36C18]
+    INC BYTE PTR [_g_vtxSlotPhase]
 loc_1901:
     PUSH SI
     CALL loc_193A
     POP SI
-    DEC BYTE PTR [_byte_36C17]
+    DEC BYTE PTR [_g_faceVtxCount]
     JNZ short loc_18AB
     INC SI
     PUSH SI
-    CMP BYTE PTR [_byte_36C18],2h
+    CMP BYTE PTR [_g_vtxSlotPhase],2h
     JL short loc_1929
     MOV BYTE PTR [_byte_36C31],0h
-    MOV DI,offset word_36C19
+    MOV DI,offset g_clipVtxA0
     CALL loc_015D
-    MOV ES,[_var_200+2]
+    MOV ES,[_g_modelStreamPtr+2]
     MOV BX,DI
     CALL loc_193A
 loc_1929:
-    MOV AX,[_word_378D9]
-    MOV CX,[_word_378DB]
-    MOV BX,offset unk_37565
+    MOV AX,[_g_dirtyRectMinY]
+    MOV CX,[_g_dirtyRectMaxY]
+    MOV BX,offset g_spanMinX
     call far ptr gfx_dirtyRect
     POP SI
     RET
@@ -3269,13 +3269,13 @@ loc_193A:
     TEST BYTE PTR [BX+18h],80h
     JNZ short loc_195C
     MOV AX,[BX]
-    MOV [_word_3755D],AX
+    MOV [_g_lineX1],AX
     MOV AX,[BX+4h]
-    MOV [_word_37561],AX
+    MOV [_g_lineY1],AX
     MOV AX,[BX+8h]
-    MOV [_word_3755F],AX
+    MOV [_g_lineX2],AX
     MOV AX,[BX+0Ch]
-    MOV [_word_37563],AX
+    MOV [_g_lineY2],AX
     PUSH BX
     CALL loc_1F34
     POP BX
@@ -3287,7 +3287,7 @@ loc_195C:
     MOV DX,[BX+6h]
     PUSH BX
     CALL loc_1ED6
-    MOV ES,[_var_200+2]
+    MOV ES,[_g_modelStreamPtr+2]
     POP BX
 loc_1973:
     TEST BYTE PTR [BX+18h],10h
@@ -3296,25 +3296,25 @@ loc_1973:
     MOV DI,[BX+0Ch]
     MOV DX,[BX+0Eh]
     CALL loc_1ED6
-    MOV ES,[_var_200+2]
+    MOV ES,[_g_modelStreamPtr+2]
 loc_1989:
     RET
 drawPrimitiveEdges endp
 
 loc_198A:
-    MOV AX,[_word_34256]
+    MOV AX,[_g_camTransYHi]
     db 03Dh, 001h, 000h
     JL short loc_19E7
     MOV [_word_34686],AX
-    MOV AX,[_word_34254]
+    MOV AX,[_g_camTransYLo]
     MOV [_word_34684],AX
     MOV AX,[word_3424C]
     MOV [word_342BC],AX
     MOV AX,[word_3424E]
     MOV [word_342BE],AX
-    MOV AX,[_word_34250]
+    MOV AX,[_g_camTransXLo]
     MOV [word_344A0],AX
-    MOV AX,[_word_34252]
+    MOV AX,[_g_camTransXHi]
     MOV [word_344A2],AX
     INC SI
     db 026h
@@ -3322,18 +3322,18 @@ loc_198A:
     SUB AH,AH
     MOV DI,AX
     MOV AH,[DI+offset _colorLut]
-    ADD AH,[_var_190]
+    ADD AH,[_g_objShade]
     call far ptr gfx_setDrawColor
     CALL loc_0113
     SUB BX,BX
     CALL loc_0078
     CALL loc_0137
     MOV AX,[_var_279]
-    MOV [_word_3755D],AX
-    MOV [_word_3755F],AX
+    MOV [_g_lineX1],AX
+    MOV [_g_lineX2],AX
     MOV AX,[_var_282]
-    MOV [_word_37561],AX
-    MOV [_word_37563],AX
+    MOV [_g_lineY1],AX
+    MOV [_g_lineY2],AX
     CALL loc_1CB6
 loc_19E7:
     RET
@@ -3345,18 +3345,18 @@ loc_19E8:
     MOV BL,[DI + offset _buf3d3_3]
     SUB BH,BH
     SHL BX,1
-    MOV CX,[BX + offset _byte_3BE80]
+    MOV CX,[BX + offset _g_modelVertZ]
     MOV BL,[DI + offset _buf3d3_2]
     SUB BH,BH
     SHL BX,1
-    MOV AX,[BX + offset _byte_3BE3E]
-    MOV [_word_36C33],AX
+    MOV AX,[BX + offset _g_modelVertY]
+    MOV [_g_savedPrimVtxScale],AX
     MOV BL,[DI + offset _buf3d3_1]
     SUB BH,BH
     SHL BX,1
-    MOV BX,[BX + offset _byte_3B7FC + 600h]
+    MOV BX,[BX + offset _g_replayLog + 600h]
     PUSH SI
-    MOV AX,[_word_36C33]
+    MOV AX,[_g_savedPrimVtxScale]
     IMUL WORD PTR [word_342A6]
     MOV DI,DX
     MOV SI,AX
@@ -3374,7 +3374,7 @@ loc_19E8:
     ADC DI,[word_3424E]
     MOV [word_342BC],SI
     MOV [word_342BE],DI
-    MOV AX,[_word_36C33]
+    MOV AX,[_g_savedPrimVtxScale]
     IMUL WORD PTR [word_342A8]
     MOV DI,DX
     MOV SI,AX
@@ -3388,11 +3388,11 @@ loc_19E8:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    ADD SI,[_word_34250]
-    ADC DI,[_word_34252]
+    ADD SI,[_g_camTransXLo]
+    ADC DI,[_g_camTransXHi]
     MOV [word_344A0],SI
     MOV [word_344A2],DI
-    MOV AX,[_word_36C33]
+    MOV AX,[_g_savedPrimVtxScale]
     IMUL WORD PTR [word_342AA]
     MOV DI,DX
     MOV SI,AX
@@ -3406,8 +3406,8 @@ loc_19E8:
     ADC DI,DX
     SHL SI,1
     RCL DI,1
-    ADD SI,[_word_34254]
-    ADC DI,[_word_34256]
+    ADD SI,[_g_camTransYLo]
+    ADC DI,[_g_camTransYHi]
     MOV [_word_34684],SI
     MOV [_word_34686],DI
     MOV BX,8h
@@ -3423,15 +3423,15 @@ loc_1ABC:
     SUB BX,BX
     CALL loc_0078
     MOV AX,[_var_279]
-    MOV [_word_3755D],AX
-    MOV [_word_3755F],AX
+    MOV [_g_lineX1],AX
+    MOV [_g_lineX2],AX
     MOV AX,[_var_282]
-    MOV [_word_37561],AX
-    MOV [_word_37563],AX
+    MOV [_g_lineY1],AX
+    MOV [_g_lineY2],AX
     CALL loc_1CB6
     POP SI
-    MOV ES,[_var_200+2]
-    DEC BYTE PTR [_byte_36C32]
+    MOV ES,[_g_modelStreamPtr+2]
+    DEC BYTE PTR [_g_edgeRunCount]
     JZ short loc_1AED
     JMP near ptr loc_19E8
 loc_1AED:
@@ -3444,8 +3444,8 @@ loc_1AF4:
     ADD SI,BYTE PTR +0x2
     db 026h
     LODSB
-    MOV [_byte_36C32],AL
-    CMP BYTE PTR [_var_316],0h
+    MOV [_g_edgeRunCount],AL
+    CMP BYTE PTR [_g_offscreenRender],0h
     JNZ short loc_1AF1
 loc_1B06:
     db 026h
@@ -3455,10 +3455,10 @@ loc_1B06:
     SHL AX,1
     MOV DI,AX
     MOV AX,[DI+offset dword_34C2C+4B4h]
-    ADD AX,[_word_34254]
+    ADD AX,[_g_camTransYLo]
     MOV [_word_34684],AX
     MOV AX,[DI+offset dword_34C2C+4B6h]
-    ADC AX,[_word_34256]
+    ADC AX,[_g_camTransYHi]
     db 03Dh, 001h, 000h
     JL short loc_1B95
     MOV [_word_34686],AX
@@ -3470,10 +3470,10 @@ loc_1B06:
     ADC AX,[word_3424E]
     MOV [word_342BE],AX
     MOV AX,[DI+offset dword_34C2C+25Ch]
-    ADD AX,[_word_34250]
+    ADD AX,[_g_camTransXLo]
     MOV [word_344A0],AX
     MOV AX,[DI+offset dword_34C2C+25Eh]
-    ADC AX,[_word_34252]
+    ADC AX,[_g_camTransXHi]
     MOV [word_344A2],AX
     MOV BX,8h
     CMP DX,1388h
@@ -3489,16 +3489,16 @@ loc_1B6C:
     SUB BX,BX
     CALL loc_0078
     MOV AX,[_var_279]
-    MOV [_word_3755D],AX
-    MOV [_word_3755F],AX
+    MOV [_g_lineX1],AX
+    MOV [_g_lineX2],AX
     MOV AX,[_var_282]
-    MOV [_word_37561],AX
-    MOV [_word_37563],AX
+    MOV [_g_lineY1],AX
+    MOV [_g_lineY2],AX
     CALL loc_1CB6
     POP SI
-    MOV ES,[_var_200+2]
+    MOV ES,[_g_modelStreamPtr+2]
 loc_1B95:
-    DEC BYTE PTR [_byte_36C32]
+    DEC BYTE PTR [_g_edgeRunCount]
     JZ short loc_1B9E
     JMP near ptr loc_1B06
 loc_1B9E:
@@ -3506,19 +3506,19 @@ loc_1B9E:
     RET
 testVisibilityMask proc near
 loc_1BA2:
-    CMP BYTE PTR [_var_258],0h
+    CMP BYTE PTR [_g_modelWideVtxFlag],0h
     JNZ short loc_1BB0
     db 026h
     LODSW
-    AND AX,[_var_259]
+    AND AX,[_g_vtxSignMaskLo]
     RET
 loc_1BB0:
     db 026h
     LODSW
     MOV DX,[ES:SI]
     ADD SI,BYTE PTR +0x2
-    AND AX,[_var_259]
-    AND DX,[_var_260]
+    AND AX,[_g_vtxSignMaskLo]
+    AND DX,[_g_vtxSignMaskHi]
     OR AX,DX
     RET
 testVisibilityMask endp
@@ -3543,24 +3543,24 @@ fillSpanRect proc far
     CALL loc_1EA0
     MOV CX,[BP+0Eh]
     MOV SI,[BP+0Ah]
-    MOV [_word_378DB],CX
-    MOV [_word_378D9],SI
+    MOV [_g_dirtyRectMaxY],CX
+    MOV [_g_dirtyRectMinY],SI
     SUB CX,SI
     INC CX
-    LEA DI,[unk_37565]
+    LEA DI,[g_spanMinX]
     SHL SI,1
     ADD DI,SI
     MOV AX,[BP+8h]
     MOV DX,CX
     REP stosw
     MOV CX,DX
-    LEA DI,[unk_3771D]
+    LEA DI,[g_spanMaxX]
     ADD DI,SI
     MOV AX,[BP+0Ch]
     REP stosw
-    MOV BX,offset unk_37565
-    MOV AX,[_word_378D9]
-    MOV CX,[_word_378DB]
+    MOV BX,offset g_spanMinX
+    MOV AX,[_g_dirtyRectMinY]
+    MOV CX,[_g_dirtyRectMaxY]
     call far ptr gfx_dirtyRect2
     call far ptr gfx_nop22
     POP AX
@@ -3596,24 +3596,24 @@ fillSpanRectAlt:
     CALL loc_1EA0
     MOV CX,[BP+0Eh]
     MOV SI,[BP+0Ah]
-    MOV [_word_378DB],CX
-    MOV [_word_378D9],SI
+    MOV [_g_dirtyRectMaxY],CX
+    MOV [_g_dirtyRectMinY],SI
     SUB CX,SI
     INC CX
-    LEA DI,[unk_37565]
+    LEA DI,[g_spanMinX]
     SHL SI,1
     ADD DI,SI
     MOV AX,[BP+8h]
     MOV DX,CX
     REP stosw
     MOV CX,DX
-    LEA DI,[unk_3771D]
+    LEA DI,[g_spanMaxX]
     ADD DI,SI
     MOV AX,[BP+0Ch]
     REP stosw
-    MOV BX,offset unk_37565
-    MOV AX,[_word_378D9]
-    MOV CX,[_word_378DB]
+    MOV BX,offset g_spanMinX
+    MOV AX,[_g_dirtyRectMinY]
+    MOV CX,[_g_dirtyRectMaxY]
     call far ptr gfx_dirtyRect2
     call far ptr gfx_nop22
     POP AX
@@ -3624,10 +3624,10 @@ fillSpanRectAlt:
     MOV SP,BP
     POP BP
     retn
-sub_21526 proc far
+clipLineFar proc far
     CALL loc_1CB6
     RETF
-sub_21526 endp
+clipLineFar endp
 
 drawClipLineGlobal proc far
     PUSH BP
@@ -3662,10 +3662,10 @@ loc_1CD8:
     POP WORD PTR [ES:0h]
     PUSH DS
     POP ES
-    MOV AX,[_word_3755D]
-    MOV BX,[_word_37561]
-    MOV CX,[_word_3755F]
-    MOV DX,[_word_37563]
+    MOV AX,[_g_lineX1]
+    MOV BX,[_g_lineY1]
+    MOV CX,[_g_lineX2]
+    MOV DX,[_g_lineY2]
     call far ptr gfx_drawLine
     CLC
     RET
@@ -3681,9 +3681,9 @@ loc_1CFE:
 loc_1D10:
     CMC
     RCR DX,1
-    MOV [_word_3754F],DX
+    MOV [_g_clipDeltaX],DX
     SAR DX,1
-    MOV [_word_37553],DX
+    MOV [_g_clipHalfDeltaX],DX
     MOV DX,DI
     SUB DX,BP
     JNO short loc_1D29
@@ -3698,72 +3698,72 @@ loc_1D29:
 loc_1D2E:
     CMC
     RCR DX,1
-    SAR WORD PTR [_word_3754F],1
-    SAR WORD PTR [_word_37553],1
+    SAR WORD PTR [_g_clipDeltaX],1
+    SAR WORD PTR [_g_clipHalfDeltaX],1
     JMP short loc_1D99
     NOP
 loc_1D3C:
     JMP short loc_1CFE
 loc_1D3E:
-    MOV CX,[_word_3755D]
-    MOV DX,[_word_37561]
-    MOV SI,[_word_3755F]
-    MOV DI,[_word_37563]
+    MOV CX,[_g_lineX1]
+    MOV DX,[_g_lineY1]
+    MOV SI,[_g_lineX2]
+    MOV DI,[_g_lineY2]
     MOV BX,CX
     MOV BP,DX
     CALL loc_1E42
-    MOV [_byte_3754E],AL
+    MOV [_g_clipSwapFlag],AL
     MOV BX,SI
     MOV BP,DI
     CALL loc_1E42
     JNZ short loc_1D7B
-    CMP BYTE PTR [_byte_3754E],0h
+    CMP BYTE PTR [_g_clipSwapFlag],0h
     JNZ short loc_1D6B
     JMP near ptr loc_1CD8
 loc_1D6B:
     db 087h, 0CEh
     db 087h, 0D7h
-    XCHG [_byte_3754E],AL
-    MOV [_word_3755D],CX
-    MOV [_word_37561],DX
+    XCHG [_g_clipSwapFlag],AL
+    MOV [_g_lineX1],CX
+    MOV [_g_lineY1],DX
 loc_1D7B:
-    TEST [_byte_3754E],AL
+    TEST [_g_clipSwapFlag],AL
     JNZ short loc_1D3C
     MOV BP,DX
     MOV DX,SI
     SUB DX,CX
     JO short loc_1D10
-    MOV [_word_3754F],DX
+    MOV [_g_clipDeltaX],DX
     SAR DX,1
-    MOV [_word_37553],DX
+    MOV [_g_clipHalfDeltaX],DX
     MOV DX,DI
     SUB DX,BP
     JO short loc_1D2E
 loc_1D99:
-    MOV [_word_37551],DX
+    MOV [_g_clipDeltaY],DX
     SAR DX,1
-    MOV [_word_37555],DX
+    MOV [_g_clipHalfDeltaY],DX
 loc_1DA3:
     TEST AL,9h
     JZ short loc_1DDF
     SUB BX,BX
     OR SI,SI
     JS short loc_1DB1
-    MOV BX,[_word_37557]
+    MOV BX,[_g_clipMaxX]
 loc_1DB1:
     MOV AX,BX
     SUB AX,CX
-    IMUL WORD PTR [_word_37551]
+    IMUL WORD PTR [_g_clipDeltaY]
     PUSH BX
     MOV BX,DX
-    IDIV WORD PTR [_word_3754F]
+    IDIV WORD PTR [_g_clipDeltaX]
     MOV BL,BH
-XOR BL, byte ptr [_word_3754F + 1]
+XOR BL, byte ptr [_g_clipDeltaX + 1]
     JNS short loc_1DCB
     NEG DX
     DEC AX
 loc_1DCB:
-    SUB DX,[_word_37553]
+    SUB DX,[_g_clipHalfDeltaX]
     XOR DH,BH
     JS short loc_1DD4
     INC AX
@@ -3771,10 +3771,10 @@ loc_1DD4:
     POP BX
     ADD AX,BP
     JS short loc_1DE7
-    CMP AX,[_word_37559]
+    CMP AX,[_g_clipMaxY]
     JNG short loc_1E18
 loc_1DDF:
-    MOV BX,[_word_37559]
+    MOV BX,[_g_clipMaxY]
     CMP DI,BX
     JG short loc_1DE9
 loc_1DE7:
@@ -3782,17 +3782,17 @@ loc_1DE7:
 loc_1DE9:
     MOV AX,BX
     SUB AX,BP
-    IMUL WORD PTR [_word_3754F]
+    IMUL WORD PTR [_g_clipDeltaX]
     PUSH BX
     MOV BX,DX
-    IDIV WORD PTR [_word_37551]
+    IDIV WORD PTR [_g_clipDeltaY]
     MOV BL,BH
-XOR BL, byte ptr [_word_37551 + 1]
+XOR BL, byte ptr [_g_clipDeltaY + 1]
     JNS short loc_1E03
     NEG DX
     DEC AX
 loc_1E03:
-    SUB DX,[_word_37555]
+    SUB DX,[_g_clipHalfDeltaY]
     XOR DH,BH
     JS short loc_1E0C
     INC AX
@@ -3800,24 +3800,24 @@ loc_1E0C:
     POP BX
     ADD AX,CX
     JS short loc_1E29
-    CMP AX,[_word_37557]
+    CMP AX,[_g_clipMaxX]
     JG short loc_1E29
     XCHG AX,BX
 loc_1E18:
-    CMP BYTE PTR [_byte_3754E],0h
+    CMP BYTE PTR [_g_clipSwapFlag],0h
     JNZ short loc_1E2C
-    MOV [_word_37563],AX
-    MOV [_word_3755F],BX
+    MOV [_g_lineY2],AX
+    MOV [_g_lineX2],BX
     JMP near ptr loc_1CD8
 loc_1E29:
     JMP near ptr loc_1CFE
 loc_1E2C:
-    MOV [_word_37561],AX
-    MOV [_word_3755D],BX
+    MOV [_g_lineY1],AX
+    MOV [_g_lineX1],BX
     db 087h, 0CEh
     db 087h, 0EFh
-    MOV AL,[_byte_3754E]
-    MOV BYTE PTR [_byte_3754E],0h
+    MOV AL,[_g_clipSwapFlag]
+    MOV BYTE PTR [_g_clipSwapFlag],0h
     JMP near ptr loc_1DA3
 clipLineCohenSutherland endp
 
@@ -3828,7 +3828,7 @@ loc_1E42:
     JS short loc_1E4A
     AND AL,0F7h
 loc_1E4A:
-    CMP BX,[_word_37557]
+    CMP BX,[_g_clipMaxX]
     JG short loc_1E52
     AND AL,0FEh
 loc_1E52:
@@ -3836,7 +3836,7 @@ loc_1E52:
     JS short loc_1E58
     AND AL,0FBh
 loc_1E58:
-    CMP BP,[_word_37559]
+    CMP BP,[_g_clipMaxY]
     JG short loc_1E60
     AND AL,0FDh
 loc_1E60:
@@ -3854,9 +3854,9 @@ lineClipDivOverflowStub:
     PUSH BP
     MOV BP,SP
     CMP WORD PTR [BP+2],1DF4h                ; which IDIV faulted, by saved IP
-    MOV AX,[_word_37551]                      ; dividend hi for the IDIV at 1DF4
+    MOV AX,[_g_clipDeltaY]                      ; dividend hi for the IDIV at 1DF4
     JZ short lcdz_signed
-    MOV AX,[_word_3754F]                      ; dividend hi for the other IDIV
+    MOV AX,[_g_clipDeltaX]                      ; dividend hi for the other IDIV
 lcdz_signed:
     XOR DX,AX                                ; fold dividend sign into DX
     MOV AX,7F00h                             ; saturated quotient magnitude
@@ -3871,9 +3871,9 @@ flushSpanDirtyRect proc far
     PUSH DI
     PUSH SI
     PUSH BP
-    MOV AX,[_word_378D9]
-    MOV CX,[_word_378DB]
-    MOV BX,offset unk_37565
+    MOV AX,[_g_dirtyRectMinY]
+    MOV CX,[_g_dirtyRectMaxY]
+    MOV BX,offset g_spanMinX
     call far ptr gfx_dirtyRect
     POP BP
     POP SI
@@ -3890,27 +3890,27 @@ resetScanlineSpans endp
 
 resetScanlineSpansImpl proc near
 loc_1EA0:
-    MOV DI,[_word_378D9]
+    MOV DI,[_g_dirtyRectMinY]
     OR DI,DI
     JS short loc_1ED5
     MOV AX,@data    ; relocatable DGROUP segment (loader fixes it up)
     MOV ES,AX
-    MOV CX,[_word_378DB]
+    MOV CX,[_g_dirtyRectMaxY]
     INC CX
     SUB CX,DI
     SHL DI,1
     MOV BX,CX
     MOV DX,DI
-    ADD DI, offset unk_37565
+    ADD DI, offset g_spanMinX
     MOV AX,0FFFFh
     REP stosw
-    MOV [_word_378D9],AX
+    MOV [_g_dirtyRectMinY],AX
     MOV CX,BX
     MOV DI,DX
-    ADD DI, offset unk_3771D
+    ADD DI, offset g_spanMaxX
     SUB AX,AX
     REP stosw
-    MOV [_word_378DB],AX
+    MOV [_g_dirtyRectMaxY],AX
 loc_1ED5:
     RET
 resetScanlineSpansImpl endp
@@ -3921,11 +3921,11 @@ loc_1ED6:
     MOV ES,AX
     MOV CX,DI
     OR SI,SI
-    LEA DI,[unk_37565]
+    LEA DI,[g_spanMinX]
     JZ short loc_1EEF
-    CMP SI,[_word_37557]
+    CMP SI,[_g_clipMaxX]
     JNZ short loc_1F24
-    LEA DI,[unk_3771D]
+    LEA DI,[g_spanMaxX]
 loc_1EEF:
     CMP CX,DX
     JNL short loc_1EF5
@@ -3935,17 +3935,17 @@ loc_1EF5:
     JNS short loc_1EFB
     SUB DX,DX
 loc_1EFB:
-    CMP CX,[_word_37559]
+    CMP CX,[_g_clipMaxY]
     JNG short loc_1F05
-    MOV CX,[_word_37559]
+    MOV CX,[_g_clipMaxY]
 loc_1F05:
-    CMP CX,[_word_378DB]
+    CMP CX,[_g_dirtyRectMaxY]
     JNA short loc_1F0F
-    MOV [_word_378DB],CX
+    MOV [_g_dirtyRectMaxY],CX
 loc_1F0F:
-    CMP DX,[_word_378D9]
+    CMP DX,[_g_dirtyRectMinY]
     JNC short loc_1F19
-    MOV [_word_378D9],DX
+    MOV [_g_dirtyRectMinY],DX
 loc_1F19:
     ADD DI,DX
     ADD DI,DX
@@ -3961,29 +3961,29 @@ loc_1F25:
     SUB SI,SI
     OR BX,BX
     JS short loc_1ED6
-    MOV SI,[_word_37557]
+    MOV SI,[_g_clipMaxX]
     CMP BX,SI
     JG short loc_1ED6
     RET
 rasterizeEdgeSpan proc near
 loc_1F34:
-    MOV AX,[_word_3755F]
-    CMP AX,[_word_3755D]
+    MOV AX,[_g_lineX2]
+    CMP AX,[_g_lineX1]
     JNC short loc_1F56
-    MOV BX,[_word_3755D]
-    MOV [_word_3755F],BX
-    MOV [_word_3755D],AX
-    MOV AX,[_word_37563]
-    MOV BX,[_word_37561]
-    MOV [_word_37563],BX
-    MOV [_word_37561],AX
+    MOV BX,[_g_lineX1]
+    MOV [_g_lineX2],BX
+    MOV [_g_lineX1],AX
+    MOV AX,[_g_lineY2]
+    MOV BX,[_g_lineY1]
+    MOV [_g_lineY2],BX
+    MOV [_g_lineY1],AX
 loc_1F56:
-    MOV BX,[_word_3755F]
-    SUB BX,[_word_3755D]
-    MOV [_word_378D5],BX
-    MOV AX,[_word_37563]
+    MOV BX,[_g_lineX2]
+    SUB BX,[_g_lineX1]
+    MOV [_g_rasterDeltaX],BX
+    MOV AX,[_g_lineY2]
     MOV DX,AX
-    MOV CX,[_word_37561]
+    MOV CX,[_g_lineY1]
     SUB AX,CX
     MOV BP,2h
     JNS short loc_1F78
@@ -3991,41 +3991,41 @@ loc_1F56:
     NEG BP
     NEG AX
 loc_1F78:
-    MOV [_word_378D7],AX
-    CMP DX,[_word_378DB]
+    MOV [_g_rasterDeltaY],AX
+    CMP DX,[_g_dirtyRectMaxY]
     JNA short loc_1F85
-    MOV [_word_378DB],DX
+    MOV [_g_dirtyRectMaxY],DX
 loc_1F85:
-    CMP CX,[_word_378D9]
+    CMP CX,[_g_dirtyRectMinY]
     JNC short loc_1F8F
-    MOV [_word_378D9],CX
+    MOV [_g_dirtyRectMinY],CX
 loc_1F8F:
     CMP AX,BX
     JNC short loc_1FDE
-    MOV DI,[_word_37561]
+    MOV DI,[_g_lineY1]
     SHL DI,1
-    MOV AX,[_word_3755D]
-    MOV DX,[_word_378D5]
+    MOV AX,[_g_lineX1]
+    MOV DX,[_g_rasterDeltaX]
     MOV CX,DX
     MOV BX,CX
     INC BX
     SHR BX,1
     NEG BX
-    MOV SI,[_word_378D7]
+    MOV SI,[_g_rasterDeltaY]
     JMP short loc_1FBF
     NOP
 loc_1FB0:
-    CMP AX,[DI+offset unk_3771D]
+    CMP AX,[DI+offset g_spanMaxX]
     JNA short loc_1FBA
-    MOV [DI+offset unk_3771D],AX
+    MOV [DI+offset g_spanMaxX],AX
 loc_1FBA:
     INC AX
     SUB BX,DX
     ADD DI,BP
 loc_1FBF:
-    CMP AX,[DI+offset unk_37565]
+    CMP AX,[DI+offset g_spanMinX]
     JNC short loc_1FC9
-    MOV [DI+offset unk_37565],AX
+    MOV [DI+offset g_spanMinX],AX
 loc_1FC9:
     DEC CX
     JS short loc_1FD3
@@ -4034,30 +4034,30 @@ loc_1FC9:
     INC AX
     JMP short loc_1FC9
 loc_1FD3:
-    CMP AX,[DI+offset unk_3771D]
+    CMP AX,[DI+offset g_spanMaxX]
     JNA short loc_1FDD
-    MOV [DI+offset unk_3771D],AX
+    MOV [DI+offset g_spanMaxX],AX
 loc_1FDD:
     RET
 loc_1FDE:
-    MOV DI,[_word_37561]
+    MOV DI,[_g_lineY1]
     SHL DI,1
-    MOV AX,[_word_3755D]
-    MOV DX,[_word_378D7]
+    MOV AX,[_g_lineX1]
+    MOV DX,[_g_rasterDeltaY]
     MOV CX,DX
     MOV BX,CX
     INC BX
     SHR BX,1
     NEG BX
-    MOV SI,[_word_378D5]
+    MOV SI,[_g_rasterDeltaX]
 loc_1FF8:
-    CMP AX,[DI+offset unk_37565]
+    CMP AX,[DI+offset g_spanMinX]
     JNC short loc_2002
-    MOV [DI+offset unk_37565],AX
+    MOV [DI+offset g_spanMinX],AX
 loc_2002:
-    CMP AX,[DI+offset unk_3771D]
+    CMP AX,[DI+offset g_spanMaxX]
     JNA short loc_200C
-    MOV [DI+offset unk_3771D],AX
+    MOV [DI+offset g_spanMaxX],AX
 loc_200C:
     DEC CX
     JS short loc_201A
@@ -4107,7 +4107,7 @@ loc_204A:
     POP ES
     RET
 loc_205B:
-    AND AL,[_byte_378DE]
+    AND AL,[_g_rasterClipFlags]
     TEST AL,6h
     JNZ short loc_204A
     MOV BX,CX
@@ -4117,9 +4117,9 @@ loc_2068:
 loc_206B:
     CMC
     RCR DX,1
-    MOV [_word_378DF],DX
+    MOV [_g_clipDivisorX],DX
     SAR DX,1
-    MOV [_word_378E3],DX
+    MOV [_g_clipMidpointX],DX
     MOV DX,DI
     SUB DX,BP
     JNO short loc_2084
@@ -4134,70 +4134,70 @@ loc_2084:
 loc_2089:
     CMC
     RCR DX,1
-    SAR WORD PTR [_word_378DF],1
-    SAR WORD PTR [_word_378E3],1
+    SAR WORD PTR [_g_clipDivisorX],1
+    SAR WORD PTR [_g_clipMidpointX],1
     JMP short loc_20EF
     NOP
 loc_2097:
-    MOV CX,[_word_3755D]
-    MOV DX,[_word_37561]
-    MOV SI,[_word_3755F]
-    MOV DI,[_word_37563]
+    MOV CX,[_g_lineX1]
+    MOV DX,[_g_lineY1]
+    MOV SI,[_g_lineX2]
+    MOV DI,[_g_lineY2]
     MOV BX,CX
     MOV BP,DX
     CALL loc_1E42
-    MOV [_byte_378DE],AL
+    MOV [_g_rasterClipFlags],AL
     MOV BX,SI
     MOV BP,DI
     CALL loc_1E42
     JNZ short loc_20D1
-    CMP BYTE PTR [_byte_378DE],0h
+    CMP BYTE PTR [_g_rasterClipFlags],0h
     JZ short loc_2068
     db 087h, 0CEh
     db 087h, 0D7h
-    XCHG [_byte_378DE],AL
-    MOV [_word_3755D],CX
-    MOV [_word_37561],DX
+    XCHG [_g_rasterClipFlags],AL
+    MOV [_g_lineX1],CX
+    MOV [_g_lineY1],DX
 loc_20D1:
     MOV BP,DX
-    TEST [_byte_378DE],AL
+    TEST [_g_rasterClipFlags],AL
     JNZ short loc_205B
     MOV DX,SI
     SUB DX,CX
     JO short loc_206B
-    MOV [_word_378DF],DX
+    MOV [_g_clipDivisorX],DX
     SAR DX,1
-    MOV [_word_378E3],DX
+    MOV [_g_clipMidpointX],DX
     MOV DX,DI
     SUB DX,BP
     JO short loc_2089
 loc_20EF:
-    MOV [_word_378E1],DX
+    MOV [_g_clipDivisorY],DX
     SAR DX,1
-    MOV [_word_378E5],DX
+    MOV [_g_clipMidpointY],DX
 loc_20F9:
     TEST AL,9h
     JZ short loc_2139
     SUB BX,BX
     OR SI,SI
     JS short loc_2107
-    MOV BX,[_word_37557]
+    MOV BX,[_g_clipMaxX]
 loc_2107:
     MOV AX,BX
     SUB AX,CX
-    IMUL WORD PTR [_word_378E1]
+    IMUL WORD PTR [_g_clipDivisorY]
     PUSH BX
     MOV BX,DX
-    IDIV WORD PTR [_word_378DF]
+    IDIV WORD PTR [_g_clipDivisorX]
     OR AX,AX
     OR AX,AX
     MOV BL,BH
-XOR BL, byte ptr [_word_378DF + 1]
+XOR BL, byte ptr [_g_clipDivisorX + 1]
     JNS short loc_2125
     NEG DX
     DEC AX
 loc_2125:
-    SUB DX,[_word_378E3]
+    SUB DX,[_g_clipMidpointX]
     XOR DH,BH
     JS short loc_212E
     INC AX
@@ -4205,10 +4205,10 @@ loc_212E:
     POP BX
     ADD AX,BP
     JS short loc_2141
-    CMP AX,[_word_37559]
+    CMP AX,[_g_clipMaxY]
     JNG short loc_2176
 loc_2139:
-    MOV BX,[_word_37559]
+    MOV BX,[_g_clipMaxY]
     CMP DI,BX
     JG short loc_2143
 loc_2141:
@@ -4216,19 +4216,19 @@ loc_2141:
 loc_2143:
     MOV AX,BX
     SUB AX,BP
-    IMUL WORD PTR [_word_378DF]
+    IMUL WORD PTR [_g_clipDivisorX]
     PUSH BX
     MOV BX,DX
-    IDIV WORD PTR [_word_378E1]
+    IDIV WORD PTR [_g_clipDivisorY]
     OR AX,AX
     OR AX,AX
     MOV BL,BH
-XOR BL, byte ptr [_word_378E1 + 1]
+XOR BL, byte ptr [_g_clipDivisorY + 1]
     JNS short loc_2161
     NEG DX
     DEC AX
 loc_2161:
-    SUB DX,[_word_378E5]
+    SUB DX,[_g_clipMidpointY]
     XOR DH,BH
     JS short loc_216A
     INC AX
@@ -4237,7 +4237,7 @@ loc_216A:
     ADD AX,CX
     XCHG AX,BX
     JS short loc_219A
-    CMP BX,[_word_37557]
+    CMP BX,[_g_clipMaxX]
     JG short loc_219A
 loc_2176:
     PUSH AX
@@ -4254,10 +4254,10 @@ loc_2176:
     POP CX
     POP BX
     POP AX
-    CMP BYTE PTR [_byte_378DE],0h
+    CMP BYTE PTR [_g_rasterClipFlags],0h
     JNZ short loc_21AF
-    MOV [_word_37563],AX
-    MOV [_word_3755F],BX
+    MOV [_g_lineY2],AX
+    MOV [_g_lineX2],BX
     JMP short loc_21C5
     NOP
 loc_219A:
@@ -4270,12 +4270,12 @@ loc_219A:
     POP ES
     JMP near ptr loc_1F25
 loc_21AF:
-    MOV [_word_37561],AX
-    MOV [_word_3755D],BX
+    MOV [_g_lineY1],AX
+    MOV [_g_lineX1],BX
     db 087h, 0CEh
     db 087h, 0EFh
-    MOV AL,[_byte_378DE]
-    MOV BYTE PTR [_byte_378DE],0h
+    MOV AL,[_g_rasterClipFlags]
+    MOV BYTE PTR [_g_rasterClipFlags],0h
     JMP near ptr loc_20F9
 loc_21C5:
     SUB AX,AX
@@ -4298,9 +4298,9 @@ clipRasterDivOverflowStub:
     PUSH BP
     MOV BP,SP
     CMP WORD PTR [BP+2],214Eh                ; which IDIV faulted, by saved IP
-    MOV AX,[_word_378E1]                      ; dividend hi for the IDIV at 214E
+    MOV AX,[_g_clipDivisorY]                      ; dividend hi for the IDIV at 214E
     JZ short crdz_signed
-    MOV AX,[_word_378DF]                      ; dividend hi for the other IDIV
+    MOV AX,[_g_clipDivisorX]                      ; dividend hi for the other IDIV
 crdz_signed:
     XOR DX,AX                                ; fold dividend sign into DX
     MOV AX,7F00h                             ; saturated quotient magnitude
@@ -4319,7 +4319,7 @@ _projectVertexToScreen EQU projectVertexToScreen
 _installDivZeroHandler EQU installDivZeroHandler
 _installDivZeroVector EQU installDivZeroVector
 _clipLineSegment EQU clipLineSegment
-_sub_1FABF EQU sub_1FABF
+_clipLineSubdivP1Outside EQU clipLineSubdivP1Outside
 _writeClippedStart EQU writeClippedStart
 _writeClippedEnd EQU writeClippedEnd
 _rejectClippedLine EQU rejectClippedLine
@@ -4330,22 +4330,22 @@ _clipMidpointSubdivide EQU clipMidpointSubdivide
 _clipLineMidpoint EQU clipLineMidpoint
 _pointOnClipEdge EQU pointOnClipEdge
 _computeClipOutcode EQU computeClipOutcode
-_sub_1FE5C EQU sub_1FE5C
-_sub_1FEEC EQU sub_1FEEC
-_sub_1FEFE EQU sub_1FEFE
+_decodeRleEdgeRow EQU decodeRleEdgeRow
+_drawFlatHorizon EQU drawFlatHorizon
+_renderHorizonSky EQU renderHorizonSky
 _projectSceneObject EQU projectSceneObject
 _transformAndCullObject EQU transformAndCullObject
 _skipDisplayListByLod EQU skipDisplayListByLod
-_sub_202B6 EQU sub_202B6
-_sub_202C7 EQU sub_202C7
+_storeObjTransformByOpcode EQU storeObjTransformByOpcode
+_transformAndCullObjectFar EQU transformAndCullObjectFar
 _advanceModelPointerLod EQU advanceModelPointerLod
-_sub_202F6 EQU sub_202F6
+_renderSortedListFar EQU renderSortedListFar
 _insertSortedObject EQU insertSortedObject
 _renderSortedList EQU renderSortedList
-_sub_2044A EQU sub_2044A
+_rotatePoint3dFar EQU rotatePoint3dFar
 _processSceneObject EQU processSceneObject
 _rotatePoint3d EQU rotatePoint3d
-_sub_20658 EQU sub_20658
+_transformModelVerticesFar EQU transformModelVerticesFar
 _transformModelVertices EQU transformModelVertices
 _transformVertexList EQU transformVertexList
 _projectModelEdgesFar EQU projectModelEdgesFar
@@ -4363,7 +4363,7 @@ _renderPrimitiveCommand EQU renderPrimitiveCommand
 _drawPrimitiveEdges EQU drawPrimitiveEdges
 _testVisibilityMask EQU testVisibilityMask
 _fillSpanRect EQU fillSpanRect
-_sub_21526 EQU sub_21526
+_clipLineFar EQU clipLineFar
 _drawClipLineGlobal EQU drawClipLineGlobal
 _clipLineCohenSutherland EQU clipLineCohenSutherland
 _computeLineOutcode EQU computeLineOutcode
