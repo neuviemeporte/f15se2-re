@@ -401,8 +401,8 @@ void drawHudWorldOverlay(void) {
 
     if (g_hudVisible == 0) return;
 
-    if (var_593 != 0) {
-        var_593 = 0;
+    if (g_unusedHudFlag != 0) {
+        g_unusedHudFlag = 0;
     }
 
     loadColorPalette(g_nightMode != 0 ? 2 : g_nightMode);

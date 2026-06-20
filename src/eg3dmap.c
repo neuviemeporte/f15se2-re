@@ -55,7 +55,7 @@ struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
                             g = g_dynTileEntries[g_tileEntryIdx].shape;
                         }
                         if (q < nearestTile.dist) {
-                            g_modelStreamPtr = (char far *)(byte_228D0 + buf3d3[g]);
+                            g_modelStreamPtr = (char far *)(g_world3dData + buf3d3[g]);
                             if (*(int far *)g_modelStreamPtr != 0 ||
                                 *((char far *)g_modelStreamPtr + 2) != 0 ||
                                 g_render3DTiles != 0) {
@@ -148,12 +148,12 @@ void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
     }
     if (nearestTile.dist != 0x7fff) {
         g_curTileEntry = nearestTile.entry;
-        g_modelStreamPtr = (char far *)(byte_228D0 + buf3d3[nearestTile.entry->shape]);
+        g_modelStreamPtr = (char far *)(g_world3dData + buf3d3[nearestTile.entry->shape]);
         g_objRelX = g_curTileEntry->x - g_viewPosX;
         g_objRelY = g_curTileEntry->y - g_viewPosY;
         g_objTransform[0] = g_curTileEntry->z - g_viewPosZ;
         FP_OFF(g_modelStreamPtr)++;
-        *(uint8 *)&word_34262 = 0;
+        *(uint8 *)&g_objRenderMode = 0;
         g_objDistance = 0;
         advanceModelPointerLod();
         if (*g_modelStreamPtr & 0x40) {
@@ -198,7 +198,7 @@ void drawMapTiles(int originX, int originY, int zoomShift)
                         g_curTileEntry = matrix3dt_2[g_curLod][g];
                         for (d = 0; matrix3dt[g_curLod][g] > (unsigned int)d; d++) {
                             if (g_curTileEntry->z == 0) {
-                                g_modelStreamPtr = (char far *)(byte_228D0 + buf3d3[g_curTileEntry->shape]);
+                                g_modelStreamPtr = (char far *)(g_world3dData + buf3d3[g_curTileEntry->shape]);
                                 drawMapTileObject(g_modelStreamPtr,
                                     (g_curTileEntry->x >> (char)g_tileZoomShift) + i,
                                     (g_curTileEntry->y >> (char)g_tileZoomShift) + a);

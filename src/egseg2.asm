@@ -31,23 +31,23 @@ EXTRN _g_lineX1:word
 EXTRN _g_lineX2:word
 EXTRN _g_lineY1:word
 EXTRN _g_lineY2:word
-EXTRN word_37B26:word
-EXTRN word_37B2E:word
-EXTRN word_37B30:word
-EXTRN word_37B3C:word
-EXTRN word_37B44:word
-EXTRN word_37B52:word
-EXTRN word_37B5A:word
-EXTRN word_37B5C:word
-EXTRN word_37B68:word
-EXTRN word_37B70:word
-EXTRN word_37B7E:word
-EXTRN word_37B82:word
-EXTRN word_37B84:word
-EXTRN word_37B9C:word
-EXTRN word_37BA2:word
-EXTRN word_37BC0:word
-EXTRN word_37BDE:word
+EXTRN g_tapeText0Page:word
+EXTRN g_tapeText0X:word
+EXTRN g_tapeText0Y:word
+EXTRN g_tapeText1Page:word
+EXTRN g_tapeText1X:word
+EXTRN g_tapeText2Page:word
+EXTRN g_tapeText2X:word
+EXTRN g_tapeText2Y:word
+EXTRN g_tapeText3Page:word
+EXTRN g_tapeText3X:word
+EXTRN g_tapeSprite0BufPtr:word
+EXTRN g_tapeSprite0SrcY:word
+EXTRN g_tapeSprite0Page:word
+EXTRN g_tapeSprite1BufPtr:word
+EXTRN g_tapeSprite1Page:word
+EXTRN g_tapeSprite2Page:word
+EXTRN g_tapeSprite3Page:word
 EXTRN g_tapeOriginX:word
 EXTRN g_tapeTickPitch:word
 EXTRN g_speedTapeTickStep:word
@@ -80,14 +80,14 @@ EXTRN _g_tapeCursorX:word
 EXTRN g_tapeSegmentCount:word
 EXTRN g_tapeDrawStr:word
 EXTRN g_tapeDrawStrY:word
-EXTRN word_37F54:word
-EXTRN word_37F56:word
-EXTRN word_37F58:word
-EXTRN word_37F5A:word
-EXTRN word_37F5C:word
-EXTRN word_37F5E:word
-EXTRN word_37F60:word
-EXTRN word_37F62:word
+EXTRN g_tapeRollOfsB0:word
+EXTRN g_tapeRollOfsB1:word
+EXTRN g_tapeRollOfsB2:word
+EXTRN g_tapeRollOfsB3:word
+EXTRN g_tapeRollOfsA0:word
+EXTRN g_tapeRollOfsA1:word
+EXTRN g_tapeRollOfsA2:word
+EXTRN g_tapeRollOfsA3:word
 EXTRN word_37F6C:word
 EXTRN word_37F74:word
 EXTRN word_37F7C:word
@@ -119,10 +119,10 @@ EXTRN lookupSineFar:PROC
 
 ; External data variables
 EXTRN _gfxBufPtr:WORD
-EXTRN word_37B7E:WORD
-EXTRN word_37B9C:WORD
-EXTRN word_37BBA:WORD
-EXTRN word_37BD8:WORD
+EXTRN g_tapeSprite0BufPtr:WORD
+EXTRN g_tapeSprite1BufPtr:WORD
+EXTRN g_tapeSprite2BufPtr:WORD
+EXTRN g_tapeSprite3BufPtr:WORD
 EXTRN _g_halfScaleRender:BYTE
 EXTRN g_tapeOriginX:WORD
 EXTRN g_tapeCursorBackShift:BYTE
@@ -149,29 +149,29 @@ EXTRN word_37C1C:WORD
 EXTRN word_37C1E:WORD
 EXTRN word_37C20:WORD
 EXTRN word_37C22:WORD
-EXTRN word_37B34:WORD
-EXTRN word_37B36:WORD
-EXTRN word_37B32:WORD
-EXTRN word_37B48:WORD
-EXTRN word_37B5E:WORD
-EXTRN word_37B74:WORD
-EXTRN word_37B46:WORD
-EXTRN word_37B4E:WORD
-EXTRN word_37B50:WORD
-EXTRN word_37B9E:WORD
-EXTRN word_37BA0:WORD
-EXTRN word_37BA4:WORD
-EXTRN word_37BA6:WORD
-EXTRN word_37BA8:WORD
-EXTRN word_37BAA:WORD
-EXTRN word_37B86:WORD
-EXTRN word_37B88:WORD
-EXTRN word_37B8A:WORD
-EXTRN word_37B8C:WORD
-EXTRN word_37B60:WORD
-EXTRN word_37B64:WORD
-EXTRN word_37B66:WORD
-EXTRN word_37B72:WORD
+EXTRN g_tapeText0ClipTop:WORD
+EXTRN g_tapeText0ClipBottom:WORD
+EXTRN g_tapeText0Font:WORD
+EXTRN g_tapeText1Font:WORD
+EXTRN g_tapeText2Font:WORD
+EXTRN g_tapeText3Font:WORD
+EXTRN g_tapeText1Y:WORD
+EXTRN g_tapeText1ClipX1:WORD
+EXTRN g_tapeText1ClipX2:WORD
+EXTRN g_tapeSprite1SrcX:WORD
+EXTRN g_tapeSprite1SrcY:WORD
+EXTRN g_tapeSprite1DstX:WORD
+EXTRN g_tapeSprite1DstY:WORD
+EXTRN g_tapeSprite1Width:WORD
+EXTRN g_tapeSprite1Height:WORD
+EXTRN g_tapeSprite0DstX:WORD
+EXTRN g_tapeSprite0DstY:WORD
+EXTRN g_tapeSprite0Width:WORD
+EXTRN g_tapeSprite0Height:WORD
+EXTRN g_tapeText2ClipTop:WORD
+EXTRN g_tapeText2ClipX1:WORD
+EXTRN g_tapeText2ClipX2:WORD
+EXTRN g_tapeText3Y:WORD
 EXTRN joyData:BYTE
 EXTRN _g_timerTickByte:byte
 
@@ -203,15 +203,15 @@ _setupInstrumentLayoutFar endp
 drawInstrumentGauges proc near
     call far ptr _gfx_getDisplayPage
     sub AH,AH
-    mov [word_37B26],AX
-    mov [word_37B3C],AX
-    mov [word_37B52],AX
-    mov [word_37B68],AX
-    mov [word_37BA2],AX
-    mov [word_37B84],AX
-    mov [word_37BDE],AX
-    mov [word_37BC0],AX
-    mov BP,offset word_37B26
+    mov [g_tapeText0Page],AX
+    mov [g_tapeText1Page],AX
+    mov [g_tapeText2Page],AX
+    mov [g_tapeText3Page],AX
+    mov [g_tapeSprite1Page],AX
+    mov [g_tapeSprite0Page],AX
+    mov [g_tapeSprite3Page],AX
+    mov [g_tapeSprite2Page],AX
+    mov BP,offset g_tapeText0Page
     mov AX,[_g_knots]
     mov DH,32h
     div DH
@@ -224,7 +224,7 @@ drawInstrumentGauges proc near
     mov DH,5h
     div DH
     add AL,byte ptr [g_tapeOriginX]
-    mov byte ptr [word_37B30],AL
+    mov byte ptr [g_tapeText0Y],AL
     mov byte ptr [g_tapeRenderMode],DL
     sub AL,byte ptr [g_tapeCursorBackShift]
     mov byte ptr [g_tapeRenderX],AL
@@ -234,9 +234,9 @@ drawInstrumentGauges proc near
     mov byte ptr [g_tapePageCounter],4h
 loc_21a7_006e:
     mov AL,byte ptr [g_tapeTickPitch]
-    sub byte ptr [word_37B30],AL
+    sub byte ptr [g_tapeText0Y],AL
     mov AX,[g_speedTapeTickStep]
-    mov [word_37B2E],AX
+    mov [g_tapeText0X],AX
     cmp DI,28h
     jc loc_21a7_008f
     sub DI,DI
@@ -316,7 +316,7 @@ loc_21a7_013a:
     div CX
     shl BX,1h
     mov DI,BX
-    mov BP,offset word_37B26
+    mov BP,offset g_tapeText0Page
     mov byte ptr [g_tapePageCounter],4h
     cmp DI,0h
     jge loc_21a7_01e6
@@ -332,7 +332,7 @@ loc_21a7_013a:
     mov DH,0Ah
     div DH
     add AL,byte ptr [g_tapeOriginX]
-    mov byte ptr [word_37B30],AL
+    mov byte ptr [g_tapeText0Y],AL
     mov byte ptr [g_tapeRenderMode],DL
     sub AL,byte ptr [g_tapeCursorBackShift]
     mov byte ptr [g_tapeRenderX],AL
@@ -341,9 +341,9 @@ loc_21a7_013a:
     mov DI,DX
 loc_21a7_01a1:
     mov AL,byte ptr [g_tapeTickPitch]
-    sub byte ptr [word_37B30],AL
+    sub byte ptr [g_tapeText0Y],AL
     mov AX,[g_altTapeTickStep]
-    mov [word_37B2E],AX
+    mov [g_tapeText0X],AX
     cmp DI,28h
     jc loc_21a7_01c2
     sub DI,DI
@@ -369,15 +369,15 @@ loc_21a7_01c2:
     db 90h
 loc_21a7_01e6:
     add AX,word ptr [g_tapeOriginX]
-    mov [word_37B30],AX
+    mov [g_tapeText0Y],AX
     mov byte ptr [g_tapeRenderMode],2h
     sub AL,byte ptr [g_tapeCursorBackShift]
     mov byte ptr [g_tapeRenderX],AL
 loc_21a7_01f9:
     mov AL,byte ptr [g_tapeTickPitch]
-    sub byte ptr [word_37B30],AL
+    sub byte ptr [g_tapeText0Y],AL
     mov AX,[g_altTapeTickStep]
-    mov [word_37B2E],AX
+    mov [g_tapeText0X],AX
     cmp DI,0h
     jnz loc_21a7_0211
     mov BX,offset var_468+4
@@ -421,7 +421,7 @@ loc_21a7_022a:
     sub AL,AH
     sub AH,AH
     mov [g_compassDrawX],AX
-    mov [word_37B44],AX
+    mov [g_tapeText1X],AX
     sub DH,DH
     shr DX,1h
     shr DX,1h
@@ -429,7 +429,7 @@ loc_21a7_022a:
     mov word ptr [g_compassScrollIdx],DX
     mov BX,offset g_compassTapeBuf+132
     add BX,DX
-    mov BP,offset word_37B3C
+    mov BP,offset g_tapeText1Page
     call far ptr gfx_blitTransparent
     mov BX,offset g_compassTapeBuf+132
     add word ptr [g_compassScrollIdx],8h
@@ -438,7 +438,7 @@ loc_21a7_022a:
     mov AX,[g_compassDrawX]
     add AX,word ptr [g_headingPixPerDeg]
     mov [g_compassDrawX],AX
-    mov [word_37B44],AX
+    mov [g_tapeText1X],AX
     call far ptr gfx_copyBlock
     mov BX,offset g_compassTapeBuf+132
     add word ptr [g_compassScrollIdx],8h
@@ -447,7 +447,7 @@ loc_21a7_022a:
     mov AX,[g_compassDrawX]
     add AX,word ptr [g_headingPixPerDeg]
     mov [g_compassDrawX],AX
-    mov [word_37B44],AX
+    mov [g_tapeText1X],AX
     call far ptr gfx_copyBlock
     mov AX,[g_compassWrapLimit]
     cmp word ptr [g_compassDrawX],AX
@@ -464,7 +464,7 @@ loc_21a7_022a:
     mov AX,[g_compassDrawX]
     add AX,word ptr [g_headingPixPerDeg]
     mov [g_compassDrawX],AX
-    mov [word_37B44],AX
+    mov [g_tapeText1X],AX
     call far ptr gfx_blitVariant
     mov AL,[byte_37C2D]
     sub AH,AH
@@ -490,8 +490,8 @@ loc_21a7_0330:
 loc_21a7_0342:
     mov AX,word ptr [DI+offset g_compassTapeBuf+0C4h]
 loc_21a7_0346:
-    mov [word_37B82],AX
-    mov BP,offset word_37B7E
+    mov [g_tapeSprite0SrcY],AX
+    mov BP,offset g_tapeSprite0BufPtr
     call far ptr gfx_blitCore
 loc_21a7_0351:
     cmp byte ptr [_g_halfScaleRender],0h
@@ -579,13 +579,13 @@ loc_21a7_045a:
     call far ptr gfx_nop22
     cmp byte ptr [_g_hudDrawnFlag],0h
     jz loc_21a7_046e
-    mov BP,offset word_37B9C
+    mov BP,offset g_tapeSprite1BufPtr
     call far ptr gfx_blitCore
 loc_21a7_046e:
     mov BX,offset _g_geeStringBuf
-    mov BP,offset word_37B68
+    mov BP,offset g_tapeText3Page
     mov AX,[word_37C22]
-    mov [word_37B70],AX
+    mov [g_tapeText3X],AX
     call far ptr gfx_copyBlock
     mov AX,[_g_ourPitch]
     db 03Dh, 000h, 000h ; cmp AX,0 (force imm16 encoding)
@@ -937,7 +937,7 @@ loc_21a7_084b:
     add word ptr [_g_tapeCursorX],0Bh
     mov SI,0h
     mov word ptr [g_tapeSegmentCount],5h
-    mov BP,offset word_37B52
+    mov BP,offset g_tapeText2Page
     mov AX,[_g_ourRoll]
     shr AH,1h
     shr AH,1h
@@ -946,13 +946,13 @@ loc_21a7_084b:
     mov DI,AX
     shl DI,1h
     mov AX,word ptr [DI+offset _g_timerTickByte+1Ah]
-    mov [word_37F5C],AX
+    mov [g_tapeRollOfsA0],AX
     mov AX,word ptr [DI+offset _g_timerTickByte+9Ah]
-    mov [word_37F5E],AX
+    mov [g_tapeRollOfsA1],AX
     mov AX,word ptr [DI+offset _g_timerTickByte+11Ah]
-    mov [word_37F60],AX
+    mov [g_tapeRollOfsA2],AX
     mov AX,word ptr [DI+offset _g_timerTickByte+19Ah]
-    mov [word_37F62],AX
+    mov [g_tapeRollOfsA3],AX
     mov AX,[_g_ourRoll]
     add AH,80h
     shr AH,1h
@@ -962,13 +962,13 @@ loc_21a7_084b:
     mov DI,AX
     shl DI,1h
     mov AX,word ptr [DI+offset _g_timerTickByte+1Ah]
-    mov [word_37F54],AX
+    mov [g_tapeRollOfsB0],AX
     mov AX,word ptr [DI+offset _g_timerTickByte+9Ah]
-    mov [word_37F56],AX
+    mov [g_tapeRollOfsB1],AX
     mov AX,word ptr [DI+offset _g_timerTickByte+11Ah]
-    mov [word_37F58],AX
+    mov [g_tapeRollOfsB2],AX
     mov AX,word ptr [DI+offset _g_timerTickByte+19Ah]
-    mov [word_37F5A],AX
+    mov [g_tapeRollOfsB3],AX
 loc_21a7_08c4:
     mov DI,word ptr [_g_tapeCursorX]
     shl DI,1h
@@ -983,25 +983,25 @@ loc_21a7_08c4:
     mov AX,word ptr [DI+offset g_compassTapeBuf+0ECh]
     cmp BX,2Ch
     jge loc_21a7_08f4
-    add AX,word ptr [word_37F58]
+    add AX,word ptr [g_tapeRollOfsB2]
     jmp loc_21a7_08f8
     db 90h
 loc_21a7_08f4:
-    add AX,word ptr [word_37F54]
+    add AX,word ptr [g_tapeRollOfsB0]
 loc_21a7_08f8:
     add AX,word ptr [word_37C1A]
-    mov [word_37B5A],AX
+    mov [g_tapeText2X],AX
     mov AX,word ptr [DI+offset g_compassTapeBuf+15Ch]
     cmp DI,2Ch
     jge loc_21a7_090f
-    add AX,word ptr [word_37F5A]
+    add AX,word ptr [g_tapeRollOfsB3]
     jmp loc_21a7_0913
     db 90h
 loc_21a7_090f:
-    add AX,word ptr [word_37F56]
+    add AX,word ptr [g_tapeRollOfsB1]
 loc_21a7_0913:
     add AX,word ptr [word_37C18]
-    mov [word_37B5C],AX
+    mov [g_tapeText2Y],AX
     mov BX,offset g_tapeDrawStr
     push SI
     call far ptr gfx_drawStringUnclipped
@@ -1020,25 +1020,25 @@ loc_21a7_0913:
     mov AX,word ptr [DI+offset g_compassTapeBuf+0ECh]
     cmp BX,2Ch
     jge loc_21a7_0955
-    add AX,word ptr [word_37F60]
+    add AX,word ptr [g_tapeRollOfsA2]
     jmp loc_21a7_0959
     db 90h
 loc_21a7_0955:
-    add AX,word ptr [word_37F5C]
+    add AX,word ptr [g_tapeRollOfsA0]
 loc_21a7_0959:
     add AX,word ptr [word_37C1A]
-    mov [word_37B5A],AX
+    mov [g_tapeText2X],AX
     mov AX,word ptr [DI+offset g_compassTapeBuf+15Ch]
     cmp DI,2Ch
     jge loc_21a7_0970
-    add AX,word ptr [word_37F62]
+    add AX,word ptr [g_tapeRollOfsA3]
     jmp loc_21a7_0974
     db 90h
 loc_21a7_0970:
-    add AX,word ptr [word_37F5E]
+    add AX,word ptr [g_tapeRollOfsA1]
 loc_21a7_0974:
     add AX,word ptr [word_37C18]
-    mov [word_37B5C],AX
+    mov [g_tapeText2Y],AX
     mov BX,offset g_tapeDrawStr
     push SI
     call far ptr gfx_drawStringUnclipped
@@ -1060,10 +1060,10 @@ drawInstrumentGauges endp
     PUBLIC setupInstrumentLayout
 setupInstrumentLayout proc near
     mov ax, _gfxBufPtr
-    mov word_37B7E, ax
-    mov word_37B9C, ax
-    mov word_37BBA, ax
-    mov word_37BD8, ax
+    mov g_tapeSprite0BufPtr, ax
+    mov g_tapeSprite1BufPtr, ax
+    mov g_tapeSprite2BufPtr, ax
+    mov g_tapeSprite3BufPtr, ax
     mov _g_halfScaleRender, 0
 loc_22425:
     cmp _g_halfScaleRender, 1
@@ -1121,48 +1121,48 @@ loc_2242F:
     mov ax, 6Ch
     mov word_37C22, ax
     mov ax, 44h
-    mov word_37B34, ax
+    mov g_tapeText0ClipTop, ax
     mov ax, 60h
-    mov word_37B36, ax
+    mov g_tapeText0ClipBottom, ax
     mov ax, 2
-    mov word_37B32, ax
-    mov word_37B48, ax
-    mov word_37B5E, ax
-    mov word_37B74, ax
+    mov g_tapeText0Font, ax
+    mov g_tapeText1Font, ax
+    mov g_tapeText2Font, ax
+    mov g_tapeText3Font, ax
     mov ax, 3Bh
-    mov word_37B46, ax
+    mov g_tapeText1Y, ax
     mov ax, 82h
-    mov word_37B4E, ax
+    mov g_tapeText1ClipX1, ax
     mov ax, 0BCh
-    mov word_37B50, ax
+    mov g_tapeText1ClipX2, ax
     mov ax, 93h
-    mov word_37B9E, ax
+    mov g_tapeSprite1SrcX, ax
     mov ax, 14h
-    mov word_37BA0, ax
+    mov g_tapeSprite1SrcY, ax
     mov ax, 99h
-    mov word_37BA4, ax
+    mov g_tapeSprite1DstX, ax
     mov ax, 4Ch
-    mov word_37BA6, ax
+    mov g_tapeSprite1DstY, ax
     mov ax, 0Dh
-    mov word_37BA8, ax
+    mov g_tapeSprite1Width, ax
     mov ax, 9
-    mov word_37BAA, ax
+    mov g_tapeSprite1Height, ax
     mov ax, 82h
-    mov word_37B86, ax
+    mov g_tapeSprite0DstX, ax
     mov ax, 40h
-    mov word_37B88, ax
+    mov g_tapeSprite0DstY, ax
     mov ax, 3Bh
-    mov word_37B8A, ax
+    mov g_tapeSprite0Width, ax
     mov ax, 2
-    mov word_37B8C, ax
+    mov g_tapeSprite0Height, ax
     mov ax, 44h
-    mov word_37B60, ax
+    mov g_tapeText2ClipTop, ax
     mov ax, 7Fh
-    mov word_37B64, ax
+    mov g_tapeText2ClipX1, ax
     mov ax, 0C3h
-    mov word_37B66, ax
+    mov g_tapeText2ClipX2, ax
     mov ax, 3Fh
-    mov word_37B72, ax
+    mov g_tapeText3Y, ax
     retn
 loc_22545:
     mov ax, 5Eh
@@ -1223,48 +1223,48 @@ loc_225C7:
     mov ax, 3Ch
     mov word_37C22, ax
     mov ax, 1Ah
-    mov word_37B34, ax
+    mov g_tapeText0ClipTop, ax
     mov ax, 56h
-    mov word_37B36, ax
+    mov g_tapeText0ClipBottom, ax
     mov ax, 0
-    mov word_37B32, ax
-    mov word_37B48, ax
-    mov word_37B5E, ax
-    mov word_37B74, ax
+    mov g_tapeText0Font, ax
+    mov g_tapeText1Font, ax
+    mov g_tapeText2Font, ax
+    mov g_tapeText3Font, ax
     mov ax, 0Ah
-    mov word_37B46, ax
+    mov g_tapeText1Y, ax
     mov ax, 5Ah
-    mov word_37B4E, ax
+    mov g_tapeText1ClipX1, ax
     mov ax, 0E6h
-    mov word_37B50, ax
+    mov g_tapeText1ClipX2, ax
     mov ax, 82h
-    mov word_37B9E, ax
+    mov g_tapeSprite1SrcX, ax
     mov ax, 26h
-    mov word_37BA0, ax
+    mov g_tapeSprite1SrcY, ax
     mov ax, 93h
-    mov word_37BA4, ax
+    mov g_tapeSprite1DstX, ax
     mov ax, 30h
-    mov word_37BA6, ax
+    mov g_tapeSprite1DstY, ax
     mov ax, 19h
-    mov word_37BA8, ax
+    mov g_tapeSprite1Width, ax
     mov ax, 0Fh
-    mov word_37BAA, ax
+    mov g_tapeSprite1Height, ax
     mov ax, 5Ah
-    mov word_37B86, ax
+    mov g_tapeSprite0DstX, ax
     mov ax, 10h
-    mov word_37B88, ax
+    mov g_tapeSprite0DstY, ax
     mov ax, 8Dh
-    mov word_37B8A, ax
+    mov g_tapeSprite0Width, ax
     mov ax, 3
-    mov word_37B8C, ax
+    mov g_tapeSprite0Height, ax
     mov ax, 14h
-    mov word_37B60, ax
+    mov g_tapeText2ClipTop, ax
     mov ax, 4Eh
-    mov word_37B64, ax
+    mov g_tapeText2ClipX1, ax
     mov ax, 0F1h
-    mov word_37B66, ax
+    mov g_tapeText2ClipX2, ax
     mov ax, 10h
-    mov word_37B72, ax
+    mov g_tapeText3Y, ax
     retn
 setupInstrumentLayout endp
 

@@ -51,10 +51,10 @@ char aDefendingTheIc[] = "Defending the Iceland-UK Gap";
 char aSelectABuiltIn[] = "Select a built-in area";
 char aHistoricalMiss[] = "Historical Missions";
 char aGeneralAirStri[] = "General Air Strikes";
-char asc_16E46[3] = {0, 0, 0};
+char emptyMissTypeNames[3] = {0, 0, 0};
 char aReenactHistory[] = "Reenact history";
 char aTheCoreOfTheAi[] = "The core of the Air Campaign";
-char asc_16E76[3] = {0, 0, 0};
+char emptyMissTypeDescs[3] = {0, 0, 0};
 char aSaddamSEyes[] = "Saddam's Eyes";
 char aCommandAndCont[] = "Command and Control";
 char aScudBusting[] = "Scud Busting";
@@ -64,7 +64,7 @@ char aIraqSEarlyWarn[] = "Iraq's Early Warning Radar";
 char aIraqiDefenseNe[] = "Iraqi Defense Nerve Center";
 char aStopSaddamSTer[] = "Stop Saddam's Terror Weapon";
 char aNuclearResearc[] = "Nuclear Research Facility";
-char unk_16F36 = 0;
+char emptyHistDesc1 = 0;
 char aBabyMilkFactory[] = "'Baby Milk Factory'";
 char aStopTheSpill[] = "Stop the Spill";
 char aBridgesToNowhe[] = "Bridges to Nowhere";
@@ -74,7 +74,7 @@ char aChemicalBiolog[] = "Chemical/Biological Weapons Plant";
 char aSeverTheOilPum[] = "Sever the Oil Pumping Manifold";
 char aSaddamSEliteAr[] = "Saddam's Elite Armored Units";
 char aCutTheSupplyLi[] = "Cut the Supply Lines";
-char asc_1700B = 0;
+char emptyHistDesc2 = 0;
 char aMission[] = "MISSION";
 char placeholder_3d3[] = "xx.3d3";
 
@@ -90,7 +90,7 @@ char aMissionType[] = "MISSION TYPE";
 
 /* === Group 2 (0x0670-0x072c): Mission briefing strings === */
 char aRepeatLastMiss[] = "Repeat last mission ? (y/n)";
-char asc_174AF[] = ")";
+char strCloseParen[] = ")";
 char aRb_2[] = "rb";
 char aF15_spr_1[] = "F15.spr";
 char aPleaseReinsert[] = "Please reinsert F15 Disk A";
@@ -118,7 +118,7 @@ char aHiscore_pic[] = "HiScore.Pic";
 char aOriginalDiskIn[] = "Original Disk in drive.  Roster will not be saved.";
 char aPressAKeyToCon[] = "Press a key to continue.";
 char aUseSelectorToC[] = "Use SELECTOR to choose pilot,  ESC to enter new pilot.";
-char asc_174AC[] = " (";
+char strOpenParen[] = " (";
 char aMenterYourName[] = "\376ENTER YOUR NAME !";
 char aRb_3[] = "rb";
 char aHallfame[] = "HallFame";
@@ -242,7 +242,7 @@ struct SpriteParams spriteParams = {
     {0, 0, 0},                /* pad13 */
     0x3F,                     /* byte16 */
     0x01,                     /* byte17 */
-    0x01,                     /* flags (byte_1729C) */
+    0x01,                     /* flags */
     {0x01, 0x01, 0x00}        /* pad19 */
 };
 
@@ -280,12 +280,12 @@ struct PageDesc page3Desc = {
     (int16*)&page3Desc        /* selfPtr */
 };
 struct PageDesc screenDesc = {
-    0,                        /* pageNum (unk_173D2) */
+    0,                        /* pageNum */
     {0, 0},                   /* pad1 */
     7,                        /* color (textColor) */
     0x00,                     /* byte6 */
     {0, 0, 0, 0, 0},         /* pad2 */
-    1,                        /* font (word_173DE) */
+    1,                        /* font */
     {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
     (int16*)&screenDesc       /* selfPtr (screenBuf) */
 };
@@ -302,14 +302,12 @@ struct PageDesc pageNumPageDesc = {
 };
 int16 *pageNumPtr = (int16*)&pageNumPageDesc;
 
-/* Migrated from .DATA */
 int16 nightMissionFlag = 0;
 char bufCoordStr = 0;
 uint8 gridRefRow = 0;
 uint8 gridRefCol = 0;
 uint8 gridRefRowDigit[1] = {0};
 
-/* Migrated from .DATA? */
 int16 escortMissionFlag;
 uint32 baseXPrecise = 0;
 int16 nearestObjectType = 0;
@@ -435,7 +433,7 @@ uint8 picByteUnsignedFlag = 0;
 int16 picSlotCounter = 0;
 int16 picCurrentRow = 0;
 
-/* Mission state (moved from stslots.asm) */
+/* Mission state */
 int16 flag4Saved = 0;
 int16 theaterSaved = 0;
 
@@ -462,12 +460,12 @@ char *missDiffDesc[] = { aGetOffToAGoodS, aForTheCasualPl, aForMoreSerious, aThe
 char *scenarioCodePtr[] = { aNc, aCe, aJp, aNa };
 char *missScenarioNames[] = { aNorthCape, aCentralEurope, aDesertStorm, aNorthAtlantic, aOtherAreas_0 };
 char *missScenarioDesc[] = { aIntoTheSovietS, aRedStormRaging, aTheFightForKuw, aDefendingTheIc, aSelectABuiltIn };
-char *missTypeNames[] = { aHistoricalMiss, aGeneralAirStri, &asc_16E46[0], &asc_16E46[1], &asc_16E46[2] };
-char *missTypeDesc[] = { aReenactHistory, aTheCoreOfTheAi, &asc_16E76[0], &asc_16E76[1], &asc_16E76[2] };
+char *missTypeNames[] = { aHistoricalMiss, aGeneralAirStri, &emptyMissTypeNames[0], &emptyMissTypeNames[1], &emptyMissTypeNames[2] };
+char *missTypeDesc[] = { aReenactHistory, aTheCoreOfTheAi, &emptyMissTypeDescs[0], &emptyMissTypeDescs[1], &emptyMissTypeDescs[2] };
 char *missHistorical1Names[] = { aSaddamSEyes, aCommandAndCont, aScudBusting, aNoNukes, aMoreHistorical };
-char *missHistorical1Desc[] = { aIraqSEarlyWarn, aIraqiDefenseNe, aStopSaddamSTer, aNuclearResearc, &unk_16F36 };
+char *missHistorical1Desc[] = { aIraqSEarlyWarn, aIraqiDefenseNe, aStopSaddamSTer, aNuclearResearc, &emptyHistDesc1 };
 char *missHistorical2Names[] = { aBabyMilkFactory, aStopTheSpill, aBridgesToNowhe, aRepublicanGuar, aMoreHistoric_0 };
-char *missHistorical2Desc[] = { aChemicalBiolog, aSeverTheOilPum, aSaddamSEliteAr, aCutTheSupplyLi, &asc_1700B };
+char *missHistorical2Desc[] = { aChemicalBiolog, aSeverTheOilPum, aSaddamSEliteAr, aCutTheSupplyLi, &emptyHistDesc2 };
 char *missionStr = aMission;
 char *plh3d3Ptr = placeholder_3d3;
 
@@ -658,22 +656,22 @@ struct MissionTableEntry missionTable[56] = {
 };
 
 /* Target coordinate arrays per mission pick type */
-int16 targetCoordsX0[3] = {(int16)0x45C0, (int16)0x3D40, (int16)0x0DC0}; /* unk_192E0 */
-int16 targetCoordsY0[3] = {(int16)0x3CC0, (int16)0x4340, (int16)0x24C0}; /* unk_192E6 */
-int16 targetCoordsX1[2] = {(int16)0x26C0, 0x2740}; /* unk_1928C */
-int16 targetCoordsY1[2] = {0x2140, (int16)0x21C0}; /* unk_19290 */
-int16 targetCoordsX2[2] = {(int16)0x3DC0, (int16)0x25C0}; /* unk_19284 */
-int16 targetCoordsY2[2] = {(int16)0x43C0, (int16)0x3BC0}; /* unk_19288 */
-int16 targetCoordsX3[3] = {0x2100, 0x0900, 0x1100}; /* asc_192C8 */
-int16 targetCoordsY3[3] = {0x2300, 0x0900, 0x0500}; /* asc_192CE */
-int16 targetCoordsX4[4] = {0x2F00, 0x1B00, 0x3D00, 0x1500}; /* asc_192B4 */
-int16 targetCoordsY4[4] = {0x2B00, 0x1300, 0x2D00, 0x3500}; /* unk_192BC */
-int16 targetCoordsX5 = (int16)0x5AC0; /* unk_192C4 */
-int16 targetCoordsY5 = (int16)0x3AC0; /* unk_192C6 */
+int16 targetCoordsX0[3] = {(int16)0x45C0, (int16)0x3D40, (int16)0x0DC0};
+int16 targetCoordsY0[3] = {(int16)0x3CC0, (int16)0x4340, (int16)0x24C0};
+int16 targetCoordsX1[2] = {(int16)0x26C0, 0x2740};
+int16 targetCoordsY1[2] = {0x2140, (int16)0x21C0};
+int16 targetCoordsX2[2] = {(int16)0x3DC0, (int16)0x25C0};
+int16 targetCoordsY2[2] = {(int16)0x43C0, (int16)0x3BC0};
+int16 targetCoordsX3[3] = {0x2100, 0x0900, 0x1100};
+int16 targetCoordsY3[3] = {0x2300, 0x0900, 0x0500};
+int16 targetCoordsX4[4] = {0x2F00, 0x1B00, 0x3D00, 0x1500};
+int16 targetCoordsY4[4] = {0x2B00, 0x1300, 0x2D00, 0x3500};
+int16 targetCoordsX5 = (int16)0x5AC0;
+int16 targetCoordsY5 = (int16)0x3AC0;
 int16 targetCoordsX6[8] = {(int16)0x48C0, (int16)0x10C0, (int16)0x40C0, (int16)0x44C0, (int16)0x24C0, (int16)0x0EC0, (int16)0x12C0, (int16)0x50C0};
 int16 targetCoordsY6[8] = {0x2940, 0x2140, 0x2540, 0x2540, 0x2140, 0x0B40, 0x0740, 0x3540};
-int16 targetCoordsX7[3] = {0x4D40, 0x4C40, 0x4D40}; /* unk_192D4 */
-int16 targetCoordsY7[3] = {0x3940, (int16)0x39C0, (int16)0x39C0}; /* unk_192DA */
+int16 targetCoordsX7[3] = {0x4D40, 0x4C40, 0x4D40};
+int16 targetCoordsY7[3] = {0x3940, (int16)0x39C0, (int16)0x39C0};
 int16 targetCoordsX2Alt[4] = {(int16)0x3CC0, 0x3C40, (int16)0x24C0, 0x2440};
 int16 targetCoordsY2Alt[4] = {0x4240, (int16)0x42C0, 0x3A40, (int16)0x3AC0};
 uint8 missionPickType[8] = {2, 6, 5, 6, 6, 6, 6, 0x0B};
@@ -689,7 +687,7 @@ int16 *targetCoordsYPtrs[8] = {
 };
 int16 targetCoordsCount[9] = {3, 2, 2, 3, 4, 1, 8, 3, 0};
 
-/* === BSS variables migrated from stslots.asm .DATA? segment === */
+/* === BSS variables === */
 
 struct Pilot hallfameBuf[8];
 struct GameComm far *commData;

@@ -20,30 +20,30 @@
 #define __far far
 /*
  * The 3D world data lives in one contiguous far buffer. The aircraft-model region
- * (byte_2D6A4) sits AIRCRAFT_MODELS_OFFSET bytes into the region/object buffer
- * (byte_228D0): shapeDataOffset() (egmath.c) addresses models as the offset
- * difference &byte_2D6A4[off] - byte_228D0 and drawWorldObject() re-adds it, so the
+ * (g_aircraftModels) sits AIRCRAFT_MODELS_OFFSET bytes into the region/object buffer
+ * (g_world3dData): shapeDataOffset() (egmath.c) addresses models as the offset
+ * difference &g_aircraftModels[off] - g_world3dData and drawWorldObject() re-adds it, so the
  * round-trip only resolves at that exact spacing.
  *
- * Reference build (asm): byte_228D0 and byte_2D6A4 are two distinct symbols pinned
+ * Reference build (asm): g_world3dData and g_aircraftModels are two distinct symbols pinned
  * at the right offsets by egfarbu2.asm, matching the original's codegen (which loads
  * the model segment dynamically because the two symbols are independent).
  *
- * Asm-free builds (NO_ASM / 64-bit): byte_228D0 is a single contiguous buffer
- * (egfarbuf.c) and byte_2D6A4 is a view into it at the fixed offset. The spacing is
+ * Asm-free builds (NO_ASM / 64-bit): g_world3dData is a single contiguous buffer
+ * (egfarbuf.c) and g_aircraftModels is a view into it at the fixed offset. The spacing is
  * then guaranteed by construction and is correct under both the 16-bit far model and
  * the flat 64-bit layout, with no dependence on linker placement.
  */
 #define AIRCRAFT_MODELS_OFFSET 0xADD4
 #ifdef BUGFIX
-extern char far byte_228D0[];
+extern char far g_world3dData[];
 #else
-extern unsigned char far byte_228D0[];
+extern unsigned char far g_world3dData[];
 #endif
 #ifdef NO_ASM
-#define byte_2D6A4 (byte_228D0 + AIRCRAFT_MODELS_OFFSET)
+#define g_aircraftModels (g_world3dData + AIRCRAFT_MODELS_OFFSET)
 #else
-extern char far byte_2D6A4[];
+extern char far g_aircraftModels[];
 #endif
 #define DOS_SET_IRQH 0x25
 #define PORT_PIT_TIME0 0x40
@@ -402,7 +402,6 @@ extern char aCockpit_pic[];
 extern uint8 aF15dgtl_bin[];
 extern int16 f15dgtlAddr;
 extern int allocSize;
-extern uint8 unk_32977[];
 extern int16 g_sphereColor;
 extern int16 g_viewCenterX;
 extern int16 g_viewCenterY;
@@ -461,7 +460,7 @@ extern int16 g_inputDisabled;
 extern int16 g_hudVisible;
 extern int16 g_frameRateScaling;
 extern struct Missile missiles[20];
-extern struct MapEvent mapEvents[]; /* 12-byte marker records (was word_333D2 et al) */
+extern struct MapEvent mapEvents[]; /* 12-byte marker records */
 extern struct Particle g_particles[8];
 extern int16 g_smokeParticleSlot;
 extern int16 g_maneuverTable[3][8][8];
@@ -503,9 +502,9 @@ extern uint8 aStoresExhauste[];
 extern uint8 aFlare[];
 extern uint8 aChaff[];
 extern uint8 aReleased[];
-extern uint8 asc_3373D[];
+extern uint8 strColon[];
 extern char aGun[];
-extern int16 asc_33744[];
+extern int16 g_weaponMarkerBoxX[];
 extern uint8 aS[];
 extern int16 g_weaponMarkerSel;
 extern char aOnPatrol[];
@@ -665,7 +664,7 @@ extern int16 g_camTransXLo;
 extern int16 g_camTransXHi;
 extern int16 g_camTransYLo;
 extern int16 g_camTransYHi;
-extern int16 word_34262;
+extern int16 g_objRenderMode;
 extern int16 g_rotSinYaw;
 extern int16 g_rotCosYaw;
 extern int16 g_viewRotMatrix[9];
@@ -674,7 +673,6 @@ extern int16 g_viewRotMatrix[9];
 /* Overlaid LZW-dict / vertex-projection scratch region (was word_3424C..0x35AF7);
  * see struct VtxScratch. C flight code uses vtxScratch.vproj. */
 extern struct VtxScratch vtxScratch;
-extern int16 word_35AF8;
 extern uint8 flt15_buf2[];
 extern int16 g_objDirX;
 extern int16 g_objDirY;
@@ -682,7 +680,6 @@ extern int16 g_objDirZ;
 extern int16 g_rotInputX;
 extern int16 g_vtxLoopEnd;
 extern int16 g_vtxScale;
-extern uint8 byte_36BAE[];
 extern int16 g_primCoordPtr;
 extern int16 g_primCountPtr;
 extern int16 g_primDataBase;
@@ -697,7 +694,7 @@ extern int16 g_clipVtxB0;
 extern int16 g_clipVtxB1;
 extern int16 g_clipVtxB2;
 extern int16 g_clipVtxB3;
-extern uint8 byte_36C31;
+extern uint8 g_unusedClipFlag;
 extern uint8 g_edgeRunCount;
 extern int16 g_savedPrimVtxScale;
 extern uint8 dacValues1[];
@@ -719,8 +716,8 @@ extern int16 g_lineX1;
 extern int16 g_lineX2;
 extern int16 g_lineY1;
 extern int16 g_lineY2;
-extern uint8 g_spanMinX[];
-extern uint8 g_spanMaxX[];
+extern int16 g_spanMinX[220];   /* per-scanline minimum (left) X edge, init 0xFFFF */
+extern int16 g_spanMaxX[220];   /* per-scanline maximum (right) X edge, init 0 */
 extern int16 g_rasterDeltaX;
 extern int16 g_rasterDeltaY;
 extern int16 g_dirtyRectMinY;
@@ -749,48 +746,48 @@ extern uint8 g_timerSyncToRetrace;
 extern int16 g_timerTickCountdown;
 extern int16 g_timerRetraceResult;
 extern uint8 g_timerTickByte[0x21A];
-extern int16 word_37B26;
-extern int16 word_37B2E;
-extern int16 word_37B30;
-extern int16 word_37B32;
-extern int16 word_37B34;
-extern int16 word_37B36;
-extern int16 word_37B3C;
-extern int16 word_37B44;
-extern int16 word_37B46;
-extern int16 word_37B48;
-extern int16 word_37B4E;
-extern int16 word_37B50;
-extern int16 word_37B52;
-extern int16 word_37B5A;
-extern int16 word_37B5C;
-extern int16 word_37B5E;
-extern int16 word_37B60;
-extern int16 word_37B64;
-extern int16 word_37B66;
-extern int16 word_37B68;
-extern int16 word_37B70;
-extern int16 word_37B72;
-extern int16 word_37B74;
-extern int16 word_37B7E;
-extern int16 word_37B82;
-extern int16 word_37B84;
-extern int16 word_37B86;
-extern int16 word_37B88;
-extern int16 word_37B8A;
-extern int16 word_37B8C;
-extern int16 word_37B9C;
-extern int16 word_37B9E;
-extern int16 word_37BA0;
-extern int16 word_37BA2;
-extern int16 word_37BA4;
-extern int16 word_37BA6;
-extern int16 word_37BA8;
-extern int16 word_37BAA;
-extern int16 word_37BBA;
-extern int16 word_37BC0;
-extern int16 word_37BD8;
-extern int16 word_37BDE;
+extern int16 g_tapeText0Page;
+extern int16 g_tapeText0X;
+extern int16 g_tapeText0Y;
+extern int16 g_tapeText0Font;
+extern int16 g_tapeText0ClipTop;
+extern int16 g_tapeText0ClipBottom;
+extern int16 g_tapeText1Page;
+extern int16 g_tapeText1X;
+extern int16 g_tapeText1Y;
+extern int16 g_tapeText1Font;
+extern int16 g_tapeText1ClipX1;
+extern int16 g_tapeText1ClipX2;
+extern int16 g_tapeText2Page;
+extern int16 g_tapeText2X;
+extern int16 g_tapeText2Y;
+extern int16 g_tapeText2Font;
+extern int16 g_tapeText2ClipTop;
+extern int16 g_tapeText2ClipX1;
+extern int16 g_tapeText2ClipX2;
+extern int16 g_tapeText3Page;
+extern int16 g_tapeText3X;
+extern int16 g_tapeText3Y;
+extern int16 g_tapeText3Font;
+extern int16 g_tapeSprite0BufPtr;
+extern int16 g_tapeSprite0SrcY;
+extern int16 g_tapeSprite0Page;
+extern int16 g_tapeSprite0DstX;
+extern int16 g_tapeSprite0DstY;
+extern int16 g_tapeSprite0Width;
+extern int16 g_tapeSprite0Height;
+extern int16 g_tapeSprite1BufPtr;
+extern int16 g_tapeSprite1SrcX;
+extern int16 g_tapeSprite1SrcY;
+extern int16 g_tapeSprite1Page;
+extern int16 g_tapeSprite1DstX;
+extern int16 g_tapeSprite1DstY;
+extern int16 g_tapeSprite1Width;
+extern int16 g_tapeSprite1Height;
+extern int16 g_tapeSprite2BufPtr;
+extern int16 g_tapeSprite2Page;
+extern int16 g_tapeSprite3BufPtr;
+extern int16 g_tapeSprite3Page;
 extern uint8 g_headingBase;
 extern int16 g_tapeOriginX;
 extern uint8 g_tapeCursorBackShift;
@@ -802,32 +799,14 @@ extern int16 g_headingPixPerDeg;
 extern int16 g_compassWrapLimit;
 extern int16 g_headingModulus;
 extern int16 g_headingWrapOffset;
-extern int16 word_37C09;
-extern int16 word_37C0B;
-extern int16 word_37C0D;
-extern int16 word_37C0F;
-extern int16 word_37C11;
-extern uint8 byte_37C13;
-extern int16 word_37C14;
-extern int16 word_37C16;
-extern int16 word_37C18;
-extern int16 word_37C1A;
-extern int16 word_37C1C;
-extern int16 word_37C1E;
-extern int16 word_37C20;
-extern int16 word_37C22;
 extern uint8 g_halfScaleRender;
 extern int16 g_altRemainder;
 extern int16 g_compassScrollIdx;
 extern int16 g_compassDrawX;
 extern int16 g_tapeRenderX;
-extern uint8 byte_37C2D;
 extern uint8 g_tapePageCounter;
 extern uint8 g_hudDrawnFlag;
-extern int16 word_37C30;
-extern int16 word_37C32;
 extern uint8 g_tapeRenderMode;
-extern int16 word_37C36;
 extern uint8 g_compassTapeBuf[];
 extern uint8 g_tapeColumn;
 extern uint8 g_tapeChar;
@@ -835,14 +814,14 @@ extern int16 g_tapeCursorX;
 extern int16 g_tapeSegmentCount;
 extern int16 g_tapeDrawStr;
 extern int16 g_tapeDrawStrY;
-extern int16 word_37F54;
-extern int16 word_37F56;
-extern int16 word_37F58;
-extern int16 word_37F5A;
-extern int16 word_37F5C;
-extern int16 word_37F5E;
-extern int16 word_37F60;
-extern int16 word_37F62;
+extern int16 g_tapeRollOfsB0;
+extern int16 g_tapeRollOfsB1;
+extern int16 g_tapeRollOfsB2;
+extern int16 g_tapeRollOfsB3;
+extern int16 g_tapeRollOfsA0;
+extern int16 g_tapeRollOfsA1;
+extern int16 g_tapeRollOfsA2;
+extern int16 g_tapeRollOfsA3;
 extern uint8 joyData[];
 extern int16 g_joyCountX;
 extern int16 g_joyCountY;
@@ -983,8 +962,6 @@ extern uint8 aOpenError[];
 extern uint8 aFileClosingError[];
 extern uint8 aReadError[];
 extern uint8 aWriteError[];
-extern int16 word_3888E;
-extern int16 word_38890;
 extern int16 fileReadPos;
 extern int16 tmpFileHandle;
 extern uint8 picDecodedRowBuf[];
@@ -993,26 +970,15 @@ extern int16 picPageIndex;
 extern int16 picRowOffset;
 extern int16 g_picBlitCurrentRow;
 extern int16 picReadFromFilePtr;
-extern int16 word_38A3A;
-extern int16 word_38BC6;
 extern uint8 far *farPointer;
 extern int16 flt15_word1;
 extern uint8 flt15_buf1[];
 extern size_t flt15_size;
-extern int16 word_38D5A;
 extern int16 g_picLookupResult;
 extern int16 g_picByte;
-extern uint8 byte_38D60;
 extern uint8 g_picNumberDictSlots;
-extern uint8 byte_38D62;
 extern uint8 g_picFileWord;
-extern int16 word_38D64;
 extern int16 g_picByteUnsignedFlag;
-extern int16 word_38D68;
-extern uint8 byte_38D6A;
-extern uint8 byte_38D6B;
-extern int16 word_38D6C;
-extern uint8 byte_38D6E[];
 extern int16 g_unusedFrameVal;
 extern int g_scopeArcColor;
 extern char strBuf[];
@@ -1084,7 +1050,6 @@ extern int16 g_threatRefY;
 extern uint8 hercFlag;
 extern int16 g_viewRoll;
 extern struct DynTileOverride g_dynTileEntries[]; // overlaps the following bytes with structs
-extern uint8 byte_3B4EC[];
 extern int16 g_threatRefZ;
 extern int32 g_ViewX;
 extern int16 g_savedSamTtl;
@@ -1129,7 +1094,7 @@ extern int16 g_wreckAlt;
 extern uint8 g_shapeTargetCategory[UNIT_STATE_COUNT];
 extern int16 g_flightPathMarkerY;
 extern int16 g_aamLockActive;
-extern int16 word_3C00C;
+extern int16 g_unusedSavedWord;
 extern int g_rollInput;
 extern int16 flagFarToNear;
 extern int16 keyScancode;
@@ -1216,7 +1181,7 @@ extern int16 g_acqRange;
 extern int16 g_acqAimY;
 extern int16 g_lockToneFlag;
 extern int16 g_targetRange;
-extern int16 var_593;
+extern int16 g_unusedHudFlag;
 extern int16 g_targetBearing;
 extern int16 g_prevKillMarker;
 extern int16 g_aamLeadDist;

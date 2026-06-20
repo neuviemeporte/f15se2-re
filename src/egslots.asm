@@ -9,21 +9,21 @@ PUBLIC g_tapeRenderMode
 PUBLIC g_compassTapeBuf
 PUBLIC var_468
 PUBLIC g_spanMinX
-PUBLIC word_37B26
-PUBLIC word_37B2E
-PUBLIC word_37B30
-PUBLIC word_37B3C
-PUBLIC word_37B44
-PUBLIC word_37B52
-PUBLIC word_37B5A
-PUBLIC word_37B5C
-PUBLIC word_37B68
-PUBLIC word_37B70
-PUBLIC word_37B82
-PUBLIC word_37B84
-PUBLIC word_37BA2
-PUBLIC word_37BC0
-PUBLIC word_37BDE
+PUBLIC g_tapeText0Page
+PUBLIC g_tapeText0X
+PUBLIC g_tapeText0Y
+PUBLIC g_tapeText1Page
+PUBLIC g_tapeText1X
+PUBLIC g_tapeText2Page
+PUBLIC g_tapeText2X
+PUBLIC g_tapeText2Y
+PUBLIC g_tapeText3Page
+PUBLIC g_tapeText3X
+PUBLIC g_tapeSprite0SrcY
+PUBLIC g_tapeSprite0Page
+PUBLIC g_tapeSprite1Page
+PUBLIC g_tapeSprite2Page
+PUBLIC g_tapeSprite3Page
 PUBLIC g_altRemainder
 PUBLIC g_compassScrollIdx
 PUBLIC g_compassDrawX
@@ -34,14 +34,14 @@ PUBLIC word_37C36
 PUBLIC g_tapeSegmentCount
 PUBLIC g_tapeDrawStr
 PUBLIC g_tapeDrawStrY
-PUBLIC word_37F54
-PUBLIC word_37F56
-PUBLIC word_37F58
-PUBLIC word_37F5A
-PUBLIC word_37F5C
-PUBLIC word_37F5E
-PUBLIC word_37F60
-PUBLIC word_37F62
+PUBLIC g_tapeRollOfsB0
+PUBLIC g_tapeRollOfsB1
+PUBLIC g_tapeRollOfsB2
+PUBLIC g_tapeRollOfsB3
+PUBLIC g_tapeRollOfsA0
+PUBLIC g_tapeRollOfsA1
+PUBLIC g_tapeRollOfsA2
+PUBLIC g_tapeRollOfsA3
 PUBLIC _g_viewZ
 PUBLIC _uvar_547
 PUBLIC _origCBreakSeg
@@ -53,10 +53,10 @@ PUBLIC _audio_playSound
 PUBLIC _audio_playSample
 PUBLIC _audio_engineDroneOn
 PUBLIC _audio_engineDroneOff
-PUBLIC word_37B7E
-PUBLIC word_37B9C
-PUBLIC word_37BBA
-PUBLIC word_37BD8
+PUBLIC g_tapeSprite0BufPtr
+PUBLIC g_tapeSprite1BufPtr
+PUBLIC g_tapeSprite2BufPtr
+PUBLIC g_tapeSprite3BufPtr
 PUBLIC g_tapeOriginX
 PUBLIC g_tapeCursorBackShift
 PUBLIC g_tapeTickPitch
@@ -82,29 +82,29 @@ PUBLIC word_37C1C
 PUBLIC word_37C1E
 PUBLIC word_37C20
 PUBLIC word_37C22
-PUBLIC word_37B34
-PUBLIC word_37B36
-PUBLIC word_37B32
-PUBLIC word_37B48
-PUBLIC word_37B5E
-PUBLIC word_37B74
-PUBLIC word_37B46
-PUBLIC word_37B4E
-PUBLIC word_37B50
-PUBLIC word_37B9E
-PUBLIC word_37BA0
-PUBLIC word_37BA4
-PUBLIC word_37BA6
-PUBLIC word_37BA8
-PUBLIC word_37BAA
-PUBLIC word_37B86
-PUBLIC word_37B88
-PUBLIC word_37B8A
-PUBLIC word_37B8C
-PUBLIC word_37B60
-PUBLIC word_37B64
-PUBLIC word_37B66
-PUBLIC word_37B72
+PUBLIC g_tapeText0ClipTop
+PUBLIC g_tapeText0ClipBottom
+PUBLIC g_tapeText0Font
+PUBLIC g_tapeText1Font
+PUBLIC g_tapeText2Font
+PUBLIC g_tapeText3Font
+PUBLIC g_tapeText1Y
+PUBLIC g_tapeText1ClipX1
+PUBLIC g_tapeText1ClipX2
+PUBLIC g_tapeSprite1SrcX
+PUBLIC g_tapeSprite1SrcY
+PUBLIC g_tapeSprite1DstX
+PUBLIC g_tapeSprite1DstY
+PUBLIC g_tapeSprite1Width
+PUBLIC g_tapeSprite1Height
+PUBLIC g_tapeSprite0DstX
+PUBLIC g_tapeSprite0DstY
+PUBLIC g_tapeSprite0Width
+PUBLIC g_tapeSprite0Height
+PUBLIC g_tapeText2ClipTop
+PUBLIC g_tapeText2ClipX1
+PUBLIC g_tapeText2ClipX2
+PUBLIC g_tapeText3Y
 PUBLIC g_kbdActiveScan
 PUBLIC g_kbdLastTick
 PUBLIC g_kbdPrevScan
@@ -1487,54 +1487,54 @@ origCBreakOfs dw 0
     db 0 ;align 2
 timerHandlerInstalled db 0
     db 2 dup(0)
-word_37B26 dw 0
+g_tapeText0Page dw 0
     db 2
     db 0
     db 0Fh
     db 3 dup(0)
-word_37B2E dw 0
-word_37B30 dw 0
-word_37B32 dw 0
-word_37B34 dw 40h
-word_37B36 dw 5Eh
+g_tapeText0X dw 0
+g_tapeText0Y dw 0
+g_tapeText0Font dw 0
+g_tapeText0ClipTop dw 40h
+g_tapeText0ClipBottom dw 5Eh
     db 2 dup(0)
     db 40h
     db 1
-word_37B3C dw 0
+g_tapeText1Page dw 0
     db 2
     db 0
     db 0Fh
     db 3 dup(0)
-word_37B44 dw 0
-word_37B46 dw 0Ah
-word_37B48 dw 0
+g_tapeText1X dw 0
+g_tapeText1Y dw 0Ah
+g_tapeText1Font dw 0
     db 0 ;align 4
     db 0
     db 0C8h
     db 0
-word_37B4E dw 5Ah
-word_37B50 dw 0E6h
-word_37B52 dw 0
+g_tapeText1ClipX1 dw 5Ah
+g_tapeText1ClipX2 dw 0E6h
+g_tapeText2Page dw 0
     db 2
     db 0
     db 7
     db 3 dup(0)
-word_37B5A dw 0
-word_37B5C dw 0
-word_37B5E dw 0
-word_37B60 dw 14h
+g_tapeText2X dw 0
+g_tapeText2Y dw 0
+g_tapeText2Font dw 0
+g_tapeText2ClipTop dw 14h
     db 5Fh
     db 0
-word_37B64 dw 4Eh
-word_37B66 dw 0F1h
-word_37B68 dw 0
+g_tapeText2ClipX1 dw 4Eh
+g_tapeText2ClipX2 dw 0F1h
+g_tapeText3Page dw 0
     db 2
     db 0
     db 0Fh
     db 3 dup(0)
-word_37B70 dw 0
-word_37B72 dw 10h
-word_37B74 dw 0
+g_tapeText3X dw 0
+g_tapeText3Y dw 10h
+g_tapeText3Font dw 0
     db 14h
     db 0
     db 6Bh
@@ -1543,14 +1543,14 @@ word_37B74 dw 0
     db 0
     db 86h
     db 1
-word_37B7E dw 0
+g_tapeSprite0BufPtr dw 0
     db 2 dup(0)
-word_37B82 dw 0
-word_37B84 dw 0
-word_37B86 dw 5Ah
-word_37B88 dw 10h
-word_37B8A dw 8Dh
-word_37B8C dw 3
+g_tapeSprite0SrcY dw 0
+g_tapeSprite0Page dw 0
+g_tapeSprite0DstX dw 5Ah
+g_tapeSprite0DstY dw 10h
+g_tapeSprite0Width dw 8Dh
+g_tapeSprite0Height dw 3
     db 0 ;align 4
     db 0
     db 0C7h
@@ -1562,14 +1562,14 @@ word_37B8C dw 3
     db 0
     db 7
     db 0
-word_37B9C dw 0
-word_37B9E dw 0
-word_37BA0 dw 29h
-word_37BA2 dw 0
-word_37BA4 dw 93h
-word_37BA6 dw 2Eh
-word_37BA8 dw 19h
-word_37BAA dw 11h
+g_tapeSprite1BufPtr dw 0
+g_tapeSprite1SrcX dw 0
+g_tapeSprite1SrcY dw 29h
+g_tapeSprite1Page dw 0
+g_tapeSprite1DstX dw 93h
+g_tapeSprite1DstY dw 2Eh
+g_tapeSprite1Width dw 19h
+g_tapeSprite1Height dw 11h
     db 2 dup(0)
     db 0C7h
     db 3 dup(0)
@@ -1580,12 +1580,12 @@ word_37BAA dw 11h
     db 0
     db 7
     db 0
-word_37BBA dw 0
+g_tapeSprite2BufPtr dw 0
     db 0B8h
     db 0
     db 10h
     db 0
-word_37BC0 dw 0
+g_tapeSprite2Page dw 0
     db 9Fh
     db 0
     db 1Eh
@@ -1604,12 +1604,12 @@ word_37BC0 dw 0
     db 0
     db 0Fh
     db 0
-word_37BD8 dw 0
+g_tapeSprite3BufPtr dw 0
     db 0B8h
     db 0
     db 10h
     db 0
-word_37BDE dw 0
+g_tapeSprite3Page dw 0
     db 0A7h
     db 0
     db 1Eh
@@ -2086,14 +2086,14 @@ g_tapeSegmentCount dw 0
     db 2 dup(0)
 g_tapeDrawStr dw 0
 g_tapeDrawStrY dw 0
-word_37F54 dw 0
-word_37F56 dw 0
-word_37F58 dw 0
-word_37F5A dw 0
-word_37F5C dw 0
-word_37F5E dw 0
-word_37F60 dw 0
-word_37F62 dw 0
+g_tapeRollOfsB0 dw 0
+g_tapeRollOfsB1 dw 0
+g_tapeRollOfsB2 dw 0
+g_tapeRollOfsB3 dw 0
+g_tapeRollOfsA0 dw 0
+g_tapeRollOfsA1 dw 0
+g_tapeRollOfsA2 dw 0
+g_tapeRollOfsA3 dw 0
 PUBLIC joyData
 PUBLIC word_37F6C
 PUBLIC word_37F74

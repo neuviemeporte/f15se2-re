@@ -68,7 +68,7 @@ outer_test:
                 a = *(int *)((char *)&g_dirGridOffsets + f * 2 + (unsigned)18 * (unsigned)((b + 2) & 7));
                 g_objLocalX = c - (p << 12) - 0x800;
                 g_objLocalY = e - (a << 12) - 0x800;
-                *(int16 *)&word_34262 = 7;
+                *(int16 *)&g_objRenderMode = 7;
                 if (transformAndCullObjectFar(-g_objLocalX, -g_objLocalY, -g_objLocalZ) != 0) {
                     goto next_iter;
                 }
@@ -99,12 +99,12 @@ outer_test:
                 g_curTileEntry = matrix3dt_2[g_curLod][l];
                 for (d = 0; (unsigned int)d < matrix3dt[g_curLod][l]; d++) {
                     if (g_curTileEntry->shape & 0x80) {
-                        g_modelStreamPtr = byte_228D0 + lookupTileEntry(g_curLod, d, h + p, i + a);
-                        if (g_modelStreamPtr == (char far *)byte_228D0) {
-                            g_modelStreamPtr = byte_228D0 + buf3d3[g_curTileEntry->shape & 0x7f];
+                        g_modelStreamPtr = g_world3dData + lookupTileEntry(g_curLod, d, h + p, i + a);
+                        if (g_modelStreamPtr == (char far *)g_world3dData) {
+                            g_modelStreamPtr = g_world3dData + buf3d3[g_curTileEntry->shape & 0x7f];
                         }
                     } else {
-                        g_modelStreamPtr = byte_228D0 + buf3d3[g_curTileEntry->shape];
+                        g_modelStreamPtr = g_world3dData + buf3d3[g_curTileEntry->shape];
                     }
                     projectSceneObject(g_modelStreamPtr, 0, 0, 0,
                         g_curTileEntry->x,
@@ -116,7 +116,7 @@ outer_test:
             } else {
                 if (g_curLod == 4) {
                     g_curTileEntry = matrix3dt_2[g_curLod][l];
-                    g_modelStreamPtr = byte_228D0 + buf3d3[g_curTileEntry->shape];
+                    g_modelStreamPtr = g_world3dData + buf3d3[g_curTileEntry->shape];
                     g_objColorBase = 0x400;
                     projectSceneObject(g_modelStreamPtr, 0, 0, 0,
                         g_curTileEntry->x,

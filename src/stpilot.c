@@ -113,11 +113,11 @@ void printPilot(int pilotIdx) {
     screenDesc.color = COLOR_RED;
     screenDesc.font = 4;
     my_ltoa(pilot->total_score, todayMissStrBuf);
-    TRACE(("printPilot(): ltoa 1 %ld -> %s, about to cat %s", pilot->total_score, todayMissStrBuf, asc_174AC));
-    mystrcat(todayMissStrBuf, asc_174AC);
+    TRACE(("printPilot(): ltoa 1 %ld -> %s, about to cat %s", pilot->total_score, todayMissStrBuf, strOpenParen));
+    mystrcat(todayMissStrBuf, strOpenParen);
     TRACE(("printPilot(): strcat2 %s", todayMissStrBuf));
     my_itoa(pilot->last_score, &todayMissStrBuf[mystrlen(todayMissStrBuf)]);
-    mystrcat(todayMissStrBuf, asc_174AF);
+    mystrcat(todayMissStrBuf, strCloseParen);
     TRACE(("printPilot(): strcat3 %s", todayMissStrBuf));
     drawStringCentered(screenBuf, todayMissStrBuf, x, yPos + 9, 0x90);
     TRACE(("printPilot(): drawn string2"));

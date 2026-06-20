@@ -469,7 +469,7 @@ extern int16 picRowPad;
 extern int16 picRow;
 extern int16 picReadFromFilePtr;
 
-/* Pic decoder state (BSS, moved to endata.c) */
+/* Pic decoder state (BSS) */
 extern int16 worldBufOffset;
 extern int16 worldBufSegment;
 extern int16 picReadBufEndPtr;

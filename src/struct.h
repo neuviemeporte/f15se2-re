@@ -181,9 +181,9 @@ STATIC_ASSERT(sizeof(struct Projectile)==0x18);
 /* g_proj3d: the world-space origin (x,y,z) projectObjects() projects the 3D scene
  * relative to. Three int32 written from the routine's long parameters. */
 struct Proj3d {
-    int32 x;            // +0x00  was word_3C8B8/3C8BA
-    int32 y;            // +0x04  was word_3C8BC/3C8BE
-    int32 z;            // +0x08  was word_3C8C0/3C8C2
+    int32 x;            // +0x00
+    int32 y;            // +0x04
+    int32 z;            // +0x08
 };
 STATIC_ASSERT(sizeof(struct Proj3d)==12);
 
@@ -204,13 +204,13 @@ STATIC_ASSERT(sizeof(struct BulletTrack)==12);
 
 #pragma pack(1)
 struct SimObject {
-    int16 objType;      // +0x00  spec index into g_planes (was -6)
-    uint16 posX;         // +0x02  world X seed; worldX = posX << 5 (was -4)
-    uint16 posY;         // +0x04  world Y seed; worldY = posY << 5 (was -2)
+    int16 objType;      // +0x00  spec index into g_planes
+    uint16 posX;         // +0x02  world X seed; worldX = posX << 5
+    uint16 posY;         // +0x04  world Y seed; worldY = posY << 5
     int16 alt;          // +0x06  altitude
     int32 worldX;       // +0x08  world X position (integrated each frame)
     int32 worldY;       // +0x0C  world Y position
-    // +0x10..0x24  per-object motion/AI state (was uint8 state[20])
+    // +0x10..0x24  per-object motion/AI state
     union { int16 w; uint8 b[2]; } heading; // +0x10  yaw; b[1] high byte = 180deg flip
     int16 pitch;        // +0x12
     union { int16 w; uint8 b[2]; } bank; // +0x14  roll/bank (3rd Euler arg); b[1] high-byte flip
@@ -244,7 +244,7 @@ STATIC_ASSERT(sizeof(struct MapTarget)==0x10);
  * contiguous object; the mission loader deserialises it as a unit. */
 #pragma pack(1)
 struct GroundTargetTable {
-    int16 nameIndexLead;          /* word_3AA5C: leading name-index sentinel */
+    int16 nameIndexLead;          /* leading name-index sentinel */
     struct MapTarget planes[74];  /* g_planes */
 };
 #pragma pack()
@@ -262,23 +262,23 @@ struct ReplayEvent {
 #pragma pack()
 STATIC_ASSERT(sizeof(struct ReplayEvent)==6);
 
-/* byte_3B7FC: a single 0x640-byte buffer with two unrelated roles packed together
+/* g_replayLog: a single 0x640-byte buffer with two unrelated roles packed together
  * (the original reuses one allocation). egseg1.asm reaches the vertexX table at the
- * fixed offset _byte_3B7FC+0x600, so the layout split is a hard contract. */
+ * fixed offset _g_replayLog+0x600, so the layout split is a hard contract. */
 #pragma pack(1)
 struct ReplayLog {
     struct ReplayEvent events[256]; // +0x000  event log (moveNearFar saves this 0x600 region)
-    int16 vertexX[32];              // +0x600  3D model vertex X table (fread; parallel to byte_3BE3E Y)
+    int16 vertexX[32];              // +0x600  3D model vertex X table (fread; parallel to the vertex Y table)
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct ReplayLog)==0x640);
 
 struct TargetSlot {
-    int16 state;        // +0x00  word_3B144         lock state (3/4/>=5)
-    int16 planeIndex;   // +0x02  word_3B146 / word_3B158   index into g_planes
-    int16 viewIndex;    // +0x04  g_playerTargetIndex / word_3B15A   index into g_planes
-    int16 flags;        // +0x06  word_3B14A         (high byte = active)
-    int16 word_8;       // +0x08  word_3B14C / word_3B15E
+    int16 state;        // +0x00  lock state (3/4/>=5)
+    int16 planeIndex;   // +0x02  index into g_planes
+    int16 viewIndex;    // +0x04  index into g_planes (g_playerTargetIndex for slot 0)
+    int16 flags;        // +0x06  (high byte = active)
+    int16 word_8;       // +0x08
     int16 unused[4];    // +0x0A..0x11
 };
 STATIC_ASSERT(sizeof(struct TargetSlot)==0x12);
@@ -300,7 +300,7 @@ struct TileSceneObject; /* defined below; TileObject holds a pointer to one */
 /* TileObject: nearest-tile-object record returned by findNearestTileObject().
  * The same record is the scratch block addTileEntry() walks: it reads the
  * entry pointer at +0x0C, copies the 8-byte tile-entry tail (+0x0E..+0x15)
- * into byte_3B4E6, and writes shapeOff/flag at +0x12/+0x14. */
+ * into g_dynTileEntries, and writes shapeOff/flag at +0x12/+0x14. */
 #pragma pack(1)
 struct TileObject {
     int16 id;       /* +0x00 object/shape id */
@@ -358,7 +358,7 @@ struct Missile {
     char shortName[10]; /* +0x00 short display name, e.g. "AIM-9M" */
     char longName[12];  /* +0x0A long display name, e.g. "Sidewinder" */
     int16 specIndex;    /* +0x16 sams[] index; -1 = camera, -2 = fuel */
-    int16 field_18;     /* +0x18 weapon category */
+    int16 weaponCategory; /* +0x18 weapon category (1=support,2=cluster,3=bomb,4=A2A,6=AGM,8=PGM) */
 };
 STATIC_ASSERT(sizeof(struct Missile)==26);
 
@@ -420,7 +420,7 @@ struct SpriteParams {
     uint8 pad13[3];     /* +0x13 */
     uint8 byte16;       /* +0x16: 0x3F */
     uint8 byte17;       /* +0x17: 0x01 */
-    uint8 flags;        /* +0x18: blit flags (byte_1729C) */
+    uint8 flags;        /* +0x18: blit flags */
     uint8 pad19[3];     /* +0x19 */
 };
 #pragma pack()
@@ -482,48 +482,48 @@ struct AircraftType {
 #pragma pack()
 STATIC_ASSERT(sizeof(struct AircraftType)==32);
 
-/* Countermeasure/map-event markers (head = word_333D2). 12-byte records. */
+/* Countermeasure/map-event markers. 12-byte records. */
 #pragma pack(1)
 struct MapEvent {
-    int16 mapX;     /* +0x00 word_333D2 */
-    int16 mapY;     /* +0x02 word_333D4 */
+    int16 mapX;     /* +0x00 */
+    int16 mapY;     /* +0x02 */
     int16 field_4;  /* +0x04 */
-    int16 type;     /* +0x06 word_333D8 (marker type) */
-    int16 ttl;      /* +0x08 word_333DA (countdown; 0 = slot free) */
+    int16 type;     /* +0x06 marker type */
+    int16 ttl;      /* +0x08 countdown; 0 = slot free */
     int16 field_A;  /* +0x0A */
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct MapEvent)==12);
 
-/* Vertex-projection cluster (head = word_34684, block 0x34684..0x35AF7).
- * One contiguous block consumed by the egseg1.asm 3D pipeline plus the C
- * HUD/targeting code. The genuine member overlaps (var_279 == low word of
- * x.v[0]; dword_34C2C == y.v[120] == start of the depth-sort scratch) are
- * intrinsic to the original data, hence the unions. */
+/* Vertex-projection cluster (block 0x34684..0x35AF7). One contiguous block
+ * consumed by the egseg1.asm 3D pipeline plus the C HUD/targeting code. The
+ * genuine member overlaps (the HUD X is the low word of x.v[0]; the depth-sort
+ * scratch starts at y.v[120]) are intrinsic to the original data, hence the
+ * unions. */
 #pragma pack(1)
 struct VertexProj {
-    struct { int16 num; int16 div; } in[121]; /* word_34684/word_34686 input pairs (stride 4) */
-    union { int32 v[121]; int16 lo; } x;      /* word_34868 projected screen X; .lo = var_279 (HUD X) */
-    union { int32 v[121]; int16 lo; } y;      /* word_34A4C projected screen Y; .lo = var_282 (HUD Y) */
-    uint8 scratch[3784];                      /* dword_34C2C near-clip / depth-sort transform scratch */
+    struct { int16 num; int16 div; } in[121]; /* input pairs (stride 4) */
+    union { int32 v[121]; int16 lo; } x;      /* projected screen X; .lo = HUD X */
+    union { int32 v[121]; int16 lo; } y;      /* projected screen Y; .lo = HUD Y */
+    uint8 scratch[3784];                      /* near-clip / depth-sort transform scratch */
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct VertexProj)==0x1474);
 
-/* VtxScratch: the full overlaid scratch region (was word_3424C..word_35AF7 in
- * egslots.asm). The original deliberately time-shares this memory: the LZW
+/* VtxScratch: the full overlaid scratch region. The original deliberately
+ * time-shares this memory: the LZW
  * pic-decoder dictionary (egcode.asm picMakeDict writes 6144 bytes from the
  * base) during cockpit-PIC load, and the render-header / per-vertex numerator
  * arrays + the vertex-projection cluster during flight. They never overlap in
  * time, so one allocation serves both. The egseg1.asm / egcode.asm consumers
  * reach the individual sub-objects via offset EQUs off the _vtxScratch base;
  * the C flight code uses the typed vproj member. dictHead covers the pre-cluster
- * portion (dict base + scattered asm scratch; vacated already-migrated symbols
- * survive as gaps, harmlessly overlaid by the dict). */
+ * portion (dict base + scattered asm scratch; unused gaps are harmlessly
+ * overlaid by the dict). */
 #pragma pack(1)
 struct VtxScratch {
-    uint8 dictHead[0x404];    /* word_3424C..word_34682: LZW dict base + asm scratch (asm via EQU) */
-    struct VertexProj vproj;  /* +0x404 vertex cluster (word_34684..word_35AF8) */
+    uint8 dictHead[0x404];    /* LZW dict base + asm scratch (asm reaches sub-objects via EQU) */
+    struct VertexProj vproj;  /* +0x404 vertex cluster */
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct VtxScratch)==0x1878);

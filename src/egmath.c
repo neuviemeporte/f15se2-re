@@ -31,7 +31,7 @@ void load15Flt3d3() {
     fread(&var_A, 2, 1, fileHandle);
     TRACE(("load15Flt3d3: var_A=%d", var_A));
     segread(&var_8);
-    var_10 = byte_2D6A4;
+    var_10 = g_aircraftModels;
     TRACE(("load15Flt3d3: DS=%04x var_10=%04x:%04x", var_8.ds, FP_SEG(var_10), FP_OFF(var_10)));
     while(var_A > 0) {
         var_C = var_A <= 0x800 ? var_A : 0x800;
@@ -80,7 +80,7 @@ void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int pa
         if ((long)(int)labs(e) < (long)0x7FFF) {
             setViewPosition(0, 0, -f);
             g_curLod = 1;
-            projectSceneObject(byte_228D0 + a, -param_5, param_6, param_7, (int)c, -(int)e, altitude != 0);
+            projectSceneObject(g_world3dData + a, -param_5, param_6, param_7, (int)c, -(int)e, altitude != 0);
         }
     }
 }
@@ -184,7 +184,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param
         if (a != 0x80) {
             fillSpanRect(g_targetViewParams, 0xe8, 0x80, 0x130, a);
         }
-        h = byte_228D0[0x2f];
+        h = g_world3dData[0x2f];
         e = (int)(signed char)g_shapeTargetCategory[shapeId & 0x7f];
         if (e & 0x10) {
             h = 8;
@@ -201,7 +201,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int param
 
     g_offscreenRender = 1;
     setup3DTransform((char*)g_targetViewParams, -g_trkBearing, g_trkPitch, g_trkRoll, 0, 0, 0, 0);
-    projectSceneObject(byte_228D0 + g, -param_5, param_6, param_7, k, -l, m);
+    projectSceneObject(g_world3dData + g, -param_5, param_6, param_7, k, -l, m);
     rasterize3DWorld();
     g_offscreenRender = 0;
 
@@ -219,7 +219,7 @@ int shapeDataOffset(int param)
     if (param & 0x100) {
         return buf3d3[param & 0x7f];
     }
-    return (int)(&byte_2D6A4[((int *)flt15_buf1)[param]] - byte_228D0);
+    return (int)(&g_aircraftModels[((int *)flt15_buf1)[param]] - g_world3dData);
 }
 
 // ==== seg000:0xcf64 clamp ====

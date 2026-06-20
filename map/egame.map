@@ -548,7 +548,7 @@ word_3370E: Data1 VAR 0e5e
 g_resupplyCount: Data1 VAR 0e60
 var_130: Data1 VAR 0e62
 g_landingTimer: Data1 VAR 0e64
-asc_33744: Data1 VAR 0e94
+g_weaponMarkerBoxX: Data1 VAR 0e94
 g_weaponMarkerSel: Data1 VAR 0e9a
 g_viewParams: Data1 VAR 1100
 var_135: Data1 VAR 1102

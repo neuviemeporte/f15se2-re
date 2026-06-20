@@ -31,7 +31,7 @@ EXTRN _g_objRelY:word
 EXTRN _g_objTransform:word
 EXTRN _g_objHasRotation:word
 EXTRN _g_objDistance:word
-EXTRN _word_34262:word
+EXTRN _g_objRenderMode:word
 EXTRN _g_viewPosX:word
 EXTRN _g_viewPosY:word
 EXTRN _g_viewPosZ:word
@@ -58,7 +58,7 @@ EXTRN byte_36BAE:byte
 EXTRN _g_primRunCount:byte
 EXTRN _g_faceVtxCount:byte
 EXTRN _g_vtxSlotPhase:byte
-EXTRN _byte_36C31:byte
+EXTRN _g_unusedClipFlag:byte
 EXTRN _g_edgeRunCount:byte
 EXTRN _g_clipSwapFlag:byte
 EXTRN _g_rasterClipFlags:byte
@@ -1364,7 +1364,7 @@ projectSceneObject proc far
     MOV [_g_modelStreamPtr+2],ES
     db 026h
     LODSB
-MOV byte ptr [_word_34262], AL
+MOV byte ptr [_g_objRenderMode], AL
     MOV BX,[BP+12h]
     SUB BX,[_g_viewPosY]
     MOV [_g_objRelY],BX
@@ -1460,7 +1460,7 @@ loc_0908:
     MOV [_g_camTransYHi],DI
     CMP DI,WORD PTR [_colorLut+20h]
     JG short loc_0A02
-    MOV BX,[_word_34262]
+    MOV BX,[_g_objRenderMode]
     SHL BX,1
     CMP DI,[BX+offset _colorLut+30h]
     JL short loc_0A02
@@ -1644,7 +1644,7 @@ loc_0ACB:
 loc_0AD1:
     CMP BX,BYTE PTR +0x2
     JNZ short loc_0AE0
-    CMP WORD PTR [_word_34262],BYTE PTR +0x5
+    CMP WORD PTR [_g_objRenderMode],BYTE PTR +0x5
     JNZ short loc_0AE0
     ADD DX,BYTE PTR +0x20
 loc_0AE0:
@@ -3249,7 +3249,7 @@ loc_1901:
     PUSH SI
     CMP BYTE PTR [_g_vtxSlotPhase],2h
     JL short loc_1929
-    MOV BYTE PTR [_byte_36C31],0h
+    MOV BYTE PTR [_g_unusedClipFlag],0h
     MOV DI,offset g_clipVtxA0
     CALL loc_015D
     MOV ES,[_g_modelStreamPtr+2]

@@ -281,11 +281,11 @@ uint8 aStoresExhauste[] = "Stores exhausted";
 uint8 aFlare[] = "Flare";
 uint8 aChaff[] = "Chaff";
 uint8 aReleased[] = " released";
-uint8 asc_3373D[] = ":";
+uint8 strColon[] = ":";
 char aGun[] = "GUN:";
 
-/* asc_33744: 3 weapon-indicator box X-coordinates, read as asc_33744[weaponIdx]. */
-int16 asc_33744[3] = { 76, 40, 115 };
+/* g_weaponMarkerBoxX: 3 weapon-indicator box X-coordinates, read as g_weaponMarkerBoxX[weaponIdx]. */
+int16 g_weaponMarkerBoxX[3] = { 76, 40, 115 };
 int16 g_weaponMarkerSel = 0;
 char aOnPatrol[] = " on patrol";
 char aF15StrikeEagle[] = "F15 Strike Eagle";
@@ -493,7 +493,7 @@ uint8 g_objShade = 0;
  * projection code reads, and several are overwritten at runtime:
  *   [0x00..0x0F] colour palette (loadColorPalette copies g_colorPalettes[idx] here)
  *   [0x10..0x1F] LOD distance-threshold table (setupLodDistances writes [0..5])
- *   [0x20..0x21] var_198 object-cull distance (setupLodDistances writes it)
+ *   [0x20..0x21] object-cull distance (setupLodDistances writes it)
  *   [0x30..0x3F] near-clip distance table (read as word[BX] by the clipper)
  * Entries 0x40+ are unused colour slots (kept zero). */
 uint8 colorLut[0x100] = {
@@ -543,9 +543,9 @@ int16 g_camTransYLo = 0;
 int16 g_camTransYHi = 0;
 uint8 g_objHasRotation = 0;
 int16 g_objDistance = 0;
-/* word_34262: a flag slot accessed both as a byte (eg3dmap clears the low
- * byte) and as a word (eg3dproj writes 7 via *(int16 *)&word_34262). */
-int16 word_34262 = 0;
+/* g_objRenderMode: a flag slot accessed both as a byte (eg3dmap clears the low
+ * byte) and as a word (eg3dproj writes 7 via *(int16 *)&g_objRenderMode). */
+int16 g_objRenderMode = 0;
 int16 g_viewPosX = 0;
 int16 g_viewPosY = 0;
 int16 g_viewPosZ = 0;
@@ -599,11 +599,11 @@ uint8 g_primRunCount = 0;
 uint8 g_faceVtxCount = 0;
 uint8 g_vtxSlotPhase = 0;
 
-/* byte_36C31: flag cleared before the final clipped-primitive emit pass in the
+/* g_unusedClipFlag: flag cleared before the final clipped-primitive emit pass in the
    egseg1 renderer. g_edgeRunCount: element countdown counter for the secondary draw
    loop. g_savedPrimVtxScale: saved primitive coordinate/accumulator carried across that
    loop. */
-uint8 byte_36C31 = 0;
+uint8 g_unusedClipFlag = 0;
 uint8 g_edgeRunCount = 0;
 int16 g_savedPrimVtxScale = 0;
 /* g_angleLut: 256-entry signed sine table (sin(i*2*pi/256) scaled to +-0x7FFF),
@@ -816,7 +816,7 @@ struct SpriteParams blitSpriteParams = {
     0, 0, 0, 0, 0, 0, 0, 0,   /* bufPtr,srcX,srcY,page,dstX,dstY,width,height */
     {0, 0}, 0x61, {0, 0, 0}, 0x3F, 0x01,   /* +0x10..0x17 config bytes */
     0x01,                     /* flags */
-    {0x01, 0x01, 0x00}        /* pad19[0]=var_586 init */
+    {0x01, 0x01, 0x00}        /* pad19[0] init */
 };
 char a256left_pic[] = "256Left.Pic";
 char a256right_pic[] = "256Right.Pic";
@@ -867,7 +867,7 @@ uint8 aNotAvailable[] = " not available";
 int16 aA[3] = { 65, 26, 101 };
 
 /* missiles[20]: player weapon catalogue — short name, long name, field_16
- * (signed sams[] index, -1/-2 = non-threat stores), field_18 (category). */
+ * (signed sams[] index, -1/-2 = non-threat stores), weaponCategory. */
 struct Missile missiles[20] = {
     { "AIM-9M",  "Sidewinder", 0x17, 4 },
     { "AIM-120", "AMRAAM ",    0x16, 4 },
@@ -962,7 +962,7 @@ int16 g_mapCenterX = 0;
 int16 g_mapCenterY = 0;
 int16 g_hudMsgTimer = 0;
 int16 g_dirMsgTimer = 0;
-int16 var_593 = 0;
+int16 g_unusedHudFlag = 0;
 uint8 g_extraScaleShift = 0;
 
 /* g_frameSyncWait/597: standalone int16 scalars.
@@ -1080,7 +1080,7 @@ int16 g_camRotMatrix[9];
 struct ViewSnapshot g_viewSnapshotRing[16];
 int16 g_knots;
 struct TargetSlot g_targetSlots[2];
-/* g_planeTable: lead name-index word (word_3AA5C) + the 74-entry target array
+/* g_planeTable: lead name-index word + the 74-entry target array
    (g_planes), one contiguous block loaded from the mission file. */
 struct GroundTargetTable g_planeTable;
 /* g_unusedViewXSnap/g_unusedViewYSnap: per-frame snapshots of g_viewX_/g_viewY_;
@@ -1202,7 +1202,7 @@ int16 g_wreckAlt;
 uint8 g_shapeTargetCategory[UNIT_STATE_COUNT];
 int16 g_flightPathMarkerY;
 int16 g_aamLockActive;
-int16 word_3C00C;
+int16 g_unusedSavedWord;
 int g_rollInput;
 int16 flagFarToNear;
 int16 keyScancode;

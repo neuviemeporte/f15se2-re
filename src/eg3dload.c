@@ -49,10 +49,10 @@ void load3D3(char *fileName) {
         fclose(fileHandle);
         return;
     }
-    var_E = byte_228D0 + size3d3_2;
+    var_E = g_world3dData + size3d3_2;
     buf3d3[size3d3] = size3d3_2;
     segread(&var_8);
-    for (var_16 = byte_228D0; size3d3_2 != 0; size3d3_2 -= var_A, var_16+=0x800) {
+    for (var_16 = g_world3dData; size3d3_2 != 0; size3d3_2 -= var_A, var_16+=0x800) {
         var_A = (size3d3_2 >= 0x800) ? 0x800 : size3d3_2;
         fread(flt15_buf2, 1, var_A, fileHandle);
         movedata(var_8.ds, (uint16)flt15_buf2, FP_SEG(var_16), FP_OFF(var_16), var_A);
@@ -103,7 +103,7 @@ void load3D3(char *fileName) {
             fclose(fileHandle);
         }
     }
-    if (var_E - byte_228D0 > 0xadd4) {
+    if (var_E - g_world3dData > 0xadd4) {
         printError(aObjdataOverflow);
     }
 }

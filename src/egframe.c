@@ -481,7 +481,7 @@ void countermeasures(int param_1) {
             strcat(strBuf, (char *)aReleased);
             tempStrcpy(strBuf);
             strcpy(strBuf, p);
-            strcat(strBuf, (char *)asc_3373D);
+            strcat(strBuf, (char *)strColon);
             strcat(strBuf, itoa(g_eventTimers[param_1], g_itoaScratch, 10));
             setTimedMessage(strBuf);
         }
@@ -645,13 +645,13 @@ void drawWeaponAmmo() {
 void drawWeaponSelectMarker(int weaponIdx) {
     if (g_hudVisible == 0) return;
     g_pageFront[2] = 0;
-    drawFullscreenLine(asc_33744[g_weaponMarkerSel], 0xc4, asc_33744[g_weaponMarkerSel] + 6, 0xc4);
+    drawFullscreenLine(g_weaponMarkerBoxX[g_weaponMarkerSel], 0xc4, g_weaponMarkerBoxX[g_weaponMarkerSel] + 6, 0xc4);
     g_pageFront[2] = 7;
-    drawFullscreenLine(asc_33744[g_weaponMarkerSel], 0xc5, asc_33744[g_weaponMarkerSel] + 6, 0xc5);
+    drawFullscreenLine(g_weaponMarkerBoxX[g_weaponMarkerSel], 0xc5, g_weaponMarkerBoxX[g_weaponMarkerSel] + 6, 0xc5);
     g_pageFront[2] = 0x0c;
-    drawFullscreenLine(asc_33744[weaponIdx], 0xc4, asc_33744[weaponIdx] + 6, 0xc4);
+    drawFullscreenLine(g_weaponMarkerBoxX[weaponIdx], 0xc4, g_weaponMarkerBoxX[weaponIdx] + 6, 0xc4);
     g_pageFront[2] = 4;
-    drawFullscreenLine(asc_33744[weaponIdx], 0xc5, asc_33744[weaponIdx] + 6, 0xc5);
+    drawFullscreenLine(g_weaponMarkerBoxX[weaponIdx], 0xc5, g_weaponMarkerBoxX[weaponIdx] + 6, 0xc5);
     g_weaponMarkerSel = weaponIdx;
 }
 
@@ -827,7 +827,7 @@ void moveStuff() {
     moveNearFar(g_tileKillTally, 0x64);
     moveNearFar(g_stringPool, 0x2ee);
     moveNearFar(g_mapCellFlags, 0x100);
-    moveNearFar(&word_3C00C, 2);
+    moveNearFar(&g_unusedSavedWord, 2);
     moveNearFar(&g_padlockAircraft, 2);
     moveNearFar(waypoints, 0x10);
     moveNearFar(g_targetSlots, 0x24);

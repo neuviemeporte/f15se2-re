@@ -362,7 +362,7 @@ aTheater_0: Data1 VAR 051b
 aMissionType: Data1 VAR 0523
 
 aRepeatLastMiss: Data1 VAR 0670
-asc_174AF: Data1 VAR 068a
+strCloseParen: Data1 VAR 068a
 aRb_2: Data1 VAR 068c
 aF15_spr_1: Data1 VAR 068f
 aPleaseReinsert: Data1 VAR 0697
@@ -388,7 +388,7 @@ aHiscore_pic: Data1 VAR 0875
 aOriginalDiskIn: Data1 VAR 08d9
 aPressAKeyToCon: Data1 VAR 090c
 aUseSelectorToC: Data1 VAR 0925
-asc_174AC: Data1 VAR 095c
+strOpenParen: Data1 VAR 095c
 aMenterYourName: Data1 VAR 0968
 aRb_3: Data1 VAR 0980
 aHallfame: Data1 VAR 0983

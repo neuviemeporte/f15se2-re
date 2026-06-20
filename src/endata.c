@@ -1,4 +1,4 @@
-/* endata.c — Data definitions migrated from.DATA segment
+/* endata.c — Data definitions
  */
 #include "inttype.h"
 #include "struct.h"
@@ -494,7 +494,7 @@ int colorStyleTable[] = {
     0x0078, 0x0087, 0x0000, 0x0000, 0x0000, 0x0000, 0x008D, 0x0000
 };
 
-/* ===== BSS variables (migrated from .DATA? section of end_rc.asm) ===== */
+/* ===== BSS variables ===== */
 
 /* Text buffer for string formatting */
 char textBuf[100];
@@ -909,7 +909,7 @@ uint8 lzw2WorkBuf[10] = {0};
 /* Overlay insane flag - used by overlay slot setup */
 uint8 ovlInsaneFlag = 0;
 
-/* BSS variables migrated from endslots.asm .DATA? section */
+/* BSS variables */
 uint8 worldMiscHeader[4] = {0};
 struct Game far *gameData = 0;
 uint8 bssPad179[4] = {0};

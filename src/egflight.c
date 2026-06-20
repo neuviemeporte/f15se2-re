@@ -949,7 +949,7 @@ void renderFrame() {
         }
         g_lastViewKey = keyValue;
     }
-    g_horizonGroundColor = byte_228D0[0x2f];
+    g_horizonGroundColor = g_world3dData[0x2f];
     *(uint8*)(&g_skyColorIndex) = 3;
     if (g_detailLevel == 0 && commData->gfxModeNum != 0) {
         g_horizonGroundColor = 3;
