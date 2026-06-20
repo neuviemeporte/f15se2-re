@@ -2,109 +2,6 @@
 DOSSEG
 .MODEL SMALL
 
-SREGS		struc ;	(sizeof=0x8, align=0x2,	copyof_10) ; XREF: load15Flt3d3/r
-					; load3D3/r
-_es		dw ?
-_cs		dw ?
-_ss		dw ?
-_ds		dw ?			; XREF:	load3D3+13E/r load3D3+399/r ...
-SREGS		ends
-ViewSnapshot		struc ;	(sizeof=0x10, mappedto_11) ; XREF: dseg:stru_3A95A/r
-field_0		dd ?			; XREF:	stepFlightModel+1198/w
-					; stepFlightModel+119C/w
-field_4		dd ?			; XREF:	stepFlightModel+11A7/w
-					; stepFlightModel+11AB/w
-field_8		dw ?			; XREF:	stepFlightModel+11B2/w
-field_A		dw ?			; XREF:	stepFlightModel+117F/w
-					; stepFlightModel+121D/r
-field_C		dw ?			; XREF:	stepFlightModel+1186/w
-					; stepFlightModel+1227/r
-field_E		dw ?			; XREF:	stepFlightModel+118D/w
-ViewSnapshot		ends
-Projectile		struc ;	(sizeof=0x18, mappedto_12) ; XREF: dseg:stru_335C4/r
-field_0		dw ?
-field_2		dw ?
-field_4		dw ?
-field_6		dw ?
-field_8		dw ?
-field_A		dw ?
-field_C		dw ?
-field_E		dw ?
-field_10	db 8 dup(?)
-Projectile		ends
-SimObject		struc ;	(sizeof=0x24, mappedto_13) ; XREF: dseg:stru_3B208/r
-field_0		dw ?
-field_2		dd ?
-field_6		dd ?
-field_A		db 26 dup(?)		; XREF:	updateFrame+DA8/r	updateFrame+DB0/r	...
-SimObject		ends
-MapTarget		struc ;	(sizeof=0x10, mappedto_14) ; XREF: dseg:g_planes/r
-field_0		dw ?			; XREF:	updateTracerParticles+60/r findWaypointFeatures+60/r ...
-field_2		dw ?			; XREF:	updateTracerParticles+68/r findWaypointFeatures+40/r ...
-field_4		dw ?
-field_6		dw ?			; XREF:	updateFrame+D7F/r
-					; stepFlightModel+6C/r	...
-field_8		db 4 dup(?)		; XREF:	updateFrame+D77/r
-field_C		dw ?			; XREF:	placeString+A/r	placeString+43/r ...
-field_E		dw ?
-MapTarget		ends
-Waypoint	struc ;	(sizeof=0x4, mappedto_15) ; XREF: dseg:waypoints/r
-field_0		dw ?
-field_2		dw ?
-Waypoint	ends
-Missile		struc ;	(sizeof=0x1A, mappedto_16) ; XREF: dseg:missiles/r
-field_0		db 10 dup(?)		; string(C)
-field_A		db 12 dup(?)		; string(C)
-field_16	dw ?
-field_18	dw ?
-Missile		ends
-Sam		struc ;	(sizeof=0x12, mappedto_17) ; XREF: dseg:sams/r
-field_0		db 8 dup(?)		; string(C)
-field_8		dw ?
-field_A		dw ?
-field_C		dw ?
-field_E		dw ?
-field_10	dw ?
-Sam		ends
-MissileSpec	struc ;	(sizeof=0x4, mappedto_18) ; XREF: dseg:missleSpec/r
-weaponIdx		dw ?
-ammo		dw ?
-MissileSpec	ends
-struc_9		struc ;	(sizeof=0x8, mappedto_19) ; XREF: dseg:stru_33402/r
-field_0		dw ?
-field_2		dw ?
-field_4		dw ?
-field_6		dw ?
-struc_9		ends
-DOS_SET_IRQH	 = 25h
-PORT_PIT_TIME0	 = 40h
-PORT_PIT_CNTRL	 = 43h
-COMM_GFXOVL_SEG	 = 1Ah
-COMM_SNDOVL_SEG	 = 1Ch
-COMM_MISCOVL_SEG  = 1Eh
-COMM_GFXBUF_PTR	 = 20h
-COMM_HERC_FLAG	 = 24h
-COMM_SETUP_DONE_OFFSET	= 26h
-COMM_SETUP_GFXMODE_OFFSET  = 30h
-COMM_UNK7	 = 38h ; weaponType
-COMM_JOYDATA_OFF  = 48h
-COMM_USEJOY_OFF	 = 72h
-COMM_GFXMODE_OFFSET  = 78h
-COMM_WORLDBUF	 = 7Ah
-OFF_IACA_START	 = 4F0h
-COMM_GAMEDATA_OFFSET  =	120Eh
-IRQ_CBREAK	 = 1Bh
-GAMEDATA_THEATER  = 38h
-GAMEDATA_DIFFICULTY  = 3Eh
-GAMEDATA_UNK4	 = 40h
-WAYPT_PRIMARY	 = 1
-WAYPT_SECONDARY	 = 2
-WAYPT_BASE	 = 3
-IRQ_VIDEO	 = 10h
-OVL_HDR_CODESEG	 = 18h
-OVL_HDR_FIRSTIDX  = 1Ch
-OVL_HDR_SLOTCOUNT  = 22h
-OVL_HDR_FIRSTPTR  = 24h
 
 PUBLIC byte_37C2D
 PUBLIC byte_37C2E
@@ -260,7 +157,6 @@ PUBLIC dacValues1
 PUBLIC f15dgtlAddr
 PUBLIC fileReadPos
 PUBLIC gfx_clearPage
-PUBLIC gfx_clearVga
 PUBLIC gfx_copyRow
 PUBLIC gfx_dacAnimate
 PUBLIC gfx_dacCycle
@@ -315,37 +211,30 @@ aErrorReleasingOverlay db 'Error releasing overlay memory$'
     db 1
     db 0
 _gfx_allocPage proc near                    ; slot 0x00
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_allocPage endp
 PUBLIC gfx_fillDirty
 gfx_fillDirty proc near                     ; slot 0x01
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_fillDirty endp
 PUBLIC gfx_blitTransparent
 gfx_blitTransparent proc near               ; slot 0x03
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_blitTransparent endp
 PUBLIC gfx_blitVariant
 gfx_blitVariant proc near                   ; slot 0x04
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_blitVariant endp
 PUBLIC gfx_copyBlock
 gfx_copyBlock proc near                     ; slot 0x05
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_copyBlock endp
 _gfx_drawString proc near                   ; slot 0x06
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_drawString endp
 PUBLIC gfx_drawStringUnclipped
 gfx_drawStringUnclipped proc near           ; slot 0x07
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_drawStringUnclipped endp
     db 0EAh, 4 dup(0)                       ; slot 0x08
     db 0EAh, 4 dup(0)                       ; slot 0x09
@@ -353,21 +242,17 @@ gfx_drawStringUnclipped endp
     db 0EAh, 4 dup(0)                       ; slot 0x0B
 PUBLIC gfx_complexRender
 gfx_complexRender proc near                 ; slot 0x0C
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_complexRender endp
 _gfx_initOverlay proc near                  ; slot 0x0D
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_initOverlay endp
 PUBLIC gfx_setPage1
 gfx_setPage1 proc near                      ; slot 0x0E
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_setPage1 endp
 gfx_setPageN proc near                      ; slot 0x0F
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_setPageN endp
     PUBLIC _gfx_setPageN
     PUBLIC _gfx_setCurPageSeg
@@ -375,19 +260,16 @@ _gfx_setPageN equ gfx_setPageN
 PUBLIC gfx_setCurPageSeg
 PUBLIC gfx_getCurPageSeg
 gfx_setCurPageSeg proc near                 ; slot 0x10
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_setCurPageSeg equ gfx_setCurPageSeg
 gfx_setCurPageSeg endp
 gfx_getCurPageSeg proc near                ; slot 0x11
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_getCurPageSeg endp
     db 0EAh, 4 dup(0)                       ; slot 0x12
 PUBLIC gfx_blitCore
 gfx_blitCore proc near                      ; slot 0x13
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_blitCore endp
     db 0EAh, 4 dup(0)                       ; slot 0x14
     db 0EAh, 4 dup(0)                       ; slot 0x15
@@ -395,216 +277,173 @@ gfx_blitCore endp
     db 0EAh, 4 dup(0)                       ; slot 0x17
     db 0EAh, 4 dup(0)                       ; slot 0x18
 gfx_setBlitOffset2 proc near                ; slot 0x19
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_setBlitOffset2 endp
 PUBLIC _gfx_setBlitOffset2
 _gfx_setBlitOffset2 equ gfx_setBlitOffset2   ; underscore alias for C caller (rasterize3DWorld)
 PUBLIC gfx_setBlitOffset3
 gfx_setBlitOffset3 proc near                ; slot 0x1A
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_setBlitOffset3 endp
 gfx_setBlitOffset proc near                 ; slot 0x1B
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_setBlitOffset endp
     PUBLIC _gfx_setBlitOffset
 _gfx_setBlitOffset equ gfx_setBlitOffset
 PUBLIC gfx_setBlitOffsetReg
 gfx_setBlitOffsetReg proc near                    ; slot 0x1C
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_setBlitOffsetReg endp
 PUBLIC gfx_getPresetOffset1
 gfx_getPresetOffset1 proc near                 ; slot 0x1D
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_getPresetOffset1 endp
 PUBLIC gfx_getPresetOffset2
 gfx_getPresetOffset2 proc near                   ; slot 0x1E
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_getPresetOffset2 endp
     db 0EAh, 4 dup(0)                       ; slot 0x1F
 PUBLIC gfx_drawLine
 gfx_drawLine proc near                      ; slot 0x20
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_drawLine endp
 PUBLIC gfx_setDrawColor
 gfx_setDrawColor proc near                 ; slot 0x21
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_setDrawColor endp
 _gfx_setColor proc near                     ; slot 0x22
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_setColor endp
 PUBLIC gfx_nop22
 gfx_nop22 proc near               ; slot 0x23
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_nop22 endp
 _gfx_nop23 proc near             ; slot 0x24
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_nop23 endp
 gfx_plotPixel proc near                         ; slot 0x25
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_plotPixel endp
 PUBLIC gfx_dirtyRect
 gfx_dirtyRect proc near                     ; slot 0x26
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_dirtyRect endp
     db 0EAh, 4 dup(0)                       ; slot 0x27
     db 0EAh, 4 dup(0)                       ; slot 0x28
 PUBLIC gfx_dirtyRect2
 gfx_dirtyRect2 proc near                    ; slot 0x29
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_dirtyRect2 endp
 PUBLIC _gfx_switchColor
 _gfx_switchColor proc near                  ; slot 0x2A
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_switchColor endp
 _gfx_copyRect proc near                     ; slot 0x2B
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_copyRect endp
 gfx_clearVga proc near                     ; slot 0x2C
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_clearVga endp
 gfx_dacAnimate proc near                    ; slot 0x2D
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_dacAnimate endp
 gfx_getDisplayPage proc near               ; slot 0x2E
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_getDisplayPage endp
 PUBLIC gfx_getDisplayPage
 _gfx_getDisplayPage equ gfx_getDisplayPage
 gfx_dacCycle proc near                     ; slot 0x2F
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_dacCycle endp
     db 0EAh, 4 dup(0)                       ; slot 0x30
     db 0EAh, 4 dup(0)                       ; slot 0x31
     db 0EAh, 4 dup(0)                       ; slot 0x32
 gfx_getFreeMem proc near                     ; slot 0x33
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_getFreeMem endp
 gfx_fillRow proc near                       ; slot 0x34
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_fillRow endp
 gfx_fillRow2 proc near                      ; slot 0x35
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_fillRow2 endp
 gfx_copyRow proc near                       ; slot 0x36
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_copyRow endp
 gfx_nop36 proc near                         ; slot 0x37
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_nop36 endp
 gfx_nop37 proc near                         ; slot 0x38
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_nop37 endp
 gfx_getPageSeg proc near                    ; slot 0x39
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_getPageSeg endp
     db 0EAh, 4 dup(0)                       ; slot 0x3A
 gfx_getRowOffset proc near                  ; slot 0x3B
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_getRowOffset endp
 gfx_clearPage proc near                     ; slot 0x3C
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_clearPage endp
     db 0EAh, 4 dup(0)                       ; slot 0x3D
 _gfx_setFadeSteps proc near                 ; slot 0x3E
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_setFadeSteps endp
 gfx_calcRowAddr proc near                   ; slot 0x3F
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_calcRowAddr endp
     PUBLIC _gfx_calcRowAddr
 _gfx_calcRowAddr equ gfx_calcRowAddr
 _gfx_getModecode proc near                  ; slot 0x40
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_getModecode endp
     db 0EAh, 4 dup(0)                       ; slot 0x41
 gfx_setOvlVal1 proc near                    ; slot 0x42
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_setOvlVal1 endp
 gfx_setOvlVal2 proc near                    ; slot 0x43
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_setOvlVal2 endp
     PUBLIC _gfx_setOvlVal2
 _gfx_setOvlVal2 equ gfx_setOvlVal2
     db 0EAh, 4 dup(0)                       ; slot 0x44
 _gfx_setDac proc near                       ; slot 0x45
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_setDac endp
 _gfx_waitRetrace proc near                  ; slot 0x46
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_waitRetrace endp
 _gfx_flipPage proc near                     ; slot 0x47
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_flipPage endp
 gfx_blitSpriteClipped proc near             ; slot 0x48
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_blitSpriteClipped endp
     PUBLIC _gfx_blitSpriteClipped
 _gfx_blitSpriteClipped equ gfx_blitSpriteClipped
     db 0EAh, 4 dup(0)                       ; slot 0x49
 gfx_blitSpriteOpaque proc near              ; slot 0x4A
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 gfx_blitSpriteOpaque endp
     PUBLIC _gfx_blitSpriteOpaque
 _gfx_blitSpriteOpaque equ gfx_blitSpriteOpaque
     db 0EAh, 4 dup(0)                       ; slot 0x4B
 _gfx_storeBufPtr proc near                  ; slot 0x4C
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_storeBufPtr endp
 _gfx_getModeFlag proc near                  ; slot 0x4D
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_getModeFlag endp
     db 0EAh, 4 dup(0)                       ; slot 0x4E
     db 0EAh, 4 dup(0)                       ; slot 0x4F
 _gfx_setDacAnimCount proc near              ; slot 0x50
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_setDacAnimCount endp
     db 0EAh, 4 dup(0)                       ; slot 0x51
     db 0EAh, 4 dup(0)                       ; slot 0x52
 _gfx_setMonoFlag proc near                  ; slot 0x53
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _gfx_setMonoFlag endp
     db 0EAh, 4 dup(0)                       ; slot 0x54
     db 0EAh, 4 dup(0)                       ; slot 0x55
@@ -615,14 +454,12 @@ _gfx_setMonoFlag endp
     db 0EAh, 4 dup(0)                       ; slot 0x5A
     db 0EAh, 4 dup(0)                       ; slot 0x5B
 _misc_getKey proc near              ; slot 0x5C
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _misc_getKey endp
     db 0EAh, 4 dup(0)                       ; slot 0x5D
 PUBLIC _misc_readJoystick
 misc_readJoystick proc near              ; slot 0x5E
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 misc_readJoystick endp
 _misc_readJoystick equ misc_readJoystick
     db 0EAh, 4 dup(0)                       ; slot 0x5F
@@ -632,45 +469,36 @@ _misc_readJoystick equ misc_readJoystick
     db 0EAh, 4 dup(0)                       ; slot 0x63
     db 0EAh, 4 dup(0)                       ; slot 0x64
 _audio_setup proc near                    ; slot 0x65
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _audio_setup endp
 _audio_shutdown proc near                    ; slot 0x66
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _audio_shutdown endp
 _audio_playSound proc near                    ; slot 0x67
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _audio_playSound endp
 audio_playSound equ _audio_playSound
     db 0EAh, 4 dup(0)                       ; slot 0x68
 _audio_engineDroneOn proc near                    ; slot 0x69
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _audio_engineDroneOn endp
 audio_engineDroneOn equ _audio_engineDroneOn
 _audio_engineDroneOff proc near                    ; slot 0x6A
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _audio_engineDroneOff endp
 audio_engineDroneOff equ _audio_engineDroneOff
 audio_setEnginePitch proc near                     ; slot 0x6B
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 audio_setEnginePitch endp
 _audio_setEnginePitch equ audio_setEnginePitch
 audio_timerTick proc near                     ; slot 0x6C
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 audio_timerTick endp
 audio_noiseTick proc near                     ; slot 0x6D
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 audio_noiseTick endp
 _audio_playSample proc near                    ; slot 0x6E
-    db 0EAh ;jmp far ptr 0:0
-    dd 0
+    db 0EAh, 4 dup(0)
 _audio_playSample endp
 audio_playSample equ _audio_playSample
     db 6 dup(0)
@@ -2363,82 +2191,7 @@ lzw_bitsLeft dw 0          ; _var_697
 lzw_slotCounter dw 0       ; _var_699
 lzw_dictIndex dw 0         ; _var_700
 ; --- end LZW state ---
-word_389E4 dw 0
-word_389E6 dw 0
-off_389E8 dw 0 ;off_389E8 dw offset __exit
-word_389EA dw 0
-    dw 0 ;dw seg dseg
-    db 76 dup(0)
 word_38A3A dw offset lzw_processFlag
-aC_file_info db ';C_FILE_INFO',0
-dword_38A49 dd 0
-    db 8 dup(0)
-word_38A55 dw 0
-word_38A57 dw 0
-    db 2 dup(0)
-word_38A5B dw 0
-word_38A5D dw 0
-    db 0 ;align 2
-byte_38A60 db 0
-    db 0 ;align 2
-word_38A62 dw 14h
-    db 3 dup(81h)
-    db 2 dup(1)
-    db 15 dup(0)
-argc dw 0
-argv dw 0
-word_38A7C dw 0
-    db 0D2h
-    db 61h
-    dw seg @data ;dw seg dseg
-    db 43h
-    db 3 dup(0)
-byte_38A86 db 0
-byte_38A87 db 0
-dword_38A88 dd 0
-word_38A8C dw 0A120h
-    db 5Ch
-    db 0
-    db 5Ch
-    db 0
-word_38A92 dw 0FFFFh
-word_38A94 dw 1
-word_38A96 dw 0
-word_38A98 dw 0
-    db 0
-    db 16h
-    db 2 dup(2)
-    db 18h
-    db 0Dh
-    db 9
-    db 3 dup(0Ch)
-    db 7
-    db 8
-    db 2 dup(16h)
-    db 0FFh
-    db 12h
-    db 0Dh
-    db 12h
-    db 2
-    db 0FFh
-    db 2Ah
-    db 8Dh
-    db 2 dup(0)
-    db 2Ah
-    db 8Dh
-    db 1
-    db 7 dup(0)
-    db 2
-    db 1
-    db 6 dup(0)
-    db 2 dup(2)
-    db 6 dup(0)
-    db 84h
-    db 3
-    db 6 dup(0)
-    db 2
-    db 4
-    db 94 dup(0)
 buf6data_3 db 0
     db 25 dup(0)
     db 1
@@ -2446,64 +2199,6 @@ buf6data_3 db 0
     db 2
     db 116 dup(0)
 word_38BC6 dw offset buf6data_3
-word_38BC8 dw 0
-word_38BCA dw 0
-word_38BCC dw 0
-    db 0 ;align 4
-    db 0
-word_38BD0 dw 0
-    db 3 dup(0)
-byte_38BD5 db 0
-word_38BD6 dw 0
-    db 2 dup(0)
-word_38BDA dw 0
-word_38BDC dw 2000h
-    db 0 ;align 4
-    db 0
-byte_38BE0 db 0
-    db 0 ;align 4
-    db 2 dup(0)
-unk_38BE4 db 0
-    db 0
-word_38BE6 dw 0
-dword_38BE8 dd 0
-dword_38BEC dd 0
-byte_38BF0 db 18h
-    db 0F6h
-    dw 0 ;seg_38BF2 dw seg seg004
-    dw 0 ;seg_38BF4 dw seg seg004
-seg_38BF6 dw 0 ;seg_38BF6 dw seg seg004
-aNmsg db '<<NMSG>>',0
-    db 0 ;align 2
-aR6000StackOver db 'R6000',0Dh,0Ah
-    db '- stack overflow',0Dh,0Ah,0
-    db 3
-    db 0
-aR6003IntegerDivideBy0 db 'R6003',0Dh,0Ah
-    db '- integer divide by 0',0Dh,0Ah,0
-    db 9
-    db 0
-aR6009NotEnoughSpaceFo db 'R6009',0Dh,0Ah
-    db '- not enough space for environment',0Dh,0Ah,0
-    db 0FCh
-    db 0
-    db 0Dh
-    db 0Ah
-    db 0
-    db 0FFh
-    db 0
-aRunTimeError db 'run-time error ',0
-    db 2
-    db 0
-aR6002FloatingPointNot db 'R6002',0Dh,0Ah
-    db '- floating point not loaded',0Dh,0Ah,0
-    db 1
-    db 0
-aR6001NullPointerAssig db 'R6001',0Dh,0Ah
-    db '- null pointer assignment',0Dh,0Ah,0
-    db 3 dup(0FFh)
-    db 0
-    db 6 dup(0)
 word_38D5A dw 0
 word_38D5C dw 0
 word_38D5E dw 0
@@ -2519,18 +2214,10 @@ byte_38D6B db 0
 word_38D6C dw 0
 byte_38D6E db 0
     db 506 dup(0)
-; --- Variables created for ORG-based _var_* labels whose targets didn't exist ---
-word_32A28 dw 0
-word_32A2E dw 0
-word_32A30 dw 0
-word_33BB8 dw 0
-word_383EC dw 0
-word_38896 dw 0
-word_389DC dw 0
-byte_38A4B db 0
-    db 0 ;align
-word_38A78 dw 0
-word_38A7A dw 0
+; --- Backing storage for _var_* labels whose original targets didn't exist ---
+word_33BB8 dw 0     ; _var_143
+word_38896 dw 0     ; _var_605
+word_389DC dw 0     ; _var_608
 ; ==============================================================================
 ; --- Symbolic labels for code references ---
 _var_143 EQU word_33BB8
@@ -2540,35 +2227,6 @@ _var_606 EQU word_389D8
 _var_608 EQU word_389DC
 _var_609 EQU word_389E0
 _var_610 EQU readFromFilePtr
-_var_611 EQU word_389E4
-_var_613 EQU off_389E8
-_var_615 EQU word_38A3A
-_var_616 EQU dword_38A49
-_var_617 EQU byte_38A4B
-_var_618 EQU word_38A55
-_var_619 EQU word_38A57
-_var_620 EQU word_38A5B
-_var_621 EQU word_38A5D
-_var_625 EQU word_38A78
-_var_626 EQU word_38A7A
-_var_627 EQU word_38A7C
-_var_628 EQU byte_38A86
-_var_629 EQU byte_38A87
-_var_630 EQU dword_38A88
-_var_632 EQU word_38A92
-_var_633 EQU word_38A94
-_var_634 EQU word_38A96
-_var_635 EQU word_38A98
-_var_638 EQU word_38BC6
-_var_639 EQU word_38BC8
-_var_640 EQU word_38BCA
-_var_641 EQU word_38BCC
-_var_642 EQU word_38BD0
-_var_647 EQU unk_38BE4
-_var_648 EQU word_38BE6
-_var_649 EQU dword_38BE8
-_var_650 EQU dword_38BEC
-_var_653 EQU seg_38BF6
 _var_687 EQU lzw_readBufEndPtr
 _var_688 EQU lzw_workDataPtr
 _var_689 EQU lzw_rowLength
@@ -2614,8 +2272,6 @@ PUBLIC word_36C25
 PUBLIC word_36C27
 PUBLIC word_38A3A
 PUBLIC word_38BC6
-PUBLIC buf6data_3
-PUBLIC lzw_processFlag
     db ? ;align 400h
     db 511 dup(?)
     db ? ;align 2
