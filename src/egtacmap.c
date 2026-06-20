@@ -21,17 +21,17 @@ void clearStatusPanel(void) {
 }
 
 // ==== seg000:0x8e50 ====
-void renderHudFrame(int arg_0) {
-    int var_2, var_4, var_6, var_8, var_A, var_C, var_E, var_10, var_12, var_14, var_16, var_18, var_1A;
-    char var_1C;
+void renderHudFrame(int unused) {
+    int climbMarkerY, angleFixed, waypointMarkerX, circleX, angle, circleY, prevX, speedBarLen, prevY, markerX, deltaX, markerY, deltaY;
+    char seekerShift;
     TRACE(("renderHudFrame: enter"));
     g_drawPage = gfx_getDisplayPage();
     TRACE(("renderHudFrame: after getDisplayPage=%d"));
     // probably x,y
-    var_16 = waypoints[waypointIndex].mapX - g_viewX_;
-    var_1A = waypoints[waypointIndex].mapY - g_viewY_;
+    deltaX = waypoints[waypointIndex].mapX - g_viewX_;
+    deltaY = waypoints[waypointIndex].mapY - g_viewY_;
     TRACE(("renderHudFrame: after waypoints, g_hudVisible=%d", g_hudVisible));
-    g_waypointBearing = computeBearing(var_16, -var_1A);
+    g_waypointBearing = computeBearing(deltaX, -deltaY);
     TRACE(("renderHudFrame: after computeBearing"));
     if (g_hudVisible != 0) {
         TRACE(("renderHudFrame: g_hudVisible branch, g_damageTakenFlag=%d", g_damageTakenFlag));
@@ -59,10 +59,10 @@ void renderHudFrame(int arg_0) {
                 drawViewportLine(0x115, 0x5f, 0x115, 0x53);
                 drawViewportLine(0x11d, 0x59, 0x11d, 0x59);
                 setDrawColor(0xf);
-                var_14 = ((int16)(joyAxes[0] - 0x78) >> 4) + 0x11d;
-                var_18 = ((int16)((joyAxes[1] * 3) - 0x168) >> 6) + 0x59;
-                drawViewportLine(var_14 - 1, var_18, var_14 + 1, var_18);
-                drawViewportLine(var_14, var_18 + 1, var_14, var_18 - 1);
+                markerX = ((int16)(joyAxes[0] - 0x78) >> 4) + 0x11d;
+                markerY = ((int16)((joyAxes[1] * 3) - 0x168) >> 6) + 0x59;
+                drawViewportLine(markerX - 1, markerY, markerX + 1, markerY);
+                drawViewportLine(markerX, markerY + 1, markerX, markerY - 1);
             }
             if (g_playerPlaneFlags & 0x200) {
                 setDrawColor(0xf);
@@ -70,14 +70,14 @@ void renderHudFrame(int arg_0) {
                 drawViewportLine(0xa0, 0x56, 0xa0, 0x5c);
             }
             setDrawColor(g_nightMode != 0 ? 4 : 0);
-            var_10 = clampRange((((g_cornerSpeed - g_knots) * 2) / 5) + 0x1d, 0, 0x3d);
-            if (var_10) drawViewportLine(0x48, 0x55 - var_10, 0x48, 0x55);
+            speedBarLen = clampRange((((g_cornerSpeed - g_knots) * 2) / 5) + 0x1d, 0, 0x3d);
+            if (speedBarLen) drawViewportLine(0x48, 0x55 - speedBarLen, 0x48, 0x55);
             drawViewportLine(0xf7,  0x38, 0xf7, clampRange(-((g_climbRate >> 4) - 0x38), 0x14, 0x55));
             if ((g_playerPlaneFlags & 1) == 0 && (frameTick & 1) != 0 && gameData->unk4 != 0 && g_climbRate < 0) {
-                var_2 = (((g_planeTable.planes[g_closestThreatIndex].flags & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
+                climbMarkerY = (((g_planeTable.planes[g_closestThreatIndex].flags & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
                 setDrawColor(0xf);
-                drawViewportLine(0xf2, var_2 - 2, 0xf4, var_2);
-                drawViewportLine(0xf2, var_2 + 2, 0xf4, var_2);
+                drawViewportLine(0xf2, climbMarkerY - 2, 0xf4, climbMarkerY);
+                drawViewportLine(0xf2, climbMarkerY + 2, 0xf4, climbMarkerY);
             }
             // stall warning display
             if (g_knots < g_cornerSpeed && g_groundAltitude != g_viewZ && frameTick & 1) {
@@ -91,22 +91,22 @@ void renderHudFrame(int arg_0) {
                 }
             }
             if (g_currentWeaponType == 1) {
-                var_1C = g_halfScaleRender + 4;
-                var_14 = (g_aamSeekerX >> var_1C) + 0x9f;
-                var_18 = (g_aamSeekerY >> var_1C) + 0x38;
-                if (var_14 > 0xa && var_14 < 0x135 && var_18 > 8 && var_18 < 0x5b) {
-                    blitSprite(var_14 - 6, var_18 - 5, 0x91, 0x4, 0xd, 0xb, 0xe);
+                seekerShift = g_halfScaleRender + 4;
+                markerX = (g_aamSeekerX >> seekerShift) + 0x9f;
+                markerY = (g_aamSeekerY >> seekerShift) + 0x38;
+                if (markerX > 0xa && markerX < 0x135 && markerY > 8 && markerY < 0x5b) {
+                    blitSprite(markerX - 6, markerY - 5, 0x91, 0x4, 0xd, 0xb, 0xe);
                 }
                 // 7 = air to air? Only Sidewinder and Amraam have it
                 if (sams[missiles[missleSpec[missileSpecIndex].weaponIdx].specIndex].weaponClass == 7) {
                     setDrawColor((uint8)gfxModeUnset != 0 ? 0xf : 7);
-                    for (var_A = 0; var_A <= 0x100; var_A += 0x10) {
-                        var_4 = var_A << 8;
-                        var_8 = sinMul(var_4, 0x28) + 0x9f;
-                        var_C = -(cosMul(var_4, 0x23) - 0x38);
-                        if (var_A != 0) drawViewportLine(var_8, var_C, var_E, var_12);
-                        var_E = var_8;
-                        var_12 = var_C;
+                    for (angle = 0; angle <= 0x100; angle += 0x10) {
+                        angleFixed = angle << 8;
+                        circleX = sinMul(angleFixed, 0x28) + 0x9f;
+                        circleY = -(cosMul(angleFixed, 0x23) - 0x38);
+                        if (angle != 0) drawViewportLine(circleX, circleY, prevX, prevY);
+                        prevX = circleX;
+                        prevY = circleY;
                     }
                 }
             }
@@ -123,11 +123,11 @@ void renderHudFrame(int arg_0) {
             if (g_autopilotAltitude != 0) {
                 drawStringBothPages(aAutopilot, 0xec, 0x5a, 0xf);
             }
-            var_6 = clampRange((((g_waypointBearing - g_ourHead) >> 6) / 3) + 0x9f, 0x59, 0xe5);
+            waypointMarkerX = clampRange((((g_waypointBearing - g_ourHead) >> 6) / 3) + 0x9f, 0x59, 0xe5);
             setDrawColor(0x0b);
-            drawViewportLine(var_6 - 2, 0xf, var_6, 0x11);
-            drawViewportLine(var_6, 0x11, var_6 + 2, 0xf);
-            drawViewportLine(var_6 - 2, 0xf, var_6 + 2, 0xf);
+            drawViewportLine(waypointMarkerX - 2, 0xf, waypointMarkerX, 0x11);
+            drawViewportLine(waypointMarkerX, 0x11, waypointMarkerX + 2, 0xf);
+            drawViewportLine(waypointMarkerX - 2, 0xf, waypointMarkerX + 2, 0xf);
             goto somewhere;
         }
 somewhere:
@@ -197,17 +197,17 @@ void initTacMapView(void) {
 
 // ==== seg000:0x95c9 ====
 void redrawTacMap(int centerX, int centerY) {
-    int16 p, a, b, c, d;
+    int16 screenX, screenY, idx, c, savedPage;
 
     g_mapMode = 0;
     if (g_hudVisible == 0) {
         return;
     }
     drawPanelText(1, aMap, 0);
-    b = 0x48 << (9 - g_mapZoomLevel);
-    g_mapCenterX = clampRange(sinMul(g_ourHead, 0x4000 >> g_mapZoomLevel) + centerX, b, 0x7fff - b);
-    b = (0x38 << (9 - g_mapZoomLevel)) / 3 * 4;
-    g_mapCenterY = clampRange(centerY - cosMul(g_ourHead, 0x4000 >> g_mapZoomLevel), b, 0x7fff - b);
+    idx = 0x48 << (9 - g_mapZoomLevel);
+    g_mapCenterX = clampRange(sinMul(g_ourHead, 0x4000 >> g_mapZoomLevel) + centerX, idx, 0x7fff - idx);
+    idx = (0x38 << (9 - g_mapZoomLevel)) / 3 * 4;
+    g_mapCenterY = clampRange(centerY - cosMul(g_ourHead, 0x4000 >> g_mapZoomLevel), idx, 0x7fff - idx);
     loadColorPalette(commData->gfxModeNum != 0 ? 0 : 3);
     gfx_setFadeSteps(0x13);
     renderMapTerrain(g_mapTerrainMode, g_mapCenterX / 2, -(g_mapCenterY / 2 - 0x4000), 9 - g_mapZoomLevel);
@@ -216,25 +216,25 @@ void redrawTacMap(int centerX, int centerY) {
     } else {
         gfx_setFadeSteps(0x10);
     }
-    d = g_drawPage;
+    savedPage = g_drawPage;
     g_drawPage = gfx_getDisplayPage();
-    for (b = 1; b < g_planeCount; b++) {
-        if (g_planeTable.planes[b].active != 0 && !(g_planeTable.planes[b].flags & 0x80) &&
-            objectToScreen(g_planeTable.planes[b].mapX, g_planeTable.planes[b].mapY, &p, &a)) {
-            blitSprite(p - 1, a - 1, 0xa4, 0, 4, 4, 0);
+    for (idx = 1; idx < g_planeCount; idx++) {
+        if (g_planeTable.planes[idx].active != 0 && !(g_planeTable.planes[idx].flags & 0x80) &&
+            objectToScreen(g_planeTable.planes[idx].mapX, g_planeTable.planes[idx].mapY, &screenX, &screenY)) {
+            blitSprite(screenX - 1, screenY - 1, 0xa4, 0, 4, 4, 0);
         }
-        if (((g_planeTable.planes[b].flags & 0x481) == 0x401 || (g_planeTable.planes[b].flags & 0x200)) &&
-            objectToScreen(g_planeTable.planes[b].mapX, g_planeTable.planes[b].mapY, &p, &a)) {
-            blitSprite(p - 1, a - 1, (uint8)gfxModeUnset != 0 ? 0xac : 0xb0, 0, 4, 4, 0);
-        }
-    }
-    for (b = 0; b < 2; b++) {
-        if (!(g_playerPlaneFlags & (0x4000 >> b)) &&
-            objectToScreen(waypoints[b + 1].mapX, waypoints[b + 1].mapY, &p, &a)) {
-            blitSprite(p - 1, a - 1, (uint8)gfxModeUnset != 0 ? 0xb4 : 0xa8, 0, 4, 4, 0);
+        if (((g_planeTable.planes[idx].flags & 0x481) == 0x401 || (g_planeTable.planes[idx].flags & 0x200)) &&
+            objectToScreen(g_planeTable.planes[idx].mapX, g_planeTable.planes[idx].mapY, &screenX, &screenY)) {
+            blitSprite(screenX - 1, screenY - 1, (uint8)gfxModeUnset != 0 ? 0xac : 0xb0, 0, 4, 4, 0);
         }
     }
-    g_drawPage = d;
+    for (idx = 0; idx < 2; idx++) {
+        if (!(g_playerPlaneFlags & (0x4000 >> idx)) &&
+            objectToScreen(waypoints[idx + 1].mapX, waypoints[idx + 1].mapY, &screenX, &screenY)) {
+            blitSprite(screenX - 1, screenY - 1, (uint8)gfxModeUnset != 0 ? 0xb4 : 0xa8, 0, 4, 4, 0);
+        }
+    }
+    g_drawPage = savedPage;
     if ((char)gfx_getDisplayPage() == 0) {
         cacheScopePanel();
     } else {
@@ -286,19 +286,19 @@ int mapYToScreen(int mapY) {
 
 // ==== seg000:0x993a ====
 int plotMapObject(int mapX, int mapY, int color, int big) {
-    int p;
-    int a;
+    int screenX;
+    int screenY;
     if (g_mapMode != 0 || g_hudVisible == 0) {
         return 0;
     }
-    p = mapXToScreen(mapX);
-    a = mapYToScreen(mapY);
-    if (color != -1 && p >= g_scopeClipLeft && p < g_scopeClipRight - 1 && a >= g_scopeClipTop && a < g_scopeClipBottom - 1) {
-        drawMapPoint(p, a, color);
+    screenX = mapXToScreen(mapX);
+    screenY = mapYToScreen(mapY);
+    if (color != -1 && screenX >= g_scopeClipLeft && screenX < g_scopeClipRight - 1 && screenY >= g_scopeClipTop && screenY < g_scopeClipBottom - 1) {
+        drawMapPoint(screenX, screenY, color);
         if (big != 0) {
-            drawMapPoint(p + 1, a, color);
-            drawMapPoint(p, a + 1, color);
-            drawMapPoint(p + 1, a + 1, color);
+            drawMapPoint(screenX + 1, screenY, color);
+            drawMapPoint(screenX, screenY + 1, color);
+            drawMapPoint(screenX + 1, screenY + 1, color);
         }
         return 0;
     } else {
@@ -326,53 +326,53 @@ extern int mapXToScreen(int);
 extern int mapYToScreen(int);
 
 int readMapPixelColor(int mapX, int mapY) {
-    int p;
-    int a;
-    int b;
+    int screenX;
+    int screenY;
+    int color;
     if (g_mapMode != 0) return 0;
-    p = mapXToScreen(mapX);
-    a = mapYToScreen(mapY);
-    p = clampRange(p, g_scopeClipLeft, g_scopeClipRight);
-    a = clampRange(a, g_scopeClipTop, g_scopeClipBottom);
-    b = -1;
-    if (p > g_scopeClipLeft && p < g_scopeClipRight && a > g_scopeClipTop && a < g_scopeClipBottom) {
-        b = readScreenPixel(p, a);
+    screenX = mapXToScreen(mapX);
+    screenY = mapYToScreen(mapY);
+    screenX = clampRange(screenX, g_scopeClipLeft, g_scopeClipRight);
+    screenY = clampRange(screenY, g_scopeClipTop, g_scopeClipBottom);
+    color = -1;
+    if (screenX > g_scopeClipLeft && screenX < g_scopeClipRight && screenY > g_scopeClipTop && screenY < g_scopeClipBottom) {
+        color = readScreenPixel(screenX, screenY);
     }
-    return b;
+    return color;
 }
 
 // ==== seg000:0x9adb ====
 void drawMapRangeArc(int centerX, int centerY, int radius, int color, int connectLines, int startAngle, int endAngle)
 {
-    int p;
-    int a;
-    int b;
-    int c;
-    int d;
+    int angleFixed;
+    int x;
+    int angle;
+    int prevX;
+    int y;
     int e;
-    int f;
+    int prevY;
 
     if (endAngle < startAngle) {
         startAngle += 0x100;
     }
     setDrawColor(color);
-    for (b = startAngle; b <= endAngle; b += 0x10) {
-        p = *(unsigned char *)&b << 8;
-        a = sinMul(p, radius) + centerX;
-        d = centerY - cosMul(p, radius);
-        if ((unsigned)a > 0xC000u) {
-            a = 0;
+    for (angle = startAngle; angle <= endAngle; angle += 0x10) {
+        angleFixed = *(unsigned char *)&angle << 8;
+        x = sinMul(angleFixed, radius) + centerX;
+        y = centerY - cosMul(angleFixed, radius);
+        if ((unsigned)x > 0xC000u) {
+            x = 0;
         }
-        if ((unsigned)d > 0xC000u) {
-            d = 0;
+        if ((unsigned)y > 0xC000u) {
+            y = 0;
         }
-        if (b != startAngle && connectLines != 0) {
-            drawMapLine(a, d, c, f);
+        if (angle != startAngle && connectLines != 0) {
+            drawMapLine(x, y, prevX, prevY);
         } else {
-            plotMapObject(a, d, color, 0);
+            plotMapObject(x, y, color, 0);
         }
-        c = a;
-        f = d;
+        prevX = x;
+        prevY = y;
     }
 }
 
@@ -388,13 +388,13 @@ void drawFullscreenLine(int x1, int y1, int x2, int y2) {
 
 // ==== seg000:0x9c0c ====
 void drawViewportLine(int x1, int y1, int x2, int y2) {
-    int p, a;
+    int height, width;
 
-    a = g_pageFront[10] - g_pageFront[9] + 1;
-    p = g_pageFront[8] - g_pageFront[7] + 1;
+    width = g_pageFront[10] - g_pageFront[9] + 1;
+    height = g_pageFront[8] - g_pageFront[7] + 1;
     gfx_setBlitOffset(gfx_calcRowAddr(g_pageFront[9], g_pageFront[7]));
-    g_clipMaxX = a - 1;
-    g_clipMaxY = p - 1;
+    g_clipMaxX = width - 1;
+    g_clipMaxY = height - 1;
     gfx_setColor(g_pageFront[2]);
     g_lineX1 = x1;
     g_lineY1 = y1;
@@ -405,19 +405,19 @@ void drawViewportLine(int x1, int y1, int x2, int y2) {
 }
 
 // ==== seg000:0x9c84 ====
-void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int arg_a, int arg_c, int arg_e, int drawBothPages) {
-    int p, a;
+void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int clipRight, int clipTop, int clipBottom, int drawBothPages) {
+    int height, width;
 
-    a = arg_a - clipLeft + 1;
-    p = arg_e - arg_c + 1;
-    gfx_setBlitOffset(gfx_calcRowAddr(clipLeft, arg_c));
-    g_clipMaxX = a - 1;
-    g_clipMaxY = p - 1;
+    width = clipRight - clipLeft + 1;
+    height = clipBottom - clipTop + 1;
+    gfx_setBlitOffset(gfx_calcRowAddr(clipLeft, clipTop));
+    g_clipMaxX = width - 1;
+    g_clipMaxY = height - 1;
     gfx_setColor(g_pageFront[2]);
     g_lineX1 = x1 - clipLeft;
-    g_lineY1 = y1 - arg_c;
+    g_lineY1 = y1 - clipTop;
     g_lineX2 = x2 - clipLeft;
-    g_lineY2 = y2 - arg_c;
+    g_lineY2 = y2 - clipTop;
     drawClipLineGlobal();
     gfx_nop23();
     if (drawBothPages != 0) {
@@ -425,9 +425,9 @@ void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int arg
         gfx_setPageN(g_drawPage == 0);
         gfx_setColor(g_pageFront[2]);
         g_lineX1 = x1 - clipLeft;
-        g_lineY1 = y1 - arg_c;
+        g_lineY1 = y1 - clipTop;
         g_lineX2 = x2 - clipLeft;
-        g_lineY2 = y2 - arg_c;
+        g_lineY2 = y2 - clipTop;
         drawClipLineGlobal();
         gfx_setPageN(g_drawPage != 0);
         gfx_nop23();
@@ -576,6 +576,6 @@ void setTimedMessage(char *message) {
 }
 
 // ==== seg000:0xa224 ====
-int missileTargetCompat(int param_1, int objIdx) {
-    return (int)(char)g_targetCompatTable[param_1 * 13 + ((int)(char)g_shapeTargetCategory[g_planeTable.planes[objIdx].nameIndex & 0x7f] & 0xf)];
+int missileTargetCompat(int weaponType, int objIdx) {
+    return (int)(char)g_targetCompatTable[weaponType * 13 + ((int)(char)g_shapeTargetCategory[g_planeTable.planes[objIdx].nameIndex & 0x7f] & 0xf)];
 }

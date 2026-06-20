@@ -14,8 +14,8 @@ void parseGridTerrain(void) {
 }
 
 void parseTerrain(char *filename) {
-    int16 tmp, level, tileOffset, entry;
-    uint16 i;
+    int16 tileIdx, level, tileOffset, entry;
+    uint16 tileNum;
     replaceExtension(filename, a_3dt);
     if ((fileHandle = fopen(filename, aRb)) == 0) {
         showMsgWaitKey(aOpenErrorOn_3d);
@@ -38,7 +38,7 @@ void parseTerrain(char *filename) {
             for (level = 0; level < 5; level = level + 1) {
                 for (entry = 0; terrainBuf1[level] > entry; entry++) {
                     terrainTilePtrs[level].entries[entry] = (struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset);
-                    for (i = 0; i < (uint16)terrainTileCounts[level].entries[entry]; i++) {
+                    for (tileNum = 0; tileNum < (uint16)terrainTileCounts[level].entries[entry]; tileNum++) {
                         if (tileOffset > 0xdac) {
                             showMsgWaitKey(aTooMuchTileDat);
                             return;
@@ -46,8 +46,8 @@ void parseTerrain(char *filename) {
                         fread(&((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset))->buf3,2,1,fileHandle);
                         fread(&((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset))->buf4,2,1,fileHandle);
                         fread(&((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset))->buf5,2,1,fileHandle);
-                        fread(&tmp,2,1,fileHandle);
-                        ((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset))->idx = tmp;
+                        fread(&tileIdx,2,1,fileHandle);
+                        ((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset))->idx = tileIdx;
                         tileOffset += sizeof(struct TerrainTile);
                     }
                 }
@@ -59,15 +59,15 @@ void parseTerrain(char *filename) {
 
 /* ---- merged from stgrid.c ---- */
 void parseGrid() {
-    int j;
+    int idx;
     replaceExtension(regnPlhPtr, a_3dg);
     if ((fileHandle = fopen(regnPlhPtr, aRb_0)) == 0) {
         showMsgWaitKey(aOpenErrorOn__0);
-        j = 0;
+        idx = 0;
         do {
-            gridBuf1[j] = j;
-            j++;
-        } while (j < 0x10);
+            gridBuf1[idx] = idx;
+            idx++;
+        } while (idx < 0x10);
         nearmemset(gridBuf2, 0, 0x100);
         nearmemset(gridBuf3, 0, 0x200);
         nearmemset(gridBuf4, 0, 0x200);

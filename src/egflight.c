@@ -20,20 +20,20 @@ void stepFlightModel(void) {
     // Dummies fill gaps to achieve sub sp, 0x3E (31 word slots)
     int16 p;                    // dummy:  bp-0x02 (bucket 0)
     int16 a, q;                 // dummies: bp-0x04, bp-0x06 (bucket 1)
-    int16 b, aa, r;             // var_C=b at bp-0x0c, dummies at bp-0x0a,bp-0x08 (bucket 2)
-    int16 ab, s, c;             // dummy=ab at bp-0x12, var_10=s at bp-0x10, var_E=c at bp-0x0e (bucket 3)
-    int16 ac, t, d;             // var_18=ac at bp-0x18, var_16=t at bp-0x16, var_14=d at bp-0x14 (bucket 4)
-    int16 ad, u, e;             // dummies at bp-0x1e,bp-0x1c, var_1A=e at bp-0x1a (bucket 5)
-    int16 ae, v, f;             // var_24=ae at bp-0x24, var_22=v at bp-0x22, var_20=f at bp-0x20 (bucket 6)
-    int16 g, w;                 // var_28=g at bp-0x28, dummy=w at bp-0x26 (bucket 7)
-    int16 x, h;                 // var_2C=x at bp-0x2c, var_2A=h at bp-0x2a (bucket 8)
+    int16 prevAlt, aa, r;       // var_C=prevAlt at bp-0x0c, dummies at bp-0x0a,bp-0x08 (bucket 2)
+    int16 ab, tgtIdx, bearing;  // dummy=ab at bp-0x12, var_10=tgtIdx at bp-0x10, var_E=bearing at bp-0x0e (bucket 3)
+    int16 yaw, yawAngle, tmpVal;// var_18=yaw at bp-0x18, var_16=yawAngle at bp-0x16, var_14=tmpVal at bp-0x14 (bucket 4)
+    int16 ad, u, targetVel;     // dummies at bp-0x1e,bp-0x1c, var_1A=targetVel at bp-0x1a (bucket 5)
+    int16 turbulence, horizVel, pitchAngle; // var_24=turbulence at bp-0x24, var_22=horizVel at bp-0x22, var_20=pitchAngle at bp-0x20 (bucket 6)
+    int16 rollAngle, w;         // var_28=rollAngle at bp-0x28, dummy=w at bp-0x26 (bucket 7)
+    int16 headingErr, dx;       // var_2C=headingErr at bp-0x2c, var_2A=dx at bp-0x2a (bucket 8)
     int16 i, y;                 // dummies: bp-0x2e, bp-0x30 (bucket 9)
-    int16 z, j;                 // var_34=z at bp-0x34, var_32=j at bp-0x32 (bucket 10)
+    int16 dy, speedCalc;        // var_34=dy at bp-0x34, var_32=speedCalc at bp-0x32 (bucket 10)
     int16 k;                    // dummy:  bp-0x36 (bucket 11)
-    int16 l;                    // var_38: bp-0x38 (bucket 12)
+    int16 idx;                  // var_38: bp-0x38 (bucket 12)
     int16 m;                    // dummy:  bp-0x3a (bucket 13)
-    int16 n;                    // var_3C: bp-0x3c (bucket 14)
-    int16 o;                    // var_3E: bp-0x3e (bucket 15)
+    int16 knotsScale;           // var_3C: bp-0x3c (bucket 14)
+    int16 nsSign;               // var_3E: bp-0x3e (bucket 15)
 
     if (g_initPhase == 0) {
         // (MSC stores chained assignments right-to-left:
@@ -199,94 +199,94 @@ switch_break:
 
     if (g_autopilotAltitude != 0)
     {
-        x = (g_autopilotEngaged != 0) ? (int16)((g_missionTick & 0xF) << 8) - 0x800
+        headingErr = (g_autopilotEngaged != 0) ? (int16)((g_missionTick & 0xF) << 8) - 0x800
                                    : 0;
 
-        x = clampValue(x - g_ourHead + g_waypointBearing, 0xEC00, 0x1400) * 2;
+        headingErr = clampValue(headingErr - g_ourHead + g_waypointBearing, 0xEC00, 0x1400) * 2;
 
-        g_rollInput = -clampRange((x - g_ourRoll) >> 6, -24, 24);
+        g_rollInput = -clampRange((headingErr - g_ourRoll) >> 6, -24, 24);
 
-        d = clampValue(((g_autopilotAltitude - g_viewZ) << 4) - g_rollPitchTrim, 0xEC00, 0xC00);
+        tmpVal = clampValue(((g_autopilotAltitude - g_viewZ) << 4) - g_rollPitchTrim, 0xEC00, 0xC00);
 
-        g_pitchInput = clampRange((d - g_ourPitch) >> 7, -8, 8);
+        g_pitchInput = clampRange((tmpVal - g_ourPitch) >> 7, -8, 8);
 
         if (waypointIndex == 3)
         {
-            o = g_northSouthSign;
-            s = g_targetSlots[1].viewIndex;
+            nsSign = g_northSouthSign;
+            tgtIdx = g_targetSlots[1].viewIndex;
 
-            h = g_planeTable.planes[s].mapX - g_viewX_;
-            z = g_planeTable.planes[s].mapY - g_viewY_;
+            dx = g_planeTable.planes[tgtIdx].mapX - g_viewX_;
+            dy = g_planeTable.planes[tgtIdx].mapY - g_viewY_;
 
-            if (!(g_planeTable.planes[s].flags & 0x200))
+            if (!(g_planeTable.planes[tgtIdx].flags & 0x200))
             {
-                o = -signOf(z);
+                nsSign = -signOf(dy);
             }
 
-            z += ((g_planeTable.planes[s].flags & 0x200) ? 0x1E : 0x40) * o;
+            dy += ((g_planeTable.planes[tgtIdx].flags & 0x200) ? 0x1E : 0x40) * nsSign;
 
-            x = abs(g_ourHead);
-            if (o == -1)
+            headingErr = abs(g_ourHead);
+            if (nsSign == -1)
             {
-                h = -h;
-                z = -z;
-                x = abs(g_ourHead - 0x8000);
+                dx = -dx;
+                dy = -dy;
+                headingErr = abs(g_ourHead - 0x8000);
             }
 
-            d = clampRange((abs(h) + abs(z)) * 2 + x / 32, 50, 0x1000);
-            if (d < 0x1000)
+            tmpVal = clampRange((abs(dx) + abs(dy)) * 2 + headingErr / 32, 50, 0x1000);
+            if (tmpVal < 0x1000)
             {
                 exitSlowMotion();
             }
 
-            if (g_planeTable.planes[s].flags & 0x200)
+            if (g_planeTable.planes[tgtIdx].flags & 0x200)
             {
-                d += 100;
+                tmpVal += 100;
             }
 
-            if (g_inLandingCorridor != 0 && abs(x) < 0x200)
+            if (g_inLandingCorridor != 0 && abs(headingErr) < 0x200)
             {
-                d = -20;
+                tmpVal = -20;
             }
 
-            z = g_planeTable.planes[s].mapY + (((g_planeTable.planes[s].flags & 0x200) ? 0x1C : 0x38) * o);
+            dy = g_planeTable.planes[tgtIdx].mapY + (((g_planeTable.planes[tgtIdx].flags & 0x200) ? 0x1C : 0x38) * nsSign);
 
-            z += clampRange((abs(h) * 4) + (x / 16), 0, 0xC00) * o;
+            dy += clampRange((abs(dx) * 4) + (headingErr / 16), 0, 0xC00) * nsSign;
 
             *((unsigned char *)&g_playerPlaneFlags) &= 0xF7;
 
-            if (x > 0x4000)
+            if (headingErr > 0x4000)
             {
-                h = g_planeTable.planes[s].mapX;
-                d = 0x1000;
+                dx = g_planeTable.planes[tgtIdx].mapX;
+                tmpVal = 0x1000;
             }
             else
             {
-                h = g_planeTable.planes[s].mapX + (o * h * 2);
+                dx = g_planeTable.planes[tgtIdx].mapX + (nsSign * dx * 2);
                 if (g_setThrust * 80 < g_knots)
                 {
                     *((unsigned char *)&g_playerPlaneFlags) |= 8;
                 }
             }
 
-            c = computeBearing(h - g_viewX_, g_viewY_ - z);
-            n = (int16)g_knots / 16;
+            bearing = computeBearing(dx - g_viewX_, g_viewY_ - dy);
+            knotsScale = (int16)g_knots / 16;
 
-            x = clampValue(c - g_ourHead, (-n) << 8, n << 8) * 2;
+            headingErr = clampValue(bearing - g_ourHead, (-knotsScale) << 8, knotsScale << 8) * 2;
 
             if (g_inLandingCorridor != 0)
             {
-                x = 0;
+                headingErr = 0;
             }
 
-            g_rollInput = -clampRange((x - g_ourRoll) >> 6, -32, 32);
+            g_rollInput = -clampRange((headingErr - g_ourRoll) >> 6, -32, 32);
 
-            g_setThrust = clampRange((abs(x) / 256) + (d / 64), 35, 80);
+            g_setThrust = clampRange((abs(headingErr) / 256) + (tmpVal / 64), 35, 80);
             UpdateThrottleState();
 
-            d = clampValue(((d - g_viewZ) >> 3) + (g_rollPitchTrim >> 7), -24, 24);
+            tmpVal = clampValue(((tmpVal - g_viewZ) >> 3) + (g_rollPitchTrim >> 7), -24, 24);
 
-            g_pitchInput = clampRange(d - (g_ourPitch >> 7), -16, 16);
+            g_pitchInput = clampRange(tmpVal - (g_ourPitch >> 7), -16, 16);
 
             if (g_knots < 0x15E)
             {
@@ -303,24 +303,24 @@ switch_break:
         }
     }
     if (gameData->unk4 != 0) {
-        ae = ((int32)g_knots * (1000 - g_viewZ)) >> 15;
+        turbulence = ((int32)g_knots * (1000 - g_viewZ)) >> 15;
     } else {
-        ae = 0;
+        turbulence = 0;
     }
 
     if (!((g_playerPlaneFlags) & 1)) {
-        ae += clampRange((g_knots - 200) >> 5, 0, 32);
+        turbulence += clampRange((g_knots - 200) >> 5, 0, 32);
     }
 
-    if (ae > 0 && ((uint16)g_groundAltitude) < ((uint16)g_viewZ)) {
-        g_rollInput += randomRange(ae) - (ae >> 1);
-        g_pitchInput += (randomRange(ae) - (ae >> 1)) >> 1;
+    if (turbulence > 0 && ((uint16)g_groundAltitude) < ((uint16)g_viewZ)) {
+        g_rollInput += randomRange(turbulence) - (turbulence >> 1);
+        g_pitchInput += (randomRange(turbulence) - (turbulence >> 1)) >> 1;
     }
 
     if ((g_playerPlaneFlags & 1) && g_pitchInput <= 0 && ((uint16)g_stallSpeed) < ((uint16)g_velocity) && gameData->unk4 < 2 && abs(g_ourRoll) < 0x3000 && g_gunFiredFlag == 0) {
-        d = ((((g_rollPitchTrim) - (g_ourPitch)) >> 2) - g_viewZ + 300) >> 2;
-        if (d > 0) {
-            g_pitchInput = clampRange(d, 0, 32);
+        tmpVal = ((((g_rollPitchTrim) - (g_ourPitch)) >> 2) - g_viewZ + 300) >> 2;
+        if (tmpVal > 0) {
+            g_pitchInput = clampRange(tmpVal, 0, 32);
         }
     }
 
@@ -360,15 +360,15 @@ switch_break:
         if ((g_ejectState & 0xFFFC) == 0x10 && (frameTick & 3) == 1) {
             g_smokeSourceIdx = -1;
 
-            l = ((uint16)frameTick / 2) & 7;
+            idx = ((uint16)frameTick / 2) & 7;
 
-            g_particles[l].posX = g_viewX_;
-            g_particles[l].posY = g_viewY_;
-            g_particles[l].alt = g_viewZ;
+            g_particles[idx].posX = g_viewX_;
+            g_particles[idx].posY = g_viewY_;
+            g_particles[idx].alt = g_viewZ;
 
-            g_particles[l].spin = randomRange(0x20) << 11;
+            g_particles[idx].spin = randomRange(0x20) << 11;
 
-            g_smokeParticleSlot = l;
+            g_smokeParticleSlot = idx;
             g_hitMapX = g_viewX_;
             g_hitMapY = g_viewY_;
             g_hitAlt = g_viewZ;
@@ -420,28 +420,28 @@ switch_break:
     strcat(g_geeStringBuf, itoa((abs(g_gees) & 0xF) >> 1, strBuf, 10));
     strcat(g_geeStringBuf, (char *)aG);
 
-    j = ((long)(g_thrust - sinMul(g_ourPitch, 80)) * 800L) / 100L;
+    speedCalc = ((long)(g_thrust - sinMul(g_ourPitch, 80)) * 800L) / 100L;
 
     g_cornerSpeed = 100;
-    j = ((((uint16)g_viewZ >> 7) + 0x0400) * (int32)(j & j)) >> 10; // j & j folds to a plain load but ranks the operand "heavy", so the shift-expr is evaluated/pushed first like the ref
+    speedCalc = ((((uint16)g_viewZ >> 7) + 0x0400) * (int32)(speedCalc & speedCalc)) >> 10; // speedCalc & speedCalc folds to a plain load but ranks the operand "heavy", so the shift-expr is evaluated/pushed first like the ref
 
     g_cornerSpeed = ((int32)100 * (uint32)((g_altitude >> 6) + 0x0400)) >> 10;
 
-    j = ((int32)j) * ((int32)(-((g_fuelRemaining >> 9) - 100))) / (int32)90;
+    speedCalc = ((int32)speedCalc) * ((int32)(-((g_fuelRemaining >> 9) - 100))) / (int32)90;
 
-    j = (((int32)j) * ((int32)(128 - g_gees))) >> 7;
+    speedCalc = (((int32)speedCalc) * ((int32)(128 - g_gees))) >> 7;
 
     g_cornerSpeed = ((int32)isqrt(g_gees * 4) * (int32)g_cornerSpeed) >> 3;
     g_cornerSpeed = abs(g_cornerSpeed);
 
     if (!(*((unsigned char*)&g_playerPlaneFlags) & 1)) {
-        j -= j >> 3;
+        speedCalc -= speedCalc >> 3;
     }
 
     g_stallSpeed = g_cornerSpeed * 27;
-    e = clampRange(j, 0, 899) * 27;
+    targetVel = clampRange(speedCalc, 0, 899) * 27;
 
-    g_velocity += ((((int32)e - g_velocity) / 16) / (int32)g_frameRateScaling);
+    g_velocity += ((((int32)targetVel - g_velocity) / 16) / (int32)g_frameRateScaling);
 
     g_liftForce = ((int32)g_stallSpeed * 3072) / (abs(g_velocity) + 1);
     if ((uint16)g_liftForce > 0x2000) g_liftForce = 0x2000;
@@ -461,17 +461,17 @@ switch_break:
 
     if ((uint16)g_velocity > 0xAFC8) g_velocity = 0;
 
-    v = cosMul(g_ourPitch, g_velocity);
+    horizVel = cosMul(g_ourPitch, g_velocity);
     g_knots = (uint16)g_velocity / 27;
 
     audio_setEnginePitch(g_knots, g_thrust);
 
-    ac = (((int32)sinMul(g_ourRoll, g_gees << 4)) << 7) / ((int32)((int16)((uint16)g_velocity >> 9) + 0x20));
+    yaw = (((int32)sinMul(g_ourRoll, g_gees << 4)) << 7) / ((int32)((int16)((uint16)g_velocity >> 9) + 0x20));
 
-    ac = cosMul(g_ourPitch, ac);
+    yaw = cosMul(g_ourPitch, yaw);
 
     if (g_groundAltitude == g_viewZ) {
-        ac = (g_rollInput * -1) << 6;
+        yaw = (g_rollInput * -1) << 6;
         g_rollInput = 0;
         if (g_knots < g_cornerSpeed) {
             g_pitchInput = 0;
@@ -485,26 +485,26 @@ switch_break:
         g_velocity = 0;
     }
 
-    g = (((int32)g_rollInput) << 7) / ((int32)g_frameRateScaling);
-    if (g != 0) {
-        g_rollMatrix[4] = g_rollMatrix[0] = cosine(g);
-        g_rollMatrix[1] = sine(g);
+    rollAngle = (((int32)g_rollInput) << 7) / ((int32)g_frameRateScaling);
+    if (rollAngle != 0) {
+        g_rollMatrix[4] = g_rollMatrix[0] = cosine(rollAngle);
+        g_rollMatrix[1] = sine(rollAngle);
         g_rollMatrix[3] = -g_rollMatrix[1];
         applyRotationDelta(g_orientMatrix, g_rollMatrix);
     }
 
-    f = (int16)((int32)g_pitchInput << 7) / g_frameRateScaling;
-    if (f != 0) {
-        g_pitchMatrix[8] = g_pitchMatrix[4] = cosine(f);
-        g_pitchMatrix[7] = sine(f);
+    pitchAngle = (int16)((int32)g_pitchInput << 7) / g_frameRateScaling;
+    if (pitchAngle != 0) {
+        g_pitchMatrix[8] = g_pitchMatrix[4] = cosine(pitchAngle);
+        g_pitchMatrix[7] = sine(pitchAngle);
         g_pitchMatrix[5] = -g_pitchMatrix[7];
         applyRotationDelta(g_orientMatrix, g_pitchMatrix);
     }
 
-    t = (int16)ac / g_frameRateScaling;
-    if (t != 0) {
-        g_yawMatrix[8] = g_yawMatrix[0] = cosine(t);
-        g_yawMatrix[2] = sine(t);
+    yawAngle = (int16)yaw / g_frameRateScaling;
+    if (yawAngle != 0) {
+        g_yawMatrix[8] = g_yawMatrix[0] = cosine(yawAngle);
+        g_yawMatrix[2] = sine(yawAngle);
         g_yawMatrix[6] = -g_yawMatrix[2];
         applyRotationDelta(g_yawMatrix, g_orientMatrix);
     }
@@ -540,15 +540,15 @@ switch_break:
         rebuildOrientation();
     }
 
-    b = g_altitude;
+    prevAlt = g_altitude;
     g_climbRate = fixedMulQ14((((uint16)g_velocity) / 10), sine(g_ourPitch - g_rollPitchTrim));
 
     if (g_autoLandingActive == 0) {
         g_altitude += (g_climbRate / g_frameRateScaling);
 
-        g_ViewX += fixedMulQ14(v, sine(g_ourHead)) / 10 / g_frameRateScaling;
+        g_ViewX += fixedMulQ14(horizVel, sine(g_ourHead)) / 10 / g_frameRateScaling;
 
-        g_ViewY += fixedMulQ14(v, cosine(g_ourHead)) / 10 / g_frameRateScaling;
+        g_ViewY += fixedMulQ14(horizVel, cosine(g_ourHead)) / 10 / g_frameRateScaling;
     }
 
     if ((uint16)g_altitude > 0xf230 || (uint16)g_altitude < (uint16)g_groundAltitude) {
@@ -565,7 +565,7 @@ switch_break:
     }
 
     if (g_groundAltitude == g_viewZ) {
-        if (b > g_groundAltitude && g_inLandingCorridor != 0) {
+        if (prevAlt > g_groundAltitude && g_inLandingCorridor != 0) {
             makeSound(0xC, 2);
             //temp_bx = g_closestThreatIndex << 4;
 
@@ -582,36 +582,36 @@ switch_break:
         g_climbRate = 0;
     }
 
-    l = frameTick & 0xF;
-    g_viewSnapshotRing[l].heading = g_ourHead;
-    g_viewSnapshotRing[l].pitch = g_ourPitch;
-    g_viewSnapshotRing[l].roll = g_ourRoll;
-    *(int32*)&g_viewSnapshotRing[l].worldX = g_ViewX;
-    *(int32*)&g_viewSnapshotRing[l].worldY = g_ViewY;
-    g_viewSnapshotRing[l].alt = g_viewZ;
+    idx = frameTick & 0xF;
+    g_viewSnapshotRing[idx].heading = g_ourHead;
+    g_viewSnapshotRing[idx].pitch = g_ourPitch;
+    g_viewSnapshotRing[idx].roll = g_ourRoll;
+    *(int32*)&g_viewSnapshotRing[idx].worldX = g_ViewX;
+    *(int32*)&g_viewSnapshotRing[idx].worldY = g_ViewY;
+    g_viewSnapshotRing[idx].alt = g_viewZ;
 
     if (g_currentWeaponType == 1) {
         if (g_airTargetLock >= 0) {
-            l = clampRange((rangeApprox(g_viewX_ - g_simObjects[g_airTargetLock].posX, g_viewY_ - g_simObjects[g_airTargetLock].posY) * g_frameRateScaling) >> 8, 0, 12);
+            idx = clampRange((rangeApprox(g_viewX_ - g_simObjects[g_airTargetLock].posX, g_viewY_ - g_simObjects[g_airTargetLock].posY) * g_frameRateScaling) >> 8, 0, 12);
 
         } else {
-            l = g_frameRateScaling - 1;
+            idx = g_frameRateScaling - 1;
         }
 
-        l = (frameTick - l) & 0xF;
+        idx = (frameTick - idx) & 0xF;
 
-        x = g_ourHead - g_viewSnapshotRing[l].heading;
-        d = g_ourPitch - g_viewSnapshotRing[l].pitch;
+        headingErr = g_ourHead - g_viewSnapshotRing[idx].heading;
+        tmpVal = g_ourPitch - g_viewSnapshotRing[idx].pitch;
 
-        g_aamSeekerX = cosMul(g_ourRoll, ((-x) >> 2)) + sinMul(g_ourRoll, (d >> 2));
+        g_aamSeekerX = cosMul(g_ourRoll, ((-headingErr) >> 2)) + sinMul(g_ourRoll, (tmpVal >> 2));
 
-        g_aamSeekerY = sinMul(g_ourRoll, (x >> 2)) + cosMul(g_ourRoll, (d >> 1));
+        g_aamSeekerY = sinMul(g_ourRoll, (headingErr >> 2)) + cosMul(g_ourRoll, (tmpVal >> 1));
     }
 
 }
 
 
-void applyRotationDelta(int param_1, int param_2) {
+void applyRotationDelta(int matA, int matB) {
     int p;
     int a;
 
@@ -619,21 +619,21 @@ void applyRotationDelta(int param_1, int param_2) {
     if (!(*(char *)&g_rotationCounter & 7)) {
         *(char *)&g_orientationDirty = 1;
     }
-    multiplyMatrix3x3Far(param_1, param_2, g_matrixScratch);
+    multiplyMatrix3x3Far(matA, matB, g_matrixScratch);
     memcpy(g_orientMatrix, g_matrixScratch, 0x12);
 }
 
 void computeAttitudeAngles(void)
 {
-    int p;
+    int cosPitch;
 
     g_ourPitch = valueToAngle(-g_orientMatrix[5]);
-    p = cosine(g_ourPitch);
-    if (p != 0) {
+    cosPitch = cosine(g_ourPitch);
+    if (cosPitch != 0) {
         if (abs(g_orientMatrix[2]) < 0x5a81) {
-            g_ourHead = valueToAngle(abs((int)signedRatio16(g_orientMatrix[2], p)));
+            g_ourHead = valueToAngle(abs((int)signedRatio16(g_orientMatrix[2], cosPitch)));
         } else {
-            g_ourHead = complementAngle(abs((int)signedRatio16(g_orientMatrix[8], p)));
+            g_ourHead = complementAngle(abs((int)signedRatio16(g_orientMatrix[8], cosPitch)));
         }
         if (g_orientMatrix[2] <= 0 && g_orientMatrix[8] < 0) {
             (*((char *)&g_ourHead + 1)) += 0x80;
@@ -645,9 +645,9 @@ void computeAttitudeAngles(void)
             g_ourHead = -g_ourHead;
         }
         if (abs(g_orientMatrix[3]) < 0x5a81) {
-            g_ourRoll = valueToAngle(abs((int)signedRatio16(g_orientMatrix[3], p)));
+            g_ourRoll = valueToAngle(abs((int)signedRatio16(g_orientMatrix[3], cosPitch)));
         } else {
-            g_ourRoll = complementAngle(abs((int)signedRatio16(g_orientMatrix[4], p)));
+            g_ourRoll = complementAngle(abs((int)signedRatio16(g_orientMatrix[4], cosPitch)));
         }
         if (g_orientMatrix[3] <= 0 && g_orientMatrix[4] < 0) {
             *((char *)&g_ourRoll + 1) += 0x80;
@@ -691,64 +691,64 @@ void rebuildOrientation() {
 }
 
 unsigned signedRatio16(int numerator, int denominator) {
-    char p = 1;
-    char a = 1;
-    long b;
-    long d;
+    char numSign = 1;
+    char denSign = 1;
+    long numAbs;
+    long denAbs;
 
-    if (numerator < 0) p = -1;
-    if (denominator < 0) a = -1;
-    b = (long)(numerator < 0 ? -numerator : numerator);
-    d = (long)(denominator < 0 ? -denominator : denominator);
-    return (unsigned)((unsigned int)((((unsigned long)(unsigned int)b) << 16) / d >> 1)) * (unsigned)(int)p * (unsigned)(int)a;
+    if (numerator < 0) numSign = -1;
+    if (denominator < 0) denSign = -1;
+    numAbs = (long)(numerator < 0 ? -numerator : numerator);
+    denAbs = (long)(denominator < 0 ? -denominator : denominator);
+    return (unsigned)((unsigned int)((((unsigned long)(unsigned int)numAbs) << 16) / denAbs >> 1)) * (unsigned)(int)numSign * (unsigned)(int)denSign;
 done:
     ;
 }
 
 int valueToAngle(int value) {
-    int p;
-    int a;
-    int b;
-    int c;
+    int angle;
+    int mag;
+    int lutIdx;
+    int span;
 
     if (value == (int)0x8000) return (int)0xc000;
-    a = abs(value);
-    b = (a >> 9) + 1;
-    for (; b >= 0; b--) {
-        if (g_angleLut[b] <= a) {
-            c = g_angleLut[b + 1] - g_angleLut[b];
-            p = (int)((long)(a - g_angleLut[b]) * 256L / (long)c) + b * 256;
+    mag = abs(value);
+    lutIdx = (mag >> 9) + 1;
+    for (; lutIdx >= 0; lutIdx--) {
+        if (g_angleLut[lutIdx] <= mag) {
+            span = g_angleLut[lutIdx + 1] - g_angleLut[lutIdx];
+            angle = (int)((long)(mag - g_angleLut[lutIdx]) * 256L / (long)span) + lutIdx * 256;
             break;
         }
     }
     if (value < 0) {
-        p = -p;
+        angle = -angle;
     }
-    return p;
+    return angle;
 }
 
-int complementAngle(int arg_0) {
-    return 0x4000 - valueToAngle(arg_0);
+int complementAngle(int value) {
+    return 0x4000 - valueToAngle(value);
 }
 
 int isqrt(int value) {
-    int p;
-    int a;
+    int quot;
+    int guess;
     value = abs(value);
     if (value < 4) {
         return 1;
     }
-    a = value >> 2;
+    guess = value >> 2;
     do {
-        p = value / a;
-        a = (a + p) >> 1;
-    } while (abs(a - p) > 1);
-    return a;
+        quot = value / guess;
+        guess = (guess + quot) >> 1;
+    } while (abs(guess - quot) > 1);
+    return guess;
 }
 
 // something to do with view switching?
 void renderFrame() {
-    int var_2, var_4, var_6, var_8, var_A, var_C, var_E;
+    int camDist, savedCamDist, range, camOffset, dx, dy, tmp;
     TRACE(("renderFrame: enter"));
     g_camEyeX = g_viewTargetX = g_ViewX;
     g_camEyeY = g_ViewY;
@@ -756,7 +756,7 @@ void renderFrame() {
     TRACE(("renderFrame: past assigns"));
     g_camEyeZ = g_viewZ + 0x18;
     g_viewTargetAlt = g_viewZ;
-    var_2 = g_externalCamDist = clampRange(g_externalCamDist, 2, 8);
+    camDist = g_externalCamDist = clampRange(g_externalCamDist, 2, 8);
     TRACE(("renderFrame: past clamp, keyValue=%d", keyValue));
     switch(keyValue) {
     case 0:
@@ -781,34 +781,34 @@ void renderFrame() {
         g_viewRoll = -g_ourPitch;
         break;
     case 0x84:
-        var_E = (frameTick - ((g_frameRateScaling  + 1) / 2) - 1) & 0xf;
-        g_viewHeading = g_viewSnapshotRing[var_E].heading;
-        g_viewPitch = g_viewSnapshotRing[var_E].pitch;
-        g_viewRoll = g_viewSnapshotRing[var_E].roll;
-        g_camEyeX = g_viewSnapshotRing[var_E].worldX;
-        g_camEyeY = g_viewSnapshotRing[var_E].worldY;
-        g_camEyeZ = g_viewSnapshotRing[var_E].alt;
+        tmp = (frameTick - ((g_frameRateScaling  + 1) / 2) - 1) & 0xf;
+        g_viewHeading = g_viewSnapshotRing[tmp].heading;
+        g_viewPitch = g_viewSnapshotRing[tmp].pitch;
+        g_viewRoll = g_viewSnapshotRing[tmp].roll;
+        g_camEyeX = g_viewSnapshotRing[tmp].worldX;
+        g_camEyeY = g_viewSnapshotRing[tmp].worldY;
+        g_camEyeZ = g_viewSnapshotRing[tmp].alt;
         break;
     case 0x85:
         g_viewHeading = g_ourHead - 0x4000;
         g_viewPitch = 0;
         g_viewRoll = 0;
-        g_camEyeX = sinMul(g_ourHead + 0x4000, 0x18 << var_2) + g_ViewX;
-        g_camEyeY = cosMul(g_ourHead + 0x4000, 0x18 << var_2) + g_ViewY;
+        g_camEyeX = sinMul(g_ourHead + 0x4000, 0x18 << camDist) + g_ViewX;
+        g_camEyeY = cosMul(g_ourHead + 0x4000, 0x18 << camDist) + g_ViewY;
         break;
     case 0x86:
         g_viewHeading = 0x8000;
         g_viewPitch = 0;
         g_viewRoll = 0;
-        g_camEyeY = (0x18 << var_2) + g_ViewY;
+        g_camEyeY = (0x18 << camDist) + g_ViewY;
         break;
     case 0x87:
         g_viewHeading = g_ourHead;
         g_viewPitch = 0;
         g_viewRoll = 0;
-        g_camEyeX = sinMul(g_ourHead + 0x8000, 0x18 << var_2) + g_ViewX;
-        g_camEyeY = cosMul(g_ourHead + 0x8000, 0x18 << var_2) + g_ViewY;
-        g_camEyeZ = (4 << var_2) + g_viewZ;
+        g_camEyeX = sinMul(g_ourHead + 0x8000, 0x18 << camDist) + g_ViewX;
+        g_camEyeY = cosMul(g_ourHead + 0x8000, 0x18 << camDist) + g_ViewY;
+        g_camEyeZ = (4 << camDist) + g_viewZ;
         break;
     case 0x88:
     case 0x89:
@@ -825,7 +825,7 @@ void renderFrame() {
         else {
             if (g_directorMode == 0) g_viewTargetObj = g_lastMissileSlot;
         }
-        var_4 = var_2;
+        savedCamDist = camDist;
         if (!(g_viewTargetObj & 0x40)) {
             if (!(g_viewTargetObj & 0x20)) {
                 if (g_projectiles[g_viewTargetObj].ttl != 0) {
@@ -838,42 +838,42 @@ void renderFrame() {
                     g_projectiles[g_viewTargetObj].worldY = g_ourPitch;
                     if (g_directorMode != 0) keyValue = 0x87;
                 }
-                var_2 = 5;
+                camDist = 5;
             }
             else {
                 // .... g_viewTargetObj & 0x1f
                 g_viewTargetX = g_simObjects[g_viewTargetObj & 0x1f].worldX;
                 g_viewTargetY = g_simObjects[g_viewTargetObj & 0x1f].worldY;
                 g_viewTargetAlt = g_simObjects[g_viewTargetObj & 0x1f].alt;
-                var_2 = 5;
+                camDist = 5;
             }
         }
         else {
             g_viewTargetX = (uint32)g_planeTable.planes[g_viewTargetObj & 0x3f].mapX << 5;
             g_viewTargetY = (uint32)g_planeTable.planes[g_viewTargetObj & 0x3f].mapY << 5;
             g_viewTargetAlt = g_planeTable.planes[g_viewTargetObj & 0x3f].flags & 0x200 ? 0xc8 : 0x32;
-            var_2 = 7;
-            if (g_autopilotEngaged != 0 && g_directorEventDeadline == -1) var_2 = 6;
+            camDist = 7;
+            if (g_autopilotEngaged != 0 && g_directorEventDeadline == -1) camDist = 6;
         }
-        if (g_directorMode == 0) var_2 = var_4;
-        var_A = (g_viewTargetX >> 5) - g_viewX_;
-        var_C = (g_viewTargetY >> 5) - g_viewY_;
-        var_6 = rangeApprox(var_A, var_C);
-        g_viewHeading = computeBearing(var_A, -var_C);
-        g_viewPitch = -computeBearing((g_viewTargetAlt - g_viewZ) >> 5, var_6);
+        if (g_directorMode == 0) camDist = savedCamDist;
+        dx = (g_viewTargetX >> 5) - g_viewX_;
+        dy = (g_viewTargetY >> 5) - g_viewY_;
+        range = rangeApprox(dx, dy);
+        g_viewHeading = computeBearing(dx, -dy);
+        g_viewPitch = -computeBearing((g_viewTargetAlt - g_viewZ) >> 5, range);
         g_viewRoll = 0;
-        var_8 = cosMul(g_viewPitch, 0x18 << var_2);
+        camOffset = cosMul(g_viewPitch, 0x18 << camDist);
         if (g_viewTargetObj & 0x60 || g_directorMode != 0) {
             if (keyValue == 0x88) {
-                g_camEyeX = sinMul(g_viewHeading + 0x8000, var_8) + g_ViewX;
-                g_camEyeY = cosMul(g_viewHeading + 0x8000, var_8) + g_ViewY;
-                g_camEyeZ = sinMul(g_viewPitch, 0x18 << var_2) + (4 << var_2) + g_viewZ;
+                g_camEyeX = sinMul(g_viewHeading + 0x8000, camOffset) + g_ViewX;
+                g_camEyeY = cosMul(g_viewHeading + 0x8000, camOffset) + g_ViewY;
+                g_camEyeZ = sinMul(g_viewPitch, 0x18 << camDist) + (4 << camDist) + g_viewZ;
                 g_viewPitch = -g_viewPitch;
             }
             else {
-                g_camEyeX = sinMul(g_viewHeading, var_8) + g_viewTargetX;
-                g_camEyeY = cosMul(g_viewHeading, var_8) - g_viewTargetY + 0x100000;
-                g_camEyeZ = (4 << var_2) - sinMul(g_viewPitch, 0x18 << var_2) + g_viewTargetAlt;
+                g_camEyeX = sinMul(g_viewHeading, camOffset) + g_viewTargetX;
+                g_camEyeY = cosMul(g_viewHeading, camOffset) - g_viewTargetY + 0x100000;
+                g_camEyeZ = (4 << camDist) - sinMul(g_viewPitch, 0x18 << camDist) + g_viewTargetAlt;
                 if (g_viewTargetObj & 0x40 && g_planeTable.planes[g_viewTargetObj & 0x3f].flags & 0x200 && g_camEyeZ < 0x84) {
                     g_camEyeZ = 0x84;
                 }
@@ -883,10 +883,10 @@ void renderFrame() {
         else {
             g_viewHeading = g_projectiles[g_viewTargetObj].worldX;
             g_viewPitch = g_projectiles[g_viewTargetObj].worldY - 0x400;
-            var_8 = cosMul(g_viewPitch, 0x10 << var_2);
-            g_camEyeX = g_viewTargetX - sinMul(g_viewHeading, var_8);
-            g_camEyeY = 0x100000 - (cosMul(g_viewHeading, var_8) + g_viewTargetY);
-            g_camEyeZ = g_viewTargetAlt - sinMul(g_viewPitch, 0x10 << var_2);
+            camOffset = cosMul(g_viewPitch, 0x10 << camDist);
+            g_camEyeX = g_viewTargetX - sinMul(g_viewHeading, camOffset);
+            g_camEyeY = 0x100000 - (cosMul(g_viewHeading, camOffset) + g_viewTargetY);
+            g_camEyeZ = g_viewTargetAlt - sinMul(g_viewPitch, 0x10 << camDist);
         }
         break;
     case 0x8c:
@@ -909,9 +909,9 @@ void renderFrame() {
         buildRotationMatrixFar(g_camRotMatrix, g_viewHeading, g_viewPitch, g_viewRoll);
     }
     g_camEyeZ = g_camEyeZ < 0x10 ? 0x10 : g_camEyeZ;
-    var_E = g_hudVisible;
+    tmp = g_hudVisible;
     g_hudVisible = (keyValue & 0xc0) == 0;
-    if (var_E != g_hudVisible) {
+    if (tmp != g_hudVisible) {
         gfx_waitRetrace();
         if (g_hudVisible != 0) {
             gfx_nop23();
@@ -974,11 +974,11 @@ void renderFrame() {
         g_lineY2 = 0x5e;
         drawClipLineGlobal();
         gfx_nop23();
-        var_E = g_drawPage;
+        tmp = g_drawPage;
         g_drawPage = gfx_getDisplayPage();
         blitSprite(0x6b, 0x30, 0xd1, 0, 0x6f, 0x2f, 0);
         blitSprite(0x41, 0x5f, 0x7d, 0x36, 0xc3, 2, 0);
-        g_drawPage = var_E;
+        g_drawPage = tmp;
     }
     gfx_flipPage();
     g_hudBottomY = (g_activePanelMode == 0x13 || g_mapMode == 1 || g_hudVisible == 0) ? 0xc8 : 0x61;
@@ -1029,15 +1029,15 @@ void drawVectorShape(int16 *shapeData) {
 }
 
 void waitForKeyPress(void) {
-    int p;
+    int savedTiming;
 
     audio_engineDroneOff();
-    p = g_frameTimingAccum;
+    savedTiming = g_frameTimingAccum;
 loop:
     while (kbhit() == 0)
         ;
     if (_bios_keybrd(0) == 0x1900)
         goto loop;
     updateEngineSound();
-    g_frameTimingAccum = p;
+    g_frameTimingAccum = savedTiming;
 }

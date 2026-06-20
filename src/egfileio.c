@@ -25,13 +25,13 @@ void closeFileWrapper(int handle) {
 }
 
 // ==== seg000:0xdd7e ====
-int readFile1Wrapper(int arg_0, int arg_1, int arg_2) {
-    return readFile1(arg_0, arg_1, arg_2);
+int readFile1Wrapper(int handle, int count, int bufOffset) {
+    return readFile1(handle, count, bufOffset);
 }
 
 // ==== seg000:0xdd92 ====
-int readFile2Wrapper(int arg_0, int arg_1, int arg_2, int arg_3) {
-    return readFile2(arg_0, arg_1, arg_2, arg_3);
+int readFile2Wrapper(int handle, int count, int bufOffset, int bufSegment) {
+    return readFile2(handle, count, bufOffset, bufSegment);
 }
 
 // ==== seg000:0xddaa ====

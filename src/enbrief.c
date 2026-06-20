@@ -7,30 +7,30 @@
 
 void computeMissionResult(void)
 {
-    unsigned int x, y;
+    unsigned int gridX, gridY;
 
-    x = commData->worldX >> 0x0b;
-    y = commData->worldY >> 0x0b;
-    missionResult = gridFlags[x + y * 16] & 3;
+    gridX = commData->worldX >> 0x0b;
+    gridY = commData->worldY >> 0x0b;
+    missionResult = gridFlags[gridX + gridY * 16] & 3;
 }
 
 void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int16* gfxPage) {
-    char p[2]; char a[2]; char c[2]; int d; char f[2];
+    char p[2]; char a[2]; char c[2]; int idx; char f[2];
     (void)unused;
     p[0] = 0x0d; p[1] = 0;
     c[0] = 0x89; c[1] = 0;
     a[0] = 0x8d; a[1] = 0;
     f[0] = 0x80; f[1] = 0;
-    d = 0;
-    for (; d < itemCount; d++) {
-        if (items[d].state == 2) {
-            selectedMenuItem = d;
-            items[d].state = 0;
-            blinkWidget(&items[d], gfxPage);
-            drawMenuItem(items, d, gfxPage);
+    idx = 0;
+    for (; idx < itemCount; idx++) {
+        if (items[idx].state == 2) {
+            selectedMenuItem = idx;
+            items[idx].state = 0;
+            blinkWidget(&items[idx], gfxPage);
+            drawMenuItem(items, idx, gfxPage);
         } else {
-            if (items[d].state != 3) {
-                items[d].state = 0;
+            if (items[idx].state != 3) {
+                items[idx].state = 0;
             }
         }
     }
@@ -40,8 +40,8 @@ void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStar
 
 // 224a
 int selectMenuItem(MenuItem *items, int unused, int itemCount, int16* inputState, int16* gfxPage) {
-    char p[2]; int a; int b; char c[2]; char e[2]; int f;
-    char h[2]; int i;
+    char p[2]; int toColor; int fromColor; char c[2]; char e[2]; int groupIdx;
+    char h[2]; int curIdx;
     (void)unused;
     p[0] = 0x0d; p[1] = 0;
     e[0] = 0x89; e[1] = 0;
@@ -49,97 +49,97 @@ int selectMenuItem(MenuItem *items, int unused, int itemCount, int16* inputState
     h[0] = 0x80; h[1] = 0;
     gfx_commitPage();
     colorAnimEnabled = 0;
-    i = 0;
-    while (isPointInRect(&items[i]) == 0 && i < itemCount)
-        i++;
+    curIdx = 0;
+    while (isPointInRect(&items[curIdx]) == 0 && curIdx < itemCount)
+        curIdx++;
     joyRepeatFlag = 0;
     for (;;) {
         // 22a8
         do {
             gfx_commitPage();
-            if ((items[i].flags & MENUITEM_ENABLED) == 0) {
+            if ((items[curIdx].flags & MENUITEM_ENABLED) == 0) {
                 colorAnimEnabled = 1;
             }
             // 22d4
-            processDebriefInput((int *)inputState, &items[i], gfxPage);
+            processDebriefInput((int *)inputState, &items[curIdx], gfxPage);
         } while (inputChanged == 0 && enterPressed == 0);
         // 22e8
         if (enterPressed != 0) { // 22f2
-            if (i != selectedMenuItem) { // 22fa
-                i = 0;
-                while (isPointInRect(&items[i]) == 0 && i < itemCount)
-                    i++;
+            if (curIdx != selectedMenuItem) { // 22fa
+                curIdx = 0;
+                while (isPointInRect(&items[curIdx]) == 0 && curIdx < itemCount)
+                    curIdx++;
             } // 2320
             // 232c
             if (items[selectedMenuItem].colorTableIdx == 0) {
-                b = 0x0b;
-                a = 9;
+                fromColor = 0x0b;
+                toColor = 9;
                 gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0b, 9);
-                b = 3;
-                gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 3, a);
-                b = 0x0d;
-                gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0d, a);
+                fromColor = 3;
+                gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 3, toColor);
+                fromColor = 0x0d;
+                gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0d, toColor);
             }
             // 23bc
             goto done;
             continue;
         } // 23c2
-        i = 0;
-        while (isPointInRect(&items[i]) == 0 && i < itemCount)
-            i++;
-        if (i != selectedMenuItem) {
-            if ((items[i].flags & MENUITEM_SELECTABLE) != 0) {
-                for (f = 0; f < itemCount; f++) {
-                    if (items[f].state != 0 &&
-                        items[i].groupId == items[f].groupId) {
-                        blinkWidget(&items[f], gfxPage);
+        curIdx = 0;
+        while (isPointInRect(&items[curIdx]) == 0 && curIdx < itemCount)
+            curIdx++;
+        if (curIdx != selectedMenuItem) {
+            if ((items[curIdx].flags & MENUITEM_SELECTABLE) != 0) {
+                for (groupIdx = 0; groupIdx < itemCount; groupIdx++) {
+                    if (items[groupIdx].state != 0 &&
+                        items[curIdx].groupId == items[groupIdx].groupId) {
+                        blinkWidget(&items[groupIdx], gfxPage);
                     }
                 }
                 if (items[selectedMenuItem].colorTableIdx == 0) {
-                    b = 9;
-                    a = 6;
+                    fromColor = 9;
+                    toColor = 6;
                     gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 9, 6);
-                    b = 3;
-                    gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 3, a);
-                    b = 0x0d;
-                    gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0d, a);
-                    b = 0x0b;
-                    gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0b, a);
+                    fromColor = 3;
+                    gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 3, toColor);
+                    fromColor = 0x0d;
+                    gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0d, toColor);
+                    fromColor = 0x0b;
+                    gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 0x0b, toColor);
                 }
                 if (items[selectedMenuItem].colorTableIdx == 1) {
-                    b = 8;
-                    a = 7;
+                    fromColor = 8;
+                    toColor = 7;
                     gfx_switchColor(gfxPage, items[selectedMenuItem].colorX1, items[selectedMenuItem].colorY1, items[selectedMenuItem].colorX2, items[selectedMenuItem].colorY2, 8, 7);
                 }
-                blinkWidget(&items[i], gfxPage);
+                blinkWidget(&items[curIdx], gfxPage);
             }
-            selectedMenuItem = i;
+            selectedMenuItem = curIdx;
             // 256f
-            drawMenuItem(items, i, gfxPage);
+            drawMenuItem(items, curIdx, gfxPage);
         } // 2575
     }
 done:
-    return i;
+    return curIdx;
 }
 
 void blinkWidget(MenuItem *item, int16* gfxPage) {
-    int p;
-    int b;
+    int toColor;
+    int fromColor;
     TRACE(("blinkWidget"));
     if (item->state == 0) {
         item->state = 1;
-        b = (unsigned)item->colorPair >> 4;
-        p = item->colorPair & 0xF;
+        fromColor = (unsigned)item->colorPair >> 4;
+        toColor = item->colorPair & 0xF;
         if (item->colorPair != 0) {
-            gfx_switchColor(gfxPage, item->colorX1, item->colorY1, item->colorX2, item->colorY2, b, p);
+            gfx_switchColor(gfxPage, item->colorX1, item->colorY1, item->colorX2, item->colorY2, fromColor, toColor);
         }
     } else {
         item->state = 0;
-        b = item->colorPair & 0xF;
-        p = (unsigned)item->colorPair >> 4;
+        fromColor = item->colorPair & 0xF;
+        toColor = (unsigned)item->colorPair >> 4;
     }
     if (item->colorPair != 0) {
-        gfx_switchColor(gfxPage, item->colorX1, item->colorY1, item->colorX2, item->colorY2, b, p);
+        gfx_switchColor(gfxPage, item->colorX1, item->colorY1, item->colorX2, item->colorY2, fromColor, toColor);
     }
 }
 
@@ -153,54 +153,54 @@ int isPointInRect(MenuItem *p)
 }
 
 /*static*/ void processDebriefInput(int *cursorBounds, MenuItem *menuItem, int16* gfxPage) {
-    int b;
-    int c;
-    int d;
-    int e;
-    char f;
-    int h;
+    int fromColor;
+    int toColor;
+    int joyBtn0;
+    int joyBtn1;
+    char repeatActive;
+    int keycode;
     TRACE(("processDebriefInput"));
 
     colorTablePtr = menuItem->colorTableIdx * 14 + (int)colorStyleTable;
     timerCounter2 = 0;
-    d = e = 0;
-    inputChanged = enterPressed = animDone = f = 0;
+    joyBtn0 = joyBtn1 = 0;
+    inputChanged = enterPressed = animDone = repeatActive = 0;
     if (joyRepeatFlag == 1) {
         timerCounter = 0;
-        f = 1;
+        repeatActive = 1;
     }
 
     /* pre-loop joystick read */
     if (commData->setupUseJoy == 1) {
-        d = misc_readJoystick(0);
-        e = misc_readJoystick(1);
+        joyBtn0 = misc_readJoystick(0);
+        joyBtn1 = misc_readJoystick(1);
         pollJoystick();
     }
 
     /* main loop */
     for (;;) {
         if ((char)misc_checkKeyBuf() == 0
-            || d != 0
-            || e != 0
+            || joyBtn0 != 0
+            || joyBtn1 != 0
             || (unsigned char)joyAxisX < JOY_DEADZONE_LO
             || (unsigned char)joyAxisX > JOY_DEADZONE_HI
             || (unsigned char)joyAxisY < JOY_DEADZONE_LO
             || (unsigned char)joyAxisY > JOY_DEADZONE_HI) {
-            if (f != 1)
+            if (repeatActive != 1)
                 break;
         }
         /* joystick repeat handling */
         if (joyRepeatFlag == 1) {
             if ((unsigned char)timerCounter > 0x0F) {
-                f = 0;
+                repeatActive = 0;
                 joyRepeatFlag = 0;
             }
         }
 
         /* re-read joystick */
         if (commData->setupUseJoy == 1) {
-            d = misc_readJoystick(0);
-            e = misc_readJoystick(1);
+            joyBtn0 = misc_readJoystick(0);
+            joyBtn1 = misc_readJoystick(1);
             pollJoystick();
         }
 
@@ -215,9 +215,9 @@ int isPointInRect(MenuItem *p)
         if (colorAnimEnabled == 1) {
             if ((unsigned char)timerCounter2 > 6) {
                 timerCounter2 = 0;
-                c = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] >> 4;
-                b = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] & 0xF;
-                gfx_switchColor(gfxPage, menuItem->colorX1, menuItem->colorY1, menuItem->colorX2, menuItem->colorY2, c, b);
+                toColor = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] >> 4;
+                fromColor = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] & 0xF;
+                gfx_switchColor(gfxPage, menuItem->colorX1, menuItem->colorY1, menuItem->colorX2, menuItem->colorY2, toColor, fromColor);
                 colorAnimIdx++;
                 colorAnimIdx = (unsigned)colorAnimIdx % *(unsigned int *)colorTablePtr;
             }
@@ -277,57 +277,57 @@ skip_sprite:
 
     /* post-loop input handling */
     if ((char)misc_checkKeyBuf() == 0) {
-        h = misc_getKey();
+        keycode = misc_getKey();
     } else {
-        if (d == 1) {
-            h = KEYCODE_ENTER;
-        } else if (e == 1) {
-            h = KEYCODE_ESC;
+        if (joyBtn0 == 1) {
+            keycode = KEYCODE_ENTER;
+        } else if (joyBtn1 == 1) {
+            keycode = KEYCODE_ESC;
         } else if ((unsigned char)joyAxisX < JOY_DEADZONE_LO) {
-            h = KEYCODE_LEFTARROW;
+            keycode = KEYCODE_LEFTARROW;
             joyRepeatFlag = 1;
         } else if ((unsigned char)joyAxisX > JOY_DEADZONE_HI) {
-            h = KEYCODE_RIGHTARROW;
+            keycode = KEYCODE_RIGHTARROW;
             joyRepeatFlag = 1;
         } else if ((unsigned char)joyAxisY < JOY_DEADZONE_LO) {
-            h = KEYCODE_UPARROW;
+            keycode = KEYCODE_UPARROW;
             joyRepeatFlag = 1;
         } else if ((unsigned char)joyAxisY > JOY_DEADZONE_HI) {
-            h = KEYCODE_DNARROW;
+            keycode = KEYCODE_DNARROW;
             joyRepeatFlag = 1;
         }
     }
 
     /* process key */
-    if ((char)h == KEYCODE_ENTER) {
+    if ((char)keycode == KEYCODE_ENTER) {
         enterPressed = 1;
     }
-    if (h == KEYCODE_ALTQ) {
+    if (keycode == KEYCODE_ALTQ) {
         quitFlag = 1;
         enterPressed = 1;
     }
-    if (h == KEYCODE_UPARROW) {
+    if (keycode == KEYCODE_UPARROW) {
         cursorY -= cursorBounds[1];
         if ((int)cursorBounds[4] > (int)cursorY) {
             cursorY = cursorBounds[4];
         }
         inputChanged = 1;
     }
-    if (h == KEYCODE_DNARROW) {
+    if (keycode == KEYCODE_DNARROW) {
         cursorY += cursorBounds[1];
         if (cursorY > (unsigned)cursorBounds[5]) {
             cursorY = cursorBounds[5];
         }
         inputChanged = 1;
     }
-    if (h == KEYCODE_RIGHTARROW) {
+    if (keycode == KEYCODE_RIGHTARROW) {
         cursorX += cursorBounds[0];
         if (cursorX > (unsigned)cursorBounds[3]) {
             cursorX = cursorBounds[3];
         }
         inputChanged = 1;
     }
-    if (h == KEYCODE_LEFTARROW) {
+    if (keycode == KEYCODE_LEFTARROW) {
         cursorX -= cursorBounds[0];
         if ((int)cursorBounds[2] > (int)cursorX) {
             cursorX = cursorBounds[2];
@@ -348,11 +348,11 @@ skip_sprite:
 
 // 2bd1
 void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
-    char p[2]; char a[2]; char b[2]; char d[2];
+    char p[2]; char a[2]; char prefix[2]; char d[2];
     int m;
-    char n[4]; unsigned int o;
+    char numBuf[4]; unsigned int unitIdx;
     p[0] = 0x0a; p[1] = 0;
-    b[0] = 0x89; b[1] = 0;
+    prefix[0] = 0x89; prefix[1] = 0;
     a[0] = 0x8d; a[1] = 0;
     d[0] = 0x80; d[1] = 0;
     // 2c07
@@ -362,7 +362,7 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         /* Section 1: mission complete display */
         clearRect(gfxPage, 0xeb, 0x0a, 0x13f, 0x95);
         ((int *)gfxPage)[2] = 0;
-        mystrcpy(dat_4824, b);
+        mystrcpy(dat_4824, prefix);
         mystrcat(dat_4824, str_pressExit);
         drawWrappedText(gfxPage, dat_4824, 0x50, 0xf0, 0x82, 8);
         clearRect(gfxPage, 0xf0, 0x64, 0x12c, 0x7e);
@@ -379,8 +379,8 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         mystrcpy(dat_4824, str_missionRating1);
         drawStringCentered(gfxPage, dat_4824, 0xe8, 0x4e, 0x57);
         mystrcpy(dat_4824, str_dot2);
-        my_ltoa(*(long *)&missionScore, n);
-        mystrcat(dat_4824, n);
+        my_ltoa(*(long *)&missionScore, numBuf);
+        mystrcat(dat_4824, numBuf);
         drawStringCentered(gfxPage, dat_4824, 0xe8, 0x56, 0x57);
         if (commData->trainingFlag != 0) {
             drawStringCentered(gfxPage, str_trainingScore, 0xe8, 0x60, 0x57);
@@ -390,8 +390,8 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             mystrcat(dat_4824, str_careerTotal);
             drawStringCentered(gfxPage, dat_4824, 0xe8, 0x6c, 0x57);
             mystrcpy(dat_4824, str_dot4);
-            my_ltoa(gameData->totalScore + *(long *)&missionScore, n);
-            mystrcat(dat_4824, n);
+            my_ltoa(gameData->totalScore + *(long *)&missionScore, numBuf);
+            mystrcat(dat_4824, numBuf);
             drawStringCentered(gfxPage, dat_4824, 0xe8, 0x74, 0x57);
         }
         gfxPage[2] = FONT_TITLE;
@@ -432,8 +432,8 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
             mystrcpy(dat_4824, str_missionRating2);
             drawStringCentered(gfxPage, dat_4824, 0xe8, 0x6c, 0x57);
             mystrcpy(dat_4824, str_dot6);
-            my_ltoa(*(long *)&missionScore, n);
-            mystrcat(dat_4824, n);
+            my_ltoa(*(long *)&missionScore, numBuf);
+            mystrcat(dat_4824, numBuf);
             drawStringCentered(gfxPage, dat_4824, 0xe8, 0x74, 0x57);
         }
         clearRect(gfxPage, 0xeb, 0x0a, 0x13f, 0x63);
@@ -441,46 +441,46 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         mystrcpy(dat_4824, str_missionEvent);
         drawStringCentered(gfxPage, dat_4824, 0xe8, 0x14, 0x57);
         mystrcpy(dat_4824, str_time);
-        mystrcat(dat_4824, formatFlightTime(flightTimeTable[curRecordIdx * 3], n));
+        mystrcat(dat_4824, formatFlightTime(flightTimeTable[curRecordIdx * 3], numBuf));
         drawStringAt(gfxPage, dat_4824, 0xf0, 0x1e);
-        o = flightRecords[curRecordIdx].unitId & UNIT_ID_MASK;
+        unitIdx = flightRecords[curRecordIdx].unitId & UNIT_ID_MASK;
         switch (flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) {
         case EVENT_AIR_KILL:
         case EVENT_AIR_KILL2:
-            if (worldObjects[o].unitRef != 0) {
-                mystrcpy(dat_4824, worldStrings[worldObjects[o].unitRef]);
+            if (worldObjects[unitIdx].unitRef != 0) {
+                mystrcpy(dat_4824, worldStrings[worldObjects[unitIdx].unitRef]);
                 mystrcat(dat_4824, str_destroyed4);
-                mystrcat(dat_4824, worldStrings[worldObjects[o].objectIdx & UNIT_ID_MASK]);
+                mystrcat(dat_4824, worldStrings[worldObjects[unitIdx].objectIdx & UNIT_ID_MASK]);
                 mystrcat(dat_4824, str_destroyed1);
             } else {
-                mystrcpy(dat_4824, worldStrings[worldObjects[o].objectIdx & UNIT_ID_MASK]);
+                mystrcpy(dat_4824, worldStrings[worldObjects[unitIdx].objectIdx & UNIT_ID_MASK]);
                 mystrcat(dat_4824, str_destroyed2);
             }
             break;
         case EVENT_SAM_KILL:
-            mystrcpy(dat_4824, planeArray[o].name);
+            mystrcpy(dat_4824, planeArray[unitIdx].name);
             mystrcat(dat_4824, str_shotDown2);
-            mystrcat(dat_4824, &planeArray[o].name[7]);
+            mystrcat(dat_4824, &planeArray[unitIdx].name[7]);
             mystrcat(dat_4824, str_shotDown);
             break;
         case EVENT_GROUND_KILL:
-            mystrcpy(dat_4824, worldStrings[o]);
+            mystrcpy(dat_4824, worldStrings[unitIdx]);
             mystrcat(dat_4824, str_destroyed3);
             break;
         case EVENT_WAYPOINT:
-            if (worldObjects[o].unitRef != 0) {
-                mystrcpy(dat_4824, worldStrings[worldObjects[o].unitRef]);
+            if (worldObjects[unitIdx].unitRef != 0) {
+                mystrcpy(dat_4824, worldStrings[worldObjects[unitIdx].unitRef]);
                 mystrcat(dat_4824, str_rearmed3);
-                mystrcat(dat_4824, worldStrings[worldObjects[o].objectIdx & UNIT_ID_MASK]);
+                mystrcat(dat_4824, worldStrings[worldObjects[unitIdx].objectIdx & UNIT_ID_MASK]);
                 mystrcat(dat_4824, str_rearmed1);
             } else {
-                mystrcpy(dat_4824, worldStrings[worldObjects[o].objectIdx & UNIT_ID_MASK]);
+                mystrcpy(dat_4824, worldStrings[worldObjects[unitIdx].objectIdx & UNIT_ID_MASK]);
                 mystrcat(dat_4824, str_rearmed2);
             }
             break;
         case EVENT_BOMB_HIT:
             mystrcpy(dat_4824, str_hitBy);
-            mystrcat(dat_4824, samWeaponTable[o].name);
+            mystrcat(dat_4824, samWeaponTable[unitIdx].name);
             mystrcat(dat_4824, str_missile);
             break;
         case EVENT_EJECTED:
@@ -529,11 +529,11 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         mystrcpy(dat_4824, str_missionRating3);
         drawStringCentered(gfxPage, dat_4824, 0xe8, 0x4e, 0x57);
         mystrcpy(dat_4824, str_pressSelect);
-        my_ltoa(*(long *)&missionScore, n);
-        mystrcat(dat_4824, n);
+        my_ltoa(*(long *)&missionScore, numBuf);
+        mystrcat(dat_4824, numBuf);
         drawStringCentered(gfxPage, dat_4824, 0xe8, 0x56, 0x57);
         showEventPopup();
-        mystrcpy(dat_4824, b);
+        mystrcpy(dat_4824, prefix);
         mystrcat(dat_4824, str_pressNext);
         drawWrappedText(gfxPage, dat_4824, 0x50, 0xf0, 0x82, 8);
     } // 35db
@@ -582,7 +582,7 @@ void waitForKeyOrJoy(void);
 
 void animateFlightPath(int16* gfxPage)
 {
-    char local_18[22];
+    char numBuf[22];
     int pad;
 
     if (popupVisible == 1) {
@@ -597,7 +597,7 @@ loop_top:
             if ((flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) == EVENT_TIMESTAMP) {
         clearRect(gfxPage, 0xf0, 0x1e, 0x13f, 0x25);
         mystrcpy(scoreString, str_timeLabel);
-        mystrcat(scoreString, formatFlightTime(*((int *)&flightRecords[curRecordIdx] - 1), local_18));
+        mystrcat(scoreString, formatFlightTime(*((int *)&flightRecords[curRecordIdx] - 1), numBuf));
         drawStringAt(gfxPage, scoreString, 0xf0, 0x1e);
         gfx_setColor(0);
         if (prevDrawX == 0 && prevDrawY == 0) {
@@ -613,8 +613,8 @@ loop_top:
         }
         *(long *)&missionScore = calcMissionScore(curRecordIdx);
         mystrcpy(scoreString, str_timeZeros);
-        my_ltoa(*(long *)&missionScore, local_18);
-        mystrcat(scoreString, local_18);
+        my_ltoa(*(long *)&missionScore, numBuf);
+        mystrcat(scoreString, numBuf);
         clearRect(gfxPage, 0xe8, 0x56, 0x13f, 0x5e);
         drawStringCentered(gfxPage, scoreString, 0xe8, 0x56, 0x57);
         timerCounter = 0;
@@ -642,61 +642,61 @@ done:
 }
 
 unsigned int drawFlightPath(int16 *gfxPage, unsigned int maxRecord) {
-    int p;
-    int a;
-    int b;
-    int c;
-    int d;
-    a = -1;
-    while (++a, (flightRecords[a].status & STATUS_TYPE_MASK) != 0 && (unsigned)a <= maxRecord) {
+    int curX;
+    int recIdx;
+    int prevX;
+    int curY;
+    int prevY;
+    recIdx = -1;
+    while (++recIdx, (flightRecords[recIdx].status & STATUS_TYPE_MASK) != 0 && (unsigned)recIdx <= maxRecord) {
         gfx_setColor(0);
-        if (a == 0) {
+        if (recIdx == 0) {
             plotMapPoint((int)flightRecords[0].mapX, (int)flightRecords[0].mapY, 0, 0);
-            b = (int)flightRecords[0].mapX;
-            d = (int)flightRecords[0].mapY;
+            prevX = (int)flightRecords[0].mapX;
+            prevY = (int)flightRecords[0].mapY;
         } else {
-            p = (int)flightRecords[a].mapX;
-            c = (int)flightRecords[a].mapY;
-            drawFlightLine(p, c, b, d);
-            b = p;
-            d = c;
+            curX = (int)flightRecords[recIdx].mapX;
+            curY = (int)flightRecords[recIdx].mapY;
+            drawFlightLine(curX, curY, prevX, prevY);
+            prevX = curX;
+            prevY = curY;
         }
     }
-    a = -1;
-    while (++a, (flightRecords[a].status & STATUS_TYPE_MASK) != 0 && (unsigned)a <= maxRecord) {
-        if ((flightRecords[a].status & STATUS_TYPE_MASK) != EVENT_TIMESTAMP) {
-            drawEventSprite(a);
+    recIdx = -1;
+    while (++recIdx, (flightRecords[recIdx].status & STATUS_TYPE_MASK) != 0 && (unsigned)recIdx <= maxRecord) {
+        if ((flightRecords[recIdx].status & STATUS_TYPE_MASK) != EVENT_TIMESTAMP) {
+            drawEventSprite(recIdx);
         }
     }
-    a--;
-    return a;
+    recIdx--;
+    return recIdx;
 }
 
 char *formatFlightTime(int timeValue, char *buffer) {
-    int p;
-    int a;
-    int b;
-    int c;
+    int hours;
+    int miscBits;
+    int minutes;
+    int seconds;
 
-    a = target1MiscBits[0] + target2MiscBits[0];
-    nightMission = ((char)a & 3) == 0;
+    miscBits = target1MiscBits[0] + target2MiscBits[0];
+    nightMission = ((char)miscBits & 3) == 0;
     if (target1Type[0] == 1 || target2Type[0] == 1) {
         nightMission = 0;
     }
     if (target1Type[0] == 4 || target2Type[0] == 4) {
         nightMission = 1;
     }
-    timeValue += (a & 0xF) << 8;
+    timeValue += (miscBits & 0xF) << 8;
     mystrcpy(buffer, str_timeFormat);
-    p = (unsigned)timeValue / 0x708;
+    hours = (unsigned)timeValue / 0x708;
     buffer[0] += nightMission + 1;
-    buffer[1] += p % 10;
-    b = ((unsigned)timeValue / 30) % 60;
-    buffer[3] += b / 10;
-    buffer[4] += b % 10;
-    c = ((unsigned)timeValue * 2) % 60;
-    buffer[6] += c / 10;
-    buffer[7] += c % 10;
+    buffer[1] += hours % 10;
+    minutes = ((unsigned)timeValue / 30) % 60;
+    buffer[3] += minutes / 10;
+    buffer[4] += minutes % 10;
+    seconds = ((unsigned)timeValue * 2) % 60;
+    buffer[6] += seconds / 10;
+    buffer[7] += seconds % 10;
     return buffer;
 }
 
@@ -776,71 +776,71 @@ void drawMapPixel(int x, int y, int color) {
 }
 
 long calcMissionScore(int param) {
-    int p;
+    int weaponCount;
     int a;
-    int b;
-    int c;
-    long e;
-    int f;
-    int g;
+    int recIdx;
+    int ejected;
+    long score;
+    int unitId;
+    int waypointCount;
 
-    samKilled = groundKilled = samMissed = groundMissed = airKilled = airMissed = primaryHit = secondaryHit = c = 0;
-    g = 1;
-    e = 0;
+    samKilled = groundKilled = samMissed = groundMissed = airKilled = airMissed = primaryHit = secondaryHit = ejected = 0;
+    waypointCount = 1;
+    score = 0;
 
-    p = commData->weaponCount[0];
-    if (p > 15) {
-        p = 15;
+    weaponCount = commData->weaponCount[0];
+    if (weaponCount > 15) {
+        weaponCount = 15;
     }
 
-    for (b = 0; (unsigned)b <= (unsigned)param && flightRecords[b].status; b++) {
-        f = flightRecords[b].unitId;
-        switch (flightRecords[b].status & STATUS_TYPE_MASK) {
+    for (recIdx = 0; (unsigned)recIdx <= (unsigned)param && flightRecords[recIdx].status; recIdx++) {
+        unitId = flightRecords[recIdx].unitId;
+        switch (flightRecords[recIdx].status & STATUS_TYPE_MASK) {
         case EVENT_EJECTED:
-            if (b != 0) {
-                c = 1;
+            if (recIdx != 0) {
+                ejected = 1;
             }
             break;
         case EVENT_AIR_KILL:
         case EVENT_AIR_KILL2:
-            if (flightRecords[b].status & STATUS_PRIMARY_HIT) {
+            if (flightRecords[recIdx].status & STATUS_PRIMARY_HIT) {
                 primaryHit = 1;
                 airKilled++;
-            } else if (flightRecords[b].status & STATUS_SECONDARY_HIT) {
+            } else if (flightRecords[recIdx].status & STATUS_SECONDARY_HIT) {
                 secondaryHit = 1;
                 airKilled++;
-            } else if (unitTypeTable[f & UNIT_ID_MASK] & 0x40) {
+            } else if (unitTypeTable[unitId & UNIT_ID_MASK] & 0x40) {
                 airMissed++;
-            } else if (!(*(int *)&slotInfoTable[f * 16] & 0x500)) {
+            } else if (!(*(int *)&slotInfoTable[unitId * 16] & 0x500)) {
                 airKilled++;
             } else {
                 airMissed++;
             }
             break;
         case EVENT_SAM_KILL:
-            if (flightRecords[b].status & STATUS_PRIMARY_HIT) {
+            if (flightRecords[recIdx].status & STATUS_PRIMARY_HIT) {
                 primaryHit = 1;
                 samKilled++;
-            } else if (flightRecords[b].status & STATUS_SECONDARY_HIT) {
+            } else if (flightRecords[recIdx].status & STATUS_SECONDARY_HIT) {
                 secondaryHit = 1;
                 samKilled++;
-            } else if (planeArray[(f & UNIT_ID_MASK) + 1].validFlag == -1) {
+            } else if (planeArray[(unitId & UNIT_ID_MASK) + 1].validFlag == -1) {
                 samMissed++;
             } else {
                 samKilled++;
             }
             break;
         case EVENT_GROUND_KILL:
-            if (flightRecords[b].status & STATUS_PRIMARY_HIT) {
+            if (flightRecords[recIdx].status & STATUS_PRIMARY_HIT) {
                 primaryHit = 1;
                 groundKilled++;
-            } else if (flightRecords[b].status & STATUS_SECONDARY_HIT) {
+            } else if (flightRecords[recIdx].status & STATUS_SECONDARY_HIT) {
                 secondaryHit = 1;
                 groundKilled++;
-            } else if (unitTypeTable[f & UNIT_ID_MASK] & 0x40) {
+            } else if (unitTypeTable[unitId & UNIT_ID_MASK] & 0x40) {
                 groundMissed++;
             } else {
-                if (!((gridFlags[(((flightRecords[b].mapY & 0xff) >> 4) << 4) + ((unsigned char)flightRecords[b].mapX >> 4)]) & 3)) {
+                if (!((gridFlags[(((flightRecords[recIdx].mapY & 0xff) >> 4) << 4) + ((unsigned char)flightRecords[recIdx].mapX >> 4)]) & 3)) {
                     groundKilled++;
                 } else {
                     groundMissed++;
@@ -848,85 +848,85 @@ long calcMissionScore(int param) {
             }
             break;
         case EVENT_WAYPOINT:
-            g++;
+            waypointCount++;
             break;
         }
     }
 
-    e = (long)((airKilled - airMissed * 2) * p * 25)
+    score = (long)((airKilled - airMissed * 2) * weaponCount * 25)
       + (long)((samKilled - samMissed * 2) * (gameData->difficulty + 1) * 50)
-      + (long)((groundKilled - groundMissed * 2) * p * 20)
-      + (long)(p * primaryHit * 200)
-      + (long)(p * secondaryHit * 100);
+      + (long)((groundKilled - groundMissed * 2) * weaponCount * 20)
+      + (long)(weaponCount * primaryHit * 200)
+      + (long)(weaponCount * secondaryHit * 100);
 
-    e = e * 2 / (g + 1);
+    score = score * 2 / (waypointCount + 1);
 
-    if (c != 0) {
-        if (e < 0) {
-            e = 0;
+    if (ejected != 0) {
+        if (score < 0) {
+            score = 0;
         }
         switch (commData->landingType) {
         case LANDING_CRASHED:
-            e /= 2;
+            score /= 2;
             break;
         case LANDING_EJECTED:
-            e = e * 3 / 4;
+            score = score * 3 / 4;
             break;
         }
     }
 
-    return e;
+    return score;
 }
 
 void showEventPopup(void) {
-    int a;
+    int spriteIdx;
 
     if (popupVisible == 1) {
         gfx_copyRect(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
         popupVisible = 0;
     }
-    a = flightRecords[curRecordIdx].status & STATUS_TYPE_MASK;
-    switch (a) {
+    spriteIdx = flightRecords[curRecordIdx].status & STATUS_TYPE_MASK;
+    switch (spriteIdx) {
     case EVENT_AIR_KILL:
         if (slotInfoTable[(flightRecords[curRecordIdx].unitId & UNIT_ID_MASK) * 16] & 8) {
-                    a = 0xf;
+                    spriteIdx = 0xf;
         } else {
-            a = 0;
+            spriteIdx = 0;
         }
         break;
     case EVENT_AIR_KILL2:
-        a = 2;
+        spriteIdx = 2;
         break;
     case EVENT_SAM_KILL:
-        a = 1;
+        spriteIdx = 1;
         break;
     case EVENT_GROUND_KILL:
-        a = 2;
+        spriteIdx = 2;
         break;
     case EVENT_BOMB_HIT:
-        a = 3;
+        spriteIdx = 3;
         break;
     case EVENT_EJECTED:
         if (curRecordIdx == 0) {
-            a = 8;
+            spriteIdx = 8;
         } else {
             if (commData->landingType == LANDING_SAFE) {
                 ejectedFlag = 1;
-                a = 7;
+                spriteIdx = 7;
             } else if (commData->landingType == LANDING_CRASHED) {
                 ejectedFlag = 1;
-                a = 0xe;
+                spriteIdx = 0xe;
             } else if (missionResult == 0) {
                 ejectedFlag = 1;
-                a = 0xb;
+                spriteIdx = 0xb;
             } else {
                 ejectedFlag = 1;
-                a = 0xd;
+                spriteIdx = 0xd;
             }
         }
         break;
     case EVENT_WAYPOINT:
-        a = 0xa;
+        spriteIdx = 0xa;
         break;
     }
     if ((unsigned)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) < 0x73 &&
@@ -946,6 +946,6 @@ void showEventPopup(void) {
         popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 - 0x28;
     }
     gfx_copyRect(0, popupX, popupY, 1, 0, POPUP_SAVE_Y, POPUP_WIDTH, POPUP_HEIGHT);
-    gfx_copyRect(1, popupSpriteX[a], popupSpriteY[a], 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
+    gfx_copyRect(1, popupSpriteX[spriteIdx], popupSpriteY[spriteIdx], 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
     popupVisible = 1;
 }

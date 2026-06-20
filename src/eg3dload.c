@@ -25,11 +25,11 @@ void load3DAll() {
 
 // ==== seg000:0x2898 ====
 void load3D3(char *fileName) {
-    char FAR *var_E;
-    char FAR *var_16;
-    struct SREGS var_8;
-    int var_10, var_18, var_12;
-    int var_A;
+    char FAR *objDataEnd;
+    char FAR *dstPtr;
+    struct SREGS sregs;
+    int slot, subCount, sub;
+    int chunk;
     strcpyFromDot(fileName, a_3d3);
     if ((fileHandle = fopen(fileName, aRb)) == NULL) {
         printError(aOpenErrorOn_3d3);
@@ -49,13 +49,13 @@ void load3D3(char *fileName) {
         fclose(fileHandle);
         return;
     }
-    var_E = g_world3dData + size3d3_2;
+    objDataEnd = g_world3dData + size3d3_2;
     buf3d3[size3d3] = size3d3_2;
-    segread(&var_8);
-    for (var_16 = g_world3dData; size3d3_2 != 0; size3d3_2 -= var_A, var_16+=0x800) {
-        var_A = (size3d3_2 >= 0x800) ? 0x800 : size3d3_2;
-        fread(flt15_buf2, 1, var_A, fileHandle);
-        movedata(var_8.ds, (uint16)flt15_buf2, FP_SEG(var_16), FP_OFF(var_16), var_A);
+    segread(&sregs);
+    for (dstPtr = g_world3dData; size3d3_2 != 0; size3d3_2 -= chunk, dstPtr+=0x800) {
+        chunk = (size3d3_2 >= 0x800) ? 0x800 : size3d3_2;
+        fread(flt15_buf2, 1, chunk, fileHandle);
+        movedata(sregs.ds, (uint16)flt15_buf2, FP_SEG(dstPtr), FP_OFF(dstPtr), chunk);
     }
     fread(&size3d3_3, 1, 1, fileHandle);
     if (size3d3_3 != 0) {
@@ -78,39 +78,39 @@ void load3D3(char *fileName) {
         misc_getKey();
     }
     gfx_waitRetrace();
-    for (var_10 = 0; var_10 < 2; var_10++) {
-        if ((var_18 = g_targetSlots[var_10].flags >> 8) != 0) {
+    for (slot = 0; slot < 2; slot++) {
+        if ((subCount = g_targetSlots[slot].flags >> 8) != 0) {
             fileHandle = fopen(aPhoto_3d3_0, aRb_1);
             fread(&sign3d3, 2, 1, fileHandle);
             fread(&size3d3_7, 2, 1, fileHandle);
             fread(g_modelOffsetTable, 2, size3d3_7, fileHandle);
             fread(&size3d3_2, 2, 1, fileHandle);
             g_modelOffsetTable[size3d3_7] = size3d3_2;
-            for (var_12 = 0; var_12 <= var_18; var_12++) {
-                var_A = g_modelOffsetTable[var_12+1] - g_modelOffsetTable[var_12];
-                while (var_A > 0x800) {
+            for (sub = 0; sub <= subCount; sub++) {
+                chunk = g_modelOffsetTable[sub+1] - g_modelOffsetTable[sub];
+                while (chunk > 0x800) {
                     fread(flt15_buf2, 1, 0x800, fileHandle);
-                    var_A -= 0x800;
+                    chunk -= 0x800;
                 }
-                segread(&var_8);
-                fread(flt15_buf2, 1, var_A, fileHandle);
-                movedata(var_8.ds, (uint16)flt15_buf2, FP_SEG(var_E), FP_OFF(var_E), var_A);
+                segread(&sregs);
+                fread(flt15_buf2, 1, chunk, fileHandle);
+                movedata(sregs.ds, (uint16)flt15_buf2, FP_SEG(objDataEnd), FP_OFF(objDataEnd), chunk);
             }
-            var_E += var_A;
-            if (var_10 == 0) {
-                buf3d3[size3d3+1] = buf3d3[size3d3] + var_A;
+            objDataEnd += chunk;
+            if (slot == 0) {
+                buf3d3[size3d3+1] = buf3d3[size3d3] + chunk;
             }
             fclose(fileHandle);
         }
     }
-    if (var_E - g_world3dData > 0xadd4) {
+    if (objDataEnd - g_world3dData > 0xadd4) {
         printError(aObjdataOverflow);
     }
 }
 
 // ==== seg000:0x2c82 ====
 void load3DT(char *fileName) {
-    int var_2, var_4, var_6, var_8, var_A;
+    int shape, cat, byteOff, tile, obj;
     strcpyFromDot(fileName, a_3dt);
     if ((fileHandle = fopen(fileName, aRb_2)) == NULL) {
         printError(aOpenErrorOn_3dt);
@@ -123,29 +123,29 @@ void load3DT(char *fileName) {
         return;
     }
     fread(sizes3dt, 2, 5, fileHandle);
-    for (var_4 = 0; var_4 < 5; var_4++) {
-        if (sizes3dt[var_4] > 0x20) {
+    for (cat = 0; cat < 5; cat++) {
+        if (sizes3dt[cat] > 0x20) {
             printError(aTooManyTiles_);
             return;
         }
-        fread(matrix3dt[var_4], 2, sizes3dt[var_4], fileHandle);
+        fread(matrix3dt[cat], 2, sizes3dt[cat], fileHandle);
     }
-    var_6 = 0;
+    byteOff = 0;
 #define GET_MATRIX(BYTE_OFFSET)((struct TileSceneObject*)(buf_3dt + BYTE_OFFSET))
-    for (var_4 = 0; var_4 < 5; var_4++) {
-        for (var_8 = 0; sizes3dt[var_4] > var_8; var_8++) {
-            matrix3dt_2[var_4][var_8] = GET_MATRIX(var_6);
-            for (var_A = 0; matrix3dt[var_4][var_8] > var_A; var_A++) {
-                if (var_6 > MAX_TILE_DATA) {
+    for (cat = 0; cat < 5; cat++) {
+        for (tile = 0; sizes3dt[cat] > tile; tile++) {
+            matrix3dt_2[cat][tile] = GET_MATRIX(byteOff);
+            for (obj = 0; matrix3dt[cat][tile] > obj; obj++) {
+                if (byteOff > MAX_TILE_DATA) {
                     printError(aTooMuchTileData);
                     return;
                 }
-                fread(&GET_MATRIX(var_6)->x, 2, 1, fileHandle);
-                fread(&GET_MATRIX(var_6)->y, 2, 1, fileHandle);
-                fread(&GET_MATRIX(var_6)->z, 2, 1, fileHandle);
-                fread(&var_2, 2, 1, fileHandle);
-                GET_MATRIX(var_6)->shape = (uint8)var_2;
-                var_6 += sizeof(struct TileSceneObject);
+                fread(&GET_MATRIX(byteOff)->x, 2, 1, fileHandle);
+                fread(&GET_MATRIX(byteOff)->y, 2, 1, fileHandle);
+                fread(&GET_MATRIX(byteOff)->z, 2, 1, fileHandle);
+                fread(&shape, 2, 1, fileHandle);
+                GET_MATRIX(byteOff)->shape = (uint8)shape;
+                byteOff += sizeof(struct TileSceneObject);
             }
         }
     }
@@ -187,8 +187,8 @@ void printError(const char *msg) {
 
 // ==== seg000:0x2faf ====
 void strcpyFromDot(char *dst, char *src) {
-    char var_2;
-    while ((var_2 = *dst) != '.' && var_2 != 0) {
+    char ch;
+    while ((ch = *dst) != '.' && ch != 0) {
         dst++;
     }
     strcpy(dst, src);

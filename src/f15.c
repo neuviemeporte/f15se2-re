@@ -198,18 +198,18 @@ uint16 load_segment(const uint16 envParagraphs) {
 
 int main(int argc, char *argv[]) {
     /* process cmdline args */
-    int i, j;
+    int argIdx, charIdx;
     bool debugMenu = false, debugFlight = false, debugDebrief = false;
 
     log_open(false);
 
-    for (i = 1; i < argc; ++i) {
-        const char *arg = argv[i];
+    for (argIdx = 1; argIdx < argc; ++argIdx) {
+        const char *arg = argv[argIdx];
         const size_t len = strlen(arg);
         if (len < 3 || arg[0] != '/' || tolower(arg[1]) != 'd')
             FATAL("Unrecognized argument: '%s'", arg);
-        for (j = 2; j < len; ++j) {
-            switch (arg[j]) {
+        for (charIdx = 2; charIdx < len; ++charIdx) {
+            switch (arg[charIdx]) {
             case '1': debugMenu = true; break;
             case '2': debugFlight = true; break;
             case '3': debugDebrief = true; break;

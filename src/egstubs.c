@@ -33,38 +33,38 @@ int getTimeOfDay(void) { return 0; }
 
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }
-int far buildRotationMatrixFar(int16* param_1, int param_2, int param_3, int param_4) { return 0; }
+int far buildRotationMatrixFar(int16* matrix, int angleX, int angleY, int angleZ) { return 0; }
 int far clipAndRasterizeEdge() { return 0; }
-void closeFile(int arg_0) { }
-int cosine(int) { return 0; }
-int createFile(const char *arg_0, int arg_1) { return 0; }
-int __cdecl drawCenteredLabelBox(int, char *) { return 0; }
+void closeFile(int handle) { }
+int cosine(int angle) { return 0; }
+int createFile(const char *path, int attr) { return 0; }
+int __cdecl drawCenteredLabelBox(int panel, char *text) { return 0; }
 int far drawClipLineGlobal() { return 0; }
 int far drawModelDisplayList() { return 0; }
-int far drawPolygonOutline(int, int, int*, int) { return 0; }
-int far fillSpanRect(int16* param_1, int param_2, int param_3, int param_4, int param_5) { return 0; }
-int fixedMulQ14(int arg_0, int arg_2) { return 0; }
+int far drawPolygonOutline(int fillColor, int pointCount, int* points, int edgeColor) { return 0; }
+int far fillSpanRect(int16* dst, int left, int top, int right, int bottom) { return 0; }
+int fixedMulQ14(int a, int b) { return 0; }
 int far flushSpanDirtyRect() { return 0; }
-int far multiplyMatrix3x3Far(int param_1, int param_2, int16* param_3) { return 0; }
-int __cdecl openFile(const char *, int) { return 0; }
-void picBlit(int handle, int unk) {}
+int far multiplyMatrix3x3Far(int matA, int matB, int16* result) { return 0; }
+int __cdecl openFile(const char *path, int mode) { return 0; }
+void picBlit(int handle, int page) {}
 int far projectModelEdgesFar() { return 0; }
-void far projectSceneObject(char *, int, int, int, int, int, int) {}
-int readAxisInput(int param_1) { return 0; }
-int readFile1(int arg_0, int arg_1, int arg_2) { return 0; }
-int readFile2(int arg_0, int arg_1, int arg_2, int arg_3) { return 0; }
+void far projectSceneObject(char *model, int yaw, int pitch, int roll, int posX, int posY, int posZ) {}
+int readAxisInput(int axisIdx) { return 0; }
+int readFile1(int handle, int count, int bufOffset) { return 0; }
+int readFile2(int handle, int count, int bufOffset, int bufSegment) { return 0; }
 int far resetScanlineSpans() { return 0; }
 int far restoreInt9Handler() { return 0; }
 void setTimerIrqHandler() { }
 void pascal shiftLongLeftInPlace(int count, long *ptr) {}
 void pascal shiftLongRightInPlace(int count, long *ptr) {}
-int sine(int arg_0) { return 0; }
+int sine(int angle) { return 0; }
 int far drawFlatHorizon(int) { return 0; }
 int far transformAndCullObjectFar(int, int, int) { return 0; }
 int far rotatePoint3dFar() { return 0; }
 int far transformModelVerticesFar() { return 0; }
 void __cdecl __far setupInstrumentLayoutFar() {}
-int writeFileAtRaw(int arg_0, int arg_1, int arg_2, int arg_3, int arg_4) { return 0; }
+int writeFileAtRaw(int handle, int count, int bufOffset, int bufSegment, int offsetAddend) { return 0; }
 int far renderSortedListFar() { return 0; }
 
 /* --- slot.h overlay jump stubs (egame doesn't link shared/ovlstub.c) --- */

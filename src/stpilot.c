@@ -45,15 +45,15 @@ void pilotSelect(int16 needSplash)
 
 void updateHallfame()
 {
-    int j;
+    int shiftIdx;
     if (gameData->hallOfFameEligible != 0) {
         selectedPilotIdx = HALLFAME_SLOTS - 2;
         for (; selectedPilotIdx >= 0; selectedPilotIdx--) {
             if (hallfameBuf[selectedPilotIdx].total_score >= gameData->totalScore) break;
         }
         selectedPilotIdx++;
-        for (j = gameData->pilotIdx - 1; j >= selectedPilotIdx; j--) {
-                hallfameBuf[j + 1] = hallfameBuf[j];
+        for (shiftIdx = gameData->pilotIdx - 1; shiftIdx >= selectedPilotIdx; shiftIdx--) {
+                hallfameBuf[shiftIdx + 1] = hallfameBuf[shiftIdx];
             }
     }
     else {
@@ -95,20 +95,20 @@ void displayPilots(void)
 
 void printPilot(int pilotIdx) {
     struct Pilot *pilot;
-    int x;
+    int xPos;
     int yPos;
     int medalIdx;
     int totalMedalWidth;
     pilot = &hallfameBuf[pilotIdx];
-    x = (pilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
+    xPos = (pilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
     yPos = ((pilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
-    clearRect(screenBuf, x, yPos - 1, x + PILOT_ENTRY_WIDTH, yPos + 0x20);
+    clearRect(screenBuf, xPos, yPos - 1, xPos + PILOT_ENTRY_WIDTH, yPos + 0x20);
     screenDesc.color = (pilotIdx == selectedPilotIdx) ? COLOR_WHITE : COLOR_GRAY;
     mystrcpy(todayMissStrBuf, ranks[pilot->rank & 0xf]);
     TRACE(("printPilot(): strcpy %s", todayMissStrBuf));
     mystrcat(todayMissStrBuf, pilot->name);
     TRACE(("printPilot(): strcat %s", todayMissStrBuf));
-    drawStringCentered(screenBuf, todayMissStrBuf, x, yPos, 0x90);
+    drawStringCentered(screenBuf, todayMissStrBuf, xPos, yPos, 0x90);
     TRACE(("printPilot(): drawn string %s", todayMissStrBuf));
     screenDesc.color = COLOR_RED;
     screenDesc.font = 4;
@@ -119,7 +119,7 @@ void printPilot(int pilotIdx) {
     my_itoa(pilot->last_score, &todayMissStrBuf[mystrlen(todayMissStrBuf)]);
     mystrcat(todayMissStrBuf, strCloseParen);
     TRACE(("printPilot(): strcat3 %s", todayMissStrBuf));
-    drawStringCentered(screenBuf, todayMissStrBuf, x, yPos + 9, 0x90);
+    drawStringCentered(screenBuf, todayMissStrBuf, xPos, yPos + 9, 0x90);
     TRACE(("printPilot(): drawn string2"));
     screenDesc.font = 1;
     for (medalIdx = 0, totalMedalWidth = 0; medalIdx < 7; medalIdx++) {
@@ -127,28 +127,28 @@ void printPilot(int pilotIdx) {
         totalMedalWidth += (uint8)medalWidth[medalIdx] + 4;
     }
     TRACE(("printPilot(): past loop 1, totalMedalWidth = %d", totalMedalWidth));
-    x += (0x90 - totalMedalWidth) / 2;
+    xPos += (0x90 - totalMedalWidth) / 2;
     yPos += 0x11;
     medalIdx = 0;
     // display medals
     do {
         if ((pilot->medals & (1 << medalIdx)) == 0) continue;
-        showSprite(screenBuf[0], x, yPos, medalSpriteX[medalIdx], medalSpriteY[medalIdx], medalWidth[medalIdx], 0x10);
-        x += medalWidth[medalIdx] + 4;
+        showSprite(screenBuf[0], xPos, yPos, medalSpriteX[medalIdx], medalSpriteY[medalIdx], medalWidth[medalIdx], 0x10);
+        xPos += medalWidth[medalIdx] + 4;
     } while(++medalIdx < 7);
     TRACE(("printPilot(): returning"));
 }
 
 /* ---- merged from stpinp.c ---- */
 void processPilotInput() {
-    int pilot;
-    int x;
-    int counter;
-    int y;
+    int prevIdx;
+    int xPos;
+    int shiftIdx;
+    int yPos;
     pilotSelectFlag = 1;
     setTimerIrqHandler();
     TRACE(("processPilotInput(): set timer irq"));
-    while (pilot = selectedPilotIdx, true) switch (pollMenuInput()) {
+    while (prevIdx = selectedPilotIdx, true) switch (pollMenuInput()) {
     case KEYCODE_ENTER:
         TRACE(("processPilotInput(): enter"));
         if ((hallfameBuf[selectedPilotIdx].medals & 0x60) == 0) {
@@ -170,10 +170,10 @@ void processPilotInput() {
             = 0;
         pilotNameInput(screenBuf, MAX_PILOT_NAME_LEN, PILOT_NAME_HEIGHT, PILOT_NAME_HEIGHT, &hallfameBuf[selectedPilotIdx]);
         pilotToGameData((uint8*)&hallfameBuf[selectedPilotIdx]);
-        counter = selectedPilotIdx;
-        while (counter < HALLFAME_SLOTS - 1) {
-            hallfameBuf[counter] = hallfameBuf[counter + 1];
-            counter++;
+        shiftIdx = selectedPilotIdx;
+        while (shiftIdx < HALLFAME_SLOTS - 1) {
+            hallfameBuf[shiftIdx] = hallfameBuf[shiftIdx + 1];
+            shiftIdx++;
         }
         gameDataToPilot(&hallfameBuf[HALLFAME_SLOTS - 1]);
         selectedPilotIdx = HALLFAME_SLOTS - 1;
@@ -199,31 +199,31 @@ void processPilotInput() {
         selectedPilotIdx += PILOTS_PER_COLUMN;
 handleArrow:
         selectedPilotIdx &= HALLFAME_SLOTS - 1;
-        x = (pilot < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
-        y = ((pilot & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
+        xPos = (prevIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
+        yPos = ((prevIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
         // looks like ChangeColor() from library.h?
-        gfx_switchColor(screenBuf, x, y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, COLOR_WHITE, COLOR_GRAY);
-        x = (selectedPilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
-        y = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
-        gfx_switchColor(screenBuf, x, y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, COLOR_GRAY, COLOR_WHITE);
+        gfx_switchColor(screenBuf, xPos, yPos, xPos + PILOT_ENTRY_WIDTH, yPos + PILOT_NAME_HEIGHT, COLOR_WHITE, COLOR_GRAY);
+        xPos = (selectedPilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
+        yPos = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
+        gfx_switchColor(screenBuf, xPos, yPos, xPos + PILOT_ENTRY_WIDTH, yPos + PILOT_NAME_HEIGHT, COLOR_GRAY, COLOR_WHITE);
     }
     TRACE(("processPilotInput(): returning, selected %d", selectedPilotIdx));
 }
 
 void blinkPilot() {
-    int16 x, y;
+    int16 xPos, yPos;
     if (pilotSelectFlag == 0) return;
     waitMdaCgaStatus(6);
-    x = selectedPilotIdx < PILOTS_PER_COLUMN ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
-    y = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
-    gfx_switchColor(screenBuf, x , y, x + PILOT_ENTRY_WIDTH, y + PILOT_NAME_HEIGHT, blinkColors[blinkColorIdx], blinkColors[blinkColorIdx ^ 1]);
+    xPos = selectedPilotIdx < PILOTS_PER_COLUMN ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
+    yPos = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
+    gfx_switchColor(screenBuf, xPos , yPos, xPos + PILOT_ENTRY_WIDTH, yPos + PILOT_NAME_HEIGHT, blinkColors[blinkColorIdx], blinkColors[blinkColorIdx ^ 1]);
     blinkColorIdx ^= 1;
 }
 
 void gameDataToPilot(struct Pilot *pilot) {
     //uint16 var_4;
-    int j;
-    for (j = 0; pilot->name[j] = gameData->pilotName[j]; j++) {
+    int charIdx;
+    for (charIdx = 0; pilot->name[charIdx] = gameData->pilotName[charIdx]; charIdx++) {
     }
     pilot->total_score = gameData->totalScore;
     pilot->last_score = gameData->lastScore;
@@ -236,9 +236,9 @@ void gameDataToPilot(struct Pilot *pilot) {
 // TODO: change argument to struct Pilot
 void pilotToGameData(uint8 *pilotData)
 {
-    int counter;
-    for (counter = 0; 1; counter++) {
-        if ((gameData->pilotName[counter] = pilotData[counter]) == '\0') break;
+    int charIdx;
+    for (charIdx = 0; 1; charIdx++) {
+        if ((gameData->pilotName[charIdx] = pilotData[charIdx]) == '\0') break;
     }
     gameData->totalScore = *(uint32*)(pilotData + ROSTER_SCORE_LO);
     gameData->lastScore = *(uint16*)(pilotData + ROSTER_LASTSCORE);
@@ -253,18 +253,18 @@ void pilotToGameData(uint8 *pilotData)
 
 void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
     int blinkToggle;
-    int x, y;
+    int xPos, yPos;
     int nameLen;
     int cursorX;
     uint16 keyCode;
     int rankWidth;
     blinkToggle = 0;
     TRACE(("pilotNameInput(): entering with page = %d, abc = %d/%d/%d, pilot: %s", *page, a,b,c, pilot->name));
-    x = (selectedPilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
-    y = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
-    clearRect(page, x, y, x + PILOT_ENTRY_WIDTH, y + 35);
-    drawStringAt(page, ranks[0], x, y);
-    x += (rankWidth = stringWidth(page, ranks[0]));
+    xPos = (selectedPilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
+    yPos = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
+    clearRect(page, xPos, yPos, xPos + PILOT_ENTRY_WIDTH, yPos + 35);
+    drawStringAt(page, ranks[0], xPos, yPos);
+    xPos += (rankWidth = stringWidth(page, ranks[0]));
     rankWidth = PILOT_ENTRY_WIDTH - rankWidth;
     screenBuf[3] = 0;
     clearRect(page, 15, 192, 303, 197);
@@ -279,8 +279,8 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
             TRACE(("pilotNameInput(): case 0x18"));
             nameLen = 0;
             pilot->name[0] = '\0';
-            clearRect(page, x, y, x + rankWidth, y + c);
-            drawStringAt(page, pilot->name, x, y);
+            clearRect(page, xPos, yPos, xPos + rankWidth, yPos + c);
+            drawStringAt(page, pilot->name, xPos, yPos);
             cursorX = page[4];
             break;
         case 8: // backspace
@@ -289,8 +289,8 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
                 nameLen--;
                 pilot->name[nameLen] = '\0';
                 // 2403 - duplicate code block coalesced with above
-                clearRect(page, x, y, x + rankWidth, y + c);
-                drawStringAt(page, pilot->name, x, y);
+                clearRect(page, xPos, yPos, xPos + rankWidth, yPos + c);
+                drawStringAt(page, pilot->name, xPos, yPos);
                 cursorX = page[4];
             }
             break;
@@ -300,8 +300,8 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
                 TRACE(("pilotNameInput(): case default condition true, nameLen = %d", nameLen));
                 pilot->name[nameLen++] = keyCode;
                 pilot->name[nameLen] = '\0';
-                clearRect(page, x, y, x + rankWidth, y + c);
-                drawStringAt(page, pilot->name, x, y);
+                clearRect(page, xPos, yPos, xPos + rankWidth, yPos + c);
+                drawStringAt(page, pilot->name, xPos, yPos);
                 cursorX = page[4];
             }
             break;
@@ -309,7 +309,7 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
         TRACE(("pilotNameInput(): before input loop"));
         while (getJoyKey() == 0) {
             waitMdaCgaStatus(3);
-            gfx_switchColor(page, x, y - 1, x + rankWidth, y + c,
+            gfx_switchColor(page, xPos, yPos - 1, xPos + rankWidth, yPos + c,
                 pilotNameInputColors[blinkToggle], pilotNameInputColors[blinkToggle ^ 1]);
             blinkToggle ^= 1;
             page[3] = pilotNameInputColors[blinkToggle];
@@ -332,17 +332,17 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
 
 void loadHallfame(void)
 {
-    int counter;
+    int slotIdx;
     FILE *handle;
     TRACE(("loadHallfame(): reading from %s", aHallfame));
     handle = fopen(aHallfame, aRb_3);
     fread(&selectedPilotIdx, 2, 1, handle);
     TRACE(("loadHallfame(): count = %d", selectedPilotIdx));
-    counter = 0;
+    slotIdx = 0;
     do {
-        fread(hallfameBuf + counter, HALLFAME_RECORDSZ, 1, handle);
-        counter++;
-    } while (counter < HALLFAME_SLOTS);
+        fread(hallfameBuf + slotIdx, HALLFAME_RECORDSZ, 1, handle);
+        slotIdx++;
+    } while (slotIdx < HALLFAME_SLOTS);
     fclose(handle);
 }
 

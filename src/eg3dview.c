@@ -18,7 +18,7 @@ void loadRegion3D() {
 
 // ==== seg000:0x21ca ====
 //
-void render3DView(int camX, int camY, int camZ, long arg_6, long arg_a, long arg_e, int clipLeft, int clipTop, int clipWidth, int clipHeight) {
+void render3DView(int camX, int camY, int camZ, long worldX, long worldY, long worldZ, int clipLeft, int clipTop, int clipWidth, int clipHeight) {
     g_viewParams[7] = clipTop;
     g_viewParams[8] = clipTop + clipHeight - 1;
     g_viewParams[9] = clipLeft;
@@ -27,9 +27,9 @@ void render3DView(int camX, int camY, int camZ, long arg_6, long arg_a, long arg
     waitFrameSync(g_frameSyncWait);
     TRACE(("121CA:1"));
     g_viewParams[2] = (unsigned char)((char *)colorLut)[g_skyColorIndex & 0xFF];
-    setup3DTransform((char *)g_viewParams, camX, camY, camZ, 0, 0, (int)arg_e, 1);
+    setup3DTransform((char *)g_viewParams, camX, camY, camZ, 0, 0, (int)worldZ, 1);
     TRACE(("121CA:2"));
-    projectObjects(camX, camY, (int)arg_6, (int)(arg_6 >> 16), (int)arg_a, (int)(arg_a >> 16), (int)arg_e, (int)(arg_e >> 16));
+    projectObjects(camX, camY, (int)worldX, (int)(worldX >> 16), (int)worldY, (int)(worldY >> 16), (int)worldZ, (int)(worldZ >> 16));
     TRACE(("121CA:3"));
     updateTargetLock();
     TRACE(("121CA:4"));
@@ -42,22 +42,22 @@ void render3DView(int camX, int camY, int camZ, long arg_6, long arg_a, long arg
 
 // ==== seg000:0x2278 ====
 void waitFrameSync(int frames) {
-    uint8 var_2;
+    uint8 targetTick;
     if (frames > 0) {
-        var_2 = (uint8)frames + g_timerTickByte[0];
+        targetTick = (uint8)frames + g_timerTickByte[0];
 #ifdef DEBUG
         {
             unsigned long spins = 0;
             uint8 start = g_timerTickByte[0];
-            while (var_2 != g_timerTickByte[0]) {
+            while (targetTick != g_timerTickByte[0]) {
                 if (++spins > 3000000UL) {
-                    TRACE_KEY(("12278: SPIN TIMEOUT arg=%d want=%d cur=%d start=%d (ISR frozen?)", frames, (int)var_2, (int)g_timerTickByte[0], (int)start));
+                    TRACE_KEY(("12278: SPIN TIMEOUT arg=%d want=%d cur=%d start=%d (ISR frozen?)", frames, (int)targetTick, (int)g_timerTickByte[0], (int)start));
                     break;
                 }
             }
         }
 #else
-        while (var_2 != g_timerTickByte[0]) {}
+        while (targetTick != g_timerTickByte[0]) {}
 #endif
     }
 }

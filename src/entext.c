@@ -7,62 +7,62 @@
 #include "end.h"
 
 void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y, int lineHeight) {
-    int p;
-    char *a;
+    int font;
+    char *lineStart;
 #ifdef BUGFIX
-    char *b;
+    char *scan;
 #else
-    uint8 *b;
+    uint8 *scan;
 #endif
-    int c;
+    int charCount;
     int d;
-    char *e;
-    int8 f;
-    unsigned int g;
+    char *strBegin;
+    int8 running;
+    unsigned int pixWidth;
     char buf[1000];
 
-    e = str;
-    a = str;
-    b = str;
-    p = page[6];
+    strBegin = str;
+    lineStart = str;
+    scan = str;
+    font = page[6];
     page[5] = y;
-    f = 1;
+    running = 1;
     do {
-        if (f == 0) {
+        if (running == 0) {
             return;
         }
-        g = c = 0;
-        while (g < maxWidth && *b != '\0' && *b != '\r' && *b != '\n') {
-            g += gfx_setFont(*b++, p);
-            c++;
+        pixWidth = charCount = 0;
+        while (pixWidth < maxWidth && *scan != '\0' && *scan != '\r' && *scan != '\n') {
+            pixWidth += gfx_setFont(*scan++, font);
+            charCount++;
         }
-        if (g >= maxWidth) {
-            b--;
-            c--;
+        if (pixWidth >= maxWidth) {
+            scan--;
+            charCount--;
         }
-        while (*b != ' ' && *b != '\0' &&
-               *b != '\r' && *b != '\n' && *b != '-' &&
-               b > e) {
-            b--;
-            c--;
+        while (*scan != ' ' && *scan != '\0' &&
+               *scan != '\r' && *scan != '\n' && *scan != '-' &&
+               scan > strBegin) {
+            scan--;
+            charCount--;
         }
-        if (*b == '-') {
-            c++;
+        if (*scan == '-') {
+            charCount++;
         }
-        if (*b == '\0') {
-            f = 0;
+        if (*scan == '\0') {
+            running = 0;
         }
-        if (c != 0) {
-            memcpy(buf, a, c);
-            buf[c] = 0;
+        if (charCount != 0) {
+            memcpy(buf, lineStart, charCount);
+            buf[charCount] = 0;
             page[4] = x;
             gfx_drawString(page, buf);
             page[5] += lineHeight;
-            if (*b == '\r') {
+            if (*scan == '\r') {
                 page[5] += 2;
             }
         }
-        b++;
-        a = b;
+        scan++;
+        lineStart = scan;
     } while (1);
 }

@@ -7,20 +7,20 @@
 #include "end.h"
 
 void loadWorldStrings(void) {
-    int p;
-    int a;
+    int strIdx;
+    int pos;
     TRACE(("loadWorldStrings"));
     setupWorldBufPtr();
     worldDataReady = 1;
     readWorldData();
     worldStrings[0] = worldStringBuf;
-    p = 1;
-    a = 0;
-    while (a < 0x2ee) {
-        if (worldStringBuf[a] == '\0' && p < 100) {
-            worldStrings[p++] = &worldStringBuf[a + 1];
+    strIdx = 1;
+    pos = 0;
+    while (pos < 0x2ee) {
+        if (worldStringBuf[pos] == '\0' && strIdx < 100) {
+            worldStrings[strIdx++] = &worldStringBuf[pos + 1];
         }
-        a++;
+        pos++;
     }
 }
 

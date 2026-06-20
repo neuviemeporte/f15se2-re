@@ -94,13 +94,13 @@ static void read512FromFile(void)
 
 static uint16 readCode(void)
 {
-    uint16 lo;
+    uint16 bits;
     uint8 cl;
-    uint16 w;
+    uint16 word;
     uint16 mask;
 
     /* Shift out consumed bits to get remaining at bottom */
-    lo = picFileWord >> (16 - picRemainingBitCount);
+    bits = picFileWord >> (16 - picRemainingBitCount);
     cl = picRemainingBitCount;
 
     /* Need more bits? (always at most one new word since max code_width=12, max remaining=15) */
@@ -108,10 +108,10 @@ static uint16 readCode(void)
         if (picBufPos >= 512) {
             read512FromFile();
         }
-        w = picFileReadBuf[picBufPos] | ((uint16)picFileReadBuf[picBufPos + 1] << 8);
+        word = picFileReadBuf[picBufPos] | ((uint16)picFileReadBuf[picBufPos + 1] << 8);
         picBufPos += 2;
-        picFileWord = w;
-        lo |= (w << cl);
+        picFileWord = word;
+        bits |= (word << cl);
         cl += 16;
     }
 
@@ -119,7 +119,7 @@ static uint16 readCode(void)
     picRemainingBitCount = cl;
 
     mask = (1u << picCodeWidth) - 1;
-    return lo & mask;
+    return bits & mask;
 }
 
 static void resetDictionary(void)
@@ -327,17 +327,17 @@ static void picDecodeToSegment(int handle, uint16 pageSeg, uint16 rowCount,
             /* 320 8bpp pixels -> 40 packed bytes per plane (8 px/byte, MSB =
              * leftmost). Map Mask selects one plane per pass so the four writes
              * to the same 40 addresses land in separate bit-planes. */
-            int p;
-            for (p = 0; p < 4; p++) {
-                int k;
+            int plane;
+            for (plane = 0; plane < 4; plane++) {
+                int byteIdx;
                 outp(0x3C4, 2);
-                outp(0x3C5, 1 << p);
-                for (k = 0; k < 40; k++) {
-                    uint8 b = 0;
-                    int j;
-                    for (j = 0; j < 8; j++)
-                        b = (uint8)((b << 1) | ((picDecodedRowBuf[k * 8 + j] >> p) & 1));
-                    dst[k] = b;
+                outp(0x3C5, 1 << plane);
+                for (byteIdx = 0; byteIdx < 40; byteIdx++) {
+                    uint8 packed = 0;
+                    int bit;
+                    for (bit = 0; bit < 8; bit++)
+                        packed = (uint8)((packed << 1) | ((picDecodedRowBuf[byteIdx * 8 + bit] >> plane) & 1));
+                    dst[byteIdx] = packed;
                 }
             }
         } else {
@@ -388,14 +388,14 @@ void picBlit(int handle, int pageIndex)
 {
     uint16 seg;
     uint16 i;
-    uint8 far *p;
+    uint8 far *page;
 
     if (handle < 0) return;
 
     gfx_setPageN((uint16)pageIndex);
     seg = (uint16)gfx_getCurPageSeg();
     /* mirror the _gfx_clearPage that _picBlit issues before decoding */
-    p = (uint8 far *)MK_FP(seg, 0);
-    for (i = 0; i < 32000u; i++) ((uint16 far *)p)[i] = 0;
+    page = (uint8 far *)MK_FP(seg, 0);
+    for (i = 0; i < 32000u; i++) ((uint16 far *)page)[i] = 0;
     picDecodeToSegment(handle, seg, 0x2BC, 0x28, 1);
 }

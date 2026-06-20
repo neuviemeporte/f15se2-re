@@ -155,25 +155,25 @@ selectTheater:
 
 int missionMenuSelect(char **names, char **desc, char *title, int selection)
 {
-    int a, row, act;
+    int yPos, row, action;
     TRACE(("missionMenuSelect(): entering, selection %d", selection));
     enableHighlight = 1;
     page1Desc.color = COLOR_TITLE;
     drawStringCentered(page1NumPtr, title, 113, 14, 185);
     drawLine(page1NumPtr, 173, 22, 235, 22, 1);
     TRACE(("missionMenuSelect(): drawn title %s", title));
-    a = 26;
+    yPos = 26;
     for (row = 0; row < 5; row++) {
         if (scenarioFoundArr[row] == 0) {
             page1Desc.color = COLOR_TITLE;
-            drawStringCentered(page1NumPtr, names[row], 113, a, 185);
+            drawStringCentered(page1NumPtr, names[row], 113, yPos, 185);
             page1Desc.font = FONT_SMALL;
             page1Desc.color = COLOR_BRIEF_DESC_NORMAL;
-            drawStringCentered(page1NumPtr, desc[row], 113, a + 8, 185);
+            drawStringCentered(page1NumPtr, desc[row], 113, yPos + 8, 185);
             TRACE(("missionMenuSelect(): drawn item %s/%s", names[row], desc[row]));
             page1Desc.font = FONT_NORMAL;
         }
-        a += 21;
+        yPos += 21;
     }
     TRACE(("missionMenuSelect(): items drawn: %d", row));
     setTimerIrqHandler();
@@ -185,15 +185,15 @@ int missionMenuSelect(char **names, char **desc, char *title, int selection)
     TRACE(("missionMenuSelect(): animated arm"));
     do {
 again:
-        if ((act = pollMenuInput()) != KEYCODE_ENTER) {
-            if (act == KEYCODE_UPARROW) {
+        if ((action = pollMenuInput()) != KEYCODE_ENTER) {
+            if (action == KEYCODE_UPARROW) {
                 if (selection > 0) {
                     timerCounter3 = 6;
                     animateArm(selection, selection - 1);
                     selection--;
                 }
             }
-            else if (act == KEYCODE_DNARROW && selection < 4) {
+            else if (action == KEYCODE_DNARROW && selection < 4) {
                 timerCounter3 = 6;
                 animateArm(selection, selection + 1);
                 selection++;
@@ -213,11 +213,11 @@ again:
 
 void animateArm(int a, int b)
 {
-    int j;
+    int spriteIdx;
     while (timerCounter3 < 6) {}
     timerCounter3 = 0;
     armPosition = b;
-    j = armSpriteIndex[b];
+    spriteIdx = armSpriteIndex[b];
     if (a == -1) {
         gfx_copyRect(*page1NumPtr, 0, 0, *page2NumPtr, 0, 0 , SCREEN_WIDTH, SCREEN_HEIGHT);
     }
@@ -225,7 +225,7 @@ void animateArm(int a, int b)
         if (b < 5 && enableHighlight != 0) {
             gfx_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
         }
-        showSprite(*page1NumPtr, armBlitX[j], armBlitY[j], armSrcX[j], armSrcY[j], armBlitW[j], armBlitH[j]);
+        showSprite(*page1NumPtr, armBlitX[spriteIdx], armBlitY[spriteIdx], armSrcX[spriteIdx], armSrcY[spriteIdx], armBlitW[spriteIdx], armBlitH[spriteIdx]);
     }
     if (commData->gfxModeNum == GFX_MODE_MDA || commData->gfxModeNum == GFX_MODE_EGA) { // mda or cga?
         gfx_setMonoFlag(*page1NumPtr);
@@ -239,18 +239,18 @@ void animateArm(int a, int b)
                 gfx_switchColor(page1NumPtr, 113, (21 * a) + 0x22, 297, (21 * a) + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
             }
         }
-        spriteBlitX = armBlitX[j];
-        spriteBlitY = armBlitY[j];
-        spriteBlitW = armBlitW[j];
-        spriteBlitH = armBlitH[j];
+        spriteBlitX = armBlitX[spriteIdx];
+        spriteBlitY = armBlitY[spriteIdx];
+        spriteBlitW = armBlitW[spriteIdx];
+        spriteBlitH = armBlitH[spriteIdx];
     }
     else {
         gfx_setPageN(0);
         gfx_blitToCurrent(page1Ptr);
-        spriteBlitX = armBlitX[j];
-        spriteBlitY = armBlitY[j];
-        spriteBlitW = armBlitW[j];
-        spriteBlitH = armBlitH[j];
+        spriteBlitX = armBlitX[spriteIdx];
+        spriteBlitY = armBlitY[spriteIdx];
+        spriteBlitW = armBlitW[spriteIdx];
+        spriteBlitH = armBlitH[spriteIdx];
         gfx_copyRect(*page2NumPtr, spriteBlitX, spriteBlitY, *page1NumPtr, spriteBlitX, spriteBlitY, spriteBlitW, spriteBlitH);
         if (b < 5 && enableHighlight != 0) {
             gfx_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
@@ -298,7 +298,7 @@ void missionDecode() {
 }
 
 void printMission() {
-    int j;
+    int armStep;
     clearBriefing();
     page1Desc.color = COLOR_TITLE;
     drawStringCentered(page1NumPtr, aTodaySMission, 0x71, 0x0e, 0xb9);
@@ -339,27 +339,27 @@ void printMission() {
     setTimerIrqHandler();
     timerCounter3 = 6;
     animateArm(-1, 6);
-    for (j = 5; j >= 0; j--) {
-        animateArm(j + 1, j);
+    for (armStep = 5; armStep >= 0; armStep--) {
+        animateArm(armStep + 1, armStep);
     }
     timerCounter = 0;
-    j++;
+    armStep++;
 printMissionAgain:
     if (joyOrKey() == 0) {
         if (timerCounter >= PRINTMISS_TIMESTEP) {
             timerCounter = 0;
-            if (j < 5) {
-                animateArm(j, j + 1);
-                if (++j != 3) {
-                    animateArm(j, j + 1);
+            if (armStep < 5) {
+                animateArm(armStep, armStep + 1);
+                if (++armStep != 3) {
+                    animateArm(armStep, armStep + 1);
                 }
-                j++;
+                armStep++;
             }
         }
         goto printMissionAgain;
     }
-    for (;j <= 5; j++) {
-        animateArm(j, j + 1);
+    for (;armStep <= 5; armStep++) {
+        animateArm(armStep, armStep + 1);
     }
 
     restoreTimerIrqHandler();
@@ -368,39 +368,39 @@ printMissionAgain:
 
 int pollMenuInput() {
     uint16 key;
-    char n;
-    int l;
-    int j;
-    j = l = 0;
-    n = 0;
+    char repeatHold;
+    int joy1;
+    int joy0;
+    joy0 = joy1 = 0;
+    repeatHold = 0;
     TRACE(("pollMenuInput(): entering"));
     if (joyRepeatFlag == 1) {
         timerCounter = 0;
-        n = 1;
+        repeatHold = 1;
     }
     if (commData->setupUseJoy == 1) { //10d8
         TRACE(("pollMenuInput(): use joy 1"));
-        j = misc_readJoystick(0);
-        l = misc_readJoystick(1);
+        joy0 = misc_readJoystick(0);
+        joy1 = misc_readJoystick(1);
         pollJoystick();
     }
-    while ((misc_checkKeyBuf() != 0 && j == 0 && l == 0
+    while ((misc_checkKeyBuf() != 0 && joy0 == 0 && joy1 == 0
         && joyAxes[0] >= JOY_DEADZONE_LO && joyAxes[0] <= JOY_DEADZONE_HI
         && joyAxes[1] >= JOY_DEADZONE_LO && joyAxes[1] <= JOY_DEADZONE_HI)
-        || n == 1) {
+        || repeatHold == 1) {
         // XXX: case study for instruction skipping in mzdiff, change above while condition to true and uncomment, run mzdiff with refskip 1 tgtskip 2 to repro
         // if ((((((misc_checkKeyBuf() == 0) || (var_2 != 0)) || (var_4 != 0)) ||
         //     ((joyAxes[0] < 0x4e || (joyAxes[0] > 0xb2)))) ||
         //     ((joyAxes[1] < 0x4e || (joyAxes[1] > 0xb2)))) && (var_6 != 1)) break;
         if ((joyRepeatFlag == 1) && (0xf < timerCounter)) { //113f
             TRACE(("pollMenuInput(): cond 1"));
-            n = 0;
+            repeatHold = 0;
             joyRepeatFlag = 0;
         }
         if (commData->setupUseJoy == 1) {
             TRACE(("pollMenuInput(): use joy 2"));
-            j = misc_readJoystick(0);
-            l = misc_readJoystick(1);
+            joy0 = misc_readJoystick(0);
+            joy1 = misc_readJoystick(1);
             pollJoystick();
         }
         if (cbreakHit != 0) {
@@ -417,7 +417,7 @@ int pollMenuInput() {
         key = misc_getKey();
         TRACE(("pollMenuInput(): got key 0x%x", key));
     }
-    else if (j == 1) {
+    else if (joy0 == 1) {
         TRACE(("pollMenuInput(): setting enter"));
         key = KEYCODE_ENTER;
     }

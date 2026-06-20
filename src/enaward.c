@@ -48,7 +48,7 @@ void loadPicFromFileAt(char *name, int segment, int off, int whence) {
 
 // 1e78
 void showPostMissionAwards(void) {
-    int p;
+    int idx;
     awardPage[3] = 0;
     if (commData->gfxModeChar != 0)
         goto done;
@@ -60,9 +60,9 @@ void showPostMissionAwards(void) {
         // 1ef4
         awardFont = 4;
         awardColor = 0;
-        p = 0;
+        idx = 0;
         // 1f05
-        for (; (textBuf[p] = gameData->pilotName[p]) != 0 ; p++) {}
+        for (; (textBuf[idx] = gameData->pilotName[idx]) != 0 ; idx++) {}
         drawStringCentered(awardPage, textBuf, 0xc1, 0x99, 0x5f);
         awardColor = 7;
         awardFont = 1;
@@ -89,14 +89,14 @@ void showPostMissionAwards(void) {
         waitForKeyOrJoy();
     }
 medals:
-    p = 4;
-    for (; p >= 0; p--) {
-        if (*(long *)&missionScore > *(long *)&medalThresholds[p])
+    idx = 4;
+    for (; idx >= 0; idx--) {
+        if (*(long *)&missionScore > *(long *)&medalThresholds[idx])
             break;
     }
-    if (p < 0)
+    if (idx < 0)
         goto done;
-    if (gameData->medals & (1 << (char)p))
+    if (gameData->medals & (1 << (char)idx))
         goto done;
     gfx_waitRetrace();
     gfx_setFadeSteps(0x0a);
@@ -104,9 +104,9 @@ medals:
     awardColor = 0x0f;
     drawStringCentered(awardPage, str_medalMsg1, 0x24, 0xae, 0xfa);
     mystrcpy(textBuf, str_medalMsg2);
-    mystrcat(textBuf, medalNames[p]);
+    mystrcat(textBuf, medalNames[idx]);
     drawStringCentered(awardPage, textBuf, 0x24, 0xb7, 0xfa);
-    gameData->medals |= (1 << (char)p);
+    gameData->medals |= (1 << (char)idx);
 show:
     gfx_commitPage();
     gfx_flipPage();

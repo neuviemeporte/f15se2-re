@@ -347,12 +347,12 @@ counterMore1k:
 }
 
 int findOrPlaceItem(int wx, int wy, int slot) {
-    int j;
+    int objIdx;
     if ((nearestTerrainResult = findNearestTerrain((long)wx << WORLD_COORD_SHIFT , (0x8000 - (long)wy) << WORLD_COORD_SHIFT)) != NULL) {
         wx = ((long*)nearestTerrainResult)[1] >> WORLD_COORD_SHIFT;
         wy = -((((long*)nearestTerrainResult)[2] >> WORLD_COORD_SHIFT) - 0x8000);
-        for (j = FIRST_REAL_ITEM; j < readItemSize; j++) {
-            if (wx == worldObjects[j].x_coord && wy == worldObjects[j].y_coord) return j;
+        for (objIdx = FIRST_REAL_ITEM; objIdx < readItemSize; objIdx++) {
+            if (wx == worldObjects[objIdx].x_coord && wy == worldObjects[objIdx].y_coord) return objIdx;
         }
         worldObjects[slot].x_coord = wx;
         worldObjects[slot].y_coord = wy;
@@ -369,36 +369,36 @@ int itemDistance(int idx1, int idx2) {
 }
 
 void positionUnit(int unit, int loc) {
-    int j;
-    j = flightUnits[unit].planeType;
+    int planeType;
+    planeType = flightUnits[unit].planeType;
     flightUnits[unit].x = worldObjects[loc].x_coord + 9;
     flightUnits[unit].y = worldObjects[loc].y_coord - 0xc;
     flightUnits[unit].xPrecise = (long)flightUnits[unit].x << WORLD_COORD_SHIFT;
     flightUnits[unit].yPrecise = (long)flightUnits[unit].y << WORLD_COORD_SHIFT;
     flightUnits[unit].altitude = worldObjects[loc].targetFlags & 0x200 ? 0x8c : 0xc;
-    flightUnits[unit].maxSpeed = planes[j].maxSpeed;
+    flightUnits[unit].maxSpeed = planes[planeType].maxSpeed;
     flightUnits[unit].heading = 0xfc00;
     flightUnits[unit].pitch = 0;
     flightUnits[unit].roll = 0;
     flightUnits[unit].flags |= 0x403;
     flightUnits[unit].waypointIdx = loc;
-    flightUnits[unit].fuel = ((long)planes[j].range << 0xd) / flightUnits[unit].maxSpeed;
+    flightUnits[unit].fuel = ((long)planes[planeType].range << 0xd) / flightUnits[unit].maxSpeed;
 }
 
 // debugcom: custom_manhattan_distance
 int approxDistance(int dx, int dy) {
-    long j;
+    long dist;
     dx = abs(dx);
     dy = abs(dy);
-    j = (dx > dy) ? (long)(dy >> 1) + (long)dx : (long)(dx >> 1) + (long)dy;
-    if (j > 0x7fff) {
-        j = 0x7fff;
+    dist = (dx > dy) ? (long)(dy >> 1) + (long)dx : (long)(dx >> 1) + (long)dy;
+    if (dist > 0x7fff) {
+        dist = 0x7fff;
     }
-    return j;
+    return dist;
 }
 
 void parseWorld(const char *filename) {
-    int j, l;
+    int nameIdx, scanPos;
     if ((fileHandle = fopen(filename, aRb_4)) == NULL) return;
     // fread(buffer, size, count, stream)
     fread(wldReadBuf1, 2, 1, fileHandle);
@@ -415,11 +415,11 @@ void parseWorld(const char *filename) {
     fread(wldReadBuf11, 1, WORLD_BUFSZ, fileHandle);
     fclose(fileHandle);
     wldOffsets[0] = wldReadBuf11;
-    j = 1;
+    nameIdx = 1;
     // iterate over the place name strings in the world data, find null bytes, build char pointer table
-    for (l = 0; l < WORLD_BUFSZ; l++) {
-        if (wldReadBuf11[l] == 0 && j < 100) {
-            wldOffsets[j++] = wldReadBuf11 + l + 1;
+    for (scanPos = 0; scanPos < WORLD_BUFSZ; scanPos++) {
+        if (wldReadBuf11[scanPos] == 0 && nameIdx < 100) {
+            wldOffsets[nameIdx++] = wldReadBuf11 + scanPos + 1;
         }
     }
 }

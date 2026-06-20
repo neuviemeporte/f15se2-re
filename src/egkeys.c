@@ -17,7 +17,7 @@
 // ==== seg000:0xd260 ====
 int keyDispatch(uint16 scanCode)
 {
-    char p[14]; /* local buffer at BP-0e, used by itoa for memory display */
+    char memStr[14]; /* local buffer at BP-0e, used by itoa for memory display */
 
     g_axisInputAccum[0] = g_axisInputAccum[1] = 0;
 
@@ -88,7 +88,7 @@ int keyDispatch(uint16 scanCode)
         break;
     case 0x3200:
         strcpy(strBuf, (char *)aMemoryAvailabl);
-        strcat(strBuf, itoa(allocSize, p, 10));
+        strcat(strBuf, itoa(allocSize, memStr, 10));
         tempStrcpy(strBuf);
         break;
     case 0x2100:
@@ -333,9 +333,9 @@ void recalcTimeScale(void) {
 
 // ==== seg000:0xdb2b ====
 void setupLodDistances(void) {
-    int p;
-    for (p = 0; p < 6; p++) {
-        ((int *)(colorLut + 0x10))[p] = 0x20 << ((char)p + (char)(g_detailLevel > 2 ? 2 : g_detailLevel));
+    int lod;
+    for (lod = 0; lod < 6; lod++) {
+        ((int *)(colorLut + 0x10))[lod] = 0x20 << ((char)lod + (char)(g_detailLevel > 2 ? 2 : g_detailLevel));
     }
     g_lodDistNear = g_lodDistScale + g_lodDistBase;
     g_lodDistFar = clampRange(g_lodDistScale << 1, 0x1000, 9999);

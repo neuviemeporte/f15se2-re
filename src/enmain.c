@@ -7,21 +7,21 @@
 #include "end.h"
 
 int main(void) {
-    int p;
+    int spriteBufSize;
     int a;
-    int b;
-    uint16 far *d;
+    int auxBufSize;
+    uint16 far *lowmemPtr;
     int e;
-    register int seg;
+    register int commSeg;
 
     (void)a; (void)e;
 
-    FP_SEG(d) = SEG_LOWMEM;
-    FP_OFF(d) = OFF_IACA_START;
-    seg = *d;
-    FP_SEG(commData) = seg;
+    FP_SEG(lowmemPtr) = SEG_LOWMEM;
+    FP_OFF(lowmemPtr) = OFF_IACA_START;
+    commSeg = *lowmemPtr;
+    FP_SEG(commData) = commSeg;
     FP_OFF(commData) = 0;
-    FP_SEG(gameData) = seg;
+    FP_SEG(gameData) = commSeg;
     FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
     setupOverlaySlots(commData->gfxOvlAddr);
     setupOverlaySlots(commData->miscOvlAddr);
@@ -36,15 +36,15 @@ int main(void) {
         joyAxisX = joyAxisY = JOY_CENTER;
     }
     loadWorldStrings();
-    b = gfx_getAuxBufSize();
-    p = gfx_getBufSize();
-    gfxBufSeg = allocBuffer(b);
+    auxBufSize = gfx_getAuxBufSize();
+    spriteBufSize = gfx_getBufSize();
+    gfxBufSeg = allocBuffer(auxBufSize);
     if (hasVgaMode == 1) {
         vgaBufSeg = allocBuffer(VGA_BUF_SIZE);
         vgaBufSeg2 = vgaBufSeg;
         vgaBufOffset = 0;
     }
-    spriteBufSeg = allocBuffer(p);
+    spriteBufSeg = allocBuffer(spriteBufSize);
     missionResult = 3;
     if (commData->setupDone == 2) {
         computeMissionResult();

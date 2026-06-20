@@ -10,15 +10,15 @@
 #include <memory.h>
 
 #ifdef BUGFIX
-void openBlitClosePic(char* path, int arg_2) {
+void openBlitClosePic(char* path, int page) {
 #else
-void openBlitClosePic(char* path, int arg_2, int garbage) {
+void openBlitClosePic(char* path, int page, int garbage) {
 #endif
-    int var_2 = openFileWrapper(path, 0);
+    int handle = openFileWrapper(path, 0);
 #ifdef BUGFIX
-    picBlit(var_2, arg_2);
+    picBlit(handle, page);
 #else
-    picBlit(var_2, arg_2, garbage);
+    picBlit(handle, page, garbage);
 #endif
-    closeFileWrapper(var_2);
+    closeFileWrapper(handle);
 }

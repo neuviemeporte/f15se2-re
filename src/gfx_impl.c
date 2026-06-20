@@ -155,13 +155,13 @@ void FAR CDECL gfx_storeBufPtr(uint16 seg, int pageIdx)
 void gfx_clearPage_impl(uint16 seg)
 {
     GfxState FAR *s = gfx_getState();
-    uint8 far *p;
+    uint8 far *page;
     uint16 i;
     s->curPageSeg = seg;
-    p = (uint8 far *)MK_FP(seg, 0);
+    page = (uint8 far *)MK_FP(seg, 0);
     /* Clear 64000 bytes (32000 words) */
     for (i = 0; i < 32000u; i++) {
-        ((uint16 far *)p)[i] = 0;
+        ((uint16 far *)page)[i] = 0;
     }
 }
 
@@ -230,11 +230,11 @@ void gfx_fillRow_impl(uint16 rowOffset, uint16 srcBuf, uint16 rowNum)
     GfxState FAR *s = gfx_getState();
     const uint8 *src = (const uint8 *)srcBuf;          /* near ptr, caller's DS */
     uint8 FAR *dst;
-    int i;
+    int col;
     (void)rowNum;
     dst = (uint8 FAR *)MK_FP(s->curPageSeg, rowOffset);
-    for (i = 0; i < 320; i++)
-        dst[i] = src[i];
+    for (col = 0; col < 320; col++)
+        dst[col] = src[col];
 }
 
 /* Slot 0x35: DI = rowOffset. In MCGA the row is already in the page (fillRow
@@ -344,13 +344,13 @@ static void drawStringCore(int16 *params, const char *string,
     uint8 * FAR *wtPtrsFar;
     int x, y, color;
     uint8 far *page;
-    int i;
+    int charIdx;
     uint8 ch;
     int row, col;
     uint16 fontIdx;
     uint8 height;
     uint8 FAR *bitmaps;
-    uint8 FAR *wt;
+    uint8 FAR *widthTab;
 
     if (!string || !params) return;
 
@@ -372,15 +372,15 @@ static void drawStringCore(int16 *params, const char *string,
     height = heightsFar[fontIdx];
     bitmaps = bmpPtrsFar[fontIdx]
         ? (uint8 FAR *)MK_FP(dseg, (uint16)bmpPtrsFar[fontIdx]) : (uint8 FAR *)0;
-    wt = wtPtrsFar[fontIdx]
+    widthTab = wtPtrsFar[fontIdx]
         ? (uint8 FAR *)MK_FP(dseg, (uint16)wtPtrsFar[fontIdx]) : (uint8 FAR *)0;
 
     /* params/string are caller-passed NEAR pointers — they correctly resolve
      * against the caller's DS, so they must NOT be re-based on f15DataSeg. */
     page = (uint8 far *)MK_FP(s->pageSegs[params[0]], 0);
 
-    for (i = 0; string[i] != 0 && i < 256; i++) {
-        ch = (uint8)string[i];
+    for (charIdx = 0; string[charIdx] != 0 && charIdx < 256; charIdx++) {
+        ch = (uint8)string[charIdx];
 
         /* Inline color escape: chars >= 0x80 change the text color.
          * The new color is (ch & 0x7F). No glyph is drawn. */
@@ -408,7 +408,7 @@ static void drawStringCore(int16 *params, const char *string,
                 }
             }
         }
-        x += wt ? (ch >= 0x20 ? wt[ch-0x20] : 8) : 8;
+        x += widthTab ? (ch >= 0x20 ? widthTab[ch-0x20] : 8) : 8;
     }
 
     /* Update x position and color in the param block (start/end's menu text
@@ -434,14 +434,14 @@ void gfx_drawStringClipped_impl(int16 *params, const char *string, int mode)
     int clipL = 0, clipR = 319, clipT = 0, clipB = 199;
     if (!params) return;
     if (mode & 1) {                    /* horizontal clip window */
-        int a = (int)params[9], b = (int)params[10];
-        clipL = a < b ? a : b;
-        clipR = a < b ? b : a;
+        int bound1 = (int)params[9], bound2 = (int)params[10];
+        clipL = bound1 < bound2 ? bound1 : bound2;
+        clipR = bound1 < bound2 ? bound2 : bound1;
     }
     if (mode & 2) {                    /* vertical clip window */
-        int a = (int)params[7], b = (int)params[8];
-        clipT = a < b ? a : b;
-        clipB = a < b ? b : a;
+        int bound1 = (int)params[7], bound2 = (int)params[8];
+        clipT = bound1 < bound2 ? bound1 : bound2;
+        clipB = bound1 < bound2 ? bound2 : bound1;
     }
     if (clipL < 0) clipL = 0;
     if (clipR > 319) clipR = 319;
@@ -625,10 +625,10 @@ int FAR CDECL gfx_blitSprite(struct SpriteParams *p)
 /* Cohen-Sutherland region code against the 320x200 page. */
 static int gfx_lineOutcode(int x, int y)
 {
-    int c = 0;
-    if (x < 0) c |= 1; else if (x > 319) c |= 2;
-    if (y < 0) c |= 4; else if (y > 199) c |= 8;
-    return c;
+    int code = 0;
+    if (x < 0) code |= 1; else if (x > 319) code |= 2;
+    if (y < 0) code |= 4; else if (y > 199) code |= 8;
+    return code;
 }
 
 void gfx_drawLine_impl(uint16 ux1, uint16 uy1, uint16 ux2, uint16 uy2)
@@ -638,7 +638,7 @@ void gfx_drawLine_impl(uint16 ux1, uint16 uy1, uint16 ux2, uint16 uy2)
     uint8 color = s->fillColor;
     int vx, vy;          /* blitOffset decomposed into a viewport origin */
     int x1, y1, x2, y2;  /* endpoints translated into absolute page coords */
-    int c1, c2;
+    int code1, code2;
     int dx, dy, sx, sy, err, e2;
 
     /* MGRAPHIC slot 0x1f adds the blitOffset ([cs:0x1a0]) viewport base to the
@@ -658,20 +658,20 @@ void gfx_drawLine_impl(uint16 ux1, uint16 uy1, uint16 ux2, uint16 uy2)
     x2 = (int)(int16)ux2 + vx; y2 = (int)(int16)uy2 + vy;
 
     /* Clip the segment to [0,319]x[0,199]. */
-    c1 = gfx_lineOutcode(x1, y1);
-    c2 = gfx_lineOutcode(x2, y2);
+    code1 = gfx_lineOutcode(x1, y1);
+    code2 = gfx_lineOutcode(x2, y2);
     for (;;) {
-        if ((c1 | c2) == 0) break;          /* trivially inside */
-        if ((c1 & c2) != 0) return;          /* trivially outside */
+        if ((code1 | code2) == 0) break;          /* trivially inside */
+        if ((code1 & code2) != 0) return;          /* trivially outside */
         {
-            int co = c1 ? c1 : c2;
-            int x = 0, y = 0;
-            if (co & 8) { x = x1 + (long)(x2 - x1) * (199 - y1) / (y2 - y1); y = 199; }
-            else if (co & 4) { x = x1 + (long)(x2 - x1) * (0 - y1) / (y2 - y1); y = 0; }
-            else if (co & 2) { y = y1 + (long)(y2 - y1) * (319 - x1) / (x2 - x1); x = 319; }
-            else { y = y1 + (long)(y2 - y1) * (0 - x1) / (x2 - x1); x = 0; }
-            if (co == c1) { x1 = x; y1 = y; c1 = gfx_lineOutcode(x1, y1); }
-            else          { x2 = x; y2 = y; c2 = gfx_lineOutcode(x2, y2); }
+            int outcode = code1 ? code1 : code2;
+            int clipX = 0, clipY = 0;
+            if (outcode & 8) { clipX = x1 + (long)(x2 - x1) * (199 - y1) / (y2 - y1); clipY = 199; }
+            else if (outcode & 4) { clipX = x1 + (long)(x2 - x1) * (0 - y1) / (y2 - y1); clipY = 0; }
+            else if (outcode & 2) { clipY = y1 + (long)(y2 - y1) * (319 - x1) / (x2 - x1); clipX = 319; }
+            else { clipY = y1 + (long)(y2 - y1) * (0 - x1) / (x2 - x1); clipX = 0; }
+            if (outcode == code1) { x1 = clipX; y1 = clipY; code1 = gfx_lineOutcode(x1, y1); }
+            else          { x2 = clipX; y2 = clipY; code2 = gfx_lineOutcode(x2, y2); }
         }
     }
 
@@ -718,8 +718,8 @@ void gfx_dirtyRectFill_impl(uint16 minBufOff, uint16 yMin, uint16 yMax)
     if (firstRow < 0) return;
     if (lastRow > 199) lastRow = 199;                          /* rowOffsets[] safety */
     for (y = (int)lastRow; y >= (int)firstRow; y--) {
-        uint16 lo = minBuf[y];
-        uint16 hi = maxBuf[y];
+        uint16 spanLo = minBuf[y];
+        uint16 spanHi = maxBuf[y];
         uint16 width, col;
         uint8 far *dst;
         /* MGRAPHIC's degenerate-row test is UNSIGNED (`cmp hi,lo; jc skip; ja
@@ -730,17 +730,17 @@ void gfx_dirtyRectFill_impl(uint16 minBufOff, uint16 yMin, uint16 yMax)
          * skips. An earlier SIGNED reading clamped such a lo to 0 and filled
          * [0..hi], painting a spurious full-width scanline across the left-MFD
          * ocean (and the equivalent on 3D fills). */
-        if (hi < lo) continue;                                 /* unsigned */
-        if (hi == lo && (hi == 0 || hi == 0x13f)) continue;
+        if (spanHi < spanLo) continue;                                 /* unsigned */
+        if (spanHi == spanLo && (spanHi == 0 || spanHi == 0x13f)) continue;
         /* Clamp the write extent to the visible row. The 3D projection emits
          * near-plane-clamped columns (e.g. ~0x7000), so an unclamped width would
          * loop tens of thousands of times per row in C (MGRAPHIC wraps cheaply in
          * the 64K page; we clip instead). This does NOT change the draw decision
          * above — only how many bytes land on screen. */
-        if (lo > 319) continue;                                /* span off right edge */
-        if (hi > 319) hi = 319;
-        width = (uint16)(hi - lo + 1);
-        dst = (uint8 far *)MK_FP(seg, s->rowOffsets[y] + (uint16)s->blitOffset + lo);
+        if (spanLo > 319) continue;                                /* span off right edge */
+        if (spanHi > 319) spanHi = 319;
+        width = (uint16)(spanHi - spanLo + 1);
+        dst = (uint8 far *)MK_FP(seg, s->rowOffsets[y] + (uint16)s->blitOffset + spanLo);
         for (col = 0; col < width; col++)
             dst[col] = fill;
     }
@@ -894,15 +894,15 @@ void gfx_blitCore_impl(int16 *blk)
     int    dstRow = blk[5];
     int    w = blk[6];
     int    h = blk[7];
-    int    r, c;
+    int    row, col;
     if (blk[3] < 0 || blk[3] >= 16) return;
     dstSeg = s->pageSegs[blk[3]];
-    for (r = 0; r < h; r++) {
-        uint8 far *src = (uint8 far *)MK_FP(srcSeg, (uint16)((srcRow + r) * 320) + srcCol);
-        uint8 far *dst = (uint8 far *)MK_FP(dstSeg, (uint16)((dstRow + r) * 320) + dstCol);
-        for (c = 0; c < w; c++) {
-            uint8 px = src[c];
-            if (px) dst[c] = px;
+    for (row = 0; row < h; row++) {
+        uint8 far *src = (uint8 far *)MK_FP(srcSeg, (uint16)((srcRow + row) * 320) + srcCol);
+        uint8 far *dst = (uint8 far *)MK_FP(dstSeg, (uint16)((dstRow + row) * 320) + dstCol);
+        for (col = 0; col < w; col++) {
+            uint8 px = src[col];
+            if (px) dst[col] = px;
         }
     }
 }
@@ -988,21 +988,21 @@ void gfx_complexRender_impl(int bxArg, int dxArg, int cxArg, int siArg)
     }
 
     for (; ; t++) {
-        int m, ch;
+        int phase, thickness;
         if (bx < loY) break;                 /* unsigned, matches `jc` */
-        m = (int)((t - 1L) % 10L);            /* thickness counter: 1..10 phase */
-        ch = (m == 0) ? 10 : m;
+        phase = (int)((t - 1L) % 10L);            /* thickness counter: 1..10 phase */
+        thickness = (phase == 0) ? 10 : phase;
         if (bx <= hiY) {                     /* `ja` skips the store when bx>hiY */
-            uint16 di = (uint16)(s->rowOffsets[bx] + base);
-            if (ch == 5) {
-                page[di] = color; di = (uint16)(di + dir);
-                page[di] = color;
-            } else if (ch == 10) {
-                page[di] = color; di = (uint16)(di + dir);
-                page[di] = color; di = (uint16)(di + dir);
-                if (cl == 0) page[di] = color;
+            uint16 dstOff = (uint16)(s->rowOffsets[bx] + base);
+            if (thickness == 5) {
+                page[dstOff] = color; dstOff = (uint16)(dstOff + dir);
+                page[dstOff] = color;
+            } else if (thickness == 10) {
+                page[dstOff] = color; dstOff = (uint16)(dstOff + dir);
+                page[dstOff] = color; dstOff = (uint16)(dstOff + dir);
+                if (cl == 0) page[dstOff] = color;
             } else {
-                page[di] = color;
+                page[dstOff] = color;
             }
         }
         bx -= 2;
@@ -1026,10 +1026,10 @@ void FAR CDECL gfx_setPageSeg(void)          { return; }
  * path, but start/end use it; implement faithfully.) */
 void FAR CDECL gfx_clearVga(void)
 {
-    uint16 far *p = (uint16 far *)MK_FP(0xA000, 0);
+    uint16 far *vga = (uint16 far *)MK_FP(0xA000, 0);
     uint16 i;
     for (i = 0; i < 32000u; i++)
-        p[i] = 0;
+        vga[i] = 0;
     return;
 }
 /* Slot 0x2c: present the composited back buffer to the visible page.
