@@ -236,7 +236,7 @@ EGAME_ASM := egcode.asm $(EGAME_BASE) egfarbu2.asm egseg3.asm egseg2.asm egseg1.
 # gfxInit and updateFrame, matching its early position in map/egame.map.
 # The reference build gets byte_228D0/byte_2D6A4 from egfarbu2.asm (two distinct
 # symbols at fixed offsets); the NO_ASM build uses egfarbuf.c (single buffer) instead.
-EGAME_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egtarget.c egmath.c egkeys.c egfileio.c egpic.c egdata.c
+EGAME_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egtarget.c egtgt2.c egmath.c egkeys.c egfileio.c egpic.c egdata.c
 EGAME_BASEHDR = $(addprefix $(SRCDIR)/,egtypes.h egdata.h egcode.h eg3dcam.h eg3dgrid.h eg3dload.h eg3dmap.h eg3dproj.h eg3dview.h eg3dvp.h egcombat.h egfileio.h egflight.h egframe.h egkeys.h egmath.h egpic.h egsphere.h egtacmap.h egtarget.h egthreat.h egui.h)
 EGAME_COBJ := $(call cobj,$(BUILDDIR),$(EGAME_SRC))
 EGAME_OBJ := $(EGAME_COBJ) $(call asmobj,$(BUILDDIR),$(EGAME_ASM))
@@ -262,6 +262,7 @@ $(BUILDDIR)/eg3dcam.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egcombat.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egui.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egtarget.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
+$(BUILDDIR)/egtgt2.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2
 $(BUILDDIR)/egmath.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egfileio.obj: MSC_CFLAGS := /Gs /Id:\f15-se2
 $(BUILDDIR)/egpic.obj: MSC_CFLAGS := /Od /Id:\f15-se2

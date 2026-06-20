@@ -59,6 +59,7 @@ set(EGAME_SOURCES
     ${SRC_DIR}/egtacmap.c
     ${SRC_DIR}/egui.c
     ${SRC_DIR}/egtarget.c
+    ${SRC_DIR}/egtgt2.c
     ${SRC_DIR}/egmath.c
     ${SRC_DIR}/egkeys.c
     ${SRC_DIR}/egfileio.c

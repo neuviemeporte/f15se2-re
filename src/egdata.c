@@ -796,9 +796,7 @@ int g_ourRoll = 0;
 /* player orientation/altitude view state, shared with egseg2 projection. */
 int g_ourHead = 0;
 
-#ifdef NO_ASM
-int16 g_viewZ;
-#endif
+int16 g_viewZ;   /* altitude-Z */
 
 /* g_altitude: airspeed/velocity magnitude. */
 unsigned int g_altitude = 0;

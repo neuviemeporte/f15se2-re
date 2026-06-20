@@ -42,8 +42,6 @@ PUBLIC g_tapeRollOfsA0
 PUBLIC g_tapeRollOfsA1
 PUBLIC g_tapeRollOfsA2
 PUBLIC g_tapeRollOfsA3
-PUBLIC _g_viewZ
-PUBLIC _g_viewZU
 PUBLIC _origCBreakSeg
 PUBLIC _audio_setEnginePitch
 PUBLIC _audio_setup
@@ -2132,7 +2130,7 @@ g_kbdDelayCounter db 0
     db 0Ah
     db 0
     db 0
-_g_viewZ dw 0
+    dw 0
     db 0Ch
     db 5 dup(0)
     db 3 dup(0)
@@ -2216,7 +2214,6 @@ reservedPicWord dw 0     ; unused
 picOvlPageIndex dw 0
 picOvlRowOffset dw 0
 ; ==============================================================================
-_g_viewZU EQU _g_viewZ
 
 .DATA?
 IFDEF DEBUG

@@ -195,7 +195,13 @@ extern int16 g_matrixScratch[];
 extern int g_ourHead;
 extern int g_ourPitch;
 extern int g_ourRoll;
+/* g_viewZ: altitude-Z. int16 for most TUs; egtarget.c reads the same storage
+   as uint16 (it #defines G_VIEWZ_UNSIGNED before including this header). */
+#ifdef G_VIEWZ_UNSIGNED
+extern uint16 g_viewZ;
+#else
 extern int16 g_viewZ;
+#endif
 extern unsigned int g_altitude;
 extern char g_orientationDirty;
 extern int16 g_setThrust;
@@ -532,14 +538,6 @@ extern uint8 g_offscreenRender;
 extern int16 g_modelEvenOddBit;
 extern int16 g_mapLodIndex;
 
-/* g_viewZU: unsigned view of g_viewZ (same storage). In the asm build this is
-   the linker alias _g_viewZU EQU _g_viewZ; with NO_ASM there is no asm to carry
-   the alias, so reinterpret g_viewZ's bytes directly. */
-#ifdef NO_ASM
-#define g_viewZU (*(uint16 *)&g_viewZ)
-#else
-extern uint16 g_viewZU;
-#endif
 
 
 #endif /* F15_SE2_EGDATA */
