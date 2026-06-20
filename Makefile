@@ -48,7 +48,7 @@ HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
 cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-start debug-end debug-egame tools noasm-start noasm-f15
+.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-start debug-end debug-egame tools noasm-start noasm-f15 release
 all: f15-se2
 
 #
@@ -404,8 +404,9 @@ VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo "unk
 RELEASE := f15_se2-$(VERSION).zip
 $(RELEASE): $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE)
 	zip $@ $^
+release: $(RELEASE)
 
-f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(ASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE) $(RELEASE)
+f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(ASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE)
 
 start: $(START_EXE)
 egame: $(EGAME_EXE)
