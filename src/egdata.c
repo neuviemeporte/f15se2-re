@@ -1240,3 +1240,7 @@ uint8 aHitBy_0[] = " hit by ";
 /* aMap: tactical-map panel label. aNotAvailable: store-status text. */
 char aMap[] = "Map";
 uint8 aNotAvailable[] = " not available";
+
+#ifdef NO_ASM
+int16 g_viewZ;
+#endif

@@ -29,16 +29,7 @@ void restoreTimerIrqHandler() { }
 // Stubs matching undefined references from egmain.c
 void setupDac() {}
 int gfx_getModeflag() { return 0; }
-
-int getTimeOfDay(void)
-{
-    return 0;
-}
-
-/* === Auto-generated link stubs (undefined references in egame build) === */
-
-/* --- data globals --- */
-int16 g_viewZ;
+int getTimeOfDay(void) { return 0; }
 
 /* --- functions declared in egame.h --- */
 int far advanceModelPointerLod() { return 0; }
