@@ -466,8 +466,7 @@ STATIC_ASSERT(sizeof(struct Unknown3B4E6Record8)==8);
 #pragma pack(1)
 struct AircraftType {
     char name[7];      /* +0x00 primary name, e.g. "MIG-23" */
-    char altName[9];   /* +0x07 " "+NATO name appended after the primary, e.g. " Flogger" */
-    int16 field_10;    /* +0x10 */
+    char altName[11];   /* +0x07 " "+NATO name appended after the primary, e.g. " Flogger" */
     int16 field_12;    /* +0x12 */
     int16 field_14;    /* +0x14 */
     int16 field_16;    /* +0x16 */
