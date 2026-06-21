@@ -38,7 +38,6 @@ int far cdecl misc_checkKeyBuf(void) {
 int far cdecl misc_getKey(void) { /* Original: GetKey. Blocking BIOS read: scan code in AH, ASCII in AL. */
     enum { BIOS_KEYBOARD_INT = 0x16, BIOS_READ_KEY = 0x00 };
     union REGS biosRegs;
-    /* Blocking BIOS read: scan code returns in AH, ASCII returns in AL. */
     biosRegs.h.ah = BIOS_READ_KEY;
     int86(BIOS_KEYBOARD_INT, &biosRegs, &biosRegs);
     return biosRegs.x.ax;

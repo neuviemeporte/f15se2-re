@@ -736,7 +736,6 @@ int valueToAngle(int value) { /* Original: Iasin(A). Return 16-bit word-degree a
     int tableIndex;
     int tableSpan;
 
-    /* Return a 16-bit word-degree arcsin by interpolating the trig table. */
     if (value == (int)0x8000) return (int)0xc000;
     magnitude = abs(value);
     tableIndex = (magnitude >> ASIN_TABLE_SHIFT) + 1;

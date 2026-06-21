@@ -17,7 +17,6 @@ void mystrcpy(char *dest, const char *source) {
 
 int openFileWrapper(const char *filename, int mode) /* Original: OpenFile(file, attrib). Open resident file service; returns a file handle. */
 {
-    /* Shared start/end wrapper for the resident file-open service. */
     return openFile(filename, mode);
 }
 
@@ -51,7 +50,6 @@ void loadPic(const char *filename, int segment) { /* Original chain: OpenFile + 
     int handle;
     handle = openFileWrapper(filename, 0);
     TRACE(("loadPic(): opened %s, loading into segment 0x%x", filename, segment));
-    /* Decode directly from the open file into the caller-supplied segment. */
     decodePic(handle, segment);
     closeFileWrapper(handle);
 }

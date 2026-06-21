@@ -346,7 +346,6 @@ void seedRng(void) {
 // ==== seg000:0xd200 randomRange ====
 int randomRange(int maxVal) { /* Original: rnd(Max). Deterministic ((long)Max * rand()) >> 15 range scaling. */
     enum { RAND_SCALE_SHIFT = 15 };
-    /* Deterministic range scaling from the C library rand() sequence. */
     return (int)(((long)rand() * (long)maxVal) >> RAND_SCALE_SHIFT);
 }
 

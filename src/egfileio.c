@@ -31,7 +31,6 @@ int createFileWrapper(const char* filename, int attr) { /* Original: CreateFile(
 
 // ==== seg000:0xdd70 ====
 void closeFileWrapper(int handle) { /* Original: CloseFile(fh). Close a resident file-service handle. */
-    /* Closing goes through the same resident file layer as opening. */
     closeFile(handle);
 }
 
