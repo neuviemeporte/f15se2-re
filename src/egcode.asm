@@ -402,8 +402,8 @@ EXTRN aNoFileBuffersAvailabl:BYTE
 EXTRN aOpenError:BYTE
 EXTRN audio_timerTick:PROC
 EXTRN audio_noiseTick:PROC
-EXTRN g_dacGroundPalette:BYTE
-EXTRN g_dacGroundPaletteSrc:BYTE
+EXTRN _g_dacGroundPaletteSrc:BYTE
+g_dacGroundPaletteSrc EQU _g_dacGroundPaletteSrc
 EXTRN _g_frameSyncPending:BYTE
 EXTRN _g_timerDividerCounter:BYTE
 EXTRN _g_timerSyncToRetrace:BYTE
@@ -414,8 +414,11 @@ g_exitMsgTerm EQU _g_exitMsgTerm
 EXTRN g_picNumberDictSlots:BYTE
 EXTRN g_picFileWord:BYTE
 EXTRN _g_missionEndedFlag:BYTE
-EXTRN dacValues:BYTE
-EXTRN dacValues1:BYTE
+EXTRN _dacValues:BYTE
+dacValues EQU _dacValues
+g_dacGroundPalette EQU _dacValues + 30h
+EXTRN _dacValues1:BYTE
+dacValues1 EQU _dacValues1
 EXTRN f15dgtlAddr:WORD
 EXTRN fileReadPos:WORD
 EXTRN _g_missionStatus:WORD
@@ -432,7 +435,8 @@ EXTRN gfx_setOvlVal2:PROC
 EXTRN cbreakHit:BYTE
 EXTRN origCBreakOfs:WORD
 EXTRN origCBreakSeg:WORD
-EXTRN otherDacValues:BYTE
+EXTRN _otherDacValues:BYTE
+otherDacValues EQU _otherDacValues
 EXTRN ovlInsaneFlag:BYTE
 EXTRN _picBuf:BYTE
 picBuf EQU _picBuf

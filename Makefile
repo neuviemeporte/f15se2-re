@@ -161,7 +161,7 @@ START_NOASM := $(NOASMDIR)/start.exe
 NOASM_SRC := $(START_SRC) slottram.c ovlpatch.c
 NOASM_SHARED_SRC := file_io.c timer.c miscimpl.c gfximpl.c picimpl.c ovlimpl.c
 NOASM_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
-NOASM_OBJ := $(NOASM_COBJ) $(NOASMDIR)/cleanup.obj $(NOASMDIR)/drawstr.obj $(NOASMDIR)/textfmt.obj $(NOASMDIR)/filepic.obj
+NOASM_OBJ := $(NOASM_COBJ) $(NOASMDIR)/cleanup.obj $(NOASMDIR)/drawstr.obj $(NOASMDIR)/textfmt.obj $(NOASMDIR)/filepic.obj $(NOASMDIR)/egregsh.obj
 $(NOASM_COBJ): $(START_BASEHDR)
 # /Ox breaks the timer-polled busy-waits (MSC 5.1 hoists the non-volatile poll
 # out of the loop and its `volatile` is non-functional), so stay at /Gs.
@@ -215,7 +215,7 @@ EGAME_NOASM := $(NOASMDIR)/egame.exe
 # Source set mirrors CMakeLists.txt's EGAME_SOURCES: the full eg*.c list plus
 # egstubs.c (C stand-ins for the not-yet-migrated asm helpers) and the gfx
 # trampolines (slottram.c/ovlpatch.c).
-EGAME_NOASM_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egtarget.c egtgt2.c egmath.c egkeys.c egfileio.c egpic.c egdata.c egfarbuf.c eg3dmath.c egstubs.c slottram.c ovlpatch.c
+EGAME_NOASM_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egtarget.c egtgt2.c egmath.c egkeys.c egfileio.c egpic.c egdata.c egfarbuf.c eg3dmath.c eghudm.c eghudr.c egsys.c egstubs.c slottram.c ovlpatch.c
 # Shared gfx-slot / timer / misc / pic / overlay basics, the same C
 # implementations noasm-start and noasm-end use. egame keeps its own egfileio.c
 # file layer and egtacmap.c string helpers, so it omits the shared
@@ -225,11 +225,18 @@ EGAME_NOASM_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.
 # no shared C implementation.
 EGAME_NOASM_SHARED := timer.c miscimpl.c gfximpl.c picimpl.c ovlimpl.c
 EGAME_NOASM_COBJ := $(call cobj,$(NOASMDIR),$(EGAME_NOASM_SRC)) $(addprefix $(NOASMDIR)/,$(EGAME_NOASM_SHARED:.c=.obj))
-EGAME_NOASM_OBJ := $(EGAME_NOASM_COBJ)
-# Match noasm-start/noasm-end: /Gs without /Zi. /Zi inflates _TEXT (the debug
-# egame disables it for the same reason), and egame's code plus the shared
-# basics would otherwise overflow the 64K _TEXT segment.
-$(EGAME_NOASM_COBJ): MSC_CFLAGS := /Gs /Id:\f15-se2 /DNO_ASM /DBUGFIX
+EGAME_NOASM_OBJ := $(EGAME_NOASM_COBJ) $(NOASMDIR)/egregsh.obj
+# /Os (favour size) keeps the egame C + shared basics inside the 64K _TEXT.
+$(EGAME_NOASM_COBJ): MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DNO_ASM /DBUGFIX
+# timer.c stays at /Gs: MSC's size/speed optimiser hoists its timer-polled
+# busy-waits (its `volatile` is non-functional in 5.1), breaking frame pacing.
+$(NOASMDIR)/timer.obj: MSC_CFLAGS := /Gs /Id:\f15-se2 /DNO_ASM /DBUGFIX
+# eghudr.c is the C analogue of the hand-written egseg2.asm; like seg002 it is
+# large enough that it must live in its own code segment so it does not push the
+# shared _TEXT past 64K. /NT names that segment; its far entry points
+# (drawInstrumentGaugesFar / setupInstrumentLayoutFar / drawClipLineGlobal)
+# and the eghudm.c far helpers keep every cross-segment call far.
+$(NOASMDIR)/eghudr.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DNO_ASM /DBUGFIX /NT EGHUD_TEXT
 $(EGAME_NOASM): | $(NOASMDIR)
 $(EGAME_NOASM): $(EGAME_NOASM_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_NOASM_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
@@ -371,7 +378,7 @@ $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
 END_NOASM := $(NOASMDIR)/end.exe
 NOASM_END_SRC := $(END_SRC) slottram.c ovlpatch.c
 NOASM_END_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_END_SRC)) $(addprefix $(NOASMDIR)/,$(NOASM_SHARED_SRC:.c=.obj))
-NOASM_END_OBJ := $(NOASM_END_COBJ) $(NOASMDIR)/cleanup.obj $(NOASMDIR)/drawstr.obj $(NOASMDIR)/textfmt.obj $(NOASMDIR)/filepic.obj
+NOASM_END_OBJ := $(NOASM_END_COBJ) $(NOASMDIR)/cleanup.obj $(NOASMDIR)/drawstr.obj $(NOASMDIR)/textfmt.obj $(NOASMDIR)/filepic.obj $(NOASMDIR)/egregsh.obj
 $(NOASM_END_COBJ): $(END_BASEHDR)
 # /Ox breaks the timer-polled busy-waits (MSC 5.1 hoists the non-volatile poll
 # out of the loop and its `volatile` is non-functional), so stay at /Gs.

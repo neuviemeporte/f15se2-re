@@ -198,12 +198,17 @@ int FAR CDECL gfx_getBlitOffset(void)
     return ((int(FAR*)(void))gfxFarTableExported[30])();
 }
 
-/* Slot 0x1f: gfx_drawLine — coords passed by value (the original takes them in
- * registers; drawLineWrapper marshals the lineX1..lineY2 globals here). */
+/* Slot 0x1f: gfx_drawLine — MGRAPHIC takes the endpoints in registers
+ * (AX=x1,BX=y1,CX=x2,DX=y2). The real overlay is always register-called, so on
+ * DOS the endpoints must be marshaled into registers: egregsh.asm provides
+ * _gfx_drawLine for every DOS build and this cdecl far-call is excluded. Only
+ * the non-DOS lint (build64), whose overlay is the cdecl C reimpl, uses it. */
+#ifndef MSDOS
 void FAR CDECL gfx_drawLine(uint16 x1, uint16 y1, uint16 x2, uint16 y2)
 {
     ((void(FAR*)(uint16,uint16,uint16,uint16))gfxFarTableExported[31])(x1, y1, x2, y2);
 }
+#endif
 
 /* Slot 0x20: gfx_setDrawColor */
 void FAR CDECL gfx_setDrawColor(void)

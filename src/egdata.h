@@ -538,6 +538,71 @@ extern uint8 g_offscreenRender;
 extern int16 g_modelEvenOddBit;
 extern int16 g_mapLodIndex;
 
+/* HUD gauge data. */
+extern uint8 g_tapeDigitStrip[];
+extern uint8 g_compassTapeBuf[];
+extern uint8 g_pitchLabelTable[92];
+/* HUD tape/sprite descriptor blocks (gfx slot param blocks). */
+extern int16 g_tapeText0[11];
+extern int16 g_tapeText1[11];
+extern int16 g_tapeText2[11];
+extern int16 g_tapeText3[11];
+extern int16 g_tapeSprite0[15];
+extern int16 g_tapeSprite1[15];
+extern int16 g_tapeSprite2[15];
+extern int16 g_tapeSprite3[15];
+/* HUD layout scalars + label scratch */
+extern int16 g_tapeOriginX;
+extern int16 g_tapeTickPitch;
+extern int16 g_speedTapeTickStep;
+extern int16 g_altTapeTickStep;
+extern int16 g_headingPixPerDeg;
+extern int16 g_compassWrapLimit;
+extern int16 g_headingModulus;
+extern int16 g_headingWrapOffset;
+extern int16 g_pitchVtxX0;
+extern int16 g_pitchVtxX1;
+extern int16 g_pitchVtxX2;
+extern int16 g_pitchVtxX3;
+extern int16 g_pitchRungVStep;
+extern int16 g_pitchDrawX;
+extern int16 g_pitchDrawY;
+extern int16 g_pitchLabelY;
+extern int16 g_pitchLabelX;
+extern int16 g_pitchBlitOfs;
+extern int16 g_pitchClipMaxX;
+extern int16 g_pitchClipMaxY;
+extern int16 g_geeReadoutX;
+extern int16 g_altRemainder;
+extern int16 g_compassScrollIdx;
+extern int16 g_compassDrawX;
+extern int16 g_tapeRenderX;
+extern int16 g_tapeRollOfsB0;
+extern int16 g_tapeRollOfsB1;
+extern int16 g_tapeRollOfsB2;
+extern int16 g_tapeRollOfsB3;
+extern int16 g_tapeRollOfsA0;
+extern int16 g_tapeRollOfsA1;
+extern int16 g_tapeRollOfsA2;
+extern int16 g_tapeRollOfsA3;
+extern uint8 g_headingBase;
+extern uint8 g_tapeCursorBackShift;
+extern uint8 g_tapeScaleShift;
+extern uint8 g_pitchCenterY;
+extern uint8 g_compassMarkerPhase;
+extern uint8 g_tapePageCounter;
+extern uint8 g_tapeRenderMode;
+extern uint8 g_speedLabelBuf[6];
+extern uint8 g_altLabelBuf[4];
+extern uint8 g_tapeDrawStr[4];
+
+
+/* VGA DAC palette tables. g_dacGroundPalette is the +0x30 window into dacValues. */
+extern uint8 dacValues1[];
+extern uint8 dacValues[];
+extern uint8 otherDacValues[];
+extern uint8 g_dacGroundPaletteSrc[];
+
 
 
 #endif /* F15_SE2_EGDATA */
