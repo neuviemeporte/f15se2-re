@@ -28,7 +28,7 @@ jobs:
         run: make -j$(nproc) debug
 
       - name: Build noasm
-        run: make -j$(nproc) noasm-start noasm-end
+        run: make -j$(nproc) noasm-f15 noasm-start noasm-egame noasm-end
 
   verify:
     runs-on: ubuntu-latest

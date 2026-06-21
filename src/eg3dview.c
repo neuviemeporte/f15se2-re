@@ -1,6 +1,7 @@
 // seg000 optimized code (/Ot)
 #include "eg3dload.h"
 #include "eg3dmap.h"
+#include "eg3dproj.h"
 #include "eg3dview.h"
 #include "egdata.h"
 #include "egtarget.h"
@@ -13,8 +14,6 @@
 
 #include <dos.h>
 #include <memory.h>
-
-void projectObjects(int, int, int, int, int, int, int, int);
 
 
 void loadRegion3D() {
@@ -34,7 +33,7 @@ void render3DView(int camX, int camY, int camZ, long worldX, long worldY, long w
     g_viewParams[2] = (unsigned char)((char *)colorLut)[g_skyColorIndex & 0xFF];
     setup3DTransform((char *)g_viewParams, camX, camY, camZ, 0, 0, (int)worldZ, 1);
     TRACE(("121CA:2"));
-    projectObjects(camX, camY, (int)worldX, (int)(worldX >> 16), (int)worldY, (int)(worldY >> 16), (int)worldZ, (int)(worldZ >> 16));
+    projectObjects(camX, camY, worldX, worldY, worldZ);
     TRACE(("121CA:3"));
     updateTargetLock();
     TRACE(("121CA:4"));

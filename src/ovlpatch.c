@@ -28,9 +28,8 @@ extern GfxFarFn gfxFarTableExported[84];
  * pointers to functions in f15.exe's code segment. The offset array at
  * OVL_HDR_FIRSTPTR contains FP_OFF() values for each slot function.
  */
-void setupOverlaySlots(int param) /* ovlSeg passed as int */
+void setupOverlaySlots(uint16 ovlSeg)
 {
-    uint16 ovlSeg = param;
     uint16 codeSeg;      /* Overlay code segment (f15.exe's CS) */
     uint16 firstIdx;     /* First slot index (usually 0) */
     uint16 slotCount;    /* Number of slots to patch */
