@@ -215,7 +215,7 @@ EGAME_NOASM := $(NOASMDIR)/egame.exe
 # Source set mirrors CMakeLists.txt's EGAME_SOURCES: the full eg*.c list plus
 # egstubs.c (C stand-ins for the not-yet-migrated asm helpers) and the gfx
 # trampolines (slottram.c/ovlpatch.c).
-EGAME_NOASM_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egtarget.c egtgt2.c egmath.c egkeys.c egfileio.c egpic.c egdata.c egfarbuf.c egstubs.c slottram.c ovlpatch.c
+EGAME_NOASM_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egtarget.c egtgt2.c egmath.c egkeys.c egfileio.c egpic.c egdata.c egfarbuf.c eg3dmath.c egstubs.c slottram.c ovlpatch.c
 # Shared gfx-slot / timer / misc / pic / overlay basics, the same C
 # implementations noasm-start and noasm-end use. egame keeps its own egfileio.c
 # file layer and egtacmap.c string helpers, so it omits the shared
