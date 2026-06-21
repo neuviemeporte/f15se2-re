@@ -45,6 +45,7 @@ int far flushSpanDirtyRect();
 int far resetScanlineSpans();
 int far clipAndRasterizeEdge();
 void __cdecl __far setupInstrumentLayoutFar();
+void __cdecl __far drawInstrumentGaugesFar();
 int far initJoystickCalibration();
 void seedJoystickBaseline();
 int far readCalibratedJoystick();
