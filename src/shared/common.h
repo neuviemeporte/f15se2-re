@@ -39,7 +39,7 @@ int openFile(const char *filename, int mode);
 void intDispatch(int intNum, uint8 *inRegs, uint8 *outRegs);
 void restoreCbreakHandler(void);
 void installCBreakHandler(void);
-void setupOverlaySlots(int param);
+void setupOverlaySlots(uint16 param);
 int getTimeOfDay(void);
 
 /* functions provided by timer.c / timer_*.inc */

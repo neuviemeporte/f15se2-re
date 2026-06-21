@@ -11,7 +11,7 @@ void setupDac();
 int fixedMulQ14(int a, int b);
 int cosine(int angle);
 int sine(int angle);
-void restoreCBreakHandler();
+void restoreCbreakHandler();
 void runGameLoop();
 void gameMainLoop();
 void advanceFrameTick();

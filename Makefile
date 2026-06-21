@@ -212,10 +212,24 @@ $(NOASMDIR)/%.obj: $(SRCDIR)/%.asm | $(NOASMDIR) $(ASM)
 # egame.exe NO_ASM build (virtual gfx overlay - Phase 3 of plan)
 #
 EGAME_NOASM := $(NOASMDIR)/egame.exe
-NOASM_EGAME_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egmath.c egkeys.c egfileio.c egpic.c egfarbuf.c slottram.c ovlpatch.c
-EGAME_NOASM_COBJ := $(call cobj,$(NOASMDIR),$(EGAME_NOASM_SRC))
-EGAME_NOASM_OBJ := $(EGAME_NOASM_COBJ) $(NOASMDIR)/cleanup.obj $(NOASMDIR)/drawstr.obj $(NOASMDIR)/textfmt.obj $(NOASMDIR)/filepic.obj
-$(EGAME_NOASM_COBJ): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DNO_ASM /DBUGFIX
+# Source set mirrors CMakeLists.txt's EGAME_SOURCES: the full eg*.c list plus
+# egstubs.c (C stand-ins for the not-yet-migrated asm helpers) and the gfx
+# trampolines (slottram.c/ovlpatch.c).
+EGAME_NOASM_SRC := egmain.c egsphere.c egframe.c eg3dview.c eg3dproj.c eg3dgrid.c eg3dload.c eg3dmap.c eg3dvp.c eg3dcam.c egflight.c egthreat.c egcombat.c egtacmap.c egui.c egtarget.c egtgt2.c egmath.c egkeys.c egfileio.c egpic.c egdata.c egfarbuf.c egstubs.c slottram.c ovlpatch.c
+# Shared gfx-slot / timer / misc / pic / overlay basics, the same C
+# implementations noasm-start and noasm-end use. egame keeps its own egfileio.c
+# file layer and egtacmap.c string helpers, so it omits the shared
+# file_io.c/filepic.c/textfmt.c/cleanup.c/drawstr.c (which would redefine
+# openFileWrapper/closeFileWrapper/drawStringCentered). egstubs.c then only
+# covers the egame-specific asm helpers (3D engine, joystick, sound) that have
+# no shared C implementation.
+EGAME_NOASM_SHARED := timer.c miscimpl.c gfximpl.c picimpl.c ovlimpl.c
+EGAME_NOASM_COBJ := $(call cobj,$(NOASMDIR),$(EGAME_NOASM_SRC)) $(addprefix $(NOASMDIR)/,$(EGAME_NOASM_SHARED:.c=.obj))
+EGAME_NOASM_OBJ := $(EGAME_NOASM_COBJ)
+# Match noasm-start/noasm-end: /Gs without /Zi. /Zi inflates _TEXT (the debug
+# egame disables it for the same reason), and egame's code plus the shared
+# basics would otherwise overflow the 64K _TEXT segment.
+$(EGAME_NOASM_COBJ): MSC_CFLAGS := /Gs /Id:\f15-se2 /DNO_ASM /DBUGFIX
 $(EGAME_NOASM): | $(NOASMDIR)
 $(EGAME_NOASM): $(EGAME_NOASM_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_NOASM_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"

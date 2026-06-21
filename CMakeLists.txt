@@ -13,17 +13,29 @@ set(NOASM_GFX_SOURCES
     ${SRC_DIR}/ovlpatch.c
 )
 
-set(SHARED_SOURCES
-    ${SRC_DIR}/shared/file_io.c
+# Shared gfx-slot / timer / misc / pic / overlay basics — the same C
+# implementations every program's NO_ASM build routes its slots through.
+set(SHARED_SLOT_SOURCES
     ${SRC_DIR}/shared/gfximpl.c
     ${SRC_DIR}/shared/miscimpl.c
     ${SRC_DIR}/shared/ovlimpl.c
     ${SRC_DIR}/shared/picimpl.c
     ${SRC_DIR}/shared/timer.c
+)
+
+# File + string helpers. egame provides its own (egfileio.c / egtacmap.c), so it
+# omits these to avoid redefining openFileWrapper/closeFileWrapper/drawStringCentered.
+set(SHARED_IO_SOURCES
+    ${SRC_DIR}/shared/file_io.c
     ${SRC_DIR}/shared/cleanup.c
     ${SRC_DIR}/shared/drawstr.c
     ${SRC_DIR}/shared/textfmt.c
     ${SRC_DIR}/shared/filepic.c
+)
+
+set(SHARED_SOURCES
+    ${SHARED_SLOT_SOURCES}
+    ${SHARED_IO_SOURCES}
 )
 
 set(START_SOURCES
@@ -67,6 +79,7 @@ set(EGAME_SOURCES
     ${SRC_DIR}/egdata.c
     ${SRC_DIR}/egfarbuf.c
     ${SRC_DIR}/egstubs.c
+    ${SHARED_SLOT_SOURCES}
     ${NOASM_GFX_SOURCES}
 )
 

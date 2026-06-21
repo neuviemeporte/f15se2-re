@@ -343,7 +343,7 @@ int randomRange(int maxVal) {
 }
 
 // ==== seg000:0xd21e ====
-int16 readAxisInput(int16 axisIdx)
+int readAxisInput(int axisIdx)
 {
     int16 value;
 

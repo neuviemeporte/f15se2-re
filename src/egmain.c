@@ -92,7 +92,7 @@ int main(void) {
     if (commData->setupUseJoy == 1) {
         restoreJoystickData(commData->joyData);
     }
-    restoreCBreakHandler();
+    restoreCbreakHandler();
     if (exitCode == 0) {
         regs.h.ah = 0;
         regs.h.al = 3;
