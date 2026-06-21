@@ -25,10 +25,10 @@ void closeFileWrapper(int handle);
 void mystrcpy(char *dest, const char *source);
 void loadPic(const char *filename, int segment);
 #ifdef BUGFIX
-void openShowPic(char *name, int page);
+void openShowPic(char *filename, int page);
 void showPicFile(int handle, int pageNum);
 #else
-void openShowPic(char *name, int page, int garbage);
+void openShowPic(char *filename, int page, int garbage);
 void showPicFile(int handle, int pageNum, int garbage);
 #endif
 

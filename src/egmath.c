@@ -232,40 +232,44 @@ int shapeDataOffset(int shapeId)
 }
 
 // ==== seg000:0xcf64 clamp ====
-int clampRange(int value, int minVal, int maxVal) {
+int clampRange(int value, int minVal, int maxVal) { /* Original: rng(x,a,b). Clamp value, preserving the <= -0x4000 wrap-to-max case. */
+    enum { RNG_WRAP_FLOOR = -0x4000 };
+    /* Unlike a plain clamp, very negative wrapped angles select the high end. */
     if (value > maxVal) {
         return maxVal;
     }
     if (value >= minVal) {
         return value;
     }
-    if (value <= -0x4000) {
+    if (value <= RNG_WRAP_FLOOR) {
         return maxVal;
     }
     return minVal;
 }
 
 // ==== seg000:0xcf8e ====
-int clampValue(int value, int min, int max) {
-    if (value > max) {
-        return max;
+int clampValue(int value, int minVal, int maxVal) { /* Original: rng2(x,a,b). Plain clamp between min and max. */
+    if (value > maxVal) {
+        return maxVal;
     }
-    if (value < min) {
-        return min;
+    if (value < minVal) {
+        return minVal;
     }
     return value;
 }
 
 // ==== seg000:0xcfa6 ====
-int rangeApprox(int dx, int dy) {
+int rangeApprox(int deltaX, int deltaY) { /* Original: xydist(x,y). Fast 2D distance approximation capped at 0x7fff. */
+    enum { XYDIST_MAX = 0x7FFF };
     long dist;
-    dx = abs(dx);
-    dy = abs(dy);
-    if (dx > dy)
-        dist = (long)(dy >> 1) + (long)dx;
+    deltaX = abs(deltaX);
+    deltaY = abs(deltaY);
+    /* Fast 2D distance approximation: max(abs) + half of min(abs). */
+    if (deltaX > deltaY)
+        dist = (long)(deltaY >> 1) + (long)deltaX;
     else
-        dist = (long)(dx >> 1) + (long)dy;
-    if (dist > 0x7FFF) dist = 0x7FFF;
+        dist = (long)(deltaX >> 1) + (long)deltaY;
+    if (dist > XYDIST_MAX) dist = XYDIST_MAX;
     return (int)dist;
 }
 
@@ -310,17 +314,19 @@ int computeBearing(int deltaX, int deltaY) {
 }
 
 // ==== seg000:0xd178 sinMul ====
-int sinMul(int angle, int value) {
+int sinMul(int angle, int value) { /* Original: sinX(angle,x). Fixed-point sine lookup multiplied by value. */
+    /* Sine table values are fixed-point; fixedMulQ14 applies the scale. */
     return fixedMulQ14(sine(angle), value);
 }
 
 // ==== seg000:0xd190 cosMul ====
-int cosMul(int angle, int value) {
-    return sinMul(angle + 0x4000, value);
+int cosMul(int angle, int value) { /* Original: cosX(angle,x). Cosine via sine phase shift. */
+    enum { WORD_DEGREES_QUARTER_TURN = 0x4000 };
+    return sinMul(angle + WORD_DEGREES_QUARTER_TURN, value);
 }
 
 // ==== seg000:0xd1c8 ====
-int signOf(int value) {
+int signOf(int value) { /* Original: sgn(x). Return -1, 0, or 1. */
     if (value == 0) {
         return 0;
     }
@@ -338,8 +344,10 @@ void seedRng(void) {
 }
 
 // ==== seg000:0xd200 randomRange ====
-int randomRange(int maxVal) {
-    return (int)(((long)rand() * (long)maxVal) >> 15);
+int randomRange(int maxVal) { /* Original: rnd(Max). Deterministic ((long)Max * rand()) >> 15 range scaling. */
+    enum { RAND_SCALE_SHIFT = 15 };
+    /* Deterministic range scaling from the C library rand() sequence. */
+    return (int)(((long)rand() * (long)maxVal) >> RAND_SCALE_SHIFT);
 }
 
 // ==== seg000:0xd21e ====

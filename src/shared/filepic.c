@@ -15,26 +15,28 @@ void mystrcpy(char *dest, const char *source) {
     } while ((*dest++ = *source++) != '\0');
 }
 
-int openFileWrapper(const char *filename, int mode)
+int openFileWrapper(const char *filename, int mode) /* Original: OpenFile(file, attrib). Open resident file service; returns a file handle. */
 {
+    /* Shared start/end wrapper for the resident file-open service. */
     return openFile(filename, mode);
 }
 
-void closeFileWrapper(int handle)
+void closeFileWrapper(int handle) /* Original: CloseFile(fh). Close a resident file-service handle. */
 {
     TRACE(("closeFileWrapper"));
+    /* Close through file_io.c so the handle bookkeeping stays centralized. */
     fileClose(handle);
 }
 
 #ifdef BUGFIX
-void openShowPic(char *name, int page)
+void openShowPic(char *filename, int page) /* Original chain: OpenFile + show/decode + CloseFile. Open, draw PIC to page, then close. */
 #else
-void openShowPic(char *name, int page, int garbage)
+void openShowPic(char *filename, int page, int garbage) /* Original chain: OpenFile + show/decode + CloseFile. Open, draw PIC to page, then close. */
 #endif
 {
     int16 fileHandle;
-    TRACE(("openShowPic: opening file %s, page %d",name,page));
-    fileHandle = openFileWrapper(name, 0);
+    TRACE(("openShowPic: opening file %s, page %d",filename,page));
+    fileHandle = openFileWrapper(filename, 0);
     TRACE(("openShowPic: showing pic, handle %d",fileHandle));
 #ifdef BUGFIX
     showPicFile(fileHandle, page);
@@ -45,10 +47,11 @@ void openShowPic(char *name, int page, int garbage)
     TRACE(("openShowPic: file closed, returning"));
 }
 
-void loadPic(const char *filename, int segment) {
+void loadPic(const char *filename, int segment) { /* Original chain: OpenFile + DecodePic(InSeg, OutSeg) + CloseFile. Load PIC into segment. */
     int handle;
     handle = openFileWrapper(filename, 0);
     TRACE(("loadPic(): opened %s, loading into segment 0x%x", filename, segment));
+    /* Decode directly from the open file into the caller-supplied segment. */
     decodePic(handle, segment);
     closeFileWrapper(handle);
 }

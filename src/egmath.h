@@ -7,7 +7,7 @@ void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int ob
 void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYaw, int objPitch, int objRoll, int mode, int shift);
 int shapeDataOffset(int shapeId);
 int clampRange(int value, int minVal, int maxVal);
-int clampValue(int value, int min, int max);
+int clampValue(int value, int minVal, int maxVal);
 int computeBearing(int deltaX, int deltaY);
 int cosMul(int angle, int value);
 int signOf(int value);
