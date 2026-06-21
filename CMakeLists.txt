@@ -78,6 +78,7 @@ set(EGAME_SOURCES
     ${SRC_DIR}/egpic.c
     ${SRC_DIR}/egdata.c
     ${SRC_DIR}/egfarbuf.c
+    ${SRC_DIR}/eg3dmath.c
     ${SRC_DIR}/egstubs.c
     ${SHARED_SLOT_SOURCES}
     ${NOASM_GFX_SOURCES}
