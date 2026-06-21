@@ -354,7 +354,7 @@ void updateThreatTargeting(void)
             g_savedSamTtl = g_projectiles[slot].ttl;
             (g_projectiles + slot)->ttl = 0;
             strcpy((char *)strBuf,
-                   (char *)missiles[*(int16 *)&g_projectiles[slot].state[2]].shortName);
+                   (char *)missiles[*(int16 *)&g_projectiles[slot].state[2]].longName);
             if (mode == 0x1e || mode == 0x1d || mode == 0x1c) {
                 scheduleTimedEvent(0, 1);
                 makeSound(2, 2);
@@ -365,7 +365,7 @@ void updateThreatTargeting(void)
                     destroyGroundTarget(g_loftTargetIdx);
                     strcat((char *)strBuf, (char *)aDestroyedBy);
                     strcat((char *)strBuf,
-                           (char *)missiles[*(int16 *)&g_projectiles[slot].state[2]].shortName);
+                           (char *)missiles[*(int16 *)&g_projectiles[slot].state[2]].longName);
                     g_hitEffectTimer = 8;
                     g_hitAlt = 0;
                 } else {
@@ -380,7 +380,7 @@ void updateThreatTargeting(void)
                     destroyGroundTarget(wp);
                     strcat((char *)strBuf, (char *)aDestroyedBy_0);
                     strcat((char *)strBuf,
-                           (char *)missiles[*(int16 *)&g_projectiles[slot].state[2]].shortName);
+                           (char *)missiles[*(int16 *)&g_projectiles[slot].state[2]].longName);
                     g_hitEffectTimer = 8;
                     g_hitAlt = 0;
                 }
@@ -659,7 +659,7 @@ void fireMissile()
     spec = missiles[weaponIdx].specIndex;
 
     if (missleSpec[missileSpecIndex].ammo == 0) {
-        strcpy(strBuf, missiles[weaponIdx].shortName);
+        strcpy(strBuf, missiles[weaponIdx].longName);
         strcat(strBuf, a0);
         setTimedMessage(strBuf);
         goto end;
@@ -675,7 +675,7 @@ void fireMissile()
         tmp = ((int16 *)ammoNumX)[missileSpecIndex];
         fillRectBoth(tmp - 1, 0xbe, tmp + 2, 0xc2);
         drawNumber(missleSpec[missileSpecIndex].ammo, tmp, 0xbe, 0x0c);
-        strcpy(strBuf, missiles[weaponIdx].shortName);
+        strcpy(strBuf, missiles[weaponIdx].longName);
         strcat(strBuf, aColon);
         strcat(strBuf, itoa(missleSpec[missileSpecIndex].ammo, g_itoaScratch, 0x0a));
         setTimedMessage(strBuf);
@@ -733,7 +733,7 @@ void fireMissile()
     }
 
     g_lastMissileSlot = slot;
-    strcpy(strBuf, missiles[weaponIdx].shortName);
+    strcpy(strBuf, missiles[weaponIdx].longName);
     strcat(strBuf, aFired);
     tempStrcpy(strBuf);
 

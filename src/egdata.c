@@ -862,8 +862,9 @@ uint8 aNotAvailable[] = " not available";
  * missileSpecIndex (0..2). */
 int16 ammoNumX[3] = { 65, 26, 101 };
 
-/* missiles[20]: player weapon catalogue — shortName, longName, specIndex
- * (signed sams[] index, -1/-2 = non-threat stores), weaponCategory. */
+/* missiles[20]: player weapon catalogue — shortName (designation, not
+ * displayed by egame), longName (the name shown in all weapon messages),
+ * specIndex (signed sams[] index, -1/-2 = non-threat stores), weaponCategory. */
 struct Missile missiles[20] = {
     { "AIM-9M",  "Sidewinder", 0x17, 4 },
     { "AIM-120", "AMRAAM ",    0x16, 4 },
