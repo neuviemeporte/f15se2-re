@@ -44,7 +44,7 @@ void FAR CDECL gfx_setColor(int color);                 /* slot 0x21: set fill/d
 void FAR CDECL gfx_nop22();                   /* slot 0x22: bare RETF no-op (does NOT reset blitOffset) */
 void FAR CDECL gfx_nop23();                  /* slot 0x23: bare RETF no-op */
 void FAR CDECL gfx_plotPixel();                             /* slot 0x24: plot pixel at cached position */
-void FAR CDECL gfx_dirtyRect();                         /* slot 0x25: dirtyRect (reg-called) */
+void FAR CDECL gfx_dirtyRect(int16 *spanBuf, int yMin, int yMax); /* slot 0x25: dirtyRect (reg-called: BX=spanBuf AX=yMin CX=yMax) */
 void FAR CDECL gfx_storePageSeg();                      /* slot 0x26: store page seg */
 void FAR CDECL gfx_setPageSeg();                        /* slot 0x27: pageSegs[idx]=seg */
 void FAR CDECL gfx_dirtyRect2();                        /* slot 0x28: dirtyRect2 (=0x25) */

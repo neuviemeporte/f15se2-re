@@ -20,6 +20,7 @@ DOSSEG
 
 PUBLIC _gfx_drawLine
 PUBLIC _gfx_setCurPageSegReg
+PUBLIC _gfx_dirtyRect
 
 EXTRN _gfxFarTableExported:WORD
 
@@ -68,5 +69,28 @@ _gfx_drawLine proc far
     pop bp
     retf
 _gfx_drawLine endp
+
+; Slot 0x25 (gfxFarTableExported[37]) — BX = near offset of the per-scanline
+; span buffer (g_spanBuf.minX), AX = yMin, CX = yMax; flush the accumulated
+; spans into the current page. cdecl args (far):
+;   [bp+6]=spanBuf [bp+8]=yMin [bp+10]=yMax
+_gfx_dirtyRect proc far
+    push bp
+    mov bp, sp
+    push si
+    push di
+    push ds
+    push es
+    mov bx, [bp+6]
+    mov ax, [bp+8]
+    mov cx, [bp+10]
+    call dword ptr [_gfxFarTableExported + 37*4]
+    pop es
+    pop ds
+    pop di
+    pop si
+    pop bp
+    retf
+_gfx_dirtyRect endp
 
 END
