@@ -146,6 +146,12 @@ void runGameSession() {
     TRACE(("runGameSession: audio_setup"));
     audio_setup(*(int16 FAR*)(OFF_IACA_UNK), f15DgtlResult);
     TRACE(("runGameSession: setTimerIrqHandler"));
+#ifdef NO_ASM
+    /* The shared C timer ISR has no built-in per-tick game work; register
+     * egame's advanceFrameTick (frame-pacing tick + DAC colour-cycle) before
+     * installing it. egcode.asm's timer ISR does this inline, so verify-only. */
+    setTimerTickHook(egAdvanceFrameTick);
+#endif
     setTimerIrqHandler();
     if (commData->setupUseJoy == 0) {
         TRACE(("runGameSession: setInt9Handler"));

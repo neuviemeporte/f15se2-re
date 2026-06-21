@@ -21,10 +21,42 @@ DOSSEG
 PUBLIC _gfx_drawLine
 PUBLIC _gfx_setCurPageSegReg
 PUBLIC _gfx_dirtyRect
+PUBLIC _gfx_drawGlyphStr
 
 EXTRN _gfxFarTableExported:WORD
 
 .CODE
+
+; Clipped glyph-string draw. MGRAPHIC's glyph engine lives in the register-called
+; slots 0x01-0x06 (the misnamed gfx_fillDirty/blitTransparent/blitVariant/
+; copyBlock/drawStringUnclipped): BP = param-block (g_tapeTextN descriptor:
+; page/colour/x/y/font + clip rect), BX = string. The slot index selects which
+; clip-stage chain runs (vertical clip for the speed/altitude tape, horizontal
+; for the compass strip, etc.), so the HUD passes the exact slot the original
+; egseg2.asm used per call site. DS stays the caller's DGROUP (descriptor +
+; string are near DGROUP offsets, as in the original). cdecl args (far):
+;   [bp+6]=descriptor (-> BP)  [bp+8]=string (-> BX)  [bp+10]=slot index
+_gfx_drawGlyphStr proc far
+    push bp
+    mov bp, sp
+    push si
+    push di
+    push ds
+    push es
+    mov bx, [bp+8]          ; string -> BX
+    mov ax, [bp+10]         ; slot index
+    add ax, ax
+    add ax, ax              ; * 4 (dword table entries)
+    mov si, ax
+    mov bp, [bp+6]          ; descriptor -> BP (frame args already read)
+    call dword ptr [_gfxFarTableExported + si]
+    pop es
+    pop ds
+    pop di
+    pop si
+    pop bp
+    retf
+_gfx_drawGlyphStr endp
 
 ; Slot 0x0f (gfxFarTableExported[15]) — AX = segment; set the current page seg.
 ; (slottram.c's gfx_setCurPageSeg is void/register-broken; this is the cdecl

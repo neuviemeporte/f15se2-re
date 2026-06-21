@@ -83,7 +83,9 @@ set(EGAME_SOURCES
     ${SRC_DIR}/eghudr.c
     ${SRC_DIR}/eg3drast.c
     ${SRC_DIR}/egsys.c
+    ${SRC_DIR}/egtick.c
     ${SRC_DIR}/egstubs.c
+    ${SRC_DIR}/compat64/egregsh.c
     ${SHARED_SLOT_SOURCES}
     ${NOASM_GFX_SOURCES}
 )

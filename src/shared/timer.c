@@ -27,12 +27,25 @@ static void (interrupt far *oldTimerIsr)(void);
 
 static uint8 chainCount = 0;
 
+/* Optional per-tick game callback. egame registers advanceFrameTick here (the
+ * DAC colour-cycle + frame-timing tick that egcode.asm's own timer ISR runs but
+ * this shared C ISR otherwise omits). NULL for start/end, which need no extra
+ * per-tick work. */
+static void (far *gameTickHook)(void) = 0;
+
+void setTimerTickHook(void (far *fn)(void))
+{
+    gameTickHook = fn;
+}
+
 static void interrupt far timerIrqHandler(void)
 {
     timerCounter++;
     timerCounter2++;
     timerCounter3++;
     timerCounter4++;
+    if (gameTickHook != 0)
+        gameTickHook();
     chainCount++;
     if (chainCount >= CHAIN_INTERVAL) {
         chainCount = 0;
