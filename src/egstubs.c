@@ -29,12 +29,10 @@ int far fillSpanRect(int16* dst, int left, int top, int right, int bottom) { ret
 #endif
 
 /* --- functions declared in egcode.h --- */
-int far buildRotationMatrixFar(int16* matrix, int angleX, int angleY, int angleZ) { return 0; }
 int __cdecl drawCenteredLabelBox(int panel, char *text) { return 0; }
 int far multiplyMatrix3x3Far(int matA, int matB, int16* result) { return 0; }
 void far projectSceneObject(char *model, int yaw, int pitch, int roll, int posX, int posY, int posZ) {}
 int far restoreInt9Handler() { return 0; }
-int far drawFlatHorizon(int a) { return 0; }
 int far transformAndCullObjectFar(int a, int b, int c) { return 0; }
 int far rotatePoint3dFar() { return 0; }
 int far transformModelVerticesFar() { return 0; }
