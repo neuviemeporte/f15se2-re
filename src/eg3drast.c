@@ -44,6 +44,11 @@ extern uint8 g_clipOutcode1, g_clipOutcode2, g_clipNeedsSubdiv;
 extern int16 g_clipSavedxLo, g_clipSavedxHi, g_clipSavedyLo, g_clipSavedyHi;
 extern int16 g_clipSaved2xLo, g_clipSaved2xHi, g_clipSaved2yLo, g_clipSaved2yHi;
 extern int16 g_rleRowBase;
+/* horizon (drawFlatHorizon/renderHorizonSky) scratch + rotation-matrix yaw terms,
+ * all defined in egdata.c. g_horizonGroundColor is in egdata.h. */
+extern int16 g_horizonNegPitch, g_horizonSideFlag, g_horizonEdgeX;
+extern uint8 g_horizonSkyColor;
+extern int16 g_rotSinYaw, g_rotCosYaw;
 extern int16 g_primCoordPtr, g_primCountPtr, g_primDataBase;
 extern uint8 g_primRunCount, g_faceVtxCount, g_vtxSlotPhase, g_unusedClipFlag, g_edgeRunCount;
 extern int16 g_savedPrimVtxScale;
@@ -69,15 +74,30 @@ struct EdgeRec {
     uint8 flags;              /* +18 0x80 reject / 0x40 cv / 0x20 P1-edge / 0x10 P2-edge */
     uint8 pad;                /* +19 */
 };
-#define EREC(i) ((struct EdgeRec *)(flt15_buf2 + (i) * 0x1a))
+/* flt15_buf2 holds floor(0x1040 / 0x1a) = 160 edge records. A valid model's
+ * vertex/edge index stays well under that, but the not-yet-correct flight
+ * projection can feed a garbage byte index (0-255) → up to ~2.4KB past the
+ * buffer, clobbering DGROUP (the whole-dashboard "data band" corruption). The
+ * original asm relied on its INT 0 trap + clip to keep indices sane; per the
+ * plan's "explicit C guards" rule, route an out-of-range index to a trash
+ * record so a bad index can corrupt only the sink, never live data. */
+#define EREC_COUNT (0x1040 / 0x1a)
+static struct EdgeRec g_erecTrash;
+static struct EdgeRec *erec(int i)
+{
+    if ((unsigned)i >= (unsigned)EREC_COUNT)
+        return &g_erecTrash;
+    return (struct EdgeRec *)(flt15_buf2 + i * 0x1a);
+}
+#define EREC(i) erec(i)
 
 /* g_clipVtxA0..A3 / g_clipVtxB0..B3 — clipLineSegment treats this as a 0x1a
  * edge record (P1 = A0..A3, P2 = B0..B3, flags at +0x18). */
 static struct EdgeRec g_clipVtx;
 
 /* ===================================================================== */
-/* Manual 32/16 divides (no long runtime helper; shift-by-1 / mask only).  */
-/* Saturate to +/-0x7f00 on overflow, matching the egseg1 INT0 stubs.      */
+/* Manual 32/16 divides (no long runtime helper; shift-by-1 / mask only).*/
+/* Saturate to +/-0x7f00 on overflow, matching the egseg1 INT0 stubs.    */
 /* ===================================================================== */
 static unsigned udiv32by16(unsigned long num, unsigned den)
 {
@@ -112,6 +132,10 @@ static int sdiv32by16(long num, int den)
 #define JOIN32(lo, hi) (((long)(int16)(hi) << 16) | (unsigned)(uint16)(lo))
 /* High word of a 32-bit lvalue, read directly (avoids a `>>16` long helper). */
 #define HI16(lv) (((int16 *)&(lv))[1])
+/* The carry the egseg1 horizon math folds into the high word when it doubles
+ * only the low word (`SHL AX,1; ADC DX,..`): bit 15 of the 32-bit value's low
+ * word. Combined with HI16(p<<1) this reproduces fixedMulQ14's Q15 rounding. */
+#define LOCARRY(v) ((((uint16)(v)) & 0x8000u) ? 1 : 0)
 
 /* signed 16x16 -> 32 multiply, shift-add (no __aNlmul). */
 static long imul16(int a, int b)
@@ -139,7 +163,78 @@ static long lshr_s(long v, int n)
 }
 
 /* ===================================================================== */
-/* seg001 0x0A09 — skip the model display list down to the active LOD.    */
+/* seg000 lookupSine/lookupCosine — far-segment-local sin/cos. Identical */
+/* to eg3dmath.c's sine()/cosine() (g_angleLut + linear interpolation),  */
+/* re-stated here because that TU lives in _TEXT and a near call to it   */
+/* from EG3D_TEXT would be a link fixup overflow. Uses imul16/lshr_s so no  */
+/* long runtime helper is pulled.                                        */
+/* ===================================================================== */
+static int hsine(int angle)
+{
+    unsigned a = (unsigned)angle;
+    int idx = (int)((a >> 8) & 0xff);
+    int frac = (int)(a & 0xff);
+    int v0 = g_angleLut[idx];
+    int v1 = g_angleLut[idx + 1];
+    long step = imul16(v1 - v0, frac);
+    return v0 + (int)lshr_s(step + 0x80, 8);
+}
+static int hcosine(int angle) { return hsine(angle + 0x4000); }
+
+/* HI16 of a doubled Q15 product — the egseg1 `IMUL x; SHL AX,1; RCL DX,1; ..DX`
+ * idiom that takes the high word of (a*b)<<1. */
+static int q15hi(int a, int b) { long p = imul16(a, b); p <<= 1; return HI16(p); }
+
+/* HI16 of the sum/difference of two doubled Q15 products (the matrix-builder's
+ * `ADD/ADC` or `SUB/SBB` accumulate-then-take-high-word sequences). */
+static int q15sum(int a, int b, int c, int d, int sub)
+{
+    long t, u, r;
+    t = imul16(a, b); t <<= 1;
+    u = imul16(c, d); u <<= 1;
+    r = sub ? (t - u) : (t + u);
+    return HI16(r);
+}
+
+/* ===================================================================== */
+/* seg001 0x135F — buildRotationMatrix: lookup sin/cos of the three Euler */
+/* angles into the sphere terms (also consumed by the horizon renderer)   */
+/* and compose the 3x3 view rotation matrix at *m. Mirrors the egseg1 ASM */
+/* (angleX=yaw, angleY=pitch ring, angleZ=roll); each matrix entry is the */
+/* high word of a doubled Q15 product or product-sum.                     */
+/* ===================================================================== */
+static void buildRotationMatrix(int16 *m, int angleX, int angleY, int angleZ)
+{
+    int R, P, Ro, D, SY, CY, mSI, mBP;
+    g_rotSinYaw    = (int16)hsine(angleX);
+    g_rotCosYaw    = (int16)hcosine(angleX);
+    g_spherePitch  = (int16)hsine(angleZ);
+    g_sphereRoll   = (int16)hcosine(angleZ);
+    g_sphereRadius = (int16)hsine(angleY);
+    g_sphereDistZ  = (int16)hcosine(angleY);
+    R = g_sphereRadius; P = g_spherePitch; Ro = g_sphereRoll; D = g_sphereDistZ;
+    SY = g_rotSinYaw;   CY = g_rotCosYaw;
+    mSI = q15hi(R, P);
+    mBP = q15hi(R, Ro);
+    m[0] = (int16)q15sum(mSI, SY, CY, Ro, 0);
+    m[1] = (int16)q15sum(mBP, SY, CY, P, 1);
+    m[2] = (int16)q15hi(SY, D);
+    m[3] = (int16)q15hi(P, D);
+    m[4] = (int16)q15hi(Ro, D);
+    m[5] = (int16)(-R);
+    m[6] = (int16)q15sum(mSI, CY, SY, Ro, 1);
+    m[7] = (int16)q15sum(mBP, CY, SY, P, 0);
+    m[8] = (int16)q15hi(CY, D);
+}
+
+int far buildRotationMatrixFar(int16 *matrix, int angleX, int angleY, int angleZ)
+{
+    buildRotationMatrix(matrix, angleX, angleY, angleZ);
+    return 0;
+}
+
+/* ===================================================================== */
+/* seg001 0x0A09 — skip the model display list down to the active LOD.   */
 /* ===================================================================== */
 static void skipDisplayListByLod(unsigned char far **pp)
 {
@@ -175,8 +270,8 @@ void storeObjTransformByOpcode(void)
 }
 
 /* ===================================================================== */
-/* seg001 0x1BA2 — testVisibilityMask: read 1 (or 2) mask words from the   */
-/* stream, AND against the vertex sign masks. Returns 0 => not visible.    */
+/* seg001 0x1BA2 — testVisibilityMask: read 1 (or 2) mask words from the */
+/* stream, AND against the vertex sign masks. Returns 0 => not visible.  */
 /* ===================================================================== */
 static int testVisibilityMask(unsigned char far **pp)
 {
@@ -196,9 +291,9 @@ static int testVisibilityMask(unsigned char far **pp)
 }
 
 /* ===================================================================== */
-/* seg001 0x0078 — projectVertexToScreen: perspective divide of the        */
-/* per-vertex camera-space coords (word_342BC.. / word_344A0..) by the     */
-/* depth (vproj.in[].div) into the screen-space var_279/var_282 arrays.    */
+/* seg001 0x0078 — projectVertexToScreen: perspective divide of the      */
+/* per-vertex camera-space coords (word_342BC.. / word_344A0..) by the   */
+/* depth (vproj.in[].div) into the screen-space var_279/var_282 arrays.  */
 /* Flight-path only (the tac map writes vproj directly and never calls it).*/
 /* ===================================================================== */
 static void projectVertexToScreen(int vtx)   /* BX = vtx*4 in the asm */
@@ -230,9 +325,9 @@ static void projectVertexToScreen(int vtx)   /* BX = vtx*4 in the asm */
 }
 
 /* ===================================================================== */
-/* seg001 0x1282 — clipEdgeNearPlane: intersect an edge with the near      */
-/* plane (front vertex depth>=1, behind vertex depth<1) and write the      */
-/* clipped P1 + cv into the edge record. Flight-path only.                 */
+/* seg001 0x1282 — clipEdgeNearPlane: intersect an edge with the near    */
+/* plane (front vertex depth>=1, behind vertex depth<1) and write the    */
+/* clipped P1 + cv into the edge record. Flight-path only.               */
 /* ===================================================================== */
 static void clipEdgeNearPlane(struct EdgeRec *rec, int behind, int front)
 {
@@ -596,8 +691,49 @@ int far resetScanlineSpans(void)
     return 0;
 }
 
+/* Clamp the accumulated spans to the screen before handing them to MGRAPHIC's
+ * dirtyRect slot. That slot trusts the buffer and fills (maxX-minX) bytes from
+ * each row's start with no bound check; egseg1.asm kept the spans in range via
+ * its clip + INT 0 overflow trap. The C port replaces the trap with explicit
+ * guards (see rasterizeEdgeSpan's Y guard and decodeRleEdgeRow's stack guards),
+ * but an edge that arrives with an out-of-range X — e.g. a model vertex the
+ * still-incomplete flight projection failed to clip — would otherwise store a
+ * huge maxX and make the fill run clear across the framebuffer (the whole-screen
+ * diagonal-stripe corruption + occasional hang). Clamp X to [0, g_clipMaxX] so a
+ * bad coordinate can never overflow the page; untouched rows (minX still 0xFFFF)
+ * are left for the slot to skip. */
+static void clampSpansForFill(void)
+{
+    int i;
+    int yMin = g_dirtyRectMinY;
+    int yMax = g_dirtyRectMaxY;
+    if (yMin < 0) return;
+    /* Clamp the dirty Y range to the viewport bottom. rasterizeEdgeSpan only
+     * guards row against the 220-entry buffer size, but spans are viewport-
+     * relative and positioned by blitOffset, so a row past g_clipMaxY lands
+     * physically below the 3D view — in the static cockpit dashboard, which is
+     * never redrawn, so any model edge with a garbage Y (from the incomplete
+     * flight projection) permanently smears model spans across the dashboard
+     * (the "data band" corruption). egseg1's clip kept rows <= clipMaxY; do the
+     * same here. clampScanlineSpan already clamps its boundary fills to it. */
+    if (yMin > g_clipMaxY) yMin = g_clipMaxY;
+    if (yMax > g_clipMaxY) yMax = g_clipMaxY;
+    g_dirtyRectMinY = (int16)yMin;
+    g_dirtyRectMaxY = (int16)yMax;
+    for (i = yMin; i <= yMax; i++) {
+        int16 mn = g_spanBuf.minX[i];
+        int16 mx = g_spanBuf.maxX[i];
+        if ((uint16)mn == 0xffff) continue;     /* row never touched */
+        if (mn < 0) mn = 0; else if (mn > g_clipMaxX) mn = g_clipMaxX;
+        if (mx < 0) mx = 0; else if (mx > g_clipMaxX) mx = g_clipMaxX;
+        g_spanBuf.minX[i] = mn;
+        g_spanBuf.maxX[i] = mx;
+    }
+}
+
 int far flushSpanDirtyRect(void)
 {
+    clampSpansForFill();
     gfx_dirtyRect(g_spanBuf.minX,
                   g_dirtyRectMinY, g_dirtyRectMaxY);
     return 0;
@@ -804,6 +940,7 @@ static void renderPrimitiveCommand(unsigned char far **pp)
             clipLineSegment(&g_clipVtx);
             drawPrimitiveEdges(&g_clipVtx);
         }
+        clampSpansForFill();
         gfx_dirtyRect(g_spanBuf.minX,
                       g_dirtyRectMinY, g_dirtyRectMaxY);
         *pp = p;
@@ -819,7 +956,19 @@ static void renderPrimitiveCommand(unsigned char far **pp)
         if (rec->flags & 0x80) { p++; *pp = p; return; }         /* rejected: skip colour */
         colorByte = *p++;
         gfx_setColor((unsigned char)(colorLut[colorByte] + g_objShade));
-        gfx_drawLine((uint16)rec->x1, (uint16)rec->y1, (uint16)rec->x2, (uint16)rec->y2);
+        /* egseg1's loc_1808 draws this edge with a raw gfx_drawLine, relying on
+         * the projection keeping the coords inside the viewport. MGRAPHIC's
+         * gfx_drawLine clips only to the full page (0..199), NOT to g_clipMaxY,
+         * so a model edge that projects with an out-of-viewport Y (the still-
+         * incomplete flight projection does this) draws a wireframe line down
+         * into the static cockpit dashboard, which is never redrawn — the lasting
+         * "data band" corruption. Route through the Cohen-Sutherland clip
+         * (drawClipLineGlobal, [0,clipMaxX]x[0,clipMaxY]) so a crossing edge is
+         * clipped to the viewport rather than dropped, and an in-range edge draws
+         * identically to the raw path. */
+        g_lineX1 = rec->x1; g_lineY1 = rec->y1;
+        g_lineX2 = rec->x2; g_lineY2 = rec->y2;
+        drawClipLineGlobal();
     }
     *pp = p;
 }
@@ -942,7 +1091,99 @@ static int crOutcode(int x, int y)
     return al;
 }
 
+/* seg001 0x1F25 — when x is off the left/right of the clip rect, fill that    */
+/* vertical boundary column (minX at x=0, maxX at x=clipMaxX) from row yA to    */
+/* yB. This is how the off-screen horizontal overhang of a polygon edge — and   */
+/* an edge lying entirely off one vertical side — gets projected onto the       */
+/* viewport boundary so the span fill still closes. clampScanlineSpan no-ops    */
+/* for on-screen x. */
+static void boundaryColumnFill(int x, int yA, int yB)
+{
+    if (x < 0) clampScanlineSpan(0, yA, yB);
+    else if (x > g_clipMaxX) clampScanlineSpan(g_clipMaxX, yA, yB);
+}
+
+/* truncating signed (a*b)/d; udiv32by16 saturates to +-0x7f00 on overflow or  */
+/* d==0, matching egseg1's INT 0 divide-overflow stub (clipRasterDivOverflowStub). */
+static int clipMulDiv(int a, int b, int d)
+{
+    return (int)sdiv32by16(imul16(a, b), d);
+}
+
 int far clipAndRasterizeEdge(void)
+{
+    int cx = g_lineX1, dx = g_lineY1;    /* CX/DX = the anchor (kept) endpoint */
+    int si = g_lineX2, di = g_lineY2;    /* SI/DI = the endpoint being clipped */
+    int flags = crOutcode(cx, dx);       /* g_rasterClipFlags: anchor outcode  */
+    int al = crOutcode(si, di);          /* AL: outcode of the clipped endpoint */
+    int bp, divX, divY, bx, ax;
+    long dXl, dYl;
+
+    if (al == 0) {                       /* P2 inside */
+        if (flags == 0) {                /* both inside: rasterize straight     */
+            rasterizeEdgeSpan();
+            return 0;
+        }
+        /* P2 inside, P1 outside -> swap so the outside point is (si,di)         */
+        { int t; t = si; si = cx; cx = t; t = di; di = dx; dx = t; }
+        { int t = flags; flags = al; al = t; }   /* al = oc1, flags = 0          */
+        g_lineX1 = (int16)cx; g_lineY1 = (int16)dx;
+    }
+    bp = dx;                             /* BP = anchor y                       */
+    if (flags & al) {                    /* both endpoints share a region side  */
+        if ((flags & al) & 6) return 0;  /* same top/bottom -> reject, no fill   */
+        boundaryColumnFill(cx, di, bp);  /* same left/right -> fill that column  */
+        return 0;
+    }
+
+    /* divisors. MSC `int` is 16-bit; sphere-ring coords overflow a 16-bit       */
+    /* subtract, so replicate egseg1's JO paths: halve both deltas (preserving   */
+    /* the divY/divX ratio the clip math needs) until each fits in int16.        */
+    dXl = (long)si - cx;
+    dYl = (long)di - bp;
+    while (dXl > 32767L || dXl < -32768L || dYl > 32767L || dYl < -32768L) {
+        dXl >>= 1; dYl >>= 1;
+    }
+    divX = (int)dXl;
+    divY = (int)dYl;
+
+    for (;;) {                           /* loc_20F9: clip one endpoint per pass */
+        if (al & 9) {                    /* off left/right: clip to a vertical   */
+            bx = (si < 0) ? 0 : g_clipMaxX;
+            ax = bp + clipMulDiv(bx - cx, divY, divX);    /* y at boundary x      */
+            if (ax >= 0 && ax <= g_clipMaxY) goto accept; /* in range: take it    */
+        }
+        /* loc_2139: clip to the top/bottom horizontal instead                   */
+        bx = (di > g_clipMaxY) ? g_clipMaxY : 0;
+        ax = cx + clipMulDiv(bx - bp, divX, divY);        /* x at boundary y      */
+        { int t = ax; ax = bx; bx = t; }                  /* ax=boundaryY, bx=x   */
+        if (bx < 0 || bx > g_clipMaxX) { /* still off a vertical side: sliver     */
+            boundaryColumnFill(bx, di, bp);
+            return 0;
+        }
+    accept:                              /* loc_2176: store the clipped endpoint */
+        clampScanlineSpan(bx, ax, di);   /* fill its boundary column overhang    */
+        if (flags == 0) {                /* the other endpoint is inside: done   */
+            g_lineX2 = (int16)bx; g_lineY2 = (int16)ax;
+            rasterizeEdgeSpan();
+            return 0;
+        }
+        /* loc_21AF: keep this clipped point as P1, clip the other endpoint next  */
+        g_lineX1 = (int16)bx; g_lineY1 = (int16)ax;
+        { int t; t = si; si = cx; cx = t; t = di; di = bp; bp = t; }
+        al = flags; flags = 0;
+    }
+}
+
+/* ===================================================================== */
+/* seg001 0x1CB6 — clip the global segment (g_lineX1,g_lineY1)-(g_lineX2,   */
+/* g_lineY2) to [0,g_clipMaxX]x[0,g_clipMaxY] (Cohen-Sutherland), write the */
+/* clipped endpoints back to the globals, and draw the visible part via     */
+/* gfx_drawLine. Returns 1 when the segment is fully outside (the ASM's CF   */
+/* set), 0 when it was drawn. The egseg1 horizon path needs both the clipped */
+/* coords (left in the globals) and the inside/outside result.             */
+/* ===================================================================== */
+static int clipHorizonLineDraw(void)
 {
     int x1 = g_lineX1, y1 = g_lineY1, x2 = g_lineX2, y2 = g_lineY2;
     int oc1 = crOutcode(x1, y1);
@@ -950,8 +1191,8 @@ int far clipAndRasterizeEdge(void)
     int guard = 0;
     while (oc1 | oc2) {
         int oc, nx, ny;
-        if (oc1 & oc2) return 0;             /* trivially outside */
-        if (++guard > 8) return 0;
+        if (oc1 & oc2) return 1;             /* trivially outside */
+        if (++guard > 8) return 1;
         oc = oc1 ? oc1 : oc2;
         if (oc & 8) {                        /* left */
             ny = y1 + (int)sdiv32by16(imul16(y2 - y1, 0 - x1), x2 - x1); nx = 0;
@@ -969,38 +1210,178 @@ int far clipAndRasterizeEdge(void)
     }
     g_lineX1 = (int16)x1; g_lineY1 = (int16)y1;
     g_lineX2 = (int16)x2; g_lineY2 = (int16)y2;
-    rasterizeEdgeSpan();
-    if (x1 == 0 || x1 == g_clipMaxX) clampScanlineSpan(x1, y1, y1);
-    if (x2 == 0 || x2 == g_clipMaxX) clampScanlineSpan(x2, y2, y2);
+    gfx_drawLine((uint16)x1, (uint16)y1, (uint16)x2, (uint16)y2);
+    return 0;
+}
+
+/* ===================================================================== */
+/* seg001 0x067E — renderHorizonSky: draw the roll-tilted flat horizon at   */
+/* the lowest detail level. Projects a single horizon line from the view's  */
+/* pitch/roll/radius/distance (the sphere terms set by buildRotationMatrix), */
+/* clips+draws it, then fills the sky half and (unless detail==2) the ground */
+/* half by walking the line into the span buffers and closing each region    */
+/* against the top/bottom viewport edges. drawFlatHorizon sets the sky color */
+/* and calls this. Output is via gfx_setColor + the span fill (gfx_dirtyRect).*/
+/* ===================================================================== */
+static void renderHorizonSky(void)
+{
+    int scale, negPitch, roll, centerX, centerY, cx2, h, h2;
+    long dividend, t1, t2, d, s, u1, u2, w, z;
+
+    g_horizonNegPitch = (int16)(-g_spherePitch);
+    negPitch = g_horizonNegPitch;
+
+    /* scale = (radius<<8)/distZ, with a fixed fallback and a detail-2 bias */
+    dividend = imul16(g_sphereRadius, 256);
+    if (g_sphereDistZ > 0x1F0B) {
+        scale = (int)sdiv32by16(dividend, g_sphereDistZ);
+        if (g_detailLevel == 2) {
+            int hb = (int)(((uint16)g_viewPosZ) >> 8);
+            scale -= ((hb + (hb >> 1)) >> 3) + 4;
+        }
+    } else {
+        scale = 0x3FF;
+    }
+    if (g_extraScaleShift != 0) scale <<= g_extraScaleShift;
+    if (g_halfScaleRender != 0) scale >>= 1;
+
+    roll = g_sphereRoll;
+    centerX = g_viewCenterX;
+    centerY = g_viewCenterY;
+    cx2 = 2 * centerX;
+
+    /* the two horizon-line endpoints: centerX +- (roll term) - (pitch term) */
+    t1 = imul16(scale, negPitch); t1 <<= 1;     /* pitch term  */
+    t2 = imul16(cx2, roll);       t2 <<= 1;     /* roll  term  */
+    d = t2 - t1;
+    g_lineX1 = (int16)(HI16(d) + centerX + LOCARRY(d));
+    s = t1 + t2;
+    g_lineX2 = (int16)(centerX - (HI16(s) + LOCARRY(s)));
+
+    u1 = imul16(scale, roll);   u1 <<= 1;
+    u2 = imul16(cx2, negPitch); u2 <<= 1;
+    w = u2 - u1;
+    h = HI16(w) + LOCARRY(w);
+    g_lineY2 = (int16)((h - (h >> 2)) + centerY);
+    z = u1 + u2;
+    h2 = HI16(z) + LOCARRY(z);
+    g_lineY1 = (int16)(centerY - (h2 - (h2 >> 2)));
+
+    g_horizonSideFlag = 0;
+    gfx_setColor(g_horizonSkyColor);
+    resetScanlineSpansImpl();
+
+    if (clipHorizonLineDraw() == 0 &&
+        !(g_lineY1 == g_lineY2 &&
+          (g_lineY1 == 0 || g_lineY1 == g_clipMaxY))) {
+        /* horizon line is visible: fill the sky half, then the ground half */
+        for (;;) {
+            int sx1 = g_lineX1, sy1 = g_lineY1, sx2 = g_lineX2, sy2 = g_lineY2;
+            int edgeX, far_, near_, sx, sy;
+            /* egseg1 loc_07D5 calls loc_2028 (clipAndRasterizeEdge), NOT the raw
+             * rasterizeEdgeSpan: the roll/pitch-tilted horizon line runs off the
+             * viewport at most attitudes, and only the clipping rasterizer lays
+             * down the boundary-column spans for the off-screen overhang. Calling
+             * rasterizeEdgeSpan directly worked at level flight (line on-screen ->
+             * the two are equivalent) but its out-of-range-Y guard dropped the
+             * whole edge once tilted, so the sky/ground fill vanished at angles. */
+            clipAndRasterizeEdge();              /* clips + may swap the globals */
+            g_lineX1 = (int16)sx1; g_lineY1 = (int16)sy1;
+            g_lineX2 = (int16)sx2; g_lineY2 = (int16)sy2;
+
+            edgeX = ((g_horizonSideFlag ^ negPitch) < 0) ? g_clipMaxX : 0;
+            g_horizonEdgeX = (int16)edgeX;
+            near_ = 0;
+            far_ = g_clipMaxY;
+            if ((g_horizonSideFlag ^ roll) < 0) {
+                int tmp = near_; near_ = far_; far_ = tmp;
+            }
+            /* close each endpoint against the near boundary, snapping an     */
+            /* endpoint that lands on the far edge to the viewport corner.    */
+            sx = g_lineX1; sy = g_lineY1;
+            if (sy != near_) {
+                if (sy == far_) sx = g_horizonEdgeX;
+                clampScanlineSpan(sx, sy, near_);
+            }
+            sx = g_lineX2; sy = g_lineY2;
+            if (sy != near_) {
+                if (sy == far_) sx = g_horizonEdgeX;
+                clampScanlineSpan(sx, sy, near_);
+            }
+            clampSpansForFill();
+            gfx_dirtyRect(g_spanBuf.minX, g_dirtyRectMinY, g_dirtyRectMaxY);
+            if (g_detailLevel == 2) break;
+            g_horizonSideFlag ^= -1;
+            if (g_horizonSideFlag == 0) break;
+            gfx_setColor(g_horizonGroundColor);
+            resetScanlineSpansImpl();
+        }
+    } else {
+        /* line fully outside / degenerate: fill the whole viewport */
+        int doFill = 1;
+        if (g_sphereRadius >= 0) {
+            gfx_setColor(g_horizonGroundColor);
+            if (g_detailLevel == 2) doFill = 0;
+        }
+        if (doFill) {
+            clampScanlineSpan(0, 0, g_clipMaxY);
+            clampScanlineSpan(g_clipMaxX, 0, g_clipMaxY);
+            clampSpansForFill();
+            gfx_dirtyRect(g_spanBuf.minX, g_dirtyRectMinY, g_dirtyRectMaxY);
+        }
+    }
+    gfx_nop22();
+}
+
+int far drawFlatHorizon(int skyColor)
+{
+    g_horizonSkyColor = (uint8)skyColor;
+    renderHorizonSky();
     return 0;
 }
 
 /* ===================================================================== */
 /* seg001 0x0002 — drawPolygonOutline: clip+rasterize each edge of a closed */
 /* polygon into the span buffers, then flush via gfx_dirtyRect.            */
+/* The actual fill colour is the 4th arg (edgeColor): egseg1 loads it into  */
+/* AH and calls gfx_setDrawColor. The 1st arg (fillColor) is unused — the   */
+/* sphere's sky/ground gradient comes entirely from edgeColor (ringIx+0x60/ */
+/* +0x70 per ring). gfx_setColor (0x21) sets the same MGRAPHIC fill colour  */
+/* as the register-only gfx_setDrawColor (0x20), so no new shim is needed.  */
 /* ===================================================================== */
 int far drawPolygonOutline(int fillColor, int pointCount, int *points, int edgeColor)
 {
     int n = pointCount - 1;
     int *pt = points;
     int firstX, firstY;
-    (void)edgeColor;
-    gfx_setColor(fillColor);
+    (void)fillColor;
+    gfx_setColor(edgeColor);
     resetScanlineSpansImpl();
     firstX = *pt++;
     g_lineX1 = (int16)firstX;
     firstY = *pt++;
     g_lineY1 = (int16)firstY;
     while (n--) {
-        g_lineX2 = (int16)*pt++;
-        g_lineY2 = (int16)*pt++;
+        /* The next edge must start from the ORIGINAL vertex, not the clipped
+         * endpoint. egseg1 (loc_0025) pushes lineX2/lineY2 before loc_2028 and
+         * pops them back into lineX1/lineY1 afterward; clipAndRasterizeEdge
+         * overwrites g_lineX2/g_lineY2 with the clipped coords, so reusing them
+         * would trace from a clipped point. Sphere-ring quads have vertices far
+         * off-screen (+-0x5848); at level the axis-aligned geometry hid it, but
+         * once tilted each edge started from the wrong point and the quads
+         * stopped filling (striped/unfilled sky bands). */
+        int nx = *pt++;
+        int ny = *pt++;
+        g_lineX2 = (int16)nx;
+        g_lineY2 = (int16)ny;
         clipAndRasterizeEdge();
-        g_lineX1 = g_lineX2;
-        g_lineY1 = g_lineY2;
+        g_lineX1 = (int16)nx;
+        g_lineY1 = (int16)ny;
     }
     g_lineX2 = (int16)firstX;
     g_lineY2 = (int16)firstY;
     clipAndRasterizeEdge();
+    clampSpansForFill();
     gfx_dirtyRect(g_spanBuf.minX,
                   g_dirtyRectMinY, g_dirtyRectMaxY);
     gfx_nop22();
@@ -1009,10 +1390,10 @@ int far drawPolygonOutline(int fillColor, int pointCount, int *points, int edgeC
 
 /* ===================================================================== */
 /* seg001 0x0B60 — renderSortedListFar: dispatch the depth-sorted scene     */
-/* objects. The tac map draws its tiles directly (drawMapTiles) and leaves   */
-/* the sorted list empty (g_sortedObjCount == 0), so for the map there is    */
-/* nothing to dispatch. The per-object perspective render is not yet         */
-/* implemented.                                                              */
+/* objects. The tac map draws its tiles directly (drawMapTiles) and leaves  */
+/* the sorted list empty (g_sortedObjCount == 0), so for the map there is   */
+/* nothing to dispatch. The per-object perspective render is not yet        */
+/* implemented.                                                             */
 /* ===================================================================== */
 int far renderSortedListFar(void)
 {
@@ -1021,7 +1402,7 @@ int far renderSortedListFar(void)
 
 /* ===================================================================== */
 /* Divide-overflow vector install/restore. sdiv32by16/udiv32by16 saturate  */
-/* explicitly, so an INT 0 divide-overflow handler is not needed: no-op.    */
+/* explicitly, so an INT 0 divide-overflow handler is not needed: no-op.   */
 /* ===================================================================== */
 void installDivZeroHandler(void) { }
 void installDivZeroVector(void) { }

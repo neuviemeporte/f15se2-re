@@ -28,7 +28,6 @@ int far drawPolygonOutline(int fillColor, int pointCount, int* points, int edgeC
 void installDivZeroHandler();
 void installDivZeroVector();
 int far drawFlatHorizon(int);
-void renderHorizonSky();
 void storeObjTransformByOpcode();
 int far advanceModelPointerLod();
 int far renderSortedListFar();
