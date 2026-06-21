@@ -1,14 +1,14 @@
 /*
  * This is the main game executable for F15 SE II.
- * 
- * Since the original was apparently coded in assembly (and included a convoluted anti-debugging & copy protection scheme), 
+ *
+ * Since the original was apparently coded in assembly (and included a convoluted anti-debugging & copy protection scheme),
  * this is a purposefully divergent implementation that does not try to be faithful to the original binary.
- * 
+ *
  * It also combines the functionality of SU.EXE (SetUp), whose purpose was to ask the user which graphics adapter and sound device
- * they would like to use - we aim to only support VGA (MCGA) and no sound (there's barely any sounds in the game as is, 
+ * they would like to use - we aim to only support VGA (MCGA) and no sound (there's barely any sounds in the game as is,
  * perhaps this will be changed in the future), so this will skip the user queries and load MGRAPHIC and NSOUND overlays without asking.
- * 
- * Other than that, the purpose of this executable is mostly to do some initial setup and then keep operating the game main loop, that is running 
+ *
+ * Other than that, the purpose of this executable is mostly to do some initial setup and then keep operating the game main loop, that is running
  * START, EGAME and END in sequence until the user decides to exit the game. The original calls DS.EXE (Disk Swap) between each of these, but
  * as far as I can tell DS.EXE only looks to see if the required binary exists in the current directory, and if it doesn't, it prompts the user
  * to insert a disk containing it (and load it, I think), so I will also ignore DS.EXE here.
@@ -50,6 +50,31 @@ enum { CMDLINE_LEN = 128 };
 char cmdlineBuf[CMDLINE_LEN] = "";
 const char FAR *CMDLINE = (const char FAR*)cmdlineBuf;
 uint16 commSegment = 0;
+
+/* The DOS EXEC call (INT 21h/4Bh) used to launch each child program writes a
+ * stray memory-segment byte into this process's CRT "null pointer" guard at
+ * the bottom of DGROUP (observed at DGROUP:0x02; the value tracks the child's
+ * load segment and is independent of which child runs or whether the raw
+ * INT 21h or the library spawn() is used). That guard is private CRT
+ * bookkeeping we never touch, but MSC's exit-time check (_nullcheck) sees the
+ * change and aborts with "R6001 - null pointer assignment". Snapshot the guard
+ * at startup and repair it after every child run so the check passes. */
+enum { NULLGUARD_SIZE = 0x42 };
+static unsigned char nullGuard[NULLGUARD_SIZE];
+static unsigned char FAR *nullGuardPtr(void) {
+    void FAR *fp = (void FAR *)&commSegment; /* any DGROUP global → DS:0 */
+    return (unsigned char FAR *)MK_FP(FP_SEG(fp), 0);
+}
+static void nullGuardSave(void) {
+    unsigned char FAR *p = nullGuardPtr();
+    int i;
+    for (i = 0; i < NULLGUARD_SIZE; ++i) nullGuard[i] = p[i];
+}
+static void nullGuardRestore(void) {
+    unsigned char FAR *p = nullGuardPtr();
+    int i;
+    for (i = 0; i < NULLGUARD_SIZE; ++i) p[i] = nullGuard[i];
+}
 #ifdef NO_ASM
 /* Satisfy linker for gfx_drawLine's extern refs when stdata.c is absent.
  * At runtime these live in the calling exe's data segment (correct behavior). */
@@ -168,7 +193,6 @@ void game_init(void) {
 bool game_run(const char* filename, const int returnCode, const bool debug) {
     int err;
     /* launch game executable */
-    log_close();
     if (debug) {
         INFO("Executing %s under the debugger", filename);
         sprintf(cmdlineBuf, " %s", filename);
@@ -178,11 +202,14 @@ bool game_run(const char* filename, const int returnCode, const bool debug) {
         memset(cmdlineBuf, 0, CMDLINE_LEN);
         INFO("Executing %s with commandline '%Fs'", filename, CMDLINE);
     }
-    if ((err = dos_runProgram(filename, CMDLINE)) != 0)
+    log_close();
+    err = dos_runProgram(filename, CMDLINE);
+    log_open(true);
+    nullGuardRestore(); /* DOS EXEC scribbles on our CRT null-guard; undo it */
+    if (err != 0)
         FATAL("Unable to run %s", filename);
     err = dos_getReturnCode();
     INFO("%s exited with code 0x%x", filename, err);
-    log_open(true);
     if (debug)
         return true;
     /* check return code if not in debug mode */
@@ -202,6 +229,7 @@ int main(int argc, char *argv[]) {
     bool debugMenu = false, debugFlight = false, debugDebrief = false;
 
     log_open(false);
+    nullGuardSave();
 
     for (argIdx = 1; argIdx < argc; ++argIdx) {
         const char *arg = argv[argIdx];
