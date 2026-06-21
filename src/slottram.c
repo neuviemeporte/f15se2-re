@@ -198,18 +198,6 @@ int FAR CDECL gfx_getBlitOffset(void)
     return ((int(FAR*)(void))gfxFarTableExported[30])();
 }
 
-/* Slot 0x1f: gfx_drawLine — MGRAPHIC takes the endpoints in registers
- * (AX=x1,BX=y1,CX=x2,DX=y2). The real overlay is always register-called, so on
- * DOS the endpoints must be marshaled into registers: egregsh.asm provides
- * _gfx_drawLine for every DOS build and this cdecl far-call is excluded. Only
- * the non-DOS lint (build64), whose overlay is the cdecl C reimpl, uses it. */
-#ifndef MSDOS
-void FAR CDECL gfx_drawLine(uint16 x1, uint16 y1, uint16 x2, uint16 y2)
-{
-    ((void(FAR*)(uint16,uint16,uint16,uint16))gfxFarTableExported[31])(x1, y1, x2, y2);
-}
-#endif
-
 /* Slot 0x20: gfx_setDrawColor */
 void FAR CDECL gfx_setDrawColor(void)
 {
@@ -239,16 +227,6 @@ void FAR CDECL gfx_plotPixel(void)
 {
     ((void(FAR*)(void))gfxFarTableExported[36])();
 }
-
-/* Slot 0x25: gfx_dirtyRect — MGRAPHIC takes BX=spanBuf, AX=yMin, CX=yMax in
- * registers, so on DOS egregsh.asm provides _gfx_dirtyRect and this cdecl
- * far-call is excluded; only the non-DOS lint (build64) uses it. */
-#ifndef MSDOS
-void FAR CDECL gfx_dirtyRect(int16 *spanBuf, int yMin, int yMax)
-{
-    ((void(FAR*)(int16*,int,int))gfxFarTableExported[37])(spanBuf, yMin, yMax);
-}
-#endif
 
 /* Slot 0x26: gfx_storePageSeg */
 void FAR CDECL gfx_storePageSeg(uint16 seg, int pageIdx)

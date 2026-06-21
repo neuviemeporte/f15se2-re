@@ -22,12 +22,6 @@ int far restoreJoystickData(uint8 FAR *ptr) { return 0; }
 // === Interrupt/Handler Stubs ===
 int far setInt9Handler() { return 0; }
 
-// Stubs matching undefined references from egmain.c
-#ifndef MSDOS
-void setupDac() {}
-int far fillSpanRect(int16* dst, int left, int top, int right, int bottom) { return 0; }
-#endif
-
 /* --- functions declared in egcode.h --- */
 int __cdecl drawCenteredLabelBox(int panel, char *text) { return 0; }
 int far multiplyMatrix3x3Far(int matA, int matB, int16* result) { return 0; }

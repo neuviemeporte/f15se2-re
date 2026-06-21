@@ -61,6 +61,12 @@ void setupOverlaySlots(uint16 addr);
 void installCBreakHandler();
 void setTimerIrqHandler();
 void restoreTimerIrqHandler();
+#ifdef NO_ASM
+/* per-tick game work + its registration hook (shared/timer.c + egsys.c); the
+ * verify ASM build runs egcode.asm's own timer ISR instead, so this is NO_ASM. */
+void setTimerTickHook(void (far *fn)(void));
+void far egAdvanceFrameTick(void);
+#endif
 int getTimeOfDay();
 int __cdecl openFile(const char *path, int mode);
 

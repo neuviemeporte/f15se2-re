@@ -1,15 +1,9 @@
 /*
- * egsys.c - DOS system services for the egame C renderer.
+ * egsys.c - DOS system services for egame (file I/O, game loop, DAC palette),
+ * isolated here so a fork can replace just this file.
  *
- * The egame file layer (egfileio.c) wraps six low-level primitives that the
- * verify-matched DOS build provides in egcode.asm (raw INT 21h file handles).
- * The NO_ASM build does not link egcode.asm, so they are reimplemented here in
- * C over MSC's intdosx(). These are genuinely hardware-bound (DOS handle I/O),
- * so per the renderer plan they live outside the renderer, isolated here so a
- * fork can replace just this file.
- *
- * Semantics mirror egcode.asm exactly (small model: near buffer/path pointers
- * are DGROUP-relative, so DS is left at the current DGROUP via segread):
+ * The file-handle primitives mirror egcode.asm (small model: near buffer/path
+ * pointers are DGROUP-relative, so DS is left at the current DGROUP via segread):
  *   openFile/createFile  - INT 21h/3Dh,3Ch; path is a near (DS) pointer
  *   closeFile            - INT 21h/3Eh
  *   readFile1            - INT 21h/3Fh into DGROUP:bufOffset
@@ -36,13 +30,11 @@ void renderHudFrame(int unused);
 void stepFlightModel(void);
 void updateFrame(void);
 
-/* === game loop (egcode.asm gameMainLoop / runGameLoop) ===
- * Originally compiled C in seg000; the NO_ASM build does not link egcode.asm so
- * it needs a C definition. Each iteration composites a frame into the back
- * buffer (renderFrame = 3D world, renderHudFrame = tac map / 2D overlays), draws
- * the dynamic instrument gauges on top (skipped while a menu key overlay is up,
- * keyValue != 0), then presents the back buffer (gfx_dacAnimate, slot 0x2c),
- * advances the flight model and bookkeeping, and repeats until the mission ends. */
+/* gameMainLoop / runGameLoop (egcode.asm). Each iteration composites a frame
+ * into the back buffer (renderFrame = 3D world, renderHudFrame = tac map / 2D
+ * overlays), draws the dynamic gauges on top (unless a menu key overlay is up),
+ * presents the back buffer (gfx_dacAnimate, slot 0x2c), advances the flight
+ * model + bookkeeping, and repeats until the mission ends. */
 void gameMainLoop(void)
 {
     do {
@@ -135,16 +127,10 @@ int writeFileAtRaw(int handle, int count, int bufOffset, int bufSegment, int off
     return r.x.cflag ? -1 : r.x.ax;
 }
 
-#ifdef MSDOS
-/* === setupDac (egcode.asm _setupDac) ===
- * Loads the game's 256-colour VGA DAC palette.
- * dacValues1 fills DAC entries 0x10-0x5F, dacValues (or otherDacValues at night)
- * fills 0x60-0xFF, and unless g_horizonGroundColor==2 the 16-entry ground ramp
- * (g_dacGroundPaletteSrc) is copied over g_dacGroundPalette (= dacValues+0x30)
- * first. Both blocks are uploaded via INT 10h/AX=1012h (set block of DAC
- * registers, ES:DX = RGB triples). Without this the cockpit PIC shows with mode
- * 13h's default palette (the pink/green/cyan tint). */
-
+/* setupDac (egcode.asm _setupDac) - load the 256-colour palette: dacValues1 →
+ * DAC entries 0x10-0x5F, dacValues (otherDacValues at night) → 0x60-0xFF, and
+ * unless g_horizonGroundColor==2 the 16-entry ground ramp (g_dacGroundPaletteSrc)
+ * is copied over g_dacGroundPalette (= dacValues+0x30) first. */
 void setupDac(void)
 {
     union REGS r;
@@ -163,4 +149,3 @@ void setupDac(void)
     r.x.dx = (uint16)(g_nightMode != 0 ? otherDacValues : dacValues);
     int86x(0x10, &r, &r, &s);
 }
-#endif /* MSDOS */

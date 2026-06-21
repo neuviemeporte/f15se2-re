@@ -34,7 +34,12 @@ extern int  FAR CDECL hudPitchScale(int ap);
 extern void FAR CDECL hudComplex(int bx, int dx, int cx, int si);
 extern void FAR CDECL hudRotateLadder(int di);
 
-#ifdef MSDOS
+/* cdecl->register shim (egregsh.asm) for MGRAPHIC's clipped glyph engine
+ * (register-called slots 0x01-0x06): BP=descriptor, BX=string. The slot index
+ * picks the clip mode, so each tape passes the slot the original egseg2.asm
+ * used. */
+extern void FAR CDECL gfx_drawGlyphStr(int16 *desc, const char *str, int slot);
+
 /* cdecl->register marshaling shim (egregsh.asm) — restore curPageSeg by value. */
 extern void FAR CDECL gfx_setCurPageSegReg(uint16 seg);
 
@@ -42,9 +47,8 @@ extern void FAR CDECL gfx_setCurPageSegReg(uint16 seg);
  * fillRectBoth's primitive). pageDesc[0] = page number, (uint8)pageDesc[2] =
  * fill colour, (x1,y1)-(x2,y2) inclusive. The original feeds MGRAPHIC's span
  * engine (per-scanline g_spanMinX/MaxX then gfx_dirtyRect2); that engine is
- * register-called, so on DOS we fill the page directly (the plan's "reimplement
- * against the page" path). Built for DOS (MSDOS); the non-DOS lint (build64)
- * keeps the egstubs.c no-op. */
+ * register-called, so we fill the page directly (the plan's "reimplement
+ * against the page" path). */
 int __far fillSpanRect(int16 *pageDesc, int left, int top, int right, int bottom)
 {
     uint16 savedSeg = (uint16)gfx_getCurPageSeg();
@@ -63,7 +67,6 @@ int __far fillSpanRect(int16 *pageDesc, int left, int top, int right, int bottom
     gfx_setCurPageSegReg(savedSeg);
     return 0;
 }
-#endif /* MSDOS */
 
 /* helpers: little-endian word view of a byte buffer, and low-byte lvalue. */
 #define W16(p)  (*(int16 *)(p))
@@ -79,19 +82,17 @@ int __far fillSpanRect(int16 *pageDesc, int left, int top, int right, int bottom
 /* gfx access — the slot trampolines (slot.h) are already FAR, so this far
  * segment calls them directly. The primitives needing 32-bit math, or having no
  * C-callable cdecl slot (the pitch-ladder column and the roll rotation/sine),
- * live in eghudm.c and are far-called. ---------------------------------------
- * Text uses gfx_drawString (slot 0x05, unclipped): the clipped glyph slots
- * 0x01-0x06 are register-called and cannot be fed from C, so the clip mode is
- * dropped — the gauge geometry still keeps each tape in its window. */
+ * live in eghudm.c and are far-called. Tape/compass/label text goes through the
+ * clipped glyph engine via gfx_drawGlyphStr (the per-call-site slot picks the
+ * clip mode — see its decl above). */
 static void setFill(int color) { gfx_setColor(color); }
 static void drawLine(int x1, int y1, int x2, int y2)
 {
     gfx_drawLine((uint16)x1, (uint16)y1, (uint16)x2, (uint16)y2);
 }
-static void drawTapeStr(int16 *d, const uint8 *s, int m)
+static void drawTapeStr(int16 *d, const uint8 *s, int slot)
 {
-    (void)m;
-    gfx_drawString(d, (const char *)s);
+    gfx_drawGlyphStr(d, (const char *)s, slot);
 }
 
 
@@ -183,7 +184,7 @@ static void drawInstrumentGauges(void)
             }
             W16(g_speedLabelBuf)     = W16(g_tapeDigitStrip + di + 8);
             W16(g_speedLabelBuf + 2) = W16(g_tapeDigitStrip + di + 0x58);
-            drawTapeStr(g_tapeText0, g_speedLabelBuf, 2);
+            drawTapeStr(g_tapeText0, g_speedLabelBuf, 0x01);
             di += 2;
             if (--g_tapePageCounter == 0) break;
         }
@@ -233,7 +234,7 @@ static void drawInstrumentGauges(void)
                     continue;
                 }
                 g_tapeDigitStrip[0] = g_tapeDigitStrip[di + 0xa9];
-                drawTapeStr(g_tapeText0, g_tapeDigitStrip, 2);
+                drawTapeStr(g_tapeText0, g_tapeDigitStrip, 0x01);
                 di += 2;
                 if (--g_tapePageCounter == 0) goto alt_done;
                 if (di >= 0x14) { di = 2; break; }   /* jump into the thousands loop */
@@ -249,10 +250,10 @@ static void drawInstrumentGauges(void)
             LOB(g_tapeText0[5]) = (uint8)(LOB(g_tapeText0[5]) - (uint8)g_tapeTickPitch);
             g_tapeText0[4] = g_altTapeTickStep;
             if (di == 0) {
-                drawTapeStr(g_tapeText0, g_tapeDigitStrip + 4, 2);
+                drawTapeStr(g_tapeText0, g_tapeDigitStrip + 4, 0x01);
             } else {
                 W16(g_altLabelBuf) = W16(g_tapeDigitStrip + di + 0xa8);
-                drawTapeStr(g_tapeText0, g_altLabelBuf, 2);
+                drawTapeStr(g_tapeText0, g_altLabelBuf, 0x01);
             }
             di += 2;
             if (--g_tapePageCounter == 0) break;
@@ -274,17 +275,17 @@ static void drawInstrumentGauges(void)
         g_tapeText1[4] = g_compassDrawX;
         g_compassScrollIdx = (int16)((head_hi >> 2) & 0x38);
 
-        drawTapeStr(g_tapeText1, g_compassTapeBuf + 132 + g_compassScrollIdx, 1);
+        drawTapeStr(g_tapeText1, g_compassTapeBuf + 132 + g_compassScrollIdx, 0x02);
 
         g_compassScrollIdx = (g_compassScrollIdx + 8) & 0x3f;
         g_compassDrawX += g_headingPixPerDeg;
         g_tapeText1[4] = g_compassDrawX;
-        drawTapeStr(g_tapeText1, g_compassTapeBuf + 132 + g_compassScrollIdx, 0);
+        drawTapeStr(g_tapeText1, g_compassTapeBuf + 132 + g_compassScrollIdx, 0x04);
 
         g_compassScrollIdx = (g_compassScrollIdx + 8) & 0x3f;
         g_compassDrawX += g_headingPixPerDeg;
         g_tapeText1[4] = g_compassDrawX;
-        drawTapeStr(g_tapeText1, g_compassTapeBuf + 132 + g_compassScrollIdx, 0);
+        drawTapeStr(g_tapeText1, g_compassTapeBuf + 132 + g_compassScrollIdx, 0x04);
 
         if ((uint16)g_compassDrawX < (uint16)g_compassWrapLimit) {
             uint8 *bx;
@@ -295,7 +296,7 @@ static void drawInstrumentGauges(void)
             bx += 4;
             g_compassDrawX += g_headingPixPerDeg;
             g_tapeText1[4] = g_compassDrawX;
-            drawTapeStr(g_tapeText1, bx, 1);
+            drawTapeStr(g_tapeText1, bx, 0x03);
 
             /* directional marker sprite (selected by heading modulo) */
             idx = g_compassMarkerPhase % (uint8)g_headingModulus;
@@ -337,7 +338,7 @@ static void drawInstrumentGauges(void)
 
     /* ---- G-meter readout ---- */
     g_tapeText3[4] = g_geeReadoutX;
-    drawTapeStr(g_tapeText3, g_geeStringBuf, 0);
+    drawTapeStr(g_tapeText3, g_geeStringBuf, 0x04);
 
     /* ---- pitch ladder ---- */
     {
@@ -548,7 +549,7 @@ static void drawInstrumentGauges(void)
                     ax = W16(g_compassTapeBuf + 0x15c + vi);
                     ax += (vi >= 0x2c) ? g_tapeRollOfsB1 : g_tapeRollOfsB3;
                     g_tapeText2[5] = (int16)(ax + g_pitchLabelY);
-                    drawTapeStr(g_tapeText2, g_tapeDrawStr, 3);
+                    drawTapeStr(g_tapeText2, g_tapeDrawStr, 0x06);
                     si++;
                     /* second (A) label */
                     idx4 = g_tapeCursorX * 4;
@@ -565,7 +566,7 @@ static void drawInstrumentGauges(void)
                     ax = W16(g_compassTapeBuf + 0x15c + vi);
                     ax += (vi >= 0x2c) ? g_tapeRollOfsA1 : g_tapeRollOfsA3;
                     g_tapeText2[5] = (int16)(ax + g_pitchLabelY);
-                    drawTapeStr(g_tapeText2, g_tapeDrawStr, 3);
+                    drawTapeStr(g_tapeText2, g_tapeDrawStr, 0x06);
                     si++;
                     g_tapeCursorX++;
                     if (--seg == 0) break;
