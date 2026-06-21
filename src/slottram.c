@@ -240,11 +240,15 @@ void FAR CDECL gfx_plotPixel(void)
     ((void(FAR*)(void))gfxFarTableExported[36])();
 }
 
-/* Slot 0x25: gfx_dirtyRect */
-void FAR CDECL gfx_dirtyRect(void)
+/* Slot 0x25: gfx_dirtyRect — MGRAPHIC takes BX=spanBuf, AX=yMin, CX=yMax in
+ * registers, so on DOS egregsh.asm provides _gfx_dirtyRect and this cdecl
+ * far-call is excluded; only the non-DOS lint (build64) uses it. */
+#ifndef MSDOS
+void FAR CDECL gfx_dirtyRect(int16 *spanBuf, int yMin, int yMax)
 {
-    ((void(FAR*)(void))gfxFarTableExported[37])();
+    ((void(FAR*)(int16*,int,int))gfxFarTableExported[37])(spanBuf, yMin, yMax);
 }
+#endif
 
 /* Slot 0x26: gfx_storePageSeg */
 void FAR CDECL gfx_storePageSeg(uint16 seg, int pageIdx)

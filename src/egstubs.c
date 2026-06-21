@@ -29,23 +29,15 @@ int far fillSpanRect(int16* dst, int left, int top, int right, int bottom) { ret
 #endif
 
 /* --- functions declared in egcode.h --- */
-int far advanceModelPointerLod() { return 0; }
 int far buildRotationMatrixFar(int16* matrix, int angleX, int angleY, int angleZ) { return 0; }
-int far clipAndRasterizeEdge() { return 0; }
 int __cdecl drawCenteredLabelBox(int panel, char *text) { return 0; }
-int far drawModelDisplayList() { return 0; }
-int far drawPolygonOutline(int fillColor, int pointCount, int* points, int edgeColor) { return 0; }
-int far flushSpanDirtyRect() { return 0; }
 int far multiplyMatrix3x3Far(int matA, int matB, int16* result) { return 0; }
-int far projectModelEdgesFar() { return 0; }
 void far projectSceneObject(char *model, int yaw, int pitch, int roll, int posX, int posY, int posZ) {}
-int far resetScanlineSpans() { return 0; }
 int far restoreInt9Handler() { return 0; }
 int far drawFlatHorizon(int a) { return 0; }
 int far transformAndCullObjectFar(int a, int b, int c) { return 0; }
 int far rotatePoint3dFar() { return 0; }
 int far transformModelVerticesFar() { return 0; }
-int far renderSortedListFar() { return 0; }
 
 /* --- sound-driver slots with no shared C implementation (egame's sound asm;
    ovlimpl.c only covers audio_setup/audio_shutdown/audio_playIntro) --- */
