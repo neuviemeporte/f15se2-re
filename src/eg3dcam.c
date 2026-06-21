@@ -17,8 +17,8 @@ void setViewRotation(int rotX, int rotY, int rotZ) {
 }
 
 // ==== seg000:0x3a90 ====
-void setViewPosition(int posX, int posY, int posZ) {
-    g_viewPosX = posX;
-    g_viewPosY = posY;
-    g_viewPosZ = posZ;
+void setViewPosition(int viewX, int viewY, int viewZ) { /* Original: SetViewPos(X,Y,Z). Store viewer coordinates for 3D transforms. */
+    g_viewPosX = viewX;
+    g_viewPosY = viewY;
+    g_viewPosZ = viewZ;
 }

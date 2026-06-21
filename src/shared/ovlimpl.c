@@ -35,13 +35,12 @@ int far cdecl misc_checkKeyBuf(void) {
         return 0;
     return 0xFFFF;
 }
-int far cdecl misc_getKey(void) {
-    /* INT 16h AH=00h: read key from buffer.
-       Returns scan code in AH, ASCII in AL. */
-    union REGS regs;
-    regs.h.ah = 0x00;
-    int86(0x16, &regs, &regs);
-    return regs.x.ax;
+int far cdecl misc_getKey(void) { /* Original: GetKey. Blocking BIOS read: scan code in AH, ASCII in AL. */
+    enum { BIOS_KEYBOARD_INT = 0x16, BIOS_READ_KEY = 0x00 };
+    union REGS biosRegs;
+    biosRegs.h.ah = BIOS_READ_KEY;
+    int86(BIOS_KEYBOARD_INT, &biosRegs, &biosRegs);
+    return biosRegs.x.ax;
 }
 int far cdecl misc_readJoystick(int16 param) { return 0; }
 void far cdecl misc_clearKeyFlags(void) { ovldbg("clearKeyFlags"); }

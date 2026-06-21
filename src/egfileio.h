@@ -3,7 +3,7 @@
 /* public interface of egfileio.c */
 #include "egtypes.h"
 
-int __cdecl openFileWrapper(const char *path, int mode);
+int __cdecl openFileWrapper(const char *filename, int mode);
 void closeFileWrapper(int handle);
 
 #endif /* F15_SE2_EGFILEIO */

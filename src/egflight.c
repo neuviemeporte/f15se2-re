@@ -713,34 +713,36 @@ void rebuildOrientation() {
     g_rotationCounter = 0;
 }
 
-unsigned signedRatio16(int numerator, int denominator) {
-    char numSign = 1;
-    char denSign = 1;
-    long numAbs;
-    long denAbs;
+unsigned signedRatio16(int numerator, int denominator) { /* Original: IntDiv(A,B). Divide two signed 15-bit fractions. */
+    char numeratorSign = 1;
+    char denominatorSign = 1;
+    long absNumerator;
+    long absDenominator;
 
-    if (numerator < 0) numSign = -1;
-    if (denominator < 0) denSign = -1;
-    numAbs = (long)(numerator < 0 ? -numerator : numerator);
-    denAbs = (long)(denominator < 0 ? -denominator : denominator);
-    return (unsigned)((unsigned int)((((unsigned long)(unsigned int)numAbs) << 16) / denAbs >> 1)) * (unsigned)(int)numSign * (unsigned)(int)denSign;
+    /* Divide two signed 15-bit fractions, then restore the combined sign. */
+    if (numerator < 0) numeratorSign = -1;
+    if (denominator < 0) denominatorSign = -1;
+    absNumerator = (long)(numerator < 0 ? -numerator : numerator);
+    absDenominator = (long)(denominator < 0 ? -denominator : denominator);
+    return (unsigned)((unsigned int)((((unsigned long)(unsigned int)absNumerator) << 16) / absDenominator >> 1)) * (unsigned)(int)numeratorSign * (unsigned)(int)denominatorSign;
 done:
     ;
 }
 
-int valueToAngle(int value) {
+int valueToAngle(int value) { /* Original: Iasin(A). Return 16-bit word-degree arcsin by table interpolation. */
+    enum { ASIN_TABLE_SHIFT = 9, WORD_DEGREE_STEP = 256 };
     int angle;
-    int mag;
-    int lutIdx;
-    int span;
+    int magnitude;
+    int tableIndex;
+    int tableSpan;
 
     if (value == (int)0x8000) return (int)0xc000;
-    mag = abs(value);
-    lutIdx = (mag >> 9) + 1;
-    for (; lutIdx >= 0; lutIdx--) {
-        if (g_angleLut[lutIdx] <= mag) {
-            span = g_angleLut[lutIdx + 1] - g_angleLut[lutIdx];
-            angle = (int)((long)(mag - g_angleLut[lutIdx]) * 256L / (long)span) + lutIdx * 256;
+    magnitude = abs(value);
+    tableIndex = (magnitude >> ASIN_TABLE_SHIFT) + 1;
+    for (; tableIndex >= 0; tableIndex--) {
+        if (g_angleLut[tableIndex] <= magnitude) {
+            tableSpan = g_angleLut[tableIndex + 1] - g_angleLut[tableIndex];
+            angle = (int)((long)(magnitude - g_angleLut[tableIndex]) * WORD_DEGREE_STEP / (long)tableSpan) + tableIndex * WORD_DEGREE_STEP;
             break;
         }
     }
@@ -750,22 +752,24 @@ int valueToAngle(int value) {
     return angle;
 }
 
-int complementAngle(int value) {
-    return 0x4000 - valueToAngle(value);
+int complementAngle(int value) { /* Original: Iacos(A). Return 16-bit word-degree arccos as quarter-turn minus arcsin. */
+    enum { WORD_DEGREES_QUARTER_TURN = 0x4000 };
+    return WORD_DEGREES_QUARTER_TURN - valueToAngle(value);
 }
 
-int isqrt(int value) {
-    int quot;
+int isqrt(int value) { /* Original: Sqrt(N). Return integer square root using Newton iteration. */
+    int quotient;
     int guess;
+    /* Integer square root using Newton iteration seeded from value >> 2. */
     value = abs(value);
     if (value < 4) {
         return 1;
     }
     guess = value >> 2;
     do {
-        quot = value / guess;
-        guess = (guess + quot) >> 1;
-    } while (abs(guess - quot) > 1);
+        quotient = value / guess;
+        guess = (guess + quotient) >> 1;
+    } while (abs(guess - quotient) > 1);
     return guess;
 }
 

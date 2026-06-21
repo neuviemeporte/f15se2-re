@@ -13,15 +13,17 @@
 #include <memory.h>
 
 #ifdef BUGFIX
-void openBlitClosePic(char* path, int page) {
+void openBlitClosePic(char* filename, int page) { /* Original chain: OpenFile + blit/decode + CloseFile. Open, blit PIC to page, then close. */
 #else
-void openBlitClosePic(char* path, int page, int garbage) {
+void openBlitClosePic(char* filename, int page, int garbage) { /* Original chain: OpenFile + blit/decode + CloseFile. Open, blit PIC to page, then close. */
 #endif
-    int handle = openFileWrapper(path, 0);
+    int handle = openFileWrapper(filename, 0);
+    /* The PIC decoder/blitter consumes the already-open file handle. */
 #ifdef BUGFIX
     picBlit(handle, page);
 #else
     picBlit(handle, page, garbage);
 #endif
+    /* Always close immediately after the synchronous blit/decode call. */
     closeFileWrapper(handle);
 }
