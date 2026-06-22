@@ -53,6 +53,11 @@ extern int16 g_primCoordPtr, g_primCountPtr, g_primDataBase;
 extern uint8 g_primRunCount, g_faceVtxCount, g_vtxSlotPhase, g_unusedClipFlag, g_edgeRunCount;
 extern int16 g_savedPrimVtxScale;
 extern int16 g_savedDivZeroVecOff, g_savedDivZeroVecSeg;
+/* Scene-pipeline globals (defined in egdata.c). g_camTransX/g_camTransY are the
+ * lo/hi words of the object-origin camera-space accumulators; g_objDir the
+ * rotated object facing; g_rotInputX a per-point scratch. */
+extern int16 g_camTransXLo, g_camTransXHi, g_camTransYLo, g_camTransYHi;
+extern int16 g_objDirX, g_objDirY, g_objDirZ, g_rotInputX;
 
 /* ---- this TU's own scratch ---- */
 struct SpanBuffers g_spanBuf;            /* g_spanMinX / g_spanMaxX (contiguous) */
@@ -95,6 +100,7 @@ static struct EdgeRec *erec(int i)
  * edge record (P1 = A0..A3, P2 = B0..B3, flags at +0x18). */
 static struct EdgeRec g_clipVtx;
 
+
 /* ===================================================================== */
 /* Manual 32/16 divides (no long runtime helper; shift-by-1 / mask only).*/
 /* Saturate to +/-0x7f00 on overflow, matching the egseg1 INT0 stubs.    */
@@ -114,6 +120,40 @@ static unsigned udiv32by16(unsigned long num, unsigned den)
     }
     if (q > 0x7fffUL) q = 0x7f00;
     return (unsigned)q;
+}
+
+/* Full-precision unsigned 32/16 divide: returns the complete 32-bit quotient,
+ * NO saturation. projectVertexToScreen needs this — the egseg1 perspective
+ * divide stores the full quotient into the 32-bit var_279/var_282 fields (the
+ * downstream Cohen-Sutherland clip works in 32-bit), so a near-plane vertex
+ * projects to a large off-screen coord rather than a clamped ±0x7f00. */
+static unsigned long udiv32by16_full(unsigned long num, unsigned den)
+{
+    unsigned long rem = 0;
+    unsigned long q = 0;
+    int i;
+    if (den == 0) return 0xffffffffUL;
+    for (i = 0; i < 32; i++) {
+        rem = rem << 1;
+        if (num & 0x80000000UL) rem |= 1;
+        num = num << 1;
+        q = q << 1;
+        if (rem >= (unsigned long)den) { rem -= den; q |= 1; }
+    }
+    return q;
+}
+
+/* Signed full-precision 32/16 divide (no saturation). */
+static long sdivFull(long num, int den)
+{
+    int neg = 0;
+    unsigned long n;
+    int d = den;
+    unsigned long q;
+    n = (num < 0) ? (neg ^= 1, (unsigned long)(-num)) : (unsigned long)num;
+    if (d < 0) { neg ^= 1; d = -d; }
+    q = udiv32by16_full(n, (unsigned)d);
+    return neg ? -(long)q : (long)q;
 }
 
 static int sdiv32by16(long num, int den)
@@ -310,17 +350,13 @@ static void projectVertexToScreen(int vtx)   /* BX = vtx*4 in the asm */
     /* word_342BC:word_342BE form the 32-bit camera X for this vertex; the asm
      * reads it from byte offset +1 (i.e. >>8) before the IDIV. */
     camX = *(long *)((char *)&vtxScratch + 0x3c + vtx * 4);
-    {
-        int q = sdiv32by16(lshr_s(camX, 8), cx);
-        vtxScratch.vproj.x.v[vtx] = (long)(q + g_viewCenterX);
-    }
+    vtxScratch.vproj.x.v[vtx] = sdivFull(lshr_s(camX, 8), cx) + g_viewCenterX;
     /* camera Y: (camY>>8) scaled by 3/4 (the (v>>2 - v) aspect term) then /depth */
     camY = *(long *)((char *)&vtxScratch + 0x220 + vtx * 4);
     {
         long n = lshr_s(camY, 8);
         long scaled = lshr_s(n, 2) - n;          /* = -(n*3/4) */
-        int q = sdiv32by16(scaled, cx);
-        vtxScratch.vproj.y.v[vtx] = (long)(q + g_viewCenterY);
+        vtxScratch.vproj.y.v[vtx] = sdivFull(scaled, cx) + g_viewCenterY;
     }
 }
 
@@ -340,19 +376,23 @@ static void clipEdgeNearPlane(struct EdgeRec *rec, int behind, int front)
                                   - vtxScratch.vproj.in[behind].div);
         unsigned long num = ((unsigned long)(vtxScratch.vproj.in[front].div - 1) << 16)
                             | (uint16)vtxScratch.vproj.in[front].num;
-        cx = (int)(udiv32by16(num, div) >> 1);
+        /* egseg1's `DIV CX` yields the full 16-bit quotient (0..0xffff); the
+         * saturating udiv32by16 (cap 0x7f00) would clamp ratios above 0x7fff and
+         * under-interpolate the clip point (visible as the ocean flipping when
+         * pitched). Use the uncapped divide; >>1 keeps cx in 0..0x7fff. */
+        cx = (int)(udiv32by16_full(num, div) >> 1);
     }
     /* X = word_342BC..  (offset 0x3c), Y = word_344A0.. (offset 0x220) */
     fc = *(long *)((char *)&vtxScratch + 0x3c + front * 4);
     bc = *(long *)((char *)&vtxScratch + 0x3c + behind * 4);
     delta = fc - bc;
-    prod = imul16(HI16(delta), cx) << 1;
+    prod = imul16(HI16(delta) + LOCARRY(delta), cx) << 1;
     t = fc - prod;
     *(long *)((char *)&vtxScratch + 0x21c) = t;          /* word_3449C */
     fc = *(long *)((char *)&vtxScratch + 0x220 + front * 4);
     bc = *(long *)((char *)&vtxScratch + 0x220 + behind * 4);
     delta = fc - bc;
-    prod = imul16(HI16(delta), cx) << 1;
+    prod = imul16(HI16(delta) + LOCARRY(delta), cx) << 1;
     t = fc - prod;
     *(long *)((char *)&vtxScratch + 0x400) = t;          /* word_34680 */
     vtxScratch.vproj.in[120].num = 0;                    /* word_34864 */
@@ -771,6 +811,15 @@ static void rasterizeEdgeSpan(void)
     int dxv, dyv, bp;
     int16 *minB = g_spanBuf.minX;
     int16 *maxB = g_spanBuf.maxX;
+    /* The original relied on clipped coords (and an INT 0 trap) keeping the
+     * scanline index in range. In the unvalidated flight path an edge can still
+     * arrive with Y outside the viewport; the row walk stays within
+     * [min(y1,y2),max(y1,y2)], so writing minB[row]/maxB[row] then runs off the
+     * span buffer and corrupts the data segment. Per the plan's "explicit C
+     * guards instead of the INT 0 trap", skip any edge whose endpoints fall
+     * outside the buffer extent. */
+    if ((unsigned)g_lineY1 >= (sizeof(g_spanBuf.minX) / sizeof(g_spanBuf.minX[0])) ||
+        (unsigned)g_lineY2 >= (sizeof(g_spanBuf.minX) / sizeof(g_spanBuf.minX[0]))) return;
     if (g_lineX2 < g_lineX1) {
         int t = g_lineX1; g_lineX1 = g_lineX2; g_lineX2 = (int16)t;
         t = g_lineY1; g_lineY1 = g_lineY2; g_lineY2 = (int16)t;
@@ -847,9 +896,14 @@ static void drawPrimitiveEdges(struct EdgeRec *rec)
 static void decodeRleEdgeRow(unsigned char far *src, unsigned char *dst, int rowBase)
 {
     /* explicit stack of (state, parentValue) frames replacing the asm's
-     * PUSH AX / POP AX recursion. */
-    unsigned char stState[64];
-    unsigned char stParent[64];
+     * PUSH AX / POP AX recursion. The asm pushes onto the hardware stack with
+     * no fixed bound; the DFS walks a binary-tree adjacency whose nodes are
+     * byte vertex indices, so the depth can reach the full index space (up to
+     * 256). A 64-entry stack overflows for complex flight models (the shallow
+     * tac-map tiles never reached it), corrupting the C frame -> hang. Size to
+     * the worst case and guard so an overflow can never write out of bounds. */
+    unsigned char stState[256];
+    unsigned char stParent[256];
     int sp = 0;
     int cx;            /* current value */
     unsigned char *base = (unsigned char *)(size_t)(uint16)rowBase;
@@ -881,6 +935,7 @@ static void decodeRleEdgeRow(unsigned char far *src, unsigned char *dst, int row
             if (al == 0xff) continue;
             goto push;
         push:
+            if (sp >= (int)sizeof(stState)) { *dst = 0xff; return; }  /* guard: never corrupt the frame */
             stState[sp] = (uint8)dx;
             stParent[sp] = (uint8)cx;
             sp++;
@@ -1388,15 +1443,563 @@ int far drawPolygonOutline(int fillColor, int pointCount, int *points, int edgeC
     return 0;
 }
 
+/* ====================================================================== */
+/* The perspective scene pipeline (egseg1.asm front half).                  */
+/*                                                                          */
+/* projectObjects (eg3dproj.c) spawns each tile/world object through        */
+/* projectSceneObject; transformAndCullObject transforms the object origin  */
+/* into camera space and view-frustum-culls it; survivors are either        */
+/* rendered immediately (ground-coplanar) or queued into a depth-sorted     */
+/* list (insertSortedObject). rasterize3DWorld then flushes the list back    */
+/* to front (renderSortedList -> processSceneObject), and each object builds */
+/* its orientation matrix, rotates+culls its faces (rotatePoint3d), projects */
+/* its vertices (transformVertexList -> projectVertexToScreen) and emits its */
+/* display list (projectModelEdges + renderPrimitiveList, both above).      */
+/*                                                                          */
+/* All 32-bit fixed-point math uses imul16/lshr_s and HI16/LOCARRY rather    */
+/* than the `long` runtime helpers, since this TU is a far code segment.     */
+/* ====================================================================== */
+
+/* dword_34C2C lives at vtxScratch + 0x9AC (the depth-sort transform scratch);
+ * the per-vertex camera arrays word_342BC / word_344A0 / word_34684 are at
+ * vtxScratch + 0x3c / 0x220 / 0x404 (the same offsets the back half uses). */
+#define DW(off)    (*(long *)((char *)&vtxScratch + 0x9AC + (off)))
+#define VCAMX(bx)  (*(long *)((char *)&vtxScratch + 0x3c  + (bx)))
+#define VCAMY(bx)  (*(long *)((char *)&vtxScratch + 0x220 + (bx)))
+#define VDEPTH(bx) (*(long *)((char *)&vtxScratch + 0x404 + (bx)))
+
+/* Combined-matrix scratch matrices (word_34288 object orientation, word_3429A
+ * object*view) and the object-origin screen-X numerator base (word_3424C/E).  */
+static int16 g_objOrientMatrix[9];      /* word_34288 */
+static int16 g_objCombinedMatrix[9];    /* word_3429A */
+static long  g_camBaseX;                /* word_3424C / word_3424E */
+
+/* Depth-sorted object list. word_35AF8 holds record indices ordered farthest
+ * (index 0) to nearest; the records carry the per-object transform state. */
+struct SortRec {
+    int16 depthLo, depthHi;
+    char far *model;
+    int16 relX, relY;
+    int16 transform[4];
+    long  baseX;
+    int16 camXLo, camXHi;
+    int16 camYLo, camYHi;
+};
+static struct SortRec g_sortRecs[0x23];
+static int g_sortList[0x23];
+
+/* High word of (s<<1) plus the doubled low word's carry bit — the rotatePoint3d
+ * `SHL;RCL;SHL;ADC` Q15-with-round idiom. */
+static int dirRound(long s) { long v = s << 1; return (int)(int16)(HI16(v) + LOCARRY(v)); }
+
+/* seg001 0x15CD — 3x3 Q15 matrix multiply, result = A * B (each entry the high
+ * word of the doubled dot product). A/B are 9-element row-major matrices. */
+static void multiplyMatrix3x3(const int16 *A, const int16 *B, int16 *R)
+{
+    int row, col;
+    for (row = 0; row < 3; row++) {
+        for (col = 0; col < 3; col++) {
+            long acc = (imul16(A[row*3+0], B[0*3+col]) << 1)
+                     + (imul16(A[row*3+1], B[1*3+col]) << 1)
+                     + (imul16(A[row*3+2], B[2*3+col]) << 1);
+            R[row*3+col] = HI16(acc);
+        }
+    }
+}
+
+/* seg001 0x147B — buildInverseRotationMatrix: like buildRotationMatrix but it
+ * lays the transpose/inverse orientation into *m (used for per-object rotation
+ * relative to the already-built view matrix). Sets the same sphere terms. */
+static void buildInverseRotationMatrix(int16 *m, int angleX, int angleY, int angleZ)
+{
+    int R, P, Ro, D, SY, CY, mSI, mBP;
+    g_rotSinYaw    = (int16)hsine(angleX);
+    g_rotCosYaw    = (int16)hcosine(angleX);
+    g_spherePitch  = (int16)hsine(angleZ);
+    g_sphereRoll   = (int16)hcosine(angleZ);
+    g_sphereRadius = (int16)hsine(angleY);
+    g_sphereDistZ  = (int16)hcosine(angleY);
+    R = g_sphereRadius; P = g_spherePitch; Ro = g_sphereRoll; D = g_sphereDistZ;
+    SY = g_rotSinYaw;   CY = g_rotCosYaw;
+    mSI = q15hi(R, P);
+    mBP = q15hi(R, Ro);
+    m[0] = (int16)q15sum(CY, Ro, mSI, SY, 1);
+    m[1] = (int16)(-q15hi(P, D));
+    m[2] = (int16)q15sum(mSI, CY, SY, Ro, 0);
+    m[3] = (int16)q15sum(mBP, SY, CY, P, 0);
+    m[4] = (int16)q15hi(Ro, D);
+    m[5] = (int16)q15sum(SY, P, mBP, CY, 1);
+    m[6] = (int16)(-q15hi(SY, D));
+    m[7] = (int16)R;
+    m[8] = (int16)q15hi(CY, D);
+}
+
+/* seg001 0x1599 — transpose the 3x3 object orientation matrix in place. */
+static void transposeOrientationMatrix(void)
+{
+    int16 *m = g_objOrientMatrix;
+    int16 t;
+    t = m[1]; m[1] = m[3]; m[3] = t;
+    t = m[2]; m[2] = m[6]; m[6] = t;
+    t = m[5]; m[5] = m[7]; m[7] = t;
+}
+
+/* Word read of the colour LUT at byte offset `o`. */
+#define COLW(o) (*(int16 *)(colorLut + (o)))
+
+/* seg001 0x0908 — transformAndCullObject: rotate the object origin (relX/Y/Z)
+ * into camera space (g_camBaseX / g_camTransX / g_camTransY) and frustum-cull.
+ * Returns 0 if visible, 1 if culled. */
+static int transformAndCullObject(int relY, int relZ, int relX)
+{
+    int16 *m = g_viewRotMatrix;
+    long camX, camY;
+    int rm = g_objRenderMode;
+    int diHi, cl, absYHi, sx, si, ax, bx;
+
+    g_camBaseX = (imul16(m[6], relY) + imul16(m[3], relZ) + imul16(m[0], relX)) << 1;
+    camX = (imul16(m[7], relY) + imul16(m[4], relZ) + imul16(m[1], relX)) << 1;
+    g_camTransXLo = (int16)camX; g_camTransXHi = HI16(camX);
+    camY = (imul16(m[8], relY) + imul16(m[5], relZ) + imul16(m[2], relX)) << 1;
+    g_camTransYLo = (int16)camY; g_camTransYHi = HI16(camY);
+
+    diHi = HI16(camY);
+    if (diHi > COLW(0x20)) return 1;
+    if (diHi < COLW(0x30 + rm * 2)) return 1;
+    cl = g_halfScaleRender ^ 1;
+    absYHi = (diHi < 0) ? -diHi : diHi;
+    sx = absYHi + g_overlayCenterX[rm];
+    sx = (int)((int16)sx >> cl);
+    si = (sx >> 2) + sx;
+    {
+        int bxhi = HI16(g_camBaseX);
+        int absbx = (bxhi < 0) ? -bxhi : bxhi;
+        if (absbx > si) return 1;
+        si = absbx;
+    }
+    ax = absYHi + g_overlayCenterY[rm];
+    ax = (int)((int16)ax >> cl);
+    bx = ax;
+    if (g_hudVisible) bx = (((ax >> 3) + ax) >> 1);
+    {
+        int absXHi = (g_camTransXHi < 0) ? -g_camTransXHi : g_camTransXHi;
+        if (absXHi > bx) return 1;
+        si += absXHi;
+    }
+    si >>= 2;
+    si += absYHi;
+    g_objDistance = (int16)si;
+    if (si > COLW(0x20)) return 1;
+    return 0;
+}
+
+/* seg001 0x0CB4 — rotatePoint3d: compute the object facing direction (g_objDir*)
+ * in camera space, then read the per-face visibility table and build the vertex
+ * sign masks (g_vtxSignMask*) that gate back-facing primitives. Advances *pp
+ * past the face-visibility records. */
+static void rotatePoint3d(int relZ, int relY, int relX, unsigned char far **pp)
+{
+    unsigned char far *p = *pp;
+    int cnt, i, flipped;
+    relX = -relX; relY = -relY; relZ = -relZ;
+    if (g_objHasRotation == 0) {
+        g_objDirX = (int16)relX;
+        g_objDirY = (int16)relZ;
+        g_objDirZ = (int16)relY;
+    } else {
+        int16 *m = g_objOrientMatrix;
+        g_rotInputX = (int16)relY;
+        transposeOrientationMatrix();
+        g_objDirX = (int16)dirRound(imul16(g_rotInputX, m[6]) + imul16(relZ, m[3]) + imul16(relX, m[0]));
+        g_objDirY = (int16)dirRound(imul16(g_rotInputX, m[7]) + imul16(relZ, m[4]) + imul16(relX, m[1]));
+        g_objDirZ = (int16)dirRound(imul16(g_rotInputX, m[8]) + imul16(relZ, m[5]) + imul16(relX, m[2]));
+        transposeOrientationMatrix();
+    }
+    cnt = (*p++) & 0x1f;
+    g_modelEdgeCount = (int16)cnt;
+    g_modelWideVtxFlag = (cnt > 0x10) ? 1 : 0;
+    g_vtxSignMaskLo = -1;
+    g_vtxSignMaskHi = -1;
+    flipped = 0;
+    {
+        unsigned long bit = 1;
+        for (i = 0; i < cnt; i++) {
+            int fnx, fny, fnz, thr;
+            long dot;
+            fnx = *(int16 far *)p;       p += 2;
+            fny = *(int16 far *)p;       p += 2;
+            fnz = *(int16 far *)p;       p += 2;
+            thr = *(int16 far *)p;       p += 2;
+            dot = imul16(fnx, g_objDirX) + imul16(fny, g_objDirZ) + imul16(fnz, g_objDirY);
+            if (dot < (long)thr) {
+                g_vtxSignMaskLo ^= (int16)(uint16)(bit & 0xffff);
+                g_vtxSignMaskHi ^= (int16)(uint16)((bit >> 16) & 0xffff);
+                flipped++;
+            }
+            bit <<= 1;
+        }
+    }
+    if (cnt >= 4 && flipped == cnt) g_posVisibleFlag++;
+    *pp = p;
+}
+
+/* Apply the combined matrix to one model vertex (X,Y,Z) and write its 32-bit
+ * camera-space numerators + project it to screen at slot bx (= vtx*4). */
+static void emitModelVertex(int bx, int vx, int vy, int vz)
+{
+    const int16 *cm = g_objCombinedMatrix;
+    long sx = (imul16(cm[0], vx) + imul16(cm[3], vz) + imul16(cm[6], vy)) << 1;
+    long sy = (imul16(cm[1], vx) + imul16(cm[4], vz) + imul16(cm[7], vy)) << 1;
+    long sz = (imul16(cm[2], vx) + imul16(cm[5], vz) + imul16(cm[8], vy)) << 1;
+    VCAMX(bx)  = sx + g_camBaseX;
+    VCAMY(bx)  = sy + JOIN32(g_camTransXLo, g_camTransXHi);
+    VDEPTH(bx) = sz + JOIN32(g_camTransYLo, g_camTransYHi);
+    projectVertexToScreen(bx >> 2);
+}
+
+/* seg001 0x10F0 — transformVertexList: project this object's vertices. Three
+ * encodings: 0x80 + precomputed shared verts (dword_34C2C, transformModelVertices
+ * filled them), 0x80 + on-the-fly indexed verts (offscreen render), or explicit
+ * inline coords. */
+static void transformVertexList(unsigned char far **pp)
+{
+    unsigned char far *p = *pp;
+    int al = *p++;
+    int bx;
+
+    if (al & 0x80) {
+        int count = al & 0x7f;
+        if (g_offscreenRender == 0) {
+            /* loc_107D — precomputed shared vertices */
+            for (bx = 0; count-- > 0; bx += 4) {
+                int vis = testVisibilityMask(&p);
+                int ref = (*p++) * 4;
+                if (!vis) continue;
+                VCAMX(bx)  = g_camBaseX + DW(4 + ref);
+                VCAMY(bx)  = JOIN32(g_camTransXLo, g_camTransXHi) + DW(0x25c + ref);
+                VDEPTH(bx) = JOIN32(g_camTransYLo, g_camTransYHi) + DW(0x4b4 + ref);
+                projectVertexToScreen(bx >> 2);
+            }
+        } else {
+            /* loc_0F78 — on-the-fly indexed transform */
+            int loopEnd = count * 4;
+            for (bx = 0; bx < loopEnd; bx += 4) {
+                int vis = testVisibilityMask(&p);
+                int ref = *p++;
+                if (!vis) continue;
+                emitModelVertex(bx,
+                    g_replayLog.vertexX[buf3d3_1[ref] & 0xff],
+                    ((int16 *)g_modelVertY)[buf3d3_2[ref] & 0xff],
+                    ((int16 *)g_modelVertZ)[buf3d3_3[ref] & 0xff]);
+            }
+        }
+    } else if ((al & 0x7f) != 0) {
+        /* loc_10F0 body — explicit inline coords (X,Y,Z words) */
+        int loopEnd = (al & 0x7f) * 4;
+        for (bx = 0; bx < loopEnd; bx += 4) {
+            int vis = testVisibilityMask(&p);
+            int vx = *(int16 far *)p;
+            int vy = *(int16 far *)(p + 2);
+            int vz = *(int16 far *)(p + 4);
+            p += 6;
+            if (!vis) continue;
+            emitModelVertex(bx, vx, vy, vz);
+        }
+    }
+    *pp = p;
+}
+
+/* seg001 0x0DF4 — transformModelVertices: precompute camera-space coordinates
+ * for the shared vertex pool (the X/Y/Z coordinate tables indexed via buf3d3),
+ * caching matrix*coordinate products so each tile object reuses them. */
+int far transformModelVerticesFar(void)
+{
+    int16 *m = g_viewRotMatrix;
+    int i;
+    if (size3d3_3 == 0) return 0;
+    for (i = (int)size3d3_4 - 1; i >= 0; i--) {
+        int c = g_replayLog.vertexX[i];
+        DW(0x70c + i * 4) = imul16(m[0], c) << 1;
+        DW(0x78c + i * 4) = imul16(m[1], c) << 1;
+        DW(0x80c + i * 4) = imul16(m[2], c) << 1;
+    }
+    for (i = (int)size3d3_6 - 1; i >= 0; i--) {
+        int c = ((int16 *)g_modelVertZ)[i];
+        DW(0x88c + i * 4) = imul16(m[3], c) << 1;
+        DW(0x8ac + i * 4) = imul16(m[4], c) << 1;
+        DW(0x8cc + i * 4) = imul16(m[5], c) << 1;
+    }
+    for (i = (int)size3d3_5 - 1; i >= 0; i--) {
+        int c = ((int16 *)g_modelVertY)[i];
+        DW(0x8ec + i * 4) = imul16(m[6], c) << 1;
+        DW(0x96c + i * 4) = imul16(m[7], c) << 1;
+        DW(0x9ec + i * 4) = imul16(m[8], c) << 1;
+    }
+    for (i = (int)size3d3_3 - 1; i >= 0; i--) {
+        int bx = (buf3d3_1[i] & 0xff) * 4;
+        int di = (buf3d3_2[i] & 0xff) * 4;
+        int bp = (buf3d3_3[i] & 0xff) * 4;
+        DW(0x004 + i * 4) = DW(0x70c + bx) + DW(0x88c + bp) + DW(0x8ec + di);
+        DW(0x25c + i * 4) = DW(0x78c + bx) + DW(0x8ac + bp) + DW(0x96c + di);
+        DW(0x4b4 + i * 4) = DW(0x80c + bx) + DW(0x8cc + bp) + DW(0x9ec + di);
+    }
+    return 0;
+}
+
+/* seg001 0x198A — processSceneObject opcode 0x3F: draw the object origin as a
+ * single shaded point. */
+static void sceneObjPoint(unsigned char far *p)
+{
+    if (g_camTransYHi < 1) return;
+    VDEPTH(0) = JOIN32(g_camTransYLo, g_camTransYHi);
+    VCAMX(0)  = g_camBaseX;
+    VCAMY(0)  = JOIN32(g_camTransXLo, g_camTransXHi);
+    p++;                                       /* skip opcode */
+    gfx_setColor((unsigned char)(colorLut[*p++] + g_objShade));
+    projectVertexToScreen(0);
+    g_lineX1 = g_lineX2 = (int16)vtxScratch.vproj.x.v[0];
+    g_lineY1 = g_lineY2 = (int16)vtxScratch.vproj.y.v[0];
+    drawClipLineGlobal();
+}
+
+/* Distance-shaded point colour for the edge-run path (loc_1ABC / loc_1B6C). */
+static int edgeRunColor(int depthHi)
+{
+    int bx;
+    if (depthHi > 0x1388) bx = 8;
+    else if (depthHi > 0x9c4) bx = 7;
+    else bx = 0xf;
+    return colorLut[bx];
+}
+
+/* seg001 0x1AF4 — processSceneObject opcode 0x3E: a run of distance-shaded
+ * points. Two encodings, precomputed (loc_1B06) and on-the-fly (loc_19E8). */
+static void sceneObjEdgeRun(unsigned char far *p)
+{
+    p += 2;
+    g_edgeRunCount = *p++;
+    if (g_offscreenRender != 0) {
+        do {
+            int ref = *p++;
+            long sz;
+            emitModelVertex(0,
+                g_replayLog.vertexX[buf3d3_1[ref] & 0xff],
+                ((int16 *)g_modelVertY)[buf3d3_2[ref] & 0xff],
+                ((int16 *)g_modelVertZ)[buf3d3_3[ref] & 0xff]);
+            sz = VDEPTH(0);
+            gfx_setColor((unsigned char)edgeRunColor(HI16(sz)));
+            g_lineX1 = g_lineX2 = (int16)vtxScratch.vproj.x.v[0];
+            g_lineY1 = g_lineY2 = (int16)vtxScratch.vproj.y.v[0];
+            drawClipLineGlobal();
+        } while (--g_edgeRunCount != 0);
+    } else {
+        do {
+            int ref = (*p++) * 4;
+            long depthV = DW(0x4b4 + ref) + JOIN32(g_camTransYLo, g_camTransYHi);
+            int dHi = HI16(depthV);
+            VDEPTH(0) = depthV;
+            if (dHi >= 1) {
+                VCAMX(0) = DW(0x004 + ref) + g_camBaseX;
+                VCAMY(0) = DW(0x25c + ref) + JOIN32(g_camTransXLo, g_camTransXHi);
+                gfx_setColor((unsigned char)edgeRunColor(dHi));
+                projectVertexToScreen(0);
+                g_lineX1 = g_lineX2 = (int16)vtxScratch.vproj.x.v[0];
+                g_lineY1 = g_lineY2 = (int16)vtxScratch.vproj.y.v[0];
+                drawClipLineGlobal();
+            }
+        } while (--g_edgeRunCount != 0);
+    }
+}
+
+/* seg001 0x0BE7 — processSceneObject: render one (depth-sorted) object: compute
+ * its shade, build its combined orientation*view matrix, rotate+cull its faces,
+ * project its vertices and draw its display list. */
+static void processSceneObject(void)
+{
+    unsigned char far *p = (unsigned char far *)g_modelStreamPtr;
+    int op;
+
+    if (g_dacSupported == 0) {
+        g_objShade = 0;
+    } else {
+        int h = (g_camTransYHi >> 8) & 0xff;
+        int v = (h & 0x80) ? 0 : (h >> 1);
+        if (v > 7) v = 7;
+        g_objShade = (uint8)((v << 4) + 0x80);
+    }
+
+    op = (*p) & 0x3f;
+    if (op == 0x3f) { sceneObjPoint(p); return; }
+    if (op == 0x3e) { sceneObjEdgeRun(p); return; }
+
+    {
+        int orv = g_objTransform[1] | g_objTransform[2] | g_objTransform[3];
+        /* The asm folds the high byte of (transform[1]|[2]|[3]) into the low
+         * byte (`OR AL,AH`); it does NOT mix in g_objShade. ORing g_objShade in
+         * here (it is usually nonzero when the DAC is present) forced every
+         * object — even un-rotated terrain — through the inverse-matrix path
+         * instead of the direct view-matrix copy. */
+        int al = (orv | (orv >> 8)) & 0xff;
+        g_objHasRotation = (uint8)al;
+        if (al == 0) {
+            int i;
+            for (i = 0; i < 9; i++) g_objCombinedMatrix[i] = g_viewRotMatrix[i];
+        } else {
+            buildInverseRotationMatrix(g_objOrientMatrix,
+                g_objTransform[1], g_objTransform[2], g_objTransform[3]);
+            multiplyMatrix3x3(g_objOrientMatrix, g_viewRotMatrix, g_objCombinedMatrix);
+        }
+    }
+    rotatePoint3d(g_objTransform[0], g_objRelY, g_objRelX, &p);
+    transformVertexList(&p);
+    projectModelEdges(&p);
+    renderPrimitiveList(p);
+}
+
+/* seg001 0x0A80 — insertSortedObject: store the current object's transform state
+ * into a record and insert it into the depth-sorted list (farthest first). */
+static void insertSortedObject(unsigned char far *p)
+{
+    int slot, i, pos;
+    long depth;
+    int dLo, dHi, shift;
+    struct SortRec *r;
+
+    g_modelStreamPtr = (char far *)p;
+    if (g_sortedObjCount >= 0x23) {
+        slot = g_sortList[0];
+        for (i = 0; i < 0x22; i++) g_sortList[i] = g_sortList[i + 1];
+        g_sortedObjCount--;
+    } else {
+        slot = g_sortedObjCount;
+    }
+
+    depth = JOIN32(g_camTransYLo, g_camTransYHi);
+    shift = 8 - 2 * g_curLod;
+    if (shift > 0) depth = lshr_s(depth, shift);
+    dLo = (int16)depth;
+    dHi = HI16(depth);
+    if (g_curLod == 2 && g_objRenderMode == 5) dHi += 0x20;
+
+    r = &g_sortRecs[slot];
+    r->depthLo = (int16)dLo;
+    r->depthHi = (int16)dHi;
+    r->model = g_modelStreamPtr;
+    r->relX = g_objRelX;
+    r->relY = g_objRelY;
+    r->transform[0] = g_objTransform[0];
+    r->transform[1] = g_objTransform[1];
+    r->transform[2] = g_objTransform[2];
+    r->transform[3] = g_objTransform[3];
+    r->baseX = g_camBaseX;
+    r->camXLo = g_camTransXLo;
+    r->camXHi = g_camTransXHi;
+    r->camYLo = g_camTransYLo;
+    r->camYHi = g_camTransYHi;
+
+    pos = g_sortedObjCount;
+    while (pos > 0) {
+        struct SortRec *e = &g_sortRecs[g_sortList[pos - 1]];
+        if (dHi > e->depthHi) { pos--; continue; }
+        if (dHi < e->depthHi) break;
+        if ((uint16)dLo > (uint16)e->depthLo) { pos--; continue; }
+        break;
+    }
+    for (i = g_sortedObjCount; i > pos; i--) g_sortList[i] = g_sortList[i - 1];
+    g_sortList[pos] = slot;
+    g_sortedObjCount++;
+}
+
+/* seg001 0x0BE7 thunk path — projectSceneObject: entry from the scene walk.
+ * Transforms+culls the object origin, then either renders it immediately (when
+ * coplanar with the viewer Z) or queues it into the depth-sorted list. */
+void far projectSceneObject(char far *model, int yaw, int pitch, int roll,
+                            int posX, int posY, int posZ)
+{
+    unsigned char far *p;
+    int opcode, cl;
+
+    g_objTransform[1] = (int16)yaw;
+    g_objTransform[2] = (int16)pitch;
+    g_objTransform[3] = (int16)roll;
+    g_modelStreamPtr = model;
+    p = (unsigned char far *)model;
+    g_objRenderMode = *p++;                       /* render-mode byte */
+    g_objRelY = (int16)(posY - g_viewPosY);
+    g_objTransform[0] = (int16)(posZ - g_viewPosZ);
+    g_objRelX = (int16)(posX - g_viewPosX);
+
+    if (transformAndCullObject(g_objRelY, g_objTransform[0], g_objRelX)) return;
+
+    skipDisplayListByLod(&p);
+    opcode = *p;
+    if (*(unsigned *)&p == 1 && g_detailLevel != 2) return;
+    cl = opcode;
+    if ((opcode & 0x60) == 0x60) {                /* storeObjTransformByOpcode */
+        int idx = (*p) & 3;
+        p++;
+        g_objTransform[idx] = g_spinAngle;
+    }
+    g_modelStreamPtr = (char far *)p;
+    if (cl & 0x40) {
+        insertSortedObject(p);
+    } else if (-g_viewPosZ == g_objTransform[0]) {
+        processSceneObject();
+    } else {
+        insertSortedObject(p);
+    }
+}
+
+/* seg001 0x0CB4 thunk — rotatePoint3dFar: rotate the object origin on the
+ * g_modelStreamPtr stream (used by the tac-map nearest-tile path). */
+int far rotatePoint3dFar(void)
+{
+    unsigned char far *p = (unsigned char far *)g_modelStreamPtr;
+    rotatePoint3d(g_objTransform[0], g_objRelY, g_objRelX, &p);
+    g_modelStreamPtr = (char far *)p;
+    return 0;
+}
+
+/* seg001 0x1562 — transformAndCullObjectFar: cdecl entry (relX, relY, relZ). */
+int far transformAndCullObjectFar(int a, int b, int c)
+{
+    return transformAndCullObject(b, c, a);
+}
+
+/* seg001 0x2853 — multiplyMatrix3x3Far: cdecl entry. matA/matB are DGROUP near
+ * offsets of 9-element matrices; result is a near pointer. */
+int far multiplyMatrix3x3Far(int matA, int matB, int16 *result)
+{
+    multiplyMatrix3x3((const int16 *)(size_t)(uint16)matA,
+                      (const int16 *)(size_t)(uint16)matB, result);
+    return 0;
+}
+
 /* ===================================================================== */
 /* seg001 0x0B60 — renderSortedListFar: dispatch the depth-sorted scene     */
-/* objects. The tac map draws its tiles directly (drawMapTiles) and leaves  */
-/* the sorted list empty (g_sortedObjCount == 0), so for the map there is   */
-/* nothing to dispatch. The per-object perspective render is not yet        */
-/* implemented.                                                             */
+/* objects, farthest first (painter's order), through processSceneObject.   */
 /* ===================================================================== */
 int far renderSortedListFar(void)
 {
+    int n = g_sortedObjCount;
+    int i;
+    for (i = 0; i < n; i++) {
+        struct SortRec *r = &g_sortRecs[g_sortList[i]];
+        g_modelStreamPtr = r->model;
+        g_objRelX = r->relX;
+        g_objRelY = r->relY;
+        g_objTransform[0] = r->transform[0];
+        g_objTransform[1] = r->transform[1];
+        g_objTransform[2] = r->transform[2];
+        g_objTransform[3] = r->transform[3];
+        g_camBaseX = r->baseX;
+        g_camTransXLo = r->camXLo;
+        g_camTransXHi = r->camXHi;
+        g_camTransYLo = r->camYLo;
+        g_camTransYHi = r->camYHi;
+        processSceneObject();
+    }
+    g_sortedObjCount = 0;
     return 0;
 }
 

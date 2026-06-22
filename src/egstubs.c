@@ -14,7 +14,13 @@ void callLoad3DAll() { }
 // === Joystick/Input Stubs ===
 int far initJoystickCalibration() { return 0; }
 void seedJoystickBaseline() { }
-int far readCalibratedJoystick() { return 0; }
+/* Joystick HW is out of scope; the real routine fills joyAxes[] with the
+ * calibrated, centred axis values. The do-nothing stub left joyAxes[] at 0,
+ * which the flight model reads as full deflection (g_rollInput/g_pitchInput =
+ * (0>>4)-8 = -8) -> plane pegged up-and-left, spins out, and the wild attitude
+ * blows up the 3D camera. Return the neutral centre (0x80) so the plane flies
+ * level when no joystick is present. */
+int far readCalibratedJoystick() { joyAxes[0] = 0x80; joyAxes[1] = 0x80; return 0; }
 void readJoystickHardware() { }
 void computeJoystickAxis() { }
 int far restoreJoystickData(uint8 FAR *ptr) { return 0; }
@@ -24,12 +30,7 @@ int far setInt9Handler() { return 0; }
 
 /* --- functions declared in egcode.h --- */
 int __cdecl drawCenteredLabelBox(int panel, char *text) { return 0; }
-int far multiplyMatrix3x3Far(int matA, int matB, int16* result) { return 0; }
-void far projectSceneObject(char *model, int yaw, int pitch, int roll, int posX, int posY, int posZ) {}
 int far restoreInt9Handler() { return 0; }
-int far transformAndCullObjectFar(int a, int b, int c) { return 0; }
-int far rotatePoint3dFar() { return 0; }
-int far transformModelVerticesFar() { return 0; }
 
 /* --- sound-driver slots with no shared C implementation (egame's sound asm;
    ovlimpl.c only covers audio_setup/audio_shutdown/audio_playIntro) --- */

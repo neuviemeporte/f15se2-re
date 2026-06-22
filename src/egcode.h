@@ -71,7 +71,7 @@ int getTimeOfDay();
 int __cdecl openFile(const char *path, int mode);
 
 #ifdef NO_ASM
-void far projectSceneObject(char *model, int yaw, int pitch, int roll, int posX, int posY, int posZ);
+void far projectSceneObject(char far *model, int yaw, int pitch, int roll, int posX, int posY, int posZ);
 #else
 void far projectSceneObject();
 #endif
