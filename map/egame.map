@@ -39,7 +39,7 @@ moveDataFar: seg000 NEAR 2049-206c R2049-206c complete
 moveStuff: seg000 NEAR 206d-215b R206d-215b complete
 moveNearFar: seg000 NEAR 215c-21a8 R215c-21a8 complete
 setCommWorldbufPtr: seg000 NEAR 21a9-21c4 R21a9-21c4 complete
-callLoad3DAll: seg000 NEAR 21c6-21c9 R21c6-21c9 complete
+loadRegion3D: seg000 NEAR 21c6-21c9 R21c6-21c9 complete
 render3DView: seg000 NEAR 21ca-2277 R21ca-2277 complete
 waitFrameSync: seg000 NEAR 2278-2299 R2278-2299 complete
 loadColorPalette: seg000 NEAR 229a-22b7 R229a-22b7 complete

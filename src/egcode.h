@@ -6,7 +6,6 @@
 #include "egtypes.h"
 
 int loadF15DgtlBin();
-void callLoad3DAll();
 void setupDac();
 int fixedMulQ14(int a, int b);
 int cosine(int angle);

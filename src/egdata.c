@@ -750,13 +750,8 @@ int16 g_tapeCursorX = 0;
 /* mapEvents: 4 tactical-map marker slots (flare/chaff/lock markers). A slot is
    free when ttl == 0; entries are aged down by tickMessageTimers. */
 struct MapEvent mapEvents[4];
-/* Centred rest value (0x80): the keyboard virtual-stick axes are normally
- * maintained/recentred by int9Handler, but that ISR is stubbed in the NO_ASM
- * build, so they must start centred or the flight model reads a constant
- * deflection and the plane rolls away. (The real int9Handler overwrites these
- * each tick, so the value is harmless to the ASM build.) */
-uint8 g_joyRawX = 0x80;   /* keyboard virtual-stick raw pitch axis (int9Handler) */
-uint8 g_joyRawY = 0x80;   /* keyboard virtual-stick raw roll axis (int9Handler) */
+uint8 g_joyRawX = 0;   /* keyboard virtual-stick raw pitch axis (int9Handler) */
+uint8 g_joyRawY = 0;   /* keyboard virtual-stick raw roll axis (int9Handler) */
 /* Normalized/calibrated stick deflection: [0] = pitch, [1] = roll.
    Produced by readCalibratedJoystick (egseg2) or scaled from the keyboard
    raw axes; read by the stick dot and tac map. */

@@ -626,8 +626,6 @@ scheduleTimedEvent equ _scheduleTimedEvent
 ; ------------------------------seg000:0x1c20------------------------------
 ; ------------------------------seg000:0x21c4------------------------------
     nop
-; ------------------------------seg000:0x21c6------------------------------
-callLoad3DAll equ _loadRegion3D
 ; ------------------------------seg000:0x21c9------------------------------
 ; _render3DView - now in C (egame2.c)
 ; _loadColorPalette - now in C (egame2.c)
