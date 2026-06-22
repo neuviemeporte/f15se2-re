@@ -25,12 +25,10 @@ void readJoystickHardware() { }
 void computeJoystickAxis() { }
 int far restoreJoystickData(uint8 FAR *ptr) { return 0; }
 
-// === Interrupt/Handler Stubs ===
-int far setInt9Handler() { return 0; }
+/* setInt9Handler/restoreInt9Handler (the keyboard ISR) live in eginput.c. */
 
 /* --- functions declared in egcode.h --- */
 int __cdecl drawCenteredLabelBox(int panel, char *text) { return 0; }
-int far restoreInt9Handler() { return 0; }
 
 /* --- sound-driver slots with no shared C implementation (egame's sound asm;
    ovlimpl.c only covers audio_setup/audio_shutdown/audio_playIntro) --- */
