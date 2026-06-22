@@ -30,6 +30,12 @@
 
 void far egAdvanceFrameTick(void)
 {
+    /* Clear the per-frame sync flag the render loop raises each iteration
+     * (gameMainLoop). render3DView/setup3DTransform busy-wait on it to pace to
+     * the timer tick; egcode.asm's timerIsr clears it just before calling
+     * advanceFrameTick, so the C tick hook must too or the loop spins forever
+     * on the second frame. */
+    g_frameSyncPending = 0;
     g_timerTickByte[0]++;
     g_frameTimingAccum++;
     gfx_dacCycle();
