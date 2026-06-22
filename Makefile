@@ -48,7 +48,7 @@ HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
 cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test reasm start-gen-asm start hello debug debug-start debug-end debug-egame tools noasm-start noasm-f15 release
+.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test start-gen-asm start hello debug debug-start debug-end debug-egame tools noasm noasm-f15 noasm-start noasm-egame noasm-end release
 all: f15-se2
 
 #
@@ -63,7 +63,7 @@ $(MAIN_EXE): $(MAIN_OBJS)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(MAIN_OBJS) -o $@ -f "$(LINKFLAGS)"
 
 #
-# start.exe reconstruction (rc)
+# start.exe reconstruction
 #
 START_EXE := $(BUILDDIR)/start.exe
 START_MAP := $(MAPDIR)/start.map
@@ -194,8 +194,6 @@ $(F15_NOASM): | $(NOASMDIR)
 $(F15_NOASM): $(NOASM_F15_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(NOASM_F15_OBJ) -o $@ -f "$(LINKFLAGS)"
 
-noasm-f15: $(F15_NOASM)
-
 $(NOASMDIR):
 	mkdir -p $@
 
@@ -249,12 +247,8 @@ $(EGAME_NOASM): | $(NOASMDIR)
 $(EGAME_NOASM): $(EGAME_NOASM_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_NOASM_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 
-noasm-egame: $(EGAME_NOASM)
-
-noasm-start: $(START_NOASM)
-
 #
-# egame.exe reconstruction (rc)
+# egame.exe reconstruction
 #
 EGAME_EXE := $(BUILDDIR)/egame.exe
 EGAME_MAP := $(MAPDIR)/egame.map
@@ -326,7 +320,7 @@ $(EGAME_DEBUG): $(DEBUGDIR) $(EGAME_DBG_OBJ)
 	fi
 
 #
-# end.exe reconstruction (rc)
+# end.exe reconstruction
 #
 END_EXE := $(BUILDDIR)/end.exe
 END_MAP := $(MAPDIR)/end.map
@@ -401,8 +395,6 @@ $(END_NOASM): $(NOASM_END_OBJ)
 		ls -l $(F15_TESTDIR)/end.exe; \
 	fi
 
-noasm-end: $(END_NOASM)
-
 #
 # unit test executable
 #
@@ -435,13 +427,22 @@ VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo "unk
 RELEASE := f15_se2-$(VERSION).zip
 $(RELEASE): $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE)
 	zip $@ $^
-release: $(RELEASE)
+RELEASE_NOASM := f15_se2-$(VERSION)_noasm.zip
+$(RELEASE_NOASM): $(F15_NOASM) $(START_NOASM) $(EGAME_NOASM) $(END_NOASM)
+	zip $@ $^
+release: $(RELEASE) $(RELEASE_NOASM)
 
 f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(ASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE)
 
 start: $(START_EXE)
 egame: $(EGAME_EXE)
 end: $(END_EXE)
+
+noasm: $(F15_NOASM) $(START_NOASM) $(EGAME_NOASM) $(END_NOASM)
+noasm-f15: $(F15_NOASM)
+noasm-start: $(START_NOASM)
+noasm-egame: $(EGAME_NOASM)
+noasm-end: $(END_NOASM)
 
 debug: $(DEBUGDIR) $(START_DEBUG) $(END_DEBUG) $(EGAME_DEBUG)
 debug-start: $(DEBUGDIR) $(START_DEBUG)
@@ -455,12 +456,6 @@ clean:
 
 test: $(TEST_EXE)
 	@$(DOSBUILD) test -i $<
-
-hello: $(HELLO_EXE)
-	ls -l $^
-	md5sum $^
-	touch src/hello.c
-	tools/disasm.sh $^ | less
 
 f15-se2-test: $(BUILDDIR) $(MAIN_EXE)
 	$(DOSTEST) $(MAIN_EXE)
@@ -489,8 +484,6 @@ $(BUILDDIR)/%.obj: $(SRCDIR)/%.asm | $(BUILDDIR) $(ASM)
 $(DEBUGDIR)/%.obj: $(SRCDIR)/%.asm | $(DEBUGDIR) $(ASM)
 	$(ASM) $(ASMFLAGS) -Fo$@ $<
 #	@$(DOSBUILD) as $(ASM_TOOLCHAIN) -i $< -o $@ -f "$(ASFLAGS)"
-
-reasm: $(STARTRE_EXE)
 
 verify: verify-start verify-egame verify-end
 verify-debug: VERIFY_FLAGS += --debug
