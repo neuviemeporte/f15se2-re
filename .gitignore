@@ -19,3 +19,4 @@ src/log.txt
 /*.c
 /*.grc
 build64/
+noasm_build/

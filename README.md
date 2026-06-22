@@ -1,6 +1,6 @@
 # F-15 Strike Eagle 2 source code reconstruction
 
-This is a work in progress project to reconstruct the source code for the MS-DOS version of the Microprose game F-15 Strike Eagle 2 v451.03 (the definitive 1991 Desert Storm expansion disk version).
+This is a reconstruction of the source code for the MS-DOS version of the Microprose game F-15 Strike Eagle 2 v451.03 (the definitive 1991 Desert Storm expansion disk version).
 
 The original game was written in a mixture of C and assembly. The C source code was compiled with the Microsoft C compiler v5.1.
 
@@ -8,9 +8,9 @@ The reconstruction aims to be bug-for-bug faithful, and the C routines yield cod
 
 Given the fact that this game shares a lot of DNA with the game that preceeded it (F-19) and the one that came after (F-117), there is probably a lot of overlap, and this effort might lead to supporting those games in the future.
 
-This is just the reconstruction project; porting to a modern OS, potential improvements and bugfixes will be targeted by a separate project in the future.
+This is just the reconstruction project; porting to a modern OS, potential improvements and bugfixes is targeted by a [separate project](https://github.com/neuviemeporte/f15se2-ex).
 
-This repository contains no game assets, executables or other copyrighted material, it's a clean rewrite of the game's source code based on my analysis of the game binaries obtained from the original floppy disks, for preservation and historical research purposes, and as such should fall under the interoperability exemption of the DMCA.
+This repository contains no game assets, executables or other copyrighted material, it's a clean rewrite of the game's source code based on analysis of the game binaries obtained from the original floppy disks, for preservation and historical research purposes, and as such should fall under the interoperability exemption of the DMCA.
 
 Development journal: https://neuviemeporte.github.io/category/f15-se2
 
@@ -32,43 +32,33 @@ The remaining executables (including sound) are ignored in this project, see the
 
 As of the time of writing this, the status of the reconstruction is as follows:
 
-## `f15.com`/`su.exe`
+## `f15.com`, `su.exe`
 * fully reconstructed into a minimal, functionally equivalent loader executable (`f15.exe`) that works as a drop-in replacement with the original game.
 
-## `start.exe` 
-* all C code has been reconstructed, the executable works with the original game
-* porting of assembly routines into C in progress
-* the data segment is still generated from assembly, all variables need to be moved to C
-* code still contains placeholder names for routines and variables, needs experimentation, refactoring and comments to document the purpose of the code, especially around the mission generator. Work has begun on it already, but some routine/var/struct names are obtained from LLMs, so need to be take with a grain of salt.
+## `start.exe`, `egame.exe`, `end.exe` 
+* all C code has been reconstructed, the executables work with the original game
 
-## `egame.exe` 
-* all C code has been reconstructed, the executable works with the original game
-* porting of assembly routines into C in progress, some are shared with `start`
-* moving all variables into C in progress
-* likewise refactoring needed
-
-## `end.exe`
-* all C code has been reconstructed, the executable works with the original game
-* porting of assembly routines into C in progress, some are shared with `start/egame`
-* the data segment is still generated from assembly, all variables need to be moved to C
-* likewise refactoring needed
-
-## `mgraphic.exe` 
-* overlay header and overall layout understood
-* minimal functional reimplementation in C completed, needs more testing
-
-## `misc.exe`
-* minimal functional reimplementation in C completed
+## `mgraphic.exe`, `misc.exe`
+* functional reimplementation in C completed
 
 # Building
 
+The build system is just one simple Makefile that invokes the DOS toolchain under the hood. It has been 
+
 Prerequisites:
 
-* you should run the build on Linux or WSL
 * a copy of the MS C v5.1 compiler needs to be placed in the `dos/msc510` directory
 * the `dosbox` emulator must be installed (vanilla dosbox v0.74 works best as it supports headless mode)
 
 Clone the project and run the `build.sh` script. It will download and build additional git submodules as part of the build process.
+
+## NOASM build
+
+This is an additional build variant of the game with all assembly routines ported into C. Obviously, obtaining identical instructions as in the original is not possible here, so we lose the certainty that our reconstruction is 100% faithful with this build. As such, it's not part of the canonical reconstruction, but nevertheless an important stepping stone towards a major point, and useful in experimenting with and/or researching the game.
+
+To obtain the NOASM build, run `make [-j] noasm`. The resulting executables will be built in `noasm_build/`, and for all intents and purposes should work identically like the standard reconstruction, i.e. just drop them in the game and expect them to work.
+
+# 64bit build
 
 There is an experimental, non-functional CMake-based 64bit build present, which is mostly used for finding compile-time bugs that are missed by the ancient DOS compiler. You can play with it by running the `build64.sh` script, but mind that the result is not expected to run. A 64bit port is *NOT* in this project's scope.
 
