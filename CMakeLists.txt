@@ -11,6 +11,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(NOASM_GFX_SOURCES
     ${SRC_DIR}/slottram.c
     ${SRC_DIR}/ovlpatch.c
+    ${SRC_DIR}/compat64/egregsh.c
 )
 
 # Shared gfx-slot / timer / misc / pic / overlay basics — the same C
@@ -86,7 +87,6 @@ set(EGAME_SOURCES
     ${SRC_DIR}/egtick.c
     ${SRC_DIR}/eginput.c
     ${SRC_DIR}/egstubs.c
-    ${SRC_DIR}/compat64/egregsh.c
     ${SHARED_SLOT_SOURCES}
     ${NOASM_GFX_SOURCES}
 )
