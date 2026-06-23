@@ -122,10 +122,10 @@ void drawCockpit() {
      gfx_waitRetrace();
      TRACE(("drawCockpit: opening pic"));
      if (gfx_getModecode() == 3) {
-        openBlitClosePic(a256pit_pic, 1);
+        openBlitClosePic("256pit.PIC", 1);
      }
      else {
-        openBlitClosePic(aCockpit_pic, 1);
+        openBlitClosePic("cockpit.PIC", 1);
      }
      TRACE(("drawCockpit: pic done"));
      gfx_copyRect(1, 0, 0x60, 0, 0, 0x60, 0x140, 0x68);

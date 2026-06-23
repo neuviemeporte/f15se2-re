@@ -6,6 +6,7 @@
 #include "comm.h"
 #include "endtypes.h"
 #include <dos.h>
+#include <stdio.h>
 
 extern unsigned char timerCounter;
 extern int16 lineX1;
@@ -43,7 +44,7 @@ extern unsigned int cursorX;
 extern unsigned int cursorY;
 extern struct GameComm far *commData;
 extern uint8 quitFlag;
-extern int colorTablePtr;
+extern unsigned int *colorTablePtr;
 extern char inputChanged;
 extern int colorAnimIdx;
 extern int colorAnimEnabled;
@@ -91,15 +92,11 @@ extern MenuItem debriefMenuItems[];
 extern int worldDataReady;
 extern char *worldStrings[];
 extern char worldStringBuf[];
-extern int worldBufHandle;
+extern FILE *worldBufHandle;
 extern char str_insertScenario[];
 extern char str_pressKey1[];
 extern char str_insertDiskA[];
 extern char str_pressKey2[];
-extern char str_dbicons1[];
-extern char str_dbicons2[];
-extern char str_modeRb1[];
-extern char str_modeRb2[];
 extern char str_missionDebrief[];
 extern char str_pressExit[];
 extern char str_dot1[];
@@ -168,16 +165,12 @@ extern char *rankNames[];
 extern long promoThresholds[];
 extern char *medalNames[];
 extern long medalThresholds[];
-extern char str_deskPic[];
 extern char str_deskMsg1[];
 extern char str_deskMsg2[];
-extern char str_deathPic[];
 extern char str_deathMsg1[];
 extern char str_deathMsg2[];
-extern char str_promoPic[];
 extern char str_promoMsg1[];
 extern char str_promoMsg2[];
-extern char str_medalPic[];
 extern char str_medalMsg1[];
 extern char str_medalMsg2[];
 extern int secondaryHit;

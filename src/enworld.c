@@ -6,8 +6,8 @@
 
 /* Private helpers for this translation unit. */
 void loadWorldData(char* destOffset, int size);
-void readFromWorldBuf(char *dest, int size, int count, int bufHandle);
-void writeToWorldBuf(char *dest, int size, int count, int bufHandle);
+void readFromWorldBuf(char *dest, int size, int count, FILE *bufHandle);
+void writeToWorldBuf(char *dest, int size, int count, FILE *bufHandle);
 
 void readWorldData(void) {
     loadWorldData((char*)&worldWaypointCount, 2);
@@ -36,7 +36,7 @@ void loadWorldData(char* destOffset, int size) {
     }
 }
 
-void readFromWorldBuf(char *dest, int size, int count, int bufHandle) {
+void readFromWorldBuf(char *dest, int size, int count, FILE *bufHandle) {
     char far *farDest;
     register int totalSize;
     farDest = (char far *)dest;
@@ -45,7 +45,7 @@ void readFromWorldBuf(char *dest, int size, int count, int bufHandle) {
     worldBufOffset += totalSize;
 }
 
-void writeToWorldBuf(char *dest, int size, int count, int bufHandle) {
+void writeToWorldBuf(char *dest, int size, int count, FILE *bufHandle) {
     char far *farDest;
     register int totalSize;
     farDest = (char far *)dest;

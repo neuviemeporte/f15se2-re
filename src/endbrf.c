@@ -35,12 +35,12 @@ insert_scenario:
     misc_getKey();
 
 open_theater:
-    worldBufHandle = (int)fopen(theaterSprFiles[gameData->theater], str_modeRb1);
+    worldBufHandle = fopen(theaterSprFiles[gameData->theater], "rb");
     if (!worldBufHandle)
         goto insert_scenario;
 
     gfx_waitRetrace();
-    fclose((FILE *)worldBufHandle);
+    fclose(worldBufHandle);
     gfx_setFadeSteps(9);
     spriteBufSeg = allocBuffer(gfx_getBufSize());
     loadPic(theaterSprFiles[gameData->theater], spriteBufSeg);
@@ -58,14 +58,14 @@ insert_diska:
     misc_getKey();
 
 open_dbicons:
-    worldBufHandle = (int)fopen(str_dbicons1, str_modeRb2);
+    worldBufHandle = fopen("dbicons.spr", "rb");
     if (!worldBufHandle)
         goto insert_diska;
 
     gfx_waitRetrace();
-    fclose((FILE *)worldBufHandle);
+    fclose(worldBufHandle);
     gfx_setFadeSteps(8);
-    openShowPic(str_dbicons2, 1);
+    openShowPic("dbicons.spr", 1);
 
     spriteMapAreaDef.bufPtr = a;
     spriteStatusBarDef.bufPtr = a;

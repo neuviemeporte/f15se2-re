@@ -4,6 +4,7 @@
 #include "struct.h"
 #include "comm.h"
 #include <dos.h>
+#include <stdio.h>
 
 /* Split into chunks due to MSC 5.1 initializer limits.
  *
@@ -388,16 +389,12 @@ char str_afc[] = "Air Force Cross.";
 char str_cmoh[] = "Congressional Medal of Honor.";
 
 /* Award screen strings */
-char str_deskPic[] = "desk.pic";
 char str_deskMsg1[] = "After ditching three very expensive aircraft,";
 char str_deskMsg2[] = "you are assigned a desk job.";
-char str_deathPic[] = "death.pic";
 char str_deathMsg1[] = "In the wake of the horrible crash,";
 char str_deathMsg2[] = "your family and friends mourn your loss.";
-char str_promoPic[] = "promo.pic";
 char str_promoMsg1[] = "For your consistently successful missions,";
 char str_promoMsg2[] = "you have been promoted to ";
-char str_medalPic[] = "medal.pic";
 char str_medalMsg1[] = "For your outstanding performance, you receive";
 char str_medalMsg2[] = "the ";
 
@@ -546,10 +543,10 @@ int popupY;
 int worldDataReady;
 char worldStrings[200];
 char worldStringBuf[750];
-int worldBufHandle;
+FILE *worldBufHandle;
 
 /* Graphics animation state (from BSS) */
-int colorTablePtr;
+unsigned int *colorTablePtr;
 char inputChanged;
 int colorAnimIdx;
 int colorAnimEnabled;
@@ -773,14 +770,10 @@ MenuItem debriefMenuItems[2] = {
 char *menuItemsBase = (char*)&debriefMenuItems[1];
 
 /* Debrief main loop strings */
-char str_modeRb1[] = "rb";
 char str_insertScenario[] = "Please insert scenario disk";
 char str_pressKey1[] = "<Press a key when ready>";
-char str_modeRb2[] = "rb";
-char str_dbicons1[] = "dbicons.spr";
 char str_insertDiskA[] = "Please insert F15 Disk A";
 char str_pressKey2[] = "<Press a key when ready>";
-char str_dbicons2[] = "dbicons.spr";
 char str_missionDebrief[] = "  MISSION DEBRIEFING\0";
 
 /* Ctrl-Break handler state */

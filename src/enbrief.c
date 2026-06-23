@@ -27,7 +27,7 @@ void drawFlightLine(int p1, int p2, int p3, int p4);
 char *formatFlightTime(int timeValue, char *buffer);
 void plotMapPoint(int x, int y, int color, int unused);
 void timerWait(unsigned int ticks);
-void processDebriefInput(int *cursorBounds, MenuItem *menuItem, int16* gfxPage);
+void processDebriefInput(int16 *cursorBounds, MenuItem *menuItem, int16* gfxPage);
 void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage);
 
 void computeMissionResult(void)
@@ -86,7 +86,7 @@ int selectMenuItem(MenuItem *items, int unused, int itemCount, int16* inputState
                 colorAnimEnabled = 1;
             }
             // 22d4
-            processDebriefInput((int *)inputState, &items[curIdx], gfxPage);
+            processDebriefInput(inputState, &items[curIdx], gfxPage);
         } while (inputChanged == 0 && enterPressed == 0);
         // 22e8
         if (enterPressed != 0) { // 22f2
@@ -177,7 +177,7 @@ int isPointInRect(MenuItem *p)
         return 0;
 }
 
-/*static*/ void processDebriefInput(int *cursorBounds, MenuItem *menuItem, int16* gfxPage) {
+/*static*/ void processDebriefInput(int16 *cursorBounds, MenuItem *menuItem, int16* gfxPage) {
     int fromColor;
     int toColor;
     int joyBtn0;
@@ -186,7 +186,7 @@ int isPointInRect(MenuItem *p)
     int keycode;
     TRACE(("processDebriefInput"));
 
-    colorTablePtr = menuItem->colorTableIdx * 14 + (int)colorStyleTable;
+    colorTablePtr = (unsigned int *)((char *)colorStyleTable + menuItem->colorTableIdx * 14);
     timerCounter2 = 0;
     joyBtn0 = joyBtn1 = 0;
     inputChanged = enterPressed = animDone = repeatActive = 0;
@@ -240,11 +240,11 @@ int isPointInRect(MenuItem *p)
         if (colorAnimEnabled == 1) {
             if ((unsigned char)timerCounter2 > 6) {
                 timerCounter2 = 0;
-                toColor = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] >> 4;
-                fromColor = ((unsigned int *)colorTablePtr)[colorAnimIdx + 1] & 0xF;
+                toColor = colorTablePtr[colorAnimIdx + 1] >> 4;
+                fromColor = colorTablePtr[colorAnimIdx + 1] & 0xF;
                 gfx_switchColor(gfxPage, menuItem->colorX1, menuItem->colorY1, menuItem->colorX2, menuItem->colorY2, toColor, fromColor);
                 colorAnimIdx++;
-                colorAnimIdx = (unsigned)colorAnimIdx % *(unsigned int *)colorTablePtr;
+                colorAnimIdx = (unsigned)colorAnimIdx % *colorTablePtr;
             }
         }
 
@@ -333,7 +333,7 @@ skip_sprite:
     }
     if (keycode == KEYCODE_UPARROW) {
         cursorY -= cursorBounds[1];
-        if ((int)cursorBounds[4] > (int)cursorY) {
+        if (cursorBounds[4] > (int)cursorY) {
             cursorY = cursorBounds[4];
         }
         inputChanged = 1;
@@ -354,10 +354,10 @@ skip_sprite:
     }
     if (keycode == KEYCODE_LEFTARROW) {
         cursorX -= cursorBounds[0];
-        if ((int)cursorBounds[2] > (int)cursorX) {
+        if (cursorBounds[2] > (int)cursorX) {
             cursorX = cursorBounds[2];
         }
-        if ((int)cursorBounds[4] > (int)cursorY) {
+        if (cursorBounds[4] > (int)cursorY) {
             cursorX += cursorBounds[0];
         }
         inputChanged = 1;
@@ -386,7 +386,7 @@ void drawMenuItem(MenuItem *items, unsigned int index, int16* gfxPage) {
         if ((items[index].flags & MENUITEM_TYPE_MASK) == 7) {
         /* Section 1: mission complete display */
         clearRect(gfxPage, 0xeb, 0x0a, 0x13f, 0x95);
-        ((int *)gfxPage)[2] = 0;
+        gfxPage[2] = 0;
         mystrcpy(scoreString, prefix);
         mystrcat(scoreString, str_pressExit);
         drawWrappedText(gfxPage, scoreString, 0x50, 0xf0, 0x82, 8);

@@ -28,7 +28,7 @@ void load15Flt3d3() {
     TRACE(("load15Flt3d3: a15flt_xxx=%s", a15flt_xxx));
     strcpyFromDot(a15flt_xxx, a_3d3_0);
     TRACE(("load15Flt3d3: after strcpyFromDot=%s", a15flt_xxx));
-    fileHandle = fopen(a15flt_xxx, aRb_4);
+    fileHandle = fopen(a15flt_xxx, "rb");
     TRACE(("load15Flt3d3: fopen returned %d", (int)fileHandle));
     if (fileHandle == NULL) {
         printError(aOpenErrorOn_3d3_0);

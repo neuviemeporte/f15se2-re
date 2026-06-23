@@ -963,10 +963,10 @@ void renderFrame() {
         if (keyValue == 0x42 || keyValue == 0x43 || keyValue == 0x41) {
             gfx_waitRetrace();
             if (gfx_getModecode() == 3) {
-                openBlitClosePic(keyValue == 0x42 ? a256left_pic : keyValue == 0x43 ? a256right_pic : a256rear_pic, *g_pageFront);
+                openBlitClosePic(keyValue == 0x42 ? "256Left.Pic" : keyValue == 0x43 ? "256Right.Pic" : "256Rear.Pic", *g_pageFront);
             }
             else {
-                openBlitClosePic(keyValue == 0x42 ? aLeft_pic : keyValue == 0x43 ? aRight_pic : aRear_pic, *g_pageFront);
+                openBlitClosePic(keyValue == 0x42 ? "Left.Pic" : keyValue == 0x43 ? "Right.Pic" : "Rear.Pic", *g_pageFront);
             }
             gfx_copyRect(*g_pageFront, 0, 0x61, *g_pageBack, 0, 0x61, 0x140, 0x67);
             g_pageFront[8] = g_pageBack[8] = 0x60;
@@ -1040,7 +1040,7 @@ void drawFuelGauge(void) {
 
 void drawVectorShape(int16 *shapeData) {
     while (*shapeData != -1) {
-        gfx_setColor(((uint8 *)colorLut)[*shapeData++]);
+        gfx_setColor(colorLut[*shapeData++]);
         resetScanlineSpans();
         shapeData += 2;
         while (*shapeData != -1) {

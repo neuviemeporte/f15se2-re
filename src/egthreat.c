@@ -298,7 +298,7 @@ void updateObjects(void)
             if (abs(viewBearing - candBearing) < best) {
                 best = abs(viewBearing - candBearing);
                 g_simObjects[objIdx].objType = tgtIdx;
-                if (-(g_missionStatus * 0x1000 - 0x4000) > (int)best) break;
+                if (-(g_missionStatus * 0x1000 - 0x4000) > best) break;
             }
         }
     }

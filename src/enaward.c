@@ -63,7 +63,7 @@ void showPostMissionAwards(void) {
         goto done;
     if (gameData->campaignProgress == 1) {
         gfx_setFadeSteps(3);
-        openShowPic(str_deskPic, *awardPage);
+        openShowPic("desk.pic", *awardPage);
         drawStringCentered(awardPage, str_deskMsg1, 0x24, 0xb3, 0xfa);
         drawStringCentered(awardPage, str_deskMsg2, 0x24, 0xbc, 0xfa);
         // 1ef4
@@ -79,7 +79,7 @@ void showPostMissionAwards(void) {
     }
     if (gameData->campaignProgress == 2) {
         gfx_setFadeSteps(2);
-        openShowPic(str_deathPic, *awardPage);
+        openShowPic("death.pic", *awardPage);
         drawStringCentered(awardPage, str_deathMsg1, 0x24, 0xad, 0xfa);
         drawStringCentered(awardPage, str_deathMsg2, 0x24, 0xb6, 0xfa);
         goto show;
@@ -87,7 +87,7 @@ void showPostMissionAwards(void) {
     // 1fa8
     if (((unsigned)gameData->rank < 6) && (*(long *)&promoThresholds[gameData->rank] < gameData->totalScore)) {
         gfx_setFadeSteps(6);
-        openShowPic(str_promoPic, *awardPage);
+        openShowPic("promo.pic", *awardPage);
         awardColor = 1;
         drawStringCentered(awardPage, str_promoMsg1, 0x24, 0xae, 0xfa);
         mystrcpy(textBuf, str_promoMsg2);
@@ -109,7 +109,7 @@ medals:
         goto done;
     gfx_waitRetrace();
     gfx_setFadeSteps(0x0a);
-    openShowPic(str_medalPic, *awardPage);
+    openShowPic("medal.pic", *awardPage);
     awardColor = 0x0f;
     drawStringCentered(awardPage, str_medalMsg1, 0x24, 0xae, 0xfa);
     mystrcpy(textBuf, str_medalMsg2);

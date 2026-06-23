@@ -16,26 +16,21 @@
 #include <dos.h>
 
 
-/* 0x4a0 */
 void initGraphics()
 {
     /* unused stack data eliminated by compiler, but original binary has sub sp,0xe in preamble - ??? */
     uint8 unused[0xe];
-    /* 0x4a6 */
     seedRandom();
-    /* 0x4ac */
     gfx_setPageN(0);
     gfx_allocPage(0);
     /* 0x4c4 - see f14 gmain.c InitGraphicPages() */
     gfx_storeBufPtr(page1Ptr = gfx_allocPage(1), 1); // 64k framebuffer @ 2cc0:0
-    /* 0x4d8 */
     if (*gfxModeSetPtr == 0) {
         /* looks like arg is unused inside driver function, maybe it was in an older version of the overlay? */
         gfx_setMode13(commData->setupMono);
         /* 0x4f2, looks like a gfx mode set flag? */
         *gfxModeSetPtr = 1;
     }
-    /* 0x4fb */
     commData->gfxModeNum = gfx_getModecode();
     misc_clearKeyFlags();
 }

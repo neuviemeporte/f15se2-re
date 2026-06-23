@@ -39,7 +39,7 @@ void load3D3(char *fileName) {
     int slot, subCount, sub;
     int chunk;
     strcpyFromDot(fileName, a_3d3);
-    if ((fileHandle = fopen(fileName, aRb)) == NULL) {
+    if ((fileHandle = fopen(fileName, "rb")) == NULL) {
         printError(aOpenErrorOn_3d3);
         return;
     }
@@ -78,7 +78,7 @@ void load3D3(char *fileName) {
         fread(g_modelVertZ, 2, size3d3_6, fileHandle);
     }
     fclose(fileHandle);
-    while ((fileHandle = fopen(aPhoto_3d3, aRb_0)) == NULL) {
+    while ((fileHandle = fopen("photo.3d3", "rb")) == NULL) {
         setDrawColor(0);
         fillRectBoth(0, 0x28, 0x13f, 0x2d);
         drawStringBothPages(aPleaseInsertF15DiskB, 0x6c, 0x28, 0x0f);
@@ -88,7 +88,7 @@ void load3D3(char *fileName) {
     gfx_waitRetrace();
     for (slot = 0; slot < 2; slot++) {
         if ((subCount = g_targetSlots[slot].flags >> 8) != 0) {
-            fileHandle = fopen(aPhoto_3d3_0, aRb_1);
+            fileHandle = fopen("photo.3d3", "rb");
             fread(&sign3d3, 2, 1, fileHandle);
             fread(&size3d3_7, 2, 1, fileHandle);
             fread(g_modelOffsetTable, 2, size3d3_7, fileHandle);
@@ -120,7 +120,7 @@ void load3D3(char *fileName) {
 void load3DT(char *fileName) {
     int shape, cat, byteOff, tile, obj;
     strcpyFromDot(fileName, a_3dt);
-    if ((fileHandle = fopen(fileName, aRb_2)) == NULL) {
+    if ((fileHandle = fopen(fileName, "rb")) == NULL) {
         printError(aOpenErrorOn_3dt);
         return;
     }
@@ -164,7 +164,7 @@ void load3DT(char *fileName) {
 void load3DG() {
     int unused_1, unused_2, unused_3;
     strcpyFromDot(regnStr, a_3dg);
-    while ((fileHandle = fopen(regnStr, aRb_3)) == NULL) {
+    while ((fileHandle = fopen(regnStr, "rb")) == NULL) {
         drawStringBothPages(aPleaseInsertF15DiskB, 0x68, 0x28, 0x0f);
         drawStringBothPages(aPressKeyWhenReady, 0x68, 0x32, 0x0f);
         gfx_flipPage();

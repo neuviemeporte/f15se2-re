@@ -64,24 +64,18 @@ int joyOrKey() {
     return 1;
 }
 
-/* 0x5d5 */
 void waitMdaCgaStatus(int16 iter)
 {
-    /* 0x5e0 */
     while (iter-- != 0) {
-        /* 0x5e2 */
         if (commData->setupMono != 0) {
             while ((inp(PORT_MDA_STATUS) & MDA_STATUS_RETRACE) == 0) {}
             while ((inp(PORT_MDA_STATUS) & MDA_STATUS_RETRACE) != 0) {}
-        /* 0x60f */
         }
         else {
             while ((inp(PORT_CGA_STATUS) & CGA_STATUS_RETRACE) == 0) {}
             while ((inp(PORT_CGA_STATUS) & CGA_STATUS_RETRACE) != 0) {}
         }
-    /* 0x62f */
     }
-    /* 0x634 */
 }
 
 void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
@@ -95,7 +89,6 @@ void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
     gfx_nop23();
 }
 
-/* 0x674 */
 void showPic640(char* filename)
 {
     int fileHandle;
@@ -115,7 +108,7 @@ void missionSelect()
     TRACE(("missionSelect(): entering"));
     gfx_setDac(1);
     gfx_setFadeSteps(0);
-    openShowPic(aWall_pic, *page1NumPtr);
+    openShowPic("Wall.Pic", *page1NumPtr);
     TRACE(("missionSelect(): shown wall"));
     clearBriefing();
     TRACE(("missionSelect(): cleared briefing"));
@@ -133,7 +126,7 @@ selectTheater:
             plh3d3Ptr[0] = *scenarioCodePtr[index];
             plh3d3Ptr[1] = *(scenarioCodePtr[index] + 1);
 
-            if ((scenarioFoundArr[index] = ((fileHandle = fopen(plh3d3Ptr, aRb_1)) == NULL))) count--;
+            if ((scenarioFoundArr[index] = ((fileHandle = fopen(plh3d3Ptr, "rb")) == NULL))) count--;
             fclose(fileHandle);
         }
         if (count == 0) { // no scenarios found, print message and go back to previous screen
@@ -288,7 +281,7 @@ int askRepeatMission() {
 }
 
 void checkDiskA() {
-    while ((fileHandle = fopen(aF15_spr_1, aRb_2)) == NULL) {
+    while ((fileHandle = fopen("F15.spr", "rb")) == NULL) {
         clearBriefing();
         drawStringCentered(page1NumPtr, aPleaseReinsert, 0x71, 0x3d, 0xb9);
         page1NumPtr[6] = FONT_SMALL; // page1Desc.font?

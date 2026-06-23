@@ -418,7 +418,7 @@ int approxDistance(int dx, int dy) {
 
 void parseWorld(const char *filename) {
     int nameIdx, scanPos;
-    if ((fileHandle = fopen(filename, aRb_4)) == NULL) return;
+    if ((fileHandle = fopen(filename, "rb")) == NULL) return;
     // fread(buffer, size, count, stream)
     fread(wldReadBuf1, 2, 1, fileHandle);
     fread(&readItemSize, 2, 1, fileHandle);
@@ -445,7 +445,7 @@ void parseWorld(const char *filename) {
 
 void exportWorldToComm(const char *filename) {
     int unused;
-    if ((fileHandle = (FILE*)setMoveDstComm7A(filename, aWb_0)) == NULL) return;
+    if ((fileHandle = (FILE*)setMoveDstComm7A(filename, "wb")) == NULL) return;
     memAppend(wldReadBuf1, 2, 1, fileHandle);
     memAppend(&readItemSize, 2, 1, fileHandle);
     memAppend(&groundUnitCount, 2, 1, fileHandle);

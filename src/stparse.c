@@ -25,7 +25,7 @@ void parseTerrain(char *filename) {
     int16 tileIdx, level, tileOffset, entry;
     uint16 tileNum;
     replaceExtension(filename, a_3dt);
-    if ((fileHandle = fopen(filename, aRb)) == 0) {
+    if ((fileHandle = fopen(filename, "rb")) == 0) {
         showMsgWaitKey(aOpenErrorOn_3d);
     }
     else {
@@ -69,7 +69,7 @@ void parseTerrain(char *filename) {
 void parseGrid() {
     int idx;
     replaceExtension(regnPlhPtr, a_3dg);
-    if ((fileHandle = fopen(regnPlhPtr, aRb_0)) == 0) {
+    if ((fileHandle = fopen(regnPlhPtr, "rb")) == 0) {
         showMsgWaitKey(aOpenErrorOn__0);
         idx = 0;
         do {

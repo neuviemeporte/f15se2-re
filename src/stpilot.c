@@ -44,10 +44,10 @@ void pilotSelect(int16 needSplash)
         TRACE(("pilotSelect(): updated hallfame"));
     }
     gfx_setFadeSteps(4);
-    loadPic(aArmpiece_pic, menuSprites);
+    loadPic("ArmPiece.Pic", menuSprites);
     TRACE(("pilotSelect(): loaded armpiece"));
     gfx_setFadeSteps(7);
-    openShowPic(aHiscore_pic, *screenBuf);
+    openShowPic("HiScore.Pic", *screenBuf);
     TRACE(("pilotSelect(): showed hiscore pic"));
     displayPilots();
     TRACE(("pilotSelect(): showed prompt"));
@@ -354,8 +354,8 @@ void loadHallfame(void)
 {
     int slotIdx;
     FILE *handle;
-    TRACE(("loadHallfame(): reading from %s", aHallfame));
-    handle = fopen(aHallfame, aRb_3);
+    TRACE(("loadHallfame(): reading from %s", "HallFame"));
+    handle = fopen("HallFame", "rb");
     fread(&selectedPilotIdx, 2, 1, handle);
     TRACE(("loadHallfame(): count = %d", selectedPilotIdx));
     slotIdx = 0;
@@ -369,7 +369,7 @@ void loadHallfame(void)
 void saveHallfame() {
     FILE *fp;
     int idx;
-    fp = fopen(aHallfame_0, aWb);
+    fp = fopen("HallFame", "wb");
     fwrite(&selectedPilotIdx, 2, 1, fp);
     idx = 0;
     do {

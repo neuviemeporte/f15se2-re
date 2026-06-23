@@ -819,7 +819,7 @@ void findWaypointFeatures() {
                 (0x8000L - (unsigned long)(unsigned)g_planeTable.planes[g_targetSlots[slot].planeIndex].mapY) << 5);
             if (g_nearestTileObj != 0) {
                 g_shapeTargetCategory[nameIdx] = g_shapeTargetCategory[g_nearestTileObj->id];
-                strcpy(g_targetNameTable[nameIdx], (char *)g_targetNameTable[g_nearestTileObj->id]);
+                strcpy(g_targetNameTable[nameIdx], g_targetNameTable[g_nearestTileObj->id]);
                 g_targetNameTable[nameIdx + 1] = g_targetNameTable[nameIdx] + strlen(g_targetNameTable[nameIdx]) + 1;
                 addTileEntry((char *)g_nearestTileObj, shapeDataOffset(nameIdx + 0x100), nameIdx + 0x100);
             }

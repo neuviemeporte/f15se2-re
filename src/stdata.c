@@ -5,13 +5,6 @@
 #include <dos.h>
 
 /* === Group 1 (0x0042-0x0530): Filename, mission selection, UI strings === */
-char aLabs_pic[] = "labs.pic";
-char aAdv_pic[] = "adv.pic";
-char aEgraphic_exe[] = "egraphic.exe";
-char aTitle640_pic[] = "Title640.Pic";
-char aTitle16_pic[] = "title16.pic";
-char aF15_spr[] = "f15.spr";
-char aF15_spr_0[] = "f15.spr";
 char aTemp_wld[] = "temp.wld";
 
 /* Mission selection strings */
@@ -79,10 +72,8 @@ char aMission[] = "MISSION";
 char placeholder_3d3[] = "xx.3d3";
 
 /* UI strings */
-char aWall_pic[] = "Wall.Pic";
 char aDifficulty[] = "DIFFICULTY";
 char aTheater[] = "THEATER";
-char aRb_1[] = "rb";
 char aNoScenarioFile[] = "No scenario files found";
 char aSeeTechnicalSu[] = "See Technical Supplement";
 char aTheater_0[] = "THEATER";
@@ -91,8 +82,6 @@ char aMissionType[] = "MISSION TYPE";
 /* === Group 2 (0x0670-0x072c): Mission briefing strings === */
 char aRepeatLastMiss[] = "Repeat last mission ? (y/n)";
 char strCloseParen[] = ")";
-char aRb_2[] = "rb";
-char aF15_spr_1[] = "F15.spr";
 char aPleaseReinsert[] = "Please reinsert F15 Disk A";
 char aPressSelectorW[] = "<Press selector when ready>";
 char aDecodingMissio[] = "decoding mission...";
@@ -113,17 +102,11 @@ char aLtCol_[] = "Lt Col. ";
 char aColonel[] = "Colonel ";
 char aGen_[] = "Gen. ";
 
-char aArmpiece_pic[] = "ArmPiece.Pic";
-char aHiscore_pic[] = "HiScore.Pic";
 char aOriginalDiskIn[] = "Original Disk in drive.  Roster will not be saved.";
 char aPressAKeyToCon[] = "Press a key to continue.";
 char aUseSelectorToC[] = "Use SELECTOR to choose pilot,  ESC to enter new pilot.";
 char strOpenParen[] = " (";
 char aMenterYourName[] = "\376ENTER YOUR NAME !";
-char aRb_3[] = "rb";
-char aHallfame[] = "HallFame";
-char aWb[] = "wb";
-char aHallfame_0[] = "HallFame";
 
 /* Overlay loader variables */
 int ovlSeg1 = 0;
@@ -168,13 +151,11 @@ int16 terrainDirtyFlag = 0;
 int16 gridValidFlag = 0;
 
 char a_3dt[] = ".3dT";
-char aRb[] = "rb";
 char aOpenErrorOn_3d[] = "Open Error on *.3DT, assuming new file !";
 char aBadTileFileFor[] = "Bad Tile file format.";
 char aTooManyTiles_[] = "Too many tiles.";
 char aTooMuchTileDat[] = "Too much tile data";
 char a_3dg[] = ".3dG";
-char aRb_0[] = "rb";
 char aOpenErrorOn__0[] = "Open Error on *.3DG, assuming new file !";
 char aBadGridFileFor[] = "Bad Grid file format.";
 
@@ -199,8 +180,6 @@ char aNa_wld[] = "na.wld";
 
 /* === Group 7 (0x27e6-0x2818): Mission/scenario strings === */
 char aPowCamp[] = "POW Camp";
-char aRb_4[] = "rb";
-char aWb_0[] = "wb";
 char aTd00[] = "TD00";
 char aJz00[] = "JZ00";
 char aXv00[] = "XV00";
@@ -268,7 +247,7 @@ struct PageDesc page2Desc = {
     {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
     (int16*)&page2Desc        /* selfPtr (page2NumPtr) */
 };
-int *page2NumPtr = (int*)&page2Desc;
+int16 *page2NumPtr = (int16*)&page2Desc;
 struct PageDesc page3Desc = {
     3,                        /* pageNum */
     {0, 0},                   /* pad1 */

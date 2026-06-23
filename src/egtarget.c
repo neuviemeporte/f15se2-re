@@ -496,7 +496,7 @@ void drawHudWorldOverlay(void) {
 
     if (g_scopeSweepTimer > 0 && g_threatLabelTarget >= 0) {
         projectWorldToHud(g_planeTable.planes[g_threatLabelTarget].mapX, g_planeTable.planes[g_threatLabelTarget].mapY, 0);
-        drawTargetLabel((char *)g_targetNameTable[((int16 *)&g_planeTable)[g_threatLabelTarget * 8]], g_scopeArcColor, g_frameRateScaling - g_scopeSweepTimer);
+        drawTargetLabel(g_targetNameTable[((int16 *)&g_planeTable)[g_threatLabelTarget * 8]], g_scopeArcColor, g_frameRateScaling - g_scopeSweepTimer);
     }
 
     g_playerPlaneFlags &= ~0x200;
@@ -515,13 +515,13 @@ void drawHudWorldOverlay(void) {
     buildRangeString(computeMapTargetRange(wpIdx));
     drawStringActivePage((char *)strBuf, 0xf4, 0xaa, 0x0f);
 
-    strcpy((char *)strBuf, (char *)g_targetNameTable[g_planeTable.planes[wpIdx].nameIndex & 0x7f]);
+    strcpy((char *)strBuf, g_targetNameTable[g_planeTable.planes[wpIdx].nameIndex & 0x7f]);
     drawStringActivePage((char *)strBuf, -((int)strlen((char *)strBuf) * 2 - 0x10c), 0x82, 0x0f);
 
-    if ((int)strlen((char *)g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]) != 0) {
+    if ((int)strlen(g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]) != 0) {
         strcpy((char *)strBuf,
-               (char *)(strlen((char *)g_targetNameTable[g_planeTable.planes[wpIdx].nameIndex & 0x7f]) != 0 ? aAt_0 : aAt_0 + 5));
-        strcat((char *)strBuf, (char *)g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]);
+               (char *)(strlen(g_targetNameTable[g_planeTable.planes[wpIdx].nameIndex & 0x7f]) != 0 ? aAt_0 : aAt_0 + 5));
+        strcat((char *)strBuf, g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]);
         drawStringActivePage((char *)strBuf, -((int)strlen((char *)strBuf) * 2 - 0x10c), 0x88, 0x0f);
     }
 
