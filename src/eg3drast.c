@@ -282,7 +282,7 @@ static void skipDisplayListByLod(unsigned char far **pp)
     int al;
     while ((al = p[0]) & 0x80) {
         int bx = (al & 7) << 1;
-        int dist = (int)((int16)g_objDistance >> (int)g_extraScaleShift);
+        int dist = (int)(g_objDistance >> g_extraScaleShift);
         if (dist <= *(int16 *)(colorLut + 0x10 + bx)) {
             p += 3;
         } else {
@@ -341,7 +341,7 @@ static void projectVertexToScreen(int vtx)   /* BX = vtx*4 in the asm */
     long camX, camY;
     int cx = vtxScratch.vproj.in[vtx].div;
     if (g_halfScaleRender) cx <<= 1;
-    if (g_extraScaleShift) cx = (int)((int16)cx >> (int)g_extraScaleShift);
+    if (g_extraScaleShift) cx = (int)(cx >> g_extraScaleShift);
     if (cx <= 0) {
         vtxScratch.vproj.x.v[vtx] = 0x8000L | (0x8000L << 16);
         vtxScratch.vproj.y.v[vtx] = 0x8000L | (0x8000L << 16);

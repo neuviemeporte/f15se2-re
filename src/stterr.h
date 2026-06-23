@@ -3,6 +3,6 @@
 /* terrain parse (stterr.c) */
 #include "inttype.h"
 
-int16 *findNearestTerrain(long, long);
+int16 *findNearestTerrain(int32, int32);
 
 #endif /* F15_SE2_STTERR */

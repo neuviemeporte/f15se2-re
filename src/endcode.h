@@ -4,7 +4,7 @@
 #include "inttype.h"
 #include <dos.h>
 
-void decodePic(int handle, int segment);
+void decodePic(int handle, uint16 segment);
 uint16 dos_alloc(int size);
 void dos_printstring(const char *str);
 int createFile(const char *name, int mode);
@@ -14,7 +14,7 @@ extern void far pollJoystick(void);
 void drawLineWrapper(void);
 void clearRect(int16 *page, int y1, int x1, int x2, int y2);
 void mystrcat(char *dst, char *src);
-void decodePicRaw(int handle, int segment);
+void decodePicRaw(int handle, uint16 segment);
 extern void far copyJoystickData(uint8 far *data);
 
 #endif /* F15_SE2_ENDCODE */

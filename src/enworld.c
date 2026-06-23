@@ -17,10 +17,10 @@ void readWorldData(void) {
     loadWorldData((char*)&worldObjects, worldObjectCount << 4);
     loadWorldData((char*)&worldSamCount, 2);
     loadWorldData((char*)&worldSamTable, 0x24 * worldSamCount);
-    loadWorldData((char*)unitTypeTable, 0x64);
+    loadWorldData(unitTypeTable, 0x64);
     loadWorldData((char*)&worldUnitFlags, 0x64);
-    loadWorldData((char*)worldStringBuf, 0x2ee);
-    loadWorldData((char*)gridFlags, 0x100);
+    loadWorldData(worldStringBuf, 0x2ee);
+    loadWorldData(gridFlags, 0x100);
     loadWorldData((char*)&worldGridSize, 2);
     loadWorldData((char*)&worldMiscHeader, 2);
     loadWorldData((char*)&weaponDataBlock, 0x10);
@@ -30,9 +30,9 @@ void readWorldData(void) {
 
 void loadWorldData(char* destOffset, int size) {
     if (worldDataReady != 0) {
-        readFromWorldBuf((char *)destOffset, size, 1, worldBufHandle);
+        readFromWorldBuf(destOffset, size, 1, worldBufHandle);
     } else {
-        writeToWorldBuf((char *)destOffset, size, 1, worldBufHandle);
+        writeToWorldBuf(destOffset, size, 1, worldBufHandle);
     }
 }
 

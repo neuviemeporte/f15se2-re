@@ -38,7 +38,7 @@ int readScreenPixel(int screenX, int screenY);
 // ==== seg000:0x8e38 ====
 
 void clearStatusPanel(void) {
-    drawPanelText(2, (char*)aEmpty_5950, 0);
+    drawPanelText(2, aEmpty_5950, 0);
 }
 
 // ==== seg000:0x8e50 ====
@@ -297,12 +297,12 @@ void zoomOut(void) {
 
 // ==== seg000:0x98fa ====
 int mapXToScreen(int mapX) {
-    return ((mapX - g_mapCenterX) >> (10 - (int)g_mapZoomLevel)) + 0x3C;
+    return ((mapX - g_mapCenterX) >> (10 - g_mapZoomLevel)) + 0x3C;
 }
 
 // ==== seg000:0x9915 ====
 int mapYToScreen(int mapY) {
-    return (((mapY - g_mapCenterY) >> (10 - (int)g_mapZoomLevel)) * 3 >> 1 >> 1) + 0x8C;
+    return (((mapY - g_mapCenterY) >> (10 - g_mapZoomLevel)) * 3 >> 1 >> 1) + 0x8C;
 }
 
 // ==== seg000:0x993a ====

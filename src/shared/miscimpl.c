@@ -75,16 +75,6 @@ int doFcbSearch(void)
 }
 
 #if !defined(MSDOS)
-int16 *findNearestTerrain(long a, long b)
-{
-    return 0;
-}
-
-unsigned long scaleCoordByLevel(int level, unsigned long coord)
-{
-    return coord;
-}
-
 uint16 dos_alloc(int size)
 {
     return 0;

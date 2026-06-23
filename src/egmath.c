@@ -56,7 +56,7 @@ void load15Flt3d3() {
 
 void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int objYaw, int objPitch, int objRoll, int scaleShift)
 {
-    int drawPg;
+    int16 *drawPg;
     int dataOff;
     long relX;
     long relY;
@@ -64,7 +64,7 @@ void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int ob
     int shiftAmt;
 
     dataOff = shapeDataOffset(shapeId);
-    drawPg = (g_drawPage == 0) ? (int)g_pageFront : (int)g_pageBack;
+    drawPg = (g_drawPage == 0) ? g_pageFront : g_pageBack;
     relX = worldX - g_ViewX;
     relY = worldY + g_ViewY - 0x01000000L;
     altDiff = altitude - g_viewZ;
@@ -182,14 +182,14 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYa
         g_extraScaleShift = 2;
     }
     if (mode == 1 || mode == 3) {
-        horizonY = (int)((long)g_trkScale * (long)((int)g_trkPitch >> 2) >> 5) + 0x9c;
-        if (horizonY < 0x80 || (int)g_trkPitch < (int)0xe800) {
+        horizonY = (int)((long)g_trkScale * (long)(g_trkPitch >> 2) >> 5) + 0x9c;
+        if (horizonY < 0x80 || g_trkPitch < (int)0xe800) {
             horizonY = 0x80;
         }
-        if (horizonY > 0xb8 || (int)g_trkPitch > 0x1800) {
+        if (horizonY > 0xb8 || g_trkPitch > 0x1800) {
             horizonY = 0xb8;
         }
-        *(g_targetViewParams + 2) = (int)colorLut[3];
+        *(g_targetViewParams + 2) = colorLut[3];
         if (horizonY != 0x80) {
             fillSpanRect(g_targetViewParams, 0xe8, 0x80, 0x130, horizonY);
         }
@@ -202,7 +202,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYa
         if (categoryLow == 0xc || categoryLow == 9 || categoryLow == 0xb) {
             colorIdx = 1;
         }
-        *(g_targetViewParams + 2) = (int)colorLut[colorIdx];
+        *(g_targetViewParams + 2) = colorLut[colorIdx];
         if (horizonY != 0xb8) {
             fillSpanRect(g_targetViewParams, 0xe8, horizonY, 0x130, 0xb8);
         }

@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 /* Private helpers for this translation unit. */
-unsigned long scaleCoordByLevel(int, unsigned long);
+uint32 scaleCoordByLevel(int, uint32);
 int lookupGridCell(int16, int16, int16);
 
 int16* findNearestTerrain(int32 worldX, int32 worldY) {

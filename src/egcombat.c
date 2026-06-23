@@ -88,10 +88,10 @@ void fireAirThreat(int objIdx)
                     *(int16 *)&g_projectiles[slot].state[6] = -objIdx;
 
                     idx = idx;
-                    strcpy((char *)strBuf, (char *)&sams[idx].name);
-                    strcat((char *)strBuf, (char *)aFiredBy);
-                    strcat((char *)strBuf, aircraftTypes[g_threatSpec].name);
-                    tempStrcpy((char *)strBuf);
+                    strcpy(strBuf, (char *)&sams[idx].name);
+                    strcat(strBuf, aFiredBy);
+                    strcat(strBuf, aircraftTypes[g_threatSpec].name);
+                    tempStrcpy(strBuf);
 
                     makeSound(6, 2);
                     commData->restartFlag++;
@@ -353,18 +353,18 @@ void updateThreatTargeting(void)
             g_hitEffectTimer = 0xfffd;
             g_savedSamTtl = g_projectiles[slot].ttl;
             (g_projectiles + slot)->ttl = 0;
-            strcpy((char *)strBuf,
+            strcpy(strBuf,
                    (char *)missiles[*(int16 *)&g_projectiles[slot].state[2]].longName);
             if (mode == 0x1e || mode == 0x1d || mode == 0x1c) {
                 scheduleTimedEvent(0, 1);
                 makeSound(2, 2);
-                strcat((char *)strBuf, (char *)aMisses);
+                strcat(strBuf, aMisses);
                 dist = rangeApprox(g_hitMapX - g_planeTable.planes[g_loftTargetIdx].mapX,
                                    g_hitMapY - g_planeTable.planes[g_loftTargetIdx].mapY);
                 if (dist < (unsigned)(0x100 / (g_missionStatus + 1))) {
                     destroyGroundTarget(g_loftTargetIdx);
-                    strcat((char *)strBuf, (char *)aDestroyedBy);
-                    strcat((char *)strBuf,
+                    strcat(strBuf, aDestroyedBy);
+                    strcat(strBuf,
                            (char *)missiles[*(int16 *)&g_projectiles[slot].state[2]].longName);
                     g_hitEffectTimer = 8;
                     g_hitAlt = 0;
@@ -378,17 +378,17 @@ void updateThreatTargeting(void)
                     if (dist >= (unsigned)(0x180 / (g_missionStatus + 2)))
                         goto msg_done;
                     destroyGroundTarget(wp);
-                    strcat((char *)strBuf, (char *)aDestroyedBy_0);
-                    strcat((char *)strBuf,
+                    strcat(strBuf, aDestroyedBy_0);
+                    strcat(strBuf,
                            (char *)missiles[*(int16 *)&g_projectiles[slot].state[2]].longName);
                     g_hitEffectTimer = 8;
                     g_hitAlt = 0;
                 }
 msg_done:
-                tempStrcpy((char *)strBuf);
+                tempStrcpy(strBuf);
             } else if (slot >= 8 && g_projectiles[slot].ttl > g_frameRateScaling * 2) {
-                strcat((char *)strBuf, (char *)aGroundImpact);
-                tempStrcpy((char *)strBuf);
+                strcat(strBuf, aGroundImpact);
+                tempStrcpy(strBuf);
             }
         }
 
@@ -405,9 +405,9 @@ msg_done:
             g_projectiles[slot].ttl = 0;
             if (slot < 8) {
                 if (mapEvents[0].ttl == 0) {
-                    strcpy((char *)strBuf, (char *)aHitBy);
-                    strcat((char *)strBuf, (char *)&sams[spec].name);
-                    tempStrcpy((char *)strBuf);
+                    strcpy(strBuf, aHitBy);
+                    strcat(strBuf, (char *)&sams[spec].name);
+                    tempStrcpy(strBuf);
                     bombTarget();
                     ring = (frameTick >> 1) & 7;
                     g_particles[ring].posX = g_hitMapX;
@@ -430,11 +430,11 @@ msg_done:
                         g_simObjects[bestIdx].alt;
                 } else {
                     if (missileTargetCompat(*(int16 *)&g_projectiles[slot].state[2], bestIdx) >
-                            (int)randomRange(4) ||
+                            randomRange(4) ||
                         (unsigned)(g_frameRateScaling * 10) <= g_savedSamTtl) {
                         destroyGroundTarget(bestIdx);
                     } else {
-                        strcpy((char *)strBuf, (char *)aIneffective);
+                        strcpy(strBuf, aIneffective);
                     }
                     g_projectiles[slot].ttl = 0;
                     g_threatActiveTimer = g_threatTimerInit;
@@ -442,9 +442,9 @@ msg_done:
                     g_threatRefY = g_hitMapY;
                     g_threatRefZ = 3000;
                 }
-                strcat((char *)strBuf, (char *)aHitBy_0);
-                strcat((char *)strBuf, (char *)&sams[spec].name);
-                tempStrcpy((char *)strBuf);
+                strcat(strBuf, aHitBy_0);
+                strcat(strBuf, (char *)&sams[spec].name);
+                tempStrcpy(strBuf);
             }
         }
 

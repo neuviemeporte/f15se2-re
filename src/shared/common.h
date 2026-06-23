@@ -23,7 +23,7 @@ void my_itoa(int value, char *buf);
 int openFileWrapper(const char *filename, int mode);
 void closeFileWrapper(int handle);
 void mystrcpy(char *dest, const char *source);
-void loadPic(const char *filename, int segment);
+void loadPic(const char *filename, uint16 segment);
 #ifdef BUGFIX
 void openShowPic(char *filename, int page);
 void showPicFile(int handle, int pageNum);

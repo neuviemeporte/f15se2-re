@@ -329,7 +329,7 @@ counterMore1k:
     }
   }
   TRACE(("runGenerator(): past loop6"));
-  for (randIdx = 0; (int)randIdx < 0x10; randIdx++) {
+  for (randIdx = 0; randIdx < 0x10; randIdx++) {
     for (randY = 0; randY < 0x10; randY++) {
       if (((terrainGrid[randY + randIdx * 0x10] & 0x10) != 0) && randMul(5) >= difficultySaved) {
         terrainGrid[randY + randIdx * 0x10] &= 0xef;
@@ -367,9 +367,9 @@ counterMore1k:
 
 int findOrPlaceItem(int wx, int wy, int slot) {
     int objIdx;
-    if ((nearestTerrainResult = findNearestTerrain((long)wx << WORLD_COORD_SHIFT , (0x8000 - (long)wy) << WORLD_COORD_SHIFT)) != NULL) {
-        wx = ((long*)nearestTerrainResult)[1] >> WORLD_COORD_SHIFT;
-        wy = -((((long*)nearestTerrainResult)[2] >> WORLD_COORD_SHIFT) - 0x8000);
+    if ((nearestTerrainResult = findNearestTerrain((int32)wx << WORLD_COORD_SHIFT, (0x8000 - (int32)wy) << WORLD_COORD_SHIFT)) != NULL) {
+        wx = ((int32*)nearestTerrainResult)[1] >> WORLD_COORD_SHIFT;
+        wy = -((((int32*)nearestTerrainResult)[2] >> WORLD_COORD_SHIFT) - 0x8000);
         for (objIdx = FIRST_REAL_ITEM; objIdx < readItemSize; objIdx++) {
             if (wx == worldObjects[objIdx].x_coord && wy == worldObjects[objIdx].y_coord) return objIdx;
         }

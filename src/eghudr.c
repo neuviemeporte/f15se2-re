@@ -162,7 +162,7 @@ static void drawInstrumentGauges(void)
 
     /* ---- speed tape ---- */
     {
-        uint16 knots = (uint16)g_knots;
+        uint16 knots = g_knots;
         uint8 al;
         dl = (int8)((knots / 0x32) - 1);
         knots = (uint16)((knots % 0x32) << g_tapeScaleShift);
@@ -205,11 +205,11 @@ static void drawInstrumentGauges(void)
 
     /* ---- altitude tape ---- */
     {
-        uint16 alt = (uint16)g_altitude;
+        uint16 alt = g_altitude;
         int thousands = (int)(alt / 0x3e8) - 1;
         uint16 rem = (uint16)(alt % 0x3e8);
         uint16 hundredsPix;
-        g_altRemainder = (int16)rem;
+        g_altRemainder = rem;
         hundredsPix = (uint16)((rem << g_tapeScaleShift) / 0x64);
         di = thousands * 2;
         g_tapePageCounter = 4;
@@ -347,7 +347,7 @@ static void drawInstrumentGauges(void)
         uint16 t;
         int subY;
         ap >>= 6;
-        t = (uint16)hudPitchScale((int)ap);
+        t = (uint16)hudPitchScale(ap);
         ch = (t / 0x28) & 0xff;                            /* centre rung index */
         t = (uint16)((t % 0x28) * (uint8)g_pitchRungVStep);
         subY = (int)(t / 0x28);

@@ -4,7 +4,7 @@
 #include "inttype.h"
 
 uint16 allocBuffer(int size);
-void freeBuffer(int segment);
+void freeBuffer(uint16 segment);
 void showPostMissionAwards(void);
 
 #endif /* F15_SE2_ENAWARD */

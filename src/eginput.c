@@ -104,7 +104,7 @@ processKey:
     if (kbdActiveScan != 0) goto flush;
     kbdActiveScan = mask;
     if (kbdLastDirKey == mask &&
-        (unsigned int)(biosw[0x6C / 2] - kbdLastTick) < 5) {
+        (biosw[0x6C / 2] - kbdLastTick) < 5) {
         /* same key tapped again quickly -> full deflection */
         bh = 0x7F;
     } else {

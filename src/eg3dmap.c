@@ -369,9 +369,9 @@ void setup3DTransform(char *model, int angleX, int angleY, int angleZ, int posX,
     if (renderScene != 0) {
         g_posVisibleFlag = 0;
         if (g_detailLevel == 0) {
-            *(uint8 *)&g_offscreenRender = 1;
+            g_offscreenRender = 1;
         }
-        if (*(uint8 *)&g_offscreenRender == 0) {
+        if (g_offscreenRender == 0) {
             transformModelVerticesFar();
         }
 #ifdef DEBUG

@@ -366,17 +366,17 @@ void showPicFile(int handle, int page)
     picDecodeToSegment(handle, pageSeg, 200, 320, 0);
 }
 
-void decodePic(int handle, int segment)
+void decodePic(int handle, uint16 segment)
 {
     /* See showPicFile: the full-page decode makes gfx_clearPage() redundant
      * (and unsafe to call from C). */
-    picDecodeToSegment(handle, (uint16)segment, 200, 320, 0);
+    picDecodeToSegment(handle, segment, 200, 320, 0);
 }
 
-void decodePicRaw(int handle, int segment)
+void decodePicRaw(int handle, uint16 segment)
 {
     /* Same as decodePic: decodes PIC row-by-row, fully overwriting the page. */
-    picDecodeToSegment(handle, (uint16)segment, 200, 320, 0);
+    picDecodeToSegment(handle, segment, 200, 320, 0);
 }
 
 /* picBlit mirrors _picBlit (stcode.asm): the 2nd arg is a PAGE INDEX (not a

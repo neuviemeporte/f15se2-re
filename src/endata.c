@@ -2,6 +2,7 @@
  */
 #include "inttype.h"
 #include "struct.h"
+#include "endtypes.h"
 #include "comm.h"
 #include <dos.h>
 #include <stdio.h>
@@ -14,32 +15,6 @@
  *   samWeaponTable: +0x3B6 (950)
  *   nightMission:   +0x6DA (1754)
  */
-
-#pragma pack(1)
-struct WeaponDataBlock {
-    unsigned char c0[200];
-    unsigned char c200[200];
-    unsigned char c400[200];
-    unsigned char c600[200];
-    unsigned char c800[200];
-    unsigned char c1000[200];
-    unsigned char c1200[200];
-    unsigned char c1400[200];
-    unsigned char c1600[200];
-    unsigned char c1800[200];
-    unsigned char c2000[200];
-    unsigned char c2200[200];
-    unsigned char c2400[200];
-    unsigned char c2600[200];
-    unsigned char c2800[200];
-    unsigned char c3000[200];
-    unsigned char c3200[200];
-    unsigned char c3400[200];
-    unsigned char c3600[200];
-    unsigned char c3800[200];
-    unsigned char c4000[6];
-};
-#pragma pack()
 
 struct WeaponDataBlock weaponDataBlock = {
     { /* +0x0000 */
@@ -348,29 +323,7 @@ struct WeaponDataBlock weaponDataBlock = {
 };
 
 
-/* Forward declarations needed for MenuItem */
-struct SpriteParams;
-typedef uint16 MenuItemFlags;
-typedef struct MenuItem {
-    int16  hitX1;
-    int16  hitY1;
-    int16  hitX2;
-    int16  hitY2;
-    int16  colorX1;
-    int16  colorY1;
-    int16  colorX2;
-    int16  colorY2;
-    int16  colorTableIdx;
-    int16  colorPair;
-    int16  labelData1[5];
-    int16 *pagePtr;
-    int16  labelData2[4];
-    struct SpriteParams *spriteNormal;
-    struct SpriteParams *spriteBlink;
-    int16  groupId;
-    int16  state;
-    MenuItemFlags flags;
-} MenuItem;
+/* MenuItem / MenuItemFlags come from endtypes.h; SpriteParams from struct.h. */
 
 /* Rank names (index 0 = empty, 1-6 = promotable ranks) */
 char str_emptyRank[] = "";
@@ -518,7 +471,7 @@ int airMissed;
 
 /* Menu/input state */
 int selectedMenuItem;
-char missionResult[3];
+int missionResult;
 char enterPressed;
 
 /* Drawing state */
@@ -529,9 +482,9 @@ int prevDrawY;
 char popupVisible;
 int primaryHit;
 
-/* Mission scoring */
-int missionScore;
-int missionScoreHi;
+/* Mission scoring (32-bit score occupying the slot the decompiler split into
+ * missionScore/missionScoreHi). */
+int32 missionScore;
 int secondaryHit;  /* BSS had 242 bytes here but only first int is named */
 
 /* Map state */
@@ -541,7 +494,7 @@ int popupY;
 
 /* World data */
 int worldDataReady;
-char worldStrings[200];
+char *worldStrings[100];
 char worldStringBuf[750];
 FILE *worldBufHandle;
 
@@ -654,13 +607,14 @@ struct PageDesc awardPageDesc2 = {
 
 int16 *awardPage = (int16*)&awardPageDesc;
 
-/* Promotion score thresholds */
-long promoScores[] = {1500L};
-long promoThresholds[] = {6000L, 12000L, 25000L, 50000L, 100000L};
+/* Promotion score thresholds, indexed by current rank (0..5) in the
+ * showPostMissionAwards promotion check. */
+long promoThresholds[] = {1500L, 6000L, 12000L, 25000L, 50000L, 100000L};
 
-/* Medal score thresholds */
-long medalScores[] = {1000L};
-long medalThresholds[] = {2500L, 4000L, 6400L, 7800L};
+/* Medal score thresholds, one per entry in medalNames[] (5: AFCM..CMOH), in
+ * ascending order so the idx=4..0 scan in showPostMissionAwards awards the
+ * highest medal whose threshold is met. */
+long medalThresholds[] = {1000L, 2500L, 4000L, 6400L, 7800L};
 
 /* Trailing data after medal thresholds (16 bytes, accessed via offset) */
 uint8 medalTrailingData[] = {4, 3, 3, 2, 7, 5, 3, 2, 8, 7, 4, 2, 8, 6, 5, 3};

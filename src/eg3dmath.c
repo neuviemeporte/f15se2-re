@@ -31,7 +31,7 @@ static int sineInterp(unsigned angle)
 
 int sine(int angle)
 {
-    return sineInterp((unsigned)angle);
+    return sineInterp(angle);
 }
 
 int cosine(int angle)

@@ -97,4 +97,34 @@ typedef struct {
     char unk5;
 } FlightRecord;
 
+/* WeaponDataBlock: a 4006-byte data block loaded from disk and read by byte
+ * offset through the macro views in endata.h (planeArray, samWeaponTable,
+ * nightMission, ...). Split into 200-byte chunks only to stay under MSC 5.1's
+ * aggregate-initializer limit; treat it as an opaque block. */
+#pragma pack(1)
+struct WeaponDataBlock {
+    unsigned char c0[200];
+    unsigned char c200[200];
+    unsigned char c400[200];
+    unsigned char c600[200];
+    unsigned char c800[200];
+    unsigned char c1000[200];
+    unsigned char c1200[200];
+    unsigned char c1400[200];
+    unsigned char c1600[200];
+    unsigned char c1800[200];
+    unsigned char c2000[200];
+    unsigned char c2200[200];
+    unsigned char c2400[200];
+    unsigned char c2600[200];
+    unsigned char c2800[200];
+    unsigned char c3000[200];
+    unsigned char c3200[200];
+    unsigned char c3400[200];
+    unsigned char c3600[200];
+    unsigned char c3800[200];
+    unsigned char c4000[6];
+};
+#pragma pack()
+
 #endif /* F15_SE2_ENDTYPES */

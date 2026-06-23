@@ -293,7 +293,7 @@ int16 nearestObjectType = 0;
 int16 nearestDist = 0;
 uint32 nearestWorldX = 0;
 uint32 nearestWorldY = 0;
-int16 nearestTilePtr = 0;
+struct TerrainTile* nearestTilePtr = NULL;
 uint8 nearestLevel = 0;
 uint8 nearestCellIdx = 0;
 uint8 nearestGridX = 0;
@@ -635,24 +635,24 @@ struct MissionTableEntry missionTable[56] = {
 };
 
 /* Target coordinate arrays per mission pick type */
-int16 targetCoordsX0[3] = {(int16)0x45C0, (int16)0x3D40, (int16)0x0DC0};
-int16 targetCoordsY0[3] = {(int16)0x3CC0, (int16)0x4340, (int16)0x24C0};
-int16 targetCoordsX1[2] = {(int16)0x26C0, 0x2740};
-int16 targetCoordsY1[2] = {0x2140, (int16)0x21C0};
-int16 targetCoordsX2[2] = {(int16)0x3DC0, (int16)0x25C0};
-int16 targetCoordsY2[2] = {(int16)0x43C0, (int16)0x3BC0};
+int16 targetCoordsX0[3] = {0x45C0, 0x3D40, 0x0DC0};
+int16 targetCoordsY0[3] = {0x3CC0, 0x4340, 0x24C0};
+int16 targetCoordsX1[2] = {0x26C0, 0x2740};
+int16 targetCoordsY1[2] = {0x2140, 0x21C0};
+int16 targetCoordsX2[2] = {0x3DC0, 0x25C0};
+int16 targetCoordsY2[2] = {0x43C0, 0x3BC0};
 int16 targetCoordsX3[3] = {0x2100, 0x0900, 0x1100};
 int16 targetCoordsY3[3] = {0x2300, 0x0900, 0x0500};
 int16 targetCoordsX4[4] = {0x2F00, 0x1B00, 0x3D00, 0x1500};
 int16 targetCoordsY4[4] = {0x2B00, 0x1300, 0x2D00, 0x3500};
-int16 targetCoordsX5 = (int16)0x5AC0;
-int16 targetCoordsY5 = (int16)0x3AC0;
-int16 targetCoordsX6[8] = {(int16)0x48C0, (int16)0x10C0, (int16)0x40C0, (int16)0x44C0, (int16)0x24C0, (int16)0x0EC0, (int16)0x12C0, (int16)0x50C0};
+int16 targetCoordsX5 = 0x5AC0;
+int16 targetCoordsY5 = 0x3AC0;
+int16 targetCoordsX6[8] = {0x48C0, 0x10C0, 0x40C0, 0x44C0, 0x24C0, 0x0EC0, 0x12C0, 0x50C0};
 int16 targetCoordsY6[8] = {0x2940, 0x2140, 0x2540, 0x2540, 0x2140, 0x0B40, 0x0740, 0x3540};
 int16 targetCoordsX7[3] = {0x4D40, 0x4C40, 0x4D40};
-int16 targetCoordsY7[3] = {0x3940, (int16)0x39C0, (int16)0x39C0};
-int16 targetCoordsX2Alt[4] = {(int16)0x3CC0, 0x3C40, (int16)0x24C0, 0x2440};
-int16 targetCoordsY2Alt[4] = {0x4240, (int16)0x42C0, 0x3A40, (int16)0x3AC0};
+int16 targetCoordsY7[3] = {0x3940, 0x39C0, 0x39C0};
+int16 targetCoordsX2Alt[4] = {0x3CC0, 0x3C40, 0x24C0, 0x2440};
+int16 targetCoordsY2Alt[4] = {0x4240, 0x42C0, 0x3A40, 0x3AC0};
 uint8 missionPickType[8] = {2, 6, 5, 6, 6, 6, 6, 0x0B};
 
 /* Pointer arrays: target coordinates per mission pick index */

@@ -46,7 +46,7 @@ void parseTerrain(char *filename) {
             for (level = 0; level < 5; level = level + 1) {
                 for (entry = 0; terrainBuf1[level] > entry; entry++) {
                     terrainTilePtrs[level].entries[entry] = (struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset);
-                    for (tileNum = 0; tileNum < (uint16)terrainTileCounts[level].entries[entry]; tileNum++) {
+                    for (tileNum = 0; tileNum < terrainTileCounts[level].entries[entry]; tileNum++) {
                         if (tileOffset > 0xdac) {
                             showMsgWaitKey(aTooMuchTileDat);
                             return;

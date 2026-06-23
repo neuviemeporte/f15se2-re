@@ -293,7 +293,7 @@ switch_break:
             }
 
             bearing = computeBearing(dx - g_viewX_, g_viewY_ - dy);
-            knotsScale = (int16)g_knots / 16;
+            knotsScale = g_knots / 16;
 
             headingErr = clampValue(bearing - g_ourHead, (-knotsScale) << 8, knotsScale << 8) * 2;
 
@@ -412,7 +412,7 @@ switch_break:
         }
     }
 
-    g_thrust += ((g_setThrust - g_thrust) / 4) / ((int16)g_frameRateScaling);
+    g_thrust += ((g_setThrust - g_thrust) / 4) / g_frameRateScaling;
     if (g_setThrust > g_thrust) g_thrust++;
     if (g_setThrust < g_thrust) g_thrust = g_setThrust;
 
@@ -524,7 +524,7 @@ switch_break:
         applyRotationDelta(g_orientMatrix, g_pitchMatrix);
     }
 
-    yawAngle = (int16)yaw / g_frameRateScaling;
+    yawAngle = yaw / g_frameRateScaling;
     if (yawAngle != 0) {
         g_yawMatrix[8] = g_yawMatrix[0] = cosine(yawAngle);
         g_yawMatrix[2] = sine(yawAngle);
@@ -640,7 +640,7 @@ void applyRotationDelta(int matA, int matB) {
 
     g_rotationCounter++;
     if (!(*(char *)&g_rotationCounter & 7)) {
-        *(char *)&g_orientationDirty = 1;
+        g_orientationDirty = 1;
     }
     multiplyMatrix3x3Far(matA, matB, g_matrixScratch);
     memcpy(g_orientMatrix, g_matrixScratch, 0x12);
@@ -696,20 +696,20 @@ void computeAttitudeAngles(void)
         }
     }
     if (g_ourPitch > 0x38e3 && g_ourPitch < 0x4001) {
-        *(char *)&g_orientationDirty = 1;
+        g_orientationDirty = 1;
     }
     if (g_ourPitch < (int16)0xc71d && g_ourPitch > (int16)0xbfff) {
-        *(char *)&g_orientationDirty = 1;
+        g_orientationDirty = 1;
     }
     if (g_rollWasNonzero != 0 && g_ourRoll == 0) {
-        *(char *)&g_orientationDirty = 1;
+        g_orientationDirty = 1;
     }
 }
 
 
 void rebuildOrientation() {
     buildRotationMatrixFar(g_orientMatrix, g_ourHead, g_ourPitch, g_ourRoll);
-    *(char *)&g_orientationDirty = 0;
+    g_orientationDirty = 0;
     g_rotationCounter = 0;
 }
 

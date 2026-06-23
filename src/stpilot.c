@@ -144,7 +144,7 @@ void printPilot(int pilotIdx) {
     screenDesc.font = 1;
     for (medalIdx = 0, totalMedalWidth = 0; medalIdx < 7; medalIdx++) {
         if ((pilot->medals & (1 << medalIdx)) == 0) continue;
-        totalMedalWidth += (uint8)medalWidth[medalIdx] + 4;
+        totalMedalWidth += medalWidth[medalIdx] + 4;
     }
     TRACE(("printPilot(): past loop 1, totalMedalWidth = %d", totalMedalWidth));
     xPos += (0x90 - totalMedalWidth) / 2;
@@ -262,11 +262,11 @@ void pilotToGameData(uint8 *pilotData)
     }
     gameData->totalScore = *(uint32*)(pilotData + ROSTER_SCORE_LO);
     gameData->lastScore = *(uint16*)(pilotData + ROSTER_LASTSCORE);
-    gameData->theater = *(uint8*)(pilotData + ROSTER_THEATER);
-    gameData->difficulty = *(uint8*)(pilotData + ROSTER_DIFFICULTY);
-    gameData->rank = *(uint8*)(pilotData + ROSTER_UNK1) & 0xf;
-    gameData->medals = *(uint8*)(pilotData + ROSTER_UNK2) & 0x1f;
-    gameData->rankHigh = *(uint8*)(pilotData + ROSTER_UNK1) >> 6;
+    gameData->theater = *(pilotData + ROSTER_THEATER);
+    gameData->difficulty = *(pilotData + ROSTER_DIFFICULTY);
+    gameData->rank = *(pilotData + ROSTER_UNK1) & 0xf;
+    gameData->medals = *(pilotData + ROSTER_UNK2) & 0x1f;
+    gameData->rankHigh = *(pilotData + ROSTER_UNK1) >> 6;
     gameData->campaignProgress = 0;
     gameData->pilotIdx = selectedPilotIdx;
 }

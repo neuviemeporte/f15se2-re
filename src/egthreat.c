@@ -156,9 +156,9 @@ void fireGroundThreat(int planeIdx)
                                         *(int16 *)&g_projectiles[slot].state[6] = planeIdx;
 
                                         placeString(planeIdx);
-                                        strcat((char *)strBuf, (char *)aFiring);
-                                        strcat((char *)strBuf, (char *)&sams[threatType]);
-                                        tempStrcpy((char *)strBuf);
+                                        strcat(strBuf, aFiring);
+                                        strcat(strBuf, (char *)&sams[threatType]);
+                                        tempStrcpy(strBuf);
                                         makeSound(6, 2);
                                         scheduleEventCheck(planeIdx + 0x40, 2);
                                         commData->restartFlag++;

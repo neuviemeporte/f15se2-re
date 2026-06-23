@@ -348,8 +348,8 @@ void drawHudWorldOverlay(void) {
 
                 if (dist * 2 < gunRadius / (g_missionStatus + 1)) {
                     destroyAircraft(objIdx);
-                    strcat((char *)strBuf, (char *)aDestroyedByGun);
-                    tempStrcpy((char *)strBuf);
+                    strcat(strBuf, aDestroyedByGun);
+                    tempStrcpy(strBuf);
                     g_hitEffectTimer = 8;
                     bulletTracks[idx].posX = 0;
                 }
@@ -363,7 +363,7 @@ void drawHudWorldOverlay(void) {
             dist = abs(dist);
             if (dist < 0x20) {
                 hitFlag = 1;
-                tempStrcpy((char *)aHitByGunfire);
+                tempStrcpy(aHitByGunfire);
                 if (0x20 / (4 - g_missionStatus) > dist) {
                     bombTarget();
                 }
@@ -394,8 +394,8 @@ void drawHudWorldOverlay(void) {
                 if (rangeApprox(g_hitMapX - pointX, g_hitMapY - pointY) < 0x18 / (g_missionStatus + 2) &&
                     (g_planeTable.planes[wpEntry].nameIndex & 0x7f) != *(uint8 *)g_landTargetId) {
                     destroyGroundTarget(wpEntry);
-                    strcat((char *)strBuf, (char *)aDestroyedByG_0);
-                    tempStrcpy((char *)strBuf);
+                    strcat(strBuf, aDestroyedByG_0);
+                    tempStrcpy(strBuf);
                     g_hitEffectTimer = 8;
                     g_hitAlt = 0;
                 }
@@ -446,7 +446,7 @@ void drawHudWorldOverlay(void) {
 
     if (g_currentWeaponType == 2) {
     if (keyValue == 0) {
-    if ((int)g_groundTargetLock >= 0) {
+    if (g_groundTargetLock >= 0) {
 
     projectWorldToHud(g_planeTable.planes[g_groundTargetLock].mapX, g_planeTable.planes[g_groundTargetLock].mapY, 0);
 
@@ -513,16 +513,16 @@ void drawHudWorldOverlay(void) {
               0, 0, 0, 0, 1, -1);
     drawMissileLock();
     buildRangeString(computeMapTargetRange(wpIdx));
-    drawStringActivePage((char *)strBuf, 0xf4, 0xaa, 0x0f);
+    drawStringActivePage(strBuf, 0xf4, 0xaa, 0x0f);
 
-    strcpy((char *)strBuf, g_targetNameTable[g_planeTable.planes[wpIdx].nameIndex & 0x7f]);
-    drawStringActivePage((char *)strBuf, -((int)strlen((char *)strBuf) * 2 - 0x10c), 0x82, 0x0f);
+    strcpy(strBuf, g_targetNameTable[g_planeTable.planes[wpIdx].nameIndex & 0x7f]);
+    drawStringActivePage(strBuf, -((int)strlen(strBuf) * 2 - 0x10c), 0x82, 0x0f);
 
     if ((int)strlen(g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]) != 0) {
-        strcpy((char *)strBuf,
+        strcpy(strBuf,
                (char *)(strlen(g_targetNameTable[g_planeTable.planes[wpIdx].nameIndex & 0x7f]) != 0 ? aAt_0 : aAt_0 + 5));
-        strcat((char *)strBuf, g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]);
-        drawStringActivePage((char *)strBuf, -((int)strlen((char *)strBuf) * 2 - 0x10c), 0x88, 0x0f);
+        strcat(strBuf, g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]);
+        drawStringActivePage(strBuf, -((int)strlen(strBuf) * 2 - 0x10c), 0x88, 0x0f);
     }
 
     if (g_currentWeaponType == 0) {
@@ -530,15 +530,15 @@ void drawHudWorldOverlay(void) {
         setDrawColor(0x0f);
         drawTargetBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 8, 0);
     } else if (g_targetSlots[0].planeIndex == g_groundTargetLock) {
-        drawStringActivePage((char *)aPrimaryTarget, 0xec, 0x8e, 0x0f);
+        drawStringActivePage(aPrimaryTarget, 0xec, 0x8e, 0x0f);
     } else if (g_targetSlots[1].planeIndex == g_groundTargetLock) {
-        drawStringActivePage((char *)aSecondaryTarget, 0xec, 0x8e, 0x0f);
+        drawStringActivePage(aSecondaryTarget, 0xec, 0x8e, 0x0f);
     } else if (!(frameTick & 1) &&
                ((g_difficultyTier < 2 && (g_shapeTargetCategory[g_planeTable.planes[wpIdx].nameIndex & 0x7f] & 0xc0) != 0) ||
                 (g_planeTable.planes[wpIdx].flags & 0x500) != 0 ||
                 (g_mapCellFlags[((unsigned)g_planeTable.planes[wpIdx].mapX >> 11) +
                             ((unsigned)g_planeTable.planes[wpIdx].mapY >> 11) * 16] & 1) != 0)) {
-        drawStringActivePage((char *)aNoTarget, 0xfc, 0x8e, 0x0f);
+        drawStringActivePage(aNoTarget, 0xfc, 0x8e, 0x0f);
     }
 
     if (abs((g_ourHead + g_viewHeadingOffset) - g_targetBearing) > 0x2000) {
@@ -599,15 +599,15 @@ void drawHudWorldOverlay(void) {
         drawMissileLock();
         buildRangeString(rangeApprox(g_viewX_ - g_simObjects[wpIdx].posX,
                   g_viewY_ - g_simObjects[wpIdx].posY));
-        drawStringActivePage((char *)strBuf, 0xf4, 0xaa, 0x0f);
+        drawStringActivePage(strBuf, 0xf4, 0xaa, 0x0f);
 
         idx = g_simObjects[wpIdx].spec;
-        strcpy((char *)strBuf, aircraftTypes[idx].name);
-        strcat((char *)strBuf, aircraftTypes[idx].altName);
-        drawStringActivePage((char *)strBuf, 0xf8, 0x86, 0x0f);
+        strcpy(strBuf, aircraftTypes[idx].name);
+        strcat(strBuf, aircraftTypes[idx].altName);
+        drawStringActivePage(strBuf, 0xf8, 0x86, 0x0f);
 
         if (aircraftTypes[idx].modelId == -1 && !(frameTick & 1)) {
-            drawStringActivePage((char *)aNoTarget_0, 0xfc, 0x8c, 0x0f);
+            drawStringActivePage(aNoTarget_0, 0xfc, 0x8c, 0x0f);
         }
 
         if (g_detailLevel != 0 && (frameTick & 1)) {
@@ -649,7 +649,7 @@ void drawHudWorldOverlay(void) {
             drawHudViewLine(0xa0, g_flightPathMarkerY, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
         }
 
-        if ((missileSpecD == 0x1e || missileSpecD == 0x1d) && (int)g_groundTargetLock >= 0) {
+        if ((missileSpecD == 0x1e || missileSpecD == 0x1d) && g_groundTargetLock >= 0) {
             projectWorldToHud(g_planeTable.planes[g_groundTargetLock].mapX + sinMul(g_ourHead, 0x80),
                       g_planeTable.planes[g_groundTargetLock].mapY - cosMul(g_ourHead, 0x80),
                       g_viewZ);

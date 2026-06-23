@@ -135,18 +135,18 @@ open_dbicons:
 
     restoreTimerIrqHandler();
     gfx_waitRetrace();
-    *(long *)&missionScore = calcMissionScore(totalFlightRecords);
+    missionScore = calcMissionScore(totalFlightRecords);
 
     gameData->hallOfFameEligible = 0;
 
     if (commData->trainingFlag == 0) {
         gameData->hallOfFameEligible = missionScore;
 
-        if ((unsigned long)gameData->lastScore < *(unsigned long *)&missionScore) {
+        if ((unsigned long)gameData->lastScore < (unsigned long)missionScore) {
             gameData->lastScore = missionScore;
         }
 
-        gameData->totalScore += *(long *)&missionScore;
+        gameData->totalScore += missionScore;
 
         if (commData->landingType == 1) {
             gameData->campaignProgress = 2;

@@ -39,7 +39,7 @@ char *scenarioPlh[8] = {
 };
 
 /* aEmpty_5950: empty string passed to drawPanelText to clear a panel label. */
-uint8 aEmpty_5950[] = "";
+char aEmpty_5950[] = "";
 int allocSize = 0;
 int16 g_sphereColor = 0xC4;
 int16 g_viewCenterX = 0xA0;
@@ -752,7 +752,7 @@ uint8 aLandingGearRaised[] = "Landing gear raised";
 uint8 aBrakesOn[] = "Brakes on";
 uint8 a_[] = ".";
 uint8 aG[] = "G";
-uint8 aFiring[] = " firing ";
+char aFiring[] = " firing ";
 /* g_rollGeeTable: g-load lookup indexed by (abs(roll) >> 8) & 0x7f. Lowest near
    wings-level, peaking past 90 degrees of bank where lift bleeds off. */
 uint8 g_rollGeeTable[128] = {
@@ -806,7 +806,7 @@ struct SpriteParams blitSpriteParams = {
     0x01,                     /* flags */
     {0x01, 0x01, 0x00}        /* pad19[0] init */
 };
-uint8 aArmed[] = " armed";
+char aArmed[] = " armed";
 
 /* voiceCueThresholds[0..2]: per-weapon digital-voice-cue thresholds (vs f15DgtlResult).
    playVoiceCue also indexes [4] (weaponIdx can be 4), an over-read. */
@@ -824,7 +824,7 @@ int16 g_lastSpawnTick = 0;
 
 /* g_setThrust: player thrust setting. g_joyCalibTimer: a frame timer. */
 int16 g_setThrust = 0;
-uint8 aFiredBy[] = " fired by ";
+char aFiredBy[] = " fired by ";
 char aDash[] = " - ";
 char aTakingOff[] = " taking off";
 char a0[] = ":0";
@@ -832,17 +832,17 @@ char aColon[] = ":";
 char aFired[] = " fired";
 
 /* Combat-event message fragments assembled into strBuf by updateThreatTargeting. */
-uint8 aMisses[] = " misses ";
-uint8 aDestroyedBy[] = " destroyed by ";
-uint8 aDestroyedBy_0[] = " destroyed by ";
-uint8 aGroundImpact[] = " ground impact";
-uint8 aHitBy[] = "Hit by ";
-uint8 aIneffective[] = "Ineffective";
-uint8 aHitBy_0[] = " hit by ";
+char aMisses[] = " misses ";
+char aDestroyedBy[] = " destroyed by ";
+char aDestroyedBy_0[] = " destroyed by ";
+char aGroundImpact[] = " ground impact";
+char aHitBy[] = "Hit by ";
+char aIneffective[] = "Ineffective";
+char aHitBy_0[] = " hit by ";
 
 /* aMap: tactical-map panel label. aNotAvailable: store-status text. */
 char aMap[] = "Map";
-uint8 aNotAvailable[] = " not available";
+char aNotAvailable[] = " not available";
 
 /* ammoNumX[3]: screen x-coordinate of the ammo-count readout for each
  * missileSpecIndex (0..2). */
@@ -1103,30 +1103,30 @@ int16 g_savedSamTtl;
 struct TileObject nearestTile;
 int32 g_ViewY;
 
-uint8 aLong[] = "Long";
-uint8 aMedium[] = "Medium";
-uint8 aShort[] = "Short";
-uint8 aRangeRadar[] = " range radar";
-uint8 aDetailLevel[] = "Detail Level ";
-uint8 aKybdSensitivit[] = "Kybd Sensitivity";
-uint8 aMemoryAvailabl[] = "Memory Available:";
-uint8 aJiffiesFrame[] = "Jiffies/Frame ";
-uint8 aSounds[] = "Sounds ";
-uint8 aDirector[] = "Director ";
-uint8 aOff[] = "off";
-uint8 aWaypointPrimar[] = "Waypoint: Primary Target";
-uint8 aWaypointSecond[] = "Waypoint: Secondary Target";
-uint8 aWaypointFriend[] = "Waypoint: Friendly Airbase";
-uint8 aAutopilotOff[] = "Autopilot off";
-uint8 aAutopilotOn[] = "Autopilot on";
-uint8 aDestroyedByGun[] = " destroyed by gunfire";
-uint8 aHitByGunfire[] = "Hit by gunfire";
-uint8 aDestroyedByG_0[] = " destroyed by gunfire";
+char aLong[] = "Long";
+char aMedium[] = "Medium";
+char aShort[] = "Short";
+char aRangeRadar[] = " range radar";
+char aDetailLevel[] = "Detail Level ";
+char aKybdSensitivit[] = "Kybd Sensitivity";
+char aMemoryAvailabl[] = "Memory Available:";
+char aJiffiesFrame[] = "Jiffies/Frame ";
+char aSounds[] = "Sounds ";
+char aDirector[] = "Director ";
+char aOff[] = "off";
+char aWaypointPrimar[] = "Waypoint: Primary Target";
+char aWaypointSecond[] = "Waypoint: Secondary Target";
+char aWaypointFriend[] = "Waypoint: Friendly Airbase";
+char aAutopilotOff[] = "Autopilot off";
+char aAutopilotOn[] = "Autopilot on";
+char aDestroyedByGun[] = " destroyed by gunfire";
+char aHitByGunfire[] = "Hit by gunfire";
+char aDestroyedByG_0[] = " destroyed by gunfire";
 char aAt_0[] = " at ";
-uint8 aPrimaryTarget[] = "Primary Target";
-uint8 aSecondaryTarget[] = "Secondary Target";
-uint8 aNoTarget[] = "No Target";
-uint8 aNoTarget_0[] = "No Target";
+char aPrimaryTarget[] = "Primary Target";
+char aSecondaryTarget[] = "Secondary Target";
+char aNoTarget[] = "No Target";
+char aNoTarget_0[] = "No Target";
 char aMissileLock[] = "Missile Lock";
 char aRange[] = "Range ";
 char aDot[] = ".";
