@@ -8,7 +8,7 @@ The reconstruction aims to be bug-for-bug faithful, and the C routines yield cod
 
 Given the fact that this game shares a lot of DNA with the game that preceeded it (F-19) and the one that came after (F-117), there is probably a lot of overlap, and this effort might lead to supporting those games in the future.
 
-This is just the reconstruction project; porting to a modern OS, potential improvements and bugfixes is targeted by a [separate project](https://github.com/neuviemeporte/f15se2-ex).
+This is just the reconstruction project; porting to a modern OS, potential improvements and bugfixes are targeted by a separate [porting project](https://github.com/neuviemeporte/f15se2-ex).
 
 This repository contains no game assets, executables or other copyrighted material, it's a clean rewrite of the game's source code based on analysis of the game binaries obtained from the original floppy disks, for preservation and historical research purposes, and as such should fall under the interoperability exemption of the DMCA.
 
@@ -41,9 +41,11 @@ As of the time of writing this, the status of the reconstruction is as follows:
 ## `mgraphic.exe`, `misc.exe`
 * functional reimplementation in C completed
 
+Bottom line, the reconstruction is pretty much complete and playable. Going forward, work on this project is going to be limited to bugfixes (a bug being defined by any divergence from the original game), code cleanup, refactoring and documentation. Otherwise, the game itself is going to be kept preserved as is, and all improvements and extensions will be carried out under the new porting project.
+
 # Building
 
-The build system is just one simple Makefile that invokes the DOS toolchain under the hood. It has been 
+The build system is just one simple Makefile that invokes the DOS toolchain in an emulator under the hood, and supports parallel builds. It should work on Linux and WSL.
 
 Prerequisites:
 
@@ -58,9 +60,13 @@ This is an additional build variant of the game with all assembly routines porte
 
 To obtain the NOASM build, run `make [-j] noasm`. The resulting executables will be built in `noasm_build/`, and for all intents and purposes should work identically like the standard reconstruction, i.e. just drop them in the game and expect them to work.
 
-# 64bit build
+## 64bit build
 
 There is an experimental, non-functional CMake-based 64bit build present, which is mostly used for finding compile-time bugs that are missed by the ancient DOS compiler. You can play with it by running the `build64.sh` script, but mind that the result is not expected to run. A 64bit port is *NOT* in this project's scope.
+
+# Running
+
+Just copy all the executables into a directory with the original game data files. Consider removing the original `f15.com` loader because it will take precedence over the reconstructed `f15.exe`, but the rest of the reconstruction (except for NOASM) should work fine with the original loader. The reconstructed `f15.exe` loader will automatically select VGA graphics, no sound and no joystick, while the original one lets you pick.
 
 # Verification
 
