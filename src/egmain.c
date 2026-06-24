@@ -78,10 +78,10 @@ int main(void) {
     gfx_setMonoFlag(commData->setupMono);
     TRACE(("egame main: calling setFadeSteps"));
     if (gameData->theater < 2) {
-        gfx_setFadeSteps(0xc);
+        gfx_setFadeSteps(12);
     }
     else {
-        gfx_setFadeSteps(0x10);
+        gfx_setFadeSteps(16);
     }
     gfxBufPtr = commData->gfxInitResult;
     setupInstrumentLayoutFar();
@@ -114,7 +114,7 @@ void drawCockpit() {
     TRACE_KEY(("drawCockpit: after load3D, 38FDC=%d sizes3dt=%d/%d/%d/%d/%d", g_detailLevel, sizes3dt[0], sizes3dt[1], sizes3dt[2], sizes3dt[3], sizes3dt[4]));
     f15DgtlResult = loadF15DgtlBin();
     TRACE(("drawCockpit: f15DgtlResult=%d", f15DgtlResult));
-    g_horizonGroundColor = g_world3dData[0x2f];
+    g_horizonGroundColor = g_world3dData[47];
     if ((g_dacSupported = gfx_getModeFlag()) != 0) {
         setupDac();
     }
@@ -128,8 +128,8 @@ void drawCockpit() {
         openBlitClosePic("cockpit.PIC", 1);
      }
      TRACE(("drawCockpit: pic done"));
-     gfx_copyRect(1, 0, 0x60, 0, 0, 0x60, 0x140, 0x68);
-     gfx_copyRect(1, 0, 0x60, 2, 0, 0x60, 0x140, 0x68);
+     gfx_copyRect(1, 0, 96, 0, 0, 96, 320, 104);
+     gfx_copyRect(1, 0, 96, 2, 0, 96, 320, 104);
      TRACE(("drawCockpit: done"));
 }
 

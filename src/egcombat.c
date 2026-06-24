@@ -75,7 +75,7 @@ void fireAirThreat(int objIdx)
                     g_projectiles[slot].mapY = g_simObjects[objIdx].posY;
                     slot = slot;
                     objIdx = objIdx;
-                    g_projectiles[slot].alt = g_simObjects[objIdx].alt - 0x19;
+                    g_projectiles[slot].alt = g_simObjects[objIdx].alt - 25;
                     g_projectiles[slot].speed = sams[idx].maxSpeed >> 6;
                     g_projectiles[slot].worldX = g_simObjects[objIdx].heading.w;
                     g_projectiles[slot].worldY = g_simObjects[objIdx].pitch - 0x400;
@@ -126,13 +126,13 @@ void spawnEnemyAircraft(int slot, int objType)
     if (g_planeTable.planes[objType].flags & 0x200) {
         g_simObjects[slot].posX = g_northSouthSign * 3 + g_planeTable.planes[objType].mapX;
         g_simObjects[slot].posY = g_planeTable.planes[objType].mapY - g_northSouthSign * 12;
-        g_simObjects[slot].alt = 0x8c;
+        g_simObjects[slot].alt = 140;
         g_simObjects[slot].speed = 100;
         g_simObjects[slot].heading.b[1] += 0xfc;
     } else {
         g_simObjects[slot].posX = g_planeTable.planes[objType].mapX;
-        g_simObjects[slot].posY = 0x1e * g_northSouthSign + g_planeTable.planes[objType].mapY;
-        g_simObjects[slot].alt = 0x0c;
+        g_simObjects[slot].posY = 30 * g_northSouthSign + g_planeTable.planes[objType].mapY;
+        g_simObjects[slot].alt = 12;
         g_simObjects[slot].speed = 10;
     }
     g_simObjects[slot].worldX = (long)(uint16)g_simObjects[slot].posX << 5;
@@ -245,7 +245,7 @@ void updateThreatTargeting(void)
                 g_projectiles[slot].speed++;
                 aimY = g_projectiles[slot].worldX;
             }
-            if (mode == 4 || mode == 6 || mode == 5 || mode == 0x1c) {
+            if (mode == 4 || mode == 6 || mode == 5 || mode == 28) {
                 if (g_projectiles[slot].targetLock == -1) {
                     for (scan = 0; scan < g_planeCount; scan++) {
                         if ((mode != 4 || g_planeTable.planes[scan].active != 0) &&
@@ -311,21 +311,21 @@ void updateThreatTargeting(void)
                               sams[spec].turnRate << 9);
             g_projectiles[slot].worldY += (bear << 2) / g_frameRateScaling;
         } else {
-            if (g_projectiles[slot].worldY > 0 && mode != 0x1e)
+            if (g_projectiles[slot].worldY > 0 && mode != 30)
                 g_projectiles[slot].worldY -=
                     (signOf(g_projectiles[slot].worldY) << 0xc) / g_frameRateScaling;
         }
 
-        if (mode == 0x1c && g_projectiles[slot].worldY > -0x800)
+        if (mode == 28 && g_projectiles[slot].worldY > -0x800)
             g_projectiles[slot].worldY = -0x800;
-        if (mode == 0x1e || g_projectiles[slot].alt == 1) {
+        if (mode == 30 || g_projectiles[slot].alt == 1) {
             if ((g_projectiles[slot].worldY -= 0x800 / g_frameRateScaling) <
                 g_projectiles[slot].targetRef)
                 g_projectiles[slot].worldY = g_projectiles[slot].targetRef;
         }
 
         step = (cosMul(g_projectiles[slot].worldY, g_projectiles[slot].speed) << 3) / g_frameRateScaling;
-        if (mode == 0x1e) {
+        if (mode == 30) {
             step /= 2;
             g_projectiles[slot].alt += sinMul(g_projectiles[slot].worldY,
                                         (g_projectiles[slot].speed << 7) / g_frameRateScaling);
@@ -355,7 +355,7 @@ void updateThreatTargeting(void)
             (g_projectiles + slot)->ttl = 0;
             strcpy(strBuf,
                    missiles[g_projectiles[slot].weaponIdx].longName);
-            if (mode == 0x1e || mode == 0x1d || mode == 0x1c) {
+            if (mode == 30 || mode == 29 || mode == 28) {
                 scheduleTimedEvent(0, 1);
                 makeSound(2, 2);
                 strcat(strBuf, " misses ");
@@ -555,7 +555,7 @@ void destroyGroundTarget(int planeIdx)
 
         if (planeIdx != 0) {
             if (g_planeTable.planes[planeIdx].active == 0) {
-                eventType = 0x0c;
+                eventType = 12;
             }
             *((uint8 *)&g_planeTable.planes[planeIdx].flags) |= 0x80;
             g_planeTable.planes[planeIdx].active = 0;
@@ -673,11 +673,11 @@ void fireMissile()
     if (g_hudVisible != 0) {
         setDrawColor(0);
         tmp = ammoNumX[missileSpecIndex];
-        fillRectBoth(tmp - 1, 0xbe, tmp + 2, 0xc2);
-        drawNumber(missleSpec[missileSpecIndex].ammo, tmp, 0xbe, 0x0c);
+        fillRectBoth(tmp - 1, 190, tmp + 2, 194);
+        drawNumber(missleSpec[missileSpecIndex].ammo, tmp, 190, 0x0c);
         strcpy(strBuf, missiles[weaponIdx].longName);
         strcat(strBuf, ":");
-        strcat(strBuf, itoa(missleSpec[missileSpecIndex].ammo, g_itoaScratch, 0x0a));
+        strcat(strBuf, itoa(missleSpec[missileSpecIndex].ammo, g_itoaScratch, 10));
         setTimedMessage(strBuf);
     }
 
@@ -694,7 +694,7 @@ void fireMissile()
 
     g_projectiles[slot].mapX = g_viewX_;
     g_projectiles[slot].mapY = g_viewY_;
-    g_projectiles[slot].alt = g_viewZ - 0x14;
+    g_projectiles[slot].alt = g_viewZ - 20;
     g_projectiles[slot].speed = (unsigned int)g_velocity >> 11;
     slot = slot;
     g_projectiles[slot].worldX = g_ourHead;
@@ -712,7 +712,7 @@ void fireMissile()
     g_projectiles[slot].weaponIdx = weaponIdx;
     g_projectiles[slot].targetLock = -1;
 
-    if (spec != 0x1e) {
+    if (spec != 30) {
         g_projectiles[slot].worldY -= 0x1000;
     } else {
         g_projectiles[slot].targetRef = computeLoftAngle() - 0x400;
@@ -727,7 +727,7 @@ void fireMissile()
         g_projectiles[slot].targetLock = g_groundTargetLock;
     }
 
-    if (spec == 0x1d) {
+    if (spec == 29) {
         g_projectiles[slot].worldY = (int16)0xc000;
         g_projectiles[slot].speed = 1;
     }
@@ -737,7 +737,7 @@ void fireMissile()
     strcat(strBuf, " fired");
     tempStrcpy(strBuf);
 
-    makeSound(sams[spec].lockRange != 0 ? 0x12 : 0x18, 2);
+    makeSound(sams[spec].lockRange != 0 ? 18 : 24, 2);
 
     scheduleEventCheck(slot, 1);
 

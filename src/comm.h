@@ -6,7 +6,7 @@
 #include "sassert.h"
 
 /* the communication structure used for exchanging data between the parts of the game has 320 paragraphs, 5120 bytes, 0x1400 */
-#define COMM_SIZE_PARA 0x140
+#define COMM_SIZE_PARA 320
 #define COMM_MCB_OFFSET_MAGIC1 0xc /* magic values written into COMM's MCB by f15.com, later checked by egame.exe */
 #define COMM_MCB_OFFSET_MAGIC2 0xe
 #define COMM_MCB_VALUE_MAGIC  0x3b9aca01
@@ -33,8 +33,8 @@ struct GameComm {
     uint8 pad0[4];
     uint16 weaponType[4]; /* weapon type indices into weaponLoadouts[] (0=Sidewinder,1=AMRAAM,etc) */
     int16 weaponCount[4]; /* weapon quantities per slot */
-    uint8 joyData[0x14];
-    uint8 pad2[0x14];
+    uint8 joyData[20];
+    uint8 pad2[20];
     int16 setupT;
     int16 setupUseJoy;
     uint16 worldX;
@@ -81,11 +81,11 @@ STATIC_ASSERT(sizeof(struct GameComm)==124);
 #pragma pack(1)
 struct Game {
     uint16 pilotIdx;
-    char pilotName[0x16];
-    uint8 pad1[0x8];
+    char pilotName[22];
+    uint8 pad1[8];
     uint16 rank;
     uint16 medals;
-    uint8 pad5[0xa];
+    uint8 pad5[10];
     uint16 lastScore;
     uint16 rankHigh;
     int32 totalScore;

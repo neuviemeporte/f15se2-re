@@ -29,7 +29,7 @@ void loadWorldStrings(void) {
     worldStrings[0] = worldStringBuf;
     strIdx = 1;
     pos = 0;
-    while (pos < 0x2ee) {
+    while (pos < 750) {
         if (worldStringBuf[pos] == '\0' && strIdx < 100) {
             worldStrings[strIdx++] = &worldStringBuf[pos + 1];
         }

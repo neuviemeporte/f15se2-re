@@ -216,7 +216,7 @@ int isPointInRect(const MenuItem *p)
         }
         /* joystick repeat handling */
         if (joyRepeatFlag == 1) {
-            if (timerCounter > 0x0F) {
+            if (timerCounter > 15) {
                 repeatActive = 0;
                 joyRepeatFlag = 0;
             }
@@ -251,7 +251,7 @@ int isPointInRect(const MenuItem *p)
         /* sprite section */
         if (!(menuItem->flags & MENUITEM_HAS_SPRITE)) goto skip_sprite;
         if (!(menuItem->flags & MENUITEM_SPRITE_BLINK)) goto skip_sprite;
-        if (timerCounter3 <= 0x12) goto skip_sprite;
+        if (timerCounter3 <= 18) goto skip_sprite;
         timerCounter3 = 0;
         if (spriteToggle != 0) {
             switch (flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) {
@@ -260,9 +260,9 @@ int isPointInRect(const MenuItem *p)
                 spriteAirBlink->dstX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 - 2;
                 spriteAirBlink->dstY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 - 2;
                 if (slotInfoTable[(flightRecords[curRecordIdx].unitId & UNIT_ID_MASK) << 4] & 8) {
-                    spriteAirBlink->srcX = 0x11E;
+                    spriteAirBlink->srcX = 286;
                 } else {
-                    spriteAirBlink->srcX = 0x12D;
+                    spriteAirBlink->srcX = 301;
                 }
                 gfx_blitSprite(spriteAirBlink);
                 break;
@@ -385,12 +385,12 @@ void drawMenuItem(const MenuItem *items, unsigned int index, int16* gfxPage) {
         // 2c1d
         if ((items[index].flags & MENUITEM_TYPE_MASK) == 7) {
         /* Section 1: mission complete display */
-        clearRect(gfxPage, 0xeb, 0x0a, 0x13f, 0x95);
+        clearRect(gfxPage, 235, 10, 319, 149);
         gfxPage[2] = 0;
         mystrcpy(scoreString, prefix);
         mystrcat(scoreString, "Press Selector to exit Debriefing");
-        drawWrappedText(gfxPage, scoreString, 0x50, 0xf0, 0x82, 8);
-        clearRect(gfxPage, 0xf0, 0x64, 0x12c, 0x7e);
+        drawWrappedText(gfxPage, scoreString, 80, 240, 130, 8);
+        clearRect(gfxPage, 240, 100, 300, 126);
         if (popupVisible == 1) {
             gfx_copyRect(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
             popupVisible = 0;
@@ -400,45 +400,45 @@ void drawMenuItem(const MenuItem *items, unsigned int index, int16* gfxPage) {
         missionScore = calcMissionScore(totalFlightRecords);
         mystrcpy(scoreString, "\x8d");
         mystrcat(scoreString, "OVERALL");
-        drawStringCentered(gfxPage, scoreString, 0xe8, 0x46, 0x57);
+        drawStringCentered(gfxPage, scoreString, 232, 70, 87);
         mystrcpy(scoreString, "MISSION RATING");
-        drawStringCentered(gfxPage, scoreString, 0xe8, 0x4e, 0x57);
+        drawStringCentered(gfxPage, scoreString, 232, 78, 87);
         mystrcpy(scoreString, "\x80");
         my_ltoa(missionScore, numBuf);
         mystrcat(scoreString, numBuf);
-        drawStringCentered(gfxPage, scoreString, 0xe8, 0x56, 0x57);
+        drawStringCentered(gfxPage, scoreString, 232, 86, 87);
         if (commData->trainingFlag != 0) {
-            drawStringCentered(gfxPage, "\x84Training Score", 0xe8, 0x60, 0x57);
-            drawStringCentered(gfxPage, "NOT Recorded !", 0xe8, 0x68, 0x57);
+            drawStringCentered(gfxPage, "\x84Training Score", 232, 96, 87);
+            drawStringCentered(gfxPage, "NOT Recorded !", 232, 104, 87);
         } else {
             mystrcpy(scoreString, "\x8d");
             mystrcat(scoreString, "CAREER TOTAL");
-            drawStringCentered(gfxPage, scoreString, 0xe8, 0x6c, 0x57);
+            drawStringCentered(gfxPage, scoreString, 232, 108, 87);
             mystrcpy(scoreString, "\x80");
             my_ltoa(gameData->totalScore + missionScore, numBuf);
             mystrcat(scoreString, numBuf);
-            drawStringCentered(gfxPage, scoreString, 0xe8, 0x74, 0x57);
+            drawStringCentered(gfxPage, scoreString, 232, 116, 87);
         }
         gfxPage[2] = FONT_TITLE;
         mystrcpy(scoreString, "MISSION SUMMARY");
-        drawStringCentered(gfxPage, scoreString, 0xe8, 0x14, 0x57);
+        drawStringCentered(gfxPage, scoreString, 232, 20, 87);
         gfxPage[2] = 0;
         mystrcpy(scoreString, "Pri/Sec Targets");
-        drawStringAt(gfxPage, scoreString, 0xf0, 0x1e);
+        drawStringAt(gfxPage, scoreString, 240, 30);
         my_itoa(primaryHit + secondaryHit, scoreString);
-        drawStringAt(gfxPage, scoreString, 0x131, 0x1e);
+        drawStringAt(gfxPage, scoreString, 305, 30);
         mystrcpy(scoreString, "Other Targets");
-        drawStringAt(gfxPage, scoreString, 0xf0, 0x26);
+        drawStringAt(gfxPage, scoreString, 240, 38);
         my_itoa(groundKilled + airKilled - primaryHit - secondaryHit, scoreString);
-        drawStringAt(gfxPage, scoreString, 0x131, 0x26);
+        drawStringAt(gfxPage, scoreString, 305, 38);
         mystrcpy(scoreString, "Enemy Planes");
-        drawStringAt(gfxPage, scoreString, 0xf0, 0x2e);
+        drawStringAt(gfxPage, scoreString, 240, 46);
         my_itoa(samKilled, scoreString);
-        drawStringAt(gfxPage, scoreString, 0x131, 0x2e);
+        drawStringAt(gfxPage, scoreString, 305, 46);
         mystrcpy(scoreString, "Friendly Targets");
-        drawStringAt(gfxPage, scoreString, 0xf0, 0x36);
+        drawStringAt(gfxPage, scoreString, 240, 54);
         my_itoa(groundMissed + airMissed + samMissed, scoreString);
-        drawStringAt(gfxPage, scoreString, 0x131, 0x36);
+        drawStringAt(gfxPage, scoreString, 305, 54);
         ejectedFlag = 1;
         } // 2fbf
         // 2fca
@@ -449,25 +449,25 @@ void drawMenuItem(const MenuItem *items, unsigned int index, int16* gfxPage) {
             popupVisible = 0;
             gfx_blitSprite(spriteMapArea);
             curRecordIdx = prevDrawX = prevDrawY = 0;
-            clearRect(gfxPage, 0xeb, 0x0a, 0x13f, 0x95);
+            clearRect(gfxPage, 235, 10, 319, 149);
             missionScore = calcMissionScore(SCORE_ALL_EVENTS);
             mystrcpy(scoreString, "\x8d");
             mystrcat(scoreString, "OVERALL");
-            drawStringCentered(gfxPage, scoreString, 0xe8, 0x64, 0x57);
+            drawStringCentered(gfxPage, scoreString, 232, 100, 87);
             mystrcpy(scoreString, "MISSION RATING");
-            drawStringCentered(gfxPage, scoreString, 0xe8, 0x6c, 0x57);
+            drawStringCentered(gfxPage, scoreString, 232, 108, 87);
             mystrcpy(scoreString, "\x80");
             my_ltoa(missionScore, numBuf);
             mystrcat(scoreString, numBuf);
-            drawStringCentered(gfxPage, scoreString, 0xe8, 0x74, 0x57);
+            drawStringCentered(gfxPage, scoreString, 232, 116, 87);
         }
-        clearRect(gfxPage, 0xeb, 0x0a, 0x13f, 0x63);
+        clearRect(gfxPage, 235, 10, 319, 99);
         gfxPage[2] = FONT_TITLE;
         mystrcpy(scoreString, "MISSION EVENT");
-        drawStringCentered(gfxPage, scoreString, 0xe8, 0x14, 0x57);
+        drawStringCentered(gfxPage, scoreString, 232, 20, 87);
         mystrcpy(scoreString, "TIME: \x80");
         mystrcat(scoreString, formatFlightTime(flightTimeTable[curRecordIdx * 3], numBuf));
-        drawStringAt(gfxPage, scoreString, 0xf0, 0x1e);
+        drawStringAt(gfxPage, scoreString, 240, 30);
         unitIdx = flightRecords[curRecordIdx].unitId & UNIT_ID_MASK;
         switch (flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) {
         case EVENT_AIR_KILL:
@@ -538,29 +538,29 @@ void drawMenuItem(const MenuItem *items, unsigned int index, int16* gfxPage) {
             }
             break;
         }
-        drawWrappedText(gfxPage, scoreString, 0x50, 0xf0, 0x26, 8);
+        drawWrappedText(gfxPage, scoreString, 80, 240, 38, 8);
         if ((unsigned char)flightRecords[curRecordIdx].status & STATUS_PRIMARY_HIT) {
             mystrcpy(scoreString, "\x8c" "PRIMARY OBJECTIVE");
-            drawStringCentered(gfxPage, scoreString, 0xe8, gfxPage[5], 0x57);
+            drawStringCentered(gfxPage, scoreString, 232, gfxPage[5], 87);
         }
         if ((unsigned char)flightRecords[curRecordIdx].status & STATUS_SECONDARY_HIT) {
             mystrcpy(scoreString, "\x8c" "SECNDRY OBJECTIVE");
-            drawStringCentered(gfxPage, scoreString, 0xe8, gfxPage[5], 0x57);
+            drawStringCentered(gfxPage, scoreString, 232, gfxPage[5], 87);
         }
         missionScore = calcMissionScore(curRecordIdx);
         mystrcpy(scoreString, "\x8d");
         mystrcat(scoreString, "CUMULATIVE");
-        drawStringCentered(gfxPage, scoreString, 0xe8, 0x46, 0x57);
+        drawStringCentered(gfxPage, scoreString, 232, 70, 87);
         mystrcpy(scoreString, "MISSION RATING");
-        drawStringCentered(gfxPage, scoreString, 0xe8, 0x4e, 0x57);
+        drawStringCentered(gfxPage, scoreString, 232, 78, 87);
         mystrcpy(scoreString, "\x80");
         my_ltoa(missionScore, numBuf);
         mystrcat(scoreString, numBuf);
-        drawStringCentered(gfxPage, scoreString, 0xe8, 0x56, 0x57);
+        drawStringCentered(gfxPage, scoreString, 232, 86, 87);
         showEventPopup();
         mystrcpy(scoreString, prefix);
         mystrcat(scoreString, "Press Selector for next mission event");
-        drawWrappedText(gfxPage, scoreString, 0x50, 0xf0, 0x82, 8);
+        drawWrappedText(gfxPage, scoreString, 80, 240, 130, 8);
     } // 35db
 }
 
@@ -574,9 +574,9 @@ int drawEventSprite(int recordIdx)
         spriteAir->dstX  = mapToScreenX(flightRecords[recordIdx].mapX) + mapViewX1 - 2;
         spriteAir->dstY = mapToScreenY(flightRecords[recordIdx].mapY) + mapViewY1 - 2;
         if (slotInfoTable[(flightRecords[curRecordIdx].unitId & UNIT_ID_MASK) * 16] & 8) {
-                    spriteAir->srcX = 0x11e;
+                    spriteAir->srcX = 286;
         } else {
-            spriteAir->srcX = 0x12d;
+            spriteAir->srcX = 301;
         }
         return gfx_blitSprite(spriteAir);
     case EVENT_GROUND_KILL:
@@ -614,16 +614,16 @@ void animateFlightPath(int16* gfxPage)
         gfx_copyRect(1, 0, POPUP_SAVE_Y, 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);
         popupVisible = 0;
     }
-    clearRect(gfxPage, 0xe9, 0x1e, 0x13f, 0x45);
-    drawStringAt(gfxPage, "\x80" "In-Flight", 0xf0, 0x26);
+    clearRect(gfxPage, 233, 30, 319, 69);
+    drawStringAt(gfxPage, "\x80" "In-Flight", 240, 38);
 loop_top:
         curRecordIdx++;
         if (flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) {
             if ((flightRecords[curRecordIdx].status & STATUS_TYPE_MASK) == EVENT_TIMESTAMP) {
-        clearRect(gfxPage, 0xf0, 0x1e, 0x13f, 0x25);
+        clearRect(gfxPage, 240, 30, 319, 37);
         mystrcpy(scoreString, "\x8d" "TIME: \x80");
         mystrcat(scoreString, formatFlightTime(*((int *)&flightRecords[curRecordIdx] - 1), numBuf));
-        drawStringAt(gfxPage, scoreString, 0xf0, 0x1e);
+        drawStringAt(gfxPage, scoreString, 240, 30);
         gfx_setColor(0);
         if (prevDrawX == 0 && prevDrawY == 0) {
             drawFlightLine(flightRecords[0].mapX, flightRecords[0].mapY, flightRecords[curRecordIdx].mapX, flightRecords[curRecordIdx].mapY);
@@ -640,8 +640,8 @@ loop_top:
         mystrcpy(scoreString, "\x80");
         my_ltoa(missionScore, numBuf);
         mystrcat(scoreString, numBuf);
-        clearRect(gfxPage, 0xe8, 0x56, 0x13f, 0x5e);
-        drawStringCentered(gfxPage, scoreString, 0xe8, 0x56, 0x57);
+        clearRect(gfxPage, 232, 86, 319, 94);
+        drawStringCentered(gfxPage, scoreString, 232, 86, 87);
         timerCounter = 0;
 wait_loop:
         if (timerCounter <= 5) goto wait_loop;
@@ -713,7 +713,7 @@ char *formatFlightTime(int timeValue, char *buffer) {
     }
     timeValue += (miscBits & 0xF) << 8;
     mystrcpy(buffer, "00:00:00");
-    hours = (unsigned)timeValue / 0x708;
+    hours = (unsigned)timeValue / 1800;
     buffer[0] += nightMission + 1;
     buffer[1] += hours % 10;
     minutes = ((unsigned)timeValue / 30) % 60;
@@ -788,9 +788,9 @@ void drawClippedLineEx(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2
     lineY2 = y2;
     drawLineWrapper();
     gfx_nop23();
-    clipMaxX = 0x13f;
-    clipMaxY = 0xc7;
-    gfx_setOvlVal1(0xc7);
+    clipMaxX = 319;
+    clipMaxY = 199;
+    gfx_setOvlVal1(199);
     gfx_setOvlVal2(clipMaxX);
     gfx_setBlitOffset(0);
 }
@@ -914,7 +914,7 @@ void showEventPopup(void) {
     switch (spriteIdx) {
     case EVENT_AIR_KILL:
         if (slotInfoTable[(flightRecords[curRecordIdx].unitId & UNIT_ID_MASK) * 16] & 8) {
-                    spriteIdx = 0xf;
+                    spriteIdx = 15;
         } else {
             spriteIdx = 0;
         }
@@ -940,35 +940,35 @@ void showEventPopup(void) {
                 spriteIdx = 7;
             } else if (commData->landingType == LANDING_CRASHED) {
                 ejectedFlag = 1;
-                spriteIdx = 0xe;
+                spriteIdx = 14;
             } else if (missionResult == 0) {
                 ejectedFlag = 1;
-                spriteIdx = 0xb;
+                spriteIdx = 11;
             } else {
                 ejectedFlag = 1;
-                spriteIdx = 0xd;
+                spriteIdx = 13;
             }
         }
         break;
     case EVENT_WAYPOINT:
-        spriteIdx = 0xa;
+        spriteIdx = 10;
         break;
     }
-    if ((unsigned)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) < 0x73 &&
-        (unsigned)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) < 0x59) {
+    if ((unsigned)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) < 115 &&
+        (unsigned)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) < 89) {
         popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 + 10;
         popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 + 10;
-    } else if ((unsigned)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) >= 0x73 &&
-               (unsigned)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) < 0x59) {
-        popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 - 0x3a;
+    } else if ((unsigned)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) >= 115 &&
+               (unsigned)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) < 89) {
+        popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 - 58;
         popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 + 10;
-    } else if ((unsigned)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) >= 0x73 &&
-               (unsigned)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) >= 0x59) {
-        popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 - 0x3a;
-        popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 - 0x28;
+    } else if ((unsigned)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) >= 115 &&
+               (unsigned)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) >= 89) {
+        popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 - 58;
+        popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 - 40;
     } else {
         popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 + 10;
-        popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 - 0x28;
+        popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 - 40;
     }
     gfx_copyRect(0, popupX, popupY, 1, 0, POPUP_SAVE_Y, POPUP_WIDTH, POPUP_HEIGHT);
     gfx_copyRect(1, popupSpriteX[spriteIdx], popupSpriteY[spriteIdx], 0, popupX, popupY, POPUP_WIDTH, POPUP_HEIGHT);

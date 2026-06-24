@@ -11,7 +11,7 @@ void setupViewport(const int16 *rect) {
     g_viewCenterX = ((width + 1) >> 1) - 1;
     g_viewCenterY = ((height + 1) >> 1) - 1;
     if (rect[7] == 0) {
-        g_viewCenterY = rect[8] == 199 ? 0x64 : 0x38;
+        g_viewCenterY = rect[8] == 199 ? 100 : 56;
     }
     gfx_setOvlVal2(width - 1);
     gfx_setBlitOffset(gfx_calcRowAddr(rect[9], rect[7]));
@@ -24,6 +24,6 @@ void setupViewport(const int16 *rect) {
         g_overlayCenterY += 8;
     }
     if ((char)g_hudVisible != 0) {
-        g_overlayCenterY += 0x10;
+        g_overlayCenterY += 16;
     }
 }

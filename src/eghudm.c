@@ -43,7 +43,7 @@ int FAR CDECL hudSine(int angle) { return nsine(angle); }
 /* pitch -> ladder pixel offset: (|pitch|>>6) * 360, taking the high bytes. */
 int FAR CDECL hudPitchScale(int ap)
 {
-    return (int)(((unsigned long)(unsigned)ap * 0x168u) >> 8);
+    return (int)(((unsigned long)(unsigned)ap * 360u) >> 8);
 }
 
 /* ===== drawClipLineGlobal (clipLineFar) =====
@@ -86,7 +86,7 @@ int far drawClipLineGlobal(void)
  * exists, so draw it directly into the current page. base/loY/hiY come from the
  * overlay's 12-word geometry table (baked here); thickness cycles 1..10. */
 static const int g_ladderGeom[12] = {
-    0x47, 0xf8, 0x78, 0xc8, 0x1a, 0x1a, 0x44, 0x44, 0x56, 0x56, 0x62, 0x62
+    71, 248, 120, 200, 26, 26, 68, 68, 86, 86, 98, 98
 };
 void FAR CDECL hudComplex(int bxArg, int dxArg, int cxArg, int siArg)
 {
@@ -98,7 +98,7 @@ void FAR CDECL hudComplex(int bxArg, int dxArg, int cxArg, int siArg)
     uint16 base, loY, hiY;
     int wi;
     long t;
-    if ((int8)dl >= 1) bx += 0x14;
+    if ((int8)dl >= 1) bx += 20;
     if (cl != 0) { siArg += 4; bx++; }
     wi = siArg / 2;
     if (wi < 0 || wi + 8 > 11) return;

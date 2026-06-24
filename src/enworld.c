@@ -16,15 +16,15 @@ void readWorldData(void) {
     loadWorldData(&worldRouteCount, 2);
     loadWorldData(worldObjects, worldObjectCount << 4);
     loadWorldData(&worldSamCount, 2);
-    loadWorldData(&worldSamTable, 0x24 * worldSamCount);
-    loadWorldData(unitTypeTable, 0x64);
-    loadWorldData(&worldUnitFlags, 0x64);
-    loadWorldData(worldStringBuf, 0x2ee);
+    loadWorldData(&worldSamTable, 36 * worldSamCount);
+    loadWorldData(unitTypeTable, 100);
+    loadWorldData(&worldUnitFlags, 100);
+    loadWorldData(worldStringBuf, 750);
     loadWorldData(gridFlags, 0x100);
     loadWorldData(&worldGridSize, 2);
     loadWorldData(&worldMiscHeader, 2);
-    loadWorldData(&weaponDataBlock, 0x10);
-    loadWorldData(target1Type, 0x24);
+    loadWorldData(&weaponDataBlock, 16);
+    loadWorldData(target1Type, 36);
     loadWorldData(flightTimeTable, 0x600);
 }
 

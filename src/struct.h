@@ -28,7 +28,7 @@ struct FlightUnit {
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct FlightUnit)==36);
-#define FLIGHTUNIT_SIZE 0x24
+#define FLIGHTUNIT_SIZE 36
 
 /* WorldObject: 16-byte world target/object entry from .wld files.
  * Each entry describes a placeable object in the game world.
@@ -47,9 +47,9 @@ struct WorldObject {
 };
 #pragma pack()
 STATIC_ASSERT(sizeof(struct WorldObject)==16);
-#define WORLDOBJECT_SIZE 0x10
+#define WORLDOBJECT_SIZE 16
 
-#define BUF7SIZE 0x64
+#define BUF7SIZE 100
 #define BUF10SIZE 0x100
 
 /* Target: 0x12-byte mission target/parameters structure.
@@ -68,7 +68,7 @@ struct Target {
 #pragma pack()
 STATIC_ASSERT(sizeof(struct Target)==18);
 
-#define TARGETSIZE 0x12
+#define TARGETSIZE 18
 
 /* MissionTableEntry: 0x0C-byte mission lookup table entry.
  * Array of ~56 entries defining possible mission types per theater/tension.
@@ -85,7 +85,7 @@ struct MissionTableEntry {
 #pragma pack()
 STATIC_ASSERT(sizeof(struct MissionTableEntry)==12);
 
-#define MISSIONTABLEENTRY_SIZE 0xc
+#define MISSIONTABLEENTRY_SIZE 12
 
 #pragma pack(1)
 struct UnitTypeRemap {
@@ -95,7 +95,7 @@ struct UnitTypeRemap {
 #pragma pack()
 STATIC_ASSERT(sizeof(struct UnitTypeRemap)==4);
 
-#define UNITTYPEREMAP_SIZE 0x4
+#define UNITTYPEREMAP_SIZE 4
 #define PILOTNAMELEN 22
 
 #pragma pack(1)
@@ -119,7 +119,7 @@ struct Plane {
     int8 weaponConfig[10];
 };
 STATIC_ASSERT(sizeof(struct Plane)==32);
-#define PLANESIZE 0x20
+#define PLANESIZE 32
 
 /* SamDataEntry: 32-byte record in end.exe's planeArray/samDataTable.
  * Unlike struct Plane (start.exe), this has 8 prefix bytes before the name.
@@ -183,7 +183,7 @@ struct Projectile {
     int16 targetLock;   // +0x14  tracked target id (-1 = none)
     int16 targetRef;    // +0x16  ground threat: target index (>0 plane / <0 -simObject); player missile: loft angle
 };
-STATIC_ASSERT(sizeof(struct Projectile)==0x18);
+STATIC_ASSERT(sizeof(struct Projectile)==24);
 
 /* g_proj3d: the world-space origin (x,y,z) projectObjects() projects the 3D scene
  * relative to. Three int32 written from the routine's long parameters. */
@@ -230,7 +230,7 @@ struct SimObject {
     int16 damage;       // +0x22  damage accumulator (clamp 0..0xff)
 };
 #pragma pack()
-STATIC_ASSERT(sizeof(struct SimObject)==0x24);
+STATIC_ASSERT(sizeof(struct SimObject)==36);
 
 struct MapTarget {
     uint16 mapX;        // +0x00  map X coord (worldX = mapX << 5)
@@ -243,7 +243,7 @@ struct MapTarget {
     int16 secondaryNameIndex; // +0x0E  "at <base>" name index, read through the
                               //        GroundTargetTable stride-8 alias (see below)
 };
-STATIC_ASSERT(sizeof(struct MapTarget)==0x10);
+STATIC_ASSERT(sizeof(struct MapTarget)==16);
 
 /* GroundTargetTable: the in-mission target table. The 16-bit name-index column
  * is read as `((int16*)&g_planeTable)[idx*8]` — a stride-16 view that, thanks to
@@ -256,7 +256,7 @@ struct GroundTargetTable {
     struct MapTarget planes[74];  /* g_planes */
 };
 #pragma pack()
-STATIC_ASSERT(sizeof(struct GroundTargetTable) == 2 + 74 * 0x10);
+STATIC_ASSERT(sizeof(struct GroundTargetTable) == 2 + 74 * 16);
 
 /* ReplayEvent: one entry in the tactical-replay event log (appendMapEvent). */
 #pragma pack(1)
@@ -289,7 +289,7 @@ struct TargetSlot {
     int16 seedNoise;    // +0x08  never written; low 4 bits sampled as RNG noise in initFrameRandom()
     int16 unused[4];    // +0x0A..0x11
 };
-STATIC_ASSERT(sizeof(struct TargetSlot)==0x12);
+STATIC_ASSERT(sizeof(struct TargetSlot)==18);
 
 /* Particle: one short-lived world effect marker (smoke-trail puff, weapon-hit
  * spark, or flight marker) in the g_particles[8] ring. posX/posY/alt are the

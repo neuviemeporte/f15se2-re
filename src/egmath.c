@@ -136,7 +136,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYa
 
         if (mode == 1) {
             g_trkRange = range;
-            g_trkSize = (range >> 4) + 0x190;
+            g_trkSize = (range >> 4) + 400;
             g_trkScale = (g_trkSize << 5) / (range + 1);
             range = g_trkSize << 2;
             g_trkBearing = bearing;
@@ -182,16 +182,16 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYa
         g_extraScaleShift = 2;
     }
     if (mode == 1 || mode == 3) {
-        horizonY = (int)((long)g_trkScale * (long)(g_trkPitch >> 2) >> 5) + 0x9c;
-        if (horizonY < 0x80 || g_trkPitch < (int16)0xe800) {
-            horizonY = 0x80;
+        horizonY = (int)((long)g_trkScale * (long)(g_trkPitch >> 2) >> 5) + 156;
+        if (horizonY < 128 || g_trkPitch < (int16)0xe800) {
+            horizonY = 128;
         }
-        if (horizonY > 0xb8 || g_trkPitch > 0x1800) {
-            horizonY = 0xb8;
+        if (horizonY > 184 || g_trkPitch > 0x1800) {
+            horizonY = 184;
         }
         *(g_targetViewParams + 2) = colorLut[3];
-        if (horizonY != 0x80) {
-            fillSpanRect(g_targetViewParams, 0xe8, 0x80, 0x130, horizonY);
+        if (horizonY != 128) {
+            fillSpanRect(g_targetViewParams, 232, 128, 304, horizonY);
         }
         colorIdx = g_world3dData[0x2f];
         category = (int)(signed char)g_shapeTargetCategory[shapeId & 0x7f];
@@ -199,12 +199,12 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYa
             colorIdx = 8;
         }
         categoryLow = (char)(category & 0xf);
-        if (categoryLow == 0xc || categoryLow == 9 || categoryLow == 0xb) {
+        if (categoryLow == 12 || categoryLow == 9 || categoryLow == 11) {
             colorIdx = 1;
         }
         *(g_targetViewParams + 2) = colorLut[colorIdx];
-        if (horizonY != 0xb8) {
-            fillSpanRect(g_targetViewParams, 0xe8, horizonY, 0x130, 0xb8);
+        if (horizonY != 184) {
+            fillSpanRect(g_targetViewParams, 232, horizonY, 304, 184);
         }
     }
 
@@ -217,7 +217,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYa
     if (mode == 1) {
         strcpy(strBuf, "BRG ");
         strcat(strBuf, itoa((unsigned int)g_trkBearing / 0xb6, g_itoaScratch, 10));
-        drawStringActivePage(strBuf, 0xf8, 0xb0, 0xf);
+        drawStringActivePage(strBuf, 248, 176, 0xf);
     }
     g_extraScaleShift = 0;
 }

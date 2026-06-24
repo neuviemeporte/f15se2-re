@@ -124,15 +124,15 @@ void stepFlightModel(void) {
             goto post_key_B_check;
         case 0x0C5F: // Shift-Minus
             g_setThrust = 0;
-            makeSound(0x10, 0);
+            makeSound(16, 0);
             UpdateThrottleState();
             goto switch_break;
         case 0x3062: // B
             *((unsigned char*)&g_playerPlaneFlags) ^= 8;
         post_key_B_check:
             if (!(*((unsigned char*)&g_playerPlaneFlags) & 8) && g_groundAltitude != 0 && g_setThrust == 100) {
-                g_velocity = 0x546;
-                makeSound(0x1C, 2);
+                g_velocity = 1350;
+                makeSound(28, 2);
             }
             goto switch_break;
         case 0x2400: // Alt-J
@@ -147,15 +147,15 @@ void stepFlightModel(void) {
             goto switch_break;
         case 0x3000: // Alt-B
             if (g_hudVisible != 0) {
-                gfx_copyRect(*g_pageFront, 0, 0x61, *g_pageOffscreen, 0, 0x61, 0x140, 0x67);
+                gfx_copyRect(*g_pageFront, 0, 97, *g_pageOffscreen, 0, 97, 320, 103);
             }
             setDrawColor(0);
-            fillRectBoth(0, 0, 0x13F, 0xC7);
-            blitSprite(0, 0, 0x71, 0x37, 0x0C, 7, 0);
+            fillRectBoth(0, 0, 319, 199);
+            blitSprite(0, 0, 113, 55, 12, 7, 0);
             waitForKeyPress();
             if (g_hudVisible != 0) {
-                gfx_copyRect(*g_pageOffscreen, 0, 0x61, *g_pageFront, 0, 0x61, 0x140, 0x67);
-                gfx_copyRect(*g_pageOffscreen, 0, 0x61, *g_pageBack, 0, 0x61, 0x140, 0x67);
+                gfx_copyRect(*g_pageOffscreen, 0, 97, *g_pageFront, 0, 97, 320, 103);
+                gfx_copyRect(*g_pageOffscreen, 0, 97, *g_pageBack, 0, 97, 320, 103);
                 UpdateThrottleState();
             }
             goto switch_break;
@@ -170,7 +170,7 @@ switch_break:
     }
 
     if (g_setThrust != 0 && g_thrust == 0) {
-        makeSound(0x0E, 2);
+        makeSound(14, 2);
     }
 
     if (g_inputDisabled != 0) {
@@ -204,11 +204,11 @@ switch_break:
         g_pitchInput = 0;
     }
 
-    if (g_knots > 0x15E && !(*((unsigned char*)&g_playerPlaneFlags) & 1) && g_gearDownArmed != 0) {
+    if (g_knots > 350 && !(*((unsigned char*)&g_playerPlaneFlags) & 1) && g_gearDownArmed != 0) {
         g_gearDownArmed = 0;
         *((unsigned char*)&g_playerPlaneFlags) |= 1;
         tempStrcpy("Landing gear raised");
-        makeSound(0x20, 2);
+        makeSound(32, 2);
     }
 
     if (g_groundAltitude == g_viewZ && g_setThrust == 0 && !(*((unsigned char*)&g_playerPlaneFlags) & 8)) {
@@ -246,7 +246,7 @@ switch_break:
                 nsSign = -signOf(dy);
             }
 
-            dy += ((g_planeTable.planes[tgtIdx].flags & 0x200) ? 0x1E : 0x40) * nsSign;
+            dy += ((g_planeTable.planes[tgtIdx].flags & 0x200) ? 30 : 0x40) * nsSign;
 
             headingErr = abs(g_ourHead);
             if (nsSign == -1)
@@ -272,7 +272,7 @@ switch_break:
                 tmpVal = -20;
             }
 
-            dy = g_planeTable.planes[tgtIdx].mapY + (((g_planeTable.planes[tgtIdx].flags & 0x200) ? 0x1C : 0x38) * nsSign);
+            dy = g_planeTable.planes[tgtIdx].mapY + (((g_planeTable.planes[tgtIdx].flags & 0x200) ? 28 : 56) * nsSign);
 
             dy += clampRange((abs(dx) * 4) + (headingErr / 16), 0, 0xC00) * nsSign;
 
@@ -311,7 +311,7 @@ switch_break:
 
             g_pitchInput = clampRange(tmpVal - (g_ourPitch >> 7), -16, 16);
 
-            if (g_knots < 0x15E)
+            if (g_knots < 350)
             {
                 *((unsigned char *)&g_playerPlaneFlags) &= 0xFE;
             }
@@ -538,7 +538,7 @@ switch_break:
         g_ourPitch -= ((uint16)g_stallSpeed - (uint16)g_velocity) >> ((gameData->unk4 == 2 || g_gunHits > 8) ? 1 : 2);
         g_orientationDirty = 1;
         if (g_ourPitch < 0 || (uint16)g_viewZ < 200) {
-            makeSound(0x14, 1);
+            makeSound(20, 1);
         }
     }
 
@@ -589,7 +589,7 @@ switch_break:
 
     if (g_groundAltitude == g_viewZ) {
         if (prevAlt > g_groundAltitude && g_inLandingCorridor != 0) {
-            makeSound(0xC, 2);
+            makeSound(12, 2);
             //temp_bx = g_closestThreatIndex << 4;
 
             if ((( ((g_planeTable.planes[g_closestThreatIndex].flags & 0x200) ? 0x100 : 0x80)
@@ -598,7 +598,7 @@ switch_break:
                     (((g_playerPlaneFlags & 1)!=0) ||
                         (((int16)abs(g_ourRoll)) > (int16)((0x30 / (g_missionStatus + 1)) << 8))) ))) {
                             makeSound(0, 2);
-                            waitFrameSync(0x3C);
+                            waitFrameSync(60);
                             finalizeMission(5);
             }
         }
@@ -643,7 +643,7 @@ void applyRotationDelta(const int16 *matA, const int16 *matB) {
         g_orientationDirty = 1;
     }
     multiplyMatrix3x3Far(matA, matB, g_matrixScratch);
-    memcpy(g_orientMatrix, g_matrixScratch, 0x12);
+    memcpy(g_orientMatrix, g_matrixScratch, 18);
 }
 
 void computeAttitudeAngles(void)
@@ -878,7 +878,7 @@ void renderFrame() {
         else {
             g_viewTargetX = (uint32)g_planeTable.planes[g_viewTargetObj & 0x3f].mapX << 5;
             g_viewTargetY = (uint32)g_planeTable.planes[g_viewTargetObj & 0x3f].mapY << 5;
-            g_viewTargetAlt = g_planeTable.planes[g_viewTargetObj & 0x3f].flags & 0x200 ? 0xc8 : 0x32;
+            g_viewTargetAlt = g_planeTable.planes[g_viewTargetObj & 0x3f].flags & 0x200 ? 200 : 50;
             camDist = 7;
             if (g_autopilotEngaged != 0 && g_directorEventDeadline == -1) camDist = 6;
         }
@@ -901,8 +901,8 @@ void renderFrame() {
                 g_camEyeX = sinMul(g_viewHeading, camOffset) + g_viewTargetX;
                 g_camEyeY = cosMul(g_viewHeading, camOffset) - g_viewTargetY + 0x100000;
                 g_camEyeZ = (4 << camDist) - sinMul(g_viewPitch, 0x18 << camDist) + g_viewTargetAlt;
-                if (g_viewTargetObj & 0x40 && g_planeTable.planes[g_viewTargetObj & 0x3f].flags & 0x200 && g_camEyeZ < 0x84) {
-                    g_camEyeZ = 0x84;
+                if (g_viewTargetObj & 0x40 && g_planeTable.planes[g_viewTargetObj & 0x3f].flags & 0x200 && g_camEyeZ < 132) {
+                    g_camEyeZ = 132;
                 }
                 g_viewHeading += 0x8000;
             }
@@ -930,7 +930,7 @@ void renderFrame() {
         g_viewRoll = 0x8000 - g_viewRoll;
     }
     if (keyValue == 0) {
-        memcpy(g_camRotMatrix, g_orientMatrix, 0x12);
+        memcpy(g_camRotMatrix, g_orientMatrix, 18);
     }
     else {
         buildRotationMatrixFar(g_camRotMatrix, g_viewHeading, g_viewPitch, g_viewRoll);
@@ -943,8 +943,8 @@ void renderFrame() {
         if (g_hudVisible != 0) {
             gfx_nop23();
             // the pointer arguments are probably rastports, RectCopy?
-            gfx_copyRect(*g_pageOffscreen, 0, 0x61, *g_pageFront, 0, 0x61, 0x140, 0x67);
-            gfx_copyRect(*g_pageOffscreen, 0, 0x61, *g_pageBack, 0, 0x61, 0x140, 0x67);
+            gfx_copyRect(*g_pageOffscreen, 0, 97, *g_pageFront, 0, 97, 320, 103);
+            gfx_copyRect(*g_pageOffscreen, 0, 97, *g_pageBack, 0, 97, 320, 103);
             UpdateThrottleState();
             drawWeaponAmmo();
             drawWeaponSelectMarker(missileSpecIndex);
@@ -956,7 +956,7 @@ void renderFrame() {
             g_lockedTargetKilled = 0;
         }
         else {
-            gfx_copyRect(*g_pageFront, 0, 0x61, *g_pageOffscreen, 0, 0x61, 0x140, 0x67);
+            gfx_copyRect(*g_pageFront, 0, 97, *g_pageOffscreen, 0, 97, 320, 103);
         }
     }
     if (keyValue != g_lastViewKey) {
@@ -968,15 +968,15 @@ void renderFrame() {
             else {
                 openBlitClosePic(keyValue == 0x42 ? "Left.Pic" : keyValue == 0x43 ? "Right.Pic" : "Rear.Pic", *g_pageFront);
             }
-            gfx_copyRect(*g_pageFront, 0, 0x61, *g_pageBack, 0, 0x61, 0x140, 0x67);
-            g_pageFront[8] = g_pageBack[8] = 0x60;
+            gfx_copyRect(*g_pageFront, 0, 97, *g_pageBack, 0, 97, 320, 103);
+            g_pageFront[8] = g_pageBack[8] = 96;
         }
         else {
-            g_pageFront[8] = g_pageBack[8] = g_hudVisible != 0 ? 0x60 : 0xc7;
+            g_pageFront[8] = g_pageBack[8] = g_hudVisible != 0 ? 96 : 199;
         }
         g_lastViewKey = keyValue;
     }
-    g_horizonGroundColor = g_world3dData[0x2f];
+    g_horizonGroundColor = g_world3dData[47];
     *(uint8*)(&g_skyColorIndex) = 3;
     if (g_detailLevel == 0 && commData->gfxModeNum != 0) {
         g_horizonGroundColor = 3;
@@ -984,31 +984,31 @@ void renderFrame() {
     }
     loadColorPalette(g_nightMode);
     *(uint8*)(&g_posVisibleFlag) = 0;
-    render3DView(-g_viewHeading, g_viewPitch, g_viewRoll, g_camEyeX, g_camEyeY, (int32)g_camEyeZ, 0, 0, 0x140, g_pageFront[8] + 1);
+    render3DView(-g_viewHeading, g_viewPitch, g_viewRoll, g_camEyeX, g_camEyeY, (int32)g_camEyeZ, 0, 0, 320, g_pageFront[8] + 1);
     g_extraScaleShift = 0;
     g_savedPosVisible = g_posVisibleFlag;
     if (keyValue == 0x41) {
         drawVectorShape(g_rearViewShape);
         gfx_setColor(0xf);
-        g_lineX1 = 0xf1;
-        g_lineY1 = 0x15;
-        g_lineX2 = 0xfb;
-        g_lineY2 = 0x5e;
+        g_lineX1 = 241;
+        g_lineY1 = 21;
+        g_lineX2 = 251;
+        g_lineY2 = 94;
         drawClipLineGlobal();
-        g_lineX1 = 0x53;
-        g_lineY1 = 0x15;
-        g_lineX2 = 0x49;
-        g_lineY2 = 0x5e;
+        g_lineX1 = 83;
+        g_lineY1 = 21;
+        g_lineX2 = 73;
+        g_lineY2 = 94;
         drawClipLineGlobal();
         gfx_nop23();
         tmp = g_drawPage;
         g_drawPage = gfx_getDisplayPage();
-        blitSprite(0x6b, 0x30, 0xd1, 0, 0x6f, 0x2f, 0);
-        blitSprite(0x41, 0x5f, 0x7d, 0x36, 0xc3, 2, 0);
+        blitSprite(107, 48, 209, 0, 111, 47, 0);
+        blitSprite(65, 95, 125, 54, 195, 2, 0);
         g_drawPage = tmp;
     }
     gfx_flipPage();
-    g_hudBottomY = (g_activePanelMode == 0x13 || g_mapMode == 1 || g_hudVisible == 0) ? 0xc8 : 0x61;
+    g_hudBottomY = (g_activePanelMode == 0x13 || g_mapMode == 1 || g_hudVisible == 0) ? 200 : 97;
     TRACE(("renderFrame: exit"));
 }
 
@@ -1016,15 +1016,15 @@ void UpdateThrottleState(void) {
     if (g_hudVisible != 0) {
         setDrawColor(0);
 #ifdef BUGFIX
-        fillRectBoth(0xd4, 0x7f, 0xde, 0xaf);
+        fillRectBoth(212, 127, 222, 175);
 #else
-        fillRectBoth(0xd4, 0x7f, 0xde, 0xaf, 0xc4);
+        fillRectBoth(212, 127, 222, 175, 0xc4);
 #endif
         setDrawColor(0x0c);
-        fillRectBoth(0xd4, -(g_setThrust / 3 - 0xaf), 0xde, 0xaf);
+        fillRectBoth(212, -(g_setThrust / 3 - 175), 222, 175);
         if (100 < g_setThrust) {
             setDrawColor(0x0e);
-            fillRectBoth(0xd4, -(g_setThrust / 3 - 0xaf), 0xde, 0x8e);
+            fillRectBoth(212, -(g_setThrust / 3 - 175), 222, 142);
         }
     }
 }
@@ -1033,9 +1033,9 @@ void drawFuelGauge(void) {
         return;
     }
     setDrawColor(0);
-    fillRectBoth(5, 0x6d, 0x0a, 0x98);
+    fillRectBoth(5, 109, 10, 152);
     setDrawColor(g_fuelRemaining > 2000 ? 2 : 14);
-    fillRectBoth(5, -(g_fuelRemaining / 250 - 0x98), 0x0a, 0x98);
+    fillRectBoth(5, -(g_fuelRemaining / 250 - 152), 10, 152);
 }
 
 void drawVectorShape(const int16 *shapeData) {

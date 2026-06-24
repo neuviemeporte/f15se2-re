@@ -44,7 +44,7 @@ void drawTacticalMap(char page)
 
     radius = g_radarScopeRange + 1;
     setDrawColor(0);
-    fillSpanRect(page == 0 ? g_pageFront : g_pageBack, 0x78, 0x68, 0xc7, 0xaf);
+    fillSpanRect(page == 0 ? g_pageFront : g_pageBack, 120, 104, 199, 175);
     setDrawColor(8);
     gridStep = 1;
     if (g_radarScopeRange < 2 && g_detailLevel != 0) {
@@ -59,7 +59,7 @@ void drawTacticalMap(char page)
         startX = vtxScratch.vproj.x.lo;
         startY = vtxScratch.vproj.y.lo;
         projectMapPoint(i * 0x400 + gridX, gridY - 0x1800);
-        drawClippedLineRegion(startX, startY, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 0x78, 0xc7, 0x68, 0xaf, 0);
+        drawClippedLineRegion(startX, startY, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 120, 199, 104, 175, 0);
         i += 2;
     }
     i = gridLo * 2;
@@ -68,7 +68,7 @@ void drawTacticalMap(char page)
         startX = vtxScratch.vproj.x.lo;
         startY = vtxScratch.vproj.y.lo;
         projectMapPoint(gridX - 0x1800, i * 0x400 + gridY);
-        drawClippedLineRegion(startX, startY, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 0x78, 0xc7, 0x68, 0xaf, 0);
+        drawClippedLineRegion(startX, startY, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 120, 199, 104, 175, 0);
         i += 2;
     }
     for (i = 0; i < g_groundUnitCount; i++) {
@@ -183,12 +183,12 @@ void projectMapPoint(int mapX, int mapY) {
     scaledY = (g_viewY_ - mapY) >> shift;
     vtxScratch.vproj.x.lo = cosMul(g_ourHead, scaledX) - sinMul(g_ourHead, scaledY);
     vtxScratch.vproj.y.lo = cosMul(g_ourHead, scaledY) + sinMul(g_ourHead, scaledX);
-    vtxScratch.vproj.x.lo += 0xa0;
-    vtxScratch.vproj.y.lo = -vtxScratch.vproj.y.lo + 0x98;
-    if (vtxScratch.vproj.x.lo < 0x7c || vtxScratch.vproj.x.lo > 0xc3) {
+    vtxScratch.vproj.x.lo += 160;
+    vtxScratch.vproj.y.lo = -vtxScratch.vproj.y.lo + 152;
+    if (vtxScratch.vproj.x.lo < 124 || vtxScratch.vproj.x.lo > 195) {
         g_projDepth = -1;
     }
-    if (vtxScratch.vproj.y.lo < 0x6b || vtxScratch.vproj.y.lo > 0xac) {
+    if (vtxScratch.vproj.y.lo < 107 || vtxScratch.vproj.y.lo > 172) {
         g_projDepth = -1;
     }
 }
@@ -197,7 +197,7 @@ void projectMapPoint(int mapX, int mapY) {
 void blitGaugeSprite(int srcCol, int srcRow, int destX, int destY) {
     gaugeSpriteParams.bufPtr = gfxBufPtr;
     gaugeSpriteParams.srcX = srcCol * 8 + 1;
-    gaugeSpriteParams.srcY = srcRow * 8 + 0x1f;
+    gaugeSpriteParams.srcY = srcRow * 8 + 31;
     gaugeSpriteParams.page = (g_drawPage != 0);
     gaugeSpriteParams.dstX = destX - 3;
     gaugeSpriteParams.dstY = destY - 3;
@@ -228,16 +228,16 @@ void blitSprite(int destX, int destY, int srcX, int srcY, int spriteWidth, int s
 
 // ==== seg000:0xa934 ====
 void cacheScopePanel(void) {
-    gfx_copyRect(*g_pageFront, 0x18, 0x70, *g_pageOffscreen, 0x18, 0x70, 0x49, 0x39);
+    gfx_copyRect(*g_pageFront, 24, 112, *g_pageOffscreen, 24, 112, 73, 57);
 }
 
 // ==== seg000:0xa962 ====
 void restoreScopePanel(void) {
-    gfx_copyRect(*g_pageOffscreen, 0x18, 0x70, *g_pageFront, 0x18, 0x70, 0x49, 0x39);
-    gfx_copyRect(*g_pageFront, 0x18, 0x70, *g_pageBack, 0x18, 0x70, 0x49, 0x39);
+    gfx_copyRect(*g_pageOffscreen, 24, 112, *g_pageFront, 24, 112, 73, 57);
+    gfx_copyRect(*g_pageFront, 24, 112, *g_pageBack, 24, 112, 73, 57);
 }
 
 // ==== seg000:0xa9bc ====
 void captureScopePanel(void) {
-    gfx_copyRect(*g_pageOffscreen, 0x18, 0x70, g_drawPage ? *g_pageBack : *g_pageFront, 0x18, 0x70, 0x49, 0x39);
+    gfx_copyRect(*g_pageOffscreen, 24, 112, g_drawPage ? *g_pageBack : *g_pageFront, 24, 112, 73, 57);
 }

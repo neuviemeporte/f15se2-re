@@ -201,8 +201,8 @@ int16 clipDx = 0;
 int16 clipDy = 0;
 int16 clipDxHalf = 0;
 int16 clipDyHalf = 0;
-int16 clipMaxX = 0x13F;
-int16 clipMaxY = 0x6F;
+int16 clipMaxX = 319;
+int16 clipMaxY = 111;
 
 /* Ctrl-Break handler state */
 uint8 cbreakHit = 0;
@@ -216,29 +216,29 @@ int16 *bufPtr = bufPageDesc;
 
 /* Weapon table (struct Weapon, 14 bytes/entry, 23 entries) */
 const struct Weapon aNone[] = {
-    { "None",   0x0000, 0x0000, 0x0000 },
-    { "SA-2",   0x00c8, 0x0003, 0x0000 },
-    { "SA-5",   0x015e, 0x0002, 0x0000 },
-    { "SA-8B",  0x007d, 0x0005, 0x0000 },
-    { "SA-10",  0x0140, 0x0007, 0x0001 },
-    { "SA-11",  0x00c8, 0x0005, 0x0000 },
-    { "SA-12",  0x0122, 0x0006, 0x0001 },
-    { "SA-13",  0x007d, 0x0003, 0x0000 },
-    { "SA-N-4", 0x00c8, 0x0004, 0x0001 },
-    { "SA-N-5", 0x0096, 0x0003, 0x0000 },
-    { "SA-N-6", 0x0140, 0x0006, 0x0001 },
-    { "SA-N-7", 0x00c8, 0x0005, 0x0000 },
-    { "Hawk",   0x00af, 0x0006, 0x0001 },
-    { "Rapier", 0x004b, 0x0008, 0x0000 },
-    { "Tiger",  0x0041, 0x0004, 0x0000 },
-    { "Seacat", 0x00c8, 0x0002, 0x0000 },
-    { "IL76",   0x00c8, 0x0008, 0x0003 },
-    { "",       0x0032, 0x0005, 0x0000 },
-    { "",       0x0046, 0x0006, 0x0000 },
-    { "",       0x0050, 0x0007, 0x0001 },
-    { "",       0x0064, 0x0008, 0x0001 },
-    { "OTH",    0x01f4, 0x0005, 0x0001 },
-    { "",       0x0028, 0x0003, 0x0000 },
+    { "None",   0,   0, 0x0000 },
+    { "SA-2",   200, 3, 0x0000 },
+    { "SA-5",   350, 2, 0x0000 },
+    { "SA-8B",  125, 5, 0x0000 },
+    { "SA-10",  320, 7, 0x0001 },
+    { "SA-11",  200, 5, 0x0000 },
+    { "SA-12",  290, 6, 0x0001 },
+    { "SA-13",  125, 3, 0x0000 },
+    { "SA-N-4", 200, 4, 0x0001 },
+    { "SA-N-5", 150, 3, 0x0000 },
+    { "SA-N-6", 320, 6, 0x0001 },
+    { "SA-N-7", 200, 5, 0x0000 },
+    { "Hawk",   175, 6, 0x0001 },
+    { "Rapier", 75,  8, 0x0000 },
+    { "Tiger",  65,  4, 0x0000 },
+    { "Seacat", 200, 2, 0x0000 },
+    { "IL76",   200, 8, 0x0003 },
+    { "",       50,  5, 0x0000 },
+    { "",       70,  6, 0x0000 },
+    { "",       80,  7, 0x0001 },
+    { "",       100, 8, 0x0001 },
+    { "OTH",    500, 5, 0x0001 },
+    { "",       40,  3, 0x0000 },
 };
 
 /* File I/O buffer (512 bytes total) */
@@ -247,7 +247,7 @@ int16 fileReadPos = 0;
 int16 tmpFileHandle = 0;
 
 /* Pic decode row buffer */
-uint8 picDecodedRowBuf[0x140] = {0};
+uint8 picDecodedRowBuf[320] = {0};
 
 /* Graphics state */
 int16 picScreenBufSize = 0;
@@ -322,9 +322,9 @@ uint8 pilotSelectFlag = 0;
 const char *ranks[] = { "2nd Lt. ", "1st Lt. ", "Capt. ", "Major ", "Lt Col. ", "Colonel ", "Gen. " };
 
 /* Medal sprite tables (7 entries for 7 medals, null-terminated) */
-extern const uint8 medalSpriteX[] = { 0x82, 0x71, 0x81, 0x70, 0x6F, 0xA1, 0x9F, 0 };
-extern const uint8 medalSpriteY[] = { 0x80, 0x80, 0xB3, 0xB3, 0x91, 0x91, 0xA2, 0 };
-extern const uint8 medalWidth[] = { 0x09, 0x0B, 0x0B, 0x0D, 0x2F, 0x0B, 0x0F, 0 };
+extern const uint8 medalSpriteX[] = { 130, 113, 129, 112, 111, 161, 159, 0 };
+extern const uint8 medalSpriteY[] = { 128, 128, 179, 179, 145, 145, 162, 0 };
+extern const uint8 medalWidth[] = { 9, 11, 11, 13, 47, 11, 15, 0 };
 
 /* Blink animation colors */
 extern const int16 blinkColors[] = { 7, 0x0F };
@@ -334,12 +334,12 @@ int16 blinkColorIdx = 0;
 extern const int16 pilotNameInputColors[] = { 0, 0x0008 };
 
 /* Arm animation sprite tables (8 entries each) */
-extern const int16 armSrcX[] = { 1, 0x53, 0xD9, 0xA4, 1, 1, 0xBF, 0x10A };
-extern const int16 armSrcY[] = { 0, 0, 0, 0x2E, 0x3E, 0x7C, 0x6A, 0x53 };
-extern const int16 armBlitX[] = { 0x3E, 0x3E, 0x3D, 0x3E, 0x3E, 0x3E, 0x3F, 0x3E };
-extern const int16 armBlitY[] = { 0x1C, 0x2F, 0x35, 0x36, 0x37, 0x38, 0x39, 0x38 };
-extern const int16 armBlitW[] = { 0x52, 0x5D, 0x66, 0x66, 0x68, 0x5C, 0x4B, 0x35 };
-extern const int16 armBlitH[] = { 0x3E, 0x2E, 0x25, 0x2D, 0x3E, 0x4B, 0x5D, 0x74 };
+extern const int16 armSrcX[] = { 1, 83, 217, 164, 1, 1, 191, 266 };
+extern const int16 armSrcY[] = { 0, 0, 0, 46, 62, 124, 106, 83 };
+extern const int16 armBlitX[] = { 62, 62, 61, 62, 62, 62, 63, 62 };
+extern const int16 armBlitY[] = { 28, 47, 53, 54, 55, 56, 57, 56 };
+extern const int16 armBlitW[] = { 82, 93, 102, 102, 104, 92, 75, 53 };
+extern const int16 armBlitH[] = { 62, 46, 37, 45, 62, 75, 93, 116 };
 
 /* Mission pick state */
 int16 missionPick = -1;  /* 0xFFFF */
@@ -362,49 +362,49 @@ uint8 diskTransferArea[0x85] = {0};
 
 /* Weapon loadout table (26 bytes per entry, accessed via weaponLoadouts[idx].qty) */
 extern const struct WeaponLoadout weaponLoadouts[] = {
-    { 4, "AIM-9M\0\0\0",  "Sidewinder\0",  0x17 },  /* 0 */
-    { 4, "AIM-120\0\0",  "AMRAAM \0\0\0\0",  0x16 },  /* 1 */
-    { 4, "AGM-88A\0\0",  "HARM\0\0\0\0\0\0\0",  0x18 },  /* 2 */
-    { 4, "AIM-7M\0\0\0",  "Sparrow\0\0\0\0",  0x16 },  /* 3 */
-    { 1, "AGM-86A\0\0",  "Harpoon\0\0\0\0",  0x1A },  /* 4 */
-    { 6, "AGM-65D\0\0",  "Maverick\0\0\0",  0x1B },  /* 5 */
-    { 8, "GBU-12\0\0\0",  "Paveway\0\0\0\0",  0x1C },  /* 6 */
-    { 2, "Mk 20\0\0\0\0",  "Rockeye\0\0\0\0",  0x1D },  /* 7 */
-    { 2, "Dndl\0\0\0\0\0",  "Durandal\0\0\0",  0x1D },  /* 8 */
-    { 3, "Mk 82-0\0\0",  "Slick\0\0\0\0\0\0",  0x1E },  /* 9 */
-    { 3, "Mk 82-1\0\0",  "Snakeye\0\0\0\0",  0x1D },  /* 10 */
-    { 4, "Mk 20\0\0\0\0",  "Rockeye II\0",  0x1C },  /* 11 */
-    { 2, "Mk 122\0\0\0",  "Fireeye\0\0\0\0",  0x1E },  /* 12 */
-    { 2, "CBU-72\0\0\0",  "Fuel-Air\0\0\0",  0x1C },  /* 13 */
-    { 2, "Mk 35\0\0\0\0",  "IN Cluster\0",  0x1D },  /* 14 */
-    { 1, "ISC B-1\0\0",  "Minelets\0\0\0",  0x1D },  /* 15 */
+    { 4, "AIM-9M\0\0\0",  "Sidewinder\0",  23 },  /* 0 */
+    { 4, "AIM-120\0\0",  "AMRAAM \0\0\0\0",  22 },  /* 1 */
+    { 4, "AGM-88A\0\0",  "HARM\0\0\0\0\0\0\0",  24 },  /* 2 */
+    { 4, "AIM-7M\0\0\0",  "Sparrow\0\0\0\0",  22 },  /* 3 */
+    { 1, "AGM-86A\0\0",  "Harpoon\0\0\0\0",  26 },  /* 4 */
+    { 6, "AGM-65D\0\0",  "Maverick\0\0\0",  27 },  /* 5 */
+    { 8, "GBU-12\0\0\0",  "Paveway\0\0\0\0",  28 },  /* 6 */
+    { 2, "Mk 20\0\0\0\0",  "Rockeye\0\0\0\0",  29 },  /* 7 */
+    { 2, "Dndl\0\0\0\0\0",  "Durandal\0\0\0",  29 },  /* 8 */
+    { 3, "Mk 82-0\0\0",  "Slick\0\0\0\0\0\0",  30 },  /* 9 */
+    { 3, "Mk 82-1\0\0",  "Snakeye\0\0\0\0",  29 },  /* 10 */
+    { 4, "Mk 20\0\0\0\0",  "Rockeye II\0",  28 },  /* 11 */
+    { 2, "Mk 122\0\0\0",  "Fireeye\0\0\0\0",  30 },  /* 12 */
+    { 2, "CBU-72\0\0\0",  "Fuel-Air\0\0\0",  28 },  /* 13 */
+    { 2, "Mk 35\0\0\0\0",  "IN Cluster\0",  29 },  /* 14 */
+    { 1, "ISC B-1\0\0",  "Minelets\0\0\0",  29 },  /* 15 */
     { 1, "135 mm\0\0\0",  "Camera\0\0\0\0\0",  -1 },  /* 16 */
     { 1, "1900lbs\0\0",  "Extra Fuel\0",  -2 },  /* 17 */
-    { 1, "20 mm\0\0\0\0",  "Guns\0\0\0\0\0\0\0",  0x00 },  /* 18 */
-    { 1, "Special\0\0",  "Equip\0\0\0\0\0\0",  0x26 },  /* 19 */
+    { 1, "20 mm\0\0\0\0",  "Guns\0\0\0\0\0\0\0",  0 },  /* 18 */
+    { 1, "Special\0\0",  "Equip\0\0\0\0\0\0",  38 },  /* 19 */
 };
 
 /* Plane/aircraft table - 19 entries used by mission generator */
 extern const struct Plane planes[19] = {
-    {{"MIG-23"}, {"Flogger"}, 0x02E4, 0x0230, {3, 0, 0x11, 0, 0x0A, 0, 2, 0, 0, 0}},
-    {{"MIG-25"}, {"Foxbat"}, 0x023A, 0x02BC, {2, 0, 0x12, 0, 0, 0, 2, 0, 0, 0}},
-    {{"MIG-29"}, {"Fulcrum"}, 0x02BC, 0x0190, {5, 0, 0x13, 0, 0x14, 0, 2, 0, 0, 0}},
-    {{"F-1"}, {"Mirage"}, 0x0316, 0x03A2, {3, 0, 0x14, 0, 0, 0, 2, 0, 0, 0}},
-    {{"Su-27"}, {"Flanker"}, 0x02D5, 0x02CB, {4, 0, 0x13, 0, 0x14, 0, 2, 0, 0, 0}},
-    {{"IL-76"}, {"Mainstay"}, 0x0190, 0x0FA0, {1, 0, 0x10, 0, 0x0C, 0, 2, 0, 0, 0}},
-    {{"F-4E"}, {"Phantom"}, 0x0320, 0x0208, {4, 0, 0x12, 0, 0x0B, 0, 2, 0, 0, 0}},
-    {{"F-14"}, {"Tomcat"}, 0x0320, 0x0320, {4, 0, 0x13, 0, 8, 0, 2, 0, 0, 0}},
-    {{"F-18"}, {"Hornet"}, 0x0294, 0x01CD, {5, 0, -1, -1, 0, 0, 2, 0, 0, 0}},
-    {{"An-72"}, {"Coaler"}, 0x015E, 0x026C, {2, 0, 0, 0, 9, 0, 2, 0, 0, 0}},
-    {{"F-18"}, {"Hornet"}, 0x0294, 0x01CD, {5, 0, -1, -1, 4, 0, 2, 0, 0, 0}},
-    {{"MIG-23"}, {"Flogger"}, 0x02E4, 0x0230, {3, 0, 0, 0, 4, 0, 2, 0, 0, 0}},
-    {{"F-14"}, {"Tomcat"}, 0x0320, 0x0320, {4, 0, -1, -1, 8, 0, 2, 0, 0, 0}},
-    {{"F-4E"}, {"Phantom"}, 0x0320, 0x0208, {4, 0, -1, -1, 0x0B, 0, 2, 0, 0, 0}},
-    {{"MIG-17"}, {"Fresco"}, 0x0226, 0x012C, {3, 0, 0x11, 0, 0x10, 0, 2, 0, 0, 0}},
-    {{"Tu-95"}, {"Bear"}, 0x019A, 0x13EC, {1, 0, 0, 0, 0x12, 0, 2, 0, 0, 0}},
-    {{"Mi-24"}, {"Hind"}, 0x00C8, 0x012C, {1, 0, 0x11, 0, 0x13, 0, 2, 0, 0, 0}},
-    {{"F-5"}, {"Tiger"}, 0x01F4, 0x00FA, {3, 0, 0x16, 0, 0x16, 0, 2, 0, 0, 0}},
-    {{"767"}, {"Boeing"}, 0x0190, 0x03E8, {1, 0, -1, -1, 0x12, 0, 2, 0, 0, 0}},
+    {{"MIG-23"}, {"Flogger"}, 740, 560, {3, 0, 17, 0, 10, 0, 2, 0, 0, 0}},
+    {{"MIG-25"}, {"Foxbat"}, 570, 700, {2, 0, 18, 0, 0, 0, 2, 0, 0, 0}},
+    {{"MIG-29"}, {"Fulcrum"}, 700, 400, {5, 0, 19, 0, 20, 0, 2, 0, 0, 0}},
+    {{"F-1"}, {"Mirage"}, 790, 930, {3, 0, 20, 0, 0, 0, 2, 0, 0, 0}},
+    {{"Su-27"}, {"Flanker"}, 725, 715, {4, 0, 19, 0, 20, 0, 2, 0, 0, 0}},
+    {{"IL-76"}, {"Mainstay"}, 400, 4000, {1, 0, 16, 0, 12, 0, 2, 0, 0, 0}},
+    {{"F-4E"}, {"Phantom"}, 800, 520, {4, 0, 18, 0, 11, 0, 2, 0, 0, 0}},
+    {{"F-14"}, {"Tomcat"}, 800, 800, {4, 0, 19, 0, 8, 0, 2, 0, 0, 0}},
+    {{"F-18"}, {"Hornet"}, 660, 461, {5, 0, -1, -1, 0, 0, 2, 0, 0, 0}},
+    {{"An-72"}, {"Coaler"}, 350, 620, {2, 0, 0, 0, 9, 0, 2, 0, 0, 0}},
+    {{"F-18"}, {"Hornet"}, 660, 461, {5, 0, -1, -1, 4, 0, 2, 0, 0, 0}},
+    {{"MIG-23"}, {"Flogger"}, 740, 560, {3, 0, 0, 0, 4, 0, 2, 0, 0, 0}},
+    {{"F-14"}, {"Tomcat"}, 800, 800, {4, 0, -1, -1, 8, 0, 2, 0, 0, 0}},
+    {{"F-4E"}, {"Phantom"}, 800, 520, {4, 0, -1, -1, 11, 0, 2, 0, 0, 0}},
+    {{"MIG-17"}, {"Fresco"}, 550, 300, {3, 0, 17, 0, 16, 0, 2, 0, 0, 0}},
+    {{"Tu-95"}, {"Bear"}, 410, 5100, {1, 0, 0, 0, 18, 0, 2, 0, 0, 0}},
+    {{"Mi-24"}, {"Hind"}, 200, 300, {1, 0, 17, 0, 19, 0, 2, 0, 0, 0}},
+    {{"F-5"}, {"Tiger"}, 500, 250, {3, 0, 22, 0, 22, 0, 2, 0, 0, 0}},
+    {{"767"}, {"Boeing"}, 400, 1000, {1, 0, -1, -1, 18, 0, 2, 0, 0, 0}},
 };
 
 /* === Mission generation coordinate tables (from stslots.asm) === */
@@ -421,20 +421,20 @@ extern const struct UnitTypeRemap unitTypeRemapTable[] = {
     {5, 3},
     {8, 0},
     {8, 0},
-    {0x0A, 0x0B},
-    {0x0B, 0x09},
-    {0x0C, 0x0D},
-    {0x0C, 0x0E},
-    {0x0D, 0x0E},
-    {0x0F, 0},
-    {4, 0x1388},
-    {0, 0x0C},
-    {0x12, 3},
+    {10, 11},
+    {11, 9},
+    {12, 13},
+    {12, 14},
+    {13, 14},
+    {15, 0},
+    {4, 5000},
+    {0, 12},
+    {18, 3},
     {0, 4},
     {1, 4},
     {5, 6},
     {0, 0},
-    {0, 0x028A},
+    {0, 650},
     {0, 0},
 };
 
@@ -502,25 +502,25 @@ extern const struct MissionTableEntry missionTable[56] = {
 };
 
 /* Target coordinate arrays per mission pick type */
-const int16 targetCoordsX0[3] = {0x45C0, 0x3D40, 0x0DC0};
-const int16 targetCoordsY0[3] = {0x3CC0, 0x4340, 0x24C0};
-const int16 targetCoordsX1[2] = {0x26C0, 0x2740};
-const int16 targetCoordsY1[2] = {0x2140, 0x21C0};
-const int16 targetCoordsX2[2] = {0x3DC0, 0x25C0};
-const int16 targetCoordsY2[2] = {0x43C0, 0x3BC0};
-const int16 targetCoordsX3[3] = {0x2100, 0x0900, 0x1100};
-const int16 targetCoordsY3[3] = {0x2300, 0x0900, 0x0500};
-const int16 targetCoordsX4[4] = {0x2F00, 0x1B00, 0x3D00, 0x1500};
-const int16 targetCoordsY4[4] = {0x2B00, 0x1300, 0x2D00, 0x3500};
-const int16 targetCoordsX5 = 0x5AC0;
-const int16 targetCoordsY5 = 0x3AC0;
-extern const int16 targetCoordsX6[8] = {0x48C0, 0x10C0, 0x40C0, 0x44C0, 0x24C0, 0x0EC0, 0x12C0, 0x50C0};
-extern const int16 targetCoordsY6[8] = {0x2940, 0x2140, 0x2540, 0x2540, 0x2140, 0x0B40, 0x0740, 0x3540};
-const int16 targetCoordsX7[3] = {0x4D40, 0x4C40, 0x4D40};
-const int16 targetCoordsY7[3] = {0x3940, 0x39C0, 0x39C0};
-extern const int16 targetCoordsX2Alt[4] = {0x3CC0, 0x3C40, 0x24C0, 0x2440};
-extern const int16 targetCoordsY2Alt[4] = {0x4240, 0x42C0, 0x3A40, 0x3AC0};
-extern const uint8 missionPickType[8] = {2, 6, 5, 6, 6, 6, 6, 0x0B};
+const int16 targetCoordsX0[3] = {17856, 15680, 3520};
+const int16 targetCoordsY0[3] = {15552, 17216, 9408};
+const int16 targetCoordsX1[2] = {9920, 10048};
+const int16 targetCoordsY1[2] = {8512, 8640};
+const int16 targetCoordsX2[2] = {15808, 9664};
+const int16 targetCoordsY2[2] = {17344, 15296};
+const int16 targetCoordsX3[3] = {8448, 2304, 4352};
+const int16 targetCoordsY3[3] = {8960, 2304, 1280};
+const int16 targetCoordsX4[4] = {12032, 6912, 15616, 5376};
+const int16 targetCoordsY4[4] = {11008, 4864, 11520, 13568};
+const int16 targetCoordsX5 = 23232;
+const int16 targetCoordsY5 = 15040;
+extern const int16 targetCoordsX6[8] = {18624, 4288, 16576, 17600, 9408, 3776, 4800, 20672};
+extern const int16 targetCoordsY6[8] = {10560, 8512, 9536, 9536, 8512, 2880, 1856, 13632};
+const int16 targetCoordsX7[3] = {19776, 19520, 19776};
+const int16 targetCoordsY7[3] = {14656, 14784, 14784};
+extern const int16 targetCoordsX2Alt[4] = {15552, 15424, 9408, 9280};
+extern const int16 targetCoordsY2Alt[4] = {16960, 17088, 14912, 15040};
+extern const uint8 missionPickType[8] = {2, 6, 5, 6, 6, 6, 6, 11};
 
 /* Pointer arrays: target coordinates per mission pick index */
 const int16 *targetCoordsXPtrs[8] = {

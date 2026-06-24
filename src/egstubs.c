@@ -48,4 +48,4 @@ int16 lineX1 = 0;
 int16 lineX2 = 0;
 int16 lineY1 = 0;
 int16 lineY2 = 0;
-uint8 picDecodedRowBuf[0x140] = {0};
+uint8 picDecodedRowBuf[320] = {0};

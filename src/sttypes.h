@@ -48,9 +48,9 @@
 #define COMM_BUFFER_FLAG1 0x4e
 #define COMM_USEJOY_OFF 0x72
 #define COMM_GFXMODE_OFFSET 0x78
-#define TIMEOUT_MPS 0x78
+#define TIMEOUT_MPS 120
 #define BDA_EGASW 0x88
-#define TIMEOUT_ADV 0xb4
+#define TIMEOUT_ADV 180
 #define BDA_CRTC 0x463
 #define DOS_PRINT_STR 0x9
 #define DOS_ERROR_RMDIR 0x10
@@ -61,12 +61,12 @@
 #define IRQ_KBD 0x16
 #define IRQ_TIME 0x1a
 #define IRQ_CBREAK 0x1b
-#define HALLFAME_RECORDSZ 0x20
+#define HALLFAME_RECORDSZ 32
 #define IRQ_DOS 0x21
 #define PORT_PIT_TIME0 0x40
 #define PORT_PIT_CNTRL 0x43
-#define SCREEN_MAXY 0xc7
-#define SCREEN_MAXX 0x13f
+#define SCREEN_MAXY 199
+#define SCREEN_MAXX 319
 #define FILE_READBUF_SIZE 0x200
 
 #endif /* F15_SE2_STTYPES */

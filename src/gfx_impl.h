@@ -48,7 +48,7 @@ typedef int (FAR *GfxFarFn)(void);
 
 /* 84-entry slot table used by f15.exe to call gfx functions directly and to
  * fill the virtual overlay's slot_offsets[] array at startup */
-extern GfxSlotFn gfxSlotTable[0x54];
+extern GfxSlotFn gfxSlotTable[84];
 
 /* Build the virtual overlay block at ovlSeg: write OvlHeader-compatible fields,
  * fill slot_offsets[] with FP_OFF of each gfx function, init GfxState. */

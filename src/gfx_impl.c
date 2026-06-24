@@ -732,7 +732,7 @@ void gfx_dirtyRectFill_impl(uint16 minBufOff, uint16 yMin, uint16 yMax)
          * [0..hi], painting a spurious full-width scanline across the left-MFD
          * ocean (and the equivalent on 3D fills). */
         if (spanHi < spanLo) continue;                                 /* unsigned */
-        if (spanHi == spanLo && (spanHi == 0 || spanHi == 0x13f)) continue;
+        if (spanHi == spanLo && (spanHi == 0 || spanHi == 319)) continue;
         /* Clamp the write extent to the visible row. The 3D projection emits
          * near-plane-clamped columns (e.g. ~0x7000), so an unclamped width would
          * loop tens of thousands of times per row in C (MGRAPHIC wraps cheaply in
@@ -938,7 +938,7 @@ void FAR CDECL gfx_clipBottom(void)          { return; }
  * the iteration index `t` so the thickness counter keeps the exact same phase as
  * the naive loop would have at the first in-window row. */
 static const int g_ladderGeom[12] = {
-    0x47, 0xf8, 0x78, 0xc8, 0x1a, 0x1a, 0x44, 0x44, 0x56, 0x56, 0x62, 0x62
+    71, 248, 120, 200, 26, 26, 68, 68, 86, 86, 98, 98
 };
 
 void gfx_complexRender_impl(int bxArg, int dxArg, int cxArg, int siArg)
@@ -956,7 +956,7 @@ void gfx_complexRender_impl(int bxArg, int dxArg, int cxArg, int siArg)
 
     dir = (siArg == 0) ? -1 : 1;     /* set from the ORIGINAL si (before +=4) */
     bx = (uint16)(bxArg - 1);
-    if ((int8)dl >= 1) bx += 0x14;   /* `cmp dl,1; jl` is a signed byte test */
+    if ((int8)dl >= 1) bx += 20;     /* `cmp dl,1; jl` is a signed byte test */
     if (cl != 0) { siArg += 4; bx++; }
 
     wi = siArg / 2;                  /* si is a byte offset; table is word-indexed */

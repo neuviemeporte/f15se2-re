@@ -68,7 +68,7 @@ void waitFrameSync(int frames) {
 
 // ==== seg000:0x229a loadColorPalette ====
 void loadColorPalette(int idx) {
-    memcpy(colorLut, g_colorPalettes + idx * 0x10, 0x10);
+    memcpy(colorLut, g_colorPalettes + idx * 16, 16);
 }
 
 // ==== seg000:0x3224 ====

@@ -28,18 +28,18 @@
 #define UNIT_ID_MASK        0x7F
 
 /* Popup overlay dimensions (pixels) */
-#define POPUP_WIDTH         0x30
-#define POPUP_HEIGHT        0x28
-#define POPUP_SAVE_Y        0x96  /* Y offset for popup save area */
+#define POPUP_WIDTH         48
+#define POPUP_HEIGHT        40
+#define POPUP_SAVE_Y        150  /* Y offset for popup save area */
 
 /* VGA double-buffer size in paragraphs */
-#define VGA_BUF_SIZE        0x3c8c
+#define VGA_BUF_SIZE        15500
 
 /* Normal debrief exit code */
 #define EXIT_DEBRIEF        0x23
 
 /* Font/color index for title text */
-#define FONT_TITLE          0x0d
+#define FONT_TITLE          13
 
 /* Landing type values (commData->landingType) */
 #define LANDING_CRASHED     1
@@ -47,7 +47,7 @@
 #define LANDING_SAFE        3
 
 /* Max record count sentinel for drawFlightPath */
-#define ALL_RECORDS         0x270f
+#define ALL_RECORDS         9999
 
 /* calcMissionScore: compute score for all events */
 #define SCORE_ALL_EVENTS    0x100

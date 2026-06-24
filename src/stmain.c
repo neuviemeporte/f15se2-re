@@ -20,7 +20,7 @@
 
 int main(void)
 {
-    uint8 unused[0xe];
+    uint8 unused[14];
     uint8 introStage;
     uint16 FAR *commPtr;
     uint16 difficulty;
@@ -77,7 +77,7 @@ int main(void)
         }
         if (timerCounter >= MPS_TIMEOUT) { // key was not pressed, show adv.pic
             gfx_waitRetrace();
-            gfx_setFadeSteps(0xf);
+            gfx_setFadeSteps(15);
             TRACE(("main: showing adv"));
             openShowPic("adv.pic", 0);
             gfx_commitPage();
@@ -204,7 +204,7 @@ doSrand:
        normal path below -- in particular the f15.spr sprite-sheet load into
        commData->gfxInitResult, which egame reads as gfxBufPtr for the radar /
        tactical-map / HUD sprites. */
-    exitCode[0] = 0xc;
+    exitCode[0] = 12;
     restoreCbreakHandler();
     *needSplash = 0;
     gfx_setFadeSteps(8);
@@ -241,7 +241,7 @@ doSrand:
     }
     TRACE(("main: checking disk"));
     checkDiskA();
-    exitCode[0] = 0xc;
+    exitCode[0] = 12;
     TRACE(("main: restoring cbreak handler and clearing splash"));
     restoreCbreakHandler();
     *needSplash = 0;

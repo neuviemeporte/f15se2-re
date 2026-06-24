@@ -344,14 +344,14 @@ const char *medalNames[] = {
 };
 
 /* Popup sprite coordinate tables (18 entries each, as int arrays) */
-extern const int popupSpriteY[] = {0, 0, 0, 0, 0, 0, 0x28, 0x28, 0x28, 0x28, 0x28, 0x28, 0x50, 0x50, 0x50, 0x50, 0x50, 0x50};
-extern const int popupSpriteX[] = {0, 0x30, 0x60, 0x90, 0xC0, 0xF0, 0, 0x30, 0x60, 0x90, 0xC0, 0xF0, 0, 0x30, 0x60, 0x90, 0xC0, 0xF0};
+extern const int popupSpriteY[] = {0, 0, 0, 0, 0, 0, 40, 40, 40, 40, 40, 40, 80, 80, 80, 80, 80, 80};
+extern const int popupSpriteX[] = {0, 48, 96, 144, 192, 240, 0, 48, 96, 144, 192, 240, 0, 48, 96, 144, 192, 240};
 
 /* Map view bounds */
-extern const int mapViewX1 = 0x08;
-extern const int mapViewY1 = 0x0A;
-extern const int mapViewX2 = 0xE8;
-extern const int mapViewY2 = 0xB2;
+extern const int mapViewX1 = 8;
+extern const int mapViewY1 = 10;
+extern const int mapViewX2 = 232;
+extern const int mapViewY2 = 178;
 
 /* colorStyleTable - color/style table (16 int entries) */
 int colorStyleTable[] = {
@@ -701,8 +701,8 @@ int16 clipDx = 0;
 int16 clipDy = 0;
 int16 clipDxHalf = 0;
 int16 clipDyHalf = 0;
-int16 clipMaxX = 0x13F;
-int16 clipMaxY = 0x6F;
+int16 clipMaxX = 319;
+int16 clipMaxY = 111;
 uint8 clipMaxYPad = 0;
 
 /* Joystick calibration arrays */

@@ -103,42 +103,42 @@ void __cdecl __far setupInstrumentLayoutFar(void)
     g_halfScaleRender = 0;
     if (g_halfScaleRender == 1) {
         /* full-detail layout (unreachable at setup; kept for fidelity) */
-        g_tapeOriginX = 0x64; g_tapeCursorBackShift = 8; g_tapeTickPitch = 0x0a;
+        g_tapeOriginX = 100; g_tapeCursorBackShift = 8; g_tapeTickPitch = 10;
         g_tapeScaleShift = 0; g_speedTapeTickStep = 0x66; g_altTapeTickStep = 0xcc;
-        g_headingBase = 0x88; g_headingPixPerDeg = 0x12; g_compassWrapLimit = 0xaf;
+        g_headingBase = 136; g_headingPixPerDeg = 18; g_compassWrapLimit = 175;
         g_headingModulus = 4; g_headingWrapOffset = 2;
-        g_pitchVtxX0 = 0xffe9; g_pitchVtxX1 = 0xfff8; g_pitchVtxX2 = 9; g_pitchVtxX3 = 0x17;
-        g_pitchRungVStep = 0x1a; g_pitchCenterY = 0x34; g_pitchDrawX = 0x1f; g_pitchDrawY = 0x0d;
-        g_pitchLabelY = 0x50; g_pitchLabelX = 0x9f;
+        g_pitchVtxX0 = 0xffe9; g_pitchVtxX1 = 0xfff8; g_pitchVtxX2 = 9; g_pitchVtxX3 = 23;
+        g_pitchRungVStep = 26; g_pitchCenterY = 52; g_pitchDrawX = 31; g_pitchDrawY = 13;
+        g_pitchLabelY = 80; g_pitchLabelX = 159;
         g_pitchBlitOfs = gfx_getPresetOffset1();
-        g_pitchClipMaxX = 0x42; g_pitchClipMaxY = 0x25; g_geeReadoutX = 0x6c;
-        g_tapeText0[7] = 0x44; g_tapeText0[8] = 0x60; g_tapeText0[6] = 2;
+        g_pitchClipMaxX = 66; g_pitchClipMaxY = 37; g_geeReadoutX = 108;
+        g_tapeText0[7] = 68; g_tapeText0[8] = 96; g_tapeText0[6] = 2;
         g_tapeText1[6] = g_tapeText2[6] = g_tapeText3[6] = 2;
-        g_tapeText1[5] = 0x3b; g_tapeText1[9] = 0x82; g_tapeText1[10] = 0xbc;
-        g_tapeSprite1[1] = 0x93; g_tapeSprite1[2] = 0x14; g_tapeSprite1[4] = 0x99;
-        g_tapeSprite1[5] = 0x4c; g_tapeSprite1[6] = 0x0d; g_tapeSprite1[7] = 9;
-        g_tapeSprite0[4] = 0x82; g_tapeSprite0[5] = 0x40; g_tapeSprite0[6] = 0x3b; g_tapeSprite0[7] = 2;
-        g_tapeText2[7] = 0x44; g_tapeText2[9] = 0x7f; g_tapeText2[10] = 0xc3;
-        g_tapeText3[5] = 0x3f;
+        g_tapeText1[5] = 59; g_tapeText1[9] = 130; g_tapeText1[10] = 188;
+        g_tapeSprite1[1] = 147; g_tapeSprite1[2] = 20; g_tapeSprite1[4] = 153;
+        g_tapeSprite1[5] = 76; g_tapeSprite1[6] = 13; g_tapeSprite1[7] = 9;
+        g_tapeSprite0[4] = 130; g_tapeSprite0[5] = 64; g_tapeSprite0[6] = 59; g_tapeSprite0[7] = 2;
+        g_tapeText2[7] = 68; g_tapeText2[9] = 127; g_tapeText2[10] = 195;
+        g_tapeText3[5] = 63;
     } else {
         /* the active layout (g_halfScaleRender == 0) */
-        g_tapeOriginX = 0x5e; g_tapeCursorBackShift = 0x11; g_tapeTickPitch = 0x14;
+        g_tapeOriginX = 94; g_tapeCursorBackShift = 17; g_tapeTickPitch = 20;
         g_tapeScaleShift = 1; g_speedTapeTickStep = 0x31; g_altTapeTickStep = 0xff;
-        g_headingBase = 0x6d; g_headingPixPerDeg = 0x2d; g_compassWrapLimit = 0xf8;
-        g_headingModulus = 0x0a; g_headingWrapOffset = 5;
-        g_pitchVtxX0 = 0xffc4; g_pitchVtxX1 = 0xfff1; g_pitchVtxX2 = 0x10; g_pitchVtxX3 = 0x3c;
-        g_pitchRungVStep = 0x34; g_pitchCenterY = 0x68; g_pitchDrawX = 0x4f; g_pitchDrawY = 0x24;
-        g_pitchLabelY = 0x38; g_pitchLabelX = 0x9f;
+        g_headingBase = 109; g_headingPixPerDeg = 45; g_compassWrapLimit = 248;
+        g_headingModulus = 10; g_headingWrapOffset = 5;
+        g_pitchVtxX0 = 0xffc4; g_pitchVtxX1 = 0xfff1; g_pitchVtxX2 = 16; g_pitchVtxX3 = 60;
+        g_pitchRungVStep = 52; g_pitchCenterY = 104; g_pitchDrawX = 79; g_pitchDrawY = 36;
+        g_pitchLabelY = 56; g_pitchLabelX = 159;
         g_pitchBlitOfs = gfx_getPresetOffset2();
-        g_pitchClipMaxX = 0xa0; g_pitchClipMaxY = 0x4c; g_geeReadoutX = 0x3c;
-        g_tapeText0[7] = 0x1a; g_tapeText0[8] = 0x56; g_tapeText0[6] = 0;
+        g_pitchClipMaxX = 160; g_pitchClipMaxY = 76; g_geeReadoutX = 60;
+        g_tapeText0[7] = 26; g_tapeText0[8] = 86; g_tapeText0[6] = 0;
         g_tapeText1[6] = g_tapeText2[6] = g_tapeText3[6] = 0;
-        g_tapeText1[5] = 0x0a; g_tapeText1[9] = 0x5a; g_tapeText1[10] = 0xe6;
-        g_tapeSprite1[1] = 0x82; g_tapeSprite1[2] = 0x26; g_tapeSprite1[4] = 0x93;
-        g_tapeSprite1[5] = 0x30; g_tapeSprite1[6] = 0x19; g_tapeSprite1[7] = 0x0f;
-        g_tapeSprite0[4] = 0x5a; g_tapeSprite0[5] = 0x10; g_tapeSprite0[6] = 0x8d; g_tapeSprite0[7] = 3;
-        g_tapeText2[7] = 0x14; g_tapeText2[9] = 0x4e; g_tapeText2[10] = 0xf1;
-        g_tapeText3[5] = 0x10;
+        g_tapeText1[5] = 10; g_tapeText1[9] = 90; g_tapeText1[10] = 230;
+        g_tapeSprite1[1] = 130; g_tapeSprite1[2] = 38; g_tapeSprite1[4] = 147;
+        g_tapeSprite1[5] = 48; g_tapeSprite1[6] = 25; g_tapeSprite1[7] = 15;
+        g_tapeSprite0[4] = 90; g_tapeSprite0[5] = 16; g_tapeSprite0[6] = 141; g_tapeSprite0[7] = 3;
+        g_tapeText2[7] = 20; g_tapeText2[9] = 78; g_tapeText2[10] = 241;
+        g_tapeText3[5] = 16;
     }
 }
 
@@ -164,8 +164,8 @@ static void drawInstrumentGauges(void)
     {
         uint16 knots = g_knots;
         uint8 al;
-        dl = (int8)((knots / 0x32) - 1);
-        knots = (uint16)((knots % 0x32) << g_tapeScaleShift);
+        dl = (int8)((knots / 50) - 1);
+        knots = (uint16)((knots % 50) << g_tapeScaleShift);
         al = (uint8)((knots / 5) + g_tapeOriginX);
         LOB(g_tapeText0[5]) = al;            /* g_tapeText0Y */
         g_tapeRenderMode = (uint8)dl;
@@ -176,7 +176,7 @@ static void drawInstrumentGauges(void)
         for (;;) {
             LOB(g_tapeText0[5]) = (uint8)(LOB(g_tapeText0[5]) - (uint8)g_tapeTickPitch);
             g_tapeText0[4] = g_speedTapeTickStep;
-            if (di >= 0x28) {
+            if (di >= 40) {
                 di = 0;
                 g_tapePageCounter--;
                 g_tapeRenderX -= g_tapeTickPitch;
@@ -194,31 +194,31 @@ static void drawInstrumentGauges(void)
     /* speed-indicator tick marks (colour 0x0f) */
     setFill(0x0f);
     if (g_halfScaleRender != 0) {
-        drawLine(0x7a, 0x52, 0x7c, 0x52);
-        drawLine(0xc4, 0x52, 0xc6, 0x52);
-        drawLine(0x9f, 0x43, 0x9f, 0x44);
+        drawLine(122, 82, 124, 82);
+        drawLine(196, 82, 198, 82);
+        drawLine(159, 67, 159, 68);
     } else {
-        drawLine(0x49, 0x38, 0x4c, 0x38);
-        drawLine(0xf3, 0x38, 0xf6, 0x38);
-        drawLine(0x9f, 0x14, 0x9f, 0x16);
+        drawLine(73, 56, 76, 56);
+        drawLine(243, 56, 246, 56);
+        drawLine(159, 20, 159, 22);
     }
 
     /* ---- altitude tape ---- */
     {
         uint16 alt = g_altitude;
-        int thousands = (int)(alt / 0x3e8) - 1;
-        uint16 rem = (uint16)(alt % 0x3e8);
+        int thousands = (int)(alt / 1000) - 1;
+        uint16 rem = (uint16)(alt % 1000);
         uint16 hundredsPix;
         g_altRemainder = rem;
-        hundredsPix = (uint16)((rem << g_tapeScaleShift) / 0x64);
+        hundredsPix = (uint16)((rem << g_tapeScaleShift) / 100);
         di = thousands * 2;
         g_tapePageCounter = 4;
         if (di < 0) {
             /* altitude < 1000 ft: build the hundreds tape */
             uint8 al;
-            dl = (int8)((g_altRemainder / 0x64) - 1);
-            rem = (uint16)((g_altRemainder % 0x64) << g_tapeScaleShift);
-            al = (uint8)((rem / 0x0a) + g_tapeOriginX);
+            dl = (int8)((g_altRemainder / 100) - 1);
+            rem = (uint16)((g_altRemainder % 100) << g_tapeScaleShift);
+            al = (uint8)((rem / 10) + g_tapeOriginX);
             LOB(g_tapeText0[5]) = al;
             g_tapeRenderMode = (uint8)dl;
             al = (uint8)(al - g_tapeCursorBackShift);
@@ -227,7 +227,7 @@ static void drawInstrumentGauges(void)
             for (;;) {
                 LOB(g_tapeText0[5]) = (uint8)(LOB(g_tapeText0[5]) - (uint8)g_tapeTickPitch);
                 g_tapeText0[4] = g_altTapeTickStep;
-                if (di >= 0x28) {
+                if (di >= 40) {
                     di = 0;
                     g_tapePageCounter--;
                     g_tapeRenderX -= g_tapeTickPitch;
@@ -237,7 +237,7 @@ static void drawInstrumentGauges(void)
                 drawTapeStr(g_tapeText0, g_tapeDigitStrip, 0x01);
                 di += 2;
                 if (--g_tapePageCounter == 0) goto alt_done;
-                if (di >= 0x14) { di = 2; break; }   /* jump into the thousands loop */
+                if (di >= 20) { di = 2; break; }   /* jump into the thousands loop */
             }
         } else {
             /* altitude >= 1000 ft */
@@ -313,23 +313,23 @@ static void drawInstrumentGauges(void)
 
     /* ---- gauge frame ---- */
     if (g_halfScaleRender == 0) {
-        drawLine(0x2e, 0x60, 0x2e, 0x0f);
-        drawLine(0x112, 0x60, 0x112, 0x0f);
+        drawLine(46, 96, 46, 15);
+        drawLine(274, 96, 274, 15);
         setFill(8);
-        drawLine(0x2d, 0x60, 0x2d, 0x0f);
-        drawLine(0x113, 0x60, 0x113, 0x0f);
-        drawLine(0x113, 0x0f, 0xe8, 0x03);
-        drawLine(0xe8, 0x03, 0x5a, 0x03);
-        drawLine(0x2d, 0x0f, 0x59, 0x03);
+        drawLine(45, 96, 45, 15);
+        drawLine(275, 96, 275, 15);
+        drawLine(275, 15, 232, 3);
+        drawLine(232, 3, 90, 3);
+        drawLine(45, 15, 89, 3);
     } else {
-        drawLine(0x67, 0x60, 0x67, 0x3f);
-        drawLine(0xd9, 0x60, 0xd9, 0x3f);
+        drawLine(103, 96, 103, 63);
+        drawLine(217, 96, 217, 63);
         setFill(8);
-        drawLine(0x66, 0x60, 0x66, 0x3f);
-        drawLine(0xda, 0x60, 0xda, 0x3f);
-        drawLine(0xd9, 0x3f, 0xc4, 0x39);
-        drawLine(0xc4, 0x39, 0x7c, 0x39);
-        drawLine(0x7c, 0x39, 0x67, 0x3f);
+        drawLine(102, 96, 102, 63);
+        drawLine(218, 96, 218, 63);
+        drawLine(217, 63, 196, 57);
+        drawLine(196, 57, 124, 57);
+        drawLine(124, 57, 103, 63);
     }
 
     /* ---- HUD gun-sight ---- */
@@ -348,9 +348,9 @@ static void drawInstrumentGauges(void)
         int subY;
         ap >>= 6;
         t = (uint16)hudPitchScale(ap);
-        ch = (t / 0x28) & 0xff;                            /* centre rung index */
-        t = (uint16)((t % 0x28) * (uint8)g_pitchRungVStep);
-        subY = (int)(t / 0x28);
+        ch = (t / 40) & 0xff;                            /* centre rung index */
+        t = (uint16)((t % 40) * (uint8)g_pitchRungVStep);
+        subY = (int)(t / 40);
         if (pitch < 0) subY = (uint8)g_pitchRungVStep - subY;
         subY = (uint8)(subY + g_pitchCenterY);
         if (pitch < 0) ch = (int8)(-(int8)ch - 1);
@@ -515,7 +515,7 @@ static void drawInstrumentGauges(void)
 
             /* rung labels (rolled into position via the timerTickByte curves) */
             si = 0;
-            g_tapeCursorX += 0x0b;
+            g_tapeCursorX += 11;
             {
                 int rollIdx = (((uint16)g_ourRoll >> 8) >> 2) & 0xff;
                 di = rollIdx * 2;

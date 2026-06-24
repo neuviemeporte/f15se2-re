@@ -19,7 +19,7 @@
 void initGraphics()
 {
     /* unused stack data eliminated by compiler, but original binary has sub sp,0xe in preamble - ??? */
-    uint8 unused[0xe];
+    uint8 unused[14];
     seedRandom();
     gfx_setPageN(0);
     gfx_allocPage(0);

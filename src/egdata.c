@@ -31,8 +31,8 @@ const char *scenarioPlh[8] = {
 
 int allocSize = 0;
 int16 g_sphereColor = 0xC4;
-int16 g_viewCenterX = 0xA0;
-int16 g_viewCenterY = 0x64;
+int16 g_viewCenterX = 160;
+int16 g_viewCenterY = 100;
 /* g_sphereRingTable: 16-entry seed table copied into g_sphereRingRadii and then offset to
    drive the 3D-sphere/horizon ring radii (egsphere.c). */
 extern const int16 g_sphereRingTable[16] = {
@@ -79,13 +79,13 @@ int16 waypointIndex = 0;
 int16 g_unusedWaypointTail = 0;
 
 int16 g_bombDamageMask = 4;
-int16 g_fuelRemaining = 0x1388;
+int16 g_fuelRemaining = 5000;
 /* Countermeasure ammo counters, indexed by kind in countermeasures():
  * [1] = flare, [2] = chaff. g_eventTimers[0] is unused. */
-int16 g_eventTimers[3] = {0, 0x0C, 0x12};
+int16 g_eventTimers[3] = {0, 12, 18};
 int16 missileSpecIndex = 0;
 
-int16 g_gunAmmo = 0x28A;
+int16 g_gunAmmo = 650;
 int16 g_autopilotAltitude = 0;
 int16 g_missionStatus = 1;
 int16 g_difficultyTier = 1;
@@ -129,45 +129,45 @@ struct Particle g_particles[8];
  * maxSpeed (projectile speed term), weaponClass (signed target-class index,
  * -1 = none), turnRate, modelId (category). Indexed by threat/weapon id. */
 struct Sam sams[39] = {
-    { "None",    0,    0,     0,  1, 0x13 },
-    { "SA-2",    0x7D, 0x7D0,  1,  4, 0x13 },
-    { "SA-5",    0x96, 0x708,  1,  1, 0x13 },
-    { "SA-8B",   0x41, 0x4B0,  2,  3, 0x13 },
-    { "SA-10",   0x7D, 0x708,  3,  2, 0x13 },
-    { "SA-11",   0x64, 0x5DC,  2,  3, 0x13 },
-    { "SA-12",   0x96, 0x7D0,  3,  2, 0x13 },
-    { "SA-13",   0x41, 0x384,  0,  4, 0x13 },
-    { "SA-N-4",  0x1E, 0x4B0,  2,  3, 0x13 },
-    { "SA-N-5",  0x1E, 0x384, -1,  4, 0x13 },
-    { "SA-N-6",  0x7D, 0x708,  3,  2, 0x13 },
-    { "SA-N-7",  0x64, 0x5DC,  2,  3, 0x13 },
-    { "Hawk",    0x7D, 0x384,  2,  3, 0x13 },
-    { "Rapier",  0x41, 0x4B0,  2,  4, 0x13 },
-    { "Tiger",   0x1E, 0x384,  1,  3, 0x13 },
-    { "Seacat",  0x1E, 0x384,  1,  3, 0x13 },
-    { "AA-2",    0x0E, 0x5DC, -1,  4, 0x13 },
-    { "AA-8",    0x0C, 0x708,  0,  5, 0x13 },
-    { "AA-6",    0x32, 0x960,  2,  2, 0x13 },
-    { "AA-7",    0x22, 0x708,  2,  2, 0x13 },
-    { "AA-9",    0x52, 0x7D0,  2,  3, 0x13 },
-    { "AA-10",   0x40, 0x7D0,  3,  4, 0x13 },
-    { "AIM120",  0x20, 0x960,  7,  4, 1    },
-    { "AIM-9",   0x11, 0x7D0,  7,  8, 1    },
-    { "HARM",    0x14, 0x4B0,  4,  2, 1    },
-    { "Penguin", 0x20, 0x1F4,  5,  2, 0x13 },
-    { "Harpoon", 0x3C, 0x1F4,  5,  2, 0x13 },
-    { "AGM-65",  0x20, 0x320,  6,  2, 0x0D },
-    { "LGBOMB",  0x0A, 0,     0x1C, 2, 0x0F },
-    { "RTBOMB",  0,    0,     0x1D, 2, 0x0F },
-    { "FFBOMB",  0,    0,     0x1E, 2, 0x0F },
-    { "AIM-7W",  0x2C, 0x960,  2,  4, 1    },
-    { "AIM-9W",  0x0C, 0x7D0,  0,  5, 1    },
-    { "SA-14",   0x10, 0x384,  0,  5, 1    },
-    { "AA-6",    0x32, 0x960, -1,  2, 0x13 },
-    { "AA-7",    0x22, 0x708, -1,  2, 0x13 },
-    { "AA-9",    0x52, 0x7D0, -1,  3, 0x13 },
-    { "AA-10",   0x40, 0x7D0,  0,  4, 0x13 },
-    { "Equip.",  0,    0,     0x1D, 0, 0x0E },
+    { "None",    0,   0,    0,  1, 19 },
+    { "SA-2",    125, 2000, 1,  4, 19 },
+    { "SA-5",    150, 1800, 1,  1, 19 },
+    { "SA-8B",   65,  1200, 2,  3, 19 },
+    { "SA-10",   125, 1800, 3,  2, 19 },
+    { "SA-11",   100, 1500, 2,  3, 19 },
+    { "SA-12",   150, 2000, 3,  2, 19 },
+    { "SA-13",   65,  900,  0,  4, 19 },
+    { "SA-N-4",  30,  1200, 2,  3, 19 },
+    { "SA-N-5",  30,  900, -1,  4, 19 },
+    { "SA-N-6",  125, 1800, 3,  2, 19 },
+    { "SA-N-7",  100, 1500, 2,  3, 19 },
+    { "Hawk",    125, 900,  2,  3, 19 },
+    { "Rapier",  65,  1200, 2,  4, 19 },
+    { "Tiger",   30,  900,  1,  3, 19 },
+    { "Seacat",  30,  900,  1,  3, 19 },
+    { "AA-2",    14,  1500, -1, 4, 19 },
+    { "AA-8",    12,  1800, 0,  5, 19 },
+    { "AA-6",    50,  2400, 2,  2, 19 },
+    { "AA-7",    34,  1800, 2,  2, 19 },
+    { "AA-9",    82,  2000, 2,  3, 19 },
+    { "AA-10",   64,  2000, 3,  4, 19 },
+    { "AIM120",  32,  2400, 7,  4, 1  },
+    { "AIM-9",   17,  2000, 7,  8, 1  },
+    { "HARM",    20,  1200, 4,  2, 1  },
+    { "Penguin", 32,  500,  5,  2, 19 },
+    { "Harpoon", 60,  500,  5,  2, 19 },
+    { "AGM-65",  32,  800,  6,  2, 13 },
+    { "LGBOMB",  10,  0,    28, 2, 15 },
+    { "RTBOMB",  0,   0,    29, 2, 15 },
+    { "FFBOMB",  0,   0,    30, 2, 15 },
+    { "AIM-7W",  44,  2400, 2,  4, 1  },
+    { "AIM-9W",  12,  2000, 0,  5, 1  },
+    { "SA-14",   16,  900,  0,  5, 1  },
+    { "AA-6",    50,  2400, -1, 2, 19 },
+    { "AA-7",    34,  1800, -1, 2, 19 },
+    { "AA-9",    82,  2000, -1, 3, 19 },
+    { "AA-10",   64,  2000, 0,  4, 19 },
+    { "Equip.",  0,   0,    29, 0, 14 },
 };
 
 /* aircraftTypes[19]: enemy/AI aircraft catalogue indexed by SimObject.spec —
@@ -268,7 +268,7 @@ int16 g_weaponMarkerSel = 0;
 /* Three more 11-word page/viewport descriptors (sub-window regions) reached
    through the g_viewParams/567/568 near-pointers; same field layout as the g_pageFront
    descriptors ([1]=mode, [2]=fill color, [7..10]=clip rect / page base). */
-int16 buf6data_4[11] = { 0, 2, 2, 0, 0, 0, 1, 0, 0x6F, 0, 0x13F };
+int16 buf6data_4[11] = { 0, 2, 2, 0, 0, 0, 1, 0, 111, 0, 319 };
 int16 *g_viewParams = buf6data_4;
 
 /* g_renderPageToggle: a one-byte toggle flag (eg3dview flips it each call). */
@@ -326,7 +326,7 @@ size_t size3d3 = 1;
 unsigned int buf3d3[100] = { 0 };
 unsigned int size3d3_2 = 0;
 int16 sign3dt = 0x3131;
-uint16 sizes3dt[5] = { 0x20, 0x20, 0x20, 0x20, 0x20 };
+uint16 sizes3dt[5] = { 32, 32, 32, 32, 32 };
 uint16 matrix3dt[5][32] = {{0}};
 
 /* g_modelOffsetTable: 32-word scratch buffer for the secondary photo/3D model loader
@@ -460,12 +460,12 @@ int16 g_lodDistScale = 0x1000;
 int16 g_lodDistNear = 0x2000;
 int16 g_lodDistFar = 0x4000;
 
-int16 g_overlayBaseX[16] = { 2, 0x2C, 0xAC, 0x158, 0x2AD, 0x558, 0xAB0, 0x1560,
-                         2, 0x1E, 0x75, 0xE9, 0x1D1, 0x3A1, 0x741, 0xE82 };
-int16 g_overlayBaseY[32] = { 3, 0x32, 0xC5, 0x18A, 0x312, 0x622, 0xC43, 0x1886,
-                         2, 0x1A, 0x65, 0xCA, 0x193, 0x325, 0x649, 0xC91,
-                         4, 0x53, 0x145, 0x28A, 0x511, 0xA1E, 0x143B, 0x2876,
-                         2, 0x1F, 0x78, 0xF0, 0x1DE, 0x3BB, 0x776, 0xEEC };
+int16 g_overlayBaseX[16] = { 2, 44, 172, 344, 685, 1368, 2736, 5472,
+                         2, 30, 117, 233, 465, 929, 1857, 3714 };
+int16 g_overlayBaseY[32] = { 3, 50, 197, 394, 786, 1570, 3139, 6278,
+                         2, 26, 101, 202, 403, 805, 1609, 3217,
+                         4, 83, 325, 650, 1297, 2590, 5179, 10358,
+                         2, 31, 120, 240, 478, 955, 1910, 3820 };
 
 /* g_posVisibleFlag: scalar flag, only byte[0] is used. */
 int16 g_posVisibleFlag = 0;
@@ -767,7 +767,7 @@ struct SpriteParams blitSpriteParams = {
 /* voiceCueThresholds[0..2]: per-weapon digital-voice-cue thresholds (vs f15DgtlResult).
    playVoiceCue also indexes [4] (weaponIdx can be 4), an over-read. */
 extern const int16 voiceCueThresholds[3] = { 0x31F3, 0x4796, 0x5C92 };
-int16 g_hudBottomY = 0x6C;
+int16 g_hudBottomY = 108;
 /* g_rearViewShape: vector-shape display list for drawVectorShape (two outlined boxes,
    colors 7 and 8). Each sub-shape is a color word, then x,y point pairs, ended
    by -1; a trailing -1 terminates the list. */
@@ -1229,23 +1229,23 @@ int16 g_tapeSprite3[15] = {0,0xb8,0x10,0,0xa7,0x1e,0x18,0x10,0,0xc7,0,0x13f,0xd0
 
 /* ===== HUD layout scalars + label scratch =====
  * Runtime state set by setupInstrumentLayout. */
-int16 g_tapeOriginX = 0x61;
-int16 g_tapeTickPitch = 0xa;
-int16 g_speedTapeTickStep = 0x62;
+int16 g_tapeOriginX = 97;
+int16 g_tapeTickPitch = 10;
+int16 g_speedTapeTickStep = 98;
 int16 g_altTapeTickStep = 0xff;
-int16 g_headingPixPerDeg = 0x2d;
+int16 g_headingPixPerDeg = 45;
 int16 g_compassWrapLimit = 0xf8;
 int16 g_headingModulus = 0x0;
 int16 g_headingWrapOffset = 0x0;
 int16 g_pitchVtxX0 = (int16)0xffc4;
 int16 g_pitchVtxX1 = (int16)0xfff1;
-int16 g_pitchVtxX2 = 0x10;
-int16 g_pitchVtxX3 = 0x3c;
-int16 g_pitchRungVStep = 0x34;
-int16 g_pitchDrawX = 0x4f;
-int16 g_pitchDrawY = 0x24;
-int16 g_pitchLabelY = 0x38;
-int16 g_pitchLabelX = 0x9f;
+int16 g_pitchVtxX2 = 16;
+int16 g_pitchVtxX3 = 60;
+int16 g_pitchRungVStep = 52;
+int16 g_pitchDrawX = 79;
+int16 g_pitchDrawY = 36;
+int16 g_pitchLabelY = 56;
+int16 g_pitchLabelX = 159;
 int16 g_pitchBlitOfs = 0x0;
 int16 g_pitchClipMaxX = 0x0;
 int16 g_pitchClipMaxY = 0x0;
@@ -1262,7 +1262,7 @@ int16 g_tapeRollOfsA0 = 0x0;
 int16 g_tapeRollOfsA1 = 0x0;
 int16 g_tapeRollOfsA2 = 0x0;
 int16 g_tapeRollOfsA3 = 0x0;
-uint8 g_headingBase = 0x6d;
+uint8 g_headingBase = 109;
 uint8 g_tapeCursorBackShift = 0x8;
 uint8 g_tapeScaleShift = 0x0;
 uint8 g_pitchCenterY = 0x0;

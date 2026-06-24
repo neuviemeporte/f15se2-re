@@ -223,7 +223,7 @@ struct MCB {
     char desc[8];
 };
 #pragma pack()
-STATIC_ASSERT(sizeof(struct MCB)==0x10);
+STATIC_ASSERT(sizeof(struct MCB)==16);
 
 static uint8 FAR* dos_sysvars(void) {
     rin.h.ah = DOSF_SYSVARS;

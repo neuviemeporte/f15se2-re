@@ -88,8 +88,8 @@ void updateHallfame()
     clearRect(screenBuf, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
     gfx_commitPage();
     screenBuf[2] = COLOR_WHITE;
-    drawStringCentered(screenBuf, "Original Disk in drive.  Roster will not be saved.", 0, 0x64, 0x140);
-    drawStringCentered(screenBuf, "Press a key to continue.", 0, 0x96, 0x140);
+    drawStringCentered(screenBuf, "Original Disk in drive.  Roster will not be saved.", 0, 100, 320);
+    drawStringCentered(screenBuf, "Press a key to continue.", 0, 150, 320);
     screenBuf[2] = COLOR_GRAY;
     gfx_flipPage();
     misc_getKey();
@@ -107,7 +107,7 @@ void displayPilots(void)
     } while (++pilotIdx < HALLFAME_SLOTS);
     TRACE(("displayPilots(): loop terminating"));
     screenDesc.color = COLOR_WHITE;
-    drawStringCentered(pageNumPtr, "Use SELECTOR to choose pilot,  ESC to enter new pilot.", 0, 0xC0, 0x140);
+    drawStringCentered(pageNumPtr, "Use SELECTOR to choose pilot,  ESC to enter new pilot.", 0, 192, 320);
     TRACE(("displayPilots(): drawn prompt"));
     gfx_commitPage();
     TRACE(("displayPilots(): exiting"));
@@ -122,13 +122,13 @@ void printPilot(int pilotIdx) {
     pilot = &hallfameBuf[pilotIdx];
     xPos = (pilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
     yPos = ((pilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
-    clearRect(screenBuf, xPos, yPos - 1, xPos + PILOT_ENTRY_WIDTH, yPos + 0x20);
+    clearRect(screenBuf, xPos, yPos - 1, xPos + PILOT_ENTRY_WIDTH, yPos + 32);
     screenDesc.color = (pilotIdx == selectedPilotIdx) ? COLOR_WHITE : COLOR_GRAY;
     mystrcpy(todayMissStrBuf, ranks[pilot->rank & 0xf]);
     TRACE(("printPilot(): strcpy %s", todayMissStrBuf));
     mystrcat(todayMissStrBuf, pilot->name);
     TRACE(("printPilot(): strcat %s", todayMissStrBuf));
-    drawStringCentered(screenBuf, todayMissStrBuf, xPos, yPos, 0x90);
+    drawStringCentered(screenBuf, todayMissStrBuf, xPos, yPos, 144);
     TRACE(("printPilot(): drawn string %s", todayMissStrBuf));
     screenDesc.color = COLOR_RED;
     screenDesc.font = 4;
@@ -139,7 +139,7 @@ void printPilot(int pilotIdx) {
     my_itoa(pilot->last_score, &todayMissStrBuf[mystrlen(todayMissStrBuf)]);
     mystrcat(todayMissStrBuf, ")");
     TRACE(("printPilot(): strcat3 %s", todayMissStrBuf));
-    drawStringCentered(screenBuf, todayMissStrBuf, xPos, yPos + 9, 0x90);
+    drawStringCentered(screenBuf, todayMissStrBuf, xPos, yPos + 9, 144);
     TRACE(("printPilot(): drawn string2"));
     screenDesc.font = 1;
     for (medalIdx = 0, totalMedalWidth = 0; medalIdx < 7; medalIdx++) {
@@ -147,13 +147,13 @@ void printPilot(int pilotIdx) {
         totalMedalWidth += medalWidth[medalIdx] + 4;
     }
     TRACE(("printPilot(): past loop 1, totalMedalWidth = %d", totalMedalWidth));
-    xPos += (0x90 - totalMedalWidth) / 2;
-    yPos += 0x11;
+    xPos += (144 - totalMedalWidth) / 2;
+    yPos += 17;
     medalIdx = 0;
     // display medals
     do {
         if ((pilot->medals & (1 << medalIdx)) == 0) continue;
-        showSprite(screenBuf[0], xPos, yPos, medalSpriteX[medalIdx], medalSpriteY[medalIdx], medalWidth[medalIdx], 0x10);
+        showSprite(screenBuf[0], xPos, yPos, medalSpriteX[medalIdx], medalSpriteY[medalIdx], medalWidth[medalIdx], 16);
         xPos += medalWidth[medalIdx] + 4;
     } while(++medalIdx < 7);
     TRACE(("printPilot(): returning"));
@@ -288,7 +288,7 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
     rankWidth = PILOT_ENTRY_WIDTH - rankWidth;
     screenBuf[3] = 0;
     clearRect(page, 15, 192, 303, 197);
-    drawStringCentered(pageNumPtr, "\376ENTER YOUR NAME !", 0xf, 0xc0, 0x121);
+    drawStringCentered(pageNumPtr, "\376ENTER YOUR NAME !", 15, 192, 289);
     misc_clearKeyFlags();
     keyCode = KEYCODE_CTRLX;
     TRACE(("pilotNameInput(): before loop"));
@@ -316,7 +316,7 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
             break;
         default:
             TRACE(("pilotNameInput(): case default"));
-            if (keyCode >= 0x20 && keyCode <= 0x7f && nameLen < a && stringWidth(page, pilot->name) <= 0x90) {
+            if (keyCode >= 0x20 && keyCode <= 0x7f && nameLen < a && stringWidth(page, pilot->name) <= 144) {
                 TRACE(("pilotNameInput(): case default condition true, nameLen = %d", nameLen));
                 pilot->name[nameLen++] = keyCode;
                 pilot->name[nameLen] = '\0';
@@ -342,7 +342,7 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
         TRACE(("pilotNameInput(): after sub_125e4, keyCode = 0x%x", keyCode));
         if (keyCode == KEYCODE_ENTER) {
             screenBuf[3] = 0;
-            clearRect(page, 0xf, 0xc0, 0x12f, 0xc5);
+            clearRect(page, 15, 192, 303, 197);
             return;
         }
     } while( true );

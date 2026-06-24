@@ -4,12 +4,12 @@
 #define IRQ_VIDEO 0x10
 
 #define DOS_ERROR_RMDIR 0x10
-#define HALLFAME_RECORDSZ 0x20
+#define HALLFAME_RECORDSZ 32
 
 #define THEATER_DS 6
 #define THEATER_OTHER 4
 #define DIFFICULTY_DEMO 4
-#define HALLFAME_RECORDSZ 0x20
+#define HALLFAME_RECORDSZ 32
 #define HALLFAME_SLOTS 8
 
 #define MPS_TIMEOUT 120
@@ -39,9 +39,9 @@
 #define KEYCODE_CTRLX 0x18
 
 /* joystick axis values */
-#define JOY_CENTER 0x80
-#define JOY_DEADZONE_LO 0x4e
-#define JOY_DEADZONE_HI 0xb2
+#define JOY_CENTER 128
+#define JOY_DEADZONE_LO 78
+#define JOY_DEADZONE_HI 178
 
 /* graphics mode numbers from driver function 3f */
 #define GFX_MODE_MDA 1
@@ -63,13 +63,13 @@
 
 /* pilot roster layout */
 #define PILOTS_PER_COLUMN 4
-#define PILOT_COL_LEFT 0x10
-#define PILOT_COL_RIGHT 0xa0
-#define PILOT_ROW_HEIGHT 0x2c
-#define PILOT_TOP_MARGIN 0x14
-#define PILOT_ENTRY_WIDTH 0x8f
+#define PILOT_COL_LEFT 16
+#define PILOT_COL_RIGHT 160
+#define PILOT_ROW_HEIGHT 44
+#define PILOT_TOP_MARGIN 20
+#define PILOT_ENTRY_WIDTH 143
 #define PILOT_NAME_HEIGHT 8
-#define MAX_PILOT_NAME_LEN 0x14
+#define MAX_PILOT_NAME_LEN 20
 
 /* mission/world generation */
 #define FIRST_REAL_ITEM 3
@@ -89,7 +89,7 @@
 #define COLOR_TITLE 1
 #define COLOR_COORDS 3
 
-#define WORLD_BUFSZ 0x2ee // 750
+#define WORLD_BUFSZ 750 // 750
 #define GRID_MAGIC 0x3232
 #define TERRAIN_MAGIC 0x3131
 

@@ -73,7 +73,7 @@ void keyDispatch(uint16 scanCode)
         if (g_viewZ != g_groundAltitude) {
             *(char *)&g_playerPlaneFlags ^= 1;
             g_gearDownArmed = 0;
-            makeSound(0x20, 2);
+            makeSound(32, 2);
         }
         if (!(*(char *)&g_playerPlaneFlags & 1)) {
             exitSlowMotion();
@@ -241,7 +241,7 @@ void keyDispatch(uint16 scanCode)
     case 0x11b:
         if (g_ejectState == 0) {
             makeSound(2, 2);
-            makeSound(0x22, 2);
+            makeSound(34, 2);
             if ((abs(g_ourRoll) >> 5) + (abs(g_ourPitch) >> 5) + g_knots
                     > randomRange(500) + 500) {
                 finalizeMission(6);

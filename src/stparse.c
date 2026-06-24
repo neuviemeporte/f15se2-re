@@ -36,7 +36,7 @@ void parseTerrain(char *filename) {
         else {
             fread(terrainBuf1,2,5,fileHandle);
                 for (level = 0; level < 5; level++) {
-                    if (terrainBuf1[level] > 0x20) {
+                    if (terrainBuf1[level] > 32) {
                     showMsgWaitKey("Too many tiles.");
                     return;
                 }
@@ -47,7 +47,7 @@ void parseTerrain(char *filename) {
                 for (entry = 0; terrainBuf1[level] > entry; entry++) {
                     terrainTilePtrs[level].entries[entry] = (struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset);
                     for (tileNum = 0; tileNum < terrainTileCounts[level].entries[entry]; tileNum++) {
-                        if (tileOffset > 0xdac) {
+                        if (tileOffset > 3500) {
                             showMsgWaitKey("Too much tile data");
                             return;
                         }
@@ -75,7 +75,7 @@ void parseGrid() {
         do {
             gridBuf1[idx] = idx;
             idx++;
-        } while (idx < 0x10);
+        } while (idx < 16);
         nearmemset(gridBuf2, 0, 0x100);
         nearmemset(gridBuf3, 0, 0x200);
         nearmemset(gridBuf4, 0, 0x200);
@@ -88,7 +88,7 @@ void parseGrid() {
         showMsgWaitKey("Bad Grid file format.");
     }
     else {
-        fread(gridBuf1, 1, 0x10, fileHandle);
+        fread(gridBuf1, 1, 16, fileHandle);
         fread(gridBuf2, 1, 0x100, fileHandle);
         fread(gridBuf3, 1, 0x200, fileHandle);
         fread(gridBuf4, 1, 0x200, fileHandle);
@@ -98,7 +98,7 @@ void parseGrid() {
 }
 
 int showMsgWaitKey(const char *msg) {
-    doNothing2(msg, 0, 0x60, 0x0f);
+    doNothing2(msg, 0, 96, 0x0f);
     return getch();
 }
 

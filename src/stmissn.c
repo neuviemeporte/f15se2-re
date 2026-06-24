@@ -131,8 +131,8 @@ selectTheater:
         }
         if (count == 0) { // no scenarios found, print message and go back to previous screen
             clearBriefing();
-            drawStringCentered(page1NumPtr, "No scenario files found", 0x71, 0x3c, 0xb9);
-            drawStringCentered(page1NumPtr, "See Technical Supplement", 0x71, 0x48, 0xb9);
+            drawStringCentered(page1NumPtr, "No scenario files found", 113, 60, 185);
+            drawStringCentered(page1NumPtr, "See Technical Supplement", 113, 72, 185);
             enableHighlight = 0;
             timerCounter3 = 6;
             animateArm(armPosition, armPosition);
@@ -230,7 +230,7 @@ void animateArm(int a, int b)
     }
     if (b != -1) {
         if (b < 5 && enableHighlight != 0) {
-            gfx_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
+            gfx_switchColor(page1NumPtr, 113, b * 21 + 34, 297, b * 21 + 42, COLOR_BRIEF_DESC_NORMAL, COLOR_BRIEF_DESC_HL);
         }
         showSprite(*page1NumPtr, armBlitX[spriteIdx], armBlitY[spriteIdx], armSrcX[spriteIdx], armSrcY[spriteIdx], armBlitW[spriteIdx], armBlitH[spriteIdx]);
     }
@@ -243,7 +243,7 @@ void animateArm(int a, int b)
         } else {
             gfx_copyRect(*page2NumPtr, spriteBlitX, spriteBlitY, *page1NumPtr, spriteBlitX, spriteBlitY, spriteBlitW, spriteBlitH);
             if (a < 5 && enableHighlight != 0) {
-                gfx_switchColor(page1NumPtr, 113, (21 * a) + 0x22, 297, (21 * a) + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
+                gfx_switchColor(page1NumPtr, 113, (21 * a) + 34, 297, (21 * a) + 42, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
             }
         }
         spriteBlitX = armBlitX[spriteIdx];
@@ -260,7 +260,7 @@ void animateArm(int a, int b)
         spriteBlitH = armBlitH[spriteIdx];
         gfx_copyRect(*page2NumPtr, spriteBlitX, spriteBlitY, *page1NumPtr, spriteBlitX, spriteBlitY, spriteBlitW, spriteBlitH);
         if (b < 5 && enableHighlight != 0) {
-            gfx_switchColor(page1NumPtr, 113, b * 21 + 0x22, 297, b * 21 + 0x2a, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
+            gfx_switchColor(page1NumPtr, 113, b * 21 + 34, 297, b * 21 + 42, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
         } //cd9
     }
 }
@@ -268,7 +268,7 @@ void animateArm(int a, int b)
 int askRepeatMission() {
     char keycode;
     page1Desc.color = COLOR_BRIEF_DESC_HL;
-    drawStringCentered(page1NumPtr, "Repeat last mission ? (y/n)", 0x71, 0x42, 0xb9);
+    drawStringCentered(page1NumPtr, "Repeat last mission ? (y/n)", 113, 66, 185);
     enableHighlight = 0;
     timerCounter3 = 6;
     animateArm(armPosition, armPosition);
@@ -283,9 +283,9 @@ int askRepeatMission() {
 void checkDiskA() {
     while ((fileHandle = fopen("F15.spr", "rb")) == NULL) {
         clearBriefing();
-        drawStringCentered(page1NumPtr, "Please reinsert F15 Disk A", 0x71, 0x3d, 0xb9);
+        drawStringCentered(page1NumPtr, "Please reinsert F15 Disk A", 113, 61, 185);
         page1NumPtr[6] = FONT_SMALL; // page1Desc.font?
-        drawStringCentered(page1NumPtr, "<Press selector when ready>", 0x71, 0x49, 0xb9);
+        drawStringCentered(page1NumPtr, "<Press selector when ready>", 113, 73, 185);
         page1NumPtr[6] = FONT_NORMAL;
         enableHighlight = 0;
         timerCounter3 = 6;
@@ -298,7 +298,7 @@ void checkDiskA() {
 
 void missionDecode() {
     page1Desc.color = COLOR_BRIEF_DESC_NORMAL;
-    drawStringCentered(page1NumPtr, "decoding mission...", 0x71, 0x42, 0xb9);
+    drawStringCentered(page1NumPtr, "decoding mission...", 113, 66, 185);
     enableHighlight = 0;
     timerCounter3 = 6;
     animateArm(armPosition, armPosition);
@@ -308,39 +308,39 @@ void printMission() {
     int armStep;
     clearBriefing();
     page1Desc.color = COLOR_TITLE;
-    drawStringCentered(page1NumPtr, "TODAY'S MISSION", 0x71, 0x0e, 0xb9);
-    drawLine(page1NumPtr, 0xa0, 0x16, 0xf9, 0x16, 1);
-    drawStringAt(page1NumPtr, "Takeoff from:", 0x82, 0x20);
+    drawStringCentered(page1NumPtr, "TODAY'S MISSION", 113, 14, 185);
+    drawLine(page1NumPtr, 160, 22, 249, 22, 1);
+    drawStringAt(page1NumPtr, "Takeoff from:", 130, 32);
     page1Desc.color = COLOR_BRIEF_DESC_HL;
     buildTargetLabel(targets[0].baseIdx);
-    drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x2a, 0xb9);
+    drawStringCentered(page1NumPtr, todayMissStrBuf, 113, 42, 185);
     mystrcpy(todayMissStrBuf, "ONC ");
     mystrcat(todayMissStrBuf, getItemCoordStr(targets[0].baseIdx));
     page1Desc.font = FONT_SMALL;
     page1Desc.color = COLOR_COORDS;
-    drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x34, 0xb9);
+    drawStringCentered(page1NumPtr, todayMissStrBuf, 113, 52, 185);
     page1Desc.font = FONT_NORMAL;
     page1Desc.color = COLOR_TITLE;
-    drawStringAt(page1NumPtr, "Primary Target:", 0x82, 0x40);
+    drawStringAt(page1NumPtr, "Primary Target:", 130, 64);
     page1Desc.color = COLOR_BRIEF_DESC_HL;
     buildTargetLabel(targets[0].targetIdx);
-    drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x4a, 0xb9);
+    drawStringCentered(page1NumPtr, todayMissStrBuf, 113, 74, 185);
     page1Desc.font = FONT_SMALL;
     page1Desc.color = COLOR_COORDS;
     mystrcpy(todayMissStrBuf, "ONC ");
     mystrcat(todayMissStrBuf, targets[0].coord);
-    drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x54, 0xb9);
+    drawStringCentered(page1NumPtr, todayMissStrBuf, 113, 84, 185);
     page1Desc.font = FONT_NORMAL;
     page1Desc.color = COLOR_TITLE;
-    drawStringAt(page1NumPtr, "Secondary Target:", 0x82, 0x60);
+    drawStringAt(page1NumPtr, "Secondary Target:", 130, 96);
     page1Desc.color = COLOR_BRIEF_DESC_HL;
     buildTargetLabel(targets[1].targetIdx);
-    drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x6a, 0xb9);
+    drawStringCentered(page1NumPtr, todayMissStrBuf, 113, 106, 185);
     page1Desc.font = FONT_SMALL;
     page1Desc.color = COLOR_COORDS;
     mystrcpy(todayMissStrBuf, "ONC ");
     mystrcat(todayMissStrBuf, targets[1].coord);
-    drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x74, 0xb9);
+    drawStringCentered(page1NumPtr, todayMissStrBuf, 113, 116, 185);
     page1Desc.font = FONT_NORMAL;
     enableHighlight = 0;
     setTimerIrqHandler();
@@ -399,7 +399,7 @@ int pollMenuInput() {
         // if ((((((misc_checkKeyBuf() == 0) || (var_2 != 0)) || (var_4 != 0)) ||
         //     ((joyAxes[0] < 0x4e || (joyAxes[0] > 0xb2)))) ||
         //     ((joyAxes[1] < 0x4e || (joyAxes[1] > 0xb2)))) && (var_6 != 1)) break;
-        if ((joyRepeatFlag == 1) && (0xf < timerCounter)) { //113f
+        if ((joyRepeatFlag == 1) && (15 < timerCounter)) { //113f
             TRACE(("pollMenuInput(): cond 1"));
             repeatHold = 0;
             joyRepeatFlag = 0;

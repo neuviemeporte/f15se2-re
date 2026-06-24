@@ -62,8 +62,8 @@ void renderHudFrame(int unused) {
                 TRACE(("renderHudFrame: calling setDrawColor(0xd)"));
                 setDrawColor(0xd);
                 TRACE(("renderHudFrame: calling fillRectBoth"));
-                fillRectBoth(0, 0, 0x13f, 0x60);
-                gfx_setDacAnimCount(0x3c);
+                fillRectBoth(0, 0, 319, 96);
+                gfx_setDacAnimCount(60);
             }
         }
         TRACE(("renderHudFrame: past 8ed2, keyValue=%d g_halfScaleRender=%d", keyValue, g_halfScaleRender));
@@ -74,48 +74,48 @@ void renderHudFrame(int unused) {
                 TRACE(("renderHudFrame: calling setDrawColor(0)"));
                 setDrawColor(0);
                 TRACE(("renderHudFrame: calling drawViewportLine"));
-                drawViewportLine(0x115, 0x53, 0x125, 0x53);
-                drawViewportLine(0x125, 0x53, 0x125, 0x5f);
-                drawViewportLine(0x125, 0x5f, 0x115, 0x5f);
-                drawViewportLine(0x115, 0x5f, 0x115, 0x53);
-                drawViewportLine(0x11d, 0x59, 0x11d, 0x59);
+                drawViewportLine(277, 83, 293, 83);
+                drawViewportLine(293, 83, 293, 95);
+                drawViewportLine(293, 95, 277, 95);
+                drawViewportLine(277, 95, 277, 83);
+                drawViewportLine(285, 89, 285, 89);
                 setDrawColor(0xf);
-                markerX = ((int16)(joyAxes[0] - 0x78) >> 4) + 0x11d;
-                markerY = ((int16)((joyAxes[1] * 3) - 0x168) >> 6) + 0x59;
+                markerX = ((int16)(joyAxes[0] - 120) >> 4) + 285;
+                markerY = ((int16)((joyAxes[1] * 3) - 360) >> 6) + 89;
                 drawViewportLine(markerX - 1, markerY, markerX + 1, markerY);
                 drawViewportLine(markerX, markerY + 1, markerX, markerY - 1);
             }
             if (g_playerPlaneFlags & 0x200) {
                 setDrawColor(0xf);
-                drawViewportLine(0x9c, 0x59, 0xa4, 0x59);
-                drawViewportLine(0xa0, 0x56, 0xa0, 0x5c);
+                drawViewportLine(156, 89, 164, 89);
+                drawViewportLine(160, 86, 160, 92);
             }
             setDrawColor(g_nightMode != 0 ? 4 : 0);
-            speedBarLen = clampRange((((g_cornerSpeed - g_knots) * 2) / 5) + 0x1d, 0, 0x3d);
-            if (speedBarLen) drawViewportLine(0x48, 0x55 - speedBarLen, 0x48, 0x55);
-            drawViewportLine(0xf7,  0x38, 0xf7, clampRange(-((g_climbRate >> 4) - 0x38), 0x14, 0x55));
+            speedBarLen = clampRange((((g_cornerSpeed - g_knots) * 2) / 5) + 29, 0, 61);
+            if (speedBarLen) drawViewportLine(72, 85 - speedBarLen, 72, 85);
+            drawViewportLine(247,  56, 247, clampRange(-((g_climbRate >> 4) - 56), 20, 85));
             if ((g_playerPlaneFlags & 1) == 0 && (frameTick & 1) != 0 && gameData->unk4 != 0 && g_climbRate < 0) {
-                climbMarkerY = (((g_planeTable.planes[g_closestThreatIndex].flags & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 0x38;
+                climbMarkerY = (((g_planeTable.planes[g_closestThreatIndex].flags & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 56;
                 setDrawColor(0xf);
-                drawViewportLine(0xf2, climbMarkerY - 2, 0xf4, climbMarkerY);
-                drawViewportLine(0xf2, climbMarkerY + 2, 0xf4, climbMarkerY);
+                drawViewportLine(242, climbMarkerY - 2, 244, climbMarkerY);
+                drawViewportLine(242, climbMarkerY + 2, 244, climbMarkerY);
             }
             // stall warning display
             if (g_knots < g_cornerSpeed && g_groundAltitude != g_viewZ && frameTick & 1) {
-                drawStringActivePage("stall warning", 0x84, 0x1e, 0xf);
+                drawStringActivePage("stall warning", 132, 30, 0xf);
             }
             if (g_currentWeaponType == 0 || g_currentWeaponType == 2) {
                 setDrawColor(7);
-                g_flightPathMarkerY = (g_rollPitchTrim >> 6) + 0x38;
-                if (g_flightPathMarkerY > 0xa && g_flightPathMarkerY < 0x6f) {
-                    blitSprite(0x9a, g_flightPathMarkerY - 4, 0x94, 0x15, 0x0b, 7, 0xf);
+                g_flightPathMarkerY = (g_rollPitchTrim >> 6) + 56;
+                if (g_flightPathMarkerY > 10 && g_flightPathMarkerY < 111) {
+                    blitSprite(154, g_flightPathMarkerY - 4, 0x94, 21, 11, 7, 0xf);
                 }
             }
             if (g_currentWeaponType == 1) {
                 seekerShift = g_halfScaleRender + 4;
-                markerX = (g_aamSeekerX >> seekerShift) + 0x9f;
-                markerY = (g_aamSeekerY >> seekerShift) + 0x38;
-                if (markerX > 0xa && markerX < 0x135 && markerY > 8 && markerY < 0x5b) {
+                markerX = (g_aamSeekerX >> seekerShift) + 159;
+                markerY = (g_aamSeekerY >> seekerShift) + 56;
+                if (markerX > 10 && markerX < 309 && markerY > 8 && markerY < 91) {
                     blitSprite(markerX - 6, markerY - 5, 0x91, 0x4, 0xd, 0xb, 0xe);
                 }
                 // 7 = air to air? Only Sidewinder and Amraam have it
@@ -123,46 +123,46 @@ void renderHudFrame(int unused) {
                     setDrawColor((uint8)gfxModeUnset != 0 ? 0xf : 7);
                     for (angle = 0; angle <= 0x100; angle += 0x10) {
                         angleFixed = angle << 8;
-                        circleX = sinMul(angleFixed, 0x28) + 0x9f;
-                        circleY = -(cosMul(angleFixed, 0x23) - 0x38);
+                        circleX = sinMul(angleFixed, 40) + 159;
+                        circleY = -(cosMul(angleFixed, 35) - 56);
                         if (angle != 0) drawViewportLine(circleX, circleY, prevX, prevY);
                         prevX = circleX;
                         prevY = circleY;
                     }
                 }
             }
-            drawNumber(g_knots, 0x50, 0x36, 0xf);
-            if (g_altitude <= 0x4e20) {
-                drawNumber(g_altitude < 0x64 ? g_altitude : (g_altitude / 5) * 5, 0xe4, 0x36, 0xf);
+            drawNumber(g_knots, 80, 54, 0xf);
+            if (g_altitude <= 20000) {
+                drawNumber(g_altitude < 100 ? g_altitude : (g_altitude / 5) * 5, 228, 54, 0xf);
             }
             if (g_slowMotionMode > 1) {
-                drawStringBothPages("ACCEL", 0x96, 0x4, 0xf);
+                drawStringBothPages("ACCEL", 150, 4, 0xf);
             }
             if (g_playerPlaneFlags & 0x1000) {
-                drawStringBothPages("TRAINING", 0xea, 0x10, 0xf);
+                drawStringBothPages("TRAINING", 234, 16, 0xf);
             }
             if (g_autopilotAltitude != 0) {
-                drawStringBothPages("AUTOPILOT", 0xec, 0x5a, 0xf);
+                drawStringBothPages("AUTOPILOT", 236, 90, 0xf);
             }
-            waypointMarkerX = clampRange((((g_waypointBearing - g_ourHead) >> 6) / 3) + 0x9f, 0x59, 0xe5);
+            waypointMarkerX = clampRange((((g_waypointBearing - g_ourHead) >> 6) / 3) + 159, 89, 229);
             setDrawColor(0x0b);
-            drawViewportLine(waypointMarkerX - 2, 0xf, waypointMarkerX, 0x11);
-            drawViewportLine(waypointMarkerX, 0x11, waypointMarkerX + 2, 0xf);
-            drawViewportLine(waypointMarkerX - 2, 0xf, waypointMarkerX + 2, 0xf);
+            drawViewportLine(waypointMarkerX - 2, 15, waypointMarkerX, 17);
+            drawViewportLine(waypointMarkerX, 17, waypointMarkerX + 2, 15);
+            drawViewportLine(waypointMarkerX - 2, 15, waypointMarkerX + 2, 15);
             goto somewhere;
         }
 somewhere:
         drawTacticalMap(g_drawPage);
     }
     if (g_hudMsgTimer != 0 && ((keyValue == 0 && g_halfScaleRender == 0) || (g_directorMode != 0))) {
-        drawStringActivePage(tempString, -(((int16)strlen(tempString) >> 1) - 0x28) * 4, 0x18, 0xf);
+        drawStringActivePage(tempString, -(((int16)strlen(tempString) >> 1) - 40) * 4, 24, 0xf);
         g_hudMsgTimer--;
         if (g_autopilotEngaged == 1) {
-            drawStringActivePage("Press any key to play", 0x78, 1, g_nightMode != 0 ? 0xe : 0);
+            drawStringActivePage("Press any key to play", 120, 1, g_nightMode != 0 ? 0xe : 0);
         }
     }
     if (g_dirMsgTimer != 0 && keyValue == 0 && g_halfScaleRender == 0) {
-        drawStringActivePage(string_3C04A, -(((int16)strlen(string_3C04A) >> 1) - 0x28) * 4, 0x5a, 0xf);
+        drawStringActivePage(string_3C04A, -(((int16)strlen(string_3C04A) >> 1) - 40) * 4, 90, 0xf);
         g_dirMsgTimer--;
     }
 }
@@ -207,12 +207,12 @@ void refreshActivePanel(int panelId) {
 // ==== seg000:0x9595 ====
 void initTacMapView(void) {
     g_mapMode = 0;
-    g_scopeClipLeft = 0x18;
-    g_scopeClipRight = 0x60;
-    g_scopeClipTop = 0x70;
-    g_scopeClipBottom = 0xa8;
-    g_scopeCenterX = 0x48;
-    g_scopeCenterY = 0x38;
+    g_scopeClipLeft = 24;
+    g_scopeClipRight = 96;
+    g_scopeClipTop = 112;
+    g_scopeClipBottom = 168;
+    g_scopeCenterX = 72;
+    g_scopeCenterY = 56;
     zoomIn();
 }
 
@@ -225,17 +225,17 @@ void redrawTacMap(int centerX, int centerY) {
         return;
     }
     drawPanelText(1, "Map", 0);
-    idx = 0x48 << (9 - g_mapZoomLevel);
+    idx = 72 << (9 - g_mapZoomLevel);
     g_mapCenterX = clampRange(sinMul(g_ourHead, 0x4000 >> g_mapZoomLevel) + centerX, idx, 0x7fff - idx);
-    idx = (0x38 << (9 - g_mapZoomLevel)) / 3 * 4;
+    idx = (56 << (9 - g_mapZoomLevel)) / 3 * 4;
     g_mapCenterY = clampRange(centerY - cosMul(g_ourHead, 0x4000 >> g_mapZoomLevel), idx, 0x7fff - idx);
     loadColorPalette(commData->gfxModeNum != 0 ? 0 : 3);
-    gfx_setFadeSteps(0x13);
+    gfx_setFadeSteps(19);
     renderMapTerrain(g_mapTerrainMode, g_mapCenterX / 2, -(g_mapCenterY / 2 - 0x4000), 9 - g_mapZoomLevel);
     if (gameData->theater < 2) {
-        gfx_setFadeSteps(0xc);
+        gfx_setFadeSteps(12);
     } else {
-        gfx_setFadeSteps(0x10);
+        gfx_setFadeSteps(16);
     }
     savedPage = g_drawPage;
     g_drawPage = gfx_getDisplayPage();
@@ -259,7 +259,7 @@ void redrawTacMap(int centerX, int centerY) {
     if ((char)gfx_getDisplayPage() == 0) {
         cacheScopePanel();
     } else {
-        gfx_copyRect(*g_pageBack, 0x18, 0x70, *g_pageOffscreen, 0x18, 0x70, 0x48, 0x38);
+        gfx_copyRect(*g_pageBack, 24, 112, *g_pageOffscreen, 24, 112, 72, 56);
     }
     restoreScopePanel();
     resetSimObjectLocks();
@@ -297,12 +297,12 @@ void zoomOut(void) {
 
 // ==== seg000:0x98fa ====
 int mapXToScreen(int mapX) {
-    return ((mapX - g_mapCenterX) >> (10 - g_mapZoomLevel)) + 0x3C;
+    return ((mapX - g_mapCenterX) >> (10 - g_mapZoomLevel)) + 60;
 }
 
 // ==== seg000:0x9915 ====
 int mapYToScreen(int mapY) {
-    return (((mapY - g_mapCenterY) >> (10 - g_mapZoomLevel)) * 3 >> 1 >> 1) + 0x8C;
+    return (((mapY - g_mapCenterY) >> (10 - g_mapZoomLevel)) * 3 >> 1 >> 1) + 140;
 }
 
 // ==== seg000:0x993a ====
@@ -404,7 +404,7 @@ void drawMapLine(int x1, int y1, int x2, int y2) {
 
 // ==== seg000:0x9be1 ====
 void drawFullscreenLine(int x1, int y1, int x2, int y2) {
-    drawClippedLineRegion(x1, y1, x2, y2, 0, 0x13f, 0, 199, 1);
+    drawClippedLineRegion(x1, y1, x2, y2, 0, 319, 0, 199, 1);
 }
 
 // ==== seg000:0x9c0c ====
@@ -453,14 +453,14 @@ void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int cli
         gfx_setPageN(g_drawPage != 0);
         gfx_nop23();
     }
-    g_clipMaxX = 0x13f;
-    g_clipMaxY = 0xc7;
+    g_clipMaxX = 319;
+    g_clipMaxY = 199;
     gfx_setBlitOffset(0);
 }
 
 // ==== seg000:0x9d86 ====
 void drawScreenLineOnePage(int x1, int y1, int x2, int y2) {
-    drawClippedLineRegion(x1, y1, x2, y2, 0, 0x13f, 0, 0xc7, 0);
+    drawClippedLineRegion(x1, y1, x2, y2, 0, 319, 0, 199, 0);
 }
 
 // ==== seg000:0x9db0 ====
@@ -469,10 +469,10 @@ void drawHudViewLine(int x1, int y1, int x2, int y2) {
         if (gameData->unk4 < 2) {
             drawViewportLine(x1, y1, x2, y2);
         } else {
-            drawClippedLineRegion(x1, y1, x2, y2, 0x68, 0xd8, 0x3e, 0x60, 0);
+            drawClippedLineRegion(x1, y1, x2, y2, 104, 216, 62, 96, 0);
         }
     } else if (g_missionStatus != 0) {
-        drawClippedLineRegion(x1, y1, x2, y2, 0x30, 0x10f, 0x0f, 0x60, 0);
+        drawClippedLineRegion(x1, y1, x2, y2, 48, 271, 15, 96, 0);
     } else {
         drawViewportLine(x1, y1, x2, y2);
     }
@@ -488,7 +488,7 @@ void setDrawColor(int color) {
 void fillRectBoth(int x1, int y1, int x2, int y2) {
 #ifdef DEBUG
     if (frameTick < 80)
-        TRACE_KEY(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", frameTick, x1, y1, x2, y2, x2-x1+1, y2-y1+1, (int)g_pageFront[2], (int)g_pageFront[0x10]));
+        TRACE_KEY(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", frameTick, x1, y1, x2, y2, x2-x1+1, y2-y1+1, (int)g_pageFront[2], (int)g_pageFront[16]));
 #endif
     fillSpanRect(g_pageFront, x1, y1, x2, y2);
     fillSpanRect(g_pageBack, x1, y1, x2, y2);
@@ -528,13 +528,13 @@ void drawPanelText(int panel, const char* text, int color) {
 void fillPanelBox(int panelId, int color) {
     setDrawColor(color);
     if (panelId == 1) {
-        fillRectBoth(0x18, 0x70, 0x60, 0xa8);
+        fillRectBoth(24, 112, 96, 168);
     }
     if (panelId == 2) {
-        fillRectBoth(0x78, 0x68, 0xc7, 0xaf);
+        fillRectBoth(120, 104, 199, 175);
     }
     if (panelId == 3) {
-        fillRectBoth(0xe8, 0x80, 0x130, 0xb8);
+        fillRectBoth(232, 128, 304, 184);
     }
 }
 

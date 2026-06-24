@@ -26,10 +26,10 @@ void debriefMainLoop(void)
     goto open_theater;
 
 insert_scenario:
-    clearRect(debriefPage, 0, 0, 0x13f, 0xc7);
-    drawStringCentered(debriefPage, "Please insert scenario disk", 0, 0x5a, 0x13f);
+    clearRect(debriefPage, 0, 0, 319, 199);
+    drawStringCentered(debriefPage, "Please insert scenario disk", 0, 90, 319);
     debriefPage[6] = 4;
-    drawStringCentered(debriefPage, "<Press a key when ready>", 0, 0x64, 0x13f);
+    drawStringCentered(debriefPage, "<Press a key when ready>", 0, 100, 319);
     debriefPage[6] = 1;
     gfx_flipPage();
     misc_getKey();
@@ -49,10 +49,10 @@ open_theater:
     goto open_dbicons;
 
 insert_diska:
-    clearRect(debriefPage, 0, 0, 0x13f, 0xc7);
-    drawStringCentered(debriefPage, "Please insert F15 Disk A", 0, 0x5a, 0x13f);
+    clearRect(debriefPage, 0, 0, 319, 199);
+    drawStringCentered(debriefPage, "Please insert F15 Disk A", 0, 90, 319);
     debriefPage[6] = 4;
-    drawStringCentered(debriefPage, "<Press a key when ready>", 0, 0x64, 0x13f);
+    drawStringCentered(debriefPage, "<Press a key when ready>", 0, 100, 319);
     debriefPage[6] = 1;
     gfx_flipPage();
     misc_getKey();
@@ -81,19 +81,19 @@ open_dbicons:
     spriteWaypointBlinkDef.bufPtr = a;
 
     gfx_waitRetrace();
-    clearRect(debriefPage, 0, 0, 0x13f, 0xc7);
+    clearRect(debriefPage, 0, 0, 319, 199);
     gfx_blitSprite(spriteMapArea);
     gfx_blitSprite(spriteStatusBar);
 
     debriefPage[2] = 0;
-    drawStringAt(debriefPage, "  MISSION DEBRIEFING\0", 0x6a, 1);
+    drawStringAt(debriefPage, "  MISSION DEBRIEFING\0", 106, 1);
     debriefPage[2] = 6;
 
-    e = 0x96;
+    e = 150;
     c = 0;
     do {
-        drawStringAt(debriefPage, debriefMenuStrings[c], 0xec, e);
-        e += 0x0a;
+        drawStringAt(debriefPage, debriefMenuStrings[c], 236, e);
+        e += 10;
         c++;
     } while (c < 2);
 
@@ -107,7 +107,7 @@ open_dbicons:
 
     do {
         debriefMenuItems[g].state = 2;
-        processMenuItems(debriefMenuItems, menuItemUnused, 2, 0xfa, g * 10 + 0x97, debriefPage2);
+        processMenuItems(debriefMenuItems, menuItemUnused, 2, 250, g * 10 + 151, debriefPage2);
         g = selectMenuItem(debriefMenuItems, menuItemUnused, 2, cursorBoundsPtr, debriefPage2);
 
         switch (g) {

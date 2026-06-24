@@ -313,7 +313,7 @@ void buildVertexSignMask(int screenX, int screenY) {
     g_modelEdgeCount = (int)(unsigned char)(*((*(char far **)&g_modelStreamPtr)++)) & 0x1f;
     g_vtxSignMaskLo = -1;
     g_vtxSignMaskHi = -1;
-    *(char *)&g_modelWideVtxFlag = (g_modelEdgeCount > 0x10) ? 1 : 0;
+    *(char *)&g_modelWideVtxFlag = (g_modelEdgeCount > 16) ? 1 : 0;
     edgeIdx = 0;
     while (edgeIdx < g_modelEdgeCount) {
         g_modelStreamPtr += 4;

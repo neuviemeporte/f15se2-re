@@ -80,8 +80,8 @@ void load3D3(char *fileName) {
     fclose(fileHandle);
     while ((fileHandle = fopen("photo.3d3", "rb")) == NULL) {
         setDrawColor(0);
-        fillRectBoth(0, 0x28, 0x13f, 0x2d);
-        drawStringBothPages("Please insert F15 Disk B", 0x6c, 0x28, 0x0f);
+        fillRectBoth(0, 40, 319, 45);
+        drawStringBothPages("Please insert F15 Disk B", 108, 40, 0x0f);
         gfx_flipPage();
         misc_getKey();
     }
@@ -132,7 +132,7 @@ void load3DT(char *fileName) {
     }
     fread(sizes3dt, 2, 5, fileHandle);
     for (cat = 0; cat < 5; cat++) {
-        if (sizes3dt[cat] > 0x20) {
+        if (sizes3dt[cat] > 32) {
             printError("Too many tiles.");
             return;
         }
@@ -165,8 +165,8 @@ void load3DG() {
     int unused_1, unused_2, unused_3;
     strcpyFromDot(regnStr, ".3dG");
     while ((fileHandle = fopen(regnStr, "rb")) == NULL) {
-        drawStringBothPages("Please insert F15 Disk B", 0x68, 0x28, 0x0f);
-        drawStringBothPages("  Press a key when ready", 0x68, 0x32, 0x0f);
+        drawStringBothPages("Please insert F15 Disk B", 104, 40, 0x0f);
+        drawStringBothPages("  Press a key when ready", 104, 50, 0x0f);
         gfx_flipPage();
         misc_getKey();
     }
@@ -177,7 +177,7 @@ void load3DG() {
         fclose(fileHandle);
         return;
     }
-    fread(buf1_3dg, 1, 0x10, fileHandle);
+    fread(buf1_3dg, 1, 16, fileHandle);
     fread(buf1_3dg, 1, 0x100, fileHandle);
     fread(buf2_3dg, 1, 0x200, fileHandle);
     fread(buf3_3dg, 1, 0x200, fileHandle);
@@ -189,7 +189,7 @@ void load3DG() {
 // ==== seg000:0x2f8c ====
 void printError(const char *msg) {
     gfx_flipPage();
-    drawStringBothPages(msg, 0, 0x60, 0xf);
+    drawStringBothPages(msg, 0, 96, 0xf);
     getch();
 }
 

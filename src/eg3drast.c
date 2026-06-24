@@ -514,7 +514,7 @@ static int clipMidpointSubdivide(int *bxp, int *cxp, int *sip, int *dxp)
         /* loc_058A: bisection toward midpoint using pointOnClipEdge */
         int mcx = g_clipMidxLo, mdx = g_clipMidyLo;
         int di, esv;
-        bp = 0x10;
+        bp = 16;
         for (;;) {
             di = bx; esv = si;
             for (;;) {
@@ -528,7 +528,7 @@ static int clipMidpointSubdivide(int *bxp, int *cxp, int *sip, int *dxp)
             }
         }
     }
-    bp = 0x20;
+    bp = 32;
     for (;;) {
         g_clipSavedxLo = bx; g_clipSavedxHi = cx; g_clipSavedyLo = si; g_clipSavedyHi = dx;
         for (;;) {
@@ -560,7 +560,7 @@ static int clipLineMidpoint(int *bxp, int *cxp, int *sip, int *dxp)
         /* loc_0550: bisection with computeClipOutcode against outcode1/2 */
         int mcx = g_clipMidxLo, mdx = g_clipMidyLo;
         int di, esv;
-        bp = 0x10;
+        bp = 16;
         for (;;) {
             di = bx; esv = si;
             for (;;) {
@@ -575,7 +575,7 @@ static int clipLineMidpoint(int *bxp, int *cxp, int *sip, int *dxp)
             }
         }
     }
-    bp = 0x20;
+    bp = 32;
     for (;;) {
         g_clipSavedxLo = bx; g_clipSavedxHi = cx; g_clipSavedyLo = si; g_clipSavedyHi = dx;
         for (;;) {
@@ -1196,7 +1196,7 @@ int far clipAndRasterizeEdge(void)
     /* the divY/divX ratio the clip math needs) until each fits in int16.        */
     dXl = (long)si - cx;
     dYl = (long)di - bp;
-    while (dXl > 32767L || dXl < -32768L || dYl > 32767L || dYl < -32768L) {
+    while (dXl > 0x7fffL || dXl < -0x8000L || dYl > 0x7fffL || dYl < -0x8000L) {
         dXl >>= 1; dYl >>= 1;
     }
     divX = (int)dXl;
@@ -1485,8 +1485,8 @@ struct SortRec {
     int16 camXLo, camXHi;
     int16 camYLo, camYHi;
 };
-static struct SortRec g_sortRecs[0x23];
-static int g_sortList[0x23];
+static struct SortRec g_sortRecs[35];
+static int g_sortList[35];
 
 /* High word of (s<<1) plus the doubled low word's carry bit — the rotatePoint3d
  * `SHL;RCL;SHL;ADC` Q15-with-round idiom. */
@@ -1766,8 +1766,8 @@ static void sceneObjPoint(unsigned char far *p)
 static int edgeRunColor(int depthHi)
 {
     int bx;
-    if (depthHi > 0x1388) bx = 8;
-    else if (depthHi > 0x9c4) bx = 7;
+    if (depthHi > 5000) bx = 8;
+    else if (depthHi > 2500) bx = 7;
     else bx = 0xf;
     return colorLut[bx];
 }
@@ -1866,9 +1866,9 @@ static void insertSortedObject(unsigned char far *p)
     struct SortRec *r;
 
     g_modelStreamPtr = (char far *)p;
-    if (g_sortedObjCount >= 0x23) {
+    if (g_sortedObjCount >= 35) {
         slot = g_sortList[0];
-        for (i = 0; i < 0x22; i++) g_sortList[i] = g_sortList[i + 1];
+        for (i = 0; i < 34; i++) g_sortList[i] = g_sortList[i + 1];
         g_sortedObjCount--;
     } else {
         slot = g_sortedObjCount;

@@ -59,7 +59,7 @@ uint16 commSegment = 0;
  * bookkeeping we never touch, but MSC's exit-time check (_nullcheck) sees the
  * change and aborts with "R6001 - null pointer assignment". Snapshot the guard
  * at startup and repair it after every child run so the check passes. */
-enum { NULLGUARD_SIZE = 0x42 };
+enum { NULLGUARD_SIZE = 66 };
 static unsigned char nullGuard[NULLGUARD_SIZE];
 static unsigned char FAR *nullGuardPtr(void) {
     void FAR *fp = (void FAR *)&commSegment; /* any DGROUP global → DS:0 */
