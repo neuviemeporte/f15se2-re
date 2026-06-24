@@ -368,14 +368,14 @@ counterMore1k:
 int findOrPlaceItem(int wx, int wy, int slot) {
     int objIdx;
     if ((nearestTerrainResult = findNearestTerrain((int32)wx << WORLD_COORD_SHIFT, (0x8000 - (int32)wy) << WORLD_COORD_SHIFT)) != NULL) {
-        wx = ((int32*)nearestTerrainResult)[1] >> WORLD_COORD_SHIFT;
-        wy = -((((int32*)nearestTerrainResult)[2] >> WORLD_COORD_SHIFT) - 0x8000);
+        wx = nearestTerrainResult->worldX >> WORLD_COORD_SHIFT;
+        wy = -((nearestTerrainResult->worldY >> WORLD_COORD_SHIFT) - 0x8000);
         for (objIdx = FIRST_REAL_ITEM; objIdx < readItemSize; objIdx++) {
             if (wx == worldObjects[objIdx].x_coord && wy == worldObjects[objIdx].y_coord) return objIdx;
         }
         worldObjects[slot].x_coord = wx;
         worldObjects[slot].y_coord = wy;
-        worldObjects[slot].objectIdx = *nearestTerrainResult + 0x100;
+        worldObjects[slot].objectIdx = nearestTerrainResult->objectType + 0x100;
         return slot;
     }
     return -1;

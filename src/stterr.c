@@ -17,12 +17,12 @@
 uint32 scaleCoordByLevel(int, uint32);
 int lookupGridCell(int16, int16, int16);
 
-int16* findNearestTerrain(int32 worldX, int32 worldY) {
+struct NearestTerrain* findNearestTerrain(int32 worldX, int32 worldY) {
     int16 tmp, dx, dist, rowOff, x1, level, dy, i, cellIdx, gridX, offsetY, y1, cell;
     int16 sy;
     int16 ty;
     uint32 fx;
-    nearestDist = 0x7fff;
+    nearestTerrain.dist = 0x7fff;
     for (level = 1; level <= 2; level++) {
         for (i = 0; i < 9; i++) {
             fx = scaleCoordByLevel(level, worldX);
@@ -51,16 +51,16 @@ int16* findNearestTerrain(int32 worldX, int32 worldY) {
                             ty <<= 2;
                             offsetY <<= 2;
                         }
-                        if (dist < nearestDist) {
-                            nearestLevel = (int8)level;
-                            nearestCellIdx = (int8)cellIdx;
-                            nearestGridX = (int8)gridX;
-                            nearestGridY[0] = (int8)y1;
-                            nearestTilePtr = tileDataPtr;
-                            nearestObjectType = nearestTilePtr->idx;
-                            nearestDist = dist;
-                            nearestWorldX = ty + worldX;
-                            nearestWorldY = offsetY + worldY;
+                        if (dist < nearestTerrain.dist) {
+                            nearestTerrain.level = (int8)level;
+                            nearestTerrain.cellIdx = (int8)cellIdx;
+                            nearestTerrain.gridX = (int8)gridX;
+                            nearestTerrain.gridY = (int8)y1;
+                            nearestTerrain.tilePtr = tileDataPtr;
+                            nearestTerrain.objectType = nearestTerrain.tilePtr->idx;
+                            nearestTerrain.dist = dist;
+                            nearestTerrain.worldX = ty + worldX;
+                            nearestTerrain.worldY = offsetY + worldY;
                         }
                     }
                     tileDataPtr++;
@@ -68,8 +68,8 @@ int16* findNearestTerrain(int32 worldX, int32 worldY) {
             }
         }
     }
-    if (nearestDist != 0x7fff) {
-        return &nearestObjectType;
+    if (nearestTerrain.dist != 0x7fff) {
+        return &nearestTerrain;
     }
     else return NULL;
 }

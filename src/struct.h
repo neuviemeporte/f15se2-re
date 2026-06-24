@@ -325,6 +325,21 @@ struct TileObject {
 /* 20 fixed bytes + a near pointer (2 in DOS, wider in the 64-bit lint). */
 STATIC_ASSERT(sizeof(struct TileObject) == 20 + sizeof(void*));
 
+#pragma pack(1)
+struct NearestTerrain {
+    int16 objectType;            /* +0x00 best tile object/shape id */
+    int16 dist;                  /* +0x02 best distance metric */
+    int32 worldX;                /* +0x04 world X of the match */
+    int32 worldY;                /* +0x08 world Y of the match */
+    struct TerrainTile *tilePtr; /* +0x0C tile entry of the match */
+    uint8 level;                 /* +0x0E grid level */
+    uint8 cellIdx;               /* +0x0F tile-entry index within the cell */
+    uint8 gridX;                 /* +0x10 grid column */
+    uint8 gridY;                 /* +0x11 grid row */
+};
+#pragma pack()
+STATIC_ASSERT(sizeof(struct NearestTerrain) == 16 + sizeof(void*));
+
 /* Neighbour-sampling tables used by findNearestTileObject()/projectModelEdges()
  * to scan the 3x3 grid of tiles around a position. The three arrays are laid
  * out contiguously so the sub-tile offset LUT can be indexed about its centre:
