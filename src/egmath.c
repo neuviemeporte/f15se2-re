@@ -215,7 +215,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYa
     g_offscreenRender = 0;
 
     if (mode == 1) {
-        strcpy(strBuf, (char*)aBrg);
+        strcpy(strBuf, aBrg);
         strcat(strBuf, itoa((unsigned int)g_trkBearing / 0xb6, g_itoaScratch, 10));
         drawStringActivePage(strBuf, 0xf8, 0xb0, 0xf);
     }

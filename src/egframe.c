@@ -483,7 +483,7 @@ void countermeasures(int eventType) {
     slot = -1;
     if ((g_eventTimers[eventType])-- <= 0) {
         g_eventTimers[eventType] = 0;
-        tempStrcpy((char *)aStoresExhauste);
+        tempStrcpy(aStoresExhauste);
     } else {
         for (i = 1; i < 4; i++) {
             if (mapEvents[i].ttl == 0)
@@ -497,17 +497,17 @@ void countermeasures(int eventType) {
                 -(g_missionStatus * 3 - 0xf) * g_frameRateScaling;
             switch (eventType) {
             case 1:
-                name = (char *)aFlare;
+                name = aFlare;
                 break;
             case 2:
-                name = (char *)aChaff;
+                name = aChaff;
                 break;
             }
             strcpy(strBuf, name);
-            strcat(strBuf, (char *)aReleased);
+            strcat(strBuf, aReleased);
             tempStrcpy(strBuf);
             strcpy(strBuf, name);
-            strcat(strBuf, (char *)strColon);
+            strcat(strBuf, strColon);
             strcat(strBuf, itoa(g_eventTimers[eventType], g_itoaScratch, 10));
             setTimedMessage(strBuf);
         }

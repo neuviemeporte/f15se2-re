@@ -818,8 +818,8 @@ int16 joyRawAxis0 = 0;
 int16 joyRawAxis1 = 0;
 int16 joyRawAxis2 = 0;
 int16 joyRawAxis3 = 0;
-char joyAxisX = 0;
-char joyAxisY = 0;
+uint8 joyAxisX = 0;
+uint8 joyAxisY = 0;
 
 /* Pic decoder state */
 int16 worldBufOffset = 0;

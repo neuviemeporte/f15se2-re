@@ -520,7 +520,7 @@ void drawHudWorldOverlay(void) {
 
     if ((int)strlen(g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]) != 0) {
         strcpy(strBuf,
-               (char *)(strlen(g_targetNameTable[g_planeTable.planes[wpIdx].nameIndex & 0x7f]) != 0 ? aAt_0 : aAt_0 + 5));
+               strlen(g_targetNameTable[g_planeTable.planes[wpIdx].nameIndex & 0x7f]) != 0 ? aAt_0 : aAt_0 + 5);
         strcat(strBuf, g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]);
         drawStringActivePage(strBuf, -((int)strlen(strBuf) * 2 - 0x10c), 0x88, 0x0f);
     }

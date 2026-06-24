@@ -209,7 +209,7 @@ static long lshr_s(long v, int n)
 /* from EG3D_TEXT would be a link fixup overflow. Uses imul16/lshr_s so no  */
 /* long runtime helper is pulled.                                        */
 /* ===================================================================== */
-static int hsine(int angle)
+static int16 hsine(int angle)
 {
     unsigned a = (unsigned)angle;
     int idx = (int)((a >> 8) & 0xff);
@@ -219,15 +219,15 @@ static int hsine(int angle)
     long step = imul16(v1 - v0, frac);
     return v0 + (int)lshr_s(step + 0x80, 8);
 }
-static int hcosine(int angle) { return hsine(angle + 0x4000); }
+static int16 hcosine(int angle) { return hsine(angle + 0x4000); }
 
 /* HI16 of a doubled Q15 product — the egseg1 `IMUL x; SHL AX,1; RCL DX,1; ..DX`
  * idiom that takes the high word of (a*b)<<1. */
-static int q15hi(int a, int b) { long p = imul16(a, b); p <<= 1; return HI16(p); }
+static int16 q15hi(int a, int b) { long p = imul16(a, b); p <<= 1; return HI16(p); }
 
 /* HI16 of the sum/difference of two doubled Q15 products (the matrix-builder's
  * `ADD/ADC` or `SUB/SBB` accumulate-then-take-high-word sequences). */
-static int q15sum(int a, int b, int c, int d, int sub)
+static int16 q15sum(int a, int b, int c, int d, int sub)
 {
     long t, u, r;
     t = imul16(a, b); t <<= 1;
@@ -246,25 +246,25 @@ static int q15sum(int a, int b, int c, int d, int sub)
 static void buildRotationMatrix(int16 *m, int angleX, int angleY, int angleZ)
 {
     int R, P, Ro, D, SY, CY, mSI, mBP;
-    g_rotSinYaw    = (int16)hsine(angleX);
-    g_rotCosYaw    = (int16)hcosine(angleX);
-    g_spherePitch  = (int16)hsine(angleZ);
-    g_sphereRoll   = (int16)hcosine(angleZ);
-    g_sphereRadius = (int16)hsine(angleY);
-    g_sphereDistZ  = (int16)hcosine(angleY);
+    g_rotSinYaw    = hsine(angleX);
+    g_rotCosYaw    = hcosine(angleX);
+    g_spherePitch  = hsine(angleZ);
+    g_sphereRoll   = hcosine(angleZ);
+    g_sphereRadius = hsine(angleY);
+    g_sphereDistZ  = hcosine(angleY);
     R = g_sphereRadius; P = g_spherePitch; Ro = g_sphereRoll; D = g_sphereDistZ;
     SY = g_rotSinYaw;   CY = g_rotCosYaw;
     mSI = q15hi(R, P);
     mBP = q15hi(R, Ro);
-    m[0] = (int16)q15sum(mSI, SY, CY, Ro, 0);
-    m[1] = (int16)q15sum(mBP, SY, CY, P, 1);
-    m[2] = (int16)q15hi(SY, D);
-    m[3] = (int16)q15hi(P, D);
-    m[4] = (int16)q15hi(Ro, D);
-    m[5] = (int16)(-R);
-    m[6] = (int16)q15sum(mSI, CY, SY, Ro, 1);
-    m[7] = (int16)q15sum(mBP, CY, SY, P, 0);
-    m[8] = (int16)q15hi(CY, D);
+    m[0] = q15sum(mSI, SY, CY, Ro, 0);
+    m[1] = q15sum(mBP, SY, CY, P, 1);
+    m[2] = q15hi(SY, D);
+    m[3] = q15hi(P, D);
+    m[4] = q15hi(Ro, D);
+    m[5] = -R;
+    m[6] = q15sum(mSI, CY, SY, Ro, 1);
+    m[7] = q15sum(mBP, CY, SY, P, 0);
+    m[8] = q15hi(CY, D);
 }
 
 int far buildRotationMatrixFar(int16 *matrix, int angleX, int angleY, int angleZ)
@@ -758,8 +758,8 @@ static void clampSpansForFill(void)
      * same here. clampScanlineSpan already clamps its boundary fills to it. */
     if (yMin > g_clipMaxY) yMin = g_clipMaxY;
     if (yMax > g_clipMaxY) yMax = g_clipMaxY;
-    g_dirtyRectMinY = (int16)yMin;
-    g_dirtyRectMaxY = (int16)yMax;
+    g_dirtyRectMinY = yMin;
+    g_dirtyRectMaxY = yMax;
     for (i = yMin; i <= yMax; i++) {
         int16 mn = g_spanBuf.minX[i];
         int16 mx = g_spanBuf.maxX[i];
@@ -821,21 +821,21 @@ static void rasterizeEdgeSpan(void)
     if ((unsigned)g_lineY1 >= (sizeof(g_spanBuf.minX) / sizeof(g_spanBuf.minX[0])) ||
         (unsigned)g_lineY2 >= (sizeof(g_spanBuf.minX) / sizeof(g_spanBuf.minX[0]))) return;
     if (g_lineX2 < g_lineX1) {
-        int t = g_lineX1; g_lineX1 = g_lineX2; g_lineX2 = (int16)t;
-        t = g_lineY1; g_lineY1 = g_lineY2; g_lineY2 = (int16)t;
+        int t = g_lineX1; g_lineX1 = g_lineX2; g_lineX2 = t;
+        t = g_lineY1; g_lineY1 = g_lineY2; g_lineY2 = t;
     }
     dxv = g_lineX2 - g_lineX1;
-    g_rasterDeltaX = (int16)dxv;
+    g_rasterDeltaX = dxv;
     {
         int mx = g_lineY2;              /* DX = max(y1,y2) after the swap below */
         int mn = g_lineY1;              /* CX = min(y1,y2) */
         int dy = mx - mn;
         bp = 2;
         if (dy < 0) { int t = mn; mn = mx; mx = t; bp = -2; dy = -dy; }
-        g_rasterDeltaY = (int16)dy;
+        g_rasterDeltaY = dy;
         dyv = dy;
-        if (mx > g_dirtyRectMaxY) g_dirtyRectMaxY = (int16)mx;
-        if ((uint16)mn < (uint16)g_dirtyRectMinY) g_dirtyRectMinY = (int16)mn;
+        if (mx > g_dirtyRectMaxY) g_dirtyRectMaxY = mx;
+        if ((uint16)mn < (uint16)g_dirtyRectMinY) g_dirtyRectMinY = mn;
     }
     {
         int row = g_lineY1;            /* DI = y1*2 in the asm; here row index */
@@ -1283,7 +1283,7 @@ static void renderHorizonSky(void)
     int scale, negPitch, roll, centerX, centerY, cx2, h, h2;
     long dividend, t1, t2, d, s, u1, u2, w, z;
 
-    g_horizonNegPitch = (int16)(-g_spherePitch);
+    g_horizonNegPitch = -g_spherePitch;
     negPitch = g_horizonNegPitch;
 
     /* scale = (radius<<8)/distZ, with a fixed fallback and a detail-2 bias */
@@ -1513,25 +1513,25 @@ static void multiplyMatrix3x3(const int16 *A, const int16 *B, int16 *R)
 static void buildInverseRotationMatrix(int16 *m, int angleX, int angleY, int angleZ)
 {
     int R, P, Ro, D, SY, CY, mSI, mBP;
-    g_rotSinYaw    = (int16)hsine(angleX);
-    g_rotCosYaw    = (int16)hcosine(angleX);
-    g_spherePitch  = (int16)hsine(angleZ);
-    g_sphereRoll   = (int16)hcosine(angleZ);
-    g_sphereRadius = (int16)hsine(angleY);
-    g_sphereDistZ  = (int16)hcosine(angleY);
+    g_rotSinYaw    = hsine(angleX);
+    g_rotCosYaw    = hcosine(angleX);
+    g_spherePitch  = hsine(angleZ);
+    g_sphereRoll   = hcosine(angleZ);
+    g_sphereRadius = hsine(angleY);
+    g_sphereDistZ  = hcosine(angleY);
     R = g_sphereRadius; P = g_spherePitch; Ro = g_sphereRoll; D = g_sphereDistZ;
     SY = g_rotSinYaw;   CY = g_rotCosYaw;
     mSI = q15hi(R, P);
     mBP = q15hi(R, Ro);
-    m[0] = (int16)q15sum(CY, Ro, mSI, SY, 1);
-    m[1] = (int16)(-q15hi(P, D));
-    m[2] = (int16)q15sum(mSI, CY, SY, Ro, 0);
-    m[3] = (int16)q15sum(mBP, SY, CY, P, 0);
-    m[4] = (int16)q15hi(Ro, D);
-    m[5] = (int16)q15sum(SY, P, mBP, CY, 1);
-    m[6] = (int16)(-q15hi(SY, D));
-    m[7] = (int16)R;
-    m[8] = (int16)q15hi(CY, D);
+    m[0] = q15sum(CY, Ro, mSI, SY, 1);
+    m[1] = -q15hi(P, D);
+    m[2] = q15sum(mSI, CY, SY, Ro, 0);
+    m[3] = q15sum(mBP, SY, CY, P, 0);
+    m[4] = q15hi(Ro, D);
+    m[5] = q15sum(SY, P, mBP, CY, 1);
+    m[6] = -q15hi(SY, D);
+    m[7] = R;
+    m[8] = q15hi(CY, D);
 }
 
 /* seg001 0x1599 — transpose the 3x3 object orientation matrix in place. */
@@ -1588,7 +1588,7 @@ static int transformAndCullObject(int relY, int relZ, int relX)
     }
     si >>= 2;
     si += absYHi;
-    g_objDistance = (int16)si;
+    g_objDistance = si;
     if (si > COLW(0x20)) return 1;
     return 0;
 }
@@ -1603,20 +1603,20 @@ static void rotatePoint3d(int relZ, int relY, int relX, unsigned char far **pp)
     int cnt, i, flipped;
     relX = -relX; relY = -relY; relZ = -relZ;
     if (g_objHasRotation == 0) {
-        g_objDirX = (int16)relX;
-        g_objDirY = (int16)relZ;
-        g_objDirZ = (int16)relY;
+        g_objDirX = relX;
+        g_objDirY = relZ;
+        g_objDirZ = relY;
     } else {
         int16 *m = g_objOrientMatrix;
-        g_rotInputX = (int16)relY;
+        g_rotInputX = relY;
         transposeOrientationMatrix();
-        g_objDirX = (int16)dirRound(imul16(g_rotInputX, m[6]) + imul16(relZ, m[3]) + imul16(relX, m[0]));
-        g_objDirY = (int16)dirRound(imul16(g_rotInputX, m[7]) + imul16(relZ, m[4]) + imul16(relX, m[1]));
-        g_objDirZ = (int16)dirRound(imul16(g_rotInputX, m[8]) + imul16(relZ, m[5]) + imul16(relX, m[2]));
+        g_objDirX = dirRound(imul16(g_rotInputX, m[6]) + imul16(relZ, m[3]) + imul16(relX, m[0]));
+        g_objDirY = dirRound(imul16(g_rotInputX, m[7]) + imul16(relZ, m[4]) + imul16(relX, m[1]));
+        g_objDirZ = dirRound(imul16(g_rotInputX, m[8]) + imul16(relZ, m[5]) + imul16(relX, m[2]));
         transposeOrientationMatrix();
     }
     cnt = (*p++) & 0x1f;
-    g_modelEdgeCount = (int16)cnt;
+    g_modelEdgeCount = cnt;
     g_modelWideVtxFlag = (cnt > 0x10) ? 1 : 0;
     g_vtxSignMaskLo = -1;
     g_vtxSignMaskHi = -1;

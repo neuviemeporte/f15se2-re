@@ -207,10 +207,10 @@ int isPointInRect(MenuItem *p)
         if ((char)misc_checkKeyBuf() == 0
             || joyBtn0 != 0
             || joyBtn1 != 0
-            || (unsigned char)joyAxisX < JOY_DEADZONE_LO
-            || (unsigned char)joyAxisX > JOY_DEADZONE_HI
-            || (unsigned char)joyAxisY < JOY_DEADZONE_LO
-            || (unsigned char)joyAxisY > JOY_DEADZONE_HI) {
+            || joyAxisX < JOY_DEADZONE_LO
+            || joyAxisX > JOY_DEADZONE_HI
+            || joyAxisY < JOY_DEADZONE_LO
+            || joyAxisY > JOY_DEADZONE_HI) {
             if (repeatActive != 1)
                 break;
         }
@@ -308,16 +308,16 @@ skip_sprite:
             keycode = KEYCODE_ENTER;
         } else if (joyBtn1 == 1) {
             keycode = KEYCODE_ESC;
-        } else if ((unsigned char)joyAxisX < JOY_DEADZONE_LO) {
+        } else if (joyAxisX < JOY_DEADZONE_LO) {
             keycode = KEYCODE_LEFTARROW;
             joyRepeatFlag = 1;
-        } else if ((unsigned char)joyAxisX > JOY_DEADZONE_HI) {
+        } else if (joyAxisX > JOY_DEADZONE_HI) {
             keycode = KEYCODE_RIGHTARROW;
             joyRepeatFlag = 1;
-        } else if ((unsigned char)joyAxisY < JOY_DEADZONE_LO) {
+        } else if (joyAxisY < JOY_DEADZONE_LO) {
             keycode = KEYCODE_UPARROW;
             joyRepeatFlag = 1;
-        } else if ((unsigned char)joyAxisY > JOY_DEADZONE_HI) {
+        } else if (joyAxisY > JOY_DEADZONE_HI) {
             keycode = KEYCODE_DNARROW;
             joyRepeatFlag = 1;
         }

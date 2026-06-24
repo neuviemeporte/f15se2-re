@@ -207,13 +207,13 @@ switch_break:
     if (g_knots > 0x15E && !(*((unsigned char*)&g_playerPlaneFlags) & 1) && g_gearDownArmed != 0) {
         g_gearDownArmed = 0;
         *((unsigned char*)&g_playerPlaneFlags) |= 1;
-        tempStrcpy((char *)aLandingGearRaised);
+        tempStrcpy(aLandingGearRaised);
         makeSound(0x20, 2);
     }
 
     if (g_groundAltitude == g_viewZ && g_setThrust == 0 && !(*((unsigned char*)&g_playerPlaneFlags) & 8)) {
         *((unsigned char*)&g_playerPlaneFlags) |= 8;
-        tempStrcpy((char *)aBrakesOn);
+        tempStrcpy(aBrakesOn);
     }
 
     if (g_rollInput != 0 || g_pitchInput != 0) {
@@ -438,10 +438,10 @@ switch_break:
 
 
     strcpy(g_geeStringBuf, itoa(g_gees / 16, strBuf, 10));
-    strcat(g_geeStringBuf, (char *)a_);
+    strcat(g_geeStringBuf, a_);
 
     strcat(g_geeStringBuf, itoa((abs(g_gees) & 0xF) >> 1, strBuf, 10));
-    strcat(g_geeStringBuf, (char *)aG);
+    strcat(g_geeStringBuf, aG);
 
     speedCalc = ((long)(g_thrust - sinMul(g_ourPitch, 80)) * 800L) / 100L;
 

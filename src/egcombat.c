@@ -88,7 +88,7 @@ void fireAirThreat(int objIdx)
                     *(int16 *)&g_projectiles[slot].state[6] = -objIdx;
 
                     idx = idx;
-                    strcpy(strBuf, (char *)&sams[idx].name);
+                    strcpy(strBuf, sams[idx].name);
                     strcat(strBuf, aFiredBy);
                     strcat(strBuf, aircraftTypes[g_threatSpec].name);
                     tempStrcpy(strBuf);
@@ -354,7 +354,7 @@ void updateThreatTargeting(void)
             g_savedSamTtl = g_projectiles[slot].ttl;
             (g_projectiles + slot)->ttl = 0;
             strcpy(strBuf,
-                   (char *)missiles[*(int16 *)&g_projectiles[slot].state[2]].longName);
+                   missiles[*(int16 *)&g_projectiles[slot].state[2]].longName);
             if (mode == 0x1e || mode == 0x1d || mode == 0x1c) {
                 scheduleTimedEvent(0, 1);
                 makeSound(2, 2);
@@ -365,7 +365,7 @@ void updateThreatTargeting(void)
                     destroyGroundTarget(g_loftTargetIdx);
                     strcat(strBuf, aDestroyedBy);
                     strcat(strBuf,
-                           (char *)missiles[*(int16 *)&g_projectiles[slot].state[2]].longName);
+                           missiles[*(int16 *)&g_projectiles[slot].state[2]].longName);
                     g_hitEffectTimer = 8;
                     g_hitAlt = 0;
                 } else {
@@ -380,7 +380,7 @@ void updateThreatTargeting(void)
                     destroyGroundTarget(wp);
                     strcat(strBuf, aDestroyedBy_0);
                     strcat(strBuf,
-                           (char *)missiles[*(int16 *)&g_projectiles[slot].state[2]].longName);
+                           missiles[*(int16 *)&g_projectiles[slot].state[2]].longName);
                     g_hitEffectTimer = 8;
                     g_hitAlt = 0;
                 }
@@ -406,7 +406,7 @@ msg_done:
             if (slot < 8) {
                 if (mapEvents[0].ttl == 0) {
                     strcpy(strBuf, aHitBy);
-                    strcat(strBuf, (char *)&sams[spec].name);
+                    strcat(strBuf, sams[spec].name);
                     tempStrcpy(strBuf);
                     bombTarget();
                     ring = (frameTick >> 1) & 7;
@@ -443,7 +443,7 @@ msg_done:
                     g_threatRefZ = 3000;
                 }
                 strcat(strBuf, aHitBy_0);
-                strcat(strBuf, (char *)&sams[spec].name);
+                strcat(strBuf, sams[spec].name);
                 tempStrcpy(strBuf);
             }
         }

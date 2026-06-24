@@ -77,7 +77,7 @@ outer_test:
                 gridY = *(int *)((char *)&g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)((dirSector + 2) & 7));
                 g_objLocalX = fracX - (gridX << 12) - 0x800;
                 g_objLocalY = fracY - (gridY << 12) - 0x800;
-                *(int16 *)&g_objRenderMode = 7;
+                g_objRenderMode = 7;
                 if (transformAndCullObjectFar(-g_objLocalX, -g_objLocalY, -g_objLocalZ) != 0) {
                     goto next_iter;
                 }
