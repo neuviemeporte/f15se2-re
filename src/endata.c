@@ -323,119 +323,35 @@ struct WeaponDataBlock weaponDataBlock = {
 };
 
 
-/* MenuItem / MenuItemFlags come from endtypes.h; SpriteParams from struct.h. */
-
-/* Rank names (index 0 = empty, 1-6 = promotable ranks) */
-char str_emptyRank[] = "";
-char str_1stLt[] = "1st Lieutenant.";
-char str_captain[] = "Captain.";
-char str_major[] = "Major.";
-char str_ltColonel[] = "Lt Colonel.";
-char str_colonel[] = "Colonel.";
-char str_general[] = "General.";
-
-/* Medal names */
-char str_afcm[] = "Air Force Commendation Medal.";
-char str_dfc[] = "Distinguished Flying Cross.";
-char str_silverStar[] = "Silver Star.";
-char str_afc[] = "Air Force Cross.";
-char str_cmoh[] = "Congressional Medal of Honor.";
-
-/* Award screen strings */
-char str_deskMsg1[] = "After ditching three very expensive aircraft,";
-char str_deskMsg2[] = "you are assigned a desk job.";
-char str_deathMsg1[] = "In the wake of the horrible crash,";
-char str_deathMsg2[] = "your family and friends mourn your loss.";
-char str_promoMsg1[] = "For your consistently successful missions,";
-char str_promoMsg2[] = "you have been promoted to ";
-char str_medalMsg1[] = "For your outstanding performance, you receive";
-char str_medalMsg2[] = "the ";
-
-/* Rank name pointer table */
-char *rankNames[] = {
-    str_emptyRank,
-    str_1stLt,
-    str_captain,
-    str_major,
-    str_ltColonel,
-    str_colonel,
-    str_general
+/* Rank name pointer table (index 0 = empty, 1-6 = promotable ranks) */
+const char *rankNames[] = {
+    "",
+    "1st Lieutenant.",
+    "Captain.",
+    "Major.",
+    "Lt Colonel.",
+    "Colonel.",
+    "General."
 };
 
 /* Medal name pointer table */
-char *medalNames[] = {
-    str_afcm,
-    str_dfc,
-    str_silverStar,
-    str_afc,
-    str_cmoh
+const char *medalNames[] = {
+    "Air Force Commendation Medal.",
+    "Distinguished Flying Cross.",
+    "Silver Star.",
+    "Air Force Cross.",
+    "Congressional Medal of Honor."
 };
 
-/* Debrief screen strings (some have leading control bytes for text formatting) */
-char str_pressExit[] = "Press Selector to exit Debriefing";
-char str_dot1[] = "\x8d";
-char str_overall1[] = "OVERALL";
-char str_missionRating1[] = "MISSION RATING";
-char str_dot2[] = "\x80";
-char str_trainingScore[] = "\x84Training Score";
-char str_notRecorded[] = "NOT Recorded !";
-char str_dot3[] = "\x8d";
-char str_careerTotal[] = "CAREER TOTAL";
-char str_dot4[] = "\x80";
-char str_missionSummary[] = "MISSION SUMMARY";
-char str_priSecTargets[] = "Pri/Sec Targets";
-char str_otherTargets[] = "Other Targets";
-char str_enemyPlanes[] = "Enemy Planes";
-char str_friendlyTargets[] = "Friendly Targets";
-char str_dot5[] = "\x8d";
-char str_overall2[] = "OVERALL";
-char str_missionRating2[] = "MISSION RATING";
-char str_dot6[] = "\x80";
-char str_missionEvent[] = "MISSION EVENT";
-char str_time[] = "TIME: \x80";
-char str_destroyed4[] = " ";
-char str_destroyed1[] = " destroyed";
-char str_destroyed2[] = " destroyed";
-char str_shotDown2[] = " ";
-char str_shotDown[] = " shot down";
-char str_destroyed3[] = " destroyed";
-char str_rearmed3[] = " ";
-char str_rearmed1[] = " - Rearmed/Refueled";
-char str_rearmed2[] = " - Rearmed/Refueled";
-char str_hitBy[] = "Hit by ";
-char str_missile[] = " missile";
-char str_takeoffPoint[] = "Takeoff point:";
-char str_missionEnd[] = "Mission end:\n";
-char str_crashed[] = "Crashed";
-char str_goodBailout[] = "Good Bailout";
-char str_captured[] = "Captured";
-char str_bailedDied[] = "Bailed & Died";
-char str_goodLanding[] = "Good Landing";
-char str_primaryObj[] = "\x8c" "PRIMARY OBJECTIVE";
-char str_secndryObj[] = "\x8c" "SECNDRY OBJECTIVE";
-char str_cumulative2[] = "\x8d";
-char str_cumulative[] = "CUMULATIVE";
-char str_missionRating3[] = "MISSION RATING";
-char str_pressSelect[] = "\x80";
-char str_pressNext[] = "Press Selector for next mission event";
-char str_inFlight[] = "\x80" "In-Flight";
-char str_timeLabel[] = "\x8d" "TIME: \x80";
-char str_timeZeros[] = "\x80";
-char str_timeFormat[] = "00:00:00";
-
-/* Error strings ($ terminated for DOS int 21h/09h) */
-char str_allocError[] = "Insufficient system memory - AllocBuffer$";
-char str_deallocError[] = "Buffer dealloc error$";
-
 /* Popup sprite coordinate tables (18 entries each, as int arrays) */
-int popupSpriteY[] = {0, 0, 0, 0, 0, 0, 0x28, 0x28, 0x28, 0x28, 0x28, 0x28, 0x50, 0x50, 0x50, 0x50, 0x50, 0x50};
-int popupSpriteX[] = {0, 0x30, 0x60, 0x90, 0xC0, 0xF0, 0, 0x30, 0x60, 0x90, 0xC0, 0xF0, 0, 0x30, 0x60, 0x90, 0xC0, 0xF0};
+extern const int popupSpriteY[] = {0, 0, 0, 0, 0, 0, 0x28, 0x28, 0x28, 0x28, 0x28, 0x28, 0x50, 0x50, 0x50, 0x50, 0x50, 0x50};
+extern const int popupSpriteX[] = {0, 0x30, 0x60, 0x90, 0xC0, 0xF0, 0, 0x30, 0x60, 0x90, 0xC0, 0xF0, 0, 0x30, 0x60, 0x90, 0xC0, 0xF0};
 
 /* Map view bounds */
-int mapViewX1 = 0x08;
-int mapViewY1 = 0x0A;
-int mapViewX2 = 0xE8;
-int mapViewY2 = 0xB2;
+extern const int mapViewX1 = 0x08;
+extern const int mapViewY1 = 0x0A;
+extern const int mapViewX2 = 0xE8;
+extern const int mapViewY2 = 0xB2;
 
 /* colorStyleTable - color/style table (16 int entries) */
 int colorStyleTable[] = {
@@ -454,9 +370,9 @@ char gridFlags[256];
 
 /* Target data */
 int target1Type[2];
-char target1MiscBits[10];
+int target1MiscBits[5];
 int target2Type[4];
-char target2MiscBits[10];
+int target2MiscBits[5];
 
 /* Score string buffer */
 char scoreString[512];
@@ -508,12 +424,14 @@ char spriteToggle;
 char animDone;
 int curRecordIdx;
 char worldObjects[8];
-char worldObjectsBuf[1188];
 char waypointData[4];
 int totalFlightRecords;
-char slotInfoTable[6];
-unsigned int cursorX;
-unsigned int cursorY;
+/* 16-bytes-per-slot table, indexed [unitId*16] (unitId masked to 0x7F). The
+ * original reserves 0x4700-0x4256 = 1194 bytes here (map/end.map: slotInfoTable
+ * -> gridFlags). */
+char slotInfoTable[1194];
+uint16 cursorX;
+uint16 cursorY;
 char hercFlag[518];
 int hasVgaMode[2];
 int spriteBufSeg;
@@ -521,36 +439,22 @@ int vgaBufSeg;
 int vgaBufOffset;
 char vgaBufSeg2;  /* 1 byte in original BSS */
 
-/* Theater sprite filenames */
-char str_libya_spr[] = "libya.spr";
-char str_persian_spr[] = "persian.spr";
-char str_vn_spr[] = "vn.spr";
-char str_me_spr[] = "me.spr";
-char str_ncape_spr[] = "ncape.spr";
-char str_ceurope_spr[] = "ceurope.spr";
-char str_jp_spr[] = "jp.spr";
-char str_na_spr[] = "na.spr";
-
-/* Debrief menu strings */
-char str_reviewMission[] = "Review Mission";
-char str_exitDebriefing[] = "Exit Debriefing";
-
 /* Theater sprite filename pointer table (8 entries) */
-char *theaterSprFiles[] = {
-    str_libya_spr,
-    str_persian_spr,
-    str_vn_spr,
-    str_me_spr,
-    str_ncape_spr,
-    str_ceurope_spr,
-    str_jp_spr,
-    str_na_spr
+const char *theaterSprFiles[] = {
+    "libya.spr",
+    "persian.spr",
+    "vn.spr",
+    "me.spr",
+    "ncape.spr",
+    "ceurope.spr",
+    "jp.spr",
+    "na.spr"
 };
 
 /* Debrief menu string pointer table (2 entries) */
-char *debriefMenuStrings[] = {
-    str_reviewMission,
-    str_exitDebriefing
+const char *debriefMenuStrings[] = {
+    "Review Mission",
+    "Exit Debriefing"
 };
 
 /* === Page descriptors === */
@@ -609,15 +513,15 @@ int16 *awardPage = (int16*)&awardPageDesc;
 
 /* Promotion score thresholds, indexed by current rank (0..5) in the
  * showPostMissionAwards promotion check. */
-long promoThresholds[] = {1500L, 6000L, 12000L, 25000L, 50000L, 100000L};
+extern const long promoThresholds[] = {1500L, 6000L, 12000L, 25000L, 50000L, 100000L};
 
 /* Medal score thresholds, one per entry in medalNames[] (5: AFCM..CMOH), in
  * ascending order so the idx=4..0 scan in showPostMissionAwards awards the
  * highest medal whose threshold is met. */
-long medalThresholds[] = {1000L, 2500L, 4000L, 6400L, 7800L};
+extern const long medalThresholds[] = {1000L, 2500L, 4000L, 6400L, 7800L};
 
 /* Trailing data after medal thresholds (16 bytes, accessed via offset) */
-uint8 medalTrailingData[] = {4, 3, 3, 2, 7, 5, 3, 2, 8, 7, 4, 2, 8, 6, 5, 3};
+const uint8 medalTrailingData[] = {4, 3, 3, 2, 7, 5, 3, 2, 8, 7, 4, 2, 8, 6, 5, 3};
 
 /* === Sprite descriptors (28 bytes each) === */
 struct SpriteParams spriteMapAreaDef = {
@@ -722,13 +626,6 @@ MenuItem debriefMenuItems[2] = {
     }
 };
 char *menuItemsBase = (char*)&debriefMenuItems[1];
-
-/* Debrief main loop strings */
-char str_insertScenario[] = "Please insert scenario disk";
-char str_pressKey1[] = "<Press a key when ready>";
-char str_insertDiskA[] = "Please insert F15 Disk A";
-char str_pressKey2[] = "<Press a key when ready>";
-char str_missionDebrief[] = "  MISSION DEBRIEFING\0";
 
 /* Ctrl-Break handler state */
 uint8 quitFlag = 0;
@@ -872,5 +769,5 @@ int16 worldRouteCount = 0;
 struct GameComm far *commData = 0;
 int16 gfxBufSeg = 0;
 uint8 gfxBufPad[512] = {0};
-int16 flightTimeTable = 0;
+int16 flightTimeTable[1] = {0};
 uint8 flightRecords[1534] = {0};

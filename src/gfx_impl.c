@@ -228,7 +228,7 @@ int gfx_getPageSeg_impl(uint16 page)
 void gfx_fillRow_impl(uint16 rowOffset, uint16 srcBuf, uint16 rowNum)
 {
     GfxState FAR *s = gfx_getState();
-    const uint8 *src = (const uint8 *)srcBuf;          /* near ptr, caller's DS */
+    const uint8 *src = (const uint8 *)(size_t)srcBuf;  /* near ptr, caller's DS */
     uint8 FAR *dst;
     int col;
     (void)rowNum;
@@ -265,9 +265,10 @@ void FAR CDECL gfx_setBlitOffset(int offset)
 }
 
 /* ---- Slot 0x25: gfx_dirtyRect ---- */
-void FAR CDECL gfx_dirtyRect(void)
+void FAR CDECL gfx_dirtyRect(int16 *spanBuf, int yMin, int yMax)
 {
     /* Register-called in overlay — stub for now */
+    (void)spanBuf; (void)yMin; (void)yMax;
     return;
 }
 
@@ -280,19 +281,19 @@ void FAR CDECL gfx_dirtyRect(void)
 /* ---- Font data ---- */
 
 /* Font width tables extracted from MGRAPHIC.EXE */
-static uint8 g_font1_widths[96] = {
+static const uint8 g_font1_widths[96] = {
     5,2,4,7,6,8,8,2,3,3,6,6,3,4,2,8,8,3,6,6,7,6,6,6,6,6,2,3,5,5,5,6,
     8,8,6,7,8,6,6,8,8,2,6,6,6,8,8,8,6,8,6,6,6,6,6,8,8,8,8,4,8,4,6,8,
     2,6,6,5,6,6,4,6,6,2,3,6,2,8,6,6,6,6,5,6,4,6,6,8,6,6,6,4,2,4,5,8};
-static uint8 g_font3_widths[96] = {
+static const uint8 g_font3_widths[96] = {
     3,2,4,5,4,5,5,2,3,3,6,4,3,4,2,4,5,3,5,5,5,5,5,5,5,5,2,3,4,4,4,5,
     5,5,5,5,5,5,5,5,5,2,5,5,5,6,5,5,5,5,5,5,4,5,6,6,6,6,6,3,6,3,4,5,
     2,4,4,4,4,4,3,4,4,2,3,4,2,6,4,4,4,4,4,4,4,4,4,6,4,4,4,4,2,3,3,5};
-static uint8 g_font4_widths[96] = {
+static const uint8 g_font4_widths[96] = {
     4,2,4,6,4,7,6,2,3,4,4,4,3,5,2,7,5,3,5,5,6,5,5,5,5,5,2,3,4,5,4,5,
     7,6,5,6,6,5,5,7,7,2,5,5,5,6,6,7,5,7,5,5,4,5,6,8,7,8,7,3,7,3,6,6,
     2,5,5,4,5,5,3,5,5,2,3,5,2,8,5,5,5,5,5,5,4,5,6,8,5,5,5,4,2,4,5,7};
-static uint8 g_font5_widths[96] = {
+static const uint8 g_font5_widths[96] = {
     3,2,4,5,4,5,5,2,3,3,6,4,3,4,2,4,5,3,5,5,5,5,5,5,5,5,2,3,4,4,4,5,
     5,5,5,5,5,5,5,5,5,2,5,5,5,6,5,5,5,5,5,5,4,5,6,6,6,6,6,3,6,3,4,5,
     2,4,4,4,4,4,3,4,4,2,3,4,2,6,4,4,4,4,4,4,4,4,4,6,4,4,4,4,2,3,3,5};
@@ -302,23 +303,23 @@ static uint8 g_font5_widths[96] = {
  * (0:0xE2 width / 0:0xEE glyph / 0:0xFA rowsize); it is not statically present
  * in MGRAPHIC.EXE (which only bakes fonts 1,3,4,5). g_font0_* was captured from
  * the live glyph engine — see fontdata.h. All advances are 4 (fixed pitch). */
-static uint8 g_font0_widths[96] = {
+static const uint8 g_font0_widths[96] = {
     4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
     4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
     4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4};
-static uint8 *g_fontWidthTables[8] = {
+static const uint8 * const g_fontWidthTables[8] = {
     g_font0_widths, g_font1_widths, NULL, g_font3_widths,
     g_font4_widths, g_font5_widths, NULL, NULL
 };
-static uint8 g_fontHeightsArr[8] = {5, 8, 7, 6, 7, 6, 4, 0};
-static uint8 g_fontMaxWidths[8] = {4, 8, 6, 6, 8, 6, 0, 0};
+static const uint8 g_fontHeightsArr[8] = {5, 8, 7, 6, 7, 6, 4, 0};
+static const uint8 g_fontMaxWidths[8] = {4, 8, 6, 6, 8, 6, 0, 0};
 
 /* Bitmap pointers per font index — NULL means no bitmap available */
 static uint8 *g_fontBitmapPtrs[8] = {
     (uint8 *)g_font0_bitmaps, (uint8 *)g_font1_bitmaps, NULL, (uint8 *)g_font3_bitmaps,
     (uint8 *)g_font4_bitmaps, (uint8 *)g_font5_bitmaps, NULL, NULL
 };
-static uint8 g_fontBitmapRowSize[8] = {5, 8, 0, 6, 7, 6, 0, 0};
+static const uint8 g_fontBitmapRowSize[8] = {5, 8, 0, 6, 7, 6, 0, 0};
 
 /* ---- Shared glyph engine (slots 0x01-0x06) ----
  * MGRAPHIC has one core blitter (0x04 @0x4ab) that the string slots fall into
@@ -360,10 +361,10 @@ static void drawStringCore(int16 *params, const char *string,
      * are themselves near offsets into f15's DGROUP, so each selected entry
      * must be re-based on f15DataSeg as well before it can be dereferenced. */
     dseg       = s->f15DataSeg;
-    heightsFar = (uint8 FAR *)MK_FP(dseg, (uint16)g_fontHeightsArr);
-    rowSizeFar = (uint8 FAR *)MK_FP(dseg, (uint16)g_fontBitmapRowSize);
-    bmpPtrsFar = (uint8 * FAR *)MK_FP(dseg, (uint16)g_fontBitmapPtrs);
-    wtPtrsFar  = (uint8 * FAR *)MK_FP(dseg, (uint16)g_fontWidthTables);
+    heightsFar = (uint8 FAR *)MK_FP(dseg, PTR_OFF(g_fontHeightsArr));
+    rowSizeFar = (uint8 FAR *)MK_FP(dseg, PTR_OFF(g_fontBitmapRowSize));
+    bmpPtrsFar = (uint8 * FAR *)MK_FP(dseg, PTR_OFF(g_fontBitmapPtrs));
+    wtPtrsFar  = (uint8 * FAR *)MK_FP(dseg, PTR_OFF(g_fontWidthTables));
 
     x = (int)params[4];
     y = (int)params[5];
@@ -371,9 +372,9 @@ static void drawStringCore(int16 *params, const char *string,
     fontIdx = (uint16)params[6] & 7;
     height = heightsFar[fontIdx];
     bitmaps = bmpPtrsFar[fontIdx]
-        ? (uint8 FAR *)MK_FP(dseg, (uint16)bmpPtrsFar[fontIdx]) : (uint8 FAR *)0;
+        ? (uint8 FAR *)MK_FP(dseg, PTR_OFF(bmpPtrsFar[fontIdx])) : (uint8 FAR *)0;
     widthTab = wtPtrsFar[fontIdx]
-        ? (uint8 FAR *)MK_FP(dseg, (uint16)wtPtrsFar[fontIdx]) : (uint8 FAR *)0;
+        ? (uint8 FAR *)MK_FP(dseg, PTR_OFF(wtPtrsFar[fontIdx])) : (uint8 FAR *)0;
 
     /* params/string are caller-passed NEAR pointers — they correctly resolve
      * against the caller's DS, so they must NOT be re-based on f15DataSeg. */
@@ -490,7 +491,7 @@ void FAR CDECL gfx_switchColor(int16 *pageDesc, int x1, int y1,
 
 /* ---- Slot 0x44: gfx_setDac ---- */
 /* Palette data extracted from original MGRAPHIC.EXE overlay */
-static uint8 g_palettes[5][48] = {
+static const uint8 g_palettes[5][48] = {
     /* Palette 0: standard VGA 16-color */
     {0x00,0x00,0x00, 0x00,0x00,0x2a, 0x00,0x2a,0x00, 0x00,0x2a,0x2a,
      0x2a,0x00,0x00, 0x2a,0x00,0x2a, 0x2a,0x15,0x00, 0x2a,0x2a,0x2a,
@@ -707,8 +708,8 @@ void FAR CDECL gfx_nop23(void) { return; }
 void gfx_dirtyRectFill_impl(uint16 minBufOff, uint16 yMin, uint16 yMax)
 {
     GfxState FAR *s = gfx_getState();
-    const uint16 *minBuf = (const uint16 *)minBufOff;          /* caller's DS */
-    const uint16 *maxBuf = (const uint16 *)(minBufOff + 0x1b8);
+    const uint16 *minBuf = (const uint16 *)(size_t)minBufOff;          /* caller's DS */
+    const uint16 *maxBuf = (const uint16 *)(size_t)(minBufOff + 0x1b8);
     uint8 fill = s->fillColor;
     uint16 seg = s->curPageSeg;
     int16 firstRow = (int16)yMin;   /* AX */
@@ -766,13 +767,13 @@ int FAR CDECL gfx_setFont(uint16 ch, uint16 fontIdx)
      * exactly as gfx_drawString rebases them. */
     GfxState FAR *s = gfx_getState();
     uint16 dseg = s->f15DataSeg;
-    uint8 * FAR *wtPtrsFar = (uint8 * FAR *)MK_FP(dseg, (uint16)g_fontWidthTables);
+    uint8 * FAR *wtPtrsFar = (uint8 * FAR *)MK_FP(dseg, PTR_OFF(g_fontWidthTables));
     uint8 FAR *wt;
     if (fontIdx >= 8) return 8;
     /* Chars >= 0x80 are inline color escapes - no glyph, no width */
     if (ch >= 0x80) return 0;
     wt = wtPtrsFar[fontIdx]
-        ? (uint8 FAR *)MK_FP(dseg, (uint16)wtPtrsFar[fontIdx]) : (uint8 FAR *)0;
+        ? (uint8 FAR *)MK_FP(dseg, PTR_OFF(wtPtrsFar[fontIdx])) : (uint8 FAR *)0;
     if (!wt || ch < 0x20) return 8;
     return wt[ch - 0x20];
 }
@@ -968,7 +969,7 @@ void gfx_complexRender_impl(int bxArg, int dxArg, int cxArg, int siArg)
      * garbage loY of 0 makes the unsigned `bx < loY` never true, so the loop
      * never terminates and the flight freezes on the first HUD frame. */
     {
-        int FAR *geom = (int FAR *)MK_FP(s->f15DataSeg, (uint16)g_ladderGeom);
+        int FAR *geom = (int FAR *)MK_FP(s->f15DataSeg, PTR_OFF(g_ladderGeom));
         base = (uint16)geom[wi];
         loY  = (uint16)geom[wi + 4];
         hiY  = (uint16)geom[wi + 8];
@@ -1080,8 +1081,8 @@ void FAR CDECL gfx_dacCycle(void)
      * with its own DS, so reach them via f15DataSeg (Finding A) — otherwise the
      * RGB reads are garbage (the symptom: the warning colour pulsed magenta/black
      * instead of the red->dark-red->red->yellow fire ramp). */
-    idxTab = (uint8 FAR *)MK_FP(s->f15DataSeg, (uint16)g_dacFireIndex);
-    pal    = (uint8 FAR *)MK_FP(s->f15DataSeg, (uint16)g_dacFirePalette);
+    idxTab = (uint8 FAR *)MK_FP(s->f15DataSeg, PTR_OFF(g_dacFireIndex));
+    pal    = (uint8 FAR *)MK_FP(s->f15DataSeg, PTR_OFF(g_dacFirePalette));
 
     /* Advance the phase counter (ax = ax*5 + 1) and pick the fire colour. */
     phase = (uint16)(s->dacPhase * 5u + 1u);
@@ -1244,7 +1245,7 @@ void gfx_buildVirtualOverlay(uint16 ovlSeg)
      * per slot. This is where the ASM setupOverlaySlots (overlay_slots.inc reads
      * `mov si,24h`) expects it — NOT 0x244. */
     for (i = 0; i < 0x54; i++)
-        *(uint16 FAR *)MK_FP(ovlSeg, 0x24 + i * 2) = (uint16)gfxSlotTable[i];
+        *(uint16 FAR *)MK_FP(ovlSeg, 0x24 + i * 2) = PTR_OFF(gfxSlotTable[i]);
 
     /* Initialize GfxState defaults */
     s = (GfxState FAR *)MK_FP(ovlSeg, GFX_STATE_OFFSET);
@@ -1343,7 +1344,7 @@ static void buildStubOverlay(uint16 ovlSeg, uint16 firstIdx, uint16 count,
     *(uint16 FAR *)MK_FP(ovlSeg, 0x1C) = firstIdx;
     *(uint16 FAR *)MK_FP(ovlSeg, 0x22) = count;
     for (i = 0; i < count; i++)
-        *(uint16 FAR *)MK_FP(ovlSeg, 0x24 + i * 2) = (uint16)fns[i];
+        *(uint16 FAR *)MK_FP(ovlSeg, 0x24 + i * 2) = PTR_OFF(fns[i]);
 }
 
 void gfx_buildMiscOverlay(uint16 ovlSeg)

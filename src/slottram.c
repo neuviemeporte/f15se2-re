@@ -45,7 +45,7 @@ void FAR CDECL gfx_copyBlock(void)
 /* Slot 0x05: gfx_drawString */
 void FAR CDECL gfx_drawString(int16 *pageNum, const char *string)
 {
-    ((void(FAR*)(int,int))gfxFarTableExported[5])(pageNum, string);
+    ((void(FAR*)(int16*,const char*))gfxFarTableExported[5])(pageNum, string);
 }
 
 /* Slot 0x06: gfx_drawStringUnclipped */
@@ -117,7 +117,7 @@ int FAR CDECL gfx_getCurPageSeg(void)
 /* Slot 0x11: gfx_blitSprite */
 int FAR CDECL gfx_blitSprite(struct SpriteParams *spritePtr)
 {
-    return ((int(FAR*)(int))gfxFarTableExported[17])(spritePtr);
+    return ((int(FAR*)(struct SpriteParams*))gfxFarTableExported[17])(spritePtr);
 }
 
 /* Slot 0x12: gfx_blitCore */
@@ -429,7 +429,7 @@ void FAR CDECL gfx_flipPage(void)
 /* Slot 0x47: gfx_blitSpriteClipped */
 void FAR CDECL gfx_blitSpriteClipped(int16 *ptr)
 {
-    ((void(FAR*)(int))gfxFarTableExported[71])(ptr);
+    ((void(FAR*)(int16*))gfxFarTableExported[71])(ptr);
 }
 
 /* Slot 0x48: gfx_blitSpriteClipped2 */
@@ -441,7 +441,7 @@ void FAR CDECL gfx_blitSpriteClipped2(void)
 /* Slot 0x49: gfx_blitSpriteOpaque */
 void FAR CDECL gfx_blitSpriteOpaque(int16 *ptr)
 {
-    ((void(FAR*)(int))gfxFarTableExported[73])(ptr);
+    ((void(FAR*)(int16*))gfxFarTableExported[73])(ptr);
 }
 
 /* Slot 0x4a: gfx_blitSpriteOpaque2 */
@@ -465,7 +465,7 @@ int FAR CDECL gfx_getModeFlag(void)
 /* Slot 0x4d: gfx_getVal2 */
 int FAR CDECL gfx_getVal2(int16 *p)
 {
-    return ((int(FAR*)(int))gfxFarTableExported[77])(p);
+    return ((int(FAR*)(int16*))gfxFarTableExported[77])(p);
 }
 
 /* Slot 0x4e: gfx_getVal */

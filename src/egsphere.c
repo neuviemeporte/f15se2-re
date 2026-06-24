@@ -35,7 +35,7 @@ void drawProjectionSphere(int skyColor)
         ringIx = 0;
         do {
             i = ringIx + ringIx;
-            *((int *)((char *)g_sphereRingRadii + i)) = *((int *)((char *)&g_sphereRingTable + i));
+            *((int *)((char *)g_sphereRingRadii + i)) = *((const int *)((const char *)g_sphereRingTable + i));
             ringIx++;
         } while (ringIx < 16);
     }
@@ -62,8 +62,8 @@ void drawProjectionSphere(int skyColor)
             foreX[ringIx] = -i + g_viewCenterX - j;
             i = fixedMulQ14(ringRad, g_sphereRoll);
             j = fixedMulQ14(-0x5848, g_sphereTiltZ);
-            rearY[ringIx] = -(-((i + j >> 2) - i) + j) + g_viewCenterY;
-            foreY[ringIx] = ((i - j >> 2) + g_viewCenterY) - i + j;
+            rearY[ringIx] = -(-(((i + j) >> 2) - i) + j) + g_viewCenterY;
+            foreY[ringIx] = (((i - j) >> 2) + g_viewCenterY) - i + j;
         }
     }
     ringIx = 0;
@@ -101,8 +101,8 @@ void drawProjectionSphere(int skyColor)
             foreX[ringIx] = -i + g_viewCenterX - j;
             i = fixedMulQ14(ringRad, g_sphereRoll);
             j = fixedMulQ14(-0x5848, g_sphereTiltZ);
-            rearY[ringIx] = -(-((i + j >> 2) - i) + j) + g_viewCenterY;
-            foreY[ringIx] = ((i - j >> 2) + g_viewCenterY) - i + j;
+            rearY[ringIx] = -(-(((i + j) >> 2) - i) + j) + g_viewCenterY;
+            foreY[ringIx] = (((i - j) >> 2) + g_viewCenterY) - i + j;
         }
     }
     ringIx = 0;

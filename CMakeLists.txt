@@ -160,8 +160,6 @@ function(configure_f15_target target_name)
             $<$<CXX_COMPILER_ID:AppleClang>:-ferror-limit=1000>
             $<$<CXX_COMPILER_ID:GNU>:-fmax-errors=1000>
 
-            -fpermissive
-            -Wno-int-to-pointer-cast
             -Wno-narrowing
         )
 

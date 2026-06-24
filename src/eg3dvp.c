@@ -4,17 +4,17 @@
 #include "slot.h"
 
 // ==== seg000:0x39c0 ====
-void setupViewport(char *rect) {
+void setupViewport(const int16 *rect) {
     int height, width;
-    width = *(int *)(rect + 0x14) - *(int *)(rect + 0x12) + 1;
-    height = *(int *)(rect + 0x10) - *(int *)(rect + 0x0e) + 1;
-    g_viewCenterX = (width + 1 >> 1) - 1;
-    g_viewCenterY = (height + 1 >> 1) - 1;
-    if (*(int *)(rect + 0x0e) == 0) {
-        g_viewCenterY = *(int *)(rect + 0x10) == 199 ? 0x64 : 0x38;
+    width = rect[10] - rect[9] + 1;
+    height = rect[8] - rect[7] + 1;
+    g_viewCenterX = ((width + 1) >> 1) - 1;
+    g_viewCenterY = ((height + 1) >> 1) - 1;
+    if (rect[7] == 0) {
+        g_viewCenterY = rect[8] == 199 ? 0x64 : 0x38;
     }
     gfx_setOvlVal2(width - 1);
-    gfx_setBlitOffset(gfx_calcRowAddr(*(int *)(rect + 0x12), *(int *)(rect + 0x0e)));
+    gfx_setBlitOffset(gfx_calcRowAddr(rect[9], rect[7]));
     g_clipMaxX = width - 1;
     g_clipMaxY = height - 1;
     g_overlayCenterX = g_overlayBaseX;

@@ -140,7 +140,7 @@ void game_init(void) {
     /* sound driver name is read by start.exe (PC-speaker check) in both builds */
     strcpyFar(SOUND_DRIVER, commSegment, COMM_SNDOVL_NAME_OFFSET, strlen(SOUND_DRIVER));
     writeWordFar(commSegment, COMM_SETUP_DONE_OFFSET, 1);
-    writeWordFar(commSegment, COMM_SETUP_GFXMODE_OFFSET, (uint16)'M'); /* mcga */
+    writeWordFar(commSegment, COMM_SETUP_GFXMODE_OFFSET, 'M'); /* mcga */
 
 #ifndef NO_ASM
     /* load sound, misc and video driver overlays */
@@ -178,7 +178,7 @@ void game_init(void) {
         writeWordFar(commSegment, COMM_MISCOVL_ADDR_OFFSET, miscSeg);
         INFO("Stub sound overlay at 0x%x, misc overlay at 0x%x", sndSeg, miscSeg);
 
-        gfxBufAddress = (uint16)gfx_allocPage((int)GFX_INIT_ARG);
+        gfxBufAddress = (uint16)gfx_allocPage(GFX_INIT_ARG);
         INFO("gfx_allocPage returned 0x%x", gfxBufAddress);
     }
 #endif

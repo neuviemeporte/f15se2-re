@@ -45,7 +45,7 @@ uint16 overlay_load(const char* filename) {
     }
     err = dos_loadOverlay(filename, ovlSegment);
     if (err != 0) {
-        ERROR("overlay_load(): unable to load overlay %s at 0x%x, error 0x%x", filename, ovlSegment, (int)err);
+        ERROR("overlay_load(): unable to load overlay %s at 0x%x, error 0x%x", filename, ovlSegment, err);
         dos_free(ovlSegment);
         return 0;
     }

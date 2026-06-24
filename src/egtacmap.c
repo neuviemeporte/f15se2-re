@@ -32,13 +32,13 @@ int mapYToScreen();
 void drawMapLine(int x1, int y1, int x2, int y2);
 void drawColorPoint();
 void drawMapPoint(int, int, int);
-void __cdecl drawPanelText(int, char*, int);
+void __cdecl drawPanelText(int, const char*, int);
 int readScreenPixel(int screenX, int screenY);
 
 // ==== seg000:0x8e38 ====
 
 void clearStatusPanel(void) {
-    drawPanelText(2, aEmpty_5950, 0);
+    drawPanelText(2, "", 0);
 }
 
 // ==== seg000:0x8e50 ====
@@ -102,7 +102,7 @@ void renderHudFrame(int unused) {
             }
             // stall warning display
             if (g_knots < g_cornerSpeed && g_groundAltitude != g_viewZ && frameTick & 1) {
-                drawStringActivePage(aStallWarning, 0x84, 0x1e, 0xf);
+                drawStringActivePage("stall warning", 0x84, 0x1e, 0xf);
             }
             if (g_currentWeaponType == 0 || g_currentWeaponType == 2) {
                 setDrawColor(7);
@@ -136,13 +136,13 @@ void renderHudFrame(int unused) {
                 drawNumber(g_altitude < 0x64 ? g_altitude : (g_altitude / 5) * 5, 0xe4, 0x36, 0xf);
             }
             if (g_slowMotionMode > 1) {
-                drawStringBothPages(aAccel, 0x96, 0x4, 0xf);
+                drawStringBothPages("ACCEL", 0x96, 0x4, 0xf);
             }
             if (g_playerPlaneFlags & 0x1000) {
-                drawStringBothPages(aTraining, 0xea, 0x10, 0xf);
+                drawStringBothPages("TRAINING", 0xea, 0x10, 0xf);
             }
             if (g_autopilotAltitude != 0) {
-                drawStringBothPages(aAutopilot, 0xec, 0x5a, 0xf);
+                drawStringBothPages("AUTOPILOT", 0xec, 0x5a, 0xf);
             }
             waypointMarkerX = clampRange((((g_waypointBearing - g_ourHead) >> 6) / 3) + 0x9f, 0x59, 0xe5);
             setDrawColor(0x0b);
@@ -158,7 +158,7 @@ somewhere:
         drawStringActivePage(tempString, -(((int16)strlen(tempString) >> 1) - 0x28) * 4, 0x18, 0xf);
         g_hudMsgTimer--;
         if (g_autopilotEngaged == 1) {
-            drawStringActivePage(aPressAnyKeyToP, 0x78, 1, g_nightMode != 0 ? 0xe : 0);
+            drawStringActivePage("Press any key to play", 0x78, 1, g_nightMode != 0 ? 0xe : 0);
         }
     }
     if (g_dirMsgTimer != 0 && keyValue == 0 && g_halfScaleRender == 0) {
@@ -175,19 +175,19 @@ void setActivePanel(int panelId) {
     }
     switch (panelId) {
     case 0x13:
-        strcpy(strBuf, aTrackcam);
+        strcpy(strBuf, "TrackCam ");
         switch (g_viewHeadingOffset) {
         case 0:
-            strcat(strBuf, aAhead);
+            strcat(strBuf, "Ahead");
             break;
         case (int16)0x8000:
-            strcat(strBuf, aRear);
+            strcat(strBuf, "Rear");
             break;
         case 0x4000:
-            strcat(strBuf, aRight);
+            strcat(strBuf, "Right");
             break;
         case (int16)0xC000:
-            strcat(strBuf, aLeft);
+            strcat(strBuf, "Left");
             break;
         }
         drawPanelText(2, strBuf, 3);
@@ -224,7 +224,7 @@ void redrawTacMap(int centerX, int centerY) {
     if (g_hudVisible == 0) {
         return;
     }
-    drawPanelText(1, aMap, 0);
+    drawPanelText(1, "Map", 0);
     idx = 0x48 << (9 - g_mapZoomLevel);
     g_mapCenterX = clampRange(sinMul(g_ourHead, 0x4000 >> g_mapZoomLevel) + centerX, idx, 0x7fff - idx);
     idx = (0x38 << (9 - g_mapZoomLevel)) / 3 * 4;
@@ -519,7 +519,7 @@ done:
 }
 
 // ==== seg000:0x9fad ====
-void drawPanelText(int panel, char* text, int color) {
+void drawPanelText(int panel, const char* text, int color) {
     fillPanelBox(panel, color);
     drawCenteredLabelBox(panel, text);
 }
@@ -585,7 +585,7 @@ int readScreenPixel(int screenX, int screenY) {
 }
 
 // ==== seg000:0xa1e4 ====
-void tempStrcpy(char *src) {
+void tempStrcpy(const char *src) {
     strcpy(tempString, src);
     g_hudMsgTimer = g_frameRateScaling * 3;
 }

@@ -71,7 +71,7 @@ struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
             n = process3dg(c, i += a, k += b);
             if (n != -1) {
                 g_curTileEntry = matrix3dt_2[c][n];
-                for (f = 0; matrix3dt[c][n] > (unsigned int)f; f++) {
+                for (f = 0; matrix3dt[c][n] > f; f++) {
                     if (g_shapeTargetCategory[g_curTileEntry->shape & 0x7f] != 0) {
                         h = o + g_curTileEntry->x;
                         j = g_curTileEntry->y + p;
@@ -115,11 +115,11 @@ struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
     return 0;
 }
 
-void addTileEntry(char *rec, int value, char tag) {
-    *(int *)(rec + 0x12) = value;
-    *(rec + 0x14) = tag;
-    memcpy((char *)&g_dynTileEntries[g_tileEntryCount++], rec + 0x0e, 8);
-    *(*(char **)(rec + 0x0c) + 6) |= 0x80;
+void addTileEntry(struct TileObject *rec, int value, char tag) {
+    rec->shapeOff = value;
+    rec->flag = tag;
+    memcpy(&g_dynTileEntries[g_tileEntryCount++], &rec->lod, 8);
+    rec->entry->shape |= 0x80;
 }
 
 // ==== seg000:0x3266 ====
@@ -167,7 +167,7 @@ void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
     cell = process3dg(lod, tileX, tileY);
     if (cell != -1) {
         g_curTileEntry = matrix3dt_2[lod][cell];
-        for (subIdx = 1; (unsigned int)subIdx < matrix3dt[lod][cell]; subIdx++) {
+        for (subIdx = 1; subIdx < matrix3dt[lod][cell]; subIdx++) {
             relX = g_curTileEntry->x + xOff;
             relY = g_curTileEntry->y + yOff;
             g_objDistance = abs(relX) + abs(relY);
@@ -196,11 +196,11 @@ void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
 }
 
 // ==== seg000:0x345e ====
-void renderMapTerrain(char *transform, int mapX, int mapY, int zoomShift) {
+void renderMapTerrain(const int16 *transform, int mapX, int mapY, int zoomShift) {
     int tmp0, tmp1;
     g_objShade = 0;
     setup3DTransform(transform, 0, 0, 0, 0, 0, 0, 0);
-    gfx_setBlitOffset(gfx_calcRowAddr(*(int *)(transform + 0x12), *(int *)(transform + 0x0e)));
+    gfx_setBlitOffset(gfx_calcRowAddr(transform[9], transform[7]));
     drawMapTiles(mapX, mapY, zoomShift);
     rasterize3DWorld();
 }
@@ -228,7 +228,7 @@ void drawMapTiles(int originX, int originY, int zoomShift)
                     cell = process3dg(g_curLod, col, row);
                     if (cell != -1) {
                         g_curTileEntry = matrix3dt_2[g_curLod][cell];
-                        for (subIdx = 0; matrix3dt[g_curLod][cell] > (unsigned int)subIdx; subIdx++) {
+                        for (subIdx = 0; matrix3dt[g_curLod][cell] > subIdx; subIdx++) {
                             if (g_curTileEntry->z == 0) {
                                 g_modelStreamPtr = (char far *)(g_world3dData + buf3d3[g_curTileEntry->shape]);
                                 drawMapTileObject(g_modelStreamPtr,
@@ -362,7 +362,7 @@ int aspectScaleY(int screenY) {
 }
 
 // ==== seg000:0x3932 ====
-void setup3DTransform(char *model, int angleX, int angleY, int angleZ, int posX, int posY, int posZ, int renderScene) {
+void setup3DTransform(const int16 *model, int angleX, int angleY, int angleZ, int posX, int posY, int posZ, int renderScene) {
     setupViewport(model);
     setViewRotation(angleX, angleY, angleZ);
     setViewPosition(posX, posY, posZ);
@@ -389,7 +389,7 @@ void setup3DTransform(char *model, int angleX, int angleY, int angleZ, int posX,
         while (g_frameSyncPending != 0)
             ;
 #endif
-        drawProjectionSphere(*(int *)(model + 4));
+        drawProjectionSphere(model[2]);
     }
     g_sortedObjCount = 0;
     g_spinAngle -= 0x3000 / g_frameRateScaling;

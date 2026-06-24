@@ -27,9 +27,9 @@ void debriefMainLoop(void)
 
 insert_scenario:
     clearRect(debriefPage, 0, 0, 0x13f, 0xc7);
-    drawStringCentered(debriefPage, str_insertScenario, 0, 0x5a, 0x13f);
+    drawStringCentered(debriefPage, "Please insert scenario disk", 0, 0x5a, 0x13f);
     debriefPage[6] = 4;
-    drawStringCentered(debriefPage, str_pressKey1, 0, 0x64, 0x13f);
+    drawStringCentered(debriefPage, "<Press a key when ready>", 0, 0x64, 0x13f);
     debriefPage[6] = 1;
     gfx_flipPage();
     misc_getKey();
@@ -50,9 +50,9 @@ open_theater:
 
 insert_diska:
     clearRect(debriefPage, 0, 0, 0x13f, 0xc7);
-    drawStringCentered(debriefPage, str_insertDiskA, 0, 0x5a, 0x13f);
+    drawStringCentered(debriefPage, "Please insert F15 Disk A", 0, 0x5a, 0x13f);
     debriefPage[6] = 4;
-    drawStringCentered(debriefPage, str_pressKey2, 0, 0x64, 0x13f);
+    drawStringCentered(debriefPage, "<Press a key when ready>", 0, 0x64, 0x13f);
     debriefPage[6] = 1;
     gfx_flipPage();
     misc_getKey();
@@ -86,7 +86,7 @@ open_dbicons:
     gfx_blitSprite(spriteStatusBar);
 
     debriefPage[2] = 0;
-    drawStringAt(debriefPage, str_missionDebrief, 0x6a, 1);
+    drawStringAt(debriefPage, "  MISSION DEBRIEFING\0", 0x6a, 1);
     debriefPage[2] = 6;
 
     e = 0x96;

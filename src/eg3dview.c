@@ -31,7 +31,7 @@ void render3DView(int camX, int camY, int camZ, long worldX, long worldY, long w
     waitFrameSync(g_frameSyncWait);
     TRACE(("121CA:1"));
     g_viewParams[2] = (unsigned char)((char *)colorLut)[g_skyColorIndex & 0xFF];
-    setup3DTransform((char *)g_viewParams, camX, camY, camZ, 0, 0, (int)worldZ, 1);
+    setup3DTransform(g_viewParams, camX, camY, camZ, 0, 0, (int)worldZ, 1);
     TRACE(("121CA:2"));
     projectObjects(camX, camY, worldX, worldY, worldZ);
     TRACE(("121CA:3"));
@@ -68,7 +68,7 @@ void waitFrameSync(int frames) {
 
 // ==== seg000:0x229a loadColorPalette ====
 void loadColorPalette(int idx) {
-    memcpy(colorLut, (char *)g_colorPalettes + idx * 0x10, 0x10);
+    memcpy(colorLut, g_colorPalettes + idx * 0x10, 0x10);
 }
 
 // ==== seg000:0x3224 ====

@@ -14,7 +14,7 @@ void readWorldData(void) {
     loadWorldData(&worldObjectCount, 2);
     loadWorldData(&worldRouteTable, 2);
     loadWorldData(&worldRouteCount, 2);
-    loadWorldData(&worldObjects, worldObjectCount << 4);
+    loadWorldData(worldObjects, worldObjectCount << 4);
     loadWorldData(&worldSamCount, 2);
     loadWorldData(&worldSamTable, 0x24 * worldSamCount);
     loadWorldData(unitTypeTable, 0x64);

@@ -26,7 +26,7 @@ void selectMissile();
 void disableTextBlink(void);
 
 // ==== seg000:0xd260 ====
-int keyDispatch(uint16 scanCode)
+void keyDispatch(uint16 scanCode)
 {
     char memStr[14]; /* local buffer at BP-0e, used by itoa for memory display */
 
@@ -45,16 +45,16 @@ int keyDispatch(uint16 scanCode)
             g_radarScopeRange = 0;
         switch (g_radarScopeRange) {
         case 0:
-            strcpy(strBuf, aLong);
+            strcpy(strBuf, "Long");
             break;
         case 1:
-            strcpy(strBuf, aMedium);
+            strcpy(strBuf, "Medium");
             break;
         case 2:
-            strcpy(strBuf, aShort);
+            strcpy(strBuf, "Short");
             break;
         }
-        strcat(strBuf, aRangeRadar);
+        strcat(strBuf, " range radar");
         tempStrcpy(strBuf);
         break;
     case 0x2c7a:
@@ -84,7 +84,7 @@ int keyDispatch(uint16 scanCode)
         if (g_detailLevel < 0) {
             g_detailLevel = gfx_getModecode() == 3 ? 3 : 2;
         }
-        strcpy(strBuf, aDetailLevel);
+        strcpy(strBuf, "Detail Level ");
         strcat(strBuf, itoa(g_detailLevel, g_itoaScratch, 10));
         tempStrcpy(strBuf);
         setupLodDistances();
@@ -93,17 +93,17 @@ int keyDispatch(uint16 scanCode)
         g_kbdSensitivity++;
         if (g_kbdSensitivity > 2)
             g_kbdSensitivity = 0;
-        strcpy(strBuf, aKybdSensitivit);
+        strcpy(strBuf, "Kybd Sensitivity");
         strcat(strBuf, itoa(g_kbdSensitivity + 1, g_itoaScratch, 10));
         tempStrcpy(strBuf);
         break;
     case 0x3200:
-        strcpy(strBuf, aMemoryAvailabl);
+        strcpy(strBuf, "Memory Available:");
         strcat(strBuf, itoa(allocSize, memStr, 10));
         tempStrcpy(strBuf);
         break;
     case 0x2100:
-        strcpy(strBuf, aJiffiesFrame);
+        strcpy(strBuf, "Jiffies/Frame ");
         strcat(strBuf, itoa(g_jiffiesPerFrame, g_itoaScratch, 10));
         tempStrcpy(strBuf);
         break;
@@ -117,8 +117,11 @@ int keyDispatch(uint16 scanCode)
         }
         break;
     case 0x2f00:
+        /* The original source pre-increments in place (compiles to `inc [mem]`);
+         * keep this form for byte-exact match even though it is formally
+         * unsequenced. Both writes store the same final value, (old+1)&3. */
         g_axisInputAccum[2] = ++g_axisInputAccum[2] & 3;
-        strcpy(strBuf, aSounds);
+        strcpy(strBuf, "Sounds ");
         strcat(strBuf, itoa(3 - g_axisInputAccum[2], g_itoaScratch, 10));
         tempStrcpy(strBuf);
         updateEngineSound();
@@ -159,11 +162,11 @@ int keyDispatch(uint16 scanCode)
         g_directorMode++;
         if (g_directorMode > 2)
             g_directorMode = 0;
-        strcpy(strBuf, aDirector);
+        strcpy(strBuf, "Director ");
         if (g_directorMode != 0) {
             strcat(strBuf, itoa(g_directorMode, g_itoaScratch, 10));
         } else {
-            strcat(strBuf, aOff);
+            strcat(strBuf, "off");
         }
         tempStrcpy(strBuf);
         break;
@@ -173,13 +176,13 @@ int keyDispatch(uint16 scanCode)
             waypointIndex = 1;
         switch (waypointIndex) {
         case 1:
-            tempStrcpy(aWaypointPrimar);
+            tempStrcpy("Waypoint: Primary Target");
             break;
         case 2:
-            tempStrcpy(aWaypointSecond);
+            tempStrcpy("Waypoint: Secondary Target");
             break;
         case 3:
-            tempStrcpy(aWaypointFriend);
+            tempStrcpy("Waypoint: Friendly Airbase");
             g_targetSlots[1].viewIndex = g_closestThreatIndex;
             break;
         }
@@ -187,10 +190,10 @@ int keyDispatch(uint16 scanCode)
     case 0x1970:
         if (g_autopilotAltitude != 0) {
             g_autopilotAltitude = 0;
-            tempStrcpy(aAutopilotOff);
+            tempStrcpy("Autopilot off");
         } else {
             g_autopilotAltitude = g_viewZ < 1000 ? 1000 : g_viewZ;
-            tempStrcpy(aAutopilotOn);
+            tempStrcpy("Autopilot on");
         }
         break;
     case 0x1474:
@@ -297,7 +300,7 @@ end_dispatch:
 
 void selectMissile() {
     strcpy(strBuf, missiles[missleSpec[missileSpecIndex].weaponIdx].longName);
-    strcat(strBuf, missleSpec[missileSpecIndex].ammo == 0 ? aNotAvailable : aArmed);
+    strcat(strBuf, missleSpec[missileSpecIndex].ammo == 0 ? " not available" : " armed");
     drawWeaponSelectMarker(missileSpecIndex);
     tempStrcpy(strBuf);
 }

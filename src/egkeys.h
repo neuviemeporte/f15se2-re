@@ -3,7 +3,7 @@
 /* public interface of egkeys.c */
 #include "inttype.h"
 
-int keyDispatch(uint16 scanCode);
+void keyDispatch(uint16 scanCode);
 void makeSound(int soundId, int priority);
 void playVoiceCue(int weaponIdx);
 void updateEngineSound(void);

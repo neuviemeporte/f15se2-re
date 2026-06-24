@@ -25,7 +25,7 @@ void displayPilots(void);
 void printPilot(int);
 void processPilotInput();
 void gameDataToPilot(struct Pilot *pilot);
-void pilotToGameData(uint8 *pilotData);
+void pilotToGameData(const uint8 *pilotData);
 void pilotNameInput(int16 *, int, int, int, struct Pilot *);
 void loadHallfame(void);
 void saveHallfame();
@@ -88,8 +88,8 @@ void updateHallfame()
     clearRect(screenBuf, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
     gfx_commitPage();
     screenBuf[2] = COLOR_WHITE;
-    drawStringCentered(screenBuf, aOriginalDiskIn, 0, 0x64, 0x140);
-    drawStringCentered(screenBuf, aPressAKeyToCon, 0, 0x96, 0x140);
+    drawStringCentered(screenBuf, "Original Disk in drive.  Roster will not be saved.", 0, 0x64, 0x140);
+    drawStringCentered(screenBuf, "Press a key to continue.", 0, 0x96, 0x140);
     screenBuf[2] = COLOR_GRAY;
     gfx_flipPage();
     misc_getKey();
@@ -107,7 +107,7 @@ void displayPilots(void)
     } while (++pilotIdx < HALLFAME_SLOTS);
     TRACE(("displayPilots(): loop terminating"));
     screenDesc.color = COLOR_WHITE;
-    drawStringCentered(pageNumPtr, aUseSelectorToC, 0, 0xC0, 0x140);
+    drawStringCentered(pageNumPtr, "Use SELECTOR to choose pilot,  ESC to enter new pilot.", 0, 0xC0, 0x140);
     TRACE(("displayPilots(): drawn prompt"));
     gfx_commitPage();
     TRACE(("displayPilots(): exiting"));
@@ -133,11 +133,11 @@ void printPilot(int pilotIdx) {
     screenDesc.color = COLOR_RED;
     screenDesc.font = 4;
     my_ltoa(pilot->total_score, todayMissStrBuf);
-    TRACE(("printPilot(): ltoa 1 %ld -> %s, about to cat %s", pilot->total_score, todayMissStrBuf, strOpenParen));
-    mystrcat(todayMissStrBuf, strOpenParen);
+    TRACE(("printPilot(): ltoa 1 %ld -> %s, about to cat %s", pilot->total_score, todayMissStrBuf, " ("));
+    mystrcat(todayMissStrBuf, " (");
     TRACE(("printPilot(): strcat2 %s", todayMissStrBuf));
     my_itoa(pilot->last_score, &todayMissStrBuf[mystrlen(todayMissStrBuf)]);
-    mystrcat(todayMissStrBuf, strCloseParen);
+    mystrcat(todayMissStrBuf, ")");
     TRACE(("printPilot(): strcat3 %s", todayMissStrBuf));
     drawStringCentered(screenBuf, todayMissStrBuf, xPos, yPos + 9, 0x90);
     TRACE(("printPilot(): drawn string2"));
@@ -243,7 +243,7 @@ void blinkPilot() {
 void gameDataToPilot(struct Pilot *pilot) {
     //uint16 var_4;
     int charIdx;
-    for (charIdx = 0; pilot->name[charIdx] = gameData->pilotName[charIdx]; charIdx++) {
+    for (charIdx = 0; (pilot->name[charIdx] = gameData->pilotName[charIdx]); charIdx++) {
     }
     pilot->total_score = gameData->totalScore;
     pilot->last_score = gameData->lastScore;
@@ -254,14 +254,14 @@ void gameDataToPilot(struct Pilot *pilot) {
 }
 
 // TODO: change argument to struct Pilot
-void pilotToGameData(uint8 *pilotData)
+void pilotToGameData(const uint8 *pilotData)
 {
     int charIdx;
     for (charIdx = 0; 1; charIdx++) {
         if ((gameData->pilotName[charIdx] = pilotData[charIdx]) == '\0') break;
     }
-    gameData->totalScore = *(uint32*)(pilotData + ROSTER_SCORE_LO);
-    gameData->lastScore = *(uint16*)(pilotData + ROSTER_LASTSCORE);
+    gameData->totalScore = *(const uint32*)(pilotData + ROSTER_SCORE_LO);
+    gameData->lastScore = *(const uint16*)(pilotData + ROSTER_LASTSCORE);
     gameData->theater = *(pilotData + ROSTER_THEATER);
     gameData->difficulty = *(pilotData + ROSTER_DIFFICULTY);
     gameData->rank = *(pilotData + ROSTER_UNK1) & 0xf;
@@ -288,7 +288,7 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
     rankWidth = PILOT_ENTRY_WIDTH - rankWidth;
     screenBuf[3] = 0;
     clearRect(page, 15, 192, 303, 197);
-    drawStringCentered(pageNumPtr, aMenterYourName, 0xf, 0xc0, 0x121);
+    drawStringCentered(pageNumPtr, "\376ENTER YOUR NAME !", 0xf, 0xc0, 0x121);
     misc_clearKeyFlags();
     keyCode = KEYCODE_CTRLX;
     TRACE(("pilotNameInput(): before loop"));

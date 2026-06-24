@@ -343,8 +343,8 @@ static void projectVertexToScreen(int vtx)   /* BX = vtx*4 in the asm */
     if (g_halfScaleRender) cx <<= 1;
     if (g_extraScaleShift) cx = (int)(cx >> g_extraScaleShift);
     if (cx <= 0) {
-        vtxScratch.vproj.x.v[vtx] = 0x8000L | (0x8000L << 16);
-        vtxScratch.vproj.y.v[vtx] = 0x8000L | (0x8000L << 16);
+        vtxScratch.vproj.x.v[vtx] = (int32)(0x8000L | (0x8000L << 16));
+        vtxScratch.vproj.y.v[vtx] = (int32)(0x8000L | (0x8000L << 16));
         return;
     }
     /* word_342BC:word_342BE form the 32-bit camera X for this vertex; the asm
@@ -518,8 +518,8 @@ static int clipMidpointSubdivide(int *bxp, int *cxp, int *sip, int *dxp)
         for (;;) {
             di = bx; esv = si;
             for (;;) {
-                bx = (int16)(bx + mcx) >> 1;
-                si = (int16)(si + mdx) >> 1;
+                bx = (bx + mcx) >> 1;
+                si = (si + mdx) >> 1;
                 if (pointOnClipEdge(bx, si)) { *bxp = bx; *cxp = cx; *sip = si; *dxp = dx; return 0; }
                 if (--bp == 0) { *bxp = mcx; *sip = mdx; *cxp = cx; *dxp = dx; return 0; }
                 al = computeClipOutcode(bx, si);
@@ -564,8 +564,8 @@ static int clipLineMidpoint(int *bxp, int *cxp, int *sip, int *dxp)
         for (;;) {
             di = bx; esv = si;
             for (;;) {
-                bx = (int16)(bx + mcx) >> 1;
-                si = (int16)(si + mdx) >> 1;
+                bx = (bx + mcx) >> 1;
+                si = (si + mdx) >> 1;
                 al = computeClipOutcode(bx, si);
                 if (al == 0) { *bxp = bx; *cxp = cx; *sip = si; *dxp = dx; return 0; }
                 if (--bp == 0) { *bxp = bx; *cxp = cx; *sip = si; *dxp = dx; return al; }
@@ -601,8 +601,8 @@ static void writeClippedStart(struct EdgeRec *rec, int bx, int cx, int si, int d
     g_clipMidxLo = bx; g_clipMidxHi = cx; g_clipMidyLo = si; g_clipMidyHi = dx;
     rx = g_clipP1xLo; rcx = g_clipP1xHi; rsi = g_clipP1yLo; rdx = g_clipP1yHi;
     clipMidpointSubdivide(&rx, &rcx, &rsi, &rdx);
-    rec->x1 = (int16)rx;
-    rec->y1 = (int16)rsi;
+    rec->x1 = rx;
+    rec->y1 = rsi;
     if (rec->y1 != rec->y1h) rec->flags |= 0x20;
 }
 
@@ -613,8 +613,8 @@ static void writeClippedEnd(struct EdgeRec *rec, int bx, int cx, int si, int dx)
     g_clipMidxLo = bx; g_clipMidxHi = cx; g_clipMidyLo = si; g_clipMidyHi = dx;
     rx = g_clipP2xLo; rcx = g_clipP2xHi; rsi = g_clipP2yLo; rdx = g_clipP2yHi;
     clipMidpointSubdivide(&rx, &rcx, &rsi, &rdx);
-    rec->x2 = (int16)rx;
-    rec->y2 = (int16)rsi;
+    rec->x2 = rx;
+    rec->y2 = rsi;
     if (rec->y2 != rec->y2h) rec->flags |= 0x10;
 }
 
@@ -627,7 +627,7 @@ static void rejectClippedLine(struct EdgeRec *rec, int al)
     if (al & 9) {
         int dx = 0;
         if (!(al & 8)) dx = g_clipMaxX;
-        rec->x1 = (int16)dx;
+        rec->x1 = dx;
         if (rec->y1 != rec->y1h) cl |= 0x20;
     }
     rec->flags = (uint8)cl;
@@ -676,16 +676,16 @@ static void clipLineSegment(struct EdgeRec *rec)
     g_clipOutcode1 = (uint8)clipComputeOutcode(x1, y1);
     if (g_clipOutcode1) {
         int oy;
-        rec->x1h = (int16)clampToClipEdge(g_clipOutcode1, x1, y1, &oy);
-        rec->y1h = (int16)oy;
+        rec->x1h = clampToClipEdge(g_clipOutcode1, x1, y1, &oy);
+        rec->y1h = oy;
     }
     g_clipP2xLo = rec->x2; g_clipP2xHi = rec->x2h;
     g_clipP2yLo = rec->y2; g_clipP2yHi = rec->y2h;
     g_clipOutcode2 = (uint8)clipComputeOutcode(x2, y2);
     if (g_clipOutcode2) {
         int oy;
-        rec->x2h = (int16)clampToClipEdge(g_clipOutcode2, x2, y2, &oy);
-        rec->y2h = (int16)oy;
+        rec->x2h = clampToClipEdge(g_clipOutcode2, x2, y2, &oy);
+        rec->y2h = oy;
     }
 
     al = g_clipOutcode2;
@@ -796,11 +796,11 @@ static void clampScanlineSpan(int x, int yA, int yB)
     if (cx < dx) { int t = cx; cx = dx; dx = t; }
     if (dx < 0) dx = 0;
     if (cx > g_clipMaxY) cx = g_clipMaxY;
-    if (cx > g_dirtyRectMaxY) g_dirtyRectMaxY = (int16)cx;
-    if ((uint16)dx < (uint16)g_dirtyRectMinY) g_dirtyRectMinY = (int16)dx;
+    if (cx > g_dirtyRectMaxY) g_dirtyRectMaxY = cx;
+    if ((uint16)dx < (uint16)g_dirtyRectMinY) g_dirtyRectMinY = dx;
     {
         int i;
-        for (i = dx; i <= cx; i++) buf[i] = (int16)x;
+        for (i = dx; i <= cx; i++) buf[i] = x;
     }
 }
 
@@ -846,12 +846,12 @@ static void rasterizeEdgeSpan(void)
             int cx = dxv, bx = -((dxv + 1) >> 1), si = dyv;
             goto sh_min;
         sh_advance:                    /* loc_1FB0 */
-            if ((uint16)ax > (uint16)maxB[row]) maxB[row] = (int16)ax;
+            if ((uint16)ax > (uint16)maxB[row]) maxB[row] = ax;
             ax++; bx -= dxv; row += rstep;
         sh_min:                        /* loc_1FBF */
-            if ((uint16)ax < (uint16)minB[row]) minB[row] = (int16)ax;
+            if ((uint16)ax < (uint16)minB[row]) minB[row] = ax;
         sh_cx:                         /* loc_1FC9 */
-            if (--cx < 0) { if ((uint16)ax > (uint16)maxB[row]) maxB[row] = (int16)ax; return; }
+            if (--cx < 0) { if ((uint16)ax > (uint16)maxB[row]) maxB[row] = ax; return; }
             bx += si;
             if (bx >= 0) goto sh_advance;
             ax++;
@@ -860,8 +860,8 @@ static void rasterizeEdgeSpan(void)
             /* steep (|dy| >= dx): step row each iteration, step X on carry */
             int cx = dyv, bx = -((dyv + 1) >> 1), si = dxv;
         st_loop:                       /* loc_1FF8 */
-            if ((uint16)ax < (uint16)minB[row]) minB[row] = (int16)ax;
-            if ((uint16)ax > (uint16)maxB[row]) maxB[row] = (int16)ax;
+            if ((uint16)ax < (uint16)minB[row]) minB[row] = ax;
+            if ((uint16)ax > (uint16)maxB[row]) maxB[row] = ax;
             if (--cx < 0) return;
             row += rstep;
             bx += si;
@@ -893,7 +893,7 @@ static void drawPrimitiveEdges(struct EdgeRec *rec)
 /* table into a flat sequence at DI, terminated by 0xFF. Depth-first walk   */
 /* of the adjacency table at g_rleRowBase using an explicit stack.          */
 /* ===================================================================== */
-static void decodeRleEdgeRow(unsigned char far *src, unsigned char *dst, int rowBase)
+static void decodeRleEdgeRow(const unsigned char far *src, unsigned char *dst, int rowBase)
 {
     /* explicit stack of (state, parentValue) frames replacing the asm's
      * PUSH AX / POP AX recursion. The asm pushes onto the hardware stack with
@@ -908,7 +908,7 @@ static void decodeRleEdgeRow(unsigned char far *src, unsigned char *dst, int row
     int cx;            /* current value */
     unsigned char *base = (unsigned char *)(size_t)(uint16)rowBase;
 
-    g_rleRowBase = (int16)rowBase;
+    g_rleRowBase = rowBase;
     cx = *src++;       /* first value */
     for (;;) {
         int dx;
@@ -1182,7 +1182,7 @@ int far clipAndRasterizeEdge(void)
         /* P2 inside, P1 outside -> swap so the outside point is (si,di)         */
         { int t; t = si; si = cx; cx = t; t = di; di = dx; dx = t; }
         { int t = flags; flags = al; al = t; }   /* al = oc1, flags = 0          */
-        g_lineX1 = (int16)cx; g_lineY1 = (int16)dx;
+        g_lineX1 = cx; g_lineY1 = dx;
     }
     bp = dx;                             /* BP = anchor y                       */
     if (flags & al) {                    /* both endpoints share a region side  */
@@ -1219,12 +1219,12 @@ int far clipAndRasterizeEdge(void)
     accept:                              /* loc_2176: store the clipped endpoint */
         clampScanlineSpan(bx, ax, di);   /* fill its boundary column overhang    */
         if (flags == 0) {                /* the other endpoint is inside: done   */
-            g_lineX2 = (int16)bx; g_lineY2 = (int16)ax;
+            g_lineX2 = bx; g_lineY2 = ax;
             rasterizeEdgeSpan();
             return 0;
         }
         /* loc_21AF: keep this clipped point as P1, clip the other endpoint next  */
-        g_lineX1 = (int16)bx; g_lineY1 = (int16)ax;
+        g_lineX1 = bx; g_lineY1 = ax;
         { int t; t = si; si = cx; cx = t; t = di; di = bp; bp = t; }
         al = flags; flags = 0;
     }
@@ -1263,8 +1263,8 @@ static int clipHorizonLineDraw(void)
         if (oc == oc1) { x1 = nx; y1 = ny; oc1 = crOutcode(x1, y1); }
         else           { x2 = nx; y2 = ny; oc2 = crOutcode(x2, y2); }
     }
-    g_lineX1 = (int16)x1; g_lineY1 = (int16)y1;
-    g_lineX2 = (int16)x2; g_lineY2 = (int16)y2;
+    g_lineX1 = x1; g_lineY1 = y1;
+    g_lineX2 = x2; g_lineY2 = y2;
     gfx_drawLine((uint16)x1, (uint16)y1, (uint16)x2, (uint16)y2);
     return 0;
 }
@@ -1341,11 +1341,11 @@ static void renderHorizonSky(void)
              * the two are equivalent) but its out-of-range-Y guard dropped the
              * whole edge once tilted, so the sky/ground fill vanished at angles. */
             clipAndRasterizeEdge();              /* clips + may swap the globals */
-            g_lineX1 = (int16)sx1; g_lineY1 = (int16)sy1;
-            g_lineX2 = (int16)sx2; g_lineY2 = (int16)sy2;
+            g_lineX1 = sx1; g_lineY1 = sy1;
+            g_lineX2 = sx2; g_lineY2 = sy2;
 
             edgeX = ((g_horizonSideFlag ^ negPitch) < 0) ? g_clipMaxX : 0;
-            g_horizonEdgeX = (int16)edgeX;
+            g_horizonEdgeX = edgeX;
             near_ = 0;
             far_ = g_clipMaxY;
             if ((g_horizonSideFlag ^ roll) < 0) {
@@ -1413,9 +1413,9 @@ int far drawPolygonOutline(int fillColor, int pointCount, int *points, int edgeC
     gfx_setColor(edgeColor);
     resetScanlineSpansImpl();
     firstX = *pt++;
-    g_lineX1 = (int16)firstX;
+    g_lineX1 = firstX;
     firstY = *pt++;
-    g_lineY1 = (int16)firstY;
+    g_lineY1 = firstY;
     while (n--) {
         /* The next edge must start from the ORIGINAL vertex, not the clipped
          * endpoint. egseg1 (loc_0025) pushes lineX2/lineY2 before loc_2028 and
@@ -1427,14 +1427,14 @@ int far drawPolygonOutline(int fillColor, int pointCount, int *points, int edgeC
          * stopped filling (striped/unfilled sky bands). */
         int nx = *pt++;
         int ny = *pt++;
-        g_lineX2 = (int16)nx;
-        g_lineY2 = (int16)ny;
+        g_lineX2 = nx;
+        g_lineY2 = ny;
         clipAndRasterizeEdge();
-        g_lineX1 = (int16)nx;
-        g_lineY1 = (int16)ny;
+        g_lineX1 = nx;
+        g_lineY1 = ny;
     }
-    g_lineX2 = (int16)firstX;
-    g_lineY2 = (int16)firstY;
+    g_lineX2 = firstX;
+    g_lineY2 = firstY;
     clipAndRasterizeEdge();
     clampSpansForFill();
     gfx_dirtyRect(g_spanBuf.minX,
@@ -1882,8 +1882,8 @@ static void insertSortedObject(unsigned char far *p)
     if (g_curLod == 2 && g_objRenderMode == 5) dHi += 0x20;
 
     r = &g_sortRecs[slot];
-    r->depthLo = (int16)dLo;
-    r->depthHi = (int16)dHi;
+    r->depthLo = dLo;
+    r->depthHi = dHi;
     r->model = g_modelStreamPtr;
     r->relX = g_objRelX;
     r->relY = g_objRelY;
@@ -1919,15 +1919,15 @@ void far projectSceneObject(char far *model, int yaw, int pitch, int roll,
     unsigned char far *p;
     int opcode, cl;
 
-    g_objTransform[1] = (int16)yaw;
-    g_objTransform[2] = (int16)pitch;
-    g_objTransform[3] = (int16)roll;
+    g_objTransform[1] = yaw;
+    g_objTransform[2] = pitch;
+    g_objTransform[3] = roll;
     g_modelStreamPtr = model;
     p = (unsigned char far *)model;
     g_objRenderMode = *p++;                       /* render-mode byte */
-    g_objRelY = (int16)(posY - g_viewPosY);
-    g_objTransform[0] = (int16)(posZ - g_viewPosZ);
-    g_objRelX = (int16)(posX - g_viewPosX);
+    g_objRelY = posY - g_viewPosY;
+    g_objTransform[0] = posZ - g_viewPosZ;
+    g_objRelX = posX - g_viewPosX;
 
     if (transformAndCullObject(g_objRelY, g_objTransform[0], g_objRelX)) return;
 
@@ -1966,12 +1966,11 @@ int far transformAndCullObjectFar(int a, int b, int c)
     return transformAndCullObject(b, c, a);
 }
 
-/* seg001 0x2853 — multiplyMatrix3x3Far: cdecl entry. matA/matB are DGROUP near
- * offsets of 9-element matrices; result is a near pointer. */
-int far multiplyMatrix3x3Far(int matA, int matB, int16 *result)
+/* seg001 0x2853 — multiplyMatrix3x3Far: cdecl entry. matA/matB are near
+ * pointers to 9-element matrices; result is a near pointer. */
+int far multiplyMatrix3x3Far(const int16 *matA, const int16 *matB, int16 *result)
 {
-    multiplyMatrix3x3((const int16 *)(size_t)(uint16)matA,
-                      (const int16 *)(size_t)(uint16)matB, result);
+    multiplyMatrix3x3(matA, matB, result);
     return 0;
 }
 

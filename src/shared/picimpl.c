@@ -83,11 +83,7 @@ static void read512FromFile(void)
     r.h.ah = 0x3F;
     r.x.bx = picFileHandle;
     r.x.cx = 512;
-#if !defined(MSDOS)
-    r.x.dx = 0; //(uint16)picFileReadBuf;
-#else
-    r.x.dx = (uint16)picFileReadBuf;
-#endif
+    r.x.dx = PTR_OFF(picFileReadBuf);
     intdos(&r, &r);
     picBufPos = 0;
 }

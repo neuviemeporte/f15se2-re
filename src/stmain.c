@@ -188,7 +188,7 @@ checkEga:
     gameData->campaignProgress = 0;
     commData->startDone = 1;
     /* 0x365, check if same diff and thea picked as last time */
-    if (gameData->difficulty == difficulty && gameData->theater == theater && missionPick == 0xffff && askRepeatMission() != 0)
+    if (gameData->difficulty == difficulty && gameData->theater == theater && missionPick == -1 && askRepeatMission() != 0)
         goto doSrand;
     gameData->rand = rand();
 doSrand:
@@ -216,7 +216,7 @@ doSrand:
         loadPic("f15.spr", commData->gfxInitResult);
     }
     TRACE(("main: DEBUG_AUTOSTART - write world"));
-    exportWorldToComm(aTemp_wld);
+    exportWorldToComm("temp.wld");
     commData->setupDone = 3;
     commData->continueFlag = 0;
     commData->restartFlag = 0;
@@ -255,7 +255,7 @@ doSrand:
     }
     // 403
     TRACE(("main: write world"));
-    exportWorldToComm(aTemp_wld);
+    exportWorldToComm("temp.wld");
     commData->setupDone = 3;
     commData->continueFlag = 0;
     commData->restartFlag = 0;

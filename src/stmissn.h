@@ -5,7 +5,7 @@
 
 void clearKeybuf(void);
 void waitMdaCgaStatus(int16);
-void showPic640(char *filename);
+void showPic640(const char *filename);
 void missionSelect(void);
 int askRepeatMission(void);
 void checkDiskA(void);

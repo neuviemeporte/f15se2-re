@@ -32,7 +32,7 @@
 /* Private helpers for this translation unit. */
 void drawTargetBox(int, int, int, int);
 void drawMissileLock(void);
-void __cdecl drawTargetLabel(char *, int, int);
+void __cdecl drawTargetLabel(const char *, int, int);
 void buildRangeString(int rangeRaw);
 void projectWorldToHud(int worldX, int worldY, int worldZ);
 long rotateVectorComponent(int axis, int vecX, int vecY, int vecZ);
@@ -121,7 +121,7 @@ int findWaypointEntry(int mapX, int mapY)
 {
     int idx;
 
-    if (g_nearestTileObj = findNearestTileObject((int32)mapX << 5, (0x8000L - (int32)mapY) << 5)) {
+    if ((g_nearestTileObj = findNearestTileObject((int32)mapX << 5, (0x8000L - (int32)mapY) << 5))) {
         mapX = g_nearestTileObj->x >> 5;
         mapY = -((int)(g_nearestTileObj->y >> 5) - 0x8000);
         for (idx = 1; idx < g_planeCount; idx++) {

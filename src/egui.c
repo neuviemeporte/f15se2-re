@@ -98,12 +98,12 @@ void drawTacticalMap(char page)
         if (g_projectiles[i].ttl != 0) {
             projectMapPoint(g_projectiles[i].mapX, g_projectiles[i].mapY);
             if (g_projDepth != -1) {
-                if (sams[*(int16 *)&g_projectiles[i].state[0]].weaponClass <= 0) {
+                if (sams[g_projectiles[i].specIdx].weaponClass <= 0) {
                     setDrawColor(0x0c);
                 } else {
                     setDrawColor(0x0e);
                 }
-                if (sams[*(int16 *)&g_projectiles[i].state[0]].weaponClass == 3) {
+                if (sams[g_projectiles[i].specIdx].weaponClass == 3) {
                     setDrawColor(*(char *)&gfxModeUnset != 0 ? 8 : 0x0d);
                 }
                 if (!(g_projectiles[i].alt & 1)) {

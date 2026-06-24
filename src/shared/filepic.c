@@ -28,9 +28,9 @@ void closeFileWrapper(int handle) /* Original: CloseFile(fh). Close a resident f
 }
 
 #ifdef BUGFIX
-void openShowPic(char *filename, int page) /* Original chain: OpenFile + show/decode + CloseFile. Open, draw PIC to page, then close. */
+void openShowPic(const char *filename, int page) /* Original chain: OpenFile + show/decode + CloseFile. Open, draw PIC to page, then close. */
 #else
-void openShowPic(char *filename, int page, int garbage) /* Original chain: OpenFile + show/decode + CloseFile. Open, draw PIC to page, then close. */
+void openShowPic(const char *filename, int page, int garbage) /* Original chain: OpenFile + show/decode + CloseFile. Open, draw PIC to page, then close. */
 #endif
 {
     int16 fileHandle;

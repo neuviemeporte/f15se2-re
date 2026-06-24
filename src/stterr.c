@@ -37,7 +37,7 @@ struct NearestTerrain* findNearestTerrain(int32 worldX, int32 worldY) {
             tmp = gridLevelSize[rowOff] - dy + 0x800;
             y1 += rowOff;
             cell = lookupGridCell(level, gridX += dx, y1);
-            if (cell != 0xffff) {
+            if (cell != -1) {
                 tileDataPtr = terrainTilePtrs[level].entries[cell];
                 for (cellIdx = 0; terrainTileCounts[level].entries[cell] > cellIdx; cellIdx++) {
                     if (objectTypeTable[tileDataPtr->idx] != 0) {

@@ -7,7 +7,7 @@
 
 int checkQuitFlag();
 void picBlit(int handle, int unk);
-void mystrcat(char *dst, char *src);
+void mystrcat(char *dst, const char *src);
 void nearmemset(void *dst, char value, int count);
 void dos_printstring(const char *str);
 int loadOverlay(const char *filename);

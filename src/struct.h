@@ -178,7 +178,10 @@ struct Projectile {
     int16 worldY;       // +0x0A  launch world Y
     int16 worldZ;       // +0x0C  launch world Z
     int16 ttl;          // +0x0E  flight-time countdown (0 = free slot)
-    uint8 state[8];     // +0x10  per-projectile state
+    int16 specIdx;      // +0x10  weapon/threat spec index into sams[]
+    int16 weaponIdx;    // +0x12  index into missiles[] (player-fired)
+    int16 targetLock;   // +0x14  tracked target id (-1 = none)
+    int16 targetRef;    // +0x16  ground threat: target index (>0 plane / <0 -simObject); player missile: loft angle
 };
 STATIC_ASSERT(sizeof(struct Projectile)==0x18);
 

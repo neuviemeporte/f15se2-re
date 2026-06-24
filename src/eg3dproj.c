@@ -73,8 +73,8 @@ outer_test:
                 if (sampleIdx == 15) {
                     break;
                 }
-                gridX = *(int *)((char *)&g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)dirSector);
-                gridY = *(int *)((char *)&g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)((dirSector + 2) & 7));
+                gridX = *(const int *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)dirSector);
+                gridY = *(const int *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)((dirSector + 2) & 7));
                 g_objLocalX = fracX - (gridX << 12) - 0x800;
                 g_objLocalY = fracY - (gridY << 12) - 0x800;
                 g_objRenderMode = 7;
@@ -92,8 +92,8 @@ outer_test:
                     gridX = g_neighborSampling.gridX[sampleIdx];
                     gridY = g_neighborSampling.gridY[sampleIdx];
                 } else {
-                    gridX = *(int *)((char *)&g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)dirSector);
-                    gridY = *(int *)((char *)&g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)((dirSector + 2) & 7));
+                    gridX = *(const int *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)dirSector);
+                    gridY = *(const int *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)((dirSector + 2) & 7));
                 }
                 g_objLocalX = fracX - (gridX << 12) - 0x800;
                 g_objLocalY = fracY - (gridY << 12) - 0x800;
@@ -106,7 +106,7 @@ outer_test:
             if (sampleIdx >= 4 || g_detailLevel >= 2) {
                 g_objColorBase = (g_detailLevel == 2) ? 0 : ((unsigned char)g_curLod << 8);
                 g_curTileEntry = matrix3dt_2[g_curLod][cell];
-                for (subIdx = 0; (unsigned int)subIdx < matrix3dt[g_curLod][cell]; subIdx++) {
+                for (subIdx = 0; subIdx < matrix3dt[g_curLod][cell]; subIdx++) {
                     if (g_curTileEntry->shape & 0x80) {
                         g_modelStreamPtr = g_world3dData + lookupTileEntry(g_curLod, subIdx, tileX + gridX, tileY + gridY);
                         if (g_modelStreamPtr == (char far *)g_world3dData) {

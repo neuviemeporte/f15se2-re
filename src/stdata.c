@@ -5,108 +5,18 @@
 #include <dos.h>
 
 /* === Group 1 (0x0042-0x0530): Filename, mission selection, UI strings === */
-char aTemp_wld[] = "temp.wld";
 
 /* Mission selection strings */
-char aLibya[] = "Libya";
-char aPersianGulf[] = "Persian Gulf";
-char aVietnam[] = "Vietnam";
-char aMiddleEast[] = "Middle East";
-char aOtherAreas[] = "Other Areas";
-char aAcrossTheLineO[] = "Across the \"Line of Death\"";
-char aKeepingTheSeaL[] = "Keeping the Sea Lanes Open";
-char aAmericaSLonges[] = "America's Longest Air War";
-char aEaglesVsMigs[] = "Eagles vs MiGs";
-char aInsertYourScen[] = "Insert your scenario disk";
-char aRookie[] = "Rookie";
-char aPilot[] = "Pilot";
-char aVeteran[] = "Veteran";
-char aAce[] = "Ace";
-char aDemo[] = "Demo";
-char aGetOffToAGoodS[] = "Get off to a good start";
-char aForTheCasualPl[] = "For the casual player";
-char aForMoreSerious[] = "For more serious players";
-char aTheUltimateCha[] = "The Ultimate Challenge";
-char aLetSSeeWhatThi[] = "Let's see what this thing can do";
-char aNc[] = "nc";
-char aCe[] = "ce";
-char aJp[] = "jp";
-char aNa[] = "na";
-char aNorthCape[] = "North Cape";
-char aCentralEurope[] = "Central Europe";
-char aDesertStorm[] = "Desert Storm";
-char aNorthAtlantic[] = "North Atlantic";
-char aOtherAreas_0[] = "Other Areas";
-char aIntoTheSovietS[] = "Into the Soviet's Backyard";
-char aRedStormRaging[] = "Red Storm Raging";
-char aTheFightForKuw[] = "The Fight for Kuwait";
-char aDefendingTheIc[] = "Defending the Iceland-UK Gap";
-char aSelectABuiltIn[] = "Select a built-in area";
-char aHistoricalMiss[] = "Historical Missions";
-char aGeneralAirStri[] = "General Air Strikes";
-char emptyMissTypeNames[3] = {0, 0, 0};
-char aReenactHistory[] = "Reenact history";
-char aTheCoreOfTheAi[] = "The core of the Air Campaign";
-char emptyMissTypeDescs[3] = {0, 0, 0};
-char aSaddamSEyes[] = "Saddam's Eyes";
-char aCommandAndCont[] = "Command and Control";
-char aScudBusting[] = "Scud Busting";
-char aNoNukes[] = "No Nukes";
-char aMoreHistorical[] = "more historical missions";
-char aIraqSEarlyWarn[] = "Iraq's Early Warning Radar";
-char aIraqiDefenseNe[] = "Iraqi Defense Nerve Center";
-char aStopSaddamSTer[] = "Stop Saddam's Terror Weapon";
-char aNuclearResearc[] = "Nuclear Research Facility";
-char emptyHistDesc1 = 0;
-char aBabyMilkFactory[] = "'Baby Milk Factory'";
-char aStopTheSpill[] = "Stop the Spill";
-char aBridgesToNowhe[] = "Bridges to Nowhere";
-char aRepublicanGuar[] = "Republican Guards";
-char aMoreHistoric_0[] = "more historical missions";
-char aChemicalBiolog[] = "Chemical/Biological Weapons Plant";
-char aSeverTheOilPum[] = "Sever the Oil Pumping Manifold";
-char aSaddamSEliteAr[] = "Saddam's Elite Armored Units";
-char aCutTheSupplyLi[] = "Cut the Supply Lines";
-char emptyHistDesc2 = 0;
-char aMission[] = "MISSION";
+const char emptyMissTypeNames[3] = {0, 0, 0};
+const char emptyMissTypeDescs[3] = {0, 0, 0};
+const char emptyHistDesc1 = 0;
+const char emptyHistDesc2 = 0;
 char placeholder_3d3[] = "xx.3d3";
 
 /* UI strings */
-char aDifficulty[] = "DIFFICULTY";
-char aTheater[] = "THEATER";
-char aNoScenarioFile[] = "No scenario files found";
-char aSeeTechnicalSu[] = "See Technical Supplement";
-char aTheater_0[] = "THEATER";
-char aMissionType[] = "MISSION TYPE";
-
-/* === Group 2 (0x0670-0x072c): Mission briefing strings === */
-char aRepeatLastMiss[] = "Repeat last mission ? (y/n)";
-char strCloseParen[] = ")";
-char aPleaseReinsert[] = "Please reinsert F15 Disk A";
-char aPressSelectorW[] = "<Press selector when ready>";
-char aDecodingMissio[] = "decoding mission...";
-char aTodaySMission[] = "TODAY'S MISSION";
-char aTakeoffFrom[] = "Takeoff from:";
-char aOnc_2[] = "ONC ";
-char aPrimaryTarget[] = "Primary Target:";
-char aOnc_0[] = "ONC ";
-char aSecondaryTarge[] = "Secondary Target:";
-char aOnc_1[] = "ONC ";
+const char aTheater_0[] = "THEATER";
 
 /* === Group 3 (0x0830-0x0a98): Rank, roster, overlay strings === */
-char a2ndLt_[] = "2nd Lt. ";
-char a1stLt_[] = "1st Lt. ";
-char aCapt_[] = "Capt. ";
-char aMajor[] = "Major ";
-char aLtCol_[] = "Lt Col. ";
-char aColonel[] = "Colonel ";
-char aGen_[] = "Gen. ";
-
-char aOriginalDiskIn[] = "Original Disk in drive.  Roster will not be saved.";
-char aPressAKeyToCon[] = "Press a key to continue.";
-char aUseSelectorToC[] = "Use SELECTOR to choose pilot,  ESC to enter new pilot.";
-char strOpenParen[] = " (";
-char aMenterYourName[] = "\376ENTER YOUR NAME !";
 
 /* Overlay loader variables */
 int ovlSeg1 = 0;
@@ -116,33 +26,32 @@ int ovlSeg2 = 0;
 char ovlInsaneFlag = 0;
 
 /* Overlay error strings */
-char aAlloc1M[] = "Allocated 1Mb of space????$";
-char aDosLied[] = "MS-DOS lied to us about how much memory was available$";
-char aFileNFound[] = "Filename not found$";
-char aEnoughMem[] = "Not enough memory to load file$";
-char aOvlFail[] = "Overlay load failed for some reason$";
-char aOvlOvrrun[] = "Overlay has overrun allocated memory$";
-char aOvlShrink[] = "Unable to shrink overlay memory allocation$";
-char aOvlRel[] = "Error releasing overlay memory$";
+const char aAlloc1M[] = "Allocated 1Mb of space????$";
+const char aDosLied[] = "MS-DOS lied to us about how much memory was available$";
+const char aFileNFound[] = "Filename not found$";
+const char aEnoughMem[] = "Not enough memory to load file$";
+const char aOvlFail[] = "Overlay load failed for some reason$";
+const char aOvlOvrrun[] = "Overlay has overrun allocated memory$";
+const char aOvlShrink[] = "Unable to shrink overlay memory allocation$";
+const char aOvlRel[] = "Error releasing overlay memory$";
 
 /* === Group 4 (0x12b6-0x130c): File I/O error strings === */
-char aFileNotFound[] = ":File not found$";
-char aNoFileBuffersAvailable[] = ":No file buffers available$";
-char aOpenError[] = ":Open error $";
-char aFileClosingError[] = "File closing error$";
-char aReadError[] = "Read error$";
-char aWriteError[] = "Write error$";
+const char aFileNotFound[] = ":File not found$";
+const char aNoFileBuffersAvailable[] = ":No file buffers available$";
+const char aOpenError[] = ":Open error $";
+const char aFileClosingError[] = "File closing error$";
+const char aReadError[] = "Read error$";
+const char aWriteError[] = "Write error$";
 
 /* === Group 5 (0x146e-0x14d6): Alloc error, highlight, lookup tables === */
-char str_allocError[] = "Insufficient system memory - AllocBuffer$";
 
 /* Mission selection state */
 int16 enableHighlight = 1;
 
 /* Direction/level lookup tables */
-int dirDeltaX[] = {-1, 1, 1, -1, 0, 1, 0, -1, 0};
-int dirDeltaY[] = {1, 1, -1, -1, 1, 0, -1, 0, 0, -8192, -4096};
-int gridLevelSize[] = {0, 0x1000, 0x2000, 0x400, 0x100, 0x40, 0x10, 4};
+extern const int dirDeltaX[] = {-1, 1, 1, -1, 0, 1, 0, -1, 0};
+extern const int dirDeltaY[] = {1, 1, -1, -1, 1, 0, -1, 0, 0, -8192, -4096};
+extern const int gridLevelSize[] = {0, 0x1000, 0x2000, 0x400, 0x100, 0x40, 0x10, 4};
 
 /* === Group 6 (0x1632-0x1763): Terrain/grid file strings === */
 int16 gridSignature = 0x3232;
@@ -150,44 +59,10 @@ int16 terrainSignature = 0x3131;
 int16 terrainDirtyFlag = 0;
 int16 gridValidFlag = 0;
 
-char a_3dt[] = ".3dT";
-char aOpenErrorOn_3d[] = "Open Error on *.3DT, assuming new file !";
-char aBadTileFileFor[] = "Bad Tile file format.";
-char aTooManyTiles_[] = "Too many tiles.";
-char aTooMuchTileDat[] = "Too much tile data";
-char a_3dg[] = ".3dG";
-char aOpenErrorOn__0[] = "Open Error on *.3DG, assuming new file !";
-char aBadGridFileFor[] = "Bad Grid file format.";
 
-/* Region/theater filename strings */
+/* regn.xxx buffer: regnPlhPtr's strcpy/fopen target, overwritten with the
+   per-theater region filename (plhFiles[theater]). */
 char aRegn_xxx[] = "regn.xxx";
-char aLb_xxx[] = "lb.xxx";
-char aPg_xxx[] = "pg.xxx";
-char aVn_xxx[] = "vn.xxx";
-char aMe_xxx[] = "me.xxx";
-char aNc_xxx[] = "nc.xxx";
-char aCe_xxx[] = "ce.xxx";
-char aJp_xxx[] = "jp.xxx";
-char aNa_xxx[] = "na.xxx";
-char aLibya_wld[] = "Libya.wld";
-char aGulf_wld[] = "gulf.wld";
-char aVn_wld[] = "vn.wld";
-char aMe_wld[] = "me.wld";
-char aNc_wld[] = "nc.wld";
-char aCe_wld[] = "ce.wld";
-char aJp_wld[] = "jp.wld";
-char aNa_wld[] = "na.wld";
-
-/* === Group 7 (0x27e6-0x2818): Mission/scenario strings === */
-char aPowCamp[] = "POW Camp";
-char aTd00[] = "TD00";
-char aJz00[] = "JZ00";
-char aXv00[] = "XV00";
-char aEs00[] = "ES00";
-char aWx00[] = "WX00";
-char aCc00[] = "CC00";
-char aHz00[] = "HZ00";
-char aAt[] = " at ";
 
 /* === Unmapped variables (original relative order preserved) === */
 
@@ -340,7 +215,7 @@ int16 bufPageDesc[7] = {0, 0, 0x0F, 0, 0, 0, 0x0100};
 int16 *bufPtr = bufPageDesc;
 
 /* Weapon table (struct Weapon, 14 bytes/entry, 23 entries) */
-struct Weapon aNone[] = {
+const struct Weapon aNone[] = {
     { "None",   0x0000, 0x0000, 0x0000 },
     { "SA-2",   0x00c8, 0x0003, 0x0000 },
     { "SA-5",   0x015e, 0x0002, 0x0000 },
@@ -410,8 +285,8 @@ int16 theaterSaved = 0;
 
 /* Pointer arrays for region/world files */
 char *regnPlhPtr = aRegn_xxx;
-char *plhFiles[] = { aLb_xxx, aPg_xxx, aVn_xxx, aMe_xxx, aNc_xxx, aCe_xxx, aJp_xxx, aNa_xxx };
-char *worldFiles[] = { aLibya_wld, aGulf_wld, aVn_wld, aMe_wld, aNc_wld, aCe_wld, aJp_wld, aNa_wld };
+const char *plhFiles[] = { "lb.xxx", "pg.xxx", "vn.xxx", "me.xxx", "nc.xxx", "ce.xxx", "jp.xxx", "na.xxx" };
+const char *worldFiles[] = { "Libya.wld", "gulf.wld", "vn.wld", "me.wld", "nc.wld", "ce.wld", "jp.wld", "na.wld" };
 
 /* Mission coordinate state */
 int16 missionMidX = 0;
@@ -424,58 +299,58 @@ int16 missionBase2X = 0;
 int16 missionBase2Y = 0;
 
 /* Mission menu pointer arrays */
-char *missTheaNames[] = { aLibya, aPersianGulf, aVietnam, aMiddleEast, aOtherAreas };
-char *missTheaDesc[] = { aAcrossTheLineO, aKeepingTheSeaL, aAmericaSLonges, aEaglesVsMigs, aInsertYourScen };
-char *missDiffLevels[] = { aRookie, aPilot, aVeteran, aAce, aDemo };
-char *missDiffDesc[] = { aGetOffToAGoodS, aForTheCasualPl, aForMoreSerious, aTheUltimateCha, aLetSSeeWhatThi };
-char *scenarioCodePtr[] = { aNc, aCe, aJp, aNa };
-char *missScenarioNames[] = { aNorthCape, aCentralEurope, aDesertStorm, aNorthAtlantic, aOtherAreas_0 };
-char *missScenarioDesc[] = { aIntoTheSovietS, aRedStormRaging, aTheFightForKuw, aDefendingTheIc, aSelectABuiltIn };
-char *missTypeNames[] = { aHistoricalMiss, aGeneralAirStri, &emptyMissTypeNames[0], &emptyMissTypeNames[1], &emptyMissTypeNames[2] };
-char *missTypeDesc[] = { aReenactHistory, aTheCoreOfTheAi, &emptyMissTypeDescs[0], &emptyMissTypeDescs[1], &emptyMissTypeDescs[2] };
-char *missHistorical1Names[] = { aSaddamSEyes, aCommandAndCont, aScudBusting, aNoNukes, aMoreHistorical };
-char *missHistorical1Desc[] = { aIraqSEarlyWarn, aIraqiDefenseNe, aStopSaddamSTer, aNuclearResearc, &emptyHistDesc1 };
-char *missHistorical2Names[] = { aBabyMilkFactory, aStopTheSpill, aBridgesToNowhe, aRepublicanGuar, aMoreHistoric_0 };
-char *missHistorical2Desc[] = { aChemicalBiolog, aSeverTheOilPum, aSaddamSEliteAr, aCutTheSupplyLi, &emptyHistDesc2 };
-char *missionStr = aMission;
+const char *missTheaNames[] = { "Libya", "Persian Gulf", "Vietnam", "Middle East", "Other Areas" };
+const char *missTheaDesc[] = { "Across the \"Line of Death\"", "Keeping the Sea Lanes Open", "America's Longest Air War", "Eagles vs MiGs", "Insert your scenario disk" };
+const char *missDiffLevels[] = { "Rookie", "Pilot", "Veteran", "Ace", "Demo" };
+const char *missDiffDesc[] = { "Get off to a good start", "For the casual player", "For more serious players", "The Ultimate Challenge", "Let's see what this thing can do" };
+const char *scenarioCodePtr[] = { "nc", "ce", "jp", "na" };
+const char *missScenarioNames[] = { "North Cape", "Central Europe", "Desert Storm", "North Atlantic", "Other Areas" };
+const char *missScenarioDesc[] = { "Into the Soviet's Backyard", "Red Storm Raging", "The Fight for Kuwait", "Defending the Iceland-UK Gap", "Select a built-in area" };
+const char *missTypeNames[] = { "Historical Missions", "General Air Strikes", &emptyMissTypeNames[0], &emptyMissTypeNames[1], &emptyMissTypeNames[2] };
+const char *missTypeDesc[] = { "Reenact history", "The core of the Air Campaign", &emptyMissTypeDescs[0], &emptyMissTypeDescs[1], &emptyMissTypeDescs[2] };
+const char *missHistorical1Names[] = { "Saddam's Eyes", "Command and Control", "Scud Busting", "No Nukes", "more historical missions" };
+const char *missHistorical1Desc[] = { "Iraq's Early Warning Radar", "Iraqi Defense Nerve Center", "Stop Saddam's Terror Weapon", "Nuclear Research Facility", &emptyHistDesc1 };
+const char *missHistorical2Names[] = { "'Baby Milk Factory'", "Stop the Spill", "Bridges to Nowhere", "Republican Guards", "more historical missions" };
+const char *missHistorical2Desc[] = { "Chemical/Biological Weapons Plant", "Sever the Oil Pumping Manifold", "Saddam's Elite Armored Units", "Cut the Supply Lines", &emptyHistDesc2 };
+const char *missionStr = "MISSION";
 char *plh3d3Ptr = placeholder_3d3;
 
 /* Pilot state */
 uint8 pilotSelectFlag = 0;
 
 /* Rank pointer array */
-char *ranks[] = { a2ndLt_, a1stLt_, aCapt_, aMajor, aLtCol_, aColonel, aGen_ };
+const char *ranks[] = { "2nd Lt. ", "1st Lt. ", "Capt. ", "Major ", "Lt Col. ", "Colonel ", "Gen. " };
 
 /* Medal sprite tables (7 entries for 7 medals, null-terminated) */
-uint8 medalSpriteX[] = { 0x82, 0x71, 0x81, 0x70, 0x6F, 0xA1, 0x9F, 0 };
-uint8 medalSpriteY[] = { 0x80, 0x80, 0xB3, 0xB3, 0x91, 0x91, 0xA2, 0 };
-uint8 medalWidth[] = { 0x09, 0x0B, 0x0B, 0x0D, 0x2F, 0x0B, 0x0F, 0 };
+extern const uint8 medalSpriteX[] = { 0x82, 0x71, 0x81, 0x70, 0x6F, 0xA1, 0x9F, 0 };
+extern const uint8 medalSpriteY[] = { 0x80, 0x80, 0xB3, 0xB3, 0x91, 0x91, 0xA2, 0 };
+extern const uint8 medalWidth[] = { 0x09, 0x0B, 0x0B, 0x0D, 0x2F, 0x0B, 0x0F, 0 };
 
 /* Blink animation colors */
-int16 blinkColors[] = { 7, 0x0F };
+extern const int16 blinkColors[] = { 7, 0x0F };
 int16 blinkColorIdx = 0;
 
 /* Pilot name input colors (2 words: word + byte pair) */
-int16 pilotNameInputColors[] = { 0, 0x0008 };
+extern const int16 pilotNameInputColors[] = { 0, 0x0008 };
 
 /* Arm animation sprite tables (8 entries each) */
-int16 armSrcX[] = { 1, 0x53, 0xD9, 0xA4, 1, 1, 0xBF, 0x10A };
-int16 armSrcY[] = { 0, 0, 0, 0x2E, 0x3E, 0x7C, 0x6A, 0x53 };
-int16 armBlitX[] = { 0x3E, 0x3E, 0x3D, 0x3E, 0x3E, 0x3E, 0x3F, 0x3E };
-int16 armBlitY[] = { 0x1C, 0x2F, 0x35, 0x36, 0x37, 0x38, 0x39, 0x38 };
-int16 armBlitW[] = { 0x52, 0x5D, 0x66, 0x66, 0x68, 0x5C, 0x4B, 0x35 };
-int16 armBlitH[] = { 0x3E, 0x2E, 0x25, 0x2D, 0x3E, 0x4B, 0x5D, 0x74 };
+extern const int16 armSrcX[] = { 1, 0x53, 0xD9, 0xA4, 1, 1, 0xBF, 0x10A };
+extern const int16 armSrcY[] = { 0, 0, 0, 0x2E, 0x3E, 0x7C, 0x6A, 0x53 };
+extern const int16 armBlitX[] = { 0x3E, 0x3E, 0x3D, 0x3E, 0x3E, 0x3E, 0x3F, 0x3E };
+extern const int16 armBlitY[] = { 0x1C, 0x2F, 0x35, 0x36, 0x37, 0x38, 0x39, 0x38 };
+extern const int16 armBlitW[] = { 0x52, 0x5D, 0x66, 0x66, 0x68, 0x5C, 0x4B, 0x35 };
+extern const int16 armBlitH[] = { 0x3E, 0x2E, 0x25, 0x2D, 0x3E, 0x4B, 0x5D, 0x74 };
 
 /* Mission pick state */
 int16 missionPick = -1;  /* 0xFFFF */
 int16 missionPickPad = -1; /* the db 0FFh, 0FFh after missionPick */
-int16 armSpriteIndex[] = { 1, 2, 3, 4, 5, 6, 7 };
+extern const int16 armSpriteIndex[] = { 1, 2, 3, 4, 5, 6, 7 };
 
 /* Joystick repeat flag */
 int16 joyRepeatFlag = 0;
 
 /* FCB search data */
-uint8 fcbMatchStr[] = { 0x49, 0x03, 0x46, 0x31, 0x35, 0x41, 0x00 };
+const uint8 fcbMatchStr[] = { 0x49, 0x03, 0x46, 0x31, 0x35, 0x41, 0x00 };
 uint8 searchFCB[] = {
     0xFF, 0, 0, 0, 0, 0, 0x08, 0x00,
     '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?',
@@ -486,7 +361,7 @@ uint8 searchFCB[] = {
 uint8 diskTransferArea[0x85] = {0};
 
 /* Weapon loadout table (26 bytes per entry, accessed via weaponLoadouts[idx].qty) */
-struct WeaponLoadout weaponLoadouts[] = {
+extern const struct WeaponLoadout weaponLoadouts[] = {
     { 4, "AIM-9M\0\0\0",  "Sidewinder\0",  0x17 },  /* 0 */
     { 4, "AIM-120\0\0",  "AMRAAM \0\0\0\0",  0x16 },  /* 1 */
     { 4, "AGM-88A\0\0",  "HARM\0\0\0\0\0\0\0",  0x18 },  /* 2 */
@@ -510,7 +385,7 @@ struct WeaponLoadout weaponLoadouts[] = {
 };
 
 /* Plane/aircraft table - 19 entries used by mission generator */
-struct Plane planes[19] = {
+extern const struct Plane planes[19] = {
     {{"MIG-23"}, {"Flogger"}, 0x02E4, 0x0230, {3, 0, 0x11, 0, 0x0A, 0, 2, 0, 0, 0}},
     {{"MIG-25"}, {"Foxbat"}, 0x023A, 0x02BC, {2, 0, 0x12, 0, 0, 0, 2, 0, 0, 0}},
     {{"MIG-29"}, {"Fulcrum"}, 0x02BC, 0x0190, {5, 0, 0x13, 0, 0x14, 0, 2, 0, 0, 0}},
@@ -535,7 +410,7 @@ struct Plane planes[19] = {
 /* === Mission generation coordinate tables (from stslots.asm) === */
 
 /* Unit type remapping table - maps unit type to alternative types */
-struct UnitTypeRemap unitTypeRemapTable[] = {
+extern const struct UnitTypeRemap unitTypeRemapTable[] = {
     {0, 0},
     {2, 0},
     {6, 1},
@@ -567,7 +442,7 @@ struct UnitTypeRemap unitTypeRemapTable[] = {
 int difficultySaved = 1;
 
 /* Mission table - 56 entries defining mission types per theater/tension */
-struct MissionTableEntry missionTable[56] = {
+extern const struct MissionTableEntry missionTable[56] = {
     {4, 1, 0x2F, 0, 0x0F, 7},
     {4, 1, 0x2F, 0, 0x0F, 1},
     {3, 1, 0x3A, 0, 0x0F, 6},
@@ -627,36 +502,36 @@ struct MissionTableEntry missionTable[56] = {
 };
 
 /* Target coordinate arrays per mission pick type */
-int16 targetCoordsX0[3] = {0x45C0, 0x3D40, 0x0DC0};
-int16 targetCoordsY0[3] = {0x3CC0, 0x4340, 0x24C0};
-int16 targetCoordsX1[2] = {0x26C0, 0x2740};
-int16 targetCoordsY1[2] = {0x2140, 0x21C0};
-int16 targetCoordsX2[2] = {0x3DC0, 0x25C0};
-int16 targetCoordsY2[2] = {0x43C0, 0x3BC0};
-int16 targetCoordsX3[3] = {0x2100, 0x0900, 0x1100};
-int16 targetCoordsY3[3] = {0x2300, 0x0900, 0x0500};
-int16 targetCoordsX4[4] = {0x2F00, 0x1B00, 0x3D00, 0x1500};
-int16 targetCoordsY4[4] = {0x2B00, 0x1300, 0x2D00, 0x3500};
-int16 targetCoordsX5 = 0x5AC0;
-int16 targetCoordsY5 = 0x3AC0;
-int16 targetCoordsX6[8] = {0x48C0, 0x10C0, 0x40C0, 0x44C0, 0x24C0, 0x0EC0, 0x12C0, 0x50C0};
-int16 targetCoordsY6[8] = {0x2940, 0x2140, 0x2540, 0x2540, 0x2140, 0x0B40, 0x0740, 0x3540};
-int16 targetCoordsX7[3] = {0x4D40, 0x4C40, 0x4D40};
-int16 targetCoordsY7[3] = {0x3940, 0x39C0, 0x39C0};
-int16 targetCoordsX2Alt[4] = {0x3CC0, 0x3C40, 0x24C0, 0x2440};
-int16 targetCoordsY2Alt[4] = {0x4240, 0x42C0, 0x3A40, 0x3AC0};
-uint8 missionPickType[8] = {2, 6, 5, 6, 6, 6, 6, 0x0B};
+const int16 targetCoordsX0[3] = {0x45C0, 0x3D40, 0x0DC0};
+const int16 targetCoordsY0[3] = {0x3CC0, 0x4340, 0x24C0};
+const int16 targetCoordsX1[2] = {0x26C0, 0x2740};
+const int16 targetCoordsY1[2] = {0x2140, 0x21C0};
+const int16 targetCoordsX2[2] = {0x3DC0, 0x25C0};
+const int16 targetCoordsY2[2] = {0x43C0, 0x3BC0};
+const int16 targetCoordsX3[3] = {0x2100, 0x0900, 0x1100};
+const int16 targetCoordsY3[3] = {0x2300, 0x0900, 0x0500};
+const int16 targetCoordsX4[4] = {0x2F00, 0x1B00, 0x3D00, 0x1500};
+const int16 targetCoordsY4[4] = {0x2B00, 0x1300, 0x2D00, 0x3500};
+const int16 targetCoordsX5 = 0x5AC0;
+const int16 targetCoordsY5 = 0x3AC0;
+extern const int16 targetCoordsX6[8] = {0x48C0, 0x10C0, 0x40C0, 0x44C0, 0x24C0, 0x0EC0, 0x12C0, 0x50C0};
+extern const int16 targetCoordsY6[8] = {0x2940, 0x2140, 0x2540, 0x2540, 0x2140, 0x0B40, 0x0740, 0x3540};
+const int16 targetCoordsX7[3] = {0x4D40, 0x4C40, 0x4D40};
+const int16 targetCoordsY7[3] = {0x3940, 0x39C0, 0x39C0};
+extern const int16 targetCoordsX2Alt[4] = {0x3CC0, 0x3C40, 0x24C0, 0x2440};
+extern const int16 targetCoordsY2Alt[4] = {0x4240, 0x42C0, 0x3A40, 0x3AC0};
+extern const uint8 missionPickType[8] = {2, 6, 5, 6, 6, 6, 6, 0x0B};
 
 /* Pointer arrays: target coordinates per mission pick index */
-int16 *targetCoordsXPtrs[8] = {
+const int16 *targetCoordsXPtrs[8] = {
     targetCoordsX0, targetCoordsX1, targetCoordsX2, targetCoordsX3,
     targetCoordsX4, &targetCoordsX5, targetCoordsX6, targetCoordsX7
 };
-int16 *targetCoordsYPtrs[8] = {
+const int16 *targetCoordsYPtrs[8] = {
     targetCoordsY0, targetCoordsY1, targetCoordsY2, targetCoordsY3,
     targetCoordsY4, &targetCoordsY5, targetCoordsY6, targetCoordsY7
 };
-int16 targetCoordsCount[9] = {3, 2, 2, 3, 4, 1, 8, 3, 0};
+extern const int16 targetCoordsCount[9] = {3, 2, 2, 3, 4, 1, 8, 3, 0};
 
 /* === BSS variables === */
 
@@ -698,7 +573,7 @@ uint8 gridBuf4[0x200];
 uint8 gridBuf5[0x200];
 struct Target targets[2];
 uint16 terrainBuf1[5] = { 0x20, 0x20, 0x20, 0x20, 0x20 };
-struct TerrainCountTable terrainTileCounts[5] = {0};
+struct TerrainCountTable terrainTileCounts[5] = {{0}};
 
 /* terrainBuf3, terrainBuf4, terrainBuf5, terrainIdxBuf must be contiguous.
  * Code indexes them with stride 7: terrainBuf3+off(2), terrainBuf4+off(2),

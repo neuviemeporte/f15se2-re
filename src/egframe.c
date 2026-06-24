@@ -266,7 +266,7 @@ void updateFrame(void) {
                 g_simObjects[objIdx].alt = 0x84;
             } else {
                 g_simObjects[objIdx].posX += 10;
-                g_simObjects[objIdx].posY += (i + g_closestThreatIndex & 3) * 0x10;
+                g_simObjects[objIdx].posY += ((i + g_closestThreatIndex) & 3) * 0x10;
                 g_simObjects[objIdx].alt = 4;
             }
             g_simObjects[objIdx].worldX = (long)g_simObjects[objIdx].posX << 5;
@@ -331,7 +331,7 @@ skip_target_section:
                 g_gearDownArmed = 1;
                 g_landingDoneFlag = 1;
                 if (g_landingTimer++ == 1) {
-                    tempStrcpy(aSafeLanding);
+                    tempStrcpy("Safe Landing");
                     g_autopilotAltitude = 0;
                     g_autoLandingActive = 0;
                     playVoiceCue(4);
@@ -348,9 +348,9 @@ skip_target_section:
                     if (g_landingTimer > g_frameRateScaling) {
                         initWeaponLoadout();
                         if (frameTick & 8) {
-                            tempStrcpy(aReadyForTakeof);
+                            tempStrcpy("Ready for takeoff");
                         } else {
-                            tempStrcpy(aWeaponsRepleni);
+                            tempStrcpy("Weapons replenished");
                         }
                     }
                 }
@@ -363,7 +363,7 @@ end_landing_check:
                 g_ViewX = (long)g_planeTable.planes[g_closestThreatIndex].mapX << 5;
                 g_ViewY = (long)(0x8000 - g_planeTable.planes[g_closestThreatIndex].mapY) << 5;
             } else {
-                tempStrcpy(aAutomaticLandi);
+                tempStrcpy("Automatic Landing Engaged");
                 g_autoLandingActive = 1;
                 i = g_frameRateScaling * 2;
                 if (i > 0x0e) {
@@ -476,14 +476,14 @@ void dispatchKeyScancode(void) {
 
 // ==== seg000:0x14fc ====
 void countermeasures(int eventType) {
-    char *name;
+    const char *name;
     int i;
     int slot;
 
     slot = -1;
     if ((g_eventTimers[eventType])-- <= 0) {
         g_eventTimers[eventType] = 0;
-        tempStrcpy(aStoresExhauste);
+        tempStrcpy("Stores exhausted");
     } else {
         for (i = 1; i < 4; i++) {
             if (mapEvents[i].ttl == 0)
@@ -497,17 +497,17 @@ void countermeasures(int eventType) {
                 -(g_missionStatus * 3 - 0xf) * g_frameRateScaling;
             switch (eventType) {
             case 1:
-                name = aFlare;
+                name = "Flare";
                 break;
             case 2:
-                name = aChaff;
+                name = "Chaff";
                 break;
             }
             strcpy(strBuf, name);
-            strcat(strBuf, aReleased);
+            strcat(strBuf, " released");
             tempStrcpy(strBuf);
             strcpy(strBuf, name);
-            strcat(strBuf, strColon);
+            strcat(strBuf, ":");
             strcat(strBuf, itoa(g_eventTimers[eventType], g_itoaScratch, 10));
             setTimedMessage(strBuf);
         }
@@ -570,7 +570,7 @@ no_fire:
     g_gunFiredFlag = 0;
 done_fire:
     if (firing) {
-        strcpy(strBuf, aGun);
+        strcpy(strBuf, "GUN:");
         strcat(strBuf, itoa(g_gunAmmo, g_itoaScratch, 10));
         setTimedMessage(strBuf);
     }
@@ -742,12 +742,12 @@ void generateRandomRadioMessage(void) {
         g_viewTargetObj = idx + 0x20;
         keyValue = 0x89;
         strcpy(strBuf, aircraftTypes[g_simObjects[idx].spec].name);
-        strcat(strBuf, aOnPatrol);
+        strcat(strBuf, " on patrol");
         tempStrcpy(strBuf);
         break;
     case 2:
         keyValue = 0x87;
-        tempStrcpy(aF15StrikeEagle);
+        tempStrcpy("F15 Strike Eagle");
         break;
     }
 }
@@ -771,7 +771,7 @@ void placeString(int waypointIdx) {
     strcpy(strBuf, g_targetNameTable[(g_planeTable.planes[waypointIdx].nameIndex) & 0x7f]);
     if (strlen(g_targetNameTable[((int16 *)&g_planeTable)[waypointIdx * 8]])) {
         if (strlen(g_targetNameTable[(g_planeTable.planes[waypointIdx].nameIndex) & 0x7f])) {
-            strcat(strBuf, aAt);
+            strcat(strBuf, " at ");
         }
         strcat(strBuf, g_targetNameTable[((int16 *)&g_planeTable)[waypointIdx * 8]]);
     }
@@ -821,7 +821,7 @@ void findWaypointFeatures() {
                 g_shapeTargetCategory[nameIdx] = g_shapeTargetCategory[g_nearestTileObj->id];
                 strcpy(g_targetNameTable[nameIdx], g_targetNameTable[g_nearestTileObj->id]);
                 g_targetNameTable[nameIdx + 1] = g_targetNameTable[nameIdx] + strlen(g_targetNameTable[nameIdx]) + 1;
-                addTileEntry((char *)g_nearestTileObj, shapeDataOffset(nameIdx + 0x100), nameIdx + 0x100);
+                addTileEntry(g_nearestTileObj, shapeDataOffset(nameIdx + 0x100), nameIdx + 0x100);
             }
             g_planeTable.planes[g_targetSlots[slot].planeIndex].nameIndex = nameIdx + 0x100;
             nameIdx++;

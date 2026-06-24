@@ -7,8 +7,8 @@
 #include "shared/common.h"
 
 /* Private helpers for this translation unit. */
-int loadFileSection(char *name, int b, int c);
-int writeFileSection(char *name, int b, int c, int d, int e);
+int loadFileSection(const char *name, int b, int c);
+int writeFileSection(const char *name, int b, int c, int d, int e);
 
 void srandInit(int seed) {
     TRACE(("srandInit"));
@@ -17,7 +17,7 @@ void srandInit(int seed) {
 }
 
 
-int loadFileSection(char *name, int b, int c) {
+int loadFileSection(const char *name, int b, int c) {
     int handle;
     int result;
     TRACE(("loadFileSection"));
@@ -28,7 +28,7 @@ int loadFileSection(char *name, int b, int c) {
 }
 
 
-int writeFileSection(char *name, int b, int c, int d, int e) {
+int writeFileSection(const char *name, int b, int c, int d, int e) {
     int handle;
     int result;
     TRACE(("writeFileSection"));

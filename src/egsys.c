@@ -61,7 +61,7 @@ int __cdecl openFile(const char *path, int mode)
     segread(&s);
     r.h.ah = 0x3D;
     r.h.al = (unsigned char)mode;
-    r.x.dx = (uint16)path;          /* near pointer: DS already = DGROUP */
+    r.x.dx = PTR_OFF(path);         /* near pointer: DS already = DGROUP */
     intdosx(&r, &r, &s);
     return r.x.cflag ? -1 : r.x.ax;
 }
@@ -73,7 +73,7 @@ int createFile(const char *path, int attr)
     segread(&s);
     r.h.ah = 0x3C;
     r.x.cx = attr;
-    r.x.dx = (uint16)path;
+    r.x.dx = PTR_OFF(path);
     intdosx(&r, &r, &s);
     return r.x.cflag ? -1 : r.x.ax;
 }
@@ -139,13 +139,13 @@ void setupDac(void)
     segread(&s);
     s.es = s.ds;                     /* ES:DX = palette table (DGROUP) */
     r.x.ax = 0x1012; r.x.bx = 0x10; r.x.cx = 0x50;
-    r.x.dx = (uint16)dacValues1;
+    r.x.dx = PTR_OFF(dacValues1);
     int86x(0x10, &r, &r, &s);
     if (g_horizonGroundColor != 2) {
         for (i = 0; i < 0x30; i++)
             dacValues[0x30 + i] = g_dacGroundPaletteSrc[i];
     }
     r.x.ax = 0x1012; r.x.bx = 0x60; r.x.cx = 0xA0;
-    r.x.dx = (uint16)(g_nightMode != 0 ? otherDacValues : dacValues);
+    r.x.dx = PTR_OFF(g_nightMode != 0 ? otherDacValues : dacValues);
     int86x(0x10, &r, &r, &s);
 }

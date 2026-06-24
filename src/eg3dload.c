@@ -38,14 +38,14 @@ void load3D3(char *fileName) {
     struct SREGS sregs;
     int slot, subCount, sub;
     int chunk;
-    strcpyFromDot(fileName, a_3d3);
+    strcpyFromDot(fileName, ".3D3");
     if ((fileHandle = fopen(fileName, "rb")) == NULL) {
-        printError(aOpenErrorOn_3d3);
+        printError("Open Error on *.3D3");
         return;
     }
     fread(&sign3d3, 2, 1, fileHandle);
     if (sign3d3 != SIGNATURE_3D3) {
-        printError(aBadObjFileFormat_);
+        printError("Bad Obj file format.");
         fclose(fileHandle);
         return;
     }
@@ -53,7 +53,7 @@ void load3D3(char *fileName) {
     fread(buf3d3, 2, size3d3, fileHandle);
     fread(&size3d3_2, 2, 1, fileHandle);
     if (size3d3_2 > 0xadd4) {
-        printError(aObjectDataTooBig_);
+        printError("Object data too big.");
         fclose(fileHandle);
         return;
     }
@@ -63,7 +63,7 @@ void load3D3(char *fileName) {
     for (dstPtr = g_world3dData; size3d3_2 != 0; size3d3_2 -= chunk, dstPtr+=0x800) {
         chunk = (size3d3_2 >= 0x800) ? 0x800 : size3d3_2;
         fread(flt15_buf2, 1, chunk, fileHandle);
-        movedata(sregs.ds, (uint16)flt15_buf2, FP_SEG(dstPtr), FP_OFF(dstPtr), chunk);
+        movedata(sregs.ds, PTR_OFF(flt15_buf2), FP_SEG(dstPtr), FP_OFF(dstPtr), chunk);
     }
     fread(&size3d3_3, 1, 1, fileHandle);
     if (size3d3_3 != 0) {
@@ -81,7 +81,7 @@ void load3D3(char *fileName) {
     while ((fileHandle = fopen("photo.3d3", "rb")) == NULL) {
         setDrawColor(0);
         fillRectBoth(0, 0x28, 0x13f, 0x2d);
-        drawStringBothPages(aPleaseInsertF15DiskB, 0x6c, 0x28, 0x0f);
+        drawStringBothPages("Please insert F15 Disk B", 0x6c, 0x28, 0x0f);
         gfx_flipPage();
         misc_getKey();
     }
@@ -102,7 +102,7 @@ void load3D3(char *fileName) {
                 }
                 segread(&sregs);
                 fread(flt15_buf2, 1, chunk, fileHandle);
-                movedata(sregs.ds, (uint16)flt15_buf2, FP_SEG(objDataEnd), FP_OFF(objDataEnd), chunk);
+                movedata(sregs.ds, PTR_OFF(flt15_buf2), FP_SEG(objDataEnd), FP_OFF(objDataEnd), chunk);
             }
             objDataEnd += chunk;
             if (slot == 0) {
@@ -112,28 +112,28 @@ void load3D3(char *fileName) {
         }
     }
     if (objDataEnd - g_world3dData > 0xadd4) {
-        printError(aObjdataOverflow);
+        printError("ObjData overflow");
     }
 }
 
 // ==== seg000:0x2c82 ====
 void load3DT(char *fileName) {
     int shape, cat, byteOff, tile, obj;
-    strcpyFromDot(fileName, a_3dt);
+    strcpyFromDot(fileName, ".3dT");
     if ((fileHandle = fopen(fileName, "rb")) == NULL) {
-        printError(aOpenErrorOn_3dt);
+        printError("Open Error on *.3DT");
         return;
     }
     fread(&sign3dt, 2, 1, fileHandle);
     if (sign3dt != SIGNATURE_3DT) {
-        printError(aBadTileFileFormat_);
+        printError("Bad Tile file format.");
         fclose(fileHandle);
         return;
     }
     fread(sizes3dt, 2, 5, fileHandle);
     for (cat = 0; cat < 5; cat++) {
         if (sizes3dt[cat] > 0x20) {
-            printError(aTooManyTiles_);
+            printError("Too many tiles.");
             return;
         }
         fread(matrix3dt[cat], 2, sizes3dt[cat], fileHandle);
@@ -145,7 +145,7 @@ void load3DT(char *fileName) {
             matrix3dt_2[cat][tile] = GET_MATRIX(byteOff);
             for (obj = 0; matrix3dt[cat][tile] > obj; obj++) {
                 if (byteOff > MAX_TILE_DATA) {
-                    printError(aTooMuchTileData);
+                    printError("Too much tile data");
                     return;
                 }
                 fread(&GET_MATRIX(byteOff)->x, 2, 1, fileHandle);
@@ -163,17 +163,17 @@ void load3DT(char *fileName) {
 // ==== seg000:0x2e54 ====
 void load3DG() {
     int unused_1, unused_2, unused_3;
-    strcpyFromDot(regnStr, a_3dg);
+    strcpyFromDot(regnStr, ".3dG");
     while ((fileHandle = fopen(regnStr, "rb")) == NULL) {
-        drawStringBothPages(aPleaseInsertF15DiskB, 0x68, 0x28, 0x0f);
-        drawStringBothPages(aPressKeyWhenReady, 0x68, 0x32, 0x0f);
+        drawStringBothPages("Please insert F15 Disk B", 0x68, 0x28, 0x0f);
+        drawStringBothPages("  Press a key when ready", 0x68, 0x32, 0x0f);
         gfx_flipPage();
         misc_getKey();
     }
     gfx_waitRetrace();
     fread(&sign3dg, 2, 1, fileHandle);
     if (sign3dg != SIGNATURE_3DG) {
-        printError(aBadGridFileFormat_);
+        printError("Bad Grid file format.");
         fclose(fileHandle);
         return;
     }
@@ -194,7 +194,7 @@ void printError(const char *msg) {
 }
 
 // ==== seg000:0x2faf ====
-void strcpyFromDot(char *dst, char *src) {
+void strcpyFromDot(char *dst, const char *src) {
     char ch;
     while ((ch = *dst) != '.' && ch != 0) {
         dst++;

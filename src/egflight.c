@@ -26,14 +26,14 @@
 
 /* Private helpers for this translation unit. */
 void stepFlightModel();
-void applyRotationDelta(int matA, int matB);
+void applyRotationDelta(const int16 *matA, const int16 *matB);
 void computeAttitudeAngles(void);
 void rebuildOrientation();
 unsigned signedRatio16(int, int);
 int valueToAngle(int value);
 int complementAngle(int value);
 void renderFrame();
-void drawVectorShape(int16 *shapeData);
+void drawVectorShape(const int16 *shapeData);
 void waitForKeyPress(void);
 
 
@@ -147,15 +147,15 @@ void stepFlightModel(void) {
             goto switch_break;
         case 0x3000: // Alt-B
             if (g_hudVisible != 0) {
-                gfx_copyRect(*g_pageFront, 0, 0x61, *g_pageOffscreen, 0, 0x61, 0x140, (int)aNc_xxx);
+                gfx_copyRect(*g_pageFront, 0, 0x61, *g_pageOffscreen, 0, 0x61, 0x140, 0x67);
             }
             setDrawColor(0);
             fillRectBoth(0, 0, 0x13F, 0xC7);
             blitSprite(0, 0, 0x71, 0x37, 0x0C, 7, 0);
             waitForKeyPress();
             if (g_hudVisible != 0) {
-                gfx_copyRect(*g_pageOffscreen, 0, 0x61, *g_pageFront, 0, 0x61, 0x140, (int)aNc_xxx);
-                gfx_copyRect(*g_pageOffscreen, 0, 0x61, *g_pageBack, 0, 0x61, 0x140, (int)aNc_xxx);
+                gfx_copyRect(*g_pageOffscreen, 0, 0x61, *g_pageFront, 0, 0x61, 0x140, 0x67);
+                gfx_copyRect(*g_pageOffscreen, 0, 0x61, *g_pageBack, 0, 0x61, 0x140, 0x67);
                 UpdateThrottleState();
             }
             goto switch_break;
@@ -207,13 +207,13 @@ switch_break:
     if (g_knots > 0x15E && !(*((unsigned char*)&g_playerPlaneFlags) & 1) && g_gearDownArmed != 0) {
         g_gearDownArmed = 0;
         *((unsigned char*)&g_playerPlaneFlags) |= 1;
-        tempStrcpy(aLandingGearRaised);
+        tempStrcpy("Landing gear raised");
         makeSound(0x20, 2);
     }
 
     if (g_groundAltitude == g_viewZ && g_setThrust == 0 && !(*((unsigned char*)&g_playerPlaneFlags) & 8)) {
         *((unsigned char*)&g_playerPlaneFlags) |= 8;
-        tempStrcpy(aBrakesOn);
+        tempStrcpy("Brakes on");
     }
 
     if (g_rollInput != 0 || g_pitchInput != 0) {
@@ -222,7 +222,7 @@ switch_break:
 
     if (g_autopilotAltitude != 0)
     {
-        headingErr = (g_autopilotEngaged != 0) ? (int16)((g_missionTick & 0xF) << 8) - 0x800
+        headingErr = (g_autopilotEngaged != 0) ? ((g_missionTick & 0xF) << 8) - 0x800
                                    : 0;
 
         headingErr = clampValue(headingErr - g_ourHead + g_waypointBearing, 0xEC00, 0x1400) * 2;
@@ -438,10 +438,10 @@ switch_break:
 
 
     strcpy(g_geeStringBuf, itoa(g_gees / 16, strBuf, 10));
-    strcat(g_geeStringBuf, a_);
+    strcat(g_geeStringBuf, ".");
 
     strcat(g_geeStringBuf, itoa((abs(g_gees) & 0xF) >> 1, strBuf, 10));
-    strcat(g_geeStringBuf, aG);
+    strcat(g_geeStringBuf, "G");
 
     speedCalc = ((long)(g_thrust - sinMul(g_ourPitch, 80)) * 800L) / 100L;
 
@@ -634,7 +634,7 @@ switch_break:
 }
 
 
-void applyRotationDelta(int matA, int matB) {
+void applyRotationDelta(const int16 *matA, const int16 *matB) {
     int p;
     int a;
 
@@ -1038,7 +1038,7 @@ void drawFuelGauge(void) {
     fillRectBoth(5, -(g_fuelRemaining / 250 - 0x98), 0x0a, 0x98);
 }
 
-void drawVectorShape(int16 *shapeData) {
+void drawVectorShape(const int16 *shapeData) {
     while (*shapeData != -1) {
         gfx_setColor(colorLut[*shapeData++]);
         resetScanlineSpans();

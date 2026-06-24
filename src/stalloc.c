@@ -16,7 +16,7 @@ uint16 allocBuffer(int size) {
     TRACE(("allocBuffer(): Allocating buffer of size %u", size));
     if ((segment = dos_alloc(size)) < DOS_ERROR_RMDIR) {
         cleanup();
-        dos_printstring(str_allocError);
+        dos_printstring("Insufficient system memory - AllocBuffer$");
         exit(0);
     }
     TRACE(("allocBuffer(): Allocated @ 0x%x", segment));

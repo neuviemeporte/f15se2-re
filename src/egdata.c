@@ -16,42 +16,28 @@
 /* Scenario region-data filenames (head of the original .DATA segment).
  * regnStr points at the regn.xxx buffer (the strcpy/fopen target that gets
  * overwritten with the per-theater region file). scenarioPlh[theater] selects
- * the per-theater .xxx region file; aNc_xxx is also passed (cast to int) to
- * gfx_copyRect by egflight.c. */
+ * the per-theater .xxx region file. */
 char aRegn_xxx[] = "regn.xxx";
-char aLb_xxx[] = "lb.xxx";
-char aPg_xxx[] = "pg.xxx";
-char aVn_xxx[] = "vn.xxx";
-char aMe_xxx[] = "me.xxx";
-char aNc_xxx[] = "nc.xxx";
-char aCe_xxx[] = "ce.xxx";
-char aJp_xxx[] = "jp.xxx";
-char aNa_xxx[] = "na.xxx";
 uint8 g_dacSupported = 0;
 uint8 exitCode = 0x81;
 
 int16 gfxModeUnset = 0;
 int16 f15DgtlResult = 0;
 char *regnStr = aRegn_xxx;
-char *scenarioPlh[8] = {
-    aLb_xxx, aPg_xxx, aVn_xxx, aMe_xxx,
-    aNc_xxx, aCe_xxx, aJp_xxx, aNa_xxx
+const char *scenarioPlh[8] = {
+    "lb.xxx", "pg.xxx", "vn.xxx", "me.xxx",
+    "nc.xxx", "ce.xxx", "jp.xxx", "na.xxx"
 };
 
-/* aEmpty_5950: empty string passed to drawPanelText to clear a panel label. */
-char aEmpty_5950[] = "";
 int allocSize = 0;
 int16 g_sphereColor = 0xC4;
 int16 g_viewCenterX = 0xA0;
 int16 g_viewCenterY = 0x64;
 /* g_sphereRingTable: 16-entry seed table copied into g_sphereRingRadii and then offset to
    drive the 3D-sphere/horizon ring radii (egsphere.c). */
-int16 g_sphereRingTable[16] = {
+extern const int16 g_sphereRingTable[16] = {
     0, 2, 3, 4, 6, 8, 0x0B, 0x0F, 0x14, 0x1B, 0x24, 0x30, 0x40, 0x57, 0x77, 0xA4
 };
-char aReadyForTakeof[] = "Ready for takeoff";
-char aWeaponsRepleni[] = "Weapons replenished";
-char aAutomaticLandi[] = "Automatic Landing Engaged";
 /* waypoints: 4 navigation/target waypoints (map X/Y). [0] steerpoint, [3] threat. */
 struct Waypoint waypoints[4];
 
@@ -112,7 +98,7 @@ int16 g_frameRateScaling = 4;
    categories, read as g_targetCompatTable[weaponIdx*13 + (g_shapeTargetCategory[..] & 0xf)] by
    missileTargetCompat (egtacmap.c). Rows w0/w1 (Sidewinder/AMRAAM) and
    w16/w17/w19 are all zero; type-1 weapons do not use it. */
-int8 g_targetCompatTable[260] = {
+extern const int8 g_targetCompatTable[260] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 2, 6, 2, 0, 2, 5,
@@ -213,7 +199,7 @@ int16 g_smokeParticleSlot = 0;
 
 /* g_maneuverTable[3][8][8]: terrain/threat lookup, read as [a][r][t].
  * g_targetInHudFlag: scalar flag (compared against 0/1). */
-int16 g_maneuverTable[3][8][8] = {
+extern const int16 g_maneuverTable[3][8][8] = {
     {
         { 3, 3, 2, 1, 0, -1, -2, -1 },
         { 3, 2, 2, 2, 1, 1, 1, 2 },
@@ -274,20 +260,10 @@ int g_directorMode = 0;
 int16 g_resupplyCount = 1;
 int16 g_autoLandingActive = 0;
 int16 g_landingTimer = 0;
-char aStoresExhauste[] = "Stores exhausted";
-char aFlare[] = "Flare";
-char aChaff[] = "Chaff";
-char aReleased[] = " released";
-char strColon[] = ":";
-char aGun[] = "GUN:";
 
 /* g_weaponMarkerBoxX: 3 weapon-indicator box X-coordinates, read as g_weaponMarkerBoxX[weaponIdx]. */
-int16 g_weaponMarkerBoxX[3] = { 76, 40, 115 };
+extern const int16 g_weaponMarkerBoxX[3] = { 76, 40, 115 };
 int16 g_weaponMarkerSel = 0;
-char aOnPatrol[] = " on patrol";
-char aF15StrikeEagle[] = "F15 Strike Eagle";
-char aAt[] = " at ";
-char aSafeLanding[] = "Safe Landing";
 
 /* Three more 11-word page/viewport descriptors (sub-window regions) reached
    through the g_viewParams/567/568 near-pointers; same field layout as the g_pageFront
@@ -299,7 +275,7 @@ int16 *g_viewParams = buf6data_4;
 uint8 g_renderPageToggle = 0;
 /* g_colorPalettes: four 16-entry colour-remap palettes; loadColorPalette(idx) copies
    the idx'th 16-byte record into colorLut[0..15]. */
-uint8 g_colorPalettes[64] = {
+extern const uint8 g_colorPalettes[64] = {
     0x0,0x1,0x2,0x3,0x4,0x0,0x6,0x7,0x8,0x9,0xA,0xB,0xC,0xD,0xE,0xF,
     0xF,0x1,0x8,0x0,0x0,0x3,0x0,0x8,0x8,0x9,0x7,0x7,0x7,0xD,0x7,0x3,
     0xC,0x0,0x6,0x0,0x4,0x0,0x4,0x6,0x6,0x0,0xC,0xC,0xC,0xD,0xC,0xC,
@@ -313,7 +289,7 @@ struct NeighborSampling g_neighborSampling = {
 
 /* Projection vertex-offset table for process3dg LOD expansion (eg3dproj),
    indexed (char*)&g_dirGridOffsets + f*2 + 18*row. */
-int16 g_dirGridOffsets[192] = {
+extern const int16 g_dirGridOffsets[192] = {
     -1, 1, 0, -1, 1, 0, -1, 1, 0, 2, 1, 2,
     0, 2, 1, 0, 1, 0, 2, 2, 2, 1, 1, 1,
     0, 0, 0, 2, 2, 1, 2, 0, 1, 1, 0, 0,
@@ -334,11 +310,11 @@ int16 g_dirGridOffsets[192] = {
 
 /* g_lodObjectCount: per-LOD enable flag for the secondary 3D grid, indexed by LOD
    level (0..4); every level is enabled. */
-int16 g_lodObjectCount[5] = { 1, 1, 1, 1, 1 };
+extern const int16 g_lodObjectCount[5] = { 1, 1, 1, 1, 1 };
 int16 g_objColorBase = 0;
 /* g_lodGridDim: per-LOD grid dimension (cells per side) used as the process3dg
    bounds check, indexed by LOD level (0..4). */
-int16 g_lodGridDim[5] = { 0x400, 0x100, 0x40, 0x10, 8 };
+extern const int16 g_lodGridDim[5] = { 0x400, 0x100, 0x40, 0x10, 8 };
 
 /* 3D loader size/sign scalars. */
 
@@ -350,8 +326,8 @@ size_t size3d3 = 1;
 unsigned int buf3d3[100] = { 0 };
 unsigned int size3d3_2 = 0;
 int16 sign3dt = 0x3131;
-unsigned int sizes3dt[5] = { 0x20, 0x20, 0x20, 0x20, 0x20 };
-unsigned int matrix3dt[5][32] = { 0 };
+uint16 sizes3dt[5] = { 0x20, 0x20, 0x20, 0x20, 0x20 };
+uint16 matrix3dt[5][32] = {{0}};
 
 /* g_modelOffsetTable: 32-word scratch buffer for the secondary photo/3D model loader
    (eg3dload.c). fread fills g_modelOffsetTable[0..size3d3_7-1] with per-section offsets,
@@ -366,7 +342,7 @@ int16 sign3dg = 0x3232;
 
 /* g_theaterGrids: 8-theater terrain-type table ([514] = 8*64 + 2 pad), read via
  * memcpy(g_topLodGrid, g_theaterGrids + (theater&7)*64, 64). */
-uint8 g_theaterGrids[514] = {
+extern const uint8 g_theaterGrids[514] = {
     0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10,
     0x10, 0x10, 0x00, 0x01, 0x02, 0x03, 0x10, 0x10, 0x10, 0x10, 0x04, 0x05, 0x06, 0x07, 0x10, 0x10,
     0x10, 0x10, 0x08, 0x09, 0x0A, 0x0B, 0x11, 0x11, 0x11, 0x11, 0x0C, 0x0D, 0x0E, 0x0F, 0x11, 0x11,
@@ -404,21 +380,7 @@ uint8 g_theaterGrids[514] = {
 
 /* g_unusedLoadDoneFlag: cleared to 0 at the end of load3DAll; never read (dead). */
 int16 g_unusedLoadDoneFlag = 0;
-char aOpenErrorOn_3d3[] = "Open Error on *.3D3";
-char aOpenErrorOn_3d3_0[] = "Open Error on *.3D3";
 char a15flt_xxx[] = "15FLT.xxx";
-char aBadObjFileFormat_[] = "Bad Obj file format.";
-char aObjectDataTooBig_[] = "Object data too big.";
-char aPleaseInsertF15DiskB[] = "Please insert F15 Disk B";
-char aObjdataOverflow[] = "ObjData overflow";
-char a_3dt[] = ".3dT";
-char aOpenErrorOn_3dt[] = "Open Error on *.3DT";
-char aBadTileFileFormat_[] = "Bad Tile file format.";
-char aTooManyTiles_[] = "Too many tiles.";
-char aTooMuchTileData[] = "Too much tile data";
-char a_3dg[] = ".3dG";
-char aPressKeyWhenReady[] = "  Press a key when ready";
-char aBadGridFileFormat_[] = "Bad Grid file format.";
 
 /* Saved original INT 0 (divide-by-zero) interrupt vector: offset in
  * g_savedDivZeroVecOff, segment in g_savedDivZeroVecSeg. installDivZeroHandler records it before
@@ -458,7 +420,7 @@ int16 g_clipSaved2yHi = 0;
 
 /* g_mapTileLodTable: LOD level selected per object pass, indexed by g_mapLodIndex (0..4) in
    the tile-object draw loop; feeds g_curLod / process3dg. */
-int16 g_mapTileLodTable[5] = { 3, 4, 2, 3, 4 };
+extern const int16 g_mapTileLodTable[5] = { 3, 4, 2, 3, 4 };
 
 /* egseg1 earth/sky horizon renderer (renderHorizonSky). g_rleRowBase is a table base
  * pointer indexed per row; g_horizonNegPitch is the negated view pitch used as
@@ -601,7 +563,7 @@ int16 g_savedPrimVtxScale = 0;
  * valueToAngle() does an arcsin by searching this table and interpolating
  * between g_angleLut[b] and g_angleLut[b+1] (the asm consumers read the latter
  * as offset _g_angleLut+2). */
-int16 g_angleLut[260] = {
+extern const int16 g_angleLut[260] = {
     0x0000, 0x0324, 0x0648, 0x096B, 0x0C8C, 0x0FAB, 0x12C8, 0x15E2, 0x18F9, 0x1C0C, 0x1F1A, 0x2224,
     0x2528, 0x2827, 0x2B1F, 0x2E11, 0x30FC, 0x33DF, 0x36BA, 0x398D, 0x3C57, 0x3F17, 0x41CE, 0x447B,
     0x471D, 0x49B4, 0x4C40, 0x4EC0, 0x5134, 0x539B, 0x55F6, 0x5843, 0x5A82, 0x5CB4, 0x5ED7, 0x60EC,
@@ -748,14 +710,9 @@ uint8 g_joyRawY = 0;   /* keyboard virtual-stick raw roll axis (int9Handler) */
    Produced by readCalibratedJoystick (egseg2) or scaled from the keyboard
    raw axes; read by the stick dot and tac map. */
 uint8 joyAxes[2] = {0};
-char aLandingGearRaised[] = "Landing gear raised";
-char aBrakesOn[] = "Brakes on";
-char a_[] = ".";
-char aG[] = "G";
-char aFiring[] = " firing ";
 /* g_rollGeeTable: g-load lookup indexed by (abs(roll) >> 8) & 0x7f. Lowest near
    wings-level, peaking past 90 degrees of bank where lift bleeds off. */
-uint8 g_rollGeeTable[128] = {
+extern const uint8 g_rollGeeTable[128] = {
     0x10, 0x10, 0x10, 0x10, 0x10, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x12, 0x12, 0x12,
     0x12, 0x12, 0x12, 0x12, 0x13, 0x13, 0x14, 0x14, 0x15, 0x16, 0x16, 0x17, 0x18, 0x19, 0x19, 0x1a,
     0x1b, 0x1b, 0x1c, 0x1d, 0x1d, 0x1e, 0x1f, 0x1f, 0x20, 0x22, 0x24, 0x25, 0x27, 0x29, 0x2b, 0x2c,
@@ -806,16 +763,15 @@ struct SpriteParams blitSpriteParams = {
     0x01,                     /* flags */
     {0x01, 0x01, 0x00}        /* pad19[0] init */
 };
-char aArmed[] = " armed";
 
 /* voiceCueThresholds[0..2]: per-weapon digital-voice-cue thresholds (vs f15DgtlResult).
    playVoiceCue also indexes [4] (weaponIdx can be 4), an over-read. */
-int16 voiceCueThresholds[3] = { 0x31F3, 0x4796, 0x5C92 };
+extern const int16 voiceCueThresholds[3] = { 0x31F3, 0x4796, 0x5C92 };
 int16 g_hudBottomY = 0x6C;
 /* g_rearViewShape: vector-shape display list for drawVectorShape (two outlined boxes,
    colors 7 and 8). Each sub-shape is a color word, then x,y point pairs, ended
    by -1; a trailing -1 terminates the list. */
-int16 g_rearViewShape[21] = {
+extern const int16 g_rearViewShape[21] = {
     7, 0x53, 0x15, 0x49, 0x5E, 0x53, 0x5E, 0x53, 0x15, -1,
     8, 0xF1, 0x15, 0xFB, 0x5E, 0xF1, 0x5E, 0xF1, 0x15, -1, -1
 };
@@ -824,29 +780,10 @@ int16 g_lastSpawnTick = 0;
 
 /* g_setThrust: player thrust setting. g_joyCalibTimer: a frame timer. */
 int16 g_setThrust = 0;
-char aFiredBy[] = " fired by ";
-char aDash[] = " - ";
-char aTakingOff[] = " taking off";
-char a0[] = ":0";
-char aColon[] = ":";
-char aFired[] = " fired";
-
-/* Combat-event message fragments assembled into strBuf by updateThreatTargeting. */
-char aMisses[] = " misses ";
-char aDestroyedBy[] = " destroyed by ";
-char aDestroyedBy_0[] = " destroyed by ";
-char aGroundImpact[] = " ground impact";
-char aHitBy[] = "Hit by ";
-char aIneffective[] = "Ineffective";
-char aHitBy_0[] = " hit by ";
-
-/* aMap: tactical-map panel label. aNotAvailable: store-status text. */
-char aMap[] = "Map";
-char aNotAvailable[] = " not available";
 
 /* ammoNumX[3]: screen x-coordinate of the ammo-count readout for each
  * missileSpecIndex (0..2). */
-int16 ammoNumX[3] = { 65, 26, 101 };
+extern const int16 ammoNumX[3] = { 65, 26, 101 };
 
 /* missiles[20]: player weapon catalogue — shortName (designation, not
  * displayed by egame), longName (the name shown in all weapon messages),
@@ -873,19 +810,6 @@ struct Missile missiles[20] = {
     { "20 mm",   "Guns",       0,    1 },
     { "Special", "Equip",      0x26, 1 },
 };
-char aSecond_Target[] = "Second. target";
-char aPrimaryTarget_0[] = "Primary target";
-char aStallWarning[] = "stall warning";
-char aAccel[] = "ACCEL";
-char aTraining[] = "TRAINING";
-char aAutopilot[] = "AUTOPILOT";
-char aPressAnyKeyToP[] = "Press any key to play";
-char aTrackcam[] = "TrackCam ";
-char aAhead[] = "Ahead";
-char aRear[] = "Rear";
-char aRight[] = "Right";
-char aLeft[] = "Left";
-char a_3d3_0[] = ".3D3";
 /* g_tacmapIndicators: HUD/tac-map indicator descriptor block (156 words). [0..2] are
    the weapon-ammo X positions; [3..22] are four 5-word indicator rectangles
    (x1,y1,x2,y2,color). The remaining tail is additional descriptor tables. */
@@ -923,7 +847,7 @@ int16 g_viewportDescBack[11] = { 2, 2, 2, 0, 0, 0, 0, 0, 0xC7, 0, 0x13F };
 int16 *g_pageOffscreen = g_viewportDescBack;
 int16 buf6data_0[11] = { 0, 2, 2, 0, 0, 0, 1, 0x70, 0xA8, 0x18, 0x60 };
 int16 buf6data_1[11] = { 0, 2, 2, 0, 0, 0, 1, 0x80, 0xB8, 0xE8, 0x130 };
-char  *g_mapTerrainMode = (char *)buf6data_0;
+int16 *g_mapTerrainMode = buf6data_0;
 int16 *g_targetViewParams = buf6data_1;
 
 /* g_mapZoomLevel: tactical-map zoom level (declared dw, used as a small int). */
@@ -1015,7 +939,7 @@ int16 g_scopeCenterY;
 int16 g_extViewPitch;
 /* g_geeStringBuf: g-meter readout string ("<g>.<tenths>G") built by drawGMeter and
    drawn by the HUD string-blit (egseg2). */
-uint8 g_geeStringBuf[12];
+char g_geeStringBuf[12];
 int g_detailLevel;
 int16 g_autoCrashDive;
 int16 g_missionTick;
@@ -1102,36 +1026,6 @@ int16 g_savedSamTtl;
    drawNearestTileObject() and walked by addTileEntry(). */
 struct TileObject nearestTile;
 int32 g_ViewY;
-
-char aLong[] = "Long";
-char aMedium[] = "Medium";
-char aShort[] = "Short";
-char aRangeRadar[] = " range radar";
-char aDetailLevel[] = "Detail Level ";
-char aKybdSensitivit[] = "Kybd Sensitivity";
-char aMemoryAvailabl[] = "Memory Available:";
-char aJiffiesFrame[] = "Jiffies/Frame ";
-char aSounds[] = "Sounds ";
-char aDirector[] = "Director ";
-char aOff[] = "off";
-char aWaypointPrimar[] = "Waypoint: Primary Target";
-char aWaypointSecond[] = "Waypoint: Secondary Target";
-char aWaypointFriend[] = "Waypoint: Friendly Airbase";
-char aAutopilotOff[] = "Autopilot off";
-char aAutopilotOn[] = "Autopilot on";
-char aDestroyedByGun[] = " destroyed by gunfire";
-char aHitByGunfire[] = "Hit by gunfire";
-char aDestroyedByG_0[] = " destroyed by gunfire";
-char aAt_0[] = " at ";
-char aPrimaryTarget[] = "Primary Target";
-char aSecondaryTarget[] = "Secondary Target";
-char aNoTarget[] = "No Target";
-char aNoTarget_0[] = "No Target";
-char aMissileLock[] = "Missile Lock";
-char aRange[] = "Range ";
-char aDot[] = ".";
-char aKm[] = " km";
-char aBrg[] = "BRG ";
 
 /* g_replayLog: tactical-replay event log (events[0..0x600]) + 3D model vertex-X
    table (vertexX[] at +0x600). One 0x640-byte buffer; egseg1.asm reaches
@@ -1251,7 +1145,6 @@ int16 g_climbRate;
 /* size3d3_7: vertex count for the secondary (g_modelOffsetTable) loader buffer. */
 size_t size3d3_7;
 
-char a_3d3[] = ".3D3";
 
 /* ===== HUD gauge data =====
  * g_tapeDigitStrip: speed/altitude tape digit strip (ASCII pairs blitted as labels). */
@@ -1385,7 +1278,7 @@ uint8 g_tapeDrawStr[4] = {0x00,0x00,0x00,0x00};
  * g_dacGroundPalette (the 0x30-byte ground ramp) at its +0x30 offset;
  * otherDacValues is the night variant; g_dacGroundPaletteSrc is the ground ramp
  * copied over g_dacGroundPalette unless g_horizonGroundColor == 2. */
-uint8 dacValues1[240] = {
+extern const uint8 dacValues1[240] = {
     0x00,0x00,0x00,0x04,0x04,0x04,0x08,0x08,0x08,0x0c,0x0c,0x0c,
     0x10,0x10,0x10,0x14,0x14,0x14,0x18,0x18,0x18,0x1c,0x1c,0x1c,
     0x20,0x20,0x20,0x24,0x24,0x24,0x28,0x28,0x28,0x2c,0x2c,0x2c,
@@ -1451,7 +1344,7 @@ uint8 dacValues[480] = {
     0x22,0x22,0x22,0x29,0x29,0x32,0x2a,0x32,0x2a,0x29,0x30,0x30,
     0x32,0x29,0x29,0x32,0x2c,0x32,0x30,0x30,0x27,0x22,0x22,0x22,
 };
-uint8 otherDacValues[480] = {
+extern const uint8 otherDacValues[480] = {
     0x1f,0x10,0x1e,0x1d,0x0f,0x1e,0x1b,0x0f,0x1d,0x19,0x0e,0x1c,
     0x17,0x0d,0x1b,0x15,0x0d,0x1a,0x13,0x0c,0x19,0x11,0x0c,0x18,
     0x0f,0x0b,0x17,0x0d,0x0b,0x16,0x0c,0x0a,0x15,0x0a,0x0a,0x14,
@@ -1493,7 +1386,7 @@ uint8 otherDacValues[480] = {
     0x0b,0x0f,0x12,0x1f,0x20,0x26,0x19,0x1e,0x19,0x20,0x26,0x26,
     0x20,0x1a,0x1a,0x2a,0x00,0x00,0x26,0x26,0x1f,0x1e,0x1e,0x1e,
 };
-uint8 g_dacGroundPaletteSrc[48] = {
+extern const uint8 g_dacGroundPaletteSrc[48] = {
     0x34,0x34,0x34,0x33,0x31,0x2f,0x32,0x2f,0x2c,0x32,0x2d,0x28,
     0x31,0x2a,0x24,0x30,0x28,0x20,0x30,0x26,0x1d,0x2f,0x24,0x19,
     0x2e,0x22,0x16,0x2e,0x20,0x12,0x2d,0x1e,0x0f,0x2c,0x1c,0x0c,

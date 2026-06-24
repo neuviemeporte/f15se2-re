@@ -56,7 +56,7 @@ uint16 dos_alloc(const size_t paragraphs) {
     err = intdos(&rin, &rout);
     assert(err == rout.x.ax);
     if (rout.x.cflag != 0) {
-        ERROR("dos_alloc: error allocating %up (%lu): error 0x%x, max avail %u", paragraphs, PARA_TO_BYTES(paragraphs), (int)err, rout.x.bx);
+        ERROR("dos_alloc: error allocating %up (%lu): error 0x%x, max avail %u", paragraphs, PARA_TO_BYTES(paragraphs), err, rout.x.bx);
         return 0;
     }
     return rout.x.ax;
@@ -71,7 +71,7 @@ int dos_free(const uint16 segment) {
     // DOS 2.1-6.0 does not coalesce adjacent free blocks when a block is freed, only when a block is allocated or resized.
     // The code for this function is identical in DOS 2.1-6.0 except for calls to start/end a critical section in DOS 3.0+""
     if (rout.x.cflag != 0) {
-        ERROR("dos_free: error freeing segment 0x%x: error 0x%x", segment, (int)err);
+        ERROR("dos_free: error freeing segment 0x%x: error 0x%x", segment, err);
         return err;
     }
     return 0;
@@ -145,11 +145,7 @@ static int loadprog(const char* file, const uint16 segment, const uint8 type, co
     int err;
     rin.h.ah = DOSF_LOADPROG;
     rin.h.al = type;
-#if !defined(MSDOS)
-    rin.x.dx = 0; // (unsigned int)file;
-#else
-    rin.x.dx = (unsigned int)file;
-#endif
+    rin.x.dx = PTR_OFF(file);
     switch (type)
     {
     case DOS_LOAD_EXEC:
@@ -162,11 +158,7 @@ static int loadprog(const char* file, const uint16 segment, const uint8 type, co
         exeLoadParams.fcb1Segment = _psp;
         exeLoadParams.fcb2Offset = 0x6c;
         exeLoadParams.fcb2Segment = _psp;
-#if !defined(MSDOS)
-        rin.x.bx = 0; // (unsigned int)&exeLoadParams;
-#else
-        rin.x.bx = (unsigned int)&exeLoadParams;
-#endif
+        rin.x.bx = PTR_OFF(&exeLoadParams);
         if (DOS_LOAD_EXEC)
             DEBUG("dos_loadprog(): loading %s and executing with cmdline '%Fs'", file, cmdline);
         else
@@ -175,11 +167,7 @@ static int loadprog(const char* file, const uint16 segment, const uint8 type, co
     case DOS_LOAD_OVL:
         ovlLoadParams.segment = segment;
         ovlLoadParams.reloc = segment; // no idea, original does the same
-#if !defined(MSDOS)
-        rin.x.bx = 0; // (unsigned int)&ovlLoadParams;
-#else
-        rin.x.bx = (unsigned int)&ovlLoadParams;
-#endif
+        rin.x.bx = PTR_OFF(&ovlLoadParams);
         INFO("dos_loadprog(): loading %s at segment 0x%x as overlay", file, segment);
         break;
     default:

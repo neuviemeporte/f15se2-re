@@ -10,8 +10,8 @@
 
 /* Private helpers for this translation unit. */
 int dos_free(int segment);
-void loadPicFromFile(char *name, uint16 segment);
-void loadPicFromFileAt(char *name, uint16 segment, int off, int whence);
+void loadPicFromFile(const char *name, uint16 segment);
+void loadPicFromFileAt(const char *name, uint16 segment, int off, int whence);
 
 uint16 allocBuffer(int size) {
     uint16 segment;
@@ -19,7 +19,7 @@ uint16 allocBuffer(int size) {
     segment = dos_alloc(size);
     if (segment < 0x10) {
         cleanup();
-        dos_printstring(str_allocError);
+        dos_printstring("Insufficient system memory - AllocBuffer$");
         exit(0);
     }
     return segment;
@@ -30,13 +30,13 @@ void freeBuffer(uint16 segment) {
     TRACE(("freeBuffer"));
     if (dos_free(segment) != 0) {
         cleanup();
-        dos_printstring(str_deallocError);
+        dos_printstring("Buffer dealloc error$");
         exit(0);
     }
 }
 
 
-void loadPicFromFile(char *name, uint16 segment) {
+void loadPicFromFile(const char *name, uint16 segment) {
     int handle;
     TRACE(("loadPicFromFile"));
     handle = openFileWrapper(name, 0);
@@ -45,7 +45,7 @@ void loadPicFromFile(char *name, uint16 segment) {
 }
 
 
-void loadPicFromFileAt(char *name, uint16 segment, int off, int whence) {
+void loadPicFromFileAt(const char *name, uint16 segment, int off, int whence) {
     int handle;
     TRACE(("loadPicFromFileAt"));
     handle = openFileWrapper(name, 0);
@@ -64,8 +64,8 @@ void showPostMissionAwards(void) {
     if (gameData->campaignProgress == 1) {
         gfx_setFadeSteps(3);
         openShowPic("desk.pic", *awardPage);
-        drawStringCentered(awardPage, str_deskMsg1, 0x24, 0xb3, 0xfa);
-        drawStringCentered(awardPage, str_deskMsg2, 0x24, 0xbc, 0xfa);
+        drawStringCentered(awardPage, "After ditching three very expensive aircraft,", 0x24, 0xb3, 0xfa);
+        drawStringCentered(awardPage, "you are assigned a desk job.", 0x24, 0xbc, 0xfa);
         // 1ef4
         awardFont = 4;
         awardColor = 0;
@@ -80,8 +80,8 @@ void showPostMissionAwards(void) {
     if (gameData->campaignProgress == 2) {
         gfx_setFadeSteps(2);
         openShowPic("death.pic", *awardPage);
-        drawStringCentered(awardPage, str_deathMsg1, 0x24, 0xad, 0xfa);
-        drawStringCentered(awardPage, str_deathMsg2, 0x24, 0xb6, 0xfa);
+        drawStringCentered(awardPage, "In the wake of the horrible crash,", 0x24, 0xad, 0xfa);
+        drawStringCentered(awardPage, "your family and friends mourn your loss.", 0x24, 0xb6, 0xfa);
         goto show;
     }
     // 1fa8
@@ -89,8 +89,8 @@ void showPostMissionAwards(void) {
         gfx_setFadeSteps(6);
         openShowPic("promo.pic", *awardPage);
         awardColor = 1;
-        drawStringCentered(awardPage, str_promoMsg1, 0x24, 0xae, 0xfa);
-        mystrcpy(textBuf, str_promoMsg2);
+        drawStringCentered(awardPage, "For your consistently successful missions,", 0x24, 0xae, 0xfa);
+        mystrcpy(textBuf, "you have been promoted to ");
         mystrcat(textBuf, rankNames[++gameData->rank]);
         drawStringCentered(awardPage, textBuf, 0x24, 0xb7, 0xfa);
         gfx_commitPage();
@@ -111,8 +111,8 @@ medals:
     gfx_setFadeSteps(0x0a);
     openShowPic("medal.pic", *awardPage);
     awardColor = 0x0f;
-    drawStringCentered(awardPage, str_medalMsg1, 0x24, 0xae, 0xfa);
-    mystrcpy(textBuf, str_medalMsg2);
+    drawStringCentered(awardPage, "For your outstanding performance, you receive", 0x24, 0xae, 0xfa);
+    mystrcpy(textBuf, "the ");
     mystrcat(textBuf, medalNames[idx]);
     drawStringCentered(awardPage, textBuf, 0x24, 0xb7, 0xfa);
     gameData->medals |= (1 << (char)idx);

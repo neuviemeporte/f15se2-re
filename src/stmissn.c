@@ -22,8 +22,8 @@
 /* Private helpers for this translation unit. */
 void waitJoyKey(void);
 int joyOrKey();
-void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color);
-int missionMenuSelect(char **names, char **desc, char *title, int s);
+void drawLine(const int16 *pageNum, int x1, int y1, int x2, int y2, int color);
+int missionMenuSelect(const char **names, const char **desc, const char *title, int s);
 void animateArm(int, int);
 void clearBriefing(void);
 
@@ -78,7 +78,7 @@ void waitMdaCgaStatus(int16 iter)
     }
 }
 
-void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
+void drawLine(const int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
     gfx_setPageN(*pageNum);
     gfx_setColor(color);
     lineX1 = x1;
@@ -89,7 +89,7 @@ void drawLine(int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
     gfx_nop23();
 }
 
-void showPic640(char* filename)
+void showPic640(const char* filename)
 {
     int fileHandle;
     intRegs[1] = INT_VID_MODESET;
@@ -113,14 +113,14 @@ void missionSelect()
     clearBriefing();
     TRACE(("missionSelect(): cleared briefing"));
     nearmemset(scenarioFoundArr, 0, 5);
-    gameData->difficulty = missionMenuSelect(missDiffLevels, missDiffDesc, aDifficulty, gameData->difficulty);
+    gameData->difficulty = missionMenuSelect(missDiffLevels, missDiffDesc, "DIFFICULTY", gameData->difficulty);
     TRACE(("missionSelect(): selected difficulty: %d", gameData->difficulty));
 selectTheater:
     if (gameData->theater > 4)
         gameData->theater = 4;
     checkDiskA();
     nearmemset(scenarioFoundArr, 0, 5);
-    gameData->theater = missionMenuSelect(missTheaNames, missTheaDesc, aTheater, gameData->theater);
+    gameData->theater = missionMenuSelect(missTheaNames, missTheaDesc, "THEATER", gameData->theater);
     if (gameData->theater == THEATER_OTHER) { // other scenario selected
         for (count = 4, index = 0; index < 4; index++) { // find extra scenarios
             plh3d3Ptr[0] = *scenarioCodePtr[index];
@@ -131,15 +131,15 @@ selectTheater:
         }
         if (count == 0) { // no scenarios found, print message and go back to previous screen
             clearBriefing();
-            drawStringCentered(page1NumPtr, aNoScenarioFile, 0x71, 0x3c, 0xb9);
-            drawStringCentered(page1NumPtr, aSeeTechnicalSu, 0x71, 0x48, 0xb9);
+            drawStringCentered(page1NumPtr, "No scenario files found", 0x71, 0x3c, 0xb9);
+            drawStringCentered(page1NumPtr, "See Technical Supplement", 0x71, 0x48, 0xb9);
             enableHighlight = 0;
             timerCounter3 = 6;
             animateArm(armPosition, armPosition);
             waitJoyKey();
             goto selectTheater;
         }
-        gameData->theater = missionMenuSelect(missScenarioNames, missScenarioDesc, aTheater, 0) + 4;
+        gameData->theater = missionMenuSelect(missScenarioNames, missScenarioDesc, "THEATER", 0) + 4;
         if (gameData->theater == 8) {
             goto selectTheater;
         }
@@ -149,7 +149,7 @@ selectTheater:
     if (gameData->theater == THEATER_DS && gameData->difficulty != DIFFICULTY_DEMO) {
         scenarioFoundArr[0] = scenarioFoundArr[1] = 0;
         scenarioFoundArr[2] = scenarioFoundArr[3] = scenarioFoundArr[4] = 1;
-        if (missionMenuSelect(missTypeNames, missTypeDesc, aMissionType, 0) == 0) {
+        if (missionMenuSelect(missTypeNames, missTypeDesc, "MISSION TYPE", 0) == 0) {
             nearmemset(scenarioFoundArr, 0, 5);
 
             do {
@@ -160,7 +160,7 @@ selectTheater:
     // 909-0x90d
 }
 
-int missionMenuSelect(char **names, char **desc, char *title, int selection)
+int missionMenuSelect(const char **names, const char **desc, const char *title, int selection)
 {
     int yPos, row, action;
     TRACE(("missionMenuSelect(): entering, selection %d", selection));
@@ -268,7 +268,7 @@ void animateArm(int a, int b)
 int askRepeatMission() {
     char keycode;
     page1Desc.color = COLOR_BRIEF_DESC_HL;
-    drawStringCentered(page1NumPtr, aRepeatLastMiss, 0x71, 0x42, 0xb9);
+    drawStringCentered(page1NumPtr, "Repeat last mission ? (y/n)", 0x71, 0x42, 0xb9);
     enableHighlight = 0;
     timerCounter3 = 6;
     animateArm(armPosition, armPosition);
@@ -283,9 +283,9 @@ int askRepeatMission() {
 void checkDiskA() {
     while ((fileHandle = fopen("F15.spr", "rb")) == NULL) {
         clearBriefing();
-        drawStringCentered(page1NumPtr, aPleaseReinsert, 0x71, 0x3d, 0xb9);
+        drawStringCentered(page1NumPtr, "Please reinsert F15 Disk A", 0x71, 0x3d, 0xb9);
         page1NumPtr[6] = FONT_SMALL; // page1Desc.font?
-        drawStringCentered(page1NumPtr, aPressSelectorW, 0x71, 0x49, 0xb9);
+        drawStringCentered(page1NumPtr, "<Press selector when ready>", 0x71, 0x49, 0xb9);
         page1NumPtr[6] = FONT_NORMAL;
         enableHighlight = 0;
         timerCounter3 = 6;
@@ -298,7 +298,7 @@ void checkDiskA() {
 
 void missionDecode() {
     page1Desc.color = COLOR_BRIEF_DESC_NORMAL;
-    drawStringCentered(page1NumPtr, aDecodingMissio, 0x71, 0x42, 0xb9);
+    drawStringCentered(page1NumPtr, "decoding mission...", 0x71, 0x42, 0xb9);
     enableHighlight = 0;
     timerCounter3 = 6;
     animateArm(armPosition, armPosition);
@@ -308,37 +308,37 @@ void printMission() {
     int armStep;
     clearBriefing();
     page1Desc.color = COLOR_TITLE;
-    drawStringCentered(page1NumPtr, aTodaySMission, 0x71, 0x0e, 0xb9);
+    drawStringCentered(page1NumPtr, "TODAY'S MISSION", 0x71, 0x0e, 0xb9);
     drawLine(page1NumPtr, 0xa0, 0x16, 0xf9, 0x16, 1);
-    drawStringAt(page1NumPtr, aTakeoffFrom, 0x82, 0x20);
+    drawStringAt(page1NumPtr, "Takeoff from:", 0x82, 0x20);
     page1Desc.color = COLOR_BRIEF_DESC_HL;
     buildTargetLabel(targets[0].baseIdx);
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x2a, 0xb9);
-    mystrcpy(todayMissStrBuf, aOnc_2);
+    mystrcpy(todayMissStrBuf, "ONC ");
     mystrcat(todayMissStrBuf, getItemCoordStr(targets[0].baseIdx));
     page1Desc.font = FONT_SMALL;
     page1Desc.color = COLOR_COORDS;
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x34, 0xb9);
     page1Desc.font = FONT_NORMAL;
     page1Desc.color = COLOR_TITLE;
-    drawStringAt(page1NumPtr, aPrimaryTarget, 0x82, 0x40);
+    drawStringAt(page1NumPtr, "Primary Target:", 0x82, 0x40);
     page1Desc.color = COLOR_BRIEF_DESC_HL;
     buildTargetLabel(targets[0].targetIdx);
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x4a, 0xb9);
     page1Desc.font = FONT_SMALL;
     page1Desc.color = COLOR_COORDS;
-    mystrcpy(todayMissStrBuf, aOnc_0);
+    mystrcpy(todayMissStrBuf, "ONC ");
     mystrcat(todayMissStrBuf, targets[0].coord);
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x54, 0xb9);
     page1Desc.font = FONT_NORMAL;
     page1Desc.color = COLOR_TITLE;
-    drawStringAt(page1NumPtr, aSecondaryTarge, 0x82, 0x60);
+    drawStringAt(page1NumPtr, "Secondary Target:", 0x82, 0x60);
     page1Desc.color = COLOR_BRIEF_DESC_HL;
     buildTargetLabel(targets[1].targetIdx);
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x6a, 0xb9);
     page1Desc.font = FONT_SMALL;
     page1Desc.color = COLOR_COORDS;
-    mystrcpy(todayMissStrBuf, aOnc_1);
+    mystrcpy(todayMissStrBuf, "ONC ");
     mystrcat(todayMissStrBuf, targets[1].coord);
     drawStringCentered(page1NumPtr, todayMissStrBuf, 0x71, 0x74, 0xb9);
     page1Desc.font = FONT_NORMAL;

@@ -114,7 +114,7 @@ void fireGroundThreat(int planeIdx)
         g_scopeSweepTimer = g_frameRateScaling;
         g_threatLabelTarget = planeIdx;
         g_threatRadarFlag = aNone[threatType].flags & 1;
-        if (*(int16 *)&g_planeTable.planes[planeIdx].alertLevel != 0) {
+        if (g_planeTable.planes[planeIdx].alertLevel != 0) {
             g_scopeArcStart = (bearing[0] >> 8) - 0x20;
             g_scopeArcEnd = (bearing[0] >> 8) + 0x20;
         }
@@ -124,21 +124,21 @@ void fireGroundThreat(int planeIdx)
         }
     }
     if (score > range[0]) {
-        *(int16 *)&g_planeTable.planes[planeIdx].alertLevel += (g_difficultyTier + g_missionStatus) * 32 + 32;
-        if (*(int16 *)&g_planeTable.planes[planeIdx].alertLevel > 255) {
-            *(int16 *)&g_planeTable.planes[planeIdx].alertLevel = 255;
+        g_planeTable.planes[planeIdx].alertLevel += (g_difficultyTier + g_missionStatus) * 32 + 32;
+        if (g_planeTable.planes[planeIdx].alertLevel > 255) {
+            g_planeTable.planes[planeIdx].alertLevel = 255;
         }
         if (!(g_planeTable.planes[planeIdx].flags & 0x100) && mapEvents[0].ttl == 0 &&
-            *(int16 *)&g_planeTable.planes[planeIdx].alertLevel > 0x7f) {
+            g_planeTable.planes[planeIdx].alertLevel > 0x7f) {
             updateThreatAlert();
         }
         if (g_enemyThreatCount <= g_missionStatus) {
-            if (*(int16 *)&g_planeTable.planes[planeIdx].alertLevel > 0xc0) {
+            if (g_planeTable.planes[planeIdx].alertLevel > 0xc0) {
                 if (threatType != 0x15) {
                     if (g_nearestThreatRange > 0x500) {
                         if ((unsigned)-(g_missionStatus * 3 - 20) < range[0]) {
                             g_enemyAlertFlag++;
-                            if (*(int16 *)&g_planeTable.planes[planeIdx].alertLevel >= 0xfa) {
+                            if (g_planeTable.planes[planeIdx].alertLevel >= 0xfa) {
                                 slot = (g_missionStatus != 0) ? planeIdx % g_missionStatus : 0;
                                 if (g_projectiles[slot].ttl == 0) {
                                     if (sams[threatType].lockRange > (unsigned)range[0]) {
@@ -152,11 +152,11 @@ void fireGroundThreat(int planeIdx)
                                         g_projectiles[slot].worldX = bearing[0];
                                         g_projectiles[slot].worldY = 0x4000;
                                         g_projectiles[slot].ttl = (int)((((long)sams[threatType].lockRange << 3) * (long)g_frameRateScaling) / (long)(sams[threatType].maxSpeed >> 6));
-                                        *(int16 *)&g_projectiles[slot].state[0] = threatType;
-                                        *(int16 *)&g_projectiles[slot].state[6] = planeIdx;
+                                        g_projectiles[slot].specIdx = threatType;
+                                        g_projectiles[slot].targetRef = planeIdx;
 
                                         placeString(planeIdx);
-                                        strcat(strBuf, aFiring);
+                                        strcat(strBuf, " firing ");
                                         strcat(strBuf, (char *)&sams[threatType]);
                                         tempStrcpy(strBuf);
                                         makeSound(6, 2);
@@ -173,9 +173,9 @@ void fireGroundThreat(int planeIdx)
         *(uint8 *)&g_planeTable.planes[planeIdx].flags |= 0x10;
     } else {
         *(uint8 *)&g_planeTable.planes[planeIdx].flags &= 0xEF;
-        *(int16 *)&g_planeTable.planes[planeIdx].alertLevel -= 0x10;
-        if (*(int16 *)&g_planeTable.planes[planeIdx].alertLevel < 0) {
-            *(int16 *)&g_planeTable.planes[planeIdx].alertLevel = 0;
+        g_planeTable.planes[planeIdx].alertLevel -= 0x10;
+        if (g_planeTable.planes[planeIdx].alertLevel < 0) {
+            g_planeTable.planes[planeIdx].alertLevel = 0;
         }
     }
 }
@@ -219,7 +219,7 @@ void updateThreatAlert(void) {
     g_unusedEventHist0 = 0xFF;
     for (planeIdx = 0; planeIdx < g_planeScanCount; planeIdx++) {
         if (g_planeTable.planes[planeIdx].active != 0) {
-            *(int *)&g_planeTable.planes[planeIdx].alertLevel = clampRange(*(int *)&g_planeTable.planes[planeIdx].alertLevel, ((g_missionStatus + g_difficultyTier) << 4) - 16, 0xFF);
+            g_planeTable.planes[planeIdx].alertLevel = clampRange(g_planeTable.planes[planeIdx].alertLevel, ((g_missionStatus + g_difficultyTier) << 4) - 16, 0xFF);
         }
     }
 }
@@ -310,7 +310,7 @@ void updateObjects(void)
     }
 
 after_retarget:
-    tgtIdx = *(int16 *)&g_simObjects[objIdx].objType;
+    tgtIdx = g_simObjects[objIdx].objType;
     tgtX = g_planeTable.planes[tgtIdx].mapX;
     tgtY = g_planeTable.planes[tgtIdx].mapY;
     tgtZ = clampRange(g_viewZ + 1000, 5000, 20000);
@@ -324,15 +324,15 @@ padlock_target:
     goto got_target;
     }
 
-    tgtX = g_planeTable.planes[*(int16 *)&g_simObjects[objIdx].objType].mapX;
+    tgtX = g_planeTable.planes[g_simObjects[objIdx].objType].mapX;
     if ((g_simObjects[objIdx].flags.w) & 0x200) {
         tgtZ = g_simObjects[objIdx].posX - tgtX;
-        tgtY = g_planeTable.planes[*(int16 *)&g_simObjects[objIdx].objType].mapY;
+        tgtY = g_planeTable.planes[g_simObjects[objIdx].objType].mapY;
         tgtX = tgtX - tgtZ * 2;
-        tgtZ = ((g_planeTable.planes[*(int16 *)&g_simObjects[objIdx].objType].flags + abs(tgtZ)) & 0x200)
+        tgtZ = ((g_planeTable.planes[g_simObjects[objIdx].objType].flags + abs(tgtZ)) & 0x200)
             ? 0x8c : 0x0c;
     } else {
-        tgtY = g_planeTable.planes[*(int16 *)&g_simObjects[objIdx].objType].mapY + g_northSouthSign * 0x500;
+        tgtY = g_planeTable.planes[g_simObjects[objIdx].objType].mapY + g_northSouthSign * 0x500;
         tgtZ = rangeApprox(g_simObjects[objIdx].posX - tgtX,
                       g_simObjects[objIdx].posY - tgtY) + 2000;
     }
@@ -379,7 +379,7 @@ after_missile_table:
     if (abs(g_ourRoll) < 0x4000) {
         hdg += g_ourRoll >> 1;
     }
-    aspect = ((g_simObjects[objIdx].heading.w - hdg) >> 13) + 4 & 7;
+    aspect = (((g_simObjects[objIdx].heading.w - hdg) >> 13) + 4) & 7;
     {
         register int maneuver;
         maneuver = g_maneuverTable[aggrIdx][relBearing][aspect];
@@ -561,7 +561,7 @@ alt_ok:
                 smokeSlot = rangeApprox(g_simObjects[objIdx].posX - g_planeTable.planes[scanIdx].mapX,
                               g_simObjects[objIdx].posY - g_planeTable.planes[scanIdx].mapY);
                 if (smokeSlot < best) {
-                    *(int16 *)&g_simObjects[objIdx].objType = scanIdx;
+                    g_simObjects[objIdx].objType = scanIdx;
                     best = smokeSlot;
                 }
             }

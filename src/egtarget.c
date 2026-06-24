@@ -34,7 +34,7 @@
 /* Private helpers for this translation unit. */
 void drawTargetBox(int, int, int, int);
 void drawMissileLock(void);
-void __cdecl drawTargetLabel(char *, int, int);
+void __cdecl drawTargetLabel(const char *, int, int);
 void buildRangeString(int rangeRaw);
 void projectWorldToHud(int worldX, int worldY, int worldZ);
 long rotateVectorComponent(int axis, int vecX, int vecY, int vecZ);
@@ -240,7 +240,7 @@ next2:
                 goto next3;
 
             if (g_projDepth > -0x20) {
-            drawWorldObject(sams[*(int *)&g_projectiles[idx].state[0]].modelId,
+            drawWorldObject(sams[g_projectiles[idx].specIdx].modelId,
                 (long)g_projectiles[idx].mapX << 5,
                 (long)g_projectiles[idx].mapY << 5,
                 g_projectiles[idx].alt,
@@ -321,7 +321,7 @@ void drawHudWorldOverlay(void) {
         if (vtxScratch.vproj.x.lo != -1) {
         if (prevX != -1) {
 
-        dist = (frameTick >> 1) - idx & 7;
+        dist = ((frameTick >> 1) - idx) & 7;
 
         setDrawColor(idx < g_bulletTrackCount ? 0x0d : 0x0c);
         drawViewportLine(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, prevX, prevY);
@@ -348,7 +348,7 @@ void drawHudWorldOverlay(void) {
 
                 if (dist * 2 < gunRadius / (g_missionStatus + 1)) {
                     destroyAircraft(objIdx);
-                    strcat(strBuf, aDestroyedByGun);
+                    strcat(strBuf, " destroyed by gunfire");
                     tempStrcpy(strBuf);
                     g_hitEffectTimer = 8;
                     bulletTracks[idx].posX = 0;
@@ -363,7 +363,7 @@ void drawHudWorldOverlay(void) {
             dist = abs(dist);
             if (dist < 0x20) {
                 hitFlag = 1;
-                tempStrcpy(aHitByGunfire);
+                tempStrcpy("Hit by gunfire");
                 if (0x20 / (4 - g_missionStatus) > dist) {
                     bombTarget();
                 }
@@ -394,7 +394,7 @@ void drawHudWorldOverlay(void) {
                 if (rangeApprox(g_hitMapX - pointX, g_hitMapY - pointY) < 0x18 / (g_missionStatus + 2) &&
                     (g_planeTable.planes[wpEntry].nameIndex & 0x7f) != *(uint8 *)g_landTargetId) {
                     destroyGroundTarget(wpEntry);
-                    strcat(strBuf, aDestroyedByG_0);
+                    strcat(strBuf, " destroyed by gunfire");
                     tempStrcpy(strBuf);
                     g_hitEffectTimer = 8;
                     g_hitAlt = 0;
@@ -520,7 +520,7 @@ void drawHudWorldOverlay(void) {
 
     if ((int)strlen(g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]) != 0) {
         strcpy(strBuf,
-               strlen(g_targetNameTable[g_planeTable.planes[wpIdx].nameIndex & 0x7f]) != 0 ? aAt_0 : aAt_0 + 5);
+               strlen(g_targetNameTable[g_planeTable.planes[wpIdx].nameIndex & 0x7f]) != 0 ? " at " : "");
         strcat(strBuf, g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]);
         drawStringActivePage(strBuf, -((int)strlen(strBuf) * 2 - 0x10c), 0x88, 0x0f);
     }
@@ -530,15 +530,15 @@ void drawHudWorldOverlay(void) {
         setDrawColor(0x0f);
         drawTargetBox(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, 8, 0);
     } else if (g_targetSlots[0].planeIndex == g_groundTargetLock) {
-        drawStringActivePage(aPrimaryTarget, 0xec, 0x8e, 0x0f);
+        drawStringActivePage("Primary Target", 0xec, 0x8e, 0x0f);
     } else if (g_targetSlots[1].planeIndex == g_groundTargetLock) {
-        drawStringActivePage(aSecondaryTarget, 0xec, 0x8e, 0x0f);
+        drawStringActivePage("Secondary Target", 0xec, 0x8e, 0x0f);
     } else if (!(frameTick & 1) &&
                ((g_difficultyTier < 2 && (g_shapeTargetCategory[g_planeTable.planes[wpIdx].nameIndex & 0x7f] & 0xc0) != 0) ||
                 (g_planeTable.planes[wpIdx].flags & 0x500) != 0 ||
                 (g_mapCellFlags[((unsigned)g_planeTable.planes[wpIdx].mapX >> 11) +
                             ((unsigned)g_planeTable.planes[wpIdx].mapY >> 11) * 16] & 1) != 0)) {
-        drawStringActivePage(aNoTarget, 0xfc, 0x8e, 0x0f);
+        drawStringActivePage("No Target", 0xfc, 0x8e, 0x0f);
     }
 
     if (abs((g_ourHead + g_viewHeadingOffset) - g_targetBearing) > 0x2000) {
@@ -607,7 +607,7 @@ void drawHudWorldOverlay(void) {
         drawStringActivePage(strBuf, 0xf8, 0x86, 0x0f);
 
         if (aircraftTypes[idx].modelId == -1 && !(frameTick & 1)) {
-            drawStringActivePage(aNoTarget_0, 0xfc, 0x8c, 0x0f);
+            drawStringActivePage("No Target", 0xfc, 0x8c, 0x0f);
         }
 
         if (g_detailLevel != 0 && (frameTick & 1)) {
@@ -725,7 +725,7 @@ void drawMissileLock(void) {
     int markY;
     if (g_lockToneFlag != 0 && g_hudVisible != 0) {
         if (g_drawPage != 0) {
-            drawStringActivePage(aMissileLock, 0xf4, 0x96, 14);
+            drawStringActivePage("Missile Lock", 0xf4, 0x96, 14);
         }
         setDrawColor(14);
         markX = 0x10c;
@@ -736,7 +736,7 @@ void drawMissileLock(void) {
 }
 
 // ==== seg000:0xc371 ====
-void drawTargetLabel(char *text, int color, int size) {
+void drawTargetLabel(const char *text, int color, int size) {
     if (vtxScratch.vproj.x.lo == -1) {
         return;
     }
@@ -759,9 +759,9 @@ void buildRangeString(int rangeRaw) {
     int c;
     int d;
 
-    strcpy(strBuf, aRange);
+    strcpy(strBuf, "Range ");
     strcat(strBuf, itoa(rangeRaw >> 6, g_itoaScratch, 10));
-    strcat(strBuf, aDot);
+    strcat(strBuf, ".");
     strcat(strBuf, itoa((rangeRaw & 0x3f) * 2 / 13, g_itoaScratch, 10));
-    strcat(strBuf, aKm);
+    strcat(strBuf, " km");
 }

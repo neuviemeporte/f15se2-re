@@ -21,7 +21,7 @@ int far restoreJoystickData(uint8 FAR *ptr) { return 0; }
 /* setInt9Handler/restoreInt9Handler (the keyboard ISR) live in eginput.c. */
 
 /* --- functions declared in egcode.h --- */
-int __cdecl drawCenteredLabelBox(int panel, char *text) { return 0; } // Real one is also a nop
+int __cdecl drawCenteredLabelBox(int panel, const char *text) { return 0; } // Real one is also a nop
 
 /* --- sound-driver slots with no shared C implementation (egame's sound asm;
    ovlimpl.c only covers audio_setup/audio_shutdown/audio_playIntro) --- */

@@ -36,11 +36,7 @@ int openFile(const char *filename, int mode)
     r.h.ah = 0x3D;
     r.h.al = (unsigned char)mode;
     segread(&s);
-#if !defined(MSDOS)
-    r.x.dx = 0; // (uint16)filename;
-#else
-    r.x.dx = (uint16)filename;
-#endif
+    r.x.dx = PTR_OFF(filename);
     intdosx(&r, &r, &s);
     if (r.x.cflag) return -1;
     return r.x.ax;
@@ -54,16 +50,12 @@ void dos_printstring(const char *str)
     struct SREGS s;
     r.h.ah = 0x09;
     segread(&s);
-#if !defined(MSDOS)
-    r.x.dx = 0; // (uint16)str;
-#else
-    r.x.dx = (uint16)str;
-#endif
+    r.x.dx = PTR_OFF(str);
     intdosx(&r, &r, &s);
 }
 
 /* file_write.inc: Write to file */
-int writeFileAtRaw(int handle, void far *buf, uint16 count)
+int writeFileAtRaw(int handle, const void far *buf, uint16 count)
 {
     union REGS r;
     struct SREGS s;
@@ -97,11 +89,7 @@ int createFile(const char *filename, int attr)
     r.h.ah = 0x3C;
     r.x.cx = attr;
     segread(&s);
-#if !defined(MSDOS)
-    r.x.dx = 0; // (uint16)filename;
-#else
-    r.x.dx = (uint16)filename;
-#endif
+    r.x.dx = PTR_OFF(filename);
     intdosx(&r, &r, &s);
     if (r.x.cflag) return -1;
     return r.x.ax;

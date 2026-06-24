@@ -49,7 +49,7 @@ extern void FAR CDECL gfx_setCurPageSegReg(uint16 seg);
  * engine (per-scanline g_spanMinX/MaxX then gfx_dirtyRect2); that engine is
  * register-called, so we fill the page directly (the plan's "reimplement
  * against the page" path). */
-int __far fillSpanRect(int16 *pageDesc, int left, int top, int right, int bottom)
+int __far fillSpanRect(const int16 *pageDesc, int left, int top, int right, int bottom)
 {
     uint16 savedSeg = (uint16)gfx_getCurPageSeg();
     uint8 color = (uint8)pageDesc[2];
@@ -241,7 +241,7 @@ static void drawInstrumentGauges(void)
             }
         } else {
             /* altitude >= 1000 ft */
-            g_tapeText0[5] = (int16)(hundredsPix + g_tapeOriginX);
+            g_tapeText0[5] = hundredsPix + g_tapeOriginX;
             g_tapeRenderMode = 2;
             LOB(g_tapeRenderX) = (uint8)((hundredsPix + g_tapeOriginX) - g_tapeCursorBackShift);
         }
@@ -273,7 +273,7 @@ static void drawInstrumentGauges(void)
         g_compassMarkerPhase = (uint8)(p6 & 0xff);
         g_compassDrawX = (uint8)((uint8)g_headingBase - (uint8)((p6 >> 8) & 0xff));
         g_tapeText1[4] = g_compassDrawX;
-        g_compassScrollIdx = (int16)((head_hi >> 2) & 0x38);
+        g_compassScrollIdx = (head_hi >> 2) & 0x38;
 
         drawTapeStr(g_tapeText1, g_compassTapeBuf + 132 + g_compassScrollIdx, 0x02);
 
@@ -338,7 +338,7 @@ static void drawInstrumentGauges(void)
 
     /* ---- G-meter readout ---- */
     g_tapeText3[4] = g_geeReadoutX;
-    drawTapeStr(g_tapeText3, g_geeStringBuf, 0x04);
+    drawTapeStr(g_tapeText3, (const uint8 *)g_geeStringBuf, 0x04);
 
     /* ---- pitch ladder ---- */
     {
@@ -354,7 +354,7 @@ static void drawInstrumentGauges(void)
         if (pitch < 0) subY = (uint8)g_pitchRungVStep - subY;
         subY = (uint8)(subY + g_pitchCenterY);
         if (pitch < 0) ch = (int8)(-(int8)ch - 1);
-        g_tapeCursorX = (int16)((int8)ch - 2);
+        g_tapeCursorX = (int8)ch - 2;
         bxY = subY;
         dl = (int8)(g_tapeCursorX & 0xff);
         cl = 5; di = 0; si = 0; ch = 0;

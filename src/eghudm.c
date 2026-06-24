@@ -139,8 +139,8 @@ void FAR CDECL hudComplex(int bxArg, int dxArg, int cxArg, int siArg)
  * walk down to 0 in steps of 2. */
 void FAR CDECL hudRotateLadder(int di)
 {
-    long sinR = (long)nsine((int)(int16)(0x4000 - (int16)g_ourRoll));
-    long cosR = (long)nsine((int)(int16)(-(int16)g_ourRoll));
+    long sinR = (long)nsine((int)(int16)(0x4000 - g_ourRoll));
+    long cosR = (long)nsine((int)(int16)(-g_ourRoll));
     for (; di >= 0; di -= 2) {
         long x = (long)W16(g_compassTapeBuf + 0xec + di);
         long y = (long)W16(g_compassTapeBuf + 0x15c + di);
