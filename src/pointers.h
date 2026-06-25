@@ -9,7 +9,7 @@
 #define FAR far
 #define CDECL cdecl
 #define HUGE huge
-#define offsetof(st, m) ((size_t)&(((st*)0)->m))
+#define offsetof(st, m) ((size_t) & (((st *)0)->m))
 #else
 #define NEAR
 #define FAR
@@ -17,7 +17,7 @@
 #define HUGE
 #endif
 
-#define MK_FP(a,off) ((void FAR *) (((unsigned long)(a) << 16) | (unsigned long)(off)))
+#define MK_FP(a, off) ((void FAR *)(((unsigned long)(a) << 16) | (unsigned long)(off)))
 #define MAKEFAR(type, seg, off) ((type FAR *)MK_FP(seg, off))
 
 /* PTR_OFF(p): the 16-bit DOS offset of a (near) pointer, as needed to load a

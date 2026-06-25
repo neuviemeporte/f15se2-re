@@ -13,18 +13,17 @@
 #include <memory.h>
 
 // ==== seg000:0x0334 ====
-void drawProjectionSphere(int skyColor)
-{
-    int radiusScale;    // on-screen radius scale of the sphere
-    int ringIx;         // ring/loop index
+void drawProjectionSphere(int skyColor) {
+    int radiusScale; // on-screen radius scale of the sphere
+    int ringIx;      // ring/loop index
     // The two endpoints of each ring's projected silhouette edge, one entry
     // per ring boundary. (rearX,rearY) and (foreX,foreY) are paired into quads.
-    int rearX[17];      // edge endpoint A, X screen coords
-    int rearY[17];      // edge endpoint A, Y screen coords
-    int foreX[17];      // edge endpoint B, X screen coords
-    int foreY[17];      // edge endpoint B, Y screen coords
-    int facePts[8];     // 4-point quad buffer for drawPolygonOutline
-    int ringRad;        // ring radius temp
+    int rearX[17];  // edge endpoint A, X screen coords
+    int rearY[17];  // edge endpoint A, Y screen coords
+    int foreX[17];  // edge endpoint B, X screen coords
+    int foreY[17];  // edge endpoint B, Y screen coords
+    int facePts[8]; // 4-point quad buffer for drawPolygonOutline
+    int ringRad;    // ring radius temp
 
     if (*(char *)&g_detailLevel < 3) {
         drawFlatHorizon(skyColor);

@@ -40,13 +40,11 @@ int computeMapTargetRange(int targetIdx);
 int computeSimObjectRange(int objIdx);
 int computeTargetBearing(int targetX, int targetY, int wantBearing);
 
-
 void projectWorldToHud(int worldX, int worldY, int worldZ);
 long rotateVectorComponent(int axis, int vecX, int vecY, int vecZ);
 int computeMapTargetRange(int targetIdx);
 int computeSimObjectRange(int objIdx);
 int computeTargetBearing(int targetX, int targetY, int wantBearing);
-
 
 // ==== seg000:0xc488 ====
 void projectWorldToHud(int worldX, int worldY, int worldZ) {
@@ -113,12 +111,7 @@ long rotateVectorComponent(int axis, int vecX, int vecY, int vecZ) {
     return sum;
 }
 
-
-
-
-
-int findWaypointEntry(int mapX, int mapY)
-{
+int findWaypointEntry(int mapX, int mapY) {
     int idx;
 
     if ((g_nearestTileObj = findNearestTileObject((int32)mapX << 5, (0x8000L - (int32)mapY) << 5))) {
@@ -143,7 +136,7 @@ int findWaypointEntry(int mapX, int mapY)
 
 // ==== seg000:0xc7a2 ====
 int computeMapTargetRange(int targetIdx) {
-     return computeTargetBearing(g_planeTable.planes[targetIdx].mapX, g_planeTable.planes[targetIdx].mapY, 1);
+    return computeTargetBearing(g_planeTable.planes[targetIdx].mapX, g_planeTable.planes[targetIdx].mapY, 1);
 }
 
 // ==== seg000:0xc7c6 ====

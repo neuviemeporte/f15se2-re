@@ -52,7 +52,7 @@ int main(void) {
     Log(("main: commData=%04x:%04x gameData=%04x:%04x", FP_SEG(commData), FP_OFF(commData), FP_SEG(gameData), FP_OFF(gameData)));
 #ifdef DEBUG
     LogInfo(("SIG@startup: commData-4/-2 (=MCB magic now) = %04x/%04x",
-        *(int far *)((char far *)commData - 4), *(int far *)((char far *)commData - 2)));
+             *(int far *)((char far *)commData - 4), *(int far *)((char far *)commData - 2)));
 #endif
     setupOverlaySlots(commData->gfxOvlAddr);
     setupOverlaySlots(commData->miscOvlAddr);
@@ -62,8 +62,7 @@ int main(void) {
     installCBreakHandler();
     if (commData->setupUseJoy == 1) {
         copyJoystickData(commData->joyData);
-    }
-    else {
+    } else {
         joyAxes[0] = joyAxes[1] = 0x80;
     }
     gfxInit();
@@ -71,8 +70,7 @@ int main(void) {
     gfx_setMonoFlag(commData->setupMono);
     if (gameData->theater < 2) {
         gfx_setFadeSteps(12);
-    }
-    else {
+    } else {
         gfx_setFadeSteps(16);
     }
     gfxBufPtr = commData->gfxInitResult;
@@ -108,16 +106,15 @@ void drawCockpit() {
     if ((g_dacSupported = gfx_getModeFlag()) != 0) {
         setupDac();
     }
-     gfx_setDac(1);
-     gfx_waitRetrace();
-     if (gfx_getModecode() == 3) {
+    gfx_setDac(1);
+    gfx_waitRetrace();
+    if (gfx_getModecode() == 3) {
         openBlitClosePic("256pit.PIC", 1);
-     }
-     else {
+    } else {
         openBlitClosePic("cockpit.PIC", 1);
-     }
-     gfx_copyRect(1, 0, 96, 0, 0, 96, 320, 104);
-     gfx_copyRect(1, 0, 96, 2, 0, 96, 320, 104);
+    }
+    gfx_copyRect(1, 0, 96, 0, 0, 96, 320, 104);
+    gfx_copyRect(1, 0, 96, 2, 0, 96, 320, 104);
 }
 
 // ==== seg000:0x211 ====
@@ -128,7 +125,7 @@ void runGameSession() {
         *g_floppyMotorPtr = 1;
     }
     audio_shutdown();
-    audio_setup(*(int16 FAR*)(OFF_IACA_UNK), f15DgtlResult);
+    audio_setup(*(int16 FAR *)(OFF_IACA_UNK), f15DgtlResult);
 #ifdef NO_ASM
     /* The shared C timer ISR has no built-in per-tick game work; register
      * egame's advanceFrameTick (frame-pacing tick + DAC colour-cycle) before

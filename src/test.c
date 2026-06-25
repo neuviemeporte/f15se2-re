@@ -80,7 +80,7 @@ void testStruct() {
 }
 
 void testTrace() {
-    int a=1,b=2,c=3;
+    int a = 1, b = 2, c = 3;
     printf("Testing log functions: ");
     Log(("Foobar a = %d, b = %d, c = %d", a, b, c));
     LogError(("Foobar a = %d, b = %d, c = %d", a, b, c));

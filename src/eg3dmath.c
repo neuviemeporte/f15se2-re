@@ -19,8 +19,7 @@
 /* sin/cos via table lookup + linear interpolation.
  * Mirrors sineLookup: idx = angle>>8, frac = angle&0xFF, then
  *   result = lut[idx] + round((lut[idx+1] - lut[idx]) * frac / 256). */
-static int sineInterp(unsigned angle)
-{
+static int sineInterp(unsigned angle) {
     int idx = (angle >> 8) & 0xFF;
     int frac = angle & 0xFF;
     int v0 = g_angleLut[idx];
@@ -29,13 +28,11 @@ static int sineInterp(unsigned angle)
     return v0 + (int)((step + 0x80) >> 8);
 }
 
-int sine(int angle)
-{
+int sine(int angle) {
     return sineInterp(angle);
 }
 
-int cosine(int angle)
-{
+int cosine(int angle) {
     /* cos(x) = sin(x + 90deg); a quarter turn is 0x4000 in 16-bit angle space. */
     return sineInterp((unsigned)angle + 0x4000);
 }
@@ -43,8 +40,7 @@ int cosine(int angle)
 /* Q15-style fixed multiply: returns round((a*b) >> 15).
  * Replicates the exact shl/rcl/adc sequence of the ASM fixedMulQ14:
  *   P = a*b; result = (P>>15) + (bit14 of P). */
-int fixedMulQ14(int a, int b)
-{
+int fixedMulQ14(int a, int b) {
     long p = (long)a * (long)b;
     return (int)((p >> 15) + ((p >> 14) & 1L));
 }
@@ -52,12 +48,10 @@ int fixedMulQ14(int a, int b)
 /* In-place 32-bit shifts (pascal: args pushed left-to-right, callee cleans up).
  * The ASM dispatches to the MSC long-shift helpers; >>= on a signed long is the
  * arithmetic shift those helpers perform. */
-void pascal shiftLongLeftInPlace(int count, long *ptr)
-{
+void pascal shiftLongLeftInPlace(int count, long *ptr) {
     *ptr <<= count;
 }
 
-void pascal shiftLongRightInPlace(int count, long *ptr)
-{
+void pascal shiftLongRightInPlace(int count, long *ptr) {
     *ptr >>= count;
 }

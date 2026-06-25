@@ -27,9 +27,7 @@ void drawMapMarkerBox(int centerX, int centerY, int color);
 void projectMapPoint(int mapX, int mapY);
 void blitGaugeSprite(int srcCol, int srcRow, int destX, int destY);
 
-
-void drawTacticalMap(char page)
-{
+void drawTacticalMap(char page) {
     int startX;
     int code;
     int startY;

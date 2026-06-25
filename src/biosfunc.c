@@ -6,5 +6,5 @@
 
 void bios_clearkeyflags() {
     uint16 FAR *bios_keyflags = (uint16 FAR *)MK_FP(SEG_LOWMEM, OFF_BDA_KEYFLAGS);
-    *bios_keyflags = 0;    
+    *bios_keyflags = 0;
 }

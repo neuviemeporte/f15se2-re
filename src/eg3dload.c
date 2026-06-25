@@ -22,7 +22,6 @@ void __cdecl load3D3(char *);
 void __cdecl load3DT(char *);
 void load3DG();
 
-
 // ==== seg000:0x2874 ====
 void load3DAll() {
     load3DG();
@@ -60,7 +59,7 @@ void load3D3(char *fileName) {
     objDataEnd = g_world3dData + size3d3_2;
     buf3d3[size3d3] = size3d3_2;
     segread(&sregs);
-    for (dstPtr = g_world3dData; size3d3_2 != 0; size3d3_2 -= chunk, dstPtr+=0x800) {
+    for (dstPtr = g_world3dData; size3d3_2 != 0; size3d3_2 -= chunk, dstPtr += 0x800) {
         chunk = (size3d3_2 >= 0x800) ? 0x800 : size3d3_2;
         fread(flt15_buf2, 1, chunk, fileHandle);
         movedata(sregs.ds, PTR_OFF(flt15_buf2), FP_SEG(dstPtr), FP_OFF(dstPtr), chunk);
@@ -95,7 +94,7 @@ void load3D3(char *fileName) {
             fread(&size3d3_2, 2, 1, fileHandle);
             g_modelOffsetTable[size3d3_7] = size3d3_2;
             for (sub = 0; sub <= subCount; sub++) {
-                chunk = g_modelOffsetTable[sub+1] - g_modelOffsetTable[sub];
+                chunk = g_modelOffsetTable[sub + 1] - g_modelOffsetTable[sub];
                 while (chunk > 0x800) {
                     fread(flt15_buf2, 1, 0x800, fileHandle);
                     chunk -= 0x800;
@@ -106,7 +105,7 @@ void load3D3(char *fileName) {
             }
             objDataEnd += chunk;
             if (slot == 0) {
-                buf3d3[size3d3+1] = buf3d3[size3d3] + chunk;
+                buf3d3[size3d3 + 1] = buf3d3[size3d3] + chunk;
             }
             fclose(fileHandle);
         }
@@ -139,7 +138,7 @@ void load3DT(char *fileName) {
         fread(matrix3dt[cat], 2, sizes3dt[cat], fileHandle);
     }
     byteOff = 0;
-#define GET_MATRIX(BYTE_OFFSET)((struct TileSceneObject*)(buf_3dt + BYTE_OFFSET))
+#define GET_MATRIX(BYTE_OFFSET) ((struct TileSceneObject *)(buf_3dt + BYTE_OFFSET))
     for (cat = 0; cat < 5; cat++) {
         for (tile = 0; sizes3dt[cat] > tile; tile++) {
             matrix3dt_2[cat][tile] = GET_MATRIX(byteOff);

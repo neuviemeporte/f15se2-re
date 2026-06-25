@@ -24,13 +24,13 @@
 #include "pointers.h"
 
 /* --- C-defined egame globals not surfaced in a header --- */
-extern uint8  g_tapeColumn;
-extern uint8  g_tapeChar;
-extern int16  g_tapeCursorX;
+extern uint8 g_tapeColumn;
+extern uint8 g_tapeChar;
+extern int16 g_tapeCursorX;
 
 /* --- long-math helpers kept in _TEXT (eghudm.c); see the file header for why.
  * This TU (EGHUD_TEXT) far-calls them. --- */
-extern int  FAR CDECL hudPitchScale(int ap);
+extern int FAR CDECL hudPitchScale(int ap);
 extern void FAR CDECL hudComplex(int bx, int dx, int cx, int si);
 extern void FAR CDECL hudRotateLadder(int di);
 
@@ -49,8 +49,7 @@ extern void FAR CDECL gfx_setCurPageSegReg(uint16 seg);
  * engine (per-scanline g_spanMinX/MaxX then gfx_dirtyRect2); that engine is
  * register-called, so we fill the page directly (the plan's "reimplement
  * against the page" path). */
-int __far fillSpanRect(const int16 *pageDesc, int left, int top, int right, int bottom)
-{
+int __far fillSpanRect(const int16 *pageDesc, int left, int top, int right, int bottom) {
     uint16 savedSeg = (uint16)gfx_getCurPageSeg();
     uint8 color = (uint8)pageDesc[2];
     uint16 seg;
@@ -69,8 +68,8 @@ int __far fillSpanRect(const int16 *pageDesc, int left, int top, int right, int 
 }
 
 /* helpers: little-endian word view of a byte buffer, and low-byte lvalue. */
-#define W16(p)  (*(int16 *)(p))
-#define LOB(v)  (*(uint8 *)&(v))
+#define W16(p) (*(int16 *)(p))
+#define LOB(v) (*(uint8 *)&(v))
 
 /* gauge layout descriptor word indices (param blocks fed to the gfx slots).
  * Text descriptor = 11 words read by gfx_drawStringClipped_impl:
@@ -86,70 +85,123 @@ int __far fillSpanRect(const int16 *pageDesc, int left, int top, int right, int 
  * clipped glyph engine via gfx_drawGlyphStr (the per-call-site slot picks the
  * clip mode — see its decl above). */
 static void setFill(int color) { gfx_setColor(color); }
-static void drawLine(int x1, int y1, int x2, int y2)
-{
+static void drawLine(int x1, int y1, int x2, int y2) {
     gfx_drawLine((uint16)x1, (uint16)y1, (uint16)x2, (uint16)y2);
 }
-static void drawTapeStr(int16 *d, const uint8 *s, int slot)
-{
+static void drawTapeStr(int16 *d, const uint8 *s, int slot) {
     gfx_drawGlyphStr(d, (const char *)s, slot);
 }
 
-
 /* ===== setupInstrumentLayout ===== */
-void __cdecl __far setupInstrumentLayoutFar(void)
-{
+void __cdecl __far setupInstrumentLayoutFar(void) {
     g_tapeSprite0[0] = g_tapeSprite1[0] = g_tapeSprite2[0] = g_tapeSprite3[0] = gfxBufPtr;
     g_halfScaleRender = 0;
     if (g_halfScaleRender == 1) {
         /* full-detail layout (unreachable at setup; kept for fidelity) */
-        g_tapeOriginX = 100; g_tapeCursorBackShift = 8; g_tapeTickPitch = 10;
-        g_tapeScaleShift = 0; g_speedTapeTickStep = 0x66; g_altTapeTickStep = 0xcc;
-        g_headingBase = 136; g_headingPixPerDeg = 18; g_compassWrapLimit = 175;
-        g_headingModulus = 4; g_headingWrapOffset = 2;
-        g_pitchVtxX0 = 0xffe9; g_pitchVtxX1 = 0xfff8; g_pitchVtxX2 = 9; g_pitchVtxX3 = 23;
-        g_pitchRungVStep = 26; g_pitchCenterY = 52; g_pitchDrawX = 31; g_pitchDrawY = 13;
-        g_pitchLabelY = 80; g_pitchLabelX = 159;
+        g_tapeOriginX = 100;
+        g_tapeCursorBackShift = 8;
+        g_tapeTickPitch = 10;
+        g_tapeScaleShift = 0;
+        g_speedTapeTickStep = 0x66;
+        g_altTapeTickStep = 0xcc;
+        g_headingBase = 136;
+        g_headingPixPerDeg = 18;
+        g_compassWrapLimit = 175;
+        g_headingModulus = 4;
+        g_headingWrapOffset = 2;
+        g_pitchVtxX0 = 0xffe9;
+        g_pitchVtxX1 = 0xfff8;
+        g_pitchVtxX2 = 9;
+        g_pitchVtxX3 = 23;
+        g_pitchRungVStep = 26;
+        g_pitchCenterY = 52;
+        g_pitchDrawX = 31;
+        g_pitchDrawY = 13;
+        g_pitchLabelY = 80;
+        g_pitchLabelX = 159;
         g_pitchBlitOfs = gfx_getPresetOffset1();
-        g_pitchClipMaxX = 66; g_pitchClipMaxY = 37; g_geeReadoutX = 108;
-        g_tapeText0[7] = 68; g_tapeText0[8] = 96; g_tapeText0[6] = 2;
+        g_pitchClipMaxX = 66;
+        g_pitchClipMaxY = 37;
+        g_geeReadoutX = 108;
+        g_tapeText0[7] = 68;
+        g_tapeText0[8] = 96;
+        g_tapeText0[6] = 2;
         g_tapeText1[6] = g_tapeText2[6] = g_tapeText3[6] = 2;
-        g_tapeText1[5] = 59; g_tapeText1[9] = 130; g_tapeText1[10] = 188;
-        g_tapeSprite1[1] = 147; g_tapeSprite1[2] = 20; g_tapeSprite1[4] = 153;
-        g_tapeSprite1[5] = 76; g_tapeSprite1[6] = 13; g_tapeSprite1[7] = 9;
-        g_tapeSprite0[4] = 130; g_tapeSprite0[5] = 64; g_tapeSprite0[6] = 59; g_tapeSprite0[7] = 2;
-        g_tapeText2[7] = 68; g_tapeText2[9] = 127; g_tapeText2[10] = 195;
+        g_tapeText1[5] = 59;
+        g_tapeText1[9] = 130;
+        g_tapeText1[10] = 188;
+        g_tapeSprite1[1] = 147;
+        g_tapeSprite1[2] = 20;
+        g_tapeSprite1[4] = 153;
+        g_tapeSprite1[5] = 76;
+        g_tapeSprite1[6] = 13;
+        g_tapeSprite1[7] = 9;
+        g_tapeSprite0[4] = 130;
+        g_tapeSprite0[5] = 64;
+        g_tapeSprite0[6] = 59;
+        g_tapeSprite0[7] = 2;
+        g_tapeText2[7] = 68;
+        g_tapeText2[9] = 127;
+        g_tapeText2[10] = 195;
         g_tapeText3[5] = 63;
     } else {
         /* the active layout (g_halfScaleRender == 0) */
-        g_tapeOriginX = 94; g_tapeCursorBackShift = 17; g_tapeTickPitch = 20;
-        g_tapeScaleShift = 1; g_speedTapeTickStep = 0x31; g_altTapeTickStep = 0xff;
-        g_headingBase = 109; g_headingPixPerDeg = 45; g_compassWrapLimit = 248;
-        g_headingModulus = 10; g_headingWrapOffset = 5;
-        g_pitchVtxX0 = 0xffc4; g_pitchVtxX1 = 0xfff1; g_pitchVtxX2 = 16; g_pitchVtxX3 = 60;
-        g_pitchRungVStep = 52; g_pitchCenterY = 104; g_pitchDrawX = 79; g_pitchDrawY = 36;
-        g_pitchLabelY = 56; g_pitchLabelX = 159;
+        g_tapeOriginX = 94;
+        g_tapeCursorBackShift = 17;
+        g_tapeTickPitch = 20;
+        g_tapeScaleShift = 1;
+        g_speedTapeTickStep = 0x31;
+        g_altTapeTickStep = 0xff;
+        g_headingBase = 109;
+        g_headingPixPerDeg = 45;
+        g_compassWrapLimit = 248;
+        g_headingModulus = 10;
+        g_headingWrapOffset = 5;
+        g_pitchVtxX0 = 0xffc4;
+        g_pitchVtxX1 = 0xfff1;
+        g_pitchVtxX2 = 16;
+        g_pitchVtxX3 = 60;
+        g_pitchRungVStep = 52;
+        g_pitchCenterY = 104;
+        g_pitchDrawX = 79;
+        g_pitchDrawY = 36;
+        g_pitchLabelY = 56;
+        g_pitchLabelX = 159;
         g_pitchBlitOfs = gfx_getPresetOffset2();
-        g_pitchClipMaxX = 160; g_pitchClipMaxY = 76; g_geeReadoutX = 60;
-        g_tapeText0[7] = 26; g_tapeText0[8] = 86; g_tapeText0[6] = 0;
+        g_pitchClipMaxX = 160;
+        g_pitchClipMaxY = 76;
+        g_geeReadoutX = 60;
+        g_tapeText0[7] = 26;
+        g_tapeText0[8] = 86;
+        g_tapeText0[6] = 0;
         g_tapeText1[6] = g_tapeText2[6] = g_tapeText3[6] = 0;
-        g_tapeText1[5] = 10; g_tapeText1[9] = 90; g_tapeText1[10] = 230;
-        g_tapeSprite1[1] = 130; g_tapeSprite1[2] = 38; g_tapeSprite1[4] = 147;
-        g_tapeSprite1[5] = 48; g_tapeSprite1[6] = 25; g_tapeSprite1[7] = 15;
-        g_tapeSprite0[4] = 90; g_tapeSprite0[5] = 16; g_tapeSprite0[6] = 141; g_tapeSprite0[7] = 3;
-        g_tapeText2[7] = 20; g_tapeText2[9] = 78; g_tapeText2[10] = 241;
+        g_tapeText1[5] = 10;
+        g_tapeText1[9] = 90;
+        g_tapeText1[10] = 230;
+        g_tapeSprite1[1] = 130;
+        g_tapeSprite1[2] = 38;
+        g_tapeSprite1[4] = 147;
+        g_tapeSprite1[5] = 48;
+        g_tapeSprite1[6] = 25;
+        g_tapeSprite1[7] = 15;
+        g_tapeSprite0[4] = 90;
+        g_tapeSprite0[5] = 16;
+        g_tapeSprite0[6] = 141;
+        g_tapeSprite0[7] = 3;
+        g_tapeText2[7] = 20;
+        g_tapeText2[9] = 78;
+        g_tapeText2[10] = 241;
         g_tapeText3[5] = 16;
     }
 }
 
 /* ===== drawInstrumentGauges ===== */
-static void drawInstrumentGauges(void)
-{
+static void drawInstrumentGauges(void) {
     int disp;
     int di, si;
     int8 dl;
     int cl, ch;
-    int bxY;       /* ladder Y coordinate accumulator (asm BX) */
+    int bxY; /* ladder Y coordinate accumulator (asm BX) */
 
     /* the gauge frame / pitch ladder use the page-relative blit origin; the
      * tapes and compass draw at absolute coords. Reset the origin so the frame
@@ -167,7 +219,7 @@ static void drawInstrumentGauges(void)
         dl = (int8)((knots / 50) - 1);
         knots = (uint16)((knots % 50) << g_tapeScaleShift);
         al = (uint8)((knots / 5) + g_tapeOriginX);
-        LOB(g_tapeText0[5]) = al;            /* g_tapeText0Y */
+        LOB(g_tapeText0[5]) = al; /* g_tapeText0Y */
         g_tapeRenderMode = (uint8)dl;
         al = (uint8)(al - g_tapeCursorBackShift);
         LOB(g_tapeRenderX) = al;
@@ -182,7 +234,7 @@ static void drawInstrumentGauges(void)
                 g_tapeRenderX -= g_tapeTickPitch;
                 continue;
             }
-            W16(g_speedLabelBuf)     = W16(g_tapeDigitStrip + di + 8);
+            W16(g_speedLabelBuf) = W16(g_tapeDigitStrip + di + 8);
             W16(g_speedLabelBuf + 2) = W16(g_tapeDigitStrip + di + 0x58);
             drawTapeStr(g_tapeText0, g_speedLabelBuf, 0x01);
             di += 2;
@@ -237,7 +289,10 @@ static void drawInstrumentGauges(void)
                 drawTapeStr(g_tapeText0, g_tapeDigitStrip, 0x01);
                 di += 2;
                 if (--g_tapePageCounter == 0) goto alt_done;
-                if (di >= 20) { di = 2; break; }   /* jump into the thousands loop */
+                if (di >= 20) {
+                    di = 2;
+                    break;
+                } /* jump into the thousands loop */
             }
         } else {
             /* altitude >= 1000 ft */
@@ -348,7 +403,7 @@ static void drawInstrumentGauges(void)
         int subY;
         ap >>= 6;
         t = (uint16)hudPitchScale(ap);
-        ch = (t / 40) & 0xff;                            /* centre rung index */
+        ch = (t / 40) & 0xff; /* centre rung index */
         t = (uint16)((t % 40) * (uint8)g_pitchRungVStep);
         subY = (int)(t / 40);
         if (pitch < 0) subY = (uint8)g_pitchRungVStep - subY;
@@ -357,11 +412,14 @@ static void drawInstrumentGauges(void)
         g_tapeCursorX = (int8)ch - 2;
         bxY = subY;
         dl = (int8)(g_tapeCursorX & 0xff);
-        cl = 5; di = 0; si = 0; ch = 0;
+        cl = 5;
+        di = 0;
+        si = 0;
+        ch = 0;
 
         for (;;) {
             int d = dl;
-            if (d == 9) {                       /* single short rung */
+            if (d == 9) { /* single short rung */
                 W16(g_compassTapeBuf + 0xec + di) = g_pitchVtxX0;
                 W16(g_compassTapeBuf + 0xee + di) = g_pitchVtxX3;
                 W16(g_compassTapeBuf + 0x15c + di) = bxY;
@@ -375,7 +433,7 @@ static void drawInstrumentGauges(void)
                 si += 2;
                 bxY -= g_pitchRungVStep;
                 ch += 1;
-            } else if (d > 9) {                 /* 3-segment rung, shifted -5 */
+            } else if (d > 9) { /* 3-segment rung, shifted -5 */
                 W16(g_compassTapeBuf + 0xec + di) = g_pitchVtxX0;
                 W16(g_compassTapeBuf + 0xee + di) = g_pitchVtxX0;
                 W16(g_compassTapeBuf + 0xf0 + di) = g_pitchVtxX3;
@@ -394,7 +452,7 @@ static void drawInstrumentGauges(void)
                 si += 2;
                 bxY -= g_pitchRungVStep;
                 ch += 3;
-            } else if (d == -9 || d == 0) {     /* full 4-vertex rung */
+            } else if (d == -9 || d == 0) { /* full 4-vertex rung */
                 W16(g_compassTapeBuf + 0xec + di) = g_pitchVtxX0;
                 W16(g_compassTapeBuf + 0xee + di) = g_pitchVtxX1;
                 W16(g_compassTapeBuf + 0xf0 + di) = g_pitchVtxX2;
@@ -412,7 +470,7 @@ static void drawInstrumentGauges(void)
                 si += 2;
                 bxY -= g_pitchRungVStep;
                 ch += 2;
-            } else if (d < -9) {                /* 4-segment rung, shifted +5 */
+            } else if (d < -9) { /* 4-segment rung, shifted +5 */
                 W16(g_compassTapeBuf + 0xec + di) = g_pitchVtxX0;
                 W16(g_compassTapeBuf + 0xee + di) = g_pitchVtxX0;
                 W16(g_compassTapeBuf + 0xf0 + di) = g_pitchVtxX1;
@@ -435,7 +493,7 @@ static void drawInstrumentGauges(void)
                 si += 2;
                 bxY -= g_pitchRungVStep;
                 ch += 4;
-            } else if (d > 0) {                 /* 1..8: 3-segment rung, +5 */
+            } else if (d > 0) { /* 1..8: 3-segment rung, +5 */
                 W16(g_compassTapeBuf + 0xec + di) = g_pitchVtxX0;
                 W16(g_compassTapeBuf + 0xee + di) = g_pitchVtxX0;
                 W16(g_compassTapeBuf + 0xf0 + di) = g_pitchVtxX3;
@@ -454,7 +512,7 @@ static void drawInstrumentGauges(void)
                 si += 2;
                 bxY -= g_pitchRungVStep;
                 ch += 3;
-            } else {                            /* -8..-1: 4-segment rung, -5 */
+            } else { /* -8..-1: 4-segment rung, -5 */
                 W16(g_compassTapeBuf + 0xec + di) = g_pitchVtxX0;
                 W16(g_compassTapeBuf + 0xee + di) = g_pitchVtxX0;
                 W16(g_compassTapeBuf + 0xf0 + di) = g_pitchVtxX1;
@@ -496,7 +554,9 @@ static void drawInstrumentGauges(void)
             gfx_setBlitOffset(g_pitchBlitOfs);
             g_clipMaxX = g_pitchClipMaxX;
             g_clipMaxY = g_pitchClipMaxY;
-            di = 0; si = 0; g_tapeColumn = 0;
+            di = 0;
+            si = 0;
+            g_tapeColumn = 0;
             for (;;) {
                 g_lineX1 = W16(g_compassTapeBuf + 0xec + di) + g_pitchDrawX;
                 g_lineY1 = W16(g_compassTapeBuf + 0x15c + di) + g_pitchDrawY;
@@ -537,7 +597,7 @@ static void drawInstrumentGauges(void)
                     /* first (B) label */
                     idx4 = g_tapeCursorX * 4;
                     if (idx4 >= 0 && idx4 + 3 < (int)sizeof(g_pitchLabelTable)) {
-                        W16(g_tapeDrawStr)     = W16(g_pitchLabelTable + idx4);
+                        W16(g_tapeDrawStr) = W16(g_pitchLabelTable + idx4);
                         W16(g_tapeDrawStr + 2) = W16(g_pitchLabelTable + idx4 + 2);
                     } else {
                         g_tapeDrawStr[0] = 0;
@@ -554,7 +614,7 @@ static void drawInstrumentGauges(void)
                     /* second (A) label */
                     idx4 = g_tapeCursorX * 4;
                     if (idx4 >= 0 && idx4 + 3 < (int)sizeof(g_pitchLabelTable)) {
-                        W16(g_tapeDrawStr)     = W16(g_pitchLabelTable + idx4);
+                        W16(g_tapeDrawStr) = W16(g_pitchLabelTable + idx4);
                         W16(g_tapeDrawStr + 2) = W16(g_pitchLabelTable + idx4 + 2);
                     } else {
                         g_tapeDrawStr[0] = 0;
@@ -579,7 +639,6 @@ static void drawInstrumentGauges(void)
     }
 }
 
-void __cdecl __far drawInstrumentGaugesFar(void)
-{
+void __cdecl __far drawInstrumentGaugesFar(void) {
     drawInstrumentGauges();
 }

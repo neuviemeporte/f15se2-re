@@ -4,7 +4,7 @@
 #include "inttype.h"
 #include "struct.h"
 
-struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY);
+struct TileObject *findNearestTileObject(uint32 worldX, uint32 worldY);
 void addTileEntry(struct TileObject *a, int b, char c);
 int lookupTileEntry(int lod, int subIndex, int tileX, int tileY);
 void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3);

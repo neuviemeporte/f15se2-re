@@ -46,19 +46,19 @@ extern uint8 timerCounter2;
 extern uint8 timerCounter3;
 extern char enterPressed;
 extern int colorStyleTable[];
-extern struct SpriteParams* spriteAirBlink;
-extern struct SpriteParams* spriteSamBlink;
-extern struct SpriteParams* spriteGroundBlink;
-extern struct SpriteParams* spriteWaypointBlink;
+extern struct SpriteParams *spriteAirBlink;
+extern struct SpriteParams *spriteSamBlink;
+extern struct SpriteParams *spriteGroundBlink;
+extern struct SpriteParams *spriteWaypointBlink;
 extern int curRecordIdx;
-extern char slotInfoTable[];  /* slot info table, 16 bytes per slot */
+extern char slotInfoTable[]; /* slot info table, 16 bytes per slot */
 extern char ejectedFlag;
 extern const int popupSpriteY[];
 extern const int popupSpriteX[];
-extern struct SpriteParams* spriteAir;
-extern struct SpriteParams* spriteSam;
-extern struct SpriteParams* spriteGround;
-extern struct SpriteParams* spriteWaypoint;
+extern struct SpriteParams *spriteAir;
+extern struct SpriteParams *spriteSam;
+extern struct SpriteParams *spriteGround;
+extern struct SpriteParams *spriteWaypoint;
 extern struct SpriteParams spriteMapAreaDef;
 extern struct SpriteParams spriteStatusBarDef;
 extern struct SpriteParams spriteAirDef;
@@ -107,7 +107,7 @@ extern int totalFlightRecords;
  * buffer, so they compile to the same direct accesses as before. */
 extern uint8 flightDataBuf[0x600];
 #define flightTimeTable ((int16 *)flightDataBuf)
-#define flightRecords   ((FlightRecord *)(flightDataBuf + 2))
+#define flightRecords ((FlightRecord *)(flightDataBuf + 2))
 extern struct PageDesc awardPageDesc;
 extern int16 *awardPage;
 extern char textBuf[];
@@ -145,12 +145,12 @@ extern int16 worldBufSegment;
  *   samWeaponTable +0x3B6  Sam[]          — SAM/missile entries
  *   nightMission   +0x6DA  int16          — night-mission flag
  */
-#define planeArray     ((struct SamDataEntry *)((unsigned char *)&weaponDataBlock + 0x156))
+#define planeArray ((struct SamDataEntry *)((unsigned char *)&weaponDataBlock + 0x156))
 #define samWeaponTable ((struct Sam *)((unsigned char *)&weaponDataBlock + 0x3B6))
-#define nightMission   (*(int16 *)((unsigned char *)&weaponDataBlock + 0x6DA))
+#define nightMission (*(int16 *)((unsigned char *)&weaponDataBlock + 0x6DA))
 
 /* Award screen page descriptor views (awardPageDesc defined in endata.c) */
-#define awardFont  (awardPageDesc.font)
+#define awardFont (awardPageDesc.font)
 #define awardColor (awardPageDesc.color)
 
 #endif /* F15_SE2_ENDATA */

@@ -28,7 +28,8 @@ int main(void) {
     int e;
     register int commSeg;
 
-    (void)a; (void)e;
+    (void)a;
+    (void)e;
 
     log_set_app("end");
     FP_SEG(lowmemPtr) = SEG_LOWMEM;
@@ -83,8 +84,14 @@ void checkQuitFlag(void) {
 
 void initGraphics(void) {
     int a, b, c, d, e, f, g, h;
-    (void)a; (void)b; (void)c; (void)d;
-    (void)e; (void)f; (void)g; (void)h;
+    (void)a;
+    (void)b;
+    (void)c;
+    (void)d;
+    (void)e;
+    (void)f;
+    (void)g;
+    (void)h;
     seedRandom();
     gfx_setPageN(0);
     gfx_allocPage(0);

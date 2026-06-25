@@ -24,7 +24,6 @@ uint16 allocBuffer(int size) {
     return segment;
 }
 
-
 void freeBuffer(uint16 segment) {
     if (dos_free(segment) != 0) {
         cleanup();
@@ -33,14 +32,12 @@ void freeBuffer(uint16 segment) {
     }
 }
 
-
 void loadPicFromFile(const char *name, uint16 segment) {
     int handle;
     handle = openFileWrapper(name, 0);
     decodePicRaw(handle, segment);
     closeFileWrapper(handle);
 }
-
 
 void loadPicFromFileAt(const char *name, uint16 segment, int off, int whence) {
     int handle;
@@ -49,7 +46,6 @@ void loadPicFromFileAt(const char *name, uint16 segment, int off, int whence) {
     decodePic(handle, segment);
     closeFileWrapper(handle);
 }
-
 
 // 1e78
 void showPostMissionAwards(void) {
@@ -67,7 +63,7 @@ void showPostMissionAwards(void) {
         awardColor = 0;
         idx = 0;
         // 1f05
-        for (; (textBuf[idx] = gameData->pilotName[idx]) != 0 ; idx++) {}
+        for (; (textBuf[idx] = gameData->pilotName[idx]) != 0; idx++) {}
         drawStringCentered(awardPage, textBuf, 193, 153, 95);
         awardColor = 7;
         awardFont = 1;

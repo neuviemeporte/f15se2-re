@@ -23,9 +23,7 @@
 /* Private helpers for this translation unit. */
 int far transformAndCullObjectFar(int, int, int);
 
-
-void projectObjects(int heading, int rangeGate, long worldX, long worldY, long worldZ)
-{
+void projectObjects(int heading, int rangeGate, long worldX, long worldY, long worldZ) {
     int gridX;
     int gridY;
     int dirSector;
@@ -40,7 +38,6 @@ void projectObjects(int heading, int rangeGate, long worldX, long worldY, long w
     long scaled;
     int cell;
 
-
     g_proj3d.x = worldX;
     g_proj3d.y = worldY;
     g_proj3d.z = worldZ;
@@ -52,7 +49,7 @@ void projectObjects(int heading, int rangeGate, long worldX, long worldY, long w
     goto outer_test;
     do {
         g_curLod--;
-outer_test:
+    outer_test:
         if (g_curLod < 1) {
             return;
         }
@@ -67,75 +64,74 @@ outer_test:
         fracY = (int)scaled & 0xfff;
         scaled = scaleCoordToLod(g_curLod, worldZ);
         if ((unsigned long)scaled < 0x7FFFUL) {
-        g_objLocalZ = (int)(((unsigned long)scaled < 2UL) ? 2UL : (unsigned long)scaled);
-        for (sampleIdx = 0; ;sampleIdx++) {
-            if (g_curLod == 4 && g_detailLevel >= 2) {
-                if (sampleIdx == 15) {
-                    break;
-                }
-                gridX = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)dirSector);
-                gridY = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)((dirSector + 2) & 7));
-                g_objLocalX = fracX - (gridX << 12) - 0x800;
-                g_objLocalY = fracY - (gridY << 12) - 0x800;
-                g_objRenderMode = 7;
-                if (transformAndCullObjectFar(-g_objLocalX, -g_objLocalY, -g_objLocalZ) != 0) {
-                    goto next_iter;
-                }
-            } else {
-                if (sampleIdx == 9) {
-                    break;
-                }
-                if (g_curLod != 4 && g_detailLevel < 2 && sampleIdx < 4) {
-                    goto next_iter;
-                }
-                if (rangeGate < (int)0xd555) {
-                    gridX = g_neighborSampling.gridX[sampleIdx];
-                    gridY = g_neighborSampling.gridY[sampleIdx];
-                } else {
+            g_objLocalZ = (int)(((unsigned long)scaled < 2UL) ? 2UL : (unsigned long)scaled);
+            for (sampleIdx = 0;; sampleIdx++) {
+                if (g_curLod == 4 && g_detailLevel >= 2) {
+                    if (sampleIdx == 15) {
+                        break;
+                    }
                     gridX = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)dirSector);
                     gridY = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)((dirSector + 2) & 7));
-                }
-                g_objLocalX = fracX - (gridX << 12) - 0x800;
-                g_objLocalY = fracY - (gridY << 12) - 0x800;
-            }
-            setViewPosition(g_objLocalX, g_objLocalY, g_objLocalZ);
-            cell = process3dg(g_curLod, tileX + gridX, tileY + gridY);
-            if (cell == -1) {
-                goto next_iter;
-            }
-            if (sampleIdx >= 4 || g_detailLevel >= 2) {
-                g_objColorBase = (g_detailLevel == 2) ? 0 : ((unsigned char)g_curLod << 8);
-                g_curTileEntry = matrix3dt_2[g_curLod][cell];
-                for (subIdx = 0; subIdx < matrix3dt[g_curLod][cell]; subIdx++) {
-                    if (g_curTileEntry->shape & 0x80) {
-                        g_modelStreamPtr = g_world3dData + lookupTileEntry(g_curLod, subIdx, tileX + gridX, tileY + gridY);
-                        if (g_modelStreamPtr == (char far *)g_world3dData) {
-                            g_modelStreamPtr = g_world3dData + buf3d3[g_curTileEntry->shape & 0x7f];
-                        }
-                    } else {
-                        g_modelStreamPtr = g_world3dData + buf3d3[g_curTileEntry->shape];
+                    g_objLocalX = fracX - (gridX << 12) - 0x800;
+                    g_objLocalY = fracY - (gridY << 12) - 0x800;
+                    g_objRenderMode = 7;
+                    if (transformAndCullObjectFar(-g_objLocalX, -g_objLocalY, -g_objLocalZ) != 0) {
+                        goto next_iter;
                     }
-                    projectSceneObject(g_modelStreamPtr, 0, 0, 0,
-                        g_curTileEntry->x,
-                        g_curTileEntry->y,
-                        g_curTileEntry->z);
-                    g_curTileEntry++;
-                    g_objColorBase++;
+                } else {
+                    if (sampleIdx == 9) {
+                        break;
+                    }
+                    if (g_curLod != 4 && g_detailLevel < 2 && sampleIdx < 4) {
+                        goto next_iter;
+                    }
+                    if (rangeGate < (int)0xd555) {
+                        gridX = g_neighborSampling.gridX[sampleIdx];
+                        gridY = g_neighborSampling.gridY[sampleIdx];
+                    } else {
+                        gridX = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)dirSector);
+                        gridY = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)((dirSector + 2) & 7));
+                    }
+                    g_objLocalX = fracX - (gridX << 12) - 0x800;
+                    g_objLocalY = fracY - (gridY << 12) - 0x800;
                 }
-            } else {
-                if (g_curLod == 4) {
+                setViewPosition(g_objLocalX, g_objLocalY, g_objLocalZ);
+                cell = process3dg(g_curLod, tileX + gridX, tileY + gridY);
+                if (cell == -1) {
+                    goto next_iter;
+                }
+                if (sampleIdx >= 4 || g_detailLevel >= 2) {
+                    g_objColorBase = (g_detailLevel == 2) ? 0 : ((unsigned char)g_curLod << 8);
                     g_curTileEntry = matrix3dt_2[g_curLod][cell];
-                    g_modelStreamPtr = g_world3dData + buf3d3[g_curTileEntry->shape];
-                    g_objColorBase = 0x400;
-                    projectSceneObject(g_modelStreamPtr, 0, 0, 0,
-                        g_curTileEntry->x,
-                        g_curTileEntry->y,
-                        g_curTileEntry->z);
+                    for (subIdx = 0; subIdx < matrix3dt[g_curLod][cell]; subIdx++) {
+                        if (g_curTileEntry->shape & 0x80) {
+                            g_modelStreamPtr = g_world3dData + lookupTileEntry(g_curLod, subIdx, tileX + gridX, tileY + gridY);
+                            if (g_modelStreamPtr == (char far *)g_world3dData) {
+                                g_modelStreamPtr = g_world3dData + buf3d3[g_curTileEntry->shape & 0x7f];
+                            }
+                        } else {
+                            g_modelStreamPtr = g_world3dData + buf3d3[g_curTileEntry->shape];
+                        }
+                        projectSceneObject(g_modelStreamPtr, 0, 0, 0,
+                                           g_curTileEntry->x,
+                                           g_curTileEntry->y,
+                                           g_curTileEntry->z);
+                        g_curTileEntry++;
+                        g_objColorBase++;
+                    }
+                } else {
+                    if (g_curLod == 4) {
+                        g_curTileEntry = matrix3dt_2[g_curLod][cell];
+                        g_modelStreamPtr = g_world3dData + buf3d3[g_curTileEntry->shape];
+                        g_objColorBase = 0x400;
+                        projectSceneObject(g_modelStreamPtr, 0, 0, 0,
+                                           g_curTileEntry->x,
+                                           g_curTileEntry->y,
+                                           g_curTileEntry->z);
+                    }
                 }
+            next_iter:;
             }
-next_iter:
-            ;
-        }
         }
     } while (1);
 }

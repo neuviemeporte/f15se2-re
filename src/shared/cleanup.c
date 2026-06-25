@@ -16,8 +16,7 @@ extern uint8 timerHandlerInstalled;
 void restoreTimerIrqHandler(void);
 void intDispatch(int intNum, uint8 *inRegs, uint8 *outRegs);
 
-void cleanup()
-{
+void cleanup() {
     uint8 regs[0xe];
     if (timerHandlerInstalled == 1) {
         restoreTimerIrqHandler();

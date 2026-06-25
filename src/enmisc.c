@@ -43,11 +43,10 @@ void drawStringAtPos(int16 *s, const char far *str, int x, int y) {
 }
 
 void farStrcpy(char *dst, const char far *src) {
-    while ((*dst++ = *src++) != '\0')
-        ;
+    while ((*dst++ = *src++) != '\0');
 }
 
-void drawFarString(int16* s, const char far *str) {
+void drawFarString(int16 *s, const char far *str) {
     char buf[200];
     farStrcpy(buf, str);
     gfx_drawString(s, buf);
@@ -56,10 +55,8 @@ void drawFarString(int16* s, const char far *str) {
 void restoreVideoMode(void) {
 }
 
-
 void restoreInterrupts(void) {
 }
-
 
 void outportByte(int port, int value) {
     outp(port, value);

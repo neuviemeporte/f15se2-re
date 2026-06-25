@@ -7,11 +7,11 @@
 void setupOverlaySlots(uint16 addr);
 void installCBreakHandler(void);
 void setTimerIrqHandler(void);
-uint16 loadOverlay(const char*);
+uint16 loadOverlay(const char *);
 void intDispatch(int16 intnum, uint8 *inreg, uint8 *outreg);
 void setupPIT();
-uint8* dos_alloc(uint16 size);
-void dos_printstring(const char* str);
+uint8 *dos_alloc(uint16 size);
+void dos_printstring(const char *str);
 
 void FAR copyJoystickData(uint8 FAR *ptr);
 

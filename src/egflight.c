@@ -36,50 +36,49 @@ void renderFrame();
 void drawVectorShape(const int16 *shapeData);
 void waitForKeyPress(void);
 
-
 void stepFlightModel(void) {
     // Local variables - names chosen to match MSC 5.1 hash-based stack layout
     // Within same hash bucket: first declared → highest BP offset (LIFO)
     // Dummies fill gaps to achieve sub sp, 0x3E (31 word slots)
-    int16 p;                    // dummy:  bp-0x02 (bucket 0)
-    int16 a, q;                 // dummies: bp-0x04, bp-0x06 (bucket 1)
-    int16 prevAlt, aa, r;       // var_C=prevAlt at bp-0x0c, dummies at bp-0x0a,bp-0x08 (bucket 2)
-    int16 ab, tgtIdx, bearing;  // dummy=ab at bp-0x12, var_10=tgtIdx at bp-0x10, var_E=bearing at bp-0x0e (bucket 3)
-    int16 yaw, yawAngle, tmpVal;// var_18=yaw at bp-0x18, var_16=yawAngle at bp-0x16, var_14=tmpVal at bp-0x14 (bucket 4)
-    int16 ad, u, targetVel;     // dummies at bp-0x1e,bp-0x1c, var_1A=targetVel at bp-0x1a (bucket 5)
+    int16 p;                                // dummy:  bp-0x02 (bucket 0)
+    int16 a, q;                             // dummies: bp-0x04, bp-0x06 (bucket 1)
+    int16 prevAlt, aa, r;                   // var_C=prevAlt at bp-0x0c, dummies at bp-0x0a,bp-0x08 (bucket 2)
+    int16 ab, tgtIdx, bearing;              // dummy=ab at bp-0x12, var_10=tgtIdx at bp-0x10, var_E=bearing at bp-0x0e (bucket 3)
+    int16 yaw, yawAngle, tmpVal;            // var_18=yaw at bp-0x18, var_16=yawAngle at bp-0x16, var_14=tmpVal at bp-0x14 (bucket 4)
+    int16 ad, u, targetVel;                 // dummies at bp-0x1e,bp-0x1c, var_1A=targetVel at bp-0x1a (bucket 5)
     int16 turbulence, horizVel, pitchAngle; // var_24=turbulence at bp-0x24, var_22=horizVel at bp-0x22, var_20=pitchAngle at bp-0x20 (bucket 6)
-    int16 rollAngle, w;         // var_28=rollAngle at bp-0x28, dummy=w at bp-0x26 (bucket 7)
-    int16 headingErr, dx;       // var_2C=headingErr at bp-0x2c, var_2A=dx at bp-0x2a (bucket 8)
-    int16 i, y;                 // dummies: bp-0x2e, bp-0x30 (bucket 9)
-    int16 dy, speedCalc;        // var_34=dy at bp-0x34, var_32=speedCalc at bp-0x32 (bucket 10)
-    int16 k;                    // dummy:  bp-0x36 (bucket 11)
-    int16 idx;                  // var_38: bp-0x38 (bucket 12)
-    int16 m;                    // dummy:  bp-0x3a (bucket 13)
-    int16 knotsScale;           // var_3C: bp-0x3c (bucket 14)
-    int16 nsSign;               // var_3E: bp-0x3e (bucket 15)
+    int16 rollAngle, w;                     // var_28=rollAngle at bp-0x28, dummy=w at bp-0x26 (bucket 7)
+    int16 headingErr, dx;                   // var_2C=headingErr at bp-0x2c, var_2A=dx at bp-0x2a (bucket 8)
+    int16 i, y;                             // dummies: bp-0x2e, bp-0x30 (bucket 9)
+    int16 dy, speedCalc;                    // var_34=dy at bp-0x34, var_32=speedCalc at bp-0x32 (bucket 10)
+    int16 k;                                // dummy:  bp-0x36 (bucket 11)
+    int16 idx;                              // var_38: bp-0x38 (bucket 12)
+    int16 m;                                // dummy:  bp-0x3a (bucket 13)
+    int16 knotsScale;                       // var_3C: bp-0x3c (bucket 14)
+    int16 nsSign;                           // var_3E: bp-0x3e (bucket 15)
 
     if (g_initPhase == 0) {
         // (MSC stores chained assignments right-to-left:
         // ref store order is thrust, setThrust, velocity, 380D0, viewZ, roll, pitch)
         g_ourPitch =
-        g_ourRoll =
-        g_viewZ =
-        g_altitude =
-        g_velocity =
-        g_setThrust =
-        g_thrust = 0;
+            g_ourRoll =
+                g_viewZ =
+                    g_altitude =
+                        g_velocity =
+                            g_setThrust =
+                                g_thrust = 0;
 
         if (gameData->difficulty == 0) {
 
             g_ourHead = ((g_viewY_ - (waypoints[1].mapY)) < 0x8000) ? 0 : 0x8000;
         } else {
             g_ourHead = (gameData->theater == 6)
-               ? 0  // If true, the result is 0
-               : ((gameData->theater & 1) ? 0 : 0x8000); // Else, evaluate the second condition
+                            ? 0                                       // If true, the result is 0
+                            : ((gameData->theater & 1) ? 0 : 0x8000); // Else, evaluate the second condition
         }
 
         if (g_planeTable.planes[g_targetSlots[0].viewIndex].flags & 0x200) {
-            *((unsigned char*)&g_ourHead + 1) += 4;
+            *((unsigned char *)&g_ourHead + 1) += 4;
         }
 
         rebuildOrientation();
@@ -92,8 +91,8 @@ void stepFlightModel(void) {
         keyScancode = _bios_keybrd(0);
         if (g_autopilotEngaged == 1) {
             g_directorMode =
-            g_autopilotEngaged =
-            keyValue = 0;
+                g_autopilotEngaged =
+                    keyValue = 0;
         }
     }
 
@@ -103,65 +102,65 @@ void stepFlightModel(void) {
 
     // Main key dispatch logic
     switch ((unsigned)keyScancode) {
-        case 0x0C2D: // Minus
-            g_setThrust = clampRange(g_setThrust - 10, 0, 100);
+    case 0x0C2D: // Minus
+        g_setThrust = clampRange(g_setThrust - 10, 0, 100);
+        UpdateThrottleState();
+        goto switch_break;
+    case 0x0D3D: // Equal
+        g_setThrust = clampRange(g_setThrust + ((g_setThrust < 10) ? 5 : 10), 0, 100);
+        UpdateThrottleState();
+        *((unsigned char *)&g_playerPlaneFlags) &= 0xF7; // ~8
+        goto switch_break;
+    case 0x1E61: // A
+        g_setThrust = 0x90;
+        UpdateThrottleState();
+        *((unsigned char *)&g_playerPlaneFlags) &= 0xF7; // ~8
+        goto switch_break;
+    case 0x0D2B: // Shift-Equal
+        g_setThrust = 100;
+        UpdateThrottleState();
+        *((unsigned char *)&g_playerPlaneFlags) &= 0xF7; // ~8
+        goto post_key_B_check;
+    case 0x0C5F: // Shift-Minus
+        g_setThrust = 0;
+        makeSound(16, 0);
+        UpdateThrottleState();
+        goto switch_break;
+    case 0x3062: // B
+        *((unsigned char *)&g_playerPlaneFlags) ^= 8;
+    post_key_B_check:
+        if (!(*((unsigned char *)&g_playerPlaneFlags) & 8) && g_groundAltitude != 0 && g_setThrust == 100) {
+            g_velocity = 1350;
+            makeSound(28, 2);
+        }
+        goto switch_break;
+    case 0x2400: // Alt-J
+        if (g_joyCalibTimer == 0) {
+            initJoystickCalibration();
+            g_joyCalibTimer = 40;
+        }
+        goto switch_break;
+    case 0x1000: // Alt-Q
+        finalizeMission(1);
+        exitCode = 0;
+        goto switch_break;
+    case 0x3000: // Alt-B
+        if (g_hudVisible != 0) {
+            gfx_copyRect(*g_pageFront, 0, 97, *g_pageOffscreen, 0, 97, 320, 103);
+        }
+        setDrawColor(0);
+        fillRectBoth(0, 0, 319, 199);
+        blitSprite(0, 0, 113, 55, 12, 7, 0);
+        waitForKeyPress();
+        if (g_hudVisible != 0) {
+            gfx_copyRect(*g_pageOffscreen, 0, 97, *g_pageFront, 0, 97, 320, 103);
+            gfx_copyRect(*g_pageOffscreen, 0, 97, *g_pageBack, 0, 97, 320, 103);
             UpdateThrottleState();
-            goto switch_break;
-        case 0x0D3D: // Equal
-            g_setThrust = clampRange(g_setThrust + ((g_setThrust < 10) ? 5 : 10), 0, 100);
-            UpdateThrottleState();
-            *((unsigned char*)&g_playerPlaneFlags) &= 0xF7; // ~8
-            goto switch_break;
-        case 0x1E61: // A
-            g_setThrust = 0x90;
-            UpdateThrottleState();
-            *((unsigned char*)&g_playerPlaneFlags) &= 0xF7; // ~8
-            goto switch_break;
-        case 0x0D2B: // Shift-Equal
-            g_setThrust = 100;
-            UpdateThrottleState();
-            *((unsigned char*)&g_playerPlaneFlags) &= 0xF7; // ~8
-            goto post_key_B_check;
-        case 0x0C5F: // Shift-Minus
-            g_setThrust = 0;
-            makeSound(16, 0);
-            UpdateThrottleState();
-            goto switch_break;
-        case 0x3062: // B
-            *((unsigned char*)&g_playerPlaneFlags) ^= 8;
-        post_key_B_check:
-            if (!(*((unsigned char*)&g_playerPlaneFlags) & 8) && g_groundAltitude != 0 && g_setThrust == 100) {
-                g_velocity = 1350;
-                makeSound(28, 2);
-            }
-            goto switch_break;
-        case 0x2400: // Alt-J
-            if (g_joyCalibTimer == 0) {
-                initJoystickCalibration();
-                g_joyCalibTimer = 40;
-            }
-            goto switch_break;
-        case 0x1000: // Alt-Q
-            finalizeMission(1);
-            exitCode = 0;
-            goto switch_break;
-        case 0x3000: // Alt-B
-            if (g_hudVisible != 0) {
-                gfx_copyRect(*g_pageFront, 0, 97, *g_pageOffscreen, 0, 97, 320, 103);
-            }
-            setDrawColor(0);
-            fillRectBoth(0, 0, 319, 199);
-            blitSprite(0, 0, 113, 55, 12, 7, 0);
-            waitForKeyPress();
-            if (g_hudVisible != 0) {
-                gfx_copyRect(*g_pageOffscreen, 0, 97, *g_pageFront, 0, 97, 320, 103);
-                gfx_copyRect(*g_pageOffscreen, 0, 97, *g_pageBack, 0, 97, 320, 103);
-                UpdateThrottleState();
-            }
-            goto switch_break;
-        case 0x1900: // Alt-P
-            waitForKeyPress();
-            goto switch_break;
+        }
+        goto switch_break;
+    case 0x1900: // Alt-P
+        waitForKeyPress();
+        goto switch_break;
     }
 
 switch_break:
@@ -181,7 +180,7 @@ switch_break:
             readCalibratedJoystick();
         } else {
 
-            //temp_si = g_kbdSensitivity + 1;
+            // temp_si = g_kbdSensitivity + 1;
             joyAxes[0] = (unsigned char)(((int)((unsigned char)g_joyRawX - 0x80) * (g_kbdSensitivity + 1)) / 3) - 0x80;
 
             joyAxes[1] = (unsigned char)(((int)((unsigned char)g_joyRawY - 0x80) * (g_kbdSensitivity + 1)) / 3) - 0x80;
@@ -204,15 +203,15 @@ switch_break:
         g_pitchInput = 0;
     }
 
-    if (g_knots > 350 && !(*((unsigned char*)&g_playerPlaneFlags) & 1) && g_gearDownArmed != 0) {
+    if (g_knots > 350 && !(*((unsigned char *)&g_playerPlaneFlags) & 1) && g_gearDownArmed != 0) {
         g_gearDownArmed = 0;
-        *((unsigned char*)&g_playerPlaneFlags) |= 1;
+        *((unsigned char *)&g_playerPlaneFlags) |= 1;
         tempStrcpy("Landing gear raised");
         makeSound(32, 2);
     }
 
-    if (g_groundAltitude == g_viewZ && g_setThrust == 0 && !(*((unsigned char*)&g_playerPlaneFlags) & 8)) {
-        *((unsigned char*)&g_playerPlaneFlags) |= 8;
+    if (g_groundAltitude == g_viewZ && g_setThrust == 0 && !(*((unsigned char *)&g_playerPlaneFlags) & 8)) {
+        *((unsigned char *)&g_playerPlaneFlags) |= 8;
         tempStrcpy("Brakes on");
     }
 
@@ -220,10 +219,9 @@ switch_break:
         g_autopilotAltitude = 0;
     }
 
-    if (g_autopilotAltitude != 0)
-    {
+    if (g_autopilotAltitude != 0) {
         headingErr = (g_autopilotEngaged != 0) ? ((g_missionTick & 0xF) << 8) - 0x800
-                                   : 0;
+                                               : 0;
 
         headingErr = clampValue(headingErr - g_ourHead + g_waypointBearing, 0xEC00, 0x1400) * 2;
 
@@ -233,42 +231,36 @@ switch_break:
 
         g_pitchInput = clampRange((tmpVal - g_ourPitch) >> 7, -8, 8);
 
-        if (waypointIndex == 3)
-        {
+        if (waypointIndex == 3) {
             nsSign = g_northSouthSign;
             tgtIdx = g_targetSlots[1].viewIndex;
 
             dx = g_planeTable.planes[tgtIdx].mapX - g_viewX_;
             dy = g_planeTable.planes[tgtIdx].mapY - g_viewY_;
 
-            if (!(g_planeTable.planes[tgtIdx].flags & 0x200))
-            {
+            if (!(g_planeTable.planes[tgtIdx].flags & 0x200)) {
                 nsSign = -signOf(dy);
             }
 
             dy += ((g_planeTable.planes[tgtIdx].flags & 0x200) ? 30 : 0x40) * nsSign;
 
             headingErr = abs(g_ourHead);
-            if (nsSign == -1)
-            {
+            if (nsSign == -1) {
                 dx = -dx;
                 dy = -dy;
                 headingErr = abs(g_ourHead - 0x8000);
             }
 
             tmpVal = clampRange((abs(dx) + abs(dy)) * 2 + headingErr / 32, 50, 0x1000);
-            if (tmpVal < 0x1000)
-            {
+            if (tmpVal < 0x1000) {
                 exitSlowMotion();
             }
 
-            if (g_planeTable.planes[tgtIdx].flags & 0x200)
-            {
+            if (g_planeTable.planes[tgtIdx].flags & 0x200) {
                 tmpVal += 100;
             }
 
-            if (g_inLandingCorridor != 0 && abs(headingErr) < 0x200)
-            {
+            if (g_inLandingCorridor != 0 && abs(headingErr) < 0x200) {
                 tmpVal = -20;
             }
 
@@ -278,16 +270,12 @@ switch_break:
 
             *((unsigned char *)&g_playerPlaneFlags) &= 0xF7;
 
-            if (headingErr > 0x4000)
-            {
+            if (headingErr > 0x4000) {
                 dx = g_planeTable.planes[tgtIdx].mapX;
                 tmpVal = 0x1000;
-            }
-            else
-            {
+            } else {
                 dx = g_planeTable.planes[tgtIdx].mapX + (nsSign * dx * 2);
-                if (g_setThrust * 80 < g_knots)
-                {
+                if (g_setThrust * 80 < g_knots) {
                     *((unsigned char *)&g_playerPlaneFlags) |= 8;
                 }
             }
@@ -297,8 +285,7 @@ switch_break:
 
             headingErr = clampValue(bearing - g_ourHead, (-knotsScale) << 8, knotsScale << 8) * 2;
 
-            if (g_inLandingCorridor != 0)
-            {
+            if (g_inLandingCorridor != 0) {
                 headingErr = 0;
             }
 
@@ -311,13 +298,11 @@ switch_break:
 
             g_pitchInput = clampRange(tmpVal - (g_ourPitch >> 7), -16, 16);
 
-            if (g_knots < 350)
-            {
+            if (g_knots < 350) {
                 *((unsigned char *)&g_playerPlaneFlags) &= 0xFE;
             }
 
-            if (g_groundAltitude == g_viewZ)
-            {
+            if (g_groundAltitude == g_viewZ) {
                 g_setThrust = 0;
                 g_rollInput = 0;
                 g_playerPlaneFlags |= 8;
@@ -352,13 +337,12 @@ switch_break:
 
         g_pitchInput = (abs(g_ourRoll) > 0x4000) ? 0x10 : -8; // pitch_input_modifier
 
-        //g_ejectState++;
+        // g_ejectState++;
         g_crashCamZ += clampRange(
-            - (++g_ejectState - 0x20),
+            -(++g_ejectState - 0x20),
             (int16)0xFF00 / g_frameRateScaling,
-            (int16)0x80 / g_frameRateScaling
-        );
-        //g_crashCamZ += stall_decay_effect;
+            (int16)0x80 / g_frameRateScaling);
+        // g_crashCamZ += stall_decay_effect;
 
         if (g_crashCamZ < 0) {
             g_crashCamZ = 0;
@@ -377,7 +361,7 @@ switch_break:
             g_hitEffectTimer = -8;
             makeSound(2, 2);
             g_velocity =
-            g_setThrust = 0;
+                g_setThrust = 0;
         }
 
         if ((g_ejectState & 0xFFFC) == 0x10 && (frameTick & 3) == 1) {
@@ -436,7 +420,6 @@ switch_break:
         g_pitchInput = clampRange(0x80 - g_rollGeeTable[(abs(g_ourRoll) >> 8) & 0x7f], 0, g_pitchInput);
     }
 
-
     strcpy(g_geeStringBuf, itoa(g_gees / 16, strBuf, 10));
     strcat(g_geeStringBuf, ".");
 
@@ -457,7 +440,7 @@ switch_break:
     g_cornerSpeed = ((int32)isqrt(g_gees * 4) * (int32)g_cornerSpeed) >> 3;
     g_cornerSpeed = abs(g_cornerSpeed);
 
-    if (!(*((unsigned char*)&g_playerPlaneFlags) & 1)) {
+    if (!(*((unsigned char *)&g_playerPlaneFlags) & 1)) {
         speedCalc -= speedCalc >> 3;
     }
 
@@ -471,14 +454,14 @@ switch_break:
 
     g_rollPitchTrim = cosMul(g_ourRoll, g_liftForce - 0x300);
 
-    if (*((unsigned char*)&g_playerPlaneFlags) & 8) {
+    if (*((unsigned char *)&g_playerPlaneFlags) & 8) {
         if (g_groundAltitude == g_viewZ) {
             g_velocity -= (-((gameData->unk4 * 8) - 32) * 27) / g_frameRateScaling;
             if (g_groundAltitude != 0 && (uint16)g_velocity < 0x1B0) {
-                 g_velocity = 0;
+                g_velocity = 0;
             }
         } else {
-             g_velocity -= ((uint16)g_velocity >> 4) / g_frameRateScaling;
+            g_velocity -= ((uint16)g_velocity >> 4) / g_frameRateScaling;
         }
     }
 
@@ -505,7 +488,7 @@ switch_break:
         g_pitchInput = -0x400 - g_ourPitch;
         // (ref stores velocity then setThrust; chains store right-to-left)
         g_setThrust =
-        g_velocity = 0;
+            g_velocity = 0;
     }
 
     rollAngle = (((int32)g_rollInput) << 7) / ((int32)g_frameRateScaling);
@@ -557,7 +540,7 @@ switch_break:
 
     g_autoCrashDive = 0;
 
-    g_highGeeFlag[0] = ( (abs(g_ourPitch)) - (abs(g_ourRoll) / 2) > 0x1000) ? 1 : 0;
+    g_highGeeFlag[0] = ((abs(g_ourPitch)) - (abs(g_ourRoll) / 2) > 0x1000) ? 1 : 0;
 
     if (g_orientationDirty) {
         rebuildOrientation();
@@ -590,16 +573,15 @@ switch_break:
     if (g_groundAltitude == g_viewZ) {
         if (prevAlt > g_groundAltitude && g_inLandingCorridor != 0) {
             makeSound(12, 2);
-            //temp_bx = g_closestThreatIndex << 4;
+            // temp_bx = g_closestThreatIndex << 4;
 
-            if ((( ((g_planeTable.planes[g_closestThreatIndex].flags & 0x200) ? 0x100 : 0x80)
-                < ((int16)(-g_climbRate * g_missionStatus) / 2))) ||
+            if (((((g_planeTable.planes[g_closestThreatIndex].flags & 0x200) ? 0x100 : 0x80) < ((int16)(-g_climbRate * g_missionStatus) / 2))) ||
                 ((gameData->unk4 != 0 &&
-                    (((g_playerPlaneFlags & 1)!=0) ||
-                        (((int16)abs(g_ourRoll)) > (int16)((0x30 / (g_missionStatus + 1)) << 8))) ))) {
-                            makeSound(0, 2);
-                            waitFrameSync(60);
-                            finalizeMission(5);
+                  (((g_playerPlaneFlags & 1) != 0) ||
+                   (((int16)abs(g_ourRoll)) > (int16)((0x30 / (g_missionStatus + 1)) << 8)))))) {
+                makeSound(0, 2);
+                waitFrameSync(60);
+                finalizeMission(5);
             }
         }
         g_climbRate = 0;
@@ -609,8 +591,8 @@ switch_break:
     g_viewSnapshotRing[idx].heading = g_ourHead;
     g_viewSnapshotRing[idx].pitch = g_ourPitch;
     g_viewSnapshotRing[idx].roll = g_ourRoll;
-    *(int32*)&g_viewSnapshotRing[idx].worldX = g_ViewX;
-    *(int32*)&g_viewSnapshotRing[idx].worldY = g_ViewY;
+    *(int32 *)&g_viewSnapshotRing[idx].worldX = g_ViewX;
+    *(int32 *)&g_viewSnapshotRing[idx].worldY = g_ViewY;
     g_viewSnapshotRing[idx].alt = g_viewZ;
 
     if (g_currentWeaponType == 1) {
@@ -630,9 +612,7 @@ switch_break:
 
         g_aamSeekerY = sinMul(g_ourRoll, (headingErr >> 2)) + cosMul(g_ourRoll, (tmpVal >> 1));
     }
-
 }
-
 
 void applyRotationDelta(const int16 *matA, const int16 *matB) {
     int p;
@@ -646,8 +626,7 @@ void applyRotationDelta(const int16 *matA, const int16 *matB) {
     memcpy(g_orientMatrix, g_matrixScratch, 18);
 }
 
-void computeAttitudeAngles(void)
-{
+void computeAttitudeAngles(void) {
     int cosPitch;
 
     g_ourPitch = valueToAngle(-g_orientMatrix[5]);
@@ -706,7 +685,6 @@ void computeAttitudeAngles(void)
     }
 }
 
-
 void rebuildOrientation() {
     buildRotationMatrixFar(g_orientMatrix, g_ourHead, g_ourPitch, g_ourRoll);
     g_orientationDirty = 0;
@@ -725,12 +703,12 @@ unsigned signedRatio16(int numerator, int denominator) { /* Original: IntDiv(A,B
     absNumerator = (long)(numerator < 0 ? -numerator : numerator);
     absDenominator = (long)(denominator < 0 ? -denominator : denominator);
     return (unsigned)((unsigned int)((((unsigned long)(unsigned int)absNumerator) << 16) / absDenominator >> 1)) * (unsigned)(int)numeratorSign * (unsigned)(int)denominatorSign;
-done:
-    ;
+done:;
 }
 
 int valueToAngle(int value) { /* Original: Iasin(A). Return 16-bit word-degree arcsin by table interpolation. */
-    enum { ASIN_TABLE_SHIFT = 9, WORD_DEGREE_STEP = 256 };
+    enum { ASIN_TABLE_SHIFT = 9,
+           WORD_DEGREE_STEP = 256 };
     int angle;
     int magnitude;
     int tableIndex;
@@ -782,8 +760,7 @@ void renderFrame() {
     g_camEyeZ = g_viewZ + 0x18;
     g_viewTargetAlt = g_viewZ;
     camDist = g_externalCamDist = clampRange(g_externalCamDist, 2, 8);
-    Log(("renderFrame: past clamp, keyValue=%d", keyValue));
-    switch(keyValue) {
+    switch (keyValue) {
     case 0:
     case 0x44:
         g_viewHeading = g_ourHead;
@@ -806,7 +783,7 @@ void renderFrame() {
         g_viewRoll = -g_ourPitch;
         break;
     case 0x84:
-        tmp = (frameTick - ((g_frameRateScaling  + 1) / 2) - 1) & 0xf;
+        tmp = (frameTick - ((g_frameRateScaling + 1) / 2) - 1) & 0xf;
         g_viewHeading = g_viewSnapshotRing[tmp].heading;
         g_viewPitch = g_viewSnapshotRing[tmp].pitch;
         g_viewRoll = g_viewSnapshotRing[tmp].roll;
@@ -842,12 +819,10 @@ void renderFrame() {
             if (g_currentWeaponType == 1) {
                 // XXX: test byte ptr g_airTargetLock, 80h -> check which byte is tested, other byte ptr instructions in this routine
                 if (!(g_airTargetLock & 0x80)) g_viewTargetObj = g_airTargetLock + 0x20;
-            }
-            else {
+            } else {
                 if (!(g_groundTargetLock & 0x80)) g_viewTargetObj = g_groundTargetLock + 0x40;
             }
-        }
-        else {
+        } else {
             if (g_directorMode == 0) g_viewTargetObj = g_lastMissileSlot;
         }
         savedCamDist = camDist;
@@ -857,23 +832,20 @@ void renderFrame() {
                     g_viewTargetX = (uint32)(g_projectiles[g_viewTargetObj].mapX) << 5;
                     g_viewTargetY = (uint32)(g_projectiles[g_viewTargetObj].mapY) << 5;
                     g_viewTargetAlt = g_projectiles[g_viewTargetObj].alt;
-                }
-                else {
+                } else {
                     g_projectiles[g_viewTargetObj].worldX = g_ourHead;
                     g_projectiles[g_viewTargetObj].worldY = g_ourPitch;
                     if (g_directorMode != 0) keyValue = 0x87;
                 }
                 camDist = 5;
-            }
-            else {
+            } else {
                 // .... g_viewTargetObj & 0x1f
                 g_viewTargetX = g_simObjects[g_viewTargetObj & 0x1f].worldX;
                 g_viewTargetY = g_simObjects[g_viewTargetObj & 0x1f].worldY;
                 g_viewTargetAlt = g_simObjects[g_viewTargetObj & 0x1f].alt;
                 camDist = 5;
             }
-        }
-        else {
+        } else {
             g_viewTargetX = (uint32)g_planeTable.planes[g_viewTargetObj & 0x3f].mapX << 5;
             g_viewTargetY = (uint32)g_planeTable.planes[g_viewTargetObj & 0x3f].mapY << 5;
             g_viewTargetAlt = g_planeTable.planes[g_viewTargetObj & 0x3f].flags & 0x200 ? 200 : 50;
@@ -894,8 +866,7 @@ void renderFrame() {
                 g_camEyeY = cosMul(g_viewHeading + 0x8000, camOffset) + g_ViewY;
                 g_camEyeZ = sinMul(g_viewPitch, 0x18 << camDist) + (4 << camDist) + g_viewZ;
                 g_viewPitch = -g_viewPitch;
-            }
-            else {
+            } else {
                 g_camEyeX = sinMul(g_viewHeading, camOffset) + g_viewTargetX;
                 g_camEyeY = cosMul(g_viewHeading, camOffset) - g_viewTargetY + 0x100000;
                 g_camEyeZ = (4 << camDist) - sinMul(g_viewPitch, 0x18 << camDist) + g_viewTargetAlt;
@@ -904,8 +875,7 @@ void renderFrame() {
                 }
                 g_viewHeading += 0x8000;
             }
-        }
-        else {
+        } else {
             g_viewHeading = g_projectiles[g_viewTargetObj].worldX;
             g_viewPitch = g_projectiles[g_viewTargetObj].worldY - 0x400;
             camOffset = cosMul(g_viewPitch, 0x10 << camDist);
@@ -929,8 +899,7 @@ void renderFrame() {
     }
     if (keyValue == 0) {
         memcpy(g_camRotMatrix, g_orientMatrix, 18);
-    }
-    else {
+    } else {
         buildRotationMatrixFar(g_camRotMatrix, g_viewHeading, g_viewPitch, g_viewRoll);
     }
     g_camEyeZ = g_camEyeZ < 0x10 ? 0x10 : g_camEyeZ;
@@ -952,8 +921,7 @@ void renderFrame() {
             g_groundTargetLock = g_airTargetLock = 0xffff;
             fillPanelBox(3, 3);
             g_lockedTargetKilled = 0;
-        }
-        else {
+        } else {
             gfx_copyRect(*g_pageFront, 0, 97, *g_pageOffscreen, 0, 97, 320, 103);
         }
     }
@@ -961,27 +929,29 @@ void renderFrame() {
         if (keyValue == 0x42 || keyValue == 0x43 || keyValue == 0x41) {
             gfx_waitRetrace();
             if (gfx_getModecode() == 3) {
-                openBlitClosePic(keyValue == 0x42 ? "256Left.Pic" : keyValue == 0x43 ? "256Right.Pic" : "256Rear.Pic", *g_pageFront);
-            }
-            else {
-                openBlitClosePic(keyValue == 0x42 ? "Left.Pic" : keyValue == 0x43 ? "Right.Pic" : "Rear.Pic", *g_pageFront);
+                openBlitClosePic(keyValue == 0x42 ? "256Left.Pic" : keyValue == 0x43 ? "256Right.Pic"
+                                                                                     : "256Rear.Pic",
+                                 *g_pageFront);
+            } else {
+                openBlitClosePic(keyValue == 0x42 ? "Left.Pic" : keyValue == 0x43 ? "Right.Pic"
+                                                                                  : "Rear.Pic",
+                                 *g_pageFront);
             }
             gfx_copyRect(*g_pageFront, 0, 97, *g_pageBack, 0, 97, 320, 103);
             g_pageFront[8] = g_pageBack[8] = 96;
-        }
-        else {
+        } else {
             g_pageFront[8] = g_pageBack[8] = g_hudVisible != 0 ? 96 : 199;
         }
         g_lastViewKey = keyValue;
     }
     g_horizonGroundColor = g_world3dData[47];
-    *(uint8*)(&g_skyColorIndex) = 3;
+    *(uint8 *)(&g_skyColorIndex) = 3;
     if (g_detailLevel == 0 && commData->gfxModeNum != 0) {
         g_horizonGroundColor = 3;
-        *(uint8*)(&g_skyColorIndex) = 0x0b;
+        *(uint8 *)(&g_skyColorIndex) = 0x0b;
     }
     loadColorPalette(g_nightMode);
-    *(uint8*)(&g_posVisibleFlag) = 0;
+    *(uint8 *)(&g_posVisibleFlag) = 0;
     render3DView(-g_viewHeading, g_viewPitch, g_viewRoll, g_camEyeX, g_camEyeY, (int32)g_camEyeZ, 0, 0, 320, g_pageFront[8] + 1);
     g_extraScaleShift = 0;
     g_savedPosVisible = g_posVisibleFlag;
@@ -1058,8 +1028,7 @@ void waitForKeyPress(void) {
     audio_engineDroneOff();
     savedTiming = g_frameTimingAccum;
 loop:
-    while (kbhit() == 0)
-        ;
+    while (kbhit() == 0);
     if (_bios_keybrd(0) == 0x1900)
         goto loop;
     updateEngineSound();

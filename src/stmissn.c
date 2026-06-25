@@ -27,15 +27,13 @@ int missionMenuSelect(const char **names, const char **desc, const char *title, 
 void animateArm(int, int);
 void clearBriefing(void);
 
-void clearKeybuf()
-{
+void clearKeybuf() {
     while (misc_checkKeyBuf() == 0) {
         misc_getKey();
     }
 }
 
-void waitJoyKey(void)
-{
+void waitJoyKey(void) {
     while (joyOrKey() == 0) {}
 }
 
@@ -61,14 +59,12 @@ int joyOrKey() {
     return 1;
 }
 
-void waitMdaCgaStatus(int16 iter)
-{
+void waitMdaCgaStatus(int16 iter) {
     while (iter-- != 0) {
         if (commData->setupMono != 0) {
             while ((inp(PORT_MDA_STATUS) & MDA_STATUS_RETRACE) == 0) {}
             while ((inp(PORT_MDA_STATUS) & MDA_STATUS_RETRACE) != 0) {}
-        }
-        else {
+        } else {
             while ((inp(PORT_CGA_STATUS) & CGA_STATUS_RETRACE) == 0) {}
             while ((inp(PORT_CGA_STATUS) & CGA_STATUS_RETRACE) != 0) {}
         }
@@ -86,8 +82,7 @@ void drawLine(const int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
     gfx_nop23();
 }
 
-void showPic640(const char* filename)
-{
+void showPic640(const char *filename) {
     int fileHandle;
     intRegs[1] = INT_VID_MODESET;
     intRegs[0] = MODE_640_350;
@@ -99,8 +94,7 @@ void showPic640(const char* filename)
 }
 
 /* ---- merged from stmissn.c ---- */
-void missionSelect()
-{
+void missionSelect() {
     int index, count;
     gfx_setDac(1);
     gfx_setFadeSteps(0);
@@ -115,7 +109,7 @@ selectTheater:
     checkDiskA();
     nearmemset(scenarioFoundArr, 0, 5);
     gameData->theater = missionMenuSelect(missTheaNames, missTheaDesc, "THEATER", gameData->theater);
-    if (gameData->theater == THEATER_OTHER) { // other scenario selected
+    if (gameData->theater == THEATER_OTHER) {            // other scenario selected
         for (count = 4, index = 0; index < 4; index++) { // find extra scenarios
             plh3d3Ptr[0] = *scenarioCodePtr[index];
             plh3d3Ptr[1] = *(scenarioCodePtr[index] + 1);
@@ -153,8 +147,7 @@ selectTheater:
     }
 }
 
-int missionMenuSelect(const char **names, const char **desc, const char *title, int selection)
-{
+int missionMenuSelect(const char **names, const char **desc, const char *title, int selection) {
     int yPos, row, action;
     Log(("missionMenuSelect(): entering, selection %d", selection));
     enableHighlight = 1;
@@ -183,7 +176,7 @@ int missionMenuSelect(const char **names, const char **desc, const char *title, 
         animateArm(row + 1, row);
     }
     do {
-again:
+    again:
         if ((action = pollMenuInput()) != KEYCODE_ENTER) {
             if (action == KEYCODE_UPARROW) {
                 if (selection > 0) {
@@ -191,8 +184,7 @@ again:
                     animateArm(selection, selection - 1);
                     selection--;
                 }
-            }
-            else if (action == KEYCODE_DNARROW && selection < 4) {
+            } else if (action == KEYCODE_DNARROW && selection < 4) {
                 timerCounter3 = 6;
                 animateArm(selection, selection + 1);
                 selection++;
@@ -210,15 +202,14 @@ again:
     return selection;
 }
 
-void animateArm(int a, int b)
-{
+void animateArm(int a, int b) {
     int spriteIdx;
     while (timerCounter3 < 6) {}
     timerCounter3 = 0;
     armPosition = b;
     spriteIdx = armSpriteIndex[b];
     if (a == -1) {
-        gfx_copyRect(*page1NumPtr, 0, 0, *page2NumPtr, 0, 0 , SCREEN_WIDTH, SCREEN_HEIGHT);
+        gfx_copyRect(*page1NumPtr, 0, 0, *page2NumPtr, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
     if (b != -1) {
         if (b < 5 && enableHighlight != 0) {
@@ -242,8 +233,7 @@ void animateArm(int a, int b)
         spriteBlitY = armBlitY[spriteIdx];
         spriteBlitW = armBlitW[spriteIdx];
         spriteBlitH = armBlitH[spriteIdx];
-    }
-    else {
+    } else {
         gfx_setPageN(0);
         gfx_blitToCurrent(page1Ptr);
         spriteBlitX = armBlitX[spriteIdx];
@@ -357,7 +347,7 @@ printMissionAgain:
         }
         goto printMissionAgain;
     }
-    for (;armStep <= 5; armStep++) {
+    for (; armStep <= 5; armStep++) {
         animateArm(armStep, armStep + 1);
     }
 
@@ -381,15 +371,12 @@ int pollMenuInput() {
         joy1 = misc_readJoystick(1);
         pollJoystick();
     }
-    while ((misc_checkKeyBuf() != 0 && joy0 == 0 && joy1 == 0
-        && joyAxes[0] >= JOY_DEADZONE_LO && joyAxes[0] <= JOY_DEADZONE_HI
-        && joyAxes[1] >= JOY_DEADZONE_LO && joyAxes[1] <= JOY_DEADZONE_HI)
-        || repeatHold == 1) {
+    while ((misc_checkKeyBuf() != 0 && joy0 == 0 && joy1 == 0 && joyAxes[0] >= JOY_DEADZONE_LO && joyAxes[0] <= JOY_DEADZONE_HI && joyAxes[1] >= JOY_DEADZONE_LO && joyAxes[1] <= JOY_DEADZONE_HI) || repeatHold == 1) {
         // XXX: case study for instruction skipping in mzdiff, change above while condition to true and uncomment, run mzdiff with refskip 1 tgtskip 2 to repro
         // if ((((((misc_checkKeyBuf() == 0) || (var_2 != 0)) || (var_4 != 0)) ||
         //     ((joyAxes[0] < 0x4e || (joyAxes[0] > 0xb2)))) ||
         //     ((joyAxes[1] < 0x4e || (joyAxes[1] > 0xb2)))) && (var_6 != 1)) break;
-        if ((joyRepeatFlag == 1) && (15 < timerCounter)) { //113f
+        if ((joyRepeatFlag == 1) && (15 < timerCounter)) { // 113f
             repeatHold = 0;
             joyRepeatFlag = 0;
         }
@@ -409,27 +396,22 @@ int pollMenuInput() {
     if (misc_checkKeyBuf() == 0) {
         key = misc_getKey();
         Log(("pollMenuInput(): got key 0x%x", key));
-    }
-    else if (joy0 == 1) {
+    } else if (joy0 == 1) {
         key = KEYCODE_ENTER;
-    }
-    else if (joyAxes[1] < JOY_DEADZONE_LO) {
+    } else if (joyAxes[1] < JOY_DEADZONE_LO) {
         key = KEYCODE_UPARROW;
         joyRepeatFlag = 1;
-    }
-    else if (joyAxes[1] > JOY_DEADZONE_HI) {
+    } else if (joyAxes[1] > JOY_DEADZONE_HI) {
         key = KEYCODE_DNARROW;
         joyRepeatFlag = 1;
-    }
-    else if (joyAxes[0] < JOY_DEADZONE_LO) {
+    } else if (joyAxes[0] < JOY_DEADZONE_LO) {
         key = KEYCODE_LEFTARROW;
         joyRepeatFlag = 1;
-    }
-    else if (joyAxes[0] > JOY_DEADZONE_HI) {
+    } else if (joyAxes[0] > JOY_DEADZONE_HI) {
         key = KEYCODE_RIGHTARROW;
         joyRepeatFlag = 1;
     }
-    if (((uint8*)&key)[0]) {
+    if (((uint8 *)&key)[0]) {
         key = key & 0xff;
         Log(("pollMenuInput(): anded to %u", key));
     }
@@ -442,8 +424,7 @@ int pollMenuInput() {
     return key;
 }
 
-void clearBriefing(void)
-{
+void clearBriefing(void) {
     // clear briefing board
     clearRect(page1NumPtr, 113, 13, 297, 126);
 }

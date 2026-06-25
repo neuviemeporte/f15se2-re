@@ -5,7 +5,7 @@
 #include "enworld.h"
 
 /* Private helpers for this translation unit. */
-void loadWorldData(void* destOffset, int size);
+void loadWorldData(void *destOffset, int size);
 void readFromWorldBuf(void *dest, int size, int count, FILE *bufHandle);
 void writeToWorldBuf(void *dest, int size, int count, FILE *bufHandle);
 
@@ -28,7 +28,7 @@ void readWorldData(void) {
     loadWorldData(flightDataBuf, 0x600);
 }
 
-void loadWorldData(void* destOffset, int size) {
+void loadWorldData(void *destOffset, int size) {
     if (worldDataReady != 0) {
         readFromWorldBuf(destOffset, size, 1, worldBufHandle);
     } else {

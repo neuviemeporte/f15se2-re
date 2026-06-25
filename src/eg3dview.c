@@ -15,7 +15,6 @@
 #include <dos.h>
 #include <memory.h>
 
-
 void loadRegion3D() {
     load3DAll();
 }

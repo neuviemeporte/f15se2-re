@@ -9,33 +9,31 @@
 #include <string.h>
 #include <stdio.h>
 
-static void miscdbg(const char *msg)
-{
+static void miscdbg(const char *msg) {
     FILE *f = fopen("NOASM.LOG", "a");
-    if (f) { fputs(msg, f); fputs("\r\n", f); fclose(f); }
+    if (f) {
+        fputs(msg, f);
+        fputs("\r\n", f);
+        fclose(f);
+    }
 }
 
-void installCBreakHandler(void)
-{
+void installCBreakHandler(void) {
 }
 
-void restoreCbreakHandler(void)
-{
+void restoreCbreakHandler(void) {
 }
 
-void pollJoystick(void)
-{
+void pollJoystick(void) {
 }
 
-void far copyJoystickData(uint8 *ptr){}
+void far copyJoystickData(uint8 *ptr) {}
 
-void mystrcat(char *dst, const char *src)
-{
+void mystrcat(char *dst, const char *src) {
     strcat(dst, src);
 }
 
-void intDispatch(int intnum, uint8 *inreg, uint8 *outreg)
-{
+void intDispatch(int intnum, uint8 *inreg, uint8 *outreg) {
     union REGS r;
     /* inreg[0] = AL, inreg[1] = AH based on stinit.c usage */
     r.h.al = inreg[0];
@@ -45,38 +43,31 @@ void intDispatch(int intnum, uint8 *inreg, uint8 *outreg)
     outreg[1] = r.h.ah;
 }
 
-void doNothing2(const char *msg, int a, int b, int c)
-{
+void doNothing2(const char *msg, int a, int b, int c) {
 }
 
-int getTimeOfDay(void)
-{
+int getTimeOfDay(void) {
     return 0;
 }
 
-int mystrlen(const char *s)
-{
+int mystrlen(const char *s) {
     return strlen(s);
 }
 
-void nearmemset(void *dst, char val, int count)
-{
+void nearmemset(void *dst, char val, int count) {
     memset(dst, val, count);
 }
 
-int loadOverlay(const char *filename)
-{
+int loadOverlay(const char *filename) {
     return 0;
 }
 
-int doFcbSearch(void)
-{
+int doFcbSearch(void) {
     return -1;
 }
 
 #if !defined(MSDOS)
-uint16 dos_alloc(int size)
-{
+uint16 dos_alloc(int size) {
     return 0;
 }
 #endif

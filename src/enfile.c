@@ -15,7 +15,6 @@ void srandInit(int seed) {
     randState = 0;
 }
 
-
 int loadFileSection(const char *name, int b, int c) {
     int handle;
     int result;
@@ -24,7 +23,6 @@ int loadFileSection(const char *name, int b, int c) {
     closeFileWrapper(handle);
     return result;
 }
-
 
 int writeFileSection(const char *name, int b, int c, int d, int e) {
     int handle;

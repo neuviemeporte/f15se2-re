@@ -11,20 +11,20 @@
 #pragma pack(1)
 struct OvlHeader {
     uint8 description[0x18]; // 00h-17h: description
-    uint16 code_segment; // 18h-19h: total number of header paragraphs on disk, after relocation into memory becomes segment pointer into code
-    uint16 base_segment; // 1ah-1bh: base load segment of overlay (relocated)
-    uint16 first_slot; // 1ch-1dh: slot index (id) of first jump entry 
-    uint16 size1; // 1eh-1fh: size1
-    uint16 size2; // 20h-21h: size2
-    uint16 jump_count; // 22h-23h: number of jump addresses 
+    uint16 code_segment;     // 18h-19h: total number of header paragraphs on disk, after relocation into memory becomes segment pointer into code
+    uint16 base_segment;     // 1ah-1bh: base load segment of overlay (relocated)
+    uint16 first_slot;       // 1ch-1dh: slot index (id) of first jump entry
+    uint16 size1;            // 1eh-1fh: size1
+    uint16 size2;            // 20h-21h: size2
+    uint16 jump_count;       // 22h-23h: number of jump addresses
     // 24h-...: array of jump offsets
     uint16 slot;
     // Extra description or padding data follows
 };
 #pragma pack()
-STATIC_ASSERT(sizeof(struct OvlHeader)==38);
+STATIC_ASSERT(sizeof(struct OvlHeader) == 38);
 
-uint16 overlay_load(const char* filename) {
+uint16 overlay_load(const char *filename) {
     const size_t RESERVE_PARA = 0x400;
     const size_t EXTRA_PARA = 8; // original executable adds this many paragraphs for good measure
     size_t freeMem, alloc;
@@ -70,6 +70,6 @@ uint16 overlay_load(const char* filename) {
 
 OverlayFunc overlay_functionAddress(const uint16 ovlLoadSegment, const uint16 funcNumber) {
     struct OvlHeader FAR *ovlHeader = (struct OvlHeader FAR *)MK_FP(ovlLoadSegment, 0);
-    uint16 FAR* slotArray=&(ovlHeader->slot);
+    uint16 FAR *slotArray = &(ovlHeader->slot);
     return (OverlayFunc)MK_FP(ovlHeader->code_segment, slotArray[funcNumber]);
 }

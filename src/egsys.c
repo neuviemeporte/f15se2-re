@@ -22,7 +22,6 @@
 #include "slot.h"
 #include <dos.h>
 
-
 /* per-frame work reconstructed in their own TUs (egflight/egtacmap/egframe),
  * not surfaced in a header; declared here for the game loop below. */
 void renderFrame(void);
@@ -35,8 +34,7 @@ void updateFrame(void);
  * overlays), draws the dynamic gauges on top (unless a menu key overlay is up),
  * presents the back buffer (gfx_dacAnimate, slot 0x2c), advances the flight
  * model + bookkeeping, and repeats until the mission ends. */
-void gameMainLoop(void)
-{
+void gameMainLoop(void) {
     do {
         renderFrame();
         renderHudFrame(0);
@@ -49,25 +47,22 @@ void gameMainLoop(void)
     } while (g_missionEndedFlag[0] == 0);
 }
 
-void runGameLoop(void)
-{
+void runGameLoop(void) {
     gameMainLoop();
 }
 
-int __cdecl openFile(const char *path, int mode)
-{
+int __cdecl openFile(const char *path, int mode) {
     union REGS r;
     struct SREGS s;
     segread(&s);
     r.h.ah = 0x3D;
     r.h.al = (unsigned char)mode;
-    r.x.dx = PTR_OFF(path);         /* near pointer: DS already = DGROUP */
+    r.x.dx = PTR_OFF(path); /* near pointer: DS already = DGROUP */
     intdosx(&r, &r, &s);
     return r.x.cflag ? -1 : r.x.ax;
 }
 
-int createFile(const char *path, int attr)
-{
+int createFile(const char *path, int attr) {
     union REGS r;
     struct SREGS s;
     segread(&s);
@@ -78,19 +73,17 @@ int createFile(const char *path, int attr)
     return r.x.cflag ? -1 : r.x.ax;
 }
 
-void closeFile(int handle)
-{
+void closeFile(int handle) {
     union REGS r;
     r.h.ah = 0x3E;
     r.x.bx = handle;
     intdos(&r, &r);
 }
 
-int readFile1(int handle, int count, int bufOffset)
-{
+int readFile1(int handle, int count, int bufOffset) {
     union REGS r;
     struct SREGS s;
-    segread(&s);                    /* DS = DGROUP: read into DGROUP:bufOffset */
+    segread(&s); /* DS = DGROUP: read into DGROUP:bufOffset */
     r.h.ah = 0x3F;
     r.x.bx = handle;
     r.x.cx = count;
@@ -99,8 +92,7 @@ int readFile1(int handle, int count, int bufOffset)
     return r.x.cflag ? -1 : r.x.ax;
 }
 
-int readFile2(int handle, int count, int bufOffset, int bufSegment)
-{
+int readFile2(int handle, int count, int bufOffset, int bufSegment) {
     union REGS r;
     struct SREGS s;
     segread(&s);
@@ -113,8 +105,7 @@ int readFile2(int handle, int count, int bufOffset, int bufSegment)
     return r.x.cflag ? -1 : r.x.ax;
 }
 
-int writeFileAtRaw(int handle, int count, int bufOffset, int bufSegment, int offsetAddend)
-{
+int writeFileAtRaw(int handle, int count, int bufOffset, int bufSegment, int offsetAddend) {
     union REGS r;
     struct SREGS s;
     segread(&s);
@@ -131,21 +122,24 @@ int writeFileAtRaw(int handle, int count, int bufOffset, int bufSegment, int off
  * DAC entries 0x10-0x5F, dacValues (otherDacValues at night) → 0x60-0xFF, and
  * unless g_horizonGroundColor==2 the 16-entry ground ramp (g_dacGroundPaletteSrc)
  * is copied over g_dacGroundPalette (= dacValues+0x30) first. */
-void setupDac(void)
-{
+void setupDac(void) {
     union REGS r;
     struct SREGS s;
     int i;
     segread(&s);
-    s.es = s.ds;                     /* ES:DX = palette table (DGROUP) */
-    r.x.ax = 0x1012; r.x.bx = 0x10; r.x.cx = 0x50;
+    s.es = s.ds; /* ES:DX = palette table (DGROUP) */
+    r.x.ax = 0x1012;
+    r.x.bx = 0x10;
+    r.x.cx = 0x50;
     r.x.dx = PTR_OFF(dacValues1);
     int86x(0x10, &r, &r, &s);
     if (g_horizonGroundColor != 2) {
         for (i = 0; i < 0x30; i++)
             dacValues[0x30 + i] = g_dacGroundPaletteSrc[i];
     }
-    r.x.ax = 0x1012; r.x.bx = 0x60; r.x.cx = 0xA0;
+    r.x.ax = 0x1012;
+    r.x.bx = 0x60;
+    r.x.cx = 0xA0;
     r.x.dx = PTR_OFF(g_nightMode != 0 ? otherDacValues : dacValues);
     int86x(0x10, &r, &r, &s);
 }

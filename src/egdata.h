@@ -224,7 +224,7 @@ extern int16 g_targetInHudFlag;
 extern int16 g_lockedTargetKilled;
 extern int g_hitEffectTimer;
 extern uint8 buf2_3dg[];
-extern struct TileObject* g_nearestTileObj;
+extern struct TileObject *g_nearestTileObj;
 extern uint8 buf1_3dg[];
 extern char g_savedPosVisible;
 extern int16 g_threatDisplayTtl;
@@ -332,7 +332,7 @@ extern int16 g_mapMode;
 extern int16 g_enemyAlertFlag;
 extern int16 g_activePanelMode;
 extern int16 g_targetLeadAngle;
-extern char* g_targetNameTable[];
+extern char *g_targetNameTable[];
 extern int16 g_closestThreatIndex;
 extern int16 g_curLod;
 extern char g_stringPool[];
@@ -487,13 +487,10 @@ extern uint8 g_speedLabelBuf[6];
 extern uint8 g_altLabelBuf[4];
 extern uint8 g_tapeDrawStr[4];
 
-
 /* VGA DAC palette tables. g_dacGroundPalette is the +0x30 window into dacValues. */
 extern const uint8 dacValues1[];
 extern uint8 dacValues[];
 extern const uint8 otherDacValues[];
 extern const uint8 g_dacGroundPaletteSrc[];
-
-
 
 #endif /* F15_SE2_EGDATA */

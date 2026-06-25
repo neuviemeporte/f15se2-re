@@ -17,7 +17,7 @@
 uint32 scaleCoordByLevel(int, uint32);
 int lookupGridCell(int16, int16, int16);
 
-struct NearestTerrain* findNearestTerrain(int32 worldX, int32 worldY) {
+struct NearestTerrain *findNearestTerrain(int32 worldX, int32 worldY) {
     int16 tmp, dx, dist, rowOff, x1, level, dy, i, cellIdx, gridX, offsetY, y1, cell;
     int16 sy;
     int16 ty;
@@ -46,8 +46,7 @@ struct NearestTerrain* findNearestTerrain(int32 worldX, int32 worldY) {
                         dist = abs(ty) + abs(offsetY);
                         if (level == 1) {
                             dist >>= 2;
-                        }
-                        else {
+                        } else {
                             ty <<= 2;
                             offsetY <<= 2;
                         }
@@ -70,8 +69,8 @@ struct NearestTerrain* findNearestTerrain(int32 worldX, int32 worldY) {
     }
     if (nearestTerrain.dist != 0x7fff) {
         return &nearestTerrain;
-    }
-    else return NULL;
+    } else
+        return NULL;
 }
 
 uint32 scaleCoordByLevel(int level, uint32 coord) {
@@ -105,4 +104,3 @@ int lookupGridCell(int16 level, int16 col, int16 row) {
         return gridBuf5[(col & 3) + (((row & 3) << 2) + (lookupGridCell(1, col >> 2, row >> 2) << 4))];
     }
 }
-
