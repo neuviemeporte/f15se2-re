@@ -750,10 +750,21 @@ void gfx_dirtyRectFill_impl(uint16 minBufOff, uint16 yMin, uint16 yMax)
  * MGRAPHIC's slot 0x2d is `mov al,[cs:0x1a2]; retf` — it returns the stored
  * display-page byte (the page the frame is composited into), NOT a segment.
  * The renderer (render3DView / renderHudFrame / tac map) targets this page,
- * and gfx_dacAnimate (slot 0x2c) presents it to the visible page 0. */
+ * and gfx_dacAnimate (slot 0x2c) presents it to the visible page 0.
+ *
+ * NOASM-only divergence: MGRAPHIC's span engine selects the fill page from the
+ * view descriptor each frame, so the back buffer is always the 3D target. Our
+ * span fills (gfx_dirtyRect/gfx_drawLine) instead follow curPageSeg, which the
+ * alternate-view cockpit blit (openBlitClosePic(..., *g_pageFront)) leaves on
+ * the visible page 0 — so without re-syncing here the F2/F3/F4 world composites
+ * onto the visible page and gfx_dacAnimate then stomps it with the stale back
+ * buffer (the flicker). render3DView calls this right before the 3D setup, so
+ * re-select the display page as the active draw page to keep them in sync. */
 int FAR CDECL gfx_getDisplayPage(void)
 {
     GfxState FAR *s = gfx_getState();
+    if (s->displayPage < 16 && s->pageSegs[0] == 0xA000)
+        s->curPageSeg = s->pageSegs[s->displayPage];
     return (int)s->displayPage;
 }
 

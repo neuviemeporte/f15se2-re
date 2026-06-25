@@ -378,8 +378,9 @@ STATIC_ASSERT(sizeof(struct Waypoint)==4);
 
 // 0x1a bytes
 struct Missile {
-    char shortName[10]; /* +0x00 designation, e.g. "AIM-9M" (not displayed by egame) */
-    char longName[12];  /* +0x0A display name, e.g. "Sidewinder" (shown in all weapon messages) */
+    char shortName[10]; /* +0x00 designation, e.g. "AIM-9M" (egame never reads this field;
+                         * the short name in "X hit by Y" reports comes from sams[].name) */
+    char longName[12];  /* +0x0A display name, e.g. "Sidewinder" (shown in all missiles[] weapon messages) */
     int16 specIndex;    /* +0x16 sams[] index; -1 = camera, -2 = fuel */
     int16 weaponCategory; /* +0x18 weapon category (1=support,2=cluster,3=bomb,4=A2A,6=AGM,8=PGM) */
 };

@@ -28,7 +28,6 @@ void render3DView(int camX, int camY, int camZ, long worldX, long worldY, long w
     g_viewParams[9] = clipLeft;
     g_viewParams[10] = clipLeft + clipWidth - 1;
     *g_viewParams = gfx_getDisplayPage() & 0xFF;
-    gfx_setPageN((uint16)*g_viewParams);
     waitFrameSync(g_frameSyncWait);
     TRACE(("121CA:1"));
     g_viewParams[2] = (unsigned char)((char *)colorLut)[g_skyColorIndex & 0xFF];

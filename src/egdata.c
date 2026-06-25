@@ -785,9 +785,10 @@ int16 g_setThrust = 0;
  * missileSpecIndex (0..2). */
 extern const int16 ammoNumX[3] = { 65, 26, 101 };
 
-/* missiles[20]: player weapon catalogue — shortName (designation, not
- * displayed by egame), longName (the name shown in all weapon messages),
- * specIndex (signed sams[] index, -1/-2 = non-threat stores), weaponCategory. */
+/* missiles[20]: player weapon catalogue — shortName (designation; egame never
+ * reads it — hit reports take their short name from sams[].name), longName (the
+ * name shown in all missiles[] weapon messages), specIndex (signed sams[] index,
+ * -1/-2 = non-threat stores), weaponCategory. */
 struct Missile missiles[20] = {
     { "AIM-9M",  "Sidewinder", 0x17, 4 },
     { "AIM-120", "AMRAAM ",    0x16, 4 },
