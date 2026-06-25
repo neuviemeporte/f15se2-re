@@ -133,7 +133,7 @@ void renderHudFrame(int unused) {
             if (g_autopilotAltitude != 0) {
                 drawStringBothPages("AUTOPILOT", 236, 90, 0xf);
             }
-            waypointMarkerX = clampRange((((g_waypointBearing - g_ourHead) >> 6) / 3) + 159, 89, 229);
+            waypointMarkerX = clampRange((((int16)(g_waypointBearing - g_ourHead) >> 6) / 3) + 159, 89, 229);
             setDrawColor(0x0b);
             drawViewportLine(waypointMarkerX - 2, 15, waypointMarkerX, 17);
             drawViewportLine(waypointMarkerX, 17, waypointMarkerX + 2, 15);

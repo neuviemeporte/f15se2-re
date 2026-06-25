@@ -352,7 +352,7 @@ void showPicFile(int handle, int page) {
     picDecodeToSegment(handle, pageSeg, 200, 320, 0);
 }
 
-void decodePic(int handle, uint16 segment) {
+void decodePic(int handle, int segment) {
     /* See showPicFile: the full-page decode makes gfx_clearPage() redundant
      * (and unsafe to call from C). */
     picDecodeToSegment(handle, segment, 200, 320, 0);

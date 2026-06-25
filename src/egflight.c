@@ -223,11 +223,11 @@ switch_break:
         headingErr = (g_autopilotEngaged != 0) ? ((g_missionTick & 0xF) << 8) - 0x800
                                                : 0;
 
-        headingErr = clampValue(headingErr - g_ourHead + g_waypointBearing, 0xEC00, 0x1400) * 2;
+        headingErr = clampValue((int16)(headingErr - g_ourHead + g_waypointBearing), -5120, 0x1400) * 2;
 
-        g_rollInput = -clampRange((headingErr - g_ourRoll) >> 6, -24, 24);
+        g_rollInput = -clampRange((int16)(headingErr - g_ourRoll) >> 6, -24, 24);
 
-        tmpVal = clampValue(((g_autopilotAltitude - g_viewZ) << 4) - g_rollPitchTrim, 0xEC00, 0xC00);
+        tmpVal = clampValue(((g_autopilotAltitude - g_viewZ) << 4) - g_rollPitchTrim, -5120, 0xC00);
 
         g_pitchInput = clampRange((tmpVal - g_ourPitch) >> 7, -8, 8);
 
@@ -244,11 +244,11 @@ switch_break:
 
             dy += ((g_planeTable.planes[tgtIdx].flags & 0x200) ? 30 : 0x40) * nsSign;
 
-            headingErr = abs(g_ourHead);
+            headingErr = abs((int16)g_ourHead);
             if (nsSign == -1) {
                 dx = -dx;
                 dy = -dy;
-                headingErr = abs(g_ourHead - 0x8000);
+                headingErr = abs((int16)(g_ourHead - 0x8000));
             }
 
             tmpVal = clampRange((abs(dx) + abs(dy)) * 2 + headingErr / 32, 50, 0x1000);
@@ -283,13 +283,13 @@ switch_break:
             bearing = computeBearing(dx - g_viewX_, g_viewY_ - dy);
             knotsScale = g_knots / 16;
 
-            headingErr = clampValue(bearing - g_ourHead, (-knotsScale) << 8, knotsScale << 8) * 2;
+            headingErr = clampValue((int16)(bearing - g_ourHead), (-knotsScale) << 8, knotsScale << 8) * 2;
 
             if (g_inLandingCorridor != 0) {
                 headingErr = 0;
             }
 
-            g_rollInput = -clampRange((headingErr - g_ourRoll) >> 6, -32, 32);
+            g_rollInput = -clampRange((int16)(headingErr - g_ourRoll) >> 6, -32, 32);
 
             g_setThrust = clampRange((abs(headingErr) / 256) + (tmpVal / 64), 35, 80);
             UpdateThrottleState();
@@ -325,7 +325,7 @@ switch_break:
         g_pitchInput += (randomRange(turbulence) - (turbulence >> 1)) >> 1;
     }
 
-    if ((g_playerPlaneFlags & 1) && g_pitchInput <= 0 && ((uint16)g_stallSpeed) < ((uint16)g_velocity) && gameData->unk4 < 2 && abs(g_ourRoll) < 0x3000 && g_gunFiredFlag == 0) {
+    if ((g_playerPlaneFlags & 1) && g_pitchInput <= 0 && ((uint16)g_stallSpeed) < ((uint16)g_velocity) && gameData->unk4 < 2 && abs((int16)g_ourRoll) < 0x3000 && g_gunFiredFlag == 0) {
         tmpVal = ((((g_rollPitchTrim) - (g_ourPitch)) >> 2) - g_viewZ + 300) >> 2;
         if (tmpVal > 0) {
             g_pitchInput = clampRange(tmpVal, 0, 32);
@@ -335,7 +335,7 @@ switch_break:
     if (g_ejectState != 0) {
         g_rollInput = 0x40;
 
-        g_pitchInput = (abs(g_ourRoll) > 0x4000) ? 0x10 : -8; // pitch_input_modifier
+        g_pitchInput = (abs((int16)g_ourRoll) > 0x4000) ? 0x10 : -8; // pitch_input_modifier
 
         // g_ejectState++;
         g_crashCamZ += clampRange(
@@ -410,14 +410,14 @@ switch_break:
         g_fuelRemaining = 0;
     }
 
-    g_gees = g_rollGeeTable[(abs(g_ourRoll) >> 8) & 0x7f];
+    g_gees = g_rollGeeTable[(abs((int16)g_ourRoll) >> 8) & 0x7f];
     if (((uint16)g_groundAltitude) < ((uint16)g_viewZ)) {
         g_gees += g_pitchInput / 2;
     }
 
     if (g_gees > 0x80) {
         g_gees = 0x80;
-        g_pitchInput = clampRange(0x80 - g_rollGeeTable[(abs(g_ourRoll) >> 8) & 0x7f], 0, g_pitchInput);
+        g_pitchInput = clampRange(0x80 - g_rollGeeTable[(abs((int16)g_ourRoll) >> 8) & 0x7f], 0, g_pitchInput);
     }
 
     strcpy(g_geeStringBuf, itoa(g_gees / 16, strBuf, 10));
@@ -540,7 +540,7 @@ switch_break:
 
     g_autoCrashDive = 0;
 
-    g_highGeeFlag[0] = ((abs(g_ourPitch)) - (abs(g_ourRoll) / 2) > 0x1000) ? 1 : 0;
+    g_highGeeFlag[0] = ((abs(g_ourPitch)) - (abs((int16)g_ourRoll) / 2) > 0x1000) ? 1 : 0;
 
     if (g_orientationDirty) {
         rebuildOrientation();

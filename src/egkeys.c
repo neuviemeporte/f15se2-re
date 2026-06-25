@@ -241,7 +241,7 @@ void keyDispatch(uint16 scanCode) {
         if (g_ejectState == 0) {
             makeSound(2, 2);
             makeSound(34, 2);
-            if ((abs(g_ourRoll) >> 5) + (abs(g_ourPitch) >> 5) + g_knots > randomRange(500) + 500) {
+            if ((abs((int16)g_ourRoll) >> 5) + (abs(g_ourPitch) >> 5) + g_knots > randomRange(500) + 500) {
                 finalizeMission(6);
             } else {
                 *(int far *)((char far *)commData + 0x26) = 2;

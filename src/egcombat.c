@@ -193,7 +193,7 @@ void updateThreatTargeting(void) {
                          (mode == 1 || mode == 2 ||
                           (mode == 3 &&
                            -(g_missionStatus * 12 - 0x40) >
-                               abs(abs((aimY - g_ourHead) >> 8) - 0x40))))) {
+                               abs(abs((int16)(aimY - g_ourHead) >> 8) - 0x40))))) {
                         acq = samCanAcquireTarget(slot, mapEvents[scan].mapX,
                                                   mapEvents[scan].mapY, g_viewZ, mode);
                         if (acq != 0) {
@@ -473,7 +473,7 @@ int samCanAcquireTarget(int slot, int targetX, int targetY, int targetAlt, int m
         g_acqRange = range;
         return 1;
     }
-    bearDiff = abs(g_acqAimY - g_projectiles[slot].worldX);
+    bearDiff = abs((int16)(g_acqAimY - g_projectiles[slot].worldX));
     if (bearDiff > 0x1000 && mode != 3) {
         if (bearDiff > 0x6000 && slot < 8) {
             if ((g_projectiles[slot].speed << 4) / g_frameRateScaling < range) {
@@ -483,7 +483,7 @@ int samCanAcquireTarget(int slot, int targetX, int targetY, int targetAlt, int m
         return 0;
     }
     if (mode == 0) {
-        if (abs(g_projectiles[slot].worldX - g_ourHead) > 0x2000) {
+        if (abs((int16)(g_projectiles[slot].worldX - g_ourHead)) > 0x2000) {
             return 0;
         }
     }
@@ -491,7 +491,7 @@ int samCanAcquireTarget(int slot, int targetX, int targetY, int targetAlt, int m
         g_acqRange = range;
         return 1;
     }
-    bearDiff = abs(g_projectiles[slot].worldX - g_ourHead);
+    bearDiff = abs((int16)(g_projectiles[slot].worldX - g_ourHead));
     if (abs(bearDiff - 0x4000) >= 0x2000 - g_missionStatus * 2048) {
         g_acqRange = range;
         return 1;
@@ -643,7 +643,7 @@ void fireMissile() {
     int weaponIdx;
     int slot;
 
-    if (abs(g_ourRoll) > 0x3000) return;
+    if (abs((int16)g_ourRoll) > 0x3000) return;
     if (g_inLandingCorridor != 0) return;
     if (g_ejectState != 0) return;
 

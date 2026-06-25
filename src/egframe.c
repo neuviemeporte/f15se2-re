@@ -296,7 +296,7 @@ skip_target_section:
             g_attackRangeY = 0x3c0;
             if (g_viewZ == 0x80 && g_knots > 0x50) {
                 if ((unsigned)(g_viewY_ - g_planeTable.planes[g_closestThreatIndex].mapY) * g_northSouthSign >= 0x10 && (unsigned)(g_viewY_ - g_planeTable.planes[g_closestThreatIndex].mapY) * g_northSouthSign <= 0x14) {
-                    if (abs(g_ourHead - ((1 - g_northSouthSign) << 0xe)) < 0x2000) {
+                    if (abs((int16)(g_ourHead - ((1 - g_northSouthSign) << 0xe))) < 0x2000) {
                         g_autoCrashDive = 1;
                         makeSound(22, 2);
                     }

@@ -14,7 +14,7 @@ int loadOverlay(const char *filename);
 void clearRect(int16 *buf, int x, int y, int maxx, int maxy);
 void drawLineWrapper();
 int writeFileAtRaw();
-void decodePic(int handle, uint16 segment);
+void decodePic(int handle, int segment);
 void doNothing2(const char *msg, int a, int b, int c);
 void far pollJoystick();
 void far copyJoystickData(uint8 FAR *ptr);

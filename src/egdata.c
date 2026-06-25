@@ -1836,9 +1836,11 @@ struct BulletTrack bulletTracks[20];
  * multiplyMatrix3x3Far/buildRotationMatrixFar, read as [axis]/[3+axis]/[6+axis]. */
 int16 g_matrixScratch[9];
 int g_ourPitch = 0;
-int g_ourRoll = 0;
+/* 16-bit word-degree angles: arithmetic must wrap at 16 bits (e.g. 0x10000 - roll,
+   -head). Keep these int16 so assignments wrap on store as the DOS build did. */
+int16 g_ourRoll = 0;
 /* player orientation/altitude view state, shared with egseg2 projection. */
-int g_ourHead = 0;
+int16 g_ourHead = 0;
 
 int16 g_viewZ; /* altitude-Z */
 

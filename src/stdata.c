@@ -156,10 +156,7 @@ struct PageDesc pageNumPageDesc = {
 int16 *pageNumPtr = (int16 *)&pageNumPageDesc;
 
 int16 nightMissionFlag = 0;
-char bufCoordStr = 0;
-uint8 gridRefRow = 0;
-uint8 gridRefCol = 0;
-uint8 gridRefRowDigit[1] = {0};
+char bufCoordStr[5] = {0};
 
 int16 escortMissionFlag;
 uint32 baseXPrecise = 0;

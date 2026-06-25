@@ -4,7 +4,7 @@
 #include "inttype.h"
 #include <dos.h>
 
-void decodePic(int handle, uint16 segment);
+void decodePic(int handle, int segment);
 uint16 dos_alloc(int size);
 void dos_printstring(const char *str);
 int createFile(const char *name, int mode);

@@ -8,7 +8,7 @@
 
 int openFile(const char *name, int mode);
 void fileClose(int handle);
-void decodePic(int handle, uint16 segment);
+void decodePic(int handle, int segment);
 
 void mystrcpy(char *dest, const char *source) {
     do {

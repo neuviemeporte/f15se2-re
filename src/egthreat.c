@@ -379,7 +379,7 @@ void updateObjects(void) {
                     relBearing = (int)(bearing - hdg) >> 13 & 7;
                     hdg = g_ourHead;
                     if (abs(g_ourRoll) < 0x4000) {
-                        hdg += g_ourRoll >> 1;
+                        hdg += (int16)g_ourRoll >> 1;
                     }
                     aspect = (((g_simObjects[objIdx].heading.w - hdg) >> 13) + 4) & 7;
                     {

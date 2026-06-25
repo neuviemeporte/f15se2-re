@@ -487,57 +487,57 @@ char *formatGridRef(int16 wx, int16 wy, int16 theater) {
     (void)theater;
     switch (gameData->theater) {
     case 0:
-        mystrcpy(&bufCoordStr, "TD00");
+        mystrcpy(bufCoordStr, "TD00");
         gridOffX = 6;
         gridOffY = 4;
         break;
     case 1:
-        mystrcpy(&bufCoordStr, "JZ00");
+        mystrcpy(bufCoordStr, "JZ00");
         gridOffX = 0;
         gridOffY = 0;
         break;
     case 2:
-        mystrcpy(&bufCoordStr, "XV00");
+        mystrcpy(bufCoordStr, "XV00");
         gridOffX = 0;
         gridOffY = 0;
         break;
     case 3:
-        mystrcpy(&bufCoordStr, "ES00");
+        mystrcpy(bufCoordStr, "ES00");
         gridOffX = 0;
         gridOffY = 0;
         break;
     case 4:
-        mystrcpy(&bufCoordStr, "WX00");
+        mystrcpy(bufCoordStr, "WX00");
         gridOffX = 0;
         gridOffY = 0;
         break;
     case 5:
-        mystrcpy(&bufCoordStr, "CC00");
+        mystrcpy(bufCoordStr, "CC00");
         gridOffX = 3;
         gridOffY = 5;
         break;
     case 6:
-        mystrcpy(&bufCoordStr, "HZ00");
+        mystrcpy(bufCoordStr, "HZ00");
         gridOffX = 0;
         gridOffY = 0;
         break;
     default:
-        bufCoordStr = 0;
-        return &bufCoordStr;
+        bufCoordStr[0] = 0;
+        return bufCoordStr;
     }
     wx = (((wx >> WORLD_COORD_SHIFT) * 20) >> 0xa) + gridOffX;
     while (wx > 9) {
         wx -= 10;
-        bufCoordStr++;
+        bufCoordStr[0]++;
     }
-    gridRefCol += (int8)wx;
+    bufCoordStr[2] += (int8)wx;
     wy = (((wy >> WORLD_COORD_SHIFT) * 20) >> 0xa) + gridOffY;
     while (wy > 9) {
         wy -= 10;
-        gridRefRow--;
+        bufCoordStr[1]--;
     }
-    gridRefRowDigit[0] += 9 - (int8)wy;
-    return &bufCoordStr;
+    bufCoordStr[3] += 9 - (int8)wy;
+    return bufCoordStr;
 }
 
 int clampValue(int val, int lo, int hi) {

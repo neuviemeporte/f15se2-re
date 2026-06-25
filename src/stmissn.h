@@ -4,7 +4,7 @@
 #include "inttype.h"
 
 void clearKeybuf(void);
-void waitMdaCgaStatus(int16);
+void waitMdaCgaStatus(int16 iter);
 void showPic640(const char *filename);
 void missionSelect(void);
 int askRepeatMission(void);

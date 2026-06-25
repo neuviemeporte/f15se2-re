@@ -155,7 +155,7 @@ int main(void) {
     gameData->isCampaignMission = 1;
     gameData->campaignProgress = 0;
     commData->startDone = 1;
-    /* 0x365, check if same diff and thea picked as last time */
+    /* Check if same diff and thea picked as last time */
     if (gameData->difficulty == difficulty && gameData->theater == theater && missionPick == -1 && askRepeatMission() != 0)
         goto doSrand;
     gameData->rand = rand();
@@ -210,7 +210,6 @@ doSrand:
     } else {
         loadPic("f15.spr", commData->gfxInitResult);
     }
-    // 403
     exportWorldToComm("temp.wld");
     commData->setupDone = 3;
     commData->continueFlag = 0;
@@ -221,7 +220,6 @@ doSrand:
         commData->gfxModeChar = 0;
     }
     misc_clearKeyFlags();
-    // 461
     clearRect(bufPtr, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
     gfx_setMonoFlag(0);
     Log(("exiting with code %hd", exitCode[0]));

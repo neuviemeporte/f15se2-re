@@ -99,10 +99,10 @@ extern int spriteBlitH;
 extern int16 flag4Saved;
 extern int16 theaterSaved;
 extern uint8 far *moveDst;
-extern char bufCoordStr;
-extern uint8 gridRefRow;
-extern uint8 gridRefCol;
-extern uint8 gridRefRowDigit[];
+/* Grid-reference string buffer: "<colLetter><rowLetter><colDigit><rowDigit>\0".
+   The data named these 4 bytes separately but they form one contiguous
+   buffer (mystrcpy writes the whole string into it). */
+extern char bufCoordStr[];
 extern char todayMissStrBuf[];
 extern uint8 missionStrTrunc;
 extern uint8 missionStrTruncEnd[];
