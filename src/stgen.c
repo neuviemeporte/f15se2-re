@@ -28,9 +28,9 @@ void positionUnit(int, int);
 int approxDistance(int, int);
 void parseWorld(const char *);
 int calcBearing(int, int);
-int setMoveDstComm7A(const char *filename, const char* mode);
-void memAppend(const void *ptr, int itemsz, int count, FILE* unused);
-void doNothing(FILE*);
+int setMoveDstComm7A(const char *filename, const char *mode);
+void memAppend(const void *ptr, int itemsz, int count, FILE *unused);
+void doNothing(FILE *);
 char *formatGridRef(int16, int16, int16);
 int clampValue(int, int, int);
 
@@ -45,297 +45,286 @@ void missionGenerate() {
     runGenerator();
 }
 
-void runGenerator()
-{
-  int attempt;
-  int totalDist;
-  int bearing;
-  int missionBits;
-  int i;
-  int waypointIdx;
-  int baseBearing;
-  int randChoice;
-  int16 swapTmp;
-  int16 maxRange;
-  int minDist;
-  int unitType;
-  int16 randIdx;
-  int16 baseDist[4];
-  int16 randY;
-  int idx;
-  int matchCount;
-  int slot;
-  int retryCount;
+void runGenerator() {
+    int attempt;
+    int totalDist;
+    int bearing;
+    int missionBits;
+    int i;
+    int waypointIdx;
+    int baseBearing;
+    int randChoice;
+    int16 swapTmp;
+    int16 maxRange;
+    int minDist;
+    int unitType;
+    int16 randIdx;
+    int16 baseDist[4];
+    int16 randY;
+    int idx;
+    int matchCount;
+    int slot;
+    int retryCount;
 
-  attempt = missionDistAccum = 0;
-  minDist = 250;
+    attempt = missionDistAccum = 0;
+    minDist = 250;
 restart_40a8:
-  do {
-    Log(("runGenerator(): outer, %d", attempt));
-    attempt = attempt + 1;
-    if (999 < attempt) goto counterMore1k;
     do {
-      if (missionPick != -1) {
-        randIdx = randMul(targetCoordsCount[missionPick]);
-        targets[0].targetIdx = findOrPlaceItem(targetCoordsXPtrs[missionPick][randIdx],
-          targetCoordsYPtrs[missionPick][randIdx], 1);
-      }
-      else {
+        Log(("runGenerator(): outer, %d", attempt));
+        attempt = attempt + 1;
+        if (999 < attempt) goto counterMore1k;
         do {
-          do {
-            randIdx = randMul(224) * 0x80 + 0x840;
-            randY = randMul(224) * 0x80 + 0x840;
-          } while ((terrainGrid[(randIdx >> 0xb) + ((randY >> 0xb) * 16)] & 3) != 0);
-        } while ((uint16)(targets[0].targetIdx = findOrPlaceItem(randIdx,randY,1)) == 0xffffu);
-      }
-      if (missionPick == 7) {
-        targets[1].targetIdx = findOrPlaceItem(targetCoordsXPtrs[missionPick][randIdx],
-          targetCoordsYPtrs[missionPick][randIdx] + 40, 2);
-      }
-      else if (missionPick == 2) {
-        randIdx = randIdx * 2 + randMul(2);
-        targets[1].targetIdx = findOrPlaceItem(targetCoordsX2Alt[randIdx], targetCoordsY2Alt[randIdx], 2);
-      }
-      else if (missionPick == 6) {
-        randIdx = (randMul(6) + randIdx + 1) & 7;
-        targets[1].targetIdx = findOrPlaceItem(targetCoordsX6[randIdx], targetCoordsY6[randIdx], 2);
-      }
-      else {
-        do {
-          do {
-            randIdx = randMul(224) * 0x80 + 0x840;
-            randY = randMul(224) * 0x80 + 0x840;
-          } while ((terrainGrid[(randIdx >> 0xb) + (randY >> 0xb) * 16] & 3) != 0);
-          targets[1].targetIdx = findOrPlaceItem(randIdx, randY, 2);
-        } while ((targets[1].targetIdx == -1) || ((missionPick == 0 && (worldObjects[targets[1].targetIdx].unitType == 0))));
-      }
-    } while ((targets[0].targetIdx == targets[1].targetIdx) || (itemDistance(targets[0].targetIdx, targets[1].targetIdx) >> 6) > 200);
-  } while ((gameData->theater != THEATER_DS) && (worldObjects[targets[0].targetIdx].objectIdx == worldObjects[targets[1].targetIdx].objectIdx));
-  for (slot = 0; slot < 2; slot++) {
-    Log(("runGenerator(): loop 2, counter %d", slot));
-    baseDist[slot] = 0x7fff;
-    for (idx = worldObjectCount; idx < readItemSize; idx++) {
-      if (((worldObjects[idx].targetFlags & 0x500) != 0)
-        && ((worldObjects[idx].targetFlags & 0x201) != 0)
-        && ((worldObjects[idx].targetFlags & 0x800) == 0)) {
-        // placed in var_1C in IDA, but this looks like an array, sort out stack layout later
-        baseDist[2] = clampValue(itemDistance(targets[slot].targetIdx, idx) + ((worldObjects[idx].targetFlags & 0x100) != 0 ? randMul(100) * 0x40 + 0xc80 : 0), 0, 0x7fff);
-        if ((baseDist[2] < 0x7000) && (randMul(0x500) + baseDist[2] < baseDist[slot])) {
-          targets[slot].baseIdx = idx;
-          baseDist[slot] = baseDist[2];
-        }
-      }
-    }
-  }
-  if (gameData->theater != THEATER_DS) {
-    totalDist = (itemDistance(targets[0].targetIdx, targets[1].targetIdx) >> 6) + (baseDist[0] >> 6) + (baseDist[1] >> 6);
-    if (((attempt + 740 < totalDist) || (totalDist < minDist)) && ((worldObjects[targets[0].baseIdx].targetFlags & 0x200) == 0)) {
-      minDist -= 5 - difficultySaved;
-      goto restart_40a8;
-    }
-  }
-  else {
-    if (baseDist[0] == 0x7fff) {
-      if (baseDist[1] == 0x7fff) goto restart_40a8;
-      baseDist[0] = baseDist[1];
-      targets[0].baseIdx = targets[1].baseIdx;
-    }
-  }
-  for (idx = 0; idx < 2; idx++) {
-    Log(("runGenerator(): loop3, counter %d", idx));
-    targets[idx].missionType = 0;
-    for (retryCount = 0; retryCount < 2; retryCount++) {
-      matchCount = 0;
-      for (slot = 0; slot < 56; slot++) {
-        if (objectTypeTable[worldObjects[targets[idx].targetIdx].objectIdx & 0x7f] == missionTable[slot].tensionMask
-            && strcmp(wldOffsets[targets[idx].targetIdx], "POW Camp") != 0) {
-          if ((retryCount != 0) && (matchCount == randChoice)) {
-            targets[idx].missionType = missionTable[slot].theaterMask;
-            targets[idx].missionNum = slot;
-            targets[idx].missionCode = missionTable[slot].missionType;
-            if (missionTable[slot].objectFlag > 0) {
-              targets[idx].missionCode += (missionTable[slot].objectFlag << 8) ;
+            if (missionPick != -1) {
+                randIdx = randMul(targetCoordsCount[missionPick]);
+                targets[0].targetIdx = findOrPlaceItem(targetCoordsXPtrs[missionPick][randIdx],
+                                                       targetCoordsYPtrs[missionPick][randIdx], 1);
+            } else {
+                do {
+                    do {
+                        randIdx = randMul(224) * 0x80 + 0x840;
+                        randY = randMul(224) * 0x80 + 0x840;
+                    } while ((terrainGrid[(randIdx >> 0xb) + ((randY >> 0xb) * 16)] & 3) != 0);
+                } while ((uint16)(targets[0].targetIdx = findOrPlaceItem(randIdx, randY, 1)) == 0xffffu);
             }
-          }
-          matchCount++;
+            if (missionPick == 7) {
+                targets[1].targetIdx = findOrPlaceItem(targetCoordsXPtrs[missionPick][randIdx],
+                                                       targetCoordsYPtrs[missionPick][randIdx] + 40, 2);
+            } else if (missionPick == 2) {
+                randIdx = randIdx * 2 + randMul(2);
+                targets[1].targetIdx = findOrPlaceItem(targetCoordsX2Alt[randIdx], targetCoordsY2Alt[randIdx], 2);
+            } else if (missionPick == 6) {
+                randIdx = (randMul(6) + randIdx + 1) & 7;
+                targets[1].targetIdx = findOrPlaceItem(targetCoordsX6[randIdx], targetCoordsY6[randIdx], 2);
+            } else {
+                do {
+                    do {
+                        randIdx = randMul(224) * 0x80 + 0x840;
+                        randY = randMul(224) * 0x80 + 0x840;
+                    } while ((terrainGrid[(randIdx >> 0xb) + (randY >> 0xb) * 16] & 3) != 0);
+                    targets[1].targetIdx = findOrPlaceItem(randIdx, randY, 2);
+                } while ((targets[1].targetIdx == -1) || ((missionPick == 0 && (worldObjects[targets[1].targetIdx].unitType == 0))));
+            }
+        } while ((targets[0].targetIdx == targets[1].targetIdx) || (itemDistance(targets[0].targetIdx, targets[1].targetIdx) >> 6) > 200);
+    } while ((gameData->theater != THEATER_DS) && (worldObjects[targets[0].targetIdx].objectIdx == worldObjects[targets[1].targetIdx].objectIdx));
+    for (slot = 0; slot < 2; slot++) {
+        Log(("runGenerator(): loop 2, counter %d", slot));
+        baseDist[slot] = 0x7fff;
+        for (idx = worldObjectCount; idx < readItemSize; idx++) {
+            if (((worldObjects[idx].targetFlags & 0x500) != 0) && ((worldObjects[idx].targetFlags & 0x201) != 0) && ((worldObjects[idx].targetFlags & 0x800) == 0)) {
+                // placed in var_1C in IDA, but this looks like an array, sort out stack layout later
+                baseDist[2] = clampValue(itemDistance(targets[slot].targetIdx, idx) + ((worldObjects[idx].targetFlags & 0x100) != 0 ? randMul(100) * 0x40 + 0xc80 : 0), 0, 0x7fff);
+                if ((baseDist[2] < 0x7000) && (randMul(0x500) + baseDist[2] < baseDist[slot])) {
+                    targets[slot].baseIdx = idx;
+                    baseDist[slot] = baseDist[2];
+                }
+            }
         }
-      }
-      randChoice = randMul(matchCount);
     }
-  }
-  if ((targets[0].missionType == 0) || (targets[1].missionType == 0)) {
-    goto restart_40a8;
-  }
-  if ((baseDist[0] < baseDist[1]) && (missionPick == -1)) {
-    swapTmp = targets[0].targetIdx;
-    targets[0].targetIdx = targets[1].targetIdx;
-    targets[1].targetIdx = swapTmp;
-    swapTmp = targets[0].missionType;
-    targets[0].missionType = targets[1].missionType;
-    targets[1].missionType = swapTmp;
-    swapTmp = targets[0].baseIdx;
-    targets[0].baseIdx = targets[1].baseIdx;
-    targets[1].baseIdx = swapTmp;
-    swapTmp = targets[0].missionNum;
-    targets[0].missionNum = targets[1].missionNum;
-    targets[1].missionNum = swapTmp;
-    swapTmp = targets[0].missionCode;
-    targets[0].missionCode = targets[1].missionCode;
-    targets[1].missionCode = swapTmp;
-    swapTmp = baseDist[0];
-    baseDist[0] = baseDist[1];
-    baseDist[1] = swapTmp;
-  }
-  if (targets[0].missionType == 4) {
-    goto restart_40a8;
-  }
-  escortMissionFlag = 0xffff;
-  if (missionTable[targets[0].missionNum].objectFlag < 0) { //459e
-    flightUnits[0].planeType = -missionTable[targets[0].missionNum].objectFlag;
-  }
-  if (escortMissionFlag == 0) {
-    flightUnits[0].fuel = DEFAULT_FUEL;
-  }
-  for (idx = 0; idx < 2; idx++) {
-    Log(("runGenerator(): loop4, counter %d", idx));
-    mystrcpy(targets[idx].coord, getItemCoordStr(targets[idx].targetIdx));
-    if (targets[idx].targetIdx < FIRST_REAL_ITEM) {
-      swapTmp = 0x7fff;
-      for (slot = FIRST_REAL_ITEM; slot < readItemSize; slot++) {
-        if ((worldObjects[slot].targetFlags & 0x500) == 0
-            && itemDistance(slot, targets[idx].targetIdx) < swapTmp
-            && worldObjects[slot].unitRef != 0) {
-          swapTmp = itemDistance(slot, targets[idx].targetIdx);
-          worldObjects[targets[idx].targetIdx].unitRef = worldObjects[slot].unitRef;
+    if (gameData->theater != THEATER_DS) {
+        totalDist = (itemDistance(targets[0].targetIdx, targets[1].targetIdx) >> 6) + (baseDist[0] >> 6) + (baseDist[1] >> 6);
+        if (((attempt + 740 < totalDist) || (totalDist < minDist)) && ((worldObjects[targets[0].baseIdx].targetFlags & 0x200) == 0)) {
+            minDist -= 5 - difficultySaved;
+            goto restart_40a8;
         }
-      }
+    } else {
+        if (baseDist[0] == 0x7fff) {
+            if (baseDist[1] == 0x7fff) goto restart_40a8;
+            baseDist[0] = baseDist[1];
+            targets[0].baseIdx = targets[1].baseIdx;
+        }
     }
-  }
-  targets[0].distance = missionDistAccum >> 4;
+    for (idx = 0; idx < 2; idx++) {
+        Log(("runGenerator(): loop3, counter %d", idx));
+        targets[idx].missionType = 0;
+        for (retryCount = 0; retryCount < 2; retryCount++) {
+            matchCount = 0;
+            for (slot = 0; slot < 56; slot++) {
+                if (objectTypeTable[worldObjects[targets[idx].targetIdx].objectIdx & 0x7f] == missionTable[slot].tensionMask && strcmp(wldOffsets[targets[idx].targetIdx], "POW Camp") != 0) {
+                    if ((retryCount != 0) && (matchCount == randChoice)) {
+                        targets[idx].missionType = missionTable[slot].theaterMask;
+                        targets[idx].missionNum = slot;
+                        targets[idx].missionCode = missionTable[slot].missionType;
+                        if (missionTable[slot].objectFlag > 0) {
+                            targets[idx].missionCode += (missionTable[slot].objectFlag << 8);
+                        }
+                    }
+                    matchCount++;
+                }
+            }
+            randChoice = randMul(matchCount);
+        }
+    }
+    if ((targets[0].missionType == 0) || (targets[1].missionType == 0)) {
+        goto restart_40a8;
+    }
+    if ((baseDist[0] < baseDist[1]) && (missionPick == -1)) {
+        swapTmp = targets[0].targetIdx;
+        targets[0].targetIdx = targets[1].targetIdx;
+        targets[1].targetIdx = swapTmp;
+        swapTmp = targets[0].missionType;
+        targets[0].missionType = targets[1].missionType;
+        targets[1].missionType = swapTmp;
+        swapTmp = targets[0].baseIdx;
+        targets[0].baseIdx = targets[1].baseIdx;
+        targets[1].baseIdx = swapTmp;
+        swapTmp = targets[0].missionNum;
+        targets[0].missionNum = targets[1].missionNum;
+        targets[1].missionNum = swapTmp;
+        swapTmp = targets[0].missionCode;
+        targets[0].missionCode = targets[1].missionCode;
+        targets[1].missionCode = swapTmp;
+        swapTmp = baseDist[0];
+        baseDist[0] = baseDist[1];
+        baseDist[1] = swapTmp;
+    }
+    if (targets[0].missionType == 4) {
+        goto restart_40a8;
+    }
+    escortMissionFlag = 0xffff;
+    if (missionTable[targets[0].missionNum].objectFlag < 0) { // 459e
+        flightUnits[0].planeType = -missionTable[targets[0].missionNum].objectFlag;
+    }
+    if (escortMissionFlag == 0) {
+        flightUnits[0].fuel = DEFAULT_FUEL;
+    }
+    for (idx = 0; idx < 2; idx++) {
+        Log(("runGenerator(): loop4, counter %d", idx));
+        mystrcpy(targets[idx].coord, getItemCoordStr(targets[idx].targetIdx));
+        if (targets[idx].targetIdx < FIRST_REAL_ITEM) {
+            swapTmp = 0x7fff;
+            for (slot = FIRST_REAL_ITEM; slot < readItemSize; slot++) {
+                if ((worldObjects[slot].targetFlags & 0x500) == 0 && itemDistance(slot, targets[idx].targetIdx) < swapTmp && worldObjects[slot].unitRef != 0) {
+                    swapTmp = itemDistance(slot, targets[idx].targetIdx);
+                    worldObjects[targets[idx].targetIdx].unitRef = worldObjects[slot].unitRef;
+                }
+            }
+        }
+    }
+    targets[0].distance = missionDistAccum >> 4;
 counterMore1k:
-  baseXPrecise =(uint32)(worldObjects[targets[0].baseIdx].x_coord) << WORLD_COORD_SHIFT;
-  /*
-  Assigns the following values to made-up stack variables:
-  var_34 = (long)((word_1C830 & 0x200) ? 0 : 0x708);
-  var_30 = 0x8000 - (long)word_1C82C;
-  example step-through values:
-  1) DX:AX = 0:0708 (1800)
-     BX:CX = 0:42c0 (17088)
-  2) BX:CX = 0:3d40 (15680 = 32768 - 17088)
-  6) DX:AX = 7:a800 (501760 = 15680 << 5)
-  7) DX:AX = 7:a0f8 (499960 = 501760 - 1800)
-  */
-  baseYPrecise = ((0x8000 - (int32)(worldObjects[targets[0].baseIdx].y_coord)) << WORLD_COORD_SHIFT) - (int32)((worldObjects[targets[0].baseIdx].targetFlags & 0x200) ? 0 : 0x708);
-  missionTargetX = worldObjects[targets[0].targetIdx].x_coord;
-  missionTargetY = worldObjects[targets[0].targetIdx].y_coord;
-  missionMidX = (worldObjects[targets[0].baseIdx].x_coord / 2) + (missionTargetX / 2);
-  missionMidY = (worldObjects[targets[0].baseIdx].y_coord / 2) + (missionTargetY / 2);
-  missionBase2X = worldObjects[targets[1].baseIdx].x_coord;
-  missionBase2Y = worldObjects[targets[1].baseIdx].y_coord;
-  missionTarget2X = worldObjects[targets[1].targetIdx].x_coord;
-  missionTarget2Y = worldObjects[targets[1].targetIdx].y_coord;
-  if (missionPick == 2) {
-    missionTarget2X += (rand() & 0x1000) - 0x800;
-    missionTarget2Y += (rand() & 0x1000) - 0x800;
-  }
-  if (targets[0].missionCode & 0x10) {
-    missionTargetX = ((missionTargetX >> 0xa) << 0xa) + 0x200;
-    missionTargetY = ((missionTargetY >> 0xa) << 0xa) + 0x200;
-  }
-  for (idx = 0; idx < flightUnitCount - 4; idx++) {
-    Log(("runGenerator(): loop5, counter %d", idx));
-    if ((flightUnits[idx].flags & 0x80) != 0) {
-      maxRange = (baseDist[0] / 4) * (4 - difficultySaved);
-      if ((flightUnits[idx].flags & 0x40) != 0) {
-        maxRange = baseDist[0] << 1;
-      }
-      do {
-        baseDist[2] = randMul(worldObjectCount - FIRST_REAL_ITEM) + FIRST_REAL_ITEM;
-      } while ((worldObjects[baseDist[2]].targetFlags & 0x100) || approxDistance(missionMidX - worldObjects[baseDist[2]].x_coord, missionMidY - worldObjects[baseDist[2]].y_coord) > (maxRange += 0x10));
-      positionUnit(idx, baseDist[2]);
-      maxRange = 0x3000;
-      baseBearing = calcBearing(worldObjects[targets[0].baseIdx].x_coord - flightUnits[idx].x, flightUnits[idx].y - worldObjects[targets[0].baseIdx].y_coord);
-      for (slot = 0; slot < 8; slot++) {
-        waypointIdx = randMul(worldObjectCount) + 1;
-        if ((worldObjects[waypointIdx].targetFlags & 0x400) == 0) {
-          bearing = calcBearing(worldObjects[waypointIdx].x_coord - flightUnits[idx].x, flightUnits[idx].y - worldObjects[waypointIdx].y_coord);
-          if (abs(baseBearing - bearing) < maxRange) {
-            maxRange = abs(baseBearing - bearing);
-            flightUnits[idx].waypointIdx = waypointIdx;
-            break;
-          }
+    baseXPrecise = (uint32)(worldObjects[targets[0].baseIdx].x_coord) << WORLD_COORD_SHIFT;
+    /*
+    Assigns the following values to made-up stack variables:
+    var_34 = (long)((word_1C830 & 0x200) ? 0 : 0x708);
+    var_30 = 0x8000 - (long)word_1C82C;
+    example step-through values:
+    1) DX:AX = 0:0708 (1800)
+       BX:CX = 0:42c0 (17088)
+    2) BX:CX = 0:3d40 (15680 = 32768 - 17088)
+    6) DX:AX = 7:a800 (501760 = 15680 << 5)
+    7) DX:AX = 7:a0f8 (499960 = 501760 - 1800)
+    */
+    baseYPrecise = ((0x8000 - (int32)(worldObjects[targets[0].baseIdx].y_coord)) << WORLD_COORD_SHIFT) - (int32)((worldObjects[targets[0].baseIdx].targetFlags & 0x200) ? 0 : 0x708);
+    missionTargetX = worldObjects[targets[0].targetIdx].x_coord;
+    missionTargetY = worldObjects[targets[0].targetIdx].y_coord;
+    missionMidX = (worldObjects[targets[0].baseIdx].x_coord / 2) + (missionTargetX / 2);
+    missionMidY = (worldObjects[targets[0].baseIdx].y_coord / 2) + (missionTargetY / 2);
+    missionBase2X = worldObjects[targets[1].baseIdx].x_coord;
+    missionBase2Y = worldObjects[targets[1].baseIdx].y_coord;
+    missionTarget2X = worldObjects[targets[1].targetIdx].x_coord;
+    missionTarget2Y = worldObjects[targets[1].targetIdx].y_coord;
+    if (missionPick == 2) {
+        missionTarget2X += (rand() & 0x1000) - 0x800;
+        missionTarget2Y += (rand() & 0x1000) - 0x800;
+    }
+    if (targets[0].missionCode & 0x10) {
+        missionTargetX = ((missionTargetX >> 0xa) << 0xa) + 0x200;
+        missionTargetY = ((missionTargetY >> 0xa) << 0xa) + 0x200;
+    }
+    for (idx = 0; idx < flightUnitCount - 4; idx++) {
+        Log(("runGenerator(): loop5, counter %d", idx));
+        if ((flightUnits[idx].flags & 0x80) != 0) {
+            maxRange = (baseDist[0] / 4) * (4 - difficultySaved);
+            if ((flightUnits[idx].flags & 0x40) != 0) {
+                maxRange = baseDist[0] << 1;
+            }
+            do {
+                baseDist[2] = randMul(worldObjectCount - FIRST_REAL_ITEM) + FIRST_REAL_ITEM;
+            } while ((worldObjects[baseDist[2]].targetFlags & 0x100) || approxDistance(missionMidX - worldObjects[baseDist[2]].x_coord, missionMidY - worldObjects[baseDist[2]].y_coord) > (maxRange += 0x10));
+            positionUnit(idx, baseDist[2]);
+            maxRange = 0x3000;
+            baseBearing = calcBearing(worldObjects[targets[0].baseIdx].x_coord - flightUnits[idx].x, flightUnits[idx].y - worldObjects[targets[0].baseIdx].y_coord);
+            for (slot = 0; slot < 8; slot++) {
+                waypointIdx = randMul(worldObjectCount) + 1;
+                if ((worldObjects[waypointIdx].targetFlags & 0x400) == 0) {
+                    bearing = calcBearing(worldObjects[waypointIdx].x_coord - flightUnits[idx].x, flightUnits[idx].y - worldObjects[waypointIdx].y_coord);
+                    if (abs(baseBearing - bearing) < maxRange) {
+                        maxRange = abs(baseBearing - bearing);
+                        flightUnits[idx].waypointIdx = waypointIdx;
+                        break;
+                    }
+                }
+            }
         }
-      }
+        if (((flightUnits[idx].flags & 0x100) != 0) && (escortMissionFlag != -1)) {
+            positionUnit(idx, playerStartLoc);
+            flightUnits[idx].fuel = DEFAULT_FUEL;
+        }
+        if (idx != 0) {
+            baseDist[2] = 0;
+            do {
+                waypointIdx = randMul(worldObjectCount - FIRST_REAL_ITEM) + FIRST_REAL_ITEM;
+            } while ((((worldObjects[waypointIdx].targetFlags & 0x801) != 1) || (worldObjects[waypointIdx].patrolCount != 0)) && baseDist[2]++ < 20);
+            worldObjects[waypointIdx].occupantType = flightUnits[idx].planeType;
+            worldObjects[waypointIdx].patrolCount = randMul(theaterSaved + 1) + 1;
+        }
     }
-    if (((flightUnits[idx].flags & 0x100) != 0) && (escortMissionFlag != -1)) {
-      positionUnit(idx, playerStartLoc);
-      flightUnits[idx].fuel = DEFAULT_FUEL;
+    for (idx = 0; idx < groundUnitCount; idx++) {
+        Log(("runGenerator(): loop6, counter %d", idx));
+        unitType = worldObjects[idx].unitType;
+        if ((unitType != 0) && (unitType != 21)) {
+            switch ((gameData->isCampaignMission != 0) + randMul(5) + difficultySaved) {
+            case 0:
+            case 1:
+            case 3:
+                unitType = unitTypeRemapTable[unitType].downgrade;
+            case 2:
+            case 4:
+            case 6:
+                break;
+            case 5:
+            case 7:
+            case 8:
+                unitType = unitTypeRemapTable[unitType].upgrade;
+                break;
+            }
+            worldObjects[idx].unitType = unitType;
+            if (((worldObjects[idx].targetFlags & 8) != 0) && gameData->isCampaignMission + difficultySaved + 2 < randMul(10)) {
+                worldObjects[idx].unitType = 0;
+            }
+        }
     }
-    if (idx != 0) {
-      baseDist[2] = 0;
-      do {
-        waypointIdx = randMul(worldObjectCount - FIRST_REAL_ITEM) + FIRST_REAL_ITEM;
-      } while ((((worldObjects[waypointIdx].targetFlags & 0x801) != 1) || (worldObjects[waypointIdx].patrolCount != 0)) && baseDist[2]++ < 20);
-      worldObjects[waypointIdx].occupantType = flightUnits[idx].planeType;
-      worldObjects[waypointIdx].patrolCount = randMul(theaterSaved + 1) + 1;
+    for (randIdx = 0; randIdx < 16; randIdx++) {
+        for (randY = 0; randY < 16; randY++) {
+            if (((terrainGrid[randY + randIdx * 16] & 0x10) != 0) && randMul(5) >= difficultySaved) {
+                terrainGrid[randY + randIdx * 16] &= 0xef;
+            }
+        }
     }
-  }
-  for (idx = 0; idx < groundUnitCount; idx++) {
-    Log(("runGenerator(): loop6, counter %d", idx));
-    unitType = worldObjects[idx].unitType;
-    if ((unitType != 0) && (unitType != 21)) {
-      switch((gameData->isCampaignMission != 0) + randMul(5) + difficultySaved) {
-      case 0:
-      case 1:
-      case 3:
-        unitType = unitTypeRemapTable[unitType].downgrade;
-      case 2:
-      case 4:
-      case 6:
-        break;
-      case 5:
-      case 7:
-      case 8:
-        unitType = unitTypeRemapTable[unitType].upgrade;
-        break;
-      }
-      worldObjects[idx].unitType = unitType;
-      if (((worldObjects[idx].targetFlags & 8) != 0) && gameData->isCampaignMission + difficultySaved + 2 < randMul(10)) {
-        worldObjects[idx].unitType = 0;
-      }
+    commData->weaponType[1] = 1;
+    commData->weaponType[2] = 5;
+    commData->weaponType[0] = 0;
+    if (gameData->theater == THEATER_DS) {
+        commData->weaponType[1] = 3;
+        if (missionPick != -1) {
+            commData->weaponType[2] = missionPickType[missionPick];
+        }
     }
-  }
-  for (randIdx = 0; randIdx < 16; randIdx++) {
-    for (randY = 0; randY < 16; randY++) {
-      if (((terrainGrid[randY + randIdx * 16] & 0x10) != 0) && randMul(5) >= difficultySaved) {
-        terrainGrid[randY + randIdx * 16] &= 0xef;
-      }
+    i = 0;
+    for (idx = 0; idx < 3; idx++) {
+        Log(("runGenerator(): loop8, counter %d", idx));
+        commData->weaponCount[idx] = weaponLoadouts[commData->weaponType[idx]].qty;
     }
-  }
-  commData->weaponType[1] = 1;
-  commData->weaponType[2] = 5;
-  commData->weaponType[0] = 0;
-  if (gameData->theater == THEATER_DS) {
-    commData->weaponType[1] = 3;
-    if (missionPick != -1) {
-      commData->weaponType[2] = missionPickType[missionPick];
+    missionBits = targets[0].missionNum + targets[1].missionNum;
+    nightMissionFlag = ((uint8)missionBits & 3) == 0;
+    missionBits = (missionBits & 0xf) << 8;
+    if ((targets[0].missionType == 1) || (targets[1].missionType == 1)) {
+        nightMissionFlag = 0;
     }
-  }
-  i = 0;
-  for (idx = 0; idx < 3; idx++) {
-    Log(("runGenerator(): loop8, counter %d", idx));
-    commData->weaponCount[idx] = weaponLoadouts[commData->weaponType[idx]].qty;
-  }
-  missionBits = targets[0].missionNum + targets[1].missionNum;
-  nightMissionFlag = ((uint8)missionBits & 3) == 0;
-  missionBits = (missionBits & 0xf) << 8;
-  if ((targets[0].missionType == 1) || (targets[1].missionType == 1)) {
-    nightMissionFlag = 0;
-  }
-  if ((targets[0].missionType == 4) || (targets[1].missionType == 4)) {
-    nightMissionFlag = 1;
-  }
-  missionDistAccum -= (missionBits + missionDistAccum) % 150;
+    if ((targets[0].missionType == 4) || (targets[1].missionType == 4)) {
+        nightMissionFlag = 1;
+    }
+    missionDistAccum -= (missionBits + missionDistAccum) % 150;
 }
 
 int findOrPlaceItem(int wx, int wy, int slot) {
@@ -357,7 +346,7 @@ int findOrPlaceItem(int wx, int wy, int slot) {
 // debugcom: manhattan distance
 int itemDistance(int idx1, int idx2) {
     return approxDistance(worldObjects[idx1].x_coord - worldObjects[idx2].x_coord,
-        worldObjects[idx1].y_coord - worldObjects[idx2].y_coord);
+                          worldObjects[idx1].y_coord - worldObjects[idx2].y_coord);
 }
 
 void positionUnit(int unit, int loc) {
@@ -418,7 +407,7 @@ void parseWorld(const char *filename) {
 
 void exportWorldToComm(const char *filename) {
     int unused;
-    if ((fileHandle = (FILE*)setMoveDstComm7A(filename, "wb")) == NULL) return;
+    if ((fileHandle = (FILE *)setMoveDstComm7A(filename, "wb")) == NULL) return;
     memAppend(wldReadBuf1, 2, 1, fileHandle);
     memAppend(&readItemSize, 2, 1, fileHandle);
     memAppend(&groundUnitCount, 2, 1, fileHandle);
@@ -451,8 +440,7 @@ int calcBearing(int dx, int dy) {
         ratio = (int32)abs(dy) << 0xe;
         divisor = abs(dx);
         swapped = 1;
-    }
-    else {
+    } else {
         ratio = (int32)abs(dx) << 0xe;
         divisor = abs(dy);
         swapped = 0;
@@ -462,43 +450,39 @@ int calcBearing(int dx, int dy) {
     if (dx > 0) {
         if (dy > 0) {
             result = swapped != 0 ? BEARING_EAST - angle : angle;
-        }
-        else {
+        } else {
             result = (swapped != 0) ? angle + BEARING_EAST : BEARING_SOUTH - angle;
         }
-    }
-    else {
+    } else {
         if (dy > 0) {
             result = (swapped != 0) ? angle + BEARING_WEST : -angle;
-        }
-        else {
+        } else {
             result = (swapped != 0) ? BEARING_WEST - angle : angle + BEARING_SOUTH;
-
         }
     }
     return result;
 }
 
-int setMoveDstComm7A(const char *filename, const char* mode) {
-    moveDst = (uint8 FAR*)(&commData->worldBuf);
+int setMoveDstComm7A(const char *filename, const char *mode) {
+    moveDst = (uint8 FAR *)(&commData->worldBuf);
     return 1;
 }
 
-void memAppend(const void *ptr, int itemsz, int count, FILE* unused) {
+void memAppend(const void *ptr, int itemsz, int count, FILE *unused) {
     const void FAR *farptr;
     farptr = ptr;
     movedata(FP_SEG(farptr), FP_OFF(farptr), FP_SEG(moveDst), FP_OFF(moveDst), itemsz * count);
     moveDst += itemsz * count;
 }
 
-void doNothing(FILE* handle) {
+void doNothing(FILE *handle) {
 }
 
-char* getItemCoordStr(int16 idx) {
+char *getItemCoordStr(int16 idx) {
     return formatGridRef(worldObjects[idx].x_coord, worldObjects[idx].y_coord, gameData->theater);
 }
 
-char* formatGridRef(int16 wx, int16 wy, int16 theater) {
+char *formatGridRef(int16 wx, int16 wy, int16 theater) {
     int gridOffX, gridOffY;
     (void)theater;
     switch (gameData->theater) {
@@ -572,7 +556,7 @@ void buildTargetLabel(int idx) {
         mystrcat(todayMissStrBuf, wldOffsets[worldObjects[idx].unitRef]);
     }
     if (mystrlen(todayMissStrBuf) > 30) {
-      missionStrTrunc = 46;
-      missionStrTruncEnd[0] = 0;
+        missionStrTrunc = 46;
+        missionStrTruncEnd[0] = 0;
     }
 }

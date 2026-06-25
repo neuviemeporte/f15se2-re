@@ -26,8 +26,7 @@ void selectMissile();
 void disableTextBlink(void);
 
 // ==== seg000:0xd260 ====
-void keyDispatch(uint16 scanCode)
-{
+void keyDispatch(uint16 scanCode) {
     char memStr[14]; /* local buffer at BP-0e, used by itoa for memory display */
 
     g_axisInputAccum[0] = g_axisInputAccum[1] = 0;
@@ -242,8 +241,7 @@ void keyDispatch(uint16 scanCode)
         if (g_ejectState == 0) {
             makeSound(2, 2);
             makeSound(34, 2);
-            if ((abs(g_ourRoll) >> 5) + (abs(g_ourPitch) >> 5) + g_knots
-                    > randomRange(500) + 500) {
+            if ((abs(g_ourRoll) >> 5) + (abs(g_ourPitch) >> 5) + g_knots > randomRange(500) + 500) {
                 finalizeMission(6);
             } else {
                 *(int far *)((char far *)commData + 0x26) = 2;
@@ -289,11 +287,13 @@ end_dispatch:
         g_fireCooldown = 4;
     }
 
-    switchIndicatorColor(3, (*(char *)&g_playerPlaneFlags & 1) ? 4
-        : (g_knots < 250 || (*(char *)&frameTick & 1)) ? 2 : 10);
+    switchIndicatorColor(3, (*(char *)&g_playerPlaneFlags & 1)             ? 4
+                            : (g_knots < 250 || (*(char *)&frameTick & 1)) ? 2
+                                                                           : 10);
 
     switchIndicatorColor(2, (*(char *)&g_playerPlaneFlags & 8) ? 14
-        : *(char *)&gfxModeUnset != 0 ? 3 : 2);
+                            : *(char *)&gfxModeUnset != 0      ? 3
+                                                               : 2);
 }
 
 // ==== seg000:0xd9db ====

@@ -83,9 +83,15 @@ static void emit(const char *prefix, const char *fmt, va_list ap) {
             continue;
         }
         ++f;
-        if (*f == '0') { zero = 1; ++f; }
+        if (*f == '0') {
+            zero = 1;
+            ++f;
+        }
         while (*f >= '0' && *f <= '9') width = width * 10 + (*f++ - '0');
-        while (*f == 'h' || *f == 'l') { if (*f == 'l') lng = 1; ++f; }
+        while (*f == 'h' || *f == 'l') {
+            if (*f == 'l') lng = 1;
+            ++f;
+        }
         switch (*f) {
         case 's': {
             const char *s = va_arg(ap, char *);
@@ -98,7 +104,11 @@ static void emit(const char *prefix, const char *fmt, va_list ap) {
         case 'd': {
             long v = lng ? va_arg(ap, long) : (long)va_arg(ap, int);
             unsigned long u;
-            if (v < 0) { *p++ = '-'; u = (unsigned long)-v; } else u = (unsigned long)v;
+            if (v < 0) {
+                *p++ = '-';
+                u = (unsigned long)-v;
+            } else
+                u = (unsigned long)v;
             p = fmt_uint(p, u, 10, "0123456789", width, zero);
             break;
         }
@@ -199,10 +209,15 @@ void hexdump(const void FAR *buf, size_t size, size_t off, int header) {
         raw("%02x ", (int)(((uint8 FAR *)buf)[i + off]));
         if (pos + 1 == bpl || i + 1 == size) { /* ascii column at line/buffer end */
             for (j = 1; j <= bpl; ++j) {
-                if (pos + j < bpl) { raw("   "); continue; }
+                if (pos + j < bpl) {
+                    raw("   ");
+                    continue;
+                }
                 c = ((uint8 FAR *)buf)[i + off - bpl + j];
-                if (c >= 0x20 && c <= 0x7e) raw("%c", c);
-                else raw(".");
+                if (c >= 0x20 && c <= 0x7e)
+                    raw("%c", c);
+                else
+                    raw(".");
             }
             raw("\n");
         }
@@ -213,12 +228,12 @@ void hexdump(const void FAR *buf, size_t size, size_t off, int header) {
 
 /* ---- public level helpers, shared by both backends ------------------- */
 
-#define LOG_FN(name, prefix)                            \
-    void name(const char *fmt, ...) {                   \
-        va_list ap;                                     \
-        va_start(ap, fmt);                              \
-        emit(prefix, fmt, ap);                          \
-        va_end(ap);                                     \
+#define LOG_FN(name, prefix)          \
+    void name(const char *fmt, ...) { \
+        va_list ap;                   \
+        va_start(ap, fmt);            \
+        emit(prefix, fmt, ap);        \
+        va_end(ap);                   \
     }
 
 LOG_FN(log_message, "")

@@ -21,12 +21,12 @@ void log_warn(const char *fmt, ...);
 void log_error(const char *fmt, ...);
 void log_critical(const char *fmt, ...);
 
-#define Log(x)         log_message x
-#define LogVerbose(x)  log_verbose x
-#define LogDebug(x)    log_debug x
-#define LogInfo(x)     log_info x
-#define LogWarn(x)     log_warn x
-#define LogError(x)    log_error x
+#define Log(x) log_message x
+#define LogVerbose(x) log_verbose x
+#define LogDebug(x) log_debug x
+#define LogInfo(x) log_info x
+#define LogWarn(x) log_warn x
+#define LogError(x) log_error x
 #define LogCritical(x) log_critical x
 
 #else /* !DEBUG */

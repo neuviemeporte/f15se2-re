@@ -23,7 +23,7 @@ int writeFileAtRaw(int handle, int count, int bufOffset, int bufSegment, int off
 void picBlit(int handle, int unk);
 void pascal shiftLongLeftInPlace(int count, long *ptr);
 void pascal shiftLongRightInPlace(int count, long *ptr);
-int far drawPolygonOutline(int fillColor, int pointCount, int* points, int edgeColor);
+int far drawPolygonOutline(int fillColor, int pointCount, int *points, int edgeColor);
 void installDivZeroHandler();
 void installDivZeroVector();
 int far drawFlatHorizon(int);
@@ -34,10 +34,10 @@ int far rotatePoint3dFar();
 void rotatePoint3d();
 int far transformModelVerticesFar();
 int far projectModelEdgesFar();
-int far buildRotationMatrixFar(int16* matrix, int angleX, int angleY, int angleZ);
-int far multiplyMatrix3x3Far(const int16* matA, const int16* matB, int16* result);
+int far buildRotationMatrixFar(int16 *matrix, int angleX, int angleY, int angleZ);
+int far multiplyMatrix3x3Far(const int16 *matA, const int16 *matB, int16 *result);
 int far drawModelDisplayList();
-int far fillSpanRect(const int16* dst, int left, int top, int right, int bottom);
+int far fillSpanRect(const int16 *dst, int left, int top, int right, int bottom);
 int far drawClipLineGlobal();
 int far flushSpanDirtyRect();
 int far resetScanlineSpans();
@@ -63,7 +63,7 @@ void restoreTimerIrqHandler();
 #ifdef NO_ASM
 /* per-tick game work + its registration hook (shared/timer.c + egsys.c); the
  * verify ASM build runs egcode.asm's own timer ISR instead, so this is NO_ASM. */
-void setTimerTickHook(void (far *fn)(void));
+void setTimerTickHook(void(far *fn)(void));
 void far egAdvanceFrameTick(void);
 #endif
 int getTimeOfDay();

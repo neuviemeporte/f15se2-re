@@ -19,8 +19,8 @@
  * contiguous block: MGRAPHIC's dirtyRect slot assumes maxX sits 0x1b8 bytes
  * after minX. */
 struct SpanBuffers {
-    int16 minX[220];   /* per-scanline left edge  (reset to 0xFFFF) */
-    int16 maxX[220];   /* per-scanline right edge (reset to 0) */
+    int16 minX[220]; /* per-scanline left edge  (reset to 0xFFFF) */
+    int16 maxX[220]; /* per-scanline right edge (reset to 0) */
 };
 extern struct SpanBuffers g_spanBuf;
 

@@ -18,8 +18,7 @@
 
 #include <dos.h>
 
-int main(void)
-{
+int main(void) {
     uint8 unused[14];
     uint8 introStage;
     uint16 FAR *commPtr;
@@ -80,16 +79,14 @@ int main(void)
             }
         }
 
-checkEga:
+    checkEga:
         if (commData->gfxModeNum >= GFX_MODE_EGA && (*MAKEFAR(uint8, SEG_BDA, OFF_BDA_EGASWITCH) & EGA_SWITCH_MASK) == EGA_SWITCH_VALUE) {
             if (commData->gfxModeNum != GFX_MODE_EGA) {
                 setupOverlaySlots(loadOverlay("egraphic.exe"));
             }
             gfx_waitRetrace();
             showPic640("Title640.Pic");
-        }
-        else
-        {
+        } else {
             gfx_setFadeSteps(1);
             gfx_waitRetrace();
             openShowPic("title16.pic", 0);
@@ -107,9 +104,7 @@ checkEga:
             setupOverlaySlots(commData->gfxOvlAddr); /* restore temporarily shadowed overlay? */
             gfx_waitRetrace();
             gfx_setMode13(commData->setupMono);
-        }
-        else
-        {
+        } else {
             gfx_setDac(0);
             getch();
         }
@@ -121,8 +116,8 @@ checkEga:
     /* f15.com normally writes copy-protection magic into the COMM MCB; replicate here */
     *(int16 far *)((char far *)commData - 4) = COMM_MCB_VALUE_MAGIC1;
     *(int16 far *)((char far *)commData - 2) = COMM_MCB_VALUE_MAGIC2;
-    gameData->difficulty = 0;  /* 0=green (airborne start), 1=veteran, 2=ace, 3=max, 4=demo */
-    gameData->theater = 0;     /* 0=Libya, 1=Desert, 2=Europe, 3=Kuril */
+    gameData->difficulty = 0; /* 0=green (airborne start), 1=veteran, 2=ace, 3=max, 4=demo */
+    gameData->theater = 0;    /* 0=Libya, 1=Desert, 2=Europe, 3=Kuril */
     gameData->missionReady = 1;
     gameData->isCampaignMission = 0;
     gameData->campaignProgress = 0;
@@ -135,7 +130,7 @@ checkEga:
     difficulty = gameData->difficulty;
     theater = gameData->theater;
     if (commData->gfxModeChar == 0 && gameData->campaignProgress == 0 && gameData->theater < NUM_THEATERS &&
-            ++(gameData->theater) == NUM_THEATERS) {
+        ++(gameData->theater) == NUM_THEATERS) {
         gameData->theater = 0;
         if (gameData->difficulty < MAX_DIFFICULTY) {
             gameData->difficulty++;
@@ -147,9 +142,8 @@ checkEga:
         /*
             This data of length 0x14 is copied in su.exe at seg0001(683):d1 from dseg(692):eb4 to COMM:48, then later this copies it from there onto the stack (???)
             1CC2:0CDE     6D 01 6D 01 00 00 00 00 73 01 73 01 00 00 00 00  m.m.....s.s.....\n            1CC2:0CEE     6E 01 6E 01 00 00 00 00 01 00 01 00 00 00 00 00  n.n.............\n        */
-       copyJoystickData(commData->joyData);
-    }
-    else {
+        copyJoystickData(commData->joyData);
+    } else {
         joyAxes[0] = joyAxes[1] = JOY_CENTER;
     }
     joyReady[0] = 1;
@@ -182,8 +176,7 @@ doSrand:
     gfx_setFadeSteps(8);
     if (gfx_getVal() == 0) {
         openShowPic("f15.spr", 2);
-    }
-    else {
+    } else {
         loadPic("f15.spr", commData->gfxInitResult);
     }
     exportWorldToComm("temp.wld");
@@ -192,8 +185,7 @@ doSrand:
     commData->restartFlag = 0;
     if (gameData->missionReady > 1) {
         commData->gfxModeChar = 1;
-    }
-    else {
+    } else {
         commData->gfxModeChar = 0;
     }
     misc_clearKeyFlags();
@@ -215,8 +207,7 @@ doSrand:
     gfx_setFadeSteps(8);
     if (gfx_getVal() == 0) {
         openShowPic("f15.spr", 2);
-    }
-    else {
+    } else {
         loadPic("f15.spr", commData->gfxInitResult);
     }
     // 403
@@ -226,8 +217,7 @@ doSrand:
     commData->restartFlag = 0;
     if (gameData->missionReady > 1) {
         commData->gfxModeChar = 1;
-    }
-    else {
+    } else {
         commData->gfxModeChar = 0;
     }
     misc_clearKeyFlags();

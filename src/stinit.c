@@ -15,9 +15,7 @@
 #include <stdio.h>
 #include <dos.h>
 
-
-void initGraphics()
-{
+void initGraphics() {
     /* unused stack data eliminated by compiler, but original binary has sub sp,0xe in preamble - ??? */
     uint8 unused[14];
     seedRandom();

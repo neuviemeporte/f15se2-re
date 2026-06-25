@@ -4,8 +4,7 @@
 #include "egtypes.h"
 #include "offsets.h"
 
-int process3dg(int lod, int col, int row)
-{
+int process3dg(int lod, int col, int row) {
     if (lod == 4) {
         col += 2;
         row += 2;

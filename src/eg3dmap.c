@@ -34,10 +34,9 @@ void buildVertexSignMask(int screenX, int screenY);
 void projectModelVertices(int screenX, int screenY);
 int aspectScaleY(int screenY);
 
-
 // ==== seg000:0x2fda ====
 
-struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
+struct TileObject *findNearestTileObject(uint32 worldX, uint32 worldY) {
     // These locals keep single-letter names on purpose: MSC 5.1 hashes each
     // name to a fixed stack-frame slot, and this frame (18 scalars, with two
     // hash collisions and an int-aliased-as-long scratch) only byte-matches the
@@ -135,8 +134,7 @@ int lookupTileEntry(int lod, int subIndex, int tileX, int tileY) {
     return 0;
 }
 
-void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
-{
+void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3) {
     int yOff;
     int fracX;
     int lod;
@@ -184,7 +182,8 @@ void drawNearestTileObject(uint32 coord1, uint32 coord2, uint32 coord3)
         g_objRelX = g_curTileEntry->x - g_viewPosX;
         g_objRelY = g_curTileEntry->y - g_viewPosY;
         g_objTransform[0] = g_curTileEntry->z - g_viewPosZ;
-        FP_OFF(g_modelStreamPtr)++;
+        FP_OFF(g_modelStreamPtr)
+        ++;
         *(uint8 *)&g_objRenderMode = 0;
         g_objDistance = 0;
         advanceModelPointerLod();
@@ -207,8 +206,7 @@ void renderMapTerrain(const int16 *transform, int mapX, int mapY, int zoomShift)
 
 // ==== seg000:0x51f9 ====
 
-void drawMapTiles(int originX, int originY, int zoomShift)
-{
+void drawMapTiles(int originX, int originY, int zoomShift) {
     int maxTileY, screenY, minTileX, minTileY, subIdx, col, row, cell, maxTileX, screenX;
 
     g_mapOriginX = originX >> (char)zoomShift;
@@ -232,8 +230,8 @@ void drawMapTiles(int originX, int originY, int zoomShift)
                             if (g_curTileEntry->z == 0) {
                                 g_modelStreamPtr = (char far *)(g_world3dData + buf3d3[g_curTileEntry->shape]);
                                 drawMapTileObject(g_modelStreamPtr,
-                                    (g_curTileEntry->x >> (char)g_tileZoomShift) + screenX,
-                                    (g_curTileEntry->y >> (char)g_tileZoomShift) + screenY);
+                                                  (g_curTileEntry->x >> (char)g_tileZoomShift) + screenX,
+                                                  (g_curTileEntry->y >> (char)g_tileZoomShift) + screenY);
                             }
                             g_curTileEntry++;
                         }
@@ -328,8 +326,6 @@ void buildVertexSignMask(int screenX, int screenY) {
     }
 }
 
-
-
 // ==== seg000:0x3816 ====
 void projectModelVertices(int screenX, int screenY) {
     int vtxIdx;
@@ -388,8 +384,7 @@ void setup3DTransform(const int16 *model, int angleX, int angleY, int angleZ, in
             }
         }
 #else
-        while (g_frameSyncPending != 0)
-            ;
+        while (g_frameSyncPending != 0);
 #endif
         drawProjectionSphere(model[2]);
     }

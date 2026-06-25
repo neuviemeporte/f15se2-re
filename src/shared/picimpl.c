@@ -13,8 +13,7 @@
 extern int FAR CDECL gfx_setPageN(uint16 pageNum);
 extern int FAR CDECL gfx_getCurPageSeg(void);
 
-void picdbg(const char *msg)
-{
+void picdbg(const char *msg) {
     (void)msg;
 }
 
@@ -50,10 +49,9 @@ static uint16 picSignedFlag;
 
 /* RLE state - persists across row calls (matches ASM picProcessFlag/picLookupResult) */
 static uint8 rlePrevByte;
-static uint8 rleProcessFlag;  /* remaining RLE repeats */
+static uint8 rleProcessFlag; /* remaining RLE repeats */
 
-static void picAllocBuffers(void)
-{
+static void picAllocBuffers(void) {
     union REGS r;
     if (picBufSeg) return;
     /* Allocate (4096 + 8192 + 8192) = 20480 bytes = 0x500 paragraphs */
@@ -72,13 +70,12 @@ static uint16 dictParent[2048];
 static uint8 dictChar[2048];
 
 /* LZW output buffer (coroutine simulation) */
-static uint8 lzwOutBuf[4096];   /* must cover the stackTop<4096 traversal guard */
+static uint8 lzwOutBuf[4096]; /* must cover the stackTop<4096 traversal guard */
 static uint16 lzwOutPos;
 static uint16 lzwOutLen;
 static int lzwFirstCode; /* flag: first code after init/reset */
 
-static void read512FromFile(void)
-{
+static void read512FromFile(void) {
     union REGS r;
     r.h.ah = 0x3F;
     r.x.bx = picFileHandle;
@@ -88,8 +85,7 @@ static void read512FromFile(void)
     picBufPos = 0;
 }
 
-static uint16 readCode(void)
-{
+static uint16 readCode(void) {
     uint16 bits;
     uint8 cl;
     uint16 word;
@@ -118,8 +114,7 @@ static uint16 readCode(void)
     return bits & mask;
 }
 
-static void resetDictionary(void)
-{
+static void resetDictionary(void) {
     uint16 i;
     for (i = 0; i < 256; i++) {
         dictParent[i] = 0xFFFF;
@@ -137,8 +132,7 @@ static void resetDictionary(void)
  * Decode one LZW code into lzwOutBuf[].
  * Returns number of bytes produced.
  */
-static uint16 decodeLZWStep(void)
-{
+static uint16 decodeLZWStep(void) {
     uint16 code;
     uint16 origCode;
     uint16 stackTop;
@@ -199,8 +193,7 @@ static uint16 decodeLZWStep(void)
  * Get next raw byte from LZW stream.
  * Uses buffered output from decodeLZWStep.
  */
-static uint8 getNextLZWByte(void)
-{
+static uint8 getNextLZWByte(void) {
     if (lzwOutPos >= lzwOutLen) {
         lzwOutLen = decodeLZWStep();
         lzwOutPos = 0;
@@ -212,8 +205,7 @@ static uint8 getNextLZWByte(void)
  * Decode one row of pixels with LZW + RLE (0x90 escape).
  * count = number of output bytes needed.
  */
-static void decodeRow(uint8 *outBuf, uint16 count)
-{
+static void decodeRow(uint8 *outBuf, uint16 count) {
     uint16 outPos;
     uint8 ch;
     uint8 rleCount;
@@ -266,8 +258,7 @@ static void decodeRow(uint8 *outBuf, uint16 count)
  * conversion inside EGRAPHIC.EXE's fillRow; the NO_ASM build has no overlay
  * driver, so we do it here. (Mode-13h pics use planar=0: a plain linear copy.) */
 static void picDecodeToSegment(int handle, uint16 pageSeg, uint16 rowCount,
-                               uint16 rowStride, int planar)
-{
+                               uint16 rowStride, int planar) {
     uint16 row;
     uint16 i;
     uint8 far *dst;
@@ -298,7 +289,7 @@ static void picDecodeToSegment(int handle, uint16 pageSeg, uint16 rowCount,
 
     /* Init LZW */
     resetDictionary();
-    picPrevCode = 0;  /* ASM: picSlotCounter is BSS-zeroed on first use */
+    picPrevCode = 0; /* ASM: picSlotCounter is BSS-zeroed on first use */
     picFirstChar = 0;
     lzwOutPos = 0;
     lzwOutLen = 0;
@@ -344,12 +335,11 @@ static void picDecodeToSegment(int handle, uint16 pageSeg, uint16 rowCount,
     }
     if (planar) {
         outp(0x3C4, 2);
-        outp(0x3C5, 0x0F);   /* restore Map Mask = all planes */
+        outp(0x3C5, 0x0F); /* restore Map Mask = all planes */
     }
 }
 
-void showPicFile(int handle, int page)
-{
+void showPicFile(int handle, int page) {
     uint16 pageSeg;
 
     if (handle < 0) return;
@@ -362,15 +352,13 @@ void showPicFile(int handle, int page)
     picDecodeToSegment(handle, pageSeg, 200, 320, 0);
 }
 
-void decodePic(int handle, uint16 segment)
-{
+void decodePic(int handle, uint16 segment) {
     /* See showPicFile: the full-page decode makes gfx_clearPage() redundant
      * (and unsafe to call from C). */
     picDecodeToSegment(handle, segment, 200, 320, 0);
 }
 
-void decodePicRaw(int handle, uint16 segment)
-{
+void decodePicRaw(int handle, uint16 segment) {
     /* Same as decodePic: decodes PIC row-by-row, fully overwriting the page. */
     picDecodeToSegment(handle, segment, 200, 320, 0);
 }
@@ -380,8 +368,7 @@ void decodePicRaw(int handle, uint16 segment)
  * EGA-title layout: 0x2BC (700) rows at a 0x28 (40) byte stride, written to the
  * resolved page segment. (decodePic, by contrast, takes a real segment and the
  * mode-13h 200x320 layout.) */
-void picBlit(int handle, int pageIndex)
-{
+void picBlit(int handle, int pageIndex) {
     uint16 seg;
     uint16 i;
     uint8 far *page;

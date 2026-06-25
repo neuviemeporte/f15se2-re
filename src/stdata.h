@@ -144,7 +144,7 @@ extern uint8 joyReady[];
 extern char *wldOffsets[];
 extern char wldReadBuf11[];
 extern struct TerrainPtrTable terrainTilePtrs[];
-extern struct TerrainTile* tileDataPtr;
+extern struct TerrainTile *tileDataPtr;
 extern uint16 worldObjectCount;
 extern struct GameComm far *commData;
 extern struct Pilot hallfameBuf[];

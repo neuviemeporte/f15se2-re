@@ -16,10 +16,10 @@
 extern GfxFarFn gfxFarTableExported[84];
 
 /* Byte offsets for reading overlay header (same as ASM build) */
-#define OVL_HDR_CODESEG 0x18     /* code segment */
-#define OVL_HDR_FIRSTIDX 0x1C    /* first slot index */
-#define OVL_HDR_SLOTCOUNT 0x22   /* number of slots */
-#define OVL_HDR_FIRSTPTR 0x24    /* slot_offsets[] array (right after slotCount@0x22) */
+#define OVL_HDR_CODESEG 0x18   /* code segment */
+#define OVL_HDR_FIRSTIDX 0x1C  /* first slot index */
+#define OVL_HDR_SLOTCOUNT 0x22 /* number of slots */
+#define OVL_HDR_FIRSTPTR 0x24  /* slot_offsets[] array (right after slotCount@0x22) */
 
 /**
  * @brief Populate the far-call trampoline table with pointers from the overlay.
@@ -28,11 +28,10 @@ extern GfxFarFn gfxFarTableExported[84];
  * pointers to functions in f15.exe's code segment. The offset array at
  * OVL_HDR_FIRSTPTR contains FP_OFF() values for each slot function.
  */
-void setupOverlaySlots(uint16 ovlSeg)
-{
-    uint16 codeSeg;      /* Overlay code segment (f15.exe's CS) */
-    uint16 firstIdx;     /* First slot index (usually 0) */
-    uint16 slotCount;    /* Number of slots to patch */
+void setupOverlaySlots(uint16 ovlSeg) {
+    uint16 codeSeg;   /* Overlay code segment (f15.exe's CS) */
+    uint16 firstIdx;  /* First slot index (usually 0) */
+    uint16 slotCount; /* Number of slots to patch */
     int i;
 
     /* Finding D: in NOASM the misc/sound drivers are never loaded, so

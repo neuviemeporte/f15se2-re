@@ -14,14 +14,26 @@
 extern int16 menuItemUnused;
 extern char animExitFlag;
 
-void debriefMainLoop(void)
-{
-    char p[2]; int a; int b; int c; char d[3]; int e; char f[2]; int g; char h[2];
+void debriefMainLoop(void) {
+    char p[2];
+    int a;
+    int b;
+    int c;
+    char d[3];
+    int e;
+    char f[2];
+    int g;
+    char h[2];
 
-    p[0] = 0x0d; p[1] = 0;
-    d[0] = 9; d[1] = 0x0a; d[2] = 0;
-    h[0] = 0x8e; h[1] = 0;
-    f[0] = 0x8f; f[1] = 0;
+    p[0] = 0x0d;
+    p[1] = 0;
+    d[0] = 9;
+    d[1] = 0x0a;
+    d[2] = 0;
+    h[0] = 0x8e;
+    h[1] = 0;
+    f[0] = 0x8f;
+    f[1] = 0;
 
     goto open_theater;
 
@@ -123,13 +135,10 @@ open_dbicons:
         }
 
         if (commData->setupUseJoy == 1) {
-            while (misc_readJoystick(0))
-                ;
+            while (misc_readJoystick(0));
             timerCounter = 0;
-            while (timerCounter <= 5)
-                ;
-            while (misc_readJoystick(0))
-                ;
+            while (timerCounter <= 5);
+            while (misc_readJoystick(0));
         }
     } while (b);
 

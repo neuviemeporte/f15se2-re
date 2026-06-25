@@ -32,7 +32,7 @@ int mapYToScreen();
 void drawMapLine(int x1, int y1, int x2, int y2);
 void drawColorPoint();
 void drawMapPoint(int, int, int);
-void __cdecl drawPanelText(int, const char*, int);
+void __cdecl drawPanelText(int, const char *, int);
 int readScreenPixel(int screenX, int screenY);
 
 // ==== seg000:0x8e38 ====
@@ -49,10 +49,8 @@ void renderHudFrame(int unused) {
     // probably x,y
     deltaX = waypoints[waypointIndex].mapX - g_viewX_;
     deltaY = waypoints[waypointIndex].mapY - g_viewY_;
-    Log(("renderHudFrame: after waypoints, g_hudVisible=%d", g_hudVisible));
     g_waypointBearing = computeBearing(deltaX, -deltaY);
     if (g_hudVisible != 0) {
-        Log(("renderHudFrame: g_hudVisible branch, g_damageTakenFlag=%d", g_damageTakenFlag));
         if (g_damageTakenFlag != 0) {
             g_damageTakenFlag = 0;
             if (!(keyValue & 0x80)) {
@@ -61,10 +59,8 @@ void renderHudFrame(int unused) {
                 gfx_setDacAnimCount(60);
             }
         }
-        Log(("renderHudFrame: past 8ed2, keyValue=%d g_halfScaleRender=%d", keyValue, g_halfScaleRender));
         g_hudDrawnFlag = 1;
         if (keyValue == 0 && g_halfScaleRender == 0) {
-            Log(("renderHudFrame: entering keyValue==0 branch, setupUseJoy=%d", commData->setupUseJoy));
             if (!commData->setupUseJoy) {
                 setDrawColor(0);
                 drawViewportLine(277, 83, 293, 83);
@@ -86,7 +82,7 @@ void renderHudFrame(int unused) {
             setDrawColor(g_nightMode != 0 ? 4 : 0);
             speedBarLen = clampRange((((g_cornerSpeed - g_knots) * 2) / 5) + 29, 0, 61);
             if (speedBarLen) drawViewportLine(72, 85 - speedBarLen, 72, 85);
-            drawViewportLine(247,  56, 247, clampRange(-((g_climbRate >> 4) - 56), 20, 85));
+            drawViewportLine(247, 56, 247, clampRange(-((g_climbRate >> 4) - 56), 20, 85));
             if ((g_playerPlaneFlags & 1) == 0 && (frameTick & 1) != 0 && gameData->unk4 != 0 && g_climbRate < 0) {
                 climbMarkerY = (((g_planeTable.planes[g_closestThreatIndex].flags & 0x200 ? 0x100 : 0x80) / gameData->unk4) >> 4) + 56;
                 setDrawColor(0xf);
@@ -144,7 +140,7 @@ void renderHudFrame(int unused) {
             drawViewportLine(waypointMarkerX - 2, 15, waypointMarkerX + 2, 15);
             goto somewhere;
         }
-somewhere:
+    somewhere:
         drawTacticalMap(g_drawPage);
     }
     if (g_hudMsgTimer != 0 && ((keyValue == 0 && g_halfScaleRender == 0) || (g_directorMode != 0))) {
@@ -356,8 +352,7 @@ int readMapPixelColor(int mapX, int mapY) {
 }
 
 // ==== seg000:0x9adb ====
-void drawMapRangeArc(int centerX, int centerY, int radius, int color, int connectLines, int startAngle, int endAngle)
-{
+void drawMapRangeArc(int centerX, int centerY, int radius, int color, int connectLines, int startAngle, int endAngle) {
     int angleFixed;
     int x;
     int angle;
@@ -481,7 +476,7 @@ void setDrawColor(int color) {
 void fillRectBoth(int x1, int y1, int x2, int y2) {
 #ifdef DEBUG
     if (frameTick < 80)
-        LogInfo(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", frameTick, x1, y1, x2, y2, x2-x1+1, y2-y1+1, (int)g_pageFront[2], (int)g_pageFront[16]));
+        LogInfo(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", frameTick, x1, y1, x2, y2, x2 - x1 + 1, y2 - y1 + 1, (int)g_pageFront[2], (int)g_pageFront[16]));
 #endif
     fillSpanRect(g_pageFront, x1, y1, x2, y2);
     fillSpanRect(g_pageBack, x1, y1, x2, y2);
@@ -507,12 +502,11 @@ void switchIndicatorColor(int indicatorIdx, int color) {
         gfx_switchColor(g_pageBack, *(g_tacmapIndicators + indicatorIdx * 5 + 3), *(g_tacmapIndicators + indicatorIdx * 5 + 4), *(g_tacmapIndicators + indicatorIdx * 5 + 5), *(g_tacmapIndicators + indicatorIdx * 5 + 6), *(g_tacmapIndicators + indicatorIdx * 5 + 7), color);
         *(g_tacmapIndicators + indicatorIdx * 5 + 7) = color;
     }
-done:
-    ;
+done:;
 }
 
 // ==== seg000:0x9fad ====
-void drawPanelText(int panel, const char* text, int color) {
+void drawPanelText(int panel, const char *text, int color) {
     fillPanelBox(panel, color);
     drawCenteredLabelBox(panel, text);
 }
@@ -547,18 +541,17 @@ void drawStringActivePage(const char *text, int screenX, int screenY, int color)
 }
 
 // ==== seg000:0xa13a ====
-void drawStringCentered(int16* strStruct, const char *text, int screenX, int screenY, int color) {
+void drawStringCentered(int16 *strStruct, const char *text, int screenX, int screenY, int color) {
     strStruct[6] = 0;
     strStruct[4] = screenX;
     strStruct[5] = screenY;
     strStruct[2] = color;
 #ifdef BUGFIX
-    gfx_drawString(strStruct, strupr((char*)text));
+    gfx_drawString(strStruct, strupr((char *)text));
 #else
-    gfx_drawString(strStruct, strupr((char*)text), strlen(text));
+    gfx_drawString(strStruct, strupr((char *)text), strlen(text));
 #endif
 }
-
 
 // ==== seg000:0xa183 ====
 void drawNumber(int value, int x, int y, int color) {

@@ -11,15 +11,18 @@
 #include <conio.h>
 
 static int g_keyCalls = 0;
-static void ovldbg(const char *msg)
-{
+static void ovldbg(const char *msg) {
     FILE *f = fopen("NOASM.LOG", "a");
-    if (f) { fputs(msg, f); fputs("\r\n", f); fclose(f); }
+    if (f) {
+        fputs(msg, f);
+        fputs("\r\n", f);
+        fclose(f);
+    }
 }
 
-extern uint8  hercFlag;
-extern uint8  exitCode;
-extern int16  fileHandle;
+extern uint8 hercFlag;
+extern uint8 exitCode;
+extern int16 fileHandle;
 
 /* Misc input overlay slots - real DOS keyboard I/O */
 int far cdecl misc_checkKeyBuf(void) {
@@ -36,7 +39,8 @@ int far cdecl misc_checkKeyBuf(void) {
     return 0xFFFF;
 }
 int far cdecl misc_getKey(void) { /* Original: GetKey. Blocking BIOS read: scan code in AH, ASCII in AL. */
-    enum { BIOS_KEYBOARD_INT = 0x16, BIOS_READ_KEY = 0x00 };
+    enum { BIOS_KEYBOARD_INT = 0x16,
+           BIOS_READ_KEY = 0x00 };
     union REGS biosRegs;
     biosRegs.h.ah = BIOS_READ_KEY;
     int86(BIOS_KEYBOARD_INT, &biosRegs, &biosRegs);

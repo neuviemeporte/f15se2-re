@@ -33,9 +33,9 @@ void openShowPic(const char *filename, int page, int garbage) /* Original chain:
 #endif
 {
     int16 fileHandle;
-    Log(("openShowPic: opening file %s, page %d",filename,page));
+    Log(("openShowPic: opening file %s, page %d", filename, page));
     fileHandle = openFileWrapper(filename, 0);
-    Log(("openShowPic: showing pic, handle %d",fileHandle));
+    Log(("openShowPic: showing pic, handle %d", fileHandle));
 #ifdef BUGFIX
     showPicFile(fileHandle, page);
 #else

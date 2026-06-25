@@ -18,8 +18,7 @@ extern int16 dirtyRectMax;
 extern int16 lineX1, lineY1, lineX2, lineY2;
 
 /* gfx.inc: clearDirtyRects - clear all dirty regions */
-void clearDirtyRects(void)
-{
+void clearDirtyRects(void) {
     /* Stub - dirty rect system not fully implemented yet */
 }
 
@@ -28,8 +27,7 @@ void clearDirtyRects(void)
  * then passes the (clipped) endpoints to slot 0x1f in registers. The C slot
  * takes them by value, so marshal the globals here. (No clipping yet; the menu
  * lines are already on-screen.) */
-void drawLineWrapper(void)
-{
+void drawLineWrapper(void) {
     gfx_drawLine((uint16)lineX1, (uint16)lineY1, (uint16)lineX2, (uint16)lineY2);
 }
 
@@ -38,8 +36,7 @@ void drawLineWrapper(void)
 /* NOTE: The original clearRect uses the dirty rect system and operates on
  * curPageSeg. We use the page index from the page descriptor to look up
  * the correct segment directly, matching gfx_switchColor's approach. */
-void clearRect(int16 *pageNum, int x1, int y1, int x2, int y2)
-{
+void clearRect(int16 *pageNum, int x1, int y1, int x2, int y2) {
     uint8 color;
     uint16 pageSeg;
     uint8 far *page;

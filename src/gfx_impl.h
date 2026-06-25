@@ -21,17 +21,17 @@
 typedef struct {
     uint16 rowOffsets[200]; /* replaces g_rowOffsets[] */
     uint16 curPageSeg;      /* replaces g_curPageSeg  */
-    int16  blitOffset;      /* replaces g_blitOffset  */
-    uint8  modeFlag;        /* replaces g_modeFlag = 1 */
-    uint8  fillColor;       /* replaces g_fillColor   */
-    uint8  dacCounter;      /* replaces g_dacCounter  */
-    uint8  rowOffsetsReady; /* replaces g_rowOffsetsReady */
+    int16 blitOffset;       /* replaces g_blitOffset  */
+    uint8 modeFlag;         /* replaces g_modeFlag = 1 */
+    uint8 fillColor;        /* replaces g_fillColor   */
+    uint8 dacCounter;       /* replaces g_dacCounter  */
+    uint8 rowOffsetsReady;  /* replaces g_rowOffsetsReady */
     uint16 pageSegs[16];    /* replaces g_pageSegs[]  */
     uint16 f15DataSeg;      /* FP_SEG of f15.exe's DGROUP — see Finding A.
                              * Lets gfx functions reach their own const tables
                              * (palettes, font tables) via far pointer when a
                              * child far-calls in with DS = the child's DGROUP. */
-    uint8  displayPage;     /* MGRAPHIC cs:0x1a2 — the back-buffer page index
+    uint8 displayPage;      /* MGRAPHIC cs:0x1a2 — the back-buffer page index
                              * returned by getDisplayPage (slot 0x2d). The frame
                              * is composited here (page 1) then presented to the
                              * visible page 0 by gfx_dacAnimate (slot 0x2c). */
@@ -44,7 +44,7 @@ typedef struct {
 typedef int (*GfxSlotFn)(void);
 
 /* Far function pointer type for the slot trampoline table */
-typedef int (FAR *GfxFarFn)(void);
+typedef int(FAR *GfxFarFn)(void);
 
 /* 84-entry slot table used by f15.exe to call gfx functions directly and to
  * fill the virtual overlay's slot_offsets[] array at startup */
@@ -76,8 +76,8 @@ void gfx_buildSoundOverlay(uint16 ovlSeg);
  * with exactly 0x1B8 bytes between their starts.
  */
 typedef struct {
-    int16 minX[220];  /* 0x000: per-row minimum dirty X (0x1B8 bytes = 440 = 220 words) */
-    int16 maxX[220];  /* 0x1B8: per-row maximum dirty X */
+    int16 minX[220]; /* 0x000: per-row minimum dirty X (0x1B8 bytes = 440 = 220 words) */
+    int16 maxX[220]; /* 0x1B8: per-row maximum dirty X */
 } DirtyRectBuf;
 
 /* Sprite blit parameter block.
@@ -85,15 +85,15 @@ typedef struct {
  * The overlay loads BP from the pointer and accesses [bp+N].
  */
 typedef struct {
-    int16 page;       /* [0] destination page index */
-    int16 srcX;       /* [1] source X in sprite sheet */
-    int16 srcY;       /* [2] source Y in sprite sheet */
-    int16 bufPtr;     /* [3] sprite buffer segment */
-    int16 dstX;       /* [4] destination X on page */
-    int16 dstY;       /* [5] destination Y on page */
-    int16 width;      /* [6] sprite width in pixels */
-    int16 height;     /* [7] sprite height in pixels */
-    int16 flags;      /* [8] blit flags (0x10 = transparent) */
+    int16 page;   /* [0] destination page index */
+    int16 srcX;   /* [1] source X in sprite sheet */
+    int16 srcY;   /* [2] source Y in sprite sheet */
+    int16 bufPtr; /* [3] sprite buffer segment */
+    int16 dstX;   /* [4] destination X on page */
+    int16 dstY;   /* [5] destination Y on page */
+    int16 width;  /* [6] sprite width in pixels */
+    int16 height; /* [7] sprite height in pixels */
+    int16 flags;  /* [8] blit flags (0x10 = transparent) */
 } SpriteBlitParams;
 
 #endif /* GFX_IMPL_H */

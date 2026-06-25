@@ -59,7 +59,6 @@ int16 terrainSignature = 0x3131;
 int16 terrainDirtyFlag = 0;
 int16 gridValidFlag = 0;
 
-
 /* regn.xxx buffer: regnPlhPtr's strcpy/fopen target, overwritten with the
    per-theater region filename (plhFiles[theater]). */
 char aRegn_xxx[] = "regn.xxx";
@@ -90,14 +89,14 @@ uint8 far *moveDst = 0;
 
 /* Sprite blit params struct */
 struct SpriteParams spriteParams = {
-    0, 0, 0, 0, 0, 0, 0, 0,  /* bufPtr..height */
-    {0, 0},                   /* pad10 */
-    0x6D,                     /* byte12 */
-    {0, 0, 0},                /* pad13 */
-    0x3F,                     /* byte16 */
-    0x01,                     /* byte17 */
-    0x01,                     /* flags */
-    {0x01, 0x01, 0x00}        /* pad19 */
+    0, 0, 0, 0, 0, 0, 0, 0, /* bufPtr..height */
+    {0, 0},                 /* pad10 */
+    0x6D,                   /* byte12 */
+    {0, 0, 0},              /* pad13 */
+    0x3F,                   /* byte16 */
+    0x01,                   /* byte17 */
+    0x01,                   /* flags */
+    {0x01, 0x01, 0x00}      /* pad19 */
 };
 
 /* Page descriptors - 24-byte structs passed by pointer to graphics overlay */
@@ -106,55 +105,55 @@ struct PageDesc page1Desc = {
     {0, 0},                   /* pad1 */
     0,                        /* color (drawColor) */
     0x0B,                     /* byte6 */
-    {0, 0, 0, 0, 0},         /* pad2 */
+    {0, 0, 0, 0, 0},          /* pad2 */
     1,                        /* font (fontIndex) */
     {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
-    (int16*)&page1Desc        /* selfPtr (page1NumPtr) */
+    (int16 *)&page1Desc       /* selfPtr (page1NumPtr) */
 };
-int16 *page1NumPtr = (int16*)&page1Desc;
+int16 *page1NumPtr = (int16 *)&page1Desc;
 struct PageDesc page2Desc = {
     2,                        /* pageNum */
     {0, 0},                   /* pad1 */
     0,                        /* color */
     0x0B,                     /* byte6 */
-    {0, 0, 0, 0, 0},         /* pad2 */
+    {0, 0, 0, 0, 0},          /* pad2 */
     1,                        /* font */
     {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
-    (int16*)&page2Desc        /* selfPtr (page2NumPtr) */
+    (int16 *)&page2Desc       /* selfPtr (page2NumPtr) */
 };
-int16 *page2NumPtr = (int16*)&page2Desc;
+int16 *page2NumPtr = (int16 *)&page2Desc;
 struct PageDesc page3Desc = {
     3,                        /* pageNum */
     {0, 0},                   /* pad1 */
     0,                        /* color */
     0x0B,                     /* byte6 */
-    {0, 0, 0, 0, 0},         /* pad2 */
+    {0, 0, 0, 0, 0},          /* pad2 */
     1,                        /* font */
     {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
-    (int16*)&page3Desc        /* selfPtr */
+    (int16 *)&page3Desc       /* selfPtr */
 };
 struct PageDesc screenDesc = {
     0,                        /* pageNum */
     {0, 0},                   /* pad1 */
     7,                        /* color (textColor) */
     0x00,                     /* byte6 */
-    {0, 0, 0, 0, 0},         /* pad2 */
+    {0, 0, 0, 0, 0},          /* pad2 */
     1,                        /* font */
     {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
-    (int16*)&screenDesc       /* selfPtr (screenBuf) */
+    (int16 *)&screenDesc      /* selfPtr (screenBuf) */
 };
-int16 *screenBuf = (int16*)&screenDesc;
+int16 *screenBuf = (int16 *)&screenDesc;
 struct PageDesc pageNumPageDesc = {
     0,                        /* pageNum */
     {0, 0},                   /* pad1 */
     0x0C,                     /* color */
     0x00,                     /* byte6 */
-    {0, 0, 0, 0, 0},         /* pad2 */
+    {0, 0, 0, 0, 0},          /* pad2 */
     3,                        /* font */
     {0, 0, 0, 0, 0, 0, 0, 0}, /* pad3 */
-    (int16*)&pageNumPageDesc  /* selfPtr (pageNumPtr) */
+    (int16 *)&pageNumPageDesc /* selfPtr (pageNumPtr) */
 };
-int16 *pageNumPtr = (int16*)&pageNumPageDesc;
+int16 *pageNumPtr = (int16 *)&pageNumPageDesc;
 
 int16 nightMissionFlag = 0;
 char bufCoordStr = 0;
@@ -168,7 +167,7 @@ struct NearestTerrain nearestTerrain = {0};
 int16 missionDistAccum;
 int16 playerStartLoc;
 uint32 baseYPrecise;
-struct TerrainTile* tileDataPtr;
+struct TerrainTile *tileDataPtr;
 uint16 menuSprites;
 
 /* Joystick calibration arrays (4 words each, only first declared in header) */
@@ -216,29 +215,29 @@ int16 *bufPtr = bufPageDesc;
 
 /* Weapon table (struct Weapon, 14 bytes/entry, 23 entries) */
 const struct Weapon aNone[] = {
-    { "None",   0,   0, 0x0000 },
-    { "SA-2",   200, 3, 0x0000 },
-    { "SA-5",   350, 2, 0x0000 },
-    { "SA-8B",  125, 5, 0x0000 },
-    { "SA-10",  320, 7, 0x0001 },
-    { "SA-11",  200, 5, 0x0000 },
-    { "SA-12",  290, 6, 0x0001 },
-    { "SA-13",  125, 3, 0x0000 },
-    { "SA-N-4", 200, 4, 0x0001 },
-    { "SA-N-5", 150, 3, 0x0000 },
-    { "SA-N-6", 320, 6, 0x0001 },
-    { "SA-N-7", 200, 5, 0x0000 },
-    { "Hawk",   175, 6, 0x0001 },
-    { "Rapier", 75,  8, 0x0000 },
-    { "Tiger",  65,  4, 0x0000 },
-    { "Seacat", 200, 2, 0x0000 },
-    { "IL76",   200, 8, 0x0003 },
-    { "",       50,  5, 0x0000 },
-    { "",       70,  6, 0x0000 },
-    { "",       80,  7, 0x0001 },
-    { "",       100, 8, 0x0001 },
-    { "OTH",    500, 5, 0x0001 },
-    { "",       40,  3, 0x0000 },
+    {"None", 0, 0, 0x0000},
+    {"SA-2", 200, 3, 0x0000},
+    {"SA-5", 350, 2, 0x0000},
+    {"SA-8B", 125, 5, 0x0000},
+    {"SA-10", 320, 7, 0x0001},
+    {"SA-11", 200, 5, 0x0000},
+    {"SA-12", 290, 6, 0x0001},
+    {"SA-13", 125, 3, 0x0000},
+    {"SA-N-4", 200, 4, 0x0001},
+    {"SA-N-5", 150, 3, 0x0000},
+    {"SA-N-6", 320, 6, 0x0001},
+    {"SA-N-7", 200, 5, 0x0000},
+    {"Hawk", 175, 6, 0x0001},
+    {"Rapier", 75, 8, 0x0000},
+    {"Tiger", 65, 4, 0x0000},
+    {"Seacat", 200, 2, 0x0000},
+    {"IL76", 200, 8, 0x0003},
+    {"", 50, 5, 0x0000},
+    {"", 70, 6, 0x0000},
+    {"", 80, 7, 0x0001},
+    {"", 100, 8, 0x0001},
+    {"OTH", 500, 5, 0x0001},
+    {"", 40, 3, 0x0000},
 };
 
 /* File I/O buffer (512 bytes total) */
@@ -285,8 +284,8 @@ int16 theaterSaved = 0;
 
 /* Pointer arrays for region/world files */
 char *regnPlhPtr = aRegn_xxx;
-const char *plhFiles[] = { "lb.xxx", "pg.xxx", "vn.xxx", "me.xxx", "nc.xxx", "ce.xxx", "jp.xxx", "na.xxx" };
-const char *worldFiles[] = { "Libya.wld", "gulf.wld", "vn.wld", "me.wld", "nc.wld", "ce.wld", "jp.wld", "na.wld" };
+const char *plhFiles[] = {"lb.xxx", "pg.xxx", "vn.xxx", "me.xxx", "nc.xxx", "ce.xxx", "jp.xxx", "na.xxx"};
+const char *worldFiles[] = {"Libya.wld", "gulf.wld", "vn.wld", "me.wld", "nc.wld", "ce.wld", "jp.wld", "na.wld"};
 
 /* Mission coordinate state */
 int16 missionMidX = 0;
@@ -299,19 +298,19 @@ int16 missionBase2X = 0;
 int16 missionBase2Y = 0;
 
 /* Mission menu pointer arrays */
-const char *missTheaNames[] = { "Libya", "Persian Gulf", "Vietnam", "Middle East", "Other Areas" };
-const char *missTheaDesc[] = { "Across the \"Line of Death\"", "Keeping the Sea Lanes Open", "America's Longest Air War", "Eagles vs MiGs", "Insert your scenario disk" };
-const char *missDiffLevels[] = { "Rookie", "Pilot", "Veteran", "Ace", "Demo" };
-const char *missDiffDesc[] = { "Get off to a good start", "For the casual player", "For more serious players", "The Ultimate Challenge", "Let's see what this thing can do" };
-const char *scenarioCodePtr[] = { "nc", "ce", "jp", "na" };
-const char *missScenarioNames[] = { "North Cape", "Central Europe", "Desert Storm", "North Atlantic", "Other Areas" };
-const char *missScenarioDesc[] = { "Into the Soviet's Backyard", "Red Storm Raging", "The Fight for Kuwait", "Defending the Iceland-UK Gap", "Select a built-in area" };
-const char *missTypeNames[] = { "Historical Missions", "General Air Strikes", &emptyMissTypeNames[0], &emptyMissTypeNames[1], &emptyMissTypeNames[2] };
-const char *missTypeDesc[] = { "Reenact history", "The core of the Air Campaign", &emptyMissTypeDescs[0], &emptyMissTypeDescs[1], &emptyMissTypeDescs[2] };
-const char *missHistorical1Names[] = { "Saddam's Eyes", "Command and Control", "Scud Busting", "No Nukes", "more historical missions" };
-const char *missHistorical1Desc[] = { "Iraq's Early Warning Radar", "Iraqi Defense Nerve Center", "Stop Saddam's Terror Weapon", "Nuclear Research Facility", &emptyHistDesc1 };
-const char *missHistorical2Names[] = { "'Baby Milk Factory'", "Stop the Spill", "Bridges to Nowhere", "Republican Guards", "more historical missions" };
-const char *missHistorical2Desc[] = { "Chemical/Biological Weapons Plant", "Sever the Oil Pumping Manifold", "Saddam's Elite Armored Units", "Cut the Supply Lines", &emptyHistDesc2 };
+const char *missTheaNames[] = {"Libya", "Persian Gulf", "Vietnam", "Middle East", "Other Areas"};
+const char *missTheaDesc[] = {"Across the \"Line of Death\"", "Keeping the Sea Lanes Open", "America's Longest Air War", "Eagles vs MiGs", "Insert your scenario disk"};
+const char *missDiffLevels[] = {"Rookie", "Pilot", "Veteran", "Ace", "Demo"};
+const char *missDiffDesc[] = {"Get off to a good start", "For the casual player", "For more serious players", "The Ultimate Challenge", "Let's see what this thing can do"};
+const char *scenarioCodePtr[] = {"nc", "ce", "jp", "na"};
+const char *missScenarioNames[] = {"North Cape", "Central Europe", "Desert Storm", "North Atlantic", "Other Areas"};
+const char *missScenarioDesc[] = {"Into the Soviet's Backyard", "Red Storm Raging", "The Fight for Kuwait", "Defending the Iceland-UK Gap", "Select a built-in area"};
+const char *missTypeNames[] = {"Historical Missions", "General Air Strikes", &emptyMissTypeNames[0], &emptyMissTypeNames[1], &emptyMissTypeNames[2]};
+const char *missTypeDesc[] = {"Reenact history", "The core of the Air Campaign", &emptyMissTypeDescs[0], &emptyMissTypeDescs[1], &emptyMissTypeDescs[2]};
+const char *missHistorical1Names[] = {"Saddam's Eyes", "Command and Control", "Scud Busting", "No Nukes", "more historical missions"};
+const char *missHistorical1Desc[] = {"Iraq's Early Warning Radar", "Iraqi Defense Nerve Center", "Stop Saddam's Terror Weapon", "Nuclear Research Facility", &emptyHistDesc1};
+const char *missHistorical2Names[] = {"'Baby Milk Factory'", "Stop the Spill", "Bridges to Nowhere", "Republican Guards", "more historical missions"};
+const char *missHistorical2Desc[] = {"Chemical/Biological Weapons Plant", "Sever the Oil Pumping Manifold", "Saddam's Elite Armored Units", "Cut the Supply Lines", &emptyHistDesc2};
 const char *missionStr = "MISSION";
 char *plh3d3Ptr = placeholder_3d3;
 
@@ -319,69 +318,68 @@ char *plh3d3Ptr = placeholder_3d3;
 uint8 pilotSelectFlag = 0;
 
 /* Rank pointer array */
-const char *ranks[] = { "2nd Lt. ", "1st Lt. ", "Capt. ", "Major ", "Lt Col. ", "Colonel ", "Gen. " };
+const char *ranks[] = {"2nd Lt. ", "1st Lt. ", "Capt. ", "Major ", "Lt Col. ", "Colonel ", "Gen. "};
 
 /* Medal sprite tables (7 entries for 7 medals, null-terminated) */
-extern const uint8 medalSpriteX[] = { 130, 113, 129, 112, 111, 161, 159, 0 };
-extern const uint8 medalSpriteY[] = { 128, 128, 179, 179, 145, 145, 162, 0 };
-extern const uint8 medalWidth[] = { 9, 11, 11, 13, 47, 11, 15, 0 };
+extern const uint8 medalSpriteX[] = {130, 113, 129, 112, 111, 161, 159, 0};
+extern const uint8 medalSpriteY[] = {128, 128, 179, 179, 145, 145, 162, 0};
+extern const uint8 medalWidth[] = {9, 11, 11, 13, 47, 11, 15, 0};
 
 /* Blink animation colors */
-extern const int16 blinkColors[] = { 7, 0x0F };
+extern const int16 blinkColors[] = {7, 0x0F};
 int16 blinkColorIdx = 0;
 
 /* Pilot name input colors (2 words: word + byte pair) */
-extern const int16 pilotNameInputColors[] = { 0, 0x0008 };
+extern const int16 pilotNameInputColors[] = {0, 0x0008};
 
 /* Arm animation sprite tables (8 entries each) */
-extern const int16 armSrcX[] = { 1, 83, 217, 164, 1, 1, 191, 266 };
-extern const int16 armSrcY[] = { 0, 0, 0, 46, 62, 124, 106, 83 };
-extern const int16 armBlitX[] = { 62, 62, 61, 62, 62, 62, 63, 62 };
-extern const int16 armBlitY[] = { 28, 47, 53, 54, 55, 56, 57, 56 };
-extern const int16 armBlitW[] = { 82, 93, 102, 102, 104, 92, 75, 53 };
-extern const int16 armBlitH[] = { 62, 46, 37, 45, 62, 75, 93, 116 };
+extern const int16 armSrcX[] = {1, 83, 217, 164, 1, 1, 191, 266};
+extern const int16 armSrcY[] = {0, 0, 0, 46, 62, 124, 106, 83};
+extern const int16 armBlitX[] = {62, 62, 61, 62, 62, 62, 63, 62};
+extern const int16 armBlitY[] = {28, 47, 53, 54, 55, 56, 57, 56};
+extern const int16 armBlitW[] = {82, 93, 102, 102, 104, 92, 75, 53};
+extern const int16 armBlitH[] = {62, 46, 37, 45, 62, 75, 93, 116};
 
 /* Mission pick state */
-int16 missionPick = -1;  /* 0xFFFF */
+int16 missionPick = -1;    /* 0xFFFF */
 int16 missionPickPad = -1; /* the db 0FFh, 0FFh after missionPick */
-extern const int16 armSpriteIndex[] = { 1, 2, 3, 4, 5, 6, 7 };
+extern const int16 armSpriteIndex[] = {1, 2, 3, 4, 5, 6, 7};
 
 /* Joystick repeat flag */
 int16 joyRepeatFlag = 0;
 
 /* FCB search data */
-const uint8 fcbMatchStr[] = { 0x49, 0x03, 0x46, 0x31, 0x35, 0x41, 0x00 };
+const uint8 fcbMatchStr[] = {0x49, 0x03, 0x46, 0x31, 0x35, 0x41, 0x00};
 uint8 searchFCB[] = {
     0xFF, 0, 0, 0, 0, 0, 0x08, 0x00,
     '?', '?', '?', '?', '?', '?', '?', '?', '?', '?', '?',
-    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-};
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 /* Disk Transfer Area (DOS FCB search result buffer) */
 uint8 diskTransferArea[0x85] = {0};
 
 /* Weapon loadout table (26 bytes per entry, accessed via weaponLoadouts[idx].qty) */
 extern const struct WeaponLoadout weaponLoadouts[] = {
-    { 4, "AIM-9M\0\0\0",  "Sidewinder\0",  23 },  /* 0 */
-    { 4, "AIM-120\0\0",  "AMRAAM \0\0\0\0",  22 },  /* 1 */
-    { 4, "AGM-88A\0\0",  "HARM\0\0\0\0\0\0\0",  24 },  /* 2 */
-    { 4, "AIM-7M\0\0\0",  "Sparrow\0\0\0\0",  22 },  /* 3 */
-    { 1, "AGM-86A\0\0",  "Harpoon\0\0\0\0",  26 },  /* 4 */
-    { 6, "AGM-65D\0\0",  "Maverick\0\0\0",  27 },  /* 5 */
-    { 8, "GBU-12\0\0\0",  "Paveway\0\0\0\0",  28 },  /* 6 */
-    { 2, "Mk 20\0\0\0\0",  "Rockeye\0\0\0\0",  29 },  /* 7 */
-    { 2, "Dndl\0\0\0\0\0",  "Durandal\0\0\0",  29 },  /* 8 */
-    { 3, "Mk 82-0\0\0",  "Slick\0\0\0\0\0\0",  30 },  /* 9 */
-    { 3, "Mk 82-1\0\0",  "Snakeye\0\0\0\0",  29 },  /* 10 */
-    { 4, "Mk 20\0\0\0\0",  "Rockeye II\0",  28 },  /* 11 */
-    { 2, "Mk 122\0\0\0",  "Fireeye\0\0\0\0",  30 },  /* 12 */
-    { 2, "CBU-72\0\0\0",  "Fuel-Air\0\0\0",  28 },  /* 13 */
-    { 2, "Mk 35\0\0\0\0",  "IN Cluster\0",  29 },  /* 14 */
-    { 1, "ISC B-1\0\0",  "Minelets\0\0\0",  29 },  /* 15 */
-    { 1, "135 mm\0\0\0",  "Camera\0\0\0\0\0",  -1 },  /* 16 */
-    { 1, "1900lbs\0\0",  "Extra Fuel\0",  -2 },  /* 17 */
-    { 1, "20 mm\0\0\0\0",  "Guns\0\0\0\0\0\0\0",  0 },  /* 18 */
-    { 1, "Special\0\0",  "Equip\0\0\0\0\0\0",  38 },  /* 19 */
+    {4, "AIM-9M\0\0\0", "Sidewinder\0", 23},       /* 0 */
+    {4, "AIM-120\0\0", "AMRAAM \0\0\0\0", 22},     /* 1 */
+    {4, "AGM-88A\0\0", "HARM\0\0\0\0\0\0\0", 24},  /* 2 */
+    {4, "AIM-7M\0\0\0", "Sparrow\0\0\0\0", 22},    /* 3 */
+    {1, "AGM-86A\0\0", "Harpoon\0\0\0\0", 26},     /* 4 */
+    {6, "AGM-65D\0\0", "Maverick\0\0\0", 27},      /* 5 */
+    {8, "GBU-12\0\0\0", "Paveway\0\0\0\0", 28},    /* 6 */
+    {2, "Mk 20\0\0\0\0", "Rockeye\0\0\0\0", 29},   /* 7 */
+    {2, "Dndl\0\0\0\0\0", "Durandal\0\0\0", 29},   /* 8 */
+    {3, "Mk 82-0\0\0", "Slick\0\0\0\0\0\0", 30},   /* 9 */
+    {3, "Mk 82-1\0\0", "Snakeye\0\0\0\0", 29},     /* 10 */
+    {4, "Mk 20\0\0\0\0", "Rockeye II\0", 28},      /* 11 */
+    {2, "Mk 122\0\0\0", "Fireeye\0\0\0\0", 30},    /* 12 */
+    {2, "CBU-72\0\0\0", "Fuel-Air\0\0\0", 28},     /* 13 */
+    {2, "Mk 35\0\0\0\0", "IN Cluster\0", 29},      /* 14 */
+    {1, "ISC B-1\0\0", "Minelets\0\0\0", 29},      /* 15 */
+    {1, "135 mm\0\0\0", "Camera\0\0\0\0\0", -1},   /* 16 */
+    {1, "1900lbs\0\0", "Extra Fuel\0", -2},        /* 17 */
+    {1, "20 mm\0\0\0\0", "Guns\0\0\0\0\0\0\0", 0}, /* 18 */
+    {1, "Special\0\0", "Equip\0\0\0\0\0\0", 38},   /* 19 */
 };
 
 /* Plane/aircraft table - 19 entries used by mission generator */
@@ -525,12 +523,10 @@ extern const uint8 missionPickType[8] = {2, 6, 5, 6, 6, 6, 6, 11};
 /* Pointer arrays: target coordinates per mission pick index */
 const int16 *targetCoordsXPtrs[8] = {
     targetCoordsX0, targetCoordsX1, targetCoordsX2, targetCoordsX3,
-    targetCoordsX4, &targetCoordsX5, targetCoordsX6, targetCoordsX7
-};
+    targetCoordsX4, &targetCoordsX5, targetCoordsX6, targetCoordsX7};
 const int16 *targetCoordsYPtrs[8] = {
     targetCoordsY0, targetCoordsY1, targetCoordsY2, targetCoordsY3,
-    targetCoordsY4, &targetCoordsY5, targetCoordsY6, targetCoordsY7
-};
+    targetCoordsY4, &targetCoordsY5, targetCoordsY6, targetCoordsY7};
 extern const int16 targetCoordsCount[9] = {3, 2, 2, 3, 4, 1, 8, 3, 0};
 
 /* === BSS variables === */
@@ -572,7 +568,7 @@ uint8 gridBuf3[0x200];
 uint8 gridBuf4[0x200];
 uint8 gridBuf5[0x200];
 struct Target targets[2];
-uint16 terrainBuf1[5] = { 0x20, 0x20, 0x20, 0x20, 0x20 };
+uint16 terrainBuf1[5] = {0x20, 0x20, 0x20, 0x20, 0x20};
 struct TerrainCountTable terrainTileCounts[5] = {{0}};
 
 /* terrainBuf3, terrainBuf4, terrainBuf5, terrainIdxBuf must be contiguous.

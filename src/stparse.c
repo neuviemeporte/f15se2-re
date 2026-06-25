@@ -27,35 +27,33 @@ void parseTerrain(char *filename) {
     replaceExtension(filename, ".3dT");
     if ((fileHandle = fopen(filename, "rb")) == 0) {
         showMsgWaitKey("Open Error on *.3DT, assuming new file !");
-    }
-    else {
-        fread(&terrainSignature,2,1,fileHandle);
+    } else {
+        fread(&terrainSignature, 2, 1, fileHandle);
         if (terrainSignature != TERRAIN_MAGIC) {
             showMsgWaitKey("Bad Tile file format.");
-        }
-        else {
-            fread(terrainBuf1,2,5,fileHandle);
-                for (level = 0; level < 5; level++) {
-                    if (terrainBuf1[level] > 32) {
+        } else {
+            fread(terrainBuf1, 2, 5, fileHandle);
+            for (level = 0; level < 5; level++) {
+                if (terrainBuf1[level] > 32) {
                     showMsgWaitKey("Too many tiles.");
                     return;
                 }
-                fread(&terrainTileCounts[level],2,terrainBuf1[level], fileHandle);
+                fread(&terrainTileCounts[level], 2, terrainBuf1[level], fileHandle);
             }
             tileOffset = 0;
             for (level = 0; level < 5; level = level + 1) {
                 for (entry = 0; terrainBuf1[level] > entry; entry++) {
-                    terrainTilePtrs[level].entries[entry] = (struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset);
+                    terrainTilePtrs[level].entries[entry] = (struct TerrainTile *)((uint8 *)terrainTileBlock + tileOffset);
                     for (tileNum = 0; tileNum < terrainTileCounts[level].entries[entry]; tileNum++) {
                         if (tileOffset > 3500) {
                             showMsgWaitKey("Too much tile data");
                             return;
                         }
-                        fread(&((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset))->buf3,2,1,fileHandle);
-                        fread(&((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset))->buf4,2,1,fileHandle);
-                        fread(&((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset))->buf5,2,1,fileHandle);
-                        fread(&tileIdx,2,1,fileHandle);
-                        ((struct TerrainTile*)((uint8*)terrainTileBlock + tileOffset))->idx = tileIdx;
+                        fread(&((struct TerrainTile *)((uint8 *)terrainTileBlock + tileOffset))->buf3, 2, 1, fileHandle);
+                        fread(&((struct TerrainTile *)((uint8 *)terrainTileBlock + tileOffset))->buf4, 2, 1, fileHandle);
+                        fread(&((struct TerrainTile *)((uint8 *)terrainTileBlock + tileOffset))->buf5, 2, 1, fileHandle);
+                        fread(&tileIdx, 2, 1, fileHandle);
+                        ((struct TerrainTile *)((uint8 *)terrainTileBlock + tileOffset))->idx = tileIdx;
                         tileOffset += sizeof(struct TerrainTile);
                     }
                 }
@@ -86,8 +84,7 @@ void parseGrid() {
     fread(&gridSignature, 2, 1, fileHandle);
     if (gridSignature != GRID_MAGIC) {
         showMsgWaitKey("Bad Grid file format.");
-    }
-    else {
+    } else {
         fread(gridBuf1, 1, 16, fileHandle);
         fread(gridBuf2, 1, 0x100, fileHandle);
         fread(gridBuf3, 1, 0x200, fileHandle);
@@ -104,7 +101,7 @@ int showMsgWaitKey(const char *msg) {
 
 void replaceExtension(char *path, const char *source) {
     int8 ch;
-    for(; (ch = *path) != '.';) {
+    for (; (ch = *path) != '.';) {
         if (ch == 0) break;
         path++;
     }

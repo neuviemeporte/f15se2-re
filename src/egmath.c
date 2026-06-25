@@ -18,7 +18,6 @@
 #include <dos.h>
 #include <memory.h>
 
-
 // ==== seg000:0xc8de ====
 
 void load15Flt3d3() {
@@ -42,7 +41,7 @@ void load15Flt3d3() {
     segread(&segs);
     dest = g_aircraftModels;
     Log(("load15Flt3d3: DS=%04x var_10=%04x:%04x", segs.ds, FP_SEG(dest), FP_OFF(dest)));
-    while(bytesLeft > 0) {
+    while (bytesLeft > 0) {
         chunkSize = bytesLeft <= 0x800 ? bytesLeft : 0x800;
         fread(flt15_buf2, 1, chunkSize, fileHandle);
         movedata(segs.ds, PTR_OFF(flt15_buf2), FP_SEG(dest), FP_OFF(dest), chunkSize);
@@ -52,8 +51,7 @@ void load15Flt3d3() {
     fclose(fileHandle);
 }
 
-void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int objYaw, int objPitch, int objRoll, int scaleShift)
-{
+void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int objYaw, int objPitch, int objRoll, int scaleShift) {
     int16 *drawPg;
     int dataOff;
     long relX;
@@ -93,8 +91,7 @@ void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int ob
 }
 
 // ==== seg000:0xcb42 ====
-void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYaw, int objPitch, int objRoll, int mode, int shift)
-{
+void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYaw, int objPitch, int objRoll, int mode, int shift) {
     int unused;
     int horizonY;
     int bearing;
@@ -112,7 +109,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYa
     char categoryLow;
 
     g_targetInHudFlag = 1;
-    if (mode == 1 && g_detailLevel == 0 && *(char*)&gfxModeUnset != 0 && (frameTick & 3) != 0) {
+    if (mode == 1 && g_detailLevel == 0 && *(char *)&gfxModeUnset != 0 && (frameTick & 3) != 0) {
         return;
     }
 
@@ -221,8 +218,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYa
 }
 
 // ==== seg000:0xcf32 ====
-int shapeDataOffset(int shapeId)
-{
+int shapeDataOffset(int shapeId) {
     if (shapeId & 0x100) {
         return buf3d3[shapeId & 0x7f];
     }
@@ -289,8 +285,7 @@ int computeBearing(int deltaX, int deltaY) {
         numer = (long)abs(deltaY) << 0xe;
         denom = abs(deltaX);
         swapped = 1;
-    }
-    else {
+    } else {
         numer = (long)abs(deltaX) << 0xe;
         denom = abs(deltaY);
         swapped = 0;
@@ -302,8 +297,7 @@ int computeBearing(int deltaX, int deltaY) {
             result = swapped ? BEARING_EAST - angle : angle;
         else
             result = swapped ? angle + BEARING_EAST : BEARING_SOUTH - angle;
-    }
-    else {
+    } else {
         if (deltaY > 0)
             result = swapped ? angle + BEARING_WEST : -angle;
         else
@@ -348,8 +342,7 @@ int randomRange(int maxVal) { /* Original: rnd(Max). Deterministic ((long)Max * 
 }
 
 // ==== seg000:0xd21e ====
-int readAxisInput(int axisIdx)
-{
+int readAxisInput(int axisIdx) {
     int16 value;
 
     if (g_inputDisabled) {

@@ -21,25 +21,25 @@ typedef enum {
 } DosFunctions;
 
 typedef enum {
-    DOSERR_NONE = 0x00, // (0)   no error
-    DOSERR_INVFUNC = 0x01, // (1)   function number invalid
-    DOSERR_FILENF = 0x02, // (2)   file not found
-    DOSERR_PATHNF = 0x03, // (3)   path not found
-    DOSERR_HANDLES = 0x04, // (4)   too many open files (no handles available)
-    DOSERR_ACCESS = 0x05, // (5)   access denied
-    DOSERR_BADHANDLE = 0x06, // (6)   invalid handle
-    DOSERR_MCBDEST = 0x07, // (7)   memory control block destroyed
-    DOSERR_NOMEM = 0x08, // (8)   insufficient memory
-    DOSERR_MCBINV = 0x09, // (9)   memory block address invalid
-    DOSERR_ENVINV = 0x0A, // (10)  environment invalid (usually >32K in length)
-    DOSERR_FMTINV = 0x0B, // (11)  format invalid
+    DOSERR_NONE = 0x00,       // (0)   no error
+    DOSERR_INVFUNC = 0x01,    // (1)   function number invalid
+    DOSERR_FILENF = 0x02,     // (2)   file not found
+    DOSERR_PATHNF = 0x03,     // (3)   path not found
+    DOSERR_HANDLES = 0x04,    // (4)   too many open files (no handles available)
+    DOSERR_ACCESS = 0x05,     // (5)   access denied
+    DOSERR_BADHANDLE = 0x06,  // (6)   invalid handle
+    DOSERR_MCBDEST = 0x07,    // (7)   memory control block destroyed
+    DOSERR_NOMEM = 0x08,      // (8)   insufficient memory
+    DOSERR_MCBINV = 0x09,     // (9)   memory block address invalid
+    DOSERR_ENVINV = 0x0A,     // (10)  environment invalid (usually >32K in length)
+    DOSERR_FMTINV = 0x0B,     // (11)  format invalid
     DOSERR_AXSCODEINV = 0x0C, // (12)  access code invalid
-    DOSERR_DATAINV = 0x0D, // (13)  data invalid
-    DOSERR_RESERVED = 0x0E, // (14)  reserved
-    DOSERR_OFLOW = 0x0E, // (14)  (PTS-DOS 6.51+, S/DOS 1.0+) fixup overflow
-    DOSERR_DRIVEINV = 0x0F, // (15)  invalid drive
-    DOSERR_RMDIRCUR = 0x10, // (16)  attempted to remove current directory
-    DOSERR_NSAMEDEV = 0x11, // (17)  not same device
+    DOSERR_DATAINV = 0x0D,    // (13)  data invalid
+    DOSERR_RESERVED = 0x0E,   // (14)  reserved
+    DOSERR_OFLOW = 0x0E,      // (14)  (PTS-DOS 6.51+, S/DOS 1.0+) fixup overflow
+    DOSERR_DRIVEINV = 0x0F,   // (15)  invalid drive
+    DOSERR_RMDIRCUR = 0x10,   // (16)  attempted to remove current directory
+    DOSERR_NSAMEDEV = 0x11,   // (17)  not same device
     DOSERR_FILESNMORE = 0x12, // (18)  no more files
 } DosError;
 
@@ -127,7 +127,7 @@ struct {
     uint16 cs;
 } exeLoadParams;
 #pragma pack()
-STATIC_ASSERT(sizeof(exeLoadParams)==22);
+STATIC_ASSERT(sizeof(exeLoadParams) == 22);
 
 #pragma pack(1)
 struct {
@@ -135,19 +135,18 @@ struct {
     uint16 reloc;
 } ovlLoadParams;
 #pragma pack()
-STATIC_ASSERT(sizeof(ovlLoadParams)==4);
+STATIC_ASSERT(sizeof(ovlLoadParams) == 4);
 
 #define DOS_LOAD_EXEC 0
 #define DOS_LOAD_NOEXEC 1
 #define DOS_LOAD_OVL 3
 
-static int loadprog(const char* file, const uint16 segment, const uint8 type, const char FAR* cmdline) {
+static int loadprog(const char *file, const uint16 segment, const uint8 type, const char FAR *cmdline) {
     int err;
     rin.h.ah = DOSF_LOADPROG;
     rin.h.al = type;
     rin.x.dx = PTR_OFF(file);
-    switch (type)
-    {
+    switch (type) {
     case DOS_LOAD_EXEC:
     case DOS_LOAD_NOEXEC:
         exeLoadParams.envSegment = 0; // 0 - copy caller's environment
@@ -180,19 +179,19 @@ static int loadprog(const char* file, const uint16 segment, const uint8 type, co
         return err;
     }
     LogDebug(("dos_loadprog(): success, ax = 0x%x, cs:ip = %X:%X, ss:sp = %X:%X", rout.x.ax,
-        exeLoadParams.cs, exeLoadParams.ip, exeLoadParams.ss, exeLoadParams.sp));
+              exeLoadParams.cs, exeLoadParams.ip, exeLoadParams.ss, exeLoadParams.sp));
     return 0;
 }
 
-int dos_loadOverlay(const char* file, const uint16 segment) {
+int dos_loadOverlay(const char *file, const uint16 segment) {
     return loadprog(file, segment, DOS_LOAD_OVL, NULL);
 }
 
-int dos_runProgram(const char* file, const char FAR* cmdline) {
+int dos_runProgram(const char *file, const char FAR *cmdline) {
     return loadprog(file, 0, DOS_LOAD_EXEC, cmdline);
 }
 
-int dos_loadProgram(const char* file, const char FAR* cmdline, uint16 *cs, uint16 *ss) {
+int dos_loadProgram(const char *file, const char FAR *cmdline, uint16 *cs, uint16 *ss) {
     int err;
     if ((err = loadprog(file, 0, DOS_LOAD_NOEXEC, cmdline)) != 0)
         return err;
@@ -223,12 +222,12 @@ struct MCB {
     char desc[8];
 };
 #pragma pack()
-STATIC_ASSERT(sizeof(struct MCB)==16);
+STATIC_ASSERT(sizeof(struct MCB) == 16);
 
-static uint8 FAR* dos_sysvars(void) {
+static uint8 FAR *dos_sysvars(void) {
     rin.h.ah = DOSF_SYSVARS;
     intdosx(&rin, &rout, &sreg);
-    return (uint8 FAR*)MK_FP(sreg.es, rout.x.bx);
+    return (uint8 FAR *)MK_FP(sreg.es, rout.x.bx);
 }
 
 void dos_mcbInfo(void) {
@@ -241,7 +240,7 @@ void dos_mcbInfo(void) {
     // get segment of first mcb from list of lists
     lol = dos_sysvars();
     // first mcb's segment is in LoL at offset -2
-    segment = *((uint16 FAR*)(lol - 2));
+    segment = *((uint16 FAR *)(lol - 2));
     mcb = (struct MCB FAR *)MK_FP(segment, 0);
     LogInfo(("Walking the MCB chain, LoL @ %p", lol));
     while (mcb) {
@@ -250,7 +249,7 @@ void dos_mcbInfo(void) {
         case 'Z':
             total += mcb->size;
             sprintf(strbuf, "desc = '%.8Fs'", mcb->desc);
-            switch(mcb->pid) {
+            switch (mcb->pid) {
             case PID_NONE:
                 strcat(strbuf, " <--- free");
                 free += mcb->size;
@@ -269,15 +268,14 @@ void dos_mcbInfo(void) {
         }
         if (mcb->type == 'Z') { // last mcb
             mcb = NULL;
-        }
-        else { // next mcb
+        } else { // next mcb
             segment += mcb->size + 1;
             mcb = (struct MCB FAR *)MK_FP(segment, 0);
         }
     }
     sprintf(strbuf, "summary: total %s", sizeString(total));
     sprintf(strbuf + strlen(strbuf), ", alloc %s", sizeString(alloc));
-    sprintf(strbuf + strlen(strbuf), ", free %s",  sizeString(free));
+    sprintf(strbuf + strlen(strbuf), ", free %s", sizeString(free));
     LogInfo(("%s", strbuf));
 }
 
@@ -288,7 +286,7 @@ uint16 dos_lastFreeBlock(void) {
     // get segment of first mcb from list of lists
     lol = dos_sysvars();
     // first mcb's segment is in LoL at offset -2
-    segment = *((uint16 FAR*)(lol - 2));
+    segment = *((uint16 FAR *)(lol - 2));
     mcb = (struct MCB FAR *)MK_FP(segment, 0);
     while (mcb) {
         switch (mcb->type) {
@@ -306,8 +304,7 @@ uint16 dos_lastFreeBlock(void) {
         }
         if (mcb->type == 'Z') { // last mcb
             mcb = NULL;
-        }
-        else { // next mcb
+        } else { // next mcb
             segment += mcb->size + 1;
             mcb = (struct MCB FAR *)MK_FP(segment, 0);
         }
@@ -316,7 +313,7 @@ uint16 dos_lastFreeBlock(void) {
 }
 
 size_t dos_envSize(void) {
-    const size_t envSegment = *(const uint16 FAR*)MK_FP(_psp, 0x2c);
+    const size_t envSegment = *(const uint16 FAR *)MK_FP(_psp, 0x2c);
     const struct MCB FAR *envMcb = (struct MCB FAR *)MK_FP(envSegment - 1, 0);
     return envMcb->size;
 }

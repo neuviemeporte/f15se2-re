@@ -36,20 +36,20 @@
 #include <string.h>
 #include <ctype.h>
 
-const char* SOUND_DRIVER = "Nsound.exe";
-const char* GFX_DRIVER = "Mgraphic.exe";
-const char* MISC_LIBRARY = "MISC.EXE";
-const char* GAME_MENU = "START.EXE";
-const char* GAME_FLIGHT = "EGAME.EXE";
-const char* GAME_DEBRIEFING = "END.EXE";
-const char* DEBUGGER = "Z:\\DEBUG.COM";
+const char *SOUND_DRIVER = "Nsound.exe";
+const char *GFX_DRIVER = "Mgraphic.exe";
+const char *MISC_LIBRARY = "MISC.EXE";
+const char *GAME_MENU = "START.EXE";
+const char *GAME_FLIGHT = "EGAME.EXE";
+const char *GAME_DEBRIEFING = "END.EXE";
+const char *DEBUGGER = "Z:\\DEBUG.COM";
 const uint16 GFX_INIT_ARG = 2;
 const int RET_MENU = 0xc;
 const int RET_DEBRIEFING = 0x23;
 const int RET_NONZERO = -1;
 enum { CMDLINE_LEN = 128 };
 char cmdlineBuf[CMDLINE_LEN] = "";
-const char FAR *CMDLINE = (const char FAR*)cmdlineBuf;
+const char FAR *CMDLINE = (const char FAR *)cmdlineBuf;
 uint16 commSegment = 0;
 
 /* The DOS EXEC call (INT 21h/4Bh) used to launch each child program writes a
@@ -82,7 +82,7 @@ static void nullGuardRestore(void) {
 int16 lineX1, lineX2, lineY1, lineY2;
 #endif
 
-uint16 load_driver(const char* filename, const uint16 commPtrOffset) {
+uint16 load_driver(const char *filename, const uint16 commPtrOffset) {
     /* load driver overlay into memory */
     uint16 drvAddress;
     uint16 FAR *commPtr = (uint16 FAR *)MK_FP(commSegment, commPtrOffset);
@@ -191,15 +191,14 @@ void game_init(void) {
     LogInfo(("Initialization complete, free memory = %s", sizeString(dos_getfree())));
 }
 
-bool game_run(const char* filename, const int returnCode, const bool debug) {
+bool game_run(const char *filename, const int returnCode, const bool debug) {
     int err;
     /* launch game executable */
     if (debug) {
         LogInfo(("Executing %s under the debugger", filename));
         sprintf(cmdlineBuf, " %s", filename);
         filename = DEBUGGER;
-    }
-    else {
+    } else {
         memset(cmdlineBuf, 0, CMDLINE_LEN);
         LogInfo(("Executing %s with commandline '%Fs'", filename, CMDLINE));
     }
@@ -240,9 +239,15 @@ int main(int argc, char *argv[]) {
             LogCritical(("Unrecognized argument: '%s'", arg));
         for (charIdx = 2; charIdx < len; ++charIdx) {
             switch (arg[charIdx]) {
-            case '1': debugMenu = true; break;
-            case '2': debugFlight = true; break;
-            case '3': debugDebrief = true; break;
+            case '1':
+                debugMenu = true;
+                break;
+            case '2':
+                debugFlight = true;
+                break;
+            case '3':
+                debugDebrief = true;
+                break;
             default:
                 LogCritical(("Unrecognized argument: '%s'", arg));
             }

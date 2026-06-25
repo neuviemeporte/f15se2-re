@@ -1,5 +1,5 @@
 #define SENTINEL 1
-//#define MOCK_STARTUP 1
+// #define MOCK_STARTUP 1
 #define IMPORT_LIBC 1
 #define LIBC_OVERRIDE 1
 
@@ -34,7 +34,6 @@ void _aNlmul();
 void _aNlrem();
 void _aNNaldiv();
 #endif
-
 
 #ifdef SENTINEL
 /* initialized data */
@@ -81,4 +80,3 @@ int main() {
     y = 2;
     return 0;
 }
-

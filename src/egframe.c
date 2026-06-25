@@ -48,7 +48,6 @@ void updateFrame(void) {
     uint16 screenY;
     int i;
     int objIdx;
-    Log(("updateFrame: enter, g_initPhase=%d", g_initPhase));
 #ifdef DEBUG
     {
         static int sig_was_ok = 1;
@@ -93,8 +92,8 @@ void updateFrame(void) {
         recalcTimeScale();
         g_mapZoomLevel = 1;
         g_radarScopeRange = 1;
-        tmp = g_northSouthSign = (gameData->theater == 6) ? 1 :
-            (*((char far *)gameData + 0x38) & 1) ? 1 : -1;
+        tmp = g_northSouthSign = (gameData->theater == 6) ? 1 : (*((char far *)gameData + 0x38) & 1) ? 1
+                                                                                                     : -1;
 
         if (((g_planeTable.planes[g_targetSlots[0].viewIndex].flags) & 0x200) != 0) {
             g_ViewX -= (long)(tmp * 0x80);
@@ -175,7 +174,7 @@ void updateFrame(void) {
     updateTracerParticles();
     applyGravityFall();
 
-    if (objectToScreen(g_viewX_, g_viewY_, (int16*)&val, (int16*)&screenY) != 0) {
+    if (objectToScreen(g_viewX_, g_viewY_, (int16 *)&val, (int16 *)&screenY) != 0) {
         g_drawPage = -(gfx_getDisplayPage() - 1);
         gfx_copyRect(2, val - 3, screenY - 3, g_drawPage, val - 3, screenY - 3, 6, 6);
         blitSprite(val - 1, screenY - 1, ((g_ourHead + 0x1000) >> 0xd & 7) * 4 + 164, 4, 4, 4, 0);
@@ -228,7 +227,7 @@ void updateFrame(void) {
 
     /* Magic signature check, only done when the plane is moving? */
     if ((char)frameTick == 0 && frameTick != 0) {
-        if (*((int32 HUGE*)commData - 1) != COMM_MCB_VALUE_MAGIC) {
+        if (*((int32 HUGE *)commData - 1) != COMM_MCB_VALUE_MAGIC) {
             finalizeMission(1);
             exitCode = 0;
         }
@@ -309,13 +308,12 @@ skip_target_section:
             g_attackRangeY += 0x200;
         }
         if (abs(g_viewX_ - g_planeTable.planes[g_closestThreatIndex].mapX) > (g_attackRangeX >> 5) ||
-                (abs(g_viewY_ - g_planeTable.planes[g_closestThreatIndex].mapY) > (g_attackRangeY >> 5))) {
+            (abs(g_viewY_ - g_planeTable.planes[g_closestThreatIndex].mapY) > (g_attackRangeY >> 5))) {
             g_groundAltitude = 0;
             g_inLandingCorridor = 0;
         } else {
             g_inLandingCorridor = 1;
-            if ((g_knots <= 1) && ((frameTick & 7) == 0) && g_planeTable.planes[g_closestThreatIndex].flags & 0x500
-                    && g_landingTimer != 0 && !(g_planeTable.planes[g_closestThreatIndex].flags & 0x800)) {
+            if ((g_knots <= 1) && ((frameTick & 7) == 0) && g_planeTable.planes[g_closestThreatIndex].flags & 0x500 && g_landingTimer != 0 && !(g_planeTable.planes[g_closestThreatIndex].flags & 0x800)) {
                 g_gearDownArmed = 1;
                 g_landingDoneFlag = 1;
                 if (g_landingTimer++ == 1) {
@@ -344,7 +342,7 @@ skip_target_section:
                 }
             }
         }
-end_landing_check:
+    end_landing_check:
         if ((g_landingDoneFlag == 0) && (g_missionStatus == 0) && g_playerPlaneFlags & 0x6000) {
             if (abs(g_viewX_ - g_planeTable.planes[g_closestThreatIndex].mapX) < 0x10 && abs(g_viewY_ - g_planeTable.planes[g_closestThreatIndex].mapY) < 0x10) {
                 g_setThrust = g_velocity = g_altitude = 0;
@@ -366,14 +364,12 @@ end_landing_check:
                 g_ViewY -= (g_ViewY - ((long)(0x8000 - g_planeTable.planes[g_closestThreatIndex].mapY) << 5)) / (long)i;
             }
         }
-    }
-    else {
+    } else {
         g_landingDoneFlag = 0;
         g_inLandingCorridor = 0;
     }
 
 skip_autopilot:
-    Log(("updateFrame: skip_autopilot, w33702=%d var547=%d unk4=%d 3BF90=%d 33098=%d 3BE3C=%d 3AA5A=%d", g_inLandingCorridor, g_viewZ, gameData->unk4, g_gunHits, g_fuelRemaining, g_ejectState, g_knots));
     if (g_inLandingCorridor == 0) {
         if (g_viewZ == 0) {
             if ((gameData->unk4 != 0 || g_gunHits > 4 || g_fuelRemaining == 0) &&
@@ -457,7 +453,7 @@ void dispatchKeyScancode(void) {
 #ifdef DEBUG
     if (keyScancode != 0)
         LogInfo(("KEY scancode=%04x  dot joyAxes[0/1]=%d/%d  ISR raw axes=%d/%d",
-            (unsigned)keyScancode, (int)joyAxes[0], (int)joyAxes[1], (int)g_joyRawX, (int)g_joyRawY));
+                 (unsigned)keyScancode, (int)joyAxes[0], (int)joyAxes[1], (int)g_joyRawX, (int)g_joyRawY));
 #endif
     keyDispatch(keyScancode);
 }
@@ -779,14 +775,13 @@ void initMissionStrings() {
     nameIdx = 1;
     for (i = 0; i < 750; ++i) {
         if (g_stringPool[i] == 0 && nameIdx < 100) {
-            g_targetNameTable[nameIdx++] = &g_stringPool[i+1];
+            g_targetNameTable[nameIdx++] = &g_stringPool[i + 1];
         }
     }
-    if (gameData->difficulty != 0) { //1e6c
+    if (gameData->difficulty != 0) { // 1e6c
         g_ViewX = ((int32)(g_planeTable.planes[g_targetSlots[0].viewIndex].mapX) << 5) + 2;
         g_ViewY = (0x8000 - (int32)(g_planeTable.planes[g_targetSlots[0].viewIndex].mapY)) << 5;
-    }
-    else {
+    } else {
         g_ViewX = ((int32)waypoints[0].mapX << 5) + 2;
         g_ViewY = (0x8000 - (int32)waypoints[0].mapY) << 5;
     }
@@ -852,8 +847,7 @@ void moveNearFar(void *nearPtr, int count) {
     void FAR *farPtr = nearPtr;
     if (flagFarToNear != 0) {
         movedata(FP_SEG(farPointer), FP_OFF(farPointer), FP_SEG(farPtr), FP_OFF(farPtr), count);
-    }
-    else {
+    } else {
         movedata(FP_SEG(farPtr), FP_OFF(farPtr), FP_SEG(farPointer), FP_OFF(farPointer), count);
     }
     farPointer += count;
@@ -861,6 +855,6 @@ void moveNearFar(void *nearPtr, int count) {
 
 // ==== seg000:0x21a9 ====
 int setCommWorldbufPtr() {
-    farPointer = (uint8 FAR*)&commData->worldBuf;
+    farPointer = (uint8 FAR *)&commData->worldBuf;
     return 0;
 }

@@ -1,0 +1,20 @@
+# Boring, standard LLVM-based C style, adapted to this codebase.
+#
+# Deviations from stock LLVM, each justified by the existing code or by the
+# byte-exact reverse-engineering goal:
+#   IndentWidth 4        - the tree is overwhelmingly 4-space indented.
+#   ColumnLimit 0        - lots of intentionally long lines, including
+#                          column-aligned BP-offset/stack-layout comments that
+#                          document the MSC 5.1 hash allocation; reflowing them
+#                          would destroy load-bearing documentation.
+#   SortIncludes false   - include grouping/order is deliberate; reordering is
+#                          the most likely way to break this finicky build.
+#   Short if/loops kept  - the code pervasively uses `if (cond) return x;`.
+Language: Cpp
+BasedOnStyle: LLVM
+IndentWidth: 4
+ColumnLimit: 0
+SortIncludes: false
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLoopsOnASingleLine: true
+AllowShortBlocksOnASingleLine: Empty

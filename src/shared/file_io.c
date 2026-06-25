@@ -7,8 +7,7 @@
 #include <dos.h>
 
 /* file_alloc.inc: Allocate DOS memory. Callers pass BYTE count. */
-uint16 dos_alloc(uint16 size)
-{
+uint16 dos_alloc(uint16 size) {
     union REGS r;
     r.h.ah = 0x48;
     /* Convert bytes to paragraphs (divide by 16, round up) */
@@ -20,8 +19,7 @@ uint16 dos_alloc(uint16 size)
 }
 
 /* file_close.inc: Close file handle */
-void fileClose(int handle)
-{
+void fileClose(int handle) {
     union REGS r;
     r.h.ah = 0x3E;
     r.x.bx = handle;
@@ -29,8 +27,7 @@ void fileClose(int handle)
 }
 
 /* file_open.inc: Open file, returns handle or -1 on error */
-int openFile(const char *filename, int mode)
-{
+int openFile(const char *filename, int mode) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x3D;
@@ -42,10 +39,8 @@ int openFile(const char *filename, int mode)
     return r.x.ax;
 }
 
-
 /* file_printstring.inc: Print '$'-terminated string via DOS */
-void dos_printstring(const char *str)
-{
+void dos_printstring(const char *str) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x09;
@@ -55,8 +50,7 @@ void dos_printstring(const char *str)
 }
 
 /* file_write.inc: Write to file */
-int writeFileAtRaw(int handle, const void far *buf, uint16 count)
-{
+int writeFileAtRaw(int handle, const void far *buf, uint16 count) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x40;
@@ -70,8 +64,7 @@ int writeFileAtRaw(int handle, const void far *buf, uint16 count)
 }
 
 /* dos_free: Free DOS memory block (INT 21h/49h) */
-int dos_free(int segment)
-{
+int dos_free(int segment) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x49;
@@ -82,8 +75,7 @@ int dos_free(int segment)
 }
 
 /* createFile: Create or truncate file (INT 21h/3Ch) */
-int createFile(const char *filename, int attr)
-{
+int createFile(const char *filename, int attr) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x3C;
@@ -96,8 +88,7 @@ int createFile(const char *filename, int attr)
 }
 
 /* readFile: Read from file into DS-relative buffer (INT 21h/3Fh) */
-int readFile(int handle, int count, int bufOffset)
-{
+int readFile(int handle, int count, int bufOffset) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x3F;
@@ -111,8 +102,7 @@ int readFile(int handle, int count, int bufOffset)
 }
 
 /* readFileAt: Read from file into specific segment:offset (INT 21h/3Fh) */
-int readFileAt(int handle, int count, int offset, int segment)
-{
+int readFileAt(int handle, int count, int offset, int segment) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x3F;
@@ -126,8 +116,7 @@ int readFileAt(int handle, int count, int offset, int segment)
 }
 
 /* writeFile: Write to file from specific segment:offset (INT 21h/40h) */
-int writeFile(int handle, int count, int offset, int segment, int unused)
-{
+int writeFile(int handle, int count, int offset, int segment, int unused) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x40;
@@ -141,14 +130,12 @@ int writeFile(int handle, int count, int offset, int segment, int unused)
 }
 
 /* file_read512.inc: Read 512 bytes from file - stub */
-int read512FromFileIntoBuf(void)
-{
+int read512FromFileIntoBuf(void) {
     return 0;
 }
 
 /* file_error.inc: Print error and exit */
-void errorAndExit(const char *msg)
-{
+void errorAndExit(const char *msg) {
     union REGS r;
     dos_printstring(msg);
     r.h.ah = 0x4C;

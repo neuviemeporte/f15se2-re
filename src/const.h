@@ -78,9 +78,9 @@
 
 /* bearing constants (binary angle measurement) */
 #define BEARING_NORTH 0x0000
-#define BEARING_EAST  0x4000
+#define BEARING_EAST 0x4000
 #define BEARING_SOUTH 0x8000
-#define BEARING_WEST  0xC000
+#define BEARING_WEST 0xC000
 
 /* color indices */
 #define COLOR_WHITE 0xf
