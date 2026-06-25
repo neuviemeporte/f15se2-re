@@ -1037,7 +1037,7 @@ int16 g_scopeArcRange;
 uint8 g_modelVertZ[0x10];
 int16 keyValue;
 int16 g_waypointBearing;
-int g_viewPitch;
+int16 g_viewPitch;
 int16 g_threatLabelTarget;
 
 int16 g_skyColorIndex;

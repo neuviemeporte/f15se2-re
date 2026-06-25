@@ -89,7 +89,7 @@ struct TileObject* findNearestTileObject(uint32 worldX, uint32 worldY) {
                         }
                         if (q < nearestTile.dist) {
                             g_modelStreamPtr = (char far *)(g_world3dData + buf3d3[g]);
-                            if (*(int far *)g_modelStreamPtr != 0 ||
+                            if (*(int16 far *)g_modelStreamPtr != 0 ||
                                 *((char far *)g_modelStreamPtr + 2) != 0 ||
                                 g_render3DTiles != 0) {
                                 nearestTile.lod = (uint8)c;
@@ -317,8 +317,10 @@ void buildVertexSignMask(int screenX, int screenY) {
     edgeIdx = 0;
     while (edgeIdx < g_modelEdgeCount) {
         g_modelStreamPtr += 4;
-        if (*(*(int far **)&g_modelStreamPtr)++ < 0) {
-            *(long *)&g_vtxSignMaskLo ^= bit;
+        if (*(*(int16 far **)&g_modelStreamPtr)++ < 0) {
+            /* Lo:Hi are an adjacent int16 pair forming one 32-bit sign mask;
+             * access as int32 — native `long` would over-read 4 bytes past Hi. */
+            *(int32 *)&g_vtxSignMaskLo ^= bit;
         }
         g_modelStreamPtr += 2;
         bit <<= 1;
@@ -345,8 +347,8 @@ void projectModelVertices(int screenX, int screenY) {
             screenVtxX = (g_replayLog.vertexX[buf3d3_1[vtxRef]] >> g_tileZoomShift) + screenX;
             screenVtxY = (((int16 *)g_modelVertY)[buf3d3_2[vtxRef]] >> g_tileZoomShift) + screenY;
         } else {
-            screenVtxX = (*(*(int far **)&g_modelStreamPtr)++ >> g_tileZoomShift) + screenX;
-            screenVtxY = (*(*(int far **)&g_modelStreamPtr)++ >> g_tileZoomShift) + screenY;
+            screenVtxX = (*(*(int16 far **)&g_modelStreamPtr)++ >> g_tileZoomShift) + screenX;
+            screenVtxY = (*(*(int16 far **)&g_modelStreamPtr)++ >> g_tileZoomShift) + screenY;
             g_modelStreamPtr += 2;
         }
         vtxScratch.vproj.in[vtxIdx].num = 1;

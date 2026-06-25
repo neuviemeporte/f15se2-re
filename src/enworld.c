@@ -24,8 +24,8 @@ void readWorldData(void) {
     loadWorldData(&worldGridSize, 2);
     loadWorldData(&worldMiscHeader, 2);
     loadWorldData(&weaponDataBlock, 16);
-    loadWorldData(target1Type, 36);
-    loadWorldData(flightTimeTable, 0x600);
+    loadWorldData(&targetBlock, 36);
+    loadWorldData(flightDataBuf, 0x600);
 }
 
 void loadWorldData(void* destOffset, int size) {

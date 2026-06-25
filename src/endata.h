@@ -24,10 +24,7 @@ extern int32 missionScore;
 extern int popupX;
 extern int popupY;
 extern char scoreString[];
-extern int target1Type[];
-extern int target1MiscBits[];
-extern int target2Type[];
-extern int target2MiscBits[];
+extern TargetBlock targetBlock;
 extern int16 randSeed;
 extern int16 randState;
 extern const int mapViewX1;
@@ -53,7 +50,6 @@ extern struct SpriteParams* spriteAirBlink;
 extern struct SpriteParams* spriteSamBlink;
 extern struct SpriteParams* spriteGroundBlink;
 extern struct SpriteParams* spriteWaypointBlink;
-extern FlightRecord flightRecords[];
 extern int curRecordIdx;
 extern char slotInfoTable[];  /* slot info table, 16 bytes per slot */
 extern char ejectedFlag;
@@ -98,9 +94,20 @@ extern int worldMiscHeader;
 extern struct WeaponDataBlock weaponDataBlock;
 extern uint16 worldObjectCount;
 extern int worldSamCount;
-extern int waypointData;
-extern int16 flightTimeTable[];
 extern int totalFlightRecords;
+
+/* The flight recording read back from the COMM block is one contiguous 0x600
+ * block. The DOS build viewed it as a 2-byte time head plus a FlightRecord
+ * array and relied on the linker placing two separate globals back to back;
+ * that adjacency is not guaranteed, so a single buffer backs both views.
+ * flightTimeTable is the +0 (timestamp) view, flightRecords the +2
+ * (FlightRecord) view — note record i's timestamp word is the two bytes just
+ * before record i, i.e. flightTimeTable[i*3] == (int*)&flightRecords[i] - 1
+ * (see enbrief.c). The views are constant-address expressions into one fixed
+ * buffer, so they compile to the same direct accesses as before. */
+extern uint8 flightDataBuf[0x600];
+#define flightTimeTable ((int16 *)flightDataBuf)
+#define flightRecords   ((FlightRecord *)(flightDataBuf + 2))
 extern struct PageDesc awardPageDesc;
 extern int16 *awardPage;
 extern char textBuf[];

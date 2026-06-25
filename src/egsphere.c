@@ -30,15 +30,8 @@ void drawProjectionSphere(int skyColor)
         drawFlatHorizon(skyColor);
         return;
     }
-    {
-        register int i;
-        ringIx = 0;
-        do {
-            i = ringIx + ringIx;
-            *((int *)((char *)g_sphereRingRadii + i)) = *((const int *)((const char *)g_sphereRingTable + i));
-            ringIx++;
-        } while (ringIx < 16);
-    }
+    for (ringIx = 0; ringIx < 16; ringIx++)
+        g_sphereRingRadii[ringIx] = g_sphereRingTable[ringIx];
     g_sphereTiltZ = -g_spherePitch;
     radiusScale = (int)(((long)g_sphereRadius << 8) / (long)(g_sphereDistZ < 0x200 ? 0x200 : g_sphereDistZ));
     if (g_extraScaleShift != 0) {

@@ -117,7 +117,7 @@ void updateFrame(void) {
         g_difficultyTier = 2;
         g_missionStatus = gameData->difficulty;
         gameData->unk4 = 1;
-        g_detailLevel = *(int far *)((char far *)commData + 0x32);
+        g_detailLevel = commData->setupDetail;
         setupLodDistances();
         *(int far *)((char far *)commData + 0x26) = 1;
         g_gunAmmo = 1000;

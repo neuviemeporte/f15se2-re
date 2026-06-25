@@ -273,7 +273,7 @@ extern int16 g_scopeArcRange;
 extern uint8 g_modelVertZ[];
 extern int16 keyValue;
 extern int16 g_waypointBearing;
-extern int g_viewPitch;
+extern int16 g_viewPitch;
 extern int16 g_threatLabelTarget;
 extern int16 g_skyColorIndex;
 extern int16 g_sphereRingRadii[];

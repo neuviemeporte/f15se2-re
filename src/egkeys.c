@@ -349,7 +349,7 @@ void recalcTimeScale(void) {
 void setupLodDistances(void) {
     int lod;
     for (lod = 0; lod < 6; lod++) {
-        ((int *)(colorLut + 0x10))[lod] = 0x20 << ((char)lod + (char)(g_detailLevel > 2 ? 2 : g_detailLevel));
+        ((int16 *)(colorLut + 0x10))[lod] = 0x20 << ((char)lod + (char)(g_detailLevel > 2 ? 2 : g_detailLevel));
     }
     g_lodDistNear = g_lodDistScale + g_lodDistBase;
     g_lodDistFar = clampRange(g_lodDistScale << 1, 0x1000, 9999);

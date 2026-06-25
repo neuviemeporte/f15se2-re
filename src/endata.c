@@ -368,11 +368,8 @@ char textBuf[100];
 char unitTypeTable[100];
 char gridFlags[256];
 
-/* Target data */
-int target1Type[2];
-int target1MiscBits[5];
-int target2Type[4];
-int target2MiscBits[5];
+/* Target data — one contiguous 36-byte block (see TargetBlock / readWorldData) */
+TargetBlock targetBlock;
 
 /* Score string buffer */
 char scoreString[512];
@@ -424,7 +421,6 @@ char spriteToggle;
 char animDone;
 int curRecordIdx;
 char worldObjects[8];
-char waypointData[4];
 int totalFlightRecords;
 /* 16-bytes-per-slot table, indexed [unitId*16] (unitId masked to 0x7F). The
  * original reserves 0x4700-0x4256 = 1194 bytes here (map/end.map: slotInfoTable
@@ -437,7 +433,7 @@ int hasVgaMode[2];
 int spriteBufSeg;
 int vgaBufSeg;
 int vgaBufOffset;
-char vgaBufSeg2;  /* 1 byte in original BSS */
+int vgaBufSeg2;
 
 /* Theater sprite filename pointer table (8 entries) */
 const char *theaterSprFiles[] = {
@@ -769,5 +765,6 @@ int16 worldRouteCount = 0;
 struct GameComm far *commData = 0;
 int16 gfxBufSeg = 0;
 uint8 gfxBufPad[512] = {0};
-int16 flightTimeTable[1] = {0};
-uint8 flightRecords[1534] = {0};
+/* One contiguous 0x600 buffer backing both the flightTimeTable and flightRecords
+ * views (declared in endata.h). Loaded as a unit by readWorldData. */
+uint8 flightDataBuf[0x600] = {0};

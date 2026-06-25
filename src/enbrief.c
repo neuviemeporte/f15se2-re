@@ -511,10 +511,10 @@ void drawMenuItem(const MenuItem *items, unsigned int index, int16* gfxPage) {
         case EVENT_EJECTED:
             if (curRecordIdx == 0) {
                 mystrcpy(scoreString, "Takeoff point:");
-                if (worldObjects[waypointData].unitRef != 0) {
-                    mystrcat(scoreString, worldStrings[worldObjects[waypointData].unitRef]);
+                if (worldObjects[targetBlock.waypointData].unitRef != 0) {
+                    mystrcat(scoreString, worldStrings[worldObjects[targetBlock.waypointData].unitRef]);
                 } else {
-                    mystrcat(scoreString, worldStrings[(unsigned char)worldObjects[waypointData].objectIdx]);
+                    mystrcat(scoreString, worldStrings[(unsigned char)worldObjects[targetBlock.waypointData].objectIdx]);
                 }
             } else {
                 mystrcpy(scoreString, "Mission end:\n");
@@ -703,12 +703,12 @@ char *formatFlightTime(int timeValue, char *buffer) {
     int minutes;
     int seconds;
 
-    miscBits = target1MiscBits[0] + target2MiscBits[0];
+    miscBits = targetBlock.target1MiscBits[0] + targetBlock.target2MiscBits[0];
     nightMission = ((char)miscBits & 3) == 0;
-    if (target1Type[0] == 1 || target2Type[0] == 1) {
+    if (targetBlock.target1Type[0] == 1 || targetBlock.target2Type[0] == 1) {
         nightMission = 0;
     }
-    if (target1Type[0] == 4 || target2Type[0] == 4) {
+    if (targetBlock.target1Type[0] == 4 || targetBlock.target2Type[0] == 4) {
         nightMission = 1;
     }
     timeValue += (miscBits & 0xF) << 8;

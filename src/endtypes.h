@@ -97,6 +97,23 @@ typedef struct {
     char unk5;
 } FlightRecord;
 
+/* TargetBlock: the 36-byte (0x24) world target record that readWorldData loads
+ * in a single movedata (loadWorldData(&targetBlock, 36), see enworld.c). The
+ * original keeps these five fields in one contiguous block at DS:0x4800; the
+ * struct guarantees that layout instead of relying on the linker placing five
+ * separate communal globals adjacently (which it does not). */
+#pragma pack(1)
+typedef struct {
+    int16 target1Type[2];      /* 0x00 */
+    int16 waypointData;        /* 0x04 — index into worldObjects[] */
+    int16 pad06;               /* 0x06 — never referenced in the original */
+    int16 target1MiscBits[5];  /* 0x08 */
+    int16 target2Type[4];      /* 0x12 */
+    int16 target2MiscBits[5];  /* 0x1a */
+} TargetBlock;
+#pragma pack()
+STATIC_ASSERT(sizeof(TargetBlock) == 36);
+
 /* WeaponDataBlock: a 4006-byte data block loaded from disk and read by byte
  * offset through the macro views in endata.h (planeArray, samWeaponTable,
  * nightMission, ...). Split into 200-byte chunks only to stay under MSC 5.1's

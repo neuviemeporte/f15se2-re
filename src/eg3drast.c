@@ -349,10 +349,10 @@ static void projectVertexToScreen(int vtx)   /* BX = vtx*4 in the asm */
     }
     /* word_342BC:word_342BE form the 32-bit camera X for this vertex; the asm
      * reads it from byte offset +1 (i.e. >>8) before the IDIV. */
-    camX = *(long *)((char *)&vtxScratch + 0x3c + vtx * 4);
+    camX = *(int32 *)((char *)&vtxScratch + 0x3c + vtx * 4);
     vtxScratch.vproj.x.v[vtx] = sdivFull(lshr_s(camX, 8), cx) + g_viewCenterX;
     /* camera Y: (camY>>8) scaled by 3/4 (the (v>>2 - v) aspect term) then /depth */
-    camY = *(long *)((char *)&vtxScratch + 0x220 + vtx * 4);
+    camY = *(int32 *)((char *)&vtxScratch + 0x220 + vtx * 4);
     {
         long n = lshr_s(camY, 8);
         long scaled = lshr_s(n, 2) - n;          /* = -(n*3/4) */
@@ -383,18 +383,18 @@ static void clipEdgeNearPlane(struct EdgeRec *rec, int behind, int front)
         cx = (int)(udiv32by16_full(num, div) >> 1);
     }
     /* X = word_342BC..  (offset 0x3c), Y = word_344A0.. (offset 0x220) */
-    fc = *(long *)((char *)&vtxScratch + 0x3c + front * 4);
-    bc = *(long *)((char *)&vtxScratch + 0x3c + behind * 4);
+    fc = *(int32 *)((char *)&vtxScratch + 0x3c + front * 4);
+    bc = *(int32 *)((char *)&vtxScratch + 0x3c + behind * 4);
     delta = fc - bc;
     prod = imul16(HI16(delta) + LOCARRY(delta), cx) << 1;
     t = fc - prod;
-    *(long *)((char *)&vtxScratch + 0x21c) = t;          /* word_3449C */
-    fc = *(long *)((char *)&vtxScratch + 0x220 + front * 4);
-    bc = *(long *)((char *)&vtxScratch + 0x220 + behind * 4);
+    *(int32 *)((char *)&vtxScratch + 0x21c) = t;          /* word_3449C */
+    fc = *(int32 *)((char *)&vtxScratch + 0x220 + front * 4);
+    bc = *(int32 *)((char *)&vtxScratch + 0x220 + behind * 4);
     delta = fc - bc;
     prod = imul16(HI16(delta) + LOCARRY(delta), cx) << 1;
     t = fc - prod;
-    *(long *)((char *)&vtxScratch + 0x400) = t;          /* word_34680 */
+    *(int32 *)((char *)&vtxScratch + 0x400) = t;          /* word_34680 */
     vtxScratch.vproj.in[120].num = 0;                    /* word_34864 */
     vtxScratch.vproj.in[120].div = 1;                    /* word_34866 */
     projectVertexToScreen(120);                          /* BX = 0x1E0 */

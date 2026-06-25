@@ -85,11 +85,11 @@ void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int ob
         shiftLongRightInPlace(shiftAmt, &relY);
         altDiff >>= (char)shiftAmt;
     }
-    if ((long)(int)labs(relX) < (long)0x7FFF) {
-        if ((long)(int)labs(relY) < (long)0x7FFF) {
+    if ((long)(int16)labs(relX) < (long)0x7FFF) {
+        if ((long)(int16)labs(relY) < (long)0x7FFF) {
             setViewPosition(0, 0, -altDiff);
             g_curLod = 1;
-            projectSceneObject(g_world3dData + dataOff, -objYaw, objPitch, objRoll, (int)relX, -(int)relY, altitude != 0);
+            projectSceneObject(g_world3dData + dataOff, -objYaw, objPitch, objRoll, (int16)relX, -(int16)relY, altitude != 0);
         }
     }
 }
