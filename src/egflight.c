@@ -12,7 +12,7 @@
 #include "egui.h"
 #include "offsets.h"
 #include "pointers.h"
-#include "debug.h"
+#include "log.h"
 #include "slot.h"
 #include "const.h"
 #include "comm.h"
@@ -776,15 +776,13 @@ int isqrt(int value) { /* Original: Sqrt(N). Return integer square root using Ne
 // something to do with view switching?
 void renderFrame() {
     int camDist, savedCamDist, range, camOffset, dx, dy, tmp;
-    TRACE(("renderFrame: enter"));
     g_camEyeX = g_viewTargetX = g_ViewX;
     g_camEyeY = g_ViewY;
     g_viewTargetY = 0x100000 - g_ViewY;
-    TRACE(("renderFrame: past assigns"));
     g_camEyeZ = g_viewZ + 0x18;
     g_viewTargetAlt = g_viewZ;
     camDist = g_externalCamDist = clampRange(g_externalCamDist, 2, 8);
-    TRACE(("renderFrame: past clamp, keyValue=%d", keyValue));
+    Log(("renderFrame: past clamp, keyValue=%d", keyValue));
     switch(keyValue) {
     case 0:
     case 0x44:
@@ -1009,7 +1007,6 @@ void renderFrame() {
     }
     gfx_flipPage();
     g_hudBottomY = (g_activePanelMode == 0x13 || g_mapMode == 1 || g_hudVisible == 0) ? 200 : 97;
-    TRACE(("renderFrame: exit"));
 }
 
 void UpdateThrottleState(void) {

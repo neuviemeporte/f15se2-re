@@ -3,7 +3,7 @@
 #include <dos.h>
 #include "offsets.h"
 #include "pointers.h"
-#include "debug.h"
+#include "log.h"
 #include "shared/common.h"
 #include <stdlib.h>
 #include "endata.h"
@@ -22,7 +22,6 @@ void setupWorldBufPtr(void);
 void loadWorldStrings(void) {
     int strIdx;
     int pos;
-    TRACE(("loadWorldStrings"));
     setupWorldBufPtr();
     worldDataReady = 1;
     readWorldData();
@@ -38,7 +37,6 @@ void loadWorldStrings(void) {
 }
 
 void drawStringAtPos(int16 *s, const char far *str, int x, int y) {
-    TRACE(("drawStringAtPos"));
     s[4] = x;
     s[5] = y;
     drawFarString(s, str);
@@ -51,7 +49,6 @@ void farStrcpy(char *dst, const char far *src) {
 
 void drawFarString(int16* s, const char far *str) {
     char buf[200];
-    TRACE(("drawFarString"));
     farStrcpy(buf, str);
     gfx_drawString(s, buf);
 }
@@ -65,7 +62,6 @@ void restoreInterrupts(void) {
 
 
 void outportByte(int port, int value) {
-    TRACE(("outportByte"));
     outp(port, value);
 }
 

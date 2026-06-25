@@ -420,6 +420,10 @@ char joyRepeatFlag;
 char spriteToggle;
 char animDone;
 int curRecordIdx;
+/* worldObjects is accessed as struct WorldObject[]. This is only an 8-byte BSS stub: readWorldData loads
+ * worldObjectCount<<4 (up to 0x4B*16 = 1200) bytes here, deliberately spilling
+ * through totalFlightRecords into slotInfoTable to reproduce the original
+ * end.exe BSS layout (map/end.map). Do NOT retype it to the full array. */
 char worldObjects[8];
 int totalFlightRecords;
 /* 16-bytes-per-slot table, indexed [unitId*16] (unitId masked to 0x7F). The

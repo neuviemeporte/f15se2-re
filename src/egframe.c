@@ -14,7 +14,7 @@
 #include "egui.h"
 #include "offsets.h"
 #include "pointers.h"
-#include "debug.h"
+#include "log.h"
 #include "slot.h"
 #include "const.h"
 #include "comm.h"
@@ -48,14 +48,14 @@ void updateFrame(void) {
     uint16 screenY;
     int i;
     int objIdx;
-    TRACE(("updateFrame: enter, g_initPhase=%d", g_initPhase));
+    Log(("updateFrame: enter, g_initPhase=%d", g_initPhase));
 #ifdef DEBUG
     {
         static int sig_was_ok = 1;
         int s4 = *(int far *)((char far *)commData - 4);
         if (sig_was_ok && (unsigned)s4 != 0xca01) {
             sig_was_ok = 0;
-            TRACE_KEY(("SIG CORRUPTED at frame %d: commData-4(MCB)=%04x", frameTick, s4));
+            LogError(("SIG CORRUPTED at frame %d: commData-4(MCB)=%04x", frameTick, s4));
         }
     }
 #endif
@@ -76,7 +76,6 @@ void updateFrame(void) {
             g_axisInputAccum[2] = 1;
         }
         findWaypointFeatures();
-        TRACE(("updateFrame: past 11F3E"));
         g_threatActiveTimer = 0;
         g_scopeSweepTimer = 1;
         g_airTargetLock = g_groundTargetLock = -1;
@@ -104,15 +103,10 @@ void updateFrame(void) {
             g_ViewY -= (long)(1800 * g_northSouthSign);
         }
         initFrameRandom();
-        TRACE(("updateFrame: past 118F6"));
         appendMapEvent(8, 0);
-        TRACE(("updateFrame: past 11D10"));
         initTacMapView();
-        TRACE(("updateFrame: past 19595"));
         switchIndicatorColor(3, 10);
-        TRACE(("updateFrame: past 19EB6"));
         setActivePanel(19);
-        TRACE(("updateFrame: past 194D0"));
         g_groundTargetLock = g_airTargetLock = -1;
         g_difficultyTier = 2;
         g_missionStatus = gameData->difficulty;
@@ -173,19 +167,13 @@ void updateFrame(void) {
     }
 
     *MAKEFAR(char, SEG_LOWMEM, OFF_BDA_KEYFLAGS) &= 0xf;
-    TRACE(("updateFrame: past init"));
     updateThreatSites();
     updateObjects();
     updateThreatTargeting();
-    TRACE(("updateFrame: past 179EE"));
     tickMessageTimers();
-    TRACE(("updateFrame: past 11636"));
     updateBulletsAndFire();
-    TRACE(("updateFrame: past 11676"));
     updateTracerParticles();
-    TRACE(("updateFrame: past 11841"));
     applyGravityFall();
-    TRACE(("updateFrame: past 118D5"));
 
     if (objectToScreen(g_viewX_, g_viewY_, (int16*)&val, (int16*)&screenY) != 0) {
         g_drawPage = -(gfx_getDisplayPage() - 1);
@@ -385,12 +373,12 @@ end_landing_check:
     }
 
 skip_autopilot:
-    TRACE(("updateFrame: skip_autopilot, w33702=%d var547=%d unk4=%d 3BF90=%d 33098=%d 3BE3C=%d 3AA5A=%d", g_inLandingCorridor, g_viewZ, gameData->unk4, g_gunHits, g_fuelRemaining, g_ejectState, g_knots));
+    Log(("updateFrame: skip_autopilot, w33702=%d var547=%d unk4=%d 3BF90=%d 33098=%d 3BE3C=%d 3AA5A=%d", g_inLandingCorridor, g_viewZ, gameData->unk4, g_gunHits, g_fuelRemaining, g_ejectState, g_knots));
     if (g_inLandingCorridor == 0) {
         if (g_viewZ == 0) {
             if ((gameData->unk4 != 0 || g_gunHits > 4 || g_fuelRemaining == 0) &&
                 g_ejectState == 0 && g_knots > 50) {
-                TRACE_KEY(("DEATH: altitude-zero crash, tick=%d var547=%d 3AA5A=%d", frameTick, g_viewZ, g_knots));
+                LogInfo(("DEATH: altitude-zero crash, tick=%d var547=%d 3AA5A=%d", frameTick, g_viewZ, g_knots));
                 makeSound(0, 2);
                 setDrawColor(0);
                 fillRectBoth(0, 0, 319, 199);
@@ -403,7 +391,7 @@ skip_autopilot:
     }
 
     if (g_savedPosVisible != 0 && (keyValue & 0x80) == 0) {
-        TRACE_KEY(("DEATH-path collision: g_savedPosVisible=%d unk4=%d var548=%d tick=%d", g_savedPosVisible, gameData->unk4, g_altitude, frameTick));
+        LogInfo(("DEATH-path collision: g_savedPosVisible=%d unk4=%d var548=%d tick=%d", g_savedPosVisible, gameData->unk4, g_altitude, frameTick));
         if (gameData->unk4 != 0 && g_altitude != 0) {
             makeSound(0, 2);
             gfx_waitRetrace();
@@ -468,7 +456,7 @@ void dispatchKeyScancode(void) {
     int unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7;
 #ifdef DEBUG
     if (keyScancode != 0)
-        TRACE_KEY(("KEY scancode=%04x  dot joyAxes[0/1]=%d/%d  ISR raw axes=%d/%d",
+        LogInfo(("KEY scancode=%04x  dot joyAxes[0/1]=%d/%d  ISR raw axes=%d/%d",
             (unsigned)keyScancode, (int)joyAxes[0], (int)joyAxes[1], (int)g_joyRawX, (int)g_joyRawY));
 #endif
     keyDispatch(keyScancode);
@@ -683,7 +671,7 @@ void drawWeaponSelectMarker(int weaponIdx) {
 
 // ==== seg000:0x1b37 routine_148 ====
 void finalizeMission(int outcome) {
-    TRACE_KEY(("DEATH/END finalizeMission: outcome=%d, g_ejectState=%d, tick=%d", outcome, g_ejectState, frameTick));
+    LogInfo(("DEATH/END finalizeMission: outcome=%d, g_ejectState=%d, tick=%d", outcome, g_ejectState, frameTick));
     if (g_ejectState != 0 && outcome != 0) {
         return;
     }

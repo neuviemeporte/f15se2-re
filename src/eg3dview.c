@@ -8,7 +8,7 @@
 #include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
-#include "debug.h"
+#include "log.h"
 #include "slot.h"
 #include "const.h"
 
@@ -29,18 +29,12 @@ void render3DView(int camX, int camY, int camZ, long worldX, long worldY, long w
     g_viewParams[10] = clipLeft + clipWidth - 1;
     *g_viewParams = gfx_getDisplayPage() & 0xFF;
     waitFrameSync(g_frameSyncWait);
-    TRACE(("121CA:1"));
     g_viewParams[2] = (unsigned char)((char *)colorLut)[g_skyColorIndex & 0xFF];
     setup3DTransform(g_viewParams, camX, camY, camZ, 0, 0, (int)worldZ, 1);
-    TRACE(("121CA:2"));
     projectObjects(camX, camY, worldX, worldY, worldZ);
-    TRACE(("121CA:3"));
     updateTargetLock();
-    TRACE(("121CA:4"));
     rasterize3DWorld();
-    TRACE(("121CA:5"));
     drawHudWorldOverlay();
-    TRACE(("121CA:6"));
     g_renderPageToggle ^= 1;
 }
 
@@ -55,7 +49,7 @@ void waitFrameSync(int frames) {
             uint8 start = g_timerTickByte[0];
             while (targetTick != g_timerTickByte[0]) {
                 if (++spins > 3000000UL) {
-                    TRACE_KEY(("12278: SPIN TIMEOUT arg=%d want=%d cur=%d start=%d (ISR frozen?)", frames, (int)targetTick, (int)g_timerTickByte[0], (int)start));
+                    LogWarn(("12278: SPIN TIMEOUT arg=%d want=%d cur=%d start=%d (ISR frozen?)", frames, (int)targetTick, (int)g_timerTickByte[0], (int)start));
                     break;
                 }
             }

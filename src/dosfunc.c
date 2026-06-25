@@ -1,6 +1,6 @@
 #include "dosfunc.h"
 #include "inttype.h"
-#include "output.h"
+#include "log.h"
 #include "memory.h"
 #include "f15util.h"
 #include "offsets.h"
@@ -56,7 +56,7 @@ uint16 dos_alloc(const size_t paragraphs) {
     err = intdos(&rin, &rout);
     assert(err == rout.x.ax);
     if (rout.x.cflag != 0) {
-        ERROR("dos_alloc: error allocating %up (%lu): error 0x%x, max avail %u", paragraphs, PARA_TO_BYTES(paragraphs), err, rout.x.bx);
+        LogError(("dos_alloc: error allocating %up (%lu): error 0x%x, max avail %u", paragraphs, PARA_TO_BYTES(paragraphs), err, rout.x.bx));
         return 0;
     }
     return rout.x.ax;
@@ -71,7 +71,7 @@ int dos_free(const uint16 segment) {
     // DOS 2.1-6.0 does not coalesce adjacent free blocks when a block is freed, only when a block is allocated or resized.
     // The code for this function is identical in DOS 2.1-6.0 except for calls to start/end a critical section in DOS 3.0+""
     if (rout.x.cflag != 0) {
-        ERROR("dos_free: error freeing segment 0x%x: error 0x%x", segment, err);
+        LogError(("dos_free: error freeing segment 0x%x: error 0x%x", segment, err));
         return err;
     }
     return 0;
@@ -85,7 +85,7 @@ uint16 dos_resize(const uint16 segment, uint16 newsize) {
     err = intdosx(&rin, &rout, &sreg);
     assert(err == rout.x.ax);
     if (rout.x.cflag != 0) {
-        ERROR("dos_resize: error resizing segment 0x%x to %u - error 0x%x max avail %u", segment, newsize, rout.x.ax, rout.x.bx);
+        LogError(("dos_resize: error resizing segment 0x%x to %u - error 0x%x max avail %u", segment, newsize, rout.x.ax, rout.x.bx));
         return rout.x.bx;
     }
     return 0;
@@ -98,7 +98,7 @@ size_t dos_getfree(void) {
     err = intdos(&rin, &rout);
     // we expect the call to fail
     if (rout.x.cflag == 0) {
-        ERROR("dos_getfree(): unexpected: succeeded in allocating 0xffff paragraphs?");
+        LogError(("dos_getfree(): unexpected: succeeded in allocating 0xffff paragraphs?"));
         return 0;
     }
     return rout.x.bx;
@@ -160,27 +160,27 @@ static int loadprog(const char* file, const uint16 segment, const uint8 type, co
         exeLoadParams.fcb2Segment = _psp;
         rin.x.bx = PTR_OFF(&exeLoadParams);
         if (DOS_LOAD_EXEC)
-            DEBUG("dos_loadprog(): loading %s and executing with cmdline '%Fs'", file, cmdline);
+            LogDebug(("dos_loadprog(): loading %s and executing with cmdline '%Fs'", file, cmdline));
         else
-            DEBUG("dos_loadprog(): loading %s with cmdline '%Fs'", file, cmdline);
+            LogDebug(("dos_loadprog(): loading %s with cmdline '%Fs'", file, cmdline));
         break;
     case DOS_LOAD_OVL:
         ovlLoadParams.segment = segment;
         ovlLoadParams.reloc = segment; // no idea, original does the same
         rin.x.bx = PTR_OFF(&ovlLoadParams);
-        INFO("dos_loadprog(): loading %s at segment 0x%x as overlay", file, segment);
+        LogInfo(("dos_loadprog(): loading %s at segment 0x%x as overlay", file, segment));
         break;
     default:
-        ERROR("dos_loadprog(): unsupported load type: 0x%hx", type);
+        LogError(("dos_loadprog(): unsupported load type: 0x%hx", type));
         return DOSERR_INVFUNC;
     }
     err = intdos(&rin, &rout);
     if (rout.x.cflag != 0) {
-        ERROR("dos_loadprog: unable to load %s at 0x%x, error 0x%x", file, segment, err);
+        LogError(("dos_loadprog: unable to load %s at 0x%x, error 0x%x", file, segment, err));
         return err;
     }
-    DEBUG("dos_loadprog(): success, ax = 0x%x, cs:ip = %X:%X, ss:sp = %X:%X", rout.x.ax,
-        exeLoadParams.cs, exeLoadParams.ip, exeLoadParams.ss, exeLoadParams.sp);
+    LogDebug(("dos_loadprog(): success, ax = 0x%x, cs:ip = %X:%X, ss:sp = %X:%X", rout.x.ax,
+        exeLoadParams.cs, exeLoadParams.ip, exeLoadParams.ss, exeLoadParams.sp));
     return 0;
 }
 
@@ -243,7 +243,7 @@ void dos_mcbInfo(void) {
     // first mcb's segment is in LoL at offset -2
     segment = *((uint16 FAR*)(lol - 2));
     mcb = (struct MCB FAR *)MK_FP(segment, 0);
-    INFO("Walking the MCB chain, LoL @ %p", lol);
+    LogInfo(("Walking the MCB chain, LoL @ %p", lol));
     while (mcb) {
         switch (mcb->type) {
         case 'M':
@@ -261,10 +261,10 @@ void dos_mcbInfo(void) {
             default:
                 alloc += mcb->size;
             }
-            INFO("#%03d [0x%04x]: pid = 0x%04x, size = %05up, %s", i++, segment, mcb->pid, mcb->size, strbuf);
+            LogInfo(("#%03d [0x%04x]: pid = 0x%04x, size = %05up, %s", i++, segment, mcb->pid, mcb->size, strbuf));
             break;
         default:
-            ERROR("unexpected MCB type: %Xh", mcb->type);
+            LogError(("unexpected MCB type: %Xh", mcb->type));
             return;
         }
         if (mcb->type == 'Z') { // last mcb
@@ -278,7 +278,7 @@ void dos_mcbInfo(void) {
     sprintf(strbuf, "summary: total %s", sizeString(total));
     sprintf(strbuf + strlen(strbuf), ", alloc %s", sizeString(alloc));
     sprintf(strbuf + strlen(strbuf), ", free %s",  sizeString(free));
-    INFO("%s", strbuf);
+    LogInfo(("%s", strbuf));
 }
 
 uint16 dos_lastFreeBlock(void) {
@@ -301,7 +301,7 @@ uint16 dos_lastFreeBlock(void) {
                 return 0;
             break;
         default:
-            ERROR("unexpected MCB type: %Xh", mcb->type);
+            LogError(("unexpected MCB type: %Xh", mcb->type));
             return 0;
         }
         if (mcb->type == 'Z') { // last mcb

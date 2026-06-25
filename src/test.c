@@ -4,7 +4,7 @@
 #include "comm.h"
 #include "pointers.h"
 #include "struct.h"
-#include "debug.h"
+#include "log.h"
 
 void my_assert(int arg, int lineno, const char *msg, ...) {
     va_list arg_ptr;
@@ -80,15 +80,15 @@ void testStruct() {
 }
 
 void testTrace() {
-    const char *str = "Foobar a = %d, b = %d, c = %d";
     int a=1,b=2,c=3;
-    printf("Testing trace functions: ");
-    my_trace(str, a, b, c);
-    my_fartrace((const char FAR*)str, a, b, c);
+    printf("Testing log functions: ");
+    Log(("Foobar a = %d, b = %d, c = %d", a, b, c));
+    LogError(("Foobar a = %d, b = %d, c = %d", a, b, c));
     printf("OK\n");
 }
 
 int main() {
+    log_set_app("test");
     printf("Running F15 SE2 unit test application\n");
     testComm();
     testGame();

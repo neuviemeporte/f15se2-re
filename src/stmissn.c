@@ -7,7 +7,7 @@
 #include "slot.h"
 #include "const.h"
 
-#include "debug.h"
+#include "log.h"
 #include "stcode.h"
 #include "stdata.h"
 #include "stgen.h"
@@ -26,9 +26,6 @@ void drawLine(const int16 *pageNum, int x1, int y1, int x2, int y2, int color);
 int missionMenuSelect(const char **names, const char **desc, const char *title, int s);
 void animateArm(int, int);
 void clearBriefing(void);
-
-
-/* stmissn.c - split from stinit.c (mission select), compiled /Gs /Zi */
 
 void clearKeybuf()
 {
@@ -56,7 +53,7 @@ int joyOrKey() {
     if (misc_checkKeyBuf() != 0) {
         return 0;
     }
-    // 5b6, alt-q hit check
+    // alt-q hit check
     if (misc_getKey() == KEYCODE_ALTQ) {
         cleanup();
         exit(0);
@@ -105,16 +102,13 @@ void showPic640(const char* filename)
 void missionSelect()
 {
     int index, count;
-    TRACE(("missionSelect(): entering"));
     gfx_setDac(1);
     gfx_setFadeSteps(0);
     openShowPic("Wall.Pic", *page1NumPtr);
-    TRACE(("missionSelect(): shown wall"));
     clearBriefing();
-    TRACE(("missionSelect(): cleared briefing"));
     nearmemset(scenarioFoundArr, 0, 5);
     gameData->difficulty = missionMenuSelect(missDiffLevels, missDiffDesc, "DIFFICULTY", gameData->difficulty);
-    TRACE(("missionSelect(): selected difficulty: %d", gameData->difficulty));
+    Log(("missionSelect(): selected difficulty: %d", gameData->difficulty));
 selectTheater:
     if (gameData->theater > 4)
         gameData->theater = 4;
@@ -157,18 +151,17 @@ selectTheater:
             } while ((missionPick = missionMenuSelect(missHistorical2Names, missHistorical2Desc, missionStr, 4) + 4) == 8);
         }
     }
-    // 909-0x90d
 }
 
 int missionMenuSelect(const char **names, const char **desc, const char *title, int selection)
 {
     int yPos, row, action;
-    TRACE(("missionMenuSelect(): entering, selection %d", selection));
+    Log(("missionMenuSelect(): entering, selection %d", selection));
     enableHighlight = 1;
     page1Desc.color = COLOR_TITLE;
     drawStringCentered(page1NumPtr, title, 113, 14, 185);
     drawLine(page1NumPtr, 173, 22, 235, 22, 1);
-    TRACE(("missionMenuSelect(): drawn title %s", title));
+    Log(("missionMenuSelect(): drawn title %s", title));
     yPos = 26;
     for (row = 0; row < 5; row++) {
         if (scenarioFoundArr[row] == 0) {
@@ -177,19 +170,18 @@ int missionMenuSelect(const char **names, const char **desc, const char *title, 
             page1Desc.font = FONT_SMALL;
             page1Desc.color = COLOR_BRIEF_DESC_NORMAL;
             drawStringCentered(page1NumPtr, desc[row], 113, yPos + 8, 185);
-            TRACE(("missionMenuSelect(): drawn item %s/%s", names[row], desc[row]));
+            Log(("missionMenuSelect(): drawn item %s/%s", names[row], desc[row]));
             page1Desc.font = FONT_NORMAL;
         }
         yPos += 21;
     }
-    TRACE(("missionMenuSelect(): items drawn: %d", row));
+    Log(("missionMenuSelect(): items drawn: %d", row));
     setTimerIrqHandler();
     timerCounter3 = 6;
     animateArm(-1, 6);
     for (row = 5; row >= selection; row--) {
         animateArm(row + 1, row);
     }
-    TRACE(("missionMenuSelect(): animated arm"));
     do {
 again:
         if ((action = pollMenuInput()) != KEYCODE_ENTER) {
@@ -261,7 +253,7 @@ void animateArm(int a, int b)
         gfx_copyRect(*page2NumPtr, spriteBlitX, spriteBlitY, *page1NumPtr, spriteBlitX, spriteBlitY, spriteBlitW, spriteBlitH);
         if (b < 5 && enableHighlight != 0) {
             gfx_switchColor(page1NumPtr, 113, b * 21 + 34, 297, b * 21 + 42, COLOR_BRIEF_DESC_HL, COLOR_BRIEF_DESC_NORMAL);
-        } //cd9
+        }
     }
 }
 
@@ -380,13 +372,11 @@ int pollMenuInput() {
     int joy0;
     joy0 = joy1 = 0;
     repeatHold = 0;
-    TRACE(("pollMenuInput(): entering"));
     if (joyRepeatFlag == 1) {
         timerCounter = 0;
         repeatHold = 1;
     }
-    if (commData->setupUseJoy == 1) { //10d8
-        TRACE(("pollMenuInput(): use joy 1"));
+    if (commData->setupUseJoy == 1) {
         joy0 = misc_readJoystick(0);
         joy1 = misc_readJoystick(1);
         pollJoystick();
@@ -400,18 +390,15 @@ int pollMenuInput() {
         //     ((joyAxes[0] < 0x4e || (joyAxes[0] > 0xb2)))) ||
         //     ((joyAxes[1] < 0x4e || (joyAxes[1] > 0xb2)))) && (var_6 != 1)) break;
         if ((joyRepeatFlag == 1) && (15 < timerCounter)) { //113f
-            TRACE(("pollMenuInput(): cond 1"));
             repeatHold = 0;
             joyRepeatFlag = 0;
         }
         if (commData->setupUseJoy == 1) {
-            TRACE(("pollMenuInput(): use joy 2"));
             joy0 = misc_readJoystick(0);
             joy1 = misc_readJoystick(1);
             pollJoystick();
         }
         if (cbreakHit != 0) {
-            TRACE(("pollMenuInput(): cbreak"));
             cleanup();
             restoreCbreakHandler();
             exit(0);
@@ -419,46 +406,39 @@ int pollMenuInput() {
         // blink cursor on top of current pilot selection
         blinkPilot();
     }
-    TRACE(("pollMenuInput(): out of while"));
     if (misc_checkKeyBuf() == 0) {
         key = misc_getKey();
-        TRACE(("pollMenuInput(): got key 0x%x", key));
+        Log(("pollMenuInput(): got key 0x%x", key));
     }
     else if (joy0 == 1) {
-        TRACE(("pollMenuInput(): setting enter"));
         key = KEYCODE_ENTER;
     }
     else if (joyAxes[1] < JOY_DEADZONE_LO) {
-        TRACE(("pollMenuInput(): joy up"));
         key = KEYCODE_UPARROW;
         joyRepeatFlag = 1;
     }
     else if (joyAxes[1] > JOY_DEADZONE_HI) {
-        TRACE(("pollMenuInput(): joy dn"));
         key = KEYCODE_DNARROW;
         joyRepeatFlag = 1;
     }
     else if (joyAxes[0] < JOY_DEADZONE_LO) {
-        TRACE(("pollMenuInput(): joy left"));
         key = KEYCODE_LEFTARROW;
         joyRepeatFlag = 1;
     }
     else if (joyAxes[0] > JOY_DEADZONE_HI) {
-        TRACE(("pollMenuInput(): joy right"));
         key = KEYCODE_RIGHTARROW;
         joyRepeatFlag = 1;
     }
     if (((uint8*)&key)[0]) {
         key = key & 0xff;
-        TRACE(("pollMenuInput(): anded to %u", key));
+        Log(("pollMenuInput(): anded to %u", key));
     }
     if (key == KEYCODE_ALTQ) {
-        TRACE(("pollMenuInput(): exiting"));
         cleanup();
         restoreCbreakHandler();
         exit(0);
     }
-    TRACE(("pollMenuInput(): tail returning 0x%x", key));
+    Log(("pollMenuInput(): tail returning 0x%x", key));
     return key;
 }
 

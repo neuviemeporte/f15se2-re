@@ -3,7 +3,7 @@
 #include <dos.h>
 #include "offsets.h"
 #include "pointers.h"
-#include "debug.h"
+#include "log.h"
 #include "shared/common.h"
 #include <stdlib.h>
 #include "endtypes.h"
@@ -30,6 +30,7 @@ int main(void) {
 
     (void)a; (void)e;
 
+    log_set_app("end");
     FP_SEG(lowmemPtr) = SEG_LOWMEM;
     FP_OFF(lowmemPtr) = OFF_IACA_START;
     commSeg = *lowmemPtr;
@@ -73,7 +74,6 @@ int main(void) {
 }
 
 void checkQuitFlag(void) {
-    TRACE(("checkQuitFlag"));
     if (quitFlag != 0) {
         cleanup();
         restoreCbreakHandler();

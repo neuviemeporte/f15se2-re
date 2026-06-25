@@ -42,7 +42,7 @@ SRCDIR := $(SRCTOP)
 BUILDDIR := build
 MAPDIR := map
 DEBUGDIR := debug_build
-HDRFILES := dosfunc.h output.h pointers.h offsets.h biosfunc.h comm.h overlay.h f15util.h slot.h const.h struct.h debug.h
+HDRFILES := dosfunc.h log.h pointers.h offsets.h biosfunc.h comm.h overlay.h f15util.h slot.h const.h struct.h
 HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
@@ -55,8 +55,11 @@ all: f15-se2
 # main executable, aka loader, replacement for f15.com and su.exe combined
 #
 MAIN_EXE := $(BUILDDIR)/f15.exe
-MAIN_SRCS := f15.c dosfunc.c biosfunc.c output.c overlay.c f15util.c
+MAIN_SRCS := f15.c dosfunc.c biosfunc.c log.c overlay.c f15util.c
 MAIN_OBJS := $(call cobj,$(BUILDDIR),$(MAIN_SRCS))
+# The launcher's diagnostics are always-on (unlike the matched binaries, which
+# compile logging out), so build it with DEBUG to keep the Log* calls live.
+$(MAIN_OBJS): MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DDEBUG
 
 $(MAIN_EXE): | $(BUILDDIR)
 $(MAIN_EXE): $(MAIN_OBJS)
@@ -142,7 +145,7 @@ START_DEBUG := $(DEBUGDIR)/start.exe
 AUTOSTART ?=
 $(START_DEBUG): MSC_CFLAGS += /DDEBUG
 $(DEBUGDIR)/stmain.obj: MSC_CFLAGS := /Gs /Zi /Id:\f15-se2 /DDEBUG $(if $(AUTOSTART),/DDEBUG_AUTOSTART)
-START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(DEBUGDIR)/cleanup.obj $(DEBUGDIR)/drawstr.obj $(DEBUGDIR)/textfmt.obj $(DEBUGDIR)/filepic.obj $(DEBUGDIR)/debug.obj
+START_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(START_SRC)) $(call asmobj,$(DEBUGDIR),$(START_ASM)) $(DEBUGDIR)/cleanup.obj $(DEBUGDIR)/drawstr.obj $(DEBUGDIR)/textfmt.obj $(DEBUGDIR)/filepic.obj $(DEBUGDIR)/log.obj
 $(START_DBG_OBJ): $(START_BASEHDR)
 $(START_DBG_OBJ): ASMFLAGS += -DDEBUG
 $(START_DEBUG): $(DEBUGDIR) $(START_DBG_OBJ)
@@ -183,13 +186,13 @@ $(START_NOASM): $(NOASM_OBJ)
 # f15.exe NO_ASM build (virtual gfx overlay — no Mgraphic.exe required)
 #
 F15_NOASM := $(NOASMDIR)/f15.exe
-NOASM_F15_SRC := f15.c dosfunc.c biosfunc.c output.c overlay.c f15util.c gfx_impl.c
+NOASM_F15_SRC := f15.c dosfunc.c biosfunc.c log.c overlay.c f15util.c gfx_impl.c
 NOASM_F15_COBJ := $(call cobj,$(NOASMDIR),$(NOASM_F15_SRC))
 # regshim.asm: register-call ABI glue for the register-passed gfx slots
 NOASM_F15_OBJ := $(NOASM_F15_COBJ) $(NOASMDIR)/regshim.obj
 # Not byte-matched against an original (no verify target), so build for
 # maximum optimization. /Ox = max opt favoring speed (implies /Gs).
-$(NOASM_F15_COBJ): MSC_CFLAGS := /Ox /Id:\f15-se2 /DNO_ASM /DBUGFIX
+$(NOASM_F15_COBJ): MSC_CFLAGS := /Ox /Id:\f15-se2 /DNO_ASM /DBUGFIX /DDEBUG
 $(F15_NOASM): | $(NOASMDIR)
 $(F15_NOASM): $(NOASM_F15_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(NOASM_F15_OBJ) -o $@ -f "$(LINKFLAGS)"
@@ -298,19 +301,24 @@ EGAME_VRF_TGTEP := main
 
 # egame.exe debug build
 EGAME_DEBUG := $(DEBUGDIR)/egame.exe
-# Disable /Zi globally for debug egame to keep _TEXT under 64K
+# egame's _TEXT sits right at the 64K small-model limit, so the whole debug
+# build is compiled /Os (size) and without /Zi. The debug build isn't verified,
+# so optimizing it freely is fine.
 # DBG_DEFS: extra debug-only defines. /DDISABLE_3D skips the 3D world
 # renderer (see sub_155AB) so 2D/HUD/radar render continuously.
 # Set DBG_DEFS=/DDISABLE_3D on the make command line to disable 3D.
 DBG_DEFS ?=
-$(EGAME_DEBUG): MSC_CFLAGS := /Gs /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
-EGAME_DBG_OBJ := $(call asmobj,$(DEBUGDIR),$(EGAME_ASM)) $(call cobj,$(DEBUGDIR),$(EGAME_SRC)) $(DEBUGDIR)/dbglite.obj $(DEBUGDIR)/dbgio.obj
+$(EGAME_DEBUG): MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
+EGAME_DBG_OBJ := $(call asmobj,$(DEBUGDIR),$(EGAME_ASM)) $(call cobj,$(DEBUGDIR),$(EGAME_SRC)) $(DEBUGDIR)/logdos.obj $(DEBUGDIR)/dbgio.obj
 $(EGAME_DBG_OBJ): $(EGAME_BASEHDR)
 $(EGAME_DBG_OBJ): ASMFLAGS += -DDEBUG
-# Compile largest C files with /Os in debug to stay under 64K _TEXT limit
-$(DEBUGDIR)/egflight.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
-$(DEBUGDIR)/egkeys.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
-$(DEBUGDIR)/egmain.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG $(DBG_DEFS)
+# Even at /Os egame's _TEXT can't absorb stdio's vfprintf/fopen, so its logging
+# backend (LOG_DOS) formats by hand and writes through the raw DOS helpers in
+# dbgio.asm. Built from the shared log.c into a distinct object so the stdio
+# build the other binaries use can coexist.
+$(DEBUGDIR)/logdos.obj: MSC_CFLAGS := /Gs /Os /Id:\f15-se2 /DDEBUG /DLOG_DOS
+$(DEBUGDIR)/logdos.obj: $(SRCDIR)/log.c $(HDRS) | $(DEBUGDIR)
+	@$(DOSBUILD) cc $(C_TOOLCHAIN) -i $< -o $@ -f "$(MSC_CFLAGS)"
 $(EGAME_DEBUG): $(DEBUGDIR) $(EGAME_DBG_OBJ)
 	@$(DOSBUILD) link $(LINK_TOOLCHAIN) -i $(EGAME_DBG_OBJ) -o $@ -f "$(LINKFLAGS)" -l "slibce.lib"
 	@if [ -n "$(F15_TESTDIR)" ]; then \
@@ -363,7 +371,7 @@ END_VRF_TGTEP := main
 # end.exe debug build
 END_DEBUG := $(DEBUGDIR)/end.exe
 $(END_DEBUG): MSC_CFLAGS += /DDEBUG
-END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(DEBUGDIR)/cleanup.obj $(DEBUGDIR)/drawstr.obj $(DEBUGDIR)/textfmt.obj $(DEBUGDIR)/filepic.obj $(DEBUGDIR)/debug.obj
+END_DBG_OBJ := $(call cobj,$(DEBUGDIR),$(END_SRC)) $(call asmobj,$(DEBUGDIR),$(END_ASM)) $(DEBUGDIR)/cleanup.obj $(DEBUGDIR)/drawstr.obj $(DEBUGDIR)/textfmt.obj $(DEBUGDIR)/filepic.obj $(DEBUGDIR)/log.obj
 $(END_DBG_OBJ): $(END_BASEHDR)
 $(END_DBG_OBJ): ASMFLAGS += -DDEBUG
 $(END_DEBUG): $(DEBUGDIR) $(END_DBG_OBJ)
@@ -401,7 +409,7 @@ $(END_NOASM): $(NOASM_END_OBJ)
 TEST_EXE := $(DEBUGDIR)/test.exe
 TEST_SRCS := test.c stinit.c stsprit.c strand.c stpilot.c stalloc.c stterr.c stparse.c stgen.c stdata.c
 TEST_ASMS := stcode.asm stslots.asm
-TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(DEBUGDIR)/cleanup.obj $(DEBUGDIR)/drawstr.obj $(DEBUGDIR)/textfmt.obj $(DEBUGDIR)/filepic.obj $(DEBUGDIR)/debug.obj
+TEST_OBJS := $(call cobj,$(DEBUGDIR),$(TEST_SRCS)) $(call asmobj,$(DEBUGDIR),$(TEST_ASMS)) $(DEBUGDIR)/cleanup.obj $(DEBUGDIR)/drawstr.obj $(DEBUGDIR)/textfmt.obj $(DEBUGDIR)/filepic.obj $(DEBUGDIR)/log.obj
 TEST_LIBS := slibce.lib
 
 $(TEST_EXE): MSC_CFLAGS := /Gs /w /Id:\f15-se2 /DDEBUG

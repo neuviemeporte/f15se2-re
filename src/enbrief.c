@@ -3,7 +3,7 @@
 #include <dos.h>
 #include "offsets.h"
 #include "pointers.h"
-#include "debug.h"
+#include "log.h"
 #include "shared/common.h"
 #include "endtypes.h"
 #include "endata.h"
@@ -150,7 +150,6 @@ done:
 void blinkWidget(MenuItem *item, int16* gfxPage) {
     int toColor;
     int fromColor;
-    TRACE(("blinkWidget"));
     if (item->state == 0) {
         item->state = 1;
         fromColor = (unsigned)item->colorPair >> 4;
@@ -170,7 +169,6 @@ void blinkWidget(MenuItem *item, int16* gfxPage) {
 
 int isPointInRect(const MenuItem *p)
 {
-    TRACE(("isPointInRect"));
     if (p->hitX1 <= cursorX && p->hitX2 >= cursorX && p->hitY1 <= cursorY && p->hitY2 >= cursorY)
         return 1;
     else
@@ -184,7 +182,6 @@ int isPointInRect(const MenuItem *p)
     int joyBtn1;
     char repeatActive;
     int keycode;
-    TRACE(("processDebriefInput"));
 
     colorTablePtr = (unsigned int *)((char *)colorStyleTable + menuItem->colorTableIdx * 14);
     timerCounter2 = 0;
@@ -567,7 +564,6 @@ void drawMenuItem(const MenuItem *items, unsigned int index, int16* gfxPage) {
 
 int drawEventSprite(int recordIdx)
 {
-    TRACE(("drawEventSprite"));
     switch (flightRecords[recordIdx].status & STATUS_TYPE_MASK) {
         case EVENT_AIR_KILL:
         case EVENT_AIR_KILL2:
@@ -726,12 +722,10 @@ char *formatFlightTime(int timeValue, char *buffer) {
 }
 
 int mapToScreenX(unsigned char mapCoord) {
-    TRACE(("mapToScreenX"));
     return ((unsigned int)mapCoord << 7) / MAP_SCALE_X;
 }
 
 int mapToScreenY(unsigned char mapCoord) {
-    TRACE(("mapToScreenY"));
     return ((unsigned int)mapCoord << 7) / MAP_SCALE_Y;
 }
 
@@ -739,7 +733,6 @@ void plotMapPoint(int x, int y, int color, int unused) {
     int sx;
     int sy;
     (void)unused;
-    TRACE(("plotMapPoint"));
     sx = mapToScreenX(x);
     sy = mapToScreenY(y);
     if (color != -1 &&
@@ -752,7 +745,6 @@ void plotMapPoint(int x, int y, int color, int unused) {
 }
 
 void timerWait(unsigned int ticks) {
-    TRACE(("timerWait"));
     timerCounter = 0;
     setTimerIrqHandler();
     while (ticks >= timerCounter)
@@ -762,19 +754,16 @@ void timerWait(unsigned int ticks) {
 
 void drawFlightLine(int p1, int p2, int p3, int p4)
 {
-    TRACE(("drawFlightLine"));
     drawClippedLineEx(mapToScreenX(p1), mapToScreenY(p2), mapToScreenX(p3), mapToScreenY(p4), mapViewX1, mapViewX2, mapViewY1, mapViewY2, 1);
 }
 
 void drawClippedLine(int x1, int y1, int x2, int y2) {
-    TRACE(("drawClippedLine"));
     drawClippedLineEx(x1, y1, x2, y2, mapViewX1, mapViewX2, mapViewY1, mapViewY2, 1);
 }
 
 void drawClippedLineEx(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2, int cy2, int flag) {
     int w, h;
     (void)flag;
-    TRACE(("drawClippedLineEx"));
     w = cy1 - cx1;
     h = cy2 - cx2;
     gfx_setBlitOffset(gfx_calcRowAddr(cx1, cx2));
@@ -796,7 +785,6 @@ void drawClippedLineEx(int x1, int y1, int x2, int y2, int cx1, int cy1, int cx2
 }
 
 void drawMapPixel(int x, int y, int color) {
-    TRACE(("drawMapPixel"));
     drawClippedLine(x, y, x, y);
 }
 

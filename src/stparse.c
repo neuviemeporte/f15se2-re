@@ -4,7 +4,7 @@
 #include "stparse.h"
 #include "const.h"
 #include "shared/common.h"
-#include "debug.h"
+#include "log.h"
 
 #include <stdio.h>
 #include <conio.h>

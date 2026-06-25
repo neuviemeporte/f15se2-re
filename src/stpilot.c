@@ -12,7 +12,7 @@
 #include "comm.h"
 #include "offsets.h"
 #include "shared/common.h"
-#include "debug.h"
+#include "log.h"
 
 #include <stdio.h>
 #include <dos.h>
@@ -35,32 +35,23 @@ int readInputKey();
 void pilotSelect(int16 needSplash)
 {
     int unused;
-    TRACE(("pilotSelect(): entering, needSplash %d", needSplash));
     gfx_waitRetrace();
     loadHallfame();
-    TRACE(("pilotSelect(): loaded hallfame"));
     if (needSplash == 0) {
         updateHallfame();
-        TRACE(("pilotSelect(): updated hallfame"));
     }
     gfx_setFadeSteps(4);
     loadPic("ArmPiece.Pic", menuSprites);
-    TRACE(("pilotSelect(): loaded armpiece"));
     gfx_setFadeSteps(7);
     openShowPic("HiScore.Pic", *screenBuf);
-    TRACE(("pilotSelect(): showed hiscore pic"));
     displayPilots();
-    TRACE(("pilotSelect(): showed prompt"));
     gfx_setDac(1);
     gfx_flipPage();
-    TRACE(("pilotSelect(): retrace done"));
     processPilotInput();
-    TRACE(("pilotSelect(): processed pilot input, selected %d", selectedPilotIdx));
+    Log(("pilotSelect(): processed pilot input, selected %d", selectedPilotIdx));
     pilotToGameData((uint8*)&hallfameBuf[selectedPilotIdx]);
-    TRACE(("pilotSelect(): updated pilot in game data"));
     screenBuf[3] = 0;
     clearRect(screenBuf, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
-    TRACE(("pilotSelect(): returning"));
 }
 
 void updateHallfame()
@@ -102,15 +93,12 @@ void displayPilots(void)
     screenBuf[3] = 0;
     pilotIdx = 0;
     do {
-        TRACE(("displayPilots(): iteration %d", pilotIdx));
+        Log(("displayPilots(): iteration %d", pilotIdx));
         printPilot(pilotIdx);
     } while (++pilotIdx < HALLFAME_SLOTS);
-    TRACE(("displayPilots(): loop terminating"));
     screenDesc.color = COLOR_WHITE;
     drawStringCentered(pageNumPtr, "Use SELECTOR to choose pilot,  ESC to enter new pilot.", 0, 192, 320);
-    TRACE(("displayPilots(): drawn prompt"));
     gfx_commitPage();
-    TRACE(("displayPilots(): exiting"));
 }
 
 void printPilot(int pilotIdx) {
@@ -125,28 +113,27 @@ void printPilot(int pilotIdx) {
     clearRect(screenBuf, xPos, yPos - 1, xPos + PILOT_ENTRY_WIDTH, yPos + 32);
     screenDesc.color = (pilotIdx == selectedPilotIdx) ? COLOR_WHITE : COLOR_GRAY;
     mystrcpy(todayMissStrBuf, ranks[pilot->rank & 0xf]);
-    TRACE(("printPilot(): strcpy %s", todayMissStrBuf));
+    Log(("printPilot(): strcpy %s", todayMissStrBuf));
     mystrcat(todayMissStrBuf, pilot->name);
-    TRACE(("printPilot(): strcat %s", todayMissStrBuf));
+    Log(("printPilot(): strcat %s", todayMissStrBuf));
     drawStringCentered(screenBuf, todayMissStrBuf, xPos, yPos, 144);
-    TRACE(("printPilot(): drawn string %s", todayMissStrBuf));
+    Log(("printPilot(): drawn string %s", todayMissStrBuf));
     screenDesc.color = COLOR_RED;
     screenDesc.font = 4;
     my_ltoa(pilot->total_score, todayMissStrBuf);
-    TRACE(("printPilot(): ltoa 1 %ld -> %s, about to cat %s", pilot->total_score, todayMissStrBuf, " ("));
+    Log(("printPilot(): ltoa 1 %ld -> %s, about to cat %s", pilot->total_score, todayMissStrBuf, " ("));
     mystrcat(todayMissStrBuf, " (");
-    TRACE(("printPilot(): strcat2 %s", todayMissStrBuf));
+    Log(("printPilot(): strcat2 %s", todayMissStrBuf));
     my_itoa(pilot->last_score, &todayMissStrBuf[mystrlen(todayMissStrBuf)]);
     mystrcat(todayMissStrBuf, ")");
-    TRACE(("printPilot(): strcat3 %s", todayMissStrBuf));
+    Log(("printPilot(): strcat3 %s", todayMissStrBuf));
     drawStringCentered(screenBuf, todayMissStrBuf, xPos, yPos + 9, 144);
-    TRACE(("printPilot(): drawn string2"));
     screenDesc.font = 1;
     for (medalIdx = 0, totalMedalWidth = 0; medalIdx < 7; medalIdx++) {
         if ((pilot->medals & (1 << medalIdx)) == 0) continue;
         totalMedalWidth += medalWidth[medalIdx] + 4;
     }
-    TRACE(("printPilot(): past loop 1, totalMedalWidth = %d", totalMedalWidth));
+    Log(("printPilot(): past loop 1, totalMedalWidth = %d", totalMedalWidth));
     xPos += (144 - totalMedalWidth) / 2;
     yPos += 17;
     medalIdx = 0;
@@ -156,7 +143,6 @@ void printPilot(int pilotIdx) {
         showSprite(screenBuf[0], xPos, yPos, medalSpriteX[medalIdx], medalSpriteY[medalIdx], medalWidth[medalIdx], 16);
         xPos += medalWidth[medalIdx] + 4;
     } while(++medalIdx < 7);
-    TRACE(("printPilot(): returning"));
 }
 
 /* ---- merged from stpinp.c ---- */
@@ -167,20 +153,17 @@ void processPilotInput() {
     int yPos;
     pilotSelectFlag = 1;
     setTimerIrqHandler();
-    TRACE(("processPilotInput(): set timer irq"));
     while (prevIdx = selectedPilotIdx, true) switch (pollMenuInput()) {
     case KEYCODE_ENTER:
-        TRACE(("processPilotInput(): enter"));
         if ((hallfameBuf[selectedPilotIdx].medals & 0x60) == 0) {
             restoreTimerIrqHandler();
             pilotSelectFlag = 0;
-            TRACE(("processPilotInput(): accepted %d", selectedPilotIdx));
+            Log(("processPilotInput(): accepted %d", selectedPilotIdx));
             return;
         }
         putch(CHAR_BELL);
         continue;
     case KEYCODE_ESC:
-        TRACE(("processPilotInput(): esc"));
         hallfameBuf[selectedPilotIdx].theater
             = hallfameBuf[selectedPilotIdx].difficulty
             = hallfameBuf[selectedPilotIdx].total_score
@@ -203,19 +186,15 @@ void processPilotInput() {
         }
         continue;
     case KEYCODE_UPARROW:
-        TRACE(("processPilotInput(): up"));
         selectedPilotIdx--;
         goto handleArrow;
     case KEYCODE_DNARROW:
-        TRACE(("processPilotInput(): down"));
         selectedPilotIdx++;
         goto handleArrow;
     case KEYCODE_LEFTARROW:
-        TRACE(("processPilotInput(): left"));
         selectedPilotIdx -= PILOTS_PER_COLUMN;
         goto handleArrow;
     case KEYCODE_RIGHTARROW:
-        TRACE(("processPilotInput(): right"));
         selectedPilotIdx += PILOTS_PER_COLUMN;
 handleArrow:
         selectedPilotIdx &= HALLFAME_SLOTS - 1;
@@ -227,7 +206,7 @@ handleArrow:
         yPos = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
         gfx_switchColor(screenBuf, xPos, yPos, xPos + PILOT_ENTRY_WIDTH, yPos + PILOT_NAME_HEIGHT, COLOR_GRAY, COLOR_WHITE);
     }
-    TRACE(("processPilotInput(): returning, selected %d", selectedPilotIdx));
+    Log(("processPilotInput(): returning, selected %d", selectedPilotIdx));
 }
 
 void blinkPilot() {
@@ -279,7 +258,7 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
     uint16 keyCode;
     int rankWidth;
     blinkToggle = 0;
-    TRACE(("pilotNameInput(): entering with page = %d, abc = %d/%d/%d, pilot: %s", *page, a,b,c, pilot->name));
+    Log(("pilotNameInput(): entering with page = %d, abc = %d/%d/%d, pilot: %s", *page, a,b,c, pilot->name));
     xPos = (selectedPilotIdx < PILOTS_PER_COLUMN) ? PILOT_COL_LEFT : PILOT_COL_RIGHT;
     yPos = ((selectedPilotIdx & (PILOTS_PER_COLUMN - 1)) * PILOT_ROW_HEIGHT) + PILOT_TOP_MARGIN;
     clearRect(page, xPos, yPos, xPos + PILOT_ENTRY_WIDTH, yPos + 35);
@@ -291,12 +270,10 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
     drawStringCentered(pageNumPtr, "\376ENTER YOUR NAME !", 15, 192, 289);
     misc_clearKeyFlags();
     keyCode = KEYCODE_CTRLX;
-    TRACE(("pilotNameInput(): before loop"));
     do {
-        TRACE(("pilotNameInput(): loop iter, keyCode = 0x%x", keyCode));
+        Log(("pilotNameInput(): loop iter, keyCode = 0x%x", keyCode));
         switch(keyCode) {
         case KEYCODE_CTRLX:
-            TRACE(("pilotNameInput(): case 0x18"));
             nameLen = 0;
             pilot->name[0] = '\0';
             clearRect(page, xPos, yPos, xPos + rankWidth, yPos + c);
@@ -304,7 +281,6 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
             cursorX = page[4];
             break;
         case 8: // backspace
-            TRACE(("pilotNameInput(): case 8"));
             if (nameLen > 0) {
                 nameLen--;
                 pilot->name[nameLen] = '\0';
@@ -315,9 +291,8 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
             }
             break;
         default:
-            TRACE(("pilotNameInput(): case default"));
             if (keyCode >= 0x20 && keyCode <= 0x7f && nameLen < a && stringWidth(page, pilot->name) <= 144) {
-                TRACE(("pilotNameInput(): case default condition true, nameLen = %d", nameLen));
+                Log(("pilotNameInput(): case default condition true, nameLen = %d", nameLen));
                 pilot->name[nameLen++] = keyCode;
                 pilot->name[nameLen] = '\0';
                 clearRect(page, xPos, yPos, xPos + rankWidth, yPos + c);
@@ -326,7 +301,6 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
             }
             break;
         }
-        TRACE(("pilotNameInput(): before input loop"));
         while (getJoyKey() == 0) {
             waitMdaCgaStatus(3);
             gfx_switchColor(page, xPos, yPos - 1, xPos + rankWidth, yPos + c,
@@ -334,19 +308,17 @@ void pilotNameInput(int16 *page, int a, int b, int c, struct Pilot *pilot) {
             blinkToggle ^= 1;
             page[3] = pilotNameInputColors[blinkToggle];
         }
-        TRACE(("pilotNameInput(): after input loop"));
         keyCode = readInputKey();
         if ((keyCode & 0xff) != 0) {
             keyCode &= 0xff;
         }
-        TRACE(("pilotNameInput(): after sub_125e4, keyCode = 0x%x", keyCode));
+        Log(("pilotNameInput(): after sub_125e4, keyCode = 0x%x", keyCode));
         if (keyCode == KEYCODE_ENTER) {
             screenBuf[3] = 0;
             clearRect(page, 15, 192, 303, 197);
             return;
         }
     } while( true );
-    TRACE(("pilotNameInput(): exiting"));
 }
 
 
@@ -354,10 +326,10 @@ void loadHallfame(void)
 {
     int slotIdx;
     FILE *handle;
-    TRACE(("loadHallfame(): reading from %s", "HallFame"));
+    Log(("loadHallfame(): reading from %s", "HallFame"));
     handle = fopen("HallFame", "rb");
     fread(&selectedPilotIdx, 2, 1, handle);
-    TRACE(("loadHallfame(): count = %d", selectedPilotIdx));
+    Log(("loadHallfame(): count = %d", selectedPilotIdx));
     slotIdx = 0;
     do {
         fread(hallfameBuf + slotIdx, HALLFAME_RECORDSZ, 1, handle);

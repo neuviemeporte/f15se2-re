@@ -111,7 +111,7 @@ set(F15_SOURCES
     ${SRC_DIR}/f15.c
     ${SRC_DIR}/dosfunc.c
     ${SRC_DIR}/biosfunc.c
-    ${SRC_DIR}/output.c
+    ${SRC_DIR}/log.c
     ${SRC_DIR}/overlay.c
     ${SRC_DIR}/f15util.c
     ${SRC_DIR}/gfx_impl.c
@@ -192,3 +192,5 @@ configure_f15_target(f15 ${F15_SOURCES})
 configure_f15_target(start ${START_SOURCES})
 configure_f15_target(egame ${EGAME_SOURCES})
 configure_f15_target(end ${END_SOURCES})
+
+target_compile_definitions(f15 PRIVATE DEBUG)

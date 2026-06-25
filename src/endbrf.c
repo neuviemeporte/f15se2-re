@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "offsets.h"
 #include "pointers.h"
-#include "debug.h"
+#include "log.h"
 #include "shared/common.h"
 #include "endata.h"
 #include "endcode.h"

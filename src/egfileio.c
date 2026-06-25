@@ -4,7 +4,7 @@
 #include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
-#include "debug.h"
+#include "log.h"
 #include "slot.h"
 #include "const.h"
 
@@ -18,7 +18,7 @@ int readFile2Wrapper(int handle, int count, int bufOffset, int bufSegment);
 int writeFileAtRawWrapper(int handle, int count, int bufOffset, int bufSegment, int offsetAddend);
 
 int openFileWrapper(const char *filename, int mode) { /* Original: OpenFile(file, attrib). Open resident file service; returns a file handle. */
-    TRACE(("openFileWrapper: path=%s mode=%d", filename, mode));
+    Log(("openFileWrapper: path=%s mode=%d", filename, mode));
     /* Thin resident-service wrapper: pass filename and open mode unchanged. */
     return openFile(filename, mode);
 }

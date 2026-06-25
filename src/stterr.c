@@ -5,7 +5,7 @@
 #include "stterr.h"
 #include "pointers.h"
 #include "comm.h"
-#include "debug.h"
+#include "log.h"
 #include "const.h"
 
 #include <memory.h>

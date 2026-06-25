@@ -10,7 +10,7 @@
 #include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
-#include "debug.h"
+#include "log.h"
 #include "slot.h"
 #include "const.h"
 
@@ -381,7 +381,7 @@ void setup3DTransform(const int16 *model, int angleX, int angleY, int angleZ, in
             unsigned long spins = 0;
             while (g_frameSyncPending != 0) {
                 if (++spins > 3000000UL) {
-                    TRACE_KEY(("13932: SPIN TIMEOUT - timer ISR not clearing 378EE"));
+                    LogWarn(("13932: SPIN TIMEOUT - timer ISR not clearing 378EE"));
                     g_frameSyncPending = 0;
                     break;
                 }

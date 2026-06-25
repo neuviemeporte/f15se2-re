@@ -3,7 +3,7 @@
 #include <string.h>
 #include "offsets.h"
 #include "pointers.h"
-#include "debug.h"
+#include "log.h"
 #include "shared/common.h"
 #include "entext.h"
 

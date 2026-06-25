@@ -11,7 +11,7 @@
 #include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
-#include "debug.h"
+#include "log.h"
 #include "slot.h"
 #include "const.h"
 
@@ -25,11 +25,11 @@ void load15Flt3d3() {
     int bytesLeft, chunkSize;
     struct SREGS segs;
     char FAR *dest;
-    TRACE(("load15Flt3d3: a15flt_xxx=%s", a15flt_xxx));
+    Log(("load15Flt3d3: a15flt_xxx=%s", a15flt_xxx));
     strcpyFromDot(a15flt_xxx, ".3D3");
-    TRACE(("load15Flt3d3: after strcpyFromDot=%s", a15flt_xxx));
+    Log(("load15Flt3d3: after strcpyFromDot=%s", a15flt_xxx));
     fileHandle = fopen(a15flt_xxx, "rb");
-    TRACE(("load15Flt3d3: fopen returned %d", (int)fileHandle));
+    Log(("load15Flt3d3: fopen returned %d", (int)fileHandle));
     if (fileHandle == NULL) {
         printError("Open Error on *.3D3");
         return;
@@ -38,10 +38,10 @@ void load15Flt3d3() {
     fread(&flt15_size, 2, 1, fileHandle);
     fread(flt15_buf1, 2, flt15_size, fileHandle);
     fread(&bytesLeft, 2, 1, fileHandle);
-    TRACE(("load15Flt3d3: var_A=%d", bytesLeft));
+    Log(("load15Flt3d3: var_A=%d", bytesLeft));
     segread(&segs);
     dest = g_aircraftModels;
-    TRACE(("load15Flt3d3: DS=%04x var_10=%04x:%04x", segs.ds, FP_SEG(dest), FP_OFF(dest)));
+    Log(("load15Flt3d3: DS=%04x var_10=%04x:%04x", segs.ds, FP_SEG(dest), FP_OFF(dest)));
     while(bytesLeft > 0) {
         chunkSize = bytesLeft <= 0x800 ? bytesLeft : 0x800;
         fread(flt15_buf2, 1, chunkSize, fileHandle);
@@ -49,9 +49,7 @@ void load15Flt3d3() {
         bytesLeft -= 0x800;
         FP_OFF(dest) += 0x800;
     }
-    TRACE(("load15Flt3d3: loop done"));
     fclose(fileHandle);
-    TRACE(("load15Flt3d3: done"));
 }
 
 void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int objYaw, int objPitch, int objRoll, int scaleShift)

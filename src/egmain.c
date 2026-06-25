@@ -8,7 +8,7 @@
 #include "egtypes.h"
 #include "offsets.h"
 #include "pointers.h"
-#include "debug.h"
+#include "log.h"
 #include "slot.h"
 #include "const.h"
 #include "comm.h"
@@ -30,8 +30,7 @@ void __cdecl gfxInit();
 // ==== seg000:0x10 ====
 int main(void) {
     uint16 FAR *commPtr;
-    TRACE(("egame main: entering"));
-    TRACE(("egame main: start, about to read commPtr"));
+    log_set_app("egame");
     FP_SEG(commPtr) = SEG_LOWMEM;
     FP_OFF(commPtr) = OFF_IACA_START;
 #ifdef DEBUG
@@ -50,18 +49,16 @@ int main(void) {
 #endif
     FP_SEG(gameData) = *commPtr;
     FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
-    TRACE(("egame main: commData=%04x:%04x gameData=%04x:%04x", FP_SEG(commData), FP_OFF(commData), FP_SEG(gameData), FP_OFF(gameData)));
+    Log(("main: commData=%04x:%04x gameData=%04x:%04x", FP_SEG(commData), FP_OFF(commData), FP_SEG(gameData), FP_OFF(gameData)));
 #ifdef DEBUG
-    TRACE_KEY(("SIG@startup: commData-4/-2 (=MCB magic now) = %04x/%04x",
+    LogInfo(("SIG@startup: commData-4/-2 (=MCB magic now) = %04x/%04x",
         *(int far *)((char far *)commData - 4), *(int far *)((char far *)commData - 2)));
 #endif
-    TRACE(("egame main: setup overlays"));
     setupOverlaySlots(commData->gfxOvlAddr);
     setupOverlaySlots(commData->miscOvlAddr);
     setupOverlaySlots(commData->sndOvlAddr);
     hercFlag = commData->setupMono;
     gfxModeUnset = commData->gfxModeNum == 0;
-    TRACE(("egame main: install cbreak"));
     installCBreakHandler();
     if (commData->setupUseJoy == 1) {
         copyJoystickData(commData->joyData);
@@ -69,14 +66,9 @@ int main(void) {
     else {
         joyAxes[0] = joyAxes[1] = 0x80;
     }
-    TRACE(("egame main: gfxInit"));
     gfxInit();
-    TRACE(("egame main: after gfxInit"));
-    TRACE(("egame main: calling initOverlay"));
     gfx_initOverlay();
-    TRACE(("egame main: calling setMonoFlag"));
     gfx_setMonoFlag(commData->setupMono);
-    TRACE(("egame main: calling setFadeSteps"));
     if (gameData->theater < 2) {
         gfx_setFadeSteps(12);
     }
@@ -85,9 +77,7 @@ int main(void) {
     }
     gfxBufPtr = commData->gfxInitResult;
     setupInstrumentLayoutFar();
-    TRACE(("egame main: drawCockpit"));
     drawCockpit();
-    TRACE(("egame main: runGameSession"));
     runGameSession();
     if (commData->setupUseJoy == 1) {
         restoreJoystickData(commData->joyData);
@@ -98,54 +88,47 @@ int main(void) {
         regs.h.al = 3;
         int86(IRQ_VIDEO, &regs, &regs);
     }
-    TRACE_KEY(("egame main: EXITING with code %d, tick=%d", exitCode, frameTick));
+    LogInfo(("main: EXITING with code %d, tick=%d", exitCode, frameTick));
     exit(exitCode);
 }
 
 // ==== seg000:0x147 ====
 void drawCockpit() {
-    TRACE_KEY(("drawCockpit: theater=%d regnStr=%s 38FDC=%d", gameData->theater, regnStr, g_detailLevel));
+    LogInfo(("drawCockpit: theater=%d regnStr=%s 38FDC=%d", gameData->theater, regnStr, g_detailLevel));
     initMissionStrings();
     load15Flt3d3();
-    TRACE(("drawCockpit: after load15Flt3d3, scenPlh0=%04x, scenarioPlh@%04x", (unsigned)scenarioPlh[0], (unsigned)&scenarioPlh[0]));
+    Log(("drawCockpit: after load15Flt3d3, scenPlh0=%04x, scenarioPlh@%04x", (unsigned)scenarioPlh[0], (unsigned)&scenarioPlh[0]));
     strcpy(regnStr, scenarioPlh[gameData->theater]);
-    TRACE_KEY(("drawCockpit: regnStr=%s theater=%d", regnStr, gameData->theater));
+    LogInfo(("drawCockpit: regnStr=%s theater=%d", regnStr, gameData->theater));
     loadRegion3D();
-    TRACE_KEY(("drawCockpit: after load3D, 38FDC=%d sizes3dt=%d/%d/%d/%d/%d", g_detailLevel, sizes3dt[0], sizes3dt[1], sizes3dt[2], sizes3dt[3], sizes3dt[4]));
+    LogInfo(("drawCockpit: after load3D, 38FDC=%d sizes3dt=%d/%d/%d/%d/%d", g_detailLevel, sizes3dt[0], sizes3dt[1], sizes3dt[2], sizes3dt[3], sizes3dt[4]));
     f15DgtlResult = loadF15DgtlBin();
-    TRACE(("drawCockpit: f15DgtlResult=%d", f15DgtlResult));
+    Log(("drawCockpit: f15DgtlResult=%d", f15DgtlResult));
     g_horizonGroundColor = g_world3dData[47];
     if ((g_dacSupported = gfx_getModeFlag()) != 0) {
         setupDac();
     }
      gfx_setDac(1);
      gfx_waitRetrace();
-     TRACE(("drawCockpit: opening pic"));
      if (gfx_getModecode() == 3) {
         openBlitClosePic("256pit.PIC", 1);
      }
      else {
         openBlitClosePic("cockpit.PIC", 1);
      }
-     TRACE(("drawCockpit: pic done"));
      gfx_copyRect(1, 0, 96, 0, 0, 96, 320, 104);
      gfx_copyRect(1, 0, 96, 2, 0, 96, 320, 104);
-     TRACE(("drawCockpit: done"));
 }
 
 // ==== seg000:0x211 ====
 void runGameSession() {
-    TRACE(("runGameSession: enter"));
     FP_OFF(g_floppyMotorPtr) = OFF_BDA_FLOPPYMOTOR; // floppy motor runtime in bda???
     FP_SEG(g_floppyMotorPtr) = 0;
     if (*g_floppyMotorPtr > 1) {
         *g_floppyMotorPtr = 1;
     }
-    TRACE(("runGameSession: audio_shutdown"));
     audio_shutdown();
-    TRACE(("runGameSession: audio_setup"));
     audio_setup(*(int16 FAR*)(OFF_IACA_UNK), f15DgtlResult);
-    TRACE(("runGameSession: setTimerIrqHandler"));
 #ifdef NO_ASM
     /* The shared C timer ISR has no built-in per-tick game work; register
      * egame's advanceFrameTick (frame-pacing tick + DAC colour-cycle) before
@@ -154,10 +137,8 @@ void runGameSession() {
 #endif
     setTimerIrqHandler();
     if (commData->setupUseJoy == 0) {
-        TRACE(("runGameSession: setInt9Handler"));
         setInt9Handler();
     }
-    TRACE(("runGameSession: runGameLoop (game loop)"));
     runGameLoop();
     moveDataFar();
     if (commData->setupUseJoy == 0) {
@@ -180,12 +161,9 @@ void doNothing4() {
 // ==== seg000:0x29a ====
 void gfxInit() {
     int var_2;
-    TRACE(("gfxInit: allocPage(0)"));
     gfx_allocPage(0);
-    TRACE(("gfxInit: allocPage(1)"));
     var_2 = gfx_allocPage(1);
-    TRACE(("gfxInit: allocPage(1) returned %d", var_2));
+    Log(("gfxInit: allocPage(1) returned %d", var_2));
     gfx_storeBufPtr(var_2, 1);
     gfx_storeBufPtr(commData->gfxInitResult, 2);
-    TRACE(("gfxInit: done"));
 }

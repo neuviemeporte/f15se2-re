@@ -12,7 +12,7 @@
 #include "egui.h"
 #include "offsets.h"
 #include "pointers.h"
-#include "debug.h"
+#include "log.h"
 #include "slot.h"
 #include "const.h"
 #include "comm.h"
@@ -45,35 +45,28 @@ void clearStatusPanel(void) {
 void renderHudFrame(int unused) {
     int climbMarkerY, angleFixed, waypointMarkerX, circleX, angle, circleY, prevX, speedBarLen, prevY, markerX, deltaX, markerY, deltaY;
     char seekerShift;
-    TRACE(("renderHudFrame: enter"));
     g_drawPage = gfx_getDisplayPage();
-    TRACE(("renderHudFrame: after getDisplayPage=%d"));
     // probably x,y
     deltaX = waypoints[waypointIndex].mapX - g_viewX_;
     deltaY = waypoints[waypointIndex].mapY - g_viewY_;
-    TRACE(("renderHudFrame: after waypoints, g_hudVisible=%d", g_hudVisible));
+    Log(("renderHudFrame: after waypoints, g_hudVisible=%d", g_hudVisible));
     g_waypointBearing = computeBearing(deltaX, -deltaY);
-    TRACE(("renderHudFrame: after computeBearing"));
     if (g_hudVisible != 0) {
-        TRACE(("renderHudFrame: g_hudVisible branch, g_damageTakenFlag=%d", g_damageTakenFlag));
+        Log(("renderHudFrame: g_hudVisible branch, g_damageTakenFlag=%d", g_damageTakenFlag));
         if (g_damageTakenFlag != 0) {
             g_damageTakenFlag = 0;
             if (!(keyValue & 0x80)) {
-                TRACE(("renderHudFrame: calling setDrawColor(0xd)"));
                 setDrawColor(0xd);
-                TRACE(("renderHudFrame: calling fillRectBoth"));
                 fillRectBoth(0, 0, 319, 96);
                 gfx_setDacAnimCount(60);
             }
         }
-        TRACE(("renderHudFrame: past 8ed2, keyValue=%d g_halfScaleRender=%d", keyValue, g_halfScaleRender));
+        Log(("renderHudFrame: past 8ed2, keyValue=%d g_halfScaleRender=%d", keyValue, g_halfScaleRender));
         g_hudDrawnFlag = 1;
         if (keyValue == 0 && g_halfScaleRender == 0) {
-            TRACE(("renderHudFrame: entering keyValue==0 branch, setupUseJoy=%d", commData->setupUseJoy));
+            Log(("renderHudFrame: entering keyValue==0 branch, setupUseJoy=%d", commData->setupUseJoy));
             if (!commData->setupUseJoy) {
-                TRACE(("renderHudFrame: calling setDrawColor(0)"));
                 setDrawColor(0);
-                TRACE(("renderHudFrame: calling drawViewportLine"));
                 drawViewportLine(277, 83, 293, 83);
                 drawViewportLine(293, 83, 293, 95);
                 drawViewportLine(293, 95, 277, 95);
@@ -488,7 +481,7 @@ void setDrawColor(int color) {
 void fillRectBoth(int x1, int y1, int x2, int y2) {
 #ifdef DEBUG
     if (frameTick < 80)
-        TRACE_KEY(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", frameTick, x1, y1, x2, y2, x2-x1+1, y2-y1+1, (int)g_pageFront[2], (int)g_pageFront[16]));
+        LogInfo(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", frameTick, x1, y1, x2, y2, x2-x1+1, y2-y1+1, (int)g_pageFront[2], (int)g_pageFront[16]));
 #endif
     fillSpanRect(g_pageFront, x1, y1, x2, y2);
     fillSpanRect(g_pageBack, x1, y1, x2, y2);

@@ -1,6 +1,6 @@
 #include "f15util.h"
 #include "pointers.h"
-#include "output.h"
+#include "log.h"
 
 #include <stdio.h>
 
@@ -38,16 +38,16 @@ int blitFileFar(const char* filename, const uint16 segment, const uint16 offset)
     int err;
     infile = fopen(filename, "rb");
     if (infile == NULL) {
-        ERROR("Unable to open %s for reading");
+        LogError(("Unable to open %s for reading", filename));
         return 1;
     }
     while (!feof(infile)) {
         readsize = fread(buffer, 1, BUFSIZE, infile);
         if ((err = ferror(infile)) != 0) {
-            ERROR("Error reading from %s: %d", filename, err);
+            LogError(("Error reading from %s: %d", filename, err));
             return 2;
         }
-        DEBUG("read %u bytes, writing at %p", readsize, dest);
+        LogDebug(("read %u bytes, writing at %p", readsize, dest));
         i = 0;
         while (i < readsize) {
             *dest = buffer[i++];

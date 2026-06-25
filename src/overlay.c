@@ -1,6 +1,6 @@
 #include "overlay.h"
 #include "dosfunc.h"
-#include "output.h"
+#include "log.h"
 #include "memory.h"
 #include "offsets.h"
 #include "sassert.h"
@@ -33,35 +33,35 @@ uint16 overlay_load(const char* filename) {
     int err;
     freeMem = dos_getfree();
     if (freeMem == 0) {
-        ERROR("overlay_load(): unable to determine amount of free memory");
+        LogError(("overlay_load(): unable to determine amount of free memory"));
         return 0;
     }
     alloc = freeMem - RESERVE_PARA;
     ovlSegment = dos_alloc(alloc);
-    DEBUG("overlay_load(): allocated block 0x%x of size %up (%lu) for overlay %s", ovlSegment, alloc, PARA_TO_BYTES(alloc), filename);
+    LogDebug(("overlay_load(): allocated block 0x%x of size %up (%lu) for overlay %s", ovlSegment, alloc, PARA_TO_BYTES(alloc), filename));
     if (ovlSegment == 0) {
-        ERROR("overlay_load(): unable to allocate %u paragraphs", alloc);
+        LogError(("overlay_load(): unable to allocate %u paragraphs", alloc));
         return 0;
     }
     err = dos_loadOverlay(filename, ovlSegment);
     if (err != 0) {
-        ERROR("overlay_load(): unable to load overlay %s at 0x%x, error 0x%x", filename, ovlSegment, err);
+        LogError(("overlay_load(): unable to load overlay %s at 0x%x, error 0x%x", filename, ovlSegment, err));
         dos_free(ovlSegment);
         return 0;
     }
     ovlHeader = (struct OvlHeader FAR *)MK_FP(ovlSegment, 0);
     ovlSize = (ovlHeader->size1 >> 4) + (ovlHeader->size2 >> 4); // overlay size in paragraphs
-    DEBUG("overlay_load(): successfully loaded overlay, calculated size = %up (%lu)", ovlSize, PARA_TO_BYTES(ovlSize));
+    LogDebug(("overlay_load(): successfully loaded overlay, calculated size = %up (%lu)", ovlSize, PARA_TO_BYTES(ovlSize)));
     if (ovlSize > alloc) {
-        ERROR("overlay_load(): overrun allocated memory");
+        LogError(("overlay_load(): overrun allocated memory"));
         dos_free(ovlSegment);
         return 0;
     }
     ovlSize += EXTRA_PARA;
-    DEBUG("overlay_load(): shrinking overlay buffer to %up (%lu)", ovlSize, PARA_TO_BYTES(ovlSize));
+    LogDebug(("overlay_load(): shrinking overlay buffer to %up (%lu)", ovlSize, PARA_TO_BYTES(ovlSize)));
     err = dos_resize(ovlSegment, ovlSize);
     if (err != 0) {
-        ERROR("overlay_load: failed to resize overlay buffer to %up (%lu)", ovlSize, PARA_TO_BYTES(ovlSize));
+        LogError(("overlay_load: failed to resize overlay buffer to %up (%lu)", ovlSize, PARA_TO_BYTES(ovlSize)));
         dos_free(ovlSegment);
         return 0;
     }
