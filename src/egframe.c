@@ -92,8 +92,8 @@ void updateFrame(void) {
         recalcTimeScale();
         g_mapZoomLevel = 1;
         g_radarScopeRange = 1;
-        tmp = g_northSouthSign = (gameData->theater == 6) ? 1 : (*((char far *)gameData + 0x38) & 1) ? 1
-                                                                                                     : -1;
+        tmp = g_northSouthSign = (gameData->theater == 6) ? 1 : (gameData->theater & 1) ? 1
+                                                                                        : -1;
 
         if (((g_planeTable.planes[g_targetSlots[0].viewIndex].flags) & 0x200) != 0) {
             g_ViewX -= (long)(tmp * 0x80);

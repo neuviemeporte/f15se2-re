@@ -51,7 +51,7 @@ void loadPicFromFileAt(const char *name, uint16 segment, int off, int whence) {
 void showPostMissionAwards(void) {
     int idx;
     awardPage[3] = 0;
-    if (commData->gfxModeChar != 0)
+    if (commData->trainingFlag != 0)
         goto done;
     if (gameData->campaignProgress == 1) {
         gfx_setFadeSteps(3);

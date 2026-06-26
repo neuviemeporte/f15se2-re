@@ -154,8 +154,7 @@ int computeTargetBearing(int targetX, int targetY, int wantBearing) {
         g_targetBearing = computeBearing(-dx, dy);
     }
     g_targetRange = rangeApprox(dx, dy);
-    goto done;
-done:;
+    return g_targetRange;
 }
 
 // ==== seg000:0xc82d ====

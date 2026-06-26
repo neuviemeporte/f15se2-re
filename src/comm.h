@@ -28,7 +28,7 @@ struct GameComm {
     int16 setup2;
     int16 restartFlag;
     int16 unk4;        /* nonzero enables crash exit in egame (set from theater table in start.exe) */
-    int16 gfxModeChar; /* in end.exe: trainingFlag (nonzero if training mission) */
+    int16 gfxModeChar; /* setup writes the gfx driver letter; start/end use it as trainingFlag (nonzero if training mission) */
     int16 setupDetail;
     uint8 pad0[4];
     uint16 weaponType[4]; /* weapon type indices into weaponLoadouts[] (0=Sidewinder,1=AMRAAM,etc) */
@@ -45,10 +45,12 @@ struct GameComm {
 #pragma pack()
 STATIC_ASSERT(sizeof(struct GameComm) == 124);
 
-/* end.exe debrief aliases: same struct fields, different semantics after egame writes results */
-#define landingType setupDone
-#define bailoutSurvived continueFlag
-#define trainingFlag gfxModeChar
+/* Aliases for fields whose name reflects their setup-time origin but which carry a
+ * different meaning once gameplay/debrief reuses the same slot. Use the meaningful
+ * name at the relevant call sites. */
+#define landingType setupDone      /* end.exe debrief: 1=crashed, 2=ejected, 3=landed */
+#define bailoutSurvived continueFlag /* end.exe debrief: 0=survived */
+#define trainingFlag gfxModeChar   /* start/end: nonzero if the mission is a training mission */
 
 #define COMM_GFXOVL_NAME_OFFSET 0x0
 #define COMM_SNDOVL_NAME_OFFSET 0xd

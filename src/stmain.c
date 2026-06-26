@@ -128,7 +128,7 @@ int main(void) {
 #else
     difficulty = gameData->difficulty;
     theater = gameData->theater;
-    if (commData->gfxModeChar == 0 && gameData->campaignProgress == 0 && gameData->theater < NUM_THEATERS &&
+    if (commData->trainingFlag == 0 && gameData->campaignProgress == 0 && gameData->theater < NUM_THEATERS &&
         ++(gameData->theater) == NUM_THEATERS) {
         gameData->theater = 0;
         if (gameData->difficulty < MAX_DIFFICULTY) {
@@ -183,9 +183,9 @@ doSrand:
     commData->continueFlag = 0;
     commData->restartFlag = 0;
     if (gameData->missionReady > 1) {
-        commData->gfxModeChar = 1;
+        commData->trainingFlag = 1;
     } else {
-        commData->gfxModeChar = 0;
+        commData->trainingFlag = 0;
     }
     misc_clearKeyFlags();
     clearRect(bufPtr, 0, 0, SCREEN_MAXX, SCREEN_MAXY);
@@ -214,9 +214,9 @@ doSrand:
     commData->continueFlag = 0;
     commData->restartFlag = 0;
     if (gameData->missionReady > 1) {
-        commData->gfxModeChar = 1;
+        commData->trainingFlag = 1;
     } else {
-        commData->gfxModeChar = 0;
+        commData->trainingFlag = 0;
     }
     misc_clearKeyFlags();
     clearRect(bufPtr, 0, 0, SCREEN_MAXX, SCREEN_MAXY);

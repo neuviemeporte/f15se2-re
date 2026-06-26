@@ -299,6 +299,7 @@ int computeBearing(int deltaX, int deltaY) {
         else
             result = swapped ? BEARING_WEST - angle : angle + BEARING_SOUTH;
     }
+    return result;
 }
 
 // ==== seg000:0xd178 sinMul ====
