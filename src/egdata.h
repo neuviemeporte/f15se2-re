@@ -93,7 +93,7 @@ extern int16 g_inLandingCorridor;
 extern int16 g_render3DTiles;
 extern int16 g_landingDoneFlag;
 extern uint16 g_frameRateAccum;
-extern int16 g_slowMotionMode;
+extern int16 g_timeAccelMode;
 extern int16 g_directorEventDeadline;
 extern int g_directorMode;
 extern int16 g_resupplyCount;

@@ -75,7 +75,7 @@ void keyDispatch(uint16 scanCode) {
             makeSound(32, 2);
         }
         if (!(*(char *)&g_playerPlaneFlags & 1)) {
-            exitSlowMotion();
+            exitTimeAccel();
         }
         break;
     case 0x2000:
@@ -107,12 +107,12 @@ void keyDispatch(uint16 scanCode) {
         tempStrcpy(strBuf);
         break;
     case 0x1e00:
-        if (g_slowMotionMode == 1) {
-            g_slowMotionMode = 2;
+        if (g_timeAccelMode == 1) {
+            g_timeAccelMode = 2;
             g_frameRateScaling = g_frameRateScaling / 2;
             recalcTimeScale();
         } else {
-            exitSlowMotion();
+            exitTimeAccel();
         }
         break;
     case 0x2f00:
@@ -133,7 +133,7 @@ void keyDispatch(uint16 scanCode) {
     case 0x1400:
         g_playerPlaneFlags ^= 0x1000;
         if (g_playerPlaneFlags & 0x1000) {
-            *((char far *)commData + 0x30) |= 1;
+            *(char far *)&commData->trainingFlag |= 1;
         }
         break;
     case 0x1f73:
@@ -244,7 +244,7 @@ void keyDispatch(uint16 scanCode) {
             if ((abs((int16)g_ourRoll) >> 5) + (abs(g_ourPitch) >> 5) + g_knots > randomRange(500) + 500) {
                 finalizeMission(6);
             } else {
-                *(int far *)((char far *)commData + 0x26) = 2;
+                commData->landingType = 2;
             }
             g_ejectState = 1;
             g_crashCamX = g_viewX_;
@@ -339,7 +339,7 @@ void recalcTimeScale(void) {
     } else {
         g_frameSyncWait = 0;
     }
-    g_frameRateScaling = clampRange(g_frameRateScaling, 4 - g_slowMotionMode, 15);
+    g_frameRateScaling = clampRange(g_frameRateScaling, 4 - g_timeAccelMode, 15);
     g_bulletTrackCount = clampRange(g_frameRateScaling << 1, 3, 16);
     g_threatTimerInit = 250 * g_frameRateScaling;
     g_threatDisplayTtl = 200 * g_frameRateScaling;
@@ -357,9 +357,9 @@ void setupLodDistances(void) {
 }
 
 // ==== seg000:0xdb9c ====
-void exitSlowMotion() {
-    if (g_slowMotionMode == 2) {
-        g_slowMotionMode = 1;
+void exitTimeAccel() {
+    if (g_timeAccelMode == 2) {
+        g_timeAccelMode = 1;
         g_frameRateScaling <<= 1;
         recalcTimeScale();
     }

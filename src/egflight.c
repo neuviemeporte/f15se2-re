@@ -253,7 +253,7 @@ switch_break:
 
             tmpVal = clampRange((abs(dx) + abs(dy)) * 2 + headingErr / 32, 50, 0x1000);
             if (tmpVal < 0x1000) {
-                exitSlowMotion();
+                exitTimeAccel();
             }
 
             if (g_planeTable.planes[tgtIdx].flags & 0x200) {

@@ -36,6 +36,8 @@ void testComm() {
     ASSERT_EQ(offsetof(struct GameComm, restartFlag), COMM_RESTARTFLAG_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, gfxModeChar), COMM_SETUP_GFXMODE_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, setupDetail), COMM_SETUP_DETAIL_OFFSET);
+    ASSERT_EQ(offsetof(struct GameComm, bombDamage), COMM_BOMBDAMAGE_OFFSET);
+    ASSERT_EQ(offsetof(struct GameComm, gunHits), COMM_GUNHITS_OFFSET);
 
     ASSERT_EQ(offsetof(struct GameComm, weaponType), COMM_WEAPONTYPE_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, weaponCount), COMM_WEAPONCOUNT_OFFSET);
@@ -43,6 +45,8 @@ void testComm() {
     ASSERT_EQ(offsetof(struct GameComm, joyData), COMM_SETUP_JOYDATA_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, setupT), COMM_SETUP_SWITCHT_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, setupUseJoy), COMM_SETUP_USEJOY_OFFSET);
+    ASSERT_EQ(offsetof(struct GameComm, worldX), COMM_WORLDX_OFFSET);
+    ASSERT_EQ(offsetof(struct GameComm, worldY), COMM_WORLDY_OFFSET);
     ASSERT_EQ(offsetof(struct GameComm, gfxModeNum), COMM_GFXMODENUM_OFFSET);
     printf("OK\n");
 }

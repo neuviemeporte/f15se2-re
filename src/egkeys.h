@@ -9,6 +9,6 @@ void playVoiceCue(int weaponIdx);
 void updateEngineSound(void);
 void recalcTimeScale(void);
 void setupLodDistances(void);
-void exitSlowMotion();
+void exitTimeAccel();
 
 #endif /* F15_SE2_EGKEYS */

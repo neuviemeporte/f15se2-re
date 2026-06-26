@@ -23,7 +23,7 @@ EXTRN _zoomIn:PROC
 EXTRN _zoomOut:PROC
 EXTRN _disableTextBlink:PROC
 EXTRN _playVoiceCue:PROC
-EXTRN _exitSlowMotion:PROC
+EXTRN _exitTimeAccel:PROC
 EXTRN _makeSound:PROC
 EXTRN _updateEngineSound:PROC
 EXTRN _waitForKeyPress:PROC
@@ -193,7 +193,7 @@ playVoiceCue equ _playVoiceCue
 updateEngineSound equ _updateEngineSound
 recalcTimeScale equ _recalcTimeScale
 setupLodDistances equ _setupLodDistances
-exitSlowMotion equ _exitSlowMotion
+exitTimeAccel equ _exitTimeAccel
 disableTextBlink equ _disableTextBlink
 createFileWrapper equ _createFileWrapper
 readFile1Wrapper equ _readFile1Wrapper

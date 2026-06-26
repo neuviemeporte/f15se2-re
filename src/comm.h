@@ -30,7 +30,8 @@ struct GameComm {
     int16 unk4;        /* nonzero enables crash exit in egame (set from theater table in start.exe) */
     int16 gfxModeChar; /* setup writes the gfx driver letter; start/end use it as trainingFlag (nonzero if training mission) */
     int16 setupDetail;
-    uint8 pad0[4];
+    int16 bombDamage; /* egame writes mission bomb-damage result here for the debrief */
+    int16 gunHits;    /* egame writes mission gun-hit count here for the debrief */
     uint16 weaponType[4]; /* weapon type indices into weaponLoadouts[] (0=Sidewinder,1=AMRAAM,etc) */
     int16 weaponCount[4]; /* weapon quantities per slot */
     uint8 joyData[20];
@@ -66,6 +67,8 @@ STATIC_ASSERT(sizeof(struct GameComm) == 124);
 #define COMM_RESTARTFLAG_OFFSET 0x2c      /* set to 0 in start after f15.spr */
 #define COMM_SETUP_GFXMODE_OFFSET 0x30    /* letter of the gfx driver, e.g. 'M' for Mgraphic.exe; in end.exe: training mission flag */
 #define COMM_SETUP_DETAIL_OFFSET 0x32     /* 3 == max, default 0xffff */
+#define COMM_BOMBDAMAGE_OFFSET 0x34       /* egame mission bomb-damage result */
+#define COMM_GUNHITS_OFFSET 0x36          /* egame mission gun-hit count */
 #define COMM_WEAPONTYPE_OFFSET 0x38       /* weapon type indices (3 slots used) */
 #define COMM_UNK5_OFFSET 0x3a             /* set to 1 in mission generator */
 #define COMM_UNK6_OFFSET 0x3c             /* set to 5 in mission generator */
@@ -73,6 +76,8 @@ STATIC_ASSERT(sizeof(struct GameComm) == 124);
 #define COMM_SETUP_JOYDATA_OFFSET 0x48    /* 0x14 bytes worth of some joystick-related data put here in su.exe */
 #define COMM_SETUP_SWITCHT_OFFSET 0x70    /* when /T on cmdline present */
 #define COMM_SETUP_USEJOY_OFFSET 0x72
+#define COMM_WORLDX_OFFSET 0x74 /* egame writes final view X here for the debrief */
+#define COMM_WORLDY_OFFSET 0x76 /* egame writes final view Y here for the debrief */
 #define COMM_GFXMODENUM_OFFSET 0x78 /* looks like numeric code for video driver from function 3f, mcga returns 3 */
 #define COMM_WORLDBUF_OFFSET 0x7a
 

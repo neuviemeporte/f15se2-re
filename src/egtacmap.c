@@ -124,7 +124,7 @@ void renderHudFrame(int unused) {
             if (g_altitude <= 20000) {
                 drawNumber(g_altitude < 100 ? g_altitude : (g_altitude / 5) * 5, 228, 54, 0xf);
             }
-            if (g_slowMotionMode > 1) {
+            if (g_timeAccelMode > 1) {
                 drawStringBothPages("ACCEL", 150, 4, 0xf);
             }
             if (g_playerPlaneFlags & 0x1000) {

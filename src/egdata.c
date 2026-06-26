@@ -492,7 +492,10 @@ int16 g_inLandingCorridor = 1;
 int16 g_render3DTiles = 1;
 int16 g_landingDoneFlag = 1;
 uint16 g_frameRateAccum = 0;
-int16 g_slowMotionMode = 1;
+/* g_timeAccelMode: time-compression toggle (ALT+A). 1 = real time,
+   2 = accelerated (halves g_frameRateScaling so mission time advances
+   twice as fast; the tac map shows "ACCEL"). */
+int16 g_timeAccelMode = 1;
 int16 g_directorEventDeadline = -1;
 int g_directorMode = 0;
 int16 g_resupplyCount = 1;

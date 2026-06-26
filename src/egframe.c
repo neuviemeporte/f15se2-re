@@ -68,9 +68,9 @@ void updateFrame(void) {
             gameData->difficulty = 2;
             g_autopilotEngaged = 1;
             g_playerPlaneFlags |= 0x1000;
-            *(char far *)((char far *)commData + 0x30) |= 1;
+            *(char far *)&commData->trainingFlag |= 1;
         }
-        i = (unsigned char)*((char far *)commData + 0x0d);
+        i = (unsigned char)commData->sndOvlName[0];
         if (i == 0x69 || i == 0x49) {
             g_axisInputAccum[2] = 1;
         }
@@ -112,7 +112,7 @@ void updateFrame(void) {
         gameData->unk4 = 1;
         g_detailLevel = commData->setupDetail;
         setupLodDistances();
-        *(int far *)((char far *)commData + 0x26) = 1;
+        commData->landingType = 1;
         g_gunAmmo = 1000;
         if (g_missionStatus == 0 || g_autopilotEngaged != 0) {
             g_northSouthSign = ((unsigned)(g_viewY_ - waypoints[1].mapY) < 0x8000u) ? 1 : -1;
@@ -422,7 +422,7 @@ skip_autopilot:
         if (g_frameTimingAccum < 4) {
             g_frameTimingAccum = 4;
         }
-        val = clampRange(((g_frameRateScaling * 0x3c0) / (g_frameTimingAccum * g_slowMotionMode)), 1, 0xff);
+        val = clampRange(((g_frameRateScaling * 0x3c0) / (g_frameTimingAccum * g_timeAccelMode)), 1, 0xff);
         g_frameRateAccum = g_frameTimingAccum = 0;
         if (abs(g_frameRateScaling * 4 - val) > 3) {
             g_frameRateScaling = (int16)(val + 2) >> 2;
@@ -676,10 +676,10 @@ void finalizeMission(int outcome) {
     if (outcome == 0 && g_ejectState == 0) {
         commData->setupDone = 3;
     }
-    *(int16 far *)((char far *)commData + 0x74) = g_viewX_;
-    *(int16 far *)((char far *)commData + 0x76) = g_viewY_;
-    *(int16 far *)((char far *)commData + 0x34) = g_bombDamageMask;
-    *(int16 far *)((char far *)commData + 0x36) = g_gunHits;
+    commData->worldX = g_viewX_;
+    commData->worldY = g_viewY_;
+    commData->bombDamage = g_bombDamageMask;
+    commData->gunHits = g_gunHits;
     commData->weaponCount[0] = g_finalThreatScore;
     commData->weaponCount[1] = g_resupplyCount;
     appendMapEvent(8, 0);

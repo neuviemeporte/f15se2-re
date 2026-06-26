@@ -197,7 +197,7 @@ playVoiceCue: seg000 NEAR da5f-da8c Rda5f-da8c complete
 updateEngineSound: seg000 NEAR da8d-daad Rda8d-daad complete
 recalcTimeScale: seg000 NEAR daae-db2a Rdaae-db2a complete
 setupLodDistances: seg000 NEAR db2b-db9b Rdb2b-db9b complete
-exitSlowMotion: seg000 NEAR db9c-dbb6 Rdb9c-dbb6 complete
+exitTimeAccel: seg000 NEAR db9c-dbb6 Rdb9c-dbb6 complete
 disableTextBlink: seg000 NEAR dbe0-dbff Rdbe0-dbff complete
 openFileWrapper: seg000 NEAR dd4c-dd5d Rdd4c-dd5d complete
 closeFileWrapper: seg000 NEAR dd70-dd7d Rdd70-dd7d complete
