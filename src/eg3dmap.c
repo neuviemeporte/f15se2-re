@@ -57,11 +57,11 @@ struct TileObject *findNearestTileObject(uint32 worldX, uint32 worldY) {
     nearestTile.dist = 0x7fff;
     for (c = 1; c <= 2; c++) {
         for (e = 0; e < 9; e++) {
-            *(long *)&m = scaleCoordToLod(c, worldX);
-            i = *(unsigned long *)&m >> 0xc;
+            *(int32 *)&m = scaleCoordToLod(c, worldX);
+            i = *(uint32 *)&m >> 0xc;
             r = m & 0xfff;
-            *(long *)&m = scaleCoordToLod(c, worldY);
-            k = *(unsigned long *)&m >> 0xc;
+            *(int32 *)&m = scaleCoordToLod(c, worldY);
+            k = *(uint32 *)&m >> 0xc;
             d = m & 0xfff;
             a = g_neighborSampling.gridX[e];
             b = g_neighborSampling.gridY[e];

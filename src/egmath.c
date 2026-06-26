@@ -24,11 +24,8 @@ void load15Flt3d3() {
     int bytesLeft, chunkSize;
     struct SREGS segs;
     char FAR *dest;
-    Log(("load15Flt3d3: a15flt_xxx=%s", a15flt_xxx));
     strcpyFromDot(a15flt_xxx, ".3D3");
-    Log(("load15Flt3d3: after strcpyFromDot=%s", a15flt_xxx));
     fileHandle = fopen(a15flt_xxx, "rb");
-    Log(("load15Flt3d3: fopen returned %d", (int)fileHandle));
     if (fileHandle == NULL) {
         printError("Open Error on *.3D3");
         return;
@@ -37,7 +34,6 @@ void load15Flt3d3() {
     fread(&flt15_size, 2, 1, fileHandle);
     fread(flt15_buf1, 2, flt15_size, fileHandle);
     fread(&bytesLeft, 2, 1, fileHandle);
-    Log(("load15Flt3d3: var_A=%d", bytesLeft));
     segread(&segs);
     dest = g_aircraftModels;
     Log(("load15Flt3d3: DS=%04x var_10=%04x:%04x", segs.ds, FP_SEG(dest), FP_OFF(dest)));
@@ -222,7 +218,7 @@ int shapeDataOffset(int shapeId) {
     if (shapeId & 0x100) {
         return buf3d3[shapeId & 0x7f];
     }
-    return (int)(&g_aircraftModels[((int *)flt15_buf1)[shapeId]] - g_world3dData);
+    return (int)(&g_aircraftModels[((int16 *)flt15_buf1)[shapeId]] - g_world3dData);
 }
 
 // ==== seg000:0xcf64 clamp ====

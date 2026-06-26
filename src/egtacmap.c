@@ -474,10 +474,6 @@ void setDrawColor(int color) {
 
 // ==== seg000:0x9e5d ====
 void fillRectBoth(int x1, int y1, int x2, int y2) {
-#ifdef DEBUG
-    if (frameTick < 80)
-        LogInfo(("FILLRECT f%d: (%d,%d)-(%d,%d) w=%d h=%d color=%d pgH=%d", frameTick, x1, y1, x2, y2, x2 - x1 + 1, y2 - y1 + 1, (int)g_pageFront[2], (int)g_pageFront[16]));
-#endif
     fillSpanRect(g_pageFront, x1, y1, x2, y2);
     fillSpanRect(g_pageBack, x1, y1, x2, y2);
 }

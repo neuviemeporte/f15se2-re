@@ -107,7 +107,6 @@ restart_40a8:
         } while ((targets[0].targetIdx == targets[1].targetIdx) || (itemDistance(targets[0].targetIdx, targets[1].targetIdx) >> 6) > 200);
     } while ((gameData->theater != THEATER_DS) && (worldObjects[targets[0].targetIdx].objectIdx == worldObjects[targets[1].targetIdx].objectIdx));
     for (slot = 0; slot < 2; slot++) {
-        Log(("runGenerator(): loop 2, counter %d", slot));
         baseDist[slot] = 0x7fff;
         for (idx = worldObjectCount; idx < readItemSize; idx++) {
             if (((worldObjects[idx].targetFlags & 0x500) != 0) && ((worldObjects[idx].targetFlags & 0x201) != 0) && ((worldObjects[idx].targetFlags & 0x800) == 0)) {
@@ -134,7 +133,6 @@ restart_40a8:
         }
     }
     for (idx = 0; idx < 2; idx++) {
-        Log(("runGenerator(): loop3, counter %d", idx));
         targets[idx].missionType = 0;
         for (retryCount = 0; retryCount < 2; retryCount++) {
             matchCount = 0;
@@ -188,7 +186,6 @@ restart_40a8:
         flightUnits[0].fuel = DEFAULT_FUEL;
     }
     for (idx = 0; idx < 2; idx++) {
-        Log(("runGenerator(): loop4, counter %d", idx));
         mystrcpy(targets[idx].coord, getItemCoordStr(targets[idx].targetIdx));
         if (targets[idx].targetIdx < FIRST_REAL_ITEM) {
             swapTmp = 0x7fff;
@@ -232,7 +229,6 @@ counterMore1k:
         missionTargetY = ((missionTargetY >> 0xa) << 0xa) + 0x200;
     }
     for (idx = 0; idx < flightUnitCount - 4; idx++) {
-        Log(("runGenerator(): loop5, counter %d", idx));
         if ((flightUnits[idx].flags & 0x80) != 0) {
             maxRange = (baseDist[0] / 4) * (4 - difficultySaved);
             if ((flightUnits[idx].flags & 0x40) != 0) {
@@ -270,7 +266,6 @@ counterMore1k:
         }
     }
     for (idx = 0; idx < groundUnitCount; idx++) {
-        Log(("runGenerator(): loop6, counter %d", idx));
         unitType = worldObjects[idx].unitType;
         if ((unitType != 0) && (unitType != 21)) {
             switch ((gameData->isCampaignMission != 0) + randMul(5) + difficultySaved) {
@@ -312,7 +307,6 @@ counterMore1k:
     }
     i = 0;
     for (idx = 0; idx < 3; idx++) {
-        Log(("runGenerator(): loop8, counter %d", idx));
         commData->weaponCount[idx] = weaponLoadouts[commData->weaponType[idx]].qty;
     }
     missionBits = targets[0].missionNum + targets[1].missionNum;

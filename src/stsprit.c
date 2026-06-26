@@ -6,7 +6,6 @@
 #include "log.h"
 
 void showSprite(int page, int x, int y, int src_x, int src_y, int width, int height) {
-    Log(("showSprite(%d, %d, %d, %d, %d, %d, %d)", page, x, y, src_x, src_y, width, height));
     spriteParams.bufPtr = menuSprites;
     spriteParams.srcX = src_x;
     spriteParams.srcY = src_y;

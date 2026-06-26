@@ -52,7 +52,7 @@ extern const int16 g_sphereRingTable[16];
 extern struct Waypoint waypoints[];
 extern int16 waypointIndex;
 extern int16 g_unusedWaypointTail;
-extern struct Weapon aNone[];
+extern const struct Weapon aNone[];
 extern struct AircraftType aircraftTypes[]; /* 32-byte type records */
 extern struct Sam sams[39];
 extern int16 g_bombDamageMask;
@@ -108,7 +108,7 @@ extern struct NeighborSampling g_neighborSampling;
 extern const int16 g_lodObjectCount[];
 extern const int16 g_lodGridDim[];
 extern size_t size3d3;
-extern unsigned int buf3d3[];
+extern uint16 buf3d3[];
 extern unsigned int size3d3_2;
 extern int16 sign3dt;
 extern uint16 sizes3dt[];

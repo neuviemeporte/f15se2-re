@@ -322,8 +322,8 @@ static void drawStringCore(int16 *params, const char *string,
     uint16 dseg;
     uint8 FAR *heightsFar;
     uint8 FAR *rowSizeFar;
-    uint8 *FAR *bmpPtrsFar;
-    uint8 *FAR *wtPtrsFar;
+    uint8 * FAR * bmpPtrsFar;
+    uint8 * FAR * wtPtrsFar;
     int x, y, color;
     uint8 far *page;
     int charIdx;

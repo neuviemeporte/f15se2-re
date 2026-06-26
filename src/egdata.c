@@ -558,7 +558,7 @@ size_t size3d3 = 1;
 /* 3D-loader buffers/sizes. buf3d3: shape->offset table, fread up to size3d3
  * words. sizes3dt: per-LOD vertex counts (5 entries, each <=0x20). matrix3dt:
  * 5 LODs x 32 vertex words. */
-unsigned int buf3d3[100] = {0};
+uint16 buf3d3[100] = {0};
 unsigned int size3d3_2 = 0;
 int16 sign3dt = 0x3131;
 uint16 sizes3dt[5] = {32, 32, 32, 32, 32};

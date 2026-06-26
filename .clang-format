@@ -12,6 +12,7 @@
 #   Short if/loops kept  - the code pervasively uses `if (cond) return x;`.
 Language: Cpp
 BasedOnStyle: LLVM
+LineEnding: LF
 IndentWidth: 4
 ColumnLimit: 0
 SortIncludes: false

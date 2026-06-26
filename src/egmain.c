@@ -50,10 +50,8 @@ int main(void) {
     FP_SEG(gameData) = *commPtr;
     FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
     Log(("main: commData=%04x:%04x gameData=%04x:%04x", FP_SEG(commData), FP_OFF(commData), FP_SEG(gameData), FP_OFF(gameData)));
-#ifdef DEBUG
     LogInfo(("SIG@startup: commData-4/-2 (=MCB magic now) = %04x/%04x",
              *(int far *)((char far *)commData - 4), *(int far *)((char far *)commData - 2)));
-#endif
     setupOverlaySlots(commData->gfxOvlAddr);
     setupOverlaySlots(commData->miscOvlAddr);
     setupOverlaySlots(commData->sndOvlAddr);
@@ -92,16 +90,11 @@ int main(void) {
 
 // ==== seg000:0x147 ====
 void drawCockpit() {
-    LogInfo(("drawCockpit: theater=%d regnStr=%s 38FDC=%d", gameData->theater, regnStr, g_detailLevel));
     initMissionStrings();
     load15Flt3d3();
-    Log(("drawCockpit: after load15Flt3d3, scenPlh0=%04x, scenarioPlh@%04x", (unsigned)scenarioPlh[0], (unsigned)&scenarioPlh[0]));
     strcpy(regnStr, scenarioPlh[gameData->theater]);
-    LogInfo(("drawCockpit: regnStr=%s theater=%d", regnStr, gameData->theater));
     loadRegion3D();
-    LogInfo(("drawCockpit: after load3D, 38FDC=%d sizes3dt=%d/%d/%d/%d/%d", g_detailLevel, sizes3dt[0], sizes3dt[1], sizes3dt[2], sizes3dt[3], sizes3dt[4]));
     f15DgtlResult = loadF15DgtlBin();
-    Log(("drawCockpit: f15DgtlResult=%d", f15DgtlResult));
     g_horizonGroundColor = g_world3dData[47];
     if ((g_dacSupported = gfx_getModeFlag()) != 0) {
         setupDac();
@@ -160,7 +153,6 @@ void gfxInit() {
     int var_2;
     gfx_allocPage(0);
     var_2 = gfx_allocPage(1);
-    Log(("gfxInit: allocPage(1) returned %d", var_2));
     gfx_storeBufPtr(var_2, 1);
     gfx_storeBufPtr(commData->gfxInitResult, 2);
 }

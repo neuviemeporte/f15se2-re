@@ -122,7 +122,7 @@ void updateFrame(void) {
             UpdateThrottleState();
             *(char *)&g_playerPlaneFlags |= 1;
             *(char *)&g_playerPlaneFlags &= ~8;
-            if ((*(int far *)((char far *)gameData + 0x32) | *(int far *)((char far *)gameData + 0x34)) == 0 && gameData->theater != 6) {
+            if (gameData->totalScore == 0 && gameData->theater != 6) {
                 for (i = 0; i < g_groundUnitCount - 4; i++) {
                     if ((i & 1) == 0) {
                         g_simObjects[i].flags.b[0] |= 2;

@@ -636,7 +636,7 @@ loop_top:
             clearRect(gfxPage, 240, 30, 319, 37);
             mystrcpy(scoreString, "\x8d"
                                   "TIME: \x80");
-            mystrcat(scoreString, formatFlightTime(*((int *)&flightRecords[curRecordIdx] - 1), numBuf));
+            mystrcat(scoreString, formatFlightTime(flightTimeTable[curRecordIdx * 3], numBuf));
             drawStringAt(gfxPage, scoreString, 240, 30);
             gfx_setColor(0);
             if (prevDrawX == 0 && prevDrawY == 0) {

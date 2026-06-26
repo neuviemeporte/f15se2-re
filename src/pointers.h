@@ -9,7 +9,7 @@
 #define FAR far
 #define CDECL cdecl
 #define HUGE huge
-#define offsetof(st, m) ((size_t) & (((st *)0)->m))
+#define offsetof(st, m) ((size_t)&(((st *)0)->m))
 #else
 #define NEAR
 #define FAR

@@ -89,7 +89,7 @@ uint32 scaleCoordByLevel(int level, uint32 coord) {
 }
 
 int lookupGridCell(int16 level, int16 col, int16 row) {
-    if (col < 0 || row < 0 || col >= gridLevelSize[level + 6] || row >= gridLevelSize[level + 6])
+    if (col < 0 || row < 0 || col >= gridLevelSize[level + 3] || row >= gridLevelSize[level + 3])
         return -1;
     switch (level) {
     case 4:
