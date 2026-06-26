@@ -9,7 +9,9 @@
 #define FAR far
 #define CDECL cdecl
 #define HUGE huge
-#define offsetof(st, m) ((size_t)&(((st *)0)->m))
+// clang-format off
+#define offsetof(st, m) ((size_t)&(((st *)0)->m)) // address-of, not bitwise-and; clang-format 18 misparses the cast
+// clang-format on
 #else
 #define NEAR
 #define FAR

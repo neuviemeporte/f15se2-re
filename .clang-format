@@ -19,3 +19,7 @@ SortIncludes: false
 AllowShortIfStatementsOnASingleLine: WithoutElse
 AllowShortLoopsOnASingleLine: true
 AllowShortBlocksOnASingleLine: Empty
+# DOS memory-model qualifier macros (pointers.h). Telling clang-format these
+# are attributes keeps `*` in declarators like `uint8 *FAR *p` from being
+# parsed as multiplication, so versions agree on the formatting.
+AttributeMacros: [FAR, NEAR, HUGE, CDECL, far, near, huge, cdecl]

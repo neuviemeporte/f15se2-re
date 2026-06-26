@@ -322,8 +322,8 @@ static void drawStringCore(int16 *params, const char *string,
     uint16 dseg;
     uint8 FAR *heightsFar;
     uint8 FAR *rowSizeFar;
-    uint8 * FAR * bmpPtrsFar;
-    uint8 * FAR * wtPtrsFar;
+    uint8 *FAR *bmpPtrsFar;
+    uint8 *FAR *wtPtrsFar;
     int x, y, color;
     uint8 far *page;
     int charIdx;
@@ -344,8 +344,8 @@ static void drawStringCore(int16 *params, const char *string,
     dseg = s->f15DataSeg;
     heightsFar = (uint8 FAR *)MK_FP(dseg, PTR_OFF(g_fontHeightsArr));
     rowSizeFar = (uint8 FAR *)MK_FP(dseg, PTR_OFF(g_fontBitmapRowSize));
-    bmpPtrsFar = (uint8 * FAR *)MK_FP(dseg, PTR_OFF(g_fontBitmapPtrs));
-    wtPtrsFar = (uint8 * FAR *)MK_FP(dseg, PTR_OFF(g_fontWidthTables));
+    bmpPtrsFar = (uint8 *FAR *)MK_FP(dseg, PTR_OFF(g_fontBitmapPtrs));
+    wtPtrsFar = (uint8 *FAR *)MK_FP(dseg, PTR_OFF(g_fontWidthTables));
 
     x = (int)params[4];
     y = (int)params[5];
@@ -775,7 +775,7 @@ int FAR CDECL gfx_setFont(uint16 ch, uint16 fontIdx) {
      * exactly as gfx_drawString rebases them. */
     GfxState FAR *s = gfx_getState();
     uint16 dseg = s->f15DataSeg;
-    uint8 *FAR *wtPtrsFar = (uint8 * FAR *)MK_FP(dseg, PTR_OFF(g_fontWidthTables));
+    uint8 *FAR *wtPtrsFar = (uint8 *FAR *)MK_FP(dseg, PTR_OFF(g_fontWidthTables));
     uint8 FAR *wt;
     if (fontIdx >= 8) return 8;
     /* Chars >= 0x80 are inline color escapes - no glyph, no width */
