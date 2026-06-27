@@ -1,6 +1,10 @@
 # F-15 Strike Eagle 2 source code reconstruction
 
-This is a reconstruction of the source code for the MS-DOS version of the Microprose game F-15 Strike Eagle 2 v451.03 (the definitive 1991 Desert Storm expansion disk version).
+<p align="center">
+  <img src="screenshots/title.png" width="50%" alt="F-15 title screen">
+</p>
+
+This is a complete reconstruction of the source code for the MS-DOS version of the Microprose game F-15 Strike Eagle 2 v451.03 (the definitive 1991 Desert Storm expansion disk version).
 
 The original game was written in a mixture of C and assembly. The C source code was compiled with the Microsoft C compiler v5.1.
 
@@ -14,9 +18,38 @@ This repository contains no game assets, executables or other copyrighted materi
 
 Development journal: https://neuviemeporte.github.io/category/f15-se2
 
+## Screenshots
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <a href="screenshots/screen1.png"><img src="screenshots/screen1.png" width="150"></a>
+      </td>
+      <td align="center">
+        <a href="screenshots/screen2.png"><img src="screenshots/screen2.png" width="150"></a>
+      </td>
+      <td align="center">
+        <a href="screenshots/screen3.png"><img src="screenshots/screen3.png" width="150"></a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <a href="screenshots/screen4.png"><img src="screenshots/screen4.png" width="150"></a>
+      </td>
+      <td align="center">
+        <a href="screenshots/screen5.png"><img src="screenshots/screen5.png" width="150"></a>
+      </td>
+      <td align="center">
+        <a href="screenshots/screen6.png"><img src="screenshots/screen6.png" width="150"></a>
+      </td>
+    </tr>
+  </table>
+</div>
+
 # Executables
 
-The game contains multiple executables, but only these are targets for source code reconstruction:
+The original game contains multiple executables, but only these were targets for source code reconstruction:
 
 * `f15.com` - the game loader, originally written in obfuscated, self-modifying assembly code which included disk-based copy protection.
 * `su.exe` - the setup executable, lets player pick the video and sound hardware they want to use and does some initialization work
@@ -30,18 +63,11 @@ The remaining executables (including sound) are ignored in this project, see the
 
 # Status
 
-As of the time of writing this, the status of the reconstruction is as follows:
+* `f15.com`, `su.exe`: fully reconstructed into a minimal, functionally equivalent loader executable (`f15.exe`) that works as a drop-in replacement with the original game.
+* `start.exe`, `egame.exe`, `end.exe`: all C code has been reconstructed, the executables work with the original game
+* `mgraphic.exe`, `misc.exe`: functional reimplementation in C completed
 
-## `f15.com`, `su.exe`
-* fully reconstructed into a minimal, functionally equivalent loader executable (`f15.exe`) that works as a drop-in replacement with the original game.
-
-## `start.exe`, `egame.exe`, `end.exe` 
-* all C code has been reconstructed, the executables work with the original game
-
-## `mgraphic.exe`, `misc.exe`
-* functional reimplementation in C completed
-
-Bottom line, the reconstruction is pretty much complete and playable. Going forward, work on this project is going to be limited to bugfixes (a bug being defined by any divergence from the original game), code cleanup, refactoring and documentation. Otherwise, the game itself is going to be kept preserved as is, and all improvements and extensions will be carried out under the new porting project.
+Bottom line, the reconstruction is pretty much complete and playable. Going forward, work on this project is going to be limited to bugfixes (a bug being defined by any divergence from the original game), code cleanup, refactoring and documentation. Otherwise, the reconstrucion is going to be kept preserved as is, and all improvements and extensions will be carried out under the new porting project.
 
 # Building
 
