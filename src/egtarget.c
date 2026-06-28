@@ -344,7 +344,7 @@ void drawHudWorldOverlay(void) {
                                     if (dist * 2 < gunRadius / (g_missionStatus + 1)) {
                                         destroyAircraft(objIdx);
                                         strcat(strBuf, " destroyed by gunfire");
-                                        tempStrcpy(strBuf);
+                                        hudMessage(strBuf);
                                         g_hitEffectTimer = 8;
                                         bulletTracks[idx].posX = 0;
                                     }
@@ -356,7 +356,7 @@ void drawHudWorldOverlay(void) {
                         dist = abs(dist);
                         if (dist < 0x20) {
                             hitFlag = 1;
-                            tempStrcpy("Hit by gunfire");
+                            hudMessage("Hit by gunfire");
                             if (0x20 / (4 - g_missionStatus) > dist) {
                                 bombTarget();
                             }
@@ -388,7 +388,7 @@ void drawHudWorldOverlay(void) {
                                 (g_planeTable.planes[wpEntry].nameIndex & 0x7f) != *(uint8 *)g_landTargetId) {
                                 destroyGroundTarget(wpEntry);
                                 strcat(strBuf, " destroyed by gunfire");
-                                tempStrcpy(strBuf);
+                                hudMessage(strBuf);
                                 g_hitEffectTimer = 8;
                                 g_hitAlt = 0;
                             }

@@ -102,31 +102,31 @@ void stepFlightModel(void) {
 
     // Main key dispatch logic
     switch ((uint16)keyScancode) {
-    case 0x0C2D: // Minus
+    case SCAN_MINUS:
         g_setThrust = clampRange(g_setThrust - 10, 0, 100);
         UpdateThrottleState();
         goto switch_break;
-    case 0x0D3D: // Equal
+    case SCAN_EQUAL:
         g_setThrust = clampRange(g_setThrust + ((g_setThrust < 10) ? 5 : 10), 0, 100);
         UpdateThrottleState();
         *((uint8 *)&g_playerPlaneFlags) &= 0xF7; // ~8
         goto switch_break;
-    case 0x1E61: // A
+    case SCAN_A:
         g_setThrust = 0x90;
         UpdateThrottleState();
         *((uint8 *)&g_playerPlaneFlags) &= 0xF7; // ~8
         goto switch_break;
-    case 0x0D2B: // Shift-Equal
+    case SCAN_SHIFT_EQUAL:
         g_setThrust = 100;
         UpdateThrottleState();
         *((uint8 *)&g_playerPlaneFlags) &= 0xF7; // ~8
         goto post_key_B_check;
-    case 0x0C5F: // Shift-Minus
+    case SCAN_SHIFT_MINUS:
         g_setThrust = 0;
         makeSound(16, 0);
         UpdateThrottleState();
         goto switch_break;
-    case 0x3062: // B
+    case SCAN_B:
         *((uint8 *)&g_playerPlaneFlags) ^= 8;
     post_key_B_check:
         if (!(*((uint8 *)&g_playerPlaneFlags) & 8) && g_groundAltitude != 0 && g_setThrust == 100) {
@@ -134,17 +134,17 @@ void stepFlightModel(void) {
             makeSound(28, 2);
         }
         goto switch_break;
-    case 0x2400: // Alt-J
+    case SCAN_ALT_J:
         if (g_joyCalibTimer == 0) {
             initJoystickCalibration();
             g_joyCalibTimer = 40;
         }
         goto switch_break;
-    case 0x1000: // Alt-Q
+    case SCAN_ALT_Q:
         finalizeMission(1);
         exitCode = 0;
         goto switch_break;
-    case 0x3000: // Alt-B
+    case SCAN_ALT_B:
         if (g_hudVisible != 0) {
             gfx_copyRect(*g_pageFront, 0, 97, *g_pageOffscreen, 0, 97, 320, 103);
         }
@@ -778,7 +778,7 @@ void renderFrame() {
         g_viewPitch = g_ourRoll;
         g_viewRoll = -g_ourPitch;
         break;
-    case VIEW_EXT_DYNAMIC: {
+    case VIEW_EXT_DYNAMIC:
         tmp = (frameTick - ((g_frameRateScaling + 1) / 2) - 1) & 0xf;
         g_viewHeading = g_viewSnapshotRing[tmp].heading;
         g_viewPitch = g_viewSnapshotRing[tmp].pitch;
@@ -886,8 +886,6 @@ void renderFrame() {
         g_camEyeX = (int32)g_crashCamX << 5;
         g_camEyeY = (0x8000 - (int32)g_crashCamY) << 5;
         g_camEyeZ = g_crashCamZ;
-        break;
-    default:
         break;
     }
     if (abs(g_viewPitch) > 0x4000 || g_viewPitch == 0x8000) {

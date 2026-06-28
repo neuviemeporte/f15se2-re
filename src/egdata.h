@@ -307,7 +307,7 @@ extern int16 g_aamLockActive;
 extern int16 g_unusedSavedWord;
 extern int16 g_rollInput;
 extern int16 flagFarToNear;
-extern int16 keyScancode;
+extern uint16 keyScancode;
 extern int16 g_unusedEventHist2;
 extern int16 g_projDepth;
 extern int16 g_scopeClipLeft;

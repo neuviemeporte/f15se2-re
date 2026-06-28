@@ -26,7 +26,7 @@ void fillPanelBox(int16, int16);
 void drawStringBothPages(const char *, int16, int16, int16);
 void drawStringActivePage(const char *, int16, int16, int16);
 void drawNumber(int16, int16, int16, int16);
-void tempStrcpy(const char *src);
+void hudMessage(const char *src);
 void setTimedMessage(char *message);
 
 #endif /* F15_SE2_EGTACMAP */
