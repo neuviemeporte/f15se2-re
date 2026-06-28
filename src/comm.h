@@ -30,8 +30,8 @@ struct GameComm {
     int16 unk4;        /* nonzero enables crash exit in egame (set from theater table in start.exe) */
     int16 gfxModeChar; /* setup writes the gfx driver letter; start/end use it as trainingFlag (nonzero if training mission) */
     int16 setupDetail;
-    int16 bombDamage; /* egame writes mission bomb-damage result here for the debrief */
-    int16 gunHits;    /* egame writes mission gun-hit count here for the debrief */
+    int16 bombDamage;     /* egame writes mission bomb-damage result here for the debrief */
+    int16 gunHits;        /* egame writes mission gun-hit count here for the debrief */
     uint16 weaponType[4]; /* weapon type indices into weaponLoadouts[] (0=Sidewinder,1=AMRAAM,etc) */
     int16 weaponCount[4]; /* weapon quantities per slot */
     uint8 joyData[20];
@@ -49,9 +49,9 @@ STATIC_ASSERT(sizeof(struct GameComm) == 124);
 /* Aliases for fields whose name reflects their setup-time origin but which carry a
  * different meaning once gameplay/debrief reuses the same slot. Use the meaningful
  * name at the relevant call sites. */
-#define landingType setupDone      /* end.exe debrief: 1=crashed, 2=ejected, 3=landed */
+#define landingType setupDone        /* end.exe debrief: 1=crashed, 2=ejected, 3=landed */
 #define bailoutSurvived continueFlag /* end.exe debrief: 0=survived */
-#define trainingFlag gfxModeChar   /* start/end: nonzero if the mission is a training mission */
+#define trainingFlag gfxModeChar     /* start/end: nonzero if the mission is a training mission */
 
 #define COMM_GFXOVL_NAME_OFFSET 0x0
 #define COMM_SNDOVL_NAME_OFFSET 0xd
@@ -76,8 +76,8 @@ STATIC_ASSERT(sizeof(struct GameComm) == 124);
 #define COMM_SETUP_JOYDATA_OFFSET 0x48    /* 0x14 bytes worth of some joystick-related data put here in su.exe */
 #define COMM_SETUP_SWITCHT_OFFSET 0x70    /* when /T on cmdline present */
 #define COMM_SETUP_USEJOY_OFFSET 0x72
-#define COMM_WORLDX_OFFSET 0x74 /* egame writes final view X here for the debrief */
-#define COMM_WORLDY_OFFSET 0x76 /* egame writes final view Y here for the debrief */
+#define COMM_WORLDX_OFFSET 0x74     /* egame writes final view X here for the debrief */
+#define COMM_WORLDY_OFFSET 0x76     /* egame writes final view Y here for the debrief */
 #define COMM_GFXMODENUM_OFFSET 0x78 /* looks like numeric code for video driver from function 3f, mcga returns 3 */
 #define COMM_WORLDBUF_OFFSET 0x7a
 
