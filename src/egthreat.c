@@ -460,7 +460,7 @@ void updateObjects(void) {
                 }
 
                 {
-                    register int u = objIdx * 36;
+                    register int u = objIdx * (int)sizeof(struct SimObject);
                     g_simObjects[objIdx].bank.w += (rollCmd * (g_missionStatus + 2)) / g_frameRateScaling;
                     g_simObjects[objIdx].heading.w += (g_simObjects[objIdx].bank.w >> 3) / g_frameRateScaling;
 
@@ -472,8 +472,8 @@ void updateObjects(void) {
                     g_particles[smokeSlot].posX = *(int16 *)((char *)g_simObjects + u + 2);
                 }
                 {
-                    register int t = smokeSlot * 8;
-                    register int v = objIdx * 36;
+                    register int t = smokeSlot * (int)sizeof(struct Particle);
+                    register int v = objIdx * (int)sizeof(struct SimObject);
                     /* g_particles[ma] via register offset t: idiomatic g_particles[ma].field_N
                        recomputes ma*8 and shifts register allocation (verify mismatch). */
                     *(int16 *)((char *)g_particles + t + 2) = *(int16 *)((char *)g_simObjects + v + 4);

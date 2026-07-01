@@ -819,7 +819,7 @@ void moveDataFar() {
     setCommWorldbufPtr();
     flagFarToNear = 0;
     moveStuff();
-    moveNearFar(g_replayLog.events, 1536);
+    moveNearFar(g_replayLog.events, sizeof(g_replayLog.events));
 }
 
 // ==== seg000:0x206d ====
@@ -829,17 +829,17 @@ void moveStuff() {
     moveNearFar(&g_planeCount, 2);
     moveNearFar(&g_targetEntityCount, 2);
     moveNearFar(&g_planeScanCount, 2);
-    moveNearFar(&g_planeTable, g_planeCount * 16);
+    moveNearFar(&g_planeTable, g_planeCount * (int)sizeof(struct MapTarget));
     moveNearFar(&g_groundUnitCount, 2);
-    moveNearFar(g_simObjects, g_groundUnitCount * 36);
-    moveNearFar(g_shapeTargetCategory, 100);
-    moveNearFar(g_tileKillTally, 100);
-    moveNearFar(g_stringPool, 750);
-    moveNearFar(g_mapCellFlags, 0x100);
+    moveNearFar(g_simObjects, g_groundUnitCount * (int)sizeof(struct SimObject));
+    moveNearFar(g_shapeTargetCategory, sizeof(g_shapeTargetCategory));
+    moveNearFar(g_tileKillTally, sizeof(g_tileKillTally));
+    moveNearFar(g_stringPool, sizeof(g_stringPool));
+    moveNearFar(g_mapCellFlags, sizeof(g_mapCellFlags));
     moveNearFar(&g_unusedSavedWord, 2);
     moveNearFar(&g_padlockAircraft, 2);
-    moveNearFar(waypoints, 16);
-    moveNearFar(g_targetSlots, 36);
+    moveNearFar(waypoints, sizeof(waypoints));
+    moveNearFar(g_targetSlots, sizeof(g_targetSlots));
 }
 
 // ==== seg000:0x215c ====
