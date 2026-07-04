@@ -5,17 +5,17 @@
 #include "pointers.h"
 #include <dos.h>
 
-int checkQuitFlag();
-void picBlit(int handle, int unk);
+int16 checkQuitFlag();
+void picBlit(int16 handle, int16 unk);
 void mystrcat(char *dst, const char *src);
-void nearmemset(void *dst, char value, int count);
+void nearmemset(void *dst, char value, int16 count);
 void dos_printstring(const char *str);
-int loadOverlay(const char *filename);
-void clearRect(int16 *buf, int x, int y, int maxx, int maxy);
+int16 loadOverlay(const char *filename);
+void clearRect(int16 *buf, int16 x, int16 y, int16 maxx, int16 maxy);
 void drawLineWrapper();
-int writeFileAtRaw();
-void decodePic(int handle, int segment);
-void doNothing2(const char *msg, int a, int b, int c);
+int16 writeFileAtRaw();
+void decodePic(int16 handle, int16 segment);
+void doNothing2(const char *msg, int16 a, int16 b, int16 c);
 void far pollJoystick();
 void far copyJoystickData(uint8 FAR *ptr);
 

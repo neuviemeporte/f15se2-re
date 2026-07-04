@@ -14,8 +14,8 @@
 #include <stdio.h>
 
 /* Private helpers for this translation unit. */
-uint32 scaleCoordByLevel(int, uint32);
-int lookupGridCell(int16, int16, int16);
+uint32 scaleCoordByLevel(int16, uint32);
+int16 lookupGridCell(int16, int16, int16);
 
 struct NearestTerrain *findNearestTerrain(int32 worldX, int32 worldY) {
     int16 tmp, dx, dist, rowOff, x1, level, dy, i, cellIdx, gridX, offsetY, y1, cell;
@@ -73,7 +73,7 @@ struct NearestTerrain *findNearestTerrain(int32 worldX, int32 worldY) {
         return NULL;
 }
 
-uint32 scaleCoordByLevel(int level, uint32 coord) {
+uint32 scaleCoordByLevel(int16 level, uint32 coord) {
     switch (level) {
     case 4:
         return coord >> 6;
@@ -88,7 +88,7 @@ uint32 scaleCoordByLevel(int level, uint32 coord) {
     }
 }
 
-int lookupGridCell(int16 level, int16 col, int16 row) {
+int16 lookupGridCell(int16 level, int16 col, int16 row) {
     if (col < 0 || row < 0 || col >= gridLevelSize[level + 3] || row >= gridLevelSize[level + 3])
         return -1;
     switch (level) {

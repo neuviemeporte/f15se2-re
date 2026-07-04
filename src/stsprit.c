@@ -5,7 +5,7 @@
 #include "slot.h"
 #include "log.h"
 
-void showSprite(int page, int x, int y, int src_x, int src_y, int width, int height) {
+void showSprite(int16 page, int16 x, int16 y, int16 src_x, int16 src_y, int16 width, int16 height) {
     spriteParams.bufPtr = menuSprites;
     spriteParams.srcX = src_x;
     spriteParams.srcY = src_y;

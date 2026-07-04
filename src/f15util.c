@@ -30,12 +30,12 @@ void writeWordFar(const uint16 segment, const uint16 offset, const uint16 value)
 }
 
 enum { BUFSIZE = 256 };
-int blitFileFar(const char *filename, const uint16 segment, const uint16 offset) {
+int16 blitFileFar(const char *filename, const uint16 segment, const uint16 offset) {
     uint8 FAR *dest = (uint8 FAR *)MK_FP(segment, offset);
     uint8 buffer[BUFSIZE];
     FILE *infile = NULL;
     size_t readsize = 0, i;
-    int err;
+    int16 err;
     infile = fopen(filename, "rb");
     if (infile == NULL) {
         LogError(("Unable to open %s for reading", filename));

@@ -22,17 +22,17 @@
 
 /* Private helpers for this translation unit. */
 void runGenerator();
-int findOrPlaceItem(int, int, int);
-int itemDistance(int, int);
-void positionUnit(int, int);
-int approxDistance(int, int);
+int16 findOrPlaceItem(int16, int16, int16);
+int16 itemDistance(int16, int16);
+void positionUnit(int16, int16);
+int16 approxDistance(int16, int16);
 void parseWorld(const char *);
-int calcBearing(int, int);
-int setMoveDstComm7A(const char *filename, const char *mode);
-void memAppend(const void *ptr, int itemsz, int count, FILE *unused);
+int16 calcBearing(int16, int16);
+int16 setMoveDstComm7A(const char *filename, const char *mode);
+void memAppend(const void *ptr, int16 itemsz, int16 count, FILE *unused);
 void doNothing(FILE *);
 char *formatGridRef(int16, int16, int16);
-int clampValue(int, int, int);
+int16 clampValue(int16, int16, int16);
 
 void missionGenerate() {
     difficultySaved = gameData->difficulty;
@@ -46,25 +46,10 @@ void missionGenerate() {
 }
 
 void runGenerator() {
-    int attempt;
-    int totalDist;
-    int bearing;
-    int missionBits;
-    int i;
-    int waypointIdx;
-    int baseBearing;
-    int randChoice;
-    int16 swapTmp;
-    int16 maxRange;
-    int minDist;
-    int unitType;
-    int16 randIdx;
+    int16 attempt, totalDist, bearing, missionBits, i, waypointIdx, baseBearing, randChoice;
+    int16 swapTmp, maxRange, minDist, unitType, randIdx;
     int16 baseDist[4];
-    int16 randY;
-    int idx;
-    int matchCount;
-    int slot;
-    int retryCount;
+    int16 randY, idx, matchCount, slot, retryCount;
 
     attempt = missionDistAccum = 0;
     minDist = 250;
@@ -321,8 +306,8 @@ counterMore1k:
     missionDistAccum -= (missionBits + missionDistAccum) % 150;
 }
 
-int findOrPlaceItem(int wx, int wy, int slot) {
-    int objIdx;
+int16 findOrPlaceItem(int16 wx, int16 wy, int16 slot) {
+    int16 objIdx;
     if ((nearestTerrainResult = findNearestTerrain((int32)wx << WORLD_COORD_SHIFT, (0x8000 - (int32)wy) << WORLD_COORD_SHIFT)) != NULL) {
         wx = nearestTerrainResult->worldX >> WORLD_COORD_SHIFT;
         wy = -((nearestTerrainResult->worldY >> WORLD_COORD_SHIFT) - 0x8000);
@@ -338,13 +323,13 @@ int findOrPlaceItem(int wx, int wy, int slot) {
 }
 
 // debugcom: manhattan distance
-int itemDistance(int idx1, int idx2) {
+int16 itemDistance(int16 idx1, int16 idx2) {
     return approxDistance(worldObjects[idx1].x_coord - worldObjects[idx2].x_coord,
                           worldObjects[idx1].y_coord - worldObjects[idx2].y_coord);
 }
 
-void positionUnit(int unit, int loc) {
-    int planeType;
+void positionUnit(int16 unit, int16 loc) {
+    int16 planeType;
     planeType = flightUnits[unit].planeType;
     flightUnits[unit].x = worldObjects[loc].x_coord + 9;
     flightUnits[unit].y = worldObjects[loc].y_coord - 12;
@@ -361,7 +346,7 @@ void positionUnit(int unit, int loc) {
 }
 
 // debugcom: custom_manhattan_distance
-int approxDistance(int dx, int dy) {
+int16 approxDistance(int16 dx, int16 dy) {
     long dist;
     dx = abs(dx);
     dy = abs(dy);
@@ -373,7 +358,7 @@ int approxDistance(int dx, int dy) {
 }
 
 void parseWorld(const char *filename) {
-    int nameIdx, scanPos;
+    int16 nameIdx, scanPos;
     if ((fileHandle = fopen(filename, "rb")) == NULL) return;
     // fread(buffer, size, count, stream)
     fread(wldReadBuf1, 2, 1, fileHandle);
@@ -400,7 +385,7 @@ void parseWorld(const char *filename) {
 }
 
 void exportWorldToComm(const char *filename) {
-    int unused;
+    int16 unused;
     if ((fileHandle = (FILE *)setMoveDstComm7A(filename, "wb")) == NULL) return;
     memAppend(wldReadBuf1, 2, 1, fileHandle);
     memAppend(&readItemSize, 2, 1, fileHandle);
@@ -420,7 +405,7 @@ void exportWorldToComm(const char *filename) {
     doNothing(fileHandle);
 }
 
-int calcBearing(int dx, int dy) {
+int16 calcBearing(int16 dx, int16 dy) {
     int16 angle, result;
     int32 ratio;
     int16 divisor, swapped, quotient;
@@ -457,12 +442,12 @@ int calcBearing(int dx, int dy) {
     return result;
 }
 
-int setMoveDstComm7A(const char *filename, const char *mode) {
+int16 setMoveDstComm7A(const char *filename, const char *mode) {
     moveDst = (uint8 FAR *)(&commData->worldBuf);
     return 1;
 }
 
-void memAppend(const void *ptr, int itemsz, int count, FILE *unused) {
+void memAppend(const void *ptr, int16 itemsz, int16 count, FILE *unused) {
     const void FAR *farptr;
     farptr = ptr;
     movedata(FP_SEG(farptr), FP_OFF(farptr), FP_SEG(moveDst), FP_OFF(moveDst), itemsz * count);
@@ -477,7 +462,7 @@ char *getItemCoordStr(int16 idx) {
 }
 
 char *formatGridRef(int16 wx, int16 wy, int16 theater) {
-    int gridOffX, gridOffY;
+    int16 gridOffX, gridOffY;
     (void)theater;
     switch (gameData->theater) {
     case 0:
@@ -534,14 +519,14 @@ char *formatGridRef(int16 wx, int16 wy, int16 theater) {
     return bufCoordStr;
 }
 
-int clampValue(int val, int lo, int hi) {
+int16 clampValue(int16 val, int16 lo, int16 hi) {
     if (val > hi) return hi;
     if (val >= lo) return val;
     if (val > -16384) return lo;
     return hi;
 }
 
-void buildTargetLabel(int idx) {
+void buildTargetLabel(int16 idx) {
     mystrcpy(todayMissStrBuf, wldOffsets[worldObjects[idx].objectIdx & 0x7f]);
     if (mystrlen(wldOffsets[worldObjects[idx].unitRef]) != 0) {
         if (mystrlen(wldOffsets[worldObjects[idx].objectIdx & 0x7f]) != 0) {

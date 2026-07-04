@@ -32,7 +32,7 @@ void setupOverlaySlots(uint16 ovlSeg) {
     uint16 codeSeg;   /* Overlay code segment (f15.exe's CS) */
     uint16 firstIdx;  /* First slot index (usually 0) */
     uint16 slotCount; /* Number of slots to patch */
-    int i;
+    int16 i;
 
     /* Finding D: in NOASM the misc/sound drivers are never loaded, so
      * miscOvlAddr/sndOvlAddr are 0. Reading a "header" from segment 0 would

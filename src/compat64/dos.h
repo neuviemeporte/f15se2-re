@@ -50,24 +50,24 @@ struct SREGS {
     unsigned short ds;
 };
 
-inline int intdos(union REGS *inregs, union REGS *outregs) {
+inline int16 intdos(union REGS *inregs, union REGS *outregs) {
     (void)inregs;
     (void)outregs;
     return 0;
 }
-inline int intdosx(union REGS *inregs, union REGS *outregs, struct SREGS *segregs) {
+inline int16 intdosx(union REGS *inregs, union REGS *outregs, struct SREGS *segregs) {
     (void)inregs;
     (void)outregs;
     (void)segregs;
     return 0;
 }
-inline int int86(int intno, union REGS *inregs, union REGS *outregs) {
+inline int16 int86(int16 intno, union REGS *inregs, union REGS *outregs) {
     (void)intno;
     (void)inregs;
     (void)outregs;
     return 0;
 }
-inline int int86x(int intno, union REGS *inregs, union REGS *outregs, struct SREGS *segregs) {
+inline int16 int86x(int16 intno, union REGS *inregs, union REGS *outregs, struct SREGS *segregs) {
     (void)intno;
     (void)inregs;
     (void)outregs;
@@ -94,11 +94,11 @@ inline void _dos_setvect(uint16no, _dos_isr_t handler) {
     (void)handler;
 }
 
-inline int inp(uint16 port) {
+inline int16 inp(uint16 port) {
     (void)port;
     return 0;
 }
-inline int outp(uint16 port, int value) {
+inline int16 outp(uint16 port, int16 value) {
     (void)port;
     (void)value;
     return 0;
@@ -117,14 +117,14 @@ inline unsigned short _psp = 0;
 #include <io.h>
 #endif
 
-inline int getch(void) { return 0; }
-inline int putch(int c) {
+inline int16 getch(void) { return 0; }
+inline int16 putch(int16 c) {
     (void)c;
     return 0;
 }
-inline int kbhit(void) { return 0; }
+inline int16 kbhit(void) { return 0; }
 
-inline char *itoa(int value, char *str, int base) {
+inline char *itoa(int16 value, char *str, int16 base) {
     if (base == 10) {
         sprintf(str, "%d", value);
     } else if (base == 16) {

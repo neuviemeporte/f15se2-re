@@ -13,8 +13,8 @@
 GfxFarFn gfxFarTableExported[84] = {0};
 
 /* Slot 0x00: gfx_allocPage */
-int FAR CDECL gfx_allocPage(int pageNum) {
-    return ((int(FAR *)(int))gfxFarTableExported[0])(pageNum);
+int16 FAR CDECL gfx_allocPage(int16 pageNum) {
+    return ((int16(FAR *)(int16))gfxFarTableExported[0])(pageNum);
 }
 
 /* Slot 0x01: gfx_fillDirty */
@@ -93,13 +93,13 @@ void FAR CDECL gfx_setCurPageSeg(void) {
 }
 
 /* Slot 0x10: gfx_getCurPageSeg */
-int FAR CDECL gfx_getCurPageSeg(void) {
-    return ((int(FAR *)(void))gfxFarTableExported[16])();
+int16 FAR CDECL gfx_getCurPageSeg(void) {
+    return ((int16(FAR *)(void))gfxFarTableExported[16])();
 }
 
 /* Slot 0x11: gfx_blitSprite */
-int FAR CDECL gfx_blitSprite(struct SpriteParams *spritePtr) {
-    return ((int(FAR *)(struct SpriteParams *))gfxFarTableExported[17])(spritePtr);
+int16 FAR CDECL gfx_blitSprite(struct SpriteParams *spritePtr) {
+    return ((int16(FAR *)(struct SpriteParams *))gfxFarTableExported[17])(spritePtr);
 }
 
 /* Slot 0x12: gfx_blitCore */
@@ -128,8 +128,8 @@ void FAR CDECL gfx_nop16(void) {
 }
 
 /* Slot 0x17: gfx_getBufSize */
-int FAR CDECL gfx_getBufSize(void) {
-    return ((int(FAR *)(void))gfxFarTableExported[23])();
+int16 FAR CDECL gfx_getBufSize(void) {
+    return ((int16(FAR *)(void))gfxFarTableExported[23])();
 }
 
 /* Slot 0x18: gfx_setBlitOffset2 */
@@ -138,13 +138,13 @@ void FAR CDECL gfx_setBlitOffset2(void) {
 }
 
 /* Slot 0x19: gfx_setBlitOffset3 */
-void FAR CDECL gfx_setBlitOffset3(int offset) {
-    ((void(FAR *)(int))gfxFarTableExported[25])(offset);
+void FAR CDECL gfx_setBlitOffset3(int16 offset) {
+    ((void(FAR *)(int16))gfxFarTableExported[25])(offset);
 }
 
 /* Slot 0x1a: gfx_setBlitOffset */
-void FAR CDECL gfx_setBlitOffset(int offset) {
-    ((void(FAR *)(int))gfxFarTableExported[26])(offset);
+void FAR CDECL gfx_setBlitOffset(int16 offset) {
+    ((void(FAR *)(int16))gfxFarTableExported[26])(offset);
 }
 
 /* Slot 0x1b: gfx_setBlitOffsetReg */
@@ -153,18 +153,18 @@ void FAR CDECL gfx_setBlitOffsetReg(void) {
 }
 
 /* Slot 0x1c: gfx_getPresetOffset1 */
-int FAR CDECL gfx_getPresetOffset1(void) {
-    return ((int(FAR *)(void))gfxFarTableExported[28])();
+int16 FAR CDECL gfx_getPresetOffset1(void) {
+    return ((int16(FAR *)(void))gfxFarTableExported[28])();
 }
 
 /* Slot 0x1d: gfx_getPresetOffset2 */
-int FAR CDECL gfx_getPresetOffset2(void) {
-    return ((int(FAR *)(void))gfxFarTableExported[29])();
+int16 FAR CDECL gfx_getPresetOffset2(void) {
+    return ((int16(FAR *)(void))gfxFarTableExported[29])();
 }
 
 /* Slot 0x1e: gfx_getBlitOffset */
-int FAR CDECL gfx_getBlitOffset(void) {
-    return ((int(FAR *)(void))gfxFarTableExported[30])();
+int16 FAR CDECL gfx_getBlitOffset(void) {
+    return ((int16(FAR *)(void))gfxFarTableExported[30])();
 }
 
 /* Slot 0x20: gfx_setDrawColor */
@@ -173,7 +173,7 @@ void FAR CDECL gfx_setDrawColor(void) {
 }
 
 /* Slot 0x21: gfx_setColor */
-void FAR CDECL gfx_setColor(int color) {
+void FAR CDECL gfx_setColor(int16 color) {
     ((void(FAR *)(uint8))gfxFarTableExported[33])(color);
 }
 
@@ -193,8 +193,8 @@ void FAR CDECL gfx_plotPixel(void) {
 }
 
 /* Slot 0x26: gfx_storePageSeg */
-void FAR CDECL gfx_storePageSeg(uint16 seg, int pageIdx) {
-    ((void(FAR *)(uint16, int))gfxFarTableExported[38])(seg, pageIdx);
+void FAR CDECL gfx_storePageSeg(uint16 seg, int16 pageIdx) {
+    ((void(FAR *)(uint16, int16))gfxFarTableExported[38])(seg, pageIdx);
 }
 
 /* Slot 0x27: gfx_setPageSeg */
@@ -208,13 +208,13 @@ void FAR CDECL gfx_dirtyRect2(void) {
 }
 
 /* Slot 0x29: gfx_switchColor */
-void FAR CDECL gfx_switchColor(int16 *pageDesc, int x1, int y1, int x2, int y2, int oldColor, int newColor) {
-    ((void(FAR *)(int16 *, int, int, int, int, int, int))gfxFarTableExported[41])(pageDesc, x1, y1, x2, y2, oldColor, newColor);
+void FAR CDECL gfx_switchColor(int16 *pageDesc, int16 x1, int16 y1, int16 x2, int16 y2, int16 oldColor, int16 newColor) {
+    ((void(FAR *)(int16 *, int16, int16, int16, int16, int16, int16))gfxFarTableExported[41])(pageDesc, x1, y1, x2, y2, oldColor, newColor);
 }
 
 /* Slot 0x2a: gfx_copyRect */
-void FAR CDECL gfx_copyRect(int srcPage, uint16 srcX, uint16 srcY, int dstPage, uint16 dstX, uint16 dstY, int width, int height) {
-    ((void(FAR *)(int, uint16, uint16, int, uint16, uint16, int, int))gfxFarTableExported[42])(srcPage, srcX, srcY, dstPage, dstX, dstY, width, height);
+void FAR CDECL gfx_copyRect(int16 srcPage, uint16 srcX, uint16 srcY, int16 dstPage, uint16 dstX, uint16 dstY, int16 width, int16 height) {
+    ((void(FAR *)(int16, uint16, uint16, int16, uint16, uint16, int16, int16))gfxFarTableExported[42])(srcPage, srcX, srcY, dstPage, dstX, dstY, width, height);
 }
 
 /* Slot 0x2b: gfx_clearVga */
@@ -228,8 +228,8 @@ void FAR CDECL gfx_dacAnimate(void) {
 }
 
 /* Slot 0x2d: gfx_getDisplayPage */
-int FAR CDECL gfx_getDisplayPage(void) {
-    return ((int(FAR *)(uint16))gfxFarTableExported[45])(0);
+int16 FAR CDECL gfx_getDisplayPage(void) {
+    return ((int16(FAR *)(uint16))gfxFarTableExported[45])(0);
 }
 
 /* Slot 0x2e: gfx_dacCycle */
@@ -238,38 +238,38 @@ void FAR CDECL gfx_dacCycle(void) {
 }
 
 /* Slot 0x2f: gfx_setFont */
-int FAR CDECL gfx_setFont(uint16 ch, uint16 fontIdx) {
-    return ((int(FAR *)(uint16, uint16))gfxFarTableExported[47])(ch, fontIdx);
+int16 FAR CDECL gfx_setFont(uint16 ch, uint16 fontIdx) {
+    return ((int16(FAR *)(uint16, uint16))gfxFarTableExported[47])(ch, fontIdx);
 }
 
 /* Slot 0x30: gfx_blitToCurrent */
 void FAR CDECL gfx_blitToCurrent(int16 pagePtr) {
-    ((void(FAR *)(int))gfxFarTableExported[48])(pagePtr);
+    ((void(FAR *)(int16))gfxFarTableExported[48])(pagePtr);
 }
 
 /* Slot 0x31: gfx_getAuxBufSize */
-int FAR CDECL gfx_getAuxBufSize(void) {
-    return ((int(FAR *)(void))gfxFarTableExported[49])();
+int16 FAR CDECL gfx_getAuxBufSize(void) {
+    return ((int16(FAR *)(void))gfxFarTableExported[49])();
 }
 
 /* Slot 0x32: gfx_getFreeMem */
-int FAR CDECL gfx_getFreeMem(uint16 ch, uint16 fontIdx) {
-    return ((int(FAR *)(uint16, uint16))gfxFarTableExported[50])(ch, fontIdx);
+int16 FAR CDECL gfx_getFreeMem(uint16 ch, uint16 fontIdx) {
+    return ((int16(FAR *)(uint16, uint16))gfxFarTableExported[50])(ch, fontIdx);
 }
 
 /* Slot 0x33: gfx_fillRow */
-void FAR CDECL gfx_fillRow(int x, int y) {
-    ((void(FAR *)(int, int))gfxFarTableExported[51])(x, y);
+void FAR CDECL gfx_fillRow(int16 x, int16 y) {
+    ((void(FAR *)(int16, int16))gfxFarTableExported[51])(x, y);
 }
 
 /* Slot 0x34: gfx_fillRow2 */
-void FAR CDECL gfx_fillRow2(int x, int y) {
-    ((void(FAR *)(int, int))gfxFarTableExported[52])(x, y);
+void FAR CDECL gfx_fillRow2(int16 x, int16 y) {
+    ((void(FAR *)(int16, int16))gfxFarTableExported[52])(x, y);
 }
 
 /* Slot 0x35: gfx_copyRow */
-void FAR CDECL gfx_copyRow(int x, int y) {
-    ((void(FAR *)(int, int))gfxFarTableExported[53])(x, y);
+void FAR CDECL gfx_copyRow(int16 x, int16 y) {
+    ((void(FAR *)(int16, int16))gfxFarTableExported[53])(x, y);
 }
 
 /* Slot 0x36: gfx_nop36 */
@@ -283,8 +283,8 @@ void FAR CDECL gfx_nop37(void) {
 }
 
 /* Slot 0x38: gfx_getPageSeg */
-int FAR CDECL gfx_getPageSeg(uint16 page) {
-    return ((int(FAR *)(uint16))gfxFarTableExported[56])(page);
+int16 FAR CDECL gfx_getPageSeg(uint16 page) {
+    return ((int16(FAR *)(uint16))gfxFarTableExported[56])(page);
 }
 
 /* Slot 0x39: gfx_setPageBuf */
@@ -293,8 +293,8 @@ void FAR CDECL gfx_setPageBuf(void) {
 }
 
 /* Slot 0x3a: gfx_getRowOffset */
-int FAR CDECL gfx_getRowOffset(int y) {
-    return ((int(FAR *)(uint16))gfxFarTableExported[58])(y);
+int16 FAR CDECL gfx_getRowOffset(int16 y) {
+    return ((int16(FAR *)(uint16))gfxFarTableExported[58])(y);
 }
 
 /* Slot 0x3b: gfx_clearPage */
@@ -304,42 +304,42 @@ void FAR CDECL gfx_clearPage(void) {
 
 /* Slot 0x3c: gfx_setMode13 */
 void FAR CDECL gfx_setMode13(int16 monoFlag) {
-    ((void(FAR *)(int))gfxFarTableExported[60])(monoFlag);
+    ((void(FAR *)(int16))gfxFarTableExported[60])(monoFlag);
 }
 
 /* Slot 0x3d: gfx_setFadeSteps */
-void FAR CDECL gfx_setFadeSteps(int steps) {
+void FAR CDECL gfx_setFadeSteps(int16 steps) {
     ((void(FAR *)(uint16))gfxFarTableExported[61])(steps);
 }
 
 /* Slot 0x3e: gfx_calcRowAddr */
-int FAR CDECL gfx_calcRowAddr(int y, int x) {
-    return ((int(FAR *)(int, int))gfxFarTableExported[62])(y, x);
+int16 FAR CDECL gfx_calcRowAddr(int16 y, int16 x) {
+    return ((int16(FAR *)(int16, int16))gfxFarTableExported[62])(y, x);
 }
 
 /* Slot 0x3f: gfx_getModecode */
-int FAR CDECL gfx_getModecode(void) {
-    return ((int(FAR *)(void))gfxFarTableExported[63])();
+int16 FAR CDECL gfx_getModecode(void) {
+    return ((int16(FAR *)(void))gfxFarTableExported[63])();
 }
 
 /* Slot 0x40: gfx_setOvlVal1 */
-void FAR CDECL gfx_setOvlVal1(int val) {
+void FAR CDECL gfx_setOvlVal1(int16 val) {
     ((void(FAR *)(uint16))gfxFarTableExported[64])(val);
 }
 
 /* Slot 0x41: gfx_setOvlVal2 */
-void FAR CDECL gfx_setOvlVal2(int val) {
+void FAR CDECL gfx_setOvlVal2(int16 val) {
     ((void(FAR *)(uint16))gfxFarTableExported[65])(val);
 }
 
 /* Slot 0x42: gfx_getModeFlag2 */
-int FAR CDECL gfx_getModeFlag2(void) {
-    return ((int(FAR *)(void))gfxFarTableExported[66])();
+int16 FAR CDECL gfx_getModeFlag2(void) {
+    return ((int16(FAR *)(void))gfxFarTableExported[66])();
 }
 
 /* Slot 0x43: gfx_getConst1 */
-int FAR CDECL gfx_getConst1(void) {
-    return ((int(FAR *)(void))gfxFarTableExported[67])();
+int16 FAR CDECL gfx_getConst1(void) {
+    return ((int16(FAR *)(void))gfxFarTableExported[67])();
 }
 
 /* Slot 0x44: gfx_setDac */
@@ -378,23 +378,23 @@ void FAR CDECL gfx_blitSpriteOpaque2(void) {
 }
 
 /* Slot 0x4b: gfx_storeBufPtr */
-void FAR CDECL gfx_storeBufPtr(uint16 seg, int pageIdx) {
-    ((void(FAR *)(uint16, int))gfxFarTableExported[75])(seg, pageIdx);
+void FAR CDECL gfx_storeBufPtr(uint16 seg, int16 pageIdx) {
+    ((void(FAR *)(uint16, int16))gfxFarTableExported[75])(seg, pageIdx);
 }
 
 /* Slot 0x4c: gfx_getModeFlag */
-int FAR CDECL gfx_getModeFlag(void) {
-    return ((int(FAR *)(void))gfxFarTableExported[76])();
+int16 FAR CDECL gfx_getModeFlag(void) {
+    return ((int16(FAR *)(void))gfxFarTableExported[76])();
 }
 
 /* Slot 0x4d: gfx_getVal2 */
-int FAR CDECL gfx_getVal2(int16 *p) {
-    return ((int(FAR *)(int16 *))gfxFarTableExported[77])(p);
+int16 FAR CDECL gfx_getVal2(int16 *p) {
+    return ((int16(FAR *)(int16 *))gfxFarTableExported[77])(p);
 }
 
 /* Slot 0x4e: gfx_getVal */
-int FAR CDECL gfx_getVal(void) {
-    return ((int(FAR *)(void))gfxFarTableExported[78])();
+int16 FAR CDECL gfx_getVal(void) {
+    return ((int16(FAR *)(void))gfxFarTableExported[78])();
 }
 
 /* Slot 0x4f: gfx_setDacAnimCount */
@@ -418,6 +418,6 @@ void FAR CDECL gfx_setMonoFlag(uint16 mono) {
 }
 
 /* Slot 0x53: gfx_getCurPage */
-void FAR CDECL gfx_getCurPage(int page) {
+void FAR CDECL gfx_getCurPage(int16 page) {
     ((void(FAR *)(uint16))gfxFarTableExported[83])(page);
 }

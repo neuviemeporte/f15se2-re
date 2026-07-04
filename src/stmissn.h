@@ -7,10 +7,10 @@ void clearKeybuf(void);
 void waitMdaCgaStatus(int16 iter);
 void showPic640(const char *filename);
 void missionSelect(void);
-int askRepeatMission(void);
+int16 askRepeatMission(void);
 void checkDiskA(void);
 void missionDecode(void);
 void printMission(void);
-int pollMenuInput();
+int16 pollMenuInput();
 
 #endif /* F15_SE2_STMISSN */

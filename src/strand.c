@@ -8,6 +8,6 @@ void seedRandom() {
     srand(getTimeOfDay());
 }
 
-int randMul(uint16 arg) {
+int16 randMul(uint16 arg) {
     return (rand() * (long)arg) >> 0xf;
 }

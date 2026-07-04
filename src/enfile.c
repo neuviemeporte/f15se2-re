@@ -7,26 +7,24 @@
 #include "shared/common.h"
 
 /* Private helpers for this translation unit. */
-int loadFileSection(const char *name, int b, int c);
-int writeFileSection(const char *name, int b, int c, int d, int e);
+int16 loadFileSection(const char *name, int16 b, int16 c);
+int16 writeFileSection(const char *name, int16 b, int16 c, int16 d, int16 e);
 
-void srandInit(int seed) {
+void srandInit(int16 seed) {
     randSeed = seed;
     randState = 0;
 }
 
-int loadFileSection(const char *name, int b, int c) {
-    int handle;
-    int result;
+int16 loadFileSection(const char *name, int16 b, int16 c) {
+    int16 handle, result;
     handle = openFileWrapper(name, 0);
     result = readFileAt(handle, -1, b, c);
     closeFileWrapper(handle);
     return result;
 }
 
-int writeFileSection(const char *name, int b, int c, int d, int e) {
-    int handle;
-    int result;
+int16 writeFileSection(const char *name, int16 b, int16 c, int16 d, int16 e) {
+    int16 handle, result;
     handle = createFile(name, 0);
     result = writeFile(handle, e, b, c, d);
     closeFileWrapper(handle);

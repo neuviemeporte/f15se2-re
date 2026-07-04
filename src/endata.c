@@ -4099,17 +4099,17 @@ const char *medalNames[] = {
     "Congressional Medal of Honor."};
 
 /* Popup sprite coordinate tables (18 entries each, as int arrays) */
-extern const int popupSpriteY[] = {0, 0, 0, 0, 0, 0, 40, 40, 40, 40, 40, 40, 80, 80, 80, 80, 80, 80};
-extern const int popupSpriteX[] = {0, 48, 96, 144, 192, 240, 0, 48, 96, 144, 192, 240, 0, 48, 96, 144, 192, 240};
+extern const int16 popupSpriteY[] = {0, 0, 0, 0, 0, 0, 40, 40, 40, 40, 40, 40, 80, 80, 80, 80, 80, 80};
+extern const int16 popupSpriteX[] = {0, 48, 96, 144, 192, 240, 0, 48, 96, 144, 192, 240, 0, 48, 96, 144, 192, 240};
 
 /* Map view bounds */
-extern const int mapViewX1 = 8;
-extern const int mapViewY1 = 10;
-extern const int mapViewX2 = 232;
-extern const int mapViewY2 = 178;
+extern const int16 mapViewX1 = 8;
+extern const int16 mapViewY1 = 10;
+extern const int16 mapViewX2 = 232;
+extern const int16 mapViewY2 = 178;
 
-/* colorStyleTable - color/style table (16 int entries) */
-int colorStyleTable[] = {
+/* colorStyleTable - color/style table (16 int16 entries) */
+int16 colorStyleTable[] = {
     0x0006, 0x009D, 0x00DB, 0x00BD, 0x00D9, 0x0093, 0x0039, 0x0002,
     0x0078, 0x0087, 0x0000, 0x0000, 0x0000, 0x0000, 0x008D, 0x0000};
 
@@ -4129,38 +4129,38 @@ TargetBlock targetBlock;
 char scoreString[512];
 
 /* Kill/miss counters */
-int samKilled;
-int samMissed;
-int groundKilled;
-int groundMissed;
-int airKilled;
-int airMissed;
+int16 samKilled;
+int16 samMissed;
+int16 groundKilled;
+int16 groundMissed;
+int16 airKilled;
+int16 airMissed;
 
 /* Menu/input state */
-int selectedMenuItem;
-int missionResult;
+int16 selectedMenuItem;
+int16 missionResult;
 char enterPressed;
 
 /* Drawing state */
-int lastDrawX;
-int prevDrawX;
-int lastDrawY;
-int prevDrawY;
+int16 lastDrawX;
+int16 prevDrawX;
+int16 lastDrawY;
+int16 prevDrawY;
 char popupVisible;
-int primaryHit;
+int16 primaryHit;
 
 /* Mission scoring (32-bit score occupying the slot the decompiler split into
  * missionScore/missionScoreHi). */
 int32 missionScore;
-int secondaryHit; /* BSS had 242 bytes here but only first int is named */
+int16 secondaryHit; /* BSS had 242 bytes here but only first int is named */
 
 /* Map state */
 char ejectedFlag;
-int popupX;
-int popupY;
+int16 popupX;
+int16 popupY;
 
 /* World data */
-int worldDataReady;
+int16 worldDataReady;
 char *worldStrings[100];
 char worldStringBuf[750];
 FILE *worldBufHandle;
@@ -4168,18 +4168,18 @@ FILE *worldBufHandle;
 /* Graphics animation state (from BSS) */
 uint16 *colorTablePtr;
 char inputChanged;
-int colorAnimIdx;
-int colorAnimEnabled;
+int16 colorAnimIdx;
+int16 colorAnimEnabled;
 char joyRepeatFlag;
 char spriteToggle;
 char animDone;
-int curRecordIdx;
+int16 curRecordIdx;
 /* worldObjects is accessed as struct WorldObject[]. This is only an 8-byte BSS stub: readWorldData loads
  * worldObjectCount<<4 (up to 0x4B*16 = 1200) bytes here, deliberately spilling
  * through totalFlightRecords into slotInfoTable to reproduce the original
  * end.exe BSS layout (map/end.map). Do NOT retype it to the full array. */
 char worldObjects[8];
-int totalFlightRecords;
+int16 totalFlightRecords;
 /* 16-bytes-per-slot table, indexed [unitId*16] (unitId masked to 0x7F). The
  * original reserves 0x4700-0x4256 = 1194 bytes here (map/end.map: slotInfoTable
  * -> gridFlags). */
@@ -4187,11 +4187,11 @@ char slotInfoTable[1194];
 uint16 cursorX;
 uint16 cursorY;
 char hercFlag[518];
-int hasVgaMode[2];
-int spriteBufSeg;
-int vgaBufSeg;
-int vgaBufOffset;
-int vgaBufSeg2;
+int16 hasVgaMode[2];
+int16 spriteBufSeg;
+int16 vgaBufSeg;
+int16 vgaBufOffset;
+int16 vgaBufSeg2;
 
 /* Theater sprite filename pointer table (8 entries) */
 const char *theaterSprFiles[] = {

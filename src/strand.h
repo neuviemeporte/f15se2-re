@@ -4,6 +4,6 @@
 #include "inttype.h"
 
 void seedRandom();
-int randMul(uint16);
+int16 randMul(uint16);
 
 #endif /* F15_SE2_STRAND */

@@ -17,7 +17,7 @@ extern uint16 dos_alloc(uint16 size);
  * yields f15.exe's DGROUP segment, recorded in GfxState.f15DataSeg so the
  * const tables below (palettes, font tables) can be reached via far pointer
  * regardless of which process's DS is current at call time (Finding A). */
-static int dgroupAnchor;
+static int16 dgroupAnchor;
 
 /* Byte offset of GfxState within the virtual overlay block */
 #define GFX_STATE_OFFSET 0x2EC
@@ -39,7 +39,7 @@ static GfxState FAR *gfx_getState(void) {
 
 /* Initialize row offset table */
 static void initRowOffsets(void) {
-    int i;
+    int16 i;
     if (gfx_getState()->rowOffsetsReady) return;
     for (i = 0; i < 200; i++)
         gfx_getState()->rowOffsets[i] = (uint16)(i * 320);
@@ -47,7 +47,7 @@ static void initRowOffsets(void) {
 }
 
 /* ---- Slot 0x00: gfx_allocPage ---- */
-int FAR CDECL gfx_allocPage(int n) {
+int16 FAR CDECL gfx_allocPage(int16 n) {
     GfxState FAR *s;
     uint16 seg;
     union REGS r;
@@ -58,7 +58,7 @@ int FAR CDECL gfx_allocPage(int n) {
     if (gfx_getState()->pageSegs[0] == 0) {
         gfx_setMode13(0);
     }
-    /* Allocate 0x1000 paragraphs = 64KB directly via INT 21h */
+    /* Allocate 0x1000 paragraphs = 64KB directly via int16 21h */
     r.h.ah = 0x48;
     r.x.bx = 0x1000;
     intdos(&r, &r);
@@ -69,7 +69,7 @@ int FAR CDECL gfx_allocPage(int n) {
     if (n != 0 || gfx_getState()->pageSegs[0] != 0xA000) {
         gfx_getState()->pageSegs[n] = seg;
     }
-    return (int)seg;
+    return (int16)seg;
 }
 
 /* ---- Slot 0x3c: gfx_setMode13 ---- */
@@ -132,7 +132,7 @@ void FAR CDECL gfx_flipPage(void) {
 }
 
 /* ---- Slot 0x4b: gfx_storeBufPtr ---- */
-void FAR CDECL gfx_storeBufPtr(uint16 seg, int pageIdx) {
+void FAR CDECL gfx_storeBufPtr(uint16 seg, int16 pageIdx) {
     GfxState FAR *s = gfx_getState();
     if (pageIdx >= 0 && pageIdx < 16) {
         s->pageSegs[pageIdx] = seg;
@@ -184,8 +184,8 @@ void gfx_setCurPageSeg_impl(uint16 seg) {
 }
 
 /* ---- Slot 0x17: gfx_getBufSize ---- */
-int FAR CDECL gfx_getBufSize(void) {
-    return (int)0xFA00; /* baked constant 64000 (cs:0x1d2 in MGRAPHIC) */
+int16 FAR CDECL gfx_getBufSize(void) {
+    return (int16)0xFA00; /* baked constant 64000 (cs:0x1d2 in MGRAPHIC) */
 }
 
 /* ---- Slots 0x3a/0x38/0x33/0x35: register-called by the ASM pic renderer ----
@@ -195,20 +195,20 @@ int FAR CDECL gfx_getBufSize(void) {
  * the caller's DGROUP throughout, so `srcBuf` is read as a near pointer. */
 
 /* Slot 0x3a: DI = y -> AX = row byte offset (y*320). */
-int gfx_getRowOffset_impl(int y) {
+int16 gfx_getRowOffset_impl(int16 y) {
     GfxState FAR *s = gfx_getState();
     initRowOffsets();
     if (y >= 0 && y < 200)
-        return (int)s->rowOffsets[y];
-    return (int)((uint16)y * 320);
+        return (int16)s->rowOffsets[y];
+    return (int16)((uint16)y * 320);
 }
 
 /* Slot 0x38: SI = page -> select it as current page, return its segment. */
-int gfx_getPageSeg_impl(uint16 page) {
+int16 gfx_getPageSeg_impl(uint16 page) {
     GfxState FAR *s = gfx_getState();
     if (page < 16)
         s->curPageSeg = s->pageSegs[page];
-    return (int)s->curPageSeg;
+    return (int16)s->curPageSeg;
 }
 
 /* Slot 0x33: DI = rowOffset, BP = srcBuf (caller DS), BX = rowNum.
@@ -217,7 +217,7 @@ void gfx_fillRow_impl(uint16 rowOffset, uint16 srcBuf, uint16 rowNum) {
     GfxState FAR *s = gfx_getState();
     const uint8 *src = (const uint8 *)(size_t)srcBuf; /* near ptr, caller's DS */
     uint8 FAR *dst;
-    int col;
+    int16 col;
     (void)rowNum;
     dst = (uint8 FAR *)MK_FP(s->curPageSeg, rowOffset);
     for (col = 0; col < 320; col++)
@@ -231,7 +231,7 @@ void gfx_copyRow_impl(uint16 rowOffset) {
 }
 
 /* ---- Slot 0x3f: gfx_getModecode ---- */
-int FAR CDECL gfx_getModecode(void) {
+int16 FAR CDECL gfx_getModecode(void) {
     return 3; /* MCGA mode code */
 }
 
@@ -241,14 +241,14 @@ void FAR CDECL gfx_nop22(void) {
 }
 
 /* ---- Slot 0x1a: gfx_setBlitOffset ---- */
-void FAR CDECL gfx_setBlitOffset(int offset) {
+void FAR CDECL gfx_setBlitOffset(int16 offset) {
     GfxState FAR *s = gfx_getState();
     s->blitOffset = (uint16)offset;
     return;
 }
 
 /* ---- Slot 0x25: gfx_dirtyRect ---- */
-void FAR CDECL gfx_dirtyRect(int16 *spanBuf, int yMin, int yMax) {
+void FAR CDECL gfx_dirtyRect(int16 *spanBuf, int16 yMin, int16 yMax) {
     /* Register-called in overlay — stub for now */
     (void)spanBuf;
     (void)yMin;
@@ -317,18 +317,18 @@ static const uint8 g_fontBitmapRowSize[8] = {5, 8, 0, 6, 7, 6, 0, 0};
  * field mapping (page[0], color[2], x[4], y[5], font[6]) is shared with the
  * cdecl slot 0x05 caller, so one core serves both. */
 static void drawStringCore(int16 *params, const char *string,
-                           int clipL, int clipR, int clipT, int clipB) {
+                           int16 clipL, int16 clipR, int16 clipT, int16 clipB) {
     GfxState FAR *s = gfx_getState();
     uint16 dseg;
     uint8 FAR *heightsFar;
     uint8 FAR *rowSizeFar;
     uint8 *FAR *bmpPtrsFar;
     uint8 *FAR *wtPtrsFar;
-    int x, y, color;
+    int16 x, y, color;
     uint8 far *page;
-    int charIdx;
+    int16 charIdx;
     uint8 ch;
-    int row, col;
+    int16 row, col;
     uint16 fontIdx;
     uint8 height;
     uint8 FAR *bitmaps;
@@ -347,9 +347,9 @@ static void drawStringCore(int16 *params, const char *string,
     bmpPtrsFar = (uint8 *FAR *)MK_FP(dseg, PTR_OFF(g_fontBitmapPtrs));
     wtPtrsFar = (uint8 *FAR *)MK_FP(dseg, PTR_OFF(g_fontWidthTables));
 
-    x = (int)params[4];
-    y = (int)params[5];
-    color = (int)params[2];
+    x = (int16)params[4];
+    y = (int16)params[5];
+    color = (int16)params[2];
     fontIdx = (uint16)params[6] & 7;
     height = heightsFar[fontIdx];
     bitmaps = bmpPtrsFar[fontIdx]
@@ -378,14 +378,14 @@ static void drawStringCore(int16 *params, const char *string,
         if (bitmaps && ch >= 0x20) {
             uint8 FAR *glyph = bitmaps + (ch - 0x20) * (uint16)rowSizeFar[fontIdx];
             for (row = 0; row < height; row++) {
-                int py = y + row;
+                int16 py = y + row;
                 uint8 bits;
                 uint16 rowOff;
                 if (py < clipT || py > clipB) continue; /* row outside window */
                 bits = glyph[row];
                 rowOff = s->rowOffsets[py];
                 for (col = 0; col < 8; col++) {
-                    int px = x + col;
+                    int16 px = x + col;
                     if ((bits & 0x80) && px >= clipL && px <= clipR)
                         page[rowOff + (uint16)px] = (uint8)color;
                     bits <<= 1;
@@ -412,16 +412,16 @@ void FAR CDECL gfx_drawString(int16 *pageNum, const char *string) {
  * clip stages the variant ran: bit0 = horizontal window (params word 9/10),
  * bit1 = vertical window (params word 7/8). The two X (resp. Y) bounds are
  * stored without a fixed min/max order across blocks, so normalise them. */
-void gfx_drawStringClipped_impl(int16 *params, const char *string, int mode) {
-    int clipL = 0, clipR = 319, clipT = 0, clipB = 199;
+void gfx_drawStringClipped_impl(int16 *params, const char *string, int16 mode) {
+    int16 clipL = 0, clipR = 319, clipT = 0, clipB = 199;
     if (!params) return;
     if (mode & 1) { /* horizontal clip window */
-        int bound1 = (int)params[9], bound2 = (int)params[10];
+        int16 bound1 = (int16)params[9], bound2 = (int16)params[10];
         clipL = bound1 < bound2 ? bound1 : bound2;
         clipR = bound1 < bound2 ? bound2 : bound1;
     }
     if (mode & 2) { /* vertical clip window */
-        int bound1 = (int)params[7], bound2 = (int)params[8];
+        int16 bound1 = (int16)params[7], bound2 = (int16)params[8];
         clipT = bound1 < bound2 ? bound1 : bound2;
         clipB = bound1 < bound2 ? bound2 : bound1;
     }
@@ -433,11 +433,11 @@ void gfx_drawStringClipped_impl(int16 *params, const char *string, int mode) {
 }
 
 /* ---- Slot 0x2a: gfx_copyRect ---- */
-void FAR CDECL gfx_copyRect(int srcPage, uint16 srcX, uint16 srcY,
-                            int dstPage, uint16 dstX, uint16 dstY,
-                            int width, int height) {
+void FAR CDECL gfx_copyRect(int16 srcPage, uint16 srcX, uint16 srcY,
+                            int16 dstPage, uint16 dstX, uint16 dstY,
+                            int16 width, int16 height) {
     GfxState FAR *s = gfx_getState();
-    int row;
+    int16 row;
 
     for (row = 0; row < height; row++) {
         uint16 sOff = s->rowOffsets[srcY + row] + (uint16)srcX;
@@ -448,12 +448,12 @@ void FAR CDECL gfx_copyRect(int srcPage, uint16 srcX, uint16 srcY,
 }
 
 /* ---- Slot 0x29: gfx_switchColor ---- */
-void FAR CDECL gfx_switchColor(int16 *pageDesc, int x1, int y1,
-                               int x2, int y2, int oldColor, int newColor) {
+void FAR CDECL gfx_switchColor(int16 *pageDesc, int16 x1, int16 y1,
+                               int16 x2, int16 y2, int16 oldColor, int16 newColor) {
     GfxState FAR *s = gfx_getState();
     uint16 pageSeg;
     uint8 far *page;
-    int row, col;
+    int16 row, col;
 
     pageSeg = s->pageSegs[*pageDesc];
     page = (uint8 far *)MK_FP(pageSeg, 0);
@@ -524,7 +524,7 @@ void FAR CDECL gfx_setDac(uint16 palIdx) {
 }
 
 /* ---- Slot 0x21: gfx_setColor ---- */
-void FAR CDECL gfx_setColor(int color) {
+void FAR CDECL gfx_setColor(int16 color) {
     GfxState FAR *s = gfx_getState();
     s->fillColor = (uint8)color;
     return;
@@ -541,19 +541,19 @@ void FAR CDECL gfx_initOverlay(void) {
 /* Slot 0x0d: register-called via the _gfx_setPage1 shim (regshim.asm) — AX = a
  * page index; curPageSeg = pageSegs[AX]. MGRAPHIC's slot 0x0d takes the index in
  * AX (the name is a misnomer); clearRect uses it to select the page to clear. */
-int gfx_setPage1_impl(uint16 page) {
+int16 gfx_setPage1_impl(uint16 page) {
     GfxState FAR *s = gfx_getState();
     if (page < 16)
         s->curPageSeg = s->pageSegs[page];
-    return (int)s->curPageSeg;
+    return (int16)s->curPageSeg;
 }
 /* Slot 0x10: called via the _gfx_getCurPageSeg shim, which preserves ES (a
  * gfx_getState() call here loads ES, and clearRect needs ES kept across this). */
-int gfx_getCurPageSeg_impl(void) {
+int16 gfx_getCurPageSeg_impl(void) {
     GfxState FAR *s = gfx_getState();
-    return (int)s->curPageSeg;
+    return (int16)s->curPageSeg;
 }
-void FAR CDECL gfx_getCurPage(int page) {
+void FAR CDECL gfx_getCurPage(int16 page) {
     GfxState FAR *s = gfx_getState();
     return;
 }
@@ -564,10 +564,10 @@ void FAR CDECL gfx_getCurPage(int page) {
  * (copyRect 0x2a / blitToCurrent 0x30) at the C level, so slot 0x11 must always
  * skip zero bytes. An earlier `flags & 0x10` gate made the HUD gun-sight blit
  * opaque, copying its black background as a square behind the reticle (bug 7). */
-int FAR CDECL gfx_blitSprite(struct SpriteParams *p) {
+int16 FAR CDECL gfx_blitSprite(struct SpriteParams *p) {
     GfxState FAR *s = gfx_getState();
     uint16 srcSeg, dstSeg;
-    int row, col, w, h;
+    int16 row, col, w, h;
 
     if (!p) return 0;
     if (p->page < 0 || p->page >= 16) return 0;
@@ -595,8 +595,8 @@ int FAR CDECL gfx_blitSprite(struct SpriteParams *p) {
  * stack args. (Calling this body directly with cdecl stack args — as the
  * noasm child trampolines do — also works.) */
 /* Cohen-Sutherland region code against the 320x200 page. */
-static int gfx_lineOutcode(int x, int y) {
-    int code = 0;
+static int16 gfx_lineOutcode(int16 x, int16 y) {
+    int16 code = 0;
     if (x < 0)
         code |= 1;
     else if (x > 319)
@@ -612,15 +612,15 @@ void gfx_drawLine_impl(uint16 ux1, uint16 uy1, uint16 ux2, uint16 uy2) {
     GfxState FAR *s = gfx_getState();
     uint8 far *page;
     uint8 color = s->fillColor;
-    int vx, vy;         /* blitOffset decomposed into a viewport origin */
-    int x1, y1, x2, y2; /* endpoints translated into absolute page coords */
-    int code1, code2;
-    int dx, dy, sx, sy, err, e2;
+    int16 vx, vy;         /* blitOffset decomposed into a viewport origin */
+    int16 x1, y1, x2, y2; /* endpoints translated into absolute page coords */
+    int16 code1, code2;
+    int16 dx, dy, sx, sy, err, e2;
 
     /* MGRAPHIC slot 0x1f adds the blitOffset ([cs:0x1a0]) viewport base to the
      * start offset and is loop-counter-bounded; for off-screen endpoints it
      * just wraps writes inside the 64K page. Our earlier position-based loop
-     * (while x0!=x2) infinite-looped once a delta overflowed a 16-bit int —
+     * (while x0!=x2) infinite-looped once a delta overflowed a 16-bit int16 —
      * the 3D projection emits clamped near-plane coords like (13618,28486),
      * which hung the game on the first terrain frame. Rather than reproduce
      * MGRAPHIC's wrapping (~28000 useless writes per off-screen line, which is
@@ -628,12 +628,12 @@ void gfx_drawLine_impl(uint16 ux1, uint16 uy1, uint16 ux2, uint16 uy2) {
      * page with Cohen-Sutherland and draw only the visible part. The blitOffset
      * is folded in as a viewport origin so the radar/MFD lines land in their
      * sub-window instead of the main viewport. */
-    vx = (int)((uint16)s->blitOffset % 320u);
-    vy = (int)((uint16)s->blitOffset / 320u);
-    x1 = (int)(int16)ux1 + vx;
-    y1 = (int)(int16)uy1 + vy;
-    x2 = (int)(int16)ux2 + vx;
-    y2 = (int)(int16)uy2 + vy;
+    vx = (int16)((uint16)s->blitOffset % 320u);
+    vy = (int16)((uint16)s->blitOffset / 320u);
+    x1 = (int16)(int16)ux1 + vx;
+    y1 = (int16)(int16)uy1 + vy;
+    x2 = (int16)(int16)ux2 + vx;
+    y2 = (int16)(int16)uy2 + vy;
 
     /* Clip the segment to [0,319]x[0,199]. */
     code1 = gfx_lineOutcode(x1, y1);
@@ -642,8 +642,8 @@ void gfx_drawLine_impl(uint16 ux1, uint16 uy1, uint16 ux2, uint16 uy2) {
         if ((code1 | code2) == 0) break;  /* trivially inside */
         if ((code1 & code2) != 0) return; /* trivially outside */
         {
-            int outcode = code1 ? code1 : code2;
-            int clipX = 0, clipY = 0;
+            int16 outcode = code1 ? code1 : code2;
+            int16 clipX = 0, clipY = 0;
             if (outcode & 8) {
                 clipX = x1 + (long)(x2 - x1) * (199 - y1) / (y2 - y1);
                 clipY = 199;
@@ -713,11 +713,11 @@ void gfx_dirtyRectFill_impl(uint16 minBufOff, uint16 yMin, uint16 yMax) {
     uint16 seg = s->curPageSeg;
     int16 firstRow = (int16)yMin; /* AX */
     int16 lastRow = (int16)yMax;  /* CX */
-    int y;
+    int16 y;
     /* MGRAPHIC slot 0x25: `or ax,ax; js exit` — if firstRow < 0, draw nothing. */
     if (firstRow < 0) return;
     if (lastRow > 199) lastRow = 199; /* rowOffsets[] safety */
-    for (y = (int)lastRow; y >= (int)firstRow; y--) {
+    for (y = (int16)lastRow; y >= (int16)firstRow; y--) {
         uint16 spanLo = minBuf[y];
         uint16 spanHi = maxBuf[y];
         uint16 width, col;
@@ -759,14 +759,14 @@ void gfx_dirtyRectFill_impl(uint16 minBufOff, uint16 yMin, uint16 yMax) {
  * onto the visible page and gfx_dacAnimate then stomps it with the stale back
  * buffer (the flicker). render3DView calls this right before the 3D setup, so
  * re-select the display page as the active draw page to keep them in sync. */
-int FAR CDECL gfx_getDisplayPage(void) {
+int16 FAR CDECL gfx_getDisplayPage(void) {
     GfxState FAR *s = gfx_getState();
     if (s->displayPage < 16 && s->pageSegs[0] == 0xA000)
         s->curPageSeg = s->pageSegs[s->displayPage];
-    return (int)s->displayPage;
+    return (int16)s->displayPage;
 }
 
-int FAR CDECL gfx_setFont(uint16 ch, uint16 fontIdx) {
+int16 FAR CDECL gfx_setFont(uint16 ch, uint16 fontIdx) {
     /* Returns the pixel advance width of a single character. stringWidth()
      * sums this over a string to centre text, so it MUST agree with the
      * x-advance gfx_drawString uses (wt[ch-0x20]); otherwise centred text
@@ -786,9 +786,9 @@ int FAR CDECL gfx_setFont(uint16 ch, uint16 fontIdx) {
     if (!wt || ch < 0x20) return 8;
     return wt[ch - 0x20];
 }
-int FAR CDECL gfx_getAuxBufSize(void) { return 0x1950; }
-int FAR CDECL gfx_getFreeMem(void) {
-    /* Slot 0x32: DOS free-memory probe (INT 21h/AH=48h, BX=0xFFFF -> largest
+int16 FAR CDECL gfx_getAuxBufSize(void) { return 0x1950; }
+int16 FAR CDECL gfx_getFreeMem(void) {
+    /* Slot 0x32: DOS free-memory probe (int16 21h/AH=48h, BX=0xFFFF -> largest
      * free block in paragraphs). Stubbed to 0 in NO_ASM; takes no args despite
      * the old "fontSetup" mislabel. */
     return 0;
@@ -806,7 +806,7 @@ void FAR CDECL gfx_fillRow2(uint16 x, uint16 y) {
 }
 void FAR CDECL gfx_nop36(void) { return; }
 void FAR CDECL gfx_nop37(void) { return; }
-void FAR CDECL gfx_setFadeSteps(int steps) {
+void FAR CDECL gfx_setFadeSteps(int16 steps) {
     (void)steps;
     return;
 }
@@ -817,35 +817,35 @@ void FAR CDECL gfx_setFadeSteps(int steps) {
  * transposed the result (col*320+row instead of row*320+col), which left the
  * main viewport correct (origin 0,0) but transposed every sub-window — the
  * middle MFD's −32x/+32y offset and the left/right MFD misplacement. */
-int FAR CDECL gfx_calcRowAddr(int col, int row) {
+int16 FAR CDECL gfx_calcRowAddr(int16 col, int16 row) {
     GfxState FAR *s = gfx_getState();
-    if (!s->rowOffsetsReady) return (int)(row * 320 + col);
-    return (int)(s->rowOffsets[row] + col);
+    if (!s->rowOffsetsReady) return (int16)(row * 320 + col);
+    return (int16)(s->rowOffsets[row] + col);
 }
 /* Slots 0x40/0x41: MGRAPHIC stores the arg to absolute 0000:0x00CC / 0x00CE — a
- * 4-byte scratch (the unused INT 0x33 vector) the overlay's clip/draw paths read
+ * 4-byte scratch (the unused int16 0x33 vector) the overlay's clip/draw paths read
  * back as the active clip rectangle. setupViewport calls setOvlVal2(width-1). */
-void FAR CDECL gfx_setOvlVal1(int val) {
+void FAR CDECL gfx_setOvlVal1(int16 val) {
     *(uint16 FAR *)MK_FP(0, 0xCC) = (uint16)val;
     return;
 }
-void FAR CDECL gfx_setOvlVal2(int val) {
+void FAR CDECL gfx_setOvlVal2(int16 val) {
     *(uint16 FAR *)MK_FP(0, 0xCE) = (uint16)val;
     return;
 }
-int FAR CDECL gfx_getPresetOffset1(void) {
+int16 FAR CDECL gfx_getPresetOffset1(void) {
     return 0x5580; /* baked constant — NOT live blitOffset (that is slot 0x1e) */
 }
-int FAR CDECL gfx_getModeFlag(void) {
+int16 FAR CDECL gfx_getModeFlag(void) {
     GfxState FAR *s = gfx_getState();
-    return (int)s->modeFlag;
+    return (int16)s->modeFlag;
 }
-int FAR CDECL gfx_getModeFlag2(void) {
+int16 FAR CDECL gfx_getModeFlag2(void) {
     GfxState FAR *s = gfx_getState();
-    return (int)s->modeFlag;
+    return (int16)s->modeFlag;
 }
-int FAR CDECL gfx_getVal(uint16 val) { return (int)val; }
-int FAR CDECL gfx_getVal2(uint16 val) { return (int)val; }
+int16 FAR CDECL gfx_getVal(uint16 val) { return (int16)val; }
+int16 FAR CDECL gfx_getVal2(uint16 val) { return (int16)val; }
 void FAR CDECL gfx_setDacAnimCount(uint16 count) {
     GfxState FAR *s = gfx_getState();
     s->dacCounter = (uint8)count;
@@ -892,13 +892,13 @@ void gfx_blitCore_impl(int16 *blk) {
     GfxState FAR *s = gfx_getState();
     uint16 srcSeg = (uint16)blk[0];
     uint16 srcCol = (uint16)blk[1];
-    int srcRow = blk[2];
+    int16 srcRow = blk[2];
     uint16 dstSeg;
     uint16 dstCol = (uint16)blk[4];
-    int dstRow = blk[5];
-    int w = blk[6];
-    int h = blk[7];
-    int row, col;
+    int16 dstRow = blk[5];
+    int16 w = blk[6];
+    int16 h = blk[7];
+    int16 row, col;
     if (blk[3] < 0 || blk[3] >= 16) return;
     dstSeg = s->pageSegs[blk[3]];
     for (row = 0; row < h; row++) {
@@ -940,20 +940,20 @@ void FAR CDECL gfx_clipBottom(void) { return; }
  * Those leading iterations never draw, so we fast-forward over them, advancing
  * the iteration index `t` so the thickness counter keeps the exact same phase as
  * the naive loop would have at the first in-window row. */
-static const int g_ladderGeom[12] = {
+static const int16 g_ladderGeom[12] = {
     71, 248, 120, 200, 26, 26, 68, 68, 86, 86, 98, 98};
 
-void gfx_complexRender_impl(int bxArg, int dxArg, int cxArg, int siArg) {
+void gfx_complexRender_impl(int16 bxArg, int16 dxArg, int16 cxArg, int16 siArg) {
     GfxState FAR *s = gfx_getState();
     uint8 far *page;
     uint8 color = 0x0f;
-    int dir; /* +1 (SI!=0, cld) or -1 (SI==0, std) */
-    int wi;  /* word index into the geometry table */
+    int16 dir; /* +1 (SI!=0, cld) or -1 (SI==0, std) */
+    int16 wi;  /* word index into the geometry table */
     uint16 base, loY, hiY;
     uint16 bx;
     long t; /* 1-based iteration index of the naive MGRAPHIC loop */
-    int cl = cxArg & 0xff;
-    int dl = dxArg & 0xff;
+    int16 cl = cxArg & 0xff;
+    int16 dl = dxArg & 0xff;
 
     dir = (siArg == 0) ? -1 : 1; /* set from the ORIGINAL si (before +=4) */
     bx = (uint16)(bxArg - 1);
@@ -973,7 +973,7 @@ void gfx_complexRender_impl(int bxArg, int dxArg, int cxArg, int siArg) {
      * garbage loY of 0 makes the unsigned `bx < loY` never true, so the loop
      * never terminates and the flight freezes on the first HUD frame. */
     {
-        int FAR *geom = (int FAR *)MK_FP(s->f15DataSeg, PTR_OFF(g_ladderGeom));
+        int16 FAR *geom = (int16 FAR *)MK_FP(s->f15DataSeg, PTR_OFF(g_ladderGeom));
         base = (uint16)geom[wi];
         loY = (uint16)geom[wi + 4];
         hiY = (uint16)geom[wi + 8];
@@ -993,9 +993,9 @@ void gfx_complexRender_impl(int bxArg, int dxArg, int cxArg, int siArg) {
     }
 
     for (;; t++) {
-        int phase, thickness;
+        int16 phase, thickness;
         if (bx < loY) break;           /* unsigned, matches `jc` */
-        phase = (int)((t - 1L) % 10L); /* thickness counter: 1..10 phase */
+        phase = (int16)((t - 1L) % 10L); /* thickness counter: 1..10 phase */
         thickness = (phase == 0) ? 10 : phase;
         if (bx <= hiY) { /* `ja` skips the store when bx>hiY */
             uint16 dstOff = (uint16)(s->rowOffsets[bx] + base);
@@ -1031,10 +1031,10 @@ void FAR CDECL gfx_setBlitOffset3(void) {
     return;
 }
 void FAR CDECL gfx_setBlitOffsetReg(void) { return; }       /* reg-called stub: blitOffset=AX, no shim yet */
-int FAR CDECL gfx_getPresetOffset2(void) { return 0x1950; } /* baked constant 0x1950 */
-int FAR CDECL gfx_getBlitOffset(void) {
+int16 FAR CDECL gfx_getPresetOffset2(void) { return 0x1950; } /* baked constant 0x1950 */
+int16 FAR CDECL gfx_getBlitOffset(void) {
     GfxState FAR *s = gfx_getState();
-    return (int)s->blitOffset;
+    return (int16)s->blitOffset;
 }
 void FAR CDECL gfx_plotPixel(void) { return; } /* stub: real 0x24 plots one pixel at cached [0x1b6e]/[0x1b70] */
 void FAR CDECL gfx_storePageSeg(void) { return; }
@@ -1125,7 +1125,7 @@ void FAR CDECL gfx_dacCycle(void) {
     return;
 }
 void FAR CDECL gfx_setPageBuf(void) { return; }
-int FAR CDECL gfx_getConst1(void) { return 1; } /* baked constant 1 (cs:0x1d8 in MGRAPHIC) */
+int16 FAR CDECL gfx_getConst1(void) { return 1; } /* baked constant 1 (cs:0x1d8 in MGRAPHIC) */
 
 /* ---- Slot function pointer table (84 entries, slots 0x00–0x53) ---- */
 /* MSC 5.1 forbids cast expressions in static initializers (C2097), so this
@@ -1224,7 +1224,7 @@ static void fillSlotTable(void) {
  * start/end slot stubs to far-jump into f15.exe's gfx functions. */
 void gfx_buildVirtualOverlay(uint16 ovlSeg) {
     uint16 codeSeg;
-    int i;
+    int16 i;
     uint16 FAR *base;
     GfxState FAR *s;
 
@@ -1235,7 +1235,7 @@ void gfx_buildVirtualOverlay(uint16 ovlSeg) {
      * In small model, FAR functions still reside in the one code segment (CS),
      * so FP_SEG of any FAR function pointer gives CS. */
     {
-        typedef int(FAR * FarFn)(void);
+        typedef int16(FAR * FarFn)(void);
         FarFn fp = (FarFn)gfx_allocPage;
         codeSeg = FP_SEG(fp);
     }
@@ -1291,7 +1291,7 @@ void gfx_buildVirtualOverlay(uint16 ovlSeg) {
  * =================================================================== */
 
 /* Generic no-op far slot (return value lands in AX). */
-int FAR CDECL ovl_nop(void) { return 0; }
+int16 FAR CDECL ovl_nop(void) { return 0; }
 
 /* Misc/input slots (0x5a-0x5f), reimplemented faithfully from MISC.EXE so the
  * pure-DOS build has working keyboard input without loading MISC.EXE.
@@ -1307,25 +1307,25 @@ int FAR CDECL ovl_nop(void) { return 0; }
  * AH=01h sets ZF when empty, but int86() does not expose ZF — so test the
  * BIOS keyboard buffer head/tail (0040:001A / 0040:001C), which is exactly
  * what AH=01h inspects (equal => empty). */
-int FAR CDECL miscStub_keybuf(void) {
+int16 FAR CDECL miscStub_keybuf(void) {
     uint16 FAR *head = (uint16 FAR *)MK_FP(0x40, 0x1a);
     uint16 FAR *tail = (uint16 FAR *)MK_FP(0x40, 0x1c);
-    return (*head == *tail) ? (int)0xFFFF : 0;
+    return (*head == *tail) ? (int16)0xFFFF : 0;
 }
 
 /* Slot 0x5b: return the raw BIOS keystroke (AH=scancode, AL=ascii). Blocks
  * until a key is available, matching the original. */
-int FAR CDECL miscStub_getkey(void) {
+int16 FAR CDECL miscStub_getkey(void) {
     union REGS r;
     r.h.ah = 0;
     int86(0x16, &r, &r);
-    return (int)r.x.ax;
+    return (int16)r.x.ax;
 }
 
-int FAR CDECL miscStub_readJoy(void) { return 0; }
+int16 FAR CDECL miscStub_readJoy(void) { return 0; }
 
 /* Slot 0x5e: clear the active-modifier low nibble of the BDA shift-flags byte. */
-int FAR CDECL miscStub_clearKeyFlags(void) {
+int16 FAR CDECL miscStub_clearKeyFlags(void) {
     uint8 FAR *flags = (uint8 FAR *)MK_FP(0x40, 0x17);
     *flags &= 0xf0;
     return 0;
@@ -1339,7 +1339,7 @@ static void buildStubOverlay(uint16 ovlSeg, uint16 firstIdx, uint16 count,
     uint16 i;
     uint16 FAR *base;
     {
-        typedef int(FAR * FarFn)(void);
+        typedef int16(FAR * FarFn)(void);
         FarFn fp = (FarFn)ovl_nop;
         codeSeg = FP_SEG(fp);
     }
@@ -1367,7 +1367,7 @@ void gfx_buildMiscOverlay(uint16 ovlSeg) {
 
 void gfx_buildSoundOverlay(uint16 ovlSeg) {
     GfxSlotFn fns[10]; /* slots 0x64-0x6d, all no-op (no sound) */
-    int i;
+    int16 i;
     for (i = 0; i < 10; i++)
         fns[i] = (GfxSlotFn)ovl_nop;
     buildStubOverlay(ovlSeg, 0x64, 10, fns);

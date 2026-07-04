@@ -41,10 +41,10 @@ typedef struct {
 } GfxState;
 
 /* Near function pointer type for the gfx slot table */
-typedef int (*GfxSlotFn)(void);
+typedef int16 (*GfxSlotFn)(void);
 
 /* Far function pointer type for the slot trampoline table */
-typedef int(FAR *GfxFarFn)(void);
+typedef int16(FAR *GfxFarFn)(void);
 
 /* 84-entry slot table used by f15.exe to call gfx functions directly and to
  * fill the virtual overlay's slot_offsets[] array at startup */

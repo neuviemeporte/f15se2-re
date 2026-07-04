@@ -5,9 +5,9 @@
 #include "enworld.h"
 
 /* Private helpers for this translation unit. */
-void loadWorldData(void *destOffset, int size);
-void readFromWorldBuf(void *dest, int size, int count, FILE *bufHandle);
-void writeToWorldBuf(void *dest, int size, int count, FILE *bufHandle);
+void loadWorldData(void *destOffset, int16 size);
+void readFromWorldBuf(void *dest, int16 size, int16 count, FILE *bufHandle);
+void writeToWorldBuf(void *dest, int16 size, int16 count, FILE *bufHandle);
 
 void readWorldData(void) {
     loadWorldData(&worldWaypointCount, 2);
@@ -28,7 +28,7 @@ void readWorldData(void) {
     loadWorldData(flightDataBuf, 0x600);
 }
 
-void loadWorldData(void *destOffset, int size) {
+void loadWorldData(void *destOffset, int16 size) {
     if (worldDataReady != 0) {
         readFromWorldBuf(destOffset, size, 1, worldBufHandle);
     } else {
@@ -36,18 +36,18 @@ void loadWorldData(void *destOffset, int size) {
     }
 }
 
-void readFromWorldBuf(void *dest, int size, int count, FILE *bufHandle) {
+void readFromWorldBuf(void *dest, int16 size, int16 count, FILE *bufHandle) {
     char far *farDest;
-    register int totalSize;
+    register int16 totalSize;
     farDest = (char far *)dest;
     totalSize = size * count;
     movedata(worldBufSegment, worldBufOffset, FP_SEG(farDest), FP_OFF(farDest), totalSize);
     worldBufOffset += totalSize;
 }
 
-void writeToWorldBuf(void *dest, int size, int count, FILE *bufHandle) {
+void writeToWorldBuf(void *dest, int16 size, int16 count, FILE *bufHandle) {
     char far *farDest;
-    register int totalSize;
+    register int16 totalSize;
     farDest = (char far *)dest;
     totalSize = size * count;
     movedata(FP_SEG(farDest), FP_OFF(farDest), worldBufSegment, worldBufOffset, totalSize);

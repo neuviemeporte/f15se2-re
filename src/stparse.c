@@ -12,7 +12,7 @@
 /* Private helpers for this translation unit. */
 void parseTerrain(char *dest);
 void parseGrid();
-int showMsgWaitKey(const char *);
+int16 showMsgWaitKey(const char *);
 void replaceExtension(char *dest, const char *source);
 
 void parseGridTerrain(void) {
@@ -65,7 +65,7 @@ void parseTerrain(char *filename) {
 
 /* ---- merged from stgrid.c ---- */
 void parseGrid() {
-    int idx;
+    int16 idx;
     replaceExtension(regnPlhPtr, ".3dG");
     if ((fileHandle = fopen(regnPlhPtr, "rb")) == 0) {
         showMsgWaitKey("Open Error on *.3DG, assuming new file !");
@@ -94,7 +94,7 @@ void parseGrid() {
     fclose(fileHandle);
 }
 
-int showMsgWaitKey(const char *msg) {
+int16 showMsgWaitKey(const char *msg) {
     doNothing2(msg, 0, 96, 0x0f);
     return getch();
 }

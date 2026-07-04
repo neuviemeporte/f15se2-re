@@ -19,7 +19,7 @@ uint16 dos_alloc(uint16 size) {
 }
 
 /* file_close.inc: Close file handle */
-void fileClose(int handle) {
+void fileClose(int16 handle) {
     union REGS r;
     r.h.ah = 0x3E;
     r.x.bx = handle;
@@ -27,7 +27,7 @@ void fileClose(int handle) {
 }
 
 /* file_open.inc: Open file, returns handle or -1 on error */
-int openFile(const char *filename, int mode) {
+int16 openFile(const char *filename, int16 mode) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x3D;
@@ -50,7 +50,7 @@ void dos_printstring(const char *str) {
 }
 
 /* file_write.inc: Write to file */
-int writeFileAtRaw(int handle, const void far *buf, uint16 count) {
+int16 writeFileAtRaw(int16 handle, const void far *buf, uint16 count) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x40;
@@ -64,7 +64,7 @@ int writeFileAtRaw(int handle, const void far *buf, uint16 count) {
 }
 
 /* dos_free: Free DOS memory block (INT 21h/49h) */
-int dos_free(int segment) {
+int16 dos_free(int16 segment) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x49;
@@ -75,7 +75,7 @@ int dos_free(int segment) {
 }
 
 /* createFile: Create or truncate file (INT 21h/3Ch) */
-int createFile(const char *filename, int attr) {
+int16 createFile(const char *filename, int16 attr) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x3C;
@@ -88,7 +88,7 @@ int createFile(const char *filename, int attr) {
 }
 
 /* readFile: Read from file into DS-relative buffer (INT 21h/3Fh) */
-int readFile(int handle, int count, int bufOffset) {
+int16 readFile(int16 handle, int16 count, int16 bufOffset) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x3F;
@@ -102,7 +102,7 @@ int readFile(int handle, int count, int bufOffset) {
 }
 
 /* readFileAt: Read from file into specific segment:offset (INT 21h/3Fh) */
-int readFileAt(int handle, int count, int offset, int segment) {
+int16 readFileAt(int16 handle, int16 count, int16 offset, int16 segment) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x3F;
@@ -116,7 +116,7 @@ int readFileAt(int handle, int count, int offset, int segment) {
 }
 
 /* writeFile: Write to file from specific segment:offset (INT 21h/40h) */
-int writeFile(int handle, int count, int offset, int segment, int unused) {
+int16 writeFile(int16 handle, int16 count, int16 offset, int16 segment, int16 unused) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x40;
@@ -130,7 +130,7 @@ int writeFile(int handle, int count, int offset, int segment, int unused) {
 }
 
 /* file_read512.inc: Read 512 bytes from file - stub */
-int read512FromFileIntoBuf(void) {
+int16 read512FromFileIntoBuf(void) {
     return 0;
 }
 

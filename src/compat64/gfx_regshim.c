@@ -30,27 +30,27 @@
 /* register-call shim bodies (cdecl) live in gfx_impl.c */
 extern void gfx_clearPage_impl(uint16 seg);
 extern void gfx_setCurPageSeg_impl(uint16 seg);
-extern int gfx_getRowOffset_impl(int y);
-extern int gfx_getPageSeg_impl(uint16 page);
+extern int16 gfx_getRowOffset_impl(int16 y);
+extern int16 gfx_getPageSeg_impl(uint16 page);
 extern void gfx_fillRow_impl(uint16 rowOffset, uint16 srcBuf, uint16 rowNum);
 extern void gfx_copyRow_impl(uint16 rowOffset);
-extern int gfx_setPage1_impl(uint16 page);
-extern int gfx_getCurPageSeg_impl(void);
+extern int16 gfx_setPage1_impl(uint16 page);
+extern int16 gfx_getCurPageSeg_impl(void);
 extern void gfx_setFillColor_impl(uint16 color);
 extern void gfx_dirtyRectFill_impl(uint16 minBufOff, uint16 yMin, uint16 yMax);
 extern void gfx_drawLine_impl(uint16 ux1, uint16 uy1, uint16 ux2, uint16 uy2);
-extern void gfx_drawStringClipped_impl(int16 *params, const char *string, int mode);
+extern void gfx_drawStringClipped_impl(int16 *params, const char *string, int16 mode);
 extern void gfx_blitCore_impl(int16 *blk);
-extern void gfx_complexRender_impl(int bxArg, int dxArg, int cxArg, int siArg);
+extern void gfx_complexRender_impl(int16 bxArg, int16 dxArg, int16 cxArg, int16 siArg);
 
 void FAR CDECL gfx_clearPage(void) { gfx_clearPage_impl(0); }
 void FAR CDECL gfx_setCurPageSeg(void) { gfx_setCurPageSeg_impl(0); }
-int FAR CDECL gfx_getRowOffset(void) { return gfx_getRowOffset_impl(0); }
-int FAR CDECL gfx_getPageSeg(void) { return gfx_getPageSeg_impl(0); }
+int16 FAR CDECL gfx_getRowOffset(void) { return gfx_getRowOffset_impl(0); }
+int16 FAR CDECL gfx_getPageSeg(void) { return gfx_getPageSeg_impl(0); }
 void FAR CDECL gfx_fillRow(void) { gfx_fillRow_impl(0, 0, 0); }
 void FAR CDECL gfx_copyRow(void) { gfx_copyRow_impl(0); }
 void FAR CDECL gfx_setPage1(void) { gfx_setPage1_impl(0); }
-int FAR CDECL gfx_getCurPageSeg(void) { return gfx_getCurPageSeg_impl(); }
+int16 FAR CDECL gfx_getCurPageSeg(void) { return gfx_getCurPageSeg_impl(); }
 void FAR CDECL gfx_setDrawColor(void) { gfx_setFillColor_impl(0); }
 void FAR CDECL gfx_dirtyRect2(void) { gfx_dirtyRectFill_impl(0, 0, 0); }
 /* gfx_drawLine is declared with 4 explicit params in slot.h (register-called in
@@ -71,7 +71,7 @@ void FAR CDECL gfx_complexRender(void) { gfx_complexRender_impl(0, 0, 0, 0); }
 /* getter slots whose gfx_impl.c definitions take args (no (void) overload) */
 /* gfx_getDisplayPage and gfx_getFreeMem are defined (void) in gfx_impl.c — no
  * duplicate needed here */
-int FAR CDECL gfx_getVal(void) { return 0; }
-int FAR CDECL gfx_getVal2(void) { return 0; }
+int16 FAR CDECL gfx_getVal(void) { return 0; }
+int16 FAR CDECL gfx_getVal2(void) { return 0; }
 
 #endif /* !MSDOS */

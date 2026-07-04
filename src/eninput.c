@@ -14,7 +14,7 @@ void clearKeybuf(void) {
 }
 
 void waitForKeyOrJoy(void) {
-    int key;
+    int16 key;
     if (commData->setupUseJoy == 1) {
         do {
             if (misc_checkKeyBuf() == 0) {

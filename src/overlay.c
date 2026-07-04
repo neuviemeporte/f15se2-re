@@ -30,7 +30,7 @@ uint16 overlay_load(const char *filename) {
     size_t freeMem, alloc;
     uint16 ovlSegment, ovlSize;
     struct OvlHeader FAR *ovlHeader = NULL;
-    int err;
+    int16 err;
     freeMem = dos_getfree();
     if (freeMem == 0) {
         LogError(("overlay_load(): unable to determine amount of free memory"));

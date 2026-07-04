@@ -21,10 +21,10 @@
 
 /* Private helpers for this translation unit. */
 void waitJoyKey(void);
-int joyOrKey();
-void drawLine(const int16 *pageNum, int x1, int y1, int x2, int y2, int color);
-int missionMenuSelect(const char **names, const char **desc, const char *title, int s);
-void animateArm(int, int);
+int16 joyOrKey();
+void drawLine(const int16 *pageNum, int16 x1, int16 y1, int16 x2, int16 y2, int16 color);
+int16 missionMenuSelect(const char **names, const char **desc, const char *title, int16 s);
+void animateArm(int16, int16);
 void clearBriefing(void);
 
 void clearKeybuf() {
@@ -37,7 +37,7 @@ void waitJoyKey(void) {
     while (joyOrKey() == 0) {}
 }
 
-int joyOrKey() {
+int16 joyOrKey() {
     if (commData->setupUseJoy == 1) {
         if (misc_readJoystick(0) != 0) {
             return 1;
@@ -71,7 +71,7 @@ void waitMdaCgaStatus(int16 iter) {
     }
 }
 
-void drawLine(const int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
+void drawLine(const int16 *pageNum, int16 x1, int16 y1, int16 x2, int16 y2, int16 color) {
     gfx_setPageN(*pageNum);
     gfx_setColor(color);
     lineX1 = x1;
@@ -83,7 +83,7 @@ void drawLine(const int16 *pageNum, int x1, int y1, int x2, int y2, int color) {
 }
 
 void showPic640(const char *filename) {
-    int fileHandle;
+    int16 fileHandle;
     intRegs[1] = INT_VID_MODESET;
     intRegs[0] = MODE_640_350;
     intDispatch(IRQ_VIDEO, intRegs, intRegs);
@@ -95,7 +95,7 @@ void showPic640(const char *filename) {
 
 /* ---- merged from stmissn.c ---- */
 void missionSelect() {
-    int index, count;
+    int16 index, count;
     gfx_setDac(1);
     gfx_setFadeSteps(0);
     openShowPic("Wall.Pic", *page1NumPtr);
@@ -147,8 +147,8 @@ selectTheater:
     }
 }
 
-int missionMenuSelect(const char **names, const char **desc, const char *title, int selection) {
-    int yPos, row, action;
+int16 missionMenuSelect(const char **names, const char **desc, const char *title, int16 selection) {
+    int16 yPos, row, action;
     Log(("missionMenuSelect(): entering, selection %d", selection));
     enableHighlight = 1;
     page1Desc.color = COLOR_TITLE;
@@ -202,8 +202,8 @@ int missionMenuSelect(const char **names, const char **desc, const char *title, 
     return selection;
 }
 
-void animateArm(int a, int b) {
-    int spriteIdx;
+void animateArm(int16 a, int16 b) {
+    int16 spriteIdx;
     while (timerCounter3 < 6) {}
     timerCounter3 = 0;
     armPosition = b;
@@ -247,7 +247,7 @@ void animateArm(int a, int b) {
     }
 }
 
-int askRepeatMission() {
+int16 askRepeatMission() {
     char keycode;
     page1Desc.color = COLOR_BRIEF_DESC_HL;
     drawStringCentered(page1NumPtr, "Repeat last mission ? (y/n)", 113, 66, 185);
@@ -287,7 +287,7 @@ void missionDecode() {
 }
 
 void printMission() {
-    int armStep;
+    int16 armStep;
     clearBriefing();
     page1Desc.color = COLOR_TITLE;
     drawStringCentered(page1NumPtr, "TODAY'S MISSION", 113, 14, 185);
@@ -355,11 +355,10 @@ printMissionAgain:
     enableHighlight = 1;
 }
 
-int pollMenuInput() {
+int16 pollMenuInput() {
     uint16 key;
     char repeatHold;
-    int joy1;
-    int joy0;
+    int16 joy1, joy0;
     joy0 = joy1 = 0;
     repeatHold = 0;
     if (joyRepeatFlag == 1) {

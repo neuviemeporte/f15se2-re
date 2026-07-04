@@ -9,9 +9,9 @@
 #include <dos.h>
 
 /* Private helpers for this translation unit. */
-uint16 dos_alloc(int sz);
+uint16 dos_alloc(int16 sz);
 
-uint16 allocBuffer(int size) {
+uint16 allocBuffer(int16 size) {
     uint16 segment;
     Log(("allocBuffer(): Allocating buffer of size %u", size));
     if ((segment = dos_alloc(size)) < DOS_ERROR_RMDIR) {

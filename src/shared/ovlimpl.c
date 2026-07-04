@@ -10,7 +10,7 @@
 #include <dos.h>
 #include <conio.h>
 
-static int g_keyCalls = 0;
+static int16 g_keyCalls = 0;
 static void ovldbg(const char *msg) {
     FILE *f = fopen("NOASM.LOG", "a");
     if (f) {
@@ -25,7 +25,7 @@ extern uint8 exitCode;
 extern int16 fileHandle;
 
 /* Misc input overlay slots - real DOS keyboard I/O */
-int far cdecl misc_checkKeyBuf(void) {
+int16 far cdecl misc_checkKeyBuf(void) {
     /* Return 0 if a key is waiting, 0xFFFF if the buffer is empty.
      * Read the BIOS keyboard buffer head/tail (0040:001A / 0040:001C)
      * directly, matching the original MISC.EXE slot 0x5a. The C runtime's
@@ -38,7 +38,7 @@ int far cdecl misc_checkKeyBuf(void) {
         return 0;
     return 0xFFFF;
 }
-int far cdecl misc_getKey(void) { /* Original: GetKey. Blocking BIOS read: scan code in AH, ASCII in AL. */
+int16 far cdecl misc_getKey(void) { /* Original: GetKey. Blocking BIOS read: scan code in AH, ASCII in AL. */
     enum { BIOS_KEYBOARD_INT = 0x16,
            BIOS_READ_KEY = 0x00 };
     union REGS biosRegs;
@@ -46,10 +46,10 @@ int far cdecl misc_getKey(void) { /* Original: GetKey. Blocking BIOS read: scan 
     int86(BIOS_KEYBOARD_INT, &biosRegs, &biosRegs);
     return biosRegs.x.ax;
 }
-int far cdecl misc_readJoystick(int16 param) { return 0; }
+int16 far cdecl misc_readJoystick(int16 param) { return 0; }
 void far cdecl misc_clearKeyFlags(void) { ovldbg("clearKeyFlags"); }
 
 /* Audio overlay slots */
-int far cdecl audio_setup(int16 a, int16 b) { return 0; }
-int far cdecl audio_shutdown(void) { return 0; }
-int far cdecl audio_playIntro(void) { return 0; }
+int16 far cdecl audio_setup(int16 a, int16 b) { return 0; }
+int16 far cdecl audio_shutdown(void) { return 0; }
+int16 far cdecl audio_playIntro(void) { return 0; }

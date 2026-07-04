@@ -27,8 +27,8 @@ extern GfxFarFn gfxFarTableExported[84];
 
 void FAR CDECL gfx_drawLine(uint16 x1, uint16 y1, uint16 x2, uint16 y2) { ((void(FAR *)(uint16, uint16, uint16, uint16))gfxFarTableExported[31])(x1, y1, x2, y2); }
 
-void FAR CDECL gfx_dirtyRect(int16 *spanBuf, int yMin, int yMax) { ((void(FAR *)(int16 *, int, int))gfxFarTableExported[37])(spanBuf, yMin, yMax); }
+void FAR CDECL gfx_dirtyRect(int16 *spanBuf, int16 yMin, int16 yMax) { ((void(FAR *)(int16 *, int16, int16))gfxFarTableExported[37])(spanBuf, yMin, yMax); }
 
-void FAR CDECL gfx_drawGlyphStr(int16 *desc, const char *str, int slot) { ((void(FAR *)(int16 *, const char *, int))gfxFarTableExported[slot])(desc, str, 0); }
+void FAR CDECL gfx_drawGlyphStr(int16 *desc, const char *str, int16 slot) { ((void(FAR *)(int16 *, const char *, int16))gfxFarTableExported[slot])(desc, str, 0); }
 
 void FAR CDECL gfx_setCurPageSegReg(uint16 seg) { ((void(FAR *)(uint16))gfxFarTableExported[15])(seg); }

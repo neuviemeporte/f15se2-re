@@ -20,13 +20,11 @@
 void initGraphics(void);
 void checkQuitFlag(void);
 
-int main(void) {
-    int spriteBufSize;
-    int a;
-    int auxBufSize;
+int16 main(void) {
+    int16 spriteBufSize, a, auxBufSize;
     uint16 far *lowmemPtr;
-    int e;
-    register int commSeg;
+    int16 e;
+    register int16 commSeg;
 
     (void)a;
     (void)e;
@@ -83,7 +81,7 @@ void checkQuitFlag(void) {
 }
 
 void initGraphics(void) {
-    int a, b, c, d, e, f, g, h;
+    int16 a, b, c, d, e, f, g, h;
     (void)a;
     (void)b;
     (void)c;
