@@ -25,15 +25,15 @@
 #include <string.h>
 
 /* Private helpers for this translation unit. */
-void __cdecl drawStringCentered(int16 *, const char *, int, int, int);
+void drawStringCentered(int16 *, const char *, int16, int16, int16);
 void renderHudFrame();
-int mapXToScreen();
-int mapYToScreen();
-void drawMapLine(int x1, int y1, int x2, int y2);
+int16 mapXToScreen();
+int16 mapYToScreen();
+void drawMapLine(int16 x1, int16 y1, int16 x2, int16 y2);
 void drawColorPoint();
-void drawMapPoint(int, int, int);
-void __cdecl drawPanelText(int, const char *, int);
-int readScreenPixel(int screenX, int screenY);
+void drawMapPoint(int16, int16, int16);
+void drawPanelText(int16, const char *, int16);
+int16 readScreenPixel(int16 screenX, int16 screenY);
 
 // ==== seg000:0x8e38 ====
 
@@ -42,8 +42,8 @@ void clearStatusPanel(void) {
 }
 
 // ==== seg000:0x8e50 ====
-void renderHudFrame(int unused) {
-    int climbMarkerY, angleFixed, waypointMarkerX, circleX, angle, circleY, prevX, speedBarLen, prevY, markerX, deltaX, markerY, deltaY;
+void renderHudFrame(int16 unused) {
+    int16 climbMarkerY, angleFixed, waypointMarkerX, circleX, angle, circleY, prevX, speedBarLen, prevY, markerX, deltaX, markerY, deltaY;
     char seekerShift;
     g_drawPage = gfx_getDisplayPage();
     // probably x,y
@@ -157,8 +157,8 @@ void renderHudFrame(int unused) {
 }
 
 // ==== seg000:0x94d0 routine_189 ====
-void setActivePanel(int panelId) {
-    int p, a, b, c, d, e, f, g, h, i;
+void setActivePanel(int16 panelId) {
+    int16 p, a, b, c, d, e, f, g, h, i;
     if (g_hudVisible == 0) {
         return;
     }
@@ -186,8 +186,8 @@ void setActivePanel(int panelId) {
 }
 
 // ==== seg000:0x957a ====
-void refreshActivePanel(int panelId) {
-    int p;
+void refreshActivePanel(int16 panelId) {
+    int16 p;
     if (panelId == g_activePanelMode) {
         setActivePanel(panelId);
     }
@@ -206,7 +206,7 @@ void initTacMapView(void) {
 }
 
 // ==== seg000:0x95c9 ====
-void redrawTacMap(int centerX, int centerY) {
+void redrawTacMap(int16 centerX, int16 centerY) {
     int16 screenX, screenY, idx, c, savedPage;
 
     g_mapMode = 0;
@@ -285,19 +285,18 @@ void zoomOut(void) {
 }
 
 // ==== seg000:0x98fa ====
-int mapXToScreen(int mapX) {
+int16 mapXToScreen(int16 mapX) {
     return ((mapX - g_mapCenterX) >> (10 - g_mapZoomLevel)) + 60;
 }
 
 // ==== seg000:0x9915 ====
-int mapYToScreen(int mapY) {
+int16 mapYToScreen(int16 mapY) {
     return (((mapY - g_mapCenterY) >> (10 - g_mapZoomLevel)) * 3 >> 1 >> 1) + 140;
 }
 
 // ==== seg000:0x993a ====
-int plotMapObject(int mapX, int mapY, int color, int big) {
-    int screenX;
-    int screenY;
+int16 plotMapObject(int16 mapX, int16 mapY, int16 color, int16 big) {
+    int16 screenX, screenY;
     if (g_mapMode != 0 || g_hudVisible == 0) {
         return 0;
     }
@@ -317,7 +316,7 @@ int plotMapObject(int mapX, int mapY, int color, int big) {
 }
 
 // ==== seg000:0x99ec ====
-int objectToScreen(int mapX, int mapY, int16 *outScreenX, int16 *outScreenY) {
+int16 objectToScreen(int16 mapX, int16 mapY, int16 *outScreenX, int16 *outScreenY) {
     if (g_hudVisible == 0) {
         return 0;
     }
@@ -332,13 +331,11 @@ int objectToScreen(int mapX, int mapY, int16 *outScreenX, int16 *outScreenY) {
 }
 
 // ==== seg000:0x9a4d ====
-extern int mapXToScreen(int);
-extern int mapYToScreen(int);
+extern int16 mapXToScreen(int16);
+extern int16 mapYToScreen(int16);
 
-int readMapPixelColor(int mapX, int mapY) {
-    int screenX;
-    int screenY;
-    int color;
+int16 readMapPixelColor(int16 mapX, int16 mapY) {
+    int16 screenX, screenY, color;
     if (g_mapMode != 0) return 0;
     screenX = mapXToScreen(mapX);
     screenY = mapYToScreen(mapY);
@@ -352,14 +349,8 @@ int readMapPixelColor(int mapX, int mapY) {
 }
 
 // ==== seg000:0x9adb ====
-void drawMapRangeArc(int centerX, int centerY, int radius, int color, int connectLines, int startAngle, int endAngle) {
-    int angleFixed;
-    int x;
-    int angle;
-    int prevX;
-    int y;
-    int e;
-    int prevY;
+void drawMapRangeArc(int16 centerX, int16 centerY, int16 radius, int16 color, int16 connectLines, int16 startAngle, int16 endAngle) {
+    int16 angleFixed, x, angle, prevX, y, e, prevY;
 
     if (endAngle < startAngle) {
         startAngle += 0x100;
@@ -386,18 +377,18 @@ void drawMapRangeArc(int centerX, int centerY, int radius, int color, int connec
 }
 
 // ==== seg000:0x9b98 ====
-void drawMapLine(int x1, int y1, int x2, int y2) {
+void drawMapLine(int16 x1, int16 y1, int16 x2, int16 y2) {
     drawClippedLineRegion(mapXToScreen(x1), mapYToScreen(y1), mapXToScreen(x2), mapYToScreen(y2), g_scopeClipLeft, g_scopeClipRight, g_scopeClipTop, g_scopeClipBottom, 1);
 }
 
 // ==== seg000:0x9be1 ====
-void drawFullscreenLine(int x1, int y1, int x2, int y2) {
+void drawFullscreenLine(int16 x1, int16 y1, int16 x2, int16 y2) {
     drawClippedLineRegion(x1, y1, x2, y2, 0, 319, 0, 199, 1);
 }
 
 // ==== seg000:0x9c0c ====
-void drawViewportLine(int x1, int y1, int x2, int y2) {
-    int height, width;
+void drawViewportLine(int16 x1, int16 y1, int16 x2, int16 y2) {
+    int16 height, width;
 
     width = g_pageFront[10] - g_pageFront[9] + 1;
     height = g_pageFront[8] - g_pageFront[7] + 1;
@@ -414,8 +405,8 @@ void drawViewportLine(int x1, int y1, int x2, int y2) {
 }
 
 // ==== seg000:0x9c84 ====
-void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int clipRight, int clipTop, int clipBottom, int drawBothPages) {
-    int height, width;
+void drawClippedLineRegion(int16 x1, int16 y1, int16 x2, int16 y2, int16 clipLeft, int16 clipRight, int16 clipTop, int16 clipBottom, int16 drawBothPages) {
+    int16 height, width;
 
     width = clipRight - clipLeft + 1;
     height = clipBottom - clipTop + 1;
@@ -447,12 +438,12 @@ void drawClippedLineRegion(int x1, int y1, int x2, int y2, int clipLeft, int cli
 }
 
 // ==== seg000:0x9d86 ====
-void drawScreenLineOnePage(int x1, int y1, int x2, int y2) {
+void drawScreenLineOnePage(int16 x1, int16 y1, int16 x2, int16 y2) {
     drawClippedLineRegion(x1, y1, x2, y2, 0, 319, 0, 199, 0);
 }
 
 // ==== seg000:0x9db0 ====
-void drawHudViewLine(int x1, int y1, int x2, int y2) {
+void drawHudViewLine(int16 x1, int16 y1, int16 x2, int16 y2) {
     if (g_halfScaleRender != 0) {
         if (gameData->unk4 < 2) {
             drawViewportLine(x1, y1, x2, y2);
@@ -467,31 +458,31 @@ void drawHudViewLine(int x1, int y1, int x2, int y2) {
 }
 
 // ==== seg000:0x9e44 ====
-void setDrawColor(int color) {
+void setDrawColor(int16 color) {
     g_pageFront[2] = color;
     g_pageBack[2] = color;
 }
 
 // ==== seg000:0x9e5d ====
-void fillRectBoth(int x1, int y1, int x2, int y2) {
+void fillRectBoth(int16 x1, int16 y1, int16 x2, int16 y2) {
     fillSpanRect(g_pageFront, x1, y1, x2, y2);
     fillSpanRect(g_pageBack, x1, y1, x2, y2);
 }
 
 // ==== seg000:0x9e94 ====
-void drawColorPoint(int screenX, int screenY, int color) {
+void drawColorPoint(int16 screenX, int16 screenY, int16 color) {
     setDrawColor(color);
     drawFullscreenLine(screenX, screenY, screenX, screenY);
 }
 
 // ==== seg000:0x9ea0 ====
-void drawMapPoint(int x, int y, int color) {
+void drawMapPoint(int16 x, int16 y, int16 color) {
     setDrawColor(color);
     drawFullscreenLine(x, y, x, y);
 }
 
 // ==== seg000:0x9eb6 ====
-void switchIndicatorColor(int indicatorIdx, int color) {
+void switchIndicatorColor(int16 indicatorIdx, int16 color) {
     if (g_hudVisible == 0) goto done;
     if (*(g_tacmapIndicators + indicatorIdx * 5 + 7) != color) {
         gfx_switchColor(g_pageFront, *(g_tacmapIndicators + indicatorIdx * 5 + 3), *(g_tacmapIndicators + indicatorIdx * 5 + 4), *(g_tacmapIndicators + indicatorIdx * 5 + 5), *(g_tacmapIndicators + indicatorIdx * 5 + 6), *(g_tacmapIndicators + indicatorIdx * 5 + 7), color);
@@ -502,13 +493,13 @@ done:;
 }
 
 // ==== seg000:0x9fad ====
-void drawPanelText(int panel, const char *text, int color) {
+void drawPanelText(int16 panel, const char *text, int16 color) {
     fillPanelBox(panel, color);
     drawCenteredLabelBox(panel, text);
 }
 
 // ==== seg000:0x9fcc ====
-void fillPanelBox(int panelId, int color) {
+void fillPanelBox(int16 panelId, int16 color) {
     setDrawColor(color);
     if (panelId == 1) {
         fillRectBoth(24, 112, 96, 168);
@@ -522,13 +513,13 @@ void fillPanelBox(int panelId, int color) {
 }
 
 // ==== seg000:0xa0cb ====
-void drawStringBothPages(const char *text, int screenX, int screenY, int color) {
+void drawStringBothPages(const char *text, int16 screenX, int16 screenY, int16 color) {
     drawStringCentered(g_pageFront, text, screenX, screenY, color);
     drawStringCentered(g_pageBack, text, screenX, screenY, color);
 }
 
 // ==== seg000:0xa0fe ====
-void drawStringActivePage(const char *text, int screenX, int screenY, int color) {
+void drawStringActivePage(const char *text, int16 screenX, int16 screenY, int16 color) {
     if (g_drawPage == 0) {
         drawStringCentered(g_pageFront, text, screenX, screenY, color);
     } else {
@@ -537,7 +528,7 @@ void drawStringActivePage(const char *text, int screenX, int screenY, int color)
 }
 
 // ==== seg000:0xa13a ====
-void drawStringCentered(int16 *strStruct, const char *text, int screenX, int screenY, int color) {
+void drawStringCentered(int16 *strStruct, const char *text, int16 screenX, int16 screenY, int16 color) {
     strStruct[6] = 0;
     strStruct[4] = screenX;
     strStruct[5] = screenY;
@@ -550,14 +541,14 @@ void drawStringCentered(int16 *strStruct, const char *text, int screenX, int scr
 }
 
 // ==== seg000:0xa183 ====
-void drawNumber(int value, int x, int y, int color) {
+void drawNumber(int16 value, int16 x, int16 y, int16 color) {
     char buf[20];
     itoa(value, buf, 10);
     drawStringBothPages(buf, x, y, color);
 }
 
 // ==== seg000:0xa1b1 ====
-int readScreenPixel(int screenX, int screenY) {
+int16 readScreenPixel(int16 screenX, int16 screenY) {
     regs.h.ah = 0x0D;
     g_biosPixelX = screenX;
     g_biosPixelY = screenY;
@@ -579,6 +570,6 @@ void setTimedMessage(char *message) {
 }
 
 // ==== seg000:0xa224 ====
-int missileTargetCompat(int weaponType, int objIdx) {
-    return (int)(char)g_targetCompatTable[weaponType * 13 + ((int)(char)g_shapeTargetCategory[g_planeTable.planes[objIdx].nameIndex & 0x7f] & 0xf)];
+int16 missileTargetCompat(int16 weaponType, int16 objIdx) {
+    return (int16)(char)g_targetCompatTable[weaponType * 13 + ((int16)(char)g_shapeTargetCategory[g_planeTable.planes[objIdx].nameIndex & 0x7f] & 0xf)];
 }

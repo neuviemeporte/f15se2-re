@@ -25,7 +25,7 @@
 /* per-frame work reconstructed in their own TUs (egflight/egtacmap/egframe),
  * not surfaced in a header; declared here for the game loop below. */
 void renderFrame(void);
-void renderHudFrame(int unused);
+void renderHudFrame(int16 unused);
 void stepFlightModel(void);
 void updateFrame(void);
 
@@ -51,7 +51,7 @@ void runGameLoop(void) {
     gameMainLoop();
 }
 
-int __cdecl openFile(const char *path, int mode) {
+int16 openFile(const char *path, int16 mode) {
     union REGS r;
     struct SREGS s;
     segread(&s);
@@ -62,7 +62,7 @@ int __cdecl openFile(const char *path, int mode) {
     return r.x.cflag ? -1 : r.x.ax;
 }
 
-int createFile(const char *path, int attr) {
+int16 createFile(const char *path, int16 attr) {
     union REGS r;
     struct SREGS s;
     segread(&s);
@@ -73,14 +73,14 @@ int createFile(const char *path, int attr) {
     return r.x.cflag ? -1 : r.x.ax;
 }
 
-void closeFile(int handle) {
+void closeFile(int16 handle) {
     union REGS r;
     r.h.ah = 0x3E;
     r.x.bx = handle;
     intdos(&r, &r);
 }
 
-int readFile1(int handle, int count, int bufOffset) {
+int16 readFile1(int16 handle, int16 count, int16 bufOffset) {
     union REGS r;
     struct SREGS s;
     segread(&s); /* DS = DGROUP: read into DGROUP:bufOffset */
@@ -92,7 +92,7 @@ int readFile1(int handle, int count, int bufOffset) {
     return r.x.cflag ? -1 : r.x.ax;
 }
 
-int readFile2(int handle, int count, int bufOffset, int bufSegment) {
+int16 readFile2(int16 handle, int16 count, int16 bufOffset, int16 bufSegment) {
     union REGS r;
     struct SREGS s;
     segread(&s);
@@ -105,7 +105,7 @@ int readFile2(int handle, int count, int bufOffset, int bufSegment) {
     return r.x.cflag ? -1 : r.x.ax;
 }
 
-int writeFileAtRaw(int handle, int count, int bufOffset, int bufSegment, int offsetAddend) {
+int16 writeFileAtRaw(int16 handle, int16 count, int16 bufOffset, int16 bufSegment, int16 offsetAddend) {
     union REGS r;
     struct SREGS s;
     segread(&s);
@@ -125,7 +125,7 @@ int writeFileAtRaw(int handle, int count, int bufOffset, int bufSegment, int off
 void setupDac(void) {
     union REGS r;
     struct SREGS s;
-    int i;
+    int16 i;
     segread(&s);
     s.es = s.ds; /* ES:DX = palette table (DGROUP) */
     r.x.ax = 0x1012;

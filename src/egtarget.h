@@ -4,8 +4,8 @@
 
 void updateTargetLock();
 void drawHudWorldOverlay(void);
-int findWaypointEntry(int mapX, int mapY);
-int computeLoftAngle();
-int getTargetSymbol(int wpIdx);
+int16 findWaypointEntry(int16 mapX, int16 mapY);
+int16 computeLoftAngle();
+int16 getTargetSymbol(int16 wpIdx);
 
 #endif /* F15_SE2_EGTARGET */

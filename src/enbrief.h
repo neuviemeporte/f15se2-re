@@ -1,13 +1,13 @@
 #ifndef F15_SE2_ENBRIEF
 #define F15_SE2_ENBRIEF
-/* debrief briefing/scoring/menu (enbrief.c) */
 #include "inttype.h"
 #include "endtypes.h"
+/* debrief briefing/scoring/menu (enbrief.c) */
 
 void animateFlightPath(int16 *gfxPage);
-long calcMissionScore(int param);
-void processMenuItems(MenuItem *items, int unused, int itemCount, int cursorStartX, int cursorStartY, int16 *gfxPage);
-int selectMenuItem(MenuItem *items, int unused, int itemCount, int16 *inputState, int16 *gfxPage);
+long calcMissionScore(int16 param);
+void processMenuItems(MenuItem *items, int16 unused, int16 itemCount, int16 cursorStartX, int16 cursorStartY, int16 *gfxPage);
+int16 selectMenuItem(MenuItem *items, int16 unused, int16 itemCount, int16 *inputState, int16 *gfxPage);
 void computeMissionResult(void);
 
 #endif /* F15_SE2_ENBRIEF */

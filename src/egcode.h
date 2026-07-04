@@ -14,7 +14,7 @@ void restoreCbreakHandler();
 void runGameLoop();
 void gameMainLoop();
 void advanceFrameTick();
-int16 __cdecl drawCenteredLabelBox(int16 panel, const char *text);
+int16 drawCenteredLabelBox(int16 panel, const char *text);
 int16 createFile(const char *path, int16 attr);
 void closeFile(int16 handle);
 int16 readFile1(int16 handle, int16 count, int16 bufOffset);
@@ -42,8 +42,8 @@ int16 far drawClipLineGlobal();
 int16 far flushSpanDirtyRect();
 int16 far resetScanlineSpans();
 int16 far clipAndRasterizeEdge();
-void __cdecl __far setupInstrumentLayoutFar();
-void __cdecl __far drawInstrumentGaugesFar();
+void FAR setupInstrumentLayoutFar();
+void FAR drawInstrumentGaugesFar();
 int16 far initJoystickCalibration();
 void seedJoystickBaseline();
 int16 far readCalibratedJoystick();
@@ -67,7 +67,7 @@ void setTimerTickHook(void(far *fn)(void));
 void far egAdvanceFrameTick(void);
 #endif
 int16 getTimeOfDay();
-int16 __cdecl openFile(const char *path, int16 mode);
+int16 openFile(const char *path, int16 mode);
 
 #ifdef NO_ASM
 void far projectSceneObject(char far *model, int16 yaw, int16 pitch, int16 roll, int16 posX, int16 posY, int16 posZ);

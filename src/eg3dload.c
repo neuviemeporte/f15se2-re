@@ -18,8 +18,8 @@
 #include <string.h>
 
 /* Private helpers for this translation unit. */
-void __cdecl load3D3(char *);
-void __cdecl load3DT(char *);
+void load3D3(char *);
+void load3DT(char *);
 void load3DG();
 
 // ==== seg000:0x2874 ====

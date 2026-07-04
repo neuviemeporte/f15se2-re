@@ -2,7 +2,7 @@
 #define F15_SE2_EGFLIGHT
 /* public interface of egflight.c */
 
-int isqrt(int value);
+int16 isqrt(int16 value);
 void UpdateThrottleState(void);
 void drawFuelGauge(void);
 

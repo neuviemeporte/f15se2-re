@@ -306,7 +306,7 @@ void selectMissile() {
 }
 
 // ==== seg000:0xda35 ====
-void makeSound(int soundId, int priority) {
+void makeSound(int16 soundId, int16 priority) {
     if (priority >= g_axisInputAccum[2]) {
         if (g_ejectState == 0 || priority > 1) {
             audio_playSound(soundId);
@@ -316,7 +316,7 @@ void makeSound(int soundId, int priority) {
 }
 
 // ==== seg000:0xda5f ====
-void playVoiceCue(int weaponIdx) {
+void playVoiceCue(int16 weaponIdx) {
     if (g_axisInputAccum[2] < 2 && g_ejectState == 0 &&
         (unsigned)voiceCueThresholds[weaponIdx] < (unsigned)f15DgtlResult) {
         audio_playSample(weaponIdx);
@@ -347,7 +347,7 @@ void recalcTimeScale(void) {
 
 // ==== seg000:0xdb2b ====
 void setupLodDistances(void) {
-    int lod;
+    int16 lod;
     for (lod = 0; lod < 6; lod++) {
         ((int16 *)(colorLut + 0x10))[lod] = 0x20 << ((char)lod + (char)(g_detailLevel > 2 ? 2 : g_detailLevel));
     }

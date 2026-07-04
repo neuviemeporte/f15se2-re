@@ -9,11 +9,11 @@
 #include "shared/common.h"
 
 /* Private helpers for this translation unit. */
-int dos_free(int segment);
+int16 dos_free(int16 segment);
 void loadPicFromFile(const char *name, uint16 segment);
-void loadPicFromFileAt(const char *name, uint16 segment, int off, int whence);
+void loadPicFromFileAt(const char *name, uint16 segment, int16 off, int16 whence);
 
-uint16 allocBuffer(int size) {
+uint16 allocBuffer(int16 size) {
     uint16 segment;
     segment = dos_alloc(size);
     if (segment < 0x10) {
@@ -33,14 +33,14 @@ void freeBuffer(uint16 segment) {
 }
 
 void loadPicFromFile(const char *name, uint16 segment) {
-    int handle;
+    int16 handle;
     handle = openFileWrapper(name, 0);
     decodePicRaw(handle, segment);
     closeFileWrapper(handle);
 }
 
-void loadPicFromFileAt(const char *name, uint16 segment, int off, int whence) {
-    int handle;
+void loadPicFromFileAt(const char *name, uint16 segment, int16 off, int16 whence) {
+    int16 handle;
     handle = openFileWrapper(name, 0);
     lseek(handle, off, whence);
     decodePic(handle, segment);
@@ -49,7 +49,7 @@ void loadPicFromFileAt(const char *name, uint16 segment, int off, int whence) {
 
 // 1e78
 void showPostMissionAwards(void) {
-    int idx;
+    int16 idx;
     awardPage[3] = 0;
     if (commData->trainingFlag != 0)
         goto done;

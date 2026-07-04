@@ -29,9 +29,9 @@ void stepFlightModel();
 void applyRotationDelta(const int16 *matA, const int16 *matB);
 void computeAttitudeAngles(void);
 void rebuildOrientation();
-unsigned signedRatio16(int, int);
-int valueToAngle(int value);
-int complementAngle(int value);
+unsigned signedRatio16(int16, int16);
+int16 valueToAngle(int16 value);
+int16 complementAngle(int16 value);
 void renderFrame();
 void drawVectorShape(const int16 *shapeData);
 void waitForKeyPress(void);
@@ -181,9 +181,9 @@ switch_break:
         } else {
 
             // temp_si = g_kbdSensitivity + 1;
-            joyAxes[0] = (unsigned char)(((int)((unsigned char)g_joyRawX - 0x80) * (g_kbdSensitivity + 1)) / 3) - 0x80;
+            joyAxes[0] = (unsigned char)(((int16)((unsigned char)g_joyRawX - 0x80) * (g_kbdSensitivity + 1)) / 3) - 0x80;
 
-            joyAxes[1] = (unsigned char)(((int)((unsigned char)g_joyRawY - 0x80) * (g_kbdSensitivity + 1)) / 3) - 0x80;
+            joyAxes[1] = (unsigned char)(((int16)((unsigned char)g_joyRawY - 0x80) * (g_kbdSensitivity + 1)) / 3) - 0x80;
         }
     }
 
@@ -615,8 +615,7 @@ switch_break:
 }
 
 void applyRotationDelta(const int16 *matA, const int16 *matB) {
-    int p;
-    int a;
+    int16 p, a;
 
     g_rotationCounter++;
     if (!(*(char *)&g_rotationCounter & 7)) {
@@ -627,15 +626,15 @@ void applyRotationDelta(const int16 *matA, const int16 *matB) {
 }
 
 void computeAttitudeAngles(void) {
-    int cosPitch;
+    int16 cosPitch;
 
     g_ourPitch = valueToAngle(-g_orientMatrix[5]);
     cosPitch = cosine(g_ourPitch);
     if (cosPitch != 0) {
         if (abs(g_orientMatrix[2]) < 0x5a81) {
-            g_ourHead = valueToAngle(abs((int)signedRatio16(g_orientMatrix[2], cosPitch)));
+            g_ourHead = valueToAngle(abs((int16)signedRatio16(g_orientMatrix[2], cosPitch)));
         } else {
-            g_ourHead = complementAngle(abs((int)signedRatio16(g_orientMatrix[8], cosPitch)));
+            g_ourHead = complementAngle(abs((int16)signedRatio16(g_orientMatrix[8], cosPitch)));
         }
         if (g_orientMatrix[2] <= 0 && g_orientMatrix[8] < 0) {
             (*((char *)&g_ourHead + 1)) += 0x80;
@@ -647,9 +646,9 @@ void computeAttitudeAngles(void) {
             g_ourHead = -g_ourHead;
         }
         if (abs(g_orientMatrix[3]) < 0x5a81) {
-            g_ourRoll = valueToAngle(abs((int)signedRatio16(g_orientMatrix[3], cosPitch)));
+            g_ourRoll = valueToAngle(abs((int16)signedRatio16(g_orientMatrix[3], cosPitch)));
         } else {
-            g_ourRoll = complementAngle(abs((int)signedRatio16(g_orientMatrix[4], cosPitch)));
+            g_ourRoll = complementAngle(abs((int16)signedRatio16(g_orientMatrix[4], cosPitch)));
         }
         if (g_orientMatrix[3] <= 0 && g_orientMatrix[4] < 0) {
             *((char *)&g_ourRoll + 1) += 0x80;
@@ -691,7 +690,7 @@ void rebuildOrientation() {
     g_rotationCounter = 0;
 }
 
-unsigned signedRatio16(int numerator, int denominator) { /* Original: IntDiv(A,B). Divide two signed 15-bit fractions. */
+unsigned signedRatio16(int16 numerator, int16 denominator) { /* Original: IntDiv(A,B). Divide two signed 15-bit fractions. */
     char numeratorSign = 1;
     char denominatorSign = 1;
     long absNumerator;
@@ -702,25 +701,23 @@ unsigned signedRatio16(int numerator, int denominator) { /* Original: IntDiv(A,B
     if (denominator < 0) denominatorSign = -1;
     absNumerator = (long)(numerator < 0 ? -numerator : numerator);
     absDenominator = (long)(denominator < 0 ? -denominator : denominator);
-    return (unsigned)((uint16)((((unsigned long)(uint16)absNumerator) << 16) / absDenominator >> 1)) * (unsigned)(int)numeratorSign * (unsigned)(int)denominatorSign;
+    return (unsigned)((uint16)((((unsigned long)(uint16)absNumerator) << 16) / absDenominator >> 1)) * (unsigned)(int16)numeratorSign * (unsigned)(int16)denominatorSign;
 done:;
 }
 
-int valueToAngle(int value) { /* Original: Iasin(A). Return 16-bit word-degree arcsin by table interpolation. */
-    enum { ASIN_TABLE_SHIFT = 9,
-           WORD_DEGREE_STEP = 256 };
-    int angle;
-    int magnitude;
-    int tableIndex;
-    int tableSpan;
+#define ASIN_TABLE_SHIFT 9
+#define WORD_DEGREE_STEP 256
 
-    if (value == (int)0x8000) return (int)0xc000;
+int16 valueToAngle(int16 value) { /* Original: Iasin(A). Return 16-bit word-degree arcsin by table interpolation. */
+    int16 angle, magnitude, tableIndex, tableSpan;
+
+    if (value == (int16)0x8000) return (int16)0xc000;
     magnitude = abs(value);
     tableIndex = (magnitude >> ASIN_TABLE_SHIFT) + 1;
     for (; tableIndex >= 0; tableIndex--) {
         if (g_angleLut[tableIndex] <= magnitude) {
             tableSpan = g_angleLut[tableIndex + 1] - g_angleLut[tableIndex];
-            angle = (int)((long)(magnitude - g_angleLut[tableIndex]) * WORD_DEGREE_STEP / (long)tableSpan) + tableIndex * WORD_DEGREE_STEP;
+            angle = (int16)((long)(magnitude - g_angleLut[tableIndex]) * WORD_DEGREE_STEP / (long)tableSpan) + tableIndex * WORD_DEGREE_STEP;
             break;
         }
     }
@@ -730,14 +727,13 @@ int valueToAngle(int value) { /* Original: Iasin(A). Return 16-bit word-degree a
     return angle;
 }
 
-int complementAngle(int value) { /* Original: Iacos(A). Return 16-bit word-degree arccos as quarter-turn minus arcsin. */
+int16 complementAngle(int16 value) { /* Original: Iacos(A). Return 16-bit word-degree arccos as quarter-turn minus arcsin. */
     enum { WORD_DEGREES_QUARTER_TURN = 0x4000 };
     return WORD_DEGREES_QUARTER_TURN - valueToAngle(value);
 }
 
-int isqrt(int value) { /* Original: Sqrt(N). Return integer square root using Newton iteration. */
-    int quotient;
-    int guess;
+int16 isqrt(int16 value) { /* Original: Sqrt(N). Return integer square root using Newton iteration. */
+    int16 quotient, guess;
     /* Integer square root using Newton iteration seeded from value >> 2. */
     value = abs(value);
     if (value < 4) {
@@ -753,7 +749,7 @@ int isqrt(int value) { /* Original: Sqrt(N). Return integer square root using Ne
 
 // something to do with view switching?
 void renderFrame() {
-    int camDist, savedCamDist, range, camOffset, dx, dy, tmp;
+    int16 camDist, savedCamDist, range, camOffset, dx, dy, tmp;
     g_camEyeX = g_viewTargetX = g_ViewX;
     g_camEyeY = g_ViewY;
     g_viewTargetY = 0x100000 - g_ViewY;
@@ -1023,7 +1019,7 @@ void drawVectorShape(const int16 *shapeData) {
 }
 
 void waitForKeyPress(void) {
-    int savedTiming;
+    int16 savedTiming;
 
     audio_engineDroneOff();
     savedTiming = g_frameTimingAccum;

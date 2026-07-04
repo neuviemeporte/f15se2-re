@@ -13,17 +13,17 @@
 #include <memory.h>
 
 // ==== seg000:0x0334 ====
-void drawProjectionSphere(int skyColor) {
-    int radiusScale; // on-screen radius scale of the sphere
-    int ringIx;      // ring/loop index
+void drawProjectionSphere(int16 skyColor) {
+    int16 radiusScale; // on-screen radius scale of the sphere
+    int16 ringIx;      // ring/loop index
     // The two endpoints of each ring's projected silhouette edge, one entry
     // per ring boundary. (rearX,rearY) and (foreX,foreY) are paired into quads.
-    int rearX[17];  // edge endpoint A, X screen coords
-    int rearY[17];  // edge endpoint A, Y screen coords
-    int foreX[17];  // edge endpoint B, X screen coords
-    int foreY[17];  // edge endpoint B, Y screen coords
-    int facePts[8]; // 4-point quad buffer for drawPolygonOutline
-    int ringRad;    // ring radius temp
+    int16 rearX[17];  // edge endpoint A, X screen coords
+    int16 rearY[17];  // edge endpoint A, Y screen coords
+    int16 foreX[17];  // edge endpoint B, X screen coords
+    int16 foreY[17];  // edge endpoint B, Y screen coords
+    int16 facePts[8]; // 4-point quad buffer for drawPolygonOutline
+    int16 ringRad;    // ring radius temp
 
     if (*(char *)&g_detailLevel < 3) {
         drawFlatHorizon(skyColor);
@@ -32,7 +32,7 @@ void drawProjectionSphere(int skyColor) {
     for (ringIx = 0; ringIx < 16; ringIx++)
         g_sphereRingRadii[ringIx] = g_sphereRingTable[ringIx];
     g_sphereTiltZ = -g_spherePitch;
-    radiusScale = (int)(((long)g_sphereRadius << 8) / (long)(g_sphereDistZ < 0x200 ? 0x200 : g_sphereDistZ));
+    radiusScale = (int16)(((long)g_sphereRadius << 8) / (long)(g_sphereDistZ < 0x200 ? 0x200 : g_sphereDistZ));
     if (g_extraScaleShift != 0) {
         radiusScale <<= g_extraScaleShift;
     }
@@ -40,8 +40,8 @@ void drawProjectionSphere(int skyColor) {
         radiusScale >>= 1;
     }
     {
-        register int i;
-        register int j;
+        register int16 i;
+        register int16 j;
         for (ringIx = 0; ringIx < 17; ringIx++) {
             if (ringIx < 16) {
                 ringRad = g_sphereRingRadii[ringIx] + radiusScale;
@@ -79,8 +79,8 @@ void drawProjectionSphere(int skyColor) {
     } while (ringIx < 16);
     g_sphereRingRadii[0] = 0;
     {
-        register int i;
-        register int j;
+        register int16 i;
+        register int16 j;
         for (ringIx = 0; ringIx < 17; ringIx++) {
             if (ringIx < 16) {
                 ringRad = radiusScale - g_sphereRingRadii[ringIx];

@@ -2031,7 +2031,7 @@ int16 g_rngSeed = 0;
 /* g_unusedFrameVal: frame-init scalar seeded in initFrameRandom from the target-slot
    counts ((p & 0xF) << 8); written but never read (dead). */
 int16 g_unusedFrameVal;
-int g_scopeArcColor;
+int16 g_scopeArcColor;
 /* strBuf: scratch buffer for building status/event message strings (assembled
    with strcpy/strcat/itoa, then drawn or queued). 24 labelled bytes plus the
    slack run up to g_sphereTiltZ give it 78 bytes of capacity. */
@@ -2047,7 +2047,7 @@ int16 g_extViewPitch;
 /* g_geeStringBuf: g-meter readout string ("<g>.<tenths>G") built by drawGMeter and
    drawn by the HUD string-blit (egseg2). */
 char g_geeStringBuf[12];
-int g_detailLevel;
+int16 g_detailLevel;
 int16 g_autoCrashDive;
 int16 g_missionTick;
 uint8 far *g_floppyMotorPtr;
@@ -2071,7 +2071,7 @@ int16 g_attackRangeY;
 uint8 buf3_3dg[0x200];
 int16 g_targetInHudFlag;
 int16 g_lockedTargetKilled;
-int g_hitEffectTimer;
+int16 g_hitEffectTimer;
 uint8 buf2_3dg[0x200];
 /* g_nearestTileObj: nearest-tile-object pointer; result of findNearestTileObject(),
    pointing at the nearestTile scratch record below. */
@@ -2087,7 +2087,7 @@ int16 g_stallSpeed;
  * [66] = 64 grid bytes + 2 pad. */
 uint8 g_topLodGrid[66];
 int16 g_lastMissileSlot;
-int g_velocity;
+int16 g_velocity;
 int16 g_enemyThreatCount;
 int16 g_camRotMatrix[9];
 struct ViewSnapshot g_viewSnapshotRing[16];
@@ -2186,7 +2186,7 @@ uint8 g_shapeTargetCategory[UNIT_STATE_COUNT];
 int16 g_flightPathMarkerY;
 int16 g_aamLockActive;
 int16 g_unusedSavedWord;
-int g_rollInput;
+int16 g_rollInput;
 int16 flagFarToNear;
 int16 keyScancode;
 int16 g_unusedEventHist2;
@@ -2240,14 +2240,14 @@ int16 g_aamSeekerX;
 struct GameComm far *commData = 0;
 int16 g_threatRadarFlag;
 int16 g_aamSeekerY;
-int g_jiffiesPerFrame;
+int16 g_jiffiesPerFrame;
 uint8 g_missionEndedFlag[2];
 
 /* g_proj3d: projectObjects() world-space projection origin (three longs). */
 struct Proj3d g_proj3d;
 int16 g_viewHeadingOffset;
 int16 gfxBufPtr;
-int g_gees;
+int16 g_gees;
 int16 g_climbRate;
 /* size3d3_7: vertex count for the secondary (g_modelOffsetTable) loader buffer. */
 size_t size3d3_7;

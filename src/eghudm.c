@@ -28,20 +28,20 @@
 /* sin/cos via the shared 256-entry table + linear interpolation (16-bit angle:
  * high byte = table index, low byte = fraction). Matches the renderer's
  * lookupSineFar closely enough for the HUD. */
-static int nsine(int angle) {
+static int16 nsine(int16 angle) {
     unsigned a = (unsigned)angle;
-    int idx = (a >> 8) & 0xff;
-    int frac = a & 0xff;
-    int v0 = g_angleLut[idx];
-    int v1 = g_angleLut[idx + 1];
-    return v0 + (int)((((long)(v1 - v0) * frac) + 0x80) >> 8);
+    int16 idx = (a >> 8) & 0xff;
+    int16 frac = a & 0xff;
+    int16 v0 = g_angleLut[idx];
+    int16 v1 = g_angleLut[idx + 1];
+    return v0 + (int16)((((long)(v1 - v0) * frac) + 0x80) >> 8);
 }
 
-int FAR CDECL hudSine(int angle) { return nsine(angle); }
+int16 FAR CDECL hudSine(int16 angle) { return nsine(angle); }
 
 /* pitch -> ladder pixel offset: (|pitch|>>6) * 360, taking the high bytes. */
-int FAR CDECL hudPitchScale(int ap) {
-    return (int)(((unsigned long)(unsigned)ap * 360u) >> 8);
+int16 FAR CDECL hudPitchScale(int16 ap) {
+    return (int16)(((unsigned long)(unsigned)ap * 360u) >> 8);
 }
 
 /* ===== drawClipLineGlobal (clipLineFar) =====
@@ -49,8 +49,8 @@ int FAR CDECL hudPitchScale(int ap) {
  * [0,g_clipMaxX] x [0,g_clipMaxY] (Cohen-Sutherland), then emit the visible part
  * via gfx_drawLine (which folds in the current blitOffset window origin, clips
  * to the page and uses the stored fill colour). */
-static int clipOutcode(int x, int y, int maxX, int maxY) {
-    int c = 0;
+static int16 clipOutcode(int16 x, int16 y, int16 maxX, int16 maxY) {
+    int16 c = 0;
     if (x < 0)
         c |= 1;
     else if (x > maxX)
@@ -62,13 +62,13 @@ static int clipOutcode(int x, int y, int maxX, int maxY) {
     return c;
 }
 
-int far drawClipLineGlobal(void) {
-    int x1 = g_lineX1, y1 = g_lineY1, x2 = g_lineX2, y2 = g_lineY2;
-    int maxX = g_clipMaxX, maxY = g_clipMaxY;
-    int c1 = clipOutcode(x1, y1, maxX, maxY);
-    int c2 = clipOutcode(x2, y2, maxX, maxY);
+int16 far drawClipLineGlobal(void) {
+    int16 x1 = g_lineX1, y1 = g_lineY1, x2 = g_lineX2, y2 = g_lineY2;
+    int16 maxX = g_clipMaxX, maxY = g_clipMaxY;
+    int16 c1 = clipOutcode(x1, y1, maxX, maxY);
+    int16 c2 = clipOutcode(x2, y2, maxX, maxY);
     for (;;) {
-        int oc, cx, cy;
+        int16 oc, cx, cy;
         if ((c1 | c2) == 0) break;    /* fully inside */
         if ((c1 & c2) != 0) return 0; /* fully outside */
         oc = c1 ? c1 : c2;
@@ -104,16 +104,16 @@ int far drawClipLineGlobal(void) {
 /* slot 0x0b (gfx_complexRender) — the pitch-ladder column. No cdecl trampoline
  * exists, so draw it directly into the current page. base/loY/hiY come from the
  * overlay's 12-word geometry table (baked here); thickness cycles 1..10. */
-static const int g_ladderGeom[12] = {
+static const int16 g_ladderGeom[12] = {
     71, 248, 120, 200, 26, 26, 68, 68, 86, 86, 98, 98};
-void FAR CDECL hudComplex(int bxArg, int dxArg, int cxArg, int siArg) {
+void FAR CDECL hudComplex(int16 bxArg, int16 dxArg, int16 cxArg, int16 siArg) {
     uint8 FAR *page = (uint8 FAR *)MK_FP((uint16)gfx_getCurPageSeg(), 0);
     uint8 color = 0x0f;
-    int dir = (siArg == 0) ? -1 : 1;
-    int cl = cxArg & 0xff, dl = dxArg & 0xff;
+    int16 dir = (siArg == 0) ? -1 : 1;
+    int16 cl = cxArg & 0xff, dl = dxArg & 0xff;
     uint16 bx = (uint16)(bxArg - 1);
     uint16 base, loY, hiY;
-    int wi;
+    int16 wi;
     long t;
     if ((int8)dl >= 1) bx += 20;
     if (cl != 0) {
@@ -132,8 +132,8 @@ void FAR CDECL hudComplex(int bxArg, int dxArg, int cxArg, int siArg) {
         t += skip;
     }
     for (;; t++) {
-        int phase = (int)((t - 1L) % 10L);
-        int thick = (phase == 0) ? 10 : phase;
+        int16 phase = (int16)((t - 1L) % 10L);
+        int16 thick = (phase == 0) ? 10 : phase;
         if (bx < loY) break;
         if (bx <= hiY) {
             uint16 off = (uint16)((uint16)bx * 320u + base);
@@ -161,9 +161,9 @@ void FAR CDECL hudComplex(int bxArg, int dxArg, int cxArg, int siArg) {
  * sinR = sine(0x4000-roll), cosR = sine(-roll); the high-word extraction is the
  * asm's shl/rcl, the >>1 is `sar DX,1`. `di` is the highest vertex byte offset;
  * walk down to 0 in steps of 2. */
-void FAR CDECL hudRotateLadder(int di) {
-    long sinR = (long)nsine((int)(int16)(0x4000 - g_ourRoll));
-    long cosR = (long)nsine((int)(int16)(-g_ourRoll));
+void FAR CDECL hudRotateLadder(int16 di) {
+    long sinR = (long)nsine((int16)(int16)(0x4000 - g_ourRoll));
+    long cosR = (long)nsine((int16)(int16)(-g_ourRoll));
     for (; di >= 0; di -= 2) {
         long x = (long)W16(g_compassTapeBuf + 0xec + di);
         long y = (long)W16(g_compassTapeBuf + 0x15c + di);

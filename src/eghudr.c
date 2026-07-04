@@ -30,15 +30,15 @@ extern int16 g_tapeCursorX;
 
 /* --- long-math helpers kept in _TEXT (eghudm.c); see the file header for why.
  * This TU (EGHUD_TEXT) far-calls them. --- */
-extern int FAR CDECL hudPitchScale(int ap);
-extern void FAR CDECL hudComplex(int bx, int dx, int cx, int si);
-extern void FAR CDECL hudRotateLadder(int di);
+extern int16 FAR CDECL hudPitchScale(int16 ap);
+extern void FAR CDECL hudComplex(int16 bx, int16 dx, int16 cx, int16 si);
+extern void FAR CDECL hudRotateLadder(int16 di);
 
 /* cdecl->register shim (egregsh.asm) for MGRAPHIC's clipped glyph engine
  * (register-called slots 0x01-0x06): BP=descriptor, BX=string. The slot index
  * picks the clip mode, so each tape passes the slot the original egseg2.asm
  * used. */
-extern void FAR CDECL gfx_drawGlyphStr(int16 *desc, const char *str, int slot);
+extern void FAR CDECL gfx_drawGlyphStr(int16 *desc, const char *str, int16 slot);
 
 /* cdecl->register marshaling shim (egregsh.asm) — restore curPageSeg by value. */
 extern void FAR CDECL gfx_setCurPageSegReg(uint16 seg);
@@ -49,17 +49,17 @@ extern void FAR CDECL gfx_setCurPageSegReg(uint16 seg);
  * engine (per-scanline g_spanMinX/MaxX then gfx_dirtyRect2); that engine is
  * register-called, so we fill the page directly (the plan's "reimplement
  * against the page" path). */
-int __far fillSpanRect(const int16 *pageDesc, int left, int top, int right, int bottom) {
+int16 FAR fillSpanRect(const int16 *pageDesc, int16 left, int16 top, int16 right, int16 bottom) {
     uint16 savedSeg = (uint16)gfx_getCurPageSeg();
     uint8 color = (uint8)pageDesc[2];
     uint16 seg;
-    int y;
+    int16 y;
     gfx_setPageN((uint16)pageDesc[0]);
     seg = (uint16)gfx_getCurPageSeg();
     if (right >= left && bottom >= top) {
         for (y = top; y <= bottom; y++) {
             uint8 FAR *p = (uint8 FAR *)MK_FP(seg, (uint16)(y * 320 + left));
-            int n = right - left + 1;
+            int16 n = right - left + 1;
             while (n-- > 0) *p++ = color;
         }
     }
@@ -84,16 +84,16 @@ int __far fillSpanRect(const int16 *pageDesc, int left, int top, int right, int 
  * live in eghudm.c and are far-called. Tape/compass/label text goes through the
  * clipped glyph engine via gfx_drawGlyphStr (the per-call-site slot picks the
  * clip mode — see its decl above). */
-static void setFill(int color) { gfx_setColor(color); }
-static void drawLine(int x1, int y1, int x2, int y2) {
+static void setFill(int16 color) { gfx_setColor(color); }
+static void drawLine(int16 x1, int16 y1, int16 x2, int16 y2) {
     gfx_drawLine((uint16)x1, (uint16)y1, (uint16)x2, (uint16)y2);
 }
-static void drawTapeStr(int16 *d, const uint8 *s, int slot) {
+static void drawTapeStr(int16 *d, const uint8 *s, int16 slot) {
     gfx_drawGlyphStr(d, (const char *)s, slot);
 }
 
 /* ===== setupInstrumentLayout ===== */
-void __cdecl __far setupInstrumentLayoutFar(void) {
+void FAR setupInstrumentLayoutFar(void) {
     g_tapeSprite0[0] = g_tapeSprite1[0] = g_tapeSprite2[0] = g_tapeSprite3[0] = gfxBufPtr;
     g_halfScaleRender = 0;
     if (g_halfScaleRender == 1) {
@@ -197,11 +197,11 @@ void __cdecl __far setupInstrumentLayoutFar(void) {
 
 /* ===== drawInstrumentGauges ===== */
 static void drawInstrumentGauges(void) {
-    int disp;
-    int di, si;
+    int16 disp;
+    int16 di, si;
     int8 dl;
-    int cl, ch;
-    int bxY; /* ladder Y coordinate accumulator (asm BX) */
+    int16 cl, ch;
+    int16 bxY; /* ladder Y coordinate accumulator (asm BX) */
 
     /* the gauge frame / pitch ladder use the page-relative blit origin; the
      * tapes and compass draw at absolute coords. Reset the origin so the frame
@@ -258,7 +258,7 @@ static void drawInstrumentGauges(void) {
     /* ---- altitude tape ---- */
     {
         uint16 alt = g_altitude;
-        int thousands = (int)(alt / 1000) - 1;
+        int16 thousands = (int16)(alt / 1000) - 1;
         uint16 rem = (uint16)(alt % 1000);
         uint16 hundredsPix;
         g_altRemainder = rem;
@@ -324,7 +324,7 @@ static void drawInstrumentGauges(void) {
         uint16 s = (uint16)((head & 0x1f80) << 1);
         uint16 prod = (uint16)((s >> 8) & 0xff) * (uint16)(uint8)g_headingPixPerDeg;
         uint16 p6 = (uint16)(prod >> 6);
-        int idx;
+        int16 idx;
         g_compassMarkerPhase = (uint8)(p6 & 0xff);
         g_compassDrawX = (uint8)((uint8)g_headingBase - (uint8)((p6 >> 8) & 0xff));
         g_tapeText1[4] = g_compassDrawX;
@@ -397,15 +397,15 @@ static void drawInstrumentGauges(void) {
 
     /* ---- pitch ladder ---- */
     {
-        int pitch = g_ourPitch;
+        int16 pitch = g_ourPitch;
         uint16 ap = (uint16)(pitch < 0 ? -pitch : pitch);
         uint16 t;
-        int subY;
+        int16 subY;
         ap >>= 6;
         t = (uint16)hudPitchScale(ap);
         ch = (t / 40) & 0xff; /* centre rung index */
         t = (uint16)((t % 40) * (uint8)g_pitchRungVStep);
-        subY = (int)(t / 40);
+        subY = (int16)(t / 40);
         if (pitch < 0) subY = (uint8)g_pitchRungVStep - subY;
         subY = (uint8)(subY + g_pitchCenterY);
         if (pitch < 0) ch = (int8)(-(int8)ch - 1);
@@ -418,7 +418,7 @@ static void drawInstrumentGauges(void) {
         ch = 0;
 
         for (;;) {
-            int d = dl;
+            int16 d = dl;
             if (d == 9) { /* single short rung */
                 W16(g_compassTapeBuf + 0xec + di) = g_pitchVtxX0;
                 W16(g_compassTapeBuf + 0xee + di) = g_pitchVtxX3;
@@ -548,8 +548,8 @@ static void drawInstrumentGauges(void) {
 
         /* draw the rotated segments (unless the high-G blackout is active) */
         if (g_highGeeFlag[0] != 0) {
-            int savedMaxX = g_clipMaxX;
-            int savedMaxY = g_clipMaxY;
+            int16 savedMaxX = g_clipMaxX;
+            int16 savedMaxY = g_clipMaxY;
             setFill(gfxModeUnset != 0 ? 0 : 7);
             gfx_setBlitOffset(g_pitchBlitOfs);
             g_clipMaxX = g_pitchClipMaxX;
@@ -569,7 +569,7 @@ static void drawInstrumentGauges(void) {
                 di += 2;
                 si++;
                 if (g_compassTapeBuf[0x1cc + si] == 0) si++;
-                if ((int)g_tapeColumn < (int8)g_tapeChar) continue;
+                if ((int16)g_tapeColumn < (int8)g_tapeChar) continue;
                 break;
             }
 
@@ -577,7 +577,7 @@ static void drawInstrumentGauges(void) {
             si = 0;
             g_tapeCursorX += 11;
             {
-                int rollIdx = (((uint16)g_ourRoll >> 8) >> 2) & 0xff;
+                int16 rollIdx = (((uint16)g_ourRoll >> 8) >> 2) & 0xff;
                 di = rollIdx * 2;
                 g_tapeRollOfsA0 = W16(g_timerTickByte + 0x1a + di);
                 g_tapeRollOfsA1 = W16(g_timerTickByte + 0x9a + di);
@@ -591,12 +591,12 @@ static void drawInstrumentGauges(void) {
                 g_tapeRollOfsB3 = W16(g_timerTickByte + 0x19a + di);
             }
             {
-                int seg = 5;
+                int16 seg = 5;
                 for (;;) {
-                    int idx4, vi, ax;
+                    int16 idx4, vi, ax;
                     /* first (B) label */
                     idx4 = g_tapeCursorX * 4;
-                    if (idx4 >= 0 && idx4 + 3 < (int)sizeof(g_pitchLabelTable)) {
+                    if (idx4 >= 0 && idx4 + 3 < (int16)sizeof(g_pitchLabelTable)) {
                         W16(g_tapeDrawStr) = W16(g_pitchLabelTable + idx4);
                         W16(g_tapeDrawStr + 2) = W16(g_pitchLabelTable + idx4 + 2);
                     } else {
@@ -613,7 +613,7 @@ static void drawInstrumentGauges(void) {
                     si++;
                     /* second (A) label */
                     idx4 = g_tapeCursorX * 4;
-                    if (idx4 >= 0 && idx4 + 3 < (int)sizeof(g_pitchLabelTable)) {
+                    if (idx4 >= 0 && idx4 + 3 < (int16)sizeof(g_pitchLabelTable)) {
                         W16(g_tapeDrawStr) = W16(g_pitchLabelTable + idx4);
                         W16(g_tapeDrawStr + 2) = W16(g_pitchLabelTable + idx4 + 2);
                     } else {
@@ -639,6 +639,6 @@ static void drawInstrumentGauges(void) {
     }
 }
 
-void __cdecl __far drawInstrumentGaugesFar(void) {
+void FAR drawInstrumentGaugesFar(void) {
     drawInstrumentGauges();
 }

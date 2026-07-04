@@ -23,22 +23,12 @@
 #include <memory.h>
 
 /* Private helpers for this translation unit. */
-void drawMapMarkerBox(int centerX, int centerY, int color);
-void projectMapPoint(int mapX, int mapY);
-void blitGaugeSprite(int srcCol, int srcRow, int destX, int destY);
+void drawMapMarkerBox(int16 centerX, int16 centerY, int16 color);
+void projectMapPoint(int16 mapX, int16 mapY);
+void blitGaugeSprite(int16 srcCol, int16 srcRow, int16 destX, int16 destY);
 
 void drawTacticalMap(char page) {
-    int startX;
-    int code;
-    int startY;
-    int altBand;
-    int altDiff;
-    int gridX;
-    int i;
-    int gridY;
-    int radius;
-    int gridLo;
-    int gridStep;
+    int16 startX, code, startY, altBand, altDiff, gridX, i, gridY, radius, gridLo, gridStep;
 
     radius = g_radarScopeRange + 1;
     setDrawColor(0);
@@ -161,7 +151,7 @@ void drawTacticalMap(char page) {
 }
 
 // ==== seg000:0xa740 ====
-void drawMapMarkerBox(int centerX, int centerY, int color) {
+void drawMapMarkerBox(int16 centerX, int16 centerY, int16 color) {
     setDrawColor(color);
     drawScreenLineOnePage(vtxScratch.vproj.x.lo - 4, vtxScratch.vproj.y.lo - 3, vtxScratch.vproj.x.lo + 4, vtxScratch.vproj.y.lo - 3);
     drawScreenLineOnePage(vtxScratch.vproj.x.lo + 4, vtxScratch.vproj.y.lo - 3, vtxScratch.vproj.x.lo + 4, vtxScratch.vproj.y.lo + 3);
@@ -171,9 +161,8 @@ void drawMapMarkerBox(int centerX, int centerY, int color) {
 
 // ==== seg000:0xa7c4 ====
 
-void projectMapPoint(int mapX, int mapY) {
-    int scaledX;
-    int scaledY;
+void projectMapPoint(int16 mapX, int16 mapY) {
+    int16 scaledX, scaledY;
     char shift;
     g_projDepth = 0;
     shift = 7 - (char)g_radarScopeRange;
@@ -192,7 +181,7 @@ void projectMapPoint(int mapX, int mapY) {
 }
 
 // ==== seg000:0xa872 ====
-void blitGaugeSprite(int srcCol, int srcRow, int destX, int destY) {
+void blitGaugeSprite(int16 srcCol, int16 srcRow, int16 destX, int16 destY) {
     gaugeSpriteParams.bufPtr = gfxBufPtr;
     gaugeSpriteParams.srcX = srcCol * 8 + 1;
     gaugeSpriteParams.srcY = srcRow * 8 + 31;
@@ -205,7 +194,7 @@ void blitGaugeSprite(int srcCol, int srcRow, int destX, int destY) {
 }
 
 // ==== seg000:0xa8c8 ====
-void blitSprite(int destX, int destY, int srcX, int srcY, int spriteWidth, int spriteHeight, int transparent) {
+void blitSprite(int16 destX, int16 destY, int16 srcX, int16 srcY, int16 spriteWidth, int16 spriteHeight, int16 transparent) {
     blitSpriteParams.bufPtr = gfxBufPtr;
     blitSpriteParams.srcX = srcX;
     blitSpriteParams.srcY = srcY;

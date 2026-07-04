@@ -4,8 +4,8 @@
 #include "inttype.h"
 
 void keyDispatch(uint16 scanCode);
-void makeSound(int soundId, int priority);
-void playVoiceCue(int weaponIdx);
+void makeSound(int16 soundId, int16 priority);
+void playVoiceCue(int16 weaponIdx);
 void updateEngineSound(void);
 void recalcTimeScale(void);
 void setupLodDistances(void);

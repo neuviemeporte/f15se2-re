@@ -4,7 +4,7 @@
 #include "egtypes.h"
 
 void load3DAll();
-void __cdecl printError(const char *);
-void __cdecl strcpyFromDot(char *dst, const char *src);
+void printError(const char *);
+void strcpyFromDot(char *dst, const char *src);
 
 #endif /* F15_SE2_EG3DLOAD */

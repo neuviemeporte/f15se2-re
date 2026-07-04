@@ -140,7 +140,7 @@ flush:
     _chain_intr(oldInt9);
 }
 
-int far setInt9Handler(void) {
+int16 far setInt9Handler(void) {
     unsigned char far *biosFlags = (unsigned char far *)MK_FP(0x40, 0x17);
     *biosFlags &= 0xDF; /* force NumLock off */
     kbdActiveScan = 0;
@@ -155,7 +155,7 @@ int far setInt9Handler(void) {
     return 0;
 }
 
-int far restoreInt9Handler(void) {
+int16 far restoreInt9Handler(void) {
     _dos_setvect(0x09, oldInt9);
     return 0;
 }

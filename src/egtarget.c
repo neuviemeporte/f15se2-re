@@ -32,26 +32,26 @@
 #include <memory.h>
 
 /* Private helpers for this translation unit. */
-void drawTargetBox(int, int, int, int);
+void drawTargetBox(int16, int16, int16, int16);
 void drawMissileLock(void);
-void __cdecl drawTargetLabel(const char *, int, int);
-void buildRangeString(int rangeRaw);
-void projectWorldToHud(int worldX, int worldY, int worldZ);
-long rotateVectorComponent(int axis, int vecX, int vecY, int vecZ);
-int computeMapTargetRange(int targetIdx);
-int computeSimObjectRange(int objIdx);
-int computeTargetBearing(int targetX, int targetY, int wantBearing);
+void drawTargetLabel(const char *, int16, int16);
+void buildRangeString(int16 rangeRaw);
+void projectWorldToHud(int16 worldX, int16 worldY, int16 worldZ);
+long rotateVectorComponent(int16 axis, int16 vecX, int16 vecY, int16 vecZ);
+int16 computeMapTargetRange(int16 targetIdx);
+int16 computeSimObjectRange(int16 objIdx);
+int16 computeTargetBearing(int16 targetX, int16 targetY, int16 wantBearing);
 
-void projectWorldToHud(int worldX, int worldY, int worldZ);
-long rotateVectorComponent(int axis, int vecX, int vecY, int vecZ);
-int computeMapTargetRange(int targetIdx);
-int computeSimObjectRange(int objIdx);
-int computeTargetBearing(int targetX, int targetY, int wantBearing);
+void projectWorldToHud(int16 worldX, int16 worldY, int16 worldZ);
+long rotateVectorComponent(int16 axis, int16 vecX, int16 vecY, int16 vecZ);
+int16 computeMapTargetRange(int16 targetIdx);
+int16 computeSimObjectRange(int16 objIdx);
+int16 computeTargetBearing(int16 targetX, int16 targetY, int16 wantBearing);
 
 void updateTargetLock(void) {
-    int p, a, b, range, d, e, marker, idx, depthShift, i, j, k, best, m, n;
-    int p0, a0, b0, c0, d0, e0, deadInit, lockedRange, h0;
-    int dk;
+    int16 p, a, b, range, d, e, marker, idx, depthShift, i, j, k, best, m, n;
+    int16 p0, a0, b0, c0, d0, e0, deadInit, lockedRange, h0;
+    int16 dk;
 
     deadInit = 0;
 
@@ -281,7 +281,7 @@ done:;
 }
 
 void drawHudWorldOverlay(void) {
-    int p, lockFlag, prevDepth, r, wpEntry, hitFlag, tmp, t, missileSpecD, loftDist, e, missileSpec, marker, idx, g, radius, objIdx, pointY, pointX, dist, wpIdx, prevX, gunRadius, compat, prevY;
+    int16 p, lockFlag, prevDepth, r, wpEntry, hitFlag, tmp, t, missileSpecD, loftDist, e, missileSpec, marker, idx, g, radius, objIdx, pointY, pointX, dist, wpIdx, prevX, gunRadius, compat, prevY;
 
     g_prevKillMarker = g_targetInHudFlag;
     g_targetInHudFlag = 0;
@@ -381,8 +381,8 @@ void drawHudWorldOverlay(void) {
 
                         wpEntry = findWaypointEntry(g_hitMapX, g_hitMapY);
                         if (wpEntry != -1 && !(g_planeTable.planes[wpEntry].flags & 0x80)) {
-                            pointX = (int)(g_nearestTileObj->x >> 5);
-                            pointY = 0x8000 - (int)(g_nearestTileObj->y >> 5);
+                            pointX = (int16)(g_nearestTileObj->x >> 5);
+                            pointY = 0x8000 - (int16)(g_nearestTileObj->y >> 5);
 
                             if (rangeApprox(g_hitMapX - pointX, g_hitMapY - pointY) < 24 / (g_missionStatus + 2) &&
                                 (g_planeTable.planes[wpEntry].nameIndex & 0x7f) != *(uint8 *)g_landTargetId) {
@@ -508,13 +508,13 @@ void drawHudWorldOverlay(void) {
                 drawStringActivePage(strBuf, 244, 170, 0x0f);
 
                 strcpy(strBuf, g_targetNameTable[g_planeTable.planes[wpIdx].nameIndex & 0x7f]);
-                drawStringActivePage(strBuf, -((int)strlen(strBuf) * 2 - 268), 130, 0x0f);
+                drawStringActivePage(strBuf, -((int16)strlen(strBuf) * 2 - 268), 130, 0x0f);
 
-                if ((int)strlen(g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]) != 0) {
+                if ((int16)strlen(g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]) != 0) {
                     strcpy(strBuf,
                            strlen(g_targetNameTable[g_planeTable.planes[wpIdx].nameIndex & 0x7f]) != 0 ? " at " : "");
                     strcat(strBuf, g_targetNameTable[((int16 *)&g_planeTable)[wpIdx * 8]]);
-                    drawStringActivePage(strBuf, -((int)strlen(strBuf) * 2 - 268), 136, 0x0f);
+                    drawStringActivePage(strBuf, -((int16)strlen(strBuf) * 2 - 268), 136, 0x0f);
                 }
 
                 if (g_currentWeaponType == 0) {
@@ -602,7 +602,7 @@ void drawHudWorldOverlay(void) {
         }
 
         if (g_detailLevel != 0 && (frameTick & 1)) {
-            g_aamLeadDist = (int)(((unsigned long)(unsigned)(0x8000 - g_simObjects[wpIdx].pitch) *
+            g_aamLeadDist = (int16)(((unsigned long)(unsigned)(0x8000 - g_simObjects[wpIdx].pitch) *
                                    (long)g_simObjects[wpIdx].speed) >>
                                   15);
             g_aamLeadDist -= abs(sinMul(g_simObjects[wpIdx].bank.w, g_aamLeadDist)) >> 1;
@@ -679,12 +679,8 @@ void drawHudWorldOverlay(void) {
 }
 
 /* ---- merged from egwaypt.c ---- */
-void drawTargetBox(int centerX, int centerY, int size, int mode) {
-    int halfHeight;
-    int left;
-    int top;
-    int right;
-    int bottom;
+void drawTargetBox(int16 centerX, int16 centerY, int16 size, int16 mode) {
+    int16 halfHeight, left, top, right, bottom;
 
     if (g_hudVisible == 0) {
         return;
@@ -714,8 +710,7 @@ void drawTargetBox(int centerX, int centerY, int size, int mode) {
 
 // ==== seg000:0xC2F8 ====
 void drawMissileLock(void) {
-    int markX;
-    int markY;
+    int16 markX, markY;
     if (g_lockToneFlag != 0 && g_hudVisible != 0) {
         if (g_drawPage != 0) {
             drawStringActivePage("Missile Lock", 244, 150, 14);
@@ -729,7 +724,7 @@ void drawMissileLock(void) {
 }
 
 // ==== seg000:0xc371 ====
-void drawTargetLabel(const char *text, int color, int size) {
+void drawTargetLabel(const char *text, int16 color, int16 size) {
     if (vtxScratch.vproj.x.lo == -1) {
         return;
     }
@@ -740,17 +735,13 @@ void drawTargetLabel(const char *text, int color, int size) {
     }
     if (vtxScratch.vproj.x.lo > 20 && vtxScratch.vproj.x.lo < 280 &&
         vtxScratch.vproj.y.lo > 0 && vtxScratch.vproj.y.lo < 82) {
-        drawStringActivePage(text, vtxScratch.vproj.x.lo - (int)strlen(text) * 2, vtxScratch.vproj.y.lo + 5, g_scopeArcColor);
+        drawStringActivePage(text, vtxScratch.vproj.x.lo - (int16)strlen(text) * 2, vtxScratch.vproj.y.lo + 5, g_scopeArcColor);
     }
 }
 
 // ==== seg000:0xc40b ====
-void buildRangeString(int rangeRaw) {
-    int p;
-    int a;
-    int b;
-    int c;
-    int d;
+void buildRangeString(int16 rangeRaw) {
+    int16 p, a, b, c, d;
 
     strcpy(strBuf, "Range ");
     strcat(strBuf, itoa(rangeRaw >> 6, g_itoaScratch, 10));

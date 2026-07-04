@@ -21,7 +21,7 @@
 // ==== seg000:0xc8de ====
 
 void load15Flt3d3() {
-    int bytesLeft, chunkSize;
+    int16 bytesLeft, chunkSize;
     struct SREGS segs;
     char FAR *dest;
     strcpyFromDot(a15flt_xxx, ".3D3");
@@ -47,13 +47,12 @@ void load15Flt3d3() {
     fclose(fileHandle);
 }
 
-void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int objYaw, int objPitch, int objRoll, int scaleShift) {
+void drawWorldObject(int16 shapeId, long worldX, long worldY, int16 altitude, int16 objYaw, int16 objPitch, int16 objRoll, int16 scaleShift) {
     int16 *drawPg;
-    int dataOff;
+    int16 dataOff;
     long relX;
     long relY;
-    int altDiff;
-    int shiftAmt;
+    int16 altDiff, shiftAmt;
 
     dataOff = shapeDataOffset(shapeId);
     drawPg = (g_drawPage == 0) ? g_pageFront : g_pageBack;
@@ -87,21 +86,8 @@ void drawWorldObject(int shapeId, long worldX, long worldY, int altitude, int ob
 }
 
 // ==== seg000:0xcb42 ====
-void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYaw, int objPitch, int objRoll, int mode, int shift) {
-    int unused;
-    int horizonY;
-    int bearing;
-    int range;
-    int pitchDelta;
-    int category;
-    int pitch;
-    int dataOff;
-    int colorIdx;
-    int radius;
-    int bearingDelta;
-    int relX;
-    int relY;
-    int relZ;
+void drawTargetView(int16 shapeId, int16 worldX, int16 worldY, int16 altitude, int16 objYaw, int16 objPitch, int16 objRoll, int16 mode, int16 shift) {
+    int16 unused, horizonY, bearing, range, pitchDelta, category, pitch, dataOff, colorIdx, radius, bearingDelta, relX, relY, relZ;
     char categoryLow;
 
     g_targetInHudFlag = 1;
@@ -173,7 +159,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYa
         g_extraScaleShift = 2;
     }
     if (mode == 1 || mode == 3) {
-        horizonY = (int)((long)g_trkScale * (long)(g_trkPitch >> 2) >> 5) + 156;
+        horizonY = (int16)((long)g_trkScale * (long)(g_trkPitch >> 2) >> 5) + 156;
         if (horizonY < 128 || g_trkPitch < (int16)0xe800) {
             horizonY = 128;
         }
@@ -185,7 +171,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYa
             fillSpanRect(g_targetViewParams, 232, 128, 304, horizonY);
         }
         colorIdx = g_world3dData[0x2f];
-        category = (int)(signed char)g_shapeTargetCategory[shapeId & 0x7f];
+        category = (int16)(signed char)g_shapeTargetCategory[shapeId & 0x7f];
         if (category & 0x10) {
             colorIdx = 8;
         }
@@ -214,15 +200,15 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYa
 }
 
 // ==== seg000:0xcf32 ====
-int shapeDataOffset(int shapeId) {
+int16 shapeDataOffset(int16 shapeId) {
     if (shapeId & 0x100) {
         return buf3d3[shapeId & 0x7f];
     }
-    return (int)(&g_aircraftModels[((int16 *)flt15_buf1)[shapeId]] - g_world3dData);
+    return (int16)(&g_aircraftModels[((int16 *)flt15_buf1)[shapeId]] - g_world3dData);
 }
 
 // ==== seg000:0xcf64 clamp ====
-int clampRange(int value, int minVal, int maxVal) { /* Original: rng(x,a,b). Clamp value, preserving the <= -0x4000 wrap-to-max case. */
+int16 clampRange(int16 value, int16 minVal, int16 maxVal) { /* Original: rng(x,a,b). Clamp value, preserving the <= -0x4000 wrap-to-max case. */
     enum { RNG_WRAP_FLOOR = -0x4000 };
     /* Unlike a plain clamp, very negative wrapped angles select the high end. */
     if (value > maxVal) {
@@ -238,7 +224,7 @@ int clampRange(int value, int minVal, int maxVal) { /* Original: rng(x,a,b). Cla
 }
 
 // ==== seg000:0xcf8e ====
-int clampValue(int value, int minVal, int maxVal) { /* Original: rng2(x,a,b). Plain clamp between min and max. */
+int16 clampValue(int16 value, int16 minVal, int16 maxVal) { /* Original: rng2(x,a,b). Plain clamp between min and max. */
     if (value > maxVal) {
         return maxVal;
     }
@@ -249,7 +235,7 @@ int clampValue(int value, int minVal, int maxVal) { /* Original: rng2(x,a,b). Pl
 }
 
 // ==== seg000:0xcfa6 ====
-int rangeApprox(int deltaX, int deltaY) { /* Original: xydist(x,y). Fast 2D distance approximation capped at 0x7fff. */
+int16 rangeApprox(int16 deltaX, int16 deltaY) { /* Original: xydist(x,y). Fast 2D distance approximation capped at 0x7fff. */
     enum { XYDIST_MAX = 0x7FFF };
     long dist;
     deltaX = abs(deltaX);
@@ -260,14 +246,14 @@ int rangeApprox(int deltaX, int deltaY) { /* Original: xydist(x,y). Fast 2D dist
     else
         dist = (long)(deltaX >> 1) + (long)deltaY;
     if (dist > XYDIST_MAX) dist = XYDIST_MAX;
-    return (int)dist;
+    return (int16)dist;
 }
 
 // ==== seg000:0xd008 ====
-int computeBearing(int deltaX, int deltaY) {
-    int angle, result;
+int16 computeBearing(int16 deltaX, int16 deltaY) {
+    int16 angle, result;
     long numer;
-    int denom, swapped, ratio;
+    int16 denom, swapped, ratio;
 
     if (deltaX == 0) {
         if (deltaY > 0) return 0;
@@ -303,19 +289,19 @@ int computeBearing(int deltaX, int deltaY) {
 }
 
 // ==== seg000:0xd178 sinMul ====
-int sinMul(int angle, int value) { /* Original: sinX(angle,x). Fixed-point sine lookup multiplied by value. */
+int16 sinMul(int16 angle, int16 value) { /* Original: sinX(angle,x). Fixed-point sine lookup multiplied by value. */
     /* Sine table values are fixed-point; fixedMulQ14 applies the scale. */
     return fixedMulQ14(sine(angle), value);
 }
 
 // ==== seg000:0xd190 cosMul ====
-int cosMul(int angle, int value) { /* Original: cosX(angle,x). Cosine via sine phase shift. */
+int16 cosMul(int16 angle, int16 value) { /* Original: cosX(angle,x). Cosine via sine phase shift. */
     enum { WORD_DEGREES_QUARTER_TURN = 0x4000 };
     return sinMul(angle + WORD_DEGREES_QUARTER_TURN, value);
 }
 
 // ==== seg000:0xd1c8 ====
-int signOf(int value) { /* Original: sgn(x). Return -1, 0, or 1. */
+int16 signOf(int16 value) { /* Original: sgn(x). Return -1, 0, or 1. */
     if (value == 0) {
         return 0;
     }
@@ -332,14 +318,15 @@ void seedRng(void) {
     srand(g_rngSeed);
 }
 
+#define RAND_SCALE_SHIFT 15
+
 // ==== seg000:0xd200 randomRange ====
-int randomRange(int maxVal) { /* Original: rnd(Max). Deterministic ((long)Max * rand()) >> 15 range scaling. */
-    enum { RAND_SCALE_SHIFT = 15 };
-    return (int)(((long)rand() * (long)maxVal) >> RAND_SCALE_SHIFT);
+int16 randomRange(int16 maxVal) { /* Original: rnd(Max). Deterministic ((long)Max * rand()) >> 15 range scaling. */
+    return (int16)(((long)rand() * (long)maxVal) >> RAND_SCALE_SHIFT);
 }
 
 // ==== seg000:0xd21e ====
-int readAxisInput(int axisIdx) {
+int16 readAxisInput(int16 axisIdx) {
     int16 value;
 
     if (g_inputDisabled) {

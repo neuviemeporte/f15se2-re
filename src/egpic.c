@@ -17,15 +17,15 @@
  * The shared picimpl.c `picBlit` is start's EGA-title decoder (700x40 planar)
  * and produces vertical-stripe garbage in mode 13h, so the NO_ASM renderer uses
  * showPicFile, which is the matching 200x320 page decode. */
-void showPicFile(int handle, int pageNum);
+void showPicFile(int16 handle, int16 pageNum);
 #endif
 
 #ifdef BUGFIX
-void openBlitClosePic(const char *filename, int page) { /* Original chain: OpenFile + blit/decode + CloseFile. Open, blit PIC to page, then close. */
+void openBlitClosePic(const char *filename, int16 page) { /* Original chain: OpenFile + blit/decode + CloseFile. Open, blit PIC to page, then close. */
 #else
 void openBlitClosePic(const char *filename, int16 page, int16 garbage) { /* Original chain: OpenFile + blit/decode + CloseFile. Open, blit PIC to page, then close. */
 #endif
-    int handle = openFileWrapper(filename, 0);
+    int16 handle = openFileWrapper(filename, 0);
     /* The PIC decoder/blitter consumes the already-open file handle. */
 #if defined(NO_ASM)
     showPicFile(handle, page);

@@ -8,7 +8,7 @@
  * object dispatch. All screen output goes through the gfx_* slot trampolines.
  *
  * Lives in its own far code segment (/NT EG3D_TEXT) because _TEXT is full; every
- * externally-visible entry point is __far. The routines avoid the C `long`
+ * externally-visible entry point is FAR. The routines avoid the C `long`
  * runtime helpers (__aNldiv/__aNlmul/...) — which live in _TEXT and cannot be
  * near-called from a far segment — by doing 32-bit math inline (add/sub/shift by
  * a constant) and the few perspective divides via a manual 16-bit divide.
