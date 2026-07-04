@@ -21,7 +21,7 @@ void loadRegion3D() {
 
 // ==== seg000:0x21ca ====
 //
-void render3DView(int16 camX, int16 camY, int16 camZ, long worldX, long worldY, long worldZ, int16 clipLeft, int16 clipTop, int16 clipWidth, int16 clipHeight) {
+void render3DView(int16 camX, int16 camY, int16 camZ, int32 worldX, int32 worldY, int32 worldZ, int16 clipLeft, int16 clipTop, int16 clipWidth, int16 clipHeight) {
     g_viewParams[7] = clipTop;
     g_viewParams[8] = clipTop + clipHeight - 1;
     g_viewParams[9] = clipLeft;

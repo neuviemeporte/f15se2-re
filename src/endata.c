@@ -4265,12 +4265,12 @@ int16 *awardPage = (int16 *)&awardPageDesc;
 
 /* Promotion score thresholds, indexed by current rank (0..5) in the
  * showPostMissionAwards promotion check. */
-extern const long promoThresholds[] = {1500L, 6000L, 12000L, 25000L, 50000L, 100000L};
+extern const int32 promoThresholds[] = {1500L, 6000L, 12000L, 25000L, 50000L, 100000L};
 
 /* Medal score thresholds, one per entry in medalNames[] (5: AFCM..CMOH), in
  * ascending order so the idx=4..0 scan in showPostMissionAwards awards the
  * highest medal whose threshold is met. */
-extern const long medalThresholds[] = {1000L, 2500L, 4000L, 6400L, 7800L};
+extern const int32 medalThresholds[] = {1000L, 2500L, 4000L, 6400L, 7800L};
 
 /* Trailing data after medal thresholds (16 bytes, accessed via offset) */
 const uint8 medalTrailingData[] = {4, 3, 3, 2, 7, 5, 3, 2, 8, 7, 4, 2, 8, 6, 5, 3};

@@ -645,16 +645,16 @@ void gfx_drawLine_impl(uint16 ux1, uint16 uy1, uint16 ux2, uint16 uy2) {
             int16 outcode = code1 ? code1 : code2;
             int16 clipX = 0, clipY = 0;
             if (outcode & 8) {
-                clipX = x1 + (long)(x2 - x1) * (199 - y1) / (y2 - y1);
+                clipX = x1 + (int32)(x2 - x1) * (199 - y1) / (y2 - y1);
                 clipY = 199;
             } else if (outcode & 4) {
-                clipX = x1 + (long)(x2 - x1) * (0 - y1) / (y2 - y1);
+                clipX = x1 + (int32)(x2 - x1) * (0 - y1) / (y2 - y1);
                 clipY = 0;
             } else if (outcode & 2) {
-                clipY = y1 + (long)(y2 - y1) * (319 - x1) / (x2 - x1);
+                clipY = y1 + (int32)(y2 - y1) * (319 - x1) / (x2 - x1);
                 clipX = 319;
             } else {
-                clipY = y1 + (long)(y2 - y1) * (0 - x1) / (x2 - x1);
+                clipY = y1 + (int32)(y2 - y1) * (0 - x1) / (x2 - x1);
                 clipX = 0;
             }
             if (outcode == code1) {
@@ -951,7 +951,7 @@ void gfx_complexRender_impl(int16 bxArg, int16 dxArg, int16 cxArg, int16 siArg) 
     int16 wi;  /* word index into the geometry table */
     uint16 base, loY, hiY;
     uint16 bx;
-    long t; /* 1-based iteration index of the naive MGRAPHIC loop */
+    int32 t; /* 1-based iteration index of the naive MGRAPHIC loop */
     int16 cl = cxArg & 0xff;
     int16 dl = dxArg & 0xff;
 
@@ -987,7 +987,7 @@ void gfx_complexRender_impl(int16 bxArg, int16 dxArg, int16 cxArg, int16 siArg) 
      * (uint16) cast yields the true unsigned gap even when bx underflowed. */
     t = 1;
     if (bx > hiY) {
-        long skip = ((long)(uint16)(bx - hiY) + 1L) / 2L;
+        int32 skip = ((int32)(uint16)(bx - hiY) + 1L) / 2L;
         bx = (uint16)(bx - (uint16)(skip * 2L));
         t += skip;
     }

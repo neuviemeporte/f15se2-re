@@ -75,16 +75,16 @@ int16 far drawClipLineGlobal(void) {
         cx = 0;
         cy = 0;
         if (oc & 8) {
-            cx = x1 + (long)(x2 - x1) * (maxY - y1) / (y2 - y1);
+            cx = x1 + (int32)(x2 - x1) * (maxY - y1) / (y2 - y1);
             cy = maxY;
         } else if (oc & 4) {
-            cx = x1 + (long)(x2 - x1) * (0 - y1) / (y2 - y1);
+            cx = x1 + (int32)(x2 - x1) * (0 - y1) / (y2 - y1);
             cy = 0;
         } else if (oc & 2) {
-            cy = y1 + (long)(y2 - y1) * (maxX - x1) / (x2 - x1);
+            cy = y1 + (int32)(y2 - y1) * (maxX - x1) / (x2 - x1);
             cx = maxX;
         } else {
-            cy = y1 + (long)(y2 - y1) * (0 - x1) / (x2 - x1);
+            cy = y1 + (int32)(y2 - y1) * (0 - x1) / (x2 - x1);
             cx = 0;
         }
         if (oc == c1) {
@@ -114,7 +114,7 @@ void FAR CDECL hudComplex(int16 bxArg, int16 dxArg, int16 cxArg, int16 siArg) {
     uint16 bx = (uint16)(bxArg - 1);
     uint16 base, loY, hiY;
     int16 wi;
-    long t;
+    int32 t;
     if ((int8)dl >= 1) bx += 20;
     if (cl != 0) {
         siArg += 4;
@@ -127,7 +127,7 @@ void FAR CDECL hudComplex(int16 bxArg, int16 dxArg, int16 cxArg, int16 siArg) {
     hiY = (uint16)g_ladderGeom[wi + 8];
     t = 1;
     if (bx > hiY) {
-        long skip = ((long)(uint16)(bx - hiY) + 1L) / 2L;
+        int32 skip = ((int32)(uint16)(bx - hiY) + 1L) / 2L;
         bx = (uint16)(bx - (uint16)(skip * 2L));
         t += skip;
     }
@@ -162,13 +162,13 @@ void FAR CDECL hudComplex(int16 bxArg, int16 dxArg, int16 cxArg, int16 siArg) {
  * asm's shl/rcl, the >>1 is `sar DX,1`. `di` is the highest vertex byte offset;
  * walk down to 0 in steps of 2. */
 void FAR CDECL hudRotateLadder(int16 di) {
-    long sinR = (long)nsine((int16)(int16)(0x4000 - g_ourRoll));
-    long cosR = (long)nsine((int16)(int16)(-g_ourRoll));
+    int32 sinR = (int32)nsine((int16)(int16)(0x4000 - g_ourRoll));
+    int32 cosR = (int32)nsine((int16)(int16)(-g_ourRoll));
     for (; di >= 0; di -= 2) {
-        long x = (long)W16(g_compassTapeBuf + 0xec + di);
-        long y = (long)W16(g_compassTapeBuf + 0x15c + di);
+        int32 x = (int32)W16(g_compassTapeBuf + 0xec + di);
+        int32 y = (int32)W16(g_compassTapeBuf + 0x15c + di);
         int16 nx, ny;
-        long v;
+        int32 v;
         nx = (int16)(((sinR * x) << 1) >> 16);
         nx -= (int16)(((cosR * y) << 1) >> 16);
         v = sinR * y;

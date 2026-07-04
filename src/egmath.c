@@ -1,4 +1,5 @@
 // seg000 optimized code (/Ot)
+#include "inttype.h"
 #include "eg3dcam.h"
 #include "eg3dload.h"
 #include "eg3dmap.h"
@@ -47,11 +48,10 @@ void load15Flt3d3() {
     fclose(fileHandle);
 }
 
-void drawWorldObject(int16 shapeId, long worldX, long worldY, int16 altitude, int16 objYaw, int16 objPitch, int16 objRoll, int16 scaleShift) {
+void drawWorldObject(int16 shapeId, int32 worldX, int32 worldY, int16 altitude, int16 objYaw, int16 objPitch, int16 objRoll, int16 scaleShift) {
     int16 *drawPg;
     int16 dataOff;
-    long relX;
-    long relY;
+    int32 relX, relY;
     int16 altDiff, shiftAmt;
 
     dataOff = shapeDataOffset(shapeId);
@@ -76,8 +76,8 @@ void drawWorldObject(int16 shapeId, long worldX, long worldY, int16 altitude, in
         shiftLongRightInPlace(shiftAmt, &relY);
         altDiff >>= (char)shiftAmt;
     }
-    if ((long)(int16)labs(relX) < (long)0x7FFF) {
-        if ((long)(int16)labs(relY) < (long)0x7FFF) {
+    if ((int32)(int16)labs(relX) < (int32)0x7FFF) {
+        if ((int32)(int16)labs(relY) < (int32)0x7FFF) {
             setViewPosition(0, 0, -altDiff);
             g_curLod = 1;
             projectSceneObject(g_world3dData + dataOff, -objYaw, objPitch, objRoll, (int16)relX, -(int16)relY, altitude != 0);
@@ -159,7 +159,7 @@ void drawTargetView(int16 shapeId, int16 worldX, int16 worldY, int16 altitude, i
         g_extraScaleShift = 2;
     }
     if (mode == 1 || mode == 3) {
-        horizonY = (int16)((long)g_trkScale * (long)(g_trkPitch >> 2) >> 5) + 156;
+        horizonY = (int16)((int32)g_trkScale * (int32)(g_trkPitch >> 2) >> 5) + 156;
         if (horizonY < 128 || g_trkPitch < (int16)0xe800) {
             horizonY = 128;
         }
@@ -234,17 +234,18 @@ int16 clampValue(int16 value, int16 minVal, int16 maxVal) { /* Original: rng2(x,
     return value;
 }
 
+#define XYDIST_MAX 0x7FFF
+
 // ==== seg000:0xcfa6 ====
 int16 rangeApprox(int16 deltaX, int16 deltaY) { /* Original: xydist(x,y). Fast 2D distance approximation capped at 0x7fff. */
-    enum { XYDIST_MAX = 0x7FFF };
-    long dist;
+    int32 dist;
     deltaX = abs(deltaX);
     deltaY = abs(deltaY);
     /* Fast 2D distance approximation: max(abs) + half of min(abs). */
     if (deltaX > deltaY)
-        dist = (long)(deltaY >> 1) + (long)deltaX;
+        dist = (int32)(deltaY >> 1) + (int32)deltaX;
     else
-        dist = (long)(deltaX >> 1) + (long)deltaY;
+        dist = (int32)(deltaX >> 1) + (int32)deltaY;
     if (dist > XYDIST_MAX) dist = XYDIST_MAX;
     return (int16)dist;
 }
@@ -252,7 +253,7 @@ int16 rangeApprox(int16 deltaX, int16 deltaY) { /* Original: xydist(x,y). Fast 2
 // ==== seg000:0xd008 ====
 int16 computeBearing(int16 deltaX, int16 deltaY) {
     int16 angle, result;
-    long numer;
+    int32 numer;
     int16 denom, swapped, ratio;
 
     if (deltaX == 0) {
@@ -264,16 +265,16 @@ int16 computeBearing(int16 deltaX, int16 deltaY) {
         return BEARING_WEST;
     }
     if (abs(deltaX) > abs(deltaY)) {
-        numer = (long)abs(deltaY) << 0xe;
+        numer = (int32)abs(deltaY) << 0xe;
         denom = abs(deltaX);
         swapped = 1;
     } else {
-        numer = (long)abs(deltaX) << 0xe;
+        numer = (int32)abs(deltaX) << 0xe;
         denom = abs(deltaY);
         swapped = 0;
     }
-    ratio = numer / (long)denom;
-    angle = ((0x2800L - (((long)abs(0x1333 - ratio) * 0xB00L) >> 0xe)) * (long)ratio) >> 0xe;
+    ratio = numer / (int32)denom;
+    angle = ((0x2800L - (((int32)abs(0x1333 - ratio) * 0xB00L) >> 0xe)) * (int32)ratio) >> 0xe;
     if (deltaX > 0) {
         if (deltaY > 0)
             result = swapped ? BEARING_EAST - angle : angle;
@@ -321,8 +322,8 @@ void seedRng(void) {
 #define RAND_SCALE_SHIFT 15
 
 // ==== seg000:0xd200 randomRange ====
-int16 randomRange(int16 maxVal) { /* Original: rnd(Max). Deterministic ((long)Max * rand()) >> 15 range scaling. */
-    return (int16)(((long)rand() * (long)maxVal) >> RAND_SCALE_SHIFT);
+int16 randomRange(int16 maxVal) { /* Original: rnd(Max). Deterministic ((int32)Max * rand()) >> 15 range scaling. */
+    return (int16)(((int32)rand() * (int32)maxVal) >> RAND_SCALE_SHIFT);
 }
 
 // ==== seg000:0xd21e ====

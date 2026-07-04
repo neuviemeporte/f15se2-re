@@ -94,10 +94,10 @@ void updateFrame(void) {
                                                                                         : -1;
 
         if (((g_planeTable.planes[g_targetSlots[0].viewIndex].flags) & 0x200) != 0) {
-            g_ViewX -= (long)(tmp * 0x80);
+            g_ViewX -= (int32)(tmp * 0x80);
             *(char *)&g_playerPlaneFlags |= 8;
         } else {
-            g_ViewY -= (long)(1800 * g_northSouthSign);
+            g_ViewY -= (int32)(1800 * g_northSouthSign);
         }
         initFrameRandom();
         appendMapEvent(8, 0);
@@ -128,8 +128,8 @@ void updateFrame(void) {
                         g_simObjects[i].speed = 300;
                         g_simObjects[i].posX = i * 12 + g_viewX_ - 36;
                         g_simObjects[i].posY = g_viewY_ - (i * 0x20 + 150) * g_northSouthSign;
-                        g_simObjects[i].worldX = (long)g_simObjects[i].posX * 32;
-                        g_simObjects[i].worldY = (long)g_simObjects[i].posY * 32;
+                        g_simObjects[i].worldX = (int32)g_simObjects[i].posX * 32;
+                        g_simObjects[i].worldY = (int32)g_simObjects[i].posY * 32;
                         g_simObjects[i].heading.w = g_ourHead + 0x8000;
                     }
                 }
@@ -141,8 +141,8 @@ void updateFrame(void) {
             g_simObjects[1].speed = 700;
             g_wingmanX = g_viewX_;
             g_wingmanY = 80 * g_northSouthSign + g_viewY_;
-            g_simObjects[1].worldX = (long)g_wingmanX * 32;
-            g_simObjects[1].worldY = (long)g_wingmanY * 32;
+            g_simObjects[1].worldX = (int32)g_wingmanX * 32;
+            g_simObjects[1].worldY = (int32)g_wingmanY * 32;
             g_simObjects[1].heading.w = g_ourHead;
         }
         g_northSouthSign = tmp;
@@ -155,12 +155,12 @@ void updateFrame(void) {
     val = clampRange(g_viewX_, 0x100, 0x7e00);
     if (val != g_viewX_) {
         g_viewX_ = val;
-        g_ViewX = (long)val << 5;
+        g_ViewX = (int32)val << 5;
     }
     val = clampRange(g_viewY_, 0x200, 0x7d00);
     if (val != g_viewY_) {
         g_viewY_ = val;
-        g_ViewY = (long)(0x8000 - g_viewY_) << 5;
+        g_ViewY = (int32)(0x8000 - g_viewY_) << 5;
     }
 
     *MAKEFAR(char, SEG_LOWMEM, OFF_BDA_KEYFLAGS) &= 0xf;
@@ -254,8 +254,8 @@ void updateFrame(void) {
                 g_simObjects[objIdx].posY += ((i + g_closestThreatIndex) & 3) * 0x10;
                 g_simObjects[objIdx].alt = 4;
             }
-            g_simObjects[objIdx].worldX = (long)g_simObjects[objIdx].posX << 5;
-            g_simObjects[objIdx].worldY = (long)g_simObjects[objIdx].posY << 5;
+            g_simObjects[objIdx].worldX = (int32)g_simObjects[objIdx].posX << 5;
+            g_simObjects[objIdx].worldY = (int32)g_simObjects[objIdx].posY << 5;
             g_simObjects[objIdx].heading.w = -randomRange(0x4000);
             g_simObjects[objIdx].spec = g_planeTable.planes[g_closestThreatIndex].flags & 0x400 ? 8 : 11;
             if (g_planeTable.planes[g_closestThreatIndex].flags & 0x100) {
@@ -344,8 +344,8 @@ skip_target_section:
         if ((g_landingDoneFlag == 0) && (g_missionStatus == 0) && g_playerPlaneFlags & 0x6000) {
             if (abs(g_viewX_ - g_planeTable.planes[g_closestThreatIndex].mapX) < 0x10 && abs(g_viewY_ - g_planeTable.planes[g_closestThreatIndex].mapY) < 0x10) {
                 g_setThrust = g_velocity = g_altitude = 0;
-                g_ViewX = (long)g_planeTable.planes[g_closestThreatIndex].mapX << 5;
-                g_ViewY = (long)(0x8000 - g_planeTable.planes[g_closestThreatIndex].mapY) << 5;
+                g_ViewX = (int32)g_planeTable.planes[g_closestThreatIndex].mapX << 5;
+                g_ViewY = (int32)(0x8000 - g_planeTable.planes[g_closestThreatIndex].mapY) << 5;
             } else {
                 tempStrcpy("Automatic Landing Engaged");
                 g_autoLandingActive = 1;
@@ -358,8 +358,8 @@ skip_target_section:
                 if (g_altitude < g_groundAltitude + 5) {
                     g_altitude = g_groundAltitude + 5;
                 }
-                g_ViewX -= (g_ViewX - ((long)g_planeTable.planes[g_closestThreatIndex].mapX << 5)) / (long)i;
-                g_ViewY -= (g_ViewY - ((long)(0x8000 - g_planeTable.planes[g_closestThreatIndex].mapY) << 5)) / (long)i;
+                g_ViewX -= (g_ViewX - ((int32)g_planeTable.planes[g_closestThreatIndex].mapX << 5)) / (int32)i;
+                g_ViewY -= (g_ViewY - ((int32)(0x8000 - g_planeTable.planes[g_closestThreatIndex].mapY) << 5)) / (int32)i;
             }
         }
     } else {

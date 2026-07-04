@@ -23,9 +23,9 @@
 /* Private helpers for this translation unit. */
 int16 far transformAndCullObjectFar(int16, int16, int16);
 
-void projectObjects(int16 heading, int16 rangeGate, long worldX, long worldY, long worldZ) {
+void projectObjects(int16 heading, int16 rangeGate, int32 worldX, int32 worldY, int32 worldZ) {
     int16 gridX, gridY, dirSector, fracX, subIdx, fracY, sampleIdx, tmp0, tileX, tileY, tmp1, cell;
-    long scaled;
+    int32 scaled;
 
     g_proj3d.x = worldX;
     g_proj3d.y = worldY;

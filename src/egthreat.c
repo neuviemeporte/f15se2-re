@@ -67,7 +67,7 @@ void updateThreatSites() {
     if (g_mapMode == 0 && g_scopeSweepTimer > 0 && g_hudVisible != 0 && g_scopeArcRange > 1) {
         if (g_detailLevel != 0 && commData->gfxModeNum != 0) {
             captureScopePanel();
-            arcRadius = (int16)((long)clampRange(g_frameRateScaling - g_scopeSweepTimer, 1, g_frameRateScaling) * (long)g_scopeArcRange / (long)g_frameRateScaling) << 6;
+            arcRadius = (int16)((int32)clampRange(g_frameRateScaling - g_scopeSweepTimer, 1, g_frameRateScaling) * (int32)g_scopeArcRange / (int32)g_frameRateScaling) << 6;
         } else {
             arcRadius = g_scopeArcRange << 6;
             g_scopeArcRange = 0;
@@ -145,7 +145,7 @@ void fireGroundThreat(int16 planeIdx) {
                                         g_projectiles[slot].speed = 1;
                                         g_projectiles[slot].worldX = bearing[0];
                                         g_projectiles[slot].worldY = 0x4000;
-                                        g_projectiles[slot].ttl = (int16)((((long)sams[threatType].lockRange << 3) * (long)g_frameRateScaling) / (long)(sams[threatType].maxSpeed >> 6));
+                                        g_projectiles[slot].ttl = (int16)((((int32)sams[threatType].lockRange << 3) * (int32)g_frameRateScaling) / (int32)(sams[threatType].maxSpeed >> 6));
                                         g_projectiles[slot].specIdx = threatType;
                                         g_projectiles[slot].targetRef = planeIdx;
 
@@ -487,15 +487,15 @@ void updateObjects(void) {
 
                 g_simObjects[objIdx].flags.b[0] &= 0xef;
 
-                moveAmt = (int16)((uint32)(uint16)(-(g_simObjects[objIdx].pitch / 2 + (int16)0x8000)) * (long)g_simObjects[objIdx].speed >> 14);
+                moveAmt = (int16)((uint32)(uint16)(-(g_simObjects[objIdx].pitch / 2 + (int16)0x8000)) * (int32)g_simObjects[objIdx].speed >> 14);
                 moveAmt -= abs(sinMul(g_simObjects[objIdx].bank.w, moveAmt)) >> 1;
                 moveAmt = moveAmt * 4 / g_frameRateScaling;
                 moveAmt >>= 2;
 
                 horizMove = cosMul(g_simObjects[objIdx].pitch, moveAmt);
 
-                g_simObjects[objIdx].worldX += (long)sinMul(g_simObjects[objIdx].heading.w, horizMove);
-                g_simObjects[objIdx].worldY -= (long)cosMul(g_simObjects[objIdx].heading.w, horizMove);
+                g_simObjects[objIdx].worldX += (int32)sinMul(g_simObjects[objIdx].heading.w, horizMove);
+                g_simObjects[objIdx].worldY -= (int32)cosMul(g_simObjects[objIdx].heading.w, horizMove);
 
                 g_simObjects[objIdx].alt += sinMul(g_simObjects[objIdx].pitch, moveAmt);
 

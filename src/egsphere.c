@@ -32,7 +32,7 @@ void drawProjectionSphere(int16 skyColor) {
     for (ringIx = 0; ringIx < 16; ringIx++)
         g_sphereRingRadii[ringIx] = g_sphereRingTable[ringIx];
     g_sphereTiltZ = -g_spherePitch;
-    radiusScale = (int16)(((long)g_sphereRadius << 8) / (long)(g_sphereDistZ < 0x200 ? 0x200 : g_sphereDistZ));
+    radiusScale = (int16)(((int32)g_sphereRadius << 8) / (int32)(g_sphereDistZ < 0x200 ? 0x200 : g_sphereDistZ));
     if (g_extraScaleShift != 0) {
         radiusScale <<= g_extraScaleShift;
     }

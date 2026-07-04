@@ -793,9 +793,9 @@ void drawMapPixel(int16 x, int16 y, int16 color) {
     drawClippedLine(x, y, x, y);
 }
 
-long calcMissionScore(int16 param) {
+int32 calcMissionScore(int16 param) {
     int16 weaponCount, a, recIdx, ejected;
-    long score;
+    int32 score;
     int16 unitId, waypointCount;
 
     samKilled = groundKilled = samMissed = groundMissed = airKilled = airMissed = primaryHit = secondaryHit = ejected = 0;
@@ -867,7 +867,7 @@ long calcMissionScore(int16 param) {
         }
     }
 
-    score = (long)((airKilled - airMissed * 2) * weaponCount * 25) + (long)((samKilled - samMissed * 2) * (gameData->difficulty + 1) * 50) + (long)((groundKilled - groundMissed * 2) * weaponCount * 20) + (long)(weaponCount * primaryHit * 200) + (long)(weaponCount * secondaryHit * 100);
+    score = (int32)((airKilled - airMissed * 2) * weaponCount * 25) + (int32)((samKilled - samMissed * 2) * (gameData->difficulty + 1) * 50) + (int32)((groundKilled - groundMissed * 2) * weaponCount * 20) + (int32)(weaponCount * primaryHit * 200) + (int32)(weaponCount * secondaryHit * 100);
 
     score = score * 2 / (waypointCount + 1);
 

@@ -9,5 +9,5 @@ void seedRandom() {
 }
 
 int16 randMul(uint16 arg) {
-    return (rand() * (long)arg) >> 0xf;
+    return (rand() * (int32)arg) >> 0xf;
 }

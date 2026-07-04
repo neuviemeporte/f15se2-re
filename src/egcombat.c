@@ -79,7 +79,7 @@ void fireAirThreat(int16 objIdx) {
                                 g_projectiles[slot].worldY = g_simObjects[objIdx].pitch - 0x400;
                                 g_projectiles[slot].worldZ = g_simObjects[objIdx].bank.w;
 
-                                g_projectiles[slot].ttl = (int16)((((long)sams[idx].lockRange << 3) * (long)g_frameRateScaling) / (long)g_projectiles[slot].speed);
+                                g_projectiles[slot].ttl = (int16)((((int32)sams[idx].lockRange << 3) * (int32)g_frameRateScaling) / (int32)g_projectiles[slot].speed);
 
                                 g_projectiles[slot].specIdx = idx;
                                 slot = slot;
@@ -132,13 +132,13 @@ void spawnEnemyAircraft(int16 slot, int16 objType) {
         g_simObjects[slot].alt = 12;
         g_simObjects[slot].speed = 10;
     }
-    g_simObjects[slot].worldX = (long)(uint16)g_simObjects[slot].posX << 5;
-    g_simObjects[slot].worldY = (long)(uint16)g_simObjects[slot].posY << 5;
+    g_simObjects[slot].worldX = (int32)(uint16)g_simObjects[slot].posX << 5;
+    g_simObjects[slot].worldY = (int32)(uint16)g_simObjects[slot].posY << 5;
     g_simObjects[slot].pitch = 0;
     g_simObjects[slot].bank.w = 0;
     g_simObjects[slot].flags.w |= 0x403;
     g_simObjects[slot].objType = objType;
-    g_simObjects[slot].timer = (int16)(((long)aircraftTypes[spec].range << 11) * (long)g_frameRateScaling / (long)aircraftTypes[spec].maxSpeed);
+    g_simObjects[slot].timer = (int16)(((int32)aircraftTypes[spec].range << 11) * (int32)g_frameRateScaling / (int32)aircraftTypes[spec].maxSpeed);
     g_simObjects[slot].terrainColor = readMapPixelColor(g_planeTable.planes[objType].mapX, g_planeTable.planes[objType].mapY);
     if (g_padlockAircraft == -1) {
         g_simObjects[slot].flags.b[1] &= 0xfe;
@@ -538,8 +538,8 @@ void destroyGroundTarget(int16 planeIdx) {
         }
 
         g_nearestTileObj = findNearestTileObject(
-            (long)g_planeTable.planes[planeIdx].mapX << 5,
-            (0x8000L - (long)g_planeTable.planes[planeIdx].mapY) << 5);
+            (int32)g_planeTable.planes[planeIdx].mapX << 5,
+            (0x8000L - (int32)g_planeTable.planes[planeIdx].mapY) << 5);
 
         if (planeIdx != 0) {
             if (g_planeTable.planes[planeIdx].active == 0) {
@@ -685,7 +685,7 @@ void fireMissile() {
     g_projectiles[slot].worldY = g_ourPitch;
     g_projectiles[slot].worldZ = g_ourRoll;
 
-    g_projectiles[slot].ttl = (int16)(((long)sams[spec].lockRange << (6 - (sams[spec].weaponClass == 6 ? 3 : 2))) * (long)g_frameRateScaling / (long)((sams[spec].maxSpeed >> 6) + 1)) + 6;
+    g_projectiles[slot].ttl = (int16)(((int32)sams[spec].lockRange << (6 - (sams[spec].weaponClass == 6 ? 3 : 2))) * (int32)g_frameRateScaling / (int32)((sams[spec].maxSpeed >> 6) + 1)) + 6;
 
     slot = slot;
     if (g_projectiles[slot].ttl <= 6) {

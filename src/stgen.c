@@ -187,8 +187,8 @@ counterMore1k:
     baseXPrecise = (uint32)(worldObjects[targets[0].baseIdx].x_coord) << WORLD_COORD_SHIFT;
     /*
     Assigns the following values to made-up stack variables:
-    var_34 = (long)((word_1C830 & 0x200) ? 0 : 0x708);
-    var_30 = 0x8000 - (long)word_1C82C;
+    var_34 = (int32)((word_1C830 & 0x200) ? 0 : 0x708);
+    var_30 = 0x8000 - (int32)word_1C82C;
     example step-through values:
     1) DX:AX = 0:0708 (1800)
        BX:CX = 0:42c0 (17088)
@@ -333,8 +333,8 @@ void positionUnit(int16 unit, int16 loc) {
     planeType = flightUnits[unit].planeType;
     flightUnits[unit].x = worldObjects[loc].x_coord + 9;
     flightUnits[unit].y = worldObjects[loc].y_coord - 12;
-    flightUnits[unit].xPrecise = (long)flightUnits[unit].x << WORLD_COORD_SHIFT;
-    flightUnits[unit].yPrecise = (long)flightUnits[unit].y << WORLD_COORD_SHIFT;
+    flightUnits[unit].xPrecise = (int32)flightUnits[unit].x << WORLD_COORD_SHIFT;
+    flightUnits[unit].yPrecise = (int32)flightUnits[unit].y << WORLD_COORD_SHIFT;
     flightUnits[unit].altitude = worldObjects[loc].targetFlags & 0x200 ? 140 : 12;
     flightUnits[unit].maxSpeed = planes[planeType].maxSpeed;
     flightUnits[unit].heading = 0xfc00;
@@ -342,15 +342,15 @@ void positionUnit(int16 unit, int16 loc) {
     flightUnits[unit].roll = 0;
     flightUnits[unit].flags |= 0x403;
     flightUnits[unit].waypointIdx = loc;
-    flightUnits[unit].fuel = ((long)planes[planeType].range << 0xd) / flightUnits[unit].maxSpeed;
+    flightUnits[unit].fuel = ((int32)planes[planeType].range << 0xd) / flightUnits[unit].maxSpeed;
 }
 
 // debugcom: custom_manhattan_distance
 int16 approxDistance(int16 dx, int16 dy) {
-    long dist;
+    int32 dist;
     dx = abs(dx);
     dy = abs(dy);
-    dist = (dx > dy) ? (long)(dy >> 1) + (long)dx : (long)(dx >> 1) + (long)dy;
+    dist = (dx > dy) ? (int32)(dy >> 1) + (int32)dx : (int32)(dx >> 1) + (int32)dy;
     if (dist > 0x7fff) {
         dist = 0x7fff;
     }

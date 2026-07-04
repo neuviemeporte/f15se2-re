@@ -35,13 +35,13 @@ void drawMissileLock(void);
 void drawTargetLabel(const char *, int16, int16);
 void buildRangeString(int16 rangeRaw);
 void projectWorldToHud(int16 worldX, int16 worldY, int16 worldZ);
-long rotateVectorComponent(int16 axis, int16 vecX, int16 vecY, int16 vecZ);
+int32 rotateVectorComponent(int16 axis, int16 vecX, int16 vecY, int16 vecZ);
 int16 computeMapTargetRange(int16 targetIdx);
 int16 computeSimObjectRange(int16 objIdx);
 int16 computeTargetBearing(int16 targetX, int16 targetY, int16 wantBearing);
 
 void projectWorldToHud(int16 worldX, int16 worldY, int16 worldZ);
-long rotateVectorComponent(int16 axis, int16 vecX, int16 vecY, int16 vecZ);
+int32 rotateVectorComponent(int16 axis, int16 vecX, int16 vecY, int16 vecZ);
 int16 computeMapTargetRange(int16 targetIdx);
 int16 computeSimObjectRange(int16 objIdx);
 int16 computeTargetBearing(int16 targetX, int16 targetY, int16 wantBearing);
@@ -49,11 +49,11 @@ int16 computeTargetBearing(int16 targetX, int16 targetY, int16 wantBearing);
 // ==== seg000:0xc488 ====
 void projectWorldToHud(int16 worldX, int16 worldY, int16 worldZ) {
     int16 relX;
-    long camX;
+    int32 camX;
     int16 relY;
-    long camY;
+    int32 camY;
     int16 relZ;
-    long camDepth;
+    int32 camDepth;
 
     relX = g_viewX_ - worldX;
     relY = worldY - g_viewY_;
@@ -62,7 +62,7 @@ void projectWorldToHud(int16 worldX, int16 worldY, int16 worldZ) {
     if (keyValue & 0x80) {
         relX -= (int16)((g_ViewX - g_camEyeX) >> 5);
         relY -= (int16)((g_ViewY - g_camEyeY) >> 5);
-        relZ -= (int16)((-((long)(uint16)g_viewZ - (long)g_camEyeZ)) >> 5);
+        relZ -= (int16)((-((int32)(uint16)g_viewZ - (int32)g_camEyeZ)) >> 5);
     }
 
     camX = rotateVectorComponent(0, relX, relY, relZ);
@@ -102,12 +102,12 @@ void projectWorldToHud(int16 worldX, int16 worldY, int16 worldZ) {
 }
 
 // ==== seg000:0xc661 ====
-long rotateVectorComponent(int16 axis, int16 vecX, int16 vecY, int16 vecZ) {
-    long sum;
+int32 rotateVectorComponent(int16 axis, int16 vecX, int16 vecY, int16 vecZ) {
+    int32 sum;
 
-    sum = (long)fixedMulQ14(g_camRotMatrix[axis], vecX);
-    sum += (long)fixedMulQ14(g_camRotMatrix[3 + axis], vecZ);
-    sum += (long)fixedMulQ14(g_camRotMatrix[6 + axis], vecY);
+    sum = (int32)fixedMulQ14(g_camRotMatrix[axis], vecX);
+    sum += (int32)fixedMulQ14(g_camRotMatrix[3 + axis], vecZ);
+    sum += (int32)fixedMulQ14(g_camRotMatrix[6 + axis], vecY);
     return sum;
 }
 
@@ -158,7 +158,7 @@ int16 computeTargetBearing(int16 targetX, int16 targetY, int16 wantBearing) {
 
 // ==== seg000:0xc82d ====
 int16 computeLoftAngle() {
-    return (int16)((uint32)((long)(0x4000 - abs(g_ourPitch)) << 12) / (uint32)(uint16)(g_viewZ + 0x1000)) - 0x4000;
+    return (int16)((uint32)((int32)(0x4000 - abs(g_ourPitch)) << 12) / (uint32)(uint16)(g_viewZ + 0x1000)) - 0x4000;
 }
 
 // ==== seg000:0xc864 ====

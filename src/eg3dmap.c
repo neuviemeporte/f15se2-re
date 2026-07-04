@@ -98,8 +98,8 @@ struct TileObject *findNearestTileObject(uint32 worldX, uint32 worldY) {
                                 nearestTile.entry = g_curTileEntry;
                                 nearestTile.id = g;
                                 nearestTile.dist = q;
-                                nearestTile.x = worldX + (long)h;
-                                nearestTile.y = worldY + (long)j;
+                                nearestTile.x = worldX + (int32)h;
+                                nearestTile.y = worldY + (int32)j;
                             }
                         }
                     }
@@ -294,7 +294,7 @@ void drawModelPoint(int16 x, int16 y) {
 
 // ==== seg000:0x378e ====
 void buildVertexSignMask(int16 screenX, int16 screenY) {
-    long bit;
+    int32 bit;
     int16 edgeIdx;
 
     bit = 1L;
@@ -360,7 +360,7 @@ void setup3DTransform(const int16 *model, int16 angleX, int16 angleY, int16 angl
         }
 #ifdef DEBUG
         {
-            uint16 long spins = 0;
+            uint16 int32 spins = 0;
             while (g_frameSyncPending != 0) {
                 if (++spins > 3000000UL) {
                     LogWarn(("13932: SPIN TIMEOUT - timer ISR not clearing 378EE"));

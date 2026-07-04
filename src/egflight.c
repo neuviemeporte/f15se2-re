@@ -426,7 +426,7 @@ switch_break:
     strcat(g_geeStringBuf, itoa((abs(g_gees) & 0xF) >> 1, strBuf, 10));
     strcat(g_geeStringBuf, "G");
 
-    speedCalc = ((long)(g_thrust - sinMul(g_ourPitch, 80)) * 800L) / 100L;
+    speedCalc = ((int32)(g_thrust - sinMul(g_ourPitch, 80)) * 800L) / 100L;
 
     g_cornerSpeed = 100;
     speedCalc = ((((uint16)g_viewZ >> 7) + 0x0400) * (int32)(speedCalc & speedCalc)) >> 10; // speedCalc & speedCalc folds to a plain load but ranks the operand "heavy", so the shift-expr is evaluated/pushed first like the ref
@@ -693,14 +693,14 @@ void rebuildOrientation() {
 uint16 signedRatio16(int16 numerator, int16 denominator) { /* Original: IntDiv(A,B). Divide two signed 15-bit fractions. */
     char numeratorSign = 1;
     char denominatorSign = 1;
-    long absNumerator;
-    long absDenominator;
+    int32 absNumerator;
+    int32 absDenominator;
 
     /* Divide two signed 15-bit fractions, then restore the combined sign. */
     if (numerator < 0) numeratorSign = -1;
     if (denominator < 0) denominatorSign = -1;
-    absNumerator = (long)(numerator < 0 ? -numerator : numerator);
-    absDenominator = (long)(denominator < 0 ? -denominator : denominator);
+    absNumerator = (int32)(numerator < 0 ? -numerator : numerator);
+    absDenominator = (int32)(denominator < 0 ? -denominator : denominator);
     return (uint16)((uint16)((((uint32)(uint16)absNumerator) << 16) / absDenominator >> 1)) * (uint16)(int16)numeratorSign * (uint16)(int16)denominatorSign;
 done:;
 }
@@ -717,7 +717,7 @@ int16 valueToAngle(int16 value) { /* Original: Iasin(A). Return 16-bit word-degr
     for (; tableIndex >= 0; tableIndex--) {
         if (g_angleLut[tableIndex] <= magnitude) {
             tableSpan = g_angleLut[tableIndex + 1] - g_angleLut[tableIndex];
-            angle = (int16)((long)(magnitude - g_angleLut[tableIndex]) * WORD_DEGREE_STEP / (long)tableSpan) + tableIndex * WORD_DEGREE_STEP;
+            angle = (int16)((int32)(magnitude - g_angleLut[tableIndex]) * WORD_DEGREE_STEP / (int32)tableSpan) + tableIndex * WORD_DEGREE_STEP;
             break;
         }
     }
