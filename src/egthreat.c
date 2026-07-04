@@ -86,7 +86,7 @@ void updateThreatSites() {
 /* ---- merged from egflt.c ---- */
 void fireGroundThreat(int planeIdx) {
     int bearing[11];
-    unsigned int range[4];
+    uint16 range[4];
     int clampedRange;
     int threatType;
     int slot;

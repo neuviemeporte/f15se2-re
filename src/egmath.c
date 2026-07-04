@@ -207,7 +207,7 @@ void drawTargetView(int shapeId, int worldX, int worldY, int altitude, int objYa
 
     if (mode == 1) {
         strcpy(strBuf, "BRG ");
-        strcat(strBuf, itoa((unsigned int)g_trkBearing / 0xb6, g_itoaScratch, 10));
+        strcat(strBuf, itoa((uint16)g_trkBearing / 0xb6, g_itoaScratch, 10));
         drawStringActivePage(strBuf, 248, 176, 0xf);
     }
     g_extraScaleShift = 0;

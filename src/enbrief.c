@@ -21,17 +21,17 @@ int drawEventSprite(int recordIdx);
 void drawMapPixel(int x, int y, int color);
 int isPointInRect(const struct MenuItem *p);
 void blinkWidget(MenuItem *item, int16 *gfxPage);
-unsigned int drawFlightPath(int16 *gfxPage, unsigned int maxRecord);
+uint16 drawFlightPath(int16 *gfxPage, uint16 maxRecord);
 void showEventPopup(void);
 void drawFlightLine(int p1, int p2, int p3, int p4);
 char *formatFlightTime(int timeValue, char *buffer);
 void plotMapPoint(int x, int y, int color, int unused);
-void timerWait(unsigned int ticks);
+void timerWait(uint16 ticks);
 void processDebriefInput(const int16 *cursorBounds, const MenuItem *menuItem, int16 *gfxPage);
-void drawMenuItem(const MenuItem *items, unsigned int index, int16 *gfxPage);
+void drawMenuItem(const MenuItem *items, uint16 index, int16 *gfxPage);
 
 void computeMissionResult(void) {
-    unsigned int gridX, gridY;
+    uint16 gridX, gridY;
 
     gridX = commData->worldX >> 0x0b;
     gridY = commData->worldY >> 0x0b;
@@ -199,7 +199,7 @@ int isPointInRect(const MenuItem *p) {
     char repeatActive;
     int keycode;
 
-    colorTablePtr = (unsigned int *)((char *)colorStyleTable + menuItem->colorTableIdx * 14);
+    colorTablePtr = (uint16 *)((char *)colorStyleTable + menuItem->colorTableIdx * 14);
     timerCounter2 = 0;
     joyBtn0 = joyBtn1 = 0;
     inputChanged = enterPressed = animDone = repeatActive = 0;
@@ -378,14 +378,14 @@ int isPointInRect(const MenuItem *p) {
 }
 
 // 2bd1
-void drawMenuItem(const MenuItem *items, unsigned int index, int16 *gfxPage) {
+void drawMenuItem(const MenuItem *items, uint16 index, int16 *gfxPage) {
     char p[2];
     char a[2];
     char prefix[2];
     char d[2];
     int m;
     char numBuf[4];
-    unsigned int unitIdx;
+    uint16 unitIdx;
     p[0] = 0x0a;
     p[1] = 0;
     prefix[0] = 0x89;
@@ -680,7 +680,7 @@ done:
     }
 }
 
-unsigned int drawFlightPath(int16 *gfxPage, unsigned int maxRecord) {
+uint16 drawFlightPath(int16 *gfxPage, uint16 maxRecord) {
     int curX;
     int recIdx;
     int prevX;
@@ -740,11 +740,11 @@ char *formatFlightTime(int timeValue, char *buffer) {
 }
 
 int mapToScreenX(unsigned char mapCoord) {
-    return ((unsigned int)mapCoord << 7) / MAP_SCALE_X;
+    return ((uint16)mapCoord << 7) / MAP_SCALE_X;
 }
 
 int mapToScreenY(unsigned char mapCoord) {
-    return ((unsigned int)mapCoord << 7) / MAP_SCALE_Y;
+    return ((uint16)mapCoord << 7) / MAP_SCALE_Y;
 }
 
 void plotMapPoint(int x, int y, int color, int unused) {
@@ -762,7 +762,7 @@ void plotMapPoint(int x, int y, int color, int unused) {
     }
 }
 
-void timerWait(unsigned int ticks) {
+void timerWait(uint16 ticks) {
     timerCounter = 0;
     setTimerIrqHandler();
     while (ticks >= timerCounter);

@@ -40,7 +40,7 @@ static unsigned char kbdDirKeyTable[41] = {
 
 /* ISR-private state (egslots.asm globals in the ASM build). */
 static unsigned char kbdActiveScan = 0;   /* direction mask of the held key */
-static unsigned int kbdLastTick = 0;      /* BIOS tick at last press */
+static uint16 kbdLastTick = 0;      /* BIOS tick at last press */
 static unsigned char kbdPrevScan = 0;     /* previous raw scancode (E0/E1 prefix) */
 static unsigned char kbdLastDirKey = 0;   /* last direction mask seen */
 static unsigned char kbdDelayCounter = 0; /* skip N bytes after an E0/E1 prefix */
@@ -49,9 +49,9 @@ static void(interrupt far *oldInt9)(void);
 
 static void interrupt far kbdInt9Handler(void) {
     unsigned char far *biosb = (unsigned char far *)MK_FP(0x40, 0);
-    unsigned int far *biosw = (unsigned int far *)MK_FP(0x40, 0);
+    uint16 far *biosw = (uint16 far *)MK_FP(0x40, 0);
     unsigned char scan, key, mask, bl, bh;
-    unsigned int head;
+    uint16 head;
 
     if (kbdDelayCounter != 0) {
         kbdDelayCounter--;
@@ -127,7 +127,7 @@ flush:
     /* Drop consecutive duplicate keys queued in the BIOS buffer (typeahead). */
     head = biosw[0x1A / 2];
     if (head != biosw[0x1C / 2]) {
-        unsigned int firstKey = biosw[head / 2];
+        uint16 firstKey = biosw[head / 2];
         for (;;) {
             head += 2;
             if (head >= biosw[0x82 / 2]) head = biosw[0x80 / 2];

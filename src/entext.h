@@ -3,6 +3,6 @@
 /* text layout (entext.c) */
 #include "inttype.h"
 
-void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y, int lineHeight);
+void drawWrappedText(int16 *page, char *str, uint16 maxWidth, int x, int y, int lineHeight);
 
 #endif /* F15_SE2_ENTEXT */

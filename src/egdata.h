@@ -109,7 +109,7 @@ extern const int16 g_lodObjectCount[];
 extern const int16 g_lodGridDim[];
 extern size_t size3d3;
 extern uint16 buf3d3[];
-extern unsigned int size3d3_2;
+extern uint16 size3d3_2;
 extern int16 sign3dt;
 extern uint16 sizes3dt[];
 extern uint16 matrix3dt[5][32];
@@ -161,7 +161,7 @@ extern uint16 g_viewZ;
 #else
 extern int16 g_viewZ;
 #endif
-extern unsigned int g_altitude;
+extern uint16 g_altitude;
 extern char g_orientationDirty;
 extern int16 g_setThrust;
 extern int16 g_joyCalibTimer;

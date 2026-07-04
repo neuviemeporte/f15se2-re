@@ -686,8 +686,8 @@ void finalizeMission(int outcome) {
 }
 
 // ==== seg000:0x1bc3 ====
-void scheduleEventCheck(int eventObjIdx, unsigned int priority) {
-    if (priority > (unsigned int)g_directorMode) return;
+void scheduleEventCheck(int eventObjIdx, uint16 priority) {
+    if (priority > (uint16)g_directorMode) return;
     if (g_directorEventDeadline != -1) return;
     g_viewTargetObj = eventObjIdx;
     scheduleTimedEvent(0x89, g_directorMode == 1 ? 3 : 4);

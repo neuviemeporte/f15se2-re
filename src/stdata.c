@@ -287,8 +287,8 @@ const char *worldFiles[] = {"Libya.wld", "gulf.wld", "vn.wld", "me.wld", "nc.wld
 /* Mission coordinate state */
 int16 missionMidX = 0;
 int16 missionMidY = 0;
-unsigned int missionTargetX = 0;
-unsigned int missionTargetY = 0;
+uint16 missionTargetX = 0;
+uint16 missionTargetY = 0;
 int16 missionTarget2X = 0;
 int16 missionTarget2Y = 0;
 int16 missionBase2X = 0;

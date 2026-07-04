@@ -28,7 +28,7 @@ const char *scenarioPlh[8] = {
     "lb.xxx", "pg.xxx", "vn.xxx", "me.xxx",
     "nc.xxx", "ce.xxx", "jp.xxx", "na.xxx"};
 
-int allocSize = 0;
+int16 allocSize = 0;
 int16 g_sphereColor = 0xC4;
 int16 g_viewCenterX = 160;
 int16 g_viewCenterY = 100;
@@ -497,7 +497,7 @@ uint16 g_frameRateAccum = 0;
    twice as fast; the tac map shows "ACCEL"). */
 int16 g_timeAccelMode = 1;
 int16 g_directorEventDeadline = -1;
-int g_directorMode = 0;
+int16 g_directorMode = 0;
 int16 g_resupplyCount = 1;
 int16 g_autoLandingActive = 0;
 int16 g_landingTimer = 0;
@@ -562,7 +562,7 @@ size_t size3d3 = 1;
  * words. sizes3dt: per-LOD vertex counts (5 entries, each <=0x20). matrix3dt:
  * 5 LODs x 32 vertex words. */
 uint16 buf3d3[100] = {0};
-unsigned int size3d3_2 = 0;
+uint16 size3d3_2 = 0;
 int16 sign3dt = 0x3131;
 uint16 sizes3dt[5] = {32, 32, 32, 32, 32};
 uint16 matrix3dt[5][32] = {{0}};
@@ -1848,7 +1848,7 @@ int16 g_ourHead = 0;
 int16 g_viewZ; /* altitude-Z */
 
 /* g_altitude: airspeed/velocity magnitude. */
-unsigned int g_altitude = 0;
+uint16 g_altitude = 0;
 int16 g_rotationCounter = 0;
 char g_rollWasNonzero = 0;
 /* g_orientationDirty: orientation-dirty flag. Set when heading/pitch/roll change so the

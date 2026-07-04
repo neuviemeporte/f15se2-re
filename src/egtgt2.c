@@ -159,7 +159,7 @@ int computeTargetBearing(int targetX, int targetY, int wantBearing) {
 
 // ==== seg000:0xc82d ====
 int computeLoftAngle() {
-    return (int)((unsigned long)((long)(0x4000 - abs(g_ourPitch)) << 12) / (unsigned long)(unsigned int)(g_viewZ + 0x1000)) - 0x4000;
+    return (int)((unsigned long)((long)(0x4000 - abs(g_ourPitch)) << 12) / (unsigned long)(uint16)(g_viewZ + 0x1000)) - 0x4000;
 }
 
 // ==== seg000:0xc864 ====

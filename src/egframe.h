@@ -9,7 +9,7 @@ void initWeaponLoadout(void);
 void drawWeaponAmmo();
 void drawWeaponSelectMarker(int weaponIdx);
 void finalizeMission(int outcome);
-void scheduleEventCheck(int eventObjIdx, unsigned int priority);
+void scheduleEventCheck(int eventObjIdx, uint16 priority);
 void scheduleTimedEvent(int keyVal, int delay);
 void appendMapEvent(int eventType, int eventArg);
 void placeString(int waypointIdx);

@@ -75,7 +75,7 @@ inline int int86x(int intno, union REGS *inregs, union REGS *outregs, struct SRE
     return 0;
 }
 inline void segread(struct SREGS *segregs) { (void)segregs; }
-inline void movedata(unsigned int srcseg, unsigned int srcoff, unsigned int dstseg, unsigned int dstoff, unsigned int nbytes) {
+inline void movedata(uint16 srcseg, uint16 srcoff, uint16 dstseg, uint16 dstoff, uint16 nbytes) {
     (void)srcseg;
     (void)srcoff;
     (void)dstseg;
@@ -85,20 +85,20 @@ inline void movedata(unsigned int srcseg, unsigned int srcoff, unsigned int dsts
 
 inline void _chain_intr(void (*handler)()) { (void)handler; }
 typedef void (*_dos_isr_t)();
-inline _dos_isr_t _dos_getvect(unsigned intno) {
+inline _dos_isr_t _dos_getvect(uint16no) {
     (void)intno;
     return 0;
 }
-inline void _dos_setvect(unsigned intno, _dos_isr_t handler) {
+inline void _dos_setvect(uint16no, _dos_isr_t handler) {
     (void)intno;
     (void)handler;
 }
 
-inline int inp(unsigned int port) {
+inline int inp(uint16 port) {
     (void)port;
     return 0;
 }
-inline int outp(unsigned int port, int value) {
+inline int outp(uint16 port, int value) {
     (void)port;
     (void)value;
     return 0;

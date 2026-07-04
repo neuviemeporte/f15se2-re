@@ -7,7 +7,7 @@
 #include "shared/common.h"
 #include "entext.h"
 
-void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y, int lineHeight) {
+void drawWrappedText(int16 *page, char *str, uint16 maxWidth, int x, int y, int lineHeight) {
     int font;
     char *lineStart;
 #ifdef BUGFIX
@@ -19,7 +19,7 @@ void drawWrappedText(int16 *page, char *str, unsigned int maxWidth, int x, int y
     int d;
     char *strBegin;
     int8 running;
-    unsigned int pixWidth;
+    uint16 pixWidth;
     char buf[1000];
 
     strBegin = str;

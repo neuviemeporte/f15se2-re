@@ -702,7 +702,7 @@ unsigned signedRatio16(int numerator, int denominator) { /* Original: IntDiv(A,B
     if (denominator < 0) denominatorSign = -1;
     absNumerator = (long)(numerator < 0 ? -numerator : numerator);
     absDenominator = (long)(denominator < 0 ? -denominator : denominator);
-    return (unsigned)((unsigned int)((((unsigned long)(unsigned int)absNumerator) << 16) / absDenominator >> 1)) * (unsigned)(int)numeratorSign * (unsigned)(int)denominatorSign;
+    return (unsigned)((uint16)((((unsigned long)(uint16)absNumerator) << 16) / absDenominator >> 1)) * (unsigned)(int)numeratorSign * (unsigned)(int)denominatorSign;
 done:;
 }
 

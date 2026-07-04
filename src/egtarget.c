@@ -150,8 +150,8 @@ skip_aam:
     /* Air-to-ground targeting */
     range = 0x4b << (6 - (unsigned char)g_nightMode);
 
-    depthShift = (g_hudVisible != 0 && (unsigned int)(g_nearestThreatRange + g_viewZ) > 1500) ? 1 : 0;
-    if (g_hudVisible != 0 && (unsigned int)(g_nearestThreatRange + g_viewZ) > 4000) {
+    depthShift = (g_hudVisible != 0 && (uint16)(g_nearestThreatRange + g_viewZ) > 1500) ? 1 : 0;
+    if (g_hudVisible != 0 && (uint16)(g_nearestThreatRange + g_viewZ) > 4000) {
         depthShift = 2;
     }
 
@@ -272,7 +272,7 @@ skip_aam:
                     0x01000000L - g_ViewY, g_viewZ + 0x10, g_ourHead, g_ourPitch, g_ourRoll,
                     2 - depthShift);
 
-    if ((unsigned int)g_viewZ < 1000 && g_nightMode == 0) {
+    if ((uint16)g_viewZ < 1000 && g_nightMode == 0) {
         drawWorldObject(21, (long)g_ViewX, 0x01000000L - g_ViewY,
                         g_groundAltitude, g_ourHead, 0, 0, 2);
     }
