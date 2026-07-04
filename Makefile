@@ -33,7 +33,7 @@ LINK_TOOLCHAIN ?= msc510
 LINKFLAGS := /M /I
 DOSDIR := dos
 TOOLCHAIN_DIR := $(DOSDIR)/$(C_TOOLCHAIN)
-VERIFY_FLAGS := --loose --ctx 20 --asm
+VERIFY_FLAGS := --loose --ctx 20
 # optional verbosity parameter (--verbose/--debug etc.)
 V ?=
 
@@ -48,7 +48,7 @@ HDRS := $(addprefix $(SRCDIR)/,$(HDRFILES))
 asmobj = $(addprefix $(1)/,$(2:.asm=.obj))
 cobj = $(addprefix $(1)/,$(2:.c=.obj))
 
-.PHONY: f15-se2 clean f15-se2-test verify verify-debug verify-start test start-gen-asm start hello debug debug-start debug-end debug-egame tools noasm noasm-f15 noasm-start noasm-egame noasm-end release
+.PHONY: f15-se2 clean f15-se2-test verify verify-start verify-egame verify-end test start-gen-asm start hello debug debug-start debug-end debug-egame tools noasm noasm-f15 noasm-start noasm-egame noasm-end release
 all: f15-se2
 
 #
@@ -457,7 +457,7 @@ noasm: $(F15_NOASM) $(START_NOASM) $(EGAME_NOASM) $(END_NOASM)
 		cp $^ "$$F15SE2_DIR" && \
 		echo "=> Successfully copied NOASM executables to $$F15SE2_DIR"; \
 	else \
-		echo "=> F15SE2_DIR not set, skipping deployment."; \
+		echo "=> F15SE2_DIR not set, skipping NOASM deployment."; \
 	fi
 noasm-f15: $(F15_NOASM)
 noasm-start: $(START_NOASM)
@@ -514,21 +514,27 @@ $(START_VRF_REF):
 	@exit 1
 
 verify-start: $(MZDIFF) $(START_EXE) $(START_VRF_REF)
-	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) $(V) --map $(START_MAP) --tmap $(START_LINKMAP)
+	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_EXE):$(START_VRF_TGTEP) $(VERIFY_FLAGS) --asm $(V) --map $(START_MAP) --tmap $(START_LINKMAP)
 
 $(EGAME_VRF_REF):
 	@echo "---> Place egame.exe (unpacked with tools/unp) with md5sum ffc191b1caeafc3b6f435795f8ea868e into bin/"
 	@exit 1
 
 verify-egame: $(MZDIFF) $(EGAME_EXE) $(EGAME_VRF_REF)
-	$(MZDIFF) $(EGAME_VRF_REF):$(EGAME_VRF_REFEP) $(EGAME_EXE):$(EGAME_VRF_TGTEP) $(VERIFY_FLAGS) $(V) --map $(EGAME_MAP) --tmap $(EGAME_LINKMAP)
+	$(MZDIFF) $(EGAME_VRF_REF):$(EGAME_VRF_REFEP) $(EGAME_EXE):$(EGAME_VRF_TGTEP) $(VERIFY_FLAGS) --asm $(V) --map $(EGAME_MAP) --tmap $(EGAME_LINKMAP)
 
 $(END_VRF_REF):
 	@echo "---> Place end.exe (unpacked with tools/unlzexe) with md5sum 3b7aac9c52ca3fedefff3a8db54b5799 into bin/"
 	@exit 1
 
 verify-end: $(MZDIFF) $(END_EXE) $(END_VRF_REF)
-	$(MZDIFF) $(END_VRF_REF):$(END_VRF_REFEP) $(END_EXE):$(END_VRF_TGTEP) $(VERIFY_FLAGS) $(V) --map $(END_MAP) --tmap $(END_LINKMAP)
+	$(MZDIFF) $(END_VRF_REF):$(END_VRF_REFEP) $(END_EXE):$(END_VRF_TGTEP) $(VERIFY_FLAGS) --asm $(V) --map $(END_MAP) --tmap $(END_LINKMAP)
+
+# this does not work yet because the noasm build does not use correct cflags
+verify-noasm: $(MZDIFF) $(START_VRF_REF) $(EGAME_VRF_REF) $(END_VRF_REF) $(START_NOASM) $(EGAME_NOASM) $(END_NOASM)
+	$(MZDIFF) $(START_VRF_REF):$(START_VRF_REFEP) $(START_NOASM):$(START_VRF_TGTEP) $(VERIFY_FLAGS) $(V) --map $(START_MAP) --tmap $(START_NOASM:.exe=.map):link
+	$(MZDIFF) $(EGAME_VRF_REF):$(EGAME_VRF_REFEP) $(EGAME_NOASM):$(EGAME_VRF_TGTEP) $(VERIFY_FLAGS) $(V) --map $(EGAME_MAP) --tmap $(EGAME_NOASM:.exe=.map):link
+	$(MZDIFF) $(END_VRF_REF):$(END_VRF_REFEP) $(END_NOASM):$(END_VRF_TGTEP) $(VERIFY_FLAGS) $(V) --map $(END_MAP) --tmap $(END_NOASM:.exe=.map):link
 
 TOOLS := $(TOOLDIR)/ovltool $(TOOLDIR)/vgapal $(TOOLDIR)/wldparse
 f15-tools: $(TOOLDIR) $(TOOLS)

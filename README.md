@@ -69,6 +69,15 @@ The remaining executables (including sound) are ignored in this project, see the
 
 Bottom line, the reconstruction is pretty much complete and playable. Going forward, work on this project is going to be limited to bugfixes (a bug being defined by any divergence from the original game), code cleanup, refactoring and documentation. Otherwise, the reconstrucion is going to be kept preserved as is, and all improvements and extensions will be carried out under the new porting project.
 
+# TODO
+
+- support sound from loader
+- add asound reconstruction
+- make asm buildable with masm under dos, get rid of uasm and jwasm
+- look over data, make sure libc is extracted from egame/end, try to get the same order
+- gamedata file checksum checks
+- version watermark in release executables
+
 # Building
 
 The build system is just one simple Makefile that invokes the DOS toolchain in an emulator under the hood, and supports parallel builds. It should work on Linux and WSL.
