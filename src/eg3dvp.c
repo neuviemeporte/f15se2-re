@@ -5,7 +5,7 @@
 
 // ==== seg000:0x39c0 ====
 void setupViewport(const int16 *rect) {
-    int height, width;
+    int16 height, width;
     width = rect[10] - rect[9] + 1;
     height = rect[8] - rect[7] + 1;
     g_viewCenterX = ((width + 1) >> 1) - 1;

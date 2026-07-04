@@ -21,7 +21,7 @@ void loadRegion3D() {
 
 // ==== seg000:0x21ca ====
 //
-void render3DView(int camX, int camY, int camZ, long worldX, long worldY, long worldZ, int clipLeft, int clipTop, int clipWidth, int clipHeight) {
+void render3DView(int16 camX, int16 camY, int16 camZ, long worldX, long worldY, long worldZ, int16 clipLeft, int16 clipTop, int16 clipWidth, int16 clipHeight) {
     g_viewParams[7] = clipTop;
     g_viewParams[8] = clipTop + clipHeight - 1;
     g_viewParams[9] = clipLeft;
@@ -29,7 +29,7 @@ void render3DView(int camX, int camY, int camZ, long worldX, long worldY, long w
     *g_viewParams = gfx_getDisplayPage() & 0xFF;
     waitFrameSync(g_frameSyncWait);
     g_viewParams[2] = (unsigned char)((char *)colorLut)[g_skyColorIndex & 0xFF];
-    setup3DTransform(g_viewParams, camX, camY, camZ, 0, 0, (int)worldZ, 1);
+    setup3DTransform(g_viewParams, camX, camY, camZ, 0, 0, (int16)worldZ, 1);
     projectObjects(camX, camY, worldX, worldY, worldZ);
     updateTargetLock();
     rasterize3DWorld();
@@ -38,7 +38,7 @@ void render3DView(int camX, int camY, int camZ, long worldX, long worldY, long w
 }
 
 // ==== seg000:0x2278 ====
-void waitFrameSync(int frames) {
+void waitFrameSync(int16 frames) {
     uint8 targetTick;
     if (frames > 0) {
         targetTick = (uint8)frames + g_timerTickByte[0];
@@ -48,7 +48,7 @@ void waitFrameSync(int frames) {
             uint8 start = g_timerTickByte[0];
             while (targetTick != g_timerTickByte[0]) {
                 if (++spins > 3000000UL) {
-                    LogWarn(("12278: SPIN TIMEOUT arg=%d want=%d cur=%d start=%d (ISR frozen?)", frames, (int)targetTick, (int)g_timerTickByte[0], (int)start));
+                    LogWarn(("12278: SPIN TIMEOUT arg=%d want=%d cur=%d start=%d (ISR frozen?)", frames, (int16)targetTick, (int16)g_timerTickByte[0], (int16)start));
                     break;
                 }
             }
@@ -60,7 +60,7 @@ void waitFrameSync(int frames) {
 }
 
 // ==== seg000:0x229a loadColorPalette ====
-void loadColorPalette(int idx) {
+void loadColorPalette(int16 idx) {
     memcpy(colorLut, g_colorPalettes + idx * 16, 16);
 }
 

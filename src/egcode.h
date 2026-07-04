@@ -5,55 +5,55 @@
 #include "pointers.h"
 #include "egtypes.h"
 
-int loadF15DgtlBin();
+int16 loadF15DgtlBin();
 void setupDac();
-int fixedMulQ14(int a, int b);
-int cosine(int angle);
-int sine(int angle);
+int16 fixedMulQ14(int16 a, int16 b);
+int16 cosine(int16 angle);
+int16 sine(int16 angle);
 void restoreCbreakHandler();
 void runGameLoop();
 void gameMainLoop();
 void advanceFrameTick();
-int __cdecl drawCenteredLabelBox(int panel, const char *text);
-int createFile(const char *path, int attr);
-void closeFile(int handle);
-int readFile1(int handle, int count, int bufOffset);
-int readFile2(int handle, int count, int bufOffset, int bufSegment);
-int writeFileAtRaw(int handle, int count, int bufOffset, int bufSegment, int offsetAddend);
-void picBlit(int handle, int unk);
-void pascal shiftLongLeftInPlace(int count, long *ptr);
-void pascal shiftLongRightInPlace(int count, long *ptr);
-int far drawPolygonOutline(int fillColor, int pointCount, int *points, int edgeColor);
+int16 __cdecl drawCenteredLabelBox(int16 panel, const char *text);
+int16 createFile(const char *path, int16 attr);
+void closeFile(int16 handle);
+int16 readFile1(int16 handle, int16 count, int16 bufOffset);
+int16 readFile2(int16 handle, int16 count, int16 bufOffset, int16 bufSegment);
+int16 writeFileAtRaw(int16 handle, int16 count, int16 bufOffset, int16 bufSegment, int16 offsetAddend);
+void picBlit(int16 handle, int16 unk);
+void pascal shiftLongLeftInPlace(int16 count, long *ptr);
+void pascal shiftLongRightInPlace(int16 count, long *ptr);
+int16 far drawPolygonOutline(int16 fillColor, int16 pointCount, int16 *points, int16 edgeColor);
 void installDivZeroHandler();
 void installDivZeroVector();
-int far drawFlatHorizon(int);
+int16 far drawFlatHorizon(int16);
 void storeObjTransformByOpcode();
-int far advanceModelPointerLod();
-int far renderSortedListFar();
-int far rotatePoint3dFar();
+int16 far advanceModelPointerLod();
+int16 far renderSortedListFar();
+int16 far rotatePoint3dFar();
 void rotatePoint3d();
-int far transformModelVerticesFar();
-int far projectModelEdgesFar();
-int far buildRotationMatrixFar(int16 *matrix, int angleX, int angleY, int angleZ);
-int far multiplyMatrix3x3Far(const int16 *matA, const int16 *matB, int16 *result);
-int far drawModelDisplayList();
-int far fillSpanRect(const int16 *dst, int left, int top, int right, int bottom);
-int far drawClipLineGlobal();
-int far flushSpanDirtyRect();
-int far resetScanlineSpans();
-int far clipAndRasterizeEdge();
+int16 far transformModelVerticesFar();
+int16 far projectModelEdgesFar();
+int16 far buildRotationMatrixFar(int16 *matrix, int16 angleX, int16 angleY, int16 angleZ);
+int16 far multiplyMatrix3x3Far(const int16 *matA, const int16 *matB, int16 *result);
+int16 far drawModelDisplayList();
+int16 far fillSpanRect(const int16 *dst, int16 left, int16 top, int16 right, int16 bottom);
+int16 far drawClipLineGlobal();
+int16 far flushSpanDirtyRect();
+int16 far resetScanlineSpans();
+int16 far clipAndRasterizeEdge();
 void __cdecl __far setupInstrumentLayoutFar();
 void __cdecl __far drawInstrumentGaugesFar();
-int far initJoystickCalibration();
+int16 far initJoystickCalibration();
 void seedJoystickBaseline();
-int far readCalibratedJoystick();
+int16 far readCalibratedJoystick();
 void readJoystickHardware();
 void computeJoystickAxis();
-int far restoreJoystickData(uint8 FAR *ptr);
+int16 far restoreJoystickData(uint8 FAR *ptr);
 void far copyJoystickData(uint8 FAR *ptr);
-int far setInt9Handler();
-int far restoreInt9Handler();
-int int9Handler();
+int16 far setInt9Handler();
+int16 far restoreInt9Handler();
+int16 int9Handler();
 extern long _aNlmul(long, long);
 
 void setupOverlaySlots(uint16 addr);
@@ -66,16 +66,16 @@ void restoreTimerIrqHandler();
 void setTimerTickHook(void(far *fn)(void));
 void far egAdvanceFrameTick(void);
 #endif
-int getTimeOfDay();
-int __cdecl openFile(const char *path, int mode);
+int16 getTimeOfDay();
+int16 __cdecl openFile(const char *path, int16 mode);
 
 #ifdef NO_ASM
-void far projectSceneObject(char far *model, int yaw, int pitch, int roll, int posX, int posY, int posZ);
+void far projectSceneObject(char far *model, int16 yaw, int16 pitch, int16 roll, int16 posX, int16 posY, int16 posZ);
 #else
 void far projectSceneObject();
 #endif
 #if defined(MSDOS)
-extern int rand();
+extern int16 rand();
 #endif
 
 #endif /* F15_SE2_EGCODE */

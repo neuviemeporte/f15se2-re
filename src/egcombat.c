@@ -25,13 +25,13 @@
 #include <string.h>
 
 /* Private helpers for this translation unit. */
-int samCanAcquireTarget(int slot, int targetX, int targetY, int targetAlt, int mode);
-int markTargetReached(int targetIdx);
+int16 samCanAcquireTarget(int16 slot, int16 targetX, int16 targetY, int16 targetAlt, int16 mode);
+int16 markTargetReached(int16 targetIdx);
 
-void fireAirThreat(int objIdx) {
-    int p, a, b, c, bearing, e, f;
+void fireAirThreat(int16 objIdx) {
+    int16 p, a, b, c, bearing, e, f;
     unsigned acqRange;
-    int h, idx, slot, k, l, range, n;
+    int16 h, idx, slot, k, l, range, n;
 
     idx = aircraftTypes[g_threatSpec].modelId;
 
@@ -40,7 +40,7 @@ void fireAirThreat(int objIdx) {
         g_simObjects[objIdx].posY,
         g_simObjects[objIdx].alt,
         idx,
-        &bearing, (int *)&acqRange);
+        &bearing, (int16 *)&acqRange);
 
     g_threatToneLevel = 4;
 
@@ -79,7 +79,7 @@ void fireAirThreat(int objIdx) {
                                 g_projectiles[slot].worldY = g_simObjects[objIdx].pitch - 0x400;
                                 g_projectiles[slot].worldZ = g_simObjects[objIdx].bank.w;
 
-                                g_projectiles[slot].ttl = (int)((((long)sams[idx].lockRange << 3) * (long)g_frameRateScaling) / (long)g_projectiles[slot].speed);
+                                g_projectiles[slot].ttl = (int16)((((long)sams[idx].lockRange << 3) * (long)g_frameRateScaling) / (long)g_projectiles[slot].speed);
 
                                 g_projectiles[slot].specIdx = idx;
                                 slot = slot;
@@ -115,8 +115,8 @@ void fireAirThreat(int objIdx) {
 }
 
 // ==== seg000:0x783A ====
-void spawnEnemyAircraft(int slot, int objType) {
-    int spec;
+void spawnEnemyAircraft(int16 slot, int16 objType) {
+    int16 spec;
 
     spec = g_simObjects[slot].spec;
     g_simObjects[slot].heading.w = (g_northSouthSign == 1) ? 0 : (int16)0x8000;
@@ -154,8 +154,8 @@ void spawnEnemyAircraft(int slot, int objType) {
 
 // ==== seg000:0x79ee ====
 void updateThreatTargeting(void) {
-    int slot, scan, mode, spec, locked, aimY, bestIdx, step, delta;
-    int viewX, viewY, alt0, bear, wpX, wpY, ring, acq, wp;
+    int16 slot, scan, mode, spec, locked, aimY, bestIdx, step, delta;
+    int16 viewX, viewY, alt0, bear, wpX, wpY, ring, acq, wp;
     unsigned best, dist;
 
     switchIndicatorColor(0, 8);
@@ -296,11 +296,11 @@ void updateThreatTargeting(void) {
                 g_projectiles[slot].worldX += (delta << 2) / g_frameRateScaling;
                 g_projectiles[slot].worldZ = delta << 1;
                 if (slot < 8 && best < 0x400) {
-                    aimY = computeBearing((alt0 - g_projectiles[slot].alt) >> 4, abs((int)best));
+                    aimY = computeBearing((alt0 - g_projectiles[slot].alt) >> 4, abs((int16)best));
                 } else {
                     aimY = computeBearing(((alt0 - g_projectiles[slot].alt) >> 5) +
-                                              (abs((int)best) > 0x140 ? abs((int)best) >> 3 : 0),
-                                          abs((int)best));
+                                              (abs((int16)best) > 0x140 ? abs((int16)best) >> 3 : 0),
+                                          abs((int16)best));
                 }
                 bear = aimY - g_projectiles[slot].worldY;
                 bear = clampRange(bear, -(sams[spec].turnRate << 0xb),
@@ -327,7 +327,7 @@ void updateThreatTargeting(void) {
                                                   (g_projectiles[slot].speed << 7) / g_frameRateScaling);
             } else {
                 g_projectiles[slot].alt += sinMul(g_projectiles[slot].worldY,
-                                                  (int)(*(uint8 *)&g_projectiles[slot].speed << 8) / g_frameRateScaling);
+                                                  (int16)(*(uint8 *)&g_projectiles[slot].speed << 8) / g_frameRateScaling);
             }
             g_projectiles[slot].mapX += sinMul(g_projectiles[slot].worldX, step);
             g_projectiles[slot].mapY -= cosMul(g_projectiles[slot].worldX, step);
@@ -368,8 +368,8 @@ void updateThreatTargeting(void) {
                         wp = findWaypointEntry(g_hitMapX, g_hitMapY);
                         if (wp == -1 || (g_planeTable.planes[wp].flags & 0x80))
                             goto msg_done;
-                        wpX = (int)(g_nearestTileObj->x >> 5);
-                        wpY = -((int)(g_nearestTileObj->y >> 5) - 0x8000);
+                        wpX = (int16)(g_nearestTileObj->x >> 5);
+                        wpY = -((int16)(g_nearestTileObj->y >> 5) - 0x8000);
                         dist = rangeApprox(g_hitMapX - wpX, g_hitMapY - wpY);
                         if (dist >= (unsigned)(0x180 / (g_missionStatus + 2)))
                             goto msg_done;
@@ -459,11 +459,8 @@ void updateThreatTargeting(void) {
 }
 
 // ==== seg000:0x85be ====
-int samCanAcquireTarget(int slot, int targetX, int targetY, int targetAlt, int mode) {
-    int bearDiff;
-    int range;
-    int dx;
-    int dy;
+int16 samCanAcquireTarget(int16 slot, int16 targetX, int16 targetY, int16 targetAlt, int16 mode) {
+    int16 bearDiff, range, dx, dy;
 
     dx = targetX - g_projectiles[slot].mapX;
     dy = targetY - g_projectiles[slot].mapY;
@@ -500,8 +497,8 @@ int samCanAcquireTarget(int slot, int targetX, int targetY, int targetAlt, int m
 }
 
 // ==== seg000:0x86f8 ====
-void destroyAircraft(int objIdx) {
-    int eventType;
+void destroyAircraft(int16 objIdx) {
+    int16 eventType;
 
     if (!(g_simObjects[objIdx].flags.b[0] & 0x20)) {
         aircraftTypes[g_simObjects[objIdx].spec].killCount += 1;
@@ -530,10 +527,8 @@ void destroyAircraft(int objIdx) {
     }
 }
 
-void destroyGroundTarget(int planeIdx) {
-    int eventType;
-    int slot;
-    int symbol;
+void destroyGroundTarget(int16 planeIdx) {
+    int16 eventType, slot, symbol;
 
     placeString(planeIdx);
     eventType = 1;
@@ -564,9 +559,9 @@ void destroyGroundTarget(int planeIdx) {
             symbol = getTargetSymbol(planeIdx);
         } else {
             if (isTargetOverWater(planeIdx) != 0) {
-                symbol = (int)(char)g_waterTargetId[0];
+                symbol = (int16)(char)g_waterTargetId[0];
             } else {
-                symbol = (int)(char)g_landTargetId[0];
+                symbol = (int16)(char)g_landTargetId[0];
             }
             if (symbol != g_nearestTileObj->id) {
                 g_tileKillTally[g_nearestTileObj->id]++;
@@ -595,7 +590,7 @@ void destroyGroundTarget(int planeIdx) {
 }
 
 // ==== seg000:0x89aa ====
-int markTargetReached(int targetIdx) {
+int16 markTargetReached(int16 targetIdx) {
     if (g_playerPlaneFlags & (0x4000 >> targetIdx)) {
         return 0;
     }
@@ -617,9 +612,9 @@ int markTargetReached(int targetIdx) {
     return 1;
 }
 
-extern int randomRange(int);
+extern int16 randomRange(int16);
 void bombTarget(void) {
-    int hit;
+    int16 hit;
     if (!(g_playerPlaneFlags & 0x1000) && g_autopilotEngaged != -1) {
         hit = 0;
         goto check;
@@ -638,10 +633,7 @@ void bombTarget(void) {
 // ==== seg000:0x8aa6 ====
 
 void fireMissile() {
-    int spec;
-    int tmp;
-    int weaponIdx;
-    int slot;
+    int16 spec, tmp, weaponIdx, slot;
 
     if (abs((int16)g_ourRoll) > 0x3000) return;
     if (g_inLandingCorridor != 0) return;
@@ -687,13 +679,13 @@ void fireMissile() {
     g_projectiles[slot].mapX = g_viewX_;
     g_projectiles[slot].mapY = g_viewY_;
     g_projectiles[slot].alt = g_viewZ - 20;
-    g_projectiles[slot].speed = (unsigned int)g_velocity >> 11;
+    g_projectiles[slot].speed = (uint16)g_velocity >> 11;
     slot = slot;
     g_projectiles[slot].worldX = g_ourHead;
     g_projectiles[slot].worldY = g_ourPitch;
     g_projectiles[slot].worldZ = g_ourRoll;
 
-    g_projectiles[slot].ttl = (int)(((long)sams[spec].lockRange << (6 - (sams[spec].weaponClass == 6 ? 3 : 2))) * (long)g_frameRateScaling / (long)((sams[spec].maxSpeed >> 6) + 1)) + 6;
+    g_projectiles[slot].ttl = (int16)(((long)sams[spec].lockRange << (6 - (sams[spec].weaponClass == 6 ? 3 : 2))) * (long)g_frameRateScaling / (long)((sams[spec].maxSpeed >> 6) + 1)) + 6;
 
     slot = slot;
     if (g_projectiles[slot].ttl <= 6) {
@@ -741,7 +733,7 @@ end:;
 }
 
 // ==== seg000:0x8df4 ====
-void testWorldPosVisible(int worldX, int worldY, int worldZ) {
+void testWorldPosVisible(int16 worldX, int16 worldY, int16 worldZ) {
     *(char *)&g_posVisibleFlag = 0;
     drawNearestTileObject((int32)worldX << 5, -((int32)worldY - 0x8000L) << 5, (int32)worldZ);
 }
