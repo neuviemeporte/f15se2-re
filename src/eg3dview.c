@@ -44,7 +44,7 @@ void waitFrameSync(int16 frames) {
         targetTick = (uint8)frames + g_timerTickByte[0];
 #ifdef DEBUG
         {
-            unsigned long spins = 0;
+            uint32 spins = 0;
             uint8 start = g_timerTickByte[0];
             while (targetTick != g_timerTickByte[0]) {
                 if (++spins > 3000000UL) {

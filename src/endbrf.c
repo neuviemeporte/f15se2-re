@@ -149,7 +149,7 @@ open_dbicons:
     if (commData->trainingFlag == 0) {
         gameData->hallOfFameEligible = missionScore;
 
-        if ((unsigned long)gameData->lastScore < (unsigned long)missionScore) {
+        if ((uint32)gameData->lastScore < (uint32)missionScore) {
             gameData->lastScore = missionScore;
         }
 

@@ -487,7 +487,7 @@ void updateObjects(void) {
 
                 g_simObjects[objIdx].flags.b[0] &= 0xef;
 
-                moveAmt = (int16)((unsigned long)(unsigned)(-(g_simObjects[objIdx].pitch / 2 + (int16)0x8000)) * (long)g_simObjects[objIdx].speed >> 14);
+                moveAmt = (int16)((uint32)(unsigned)(-(g_simObjects[objIdx].pitch / 2 + (int16)0x8000)) * (long)g_simObjects[objIdx].speed >> 14);
                 moveAmt -= abs(sinMul(g_simObjects[objIdx].bank.w, moveAmt)) >> 1;
                 moveAmt = moveAmt * 4 / g_frameRateScaling;
                 moveAmt >>= 2;

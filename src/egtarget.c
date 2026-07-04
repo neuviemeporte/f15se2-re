@@ -602,7 +602,7 @@ void drawHudWorldOverlay(void) {
         }
 
         if (g_detailLevel != 0 && (frameTick & 1)) {
-            g_aamLeadDist = (int16)(((unsigned long)(unsigned)(0x8000 - g_simObjects[wpIdx].pitch) *
+            g_aamLeadDist = (int16)(((uint32)(unsigned)(0x8000 - g_simObjects[wpIdx].pitch) *
                                    (long)g_simObjects[wpIdx].speed) >>
                                   15);
             g_aamLeadDist -= abs(sinMul(g_simObjects[wpIdx].bank.w, g_aamLeadDist)) >> 1;

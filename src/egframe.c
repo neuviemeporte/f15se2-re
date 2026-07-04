@@ -788,8 +788,8 @@ void findWaypointFeatures() {
     for (slot = 0; slot < 2; slot++) {
         if (g_targetSlots[slot].flags >> 8 != 0) {
             g_nearestTileObj = findNearestTileObject(
-                (unsigned long)(unsigned)g_planeTable.planes[g_targetSlots[slot].planeIndex].mapX << 5,
-                (0x8000L - (unsigned long)(unsigned)g_planeTable.planes[g_targetSlots[slot].planeIndex].mapY) << 5);
+                (uint32)(unsigned)g_planeTable.planes[g_targetSlots[slot].planeIndex].mapX << 5,
+                (0x8000L - (uint32)(unsigned)g_planeTable.planes[g_targetSlots[slot].planeIndex].mapY) << 5);
             if (g_nearestTileObj != 0) {
                 g_shapeTargetCategory[nameIdx] = g_shapeTargetCategory[g_nearestTileObj->id];
                 strcpy(g_targetNameTable[nameIdx], g_targetNameTable[g_nearestTileObj->id]);

@@ -102,9 +102,9 @@ static struct EdgeRec g_clipVtx;
 /* Manual 32/16 divides (no long runtime helper; shift-by-1 / mask only).*/
 /* Saturate to +/-0x7f00 on overflow, matching the egseg1 INT0 stubs.    */
 /* ===================================================================== */
-static unsigned udiv32by16(unsigned long num, unsigned den) {
-    unsigned long rem = 0;
-    unsigned long q = 0;
+static unsigned udiv32by16(uint32 num, unsigned den) {
+    uint32 rem = 0;
+    uint32 q = 0;
     int16 i;
     if (den == 0) return 0x7f00;
     for (i = 0; i < 32; i++) {
@@ -112,7 +112,7 @@ static unsigned udiv32by16(unsigned long num, unsigned den) {
         if (num & 0x80000000UL) rem |= 1;
         num = num << 1;
         q = q << 1;
-        if (rem >= (unsigned long)den) {
+        if (rem >= (uint32)den) {
             rem -= den;
             q |= 1;
         }
@@ -126,9 +126,9 @@ static unsigned udiv32by16(unsigned long num, unsigned den) {
  * divide stores the full quotient into the 32-bit var_279/var_282 fields (the
  * downstream Cohen-Sutherland clip works in 32-bit), so a near-plane vertex
  * projects to a large off-screen coord rather than a clamped ±0x7f00. */
-static unsigned long udiv32by16_full(unsigned long num, unsigned den) {
-    unsigned long rem = 0;
-    unsigned long q = 0;
+static uint32 udiv32by16_full(uint32 num, unsigned den) {
+    uint32 rem = 0;
+    uint32 q = 0;
     int16 i;
     if (den == 0) return 0xffffffffUL;
     for (i = 0; i < 32; i++) {
@@ -136,7 +136,7 @@ static unsigned long udiv32by16_full(unsigned long num, unsigned den) {
         if (num & 0x80000000UL) rem |= 1;
         num = num << 1;
         q = q << 1;
-        if (rem >= (unsigned long)den) {
+        if (rem >= (uint32)den) {
             rem -= den;
             q |= 1;
         }
@@ -147,10 +147,10 @@ static unsigned long udiv32by16_full(unsigned long num, unsigned den) {
 /* Signed full-precision 32/16 divide (no saturation). */
 static long sdivFull(long num, int16 den) {
     int16 neg = 0;
-    unsigned long n;
+    uint32 n;
     int16 d = den;
-    unsigned long q;
-    n = (num < 0) ? (neg ^= 1, (unsigned long)(-num)) : (unsigned long)num;
+    uint32 q;
+    n = (num < 0) ? (neg ^= 1, (uint32)(-num)) : (uint32)num;
     if (d < 0) {
         neg ^= 1;
         d = -d;
@@ -172,7 +172,7 @@ static int16 sdiv32by16(long num, int16 den) {
         neg ^= 1;
         d = -d;
     }
-    q = udiv32by16((unsigned long)n, (unsigned)d);
+    q = udiv32by16((uint32)n, (unsigned)d);
     return neg ? -(int16)q : (int16)q;
 }
 
@@ -187,7 +187,7 @@ static int16 sdiv32by16(long num, int16 den) {
 
 /* signed 16x16 -> 32 multiply, shift-add (no __aNlmul). */
 static long imul16(int16 a, int16 b) {
-    unsigned long aa, p = 0;
+    uint32 aa, p = 0;
     unsigned ub;
     int16 neg = 0, i;
     if (a < 0) {
@@ -386,7 +386,7 @@ static void clipEdgeNearPlane(struct EdgeRec *rec, int16 behind, int16 front) {
     /* t = ((frontDiv-1)<<16 | frontNum) / (frontDiv - behindDiv), then >>1 */
     {
         unsigned div = (unsigned)(vtxScratch.vproj.in[front].div - vtxScratch.vproj.in[behind].div);
-        unsigned long num = ((unsigned long)(vtxScratch.vproj.in[front].div - 1) << 16) | (uint16)vtxScratch.vproj.in[front].num;
+        uint32 num = ((uint32)(vtxScratch.vproj.in[front].div - 1) << 16) | (uint16)vtxScratch.vproj.in[front].num;
         /* egseg1's `DIV CX` yields the full 16-bit quotient (0..0xffff); the
          * saturating udiv32by16 (cap 0x7f00) would clamp ratios above 0x7fff and
          * under-interpolate the clip point (visible as the ocean flipping when
@@ -1232,7 +1232,7 @@ static void renderPrimitiveList(uint8 far *p) {
     }
     /* ---- 0xFF: RLE-reordered shared-edge path (loc_1781) ---- */
     {
-        unsigned long mask = ((unsigned long)(uint16)g_vtxSignMaskHi << 16) | (uint16)g_vtxSignMaskLo;
+        uint32 mask = ((uint32)(uint16)g_vtxSignMaskHi << 16) | (uint16)g_vtxSignMaskLo;
         int16 cnt = g_modelEdgeCount;
         int16 i;
         for (i = 0; i < cnt; i++) {
@@ -1874,7 +1874,7 @@ static void rotatePoint3d(int16 relZ, int16 relY, int16 relX, uint8 far **pp) {
     g_vtxSignMaskHi = -1;
     flipped = 0;
     {
-        unsigned long bit = 1;
+        uint32 bit = 1;
         for (i = 0; i < cnt; i++) {
             int16 fnx, fny, fnz, thr;
             long dot;

@@ -46,14 +46,14 @@ void projectObjects(int16 heading, int16 rangeGate, long worldX, long worldY, lo
             continue;
         }
         scaled = scaleCoordToLod(g_curLod, worldX);
-        tileX = (unsigned long)scaled >> 12;
+        tileX = (uint32)scaled >> 12;
         fracX = (int16)scaled & 0xfff;
         scaled = scaleCoordToLod(g_curLod, worldY);
-        tileY = (unsigned long)scaled >> 12;
+        tileY = (uint32)scaled >> 12;
         fracY = (int16)scaled & 0xfff;
         scaled = scaleCoordToLod(g_curLod, worldZ);
-        if ((unsigned long)scaled < 0x7FFFUL) {
-            g_objLocalZ = (int16)(((unsigned long)scaled < 2UL) ? 2UL : (unsigned long)scaled);
+        if ((uint32)scaled < 0x7FFFUL) {
+            g_objLocalZ = (int16)(((uint32)scaled < 2UL) ? 2UL : (uint32)scaled);
             for (sampleIdx = 0;; sampleIdx++) {
                 if (g_curLod == 4 && g_detailLevel >= 2) {
                     if (sampleIdx == 15) {

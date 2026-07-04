@@ -266,7 +266,7 @@ void drawMapTileObject(char far *modelData, int16 screenX, int16 screenY) {
         if ((**(char far **)&g_modelStreamPtr & 0x40) != g_modelEvenOddBit)
             return;
     }
-    switch ((unsigned)(uint8)**(char far **)&g_modelStreamPtr & 0x3f) {
+    switch ((uint16)(uint8)**(char far **)&g_modelStreamPtr & 0x3f) {
     case 0x3e:
         return;
     case 0x3f:
@@ -360,7 +360,7 @@ void setup3DTransform(const int16 *model, int16 angleX, int16 angleY, int16 angl
         }
 #ifdef DEBUG
         {
-            unsigned long spins = 0;
+            uint16 long spins = 0;
             while (g_frameSyncPending != 0) {
                 if (++spins > 3000000UL) {
                     LogWarn(("13932: SPIN TIMEOUT - timer ISR not clearing 378EE"));
