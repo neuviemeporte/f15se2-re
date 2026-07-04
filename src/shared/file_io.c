@@ -31,7 +31,7 @@ int16 openFile(const char *filename, int16 mode) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x3D;
-    r.h.al = (unsigned char)mode;
+    r.h.al = (uint8)mode;
     segread(&s);
     r.x.dx = PTR_OFF(filename);
     intdosx(&r, &r, &s);

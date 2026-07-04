@@ -36,7 +36,7 @@ void drawTacticalMap(char page) {
     setDrawColor(8);
     gridStep = 1;
     if (g_radarScopeRange < 2 && g_detailLevel != 0) {
-        gridStep = (1 << (2 - (unsigned char)g_radarScopeRange)) + 1;
+        gridStep = (1 << (2 - (uint8)g_radarScopeRange)) + 1;
     }
     gridLo = 1 - gridStep;
     gridX = g_viewX_ & 0xf800;

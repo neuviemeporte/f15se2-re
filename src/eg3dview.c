@@ -28,7 +28,7 @@ void render3DView(int16 camX, int16 camY, int16 camZ, long worldX, long worldY, 
     g_viewParams[10] = clipLeft + clipWidth - 1;
     *g_viewParams = gfx_getDisplayPage() & 0xFF;
     waitFrameSync(g_frameSyncWait);
-    g_viewParams[2] = (unsigned char)((char *)colorLut)[g_skyColorIndex & 0xFF];
+    g_viewParams[2] = (uint8)((char *)colorLut)[g_skyColorIndex & 0xFF];
     setup3DTransform(g_viewParams, camX, camY, camZ, 0, 0, (int16)worldZ, 1);
     projectObjects(camX, camY, worldX, worldY, worldZ);
     updateTargetLock();

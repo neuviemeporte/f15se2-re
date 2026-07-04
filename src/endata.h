@@ -8,7 +8,7 @@
 #include <dos.h>
 #include <stdio.h>
 
-extern unsigned char timerCounter;
+extern uint8 timerCounter;
 extern int16 lineX1;
 extern int16 lineY1;
 extern int16 lineX2;
@@ -145,9 +145,9 @@ extern int16 worldBufSegment;
  *   samWeaponTable +0x3B6  Sam[]          — SAM/missile entries
  *   nightMission   +0x6DA  int16          — night-mission flag
  */
-#define planeArray ((struct SamDataEntry *)((unsigned char *)&weaponDataBlock + 0x156))
-#define samWeaponTable ((struct Sam *)((unsigned char *)&weaponDataBlock + 0x3B6))
-#define nightMission (*(int16 *)((unsigned char *)&weaponDataBlock + 0x6DA))
+#define planeArray ((struct SamDataEntry *)((uint8 *)&weaponDataBlock + 0x156))
+#define samWeaponTable ((struct Sam *)((uint8 *)&weaponDataBlock + 0x3B6))
+#define nightMission (*(int16 *)((uint8 *)&weaponDataBlock + 0x6DA))
 
 /* Award screen page descriptor views (awardPageDesc defined in endata.c) */
 #define awardFont (awardPageDesc.font)

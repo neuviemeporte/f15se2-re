@@ -32,10 +32,10 @@ struct WORDREGS {
 };
 
 struct BYTEREGS {
-    unsigned char al, ah;
-    unsigned char bl, bh;
-    unsigned char cl, ch;
-    unsigned char dl, dh;
+    uint8 al, ah;
+    uint8 bl, bh;
+    uint8 cl, ch;
+    uint8 dl, dh;
 };
 
 union REGS {
@@ -136,7 +136,7 @@ inline char *itoa(int16 value, char *str, int16 base) {
 }
 
 inline char *strupr(char *s) {
-    for (char *p = s; *p; p++) *p = toupper((unsigned char)*p);
+    for (char *p = s; *p; p++) *p = toupper((uint8)*p);
     return s;
 }
 

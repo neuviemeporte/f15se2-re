@@ -56,7 +56,7 @@ int16 openFile(const char *path, int16 mode) {
     struct SREGS s;
     segread(&s);
     r.h.ah = 0x3D;
-    r.h.al = (unsigned char)mode;
+    r.h.al = (uint8)mode;
     r.x.dx = PTR_OFF(path); /* near pointer: DS already = DGROUP */
     intdosx(&r, &r, &s);
     return r.x.cflag ? -1 : r.x.ax;

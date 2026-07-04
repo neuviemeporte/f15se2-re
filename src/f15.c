@@ -61,18 +61,18 @@ uint16 commSegment = 0;
  * change and aborts with "R6001 - null pointer assignment". Snapshot the guard
  * at startup and repair it after every child run so the check passes. */
 enum { NULLGUARD_SIZE = 66 };
-static unsigned char nullGuard[NULLGUARD_SIZE];
-static unsigned char FAR *nullGuardPtr(void) {
+static uint8 nullGuard[NULLGUARD_SIZE];
+static uint8 FAR *nullGuardPtr(void) {
     void FAR *fp = (void FAR *)&commSegment; /* any DGROUP global → DS:0 */
-    return (unsigned char FAR *)MK_FP(FP_SEG(fp), 0);
+    return (uint8 FAR *)MK_FP(FP_SEG(fp), 0);
 }
 static void nullGuardSave(void) {
-    unsigned char FAR *p = nullGuardPtr();
+    uint8 FAR *p = nullGuardPtr();
     int16 i;
     for (i = 0; i < NULLGUARD_SIZE; ++i) nullGuard[i] = p[i];
 }
 static void nullGuardRestore(void) {
-    unsigned char FAR *p = nullGuardPtr();
+    uint8 FAR *p = nullGuardPtr();
     int16 i;
     for (i = 0; i < NULLGUARD_SIZE; ++i) p[i] = nullGuard[i];
 }

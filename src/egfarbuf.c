@@ -19,6 +19,6 @@
 #ifdef BUGFIX
 char far g_world3dData[AIRCRAFT_MODELS_OFFSET + 0x520C];
 #else
-unsigned char far g_world3dData[AIRCRAFT_MODELS_OFFSET + 0x520C];
+uint8 far g_world3dData[AIRCRAFT_MODELS_OFFSET + 0x520C];
 #endif
 #endif /* NO_ASM */

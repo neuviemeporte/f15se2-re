@@ -120,27 +120,27 @@ STATIC_ASSERT(sizeof(TargetBlock) == 36);
  * aggregate-initializer limit; treat it as an opaque block. */
 #pragma pack(1)
 struct WeaponDataBlock {
-    unsigned char c0[200];
-    unsigned char c200[200];
-    unsigned char c400[200];
-    unsigned char c600[200];
-    unsigned char c800[200];
-    unsigned char c1000[200];
-    unsigned char c1200[200];
-    unsigned char c1400[200];
-    unsigned char c1600[200];
-    unsigned char c1800[200];
-    unsigned char c2000[200];
-    unsigned char c2200[200];
-    unsigned char c2400[200];
-    unsigned char c2600[200];
-    unsigned char c2800[200];
-    unsigned char c3000[200];
-    unsigned char c3200[200];
-    unsigned char c3400[200];
-    unsigned char c3600[200];
-    unsigned char c3800[200];
-    unsigned char c4000[6];
+    uint8 c0[200];
+    uint8 c200[200];
+    uint8 c400[200];
+    uint8 c600[200];
+    uint8 c800[200];
+    uint8 c1000[200];
+    uint8 c1200[200];
+    uint8 c1400[200];
+    uint8 c1600[200];
+    uint8 c1800[200];
+    uint8 c2000[200];
+    uint8 c2200[200];
+    uint8 c2400[200];
+    uint8 c2600[200];
+    uint8 c2800[200];
+    uint8 c3000[200];
+    uint8 c3200[200];
+    uint8 c3400[200];
+    uint8 c3600[200];
+    uint8 c3800[200];
+    uint8 c4000[6];
 };
 #pragma pack()
 

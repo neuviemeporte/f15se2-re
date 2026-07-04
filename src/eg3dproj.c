@@ -90,7 +90,7 @@ void projectObjects(int16 heading, int16 rangeGate, long worldX, long worldY, lo
                     goto next_iter;
                 }
                 if (sampleIdx >= 4 || g_detailLevel >= 2) {
-                    g_objColorBase = (g_detailLevel == 2) ? 0 : ((unsigned char)g_curLod << 8);
+                    g_objColorBase = (g_detailLevel == 2) ? 0 : ((uint8)g_curLod << 8);
                     g_curTileEntry = matrix3dt_2[g_curLod][cell];
                     for (subIdx = 0; subIdx < matrix3dt[g_curLod][cell]; subIdx++) {
                         if (g_curTileEntry->shape & 0x80) {

@@ -78,7 +78,7 @@ void updateTargetLock(void) {
         g_groundTargetLock = best = -1;
     }
 
-    range = 100 << (6 - (unsigned char)g_nightMode);
+    range = 100 << (6 - (uint8)g_nightMode);
 
     if (g_groundTargetLock != -1) {
         idx = g_groundTargetLock - 0x80;
@@ -138,7 +138,7 @@ skip_aam:
                               g_particles[idx].alt);
             if (g_projDepth < 0 && g_projDepth > -0x100) {
                 drawWorldObject(
-                    (unsigned char)(((unsigned char)g_smokeParticleSlot - (unsigned char)idx) & 7) < 4 ? 3 : 17,
+                    (uint8)(((uint8)g_smokeParticleSlot - (uint8)idx) & 7) < 4 ? 3 : 17,
                     (long)(unsigned)g_particles[idx].posX << 5,
                     (long)(unsigned)g_particles[idx].posY << 5,
                     g_particles[idx].alt, 0,
@@ -148,7 +148,7 @@ skip_aam:
     }
 
     /* Air-to-ground targeting */
-    range = 0x4b << (6 - (unsigned char)g_nightMode);
+    range = 0x4b << (6 - (uint8)g_nightMode);
 
     depthShift = (g_hudVisible != 0 && (uint16)(g_nearestThreatRange + g_viewZ) > 1500) ? 1 : 0;
     if (g_hudVisible != 0 && (uint16)(g_nearestThreatRange + g_viewZ) > 4000) {

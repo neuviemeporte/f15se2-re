@@ -13,8 +13,8 @@
 #include "entext.h"
 
 /* Private helpers for this translation unit. */
-int16 mapToScreenY(unsigned char mapCoord);
-int16 mapToScreenX(unsigned char mapCoord);
+int16 mapToScreenY(uint8 mapCoord);
+int16 mapToScreenX(uint8 mapCoord);
 void drawClippedLineEx(int16 x1, int16 y1, int16 x2, int16 y2, int16 cx1, int16 cy1, int16 cx2, int16 cy2, int16 flag);
 void drawClippedLine(int16 x1, int16 y1, int16 x2, int16 y2);
 int16 drawEventSprite(int16 recordIdx);
@@ -525,7 +525,7 @@ void drawMenuItem(const MenuItem *items, uint16 index, int16 *gfxPage) {
                 if (worldObjects[targetBlock.waypointData].unitRef != 0) {
                     mystrcat(scoreString, worldStrings[worldObjects[targetBlock.waypointData].unitRef]);
                 } else {
-                    mystrcat(scoreString, worldStrings[(unsigned char)worldObjects[targetBlock.waypointData].objectIdx]);
+                    mystrcat(scoreString, worldStrings[(uint8)worldObjects[targetBlock.waypointData].objectIdx]);
                 }
             } else {
                 mystrcpy(scoreString, "Mission end:\n");
@@ -550,12 +550,12 @@ void drawMenuItem(const MenuItem *items, uint16 index, int16 *gfxPage) {
             break;
         }
         drawWrappedText(gfxPage, scoreString, 80, 240, 38, 8);
-        if ((unsigned char)flightRecords[curRecordIdx].status & STATUS_PRIMARY_HIT) {
+        if ((uint8)flightRecords[curRecordIdx].status & STATUS_PRIMARY_HIT) {
             mystrcpy(scoreString, "\x8c"
                                   "PRIMARY OBJECTIVE");
             drawStringCentered(gfxPage, scoreString, 232, gfxPage[5], 87);
         }
-        if ((unsigned char)flightRecords[curRecordIdx].status & STATUS_SECONDARY_HIT) {
+        if ((uint8)flightRecords[curRecordIdx].status & STATUS_SECONDARY_HIT) {
             mystrcpy(scoreString, "\x8c"
                                   "SECNDRY OBJECTIVE");
             drawStringCentered(gfxPage, scoreString, 232, gfxPage[5], 87);
@@ -729,11 +729,11 @@ char *formatFlightTime(int16 timeValue, char *buffer) {
     return buffer;
 }
 
-int16 mapToScreenX(unsigned char mapCoord) {
+int16 mapToScreenX(uint8 mapCoord) {
     return ((uint16)mapCoord << 7) / MAP_SCALE_X;
 }
 
-int16 mapToScreenY(unsigned char mapCoord) {
+int16 mapToScreenY(uint8 mapCoord) {
     return ((uint16)mapCoord << 7) / MAP_SCALE_Y;
 }
 
@@ -854,7 +854,7 @@ long calcMissionScore(int16 param) {
             } else if (unitTypeTable[unitId & UNIT_ID_MASK] & 0x40) {
                 groundMissed++;
             } else {
-                if (!((gridFlags[(((flightRecords[recIdx].mapY & 0xff) >> 4) << 4) + ((unsigned char)flightRecords[recIdx].mapX >> 4)]) & 3)) {
+                if (!((gridFlags[(((flightRecords[recIdx].mapY & 0xff) >> 4) << 4) + ((uint8)flightRecords[recIdx].mapX >> 4)]) & 3)) {
                     groundKilled++;
                 } else {
                     groundMissed++;

@@ -357,7 +357,7 @@ void drawMapRangeArc(int16 centerX, int16 centerY, int16 radius, int16 color, in
     }
     setDrawColor(color);
     for (angle = startAngle; angle <= endAngle; angle += 0x10) {
-        angleFixed = *(unsigned char *)&angle << 8;
+        angleFixed = *(uint8 *)&angle << 8;
         x = sinMul(angleFixed, radius) + centerX;
         y = centerY - cosMul(angleFixed, radius);
         if ((unsigned)x > 0xC000u) {

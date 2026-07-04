@@ -68,7 +68,7 @@ void updateFrame(void) {
             g_playerPlaneFlags |= 0x1000;
             *(char far *)&commData->trainingFlag |= 1;
         }
-        i = (unsigned char)commData->sndOvlName[0];
+        i = (uint8)commData->sndOvlName[0];
         if (i == 0x69 || i == 0x49) {
             g_axisInputAccum[2] = 1;
         }

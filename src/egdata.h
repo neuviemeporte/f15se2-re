@@ -27,7 +27,7 @@
 #ifdef BUGFIX
 extern char far g_world3dData[];
 #else
-extern unsigned char far g_world3dData[];
+extern uint8 far g_world3dData[];
 #endif
 #ifdef NO_ASM
 #define g_aircraftModels (g_world3dData + AIRCRAFT_MODELS_OFFSET)
