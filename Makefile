@@ -441,12 +441,24 @@ $(RELEASE_NOASM): $(F15_NOASM) $(START_NOASM) $(EGAME_NOASM) $(END_NOASM)
 release: $(RELEASE) $(RELEASE_NOASM)
 
 f15-se2: $(BUILDDIR) $(TOOLCHAIN_DIR) $(ASM) $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE)
+	@if [ -n "$$F15SE2_DIR" ]; then \
+		cp $(MAIN_EXE) $(START_EXE) $(EGAME_EXE) $(END_EXE) "$$F15SE2_DIR" && \
+		echo "=> Successfully copied executables to $$F15SE2_DIR"; \
+	else \
+		echo "=> F15SE2_DIR not set, skipping deployment."; \
+	fi
 
 start: $(START_EXE)
 egame: $(EGAME_EXE)
 end: $(END_EXE)
 
 noasm: $(F15_NOASM) $(START_NOASM) $(EGAME_NOASM) $(END_NOASM)
+	@if [ -n "$$F15SE2_DIR" ]; then \
+		cp $^ "$$F15SE2_DIR" && \
+		echo "=> Successfully copied NOASM executables to $$F15SE2_DIR"; \
+	else \
+		echo "=> F15SE2_DIR not set, skipping deployment."; \
+	fi
 noasm-f15: $(F15_NOASM)
 noasm-start: $(START_NOASM)
 noasm-egame: $(EGAME_NOASM)
