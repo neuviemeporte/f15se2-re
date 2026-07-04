@@ -87,7 +87,7 @@ struct EdgeRec {
  * record so a bad index can corrupt only the sink, never live data. */
 #define EREC_COUNT (0x1040 / 0x1a)
 static struct EdgeRec g_erecTrash;
-static struct EdgeRec *erec(int i) {
+static struct EdgeRec *erec(int16 i) {
     if ((unsigned)i >= (unsigned)EREC_COUNT)
         return &g_erecTrash;
     return (struct EdgeRec *)(flt15_buf2 + i * 0x1a);
@@ -105,7 +105,7 @@ static struct EdgeRec g_clipVtx;
 static unsigned udiv32by16(unsigned long num, unsigned den) {
     unsigned long rem = 0;
     unsigned long q = 0;
-    int i;
+    int16 i;
     if (den == 0) return 0x7f00;
     for (i = 0; i < 32; i++) {
         rem = rem << 1;
@@ -129,7 +129,7 @@ static unsigned udiv32by16(unsigned long num, unsigned den) {
 static unsigned long udiv32by16_full(unsigned long num, unsigned den) {
     unsigned long rem = 0;
     unsigned long q = 0;
-    int i;
+    int16 i;
     if (den == 0) return 0xffffffffUL;
     for (i = 0; i < 32; i++) {
         rem = rem << 1;
@@ -145,10 +145,10 @@ static unsigned long udiv32by16_full(unsigned long num, unsigned den) {
 }
 
 /* Signed full-precision 32/16 divide (no saturation). */
-static long sdivFull(long num, int den) {
-    int neg = 0;
+static long sdivFull(long num, int16 den) {
+    int16 neg = 0;
     unsigned long n;
-    int d = den;
+    int16 d = den;
     unsigned long q;
     n = (num < 0) ? (neg ^= 1, (unsigned long)(-num)) : (unsigned long)num;
     if (d < 0) {
@@ -159,10 +159,10 @@ static long sdivFull(long num, int den) {
     return neg ? -(long)q : (long)q;
 }
 
-static int sdiv32by16(long num, int den) {
-    int neg = 0;
+static int16 sdiv32by16(long num, int16 den) {
+    int16 neg = 0;
     long n = num;
-    int d = den;
+    int16 d = den;
     unsigned q;
     if (n < 0) {
         neg ^= 1;
@@ -173,7 +173,7 @@ static int sdiv32by16(long num, int den) {
         d = -d;
     }
     q = udiv32by16((unsigned long)n, (unsigned)d);
-    return neg ? -(int)q : (int)q;
+    return neg ? -(int16)q : (int16)q;
 }
 
 /* Combine an egseg1 lo/hi int16 pair into a signed 32-bit value. */
@@ -186,10 +186,10 @@ static int sdiv32by16(long num, int den) {
 #define LOCARRY(v) ((((uint16)(v)) & 0x8000u) ? 1 : 0)
 
 /* signed 16x16 -> 32 multiply, shift-add (no __aNlmul). */
-static long imul16(int a, int b) {
+static long imul16(int16 a, int16 b) {
     unsigned long aa, p = 0;
     unsigned ub;
-    int neg = 0, i;
+    int16 neg = 0, i;
     if (a < 0) {
         neg ^= 1;
         a = -a;
@@ -209,7 +209,7 @@ static long imul16(int a, int b) {
 }
 
 /* arithmetic right shift of a long by n (only >>1 is inline in MSC 5.1). */
-static long lshr_s(long v, int n) {
+static long lshr_s(long v, int16 n) {
     while (n-- > 0) v >>= 1;
     return v;
 }
@@ -221,20 +221,20 @@ static long lshr_s(long v, int n) {
 /* from EG3D_TEXT would be a link fixup overflow. Uses imul16/lshr_s so no  */
 /* long runtime helper is pulled.                                        */
 /* ===================================================================== */
-static int16 hsine(int angle) {
+static int16 hsine(int16 angle) {
     unsigned a = (unsigned)angle;
-    int idx = (int)((a >> 8) & 0xff);
-    int frac = (int)(a & 0xff);
-    int v0 = g_angleLut[idx];
-    int v1 = g_angleLut[idx + 1];
+    int16 idx = (int16)((a >> 8) & 0xff);
+    int16 frac = (int16)(a & 0xff);
+    int16 v0 = g_angleLut[idx];
+    int16 v1 = g_angleLut[idx + 1];
     long step = imul16(v1 - v0, frac);
-    return v0 + (int)lshr_s(step + 0x80, 8);
+    return v0 + (int16)lshr_s(step + 0x80, 8);
 }
-static int16 hcosine(int angle) { return hsine(angle + 0x4000); }
+static int16 hcosine(int16 angle) { return hsine(angle + 0x4000); }
 
 /* HI16 of a doubled Q15 product — the egseg1 `IMUL x; SHL AX,1; RCL DX,1; ..DX`
  * idiom that takes the high word of (a*b)<<1. */
-static int16 q15hi(int a, int b) {
+static int16 q15hi(int16 a, int16 b) {
     long p = imul16(a, b);
     p <<= 1;
     return HI16(p);
@@ -242,7 +242,7 @@ static int16 q15hi(int a, int b) {
 
 /* HI16 of the sum/difference of two doubled Q15 products (the matrix-builder's
  * `ADD/ADC` or `SUB/SBB` accumulate-then-take-high-word sequences). */
-static int16 q15sum(int a, int b, int c, int d, int sub) {
+static int16 q15sum(int16 a, int16 b, int16 c, int16 d, int16 sub) {
     long t, u, r;
     t = imul16(a, b);
     t <<= 1;
@@ -259,8 +259,8 @@ static int16 q15sum(int a, int b, int c, int d, int sub) {
 /* (angleX=yaw, angleY=pitch ring, angleZ=roll); each matrix entry is the */
 /* high word of a doubled Q15 product or product-sum.                     */
 /* ===================================================================== */
-static void buildRotationMatrix(int16 *m, int angleX, int angleY, int angleZ) {
-    int R, P, Ro, D, SY, CY, mSI, mBP;
+static void buildRotationMatrix(int16 *m, int16 angleX, int16 angleY, int16 angleZ) {
+    int16 R, P, Ro, D, SY, CY, mSI, mBP;
     g_rotSinYaw = hsine(angleX);
     g_rotCosYaw = hcosine(angleX);
     g_spherePitch = hsine(angleZ);
@@ -286,7 +286,7 @@ static void buildRotationMatrix(int16 *m, int angleX, int angleY, int angleZ) {
     m[8] = q15hi(CY, D);
 }
 
-int far buildRotationMatrixFar(int16 *matrix, int angleX, int angleY, int angleZ) {
+int16 far buildRotationMatrixFar(int16 *matrix, int16 angleX, int16 angleY, int16 angleZ) {
     buildRotationMatrix(matrix, angleX, angleY, angleZ);
     return 0;
 }
@@ -296,10 +296,10 @@ int far buildRotationMatrixFar(int16 *matrix, int angleX, int angleY, int angleZ
 /* ===================================================================== */
 static void skipDisplayListByLod(unsigned char far **pp) {
     unsigned char far *p = *pp;
-    int al;
+    int16 al;
     while ((al = p[0]) & 0x80) {
-        int bx = (al & 7) << 1;
-        int dist = (int)(g_objDistance >> g_extraScaleShift);
+        int16 bx = (al & 7) << 1;
+        int16 dist = (int16)(g_objDistance >> g_extraScaleShift);
         if (dist <= *(int16 *)(colorLut + 0x10 + bx)) {
             p += 3;
         } else {
@@ -310,7 +310,7 @@ static void skipDisplayListByLod(unsigned char far **pp) {
 }
 
 /* seg001 0x0CFB — advance g_modelStreamPtr to the LOD-selected display list. */
-int far advanceModelPointerLod(void) {
+int16 far advanceModelPointerLod(void) {
     unsigned char far *p = (unsigned char far *)g_modelStreamPtr;
     skipDisplayListByLod(&p);
     g_modelStreamPtr = (char far *)p;
@@ -320,7 +320,7 @@ int far advanceModelPointerLod(void) {
 /* seg001 0x0A36 — storeObjTransformByOpcode: g_objTransform[opcode] = spinAngle */
 void storeObjTransformByOpcode(void) {
     unsigned char far *p = (unsigned char far *)g_modelStreamPtr;
-    int idx = (*p) & 3;
+    int16 idx = (*p) & 3;
     g_objTransform[idx] = g_spinAngle;
 }
 
@@ -328,15 +328,15 @@ void storeObjTransformByOpcode(void) {
 /* seg001 0x1BA2 — testVisibilityMask: read 1 (or 2) mask words from the */
 /* stream, AND against the vertex sign masks. Returns 0 => not visible.  */
 /* ===================================================================== */
-static int testVisibilityMask(unsigned char far **pp) {
+static int16 testVisibilityMask(unsigned char far **pp) {
     unsigned char far *p = *pp;
-    int lo = *(int16 far *)p;
-    int r;
+    int16 lo = *(int16 far *)p;
+    int16 r;
     p += 2;
     if (g_modelWideVtxFlag == 0) {
         r = lo & g_vtxSignMaskLo;
     } else {
-        int hi = *(int16 far *)p;
+        int16 hi = *(int16 far *)p;
         p += 2;
         r = (lo & g_vtxSignMaskLo) | (hi & g_vtxSignMaskHi);
     }
@@ -350,12 +350,12 @@ static int testVisibilityMask(unsigned char far **pp) {
 /* depth (vproj.in[].div) into the screen-space var_279/var_282 arrays.  */
 /* Flight-path only (the tac map writes vproj directly and never calls it).*/
 /* ===================================================================== */
-static void projectVertexToScreen(int vtx) /* BX = vtx*4 in the asm */
+static void projectVertexToScreen(int16 vtx) /* BX = vtx*4 in the asm */
 {
     long camX, camY;
-    int cx = vtxScratch.vproj.in[vtx].div;
+    int16 cx = vtxScratch.vproj.in[vtx].div;
     if (g_halfScaleRender) cx <<= 1;
-    if (g_extraScaleShift) cx = (int)(cx >> g_extraScaleShift);
+    if (g_extraScaleShift) cx = (int16)(cx >> g_extraScaleShift);
     if (cx <= 0) {
         vtxScratch.vproj.x.v[vtx] = (int32)(0x8000L | (0x8000L << 16));
         vtxScratch.vproj.y.v[vtx] = (int32)(0x8000L | (0x8000L << 16));
@@ -379,8 +379,8 @@ static void projectVertexToScreen(int vtx) /* BX = vtx*4 in the asm */
 /* plane (front vertex depth>=1, behind vertex depth<1) and write the    */
 /* clipped P1 + cv into the edge record. Flight-path only.               */
 /* ===================================================================== */
-static void clipEdgeNearPlane(struct EdgeRec *rec, int behind, int front) {
-    int cx;
+static void clipEdgeNearPlane(struct EdgeRec *rec, int16 behind, int16 front) {
+    int16 cx;
     long t;
     long fc, bc, delta, prod;
     /* t = ((frontDiv-1)<<16 | frontNum) / (frontDiv - behindDiv), then >>1 */
@@ -391,7 +391,7 @@ static void clipEdgeNearPlane(struct EdgeRec *rec, int behind, int front) {
          * saturating udiv32by16 (cap 0x7f00) would clamp ratios above 0x7fff and
          * under-interpolate the clip point (visible as the ocean flipping when
          * pitched). Use the uncapped divide; >>1 keeps cx in 0..0x7fff. */
-        cx = (int)(udiv32by16_full(num, div) >> 1);
+        cx = (int16)(udiv32by16_full(num, div) >> 1);
     }
     /* X = word_342BC..  (offset 0x3c), Y = word_344A0.. (offset 0x220) */
     fc = *(int32 *)((char *)&vtxScratch + 0x3c + front * 4);
@@ -429,8 +429,8 @@ static void clipEdgeNearPlane(struct EdgeRec *rec, int behind, int front) {
 
 /* seg001 0x0383 — outcode of (wx,wy): bit3 left, bit0 right, bit2 below,  */
 /* bit1 above (relative to the clip rect). Returns combined outcode.       */
-static int clipComputeOutcode(long wx, long wy) {
-    int al = 0x0c;
+static int16 clipComputeOutcode(long wx, long wy) {
+    int16 al = 0x0c;
     if (!(wx < 0)) {
         al ^= 9;
         if (!(wx > g_clipMaxX)) al ^= 1;
@@ -443,8 +443,8 @@ static int clipComputeOutcode(long wx, long wy) {
 }
 
 /* seg001 0x052D — computeClipOutcode (16-bit variant used in subdivide). */
-static int computeClipOutcode(int bx, int si) {
-    int al = 0x0c;
+static int16 computeClipOutcode(int16 bx, int16 si) {
+    int16 al = 0x0c;
     if (!(bx < 0)) {
         al ^= 9;
         if (!(bx > g_clipMaxX)) al ^= 1;
@@ -458,7 +458,7 @@ static int computeClipOutcode(int bx, int si) {
 
 /* seg001 0x0334 — clipPointInside: is the 32-bit point a usable boundary point?
  * x = (xhi:xlo), y = (yhi:ylo). */
-static int clipPointInside(int xlo, int xhi, int ylo, int yhi) {
+static int16 clipPointInside(int16 xlo, int16 xhi, int16 ylo, int16 yhi) {
     if (xhi == 0 && (xlo == 0 || xlo == g_clipMaxX)) { /* loc_0355 */
         if (yhi != 0) return 0;
         if ((uint16)ylo > (uint16)g_clipMaxY) return 0;
@@ -473,7 +473,7 @@ static int clipPointInside(int xlo, int xhi, int ylo, int yhi) {
 }
 
 /* seg001 0x04F2 — pointOnClipEdge (16-bit). */
-static int pointOnClipEdge(int bx, int si) {
+static int16 pointOnClipEdge(int16 bx, int16 si) {
     if (bx == 0 || bx == g_clipMaxX) {
         if (si < 0 || si > g_clipMaxY) return 0;
         return 1;
@@ -488,24 +488,24 @@ static int pointOnClipEdge(int bx, int si) {
 /* seg001 0x03BA — clampToClipEdge: clamp (wx,wy) to the boundary selected   */
 /* by outcode `al`; returns clamped X, *outY = clamped Y; ORs g_clipNeedsSubdiv*/
 /* when the source coords are large (need recursive subdivision).            */
-static int clampToClipEdge(int al, long wx, long wy, int *outY) {
-    int needsSub = 1;
+static int16 clampToClipEdge(int16 al, long wx, long wy, int16 *outY) {
+    int16 needsSub = 1;
     /* CX:BX = wx (hi:lo), DX:SI = wy. The asm checks the hi words to decide if
      * the coordinate fits in the +/-1 range a direct clamp can handle. */
-    int xhi = HI16(wx), xlo = (int)wx;
-    int yhi = HI16(wy), ylo = (int)wy;
+    int16 xhi = HI16(wx), xlo = (int16)wx;
+    int16 yhi = HI16(wy), ylo = (int16)wy;
     if ((unsigned)(xhi + 1) <= 1) {
-        int t = (xhi >> 1) ^ xlo;
+        int16 t = (xhi >> 1) ^ xlo;
         if ((t & 0xc000) == 0) {
             if ((unsigned)(yhi + 1) <= 1) {
-                int u = (yhi >> 1) ^ ylo;
+                int16 u = (yhi >> 1) ^ ylo;
                 if ((u & 0xc000) == 0) needsSub = 0;
             }
         }
     }
     g_clipNeedsSubdiv |= (uint8)needsSub;
     {
-        int bp = ylo;
+        int16 bp = ylo;
         if (al & 4) bp = 0;
         if (al & 2) bp = g_clipMaxY;
         *outY = bp;
@@ -516,21 +516,21 @@ static int clampToClipEdge(int al, long wx, long wy, int *outY) {
 }
 
 /* forward decls for the mutually-recursive subdivide helpers */
-static int clipMidpointSubdivide(int *bx, int *cx, int *si, int *dx);
-static int clipLineMidpoint(int *bx, int *cx, int *si, int *dx);
+static int16 clipMidpointSubdivide(int16 *bx, int16 *cx, int16 *si, int16 *dx);
+static int16 clipLineMidpoint(int16 *bx, int16 *cx, int16 *si, int16 *dx);
 
 /* seg001 0x040E — clipMidpointSubdivide: walk from (bx,si) toward the saved */
 /* midpoint target, halving, until a usable interior point is found.         */
 /* Returns the final point via bxp/cxp/sip/dxp. Result of clipPointInside in   */
 /* the asm is the AL flag; here clipMidpointSubdivide returns it.            */
-static int clipMidpointSubdivide(int *bxp, int *cxp, int *sip, int *dxp) {
-    int bx = *bxp, cx = *cxp, si = *sip, dx = *dxp;
-    int bp;
-    int al;
+static int16 clipMidpointSubdivide(int16 *bxp, int16 *cxp, int16 *sip, int16 *dxp) {
+    int16 bx = *bxp, cx = *cxp, si = *sip, dx = *dxp;
+    int16 bp;
+    int16 al;
     if (g_clipNeedsSubdiv == 0) {
         /* loc_058A: bisection toward midpoint using pointOnClipEdge */
-        int mcx = g_clipMidxLo, mdx = g_clipMidyLo;
-        int di, esv;
+        int16 mcx = g_clipMidxLo, mdx = g_clipMidyLo;
+        int16 di, esv;
         bp = 16;
         for (;;) {
             di = bx;
@@ -572,9 +572,9 @@ static int clipMidpointSubdivide(int *bxp, int *cxp, int *sip, int *dxp) {
             long ny = JOIN32(si, dx) + JOIN32(g_clipMidyLo, g_clipMidyHi);
             nx >>= 1;
             ny >>= 1;
-            bx = (int)nx;
+            bx = (int16)nx;
             cx = HI16(nx);
-            si = (int)ny;
+            si = (int16)ny;
             dx = HI16(ny);
             al = clipPointInside(bx, cx, si, dx);
             if (al) {
@@ -607,13 +607,13 @@ static int clipMidpointSubdivide(int *bxp, int *cxp, int *sip, int *dxp) {
 
 /* seg001 0x0484 — clipLineMidpoint: like the above but bisects against both */
 /* endpoints' outcodes (g_clipOutcode1/2). Returns AL (0 => settled inside). */
-static int clipLineMidpoint(int *bxp, int *cxp, int *sip, int *dxp) {
-    int bx = *bxp, cx = *cxp, si = *sip, dx = *dxp;
-    int bp, al;
+static int16 clipLineMidpoint(int16 *bxp, int16 *cxp, int16 *sip, int16 *dxp) {
+    int16 bx = *bxp, cx = *cxp, si = *sip, dx = *dxp;
+    int16 bp, al;
     if (g_clipNeedsSubdiv == 0) {
         /* loc_0550: bisection with computeClipOutcode against outcode1/2 */
-        int mcx = g_clipMidxLo, mdx = g_clipMidyLo;
-        int di, esv;
+        int16 mcx = g_clipMidxLo, mdx = g_clipMidyLo;
+        int16 di, esv;
         bp = 16;
         for (;;) {
             di = bx;
@@ -662,9 +662,9 @@ static int clipLineMidpoint(int *bxp, int *cxp, int *sip, int *dxp) {
             long ny = JOIN32(si, dx) + JOIN32(g_clipMidyLo, g_clipMidyHi);
             nx >>= 1;
             ny >>= 1;
-            bx = (int)nx;
+            bx = (int16)nx;
             cx = HI16(nx);
-            si = (int)ny;
+            si = (int16)ny;
             dx = HI16(ny);
             al = clipComputeOutcode(JOIN32(bx, cx), JOIN32(si, dx));
             if (al == 0) {
@@ -702,8 +702,8 @@ static int clipLineMidpoint(int *bxp, int *cxp, int *sip, int *dxp) {
 }
 
 /* seg001 0x029D — writeClippedStart: emit the clipped P1 into the record. */
-static void writeClippedStart(struct EdgeRec *rec, int bx, int cx, int si, int dx) {
-    int rx, rcx, rsi, rdx;
+static void writeClippedStart(struct EdgeRec *rec, int16 bx, int16 cx, int16 si, int16 dx) {
+    int16 rx, rcx, rsi, rdx;
     g_clipMidxLo = bx;
     g_clipMidxHi = cx;
     g_clipMidyLo = si;
@@ -719,8 +719,8 @@ static void writeClippedStart(struct EdgeRec *rec, int bx, int cx, int si, int d
 }
 
 /* seg001 0x02D2 — writeClippedEnd: emit the clipped P2 into the record. */
-static void writeClippedEnd(struct EdgeRec *rec, int bx, int cx, int si, int dx) {
-    int rx, rcx, rsi, rdx;
+static void writeClippedEnd(struct EdgeRec *rec, int16 bx, int16 cx, int16 si, int16 dx) {
+    int16 rx, rcx, rsi, rdx;
     g_clipMidxLo = bx;
     g_clipMidxHi = cx;
     g_clipMidyLo = si;
@@ -737,11 +737,11 @@ static void writeClippedEnd(struct EdgeRec *rec, int bx, int cx, int si, int dx)
 
 /* seg001 0x0308 — rejectClippedLine: both endpoints share an outside half- */
 /* plane, or a degenerate edge -> mark reject / boundary as the asm does.    */
-static void rejectClippedLine(struct EdgeRec *rec, int al) {
-    int cl = rec->flags | 0x80;
+static void rejectClippedLine(struct EdgeRec *rec, int16 al) {
+    int16 cl = rec->flags | 0x80;
     rec->y1 = rec->y2h; /* [DI+4] = [DI+0E] */
     if (al & 9) {
-        int dx = 0;
+        int16 dx = 0;
         if (!(al & 8)) dx = g_clipMaxX;
         rec->x1 = dx;
         if (rec->y1 != rec->y1h) cl |= 0x20;
@@ -751,8 +751,8 @@ static void rejectClippedLine(struct EdgeRec *rec, int al) {
 
 /* seg001 0x023F — clipLineSubdivP1Outside */
 static void clipLineSubdivP1Outside(struct EdgeRec *rec) {
-    int bx = g_clipP2xLo, cx = g_clipP2xHi, si = g_clipP2yLo, dx = g_clipP2yHi;
-    int al;
+    int16 bx = g_clipP2xLo, cx = g_clipP2xHi, si = g_clipP2yLo, dx = g_clipP2yHi;
+    int16 al;
     g_clipMidxLo = g_clipP1xLo;
     g_clipMidxHi = g_clipP1xHi;
     g_clipMidyLo = g_clipP1yLo;
@@ -781,7 +781,7 @@ static void clipLineSegment(struct EdgeRec *rec) {
     long y1 = JOIN32(rec->y1, rec->y1h);
     long x2 = JOIN32(rec->x2, rec->x2h);
     long y2 = JOIN32(rec->y2, rec->y2h);
-    int al;
+    int16 al;
 
     /* trivial accept: every endpoint already a small in-range value */
     if ((int16)x1 == x1 && (int16)y1 == y1 && (int16)x2 == x2 && (int16)y2 == y2 &&
@@ -799,7 +799,7 @@ static void clipLineSegment(struct EdgeRec *rec) {
     g_clipP1yHi = rec->y1h;
     g_clipOutcode1 = (uint8)clipComputeOutcode(x1, y1);
     if (g_clipOutcode1) {
-        int oy;
+        int16 oy;
         rec->x1h = clampToClipEdge(g_clipOutcode1, x1, y1, &oy);
         rec->y1h = oy;
     }
@@ -809,7 +809,7 @@ static void clipLineSegment(struct EdgeRec *rec) {
     g_clipP2yHi = rec->y2h;
     g_clipOutcode2 = (uint8)clipComputeOutcode(x2, y2);
     if (g_clipOutcode2) {
-        int oy;
+        int16 oy;
         rec->x2h = clampToClipEdge(g_clipOutcode2, x2, y2, &oy);
         rec->y2h = oy;
     }
@@ -838,8 +838,8 @@ static void clipLineSegment(struct EdgeRec *rec) {
 /* seg001 0x1EA0 — resetScanlineSpansImpl: reset spans for the accumulated  */
 /* dirty Y range, then clear the dirty bounds.                             */
 static void resetScanlineSpansImpl(void) {
-    int y = g_dirtyRectMinY;
-    int yMax, i;
+    int16 y = g_dirtyRectMinY;
+    int16 yMax, i;
     if (y < 0) return;
     yMax = g_dirtyRectMaxY;
     for (i = y; i <= yMax; i++) {
@@ -850,7 +850,7 @@ static void resetScanlineSpansImpl(void) {
     g_dirtyRectMaxY = 0;
 }
 
-int far resetScanlineSpans(void) {
+int16 far resetScanlineSpans(void) {
     resetScanlineSpansImpl();
     return 0;
 }
@@ -867,9 +867,9 @@ int far resetScanlineSpans(void) {
  * bad coordinate can never overflow the page; untouched rows (minX still 0xFFFF)
  * are left for the slot to skip. */
 static void clampSpansForFill(void) {
-    int i;
-    int yMin = g_dirtyRectMinY;
-    int yMax = g_dirtyRectMaxY;
+    int16 i;
+    int16 yMin = g_dirtyRectMinY;
+    int16 yMax = g_dirtyRectMaxY;
     if (yMin < 0) return;
     /* Clamp the dirty Y range to the viewport bottom. rasterizeEdgeSpan only
      * guards row against the 220-entry buffer size, but spans are viewport-
@@ -900,7 +900,7 @@ static void clampSpansForFill(void) {
     }
 }
 
-int far flushSpanDirtyRect(void) {
+int16 far flushSpanDirtyRect(void) {
     clampSpansForFill();
     gfx_dirtyRect(g_spanBuf.minX,
                   g_dirtyRectMinY, g_dirtyRectMaxY);
@@ -909,10 +909,10 @@ int far flushSpanDirtyRect(void) {
 
 /* seg001 0x1ED6 — clampScanlineSpan: fill a vertical run of one span buffer  */
 /* (min or max, selected by x==0 vs x==clipMaxX) from row dx to row cx with x.*/
-static void clampScanlineSpan(int x, int yA, int yB) {
+static void clampScanlineSpan(int16 x, int16 yA, int16 yB) {
     int16 *buf;
-    int cx = yA; /* CX = DI (the y passed as DI in the asm) */
-    int dx = yB; /* DX */
+    int16 cx = yA; /* CX = DI (the y passed as DI in the asm) */
+    int16 dx = yB; /* DX */
     if (x == 0) {
         buf = g_spanBuf.minX;
     } else if (x == g_clipMaxX) {
@@ -921,7 +921,7 @@ static void clampScanlineSpan(int x, int yA, int yB) {
         return;
     }
     if (cx < dx) {
-        int t = cx;
+        int16 t = cx;
         cx = dx;
         dx = t;
     }
@@ -930,7 +930,7 @@ static void clampScanlineSpan(int x, int yA, int yB) {
     if (cx > g_dirtyRectMaxY) g_dirtyRectMaxY = cx;
     if ((uint16)dx < (uint16)g_dirtyRectMinY) g_dirtyRectMinY = dx;
     {
-        int i;
+        int16 i;
         for (i = dx; i <= cx; i++) buf[i] = x;
     }
 }
@@ -938,7 +938,7 @@ static void clampScanlineSpan(int x, int yA, int yB) {
 /* seg001 0x1F34 — rasterizeEdgeSpan: walk the edge (g_lineX1,Y1)-(X2,Y2),    */
 /* updating per-scanline min/max span extents (Bresenham, 16-bit only).      */
 static void rasterizeEdgeSpan(void) {
-    int dxv, dyv, bp;
+    int16 dxv, dyv, bp;
     int16 *minB = g_spanBuf.minX;
     int16 *maxB = g_spanBuf.maxX;
     /* The original relied on clipped coords (and an INT 0 trap) keeping the
@@ -951,7 +951,7 @@ static void rasterizeEdgeSpan(void) {
     if ((unsigned)g_lineY1 >= (sizeof(g_spanBuf.minX) / sizeof(g_spanBuf.minX[0])) ||
         (unsigned)g_lineY2 >= (sizeof(g_spanBuf.minX) / sizeof(g_spanBuf.minX[0]))) return;
     if (g_lineX2 < g_lineX1) {
-        int t = g_lineX1;
+        int16 t = g_lineX1;
         g_lineX1 = g_lineX2;
         g_lineX2 = t;
         t = g_lineY1;
@@ -961,12 +961,12 @@ static void rasterizeEdgeSpan(void) {
     dxv = g_lineX2 - g_lineX1;
     g_rasterDeltaX = dxv;
     {
-        int mx = g_lineY2; /* DX = max(y1,y2) after the swap below */
-        int mn = g_lineY1; /* CX = min(y1,y2) */
-        int dy = mx - mn;
+        int16 mx = g_lineY2; /* DX = max(y1,y2) after the swap below */
+        int16 mn = g_lineY1; /* CX = min(y1,y2) */
+        int16 dy = mx - mn;
         bp = 2;
         if (dy < 0) {
-            int t = mn;
+            int16 t = mn;
             mn = mx;
             mx = t;
             bp = -2;
@@ -978,12 +978,12 @@ static void rasterizeEdgeSpan(void) {
         if ((uint16)mn < (uint16)g_dirtyRectMinY) g_dirtyRectMinY = mn;
     }
     {
-        int row = g_lineY1;  /* DI = y1*2 in the asm; here row index */
-        int rstep = bp >> 1; /* +1 / -1 row */
-        int ax = g_lineX1;
+        int16 row = g_lineY1;  /* DI = y1*2 in the asm; here row index */
+        int16 rstep = bp >> 1; /* +1 / -1 row */
+        int16 ax = g_lineX1;
         if (dyv < dxv) {
             /* shallow (dx > |dy|): step X each iteration, step row on carry */
-            int cx = dxv, bx = -((dxv + 1) >> 1), si = dyv;
+            int16 cx = dxv, bx = -((dxv + 1) >> 1), si = dyv;
             goto sh_min;
         sh_advance: /* loc_1FB0 */
             if ((uint16)ax > (uint16)maxB[row]) maxB[row] = ax;
@@ -1003,7 +1003,7 @@ static void rasterizeEdgeSpan(void) {
             goto sh_cx;
         } else {
             /* steep (|dy| >= dx): step row each iteration, step X on carry */
-            int cx = dyv, bx = -((dyv + 1) >> 1), si = dxv;
+            int16 cx = dyv, bx = -((dyv + 1) >> 1), si = dxv;
         st_loop: /* loc_1FF8 */
             if ((uint16)ax < (uint16)minB[row]) minB[row] = ax;
             if ((uint16)ax > (uint16)maxB[row]) maxB[row] = ax;
@@ -1039,7 +1039,7 @@ static void drawPrimitiveEdges(struct EdgeRec *rec) {
 /* table into a flat sequence at DI, terminated by 0xFF. Depth-first walk   */
 /* of the adjacency table at g_rleRowBase using an explicit stack.          */
 /* ===================================================================== */
-static void decodeRleEdgeRow(const unsigned char far *src, unsigned char *dst, int rowBase) {
+static void decodeRleEdgeRow(const unsigned char far *src, unsigned char *dst, int16 rowBase) {
     /* explicit stack of (state, parentValue) frames replacing the asm's
      * PUSH AX / POP AX recursion. The asm pushes onto the hardware stack with
      * no fixed bound; the DFS walks a binary-tree adjacency whose nodes are
@@ -1049,16 +1049,16 @@ static void decodeRleEdgeRow(const unsigned char far *src, unsigned char *dst, i
      * the worst case and guard so an overflow can never write out of bounds. */
     unsigned char stState[256];
     unsigned char stParent[256];
-    int sp = 0;
-    int cx; /* current value */
+    int16 sp = 0;
+    int16 cx; /* current value */
     unsigned char *base = (unsigned char *)(size_t)(uint16)rowBase;
 
     g_rleRowBase = rowBase;
     cx = *src++; /* first value */
     for (;;) {
-        int dx;
-        int al = base[cx];
-        int bx = cx << 1;
+        int16 dx;
+        int16 al = base[cx];
+        int16 bx = cx << 1;
         dx = (al == 0xff) ? 2 : 0;
         for (;;) {
             if (dx == 0) {
@@ -1097,7 +1097,7 @@ static void decodeRleEdgeRow(const unsigned char far *src, unsigned char *dst, i
             if (al == 0xff) continue;
             goto push;
         push:
-            if (sp >= (int)sizeof(stState)) {
+            if (sp >= (int16)sizeof(stState)) {
                 *dst = 0xff;
                 return;
             } /* guard: never corrupt the frame */
@@ -1116,15 +1116,15 @@ static void decodeRleEdgeRow(const unsigned char far *src, unsigned char *dst, i
 /* ===================================================================== */
 static void renderPrimitiveCommand(unsigned char far **pp) {
     unsigned char far *p = *pp;
-    int opcode = *p++;
-    int bl = opcode;
+    int16 opcode = *p++;
+    int16 bl = opcode;
 
     if ((opcode & 3) == 1) {
         /* ---- filled face (loc_184E) ---- */
-        int countByte = *p++;
-        int cl = bl >> 2;                             /* opcode >> 2 */
+        int16 countByte = *p++;
+        int16 cl = bl >> 2;                             /* opcode >> 2 */
         uint16 mask = g_vtxBitMask[(cl & 0x1e) >> 1]; /* g_vtxScale+3 lookup */
-        int visible;
+        int16 visible;
         if (cl & 0x20)
             visible = (g_vtxSignMaskHi & mask) != 0;
         else
@@ -1137,7 +1137,7 @@ static void renderPrimitiveCommand(unsigned char far **pp) {
         }
         g_faceVtxCount = (uint8)countByte;
         {
-            int colorByte = p[countByte];
+            int16 colorByte = p[countByte];
             if (colorByte == 0xff) {
                 p += countByte + 1;
                 *pp = p;
@@ -1153,7 +1153,7 @@ static void renderPrimitiveCommand(unsigned char far **pp) {
         resetScanlineSpansImpl();
         g_vtxSlotPhase = 0;
         do {
-            int vi = *p++;
+            int16 vi = *p++;
             struct EdgeRec *rec = EREC(vi);
             if (rec->flags & 0x40) {
                 if (g_vtxSlotPhase == 0) {
@@ -1191,9 +1191,9 @@ static void renderPrimitiveCommand(unsigned char far **pp) {
         return;
     } /* skip index+colour */
     {
-        int vi = *p++;
+        int16 vi = *p++;
         struct EdgeRec *rec = EREC(vi);
-        int colorByte;
+        int16 colorByte;
         if (rec->flags & 0x80) {
             p++;
             *pp = p;
@@ -1224,7 +1224,7 @@ static void renderPrimitiveCommand(unsigned char far **pp) {
 /* seg001 0x176A — renderPrimitiveList: iterate the display-list commands. */
 /* ===================================================================== */
 static void renderPrimitiveList(unsigned char far *p) {
-    int count = *p++;
+    int16 count = *p++;
     if (count == 0) return;
     if (count != 0xff) {
         while (count--) renderPrimitiveCommand(&p);
@@ -1233,20 +1233,20 @@ static void renderPrimitiveList(unsigned char far *p) {
     /* ---- 0xFF: RLE-reordered shared-edge path (loc_1781) ---- */
     {
         unsigned long mask = ((unsigned long)(uint16)g_vtxSignMaskHi << 16) | (uint16)g_vtxSignMaskLo;
-        int cnt = g_modelEdgeCount;
-        int i;
+        int16 cnt = g_modelEdgeCount;
+        int16 i;
         for (i = 0; i < cnt; i++) {
             byte_36BAE[0x42 + i] = (mask & 1) ? 0x00 : 0xff;
             mask >>= 1;
         }
-        decodeRleEdgeRow(p, byte_36BAE + 1, (int)(int16)(uint16)(size_t)(byte_36BAE + 0x42));
+        decodeRleEdgeRow(p, byte_36BAE + 1, (int16)(int16)(uint16)(size_t)(byte_36BAE + 0x42));
         {
-            int edgeWords = g_modelEdgeCount * 2;
+            int16 edgeWords = g_modelEdgeCount * 2;
             unsigned char far *coord = p + edgeWords + 1;
             unsigned char far *cnts = coord + edgeWords;
             unsigned char far *dataBase = cnts + g_modelEdgeCount;
             unsigned char *order = byte_36BAE + 1;
-            int ai = *order++;
+            int16 ai = *order++;
             g_primCoordPtr = (int16)(uint16)(size_t)coord;
             g_primCountPtr = (int16)(uint16)(size_t)cnts;
             g_primDataBase = (int16)(uint16)(size_t)dataBase;
@@ -1265,7 +1265,7 @@ static void renderPrimitiveList(unsigned char far *p) {
 }
 
 /* seg001 0x1764 — drawModelDisplayList. */
-int far drawModelDisplayList(void) {
+int16 far drawModelDisplayList(void) {
     renderPrimitiveList((unsigned char far *)g_modelStreamPtr);
     return 0;
 }
@@ -1276,8 +1276,8 @@ int far drawModelDisplayList(void) {
 /* ===================================================================== */
 static void projectModelEdges(unsigned char far **pp) {
     unsigned char far *p = *pp;
-    int count = *p++;
-    int i;
+    int16 count = *p++;
+    int16 i;
     struct EdgeRec *rec = (struct EdgeRec *)flt15_buf2;
     if (count == 0) {
         *pp = p;
@@ -1287,8 +1287,8 @@ static void projectModelEdges(unsigned char far **pp) {
         if (!testVisibilityMask(&p)) {
             p += 2;
         } else {
-            int va = *p++;
-            int vb = *p++;
+            int16 va = *p++;
+            int16 vb = *p++;
             rec->flags = 0;
             if (vtxScratch.vproj.in[va].div < 1) {
                 if (vtxScratch.vproj.in[vb].div < 1) {
@@ -1317,7 +1317,7 @@ static void projectModelEdges(unsigned char far **pp) {
     *pp = p;
 }
 
-int far projectModelEdgesFar(void) {
+int16 far projectModelEdgesFar(void) {
     unsigned char far *p = (unsigned char far *)g_modelStreamPtr;
     projectModelEdges(&p);
     g_modelStreamPtr = (char far *)p;
@@ -1330,8 +1330,8 @@ int far projectModelEdgesFar(void) {
 /* endpoints that land on the left/right edge. Used by drawPolygonOutline   */
 /* (egsphere) and the egflight wireframe overlay.                           */
 /* ===================================================================== */
-static int crOutcode(int x, int y) {
-    int al = 0;
+static int16 crOutcode(int16 x, int16 y) {
+    int16 al = 0;
     if (x < 0)
         al |= 8;
     else if (x > g_clipMaxX)
@@ -1349,7 +1349,7 @@ static int crOutcode(int x, int y) {
 /* an edge lying entirely off one vertical side — gets projected onto the       */
 /* viewport boundary so the span fill still closes. clampScanlineSpan no-ops    */
 /* for on-screen x. */
-static void boundaryColumnFill(int x, int yA, int yB) {
+static void boundaryColumnFill(int16 x, int16 yA, int16 yB) {
     if (x < 0)
         clampScanlineSpan(0, yA, yB);
     else if (x > g_clipMaxX)
@@ -1358,16 +1358,16 @@ static void boundaryColumnFill(int x, int yA, int yB) {
 
 /* truncating signed (a*b)/d; udiv32by16 saturates to +-0x7f00 on overflow or  */
 /* d==0, matching egseg1's INT 0 divide-overflow stub (clipRasterDivOverflowStub). */
-static int clipMulDiv(int a, int b, int d) {
-    return (int)sdiv32by16(imul16(a, b), d);
+static int16 clipMulDiv(int16 a, int16 b, int16 d) {
+    return (int16)sdiv32by16(imul16(a, b), d);
 }
 
-int far clipAndRasterizeEdge(void) {
-    int cx = g_lineX1, dx = g_lineY1; /* CX/DX = the anchor (kept) endpoint */
-    int si = g_lineX2, di = g_lineY2; /* SI/DI = the endpoint being clipped */
-    int flags = crOutcode(cx, dx);    /* g_rasterClipFlags: anchor outcode  */
-    int al = crOutcode(si, di);       /* AL: outcode of the clipped endpoint */
-    int bp, divX, divY, bx, ax;
+int16 far clipAndRasterizeEdge(void) {
+    int16 cx = g_lineX1, dx = g_lineY1; /* CX/DX = the anchor (kept) endpoint */
+    int16 si = g_lineX2, di = g_lineY2; /* SI/DI = the endpoint being clipped */
+    int16 flags = crOutcode(cx, dx);    /* g_rasterClipFlags: anchor outcode  */
+    int16 al = crOutcode(si, di);       /* AL: outcode of the clipped endpoint */
+    int16 bp, divX, divY, bx, ax;
     long dXl, dYl;
 
     if (al == 0) {        /* P2 inside */
@@ -1377,7 +1377,7 @@ int far clipAndRasterizeEdge(void) {
         }
         /* P2 inside, P1 outside -> swap so the outside point is (si,di)         */
         {
-            int t;
+            int16 t;
             t = si;
             si = cx;
             cx = t;
@@ -1386,7 +1386,7 @@ int far clipAndRasterizeEdge(void) {
             dx = t;
         }
         {
-            int t = flags;
+            int16 t = flags;
             flags = al;
             al = t;
         } /* al = oc1, flags = 0          */
@@ -1409,8 +1409,8 @@ int far clipAndRasterizeEdge(void) {
         dXl >>= 1;
         dYl >>= 1;
     }
-    divX = (int)dXl;
-    divY = (int)dYl;
+    divX = (int16)dXl;
+    divY = (int16)dYl;
 
     for (;;) {        /* loc_20F9: clip one endpoint per pass */
         if (al & 9) { /* off left/right: clip to a vertical   */
@@ -1422,7 +1422,7 @@ int far clipAndRasterizeEdge(void) {
         bx = (di > g_clipMaxY) ? g_clipMaxY : 0;
         ax = cx + clipMulDiv(bx - bp, divX, divY); /* x at boundary y      */
         {
-            int t = ax;
+            int16 t = ax;
             ax = bx;
             bx = t;
         } /* ax=boundaryY, bx=x   */
@@ -1442,7 +1442,7 @@ int far clipAndRasterizeEdge(void) {
         g_lineX1 = bx;
         g_lineY1 = ax;
         {
-            int t;
+            int16 t;
             t = si;
             si = cx;
             cx = t;
@@ -1463,27 +1463,27 @@ int far clipAndRasterizeEdge(void) {
 /* set), 0 when it was drawn. The egseg1 horizon path needs both the clipped */
 /* coords (left in the globals) and the inside/outside result.             */
 /* ===================================================================== */
-static int clipHorizonLineDraw(void) {
-    int x1 = g_lineX1, y1 = g_lineY1, x2 = g_lineX2, y2 = g_lineY2;
-    int oc1 = crOutcode(x1, y1);
-    int oc2 = crOutcode(x2, y2);
-    int guard = 0;
+static int16 clipHorizonLineDraw(void) {
+    int16 x1 = g_lineX1, y1 = g_lineY1, x2 = g_lineX2, y2 = g_lineY2;
+    int16 oc1 = crOutcode(x1, y1);
+    int16 oc2 = crOutcode(x2, y2);
+    int16 guard = 0;
     while (oc1 | oc2) {
-        int oc, nx, ny;
+        int16 oc, nx, ny;
         if (oc1 & oc2) return 1; /* trivially outside */
         if (++guard > 8) return 1;
         oc = oc1 ? oc1 : oc2;
         if (oc & 8) { /* left */
-            ny = y1 + (int)sdiv32by16(imul16(y2 - y1, 0 - x1), x2 - x1);
+            ny = y1 + (int16)sdiv32by16(imul16(y2 - y1, 0 - x1), x2 - x1);
             nx = 0;
         } else if (oc & 1) { /* right */
-            ny = y1 + (int)sdiv32by16(imul16(y2 - y1, g_clipMaxX - x1), x2 - x1);
+            ny = y1 + (int16)sdiv32by16(imul16(y2 - y1, g_clipMaxX - x1), x2 - x1);
             nx = g_clipMaxX;
         } else if (oc & 4) { /* top */
-            nx = x1 + (int)sdiv32by16(imul16(x2 - x1, 0 - y1), y2 - y1);
+            nx = x1 + (int16)sdiv32by16(imul16(x2 - x1, 0 - y1), y2 - y1);
             ny = 0;
         } else { /* bottom */
-            nx = x1 + (int)sdiv32by16(imul16(x2 - x1, g_clipMaxY - y1), y2 - y1);
+            nx = x1 + (int16)sdiv32by16(imul16(x2 - x1, g_clipMaxY - y1), y2 - y1);
             ny = g_clipMaxY;
         }
         if (oc == oc1) {
@@ -1514,7 +1514,7 @@ static int clipHorizonLineDraw(void) {
 /* and calls this. Output is via gfx_setColor + the span fill (gfx_dirtyRect).*/
 /* ===================================================================== */
 static void renderHorizonSky(void) {
-    int scale, negPitch, roll, centerX, centerY, cx2, h, h2;
+    int16 scale, negPitch, roll, centerX, centerY, cx2, h, h2;
     long dividend, t1, t2, d, s, u1, u2, w, z;
 
     g_horizonNegPitch = -g_spherePitch;
@@ -1523,9 +1523,9 @@ static void renderHorizonSky(void) {
     /* scale = (radius<<8)/distZ, with a fixed fallback and a detail-2 bias */
     dividend = imul16(g_sphereRadius, 256);
     if (g_sphereDistZ > 0x1F0B) {
-        scale = (int)sdiv32by16(dividend, g_sphereDistZ);
+        scale = (int16)sdiv32by16(dividend, g_sphereDistZ);
         if (g_detailLevel == 2) {
-            int hb = (int)(((uint16)g_viewPosZ) >> 8);
+            int16 hb = (int16)(((uint16)g_viewPosZ) >> 8);
             scale -= ((hb + (hb >> 1)) >> 3) + 4;
         }
     } else {
@@ -1569,8 +1569,8 @@ static void renderHorizonSky(void) {
           (g_lineY1 == 0 || g_lineY1 == g_clipMaxY))) {
         /* horizon line is visible: fill the sky half, then the ground half */
         for (;;) {
-            int sx1 = g_lineX1, sy1 = g_lineY1, sx2 = g_lineX2, sy2 = g_lineY2;
-            int edgeX, far_, near_, sx, sy;
+            int16 sx1 = g_lineX1, sy1 = g_lineY1, sx2 = g_lineX2, sy2 = g_lineY2;
+            int16 edgeX, far_, near_, sx, sy;
             /* egseg1 loc_07D5 calls loc_2028 (clipAndRasterizeEdge), NOT the raw
              * rasterizeEdgeSpan: the roll/pitch-tilted horizon line runs off the
              * viewport at most attitudes, and only the clipping rasterizer lays
@@ -1589,7 +1589,7 @@ static void renderHorizonSky(void) {
             near_ = 0;
             far_ = g_clipMaxY;
             if ((g_horizonSideFlag ^ roll) < 0) {
-                int tmp = near_;
+                int16 tmp = near_;
                 near_ = far_;
                 far_ = tmp;
             }
@@ -1617,7 +1617,7 @@ static void renderHorizonSky(void) {
         }
     } else {
         /* line fully outside / degenerate: fill the whole viewport */
-        int doFill = 1;
+        int16 doFill = 1;
         if (g_sphereRadius >= 0) {
             gfx_setColor(g_horizonGroundColor);
             if (g_detailLevel == 2) doFill = 0;
@@ -1632,7 +1632,7 @@ static void renderHorizonSky(void) {
     gfx_nop22();
 }
 
-int far drawFlatHorizon(int skyColor) {
+int16 far drawFlatHorizon(int16 skyColor) {
     g_horizonSkyColor = (uint8)skyColor;
     renderHorizonSky();
     return 0;
@@ -1647,10 +1647,10 @@ int far drawFlatHorizon(int skyColor) {
 /* +0x70 per ring). gfx_setColor (0x21) sets the same MGRAPHIC fill colour  */
 /* as the register-only gfx_setDrawColor (0x20), so no new shim is needed.  */
 /* ===================================================================== */
-int far drawPolygonOutline(int fillColor, int pointCount, int *points, int edgeColor) {
-    int n = pointCount - 1;
-    int *pt = points;
-    int firstX, firstY;
+int16 far drawPolygonOutline(int16 fillColor, int16 pointCount, int16 *points, int16 edgeColor) {
+    int16 n = pointCount - 1;
+    int16 *pt = points;
+    int16 firstX, firstY;
     (void)fillColor;
     gfx_setColor(edgeColor);
     resetScanlineSpansImpl();
@@ -1667,8 +1667,8 @@ int far drawPolygonOutline(int fillColor, int pointCount, int *points, int edgeC
          * off-screen (+-0x5848); at level the axis-aligned geometry hid it, but
          * once tilted each edge started from the wrong point and the quads
          * stopped filling (striped/unfilled sky bands). */
-        int nx = *pt++;
-        int ny = *pt++;
+        int16 nx = *pt++;
+        int16 ny = *pt++;
         g_lineX2 = nx;
         g_lineY2 = ny;
         clipAndRasterizeEdge();
@@ -1728,19 +1728,19 @@ struct SortRec {
     int16 camYLo, camYHi;
 };
 static struct SortRec g_sortRecs[35];
-static int g_sortList[35];
+static int16 g_sortList[35];
 
 /* High word of (s<<1) plus the doubled low word's carry bit — the rotatePoint3d
  * `SHL;RCL;SHL;ADC` Q15-with-round idiom. */
-static int dirRound(long s) {
+static int16 dirRound(long s) {
     long v = s << 1;
-    return (int)(int16)(HI16(v) + LOCARRY(v));
+    return (int16)(int16)(HI16(v) + LOCARRY(v));
 }
 
 /* seg001 0x15CD — 3x3 Q15 matrix multiply, result = A * B (each entry the high
  * word of the doubled dot product). A/B are 9-element row-major matrices. */
 static void multiplyMatrix3x3(const int16 *A, const int16 *B, int16 *R) {
-    int row, col;
+    int16 row, col;
     for (row = 0; row < 3; row++) {
         for (col = 0; col < 3; col++) {
             long acc = (imul16(A[row * 3 + 0], B[0 * 3 + col]) << 1) + (imul16(A[row * 3 + 1], B[1 * 3 + col]) << 1) + (imul16(A[row * 3 + 2], B[2 * 3 + col]) << 1);
@@ -1752,8 +1752,8 @@ static void multiplyMatrix3x3(const int16 *A, const int16 *B, int16 *R) {
 /* seg001 0x147B — buildInverseRotationMatrix: like buildRotationMatrix but it
  * lays the transpose/inverse orientation into *m (used for per-object rotation
  * relative to the already-built view matrix). Sets the same sphere terms. */
-static void buildInverseRotationMatrix(int16 *m, int angleX, int angleY, int angleZ) {
-    int R, P, Ro, D, SY, CY, mSI, mBP;
+static void buildInverseRotationMatrix(int16 *m, int16 angleX, int16 angleY, int16 angleZ) {
+    int16 R, P, Ro, D, SY, CY, mSI, mBP;
     g_rotSinYaw = hsine(angleX);
     g_rotCosYaw = hcosine(angleX);
     g_spherePitch = hsine(angleZ);
@@ -1800,11 +1800,11 @@ static void transposeOrientationMatrix(void) {
 /* seg001 0x0908 — transformAndCullObject: rotate the object origin (relX/Y/Z)
  * into camera space (g_camBaseX / g_camTransX / g_camTransY) and frustum-cull.
  * Returns 0 if visible, 1 if culled. */
-static int transformAndCullObject(int relY, int relZ, int relX) {
+static int16 transformAndCullObject(int16 relY, int16 relZ, int16 relX) {
     int16 *m = g_viewRotMatrix;
     long camX, camY;
-    int rm = g_objRenderMode;
-    int diHi, cl, absYHi, sx, si, ax, bx;
+    int16 rm = g_objRenderMode;
+    int16 diHi, cl, absYHi, sx, si, ax, bx;
 
     g_camBaseX = (imul16(m[6], relY) + imul16(m[3], relZ) + imul16(m[0], relX)) << 1;
     camX = (imul16(m[7], relY) + imul16(m[4], relZ) + imul16(m[1], relX)) << 1;
@@ -1820,20 +1820,20 @@ static int transformAndCullObject(int relY, int relZ, int relX) {
     cl = g_halfScaleRender ^ 1;
     absYHi = (diHi < 0) ? -diHi : diHi;
     sx = absYHi + g_overlayCenterX[rm];
-    sx = (int)((int16)sx >> cl);
+    sx = (int16)((int16)sx >> cl);
     si = (sx >> 2) + sx;
     {
-        int bxhi = HI16(g_camBaseX);
-        int absbx = (bxhi < 0) ? -bxhi : bxhi;
+        int16 bxhi = HI16(g_camBaseX);
+        int16 absbx = (bxhi < 0) ? -bxhi : bxhi;
         if (absbx > si) return 1;
         si = absbx;
     }
     ax = absYHi + g_overlayCenterY[rm];
-    ax = (int)((int16)ax >> cl);
+    ax = (int16)((int16)ax >> cl);
     bx = ax;
     if (g_hudVisible) bx = (((ax >> 3) + ax) >> 1);
     {
-        int absXHi = (g_camTransXHi < 0) ? -g_camTransXHi : g_camTransXHi;
+        int16 absXHi = (g_camTransXHi < 0) ? -g_camTransXHi : g_camTransXHi;
         if (absXHi > bx) return 1;
         si += absXHi;
     }
@@ -1848,9 +1848,9 @@ static int transformAndCullObject(int relY, int relZ, int relX) {
  * in camera space, then read the per-face visibility table and build the vertex
  * sign masks (g_vtxSignMask*) that gate back-facing primitives. Advances *pp
  * past the face-visibility records. */
-static void rotatePoint3d(int relZ, int relY, int relX, unsigned char far **pp) {
+static void rotatePoint3d(int16 relZ, int16 relY, int16 relX, unsigned char far **pp) {
     unsigned char far *p = *pp;
-    int cnt, i, flipped;
+    int16 cnt, i, flipped;
     relX = -relX;
     relY = -relY;
     relZ = -relZ;
@@ -1876,7 +1876,7 @@ static void rotatePoint3d(int relZ, int relY, int relX, unsigned char far **pp) 
     {
         unsigned long bit = 1;
         for (i = 0; i < cnt; i++) {
-            int fnx, fny, fnz, thr;
+            int16 fnx, fny, fnz, thr;
             long dot;
             fnx = *(int16 far *)p;
             p += 2;
@@ -1901,7 +1901,7 @@ static void rotatePoint3d(int relZ, int relY, int relX, unsigned char far **pp) 
 
 /* Apply the combined matrix to one model vertex (X,Y,Z) and write its 32-bit
  * camera-space numerators + project it to screen at slot bx (= vtx*4). */
-static void emitModelVertex(int bx, int vx, int vy, int vz) {
+static void emitModelVertex(int16 bx, int16 vx, int16 vy, int16 vz) {
     const int16 *cm = g_objCombinedMatrix;
     long sx = (imul16(cm[0], vx) + imul16(cm[3], vz) + imul16(cm[6], vy)) << 1;
     long sy = (imul16(cm[1], vx) + imul16(cm[4], vz) + imul16(cm[7], vy)) << 1;
@@ -1918,16 +1918,16 @@ static void emitModelVertex(int bx, int vx, int vy, int vz) {
  * inline coords. */
 static void transformVertexList(unsigned char far **pp) {
     unsigned char far *p = *pp;
-    int al = *p++;
-    int bx;
+    int16 al = *p++;
+    int16 bx;
 
     if (al & 0x80) {
-        int count = al & 0x7f;
+        int16 count = al & 0x7f;
         if (g_offscreenRender == 0) {
             /* loc_107D — precomputed shared vertices */
             for (bx = 0; count-- > 0; bx += 4) {
-                int vis = testVisibilityMask(&p);
-                int ref = (*p++) * 4;
+                int16 vis = testVisibilityMask(&p);
+                int16 ref = (*p++) * 4;
                 if (!vis) continue;
                 VCAMX(bx) = g_camBaseX + DW(4 + ref);
                 VCAMY(bx) = JOIN32(g_camTransXLo, g_camTransXHi) + DW(0x25c + ref);
@@ -1936,10 +1936,10 @@ static void transformVertexList(unsigned char far **pp) {
             }
         } else {
             /* loc_0F78 — on-the-fly indexed transform */
-            int loopEnd = count * 4;
+            int16 loopEnd = count * 4;
             for (bx = 0; bx < loopEnd; bx += 4) {
-                int vis = testVisibilityMask(&p);
-                int ref = *p++;
+                int16 vis = testVisibilityMask(&p);
+                int16 ref = *p++;
                 if (!vis) continue;
                 emitModelVertex(bx,
                                 g_replayLog.vertexX[buf3d3_1[ref] & 0xff],
@@ -1949,12 +1949,12 @@ static void transformVertexList(unsigned char far **pp) {
         }
     } else if ((al & 0x7f) != 0) {
         /* loc_10F0 body — explicit inline coords (X,Y,Z words) */
-        int loopEnd = (al & 0x7f) * 4;
+        int16 loopEnd = (al & 0x7f) * 4;
         for (bx = 0; bx < loopEnd; bx += 4) {
-            int vis = testVisibilityMask(&p);
-            int vx = *(int16 far *)p;
-            int vy = *(int16 far *)(p + 2);
-            int vz = *(int16 far *)(p + 4);
+            int16 vis = testVisibilityMask(&p);
+            int16 vx = *(int16 far *)p;
+            int16 vy = *(int16 far *)(p + 2);
+            int16 vz = *(int16 far *)(p + 4);
             p += 6;
             if (!vis) continue;
             emitModelVertex(bx, vx, vy, vz);
@@ -1966,32 +1966,32 @@ static void transformVertexList(unsigned char far **pp) {
 /* seg001 0x0DF4 — transformModelVertices: precompute camera-space coordinates
  * for the shared vertex pool (the X/Y/Z coordinate tables indexed via buf3d3),
  * caching matrix*coordinate products so each tile object reuses them. */
-int far transformModelVerticesFar(void) {
+int16 far transformModelVerticesFar(void) {
     int16 *m = g_viewRotMatrix;
-    int i;
+    int16 i;
     if (size3d3_3 == 0) return 0;
-    for (i = (int)size3d3_4 - 1; i >= 0; i--) {
-        int c = g_replayLog.vertexX[i];
+    for (i = (int16)size3d3_4 - 1; i >= 0; i--) {
+        int16 c = g_replayLog.vertexX[i];
         DW(0x70c + i * 4) = imul16(m[0], c) << 1;
         DW(0x78c + i * 4) = imul16(m[1], c) << 1;
         DW(0x80c + i * 4) = imul16(m[2], c) << 1;
     }
-    for (i = (int)size3d3_6 - 1; i >= 0; i--) {
-        int c = ((int16 *)g_modelVertZ)[i];
+    for (i = (int16)size3d3_6 - 1; i >= 0; i--) {
+        int16 c = ((int16 *)g_modelVertZ)[i];
         DW(0x88c + i * 4) = imul16(m[3], c) << 1;
         DW(0x8ac + i * 4) = imul16(m[4], c) << 1;
         DW(0x8cc + i * 4) = imul16(m[5], c) << 1;
     }
-    for (i = (int)size3d3_5 - 1; i >= 0; i--) {
-        int c = ((int16 *)g_modelVertY)[i];
+    for (i = (int16)size3d3_5 - 1; i >= 0; i--) {
+        int16 c = ((int16 *)g_modelVertY)[i];
         DW(0x8ec + i * 4) = imul16(m[6], c) << 1;
         DW(0x96c + i * 4) = imul16(m[7], c) << 1;
         DW(0x9ec + i * 4) = imul16(m[8], c) << 1;
     }
-    for (i = (int)size3d3_3 - 1; i >= 0; i--) {
-        int bx = (buf3d3_1[i] & 0xff) * 4;
-        int di = (buf3d3_2[i] & 0xff) * 4;
-        int bp = (buf3d3_3[i] & 0xff) * 4;
+    for (i = (int16)size3d3_3 - 1; i >= 0; i--) {
+        int16 bx = (buf3d3_1[i] & 0xff) * 4;
+        int16 di = (buf3d3_2[i] & 0xff) * 4;
+        int16 bp = (buf3d3_3[i] & 0xff) * 4;
         DW(0x004 + i * 4) = DW(0x70c + bx) + DW(0x88c + bp) + DW(0x8ec + di);
         DW(0x25c + i * 4) = DW(0x78c + bx) + DW(0x8ac + bp) + DW(0x96c + di);
         DW(0x4b4 + i * 4) = DW(0x80c + bx) + DW(0x8cc + bp) + DW(0x9ec + di);
@@ -2015,8 +2015,8 @@ static void sceneObjPoint(unsigned char far *p) {
 }
 
 /* Distance-shaded point colour for the edge-run path (loc_1ABC / loc_1B6C). */
-static int edgeRunColor(int depthHi) {
-    int bx;
+static int16 edgeRunColor(int16 depthHi) {
+    int16 bx;
     if (depthHi > 5000)
         bx = 8;
     else if (depthHi > 2500)
@@ -2033,7 +2033,7 @@ static void sceneObjEdgeRun(unsigned char far *p) {
     g_edgeRunCount = *p++;
     if (g_offscreenRender != 0) {
         do {
-            int ref = *p++;
+            int16 ref = *p++;
             long sz;
             emitModelVertex(0,
                             g_replayLog.vertexX[buf3d3_1[ref] & 0xff],
@@ -2047,9 +2047,9 @@ static void sceneObjEdgeRun(unsigned char far *p) {
         } while (--g_edgeRunCount != 0);
     } else {
         do {
-            int ref = (*p++) * 4;
+            int16 ref = (*p++) * 4;
             long depthV = DW(0x4b4 + ref) + JOIN32(g_camTransYLo, g_camTransYHi);
-            int dHi = HI16(depthV);
+            int16 dHi = HI16(depthV);
             VDEPTH(0) = depthV;
             if (dHi >= 1) {
                 VCAMX(0) = DW(0x004 + ref) + g_camBaseX;
@@ -2069,13 +2069,13 @@ static void sceneObjEdgeRun(unsigned char far *p) {
  * project its vertices and draw its display list. */
 static void processSceneObject(void) {
     unsigned char far *p = (unsigned char far *)g_modelStreamPtr;
-    int op;
+    int16 op;
 
     if (g_dacSupported == 0) {
         g_objShade = 0;
     } else {
-        int h = (g_camTransYHi >> 8) & 0xff;
-        int v = (h & 0x80) ? 0 : (h >> 1);
+        int16 h = (g_camTransYHi >> 8) & 0xff;
+        int16 v = (h & 0x80) ? 0 : (h >> 1);
         if (v > 7) v = 7;
         g_objShade = (uint8)((v << 4) + 0x80);
     }
@@ -2091,16 +2091,16 @@ static void processSceneObject(void) {
     }
 
     {
-        int orv = g_objTransform[1] | g_objTransform[2] | g_objTransform[3];
+        int16 orv = g_objTransform[1] | g_objTransform[2] | g_objTransform[3];
         /* The asm folds the high byte of (transform[1]|[2]|[3]) into the low
          * byte (`OR AL,AH`); it does NOT mix in g_objShade. ORing g_objShade in
          * here (it is usually nonzero when the DAC is present) forced every
          * object — even un-rotated terrain — through the inverse-matrix path
          * instead of the direct view-matrix copy. */
-        int al = (orv | (orv >> 8)) & 0xff;
+        int16 al = (orv | (orv >> 8)) & 0xff;
         g_objHasRotation = (uint8)al;
         if (al == 0) {
-            int i;
+            int16 i;
             for (i = 0; i < 9; i++) g_objCombinedMatrix[i] = g_viewRotMatrix[i];
         } else {
             buildInverseRotationMatrix(g_objOrientMatrix,
@@ -2117,9 +2117,9 @@ static void processSceneObject(void) {
 /* seg001 0x0A80 — insertSortedObject: store the current object's transform state
  * into a record and insert it into the depth-sorted list (farthest first). */
 static void insertSortedObject(unsigned char far *p) {
-    int slot, i, pos;
+    int16 slot, i, pos;
     long depth;
-    int dLo, dHi, shift;
+    int16 dLo, dHi, shift;
     struct SortRec *r;
 
     g_modelStreamPtr = (char far *)p;
@@ -2176,10 +2176,10 @@ static void insertSortedObject(unsigned char far *p) {
 /* seg001 0x0BE7 thunk path — projectSceneObject: entry from the scene walk.
  * Transforms+culls the object origin, then either renders it immediately (when
  * coplanar with the viewer Z) or queues it into the depth-sorted list. */
-void far projectSceneObject(char far *model, int yaw, int pitch, int roll,
-                            int posX, int posY, int posZ) {
+void far projectSceneObject(char far *model, int16 yaw, int16 pitch, int16 roll,
+                            int16 posX, int16 posY, int16 posZ) {
     unsigned char far *p;
-    int opcode, cl;
+    int16 opcode, cl;
 
     g_objTransform[1] = yaw;
     g_objTransform[2] = pitch;
@@ -2198,7 +2198,7 @@ void far projectSceneObject(char far *model, int yaw, int pitch, int roll,
     if (*(unsigned *)&p == 1 && g_detailLevel != 2) return;
     cl = opcode;
     if ((opcode & 0x60) == 0x60) { /* storeObjTransformByOpcode */
-        int idx = (*p) & 3;
+        int16 idx = (*p) & 3;
         p++;
         g_objTransform[idx] = g_spinAngle;
     }
@@ -2214,7 +2214,7 @@ void far projectSceneObject(char far *model, int yaw, int pitch, int roll,
 
 /* seg001 0x0CB4 thunk — rotatePoint3dFar: rotate the object origin on the
  * g_modelStreamPtr stream (used by the tac-map nearest-tile path). */
-int far rotatePoint3dFar(void) {
+int16 far rotatePoint3dFar(void) {
     unsigned char far *p = (unsigned char far *)g_modelStreamPtr;
     rotatePoint3d(g_objTransform[0], g_objRelY, g_objRelX, &p);
     g_modelStreamPtr = (char far *)p;
@@ -2222,13 +2222,13 @@ int far rotatePoint3dFar(void) {
 }
 
 /* seg001 0x1562 — transformAndCullObjectFar: cdecl entry (relX, relY, relZ). */
-int far transformAndCullObjectFar(int a, int b, int c) {
+int16 far transformAndCullObjectFar(int16 a, int16 b, int16 c) {
     return transformAndCullObject(b, c, a);
 }
 
 /* seg001 0x2853 — multiplyMatrix3x3Far: cdecl entry. matA/matB are near
  * pointers to 9-element matrices; result is a near pointer. */
-int far multiplyMatrix3x3Far(const int16 *matA, const int16 *matB, int16 *result) {
+int16 far multiplyMatrix3x3Far(const int16 *matA, const int16 *matB, int16 *result) {
     multiplyMatrix3x3(matA, matB, result);
     return 0;
 }
@@ -2237,9 +2237,9 @@ int far multiplyMatrix3x3Far(const int16 *matA, const int16 *matB, int16 *result
 /* seg001 0x0B60 — renderSortedListFar: dispatch the depth-sorted scene     */
 /* objects, farthest first (painter's order), through processSceneObject.   */
 /* ===================================================================== */
-int far renderSortedListFar(void) {
-    int n = g_sortedObjCount;
-    int i;
+int16 far renderSortedListFar(void) {
+    int16 n = g_sortedObjCount;
+    int16 i;
     for (i = 0; i < n; i++) {
         struct SortRec *r = &g_sortRecs[g_sortList[i]];
         g_modelStreamPtr = r->model;

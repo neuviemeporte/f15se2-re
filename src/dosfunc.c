@@ -50,7 +50,7 @@ static union REGS rin, rout;
 static struct SREGS sreg;
 
 uint16 dos_alloc(const size_t paragraphs) {
-    int err;
+    int16 err;
     rin.h.ah = DOSF_ALLOCMEM;
     rin.x.bx = paragraphs;
     err = intdos(&rin, &rout);
@@ -62,8 +62,8 @@ uint16 dos_alloc(const size_t paragraphs) {
     return rout.x.ax;
 }
 
-int dos_free(const uint16 segment) {
-    int err;
+int16 dos_free(const uint16 segment) {
+    int16 err;
     rin.h.ah = DOSF_FREEMEM;
     sreg.es = segment;
     err = intdosx(&rin, &rout, &sreg);
@@ -78,7 +78,7 @@ int dos_free(const uint16 segment) {
 }
 
 uint16 dos_resize(const uint16 segment, uint16 newsize) {
-    int err;
+    int16 err;
     rin.h.ah = DOSF_RESIZEMEM;
     rin.x.bx = newsize;
     sreg.es = segment;
@@ -92,7 +92,7 @@ uint16 dos_resize(const uint16 segment, uint16 newsize) {
 }
 
 size_t dos_getfree(void) {
-    int err;
+    int16 err;
     rin.h.ah = DOSF_ALLOCMEM;
     rin.x.bx = 0xffff; // 1,048,560 bytes
     err = intdos(&rin, &rout);
@@ -141,8 +141,8 @@ STATIC_ASSERT(sizeof(ovlLoadParams) == 4);
 #define DOS_LOAD_NOEXEC 1
 #define DOS_LOAD_OVL 3
 
-static int loadprog(const char *file, const uint16 segment, const uint8 type, const char FAR *cmdline) {
-    int err;
+static int16 loadprog(const char *file, const uint16 segment, const uint8 type, const char FAR *cmdline) {
+    int16 err;
     rin.h.ah = DOSF_LOADPROG;
     rin.h.al = type;
     rin.x.dx = PTR_OFF(file);
@@ -183,16 +183,16 @@ static int loadprog(const char *file, const uint16 segment, const uint8 type, co
     return 0;
 }
 
-int dos_loadOverlay(const char *file, const uint16 segment) {
+int16 dos_loadOverlay(const char *file, const uint16 segment) {
     return loadprog(file, segment, DOS_LOAD_OVL, NULL);
 }
 
-int dos_runProgram(const char *file, const char FAR *cmdline) {
+int16 dos_runProgram(const char *file, const char FAR *cmdline) {
     return loadprog(file, 0, DOS_LOAD_EXEC, cmdline);
 }
 
-int dos_loadProgram(const char *file, const char FAR *cmdline, uint16 *cs, uint16 *ss) {
-    int err;
+int16 dos_loadProgram(const char *file, const char FAR *cmdline, uint16 *cs, uint16 *ss) {
+    int16 err;
     if ((err = loadprog(file, 0, DOS_LOAD_NOEXEC, cmdline)) != 0)
         return err;
     *cs = exeLoadParams.cs;
@@ -200,8 +200,8 @@ int dos_loadProgram(const char *file, const char FAR *cmdline, uint16 *cs, uint1
     return 0;
 }
 
-int dos_getReturnCode(void) {
-    int err;
+int16 dos_getReturnCode(void) {
+    int16 err;
     rin.h.ah = DOSF_RETURNCODE;
     err = intdos(&rin, &rout);
     // AH = termination type
@@ -235,7 +235,7 @@ void dos_mcbInfo(void) {
     uint8 FAR *lol = NULL;
     struct MCB FAR *mcb = NULL;
     size_t total = 0, alloc = 0, free = 0;
-    int i = 0;
+    int16 i = 0;
     char strbuf[128];
     // get segment of first mcb from list of lists
     lol = dos_sysvars();

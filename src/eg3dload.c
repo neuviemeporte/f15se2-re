@@ -35,8 +35,8 @@ void load3D3(char *fileName) {
     char FAR *objDataEnd;
     char FAR *dstPtr;
     struct SREGS sregs;
-    int slot, subCount, sub;
-    int chunk;
+    int16 slot, subCount, sub;
+    int16 chunk;
     strcpyFromDot(fileName, ".3D3");
     if ((fileHandle = fopen(fileName, "rb")) == NULL) {
         printError("Open Error on *.3D3");
@@ -117,7 +117,7 @@ void load3D3(char *fileName) {
 
 // ==== seg000:0x2c82 ====
 void load3DT(char *fileName) {
-    int shape, cat, byteOff, tile, obj;
+    int16 shape, cat, byteOff, tile, obj;
     strcpyFromDot(fileName, ".3dT");
     if ((fileHandle = fopen(fileName, "rb")) == NULL) {
         printError("Open Error on *.3DT");
@@ -161,7 +161,7 @@ void load3DT(char *fileName) {
 
 // ==== seg000:0x2e54 ====
 void load3DG() {
-    int unused_1, unused_2, unused_3;
+    int16 unused_1, unused_2, unused_3;
     strcpyFromDot(regnStr, ".3dG");
     while ((fileHandle = fopen(regnStr, "rb")) == NULL) {
         drawStringBothPages("Please insert F15 Disk B", 104, 40, 0x0f);
