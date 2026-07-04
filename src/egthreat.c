@@ -130,12 +130,12 @@ void fireGroundThreat(int16 planeIdx) {
             if (g_planeTable.planes[planeIdx].alertLevel > 0xc0) {
                 if (threatType != 21) {
                     if (g_nearestThreatRange > 0x500) {
-                        if ((unsigned)-(g_missionStatus * 3 - 20) < range[0]) {
+                        if ((uint16)-(g_missionStatus * 3 - 20) < range[0]) {
                             g_enemyAlertFlag++;
                             if (g_planeTable.planes[planeIdx].alertLevel >= 250) {
                                 slot = (g_missionStatus != 0) ? planeIdx % g_missionStatus : 0;
                                 if (g_projectiles[slot].ttl == 0) {
-                                    if (sams[threatType].lockRange > (unsigned)range[0]) {
+                                    if (sams[threatType].lockRange > (uint16)range[0]) {
                                         threatType = threatType;
                                         g_projectiles[slot].mapX = g_planeTable.planes[planeIdx].mapX + 8;
                                         slot = slot;
@@ -177,16 +177,16 @@ void fireGroundThreat(int16 planeIdx) {
 // ==== seg000:0x660e routine_324 ====
 int16 computeThreatRangeBearing(int16 threatX, int16 threatY, int16 threatAlt, int16 threatType, int16 *outBearing, int16 *outRange) {
     int16 p, a, bearing, range, deltaX, deltaY;
-    unsigned score;
+    uint16 score;
 
     if (threatType == 0 || threatType == -1) {
         return 0;
     }
     deltaX = g_viewX_ - threatX;
     deltaY = g_viewY_ - threatY;
-    range = (unsigned)rangeApprox(deltaX, deltaY) >> 6;
+    range = (uint16)rangeApprox(deltaX, deltaY) >> 6;
     bearing = computeBearing(deltaX, -deltaY);
-    score = (score = (aNone[threatType].dangerTier + g_missionStatus * 2 + 3) * aNone[threatType].lethality / 16) * (((unsigned)g_viewZ >> 6) + 0x40) >> 7;
+    score = (score = (aNone[threatType].dangerTier + g_missionStatus * 2 + 3) * aNone[threatType].lethality / 16) * (((uint16)g_viewZ >> 6) + 0x40) >> 7;
     *outBearing = bearing;
     *outRange = range;
     return score;
@@ -288,7 +288,7 @@ void updateObjects(void) {
                                 }
                             }
                         }
-                        if ((unsigned)rangeApprox(g_viewX_ - g_simObjects[objIdx].posX,
+                        if ((uint16)rangeApprox(g_viewX_ - g_simObjects[objIdx].posX,
                                                   g_viewY_ - g_simObjects[objIdx].posY) >>
                                 6 > 350 &&
                             objIdx != 0) {
@@ -340,9 +340,9 @@ void updateObjects(void) {
                 range = rangeApprox(deltaX, deltaY);
                 pitchCmd = computeBearing((tgtZ - g_simObjects[objIdx].alt) >> 5, range);
                 pitchCmd = clampRange(pitchCmd, -0x2000, 0x1000);
-                if (mode == 1 && (unsigned)range < 0x600) {
+                if (mode == 1 && (uint16)range < 0x600) {
                     g_activeThreatCount++;
-                    if ((unsigned)range >= 0x400) goto after_missile_table;
+                    if ((uint16)range >= 0x400) goto after_missile_table;
                     if (frameTick & 3) goto after_missile_table;
                     if (abs(g_simObjects[objIdx].heading.w - bearing) >= 0x800) goto after_missile_table;
                     if (abs(g_simObjects[objIdx].pitch - pitchCmd) >= 0x800) goto after_missile_table;
@@ -487,7 +487,7 @@ void updateObjects(void) {
 
                 g_simObjects[objIdx].flags.b[0] &= 0xef;
 
-                moveAmt = (int16)((uint32)(unsigned)(-(g_simObjects[objIdx].pitch / 2 + (int16)0x8000)) * (long)g_simObjects[objIdx].speed >> 14);
+                moveAmt = (int16)((uint32)(uint16)(-(g_simObjects[objIdx].pitch / 2 + (int16)0x8000)) * (long)g_simObjects[objIdx].speed >> 14);
                 moveAmt -= abs(sinMul(g_simObjects[objIdx].bank.w, moveAmt)) >> 1;
                 moveAmt = moveAmt * 4 / g_frameRateScaling;
                 moveAmt >>= 2;
@@ -517,7 +517,7 @@ void updateObjects(void) {
                     }
                 }
 
-                if ((unsigned)range < 0x10 && mode == 2) {
+                if ((uint16)range < 0x10 && mode == 2) {
                     if ((g_simObjects[objIdx].flags.w) & 0x200) {
                         (g_simObjects[objIdx].flags.w) |= 0x1000;
                     } else {
@@ -584,9 +584,9 @@ void updateObjects(void) {
                                             if (g_missionStatus * 2 >= g_enemyThreatCount) {
                                                 deltaX = g_threatRefX - g_planeTable.planes[tgtIdx].mapX;
                                                 deltaY = g_threatRefY - g_planeTable.planes[tgtIdx].mapY;
-                                                range = (unsigned)rangeApprox(deltaX, deltaY) >> 6;
+                                                range = (uint16)rangeApprox(deltaX, deltaY) >> 6;
                                                 acRange = aircraftTypes[g_threatSpec].range;
-                                                if ((unsigned)(acRange / 2) > (unsigned)range) {
+                                                if ((uint16)(acRange / 2) > (uint16)range) {
                                                     g_lastSpawnTick = g_missionTick;
                                                     spawnEnemyAircraft(objIdx, tgtIdx);
                                                     scheduleEventCheck(objIdx + 0x20, 2);

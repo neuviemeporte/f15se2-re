@@ -318,7 +318,7 @@ void makeSound(int16 soundId, int16 priority) {
 // ==== seg000:0xda5f ====
 void playVoiceCue(int16 weaponIdx) {
     if (g_axisInputAccum[2] < 2 && g_ejectState == 0 &&
-        (unsigned)voiceCueThresholds[weaponIdx] < (unsigned)f15DgtlResult) {
+        (uint16)voiceCueThresholds[weaponIdx] < (uint16)f15DgtlResult) {
         audio_playSample(weaponIdx);
     }
 }

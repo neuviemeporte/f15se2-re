@@ -50,7 +50,7 @@ void updateFrame(void) {
     {
         static int16 sig_was_ok = 1;
         int16 s4 = *(int16 far *)((char far *)commData - 4);
-        if (sig_was_ok && (unsigned)s4 != 0xca01) {
+        if (sig_was_ok && (uint16)s4 != 0xca01) {
             sig_was_ok = 0;
             LogError(("SIG CORRUPTED at frame %d: commData-4(MCB)=%04x", frameTick, s4));
         }
@@ -113,7 +113,7 @@ void updateFrame(void) {
         commData->landingType = 1;
         g_gunAmmo = 1000;
         if (g_missionStatus == 0 || g_autopilotEngaged != 0) {
-            g_northSouthSign = ((unsigned)(g_viewY_ - waypoints[1].mapY) < 0x8000u) ? 1 : -1;
+            g_northSouthSign = ((uint16)(g_viewY_ - waypoints[1].mapY) < 0x8000u) ? 1 : -1;
             g_altitude = 2000;
             g_velocity = 8100;
             g_setThrust = 100;
@@ -293,7 +293,7 @@ skip_target_section:
             g_attackRangeX = 0x100;
             g_attackRangeY = 0x3c0;
             if (g_viewZ == 0x80 && g_knots > 0x50) {
-                if ((unsigned)(g_viewY_ - g_planeTable.planes[g_closestThreatIndex].mapY) * g_northSouthSign >= 0x10 && (unsigned)(g_viewY_ - g_planeTable.planes[g_closestThreatIndex].mapY) * g_northSouthSign <= 0x14) {
+                if ((uint16)(g_viewY_ - g_planeTable.planes[g_closestThreatIndex].mapY) * g_northSouthSign >= 0x10 && (uint16)(g_viewY_ - g_planeTable.planes[g_closestThreatIndex].mapY) * g_northSouthSign <= 0x14) {
                     if (abs((int16)(g_ourHead - ((1 - g_northSouthSign) << 0xe))) < 0x2000) {
                         g_autoCrashDive = 1;
                         makeSound(22, 2);
@@ -451,7 +451,7 @@ void dispatchKeyScancode(void) {
 #ifdef DEBUG
     if (keyScancode != 0)
         LogInfo(("KEY scancode=%04x  dot joyAxes[0/1]=%d/%d  ISR raw axes=%d/%d",
-                 (unsigned)keyScancode, (int16)joyAxes[0], (int16)joyAxes[1], (int16)g_joyRawX, (int16)g_joyRawY));
+                 (uint16)keyScancode, (int16)joyAxes[0], (int16)joyAxes[1], (int16)g_joyRawX, (int16)g_joyRawY));
 #endif
     keyDispatch(keyScancode);
 }
@@ -733,8 +733,8 @@ void appendMapEvent(int16 eventType, int16 eventArg) {
         return;
     }
     g_replayLog.events[g_eventLogCount].coord = g_missionTick;
-    g_replayLog.events[g_eventLogCount].screenX = (unsigned)g_viewX_ >> 7;
-    g_replayLog.events[g_eventLogCount].screenY = (unsigned)g_viewY_ >> 7;
+    g_replayLog.events[g_eventLogCount].screenX = (uint16)g_viewX_ >> 7;
+    g_replayLog.events[g_eventLogCount].screenY = (uint16)g_viewY_ >> 7;
     g_replayLog.events[g_eventLogCount].type = eventType;
     g_replayLog.events[g_eventLogCount].arg = eventArg;
     g_eventLogCount++;
@@ -788,8 +788,8 @@ void findWaypointFeatures() {
     for (slot = 0; slot < 2; slot++) {
         if (g_targetSlots[slot].flags >> 8 != 0) {
             g_nearestTileObj = findNearestTileObject(
-                (uint32)(unsigned)g_planeTable.planes[g_targetSlots[slot].planeIndex].mapX << 5,
-                (0x8000L - (uint32)(unsigned)g_planeTable.planes[g_targetSlots[slot].planeIndex].mapY) << 5);
+                (uint32)(uint16)g_planeTable.planes[g_targetSlots[slot].planeIndex].mapX << 5,
+                (0x8000L - (uint32)(uint16)g_planeTable.planes[g_targetSlots[slot].planeIndex].mapY) << 5);
             if (g_nearestTileObj != 0) {
                 g_shapeTargetCategory[nameIdx] = g_shapeTargetCategory[g_nearestTileObj->id];
                 strcpy(g_targetNameTable[nameIdx], g_targetNameTable[g_nearestTileObj->id]);

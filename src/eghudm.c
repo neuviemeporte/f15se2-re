@@ -29,7 +29,7 @@
  * high byte = table index, low byte = fraction). Matches the renderer's
  * lookupSineFar closely enough for the HUD. */
 static int16 nsine(int16 angle) {
-    unsigned a = (unsigned)angle;
+    uint16 a = (uint16)angle;
     int16 idx = (a >> 8) & 0xff;
     int16 frac = a & 0xff;
     int16 v0 = g_angleLut[idx];
@@ -41,7 +41,7 @@ int16 FAR CDECL hudSine(int16 angle) { return nsine(angle); }
 
 /* pitch -> ladder pixel offset: (|pitch|>>6) * 360, taking the high bytes. */
 int16 FAR CDECL hudPitchScale(int16 ap) {
-    return (int16)(((uint32)(unsigned)ap * 360u) >> 8);
+    return (int16)(((uint32)(uint16)ap * 360u) >> 8);
 }
 
 /* ===== drawClipLineGlobal (clipLineFar) =====

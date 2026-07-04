@@ -139,8 +139,8 @@ skip_aam:
             if (g_projDepth < 0 && g_projDepth > -0x100) {
                 drawWorldObject(
                     (uint8)(((uint8)g_smokeParticleSlot - (uint8)idx) & 7) < 4 ? 3 : 17,
-                    (long)(unsigned)g_particles[idx].posX << 5,
-                    (long)(unsigned)g_particles[idx].posY << 5,
+                    (long)(uint16)g_particles[idx].posX << 5,
+                    (long)(uint16)g_particles[idx].posY << 5,
                     g_particles[idx].alt, 0,
                     g_particles[idx].spin, 0, 0);
             }
@@ -256,8 +256,8 @@ skip_aam:
         projectWorldToHud(g_wreckX, g_wreckY, g_wreckAlt);
         if (g_projDepth < 0 && g_projDepth > -0x100) {
             drawWorldObject(14,
-                            (long)(unsigned)g_wreckX << 5,
-                            (long)(unsigned)g_wreckY << 5,
+                            (long)(uint16)g_wreckX << 5,
+                            (long)(uint16)g_wreckY << 5,
                             g_wreckAlt, 0, 0, 0,
                             g_wreckFallVel > 0 ? 4 : 3);
         }
@@ -528,8 +528,8 @@ void drawHudWorldOverlay(void) {
                 } else if (!(frameTick & 1) &&
                            ((g_difficultyTier < 2 && (g_shapeTargetCategory[g_planeTable.planes[wpIdx].nameIndex & 0x7f] & 0xc0) != 0) ||
                             (g_planeTable.planes[wpIdx].flags & 0x500) != 0 ||
-                            (g_mapCellFlags[((unsigned)g_planeTable.planes[wpIdx].mapX >> 11) +
-                                            ((unsigned)g_planeTable.planes[wpIdx].mapY >> 11) * 16] &
+                            (g_mapCellFlags[((uint16)g_planeTable.planes[wpIdx].mapX >> 11) +
+                                            ((uint16)g_planeTable.planes[wpIdx].mapY >> 11) * 16] &
                              1) != 0)) {
                     drawStringActivePage("No Target", 252, 142, 0x0f);
                 }
@@ -602,7 +602,7 @@ void drawHudWorldOverlay(void) {
         }
 
         if (g_detailLevel != 0 && (frameTick & 1)) {
-            g_aamLeadDist = (int16)(((uint32)(unsigned)(0x8000 - g_simObjects[wpIdx].pitch) *
+            g_aamLeadDist = (int16)(((uint32)(uint16)(0x8000 - g_simObjects[wpIdx].pitch) *
                                    (long)g_simObjects[wpIdx].speed) >>
                                   15);
             g_aamLeadDist -= abs(sinMul(g_simObjects[wpIdx].bank.w, g_aamLeadDist)) >> 1;

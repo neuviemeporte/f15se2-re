@@ -59,8 +59,8 @@ void projectObjects(int16 heading, int16 rangeGate, long worldX, long worldY, lo
                     if (sampleIdx == 15) {
                         break;
                     }
-                    gridX = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)dirSector);
-                    gridY = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)((dirSector + 2) & 7));
+                    gridX = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (uint16)18 * (uint16)dirSector);
+                    gridY = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (uint16)18 * (uint16)((dirSector + 2) & 7));
                     g_objLocalX = fracX - (gridX << 12) - 0x800;
                     g_objLocalY = fracY - (gridY << 12) - 0x800;
                     g_objRenderMode = 7;
@@ -78,8 +78,8 @@ void projectObjects(int16 heading, int16 rangeGate, long worldX, long worldY, lo
                         gridX = g_neighborSampling.gridX[sampleIdx];
                         gridY = g_neighborSampling.gridY[sampleIdx];
                     } else {
-                        gridX = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)dirSector);
-                        gridY = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (unsigned)18 * (unsigned)((dirSector + 2) & 7));
+                        gridX = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (uint16)18 * (uint16)dirSector);
+                        gridY = *(const int16 *)((const char *)g_dirGridOffsets + sampleIdx * 2 + (uint16)18 * (uint16)((dirSector + 2) & 7));
                     }
                     g_objLocalX = fracX - (gridX << 12) - 0x800;
                     g_objLocalY = fracY - (gridY << 12) - 0x800;

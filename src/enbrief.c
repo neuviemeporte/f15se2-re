@@ -169,7 +169,7 @@ void blinkWidget(MenuItem *item, int16 *gfxPage) {
     int16 fromColor;
     if (item->state == 0) {
         item->state = 1;
-        fromColor = (unsigned)item->colorPair >> 4;
+        fromColor = (uint16)item->colorPair >> 4;
         toColor = item->colorPair & 0xF;
         if (item->colorPair != 0) {
             gfx_switchColor(gfxPage, item->colorX1, item->colorY1, item->colorX2, item->colorY2, fromColor, toColor);
@@ -177,7 +177,7 @@ void blinkWidget(MenuItem *item, int16 *gfxPage) {
     } else {
         item->state = 0;
         fromColor = item->colorPair & 0xF;
-        toColor = (unsigned)item->colorPair >> 4;
+        toColor = (uint16)item->colorPair >> 4;
     }
     if (item->colorPair != 0) {
         gfx_switchColor(gfxPage, item->colorX1, item->colorY1, item->colorX2, item->colorY2, fromColor, toColor);
@@ -248,7 +248,7 @@ int16 isPointInRect(const MenuItem *p) {
                 fromColor = colorTablePtr[colorAnimIdx + 1] & 0xF;
                 gfx_switchColor(gfxPage, menuItem->colorX1, menuItem->colorY1, menuItem->colorX2, menuItem->colorY2, toColor, fromColor);
                 colorAnimIdx++;
-                colorAnimIdx = (unsigned)colorAnimIdx % *colorTablePtr;
+                colorAnimIdx = (uint16)colorAnimIdx % *colorTablePtr;
             }
         }
 
@@ -680,7 +680,7 @@ done:
 uint16 drawFlightPath(int16 *gfxPage, uint16 maxRecord) {
     int16 curX, recIdx, prevX, curY, prevY;
     recIdx = -1;
-    while (++recIdx, (flightRecords[recIdx].status & STATUS_TYPE_MASK) != 0 && (unsigned)recIdx <= maxRecord) {
+    while (++recIdx, (flightRecords[recIdx].status & STATUS_TYPE_MASK) != 0 && (uint16)recIdx <= maxRecord) {
         gfx_setColor(0);
         if (recIdx == 0) {
             plotMapPoint(flightRecords[0].mapX, flightRecords[0].mapY, 0, 0);
@@ -695,7 +695,7 @@ uint16 drawFlightPath(int16 *gfxPage, uint16 maxRecord) {
         }
     }
     recIdx = -1;
-    while (++recIdx, (flightRecords[recIdx].status & STATUS_TYPE_MASK) != 0 && (unsigned)recIdx <= maxRecord) {
+    while (++recIdx, (flightRecords[recIdx].status & STATUS_TYPE_MASK) != 0 && (uint16)recIdx <= maxRecord) {
         if ((flightRecords[recIdx].status & STATUS_TYPE_MASK) != EVENT_TIMESTAMP) {
             drawEventSprite(recIdx);
         }
@@ -717,13 +717,13 @@ char *formatFlightTime(int16 timeValue, char *buffer) {
     }
     timeValue += (miscBits & 0xF) << 8;
     mystrcpy(buffer, "00:00:00");
-    hours = (unsigned)timeValue / 1800;
+    hours = (uint16)timeValue / 1800;
     buffer[0] += nightMission + 1;
     buffer[1] += hours % 10;
-    minutes = ((unsigned)timeValue / 30) % 60;
+    minutes = ((uint16)timeValue / 30) % 60;
     buffer[3] += minutes / 10;
     buffer[4] += minutes % 10;
-    seconds = ((unsigned)timeValue * 2) % 60;
+    seconds = ((uint16)timeValue * 2) % 60;
     buffer[6] += seconds / 10;
     buffer[7] += seconds % 10;
     return buffer;
@@ -743,10 +743,10 @@ void plotMapPoint(int16 x, int16 y, int16 color, int16 unused) {
     sx = mapToScreenX(x);
     sy = mapToScreenY(y);
     if (color != -1 &&
-        (unsigned)sx >= (unsigned)mapViewX1 &&
-        (unsigned)sx < (unsigned)mapViewX2 &&
-        (unsigned)sy >= (unsigned)mapViewY1 &&
-        (unsigned)sy < (unsigned)mapViewY2) {
+        (uint16)sx >= (uint16)mapViewX1 &&
+        (uint16)sx < (uint16)mapViewX2 &&
+        (uint16)sy >= (uint16)mapViewY1 &&
+        (uint16)sy < (uint16)mapViewY2) {
         drawMapPixel(sx, sy, color);
     }
 }
@@ -807,7 +807,7 @@ long calcMissionScore(int16 param) {
         weaponCount = 15;
     }
 
-    for (recIdx = 0; (unsigned)recIdx <= (unsigned)param && flightRecords[recIdx].status; recIdx++) {
+    for (recIdx = 0; (uint16)recIdx <= (uint16)param && flightRecords[recIdx].status; recIdx++) {
         unitId = flightRecords[recIdx].unitId;
         switch (flightRecords[recIdx].status & STATUS_TYPE_MASK) {
         case EVENT_EJECTED:
@@ -939,16 +939,16 @@ void showEventPopup(void) {
         spriteIdx = 10;
         break;
     }
-    if ((unsigned)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) < 115 &&
-        (unsigned)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) < 89) {
+    if ((uint16)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) < 115 &&
+        (uint16)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) < 89) {
         popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 + 10;
         popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 + 10;
-    } else if ((unsigned)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) >= 115 &&
-               (unsigned)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) < 89) {
+    } else if ((uint16)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) >= 115 &&
+               (uint16)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) < 89) {
         popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 - 58;
         popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 + 10;
-    } else if ((unsigned)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) >= 115 &&
-               (unsigned)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) >= 89) {
+    } else if ((uint16)(mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1) >= 115 &&
+               (uint16)(mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1) >= 89) {
         popupX = mapToScreenX(flightRecords[curRecordIdx].mapX) + mapViewX1 - 58;
         popupY = mapToScreenY(flightRecords[curRecordIdx].mapY) + mapViewY1 - 40;
     } else {

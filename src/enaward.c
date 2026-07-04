@@ -77,7 +77,7 @@ void showPostMissionAwards(void) {
         goto show;
     }
     // 1fa8
-    if (((unsigned)gameData->rank < 6) && (promoThresholds[gameData->rank] < gameData->totalScore)) {
+    if (((uint16)gameData->rank < 6) && (promoThresholds[gameData->rank] < gameData->totalScore)) {
         gfx_setFadeSteps(6);
         openShowPic("promo.pic", *awardPage);
         awardColor = 1;

@@ -360,10 +360,10 @@ void drawMapRangeArc(int16 centerX, int16 centerY, int16 radius, int16 color, in
         angleFixed = *(uint8 *)&angle << 8;
         x = sinMul(angleFixed, radius) + centerX;
         y = centerY - cosMul(angleFixed, radius);
-        if ((unsigned)x > 0xC000u) {
+        if ((uint16)x > 0xC000u) {
             x = 0;
         }
-        if ((unsigned)y > 0xC000u) {
+        if ((uint16)y > 0xC000u) {
             y = 0;
         }
         if (angle != startAngle && connectLines != 0) {

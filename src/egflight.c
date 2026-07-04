@@ -29,7 +29,7 @@ void stepFlightModel();
 void applyRotationDelta(const int16 *matA, const int16 *matB);
 void computeAttitudeAngles(void);
 void rebuildOrientation();
-unsigned signedRatio16(int16, int16);
+uint16 signedRatio16(int16, int16);
 int16 valueToAngle(int16 value);
 int16 complementAngle(int16 value);
 void renderFrame();
@@ -101,7 +101,7 @@ void stepFlightModel(void) {
     }
 
     // Main key dispatch logic
-    switch ((unsigned)keyScancode) {
+    switch ((uint16)keyScancode) {
     case 0x0C2D: // Minus
         g_setThrust = clampRange(g_setThrust - 10, 0, 100);
         UpdateThrottleState();
@@ -690,7 +690,7 @@ void rebuildOrientation() {
     g_rotationCounter = 0;
 }
 
-unsigned signedRatio16(int16 numerator, int16 denominator) { /* Original: IntDiv(A,B). Divide two signed 15-bit fractions. */
+uint16 signedRatio16(int16 numerator, int16 denominator) { /* Original: IntDiv(A,B). Divide two signed 15-bit fractions. */
     char numeratorSign = 1;
     char denominatorSign = 1;
     long absNumerator;
@@ -701,7 +701,7 @@ unsigned signedRatio16(int16 numerator, int16 denominator) { /* Original: IntDiv
     if (denominator < 0) denominatorSign = -1;
     absNumerator = (long)(numerator < 0 ? -numerator : numerator);
     absDenominator = (long)(denominator < 0 ? -denominator : denominator);
-    return (unsigned)((uint16)((((uint32)(uint16)absNumerator) << 16) / absDenominator >> 1)) * (unsigned)(int16)numeratorSign * (unsigned)(int16)denominatorSign;
+    return (uint16)((uint16)((((uint32)(uint16)absNumerator) << 16) / absDenominator >> 1)) * (uint16)(int16)numeratorSign * (uint16)(int16)denominatorSign;
 done:;
 }
 

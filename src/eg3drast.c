@@ -88,7 +88,7 @@ struct EdgeRec {
 #define EREC_COUNT (0x1040 / 0x1a)
 static struct EdgeRec g_erecTrash;
 static struct EdgeRec *erec(int16 i) {
-    if ((unsigned)i >= (unsigned)EREC_COUNT)
+    if ((uint16)i >= (uint16)EREC_COUNT)
         return &g_erecTrash;
     return (struct EdgeRec *)(flt15_buf2 + i * 0x1a);
 }
@@ -102,7 +102,7 @@ static struct EdgeRec g_clipVtx;
 /* Manual 32/16 divides (no long runtime helper; shift-by-1 / mask only).*/
 /* Saturate to +/-0x7f00 on overflow, matching the egseg1 INT0 stubs.    */
 /* ===================================================================== */
-static unsigned udiv32by16(uint32 num, unsigned den) {
+static uint16 udiv32by16(uint32 num, uint16 den) {
     uint32 rem = 0;
     uint32 q = 0;
     int16 i;
@@ -118,7 +118,7 @@ static unsigned udiv32by16(uint32 num, unsigned den) {
         }
     }
     if (q > 0x7fffUL) q = 0x7f00;
-    return (unsigned)q;
+    return (uint16)q;
 }
 
 /* Full-precision unsigned 32/16 divide: returns the complete 32-bit quotient,
@@ -126,7 +126,7 @@ static unsigned udiv32by16(uint32 num, unsigned den) {
  * divide stores the full quotient into the 32-bit var_279/var_282 fields (the
  * downstream Cohen-Sutherland clip works in 32-bit), so a near-plane vertex
  * projects to a large off-screen coord rather than a clamped ±0x7f00. */
-static uint32 udiv32by16_full(uint32 num, unsigned den) {
+static uint32 udiv32by16_full(uint32 num, uint16 den) {
     uint32 rem = 0;
     uint32 q = 0;
     int16 i;
@@ -155,7 +155,7 @@ static long sdivFull(long num, int16 den) {
         neg ^= 1;
         d = -d;
     }
-    q = udiv32by16_full(n, (unsigned)d);
+    q = udiv32by16_full(n, (uint16)d);
     return neg ? -(long)q : (long)q;
 }
 
@@ -163,7 +163,7 @@ static int16 sdiv32by16(long num, int16 den) {
     int16 neg = 0;
     long n = num;
     int16 d = den;
-    unsigned q;
+    uint16 q;
     if (n < 0) {
         neg ^= 1;
         n = -n;
@@ -172,12 +172,12 @@ static int16 sdiv32by16(long num, int16 den) {
         neg ^= 1;
         d = -d;
     }
-    q = udiv32by16((uint32)n, (unsigned)d);
+    q = udiv32by16((uint32)n, (uint16)d);
     return neg ? -(int16)q : (int16)q;
 }
 
 /* Combine an egseg1 lo/hi int16 pair into a signed 32-bit value. */
-#define JOIN32(lo, hi) (((long)(int16)(hi) << 16) | (unsigned)(uint16)(lo))
+#define JOIN32(lo, hi) (((long)(int16)(hi) << 16) | (uint16)(uint16)(lo))
 /* High word of a 32-bit lvalue, read directly (avoids a `>>16` long helper). */
 #define HI16(lv) (((int16 *)&(lv))[1])
 /* The carry the egseg1 horizon math folds into the high word when it doubles
@@ -188,7 +188,7 @@ static int16 sdiv32by16(long num, int16 den) {
 /* signed 16x16 -> 32 multiply, shift-add (no __aNlmul). */
 static long imul16(int16 a, int16 b) {
     uint32 aa, p = 0;
-    unsigned ub;
+    uint16 ub;
     int16 neg = 0, i;
     if (a < 0) {
         neg ^= 1;
@@ -198,8 +198,8 @@ static long imul16(int16 a, int16 b) {
         neg ^= 1;
         b = -b;
     }
-    aa = (unsigned)a;
-    ub = (unsigned)b;
+    aa = (uint16)a;
+    ub = (uint16)b;
     for (i = 0; i < 16; i++) {
         if (ub & 1) p += aa;
         ub >>= 1;
@@ -222,7 +222,7 @@ static long lshr_s(long v, int16 n) {
 /* long runtime helper is pulled.                                        */
 /* ===================================================================== */
 static int16 hsine(int16 angle) {
-    unsigned a = (unsigned)angle;
+    uint16 a = (uint16)angle;
     int16 idx = (int16)((a >> 8) & 0xff);
     int16 frac = (int16)(a & 0xff);
     int16 v0 = g_angleLut[idx];
@@ -385,7 +385,7 @@ static void clipEdgeNearPlane(struct EdgeRec *rec, int16 behind, int16 front) {
     long fc, bc, delta, prod;
     /* t = ((frontDiv-1)<<16 | frontNum) / (frontDiv - behindDiv), then >>1 */
     {
-        unsigned div = (unsigned)(vtxScratch.vproj.in[front].div - vtxScratch.vproj.in[behind].div);
+        uint16 div = (uint16)(vtxScratch.vproj.in[front].div - vtxScratch.vproj.in[behind].div);
         uint32 num = ((uint32)(vtxScratch.vproj.in[front].div - 1) << 16) | (uint16)vtxScratch.vproj.in[front].num;
         /* egseg1's `DIV CX` yields the full 16-bit quotient (0..0xffff); the
          * saturating udiv32by16 (cap 0x7f00) would clamp ratios above 0x7fff and
@@ -494,10 +494,10 @@ static int16 clampToClipEdge(int16 al, long wx, long wy, int16 *outY) {
      * the coordinate fits in the +/-1 range a direct clamp can handle. */
     int16 xhi = HI16(wx), xlo = (int16)wx;
     int16 yhi = HI16(wy), ylo = (int16)wy;
-    if ((unsigned)(xhi + 1) <= 1) {
+    if ((uint16)(xhi + 1) <= 1) {
         int16 t = (xhi >> 1) ^ xlo;
         if ((t & 0xc000) == 0) {
-            if ((unsigned)(yhi + 1) <= 1) {
+            if ((uint16)(yhi + 1) <= 1) {
                 int16 u = (yhi >> 1) ^ ylo;
                 if ((u & 0xc000) == 0) needsSub = 0;
             }
@@ -785,10 +785,10 @@ static void clipLineSegment(struct EdgeRec *rec) {
 
     /* trivial accept: every endpoint already a small in-range value */
     if ((int16)x1 == x1 && (int16)y1 == y1 && (int16)x2 == x2 && (int16)y2 == y2 &&
-        (unsigned)(int16)x1 <= (unsigned)g_clipMaxX &&
-        (unsigned)(int16)x2 <= (unsigned)g_clipMaxX &&
-        (unsigned)(int16)y1 <= (unsigned)g_clipMaxY &&
-        (unsigned)(int16)y2 <= (unsigned)g_clipMaxY) {
+        (uint16)(int16)x1 <= (uint16)g_clipMaxX &&
+        (uint16)(int16)x2 <= (uint16)g_clipMaxX &&
+        (uint16)(int16)y1 <= (uint16)g_clipMaxY &&
+        (uint16)(int16)y2 <= (uint16)g_clipMaxY) {
         return;
     }
 
@@ -948,8 +948,8 @@ static void rasterizeEdgeSpan(void) {
      * span buffer and corrupts the data segment. Per the plan's "explicit C
      * guards instead of the INT 0 trap", skip any edge whose endpoints fall
      * outside the buffer extent. */
-    if ((unsigned)g_lineY1 >= (sizeof(g_spanBuf.minX) / sizeof(g_spanBuf.minX[0])) ||
-        (unsigned)g_lineY2 >= (sizeof(g_spanBuf.minX) / sizeof(g_spanBuf.minX[0]))) return;
+    if ((uint16)g_lineY1 >= (sizeof(g_spanBuf.minX) / sizeof(g_spanBuf.minX[0])) ||
+        (uint16)g_lineY2 >= (sizeof(g_spanBuf.minX) / sizeof(g_spanBuf.minX[0]))) return;
     if (g_lineX2 < g_lineX1) {
         int16 t = g_lineX1;
         g_lineX1 = g_lineX2;
@@ -2195,7 +2195,7 @@ void far projectSceneObject(char far *model, int16 yaw, int16 pitch, int16 roll,
 
     skipDisplayListByLod(&p);
     opcode = *p;
-    if (*(unsigned *)&p == 1 && g_detailLevel != 2) return;
+    if (*(uint16 *)&p == 1 && g_detailLevel != 2) return;
     cl = opcode;
     if ((opcode & 0x60) == 0x60) { /* storeObjTransformByOpcode */
         int16 idx = (*p) & 3;

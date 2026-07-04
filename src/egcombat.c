@@ -30,7 +30,7 @@ int16 markTargetReached(int16 targetIdx);
 
 void fireAirThreat(int16 objIdx) {
     int16 p, a, b, c, bearing, e, f;
-    unsigned acqRange;
+    uint16 acqRange;
     int16 h, idx, slot, k, l, range, n;
 
     idx = aircraftTypes[g_threatSpec].modelId;
@@ -44,7 +44,7 @@ void fireAirThreat(int16 objIdx) {
 
     g_threatToneLevel = 4;
 
-    if ((unsigned)range > acqRange) {
+    if ((uint16)range > acqRange) {
         /* close enough — increment heat */
         g_simObjects[objIdx].damage += ((g_difficultyTier + g_missionStatus) * 16 + 0x20) >> ((g_playerPlaneFlags & 0x10) != 0);
 
@@ -63,7 +63,7 @@ void fireAirThreat(int16 objIdx) {
                 idx = g_simObjects[objIdx].weaponType;
 
                 if (sams[idx].lockRange > (acqRange >> 1)) {
-                    if ((unsigned)(-(g_missionStatus * 3 - 0x10)) < acqRange) {
+                    if ((uint16)(-(g_missionStatus * 3 - 0x10)) < acqRange) {
                         if (acqRange < 0x1000) {
                             if (idx != 0) {
 
@@ -156,7 +156,7 @@ void spawnEnemyAircraft(int16 slot, int16 objType) {
 void updateThreatTargeting(void) {
     int16 slot, scan, mode, spec, locked, aimY, bestIdx, step, delta;
     int16 viewX, viewY, alt0, bear, wpX, wpY, ring, acq, wp;
-    unsigned best, dist;
+    uint16 best, dist;
 
     switchIndicatorColor(0, 8);
     switchIndicatorColor(1, 8);
@@ -280,7 +280,7 @@ void updateThreatTargeting(void) {
                     switchIndicatorColor(1, 0xc);
                 if (mode != 0 && !(frameTick & 2))
                     switchIndicatorColor(0, 0xe);
-                if ((frameTick & 3) == 0 && best < (unsigned)(g_projectiles[slot].speed << 5)) {
+                if ((frameTick & 3) == 0 && best < (uint16)(g_projectiles[slot].speed << 5)) {
                     makeSound(10, 1);
                     scheduleEventCheck(slot, 2);
                 }
@@ -357,7 +357,7 @@ void updateThreatTargeting(void) {
                     strcat(strBuf, " misses ");
                     dist = rangeApprox(g_hitMapX - g_planeTable.planes[g_loftTargetIdx].mapX,
                                        g_hitMapY - g_planeTable.planes[g_loftTargetIdx].mapY);
-                    if (dist < (unsigned)(0x100 / (g_missionStatus + 1))) {
+                    if (dist < (uint16)(0x100 / (g_missionStatus + 1))) {
                         destroyGroundTarget(g_loftTargetIdx);
                         strcat(strBuf, " destroyed by ");
                         strcat(strBuf,
@@ -371,7 +371,7 @@ void updateThreatTargeting(void) {
                         wpX = (int16)(g_nearestTileObj->x >> 5);
                         wpY = -((int16)(g_nearestTileObj->y >> 5) - 0x8000);
                         dist = rangeApprox(g_hitMapX - wpX, g_hitMapY - wpY);
-                        if (dist >= (unsigned)(0x180 / (g_missionStatus + 2)))
+                        if (dist >= (uint16)(0x180 / (g_missionStatus + 2)))
                             goto msg_done;
                         destroyGroundTarget(wp);
                         strcat(strBuf, " destroyed by ");
@@ -388,8 +388,8 @@ void updateThreatTargeting(void) {
                 }
             }
 
-            if ((unsigned)((abs(alt0 - g_projectiles[slot].alt) >> 5) + best) <
-                    (unsigned)((g_projectiles[slot].speed << 4) / g_frameRateScaling) &&
+            if ((uint16)((abs(alt0 - g_projectiles[slot].alt) >> 5) + best) <
+                    (uint16)((g_projectiles[slot].speed << 4) / g_frameRateScaling) &&
                 locked != 0) {
                 g_hitMapX = g_projectiles[slot].mapX;
                 slot = slot;
@@ -427,7 +427,7 @@ void updateThreatTargeting(void) {
                     } else {
                         if (missileTargetCompat(g_projectiles[slot].weaponIdx, bestIdx) >
                                 randomRange(4) ||
-                            (unsigned)(g_frameRateScaling * 10) <= g_savedSamTtl) {
+                            (uint16)(g_frameRateScaling * 10) <= g_savedSamTtl) {
                             destroyGroundTarget(bestIdx);
                         } else {
                             strcpy(strBuf, "Ineffective");

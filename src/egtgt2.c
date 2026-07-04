@@ -62,7 +62,7 @@ void projectWorldToHud(int16 worldX, int16 worldY, int16 worldZ) {
     if (keyValue & 0x80) {
         relX -= (int16)((g_ViewX - g_camEyeX) >> 5);
         relY -= (int16)((g_ViewY - g_camEyeY) >> 5);
-        relZ -= (int16)((-((long)(unsigned)g_viewZ - (long)g_camEyeZ)) >> 5);
+        relZ -= (int16)((-((long)(uint16)g_viewZ - (long)g_camEyeZ)) >> 5);
     }
 
     camX = rotateVectorComponent(0, relX, relY, relZ);
