@@ -360,7 +360,7 @@ void setup3DTransform(const int16 *model, int16 angleX, int16 angleY, int16 angl
         }
 #ifdef DEBUG
         {
-            uint16 int32 spins = 0;
+            uint32 spins = 0;
             while (g_frameSyncPending != 0) {
                 if (++spins > 3000000UL) {
                     LogWarn(("13932: SPIN TIMEOUT - timer ISR not clearing 378EE"));

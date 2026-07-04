@@ -18,17 +18,17 @@
 // FP_SEG/FP_OFF: In 64-bit builds, far pointers don't exist.
 // Use reinterpret_cast to provide lvalue access to the high/low 16-bit words of a 32-bit-sized pointer slot.
 // This won't produce meaningful addresses but allows the code to compile.
-#define FP_SEG(fp) (((uint16 short *)&(fp))[1])
-#define FP_OFF(fp) (((uint16 short *)&(fp))[0])
+#define FP_SEG(fp) (((uint16 *)&(fp))[1])
+#define FP_OFF(fp) (((uint16 *)&(fp))[0])
 
 struct WORDREGS {
-    uint16 short ax;
-    uint16 short bx;
-    uint16 short cx;
-    uint16 short dx;
-    uint16 short si;
-    uint16 short di;
-    uint16 short cflag;
+    uint16 ax;
+    uint16 bx;
+    uint16 cx;
+    uint16 dx;
+    uint16 si;
+    uint16 di;
+    uint16 cflag;
 };
 
 struct BYTEREGS {
@@ -44,10 +44,10 @@ union REGS {
 };
 
 struct SREGS {
-    uint16 short es;
-    uint16 short cs;
-    uint16 short ss;
-    uint16 short ds;
+    uint16 es;
+    uint16 cs;
+    uint16 ss;
+    uint16 ds;
 };
 
 inline int16 intdos(union REGS *inregs, union REGS *outregs) {
@@ -104,7 +104,7 @@ inline int16 outp(uint16 port, int16 value) {
     return 0;
 }
 
-inline uint16 short _psp = 0;
+inline uint16 _psp = 0;
 
 // Non-standard C functions used by the codebase
 #include <stdlib.h>
