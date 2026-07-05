@@ -11,16 +11,16 @@
 int16 loadF15DgtlBin() { return 0; }
 
 // === Joystick/Input Stubs ===
-int16 far initJoystickCalibration() { return 0; }
+int16 FAR initJoystickCalibration() { return 0; }
 void seedJoystickBaseline() {}
-int16 far readCalibratedJoystick() {
+int16 FAR readCalibratedJoystick() {
     joyAxes[0] = 0x80;
     joyAxes[1] = 0x80;
     return 0;
 }
 void readJoystickHardware() {}
 void computeJoystickAxis() {}
-int16 far restoreJoystickData(uint8 FAR *ptr) { return 0; }
+int16 FAR restoreJoystickData(uint8 FAR *ptr) { return 0; }
 
 /* setInt9Handler/restoreInt9Handler (the keyboard ISR) live in eginput.c. */
 

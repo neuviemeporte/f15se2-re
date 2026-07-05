@@ -16,7 +16,7 @@ extern uint8 timerCounter3;
 extern uint8 timerCounter4;
 extern uint8 timerHandlerInstalled;
 
-static void(interrupt far *oldTimerIsr)(void);
+static void(interrupt FAR *oldTimerIsr)(void);
 
 /* PIT divisor: 0x4DAE = 19886 -> 1193182/19886 = ~60 Hz
  * This matches the original game's default calibration value.
@@ -31,13 +31,13 @@ static uint8 chainCount = 0;
  * DAC colour-cycle + frame-timing tick that egcode.asm's own timer ISR runs but
  * this shared C ISR otherwise omits). NULL for start/end, which need no extra
  * per-tick work. */
-static void(far *gameTickHook)(void) = 0;
+static void(FAR *gameTickHook)(void) = 0;
 
-void setTimerTickHook(void(far *fn)(void)) {
+void setTimerTickHook(void(FAR *fn)(void)) {
     gameTickHook = fn;
 }
 
-static void interrupt far timerIrqHandler(void) {
+static void interrupt FAR timerIrqHandler(void) {
     timerCounter++;
     timerCounter2++;
     timerCounter3++;

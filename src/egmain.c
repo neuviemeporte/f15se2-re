@@ -51,7 +51,7 @@ int16 main(void) {
     FP_OFF(gameData) = COMM_GAMEDATA_OFFSET;
     Log(("main: commData=%04x:%04x gameData=%04x:%04x", FP_SEG(commData), FP_OFF(commData), FP_SEG(gameData), FP_OFF(gameData)));
     LogInfo(("SIG@startup: commData-4/-2 (=MCB magic now) = %04x/%04x",
-             *(int16 far *)((char far *)commData - 4), *(int16 far *)((char far *)commData - 2)));
+             *(int16 FAR *)((char FAR *)commData - 4), *(int16 FAR *)((char FAR *)commData - 2)));
     setupOverlaySlots(commData->gfxOvlAddr);
     setupOverlaySlots(commData->miscOvlAddr);
     setupOverlaySlots(commData->sndOvlAddr);

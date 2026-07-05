@@ -37,18 +37,18 @@ void loadWorldData(void *destOffset, int16 size) {
 }
 
 void readFromWorldBuf(void *dest, int16 size, int16 count, FILE *bufHandle) {
-    char far *farDest;
+    char FAR *farDest;
     register int16 totalSize;
-    farDest = (char far *)dest;
+    farDest = (char FAR *)dest;
     totalSize = size * count;
     movedata(worldBufSegment, worldBufOffset, FP_SEG(farDest), FP_OFF(farDest), totalSize);
     worldBufOffset += totalSize;
 }
 
 void writeToWorldBuf(void *dest, int16 size, int16 count, FILE *bufHandle) {
-    char far *farDest;
+    char FAR *farDest;
     register int16 totalSize;
-    farDest = (char far *)dest;
+    farDest = (char FAR *)dest;
     totalSize = size * count;
     movedata(FP_SEG(farDest), FP_OFF(farDest), worldBufSegment, worldBufOffset, totalSize);
     worldBufOffset += totalSize;

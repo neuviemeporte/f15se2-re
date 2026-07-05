@@ -7,7 +7,7 @@
 #include "../pointers.h"
 #include <dos.h>
 
-extern int16 far gfx_drawString(int16 *pageNum, const char *string);
+extern int16 FAR gfx_drawString(int16 *pageNum, const char *string);
 
 void drawStringAt(int16 *pageNum, const char *string, int16 x, int16 y) {
     pageNum[4] = x;

@@ -62,7 +62,7 @@ static int16 clipOutcode(int16 x, int16 y, int16 maxX, int16 maxY) {
     return c;
 }
 
-int16 far drawClipLineGlobal(void) {
+int16 FAR drawClipLineGlobal(void) {
     int16 x1 = g_lineX1, y1 = g_lineY1, x2 = g_lineX2, y2 = g_lineY2;
     int16 maxX = g_clipMaxX, maxY = g_clipMaxY;
     int16 c1 = clipOutcode(x1, y1, maxX, maxY);

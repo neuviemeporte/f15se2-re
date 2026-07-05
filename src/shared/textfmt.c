@@ -7,7 +7,7 @@
 #include "../pointers.h"
 #include <dos.h>
 
-extern int16 far gfx_setFont(uint16 ch, uint16 font);
+extern int16 FAR gfx_setFont(uint16 ch, uint16 font);
 
 void drawStringCentered(int16 *page, const char *str, int16 startx, int16 y, int16 endx) {
     int16 width;

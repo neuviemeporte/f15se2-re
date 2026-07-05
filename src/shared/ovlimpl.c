@@ -25,20 +25,20 @@ extern uint8 exitCode;
 extern int16 fileHandle;
 
 /* Misc input overlay slots - real DOS keyboard I/O */
-int16 far cdecl misc_checkKeyBuf(void) {
+int16 FAR cdecl misc_checkKeyBuf(void) {
     /* Return 0 if a key is waiting, 0xFFFF if the buffer is empty.
      * Read the BIOS keyboard buffer head/tail (0040:001A / 0040:001C)
      * directly, matching the original MISC.EXE slot 0x5a. The C runtime's
      * kbhit() reports a phantom "key ready" at startup here (probably via the
      * INT 21h AH=0Bh stdin check), which made the splash/adv loop and
      * processPilotInput auto-advance through every screen. */
-    uint16 far *head = (uint16 far *)MK_FP(0x40, 0x1A);
-    uint16 far *tail = (uint16 far *)MK_FP(0x40, 0x1C);
+    uint16 FAR *head = (uint16 FAR *)MK_FP(0x40, 0x1A);
+    uint16 FAR *tail = (uint16 FAR *)MK_FP(0x40, 0x1C);
     if (*head != *tail)
         return 0;
     return 0xFFFF;
 }
-int16 far cdecl misc_getKey(void) { /* Original: GetKey. Blocking BIOS read: scan code in AH, ASCII in AL. */
+int16 FAR cdecl misc_getKey(void) { /* Original: GetKey. Blocking BIOS read: scan code in AH, ASCII in AL. */
     enum { BIOS_KEYBOARD_INT = 0x16,
            BIOS_READ_KEY = 0x00 };
     union REGS biosRegs;
@@ -46,10 +46,10 @@ int16 far cdecl misc_getKey(void) { /* Original: GetKey. Blocking BIOS read: sca
     int86(BIOS_KEYBOARD_INT, &biosRegs, &biosRegs);
     return biosRegs.x.ax;
 }
-int16 far cdecl misc_readJoystick(int16 param) { return 0; }
-void far cdecl misc_clearKeyFlags(void) { ovldbg("clearKeyFlags"); }
+int16 FAR cdecl misc_readJoystick(int16 param) { return 0; }
+void FAR cdecl misc_clearKeyFlags(void) { ovldbg("clearKeyFlags"); }
 
 /* Audio overlay slots */
-int16 far cdecl audio_setup(int16 a, int16 b) { return 0; }
-int16 far cdecl audio_shutdown(void) { return 0; }
-int16 far cdecl audio_playIntro(void) { return 0; }
+int16 FAR cdecl audio_setup(int16 a, int16 b) { return 0; }
+int16 FAR cdecl audio_shutdown(void) { return 0; }
+int16 FAR cdecl audio_playIntro(void) { return 0; }

@@ -20,9 +20,9 @@ void picdbg(const char *msg) {
 /* Pic decode work data */
 extern uint8 picDecodedRowBuf[320];
 /* Large buffers allocated from DOS to save DGROUP space */
-static uint8 far *picWorkDataFar;
-static uint16 far *picDecodeDictionaryFar;
-static uint16 far *picDecodeIncrementFar;
+static uint8 FAR *picWorkDataFar;
+static uint16 FAR *picDecodeDictionaryFar;
+static uint16 FAR *picDecodeIncrementFar;
 static uint16 picBufSeg = 0;
 #define picWorkData picWorkDataFar
 #define picDecodeDictionary picDecodeDictionaryFar
@@ -60,9 +60,9 @@ static void picAllocBuffers(void) {
     intdos(&r, &r);
     if (r.x.cflag) return;
     picBufSeg = r.x.ax;
-    picWorkDataFar = (uint8 far *)MK_FP(picBufSeg, 0);
-    picDecodeDictionaryFar = (uint16 far *)MK_FP(picBufSeg, 4096);
-    picDecodeIncrementFar = (uint16 far *)MK_FP(picBufSeg, 4096 + 8192);
+    picWorkDataFar = (uint8 FAR *)MK_FP(picBufSeg, 0);
+    picDecodeDictionaryFar = (uint16 FAR *)MK_FP(picBufSeg, 4096);
+    picDecodeIncrementFar = (uint16 FAR *)MK_FP(picBufSeg, 4096 + 8192);
 }
 
 /* Dictionary - 2048 entries max */
@@ -261,7 +261,7 @@ static void picDecodeToSegment(int16 handle, uint16 pageSeg, uint16 rowCount,
                                uint16 rowStride, int16 planar) {
     uint16 row;
     uint16 i;
-    uint8 far *dst;
+    uint8 FAR *dst;
     static uint8 tempBuf[160];
 
     picAllocBuffers();
@@ -309,7 +309,7 @@ static void picDecodeToSegment(int16 handle, uint16 pageSeg, uint16 rowCount,
             decodeRow(picDecodedRowBuf, 320);
         }
 
-        dst = (uint8 far *)MK_FP(pageSeg, (uint16)(row * rowStride));
+        dst = (uint8 FAR *)MK_FP(pageSeg, (uint16)(row * rowStride));
         if (planar) {
             /* 320 8bpp pixels -> 40 packed bytes per plane (8 px/byte, MSB =
              * leftmost). Map Mask selects one plane per pass so the four writes
@@ -371,14 +371,14 @@ void decodePicRaw(int16 handle, uint16 segment) {
 void picBlit(int16 handle, int16 pageIndex) {
     uint16 seg;
     uint16 i;
-    uint8 far *page;
+    uint8 FAR *page;
 
     if (handle < 0) return;
 
     gfx_setPageN((uint16)pageIndex);
     seg = (uint16)gfx_getCurPageSeg();
     /* mirror the _gfx_clearPage that _picBlit issues before decoding */
-    page = (uint8 far *)MK_FP(seg, 0);
-    for (i = 0; i < 32000u; i++) ((uint16 far *)page)[i] = 0;
+    page = (uint8 FAR *)MK_FP(seg, 0);
+    for (i = 0; i < 32000u; i++) ((uint16 FAR *)page)[i] = 0;
     picDecodeToSegment(handle, seg, 0x2BC, 0x28, 1);
 }

@@ -21,7 +21,7 @@
 #include <string.h>
 
 /* Private helpers for this translation unit. */
-int16 far transformAndCullObjectFar(int16, int16, int16);
+int16 FAR transformAndCullObjectFar(int16, int16, int16);
 
 void projectObjects(int16 heading, int16 rangeGate, int32 worldX, int32 worldY, int32 worldZ) {
     int16 gridX, gridY, dirSector, fracX, subIdx, fracY, sampleIdx, tmp0, tileX, tileY, tmp1, cell;
@@ -95,7 +95,7 @@ void projectObjects(int16 heading, int16 rangeGate, int32 worldX, int32 worldY, 
                     for (subIdx = 0; subIdx < matrix3dt[g_curLod][cell]; subIdx++) {
                         if (g_curTileEntry->shape & 0x80) {
                             g_modelStreamPtr = g_world3dData + lookupTileEntry(g_curLod, subIdx, tileX + gridX, tileY + gridY);
-                            if (g_modelStreamPtr == (char far *)g_world3dData) {
+                            if (g_modelStreamPtr == (char FAR *)g_world3dData) {
                                 g_modelStreamPtr = g_world3dData + buf3d3[g_curTileEntry->shape & 0x7f];
                             }
                         } else {

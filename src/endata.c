@@ -1,6 +1,7 @@
 /* endata.c — Data definitions
  */
 #include "inttype.h"
+#include "pointers.h"
 #include "struct.h"
 #include "endtypes.h"
 #include "comm.h"
@@ -4489,7 +4490,7 @@ uint8 ovlInsaneFlag = 0;
 
 /* BSS variables */
 uint8 worldMiscHeader[4] = {0};
-struct Game far *gameData = 0;
+struct Game FAR *gameData = 0;
 uint8 bssPad179[4] = {0};
 uint8 worldRouteTable[516] = {0};
 int16 animExitFlag = 0;
@@ -4501,7 +4502,7 @@ int16 menuItemUnused = 0;
 int16 worldGridSize = 0;
 uint8 worldSamCount[6] = {0};
 int16 worldRouteCount = 0;
-struct GameComm far *commData = 0;
+struct GameComm FAR *commData = 0;
 int16 gfxBufSeg = 0;
 uint8 gfxBufPad[512] = {0};
 /* One contiguous 0x600 buffer backing both the flightTimeTable and flightRecords

@@ -8,6 +8,7 @@
  */
 #include "egtypes.h"
 #include "inttype.h"
+#include "pointers.h"
 #include "struct.h"
 #include "comm.h"
 #include <stdio.h>
@@ -709,7 +710,7 @@ int16 g_posVisibleFlag = 0;
 /* g_modelStreamPtr: model-data read cursor (far pointer into the loaded 3D model data).
  * egseg1/egcode advance it through the model byte stream as they decode shapes;
  * eg3dmap.c/eg3dproj.c walk it the same way. */
-char far *g_modelStreamPtr = 0;
+char FAR *g_modelStreamPtr = 0;
 int16 g_objRelX = 0;
 int16 g_objRelY = 0;
 /* g_objTransform: head of a 4-word run that storeObjTransformByOpcode indexes by a model opcode
@@ -1993,7 +1994,7 @@ uint8 picBuf[0x200] = {0};
 
 /* g_eventLogCount, g_objLocalX..672: standalone int16 flags. */
 int16 g_eventLogCount = 0;
-uint8 far *farPointer = 0;
+uint8 FAR *farPointer = 0;
 int16 g_objLocalX = 0;
 int16 g_objLocalY = 0;
 int16 g_objLocalZ = 0;
@@ -2050,7 +2051,7 @@ char g_geeStringBuf[12];
 int16 g_detailLevel;
 int16 g_autoCrashDive;
 int16 g_missionTick;
-uint8 far *g_floppyMotorPtr;
+uint8 FAR *g_floppyMotorPtr;
 FILE *fileHandle;
 int16 g_gunFiredFlag;
 int16 g_damageTakenFlag;
@@ -2059,7 +2060,7 @@ int16 g_nearestThreatRange;
 
 /* gameData: far pointer to the shared Game struct, set at startup.
  * g_biosPixelX/g_biosPixelY: tacmap screenX/screenY scratch. */
-struct Game far *gameData = 0;
+struct Game FAR *gameData = 0;
 int16 g_finalThreatScore;
 int16 g_tileEntryCount;
 int16 g_targetEntityCount;
@@ -2237,7 +2238,7 @@ int16 *g_overlayCenterY;
 int16 g_aamSeekerX;
 
 /* commData: far pointer to the shared inter-process game-state record. */
-struct GameComm far *commData = 0;
+struct GameComm FAR *commData = 0;
 int16 g_threatRadarFlag;
 int16 g_aamSeekerY;
 int16 g_jiffiesPerFrame;

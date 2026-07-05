@@ -16,7 +16,7 @@ void drawLineWrapper();
 int16 writeFileAtRaw();
 void decodePic(int16 handle, int16 segment);
 void doNothing2(const char *msg, int16 a, int16 b, int16 c);
-void far pollJoystick();
-void far copyJoystickData(uint8 FAR *ptr);
+void FAR pollJoystick();
+void FAR copyJoystickData(uint8 FAR *ptr);
 
 #endif /* F15_SE2_STCODE */

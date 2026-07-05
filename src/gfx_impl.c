@@ -148,13 +148,13 @@ void FAR CDECL gfx_storeBufPtr(uint16 seg, int16 pageIdx) {
  * then clear it — matching MGRAPHIC's slot 0x3b (`rep stosw` to ES:0). */
 void gfx_clearPage_impl(uint16 seg) {
     GfxState FAR *s = gfx_getState();
-    uint8 far *page;
+    uint8 FAR *page;
     uint16 i;
     s->curPageSeg = seg;
-    page = (uint8 far *)MK_FP(seg, 0);
+    page = (uint8 FAR *)MK_FP(seg, 0);
     /* Clear 64000 bytes (32000 words) */
     for (i = 0; i < 32000u; i++) {
-        ((uint16 far *)page)[i] = 0;
+        ((uint16 FAR *)page)[i] = 0;
     }
 }
 
@@ -325,7 +325,7 @@ static void drawStringCore(int16 *params, const char *string,
     uint8 *FAR *bmpPtrsFar;
     uint8 *FAR *wtPtrsFar;
     int16 x, y, color;
-    uint8 far *page;
+    uint8 FAR *page;
     int16 charIdx;
     uint8 ch;
     int16 row, col;
@@ -361,7 +361,7 @@ static void drawStringCore(int16 *params, const char *string,
 
     /* params/string are caller-passed NEAR pointers — they correctly resolve
      * against the caller's DS, so they must NOT be re-based on f15DataSeg. */
-    page = (uint8 far *)MK_FP(s->pageSegs[params[0]], 0);
+    page = (uint8 FAR *)MK_FP(s->pageSegs[params[0]], 0);
 
     for (charIdx = 0; string[charIdx] != 0 && charIdx < 256; charIdx++) {
         ch = (uint8)string[charIdx];
@@ -452,11 +452,11 @@ void FAR CDECL gfx_switchColor(int16 *pageDesc, int16 x1, int16 y1,
                                int16 x2, int16 y2, int16 oldColor, int16 newColor) {
     GfxState FAR *s = gfx_getState();
     uint16 pageSeg;
-    uint8 far *page;
+    uint8 FAR *page;
     int16 row, col;
 
     pageSeg = s->pageSegs[*pageDesc];
-    page = (uint8 far *)MK_FP(pageSeg, 0);
+    page = (uint8 FAR *)MK_FP(pageSeg, 0);
 
     for (row = y1; row <= y2; row++) {
         uint16 off = s->rowOffsets[row];
@@ -577,9 +577,9 @@ int16 FAR CDECL gfx_blitSprite(struct SpriteParams *p) {
     h = p->height;
 
     for (row = 0; row < h; row++) {
-        uint8 far *src = (uint8 far *)MK_FP(srcSeg,
+        uint8 FAR *src = (uint8 FAR *)MK_FP(srcSeg,
                                             s->rowOffsets[p->srcY + row] + (uint16)p->srcX);
-        uint8 far *dst = (uint8 far *)MK_FP(dstSeg,
+        uint8 FAR *dst = (uint8 FAR *)MK_FP(dstSeg,
                                             s->rowOffsets[p->dstY + row] + (uint16)p->dstX);
         for (col = 0; col < w; col++) {
             uint8 px = src[col];
@@ -610,7 +610,7 @@ static int16 gfx_lineOutcode(int16 x, int16 y) {
 
 void gfx_drawLine_impl(uint16 ux1, uint16 uy1, uint16 ux2, uint16 uy2) {
     GfxState FAR *s = gfx_getState();
-    uint8 far *page;
+    uint8 FAR *page;
     uint8 color = s->fillColor;
     int16 vx, vy;         /* blitOffset decomposed into a viewport origin */
     int16 x1, y1, x2, y2; /* endpoints translated into absolute page coords */
@@ -670,7 +670,7 @@ void gfx_drawLine_impl(uint16 ux1, uint16 uy1, uint16 ux2, uint16 uy2) {
     }
 
     /* Bresenham over the now-on-screen segment (deltas <= 320, no overflow). */
-    page = (uint8 far *)MK_FP(s->curPageSeg, 0);
+    page = (uint8 FAR *)MK_FP(s->curPageSeg, 0);
     dx = x2 - x1;
     if (dx < 0) dx = -dx;
     dy = y2 - y1;
@@ -721,7 +721,7 @@ void gfx_dirtyRectFill_impl(uint16 minBufOff, uint16 yMin, uint16 yMax) {
         uint16 spanLo = minBuf[y];
         uint16 spanHi = maxBuf[y];
         uint16 width, col;
-        uint8 far *dst;
+        uint8 FAR *dst;
         /* MGRAPHIC's degenerate-row test is UNSIGNED (`cmp hi,lo; jc skip; ja
          * draw`): skip when hi < lo, draw when hi > lo, and when equal skip only
          * if the column is 0 or 0x13f (else a single pixel). The edge-walker in
@@ -740,7 +740,7 @@ void gfx_dirtyRectFill_impl(uint16 minBufOff, uint16 yMin, uint16 yMax) {
         if (spanLo > 319) continue; /* span off right edge */
         if (spanHi > 319) spanHi = 319;
         width = (uint16)(spanHi - spanLo + 1);
-        dst = (uint8 far *)MK_FP(seg, s->rowOffsets[y] + (uint16)s->blitOffset + spanLo);
+        dst = (uint8 FAR *)MK_FP(seg, s->rowOffsets[y] + (uint16)s->blitOffset + spanLo);
         for (col = 0; col < width; col++)
             dst[col] = fill;
     }
@@ -902,8 +902,8 @@ void gfx_blitCore_impl(int16 *blk) {
     if (blk[3] < 0 || blk[3] >= 16) return;
     dstSeg = s->pageSegs[blk[3]];
     for (row = 0; row < h; row++) {
-        uint8 far *src = (uint8 far *)MK_FP(srcSeg, (uint16)((srcRow + row) * 320) + srcCol);
-        uint8 far *dst = (uint8 far *)MK_FP(dstSeg, (uint16)((dstRow + row) * 320) + dstCol);
+        uint8 FAR *src = (uint8 FAR *)MK_FP(srcSeg, (uint16)((srcRow + row) * 320) + srcCol);
+        uint8 FAR *dst = (uint8 FAR *)MK_FP(dstSeg, (uint16)((dstRow + row) * 320) + dstCol);
         for (col = 0; col < w; col++) {
             uint8 px = src[col];
             if (px) dst[col] = px;
@@ -945,7 +945,7 @@ static const int16 g_ladderGeom[12] = {
 
 void gfx_complexRender_impl(int16 bxArg, int16 dxArg, int16 cxArg, int16 siArg) {
     GfxState FAR *s = gfx_getState();
-    uint8 far *page;
+    uint8 FAR *page;
     uint8 color = 0x0f;
     int16 dir; /* +1 (SI!=0, cld) or -1 (SI==0, std) */
     int16 wi;  /* word index into the geometry table */
@@ -979,7 +979,7 @@ void gfx_complexRender_impl(int16 bxArg, int16 dxArg, int16 cxArg, int16 siArg) 
         hiY = (uint16)geom[wi + 8];
     }
 
-    page = (uint8 far *)MK_FP(s->curPageSeg, 0);
+    page = (uint8 FAR *)MK_FP(s->curPageSeg, 0);
     initRowOffsets();
 
     /* Skip the leading non-drawing iterations (bx > hiY). bx steps by 2, so the
@@ -1044,7 +1044,7 @@ void FAR CDECL gfx_setPageSeg(void) { return; }
  * it always clears the visible framebuffer. (egame only calls this from a dead
  * path, but start/end use it; implement faithfully.) */
 void FAR CDECL gfx_clearVga(void) {
-    uint16 far *vga = (uint16 far *)MK_FP(0xA000, 0);
+    uint16 FAR *vga = (uint16 FAR *)MK_FP(0xA000, 0);
     uint16 i;
     for (i = 0; i < 32000u; i++)
         vga[i] = 0;

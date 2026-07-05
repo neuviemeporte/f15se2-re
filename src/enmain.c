@@ -22,7 +22,7 @@ void checkQuitFlag(void);
 
 int16 main(void) {
     int16 spriteBufSize, a, auxBufSize;
-    uint16 far *lowmemPtr;
+    uint16 FAR *lowmemPtr;
     int16 e;
     register int16 commSeg;
 

@@ -73,9 +73,11 @@ Bottom line, the reconstruction is pretty much complete and playable. Going forw
 
 - support sound from loader
 - add asound reconstruction
-- make asm buildable with masm under dos, get rid of uasm and jwasm
-- look over data, make sure libc is extracted from egame/end, try to get the same order
-- gamedata file checksum checks
+- clean build if possible, get rid of warnings
+- make assembly code buildable with masm under dos, get rid of uasm and jwasm
+- support verification for noasm build (for non-asm routines)
+- look over data, make sure libc is extracted from egame/end, try to get the same data order, maybe binarily identical build is possible?
+- implement game assets checksum on startup
 - version watermark in release executables
 
 # Building

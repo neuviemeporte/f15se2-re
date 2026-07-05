@@ -49,7 +49,7 @@ void updateFrame(void) {
 #ifdef DEBUG
     {
         static int16 sig_was_ok = 1;
-        int16 s4 = *(int16 far *)((char far *)commData - 4);
+        int16 s4 = *(int16 FAR *)((char FAR *)commData - 4);
         if (sig_was_ok && (uint16)s4 != 0xca01) {
             sig_was_ok = 0;
             LogError(("SIG CORRUPTED at frame %d: commData-4(MCB)=%04x", frameTick, s4));
@@ -66,7 +66,7 @@ void updateFrame(void) {
             gameData->difficulty = 2;
             g_autopilotEngaged = 1;
             g_playerPlaneFlags |= 0x1000;
-            *(char far *)&commData->trainingFlag |= 1;
+            *(char FAR *)&commData->trainingFlag |= 1;
         }
         i = (uint8)commData->sndOvlName[0];
         if (i == 0x69 || i == 0x49) {

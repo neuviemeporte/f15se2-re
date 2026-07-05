@@ -45,11 +45,11 @@ static uint8 kbdPrevScan = 0;     /* previous raw scancode (E0/E1 prefix) */
 static uint8 kbdLastDirKey = 0;   /* last direction mask seen */
 static uint8 kbdDelayCounter = 0; /* skip N bytes after an E0/E1 prefix */
 
-static void(interrupt far *oldInt9)(void);
+static void(interrupt FAR *oldInt9)(void);
 
-static void interrupt far kbdInt9Handler(void) {
-    uint8 far *biosb = (uint8 far *)MK_FP(0x40, 0);
-    uint16 far *biosw = (uint16 far *)MK_FP(0x40, 0);
+static void interrupt FAR kbdInt9Handler(void) {
+    uint8 FAR *biosb = (uint8 FAR *)MK_FP(0x40, 0);
+    uint16 FAR *biosw = (uint16 FAR *)MK_FP(0x40, 0);
     uint8 scan, key, mask, bl, bh;
     uint16 head;
 
@@ -140,8 +140,8 @@ flush:
     _chain_intr(oldInt9);
 }
 
-int16 far setInt9Handler(void) {
-    uint8 far *biosFlags = (uint8 far *)MK_FP(0x40, 0x17);
+int16 FAR setInt9Handler(void) {
+    uint8 FAR *biosFlags = (uint8 FAR *)MK_FP(0x40, 0x17);
     *biosFlags &= 0xDF; /* force NumLock off */
     kbdActiveScan = 0;
     kbdLastTick = 0;
@@ -155,7 +155,7 @@ int16 far setInt9Handler(void) {
     return 0;
 }
 
-int16 far restoreInt9Handler(void) {
+int16 FAR restoreInt9Handler(void) {
     _dos_setvect(0x09, oldInt9);
     return 0;
 }

@@ -28,7 +28,7 @@
 #include "inttype.h"
 #include "slot.h"
 
-void far egAdvanceFrameTick(void) {
+void FAR egAdvanceFrameTick(void) {
     /* Clear the per-frame sync flag the render loop raises each iteration
      * (gameMainLoop). render3DView/setup3DTransform busy-wait on it to pace to
      * the timer tick; egcode.asm's timerIsr clears it just before calling

@@ -27,7 +27,7 @@ void restoreCbreakHandler(void) {
 void pollJoystick(void) {
 }
 
-void far copyJoystickData(uint8 *ptr) {}
+void FAR copyJoystickData(uint8 *ptr) {}
 
 void mystrcat(char *dst, const char *src) {
     strcat(dst, src);

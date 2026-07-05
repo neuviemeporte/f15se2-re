@@ -2,6 +2,7 @@
 #define F15_SE2_ENDATA
 /* Public data globals defined in endata.c (debrief state, strings, sprites). */
 #include "inttype.h"
+#include "pointers.h"
 #include "struct.h"
 #include "comm.h"
 #include "endtypes.h"
@@ -33,7 +34,7 @@ extern const int16 mapViewX2;
 extern const int16 mapViewY2;
 extern uint16 cursorX;
 extern uint16 cursorY;
-extern struct GameComm far *commData;
+extern struct GameComm FAR *commData;
 extern uint8 quitFlag;
 extern uint16 *colorTablePtr;
 extern char inputChanged;
@@ -125,7 +126,7 @@ extern int16 groundKilled;
 extern int16 samKilled;
 extern char unitTypeTable[];
 extern char gridFlags[];
-extern struct Game far *gameData;
+extern struct Game FAR *gameData;
 extern char hercFlag;
 extern uint8 joyAxisY;
 extern uint8 joyAxisX;

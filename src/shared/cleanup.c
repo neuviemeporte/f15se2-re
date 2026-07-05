@@ -9,9 +9,9 @@
 #include <dos.h>
 
 /* extern declarations needed by these functions */
-extern int16 far gfx_drawString(int16 *pageNum, const char *string);
-extern int16 far gfx_setFont(uint16 ch, uint16 font);
-extern void far misc_clearKeyFlags(void);
+extern int16 FAR gfx_drawString(int16 *pageNum, const char *string);
+extern int16 FAR gfx_setFont(uint16 ch, uint16 font);
+extern void FAR misc_clearKeyFlags(void);
 extern uint8 timerHandlerInstalled;
 void restoreTimerIrqHandler(void);
 void intDispatch(int16 intNum, uint8 *inRegs, uint8 *outRegs);

@@ -98,7 +98,7 @@ extern int16 spriteBlitW;
 extern int16 spriteBlitH;
 extern int16 flag4Saved;
 extern int16 theaterSaved;
-extern uint8 far *moveDst;
+extern uint8 FAR *moveDst;
 /* Grid-reference string buffer: "<colLetter><rowLetter><colDigit><rowDigit>\0".
    The data named these 4 bytes separately but they form one contiguous
    buffer (mystrcpy writes the whole string into it). */
@@ -107,9 +107,9 @@ extern char todayMissStrBuf[];
 extern uint8 missionStrTrunc;
 extern uint8 missionStrTruncEnd[];
 extern int16 escortMissionFlag;
-extern int16 far *gfxModeSetPtr;
+extern int16 FAR *gfxModeSetPtr;
 extern FILE *fileHandle;
-extern struct Game far *gameData;
+extern struct Game FAR *gameData;
 extern int16 groundUnitCount;
 extern uint8 gridBuf5[];
 extern uint8 gridBuf4[];
@@ -123,7 +123,7 @@ extern uint8 gridBuf1[];
 extern char scenarioFoundArr[];
 extern struct WorldObject worldObjects[];
 extern char terrainGrid[256];
-extern int16 far *needSplash;
+extern int16 FAR *needSplash;
 extern struct Target targets[];
 extern int16 playerStartLoc;
 extern struct FlightUnit flightUnits[];
@@ -146,7 +146,7 @@ extern char wldReadBuf11[];
 extern struct TerrainPtrTable terrainTilePtrs[];
 extern struct TerrainTile *tileDataPtr;
 extern uint16 worldObjectCount;
-extern struct GameComm far *commData;
+extern struct GameComm FAR *commData;
 extern struct Pilot hallfameBuf[];
 extern uint16 menuSprites;
 

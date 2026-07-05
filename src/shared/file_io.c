@@ -50,7 +50,7 @@ void dos_printstring(const char *str) {
 }
 
 /* file_write.inc: Write to file */
-int16 writeFileAtRaw(int16 handle, const void far *buf, uint16 count) {
+int16 writeFileAtRaw(int16 handle, const void FAR *buf, uint16 count) {
     union REGS r;
     struct SREGS s;
     r.h.ah = 0x40;

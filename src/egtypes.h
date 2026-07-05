@@ -2,13 +2,6 @@
 #define F15_SE2_EGTYPES
 /* egame.exe compat macros + hardware/comm/overlay constants. */
 
-#if !defined(MSDOS)
-#define far
-#ifndef pascal
-#define pascal
-#endif
-#endif
-
 #define AIRCRAFT_MODELS_OFFSET 0xADD4
 #define DOS_SET_IRQH 0x25
 #define PORT_PIT_TIME0 0x40

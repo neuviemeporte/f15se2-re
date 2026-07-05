@@ -1,4 +1,5 @@
 #include "inttype.h"
+#include "pointers.h"
 #include "struct.h"
 #include "comm.h"
 #include <stdio.h>
@@ -85,7 +86,7 @@ uint8 timerCounter = 0;
 uint8 timerCounter2 = 0;
 uint8 timerCounter3 = 0;
 uint8 timerCounter4 = 0;
-uint8 far *moveDst = 0;
+uint8 FAR *moveDst = 0;
 
 /* Sprite blit params struct */
 struct SpriteParams spriteParams = {
@@ -529,11 +530,11 @@ extern const int16 targetCoordsCount[9] = {3, 2, 2, 3, 4, 1, 8, 3, 0};
 /* === BSS variables === */
 
 struct Pilot hallfameBuf[8];
-struct GameComm far *commData;
-struct Game far *gameData;
+struct GameComm FAR *commData;
+struct Game FAR *gameData;
 FILE *fileHandle;
-int16 far *needSplash;
-int16 far *gfxModeSetPtr;
+int16 FAR *needSplash;
+int16 FAR *gfxModeSetPtr;
 uint8 hercFlag;
 int16 selectedPilotIdx;
 int16 readItemSize;
