@@ -22,7 +22,6 @@ typedef int8_t int8;
 #define _interrupt
 #define __interrupt
 #define register
-#define un
 
 // FP_SEG/FP_OFF: In 64-bit builds, far pointers don't exist.
 // Use reinterpret_cast to provide lvalue access to the high/low 16-bit words of a 32-bit-sized pointer slot.
