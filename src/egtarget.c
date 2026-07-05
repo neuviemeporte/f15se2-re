@@ -603,8 +603,8 @@ void drawHudWorldOverlay(void) {
 
         if (g_detailLevel != 0 && (frameTick & 1)) {
             g_aamLeadDist = (int16)(((uint32)(uint16)(0x8000 - g_simObjects[wpIdx].pitch) *
-                                   (int32)g_simObjects[wpIdx].speed) >>
-                                  15);
+                                     (int32)g_simObjects[wpIdx].speed) >>
+                                    15);
             g_aamLeadDist -= abs(sinMul(g_simObjects[wpIdx].bank.w, g_aamLeadDist)) >> 1;
         }
     }

@@ -994,7 +994,7 @@ void gfx_complexRender_impl(int16 bxArg, int16 dxArg, int16 cxArg, int16 siArg) 
 
     for (;; t++) {
         int16 phase, thickness;
-        if (bx < loY) break;           /* unsigned, matches `jc` */
+        if (bx < loY) break;             /* unsigned, matches `jc` */
         phase = (int16)((t - 1L) % 10L); /* thickness counter: 1..10 phase */
         thickness = (phase == 0) ? 10 : phase;
         if (bx <= hiY) { /* `ja` skips the store when bx>hiY */
@@ -1030,7 +1030,7 @@ void FAR CDECL gfx_setBlitOffset3(void) {
     s->blitOffset = 0;
     return;
 }
-void FAR CDECL gfx_setBlitOffsetReg(void) { return; }       /* reg-called stub: blitOffset=AX, no shim yet */
+void FAR CDECL gfx_setBlitOffsetReg(void) { return; }         /* reg-called stub: blitOffset=AX, no shim yet */
 int16 FAR CDECL gfx_getPresetOffset2(void) { return 0x1950; } /* baked constant 0x1950 */
 int16 FAR CDECL gfx_getBlitOffset(void) {
     GfxState FAR *s = gfx_getState();

@@ -40,7 +40,7 @@ static uint8 kbdDirKeyTable[41] = {
 
 /* ISR-private state (egslots.asm globals in the ASM build). */
 static uint8 kbdActiveScan = 0;   /* direction mask of the held key */
-static uint16 kbdLastTick = 0;      /* BIOS tick at last press */
+static uint16 kbdLastTick = 0;    /* BIOS tick at last press */
 static uint8 kbdPrevScan = 0;     /* previous raw scancode (E0/E1 prefix) */
 static uint8 kbdLastDirKey = 0;   /* last direction mask seen */
 static uint8 kbdDelayCounter = 0; /* skip N bytes after an E0/E1 prefix */

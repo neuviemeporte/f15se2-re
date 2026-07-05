@@ -130,7 +130,7 @@ void fireGroundThreat(int16 planeIdx) {
             if (g_planeTable.planes[planeIdx].alertLevel > 0xc0) {
                 if (threatType != 21) {
                     if (g_nearestThreatRange > 0x500) {
-                        if ((uint16)-(g_missionStatus * 3 - 20) < range[0]) {
+                        if ((uint16) - (g_missionStatus * 3 - 20) < range[0]) {
                             g_enemyAlertFlag++;
                             if (g_planeTable.planes[planeIdx].alertLevel >= 250) {
                                 slot = (g_missionStatus != 0) ? planeIdx % g_missionStatus : 0;
@@ -289,7 +289,7 @@ void updateObjects(void) {
                             }
                         }
                         if ((uint16)rangeApprox(g_viewX_ - g_simObjects[objIdx].posX,
-                                                  g_viewY_ - g_simObjects[objIdx].posY) >>
+                                                g_viewY_ - g_simObjects[objIdx].posY) >>
                                 6 > 350 &&
                             objIdx != 0) {
                             (g_simObjects[objIdx].flags.w) &= 0x1c1;

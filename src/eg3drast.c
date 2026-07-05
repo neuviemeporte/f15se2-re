@@ -1122,7 +1122,7 @@ static void renderPrimitiveCommand(uint8 FAR **pp) {
     if ((opcode & 3) == 1) {
         /* ---- filled face (loc_184E) ---- */
         int16 countByte = *p++;
-        int16 cl = bl >> 2;                             /* opcode >> 2 */
+        int16 cl = bl >> 2;                           /* opcode >> 2 */
         uint16 mask = g_vtxBitMask[(cl & 0x1e) >> 1]; /* g_vtxScale+3 lookup */
         int16 visible;
         if (cl & 0x20)
@@ -1714,7 +1714,7 @@ int16 FAR drawPolygonOutline(int16 fillColor, int16 pointCount, int16 *points, i
  * object*view) and the object-origin screen-X numerator base (word_3424C/E).  */
 static int16 g_objOrientMatrix[9];   /* word_34288 */
 static int16 g_objCombinedMatrix[9]; /* word_3429A */
-static int32 g_camBaseX;              /* word_3424C / word_3424E */
+static int32 g_camBaseX;             /* word_3424C / word_3424E */
 
 /* Depth-sorted object list. word_35AF8 holds record indices ordered farthest
  * (index 0) to nearest; the records carry the per-object transform state. */
