@@ -17,6 +17,7 @@
 #define FAR
 #define CDECL
 #define HUGE
+#define pascal
 #endif
 
 #define MK_FP(a, off) ((void FAR *)(((uint32)(a) << 16) | (uint32)(off)))

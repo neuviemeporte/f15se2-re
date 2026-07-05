@@ -20,7 +20,7 @@
 void initGraphics(void);
 void checkQuitFlag(void);
 
-int16 main(void) {
+int main(void) {
     int16 spriteBufSize, a, auxBufSize;
     uint16 FAR *lowmemPtr;
     int16 e;

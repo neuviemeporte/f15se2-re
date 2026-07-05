@@ -18,7 +18,7 @@
 
 #include <dos.h>
 
-int16 main(void) {
+int main(void) {
     uint8 unused[14];
     uint8 introStage;
     uint16 FAR *commPtr;

@@ -4,6 +4,14 @@
 #ifndef _DOS_H_COMPAT64
 #define _DOS_H_COMPAT64
 
+#include <stdint.h>
+typedef uint32_t uint32;
+typedef uint16_t uint16;
+typedef uint8_t uint8;
+typedef int32_t int32;
+typedef int16_t int16;
+typedef int8_t int8;
+
 #define _CDECL
 #define cdecl
 #define far
@@ -14,6 +22,7 @@
 #define _interrupt
 #define __interrupt
 #define register
+#define un
 
 // FP_SEG/FP_OFF: In 64-bit builds, far pointers don't exist.
 // Use reinterpret_cast to provide lvalue access to the high/low 16-bit words of a 32-bit-sized pointer slot.
@@ -85,11 +94,11 @@ inline void movedata(uint16 srcseg, uint16 srcoff, uint16 dstseg, uint16 dstoff,
 
 inline void _chain_intr(void (*handler)()) { (void)handler; }
 typedef void (*_dos_isr_t)();
-inline _dos_isr_t _dos_getvect(uint16no) {
+inline _dos_isr_t _dos_getvect(uint16 intno) {
     (void)intno;
     return 0;
 }
-inline void _dos_setvect(uint16no, _dos_isr_t handler) {
+inline void _dos_setvect(uint16 intno, _dos_isr_t handler) {
     (void)intno;
     (void)handler;
 }

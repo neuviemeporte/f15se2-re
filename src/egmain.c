@@ -28,7 +28,7 @@ void doNothing4();
 void gfxInit();
 
 // ==== seg000:0x10 ====
-int16 main(void) {
+int main(void) {
     uint16 FAR *commPtr;
     log_set_app("egame");
     FP_SEG(commPtr) = SEG_LOWMEM;
