@@ -223,7 +223,7 @@ uint16 load_segment(const uint16 envParagraphs) {
     return dos_lastFreeBlock() + 1 + envParagraphs + 1;
 }
 
-int main(int16 argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     /* process cmdline args */
     int16 argIdx, charIdx;
     bool debugMenu = false, debugFlight = false, debugDebrief = false;
