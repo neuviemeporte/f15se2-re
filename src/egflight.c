@@ -926,11 +926,11 @@ void renderFrame() {
             gfx_waitRetrace();
             if (gfx_getModecode() == 3) {
                 openBlitClosePic(g_viewMode == VIEW_LEFT ? "256Left.Pic" : g_viewMode == VIEW_RIGHT ? "256Right.Pic"
-                                                                                     : "256Rear.Pic",
+                                                                                                    : "256Rear.Pic",
                                  *g_pageFront);
             } else {
                 openBlitClosePic(g_viewMode == VIEW_LEFT ? "Left.Pic" : g_viewMode == VIEW_RIGHT ? "Right.Pic"
-                                                                                  : "Rear.Pic",
+                                                                                                 : "Rear.Pic",
                                  *g_pageFront);
             }
             gfx_copyRect(*g_pageFront, 0, 97, *g_pageBack, 0, 97, 320, 103);
