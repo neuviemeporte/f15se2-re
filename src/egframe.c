@@ -190,7 +190,7 @@ void updateFrame(void) {
 
     if (g_directorEventDeadline == frameTick) {
         if (g_autopilotEngaged == 0) {
-            keyValue = 0;
+            g_viewMode = VIEW_COCKPIT;
         }
         g_directorEventDeadline = -1;
     }
@@ -315,7 +315,7 @@ skip_target_section:
                 g_gearDownArmed = 1;
                 g_landingDoneFlag = 1;
                 if (g_landingTimer++ == 1) {
-                    tempStrcpy("Safe Landing");
+                    hudMessage("Safe Landing");
                     g_autopilotAltitude = 0;
                     g_autoLandingActive = 0;
                     playVoiceCue(4);
@@ -332,9 +332,9 @@ skip_target_section:
                     if (g_landingTimer > g_frameRateScaling) {
                         initWeaponLoadout();
                         if (frameTick & 8) {
-                            tempStrcpy("Ready for takeoff");
+                            hudMessage("Ready for takeoff");
                         } else {
-                            tempStrcpy("Weapons replenished");
+                            hudMessage("Weapons replenished");
                         }
                     }
                 }
@@ -347,7 +347,7 @@ skip_target_section:
                 g_ViewX = (int32)g_planeTable.planes[g_closestThreatIndex].mapX << 5;
                 g_ViewY = (int32)(0x8000 - g_planeTable.planes[g_closestThreatIndex].mapY) << 5;
             } else {
-                tempStrcpy("Automatic Landing Engaged");
+                hudMessage("Automatic Landing Engaged");
                 g_autoLandingActive = 1;
                 i = g_frameRateScaling * 2;
                 if (i > 14) {
@@ -384,7 +384,7 @@ skip_autopilot:
         }
     }
 
-    if (g_savedPosVisible != 0 && (keyValue & 0x80) == 0) {
+    if (g_savedPosVisible != 0 && (g_viewMode & 0x80) == 0) {
         LogInfo(("DEATH-path collision: g_savedPosVisible=%d unk4=%d var548=%d tick=%d", g_savedPosVisible, gameData->unk4, g_altitude, frameTick));
         if (gameData->unk4 != 0 && g_altitude != 0) {
             makeSound(0, 2);
@@ -464,7 +464,7 @@ void countermeasures(int16 eventType) {
     slot = -1;
     if ((g_eventTimers[eventType])-- <= 0) {
         g_eventTimers[eventType] = 0;
-        tempStrcpy("Stores exhausted");
+        hudMessage("Stores exhausted");
     } else {
         for (i = 1; i < 4; i++) {
             if (mapEvents[i].ttl == 0)
@@ -486,7 +486,7 @@ void countermeasures(int16 eventType) {
             }
             strcpy(strBuf, name);
             strcat(strBuf, " released");
-            tempStrcpy(strBuf);
+            hudMessage(strBuf);
             strcpy(strBuf, name);
             strcat(strBuf, ":");
             strcat(strBuf, itoa(g_eventTimers[eventType], g_itoaScratch, 10));
@@ -681,15 +681,15 @@ void scheduleEventCheck(int16 eventObjIdx, uint16 priority) {
     if (priority > (uint16)g_directorMode) return;
     if (g_directorEventDeadline != -1) return;
     g_viewTargetObj = eventObjIdx;
-    scheduleTimedEvent(0x89, g_directorMode == 1 ? 3 : 4);
+    scheduleTimedEvent(VIEW_MISSILE, g_directorMode == 1 ? 3 : 4);
 }
 
 // ==== seg000:0x1bfd scheduleTimedEvent ====
-void scheduleTimedEvent(int16 keyVal, int16 delay) {
+void scheduleTimedEvent(ViewMode viewMode, int16 delay) {
     if (g_directorMode == 0) {
         return;
     }
-    keyValue = keyVal;
+    g_viewMode = viewMode;
     g_directorEventDeadline = delay * g_frameRateScaling + frameTick;
 }
 
@@ -706,23 +706,23 @@ void generateRandomRadioMessage(void) {
     case 0:
         idx = randomRange(g_planeCount - 3) + 3;
         g_viewTargetObj = idx + 0x40;
-        keyValue = 0x89;
+        g_viewMode = VIEW_MISSILE;
         placeString(idx);
-        tempStrcpy(strBuf);
+        hudMessage(strBuf);
         break;
     case 1:
         do {
             idx = randomRange(g_groundUnitCount);
         } while (g_simObjects[idx].speed == 0);
         g_viewTargetObj = idx + 0x20;
-        keyValue = 0x89;
+        g_viewMode = VIEW_MISSILE;
         strcpy(strBuf, aircraftTypes[g_simObjects[idx].spec].name);
         strcat(strBuf, " on patrol");
-        tempStrcpy(strBuf);
+        hudMessage(strBuf);
         break;
     case 2:
-        keyValue = 0x87;
-        tempStrcpy("F15 Strike Eagle");
+        g_viewMode = VIEW_EXT_FOLLOW;
+        hudMessage("F15 Strike Eagle");
         break;
     }
 }

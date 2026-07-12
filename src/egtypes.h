@@ -34,4 +34,20 @@
 #define OVL_HDR_FIRSTPTR 0x24
 #define UNIT_STATE_COUNT 100
 
+typedef enum {
+    VIEW_COCKPIT = 0,
+    VIEW_REAR = 0x41,
+    VIEW_LEFT = 0x42,
+    VIEW_RIGHT = 0x43,
+    VIEW_FORWARD = 0x44, /* fullscreen forward, no cockpit */
+    VIEW_EXT_DYNAMIC = 0x84,
+    VIEW_EXT_SIDE = 0x85,
+    VIEW_EXT_UNUSED = 0x86, /* external, similar to 0x88 */
+    VIEW_EXT_FOLLOW = 0x87,
+    VIEW_EXT_TARGET = 0x88, /* player aircraft towards target? */
+    VIEW_MISSILE = 0x89,
+    VIEW_TARGET = 0x8b,
+    VIEW_EJECT = 0x8c
+} ViewMode;
+
 #endif /* F15_SE2_EGTYPES */

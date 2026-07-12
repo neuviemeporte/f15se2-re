@@ -59,7 +59,7 @@ void projectWorldToHud(int16 worldX, int16 worldY, int16 worldZ) {
     relY = worldY - g_viewY_;
     relZ = (worldZ - g_viewZ) >> 5;
 
-    if (keyValue & 0x80) {
+    if (g_viewMode & 0x80) {
         relX -= (int16)((g_ViewX - g_camEyeX) >> 5);
         relY -= (int16)((g_ViewY - g_camEyeY) >> 5);
         relZ -= (int16)((-((int32)(uint16)g_viewZ - (int32)g_camEyeZ)) >> 5);
