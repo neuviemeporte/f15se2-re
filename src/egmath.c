@@ -59,7 +59,7 @@ void drawWorldObject(int16 shapeId, int32 worldX, int32 worldY, int16 altitude, 
     relX = worldX - g_ViewX;
     relY = worldY + g_ViewY - 0x01000000L;
     altDiff = altitude - g_viewZ;
-    if ((keyValue & 0x80) != 0) {
+    if ((g_viewMode & 0x80) != 0) {
         relX += g_ViewX - g_camEyeX;
         relY += g_camEyeY - g_ViewY;
         altDiff += g_viewZ - g_camEyeZ;

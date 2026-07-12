@@ -1879,7 +1879,7 @@ int16 g_hudBottomY = 108;
 extern const int16 g_rearViewShape[21] = {
     7, 0x53, 0x15, 0x49, 0x5E, 0x53, 0x5E, 0x53, 0x15, -1,
     8, 0xF1, 0x15, 0xFB, 0x5E, 0xF1, 0x5E, 0xF1, 0x15, -1, -1};
-int16 g_lastViewKey = 0;
+ViewMode g_lastViewKey = VIEW_COCKPIT;
 int16 g_lastSpawnTick = 0;
 
 /* g_setThrust: player thrust setting. g_joyCalibTimer: a frame timer. */
@@ -2143,7 +2143,7 @@ int16 g_ejectState;
 uint8 g_modelVertY[0x40];
 int16 g_scopeArcRange;
 uint8 g_modelVertZ[0x10];
-int16 keyValue;
+ViewMode g_viewMode;
 int16 g_waypointBearing;
 int16 g_viewPitch;
 int16 g_threatLabelTarget;
@@ -2189,7 +2189,7 @@ int16 g_aamLockActive;
 int16 g_unusedSavedWord;
 int16 g_rollInput;
 int16 flagFarToNear;
-int16 keyScancode;
+uint16 keyScancode;
 int16 g_unusedEventHist2;
 int16 g_projDepth;
 int16 g_scopeClipLeft;

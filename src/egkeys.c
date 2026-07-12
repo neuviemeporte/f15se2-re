@@ -35,10 +35,10 @@ void keyDispatch(uint16 scanCode) {
         goto end_dispatch;
 
     switch (scanCode) {
-    case 0x1500:
+    case SCAN_ALT_Y:
         disableTextBlink();
         break;
-    case 0x1372:
+    case SCAN_R:
         g_radarScopeRange++;
         if (g_radarScopeRange > 2)
             g_radarScopeRange = 0;
@@ -54,21 +54,21 @@ void keyDispatch(uint16 scanCode) {
             break;
         }
         strcat(strBuf, " range radar");
-        tempStrcpy(strBuf);
+        hudMessage(strBuf);
         break;
-    case 0x2c7a:
+    case SCAN_Z:
         zoomIn();
         break;
-    case 0x2d78:
+    case SCAN_X:
         zoomOut();
         break;
-    case 0x2166:
+    case SCAN_F:
         countermeasures(1);
         break;
-    case 0x2e63:
+    case SCAN_C:
         countermeasures(2);
         break;
-    case 0x266c:
+    case SCAN_L:
         if (g_viewZ != g_groundAltitude) {
             *(char *)&g_playerPlaneFlags ^= 1;
             g_gearDownArmed = 0;
@@ -78,35 +78,35 @@ void keyDispatch(uint16 scanCode) {
             exitTimeAccel();
         }
         break;
-    case 0x2000:
+    case SCAN_ALT_D:
         g_detailLevel--;
         if (g_detailLevel < 0) {
             g_detailLevel = gfx_getModecode() == 3 ? 3 : 2;
         }
         strcpy(strBuf, "Detail Level ");
         strcat(strBuf, itoa(g_detailLevel, g_itoaScratch, 10));
-        tempStrcpy(strBuf);
+        hudMessage(strBuf);
         setupLodDistances();
         break;
-    case 0x2500:
+    case SCAN_ALT_K:
         g_kbdSensitivity++;
         if (g_kbdSensitivity > 2)
             g_kbdSensitivity = 0;
         strcpy(strBuf, "Kybd Sensitivity");
         strcat(strBuf, itoa(g_kbdSensitivity + 1, g_itoaScratch, 10));
-        tempStrcpy(strBuf);
+        hudMessage(strBuf);
         break;
-    case 0x3200:
+    case SCAN_ALT_M:
         strcpy(strBuf, "Memory Available:");
         strcat(strBuf, itoa(allocSize, memStr, 10));
-        tempStrcpy(strBuf);
+        hudMessage(strBuf);
         break;
-    case 0x2100:
+    case SCAN_ALT_F:
         strcpy(strBuf, "Jiffies/Frame ");
         strcat(strBuf, itoa(g_jiffiesPerFrame, g_itoaScratch, 10));
-        tempStrcpy(strBuf);
+        hudMessage(strBuf);
         break;
-    case 0x1e00:
+    case SCAN_ALT_A:
         if (g_timeAccelMode == 1) {
             g_timeAccelMode = 2;
             g_frameRateScaling = g_frameRateScaling / 2;
@@ -115,49 +115,49 @@ void keyDispatch(uint16 scanCode) {
             exitTimeAccel();
         }
         break;
-    case 0x2f00:
+    case SCAN_ALT_V:
         /* The original source pre-increments in place (compiles to `inc [mem]`);
          * keep this form for byte-exact match even though it is formally
          * unsequenced. Both writes store the same final value, (old+1)&3. */
         g_axisInputAccum[2] = ++g_axisInputAccum[2] & 3;
         strcpy(strBuf, "Sounds ");
         strcat(strBuf, itoa(3 - g_axisInputAccum[2], g_itoaScratch, 10));
-        tempStrcpy(strBuf);
+        hudMessage(strBuf);
         updateEngineSound();
         break;
-    case 0x3100:
+    case SCAN_ALT_N:
         *(char *)&g_nightMode ^= 1;
         if (g_dacSupported != 0)
             setupDac();
         break;
-    case 0x1400:
+    case SCAN_ALT_T:
         g_playerPlaneFlags ^= 0x1000;
         if (g_playerPlaneFlags & 0x1000) {
             *(char FAR *)&commData->trainingFlag |= 1;
         }
         break;
-    case 0x1f73:
+    case SCAN_S:
         missileSpecIndex = 0;
         if (g_currentWeaponType != 1)
             g_lockedTargetKilled = 0;
         g_currentWeaponType = 1;
         selectMissile();
         break;
-    case 0x326d:
+    case SCAN_M:
         missileSpecIndex = 1;
         g_currentWeaponType = 1;
         if (g_currentWeaponType != 1)
             g_lockedTargetKilled = 0;
         selectMissile();
         break;
-    case 0x2267:
+    case SCAN_G:
         missileSpecIndex = 2;
         if (g_currentWeaponType != 2)
             g_lockedTargetKilled = 0;
         g_currentWeaponType = 2;
         selectMissile();
         break;
-    case 0x2064:
+    case SCAN_D:
         g_directorMode++;
         if (g_directorMode > 2)
             g_directorMode = 0;
@@ -167,77 +167,77 @@ void keyDispatch(uint16 scanCode) {
         } else {
             strcat(strBuf, "off");
         }
-        tempStrcpy(strBuf);
+        hudMessage(strBuf);
         break;
-    case 0x1177:
+    case SCAN_W:
         waypointIndex++;
         if (waypointIndex > 3)
             waypointIndex = 1;
         switch (waypointIndex) {
         case 1:
-            tempStrcpy("Waypoint: Primary Target");
+            hudMessage("Waypoint: Primary Target");
             break;
         case 2:
-            tempStrcpy("Waypoint: Secondary Target");
+            hudMessage("Waypoint: Secondary Target");
             break;
         case 3:
-            tempStrcpy("Waypoint: Friendly Airbase");
+            hudMessage("Waypoint: Friendly Airbase");
             g_targetSlots[1].viewIndex = g_closestThreatIndex;
             break;
         }
         break;
-    case 0x1970:
+    case SCAN_P:
         if (g_autopilotAltitude != 0) {
             g_autopilotAltitude = 0;
-            tempStrcpy("Autopilot off");
+            hudMessage("Autopilot off");
         } else {
             g_autopilotAltitude = g_viewZ < 1000 ? 1000 : g_viewZ;
-            tempStrcpy("Autopilot on");
+            hudMessage("Autopilot on");
         }
         break;
-    case 0x1474:
+    case SCAN_T:
         *(char *)&g_groundTargetLock |= 0x80;
         break;
-    case 0xe08:
+    case SCAN_BACKSPACE:
         g_axisInputAccum[0] = 1;
         break;
-    case 0x1c0d:
+    case SCAN_ENTER:
         g_axisInputAccum[1] = 1;
         break;
-    case 0x3920:
-        keyValue = 0;
+    case SCAN_SPACEBAR:
+        g_viewMode = VIEW_COCKPIT;
         break;
-    case 0x3b00:
-        keyValue = 0x44;
+    case SCAN_F1:
+        g_viewMode = VIEW_FORWARD;
         break;
-    case 0x3c00:
-        keyValue = 0x42;
+    case SCAN_F2:
+        g_viewMode = VIEW_LEFT;
         break;
-    case 0x3d00:
-        keyValue = 0x43;
+    case SCAN_F3:
+        g_viewMode = VIEW_RIGHT;
         break;
-    case 0x3e00:
-        keyValue = 0x41;
+    case SCAN_F4:
+        g_viewMode = VIEW_REAR;
         break;
-    case 0x3f00:
-        keyValue = 0x87;
+    case SCAN_F5:
+        g_viewMode = VIEW_EXT_FOLLOW;
         break;
-    case 0x4000:
-        keyValue = 0x84;
+    case SCAN_F6:
+        g_viewMode = VIEW_EXT_DYNAMIC;
         break;
-    case 0x4100:
-        keyValue = 0x85;
+    case SCAN_F7:
+        g_viewMode = VIEW_EXT_SIDE;
         break;
-    case 0x4200:
-        keyValue = 0x89;
+    case SCAN_F8:
+        g_viewMode = VIEW_MISSILE;
         break;
-    case 0x4300:
-        keyValue = 0x88;
+    case SCAN_F9:
+        g_viewMode = VIEW_EXT_TARGET;
         break;
-    case 0x4400:
-        keyValue = 0x8b;
+    case SCAN_F10:
+        g_viewMode = VIEW_TARGET;
         break;
-    case 0x11b:
+    case SCAN_ESCAPE:
         if (g_ejectState == 0) {
             makeSound(2, 2);
             makeSound(34, 2);
@@ -275,7 +275,7 @@ void keyDispatch(uint16 scanCode) {
     }
 
     if (g_ejectState != 0) {
-        keyValue = 0x8c;
+        g_viewMode = VIEW_EJECT;
     }
 
 end_dispatch:
@@ -302,7 +302,7 @@ void selectMissile() {
     strcpy(strBuf, missiles[missleSpec[missileSpecIndex].weaponIdx].longName);
     strcat(strBuf, missleSpec[missileSpecIndex].ammo == 0 ? " not available" : " armed");
     drawWeaponSelectMarker(missileSpecIndex);
-    tempStrcpy(strBuf);
+    hudMessage(strBuf);
 }
 
 // ==== seg000:0xda35 ====

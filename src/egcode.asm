@@ -89,7 +89,7 @@ EXTRN _readFile2Wrapper:PROC
 EXTRN _writeFileAtRawWrapper:PROC
 EXTRN _worldToTileIndex:PROC
 EXTRN _computeTileBounds:PROC
-EXTRN _tempStrcpy:PROC
+EXTRN _hudMessage:PROC
 EXTRN _selectMissile:PROC
 EXTRN _bombTarget:PROC
 EXTRN _markTargetReached:PROC
@@ -159,7 +159,7 @@ drawMapRangeArc equ _drawMapRangeArc
 drawMapLine equ _drawMapLine
 drawPanelText equ _drawPanelText
 readScreenPixel equ _readScreenPixel
-tempStrcpy equ _tempStrcpy
+hudMessage equ _hudMessage
 setTimedMessage equ _setTimedMessage
 lookupTerrainModifier equ _missileTargetCompat
 drawMapMarkerBox equ _drawMapMarkerBox
@@ -367,7 +367,7 @@ EXTRN _g_viewX_:WORD
 EXTRN _g_viewY_:WORD
 EXTRN _gfx_allocPage:PROC
 EXTRN _gfx_drawString:PROC
-EXTRN _keyValue:WORD
+EXTRN _g_viewMode:WORD
 EXTRN _sams:BYTE
 EXTRN _g_projectiles:BYTE
 EXTRN _g_simObjects:BYTE
@@ -865,7 +865,7 @@ _runGameLoop endp
 gameMainLoop proc near
     call _renderFrame
     call _renderHudFrame
-    cmp _keyValue, 0
+    cmp _g_viewMode, 0
     jnz short loc_13C59
     call far ptr _drawInstrumentGaugesFar ;call _drawInstrumentGaugesFar
 loc_13C59:

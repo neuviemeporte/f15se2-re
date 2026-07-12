@@ -53,14 +53,15 @@ void renderHudFrame(int16 unused) {
     if (g_hudVisible != 0) {
         if (g_damageTakenFlag != 0) {
             g_damageTakenFlag = 0;
-            if (!(keyValue & 0x80)) {
+            if (!(g_viewMode & 0x80)) {
                 setDrawColor(0xd);
                 fillRectBoth(0, 0, 319, 96);
                 gfx_setDacAnimCount(60);
             }
         }
         g_hudDrawnFlag = 1;
-        if (keyValue == 0 && g_halfScaleRender == 0) {
+        if (g_viewMode == 0 && g_halfScaleRender == 0) {
+            // draw stick position indicator
             if (!commData->setupUseJoy) {
                 setDrawColor(0);
                 drawViewportLine(277, 83, 293, 83);
@@ -143,14 +144,14 @@ void renderHudFrame(int16 unused) {
     somewhere:
         drawTacticalMap(g_drawPage);
     }
-    if (g_hudMsgTimer != 0 && ((keyValue == 0 && g_halfScaleRender == 0) || (g_directorMode != 0))) {
+    if (g_hudMsgTimer != 0 && ((g_viewMode == 0 && g_halfScaleRender == 0) || (g_directorMode != 0))) {
         drawStringActivePage(tempString, -(((int16)strlen(tempString) >> 1) - 40) * 4, 24, 0xf);
         g_hudMsgTimer--;
         if (g_autopilotEngaged == 1) {
             drawStringActivePage("Press any key to play", 120, 1, g_nightMode != 0 ? 0xe : 0);
         }
     }
-    if (g_dirMsgTimer != 0 && keyValue == 0 && g_halfScaleRender == 0) {
+    if (g_dirMsgTimer != 0 && g_viewMode == 0 && g_halfScaleRender == 0) {
         drawStringActivePage(string_3C04A, -(((int16)strlen(string_3C04A) >> 1) - 40) * 4, 90, 0xf);
         g_dirMsgTimer--;
     }
@@ -256,7 +257,7 @@ void redrawTacMap(int16 centerX, int16 centerY) {
 
 // ==== seg000:0x9875 ====
 void zoomIn(void) {
-    if (keyValue & 0x80) {
+    if (g_viewMode & 0x80) {
         g_externalCamDist--;
     } else {
         if (g_mapMode == 0 && g_mapZoomLevel < 9) {
@@ -271,7 +272,7 @@ void zoomIn(void) {
 
 // ==== seg000:0x98b1 ====
 void zoomOut(void) {
-    if (keyValue & 0x80) {
+    if (g_viewMode & 0x80) {
         g_externalCamDist++;
     } else {
         if (g_mapMode == 0 && g_mapZoomLevel > 2) {
@@ -558,7 +559,7 @@ int16 readScreenPixel(int16 screenX, int16 screenY) {
 }
 
 // ==== seg000:0xa1e4 ====
-void tempStrcpy(const char *src) {
+void hudMessage(const char *src) {
     strcpy(tempString, src);
     g_hudMsgTimer = g_frameRateScaling * 3;
 }

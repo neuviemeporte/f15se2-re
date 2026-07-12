@@ -38,7 +38,7 @@ void gameMainLoop(void) {
     do {
         renderFrame();
         renderHudFrame(0);
-        if (keyValue == 0)
+        if (g_viewMode == 0)
             drawInstrumentGaugesFar();
         gfx_dacAnimate();
         g_frameSyncPending = 1;

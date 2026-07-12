@@ -150,7 +150,7 @@ drawStringActivePage: seg000 NEAR a0fe-a139 Ra0fe-a139 complete
 drawStringCentered: seg000 NEAR a13a-a182 Ra13a-a182 complete
 drawNumber: seg000 NEAR a183-a1b0 Ra183-a1b0 complete
 readScreenPixel: seg000 NEAR a1b1-a1e3 Ra1b1-a1e3 complete
-tempStrcpy: seg000 NEAR a1e4-a203 Ra1e4-a203 complete
+hudMessage: seg000 NEAR a1e4-a203 Ra1e4-a203 complete
 setTimedMessage: seg000 NEAR a204-a223 Ra204-a223 complete
 lookupTerrainModifier: seg000 NEAR a224-a25a Ra224-a25a complete
 drawTacticalMap: seg000 NEAR a25c-a73f Ra25c-a73f complete
@@ -1278,7 +1278,7 @@ word_3BE3C: Data1 VAR 958c
 g_modelVertY: Data1 VAR 958e
 var_861: Data1 VAR 95ce
 var_862: Data1 VAR 95d0
-keyValue: Data1 VAR 95e0
+g_viewMode: Data1 VAR 95e0
 word_3BE92: Data1 VAR 95e2
 g_viewPitch: Data1 VAR 95e4
 word_3BE96: Data1 VAR 95e6

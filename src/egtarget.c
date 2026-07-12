@@ -55,8 +55,8 @@ void updateTargetLock(void) {
 
     deadInit = 0;
 
-    /* Fire at keyValue == 0x8b (sidewinder lock) */
-    if (keyValue == 0x8b) {
+    /* Fire at g_viewMode == 0x8b (sidewinder lock) */
+    if (g_viewMode == 0x8b) {
         drawWorldObject(6, (int32)g_ViewX, 0x01000000L - g_ViewY,
                         g_viewZ + 0x10, g_ourHead, g_ourPitch, g_ourRoll, 2);
     }
@@ -72,7 +72,7 @@ void updateTargetLock(void) {
     if (g_activePanelMode != 0x13) goto skip_aam;
     if (g_aamLockCooldown != 0) goto skip_aam;
     if (g_currentWeaponType == 1) goto skip_aam;
-    if (keyValue & 0x80) goto skip_aam;
+    if (g_viewMode & 0x80) goto skip_aam;
 
     if (!(g_groundTargetLock & 0x80)) {
         g_groundTargetLock = best = -1;
@@ -174,7 +174,7 @@ skip_aam:
         if (computeSimObjectRange(idx) >= 4800 && g_directorMode == 0)
             goto next2;
 
-        if (range > g_targetRange && lockedRange < g_targetRange && !(keyValue & 0x80) &&
+        if (range > g_targetRange && lockedRange < g_targetRange && !(g_viewMode & 0x80) &&
             !(g_simObjects[idx].flags.b[0] & 0x20) &&
             g_simObjects[idx].speed != 0) {
             computeTargetBearing(g_simObjects[idx].posX, g_simObjects[idx].posY, 1);
@@ -242,7 +242,7 @@ skip_aam:
                                 g_projectiles[idx].alt,
                                 g_projectiles[idx].worldX, g_projectiles[idx].worldY,
                                 g_projectiles[idx].worldZ + 0x2000,
-                                ((keyValue & 0x80) && keyValue != 0x8b) ? 3 : 1);
+                                ((g_viewMode & 0x80) && g_viewMode != 0x8b) ? 3 : 1);
             } else {
                 setDrawColor(idx < 8 ? 0x0c : 0x0d);
                 drawViewportLine(vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo, vtxScratch.vproj.x.lo, vtxScratch.vproj.y.lo);
@@ -264,8 +264,8 @@ skip_aam:
     }
 
     /* Player's own aircraft fire */
-    if (!(keyValue & 0x80)) goto done;
-    if (keyValue == 0x8b) goto done;
+    if (!(g_viewMode & 0x80)) goto done;
+    if (g_viewMode == 0x8b) goto done;
     if (g_viewZ == 0 && g_ejectState != 0) goto done;
 
     drawWorldObject(((g_playerPlaneFlags & 1) == 0) + 6, (int32)g_ViewX,
@@ -344,7 +344,7 @@ void drawHudWorldOverlay(void) {
                                     if (dist * 2 < gunRadius / (g_missionStatus + 1)) {
                                         destroyAircraft(objIdx);
                                         strcat(strBuf, " destroyed by gunfire");
-                                        tempStrcpy(strBuf);
+                                        hudMessage(strBuf);
                                         g_hitEffectTimer = 8;
                                         bulletTracks[idx].posX = 0;
                                     }
@@ -356,7 +356,7 @@ void drawHudWorldOverlay(void) {
                         dist = abs(dist);
                         if (dist < 0x20) {
                             hitFlag = 1;
-                            tempStrcpy("Hit by gunfire");
+                            hudMessage("Hit by gunfire");
                             if (0x20 / (4 - g_missionStatus) > dist) {
                                 bombTarget();
                             }
@@ -388,7 +388,7 @@ void drawHudWorldOverlay(void) {
                                 (g_planeTable.planes[wpEntry].nameIndex & 0x7f) != *(uint8 *)g_landTargetId) {
                                 destroyGroundTarget(wpEntry);
                                 strcat(strBuf, " destroyed by gunfire");
-                                tempStrcpy(strBuf);
+                                hudMessage(strBuf);
                                 g_hitEffectTimer = 8;
                                 g_hitAlt = 0;
                             }
@@ -438,7 +438,7 @@ void drawHudWorldOverlay(void) {
     g_lockToneFlag = 0;
 
     if (g_currentWeaponType == 2) {
-        if (keyValue == 0) {
+        if (g_viewMode == 0) {
             if (g_groundTargetLock >= 0) {
 
                 projectWorldToHud(g_planeTable.planes[g_groundTargetLock].mapX, g_planeTable.planes[g_groundTargetLock].mapY, 0);
@@ -544,7 +544,7 @@ void drawHudWorldOverlay(void) {
     g_axisInput1 = readAxisInput(1);
 
     if (g_currentWeaponType == 1) {
-        if (keyValue == 0) {
+        if (g_viewMode == 0) {
             if (!(g_airTargetLock & 0x80)) {
 
                 projectWorldToHud(g_simObjects[g_airTargetLock].posX,
@@ -621,7 +621,7 @@ void drawHudWorldOverlay(void) {
                         g_scopeArcColor, g_frameRateScaling - g_scopeSweepTimer);
     }
 
-    if (g_currentWeaponType == 2 && keyValue == 0) {
+    if (g_currentWeaponType == 2 && g_viewMode == 0) {
         missileSpecD = missiles[missleSpec[missileSpecIndex].weaponIdx].specIndex;
 
         if (missileSpecD == 30 && abs((int16)g_ourRoll) < 0x2000) {
