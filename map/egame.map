@@ -4,7 +4,7 @@ seg001 CODE 0f88
 seg002 CODE 11a7
 seg003 CODE 1274
 Data3 DATA 128d
-Data1 DATA 228b
+Data1 DATA 228b default
 padding: seg000 NEAR 0000-000f R0000-000f detached
 main: seg000 NEAR 0010-0146 R0010-0146 complete
 drawCockpit: seg000 NEAR 0147-0210 R0147-0210 complete

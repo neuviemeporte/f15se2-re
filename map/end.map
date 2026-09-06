@@ -8,7 +8,7 @@ Size 97c6
 Code1 CODE 0000
 Data2 DATA 0500
 Code2 CODE 0571
-Data1 DATA 0580
+Data1 DATA 0580 default
 #
 # Discovered routines, one per line, syntax is "RoutineName: Segment Type(NEAR/FAR) Extents [R/U]Block1 [R/U]Block2... [annotation1] [annotation2]..."
 # The routine extents is the largest continuous block of instructions attributed to this routine and originating

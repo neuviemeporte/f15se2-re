@@ -1,7 +1,7 @@
 Size b0d6
 Code1 CODE 0000
 Code2 CODE 06a5
-Data1 DATA 06b5
+Data1 DATA 06b5 default
 Stack1 STACK 0e66
 padding: Code1 NEAR 0000-000f U0000-000f detached
 main: Code1 NEAR 0010-0482 R0010-0482 complete
